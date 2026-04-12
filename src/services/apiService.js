@@ -181,9 +181,9 @@ const apiService = {
   },
 
   //------------------------------------------- Proxy -------------------------------------------------
-  async proxyRequest() {
+  async proxyRequest(url) {
     const { API_URL } = getUrls();
-    return this._simpleGetRequest(`${API_URL}api/proxy`);
+    return this._simpleGetRequest(`${API_URL}api/proxy?url=${encodeURIComponent(url)}`);
   },
 
   //------------------------------------- PHD2 ------------------------------------------

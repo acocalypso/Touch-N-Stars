@@ -379,7 +379,7 @@ onMounted(async () => {
           stellariumStore.baseUrl = baseUrl;
           const core = stel.core;
 
-          core.dsos.hints_mag_offset = 3;
+          core.dsos.hints_mag_offset = 4;
           //core.stars.hints_mag_offset = 3;
 
           //Daten hinzufügen

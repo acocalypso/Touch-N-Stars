@@ -173,6 +173,23 @@
       "next": "Weiter",
       "skip": "Tutorial überspringen"
     },
+    "fileBrowser": {
+      "title": "Durchsuchen",
+      "goUp": "Eine Ebene höher",
+      "loading": "Laden...",
+      "empty": "Leeres Verzeichnis",
+      "dblClickHint": "Doppelklick zum Öffnen",
+      "deleteDir": "Ordner löschen",
+      "folderPlaceholder": "Ordnername...",
+      "newFolder": "+ Neuer Ordner",
+      "create": "Erstellen",
+      "selectedPath": "Ausgewählt:",
+      "loadError": "Verzeichnis konnte nicht geladen werden.",
+      "createError": "Ordner konnte nicht erstellt werden.",
+      "deleteDirTitle": "Ordner löschen",
+      "deleteDirMessage": "\"{name}\" und alle Inhalte wirklich löschen?",
+      "deleteError": "Ordner konnte nicht gelöscht werden."
+    },
     "settings": {
       "title": "Einstellungen",
       "general": "Allgemein",

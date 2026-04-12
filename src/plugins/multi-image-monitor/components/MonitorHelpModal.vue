@@ -61,8 +61,6 @@
             {{ $t('plugins.multiImageMonitor.help.credentialsNote') }}
           </p>
         </div>
-
-
       </div>
 
       <!-- Footer -->

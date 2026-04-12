@@ -60,7 +60,7 @@ import { ref, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { apiStore } from '@/store/store';
 import { useToastStore } from '@/store/toastStore';
-import FileBrowser from './fileBrowser.vue';
+import FileBrowser from '../helpers/fileBrowser.vue';
 
 const { t } = useI18n();
 const store = apiStore();

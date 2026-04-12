@@ -2,27 +2,32 @@
   <div class="flex flex-col gap-2">
     <!-- Input Row -->
     <div>
-      <div class="flex items-center gap-2">
-        <input
-          v-model="path"
-          type="text"
-          readonly
-          :placeholder="$t('components.settings.imageSavePath.placeholder')"
-          class="flex-1 px-3 py-2 bg-gray-700/50 border border-gray-600 rounded text-sm text-gray-200 placeholder-gray-500"
-        />
+      <div class="flex flex-col sm:flex-row gap-2">
+        <!-- Pfad + Browse-Button immer in einer Zeile -->
+        <div class="flex flex-1 items-center gap-2 min-w-0">
+          <div
+            class="flex-1 overflow-x-auto scrollbar-thin px-3 py-2 rounded-lg border border-gray-600/50 bg-gray-800/40 min-w-0"
+          >
+            <span
+              class="text-sm font-mono whitespace-nowrap"
+              :class="path ? 'text-gray-200' : 'text-gray-500 italic'"
+              >{{ path || $t('components.settings.imageSavePath.placeholder') }}</span
+            >
+          </div>
+          <button
+            class="px-3 py-2 bg-gray-700 hover:bg-gray-600 border border-gray-600 rounded text-sm text-gray-200 transition-colors shrink-0"
+            @click="showBrowser = true"
+            :title="$t('components.settings.imageSavePath.selectTitle')"
+          >
+            ...
+          </button>
+        </div>
 
+        <!-- Save-Button: darunter auf schmal, daneben auf breit -->
         <button
-          @click="showBrowser = true"
-          class="px-3 py-2 bg-gray-700 hover:bg-gray-600 border border-gray-600 rounded text-sm text-gray-200 transition-colors"
-          :title="$t('components.settings.imageSavePath.selectTitle')"
-        >
-          ...
-        </button>
-
-        <button
+          class="default-button-cyan !min-w-0 shrink-0 px-3"
           @click="savePath"
           :disabled="!path || saving"
-          class="px-3 py-2 bg-cyan-600 hover:bg-cyan-500 disabled:opacity-40 disabled:cursor-not-allowed rounded text-sm text-white transition-colors"
         >
           <span v-if="saving">{{ $t('components.settings.imageSavePath.saving') }}</span>
           <span v-else>{{ $t('components.settings.imageSavePath.save') }}</span>

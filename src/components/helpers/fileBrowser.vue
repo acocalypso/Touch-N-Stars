@@ -143,15 +143,13 @@
             <li
               v-for="file in files"
               :key="file.path"
-              class="flex items-center gap-2 px-3 py-2 border-l-2 transition-all group"
-              :class="[
-                mode === 'file' ? 'cursor-pointer' : 'cursor-default opacity-60',
-                selectedPath === file.path && mode === 'file'
+              class="flex items-center gap-2 px-3 py-2 border-l-2 transition-all group cursor-pointer hover:bg-[#1e2639]"
+              :class="
+                selectedPath === file.path
                   ? 'bg-cyan-900/10 border-l-cyan-700'
-                  : 'border-l-transparent',
-                mode === 'file' ? 'hover:bg-[#1e2639]' : '',
-              ]"
-              @click="mode === 'file' ? selectFile(file) : null"
+                  : 'border-l-transparent'
+              "
+              @click="selectFile(file)"
             >
               <!-- File icon -->
               <svg
@@ -234,9 +232,11 @@
           <span class="text-xs text-slate-600 whitespace-nowrap shrink-0">{{
             $t('components.fileBrowser.selectedPath')
           }}</span>
-          <span class="text-[0.78rem] text-slate-400 font-mono truncate">{{
-            selectedPath || '—'
-          }}</span>
+          <div class="flex-1 overflow-x-auto scrollbar-thin">
+            <span class="text-[0.78rem] text-slate-400 font-mono whitespace-nowrap">{{
+              selectedPath || '—'
+            }}</span>
+          </div>
         </div>
 
         <!-- Footer -->
@@ -299,6 +299,16 @@ const creatingFolder = ref(false);
 const newFolderName = ref('');
 const folderInput = ref(null);
 
+// Helpers
+function extractParentDir(path) {
+  const isWindows = path.includes('\\');
+  const sep = isWindows ? '\\' : '/';
+  const normalized = path.replace(/[/\\]+$/, '');
+  const lastSep = normalized.lastIndexOf(sep);
+  if (lastSep <= 0) return isWindows ? normalized : '/';
+  return normalized.substring(0, lastSep);
+}
+
 // Navigation
 const canGoUp = computed(() => !!parentPath.value && parentPath.value !== currentPath.value);
 
@@ -326,7 +336,21 @@ watch(isOpen, async (val) => {
     creatingFolder.value = false;
     newFolderName.value = '';
     selectedPath.value = '';
-    await navigateTo(props.initialPath || '');
+
+    if (props.initialPath) {
+      // Try navigating directly — works if it's a directory
+      await navigateTo(props.initialPath);
+      // If it failed (path is a file), navigate to parent and pre-select the file
+      if (listError.value) {
+        const parentDir = extractParentDir(props.initialPath);
+        await navigateTo(parentDir);
+        if (!listError.value) {
+          selectedPath.value = props.initialPath;
+        }
+      }
+    } else {
+      await navigateTo('');
+    }
   }
 });
 

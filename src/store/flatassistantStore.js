@@ -98,11 +98,12 @@ export const useFlatassistantStore = defineStore('flatassistantStore', {
     },
 
     didRunSucceed(status) {
-      return (
-        status?.State === 'Finished' &&
-        Number(status?.TotalIterations) > 0 &&
-        Number(status?.CompletedIterations) >= Number(status?.TotalIterations)
-      );
+      if (status?.State !== 'Finished') return false;
+      const total = Number(status?.TotalIterations);
+      const completed = Number(status?.CompletedIterations);
+      // Some modes (e.g. SkyFlat) report -1 when iteration tracking is not applicable
+      if (total < 0) return true;
+      return total > 0 && completed >= total;
     },
 
     shouldOfferDarks(status) {
@@ -196,6 +197,36 @@ export const useFlatassistantStore = defineStore('flatassistantStore', {
       ]);
     },
 
+    async ensureFlatDeviceConnected() {
+      const store = apiStore();
+      if (store.flatdeviceInfo?.Connected) {
+        return false;
+      }
+      try {
+        const listResponse = await apiService.flatdeviceAction('list-devices');
+        const devices = listResponse?.Response;
+        if (!Array.isArray(devices)) return false;
+        const simulator = devices.find(
+          (d) =>
+            d.Name?.toLowerCase().includes('simulator') || d.Id?.toLowerCase().includes('simulator')
+        );
+        if (!simulator) return false;
+        const encodedId = encodeURIComponent(simulator.Id);
+        const connectResponse = await apiService.flatdeviceAction('connect?to=' + encodedId);
+        return connectResponse?.Success === true;
+      } catch {
+        return false;
+      }
+    },
+
+    async disconnectFlatDevice() {
+      try {
+        await apiService.flatdeviceAction('disconnect');
+      } catch {
+        // best-effort cleanup
+      }
+    },
+
     async runDarkSeries(jobs, keepClosed = false) {
       const validJobs = jobs.filter((job) => Number(job?.count) > 0);
       if (!validJobs.length || this.workflowStopRequested) {
@@ -212,6 +243,9 @@ export const useFlatassistantStore = defineStore('flatassistantStore', {
       if (!confirmed) {
         return null;
       }
+
+      // Connect simulator flat device if none is connected (needed by trained-dark-flat API)
+      const connectedSimulator = await this.ensureFlatDeviceConnected();
 
       let totalRequested = 0;
       let totalCompleted = 0;
@@ -251,6 +285,11 @@ export const useFlatassistantStore = defineStore('flatassistantStore', {
         if (!this.didRunSucceed(finalStatus)) {
           allSucceeded = false;
         }
+      }
+
+      // Disconnect simulator if we connected it
+      if (connectedSimulator) {
+        await this.disconnectFlatDevice();
       }
 
       if (totalRequested > 0) {

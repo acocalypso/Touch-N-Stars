@@ -73,7 +73,7 @@
       </div>
     </template>
 
-    <template v-else-if="store.isPINS">
+    <template v-if="store.isPINS">
       <!-- Optical Settings -->
       <div
         class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"

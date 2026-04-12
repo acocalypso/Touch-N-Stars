@@ -8,7 +8,7 @@
       v-model="guiderStore.phd2GuideAlgorithmDEC"
       @change="onAlgorithmChange"
       class="default-select h-8 w-32 ml-auto"
-      :disabled="guiderStore.phd2GuideAlgorithmDECLoading"
+      :disabled="guiderStore.phd2GuideAlgorithmDECLoading || store.guiderInfo?.State !== 'Stopped'"
     >
       <option v-for="algorithm in algorithms" :key="algorithm" :value="algorithm">
         {{ algorithm }}

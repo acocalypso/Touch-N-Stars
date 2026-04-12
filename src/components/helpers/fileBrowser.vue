@@ -6,7 +6,7 @@
       @click.self="cancel"
     >
       <div
-        class="bg-[#1a1f2e] border border-[#2e3650] rounded-[10px] w-full max-w-[520px] max-h-[90vh] flex flex-col overflow-hidden shadow-[0_24px_64px_rgba(0,0,0,0.6)]"
+        class="bg-[#1a1f2e] border border-[#2e3650] rounded-[10px] w-full max-w-[520px] h-[90vh] flex flex-col overflow-hidden shadow-[0_24px_64px_rgba(0,0,0,0.6)]"
       >
         <!-- Header -->
         <div

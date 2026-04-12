@@ -25,8 +25,8 @@ export function setupErrorHandler() {
         ? Math.round(performance.now() - response.config.metadata.startTime)
         : null;
 
-      // Check for non-200 HTTP status codes
-      if (response.status !== 200) {
+      // Check for non-2xx HTTP status codes
+      if (response.status < 200 || response.status >= 300) {
         const message = `${method} request failed: ${response.statusText}`;
 
         createStructuredLog('ERROR', 'HTTP', {
@@ -100,7 +100,7 @@ export function setupErrorHandler() {
             autoClose: true,
           });
         }
-      } else if (response.status === 200 && duration > 5000) {
+      } else if (response.status >= 200 && response.status < 300 && duration > 5000) {
         // Check if this is an image request - use higher threshold (10 seconds)
         const isImageRequest = url.includes('/image/');
         const threshold = isImageRequest ? 10000 : 5000;

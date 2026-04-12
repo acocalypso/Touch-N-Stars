@@ -188,7 +188,10 @@
       "createError": "Ordner konnte nicht erstellt werden.",
       "deleteDirTitle": "Ordner löschen",
       "deleteDirMessage": "\"{name}\" und alle Inhalte wirklich löschen?",
-      "deleteError": "Ordner konnte nicht gelöscht werden."
+      "deleteFileTitle": "Datei löschen",
+      "deleteFileMessage": "\"{name}\" wirklich löschen?",
+      "deleteFile": "Datei löschen",
+      "deleteError": "Löschen fehlgeschlagen."
     },
     "settings": {
       "title": "Einstellungen",

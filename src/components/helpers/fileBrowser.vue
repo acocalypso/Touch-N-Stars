@@ -105,12 +105,16 @@
                 />
               </svg>
               <span class="flex-1 text-[0.85rem] text-slate-200 truncate">{{ dir.name }}</span>
-              <span class="text-[0.7rem] text-slate-600 shrink-0 group-hover:hidden">
+              <span
+                v-if="selectedPath !== dir.path"
+                class="text-[0.7rem] text-slate-600 shrink-0 group-hover:hidden"
+              >
                 {{ $t('components.fileBrowser.dblClickHint') }}
               </span>
               <!-- Delete button -->
               <button
-                class="hidden group-hover:flex items-center justify-center w-6 h-6 rounded text-slate-500 hover:text-red-400 hover:bg-red-900/20 transition-colors cursor-pointer bg-transparent border-none shrink-0"
+                class="items-center justify-center w-6 h-6 rounded text-slate-500 hover:text-red-400 hover:bg-red-900/20 transition-colors cursor-pointer bg-transparent border-none shrink-0"
+                :class="selectedPath === dir.path ? 'flex' : 'hidden group-hover:flex'"
                 @click.stop="deleteDirectory(dir)"
                 :title="$t('components.fileBrowser.deleteDir')"
               >
@@ -162,9 +166,31 @@
               </svg>
               <span class="flex-1 text-[0.85rem] text-slate-200 truncate">{{ file.name }}</span>
               <span class="text-[0.7rem] text-slate-500 shrink-0">{{ formatSize(file.size) }}</span>
-              <span class="text-[0.7rem] text-slate-600 shrink-0 ml-2">{{
-                formatDate(file.lastModified)
-              }}</span>
+              <span
+                v-if="selectedPath !== file.path"
+                class="text-[0.7rem] text-slate-600 shrink-0 ml-2 group-hover:hidden"
+                >{{ formatDate(file.lastModified) }}
+              </span>
+              <!-- Delete button -->
+              <button
+                class="items-center justify-center w-6 h-6 rounded text-slate-500 hover:text-red-400 hover:bg-red-900/20 transition-colors cursor-pointer bg-transparent border-none shrink-0"
+                :class="selectedPath === file.path ? 'flex' : 'hidden group-hover:flex'"
+                @click.stop="deleteFile(file)"
+                :title="$t('components.fileBrowser.deleteFile')"
+              >
+                <svg
+                  class="w-3.5 h-3.5"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <polyline points="3 6 5 6 21 6" />
+                  <path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6" />
+                  <path d="M10 11v6M14 11v6" />
+                  <path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2" />
+                </svg>
+              </button>
             </li>
           </ul>
         </div>
@@ -395,6 +421,26 @@ async function deleteDirectory(dir) {
   try {
     await apiService.deleteFilesystemDirectory(dir.path);
     if (selectedPath.value === dir.path) selectedPath.value = currentPath.value;
+    await navigateTo(currentPath.value);
+  } catch (e) {
+    listError.value = e?.message || t('components.fileBrowser.deleteError');
+  }
+}
+
+// Delete File
+async function deleteFile(file) {
+  const confirmed = await toastStore.showConfirmation(
+    t('components.fileBrowser.deleteFileTitle'),
+    t('components.fileBrowser.deleteFileMessage', { name: file.name }),
+    t('common.delete'),
+    t('common.cancel')
+  );
+  if (!confirmed) return;
+
+  listError.value = '';
+  try {
+    await apiService.deleteFilesystemFile(file.path);
+    if (selectedPath.value === file.path) selectedPath.value = currentPath.value;
     await navigateTo(currentPath.value);
   } catch (e) {
     listError.value = e?.message || t('components.fileBrowser.deleteError');

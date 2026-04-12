@@ -180,7 +180,10 @@
       "createError": "Could not create folder.",
       "deleteDirTitle": "Delete folder",
       "deleteDirMessage": "Really delete \"{name}\" and all its contents?",
-      "deleteError": "Could not delete folder."
+      "deleteFileTitle": "Delete file",
+      "deleteFileMessage": "Really delete \"{name}\"?",
+      "deleteFile": "Delete file",
+      "deleteError": "Could not delete."
     },
     "settings": {
       "title": "Ustawienia",

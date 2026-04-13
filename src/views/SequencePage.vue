@@ -27,6 +27,12 @@
       class="fixed right-16 z-10"
       style="bottom: calc(env(safe-area-inset-bottom, 0px) + 48px)"
     />
+    <FitsPlateSolve
+      :showFraming="false"
+      :showSeqTarget="true"
+      class="fixed right-28 z-10"
+      style="bottom: calc(env(safe-area-inset-bottom, 0px) + 48px)"
+    />
 
     <controlSequence v-if="sequenceStore.sequenceIsLoaded" />
     <div class="max-w-6xl mx-auto lg:px-4">
@@ -53,6 +59,7 @@ import { useSequenceStore } from '@/store/sequenceStore';
 import { ref } from 'vue';
 import { PencilIcon } from '@heroicons/vue/24/outline';
 import FavTargets from '@/components/favTargets/FavTargets.vue';
+import FitsPlateSolve from '@/components/fitsPlatesolve/FitsPlateSolve.vue';
 import LoadSequence from '@/components/sequence/LoadSequence.vue';
 import SequenceV2Page from '@/views/SequenceV2Page.vue';
 import { apiStore } from '@/store/store';

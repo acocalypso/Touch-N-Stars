@@ -79,7 +79,7 @@
             {{ listError }}
           </div>
           <div
-            v-else-if="directories.length === 0 && files.length === 0"
+            v-else-if="directories.length === 0 && filteredFiles.length === 0"
             class="flex items-center justify-center min-h-[140px] text-slate-600 text-sm italic"
           >
             {{ $t('components.fileBrowser.empty') }}
@@ -135,13 +135,13 @@
 
             <!-- Divider between dirs and files -->
             <li
-              v-if="directories.length > 0 && files.length > 0"
+              v-if="directories.length > 0 && filteredFiles.length > 0"
               class="mx-3 my-1 border-t border-[#2e3650]"
             />
 
             <!-- Files -->
             <li
-              v-for="file in files"
+              v-for="file in filteredFiles"
               :key="file.path"
               class="flex items-center gap-2 px-3 py-2 border-l-2 transition-all group cursor-pointer hover:bg-[#1e2639]"
               :class="
@@ -279,6 +279,10 @@ const props = defineProps({
     type: String,
     default: 'directory', // 'directory' | 'file'
   },
+  fileExtensions: {
+    type: Array,
+    default: () => [], // empty = show all files
+  },
 });
 
 const emit = defineEmits(['update:modelValue', 'select']);
@@ -294,6 +298,14 @@ const directories = ref([]);
 const files = ref([]);
 const listLoading = ref(false);
 const listError = ref('');
+
+const filteredFiles = computed(() => {
+  if (!props.fileExtensions.length) return files.value;
+  return files.value.filter((f) => {
+    const ext = f.name.split('.').pop()?.toLowerCase();
+    return props.fileExtensions.includes(ext);
+  });
+});
 
 const creatingFolder = ref(false);
 const newFolderName = ref('');

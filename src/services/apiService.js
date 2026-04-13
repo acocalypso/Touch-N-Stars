@@ -3806,6 +3806,27 @@ const apiService = {
     }
   },
 
+  // ------------------------------------- FITS Plate Solve -------------------------------------
+  async getFitsParameters(path) {
+    const { API_URL } = getUrls();
+    const response = await axios.get(`${API_URL}fits/parameters`, {
+      params: { path },
+      timeout: DEFAULT_TIMEOUT,
+    });
+    return response.data;
+  },
+
+  async analyzeFits({ path, focalLength, pixelSize, binning, ra, dec, blindSolve }) {
+    const { API_URL } = getUrls();
+    const body = { path, focalLength, pixelSize, binning, blindSolve: !!blindSolve };
+    if (!blindSolve && ra != null) body.ra = ra;
+    if (!blindSolve && dec != null) body.dec = dec;
+    const response = await axios.post(`${API_URL}fits/analyze`, body, {
+      timeout: 120000, // plate solving can take up to 2 minutes
+    });
+    return response.data;
+  },
+
   async tenMicronSetHorizonLow(value, timeout = DEFAULT_TIMEOUT) {
     try {
       const { API_URL } = getUrls();

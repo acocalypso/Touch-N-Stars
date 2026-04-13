@@ -3,13 +3,15 @@
   <button
     v-bind="$attrs"
     @click="start"
-    class="p-2 bg-gray-700 border border-cyan-600 rounded-full shadow-md z-10"
+    :class="variant === 'inline'
+      ? 'flex items-center gap-1 px-2 py-1 bg-slate-700/60 border border-slate-600 rounded text-xs text-gray-200 hover:bg-slate-600'
+      : 'p-2 bg-gray-700 border border-cyan-600 rounded-full shadow-md z-10'"
     :title="$t('components.fitsPlatesolve.buttonTitle')"
   >
     <!-- FITS file + crosshair icon -->
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      class="w-6 h-6 text-white"
+      :class="variant === 'inline' ? 'w-4 h-4' : 'w-6 h-6 text-white'"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -317,6 +319,7 @@ const toastStore = useToastStore();
 const props = defineProps({
   showFraming: { type: Boolean, default: true },
   showSeqTarget: { type: Boolean, default: false },
+  variant: { type: String, default: 'fab' }, // 'fab' = floating cyan circle | 'inline' = slate row button
 });
 
 const emit = defineEmits(['solved']);
@@ -535,6 +538,7 @@ async function useAsTarget() {
     }
   }
 
+  emit('solved', { ...result.value });
   step.value = 'idle';
 }
 

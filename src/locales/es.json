@@ -2101,6 +2101,12 @@
         "parkTelescope": {
           "name": "Telescopio de parque",
           "description": "Estacionar el monte del telescopio"
+        },
+        "dewHeater": {
+          "description": "Establecer el estado del calentador de rocío de la cámara",
+          "name": "Calentador de rocío",
+          "onOffLabel": "Activado",
+          "onOffTooltip": "Encender o apagar el calentador de rocío de la cámara"
         }
       },
       "actionLibrary": {

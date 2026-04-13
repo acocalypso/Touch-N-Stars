@@ -2101,6 +2101,12 @@
         "parkTelescope": {
           "name": "Park Dalekohledu",
           "description": "Parkování montáže dalekohledu"
+        },
+        "dewHeater": {
+          "description": "Set camera dew heater state",
+          "name": "Dew Heater",
+          "onOffLabel": "Enabled",
+          "onOffTooltip": "Turn the camera dew heater on or off"
         }
       },
       "actionLibrary": {

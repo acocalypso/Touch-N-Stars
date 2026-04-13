@@ -1,8 +1,13 @@
 <template>
   <ItemShell :item="item">
     <template #summary>
-      <span class="text-xs text-slate-400 font-mono">{{ raStr }} {{ decStr }}</span>
-      <span class="text-xs text-slate-500 font-mono">{{ item.PositionAngle }}°</span>
+      <span v-if="item.Inherited" class="text-xs text-blue-400/80 italic">
+        {{ $t('components.sequence.items.center.inherited') }}
+      </span>
+      <template v-else>
+        <span class="text-xs text-slate-400 font-mono">{{ raStr }} {{ decStr }}</span>
+        <span class="text-xs text-slate-500 font-mono">{{ item.PositionAngle }}°</span>
+      </template>
     </template>
 
     <template #editor="{ save }">

@@ -1,52 +1,39 @@
 <template>
   <!-- Confirmation/Critical Toasts (blocking) -->
-  <transition name="fade">
-    <div
-      v-if="toastStore.newMessage && (toastStore.isConfirmation || toastStore.type === 'critical')"
-      class="fixed inset-0 bg-black bg-opacity-50 z-top flex items-center justify-center"
-    >
-      <div
-        :class="[
-          'bg-gray-800 text-white p-4 m-8 rounded-lg max-w-xl max-h-[80vh] min-h-36 min-w-64 overflow-y-auto',
-          toastTypeShadow,
-        ]"
-      >
-        <div class="flex justify-end items-center">
-          <button @click="toastStore.closeToast()" class="text-white hover:text-gray-300">
-            <XMarkIcon class="w-6 h-6" />
-          </button>
-        </div>
-        <div>
-          <h2 class="text-xl font-bold text-center text-gray-200 mb-4">{{ toastStore.title }}</h2>
-          <p class="text-gray-200 text-center">{{ toastStore.message }}</p>
-        </div>
+  <Modal
+    :show="toastStore.newMessage && (toastStore.isConfirmation || toastStore.type === 'critical')"
+    :disableClose="true"
+    :closeOnBackdropClick="false"
+    zIndex="z-toast"
+    maxWidth="max-w-xl"
+  >
+    <template #header>
+      <h2 class="text-xl font-bold text-gray-200">{{ toastStore.title }}</h2>
+    </template>
+    <template #body>
+      <div class="w-full space-y-4">
+        <p class="text-gray-200 text-center">{{ toastStore.message }}</p>
 
-        <!-- Bestehender Link-Bereich -->
-        <div class="flex items-center gap-2 mt-4" v-if="toastStore.link && toastStore.linkText">
+        <!-- Link-Bereich -->
+        <div class="flex items-center gap-2" v-if="toastStore.link && toastStore.linkText">
           <GlobeAltIcon class="w-6 h-6" />
           <a :href="toastStore.link" target="_blank" class="text-cyan-400 hover:underline">
             {{ toastStore.linkText }}
           </a>
         </div>
 
-        <!-- Neue Bestätigungsbuttons -->
-        <div v-if="toastStore.isConfirmation" class="flex justify-center gap-4 mt-6">
-          <button
-            @click="toastStore.cancelAction()"
-            class="px-6 py-2 bg-gray-600 text-white rounded-lg hover:bg-gray-700 transition-colors"
-          >
+        <!-- Bestätigungsbuttons -->
+        <div v-if="toastStore.isConfirmation" class="flex gap-4 mt-6">
+          <button class="default-button-gray" @click="toastStore.cancelAction()">
             {{ toastStore.cancelText }}
           </button>
-          <button
-            @click="toastStore.confirmAction()"
-            class="px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors"
-          >
+          <button class="default-button-cyan" @click="toastStore.confirmAction()">
             {{ toastStore.confirmText }}
           </button>
         </div>
       </div>
-    </div>
-  </transition>
+    </template>
+  </Modal>
 
   <!-- Non-blocking Toast Notifications -->
   <div class="fixed top-4 right-4 z-toast space-y-3 max-w-sm pointer-events-none">
@@ -93,6 +80,7 @@
 import { computed, watch, onBeforeUnmount } from 'vue';
 import { useToastStore } from '@/store/toastStore';
 import { XMarkIcon, GlobeAltIcon } from '@heroicons/vue/24/outline';
+import Modal from '@/components/helpers/Modal.vue';
 
 const toastStore = useToastStore();
 

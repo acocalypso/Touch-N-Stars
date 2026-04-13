@@ -1,30 +1,30 @@
 <template>
   <div class="flex flex-col gap-2">
-    <!-- Input Row -->
-    <div>
-      <div class="flex items-center gap-2">
-        <input
-          v-model="path"
-          type="text"
-          :placeholder="$t('components.settings.horizonFilePath.placeholder')"
-          class="flex-1 px-3 py-2 bg-gray-700/50 border border-gray-600 rounded text-sm text-gray-200 placeholder-gray-500"
-        />
-
-        <button
-          @click="savePath"
-          :disabled="!path || saving"
-          class="px-3 py-2 bg-cyan-600 hover:bg-cyan-500 disabled:opacity-40 disabled:cursor-not-allowed rounded text-sm text-white transition-colors"
+    <div class="flex items-center gap-2 min-w-0">
+      <div
+        class="flex-1 overflow-x-auto scrollbar-thin px-3 py-2 rounded-lg border border-gray-600/50 bg-gray-800/40 min-w-0"
+        :class="{ 'glow-green': saveSuccess }"
+      >
+        <span
+          class="text-sm font-mono whitespace-nowrap"
+          :class="path ? 'text-gray-200' : 'text-gray-500 italic'"
+          >{{ path || $t('components.settings.horizonFilePath.placeholder') }}</span
         >
-          <span v-if="saving">{{ $t('components.settings.imageSavePath.saving') }}</span>
-          <span v-else>{{ $t('components.settings.imageSavePath.save') }}</span>
-        </button>
       </div>
+      <button
+        class="px-3 py-2 bg-gray-700 hover:bg-gray-600 border border-gray-600 rounded text-sm text-gray-200 transition-colors shrink-0"
+        @click="showBrowser = true"
+        :title="$t('components.settings.horizonFilePath.placeholder')"
+      >
+        ...
+      </button>
     </div>
 
     <!-- Status feedback -->
-    <p v-if="statusMsg" class="text-xs" :class="statusOk ? 'text-green-400' : 'text-red-400'">
-      {{ statusMsg }}
-    </p>
+    <p v-if="statusMsg" class="text-xs text-red-400">{{ statusMsg }}</p>
+
+    <!-- FileBrowser Dialog -->
+    <FileBrowser v-model="showBrowser" :initial-path="path" mode="file" @select="onPathSelected" />
   </div>
 </template>
 
@@ -34,35 +34,29 @@ import { useI18n } from 'vue-i18n';
 import { apiStore } from '@/store/store';
 import { useToastStore } from '@/store/toastStore';
 import apiService from '@/services/apiService';
+import FileBrowser from '../helpers/fileBrowser.vue';
 
 const { t } = useI18n();
 const store = apiStore();
 const toast = useToastStore();
 
 const path = ref('');
-const saving = ref(false);
+const showBrowser = ref(false);
+const saveSuccess = ref(false);
 const statusMsg = ref('');
-const statusOk = ref(true);
 
 onMounted(() => {
   path.value = store.profileInfo?.AstrometrySettings?.HorizonFilePath || '';
 });
 
-async function savePath() {
-  if (!path.value) return;
-  saving.value = true;
+async function onPathSelected(selectedPath) {
+  path.value = selectedPath;
   statusMsg.value = '';
   try {
-    await apiService.setHorizonFilePath(path.value);
-    statusOk.value = true;
-    statusMsg.value = `${t('components.settings.imageSavePath.savedMsg')} ${path.value}`;
-    toast.showToast({
-      type: 'success',
-      title: t('components.settings.horizonFilePath.toastTitle'),
-      message: path.value,
-    });
+    await apiService.setHorizonFilePath(selectedPath);
+    saveSuccess.value = true;
+    setTimeout(() => (saveSuccess.value = false), 2000);
   } catch (e) {
-    statusOk.value = false;
     statusMsg.value = t('components.settings.imageSavePath.errorMsg');
     toast.showToast({
       type: 'error',
@@ -70,8 +64,6 @@ async function savePath() {
       message: t('components.settings.imageSavePath.toastErrorMsg'),
       autoClose: false,
     });
-  } finally {
-    saving.value = false;
   }
 }
 </script>

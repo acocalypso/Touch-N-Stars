@@ -165,6 +165,26 @@
       "next": "Volgende",
       "skip": "Sla Tutorial over"
     },
+    "fileBrowser": {
+      "title": "Browse",
+      "goUp": "Go up one level",
+      "loading": "Loading...",
+      "empty": "Empty directory",
+      "dblClickHint": "Double-click to open",
+      "deleteDir": "Delete folder",
+      "folderPlaceholder": "Folder name...",
+      "newFolder": "+ New Folder",
+      "create": "Create",
+      "selectedPath": "Selected:",
+      "loadError": "Could not load directory.",
+      "createError": "Could not create folder.",
+      "deleteDirTitle": "Delete folder",
+      "deleteDirMessage": "Really delete \"{name}\" and all its contents?",
+      "deleteFileTitle": "Delete file",
+      "deleteFileMessage": "Really delete \"{name}\"?",
+      "deleteFile": "Delete file",
+      "deleteError": "Could not delete."
+    },
     "settings": {
       "title": "Instellingen",
       "general": "Algemeen",
@@ -1576,7 +1596,11 @@
         "indi3rdpartyLoadFailed": "Kan INDI-pakketten van derden niet laden: {message}",
         "indi3rdpartyInstallStart": "INDI-pakket installeren: {assetName}",
         "indi3rdpartyInstallSuccess": "Installatie van INDI-pakket voltooid: {message}",
-        "indi3rdpartyInstallFailed": "Installatie van INDI-pakket mislukt: {message}"
+        "indi3rdpartyInstallFailed": "Installatie van INDI-pakket mislukt: {message}",
+        "wifiAdaptersLoadFailed": "Kan WiFi-adapters niet laden: {message}",
+        "wifiInterfacesLoadFailed": "Kan geselecteerde WiFi-interfaces niet laden: {message}",
+        "wifiInterfacesSaveFailed": "Kan WiFi-interfaces niet opslaan: {message}",
+        "wifiInterfacesSaved": "Opgeslagen WiFi-interfaces. \nKlant: {clientInterface}, Hotspot: {hotspotInterface}"
       },
       "hotspotConfigured": "Er is een aangepast hotspotwachtwoord geconfigureerd.",
       "hotspotNewPassword": "Nieuw hotspot-wachtwoord",
@@ -1615,7 +1639,22 @@
       "dhcpClientsLoading": "Klanten laden...",
       "dhcpClientsMac": "MAC-adres",
       "dhcpClientsRefresh": "Vernieuw de klantenlijst",
-      "dhcpClientsTitle": "Verbonden klanten"
+      "dhcpClientsTitle": "Verbonden klanten",
+      "tabs": {
+        "network": "Netwerk",
+        "services": "Diensten",
+        "software": "Software",
+        "upgrade": "Upgraden"
+      },
+      "wifiAdapterRefresh": "Adapterlijst vernieuwen",
+      "wifiAdapterSave": "Adapterselectie opslaan",
+      "wifiAdapterSaving": "Adapterselectie opslaan...",
+      "wifiAdaptersDescription": "Kies welke adapter de WiFi thuis verwerkt en welke adapter de hotspotmodus host.",
+      "wifiAdaptersTitle": "Toewijzing van WiFi-adapter",
+      "wifiAutoInterface": "Automatisch (daemon-standaard)",
+      "wifiClientInterface": "WiFi-adapter voor thuis",
+      "wifiHotspotInterface": "Hotspot-adapter",
+      "wifiNoAdapters": "Geen WiFi-adapters gevonden."
     },
     "bahtifocus": {
       "title": "Bahtinov Masker Analyse",

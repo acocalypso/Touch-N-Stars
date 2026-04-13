@@ -165,6 +165,26 @@
       "next": "下一步",
       "skip": "跳过教程"
     },
+    "fileBrowser": {
+      "title": "Browse",
+      "goUp": "Go up one level",
+      "loading": "Loading...",
+      "empty": "Empty directory",
+      "dblClickHint": "Double-click to open",
+      "deleteDir": "Delete folder",
+      "folderPlaceholder": "Folder name...",
+      "newFolder": "+ New Folder",
+      "create": "Create",
+      "selectedPath": "Selected:",
+      "loadError": "Could not load directory.",
+      "createError": "Could not create folder.",
+      "deleteDirTitle": "Delete folder",
+      "deleteDirMessage": "Really delete \"{name}\" and all its contents?",
+      "deleteFileTitle": "Delete file",
+      "deleteFileMessage": "Really delete \"{name}\"?",
+      "deleteFile": "Delete file",
+      "deleteError": "Could not delete."
+    },
     "settings": {
       "title": "设置",
       "general": "一般的",
@@ -1576,7 +1596,11 @@
         "indi3rdpartyLoadFailed": "无法加载 INDI 3rdparty 包：{message}",
         "indi3rdpartyInstallStart": "安装 INDI 包：{assetName}",
         "indi3rdpartyInstallSuccess": "INDI 包安装完成：{message}",
-        "indi3rdpartyInstallFailed": "INDI 包安装失败：{message}"
+        "indi3rdpartyInstallFailed": "INDI 包安装失败：{message}",
+        "wifiAdaptersLoadFailed": "Failed to load WiFi adapters: {message}",
+        "wifiInterfacesLoadFailed": "Failed to load selected WiFi interfaces: {message}",
+        "wifiInterfacesSaveFailed": "Failed to save WiFi interfaces: {message}",
+        "wifiInterfacesSaved": "Saved WiFi interfaces. Client: {clientInterface}, Hotspot: {hotspotInterface}"
       },
       "hotspotConfigured": "已配置自定义热点密码。",
       "hotspotNewPassword": "新热点密码",
@@ -1615,7 +1639,22 @@
       "dhcpClientsLoading": "正在加载客户端...",
       "dhcpClientsMac": "MAC地址",
       "dhcpClientsRefresh": "刷新客户列表",
-      "dhcpClientsTitle": "连接的客户端"
+      "dhcpClientsTitle": "连接的客户端",
+      "tabs": {
+        "network": "Network",
+        "services": "Services",
+        "software": "Software",
+        "upgrade": "Upgrade"
+      },
+      "wifiAdapterRefresh": "Refresh adapter list",
+      "wifiAdapterSave": "Save Adapter Selection",
+      "wifiAdapterSaving": "Saving adapter selection...",
+      "wifiAdaptersDescription": "Choose which adapter handles home WiFi and which adapter hosts hotspot mode.",
+      "wifiAdaptersTitle": "WiFi Adapter Assignment",
+      "wifiAutoInterface": "Auto (daemon default)",
+      "wifiClientInterface": "Home WiFi Adapter",
+      "wifiHotspotInterface": "Hotspot Adapter",
+      "wifiNoAdapters": "No WiFi adapters found."
     },
     "bahtifocus": {
       "title": "Bahtinov掩模分析仪",

@@ -165,6 +165,26 @@
       "next": "Następny",
       "skip": "Pomiń samouczek"
     },
+    "fileBrowser": {
+      "title": "Browse",
+      "goUp": "Go up one level",
+      "loading": "Loading...",
+      "empty": "Empty directory",
+      "dblClickHint": "Double-click to open",
+      "deleteDir": "Delete folder",
+      "folderPlaceholder": "Folder name...",
+      "newFolder": "+ New Folder",
+      "create": "Create",
+      "selectedPath": "Selected:",
+      "loadError": "Could not load directory.",
+      "createError": "Could not create folder.",
+      "deleteDirTitle": "Delete folder",
+      "deleteDirMessage": "Really delete \"{name}\" and all its contents?",
+      "deleteFileTitle": "Delete file",
+      "deleteFileMessage": "Really delete \"{name}\"?",
+      "deleteFile": "Delete file",
+      "deleteError": "Could not delete."
+    },
     "settings": {
       "title": "Ustawienia",
       "general": "Ogólny",
@@ -1576,7 +1596,11 @@
         "indi3rdpartyLoadFailed": "Nie udało się załadować pakietów INDI innych firm: {message}",
         "indi3rdpartyInstallStart": "Instalowanie pakietu INDI: {assetName}",
         "indi3rdpartyInstallSuccess": "Zakończono instalację pakietu INDI: {message}",
-        "indi3rdpartyInstallFailed": "Instalacja pakietu INDI nie powiodła się: {message}"
+        "indi3rdpartyInstallFailed": "Instalacja pakietu INDI nie powiodła się: {message}",
+        "wifiAdaptersLoadFailed": "Nie udało się załadować adapterów Wi-Fi: {wiadomość}",
+        "wifiInterfacesLoadFailed": "Nie udało się załadować wybranych interfejsów Wi-Fi: {wiadomość}",
+        "wifiInterfacesSaveFailed": "Nie udało się zapisać interfejsów Wi-Fi: {message}",
+        "wifiInterfacesSaved": "Zapisane interfejsy WiFi. \nKlient: {clientInterface}, Hotspot: {hotspotInterface}"
       },
       "hotspotConfigured": "Skonfigurowano niestandardowe hasło hotspotu.",
       "hotspotNewPassword": "Nowe hasło do hotspotu",
@@ -1615,7 +1639,22 @@
       "dhcpClientsLoading": "Ładowanie klientów...",
       "dhcpClientsMac": "Adres MAC",
       "dhcpClientsRefresh": "Odśwież listę klientów",
-      "dhcpClientsTitle": "Połączeni klienci"
+      "dhcpClientsTitle": "Połączeni klienci",
+      "tabs": {
+        "network": "Sieć",
+        "services": "Usługi",
+        "software": "Oprogramowanie",
+        "upgrade": "Aktualizacja"
+      },
+      "wifiAdapterRefresh": "Odśwież listę adapterów",
+      "wifiAdapterSave": "Zapisz wybór adaptera",
+      "wifiAdapterSaving": "Zapisuję wybór adaptera...",
+      "wifiAdaptersDescription": "Wybierz, który adapter obsługuje domowe Wi-Fi, a który obsługuje tryb hotspotu.",
+      "wifiAdaptersTitle": "Przypisanie adaptera WiFi",
+      "wifiAutoInterface": "Auto (domyślnie demon)",
+      "wifiClientInterface": "Domowy adapter Wi-Fi",
+      "wifiHotspotInterface": "Adapter hotspotu",
+      "wifiNoAdapters": "Nie znaleziono adapterów Wi-Fi."
     },
     "bahtifocus": {
       "title": "Analizator maski Bahtinowa",

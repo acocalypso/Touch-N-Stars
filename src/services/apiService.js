@@ -1113,6 +1113,45 @@ const apiService = {
     }
   },
 
+  // New filesystem endpoints
+  async browseFilesystem(path = '') {
+    const { API_URL } = getUrls();
+    const params = path ? { path } : {};
+    const response = await axios.get(`${API_URL}filesystem/browse`, {
+      params,
+      timeout: DEFAULT_TIMEOUT,
+    });
+    return response.data; // { success, currentPath, parentPath, directories[], files[] }
+  },
+
+  async createFilesystemDirectory(path) {
+    const { API_URL } = getUrls();
+    const response = await axios.post(
+      `${API_URL}filesystem/directory`,
+      { path },
+      { timeout: DEFAULT_TIMEOUT }
+    );
+    return response.data;
+  },
+
+  async deleteFilesystemDirectory(path) {
+    const { API_URL } = getUrls();
+    const response = await axios.delete(`${API_URL}filesystem/directory`, {
+      params: { path },
+      timeout: DEFAULT_TIMEOUT,
+    });
+    return response.data;
+  },
+
+  async deleteFilesystemFile(path) {
+    const { API_URL } = getUrls();
+    const response = await axios.delete(`${API_URL}filesystem/file`, {
+      params: { path },
+      timeout: DEFAULT_TIMEOUT,
+    });
+    return response.data;
+  },
+
   // Available Serial Ports
   async availableSerialPorts() {
     try {

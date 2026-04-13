@@ -173,6 +173,26 @@
       "next": "次へ",
       "skip": "チュートリアルをスキップ"
     },
+    "fileBrowser": {
+      "title": "Browse",
+      "goUp": "Go up one level",
+      "loading": "Loading...",
+      "empty": "Empty directory",
+      "dblClickHint": "Double-click to open",
+      "deleteDir": "Delete folder",
+      "folderPlaceholder": "Folder name...",
+      "newFolder": "+ New Folder",
+      "create": "Create",
+      "selectedPath": "Selected:",
+      "loadError": "Could not load directory.",
+      "createError": "Could not create folder.",
+      "deleteDirTitle": "Delete folder",
+      "deleteDirMessage": "Really delete \"{name}\" and all its contents?",
+      "deleteFileTitle": "Delete file",
+      "deleteFileMessage": "Really delete \"{name}\"?",
+      "deleteFile": "Delete file",
+      "deleteError": "Could not delete."
+    },
     "settings": {
       "title": "設定",
       "general": "全般",
@@ -1584,7 +1604,11 @@
         "indi3rdpartyLoadFailed": "INDIサードパーティパッケージの読み込みに失敗しました：{message}",
         "indi3rdpartyInstallStart": "INDIパッケージをインストール中：{assetName}",
         "indi3rdpartyInstallSuccess": "INDIパッケージのインストールが完了しました：{message}",
-        "indi3rdpartyInstallFailed": "INDIパッケージのインストールに失敗しました：{message}"
+        "indi3rdpartyInstallFailed": "INDIパッケージのインストールに失敗しました：{message}",
+        "wifiAdaptersLoadFailed": "WiFi アダプターのロードに失敗しました: {メッセージ}",
+        "wifiInterfacesLoadFailed": "選択した WiFi インターフェイスの読み込みに失敗しました: {message}",
+        "wifiInterfacesSaveFailed": "WiFi インターフェースを保存できませんでした: {message}",
+        "wifiInterfacesSaved": "保存された WiFi インターフェイス。\nクライアント: {clientInterface}、ホットスポット: {hotspotInterface}"
       },
       "wifiDisconnect": "WiFiを切断",
       "disconnectConfirmTitle": "WiFiを切断しますか？",
@@ -1615,7 +1639,22 @@
       "dhcpClientsIp": "IPアドレス",
       "dhcpClientsMac": "MACアドレス",
       "dhcpClientsHostname": "ホスト名",
-      "dhcpClientsExpires": "リース期限"
+      "dhcpClientsExpires": "リース期限",
+      "tabs": {
+        "network": "ネットワーク",
+        "services": "サービス",
+        "software": "ソフトウェア",
+        "upgrade": "アップグレード"
+      },
+      "wifiAdapterRefresh": "アダプタリストを更新する",
+      "wifiAdapterSave": "アダプターの選択を保存",
+      "wifiAdapterSaving": "アダプターの選択を保存しています...",
+      "wifiAdaptersDescription": "どのアダプターがホーム WiFi を処理し、どのアダプターがホットスポット モードをホストするかを選択します。",
+      "wifiAdaptersTitle": "WiFiアダプターの割り当て",
+      "wifiAutoInterface": "自動 (デーモンのデフォルト)",
+      "wifiClientInterface": "ホーム WiFi アダプター",
+      "wifiHotspotInterface": "ホットスポットアダプター",
+      "wifiNoAdapters": "WiFi アダプターが見つかりません。"
     },
     "bahtifocus": {
       "title": "バーティノフマスク・アナライザー",

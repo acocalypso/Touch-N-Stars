@@ -165,6 +165,26 @@
       "next": "Siguiente",
       "skip": "Saltar tutorial"
     },
+    "fileBrowser": {
+      "title": "Browse",
+      "goUp": "Go up one level",
+      "loading": "Loading...",
+      "empty": "Empty directory",
+      "dblClickHint": "Double-click to open",
+      "deleteDir": "Delete folder",
+      "folderPlaceholder": "Folder name...",
+      "newFolder": "+ New Folder",
+      "create": "Create",
+      "selectedPath": "Selected:",
+      "loadError": "Could not load directory.",
+      "createError": "Could not create folder.",
+      "deleteDirTitle": "Delete folder",
+      "deleteDirMessage": "Really delete \"{name}\" and all its contents?",
+      "deleteFileTitle": "Delete file",
+      "deleteFileMessage": "Really delete \"{name}\"?",
+      "deleteFile": "Delete file",
+      "deleteError": "Could not delete."
+    },
     "settings": {
       "title": "Configuración",
       "general": "General",
@@ -1576,7 +1596,11 @@
         "indi3rdpartyLoadFailed": "No se pudieron cargar paquetes INDI de terceros: {message}",
         "indi3rdpartyInstallStart": "Instalando el paquete INDI: {assetName}",
         "indi3rdpartyInstallSuccess": "Instalación del paquete INDI finalizada: {message}",
-        "indi3rdpartyInstallFailed": "La instalación del paquete INDI falló: {message}"
+        "indi3rdpartyInstallFailed": "La instalación del paquete INDI falló: {message}",
+        "wifiAdaptersLoadFailed": "No se pudieron cargar los adaptadores WiFi: {mensaje}",
+        "wifiInterfacesLoadFailed": "No se pudieron cargar las interfaces WiFi seleccionadas: {mensaje}",
+        "wifiInterfacesSaveFailed": "No se pudieron guardar las interfaces WiFi: {mensaje}",
+        "wifiInterfacesSaved": "Interfaces WiFi guardadas. \nCliente: {clientInterface}, Punto de acceso: {hotspotInterface}"
       },
       "hotspotConfigured": "La contraseña del punto de acceso personalizado está configurada.",
       "hotspotNewPassword": "Nueva contraseña de punto de acceso",
@@ -1615,7 +1639,22 @@
       "dhcpClientsLoading": "Cargando clientes...",
       "dhcpClientsMac": "Dirección MAC",
       "dhcpClientsRefresh": "Actualizar lista de clientes",
-      "dhcpClientsTitle": "Clientes conectados"
+      "dhcpClientsTitle": "Clientes conectados",
+      "tabs": {
+        "network": "Red",
+        "services": "Servicios",
+        "software": "Software",
+        "upgrade": "Mejora"
+      },
+      "wifiAdapterRefresh": "Actualizar lista de adaptadores",
+      "wifiAdapterSave": "Guardar selección de adaptador",
+      "wifiAdapterSaving": "Guardando selección de adaptador...",
+      "wifiAdaptersDescription": "Elija qué adaptador maneja el WiFi doméstico y qué adaptador aloja el modo de punto de acceso.",
+      "wifiAdaptersTitle": "Asignación de adaptador WiFi",
+      "wifiAutoInterface": "Auto (valor predeterminado del demonio)",
+      "wifiClientInterface": "Adaptador WiFi doméstico",
+      "wifiHotspotInterface": "Adaptador de punto de acceso",
+      "wifiNoAdapters": "No se encontraron adaptadores WiFi."
     },
     "bahtifocus": {
       "title": "Analizador de máscaras de Bahtinov",

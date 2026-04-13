@@ -23,7 +23,10 @@
 
     <!-- Image File Path -->
     <div
-      v-if="store.isBackendReachable && store.isPINS"
+      v-if="
+        store.isBackendReachable &&
+        (store.isPINS || store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.2.7.0'))
+      "
       class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
     >
       <h3 class="font-bold text-base text-cyan-400">

@@ -241,7 +241,7 @@
         </svg>
       </button>
     </div>
-    <div class="grid grid-cols-2 gap-2 text-xs">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-2 text-xs">
       <div class="bg-gray-900/60 rounded p-2">
         <div class="text-gray-400 mb-1">{{ $t('components.settings.timeSync.backendTime') }}</div>
         <div class="text-gray-100 font-mono">
@@ -260,10 +260,39 @@
           {{ $t('components.settings.timeSync.notSupported') }}
         </div>
       </div>
+      <div class="bg-gray-900/60 rounded p-2">
+        <div class="text-gray-400 mb-1">{{ $t('plugins.pins.deviceTime') }}</div>
+        <div class="text-gray-100 font-mono">
+          {{ pinsDeviceTimestamp ? new Date(pinsDeviceTimestamp * 1000).toUTCString() : '—' }}
+        </div>
+      </div>
     </div>
     <div class="flex items-center justify-between">
       <p class="text-gray-300 text-sm mr-4">{{ $t('components.settings.timeSync.syncLabel') }}</p>
       <ToggleButton :statusValue="timeInfo.timeSyncEnabled" @update:statusValue="toggleTimeSync" />
+    </div>
+    <div class="flex items-center justify-between">
+      <p class="text-gray-300 text-sm mr-4">{{ $t('plugins.pins.autoSync') }}</p>
+      <ToggleButton
+        :statusValue="pinsStore.timeSyncEnabled"
+        @update:statusValue="togglePinsTimeSync"
+      />
+    </div>
+    <div class="flex items-center justify-between gap-2">
+      <button
+        class="default-button-gray"
+        :disabled="pinsTimeActionLoading"
+        @click="manualPinsTimeSync"
+      >
+        {{ $t('plugins.pins.syncNow') }}
+      </button>
+      <button
+        v-if="pinsStore.suppressTimeWarning"
+        class="text-xs text-yellow-400 hover:text-yellow-300 underline"
+        @click="pinsStore.setSuppressTimeWarning(false)"
+      >
+        {{ $t('plugins.pins.timeWarning.reenable') }}
+      </button>
     </div>
   </div>
 </template>
@@ -271,6 +300,8 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import { apiStore } from '@/store/store';
+import { usePinsStore } from '@/plugins/pins/store/pinsStore';
+import { useSettingsStore } from '@/store/settingsStore';
 import {
   latitude,
   longitude,
@@ -287,9 +318,15 @@ import {
 import ToggleButton from '@/components/helpers/toggleButton.vue';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 import apiService from '@/services/apiService';
+import axios from 'axios';
 
 const store = apiStore();
 const locationStore = useLocationStore();
+const settingsStore = useSettingsStore();
+const pinsStore = usePinsStore();
+
+const PINS_PORT = 8000;
+const PINS_TOKEN = 'zZDqJ3IKeFaIZqG2JIFvsxzA5E48GC2gyGVagHFZqC0OMtgoupUDZCPhQDYKm35d';
 
 const COORD_TOLERANCE = 0.001; // ~100 m
 const coordsMismatch = computed(() => {
@@ -305,6 +342,8 @@ const coordsMismatch = computed(() => {
 });
 
 const timeSyncLoading = ref(false);
+const pinsTimeActionLoading = ref(false);
+const pinsDeviceTimestamp = ref(null);
 const timeInfo = ref({
   backendUtc: null,
   mountUtc: null,
@@ -312,12 +351,69 @@ const timeInfo = ref({
   mountConnected: false,
 });
 
+function getPinsIp() {
+  return settingsStore.connection.ip || window.location.hostname;
+}
+
+async function fetchPinsDeviceTime() {
+  const ip = getPinsIp();
+  if (!ip) return null;
+
+  const directAxios = axios.create({ headers: {} });
+  const response = await directAxios.get(`http://${ip}:${PINS_PORT}/system/time`, {
+    headers: {
+      Authorization: `Bearer ${PINS_TOKEN}`,
+    },
+    timeout: 5000,
+  });
+
+  return response?.data?.timestamp ?? null;
+}
+
+async function syncPinsSystemTime(remoteTimestamp, force = false) {
+  const ip = getPinsIp();
+  if (!ip || !remoteTimestamp) return;
+
+  const localTime = Date.now() / 1000;
+  const diff = Math.abs(remoteTimestamp - localTime);
+  if (!force && diff <= 5) return;
+
+  const directAxios = axios.create({ headers: {} });
+  await directAxios.post(
+    `http://${ip}:${PINS_PORT}/system/time`,
+    { timestamp: localTime },
+    {
+      headers: {
+        Authorization: `Bearer ${PINS_TOKEN}`,
+        'Content-Type': 'application/json',
+      },
+      timeout: 5000,
+    }
+  );
+
+  pinsDeviceTimestamp.value = localTime;
+}
+
+async function loadPinsTimeInfo() {
+  try {
+    const timestamp = await fetchPinsDeviceTime();
+    pinsDeviceTimestamp.value = timestamp;
+
+    if (timestamp && pinsStore.timeSyncEnabled) {
+      await syncPinsSystemTime(timestamp, false);
+    }
+  } catch (e) {
+    console.error('Failed to load PINS device time:', e);
+  }
+}
+
 const loadTimeInfo = async () => {
   if (!store.isBackendReachable) return;
   timeSyncLoading.value = true;
   try {
     const data = await apiService.getTnsTime();
     if (data) timeInfo.value = data;
+    await loadPinsTimeInfo();
   } catch (e) {
     console.error('Failed to load time info:', e);
   } finally {
@@ -331,6 +427,26 @@ const toggleTimeSync = async (value) => {
     await loadTimeInfo();
   } catch (e) {
     console.error('Failed to toggle time sync:', e);
+  }
+};
+
+const togglePinsTimeSync = async (value) => {
+  pinsStore.setTimeSync(value);
+  if (value) {
+    await loadPinsTimeInfo();
+  }
+};
+
+const manualPinsTimeSync = async () => {
+  pinsTimeActionLoading.value = true;
+  try {
+    const timestamp = await fetchPinsDeviceTime();
+    pinsDeviceTimestamp.value = timestamp;
+    await syncPinsSystemTime(timestamp, true);
+  } catch (e) {
+    console.error('Failed to sync PINS system time:', e);
+  } finally {
+    pinsTimeActionLoading.value = false;
   }
 };
 

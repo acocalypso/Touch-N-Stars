@@ -60,15 +60,9 @@
               :samba-enabled="sambaEnabled"
               :phd2-enabled="phd2Enabled"
               :phd2-running="phd2Running"
-              :device-time="deviceTime"
-              :time-sync-enabled="pinsStore.timeSyncEnabled"
-              :suppress-time-warning="pinsStore.suppressTimeWarning"
               :disabled="status === 'Running'"
               @toggle-samba="handleSambaToggle"
               @toggle-phd2="handlePhd2Toggle"
-              @toggle-time-sync="handleTimeSyncToggle"
-              @manual-time-sync="manualTimeSync"
-              @reenable-time-warning="pinsStore.setSuppressTimeWarning(false)"
             />
           </template>
 
@@ -248,7 +242,6 @@ const settingsStore = useSettingsStore();
 const store = apiStore();
 const pinsStore = usePinsStore();
 
-const deviceTime = ref(null);
 const sambaEnabled = ref(false);
 const phd2Enabled = ref(false);
 const phd2Running = ref(false);
@@ -358,7 +351,6 @@ watch(
     if (newValue) {
       checkSambaStatus();
       checkPhd2Status();
-      checkSystemTime();
       loadHotspotPasswordConfig();
       loadWifiInterfaceConfig();
       checkUpdates();
@@ -608,102 +600,6 @@ async function saveHotspotPassword() {
     }
   } finally {
     isHotspotSaving.value = false;
-  }
-}
-
-async function checkSystemTime() {
-  const ip = getIp();
-  if (!ip) return;
-
-  try {
-    const directAxios = axios.create({ headers: {} });
-    const response = await directAxios.get(`http://${ip}:${PORT}/system/time`, {
-      headers: {
-        Authorization: `Bearer ${TOKEN}`,
-      },
-      timeout: 5000,
-    });
-
-    if (response.data && response.data.timestamp) {
-      deviceTime.value = response.data.timestamp;
-
-      if (pinsStore.timeSyncEnabled) {
-        syncSystemTime(response.data.timestamp);
-      }
-    }
-  } catch (error) {
-    console.error('Failed to check system time:', error);
-  }
-}
-
-async function syncSystemTime(remoteTimestamp, force = false) {
-  const ip = getIp();
-  if (!ip) return;
-
-  const localTime = Date.now() / 1000;
-  const diff = Math.abs(remoteTimestamp - localTime);
-
-  if (diff > 5 || force) {
-    if (force) {
-      console.log('Forcing time sync...');
-      appendLog(t('plugins.pins.logs.forcingSync'));
-    } else {
-      console.log(`Time difference detected: ${diff.toFixed(2)}s. Syncing...`);
-      appendLog(t('plugins.pins.logs.syncingTime', { diff: diff.toFixed(1) }));
-    }
-
-    try {
-      const directAxios = axios.create({ headers: {} });
-      await directAxios.post(
-        `http://${ip}:${PORT}/system/time`,
-        {
-          timestamp: localTime,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${TOKEN}`,
-            'Content-Type': 'application/json',
-          },
-          timeout: 5000,
-        }
-      );
-      appendLog(t('plugins.pins.logs.timeSynced'));
-      // Refresh time after sync
-      setTimeout(checkSystemTime, 2000);
-    } catch (error) {
-      console.error('Failed to sync system time:', error);
-      appendLog(t('plugins.pins.logs.error', { message: 'Time Sync Failed: ' + error.message }));
-    }
-  } else {
-    appendLog(t('plugins.pins.logs.timeInSync', { diff: diff.toFixed(3) }));
-  }
-}
-
-async function manualTimeSync() {
-  const ip = getIp();
-  if (!ip) return;
-
-  try {
-    const directAxios = axios.create({ headers: {} });
-    const response = await directAxios.get(`http://${ip}:${PORT}/system/time`, {
-      headers: { Authorization: `Bearer ${TOKEN}` },
-      timeout: 5000,
-    });
-    if (response.data && response.data.timestamp) {
-      syncSystemTime(response.data.timestamp, true);
-    }
-  } catch (e) {
-    console.error(e);
-    appendLog(
-      t('plugins.pins.logs.error', { message: 'Failed to fetch time for sync: ' + e.message })
-    );
-  }
-}
-
-async function handleTimeSyncToggle(newValue) {
-  pinsStore.setTimeSync(newValue);
-  if (newValue) {
-    checkSystemTime();
   }
 }
 

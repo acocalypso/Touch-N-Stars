@@ -1,275 +1,311 @@
 <template>
-  <div class="container py-8 sm:py-16 flex items-center justify-center px-4">
-    <div class="container max-w-4xl p-0 sm:p-4 w-full">
-      <h5
-        class="text-2xl text-center font-bold text-white mb-2 flex items-center justify-center gap-3"
-      >
-        <span>{{ $t('plugins.pins.title') }}</span>
-      </h5>
+  <div class="min-h-screen bg-gray-900">
+    <SubNav v-if="store.isPINS" :items="pinsNavItems" v-model:activeItem="activeTab" />
 
-      <div v-if="availableUpdatePackages.length > 0" class="text-center mb-4">
-        <button
-          @click="showUpdatesModal = true"
-          class="text-amber-300 hover:text-amber-200 underline underline-offset-4 transition-colors"
+    <div
+      class="container py-8 sm:py-16 flex items-center justify-center px-4"
+      :class="{ 'pt-24 sm:pt-28': store.isPINS }"
+    >
+      <div class="container max-w-4xl p-0 sm:p-4 w-full">
+        <h5
+          class="text-2xl text-center font-bold text-white mb-2 flex items-center justify-center gap-3"
         >
-          {{ $t('plugins.pins.updatesAvailable', { count: availableUpdatePackages.length }) }}
-        </button>
-      </div>
+          <span>{{ $t('plugins.pins.title') }}</span>
+        </h5>
 
-      <!-- Control Panel -->
-      <div v-if="store.isPINS" class="flex flex-col space-y-6 animate-fade-in-up">
-        <PinsSambaCard
-          :enabled="sambaEnabled"
-          :disabled="status === 'Running'"
-          @toggle="handleSambaToggle"
-        />
-
-        <PinsPhd2Card
-          :enabled="phd2Enabled"
-          :running="phd2Running"
-          :disabled="status === 'Running'"
-          @toggle="handlePhd2Toggle"
-        />
-
-        <PinsWifiCard
-          :stationary-mode="stationaryMode"
-          :is-scanning="isScanning"
-          :wifi-list="wifiList"
-          :selected-ssid="selectedSsid"
-          :wifi-password="wifiPassword"
-          :selected-band="selectedBand"
-          :auto-connect="autoConnect"
-          :hotspot-configured="hotspotConfigured"
-          :hotspot-password="hotspotPassword"
-          :hotspot-loading="isHotspotLoading"
-          :hotspot-saving="isHotspotSaving"
-          :disabled="status === 'Running'"
-          @toggle-stationary="handleStationaryToggle"
-          @scan-wifi="scanWifi"
-          @connect-wifi="connectWifi"
-          @disconnect-wifi="requestDisableWifi"
-          @update:selected-ssid="selectedSsid = $event"
-          @update:wifi-password="wifiPassword = $event"
-          @update:selected-band="selectedBand = $event"
-          @update:auto-connect="autoConnect = $event"
-          @update:hotspot-password="hotspotPassword = $event"
-          @load-hotspot="loadHotspotPasswordConfig"
-          @save-hotspot="saveHotspotPassword"
-        />
-
-        <PinsIndi3rdpartyCard
-          :drivers="indi3rdpartyDrivers"
-          :loading="isIndi3rdpartyLoading"
-          :installing="isIndi3rdpartyInstalling"
-          :search-query="indi3rdpartyQuery"
-          :selected-asset="selectedIndi3rdpartyAsset"
-          :disabled="status === 'Running'"
-          @refresh="loadIndi3rdpartyDrivers"
-          @search="loadIndi3rdpartyDrivers"
-          @install="installIndi3rdpartyDriver"
-          @update:search-query="indi3rdpartyQuery = $event"
-          @update:selected-asset="selectedIndi3rdpartyAsset = $event"
-        />
-
-        <PinsDhcpClientsCard
-          v-if="!stationaryMode"
-          :clients="dhcpClients"
-          :loading="isDhcpClientsLoading"
-          @refresh="loadDhcpClients"
-        />
-
-        <!-- System Time Card -->
         <div
-          class="border border-gray-700 rounded-lg bg-gray-800 shadow-xl p-6 relative overflow-hidden flex flex-row items-center justify-between"
+          v-if="store.isPINS && activeTab === 'software' && availableUpdatePackages.length > 0"
+          class="text-center mb-4"
         >
-          <div class="absolute top-0 right-20 p-4 opacity-10 pointer-events-none">
-            <svg class="w-16 h-16 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
-              />
-            </svg>
-          </div>
-          <div class="relative z-10">
-            <h3 class="text-xl font-bold text-white mb-1">{{ $t('plugins.pins.systemTime') }}</h3>
-            <p class="text-gray-400 text-sm" v-if="deviceTime">
-              {{ $t('plugins.pins.deviceTime') }}:
-              {{ new Date(deviceTime * 1000).toLocaleString() }}
-            </p>
-            <p class="text-gray-400 text-sm" v-else>
-              {{ $t('plugins.pins.loadingTime') }}
-            </p>
-            <button
-              v-if="pinsStore.suppressTimeWarning"
-              @click="pinsStore.setSuppressTimeWarning(false)"
-              class="text-xs text-yellow-400 hover:text-yellow-300 underline mt-1 text-left"
-            >
-              {{ $t('plugins.pins.timeWarning.reenable') }}
-            </button>
-          </div>
-          <div class="relative z-10 flex flex-col items-end gap-2">
-            <div class="flex items-center gap-2">
-              <span class="text-xs text-gray-400 uppercase font-bold">{{
-                $t('plugins.pins.autoSync')
-              }}</span>
-              <toggleButton
-                :status-value="pinsStore.timeSyncEnabled"
-                @update:status-value="handleTimeSyncToggle"
-                :disabled="status === 'Running'"
-              />
-            </div>
-            <button
-              @click="manualTimeSync"
-              class="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white font-bold rounded-lg shadow-md shadow-blue-900/20 transition-all disabled:opacity-50 text-xs sm:text-sm"
-              :disabled="status === 'Running'"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                class="h-4 w-4"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  stroke-width="2"
-                  d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-                />
-              </svg>
-              {{ $t('plugins.pins.syncNow') }}
-            </button>
-          </div>
+          <button
+            @click="showUpdatesModal = true"
+            class="text-amber-300 hover:text-amber-200 underline underline-offset-4 transition-colors"
+          >
+            {{ $t('plugins.pins.updatesAvailable', { count: availableUpdatePackages.length }) }}
+          </button>
         </div>
 
-        <PinsUpgradeCard
-          :status="status"
-          :active-operation="activeOperation"
-          :upgrade-exit-code="upgradeExitCode"
-          @start-upgrade="startUpgrade"
-        />
+        <!-- Control Panel -->
+        <div v-if="store.isPINS" class="flex flex-col space-y-6 animate-fade-in-up">
+          <template v-if="activeTab === 'network'">
+            <PinsWifiCard
+              :stationary-mode="stationaryMode"
+              :is-scanning="isScanning"
+              :wifi-list="wifiList"
+              :selected-ssid="selectedSsid"
+              :wifi-password="wifiPassword"
+              :selected-band="selectedBand"
+              :auto-connect="autoConnect"
+              :wifi-adapters="wifiAdapters"
+              :interfaces-loading="isWifiAdaptersLoading"
+              :interfaces-saving="isWifiInterfacesSaving"
+              :selected-client-interface="selectedClientInterface"
+              :selected-hotspot-interface="selectedHotspotInterface"
+              :hotspot-configured="hotspotConfigured"
+              :hotspot-password="hotspotPassword"
+              :hotspot-loading="isHotspotLoading"
+              :hotspot-saving="isHotspotSaving"
+              :disabled="status === 'Running'"
+              @toggle-stationary="handleStationaryToggle"
+              @scan-wifi="scanWifi"
+              @refresh-interfaces="loadWifiInterfaceConfig"
+              @save-interfaces="saveWifiInterfaces"
+              @connect-wifi="connectWifi"
+              @disconnect-wifi="requestDisableWifi"
+              @update:selected-ssid="selectedSsid = $event"
+              @update:wifi-password="wifiPassword = $event"
+              @update:selected-band="selectedBand = $event"
+              @update:auto-connect="autoConnect = $event"
+              @update:selected-client-interface="selectedClientInterface = $event"
+              @update:selected-hotspot-interface="selectedHotspotInterface = $event"
+              @update:hotspot-password="hotspotPassword = $event"
+              @load-hotspot="loadHotspotPasswordConfig"
+              @save-hotspot="saveHotspotPassword"
+            />
 
-        <PinsTerminalOutput :logs="logs" @clear="pinsStore.clearTerminalLogs()" />
-
-        <Modal
-          :show="showDisconnectWifiModal"
-          @close="showDisconnectWifiModal = false"
-          maxWidth="max-w-md"
-        >
-          <template #header>
-            <h2 class="text-xl font-bold text-white">
-              {{ $t('plugins.pins.disconnectConfirmTitle') }}
-            </h2>
+            <PinsDhcpClientsCard
+              v-if="!stationaryMode"
+              :clients="dhcpClients"
+              :loading="isDhcpClientsLoading"
+              @refresh="loadDhcpClients"
+            />
           </template>
 
-          <template #body>
-            <div class="w-full">
-              <p class="text-gray-300 text-sm leading-relaxed mb-6">
-                {{ $t('plugins.pins.disconnectConfirmMessage') }}
-              </p>
-              <div class="flex justify-end gap-3">
-                <button @click="showDisconnectWifiModal = false" class="default-button-gray">
-                  {{ $t('common.cancel') }}
-                </button>
-                <button @click="confirmDisableWifi" class="default-button-red">
-                  {{ $t('common.confirm') }}
-                </button>
-              </div>
-            </div>
-          </template>
-        </Modal>
+          <template v-if="activeTab === 'services'">
+            <PinsSambaCard
+              :enabled="sambaEnabled"
+              :disabled="status === 'Running'"
+              @toggle="handleSambaToggle"
+            />
 
-        <Modal :show="showUpdatesModal" @close="showUpdatesModal = false" maxWidth="max-w-2xl">
-          <template #header>
-            <h2 class="text-xl font-bold text-white">{{ $t('plugins.pins.updatesModalTitle') }}</h2>
-          </template>
+            <PinsPhd2Card
+              :enabled="phd2Enabled"
+              :running="phd2Running"
+              :disabled="status === 'Running'"
+              @toggle="handlePhd2Toggle"
+            />
 
-          <template #body>
-            <div class="w-full flex flex-col gap-4">
-              <div class="flex items-center justify-between gap-2 text-sm text-gray-400">
-                <span>
-                  {{ $t('plugins.pins.updatesCheckedAt') }}:
-                  {{
-                    updatesCheckResult?.checkedAt
-                      ? new Date(updatesCheckResult.checkedAt).toLocaleString()
-                      : '-'
-                  }}
-                </span>
-                <button
-                  @click="checkUpdates()"
-                  class="text-blue-400 hover:text-white transition-colors disabled:opacity-50"
-                  :disabled="isCheckingUpdates"
+            <!-- System Time Card -->
+            <div
+              class="border border-gray-700 rounded-lg bg-gray-800 shadow-xl p-6 relative overflow-hidden flex flex-row items-center justify-between"
+            >
+              <div class="absolute top-0 right-20 p-4 opacity-10 pointer-events-none">
+                <svg
+                  class="w-16 h-16 text-white"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
                 >
-                  {{
-                    isCheckingUpdates
-                      ? $t('plugins.pins.checkingUpdates')
-                      : $t('plugins.pins.checkUpdates')
-                  }}
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
+                </svg>
+              </div>
+              <div class="relative z-10">
+                <h3 class="text-xl font-bold text-white mb-1">
+                  {{ $t('plugins.pins.systemTime') }}
+                </h3>
+                <p class="text-gray-400 text-sm" v-if="deviceTime">
+                  {{ $t('plugins.pins.deviceTime') }}:
+                  {{ new Date(deviceTime * 1000).toLocaleString() }}
+                </p>
+                <p class="text-gray-400 text-sm" v-else>
+                  {{ $t('plugins.pins.loadingTime') }}
+                </p>
+                <button
+                  v-if="pinsStore.suppressTimeWarning"
+                  @click="pinsStore.setSuppressTimeWarning(false)"
+                  class="text-xs text-yellow-400 hover:text-yellow-300 underline mt-1 text-left"
+                >
+                  {{ $t('plugins.pins.timeWarning.reenable') }}
                 </button>
               </div>
-
-              <div
-                v-if="availableUpdatePackages.length === 0"
-                class="text-gray-300 text-sm py-6 text-center"
-              >
-                {{ $t('plugins.pins.noUpdatesAvailable') }}
-              </div>
-
-              <div v-else class="max-h-80 overflow-y-auto border border-gray-700 rounded-lg">
-                <table class="w-full text-left text-sm">
-                  <thead class="bg-gray-900 text-gray-300 sticky top-0">
-                    <tr>
-                      <th class="px-4 py-3">{{ $t('plugins.pins.updatesPackage') }}</th>
-                      <th class="px-4 py-3">{{ $t('plugins.pins.updatesInstalled') }}</th>
-                      <th class="px-4 py-3">{{ $t('plugins.pins.updatesLatest') }}</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr
-                      v-for="pkg in availableUpdatePackages"
-                      :key="pkg.name"
-                      class="border-t border-gray-700 text-gray-200"
-                    >
-                      <td class="px-4 py-3 font-medium">{{ pkg.name }}</td>
-                      <td class="px-4 py-3">{{ pkg.installedVersion || '-' }}</td>
-                      <td class="px-4 py-3">{{ pkg.latestVersion || '-' }}</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-
-              <div class="flex justify-end">
-                <button @click="showUpdatesModal = false" class="default-button-gray">
-                  {{ $t('common.cancel') }}
+              <div class="relative z-10 flex flex-col items-end gap-2">
+                <div class="flex items-center gap-2">
+                  <span class="text-xs text-gray-400 uppercase font-bold">{{
+                    $t('plugins.pins.autoSync')
+                  }}</span>
+                  <toggleButton
+                    :status-value="pinsStore.timeSyncEnabled"
+                    @update:status-value="handleTimeSyncToggle"
+                    :disabled="status === 'Running'"
+                  />
+                </div>
+                <button
+                  @click="manualTimeSync"
+                  class="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white font-bold rounded-lg shadow-md shadow-blue-900/20 transition-all disabled:opacity-50 text-xs sm:text-sm"
+                  :disabled="status === 'Running'"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    class="h-4 w-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                    />
+                  </svg>
+                  {{ $t('plugins.pins.syncNow') }}
                 </button>
               </div>
             </div>
           </template>
-        </Modal>
-      </div>
 
-      <!-- Unavailable State -->
-      <div
-        v-else
-        class="border border-red-900/50 bg-red-900/20 rounded-lg p-8 text-center animate-fade-in-up"
-      >
-        <svg
-          class="w-16 h-16 text-red-500 mx-auto mb-4"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
+          <template v-if="activeTab === 'software'">
+            <PinsIndi3rdpartyCard
+              :drivers="indi3rdpartyDrivers"
+              :loading="isIndi3rdpartyLoading"
+              :installing="isIndi3rdpartyInstalling"
+              :search-query="indi3rdpartyQuery"
+              :selected-asset="selectedIndi3rdpartyAsset"
+              :disabled="status === 'Running'"
+              @refresh="loadIndi3rdpartyDrivers"
+              @search="loadIndi3rdpartyDrivers"
+              @install="installIndi3rdpartyDriver"
+              @update:search-query="indi3rdpartyQuery = $event"
+              @update:selected-asset="selectedIndi3rdpartyAsset = $event"
+            />
+          </template>
+
+          <template v-if="activeTab === 'upgrade'">
+            <PinsUpgradeCard
+              :status="status"
+              :active-operation="activeOperation"
+              :upgrade-exit-code="upgradeExitCode"
+              @start-upgrade="startUpgrade"
+            />
+
+            <PinsTerminalOutput :logs="logs" @clear="pinsStore.clearTerminalLogs()" />
+          </template>
+
+          <Modal
+            :show="showDisconnectWifiModal"
+            @close="showDisconnectWifiModal = false"
+            maxWidth="max-w-md"
+          >
+            <template #header>
+              <h2 class="text-xl font-bold text-white">
+                {{ $t('plugins.pins.disconnectConfirmTitle') }}
+              </h2>
+            </template>
+
+            <template #body>
+              <div class="w-full">
+                <p class="text-gray-300 text-sm leading-relaxed mb-6">
+                  {{ $t('plugins.pins.disconnectConfirmMessage') }}
+                </p>
+                <div class="flex justify-end gap-3">
+                  <button @click="showDisconnectWifiModal = false" class="default-button-gray">
+                    {{ $t('common.cancel') }}
+                  </button>
+                  <button @click="confirmDisableWifi" class="default-button-red">
+                    {{ $t('common.confirm') }}
+                  </button>
+                </div>
+              </div>
+            </template>
+          </Modal>
+
+          <Modal :show="showUpdatesModal" @close="showUpdatesModal = false" maxWidth="max-w-2xl">
+            <template #header>
+              <h2 class="text-xl font-bold text-white">
+                {{ $t('plugins.pins.updatesModalTitle') }}
+              </h2>
+            </template>
+
+            <template #body>
+              <div class="w-full flex flex-col gap-4">
+                <div class="flex items-center justify-between gap-2 text-sm text-gray-400">
+                  <span>
+                    {{ $t('plugins.pins.updatesCheckedAt') }}:
+                    {{
+                      updatesCheckResult?.checkedAt
+                        ? new Date(updatesCheckResult.checkedAt).toLocaleString()
+                        : '-'
+                    }}
+                  </span>
+                  <button
+                    @click="checkUpdates()"
+                    class="text-blue-400 hover:text-white transition-colors disabled:opacity-50"
+                    :disabled="isCheckingUpdates"
+                  >
+                    {{
+                      isCheckingUpdates
+                        ? $t('plugins.pins.checkingUpdates')
+                        : $t('plugins.pins.checkUpdates')
+                    }}
+                  </button>
+                </div>
+
+                <div
+                  v-if="availableUpdatePackages.length === 0"
+                  class="text-gray-300 text-sm py-6 text-center"
+                >
+                  {{ $t('plugins.pins.noUpdatesAvailable') }}
+                </div>
+
+                <div v-else class="max-h-80 overflow-y-auto border border-gray-700 rounded-lg">
+                  <table class="w-full text-left text-sm">
+                    <thead class="bg-gray-900 text-gray-300 sticky top-0">
+                      <tr>
+                        <th class="px-4 py-3">{{ $t('plugins.pins.updatesPackage') }}</th>
+                        <th class="px-4 py-3">{{ $t('plugins.pins.updatesInstalled') }}</th>
+                        <th class="px-4 py-3">{{ $t('plugins.pins.updatesLatest') }}</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr
+                        v-for="pkg in availableUpdatePackages"
+                        :key="pkg.name"
+                        class="border-t border-gray-700 text-gray-200"
+                      >
+                        <td class="px-4 py-3 font-medium">{{ pkg.name }}</td>
+                        <td class="px-4 py-3">{{ pkg.installedVersion || '-' }}</td>
+                        <td class="px-4 py-3">{{ pkg.latestVersion || '-' }}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+
+                <div class="flex justify-end">
+                  <button @click="showUpdatesModal = false" class="default-button-gray">
+                    {{ $t('common.cancel') }}
+                  </button>
+                </div>
+              </div>
+            </template>
+          </Modal>
+        </div>
+
+        <!-- Unavailable State -->
+        <div
+          v-else
+          class="border border-red-900/50 bg-red-900/20 rounded-lg p-8 text-center animate-fade-in-up"
         >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
-          />
-        </svg>
-        <h3 class="text-xl font-bold text-red-400 mb-2">{{ $t('plugins.pins.title') }}</h3>
-        <p class="text-gray-400">{{ $t('plugins.pins.notAvailable') }}</p>
+          <svg
+            class="w-16 h-16 text-red-500 mx-auto mb-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
+            />
+          </svg>
+          <h3 class="text-xl font-bold text-red-400 mb-2">{{ $t('plugins.pins.title') }}</h3>
+          <p class="text-gray-400">{{ $t('plugins.pins.notAvailable') }}</p>
+        </div>
       </div>
     </div>
   </div>
@@ -284,6 +320,7 @@ import { usePinsStore } from '../store/pinsStore';
 import { apiStore } from '@/store/store';
 import axios from 'axios';
 import toggleButton from '@/components/helpers/toggleButton.vue';
+import SubNav from '@/components/SubNav.vue';
 import Modal from '@/components/helpers/Modal.vue';
 import PinsUpgradeCard from '../components/PinsUpgradeCard.vue';
 import PinsTerminalOutput from '../components/PinsTerminalOutput.vue';
@@ -317,6 +354,12 @@ const indi3rdpartyQuery = ref('');
 const dhcpClients = ref([]);
 const isDhcpClientsLoading = ref(false);
 const selectedIndi3rdpartyAsset = ref('');
+const activeTab = ref('network');
+const wifiAdapters = ref([]);
+const isWifiAdaptersLoading = ref(false);
+const isWifiInterfacesSaving = ref(false);
+const selectedClientInterface = ref('');
+const selectedHotspotInterface = ref('');
 const {
   stationaryMode,
   wifiList,
@@ -356,6 +399,13 @@ const availableUpdatePackages = computed(() => {
   return packages.filter((pkg) => pkg.updateAvailable);
 });
 
+const pinsNavItems = computed(() => [
+  { name: t('plugins.pins.tabs.network'), value: 'network' },
+  { name: t('plugins.pins.tabs.services'), value: 'services' },
+  { name: t('plugins.pins.tabs.software'), value: 'software' },
+  { name: t('plugins.pins.tabs.upgrade'), value: 'upgrade' },
+]);
+
 watch(selectedSsid, (newSsid) => {
   if (newSsid) {
     selectedBand.value = 'auto';
@@ -370,6 +420,142 @@ watch(selectedSsid, (newSsid) => {
 
 function appendLog(message) {
   pinsStore.appendTerminalLog(message);
+}
+
+function normalizeWifiAdapter(adapter) {
+  if (!adapter || typeof adapter !== 'object') {
+    return null;
+  }
+
+  return {
+    interface: adapter.interface || '',
+    state: adapter.state || 'unknown',
+    connection: adapter.connection ?? null,
+    role: adapter.role || 'idle',
+    mac: adapter.mac ?? null,
+    driver: adapter.driver ?? null,
+    mtu: adapter.mtu ?? null,
+  };
+}
+
+function reconcileSelectedWifiInterfaces() {
+  const availableIfaces = new Set(wifiAdapters.value.map((adapter) => adapter.interface));
+
+  if (selectedClientInterface.value && !availableIfaces.has(selectedClientInterface.value)) {
+    selectedClientInterface.value = '';
+  }
+
+  if (selectedHotspotInterface.value && !availableIfaces.has(selectedHotspotInterface.value)) {
+    selectedHotspotInterface.value = '';
+  }
+}
+
+async function loadWifiAdapters() {
+  const ip = getIp();
+  if (!ip || isWifiAdaptersLoading.value) return;
+
+  isWifiAdaptersLoading.value = true;
+  try {
+    const directAxios = axios.create({ headers: {} });
+    const response = await directAxios.get(`http://${ip}:${PORT}/wifi/adapters`, {
+      headers: {
+        Authorization: `Bearer ${TOKEN}`,
+      },
+      timeout: 10000,
+    });
+
+    const adapters = response.data?.adapters || [];
+    wifiAdapters.value = adapters.map(normalizeWifiAdapter).filter(Boolean);
+    reconcileSelectedWifiInterfaces();
+  } catch (error) {
+    console.error(error);
+    appendLog(t('plugins.pins.logs.wifiAdaptersLoadFailed', { message: error.message }));
+  } finally {
+    isWifiAdaptersLoading.value = false;
+  }
+}
+
+async function loadWifiInterfaces() {
+  const ip = getIp();
+  if (!ip) return;
+
+  try {
+    const directAxios = axios.create({ headers: {} });
+    const response = await directAxios.get(`http://${ip}:${PORT}/wifi/interfaces`, {
+      headers: {
+        Authorization: `Bearer ${TOKEN}`,
+      },
+      timeout: 10000,
+    });
+
+    const data = response.data || {};
+    selectedClientInterface.value = data.client_interface || '';
+    selectedHotspotInterface.value = data.hotspot_interface || '';
+    reconcileSelectedWifiInterfaces();
+  } catch (error) {
+    console.error(error);
+    appendLog(t('plugins.pins.logs.wifiInterfacesLoadFailed', { message: error.message }));
+  }
+}
+
+async function loadWifiInterfaceConfig() {
+  await Promise.all([loadWifiAdapters(), loadWifiInterfaces()]);
+  reconcileSelectedWifiInterfaces();
+}
+
+async function saveWifiInterfaces() {
+  if (status.value === 'Running' || isWifiInterfacesSaving.value) return;
+
+  const ip = getIp();
+  if (!ip) {
+    appendLog(t('plugins.pins.logs.noIp'));
+    return;
+  }
+
+  isWifiInterfacesSaving.value = true;
+  try {
+    const directAxios = axios.create({ headers: {} });
+    const response = await directAxios.post(
+      `http://${ip}:${PORT}/wifi/interfaces`,
+      {
+        client_interface: selectedClientInterface.value || null,
+        hotspot_interface: selectedHotspotInterface.value || null,
+      },
+      {
+        headers: {
+          Authorization: `Bearer ${TOKEN}`,
+          'Content-Type': 'application/json',
+        },
+        timeout: 10000,
+      }
+    );
+
+    const data = response.data || {};
+    selectedClientInterface.value = data.client_interface || '';
+    selectedHotspotInterface.value = data.hotspot_interface || '';
+    reconcileSelectedWifiInterfaces();
+    appendLog(
+      t('plugins.pins.logs.wifiInterfacesSaved', {
+        clientInterface: selectedClientInterface.value || 'auto',
+        hotspotInterface: selectedHotspotInterface.value || 'auto',
+      })
+    );
+    await loadWifiAdapters();
+  } catch (error) {
+    console.error(error);
+    appendLog(t('plugins.pins.logs.wifiInterfacesSaveFailed', { message: error.message }));
+
+    if (error.response) {
+      appendLog(
+        t('plugins.pins.logs.serverError', {
+          status: error.response.status,
+          data: JSON.stringify(error.response.data),
+        })
+      );
+    }
+  } finally {
+    isWifiInterfacesSaving.value = false;
+  }
 }
 
 function getStorageItem(key) {
@@ -759,6 +945,7 @@ watch(
       checkPhd2Status();
       checkSystemTime();
       loadHotspotPasswordConfig();
+      loadWifiInterfaceConfig();
       checkUpdates();
       loadIndi3rdpartyDrivers();
       loadDhcpClients();
@@ -1340,6 +1527,8 @@ async function connectWifi() {
         password: wifiPassword.value,
         auto_connect: autoConnect.value,
         band: selectedBand.value === 'auto' ? null : selectedBand.value,
+        client_interface: selectedClientInterface.value || null,
+        hotspot_interface: selectedHotspotInterface.value || null,
       },
       {
         headers: {

@@ -10,8 +10,6 @@
       <PHD2Profil />
     </div>
 
-
-
     <template v-if="guiderStore.phd2IsConnected">
       <!-- Calibration Settings -->
       <div
@@ -65,15 +63,16 @@
     </template>
 
     <template v-if="store.isPINS">
-
-    <!-- Shared Parameters (always visible) -->
-    <div class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50" >
-      <h3 class="font-bold text-base text-cyan-400">
-        {{ $t('components.guider.phd2.shared_prarmeters') }}
-      </h3>
-      <Phd2ReverseDecAfterFlip />
-      <Phd2UseMultipleStars />
-    </div>
+      <!-- Shared Parameters (always visible) -->
+      <div
+        class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
+      >
+        <h3 class="font-bold text-base text-cyan-400">
+          {{ $t('components.guider.phd2.shared_prarmeters') }}
+        </h3>
+        <Phd2ReverseDecAfterFlip />
+        <Phd2UseMultipleStars />
+      </div>
       <!-- Optical Settings -->
       <div
         class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"

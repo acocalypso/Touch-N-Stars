@@ -5,7 +5,18 @@
     "close": "Закрити",
     "select": "Обрати",
     "edit": "Редагувати",
-    "delete": "Видалити"
+    "delete": "Видалити",
+    "name": "Назва",
+    "enabled": "Увімкнено",
+    "disabled": "Вимкнено",
+    "enable": "Увімкнути",
+    "disable": "Вимкнути",
+    "loading": "Завантаження…",
+    "creating": "Створення…",
+    "scanning": "Сканування…",
+    "connecting": "З'єднання…",
+    "refresh": "Оновити",
+    "help": "Допомога"
   },
   "general": {
     "cancel": "Скасувати",
@@ -13,11 +24,14 @@
     "yes": "Так",
     "no": "Ні",
     "delete": "Видалити",
-    "close": "Закрити"
+    "close": "Закрити",
+    "edit": "Редагувати",
+    "save": "Зберегти"
   },
   "pages": {
     "equipment": {
-      "title": "Керування обладнанням"
+      "title": "Керування обладнанням",
+      "indiSetup": "Налаштування INDI"
     }
   },
   "app": {
@@ -56,7 +70,20 @@
     "completeSetup": "Завершити налаштування",
     "instanceConfiguration": "Параметри з'єднання з N.I.N.A",
     "InfoAppsTitel": "Wiki",
-    "check_wki": "Детальні інструкції можна знайти в нашому wiki"
+    "check_wki": "Детальні інструкції можна знайти в нашому wiki",
+    "currentNinaCoords": "Місцезнаходження профілю",
+    "currentMountCoords": "Місцезнаходження монтування",
+    "syncDirection": "Напрямок синхронізації місцезнаходження",
+    "syncDirectionNosync": "Без синхронізації",
+    "syncDirectionToApplication": "Синхронізувати з монтування в профіль",
+    "syncDirectionToTelescope": "Синхронізувати з профілю в монтування",
+    "mountNotConnected": "Монтування не підключено",
+    "coordsNotSupported": "Не підтримується драйвером",
+    "loadingCoords": "Завантаження…",
+    "coordLat": "Шир",
+    "coordLon": "Довг",
+    "coordAlt": "Вис",
+    "coordUnit": "м"
   },
   "components": {
     "instanceDetection": {
@@ -118,7 +145,20 @@
       "moveRotator": "Повернути камеру",
       "infoTargetImage": "Якщо зображення відображається лише чорним, необхідно налаштувати «Offline Sky Map Cache» у NINA або вимкнути опцію «використовувати кеш NINA»",
       "useCenter": "Центрувати",
-      "useRotate": "Повернути"
+      "useRotate": "Повернути",
+      "mosaic": {
+        "title": "Режим мозаїки",
+        "columns": "Стовпці",
+        "rows": "Рядки",
+        "overlap": "Перекриття %",
+        "preserveAlignment": "Зберігати вирівнювання",
+        "preserveAlignmentHelp": "Зберігати вирівнювання",
+        "preserveAlignmentHelpText": "Коригує кут повороту для кожної панелі індивідуально. Оскільки небесна сфера є вигнутою, панелі на краю великої мозаїки мають дещо іншу орієнтацію неба, ніж центральна панель. З увімкненою опцією ротатор коригується перед кожною панеллю, щоб усі панелі були ідентично вирівняні (наприклад, північ вгорі). Без ротатора вимкніть цю опцію — невелике невирівнювання на стиках панелей зазвичай автоматично коригується програмним забезпеченням для стекінгу.",
+        "panels": "панелі",
+        "setMosaicTargets": "Встановити цілі мозаїки",
+        "panelsSet": "панелі встановлені в послідовності",
+        "willBeSaved": "панелі будуть збережені окремо"
+      }
     },
     "tutorial": {
       "previous": "Назад",
@@ -174,12 +214,18 @@
           "guiding": "Гідування",
           "equipment": "Обладнання",
           "other": "Інше"
-        }
+        },
+        "advancedSettings": "Розширені налаштування",
+        "darks": "Darks",
+        "flats": "Flats",
+        "bias": "Bias",
+        "useLightPattern": "Як у Lights"
       },
       "debug": {
         "title": "Налагодження",
         "activate": "Увімкнути режим налагодження",
-        "titel": "Налагодження"
+        "titel": "Налагодження",
+        "logLevel": "Рівень логування"
       },
       "notifications": {
         "title": "Сповіщення",
@@ -244,6 +290,51 @@
         "titel": "Налаштування телескопа",
         "name": "Назва телескопа",
         "focal_ratio": "Фокальне відношення"
+      },
+      "coordsMismatchWarning": "Координати профілю та монтування відрізняються.",
+      "timeSync": {
+        "title": "Синхронізація часу",
+        "backendTime": "UTC сервера",
+        "mountTime": "UTC монтування",
+        "syncLabel": "Синхронізувати час з монтуванням",
+        "mountNotConnected": "Монтування не підключено",
+        "notSupported": "Не підтримується драйвером"
+      },
+      "imageSavePath": {
+        "title": "Шлях збереження зображень",
+        "placeholder": "Шлях не обрано",
+        "selectTitle": "Оберіть місце збереження",
+        "save": "Зберегти",
+        "saving": "...",
+        "savedMsg": "Шлях збережено:",
+        "errorMsg": "Помилка збереження шляху.",
+        "toastTitle": "Шлях збережено",
+        "toastErrorTitle": "Помилка",
+        "toastErrorMsg": "Не вдалося зберегти шлях.",
+        "loading": "Завантаження...",
+        "loadingDirs": "Завантаження директорій...",
+        "noSubfolders": "Немає видимих папок (порожній або недоступний шлях)",
+        "dirLoadError": "Не вдалося завантажити директорію.",
+        "selectedPath": "Обраний шлях:",
+        "dblClickHint": "Подвійний клік для відкриття",
+        "newFolder": "+ Нова папка",
+        "folderPlaceholder": "Назва папки...",
+        "create": "Створити"
+      },
+      "horizonFilePath": {
+        "title": "Файл горизонту",
+        "placeholder": "напр. /home/pi/horizon.hrz",
+        "toastTitle": "Файл горизонту збережено"
+      },
+      "navbarCustomization": {
+        "title": "Налаштування панелі навігації",
+        "hint": "Перетягніть для зміни порядку. Принаймні одна сторінка крім Налаштувань повинна залишатися видимою.",
+        "alwaysVisible": "Завжди видимий",
+        "minOneRequired": "Принаймні одна сторінка повинна залишатися видимою"
+      },
+      "mount": {
+        "titel": "Налаштування монтування",
+        "max_slew_rate": "Макс. швидкість наведення (°/с)"
       }
     },
     "connectEquipment": {
@@ -267,7 +358,9 @@
         "name": "Ротатор"
       },
       "guider": {
-        "name": "Гід"
+        "name": "Гід",
+        "mountRequired": "Монтування повинно бути підключено перед підключенням гіда.",
+        "guideCamRequired": "Необхідно обрати дійсну камеру гіда."
       },
       "safety": {
         "name": "Монітор безпеки"
@@ -287,6 +380,9 @@
       "info": {
         "title": "Інформація",
         "message": "Ручне колесо фільтрів та ручний ротатор наразі можна керувати лише через NINA. Використовуйте «Networked Filter Wheel» API для колеса фільтрів"
+      },
+      "guiderCam": {
+        "name": "Камера гіда"
       }
     },
     "lastLogs": {
@@ -328,7 +424,8 @@
           "showImgStatsGraph": "Показати графік HFR",
           "showGuiderAfGraph": "Показати графік автофокусу",
           "display_status_under_image": "Показати статус під зображенням",
-          "sequenceCurrentState": "Показати стан послідовності"
+          "sequenceCurrentState": "Показати стан послідовності",
+          "imageRotation": "Поворот зображення"
         }
       },
       "graphControls": {
@@ -366,8 +463,233 @@
       "HFRStDev": "HFR Ст. від.",
       "totalExposureTime": {
         "title": "Загальний час експозиції",
-        "Pictures": "Знімки"
-      }
+        "Pictures": "Знімки",
+        "AllFilters": "Всі фільтри",
+        "noFilter": "Без фільтра",
+        "total": "Всього"
+      },
+      "pauseSequence": "Пауза",
+      "skipToEnd": "Перейти до кінця",
+      "skipCurrentItem": "Пропустити поточний елемент",
+      "manageSequences": "Завантажити / зберегти послідовності",
+      "saveSequenceAs": "Зберегти поточну послідовність як",
+      "sequenceFileName": "Ім'я файлу",
+      "sequenceSave": "Зберегти",
+      "sequenceLoad": "Завантажити",
+      "sequenceNoFiles": "Файли не знайдено",
+      "sequenceLoading": "Завантаження...",
+      "sequenceClose": "Закрити",
+      "deleteConfirmationTitle": "Видалити файл",
+      "deleteConfirmationMessage": "Ви впевнені, що хочете видалити файл?",
+      "clearSequence": "Очистити все",
+      "clearConfirmationTitle": "Підтвердження очищення",
+      "clearConfirmationMessage": "Ви впевнені, що хочете очистити всю послідовність? Цю дію не можна скасувати.",
+      "gain": "Gain",
+      "offset": "Зміщення",
+      "imageFilter": {
+        "allTargets": "Всі цілі",
+        "allFilters": "Всі фільтри",
+        "allNights": "Всі ночі",
+        "allImageTypes": "Всі типи",
+        "reset": "Скинути фільтр"
+      },
+      "items": {
+        "saving": "Збереження…",
+        "generic": "Загальний",
+        "on": "Увімк.",
+        "off": "Вимк.",
+        "takeExposure": {
+          "exposureTime": "Час експозиції (с)",
+          "gain": "Gain",
+          "offset": "Зміщення",
+          "binning": "Бінінг",
+          "imageType": "Тип зображення"
+        },
+        "takeManyExposures": {
+          "iterations": "Кількість експозицій"
+        },
+        "smartExposure": {
+          "ditherAfter": "Дизерінг після (експозицій)"
+        },
+        "takeSubframeExposure": {
+          "roiPct": "ROI (%)"
+        },
+        "switchFilter": {
+          "filter": "Фільтр"
+        },
+        "switchProfile": {
+          "profile": "Профіль",
+          "reconnect": "Перепідключити"
+        },
+        "loopCondition": {
+          "iterations": "Ітерації"
+        },
+        "moonIllumination": {
+          "illumination": "Освітленість (%)"
+        },
+        "reconnect": {
+          "device": "Пристрій"
+        },
+        "autofocus": {
+          "afterExposures": "Після експозицій",
+          "afterExposuresCount": "Експозиції",
+          "everyN": "Кожні {n}",
+          "hfrIncrease": "Збільшення HFR (%)",
+          "sampleSize": "Розмір вибірки",
+          "samples": "{n} вибірок",
+          "trendPerFilter": "Тренд за фільтром",
+          "deltaT": "Зміна температури (°)",
+          "minutes": "Хвилини"
+        },
+        "centerAfterDrift": {
+          "distance": "Відстань (кутові хвилини)"
+        },
+        "meridianFlip": {
+          "minutesAfter": "Хвилин після меридіану",
+          "maxMinutesAfter": "Макс. хвилин після меридіану",
+          "pauseBefore": "Пауза перед меридіаном (хв)",
+          "useSideOfPier": "Використовувати сторону опори"
+        },
+        "altitudeCondition": {
+          "altitude": "Висота (°)",
+          "horizonOffset": "Зміщення горизонту (°)"
+        },
+        "sunAltitudeCondition": {
+          "altitude": "Висота Сонця (°)"
+        },
+        "timeCondition": {
+          "provider": "Провайдер"
+        },
+        "timeSpan": {
+          "hours": "Години",
+          "minutes": "Хвилини",
+          "seconds": "Секунди",
+          "minutesOffset": "Зміщення (хв)"
+        },
+        "moonAltitude": {
+          "comparator": "Компаратор",
+          "below": "Нижче",
+          "above": "Вище",
+          "altitude": "Висота Місяця (°)"
+        },
+        "dither": {
+          "afterExposures": "Після експозицій"
+        },
+        "center": {
+          "ra": "RA",
+          "dec": "Dec",
+          "inherited": "Координати успадковані від цілі"
+        },
+        "coolCamera": {
+          "temperature": "Температура (°C)",
+          "duration": "Тривалість (хв)"
+        },
+        "dewHeater": {
+          "onOff": "Обігрівач від роси"
+        },
+        "setUSBLimit": {
+          "limit": "Ліміт USB"
+        },
+        "setBrightness": {
+          "brightness": "Яскравість"
+        },
+        "autoExposureFlat": {
+          "minExposure": "Мін. експозиція (с)",
+          "maxExposure": "Макс. експозиція (с)"
+        },
+        "autoBrightnessFlat": {
+          "minBrightness": "Мін. яскравість",
+          "maxBrightness": "Макс. яскравість",
+          "histogramTarget": "Ціль гістограми (%)",
+          "histogramTolerance": "Допуск гістограми (%)",
+          "iterations": "Кількість",
+          "keepPanelClosed": "Тримати панель закритою"
+        },
+        "polarAlignment": {
+          "searchRadius": "Радіус пошуку (°)",
+          "alignmentTolerance": "Допуск вирівнювання (кутові секунди)",
+          "moveRate": "Швидкість руху (°/с)",
+          "targetDistance": "Цільова відстань (°)",
+          "eastDirection": "Східний напрямок",
+          "manualMode": "Ручний режим",
+          "startFromCurrentPosition": "Почати з поточної позиції"
+        },
+        "skyFlat": {
+          "shouldDither": "Дизерінг",
+          "ditherPixels": "Пікселі дизерінгу",
+          "ditherSettleTime": "Час стабілізації дизерінгу (с)"
+        },
+        "moveRotatorMechanical": {
+          "mechanicalPosition": "Механічна позиція (°)"
+        },
+        "solveAndRotate": {
+          "positionAngle": "Позиційний кут (°)"
+        },
+        "setSwitchValue": {
+          "switch": "Перемикач",
+          "value": "Значення"
+        },
+        "setTracking": {
+          "trackingMode": "Режим стеження"
+        },
+        "expressionVariable": {
+          "identifier": "Назва",
+          "expression": "Значення",
+          "value": "Значення",
+          "initially": "Початково",
+          "newValue": "Нове значення",
+          "time": "Час",
+          "minutesOffset": "Зміщення (хв)"
+        },
+        "annotation": {
+          "text": "Текст"
+        },
+        "waitUntil": {
+          "predicate": "Умова"
+        },
+        "waitForTimeSpan": {
+          "time": "Тривалість (с)"
+        },
+        "slewDomeAzimuth": {
+          "azimuth": "Азимут (°)"
+        },
+        "stackFlats": {
+          "waitForStack": "Чекати на стекінг"
+        },
+        "interruptWhenRMSAbove": {
+          "rmsThreshold": "Поріг RMS (\")",
+          "mode": "Режим",
+          "modeRMS": "RMS",
+          "modePeak": "Пікове",
+          "minimumPoints": "Мінімум точок"
+        },
+        "changePHD2Parameters": {
+          "parameter": "Параметр",
+          "exposureTime": "Час експозиції (с)",
+          "ditherPixels": "Дизерінг (пк)",
+          "ditherRAOnly": "Дизерінг лише по RA",
+          "settlePixels": "Стабілізація (пк)",
+          "settleTime": "Час стабілізації (с)",
+          "settleTimeout": "Таймаут стабілізації (с)",
+          "roiPct": "ROI (%)"
+        },
+        "dso": {
+          "targetName": "Назва цілі",
+          "positionAngle": "Позиційний кут (°)",
+          "loadFromFavorites": "Завантажити з обраного"
+        },
+        "warmCamera": {
+          "duration": "Тривалість (хв)"
+        }
+      },
+      "emptyContainer": "Порожньо — натисніть + для додавання елементів",
+      "move": "Перемістити",
+      "more": "Більше",
+      "duplicate": "Дублювати",
+      "enable": "Увімкнути",
+      "disable": "Вимкнути",
+      "resetStatus": "Скинути статус",
+      "delete": "Видалити"
     },
     "mount": {
       "title": "Монтування",
@@ -436,6 +758,9 @@
         },
         "reverse_primary_axis": "Первинна вісь інвертована",
         "reverse_secondary_axis": "Вторинна вісь інвертована"
+      },
+      "indi": {
+        "settings": "Налаштування монтування"
       }
     },
     "guider": {
@@ -522,6 +847,71 @@
         "error": {
           "title": "Помилка PHD2",
           "star-lost-message": "Зірку втрачено"
+        },
+        "calibration": "Калібрація",
+        "exposure": "Експозиція",
+        "raAlgorithm": "Алгоритм RA",
+        "decAlgorithm": "Алгоритм DEC",
+        "equipment": "Обладнання",
+        "optical": "Оптичні налаштування",
+        "focalLength": "Фокусна відстань",
+        "calibrationStep": "Крок калібрації",
+        "reverseDecAfterFlip": "Реверс DEC після перекладки",
+        "useMultipleStars": "Використовувати кілька зірок",
+        "shared_prarmeters": "Спільні параметри",
+        "guideAlgorithm": "Алгоритм гідування",
+        "guideAlgorithmRA": "Алгоритм гідування RA",
+        "guideAlgorithmDEC": "Алгоритм гідування DEC",
+        "guiderScale": "Масштаб гіда",
+        "maxY": "Макс Y",
+        "historySize": "Розмір історії",
+        "profileManagement": {
+          "title": "Керування профілями",
+          "createNew": "Створити новий профіль",
+          "profileName": "Назва профілю",
+          "profileNamePlaceholder": "Введіть назву профілю",
+          "profilesList": "Профілі",
+          "create": "Створити",
+          "rename": "Перейменувати",
+          "delete": "Видалити",
+          "cancel": "Скасувати",
+          "confirmDelete": "Підтвердити видалення?",
+          "lastProfileWarning": "Неможливо видалити останній профіль",
+          "success": {
+            "created": "Профіль успішно створено",
+            "renamed": "Профіль успішно перейменовано",
+            "deleted": "Профіль успішно видалено"
+          },
+          "errors": {
+            "emptyName": "Назва профілю не може бути порожньою",
+            "duplicateName": "Профіль з такою назвою вже існує",
+            "createFailed": "Не вдалося створити профіль",
+            "renameFailed": "Не вдалося перейменувати профіль",
+            "deleteFailed": "Не вдалося видалити профіль"
+          }
+        },
+        "starComponents": {
+          "show": "Показати компоненти зірки",
+          "hide": "Сховати компоненти зірки"
+        },
+        "autoSelectStar": "Автовибір зірки гіда",
+        "reviewCalibration": "Перегляд калібрації",
+        "calibrationData": {
+          "title": "Перегляд калібрації",
+          "notCalibrated": "Не калібровано",
+          "lastMountCalibration": "Остання калібрація монтування",
+          "cameraAngle": "Кут камери:",
+          "orthogonalityError": "Похибка ортогональності:",
+          "raRate": "Швидкість RA:",
+          "decRate": "Швидкість Dec:",
+          "raParity": "Парність RA:",
+          "decParity": "Парність Dec:",
+          "declination": "Схилення:",
+          "estimated": "(оцін.)",
+          "clearing": "Очищення...",
+          "clearCalibration": "Очистити калібрацію",
+          "rightAscension": "Пряме сходження",
+          "declinationAxis": "Схилення"
         }
       }
     },
@@ -567,7 +957,6 @@
         "OVERSHOOT": "Перебіг",
         "ABSOLUTE": "Абсолютна",
         "title": "Налаштування автофокусу",
-        "basic": "Основні налаштування",
         "crop_and_stars": "Обрізка та зірки",
         "backlash": "Люфт",
         "advanced": "Розширені",
@@ -575,7 +964,35 @@
         "UseFilterWheelOffsets": "Використовувати зміщення колеса фільтрів",
         "AutoFocusFilter": "Фільтр автофокусу",
         "AutoFocusFilterNone": "Немає",
-        "AutoFocusExposureTime": "Час експозиції за замовчуванням"
+        "AutoFocusExposureTime": "Час експозиції за замовчуванням",
+        "general": "Загальні налаштування",
+        "autofocus": "Налаштування автофокусу",
+        "MaxStep": "Макс. кроків",
+        "MotorSpeedControl": "Керування швидкістю мотора",
+        "BeepOnMove": "Звук при русі",
+        "BeepOnStartup": "Звук при запуску",
+        "StallDetection": "Виявлення блокування",
+        "Heating": "Нагрів",
+        "HeatingTemperature": "Температура нагріву",
+        "USBCapacity": "Ємність USB",
+        "ClearStall": "Очистити блокування",
+        "ResetPosition": "Скинути позицію в нуль",
+        "commandFailed": "Команда не підтримується цим пристроєм",
+        "FocuserAlias": "Псевдонім фокусера",
+        "deviceSpecific": "Налаштування пристрою"
+      },
+      "hfr": "HFR",
+      "focuser_position": "Позиція",
+      "IsStalled": "Заблоковано",
+      "HeatingPower": "Потужність нагріву:",
+      "BoardTemperature": "Температура плати:",
+      "DcPower": "Живлення DC",
+      "StepSize": "Розмір кроку",
+      "duration_seconds": "Тривалість",
+      "filter": "Фільтр",
+      "estimated": "оцін.",
+      "indi": {
+        "settings": "Налаштування фокусера"
       }
     },
     "dome": {
@@ -660,7 +1077,17 @@
       "snapshotTargetName": "Назва цілі",
       "set_use_solve_sync_to_mount": "Синхронізувати з монтуванням",
       "readout_mode_image": "Режим зчитування послідовності",
-      "readout_mode_snap": "Режим зчитування знімка"
+      "readout_mode_snap": "Режим зчитування знімка",
+      "dewHeaterStrength": "Потужність обігрівача від роси",
+      "LowNoiseMode": "Режим Ultra",
+      "HighFullwellMode": "Режим High Fullwell",
+      "BinAverageEnabled": "Бінінг усереднює пікселі",
+      "LEDLights": "LED",
+      "FanSpeed": "Швидкість вентилятора",
+      "tab_camera": "Камера",
+      "tab_cooler": "Охолодження",
+      "tab_filter": "Фільтр",
+      "tab_snapshot": "Збереження та розв'язання"
     },
     "tppa": {
       "title": "Триточкове полярне вирівнювання",
@@ -697,7 +1124,40 @@
         "ManualMode": "Ручний режим"
       },
       "error_modal": {},
-      "tppa": "TPPA"
+      "tppa": "TPPA",
+      "pins_settings": {
+        "title": "Налаштування PINS TPPA",
+        "movement": "Рух",
+        "offsets": "Зміщення",
+        "behavior": "Поведінка",
+        "default_move_rate": "Макс. швидкість руху (°/с)",
+        "default_east_direction": "Напрямок — Схід за замовчуванням",
+        "move_timeout_factor": "Фактор таймауту руху",
+        "default_target_distance": "Цільова відстань за замовчуванням (°)",
+        "default_search_radius": "Радіус пошуку за замовчуванням (°)",
+        "default_azimuth_offset": "Зміщення азимута (°)",
+        "default_altitude_offset": "Зміщення висоти (°)",
+        "alignment_tolerance": "Допуск вирівнювання",
+        "refraction_adjustment": "Поправка на рефракцію",
+        "stop_tracking_when_done": "Зупинити стеження після завершення",
+        "settle_time": "Час стабілізації (с)",
+        "auto_pause": "Автоматична пауза",
+        "log_error": "Логувати похибку",
+        "reset": "Скинути до значень за замовчуванням",
+        "help_default_move_rate": "Максимальна швидкість наведення монтування в градусах за секунду. TPPA використовує це значення для обчислення швидкості руху між точками вимірювання. Важливо, щоб це відповідало фактичній максимальній швидкості вашого монтування. Деякі виробники монтувань реалізують швидкість руху по-різному — якщо монтування не переміщується на очікувану відстань, скоригуйте фактор таймауту руху.",
+        "help_default_east_direction": "Визначає, чи напрямок для другої та третьої точок вимірювання повинен бути на схід чи захід вздовж осі RA. Деякі драйвери монтувань можуть потребувати реверсу цього в налаштуваннях телескопа.",
+        "help_move_timeout_factor": "Після (Цільова відстань / Швидкість руху × Фактор таймауту) секунд монтування зупиниться як запобіжний механізм. Збільшуйте лише якщо отримуєте попередження, що цільова відстань не досягнута.",
+        "help_default_target_distance": "Відстань у градусах між точками вимірювання під час процедури полярного вирівнювання.",
+        "help_default_search_radius": "Радіус пошуку в градусах для вашого plate solver під час TPPA. Повинен бути більшим за вашу початкову похибку полярного вирівнювання, але не занадто великим для швидкого розв'язання.",
+        "help_default_azimuth_offset": "Зміщення азимута в градусах від полюса для першої точки вимірювання.",
+        "help_default_altitude_offset": "Зміщення висоти в градусах від полюса для першої точки вимірювання.",
+        "help_alignment_tolerance": "При ненульовому значенні процедура полярного вирівнювання автоматично завершується, коли похибка нижча за цей допуск (в кутових хвилинах).",
+        "help_refraction_adjustment": "При увімкненні додаток враховує атмосферну рефракцію на основі вашого місцезнаходження, висоти та поточних погодних умов. Використовує стандартні атмосферні параметри, якщо джерело погоди не підключено.",
+        "help_stop_tracking_when_done": "При увімкненні монтування зупинить стеження після завершення полярного вирівнювання. Вимкніть, якщо хочете, щоб монтування продовжувало стеження.",
+        "help_settle_time": "При використанні автоматичних коригувань визначає час очікування в секундах після кожного руху.",
+        "help_auto_pause": "Автоматична пауза для процедури полярного вирівнювання.",
+        "help_log_error": "При увімкненні створюється лог-файл з коригуваннями полярного вирівнювання та безперервними похибками після кожного коригування."
+      }
     },
     "slewAndCenter": {
       "title": "Наведення та центрування",
@@ -739,8 +1199,22 @@
           "Position": "Позиція",
           "AutoFocusExposureTime": "Час експозиції автофокусу",
           "Name": "Назва"
-        }
-      }
+        },
+        "deviceSpecific": "Налаштування пристрою",
+        "FilterWheelAlias": "Псевдонім колеса фільтрів",
+        "Speed": "Швидкість",
+        "TurboMode": "Турбо-режим",
+        "Autorun": "Автозапуск",
+        "Calibrate": "Калібрація",
+        "commandFailed": "Команда не підтримується цим пристроєм"
+      },
+      "indi": {
+        "settings": "Налаштування колеса фільтрів"
+      },
+      "Unidirectional": "Односпрямоване колесо фільтрів",
+      "BoardTemperature": "Температура плати",
+      "State": "Стан",
+      "Counter": "Лічильник"
     },
     "RemoveFilter": {
       "confirmTitle": "Видалити фільтр",
@@ -765,7 +1239,15 @@
         "HALF": "180°",
         "FULL": "360°",
         "RangeType": "Механічний діапазон",
-        "RangeStartMechanicalPosition": "Початок механічного діапазону"
+        "RangeStartMechanicalPosition": "Початок механічного діапазону",
+        "Overshoot": "Перебіг",
+        "OvershootDirection": "Напрямок перебігу",
+        "OvershootAngle": "Кут перебігу",
+        "Backlash": "Люфт",
+        "ResetPosition": "Скинути нульову позицію"
+      },
+      "indi": {
+        "settings": "Налаштування ротатора"
       }
     },
     "flat": {
@@ -779,7 +1261,29 @@
         "close": "закрити кришку",
         "open": "відкрити кришку"
       },
-      "title": "Флет-панель"
+      "title": "Флет-панель",
+      "settings": {
+        "title": "Налаштування",
+        "heater": "Потужність нагрівача (0-3)",
+        "openPosition": "Відкрита позиція (°)",
+        "closedPosition": "Закрита позиція (°)",
+        "currentPosition": "Поточна позиція",
+        "trainedSettings": {
+          "title": "Збережені налаштування експозиції для флетів",
+          "filter": "Фільтр",
+          "noFilter": "Без фільтра",
+          "binning": "Бінінг",
+          "gain": "Gain",
+          "offset": "Зміщення",
+          "brightness": "Яскравість",
+          "time": "Час (с)",
+          "confirmTitle": "Видалити налаштування",
+          "confirmMessage": "Ви впевнені, що хочете видалити це збережене налаштування експозиції для флетів?"
+        }
+      },
+      "indi": {
+        "settings": "Налаштування пристрою для флетів"
+      }
     },
     "flatassistant": {
       "title": "Помічник флетів",
@@ -800,7 +1304,32 @@
       "auto_exposure": "Автоекспозиція",
       "auto_brightness": "Автояскравість",
       "skyflat": "Sky flat",
-      "button_slew_to_zenith": "Навести на зеніт"
+      "button_slew_to_zenith": "Навести на зеніт",
+      "darks_to_take": "Кількість darks",
+      "status_running_flats": "Виконання: {completed} / {total} флетів",
+      "status_running_darks": "Виконання: {completed} / {total} darks",
+      "status_success_flats": "Готово — {count} флетів знято",
+      "status_success_darks": "Готово — {count} darks знято",
+      "status_stopped_flats": "Зупинено раніше — {completed} з {total} флетів знято",
+      "status_stopped_darks": "Зупинено раніше — {completed} з {total} darks знято",
+      "status_failed_flats": "Флети не зняті — не вдалося визначити дійсну експозицію",
+      "status_failed_darks": "Darks не зняті — не вдалося визначити дійсну експозицію",
+      "status_adu_live": "Останнє виміряне ADU: {adu}",
+      "cover_scope_title": "Закрийте телескоп зараз",
+      "cover_scope_message": "Закрийте телескоп зараз і натисніть OK, щоб почати зйомку darks.",
+      "cover_scope_confirm": "OK",
+      "operation_failed": "Операція не вдалася",
+      "keep_closed": "Тримати флет-панель закритою",
+      "mode": "Режим",
+      "single_mode": "Одиночний режим",
+      "multi_mode": "Мультирежим",
+      "start_multi_mode": "Запустити мультирежим",
+      "multi_mode_no_filters": "Колесо фільтрів не підключено",
+      "status_filter_progress": "Фільтр: {completed} / {total}",
+      "status_failed": "не вдалося",
+      "status_running": "Виконується",
+      "status_stopped": "Зупинено",
+      "status_success": "Успішно"
     },
     "weatherModal": {
       "weatherInformation": "Інформація про погоду",
@@ -814,7 +1343,16 @@
       "skyTemperature": "Температура неба",
       "skyQuality": "Якість неба",
       "rainRate": "Інтенсивність опадів",
-      "dewPoint": "Точка роси"
+      "dewPoint": "Точка роси",
+      "indi": {
+        "settings": "Налаштування погоди"
+      },
+      "settings": {
+        "apiKey": "API-ключ",
+        "apiKeyPlaceholder": "Введіть API-ключ",
+        "stationId": "ID станції",
+        "stationIdPlaceholder": "Введіть ID станції"
+      }
     },
     "switch": {
       "gauges": "Датчики",
@@ -848,7 +1386,19 @@
       }
     },
     "profile": {
-      "label": "Профіль:"
+      "label": "Профіль:",
+      "manage": "Керування профілями",
+      "add": "Додати профіль",
+      "switchTo": "Перейти на цей профіль",
+      "rename": "Перейменувати",
+      "clone": "Клонувати",
+      "cloneOf": "Копія",
+      "remove": "Видалити",
+      "namePlaceholder": "Назва профілю",
+      "nameExists": "Назва вже існує",
+      "cannotRemoveActive": "Неможливо видалити активний профіль",
+      "cannotRemoveLast": "Неможливо видалити останній профіль",
+      "noProfiles": "Профілі недоступні"
     },
     "notifications": {
       "modal": {
@@ -876,7 +1426,8 @@
       },
       "enter_name": "Введіть назву",
       "no_fav": "Немає збережених обраних",
-      "titel": "Обране"
+      "titel": "Обране",
+      "save_to_favorites": "Зберегти до обраних цілей"
     },
     "helpers": {
       "imageModal": {
@@ -892,7 +1443,13 @@
         "min": "Мін",
         "max": "Макс",
         "stars": "Зірки",
-        "reset": "Скинути"
+        "reset": "Скинути",
+        "hfr": "HFR",
+        "noSaveHint": "Статистика обчислюється лише для збережених зображень",
+        "enableSave": "Увімкнути збереження"
+      },
+      "zoomableImage": {
+        "toggleCrosshair": "Перемикач перехрестя"
       }
     },
     "platesolve": {
@@ -906,6 +1463,34 @@
       "dec": "Dec",
       "pixel_scale": "Масштаб пікселя",
       "focal_length": "Фокусна відстань"
+    },
+    "instanceSwitcher": {
+      "title": "Перемикнути екземпляр",
+      "active": "Активний",
+      "noInstances": "Екземпляри не налаштовані",
+      "manageInstances": "Керування екземплярами",
+      "checking": "Перевірка екземплярів…",
+      "noneOnline": "Жоден екземпляр не онлайн"
+    },
+    "fileBrowser": {
+      "title": "Перегляд",
+      "goUp": "На рівень вище",
+      "loading": "Завантаження...",
+      "empty": "Порожня директорія",
+      "dblClickHint": "Подвійний клік для відкриття",
+      "deleteDir": "Видалити папку",
+      "folderPlaceholder": "Назва папки...",
+      "newFolder": "+ Нова папка",
+      "create": "Створити",
+      "selectedPath": "Обрано:",
+      "loadError": "Не вдалося завантажити директорію.",
+      "createError": "Не вдалося створити папку.",
+      "deleteDirTitle": "Видалити папку",
+      "deleteDirMessage": "Дійсно видалити \"{name}\" та весь її вміст?",
+      "deleteFileTitle": "Видалити файл",
+      "deleteFileMessage": "Дійсно видалити \"{name}\"?",
+      "deleteFile": "Видалити файл",
+      "deleteError": "Не вдалося видалити."
     }
   },
   "plugins": {
@@ -1363,6 +1948,12 @@
         "parkTelescope": {
           "name": "Запаркувати телескоп",
           "description": "Запаркувати монтування телескопа"
+        },
+        "dewHeater": {
+          "name": "Обігрівач від роси",
+          "description": "Встановити стан обігрівача від роси камери",
+          "onOffLabel": "Увімкнено",
+          "onOffTooltip": "Увімкнути або вимкнути обігрівач від роси камери"
         }
       },
       "actionLibrary": {
@@ -1716,6 +2307,1115 @@
         "updated": "Ярлик успішно оновлено",
         "deleted": "Ярлик успішно видалено"
       }
+    },
+    "pins": {
+      "title": "Керування PINS",
+      "notAvailable": "Середовище PINS не виявлено. Цей плагін вимкнено.",
+      "dryRun": "Режим пробного запуску",
+      "sambaTitle": "Мережева папка Samba",
+      "sambaDescription": "Увімкнути або вимкнути мережевий обмін файлами",
+      "phd2Title": "Автозапуск PHD2",
+      "phd2Running": "Служба зараз працює",
+      "phd2Stopped": "Служба зараз зупинена",
+      "tabs": {
+        "network": "Мережа",
+        "services": "Служби",
+        "software": "Програмне забезпечення",
+        "upgrade": "Оновлення"
+      },
+      "wifiTitle": "Налаштування WiFi",
+      "wifiAdaptersTitle": "Призначення WiFi-адаптерів",
+      "wifiAdaptersDescription": "Оберіть, який адаптер обробляє домашній WiFi, а який — режим точки доступу.",
+      "wifiClientInterface": "Адаптер домашнього WiFi",
+      "wifiHotspotInterface": "Адаптер точки доступу",
+      "wifiAdapterRefresh": "Оновити список адаптерів",
+      "wifiAdapterSave": "Зберегти вибір адаптера",
+      "wifiAdapterSaving": "Збереження вибору адаптера...",
+      "wifiNoAdapters": "WiFi-адаптери не знайдені.",
+      "wifiAutoInterface": "Авто (за замовчуванням демона)",
+      "stationaryMode": "Стаціонарний режим",
+      "stationaryDescription": "Увімкніть для сканування та підключення до локальних WiFi-мереж",
+      "noNetworks": "Мережі не знайдені",
+      "wifiSelect": "Обрати мережу",
+      "wifiBand": "Діапазон WiFi",
+      "bandAuto": "Авто",
+      "band24": "2,4 ГГц",
+      "band5": "5 ГГц",
+      "rescan": "Повторне сканування WiFi-мереж",
+      "wifiPassword": "Пароль",
+      "autoConnect": "Автоматичне підключення до обраного WiFi після завантаження",
+      "wifiConnect": "Підключити",
+      "scanning": "Сканування...",
+      "hotspotPasswordTitle": "Пароль точки доступу",
+      "hotspotConfigured": "Налаштовано користувацький пароль точки доступу.",
+      "hotspotNotConfigured": "Використовується пароль точки доступу за замовчуванням.",
+      "hotspotRefresh": "Оновити статус пароля точки доступу",
+      "hotspotNewPassword": "Новий пароль точки доступу",
+      "hotspotPasswordHint": "Мінімум 8 символів.",
+      "hotspotSave": "Зберегти пароль точки доступу",
+      "hotspotSaving": "Збереження пароля точки доступу...",
+      "systemTime": "Системний час",
+      "deviceTime": "Час пристрою",
+      "loadingTime": "Завантаження часу...",
+      "autoSync": "Автосинхронізація",
+      "syncNow": "Синхронізувати зараз",
+      "timeWarning": {
+        "title": "Виявлено розбіжність часу",
+        "message": "Час пристрою ({deviceTime}) відрізняється від часу вашого клієнта ({clientTime}) більш ніж на 1 хвилину. Це може спричинити проблеми.",
+        "setTime": "Встановити час пристрою за часом клієнта",
+        "suppress": "Не показувати це попередження знову",
+        "dismiss": "Закрити",
+        "reenable": "Повторно увімкнути попередження про розбіжність часу"
+      },
+      "startUpgrade": "Почати оновлення",
+      "upgrading": "Оновлення...",
+      "terminalOutput": "ВИВІД ТЕРМІНАЛУ",
+      "clearOutput": "Очистити вивід",
+      "waiting": "Захоплення керування... Очікування команди...",
+      "status": {
+        "idle": "Очікування",
+        "running": "Виконується",
+        "success": "Успішно",
+        "failed": "Невдало"
+      },
+      "logs": {
+        "syncingTime": "Виявлено різницю часу: {diff}с. Синхронізація часу...",
+        "forcingSync": "Примусова синхронізація часу...",
+        "timeInSync": "Час синхронізовано (різниця: {diff}с).",
+        "timeSynced": "Системний час успішно синхронізовано.",
+        "noIp": "Помилка: IP-адресу не знайдено в налаштуваннях. Спочатку підключіться до екземпляра.",
+        "init": "Ініціалізація послідовності оновлення на хості: {ip}",
+        "config": "Конфігурація: Пробний запуск = {dryRun}",
+        "sambaAction": "Дія: {action} мережеву папку Samba",
+        "sambaEnable": "Увімкнути",
+        "sambaDisable": "Вимкнути",
+        "phd2Action": "Служба PHD2 {action}...",
+        "phd2Enabling": "увімкнення",
+        "phd2Disabling": "вимкнення",
+        "phd2Success": "Оновлення служби PHD2 успішне.",
+        "phd2Failed": "Оновлення служби PHD2 не вдалося: {message}",
+        "connectingToWifi": "Підключення до WiFi-мережі: {ssid}",
+        "wifiResponse": "Відповідь WiFi: {response}",
+        "wifiAdaptersLoadFailed": "Не вдалося завантажити WiFi-адаптери: {message}",
+        "wifiInterfacesLoadFailed": "Не вдалося завантажити обрані WiFi-інтерфейси: {message}",
+        "wifiInterfacesSaved": "WiFi-інтерфейси збережено. Клієнт: {clientInterface}, Точка доступу: {hotspotInterface}",
+        "wifiInterfacesSaveFailed": "Не вдалося зберегти WiFi-інтерфейси: {message}",
+        "hotspotFetched": "Статус пароля точки доступу завантажено (configured={configured}, source={source}).",
+        "hotspotSaving": "Оновлення пароля точки доступу...",
+        "hotspotSaved": "Пароль точки доступу успішно оновлено: {message}",
+        "hotspotPasswordTooShort": "Пароль точки доступу повинен містити щонайменше 8 символів.",
+        "jobCreated": "Завдання успішно створено. ID: {jobId}",
+        "daemonCheck": "Переконайтеся, що демон PINS запущений на {ip}:{port}",
+        "serverError": "Помилка сервера ({status}): {data}",
+        "corsHint": "Підказка: Сервер відхилив метод запиту. Перевірте конфігурацію CORS на сервері.",
+        "networkError": "Помилка мережі: Запит не вдався.",
+        "noResponse": "Помилка мережі: Відповідь від сервера не отримано.",
+        "error": "Помилка: {message}",
+        "wsConnecting": "Встановлення WebSocket-з'єднання з {wsUrl}...",
+        "wsConnected": "З'єднання встановлено. Потокове виведення логів...",
+        "wsCreationFailed": "Не вдалося створити WebSocket: {message}",
+        "wsClosed": "З'єднання закрито. (Код: {code})",
+        "wsError": "Помилка WebSocket.",
+        "verifyingStatus": "Перевірка фінального статусу завдання...",
+        "jobReport": "Звіт завдання: {report}",
+        "upgradeSuccess": "Оновлення успішно завершено.",
+        "upgradeFailed": "Оновлення не вдалося. Код завершення: {exitCode}",
+        "jobStatus": "Статус завдання: {status}",
+        "statusFetchFailed": "Не вдалося отримати фінальний статус: {message}",
+        "wifiDisabling": "Відключення WiFi та увімкнення точки доступу...",
+        "wifiDisabled": "WiFi відключено та точку доступу увімкнено.",
+        "updateCheckFailed": "Не вдалося перевірити оновлення: {message}",
+        "indi3rdpartyLoadFailed": "Не вдалося завантажити пакети INDI 3rdparty: {message}",
+        "indi3rdpartyInstallStart": "Встановлення пакету INDI: {assetName}",
+        "indi3rdpartyInstallSuccess": "Встановлення пакету INDI завершено: {message}",
+        "indi3rdpartyInstallFailed": "Встановлення пакету INDI не вдалося: {message}"
+      },
+      "wifiDisconnect": "Відключити WiFi",
+      "disconnectConfirmTitle": "Відключити WiFi?",
+      "disconnectConfirmMessage": "Це відключить поточне WiFi-з'єднання та повторно увімкне точку доступу. Бажаєте продовжити?",
+      "updatesAvailable": "Доступні оновлення ({count})",
+      "updatesModalTitle": "Доступні оновлення",
+      "updatesCheckedAt": "Перевірено о",
+      "checkUpdates": "Перевірити знову",
+      "checkingUpdates": "Перевірка...",
+      "noUpdatesAvailable": "Оновлення недоступні",
+      "updatesPackage": "Пакет",
+      "updatesInstalled": "Встановлено",
+      "updatesLatest": "Остання",
+      "indi3rdpartyTitle": "Драйвери INDI 3rdparty",
+      "indi3rdpartyDescription": "Встановлення додаткових драйверів INDI, які зараз не встановлені.",
+      "indi3rdpartySearch": "Пошук",
+      "indi3rdpartySearchPlaceholder": "Пошук драйверів (напр. asi)",
+      "indi3rdpartyRefresh": "Оновити список",
+      "indi3rdpartySelect": "Обрати пакет драйвера",
+      "indi3rdpartyInstall": "Встановити драйвер",
+      "indi3rdpartyInstalling": "Встановлення...",
+      "indi3rdpartyNoDrivers": "Невстановлені драйвери не знайдені.",
+      "dhcpClientsTitle": "Підключені клієнти",
+      "dhcpClientsDescription": "Пристрої з активною DHCP-орендою на точці доступу.",
+      "dhcpClientsRefresh": "Оновити список клієнтів",
+      "dhcpClientsLoading": "Завантаження клієнтів...",
+      "dhcpClientsEmpty": "Активні DHCP-клієнти не знайдені.",
+      "dhcpClientsIp": "IP-адреса",
+      "dhcpClientsMac": "MAC-адреса",
+      "dhcpClientsHostname": "Ім'я хоста",
+      "dhcpClientsExpires": "Закінчення оренди"
+    },
+    "narrowband": {
+      "title": "Калькулятор фільтрів",
+      "subtitle": "Розрахунок характеристик пропускання вузькосмугових фільтрів",
+      "sections": {
+        "optical": "Оптичні параметри",
+        "bandpass": "Характеристики смуги пропускання",
+        "chart": "Крива смуги пропускання",
+        "results": "Результати пропускання"
+      },
+      "aperture": "Апертура (мм)",
+      "focalLength": "Фокусна відстань (мм)",
+      "peakTransmittance": "Пікове пропускання",
+      "refractiveIndex": "Показник заломлення",
+      "obstructionDiameter": "Центральна обструкція (мм)",
+      "bandpassCenter": "Центр смуги пропускання (нм)",
+      "fwhm": "FWHM (нм)",
+      "flatTop": "Плоска вершина (нм)",
+      "populerFilters": "Популярні фільтри",
+      "selectManufacturer": "Оберіть виробника...",
+      "clearSelection": "Очистити вибір",
+      "customCurve": "Користувацька крива смуги пропускання",
+      "csvInfo": {
+        "title": "Очікуваний формат файлу",
+        "description": "Текстовий файл з двома стовпцями, розділеними пробілами: довжина хвилі (нм) та пропускання (%). Рядки, які неможливо розібрати як два числа, мовчки пропускаються (використовуйте їх для коментарів або заголовків).",
+        "example": "# wavelength  transmission\n500.0   0.10\n656.3  98.50\n672.4  99.00\n700.0   0.05",
+        "note": "Значення пропускання повинні бути в діапазоні 0 – 100 (відсотки). Файли з роздільником-комою не підтримуються."
+      },
+      "clearCurve": "Очистити криву",
+      "loaded": "Завантажено:",
+      "dataPoints": "точок даних",
+      "targetWavelength": "Цільова довжина хвилі (нм)",
+      "filterTransmission": "Пропускання фільтра",
+      "wavelengthLabel": "Довжина хвилі (нм)",
+      "transmissionLabel": "Пропускання",
+      "transmissionPercent": "Пропускання: {percent}%",
+      "wavelengthRange": "Діапазон довжин хвиль",
+      "flatTopRange": "Діапазон плоскої вершини",
+      "fRatio": "f/Ratio",
+      "resetDefaults": "Скинути до значень за замовчуванням",
+      "status": {
+        "success": "Пропускання успішно розраховано",
+        "invalidCsv": "Дійсних даних довжини хвилі/пропускання в CSV не знайдено",
+        "csvError": "Помилка розбору CSV: {error}"
+      }
+    },
+    "hocusfocus": {
+      "title": "HocusFocus",
+      "tabs": {
+        "aberration": "Інспектор аберацій",
+        "aberrationOptions": "Параметри інспектора аберацій",
+        "autoFocusOptions": "Параметри автофокусу",
+        "starDetection": "Виявлення зірок",
+        "tilter": "Tilter (бета)"
+      },
+      "modal": {
+        "selectDirectory": "Оберіть директорію автофокусу для повторного запуску",
+        "loading": "Завантаження директорій автофокусу...",
+        "placeholder": "Оберіть директорію автофокусу...",
+        "proceed": "Продовжити",
+        "cancel": "Скасувати"
+      },
+      "aberrationInspector": {
+        "title": "Дії автофокусу",
+        "runButton": "Запустити детальний автофокус",
+        "cancelButton": "Скасувати автофокус",
+        "loadSaved": "Завантажити збережений АФ",
+        "clearAnalyses": "Очистити аналізи",
+        "focusCurveAnalysis": "Аналіз кривої фокусування",
+        "finalFocusDataSummary": "Підсумок фінальних даних фокусу",
+        "backfocusError": "Похибка бекфокусу:",
+        "hfrDifference": "Різниця HFR:",
+        "innerHFR": "Внутрішній HFR:",
+        "outerHFR": "Зовнішній HFR:",
+        "moveSensor": "(Перемістити сенсор",
+        "flattener": "флетенер)",
+        "tiltCornerMeasurements": "Вимірювання нахилу по кутах",
+        "sensorSide": "Сторона сенсора",
+        "focuserPosition": "Позиція фокусера",
+        "adjustmentSteps": "Кроки коригування",
+        "adjustmentMicrons": "Коригування мікрони",
+        "rSquared": "R²",
+        "unitMicrons": "мкм",
+        "unitSteps": "кроків"
+      },
+      "aberrationInspectorOptions": {
+        "loading": "Завантаження параметрів інспектора аберацій...",
+        "noOptions": "Параметри інспектора аберацій ще недоступні.",
+        "error": "Помилка:",
+        "inspectorSettings": "Налаштування інспектора",
+        "micronsPerFocuserStep": "Мікрони на крок фокусера",
+        "retry": "Повторити",
+        "resetToDefaults": "Скинути до значень за замовчуванням",
+        "resetting": "Скидання..."
+      },
+      "autoFocusOptions": {
+        "loading": "Завантаження параметрів автофокусу...",
+        "error": "Помилка:",
+        "retry": "Повторити",
+        "basicSettings": "Основні налаштування",
+        "hfrValidation": "Валідація HFR"
+      },
+      "directoryBrowser": {
+        "browse": "Огляд...",
+        "error": "Не вдалося відкрити вибір директорії"
+      },
+      "starDetection": {
+        "loading": "Завантаження параметрів виявлення зірок...",
+        "error": "Помилка:",
+        "retry": "Повторити",
+        "generalSettings": "Загальні налаштування",
+        "advancedMode": "Розширений режим",
+        "useHotpixelThresholding": "Фільтрація гарячих пікселів",
+        "useAutoFocusCrop": "Обрізка автофокусу",
+        "fitPSF": "Апроксимація PSF",
+        "hotpixelFiltering": "Фільтрація гарячих пікселів",
+        "noiseReducedStarMeasurement": "Вимірювання зірок зі зниженим шумом",
+        "debugMode": "Режим налагодження",
+        "simpleModeSettings": "Налаштування простого режиму",
+        "noiseLevel": "Рівень шуму"
+      },
+      "tilter": {
+        "device": "Пристрій",
+        "selectDevice": "Оберіть пристрій",
+        "scanTooltip": "Сканувати пристрої",
+        "connect": "Підключити",
+        "disconnect": "Відключити",
+        "deviceInfo": "Інформація про пристрій (бета — використовуйте обережно)",
+        "status": "Статус",
+        "connected": "Підключено",
+        "moving": "Переміщення",
+        "idle": "Очікування",
+        "currentPositions": "Поточні позиції",
+        "noDeviceSelected": "Спочатку оберіть пристрій",
+        "deviceNotConnected": "Підключіться до пристрою для перегляду елементів керування",
+        "configuration": "Конфігурація",
+        "sensorWidth": "Ширина сенсора",
+        "sensorHeight": "Висота сенсора",
+        "sensorRotation": "Поворот сенсора",
+        "sensorRotationDescription": "За годинниковою стрілкою при погляді на задню частину камери",
+        "manualTilterConfiguration": "Ручна конфігурація 3-точкового tilter (бета — використовуйте обережно)",
+        "tilterOuterRadius": "Зовнішній радіус tilter",
+        "tilterThreadPitch": "Крок різьби tilter",
+        "applyTiltPlane": "Застосувати площину нахилу",
+        "fetchFromAberrationInspector": "Отримати з інспектора аберацій",
+        "calculateActuatorPositions": "Розрахувати позиції актуаторів",
+        "calculatedPositions": "Розраховані позиції",
+        "applyThesePositionsToDevice": "Застосувати ці позиції до пристрою",
+        "actuatorVisualizationLabel": "Актуатори на радіусі {radius} мм • Поворот сенсора {rotation}° • Вигляд зверху",
+        "calculatingPositions": "Розрахунок...",
+        "applyingPositions": "Застосування...",
+        "savingConfiguration": "Збереження..."
+      },
+      "common": {
+        "error": "Помилка:",
+        "loading": "Завантаження..."
+      }
+    },
+    "tenmicron": {
+      "title": "10micron Model Builder",
+      "subtitle": "Побудова та керування моделями наведення для монтування 10micron",
+      "notLoaded": "Плагін TenMicron не завантажено. Встановіть та увімкніть плагін NINA.Joko.Plugin.TenMicron.",
+      "mountNotConnected": "Монтування не підключено.",
+      "cancel": "Скасувати",
+      "mountStatus": "Статус монтування",
+      "dualAxisTracking": "Двовісне стеження",
+      "refractionCorrection": "Корекція рефракції",
+      "tabs": {
+        "builder": "Побудова моделі",
+        "model": "Модель вирівнювання",
+        "library": "Бібліотека моделей",
+        "mount": "Інформація про монтування"
+      },
+      "builder": {
+        "pointGeneration": "Генерація точок",
+        "buildControl": "Керування побудовою",
+        "starCount": "Кількість зірок",
+        "generatePoints": "Генерувати золоту спіраль",
+        "generateSidereal": "Генерувати сидеричний шлях",
+        "clear": "Очистити точки",
+        "buildModel": "Побудувати модель",
+        "stop": "Зупинити",
+        "cancel": "Скасувати",
+        "buildRunning": "Побудова моделі виконується…",
+        "pointCount": "Точки: {valid} придатних / {total} всього",
+        "pointFilters": "Фільтри точок",
+        "altRange": "Діапазон висоти",
+        "azRange": "Діапазон азимута",
+        "min": "Мін",
+        "max": "Макс",
+        "maxRMS": "Макс RMS (0 = вимк)",
+        "numRetries": "Повторів на точку",
+        "showExcluded": "Показати виключені точки",
+        "minimizeMeridian": "Мінімізувати перекладки через меридіан",
+        "removeHighRMS": "Видалити високий RMS після побудови",
+        "buildOptions": "Параметри побудови",
+        "logCommands": "Логувати команди",
+        "maxConcurrency": "Макс. паралелізм",
+        "allowBlindSolves": "Дозволити сліпе розв'язання",
+        "optimizeDome": "Оптимізувати купол",
+        "westToEast": "Із заходу на схід",
+        "plateSolveSubframe": "Platesolve підкадр",
+        "alternateDirection": "Чергувати напрямок",
+        "disableRefractionCorrection": "Вимкнути корекцію рефракції",
+        "decJitter": "Джитер Dec (σ°)",
+        "disableDAT": "Вимкнути DAT під час моделювання",
+        "resetOptions": "Скинути до значень за замовчуванням",
+        "noCameraConnected": "Камера не підключена — для побудови моделі потрібна камера.",
+        "generatorType": "Генератор",
+        "goldenSpiral": "Золота спіраль",
+        "siderealPath": "Сидеричний шлях",
+        "target": "Ціль",
+        "raHours": "RA (год)",
+        "decDegrees": "Dec (°)",
+        "raDelta": "Інтервал RA (°)",
+        "startTime": "Час початку",
+        "endTime": "Час завершення",
+        "offsetMin": "Зміщення (хв)",
+        "fromScope": "З телескопа",
+        "fromSequence": "З послідовності",
+        "timeWindow": "Вікно часу",
+        "noPoints": "Немає точок моделі. Згенеруйте точки для початку.",
+        "scatterChart": "Точки моделі (Аз/Вис)",
+        "axisAz": "Азимут (град)",
+        "axisAlt": "Висота (град)",
+        "refresh": "Оновити"
+      },
+      "model": {
+        "alignmentInfo": "Інформація про вирівнювання",
+        "stars": "Зірки",
+        "rmsError": "Похибка RMS",
+        "modelTerms": "Терміни моделі",
+        "polarAlt": "Полярна висота",
+        "polarAz": "Полярний азимут",
+        "polarError": "Похибка полярного вирівнювання",
+        "paAltError": "Похибка PA по висоті",
+        "paAzError": "Похибка PA по азимуту",
+        "paAngle": "Кут похибки PA",
+        "coneError": "Похибка конуса",
+        "azTurns": "Обороти коригування Аз",
+        "altTurns": "Обороти коригування Вис",
+        "starsChart": "Зірки вирівнювання (полярний вигляд)",
+        "deleteWorstStar": "Видалити найгіршу зірку",
+        "clearAlignment": "Очистити вирівнювання",
+        "clearConfirmTitle": "Очистити модель вирівнювання?",
+        "clearConfirmMsg": "Це назавжди видалить поточну модель вирівнювання з монтування. Ви впевнені?",
+        "refresh": "Оновити",
+        "noModel": "Модель вирівнювання не завантажена."
+      },
+      "library": {
+        "savedModels": "Збережені моделі",
+        "namePlaceholder": "Назва нової моделі…",
+        "save": "Зберегти",
+        "load": "Завантажити",
+        "delete": "Видалити",
+        "noModels": "Збережені моделі не знайдені.",
+        "refresh": "Оновити"
+      },
+      "mount": {
+        "info": "Інформація про монтування",
+        "product": "Монтування",
+        "firmware": "Прошивка",
+        "firmwareDate": "Дата прошивки",
+        "ip": "IP-адреса",
+        "mac": "MAC-адреса",
+        "statusTitle": "Статус монтування",
+        "gpsSync": "Синхронізація часу GPS",
+        "trackingRate": "Швидкість стеження",
+        "slewSettle": "Стабілізація після наведення",
+        "meridianLimit": "Ліміт меридіану",
+        "unattendedFlip": "Автоматична перекладка",
+        "disable": "Вимкнути",
+        "refractionTemp": "Температура рефракції",
+        "refractionPressure": "Тиск рефракції",
+        "reset": "Скинути",
+        "set": "Встановити",
+        "arcsecPerSec": "кутові сек/с",
+        "seconds": "с",
+        "degrees": "°",
+        "celsius": "°C",
+        "hPa": "гПа",
+        "slewRate": "Швидкість наведення",
+        "horizonHigh": "Верхня межа горизонту",
+        "horizonLow": "Нижня межа горизонту",
+        "connectionType": "Тип з'єднання",
+        "deltaTExpiration": "Закінчення DeltaT",
+        "localTime": "Місцевий час",
+        "localDate": "Місцева дата",
+        "siderealTime": "Сидеричний час"
+      }
+    },
+    "pinsAllSky": {
+      "title": "AllSky Capture",
+      "common": {
+        "ok": "OK",
+        "cancel": "Скасувати",
+        "close": "Закрити",
+        "and": "та",
+        "download": "завантажити",
+        "saving": "Збереження…",
+        "auto": "Авто",
+        "unlimited": "Необмежено",
+        "notGenerated": "Не згенеровано",
+        "notAvailable": "—"
+      },
+      "buttons": {
+        "automation": "Автоматизація",
+        "camera": "Камера",
+        "outputs": "Виходи",
+        "showStatus": "Показати статус",
+        "updateBackend": "Оновити сервер",
+        "startingUpdate": "Початок оновлення…",
+        "startCapture": "Почати зйомку",
+        "renderProgress": "Прогрес рендерингу",
+        "renderingProgress": "Рендеринг виконується…",
+        "stopAndRender": "Зупинити та рендерити",
+        "refreshPreview": "Оновити попередній перегляд",
+        "refreshingPreview": "Оновлення попереднього перегляду…",
+        "regenerate": "Перегенерувати",
+        "files": "Файли",
+        "showStoredFiles": "Показати збережені файли",
+        "hideStoredFiles": "Сховати збережені файли",
+        "refreshFiles": "Оновити файли",
+        "deleteAllSessions": "Видалити всі збережені сесії, кадри та згенеровані продукти",
+        "deleteSession": "Видалити цю сесію",
+        "downloadTimelapse": "Завантажити таймлапс",
+        "deleteTimelapse": "Видалити таймлапс",
+        "downloadKeogram": "Завантажити кеограму",
+        "deleteKeogram": "Видалити кеограму",
+        "downloadStartrails": "Завантажити зоряні сліди",
+        "deleteStartrails": "Видалити зоряні сліди",
+        "downloadItem": "Завантажити {name}",
+        "deleteItem": "Видалити {name}"
+      },
+      "statusModal": {
+        "title": "Статус AllSky",
+        "close": "Закрити діалог статусу",
+        "updateBackendTooltip": "Завантажити останнє репо серверу, перевстановити плагін PINS AllSky та перезапустити PINS."
+      },
+      "banners": {
+        "missingRuntimeDependencies": "Відсутні залежності: {dependencies}",
+        "backendUnavailableTitle": "Сервер AllSky недоступний",
+        "backendUnavailableBody": "Не вдалося з'єднатися з сервером AllSky. Встановіть сервер PINS AllSky на Raspberry Pi, перезапустіть PINS, потім оновіть цю сторінку.",
+        "backendUnavailableInstallLabel": "Встановити на Pi через SSH:"
+      },
+      "sections": {
+        "sessionControl": "Керування сесією",
+        "sessionEstimate": "Оцінка сесії",
+        "recentSessions": "Останні сесії",
+        "recentSessionsDescription": "Згенеровані продукти подаються безпосередньо з серверу та відкриваються в новій вкладці.",
+        "livePreview": "Живий попередній перегляд",
+        "storedFrames": "Збережені кадри"
+      },
+      "preview": {
+        "noFrameYet": "Знятий кадр ще недоступний. Почніть сесію або дочекайтеся наступної автоматичної зйомки.",
+        "session": "Сесія",
+        "noActiveSession": "Немає активної сесії",
+        "lastCapture": "Остання зйомка:",
+        "frameCount": "Кількість кадрів:",
+        "captureInterval": "Інтервал зйомки:",
+        "exposure": "Експозиція:",
+        "gain": "Gain:",
+        "mean": "Середнє:"
+      },
+      "statusRows": {
+        "backend": "Сервер",
+        "session": "Сесія",
+        "sequence": "Послідовність",
+        "capture": "Зйомка",
+        "rendering": "Рендеринг",
+        "piUsed": "Використано Pi",
+        "piAvailable": "Доступно Pi",
+        "pluginUsed": "Використано плагіном",
+        "pluginLimit": "Ліміт плагіна",
+        "pluginAvailable": "Доступно плагіну",
+        "online": "Онлайн",
+        "offline": "Офлайн",
+        "running": "Виконується",
+        "idle": "Очікування",
+        "active": "Активно",
+        "stopped": "Зупинено",
+        "inProgress": "В процесі",
+        "available": "Доступно",
+        "missing": "Відсутнє"
+      },
+      "dependencies": {
+        "rpiCamStill": "rpicam-still",
+        "ffmpeg": "ffmpeg",
+        "keogram": "AllSky keogram",
+        "startrails": "AllSky startrails"
+      },
+      "estimate": {
+        "sessionLabelTitle": "Мітка сесії для наступної ручної зйомки. За замовчуванням {label}.",
+        "sessionLabelPlaceholder": "Мітка сесії",
+        "start": "Початок",
+        "end": "Кінець",
+        "expectedDuration": "Очікувана тривалість",
+        "expectedFrames": "Очікувана кількість кадрів",
+        "expectedStorage": "Очікуване сховище",
+        "startTooltip": "Запланований час початку зйомки для оцінки сховища. За замовчуванням — поточний місцевий час.",
+        "endTooltip": "Запланований час зупинки зйомки для оцінки сховища. За замовчуванням — завтра о 08:00 місцевого часу.",
+        "invalidWindow": "Встановіть дійсний час початку та завершення для оцінки сховища.",
+        "endBeforeStart": "Час завершення повинен бути пізніше часу початку.",
+        "noBaseline": "Завершена базова сесія ще недоступна. Спочатку завершіть одну сесію для надійної оцінки сховища.",
+        "piFreeSpace": "Вільне місце Pi ({size})",
+        "pluginLimitRemaining": "залишок ліміту плагіна ({size})",
+        "exceeds": "Очікуване сховище {size} перевищує {limits}."
+      },
+      "modals": {
+        "closeDialog": "Закрити діалог {title}",
+        "automationInfo": "При увімкненні AllSky розпочинає сесію зйомки, щойно PINS Advanced API повідомить про активну послідовність, потім автоматично зупиняє зйомку та рендерить продукти після завершення послідовності.",
+        "cameraRotationInfo": "Поворот rpicam-still обмежений 0 або 180 градусів.",
+        "startrailMountInfo": "На екваторіальному монтуванні камера може стежити за небом, тому зоряні сліди все ще генеруються, але можуть не показувати класичний ефект кругових слідів.",
+        "automation": {
+          "autoStartWithSequence": "Автозапуск з послідовністю",
+          "sequenceTriggeredCapture": "Зйомка, ініційована послідовністю",
+          "advancedApiEnabled": "Advanced API увімкнено",
+          "backendMonitoring": "Моніторинг серверу",
+          "protocol": "Протокол",
+          "sequencePollIntervalSeconds": "Інтервал опитування послідовності (с)",
+          "sequencePollIntervalHelp": "Опитує лише стан послідовності. Не змінює каденцію кадрів камери.",
+          "advancedApiHost": "Хост Advanced API",
+          "port": "Порт",
+          "timeoutSeconds": "Таймаут (с)",
+          "advancedApiBasePath": "Базовий шлях Advanced API",
+          "maxPluginStorageGb": "Макс. сховище плагіна (ГБ)",
+          "maxPluginStorageHelp": "Встановіть 0 для без обмежень.",
+          "protocolTooltip": "Протокол для доступу до локального Advanced API PINS.",
+          "sequencePollTooltip": "Як часто AllSky перевіряє, чи почалася або зупинилася послідовність PINS/NINA.",
+          "advancedApiHostTooltip": "Ім'я хоста або IP-адреса служби PINS Advanced API.",
+          "portTooltip": "TCP-порт служби PINS Advanced API.",
+          "timeoutTooltip": "Максимальний час очікування одного запиту Advanced API перед позначкою як недоступний.",
+          "advancedApiBasePathTooltip": "Префікс базового шляху для виклику кінцевих точок Advanced API.",
+          "maxPluginStorageTooltip": "Максимальне сховище PINS AllSky в директорії даних плагіна. Встановіть 0 для без обмежень. При перевищенні ліміту сервер видаляє найстаріші завершені сесії."
+        },
+        "camera": {
+          "intervalSeconds": "Інтервал (с)",
+          "timeoutSeconds": "Таймаут (с)",
+          "width": "Ширина",
+          "height": "Висота",
+          "jpegQuality": "Якість JPEG",
+          "warmupMilliseconds": "Прогрів (мс)",
+          "metering": "Замір",
+          "awb": "AWB",
+          "denoise": "Шумозаглушення",
+          "evCompensation": "Компенсація EV",
+          "rotation": "Поворот",
+          "brightness": "Яскравість",
+          "contrast": "Контраст",
+          "saturation": "Насиченість",
+          "sharpness": "Різкість",
+          "manualExposure": "Ручна експозиція",
+          "shutterMicroseconds": "Затвор (мкс)",
+          "manualExposureHelp": "При вимкненні PINS AllSky використовує контролер на основі середнього AllSky. Якщо Target Mean дорівнює 0, автоекспозиція rpicam-still залишається автоматичною.",
+          "manualGain": "Ручний gain",
+          "analogGain": "Аналоговий gain",
+          "manualGainHelp": "При вимкненні PINS AllSky використовує контролер на основі середнього AllSky. Якщо Target Mean дорівнює 0, автоматичний gain rpicam-still залишається автоматичним.",
+          "horizontalFlip": "Горизонтальне віддзеркалення",
+          "mirrorOnXAxis": "Віддзеркалення по осі X",
+          "verticalFlip": "Вертикальне віддзеркалення",
+          "mirrorOnYAxis": "Віддзеркалення по осі Y",
+          "extraArguments": "Додаткові аргументи rpicam-still",
+          "intervalTooltip": "Час між початками зйомки в секундах. Це фактична каденція кадрів AllSky.",
+          "timeoutTooltip": "Максимальний час для однієї зйомки rpicam-still перед визнанням невдалою.",
+          "widthTooltip": "Ширина вихідного зображення в пікселях.",
+          "heightTooltip": "Висота вихідного зображення в пікселях.",
+          "jpegQualityTooltip": "Якість JPEG для знятих кадрів. Вищі значення зберігають більше деталей при більшому розмірі файлу.",
+          "warmupTooltip": "Час прогріву перед записом кожного кадру rpicam-still.",
+          "meteringTooltip": "Стратегія заміру експозиції rpicam-still.",
+          "awbTooltip": "Режим автоматичного балансу білого rpicam-still.",
+          "denoiseTooltip": "Режим шумозаглушення rpicam-still для кожного знятого кадру.",
+          "evCompensationTooltip": "Компенсація значення експозиції поверх обраного режиму експозиції.",
+          "rotationTooltip": "Поворот зображення в градусах. Стек камери Pi підтримує лише 0 або 180.",
+          "brightnessTooltip": "Коригування яскравості rpicam-still.",
+          "contrastTooltip": "Множник контрасту rpicam-still.",
+          "saturationTooltip": "Множник насиченості rpicam-still.",
+          "sharpnessTooltip": "Множник різкості rpicam-still.",
+          "shutterTooltip": "Ручний час затвора в мікросекундах. Застосовується лише при увімкненій ручній експозиції.",
+          "analogGainTooltip": "Ручний аналоговий gain камери Pi. Використовується лише при увімкненому ручному gain.",
+          "extraArgumentsTooltip": "Додаткові аргументи rpicam-still після керованих налаштувань камери.",
+          "options": {
+            "centre": "Центр",
+            "spot": "Точковий",
+            "average": "Середній",
+            "custom": "Користувацький",
+            "auto": "Авто",
+            "incandescent": "Лампа розжарювання",
+            "tungsten": "Вольфрам",
+            "fluorescent": "Люмінесцентний",
+            "indoor": "Приміщення",
+            "daylight": "Денне світло",
+            "cloudy": "Хмарно",
+            "off": "Вимк.",
+            "cdnOff": "CDN вимк.",
+            "cdnFast": "CDN швидкий",
+            "cdnHq": "CDN висока якість"
+          },
+          "allSkyAutoExposure": "Автоекспозиція / gain AllSky",
+          "allSkyAutoExposureHelp": "Адаптовано з контролера на основі середнього AllSky. Коли ручна експозиція та/або ручний gain вимкнені, PINS AllSky вимірює попередній кадр та обчислює наступний затвор і gain замість покладання лише на автоекспозицію rpicam-still.",
+          "autoMeanTarget": "Цільове середнє",
+          "autoMeanThreshold": "Поріг середнього",
+          "autoMaxExposureMicroseconds": "Макс. автозатвор (мкс)",
+          "autoMaxGain": "Макс. авто gain",
+          "autoMeanP0": "Агресивність P0",
+          "autoMeanP1": "Агресивність P1",
+          "autoMeanP2": "Агресивність P2",
+          "autoMeanTargetTooltip": "Цільове нормалізоване середнє зображення для контролера автоекспозиції AllSky. Встановіть 0 для повернення до автоекспозиції rpicam-still.",
+          "autoMeanThresholdTooltip": "Допустима нормалізована відстань від цільового середнього перед зміною рівня експозиції наступного кадру.",
+          "autoMaxExposureTooltip": "Максимальний час затвора контролера автоекспозиції AllSky при вимкненій ручній експозиції.",
+          "autoMaxGainTooltip": "Максимальний аналоговий gain контролера автоекспозиції AllSky при вимкненому ручному gain.",
+          "autoMeanP0Tooltip": "Константа налаштування контролера AllSky p0. Вищі значення реагують агресивніше на зміни яскравості.",
+          "autoMeanP1Tooltip": "Константа налаштування контролера AllSky p1 для лінійної реакції на похибку середнього.",
+          "autoMeanP2Tooltip": "Константа налаштування контролера AllSky p2 для сильнішої квадратичної реакції на великі похибки яскравості."
+        },
+        "outputs": {
+          "keepSourceFrames": "Зберігати вихідні кадри",
+          "retainOriginalCaptures": "Зберігати оригінальні зйомки",
+          "timelapse": "Таймлапс",
+          "fps": "FPS",
+          "bitrateKbps": "Бітрейт (кбіт/с)",
+          "width": "Ширина",
+          "height": "Висота",
+          "codec": "Кодек",
+          "pixelFormat": "Формат пікселів",
+          "ffmpegLogLevel": "Рівень логування FFmpeg",
+          "extraFfmpegArguments": "Додаткові аргументи ffmpeg",
+          "keogram": "Кеограма",
+          "expandToFrameWidth": "Розтягнути на ширину кадру",
+          "stretchOutput": "Розтягнути вивід",
+          "showLabels": "Показати мітки",
+          "drawCaptions": "Малювати підписи",
+          "showDate": "Показати дату",
+          "stampDate": "Друкувати дату",
+          "rotateDegrees": "Поворот (град)",
+          "fontName": "Назва шрифту",
+          "fontColor": "Колір шрифту",
+          "fontSize": "Розмір шрифту",
+          "lineThickness": "Товщина лінії",
+          "extraKeogramArguments": "Додаткові аргументи keogram",
+          "startrails": "Зоряні сліди",
+          "brightnessThreshold": "Поріг яскравості",
+          "extraStartrailsArguments": "Додаткові аргументи startrails",
+          "fpsTooltip": "Частота кадрів для складання відео таймлапсу.",
+          "bitrateTooltip": "Цільовий бітрейт відео таймлапсу в кілобітах за секунду.",
+          "timelapseWidthTooltip": "Ширина виходу відео таймлапсу в пікселях.",
+          "timelapseHeightTooltip": "Висота виходу відео таймлапсу в пікселях.",
+          "codecTooltip": "Кодек ffmpeg для кодування виходу таймлапсу.",
+          "pixelFormatTooltip": "Формат пікселів ffmpeg для виходу таймлапсу.",
+          "ffmpegLogLevelTooltip": "Детальність логування ffmpeg при рендерингу таймлапсу.",
+          "extraFfmpegArgumentsTooltip": "Додаткові аргументи ffmpeg для команди рендерингу таймлапсу.",
+          "rotateTooltip": "Поворот готового зображення кеограми.",
+          "fontNameTooltip": "Назва сімейства шрифтів для інструменту keogram AllSky.",
+          "fontColorTooltip": "Колір шрифту для інструменту keogram, зазвичай як hex-значення.",
+          "fontSizeTooltip": "Розмір шрифту міток кеограми.",
+          "lineThicknessTooltip": "Товщина лінії для міток або маркерів keogram.",
+          "extraKeogramArgumentsTooltip": "Додаткові аргументи командного рядка для інструменту AllSky keogram.",
+          "brightnessThresholdTooltip": "Мінімальна нормалізована яскравість пікселя для участі в композиті зоряних слідів.",
+          "extraStartrailsArgumentsTooltip": "Додаткові аргументи командного рядка для інструменту AllSky startrails.",
+          "overlayTimestamp": "Накладення мітки часу",
+          "stampTimestamp": "Друкувати мітку часу зйомки",
+          "overlayExposureGain": "Накладення експозиції + Gain",
+          "stampExposureGain": "Друкувати експозицію та gain",
+          "overlayTimestampTooltip": "Рендерити мітку часу зйомки в кожен кадр таймлапсу. Застосовується при наступному рендерингу таймлапсу або перегенерації існуючої сесії.",
+          "overlayExposureGainTooltip": "Рендерити фактичну експозицію та gain кожного знятого кадру в таймлапс. Застосовується при наступному рендерингу таймлапсу або перегенерації існуючої сесії."
+        }
+      },
+      "recentSessions": {
+        "noSessions": "Завершені сесії ще не записані.",
+        "expanded": "Розгорнуто",
+        "collapsed": "Згорнуто",
+        "storageWithinLimit": "Сховище в межах ліміту.",
+        "storageLimitExceeded": "Ліміт сховища перевищено.",
+        "pluginAvailable": "Доступно плагіну:",
+        "piAvailable": "Доступно Pi:",
+        "started": "Початок {date}",
+        "stopped": "Кінець {date}",
+        "framesReason": "Кадри: {count} • Причина: {reason}",
+        "storage": "Сховище: {size}",
+        "timelapse": "Таймлапс",
+        "keogram": "Кеограма",
+        "startrails": "Зоряні сліди",
+        "retainedFrames": "{count} збережений кадр(ів)",
+        "loadingStoredFiles": "Завантаження збережених файлів…",
+        "noStoredFrames": "Збережені кадри для цієї сесії недоступні.",
+        "reasons": {
+          "manualStart": "Ручний старт",
+          "manualStop": "Ручна зупинка",
+          "sequenceStart": "Старт послідовності",
+          "sequenceStop": "Зупинка послідовності",
+          "unknown": "Невідомо"
+        }
+      },
+      "dialogs": {
+        "deleteSession": "Видалити {sessionName} та всі зняті кадри/продукти?",
+        "deleteAllSessions": "Видалити всі збережені сесії AllSky, кадри та згенеровані продукти?",
+        "deleteArtifact": "Видалити {artifactName}?",
+        "deleteFrame": "Видалити {frameName}?"
+      },
+      "messages": {
+        "noSessionsDeleted": "Жодної сесії не видалено.",
+        "deletedSessions": "Видалено {count} сесій{suffix}, звільнено {freed}, залишок використання плагіна {remaining}.",
+        "deletedArtifact": "Артефакт видалено, звільнено {freed}.",
+        "deletedFrame": "Кадр видалено, звільнено {freed}.",
+        "backendUpdateStarted": "Оновлення серверу розпочато. PINS перезапуститься після завершення встановлення."
+      },
+      "errors": {
+        "loadStatus": "Не вдалося завантажити статус серверу.",
+        "loadConfig": "Не вдалося завантажити конфігурацію.",
+        "connectBackend": "Не вдалося з'єднатися з сервером AllSky.",
+        "saveConfig": "Збереження конфігурації не вдалося.",
+        "startSession": "Не вдалося розпочати сесію.",
+        "stopSession": "Не вдалося зупинити сесію.",
+        "generateArtifacts": "Не вдалося згенерувати артефакти.",
+        "deleteSession": "Не вдалося видалити обрану сесію.",
+        "deleteAllSessions": "Не вдалося видалити збережені сесії.",
+        "loadSessionDetails": "Не вдалося завантажити деталі сесії.",
+        "deleteArtifact": "Не вдалося видалити обраний артефакт.",
+        "deleteFrame": "Не вдалося видалити обраний кадр.",
+        "startBackendUpdate": "Не вдалося розпочати оновлення серверу.",
+        "downloadFailed": "Завантаження не вдалося зі статусом {status}.",
+        "downloadFile": "Не вдалося завантажити обраний файл.",
+        "refreshStatus": "Не вдалося оновити статус серверу."
+      }
+    },
+    "targetScheduler": {
+      "title": "Планувальник цілей",
+      "subtitle": "Мобільне планування видимості цілей, обмежень та вставки в послідовність.",
+      "common": {
+        "add": "Додати",
+        "edit": "Редагувати",
+        "copy": "Копіювати",
+        "copySuffix": "копія",
+        "remove": "Видалити",
+        "close": "Закрити",
+        "cancel": "Скасувати",
+        "ra": "RA",
+        "dec": "DEC",
+        "deg": "град",
+        "seconds": "с",
+        "minutes": "хв",
+        "meters": "м"
+      },
+      "actions": {
+        "addTarget": "Додати ціль",
+        "addFromFavorites": "Додати з обраного",
+        "addScheduleToSequence": "Додати розклад до послідовності",
+        "applying": "Застосування...",
+        "computing": "Обчислення...",
+        "recomputeSchedule": "Перерахувати розклад",
+        "clearAll": "Очистити все"
+      },
+      "labels": {
+        "sessionStart": "Початок сесії",
+        "sessionEnd": "Кінець сесії",
+        "samplingStepMinutes": "Крок дискретизації (хвилини)",
+        "maxChunkMinutes": "Макс. фрагмент (хвилини)",
+        "siteLat": "Широта",
+        "siteLon": "довг",
+        "siteAlt": "вис",
+        "scheduled": "заплановано"
+      },
+      "warnings": {
+        "sequenceVersionRequired": "Вставка в послідовність потребує плагін TNS 1.2.8.0+ (або режим PINS)."
+      },
+      "unscheduled": {
+        "title": "Незапланований залишок",
+        "allScheduled": "Весь запитаний час експозиції вміщується в цю сесію.",
+        "remaining": ": {minutes} хв залишилось"
+      },
+      "favorites": {
+        "importTitle": "Імпорт з обраного",
+        "available": "{count} обраних доступно",
+        "addAll": "Додати все",
+        "noneFound": "Обране не знайдено.",
+        "unnamed": "Безіменне обране"
+      },
+      "constraints": {
+        "title": "Обмеження",
+        "showAdvanced": "Показати розширені",
+        "hideAdvanced": "Сховати розширені",
+        "targetEnabled": "Ціль увімкнена",
+        "minAltitude": "Мін. висота",
+        "maxAltitude": "Макс. висота",
+        "minMoonSeparation": "Мін. відстань від Місяця",
+        "timeWindowStart": "Початок вікна часу",
+        "timeWindowEnd": "Кінець вікна часу",
+        "timeWindowHint": "Залиште вікно часу порожнім для планування на весь діапазон сесії."
+      },
+      "timeline": {
+        "title": "Часова шкала сесії",
+        "range": "{start} до {end}",
+        "invalidSessionRange": "Встановіть дійсний діапазон сесії для попереднього перегляду розкладу.",
+        "noSegments": "Немає сегментів розкладу. Перевірте обмеження цілей та координати місцезнаходження.",
+        "minutesShort": "{value} хв",
+        "segmentTitle": "{name}: {start} - {end}",
+        "idle": "Простій",
+        "idleSegmentTitle": "Простій: {start} - {end}"
+      },
+      "targetList": {
+        "title": "Цілі",
+        "total": "{count} всього",
+        "empty": "Цілей ще немає. Додайте вручну або імпортуйте з обраного.",
+        "dragToReorder": "Перетягніть для зміни порядку"
+      },
+      "targetCard": {
+        "priorityShort": "P{value}",
+        "exposures": "{count} експозицій",
+        "favoriteLinked": "пов'язано з обраним",
+        "scheduledVsRequested": "{scheduled} / {requested} хв"
+      },
+      "editor": {
+        "newTarget": "Нова ціль",
+        "editTarget": "Редагувати ціль",
+        "name": "Назва",
+        "namePlaceholder": "M31 - Андромеда",
+        "priority": "Пріоритет",
+        "raLabel": "RA (град або ГГ:ХХ:СС)",
+        "raPlaceholder": "00:42:44",
+        "decLabel": "DEC (град або +/-ГГ:ХХ:СС)",
+        "decPlaceholder": "+41:16:07",
+        "rotation": "Поворот",
+        "linkedToFavorite": "Пов'язано з обраним",
+        "exposurePlan": "План експозицій",
+        "addExposure": "Додати експозицію",
+        "addAtLeastOneExposure": "Додайте принаймні один рядок експозиції.",
+        "exposureRow": "Експозиція {index}",
+        "filter": "Фільтр",
+        "imageType": "Тип зображення",
+        "duration": "Тривалість",
+        "gain": "Gain",
+        "count": "Кількість",
+        "offset": "Зміщення",
+        "binning": "Бінінг",
+        "saveTarget": "Зберегти ціль",
+        "presets": {
+          "singleL": "Одиночний L",
+          "lrgb": "LRGB",
+          "sho": "SHO"
+        },
+        "imageTypes": {
+          "light": "LIGHT",
+          "dark": "DARK",
+          "flat": "FLAT",
+          "bias": "BIAS"
+        }
+      },
+      "toast": {
+        "title": "Планувальник цілей",
+        "noTargetsToApply": "Немає цілей для застосування.",
+        "addedTargetsToSequence": "Додано {count} ціль(ей) до послідовності."
+      },
+      "defaults": {
+        "newTargetName": "Нова ціль",
+        "favoriteTargetName": "Обрана ціль",
+        "targetName": "Ціль"
+      },
+      "errors": {
+        "invalidRaFormat": "Формат RA невірний.",
+        "invalidDecFormat": "Формат DEC невірний.",
+        "targetNameRequired": "Назва цілі обов'язкова.",
+        "invalidSessionRange": "Невірний діапазон сесії",
+        "missingSiteCoordinates": "Відсутні широта/довгота місцезнаходження",
+        "computeFailed": "Не вдалося обчислити розклад",
+        "couldNotAddSequenceItem": "Не вдалося додати елемент послідовності",
+        "failedToAddSequenceTarget": "Не вдалося додати ціль послідовності для {name}",
+        "failedToResolveTargetContainer": "Не вдалося знайти щойно створений контейнер цілі для {name}",
+        "noActiveSequenceLoaded": "Активна послідовність не завантажена.",
+        "noImagingContainerFound": "Не вдалося знайти контейнер зйомки в активній послідовності.",
+        "noValidTargetsForExport": "Не знайдено дійсних цілей для експорту.",
+        "failedToApplySchedule": "Не вдалося застосувати розклад до послідовності."
+      }
+    },
+    "pinsDevices": {
+      "title": "PI'N'Stars Device",
+      "powerBox": "PINS.PowerBox",
+      "meteoStation": "PINS.MeteoStation",
+      "wifiTab": "WiFi",
+      "settings": {
+        "general": "Загальні",
+        "generalDescription": "Загальні налаштування та інформація про пристрій",
+        "powerPorts": "Порти живлення",
+        "powerPortsDescription": "Налаштування та керування вихідними портами живлення",
+        "usbPorts": "USB-порти",
+        "usbPortsDescription": "Налаштування та керування USB-з'єднаннями",
+        "dewPorts": "Порти обігрівача від роси",
+        "dewPortsDescription": "Налаштування та керування портами обігрівача від роси",
+        "adjustablePower": "Регульовані порти живлення",
+        "adjustablePowerDescription": "Налаштування та керування регульованими портами живлення",
+        "configuration": "Конфігурація",
+        "configurationDescription": "Налаштування пристрою та калібрація сенсорів",
+        "ports": "PowerBox",
+        "wifi": "WiFi",
+        "weather": "MeteoStation",
+        "temperature": "Температура",
+        "humidity": "Вологість",
+        "dewPoint": "Точка роси",
+        "placeholders": {
+          "networkName": "Назва мережі",
+          "password": "Пароль",
+          "passwordHint": "мін. 8 символів"
+        },
+        "validation": {
+          "passwordRequired": "Пароль повинен містити щонайменше 8 символів"
+        }
+      },
+      "config": {
+        "title": "Конфігурація",
+        "temperatureOffset": "Зміщення температури",
+        "temperatureOffsetDesc": "Калібрувальне зміщення для сенсора температури",
+        "humidityOffset": "Зміщення вологості",
+        "humidityOffsetDesc": "Калібрувальне зміщення для сенсора вологості",
+        "envUpdateRate": "Частота оновлення середовища",
+        "envUpdateRateDesc": "Інтервал оновлення показань температури та вологості",
+        "updateRate": "Частота оновлення пристрою",
+        "updateRateDesc": "Інтервал оновлення статусу пристрою",
+        "factoryReset": "Скидання до заводських налаштувань",
+        "factoryResetDesc": "Скинути пристрій PINS до заводських налаштувань",
+        "factoryResetConfirm": "Ви впевнені, що хочете виконати скидання до заводських налаштувань? Це скине всі налаштування до значень за замовчуванням.",
+        "notifications": {
+          "title": "Сповіщення",
+          "beepOnWarning": "Звуковий сигнал при попередженні",
+          "beepOnWarningDesc": "Звуковий сигнал PowerBox при отриманні попередження NINA",
+          "beepOnError": "Звуковий сигнал при помилці",
+          "beepOnErrorDesc": "Звуковий сигнал PowerBox при отриманні помилки NINA",
+          "beepVolume": "Гучність сигналу",
+          "volumeLow": "Тихо",
+          "volumeMedium": "Середньо",
+          "volumeLoud": "Гучно",
+          "beepLength": "Тривалість сигналу",
+          "beepLengthDesc": "Тривалість кожного сигналу в мілісекундах (100–10000)",
+          "beepRepeatDuration": "Тривалість повторення",
+          "beepRepeatDurationDesc": "Загальний час повторення звукового сигналу (1–60с)",
+          "powerboxRequired": "Для звукових сповіщень PowerBox повинен бути підключений",
+          "testBeep": "Тестовий сигнал",
+          "testBeepRunning": "Відтворення..."
+        }
+      },
+      "info": {
+        "coreTemp": "Температура CPU",
+        "deviceId": "ID пристрою",
+        "firmware": "Прошивка",
+        "driverVersion": "Версія драйвера",
+        "ports": "Доступні порти",
+        "powerPorts": "Порти живлення",
+        "usbPorts": "USB-порти",
+        "dewPorts": "Порти обігрівача від роси",
+        "adjPorts": "Регульовані порти живлення",
+        "powerStatus": "Статус живлення",
+        "meteoStation": "Метеостанція"
+      },
+      "status": {
+        "notConnected": "Не підключено"
+      },
+      "ports": {
+        "status": "Статус",
+        "current": "Струм",
+        "voltage": "Напруга",
+        "maxCurrent": "Макс. струм",
+        "overcurrent": "Перевищення струму",
+        "readOnly": "Тільки для читання (не може бути керованим)",
+        "noPorts": "Порти недоступні",
+        "bootState": "Стан при увімкненні",
+        "bootStateEnabled": "Увімкнено при запуску",
+        "bootStateDisabled": "Вимкнено при запуску"
+      },
+      "wifi": {
+        "currentStatus": "Поточний статус WiFi",
+        "notConnected": "Зараз не підключено до жодної мережі",
+        "availableNetworks": "Доступні мережі",
+        "scanNetworks": "Сканувати мережі",
+        "scanning": "Сканування WiFi-мереж...",
+        "noNetworksFound": "WiFi-мережі не знайдені",
+        "channel": "Канал",
+        "connect": "Підключити",
+        "connectTo": "Підключитися до",
+        "connectToNetwork": "Підключитися до WiFi-мережі",
+        "ssid": "SSID мережі",
+        "password": "Пароль",
+        "enterPassword": "Введіть пароль WiFi",
+        "min8chars": "мінімум 8 символів",
+        "passwordTooShort": "Пароль повинен містити щонайменше 8 символів",
+        "connectAsClient": "Підключити як клієнт",
+        "createHotspot": "Створити точку доступу",
+        "hotspotName": "Назва точки доступу",
+        "hotspotPassword": "Пароль точки доступу",
+        "hotspotDesc": "Створити точку доступу WiFi, до якої можуть підключатися інші пристрої"
+      },
+      "weather": {
+        "deviceInfo": "Інформація про пристрій",
+        "name": "Назва",
+        "id": "ID пристрою",
+        "firmware": "Прошивка",
+        "uptime": "Час роботи",
+        "disconnected": "Метеостанція зараз не підключена",
+        "currentWeather": "Поточні погодні умови",
+        "temperature": "Температура",
+        "humidity": "Вологість",
+        "dewPoint": "Точка роси",
+        "cloudCover": "Хмарність",
+        "skyQuality": "Якість неба",
+        "skyBrightness": "Яскравість неба",
+        "skyTemp": "Температура неба",
+        "noData": "Дані про погоду недоступні",
+        "conditions": "Оцінка погоди",
+        "cloudAssessment": "Оцінка хмарності",
+        "temperatureStatus": "Стан температури",
+        "dewSpread": "Різниця роси (T-Td)"
+      }
+    },
+    "multiImageMonitor": {
+      "addCamera": "Камера",
+      "addCameraTitle": "Додати камеру",
+      "editCameraTitle": "Редагувати камеру",
+      "refreshNow": "Оновити зараз",
+      "settings": "Налаштування",
+      "noCameras": "Камери не налаштовані",
+      "noCamerasHint": "Натисніть '+ Камера' на панелі вкладок.",
+      "cameraName": "Назва камери",
+      "cameraNamePlaceholder": "напр. Південне небо, Allsky...",
+      "snapshotUrl": "URL знімка",
+      "autoRefresh": "Автооновлення",
+      "autoRefreshHint": "Автоматичне оновлення зображення",
+      "refreshInterval": "Інтервал оновлення",
+      "seconds": "Секунди",
+      "intervalMin": "Мінімум: 1 секунда",
+      "delete": "Видалити",
+      "cancel": "Скасувати",
+      "save": "Зберегти",
+      "add": "Додати",
+      "useProxy": "Використовувати проксі",
+      "useProxyHint": "Маршрутизувати зображення через сервер NINA. Потрібно для камер з обліковими даними або обмеженнями CORS. Вимкніть для прямих інтернет-камер.",
+      "deleteConfirm": "Ви дійсно хочете видалити камеру \"{name}\"?",
+      "loadingImage": "Завантаження зображення…",
+      "unknownCamera": "Невідома камера",
+      "noUrlConfigured": "Будь ласка, налаштуйте URL знімка в налаштуваннях.",
+      "help": {
+        "title": "Довідка URL знімка",
+        "what": "URL знімка — це пряме посилання на одне зображення з вашої IP-камери. URL повинен повертати зображення JPEG або PNG безпосередньо — не HTML-сторінку або відеопотік.",
+        "examplesTitle": "Приклади",
+        "credentialsTitle": "Камери з паролем",
+        "credentials": "Якщо ваша камера потребує ім'я користувача та пароль, включіть облікові дані безпосередньо в URL:",
+        "credentialsNote": "Проксі-сервер обробляє автентифікацію автоматично — облікові дані в URL працюють як з Basic, так і з Digest автентифікацією (наприклад, Hikvision).",
+        "proxyTitle": "Проксі vs. Прямий",
+        "proxyText": "Кожна камера може отримуватися двома способами:",
+        "close": "Закрити",
+        "exampleLabels": [
+          "Звичайна IP-камера",
+          "Камера ONVIF",
+          "Камера Axis",
+          "Камера Hikvision"
+        ],
+        "proxyOptions": [
+          "Проксі (за замовчуванням): Зображення отримується сервером NINA та передається в браузер. Потрібно для камер локальної мережі з обліковими даними або обмеженнями CORS. Трохи повільніше при доступі через VPN.",
+          "Прямий: Браузер отримує зображення безпосередньо. Швидше для публічних інтернет-камер (напр. публічні allsky-камери). Не підтримує облікові дані в URL в Chrome/Edge."
+        ]
+      }
     }
   },
   "dialogs": {
@@ -1857,5 +3557,92 @@
     "skyView": "Stellarium",
     "settings": "Налашт.",
     "about": "Про нас"
+  },
+  "indi": {
+    "config": {
+      "connectionMode": "Режим з'єднання",
+      "serial": "Послідовний",
+      "network": "Мережа",
+      "devicePort": "Порт пристрою",
+      "baudRate": "Швидкість передачі",
+      "autoDetect": "Автопошук",
+      "ipAddress": "IP-адреса",
+      "tcpPort": "TCP-порт",
+      "selectPort": "-- Оберіть порт --"
+    }
+  },
+  "pinsDevices": {
+    "title": "Пристрої PINS",
+    "powerBox": "PINS.PowerBox",
+    "meteoStation": "PINS.MeteoStation",
+    "configurationTab": "Конфігурація",
+    "generalTab": "Загальні",
+    "wifiTab": "WiFi",
+    "powerPortsTab": "Порти живлення",
+    "dewPortsTab": "Порти обігрівача від роси",
+    "adjustablePowerTab": "Регульоване живлення",
+    "weatherTab": "Погода",
+    "usbPortsTab": "USB-порти",
+    "settings": {
+      "title": "Налаштування",
+      "temperature": "Температура",
+      "humidity": "Вологість",
+      "dewPoint": "Точка роси",
+      "placeholders": {
+        "networkName": "Назва мережі",
+        "password": "Пароль",
+        "passwordHint": "Підказка для пароля"
+      },
+      "validation": {
+        "passwordRequired": "Пароль обов'язковий"
+      }
+    },
+    "ports": {
+      "disableOnStartup": "Вимкнено при запуску",
+      "enableOnStartup": "Увімкнено при запуску",
+      "alwaysEnabled": "Завжди увімкнено",
+      "status": "Статус",
+      "current": "Струм",
+      "currentVoltage": "Поточна напруга",
+      "currentPower": "Поточна потужність",
+      "outputVoltage": "Вихідна напруга",
+      "powerLevel": "Рівень потужності",
+      "defaultVoltage": "Напруга за замовчуванням"
+    },
+    "dew": {
+      "status": "Статус",
+      "autoMode": "Автоматичний режим",
+      "disableAutoMode": "Вимкнути автоматичний режим",
+      "enableAutoMode": "Увімкнути автоматичний режим",
+      "probeTemperature": "Температура датчика",
+      "current": "Струм",
+      "maxCurrent": "Макс. струм",
+      "currentPower": "Поточна потужність",
+      "autoThreshold": "Автоматичний поріг",
+      "autoThresholdDisplay": "Автоматичний поріг",
+      "autoThresholdDescription": "Автоматично вмикати обігрівач від роси, коли температура наближається до точки роси",
+      "powerLevel": "Рівень потужності"
+    },
+    "power": {
+      "buckConverter": "Знижувальний перетворювач",
+      "pwmOutput": "ШІМ-вихід"
+    },
+    "general": {
+      "rail12v": "Шина 12В",
+      "rail5v": "Шина 5В",
+      "averageAmps": "Середній струм",
+      "ampsPerHour": "Ампер на годину",
+      "wattsPerHour": "Ват на годину"
+    },
+    "weather": {
+      "luxUnit": "Люкс"
+    },
+    "errors": {
+      "failedRenamePort": "Не вдалося перейменувати порт",
+      "failedTogglePort": "Не вдалося перемкнути порт",
+      "failedToggleBootState": "Не вдалося перемкнути стан при завантаженні",
+      "failedToggleAutoMode": "Не вдалося перемкнути автоматичний режим",
+      "failedSetPowerLevel": "Не вдалося встановити рівень потужності"
+    }
   }
 }

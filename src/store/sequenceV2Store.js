@@ -15,6 +15,20 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
   getters: {
     globalTriggers: (s) => s.data[0]?.GlobalTriggers ?? [],
     containers: (s) => s.data.slice(1),
+    findParentOf: (s) => (itemId) => {
+      function search(items, parent) {
+        for (const item of items ?? []) {
+          if (item.Id === itemId) return parent;
+          const found =
+            search(item.Items, item) ??
+            search(item.Triggers, item) ??
+            search(item.Conditions, item);
+          if (found !== undefined) return found;
+        }
+        return undefined;
+      }
+      return search(s.data, null);
+    },
   },
   actions: {
     async loadCurrent() {

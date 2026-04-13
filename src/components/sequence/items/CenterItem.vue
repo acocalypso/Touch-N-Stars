@@ -1,10 +1,7 @@
 <template>
   <ItemShell :item="item">
     <template #summary>
-      <span v-if="item.Inherited" class="text-xs text-blue-400/80 italic">
-        {{ $t('components.sequence.items.center.inherited') }}
-      </span>
-      <span v-else class="text-xs text-slate-400 font-mono">{{ raStr }} {{ decStr }}</span>
+      <span class="text-xs text-slate-400 font-mono">{{ raStr }} {{ decStr }}</span>
     </template>
 
     <template #editor="{ save }">
@@ -110,7 +107,13 @@ const props = defineProps({
 
 const store = useSequenceV2Store();
 
-const c = computed(() => props.item.Coordinates ?? {});
+const c = computed(() => {
+  if (props.item.Inherited) {
+    const parent = store.findParentOf(props.item.Id);
+    return parent?.Target?.InputCoordinates ?? {};
+  }
+  return props.item.Coordinates ?? {};
+});
 
 const raStr = computed(() => {
   const co = c.value;

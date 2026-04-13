@@ -50,6 +50,98 @@
     </div>
 
     <div
+      class="w-full relative z-10 border border-gray-700 rounded-lg bg-gray-900/40 p-4 flex flex-col gap-3"
+    >
+      <div class="flex items-start justify-between gap-3">
+        <div>
+          <h4 class="text-base font-bold text-white">{{ $t('plugins.pins.wifiAdaptersTitle') }}</h4>
+          <p class="text-gray-400 text-xs">{{ $t('plugins.pins.wifiAdaptersDescription') }}</p>
+        </div>
+        <button
+          class="text-blue-400 hover:text-white transition-colors p-2"
+          :disabled="interfacesLoading || interfacesSaving || disabled"
+          :title="$t('plugins.pins.wifiAdapterRefresh')"
+          @click="$emit('refresh-interfaces')"
+        >
+          <svg
+            class="w-5 h-5"
+            :class="{ 'animate-spin': interfacesLoading }"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+            />
+          </svg>
+        </button>
+      </div>
+
+      <div v-if="wifiAdapters.length === 0" class="text-sm text-gray-400 italic">
+        {{ $t('plugins.pins.wifiNoAdapters') }}
+      </div>
+
+      <div v-else class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div class="flex flex-col gap-2">
+          <label class="text-gray-400 text-xs uppercase font-bold">{{
+            $t('plugins.pins.wifiClientInterface')
+          }}</label>
+          <select
+            :value="selectedClientInterface"
+            @change="$emit('update:selectedClientInterface', $event.target.value)"
+            class="bg-gray-900 border border-gray-600 rounded-lg p-3 text-white focus:border-blue-500 outline-none w-full"
+            :disabled="interfacesLoading || interfacesSaving || disabled"
+          >
+            <option value="">{{ $t('plugins.pins.wifiAutoInterface') }}</option>
+            <option
+              v-for="adapter in wifiAdapters"
+              :key="adapter.interface"
+              :value="adapter.interface"
+            >
+              {{ formatAdapterLabel(adapter) }}
+            </option>
+          </select>
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <label class="text-gray-400 text-xs uppercase font-bold">{{
+            $t('plugins.pins.wifiHotspotInterface')
+          }}</label>
+          <select
+            :value="selectedHotspotInterface"
+            @change="$emit('update:selectedHotspotInterface', $event.target.value)"
+            class="bg-gray-900 border border-gray-600 rounded-lg p-3 text-white focus:border-blue-500 outline-none w-full"
+            :disabled="interfacesLoading || interfacesSaving || disabled"
+          >
+            <option value="">{{ $t('plugins.pins.wifiAutoInterface') }}</option>
+            <option
+              v-for="adapter in wifiAdapters"
+              :key="adapter.interface"
+              :value="adapter.interface"
+            >
+              {{ formatAdapterLabel(adapter) }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <button
+        class="w-full py-2.5 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white font-bold rounded-lg shadow-md shadow-blue-900/20 transition-all disabled:opacity-50"
+        :disabled="interfacesLoading || interfacesSaving || disabled"
+        @click="$emit('save-interfaces')"
+      >
+        {{
+          interfacesSaving
+            ? $t('plugins.pins.wifiAdapterSaving')
+            : $t('plugins.pins.wifiAdapterSave')
+        }}
+      </button>
+    </div>
+
+    <div
       v-if="stationaryMode"
       class="w-full relative z-10 flex flex-col gap-3 mt-2 animate-fade-in-up"
     >
@@ -282,6 +374,26 @@ defineProps({
     type: Boolean,
     required: true,
   },
+  wifiAdapters: {
+    type: Array,
+    required: true,
+  },
+  interfacesLoading: {
+    type: Boolean,
+    required: true,
+  },
+  interfacesSaving: {
+    type: Boolean,
+    required: true,
+  },
+  selectedClientInterface: {
+    type: String,
+    required: true,
+  },
+  selectedHotspotInterface: {
+    type: String,
+    required: true,
+  },
   hotspotConfigured: {
     type: Boolean,
     required: true,
@@ -307,14 +419,37 @@ defineProps({
 defineEmits([
   'toggle-stationary',
   'scan-wifi',
+  'refresh-interfaces',
+  'save-interfaces',
   'connect-wifi',
   'disconnect-wifi',
   'update:selectedSsid',
   'update:wifiPassword',
   'update:selectedBand',
   'update:autoConnect',
+  'update:selectedClientInterface',
+  'update:selectedHotspotInterface',
   'update:hotspotPassword',
   'load-hotspot',
   'save-hotspot',
 ]);
+
+function formatAdapterLabel(adapter) {
+  if (!adapter || !adapter.interface) {
+    return '';
+  }
+
+  const parts = [adapter.interface];
+  if (adapter.role && adapter.role !== 'idle') {
+    parts.push(adapter.role);
+  }
+  if (adapter.state) {
+    parts.push(adapter.state);
+  }
+  if (adapter.driver) {
+    parts.push(adapter.driver);
+  }
+
+  return parts.join(' | ');
+}
 </script>

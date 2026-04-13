@@ -2081,6 +2081,12 @@
         "parkTelescope": {
           "name": "停靠望远镜",
           "description": "停靠望远镜赤道仪"
+        },
+        "dewHeater": {
+          "description": "Set camera dew heater state",
+          "name": "Dew Heater",
+          "onOffLabel": "Enabled",
+          "onOffTooltip": "Turn the camera dew heater on or off"
         }
       },
       "actionLibrary": {

@@ -2081,6 +2081,12 @@
         "parkTelescope": {
           "name": "Estacionar telescópio",
           "description": "Estacionar montagem do telescópio"
+        },
+        "dewHeater": {
+          "description": "Definir o estado do aquecedor de condensação da câmera",
+          "name": "Aquecedor de orvalho",
+          "onOffLabel": "Habilitado",
+          "onOffTooltip": "Ligar ou desligar o aquecedor de condensação da câmera"
         }
       },
       "actionLibrary": {

@@ -2081,6 +2081,12 @@
         "parkTelescope": {
           "name": "Parkeer Telescoop",
           "description": "Parkeer de telescoop montering"
+        },
+        "dewHeater": {
+          "description": "Stel de status van de dauwverwarming van de camera in",
+          "name": "Dauwverwarmer",
+          "onOffLabel": "Ingeschakeld",
+          "onOffTooltip": "Schakel de dauwverwarmer van de camera in of uit"
         }
       },
       "actionLibrary": {

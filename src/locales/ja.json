@@ -2128,6 +2128,12 @@
         "parkTelescope": {
           "name": "望遠鏡をパーク",
           "description": "赤道儀をパーク"
+        },
+        "dewHeater": {
+          "description": "カメラ露ヒーターの状態を設定する",
+          "name": "露ヒーター",
+          "onOffLabel": "有効",
+          "onOffTooltip": "カメラの結露ヒーターをオンまたはオフにする"
         }
       },
       "actionLibrary": {

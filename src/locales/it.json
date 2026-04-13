@@ -2081,6 +2081,12 @@
         "parkTelescope": {
           "name": "Parcheggia telescopio",
           "description": "Parcheggia montatura telescopio"
+        },
+        "dewHeater": {
+          "description": "Imposta lo stato del riscaldatore anticondensa della telecamera",
+          "name": "Riscaldatore di rugiada",
+          "onOffLabel": "Abilitato",
+          "onOffTooltip": "Accendere o spegnere lo scaldacqua della fotocamera"
         }
       },
       "actionLibrary": {

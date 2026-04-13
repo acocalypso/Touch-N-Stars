@@ -124,20 +124,47 @@
           </select>
 
           <!-- Boolean Input -->
-          <div v-else-if="param.type === 'boolean'" class="flex items-center space-x-3">
-            <input
-              :id="`param-${key}`"
-              :checked="param.value !== undefined ? param.value : param.default"
-              @change="updateParameter(key, $event.target.checked)"
-              type="checkbox"
-              class="h-4 w-4 rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800"
-            />
-            <label
-              :for="`param-${key}`"
-              class="text-sm text-gray-700 dark:text-gray-300 cursor-pointer"
+          <div v-else-if="param.type === 'boolean'">
+            <div
+              v-if="action.type === 'dew-heater' && key === 'onOff'"
+              class="flex w-full items-center"
             >
-              {{ param.label || t('plugins.sequenceCreator.actions.enabled') }}
-            </label>
+              <span class="text-sm text-gray-700 dark:text-gray-300">
+                {{ param.label || t('plugins.sequenceCreator.actions.enabled') }}
+              </span>
+              <button
+                type="button"
+                role="switch"
+                :aria-checked="getBooleanValue(param)"
+                :class="[
+                  'relative ml-auto inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500',
+                  getBooleanValue(param) ? 'bg-blue-600' : 'bg-gray-400 dark:bg-gray-600',
+                ]"
+                @click="updateParameter(key, !getBooleanValue(param))"
+              >
+                <span
+                  :class="[
+                    'inline-block h-4 w-4 transform rounded-full bg-white transition-transform',
+                    getBooleanValue(param) ? 'translate-x-6' : 'translate-x-1',
+                  ]"
+                />
+              </button>
+            </div>
+            <div v-else class="flex items-center space-x-3">
+              <input
+                :id="`param-${key}`"
+                :checked="getBooleanValue(param)"
+                @change="updateParameter(key, $event.target.checked)"
+                type="checkbox"
+                class="h-4 w-4 rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800"
+              />
+              <label
+                :for="`param-${key}`"
+                class="text-sm text-gray-700 dark:text-gray-300 cursor-pointer"
+              >
+                {{ param.label || t('plugins.sequenceCreator.actions.enabled') }}
+              </label>
+            </div>
           </div>
 
           <!-- Range Input -->
@@ -214,6 +241,10 @@ function formatParameterName(key) {
 
 function updateParameter(key, value) {
   emit('update-parameter', props.action.id, key, value);
+}
+
+function getBooleanValue(param) {
+  return param.value !== undefined ? param.value : param.default;
 }
 
 function handleNumberInput(key, value, param) {

@@ -2081,6 +2081,12 @@
         "parkTelescope": {
           "name": "Zaparkuj teleskop",
           "description": "Zaparkuj montaż teleskopu"
+        },
+        "dewHeater": {
+          "description": "Ustaw stan odroszacza kamery",
+          "name": "Podgrzewacz rosy",
+          "onOffLabel": "Włączony",
+          "onOffTooltip": "Włącz lub wyłącz podgrzewacz rosy w aparacie"
         }
       },
       "actionLibrary": {

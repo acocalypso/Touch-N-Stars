@@ -102,7 +102,13 @@ const props = defineProps({
 
 const store = useSequenceV2Store();
 
-const c = computed(() => props.item.Coordinates ?? {});
+const c = computed(() => {
+  if (props.item.Inherited) {
+    const parent = store.findParentOf(props.item.Id);
+    return parent?.Target?.InputCoordinates ?? {};
+  }
+  return props.item.Coordinates ?? {};
+});
 
 const raStr = computed(() => {
   const co = c.value;

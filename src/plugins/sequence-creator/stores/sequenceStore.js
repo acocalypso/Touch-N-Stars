@@ -43,6 +43,21 @@ const actionTemplates = {
       },
       color: 'bg-cyan-500',
     },
+    {
+      id: 'dew-heater',
+      name: 'Dew Heater',
+      icon: 'fire',
+      description: 'Set camera dew heater state',
+      parameters: {
+        onOff: {
+          type: 'boolean',
+          default: false,
+          label: 'Enabled',
+          tooltip: 'Turn the camera dew heater on or off',
+        },
+      },
+      color: 'bg-teal-500',
+    },
   ],
   target: [
     {
@@ -300,6 +315,21 @@ export const useSequenceStore = defineStore('sequence', () => {
             },
           },
           color: 'bg-cyan-500',
+        },
+        {
+          id: 'dew-heater',
+          name: t('plugins.sequenceCreator.actions.dewHeater.name'),
+          icon: 'fire',
+          description: t('plugins.sequenceCreator.actions.dewHeater.description'),
+          parameters: {
+            onOff: {
+              type: 'boolean',
+              default: false,
+              label: t('plugins.sequenceCreator.actions.dewHeater.onOffLabel'),
+              tooltip: t('plugins.sequenceCreator.actions.dewHeater.onOffTooltip'),
+            },
+          },
+          color: 'bg-teal-500',
         },
       ],
       target: [
@@ -1345,6 +1375,7 @@ export const useSequenceStore = defineStore('sequence', () => {
       'park-scope': 'NINA.Sequencer.SequenceItem.Telescope.ParkScope, NINA.Sequencer',
       'find-home': 'NINA.Sequencer.SequenceItem.Telescope.FindHome, NINA.Sequencer',
       'cool-camera': 'NINA.Sequencer.SequenceItem.Camera.CoolCamera, NINA.Sequencer',
+      'dew-heater': 'NINA.Sequencer.SequenceItem.Camera.DewHeater, NINA.Sequencer',
       'warm-camera': 'NINA.Sequencer.SequenceItem.Camera.WarmCamera, NINA.Sequencer',
       'run-autofocus': 'NINA.Sequencer.SequenceItem.Autofocus.RunAutofocus, NINA.Sequencer',
       'start-guiding': 'NINA.Sequencer.SequenceItem.Guider.StartGuiding, NINA.Sequencer',
@@ -1457,6 +1488,9 @@ export const useSequenceStore = defineStore('sequence', () => {
       case 'cool-camera':
         ninaItem.Temperature = action.parameters.temperature?.value || -10.0;
         ninaItem.Duration = action.parameters.duration?.value || 0;
+        break;
+      case 'dew-heater':
+        ninaItem.OnOff = action.parameters.onOff?.value || false;
         break;
       case 'warm-camera':
         ninaItem.Duration = action.parameters.duration?.value || 0;

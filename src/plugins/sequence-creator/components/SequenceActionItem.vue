@@ -203,7 +203,14 @@
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div v-for="(param, key) in action.parameters" :key="key" class="space-y-2">
+          <div
+            v-for="(param, key) in action.parameters"
+            :key="key"
+            :class="[
+              'space-y-2',
+              action.type === 'dew-heater' && key === 'onOff' ? 'md:col-span-2' : '',
+            ]"
+          >
             <label
               :for="`param-${action.id}-${key}`"
               class="block text-sm font-medium text-gray-700 dark:text-gray-300"
@@ -281,24 +288,55 @@
             </select>
 
             <!-- Boolean Input -->
-            <div v-else-if="param.type === 'boolean'" class="flex items-center">
-              <input
-                :id="`param-${action.id}-${key}`"
-                v-model="param.value"
-                @change="updateParameter(key, $event.target.checked)"
-                type="checkbox"
-                class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
-              />
-              <label
-                :for="`param-${action.id}-${key}`"
-                class="ml-2 text-sm text-gray-700 dark:text-gray-300"
+            <div v-else-if="param.type === 'boolean'">
+              <div
+                v-if="action.type === 'dew-heater' && key === 'onOff'"
+                class="flex w-full items-center"
               >
-                {{
-                  param.value
-                    ? t('plugins.sequenceCreator.actions.enabled')
-                    : t('plugins.sequenceCreator.actions.disabled')
-                }}
-              </label>
+                <span class="text-sm text-gray-700 dark:text-gray-300">
+                  {{
+                    getBooleanValue(param)
+                      ? t('plugins.sequenceCreator.actions.enabled')
+                      : t('plugins.sequenceCreator.actions.disabled')
+                  }}
+                </span>
+                <button
+                  type="button"
+                  role="switch"
+                  :aria-checked="getBooleanValue(param)"
+                  :class="[
+                    'relative ml-auto inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500',
+                    getBooleanValue(param) ? 'bg-blue-600' : 'bg-gray-400 dark:bg-gray-600',
+                  ]"
+                  @click="updateParameter(key, !getBooleanValue(param))"
+                >
+                  <span
+                    :class="[
+                      'inline-block h-4 w-4 transform rounded-full bg-white transition-transform',
+                      getBooleanValue(param) ? 'translate-x-6' : 'translate-x-1',
+                    ]"
+                  />
+                </button>
+              </div>
+              <div v-else class="flex items-center">
+                <input
+                  :id="`param-${action.id}-${key}`"
+                  :checked="getBooleanValue(param)"
+                  @change="updateParameter(key, $event.target.checked)"
+                  type="checkbox"
+                  class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
+                />
+                <label
+                  :for="`param-${action.id}-${key}`"
+                  class="ml-2 text-sm text-gray-700 dark:text-gray-300"
+                >
+                  {{
+                    getBooleanValue(param)
+                      ? t('plugins.sequenceCreator.actions.enabled')
+                      : t('plugins.sequenceCreator.actions.disabled')
+                  }}
+                </label>
+              </div>
             </div>
 
             <!-- Show current value info for number inputs -->
@@ -400,6 +438,10 @@ function toggleEdit() {
 
 function updateParameter(key, value) {
   store.updateActionParameter(props.action.id, key, value);
+}
+
+function getBooleanValue(param) {
+  return param.value !== undefined ? param.value : param.default;
 }
 
 function handleNumberInput(action, key, value) {

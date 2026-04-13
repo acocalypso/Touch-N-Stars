@@ -2101,6 +2101,12 @@
         "parkTelescope": {
           "name": "Parquer le télescope",
           "description": "Parquer la monture du télescope"
+        },
+        "dewHeater": {
+          "description": "Définir l'état du réchauffeur de rosée de la caméra",
+          "name": "Chauffe-rosée",
+          "onOffLabel": "Activé",
+          "onOffTooltip": "Allumer ou éteindre le chauffe-rosée de la caméra"
         }
       },
       "actionLibrary": {

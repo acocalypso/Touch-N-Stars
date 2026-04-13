@@ -15,7 +15,7 @@ const useMockApi = () => {
 };
 
 const initializeStore = () => {
-  if (!settingsStore) {
+  if (!settingsStore || !store) {
     const pinia = getActivePinia();
     if (!pinia) {
       throw new Error('Pinia store not initialized');

@@ -241,27 +241,28 @@
           </div>
 
           <!-- Footer -->
-          <div class="flex items-center justify-between gap-2 px-4 py-3 border-t border-[#2e3650] shrink-0 flex-wrap">
-            <button class="default-button-gray" @click="onCancel">
-              {{ $t('common.close') }}
+          <div class="flex flex-col gap-2 px-4 py-3 border-t border-[#2e3650] shrink-0">
+            <SaveFavTargets
+              class="w-full"
+              name="FITS Plate Solve"
+              :ra="result.ra"
+              :dec="result.dec"
+              :ra-string="result.raString"
+              :dec-string="result.decString"
+              :rotation="result.rotation ?? 0"
+              :show-label="true"
+            />
+            <!-- Checkmark = confirm & apply (like FavTargets) -->
+            <button
+              class="default-button-cyan w-full flex items-center gap-2"
+              :title="showSeqTarget ? $t('components.framing.setSequnceTarget') : $t('components.fitsPlatesolve.useAsTarget')"
+              @click="useAsTarget"
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+              {{ showSeqTarget ? $t('components.framing.setSequnceTarget') : $t('components.fitsPlatesolve.useAsTarget') }}
             </button>
-            <div class="flex items-center gap-2 flex-wrap">
-              <SaveFavTargets
-                name="FITS Plate Solve"
-                :ra="result.ra"
-                :dec="result.dec"
-                :ra-string="result.raString"
-                :dec-string="result.decString"
-                :rotation="result.rotation ?? 0"
-              />
-              <button class="default-button-cyan" @click="useAsTarget">
-                {{
-                  showSeqTarget
-                    ? $t('components.framing.setSequnceTarget')
-                    : $t('components.fitsPlatesolve.useAsTarget')
-                }}
-              </button>
-            </div>
           </div>
         </div>
 
@@ -294,7 +295,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, nextTick } from 'vue';
 
 // Multiple root nodes (button + FileBrowser + Teleport) = fragment → Vue won't auto-inherit attrs.
 // We manually forward them to the button so positioning classes from the parent work.
@@ -303,6 +304,7 @@ import { useI18n } from 'vue-i18n';
 import FileBrowser from '@/components/helpers/fileBrowser.vue';
 import SaveFavTargets from '@/components/favTargets/SaveFavTargets.vue';
 import { useFramingStore } from '@/store/framingStore';
+import { degreesToHMS, degreesToDMS } from '@/utils/utils';
 import { useSequenceStore } from '@/store/sequenceStore';
 import { useToastStore } from '@/store/toastStore';
 import apiService from '@/services/apiService';
@@ -316,6 +318,8 @@ const props = defineProps({
   showFraming: { type: Boolean, default: true },
   showSeqTarget: { type: Boolean, default: false },
 });
+
+const emit = defineEmits(['solved']);
 
 const hasSequenceLoaded = computed(
   () =>
@@ -461,15 +465,23 @@ async function solve(blind) {
       rotation: data.Rotation ?? data.rotation,
       pixelScale: data.PixelScale ?? data.pixelScale,
     };
-    // Write all coordinates into framingStore so the existing slew button
-    // in slewAndCenter.vue picks them up immediately — no extra click needed.
+    // Write coordinates into framingStore exactly like selectTarget() in TargetSearch.vue.
+    // Use degreesToHMS/DMS so slewAndCenter.vue can parse the strings correctly —
+    // the API DecString uses "41° 16' 07\"" format which dmsToDegrees cannot handle.
     framingStore.RAangle = result.value.ra;
     framingStore.DECangle = result.value.dec;
-    framingStore.RAangleString = result.value.raString;
-    framingStore.DECangleString = result.value.decString;
+    framingStore.RAangleString = degreesToHMS(result.value.ra);
+    framingStore.DECangleString = degreesToDMS(result.value.dec);
     framingStore.rotationAngle = result.value.rotation ?? 0;
     framingStore.isMosaicMode = false;
     framingStore.selectedItem = { Name: 'FITS Plate Solve', RA: result.value.ra, Dec: result.value.dec };
+    // Reload the framing assistant image by remounting FramingAssitantImg
+    // (it has no watcher on RAangle — only loads on mount, same as when a target is picked)
+    if (framingStore.showFramingModal) {
+      framingStore.showFramingModal = false;
+      await nextTick();
+      framingStore.showFramingModal = true;
+    }
     step.value = 'result';
   } catch (e) {
     errorMessage.value = e?.message || t('components.fitsPlatesolve.solveFailed');

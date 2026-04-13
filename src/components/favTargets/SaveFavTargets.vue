@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :class="{ 'w-full': showLabel }">
     <button
       @click="showModal = true"
       class="default-button-cyan"

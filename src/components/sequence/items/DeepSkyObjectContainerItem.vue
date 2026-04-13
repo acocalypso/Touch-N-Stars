@@ -32,7 +32,10 @@
       </div>
 
       <!-- FITS Plate Solve -->
-      <div class="flex items-center gap-3">
+      <div
+        v-if="appStore.isPINS || appStore.checkVersionNewerOrEqual(appStore.currentTnsPluginVersion, '1.2.7.0')"
+        class="flex items-center gap-3"
+      >
         <label class="text-xs text-slate-400 flex-shrink-0">{{
           $t('components.fitsPlatesolve.buttonTitle')
         }}</label>
@@ -224,6 +227,7 @@ import TargetSearch from '@/plugins/sequence-creator/components/TargetSearch.vue
 import Modal from '@/components/helpers/Modal.vue';
 import { useSequenceV2Store } from '@/store/sequenceV2Store';
 import { useFavTargetStore } from '@/store/favTargetsStore';
+import { apiStore } from '@/store/store';
 import { HeartIcon, CheckIcon } from '@heroicons/vue/24/outline';
 import FitsPlateSolve from '@/components/fitsPlatesolve/FitsPlateSolve.vue';
 
@@ -233,6 +237,7 @@ const props = defineProps({
 
 const store = useSequenceV2Store();
 const favStore = useFavTargetStore();
+const appStore = apiStore();
 const showFavPicker = ref(false);
 
 function openFavPicker() {

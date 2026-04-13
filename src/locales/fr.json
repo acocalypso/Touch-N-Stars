@@ -1576,7 +1576,11 @@
         "indi3rdpartyLoadFailed": "Échec du chargement des packages tiers INDI : {message}",
         "indi3rdpartyInstallStart": "Installation du package INDI : {assetName}",
         "indi3rdpartyInstallSuccess": "Installation du package INDI terminée : {message}",
-        "indi3rdpartyInstallFailed": "Échec de l'installation du package INDI : {message}"
+        "indi3rdpartyInstallFailed": "Échec de l'installation du package INDI : {message}",
+        "wifiAdaptersLoadFailed": "Échec du chargement des adaptateurs Wi-Fi : {message}",
+        "wifiInterfacesLoadFailed": "Échec du chargement des interfaces Wi-Fi sélectionnées : {message}",
+        "wifiInterfacesSaveFailed": "Échec de l'enregistrement des interfaces Wi-Fi : {message}",
+        "wifiInterfacesSaved": "Interfaces WiFi enregistrées. \nClient : {clientInterface}, point d'accès : {hotspotInterface}"
       },
       "hotspotConfigured": "Le mot de passe du point d'accès personnalisé est configuré.",
       "hotspotNewPassword": "Nouveau mot de passe du point d'accès",
@@ -1615,7 +1619,22 @@
       "dhcpClientsLoading": "Chargement des clients...",
       "dhcpClientsMac": "Adresse MAC",
       "dhcpClientsRefresh": "Actualiser la liste des clients",
-      "dhcpClientsTitle": "Clients connectés"
+      "dhcpClientsTitle": "Clients connectés",
+      "tabs": {
+        "network": "Réseau",
+        "services": "Services",
+        "software": "Logiciel",
+        "upgrade": "Mise à niveau"
+      },
+      "wifiAdapterRefresh": "Actualiser la liste des adaptateurs",
+      "wifiAdapterSave": "Enregistrer la sélection de l'adaptateur",
+      "wifiAdapterSaving": "Enregistrement de la sélection d'adaptateur...",
+      "wifiAdaptersDescription": "Choisissez quel adaptateur gère le WiFi domestique et quel adaptateur héberge le mode hotspot.",
+      "wifiAdaptersTitle": "Affectation de l'adaptateur WiFi",
+      "wifiAutoInterface": "Auto (démon par défaut)",
+      "wifiClientInterface": "Adaptateur WiFi domestique",
+      "wifiHotspotInterface": "Adaptateur de point d'accès",
+      "wifiNoAdapters": "Aucun adaptateur WiFi trouvé."
     },
     "bahtifocus": {
       "title": "Analyseur de masque Bahtinov",

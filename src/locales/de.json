@@ -2084,6 +2084,12 @@
           "durationLabel": "Kühldauer (Minuten)",
           "durationTooltip": "Zeit für aktive Kühlung (0 = kühlen bis Temperatur erreicht)"
         },
+        "dewHeater": {
+          "name": "Tauheizung",
+          "description": "Kamera-Tauheizung ein- oder ausschalten",
+          "onOffLabel": "Aktiviert",
+          "onOffTooltip": "Schaltet die Kamera-Tauheizung ein oder aus"
+        },
         "targetSettings": {
           "name": "Zieleinstellungen",
           "description": "Zielkoordinaten und Einstellungen definieren",

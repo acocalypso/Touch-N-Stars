@@ -1,7 +1,10 @@
 <template>
   <ItemShell :item="item">
     <template #summary>
-      <span class="text-xs text-slate-400 font-mono">{{ raStr }} {{ decStr }}</span>
+      <span v-if="item.Inherited" class="text-xs text-blue-400/80 italic">
+        {{ $t('components.sequence.items.center.inherited') }}
+      </span>
+      <span v-else class="text-xs text-slate-400 font-mono">{{ raStr }} {{ decStr }}</span>
     </template>
 
     <template #editor="{ save }">

@@ -2084,6 +2084,12 @@
           "durationLabel": "Cooling Duration (minutes)",
           "durationTooltip": "Time to actively cool the camera (0 = cool until temperature reached)"
         },
+        "dewHeater": {
+          "name": "Dew Heater",
+          "description": "Set camera dew heater state",
+          "onOffLabel": "Enabled",
+          "onOffTooltip": "Turn the camera dew heater on or off"
+        },
         "targetSettings": {
           "name": "Target Settings",
           "description": "Define target coordinates and settings",

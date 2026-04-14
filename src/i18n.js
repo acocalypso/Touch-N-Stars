@@ -10,6 +10,7 @@ import es from './locales/es.json';
 import pl from './locales/pl.json';
 import nl from './locales/nl.json';
 import ja from './locales/ja.json';
+import uk from './locales/uk.json';
 
 const languageToBackendCode = {
   en: 'en-GB',
@@ -23,6 +24,7 @@ const languageToBackendCode = {
   es: 'es-ES',
   pl: 'pl-PL',
   nl: 'nl-NL',
+  uk: 'uk-UA',
 };
 
 export function getBackendLanguageCode(frontendCode) {
@@ -42,6 +44,7 @@ const availableLanguages = [
   { code: 'es', name: 'Español' },
   { code: 'pl', name: 'Polski' },
   { code: 'nl', name: 'Nederlands' },
+  { code: 'uk', name: 'Українська' },
 ];
 
 const messages = {
@@ -56,6 +59,7 @@ const messages = {
   pl,
   nl,
   ja,
+  uk,
 };
 
 // Create i18n instance

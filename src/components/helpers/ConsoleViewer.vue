@@ -57,6 +57,8 @@ const isModalOpen = ref(false);
 const logs = ref([]);
 const showSuccess = ref(false);
 
+const MAX_LOGS = 1000;
+
 // Rate limiting cache for duplicate console messages
 const consoleCache = new Map();
 
@@ -156,8 +158,9 @@ if (!window.__consoleViewerPatched) {
 
       // Clean up old entries (older than 15 seconds)
       setTimeout(() => {
+        const cutoff = Date.now() - 15000;
         for (const [key, timestamp] of consoleCache.entries()) {
-          if (now - timestamp > 15000) {
+          if (timestamp < cutoff) {
             consoleCache.delete(key);
           }
         }
@@ -168,6 +171,11 @@ if (!window.__consoleViewerPatched) {
         message,
         timestamp: new Date().toISOString(),
       });
+
+      // Trim log buffer to prevent unbounded memory growth
+      if (logs.value.length > MAX_LOGS) {
+        logs.value.splice(0, logs.value.length - MAX_LOGS);
+      }
     };
   });
 

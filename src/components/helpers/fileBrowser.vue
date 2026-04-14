@@ -348,6 +348,10 @@ watch(isOpen, async (val) => {
           selectedPath.value = props.initialPath;
         }
       }
+      // If both failed (e.g. USB stick removed), fall back to root
+      if (listError.value) {
+        await navigateTo('');
+      }
     } else {
       await navigateTo('');
     }

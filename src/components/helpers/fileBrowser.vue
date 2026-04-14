@@ -325,6 +325,8 @@ const breadcrumbs = computed(() => {
     let builtPath = parts.slice(0, i + 1).join(sep);
     // Windows drive roots: "C:" → "C:\"
     if (i === 0 && isWindows) builtPath += sep;
+    // Unix paths: restore leading "/"
+    if (!isWindows) builtPath = '/' + builtPath;
     return { label, path: builtPath };
   });
 });
@@ -347,6 +349,10 @@ watch(isOpen, async (val) => {
         if (!listError.value) {
           selectedPath.value = props.initialPath;
         }
+      }
+      // If both failed (e.g. USB stick removed), fall back to root
+      if (listError.value) {
+        await navigateTo('');
       }
     } else {
       await navigateTo('');

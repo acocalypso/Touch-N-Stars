@@ -4,7 +4,7 @@
   >
     <StartStopButton @pressed="toogleState()" />
     <button
-      v-if="store.resetSupported"
+      v-if="liveStackStore.resetSupported && store.isPINS"
       class="flex items-center justify-center w-10 h-10 rounded-full bg-gray-600 text-white border border-gray-400"
       :title="t('plugins.livestack.reset')"
       @click="resetLivestack()"
@@ -22,7 +22,7 @@
       <div class="flex gap-1.5">
         <StartStopButton @pressed="toogleState()" />
         <button
-          v-if="store.resetSupported"
+          v-if="liveStackStore.resetSupported"
           class="flex items-center justify-center w-10 h-10 rounded-full bg-gray-600 text-white border border-gray-400"
           :title="t('plugins.livestack.reset')"
           @click="resetLivestack()"
@@ -48,15 +48,18 @@ import { TrashIcon } from '@heroicons/vue/24/solid';
 import { useLivestackStore } from '../store/livestackStore.js';
 import apiService from '@/services/apiService';
 import { useI18n } from 'vue-i18n';
+import { apiStore } from '@/store/store';
 
-const store = useLivestackStore();
+const liveStackStore = useLivestackStore();
+const store = apiStore();
+
 const { t } = useI18n();
 const emit = defineEmits(['error']);
 
 const setError = (message) => emit('error', message);
 
 const toogleState = () => {
-  if (store.status === 'running') {
+  if (liveStackStore.status === 'running') {
     stopLivestack();
   } else {
     startLivestack();
@@ -64,8 +67,8 @@ const toogleState = () => {
 };
 
 const startLivestack = async () => {
-  const previousStatus = store.status;
-  store.status = 'waiting';
+  const previousStatus = liveStackStore.status;
+  liveStackStore.status = 'waiting';
   setError(null);
 
   try {
@@ -74,7 +77,7 @@ const startLivestack = async () => {
       console.log('Livestack started successfully');
     } else {
       setError(result.Error || t('plugins.livestack.errors.start_failed'));
-      store.status = previousStatus;
+      liveStackStore.status = previousStatus;
     }
   } catch (error) {
     console.error('Error starting livestack:', error);
@@ -83,32 +86,32 @@ const startLivestack = async () => {
         message: error.message,
       })
     );
-    store.status = previousStatus;
+    liveStackStore.status = previousStatus;
     return;
   }
 
   // Assume running after successful start until websocket updates
-  store.status = 'running';
+  liveStackStore.status = 'running';
 };
 
 const stopLivestack = async () => {
-  const previousStatus = store.status;
-  store.status = 'waiting';
+  const previousStatus = liveStackStore.status;
+  liveStackStore.status = 'waiting';
   setError(null);
 
   try {
     const result = await apiService.livestackStop();
     if (result.Success) {
       console.log('Livestack stop successfully');
-      store.status = 'stopped';
+      liveStackStore.status = 'stopped';
     } else {
       setError(result.Error || t('plugins.livestack.errors.stop_failed'));
-      store.status = previousStatus;
+      liveStackStore.status = previousStatus;
     }
   } catch (error) {
     console.error('Error stoping livestack:', error);
     setError(t('plugins.livestack.errors.stop_exception', { message: error.message }));
-    store.status = previousStatus;
+    liveStackStore.status = previousStatus;
   }
 };
 
@@ -117,13 +120,13 @@ const resetLivestack = async () => {
   try {
     const result = await apiService.livestackReset();
     if (result.Success) {
-      store.resetStack();
+      liveStackStore.resetStack();
     } else {
       setError(result.Error || t('plugins.livestack.errors.reset_failed'));
     }
   } catch (error) {
     if (error.response?.status === 404) {
-      store.resetSupported = false;
+      liveStackStore.resetSupported = false;
       return;
     }
     console.error('Error resetting livestack:', error);

@@ -357,7 +357,9 @@
               $t('components.fitsPlatesolve.error')
             }}</span>
           </div>
-          <p v-if="errorMessage" class="text-slate-400 text-sm leading-relaxed">{{ errorMessage }}</p>
+          <p v-if="errorMessage" class="text-slate-400 text-sm leading-relaxed">
+            {{ errorMessage }}
+          </p>
           <div class="flex justify-end gap-2 pt-2 border-t border-gray-700">
             <button class="default-button-gray" @click="onCancel">
               {{ $t('common.close') }}
@@ -467,7 +469,8 @@ async function onFileSelected(path) {
     const params = await apiService.getFitsParameters(path);
     if (!params?.Success) {
       const serverMsg = params?.Error;
-      const isGenericNetworkError = !serverMsg || /request failed|connection failed/i.test(serverMsg);
+      const isGenericNetworkError =
+        !serverMsg || /request failed|connection failed/i.test(serverMsg);
       throw new Error(isGenericNetworkError ? '' : serverMsg);
     }
 
@@ -559,7 +562,8 @@ async function solve(blind) {
     const success = data?.Success ?? data?.success;
     if (!success) {
       const serverMsg = data?.Error || data?.error;
-      const isGenericNetworkError = !serverMsg || /request failed|connection failed/i.test(serverMsg);
+      const isGenericNetworkError =
+        !serverMsg || /request failed|connection failed/i.test(serverMsg);
       throw new Error(isGenericNetworkError ? '' : serverMsg);
     }
 

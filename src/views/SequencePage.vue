@@ -28,7 +28,9 @@
       style="bottom: calc(env(safe-area-inset-bottom, 0px) + 48px)"
     />
     <FitsPlateSolve
-      v-if="store.isPINS || store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.2.7.0')"
+      v-if="
+        store.isPINS || store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.2.7.0')
+      "
       :showFraming="false"
       :showSeqTarget="true"
       class="fixed right-28 z-10"

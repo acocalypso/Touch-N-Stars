@@ -11,7 +11,10 @@
         style="bottom: calc(env(safe-area-inset-bottom, 0px) + 48px)"
       />
       <FitsPlateSolve
-        v-if="appStore.isPINS || appStore.checkVersionNewerOrEqual(appStore.currentTnsPluginVersion, '1.2.7.0')"
+        v-if="
+          appStore.isPINS ||
+          appStore.checkVersionNewerOrEqual(appStore.currentTnsPluginVersion, '1.2.7.0')
+        "
         :showFraming="true"
         :showSeqTarget="false"
         class="fixed right-16 z-20"

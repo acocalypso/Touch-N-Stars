@@ -3,9 +3,11 @@
   <button
     v-bind="$attrs"
     @click="start"
-    :class="variant === 'inline'
-      ? 'flex items-center gap-1 px-2 py-1 bg-slate-700/60 border border-slate-600 rounded text-xs text-gray-200 hover:bg-slate-600'
-      : 'p-2 bg-gray-700 border border-cyan-600 rounded-full shadow-md z-10'"
+    :class="
+      variant === 'inline'
+        ? 'flex items-center gap-1 px-2 py-1 bg-slate-700/60 border border-slate-600 rounded text-xs text-gray-200 hover:bg-slate-600'
+        : 'p-2 bg-gray-700 border border-cyan-600 rounded-full shadow-md z-10'
+    "
     :title="$t('components.fitsPlatesolve.buttonTitle')"
   >
     <!-- FITS file + crosshair icon -->
@@ -50,9 +52,7 @@
         <div
           class="flex items-center justify-between px-4 py-3.5 border-b border-[#2e3650] shrink-0"
         >
-          <span class="text-sm font-semibold text-slate-200 tracking-wide">{{
-            modalTitle
-          }}</span>
+          <span class="text-sm font-semibold text-slate-200 tracking-wide">{{ modalTitle }}</span>
           <button
             v-if="step !== 'solving'"
             class="text-slate-500 text-sm px-2 py-1 rounded hover:text-slate-200 hover:bg-[#2e3650] transition-colors cursor-pointer bg-transparent border-none"
@@ -213,15 +213,11 @@
           <!-- Result details -->
           <div class="px-4 py-4 space-y-3">
             <div class="flex justify-between items-center">
-              <span class="text-xs text-slate-500">{{
-                $t('components.fitsPlatesolve.ra')
-              }}</span>
+              <span class="text-xs text-slate-500">{{ $t('components.fitsPlatesolve.ra') }}</span>
               <span class="text-sm text-cyan-400 font-mono">{{ result?.raString }}</span>
             </div>
             <div class="flex justify-between items-center">
-              <span class="text-xs text-slate-500">{{
-                $t('components.fitsPlatesolve.dec')
-              }}</span>
+              <span class="text-xs text-slate-500">{{ $t('components.fitsPlatesolve.dec') }}</span>
               <span class="text-sm text-cyan-400 font-mono">{{ result?.decString }}</span>
             </div>
             <div class="flex justify-between items-center">
@@ -257,13 +253,30 @@
             <!-- Checkmark = confirm & apply (like FavTargets) -->
             <button
               class="default-button-cyan w-full flex items-center gap-2"
-              :title="showSeqTarget ? $t('components.framing.setSequnceTarget') : $t('components.fitsPlatesolve.useAsTarget')"
+              :title="
+                showSeqTarget
+                  ? $t('components.framing.setSequnceTarget')
+                  : $t('components.fitsPlatesolve.useAsTarget')
+              "
               @click="useAsTarget"
             >
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-5 h-5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2.5"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
                 <polyline points="20 6 9 17 4 12" />
               </svg>
-              {{ showSeqTarget ? $t('components.framing.setSequnceTarget') : $t('components.fitsPlatesolve.useAsTarget') }}
+              {{
+                showSeqTarget
+                  ? $t('components.framing.setSequnceTarget')
+                  : $t('components.fitsPlatesolve.useAsTarget')
+              }}
             </button>
           </div>
         </div>
@@ -271,9 +284,7 @@
         <!-- Error -->
         <div v-else-if="step === 'error'" class="flex flex-col overflow-y-auto">
           <!-- Error banner -->
-          <div
-            class="flex items-center gap-2.5 px-4 py-3 border-b border-[#2e3650] bg-red-950/30"
-          >
+          <div class="flex items-center gap-2.5 px-4 py-3 border-b border-[#2e3650] bg-red-950/30">
             <div class="w-2 h-2 rounded-full bg-red-400 shrink-0"></div>
             <span class="text-red-400 text-sm font-medium">{{
               $t('components.fitsPlatesolve.error')
@@ -477,7 +488,11 @@ async function solve(blind) {
     framingStore.DECangleString = degreesToDMS(result.value.dec);
     framingStore.rotationAngle = result.value.rotation ?? 0;
     framingStore.isMosaicMode = false;
-    framingStore.selectedItem = { Name: 'FITS Plate Solve', RA: result.value.ra, Dec: result.value.dec };
+    framingStore.selectedItem = {
+      Name: 'FITS Plate Solve',
+      RA: result.value.ra,
+      Dec: result.value.dec,
+    };
     // Reload the framing assistant image by remounting FramingAssitantImg
     // (it has no watcher on RAangle — only loads on mount, same as when a target is picked)
     if (framingStore.showFramingModal) {
@@ -531,8 +546,7 @@ async function useAsTarget() {
         type: 'error',
         title: t('components.fav_target.modal_sequence.titel'),
         message:
-          error?.response?.data?.Message ||
-          t('components.fav_target.modal_sequence_error.message'),
+          error?.response?.data?.Message || t('components.fav_target.modal_sequence_error.message'),
       });
       return;
     }

@@ -33,7 +33,10 @@
 
       <!-- FITS Plate Solve -->
       <div
-        v-if="appStore.isPINS || appStore.checkVersionNewerOrEqual(appStore.currentTnsPluginVersion, '1.2.7.0')"
+        v-if="
+          appStore.isPINS ||
+          appStore.checkVersionNewerOrEqual(appStore.currentTnsPluginVersion, '1.2.7.0')
+        "
         class="flex items-center gap-3"
       >
         <label class="text-xs text-slate-400 flex-shrink-0">{{

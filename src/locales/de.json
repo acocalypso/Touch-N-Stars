@@ -3416,6 +3416,36 @@
         "noValidTargetsForExport": "Keine gültigen Ziele für den Export gefunden.",
         "failedToApplySchedule": "Zeitplan konnte nicht auf die Sequenz angewendet werden."
       }
+    },
+    "filterOffset": {
+      "abort": "Abbrechen",
+      "accept": "Akzeptieren",
+      "calculate": "Berechnen",
+      "currentAutoFocusFilter": "Aktueller Autofokus-Filter",
+      "currentOffsets": "Aktuelle Offsets",
+      "deviceCamera": "Kamera",
+      "deviceFilterWheel": "Filterrad",
+      "deviceFocuser": "Fokussierer",
+      "errorLabel": "Fehler",
+      "filter": "Filter",
+      "filterProgress": "Filter",
+      "iterations": "Iterationen",
+      "loop": "Schleife",
+      "minTwoFilters": "Es müssen mindestens 2 Filter ausgewählt werden",
+      "newAutoFocusFilter": "Neuer Autofokus-Filter",
+      "newOffsets": "Neue Offsets",
+      "noFilters": "Im Profil sind keine Filter verfügbar",
+      "none": "Keiner",
+      "notConnected": "{Gerät} ist nicht verbunden",
+      "offset": "Versatz",
+      "position": "Position",
+      "runningFilter": "Aktueller Filter",
+      "selectFilters": "Wählen Sie Filter aus",
+      "start": "Berechnung starten",
+      "stop": "Stoppen",
+      "subtitle": "Berechnen und speichern Sie Fokus-Offsets für jeden Filterradfilter",
+      "title": "Filter-Offset-Rechner",
+      "useRelativeOffsets": "Verwenden Sie relative Offsets"
     }
   },
   "pinsDevices": {

@@ -3412,6 +3412,36 @@
       "warnings": {
         "sequenceVersionRequired": "Sequence insertion requires TNS plugin 1.2.8.0  (or PINS mode)."
       }
+    },
+    "filterOffset": {
+      "abort": "Abort",
+      "accept": "Accept",
+      "calculate": "Calculate",
+      "currentAutoFocusFilter": "Current AutoFocus Filter",
+      "currentOffsets": "Current Offsets",
+      "deviceCamera": "Camera",
+      "deviceFilterWheel": "Filter Wheel",
+      "deviceFocuser": "Focuser",
+      "errorLabel": "Error",
+      "filter": "Filter",
+      "filterProgress": "Filters",
+      "iterations": "Iterations",
+      "loop": "Loop",
+      "minTwoFilters": "At least 2 filters must be selected",
+      "newAutoFocusFilter": "New AutoFocus Filter",
+      "newOffsets": "New Offsets",
+      "noFilters": "No filters available in profile",
+      "none": "None",
+      "notConnected": "{device} is not connected",
+      "offset": "Offset",
+      "position": "Position",
+      "runningFilter": "Current Filter",
+      "selectFilters": "Select Filters",
+      "start": "Start Calculation",
+      "stop": "Stop",
+      "subtitle": "Calculate and store focus offsets for each filter wheel filter",
+      "title": "Filter Offset Calculator",
+      "useRelativeOffsets": "Use Relative Offsets"
     }
   },
   "pinsDevices": {

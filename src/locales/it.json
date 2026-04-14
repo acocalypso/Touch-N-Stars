@@ -3412,6 +3412,36 @@
       "warnings": {
         "sequenceVersionRequired": "L'inserimento della sequenza richiede il plugin TNS 1.2.8.0 (o la modalità PINS)."
       }
+    },
+    "filterOffset": {
+      "abort": "Interrompere",
+      "accept": "Accettare",
+      "calculate": "Calcolare",
+      "currentAutoFocusFilter": "Filtro di messa a fuoco automatica corrente",
+      "currentOffsets": "Offset correnti",
+      "deviceCamera": "Telecamera",
+      "deviceFilterWheel": "Ruota dei filtri",
+      "deviceFocuser": "Focheggiatore",
+      "errorLabel": "Errore",
+      "filter": "Filtro",
+      "filterProgress": "Filtri",
+      "iterations": "Iterazioni",
+      "loop": "Ciclo continuo",
+      "minTwoFilters": "È necessario selezionare almeno 2 filtri",
+      "newAutoFocusFilter": "Nuovo filtro di messa a fuoco automatica",
+      "newOffsets": "Nuovi offset",
+      "noFilters": "Nessun filtro disponibile nel profilo",
+      "none": "Nessuno",
+      "notConnected": "{dispositivo} non è connesso",
+      "offset": "Offset",
+      "position": "Posizione",
+      "runningFilter": "Filtro corrente",
+      "selectFilters": "Seleziona Filtri",
+      "start": "Avvia il calcolo",
+      "stop": "Fermare",
+      "subtitle": "Calcola e memorizza gli offset della messa a fuoco per ciascun filtro della ruota portafiltri",
+      "title": "Calcolatore dell'offset del filtro",
+      "useRelativeOffsets": "Utilizza offset relativi"
     }
   },
   "pinsDevices": {

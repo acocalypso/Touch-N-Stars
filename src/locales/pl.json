@@ -3412,6 +3412,36 @@
       "warnings": {
         "sequenceVersionRequired": "Wstawianie sekwencji wymaga wtyczki TNS 1.2.8.0 (lub trybu PINS)."
       }
+    },
+    "filterOffset": {
+      "abort": "Poronić",
+      "accept": "Przyjąć",
+      "calculate": "Obliczać",
+      "currentAutoFocusFilter": "Aktualny filtr autofokusa",
+      "currentOffsets": "Aktualne przesunięcia",
+      "deviceCamera": "Kamera",
+      "deviceFilterWheel": "Koło Filtrowe",
+      "deviceFocuser": "Fokuser",
+      "errorLabel": "Błąd",
+      "filter": "Filtr",
+      "filterProgress": "Filtry",
+      "iterations": "Iteracje",
+      "loop": "Pętla",
+      "minTwoFilters": "Należy wybrać co najmniej 2 filtry",
+      "newAutoFocusFilter": "Nowy filtr automatycznego ustawiania ostrości",
+      "newOffsets": "Nowe offsety",
+      "noFilters": "Brak dostępnych filtrów w profilu",
+      "none": "Nic",
+      "notConnected": "{urządzenie} nie jest podłączone",
+      "offset": "Zrównoważyć",
+      "position": "Pozycja",
+      "runningFilter": "Bieżący filtr",
+      "selectFilters": "Wybierz opcję Filtry",
+      "start": "Rozpocznij obliczenia",
+      "stop": "Zatrzymywać się",
+      "subtitle": "Oblicz i zapisz przesunięcia ostrości dla każdego filtra koła filtrów",
+      "title": "Kalkulator przesunięcia filtra",
+      "useRelativeOffsets": "Użyj względnych przesunięć"
     }
   },
   "pinsDevices": {

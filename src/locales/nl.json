@@ -3412,6 +3412,36 @@
       "warnings": {
         "sequenceVersionRequired": "Voor het invoegen van sequenties is TNS-plug-in 1.2.8.0 (of PINS-modus) vereist."
       }
+    },
+    "filterOffset": {
+      "abort": "Afbreken",
+      "accept": "Accepteren",
+      "calculate": "Berekenen",
+      "currentAutoFocusFilter": "Huidig ​​AutoFocus-filter",
+      "currentOffsets": "Huidige compensaties",
+      "deviceCamera": "Camera",
+      "deviceFilterWheel": "Filterwiel",
+      "deviceFocuser": "Focuser",
+      "errorLabel": "Fout",
+      "filter": "Filter",
+      "filterProgress": "Filters",
+      "iterations": "Iteraties",
+      "loop": "Lus",
+      "minTwoFilters": "Er moeten minimaal 2 filters geselecteerd zijn",
+      "newAutoFocusFilter": "Nieuw AutoFocus-filter",
+      "newOffsets": "Nieuwe compensaties",
+      "noFilters": "Geen filters beschikbaar in profiel",
+      "none": "Geen",
+      "notConnected": "{apparaat} is niet verbonden",
+      "offset": "Offset",
+      "position": "Positie",
+      "runningFilter": "Huidig ​​filter",
+      "selectFilters": "Selecteer Filters",
+      "start": "Berekening starten",
+      "stop": "Stop",
+      "subtitle": "Bereken en bewaar focus-offsets voor elk filterwielfilter",
+      "title": "Filtercompensatiecalculator",
+      "useRelativeOffsets": "Gebruik relatieve offsets"
     }
   },
   "pinsDevices": {

@@ -3412,6 +3412,36 @@
       "warnings": {
         "sequenceVersionRequired": "La inserción de secuencia requiere el complemento TNS 1.2.8.0 (o modo PINS)."
       }
+    },
+    "filterOffset": {
+      "abort": "Abortar",
+      "accept": "Aceptar",
+      "calculate": "Calcular",
+      "currentAutoFocusFilter": "Filtro de enfoque automático actual",
+      "currentOffsets": "Compensaciones actuales",
+      "deviceCamera": "Cámara",
+      "deviceFilterWheel": "Rueda de filtro",
+      "deviceFocuser": "Enfocador",
+      "errorLabel": "Error",
+      "filter": "Filtrar",
+      "filterProgress": "Filtros",
+      "iterations": "Iteraciones",
+      "loop": "Bucle",
+      "minTwoFilters": "Se deben seleccionar al menos 2 filtros.",
+      "newAutoFocusFilter": "Nuevo filtro de enfoque automático",
+      "newOffsets": "Nuevas compensaciones",
+      "noFilters": "No hay filtros disponibles en el perfil",
+      "none": "Ninguno",
+      "notConnected": "{dispositivo} no está conectado",
+      "offset": "Compensar",
+      "position": "Posición",
+      "runningFilter": "Filtro actual",
+      "selectFilters": "Seleccionar filtros",
+      "start": "Iniciar cálculo",
+      "stop": "Detener",
+      "subtitle": "Calcule y almacene compensaciones de enfoque para cada filtro de rueda de filtros",
+      "title": "Calculadora de compensación de filtro",
+      "useRelativeOffsets": "Usar compensaciones relativas"
     }
   },
   "pinsDevices": {

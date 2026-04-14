@@ -46,7 +46,7 @@
       @click.self="step !== 'solving' && onCancel()"
     >
       <div
-        class="bg-[#1a1f2e] border border-[#2e3650] rounded-[10px] w-full max-w-[480px] flex flex-col overflow-hidden shadow-[0_24px_64px_rgba(0,0,0,0.6)]"
+        class="bg-[#1a1f2e] border border-[#2e3650] rounded-[10px] w-full max-w-[620px] flex flex-col overflow-hidden shadow-[0_24px_64px_rgba(0,0,0,0.6)]"
       >
         <!-- Header -->
         <div
@@ -90,11 +90,15 @@
               <label class="text-xs text-slate-400 w-28 shrink-0">{{
                 $t('components.fitsPlatesolve.focalLength')
               }}</label>
-              <input
-                v-model.number="form.focalLength"
-                type="number"
-                min="1"
-                class="flex-1 bg-[#0f1420] border border-[#2e3650] focus:border-cyan-700 rounded-md text-slate-200 text-xs px-2.5 py-1.5 outline-none transition-colors"
+              <NumberInputPicker
+                v-model="form.focalLength"
+                label-key="components.fitsPlatesolve.focalLength"
+                :min="1"
+                :max="10000"
+                :step="1"
+                :decimal-places="0"
+                input-id="focalLength"
+                wrapper-class="flex-1"
               />
               <span class="text-xs text-slate-500 shrink-0 w-6">mm</span>
             </div>
@@ -104,26 +108,33 @@
               <label class="text-xs text-slate-400 w-28 shrink-0">{{
                 $t('components.fitsPlatesolve.pixelSize')
               }}</label>
-              <input
-                v-model.number="form.pixelSize"
-                type="number"
-                min="0.1"
-                step="0.1"
-                class="flex-1 bg-[#0f1420] border border-[#2e3650] focus:border-cyan-700 rounded-md text-slate-200 text-xs px-2.5 py-1.5 outline-none transition-colors"
+              <NumberInputPicker
+                v-model="form.pixelSize"
+                label-key="components.fitsPlatesolve.pixelSize"
+                :min="0.1"
+                :max="100"
+                :step="0.1"
+                :decimal-places="2"
+                input-id="pixelSize"
+                wrapper-class="flex-1"
               />
               <span class="text-xs text-slate-500 shrink-0 w-6">µm</span>
             </div>
 
-            <!-- Binning (read-only) -->
+            <!-- Binning -->
             <div class="flex items-center gap-3">
               <label class="text-xs text-slate-400 w-28 shrink-0">{{
                 $t('components.fitsPlatesolve.binning')
               }}</label>
-              <input
-                :value="form.binning"
-                type="number"
-                readonly
-                class="flex-1 bg-[#0f1420] border border-[#2e3650] rounded-md text-slate-500 text-xs px-2.5 py-1.5 outline-none cursor-not-allowed"
+              <NumberInputPicker
+                v-model="form.binning"
+                label-key="components.fitsPlatesolve.binning"
+                :min="1"
+                :max="4"
+                :step="1"
+                :decimal-places="0"
+                input-id="binning"
+                wrapper-class="flex-1"
               />
               <span class="text-xs text-slate-500 shrink-0 w-6">×</span>
             </div>
@@ -140,13 +151,47 @@
               <label class="text-xs text-slate-400 w-28 shrink-0">{{
                 $t('components.fitsPlatesolve.ra')
               }}</label>
-              <input
-                v-model="form.raString"
-                type="text"
-                :placeholder="$t('components.fitsPlatesolve.raPlaceholder')"
-                class="flex-1 bg-[#0f1420] border border-[#2e3650] focus:border-cyan-700 rounded-md text-slate-200 text-xs px-2.5 py-1.5 outline-none transition-colors font-mono"
-              />
-              <span class="text-xs text-slate-500 shrink-0 w-6"></span>
+              <div class="flex-1 flex items-center gap-1">
+                <div class="flex-1 flex items-center gap-1">
+                  <NumberInputPicker
+                    v-model="form.raH"
+                    label-key="components.fitsPlatesolve.ra"
+                    :min="0"
+                    :max="23"
+                    :step="1"
+                    :decimal-places="0"
+                    input-id="raH"
+                    wrapper-class="w-full"
+                  />
+                  <span class="text-xs text-slate-500 shrink-0">h</span>
+                </div>
+                <div class="flex-1 flex items-center gap-1">
+                  <NumberInputPicker
+                    v-model="form.raM"
+                    label-key="components.fitsPlatesolve.ra"
+                    :min="0"
+                    :max="59"
+                    :step="1"
+                    :decimal-places="0"
+                    input-id="raM"
+                    wrapper-class="w-full"
+                  />
+                  <span class="text-xs text-slate-500 shrink-0">m</span>
+                </div>
+                <div class="flex-1 flex items-center gap-1">
+                  <NumberInputPicker
+                    v-model="form.raS"
+                    label-key="components.fitsPlatesolve.ra"
+                    :min="0"
+                    :max="59.99"
+                    :step="0.01"
+                    :decimal-places="2"
+                    input-id="raS"
+                    wrapper-class="w-full"
+                  />
+                  <span class="text-xs text-slate-500 shrink-0">s</span>
+                </div>
+              </div>
             </div>
 
             <!-- Dec -->
@@ -154,13 +199,47 @@
               <label class="text-xs text-slate-400 w-28 shrink-0">{{
                 $t('components.fitsPlatesolve.dec')
               }}</label>
-              <input
-                v-model="form.decString"
-                type="text"
-                :placeholder="$t('components.fitsPlatesolve.decPlaceholder')"
-                class="flex-1 bg-[#0f1420] border border-[#2e3650] focus:border-cyan-700 rounded-md text-slate-200 text-xs px-2.5 py-1.5 outline-none transition-colors font-mono"
-              />
-              <span class="text-xs text-slate-500 shrink-0 w-6"></span>
+              <div class="flex-1 flex items-center gap-1">
+                <div class="flex-1 flex items-center gap-1">
+                  <NumberInputPicker
+                    v-model="form.decD"
+                    label-key="components.fitsPlatesolve.dec"
+                    :min="-90"
+                    :max="90"
+                    :step="1"
+                    :decimal-places="0"
+                    input-id="decD"
+                    wrapper-class="w-full"
+                  />
+                  <span class="text-xs text-slate-500 shrink-0">°</span>
+                </div>
+                <div class="flex-1 flex items-center gap-1">
+                  <NumberInputPicker
+                    v-model="form.decM"
+                    label-key="components.fitsPlatesolve.dec"
+                    :min="0"
+                    :max="59"
+                    :step="1"
+                    :decimal-places="0"
+                    input-id="decM"
+                    wrapper-class="w-full"
+                  />
+                  <span class="text-xs text-slate-500 shrink-0">'</span>
+                </div>
+                <div class="flex-1 flex items-center gap-1">
+                  <NumberInputPicker
+                    v-model="form.decS"
+                    label-key="components.fitsPlatesolve.dec"
+                    :min="0"
+                    :max="59.99"
+                    :step="0.01"
+                    :decimal-places="2"
+                    input-id="decS"
+                    wrapper-class="w-full"
+                  />
+                  <span class="text-xs text-slate-500 shrink-0">"</span>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -315,6 +394,7 @@ import { ref, computed, nextTick } from 'vue';
 defineOptions({ inheritAttrs: false });
 import { useI18n } from 'vue-i18n';
 import FileBrowser from '@/components/helpers/fileBrowser.vue';
+import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 import SaveFavTargets from '@/components/favTargets/SaveFavTargets.vue';
 import { useFramingStore } from '@/store/framingStore';
 import { degreesToHMS, degreesToDMS } from '@/utils/utils';
@@ -351,8 +431,12 @@ const form = ref({
   focalLength: null,
   pixelSize: null,
   binning: 1,
-  raString: '',
-  decString: '',
+  raH: null,
+  raM: null,
+  raS: null,
+  decD: null,
+  decM: null,
+  decS: null,
   ra: null,
   dec: null,
 });
@@ -398,12 +482,18 @@ async function onFileSelected(path) {
       throw new Error(params?.Error || t('components.fitsPlatesolve.errorLoadParams'));
     }
 
+    const raParts = parseRaToParts(params.RaString ?? '');
+    const decParts = parseDecToParts(params.DecString ?? '');
     form.value = {
       focalLength: params.FocalLength ?? null,
       pixelSize: params.PixelSize ?? null,
       binning: params.Binning ?? 1,
-      raString: params.RaString ?? '',
-      decString: params.DecString ?? '',
+      raH: raParts.h,
+      raM: raParts.m,
+      raS: raParts.s,
+      decD: decParts.d,
+      decM: decParts.m,
+      decS: decParts.s,
       ra: params.Ra ?? null,
       dec: params.Dec ?? null,
     };
@@ -420,30 +510,36 @@ async function onFileSelected(path) {
   }
 }
 
-// Parse "HH:MM:SS" sexagesimal string to degrees (RA: multiply by 15)
-function parseRaDeg(str) {
-  if (str == null || str === '') return null;
-  const n = Number(str);
-  if (!isNaN(n)) return n;
+// Parse "HH:MM:SS" string (from FITS header) into individual parts
+function parseRaToParts(str) {
+  if (!str) return { h: null, m: null, s: null };
   const parts = str.split(':').map(Number);
-  if (parts.length === 3 && parts.every((p) => !isNaN(p))) {
-    return (parts[0] + parts[1] / 60 + parts[2] / 3600) * 15;
-  }
-  return null;
+  if (parts.length === 3 && !parts.some(isNaN)) return { h: parts[0], m: parts[1], s: parts[2] };
+  return { h: null, m: null, s: null };
 }
 
-// Parse "+DD:MM:SS" sexagesimal string to degrees
-function parseDecDeg(str) {
-  if (str == null || str === '') return null;
-  const n = Number(str);
-  if (!isNaN(n)) return n;
-  const sign = str.startsWith('-') ? -1 : 1;
-  const abs = str.replace(/^[+-]/, '');
-  const parts = abs.split(':').map(Number);
-  if (parts.length === 3 && parts.every((p) => !isNaN(p))) {
-    return sign * (parts[0] + parts[1] / 60 + parts[2] / 3600);
+// Parse Dec string from FITS header into individual parts.
+// Handles both "DD:MM:SS" and the API format "41° 16' 07\"" (with optional leading +/-).
+function parseDecToParts(str) {
+  if (!str) return { d: null, m: null, s: null };
+
+  // "DD:MM:SS" or "+/-DD:MM:SS"
+  const colonMatch = str.match(/^([+-]?\d+):(\d+):(\d+(?:\.\d+)?)$/);
+  if (colonMatch) {
+    return { d: Number(colonMatch[1]), m: Number(colonMatch[2]), s: Number(colonMatch[3]) };
   }
-  return null;
+
+  // "41° 16' 07\"" or "-41° 16' 07\""
+  const dmsMatch = str.match(/^([+-]?\d+)°\s*(\d+)'\s*(\d+(?:\.\d+)?)/);
+  if (dmsMatch) {
+    return { d: Number(dmsMatch[1]), m: Number(dmsMatch[2]), s: Number(dmsMatch[3]) };
+  }
+
+  return { d: null, m: null, s: null };
+}
+
+function isValid(v) {
+  return v !== null && v !== undefined && v !== -1 && !isNaN(v);
 }
 
 async function solve(blind) {
@@ -458,10 +554,16 @@ async function solve(blind) {
     };
 
     if (!blind) {
-      const raDeg = parseRaDeg(form.value.raString);
-      const decDeg = parseDecDeg(form.value.decString);
-      if (raDeg != null) body.ra = raDeg;
-      if (decDeg != null) body.dec = decDeg;
+      if (isValid(form.value.raH)) {
+        body.ra =
+          ((form.value.raH ?? 0) + (form.value.raM ?? 0) / 60 + (form.value.raS ?? 0) / 3600) * 15;
+      }
+      if (isValid(form.value.decD)) {
+        const sign = form.value.decD < 0 ? -1 : 1;
+        body.dec =
+          sign *
+          (Math.abs(form.value.decD) + (form.value.decM ?? 0) / 60 + (form.value.decS ?? 0) / 3600);
+      }
     }
 
     const data = await apiService.analyzeFits(body);

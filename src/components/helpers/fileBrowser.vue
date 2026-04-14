@@ -325,6 +325,8 @@ const breadcrumbs = computed(() => {
     let builtPath = parts.slice(0, i + 1).join(sep);
     // Windows drive roots: "C:" → "C:\"
     if (i === 0 && isWindows) builtPath += sep;
+    // Unix paths: restore leading "/"
+    if (!isWindows) builtPath = '/' + builtPath;
     return { label, path: builtPath };
   });
 });

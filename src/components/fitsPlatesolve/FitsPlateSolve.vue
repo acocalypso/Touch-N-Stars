@@ -39,36 +39,27 @@
   />
 
   <!-- Main Modal -->
-  <Teleport to="body">
-    <div
-      v-if="showModal"
-      class="fixed inset-0 bg-black/65 backdrop-blur-sm flex items-center justify-center z-top p-4"
-      @click.self="step !== 'solving' && onCancel()"
-    >
-      <div
-        class="bg-[#1a1f2e] border border-[#2e3650] rounded-[10px] w-full max-w-[620px] flex flex-col overflow-hidden shadow-[0_24px_64px_rgba(0,0,0,0.6)]"
-      >
-        <!-- Header -->
-        <div
-          class="flex items-center justify-between px-4 py-3.5 border-b border-[#2e3650] shrink-0"
-        >
-          <span class="text-sm font-semibold text-slate-200 tracking-wide">{{ modalTitle }}</span>
-          <button
-            v-if="step !== 'solving'"
-            class="text-slate-500 text-sm px-2 py-1 rounded hover:text-slate-200 hover:bg-[#2e3650] transition-colors cursor-pointer bg-transparent border-none"
-            @click="onCancel"
-          >
-            ✕
-          </button>
-        </div>
+  <Modal
+    :show="showModal"
+    max-width="max-w-2xl"
+    z-index="z-top"
+    :disable-close="step === 'solving'"
+    :close-on-backdrop-click="step !== 'solving'"
+    @close="onCancel"
+  >
+    <template #header>
+      <span class="text-base font-semibold text-slate-200 tracking-wide">{{ modalTitle }}</span>
+    </template>
 
+    <template #body>
+      <div class="w-full">
         <!-- Loading params -->
         <div
           v-if="step === 'loading_params'"
-          class="flex flex-col items-center justify-center gap-3 p-10"
+          class="flex flex-col items-center justify-center gap-3 py-8"
         >
           <span
-            class="w-8 h-8 border-2 border-[#2e3650] border-t-cyan-700 rounded-full animate-spin"
+            class="w-8 h-8 border-2 border-gray-600 border-t-cyan-700 rounded-full animate-spin"
           ></span>
           <span class="text-slate-400 text-sm">{{
             $t('components.fitsPlatesolve.loadingParams')
@@ -76,15 +67,15 @@
         </div>
 
         <!-- Parameter Confirmation Form -->
-        <div v-else-if="step === 'confirm'" class="flex flex-col overflow-y-auto">
+        <div v-else-if="step === 'confirm'" class="flex flex-col gap-4">
           <!-- File path display -->
-          <div class="px-4 py-2.5 border-b border-[#2e3650] bg-[#0f1420]">
+          <div class="rounded-md bg-gray-900/60 px-3 py-2">
             <span class="text-xs text-slate-500">{{ $t('components.fitsPlatesolve.file') }}</span>
             <p class="text-xs text-slate-400 font-mono truncate mt-0.5">{{ selectedFile }}</p>
           </div>
 
           <!-- Fields -->
-          <div class="px-4 py-4 space-y-3">
+          <div class="space-y-3">
             <!-- Focal Length -->
             <div class="flex items-center gap-3">
               <label class="text-xs text-slate-400 w-28 shrink-0">{{
@@ -140,18 +131,18 @@
             </div>
 
             <!-- Separator -->
-            <div class="border-t border-[#2e3650] pt-2">
+            <div class="border-t border-gray-700 pt-2">
               <p class="text-xs text-slate-600 mb-3">
                 {{ $t('components.fitsPlatesolve.coordinatesHint') }}
               </p>
             </div>
 
             <!-- RA -->
-            <div class="flex items-center gap-3">
-              <label class="text-xs text-slate-400 w-28 shrink-0">{{
+            <div class="flex items-start gap-3">
+              <label class="text-xs text-slate-400 w-28 shrink-0 pt-2">{{
                 $t('components.fitsPlatesolve.ra')
               }}</label>
-              <div class="flex-1 flex items-center gap-1">
+              <div class="flex-1 flex flex-col xs:flex-row items-stretch xs:items-center gap-1">
                 <div class="flex-1 flex items-center gap-1">
                   <NumberInputPicker
                     v-model="form.raH"
@@ -195,11 +186,11 @@
             </div>
 
             <!-- Dec -->
-            <div class="flex items-center gap-3">
-              <label class="text-xs text-slate-400 w-28 shrink-0">{{
+            <div class="flex items-start gap-3">
+              <label class="text-xs text-slate-400 w-28 shrink-0 pt-2">{{
                 $t('components.fitsPlatesolve.dec')
               }}</label>
-              <div class="flex-1 flex items-center gap-1">
+              <div class="flex-1 flex flex-col xs:flex-row items-stretch xs:items-center gap-1">
                 <div class="flex-1 flex items-center gap-1">
                   <NumberInputPicker
                     v-model="form.decD"
@@ -243,8 +234,8 @@
             </div>
           </div>
 
-          <!-- Footer -->
-          <div class="flex justify-end gap-2 px-4 py-3 border-t border-[#2e3650] shrink-0">
+          <!-- Actions -->
+          <div class="flex justify-end gap-2 pt-2 border-t border-gray-700">
             <button class="default-button-gray" @click="onCancel">
               {{ $t('common.cancel') }}
             </button>
@@ -264,25 +255,23 @@
         <!-- Solving -->
         <div
           v-else-if="step === 'solving'"
-          class="flex flex-col items-center justify-center gap-3 p-10"
+          class="flex flex-col items-center justify-center gap-3 py-8"
         >
           <span
-            class="w-10 h-10 border-2 border-[#2e3650] border-t-cyan-700 rounded-full animate-spin"
+            class="w-10 h-10 border-2 border-gray-600 border-t-cyan-700 rounded-full animate-spin"
           ></span>
           <span class="text-slate-300 text-sm font-medium">{{
             $t('components.fitsPlatesolve.solving')
           }}</span>
-          <span class="text-slate-600 text-xs text-center max-w-[280px]">{{
+          <span class="text-slate-500 text-xs text-center max-w-[280px]">{{
             $t('components.fitsPlatesolve.solvingHint')
           }}</span>
         </div>
 
         <!-- Result -->
-        <div v-else-if="step === 'result'" class="flex flex-col overflow-y-auto">
+        <div v-else-if="step === 'result'" class="flex flex-col gap-4">
           <!-- Success banner -->
-          <div
-            class="flex items-center gap-2.5 px-4 py-3 border-b border-[#2e3650] bg-green-950/30"
-          >
+          <div class="flex items-center gap-2.5 rounded-md bg-green-950/40 px-3 py-2">
             <div class="w-2 h-2 rounded-full bg-green-400 shrink-0"></div>
             <span class="text-green-400 text-sm font-medium">{{
               $t('components.fitsPlatesolve.success')
@@ -290,7 +279,7 @@
           </div>
 
           <!-- Result details -->
-          <div class="px-4 py-4 space-y-3">
+          <div class="space-y-3">
             <div class="flex justify-between items-center">
               <span class="text-xs text-slate-500">{{ $t('components.fitsPlatesolve.ra') }}</span>
               <span class="text-sm text-cyan-400 font-mono">{{ result?.raString }}</span>
@@ -317,8 +306,8 @@
             </div>
           </div>
 
-          <!-- Footer -->
-          <div class="flex flex-col gap-2 px-4 py-3 border-t border-[#2e3650] shrink-0">
+          <!-- Actions -->
+          <div class="flex flex-col gap-2 pt-2 border-t border-gray-700">
             <SaveFavTargets
               class="w-full"
               name="FITS Plate Solve"
@@ -329,7 +318,6 @@
               :rotation="result.rotation ?? 0"
               :show-label="true"
             />
-            <!-- Checkmark = confirm & apply (like FavTargets) -->
             <button
               class="default-button-cyan w-full flex items-center gap-2"
               :title="
@@ -361,18 +349,16 @@
         </div>
 
         <!-- Error -->
-        <div v-else-if="step === 'error'" class="flex flex-col overflow-y-auto">
+        <div v-else-if="step === 'error'" class="flex flex-col gap-4">
           <!-- Error banner -->
-          <div class="flex items-center gap-2.5 px-4 py-3 border-b border-[#2e3650] bg-red-950/30">
+          <div class="flex items-center gap-2.5 rounded-md bg-red-950/40 px-3 py-2">
             <div class="w-2 h-2 rounded-full bg-red-400 shrink-0"></div>
             <span class="text-red-400 text-sm font-medium">{{
               $t('components.fitsPlatesolve.error')
             }}</span>
           </div>
-          <div class="px-4 py-4">
-            <p class="text-slate-400 text-sm leading-relaxed">{{ errorMessage }}</p>
-          </div>
-          <div class="flex justify-end gap-2 px-4 py-3 border-t border-[#2e3650] shrink-0">
+          <p v-if="errorMessage" class="text-slate-400 text-sm leading-relaxed">{{ errorMessage }}</p>
+          <div class="flex justify-end gap-2 pt-2 border-t border-gray-700">
             <button class="default-button-gray" @click="onCancel">
               {{ $t('common.close') }}
             </button>
@@ -382,8 +368,8 @@
           </div>
         </div>
       </div>
-    </div>
-  </Teleport>
+    </template>
+  </Modal>
 </template>
 
 <script setup>
@@ -395,6 +381,7 @@ defineOptions({ inheritAttrs: false });
 import { useI18n } from 'vue-i18n';
 import FileBrowser from '@/components/helpers/fileBrowser.vue';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
+import Modal from '@/components/helpers/Modal.vue';
 import SaveFavTargets from '@/components/favTargets/SaveFavTargets.vue';
 import { useFramingStore } from '@/store/framingStore';
 import { degreesToHMS, degreesToDMS } from '@/utils/utils';
@@ -479,7 +466,9 @@ async function onFileSelected(path) {
   try {
     const params = await apiService.getFitsParameters(path);
     if (!params?.Success) {
-      throw new Error(params?.Error || t('components.fitsPlatesolve.errorLoadParams'));
+      const serverMsg = params?.Error;
+      const isGenericNetworkError = !serverMsg || /request failed|connection failed/i.test(serverMsg);
+      throw new Error(isGenericNetworkError ? '' : serverMsg);
     }
 
     const raParts = parseRaToParts(params.RaString ?? '');
@@ -569,7 +558,9 @@ async function solve(blind) {
     const data = await apiService.analyzeFits(body);
     const success = data?.Success ?? data?.success;
     if (!success) {
-      throw new Error(data?.Error || data?.error || t('components.fitsPlatesolve.solveFailed'));
+      const serverMsg = data?.Error || data?.error;
+      const isGenericNetworkError = !serverMsg || /request failed|connection failed/i.test(serverMsg);
+      throw new Error(isGenericNetworkError ? '' : serverMsg);
     }
 
     // Normalize PascalCase → camelCase for result display

@@ -20,7 +20,8 @@
     "locale:find-missing-keys": "node scripts/find-missing-keys.js",
     "generate-plugins": "node scripts/generate-plugin-registry.js",
     "generate-whats-new": "node scripts/generate-whats-new.js",
-    "create-plugin": "node scripts/generate-plugin.js"
+    "create-plugin": "node scripts/generate-plugin.js",
+    "prepare": "husky"
   },
   "dependencies": {
     "@capacitor-community/keep-awake": "8.0.0",
@@ -80,9 +81,17 @@
     "eslint-config-prettier": "10.1.8",
     "eslint-plugin-prettier": "5.5.5",
     "eslint-plugin-vue": "^10.8.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0",
     "lodash": "4.18.1",
     "prettier": "3.8.2",
     "raw-loader": "^4.0.2",
     "vue-eslint-parser": "^10.4.0"
+  },
+  "lint-staged": {
+    "src/**/*.{js,vue}": [
+      "prettier --write",
+      "eslint --fix"
+    ]
   }
 }

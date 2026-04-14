@@ -3412,6 +3412,36 @@
       "warnings": {
         "sequenceVersionRequired": "A inserção de sequência requer o plugin TNS 1.2.8.0 (ou modo PINS)."
       }
+    },
+    "filterOffset": {
+      "abort": "Abortar",
+      "accept": "Aceitar",
+      "calculate": "Calcular",
+      "currentAutoFocusFilter": "Filtro de foco automático atual",
+      "currentOffsets": "Deslocamentos atuais",
+      "deviceCamera": "Câmera",
+      "deviceFilterWheel": "Roda de Filtro",
+      "deviceFocuser": "Focalizador",
+      "errorLabel": "Erro",
+      "filter": "Filtro",
+      "filterProgress": "Filtros",
+      "iterations": "Iterações",
+      "loop": "Laço",
+      "minTwoFilters": "Pelo menos dois filtros devem ser selecionados",
+      "newAutoFocusFilter": "Novo filtro de foco automático",
+      "newOffsets": "Novos deslocamentos",
+      "noFilters": "Nenhum filtro disponível no perfil",
+      "none": "Nenhum",
+      "notConnected": "{dispositivo} não está conectado",
+      "offset": "Desvio",
+      "position": "Posição",
+      "runningFilter": "Filtro Atual",
+      "selectFilters": "Selecione Filtros",
+      "start": "Iniciar cálculo",
+      "stop": "Parar",
+      "subtitle": "Calcule e armazene deslocamentos de foco para cada filtro da roda de filtros",
+      "title": "Calculadora de deslocamento de filtro",
+      "useRelativeOffsets": "Use deslocamentos relativos"
     }
   },
   "pinsDevices": {

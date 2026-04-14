@@ -3412,6 +3412,36 @@
       "warnings": {
         "sequenceVersionRequired": "L'insertion de séquence nécessite le plugin TNS 1.2.8.0 (ou le mode PINS)."
       }
+    },
+    "filterOffset": {
+      "abort": "Avorter",
+      "accept": "Accepter",
+      "calculate": "Calculer",
+      "currentAutoFocusFilter": "Filtre de mise au point automatique actuel",
+      "currentOffsets": "Compensations actuelles",
+      "deviceCamera": "Caméra",
+      "deviceFilterWheel": "Roue à filtre",
+      "deviceFocuser": "Focuseur",
+      "errorLabel": "Erreur",
+      "filter": "Filtre",
+      "filterProgress": "Filtres",
+      "iterations": "Itérations",
+      "loop": "Boucle",
+      "minTwoFilters": "Au moins 2 filtres doivent être sélectionnés",
+      "newAutoFocusFilter": "Nouveau filtre de mise au point automatique",
+      "newOffsets": "Nouveaux décalages",
+      "noFilters": "Aucun filtre disponible dans le profil",
+      "none": "Aucun",
+      "notConnected": "{device} n'est pas connecté",
+      "offset": "Compenser",
+      "position": "Position",
+      "runningFilter": "Filtre actuel",
+      "selectFilters": "Sélectionnez les filtres",
+      "start": "Démarrer le calcul",
+      "stop": "Arrêt",
+      "subtitle": "Calculer et stocker les décalages de mise au point pour chaque filtre de roue à filtres",
+      "title": "Calculateur de décalage de filtre",
+      "useRelativeOffsets": "Utiliser des décalages relatifs"
     }
   },
   "pinsDevices": {

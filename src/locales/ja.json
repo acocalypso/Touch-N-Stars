@@ -3415,6 +3415,36 @@
       "warnings": {
         "sequenceVersionRequired": "シーケンスの挿入には、TNS プラグイン 1.2.8.0 (または PINS モード) が必要です。"
       }
+    },
+    "filterOffset": {
+      "abort": "アボート",
+      "accept": "受け入れる",
+      "calculate": "計算する",
+      "currentAutoFocusFilter": "現在のオートフォーカスフィルター",
+      "currentOffsets": "現在のオフセット",
+      "deviceCamera": "カメラ",
+      "deviceFilterWheel": "フィルターホイール",
+      "deviceFocuser": "フォーカサー",
+      "errorLabel": "エラー",
+      "filter": "フィルター",
+      "filterProgress": "フィルター",
+      "iterations": "反復",
+      "loop": "ループ",
+      "minTwoFilters": "少なくとも 2 つのフィルターを選択する必要があります",
+      "newAutoFocusFilter": "新しいオートフォーカスフィルター",
+      "newOffsets": "新しいオフセット",
+      "noFilters": "プロファイルで使用できるフィルターはありません",
+      "none": "なし",
+      "notConnected": "{device} が接続されていません",
+      "offset": "オフセット",
+      "position": "位置",
+      "runningFilter": "電流フィルター",
+      "selectFilters": "フィルターの選択",
+      "start": "計算を開始する",
+      "stop": "停止",
+      "subtitle": "各フィルター ホイール フィルターのフォーカス オフセットを計算して保存します。",
+      "title": "フィルターオフセット計算機",
+      "useRelativeOffsets": "相対オフセットを使用する"
     }
   },
   "pinsDevices": {

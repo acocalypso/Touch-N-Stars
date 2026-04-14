@@ -3416,6 +3416,36 @@
         "noValidTargetsForExport": "No valid targets found for export.",
         "failedToApplySchedule": "Failed to apply schedule to sequence."
       }
+    },
+    "filterOffset": {
+      "title": "Filter Offset Calculator",
+      "subtitle": "Calculate and store focus offsets for each filter wheel filter",
+      "iterations": "Iterations",
+      "selectFilters": "Select Filters",
+      "noFilters": "No filters available in profile",
+      "calculate": "Calculate",
+      "position": "Position",
+      "filter": "Filter",
+      "offset": "Offset",
+      "minTwoFilters": "At least 2 filters must be selected",
+      "start": "Start Calculation",
+      "stop": "Stop",
+      "loop": "Loop",
+      "filterProgress": "Filters",
+      "runningFilter": "Current Filter",
+      "currentOffsets": "Current Offsets",
+      "newOffsets": "New Offsets",
+      "useRelativeOffsets": "Use Relative Offsets",
+      "currentAutoFocusFilter": "Current AutoFocus Filter",
+      "newAutoFocusFilter": "New AutoFocus Filter",
+      "none": "None",
+      "accept": "Accept",
+      "abort": "Abort",
+      "errorLabel": "Error",
+      "notConnected": "{device} is not connected",
+      "deviceCamera": "Camera",
+      "deviceFocuser": "Focuser",
+      "deviceFilterWheel": "Filter Wheel"
     }
   },
   "pinsDevices": {

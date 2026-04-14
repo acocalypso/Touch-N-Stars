@@ -2406,8 +2406,11 @@
         "stop_exception": "Errore durante l'arresto dello stack: {message}",
         "loading_image": "Errore durante il caricamento dell'immagine: {message}",
         "failed_to_load": "Impossibile caricare l'immagine dello stack di vita",
-        "api_version_required": "È richiesta la versione API {version} o successiva"
-      }
+        "api_version_required": "È richiesta la versione API {version} o successiva",
+        "reset_exception": "Errore durante la reimpostazione dello stack: {messaggio}",
+        "reset_failed": "Impossibile reimpostare lo stack vitale"
+      },
+      "reset": "Reimposta pila"
     },
     "narrowband": {
       "title": "Calcolatore del filtro",

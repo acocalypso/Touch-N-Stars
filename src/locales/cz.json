@@ -2406,8 +2406,11 @@
         "stop_exception": "Chyba při zastavení livestacku: {message}",
         "loading_image": "Chyba při načítání snímku: {message}",
         "failed_to_load": "Nepodařilo se načíst obrázek livestack",
-        "api_version_required": "Vyžadována verze API {version} nebo vyšší"
-      }
+        "api_version_required": "Vyžadována verze API {version} nebo vyšší",
+        "reset_exception": "Error resetting livestack: {message}",
+        "reset_failed": "Failed to reset livestack"
+      },
+      "reset": "Reset stack"
     },
     "narrowband": {
       "title": "Kalkulačka filtrů",

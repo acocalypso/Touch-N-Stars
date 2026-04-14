@@ -2349,6 +2349,17 @@ const apiService = {
     }
   },
 
+  async livestackReset() {
+    try {
+      const { BASE_URL } = getUrls();
+      const response = await axios.get(`${BASE_URL}/livestack/reset`);
+      return response.data;
+    } catch (error) {
+      console.error('Error resetting livestack:', error);
+      throw error;
+    }
+  },
+
   // --- Observation Planner helpers ---
   async getActiveProfile() {
     // profileAction('show?active=true') exists already

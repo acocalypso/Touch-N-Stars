@@ -2454,8 +2454,11 @@
         "stop_exception": "Error stopping livestack: {message}",
         "loading_image": "Error loading image: {message}",
         "failed_to_load": "Failed to load livestack image",
-        "api_version_required": "API version {version} or higher required"
-      }
+        "api_version_required": "API version {version} or higher required",
+        "reset_exception": "Fehler beim Zurücksetzen des Livestacks: {message}",
+        "reset_failed": "Livestack konnte nicht zurückgesetzt werden"
+      },
+      "reset": "Stapel zurücksetzen"
     },
     "narrowband": {
       "title": "Filterrechner",

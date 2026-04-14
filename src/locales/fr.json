@@ -2406,8 +2406,11 @@
         "stop_exception": "Erreur lors de l'arrêt du livestack : {message}",
         "loading_image": "Erreur de chargement de l'image : {message}",
         "failed_to_load": "Échec du chargement de l'image de la pile de vie",
-        "api_version_required": "Version de l'API {version} ou supérieure requise"
-      }
+        "api_version_required": "Version de l'API {version} ou supérieure requise",
+        "reset_exception": "Erreur lors de la réinitialisation du livestack : {message}",
+        "reset_failed": "Échec de la réinitialisation de la pile de vie"
+      },
+      "reset": "Réinitialiser la pile"
     },
     "narrowband": {
       "title": "Calculateur de filtres",

@@ -305,6 +305,8 @@ const handleWebSocketMessage = async (message) => {
       const { Status } = message.Response;
       livestackStore.status = Status ? Status.toLowerCase() : Status;
       console.log('Current status:', livestackStore.status);
+    } else if (Event === 'STACK-RESET') {
+      livestackStore.resetStack();
     }
   }
 };
@@ -369,6 +371,7 @@ onMounted(async () => {
     // Subscribe to livestack events
     websocketChannelService.subscribe('STACK-UPDATED');
     websocketChannelService.subscribe('STACK-STATUS');
+    websocketChannelService.subscribe('STACK-RESET');
   } catch (error) {
     console.error('Failed to connect WebSocket for livestack:', error);
   }

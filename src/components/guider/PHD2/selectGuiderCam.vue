@@ -22,8 +22,8 @@
       </select>
       <div class="flex shrink-0 gap-1">
         <button
-          @click="loadCameras"
-          :disabled="isLoading"
+          @click="loadCameras(true)"
+          :disabled="isLoading || store.cameraInfo?.Connected"
           class="flex justify-center items-center w-10 h-10 border border-cyan-500/20 bg-gray-700 text-white rounded-lg hover:bg-gray-600 disabled:opacity-70"
         >
           <ArrowPathIcon
@@ -56,11 +56,13 @@ const selectedCam = ref('');
 const isLoading = ref(false);
 const borderClass = ref('border-gray-500');
 
-async function loadCameras() {
+async function loadCameras(withRescan = false) {
   isLoading.value = true;
   try {
     await apiService.connectPHD2();
-    await apiService.cameraAction('rescan');
+    if (withRescan && !store.cameraInfo?.Connected) {
+      await apiService.cameraAction('rescan');
+    }
     const response = await apiPinsService.getGuideCam();
     if (response.Success && response.Response) {
       cameras.value = Object.entries(response.Response).flatMap(([driver, cams]) =>
@@ -133,7 +135,7 @@ onMounted(async () => {
       ':' +
       store.profileInfo.GuiderSettings.PHD2CameraId;
   }
-  loadCameras();
+  await loadCameras();
 });
 </script>
 

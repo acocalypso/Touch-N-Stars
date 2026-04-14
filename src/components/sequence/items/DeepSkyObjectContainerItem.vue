@@ -31,6 +31,26 @@
         </button>
       </div>
 
+      <!-- FITS Plate Solve -->
+      <div
+        v-if="
+          appStore.isPINS ||
+          appStore.checkVersionNewerOrEqual(appStore.currentTnsPluginVersion, '1.2.7.0')
+        "
+        class="flex items-center gap-3"
+      >
+        <label class="text-xs text-slate-400 flex-shrink-0">{{
+          $t('components.fitsPlatesolve.buttonTitle')
+        }}</label>
+        <FitsPlateSolve
+          class="ml-auto"
+          variant="inline"
+          :showFraming="false"
+          :showSeqTarget="false"
+          @solved="handleFitsSolved"
+        />
+      </div>
+
       <Modal :show="showFavPicker" maxWidth="max-w-lg" @close="showFavPicker = false">
         <template #header>
           <span class="text-base font-semibold">{{
@@ -210,7 +230,9 @@ import TargetSearch from '@/plugins/sequence-creator/components/TargetSearch.vue
 import Modal from '@/components/helpers/Modal.vue';
 import { useSequenceV2Store } from '@/store/sequenceV2Store';
 import { useFavTargetStore } from '@/store/favTargetsStore';
+import { apiStore } from '@/store/store';
 import { HeartIcon, CheckIcon } from '@heroicons/vue/24/outline';
+import FitsPlateSolve from '@/components/fitsPlatesolve/FitsPlateSolve.vue';
 
 const props = defineProps({
   item: { type: Object, required: true },
@@ -218,6 +240,7 @@ const props = defineProps({
 
 const store = useSequenceV2Store();
 const favStore = useFavTargetStore();
+const appStore = apiStore();
 const showFavPicker = ref(false);
 
 function openFavPicker() {
@@ -228,6 +251,10 @@ function openFavPicker() {
 function loadFavTarget(target) {
   callSetTarget(target.Ra, target.Dec, target.Name, target.Rotation ?? 0);
   showFavPicker.value = false;
+}
+
+function handleFitsSolved(result) {
+  callSetTarget(result.ra, result.dec, 'FITS Plate Solve', result.rotation ?? 0);
 }
 
 const localRASeconds = ref(null);

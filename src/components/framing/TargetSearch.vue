@@ -10,6 +10,16 @@
         class="fixed right-5 z-20"
         style="bottom: calc(env(safe-area-inset-bottom, 0px) + 48px)"
       />
+      <FitsPlateSolve
+        v-if="
+          appStore.isPINS ||
+          appStore.checkVersionNewerOrEqual(appStore.currentTnsPluginVersion, '1.2.7.0')
+        "
+        :showFraming="true"
+        :showSeqTarget="false"
+        class="fixed right-16 z-20"
+        style="bottom: calc(env(safe-area-inset-bottom, 0px) + 48px)"
+      />
       <!-- Search Input -->
       <div class="text-black mx-auto">
         <div class="flex gap-1">
@@ -161,11 +171,14 @@ import { useSettingsStore } from '@/store/settingsStore';
 import SkyChart from '@/components/framing/SkyChart.vue';
 import FavTargets from '@/components/favTargets/FavTargets.vue';
 import SaveFavTargets from '@/components/favTargets/SaveFavTargets.vue';
+import FitsPlateSolve from '@/components/fitsPlatesolve/FitsPlateSolve.vue';
 import { raDecToAltAz, degreesToHMS, degreesToDMS } from '@/utils/utils';
 import { timeSync } from '@/utils/timeSync';
+import { apiStore } from '@/store/store';
 
 const framingStore = useFramingStore();
 const settingsStore = useSettingsStore();
+const appStore = apiStore();
 const stars = ref([]);
 const selectedStar = ref(null);
 const currentSiderealTime = ref(0);

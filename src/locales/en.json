@@ -2447,11 +2447,14 @@
       "empty_option": "Empty",
       "image_alt": "Livestack image - {filter}",
       "loading_image": "Loading livestack image...",
+      "reset": "Reset stack",
       "errors": {
         "start_failed": "Failed to start livestack",
         "start_exception": "Error starting livestack: {message}",
         "stop_failed": "Failed to stop livestack",
         "stop_exception": "Error stopping livestack: {message}",
+        "reset_failed": "Failed to reset livestack",
+        "reset_exception": "Error resetting livestack: {message}",
         "loading_image": "Error loading image: {message}",
         "failed_to_load": "Failed to load livestack image",
         "api_version_required": "API version {version} or higher required"

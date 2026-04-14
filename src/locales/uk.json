@@ -2253,8 +2253,11 @@
         "stop_exception": "Помилка зупинки livestack: {message}",
         "loading_image": "Помилка завантаження зображення: {message}",
         "failed_to_load": "Не вдалося завантажити зображення livestack",
-        "api_version_required": "Потрібна версія API {version} або новіша"
-      }
+        "api_version_required": "Потрібна версія API {version} або новіша",
+        "reset_exception": "Помилка скидання livestack: {message}",
+        "reset_failed": "Не вдалось скинути стос"
+      },
+      "reset": "Скинути стек"
     },
     "shortcuts": {
       "title": "Швидкі послідовності",

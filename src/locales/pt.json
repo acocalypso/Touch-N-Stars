@@ -2406,8 +2406,11 @@
         "stop_exception": "Erro ao parar o livestack: {message}",
         "loading_image": "Erro ao carregar imagem: {message}",
         "failed_to_load": "Falha ao carregar a imagem do livestack",
-        "api_version_required": "É necessária a versão da API {version} ou superior"
-      }
+        "api_version_required": "É necessária a versão da API {version} ou superior",
+        "reset_exception": "Erro ao redefinir o livestack: {message}",
+        "reset_failed": "Falha ao redefinir a pilha vital"
+      },
+      "reset": "Redefinir pilha"
     },
     "narrowband": {
       "title": "Calculadora de filtros",

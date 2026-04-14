@@ -2406,8 +2406,11 @@
         "stop_exception": "Błąd podczas zatrzymywania stada życia: {message}",
         "loading_image": "Błąd podczas ładowania obrazu: {message}",
         "failed_to_load": "Nie udało się załadować obrazu livestack",
-        "api_version_required": "Wymagana wersja API {version} lub wyższa"
-      }
+        "api_version_required": "Wymagana wersja API {version} lub wyższa",
+        "reset_exception": "Błąd podczas resetowania livestacku: {wiadomość}",
+        "reset_failed": "Nie udało się zresetować stada życia"
+      },
+      "reset": "Zresetuj stos"
     },
     "narrowband": {
       "title": "Kalkulator filtrów",

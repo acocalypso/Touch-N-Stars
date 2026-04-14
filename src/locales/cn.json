@@ -2406,8 +2406,11 @@
         "stop_exception": "停止 Livestack 时出错：{message}",
         "loading_image": "加载图像出错：{message}",
         "failed_to_load": "无法加载 Livestack 图像",
-        "api_version_required": "需要 API 版本 {version} 或更高"
-      }
+        "api_version_required": "需要 API 版本 {version} 或更高",
+        "reset_exception": "Error resetting livestack: {message}",
+        "reset_failed": "Failed to reset livestack"
+      },
+      "reset": "Reset stack"
     },
     "narrowband": {
       "title": "过滤器计算器",

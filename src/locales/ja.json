@@ -2453,8 +2453,11 @@
         "stop_exception": "Livestackの停止エラー：{message}",
         "loading_image": "画像の読み込みエラー：{message}",
         "failed_to_load": "Livestack画像の読み込みに失敗しました",
-        "api_version_required": "APIバージョン{version}以上が必要です"
-      }
+        "api_version_required": "APIバージョン{version}以上が必要です",
+        "reset_exception": "ライブスタックのリセット中にエラーが発生しました: {メッセージ}",
+        "reset_failed": "ライブスタックのリセットに失敗しました"
+      },
+      "reset": "スタックをリセット"
     },
     "narrowband": {
       "title": "フィルター計算機",

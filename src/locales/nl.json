@@ -2406,8 +2406,11 @@
         "stop_exception": "Fout bij stoppen livestack: {message}",
         "loading_image": "Fout bij laden beeld: {message}",
         "failed_to_load": "Livestack fout bij beeld laden",
-        "api_version_required": "API versie {version} of hoger vereist"
-      }
+        "api_version_required": "API versie {version} of hoger vereist",
+        "reset_exception": "Fout bij het opnieuw instellen van livestack: {message}",
+        "reset_failed": "Kan de livestack niet resetten"
+      },
+      "reset": "Stapel opnieuw instellen"
     },
     "narrowband": {
       "title": "Filtercalculator",

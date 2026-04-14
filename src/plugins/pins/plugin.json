@@ -2,7 +2,7 @@
   "id": "pins",
   "name": "pins",
   "description": "Update & Control Plugin for pins",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "author": "Christian Wöhrle",
   "defaultEnabled": true,
   "enabled": true,

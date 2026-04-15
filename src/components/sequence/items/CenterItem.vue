@@ -107,10 +107,20 @@ const props = defineProps({
 
 const store = useSequenceV2Store();
 
+const deepSkyContainer = computed(() => {
+  if (!props.item.Inherited) return null;
+  const DSO = 'NINA.Sequencer.Container.DeepSkyObjectContainer';
+  let current = store.findParentOf(props.item.Id);
+  while (current) {
+    if (current.FullTypeName === DSO) return current;
+    current = store.findParentOf(current.Id);
+  }
+  return null;
+});
+
 const c = computed(() => {
   if (props.item.Inherited) {
-    const parent = store.findParentOf(props.item.Id);
-    return parent?.Target?.InputCoordinates ?? {};
+    return deepSkyContainer.value?.Target?.InputCoordinates ?? {};
   }
   return props.item.Coordinates ?? {};
 });

@@ -319,7 +319,11 @@
         "info": "これらの操作はシステム全体に影響します",
         "confirmation": "操作の確認",
         "confirmShutdown": "システムを終了してもよろしいですか？",
-        "confirmRestart": "システムを再起動してもよろしいですか？"
+        "confirmRestart": "システムを再起動してもよろしいですか？",
+        "restartInfoTitle": "システムを再起動中",
+        "restartInfoMessage": "システムが再起動しています。",
+        "shutdownInfoTitle": "システムをシャットダウン中",
+        "shutdownInfoMessage": "システムがシャットダウンしています。このページは使用できなくなります。"
       },
       "plate_solver": {
         "title": "プレートソルバー",

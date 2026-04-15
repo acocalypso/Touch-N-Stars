@@ -256,7 +256,11 @@
         "info": "Ці дії вплинуть на всю систему",
         "confirmation": "Підтвердження дії",
         "confirmShutdown": "Ви впевнені, що хочете вимкнути систему?",
-        "confirmRestart": "Ви впевнені, що хочете перезапустити систему?"
+        "confirmRestart": "Ви впевнені, що хочете перезапустити систему?",
+        "restartInfoTitle": "Система перезапускається",
+        "restartInfoMessage": "Система перезапускається.",
+        "shutdownInfoTitle": "Система вимикається",
+        "shutdownInfoMessage": "Система вимикається. Ця сторінка більше не буде доступна."
       },
       "plate_solver": {
         "title": "Plate Solver",

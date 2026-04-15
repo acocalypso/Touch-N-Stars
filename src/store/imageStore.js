@@ -34,6 +34,9 @@ export const useImagetStore = defineStore('imageStore', {
     },
 
     async getImage() {
+      if (this.isImageFetching) {
+        return;
+      }
       const settingsStore = useSettingsStore();
       const quality = settingsStore.camera.imageQuality;
       const scale = this.calcScale();

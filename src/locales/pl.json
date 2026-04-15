@@ -276,7 +276,11 @@
         "info": "Te działania wpłyną na cały system",
         "confirmation": "Potwierdź działanie",
         "confirmShutdown": "Czy na pewno chcesz wyłączyć system?",
-        "confirmRestart": "Czy na pewno chcesz ponownie uruchomić system?"
+        "confirmRestart": "Czy na pewno chcesz ponownie uruchomić system?",
+        "restartInfoTitle": "System jest restartowany",
+        "restartInfoMessage": "System jest restartowany.",
+        "shutdownInfoTitle": "System jest wyłączany",
+        "shutdownInfoMessage": "System jest wyłączany. Ta strona nie będzie już dostępna."
       },
       "plate_solver": {
         "title": "Rozwiązywanie płytek",

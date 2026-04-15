@@ -342,7 +342,11 @@
         "info": "Diese Aktionen betreffen das gesamte System",
         "confirmation": "Aktion bestätigen",
         "confirmShutdown": "Sind Sie sicher, dass Sie das System herunterfahren möchten?",
-        "confirmRestart": "Sind Sie sicher, dass Sie das System neu starten möchten?"
+        "confirmRestart": "Sind Sie sicher, dass Sie das System neu starten möchten?",
+        "restartInfoTitle": "System wird neu gestartet",
+        "restartInfoMessage": "Das System startet neu.",
+        "shutdownInfoTitle": "System wird heruntergefahren",
+        "shutdownInfoMessage": "Das System fährt herunter. Diese Seite wird nicht mehr erreichbar sein."
       },
       "plate_solver": {
         "title": "Plate Solver",

@@ -276,7 +276,11 @@
         "info": "这些操作将影响整个系统",
         "confirmation": "确认操作",
         "confirmShutdown": "您确定要关闭系统吗？",
-        "confirmRestart": "您确定要重启系统吗？"
+        "confirmRestart": "您确定要重启系统吗？",
+        "restartInfoTitle": "系统正在重启",
+        "restartInfoMessage": "系统正在重启。",
+        "shutdownInfoTitle": "系统正在关机",
+        "shutdownInfoMessage": "系统正在关机，此页面将无法再访问。"
       },
       "plate_solver": {
         "title": "平板解算器",

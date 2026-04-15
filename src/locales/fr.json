@@ -276,7 +276,11 @@
         "info": "Ces actions affecteront l'ensemble du système",
         "confirmation": "Confirmer l'action",
         "confirmShutdown": "Êtes-vous sûr de vouloir arrêter le système ?",
-        "confirmRestart": "Êtes-vous sûr de vouloir redémarrer le système ?"
+        "confirmRestart": "Êtes-vous sûr de vouloir redémarrer le système ?",
+        "restartInfoTitle": "Redémarrage du système en cours",
+        "restartInfoMessage": "Le système redémarre.",
+        "shutdownInfoTitle": "Arrêt du système en cours",
+        "shutdownInfoMessage": "Le système s'éteint. Cette page ne sera plus accessible."
       },
       "plate_solver": {
         "title": "Solveur de plaques",

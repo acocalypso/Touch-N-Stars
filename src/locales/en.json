@@ -351,7 +351,11 @@
         "info": "These actions will affect the entire system",
         "confirmation": "Confirm Action",
         "confirmShutdown": "Are you sure you want to shutdown the system?",
-        "confirmRestart": "Are you sure you want to restart the system?"
+        "confirmRestart": "Are you sure you want to restart the system?",
+        "restartInfoTitle": "System is restarting",
+        "restartInfoMessage": "The system is restarting.",
+        "shutdownInfoTitle": "System is shutting down",
+        "shutdownInfoMessage": "The system is shutting down. This page will no longer be reachable."
       },
       "plate_solver": {
         "title": "Plate Solver",

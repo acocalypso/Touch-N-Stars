@@ -1460,6 +1460,7 @@
       "remove": "Entfernen",
       "namePlaceholder": "Profilname",
       "nameExists": "Name bereits vorhanden",
+      "cannotSwitchConnected": "Profil kann nicht gewechselt werden, solange Geräte verbunden sind",
       "cannotRemoveActive": "Aktives Profil kann nicht entfernt werden",
       "cannotRemoveLast": "Letztes Profil kann nicht entfernt werden",
       "noProfiles": "Keine Profile vorhanden"

@@ -1428,6 +1428,7 @@
       "remove": "削除",
       "namePlaceholder": "プロファイル名",
       "nameExists": "その名前はすでに存在します",
+      "cannotSwitchConnected": "デバイスが接続中はプロファイルを切り替えられません",
       "cannotRemoveActive": "アクティブなプロファイルは削除できません",
       "cannotRemoveLast": "最後のプロファイルは削除できません",
       "noProfiles": "利用可能なプロファイルがありません"

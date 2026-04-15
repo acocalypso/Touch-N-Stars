@@ -66,14 +66,22 @@
                 v-else
                 class="flex-1 text-gray-200 truncate"
                 :class="
-                  !profile.IsActive && !operationInProgress
+                  !profile.IsActive && !operationInProgress && !anyDeviceConnected
                     ? 'cursor-pointer hover:text-cyan-400 transition-colors'
                     : ''
                 "
                 @click="
-                  !profile.IsActive && !operationInProgress ? handleSwitch(profile) : undefined
+                  !profile.IsActive && !operationInProgress && !anyDeviceConnected
+                    ? handleSwitch(profile)
+                    : undefined
                 "
-                :title="!profile.IsActive ? $t('components.profile.switchTo') : ''"
+                :title="
+                  anyDeviceConnected
+                    ? $t('components.profile.cannotSwitchConnected')
+                    : !profile.IsActive
+                      ? $t('components.profile.switchTo')
+                      : ''
+                "
                 >{{ profile.Name }}</span
               >
 
@@ -171,6 +179,7 @@
 import { ref, computed, watch, nextTick } from 'vue';
 import Modal from '@/components/helpers/Modal.vue';
 import apiService from '@/services/apiService';
+import { apiStore } from '@/store/store';
 import {
   CheckIcon,
   XMarkIcon,
@@ -188,6 +197,23 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['close', 'profile-changed']);
+
+const store = apiStore();
+
+const anyDeviceConnected = computed(
+  () =>
+    store.mountInfo.Connected ||
+    store.cameraInfo.Connected ||
+    store.filterInfo.Connected ||
+    store.focuserInfo.Connected ||
+    store.rotatorInfo.Connected ||
+    store.guiderInfo.Connected ||
+    store.weatherInfo.Connected ||
+    store.safetyInfo.Connected ||
+    store.flatdeviceInfo.Connected ||
+    store.domeInfo.Connected ||
+    store.switchInfo.Connected
+);
 
 const profiles = ref([]);
 const renamingProfile = ref(null);

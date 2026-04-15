@@ -1400,6 +1400,7 @@
       "remove": "Видалити",
       "namePlaceholder": "Назва профілю",
       "nameExists": "Назва вже існує",
+      "cannotSwitchConnected": "Неможливо змінити профіль, поки підключені пристрої",
       "cannotRemoveActive": "Неможливо видалити активний профіль",
       "cannotRemoveLast": "Неможливо видалити останній профіль",
       "noProfiles": "Профілі недоступні"

@@ -1420,6 +1420,7 @@
       "remove": "Verwijderen",
       "namePlaceholder": "Profielnaam",
       "nameExists": "Naam bestaat al",
+      "cannotSwitchConnected": "Kan profiel niet wisselen terwijl apparaten verbonden zijn",
       "cannotRemoveActive": "Kan het actieve profiel niet verwijderen",
       "cannotRemoveLast": "Kan het laatste profiel niet verwijderen",
       "noProfiles": "Geen profielen beschikbaar"

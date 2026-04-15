@@ -120,20 +120,27 @@ const props = defineProps({
 
 const store = useSequenceV2Store();
 
-const parentItem = computed(() =>
-  props.item.Inherited ? store.findParentOf(props.item.Id) : null
-);
+const deepSkyContainer = computed(() => {
+  if (!props.item.Inherited) return null;
+  const DSO = 'NINA.Sequencer.Container.DeepSkyObjectContainer';
+  let current = store.findParentOf(props.item.Id);
+  while (current) {
+    if (current.FullTypeName === DSO) return current;
+    current = store.findParentOf(current.Id);
+  }
+  return null;
+});
 
 const c = computed(() => {
   if (props.item.Inherited) {
-    return parentItem.value?.Target?.InputCoordinates ?? {};
+    return deepSkyContainer.value?.Target?.InputCoordinates ?? {};
   }
   return props.item.Coordinates ?? {};
 });
 
 const displayPositionAngle = computed(() => {
   if (props.item.Inherited) {
-    return parentItem.value?.Target?.PositionAngle ?? 0;
+    return deepSkyContainer.value?.Target?.PositionAngle ?? 0;
   }
   return props.item.PositionAngle;
 });

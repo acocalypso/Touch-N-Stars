@@ -276,7 +276,11 @@
         "info": "Voorzichtig, deze acties hebben effect op het gehele NINA-systeem!",
         "confirmation": "Bevestig Actie",
         "confirmShutdown": "Weet u zeker dat u het systeem wilt afsluiten?",
-        "confirmRestart": "Weet u zeker dat u het systeem wilt herstarten?"
+        "confirmRestart": "Weet u zeker dat u het systeem wilt herstarten?",
+        "restartInfoTitle": "Systeem wordt herstart",
+        "restartInfoMessage": "Het systeem wordt herstart.",
+        "shutdownInfoTitle": "Systeem wordt afgesloten",
+        "shutdownInfoMessage": "Het systeem wordt afgesloten. Deze pagina zal niet meer bereikbaar zijn."
       },
       "plate_solver": {
         "title": "Plaatoplosser",

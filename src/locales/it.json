@@ -276,7 +276,11 @@
         "info": "Queste azioni influenzeranno l'intero sistema",
         "confirmation": "Conferma azione",
         "confirmShutdown": "Sei sicuro di voler spegnere il sistema?",
-        "confirmRestart": "Sei sicuro di voler riavviare il sistema?"
+        "confirmRestart": "Sei sicuro di voler riavviare il sistema?",
+        "restartInfoTitle": "Sistema in riavvio",
+        "restartInfoMessage": "Il sistema si sta riavviando.",
+        "shutdownInfoTitle": "Sistema in spegnimento",
+        "shutdownInfoMessage": "Il sistema si sta spegnendo. Questa pagina non sarà più raggiungibile."
       },
       "plate_solver": {
         "title": "Risolutore di piastre",

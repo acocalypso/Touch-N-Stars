@@ -276,7 +276,11 @@
         "info": "Estas acciones afectarán a todo el sistema",
         "confirmation": "Confirmar acción",
         "confirmShutdown": "¿Está seguro de que desea apagar el sistema?",
-        "confirmRestart": "¿Está seguro de que desea reiniciar el sistema?"
+        "confirmRestart": "¿Está seguro de que desea reiniciar el sistema?",
+        "restartInfoTitle": "Sistema reiniciándose",
+        "restartInfoMessage": "El sistema se está reiniciando.",
+        "shutdownInfoTitle": "Sistema apagándose",
+        "shutdownInfoMessage": "El sistema se está apagando. Esta página ya no será accesible."
       },
       "plate_solver": {
         "title": "Solucionador de placas",

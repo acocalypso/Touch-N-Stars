@@ -276,7 +276,11 @@
         "info": "Tyto akce ovlivní celý systém",
         "confirmation": "Potvrdit akci",
         "confirmShutdown": "Jste si jisti, že chcete vypnout systém?",
-        "confirmRestart": "Jste si jisti, že chcete restartovat systém?"
+        "confirmRestart": "Jste si jisti, že chcete restartovat systém?",
+        "restartInfoTitle": "Systém se restartuje",
+        "restartInfoMessage": "Systém se restartuje.",
+        "shutdownInfoTitle": "Systém se vypíná",
+        "shutdownInfoMessage": "Systém se vypíná. Tato stránka již nebude dostupná."
       },
       "plate_solver": {
         "title": "Řešitel talířů",

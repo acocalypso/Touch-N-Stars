@@ -276,7 +276,11 @@
         "info": "Essas ações afetarão todo o sistema",
         "confirmation": "Confirmar ação",
         "confirmShutdown": "Tem certeza de que deseja desligar o sistema?",
-        "confirmRestart": "Tem certeza de que deseja reiniciar o sistema?"
+        "confirmRestart": "Tem certeza de que deseja reiniciar o sistema?",
+        "restartInfoTitle": "Sistema reiniciando",
+        "restartInfoMessage": "O sistema está reiniciando.",
+        "shutdownInfoTitle": "Sistema desligando",
+        "shutdownInfoMessage": "O sistema está desligando. Esta página não estará mais acessível."
       },
       "plate_solver": {
         "title": "Solucionador de placas",

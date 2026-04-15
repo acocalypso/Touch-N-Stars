@@ -50,8 +50,9 @@ The application aims to make controlling and adjusting already configured profil
 - **Focus on Practical Features**: Support for essential steps in setting up your equipment.  
 
 ### 💙 **Acknowledgements**  
-Special thanks go to the entire **NINA** development team, whose excellent work enabled the creation of this web app.  
-A special thank you to **Christian**, the developer of the **Advanced API**, for his efforts and support. His work has significantly enabled the development of this web app.
+- Special thanks go to the entire **NINA** development team, whose excellent work enabled the creation of this web app.  
+- A special thank you to **Christian**, the developer of the **Advanced API**, for his efforts and support. His work has significantly enabled the development of this web app.
+- [Stellarium Web Engine](https://github.com/Stellarium/stellarium-web-engine) by the Stellarium Team, licensed under AGPL-3.0
 
 ### 🔍 Further information
 - Visit our website: https://touch-n-stars.eu

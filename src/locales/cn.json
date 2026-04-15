@@ -1420,6 +1420,7 @@
       "remove": "消除",
       "namePlaceholder": "个人资料名称",
       "nameExists": "名称已存在",
+      "cannotSwitchConnected": "无法在设备连接时切换配置文件",
       "cannotRemoveActive": "无法删除活动的配置文件",
       "cannotRemoveLast": "无法删除最后一个配置文件",
       "noProfiles": "没有可用的配置文件"

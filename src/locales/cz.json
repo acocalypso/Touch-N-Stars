@@ -1420,6 +1420,7 @@
       "remove": "Odstranit",
       "namePlaceholder": "Název profilu",
       "nameExists": "Název již existuje",
+      "cannotSwitchConnected": "Nelze přepnout profil, pokud jsou zařízení připojena",
       "cannotRemoveActive": "Aktivní profil nelze odebrat",
       "cannotRemoveLast": "Nelze odstranit poslední profil",
       "noProfiles": "Nejsou k dispozici žádné profily"

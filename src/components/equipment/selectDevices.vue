@@ -154,14 +154,6 @@ async function getDevices(retryCount = 0, maxRetries = 3, delayMs = 1000) {
   }
 
   const apiName = props.apiAction.replace('Action', '');
-  if (
-    Array.isArray(equipmentStore.availableDevices[apiName]) &&
-    equipmentStore.availableDevices[apiName].length > 0
-  ) {
-    devices.value = equipmentStore.availableDevices[apiName];
-    console.log(`[${apiName}] Devices loaded from store`);
-    return;
-  }
   isScanning.value = true;
   try {
     if (!apiService[props.apiAction]) {
@@ -184,7 +176,6 @@ async function getDevices(retryCount = 0, maxRetries = 3, delayMs = 1000) {
 
     if (Array.isArray(response.Response)) {
       devices.value = response.Response;
-      equipmentStore.availableDevices[apiName] = response.Response;
     } else {
       error.value = true;
       console.error('Faulty API response:', response);
@@ -243,7 +234,6 @@ async function rescanDevices() {
 
     if (Array.isArray(response.Response)) {
       devices.value = response.Response;
-      equipmentStore.availableDevices[apiName] = response.Response;
     } else {
       error.value = true;
       console.error('Faulty API response:', response);
@@ -343,6 +333,14 @@ watch(
   (newValue, oldValue) => {
     if (newValue > 0 && newValue !== oldValue) {
       rescanDevices();
+    }
+  }
+);
+watch(
+  () => equipmentStore.reloadTrigger,
+  (newValue, oldValue) => {
+    if (newValue > 0 && newValue !== oldValue) {
+      getDevices();
     }
   }
 );

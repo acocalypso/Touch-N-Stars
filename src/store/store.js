@@ -18,7 +18,6 @@ import { useGuiderStore } from '@/store/guiderStore';
 import { useSequenceStore } from '@/store/sequenceStore';
 import { useDialogStore } from '@/store/dialogStore';
 import { useLogStore } from '@/store/logStore';
-import { useEquipmentStore } from '@/store/equipmentStore';
 import websocketMountControlService from '@/services/websocketMountControl';
 import websocketTppaService from '@/services/websocketTppa';
 
@@ -696,24 +695,6 @@ export const apiStore = defineStore('store', {
         phd2Mounts: [],
         phd2SelectedMountIndex: null,
         phd2SelectedMountName: null,
-      });
-
-      // Clear equipment device lists so dropdowns fetch fresh data from the new backend
-      const equipmentStore = useEquipmentStore();
-      equipmentStore.$patch({
-        availableDevices: {
-          camera: [],
-          mount: [],
-          filter: [],
-          focuser: [],
-          rotator: [],
-          guider: [],
-          safety: [],
-          flatdevice: [],
-          dome: [],
-          weather: [],
-          switch: [],
-        },
       });
 
       // Clear sequence data from the previous instance

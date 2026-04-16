@@ -111,11 +111,19 @@ async function setGuiderCam() {
 }
 
 watch(
-  () => store.profileInfo?.GuiderSettings?.PHD2Camera,
-  (newCam) => {
-    const camId = store.profileInfo?.GuiderSettings?.PHD2CameraId;
-    if (newCam && camId) {
-      selectedCam.value = newCam + ':' + camId;
+  () => store.profileInfo?.GuiderSettings,
+  async (newSettings, oldSettings) => {
+    if (!newSettings || !store.isPINS) return;
+    if (newSettings.GuiderName !== 'PHD2_Single') return;
+    const camChanged =
+      newSettings.PHD2Camera !== oldSettings?.PHD2Camera ||
+      newSettings.PHD2CameraId !== oldSettings?.PHD2CameraId;
+    if (newSettings.PHD2Camera && newSettings.PHD2CameraId) {
+      selectedCam.value = newSettings.PHD2Camera + ':' + newSettings.PHD2CameraId;
+    }
+    if (camChanged || cameras.value.length === 0) {
+      await loadCameras();
+    } else {
       validateSelection();
     }
   }

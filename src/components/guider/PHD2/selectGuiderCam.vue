@@ -37,7 +37,7 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted } from 'vue';
+import { ref, watch } from 'vue';
 import { apiStore } from '@/store/store';
 import { useGuiderStore } from '@/store/guiderStore';
 import apiService from '@/services/apiService';
@@ -126,25 +126,9 @@ watch(
     } else {
       validateSelection();
     }
-  }
+  },
+  { immediate: true }
 );
-
-onMounted(async () => {
-  //only if is PINS and Guider ist PHD2
-  if (store.profileInfo?.GuiderSettings?.GuiderName !== 'PHD2_Single' || !store.isPINS) {
-    return;
-  }
-  if (
-    store.profileInfo?.GuiderSettings?.PHD2Camera &&
-    store.profileInfo?.GuiderSettings?.PHD2CameraId
-  ) {
-    selectedCam.value =
-      store.profileInfo.GuiderSettings.PHD2Camera +
-      ':' +
-      store.profileInfo.GuiderSettings.PHD2CameraId;
-  }
-  await loadCameras();
-});
 </script>
 
 <style scoped>

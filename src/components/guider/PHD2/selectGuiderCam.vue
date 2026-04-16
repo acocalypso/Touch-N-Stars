@@ -37,7 +37,7 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted } from 'vue';
+import { ref, watch } from 'vue';
 import { apiStore } from '@/store/store';
 import { useGuiderStore } from '@/store/guiderStore';
 import apiService from '@/services/apiService';
@@ -111,32 +111,24 @@ async function setGuiderCam() {
 }
 
 watch(
-  () => store.profileInfo?.GuiderSettings?.PHD2Camera,
-  (newCam) => {
-    const camId = store.profileInfo?.GuiderSettings?.PHD2CameraId;
-    if (newCam && camId) {
-      selectedCam.value = newCam + ':' + camId;
+  () => store.profileInfo?.GuiderSettings,
+  async (newSettings, oldSettings) => {
+    if (!newSettings || !store.isPINS) return;
+    if (newSettings.GuiderName !== 'PHD2_Single') return;
+    const camChanged =
+      newSettings.PHD2Camera !== oldSettings?.PHD2Camera ||
+      newSettings.PHD2CameraId !== oldSettings?.PHD2CameraId;
+    if (newSettings.PHD2Camera && newSettings.PHD2CameraId) {
+      selectedCam.value = newSettings.PHD2Camera + ':' + newSettings.PHD2CameraId;
+    }
+    if (camChanged || cameras.value.length === 0) {
+      await loadCameras();
+    } else {
       validateSelection();
     }
-  }
+  },
+  { immediate: true }
 );
-
-onMounted(async () => {
-  //only if is PINS and Guider ist PHD2
-  if (store.profileInfo?.GuiderSettings?.GuiderName !== 'PHD2_Single' || !store.isPINS) {
-    return;
-  }
-  if (
-    store.profileInfo?.GuiderSettings?.PHD2Camera &&
-    store.profileInfo?.GuiderSettings?.PHD2CameraId
-  ) {
-    selectedCam.value =
-      store.profileInfo.GuiderSettings.PHD2Camera +
-      ':' +
-      store.profileInfo.GuiderSettings.PHD2CameraId;
-  }
-  await loadCameras();
-});
 </script>
 
 <style scoped>

@@ -51,10 +51,12 @@
 import { ref, computed, onMounted } from 'vue';
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
+import { useEquipmentStore } from '@/store/equipmentStore';
 import { AdjustmentsHorizontalIcon } from '@heroicons/vue/24/outline';
 import ProfilManagementModal from '@/components/profil/ProfilManagementModal.vue';
 
 const store = apiStore();
+const equipmentStore = useEquipmentStore();
 const profiles = ref([]);
 const selectedProfileId = ref(null);
 const isLoading = ref(false);
@@ -100,9 +102,10 @@ async function updateProfile() {
   isLoading.value = true;
   try {
     const response = await apiService.profileSwitch(selectedProfileId.value);
-    if (response && response.Success) {
+    if (response && !response.Error) {
       console.log('Profile successfully updated');
       await fetchProfiles();
+      equipmentStore.triggerReload();
     } else {
       alert('Error updating profile');
     }

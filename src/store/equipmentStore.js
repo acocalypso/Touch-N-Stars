@@ -2,19 +2,7 @@ import { defineStore } from 'pinia';
 
 export const useEquipmentStore = defineStore('equipmentStore', {
   state: () => ({
-    availableDevices: {
-      camera: [],
-      mount: [],
-      filter: [],
-      focuser: [],
-      rotator: [],
-      guider: [],
-      safety: [],
-      flatdevice: [],
-      dome: [],
-      weather: [],
-      switch: [],
-    },
+    reloadTrigger: 0,
     rescanTrigger: {
       camera: 0,
       mount: 0,
@@ -32,6 +20,9 @@ export const useEquipmentStore = defineStore('equipmentStore', {
   actions: {
     triggerRescan(apiName) {
       this.rescanTrigger[apiName] = Date.now();
+    },
+    triggerReload() {
+      this.reloadTrigger = Date.now();
     },
   },
 });

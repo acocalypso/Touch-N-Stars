@@ -141,6 +141,8 @@ import {
   PhotoIcon,
   ArrowsPointingOutIcon,
   AdjustmentsVerticalIcon,
+  QueueListIcon,
+  ViewColumnsIcon,
 } from '@heroicons/vue/24/outline';
 import { useSequenceV2Store } from '@/store/sequenceV2Store';
 
@@ -183,6 +185,8 @@ const hasEditor = computed(() => !!slots.editor);
 const ICON_MAP = [
   // Containers
   ['NINA.Sequencer.Container.DeepSkyObjectContainer', StarIcon, 'text-violet-400'],
+  ['NINA.Sequencer.Container.SequentialContainer', QueueListIcon, 'text-blue-400'],
+  ['NINA.Sequencer.Container.ParallelContainer', ViewColumnsIcon, 'text-indigo-400'],
   ['NINA.Sequencer.Container', RectangleGroupIcon, 'text-blue-400'],
   // Imaging
   ['SequenceItem.Imaging', CameraIcon, 'text-cyan-400'],

@@ -1,11 +1,11 @@
 <template>
-  <div class="flex items-center gap-4">
-    <span class="text-gray-300 w-52 shrink-0 text-sm">{{ label }}</span>
+  <div class="flex flex-col sm:flex-row sm:items-center gap-2">
+    <span class="text-gray-300 sm:w-52 sm:shrink-0 text-sm">{{ label }}</span>
     <input
       :type="type || 'text'"
       :value="value"
       @blur="$emit('blur', $event.target.value)"
-      class="flex-1 max-w-sm bg-gray-800 border border-gray-600 rounded px-3 py-1.5 text-white text-sm focus:outline-none focus:border-cyan-500"
+      class="default-input w-full sm:flex-1 sm:max-w-sm"
     />
   </div>
 </template>

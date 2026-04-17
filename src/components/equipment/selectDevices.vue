@@ -214,7 +214,6 @@ async function rescanDevices() {
     return;
   }
 
-  const apiName = props.apiAction.replace('Action', '');
   error.value = false;
   console.log('scan');
   isScanning.value = true;
@@ -338,9 +337,11 @@ watch(
 );
 watch(
   () => equipmentStore.reloadTrigger,
-  (newValue, oldValue) => {
+  async (newValue, oldValue) => {
     if (newValue > 0 && newValue !== oldValue) {
-      getDevices();
+      await getDevices();
+      selectedDevice.value = getDeviceName(props.defaultDeviceId);
+      updateBorderClass();
     }
   }
 );

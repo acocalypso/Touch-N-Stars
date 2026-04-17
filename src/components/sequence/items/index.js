@@ -180,6 +180,8 @@ export const ITEM_COMPONENTS = {
   'Orbuculum.Instructions.LoopWhileHourAngle': OrbuculumHourAngleItem,
   'Orbuculum.Instructions.WaitForHourAngle': OrbuculumHourAngleItem,
   'Orbuculum.Instructions.LoopWhileNextTargetHourAngle': OrbuculumNextTargetHourAngleItem,
+  'NINA.Plugin.NightSummary.Sequencer.NightSummaryInstruction': GenericItem,
+  'NINA.Plugin.NightSummary.Sequencer.NightSummaryEndInstruction': GenericItem,
 };
 
 export { GenericItem };

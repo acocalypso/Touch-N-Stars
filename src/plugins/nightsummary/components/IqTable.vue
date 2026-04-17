@@ -1,5 +1,5 @@
 <template>
-  <div class="border border-gray-700 rounded overflow-hidden text-sm">
+  <div class="border border-gray-700 rounded overflow-hidden text-sm overflow-x-auto">
     <div class="grid grid-cols-5 bg-gray-900/50 text-gray-400 text-xs uppercase tracking-wide">
       <div class="px-3 py-2">Metric</div>
       <div class="px-3 py-2 text-right">Min</div>

@@ -6,14 +6,14 @@
         {{ $t('nightsummary.settings.reportContent') }}
       </h2>
       <div class="space-y-3">
-        <div class="flex items-center gap-4">
-          <span class="text-gray-300 w-52 shrink-0">{{
+        <div class="flex flex-col sm:flex-row sm:items-center gap-2">
+          <span class="text-gray-300 sm:w-52 sm:shrink-0">{{
             $t('nightsummary.settings.detailLevel')
           }}</span>
           <select
             :value="store.settings.ReportDetailLevel"
             @change="save('ReportDetailLevel', +$event.target.value)"
-            class="bg-gray-800 border border-gray-600 rounded px-3 py-1.5 text-white text-sm focus:outline-none focus:border-cyan-500"
+            class="default-select w-full sm:w-auto"
           >
             <option value="0">{{ $t('nightsummary.settings.detailSnapshot') }}</option>
             <option value="1">{{ $t('nightsummary.settings.detailStandard') }}</option>
@@ -52,18 +52,19 @@
           @update="save('ShowAltitudeChart', $event)"
           :disabled="store.settings.ReportDetailLevel === 0"
         />
-        <div class="ml-6 space-y-2">
+        <div
+          v-if="store.settings.ShowAltitudeChart && store.settings.ReportDetailLevel !== 0"
+          class="space-y-2 pl-4 border-l-2 border-gray-700/60"
+        >
           <CheckRow
             :label="$t('nightsummary.settings.showMoonCurve')"
             :value="store.settings.ShowMoonCurve"
             @update="save('ShowMoonCurve', $event)"
-            :disabled="store.settings.ReportDetailLevel === 0 || !store.settings.ShowAltitudeChart"
           />
           <CheckRow
             :label="$t('nightsummary.settings.showMinAltitude')"
             :value="store.settings.ShowMinAltitude"
             @update="save('ShowMinAltitude', $event)"
-            :disabled="store.settings.ReportDetailLevel === 0 || !store.settings.ShowAltitudeChart"
           />
         </div>
         <CheckRow
@@ -93,7 +94,7 @@
 
         <div
           v-if="store.settings.ShowHFRGraph && store.settings.ReportDetailLevel >= 2"
-          class="ml-6 space-y-2"
+          class="space-y-2 pl-4 border-l-2 border-gray-700/60"
         >
           <CheckRow
             :label="$t('nightsummary.settings.showChartAfMarkers')"
@@ -113,38 +114,38 @@
         </div>
 
         <template v-if="store.settings.ShowHFRGraph && store.settings.ReportDetailLevel >= 2">
-          <div class="flex items-center gap-4">
-            <span class="text-gray-300 w-52 shrink-0">{{
+          <div class="flex flex-col sm:flex-row sm:items-center gap-2">
+            <span class="text-gray-300 sm:w-52 sm:shrink-0">{{
               $t('nightsummary.settings.chartXAxis')
             }}</span>
             <select
               :value="store.settings.ChartXAxisMetric"
               @change="save('ChartXAxisMetric', +$event.target.value)"
-              class="bg-gray-800 border border-gray-600 rounded px-3 py-1.5 text-white text-sm focus:outline-none focus:border-cyan-500"
+              class="default-select w-full sm:w-auto"
             >
               <option v-for="(m, i) in xAxisMetrics" :key="i" :value="i">{{ m }}</option>
             </select>
           </div>
-          <div class="flex items-center gap-4">
-            <span class="text-gray-300 w-52 shrink-0">{{
+          <div class="flex flex-col sm:flex-row sm:items-center gap-2">
+            <span class="text-gray-300 sm:w-52 sm:shrink-0">{{
               $t('nightsummary.settings.chartPrimary')
             }}</span>
             <select
               :value="store.settings.ChartPrimaryMetric"
               @change="save('ChartPrimaryMetric', +$event.target.value)"
-              class="bg-gray-800 border border-gray-600 rounded px-3 py-1.5 text-white text-sm focus:outline-none focus:border-cyan-500"
+              class="default-select w-full sm:w-auto"
             >
               <option v-for="(m, i) in primaryMetrics" :key="i" :value="i">{{ m }}</option>
             </select>
           </div>
-          <div class="flex items-center gap-4">
-            <span class="text-gray-300 w-52 shrink-0">{{
+          <div class="flex flex-col sm:flex-row sm:items-center gap-2">
+            <span class="text-gray-300 sm:w-52 sm:shrink-0">{{
               $t('nightsummary.settings.chartSecondary')
             }}</span>
             <select
               :value="store.settings.ChartSecondaryMetric"
               @change="save('ChartSecondaryMetric', +$event.target.value)"
-              class="bg-gray-800 border border-gray-600 rounded px-3 py-1.5 text-white text-sm focus:outline-none focus:border-cyan-500"
+              class="default-select w-full sm:w-auto"
             >
               <option v-for="(m, i) in secondaryMetrics" :key="i" :value="i">{{ m }}</option>
             </select>
@@ -176,13 +177,13 @@
         <div
           v-for="filterName in store.filterNames"
           :key="filterName"
-          class="flex items-center gap-4"
+          class="flex flex-col sm:flex-row sm:items-center gap-2"
         >
-          <span class="text-gray-300 w-32 shrink-0">{{ filterName }}</span>
+          <span class="text-gray-300 sm:w-32 sm:shrink-0">{{ filterName }}</span>
           <select
             :value="getFilterClass(filterName)"
             @change="setFilterClass(filterName, $event.target.value)"
-            class="bg-gray-800 border border-gray-600 rounded px-3 py-1.5 text-white text-sm focus:outline-none focus:border-cyan-500"
+            class="default-select w-full sm:w-auto"
           >
             <option value="auto">{{ $t('nightsummary.settings.filterAuto') }}</option>
             <option value="broadband">{{ $t('nightsummary.settings.filterBroadband') }}</option>
@@ -203,20 +204,22 @@
         :value="store.settings.ShowEquipmentProfile"
         @update="save('ShowEquipmentProfile', $event)"
       />
-      <p class="text-gray-400 text-xs mt-2 mb-4">{{ $t('nightsummary.settings.equipmentHint') }}</p>
+      <p class="text-gray-400 text-xs mt-2 mb-4">
+        {{ $t('nightsummary.settings.equipmentHint') }}
+      </p>
       <div class="space-y-2">
         <div v-for="item in equipmentItems" :key="item.key" class="flex items-center gap-3">
           <ToggleButton
             :statusValue="isEquipmentVisible(item.key)"
             @click="toggleEquipmentVisible(item.key, !isEquipmentVisible(item.key))"
           />
-          <span class="text-gray-300 w-36 shrink-0 text-sm">{{ item.label }}</span>
+          <span class="text-gray-300 w-32 shrink-0 text-sm">{{ item.label }}</span>
           <input
             type="text"
             :value="getEquipmentOverride(item.key)"
             @blur="setEquipmentOverride(item.key, $event.target.value)"
             :placeholder="$t('nightsummary.settings.equipmentOverridePlaceholder')"
-            class="flex-1 max-w-xs bg-gray-800 border border-gray-600 rounded px-3 py-1 text-white text-sm focus:outline-none focus:border-cyan-500"
+            class="default-input flex-1 min-w-0"
           />
         </div>
       </div>
@@ -232,19 +235,18 @@
         :value="store.settings.SaveReportLocally"
         @update="save('SaveReportLocally', $event)"
       />
-      <div class="flex items-center gap-4 mt-2 mb-2">
-        <span class="text-gray-300 w-52 shrink-0">{{ $t('nightsummary.settings.savePath') }}</span>
+      <div class="flex flex-col sm:flex-row sm:items-center gap-2 mt-2 mb-2">
+        <span class="text-gray-300 sm:w-52 sm:shrink-0">{{
+          $t('nightsummary.settings.savePath')
+        }}</span>
         <input
           type="text"
           :value="store.settings.SaveReportPath"
           @blur="save('SaveReportPath', $event.target.value)"
           :placeholder="$t('nightsummary.settings.savePathPlaceholder')"
-          class="flex-1 max-w-sm bg-gray-800 border border-gray-600 rounded px-3 py-1.5 text-white text-sm focus:outline-none focus:border-cyan-500"
+          class="default-input flex-1"
         />
-        <button
-          @click="showPathBrowser = true"
-          class="px-3 py-1.5 bg-gray-700 hover:bg-gray-600 text-gray-200 text-sm rounded transition"
-        >
+        <button @click="showPathBrowser = true" class="default-button-gray sm:w-auto">
           {{ $t('components.fileBrowser.title') }}
         </button>
       </div>
@@ -254,18 +256,18 @@
         :initial-path="store.settings.SaveReportPath"
         @select="save('SaveReportPath', $event)"
       />
-      <div class="flex items-center gap-4 mt-4 mb-2">
-        <span class="text-gray-300 w-52 shrink-0">{{
+      <div class="flex flex-col sm:flex-row sm:items-center gap-2 mt-4 mb-2">
+        <span class="text-gray-300 sm:w-52 sm:shrink-0">{{
           $t('nightsummary.settings.filePattern')
         }}</span>
         <input
           type="text"
           :value="store.settings.SaveReportFilePattern"
           @blur="save('SaveReportFilePattern', $event.target.value)"
-          class="flex-1 max-w-sm bg-gray-800 border border-gray-600 rounded px-3 py-1.5 text-white text-sm focus:outline-none focus:border-cyan-500"
+          class="default-input flex-1"
         />
       </div>
-      <div class="flex flex-wrap gap-2 ml-52 mt-2">
+      <div class="flex flex-wrap gap-2 mt-2 sm:ml-52">
         <button
           v-for="token in patternTokens"
           :key="token"
@@ -275,7 +277,7 @@
           {{ token }}
         </button>
       </div>
-      <p class="text-gray-400 text-xs ml-52 mt-2">
+      <p class="text-gray-400 text-xs mt-2 sm:ml-52">
         {{ $t('nightsummary.settings.filePatternHint') }}
       </p>
     </section>
@@ -291,7 +293,7 @@
         @update="save('EmailEnabled', $event)"
       />
       <div class="mt-4 space-y-3">
-        <div class="flex items-center gap-6">
+        <div class="flex flex-wrap items-center gap-4">
           <label class="flex items-center gap-2 cursor-pointer">
             <input
               type="radio"
@@ -335,32 +337,34 @@
             :value="store.settings.SmtpHost"
             @blur="save('SmtpHost', $event)"
           />
-          <div class="flex items-center gap-4">
-            <span class="text-gray-300 w-52 shrink-0">{{
+          <div class="flex flex-col sm:flex-row sm:items-center gap-2">
+            <span class="text-gray-300 sm:w-52 sm:shrink-0">{{
               $t('nightsummary.settings.smtpPort')
             }}</span>
-            <input
-              type="number"
-              :value="store.settings.SmtpPort"
-              @blur="save('SmtpPort', +$event.target.value)"
-              class="w-24 bg-gray-800 border border-gray-600 rounded px-3 py-1.5 text-white text-sm focus:outline-none focus:border-cyan-500"
-            />
-            <label class="flex items-center gap-2 ml-4 cursor-pointer">
+            <div class="flex items-center gap-3">
               <input
-                type="checkbox"
-                :checked="store.settings.SmtpSsl"
-                @change="save('SmtpSsl', $event.target.checked)"
-                class="rounded border-gray-600 text-cyan-500 focus:ring-cyan-500"
+                type="number"
+                :value="store.settings.SmtpPort"
+                @blur="save('SmtpPort', +$event.target.value)"
+                class="default-input w-24"
               />
-              <span class="text-gray-300 text-sm">{{ $t('nightsummary.settings.smtpSsl') }}</span>
-            </label>
+              <label class="flex items-center gap-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  :checked="store.settings.SmtpSsl"
+                  @change="save('SmtpSsl', $event.target.checked)"
+                  class="rounded border-gray-600 text-cyan-500 focus:ring-cyan-500"
+                />
+                <span class="text-gray-300 text-sm">{{ $t('nightsummary.settings.smtpSsl') }}</span>
+              </label>
+            </div>
           </div>
         </template>
-        <div class="flex items-center gap-4">
+        <div class="flex flex-wrap items-center gap-3">
           <button
             @click="store.testEmail()"
             :disabled="store.emailTesting"
-            class="px-4 py-2 bg-cyan-700 hover:bg-cyan-600 disabled:opacity-50 text-white text-sm rounded transition"
+            class="default-button-cyan w-auto"
           >
             {{ store.emailTesting ? $t('common.loading') : $t('nightsummary.settings.testEmail') }}
           </button>
@@ -394,11 +398,11 @@
           :value="store.settings.PushoverUserKey"
           @blur="save('PushoverUserKey', $event)"
         />
-        <div class="flex items-center gap-4">
+        <div class="flex flex-wrap items-center gap-3">
           <button
             @click="store.testPushover()"
             :disabled="store.pushoverTesting"
-            class="px-4 py-2 bg-cyan-700 hover:bg-cyan-600 disabled:opacity-50 text-white text-sm rounded transition"
+            class="default-button-cyan w-auto"
           >
             {{
               store.pushoverTesting
@@ -431,11 +435,11 @@
           :value="store.settings.DiscordWebhookUrl"
           @blur="save('DiscordWebhookUrl', $event)"
         />
-        <div class="flex items-center gap-4">
+        <div class="flex flex-wrap items-center gap-3">
           <button
             @click="store.testDiscord()"
             :disabled="store.discordTesting"
-            class="px-4 py-2 bg-cyan-700 hover:bg-cyan-600 disabled:opacity-50 text-white text-sm rounded transition"
+            class="default-button-cyan w-auto"
           >
             {{
               store.discordTesting ? $t('common.loading') : $t('nightsummary.settings.testDiscord')

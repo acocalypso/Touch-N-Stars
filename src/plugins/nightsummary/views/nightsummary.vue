@@ -42,11 +42,11 @@
         <!-- ─── SESSIONS TAB ─── -->
         <div v-else-if="activeTab === 'sessions'">
           <!-- Session selector -->
-          <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3 mb-6">
+          <div class="flex flex-col sm:flex-row items-stretch sm:items-center gap-3 mb-6">
             <select
               v-model="selectedSessionId"
               @change="onSelectSession"
-              class="flex-1 bg-gray-800 border border-gray-600 rounded-lg px-3 py-2 text-white text-sm focus:outline-none focus:border-cyan-500"
+              class="default-select flex-1"
               :disabled="store.loadingSessions"
             >
               <option value="" disabled>
@@ -63,36 +63,31 @@
             <button
               @click="store.fetchSessions()"
               :disabled="store.loadingSessions"
-              class="px-4 py-2 bg-gray-700 hover:bg-gray-600 disabled:opacity-50 text-white text-sm rounded-lg transition"
+              class="default-button-gray"
             >
               {{ $t('common.refresh') }}
             </button>
           </div>
 
           <!-- Session actions -->
-          <div v-if="selectedSessionId" class="flex gap-3 mb-4">
+          <div v-if="selectedSessionId" class="flex flex-wrap gap-2 mb-4">
             <button
               @click="store.fetchSessionDetail(selectedSessionId)"
               :disabled="store.loadingDetail"
-              class="px-4 py-2 bg-gray-700 hover:bg-gray-600 disabled:opacity-50 text-white text-sm rounded-lg transition"
+              class="default-button-gray"
             >
               {{ store.loadingDetail ? $t('common.loading') : $t('common.refresh') }}
             </button>
             <button
               @click="store.resendSession(selectedSessionId)"
               :disabled="store.resendingSession"
-              class="px-4 py-2 bg-cyan-700 hover:bg-cyan-600 disabled:opacity-50 text-white text-sm rounded-lg transition"
+              class="default-button-cyan"
             >
               {{
-                store.resendingSession
-                  ? $t('common.loading')
-                  : $t('nightsummary.sessions.resend')
+                store.resendingSession ? $t('common.loading') : $t('nightsummary.sessions.resend')
               }}
             </button>
-            <button
-              @click="confirmDelete = true"
-              class="px-4 py-2 bg-red-700 hover:bg-red-600 text-white text-sm rounded-lg transition"
-            >
+            <button @click="confirmDelete = true" class="default-button-red">
               {{ $t('nightsummary.sessions.delete') }}
             </button>
             <StatusBadge
@@ -115,16 +110,10 @@
                 {{ $t('nightsummary.sessions.deleteConfirm') }}
               </p>
               <div class="flex gap-3">
-                <button
-                  @click="doDelete"
-                  class="flex-1 px-4 py-2 bg-red-600 hover:bg-red-700 text-white rounded font-semibold transition"
-                >
+                <button @click="doDelete" class="default-button-red flex-1">
                   {{ $t('general.delete') }}
                 </button>
-                <button
-                  @click="confirmDelete = false"
-                  class="flex-1 px-4 py-2 bg-gray-600 hover:bg-gray-700 text-white rounded font-semibold transition"
-                >
+                <button @click="confirmDelete = false" class="default-button-gray flex-1">
                   {{ $t('general.cancel') }}
                 </button>
               </div>
@@ -148,9 +137,7 @@
 
             <!-- Event Timeline (detailLevel >= 1) -->
             <div
-              v-if="
-                store.sessionDetail.Events?.length && store.settings?.ReportDetailLevel >= 1
-              "
+              v-if="store.sessionDetail.Events?.length && store.settings?.ReportDetailLevel >= 1"
               class="bg-gray-800 border border-gray-700 rounded-lg overflow-hidden"
             >
               <div class="px-4 py-3 border-b border-gray-700">
@@ -158,7 +145,7 @@
                   Events ({{ store.sessionDetail.Events.length }})
                 </h3>
               </div>
-              <div class="divide-y divide-gray-700/40 max-h-80 overflow-y-auto">
+              <div class="divide-y divide-gray-700/40 max-h-80 overflow-y-auto scrollbar-hide">
                 <div
                   v-for="ev in store.sessionDetail.Events"
                   :key="ev.Id"

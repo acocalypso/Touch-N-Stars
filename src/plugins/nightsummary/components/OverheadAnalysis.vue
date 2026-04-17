@@ -11,7 +11,7 @@
       <h3 class="text-white font-medium">Yield and Imaging Overhead Analysis</h3>
     </div>
     <div class="p-4 space-y-4">
-      <div class="grid grid-cols-3 gap-3">
+      <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
         <div class="bg-gray-900/60 border border-gray-700 rounded-lg px-4 py-3">
           <p class="text-gray-400 text-xs uppercase tracking-wide mb-1">Total Overhead</p>
           <p class="text-white text-lg font-semibold">

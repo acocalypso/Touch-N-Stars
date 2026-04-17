@@ -139,8 +139,9 @@
               class="mx-3 my-1 border-t border-[#2e3650]"
             />
 
-            <!-- Files -->
+            <!-- Files (hidden in directory mode) -->
             <li
+              v-if="props.mode !== 'directory'"
               v-for="file in filteredFiles"
               :key="file.path"
               class="flex items-center gap-2 px-3 py-2 border-l-2 transition-all group cursor-pointer hover:bg-[#1e2639]"

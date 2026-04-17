@@ -298,7 +298,19 @@
                 :placeholder="$t('nightsummary.settings.savePathPlaceholder')"
                 class="flex-1 max-w-sm bg-gray-800 border border-gray-600 rounded px-3 py-1.5 text-white text-sm focus:outline-none focus:border-cyan-500"
               />
+              <button
+                @click="showPathBrowser = true"
+                class="px-3 py-1.5 bg-gray-700 hover:bg-gray-600 text-gray-200 text-sm rounded transition"
+              >
+                {{ $t('components.fileBrowser.title') }}
+              </button>
             </div>
+            <FileBrowser
+              v-model="showPathBrowser"
+              mode="directory"
+              :initial-path="store.settings.SaveReportPath"
+              @select="save('SaveReportPath', $event)"
+            />
             <div class="flex items-center gap-4 mt-4 mb-2">
               <span class="text-gray-300 w-52 shrink-0">{{
                 $t('nightsummary.settings.filePattern')
@@ -1255,11 +1267,13 @@ import CheckRow from '../components/CheckRow.vue';
 import TextRow from '../components/TextRow.vue';
 import StatusBadge from '../components/StatusBadge.vue';
 import ToggleButton from '@/components/helpers/toggleButton.vue';
+import FileBrowser from '@/components/helpers/fileBrowser.vue';
 
 const store = useNightSummaryStore();
 const activeTab = ref('sessions');
 const selectedSessionId = ref('');
 const confirmDelete = ref(false);
+const showPathBrowser = ref(false);
 
 const tabs = [
   { id: 'sessions', i18n: 'tabSessions' },

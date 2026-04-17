@@ -4,7 +4,7 @@
   "description": "Imaging session history and statistics from the Night Summary plugin",
   "version": "1.0.0",
   "author": "Nico",
-  "defaultEnabled": true,
+  "defaultEnabled": false,
   "enabled": true,
   "isPins": true
 }

@@ -316,13 +316,14 @@ watch(
     updateBorderClass();
   }
 );
-watch(
-  () => props.defaultDeviceId,
-  (newValues) => {
-    selectedDevice.value = getDeviceName(newValues);
+watch([() => props.defaultDeviceId, devices], ([newDeviceId]) => {
+  if (!newDeviceId || newDeviceId === '?') return;
+  const name = getDeviceName(newDeviceId);
+  if (name) {
+    selectedDevice.value = name;
     updateBorderClass();
   }
-);
+});
 watch(selectedDevice, (newValue) => {
   emit('deviceSelected', newValue);
 });

@@ -210,9 +210,6 @@
       {{ $t('components.settings.save') }}
     </button>
   </div>
-
-  <!-- Time Sync (PINS-only) -->
-  <TimeSyncSettings />
 </template>
 
 <script setup>
@@ -232,7 +229,6 @@ import {
   formatCoord,
 } from '@/utils/location';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
-import TimeSyncSettings from '@/components/settings/TimeSyncSettings.vue';
 
 const store = apiStore();
 const locationStore = useLocationStore();

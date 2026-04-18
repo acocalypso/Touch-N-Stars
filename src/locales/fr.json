@@ -326,6 +326,7 @@
         "mountTime": "Mont UTC",
         "notSupported": "Non pris en charge par le pilote",
         "syncLabel": "Temps de synchronisation pour monter",
+        "syncLabelInfo": "Lorsqu'il est activé, cliquer sur « Synchroniser maintenant » déconnectera et reconnectera brièvement la monture afin que NINA puisse lui transférer l'heure actuelle.",
         "title": "Synchronisation du temps"
       },
       "navbarCustomization": {

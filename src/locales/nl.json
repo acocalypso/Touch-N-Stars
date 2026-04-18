@@ -326,6 +326,7 @@
         "mountTime": "Monteer UTC",
         "notSupported": "Niet ondersteund door stuurprogramma",
         "syncLabel": "Synchroniseer de tijd om te mounten",
+        "syncLabelInfo": "Indien ingeschakeld wordt bij het klikken op \"Nu synchroniseren\" de montuur kort verbroken en opnieuw verbonden zodat NINA de huidige tijd kan overdragen.",
         "title": "Tijdsynchronisatie"
       },
       "navbarCustomization": {

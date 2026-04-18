@@ -326,6 +326,7 @@
         "mountTime": "安装UTC",
         "notSupported": "驱动程序不支持",
         "syncLabel": "同步挂载时间",
+        "syncLabelInfo": "启用后，点击「立即同步」将短暂断开并重新连接赤道仪，以便 NINA 将当前时间传输给它。",
         "title": "时间同步"
       },
       "navbarCustomization": {

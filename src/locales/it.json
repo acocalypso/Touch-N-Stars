@@ -326,6 +326,7 @@
         "mountTime": "Monte UTC",
         "notSupported": "Non supportato dal driver",
         "syncLabel": "Sincronizza il tempo per montare",
+        "syncLabelInfo": "Se abilitato, facendo clic su \"Sincronizza ora\" la montatura verrà brevemente disconnessa e riconnessa in modo che NINA possa trasferirle l'ora corrente.",
         "title": "Sincronizzazione dell'ora"
       },
       "navbarCustomization": {

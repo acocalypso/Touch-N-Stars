@@ -206,6 +206,7 @@
         "backendTime": "バックエンド UTC",
         "mountTime": "赤道儀 UTC",
         "syncLabel": "赤道儀に時刻を同期",
+        "syncLabelInfo": "有効にすると、「今すぐ同期」をクリックした際に赤道儀が一時的に切断・再接続され、NINAが現在時刻を転送できるようになります。",
         "mountNotConnected": "赤道儀が接続されていません",
         "notSupported": "ドライバーが非対応です"
       },

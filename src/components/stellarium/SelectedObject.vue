@@ -31,23 +31,16 @@
         {{ $t('components.stellarium.selected_object.dec') }}: {{ selectedObjectDec }}
       </p>
 
-      <div
-        v-if="store.mountInfo.Connected && !store.sequenceRunning"
-        class="flex flex-col gap-2 mt-2"
-      >
+      <div class="flex flex-col gap-2 mt-2">
         <SaveFavTargets
           :name="selectedObject[0]"
           :ra="selectedObjectRaDeg"
           :dec="selectedObjectDecDeg"
           :ra-string="selectedObjectRa"
           :dec-string="selectedObjectDec"
+          :show-label="true"
         />
 
-        <ButtonSlewCenterRotate
-          class="w-full"
-          :raAngle="props.selectedObjectRaDeg"
-          :decAngle="props.selectedObjectDecDeg"
-        />
         <setSequenceTarget
           class="w-full"
           :raAngle="props.selectedObjectRaDeg"
@@ -55,9 +48,16 @@
           :name="props.selectedObject[0]"
         />
 
+        <ButtonSlewCenterRotate
+          :raAngle="props.selectedObjectRaDeg"
+          :decAngle="props.selectedObjectDecDeg"
+          :disabled="!store.mountInfo.Connected || store.sequenceRunning"
+        />
+
         <ButtomSyncCoordinatesToMount
           :raAngle="props.selectedObjectRaDeg"
           :decAngle="props.selectedObjectDecDeg"
+          :disabled="!store.mountInfo.Connected || store.sequenceRunning"
         />
       </div>
       <div class="pb-10"></div>

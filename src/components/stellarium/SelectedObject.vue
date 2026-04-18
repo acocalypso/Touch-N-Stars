@@ -38,6 +38,7 @@
           :dec="selectedObjectDecDeg"
           :ra-string="selectedObjectRa"
           :dec-string="selectedObjectDec"
+          :show-label="true"
         />
 
         <setSequenceTarget
@@ -48,7 +49,6 @@
         />
 
         <ButtonSlewCenterRotate
-          class="w-full"
           :raAngle="props.selectedObjectRaDeg"
           :decAngle="props.selectedObjectDecDeg"
           :disabled="!store.mountInfo.Connected || store.sequenceRunning"

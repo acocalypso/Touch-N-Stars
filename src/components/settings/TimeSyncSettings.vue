@@ -48,7 +48,7 @@
         </div>
       </div>
       <div class="bg-gray-900/60 rounded p-2">
-        <div class="text-gray-400 mb-1">{{ $t('plugins.pins.deviceTime') }}</div>
+        <div class="text-gray-400 mb-1">{{ $t('plugins.pins.deviceTime') }} (UTC)</div>
         <div class="text-gray-100 font-mono">
           {{ pinsDeviceTimestamp ? new Date(pinsDeviceTimestamp * 1000).toUTCString() : '—' }}
         </div>
@@ -67,10 +67,25 @@
     </div>
     <div class="flex items-center justify-between gap-2">
       <button
-        class="default-button-gray"
+        class="default-button-gray flex items-center gap-2"
         :disabled="pinsTimeActionLoading"
         @click="manualPinsTimeSync"
       >
+        <svg
+          v-if="pinsTimeActionLoading"
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-4 w-4 animate-spin"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+          />
+        </svg>
         {{ $t('plugins.pins.syncNow') }}
       </button>
       <button
@@ -202,6 +217,13 @@ const manualPinsTimeSync = async () => {
     const timestamp = await fetchPinsDeviceTime();
     pinsDeviceTimestamp.value = timestamp;
     await syncPinsSystemTime(timestamp, true);
+
+    if (timeInfo.value.timeSyncEnabled) {
+      await apiService.mountAction('disconnect');
+      await apiService.mountAction('connect');
+    }
+
+    await loadTimeInfo();
   } catch (e) {
     console.error('Failed to sync PINS system time:', e);
   } finally {

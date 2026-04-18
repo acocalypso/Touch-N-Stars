@@ -55,7 +55,14 @@
       </div>
     </div>
     <div class="flex items-center justify-between">
-      <p class="text-gray-300 text-sm mr-4">{{ $t('components.settings.timeSync.syncLabel') }}</p>
+      <div class="flex items-center gap-1">
+        <p class="text-gray-300 text-sm">{{ $t('components.settings.timeSync.syncLabel') }}</p>
+        <InfoModal
+          :title="$t('components.settings.timeSync.syncLabel')"
+          :message="$t('components.settings.timeSync.syncLabelInfo')"
+          size="w-4 h-4"
+        />
+      </div>
       <ToggleButton :statusValue="timeInfo.timeSyncEnabled" @update:statusValue="toggleTimeSync" />
     </div>
     <div class="flex items-center justify-between">
@@ -105,6 +112,7 @@ import { apiStore } from '@/store/store';
 import { usePinsStore } from '@/plugins/pins/store/pinsStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import ToggleButton from '@/components/helpers/toggleButton.vue';
+import InfoModal from '@/components/helpers/infoModal.vue';
 import apiService from '@/services/apiService';
 import axios from 'axios';
 

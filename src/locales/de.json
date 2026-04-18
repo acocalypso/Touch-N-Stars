@@ -398,6 +398,7 @@
         "mountTime": "Uhrzeit der Montierung",
         "notSupported": "Wird vom Treiber nicht unterstützt",
         "syncLabel": "Zeit mit Montierung synchronisieren",
+        "syncLabelInfo": "Wenn aktiviert, wird beim Klick auf \"Jetzt synchronisieren\" die Montierung kurz getrennt und neu verbunden, damit NINA die aktuelle Zeit übertragen kann.",
         "title": "Zeitsynchronisation"
       }
     },

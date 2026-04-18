@@ -32,6 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 - Plate Solve: Use the NINA-style toolbar icon in the shared image viewer
 - PINS AllSky: Add AllSky auto-exposure tuning controls, timelapse overlay toggles for timestamp and exposure/gain, and show the active session label plus actual auto exposure/gain/mean values in live preview
+- Stellarium: sequence buttons are now always visible
 
 ### Fixed
 - Total Exposuer time: filter total exposure time by LIGHT image type

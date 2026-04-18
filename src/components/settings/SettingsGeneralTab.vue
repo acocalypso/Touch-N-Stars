@@ -110,6 +110,9 @@
       </div>
     </template>
 
+    <!-- Time Synchronisation -->
+    <TimeSyncSettings />
+
     <!-- Connection Settings -->
     <div
       class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
@@ -317,6 +320,7 @@ import SetBeta from '@/components/settings/setBeta.vue';
 import SetLogLevel from '@/components/settings/SetLogLevel.vue';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 import LocationSettingsPins from '@/components/settings/LocationSettingsPins.vue';
+import TimeSyncSettings from '@/components/settings/TimeSyncSettings.vue';
 import SetHorizonFilePath from '@/components/settings/setHorizonFilePath.vue';
 import { useI18n } from 'vue-i18n';
 

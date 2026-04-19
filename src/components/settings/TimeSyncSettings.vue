@@ -226,7 +226,7 @@ const manualPinsTimeSync = async () => {
     pinsDeviceTimestamp.value = timestamp;
     await syncPinsSystemTime(timestamp, true);
 
-    if (timeInfo.value.timeSyncEnabled) {
+    if (timeInfo.value.timeSyncEnabled && store.mountInfo.Connected) {
       await apiService.mountAction('disconnect');
       await apiService.mountAction('connect');
     }

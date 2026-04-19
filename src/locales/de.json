@@ -1516,7 +1516,8 @@
       },
       "zoomableImage": {
         "toggleCrosshair": "Fadenkreuz umschalten",
-        "toggleLoupe": "Lupe umschalten"
+        "toggleLoupe": "Lupe umschalten",
+        "loupeZoom": "Lupen-Zoom"
       }
     },
     "platesolve": {

@@ -1476,7 +1476,8 @@
       },
       "zoomableImage": {
         "toggleCrosshair": "切换十字准线",
-        "toggleLoupe": "切换放大镜"
+        "toggleLoupe": "切换放大镜",
+        "loupeZoom": "放大镜缩放"
       }
     },
     "platesolve": {

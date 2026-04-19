@@ -1484,7 +1484,8 @@
       },
       "zoomableImage": {
         "toggleCrosshair": "クロスヘアの切り替え",
-        "toggleLoupe": "ルーペの切り替え"
+        "toggleLoupe": "ルーペの切り替え",
+        "loupeZoom": "ルーペの倍率"
       }
     },
     "platesolve": {

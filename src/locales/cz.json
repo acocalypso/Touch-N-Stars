@@ -1476,7 +1476,8 @@
       },
       "zoomableImage": {
         "toggleCrosshair": "Přepnout zaměřovací kříž",
-        "toggleLoupe": "Přepnout lupu"
+        "toggleLoupe": "Přepnout lupu",
+        "loupeZoom": "Přiblížení lupy"
       }
     },
     "platesolve": {

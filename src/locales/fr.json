@@ -1476,7 +1476,8 @@
       },
       "zoomableImage": {
         "toggleCrosshair": "Afficher le réticule",
-        "toggleLoupe": "Afficher la loupe"
+        "toggleLoupe": "Afficher la loupe",
+        "loupeZoom": "Zoom de la loupe"
       }
     },
     "platesolve": {

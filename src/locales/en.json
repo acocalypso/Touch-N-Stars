@@ -1516,7 +1516,8 @@
       },
       "zoomableImage": {
         "toggleCrosshair": "Toggle crosshair",
-        "toggleLoupe": "Toggle loupe"
+        "toggleLoupe": "Toggle loupe",
+        "loupeZoom": "Loupe zoom"
       }
     },
     "platesolve": {

@@ -1456,7 +1456,8 @@
       },
       "zoomableImage": {
         "toggleCrosshair": "Перемикач перехрестя",
-        "toggleLoupe": "Перемикач лупи"
+        "toggleLoupe": "Перемикач лупи",
+        "loupeZoom": "Масштаб лупи"
       }
     },
     "platesolve": {

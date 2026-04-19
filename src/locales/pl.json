@@ -1476,7 +1476,8 @@
       },
       "zoomableImage": {
         "toggleCrosshair": "Przełącz krzyż celowniczy",
-        "toggleLoupe": "Przełącz lupę"
+        "toggleLoupe": "Przełącz lupę",
+        "loupeZoom": "Powiększenie lupy"
       }
     },
     "platesolve": {

@@ -63,6 +63,17 @@
         @toggle="handleLoupeToggle"
       />
 
+      <!-- Loupe Zoom Stepper -->
+      <button
+        v-if="showLoupe && isLoupeActive"
+        @click.stop="cycleLoupeZoom"
+        class="h-10 min-w-10 px-2 bg-gray-800/90 hover:bg-gray-700 text-white rounded-lg shadow-lg flex items-center justify-center transition-colors text-sm font-semibold tabular-nums"
+        :title="$t('components.helpers.zoomableImage.loupeZoom')"
+        :aria-label="$t('components.helpers.zoomableImage.loupeZoom')"
+      >
+        {{ loupeZoomFactor }}×
+      </button>
+
       <!-- Plate Solve Button -->
       <SolvePreparedImage v-if="showSolve" />
 
@@ -105,6 +116,7 @@
       :container-width="loupeViewport.containerWidth"
       :container-height="loupeViewport.containerHeight"
       :image-rotation="imageRotation"
+      :zoom-factor="loupeZoomFactor"
     />
 
     <!-- Loading Spinner -->
@@ -247,7 +259,9 @@ const {
 const {
   isLoupeActive,
   loupePreview,
+  loupeZoomFactor,
   toggleLoupe,
+  cycleLoupeZoom,
   attachLoupePointerHandlers,
   detachLoupePointerHandlers,
 } = useImageLoupe({

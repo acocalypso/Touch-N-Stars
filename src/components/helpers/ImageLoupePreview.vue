@@ -26,6 +26,7 @@ const props = defineProps({
   containerWidth: { type: Number, default: 0 },
   containerHeight: { type: Number, default: 0 },
   imageRotation: { type: Number, default: 0 },
+  zoomFactor: { type: Number, default: 1 },
 });
 
 const wrapperStyle = computed(() => {
@@ -51,6 +52,7 @@ const wrapperStyle = computed(() => {
 
 const imageStyle = computed(() => {
   const half = SIZE / 2;
+  const factor = props.zoomFactor || 1;
   return {
     position: 'absolute',
     left: '0',
@@ -60,7 +62,7 @@ const imageStyle = computed(() => {
     maxWidth: 'none',
     maxHeight: 'none',
     transformOrigin: '0 0',
-    transform: `translate(${half}px, ${half}px) rotate(${props.imageRotation}deg) translate(${-props.naturalX}px, ${-props.naturalY}px)`,
+    transform: `translate(${half}px, ${half}px) scale(${factor}) rotate(${props.imageRotation}deg) translate(${-props.naturalX}px, ${-props.naturalY}px)`,
     userSelect: 'none',
     pointerEvents: 'none',
   };

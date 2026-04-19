@@ -1476,7 +1476,8 @@
       },
       "zoomableImage": {
         "toggleCrosshair": "Richtkruis schakelen",
-        "toggleLoupe": "Loep schakelen"
+        "toggleLoupe": "Loep schakelen",
+        "loupeZoom": "Loep-zoom"
       }
     },
     "platesolve": {

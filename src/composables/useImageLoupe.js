@@ -2,6 +2,8 @@ import { onBeforeUnmount, ref } from 'vue';
 import { clientPointToNaturalPoint } from '@/utils/imageGeometry';
 
 const LOUPE_STORAGE_KEY = 'tns:image-loupe-active';
+const LOUPE_ZOOM_STORAGE_KEY = 'tns:image-loupe-zoom';
+const ZOOM_STEPS = [1, 2, 4];
 
 function getStoredLoupeActive() {
   if (typeof window === 'undefined') return false;
@@ -13,9 +15,21 @@ function setStoredLoupeActive(active) {
   window.localStorage.setItem(LOUPE_STORAGE_KEY, String(active));
 }
 
+function getStoredLoupeZoom() {
+  if (typeof window === 'undefined') return ZOOM_STEPS[0];
+  const raw = Number(window.localStorage.getItem(LOUPE_ZOOM_STORAGE_KEY));
+  return ZOOM_STEPS.includes(raw) ? raw : ZOOM_STEPS[0];
+}
+
+function setStoredLoupeZoom(factor) {
+  if (typeof window === 'undefined') return;
+  window.localStorage.setItem(LOUPE_ZOOM_STORAGE_KEY, String(factor));
+}
+
 export function useImageLoupe({ containerRef, imageRef, imageRotationRef }) {
   const isLoupeActive = ref(getStoredLoupeActive());
   const loupePreview = ref(null);
+  const loupeZoomFactor = ref(getStoredLoupeZoom());
 
   let attachedElement = null;
   let activePointerId = null;
@@ -127,6 +141,13 @@ export function useImageLoupe({ containerRef, imageRef, imageRotationRef }) {
     setLoupeActive(!isLoupeActive.value);
   };
 
+  const cycleLoupeZoom = () => {
+    const currentIndex = ZOOM_STEPS.indexOf(loupeZoomFactor.value);
+    const next = ZOOM_STEPS[(currentIndex + 1) % ZOOM_STEPS.length];
+    loupeZoomFactor.value = next;
+    setStoredLoupeZoom(next);
+  };
+
   onBeforeUnmount(() => {
     detachLoupePointerHandlers();
   });
@@ -134,8 +155,10 @@ export function useImageLoupe({ containerRef, imageRef, imageRotationRef }) {
   return {
     isLoupeActive,
     loupePreview,
+    loupeZoomFactor,
     toggleLoupe,
     setLoupeActive,
+    cycleLoupeZoom,
     attachLoupePointerHandlers,
     detachLoupePointerHandlers,
   };

@@ -1476,7 +1476,8 @@
       },
       "zoomableImage": {
         "toggleCrosshair": "Alternar mira",
-        "toggleLoupe": "Alternar lupa"
+        "toggleLoupe": "Alternar lupa",
+        "loupeZoom": "Zoom da lupa"
       }
     },
     "platesolve": {

@@ -1476,7 +1476,8 @@
       },
       "zoomableImage": {
         "toggleCrosshair": "Attiva il reticolo",
-        "toggleLoupe": "Attiva la lente"
+        "toggleLoupe": "Attiva la lente",
+        "loupeZoom": "Zoom della lente"
       }
     },
     "platesolve": {

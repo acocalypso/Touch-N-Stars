@@ -105,50 +105,31 @@
 
             <label class="text-xs text-gray-300 flex items-center gap-2">
               <span>{{ tp('cache.useNinaCache') }}</span>
-              <button
-                class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors"
-                :class="useNinaCache ? 'bg-emerald-600' : 'bg-gray-700'"
+              <toggleButton
+                :status-value="useNinaCache"
                 @click="useNinaCache = !useNinaCache"
                 title="Gibt useCache an targetpic weiter"
-              >
-                <span
-                  class="inline-block h-5 w-5 transform rounded-full bg-white transition-transform"
-                  :class="useNinaCache ? 'translate-x-5' : 'translate-x-1'"
-                />
-              </button>
+              />
             </label>
           </div>
 
           <div class="mt-3 flex items-center justify-between gap-2">
             <label class="text-xs text-gray-300 flex items-center gap-2">
-              <span>{{ tp('performance.lazyPreviews') }}</span
-              >>
-              <button
-                class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors"
-                :class="lazyPreviews ? 'bg-emerald-600' : 'bg-gray-700'"
+              <span>{{ tp('performance.lazyPreviews') }}</span>
+              <toggleButton
+                :status-value="lazyPreviews"
                 @click="lazyPreviews = !lazyPreviews"
                 :title="tp('tooltips.lazyVisibleOnly')"
-              >
-                <span
-                  class="inline-block h-5 w-5 transform rounded-full bg-white transition-transform"
-                  :class="lazyPreviews ? 'translate-x-5' : 'translate-x-1'"
-                />
-              </button>
+              />
             </label>
 
             <label class="text-xs text-gray-300 flex items-center gap-2">
               <span>{{ tp('filters.onlyAboveHorizon') }}</span>
-              <button
-                class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors"
-                :class="onlyAboveHorizon ? 'bg-emerald-600' : 'bg-gray-700'"
+              <toggleButton
+                :status-value="onlyAboveHorizon"
                 @click="onlyAboveHorizon = !onlyAboveHorizon"
                 title="filter targets with maxAlt <= 0° raus"
-              >
-                <span
-                  class="inline-block h-5 w-5 transform rounded-full bg-white transition-transform"
-                  :class="onlyAboveHorizon ? 'translate-x-5' : 'translate-x-1'"
-                />
-              </button>
+              />
             </label>
           </div>
 
@@ -532,6 +513,7 @@ import { useI18n } from 'vue-i18n';
 import apiService from '../../../services/apiService';
 import seedTargets from '../components/astro_targets_seed.json';
 import FramingAssistangModal from '../../../components/framing/FramingAssistangModal.vue';
+import toggleButton from '@/components/helpers/toggleButton.vue';
 import { useFramingStore } from '@/store/framingStore';
 import { useSequenceStore } from '@/store/sequenceStore';
 import { apiStore } from '@/store/store';

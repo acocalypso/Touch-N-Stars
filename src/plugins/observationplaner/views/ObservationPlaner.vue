@@ -1,518 +1,526 @@
 <template>
-  <div class="p-4 md:p-6 space-y-4">
-    <!-- Header -->
-    <div class="flex items-start justify-between gap-4">
-      <div>
-        <h2 class="text-xl font-semibold text-gray-100">{{ tp('title') }}</h2>
-        <p class="text-sm text-gray-400">
-          {{ tp('subtitle') }}
-        </p>
-      </div>
-
-      <div class="flex items-center gap-2">
-        <button
-          class="px-3 py-2 rounded-lg bg-gray-800 hover:bg-gray-700 border border-gray-700 text-gray-100 text-sm"
-          @click="refreshAll"
-          :disabled="busy"
-          :title="tp('tooltips.refreshAll')"
-        >
-          Refresh
-        </button>
-
-        <button
-          class="px-3 py-2 rounded-lg bg-gray-800 hover:bg-gray-700 border border-gray-700 text-gray-100 text-sm"
-          @click="ensureLocation"
-          :disabled="busyLocation"
-          :title="tp('tooltips.updateGps')"
-        >
-          get location
-        </button>
-      </div>
-    </div>
-
-    <!-- Location + global settings -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-3">
-      <div class="rounded-xl border border-gray-700 bg-black/30 p-3">
-        <div class="text-xs text-gray-400 mb-1">{{ tp('location.title') }}</div>
-
-        <div v-if="hasSite" class="text-sm text-gray-100">
-          {{ fmtCoord(siteLat) }}, {{ fmtCoord(siteLon) }}
-          <span v-if="siteAlt != null" class="text-gray-400">· {{ fmtAlt(siteAlt) }} m</span>
-        </div>
-
-        <div v-else class="text-sm text-gray-400">{{ tp('location.notAvailable') }}</div>
-
-        <div v-if="gpsError" class="mt-2 text-xs text-red-400 break-words">
-          {{ gpsError }}
-        </div>
-      </div>
-
-      <div class="rounded-xl border border-gray-700 bg-black/30 p-3">
-        <div class="text-xs text-gray-400 mb-2">{{ tp('filters.timeWindow') }}</div>
-
-        <div class="grid grid-cols-2 gap-2">
-          <label class="text-xs text-gray-300">
-            Start (local)
-            <input
-              class="mt-1 w-full px-2 py-1 rounded bg-gray-900 border border-gray-700 text-gray-100"
-              type="datetime-local"
-              v-model="windowStartLocal"
-            />
-          </label>
-          <label class="text-xs text-gray-300">
-            End (local)
-            <input
-              class="mt-1 w-full px-2 py-1 rounded bg-gray-900 border border-gray-700 text-gray-100"
-              type="datetime-local"
-              v-model="windowEndLocal"
-            />
-          </label>
-        </div>
-
-        <div class="mt-2 flex items-center justify-between gap-2">
-          <label class="text-xs text-gray-300 flex items-center gap-2">
-            Sample (min)
-            <input
-              class="w-20 px-2 py-1 rounded bg-gray-900 border border-gray-700 text-gray-100"
-              type="number"
-              min="2"
-              max="60"
-              step="1"
-              v-model.number="sampleMinutes"
-            />
-          </label>
-
-          <div class="text-xs text-gray-500">{{ sampleCount }} points</div>
-        </div>
-      </div>
-
-      <div class="rounded-xl border border-gray-700 bg-black/30 p-3">
-        <div class="text-xs text-gray-400 mb-2">{{ tp('performance.title') }}</div>
-
-        <div class="flex items-center justify-between gap-2">
-          <label class="text-xs text-gray-300">
-            Limit
-            <input
-              class="mt-1 w-24 px-2 py-1 rounded bg-gray-900 border border-gray-700 text-gray-100"
-              type="number"
-              min="5"
-              max="200"
-              step="1"
-              v-model.number="limit"
-            />
-          </label>
-
-          <label class="text-xs text-gray-300 flex items-center gap-2">
-            <span>{{ tp('cache.useNinaCache') }}</span>
-            <button
-              class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors"
-              :class="useNinaCache ? 'bg-emerald-600' : 'bg-gray-700'"
-              @click="useNinaCache = !useNinaCache"
-              title="Gibt useCache an targetpic weiter"
-            >
-              <span
-                class="inline-block h-5 w-5 transform rounded-full bg-white transition-transform"
-                :class="useNinaCache ? 'translate-x-5' : 'translate-x-1'"
-              />
-            </button>
-          </label>
-        </div>
-
-        <div class="mt-3 flex items-center justify-between gap-2">
-          <label class="text-xs text-gray-300 flex items-center gap-2">
-            <span>{{ tp('performance.lazyPreviews') }}</span
-            >>
-            <button
-              class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors"
-              :class="lazyPreviews ? 'bg-emerald-600' : 'bg-gray-700'"
-              @click="lazyPreviews = !lazyPreviews"
-              :title="tp('tooltips.lazyVisibleOnly')"
-            >
-              <span
-                class="inline-block h-5 w-5 transform rounded-full bg-white transition-transform"
-                :class="lazyPreviews ? 'translate-x-5' : 'translate-x-1'"
-              />
-            </button>
-          </label>
-
-          <label class="text-xs text-gray-300 flex items-center gap-2">
-            <span>{{ tp('filters.onlyAboveHorizon') }}</span>
-            <button
-              class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors"
-              :class="onlyAboveHorizon ? 'bg-emerald-600' : 'bg-gray-700'"
-              @click="onlyAboveHorizon = !onlyAboveHorizon"
-              title="filter targets with maxAlt <= 0° raus"
-            >
-              <span
-                class="inline-block h-5 w-5 transform rounded-full bg-white transition-transform"
-                :class="onlyAboveHorizon ? 'translate-x-5' : 'translate-x-1'"
-              />
-            </button>
-          </label>
-        </div>
-
-        <div class="mt-3 pt-3 border-t border-gray-800">
-          <div class="text-xs text-gray-400 mb-1">{{ tp('filters.moon') }}</div>
-          <div class="text-sm text-gray-100">
-            <span v-if="moonIllumPct != null">{{ moonIllumPct }}% illuminated</span>
-            <span v-else class="text-gray-500">—</span>
-            <span class="text-gray-400"> · </span>
-            <span v-if="currentMoonData?.separationDeg != null"
-              >Separation {{ fmtNum(currentMoonData.separationDeg, 0) }}°</span
-            >
-            <span v-else class="text-gray-500">{{ tp('chart.separation') }}</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Filters -->
-    <div class="rounded-xl border border-gray-700 bg-black/30 p-4 space-y-3">
-      <div class="flex items-center justify-between">
-        <div class="text-sm font-medium text-gray-100">{{ tp('filters.title') }}</div>
-        <div class="text-xs text-gray-400">
-          {{ filteredTargets.length }} / {{ targets.length }} targets · display:
-          {{ displayedTargets.length }}
-        </div>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
-        <label class="text-xs text-gray-300">
-          Search by name
-          <input
-            class="mt-1 w-full px-3 py-2 rounded bg-gray-900 border border-gray-700 text-gray-100"
-            v-model="q"
-            placeholder="M42, Andromeda, NGC..."
-          />
-        </label>
-
-        <label class="text-xs text-gray-300">
-          Objekt-Typ
-          <select
-            class="mt-1 w-full px-3 py-2 rounded bg-gray-900 border border-gray-700 text-gray-100"
-            v-model="typeFilter"
-          >
-            <option value="">{{ tp('common.all') }}</option>
-            <option v-for="t in typeOptions" :key="t" :value="t">{{ t }}</option>
-          </select>
-        </label>
-
-        <label class="text-xs text-gray-300">
-          direction (Azimut-Sector)
-          <select
-            class="mt-1 w-full px-3 py-2 rounded bg-gray-900 border border-gray-700 text-gray-100"
-            v-model="sectorFilter"
-            title="Filters by bestAzDeg (azimuth at the highest altitude in the window)"
-          >
-            <option value="">{{ tp('common.all') }}</option>
-            <option v-for="s in sectorOptions" :key="s.value" :value="s.value">
-              {{ s.label }}
-            </option>
-          </select>
-        </label>
-
-        <label class="text-xs text-gray-300">
-          Sort order
-          <select
-            class="mt-1 w-full px-3 py-2 rounded bg-gray-900 border border-gray-700 text-gray-100"
-            v-model="sortMode"
-          >
-            <option value="maxAltDesc">{{ tp('sort.maxAltDesc') }}</option>
-            <option value="bestTimeAsc">{{ tp('sort.bestTimeAsc') }}</option>
-            <option value="nameAsc">{{ tp('sort.nameAZ') }}</option>
-          </select>
-        </label>
-      </div>
-
-      <div v-if="!hasSite" class="text-xs text-amber-300">
-        Note: Altitude/Direction filters and charts cannot be calculated without a location.
-      </div>
-    </div>
-
-    <!-- {{ tp('sections.tonightPicks') }} (top 10 by Tonight-Score) -->
-    <div v-if="tonightPicks.length" class="rounded-xl border border-gray-700 bg-black/30 p-3">
-      <div class="flex items-center justify-between gap-3">
+  <div>
+    <div class="p-4 md:p-6 space-y-4">
+      <!-- Header -->
+      <div class="flex items-start justify-between gap-4">
         <div>
-          <div class="text-xs text-gray-400">{{ tp('sections.tonightPicks') }}</div>
-          <div class="text-sm text-gray-100">{{ tp('sections.topForWindow') }}</div>
+          <h2 class="text-xl font-semibold text-gray-100">{{ tp('title') }}</h2>
+          <p class="text-sm text-gray-400">
+            {{ tp('subtitle') }}
+          </p>
         </div>
-        <div class="text-xs text-gray-500">Top {{ tonightPicks.length }}</div>
+
+        <div class="flex items-center gap-2">
+          <button
+            class="px-3 py-2 rounded-lg bg-gray-800 hover:bg-gray-700 border border-gray-700 text-gray-100 text-sm"
+            @click="refreshAll"
+            :disabled="busy"
+            :title="tp('tooltips.refreshFavorites')"
+          >
+            Refresh
+          </button>
+
+          <button
+            class="px-3 py-2 rounded-lg bg-gray-800 hover:bg-gray-700 border border-gray-700 text-gray-100 text-sm"
+            @click="ensureLocation"
+            :disabled="busyLocation"
+            :title="tp('tooltips.gpsUpdate')"
+          >
+            get location
+          </button>
+        </div>
       </div>
 
-      <div class="mt-3 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2">
-        <button
-          v-for="p in tonightPicks"
-          :key="p._id"
-          class="text-left px-3 py-2 rounded-lg bg-gray-900/50 hover:bg-gray-900 border border-gray-700 text-gray-100"
-          @click="openInFramingAssistant(p)"
-          :title="`open Framing · ${fmtRa(p.raDeg)} / ${fmtDec(p.decDeg)} · MaxAlt ${fmtNum(p.maxAltDeg, 1)}°`"
-        >
-          <div class="flex items-center justify-between gap-2">
-            <div class="truncate font-semibold">{{ p.name }}</div>
-            <div class="text-[11px] text-gray-300">{{ tonightLabel(p.tonightScore) }}</div>
-          </div>
-          <div class="mt-1 text-[11px] text-gray-400">
-            MaxAlt {{ fmtNum(p.maxAltDeg, 1) }}° · {{ fmtNum(p.visibleHours, 1) }}h vidible
-          </div>
-        </button>
-      </div>
-    </div>
+      <!-- Location + global settings -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-3">
+        <div class="rounded-xl border border-gray-700 bg-black/30 p-3">
+          <div class="text-xs text-gray-400 mb-1">{{ tp('location.title') }}</div>
 
-    <!-- Cards list -->
-    <div class="space-y-3">
-      <div
-        v-for="(t, i) in displayedTargets"
-        :key="t._id"
-        :class="[
-          'rounded-xl border bg-black/30 p-4',
-          isSelected(t) ? 'border-blue-500' : 'border-gray-700',
-        ]"
-      >
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-          <!-- Left: title + meta -->
-          <div class="space-y-2">
-            <div class="flex items-start justify-between gap-2">
-              <div>
-                <div class="text-base font-semibold text-gray-100 flex items-center gap-2">
-                  <span
-                    v-if="(t.tonightScore ?? 0) > 0"
-                    class="inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-semibold border border-gray-700 bg-gray-900 text-gray-100"
-                    :title="`Tonight score: ${fmtNum(t.tonightScore, 2)} · MaxAlt ${fmtNum(t.maxAltDeg, 1)}° · ${fmtNum(t.visibleHours, 1)}h`"
-                  >
-                    {{ tonightLabel(t.tonightScore) }}
-                  </span>
-                  <span
-                    v-if="t.source === 'favorite'"
-                    class="inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-semibold border border-gray-700 bg-gray-900 text-gray-100"
-                    title="Favorite"
-                    >❤️</span
-                  >
-                  <span class="truncate">
-                    {{ t.name || 'Unnamed target' }}
-                  </span>
-                </div>
-                <div class="text-xs text-gray-400">
-                  <span v-if="t.type">{{ t.type }}</span>
-                  <span v-if="t.type && (t.raDeg != null || t.decDeg != null)"> · </span>
-                  <span v-if="t.raDeg != null && t.decDeg != null"
-                    >RA {{ fmtRa(t.raDeg) }} · DEC {{ fmtDec(t.decDeg) }}</span
-                  >
-                </div>
-              </div>
-
-              <button
-                class="px-2 py-1 rounded bg-gray-800 hover:bg-gray-700 border border-gray-700 text-gray-200 text-xs"
-                @click="reloadPreview(t)"
-                :disabled="busyPreview[t._id]"
-                title="reload Preview"
-              >
-                Reload
-              </button>
-            </div>
-
-            <div class="grid grid-cols-2 gap-2">
-              <div class="rounded-lg bg-gray-900/60 border border-gray-700 p-2">
-                <div class="text-[11px] text-gray-400">{{ tp('sort.maxAltWindow') }}</div>
-                <div class="text-sm text-gray-100">
-                  <span v-if="t.maxAltDeg != null">{{ fmtNum(t.maxAltDeg, 1) }}°</span>
-                  <span v-else class="text-gray-500">—</span>
-                </div>
-              </div>
-
-              <div class="rounded-lg bg-gray-900/60 border border-gray-700 p-2">
-                <div class="text-[11px] text-gray-400">{{ tp('sort.bestTime') }}</div>
-                <div class="text-sm text-gray-100">
-                  <span v-if="t.bestTime">{{ fmtTime(t.bestTime) }}</span>
-                  <span v-else class="text-gray-500">—</span>
-                </div>
-              </div>
-
-              <div class="rounded-lg bg-gray-900/60 border border-gray-700 p-2">
-                <div class="text-[11px] text-gray-400">{{ tp('chart.directionAz') }}</div>
-                <div class="text-sm text-gray-100">
-                  <span v-if="t.bestAzDeg != null"
-                    >{{ fmtNum(t.bestAzDeg, 0) }}° ({{ azToCardinal(t.bestAzDeg) }})</span
-                  >
-                  <span v-else class="text-gray-500">—</span>
-                </div>
-              </div>
-
-              <div class="rounded-lg bg-gray-900/60 border border-gray-700 p-2">
-                <div class="text-[11px] text-gray-400">{{ tp('sort.visible') }}</div>
-                <div class="text-sm text-gray-100">
-                  <span v-if="t.maxAltDeg != null">
-                    <span v-if="t.maxAltDeg > 0" class="text-emerald-300">{{
-                      tp('common.yes')
-                    }}</span>
-                    <span v-else class="text-red-300">{{ tp('common.no') }}</span>
-                  </span>
-                  <span v-else class="text-gray-500">—</span>
-                </div>
-              </div>
-            </div>
-
-            <div v-if="t._error" class="text-xs text-red-400 break-words">
-              {{ t._error }}
-            </div>
+          <div v-if="hasSite" class="text-sm text-gray-100">
+            {{ fmtCoord(siteLat) }}, {{ fmtCoord(siteLon) }}
+            <span v-if="siteAlt != null" class="text-gray-400">· {{ fmtAlt(siteAlt) }} m</span>
           </div>
 
-          <!-- Middle: Preview image -->
-          <div class="space-y-2">
-            <div class="text-xs text-gray-400">Preview</div>
+          <div v-else class="text-sm text-gray-400">{{ tp('location.notAvailable') }}</div>
 
-            <div
-              class="relative aspect-square max-w-[240px] rounded-xl overflow-hidden border border-gray-700 bg-gray-900"
-            >
-              <img
-                v-if="t.previewUrl"
-                :src="t.previewUrl"
-                class="w-full h-full object-cover"
-                @error="onPreviewError(t)"
+          <div v-if="gpsError" class="mt-2 text-xs text-red-400 break-words">
+            {{ gpsError }}
+          </div>
+        </div>
+
+        <div class="rounded-xl border border-gray-700 bg-black/30 p-3">
+          <div class="text-xs text-gray-400 mb-2">{{ tp('filters.timeWindow') }}</div>
+
+          <div class="grid grid-cols-2 gap-2">
+            <label class="text-xs text-gray-300">
+              Start (local)
+              <input
+                class="mt-1 w-full px-2 py-1 rounded bg-gray-900 border border-gray-700 text-gray-100"
+                type="datetime-local"
+                v-model="windowStartLocal"
               />
+            </label>
+            <label class="text-xs text-gray-300">
+              End (local)
+              <input
+                class="mt-1 w-full px-2 py-1 rounded bg-gray-900 border border-gray-700 text-gray-100"
+                type="datetime-local"
+                v-model="windowEndLocal"
+              />
+            </label>
+          </div>
 
-              <div
-                v-if="!t.previewUrl || t.previewError"
-                class="absolute inset-0 flex items-center justify-center text-xs text-gray-300"
+          <div class="mt-2 flex items-center justify-between gap-2">
+            <label class="text-xs text-gray-300 flex items-center gap-2">
+              Sample (min)
+              <input
+                class="w-20 px-2 py-1 rounded bg-gray-900 border border-gray-700 text-gray-100"
+                type="number"
+                min="2"
+                max="60"
+                step="1"
+                v-model.number="sampleMinutes"
+              />
+            </label>
+
+            <div class="text-xs text-gray-500">{{ sampleCount }} points</div>
+          </div>
+        </div>
+
+        <div class="rounded-xl border border-gray-700 bg-black/30 p-3">
+          <div class="text-xs text-gray-400 mb-2">{{ tp('performance.title') }}</div>
+
+          <div class="flex items-center justify-between gap-2">
+            <label class="text-xs text-gray-300">
+              Limit
+              <input
+                class="mt-1 w-24 px-2 py-1 rounded bg-gray-900 border border-gray-700 text-gray-100"
+                type="number"
+                min="5"
+                max="200"
+                step="1"
+                v-model.number="limit"
+              />
+            </label>
+
+            <label class="text-xs text-gray-300 flex items-center gap-2">
+              <span>{{ tp('cache.useNinaCache') }}</span>
+              <button
+                class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors"
+                :class="useNinaCache ? 'bg-emerald-600' : 'bg-gray-700'"
+                @click="useNinaCache = !useNinaCache"
+                title="Gibt useCache an targetpic weiter"
               >
-                <div class="text-center px-4">
-                  <div class="font-medium">{{ tp('preview.unavailable') }}</div>
-                  <div class="text-gray-500 mt-1">
-                    <span v-if="t.previewError">{{ t.previewError }}</span>
-                    <span v-else>{{ tp('preview.noImage') }}</span>
+                <span
+                  class="inline-block h-5 w-5 transform rounded-full bg-white transition-transform"
+                  :class="useNinaCache ? 'translate-x-5' : 'translate-x-1'"
+                />
+              </button>
+            </label>
+          </div>
+
+          <div class="mt-3 flex items-center justify-between gap-2">
+            <label class="text-xs text-gray-300 flex items-center gap-2">
+              <span>{{ tp('performance.lazyPreviews') }}</span
+              >>
+              <button
+                class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors"
+                :class="lazyPreviews ? 'bg-emerald-600' : 'bg-gray-700'"
+                @click="lazyPreviews = !lazyPreviews"
+                :title="tp('tooltips.lazyVisibleOnly')"
+              >
+                <span
+                  class="inline-block h-5 w-5 transform rounded-full bg-white transition-transform"
+                  :class="lazyPreviews ? 'translate-x-5' : 'translate-x-1'"
+                />
+              </button>
+            </label>
+
+            <label class="text-xs text-gray-300 flex items-center gap-2">
+              <span>{{ tp('filters.onlyAboveHorizon') }}</span>
+              <button
+                class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors"
+                :class="onlyAboveHorizon ? 'bg-emerald-600' : 'bg-gray-700'"
+                @click="onlyAboveHorizon = !onlyAboveHorizon"
+                title="filter targets with maxAlt <= 0° raus"
+              >
+                <span
+                  class="inline-block h-5 w-5 transform rounded-full bg-white transition-transform"
+                  :class="onlyAboveHorizon ? 'translate-x-5' : 'translate-x-1'"
+                />
+              </button>
+            </label>
+          </div>
+
+          <div class="mt-3 pt-3 border-t border-gray-800">
+            <div class="text-xs text-gray-400 mb-1">{{ tp('filters.moon') }}</div>
+            <div class="text-sm text-gray-100">
+              <span v-if="moonIllumPct != null">{{ moonIllumPct }}% illuminated</span>
+              <span v-else class="text-gray-500">—</span>
+              <span class="text-gray-400"> · </span>
+              <span v-if="currentMoonData?.separationDeg != null"
+                >Separation {{ fmtNum(currentMoonData.separationDeg, 0) }}°</span
+              >
+              <span v-else class="text-gray-500">{{ tp('chart.separation') }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <div class="rounded-xl border border-gray-700 bg-black/30 p-4 space-y-3">
+        <div class="flex items-center justify-between">
+          <div class="text-sm font-medium text-gray-100">{{ tp('filters.title') }}</div>
+          <div class="text-xs text-gray-400">
+            {{ filteredTargets.length }} / {{ targets.length }} targets · display:
+            {{ displayedTargets.length }}
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+          <label class="text-xs text-gray-300">
+            Search by name
+            <input
+              class="mt-1 w-full px-3 py-2 rounded bg-gray-900 border border-gray-700 text-gray-100"
+              v-model="q"
+              placeholder="M42, Andromeda, NGC..."
+            />
+          </label>
+
+          <label class="text-xs text-gray-300">
+            Objekt-Typ
+            <select
+              class="mt-1 w-full px-3 py-2 rounded bg-gray-900 border border-gray-700 text-gray-100"
+              v-model="typeFilter"
+            >
+              <option value="">{{ tp('common.all') }}</option>
+              <option v-for="t in typeOptions" :key="t" :value="t">{{ t }}</option>
+            </select>
+          </label>
+
+          <label class="text-xs text-gray-300">
+            direction (Azimut-Sector)
+            <select
+              class="mt-1 w-full px-3 py-2 rounded bg-gray-900 border border-gray-700 text-gray-100"
+              v-model="sectorFilter"
+              title="Filters by bestAzDeg (azimuth at the highest altitude in the window)"
+            >
+              <option value="">{{ tp('common.all') }}</option>
+              <option v-for="s in sectorOptions" :key="s.value" :value="s.value">
+                {{ s.label }}
+              </option>
+            </select>
+          </label>
+
+          <label class="text-xs text-gray-300">
+            Sort order
+            <select
+              class="mt-1 w-full px-3 py-2 rounded bg-gray-900 border border-gray-700 text-gray-100"
+              v-model="sortMode"
+            >
+              <option value="maxAltDesc">{{ tp('sort.maxAltDesc') }}</option>
+              <option value="bestTimeAsc">{{ tp('sort.bestTimeAsc') }}</option>
+              <option value="nameAsc">{{ tp('sort.nameAZ') }}</option>
+            </select>
+          </label>
+        </div>
+
+        <div v-if="!hasSite" class="text-xs text-amber-300">
+          Note: Altitude/Direction filters and charts cannot be calculated without a location.
+        </div>
+      </div>
+
+      <!-- {{ tp('sections.tonightPicks') }} (top 10 by Tonight-Score) -->
+      <div v-if="tonightPicks.length" class="rounded-xl border border-gray-700 bg-black/30 p-3">
+        <div class="flex items-center justify-between gap-3">
+          <div>
+            <div class="text-xs text-gray-400">{{ tp('sections.tonightPicks') }}</div>
+            <div class="text-sm text-gray-100">{{ tp('sections.topForWindow') }}</div>
+          </div>
+          <div class="text-xs text-gray-500">Top {{ tonightPicks.length }}</div>
+        </div>
+
+        <div class="mt-3 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2">
+          <button
+            v-for="p in tonightPicks"
+            :key="p._id"
+            class="text-left px-3 py-2 rounded-lg bg-gray-900/50 hover:bg-gray-900 border border-gray-700 text-gray-100"
+            @click="openInFramingAssistant(p)"
+            :title="`open Framing · ${fmtRa(p.raDeg)} / ${fmtDec(p.decDeg)} · MaxAlt ${fmtNum(p.maxAltDeg, 1)}°`"
+          >
+            <div class="flex items-center justify-between gap-2">
+              <div class="truncate font-semibold">{{ p.name }}</div>
+              <div class="text-[11px] text-gray-300">{{ tonightLabel(p.tonightScore) }}</div>
+            </div>
+            <div class="mt-1 text-[11px] text-gray-400">
+              MaxAlt {{ fmtNum(p.maxAltDeg, 1) }}° · {{ fmtNum(p.visibleHours, 1) }}h vidible
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Cards list -->
+      <div class="space-y-3">
+        <div
+          v-for="(t, i) in displayedTargets"
+          :key="t._id"
+          :class="[
+            'rounded-xl border bg-black/30 p-4',
+            isSelected(t) ? 'border-blue-500' : 'border-gray-700',
+          ]"
+        >
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            <!-- Left: title + meta -->
+            <div class="space-y-2">
+              <div class="flex items-start justify-between gap-2">
+                <div>
+                  <div class="text-base font-semibold text-gray-100 flex items-center gap-2">
+                    <span
+                      v-if="(t.tonightScore ?? 0) > 0"
+                      class="inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-semibold border border-gray-700 bg-gray-900 text-gray-100"
+                      :title="`Tonight score: ${fmtNum(t.tonightScore, 2)} · MaxAlt ${fmtNum(t.maxAltDeg, 1)}° · ${fmtNum(t.visibleHours, 1)}h`"
+                    >
+                      {{ tonightLabel(t.tonightScore) }}
+                    </span>
+                    <span
+                      v-if="t.source === 'favorite'"
+                      class="inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-semibold border border-gray-700 bg-gray-900 text-gray-100"
+                      title="Favorite"
+                      >❤️</span
+                    >
+                    <span class="truncate">
+                      {{ t.name || 'Unnamed target' }}
+                    </span>
+                  </div>
+                  <div class="text-xs text-gray-400">
+                    <span v-if="t.type">{{ t.type }}</span>
+                    <span v-if="t.type && (t.raDeg != null || t.decDeg != null)"> · </span>
+                    <span v-if="t.raDeg != null && t.decDeg != null"
+                      >RA {{ fmtRa(t.raDeg) }} · DEC {{ fmtDec(t.decDeg) }}</span
+                    >
+                  </div>
+                </div>
+
+                <button
+                  class="px-2 py-1 rounded bg-gray-800 hover:bg-gray-700 border border-gray-700 text-gray-200 text-xs"
+                  @click="reloadPreview(t)"
+                  :disabled="busyPreview[t._id]"
+                  title="reload Preview"
+                >
+                  Reload
+                </button>
+              </div>
+
+              <div class="grid grid-cols-2 gap-2">
+                <div class="rounded-lg bg-gray-900/60 border border-gray-700 p-2">
+                  <div class="text-[11px] text-gray-400">{{ tp('sort.maxAltWindow') }}</div>
+                  <div class="text-sm text-gray-100">
+                    <span v-if="t.maxAltDeg != null">{{ fmtNum(t.maxAltDeg, 1) }}°</span>
+                    <span v-else class="text-gray-500">—</span>
+                  </div>
+                </div>
+
+                <div class="rounded-lg bg-gray-900/60 border border-gray-700 p-2">
+                  <div class="text-[11px] text-gray-400">{{ tp('sort.bestTime') }}</div>
+                  <div class="text-sm text-gray-100">
+                    <span v-if="t.bestTime">{{ fmtTime(t.bestTime) }}</span>
+                    <span v-else class="text-gray-500">—</span>
+                  </div>
+                </div>
+
+                <div class="rounded-lg bg-gray-900/60 border border-gray-700 p-2">
+                  <div class="text-[11px] text-gray-400">{{ tp('chart.directionAz') }}</div>
+                  <div class="text-sm text-gray-100">
+                    <span v-if="t.bestAzDeg != null"
+                      >{{ fmtNum(t.bestAzDeg, 0) }}° ({{ azToCardinal(t.bestAzDeg) }})</span
+                    >
+                    <span v-else class="text-gray-500">—</span>
+                  </div>
+                </div>
+
+                <div class="rounded-lg bg-gray-900/60 border border-gray-700 p-2">
+                  <div class="text-[11px] text-gray-400">{{ tp('sort.visible') }}</div>
+                  <div class="text-sm text-gray-100">
+                    <span v-if="t.maxAltDeg != null">
+                      <span v-if="t.maxAltDeg > 0" class="text-emerald-300">{{
+                        tp('common.yes')
+                      }}</span>
+                      <span v-else class="text-red-300">{{ tp('common.no') }}</span>
+                    </span>
+                    <span v-else class="text-gray-500">—</span>
                   </div>
                 </div>
               </div>
 
-              <button
-                class="absolute right-3 bottom-3 w-9 h-9 rounded-full bg-gray-800/80 hover:bg-gray-700 border border-gray-600 text-gray-100 flex items-center justify-center"
-                title="Preview info"
-                @click="t._showHint = !t._showHint"
-              >
-                ?
-              </button>
+              <div v-if="t._error" class="text-xs text-red-400 break-words">
+                {{ t._error }}
+              </div>
+            </div>
+
+            <!-- Middle: Preview image -->
+            <div class="space-y-2">
+              <div class="text-xs text-gray-400">Preview</div>
 
               <div
-                v-if="t._showHint"
-                class="absolute left-3 right-3 bottom-3 translate-y-12 lg:translate-y-0 lg:bottom-14 rounded-lg bg-black/80 border border-gray-700 p-2 text-[11px] text-gray-200"
+                class="relative aspect-square max-w-[240px] rounded-xl overflow-hidden border border-gray-700 bg-gray-900"
               >
-                Load DSS/TargetPic via TNS WebAPI. Cache Toggle control useCache.
+                <img
+                  v-if="t.previewUrl"
+                  :src="t.previewUrl"
+                  class="w-full h-full object-cover"
+                  @error="onPreviewError(t)"
+                />
+
+                <div
+                  v-if="!t.previewUrl || t.previewError"
+                  class="absolute inset-0 flex items-center justify-center text-xs text-gray-300"
+                >
+                  <div class="text-center px-4">
+                    <div class="font-medium">{{ tp('preview.unavailable') }}</div>
+                    <div class="text-gray-500 mt-1">
+                      <span v-if="t.previewError">{{ t.previewError }}</span>
+                      <span v-else>{{ tp('preview.noImage') }}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <button
+                  class="absolute right-3 bottom-3 w-9 h-9 rounded-full bg-gray-800/80 hover:bg-gray-700 border border-gray-600 text-gray-100 flex items-center justify-center"
+                  title="Preview info"
+                  @click="t._showHint = !t._showHint"
+                >
+                  ?
+                </button>
+
+                <div
+                  v-if="t._showHint"
+                  class="absolute left-3 right-3 bottom-3 translate-y-12 lg:translate-y-0 lg:bottom-14 rounded-lg bg-black/80 border border-gray-700 p-2 text-[11px] text-gray-200"
+                >
+                  Load DSS/TargetPic via TNS WebAPI. Cache Toggle control useCache.
+                </div>
+              </div>
+
+              <div class="text-[11px] text-gray-500">
+                useCache: <span class="text-gray-300">{{ useNinaCache ? 'true' : 'false' }}</span>
               </div>
             </div>
 
-            <div class="text-[11px] text-gray-500">
-              useCache: <span class="text-gray-300">{{ useNinaCache ? 'true' : 'false' }}</span>
-            </div>
-          </div>
+            <!-- Right: Altitude chart + actions -->
+            <div class="space-y-2">
+              <div class="flex items-center justify-between">
+                <div class="text-xs text-gray-400">{{ tp('chart.altitudeVsTime') }}</div>
 
-          <!-- Right: Altitude chart + actions -->
-          <div class="space-y-2">
-            <div class="flex items-center justify-between">
-              <div class="text-xs text-gray-400">{{ tp('chart.altitudeVsTime') }}</div>
+                <div class="flex gap-2">
+                  <button
+                    class="px-2 py-1 rounded bg-gray-800 hover:bg-gray-700 border border-gray-700 text-gray-200 text-xs"
+                    @click="drawOneChart(t)"
+                    :disabled="!t.track || !hasSite"
+                    title="redraw Chart"
+                  >
+                    Redraw
+                  </button>
+                </div>
+              </div>
 
-              <div class="flex gap-2">
+              <div class="rounded-xl border border-gray-700 bg-gray-900/40 p-2">
+                <canvas
+                  :ref="(el) => setCanvasRef(t._id, el)"
+                  class="w-full"
+                  style="height: 140px"
+                />
+              </div>
+
+              <div class="grid grid-cols-4 gap-2 pt-1">
+                <!-- Slew -->
                 <button
-                  class="px-2 py-1 rounded bg-gray-800 hover:bg-gray-700 border border-gray-700 text-gray-200 text-xs"
-                  @click="drawOneChart(t)"
-                  :disabled="!t.track || !hasSite"
-                  title="redraw Chart"
+                  class="action-icon-btn bg-cyan-700 hover:bg-cyan-600 border-cyan-500 text-white"
+                  @click="slewOnly(t)"
+                  :disabled="!canSlewWithMountSync(t) || isSelected(t)"
+                  title="Slew only"
+                  aria-label="Slew only"
                 >
-                  Redraw
+                  <ArrowUpRightIcon class="w-5 h-5" />
+                  <span class="hidden md:inline text-xs font-semibold">{{
+                    tp('buttons.slew')
+                  }}</span>
+                </button>
+
+                <!-- Slew + Center -->
+                <button
+                  class="action-icon-btn bg-emerald-700 hover:bg-emerald-600 border-emerald-500 text-white"
+                  @click="slewAndCenter(t)"
+                  :disabled="!canSlewWithMountSync(t) || isSelected(t)"
+                  title="Slew + Center (Platesolve)"
+                  aria-label="Slew + Center"
+                >
+                  <ViewfinderCircleIcon class="w-5 h-5" />
+                  <span class="hidden md:inline text-xs font-semibold">{{
+                    tp('buttons.center')
+                  }}</span>
+                </button>
+
+                <!-- Framing -->
+                <button
+                  class="action-icon-btn bg-gray-800 hover:bg-gray-700 border-gray-700 text-gray-100"
+                  @click="openInFramingAssistant(t)"
+                  :disabled="!canOpenFraming(t)"
+                  title="Framing Assistant öffnen"
+                  aria-label="open Framing Assistant"
+                >
+                  <RectangleGroupIcon class="w-5 h-5" />
+                  <span class="hidden md:inline text-xs font-semibold">{{
+                    tp('sections.framing')
+                  }}</span>
+                </button>
+
+                <!-- Sequencer -->
+                <button
+                  class="action-icon-btn bg-indigo-700 hover:bg-indigo-600 border-indigo-500 text-white"
+                  @click="sendToSequencer(t)"
+                  :disabled="
+                    !(
+                      Array.isArray(sequenceStore.sequenceInfo) &&
+                      sequenceStore.sequenceInfo.length > 0
+                    )
+                  "
+                  title="to Sequencer"
+                  aria-label="send to Sequencer"
+                >
+                  <QueueListIcon class="w-5 h-5" />
+                  <span class="hidden md:inline text-xs font-semibold">{{
+                    tp('buttons.seqShort')
+                  }}</span>
                 </button>
               </div>
-            </div>
 
-            <div class="rounded-xl border border-gray-700 bg-gray-900/40 p-2">
-              <canvas :ref="(el) => setCanvasRef(t._id, el)" class="w-full" style="height: 140px" />
-            </div>
-
-            <div class="grid grid-cols-4 gap-2 pt-1">
-              <!-- Slew -->
-              <button
-                class="action-icon-btn bg-cyan-700 hover:bg-cyan-600 border-cyan-500 text-white"
-                @click="slewOnly(t)"
-                :disabled="!canSlewWithMountSync(t) || isSelected(t)"
-                title="Slew only"
-                aria-label="Slew only"
-              >
-                <ArrowUpRightIcon class="w-5 h-5" />
-                <span class="hidden md:inline text-xs font-semibold">{{ tp('buttons.slew') }}</span>
-              </button>
-
-              <!-- Slew + Center -->
-              <button
-                class="action-icon-btn bg-emerald-700 hover:bg-emerald-600 border-emerald-500 text-white"
-                @click="slewAndCenter(t)"
-                :disabled="!canSlewWithMountSync(t) || isSelected(t)"
-                title="Slew + Center (Platesolve)"
-                aria-label="Slew + Center"
-              >
-                <ViewfinderCircleIcon class="w-5 h-5" />
-                <span class="hidden md:inline text-xs font-semibold">{{
-                  tp('buttons.center')
-                }}</span>
-              </button>
-
-              <!-- Framing -->
-              <button
-                class="action-icon-btn bg-gray-800 hover:bg-gray-700 border-gray-700 text-gray-100"
-                @click="openInFramingAssistant(t)"
-                :disabled="!canOpenFraming(t)"
-                title="Framing Assistant öffnen"
-                aria-label="open Framing Assistant"
-              >
-                <RectangleGroupIcon class="w-5 h-5" />
-                <span class="hidden md:inline text-xs font-semibold">{{
-                  tp('sections.framing')
-                }}</span>
-              </button>
-
-              <!-- Sequencer -->
-              <button
-                class="action-icon-btn bg-indigo-700 hover:bg-indigo-600 border-indigo-500 text-white"
-                @click="sendToSequencer(t)"
-                :disabled="
-                  !(
-                    Array.isArray(sequenceStore.sequenceInfo) &&
-                    sequenceStore.sequenceInfo.length > 0
-                  )
-                "
-                title="to Sequencer"
-                aria-label="send to Sequencer"
-              >
-                <QueueListIcon class="w-5 h-5" />
-                <span class="hidden md:inline text-xs font-semibold">{{
-                  tp('buttons.seqShort')
-                }}</span>
-              </button>
-            </div>
-
-            <div v-if="mountMsg[t._id]" class="text-xs text-gray-300 break-words">
-              {{ mountMsg[t._id] }}
-            </div>
-            <div v-if="mountErr[t._id]" class="text-xs text-red-400 break-words">
-              {{ mountErr[t._id] }}
+              <div v-if="mountMsg[t._id]" class="text-xs text-gray-300 break-words">
+                {{ mountMsg[t._id] }}
+              </div>
+              <div v-if="mountErr[t._id]" class="text-xs text-red-400 break-words">
+                {{ mountErr[t._id] }}
+              </div>
             </div>
           </div>
         </div>
+
+        <div v-if="!targets.length && !busy" class="text-sm text-gray-400">no favorites found.</div>
+
+        <div v-if="busy" class="text-sm text-gray-400">{{ tp('common.loading') }}</div>
       </div>
-
-      <div v-if="!targets.length && !busy" class="text-sm text-gray-400">no favorites found.</div>
-
-      <div v-if="busy" class="text-sm text-gray-400">{{ tp('common.loading') }}</div>
     </div>
-  </div>
-  <!-- Framing Modal (hosted in this view) -->
-  <div
-    v-if="framingStore.showFramingModal"
-    class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
-    @click.self="framingStore.showFramingModal = false"
-  >
+    <!-- Framing Modal (hosted in this view) -->
     <div
-      class="bg-gray-900 rounded-lg p-4 overflow-y-auto max-h-[75vh] border border-gray-700 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-800/50"
-      :style="{ minWidth: `${framingStore.containerSize || 900}px` }"
-      @click.stop
+      v-if="framingStore.showFramingModal"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+      @click.self="framingStore.showFramingModal = false"
     >
-      <FramingAssistangModal />
+      <div
+        class="bg-gray-900 rounded-lg p-4 overflow-y-auto max-h-[75vh] border border-gray-700 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-800/50"
+        :style="{ minWidth: `${framingStore.containerSize || 900}px` }"
+        @click.stop
+      >
+        <FramingAssistangModal />
+      </div>
     </div>
   </div>
 </template>

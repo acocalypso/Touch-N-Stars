@@ -1,953 +1,957 @@
 <template>
-  <div class="container py-10">
-    <div class="max-w-5xl mx-auto">
-      <div class="flex items-center justify-between mb-6">
-        <div>
-          <h2 class="text-2xl font-bold text-white">{{ t('plugins.platesolveplus.title') }}</h2>
-          <p class="text-gray-400 text-sm mt-1">
-            {{ t('plugins.platesolveplus.subtitle') }}
-          </p>
-        </div>
+  <div>
+    <div class="container py-10">
+      <div class="max-w-5xl mx-auto">
+        <div class="flex items-center justify-between mb-6">
+          <div>
+            <h2 class="text-2xl font-bold text-white">{{ t('plugins.platesolveplus.title') }}</h2>
+            <p class="text-gray-400 text-sm mt-1">
+              {{ t('plugins.platesolveplus.subtitle') }}
+            </p>
+          </div>
 
-        <div class="text-xs text-gray-400">
-          <div class="flex items-center gap-2 justify-end">
-            <span class="inline-flex items-center gap-2">
-              <span
-                class="w-2 h-2 rounded-full"
-                :class="wsConnected ? 'bg-green-500' : 'bg-gray-600'"
-              ></span>
-              {{ t('plugins.platesolveplus.ws.label') }}
-              {{
-                wsConnected
-                  ? t('plugins.platesolveplus.ws.connected')
-                  : t('plugins.platesolveplus.ws.disconnected')
-              }}
-            </span>
-            <span class="text-gray-600">|</span>
-            <span class="font-mono">{{ baseUrl }}</span>
+          <div class="text-xs text-gray-400">
+            <div class="flex items-center gap-2 justify-end">
+              <span class="inline-flex items-center gap-2">
+                <span
+                  class="w-2 h-2 rounded-full"
+                  :class="wsConnected ? 'bg-green-500' : 'bg-gray-600'"
+                ></span>
+                {{ t('plugins.platesolveplus.ws.label') }}
+                {{
+                  wsConnected
+                    ? t('plugins.platesolveplus.ws.connected')
+                    : t('plugins.platesolveplus.ws.disconnected')
+                }}
+              </span>
+              <span class="text-gray-600">|</span>
+              <span class="font-mono">{{ baseUrl }}</span>
+            </div>
           </div>
         </div>
-      </div>
 
-      <!-- Tabs -->
-      <div
-        class="border border-gray-700 rounded-xl bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg"
-      >
-        <div class="flex border-b border-gray-700">
-          <button
-            class="px-4 py-3 text-sm font-semibold"
-            :class="
-              activeTab === 'control'
-                ? 'text-white border-b-2 border-white'
-                : 'text-gray-400 hover:text-white'
-            "
-            @click="activeTab = 'control'"
-          >
-            {{ t('plugins.platesolveplus.tabs.control') }}
-          </button>
+        <!-- Tabs -->
+        <div
+          class="border border-gray-700 rounded-xl bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg"
+        >
+          <div class="flex border-b border-gray-700">
+            <button
+              class="px-4 py-3 text-sm font-semibold"
+              :class="
+                activeTab === 'control'
+                  ? 'text-white border-b-2 border-white'
+                  : 'text-gray-400 hover:text-white'
+              "
+              @click="activeTab = 'control'"
+            >
+              {{ t('plugins.platesolveplus.tabs.control') }}
+            </button>
 
-          <button
-            class="px-4 py-3 text-sm font-semibold"
-            :class="
-              activeTab === 'config'
-                ? 'text-white border-b-2 border-white'
-                : 'text-gray-400 hover:text-white'
-            "
-            @click="activeTab = 'config'"
-          >
-            {{ t('plugins.platesolveplus.tabs.config') }}
-          </button>
-        </div>
+            <button
+              class="px-4 py-3 text-sm font-semibold"
+              :class="
+                activeTab === 'config'
+                  ? 'text-white border-b-2 border-white'
+                  : 'text-gray-400 hover:text-white'
+              "
+              @click="activeTab = 'config'"
+            >
+              {{ t('plugins.platesolveplus.tabs.config') }}
+            </button>
+          </div>
 
-        <!-- CONTROL TAB -->
-        <div v-show="activeTab === 'control'" class="p-5 space-y-5">
-          <!-- 2-column layout -->
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <!-- RIGHT COLUMN: Status + Image Preview -->
-            <div class="space-y-4">
-              <!-- Status -->
-              <div class="border border-gray-700 rounded-lg p-4 bg-black/20">
-                <div class="flex items-center justify-between">
-                  <h3 class="text-white font-semibold">
-                    {{ t('plugins.platesolveplus.sections.status') }}
-                  </h3>
-                  <button
-                    class="text-xs px-3 py-1 rounded-md border border-gray-600 text-gray-200 hover:bg-white/10"
-                    @click="refreshStatus"
-                    :disabled="loadingStatus"
-                  >
-                    {{
-                      loadingStatus
-                        ? t('plugins.platesolveplus.buttons.refreshing')
-                        : t('plugins.platesolveplus.buttons.refresh')
-                    }}
-                  </button>
-                </div>
-
-                <div class="mt-3 grid grid-cols-2 gap-2 text-sm">
-                  <!-- green=true / red=false (Busy is inverted) -->
-                  <StatusIcon
-                    :label="t('plugins.platesolveplus.status_labels.busy')"
-                    :value="status.busy === false"
-                  />
-                  <StatusIcon
-                    :label="t('plugins.platesolveplus.status_labels.service_ready')"
-                    :value="!!status.importsReady"
-                  />
-                  <StatusIcon
-                    :label="t('plugins.platesolveplus.status_labels.mount_connected')"
-                    :value="!!status.mountConnected"
-                  />
-                  <StatusIcon
-                    :label="t('plugins.platesolveplus.status_labels.camera_connected')"
-                    :value="!!secondary.connected"
-                  />
-                </div>
-
-                <div class="mt-3 text-xs text-gray-400 space-y-1">
-                  <div>
-                    {{ t('plugins.platesolveplus.status_labels.last_update') }}:
-                    <span class="text-gray-200">
-                      {{
-                        lastStatusTs
-                          ? new Date(lastStatusTs).toLocaleString()
-                          : t('plugins.platesolveplus.common.empty')
-                      }}
-                    </span>
-                  </div>
-
-                  <div>
-                    <span class="text-gray-400">
-                      {{ t('plugins.platesolveplus.status_labels.task_status') }}:
-                    </span>
-                    <span class="text-gray-200">
-                      {{ status.statusText ?? t('plugins.platesolveplus.common.empty') }}
-                    </span>
-                  </div>
-
-                  <div>
-                    <span class="text-gray-400">
-                      {{ t('plugins.platesolveplus.status_labels.used_parameters') }}:
-                    </span>
-                    <span class="text-gray-300">
-                      {{ status.detailsText ?? t('plugins.platesolveplus.common.empty') }}
-                    </span>
-                  </div>
-
-                  <div
-                    v-if="status.lastGuiderSolveText || status.correctedSolveText"
-                    class="pt-2 border-t border-gray-700"
-                  >
-                    <div class="text-gray-400">
-                      {{ t('plugins.platesolveplus.status_labels.validation') }}:
-                    </div>
-                    <div class="mt-1 space-y-2">
-                      <div v-if="status.lastGuiderSolveText">
-                        <div class="text-gray-500 text-[11px]">
-                          {{ t('plugins.platesolveplus.status_labels.raw_solve') }}
-                        </div>
-                        <pre
-                          class="text-xs text-gray-200 bg-black/30 border border-gray-700 rounded-md p-2 overflow-auto max-h-28"
-                          >{{ status.lastGuiderSolveText }}</pre
-                        >
-                      </div>
-                      <div v-if="status.correctedSolveText">
-                        <div class="text-gray-500 text-[11px]">
-                          {{ t('plugins.platesolveplus.status_labels.corrected_coordinates') }}
-                        </div>
-                        <pre
-                          class="text-xs text-gray-200 bg-black/30 border border-gray-700 rounded-md p-2 overflow-auto max-h-28"
-                          >{{ status.correctedSolveText }}</pre
-                        >
-                      </div>
-                    </div>
-                  </div>
-
-                  <div v-if="status.lastSolveSummary" class="pt-2 border-t border-gray-700">
-                    <div class="text-gray-400">
-                      {{ t('plugins.platesolveplus.status_labels.last_solve_summary') }}:
-                    </div>
-                    <pre
-                      class="text-xs text-gray-200 bg-black/30 border border-gray-700 rounded-md p-2 overflow-auto max-h-40"
-                      >{{ status.lastSolveSummary }}</pre
-                    >
-                  </div>
-                </div>
-              </div>
-
-              <!-- Preview -->
-              <div class="border border-gray-700 rounded-lg p-4 bg-black/20">
-                <div class="flex items-center justify-between">
-                  <h3 class="text-white font-semibold">
-                    {{ t('plugins.platesolveplus.preview.preview_title') }}
-                  </h3>
-                  <div class="flex items-center gap-2">
-                    <label class="text-xs text-gray-300 inline-flex items-center gap-2 select-none">
-                      <input type="checkbox" v-model="autoPreview" class="rounded" />
-                      {{ t('plugins.platesolveplus.preview.auto_refresh') }}
-                    </label>
+          <!-- CONTROL TAB -->
+          <div v-show="activeTab === 'control'" class="p-5 space-y-5">
+            <!-- 2-column layout -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <!-- RIGHT COLUMN: Status + Image Preview -->
+              <div class="space-y-4">
+                <!-- Status -->
+                <div class="border border-gray-700 rounded-lg p-4 bg-black/20">
+                  <div class="flex items-center justify-between">
+                    <h3 class="text-white font-semibold">
+                      {{ t('plugins.platesolveplus.sections.status') }}
+                    </h3>
                     <button
-                      class="px-3 py-1.5 rounded-md border border-gray-600 text-gray-100 hover:bg-white/10"
-                      @click="refreshPreview(true)"
+                      class="text-xs px-3 py-1 rounded-md border border-gray-600 text-gray-200 hover:bg-white/10"
+                      @click="refreshStatus"
+                      :disabled="loadingStatus"
                     >
-                      {{ t('plugins.platesolveplus.buttons.refresh') }}
+                      {{
+                        loadingStatus
+                          ? t('plugins.platesolveplus.buttons.refreshing')
+                          : t('plugins.platesolveplus.buttons.refresh')
+                      }}
                     </button>
                   </div>
-                </div>
 
-                <div class="mt-3">
-                  <!-- Keep the error text (optional, nice for debugging) -->
-                  <div
-                    v-if="previewError"
-                    class="text-xs text-red-300 border border-red-700/60 bg-red-900/20 rounded-md p-2 mb-2"
-                  >
-                    {{ previewError }}
+                  <div class="mt-3 grid grid-cols-2 gap-2 text-sm">
+                    <!-- green=true / red=false (Busy is inverted) -->
+                    <StatusIcon
+                      :label="t('plugins.platesolveplus.status_labels.busy')"
+                      :value="status.busy === false"
+                    />
+                    <StatusIcon
+                      :label="t('plugins.platesolveplus.status_labels.service_ready')"
+                      :value="!!status.importsReady"
+                    />
+                    <StatusIcon
+                      :label="t('plugins.platesolveplus.status_labels.mount_connected')"
+                      :value="!!status.mountConnected"
+                    />
+                    <StatusIcon
+                      :label="t('plugins.platesolveplus.status_labels.camera_connected')"
+                      :value="!!secondary.connected"
+                    />
                   </div>
 
-                  <!-- Preview container with overlay -->
-                  <div class="mt-2 border border-gray-700 rounded-md overflow-hidden bg-black/30">
-                    <div class="relative w-full">
-                      <!-- Image -->
-                      <!-- Image -->
-                      <img
-                        v-if="previewUrl && !previewError"
-                        :src="previewUrl"
-                        :alt="t('plugins.platesolveplus.preview.alt_latest_preview')"
-                        class="w-full object-contain"
-                        @error="onPreviewError"
-                        @load="onPreviewLoad"
-                      />
+                  <div class="mt-3 text-xs text-gray-400 space-y-1">
+                    <div>
+                      {{ t('plugins.platesolveplus.status_labels.last_update') }}:
+                      <span class="text-gray-200">
+                        {{
+                          lastStatusTs
+                            ? new Date(lastStatusTs).toLocaleString()
+                            : t('plugins.platesolveplus.common.empty')
+                        }}
+                      </span>
+                    </div>
 
-                      <!-- Overlay when missing/failed -->
-                      <div
-                        v-if="!previewUrl || !previewLoaded || !!previewError"
-                        class="absolute inset-0 flex items-center justify-center"
-                      >
-                        <div
-                          class="px-4 py-3 rounded-lg border border-gray-600 bg-black/50 text-gray-200 text-sm"
-                        >
-                          <div class="font-semibold">
-                            {{ t('plugins.platesolveplus.preview.unavailable_title') }}
+                    <div>
+                      <span class="text-gray-400">
+                        {{ t('plugins.platesolveplus.status_labels.task_status') }}:
+                      </span>
+                      <span class="text-gray-200">
+                        {{ status.statusText ?? t('plugins.platesolveplus.common.empty') }}
+                      </span>
+                    </div>
+
+                    <div>
+                      <span class="text-gray-400">
+                        {{ t('plugins.platesolveplus.status_labels.used_parameters') }}:
+                      </span>
+                      <span class="text-gray-300">
+                        {{ status.detailsText ?? t('plugins.platesolveplus.common.empty') }}
+                      </span>
+                    </div>
+
+                    <div
+                      v-if="status.lastGuiderSolveText || status.correctedSolveText"
+                      class="pt-2 border-t border-gray-700"
+                    >
+                      <div class="text-gray-400">
+                        {{ t('plugins.platesolveplus.status_labels.validation') }}:
+                      </div>
+                      <div class="mt-1 space-y-2">
+                        <div v-if="status.lastGuiderSolveText">
+                          <div class="text-gray-500 text-[11px]">
+                            {{ t('plugins.platesolveplus.status_labels.raw_solve') }}
                           </div>
-                          <div class="text-xs text-gray-400 mt-1">
-                            {{
-                              previewError
-                                ? t('plugins.platesolveplus.preview.load_error')
-                                : t('plugins.platesolveplus.preview.no_preview_loaded')
-                            }}
+                          <pre
+                            class="text-xs text-gray-200 bg-black/30 border border-gray-700 rounded-md p-2 overflow-auto max-h-28"
+                            >{{ status.lastGuiderSolveText }}</pre
+                          >
+                        </div>
+                        <div v-if="status.correctedSolveText">
+                          <div class="text-gray-500 text-[11px]">
+                            {{ t('plugins.platesolveplus.status_labels.corrected_coordinates') }}
+                          </div>
+                          <pre
+                            class="text-xs text-gray-200 bg-black/30 border border-gray-700 rounded-md p-2 overflow-auto max-h-28"
+                            >{{ status.correctedSolveText }}</pre
+                          >
+                        </div>
+                      </div>
+                    </div>
+
+                    <div v-if="status.lastSolveSummary" class="pt-2 border-t border-gray-700">
+                      <div class="text-gray-400">
+                        {{ t('plugins.platesolveplus.status_labels.last_solve_summary') }}:
+                      </div>
+                      <pre
+                        class="text-xs text-gray-200 bg-black/30 border border-gray-700 rounded-md p-2 overflow-auto max-h-40"
+                        >{{ status.lastSolveSummary }}</pre
+                      >
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Preview -->
+                <div class="border border-gray-700 rounded-lg p-4 bg-black/20">
+                  <div class="flex items-center justify-between">
+                    <h3 class="text-white font-semibold">
+                      {{ t('plugins.platesolveplus.preview.preview_title') }}
+                    </h3>
+                    <div class="flex items-center gap-2">
+                      <label
+                        class="text-xs text-gray-300 inline-flex items-center gap-2 select-none"
+                      >
+                        <input type="checkbox" v-model="autoPreview" class="rounded" />
+                        {{ t('plugins.platesolveplus.preview.auto_refresh') }}
+                      </label>
+                      <button
+                        class="px-3 py-1.5 rounded-md border border-gray-600 text-gray-100 hover:bg-white/10"
+                        @click="refreshPreview(true)"
+                      >
+                        {{ t('plugins.platesolveplus.buttons.refresh') }}
+                      </button>
+                    </div>
+                  </div>
+
+                  <div class="mt-3">
+                    <!-- Keep the error text (optional, nice for debugging) -->
+                    <div
+                      v-if="previewError"
+                      class="text-xs text-red-300 border border-red-700/60 bg-red-900/20 rounded-md p-2 mb-2"
+                    >
+                      {{ previewError }}
+                    </div>
+
+                    <!-- Preview container with overlay -->
+                    <div class="mt-2 border border-gray-700 rounded-md overflow-hidden bg-black/30">
+                      <div class="relative w-full">
+                        <!-- Image -->
+                        <!-- Image -->
+                        <img
+                          v-if="previewUrl && !previewError"
+                          :src="previewUrl"
+                          :alt="t('plugins.platesolveplus.preview.alt_latest_preview')"
+                          class="w-full object-contain"
+                          @error="onPreviewError"
+                          @load="onPreviewLoad"
+                        />
+
+                        <!-- Overlay when missing/failed -->
+                        <div
+                          v-if="!previewUrl || !previewLoaded || !!previewError"
+                          class="absolute inset-0 flex items-center justify-center"
+                        >
+                          <div
+                            class="px-4 py-3 rounded-lg border border-gray-600 bg-black/50 text-gray-200 text-sm"
+                          >
+                            <div class="font-semibold">
+                              {{ t('plugins.platesolveplus.preview.unavailable_title') }}
+                            </div>
+                            <div class="text-xs text-gray-400 mt-1">
+                              {{
+                                previewError
+                                  ? t('plugins.platesolveplus.preview.load_error')
+                                  : t('plugins.platesolveplus.preview.no_preview_loaded')
+                              }}
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
 
-                  <div class="mt-2 text-xs text-gray-500">
-                    {{ t('plugins.platesolveplus.preview.cache_hint') }}
+                    <div class="mt-2 text-xs text-gray-500">
+                      {{ t('plugins.platesolveplus.preview.cache_hint') }}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
 
-            <!-- LEFT COLUMN: Actions + Camera Auswahl + Offset + Last result -->
-            <div class="space-y-4">
-              <!-- Actions -->
-              <div class="border border-gray-700 rounded-lg p-4 bg-black/20">
-                <h3 class="text-white font-semibold">
-                  {{ t('plugins.platesolveplus.sections.actions') }}
-                </h3>
+              <!-- LEFT COLUMN: Actions + Camera Auswahl + Offset + Last result -->
+              <div class="space-y-4">
+                <!-- Actions -->
+                <div class="border border-gray-700 rounded-lg p-4 bg-black/20">
+                  <h3 class="text-white font-semibold">
+                    {{ t('plugins.platesolveplus.sections.actions') }}
+                  </h3>
 
-                <div class="mt-3 flex flex-wrap gap-2">
-                  <button
-                    :class="btnSolidClass(canCapture)"
-                    @click="triggerCapture()"
-                    :disabled="!canCapture"
-                    title="POST /capture"
-                  >
-                    {{ t('plugins.platesolveplus.buttons.capture') }}
-                  </button>
-
-                  <button
-                    :class="btnSolidClass(canSolveSync)"
-                    @click="triggerSync()"
-                    :disabled="!canSolveSync"
-                    title="POST /sync"
-                  >
-                    {{ t('plugins.platesolveplus.buttons.solve_sync') }}
-                  </button>
-
-                  <button
-                    :class="btnSolidClass(canCenterSolve)"
-                    @click="triggerCenter()"
-                    :disabled="!canCenterSolve"
-                    title="POST /center"
-                  >
-                    {{ t('plugins.platesolveplus.buttons.center_solve') }}
-                  </button>
-
-                  <button
-                    :class="btnSolidClass(canSlewTargetCenter)"
-                    @click="triggerSlewTargetAndCenter()"
-                    :disabled="!canSlewTargetCenter"
-                    title="Slew to Stellarium target, then center"
-                  >
-                    {{ t('plugins.platesolveplus.buttons.target_solve') }}
-                  </button>
-                </div>
-
-                <div class="mt-3 text-xs text-gray-400 space-y-1">
-                  <div>
-                    <span class="text-gray-500"
-                      >{{ t('plugins.platesolveplus.actions_help.capture_label') }}:</span
+                  <div class="mt-3 flex flex-wrap gap-2">
+                    <button
+                      :class="btnSolidClass(canCapture)"
+                      @click="triggerCapture()"
+                      :disabled="!canCapture"
+                      title="POST /capture"
                     >
-                    {{ t('plugins.platesolveplus.actions_help.capture_text') }}
-                  </div>
-                  <div>
-                    <span class="text-gray-500"
-                      >{{ t('plugins.platesolveplus.actions_help.solve_sync_label') }}:</span
-                    >
-                    {{ t('plugins.platesolveplus.actions_help.solve_sync_text') }}
-                  </div>
-                  <div>
-                    <span class="text-gray-500"
-                      >{{ t('plugins.platesolveplus.actions_help.target_solve_label') }}:</span
-                    >
-                    {{ t('plugins.platesolveplus.actions_help.center_solve_text') }}
-                  </div>
-                  <div>
-                    <span class="text-gray-500"
-                      >{{ t('plugins.platesolveplus.actions_help.target_solve_label') }}:</span
-                    >
-                    {{ t('plugins.platesolveplus.actions_help.center_solve_text') }}
-                  </div>
-                </div>
+                      {{ t('plugins.platesolveplus.buttons.capture') }}
+                    </button>
 
-                <!-- Target from Stellarium -->
-                <div class="mt-3 text-xs text-gray-400 border-t border-gray-700 pt-3">
-                  <div class="flex items-center justify-between gap-2">
-                    <div class="text-gray-500">
-                      {{
-                        tOr(
-                          'plugins.platesolveplus.actions_help.target_label',
-                          'Target (Stellarium)'
-                        )
-                      }}:
+                    <button
+                      :class="btnSolidClass(canSolveSync)"
+                      @click="triggerSync()"
+                      :disabled="!canSolveSync"
+                      title="POST /sync"
+                    >
+                      {{ t('plugins.platesolveplus.buttons.solve_sync') }}
+                    </button>
+
+                    <button
+                      :class="btnSolidClass(canCenterSolve)"
+                      @click="triggerCenter()"
+                      :disabled="!canCenterSolve"
+                      title="POST /center"
+                    >
+                      {{ t('plugins.platesolveplus.buttons.center_solve') }}
+                    </button>
+
+                    <button
+                      :class="btnSolidClass(canSlewTargetCenter)"
+                      @click="triggerSlewTargetAndCenter()"
+                      :disabled="!canSlewTargetCenter"
+                      title="Slew to Stellarium target, then center"
+                    >
+                      {{ t('plugins.platesolveplus.buttons.target_solve') }}
+                    </button>
+                  </div>
+
+                  <div class="mt-3 text-xs text-gray-400 space-y-1">
+                    <div>
+                      <span class="text-gray-500"
+                        >{{ t('plugins.platesolveplus.actions_help.capture_label') }}:</span
+                      >
+                      {{ t('plugins.platesolveplus.actions_help.capture_text') }}
                     </div>
-                    <div class="text-gray-200 font-mono text-right">
-                      <span v-if="hasValidTarget">
-                        {{
-                          stellariumTarget?.Name ||
-                          tOr('plugins.platesolveplus.common.unnamed', 'Unnamed')
-                        }}
-                        · RA {{ Number(targetRaDeg).toFixed(6) }}° · Dec
-                        {{ Number(targetDecDeg).toFixed(6) }}°
-                      </span>
-                      <span v-else>
+                    <div>
+                      <span class="text-gray-500"
+                        >{{ t('plugins.platesolveplus.actions_help.solve_sync_label') }}:</span
+                      >
+                      {{ t('plugins.platesolveplus.actions_help.solve_sync_text') }}
+                    </div>
+                    <div>
+                      <span class="text-gray-500"
+                        >{{ t('plugins.platesolveplus.actions_help.target_solve_label') }}:</span
+                      >
+                      {{ t('plugins.platesolveplus.actions_help.center_solve_text') }}
+                    </div>
+                    <div>
+                      <span class="text-gray-500"
+                        >{{ t('plugins.platesolveplus.actions_help.target_solve_label') }}:</span
+                      >
+                      {{ t('plugins.platesolveplus.actions_help.center_solve_text') }}
+                    </div>
+                  </div>
+
+                  <!-- Target from Stellarium -->
+                  <div class="mt-3 text-xs text-gray-400 border-t border-gray-700 pt-3">
+                    <div class="flex items-center justify-between gap-2">
+                      <div class="text-gray-500">
                         {{
                           tOr(
-                            'plugins.platesolveplus.actions_help.target_empty',
-                            'No target selected'
+                            'plugins.platesolveplus.actions_help.target_label',
+                            'Target (Stellarium)'
                           )
-                        }}
-                      </span>
+                        }}:
+                      </div>
+                      <div class="text-gray-200 font-mono text-right">
+                        <span v-if="hasValidTarget">
+                          {{
+                            stellariumTarget?.Name ||
+                            tOr('plugins.platesolveplus.common.unnamed', 'Unnamed')
+                          }}
+                          · RA {{ Number(targetRaDeg).toFixed(6) }}° · Dec
+                          {{ Number(targetDecDeg).toFixed(6) }}°
+                        </span>
+                        <span v-else>
+                          {{
+                            tOr(
+                              'plugins.platesolveplus.actions_help.target_empty',
+                              'No target selected'
+                            )
+                          }}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Progress (synthetic) -->
+                  <div class="mt-4 border border-gray-700 rounded-lg p-3 bg-black/20">
+                    <div class="flex items-center justify-between">
+                      <div class="text-white text-sm font-semibold">
+                        {{ t('plugins.platesolveplus.progress.title') }}
+                      </div>
+                      <div class="text-xs text-gray-400">
+                        {{ t('plugins.platesolveplus.progress.job') }}:
+                        <span class="text-gray-200">
+                          {{ activeJobId ?? t('plugins.platesolveplus.common.empty') }}
+                        </span>
+                      </div>
+                    </div>
+
+                    <!-- Phase pills (more readable than raw stage text) -->
+                    <div class="mt-2">
+                      <div class="flex items-center gap-2 text-xs text-gray-300">
+                        <span class="text-gray-400"
+                          >{{ t('plugins.platesolveplus.progress.action') }}:</span
+                        >
+                        <span class="font-semibold text-gray-100">
+                          {{ progress.action ?? t('plugins.platesolveplus.common.empty') }}
+                        </span>
+                      </div>
+
+                      <div v-if="progress.action" class="mt-2 flex flex-wrap gap-2">
+                        <span v-for="p in progressPills" :key="p.key" :class="pillClass(p.stage)">
+                          {{ p.label }}
+                        </span>
+                      </div>
+                    </div>
+
+                    <div class="mt-2 text-xs text-gray-300">
+                      <div>
+                        <span class="text-gray-400"
+                          >{{ t('plugins.platesolveplus.progress.stage') }}:</span
+                        >
+                        {{ progress.stage ?? t('plugins.platesolveplus.common.empty') }}
+                      </div>
+                      <div class="mt-1">
+                        <span class="text-gray-400"
+                          >{{ t('plugins.platesolveplus.progress.message') }}:</span
+                        >
+                        {{ progress.message ?? t('plugins.platesolveplus.common.empty') }}
+                      </div>
+                    </div>
+
+                    <div class="mt-3 h-2 w-full bg-gray-700 rounded">
+                      <div
+                        class="h-2 bg-white rounded"
+                        :style="{ width: progress.percent + '%' }"
+                      ></div>
+                    </div>
+                    <div class="mt-1 text-xs text-gray-400">{{ progress.percent }}%</div>
+
+                    <div class="mt-2 text-[11px] text-gray-500">
+                      {{ t('plugins.platesolveplus.progress.process_progress') }}
                     </div>
                   </div>
                 </div>
 
-                <!-- Progress (synthetic) -->
-                <div class="mt-4 border border-gray-700 rounded-lg p-3 bg-black/20">
-                  <div class="flex items-center justify-between">
-                    <div class="text-white text-sm font-semibold">
-                      {{ t('plugins.platesolveplus.progress.title') }}
+                <!-- Camera Auswahl (Secondary Camera) -->
+                <div class="border border-gray-700 rounded-lg p-4 bg-black/20">
+                  <div class="flex items-start justify-between gap-3">
+                    <div>
+                      <h3 class="text-white font-semibold">
+                        {{ t('plugins.platesolveplus.sections.secondary_camera') }}
+                      </h3>
+                      <div class="mt-1 text-xs text-gray-400">
+                        {{ t('plugins.platesolveplus.secondary.status') }}:
+                        <span
+                          class="font-semibold"
+                          :class="secondary.connected ? 'text-green-300' : 'text-gray-300'"
+                        >
+                          {{
+                            secondary.connected
+                              ? t('plugins.platesolveplus.secondary.connected')
+                              : t('plugins.platesolveplus.secondary.disconnected')
+                          }}
+                        </span>
+                      </div>
                     </div>
-                    <div class="text-xs text-gray-400">
-                      {{ t('plugins.platesolveplus.progress.job') }}:
-                      <span class="text-gray-200">
-                        {{ activeJobId ?? t('plugins.platesolveplus.common.empty') }}
-                      </span>
-                    </div>
-                  </div>
 
-                  <!-- Phase pills (more readable than raw stage text) -->
-                  <div class="mt-2">
-                    <div class="flex items-center gap-2 text-xs text-gray-300">
-                      <span class="text-gray-400"
-                        >{{ t('plugins.platesolveplus.progress.action') }}:</span
+                    <!-- Buttons oben -->
+                    <div class="flex flex-wrap gap-2 justify-end">
+                      <button
+                        class="px-3 py-1.5 rounded-md border border-gray-600 text-gray-100 hover:bg-white/10 disabled:opacity-40 text-sm"
+                        @click="refreshSecondaryDrivers"
+                        :disabled="secondary.loading"
+                        title="GET /secondary/drivers"
                       >
-                      <span class="font-semibold text-gray-100">
-                        {{ progress.action ?? t('plugins.platesolveplus.common.empty') }}
-                      </span>
+                        {{ t('plugins.platesolveplus.buttons.refresh') }}
+                      </button>
+
+                      <button
+                        class="px-3 py-1.5 rounded-md border border-gray-600 text-gray-100 hover:bg-white/10 disabled:opacity-40 text-sm"
+                        @click="() => syncSecondaryState(true)"
+                        :disabled="secondary.loading"
+                        title="GET /secondary/selection"
+                      >
+                        {{ t('plugins.platesolveplus.buttons.sync') }}
+                      </button>
+                      <button
+                        class="px-3 py-1.5 rounded-md border border-gray-600 text-gray-100 hover:bg-white/10 disabled:opacity-40 text-sm"
+                        @click="showSecondarySetup = true"
+                        :disabled="secondary.loading"
+                        title="Open Secondary Setup"
+                      >
+                        {{ t('plugins.platesolveplus.buttons.setup') }}
+                      </button>
+                    </div>
+                  </div>
+
+                  <!-- Selection moved to Setup dialog: show current camera here -->
+                  <div class="mt-3">
+                    <div class="text-xs text-gray-400">
+                      {{ t('plugins.platesolveplus.secondary.current_camera') }}
                     </div>
 
-                    <div v-if="progress.action" class="mt-2 flex flex-wrap gap-2">
-                      <span v-for="p in progressPills" :key="p.key" :class="pillClass(p.stage)">
-                        {{ p.label }}
+                    <div class="mt-2 flex items-center gap-2 flex-wrap">
+                      <span
+                        class="inline-flex items-center gap-2 px-3 py-2 rounded-md border border-gray-700 bg-black/30"
+                        title="Current secondary camera selection"
+                      >
+                        <span
+                          class="w-2 h-2 rounded-full"
+                          :class="secondary.connected ? 'bg-green-500' : 'bg-gray-600'"
+                        ></span>
+                        <span class="text-gray-100">
+                          {{
+                            secondary.selection?.name ||
+                            secondary.activeProgId ||
+                            secondary.selectedProgId ||
+                            t('plugins.platesolveplus.common.empty')
+                          }}
+                        </span>
+                        <span
+                          v-if="
+                            secondary.selection?.progId &&
+                            secondary.selection?.name &&
+                            secondary.selection.name !== secondary.selection.progId
+                          "
+                          class="text-gray-500 font-mono"
+                        >
+                          ({{ secondary.selection.progId }})
+                        </span>
+                      </span>
+
+                      <span class="text-xs text-gray-500" v-if="!secondary.connected">
+                        {{ t('plugins.platesolveplus.secondary.not_connected') }}
                       </span>
                     </div>
                   </div>
 
-                  <div class="mt-2 text-xs text-gray-300">
+                  <!-- Bottom buttons removed: moved into Setup dialog -->
+
+                  <div v-if="secondary.error" class="mt-3 text-xs text-red-300 whitespace-pre-wrap">
+                    {{ secondary.error }}
+                  </div>
+                </div>
+
+                <!-- Offset -->
+                <div class="border border-gray-700 rounded-lg p-4 bg-black/20">
+                  <h3 class="text-white font-semibold">
+                    {{ t('plugins.platesolveplus.sections.offset') }}
+                  </h3>
+
+                  <div class="mt-3 text-sm text-gray-300 space-y-1">
                     <div>
                       <span class="text-gray-400"
-                        >{{ t('plugins.platesolveplus.progress.stage') }}:</span
+                        >{{ t('plugins.platesolveplus.offset_fields.offset_enabled') }}:</span
                       >
-                      {{ progress.stage ?? t('plugins.platesolveplus.common.empty') }}
+                      <span class="text-gray-100 font-mono">
+                        {{
+                          status.offsetEnabled
+                            ? t('plugins.platesolveplus.common.true')
+                            : t('plugins.platesolveplus.common.false')
+                        }}
+                      </span>
                     </div>
-                    <div class="mt-1">
+
+                    <div>
                       <span class="text-gray-400"
-                        >{{ t('plugins.platesolveplus.progress.message') }}:</span
+                        >{{ t('plugins.platesolveplus.offset_fields.offset_mode') }}:</span
                       >
-                      {{ progress.message ?? t('plugins.platesolveplus.common.empty') }}
+                      <span class="text-gray-100 font-mono">
+                        {{ status.offsetMode ?? t('plugins.platesolveplus.common.empty') }}
+                      </span>
                     </div>
-                  </div>
 
-                  <div class="mt-3 h-2 w-full bg-gray-700 rounded">
-                    <div
-                      class="h-2 bg-white rounded"
-                      :style="{ width: progress.percent + '%' }"
-                    ></div>
-                  </div>
-                  <div class="mt-1 text-xs text-gray-400">{{ progress.percent }}%</div>
+                    <div>
+                      <span class="text-gray-400">
+                        {{ t('plugins.platesolveplus.offset_fields.dra_arcsec') }}
+                      </span>
+                      <span class="text-gray-100 font-mono">
+                        {{ status.offsetRaArcsec ?? t('plugins.platesolveplus.common.empty') }}
+                      </span>
+                    </div>
 
-                  <div class="mt-2 text-[11px] text-gray-500">
-                    {{ t('plugins.platesolveplus.progress.process_progress') }}
-                  </div>
-                </div>
-              </div>
+                    <div>
+                      <span class="text-gray-400">
+                        {{ t('plugins.platesolveplus.offset_fields.ddec_arcsec') }}
+                      </span>
+                      <span class="text-gray-100 font-mono">
+                        {{ status.offsetDecArcsec ?? t('plugins.platesolveplus.common.empty') }}
+                      </span>
+                    </div>
 
-              <!-- Camera Auswahl (Secondary Camera) -->
-              <div class="border border-gray-700 rounded-lg p-4 bg-black/20">
-                <div class="flex items-start justify-between gap-3">
-                  <div>
-                    <h3 class="text-white font-semibold">
-                      {{ t('plugins.platesolveplus.sections.secondary_camera') }}
-                    </h3>
-                    <div class="mt-1 text-xs text-gray-400">
-                      {{ t('plugins.platesolveplus.secondary.status') }}:
-                      <span
-                        class="font-semibold"
-                        :class="secondary.connected ? 'text-green-300' : 'text-gray-300'"
-                      >
+                    <div>
+                      <span class="text-gray-400">
+                        {{ t('plugins.platesolveplus.offset_fields.rotation_quat') }}
+                      </span>
+                      <span class="text-gray-100 font-mono">
                         {{
-                          secondary.connected
-                            ? t('plugins.platesolveplus.secondary.connected')
-                            : t('plugins.platesolveplus.secondary.disconnected')
+                          status.rotation
+                            ? pretty(status.rotation)
+                            : t('plugins.platesolveplus.common.empty')
                         }}
                       </span>
                     </div>
                   </div>
-
-                  <!-- Buttons oben -->
-                  <div class="flex flex-wrap gap-2 justify-end">
-                    <button
-                      class="px-3 py-1.5 rounded-md border border-gray-600 text-gray-100 hover:bg-white/10 disabled:opacity-40 text-sm"
-                      @click="refreshSecondaryDrivers"
-                      :disabled="secondary.loading"
-                      title="GET /secondary/drivers"
-                    >
-                      {{ t('plugins.platesolveplus.buttons.refresh') }}
-                    </button>
-
-                    <button
-                      class="px-3 py-1.5 rounded-md border border-gray-600 text-gray-100 hover:bg-white/10 disabled:opacity-40 text-sm"
-                      @click="() => syncSecondaryState(true)"
-                      :disabled="secondary.loading"
-                      title="GET /secondary/selection"
-                    >
-                      {{ t('plugins.platesolveplus.buttons.sync') }}
-                    </button>
-                    <button
-                      class="px-3 py-1.5 rounded-md border border-gray-600 text-gray-100 hover:bg-white/10 disabled:opacity-40 text-sm"
-                      @click="showSecondarySetup = true"
-                      :disabled="secondary.loading"
-                      title="Open Secondary Setup"
-                    >
-                      {{ t('plugins.platesolveplus.buttons.setup') }}
-                    </button>
-                  </div>
                 </div>
 
-                <!-- Selection moved to Setup dialog: show current camera here -->
-                <div class="mt-3">
-                  <div class="text-xs text-gray-400">
-                    {{ t('plugins.platesolveplus.secondary.current_camera') }}
+                <!-- Settings (replaces Last result / status payload) -->
+                <div class="border border-gray-700 rounded-lg p-4 bg-black/20">
+                  <div class="text-white font-semibold">
+                    {{ t('plugins.platesolveplus.sections.current_settings') }}
+                  </div>
+                  <div class="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-3">
+                    <!-- Camera settings -->
+                    <div class="border border-gray-700 rounded-md p-3 bg-black/20">
+                      <div class="text-xs text-gray-400 font-semibold">
+                        {{ t('plugins.platesolveplus.settings.camera') }}
+                      </div>
+                      <div class="mt-2 text-xs text-gray-300 space-y-1">
+                        <div>
+                          <span class="text-gray-500">
+                            {{ t('plugins.platesolveplus.settings.exposure') }}
+                          </span>
+                          <span class="text-gray-200 font-mono">
+                            {{
+                              cameraSettings.exposureSeconds != null
+                                ? `${cameraSettings.exposureSeconds}s`
+                                : t('plugins.platesolveplus.common.empty')
+                            }}
+                          </span>
+                        </div>
+                        <div>
+                          <span class="text-gray-500">
+                            {{ t('plugins.platesolveplus.settings.gain') }}
+                          </span>
+                          <span class="text-gray-200 font-mono">
+                            {{
+                              cameraSettings.gain == null
+                                ? t('plugins.platesolveplus.common.empty')
+                                : Number(cameraSettings.gain) < 0
+                                  ? t('plugins.platesolveplus.settings.auto_gain')
+                                  : cameraSettings.gain
+                            }}
+                          </span>
+                        </div>
+                        <div>
+                          <span class="text-gray-500">
+                            {{ t('plugins.platesolveplus.settings.binning') }}
+                          </span>
+                          <span class="text-gray-200 font-mono">
+                            {{ cameraSettings.binning ?? t('plugins.platesolveplus.common.empty') }}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Scope / mount settings -->
+                    <div class="border border-gray-700 rounded-md p-3 bg-black/20">
+                      <div class="text-xs text-gray-400 font-semibold">
+                        {{ t('plugins.platesolveplus.settings.scope') }}
+                      </div>
+                      <div class="mt-2 text-xs text-gray-300 space-y-1">
+                        <div>
+                          <span class="text-gray-500">
+                            {{ t('plugins.platesolveplus.settings.focal_length') }}
+                          </span>
+                          <span class="text-gray-200 font-mono">
+                            {{
+                              scopeFocalLength != null
+                                ? `${Number(scopeFocalLength).toFixed(0)} mm`
+                                : t('plugins.platesolveplus.common.empty')
+                            }}
+                          </span>
+                        </div>
+                        <div>
+                          <span class="text-gray-500">
+                            {{ t('plugins.platesolveplus.settings.focal_scale') }}
+                          </span>
+                          <span class="text-gray-200 font-mono">
+                            {{
+                              scopeFocalScale != null
+                                ? `${Number(scopeFocalScale).toFixed(2)} ″/px`
+                                : t('plugins.platesolveplus.common.empty')
+                            }}
+                          </span>
+                        </div>
+                        <div>
+                          <span class="text-gray-500">
+                            {{ t('plugins.platesolveplus.settings.pixel_size') }}
+                          </span>
+                          <span class="text-gray-200 font-mono">
+                            {{
+                              scopePixelSize != null
+                                ? `${Number(scopePixelSize).toFixed(2)} µm`
+                                : t('plugins.platesolveplus.common.empty')
+                            }}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
+
+                    <!-- Platesolve settings -->
+                    <div class="border border-gray-700 rounded-md p-3 bg-black/20">
+                      <div class="text-xs text-gray-400 font-semibold">
+                        {{ t('plugins.platesolveplus.settings.platesolve') }}
+                      </div>
+                      <div class="mt-2 text-xs text-gray-300 space-y-1">
+                        <div>
+                          <span class="text-gray-500">
+                            {{ t('plugins.platesolveplus.settings.search_radius') }}
+                          </span>
+                          <span class="text-gray-200 font-mono">
+                            {{
+                              psSearchRadius != null
+                                ? `${psSearchRadius}`
+                                : t('plugins.platesolveplus.common.empty')
+                            }}
+                          </span>
+                        </div>
+                        <div>
+                          <span class="text-gray-500">
+                            {{ t('plugins.platesolveplus.settings.downsample') }}
+                          </span>
+                          <span class="text-gray-200 font-mono">
+                            {{ psDownsample ?? t('plugins.platesolveplus.common.empty') }}
+                          </span>
+                        </div>
+                        <div>
+                          <span class="text-gray-500">
+                            {{ t('plugins.platesolveplus.settings.timeout_sec') }}
+                          </span>
+                          <span class="text-gray-200 font-mono">
+                            {{ psTimeoutSec ?? t('plugins.platesolveplus.common.empty') }}
+                          </span>
+                        </div>
+                        <div>
+                          <span class="text-gray-500">
+                            {{ t('plugins.platesolveplus.settings.threshold') }}
+                          </span>
+                          <span class="text-gray-200 font-mono">
+                            {{ psThreshold ?? t('plugins.platesolveplus.common.empty') }}
+                          </span>
+                        </div>
+                        <div>
+                          <span class="text-gray-500">
+                            {{ t('plugins.platesolveplus.settings.max_attempts') }}
+                          </span>
+                          <span class="text-gray-200 font-mono">
+                            {{ psMaxAttempts ?? t('plugins.platesolveplus.common.empty') }}
+                          </span>
+                        </div>
+                      </div>
+                    </div>
                   </div>
 
-                  <div class="mt-2 flex items-center gap-2 flex-wrap">
-                    <span
-                      class="inline-flex items-center gap-2 px-3 py-2 rounded-md border border-gray-700 bg-black/30"
-                      title="Current secondary camera selection"
-                    >
-                      <span
-                        class="w-2 h-2 rounded-full"
-                        :class="secondary.connected ? 'bg-green-500' : 'bg-gray-600'"
-                      ></span>
-                      <span class="text-gray-100">
-                        {{
-                          secondary.selection?.name ||
-                          secondary.activeProgId ||
-                          secondary.selectedProgId ||
-                          t('plugins.platesolveplus.common.empty')
-                        }}
-                      </span>
-                      <span
-                        v-if="
-                          secondary.selection?.progId &&
-                          secondary.selection?.name &&
-                          secondary.selection.name !== secondary.selection.progId
-                        "
-                        class="text-gray-500 font-mono"
-                      >
-                        ({{ secondary.selection.progId }})
-                      </span>
-                    </span>
-
-                    <span class="text-xs text-gray-500" v-if="!secondary.connected">
-                      {{ t('plugins.platesolveplus.secondary.not_connected') }}
-                    </span>
+                  <div class="mt-3 text-[11px] text-gray-500">
+                    {{ t('plugins.platesolveplus.settings.values_from_backend') }}
                   </div>
-                </div>
-
-                <!-- Bottom buttons removed: moved into Setup dialog -->
-
-                <div v-if="secondary.error" class="mt-3 text-xs text-red-300 whitespace-pre-wrap">
-                  {{ secondary.error }}
                 </div>
               </div>
+            </div>
 
-              <!-- Offset -->
-              <div class="border border-gray-700 rounded-lg p-4 bg-black/20">
+            <!-- Event log (full width) -->
+            <div class="border border-gray-700 rounded-lg p-4 bg-black/20">
+              <div class="flex items-center justify-between">
                 <h3 class="text-white font-semibold">
-                  {{ t('plugins.platesolveplus.sections.offset') }}
+                  {{ t('plugins.platesolveplus.sections.event_log') }}
                 </h3>
-
-                <div class="mt-3 text-sm text-gray-300 space-y-1">
-                  <div>
-                    <span class="text-gray-400"
-                      >{{ t('plugins.platesolveplus.offset_fields.offset_enabled') }}:</span
-                    >
-                    <span class="text-gray-100 font-mono">
-                      {{
-                        status.offsetEnabled
-                          ? t('plugins.platesolveplus.common.true')
-                          : t('plugins.platesolveplus.common.false')
-                      }}
-                    </span>
-                  </div>
-
-                  <div>
-                    <span class="text-gray-400"
-                      >{{ t('plugins.platesolveplus.offset_fields.offset_mode') }}:</span
-                    >
-                    <span class="text-gray-100 font-mono">
-                      {{ status.offsetMode ?? t('plugins.platesolveplus.common.empty') }}
-                    </span>
-                  </div>
-
-                  <div>
-                    <span class="text-gray-400">
-                      {{ t('plugins.platesolveplus.offset_fields.dra_arcsec') }}
-                    </span>
-                    <span class="text-gray-100 font-mono">
-                      {{ status.offsetRaArcsec ?? t('plugins.platesolveplus.common.empty') }}
-                    </span>
-                  </div>
-
-                  <div>
-                    <span class="text-gray-400">
-                      {{ t('plugins.platesolveplus.offset_fields.ddec_arcsec') }}
-                    </span>
-                    <span class="text-gray-100 font-mono">
-                      {{ status.offsetDecArcsec ?? t('plugins.platesolveplus.common.empty') }}
-                    </span>
-                  </div>
-
-                  <div>
-                    <span class="text-gray-400">
-                      {{ t('plugins.platesolveplus.offset_fields.rotation_quat') }}
-                    </span>
-                    <span class="text-gray-100 font-mono">
-                      {{
-                        status.rotation
-                          ? pretty(status.rotation)
-                          : t('plugins.platesolveplus.common.empty')
-                      }}
-                    </span>
-                  </div>
-                </div>
+                <button
+                  class="text-xs px-3 py-1 rounded-md border border-gray-600 text-gray-200 hover:bg-white/10"
+                  @click="log = []"
+                >
+                  {{ t('plugins.platesolveplus.buttons.clear') }}
+                </button>
               </div>
 
-              <!-- Settings (replaces Last result / status payload) -->
-              <div class="border border-gray-700 rounded-lg p-4 bg-black/20">
-                <div class="text-white font-semibold">
-                  {{ t('plugins.platesolveplus.sections.current_settings') }}
+              <div class="mt-3 text-xs font-mono text-gray-200 space-y-1 max-h-56 overflow-auto">
+                <div v-if="log.length === 0" class="text-gray-500">
+                  {{ t('plugins.platesolveplus.common.empty') }}
                 </div>
-                <div class="mt-3 grid grid-cols-1 sm:grid-cols-3 gap-3">
-                  <!-- Camera settings -->
-                  <div class="border border-gray-700 rounded-md p-3 bg-black/20">
-                    <div class="text-xs text-gray-400 font-semibold">
-                      {{ t('plugins.platesolveplus.settings.camera') }}
-                    </div>
-                    <div class="mt-2 text-xs text-gray-300 space-y-1">
-                      <div>
-                        <span class="text-gray-500">
-                          {{ t('plugins.platesolveplus.settings.exposure') }}
-                        </span>
-                        <span class="text-gray-200 font-mono">
-                          {{
-                            cameraSettings.exposureSeconds != null
-                              ? `${cameraSettings.exposureSeconds}s`
-                              : t('plugins.platesolveplus.common.empty')
-                          }}
-                        </span>
-                      </div>
-                      <div>
-                        <span class="text-gray-500">
-                          {{ t('plugins.platesolveplus.settings.gain') }}
-                        </span>
-                        <span class="text-gray-200 font-mono">
-                          {{
-                            cameraSettings.gain == null
-                              ? t('plugins.platesolveplus.common.empty')
-                              : Number(cameraSettings.gain) < 0
-                                ? t('plugins.platesolveplus.settings.auto_gain')
-                                : cameraSettings.gain
-                          }}
-                        </span>
-                      </div>
-                      <div>
-                        <span class="text-gray-500">
-                          {{ t('plugins.platesolveplus.settings.binning') }}
-                        </span>
-                        <span class="text-gray-200 font-mono">
-                          {{ cameraSettings.binning ?? t('plugins.platesolveplus.common.empty') }}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Scope / mount settings -->
-                  <div class="border border-gray-700 rounded-md p-3 bg-black/20">
-                    <div class="text-xs text-gray-400 font-semibold">
-                      {{ t('plugins.platesolveplus.settings.scope') }}
-                    </div>
-                    <div class="mt-2 text-xs text-gray-300 space-y-1">
-                      <div>
-                        <span class="text-gray-500">
-                          {{ t('plugins.platesolveplus.settings.focal_length') }}
-                        </span>
-                        <span class="text-gray-200 font-mono">
-                          {{
-                            scopeFocalLength != null
-                              ? `${Number(scopeFocalLength).toFixed(0)} mm`
-                              : t('plugins.platesolveplus.common.empty')
-                          }}
-                        </span>
-                      </div>
-                      <div>
-                        <span class="text-gray-500">
-                          {{ t('plugins.platesolveplus.settings.focal_scale') }}
-                        </span>
-                        <span class="text-gray-200 font-mono">
-                          {{
-                            scopeFocalScale != null
-                              ? `${Number(scopeFocalScale).toFixed(2)} ″/px`
-                              : t('plugins.platesolveplus.common.empty')
-                          }}
-                        </span>
-                      </div>
-                      <div>
-                        <span class="text-gray-500">
-                          {{ t('plugins.platesolveplus.settings.pixel_size') }}
-                        </span>
-                        <span class="text-gray-200 font-mono">
-                          {{
-                            scopePixelSize != null
-                              ? `${Number(scopePixelSize).toFixed(2)} µm`
-                              : t('plugins.platesolveplus.common.empty')
-                          }}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-
-                  <!-- Platesolve settings -->
-                  <div class="border border-gray-700 rounded-md p-3 bg-black/20">
-                    <div class="text-xs text-gray-400 font-semibold">
-                      {{ t('plugins.platesolveplus.settings.platesolve') }}
-                    </div>
-                    <div class="mt-2 text-xs text-gray-300 space-y-1">
-                      <div>
-                        <span class="text-gray-500">
-                          {{ t('plugins.platesolveplus.settings.search_radius') }}
-                        </span>
-                        <span class="text-gray-200 font-mono">
-                          {{
-                            psSearchRadius != null
-                              ? `${psSearchRadius}`
-                              : t('plugins.platesolveplus.common.empty')
-                          }}
-                        </span>
-                      </div>
-                      <div>
-                        <span class="text-gray-500">
-                          {{ t('plugins.platesolveplus.settings.downsample') }}
-                        </span>
-                        <span class="text-gray-200 font-mono">
-                          {{ psDownsample ?? t('plugins.platesolveplus.common.empty') }}
-                        </span>
-                      </div>
-                      <div>
-                        <span class="text-gray-500">
-                          {{ t('plugins.platesolveplus.settings.timeout_sec') }}
-                        </span>
-                        <span class="text-gray-200 font-mono">
-                          {{ psTimeoutSec ?? t('plugins.platesolveplus.common.empty') }}
-                        </span>
-                      </div>
-                      <div>
-                        <span class="text-gray-500">
-                          {{ t('plugins.platesolveplus.settings.threshold') }}
-                        </span>
-                        <span class="text-gray-200 font-mono">
-                          {{ psThreshold ?? t('plugins.platesolveplus.common.empty') }}
-                        </span>
-                      </div>
-                      <div>
-                        <span class="text-gray-500">
-                          {{ t('plugins.platesolveplus.settings.max_attempts') }}
-                        </span>
-                        <span class="text-gray-200 font-mono">
-                          {{ psMaxAttempts ?? t('plugins.platesolveplus.common.empty') }}
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="mt-3 text-[11px] text-gray-500">
-                  {{ t('plugins.platesolveplus.settings.values_from_backend') }}
+                <div v-for="(line, idx) in log" :key="idx" class="whitespace-pre-wrap">
+                  {{ line }}
                 </div>
               </div>
             </div>
           </div>
 
-          <!-- Event log (full width) -->
-          <div class="border border-gray-700 rounded-lg p-4 bg-black/20">
-            <div class="flex items-center justify-between">
+          <!-- CONFIG TAB -->
+          <div v-show="activeTab === 'config'" class="p-5 space-y-5">
+            <div class="border border-gray-700 rounded-lg p-4 bg-black/20">
               <h3 class="text-white font-semibold">
-                {{ t('plugins.platesolveplus.sections.event_log') }}
+                {{ t('plugins.platesolveplus.sections.connection') }}
               </h3>
-              <button
-                class="text-xs px-3 py-1 rounded-md border border-gray-600 text-gray-200 hover:bg-white/10"
-                @click="log = []"
+
+              <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label class="text-xs text-gray-400">
+                    {{ t('plugins.platesolveplus.config.host') }}
+                  </label>
+                  <input
+                    v-model.trim="cfg.host"
+                    class="mt-1 w-full px-3 py-2 rounded-md bg-black/30 border border-gray-700 text-gray-100"
+                    placeholder="127.0.0.1"
+                  />
+                </div>
+
+                <div>
+                  <label class="text-xs text-gray-400">
+                    {{ t('plugins.platesolveplus.config.port') }}
+                  </label>
+                  <input
+                    v-model.number="cfg.port"
+                    type="number"
+                    min="1"
+                    max="65535"
+                    class="mt-1 w-full px-3 py-2 rounded-md bg-black/30 border border-gray-700 text-gray-100"
+                    placeholder="1899"
+                  />
+                </div>
+
+                <div class="md:col-span-2">
+                  <label class="text-xs text-gray-400">
+                    {{ t('plugins.platesolveplus.config.base_path') }}
+                  </label>
+                  <input
+                    v-model.trim="cfg.basePath"
+                    class="mt-1 w-full px-3 py-2 rounded-md bg-black/30 border border-gray-700 text-gray-100"
+                    placeholder="/api/platesolveplus"
+                  />
+                  <div class="mt-1 text-xs text-gray-500">
+                    {{ t('plugins.platesolveplus.config.base_path_default') }}
+                  </div>
+                </div>
+              </div>
+
+              <div class="mt-4 border-t border-gray-700 pt-4">
+                <label class="text-xs text-gray-300 inline-flex items-center gap-2 select-none">
+                  <input type="checkbox" v-model="cfg.useToken" class="rounded" />
+                  {{ t('plugins.platesolveplus.config.use_token_optional') }}
+                </label>
+
+                <div class="mt-3">
+                  <label class="text-xs text-gray-400">
+                    {{ t('plugins.platesolveplus.config.token') }}
+                  </label>
+                  <input
+                    v-model="cfg.token"
+                    :disabled="!cfg.useToken"
+                    class="mt-1 w-full px-3 py-2 rounded-md bg-black/30 border border-gray-700 text-gray-100 disabled:opacity-40"
+                    :placeholder="t('plugins.platesolveplus.config.token_placeholder')"
+                  />
+                  <div class="mt-1 text-xs text-gray-500">
+                    {{ t('plugins.platesolveplus.config.token_hint') }}
+                  </div>
+                </div>
+              </div>
+
+              <div class="mt-5 flex flex-wrap gap-2">
+                <button
+                  class="px-4 py-2 rounded-md bg-white text-black font-semibold hover:bg-gray-200"
+                  @click="saveConfig"
+                >
+                  {{ t('plugins.platesolveplus.buttons.save_config') }}
+                </button>
+                <button
+                  class="px-4 py-2 rounded-md border border-gray-600 text-gray-100 hover:bg-white/10"
+                  @click="loadConfig"
+                >
+                  {{ t('plugins.platesolveplus.buttons.reload_from_storage') }}
+                </button>
+                <button
+                  class="px-4 py-2 rounded-md border border-gray-600 text-gray-100 hover:bg-white/10"
+                  @click="testConnection"
+                >
+                  {{ t('plugins.platesolveplus.buttons.test_connection') }}
+                </button>
+              </div>
+
+              <div
+                v-if="testResult"
+                class="mt-4 text-xs border rounded-md p-3"
+                :class="
+                  testResult.ok
+                    ? 'border-green-700/60 bg-green-900/20 text-green-200'
+                    : 'border-red-700/60 bg-red-900/20 text-red-200'
+                "
               >
-                {{ t('plugins.platesolveplus.buttons.clear') }}
-              </button>
+                {{ testResult.message }}
+              </div>
+
+              <div class="mt-3 text-xs text-gray-500">
+                {{ t('plugins.platesolveplus.config.active_url') }}
+                <span class="text-gray-200 font-mono">{{ baseUrl }}</span>
+              </div>
             </div>
 
-            <div class="mt-3 text-xs font-mono text-gray-200 space-y-1 max-h-56 overflow-auto">
-              <div v-if="log.length === 0" class="text-gray-500">
-                {{ t('plugins.platesolveplus.common.empty') }}
+            <div class="border border-gray-700 rounded-lg p-4 bg-black/20">
+              <h3 class="text-white font-semibold">
+                {{ t('plugins.platesolveplus.sections.websocket') }}
+              </h3>
+              <div class="mt-2 text-xs text-gray-400">
+                {{ t('plugins.platesolveplus.websocket.endpoint') }}
+                <span class="text-gray-200 font-mono">{{ wsUrl }}</span>
               </div>
-              <div v-for="(line, idx) in log" :key="idx" class="whitespace-pre-wrap">
-                {{ line }}
+              <div class="mt-3 flex flex-wrap gap-2">
+                <button
+                  class="px-4 py-2 rounded-md border border-gray-600 text-gray-100 hover:bg-white/10"
+                  @click="connectWs(true)"
+                >
+                  {{ t('plugins.platesolveplus.buttons.reconnect_ws') }}
+                </button>
+                <button
+                  class="px-4 py-2 rounded-md border border-gray-600 text-gray-100 hover:bg-white/10"
+                  @click="disconnectWs"
+                >
+                  {{ t('plugins.platesolveplus.buttons.disconnect_ws') }}
+                </button>
+              </div>
+              <div class="mt-3 text-xs text-gray-500">
+                {{ t('plugins.platesolveplus.websocket.auto_reconnect') }}
+              </div>
+            </div>
+
+            <div class="border border-gray-700 rounded-lg p-4 bg-black/20">
+              <h3 class="text-white font-semibold">
+                {{ t('plugins.platesolveplus.sections.offsets') }}
+              </h3>
+
+              <div class="mt-2 text-xs text-gray-400">
+                {{ t('plugins.platesolveplus.offsets_help.text') }}
+              </div>
+
+              <div class="mt-4 flex flex-wrap gap-2">
+                <button
+                  :class="btnSolidClass(canResetOffsets)"
+                  @click="resetOffsets()"
+                  :disabled="!canResetOffsets"
+                  title="POST /offset/reset"
+                >
+                  {{ t('plugins.platesolveplus.buttons.reset_offsets') }}
+                </button>
+
+                <button
+                  :class="btnOutlineClass(canCalibrateOffset)"
+                  @click="calibrateOffset()"
+                  :disabled="!canCalibrateOffset"
+                  title="POST /offset/calibrate"
+                >
+                  {{ t('plugins.platesolveplus.buttons.calibrate_offsets') }}
+                </button>
               </div>
             </div>
           </div>
         </div>
 
-        <!-- CONFIG TAB -->
-        <div v-show="activeTab === 'config'" class="p-5 space-y-5">
-          <div class="border border-gray-700 rounded-lg p-4 bg-black/20">
-            <h3 class="text-white font-semibold">
-              {{ t('plugins.platesolveplus.sections.connection') }}
-            </h3>
-
-            <div class="mt-4 grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label class="text-xs text-gray-400">
-                  {{ t('plugins.platesolveplus.config.host') }}
-                </label>
-                <input
-                  v-model.trim="cfg.host"
-                  class="mt-1 w-full px-3 py-2 rounded-md bg-black/30 border border-gray-700 text-gray-100"
-                  placeholder="127.0.0.1"
-                />
-              </div>
-
-              <div>
-                <label class="text-xs text-gray-400">
-                  {{ t('plugins.platesolveplus.config.port') }}
-                </label>
-                <input
-                  v-model.number="cfg.port"
-                  type="number"
-                  min="1"
-                  max="65535"
-                  class="mt-1 w-full px-3 py-2 rounded-md bg-black/30 border border-gray-700 text-gray-100"
-                  placeholder="1899"
-                />
-              </div>
-
-              <div class="md:col-span-2">
-                <label class="text-xs text-gray-400">
-                  {{ t('plugins.platesolveplus.config.base_path') }}
-                </label>
-                <input
-                  v-model.trim="cfg.basePath"
-                  class="mt-1 w-full px-3 py-2 rounded-md bg-black/30 border border-gray-700 text-gray-100"
-                  placeholder="/api/platesolveplus"
-                />
-                <div class="mt-1 text-xs text-gray-500">
-                  {{ t('plugins.platesolveplus.config.base_path_default') }}
-                </div>
-              </div>
-            </div>
-
-            <div class="mt-4 border-t border-gray-700 pt-4">
-              <label class="text-xs text-gray-300 inline-flex items-center gap-2 select-none">
-                <input type="checkbox" v-model="cfg.useToken" class="rounded" />
-                {{ t('plugins.platesolveplus.config.use_token_optional') }}
-              </label>
-
-              <div class="mt-3">
-                <label class="text-xs text-gray-400">
-                  {{ t('plugins.platesolveplus.config.token') }}
-                </label>
-                <input
-                  v-model="cfg.token"
-                  :disabled="!cfg.useToken"
-                  class="mt-1 w-full px-3 py-2 rounded-md bg-black/30 border border-gray-700 text-gray-100 disabled:opacity-40"
-                  :placeholder="t('plugins.platesolveplus.config.token_placeholder')"
-                />
-                <div class="mt-1 text-xs text-gray-500">
-                  {{ t('plugins.platesolveplus.config.token_hint') }}
-                </div>
-              </div>
-            </div>
-
-            <div class="mt-5 flex flex-wrap gap-2">
-              <button
-                class="px-4 py-2 rounded-md bg-white text-black font-semibold hover:bg-gray-200"
-                @click="saveConfig"
-              >
-                {{ t('plugins.platesolveplus.buttons.save_config') }}
-              </button>
-              <button
-                class="px-4 py-2 rounded-md border border-gray-600 text-gray-100 hover:bg-white/10"
-                @click="loadConfig"
-              >
-                {{ t('plugins.platesolveplus.buttons.reload_from_storage') }}
-              </button>
-              <button
-                class="px-4 py-2 rounded-md border border-gray-600 text-gray-100 hover:bg-white/10"
-                @click="testConnection"
-              >
-                {{ t('plugins.platesolveplus.buttons.test_connection') }}
-              </button>
-            </div>
-
-            <div
-              v-if="testResult"
-              class="mt-4 text-xs border rounded-md p-3"
-              :class="
-                testResult.ok
-                  ? 'border-green-700/60 bg-green-900/20 text-green-200'
-                  : 'border-red-700/60 bg-red-900/20 text-red-200'
-              "
-            >
-              {{ testResult.message }}
-            </div>
-
-            <div class="mt-3 text-xs text-gray-500">
-              {{ t('plugins.platesolveplus.config.active_url') }}
-              <span class="text-gray-200 font-mono">{{ baseUrl }}</span>
-            </div>
-          </div>
-
-          <div class="border border-gray-700 rounded-lg p-4 bg-black/20">
-            <h3 class="text-white font-semibold">
-              {{ t('plugins.platesolveplus.sections.websocket') }}
-            </h3>
-            <div class="mt-2 text-xs text-gray-400">
-              {{ t('plugins.platesolveplus.websocket.endpoint') }}
-              <span class="text-gray-200 font-mono">{{ wsUrl }}</span>
-            </div>
-            <div class="mt-3 flex flex-wrap gap-2">
-              <button
-                class="px-4 py-2 rounded-md border border-gray-600 text-gray-100 hover:bg-white/10"
-                @click="connectWs(true)"
-              >
-                {{ t('plugins.platesolveplus.buttons.reconnect_ws') }}
-              </button>
-              <button
-                class="px-4 py-2 rounded-md border border-gray-600 text-gray-100 hover:bg-white/10"
-                @click="disconnectWs"
-              >
-                {{ t('plugins.platesolveplus.buttons.disconnect_ws') }}
-              </button>
-            </div>
-            <div class="mt-3 text-xs text-gray-500">
-              {{ t('plugins.platesolveplus.websocket.auto_reconnect') }}
-            </div>
-          </div>
-
-          <div class="border border-gray-700 rounded-lg p-4 bg-black/20">
-            <h3 class="text-white font-semibold">
-              {{ t('plugins.platesolveplus.sections.offsets') }}
-            </h3>
-
-            <div class="mt-2 text-xs text-gray-400">
-              {{ t('plugins.platesolveplus.offsets_help.text') }}
-            </div>
-
-            <div class="mt-4 flex flex-wrap gap-2">
-              <button
-                :class="btnSolidClass(canResetOffsets)"
-                @click="resetOffsets()"
-                :disabled="!canResetOffsets"
-                title="POST /offset/reset"
-              >
-                {{ t('plugins.platesolveplus.buttons.reset_offsets') }}
-              </button>
-
-              <button
-                :class="btnOutlineClass(canCalibrateOffset)"
-                @click="calibrateOffset()"
-                :disabled="!canCalibrateOffset"
-                title="POST /offset/calibrate"
-              >
-                {{ t('plugins.platesolveplus.buttons.calibrate_offsets') }}
-              </button>
-            </div>
-          </div>
+        <div class="mt-4 text-xs text-gray-600">
+          {{ t('plugins.platesolveplus.footer.rest') }}
+          <span class="text-gray-300 font-mono">GET /status</span>,
+          <span class="text-gray-300 font-mono">POST /capture</span>,
+          <span class="text-gray-300 font-mono">POST /sync</span>,
+          <span class="text-gray-300 font-mono">POST /center</span>,
+          <span class="text-gray-300 font-mono">POST /offset/calibrate</span>,
+          <span class="text-gray-300 font-mono">POST /offset/reset</span>,
+          <span class="text-gray-300 font-mono">GET /preview/latest.jpg</span>
         </div>
-      </div>
-
-      <div class="mt-4 text-xs text-gray-600">
-        {{ t('plugins.platesolveplus.footer.rest') }}
-        <span class="text-gray-300 font-mono">GET /status</span>,
-        <span class="text-gray-300 font-mono">POST /capture</span>,
-        <span class="text-gray-300 font-mono">POST /sync</span>,
-        <span class="text-gray-300 font-mono">POST /center</span>,
-        <span class="text-gray-300 font-mono">POST /offset/calibrate</span>,
-        <span class="text-gray-300 font-mono">POST /offset/reset</span>,
-        <span class="text-gray-300 font-mono">GET /preview/latest.jpg</span>
       </div>
     </div>
+    <SecondarySetupDialog
+      v-if="showSecondarySetup"
+      :secondary="secondary"
+      :status="status"
+      :on-refresh-drivers="() => refreshSecondaryDrivers(true)"
+      :on-sync-state="() => syncSecondaryState(true)"
+      :on-apply-selection="applySecondarySelection"
+      :on-connect="connectSecondary"
+      :on-disconnect="disconnectSecondary"
+      :setAutoRefreshEnabled="setSetupDialogAutoRefreshEnabled"
+      @close="showSecondarySetup = false"
+    />
   </div>
-  <SecondarySetupDialog
-    v-if="showSecondarySetup"
-    :secondary="secondary"
-    :status="status"
-    :on-refresh-drivers="() => refreshSecondaryDrivers(true)"
-    :on-sync-state="() => syncSecondaryState(true)"
-    :on-apply-selection="applySecondarySelection"
-    :on-connect="connectSecondary"
-    :on-disconnect="disconnectSecondary"
-    :setAutoRefreshEnabled="setSetupDialogAutoRefreshEnabled"
-    @close="showSecondarySetup = false"
-  />
 </template>
 
 <script setup>
@@ -981,12 +985,12 @@ const framingStore = useFramingStore();
 // =========================
 // State
 // ========================
-const { t } = useI18n({ useScope: 'global' });
+const { t, te } = useI18n({ useScope: 'global' });
 
 // i18n helper: fall back to a readable label if a key is missing
+// Uses te() to check existence first, avoiding intlify "not found" warnings.
 function tOr(key, fallback) {
-  const v = t(key);
-  return v === key ? fallback : v;
+  return te(key) ? t(key) : fallback;
 }
 
 const status = reactive({

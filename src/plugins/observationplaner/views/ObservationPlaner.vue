@@ -353,15 +353,21 @@
                 />
 
                 <div
-                  v-if="!t.previewUrl || t.previewError"
+                  v-if="!t.previewUrl && !t.previewError"
+                  class="absolute inset-0 flex items-center justify-center"
+                >
+                  <div
+                    class="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"
+                  />
+                </div>
+
+                <div
+                  v-else-if="t.previewError"
                   class="absolute inset-0 flex items-center justify-center text-xs text-gray-300"
                 >
                   <div class="text-center px-4">
                     <div class="font-medium">{{ tp('preview.unavailable') }}</div>
-                    <div class="text-gray-500 mt-1">
-                      <span v-if="t.previewError">{{ t.previewError }}</span>
-                      <span v-else>{{ tp('preview.noImage') }}</span>
-                    </div>
+                    <div class="text-gray-500 mt-1">{{ t.previewError }}</div>
                   </div>
                 </div>
 
@@ -1082,16 +1088,34 @@ async function sendToSequencer(t) {
 }
 
 // --------------------------
-// Preview loading (targetpic)
+// Preview loading (targetpic) — sequential queue so heavy NINA loads don't run in parallel
 // --------------------------
-async function ensurePreview(t) {
+const previewQueue = [];
+let previewQueueRunning = false;
+
+function ensurePreview(t) {
   if (!t || t.previewUrl || t.previewError) return;
-  // if no coordinates -> no preview
   if (t.raDeg == null || t.decDeg == null) {
     t.previewError = 'no Coordinates';
     return;
   }
-  await loadPreview(t);
+  if (previewQueue.includes(t)) return;
+  previewQueue.push(t);
+  runPreviewQueue();
+}
+
+async function runPreviewQueue() {
+  if (previewQueueRunning) return;
+  previewQueueRunning = true;
+  try {
+    while (previewQueue.length) {
+      const t = previewQueue.shift();
+      if (!t || t.previewUrl || t.previewError) continue;
+      await loadPreview(t);
+    }
+  } finally {
+    previewQueueRunning = false;
+  }
 }
 
 async function reloadPreview(t) {

@@ -15,7 +15,7 @@
 <script setup>
 import { apiStore } from '@/store/store';
 import apiService from '@/services/apiService';
-import toggleButton from '../helpers/toggleButton.vue';
+import toggleButton from '../../helpers/toggleButton.vue';
 
 const store = apiStore();
 

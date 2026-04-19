@@ -34,7 +34,7 @@ import { useI18n } from 'vue-i18n';
 import { apiStore } from '@/store/store';
 import { useToastStore } from '@/store/toastStore';
 import apiService from '@/services/apiService';
-import FileBrowser from '../helpers/fileBrowser.vue';
+import FileBrowser from '../../helpers/fileBrowser.vue';
 
 const { t } = useI18n();
 const store = apiStore();

@@ -102,7 +102,7 @@
 import { ref, onMounted } from 'vue';
 import { apiStore } from '@/store/store';
 import SettingInput from '@/components/helpers/settings/UpdatePorfileNumber.vue';
-import setPlateSolverBlindFailover from './setPlateSolverBlindFailover.vue';
+import setPlateSolverBlindFailover from './SetPlateSolverBlindFailover.vue';
 import apiService from '@/services/apiService';
 
 const store = apiStore();

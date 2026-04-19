@@ -52,15 +52,15 @@
 
 <script setup>
 import { apiStore } from '@/store/store';
-import setImgStrechFactor from '@/components/settings/setImgStrechFactor.vue';
-import setImgQuality from '@/components/settings/setImgQuality.vue';
-import setImgBlackClipping from '@/components/settings/setImgBlackClipping.vue';
-import setImgDebayern from '@/components/settings/setImgDebayern.vue';
-import setImgDebayernHfr from '@/components/settings/setImgDebayernHfr.vue';
-import setImgUnlinkedStrech from '@/components/settings/setImgUnlinkedStrech.vue';
-import setImgMaxDimension from '@/components/settings/setImgMaxDimension.vue';
-import setImgFileType from '@/components/settings/setImgFileType.vue';
-import setImgFilePath from '@/components/settings/setImgFilePath.vue';
+import setImgStrechFactor from '@/components/settings/image/SetImgStrechFactor.vue';
+import setImgQuality from '@/components/settings/image/SetImgQuality.vue';
+import setImgBlackClipping from '@/components/settings/image/SetImgBlackClipping.vue';
+import setImgDebayern from '@/components/settings/image/SetImgDebayern.vue';
+import setImgDebayernHfr from '@/components/settings/image/SetImgDebayernHfr.vue';
+import setImgUnlinkedStrech from '@/components/settings/image/SetImgUnlinkedStrech.vue';
+import setImgMaxDimension from '@/components/settings/image/SetImgMaxDimension.vue';
+import setImgFileType from '@/components/settings/image/SetImgFileType.vue';
+import setImgFilePath from '@/components/settings/image/SetImgFilePath.vue';
 import FilePatternBuilder from '@/components/settings/image/FilePatternBuilder.vue';
 
 const store = apiStore();

@@ -298,7 +298,7 @@
 <script setup>
 import { ref, onMounted, watchEffect } from 'vue';
 import { getAvailableLanguages, getBackendLanguageCode } from '@/i18n';
-import NavbarCustomizationSettings from '@/components/settings/NavbarCustomizationSettings.vue';
+import NavbarCustomizationSettings from '@/components/settings/general/NavbarCustomizationSettings.vue';
 import apiService from '@/services/apiService';
 import { useSettingsStore } from '@/store/settingsStore';
 import { apiStore } from '@/store/store';
@@ -312,16 +312,16 @@ import {
 } from '@/utils/location';
 import { Capacitor } from '@capacitor/core';
 import { KeepAwake } from '@capacitor-community/keep-awake';
-import SetInstance from '@/components/settings/setInstance.vue';
-import SetDebug from '@/components/settings/setDebug.vue';
+import SetInstance from '@/components/settings/general/SetInstance.vue';
+import SetDebug from '@/components/settings/general/SetDebug.vue';
 import ButtonSetLocationSyncToMount from '@/components/mount/ButtonSetLocationSyncToMount.vue';
 import ToggleButton from '@/components/helpers/toggleButton.vue';
-import SetBeta from '@/components/settings/setBeta.vue';
-import SetLogLevel from '@/components/settings/SetLogLevel.vue';
+import SetBeta from '@/components/settings/general/SetBeta.vue';
+import SetLogLevel from '@/components/settings/general/SetLogLevel.vue';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
-import LocationSettingsPins from '@/components/settings/LocationSettingsPins.vue';
-import TimeSyncSettings from '@/components/settings/TimeSyncSettings.vue';
-import SetHorizonFilePath from '@/components/settings/setHorizonFilePath.vue';
+import LocationSettingsPins from '@/components/settings/general/LocationSettingsPins.vue';
+import TimeSyncSettings from '@/components/settings/general/TimeSyncSettings.vue';
+import SetHorizonFilePath from '@/components/settings/general/SetHorizonFilePath.vue';
 import { useI18n } from 'vue-i18n';
 
 const { locale } = useI18n();

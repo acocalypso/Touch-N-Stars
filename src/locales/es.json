@@ -1475,7 +1475,9 @@
         "enableSave": "Habilitar ahorro"
       },
       "zoomableImage": {
-        "toggleCrosshair": "Alternar retícula"
+        "toggleCrosshair": "Alternar retícula",
+        "toggleLoupe": "Alternar lupa",
+        "loupeZoom": "Zoom de lupa"
       }
     },
     "platesolve": {

@@ -1475,7 +1475,9 @@
         "enableSave": "Activer l'enregistrement"
       },
       "zoomableImage": {
-        "toggleCrosshair": "Afficher le réticule"
+        "toggleCrosshair": "Afficher le réticule",
+        "toggleLoupe": "Afficher la loupe",
+        "loupeZoom": "Zoom de la loupe"
       }
     },
     "platesolve": {

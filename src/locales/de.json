@@ -1515,7 +1515,8 @@
         "enableSave": "Speichern aktivieren"
       },
       "zoomableImage": {
-        "toggleCrosshair": "Fadenkreuz umschalten"
+        "toggleCrosshair": "Fadenkreuz umschalten",
+        "toggleLoupe": "Lupe umschalten"
       }
     },
     "platesolve": {

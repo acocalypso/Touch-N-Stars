@@ -55,6 +55,14 @@
         @toggle="handleCrosshairToggle"
       />
 
+      <!-- Loupe Button -->
+      <ImageLoupeButton
+        v-if="showLoupe"
+        :active="isLoupeActive"
+        :label="$t('components.helpers.zoomableImage.toggleLoupe')"
+        @toggle="handleLoupeToggle"
+      />
+
       <!-- Plate Solve Button -->
       <SolvePreparedImage v-if="showSolve" />
 
@@ -83,6 +91,20 @@
       v-if="showCrosshair && showCrosshairActive && crosshairBounds"
       :bounds="crosshairBounds"
       class="z-20"
+    />
+
+    <ImageLoupePreview
+      v-if="showLoupe && isLoupeActive && loupeViewport && loupePreview"
+      :image-data="imageData"
+      :natural-x="loupePreview.naturalX"
+      :natural-y="loupePreview.naturalY"
+      :natural-width="loupePreview.naturalWidth"
+      :natural-height="loupePreview.naturalHeight"
+      :anchor-x="loupeViewport.anchorX"
+      :anchor-y="loupeViewport.anchorY"
+      :container-width="loupeViewport.containerWidth"
+      :container-height="loupeViewport.containerHeight"
+      :image-rotation="imageRotation"
     />
 
     <!-- Loading Spinner -->
@@ -118,7 +140,10 @@ import { ArrowDownTrayIcon, MagnifyingGlassPlusIcon, PhotoIcon } from '@heroicon
 import SolvePreparedImage from '@/components/platesolve/solvePreparedImage.vue';
 import ImageCrosshairButton from '@/components/helpers/ImageCrosshairButton.vue';
 import ImageCrosshairOverlay from '@/components/helpers/ImageCrosshairOverlay.vue';
+import ImageLoupeButton from '@/components/helpers/ImageLoupeButton.vue';
+import ImageLoupePreview from '@/components/helpers/ImageLoupePreview.vue';
 import { useImageCrosshair } from '@/composables/useImageCrosshair';
+import { useImageLoupe } from '@/composables/useImageLoupe';
 import { useSettingsStore } from '@/store/settingsStore';
 
 const props = defineProps({
@@ -151,6 +176,10 @@ const props = defineProps({
     default: false,
   },
   showCrosshair: {
+    type: Boolean,
+    default: true,
+  },
+  showLoupe: {
     type: Boolean,
     default: true,
   },
@@ -215,11 +244,38 @@ const {
   imageDataRef: toRef(props, 'imageData'),
 });
 
+const {
+  isLoupeActive,
+  loupePreview,
+  toggleLoupe,
+  attachLoupePointerHandlers,
+  detachLoupePointerHandlers,
+} = useImageLoupe({
+  containerRef: container,
+  imageRef: image,
+  imageRotationRef: imageRotation,
+});
+
+const loupeViewport = computed(() => {
+  if (!loupePreview.value || !container.value) return null;
+  const rect = container.value.getBoundingClientRect();
+  return {
+    anchorX: loupePreview.value.clientX - rect.left,
+    anchorY: loupePreview.value.clientY - rect.top,
+    containerWidth: rect.width,
+    containerHeight: rect.height,
+  };
+});
+
 // Initialize Panzoom when image loads
 const onImageLoad = () => {
   imageLoadError.value = false;
   nextTick(() => {
-    initPanzoom();
+    if (isLoupeActive.value) {
+      if (image.value) attachLoupePointerHandlers(image.value);
+    } else {
+      initPanzoom();
+    }
     emits('image-load');
   });
 };
@@ -315,7 +371,12 @@ const handleCrosshairToggle = () => {
   toggleCrosshair();
 };
 
+const handleLoupeToggle = () => {
+  toggleLoupe();
+};
+
 const handleImageClick = () => {
+  if (isLoupeActive.value) return;
   emits('click', { imageData: props.imageData, zoomLevel: zoomLevel.value });
 };
 
@@ -339,6 +400,7 @@ const doubleTapZoom = (touch) => {
 };
 
 const handleTouchStart = (event) => {
+  if (isLoupeActive.value) return;
   if (event.touches.length !== 1) return;
   const now = Date.now();
   const diff = now - lastTapTime;
@@ -358,15 +420,34 @@ watch(
   (newVal, oldVal) => {
     if (!newVal && oldVal) {
       destroyPanzoom();
+      detachLoupePointerHandlers();
       clearCrosshairBounds();
       zoomLevel.value = 1;
     }
   }
 );
 
+// Pause Panzoom while the loupe is active so single-finger gestures drive the loupe preview.
+watch(isLoupeActive, (active) => {
+  if (active) {
+    if (panzoomInstance) {
+      savedZoom.value = panzoomInstance.getScale();
+      savedPan.value = panzoomInstance.getPan();
+      destroyPanzoom();
+    }
+    if (image.value) attachLoupePointerHandlers(image.value);
+  } else {
+    detachLoupePointerHandlers();
+    if (image.value && props.imageData && !imageLoadError.value) {
+      initPanzoom();
+    }
+  }
+});
+
 // Cleanup on unmount
 onBeforeUnmount(() => {
   destroyPanzoom();
+  detachLoupePointerHandlers();
 });
 </script>
 

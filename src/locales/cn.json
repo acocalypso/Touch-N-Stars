@@ -1475,7 +1475,8 @@
         "enableSave": "启用保存"
       },
       "zoomableImage": {
-        "toggleCrosshair": "切换十字准线"
+        "toggleCrosshair": "切换十字准线",
+        "toggleLoupe": "切换放大镜"
       }
     },
     "platesolve": {

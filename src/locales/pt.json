@@ -1475,7 +1475,8 @@
         "enableSave": "Ativar salvamento"
       },
       "zoomableImage": {
-        "toggleCrosshair": "Alternar mira"
+        "toggleCrosshair": "Alternar mira",
+        "toggleLoupe": "Alternar lupa"
       }
     },
     "platesolve": {

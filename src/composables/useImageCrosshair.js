@@ -1,4 +1,5 @@
 import { nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
+import { calculateContainedImageBounds } from '@/utils/imageGeometry';
 
 const CROSSHAIR_STORAGE_KEY = 'tns:image-crosshair-visible';
 
@@ -12,43 +13,6 @@ function setStoredCrosshairVisibility(visible) {
   if (typeof window === 'undefined') return;
 
   window.localStorage.setItem(CROSSHAIR_STORAGE_KEY, String(visible));
-}
-
-function calculateContainedImageBounds(imageElement, containerElement, imageRotation) {
-  if (!imageElement || !containerElement) return null;
-
-  const imageRect = imageElement.getBoundingClientRect();
-  const containerRect = containerElement.getBoundingClientRect();
-  const naturalWidth = imageElement.naturalWidth;
-  const naturalHeight = imageElement.naturalHeight;
-
-  if (!imageRect.width || !imageRect.height || !naturalWidth || !naturalHeight) {
-    return null;
-  }
-
-  const normalizedRotation = ((imageRotation % 360) + 360) % 360;
-  const isSideways = normalizedRotation === 90 || normalizedRotation === 270;
-  const imageAspectRatio = isSideways ? naturalHeight / naturalWidth : naturalWidth / naturalHeight;
-  const boundsAspectRatio = imageRect.width / imageRect.height;
-
-  let renderedWidth = imageRect.width;
-  let renderedHeight = imageRect.height;
-
-  if (imageAspectRatio > boundsAspectRatio) {
-    renderedHeight = imageRect.width / imageAspectRatio;
-  } else {
-    renderedWidth = imageRect.height * imageAspectRatio;
-  }
-
-  const horizontalInset = (imageRect.width - renderedWidth) / 2;
-  const verticalInset = (imageRect.height - renderedHeight) / 2;
-
-  return {
-    left: imageRect.left - containerRect.left + horizontalInset,
-    top: imageRect.top - containerRect.top + verticalInset,
-    width: renderedWidth,
-    height: renderedHeight,
-  };
 }
 
 export function useImageCrosshair({ containerRef, imageRef, imageRotationRef, imageDataRef }) {

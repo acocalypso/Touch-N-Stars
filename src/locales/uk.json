@@ -1455,7 +1455,8 @@
         "enableSave": "Увімкнути збереження"
       },
       "zoomableImage": {
-        "toggleCrosshair": "Перемикач перехрестя"
+        "toggleCrosshair": "Перемикач перехрестя",
+        "toggleLoupe": "Перемикач лупи"
       }
     },
     "platesolve": {

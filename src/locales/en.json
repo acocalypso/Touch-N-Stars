@@ -1515,7 +1515,8 @@
         "enableSave": "Enable saving"
       },
       "zoomableImage": {
-        "toggleCrosshair": "Toggle crosshair"
+        "toggleCrosshair": "Toggle crosshair",
+        "toggleLoupe": "Toggle loupe"
       }
     },
     "platesolve": {

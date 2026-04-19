@@ -28,6 +28,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Settings: PINS set Horizon File Path
 - Flat Assistant: Add dark flat count and post-flat dark workflow for supported flat modes - thanks to sharon92
 - PINS: Show time mismatch warning modal on startup when device time differs from client time by more than 1 minute – allows syncing device time to client or suppressing the warning permanently (re-enable via system time card)
+- Observation Planner: Persist filter, sort and performance settings across navigation and reloads
+- Observation Planner: Cache target preview images across navigation so returning to the view skips redundant DSS/targetpic requests
 
 ### Changed
 - Plate Solve: Use the NINA-style toolbar icon in the shared image viewer

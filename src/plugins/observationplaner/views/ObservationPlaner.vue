@@ -519,6 +519,7 @@
 
 <script setup>
 import { computed, nextTick, onBeforeUnmount, onMounted, reactive, ref, watch } from 'vue';
+import { storeToRefs } from 'pinia';
 import { useI18n } from 'vue-i18n';
 import apiService from '../../../services/apiService';
 import seedTargets from '../components/astro_targets_seed.json';
@@ -526,6 +527,7 @@ import FramingAssistangModal from '../../../components/framing/FramingAssistangM
 import { useFramingStore } from '@/store/framingStore';
 import { useSequenceStore } from '@/store/sequenceStore';
 import { apiStore } from '@/store/store';
+import { useObservationPlanerStore } from '../store/observationPlanerStore';
 import {
   ArrowUpRightIcon,
   ViewfinderCircleIcon,
@@ -621,22 +623,25 @@ const framingStore = useFramingStore();
 const locationStore = useLocationStore?.() ?? null;
 const sequenceStore = useSequenceStore();
 const store = apiStore();
+const planerStore = useObservationPlanerStore();
 const busy = ref(false);
 const busyLocation = ref(false);
 
 const targets = ref([]); // merged list (favorites + seed)
 const apiFavorites = ref([]); // raw favorites from API
-const q = ref('');
-const typeFilter = ref('');
-const sectorFilter = ref('');
-const sortMode = ref('maxAltDesc');
 
-const limit = ref(20);
-const sampleMinutes = ref(5);
-const onlyAboveHorizon = ref(true);
-
-const useNinaCache = ref(true);
-const lazyPreviews = ref(true);
+// Persisted settings (survive navigation)
+const {
+  q,
+  typeFilter,
+  sectorFilter,
+  sortMode,
+  limit,
+  sampleMinutes,
+  onlyAboveHorizon,
+  useNinaCache,
+  lazyPreviews,
+} = storeToRefs(planerStore);
 
 // Window defaults: today evening -> tomorrow morning
 const windowStart = ref(defaultStart());

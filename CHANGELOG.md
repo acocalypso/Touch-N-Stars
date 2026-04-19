@@ -30,6 +30,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - PINS: Show time mismatch warning modal on startup when device time differs from client time by more than 1 minute – allows syncing device time to client or suppressing the warning permanently (re-enable via system time card)
 - Observation Planner: Persist filter, sort and performance settings across navigation and reloads
 - Observation Planner: Cache target preview images across navigation so returning to the view skips redundant DSS/targetpic requests
+- Image Viewer: Touch loupe for 1:1 pixel inspection – toggle in the image toolbar, drag with one finger to float a preview above the finger; adjustable zoom factor (1×/2×/4×), preview teleported to body so it floats above all overlays, Panzoom is paused while active and restored on disable
 
 ### Changed
 - Plate Solve: Use the NINA-style toolbar icon in the shared image viewer

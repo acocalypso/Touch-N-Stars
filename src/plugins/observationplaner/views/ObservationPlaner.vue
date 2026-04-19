@@ -422,7 +422,7 @@
                   aria-label="Slew only"
                 >
                   <ArrowUpRightIcon class="w-5 h-5" />
-                  <span class="hidden md:inline text-xs font-semibold">{{
+                  <span class="text-[10px] md:text-xs font-semibold leading-tight">{{
                     tp('buttons.slew')
                   }}</span>
                 </button>
@@ -436,7 +436,7 @@
                   aria-label="Slew + Center"
                 >
                   <ViewfinderCircleIcon class="w-5 h-5" />
-                  <span class="hidden md:inline text-xs font-semibold">{{
+                  <span class="text-[10px] md:text-xs font-semibold leading-tight">{{
                     tp('buttons.center')
                   }}</span>
                 </button>
@@ -450,7 +450,7 @@
                   aria-label="open Framing Assistant"
                 >
                   <RectangleGroupIcon class="w-5 h-5" />
-                  <span class="hidden md:inline text-xs font-semibold">{{
+                  <span class="text-[10px] md:text-xs font-semibold leading-tight">{{
                     tp('sections.framing')
                   }}</span>
                 </button>
@@ -469,7 +469,7 @@
                   aria-label="send to Sequencer"
                 >
                   <QueueListIcon class="w-5 h-5" />
-                  <span class="hidden md:inline text-xs font-semibold">{{
+                  <span class="text-[10px] md:text-xs font-semibold leading-tight">{{
                     tp('buttons.seqShort')
                   }}</span>
                 </button>

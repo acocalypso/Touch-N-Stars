@@ -68,7 +68,7 @@ export async function getCurrentLocation() {
     console.log(pos);
     latitude.value = pos.coords.latitude.toFixed(3);
     longitude.value = pos.coords.longitude.toFixed(3);
-    altitude.value = pos.coords.altitude.toFixed(1);
+    altitude.value = pos.coords.altitude != null ? pos.coords.altitude.toFixed(1) : 0;
     gpsError.value = null;
   } catch (error) {
     gpsError.value = error.message || 'Failed to get GPS location';

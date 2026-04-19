@@ -1,531 +1,525 @@
 <template>
-  <div class="p-4 md:p-6 space-y-4">
-    <!-- Header -->
-    <div class="flex items-start justify-between gap-4">
-      <div>
-        <h2 class="text-xl font-semibold text-gray-100">{{ tp('title') }}</h2>
-        <p class="text-sm text-gray-400">
-          {{ tp('subtitle') }}
-        </p>
-      </div>
-
-      <div class="flex items-center gap-2">
-        <button
-          class="px-3 py-2 rounded-lg bg-gray-800 hover:bg-gray-700 border border-gray-700 text-gray-100 text-sm"
-          @click="refreshAll"
-          :disabled="busy"
-          :title="tp('tooltips.refreshAll')"
-        >
-          Refresh
-        </button>
-
-        <button
-          class="px-3 py-2 rounded-lg bg-gray-800 hover:bg-gray-700 border border-gray-700 text-gray-100 text-sm"
-          @click="ensureLocation"
-          :disabled="busyLocation"
-          :title="tp('tooltips.updateGps')"
-        >
-          get location
-        </button>
-      </div>
-    </div>
-
-    <!-- Location + global settings -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-3">
-      <div class="rounded-xl border border-gray-700 bg-black/30 p-3">
-        <div class="text-xs text-gray-400 mb-1">{{ tp('location.title') }}</div>
-
-        <div v-if="hasSite" class="text-sm text-gray-100">
-          {{ fmtCoord(siteLat) }}, {{ fmtCoord(siteLon) }}
-          <span v-if="siteAlt != null" class="text-gray-400">· {{ fmtAlt(siteAlt) }} m</span>
-        </div>
-
-        <div v-else class="text-sm text-gray-400">{{ tp('location.notAvailable') }}</div>
-
-        <div v-if="gpsError" class="mt-2 text-xs text-red-400 break-words">
-          {{ gpsError }}
-        </div>
-      </div>
-
-      <div class="rounded-xl border border-gray-700 bg-black/30 p-3">
-        <div class="text-xs text-gray-400 mb-2">{{ tp('filters.timeWindow') }}</div>
-
-        <div class="grid grid-cols-2 gap-2">
-          <label class="text-xs text-gray-300">
-            Start (local)
-            <input
-              class="mt-1 w-full px-2 py-1 rounded bg-gray-900 border border-gray-700 text-gray-100"
-              type="datetime-local"
-              v-model="windowStartLocal"
-            />
-          </label>
-          <label class="text-xs text-gray-300">
-            End (local)
-            <input
-              class="mt-1 w-full px-2 py-1 rounded bg-gray-900 border border-gray-700 text-gray-100"
-              type="datetime-local"
-              v-model="windowEndLocal"
-            />
-          </label>
-        </div>
-
-        <div class="mt-2 flex items-center justify-between gap-2">
-          <label class="text-xs text-gray-300 flex items-center gap-2">
-            Sample (min)
-            <input
-              class="w-20 px-2 py-1 rounded bg-gray-900 border border-gray-700 text-gray-100"
-              type="number"
-              min="2"
-              max="60"
-              step="1"
-              v-model.number="sampleMinutes"
-            />
-          </label>
-
-          <div class="text-xs text-gray-500">{{ sampleCount }} points</div>
-        </div>
-      </div>
-
-      <div class="rounded-xl border border-gray-700 bg-black/30 p-3">
-        <div class="text-xs text-gray-400 mb-2">{{ tp('performance.title') }}</div>
-
-        <div class="flex items-center justify-between gap-2">
-          <label class="text-xs text-gray-300">
-            Limit
-            <input
-              class="mt-1 w-24 px-2 py-1 rounded bg-gray-900 border border-gray-700 text-gray-100"
-              type="number"
-              min="5"
-              max="200"
-              step="1"
-              v-model.number="limit"
-            />
-          </label>
-
-          <label class="text-xs text-gray-300 flex items-center gap-2">
-            <span>{{ tp('cache.useNinaCache') }}</span>
-            <button
-              class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors"
-              :class="useNinaCache ? 'bg-emerald-600' : 'bg-gray-700'"
-              @click="useNinaCache = !useNinaCache"
-              title="Gibt useCache an targetpic weiter"
-            >
-              <span
-                class="inline-block h-5 w-5 transform rounded-full bg-white transition-transform"
-                :class="useNinaCache ? 'translate-x-5' : 'translate-x-1'"
-              />
-            </button>
-          </label>
-        </div>
-
-        <div class="mt-3 flex items-center justify-between gap-2">
-          <label class="text-xs text-gray-300 flex items-center gap-2">
-            <span>{{ tp('performance.lazyPreviews') }}</span
-            >>
-            <button
-              class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors"
-              :class="lazyPreviews ? 'bg-emerald-600' : 'bg-gray-700'"
-              @click="lazyPreviews = !lazyPreviews"
-              :title="tp('tooltips.lazyVisibleOnly')"
-            >
-              <span
-                class="inline-block h-5 w-5 transform rounded-full bg-white transition-transform"
-                :class="lazyPreviews ? 'translate-x-5' : 'translate-x-1'"
-              />
-            </button>
-          </label>
-
-          <label class="text-xs text-gray-300 flex items-center gap-2">
-            <span>{{ tp('filters.onlyAboveHorizon') }}</span>
-            <button
-              class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors"
-              :class="onlyAboveHorizon ? 'bg-emerald-600' : 'bg-gray-700'"
-              @click="onlyAboveHorizon = !onlyAboveHorizon"
-              title="filter targets with maxAlt <= 0° raus"
-            >
-              <span
-                class="inline-block h-5 w-5 transform rounded-full bg-white transition-transform"
-                :class="onlyAboveHorizon ? 'translate-x-5' : 'translate-x-1'"
-              />
-            </button>
-          </label>
-        </div>
-
-        <div class="mt-3 pt-3 border-t border-gray-800">
-          <div class="text-xs text-gray-400 mb-1">{{ tp('filters.moon') }}</div>
-          <div class="text-sm text-gray-100">
-            <span v-if="moonIllumPct != null">{{ moonIllumPct }}% illuminated</span>
-            <span v-else class="text-gray-500">—</span>
-            <span class="text-gray-400"> · </span>
-            <span v-if="currentMoonData?.separationDeg != null"
-              >Separation {{ fmtNum(currentMoonData.separationDeg, 0) }}°</span
-            >
-            <span v-else class="text-gray-500">{{ tp('chart.separation') }}</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Filters -->
-    <div class="rounded-xl border border-gray-700 bg-black/30 p-4 space-y-3">
-      <div class="flex items-center justify-between">
-        <div class="text-sm font-medium text-gray-100">{{ tp('filters.title') }}</div>
-        <div class="text-xs text-gray-400">
-          {{ filteredTargets.length }} / {{ targets.length }} targets · display:
-          {{ displayedTargets.length }}
-        </div>
-      </div>
-
-      <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
-        <label class="text-xs text-gray-300">
-          Search by name
-          <input
-            class="mt-1 w-full px-3 py-2 rounded bg-gray-900 border border-gray-700 text-gray-100"
-            v-model="q"
-            placeholder="M42, Andromeda, NGC..."
-          />
-        </label>
-
-        <label class="text-xs text-gray-300">
-          Objekt-Typ
-          <select
-            class="mt-1 w-full px-3 py-2 rounded bg-gray-900 border border-gray-700 text-gray-100"
-            v-model="typeFilter"
-          >
-            <option value="">{{ tp('common.all') }}</option>
-            <option v-for="t in typeOptions" :key="t" :value="t">{{ t }}</option>
-          </select>
-        </label>
-
-        <label class="text-xs text-gray-300">
-          direction (Azimut-Sector)
-          <select
-            class="mt-1 w-full px-3 py-2 rounded bg-gray-900 border border-gray-700 text-gray-100"
-            v-model="sectorFilter"
-            title="Filters by bestAzDeg (azimuth at the highest altitude in the window)"
-          >
-            <option value="">{{ tp('common.all') }}</option>
-            <option v-for="s in sectorOptions" :key="s.value" :value="s.value">
-              {{ s.label }}
-            </option>
-          </select>
-        </label>
-
-        <label class="text-xs text-gray-300">
-          Sort order
-          <select
-            class="mt-1 w-full px-3 py-2 rounded bg-gray-900 border border-gray-700 text-gray-100"
-            v-model="sortMode"
-          >
-            <option value="maxAltDesc">{{ tp('sort.maxAltDesc') }}</option>
-            <option value="bestTimeAsc">{{ tp('sort.bestTimeAsc') }}</option>
-            <option value="nameAsc">{{ tp('sort.nameAZ') }}</option>
-          </select>
-        </label>
-      </div>
-
-      <div v-if="!hasSite" class="text-xs text-amber-300">
-        Note: Altitude/Direction filters and charts cannot be calculated without a location.
-      </div>
-    </div>
-
-    <!-- {{ tp('sections.tonightPicks') }} (top 10 by Tonight-Score) -->
-    <div v-if="tonightPicks.length" class="rounded-xl border border-gray-700 bg-black/30 p-3">
-      <div class="flex items-center justify-between gap-3">
+  <div>
+    <div class="p-4 md:p-6 space-y-4">
+      <!-- Header -->
+      <div class="flex items-start justify-between gap-4">
         <div>
-          <div class="text-xs text-gray-400">{{ tp('sections.tonightPicks') }}</div>
-          <div class="text-sm text-gray-100">{{ tp('sections.topForWindow') }}</div>
+          <h2 class="text-xl font-semibold text-gray-100">{{ tp('title') }}</h2>
+          <p class="text-sm text-gray-400">
+            {{ tp('subtitle') }}
+          </p>
         </div>
-        <div class="text-xs text-gray-500">Top {{ tonightPicks.length }}</div>
+
+        <div class="flex items-center gap-2">
+          <button
+            class="px-3 py-2 rounded-lg bg-gray-800 hover:bg-gray-700 border border-gray-700 text-gray-100 text-sm"
+            @click="refreshAll"
+            :disabled="busy"
+            :title="tp('tooltips.refreshFavorites')"
+          >
+            Refresh
+          </button>
+
+          <button
+            class="px-3 py-2 rounded-lg bg-gray-800 hover:bg-gray-700 border border-gray-700 text-gray-100 text-sm"
+            @click="ensureLocation"
+            :disabled="busyLocation"
+            :title="tp('tooltips.gpsUpdate')"
+          >
+            get location
+          </button>
+        </div>
       </div>
 
-      <div class="mt-3 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2">
-        <button
-          v-for="p in tonightPicks"
-          :key="p._id"
-          class="text-left px-3 py-2 rounded-lg bg-gray-900/50 hover:bg-gray-900 border border-gray-700 text-gray-100"
-          @click="openInFramingAssistant(p)"
-          :title="`open Framing · ${fmtRa(p.raDeg)} / ${fmtDec(p.decDeg)} · MaxAlt ${fmtNum(p.maxAltDeg, 1)}°`"
-        >
-          <div class="flex items-center justify-between gap-2">
-            <div class="truncate font-semibold">{{ p.name }}</div>
-            <div class="text-[11px] text-gray-300">{{ tonightLabel(p.tonightScore) }}</div>
-          </div>
-          <div class="mt-1 text-[11px] text-gray-400">
-            MaxAlt {{ fmtNum(p.maxAltDeg, 1) }}° · {{ fmtNum(p.visibleHours, 1) }}h vidible
-          </div>
-        </button>
-      </div>
-    </div>
+      <!-- Location + global settings -->
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-3">
+        <div class="rounded-xl border border-gray-700 bg-black/30 p-3">
+          <div class="text-xs text-gray-400 mb-1">{{ tp('location.title') }}</div>
 
-    <!-- Cards list -->
-    <div class="space-y-3">
-      <div
-        v-for="(t, i) in displayedTargets"
-        :key="t._id"
-        :class="[
-          'rounded-xl border bg-black/30 p-4',
-          isSelected(t) ? 'border-blue-500' : 'border-gray-700',
-        ]"
-      >
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-          <!-- Left: title + meta -->
-          <div class="space-y-2">
-            <div class="flex items-start justify-between gap-2">
-              <div>
-                <div class="text-base font-semibold text-gray-100 flex items-center gap-2">
-                  <span
-                    v-if="(t.tonightScore ?? 0) > 0"
-                    class="inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-semibold border border-gray-700 bg-gray-900 text-gray-100"
-                    :title="`Tonight score: ${fmtNum(t.tonightScore, 2)} · MaxAlt ${fmtNum(t.maxAltDeg, 1)}° · ${fmtNum(t.visibleHours, 1)}h`"
-                  >
-                    {{ tonightLabel(t.tonightScore) }}
-                  </span>
-                  <span
-                    v-if="t.source === 'favorite'"
-                    class="inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-semibold border border-gray-700 bg-gray-900 text-gray-100"
-                    title="Favorite"
-                    >❤️</span
-                  >
-                  <span class="truncate">
-                    {{ t.name || 'Unnamed target' }}
-                  </span>
-                </div>
-                <div class="text-xs text-gray-400">
-                  <span v-if="t.type">{{ t.type }}</span>
-                  <span v-if="t.type && (t.raDeg != null || t.decDeg != null)"> · </span>
-                  <span v-if="t.raDeg != null && t.decDeg != null"
-                    >RA {{ fmtRa(t.raDeg) }} · DEC {{ fmtDec(t.decDeg) }}</span
-                  >
-                </div>
-              </div>
-
-              <button
-                class="px-2 py-1 rounded bg-gray-800 hover:bg-gray-700 border border-gray-700 text-gray-200 text-xs"
-                @click="reloadPreview(t)"
-                :disabled="busyPreview[t._id]"
-                title="reload Preview"
-              >
-                Reload
-              </button>
-            </div>
-
-            <div class="grid grid-cols-2 gap-2">
-              <div class="rounded-lg bg-gray-900/60 border border-gray-700 p-2">
-                <div class="text-[11px] text-gray-400">{{ tp('sort.maxAltWindow') }}</div>
-                <div class="text-sm text-gray-100">
-                  <span v-if="t.maxAltDeg != null">{{ fmtNum(t.maxAltDeg, 1) }}°</span>
-                  <span v-else class="text-gray-500">—</span>
-                </div>
-              </div>
-
-              <div class="rounded-lg bg-gray-900/60 border border-gray-700 p-2">
-                <div class="text-[11px] text-gray-400">{{ tp('sort.bestTime') }}</div>
-                <div class="text-sm text-gray-100">
-                  <span v-if="t.bestTime">{{ fmtTime(t.bestTime) }}</span>
-                  <span v-else class="text-gray-500">—</span>
-                </div>
-              </div>
-
-              <div class="rounded-lg bg-gray-900/60 border border-gray-700 p-2">
-                <div class="text-[11px] text-gray-400">{{ tp('chart.directionAz') }}</div>
-                <div class="text-sm text-gray-100">
-                  <span v-if="t.bestAzDeg != null"
-                    >{{ fmtNum(t.bestAzDeg, 0) }}° ({{ azToCardinal(t.bestAzDeg) }})</span
-                  >
-                  <span v-else class="text-gray-500">—</span>
-                </div>
-              </div>
-
-              <div class="rounded-lg bg-gray-900/60 border border-gray-700 p-2">
-                <div class="text-[11px] text-gray-400">{{ tp('sort.visible') }}</div>
-                <div class="text-sm text-gray-100">
-                  <span v-if="t.maxAltDeg != null">
-                    <span v-if="t.maxAltDeg > 0" class="text-emerald-300">{{
-                      tp('common.yes')
-                    }}</span>
-                    <span v-else class="text-red-300">{{ tp('common.no') }}</span>
-                  </span>
-                  <span v-else class="text-gray-500">—</span>
-                </div>
-              </div>
-            </div>
-
-            <div v-if="t._error" class="text-xs text-red-400 break-words">
-              {{ t._error }}
-            </div>
+          <div v-if="hasSite" class="text-sm text-gray-100">
+            {{ fmtCoord(siteLat) }}, {{ fmtCoord(siteLon) }}
+            <span v-if="siteAlt != null" class="text-gray-400">· {{ fmtAlt(siteAlt) }} m</span>
           </div>
 
-          <!-- Middle: Preview image -->
-          <div class="space-y-2">
-            <div class="text-xs text-gray-400">Preview</div>
+          <div v-else class="text-sm text-gray-400">{{ tp('location.notAvailable') }}</div>
 
-            <div
-              class="relative aspect-square max-w-[240px] rounded-xl overflow-hidden border border-gray-700 bg-gray-900"
-            >
-              <img
-                v-if="t.previewUrl"
-                :src="t.previewUrl"
-                class="w-full h-full object-cover"
-                @error="onPreviewError(t)"
+          <div v-if="gpsError" class="mt-2 text-xs text-red-400 break-words">
+            {{ gpsError }}
+          </div>
+        </div>
+
+        <div class="rounded-xl border border-gray-700 bg-black/30 p-3">
+          <div class="text-xs text-gray-400 mb-2">{{ tp('filters.timeWindow') }}</div>
+
+          <div class="grid grid-cols-2 gap-2">
+            <label class="text-xs text-gray-300">
+              Start (local)
+              <input
+                class="mt-1 w-full px-2 py-1 rounded bg-gray-900 border border-gray-700 text-gray-100"
+                type="datetime-local"
+                v-model="windowStartLocal"
               />
+            </label>
+            <label class="text-xs text-gray-300">
+              End (local)
+              <input
+                class="mt-1 w-full px-2 py-1 rounded bg-gray-900 border border-gray-700 text-gray-100"
+                type="datetime-local"
+                v-model="windowEndLocal"
+              />
+            </label>
+          </div>
 
-              <div
-                v-if="!t.previewUrl || t.previewError"
-                class="absolute inset-0 flex items-center justify-center text-xs text-gray-300"
+          <div class="mt-2 flex items-center justify-between gap-2">
+            <label class="text-xs text-gray-300 flex items-center gap-2">
+              Sample (min)
+              <input
+                class="w-20 px-2 py-1 rounded bg-gray-900 border border-gray-700 text-gray-100"
+                type="number"
+                min="2"
+                max="60"
+                step="1"
+                v-model.number="sampleMinutes"
+              />
+            </label>
+
+            <div class="text-xs text-gray-500">{{ sampleCount }} points</div>
+          </div>
+        </div>
+
+        <div class="rounded-xl border border-gray-700 bg-black/30 p-3">
+          <div class="text-xs text-gray-400 mb-2">{{ tp('performance.title') }}</div>
+
+          <div class="flex items-center justify-between gap-2">
+            <label class="text-xs text-gray-300">
+              Limit
+              <input
+                class="mt-1 w-24 px-2 py-1 rounded bg-gray-900 border border-gray-700 text-gray-100"
+                type="number"
+                min="5"
+                max="200"
+                step="1"
+                v-model.number="limit"
+              />
+            </label>
+
+            <label class="text-xs text-gray-300 flex items-center gap-2">
+              <span>{{ tp('cache.useNinaCache') }}</span>
+              <toggleButton
+                :status-value="useNinaCache"
+                @click="useNinaCache = !useNinaCache"
+                title="Gibt useCache an targetpic weiter"
+              />
+            </label>
+          </div>
+
+          <div class="mt-3 flex items-center justify-between gap-2">
+            <label class="text-xs text-gray-300 flex items-center gap-2">
+              <span>{{ tp('performance.lazyPreviews') }}</span>
+              <toggleButton
+                :status-value="lazyPreviews"
+                @click="lazyPreviews = !lazyPreviews"
+                :title="tp('tooltips.lazyVisibleOnly')"
+              />
+            </label>
+
+            <label class="text-xs text-gray-300 flex items-center gap-2">
+              <span>{{ tp('filters.onlyAboveHorizon') }}</span>
+              <toggleButton
+                :status-value="onlyAboveHorizon"
+                @click="onlyAboveHorizon = !onlyAboveHorizon"
+                title="filter targets with maxAlt <= 0° raus"
+              />
+            </label>
+          </div>
+
+          <div class="mt-3 pt-3 border-t border-gray-800">
+            <div class="text-xs text-gray-400 mb-1">{{ tp('filters.moon') }}</div>
+            <div class="text-sm text-gray-100">
+              <span v-if="moonIllumPct != null">{{ moonIllumPct }}% illuminated</span>
+              <span v-else class="text-gray-500">—</span>
+              <span class="text-gray-400"> · </span>
+              <span v-if="currentMoonData?.separationDeg != null"
+                >Separation {{ fmtNum(currentMoonData.separationDeg, 0) }}°</span
               >
-                <div class="text-center px-4">
-                  <div class="font-medium">{{ tp('preview.unavailable') }}</div>
-                  <div class="text-gray-500 mt-1">
-                    <span v-if="t.previewError">{{ t.previewError }}</span>
-                    <span v-else>{{ tp('preview.noImage') }}</span>
+              <span v-else class="text-gray-500">{{ tp('chart.separation') }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <div class="rounded-xl border border-gray-700 bg-black/30 p-4 space-y-3">
+        <div class="flex items-center justify-between gap-3">
+          <div class="text-sm font-medium text-gray-100">{{ tp('filters.title') }}</div>
+          <div class="flex items-center gap-3">
+            <div class="text-xs text-gray-400">
+              {{ filteredTargets.length }} / {{ targets.length }} targets · display:
+              {{ displayedTargets.length }}
+            </div>
+            <button
+              class="px-2 py-1 rounded bg-gray-800 hover:bg-gray-700 border border-gray-700 text-gray-200 text-xs"
+              @click="planerStore.resetFilters()"
+            >
+              Reset
+            </button>
+          </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
+          <label class="text-xs text-gray-300">
+            Search by name
+            <input
+              class="mt-1 w-full px-3 py-2 rounded bg-gray-900 border border-gray-700 text-gray-100"
+              v-model="q"
+              placeholder="M42, Andromeda, NGC..."
+            />
+          </label>
+
+          <label class="text-xs text-gray-300">
+            Objekt-Typ
+            <select
+              class="mt-1 w-full px-3 py-2 rounded bg-gray-900 border border-gray-700 text-gray-100"
+              v-model="typeFilter"
+            >
+              <option value="">{{ tp('common.all') }}</option>
+              <option v-for="t in typeOptions" :key="t" :value="t">{{ t }}</option>
+            </select>
+          </label>
+
+          <label class="text-xs text-gray-300">
+            direction (Azimut-Sector)
+            <select
+              class="mt-1 w-full px-3 py-2 rounded bg-gray-900 border border-gray-700 text-gray-100"
+              v-model="sectorFilter"
+              title="Filters by bestAzDeg (azimuth at the highest altitude in the window)"
+            >
+              <option value="">{{ tp('common.all') }}</option>
+              <option v-for="s in sectorOptions" :key="s.value" :value="s.value">
+                {{ s.label }}
+              </option>
+            </select>
+          </label>
+
+          <label class="text-xs text-gray-300">
+            Sort order
+            <select
+              class="mt-1 w-full px-3 py-2 rounded bg-gray-900 border border-gray-700 text-gray-100"
+              v-model="sortMode"
+            >
+              <option value="maxAltDesc">{{ tp('sort.maxAltDesc') }}</option>
+              <option value="bestTimeAsc">{{ tp('sort.bestTimeAsc') }}</option>
+              <option value="nameAsc">{{ tp('sort.nameAZ') }}</option>
+            </select>
+          </label>
+        </div>
+
+        <div v-if="!hasSite" class="text-xs text-amber-300">
+          Note: Altitude/Direction filters and charts cannot be calculated without a location.
+        </div>
+      </div>
+
+      <!-- {{ tp('sections.tonightPicks') }} (top 10 by Tonight-Score) -->
+      <div v-if="tonightPicks.length" class="rounded-xl border border-gray-700 bg-black/30 p-3">
+        <div class="flex items-center justify-between gap-3">
+          <div>
+            <div class="text-xs text-gray-400">{{ tp('sections.tonightPicks') }}</div>
+            <div class="text-sm text-gray-100">{{ tp('sections.topForWindow') }}</div>
+          </div>
+          <div class="text-xs text-gray-500">Top {{ tonightPicks.length }}</div>
+        </div>
+
+        <div class="mt-3 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2">
+          <button
+            v-for="p in tonightPicks"
+            :key="p._id"
+            class="text-left px-3 py-2 rounded-lg bg-gray-900/50 hover:bg-gray-900 border border-gray-700 text-gray-100"
+            @click="openInFramingAssistant(p)"
+            :title="`open Framing · ${fmtRa(p.raDeg)} / ${fmtDec(p.decDeg)} · MaxAlt ${fmtNum(p.maxAltDeg, 1)}°`"
+          >
+            <div class="flex items-center justify-between gap-2">
+              <div class="truncate font-semibold">{{ p.name }}</div>
+              <div class="text-[11px] text-gray-300">{{ tonightLabel(p.tonightScore) }}</div>
+            </div>
+            <div class="mt-1 text-[11px] text-gray-400">
+              MaxAlt {{ fmtNum(p.maxAltDeg, 1) }}° · {{ fmtNum(p.visibleHours, 1) }}h vidible
+            </div>
+          </button>
+        </div>
+      </div>
+
+      <!-- Cards list -->
+      <div class="space-y-3">
+        <div
+          v-for="(t, i) in displayedTargets"
+          :key="t._id"
+          :class="[
+            'rounded-xl border bg-black/30 p-4',
+            isSelected(t) ? 'border-blue-500' : 'border-gray-700',
+          ]"
+        >
+          <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+            <!-- Left: title + meta -->
+            <div class="space-y-2">
+              <div class="flex items-start justify-between gap-2">
+                <div>
+                  <div class="text-base font-semibold text-gray-100 flex items-center gap-2">
+                    <span
+                      v-if="(t.tonightScore ?? 0) > 0"
+                      class="inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-semibold border border-gray-700 bg-gray-900 text-gray-100"
+                      :title="`Tonight score: ${fmtNum(t.tonightScore, 2)} · MaxAlt ${fmtNum(t.maxAltDeg, 1)}° · ${fmtNum(t.visibleHours, 1)}h`"
+                    >
+                      {{ tonightLabel(t.tonightScore) }}
+                    </span>
+                    <span
+                      v-if="t.source === 'favorite'"
+                      class="inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-semibold border border-gray-700 bg-gray-900 text-gray-100"
+                      title="Favorite"
+                      >❤️</span
+                    >
+                    <span class="truncate">
+                      {{ t.name || 'Unnamed target' }}
+                    </span>
+                  </div>
+                  <div class="text-xs text-gray-400">
+                    <span v-if="t.type">{{ t.type }}</span>
+                    <span v-if="t.type && (t.raDeg != null || t.decDeg != null)"> · </span>
+                    <span v-if="t.raDeg != null && t.decDeg != null"
+                      >RA {{ fmtRa(t.raDeg) }} · DEC {{ fmtDec(t.decDeg) }}</span
+                    >
+                  </div>
+                </div>
+
+                <button
+                  class="px-2 py-1 rounded bg-gray-800 hover:bg-gray-700 border border-gray-700 text-gray-200 text-xs"
+                  @click="reloadPreview(t)"
+                  :disabled="busyPreview[t._id]"
+                  title="reload Preview"
+                >
+                  Reload
+                </button>
+              </div>
+
+              <div class="grid grid-cols-2 gap-2">
+                <div class="rounded-lg bg-gray-900/60 border border-gray-700 p-2">
+                  <div class="text-[11px] text-gray-400">{{ tp('sort.maxAltWindow') }}</div>
+                  <div class="text-sm text-gray-100">
+                    <span v-if="t.maxAltDeg != null">{{ fmtNum(t.maxAltDeg, 1) }}°</span>
+                    <span v-else class="text-gray-500">—</span>
+                  </div>
+                </div>
+
+                <div class="rounded-lg bg-gray-900/60 border border-gray-700 p-2">
+                  <div class="text-[11px] text-gray-400">{{ tp('sort.bestTime') }}</div>
+                  <div class="text-sm text-gray-100">
+                    <span v-if="t.bestTime">{{ fmtTime(t.bestTime) }}</span>
+                    <span v-else class="text-gray-500">—</span>
+                  </div>
+                </div>
+
+                <div class="rounded-lg bg-gray-900/60 border border-gray-700 p-2">
+                  <div class="text-[11px] text-gray-400">{{ tp('chart.directionAz') }}</div>
+                  <div class="text-sm text-gray-100">
+                    <span v-if="t.bestAzDeg != null"
+                      >{{ fmtNum(t.bestAzDeg, 0) }}° ({{ azToCardinal(t.bestAzDeg) }})</span
+                    >
+                    <span v-else class="text-gray-500">—</span>
+                  </div>
+                </div>
+
+                <div class="rounded-lg bg-gray-900/60 border border-gray-700 p-2">
+                  <div class="text-[11px] text-gray-400">{{ tp('sort.visible') }}</div>
+                  <div class="text-sm text-gray-100">
+                    <span v-if="t.maxAltDeg != null">
+                      <span v-if="t.maxAltDeg > 0" class="text-emerald-300">{{
+                        tp('common.yes')
+                      }}</span>
+                      <span v-else class="text-red-300">{{ tp('common.no') }}</span>
+                    </span>
+                    <span v-else class="text-gray-500">—</span>
                   </div>
                 </div>
               </div>
 
-              <button
-                class="absolute right-3 bottom-3 w-9 h-9 rounded-full bg-gray-800/80 hover:bg-gray-700 border border-gray-600 text-gray-100 flex items-center justify-center"
-                title="Preview info"
-                @click="t._showHint = !t._showHint"
-              >
-                ?
-              </button>
+              <div v-if="t._error" class="text-xs text-red-400 break-words">
+                {{ t._error }}
+              </div>
+            </div>
+
+            <!-- Middle: Preview image -->
+            <div class="space-y-2">
+              <div class="text-xs text-gray-400">Preview</div>
 
               <div
-                v-if="t._showHint"
-                class="absolute left-3 right-3 bottom-3 translate-y-12 lg:translate-y-0 lg:bottom-14 rounded-lg bg-black/80 border border-gray-700 p-2 text-[11px] text-gray-200"
+                class="relative aspect-square max-w-[240px] rounded-xl overflow-hidden border border-gray-700 bg-gray-900"
               >
-                Load DSS/TargetPic via TNS WebAPI. Cache Toggle control useCache.
+                <img
+                  v-if="t.previewUrl"
+                  :src="t.previewUrl"
+                  class="w-full h-full object-cover"
+                  @error="onPreviewError(t)"
+                />
+
+                <div
+                  v-if="!t.previewUrl && !t.previewError"
+                  class="absolute inset-0 flex items-center justify-center"
+                >
+                  <div
+                    class="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"
+                  />
+                </div>
+
+                <div
+                  v-else-if="t.previewError"
+                  class="absolute inset-0 flex items-center justify-center text-xs text-gray-300"
+                >
+                  <div class="text-center px-4">
+                    <div class="font-medium">{{ tp('preview.unavailable') }}</div>
+                    <div class="text-gray-500 mt-1">{{ t.previewError }}</div>
+                  </div>
+                </div>
+
+                <button
+                  class="absolute right-3 bottom-3 w-9 h-9 rounded-full bg-gray-800/80 hover:bg-gray-700 border border-gray-600 text-gray-100 flex items-center justify-center"
+                  title="Preview info"
+                  @click="t._showHint = !t._showHint"
+                >
+                  ?
+                </button>
+
+                <div
+                  v-if="t._showHint"
+                  class="absolute left-3 right-3 bottom-3 translate-y-12 lg:translate-y-0 lg:bottom-14 rounded-lg bg-black/80 border border-gray-700 p-2 text-[11px] text-gray-200"
+                >
+                  Load DSS/TargetPic via TNS WebAPI. Cache Toggle control useCache.
+                </div>
               </div>
             </div>
 
-            <div class="text-[11px] text-gray-500">
-              useCache: <span class="text-gray-300">{{ useNinaCache ? 'true' : 'false' }}</span>
-            </div>
-          </div>
-
-          <!-- Right: Altitude chart + actions -->
-          <div class="space-y-2">
-            <div class="flex items-center justify-between">
+            <!-- Right: Altitude chart + actions -->
+            <div class="space-y-2">
               <div class="text-xs text-gray-400">{{ tp('chart.altitudeVsTime') }}</div>
 
-              <div class="flex gap-2">
+              <SkyChart
+                v-if="hasSite && t.raDeg != null && t.decDeg != null"
+                :target="{ RA: t.raDeg, Dec: t.decDeg }"
+                :coordinates="{ latitude: siteLat, longitude: siteLon }"
+              />
+              <div
+                v-else
+                class="rounded-xl border border-gray-700 bg-gray-900/40 p-2 h-40 flex items-center justify-center text-xs text-gray-500"
+              >
+                {{ tp('location.notAvailable') }}
+              </div>
+
+              <div class="grid grid-cols-4 gap-2 pt-1">
+                <!-- Slew -->
                 <button
-                  class="px-2 py-1 rounded bg-gray-800 hover:bg-gray-700 border border-gray-700 text-gray-200 text-xs"
-                  @click="drawOneChart(t)"
-                  :disabled="!t.track || !hasSite"
-                  title="redraw Chart"
+                  class="action-icon-btn bg-cyan-700 hover:bg-cyan-600 border-cyan-500 text-white"
+                  @click="slewOnly(t)"
+                  :disabled="!canSlewWithMountSync(t) || isSelected(t)"
+                  title="Slew only"
+                  aria-label="Slew only"
                 >
-                  Redraw
+                  <ArrowUpRightIcon class="w-5 h-5" />
+                  <span class="text-[10px] md:text-xs font-semibold leading-tight">{{
+                    tp('buttons.slew')
+                  }}</span>
+                </button>
+
+                <!-- Slew + Center -->
+                <button
+                  class="action-icon-btn bg-emerald-700 hover:bg-emerald-600 border-emerald-500 text-white"
+                  @click="slewAndCenter(t)"
+                  :disabled="!canSlewWithMountSync(t) || isSelected(t)"
+                  title="Slew + Center (Platesolve)"
+                  aria-label="Slew + Center"
+                >
+                  <ViewfinderCircleIcon class="w-5 h-5" />
+                  <span class="text-[10px] md:text-xs font-semibold leading-tight">{{
+                    tp('buttons.center')
+                  }}</span>
+                </button>
+
+                <!-- Framing -->
+                <button
+                  class="action-icon-btn bg-gray-800 hover:bg-gray-700 border-gray-700 text-gray-100"
+                  @click="openInFramingAssistant(t)"
+                  :disabled="!canOpenFraming(t)"
+                  title="Framing Assistant öffnen"
+                  aria-label="open Framing Assistant"
+                >
+                  <RectangleGroupIcon class="w-5 h-5" />
+                  <span class="text-[10px] md:text-xs font-semibold leading-tight">{{
+                    tp('sections.framing')
+                  }}</span>
+                </button>
+
+                <!-- Sequencer -->
+                <button
+                  class="action-icon-btn bg-indigo-700 hover:bg-indigo-600 border-indigo-500 text-white"
+                  @click="sendToSequencer(t)"
+                  :disabled="
+                    !(
+                      Array.isArray(sequenceStore.sequenceInfo) &&
+                      sequenceStore.sequenceInfo.length > 0
+                    )
+                  "
+                  title="to Sequencer"
+                  aria-label="send to Sequencer"
+                >
+                  <QueueListIcon class="w-5 h-5" />
+                  <span class="text-[10px] md:text-xs font-semibold leading-tight">{{
+                    tp('buttons.seqShort')
+                  }}</span>
                 </button>
               </div>
-            </div>
 
-            <div class="rounded-xl border border-gray-700 bg-gray-900/40 p-2">
-              <canvas :ref="(el) => setCanvasRef(t._id, el)" class="w-full" style="height: 140px" />
-            </div>
-
-            <div class="grid grid-cols-4 gap-2 pt-1">
-              <!-- Slew -->
-              <button
-                class="action-icon-btn bg-cyan-700 hover:bg-cyan-600 border-cyan-500 text-white"
-                @click="slewOnly(t)"
-                :disabled="!canSlewWithMountSync(t) || isSelected(t)"
-                title="Slew only"
-                aria-label="Slew only"
-              >
-                <ArrowUpRightIcon class="w-5 h-5" />
-                <span class="hidden md:inline text-xs font-semibold">{{ tp('buttons.slew') }}</span>
-              </button>
-
-              <!-- Slew + Center -->
-              <button
-                class="action-icon-btn bg-emerald-700 hover:bg-emerald-600 border-emerald-500 text-white"
-                @click="slewAndCenter(t)"
-                :disabled="!canSlewWithMountSync(t) || isSelected(t)"
-                title="Slew + Center (Platesolve)"
-                aria-label="Slew + Center"
-              >
-                <ViewfinderCircleIcon class="w-5 h-5" />
-                <span class="hidden md:inline text-xs font-semibold">{{
-                  tp('buttons.center')
-                }}</span>
-              </button>
-
-              <!-- Framing -->
-              <button
-                class="action-icon-btn bg-gray-800 hover:bg-gray-700 border-gray-700 text-gray-100"
-                @click="openInFramingAssistant(t)"
-                :disabled="!canOpenFraming(t)"
-                title="Framing Assistant öffnen"
-                aria-label="open Framing Assistant"
-              >
-                <RectangleGroupIcon class="w-5 h-5" />
-                <span class="hidden md:inline text-xs font-semibold">{{
-                  tp('sections.framing')
-                }}</span>
-              </button>
-
-              <!-- Sequencer -->
-              <button
-                class="action-icon-btn bg-indigo-700 hover:bg-indigo-600 border-indigo-500 text-white"
-                @click="sendToSequencer(t)"
-                :disabled="
-                  !(
-                    Array.isArray(sequenceStore.sequenceInfo) &&
-                    sequenceStore.sequenceInfo.length > 0
-                  )
-                "
-                title="to Sequencer"
-                aria-label="send to Sequencer"
-              >
-                <QueueListIcon class="w-5 h-5" />
-                <span class="hidden md:inline text-xs font-semibold">{{
-                  tp('buttons.seqShort')
-                }}</span>
-              </button>
-            </div>
-
-            <div v-if="mountMsg[t._id]" class="text-xs text-gray-300 break-words">
-              {{ mountMsg[t._id] }}
-            </div>
-            <div v-if="mountErr[t._id]" class="text-xs text-red-400 break-words">
-              {{ mountErr[t._id] }}
+              <div v-if="mountMsg[t._id]" class="text-xs text-gray-300 break-words">
+                {{ mountMsg[t._id] }}
+              </div>
+              <div v-if="mountErr[t._id]" class="text-xs text-red-400 break-words">
+                {{ mountErr[t._id] }}
+              </div>
             </div>
           </div>
         </div>
+
+        <div v-if="!targets.length && !busy" class="text-sm text-gray-400">no favorites found.</div>
+
+        <div v-if="busy" class="text-sm text-gray-400">{{ tp('common.loading') }}</div>
       </div>
-
-      <div v-if="!targets.length && !busy" class="text-sm text-gray-400">no favorites found.</div>
-
-      <div v-if="busy" class="text-sm text-gray-400">{{ tp('common.loading') }}</div>
     </div>
-  </div>
-  <!-- Framing Modal (hosted in this view) -->
-  <div
-    v-if="framingStore.showFramingModal"
-    class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
-    @click.self="framingStore.showFramingModal = false"
-  >
+    <!-- Framing Modal (hosted in this view) -->
     <div
-      class="bg-gray-900 rounded-lg p-4 overflow-y-auto max-h-[75vh] border border-gray-700 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-800/50"
-      :style="{ minWidth: `${framingStore.containerSize || 900}px` }"
-      @click.stop
+      v-if="framingStore.showFramingModal"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+      @click.self="framingStore.showFramingModal = false"
     >
-      <FramingAssistangModal />
+      <div
+        class="bg-gray-900 rounded-lg p-4 overflow-y-auto max-h-[75vh] border border-gray-700 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-800/50"
+        :style="{ minWidth: `${framingStore.containerSize || 900}px` }"
+        @click.stop
+      >
+        <FramingAssistangModal />
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { computed, nextTick, onBeforeUnmount, onMounted, reactive, ref, watch } from 'vue';
+import { computed, nextTick, onMounted, reactive, ref, watch } from 'vue';
+import { storeToRefs } from 'pinia';
 import { useI18n } from 'vue-i18n';
 import apiService from '../../../services/apiService';
 import seedTargets from '../components/astro_targets_seed.json';
 import FramingAssistangModal from '../../../components/framing/FramingAssistangModal.vue';
+import SkyChart from '@/components/framing/SkyChart.vue';
+import toggleButton from '@/components/helpers/toggleButton.vue';
 import { useFramingStore } from '@/store/framingStore';
 import { useSequenceStore } from '@/store/sequenceStore';
 import { apiStore } from '@/store/store';
+import { useObservationPlanerStore } from '../store/observationPlanerStore';
 import {
   ArrowUpRightIcon,
   ViewfinderCircleIcon,
@@ -621,22 +615,25 @@ const framingStore = useFramingStore();
 const locationStore = useLocationStore?.() ?? null;
 const sequenceStore = useSequenceStore();
 const store = apiStore();
+const planerStore = useObservationPlanerStore();
 const busy = ref(false);
 const busyLocation = ref(false);
 
 const targets = ref([]); // merged list (favorites + seed)
 const apiFavorites = ref([]); // raw favorites from API
-const q = ref('');
-const typeFilter = ref('');
-const sectorFilter = ref('');
-const sortMode = ref('maxAltDesc');
 
-const limit = ref(20);
-const sampleMinutes = ref(5);
-const onlyAboveHorizon = ref(true);
-
-const useNinaCache = ref(true);
-const lazyPreviews = ref(true);
+// Persisted settings (survive navigation)
+const {
+  q,
+  typeFilter,
+  sectorFilter,
+  sortMode,
+  limit,
+  sampleMinutes,
+  onlyAboveHorizon,
+  useNinaCache,
+  lazyPreviews,
+} = storeToRefs(planerStore);
 
 // Window defaults: today evening -> tomorrow morning
 const windowStart = ref(defaultStart());
@@ -688,9 +685,6 @@ function selectTarget(t) {
   };
 }
 const isSelected = (t) => isSameTarget(t, lastSelectedTarget.value);
-
-const canvasRefs = reactive({}); // id -> canvas
-const drawTimers = reactive({}); // id -> timeout
 
 // --------------------------
 // Location (computed from your utils/store)
@@ -825,41 +819,27 @@ onMounted(async () => {
   await recomputeAll();
 });
 
-onBeforeUnmount(() => {
-  // revoke preview urls
-  for (const t of targets.value) {
-    if (t.previewUrl && t.previewUrl.startsWith('blob:')) {
-      try {
-        URL.revokeObjectURL(t.previewUrl);
-      } catch {}
-    }
-  }
-  // clear pending draws
-  Object.values(drawTimers).forEach((h) => h && clearTimeout(h));
-});
+// Preview blob URLs are owned by planerStore.previewCache and survive navigation;
+// they are released only via reloadPreview / onPreviewError / store.clearAllPreviews.
 
 // Recompute when location/time changes
 watch([siteLat, siteLon, windowStart, windowEnd, sampleMinutes], async () => {
   await recomputeAll();
 });
 
-// Redraw & (optionally) lazy-load previews whenever list changes
+// Lazy-load previews whenever the relevant list changes (filters / limit / lazy toggle)
 watch(
-  () =>
-    (displayedTargets.value || [])
+  () => {
+    const source = lazyPreviews.value ? displayedTargets.value : filteredTargets.value;
+    return (source || [])
       .filter(Boolean)
       .map((x) => x._id)
-      .join('|'),
+      .join('|');
+  },
   async () => {
     await nextTick();
-    // Lazy previews: only visible cards; Non-lazy: ensure previews for all targets
-    if (lazyPreviews.value) {
-      for (const t of displayedTargets.value) ensurePreview(t);
-    } else {
-      for (const t of targets.value) ensurePreview(t);
-    }
-    // draw visible charts
-    drawAllVisibleCharts();
+    const source = lazyPreviews.value ? displayedTargets.value : filteredTargets.value;
+    for (const t of source) ensurePreview(t);
   }
 );
 
@@ -926,8 +906,6 @@ async function recomputeAll() {
 
   // Recompute via immutable updates to keep Vue's VDOM stable
   if (!targets.value?.length) {
-    await nextTick();
-    drawAllVisibleCharts();
     return;
   }
 
@@ -988,11 +966,6 @@ async function recomputeAll() {
       }
       return nt;
     });
-
-  await nextTick();
-  drawAllVisibleCharts();
-  await nextTick();
-  drawAllVisibleCharts();
 }
 
 // Check if mount is connected before allowing slew/center actions
@@ -1113,26 +1086,45 @@ async function sendToSequencer(t) {
 }
 
 // --------------------------
-// Preview loading (targetpic)
+// Preview loading (targetpic) — sequential queue so heavy NINA loads don't run in parallel
 // --------------------------
-async function ensurePreview(t) {
+const previewQueue = [];
+let previewQueueRunning = false;
+
+function ensurePreview(t) {
   if (!t || t.previewUrl || t.previewError) return;
-  // if no coordinates -> no preview
   if (t.raDeg == null || t.decDeg == null) {
     t.previewError = 'no Coordinates';
     return;
   }
-  await loadPreview(t);
+  // Seed from store cache so SPA navigation back skips the roundtrip
+  const cached = planerStore.previewCache[t._id];
+  if (cached) {
+    t.previewUrl = cached;
+    return;
+  }
+  if (previewQueue.includes(t)) return;
+  previewQueue.push(t);
+  runPreviewQueue();
+}
+
+async function runPreviewQueue() {
+  if (previewQueueRunning) return;
+  previewQueueRunning = true;
+  try {
+    while (previewQueue.length) {
+      const t = previewQueue.shift();
+      if (!t || t.previewUrl || t.previewError) continue;
+      await loadPreview(t);
+    }
+  } finally {
+    previewQueueRunning = false;
+  }
 }
 
 async function reloadPreview(t) {
   if (!t) return;
-  // revoke existing blob URLs
-  if (t.previewUrl && t.previewUrl.startsWith('blob:')) {
-    try {
-      URL.revokeObjectURL(t.previewUrl);
-    } catch {}
-  }
+  planerStore.clearPreview(t._id);
   t.previewUrl = '';
   t.previewError = '';
   await loadPreview(t);
@@ -1159,6 +1151,7 @@ async function loadPreview(t) {
       useNinaCache.value
     );
     t.previewUrl = url;
+    planerStore.setPreview(t._id, url);
   } catch (e) {
     t.previewUrl = '';
     t.previewError = extractErr(e, 'Preview load failed');
@@ -1169,48 +1162,10 @@ async function loadPreview(t) {
 
 function onPreviewError(t) {
   t.previewError = 'could not load Image';
-  // optional: if blob url broken, release
-  if (t.previewUrl && t.previewUrl.startsWith('blob:')) {
-    try {
-      URL.revokeObjectURL(t.previewUrl);
-    } catch {}
-  }
+  planerStore.clearPreview(t._id);
   t.previewUrl = '';
 }
 
-// --------------------------
-// Canvas chart
-// --------------------------
-function setCanvasRef(id, el) {
-  if (!id) return;
-  canvasRefs[id] = el || null;
-}
-
-function drawAllVisibleCharts() {
-  for (const t of displayedTargets.value) drawOneChart(t);
-}
-
-function drawOneChart(t) {
-  if (!t?.track || !hasSite.value) return;
-
-  const samples = Array.isArray(t.track.samples)
-    ? t.track.samples
-    : Array.isArray(t.track.points)
-      ? t.track.points
-      : [];
-
-  if (!samples.length) return;
-
-  const canvas = canvasRefs[t._id];
-  if (!canvas) {
-    // canvas might not be mounted yet; schedule once
-    if (drawTimers[t._id]) clearTimeout(drawTimers[t._id]);
-    drawTimers[t._id] = setTimeout(() => drawOneChart(t), 60);
-    return;
-  }
-
-  drawAltitudeChart(canvas, samples, windowStart.value, windowEnd.value, t.track.best);
-}
 // --------------------------
 // Data normalization
 // --------------------------
@@ -1570,105 +1525,6 @@ function toJulianDate(date) {
 }
 
 // --------------------------
-// Chart drawing
-// --------------------------
-function drawAltitudeChart(canvas, points, start, end, best) {
-  const ctx = canvas.getContext('2d');
-  if (!ctx) return;
-
-  // HiDPI
-  const cssW = canvas.clientWidth || 300;
-  const cssH = 140;
-  const dpr = window.devicePixelRatio || 1;
-  canvas.width = Math.floor(cssW * dpr);
-  canvas.height = Math.floor(cssH * dpr);
-  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-  // clear
-  ctx.clearRect(0, 0, cssW, cssH);
-
-  // background grid
-  ctx.globalAlpha = 1;
-  ctx.lineWidth = 1;
-
-  // axes padding
-  const padL = 34;
-  const padR = 10;
-  const padT = 10;
-  const padB = 22;
-  const W = cssW - padL - padR;
-  const H = cssH - padT - padB;
-
-  // find alt range (clamp to 0..90 for readability)
-  const minAlt = 0;
-  const maxAlt = 90;
-
-  // grid lines (alt)
-  ctx.strokeStyle = 'rgba(255,255,255,0.08)';
-  ctx.fillStyle = 'rgba(255,255,255,0.55)';
-  ctx.font = '10px system-ui';
-  for (const alt of [0, 30, 60, 90]) {
-    const y = padT + H * (1 - (alt - minAlt) / (maxAlt - minAlt));
-    ctx.beginPath();
-    ctx.moveTo(padL, y);
-    ctx.lineTo(padL + W, y);
-    ctx.stroke();
-    ctx.fillText(String(alt), 6, y + 3);
-  }
-
-  // horizon line
-  const y0 = padT + H * (1 - (0 - minAlt) / (maxAlt - minAlt));
-  ctx.strokeStyle = 'rgba(255,255,255,0.18)';
-  ctx.beginPath();
-  ctx.moveTo(padL, y0);
-  ctx.lineTo(padL + W, y0);
-  ctx.stroke();
-
-  // line
-  const t0 = start.getTime();
-  const t1 = end.getTime();
-  const xOf = (dt) => padL + W * ((dt.getTime() - t0) / (t1 - t0));
-  const yOf = (alt) => padT + H * (1 - (alt - minAlt) / (maxAlt - minAlt));
-
-  ctx.strokeStyle = 'rgba(56,189,248,0.95)'; // cyan-ish
-  ctx.lineWidth = 2;
-  ctx.beginPath();
-  for (let i = 0; i < points.length; i++) {
-    const p = points[i];
-    const x = xOf(p.time);
-    const y = yOf(p.altDeg);
-    if (i === 0) ctx.moveTo(x, y);
-    else ctx.lineTo(x, y);
-  }
-  ctx.stroke();
-
-  // best marker
-  if (best?.time) {
-    const xb = xOf(best.time);
-    ctx.strokeStyle = 'rgba(255,255,255,0.35)';
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.moveTo(xb, padT);
-    ctx.lineTo(xb, padT + H);
-    ctx.stroke();
-
-    ctx.fillStyle = 'rgba(255,255,255,0.85)';
-    ctx.font = '10px system-ui';
-    ctx.fillText(fmtTime(best.time), Math.max(padL, xb - 18), cssH - 6);
-  }
-
-  // x labels (few)
-  ctx.fillStyle = 'rgba(255,255,255,0.45)';
-  ctx.font = '10px system-ui';
-  const ticks = 4;
-  for (let i = 0; i <= ticks; i++) {
-    const dt = new Date(t0 + ((t1 - t0) * i) / ticks);
-    const x = xOf(dt);
-    ctx.fillText(fmtTime(dt), x - 14, cssH - 6);
-  }
-}
-
-// --------------------------
 // Seed + Favorites merge
 // --------------------------
 const seedData =
@@ -1892,6 +1748,6 @@ canvas {
 </style>
 <style scoped>
 .action-icon-btn {
-  @apply inline-flex items-center justify-center gap-2 w-full h-10 rounded-lg border text-sm transition disabled:opacity-50 disabled:cursor-not-allowed;
+  @apply inline-flex flex-col md:flex-row items-center justify-center gap-0.5 md:gap-2 w-full h-14 md:h-10 rounded-lg border text-sm transition disabled:opacity-50 disabled:cursor-not-allowed;
 }
 </style>

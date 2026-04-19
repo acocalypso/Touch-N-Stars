@@ -388,27 +388,18 @@
 
             <!-- Right: Altitude chart + actions -->
             <div class="space-y-2">
-              <div class="flex items-center justify-between">
-                <div class="text-xs text-gray-400">{{ tp('chart.altitudeVsTime') }}</div>
+              <div class="text-xs text-gray-400">{{ tp('chart.altitudeVsTime') }}</div>
 
-                <div class="flex gap-2">
-                  <button
-                    class="px-2 py-1 rounded bg-gray-800 hover:bg-gray-700 border border-gray-700 text-gray-200 text-xs"
-                    @click="drawOneChart(t)"
-                    :disabled="!t.track || !hasSite"
-                    title="redraw Chart"
-                  >
-                    Redraw
-                  </button>
-                </div>
-              </div>
-
-              <div class="rounded-xl border border-gray-700 bg-gray-900/40 p-2">
-                <canvas
-                  :ref="(el) => setCanvasRef(t._id, el)"
-                  class="w-full"
-                  style="height: 140px"
-                />
+              <SkyChart
+                v-if="hasSite && t.raDeg != null && t.decDeg != null"
+                :target="{ RA: t.raDeg, Dec: t.decDeg }"
+                :coordinates="{ latitude: siteLat, longitude: siteLon }"
+              />
+              <div
+                v-else
+                class="rounded-xl border border-gray-700 bg-gray-900/40 p-2 h-40 flex items-center justify-center text-xs text-gray-500"
+              >
+                {{ tp('location.notAvailable') }}
               </div>
 
               <div class="grid grid-cols-4 gap-2 pt-1">
@@ -513,6 +504,7 @@ import { useI18n } from 'vue-i18n';
 import apiService from '../../../services/apiService';
 import seedTargets from '../components/astro_targets_seed.json';
 import FramingAssistangModal from '../../../components/framing/FramingAssistangModal.vue';
+import SkyChart from '@/components/framing/SkyChart.vue';
 import toggleButton from '@/components/helpers/toggleButton.vue';
 import { useFramingStore } from '@/store/framingStore';
 import { useSequenceStore } from '@/store/sequenceStore';
@@ -684,9 +676,6 @@ function selectTarget(t) {
 }
 const isSelected = (t) => isSameTarget(t, lastSelectedTarget.value);
 
-const canvasRefs = reactive({}); // id -> canvas
-const drawTimers = reactive({}); // id -> timeout
-
 // --------------------------
 // Location (computed from your utils/store)
 // --------------------------
@@ -829,8 +818,6 @@ onBeforeUnmount(() => {
       } catch {}
     }
   }
-  // clear pending draws
-  Object.values(drawTimers).forEach((h) => h && clearTimeout(h));
 });
 
 // Recompute when location/time changes
@@ -853,8 +840,6 @@ watch(
     } else {
       for (const t of targets.value) ensurePreview(t);
     }
-    // draw visible charts
-    drawAllVisibleCharts();
   }
 );
 
@@ -921,8 +906,6 @@ async function recomputeAll() {
 
   // Recompute via immutable updates to keep Vue's VDOM stable
   if (!targets.value?.length) {
-    await nextTick();
-    drawAllVisibleCharts();
     return;
   }
 
@@ -983,11 +966,6 @@ async function recomputeAll() {
       }
       return nt;
     });
-
-  await nextTick();
-  drawAllVisibleCharts();
-  await nextTick();
-  drawAllVisibleCharts();
 }
 
 // Check if mount is connected before allowing slew/center actions
@@ -1173,39 +1151,6 @@ function onPreviewError(t) {
   t.previewUrl = '';
 }
 
-// --------------------------
-// Canvas chart
-// --------------------------
-function setCanvasRef(id, el) {
-  if (!id) return;
-  canvasRefs[id] = el || null;
-}
-
-function drawAllVisibleCharts() {
-  for (const t of displayedTargets.value) drawOneChart(t);
-}
-
-function drawOneChart(t) {
-  if (!t?.track || !hasSite.value) return;
-
-  const samples = Array.isArray(t.track.samples)
-    ? t.track.samples
-    : Array.isArray(t.track.points)
-      ? t.track.points
-      : [];
-
-  if (!samples.length) return;
-
-  const canvas = canvasRefs[t._id];
-  if (!canvas) {
-    // canvas might not be mounted yet; schedule once
-    if (drawTimers[t._id]) clearTimeout(drawTimers[t._id]);
-    drawTimers[t._id] = setTimeout(() => drawOneChart(t), 60);
-    return;
-  }
-
-  drawAltitudeChart(canvas, samples, windowStart.value, windowEnd.value, t.track.best);
-}
 // --------------------------
 // Data normalization
 // --------------------------
@@ -1562,105 +1507,6 @@ function localSiderealTimeDeg(date, lonDeg) {
 }
 function toJulianDate(date) {
   return date.getTime() / 86400000 + 2440587.5;
-}
-
-// --------------------------
-// Chart drawing
-// --------------------------
-function drawAltitudeChart(canvas, points, start, end, best) {
-  const ctx = canvas.getContext('2d');
-  if (!ctx) return;
-
-  // HiDPI
-  const cssW = canvas.clientWidth || 300;
-  const cssH = 140;
-  const dpr = window.devicePixelRatio || 1;
-  canvas.width = Math.floor(cssW * dpr);
-  canvas.height = Math.floor(cssH * dpr);
-  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-  // clear
-  ctx.clearRect(0, 0, cssW, cssH);
-
-  // background grid
-  ctx.globalAlpha = 1;
-  ctx.lineWidth = 1;
-
-  // axes padding
-  const padL = 34;
-  const padR = 10;
-  const padT = 10;
-  const padB = 22;
-  const W = cssW - padL - padR;
-  const H = cssH - padT - padB;
-
-  // find alt range (clamp to 0..90 for readability)
-  const minAlt = 0;
-  const maxAlt = 90;
-
-  // grid lines (alt)
-  ctx.strokeStyle = 'rgba(255,255,255,0.08)';
-  ctx.fillStyle = 'rgba(255,255,255,0.55)';
-  ctx.font = '10px system-ui';
-  for (const alt of [0, 30, 60, 90]) {
-    const y = padT + H * (1 - (alt - minAlt) / (maxAlt - minAlt));
-    ctx.beginPath();
-    ctx.moveTo(padL, y);
-    ctx.lineTo(padL + W, y);
-    ctx.stroke();
-    ctx.fillText(String(alt), 6, y + 3);
-  }
-
-  // horizon line
-  const y0 = padT + H * (1 - (0 - minAlt) / (maxAlt - minAlt));
-  ctx.strokeStyle = 'rgba(255,255,255,0.18)';
-  ctx.beginPath();
-  ctx.moveTo(padL, y0);
-  ctx.lineTo(padL + W, y0);
-  ctx.stroke();
-
-  // line
-  const t0 = start.getTime();
-  const t1 = end.getTime();
-  const xOf = (dt) => padL + W * ((dt.getTime() - t0) / (t1 - t0));
-  const yOf = (alt) => padT + H * (1 - (alt - minAlt) / (maxAlt - minAlt));
-
-  ctx.strokeStyle = 'rgba(56,189,248,0.95)'; // cyan-ish
-  ctx.lineWidth = 2;
-  ctx.beginPath();
-  for (let i = 0; i < points.length; i++) {
-    const p = points[i];
-    const x = xOf(p.time);
-    const y = yOf(p.altDeg);
-    if (i === 0) ctx.moveTo(x, y);
-    else ctx.lineTo(x, y);
-  }
-  ctx.stroke();
-
-  // best marker
-  if (best?.time) {
-    const xb = xOf(best.time);
-    ctx.strokeStyle = 'rgba(255,255,255,0.35)';
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    ctx.moveTo(xb, padT);
-    ctx.lineTo(xb, padT + H);
-    ctx.stroke();
-
-    ctx.fillStyle = 'rgba(255,255,255,0.85)';
-    ctx.font = '10px system-ui';
-    ctx.fillText(fmtTime(best.time), Math.max(padL, xb - 18), cssH - 6);
-  }
-
-  // x labels (few)
-  ctx.fillStyle = 'rgba(255,255,255,0.45)';
-  ctx.font = '10px system-ui';
-  const ticks = 4;
-  for (let i = 0; i <= ticks; i++) {
-    const dt = new Date(t0 + ((t1 - t0) * i) / ticks);
-    const x = xOf(dt);
-    ctx.fillText(fmtTime(dt), x - 14, cssH - 6);
-  }
 }
 
 // --------------------------

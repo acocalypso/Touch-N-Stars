@@ -111,7 +111,7 @@
     </template>
 
     <!-- Time Synchronisation -->
-    <TimeSyncSettings />
+    <TimeSyncSettings v-if="store.isPINS" />
 
     <!-- Connection Settings -->
     <div

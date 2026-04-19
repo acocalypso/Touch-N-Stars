@@ -1475,7 +1475,9 @@
         "enableSave": "Schakel opslaan in"
       },
       "zoomableImage": {
-        "toggleCrosshair": "Richtkruis schakelen"
+        "toggleCrosshair": "Richtkruis schakelen",
+        "toggleLoupe": "Loep schakelen",
+        "loupeZoom": "Loep-zoom"
       }
     },
     "platesolve": {

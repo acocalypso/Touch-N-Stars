@@ -1475,7 +1475,9 @@
         "enableSave": "Povolit ukládání"
       },
       "zoomableImage": {
-        "toggleCrosshair": "Přepnout zaměřovací kříž"
+        "toggleCrosshair": "Přepnout zaměřovací kříž",
+        "toggleLoupe": "Přepnout lupu",
+        "loupeZoom": "Přiblížení lupy"
       }
     },
     "platesolve": {

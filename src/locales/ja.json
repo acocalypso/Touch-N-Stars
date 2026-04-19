@@ -1483,7 +1483,9 @@
         "enableSave": "保存を有効にする"
       },
       "zoomableImage": {
-        "toggleCrosshair": "クロスヘアの切り替え"
+        "toggleCrosshair": "クロスヘアの切り替え",
+        "toggleLoupe": "ルーペの切り替え",
+        "loupeZoom": "ルーペの倍率"
       }
     },
     "platesolve": {

@@ -1475,7 +1475,9 @@
         "enableSave": "Włącz zapisywanie"
       },
       "zoomableImage": {
-        "toggleCrosshair": "Przełącz krzyż celowniczy"
+        "toggleCrosshair": "Przełącz krzyż celowniczy",
+        "toggleLoupe": "Przełącz lupę",
+        "loupeZoom": "Powiększenie lupy"
       }
     },
     "platesolve": {

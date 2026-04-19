@@ -1475,7 +1475,9 @@
         "enableSave": "Abilita il salvataggio"
       },
       "zoomableImage": {
-        "toggleCrosshair": "Attiva il reticolo"
+        "toggleCrosshair": "Attiva il reticolo",
+        "toggleLoupe": "Attiva la lente",
+        "loupeZoom": "Zoom della lente"
       }
     },
     "platesolve": {

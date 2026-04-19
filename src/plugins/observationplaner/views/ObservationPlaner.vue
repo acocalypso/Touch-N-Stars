@@ -508,7 +508,7 @@
 </template>
 
 <script setup>
-import { computed, nextTick, onBeforeUnmount, onMounted, reactive, ref, watch } from 'vue';
+import { computed, nextTick, onMounted, reactive, ref, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useI18n } from 'vue-i18n';
 import apiService from '../../../services/apiService';
@@ -819,37 +819,27 @@ onMounted(async () => {
   await recomputeAll();
 });
 
-onBeforeUnmount(() => {
-  // revoke preview urls
-  for (const t of targets.value) {
-    if (t.previewUrl && t.previewUrl.startsWith('blob:')) {
-      try {
-        URL.revokeObjectURL(t.previewUrl);
-      } catch {}
-    }
-  }
-});
+// Preview blob URLs are owned by planerStore.previewCache and survive navigation;
+// they are released only via reloadPreview / onPreviewError / store.clearAllPreviews.
 
 // Recompute when location/time changes
 watch([siteLat, siteLon, windowStart, windowEnd, sampleMinutes], async () => {
   await recomputeAll();
 });
 
-// Redraw & (optionally) lazy-load previews whenever list changes
+// Lazy-load previews whenever the relevant list changes (filters / limit / lazy toggle)
 watch(
-  () =>
-    (displayedTargets.value || [])
+  () => {
+    const source = lazyPreviews.value ? displayedTargets.value : filteredTargets.value;
+    return (source || [])
       .filter(Boolean)
       .map((x) => x._id)
-      .join('|'),
+      .join('|');
+  },
   async () => {
     await nextTick();
-    // Lazy previews: only visible cards; Non-lazy: ensure previews for all targets
-    if (lazyPreviews.value) {
-      for (const t of displayedTargets.value) ensurePreview(t);
-    } else {
-      for (const t of targets.value) ensurePreview(t);
-    }
+    const source = lazyPreviews.value ? displayedTargets.value : filteredTargets.value;
+    for (const t of source) ensurePreview(t);
   }
 );
 
@@ -1107,6 +1097,12 @@ function ensurePreview(t) {
     t.previewError = 'no Coordinates';
     return;
   }
+  // Seed from store cache so SPA navigation back skips the roundtrip
+  const cached = planerStore.previewCache[t._id];
+  if (cached) {
+    t.previewUrl = cached;
+    return;
+  }
   if (previewQueue.includes(t)) return;
   previewQueue.push(t);
   runPreviewQueue();
@@ -1128,12 +1124,7 @@ async function runPreviewQueue() {
 
 async function reloadPreview(t) {
   if (!t) return;
-  // revoke existing blob URLs
-  if (t.previewUrl && t.previewUrl.startsWith('blob:')) {
-    try {
-      URL.revokeObjectURL(t.previewUrl);
-    } catch {}
-  }
+  planerStore.clearPreview(t._id);
   t.previewUrl = '';
   t.previewError = '';
   await loadPreview(t);
@@ -1160,6 +1151,7 @@ async function loadPreview(t) {
       useNinaCache.value
     );
     t.previewUrl = url;
+    planerStore.setPreview(t._id, url);
   } catch (e) {
     t.previewUrl = '';
     t.previewError = extractErr(e, 'Preview load failed');
@@ -1170,12 +1162,7 @@ async function loadPreview(t) {
 
 function onPreviewError(t) {
   t.previewError = 'could not load Image';
-  // optional: if blob url broken, release
-  if (t.previewUrl && t.previewUrl.startsWith('blob:')) {
-    try {
-      URL.revokeObjectURL(t.previewUrl);
-    } catch {}
-  }
+  planerStore.clearPreview(t._id);
   t.previewUrl = '';
 }
 

@@ -6,7 +6,7 @@
 
 <script setup>
 import { apiStore } from '@/store/store';
-import PlateSolverSettingsPanel from '@/components/settings/PlateSolverSettingsPanel.vue';
+import PlateSolverSettingsPanel from '@/components/settings/plateSolver/PlateSolverSettingsPanel.vue';
 
 const store = apiStore();
 </script>

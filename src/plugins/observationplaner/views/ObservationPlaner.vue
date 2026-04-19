@@ -150,11 +150,19 @@
 
       <!-- Filters -->
       <div class="rounded-xl border border-gray-700 bg-black/30 p-4 space-y-3">
-        <div class="flex items-center justify-between">
+        <div class="flex items-center justify-between gap-3">
           <div class="text-sm font-medium text-gray-100">{{ tp('filters.title') }}</div>
-          <div class="text-xs text-gray-400">
-            {{ filteredTargets.length }} / {{ targets.length }} targets · display:
-            {{ displayedTargets.length }}
+          <div class="flex items-center gap-3">
+            <div class="text-xs text-gray-400">
+              {{ filteredTargets.length }} / {{ targets.length }} targets · display:
+              {{ displayedTargets.length }}
+            </div>
+            <button
+              class="px-2 py-1 rounded bg-gray-800 hover:bg-gray-700 border border-gray-700 text-gray-200 text-xs"
+              @click="planerStore.resetFilters()"
+            >
+              Reset
+            </button>
           </div>
         </div>
 
@@ -1753,6 +1761,6 @@ canvas {
 </style>
 <style scoped>
 .action-icon-btn {
-  @apply inline-flex items-center justify-center gap-2 w-full h-10 rounded-lg border text-sm transition disabled:opacity-50 disabled:cursor-not-allowed;
+  @apply inline-flex flex-col md:flex-row items-center justify-center gap-0.5 md:gap-2 w-full h-14 md:h-10 rounded-lg border text-sm transition disabled:opacity-50 disabled:cursor-not-allowed;
 }
 </style>

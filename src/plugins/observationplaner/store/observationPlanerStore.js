@@ -12,6 +12,15 @@ export const useObservationPlanerStore = defineStore('observationPlanerStore', {
     useNinaCache: true,
     lazyPreviews: true,
   }),
+  actions: {
+    resetFilters() {
+      this.q = '';
+      this.typeFilter = '';
+      this.sectorFilter = '';
+      this.sortMode = 'maxAltDesc';
+      this.onlyAboveHorizon = true;
+    },
+  },
   persist: {
     enabled: true,
     strategies: [

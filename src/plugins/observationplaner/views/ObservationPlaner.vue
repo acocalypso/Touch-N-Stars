@@ -380,10 +380,6 @@
                   Load DSS/TargetPic via TNS WebAPI. Cache Toggle control useCache.
                 </div>
               </div>
-
-              <div class="text-[11px] text-gray-500">
-                useCache: <span class="text-gray-300">{{ useNinaCache ? 'true' : 'false' }}</span>
-              </div>
             </div>
 
             <!-- Right: Altitude chart + actions -->

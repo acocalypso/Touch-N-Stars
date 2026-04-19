@@ -105,16 +105,14 @@
     />
 
     <ImageLoupePreview
-      v-if="showLoupe && isLoupeActive && loupeViewport && loupePreview"
+      v-if="showLoupe && isLoupeActive && loupePreview"
       :image-data="imageData"
       :natural-x="loupePreview.naturalX"
       :natural-y="loupePreview.naturalY"
       :natural-width="loupePreview.naturalWidth"
       :natural-height="loupePreview.naturalHeight"
-      :anchor-x="loupeViewport.anchorX"
-      :anchor-y="loupeViewport.anchorY"
-      :container-width="loupeViewport.containerWidth"
-      :container-height="loupeViewport.containerHeight"
+      :client-x="loupePreview.clientX"
+      :client-y="loupePreview.clientY"
       :image-rotation="imageRotation"
       :zoom-factor="loupeZoomFactor"
     />
@@ -268,17 +266,6 @@ const {
   containerRef: container,
   imageRef: image,
   imageRotationRef: imageRotation,
-});
-
-const loupeViewport = computed(() => {
-  if (!loupePreview.value || !container.value) return null;
-  const rect = container.value.getBoundingClientRect();
-  return {
-    anchorX: loupePreview.value.clientX - rect.left,
-    anchorY: loupePreview.value.clientY - rect.top,
-    containerWidth: rect.width,
-    containerHeight: rect.height,
-  };
 });
 
 // Initialize Panzoom when image loads

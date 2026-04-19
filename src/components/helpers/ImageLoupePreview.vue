@@ -1,11 +1,13 @@
 <template>
-  <div class="image-loupe-preview" :style="wrapperStyle" aria-hidden="true">
-    <img v-if="imageData" :src="imageData" :style="imageStyle" draggable="false" alt="" />
-    <div class="image-loupe-crosshair">
-      <span class="image-loupe-crosshair-h" />
-      <span class="image-loupe-crosshair-v" />
+  <Teleport to="body">
+    <div class="image-loupe-preview" :style="wrapperStyle" aria-hidden="true">
+      <img v-if="imageData" :src="imageData" :style="imageStyle" draggable="false" alt="" />
+      <div class="image-loupe-crosshair">
+        <span class="image-loupe-crosshair-h" />
+        <span class="image-loupe-crosshair-v" />
+      </div>
     </div>
-  </div>
+  </Teleport>
 </template>
 
 <script setup>
@@ -21,25 +23,26 @@ const props = defineProps({
   naturalY: { type: Number, default: 0 },
   naturalWidth: { type: Number, default: 0 },
   naturalHeight: { type: Number, default: 0 },
-  anchorX: { type: Number, default: 0 },
-  anchorY: { type: Number, default: 0 },
-  containerWidth: { type: Number, default: 0 },
-  containerHeight: { type: Number, default: 0 },
+  clientX: { type: Number, default: 0 },
+  clientY: { type: Number, default: 0 },
   imageRotation: { type: Number, default: 0 },
   zoomFactor: { type: Number, default: 1 },
 });
 
 const wrapperStyle = computed(() => {
   const half = SIZE / 2;
-  let left = props.anchorX - half;
-  let top = props.anchorY - FINGER_OFFSET - SIZE;
+  const viewportWidth = typeof window !== 'undefined' ? window.innerWidth : SIZE;
+  const viewportHeight = typeof window !== 'undefined' ? window.innerHeight : SIZE;
+
+  let left = props.clientX - half;
+  let top = props.clientY - FINGER_OFFSET - SIZE;
 
   if (top < EDGE_PADDING) {
-    top = props.anchorY + FINGER_OFFSET;
+    top = props.clientY + FINGER_OFFSET;
   }
 
-  const maxLeft = Math.max(EDGE_PADDING, props.containerWidth - SIZE - EDGE_PADDING);
-  const maxTop = Math.max(EDGE_PADDING, props.containerHeight - SIZE - EDGE_PADDING);
+  const maxLeft = Math.max(EDGE_PADDING, viewportWidth - SIZE - EDGE_PADDING);
+  const maxTop = Math.max(EDGE_PADDING, viewportHeight - SIZE - EDGE_PADDING);
   left = Math.min(Math.max(left, EDGE_PADDING), maxLeft);
   top = Math.min(Math.max(top, EDGE_PADDING), maxTop);
 
@@ -71,7 +74,7 @@ const imageStyle = computed(() => {
 
 <style scoped>
 .image-loupe-preview {
-  position: absolute;
+  position: fixed;
   left: 0;
   top: 0;
   overflow: hidden;
@@ -81,7 +84,7 @@ const imageStyle = computed(() => {
     0 0 0 2px rgba(34, 211, 214, 0.85),
     0 8px 24px rgba(0, 0, 0, 0.6);
   pointer-events: none;
-  z-index: 25;
+  z-index: 2147483000;
   will-change: transform;
 }
 

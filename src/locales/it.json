@@ -3288,13 +3288,17 @@
         "credentials": "Se la tua fotocamera richiede un nome utente e una password, includi le credenziali direttamente nell'URL:",
         "credentialsNote": "Il proxy backend gestisce l'autenticazione automaticamente: le credenziali nell'URL funzionano sia con l'autenticazione Basic che con quella Digest (ad esempio Hikvision).",
         "credentialsTitle": "Telecamere protette da password",
-        "exampleLabels[0]": "Telecamera IP generica",
-        "exampleLabels[1]": "Telecamera ONVIF",
-        "exampleLabels[2]": "Telecamera dell'asse",
-        "exampleLabels[3]": "Telecamera Hikvision",
+        "exampleLabels": [
+          "Telecamera IP generica",
+          "Telecamera ONVIF",
+          "Telecamera dell'asse",
+          "Telecamera Hikvision"
+        ],
         "examplesTitle": "Esempi",
-        "proxyOptions[0]": "Proxy (predefinito): l'immagine viene recuperata dal backend NINA e inoltrata al browser. \nObbligatorio per le telecamere di rete locale con credenziali o restrizioni CORS. \nLeggermente più lento quando si accede tramite VPN.",
-        "proxyOptions[1]": "Diretto: il browser recupera l'immagine direttamente. \nPiù veloce per le telecamere Internet pubbliche (ad es. telecamere AllSky pubbliche). \nNon supporta le credenziali nell'URL in Chrome/Edge.",
+        "proxyOptions": [
+          "Proxy (predefinito): l'immagine viene recuperata dal backend NINA e inoltrata al browser. \nObbligatorio per le telecamere di rete locale con credenziali o restrizioni CORS. \nLeggermente più lento quando si accede tramite VPN.",
+          "Diretto: il browser recupera l'immagine direttamente. \nPiù veloce per le telecamere Internet pubbliche (ad es. telecamere AllSky pubbliche). \nNon supporta le credenziali nell'URL in Chrome/Edge."
+        ],
         "proxyText": "Ogni telecamera può essere recuperata in due modi:",
         "proxyTitle": "Proxy vs. diretto",
         "title": "Guida all'URL dell'istantanea",

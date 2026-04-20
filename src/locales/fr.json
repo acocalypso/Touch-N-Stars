@@ -3288,13 +3288,17 @@
         "credentials": "Si votre caméra nécessite un nom d'utilisateur et un mot de passe, incluez les informations d'identification directement dans l'URL :",
         "credentialsNote": "Le proxy back-end gère automatiquement l'authentification : les informations d'identification dans l'URL fonctionnent à la fois avec l'authentification de base et Digest (par exemple, Hikvision).",
         "credentialsTitle": "Caméras protégées par mot de passe",
-        "exampleLabels[0]": "Caméra IP générique",
-        "exampleLabels[1]": "Caméra ONVIF",
-        "exampleLabels[2]": "Caméra d'axe",
-        "exampleLabels[3]": "Caméra Hikvision",
+        "exampleLabels": [
+          "Caméra IP générique",
+          "Caméra ONVIF",
+          "Caméra d'axe",
+          "Caméra Hikvision"
+        ],
         "examplesTitle": "Exemples",
-        "proxyOptions[0]": "Proxy (par défaut) : l'image est récupérée par le backend NINA et transmise au navigateur. \nRequis pour les caméras réseau locales avec informations d’identification ou restrictions CORS. \nLégèrement plus lent lors de l'accès via VPN.",
-        "proxyOptions[1]": "Direct : le navigateur récupère l'image directement. \nPlus rapide pour les caméras Internet publiques (par exemple, les caméras publiques Allsky). \nNe prend pas en charge les informations d'identification dans l'URL dans Chrome/Edge.",
+        "proxyOptions": [
+          "Proxy (par défaut) : l'image est récupérée par le backend NINA et transmise au navigateur. \nRequis pour les caméras réseau locales avec informations d’identification ou restrictions CORS. \nLégèrement plus lent lors de l'accès via VPN.",
+          "Direct : le navigateur récupère l'image directement. \nPlus rapide pour les caméras Internet publiques (par exemple, les caméras publiques Allsky). \nNe prend pas en charge les informations d'identification dans l'URL dans Chrome/Edge."
+        ],
         "proxyText": "Chaque caméra peut être récupérée de deux manières :",
         "proxyTitle": "Proxy ou direct",
         "title": "Aide sur les URL d'instantanés",

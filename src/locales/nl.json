@@ -3288,13 +3288,17 @@
         "credentials": "Als uw camera een gebruikersnaam en wachtwoord vereist, neemt u de inloggegevens rechtstreeks in de URL op:",
         "credentialsNote": "De backend-proxy verwerkt de authenticatie automatisch: de inloggegevens in de URL werken met zowel basis- als digest-authenticatie (bijv. Hikvision).",
         "credentialsTitle": "Met wachtwoord beveiligde camera's",
-        "exampleLabels[0]": "Algemene IP-camera",
-        "exampleLabels[1]": "ONVIF-camera",
-        "exampleLabels[2]": "As-camera",
-        "exampleLabels[3]": "Hikvision-camera",
+        "exampleLabels": [
+          "Algemene IP-camera",
+          "ONVIF-camera",
+          "As-camera",
+          "Hikvision-camera"
+        ],
         "examplesTitle": "Voorbeelden",
-        "proxyOptions[0]": "Proxy (standaard): De afbeelding wordt opgehaald door de NINA-backend en doorgestuurd naar de browser. \nVereist voor lokale netwerkcamera's met inloggegevens of CORS-beperkingen. \nIets langzamer bij toegang via VPN.",
-        "proxyOptions[1]": "Direct: De browser haalt de afbeelding rechtstreeks op. \nSneller voor openbare internetcamera's (bijvoorbeeld openbare allsky-cams). \nOndersteunt geen inloggegevens in de URL in Chrome/Edge.",
+        "proxyOptions": [
+          "Proxy (standaard): De afbeelding wordt opgehaald door de NINA-backend en doorgestuurd naar de browser. \nVereist voor lokale netwerkcamera's met inloggegevens of CORS-beperkingen. \nIets langzamer bij toegang via VPN.",
+          "Direct: De browser haalt de afbeelding rechtstreeks op. \nSneller voor openbare internetcamera's (bijvoorbeeld openbare allsky-cams). \nOndersteunt geen inloggegevens in de URL in Chrome/Edge."
+        ],
         "proxyText": "Elke camera kan op twee manieren worden opgehaald:",
         "proxyTitle": "Proxy versus direct",
         "title": "Hulp voor momentopname-URL",

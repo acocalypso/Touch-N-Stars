@@ -3288,13 +3288,17 @@
         "credentials": "Jeśli kamera wymaga nazwy użytkownika i hasła, podaj dane uwierzytelniające bezpośrednio w adresie URL:",
         "credentialsNote": "Serwer proxy zaplecza obsługuje uwierzytelnianie automatycznie — dane uwierzytelniające w adresie URL działają zarówno z uwierzytelnianiem podstawowym, jak i szyfrowanym (np. Hikvision).",
         "credentialsTitle": "Kamery chronione hasłem",
-        "exampleLabels[0]": "Typowa kamera IP",
-        "exampleLabels[1]": "Kamera ONVIF",
-        "exampleLabels[2]": "Kamera osiowa",
-        "exampleLabels[3]": "Kamera Hikvision",
+        "exampleLabels": [
+          "Typowa kamera IP",
+          "Kamera ONVIF",
+          "Kamera osiowa",
+          "Kamera Hikvision"
+        ],
         "examplesTitle": "Przykłady",
-        "proxyOptions[0]": "Proxy (domyślnie): Obraz jest pobierany przez backend NINA i przesyłany do przeglądarki. \nWymagane w przypadku kamer sieci lokalnej z poświadczeniami lub ograniczeniami CORS. \nNieco wolniejszy w przypadku dostępu przez VPN.",
-        "proxyOptions[1]": "Bezpośrednie: przeglądarka pobiera obraz bezpośrednio. \nSzybciej dla publicznych kamer internetowych (np. publicznych kamer Allsky). \nNie obsługuje poświadczeń w adresie URL w przeglądarce Chrome/Edge.",
+        "proxyOptions": [
+          "Proxy (domyślnie): Obraz jest pobierany przez backend NINA i przesyłany do przeglądarki. \nWymagane w przypadku kamer sieci lokalnej z poświadczeniami lub ograniczeniami CORS. \nNieco wolniejszy w przypadku dostępu przez VPN.",
+          "Bezpośrednie: przeglądarka pobiera obraz bezpośrednio. \nSzybciej dla publicznych kamer internetowych (np. publicznych kamer Allsky). \nNie obsługuje poświadczeń w adresie URL w przeglądarce Chrome/Edge."
+        ],
         "proxyText": "Każdą kamerę można pobrać na dwa sposoby:",
         "proxyTitle": "Serwer proxy kontra bezpośredni",
         "title": "Pomoc dotycząca adresu URL migawki",

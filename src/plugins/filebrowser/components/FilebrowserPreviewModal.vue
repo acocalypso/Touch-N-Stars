@@ -82,6 +82,19 @@
                   {{ stretchStrength.toFixed(1) }}
                 </span>
               </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-[150px_1fr_auto] gap-2 items-center mt-2">
+                <label class="text-slate-400">Auto white balance</label>
+                <label class="flex items-center gap-2 text-slate-200">
+                  <input
+                    v-model="autoWhiteBalanceModel"
+                    type="checkbox"
+                    class="h-4 w-4 rounded border-gray-600 bg-gray-800 text-cyan-500"
+                  />
+                  <span>{{ autoWhiteBalance ? 'enabled' : 'disabled' }}</span>
+                </label>
+                <span class="text-slate-500">awb</span>
+              </div>
             </div>
 
             <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
@@ -126,6 +139,28 @@
               <div><span class="text-slate-500">Renders:</span> {{ perf.renderCount }}</div>
               <div><span class="text-slate-500">Queued:</span> {{ perf.queueSkips }}</div>
               <div><span class="text-slate-500">Reason:</span> {{ perf.lastReason }}</div>
+              <div>
+                <span class="text-slate-500">Auto WB:</span>
+                {{ stats.autoWhiteBalance ? 'on' : 'off' }}
+              </div>
+              <div>
+                <span class="text-slate-500">WB gains:</span>
+                R {{ stats.whiteBalanceGains.r.toFixed(2) }} G
+                {{ stats.whiteBalanceGains.g.toFixed(2) }} B
+                {{ stats.whiteBalanceGains.b.toFixed(2) }}
+              </div>
+              <div><span class="text-slate-500">Header source:</span> {{ stats.headerSource }}</div>
+              <div>
+                <span class="text-slate-500">Inferred:</span>
+                {{ formatInferredFields(stats.inferredHeaderFields) }}
+              </div>
+              <div>
+                <span class="text-slate-500">Decoded pixels:</span>
+                {{ stats.decodablePixelCount }} / {{ stats.width * stats.height }}
+              </div>
+              <div>
+                <span class="text-slate-500">Truncated:</span> {{ stats.truncated ? 'yes' : 'no' }}
+              </div>
               <div>
                 <span class="text-slate-500">Curve 10/50/90:</span>
                 {{
@@ -183,6 +218,7 @@ const props = defineProps({
   headerEntries: { type: Array, default: () => [] },
   stretchMode: { type: String, default: 'asinh' },
   stretchStrength: { type: Number, default: 6 },
+  autoWhiteBalance: { type: Boolean, default: true },
 });
 
 const emit = defineEmits([
@@ -190,6 +226,7 @@ const emit = defineEmits([
   'image-error',
   'update:stretchMode',
   'update:stretchStrength',
+  'update:autoWhiteBalance',
   'set-canvas-ref',
 ]);
 
@@ -203,7 +240,20 @@ const stretchStrengthModel = computed({
   set: (value) => emit('update:stretchStrength', value),
 });
 
+const autoWhiteBalanceModel = computed({
+  get: () => props.autoWhiteBalance,
+  set: (value) => emit('update:autoWhiteBalance', value),
+});
+
 function setCanvasRef(el) {
   emit('set-canvas-ref', el);
+}
+
+function formatInferredFields(fields) {
+  if (!Array.isArray(fields) || !fields.length) {
+    return 'none';
+  }
+
+  return fields.join(', ');
 }
 </script>

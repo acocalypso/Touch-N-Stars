@@ -5,13 +5,21 @@
 
       <!-- Plugin not installed -->
       <div
-        v-if="store.pluginInstalled === false"
+        v-if="nightSummaryStore.pluginInstalled === false"
         class="bg-gray-800 border border-gray-700 rounded-lg p-8 text-center"
       >
         <p class="text-gray-400 text-lg">{{ $t('nightsummary.notAvailable') }}</p>
       </div>
 
-      <template v-else-if="store.pluginInstalled === true">
+      <div
+        v-else-if="
+          !store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.2.8.0') && !store.isPINS
+        "
+      >
+        <p class="text-gray-400 text-lg">{{ $t('nightsummary.tnsPluginToOld') }}</p>
+      </div>
+
+      <template v-else-if="nightSummaryStore.pluginInstalled === true">
         <!-- Tabs -->
         <div class="flex gap-1 mb-6 border-b border-gray-700">
           <button
@@ -30,12 +38,12 @@
         </div>
 
         <!-- Loading state -->
-        <div v-if="store.settingsLoading" class="text-gray-400 py-4">
+        <div v-if="nightSummaryStore.settingsLoading" class="text-gray-400 py-4">
           {{ $t('common.loading') }}
         </div>
 
         <!-- ─── SETTINGS TAB ─── -->
-        <div v-else-if="activeTab === 'settings' && store.settings">
+        <div v-else-if="activeTab === 'settings' && nightSummaryStore.settings">
           <SettingsTab />
         </div>
 
@@ -46,23 +54,27 @@
             <select
               v-model="selectedSessionId"
               @change="onSelectSession"
-              class="default-select flex-1"
-              :disabled="store.loadingSessions"
+              class="default-select flex-1 min-w-72"
+              :disabled="nightSummaryStore.loadingSessions"
             >
               <option value="" disabled>
                 {{
-                  store.loadingSessions
+                  nightSummaryStore.loadingSessions
                     ? $t('common.loading')
                     : $t('nightsummary.sessions.placeholder')
                 }}
               </option>
-              <option v-for="s in store.sessions" :key="s.SessionId" :value="s.SessionId">
+              <option
+                v-for="s in nightSummaryStore.sessions"
+                :key="s.SessionId"
+                :value="s.SessionId"
+              >
                 {{ formatSessionLabel(s) }}
               </option>
             </select>
             <button
-              @click="store.fetchSessions()"
-              :disabled="store.loadingSessions"
+              @click="nightSummaryStore.fetchSessions()"
+              :disabled="nightSummaryStore.loadingSessions"
               class="default-button-gray"
             >
               {{ $t('common.refresh') }}
@@ -72,28 +84,30 @@
           <!-- Session actions -->
           <div v-if="selectedSessionId" class="flex flex-wrap gap-2 mb-4">
             <button
-              @click="store.fetchSessionDetail(selectedSessionId)"
-              :disabled="store.loadingDetail"
+              @click="nightSummaryStore.fetchSessionDetail(selectedSessionId)"
+              :disabled="nightSummaryStore.loadingDetail"
               class="default-button-gray"
             >
-              {{ store.loadingDetail ? $t('common.loading') : $t('common.refresh') }}
+              {{ nightSummaryStore.loadingDetail ? $t('common.loading') : $t('common.refresh') }}
             </button>
             <button
-              @click="store.resendSession(selectedSessionId)"
-              :disabled="store.resendingSession"
+              @click="nightSummaryStore.resendSession(selectedSessionId)"
+              :disabled="nightSummaryStore.resendingSession"
               class="default-button-cyan"
             >
               {{
-                store.resendingSession ? $t('common.loading') : $t('nightsummary.sessions.resend')
+                nightSummaryStore.resendingSession
+                  ? $t('common.loading')
+                  : $t('nightsummary.sessions.resend')
               }}
             </button>
             <button @click="confirmDelete = true" class="default-button-red">
               {{ $t('nightsummary.sessions.delete') }}
             </button>
             <StatusBadge
-              v-if="store.resendStatus"
-              :ok="store.resendStatus.ok"
-              :message="store.resendStatus.message"
+              v-if="nightSummaryStore.resendStatus"
+              :ok="nightSummaryStore.resendStatus.ok"
+              :message="nightSummaryStore.resendStatus.message"
             />
           </div>
 
@@ -127,27 +141,30 @@
           >
             <p class="text-gray-500">{{ $t('nightsummary.sessions.noSessions') }}</p>
           </div>
-          <div v-else-if="store.loadingDetail" class="text-gray-400 py-8 text-center">
+          <div v-else-if="nightSummaryStore.loadingDetail" class="text-gray-400 py-8 text-center">
             {{ $t('common.loading') }}
           </div>
 
           <!-- Session detail -->
-          <div v-else-if="store.sessionDetail" class="space-y-4">
+          <div v-else-if="nightSummaryStore.sessionDetail" class="space-y-4">
             <SessionHeader />
 
             <!-- Event Timeline (detailLevel >= 1) -->
             <div
-              v-if="store.sessionDetail.Events?.length && store.settings?.ReportDetailLevel >= 1"
+              v-if="
+                nightSummaryStore.sessionDetail.Events?.length &&
+                nightSummaryStore.settings?.ReportDetailLevel >= 1
+              "
               class="bg-gray-800 border border-gray-700 rounded-lg overflow-hidden"
             >
               <div class="px-4 py-3 border-b border-gray-700">
                 <h3 class="text-white font-medium">
-                  Events ({{ store.sessionDetail.Events.length }})
+                  Events ({{ nightSummaryStore.sessionDetail.Events.length }})
                 </h3>
               </div>
               <div class="divide-y divide-gray-700/40 max-h-80 overflow-y-auto scrollbar-hide">
                 <div
-                  v-for="ev in store.sessionDetail.Events"
+                  v-for="ev in nightSummaryStore.sessionDetail.Events"
                   :key="ev.Id"
                   class="px-4 py-2 flex items-start gap-3 text-sm"
                 >
@@ -183,13 +200,16 @@
                   <details v-if="sessionFilterBreakdown.length" class="group">
                     <summary class="list-none cursor-pointer">
                       <div class="text-2xl font-bold text-cyan-400">
-                        {{ store.sessionDetail.Stats.TotalImages }}
+                        {{ nightSummaryStore.sessionDetail.Stats.TotalImages }}
                         <span class="text-base text-cyan-600 group-open:hidden">▼</span>
                         <span class="text-base text-cyan-600 hidden group-open:inline">▲</span>
                         <span
-                          v-if="store.sessionDetail.Stats.SkippedExposures > 0"
+                          v-if="nightSummaryStore.sessionDetail.Stats.SkippedExposures > 0"
                           class="text-sm text-red-400 font-normal"
-                          >(+{{ store.sessionDetail.Stats.SkippedExposures }} aborted)</span
+                          >(+{{
+                            nightSummaryStore.sessionDetail.Stats.SkippedExposures
+                          }}
+                          aborted)</span
                         >
                       </div>
                       <div class="text-xs text-gray-400 mt-1">Total Images</div>
@@ -207,11 +227,14 @@
                   </details>
                   <template v-else>
                     <div class="text-2xl font-bold text-cyan-400">
-                      {{ store.sessionDetail.Stats.TotalImages }}
+                      {{ nightSummaryStore.sessionDetail.Stats.TotalImages }}
                       <span
-                        v-if="store.sessionDetail.Stats.SkippedExposures > 0"
+                        v-if="nightSummaryStore.sessionDetail.Stats.SkippedExposures > 0"
                         class="text-sm text-red-400 font-normal"
-                        >(+{{ store.sessionDetail.Stats.SkippedExposures }} aborted)</span
+                        >(+{{
+                          nightSummaryStore.sessionDetail.Stats.SkippedExposures
+                        }}
+                        aborted)</span
                       >
                     </div>
                     <div class="text-xs text-gray-400 mt-1">Total Images</div>
@@ -222,7 +245,11 @@
                   <details v-if="sessionFilterBreakdown.length" class="group">
                     <summary class="list-none cursor-pointer">
                       <div class="text-2xl font-bold text-white">
-                        {{ formatDurationH(store.sessionDetail.Stats.TotalExposureSeconds) }}
+                        {{
+                          formatDurationH(
+                            nightSummaryStore.sessionDetail.Stats.TotalExposureSeconds
+                          )
+                        }}
                         <span class="text-base text-gray-500 group-open:hidden">▼</span>
                         <span class="text-base text-gray-500 hidden group-open:inline">▲</span>
                       </div>
@@ -241,7 +268,9 @@
                   </details>
                   <template v-else>
                     <div class="text-2xl font-bold text-white">
-                      {{ formatDurationH(store.sessionDetail.Stats.TotalExposureSeconds) }}
+                      {{
+                        formatDurationH(nightSummaryStore.sessionDetail.Stats.TotalExposureSeconds)
+                      }}
                     </div>
                     <div class="text-xs text-gray-400 mt-1">Total Exposure</div>
                   </template>
@@ -249,43 +278,43 @@
                 <!-- Targets -->
                 <div class="bg-gray-900/50 border border-gray-700 rounded-lg p-3 text-center">
                   <div class="text-2xl font-bold text-white">
-                    {{ store.sessionDetail.Stats.Targets.length }}
+                    {{ nightSummaryStore.sessionDetail.Stats.Targets.length }}
                   </div>
                   <div class="text-xs text-gray-400 mt-1">Targets</div>
                 </div>
                 <!-- Avg HFR -->
                 <div
-                  v-if="store.sessionDetail.Stats.AvgHfr > 0"
+                  v-if="nightSummaryStore.sessionDetail.Stats.AvgHfr > 0"
                   class="bg-gray-900/50 border border-gray-700 rounded-lg p-3 text-center"
                 >
                   <div class="text-2xl font-bold text-white">
-                    {{ store.sessionDetail.Stats.AvgHfr.toFixed(2) }}px
+                    {{ nightSummaryStore.sessionDetail.Stats.AvgHfr.toFixed(2) }}px
                   </div>
                   <div class="text-xs text-gray-400 mt-1">Avg HFR</div>
                 </div>
                 <!-- Avg Guiding -->
                 <div
-                  v-if="store.sessionDetail.Stats.AvgGuidingRms > 0"
+                  v-if="nightSummaryStore.sessionDetail.Stats.AvgGuidingRms > 0"
                   class="bg-gray-900/50 border border-gray-700 rounded-lg p-3 text-center"
                 >
                   <div class="text-2xl font-bold text-white">
-                    {{ store.sessionDetail.Stats.AvgGuidingRms.toFixed(2) }}&quot;
+                    {{ nightSummaryStore.sessionDetail.Stats.AvgGuidingRms.toFixed(2) }}&quot;
                   </div>
                   <div class="text-xs text-gray-400 mt-1">Avg Guiding RMS</div>
                 </div>
                 <!-- Avg FWHM -->
                 <div
-                  v-if="store.sessionDetail.Stats.AvgFwhm > 0"
+                  v-if="nightSummaryStore.sessionDetail.Stats.AvgFwhm > 0"
                   class="bg-gray-900/50 border border-gray-700 rounded-lg p-3 text-center"
                 >
                   <div class="text-2xl font-bold text-white">
-                    {{ store.sessionDetail.Stats.AvgFwhm.toFixed(2) }}&quot;
+                    {{ nightSummaryStore.sessionDetail.Stats.AvgFwhm.toFixed(2) }}&quot;
                   </div>
                   <div class="text-xs text-gray-400 mt-1">Avg FWHM</div>
                 </div>
                 <!-- Yield -->
                 <div
-                  v-if="sessionYield !== null && store.settings?.ReportDetailLevel >= 2"
+                  v-if="sessionYield !== null && nightSummaryStore.settings?.ReportDetailLevel >= 2"
                   class="bg-gray-900/50 border border-gray-700 rounded-lg p-3 text-center"
                   title="Total exposure ÷ session window (first to last image)."
                 >
@@ -294,7 +323,7 @@
                 </div>
                 <!-- Moon -->
                 <div
-                  v-if="sessionMoon && store.settings?.ReportDetailLevel >= 2"
+                  v-if="sessionMoon && nightSummaryStore.settings?.ReportDetailLevel >= 2"
                   class="bg-gray-900/50 border border-gray-700 rounded-lg p-3 text-center"
                 >
                   <div class="text-2xl font-bold text-white">
@@ -310,7 +339,7 @@
 
             <!-- Session Image Quality (detailLevel >= 1) -->
             <div
-              v-if="sessionIQ.length && store.settings?.ReportDetailLevel >= 1"
+              v-if="sessionIQ.length && nightSummaryStore.settings?.ReportDetailLevel >= 1"
               class="bg-gray-800 border border-gray-700 rounded-lg overflow-hidden"
             >
               <div class="px-4 py-3 border-b border-gray-700">
@@ -334,6 +363,7 @@
 <script setup>
 import { ref, onMounted, computed, watch } from 'vue';
 import { useNightSummaryStore } from '../store/nightsummaryStore';
+import { apiStore } from '@/store/store';
 import StatusBadge from '../components/StatusBadge.vue';
 import IqTable from '../components/IqTable.vue';
 import SettingsTab from '../components/SettingsTab.vue';
@@ -350,7 +380,8 @@ import {
   cmpFilters,
 } from '../utils/sessionFormatters';
 
-const store = useNightSummaryStore();
+const nightSummaryStore = useNightSummaryStore();
+const store = apiStore();
 const activeTab = ref('sessions');
 const selectedSessionId = ref('');
 const confirmDelete = ref(false);
@@ -361,28 +392,28 @@ const tabs = [
 ];
 
 onMounted(async () => {
-  await store.initialize();
-  if (store.selectedSessionId) {
-    selectedSessionId.value = store.selectedSessionId;
+  await nightSummaryStore.initialize();
+  if (nightSummaryStore.selectedSessionId) {
+    selectedSessionId.value = nightSummaryStore.selectedSessionId;
     if (activeTab.value === 'sessions') {
-      store.fetchSessionDetail(selectedSessionId.value);
+      nightSummaryStore.fetchSessionDetail(selectedSessionId.value);
     }
   }
 });
 
 watch(activeTab, (tab) => {
   if (tab === 'sessions' && selectedSessionId.value) {
-    store.fetchSessionDetail(selectedSessionId.value);
+    nightSummaryStore.fetchSessionDetail(selectedSessionId.value);
   }
 });
 
 function onSelectSession() {
-  if (selectedSessionId.value) store.selectSession(selectedSessionId.value);
+  if (selectedSessionId.value) nightSummaryStore.selectSession(selectedSessionId.value);
 }
 
 async function doDelete() {
   confirmDelete.value = false;
-  await store.deleteSession(selectedSessionId.value);
+  await nightSummaryStore.deleteSession(selectedSessionId.value);
   selectedSessionId.value = '';
 }
 
@@ -402,8 +433,10 @@ function eventTypeColor(type) {
 }
 
 const sessionFilterBreakdown = computed(() => {
-  if (!store.sessionDetail?.Images?.length) return [];
-  const light = store.sessionDetail.Images.filter((i) => !i.ImageType || i.ImageType === 'LIGHT');
+  if (!nightSummaryStore.sessionDetail?.Images?.length) return [];
+  const light = nightSummaryStore.sessionDetail.Images.filter(
+    (i) => !i.ImageType || i.ImageType === 'LIGHT'
+  );
   const map = {};
   for (const img of light) {
     const f = img.Filter || '(no filter)';
@@ -411,14 +444,16 @@ const sessionFilterBreakdown = computed(() => {
     map[f].count++;
     map[f].expSec += img.ExposureDuration || 0;
   }
-  return Object.values(map).sort((a, b) => cmpFilters(a.filter, b.filter, store.filterNames));
+  return Object.values(map).sort((a, b) =>
+    cmpFilters(a.filter, b.filter, nightSummaryStore.filterNames)
+  );
 });
 
 const sessionIQ = computed(() => {
-  if (!store.sessionDetail?.Images?.length) return [];
+  if (!nightSummaryStore.sessionDetail?.Images?.length) return [];
   return buildIqRows(
-    store.sessionDetail.Images.filter((i) => !i.ImageType || i.ImageType === 'LIGHT'),
-    store.filterNames
+    nightSummaryStore.sessionDetail.Images.filter((i) => !i.ImageType || i.ImageType === 'LIGHT'),
+    nightSummaryStore.filterNames
   );
 });
 
@@ -433,17 +468,17 @@ function moonIlluminationPct(dateStr) {
 }
 
 const sessionMoon = computed(() => {
-  const s = store.sessionDetail?.Session;
+  const s = nightSummaryStore.sessionDetail?.Session;
   if (!s?.SessionStart) return null;
   return moonIlluminationPct(s.SessionStart);
 });
 
 const sessionYield = computed(() => {
-  const s = store.sessionDetail?.Session;
-  const images = store.sessionDetail?.Images?.filter(
+  const s = nightSummaryStore.sessionDetail?.Session;
+  const images = nightSummaryStore.sessionDetail?.Images?.filter(
     (i) => !i.ImageType || i.ImageType === 'LIGHT'
   );
-  const events = store.sessionDetail?.Events ?? [];
+  const events = nightSummaryStore.sessionDetail?.Events ?? [];
   if (!images?.length) return null;
   const timestamps = images.map((i) => new Date(i.Timestamp).getTime()).filter((t) => !isNaN(t));
   if (!timestamps.length) return null;

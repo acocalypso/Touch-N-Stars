@@ -3727,6 +3727,7 @@
   },
   "nightsummary": {
     "notAvailable": "Nie wykryto wtyczki podsumowania nocy. \nZainstaluj wtyczkę NINA Podsumowanie Nocy, aby korzystać z tej strony.",
+    "tnsPluginToOld": "Wtyczka Touch N Stars jest zbyt stara dla tej funkcji. Zaktualizuj do wersji 1.2.8.0 lub nowszej.",
     "sessions": {
       "delete": "Usuwać",
       "deleteConfirm": "Czy na pewno chcesz usunąć tę sesję? \nTego nie można cofnąć.",

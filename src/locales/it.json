@@ -3727,6 +3727,7 @@
   },
   "nightsummary": {
     "notAvailable": "Plug-in Riepilogo notturno non rilevato. \nInstalla il plug-in NINA Riepilogo notturno per utilizzare questa pagina.",
+    "tnsPluginToOld": "Il plug-in Touch N Stars è troppo vecchio per questa funzione. Aggiornare alla versione 1.2.8.0 o successiva.",
     "sessions": {
       "delete": "Eliminare",
       "deleteConfirm": "Sei sicuro di voler eliminare questa sessione? \nQuesta operazione non può essere annullata.",

@@ -3,6 +3,21 @@ import apiService from '@/services/apiService';
 import { apiStore } from './store';
 import { useToastStore } from './toastStore';
 
+const RUNTIME_FIELDS = [
+  'ExpectedTime',
+  'ExpectedTimeStr',
+  'CurrentAltitude',
+  'CurrentIllumination',
+  'TargetIllumination',
+  'CurrentMoonIllumination',
+  'UserMoonIllumination',
+  'CompletedIterations',
+  'RemainingTime',
+  'TargetTime',
+  'InterruptReason',
+  'Progress',
+];
+
 export const useSequenceV2Store = defineStore('sequenceV2Store', {
   state: () => ({
     data: [],
@@ -78,8 +93,21 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
           currentItems[i].Status = jsonItem.Status;
           changed = true;
         }
+        for (const field of RUNTIME_FIELDS) {
+          if (jsonItem[field] === undefined) continue;
+          if (currentItems[i][field] !== jsonItem[field]) {
+            currentItems[i][field] = jsonItem[field];
+          }
+        }
         if (jsonItem.Items && currentItems[i].Items) {
           if (this.applyStatusUpdates(currentItems[i].Items, jsonItem.Items)) changed = true;
+        }
+        if (jsonItem.Triggers && currentItems[i].Triggers) {
+          if (this.applyStatusUpdates(currentItems[i].Triggers, jsonItem.Triggers)) changed = true;
+        }
+        if (jsonItem.Conditions && currentItems[i].Conditions) {
+          if (this.applyStatusUpdates(currentItems[i].Conditions, jsonItem.Conditions))
+            changed = true;
         }
       });
       return changed;

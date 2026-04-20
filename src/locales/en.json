@@ -3690,6 +3690,7 @@
   "nightsummary": {
     "title": "Night Summary",
     "notAvailable": "Night Summary plugin not detected. Install the Night Summary NINA plugin to use this page.",
+    "tnsPluginToOld": "The Touch N Stars plugin is too old for this feature. Please update to version 1.2.8.0 or newer.",
     "tabSettings": "Settings",
     "tabSessions": "Sessions",
     "settings": {

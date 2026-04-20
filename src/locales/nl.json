@@ -3716,6 +3716,7 @@
   },
   "nightsummary": {
     "notAvailable": "Nachtoverzicht-plug-in niet gedetecteerd. \nInstalleer de Nachtoverzicht NINA plugin om deze pagina te gebruiken.",
+    "tnsPluginToOld": "De Touch N Stars plugin is te oud voor deze functie. Werk bij naar versie 1.2.8.0 of nieuwer.",
     "sessions": {
       "delete": "Verwijderen",
       "deleteConfirm": "Weet u zeker dat u deze sessie wilt verwijderen? \nDit kan niet ongedaan worden gemaakt.",

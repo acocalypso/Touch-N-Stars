@@ -1167,6 +1167,16 @@ const apiService = {
     return `${API_URL}filesystem/file?path=${encodeURIComponent(path || '')}`;
   },
 
+  async fetchFilesystemFileBuffer(path) {
+    const { API_URL } = getUrls();
+    const response = await axios.get(`${API_URL}filesystem/file`, {
+      params: { path },
+      responseType: 'arraybuffer',
+      timeout: DEFAULT_TIMEOUT,
+    });
+    return response.data;
+  },
+
   // Available Serial Ports
   async availableSerialPorts() {
     try {

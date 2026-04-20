@@ -3723,6 +3723,7 @@
   },
   "nightsummary": {
     "notAvailable": "Complemento de resumen nocturno no detectado. \nInstale el complemento Night Summary NINA para usar esta página.",
+    "tnsPluginToOld": "El complemento Touch N Stars es demasiado antiguo para esta función. Actualice a la versión 1.2.8.0 o superior.",
     "sessions": {
       "delete": "Borrar",
       "deleteConfirm": "¿Está seguro de que desea eliminar esta sesión? \nEsto no se puede deshacer.",

@@ -3723,6 +3723,7 @@
   },
   "nightsummary": {
     "notAvailable": "Night Summary plugin not detected. Install the Night Summary NINA plugin to use this page.",
+    "tnsPluginToOld": "Plugin Touch N Stars je příliš starý pro tuto funkci. Aktualizujte na verzi 1.2.8.0 nebo novější.",
     "sessions": {
       "delete": "Delete",
       "deleteConfirm": "Are you sure you want to delete this session? This cannot be undone.",

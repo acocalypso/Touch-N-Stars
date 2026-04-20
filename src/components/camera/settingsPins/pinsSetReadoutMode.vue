@@ -53,13 +53,19 @@ onMounted(() => {
   initializeReadoutMode();
 });
 
-const initializeReadoutMode = () => {
+const initializeReadoutMode = async () => {
   if (!store.cameraInfo) {
     console.warn('Camera info not loaded');
     return;
   }
-  readoutModeImage.value = store.cameraInfo.ReadoutModeForNormalImages;
-  readoutModeSnap.value = store.cameraInfo.ReadoutModeForSnapImages;
+  try {
+    const response = await apiService.cameraAction(`get-settings`);
+    //console.log('[PINS Readout mode] ', response);
+    readoutModeImage.value = response.Response.ReadoutModeForNormalImages;
+    readoutModeSnap.value = response.Response.ReadoutModeForSnapImages;
+  } catch (error) {
+    console.log('Error while setting readoutMode');
+  }
 };
 
 async function setReadoutModeImage() {
@@ -68,7 +74,6 @@ async function setReadoutModeImage() {
       `set-setting?settingName=ReadoutModeForNormalImages&newValue=${readoutModeImage.value}`
     );
     console.log('[setReadoutMode] ', response);
-    await cameraStore.readSettings();
   } catch (error) {
     console.log('Error while setting readoutMode');
   }
@@ -80,7 +85,6 @@ async function setReadoutModeSnap() {
       `set-setting?settingName=ReadoutModeForSnapImages&newValue=${readoutModeSnap.value}`
     );
     console.log('[setReadoutMode] ', response);
-    await cameraStore.readSettings();
   } catch (error) {
     console.log('Error while setting readoutMode');
   }

@@ -364,7 +364,7 @@
           <button
             @click="store.testEmail()"
             :disabled="store.emailTesting"
-            class="default-button-cyan w-auto"
+            class="default-button-cyan"
           >
             {{ store.emailTesting ? $t('common.loading') : $t('nightsummary.settings.testEmail') }}
           </button>
@@ -402,7 +402,7 @@
           <button
             @click="store.testPushover()"
             :disabled="store.pushoverTesting"
-            class="default-button-cyan w-auto"
+            class="default-button-cyan"
           >
             {{
               store.pushoverTesting
@@ -439,7 +439,7 @@
           <button
             @click="store.testDiscord()"
             :disabled="store.discordTesting"
-            class="default-button-cyan w-auto"
+            class="default-button-cyan"
           >
             {{
               store.discordTesting ? $t('common.loading') : $t('nightsummary.settings.testDiscord')

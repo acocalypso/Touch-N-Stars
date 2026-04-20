@@ -31,6 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Observation Planner: Persist filter, sort and performance settings across navigation and reloads
 - Observation Planner: Cache target preview images across navigation so returning to the view skips redundant DSS/targetpic requests
 - Image Viewer: Touch loupe for 1:1 pixel inspection – toggle in the image toolbar, drag with one finger to float a preview above the finger; adjustable zoom factor (1×/2×/4×), preview teleported to body so it floats above all overlays, Panzoom is paused while active and restored on disable
+- Filebrowser Plugin: View, delete or rename your images
 
 ### Changed
 - Plate Solve: Use the NINA-style toolbar icon in the shared image viewer

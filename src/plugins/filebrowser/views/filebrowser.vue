@@ -72,10 +72,12 @@
       :header-entries="fitsHeaderEntries"
       :stretch-mode="fitsStretchMode"
       :stretch-strength="fitsStretchStrength"
+      :auto-white-balance="fitsAutoWhiteBalance"
       @close="closePreview"
       @image-error="handlePreviewError"
       @update:stretch-mode="fitsStretchMode = $event"
       @update:stretch-strength="fitsStretchStrength = $event"
+      @update:auto-white-balance="fitsAutoWhiteBalance = $event"
       @set-canvas-ref="setFitsCanvasRef"
     />
 
@@ -148,6 +150,7 @@ const {
   previewError,
   fitsStretchMode,
   fitsStretchStrength,
+  fitsAutoWhiteBalance,
   fitsStats,
   fitsHeaderEntries,
   fitsPerf,

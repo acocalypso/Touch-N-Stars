@@ -1152,6 +1152,21 @@ const apiService = {
     return response.data;
   },
 
+  async renameFilesystemEntry(sourcePath, targetPath) {
+    const { API_URL } = getUrls();
+    const response = await axios.put(
+      `${API_URL}filesystem/rename`,
+      { sourcePath, targetPath },
+      { timeout: DEFAULT_TIMEOUT }
+    );
+    return response.data;
+  },
+
+  getFilesystemFileStreamUrl(path) {
+    const { API_URL } = getUrls();
+    return `${API_URL}filesystem/file?path=${encodeURIComponent(path || '')}`;
+  },
+
   // Available Serial Ports
   async availableSerialPorts() {
     try {

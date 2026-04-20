@@ -1,0 +1,10 @@
+{
+  "id": "filebrowser",
+  "name": "Filebrowser",
+  "description": "File management",
+  "version": "1.0.0",
+  "author": "Christian Wöhrle",
+  "defaultEnabled": false,
+  "enabled": true,
+  "isPins": true
+}

@@ -54,7 +54,7 @@
             <select
               v-model="selectedSessionId"
               @change="onSelectSession"
-              class="default-select flex-1"
+              class="default-select flex-1 min-w-72"
               :disabled="nightSummaryStore.loadingSessions"
             >
               <option value="" disabled>

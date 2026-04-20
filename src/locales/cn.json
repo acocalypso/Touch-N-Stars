@@ -1694,7 +1694,14 @@
       "wifiAutoInterface": "Auto (daemon default)",
       "wifiClientInterface": "Home WiFi Adapter",
       "wifiHotspotInterface": "Hotspot Adapter",
-      "wifiNoAdapters": "No WiFi adapters found."
+      "wifiNoAdapters": "No WiFi adapters found.",
+      "upgradeOverlay": {
+        "jobId": "Job ID: {jobId}",
+        "keepOpen": "Keep this app open. Controls are temporarily blocked to prevent inconsistent state.",
+        "running": "Updating Raspberry Pi packages. Please wait until the process is complete.",
+        "title": "System Update In Progress",
+        "waitingForApi": "Update finished. Waiting for NINA API to become reachable again..."
+      }
     },
     "bahtifocus": {
       "title": "Bahtinov掩模分析仪",
@@ -3281,13 +3288,17 @@
         "credentials": "If your camera requires a username and password, include the credentials directly in the URL:",
         "credentialsNote": "The backend proxy handles authentication automatically — credentials in the URL work with both Basic and Digest authentication (e.g. Hikvision).",
         "credentialsTitle": "Password-protected cameras",
-        "exampleLabels[0]": "Generic IP camera",
-        "exampleLabels[1]": "ONVIF camera",
-        "exampleLabels[2]": "Axis camera",
-        "exampleLabels[3]": "Hikvision camera",
+        "exampleLabels": [
+          "Generic IP camera",
+          "ONVIF camera",
+          "Axis camera",
+          "Hikvision camera"
+        ],
         "examplesTitle": "Examples",
-        "proxyOptions[0]": "Proxy (default): The image is fetched by the NINA backend and forwarded to the browser. Required for local network cameras with credentials or CORS restrictions. Slightly slower when accessed over VPN.",
-        "proxyOptions[1]": "Direct: The browser fetches the image directly. Faster for public internet cameras (e.g. public allsky cams). Does not support credentials in the URL in Chrome/Edge.",
+        "proxyOptions": [
+          "Proxy (default): The image is fetched by the NINA backend and forwarded to the browser. Required for local network cameras with credentials or CORS restrictions. Slightly slower when accessed over VPN.",
+          "Direct: The browser fetches the image directly. Faster for public internet cameras (e.g. public allsky cams). Does not support credentials in the URL in Chrome/Edge."
+        ],
         "proxyText": "Each camera can be fetched in two ways:",
         "proxyTitle": "Proxy vs. Direct",
         "title": "Snapshot URL Help",

@@ -1529,7 +1529,8 @@
       "titleResult": "プレートソルブ結果",
       "titleSolving": "プレートを解決中…",
       "tryAgain": "ファイルの選択",
-      "useAsTarget": "ターゲットとして使用"
+      "useAsTarget": "ターゲットとして使用",
+      "solvingHint": "プレートの解決には、ソルバーと検索半径に応じて 10 ～ 60 秒かかる場合があります。"
     }
   },
   "plugins": {
@@ -1693,7 +1694,14 @@
       "wifiAutoInterface": "自動 (デーモンのデフォルト)",
       "wifiClientInterface": "ホーム WiFi アダプター",
       "wifiHotspotInterface": "ホットスポットアダプター",
-      "wifiNoAdapters": "WiFi アダプターが見つかりません。"
+      "wifiNoAdapters": "WiFi アダプターが見つかりません。",
+      "upgradeOverlay": {
+        "jobId": "ジョブ ID: {jobId}",
+        "keepOpen": "このアプリを開いたままにしてください。\n状態の不整合を防ぐために、コントロールは一時的にブロックされます。",
+        "running": "Raspberry Pi パッケージを更新しています。\n処理が完了するまでお待ちください。",
+        "title": "システムアップデート中",
+        "waitingForApi": "アップデートが完了しました。 \nNINA API が再びアクセス可能になるのを待っています..."
+      }
     },
     "bahtifocus": {
       "title": "バーティノフマスク・アナライザー",
@@ -2009,7 +2017,12 @@
         "title": "スナップショットURLのヘルプ",
         "what": "スナップショットURLは、IPカメラの単一画像への直接リンクです。このURLはJPEGまたはPNG画像を直接返す必要があります（HTMLページやビデオストリームは不可）。",
         "examplesTitle": "例",
-        "exampleLabels": "[\"汎用IPカメラ\", \"ONVIFカメラ\", \"Axisカメラ\", \"Hikvisionカメラ\"]",
+        "exampleLabels": [
+          "汎用IPカメラ",
+          "ONVIFカメラ",
+          "軸カメラ",
+          "ハイクビジョンカメラ"
+        ],
         "credentialsTitle": "パスワード保護されたカメラ",
         "credentials": "カメラにユーザー名とパスワードが必要な場合は、URLに認証情報を直接含めてください：",
         "credentialsNote": "バックエンドプロキシが認証を自動的に処理します。URLの認証情報はBasic認証とDigest認証（例：Hikvision）の両方で動作します。",
@@ -2019,11 +2032,7 @@
           "プロキシ（デフォルト）：画像はNINAバックエンドで取得されブラウザに転送されます。認証やCORS制限のあるローカルネットワークカメラに必要です。VPN経由では若干遅くなります。",
           "ダイレクト：ブラウザが画像を直接取得します。公開インターネットカメラ（例：公開AllSkyカメラ）に最適です。Chrome/EdgeではURLの認証情報をサポートしません。"
         ],
-        "close": "閉じる",
-        "exampleLabels[0]": "汎用IPカメラ",
-        "exampleLabels[1]": "ONVIFカメラ",
-        "exampleLabels[2]": "軸カメラ",
-        "exampleLabels[3]": "ハイクビジョンカメラ"
+        "close": "閉じる"
       }
     },
     "sequenceCreator": {

@@ -343,6 +343,7 @@ const {
   getIp,
   PORT,
   TOKEN,
+  shouldWaitForApiRecovery: () => !store.isBackendReachable,
 });
 
 watch(
@@ -358,7 +359,11 @@ watch(
       loadDhcpClients();
       restoreUpgradeState();
     } else {
-      stopUpgradePolling();
+      // Keep polling while an upgrade lifecycle is active, even if PINS detection
+      // temporarily drops during service restart.
+      if (!pinsStore.shouldShowUpgradeOverlay) {
+        stopUpgradePolling();
+      }
     }
   },
   { immediate: true }

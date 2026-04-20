@@ -18,6 +18,7 @@ export function usePinsUpgradeTracker({
   getIp,
   PORT,
   TOKEN,
+  shouldWaitForApiRecovery = () => false,
 }) {
   const upgradeExitCode = ref(null);
   const isUpgradePolling = ref(false);
@@ -401,15 +402,32 @@ export function usePinsUpgradeTracker({
       return;
     }
 
+    const trackedJobId = jobId.value || getStoredUpgradeJobId();
     const storedFinalResult = getStoredUpgradeFinalResult();
+
     if (storedFinalResult && isUpgradeTerminalStatus(storedFinalResult.status)) {
+      const shouldKeepTerminalRecovery =
+        Boolean(trackedJobId) && Boolean(shouldWaitForApiRecovery?.());
+
+      if (!shouldKeepTerminalRecovery) {
+        clearStoredUpgradeFinalResult();
+        setUpgradeJobId(null);
+        lastUpgradeStatus = null;
+        upgradeExitCode.value = null;
+
+        if (activeOperation.value === 'upgrade' && status.value !== 'Running') {
+          pinsStore.setActiveOperation(null);
+          status.value = 'Idle';
+        }
+        return;
+      }
+
       pinsStore.setActiveOperation('upgrade');
       lastUpgradeStatus = storedFinalResult.status;
       upgradeExitCode.value = storedFinalResult.exitCode;
       status.value = storedFinalResult.status === 'success' ? 'Success' : 'Failed';
     }
 
-    const trackedJobId = jobId.value || getStoredUpgradeJobId();
     if (!trackedJobId) {
       return;
     }

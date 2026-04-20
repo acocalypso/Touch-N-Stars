@@ -1694,7 +1694,14 @@
       "wifiAutoInterface": "Automático (daemon padrão)",
       "wifiClientInterface": "Adaptador WiFi doméstico",
       "wifiHotspotInterface": "Adaptador de ponto de acesso",
-      "wifiNoAdapters": "Nenhum adaptador WiFi encontrado."
+      "wifiNoAdapters": "Nenhum adaptador WiFi encontrado.",
+      "upgradeOverlay": {
+        "jobId": "ID do trabalho: {jobId}",
+        "keepOpen": "Mantenha este aplicativo aberto. \nOs controles são temporariamente bloqueados para evitar estados inconsistentes.",
+        "running": "Atualizando pacotes Raspberry Pi. \nAguarde até que o processo seja concluído.",
+        "title": "Atualização do sistema em andamento",
+        "waitingForApi": "Atualização concluída. \nAguardando que a API NINA fique acessível novamente..."
+      }
     },
     "bahtifocus": {
       "title": "Analisador de máscara Bahtinov",
@@ -3281,13 +3288,17 @@
         "credentials": "Se sua câmera exigir nome de usuário e senha, inclua as credenciais diretamente no URL:",
         "credentialsNote": "O proxy backend lida com a autenticação automaticamente – as credenciais na URL funcionam com a autenticação Básica e Digest (por exemplo, Hikvision).",
         "credentialsTitle": "Câmeras protegidas por senha",
-        "exampleLabels[0]": "Câmera IP genérica",
-        "exampleLabels[1]": "Câmera ONVIF",
-        "exampleLabels[2]": "Câmera do eixo",
-        "exampleLabels[3]": "Câmera Hikvision",
+        "exampleLabels": [
+          "Câmera IP genérica",
+          "Câmera ONVIF",
+          "Câmera do eixo",
+          "Câmera Hikvision"
+        ],
         "examplesTitle": "Exemplos",
-        "proxyOptions[0]": "Proxy (padrão): A imagem é buscada pelo backend NINA e encaminhada ao navegador. \nObrigatório para câmeras de rede local com credenciais ou restrições CORS. \nUm pouco mais lento quando acessado por VPN.",
-        "proxyOptions[1]": "Direto: O navegador busca a imagem diretamente. \nMais rápido para câmeras públicas de Internet (por exemplo, câmeras allsky públicas). \nNão oferece suporte a credenciais no URL no Chrome/Edge.",
+        "proxyOptions": [
+          "Proxy (padrão): A imagem é buscada pelo backend NINA e encaminhada ao navegador. \nObrigatório para câmeras de rede local com credenciais ou restrições CORS. \nUm pouco mais lento quando acessado por VPN.",
+          "Direto: O navegador busca a imagem diretamente. \nMais rápido para câmeras públicas de Internet (por exemplo, câmeras allsky públicas). \nNão oferece suporte a credenciais no URL no Chrome/Edge."
+        ],
         "proxyText": "Cada câmera pode ser obtida de duas maneiras:",
         "proxyTitle": "Proxy vs. Direto",
         "title": "Ajuda do URL do instantâneo",

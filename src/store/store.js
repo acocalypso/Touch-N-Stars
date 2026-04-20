@@ -182,8 +182,22 @@ export const apiStore = defineStore('store', {
   actions: {
     async fetchAllInfos(t) {
       const toastStore = useToastStore();
+      const pinsStore = usePinsStore();
       //const settingsStore = useSettingsStore();
       //this.isPINS = settingsStore.isPinsEnabled;
+
+      const showConnectionErrorToast = (messageKey) => {
+        if (pinsStore.shouldSuppressConnectionToasts || this.errorMessageShown) {
+          return;
+        }
+
+        toastStore.showToast({
+          type: 'error',
+          title: t('app.connection_error_toast.title'),
+          message: t(messageKey),
+          autoClose: false,
+        });
+      };
 
       const tryWithRetry = async (fn, retries = 1, delay = 2000) => {
         let result = null;
@@ -210,14 +224,7 @@ export const apiStore = defineStore('store', {
         );
         if (!tnsVersionResponse) {
           console.warn('TNS-Plugin not reachable');
-          if (!this.errorMessageShown) {
-            toastStore.showToast({
-              type: 'error',
-              title: t('app.connection_error_toast.title'),
-              message: t('app.connection_error_toast.message_tns'),
-              autoClose: false,
-            });
-          }
+          showConnectionErrorToast('app.connection_error_toast.message_tns');
           this.isTnsPluginConnected = false;
           this.clearAllStates();
           return;
@@ -234,14 +241,7 @@ export const apiStore = defineStore('store', {
             );
             if (!this.isTnsPluginVersionNewerOrEqual) {
               console.warn('TNS version incompatible', this.currentTnsPluginVersion);
-              if (!this.errorMessageShown) {
-                toastStore.showToast({
-                  type: 'error',
-                  title: t('app.connection_error_toast.title'),
-                  message: t('app.connection_error_toast.message_tns_version'),
-                  autoClose: false,
-                });
-              }
+              showConnectionErrorToast('app.connection_error_toast.message_tns_version');
               this.clearAllStates();
               this.isTnsPluginVersionNewerOrEqual = false;
               return;
@@ -261,14 +261,7 @@ export const apiStore = defineStore('store', {
           //console.log('API Port response:', response);
           if (!response) {
             console.error('API not reachable');
-            if (!this.errorMessageShown) {
-              toastStore.showToast({
-                type: 'error',
-                title: t('app.connection_error_toast.title'),
-                message: t('app.connection_error_toast.message_api'),
-                autoClose: false,
-              });
-            }
+            showConnectionErrorToast('app.connection_error_toast.message_api');
             this.isApiConnected = false;
             this.apiPort = null;
             this.clearAllStates();
@@ -276,14 +269,7 @@ export const apiStore = defineStore('store', {
           }
           if (response.data === -1) {
             console.error('API not reachable');
-            if (!this.errorMessageShown) {
-              toastStore.showToast({
-                type: 'error',
-                title: t('app.connection_error_toast.title'),
-                message: t('app.connection_error_toast.message_api'),
-                autoClose: false,
-              });
-            }
+            showConnectionErrorToast('app.connection_error_toast.message_api');
             this.isApiConnected = false;
             this.apiPort = null;
             this.clearAllStates();
@@ -304,14 +290,7 @@ export const apiStore = defineStore('store', {
           //console.log('API Version response:', responseApiVersion);
           if (responseApiVersion?.Success === false) {
             console.warn('API-Plugin not reachable');
-            if (!this.errorMessageShown) {
-              toastStore.showToast({
-                type: 'error',
-                title: t('app.connection_error_toast.title'),
-                message: t('app.connection_error_toast.message_api'),
-                autoClose: false,
-              });
-            }
+            showConnectionErrorToast('app.connection_error_toast.message_api');
             this.clearAllStates();
             return;
           } else {
@@ -329,14 +308,7 @@ export const apiStore = defineStore('store', {
 
               if (!this.isApiVersionNewerOrEqual) {
                 console.warn('API version incompatible', this.currentApiVersion);
-                if (!this.errorMessageShown) {
-                  toastStore.showToast({
-                    type: 'error',
-                    title: t('app.connection_error_toast.title'),
-                    message: t('app.connection_error_toast.message_api_version'),
-                    autoClose: false,
-                  });
-                }
+                showConnectionErrorToast('app.connection_error_toast.message_api_version');
                 this.clearAllStates();
                 return;
               }
@@ -454,12 +426,7 @@ export const apiStore = defineStore('store', {
           return; // Equipment-Anfragen überspringen wenn Backend nicht erreichbar
         } else {
           this.clearAllStates();
-          toastStore.showToast({
-            type: 'error',
-            title: t('app.connection_error_toast.title'),
-            message: t('app.connection_error_toast.message_api'),
-            autoClose: false,
-          });
+          showConnectionErrorToast('app.connection_error_toast.message_api');
           console.warn(
             'Backend not reachable after multiple attempts, clearing states',
             new Date().toLocaleTimeString()

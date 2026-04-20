@@ -10,10 +10,7 @@
       <!-- Logo Splash Screen -->
       <Transition name="splash">
         <div
-          v-if="
-            (showSplashScreen || (!store.isBackendReachable && $route.path !== '/settings')) &&
-            $route.path !== '/setup'
-          "
+          v-if="shouldShowConnectionSplash"
           class="fixed inset-0 z-40 flex flex-col items-center justify-center bg-gray-900 p-4"
         >
           <!-- Minimaler Status-Text -->
@@ -64,15 +61,7 @@
         </div>
       </Transition>
 
-      <div
-        v-if="
-          !(
-            (showSplashScreen || (!store.isBackendReachable && $route.path !== '/settings')) &&
-            $route.path !== '/setup'
-          )
-        "
-        :class="mainContentClasses"
-      >
+      <div v-if="!shouldShowConnectionSplash" :class="mainContentClasses">
         <StellariumView
           v-show="store.showStellarium"
           v-if="settingsStore.setupCompleted && store.isBackendReachable"
@@ -123,6 +112,55 @@
     <ConsoleViewer class="fixed top-32 right-6 z-60" v-if="settingsStore.showDebugConsole" />
     <!-- LocationSyncModal -->
     <LocationSyncModal />
+
+    <!-- PINS Upgrade Blocking Modal -->
+    <Modal
+      :show="pinsStore.shouldShowUpgradeOverlay"
+      maxWidth="max-w-lg"
+      :disableClose="true"
+      :closeOnBackdropClick="false"
+      zIndex="z-[80]"
+    >
+      <template #header>
+        <h2 class="text-xl font-bold text-blue-300">
+          {{ $t('plugins.pins.upgradeOverlay.title') }}
+        </h2>
+      </template>
+      <template #body>
+        <div class="flex flex-col items-center text-center gap-4 w-full">
+          <svg
+            class="h-10 w-10 text-blue-400"
+            :class="pinsStore.isUpgradeRunning ? 'animate-spin' : 'animate-pulse'"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              class="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              stroke-width="4"
+            />
+            <path
+              class="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+            />
+          </svg>
+          <p class="text-gray-200 text-sm sm:text-base">
+            {{ pinsUpgradeOverlayMessage }}
+          </p>
+          <p class="text-xs text-gray-400">
+            {{ $t('plugins.pins.upgradeOverlay.keepOpen') }}
+          </p>
+          <p v-if="pinsStore.currentJobId" class="text-xs text-blue-300 font-mono break-all">
+            {{ $t('plugins.pins.upgradeOverlay.jobId', { jobId: pinsStore.currentJobId }) }}
+          </p>
+        </div>
+      </template>
+    </Modal>
 
     <!-- Update Available Modal -->
     <UpdateAvailableModal
@@ -271,6 +309,7 @@ import StatusBar from '@/components/status/StatusBar.vue';
 import SettingsComp from '@/components/SettingsComp.vue';
 import LocationSyncModal from '@/components/helpers/LocationSyncModal.vue';
 import { useOrientation } from '@/composables/useOrientation';
+import { useRoute } from 'vue-router';
 import WhatsNewModal from '@/components/helpers/WhatsNewModal.vue';
 import DialogModal from '@/components/helpers/DialogModal.vue';
 import MessageBoxModal from '@/components/helpers/MessageBoxModal.vue';
@@ -288,6 +327,7 @@ import {
 const store = apiStore();
 const settingsStore = useSettingsStore();
 const pinsStore = usePinsStore();
+const route = useRoute();
 
 const showTimeWarningModal = ref(false);
 const timeWarningClientTime = ref('');
@@ -378,6 +418,7 @@ const dismissedUpdateVersion = ref(null);
 const checkingUpdate = ref(false);
 let initialWidth = window.innerWidth;
 let initialHeight = window.innerHeight;
+let pinsUpgradeRecoveryTimer = null;
 
 // Orientation tracking
 const { isLandscape } = useOrientation();
@@ -437,6 +478,45 @@ const statusBarClasses = computed(() => ({
   'fixed bottom-0 w-full z-20': !isLandscape.value,
   'fixed bottom-0 left-32 right-0 z-20': isLandscape.value,
 }));
+
+const shouldShowConnectionSplash = computed(() => {
+  return (
+    (showSplashScreen.value || (!store.isBackendReachable && route.path !== '/settings')) &&
+    route.path !== '/setup' &&
+    !pinsStore.shouldShowUpgradeOverlay
+  );
+});
+
+const pinsUpgradeOverlayMessage = computed(() => {
+  if (pinsStore.isUpgradeWaitingForBackend) {
+    return t('plugins.pins.upgradeOverlay.waitingForApi');
+  }
+  return t('plugins.pins.upgradeOverlay.running');
+});
+
+function finalizePinsUpgradeRecoveryIfReady() {
+  if (!(pinsStore.isUpgradeWaitingForBackend && store.isBackendReachable)) {
+    return;
+  }
+
+  if (pinsUpgradeRecoveryTimer) {
+    clearTimeout(pinsUpgradeRecoveryTimer);
+  }
+
+  // Require a short stable reachable window before leaving the blocking overlay.
+  pinsUpgradeRecoveryTimer = setTimeout(() => {
+    if (pinsStore.isUpgradeWaitingForBackend && store.isBackendReachable) {
+      pinsStore.finalizeUpgradeRecovery();
+      try {
+        window.localStorage.removeItem('lastUpgradeJobId');
+        window.localStorage.removeItem('lastUpgradeJobResult');
+      } catch {
+        // Ignore storage cleanup errors.
+      }
+    }
+    pinsUpgradeRecoveryTimer = null;
+  }, 1500);
+}
 
 function handleOrientationChange() {
   setTimeout(() => {
@@ -775,6 +855,19 @@ watch(
       await dialogStore.initializeDialogSignalR();
       await messageboxStore.initializeMessageboxSignalR();
     }
+
+    if (isReachable) {
+      finalizePinsUpgradeRecoveryIfReady();
+    }
+  }
+);
+
+watch(
+  () => pinsStore.isUpgradeWaitingForBackend,
+  (isWaiting) => {
+    if (isWaiting) {
+      finalizePinsUpgradeRecoveryIfReady();
+    }
   }
 );
 
@@ -816,6 +909,11 @@ onBeforeUnmount(async () => {
   store.stopFetchingInfo();
   logStore.stopFetchingLog();
   sequenceStore.stopFetching();
+
+  if (pinsUpgradeRecoveryTimer) {
+    clearTimeout(pinsUpgradeRecoveryTimer);
+    pinsUpgradeRecoveryTimer = null;
+  }
 
   // Stop dialog updates based on mode
   if (store.isPINS) {

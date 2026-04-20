@@ -70,11 +70,13 @@
       :stats="fitsStats"
       :perf="fitsPerf"
       :header-entries="fitsHeaderEntries"
+      :auto-stretch="fitsAutoStretch"
       :stretch-mode="fitsStretchMode"
       :stretch-strength="fitsStretchStrength"
       :auto-white-balance="fitsAutoWhiteBalance"
       @close="closePreview"
       @image-error="handlePreviewError"
+      @update:auto-stretch="fitsAutoStretch = $event"
       @update:stretch-mode="fitsStretchMode = $event"
       @update:stretch-strength="fitsStretchStrength = $event"
       @update:auto-white-balance="fitsAutoWhiteBalance = $event"
@@ -148,6 +150,7 @@ const {
   previewMode,
   previewLoading,
   previewError,
+  fitsAutoStretch,
   fitsStretchMode,
   fitsStretchStrength,
   fitsAutoWhiteBalance,

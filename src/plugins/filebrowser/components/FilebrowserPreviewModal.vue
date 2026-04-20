@@ -55,9 +55,23 @@
             <div class="text-[11px] uppercase tracking-wide text-slate-400 mb-2">FITS Debug</div>
             <div class="mb-3 rounded border border-[#2e3650] bg-[#0b1220] p-2">
               <div class="grid grid-cols-1 md:grid-cols-[150px_1fr_auto] gap-2 items-center">
+                <label class="text-slate-400">Auto stretch</label>
+                <label class="flex items-center gap-2 text-slate-200">
+                  <input
+                    v-model="autoStretchModel"
+                    type="checkbox"
+                    class="h-4 w-4 rounded border-gray-600 bg-gray-800 text-cyan-500"
+                  />
+                  <span>{{ autoStretch ? 'enabled' : 'disabled' }}</span>
+                </label>
+                <span class="text-slate-500">stretch</span>
+              </div>
+
+              <div class="grid grid-cols-1 md:grid-cols-[150px_1fr_auto] gap-2 items-center">
                 <label class="text-slate-400">Pre-stretch</label>
                 <select
                   v-model="stretchModeModel"
+                  :disabled="!autoStretch"
                   class="h-8 rounded border border-gray-600 bg-gray-800 px-2 text-xs text-slate-100"
                 >
                   <option value="linear">Linear</option>
@@ -69,17 +83,22 @@
               </div>
 
               <div class="grid grid-cols-1 md:grid-cols-[150px_1fr_auto] gap-2 items-center mt-2">
-                <label class="text-slate-400">Stretch strength</label>
+                <label class="text-slate-400">
+                  {{ stretchMode === 'linear' ? 'Clip strength' : 'Stretch strength' }}
+                </label>
                 <input
-                  v-model.number="stretchStrengthModel"
+                  :value="localStretchStrength"
                   type="range"
                   min="0"
                   max="20"
                   step="0.1"
+                  :disabled="!autoStretch"
                   class="w-full"
+                  @input="onStretchStrengthInput"
+                  @change="commitStretchStrength"
                 />
                 <span class="text-slate-300 min-w-[40px] text-right">
-                  {{ stretchStrength.toFixed(2) }}
+                  {{ localStretchStrength.toFixed(2) }}
                 </span>
               </div>
 
@@ -121,7 +140,14 @@
               <div><span class="text-slate-500">Std:</span> {{ stats.std.toFixed(2) }}</div>
               <div><span class="text-slate-500">Mode:</span> {{ stats.stretchMode }}</div>
               <div>
-                <span class="text-slate-500">Strength:</span> {{ stats.stretchStrength.toFixed(2) }}
+                <span class="text-slate-500">Auto stretch:</span>
+                {{ stats.autoStretch ? 'on' : 'off' }}
+              </div>
+              <div>
+                <span class="text-slate-500">
+                  {{ stats.stretchMode === 'linear' ? 'Clip strength:' : 'Strength:' }}
+                </span>
+                {{ stats.stretchStrength.toFixed(2) }}
               </div>
               <div>
                 <span class="text-slate-500">Prep:</span> {{ perf.prepareMs.toFixed(1) }} ms
@@ -192,7 +218,7 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { computed, ref, watch } from 'vue';
 
 const props = defineProps({
   visible: { type: Boolean, default: false },
@@ -216,29 +242,50 @@ const props = defineProps({
     }),
   },
   headerEntries: { type: Array, default: () => [] },
+  autoStretch: { type: Boolean, default: false },
   stretchMode: { type: String, default: 'asinh' },
-  stretchStrength: { type: Number, default: 6 },
+  stretchStrength: { type: Number, default: 0 },
   autoWhiteBalance: { type: Boolean, default: true },
 });
 
 const emit = defineEmits([
   'close',
   'image-error',
+  'update:autoStretch',
   'update:stretchMode',
   'update:stretchStrength',
   'update:autoWhiteBalance',
   'set-canvas-ref',
 ]);
 
+const autoStretchModel = computed({
+  get: () => props.autoStretch,
+  set: (value) => emit('update:autoStretch', value),
+});
+
 const stretchModeModel = computed({
   get: () => props.stretchMode,
   set: (value) => emit('update:stretchMode', value),
 });
 
-const stretchStrengthModel = computed({
-  get: () => props.stretchStrength,
-  set: (value) => emit('update:stretchStrength', value),
-});
+const localStretchStrength = ref(props.stretchStrength);
+
+watch(
+  () => props.stretchStrength,
+  (value) => {
+    const numeric = Number(value);
+    localStretchStrength.value = Number.isFinite(numeric) ? numeric : 0;
+  }
+);
+
+function onStretchStrengthInput(event) {
+  const value = Number(event?.target?.value);
+  localStretchStrength.value = Number.isFinite(value) ? value : 0;
+}
+
+function commitStretchStrength() {
+  emit('update:stretchStrength', localStretchStrength.value);
+}
 
 const autoWhiteBalanceModel = computed({
   get: () => props.autoWhiteBalance,

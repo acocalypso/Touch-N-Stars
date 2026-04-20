@@ -14,8 +14,9 @@ export function useFitsPreview({ apiService }) {
 
   const fitsCanvasRef = ref(null);
   const fitsPrepared = ref(null);
+  const fitsAutoStretch = ref(false);
   const fitsStretchMode = ref('asinh');
-  const fitsStretchStrength = ref(6);
+  const fitsStretchStrength = ref(0);
   const fitsAutoWhiteBalance = ref(true);
   const fitsStats = ref(null);
   const fitsHeaderEntries = ref([]);
@@ -668,20 +669,31 @@ export function useFitsPreview({ apiService }) {
       whiteBalanceGains,
     } = prepared;
 
+    const autoStretch = options.autoStretch !== false;
     const stretchMode = options.stretchMode || 'asinh';
     const parsedStretchStrength = Number(options.stretchStrength);
     const stretchStrength = Number.isFinite(parsedStretchStrength) ? parsedStretchStrength : 1;
     const autoWhiteBalance = options.autoWhiteBalance !== false;
-    const stretchLow = stretchMode === 'linear' ? min : low;
-    const stretchHigh = stretchMode === 'linear' ? max : high;
+    const linearClipMix = Math.max(0, Math.min(1, stretchStrength / 20));
+    const linearLow = min + (low - min) * linearClipMix;
+    const linearHigh = max + (high - max) * linearClipMix;
+    const stretchLow = autoStretch ? (stretchMode === 'linear' ? linearLow : low) : min;
+    const stretchHigh = autoStretch ? (stretchMode === 'linear' ? linearHigh : high) : max;
+    const safeStretchLow = stretchHigh > stretchLow ? stretchLow : min;
+    const safeStretchHigh = stretchHigh > stretchLow ? stretchHigh : max;
     const mapValueToUnit = createStretchMapper(
-      stretchLow,
-      stretchHigh,
-      stretchMode,
+      safeStretchLow,
+      safeStretchHigh,
+      autoStretch ? stretchMode : 'linear',
       stretchStrength
     );
 
-    const curveMapper = createStretchMapper(0, 1, stretchMode, stretchStrength);
+    const curveMapper = createStretchMapper(
+      0,
+      1,
+      autoStretch ? stretchMode : 'linear',
+      stretchStrength
+    );
     const curveSamples = {
       p10: curveMapper(0.1),
       p50: curveMapper(0.5),
@@ -741,10 +753,11 @@ export function useFitsPreview({ apiService }) {
         height,
         bitpix,
         bayerPattern,
-        stretchMode,
+        autoStretch,
+        stretchMode: autoStretch ? stretchMode : 'linear',
         stretchStrength,
-        low: stretchLow,
-        high: stretchHigh,
+        low: safeStretchLow,
+        high: safeStretchHigh,
         clippedLow: low,
         clippedHigh: high,
         min,
@@ -775,6 +788,7 @@ export function useFitsPreview({ apiService }) {
     }
 
     const result = renderPreparedFitsToCanvas(fitsPrepared.value, fitsCanvasRef.value, {
+      autoStretch: fitsAutoStretch.value,
       stretchMode: fitsStretchMode.value,
       stretchStrength: fitsStretchStrength.value,
       autoWhiteBalance: fitsAutoWhiteBalance.value,
@@ -894,7 +908,7 @@ export function useFitsPreview({ apiService }) {
     }
   }
 
-  watch([fitsStretchMode, fitsStretchStrength, fitsAutoWhiteBalance], () => {
+  watch([fitsAutoStretch, fitsStretchMode, fitsStretchStrength, fitsAutoWhiteBalance], () => {
     if (
       !previewVisible.value ||
       previewMode.value !== 'fits' ||
@@ -904,7 +918,7 @@ export function useFitsPreview({ apiService }) {
       return;
     }
 
-    scheduleFitsRender('stretch-change');
+    scheduleFitsRender('render-controls-change');
   });
 
   return {
@@ -914,6 +928,7 @@ export function useFitsPreview({ apiService }) {
     previewMode,
     previewLoading,
     previewError,
+    fitsAutoStretch,
     fitsStretchMode,
     fitsStretchStrength,
     fitsAutoWhiteBalance,

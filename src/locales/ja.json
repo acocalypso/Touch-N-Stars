@@ -3718,6 +3718,7 @@
   },
   "nightsummary": {
     "notAvailable": "Night Summary プラグインが検出されません。\nこのページを使用するには、Night Summary NINA プラグインをインストールしてください。",
+    "tnsPluginToOld": "Touch N Stars プラグインが古すぎてこの機能を使用できません。バージョン 1.2.8.0 以降に更新してください。",
     "sessions": {
       "delete": "消去",
       "deleteConfirm": "このセッションを削除してもよろしいですか?\nこれを元に戻すことはできません。",

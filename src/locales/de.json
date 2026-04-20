@@ -3719,7 +3719,8 @@
     "about": "Info"
   },
   "nightsummary": {
-    "notAvailable": "Nachtzusammenfassungs-Plugin nicht erkannt. \nInstallieren Sie das NINA-Plugin „Night Summary“, um diese Seite nutzen zu können.",
+   "notAvailable": "Nachtzusammenfassungs-Plugin nicht erkannt. \nInstallieren Sie das NINA-Plugin „Night Summary”, um diese Seite nutzen zu können.",
+    "tnsPluginToOld": "Das Touch N Stars Plugin ist zu alt für diese Funktion. Bitte aktualisieren Sie auf Version 1.2.8.0 oder neuer.",
     "sessions": {
       "delete": "Löschen",
       "deleteConfirm": "Sind Sie sicher, dass Sie diese Sitzung löschen möchten? \nDies kann nicht rückgängig gemacht werden.",

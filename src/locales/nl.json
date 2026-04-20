@@ -1700,8 +1700,7 @@
         "keepOpen": "Houd deze app open. \nControles zijn tijdelijk geblokkeerd om een ​​inconsistente status te voorkomen.",
         "running": "Raspberry Pi-pakketten bijwerken. \nWacht tot het proces is voltooid.",
         "title": "Systeemupdate wordt uitgevoerd",
-        "waitingForApi": "Update voltooid. \nWachten tot de NINA API weer bereikbaar is...",
-        "close": "Sluiten"
+        "waitingForApi": "Update voltooid. \nWachten tot de NINA API weer bereikbaar is..."
       }
     },
     "bahtifocus": {

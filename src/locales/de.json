@@ -1601,8 +1601,7 @@
         "running": "Raspberry-Pi-Pakete werden aktualisiert. Bitte warten, bis der Vorgang abgeschlossen ist.",
         "waitingForApi": "Aktualisierung abgeschlossen. Es wird auf die Erreichbarkeit der NINA-API gewartet...",
         "keepOpen": "Bitte lassen Sie die App geöffnet. Die Bedienung ist vorübergehend gesperrt, um inkonsistente Zustände zu vermeiden.",
-        "jobId": "Job-ID: {jobId}",
-        "close": "Schließen"
+        "jobId": "Job-ID: {jobId}"
       },
       "terminalOutput": "TERMINAL AUSGABE",
       "clearOutput": "Ausgabe löschen",

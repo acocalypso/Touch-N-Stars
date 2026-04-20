@@ -1694,7 +1694,14 @@
       "wifiAutoInterface": "Automático (daemon padrão)",
       "wifiClientInterface": "Adaptador WiFi doméstico",
       "wifiHotspotInterface": "Adaptador de ponto de acesso",
-      "wifiNoAdapters": "Nenhum adaptador WiFi encontrado."
+      "wifiNoAdapters": "Nenhum adaptador WiFi encontrado.",
+      "upgradeOverlay": {
+        "jobId": "ID do trabalho: {jobId}",
+        "keepOpen": "Mantenha este aplicativo aberto. \nOs controles são temporariamente bloqueados para evitar estados inconsistentes.",
+        "running": "Atualizando pacotes Raspberry Pi. \nAguarde até que o processo seja concluído.",
+        "title": "Atualização do sistema em andamento",
+        "waitingForApi": "Atualização concluída. \nAguardando que a API NINA fique acessível novamente..."
+      }
     },
     "bahtifocus": {
       "title": "Analisador de máscara Bahtinov",

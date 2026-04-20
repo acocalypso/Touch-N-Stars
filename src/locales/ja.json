@@ -1529,7 +1529,8 @@
       "titleResult": "プレートソルブ結果",
       "titleSolving": "プレートを解決中…",
       "tryAgain": "ファイルの選択",
-      "useAsTarget": "ターゲットとして使用"
+      "useAsTarget": "ターゲットとして使用",
+      "solvingHint": "プレートの解決には、ソルバーと検索半径に応じて 10 ～ 60 秒かかる場合があります。"
     }
   },
   "plugins": {
@@ -1693,7 +1694,14 @@
       "wifiAutoInterface": "自動 (デーモンのデフォルト)",
       "wifiClientInterface": "ホーム WiFi アダプター",
       "wifiHotspotInterface": "ホットスポットアダプター",
-      "wifiNoAdapters": "WiFi アダプターが見つかりません。"
+      "wifiNoAdapters": "WiFi アダプターが見つかりません。",
+      "upgradeOverlay": {
+        "jobId": "ジョブ ID: {jobId}",
+        "keepOpen": "このアプリを開いたままにしてください。\n状態の不整合を防ぐために、コントロールは一時的にブロックされます。",
+        "running": "Raspberry Pi パッケージを更新しています。\n処理が完了するまでお待ちください。",
+        "title": "システムアップデート中",
+        "waitingForApi": "アップデートが完了しました。 \nNINA API が再びアクセス可能になるのを待っています..."
+      }
     },
     "bahtifocus": {
       "title": "バーティノフマスク・アナライザー",

@@ -18,6 +18,20 @@ export const usePinsStore = defineStore('pins', {
     activeOperation: null,
     currentJobId: null,
   }),
+  getters: {
+    isUpgradeRunning(state) {
+      return state.activeOperation === 'upgrade' && state.terminalStatus === 'Running';
+    },
+    isUpgradeWaitingForBackend(state) {
+      return state.activeOperation === 'upgrade' && state.terminalStatus === 'Success';
+    },
+    shouldShowUpgradeOverlay() {
+      return this.isUpgradeRunning || this.isUpgradeWaitingForBackend;
+    },
+    shouldSuppressConnectionToasts() {
+      return this.shouldShowUpgradeOverlay;
+    },
+  },
   actions: {
     setTimeSync(enabled) {
       this.timeSyncEnabled = enabled;
@@ -55,6 +69,15 @@ export const usePinsStore = defineStore('pins', {
     },
     setCurrentJobId(jobId) {
       this.currentJobId = jobId;
+    },
+    finalizeUpgradeRecovery() {
+      if (!this.isUpgradeWaitingForBackend) {
+        return;
+      }
+
+      this.activeOperation = null;
+      this.currentJobId = null;
+      this.terminalStatus = 'Idle';
     },
   },
   persist: {

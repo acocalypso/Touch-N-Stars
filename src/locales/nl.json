@@ -1694,7 +1694,14 @@
       "wifiAutoInterface": "Automatisch (daemon-standaard)",
       "wifiClientInterface": "WiFi-adapter voor thuis",
       "wifiHotspotInterface": "Hotspot-adapter",
-      "wifiNoAdapters": "Geen WiFi-adapters gevonden."
+      "wifiNoAdapters": "Geen WiFi-adapters gevonden.",
+      "upgradeOverlay": {
+        "jobId": "Taak-ID: {jobId}",
+        "keepOpen": "Houd deze app open. \nControles zijn tijdelijk geblokkeerd om een ​​inconsistente status te voorkomen.",
+        "running": "Raspberry Pi-pakketten bijwerken. \nWacht tot het proces is voltooid.",
+        "title": "Systeemupdate wordt uitgevoerd",
+        "waitingForApi": "Update voltooid. \nWachten tot de NINA API weer bereikbaar is..."
+      }
     },
     "bahtifocus": {
       "title": "Bahtinov Masker Analyse",

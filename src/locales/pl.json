@@ -1694,7 +1694,14 @@
       "wifiAutoInterface": "Auto (domyślnie demon)",
       "wifiClientInterface": "Domowy adapter Wi-Fi",
       "wifiHotspotInterface": "Adapter hotspotu",
-      "wifiNoAdapters": "Nie znaleziono adapterów Wi-Fi."
+      "wifiNoAdapters": "Nie znaleziono adapterów Wi-Fi.",
+      "upgradeOverlay": {
+        "jobId": "Identyfikator stanowiska: {jobId}",
+        "keepOpen": "Pozostaw tę aplikację otwartą. \nElementy sterujące są tymczasowo zablokowane, aby zapobiec niespójnemu stanowi.",
+        "running": "Aktualizacja pakietów Raspberry Pi. \nPoczekaj, aż proces się zakończy.",
+        "title": "Aktualizacja systemu w toku",
+        "waitingForApi": "Aktualizacja zakończona. \nOczekiwanie, aż interfejs API NINA stanie się ponownie dostępny..."
+      }
     },
     "bahtifocus": {
       "title": "Analizator maski Bahtinowa",

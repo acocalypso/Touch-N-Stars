@@ -1694,7 +1694,14 @@
       "wifiAutoInterface": "Auto (daemon default)",
       "wifiClientInterface": "Home WiFi Adapter",
       "wifiHotspotInterface": "Hotspot Adapter",
-      "wifiNoAdapters": "No WiFi adapters found."
+      "wifiNoAdapters": "No WiFi adapters found.",
+      "upgradeOverlay": {
+        "jobId": "Job ID: {jobId}",
+        "keepOpen": "Keep this app open. Controls are temporarily blocked to prevent inconsistent state.",
+        "running": "Updating Raspberry Pi packages. Please wait until the process is complete.",
+        "title": "System Update In Progress",
+        "waitingForApi": "Update finished. Waiting for NINA API to become reachable again..."
+      }
     },
     "bahtifocus": {
       "title": "Bahtinovův analyzátor masky",

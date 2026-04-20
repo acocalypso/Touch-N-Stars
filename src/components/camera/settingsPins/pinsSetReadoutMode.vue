@@ -45,7 +45,6 @@ import { useCameraStore } from '@/store/cameraStore';
 import apiService from '@/services/apiService';
 
 const store = apiStore();
-const cameraStore = useCameraStore();
 const readoutModeImage = ref('');
 const readoutModeSnap = ref('');
 

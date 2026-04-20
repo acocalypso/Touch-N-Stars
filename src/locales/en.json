@@ -1609,7 +1609,8 @@
         "running": "Updating Raspberry Pi packages. Please wait until the process is complete.",
         "waitingForApi": "Update finished. Waiting for NINA API to become reachable again...",
         "keepOpen": "Keep this app open. Controls are temporarily blocked to prevent inconsistent state.",
-        "jobId": "Job ID: {jobId}"
+        "jobId": "Job ID: {jobId}",
+        "close": "Close"
       },
       "terminalOutput": "TERMINAL OUTPUT",
       "clearOutput": "Clear Output",

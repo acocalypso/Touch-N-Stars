@@ -1700,7 +1700,8 @@
         "keepOpen": "Mantieni questa app aperta. \nI controlli sono temporaneamente bloccati per evitare stati incoerenti.",
         "running": "Aggiornamento dei pacchetti Raspberry Pi. \nSi prega di attendere fino al completamento del processo.",
         "title": "Aggiornamento del sistema in corso",
-        "waitingForApi": "Aggiornamento terminato. \nIn attesa che l'API NINA diventi nuovamente raggiungibile..."
+        "waitingForApi": "Aggiornamento terminato. \nIn attesa che l'API NINA diventi nuovamente raggiungibile...",
+        "close": "Chiudi"
       }
     },
     "bahtifocus": {

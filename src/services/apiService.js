@@ -1152,6 +1152,31 @@ const apiService = {
     return response.data;
   },
 
+  async renameFilesystemEntry(sourcePath, targetPath) {
+    const { API_URL } = getUrls();
+    const response = await axios.put(
+      `${API_URL}filesystem/rename`,
+      { sourcePath, targetPath },
+      { timeout: DEFAULT_TIMEOUT }
+    );
+    return response.data;
+  },
+
+  getFilesystemFileStreamUrl(path) {
+    const { API_URL } = getUrls();
+    return `${API_URL}filesystem/file?path=${encodeURIComponent(path || '')}`;
+  },
+
+  async fetchFilesystemFileBuffer(path) {
+    const { API_URL } = getUrls();
+    const response = await axios.get(`${API_URL}filesystem/file`, {
+      params: { path },
+      responseType: 'arraybuffer',
+      timeout: DEFAULT_TIMEOUT,
+    });
+    return response.data;
+  },
+
   // Available Serial Ports
   async availableSerialPorts() {
     try {

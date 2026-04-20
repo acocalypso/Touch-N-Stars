@@ -380,7 +380,8 @@ export function useFitsPreview({ apiService }) {
 
   function createStretchMapper(low, high, mode, strength) {
     const range = Math.max(1e-9, high - low);
-    const safeStrength = Math.max(1e-3, Number(strength) || 1);
+    const parsedStrength = Number(strength);
+    const safeStrength = Math.max(1e-3, Number.isFinite(parsedStrength) ? parsedStrength : 1);
 
     const normalize = (value) => Math.max(0, Math.min(1, (value - low) / range));
 
@@ -668,7 +669,8 @@ export function useFitsPreview({ apiService }) {
     } = prepared;
 
     const stretchMode = options.stretchMode || 'asinh';
-    const stretchStrength = Number(options.stretchStrength) || 1;
+    const parsedStretchStrength = Number(options.stretchStrength);
+    const stretchStrength = Number.isFinite(parsedStretchStrength) ? parsedStretchStrength : 1;
     const autoWhiteBalance = options.autoWhiteBalance !== false;
     const stretchLow = stretchMode === 'linear' ? min : low;
     const stretchHigh = stretchMode === 'linear' ? max : high;

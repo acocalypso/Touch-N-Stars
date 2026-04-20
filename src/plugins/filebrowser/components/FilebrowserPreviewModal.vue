@@ -73,13 +73,13 @@
                 <input
                   v-model.number="stretchStrengthModel"
                   type="range"
-                  min="1"
+                  min="0"
                   max="20"
-                  step="0.5"
+                  step="0.1"
                   class="w-full"
                 />
                 <span class="text-slate-300 min-w-[40px] text-right">
-                  {{ stretchStrength.toFixed(1) }}
+                  {{ stretchStrength.toFixed(2) }}
                 </span>
               </div>
 
@@ -121,7 +121,7 @@
               <div><span class="text-slate-500">Std:</span> {{ stats.std.toFixed(2) }}</div>
               <div><span class="text-slate-500">Mode:</span> {{ stats.stretchMode }}</div>
               <div>
-                <span class="text-slate-500">Strength:</span> {{ stats.stretchStrength.toFixed(1) }}
+                <span class="text-slate-500">Strength:</span> {{ stats.stretchStrength.toFixed(2) }}
               </div>
               <div>
                 <span class="text-slate-500">Prep:</span> {{ perf.prepareMs.toFixed(1) }} ms

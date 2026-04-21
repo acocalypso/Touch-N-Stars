@@ -1310,7 +1310,7 @@
       "auto_brightness": "Автояскравість",
       "skyflat": "Sky flat",
       "button_slew_to_zenith": "Навести на зеніт",
-      "darks_to_take": "Кількість darks",
+      "darks_to_take": "Кількість darkflats",
       "status_running_flats": "Виконання: {completed} / {total} флетів",
       "status_running_darks": "Виконання: {completed} / {total} darks",
       "status_success_flats": "Готово — {count} флетів знято",

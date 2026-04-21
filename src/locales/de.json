@@ -1353,7 +1353,7 @@
     "flatassistant": {
       "title": "Flat Assistant",
       "count": "Flats aufnehmen",
-      "darks_to_take": "Darks aufnehmen",
+      "darks_to_take": "Darkflats aufnehmen",
       "exposure_time": "Belichtungszeit",
       "min_exposure_time": "Min Belichtungszeit",
       "max_exposure_time": "Max Belichtungszeit",

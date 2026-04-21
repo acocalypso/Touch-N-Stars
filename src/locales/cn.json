@@ -1345,7 +1345,7 @@
       "cover_scope_confirm": "OK",
       "cover_scope_message": "Cover your scope now and press OK to start taking the darks.",
       "cover_scope_title": "Cover your scope now",
-      "darks_to_take": "Darks to take",
+      "darks_to_take": "要拍摄的 Darkflats",
       "operation_failed": "Operation failed",
       "status_failed_darks": "No darks captured - could not determine valid exposure",
       "status_failed_flats": "No flats captured - could not determine valid exposure",

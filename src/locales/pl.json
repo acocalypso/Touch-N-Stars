@@ -739,7 +739,7 @@
         "set_as_park": "Ustaw jako pozycję parkowania",
         "trackingMode": "Tryb śledzenia",
         "manuellControl": "Sterowanie ręczne",
-        "slewRate": "Prędkość obrotu °/s",
+        "slewRate": "Prędkość obrotu",
         "siderial": "Gwiezdny",
         "sync_coordinates_to_mount": "Synchronizuj współrzędne z montażem",
         "errors": {

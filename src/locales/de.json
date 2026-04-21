@@ -779,7 +779,7 @@
         "set_as_park": "Als Park setzen",
         "trackingMode": "Nachführungsmodus",
         "manuellControl": "Manuelle Bedienung",
-        "slewRate": "Bewegungsrate °/s",
+        "slewRate": "Bewegungsrate",
         "siderial": "Siderisch",
         "sync_coordinates_to_mount": "Koordinaten zur Montierung senden",
         "errors": {

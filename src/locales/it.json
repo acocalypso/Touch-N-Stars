@@ -739,7 +739,7 @@
         "set_as_park": "Imposta Park",
         "trackingMode": "Modalità inseguimento",
         "manuellControl": "Controllo manuale",
-        "slewRate": "Velocità spostamento °/s",
+        "slewRate": "Velocità spostamento",
         "siderial": "Siderale",
         "sync_coordinates_to_mount": "Sincronizza coordinate con montatura",
         "errors": {

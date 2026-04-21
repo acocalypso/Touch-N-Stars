@@ -739,7 +739,7 @@
         "set_as_park": "Définir Park",
         "trackingMode": "Mode de suivi",
         "manuellControl": "Contrôle manuel",
-        "slewRate": "Vitesse de déplacement °/s",
+        "slewRate": "Vitesse de déplacement",
         "siderial": "Sidéral",
         "sync_coordinates_to_mount": "Synchroniser les coordonnées avec la monture",
         "errors": {

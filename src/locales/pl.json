@@ -1700,7 +1700,8 @@
         "keepOpen": "Pozostaw tę aplikację otwartą. \nElementy sterujące są tymczasowo zablokowane, aby zapobiec niespójnemu stanowi.",
         "running": "Aktualizacja pakietów Raspberry Pi. \nPoczekaj, aż proces się zakończy.",
         "title": "Aktualizacja systemu w toku",
-        "waitingForApi": "Aktualizacja zakończona. \nOczekiwanie, aż interfejs API NINA stanie się ponownie dostępny..."
+        "waitingForApi": "Aktualizacja zakończona. \nOczekiwanie, aż interfejs API NINA stanie się ponownie dostępny...",
+        "close": "Zamknij"
       }
     },
     "bahtifocus": {

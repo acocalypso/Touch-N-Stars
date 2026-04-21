@@ -292,20 +292,6 @@ let isComponentUnmounting = false;
 
 const PORT = 8000;
 const TOKEN = 'zZDqJ3IKeFaIZqG2JIFvsxzA5E48GC2gyGVagHFZqC0OMtgoupUDZCPhQDYKm35d';
-const PINS_ALLOWED_PLUGIN_PACKAGES = [
-  'pins-plugin-alpaca',
-  'pins-plugin-groundstation',
-  'pins-plugin-joko',
-  'pins-plugin-livestack',
-  'pins-plugin-nightsummary',
-  'pins-plugin-ninaapi',
-  'pins-plugin-orbuculum',
-  'pins-plugin-phd2tools',
-  'pins-plugin-pins',
-  'pins-plugin-polaralignment',
-  'pins-plugin-tenmicron',
-  'pins-plugin-touch-n-stars',
-];
 
 const availableUpdatePackages = computed(() => {
   const packages = updatesCheckResult.value?.packages || [];
@@ -542,31 +528,21 @@ async function loadPinsPlugins() {
     const payload = response.data || {};
     pinsPluginsCheckedAt.value = payload.checkedAt || '';
     const apiPlugins = Array.isArray(payload.plugins) ? payload.plugins : [];
-    const pluginMap = new Map(apiPlugins.map((plugin) => [plugin.packageName, plugin]));
-
-    const allowedPlugins = PINS_ALLOWED_PLUGIN_PACKAGES.map((packageName) => {
-      const plugin = pluginMap.get(packageName);
-      return {
-        packageName,
-        installed: Boolean(plugin?.installed),
-        installedVersion: plugin?.installedVersion || null,
-      };
-    });
-
-    // Include any unknown plugins returned by the backend for visibility.
-    const extraPlugins = apiPlugins
+    pinsPlugins.value = apiPlugins
       .filter((plugin) => plugin?.packageName)
-      .filter((plugin) => !PINS_ALLOWED_PLUGIN_PACKAGES.includes(plugin.packageName))
       .map((plugin) => ({
         packageName: plugin.packageName,
         installed: Boolean(plugin.installed),
         installedVersion: plugin.installedVersion || null,
+        availableVersion: plugin.availableVersion || null,
       }));
-
-    pinsPlugins.value = [...allowedPlugins, ...extraPlugins];
   } catch (error) {
     console.error(error);
-    appendLog(t('plugins.pins.logs.pluginsLoadFailed', { message: error.message }));
+    if (error.response?.status === 502) {
+      appendLog(t('plugins.pins.logs.pluginsLoadMetadataFailed'));
+    } else {
+      appendLog(t('plugins.pins.logs.pluginsLoadFailed', { message: error.message }));
+    }
   } finally {
     isPinsPluginsLoading.value = false;
   }
@@ -638,11 +614,6 @@ async function pollJobUntilFinished(ip, id, { intervalMs = 2000, maxAttempts = 1
 
 async function runPinsPluginAction(action, packageName) {
   if (status.value === 'Running' || pinsPluginsBusyPackage.value) return;
-
-  if (!PINS_ALLOWED_PLUGIN_PACKAGES.includes(packageName)) {
-    appendLog(t('plugins.pins.logs.pluginsPackageNotAllowed', { packageName }));
-    return;
-  }
 
   const ip = getIp();
   if (!ip) {

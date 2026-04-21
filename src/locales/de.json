@@ -1664,6 +1664,7 @@
         "indi3rdpartyInstallSuccess": "INDI package installation finished: {message}",
         "indi3rdpartyInstallFailed": "INDI package installation failed: {message}",
         "pluginsLoadFailed": "PINS-Plugins konnten nicht geladen werden: {message}",
+        "pluginsLoadMetadataFailed": "PINS-Plugins konnten nicht geladen werden, da das Plugin-Metadaten-Repository derzeit nicht erreichbar ist (HTTP 502).",
         "pluginsPackageNotAllowed": "Paket ist laut API-Richtlinie nicht erlaubt: {packageName}",
         "pluginInstallStart": "Plugin wird installiert: {packageName}",
         "pluginUninstallStart": "Plugin wird deinstalliert: {packageName}",

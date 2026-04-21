@@ -1672,6 +1672,7 @@
         "indi3rdpartyInstallSuccess": "INDI package installation finished: {message}",
         "indi3rdpartyInstallFailed": "INDI package installation failed: {message}",
         "pluginsLoadFailed": "Failed to load PINS plugins: {message}",
+        "pluginsLoadMetadataFailed": "PINS plugins could not be loaded because plugin metadata repository is currently unavailable (HTTP 502).",
         "pluginsPackageNotAllowed": "Package not allowed by API policy: {packageName}",
         "pluginInstallStart": "Installing plugin: {packageName}",
         "pluginUninstallStart": "Uninstalling plugin: {packageName}",

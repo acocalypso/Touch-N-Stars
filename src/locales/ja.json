@@ -340,7 +340,9 @@
         "NumberOfAttempts": "試行回数",
         "ReattemptDelay": "リトライ待機時間 (分)",
         "BlindFailoverEnabled": "ブラインド・フェイルオーバー有効",
-        "ASTAPLocation": "ASTAP の場所"
+        "ASTAPLocation": "ASTAP の場所",
+        "Filter": "フィルター",
+        "FilterCurrent": "現在"
       },
       "equipment": {
         "title": "機器",

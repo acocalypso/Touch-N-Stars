@@ -296,7 +296,9 @@
         "NumberOfAttempts": "Numero di tentativi",
         "ReattemptDelay": "Ritardo (min) per il nuovo tentativo",
         "BlindFailoverEnabled": "Failover cieco abilitato",
-        "ASTAPLocation": "Posizione dell'ASTAP"
+        "ASTAPLocation": "Posizione dell'ASTAP",
+        "Filter": "Filtro",
+        "FilterCurrent": "Attuale"
       },
       "equipment": {
         "title": "Attrezzatura",

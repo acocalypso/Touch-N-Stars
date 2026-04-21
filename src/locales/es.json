@@ -296,7 +296,9 @@
         "NumberOfAttempts": "Número de intentos",
         "ReattemptDelay": "Retraso (min) de reintento",
         "BlindFailoverEnabled": "Conmutación por error ciega habilitada",
-        "ASTAPLocation": "Ubicación de ASTAP"
+        "ASTAPLocation": "Ubicación de ASTAP",
+        "Filter": "Filtro",
+        "FilterCurrent": "Actual"
       },
       "equipment": {
         "title": "Equipo",

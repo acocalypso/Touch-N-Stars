@@ -362,7 +362,9 @@
         "NumberOfAttempts": "Anzahl der Versuche",
         "ReattemptDelay": "Verzögerung (min) bei erneutem Versuch",
         "BlindFailoverEnabled": "Blind Solver aktiviert",
-        "ASTAPLocation": "ASTAP-Speicherort"
+        "ASTAPLocation": "ASTAP-Speicherort",
+        "Filter": "Filter",
+        "FilterCurrent": "Aktuell"
       },
       "equipment": {
         "title": "Ausrüstung",

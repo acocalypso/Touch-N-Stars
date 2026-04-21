@@ -296,7 +296,9 @@
         "NumberOfAttempts": "Liczba prób",
         "ReattemptDelay": "Opóźnienie (min) ponownej próby",
         "BlindFailoverEnabled": "Włączono ślepe przełączanie awaryjne",
-        "ASTAPLocation": "Lokalizacja firmy ASAP"
+        "ASTAPLocation": "Lokalizacja firmy ASAP",
+        "Filter": "Filtr",
+        "FilterCurrent": "Aktualny"
       },
       "equipment": {
         "title": "Sprzęt",

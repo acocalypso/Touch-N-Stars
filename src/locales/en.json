@@ -1353,7 +1353,7 @@
     "flatassistant": {
       "title": "Flat assistant",
       "count": "Flats to take",
-      "darks_to_take": "Darks to take",
+      "darks_to_take": "Darkflats to take",
       "exposure_time": "Exposure time",
       "min_exposure_time": "Min exposure time",
       "max_exposure_time": "Max exposure time",

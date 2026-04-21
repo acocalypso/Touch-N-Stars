@@ -1353,7 +1353,7 @@
       "cover_scope_confirm": "わかりました",
       "cover_scope_message": "今すぐスコープをカバーし、OK を押して暗闇の撮影を開始します。",
       "cover_scope_title": "今すぐ範囲をカバーしましょう",
-      "darks_to_take": "闇を受け入れる",
+      "darks_to_take": "撮影するDarkflats",
       "operation_failed": "操作が失敗しました",
       "status_failed_darks": "暗い部分がキャプチャされていません - 有効な露出を判断できませんでした",
       "status_failed_flats": "フラットはキャプチャされませんでした - 有効な露出を決定できませんでした",

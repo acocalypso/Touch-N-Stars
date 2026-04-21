@@ -739,7 +739,7 @@
         "set_as_park": "Definir Park",
         "trackingMode": "Modo de rastreamento",
         "manuellControl": "Controle manual",
-        "slewRate": "Taxa de movimento °/s",
+        "slewRate": "Taxa de movimento",
         "siderial": "Sideral",
         "sync_coordinates_to_mount": "Sincronizar coordenadas com montagem",
         "errors": {

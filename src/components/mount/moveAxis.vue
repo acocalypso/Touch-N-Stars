@@ -89,7 +89,8 @@
     <div
       class="flex flex-col bg-gray-900/80 w-full border border-gray-300 p-1 sm:p-2 mt-1 rounded-xl gap-1"
     >
-      <SetSlewRate />
+      <SetSlewRate v-if="!store.isPINS" />
+      <setSlewRatePins v-else />
     </div>
     <!-- Loading Overlay -->
     <div
@@ -111,6 +112,7 @@ import websocketMountControl from '@/services/websocketMountControl';
 import { useMountStore } from '@/store/mountStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import SetSlewRate from './settings/setSlewRate.vue';
+import setSlewRatePins from './setSlewRatePins.vue';
 import {
   ArrowRightCircleIcon,
   ArrowLeftCircleIcon,
@@ -118,8 +120,10 @@ import {
   ArrowUpCircleIcon,
   StopCircleIcon,
 } from '@heroicons/vue/24/outline';
+import { apiStore } from '@/store/store';
 
 const mountStore = useMountStore();
+const store = apiStore();
 const settingsStore = useSettingsStore();
 let commandInterval = null; // Speichert das Intervall
 let failsafeTimeout = null; // Sicherheits-Timeout

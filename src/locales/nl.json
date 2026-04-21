@@ -739,7 +739,7 @@
         "set_as_park": "Stel in als park",
         "trackingMode": "Volgmodus",
         "manuellControl": "Manuele controle",
-        "slewRate": "Slew snelheid °/s",
+        "slewRate": "Slew snelheid",
         "siderial": "Siderisch",
         "sync_coordinates_to_mount": "Sync coordinaten met montering",
         "errors": {

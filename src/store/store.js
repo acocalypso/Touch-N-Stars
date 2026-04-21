@@ -369,6 +369,10 @@ export const apiStore = defineStore('store', {
           signalRNotificationService.setNotificationCallback((notification) => {
             //console.log('[API Store] SignalR Notification:', notification);
 
+            if (notification.message === 'Not a 10u mount. 10u utilities disabled.') {
+              return;
+            }
+
             // Show toast notification
             const toastStore = useToastStore();
 

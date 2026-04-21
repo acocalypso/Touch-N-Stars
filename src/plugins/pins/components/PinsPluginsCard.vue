@@ -85,7 +85,7 @@
                   }}
                 </span>
               </td>
-              <td class="px-4 py-3">{{ plugin.installedVersion || '-' }}</td>
+              <td class="px-4 py-3">{{ formatPluginVersion(plugin) }}</td>
               <td class="px-4 py-3">
                 <div class="flex justify-end">
                   <button
@@ -123,6 +123,21 @@
 </template>
 
 <script setup>
+function formatPluginVersion(plugin) {
+  if (!plugin) {
+    return '-';
+  }
+
+  const installedVersion = plugin.installedVersion || null;
+  const availableVersion = plugin.availableVersion || null;
+
+  if (installedVersion && availableVersion && installedVersion !== availableVersion) {
+    return `${installedVersion} -> ${availableVersion}`;
+  }
+
+  return installedVersion || availableVersion || '-';
+}
+
 defineProps({
   plugins: {
     type: Array,

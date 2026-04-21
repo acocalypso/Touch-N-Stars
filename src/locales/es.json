@@ -1706,7 +1706,8 @@
         "keepOpen": "Mantenga esta aplicación abierta. \nLos controles se bloquean temporalmente para evitar estados inconsistentes.",
         "running": "Actualización de paquetes de Raspberry Pi. \nEspere hasta que se complete el proceso.",
         "title": "Actualización del sistema en curso",
-        "waitingForApi": "Actualización finalizada. \nEsperando que la API de NINA vuelva a ser accesible..."
+        "waitingForApi": "Actualización finalizada. \nEsperando que la API de NINA vuelva a ser accesible...",
+        "close": "Cerrar"
       },
       "pluginsAction": "Acción",
       "pluginsCheckedAt": "Comprobado en",

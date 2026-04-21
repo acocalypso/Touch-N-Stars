@@ -79,6 +79,11 @@ export const usePinsStore = defineStore('pins', {
       this.currentJobId = null;
       this.terminalStatus = 'Idle';
     },
+    resetUpgradeOverlay() {
+      this.activeOperation = null;
+      this.currentJobId = null;
+      this.terminalStatus = 'Idle';
+    },
   },
   persist: {
     enabled: true,

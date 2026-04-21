@@ -1706,7 +1706,8 @@
         "keepOpen": "Keep this app open. Controls are temporarily blocked to prevent inconsistent state.",
         "running": "Updating Raspberry Pi packages. Please wait until the process is complete.",
         "title": "System Update In Progress",
-        "waitingForApi": "Update finished. Waiting for NINA API to become reachable again..."
+        "waitingForApi": "Update finished. Waiting for NINA API to become reachable again...",
+        "close": "关闭"
       },
       "pluginsAction": "Action",
       "pluginsCheckedAt": "Checked at",

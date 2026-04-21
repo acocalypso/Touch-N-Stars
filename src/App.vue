@@ -158,6 +158,12 @@
           <p v-if="pinsStore.currentJobId" class="text-xs text-blue-300 font-mono break-all">
             {{ $t('plugins.pins.upgradeOverlay.jobId', { jobId: pinsStore.currentJobId }) }}
           </p>
+          <button
+            @click="closePinsUpgradeOverlay"
+            class="mt-2 px-4 py-2 text-sm text-gray-300 hover:text-white border border-gray-600 hover:border-gray-400 rounded transition-colors"
+          >
+            {{ $t('plugins.pins.upgradeOverlay.close') }}
+          </button>
         </div>
       </template>
     </Modal>
@@ -493,6 +499,20 @@ const pinsUpgradeOverlayMessage = computed(() => {
   }
   return t('plugins.pins.upgradeOverlay.running');
 });
+
+function closePinsUpgradeOverlay() {
+  if (pinsUpgradeRecoveryTimer) {
+    clearTimeout(pinsUpgradeRecoveryTimer);
+    pinsUpgradeRecoveryTimer = null;
+  }
+  pinsStore.resetUpgradeOverlay();
+  try {
+    window.localStorage.removeItem('lastUpgradeJobId');
+    window.localStorage.removeItem('lastUpgradeJobResult');
+  } catch {
+    // Ignore storage cleanup errors.
+  }
+}
 
 function finalizePinsUpgradeRecoveryIfReady() {
   if (!(pinsStore.isUpgradeWaitingForBackend && store.isBackendReachable)) {

@@ -22,11 +22,23 @@
       @update:search-query="$emit('update:search-query', $event)"
       @update:selected-asset="$emit('update:selected-asset', $event)"
     />
+
+    <PinsPluginsCard
+      :plugins="plugins"
+      :loading="pluginsLoading"
+      :checked-at="pluginsCheckedAt"
+      :busy-package="pluginsBusyPackage"
+      :disabled="disabled"
+      @refresh="$emit('plugins-refresh')"
+      @install="$emit('plugin-install', $event)"
+      @uninstall="$emit('plugin-uninstall', $event)"
+    />
   </div>
 </template>
 
 <script setup>
 import PinsIndi3rdpartyCard from '../PinsIndi3rdpartyCard.vue';
+import PinsPluginsCard from '../PinsPluginsCard.vue';
 
 defineProps({
   availableUpdateCount: {
@@ -53,6 +65,22 @@ defineProps({
     type: String,
     required: true,
   },
+  plugins: {
+    type: Array,
+    required: true,
+  },
+  pluginsLoading: {
+    type: Boolean,
+    required: true,
+  },
+  pluginsCheckedAt: {
+    type: String,
+    default: '',
+  },
+  pluginsBusyPackage: {
+    type: String,
+    default: '',
+  },
   disabled: {
     type: Boolean,
     required: true,
@@ -64,6 +92,9 @@ defineEmits([
   'refresh',
   'search',
   'install',
+  'plugins-refresh',
+  'plugin-install',
+  'plugin-uninstall',
   'update:search-query',
   'update:selected-asset',
 ]);

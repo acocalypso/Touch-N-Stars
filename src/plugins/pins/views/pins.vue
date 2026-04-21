@@ -75,11 +75,18 @@
               :installing="isIndi3rdpartyInstalling"
               :search-query="indi3rdpartyQuery"
               :selected-asset="selectedIndi3rdpartyAsset"
+              :plugins="pinsPlugins"
+              :plugins-loading="isPinsPluginsLoading"
+              :plugins-checked-at="pinsPluginsCheckedAt"
+              :plugins-busy-package="pinsPluginsBusyPackage"
               :disabled="status === 'Running'"
               @open-updates="showUpdatesModal = true"
               @refresh="loadIndi3rdpartyDrivers"
               @search="loadIndi3rdpartyDrivers"
               @install="installIndi3rdpartyDriver"
+              @plugins-refresh="loadPinsPlugins"
+              @plugin-install="installPinsPlugin"
+              @plugin-uninstall="uninstallPinsPlugin"
               @update:search-query="indi3rdpartyQuery = $event"
               @update:selected-asset="selectedIndi3rdpartyAsset = $event"
             />
@@ -258,6 +265,10 @@ const indi3rdpartyDrivers = ref([]);
 const isIndi3rdpartyLoading = ref(false);
 const isIndi3rdpartyInstalling = ref(false);
 const indi3rdpartyQuery = ref('');
+const pinsPlugins = ref([]);
+const isPinsPluginsLoading = ref(false);
+const pinsPluginsCheckedAt = ref('');
+const pinsPluginsBusyPackage = ref('');
 const dhcpClients = ref([]);
 const isDhcpClientsLoading = ref(false);
 const selectedIndi3rdpartyAsset = ref('');
@@ -281,6 +292,20 @@ let isComponentUnmounting = false;
 
 const PORT = 8000;
 const TOKEN = 'zZDqJ3IKeFaIZqG2JIFvsxzA5E48GC2gyGVagHFZqC0OMtgoupUDZCPhQDYKm35d';
+const PINS_ALLOWED_PLUGIN_PACKAGES = [
+  'pins-plugin-alpaca',
+  'pins-plugin-groundstation',
+  'pins-plugin-joko',
+  'pins-plugin-livestack',
+  'pins-plugin-nightsummary',
+  'pins-plugin-ninaapi',
+  'pins-plugin-orbuculum',
+  'pins-plugin-phd2tools',
+  'pins-plugin-pins',
+  'pins-plugin-polaralignment',
+  'pins-plugin-tenmicron',
+  'pins-plugin-touch-n-stars',
+];
 
 const availableUpdatePackages = computed(() => {
   const packages = updatesCheckResult.value?.packages || [];
@@ -371,6 +396,7 @@ watch(
       loadWifiInterfaceConfig();
       checkUpdates();
       loadIndi3rdpartyDrivers();
+      loadPinsPlugins();
       loadDhcpClients();
       restoreUpgradeState();
     } else {
@@ -497,6 +523,209 @@ async function installIndi3rdpartyDriver() {
   } finally {
     isIndi3rdpartyInstalling.value = false;
   }
+}
+
+async function loadPinsPlugins() {
+  const ip = getIp();
+  if (!ip || isPinsPluginsLoading.value) return;
+
+  isPinsPluginsLoading.value = true;
+  try {
+    const directAxios = axios.create({ headers: {} });
+    const response = await directAxios.get(`http://${ip}:${PORT}/plugins`, {
+      headers: {
+        Authorization: `Bearer ${TOKEN}`,
+      },
+      timeout: 15000,
+    });
+
+    const payload = response.data || {};
+    pinsPluginsCheckedAt.value = payload.checkedAt || '';
+    const apiPlugins = Array.isArray(payload.plugins) ? payload.plugins : [];
+    const pluginMap = new Map(apiPlugins.map((plugin) => [plugin.packageName, plugin]));
+
+    const allowedPlugins = PINS_ALLOWED_PLUGIN_PACKAGES.map((packageName) => {
+      const plugin = pluginMap.get(packageName);
+      return {
+        packageName,
+        installed: Boolean(plugin?.installed),
+        installedVersion: plugin?.installedVersion || null,
+      };
+    });
+
+    // Include any unknown plugins returned by the backend for visibility.
+    const extraPlugins = apiPlugins
+      .filter((plugin) => plugin?.packageName)
+      .filter((plugin) => !PINS_ALLOWED_PLUGIN_PACKAGES.includes(plugin.packageName))
+      .map((plugin) => ({
+        packageName: plugin.packageName,
+        installed: Boolean(plugin.installed),
+        installedVersion: plugin.installedVersion || null,
+      }));
+
+    pinsPlugins.value = [...allowedPlugins, ...extraPlugins];
+  } catch (error) {
+    console.error(error);
+    appendLog(t('plugins.pins.logs.pluginsLoadFailed', { message: error.message }));
+  } finally {
+    isPinsPluginsLoading.value = false;
+  }
+}
+
+function parseJobIdFromResponse(data) {
+  if (data && typeof data === 'object' && data.jobId) {
+    return data.jobId;
+  }
+  if (typeof data === 'string' || typeof data === 'number') {
+    return data;
+  }
+  return null;
+}
+
+function isJobSuccess(result) {
+  const statusValue = String(result?.status || '').toLowerCase();
+  return (
+    statusValue === 'success' ||
+    statusValue === 'completed' ||
+    result?.exit_code === 0 ||
+    result?.exitCode === 0 ||
+    result?.success === true
+  );
+}
+
+function isJobFailed(result) {
+  const statusValue = String(result?.status || '').toLowerCase();
+  return (
+    statusValue === 'failed' ||
+    (typeof result?.exit_code === 'number' && result.exit_code !== 0) ||
+    (typeof result?.exitCode === 'number' && result.exitCode !== 0) ||
+    result?.success === false
+  );
+}
+
+async function pollJobUntilFinished(ip, id, { intervalMs = 2000, maxAttempts = 120 } = {}) {
+  let lastStatus = null;
+  for (let attempt = 0; attempt < maxAttempts; attempt++) {
+    const directAxios = axios.create({ headers: {} });
+    const response = await directAxios.get(`http://${ip}:${PORT}/jobs/${id}`, {
+      headers: {
+        Authorization: `Bearer ${TOKEN}`,
+      },
+      timeout: 8000,
+    });
+
+    const result = response.data || {};
+    const currentStatus = String(result.status || '').toLowerCase();
+
+    if (currentStatus && currentStatus !== lastStatus) {
+      appendLog(t('plugins.pins.logs.jobStatus', { status: currentStatus }));
+      lastStatus = currentStatus;
+    }
+
+    if (isJobSuccess(result)) {
+      return { success: true, result };
+    }
+
+    if (isJobFailed(result)) {
+      return { success: false, result };
+    }
+
+    await new Promise((resolve) => setTimeout(resolve, intervalMs));
+  }
+
+  return { success: false, result: { status: 'timeout' } };
+}
+
+async function runPinsPluginAction(action, packageName) {
+  if (status.value === 'Running' || pinsPluginsBusyPackage.value) return;
+
+  if (!PINS_ALLOWED_PLUGIN_PACKAGES.includes(packageName)) {
+    appendLog(t('plugins.pins.logs.pluginsPackageNotAllowed', { packageName }));
+    return;
+  }
+
+  const ip = getIp();
+  if (!ip) {
+    appendLog(t('plugins.pins.logs.noIp'));
+    return;
+  }
+
+  const endpoint = action === 'install' ? 'install' : 'uninstall';
+  const startMessageKey =
+    action === 'install'
+      ? 'plugins.pins.logs.pluginInstallStart'
+      : 'plugins.pins.logs.pluginUninstallStart';
+
+  status.value = 'Running';
+  pinsStore.setActiveOperation('pins-plugin');
+  pinsStore.clearTerminalLogs();
+  pinsPluginsBusyPackage.value = packageName;
+  appendLog(t('plugins.pins.logs.init', { ip }));
+  appendLog(t(startMessageKey, { packageName }));
+
+  try {
+    const directAxios = axios.create({ headers: {} });
+    const response = await directAxios.post(
+      `http://${ip}:${PORT}/plugins/${endpoint}`,
+      { packageName },
+      {
+        headers: {
+          Authorization: `Bearer ${TOKEN}`,
+          'Content-Type': 'application/json',
+        },
+        timeout: 15000,
+      }
+    );
+
+    const data = response.data;
+    const returnedJobId = parseJobIdFromResponse(data);
+
+    if (!returnedJobId) {
+      appendLog(t('plugins.pins.logs.error', { message: 'No valid jobId returned.' }));
+      status.value = 'Failed';
+      return;
+    }
+
+    appendLog(t('plugins.pins.logs.jobCreated', { jobId: returnedJobId }));
+
+    const pollResult = await pollJobUntilFinished(ip, returnedJobId);
+    if (pollResult.success) {
+      status.value = 'Success';
+      appendLog(t('plugins.pins.logs.pluginActionSuccess', { packageName }));
+    } else {
+      status.value = 'Failed';
+      appendLog(
+        t('plugins.pins.logs.pluginActionFailed', {
+          packageName,
+          status: pollResult.result?.status || 'unknown',
+        })
+      );
+    }
+  } catch (error) {
+    console.error(error);
+    status.value = 'Failed';
+    appendLog(t('plugins.pins.logs.error', { message: error.message }));
+
+    if (error.response) {
+      appendLog(
+        t('plugins.pins.logs.serverError', {
+          status: error.response.status,
+          data: JSON.stringify(error.response.data),
+        })
+      );
+    }
+  } finally {
+    await loadPinsPlugins();
+    pinsPluginsBusyPackage.value = '';
+  }
+}
+
+function installPinsPlugin(packageName) {
+  return runPinsPluginAction('install', packageName);
+}
+
+function uninstallPinsPlugin(packageName) {
+  return runPinsPluginAction('uninstall', packageName);
 }
 
 async function checkUpdates() {

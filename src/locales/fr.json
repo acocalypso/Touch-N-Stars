@@ -1640,7 +1640,13 @@
         "wifiAdaptersLoadFailed": "Échec du chargement des adaptateurs Wi-Fi : {message}",
         "wifiInterfacesLoadFailed": "Échec du chargement des interfaces Wi-Fi sélectionnées : {message}",
         "wifiInterfacesSaveFailed": "Échec de l'enregistrement des interfaces Wi-Fi : {message}",
-        "wifiInterfacesSaved": "Interfaces WiFi enregistrées. \nClient : {clientInterface}, point d'accès : {hotspotInterface}"
+        "wifiInterfacesSaved": "Interfaces WiFi enregistrées. \nClient : {clientInterface}, point d'accès : {hotspotInterface}",
+        "pluginActionFailed": "L'action du plug-in a échoué pour {packageName}. \nStatut : {statut}",
+        "pluginActionSuccess": "L'action du plug-in s'est terminée avec succès : {packageName}",
+        "pluginInstallStart": "Installation du plug-in : {packageName}",
+        "pluginUninstallStart": "Plugin de désinstallation : {packageName}",
+        "pluginsLoadFailed": "Échec du chargement des plug-ins PINS : {message}",
+        "pluginsPackageNotAllowed": "Package non autorisé par la règle de l'API : {packageName}"
       },
       "hotspotConfigured": "Le mot de passe du point d'accès personnalisé est configuré.",
       "hotspotNewPassword": "Nouveau mot de passe du point d'accès",
@@ -1701,7 +1707,22 @@
         "running": "Mise à jour des packages Raspberry Pi. \nVeuillez attendre que le processus soit terminé.",
         "title": "Mise à jour du système en cours",
         "waitingForApi": "Mise à jour terminée. \nEn attendant que l'API NINA redevienne accessible..."
-      }
+      },
+      "pluginsAction": "Action",
+      "pluginsCheckedAt": "Vérifié à",
+      "pluginsDescription": "Gérez les plugins PINS facultatifs (installation ou désinstallation).",
+      "pluginsEmpty": "Aucun plugin disponible.",
+      "pluginsInstall": "Installer",
+      "pluginsInstalled": "Installé",
+      "pluginsInstalledNo": "Non",
+      "pluginsInstalledYes": "Oui",
+      "pluginsInstalling": "Installation...",
+      "pluginsPackage": "Emballer",
+      "pluginsRefresh": "Actualiser la liste des plugins",
+      "pluginsTitle": "Plugins PINS",
+      "pluginsUninstall": "Désinstaller",
+      "pluginsUninstalling": "Désinstallation...",
+      "pluginsVersion": "Version"
     },
     "bahtifocus": {
       "title": "Analyseur de masque Bahtinov",

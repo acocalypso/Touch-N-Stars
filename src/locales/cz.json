@@ -1640,7 +1640,13 @@
         "wifiAdaptersLoadFailed": "Failed to load WiFi adapters: {message}",
         "wifiInterfacesLoadFailed": "Failed to load selected WiFi interfaces: {message}",
         "wifiInterfacesSaveFailed": "Failed to save WiFi interfaces: {message}",
-        "wifiInterfacesSaved": "Saved WiFi interfaces. Client: {clientInterface}, Hotspot: {hotspotInterface}"
+        "wifiInterfacesSaved": "Saved WiFi interfaces. Client: {clientInterface}, Hotspot: {hotspotInterface}",
+        "pluginActionFailed": "Plugin action failed for {packageName}. Status: {status}",
+        "pluginActionSuccess": "Plugin action finished successfully: {packageName}",
+        "pluginInstallStart": "Installing plugin: {packageName}",
+        "pluginUninstallStart": "Uninstalling plugin: {packageName}",
+        "pluginsLoadFailed": "Failed to load PINS plugins: {message}",
+        "pluginsPackageNotAllowed": "Package not allowed by API policy: {packageName}"
       },
       "hotspotConfigured": "Je nakonfigurováno vlastní heslo hotspotu.",
       "hotspotNewPassword": "Nové heslo hotspotu",
@@ -1701,7 +1707,22 @@
         "running": "Updating Raspberry Pi packages. Please wait until the process is complete.",
         "title": "System Update In Progress",
         "waitingForApi": "Update finished. Waiting for NINA API to become reachable again..."
-      }
+      },
+      "pluginsAction": "Action",
+      "pluginsCheckedAt": "Checked at",
+      "pluginsDescription": "Manage optional PINS plugins (install or uninstall).",
+      "pluginsEmpty": "No plugins available.",
+      "pluginsInstall": "Install",
+      "pluginsInstalled": "Installed",
+      "pluginsInstalledNo": "No",
+      "pluginsInstalledYes": "Yes",
+      "pluginsInstalling": "Installing...",
+      "pluginsPackage": "Package",
+      "pluginsRefresh": "Refresh plugin list",
+      "pluginsTitle": "PINS Plugins",
+      "pluginsUninstall": "Uninstall",
+      "pluginsUninstalling": "Uninstalling...",
+      "pluginsVersion": "Version"
     },
     "bahtifocus": {
       "title": "Bahtinovův analyzátor masky",

@@ -1345,7 +1345,7 @@
       "cover_scope_confirm": "OK",
       "cover_scope_message": "Zakryj teraz lunetę i naciśnij OK, aby rozpocząć fotografowanie ciemności.",
       "cover_scope_title": "Zakryj teraz swój zasięg",
-      "darks_to_take": "Ciemności do wzięcia",
+      "darks_to_take": "Darkflats do wykonania",
       "operation_failed": "Operacja nie powiodła się",
       "status_failed_darks": "Nie uchwycono żadnych ciemności — nie można określić prawidłowej ekspozycji",
       "status_failed_flats": "Nie schwytano żadnych mieszkań – nie udało się określić prawidłowego narażenia",

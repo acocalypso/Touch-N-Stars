@@ -57,6 +57,9 @@ const isLoading = ref(false);
 const borderClass = ref('border-gray-500');
 
 async function loadCameras(withRescan = false) {
+  if (store.profileInfo.GuiderSettings.GuiderName !== 'PHD2_Single') {
+    withRescan = false;
+  }
   isLoading.value = true;
   try {
     await apiService.connectPHD2();
@@ -111,17 +114,19 @@ async function setGuiderCam() {
 }
 
 watch(
-  () => store.profileInfo?.GuiderSettings,
-  async (newSettings, oldSettings) => {
-    if (!newSettings || !store.isPINS) return;
-    if (newSettings.GuiderName !== 'PHD2_Single') return;
-    const camChanged =
-      newSettings.PHD2Camera !== oldSettings?.PHD2Camera ||
-      newSettings.PHD2CameraId !== oldSettings?.PHD2CameraId;
-    if (newSettings.PHD2Camera && newSettings.PHD2CameraId) {
-      selectedCam.value = newSettings.PHD2Camera + ':' + newSettings.PHD2CameraId;
+  () => [
+    store.profileInfo?.GuiderSettings?.GuiderName,
+    store.profileInfo?.GuiderSettings?.PHD2Camera,
+    store.profileInfo?.GuiderSettings?.PHD2CameraId,
+  ],
+  async ([guiderName, phd2Camera, phd2CameraId], oldValues) => {
+    if (!store.isPINS) return;
+    if (guiderName !== 'PHD2_Single') return;
+    if (phd2Camera && phd2CameraId) {
+      selectedCam.value = phd2Camera + ':' + phd2CameraId;
     }
-    if (camChanged || cameras.value.length === 0) {
+    const isFirstRun = !oldValues;
+    if (isFirstRun) {
       await loadCameras();
     } else {
       validateSelection();

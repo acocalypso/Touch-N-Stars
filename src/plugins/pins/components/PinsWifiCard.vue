@@ -20,7 +20,7 @@
       </div>
       <div class="flex items-center gap-4">
         <button
-          v-if="stationaryMode"
+          v-if="stationaryMode || allowConcurrentMode"
           @click="$emit('scan-wifi')"
           class="text-blue-400 hover:text-white transition-colors p-2"
           :disabled="isScanning"
@@ -142,7 +142,7 @@
     </div>
 
     <div
-      v-if="stationaryMode"
+      v-if="stationaryMode || allowConcurrentMode"
       class="w-full relative z-10 flex flex-col gap-3 mt-2 animate-fade-in-up"
     >
       <div v-if="isScanning" class="flex items-center gap-2 text-blue-400 py-4 justify-center">
@@ -347,6 +347,10 @@ import toggleButton from '@/components/helpers/toggleButton.vue';
 
 defineProps({
   stationaryMode: {
+    type: Boolean,
+    required: true,
+  },
+  allowConcurrentMode: {
     type: Boolean,
     required: true,
   },

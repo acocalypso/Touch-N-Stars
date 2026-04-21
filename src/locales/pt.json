@@ -1640,7 +1640,13 @@
         "wifiAdaptersLoadFailed": "Falha ao carregar adaptadores WiFi: {message}",
         "wifiInterfacesLoadFailed": "Falha ao carregar interfaces WiFi selecionadas: {message}",
         "wifiInterfacesSaveFailed": "Falha ao salvar interfaces WiFi: {message}",
-        "wifiInterfacesSaved": "Interfaces WiFi salvas. \nCliente: {clientInterface}, ponto de acesso: {hotspotInterface}"
+        "wifiInterfacesSaved": "Interfaces WiFi salvas. \nCliente: {clientInterface}, ponto de acesso: {hotspotInterface}",
+        "pluginActionFailed": "Falha na ação do plug-in para {packageName}. \nStatus: {status}",
+        "pluginActionSuccess": "Ação do plug-in concluída com sucesso: {packageName}",
+        "pluginInstallStart": "Instalando o plug-in: {packageName}",
+        "pluginUninstallStart": "Desinstalando plug-in: {packageName}",
+        "pluginsLoadFailed": "Falha ao carregar plug-ins PINS: {message}",
+        "pluginsPackageNotAllowed": "Pacote não permitido pela política da API: {packageName}"
       },
       "hotspotConfigured": "A senha do ponto de acesso personalizado está configurada.",
       "hotspotNewPassword": "Nova senha do ponto de acesso",
@@ -1701,7 +1707,22 @@
         "running": "Atualizando pacotes Raspberry Pi. \nAguarde até que o processo seja concluído.",
         "title": "Atualização do sistema em andamento",
         "waitingForApi": "Atualização concluída. \nAguardando que a API NINA fique acessível novamente..."
-      }
+      },
+      "pluginsAction": "Ação",
+      "pluginsCheckedAt": "Verificado em",
+      "pluginsDescription": "Gerenciar plug-ins PINS opcionais (instalar ou desinstalar).",
+      "pluginsEmpty": "Nenhum plug-in disponível.",
+      "pluginsInstall": "Instalar",
+      "pluginsInstalled": "Instalado",
+      "pluginsInstalledNo": "Não",
+      "pluginsInstalledYes": "Sim",
+      "pluginsInstalling": "Instalando...",
+      "pluginsPackage": "Pacote",
+      "pluginsRefresh": "Atualizar lista de plugins",
+      "pluginsTitle": "Plug-ins PINS",
+      "pluginsUninstall": "Desinstalar",
+      "pluginsUninstalling": "Desinstalando...",
+      "pluginsVersion": "Versão"
     },
     "bahtifocus": {
       "title": "Analisador de máscara Bahtinov",

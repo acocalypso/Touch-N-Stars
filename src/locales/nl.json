@@ -1640,7 +1640,13 @@
         "wifiAdaptersLoadFailed": "Kan WiFi-adapters niet laden: {message}",
         "wifiInterfacesLoadFailed": "Kan geselecteerde WiFi-interfaces niet laden: {message}",
         "wifiInterfacesSaveFailed": "Kan WiFi-interfaces niet opslaan: {message}",
-        "wifiInterfacesSaved": "Opgeslagen WiFi-interfaces. \nKlant: {clientInterface}, Hotspot: {hotspotInterface}"
+        "wifiInterfacesSaved": "Opgeslagen WiFi-interfaces. \nKlant: {clientInterface}, Hotspot: {hotspotInterface}",
+        "pluginActionFailed": "Plug-inactie mislukt voor {packageName}. \nStatus: {status}",
+        "pluginActionSuccess": "Plug-inactie succesvol voltooid: {packageName}",
+        "pluginInstallStart": "Plug-in installeren: {packageName}",
+        "pluginUninstallStart": "Plug-in verwijderen: {packageName}",
+        "pluginsLoadFailed": "Kan PINS-plug-ins niet laden: {message}",
+        "pluginsPackageNotAllowed": "Pakket niet toegestaan ​​door API-beleid: {packageName}"
       },
       "hotspotConfigured": "Er is een aangepast hotspotwachtwoord geconfigureerd.",
       "hotspotNewPassword": "Nieuw hotspot-wachtwoord",
@@ -1701,7 +1707,22 @@
         "running": "Raspberry Pi-pakketten bijwerken. \nWacht tot het proces is voltooid.",
         "title": "Systeemupdate wordt uitgevoerd",
         "waitingForApi": "Update voltooid. \nWachten tot de NINA API weer bereikbaar is..."
-      }
+      },
+      "pluginsAction": "Actie",
+      "pluginsCheckedAt": "Gecontroleerd bij",
+      "pluginsDescription": "Beheer optionele PINS-plug-ins (installeren of verwijderen).",
+      "pluginsEmpty": "Geen plug-ins beschikbaar.",
+      "pluginsInstall": "Installeren",
+      "pluginsInstalled": "Geïnstalleerd",
+      "pluginsInstalledNo": "Nee",
+      "pluginsInstalledYes": "Ja",
+      "pluginsInstalling": "Installeren...",
+      "pluginsPackage": "Pakket",
+      "pluginsRefresh": "Vernieuw de plug-inlijst",
+      "pluginsTitle": "PINS-plug-ins",
+      "pluginsUninstall": "Verwijderen",
+      "pluginsUninstalling": "Verwijderen...",
+      "pluginsVersion": "Versie"
     },
     "bahtifocus": {
       "title": "Bahtinov Masker Analyse",

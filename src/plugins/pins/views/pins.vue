@@ -18,6 +18,7 @@
           <template v-if="activeTab === 'network'">
             <PinsNetworkTab
               :stationary-mode="stationaryMode"
+              :allow-concurrent-mode="allowConcurrentWifiAndHotspot"
               :is-scanning="isScanning"
               :wifi-list="wifiList"
               :selected-ssid="selectedSsid"
@@ -324,6 +325,20 @@ const {
   PORT,
   TOKEN,
   status,
+});
+
+const allowConcurrentWifiAndHotspot = computed(() => {
+  const hasMultipleAdapters = wifiAdapters.value.length >= 2;
+  const hasDedicatedClientInterface = Boolean(selectedClientInterface.value);
+  const hasDedicatedHotspotInterface = Boolean(selectedHotspotInterface.value);
+  const usesDifferentInterfaces = selectedClientInterface.value !== selectedHotspotInterface.value;
+
+  return (
+    hasMultipleAdapters &&
+    hasDedicatedClientInterface &&
+    hasDedicatedHotspotInterface &&
+    usesDifferentInterfaces
+  );
 });
 
 const {

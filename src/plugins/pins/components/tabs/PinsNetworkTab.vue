@@ -2,6 +2,7 @@
   <div class="flex flex-col space-y-6">
     <PinsWifiCard
       :stationary-mode="stationaryMode"
+      :allow-concurrent-mode="allowConcurrentMode"
       :is-scanning="isScanning"
       :wifi-list="wifiList"
       :selected-ssid="selectedSsid"
@@ -36,7 +37,7 @@
     />
 
     <PinsDhcpClientsCard
-      v-if="!stationaryMode"
+      v-if="!stationaryMode || allowConcurrentMode"
       :clients="dhcpClients"
       :loading="dhcpClientsLoading"
       @refresh="$emit('refresh-dhcp')"
@@ -50,6 +51,10 @@ import PinsDhcpClientsCard from '../PinsDhcpClientsCard.vue';
 
 defineProps({
   stationaryMode: {
+    type: Boolean,
+    required: true,
+  },
+  allowConcurrentMode: {
     type: Boolean,
     required: true,
   },

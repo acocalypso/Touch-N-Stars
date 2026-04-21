@@ -13,7 +13,7 @@
           {{ $t('components.filterwheel.title') }}
         </h5>
         <div
-          v-if="!store.filterInfo.Connected"
+          v-if="!store.filterInfo.Connected && currentTab === 'showFilterwheel'"
           class="p-4 bg-red-500/10 border border-red-500/30 rounded-lg"
         >
           <p class="text-red-400 font-medium text-center">
@@ -36,6 +36,7 @@
               <strong>{{ $t('components.filterwheel.filter') }}</strong>
               <changeFilter />
               <pinsSetUnidirectional class="mt-2" />
+              <SetPlateSolverFilterPins class="mt-2" />
             </div>
           </div>
         </Transition>
@@ -63,6 +64,7 @@ import changeFilter from '@/components/filterwheel/changeFilter.vue';
 import InfoFilterwheel from '@/components/filterwheel/InfoFilterwheel.vue';
 import FilterSettings from '@/components/filterwheel/settings/FilterSettings.vue';
 import pinsSetUnidirectional from '@/components/filterwheel/settings/pinsSetUnidirectional.vue';
+import SetPlateSolverFilterPins from '@/components/settings/plateSolver/SetPlateSolverFilterPins.vue';
 import SubNav from '@/components/SubNav.vue';
 import { apiStore } from '@/store/store';
 import { useFilterStore } from '@/store/filterStore';

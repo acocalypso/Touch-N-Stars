@@ -35,6 +35,9 @@
           placeholder="C:\\Program Files\\astap\\astap.exe"
         />
       </div>
+      <SetPlateSolverFilterPins
+        v-if="store.profileInfo?.FilterWheelSettings?.FilterWheelFilters?.length"
+      />
     </div>
 
     <!-- Search Settings Container -->
@@ -103,6 +106,7 @@ import { ref, onMounted } from 'vue';
 import { apiStore } from '@/store/store';
 import SettingInput from '@/components/helpers/settings/UpdatePorfileNumber.vue';
 import setPlateSolverBlindFailover from './SetPlateSolverBlindFailover.vue';
+import SetPlateSolverFilterPins from './SetPlateSolverFilterPins.vue';
 import apiService from '@/services/apiService';
 
 const store = apiStore();

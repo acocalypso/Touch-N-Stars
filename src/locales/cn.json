@@ -296,7 +296,9 @@
         "NumberOfAttempts": "尝试次数",
         "ReattemptDelay": "重试延迟（分钟）",
         "BlindFailoverEnabled": "启用盲故障转移",
-        "ASTAPLocation": "ASTAP地点"
+        "ASTAPLocation": "ASTAP地点",
+        "Filter": "滤镜",
+        "FilterCurrent": "当前"
       },
       "equipment": {
         "title": "设备",

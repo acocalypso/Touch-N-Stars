@@ -237,7 +237,10 @@
         </div>
 
         <div
-          v-if="store.filterInfo.Connected && !isNavItemHidden('filter')"
+          v-if="
+            store.profileInfo?.FilterWheelSettings?.FilterWheelFilters?.length &&
+            !isNavItemHidden('filter')
+          "
           :style="{ order: getNavOrder('filter') }"
           :data-label="t('nav.filterWheel')"
         >

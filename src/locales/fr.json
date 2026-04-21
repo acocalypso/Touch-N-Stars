@@ -296,7 +296,9 @@
         "NumberOfAttempts": "Nombre de tentatives",
         "ReattemptDelay": "Délai (min) de nouvelle tentative",
         "BlindFailoverEnabled": "Basculement aveugle activé",
-        "ASTAPLocation": "Emplacement ASTAP"
+        "ASTAPLocation": "Emplacement ASTAP",
+        "Filter": "Filtre",
+        "FilterCurrent": "Actuel"
       },
       "equipment": {
         "title": "Équipement",

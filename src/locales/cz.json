@@ -296,7 +296,9 @@
         "NumberOfAttempts": "Počet pokusů",
         "ReattemptDelay": "Zpoždění opětovného pokusu (min)",
         "BlindFailoverEnabled": "Slepé převzetí služeb při selhání povoleno",
-        "ASTAPLocation": "Umístění ASTAP"
+        "ASTAPLocation": "Umístění ASTAP",
+        "Filter": "Filtr",
+        "FilterCurrent": "Aktuální"
       },
       "equipment": {
         "title": "Vybavení",

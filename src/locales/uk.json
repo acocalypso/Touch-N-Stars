@@ -276,7 +276,9 @@
         "NumberOfAttempts": "Кількість спроб",
         "ReattemptDelay": "Затримка між спробами (хв)",
         "BlindFailoverEnabled": "Сліпе перемикання увімкнено",
-        "ASTAPLocation": "Розташування ASTAP"
+        "ASTAPLocation": "Розташування ASTAP",
+        "Filter": "Фільтр",
+        "FilterCurrent": "Поточний"
       },
       "equipment": {
         "title": "Обладнання",

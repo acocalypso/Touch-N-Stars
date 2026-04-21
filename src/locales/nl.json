@@ -296,7 +296,9 @@
         "NumberOfAttempts": "Aantal pogingen",
         "ReattemptDelay": "Vertraging (min) voor nieuwe poging",
         "BlindFailoverEnabled": "Blinde failover ingeschakeld",
-        "ASTAPLocation": "ASTAP-locatie"
+        "ASTAPLocation": "ASTAP-locatie",
+        "Filter": "Filter",
+        "FilterCurrent": "Huidig"
       },
       "equipment": {
         "title": "Apparatuur",

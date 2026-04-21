@@ -739,7 +739,7 @@
         "set_as_park": "设为停靠位置",
         "trackingMode": "跟踪模式",
         "manuellControl": "手动控制",
-        "slewRate": "转动速率 °/秒",
+        "slewRate": "转动速率",
         "siderial": "恒星时",
         "sync_coordinates_to_mount": "与赤道仪同步坐标",
         "errors": {

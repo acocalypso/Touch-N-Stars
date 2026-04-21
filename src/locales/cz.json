@@ -739,7 +739,7 @@
         "set_as_park": "Nastavit jako park",
         "trackingMode": "Režim Sledování",
         "manuellControl": "Ruční Ovládání",
-        "slewRate": "Rychlost pohybu °/s",
+        "slewRate": "Rychlost pohybu",
         "siderial": "Hvězdný",
         "sync_coordinates_to_mount": "Synchronizace souřadnic s montáží",
         "errors": {

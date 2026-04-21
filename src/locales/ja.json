@@ -747,7 +747,7 @@
         "set_as_park": "パーク位置として設定",
         "trackingMode": "追尾モード",
         "manuellControl": "手動制御",
-        "slewRate": "導入速度 °/s",
+        "slewRate": "導入速度",
         "siderial": "恒星時",
         "sync_coordinates_to_mount": "座標を赤道儀に同期",
         "errors": {

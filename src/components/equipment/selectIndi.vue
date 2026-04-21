@@ -150,6 +150,42 @@
           </option>
         </select>
       </div>
+
+      <!-- Dome -->
+      <div class="flex flex-row w-full items-center">
+        <label for="indi-dome" class="mr-3 text-gray-200">
+          {{ $t('components.connectEquipment.dome.name') }}
+        </label>
+        <select
+          id="indi-dome"
+          v-model="selectedDome"
+          @change="onDomeChange"
+          class="default-select w-40 ml-auto"
+        >
+          <option value="None">None</option>
+          <option v-for="item in dome" :key="item.Name" :value="item.Name">
+            {{ item.Label }}
+          </option>
+        </select>
+      </div>
+
+      <!-- Safety Monitor -->
+      <div class="flex flex-row w-full items-center">
+        <label for="indi-safetymonitor" class="mr-3 text-gray-200">
+          {{ $t('components.connectEquipment.safety.name') }}
+        </label>
+        <select
+          id="indi-safetymonitor"
+          v-model="selectedSafetymonitor"
+          @change="onSafetymonitorChange"
+          class="default-select w-40 ml-auto"
+        >
+          <option value="None">None</option>
+          <option v-for="item in safetymonitor" :key="item.Name" :value="item.Name">
+            {{ item.Label }}
+          </option>
+        </select>
+      </div>
     </template>
   </div>
 </template>
@@ -170,6 +206,8 @@ const telescope = ref([]);
 const weather = ref([]);
 const switches = ref([]);
 const flatpanel = ref([]);
+const dome = ref([]);
+const safetymonitor = ref([]);
 
 const selectedFocuser = ref('None');
 const selectedFilterwheel = ref('None');
@@ -178,6 +216,8 @@ const selectedTelescope = ref('None');
 const selectedWeather = ref('None');
 const selectedSwitches = ref('None');
 const selectedFlatpanel = ref('None');
+const selectedDome = ref('None');
+const selectedSafetymonitor = ref('None');
 
 const onFocuserChange = async () => {
   try {
@@ -266,6 +306,33 @@ const onFlatpanelChange = async () => {
   }
 };
 
+const onDomeChange = async () => {
+  try {
+    await apiService.profileChangeValue('DomeSettings-IndiDriver', selectedDome.value);
+    await apiService.domeAction('list-devices');
+    equipmentStore.triggerRescan('dome');
+    await store.fetchProfilInfos();
+    console.log('[SelectIndi] Dome selected:', selectedDome.value);
+  } catch (error) {
+    console.error('[SelectIndi] Error Dome selection:', error);
+  }
+};
+
+const onSafetymonitorChange = async () => {
+  try {
+    await apiService.profileChangeValue(
+      'SafetyMonitorSettings-IndiDriver',
+      selectedSafetymonitor.value
+    );
+    await apiService.safetyAction('list-devices');
+    equipmentStore.triggerRescan('safety');
+    await store.fetchProfilInfos();
+    console.log('[SelectIndi] Safetymonitor selected:', selectedSafetymonitor.value);
+  } catch (error) {
+    console.error('[SelectIndi] Error Safetymonitor selection:', error);
+  }
+};
+
 onMounted(async () => {
   try {
     const [
@@ -276,6 +343,8 @@ onMounted(async () => {
       weatherResponse,
       switchesResponse,
       flatpanelResponse,
+      domeResponse,
+      safetymonitorResponse,
     ] = await Promise.all([
       apiPinsService.getINDIDeviceList('focuser'),
       apiPinsService.getINDIDeviceList('filterwheel'),
@@ -284,6 +353,8 @@ onMounted(async () => {
       apiPinsService.getINDIDeviceList('weather'),
       apiPinsService.getINDIDeviceList('switches'),
       apiPinsService.getINDIDeviceList('flatpanel'),
+      apiPinsService.getINDIDeviceList('dome'),
+      apiPinsService.getINDIDeviceList('safetymonitor'),
     ]);
 
     const sortByLabel = (arr) => [...arr].sort((a, b) => a.Label.localeCompare(b.Label));
@@ -301,6 +372,8 @@ onMounted(async () => {
     weather.value = sortByLabel(weatherResponse.Response);
     switches.value = sortByLabel(switchesResponse.Response);
     flatpanel.value = sortByLabel(flatpanelResponse.Response);
+    dome.value = sortByLabel(domeResponse.Response);
+    safetymonitor.value = sortByLabel(safetymonitorResponse.Response);
 
     // Set saved values from store as defaults
     selectedFocuser.value = store.profileInfo?.FocuserSettings?.IndiDriver || 'None';
@@ -310,6 +383,8 @@ onMounted(async () => {
     selectedWeather.value = store.profileInfo?.WeatherDataSettings?.IndiDriver || 'None';
     selectedSwitches.value = store.profileInfo?.SwitchSettings?.IndiDriver || 'None';
     selectedFlatpanel.value = store.profileInfo?.FlatDeviceSettings?.IndiDriver || 'None';
+    selectedDome.value = store.profileInfo?.DomeSettings?.IndiDriver || 'None';
+    selectedSafetymonitor.value = store.profileInfo?.SafetyMonitorSettings?.IndiDriver || 'None';
 
     console.log('[SelectIndi] All INDI devices loaded');
   } catch (error) {

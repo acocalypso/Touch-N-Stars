@@ -57,6 +57,9 @@ const isLoading = ref(false);
 const borderClass = ref('border-gray-500');
 
 async function loadCameras(withRescan = false) {
+  if (store.profileInfo.GuiderSettings.GuiderName !== 'PHD2_Single') {
+    withRescan = false;
+  }
   isLoading.value = true;
   try {
     await apiService.connectPHD2();

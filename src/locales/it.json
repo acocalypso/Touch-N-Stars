@@ -1640,7 +1640,13 @@
         "wifiAdaptersLoadFailed": "Impossibile caricare gli adattatori WiFi: {messaggio}",
         "wifiInterfacesLoadFailed": "Impossibile caricare le interfacce WiFi selezionate: {messaggio}",
         "wifiInterfacesSaveFailed": "Impossibile salvare le interfacce WiFi: {messaggio}",
-        "wifiInterfacesSaved": "Interfacce WiFi salvate. \nCliente: {clientInterface}, Hotspot: {hotspotInterface}"
+        "wifiInterfacesSaved": "Interfacce WiFi salvate. \nCliente: {clientInterface}, Hotspot: {hotspotInterface}",
+        "pluginActionFailed": "Azione del plug-in non riuscita per {packageName}. \nStato: {stato}",
+        "pluginActionSuccess": "Azione del plugin completata con successo: {packageName}",
+        "pluginInstallStart": "Installazione del plugin: {packageName}",
+        "pluginUninstallStart": "Plugin di disinstallazione: {packageName}",
+        "pluginsLoadFailed": "Impossibile caricare i plug-in PINS: {messaggio}",
+        "pluginsPackageNotAllowed": "Pacchetto non consentito dalla policy API: {packageName}"
       },
       "hotspotConfigured": "La password dell'hotspot personalizzata è configurata.",
       "hotspotNewPassword": "Nuova password dell'hotspot",
@@ -1702,7 +1708,22 @@
         "title": "Aggiornamento del sistema in corso",
         "waitingForApi": "Aggiornamento terminato. \nIn attesa che l'API NINA diventi nuovamente raggiungibile...",
         "close": "Chiudi"
-      }
+      },
+      "pluginsAction": "Azione",
+      "pluginsCheckedAt": "Controllato a",
+      "pluginsDescription": "Gestisci i plugin PINS opzionali (installa o disinstalla).",
+      "pluginsEmpty": "Nessun plugin disponibile.",
+      "pluginsInstall": "Installare",
+      "pluginsInstalled": "Installato",
+      "pluginsInstalledNo": "NO",
+      "pluginsInstalledYes": "SÌ",
+      "pluginsInstalling": "Installazione...",
+      "pluginsPackage": "Pacchetto",
+      "pluginsRefresh": "Aggiorna l'elenco dei plug-in",
+      "pluginsTitle": "Plugin PIN",
+      "pluginsUninstall": "Disinstallare",
+      "pluginsUninstalling": "Disinstallazione...",
+      "pluginsVersion": "Versione"
     },
     "bahtifocus": {
       "title": "Analizzatore di maschere Bahtinov",

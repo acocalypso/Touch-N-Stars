@@ -18,6 +18,7 @@
           <template v-if="activeTab === 'network'">
             <PinsNetworkTab
               :stationary-mode="stationaryMode"
+              :allow-concurrent-mode="allowConcurrentWifiAndHotspot"
               :is-scanning="isScanning"
               :wifi-list="wifiList"
               :selected-ssid="selectedSsid"
@@ -74,11 +75,18 @@
               :installing="isIndi3rdpartyInstalling"
               :search-query="indi3rdpartyQuery"
               :selected-asset="selectedIndi3rdpartyAsset"
+              :plugins="pinsPlugins"
+              :plugins-loading="isPinsPluginsLoading"
+              :plugins-checked-at="pinsPluginsCheckedAt"
+              :plugins-busy-package="pinsPluginsBusyPackage"
               :disabled="status === 'Running'"
               @open-updates="showUpdatesModal = true"
               @refresh="loadIndi3rdpartyDrivers"
               @search="loadIndi3rdpartyDrivers"
               @install="installIndi3rdpartyDriver"
+              @plugins-refresh="loadPinsPlugins"
+              @plugin-install="installPinsPlugin"
+              @plugin-uninstall="uninstallPinsPlugin"
               @update:search-query="indi3rdpartyQuery = $event"
               @update:selected-asset="selectedIndi3rdpartyAsset = $event"
             />
@@ -257,6 +265,10 @@ const indi3rdpartyDrivers = ref([]);
 const isIndi3rdpartyLoading = ref(false);
 const isIndi3rdpartyInstalling = ref(false);
 const indi3rdpartyQuery = ref('');
+const pinsPlugins = ref([]);
+const isPinsPluginsLoading = ref(false);
+const pinsPluginsCheckedAt = ref('');
+const pinsPluginsBusyPackage = ref('');
 const dhcpClients = ref([]);
 const isDhcpClientsLoading = ref(false);
 const selectedIndi3rdpartyAsset = ref('');
@@ -326,6 +338,20 @@ const {
   status,
 });
 
+const allowConcurrentWifiAndHotspot = computed(() => {
+  const hasMultipleAdapters = wifiAdapters.value.length >= 2;
+  const hasDedicatedClientInterface = Boolean(selectedClientInterface.value);
+  const hasDedicatedHotspotInterface = Boolean(selectedHotspotInterface.value);
+  const usesDifferentInterfaces = selectedClientInterface.value !== selectedHotspotInterface.value;
+
+  return (
+    hasMultipleAdapters &&
+    hasDedicatedClientInterface &&
+    hasDedicatedHotspotInterface &&
+    usesDifferentInterfaces
+  );
+});
+
 const {
   upgradeExitCode,
   stopUpgradePolling,
@@ -356,6 +382,7 @@ watch(
       loadWifiInterfaceConfig();
       checkUpdates();
       loadIndi3rdpartyDrivers();
+      loadPinsPlugins();
       loadDhcpClients();
       restoreUpgradeState();
     } else {
@@ -482,6 +509,194 @@ async function installIndi3rdpartyDriver() {
   } finally {
     isIndi3rdpartyInstalling.value = false;
   }
+}
+
+async function loadPinsPlugins() {
+  const ip = getIp();
+  if (!ip || isPinsPluginsLoading.value) return;
+
+  isPinsPluginsLoading.value = true;
+  try {
+    const directAxios = axios.create({ headers: {} });
+    const response = await directAxios.get(`http://${ip}:${PORT}/plugins`, {
+      headers: {
+        Authorization: `Bearer ${TOKEN}`,
+      },
+      timeout: 15000,
+    });
+
+    const payload = response.data || {};
+    pinsPluginsCheckedAt.value = payload.checkedAt || '';
+    const apiPlugins = Array.isArray(payload.plugins) ? payload.plugins : [];
+    pinsPlugins.value = apiPlugins
+      .filter((plugin) => plugin?.packageName)
+      .map((plugin) => ({
+        packageName: plugin.packageName,
+        installed: Boolean(plugin.installed),
+        installedVersion: plugin.installedVersion || null,
+        availableVersion: plugin.availableVersion || null,
+      }));
+  } catch (error) {
+    console.error(error);
+    if (error.response?.status === 502) {
+      appendLog(t('plugins.pins.logs.pluginsLoadMetadataFailed'));
+    } else {
+      appendLog(t('plugins.pins.logs.pluginsLoadFailed', { message: error.message }));
+    }
+  } finally {
+    isPinsPluginsLoading.value = false;
+  }
+}
+
+function parseJobIdFromResponse(data) {
+  if (data && typeof data === 'object' && data.jobId) {
+    return data.jobId;
+  }
+  if (typeof data === 'string' || typeof data === 'number') {
+    return data;
+  }
+  return null;
+}
+
+function isJobSuccess(result) {
+  const statusValue = String(result?.status || '').toLowerCase();
+  return (
+    statusValue === 'success' ||
+    statusValue === 'completed' ||
+    result?.exit_code === 0 ||
+    result?.exitCode === 0 ||
+    result?.success === true
+  );
+}
+
+function isJobFailed(result) {
+  const statusValue = String(result?.status || '').toLowerCase();
+  return (
+    statusValue === 'failed' ||
+    (typeof result?.exit_code === 'number' && result.exit_code !== 0) ||
+    (typeof result?.exitCode === 'number' && result.exitCode !== 0) ||
+    result?.success === false
+  );
+}
+
+async function pollJobUntilFinished(ip, id, { intervalMs = 2000, maxAttempts = 120 } = {}) {
+  let lastStatus = null;
+  for (let attempt = 0; attempt < maxAttempts; attempt++) {
+    const directAxios = axios.create({ headers: {} });
+    const response = await directAxios.get(`http://${ip}:${PORT}/jobs/${id}`, {
+      headers: {
+        Authorization: `Bearer ${TOKEN}`,
+      },
+      timeout: 8000,
+    });
+
+    const result = response.data || {};
+    const currentStatus = String(result.status || '').toLowerCase();
+
+    if (currentStatus && currentStatus !== lastStatus) {
+      appendLog(t('plugins.pins.logs.jobStatus', { status: currentStatus }));
+      lastStatus = currentStatus;
+    }
+
+    if (isJobSuccess(result)) {
+      return { success: true, result };
+    }
+
+    if (isJobFailed(result)) {
+      return { success: false, result };
+    }
+
+    await new Promise((resolve) => setTimeout(resolve, intervalMs));
+  }
+
+  return { success: false, result: { status: 'timeout' } };
+}
+
+async function runPinsPluginAction(action, packageName) {
+  if (status.value === 'Running' || pinsPluginsBusyPackage.value) return;
+
+  const ip = getIp();
+  if (!ip) {
+    appendLog(t('plugins.pins.logs.noIp'));
+    return;
+  }
+
+  const endpoint = action === 'install' ? 'install' : 'uninstall';
+  const startMessageKey =
+    action === 'install'
+      ? 'plugins.pins.logs.pluginInstallStart'
+      : 'plugins.pins.logs.pluginUninstallStart';
+
+  status.value = 'Running';
+  pinsStore.setActiveOperation('pins-plugin');
+  pinsStore.clearTerminalLogs();
+  pinsPluginsBusyPackage.value = packageName;
+  appendLog(t('plugins.pins.logs.init', { ip }));
+  appendLog(t(startMessageKey, { packageName }));
+
+  try {
+    const directAxios = axios.create({ headers: {} });
+    const response = await directAxios.post(
+      `http://${ip}:${PORT}/plugins/${endpoint}`,
+      { packageName },
+      {
+        headers: {
+          Authorization: `Bearer ${TOKEN}`,
+          'Content-Type': 'application/json',
+        },
+        timeout: 15000,
+      }
+    );
+
+    const data = response.data;
+    const returnedJobId = parseJobIdFromResponse(data);
+
+    if (!returnedJobId) {
+      appendLog(t('plugins.pins.logs.error', { message: 'No valid jobId returned.' }));
+      status.value = 'Failed';
+      return;
+    }
+
+    appendLog(t('plugins.pins.logs.jobCreated', { jobId: returnedJobId }));
+
+    const pollResult = await pollJobUntilFinished(ip, returnedJobId);
+    if (pollResult.success) {
+      status.value = 'Success';
+      appendLog(t('plugins.pins.logs.pluginActionSuccess', { packageName }));
+    } else {
+      status.value = 'Failed';
+      appendLog(
+        t('plugins.pins.logs.pluginActionFailed', {
+          packageName,
+          status: pollResult.result?.status || 'unknown',
+        })
+      );
+    }
+  } catch (error) {
+    console.error(error);
+    status.value = 'Failed';
+    appendLog(t('plugins.pins.logs.error', { message: error.message }));
+
+    if (error.response) {
+      appendLog(
+        t('plugins.pins.logs.serverError', {
+          status: error.response.status,
+          data: JSON.stringify(error.response.data),
+        })
+      );
+    }
+  } finally {
+    await loadPinsPlugins();
+    pinsPluginsBusyPackage.value = '';
+  }
+}
+
+function installPinsPlugin(packageName) {
+  return runPinsPluginAction('install', packageName);
+}
+
+function uninstallPinsPlugin(packageName) {
+  return runPinsPluginAction('uninstall', packageName);
 }
 
 async function checkUpdates() {

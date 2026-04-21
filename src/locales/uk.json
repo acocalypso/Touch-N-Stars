@@ -2504,7 +2504,13 @@
         "indi3rdpartyLoadFailed": "Не вдалося завантажити пакети INDI 3rdparty: {message}",
         "indi3rdpartyInstallStart": "Встановлення пакету INDI: {assetName}",
         "indi3rdpartyInstallSuccess": "Встановлення пакету INDI завершено: {message}",
-        "indi3rdpartyInstallFailed": "Встановлення пакету INDI не вдалося: {message}"
+        "indi3rdpartyInstallFailed": "Встановлення пакету INDI не вдалося: {message}",
+        "pluginActionFailed": "Не вдалося виконати дію плагіна для {packageName}. \nСтатус: {статус}",
+        "pluginActionSuccess": "Дія плагіна успішно завершена: {packageName}",
+        "pluginInstallStart": "Встановлення плагіна: {packageName}",
+        "pluginUninstallStart": "Видалення плагіна: {packageName}",
+        "pluginsLoadFailed": "Не вдалося завантажити плагіни PINS: {message}",
+        "pluginsPackageNotAllowed": "Пакет заборонено політикою API: {packageName}"
       },
       "wifiDisconnect": "Відключити WiFi",
       "disconnectConfirmTitle": "Відключити WiFi?",
@@ -2543,7 +2549,22 @@
         "title": "Виконується оновлення системи",
         "waitingForApi": "Оновлення завершено. \nОчікування NINA API знову стане доступним...",
         "close": "Закрити"
-      }
+      },
+      "pluginsAction": "Дія",
+      "pluginsCheckedAt": "Перевірено в",
+      "pluginsDescription": "Керуйте додатковими плагінами PINS (установіть або видаліть).",
+      "pluginsEmpty": "Немає доступних плагінів.",
+      "pluginsInstall": "встановити",
+      "pluginsInstalled": "встановлено",
+      "pluginsInstalledNo": "немає",
+      "pluginsInstalledYes": "так",
+      "pluginsInstalling": "Встановлення...",
+      "pluginsPackage": "Пакет",
+      "pluginsRefresh": "Оновити список плагінів",
+      "pluginsTitle": "Плагіни PINS",
+      "pluginsUninstall": "Видалити",
+      "pluginsUninstalling": "Видалення...",
+      "pluginsVersion": "Версія"
     },
     "narrowband": {
       "title": "Калькулятор фільтрів",

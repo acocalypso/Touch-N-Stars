@@ -1640,7 +1640,13 @@
         "wifiAdaptersLoadFailed": "No se pudieron cargar los adaptadores WiFi: {mensaje}",
         "wifiInterfacesLoadFailed": "No se pudieron cargar las interfaces WiFi seleccionadas: {mensaje}",
         "wifiInterfacesSaveFailed": "No se pudieron guardar las interfaces WiFi: {mensaje}",
-        "wifiInterfacesSaved": "Interfaces WiFi guardadas. \nCliente: {clientInterface}, Punto de acceso: {hotspotInterface}"
+        "wifiInterfacesSaved": "Interfaces WiFi guardadas. \nCliente: {clientInterface}, Punto de acceso: {hotspotInterface}",
+        "pluginActionFailed": "La acción del complemento falló para {packageName}. \nEstado: {estado}",
+        "pluginActionSuccess": "La acción del complemento finalizó correctamente: {packageName}",
+        "pluginInstallStart": "Instalación del complemento: {packageName}",
+        "pluginUninstallStart": "Desinstalación del complemento: {packageName}",
+        "pluginsLoadFailed": "No se pudieron cargar los complementos PINS: {mensaje}",
+        "pluginsPackageNotAllowed": "Paquete no permitido por la política de API: {packageName}"
       },
       "hotspotConfigured": "La contraseña del punto de acceso personalizado está configurada.",
       "hotspotNewPassword": "Nueva contraseña de punto de acceso",
@@ -1702,7 +1708,22 @@
         "title": "Actualización del sistema en curso",
         "waitingForApi": "Actualización finalizada. \nEsperando que la API de NINA vuelva a ser accesible...",
         "close": "Cerrar"
-      }
+      },
+      "pluginsAction": "Acción",
+      "pluginsCheckedAt": "Comprobado en",
+      "pluginsDescription": "Administre complementos PINS opcionales (instalar o desinstalar).",
+      "pluginsEmpty": "No hay complementos disponibles.",
+      "pluginsInstall": "Instalar",
+      "pluginsInstalled": "Instalado",
+      "pluginsInstalledNo": "No",
+      "pluginsInstalledYes": "Sí",
+      "pluginsInstalling": "Instalando...",
+      "pluginsPackage": "Paquete",
+      "pluginsRefresh": "Actualizar lista de complementos",
+      "pluginsTitle": "Complementos de PIN",
+      "pluginsUninstall": "Desinstalar",
+      "pluginsUninstalling": "Desinstalando...",
+      "pluginsVersion": "Versión"
     },
     "bahtifocus": {
       "title": "Analizador de máscaras de Bahtinov",

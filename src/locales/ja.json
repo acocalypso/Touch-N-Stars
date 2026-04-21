@@ -1648,7 +1648,13 @@
         "wifiAdaptersLoadFailed": "WiFi アダプターのロードに失敗しました: {メッセージ}",
         "wifiInterfacesLoadFailed": "選択した WiFi インターフェイスの読み込みに失敗しました: {message}",
         "wifiInterfacesSaveFailed": "WiFi インターフェースを保存できませんでした: {message}",
-        "wifiInterfacesSaved": "保存された WiFi インターフェイス。\nクライアント: {clientInterface}、ホットスポット: {hotspotInterface}"
+        "wifiInterfacesSaved": "保存された WiFi インターフェイス。\nクライアント: {clientInterface}、ホットスポット: {hotspotInterface}",
+        "pluginActionFailed": "{packageName} のプラグイン アクションが失敗しました。\nステータス: {ステータス}",
+        "pluginActionSuccess": "プラグインアクションが正常に終了しました: {packageName}",
+        "pluginInstallStart": "プラグインをインストールしています: {packageName}",
+        "pluginUninstallStart": "プラグインをアンインストールしています: {packageName}",
+        "pluginsLoadFailed": "PINS プラグインのロードに失敗しました: {message}",
+        "pluginsPackageNotAllowed": "API ポリシーによってパッケージが許可されていません: {packageName}"
       },
       "wifiDisconnect": "WiFiを切断",
       "disconnectConfirmTitle": "WiFiを切断しますか？",
@@ -1702,7 +1708,22 @@
         "title": "システムアップデート中",
         "waitingForApi": "アップデートが完了しました。 \nNINA API が再びアクセス可能になるのを待っています...",
         "close": "閉じる"
-      }
+      },
+      "pluginsAction": "アクション",
+      "pluginsCheckedAt": "チェックイン先",
+      "pluginsDescription": "オプションの PINS プラグインを管理します (インストールまたはアンインストール)。",
+      "pluginsEmpty": "利用可能なプラグインはありません。",
+      "pluginsInstall": "インストール",
+      "pluginsInstalled": "インストール済み",
+      "pluginsInstalledNo": "いいえ",
+      "pluginsInstalledYes": "はい",
+      "pluginsInstalling": "インストール中...",
+      "pluginsPackage": "パッケージ",
+      "pluginsRefresh": "プラグインリストを更新",
+      "pluginsTitle": "PINS プラグイン",
+      "pluginsUninstall": "アンインストール",
+      "pluginsUninstalling": "アンインストール中...",
+      "pluginsVersion": "バージョン"
     },
     "bahtifocus": {
       "title": "バーティノフマスク・アナライザー",

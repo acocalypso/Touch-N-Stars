@@ -93,7 +93,7 @@ class SignalRNotificationService {
         // Event Handler für Notifications
         this.connection.on('ReceiveNotification', (notification) => {
           if (connectionId !== this._connectionId) return;
-          //console.log('[SignalRNotificationService] Received notification:', notification);
+          console.log('[SignalRNotificationService] Received notification:', notification);
 
           const notifObj = {
             ...notification,

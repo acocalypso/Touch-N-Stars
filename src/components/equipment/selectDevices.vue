@@ -204,6 +204,7 @@ async function configDevice() {
     deviceName: props.deviceName,
     apiAction: props.apiAction,
     selectedDeviceDisplayName: selectedDevice.value,
+    selectedDeviceObj: selectedDeviceObj.value,
   });
 }
 

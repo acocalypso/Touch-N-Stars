@@ -67,6 +67,7 @@
       :deviceName="$t('components.connectEquipment.camera.name')"
       :default-device-id="store.profileInfo?.CameraSettings?.Id"
       :isConnected="store.cameraInfo.Connected"
+      @open-config="openCameraSettings"
     />
 
     <selectDevices
@@ -171,13 +172,41 @@
     </template>
   </Modal>
 
+  <!-- Camera Settings Modal -->
+  <Modal :show="showCameraSettings" @close="showCameraSettings = false">
+    <template #header>
+      <h2 class="text-2xl font-semibold">
+        {{ $t('components.alpacaDirect.title') }}
+      </h2>
+    </template>
+    <template #body>
+      <SettingsAlpacaDirect
+        v-if="isAlpacaDirect(selectedCameraObj)"
+        deviceType="camera"
+        :selectedDevice="selectedCameraDevice"
+      />
+      <p v-else class="text-sm text-gray-300">
+        {{ $t('components.alpacaDirect.cameraNoSettings') }}
+      </p>
+    </template>
+  </Modal>
+
   <!-- Mount Settings Modal -->
   <Modal :show="showMountSettings" @close="showMountSettings = false">
     <template #header>
       <h2 class="text-2xl font-semibold">{{ $t('components.mount.indi.settings') }}</h2>
     </template>
     <template #body>
-      <SettingsSerialConnection equipmentType="mount" :selectedDevice="selectedMountDevice" />
+      <SettingsAlpacaDirect
+        v-if="isAlpacaDirect(selectedMountObj)"
+        deviceType="telescope"
+        :selectedDevice="selectedMountDevice"
+      />
+      <SettingsSerialConnection
+        v-else
+        equipmentType="mount"
+        :selectedDevice="selectedMountDevice"
+      />
     </template>
   </Modal>
 
@@ -187,7 +216,16 @@
       <h2 class="text-2xl font-semibold">{{ $t('components.focuser.indi.settings') }}</h2>
     </template>
     <template #body>
-      <SettingsSerialConnection equipmentType="focuser" :selectedDevice="selectedFocuserDevice" />
+      <SettingsAlpacaDirect
+        v-if="isAlpacaDirect(selectedFocuserObj)"
+        deviceType="focuser"
+        :selectedDevice="selectedFocuserDevice"
+      />
+      <SettingsSerialConnection
+        v-else
+        equipmentType="focuser"
+        :selectedDevice="selectedFocuserDevice"
+      />
     </template>
   </Modal>
 
@@ -197,7 +235,16 @@
       <h2 class="text-2xl font-semibold">{{ $t('components.rotator.indi.settings') }}</h2>
     </template>
     <template #body>
-      <SettingsSerialConnection equipmentType="rotator" :selectedDevice="selectedRotatorDevice" />
+      <SettingsAlpacaDirect
+        v-if="isAlpacaDirect(selectedRotatorObj)"
+        deviceType="rotator"
+        :selectedDevice="selectedRotatorDevice"
+      />
+      <SettingsSerialConnection
+        v-else
+        equipmentType="rotator"
+        :selectedDevice="selectedRotatorDevice"
+      />
     </template>
   </Modal>
 
@@ -207,7 +254,13 @@
       <h2 class="text-2xl font-semibold">{{ $t('components.flat.indi.settings') }}</h2>
     </template>
     <template #body>
+      <SettingsAlpacaDirect
+        v-if="isAlpacaDirect(selectedFlatDeviceObj)"
+        deviceType="flatdevice"
+        :selectedDevice="selectedFlatDeviceDevice"
+      />
       <SettingsSerialConnection
+        v-else
         equipmentType="flatdevice"
         :selectedDevice="selectedFlatDeviceDevice"
       />
@@ -220,7 +273,16 @@
       <h2 class="text-2xl font-semibold">{{ $t('components.switch.indi.settings') }}</h2>
     </template>
     <template #body>
-      <SettingsSerialConnection equipmentType="switch" :selectedDevice="selectedSwitchDevice" />
+      <SettingsAlpacaDirect
+        v-if="isAlpacaDirect(selectedSwitchObj)"
+        deviceType="switch"
+        :selectedDevice="selectedSwitchDevice"
+      />
+      <SettingsSerialConnection
+        v-else
+        equipmentType="switch"
+        :selectedDevice="selectedSwitchDevice"
+      />
     </template>
   </Modal>
 
@@ -230,7 +292,13 @@
       <h2 class="text-2xl font-semibold">{{ $t('components.filterwheel.indi.settings') }}</h2>
     </template>
     <template #body>
+      <SettingsAlpacaDirect
+        v-if="isAlpacaDirect(selectedFilterObj)"
+        deviceType="filterwheel"
+        :selectedDevice="selectedFilterDevice"
+      />
       <SettingsSerialConnection
+        v-else
         equipmentType="filterwheel"
         :selectedDevice="selectedFilterDevice"
       />
@@ -243,7 +311,10 @@
       <h2 class="text-2xl font-semibold">{{ $t('components.weatherModal.indi.settings') }}</h2>
     </template>
     <template #body>
-      <SettingsWeather :selectedDevice="selectedWeatherDevice" />
+      <SettingsWeather
+        :selectedDevice="selectedWeatherDevice"
+        :selectedDeviceObj="selectedWeatherObj"
+      />
     </template>
   </Modal>
 
@@ -253,7 +324,12 @@
       <h2 class="text-2xl font-semibold">{{ $t('components.dome.indi.settings') }}</h2>
     </template>
     <template #body>
-      <SettingsSerialConnection equipmentType="dome" :selectedDevice="selectedDomeDevice" />
+      <SettingsAlpacaDirect
+        v-if="isAlpacaDirect(selectedDomeObj)"
+        deviceType="dome"
+        :selectedDevice="selectedDomeDevice"
+      />
+      <SettingsSerialConnection v-else equipmentType="dome" :selectedDevice="selectedDomeDevice" />
     </template>
   </Modal>
 
@@ -263,7 +339,16 @@
       <h2 class="text-2xl font-semibold">{{ $t('components.safetyMonitor.indi.settings') }}</h2>
     </template>
     <template #body>
-      <SettingsSerialConnection equipmentType="safety" :selectedDevice="selectedSafetyDevice" />
+      <SettingsAlpacaDirect
+        v-if="isAlpacaDirect(selectedSafetyObj)"
+        deviceType="safetymonitor"
+        :selectedDevice="selectedSafetyDevice"
+      />
+      <SettingsSerialConnection
+        v-else
+        equipmentType="safety"
+        :selectedDevice="selectedSafetyDevice"
+      />
     </template>
   </Modal>
 </template>
@@ -280,6 +365,7 @@ import Modal from '@/components/helpers/Modal.vue';
 import settingsGuiderConnect from '@/components/guider/settingsGuiderConnect.vue';
 import SettingsSerialConnection from '@/components/equipment/SettingsSerialConnection.vue';
 import SettingsWeather from '@/components/equipment/SettingsWeather.vue';
+import SettingsAlpacaDirect from '@/components/equipment/SettingsAlpacaDirect.vue';
 import { checkMountConnectionPermission } from '@/utils/locationSyncUtils';
 
 const { t } = useI18n();
@@ -289,25 +375,39 @@ const isConnecting = ref(false);
 const isDisconnecting = ref(false);
 const showGuiderSettings = ref(false);
 const selectedGuiderDevice = ref('');
+const showCameraSettings = ref(false);
+const selectedCameraDevice = ref('');
+const selectedCameraObj = ref(null);
 const showMountSettings = ref(false);
 const selectedMountDevice = ref('');
+const selectedMountObj = ref(null);
 const showFocuserSettings = ref(false);
 const selectedFocuserDevice = ref('');
+const selectedFocuserObj = ref(null);
 const showRotatorSettings = ref(false);
 const selectedRotatorDevice = ref('');
+const selectedRotatorObj = ref(null);
 const showFlatDeviceSettings = ref(false);
 const selectedFlatDeviceDevice = ref('');
+const selectedFlatDeviceObj = ref(null);
 const showFilterSettings = ref(false);
 const selectedFilterDevice = ref('');
+const selectedFilterObj = ref(null);
 const showSwitchSettings = ref(false);
 const selectedSwitchDevice = ref('');
+const selectedSwitchObj = ref(null);
 const showWeatherSettings = ref(false);
 const selectedWeatherDevice = ref('');
+const selectedWeatherObj = ref(null);
 const showDomeSettings = ref(false);
 const selectedDomeDevice = ref('');
+const selectedDomeObj = ref(null);
 const showSafetySettings = ref(false);
 const selectedSafetyDevice = ref('');
+const selectedSafetyObj = ref(null);
 const selectedWeatherDeviceName = ref(store.profileInfo?.WeatherDataSettings?.Id || '');
+
+const isAlpacaDirect = (device) => device?.Category === 'ASCOM Alpaca';
 
 const WEATHER_API_KEY_DEVICES = ['OpenWeatherMap', 'TheWeatherCompany', 'Weather Underground'];
 const weatherHasApiKeySettings = computed(() =>
@@ -337,48 +437,63 @@ const openGuiderSettings = (payload) => {
   showGuiderSettings.value = true;
 };
 
+const openCameraSettings = (payload) => {
+  selectedCameraDevice.value = payload?.selectedDeviceDisplayName || '';
+  selectedCameraObj.value = payload?.selectedDeviceObj || null;
+  showCameraSettings.value = true;
+};
+
 const openMountSettings = (payload) => {
   selectedMountDevice.value = payload?.selectedDeviceDisplayName || '';
+  selectedMountObj.value = payload?.selectedDeviceObj || null;
   showMountSettings.value = true;
 };
 
 const openFocuserSettings = (payload) => {
   selectedFocuserDevice.value = payload?.selectedDeviceDisplayName || '';
+  selectedFocuserObj.value = payload?.selectedDeviceObj || null;
   showFocuserSettings.value = true;
 };
 
 const openRotatorSettings = (payload) => {
   selectedRotatorDevice.value = payload?.selectedDeviceDisplayName || '';
+  selectedRotatorObj.value = payload?.selectedDeviceObj || null;
   showRotatorSettings.value = true;
 };
 
 const openFlatDeviceSettings = (payload) => {
   selectedFlatDeviceDevice.value = payload?.selectedDeviceDisplayName || '';
+  selectedFlatDeviceObj.value = payload?.selectedDeviceObj || null;
   showFlatDeviceSettings.value = true;
 };
 
 const openFilterSettings = (payload) => {
   selectedFilterDevice.value = payload?.selectedDeviceDisplayName || '';
+  selectedFilterObj.value = payload?.selectedDeviceObj || null;
   showFilterSettings.value = true;
 };
 
 const openSwitchSettings = (payload) => {
   selectedSwitchDevice.value = payload?.selectedDeviceDisplayName || '';
+  selectedSwitchObj.value = payload?.selectedDeviceObj || null;
   showSwitchSettings.value = true;
 };
 
 const openWeatherSettings = (payload) => {
   selectedWeatherDevice.value = payload?.selectedDeviceDisplayName || '';
+  selectedWeatherObj.value = payload?.selectedDeviceObj || null;
   showWeatherSettings.value = true;
 };
 
 const openDomeSettings = (payload) => {
   selectedDomeDevice.value = payload?.selectedDeviceDisplayName || '';
+  selectedDomeObj.value = payload?.selectedDeviceObj || null;
   showDomeSettings.value = true;
 };
 
 const openSafetySettings = (payload) => {
   selectedSafetyDevice.value = payload?.selectedDeviceDisplayName || '';
+  selectedSafetyObj.value = payload?.selectedDeviceObj || null;
   showSafetySettings.value = true;
 };
 

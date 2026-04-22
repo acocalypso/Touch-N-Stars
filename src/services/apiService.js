@@ -1999,6 +1999,20 @@ const apiService = {
     return this._simpleGetRequest(`${BASE_URL}/equipment/weather/${action}`);
   },
 
+  //------------------------------------- AlpacaDirect ----------------------------------------
+  async getAlpacaDirectSettings(deviceType) {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}alpaca-direct/${deviceType}/settings`);
+  },
+
+  async setAlpacaDirectSettings(deviceType, body) {
+    const { API_URL } = getUrls();
+    const response = await axios.put(`${API_URL}alpaca-direct/${deviceType}/settings`, body, {
+      timeout: DEFAULT_TIMEOUT,
+    });
+    return response.data;
+  },
+
   //-------------------------------------  Framing ---------------------------------------
   framingAction(action) {
     const { BASE_URL } = getUrls();

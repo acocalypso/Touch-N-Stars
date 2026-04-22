@@ -46,7 +46,11 @@
             <div class="flex justify-between text-sm">
               <span class="text-gray-400">{{ $t('plugins.pinsDevices.info.coreTemp') }}</span>
               <span class="text-gray-200 font-mono"
-                >{{ Number.isFinite(store.powerboxStatus.CoreTemp) ? Number(store.powerboxStatus.CoreTemp).toFixed(1) : '--' }}°C</span
+                >{{
+                  Number.isFinite(store.powerboxStatus.CoreTemp)
+                    ? Number(store.powerboxStatus.CoreTemp).toFixed(1)
+                    : '--'
+                }}°C</span
               >
             </div>
 
@@ -88,9 +92,21 @@
                 <div class="flex justify-between">
                   <span class="text-gray-400">12V Rail</span>
                   <span class="text-gray-200">
-                    {{ Number.isFinite(store.powerboxStatus.Rail12V) ? store.powerboxStatus.Rail12V.toFixed(2) : '--' }}V /
-                    {{ Number.isFinite(store.powerboxStatus.Rail12A) ? store.powerboxStatus.Rail12A.toFixed(2) : '--' }}A /
-                    {{ Number.isFinite(store.powerboxStatus.Rail12W) ? store.powerboxStatus.Rail12W.toFixed(2) : '--' }}W
+                    {{
+                      Number.isFinite(store.powerboxStatus.Rail12V)
+                        ? store.powerboxStatus.Rail12V.toFixed(2)
+                        : '--'
+                    }}V /
+                    {{
+                      Number.isFinite(store.powerboxStatus.Rail12A)
+                        ? store.powerboxStatus.Rail12A.toFixed(2)
+                        : '--'
+                    }}A /
+                    {{
+                      Number.isFinite(store.powerboxStatus.Rail12W)
+                        ? store.powerboxStatus.Rail12W.toFixed(2)
+                        : '--'
+                    }}W
                   </span>
                 </div>
                 <div
@@ -111,19 +127,31 @@
                 <div class="flex justify-between">
                   <span class="text-gray-400">Average Amps</span>
                   <span class="text-gray-200"
-                    >{{ Number.isFinite(store.powerboxStatus.AverageAmps) ? store.powerboxStatus.AverageAmps.toFixed(2) : '--' }}A</span
+                    >{{
+                      Number.isFinite(store.powerboxStatus.AverageAmps)
+                        ? store.powerboxStatus.AverageAmps.toFixed(2)
+                        : '--'
+                    }}A</span
                   >
                 </div>
                 <div class="flex justify-between">
                   <span class="text-gray-400">Amps/Hour</span>
                   <span class="text-gray-200"
-                    >{{ Number.isFinite(store.powerboxStatus.AmpsPerHour) ? store.powerboxStatus.AmpsPerHour.toFixed(2) : '--' }}Ah</span
+                    >{{
+                      Number.isFinite(store.powerboxStatus.AmpsPerHour)
+                        ? store.powerboxStatus.AmpsPerHour.toFixed(2)
+                        : '--'
+                    }}Ah</span
                   >
                 </div>
                 <div class="flex justify-between">
                   <span class="text-gray-400">Watts/Hour</span>
                   <span class="text-gray-200"
-                    >{{ Number.isFinite(store.powerboxStatus.WattsPerHour) ? store.powerboxStatus.WattsPerHour.toFixed(2) : '--' }}Wh</span
+                    >{{
+                      Number.isFinite(store.powerboxStatus.WattsPerHour)
+                        ? store.powerboxStatus.WattsPerHour.toFixed(2)
+                        : '--'
+                    }}Wh</span
                   >
                 </div>
               </div>

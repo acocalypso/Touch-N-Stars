@@ -1058,7 +1058,10 @@
       },
       "please_connect_dome": "Conecte la cúpula",
       "is_sync": "Sincronizado",
-      "not_sync": "No sincronizado"
+      "not_sync": "No sincronizado",
+      "indi": {
+        "settings": "Configuración del domo"
+      }
     },
     "camera": {
       "connect": "Por favor conectar cámara",
@@ -1533,6 +1536,11 @@
       "titleSolving": "Resolución de placas…",
       "tryAgain": "Seleccionar archivo",
       "useAsTarget": "Usar como objetivo"
+    },
+    "safetyMonitor": {
+      "indi": {
+        "settings": "Configuración del monitor de seguridad"
+      }
     }
   },
   "plugins": {
@@ -1648,7 +1656,8 @@
         "pluginInstallStart": "Instalación del complemento: {packageName}",
         "pluginUninstallStart": "Desinstalación del complemento: {packageName}",
         "pluginsLoadFailed": "No se pudieron cargar los complementos PINS: {mensaje}",
-        "pluginsPackageNotAllowed": "Paquete no permitido por la política de API: {packageName}"
+        "pluginsPackageNotAllowed": "Paquete no permitido por la política de API: {packageName}",
+        "pluginsLoadMetadataFailed": "Los complementos PINS no se pudieron cargar porque el repositorio de metadatos de complementos no está disponible actualmente (HTTP 502)."
       },
       "hotspotConfigured": "La contraseña del punto de acceso personalizado está configurada.",
       "hotspotNewPassword": "Nueva contraseña de punto de acceso",

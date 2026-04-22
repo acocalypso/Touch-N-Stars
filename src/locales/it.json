@@ -1058,7 +1058,10 @@
       },
       "please_connect_dome": "Connetti la cupola",
       "is_sync": "Sincronizzato",
-      "not_sync": "Non sincronizzato"
+      "not_sync": "Non sincronizzato",
+      "indi": {
+        "settings": "Impostazioni della cupola"
+      }
     },
     "camera": {
       "connect": "Connetti la fotocamera",
@@ -1533,6 +1536,11 @@
       "titleSolving": "Risoluzione dei piatti…",
       "tryAgain": "Seleziona File",
       "useAsTarget": "Usa come bersaglio"
+    },
+    "safetyMonitor": {
+      "indi": {
+        "settings": "Impostazioni del monitor di sicurezza"
+      }
     }
   },
   "plugins": {
@@ -1648,7 +1656,8 @@
         "pluginInstallStart": "Installazione del plugin: {packageName}",
         "pluginUninstallStart": "Plugin di disinstallazione: {packageName}",
         "pluginsLoadFailed": "Impossibile caricare i plug-in PINS: {messaggio}",
-        "pluginsPackageNotAllowed": "Pacchetto non consentito dalla policy API: {packageName}"
+        "pluginsPackageNotAllowed": "Pacchetto non consentito dalla policy API: {packageName}",
+        "pluginsLoadMetadataFailed": "Impossibile caricare i plug-in PINS perché il repository dei metadati dei plug-in non è attualmente disponibile (HTTP 502)."
       },
       "hotspotConfigured": "La password dell'hotspot personalizzata è configurata.",
       "hotspotNewPassword": "Nuova password dell'hotspot",

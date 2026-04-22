@@ -1038,7 +1038,10 @@
       },
       "please_connect_dome": "Будь ласка, підключіть купол",
       "is_sync": "Синхронізовано",
-      "not_sync": "Не синхронізовано"
+      "not_sync": "Не синхронізовано",
+      "indi": {
+        "settings": "Налаштування купола"
+      }
     },
     "camera": {
       "connect": "Будь ласка, підключіть камеру",
@@ -1533,6 +1536,11 @@
       "titleSolving": "Розв’язування табличок…",
       "tryAgain": "Виберіть Файл",
       "useAsTarget": "Використовувати як ціль"
+    },
+    "safetyMonitor": {
+      "indi": {
+        "settings": "Налаштування монітора безпеки"
+      }
     }
   },
   "plugins": {
@@ -2512,7 +2520,8 @@
         "pluginInstallStart": "Встановлення плагіна: {packageName}",
         "pluginUninstallStart": "Видалення плагіна: {packageName}",
         "pluginsLoadFailed": "Не вдалося завантажити плагіни PINS: {message}",
-        "pluginsPackageNotAllowed": "Пакет заборонено політикою API: {packageName}"
+        "pluginsPackageNotAllowed": "Пакет заборонено політикою API: {packageName}",
+        "pluginsLoadMetadataFailed": "Не вдалося завантажити плагіни PINS, оскільки сховище метаданих плагінів наразі недоступне (HTTP 502)."
       },
       "wifiDisconnect": "Відключити WiFi",
       "disconnectConfirmTitle": "Відключити WiFi?",

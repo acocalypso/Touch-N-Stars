@@ -1058,7 +1058,10 @@
       },
       "please_connect_dome": "请连接穹顶",
       "is_sync": "已同步",
-      "not_sync": "未同步"
+      "not_sync": "未同步",
+      "indi": {
+        "settings": "Dome Settings"
+      }
     },
     "camera": {
       "connect": "请连接相机",
@@ -1533,6 +1536,11 @@
       "titleSolving": "Plate Solving…",
       "tryAgain": "Select File",
       "useAsTarget": "Use as Target"
+    },
+    "safetyMonitor": {
+      "indi": {
+        "settings": "Safety Monitor Settings"
+      }
     }
   },
   "plugins": {
@@ -1648,7 +1656,8 @@
         "pluginInstallStart": "Installing plugin: {packageName}",
         "pluginUninstallStart": "Uninstalling plugin: {packageName}",
         "pluginsLoadFailed": "Failed to load PINS plugins: {message}",
-        "pluginsPackageNotAllowed": "Package not allowed by API policy: {packageName}"
+        "pluginsPackageNotAllowed": "Package not allowed by API policy: {packageName}",
+        "pluginsLoadMetadataFailed": "PINS plugins could not be loaded because plugin metadata repository is currently unavailable (HTTP 502)."
       },
       "hotspotConfigured": "已配置自定义热点密码。",
       "hotspotNewPassword": "新热点密码",

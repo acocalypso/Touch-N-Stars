@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen bg-gray-900">
-    <SubNav v-if="store.isPINS" :items="pinsNavItems" v-model:activeItem="activeTab" />
+    <SubNav v-if="store.isPINS" :items="pinsNavItems" v-model:activeItem="activeTab" class="z-20" />
 
     <div
       class="container py-8 sm:py-16 flex items-center justify-center px-4"

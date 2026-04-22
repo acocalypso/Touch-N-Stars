@@ -29,7 +29,7 @@
         :min="0"
         :max="3600"
         :step="0.1"
-        :decimalPlaces="1"
+        :decimalPlaces="3"
         @change="saveExposure('ExposureTime', $event)"
       />
       <NumberInputPicker

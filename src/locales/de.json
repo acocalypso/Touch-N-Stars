@@ -404,6 +404,19 @@
         "title": "Zeitsynchronisation"
       }
     },
+    "alpacaDirect": {
+      "title": "Alpaca Direct Einstellungen",
+      "ipAddress": "IP-Adresse",
+      "port": "Port",
+      "deviceNumber": "Gerätenummer",
+      "serviceType": "Protokoll",
+      "save": "Speichern",
+      "connect": "Verbinden",
+      "disconnect": "Trennen",
+      "sharedGuidWarning": "Rotator und Safety Monitor teilen sich in NINA einen Speicherplatz — ändert man einen, ändert sich auch der andere.",
+      "noReconnectHint": "Neue Einstellungen werden erst beim nächsten Verbinden wirksam.",
+      "cameraNoSettings": "Für diese Kamera gibt es keine Einstellungen."
+    },
     "connectEquipment": {
       "camera": {
         "name": "Kamera"

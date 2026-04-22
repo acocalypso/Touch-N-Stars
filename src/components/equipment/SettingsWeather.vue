@@ -80,6 +80,14 @@
       </div>
     </div>
 
+    <!-- Alpaca Direct weather devices -->
+    <SettingsAlpacaDirect
+      v-else-if="isAlpacaDirectDevice"
+      deviceType="weather"
+      :selectedDevice="selectedDevice"
+      :deviceId="selectedDeviceObj?.Id"
+    />
+
     <!-- INDI-based weather devices -->
     <SettingsSerialConnection
       v-else-if="isIndiDevice"
@@ -94,9 +102,11 @@ import { ref, computed, onMounted } from 'vue';
 import { apiStore } from '@/store/store';
 import apiService from '@/services/apiService';
 import SettingsSerialConnection from '@/components/equipment/SettingsSerialConnection.vue';
+import SettingsAlpacaDirect from '@/components/equipment/SettingsAlpacaDirect.vue';
 
 const props = defineProps({
   selectedDevice: { type: String, default: '' },
+  selectedDeviceObj: { type: Object, default: null },
 });
 
 const store = apiStore();
@@ -104,11 +114,13 @@ const store = apiStore();
 const isOpenWeatherMap = computed(() => props.selectedDevice === 'OpenWeatherMap');
 const isTheWeatherCompany = computed(() => props.selectedDevice === 'TheWeatherCompany');
 const isWeatherUnderground = computed(() => props.selectedDevice === 'Weather Underground');
+const isAlpacaDirectDevice = computed(() => props.selectedDeviceObj?.Category === 'ASCOM Alpaca');
 const isIndiDevice = computed(
   () =>
     !isOpenWeatherMap.value &&
     !isTheWeatherCompany.value &&
     !isWeatherUnderground.value &&
+    !isAlpacaDirectDevice.value &&
     props.selectedDevice !== ''
 );
 

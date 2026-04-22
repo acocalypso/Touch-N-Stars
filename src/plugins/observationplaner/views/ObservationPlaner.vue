@@ -512,6 +512,7 @@ import { computed, nextTick, onMounted, reactive, ref, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useI18n } from 'vue-i18n';
 import apiService from '../../../services/apiService';
+import seedTargets from '../components/astro_targets_seed.json';
 import FramingAssistangModal from '../../../components/framing/FramingAssistangModal.vue';
 import SkyChart from '@/components/framing/SkyChart.vue';
 import toggleButton from '@/components/helpers/toggleButton.vue';
@@ -618,7 +619,7 @@ const planerStore = useObservationPlanerStore();
 const busy = ref(false);
 const busyLocation = ref(false);
 
-const targets = ref([]);
+const targets = ref([]); // merged list (favorites + seed)
 const apiFavorites = ref([]); // raw favorites from API
 
 // Persisted settings (survive navigation)
@@ -1257,6 +1258,24 @@ function normalizeFavorites(list) {
   });
 }
 
+function makeStableFavoriteId(name, raDeg, decDeg) {
+  const base = JSON.stringify({
+    n: name ?? '',
+    ra: raDeg ?? null,
+    dec: decDeg ?? null,
+  });
+  return 'fav-' + hashString(base);
+}
+
+function hashString(str) {
+  let h = 0;
+  for (let i = 0; i < str.length; i++) {
+    h = (h << 5) - h + str.charCodeAt(i);
+    h |= 0;
+  }
+  return Math.abs(h);
+}
+
 // --------------------------
 // Sun/Moon helpers
 // --------------------------
@@ -1505,9 +1524,76 @@ function toJulianDate(date) {
   return date.getTime() / 86400000 + 2440587.5;
 }
 
+// --------------------------
+// Seed + Favorites merge
+// --------------------------
+const seedData =
+  seedTargets && seedTargets.targets ? seedTargets : (seedTargets?.default ?? seedTargets);
+
+const seedTargetsNormalized = computed(() => {
+  const arr = Array.isArray(seedData?.targets) ? seedData.targets : [];
+  return arr.filter(Boolean).map((t, idx) => {
+    const name = t?.name ?? t?.Name ?? t?.title ?? `Seed ${idx + 1}`;
+    const type = t?.type ?? t?.Type ?? 'unknown';
+
+    const raH = parseRaToDeg(t?.ra ?? t?.Ra ?? t?.RA ?? t?.RaString ?? null);
+    const raDeg = raH == null ? null : raH * 15.0;
+    const decDeg = parseDecToDeg(t?.dec ?? t?.Dec ?? t?.DEC ?? t?.DecString ?? null);
+
+    const stableId = t?.id ?? t?.Id ?? t?._id ?? makeStableFavoriteId(name, raDeg, decDeg);
+
+    return {
+      _id: String(stableId),
+      _raw: t,
+      name,
+      type,
+      raDeg,
+      decDeg,
+      source: 'seed',
+      previewUrl: '',
+      previewError: '',
+      _showHint: false,
+      track: null,
+      maxAltDeg: null,
+      bestTime: null,
+      bestAzDeg: null,
+      visibleHours: null,
+      tonightScore: 0,
+      moonData: null,
+      _error: '',
+    };
+  });
+});
+
 const favoriteTargetsComputed = computed(() => normalizeFavorites(apiFavorites.value));
 
-const mergedTargets = favoriteTargetsComputed;
+// --------------------------
+// Merge (Favorites win)
+// --------------------------
+function mergeSeedAndFavorites(seedArr, favArr) {
+  const out = Array.isArray(favArr) ? [...favArr] : [];
+  const seeds = Array.isArray(seedArr) ? seedArr : [];
+
+  for (const s of seeds) {
+    if (!s || s.raDeg == null || s.decDeg == null) continue;
+
+    const exists = out.some(
+      (f) =>
+        f &&
+        f.raDeg != null &&
+        f.decDeg != null &&
+        Math.abs(f.raDeg - s.raDeg) < 0.05 &&
+        Math.abs(f.decDeg - s.decDeg) < 0.05
+    );
+
+    if (!exists) out.push(s);
+  }
+  return out;
+}
+
+const mergedTargets = computed(() =>
+  mergeSeedAndFavorites(seedTargetsNormalized.value, favoriteTargetsComputed.value)
+);
 
 // --------------------------
 // Azimuth helpers

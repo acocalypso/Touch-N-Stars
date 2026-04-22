@@ -85,6 +85,7 @@
       v-else-if="isAlpacaDirectDevice"
       deviceType="weather"
       :selectedDevice="selectedDevice"
+      :deviceId="selectedDeviceObj?.Id"
     />
 
     <!-- INDI-based weather devices -->

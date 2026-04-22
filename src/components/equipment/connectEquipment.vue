@@ -184,6 +184,7 @@
         v-if="isAlpacaDirect(selectedCameraObj)"
         deviceType="camera"
         :selectedDevice="selectedCameraDevice"
+        :deviceId="selectedCameraObj?.Id"
       />
       <p v-else class="text-sm text-gray-300">
         {{ $t('components.alpacaDirect.cameraNoSettings') }}
@@ -201,6 +202,7 @@
         v-if="isAlpacaDirect(selectedMountObj)"
         deviceType="telescope"
         :selectedDevice="selectedMountDevice"
+        :deviceId="selectedMountObj?.Id"
       />
       <SettingsSerialConnection
         v-else
@@ -220,6 +222,7 @@
         v-if="isAlpacaDirect(selectedFocuserObj)"
         deviceType="focuser"
         :selectedDevice="selectedFocuserDevice"
+        :deviceId="selectedFocuserObj?.Id"
       />
       <SettingsSerialConnection
         v-else
@@ -239,6 +242,7 @@
         v-if="isAlpacaDirect(selectedRotatorObj)"
         deviceType="rotator"
         :selectedDevice="selectedRotatorDevice"
+        :deviceId="selectedRotatorObj?.Id"
       />
       <SettingsSerialConnection
         v-else
@@ -258,6 +262,7 @@
         v-if="isAlpacaDirect(selectedFlatDeviceObj)"
         deviceType="flatdevice"
         :selectedDevice="selectedFlatDeviceDevice"
+        :deviceId="selectedFlatDeviceObj?.Id"
       />
       <SettingsSerialConnection
         v-else
@@ -277,6 +282,7 @@
         v-if="isAlpacaDirect(selectedSwitchObj)"
         deviceType="switch"
         :selectedDevice="selectedSwitchDevice"
+        :deviceId="selectedSwitchObj?.Id"
       />
       <SettingsSerialConnection
         v-else
@@ -296,6 +302,7 @@
         v-if="isAlpacaDirect(selectedFilterObj)"
         deviceType="filterwheel"
         :selectedDevice="selectedFilterDevice"
+        :deviceId="selectedFilterObj?.Id"
       />
       <SettingsSerialConnection
         v-else
@@ -328,6 +335,7 @@
         v-if="isAlpacaDirect(selectedDomeObj)"
         deviceType="dome"
         :selectedDevice="selectedDomeDevice"
+        :deviceId="selectedDomeObj?.Id"
       />
       <SettingsSerialConnection v-else equipmentType="dome" :selectedDevice="selectedDomeDevice" />
     </template>
@@ -343,6 +351,7 @@
         v-if="isAlpacaDirect(selectedSafetyObj)"
         deviceType="safetymonitor"
         :selectedDevice="selectedSafetyDevice"
+        :deviceId="selectedSafetyObj?.Id"
       />
       <SettingsSerialConnection
         v-else

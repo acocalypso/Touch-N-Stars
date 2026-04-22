@@ -351,6 +351,8 @@
       "deviceNumber": "Device number",
       "serviceType": "Service type",
       "save": "Save",
+      "connect": "Connect",
+      "disconnect": "Disconnect",
       "sharedGuidWarning": "Rotator and safety monitor share one storage slot in NINA — changing one also changes the other.",
       "noReconnectHint": "New settings take effect on the next connect.",
       "cameraNoSettings": "This camera has no settings to configure."

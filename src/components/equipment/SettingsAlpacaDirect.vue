@@ -72,7 +72,25 @@
 
       <p v-if="errorMessage" class="text-xs text-red-400 mt-1">{{ errorMessage }}</p>
 
-      <div class="flex justify-end mt-2">
+      <div class="flex justify-end gap-2 mt-2">
+        <button
+          v-if="!isConnected"
+          class="default-button-cyan h-8 px-4 text-xs md:text-sm"
+          :class="statusClassConnect"
+          :disabled="isLoading || isSaving || isConnecting || !canConnect"
+          @click="connect"
+        >
+          {{ $t('components.alpacaDirect.connect') }}
+        </button>
+        <button
+          v-else
+          class="default-button-red h-8 px-4 text-xs md:text-sm"
+          :class="statusClassConnect"
+          :disabled="isConnecting"
+          @click="disconnect"
+        >
+          {{ $t('components.alpacaDirect.disconnect') }}
+        </button>
         <button
           class="default-button-cyan h-8 px-4 text-xs md:text-sm"
           :class="statusClassSave"
@@ -89,11 +107,41 @@
 <script setup>
 import { computed, onMounted, ref, watch } from 'vue';
 import apiService from '@/services/apiService';
+import { apiStore } from '@/store/store';
 
 const props = defineProps({
   deviceType: { type: String, required: true },
   selectedDevice: { type: String, default: '' },
+  deviceId: { type: String, default: '' },
 });
+
+const store = apiStore();
+
+const DEVICE_TYPE_TO_API_ACTION = {
+  camera: 'cameraAction',
+  telescope: 'mountAction',
+  focuser: 'focusAction',
+  filterwheel: 'filterAction',
+  dome: 'domeAction',
+  rotator: 'rotatorAction',
+  safetymonitor: 'safetyAction',
+  switch: 'switchAction',
+  flatdevice: 'flatdeviceAction',
+  weather: 'weatherAction',
+};
+
+const DEVICE_TYPE_TO_INFO_KEY = {
+  camera: 'cameraInfo',
+  telescope: 'mountInfo',
+  focuser: 'focuserInfo',
+  filterwheel: 'filterInfo',
+  dome: 'domeInfo',
+  rotator: 'rotatorInfo',
+  safetymonitor: 'safetyInfo',
+  switch: 'switchInfo',
+  flatdevice: 'flatdeviceInfo',
+  weather: 'weatherInfo',
+};
 
 const ipAddress = ref('127.0.0.1');
 const port = ref(5000);
@@ -102,17 +150,24 @@ const serviceType = ref('Http');
 
 const isLoading = ref(false);
 const isSaving = ref(false);
+const isConnecting = ref(false);
 const errorMessage = ref('');
 const statusClassSave = ref('');
+const statusClassConnect = ref('');
 
 const isSharedGuid = computed(
   () => props.deviceType === 'rotator' || props.deviceType === 'safetymonitor'
 );
 
-function applyGlowFeedback(success) {
-  statusClassSave.value = success ? 'glow-green' : 'glow-red';
+const apiActionName = computed(() => DEVICE_TYPE_TO_API_ACTION[props.deviceType] || null);
+const infoKey = computed(() => DEVICE_TYPE_TO_INFO_KEY[props.deviceType] || null);
+const isConnected = computed(() => !!(infoKey.value && store[infoKey.value]?.Connected));
+const canConnect = computed(() => !!props.deviceId && !!apiActionName.value);
+
+function applyGlowFeedback(statusRef, success) {
+  statusRef.value = success ? 'glow-green' : 'glow-red';
   setTimeout(() => {
-    statusClassSave.value = '';
+    statusRef.value = '';
   }, 2000);
 }
 
@@ -137,34 +192,84 @@ async function loadSettings() {
   }
 }
 
+async function persistSettings() {
+  const response = await apiService.setAlpacaDirectSettings(props.deviceType, {
+    IpAddress: ipAddress.value,
+    Port: port.value,
+    DeviceNumber: deviceNumber.value,
+    ServiceType: serviceType.value,
+  });
+  if (response?.Success) {
+    const data = response.Response;
+    if (data) {
+      ipAddress.value = data.IpAddress ?? ipAddress.value;
+      port.value = data.Port ?? port.value;
+      deviceNumber.value = data.DeviceNumber ?? deviceNumber.value;
+      serviceType.value = data.ServiceType ?? serviceType.value;
+    }
+    return true;
+  }
+  errorMessage.value = response?.Error || 'Failed to save settings.';
+  return false;
+}
+
 async function save() {
   isSaving.value = true;
   errorMessage.value = '';
   try {
-    const response = await apiService.setAlpacaDirectSettings(props.deviceType, {
-      IpAddress: ipAddress.value,
-      Port: port.value,
-      DeviceNumber: deviceNumber.value,
-      ServiceType: serviceType.value,
-    });
+    const ok = await persistSettings();
+    applyGlowFeedback(statusClassSave, ok);
+  } catch (err) {
+    errorMessage.value = err?.response?.data?.Error || err?.message || 'Unknown error';
+    applyGlowFeedback(statusClassSave, false);
+  } finally {
+    isSaving.value = false;
+  }
+}
+
+async function connect() {
+  if (!canConnect.value) return;
+  isConnecting.value = true;
+  errorMessage.value = '';
+  try {
+    const saved = await persistSettings();
+    if (!saved) {
+      applyGlowFeedback(statusClassConnect, false);
+      return;
+    }
+    const encodedId = encodeURIComponent(props.deviceId);
+    const response = await apiService[apiActionName.value](`connect?to=${encodedId}`);
     if (response?.Success) {
-      const data = response.Response;
-      if (data) {
-        ipAddress.value = data.IpAddress ?? ipAddress.value;
-        port.value = data.Port ?? port.value;
-        deviceNumber.value = data.DeviceNumber ?? deviceNumber.value;
-        serviceType.value = data.ServiceType ?? serviceType.value;
-      }
-      applyGlowFeedback(true);
+      applyGlowFeedback(statusClassConnect, true);
     } else {
-      errorMessage.value = response?.Error || 'Failed to save settings.';
-      applyGlowFeedback(false);
+      errorMessage.value = response?.Error || 'Connect failed.';
+      applyGlowFeedback(statusClassConnect, false);
     }
   } catch (err) {
     errorMessage.value = err?.response?.data?.Error || err?.message || 'Unknown error';
-    applyGlowFeedback(false);
+    applyGlowFeedback(statusClassConnect, false);
   } finally {
-    isSaving.value = false;
+    isConnecting.value = false;
+  }
+}
+
+async function disconnect() {
+  if (!apiActionName.value) return;
+  isConnecting.value = true;
+  errorMessage.value = '';
+  try {
+    const response = await apiService[apiActionName.value]('disconnect');
+    if (response?.Success) {
+      applyGlowFeedback(statusClassConnect, true);
+    } else {
+      errorMessage.value = response?.Error || 'Disconnect failed.';
+      applyGlowFeedback(statusClassConnect, false);
+    }
+  } catch (err) {
+    errorMessage.value = err?.response?.data?.Error || err?.message || 'Unknown error';
+    applyGlowFeedback(statusClassConnect, false);
+  } finally {
+    isConnecting.value = false;
   }
 }
 

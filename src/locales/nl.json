@@ -1058,7 +1058,10 @@
       },
       "please_connect_dome": "Maak verbinding met dome",
       "is_sync": "Synchroniseren",
-      "not_sync": "Geen sync"
+      "not_sync": "Geen sync",
+      "indi": {
+        "settings": "Dome-instellingen"
+      }
     },
     "camera": {
       "connect": "Maak verbinding met camera",
@@ -1533,6 +1536,11 @@
       "titleSolving": "Plaat oplossen…",
       "tryAgain": "Selecteer Bestand",
       "useAsTarget": "Gebruik als doel"
+    },
+    "safetyMonitor": {
+      "indi": {
+        "settings": "Instellingen veiligheidsmonitor"
+      }
     }
   },
   "plugins": {
@@ -1648,7 +1656,8 @@
         "pluginInstallStart": "Plug-in installeren: {packageName}",
         "pluginUninstallStart": "Plug-in verwijderen: {packageName}",
         "pluginsLoadFailed": "Kan PINS-plug-ins niet laden: {message}",
-        "pluginsPackageNotAllowed": "Pakket niet toegestaan ​​door API-beleid: {packageName}"
+        "pluginsPackageNotAllowed": "Pakket niet toegestaan ​​door API-beleid: {packageName}",
+        "pluginsLoadMetadataFailed": "PINS-plug-ins kunnen niet worden geladen omdat de opslagplaats voor metagegevens van plug-ins momenteel niet beschikbaar is (HTTP 502)."
       },
       "hotspotConfigured": "Er is een aangepast hotspotwachtwoord geconfigureerd.",
       "hotspotNewPassword": "Nieuw hotspot-wachtwoord",

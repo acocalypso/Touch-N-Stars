@@ -1058,7 +1058,10 @@
       },
       "please_connect_dome": "Proszę podłączyć kopułę",
       "is_sync": "Synchronizacja",
-      "not_sync": "Brak synchronizacji"
+      "not_sync": "Brak synchronizacji",
+      "indi": {
+        "settings": "Ustawienia kopuły"
+      }
     },
     "camera": {
       "connect": "Proszę podłączyć kamerę",
@@ -1533,6 +1536,11 @@
       "titleSolving": "Rozwiązywanie płytek…",
       "tryAgain": "Wybierz opcję Plik",
       "useAsTarget": "Użyj jako celu"
+    },
+    "safetyMonitor": {
+      "indi": {
+        "settings": "Ustawienia monitora bezpieczeństwa"
+      }
     }
   },
   "plugins": {
@@ -1648,7 +1656,8 @@
         "pluginInstallStart": "Instalowanie wtyczki: {packageName}",
         "pluginUninstallStart": "Odinstalowywanie wtyczki: {packageName}",
         "pluginsLoadFailed": "Nie udało się załadować wtyczek PINS: {message}",
-        "pluginsPackageNotAllowed": "Pakiet niedozwolony przez zasady API: {packageName}"
+        "pluginsPackageNotAllowed": "Pakiet niedozwolony przez zasady API: {packageName}",
+        "pluginsLoadMetadataFailed": "Nie można załadować wtyczek PINS, ponieważ repozytorium metadanych wtyczek jest obecnie niedostępne (HTTP 502)."
       },
       "hotspotConfigured": "Skonfigurowano niestandardowe hasło hotspotu.",
       "hotspotNewPassword": "Nowe hasło do hotspotu",

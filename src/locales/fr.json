@@ -1058,7 +1058,10 @@
       },
       "please_connect_dome": "Veuillez connecter le dôme",
       "is_sync": "Synchronisé",
-      "not_sync": "Non synchronisé"
+      "not_sync": "Non synchronisé",
+      "indi": {
+        "settings": "Paramètres du dôme"
+      }
     },
     "camera": {
       "connect": "Veuillez connecter la caméra",
@@ -1533,6 +1536,11 @@
       "titleSolving": "Résolution de plaques…",
       "tryAgain": "Sélectionnez un fichier",
       "useAsTarget": "Utiliser comme cible"
+    },
+    "safetyMonitor": {
+      "indi": {
+        "settings": "Paramètres du moniteur de sécurité"
+      }
     }
   },
   "plugins": {
@@ -1648,7 +1656,8 @@
         "pluginInstallStart": "Installation du plug-in : {packageName}",
         "pluginUninstallStart": "Plugin de désinstallation : {packageName}",
         "pluginsLoadFailed": "Échec du chargement des plug-ins PINS : {message}",
-        "pluginsPackageNotAllowed": "Package non autorisé par la règle de l'API : {packageName}"
+        "pluginsPackageNotAllowed": "Package non autorisé par la règle de l'API : {packageName}",
+        "pluginsLoadMetadataFailed": "Les plugins PINS n'ont pas pu être chargés car le référentiel de métadonnées du plugin est actuellement indisponible (HTTP 502)."
       },
       "hotspotConfigured": "Le mot de passe du point d'accès personnalisé est configuré.",
       "hotspotNewPassword": "Nouveau mot de passe du point d'accès",

@@ -1098,7 +1098,10 @@
       },
       "please_connect_dome": "Bitte verbinden Sie die Kuppel",
       "is_sync": "Synchronisation",
-      "not_sync": "Nicht synchronisieren"
+      "not_sync": "Nicht synchronisieren",
+      "indi": {
+        "settings": "Dome-Einstellungen"
+      }
     },
     "camera": {
       "connect": "Bitte Kamera verbinden",
@@ -1533,6 +1536,11 @@
       "dec": "Dek",
       "pixel_scale": "Pixelskala",
       "focal_length": "Brennweite"
+    },
+    "safetyMonitor": {
+      "indi": {
+        "settings": "Einstellungen des Sicherheitsmonitors"
+      }
     }
   },
   "plugins": {
@@ -3784,7 +3792,7 @@
     "about": "Info"
   },
   "nightsummary": {
-   "notAvailable": "Nachtzusammenfassungs-Plugin nicht erkannt. \nInstallieren Sie das NINA-Plugin „Night Summary”, um diese Seite nutzen zu können.",
+    "notAvailable": "Nachtzusammenfassungs-Plugin nicht erkannt. \nInstallieren Sie das NINA-Plugin „Night Summary”, um diese Seite nutzen zu können.",
     "tnsPluginToOld": "Das Touch N Stars Plugin ist zu alt für diese Funktion. Bitte aktualisieren Sie auf Version 1.2.8.0 oder neuer.",
     "sessions": {
       "delete": "Löschen",

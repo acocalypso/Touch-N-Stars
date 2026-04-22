@@ -145,6 +145,8 @@ const equipmentInfoMap = {
   weather: () => store.weatherInfo,
   filterwheel: () => store.filterInfo,
   switch: () => store.switchInfo,
+  dome: () => store.domeInfo,
+  safety: () => store.safetyInfo,
 };
 
 // Map equipment type to settings key in profileInfo
@@ -156,6 +158,8 @@ const settingsKeyMap = {
   weather: 'WeatherDataSettings',
   filterwheel: 'FilterWheelSettings',
   switch: 'SwitchSettings',
+  dome: 'DomeSettings',
+  safety: 'SafetyMonitorSettings',
 };
 
 // Map equipment type to setting property prefixes
@@ -203,6 +207,20 @@ const settingsPrefixMap = {
     autoDetect: 'IndiAutoSearch',
   },
   switch: {
+    connection: 'IndiConnectionMode',
+    port: 'IndiPort',
+    baud: 'IndiBaudRate',
+    address: 'IndiAddress',
+    autoDetect: 'IndiAutoSearch',
+  },
+  dome: {
+    connection: 'IndiConnectionMode',
+    port: 'IndiPort',
+    baud: 'IndiBaudRate',
+    address: 'IndiAddress',
+    autoDetect: 'IndiAutoSearch',
+  },
+  safety: {
     connection: 'IndiConnectionMode',
     port: 'IndiPort',
     baud: 'IndiBaudRate',

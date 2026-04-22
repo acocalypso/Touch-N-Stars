@@ -1098,7 +1098,15 @@
       },
       "please_connect_dome": "Please connect the dome",
       "is_sync": "Sync",
-      "not_sync": "Not sync"
+      "not_sync": "Not sync",
+      "indi": {
+        "settings": "Dome Settings"
+      }
+    },
+    "safetyMonitor": {
+      "indi": {
+        "settings": "Safety Monitor Settings"
+      }
     },
     "camera": {
       "connect": "Please connect camera",

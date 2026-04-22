@@ -1066,7 +1066,10 @@
       },
       "please_connect_dome": "ドームを接続してください",
       "is_sync": "同期中",
-      "not_sync": "非同期"
+      "not_sync": "非同期",
+      "indi": {
+        "settings": "ドームの設定"
+      }
     },
     "camera": {
       "connect": "カメラを接続してください",
@@ -1533,6 +1536,11 @@
       "tryAgain": "ファイルの選択",
       "useAsTarget": "ターゲットとして使用",
       "solvingHint": "プレートの解決には、ソルバーと検索半径に応じて 10 ～ 60 秒かかる場合があります。"
+    },
+    "safetyMonitor": {
+      "indi": {
+        "settings": "セーフティモニターの設定"
+      }
     }
   },
   "plugins": {
@@ -1656,7 +1664,8 @@
         "pluginInstallStart": "プラグインをインストールしています: {packageName}",
         "pluginUninstallStart": "プラグインをアンインストールしています: {packageName}",
         "pluginsLoadFailed": "PINS プラグインのロードに失敗しました: {message}",
-        "pluginsPackageNotAllowed": "API ポリシーによってパッケージが許可されていません: {packageName}"
+        "pluginsPackageNotAllowed": "API ポリシーによってパッケージが許可されていません: {packageName}",
+        "pluginsLoadMetadataFailed": "プラグイン メタデータ リポジトリが現在利用できないため、PINS プラグインをロードできませんでした (HTTP 502)。"
       },
       "wifiDisconnect": "WiFiを切断",
       "disconnectConfirmTitle": "WiFiを切断しますか？",

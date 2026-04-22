@@ -133,6 +133,7 @@
       :deviceName="$t('components.connectEquipment.safety.name')"
       :default-device-id="store.profileInfo?.SafetyMonitorSettings?.Id"
       :isConnected="store.safetyInfo.Connected"
+      @open-config="openSafetySettings"
     />
 
     <selectDevices
@@ -148,6 +149,7 @@
       :deviceName="$t('components.connectEquipment.dome.name')"
       :default-device-id="store.profileInfo?.DomeSettings?.Id"
       :isConnected="store.domeInfo.Connected"
+      @open-config="openDomeSettings"
     />
 
     <selectDevices
@@ -244,6 +246,26 @@
       <SettingsWeather :selectedDevice="selectedWeatherDevice" />
     </template>
   </Modal>
+
+  <!-- Dome Settings Modal -->
+  <Modal :show="showDomeSettings" @close="showDomeSettings = false">
+    <template #header>
+      <h2 class="text-2xl font-semibold">{{ $t('components.dome.indi.settings') }}</h2>
+    </template>
+    <template #body>
+      <SettingsSerialConnection equipmentType="dome" :selectedDevice="selectedDomeDevice" />
+    </template>
+  </Modal>
+
+  <!-- Safety Monitor Settings Modal -->
+  <Modal :show="showSafetySettings" @close="showSafetySettings = false">
+    <template #header>
+      <h2 class="text-2xl font-semibold">{{ $t('components.safetyMonitor.indi.settings') }}</h2>
+    </template>
+    <template #body>
+      <SettingsSerialConnection equipmentType="safety" :selectedDevice="selectedSafetyDevice" />
+    </template>
+  </Modal>
 </template>
 
 <script setup>
@@ -281,6 +303,10 @@ const showSwitchSettings = ref(false);
 const selectedSwitchDevice = ref('');
 const showWeatherSettings = ref(false);
 const selectedWeatherDevice = ref('');
+const showDomeSettings = ref(false);
+const selectedDomeDevice = ref('');
+const showSafetySettings = ref(false);
+const selectedSafetyDevice = ref('');
 const selectedWeatherDeviceName = ref(store.profileInfo?.WeatherDataSettings?.Id || '');
 
 const WEATHER_API_KEY_DEVICES = ['OpenWeatherMap', 'TheWeatherCompany', 'Weather Underground'];
@@ -344,6 +370,16 @@ const openSwitchSettings = (payload) => {
 const openWeatherSettings = (payload) => {
   selectedWeatherDevice.value = payload?.selectedDeviceDisplayName || '';
   showWeatherSettings.value = true;
+};
+
+const openDomeSettings = (payload) => {
+  selectedDomeDevice.value = payload?.selectedDeviceDisplayName || '';
+  showDomeSettings.value = true;
+};
+
+const openSafetySettings = (payload) => {
+  selectedSafetyDevice.value = payload?.selectedDeviceDisplayName || '';
+  showSafetySettings.value = true;
 };
 
 const allConnected = computed(() => {

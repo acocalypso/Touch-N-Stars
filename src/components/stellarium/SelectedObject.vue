@@ -41,6 +41,10 @@
           :show-label="true"
         />
 
+        <button class="default-button-cyan w-full" @click="openFramingModal">
+          {{ $t('components.framing.openFraminingModal') }}
+        </button>
+
         <setSequenceTarget
           class="w-full"
           :raAngle="props.selectedObjectRaDeg"
@@ -74,8 +78,23 @@ import SaveFavTargets from '@/components/favTargets/SaveFavTargets.vue';
 import ButtomSyncCoordinatesToMount from '@/components/mount/ButtomSyncCoordinatesToMount.vue';
 import setSequenceTarget from '../framing/setSequenceTarget.vue';
 import { useOrientation } from '@/composables/useOrientation';
+import { useFramingStore } from '@/store/framingStore';
 
 const store = apiStore();
+const framingStore = useFramingStore();
+
+function openFramingModal() {
+  framingStore.RAangle = props.selectedObjectRaDeg;
+  framingStore.DECangle = props.selectedObjectDecDeg;
+  framingStore.RAangleString = props.selectedObjectRa;
+  framingStore.DECangleString = props.selectedObjectDec;
+  framingStore.selectedItem = {
+    Name: props.selectedObject?.[0] ?? '',
+    RA: props.selectedObjectRaDeg,
+    Dec: props.selectedObjectDecDeg,
+  };
+  framingStore.showFramingModal = true;
+}
 const props = defineProps({
   selectedObject: Object,
   selectedObjectRa: String,

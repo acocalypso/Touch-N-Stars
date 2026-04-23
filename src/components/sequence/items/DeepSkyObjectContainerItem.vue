@@ -2,6 +2,7 @@
   <ItemShell :item="item">
     <template #summary>
       <span class="text-xs text-slate-400 font-mono">{{ raStr }} {{ decStr }}</span>
+      <span class="text-xs text-slate-500 font-mono">{{ displayPositionAngle }}°</span>
     </template>
 
     <template #editor>
@@ -313,6 +314,11 @@ const decStr = computed(() => {
 const decDeg = computed(() =>
   coords.value.NegativeDec ? -coords.value.DecDegrees : coords.value.DecDegrees
 );
+
+const displayPositionAngle = computed(() => {
+  const value = parsedTarget.value?.PositionAngle ?? props.item.Target?.PositionAngle ?? 0;
+  return Number(value).toFixed(2);
+});
 
 const currentRaDeg = computed(() => {
   const c = coords.value;

@@ -157,6 +157,7 @@
       "discoveryPermissionHintWrapper": "{message} Stelle sicher, dass die App in den Systemeinstellungen Zugriff auf das lokale Netzwerk bzw. auf Geräte in der Nähe hat."
     },
     "framing": {
+      "pageTitle": "Framing-Assistent",
       "confirmSetTargetTitle": "Zielauswahl bestätigen",
       "confirmSetTargetMessage": "Möchten Sie dieses Ziel wirklich als Sequenzziel festlegen?",
       "useNinaCache": "NINA-Cache für das Zielbild verwenden",
@@ -3800,6 +3801,7 @@
     "sequence": "Seq.",
     "monitoring": "Monitor",
     "flatWizard": "Flats",
+    "framing": "Framing",
     "skyView": "Stellarium",
     "settings": "Einstell.",
     "about": "Info"

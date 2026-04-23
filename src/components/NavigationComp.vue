@@ -399,6 +399,16 @@
         </div>
 
         <div
+          v-if="store.isBackendReachable && !isNavItemHidden('framing')"
+          :style="{ order: getNavOrder('framing') }"
+          :data-label="t('nav.framing')"
+        >
+          <router-link to="/framing" class="nav-button" active-class="active-nav-button">
+            <ViewfinderCircleIcon class="icon force-visible" />
+          </router-link>
+        </div>
+
+        <div
           v-if="store.isBackendReachable && !isNavItemHidden('skyview')"
           :style="{ order: getNavOrder('skyview') }"
           :data-label="t('nav.skyView')"
@@ -480,6 +490,7 @@ import {
   SparklesIcon,
   InformationCircleIcon,
   LinkSlashIcon,
+  ViewfinderCircleIcon,
 } from '@heroicons/vue/24/outline';
 import { watch, computed, ref, onMounted, onBeforeUnmount, nextTick } from 'vue';
 import { useI18n } from 'vue-i18n';

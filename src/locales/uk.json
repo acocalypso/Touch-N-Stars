@@ -117,6 +117,7 @@
       "discoveryPermissionHintWrapper": "{message} Переконайтеся, що додаток має доступ до локальної мережі / пристроїв поблизу в системних налаштуваннях."
     },
     "framing": {
+      "pageTitle": "Асистент фреймінгу",
       "confirmSetTargetTitle": "Підтвердження вибору цілі",
       "confirmSetTargetMessage": "Ви впевнені, що хочете встановити цю ціль як ціль послідовності?",
       "useNinaCache": "Використовувати кеш NINA для зображення цілі",
@@ -3713,6 +3714,7 @@
     "sequence": "Посл.",
     "monitoring": "Монітор",
     "flatWizard": "Флети",
+    "framing": "Фреймінг",
     "skyView": "Stellarium",
     "settings": "Налашт.",
     "about": "Про нас"

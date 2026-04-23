@@ -117,6 +117,7 @@
       "discoveryPermissionHintWrapper": "{message} 请在系统设置中确保应用拥有局域网/附近设备的访问权限。"
     },
     "framing": {
+      "pageTitle": "取景助手",
       "confirmSetTargetTitle": "确认目标选择",
       "confirmSetTargetMessage": "您确定要将此目标设置为序列目标吗？",
       "useNinaCache": "使用 NINA 缓存作为目标图像",
@@ -3800,6 +3801,7 @@
     "sequence": "序列",
     "monitoring": "监控",
     "flatWizard": "平场向导",
+    "framing": "取景",
     "skyView": "星辰",
     "settings": "设置",
     "about": "关于"

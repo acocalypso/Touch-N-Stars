@@ -117,6 +117,7 @@
       "discoveryPermissionHintWrapper": "{message} Vérifiez que l’application dispose de l’accès au réseau local / aux appareils à proximité dans les paramètres système."
     },
     "framing": {
+      "pageTitle": "Assistant de Cadrage",
       "confirmSetTargetTitle": "Confirmer la sélection de la cible",
       "confirmSetTargetMessage": "Êtes-vous sûr de choisir cette nouvelle cible?",
       "useNinaCache": "Utiliser le cache NINA pour cette image de la cible",
@@ -3800,6 +3801,7 @@
     "sequence": "Séq.",
     "monitoring": "Moniteur",
     "flatWizard": "Appartements",
+    "framing": "Cadrage",
     "skyView": "Stellarium",
     "settings": "Réglages",
     "about": "Info"

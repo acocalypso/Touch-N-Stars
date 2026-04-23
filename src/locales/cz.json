@@ -117,6 +117,7 @@
       "discoveryPermissionHintWrapper": "{message} Zkontrolujte, zda má aplikace v nastavení systému přístup k místní síti / k zařízením v blízkosti."
     },
     "framing": {
+      "pageTitle": "Framing Asistent",
       "confirmSetTargetTitle": "Potvrzení Výběru Cíle",
       "confirmSetTargetMessage": "Jste si jisti, že chcete tento cíl nastavit jako součást sekvence?",
       "useNinaCache": "Využití mezipaměti NINA pro cílový obraz",
@@ -3800,6 +3801,7 @@
     "sequence": "Sekv.",
     "monitoring": "Monitor",
     "flatWizard": "Byty",
+    "framing": "Framing",
     "skyView": "Stellarium",
     "settings": "Nastav.",
     "about": "Info"

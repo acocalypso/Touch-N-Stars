@@ -117,6 +117,7 @@
       "discoveryPermissionHintWrapper": "{message} Upewnij się w ustawieniach systemu, że aplikacja ma dostęp do sieci lokalnej / urządzeń w pobliżu."
     },
     "framing": {
+      "pageTitle": "Asystent kadrowania",
       "confirmSetTargetTitle": "Potwierdź wybór celu",
       "confirmSetTargetMessage": "Czy na pewno chcesz ustawić ten cel jako cel sekwencji?",
       "useNinaCache": "Użyj pamięci podręcznej NINA dla obrazu celu",
@@ -3800,6 +3801,7 @@
     "sequence": "Sekw.",
     "monitoring": "Monitor",
     "flatWizard": "Mieszkania",
+    "framing": "Kadrowanie",
     "skyView": "Stellarium",
     "settings": "Ustaw.",
     "about": "Info"

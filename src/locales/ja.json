@@ -125,6 +125,7 @@
       "discoveryPermissionHintWrapper": "{message} システム設定でアプリに「ローカルネットワーク」または「近隣のデバイス」へのアクセス権限があるか確認してください。"
     },
     "framing": {
+      "pageTitle": "フレーミングアシスタント",
       "confirmSetTargetTitle": "ターゲット選択の確認",
       "confirmSetTargetMessage": "このターゲットをシーケンスのターゲットとして設定しますか？",
       "useNinaCache": "NINA キャッシュをターゲット画像に使用する",
@@ -3800,6 +3801,7 @@
     "sequence": "シーケンス",
     "monitoring": "モニター",
     "flatWizard": "フラット",
+    "framing": "フレーミング",
     "skyView": "Stellarium",
     "settings": "設定",
     "about": "About"

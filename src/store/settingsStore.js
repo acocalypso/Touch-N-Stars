@@ -151,6 +151,7 @@ export const useSettingsStore = defineStore('settings', {
         'sequence',
         'monitoring',
         'flats',
+        'framing',
         'skyview',
         'settings',
         'about',

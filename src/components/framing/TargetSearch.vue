@@ -125,9 +125,9 @@
         :coordinates="settingsStore.coordinates"
       />
 
-      <!-- Open Framing Modal Button -->
+      <!-- Open Framing Page Button -->
       <div v-if="framingStore.selectedItem" class="mb-4">
-        <button @click="framingStore.showFramingModal = true" class="default-button-cyan">
+        <button @click="openFraming" class="default-button-cyan">
           {{ $t('components.framing.openFraminingModal') }}
         </button>
       </div>
@@ -140,21 +140,6 @@
         />
       </div>
     </div>
-
-    <!-- Framing Modal -->
-    <div
-      v-if="framingStore.showFramingModal"
-      class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
-      @click.self="framingStore.showFramingModal = false"
-    >
-      <div
-        class="bg-gray-900 rounded-lg p-4 overflow-y-auto max-h-[95vh] border border-gray-700 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-800/50"
-        :style="{ minWidth: `${framingStore.containerSize}px` }"
-        @click.stop
-      >
-        <FramingAssistangModal />
-      </div>
-    </div>
   </div>
 </template>
 
@@ -165,7 +150,6 @@ import apiService from '@/services/apiService';
 import slewAndCenter from '@/components/framing/slewAndCenter.vue';
 import TargetPic from '@/components/framing/TargetPic.vue';
 import controlUseNinaCache from '@/components/framing/controlUseNinaCache.vue';
-import FramingAssistangModal from '@/components/framing/FramingAssistangModal.vue';
 import { useFramingStore } from '@/store/framingStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import SkyChart from '@/components/framing/SkyChart.vue';
@@ -175,10 +159,16 @@ import FitsPlateSolve from '@/components/fitsPlatesolve/FitsPlateSolve.vue';
 import { raDecToAltAz, degreesToHMS, degreesToDMS } from '@/utils/utils';
 import { timeSync } from '@/utils/timeSync';
 import { apiStore } from '@/store/store';
+import { useRouter } from 'vue-router';
 
 const framingStore = useFramingStore();
 const settingsStore = useSettingsStore();
 const appStore = apiStore();
+const router = useRouter();
+
+function openFraming() {
+  router.push('/framing');
+}
 const stars = ref([]);
 const selectedStar = ref(null);
 const currentSiderealTime = ref(0);

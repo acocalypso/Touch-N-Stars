@@ -490,20 +490,6 @@
         <div v-if="busy" class="text-sm text-gray-400">{{ tp('common.loading') }}</div>
       </div>
     </div>
-    <!-- Framing Modal (hosted in this view) -->
-    <div
-      v-if="framingStore.showFramingModal"
-      class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
-      @click.self="framingStore.showFramingModal = false"
-    >
-      <div
-        class="bg-gray-900 rounded-lg p-4 overflow-y-auto max-h-[75vh] border border-gray-700 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-800/50"
-        :style="{ minWidth: `${framingStore.containerSize || 900}px` }"
-        @click.stop
-      >
-        <FramingAssistangModal />
-      </div>
-    </div>
   </div>
 </template>
 
@@ -511,9 +497,9 @@
 import { computed, nextTick, onMounted, reactive, ref, watch } from 'vue';
 import { storeToRefs } from 'pinia';
 import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
 import apiService from '../../../services/apiService';
 import seedTargets from '../components/astro_targets_seed.json';
-import FramingAssistangModal from '../../../components/framing/FramingAssistangModal.vue';
 import SkyChart from '@/components/framing/SkyChart.vue';
 import toggleButton from '@/components/helpers/toggleButton.vue';
 import { useFramingStore } from '@/store/framingStore';
@@ -541,6 +527,7 @@ import {
 
 const { t: tr } = useI18n();
 const tp = (key, params) => tr(`observationPlaner.${key}`, params);
+const router = useRouter();
 
 function parseRaToDeg(v) {
   // Accepts: number (deg or hours), "HH:MM:SS", "HH MM SS", "HHhMMmSSs"
@@ -1042,7 +1029,7 @@ async function openInFramingAssistant(t) {
     } catch {}
 
     // 2) open View
-    framingStore.showFramingModal = true;
+    router.push('/framing');
 
     mountMsg[t._id] = 'Framing Assistant is open';
   } catch (e) {

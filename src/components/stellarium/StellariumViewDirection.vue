@@ -44,12 +44,14 @@
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from 'vue';
+import { useRouter } from 'vue-router';
 import { useStellariumStore } from '@/store/stellariumStore';
 import { useFramingStore } from '@/store/framingStore';
 import { degreesToHMS, degreesToDMS, rad2deg } from '@/utils/utils';
 
 const stellariumStore = useStellariumStore();
 const framingStore = useFramingStore();
+const router = useRouter();
 const formattedRA = ref('--:--:--');
 const formattedDec = ref('+--:--:--');
 const formattedRADeg = ref('0.00');
@@ -96,12 +98,12 @@ function openFramingModal() {
   framingStore.DECangle = parseFloat(formattedDecDeg.value);
   framingStore.RAangleString = formattedRA.value;
   framingStore.DECangleString = formattedDec.value;
-  framingStore.showFramingModal = true;
   framingStore.selectedItem = {
     Name: 'Stellarium View',
     RA: formattedRADeg.value,
     Dec: formattedDecDeg.value,
   };
+  router.push('/framing');
 }
 
 onMounted(() => {

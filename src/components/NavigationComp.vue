@@ -245,21 +245,28 @@
           :data-label="t('nav.filterWheel')"
         >
           <router-link to="/filterwheel" class="nav-button" active-class="active-nav-button">
-            <svg
-              baseProfile="full"
-              version="1.1"
-              viewBox="0 0 100 100"
-              xmlns="http://www.w3.org/2000/svg"
-              class="icon force-visible"
-            >
-              <defs />
-              <circle cx="50.0" cy="50.0" fill="currentColor" r="40.0" stroke="black" />
-              <circle cx="70.0" cy="50.0" fill="black" r="5.0" />
-              <circle cx="56.180339887498945" cy="69.02113032590307" fill="black" r="5.0" />
-              <circle cx="33.819660112501055" cy="61.75570504584947" fill="black" r="5.0" />
-              <circle cx="33.81966011250105" cy="38.24429495415054" fill="black" r="5.0" />
-              <circle cx="56.180339887498945" cy="30.978869674096927" fill="black" r="5.0" />
-            </svg>
+            <div class="relative">
+              <svg
+                baseProfile="full"
+                version="1.1"
+                viewBox="0 0 100 100"
+                xmlns="http://www.w3.org/2000/svg"
+                class="icon force-visible"
+              >
+                <defs />
+                <circle cx="50.0" cy="50.0" fill="currentColor" r="40.0" stroke="black" />
+                <circle cx="70.0" cy="50.0" fill="black" r="5.0" />
+                <circle cx="56.180339887498945" cy="69.02113032590307" fill="black" r="5.0" />
+                <circle cx="33.819660112501055" cy="61.75570504584947" fill="black" r="5.0" />
+                <circle cx="33.81966011250105" cy="38.24429495415054" fill="black" r="5.0" />
+                <circle cx="56.180339887498945" cy="30.978869674096927" fill="black" r="5.0" />
+              </svg>
+              <!-- Disconnect Icon - positioned below the filter wheel icon -->
+              <LinkSlashIcon
+                v-if="!store.filterInfo.Connected"
+                class="absolute -bottom-2 -right-2 w-4 h-4 text-red-500 bg-gray-800 rounded-full p-0.5"
+              />
+            </div>
           </router-link>
         </div>
 
@@ -677,6 +684,7 @@ watch(
     () => store.domeInfo.Connected,
     () => store.flatdeviceInfo.Connected,
     () => store.switchInfo.Connected,
+    () => store.filterInfo.Connected,
     () => store.guiderInfo.Connected,
     () => sequenceStore.sequenceIsLoaded,
     () => isLandscape.value,

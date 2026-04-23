@@ -139,10 +139,10 @@ const c = computed(() => {
 });
 
 const displayPositionAngle = computed(() => {
-  if (props.item.Inherited) {
-    return deepSkyContainer.value?.Target?.PositionAngle ?? 0;
-  }
-  return props.item.PositionAngle;
+  const value = props.item.Inherited
+    ? (deepSkyContainer.value?.Target?.PositionAngle ?? 0)
+    : props.item.PositionAngle;
+  return Number(value).toFixed(2);
 });
 
 const raStr = computed(() => {

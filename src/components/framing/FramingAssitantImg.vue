@@ -4,8 +4,8 @@
       v-if="isLoading"
       class="flex items-center justify-center"
       :style="{
-        width: framingStore.containerSize ? `${framingStore.containerSize}px` : '100%',
-        height: framingStore.containerSize ? `${framingStore.containerSize}px` : '100%',
+        width: framingStore.containerWidth ? `${framingStore.containerWidth}px` : '100%',
+        height: framingStore.containerHeight ? `${framingStore.containerHeight}px` : '100%',
       }"
     >
       <div
@@ -15,10 +15,10 @@
     <div
       v-show="!isLoading"
       id="fov"
-      class="border relative overflow-hidden"
+      class="relative overflow-hidden"
       :style="{
-        width: `${framingStore.containerSize}px`,
-        height: `${framingStore.containerSize}px`,
+        width: `${framingStore.containerWidth}px`,
+        height: `${framingStore.containerHeight}px`,
         position: 'relative',
       }"
       ref="containerRef"
@@ -65,12 +65,12 @@
       <svg
         v-if="framingStore.isMosaicMode"
         class="absolute inset-0 pointer-events-none"
-        :width="framingStore.containerSize"
-        :height="framingStore.containerSize"
+        :width="framingStore.containerWidth"
+        :height="framingStore.containerHeight"
         style="z-index: 3"
       >
         <g
-          :transform="`translate(${mosaicSvgOffset.x}, ${mosaicSvgOffset.y}) rotate(${rotationAngleVisu}, ${framingStore.containerSize / 2}, ${framingStore.containerSize / 2})`"
+          :transform="`translate(${mosaicSvgOffset.x}, ${mosaicSvgOffset.y}) rotate(${rotationAngleVisu}, ${framingStore.containerWidth / 2}, ${framingStore.containerHeight / 2})`"
         >
           <g v-for="panel in mosaicPanels" :key="panel.label">
             <rect
@@ -139,7 +139,7 @@ let resizeObserver = null;
 // ── Mosaic helpers ──────────────────────────────────────────────────────────
 function computeMosaicPanels(store) {
   const overlap = store.mosaicOverlap / 100;
-  const scale = store.fov / store.containerSize;
+  const scale = store.fov / store.containerWidth;
   const fovX = store.camWidth * scale;
   const fovY = store.camHeight * scale;
   const stepRa = fovX * (1 - overlap);
@@ -150,7 +150,8 @@ function computeMosaicPanels(store) {
   const centerRA = store.RAangle;
   const centerDec = store.DECangle;
   const centerRot = store.rotationAngle;
-  const center = store.containerSize / 2;
+  const centerX = store.containerWidth / 2;
+  const centerY = store.containerHeight / 2;
   const panels = [];
 
   for (let row = 0; row < store.mosaicRows; row++) {
@@ -162,8 +163,8 @@ function computeMosaicPanels(store) {
       const panelRot = centerRot;
       panels.push({
         label: `${col + 1}-${row + 1}`,
-        screenX: center + dc * (store.camWidth * (1 - overlap)),
-        screenY: center + dr * (store.camHeight * (1 - overlap)),
+        screenX: centerX + dc * (store.camWidth * (1 - overlap)),
+        screenY: centerY + dr * (store.camHeight * (1 - overlap)),
         ra: panelRA,
         dec: panelDec,
         rotation: panelRot,
@@ -209,8 +210,8 @@ const mosaicSvgOffset = computed(() => {
   if (!framingStore.isMosaicMode) return { x: 0, y: 0 };
   const { w, h } = mosaicTotalSize();
   return {
-    x: x.value + w / 2 - framingStore.containerSize / 2,
-    y: y.value + h / 2 - framingStore.containerSize / 2,
+    x: x.value + w / 2 - framingStore.containerWidth / 2,
+    y: y.value + h / 2 - framingStore.containerHeight / 2,
   };
 });
 
@@ -296,36 +297,44 @@ async function runInit() {
 function centerBoundingBox() {
   if (framingStore.isMosaicMode) {
     const { w, h } = mosaicTotalSize();
-    x.value = framingStore.containerSize / 2 - w / 2;
-    y.value = framingStore.containerSize / 2 - h / 2;
+    x.value = framingStore.containerWidth / 2 - w / 2;
+    y.value = framingStore.containerHeight / 2 - h / 2;
   } else {
-    x.value = framingStore.containerSize / 2 - framingStore.camWidth / 2;
-    y.value = framingStore.containerSize / 2 - framingStore.camHeight / 2;
+    x.value = framingStore.containerWidth / 2 - framingStore.camWidth / 2;
+    y.value = framingStore.containerHeight / 2 - framingStore.camHeight / 2;
   }
 }
 
-function computeContainerSize() {
+function computeContainerDims() {
   const el = stageRef.value;
-  if (!el) return framingStore.containerSize || 500;
+  const fallbackW = framingStore.containerWidth || 500;
+  const fallbackH = framingStore.containerHeight || 500;
+  if (!el) return { w: fallbackW, h: fallbackH };
   const rect = el.getBoundingClientRect();
-  const available = Math.min(rect.width, rect.height);
-  if (available <= 0) return framingStore.containerSize || 500;
-  const rounded = Math.floor(available / 20) * 20;
-  // Mindestgröße, damit das Bild nicht auf 0 fällt falls Layout noch nicht fertig
-  return Math.max(rounded, 200);
+  if (rect.width <= 0 || rect.height <= 0) return { w: fallbackW, h: fallbackH };
+  // Auf 20px runden, damit bei kleinen Schwankungen (Scrollbar, ResizeObserver-Jitter)
+  // kein unnötiger Bild-Reload ausgelöst wird.
+  const w = Math.max(Math.floor(rect.width / 20) * 20, 200);
+  const h = Math.max(Math.floor(rect.height / 20) * 20, 200);
+  return { w, h };
 }
 
 function measureStage() {
-  framingStore.containerSize = computeContainerSize();
+  const { w, h } = computeContainerDims();
+  framingStore.containerWidth = w;
+  framingStore.containerHeight = h;
+  framingStore.containerSize = Math.min(w, h);
 }
 
 let resizeTimeout;
 function handleStageResize() {
   clearTimeout(resizeTimeout);
   resizeTimeout = setTimeout(() => {
-    const newSize = computeContainerSize();
-    if (newSize !== framingStore.containerSize) {
-      framingStore.containerSize = newSize;
+    const { w, h } = computeContainerDims();
+    if (w !== framingStore.containerWidth || h !== framingStore.containerHeight) {
+      framingStore.containerWidth = w;
+      framingStore.containerHeight = h;
+      framingStore.containerSize = Math.min(w, h);
       updateCameraBoxSize();
       centerBoundingBox();
       framingStore.cameraX = x.value;
@@ -349,11 +358,11 @@ watch(
       // Bounding Box in der Mitte positionieren (Mosaik oder einzelne Kamera)
       if (framingStore.isMosaicMode) {
         const { w, h } = mosaicTotalSize();
-        x.value = framingStore.containerSize / 2 - w / 2;
-        y.value = framingStore.containerSize / 2 - h / 2;
+        x.value = framingStore.containerWidth / 2 - w / 2;
+        y.value = framingStore.containerHeight / 2 - h / 2;
       } else {
-        x.value = framingStore.containerSize / 2 - framingStore.camWidth / 2;
-        y.value = framingStore.containerSize / 2 - framingStore.camHeight / 2;
+        x.value = framingStore.containerWidth / 2 - framingStore.camWidth / 2;
+        y.value = framingStore.containerHeight / 2 - framingStore.camHeight / 2;
       }
 
       // Position im Store speichern (absolut und relativ)
@@ -386,11 +395,11 @@ watch(
   (active) => {
     if (active) {
       const { w, h } = mosaicTotalSize();
-      x.value = framingStore.containerSize / 2 - w / 2;
-      y.value = framingStore.containerSize / 2 - h / 2;
+      x.value = framingStore.containerWidth / 2 - w / 2;
+      y.value = framingStore.containerHeight / 2 - h / 2;
     } else {
-      x.value = framingStore.containerSize / 2 - framingStore.camWidth / 2;
-      y.value = framingStore.containerSize / 2 - framingStore.camHeight / 2;
+      x.value = framingStore.containerWidth / 2 - framingStore.camWidth / 2;
+      y.value = framingStore.containerHeight / 2 - framingStore.camHeight / 2;
     }
     framingStore.cameraRelativeX = 0.5;
     framingStore.cameraRelativeY = 0.5;
@@ -434,8 +443,11 @@ function calculateRealCameraFov() {
 
 // Kamera-Box Größe basierend auf User-gewähltem Hintergrund-FOV berechnen
 function updateCameraBoxSize() {
-  // Skalierung basierend auf User-gewähltem Hintergrund-FOV
-  scaleDegPerPixel.value = framingStore.fov / framingStore.containerSize;
+  // Skalierung basierend auf User-gewähltem Hintergrund-FOV.
+  // Konvention: `fov` entspricht der horizontalen Ausdehnung (Width) in Grad;
+  // Pixel sind auf dem Bildschirm quadratisch, daher gilt derselbe Maßstab
+  // auch vertikal.
+  scaleDegPerPixel.value = framingStore.fov / framingStore.containerWidth;
 
   // Kamera-Box in Pixeln (basierend auf echtem Kamera-FOV)
   const fovPxX = cameraFovX.value / scaleDegPerPixel.value;
@@ -450,14 +462,14 @@ function ensureReasonableStartFov() {
   // Erst mal grob testen mit aktuellem FOV
   updateCameraBoxSize();
 
-  // Wenn Kamera-Box mehr als 70% des Containers ausfüllt, FOV vergrößern
+  // Wenn Kamera-Box mehr als 70% der kleineren Container-Dimension ausfüllt, FOV vergrößern
   const maxCamSize = Math.max(framingStore.camWidth, framingStore.camHeight);
-  const maxAllowedSize = framingStore.containerSize * 0.7; // 70% des Containers
+  const minContainerDim = Math.min(framingStore.containerWidth, framingStore.containerHeight);
+  const maxAllowedSize = minContainerDim * 0.7;
 
   // Nur anpassen wenn FOV wirklich zu klein ist UND kleiner als ein vernünftiger Mindestwert
   if (maxCamSize > maxAllowedSize && framingStore.fov < 5) {
-    // Berechne benötigten FOV für sinnvolle Kamera-Größe (50% des Containers)
-    const targetCamSize = framingStore.containerSize * 0.5;
+    const targetCamSize = minContainerDim * 0.5;
     const scaleFactor = maxCamSize / targetCamSize;
     const requiredFov = framingStore.fov * scaleFactor;
 
@@ -472,22 +484,23 @@ function adjustContainerIfNeeded() {
   // Zuerst mit aktuellem FOV testen
   updateCameraBoxSize();
 
-  const minContainerSize = Math.max(framingStore.camWidth, framingStore.camHeight) + 100;
+  const minContainerWidth = framingStore.camWidth + 100;
+  const minContainerHeight = framingStore.camHeight + 100;
 
-  if (framingStore.containerSize < minContainerSize) {
-    // Container vergrößern statt FOV zu ändern, begrenzt auf die tatsächlich
-    // verfügbare Stage-Fläche.
-    const newSize = Math.ceil(minContainerSize / 20) * 20;
-    const stageEl = stageRef.value;
-    const maxSize = stageEl
-      ? Math.floor(Math.min(stageEl.clientWidth, stageEl.clientHeight) / 20) * 20
-      : newSize;
+  const stageEl = stageRef.value;
+  const maxW = stageEl ? Math.floor(stageEl.clientWidth / 20) * 20 : framingStore.containerWidth;
+  const maxH = stageEl ? Math.floor(stageEl.clientHeight / 20) * 20 : framingStore.containerHeight;
 
-    if (newSize <= maxSize) {
-      framingStore.containerSize = newSize;
-    }
-    // User kann bewusst kleine FOV-Werte wählen, auch wenn die Kamera groß wird
+  if (framingStore.containerWidth < minContainerWidth) {
+    const newW = Math.ceil(minContainerWidth / 20) * 20;
+    if (newW <= maxW) framingStore.containerWidth = newW;
   }
+  if (framingStore.containerHeight < minContainerHeight) {
+    const newH = Math.ceil(minContainerHeight / 20) * 20;
+    if (newH <= maxH) framingStore.containerHeight = newH;
+  }
+  framingStore.containerSize = Math.min(framingStore.containerWidth, framingStore.containerHeight);
+  // User kann bewusst kleine FOV-Werte wählen, auch wenn die Kamera groß wird
 }
 
 let dragDebounceTimeout;
@@ -505,10 +518,10 @@ function onDrag(e) {
   // Begrenzung: nicht über Container hinausragen
   if (x.value < 0) x.value = 0;
   if (y.value < 0) y.value = 0;
-  if (x.value > framingStore.containerSize - effectiveW)
-    x.value = framingStore.containerSize - effectiveW;
-  if (y.value > framingStore.containerSize - effectiveH)
-    y.value = framingStore.containerSize - effectiveH;
+  if (x.value > framingStore.containerWidth - effectiveW)
+    x.value = framingStore.containerWidth - effectiveW;
+  if (y.value > framingStore.containerHeight - effectiveH)
+    y.value = framingStore.containerHeight - effectiveH;
 
   // Position im Store speichern für Reload-Persistenz
   framingStore.cameraX = x.value;
@@ -517,8 +530,8 @@ function onDrag(e) {
   // Relative Position berechnen und speichern (für bessere Wiederherstellung)
   const centerX = x.value + effectiveW / 2;
   const centerY = y.value + effectiveH / 2;
-  framingStore.cameraRelativeX = centerX / framingStore.containerSize;
-  framingStore.cameraRelativeY = centerY / framingStore.containerSize;
+  framingStore.cameraRelativeX = centerX / framingStore.containerWidth;
+  framingStore.cameraRelativeY = centerY / framingStore.containerHeight;
 
   // Debounced RA/DEC Berechnung
   clearTimeout(dragDebounceTimeout);
@@ -548,8 +561,8 @@ async function getTargetPic() {
   try {
     const ra = framingStore.RAangle;
     const dec = framingStore.DECangle;
-    const width = framingStore.containerSize;
-    const height = framingStore.containerSize;
+    const width = framingStore.containerWidth;
+    const height = framingStore.containerHeight;
     const fov = framingStore.fov;
     const useCache = settingsStore.framing.useNinaCache;
 
@@ -583,11 +596,12 @@ function calculateRaDec() {
   const targetCenterY = y.value + effectiveH / 2;
 
   // Container-Mitte
-  const center = framingStore.containerSize / 2;
+  const centerX = framingStore.containerWidth / 2;
+  const centerY = framingStore.containerHeight / 2;
 
   // Abweichung in Pixel
-  const deltaX = targetCenterX - center;
-  const deltaY = center - targetCenterY;
+  const deltaX = targetCenterX - centerX;
+  const deltaY = centerY - targetCenterY;
 
   // Offset DEC
   const offsetDec = deltaY * scaleDegPerPixel.value;

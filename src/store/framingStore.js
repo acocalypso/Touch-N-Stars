@@ -20,6 +20,8 @@ export const useFramingStore = defineStore('FramingStore', {
     camWidth: 100,
     camHeight: 100,
     containerSize: 500,
+    containerWidth: 500,
+    containerHeight: 500,
     rotationAngle: 0,
     framingReloadKey: 0,
     cameraX: 0, // Kamera-Position X (absolut in Pixeln)

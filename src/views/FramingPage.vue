@@ -1,6 +1,6 @@
 <template>
-  <div class="framing-page flex flex-col items-center">
-    <div class="framing-stage-wrapper w-full flex-1 min-h-0 flex items-center justify-center">
+  <div class="framing-page relative">
+    <div class="framing-stage-wrapper absolute inset-0 flex items-center justify-center">
       <Suspense>
         <template #default>
           <FramingAssitantImg :key="framingStore.framingReloadKey" />
@@ -12,7 +12,7 @@
     </div>
 
     <div
-      class="flex-shrink-0 flex-col w-full max-w-3xl space-y-2 mt-3 border border-gray-700 rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg p-3"
+      class="controls-overlay absolute bottom-2 left-1/2 -translate-x-1/2 z-20 flex-col w-[min(100%,48rem)] space-y-2 bg-gray-900/80 border border-gray-700 rounded-lg shadow-lg p-3 backdrop-blur-sm"
     >
       <MosaicControls />
       <div class="col-span-2">
@@ -73,20 +73,24 @@ watch(
 
 <style scoped>
 .framing-page {
-  /* Seite füllt den Content-Bereich zwischen Top-Navbar (Portrait ~82px) bzw.
-     Side-Navbar (Landscape) und Status-Bar. So bekommt die Stage via flex-1
-     die maximal mögliche Höhe, die FramingAssitantImg.vue dann quadratisch
-     via ResizeObserver messen kann. */
-  min-height: calc(100vh - 10rem);
+  /* Fullscreen: Page bricht aus dem `container mx-auto` der App aus und
+     nutzt den gesamten Viewport zwischen Top-Navbar (Portrait) bzw.
+     Side-Navbar (Landscape) und Status-Bar. Das Targetbild kann so die
+     volle verfügbare Fläche rechteckig ausfüllen. */
+  position: fixed;
+  top: 82px;
+  left: 0;
+  right: 0;
+  bottom: calc(2.25rem + env(safe-area-inset-bottom) + 0.5rem);
+  z-index: 10;
 }
 
 @media (orientation: landscape) {
   .framing-page {
-    min-height: calc(100vh - 5rem);
+    top: 0;
+    left: 8rem;
+    right: 1rem;
+    bottom: 4rem;
   }
-}
-
-.framing-stage-wrapper {
-  min-height: 280px;
 }
 </style>

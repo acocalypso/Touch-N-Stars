@@ -227,9 +227,8 @@ onMounted(async () => {
   await loadStarData();
   updateSiderealTime();
   setInterval(updateSiderealTime, 1000);
-  const smallerDimension = Math.min(window.innerWidth, window.innerHeight - 200);
-  const roundedDimension = Math.floor(smallerDimension / 100) * 100;
-  framingStore.containerSize = roundedDimension;
+  // Container-Dimensionen werden beim Mount der Framing-Seite via ResizeObserver
+  // aus dem tatsächlichen Stage-Wrapper gesetzt — kein Window-basiertes Init mehr.
 });
 
 async function loadStarData() {

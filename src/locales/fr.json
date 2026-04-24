@@ -2623,7 +2623,12 @@
         "dewPorts": "Ports de rosée",
         "adjPorts": "Ports d'alimentation réglables",
         "powerStatus": "État de l'alimentation",
-        "meteoStation": "Station météo"
+        "meteoStation": "Station météo",
+        "averageAmps": "Ampères moyens",
+        "rail12v": "Rail 12 V",
+        "rail5v": "Rail 5V",
+        "totalAmps": "Ampères totaux",
+        "totalWatts": "Watts totaux"
       },
       "status": {
         "notConnected": "Non connecté"

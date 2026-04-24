@@ -2704,7 +2704,12 @@
         "dewPorts": "Tauanschlüsse",
         "adjPorts": "Einstellbare Stromanschlüsse",
         "powerStatus": "Energiestatus",
-        "meteoStation": "Meteostation"
+        "meteoStation": "Meteostation",
+        "averageAmps": "Durchschnittliche Ampere",
+        "rail12v": "12V-Schiene",
+        "rail5v": "5V-Schiene",
+        "totalAmps": "Gesamtstärke",
+        "totalWatts": "Gesamtwatt"
       },
       "status": {
         "notConnected": "Nicht verbunden"

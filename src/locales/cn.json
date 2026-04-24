@@ -2623,7 +2623,12 @@
         "dewPorts": "露点",
         "adjPorts": "可调节电源端口",
         "powerStatus": "电源状态",
-        "meteoStation": "气象站"
+        "meteoStation": "气象站",
+        "averageAmps": "Average Amps",
+        "rail12v": "12V Rail",
+        "rail5v": "5V Rail",
+        "totalAmps": "Total Amps",
+        "totalWatts": "Total Watts"
       },
       "status": {
         "notConnected": "未连接"

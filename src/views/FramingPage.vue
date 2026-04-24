@@ -11,9 +11,25 @@
       </Suspense>
     </div>
 
+    <button
+      v-if="!controlsVisible"
+      class="controls-toggle absolute bottom-2 left-1/2 -translate-x-1/2 bg-gray-900/80 border border-gray-700 rounded-full shadow-lg p-2 backdrop-blur-sm hover:bg-gray-800"
+      @click="controlsVisible = true"
+    >
+      <ChevronUpIcon class="w-5 h-5 text-gray-200" />
+    </button>
+
     <div
+      v-show="controlsVisible"
       class="controls-overlay absolute bottom-2 left-1/2 -translate-x-1/2 flex-col w-[min(100%,26rem)] space-y-2 bg-gray-900/80 border border-gray-700 rounded-lg shadow-lg p-3 backdrop-blur-sm"
     >
+      <button
+        class="absolute top-1 right-1 p-1 text-gray-400 hover:text-white"
+        @click="controlsVisible = false"
+      >
+        <ChevronDownIcon class="w-4 h-4" />
+      </button>
+
       <!-- Target-Suche + Favoriten + Plate-Solve -->
       <div class="flex items-start gap-2">
         <div class="relative flex-1">
@@ -86,6 +102,7 @@
 
 <script setup>
 import { defineAsyncComponent, ref, watch } from 'vue';
+import { ChevronUpIcon, ChevronDownIcon } from '@heroicons/vue/24/outline';
 import { useFramingStore } from '@/store/framingStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import { apiStore } from '@/store/store';
@@ -109,6 +126,7 @@ const FramingAssitantImg = defineAsyncComponent(
 
 const searchQuery = ref('');
 const searchResults = ref([]);
+const controlsVisible = ref(true);
 
 async function fetchTargetSearch() {
   if (searchQuery.value.trim() === '') {
@@ -174,7 +192,8 @@ watch(
 
 /* Controls-Panel über die Moveable-Handles legen — vue3-moveable rendert
    seine Drag-/Rotate-Griffe mit hohem z-index (bis ~3000). */
-.controls-overlay {
+.controls-overlay,
+.controls-toggle {
   z-index: 9999;
 }
 

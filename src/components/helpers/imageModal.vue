@@ -324,6 +324,13 @@ onBeforeUnmount(() => {
   cursor: move;
 }
 
+img {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
 button[aria-label='Schließen'] {
   z-index: 70;
 }

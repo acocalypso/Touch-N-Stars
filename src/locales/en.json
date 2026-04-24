@@ -2708,7 +2708,12 @@
         "dewPorts": "Dew Ports",
         "adjPorts": "Adjustable Power Ports",
         "powerStatus": "Power Status",
-        "meteoStation": "Meteo Station"
+        "meteoStation": "Meteo Station",
+        "rail12v": "12V Rail",
+        "rail5v": "5V Rail",
+        "averageAmps": "Average Amps",
+        "totalAmps": "Total Amps",
+        "totalWatts": "Total Watts"
       },
       "status": {
         "notConnected": "Not connected"

@@ -26,9 +26,9 @@
         <MagnifyingGlassPlusIcon class="w-5 h-5" />
       </button>
 
-      <!-- Histogram Button -->
+      <!-- Histogram Button — temporarily disabled until reliability issue is fixed -->
       <button
-        v-if="showHistogram !== false"
+        v-if="false"
         @click.stop="handleHistogramToggle"
         class="w-10 h-10 bg-gray-800/90 hover:bg-gray-700 text-white rounded-lg shadow-lg flex items-center justify-center transition-colors"
         :class="{ 'bg-cyan-700 hover:bg-cyan-600': showHistogramActive }"
@@ -463,5 +463,10 @@ onBeforeUnmount(() => {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  pointer-events: auto;
 }
 </style>

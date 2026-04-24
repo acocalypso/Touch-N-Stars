@@ -2624,7 +2624,12 @@
         "dewPorts": "Puertos de rocío",
         "adjPorts": "Puertos de alimentación ajustables",
         "powerStatus": "Estado de energía",
-        "meteoStation": "Estación Meteorológica"
+        "meteoStation": "Estación Meteorológica",
+        "averageAmps": "Amperios promedio",
+        "rail12v": "Carril de 12 V",
+        "rail5v": "Carril de 5V",
+        "totalAmps": "Amperios totales",
+        "totalWatts": "Vatios totales"
       },
       "status": {
         "notConnected": "No conectado"

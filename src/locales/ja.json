@@ -2708,7 +2708,12 @@
         "dewPorts": "結露防止ポート",
         "adjPorts": "可変電源ポート",
         "powerStatus": "電源ステータス",
-        "meteoStation": "気象ステーション"
+        "meteoStation": "気象ステーション",
+        "averageAmps": "平均電流",
+        "rail12v": "12Vレール",
+        "rail5v": "5Vレール",
+        "totalAmps": "合計アンペア数",
+        "totalWatts": "合計ワット数"
       },
       "status": {
         "notConnected": "未接続"

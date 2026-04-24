@@ -104,7 +104,6 @@
 
     <button
       v-if="
-        !sequenceStore.sequenceRunning &&
         sequenceStore.lastSequenceFilePath &&
         (store.isPINS || store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.2.8.0'))
       "
@@ -124,8 +123,7 @@
 
     <button
       v-if="
-        !sequenceStore.sequenceRunning &&
-        (store.isPINS || store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.2.8.0'))
+        store.isPINS || store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.2.8.0')
       "
       class="default-button-gray h-16 w-14 flex-col gap-0.5"
       @click="openFileManager"

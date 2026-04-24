@@ -2624,7 +2624,12 @@
         "dewPorts": "Rosné porty",
         "adjPorts": "Nastavitelné napájecí porty",
         "powerStatus": "Stav napájení",
-        "meteoStation": "Meteo stanice"
+        "meteoStation": "Meteo stanice",
+        "averageAmps": "Average Amps",
+        "rail12v": "12V Rail",
+        "rail5v": "5V Rail",
+        "totalAmps": "Total Amps",
+        "totalWatts": "Total Watts"
       },
       "status": {
         "notConnected": "Nepřipojeno"

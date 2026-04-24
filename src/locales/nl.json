@@ -2624,7 +2624,12 @@
         "dewPorts": "Dauw poorten",
         "adjPorts": "Verstelbare stroompoorten",
         "powerStatus": "Stroomstatus",
-        "meteoStation": "Meteostation"
+        "meteoStation": "Meteostation",
+        "averageAmps": "Gemiddelde versterkers",
+        "rail12v": "12V-rail",
+        "rail5v": "5V-rail",
+        "totalAmps": "Totaal ampère",
+        "totalWatts": "Totaal watt"
       },
       "status": {
         "notConnected": "Niet verbonden"

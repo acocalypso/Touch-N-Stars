@@ -2624,7 +2624,12 @@
         "dewPorts": "Portas de orvalho",
         "adjPorts": "Portas de alimentação ajustáveis",
         "powerStatus": "Status de energia",
-        "meteoStation": "Estação Meteo"
+        "meteoStation": "Estação Meteo",
+        "averageAmps": "Amplificadores médios",
+        "rail12v": "Trilho 12V",
+        "rail5v": "Trilho 5V",
+        "totalAmps": "Amplificadores totais",
+        "totalWatts": "Watts totais"
       },
       "status": {
         "notConnected": "Não conectado"

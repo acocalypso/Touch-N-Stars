@@ -125,7 +125,9 @@
                   </span>
                 </div>
                 <div class="flex justify-between">
-                  <span class="text-gray-400">{{ $t('plugins.pinsDevices.info.averageAmps') }}</span>
+                  <span class="text-gray-400">{{
+                    $t('plugins.pinsDevices.info.averageAmps')
+                  }}</span>
                   <span class="text-gray-200"
                     >{{
                       Number.isFinite(store.powerboxStatus.AverageAmps)

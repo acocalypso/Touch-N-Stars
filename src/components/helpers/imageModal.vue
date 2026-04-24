@@ -89,14 +89,21 @@
         <div v-if="!imageData" class="text-white text-center">
           <p class="text-2xl mb-4">{{ $t('components.helpers.imageModal.no_image') }}</p>
         </div>
-        <div v-if="imageData" ref="panzoomContainer" class="w-full h-full">
+        <div
+          v-if="imageData"
+          ref="panzoomContainer"
+          class="w-full h-full"
+          :style="{
+            transform: 'rotate(' + settingsStore.currentImageRotation + 'deg)',
+            transformOrigin: 'center',
+          }"
+        >
           <img
             :src="getStretchSettings().stretchedImageData || imageData"
             ref="image"
             @load="onImageLoad"
             class="w-full h-full object-contain cursor-move"
             alt="Vergrößertes Bild"
-            :style="{ transform: 'rotate(' + settingsStore.currentImageRotation + 'deg)' }"
           />
         </div>
       </div>

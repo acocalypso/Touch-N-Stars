@@ -7,89 +7,91 @@
     >
       <HeartIcon class="w-6 h-6 text-white" />
     </button>
-    <div
-      v-if="isModalOpen"
-      class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center"
-      @click.self="isModalOpen = false"
-    >
+    <Teleport to="body">
       <div
-        class="bg-gray-800 text-white p-6 rounded-lg w-full max-w-2xl max-h-[80vh] overflow-y-auto"
-        @click.stop
+        v-if="isModalOpen"
+        class="fixed inset-0 bg-black bg-opacity-50 z-[9999] flex items-center justify-center"
+        @click.self="isModalOpen = false"
       >
-        <div class="flex justify-between items-center mb-4">
-          <h2 class="text-2xl font-bold">{{ $t('components.fav_target.titel') }}</h2>
-          <button @click="isModalOpen = false" class="text-white hover:text-gray-300">
-            <XMarkIcon class="w-6 h-6" />
-          </button>
-        </div>
-        <table
-          v-if="favTargetsStore.favoriteTargets.length"
-          class="w-full text-sm text-left border border-gray-600 overflow-hidden"
+        <div
+          class="bg-gray-800 text-white p-6 rounded-lg w-full max-w-2xl max-h-[80vh] overflow-y-auto"
+          @click.stop
         >
-          <thead class="bg-gray-700 text-gray-200">
-            <tr>
-              <th class="px-4 py-2">{{ $t('components.fav_target.table.name') }}</th>
-              <th class="px-4 py-2 hidden sm:table-cell">
-                {{ $t('components.fav_target.table.ra') }}
-              </th>
-              <th class="px-4 py-2 hidden sm:table-cell">
-                {{ $t('components.fav_target.table.dec') }}
-              </th>
-              <th class="px-4 py-2">{{ $t('components.fav_target.table.rotation') }}</th>
-              <th class="px-4 py-2" v-if="showFramning">
-                {{ $t('components.fav_target.table.load') }}
-              </th>
-              <th class="px-4 py-2" v-if="showSeqTarget">
-                {{ $t('components.fav_target.table.load') }}
-              </th>
-              <th class="px-4 py-2">{{ $t('components.fav_target.table.remove') }}</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              v-for="target in favTargetsStore.favoriteTargets"
-              :key="target.name"
-              class="border-t border-gray-700 hover:bg-gray-700 transition-colors"
-            >
-              <td class="px-4 py-2">
-                {{ target.Name }}
-                <span
-                  v-if="target.MosaicCols > 1"
-                  class="ml-1 text-xs bg-blue-700 text-white px-1 rounded"
-                  >{{ target.MosaicCols }}×{{ target.MosaicRows }}</span
-                >
-              </td>
-              <td class="px-4 py-2 hidden sm:table-cell">{{ target.RaString }}</td>
-              <td class="px-4 py-2 hidden sm:table-cell">{{ target.DecString }}</td>
-              <td class="px-4 py-2">{{ Number(target.Rotation).toFixed(1) }}</td>
-              <td class="px-4 py-2" v-if="showFramning">
-                <button @click="loadTarget(target)" class="hover:text-green-400">
-                  <CheckIcon
-                    class="w-4 h-4"
-                    :class="selectedTargetId === target.Id ? 'text-green-500' : ''"
-                  />
-                </button>
-              </td>
-              <td class="px-4 py-2" v-if="showSeqTarget">
-                <button @click="setSequenceTarget(target)" class="hover:text-green-400">
-                  <CheckIcon
-                    class="w-4 h-4"
-                    :class="selectedTargetId === target.Id ? 'text-green-500' : ''"
-                  />
-                </button>
-              </td>
-              <td class="px-4 py-2">
-                <button @click="removeTarget(target.Id)" class="hover:text-red-400">
-                  <TrashIcon class="w-4 h-4" />
-                </button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+          <div class="flex justify-between items-center mb-4">
+            <h2 class="text-2xl font-bold">{{ $t('components.fav_target.titel') }}</h2>
+            <button @click="isModalOpen = false" class="text-white hover:text-gray-300">
+              <XMarkIcon class="w-6 h-6" />
+            </button>
+          </div>
+          <table
+            v-if="favTargetsStore.favoriteTargets.length"
+            class="w-full text-sm text-left border border-gray-600 overflow-hidden"
+          >
+            <thead class="bg-gray-700 text-gray-200">
+              <tr>
+                <th class="px-4 py-2">{{ $t('components.fav_target.table.name') }}</th>
+                <th class="px-4 py-2 hidden sm:table-cell">
+                  {{ $t('components.fav_target.table.ra') }}
+                </th>
+                <th class="px-4 py-2 hidden sm:table-cell">
+                  {{ $t('components.fav_target.table.dec') }}
+                </th>
+                <th class="px-4 py-2">{{ $t('components.fav_target.table.rotation') }}</th>
+                <th class="px-4 py-2" v-if="showFramning">
+                  {{ $t('components.fav_target.table.load') }}
+                </th>
+                <th class="px-4 py-2" v-if="showSeqTarget">
+                  {{ $t('components.fav_target.table.load') }}
+                </th>
+                <th class="px-4 py-2">{{ $t('components.fav_target.table.remove') }}</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                v-for="target in favTargetsStore.favoriteTargets"
+                :key="target.name"
+                class="border-t border-gray-700 hover:bg-gray-700 transition-colors"
+              >
+                <td class="px-4 py-2">
+                  {{ target.Name }}
+                  <span
+                    v-if="target.MosaicCols > 1"
+                    class="ml-1 text-xs bg-blue-700 text-white px-1 rounded"
+                    >{{ target.MosaicCols }}×{{ target.MosaicRows }}</span
+                  >
+                </td>
+                <td class="px-4 py-2 hidden sm:table-cell">{{ target.RaString }}</td>
+                <td class="px-4 py-2 hidden sm:table-cell">{{ target.DecString }}</td>
+                <td class="px-4 py-2">{{ Number(target.Rotation).toFixed(1) }}</td>
+                <td class="px-4 py-2" v-if="showFramning">
+                  <button @click="loadTarget(target)" class="hover:text-green-400">
+                    <CheckIcon
+                      class="w-4 h-4"
+                      :class="selectedTargetId === target.Id ? 'text-green-500' : ''"
+                    />
+                  </button>
+                </td>
+                <td class="px-4 py-2" v-if="showSeqTarget">
+                  <button @click="setSequenceTarget(target)" class="hover:text-green-400">
+                    <CheckIcon
+                      class="w-4 h-4"
+                      :class="selectedTargetId === target.Id ? 'text-green-500' : ''"
+                    />
+                  </button>
+                </td>
+                <td class="px-4 py-2">
+                  <button @click="removeTarget(target.Id)" class="hover:text-red-400">
+                    <TrashIcon class="w-4 h-4" />
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
 
-        <p v-else>{{ $t('components.fav_target.no_fav') }}</p>
+          <p v-else>{{ $t('components.fav_target.no_fav') }}</p>
+        </div>
       </div>
-    </div>
+    </Teleport>
   </div>
 </template>
 <script setup>
@@ -129,7 +131,6 @@ defineProps({
 });
 
 function loadTarget(target) {
-  console.log('laden');
   framingStore.RAangle = target.Ra;
   framingStore.DECangle = target.Dec;
   framingStore.RAangleString = target.RaString;
@@ -150,6 +151,8 @@ function loadTarget(target) {
     framingStore.isMosaicMode = false;
   }
   selectedTargetId.value = target.Id;
+  // Framing-Bild neu laden falls die Framing-Seite gerade aktiv ist.
+  framingStore.framingReloadKey++;
 }
 
 function removeTarget(id) {

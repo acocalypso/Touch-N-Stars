@@ -2623,7 +2623,12 @@
         "dewPorts": "Porty Rosy",
         "adjPorts": "Regulowane porty zasilania",
         "powerStatus": "Stan zasilania",
-        "meteoStation": "Stacja Meteo"
+        "meteoStation": "Stacja Meteo",
+        "averageAmps": "Średnie ampery",
+        "rail12v": "Szyna 12 V",
+        "rail5v": "Szyna 5 V",
+        "totalAmps": "Całkowita liczba amperów",
+        "totalWatts": "Całkowita liczba watów"
       },
       "status": {
         "notConnected": "Nie podłączony"

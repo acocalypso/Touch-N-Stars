@@ -90,7 +90,7 @@
               </h5>
               <div class="space-y-2 text-sm ml-2">
                 <div class="flex justify-between">
-                  <span class="text-gray-400">12V Rail</span>
+                  <span class="text-gray-400">{{ $t('plugins.pinsDevices.info.rail12v') }}</span>
                   <span class="text-gray-200">
                     {{
                       Number.isFinite(store.powerboxStatus.Rail12V)
@@ -113,7 +113,7 @@
                   v-if="Number.isFinite(store.powerboxStatus.Rail5V)"
                   class="flex justify-between"
                 >
-                  <span class="text-gray-400">5V Rail</span>
+                  <span class="text-gray-400">{{ $t('plugins.pinsDevices.info.rail5v') }}</span>
                   <span class="text-gray-200">
                     {{ store.powerboxStatus.Rail5V.toFixed(2) }}V
                     <span v-if="Number.isFinite(store.powerboxStatus.Rail5A)">
@@ -125,7 +125,7 @@
                   </span>
                 </div>
                 <div class="flex justify-between">
-                  <span class="text-gray-400">Average Amps</span>
+                  <span class="text-gray-400">{{ $t('plugins.pinsDevices.info.averageAmps') }}</span>
                   <span class="text-gray-200"
                     >{{
                       Number.isFinite(store.powerboxStatus.AverageAmps)
@@ -135,7 +135,7 @@
                   >
                 </div>
                 <div class="flex justify-between">
-                  <span class="text-gray-400">Amps/Hour</span>
+                  <span class="text-gray-400">{{ $t('plugins.pinsDevices.info.totalAmps') }}</span>
                   <span class="text-gray-200"
                     >{{
                       Number.isFinite(store.powerboxStatus.AmpsPerHour)
@@ -145,7 +145,7 @@
                   >
                 </div>
                 <div class="flex justify-between">
-                  <span class="text-gray-400">Watts/Hour</span>
+                  <span class="text-gray-400">{{ $t('plugins.pinsDevices.info.totalWatts') }}</span>
                   <span class="text-gray-200"
                     >{{
                       Number.isFinite(store.powerboxStatus.WattsPerHour)

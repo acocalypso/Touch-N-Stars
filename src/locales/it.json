@@ -2623,7 +2623,12 @@
         "dewPorts": "Porti di rugiada",
         "adjPorts": "Porte di alimentazione regolabili",
         "powerStatus": "Stato dell'alimentazione",
-        "meteoStation": "Stazione Meteo"
+        "meteoStation": "Stazione Meteo",
+        "averageAmps": "Ampere medi",
+        "rail12v": "Binario 12V",
+        "rail5v": "Binario 5V",
+        "totalAmps": "Ampere totali",
+        "totalWatts": "Watt totali"
       },
       "status": {
         "notConnected": "Non connesso"

@@ -12,7 +12,7 @@
     </div>
 
     <div
-      class="controls-overlay absolute bottom-2 left-1/2 -translate-x-1/2 z-20 flex-col w-[min(100%,48rem)] space-y-2 bg-gray-900/80 border border-gray-700 rounded-lg shadow-lg p-3 backdrop-blur-sm"
+      class="controls-overlay absolute bottom-2 left-1/2 -translate-x-1/2 flex-col w-[min(100%,26rem)] space-y-2 bg-gray-900/80 border border-gray-700 rounded-lg shadow-lg p-3 backdrop-blur-sm"
     >
       <MosaicControls />
       <div class="col-span-2">
@@ -83,6 +83,12 @@ watch(
   right: 0;
   bottom: calc(2.25rem + env(safe-area-inset-bottom) + 0.5rem);
   z-index: 10;
+}
+
+/* Controls-Panel über die Moveable-Handles legen — vue3-moveable rendert
+   seine Drag-/Rotate-Griffe mit hohem z-index (bis ~3000). */
+.controls-overlay {
+  z-index: 9999;
 }
 
 @media (orientation: landscape) {

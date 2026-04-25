@@ -453,6 +453,8 @@
       "sequenceClose": "Zavřít",
       "deleteConfirmationTitle": "Smazat soubor",
       "deleteConfirmationMessage": "Jste si jistý, že chcete smazat log?",
+      "overwriteConfirmationTitle": "Přepsat soubor",
+      "overwriteConfirmationMessage": "Jste si jistý, že chcete přepsat soubor?",
       "resetConfirmationTitle": "Potvrzení resetu",
       "resetConfirmationMessage": "Jste si jisti, že chcete resetovat sekvenci? Tuto akci nelze vrátit zpět.",
       "clearSequence": "Smazat vše",

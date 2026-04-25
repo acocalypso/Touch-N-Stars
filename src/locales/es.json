@@ -453,6 +453,8 @@
       "sequenceClose": "Cerrar",
       "deleteConfirmationTitle": "Eliminar archivo",
       "deleteConfirmationMessage": "¿Estás seguro de que deseas eliminar el archivo?",
+      "overwriteConfirmationTitle": "Sobrescribir archivo",
+      "overwriteConfirmationMessage": "¿Estás seguro de que deseas sobrescribir el archivo?",
       "resetConfirmationTitle": "Confirmar reiniciar",
       "resetConfirmationMessage": "¿Estás seguro de reiniciar la sequencia? Ésta acción no se puede deshacer.",
       "clearSequence": "Borrar todo",

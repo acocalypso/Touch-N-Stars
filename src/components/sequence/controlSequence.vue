@@ -169,6 +169,18 @@
                   {{ $t('components.sequence.sequenceLoad') }}
                 </button>
                 <button
+                  class="text-xs text-cyan-400 hover:text-cyan-300 px-2 py-1 rounded hover:bg-cyan-900/20 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                  :disabled="saveLoading"
+                  :title="$t('components.sequence.sequenceSave')"
+                  @click="overwriteFile(file.FilePath, file.FileName)"
+                >
+                  <svg class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="currentColor">
+                    <path
+                      d="M5 3a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V7.414L16.586 3H5zm9 0v5H8V3h6zm-6 9h8v7H8v-7zm2 1v5h4v-5h-4z"
+                    />
+                  </svg>
+                </button>
+                <button
                   class="text-xs text-red-400 hover:text-red-300 px-2 py-1 rounded hover:bg-red-900/20 transition-colors"
                   @click="deleteFile(file.FilePath, file.FileName)"
                 >
@@ -225,6 +237,36 @@
               {{ $t('general.cancel') }}
             </button>
             <button class="btn-danger" @click="confirmDeleteFile">
+              {{ $t('general.confirm') }}
+            </button>
+          </div>
+        </div>
+      </template>
+    </Modal>
+
+    <!-- Overwrite Confirmation Dialog -->
+    <Modal
+      :show="showOverwriteConfirmation"
+      max-width="max-w-md"
+      @close="showOverwriteConfirmation = false"
+    >
+      <template #header>
+        <h2 class="text-xl font-bold">
+          {{ $t('components.sequence.overwriteConfirmationTitle') }}
+        </h2>
+      </template>
+      <template #body>
+        <div class="w-full flex flex-col gap-6">
+          <p>
+            {{ $t('components.sequence.overwriteConfirmationMessage') }}
+            <span class="text-gray-200 font-medium">{{ fileToOverwrite?.name }}</span
+            >?
+          </p>
+          <div class="flex justify-end space-x-4">
+            <button class="btn-secondary" @click="showOverwriteConfirmation = false">
+              {{ $t('general.cancel') }}
+            </button>
+            <button class="btn-primary" @click="confirmOverwriteFile">
               {{ $t('general.confirm') }}
             </button>
           </div>
@@ -291,6 +333,8 @@ const saveFileName = ref('');
 const saveLoading = ref(false);
 const showDeleteConfirmation = ref(false);
 const fileToDelete = ref(null);
+const showOverwriteConfirmation = ref(false);
+const fileToOverwrite = ref(null);
 
 async function skipToEnd() {
   try {
@@ -344,6 +388,37 @@ async function confirmDeleteFile() {
     console.error('Error deleting sequence file:', e);
   } finally {
     fileToDelete.value = null;
+  }
+}
+
+function overwriteFile(filePath, fileName) {
+  fileToOverwrite.value = { path: filePath, name: fileName };
+  showOverwriteConfirmation.value = true;
+}
+
+async function confirmOverwriteFile() {
+  if (!fileToOverwrite.value) return;
+  const { path, name } = fileToOverwrite.value;
+  showOverwriteConfirmation.value = false;
+  fileToOverwrite.value = null;
+  saveLoading.value = true;
+  try {
+    await apiService.sequenceSaveFile(path);
+    sequenceStore.setLastSequenceFilePath(path);
+    toastStore.showToast({
+      type: 'success',
+      title: t('components.sequence.sequenceSave'),
+      message: name,
+    });
+  } catch (e) {
+    console.error('Error overwriting sequence file:', e);
+    toastStore.showToast({
+      type: 'error',
+      title: t('components.sequence.sequenceSave'),
+      message: String(e),
+    });
+  } finally {
+    saveLoading.value = false;
   }
 }
 

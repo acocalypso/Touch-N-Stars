@@ -503,6 +503,8 @@
       "sequenceClose": "Закрити",
       "deleteConfirmationTitle": "Видалити файл",
       "deleteConfirmationMessage": "Ви впевнені, що хочете видалити файл?",
+      "overwriteConfirmationTitle": "Перезаписати файл",
+      "overwriteConfirmationMessage": "Ви впевнені, що хочете перезаписати файл?",
       "clearSequence": "Очистити все",
       "clearConfirmationTitle": "Підтвердження очищення",
       "clearConfirmationMessage": "Ви впевнені, що хочете очистити всю послідовність? Цю дію не можна скасувати.",

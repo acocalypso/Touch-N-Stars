@@ -453,6 +453,8 @@
       "sequenceClose": "关闭",
       "deleteConfirmationTitle": "删除文件",
       "deleteConfirmationMessage": "您确定要删除日志文件？",
+      "overwriteConfirmationTitle": "覆盖文件",
+      "overwriteConfirmationMessage": "您确定要覆盖该文件吗？",
       "resetConfirmationTitle": "确认重置",
       "resetConfirmationMessage": "您确定要重置序列吗？此操作无法撤销。",
       "clearSequence": "清除全部",

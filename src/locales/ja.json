@@ -461,6 +461,8 @@
       "sequenceClose": "閉じる",
       "deleteConfirmationTitle": "ファイルの削除",
       "deleteConfirmationMessage": "このファイルを削除してもよろしいですか？",
+      "overwriteConfirmationTitle": "ファイルの上書き",
+      "overwriteConfirmationMessage": "このファイルを上書きしてもよろしいですか？",
       "resetConfirmationTitle": "リセットの確認",
       "resetConfirmationMessage": "シーケンスをリセットしてもよろしいですか？この操作は取り消せません。",
       "clearSequence": "すべてクリア",

@@ -493,6 +493,8 @@
       "sequenceClose": "Close",
       "deleteConfirmationTitle": "Delete File",
       "deleteConfirmationMessage": "Are you sure you want to delete the file?",
+      "overwriteConfirmationTitle": "Overwrite File",
+      "overwriteConfirmationMessage": "Are you sure you want to overwrite the file?",
       "resetConfirmationTitle": "Confirm Reset",
       "resetConfirmationMessage": "Are you sure you want to reset the sequence? This action cannot be undone.",
       "clearSequence": "Clear all",

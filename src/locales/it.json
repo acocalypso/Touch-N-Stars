@@ -453,6 +453,8 @@
       "sequenceClose": "Chiudi",
       "deleteConfirmationTitle": "Eliminare file",
       "deleteConfirmationMessage": "Sei sicuro di voler eliminare questo file?",
+      "overwriteConfirmationTitle": "Sovrascrivere file",
+      "overwriteConfirmationMessage": "Sei sicuro di voler sovrascrivere il file?",
       "resetConfirmationTitle": "Conferma reimpostazione",
       "resetConfirmationMessage": "Sei sicuro di voler reimpostare la sequenza? Questa azione non può essere annullata.",
       "clearSequence": "Cancella tutto",

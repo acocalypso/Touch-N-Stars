@@ -453,6 +453,8 @@
       "sequenceClose": "Zamknij",
       "deleteConfirmationTitle": "Usuń plik",
       "deleteConfirmationMessage": "Czy na pewno chcesz usunąć plik?",
+      "overwriteConfirmationTitle": "Nadpisz plik",
+      "overwriteConfirmationMessage": "Czy na pewno chcesz nadpisać plik?",
       "resetConfirmationTitle": "Potwierdź reset",
       "resetConfirmationMessage": "Czy na pewno chcesz zresetować sekwencję? Tej czynności nie można cofnąć.",
       "clearSequence": "Wyczyść wszystko",

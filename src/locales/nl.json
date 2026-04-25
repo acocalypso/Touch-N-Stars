@@ -453,6 +453,8 @@
       "sequenceClose": "Sluiten",
       "deleteConfirmationTitle": "Bestand verwijderen",
       "deleteConfirmationMessage": "Weet u zeker dat u het bestand wilt verwijderen?",
+      "overwriteConfirmationTitle": "Bestand overschrijven",
+      "overwriteConfirmationMessage": "Weet u zeker dat u het bestand wilt overschrijven?",
       "resetConfirmationTitle": "Bevestig Reset",
       "resetConfirmationMessage": "Weet u zeker dat u de sequentie wilt resetten? Deze actie kan niet ongedaan worden gemaakt.",
       "clearSequence": "Alles wissen",

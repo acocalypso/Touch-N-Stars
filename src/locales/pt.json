@@ -453,6 +453,8 @@
       "sequenceClose": "Fechar",
       "deleteConfirmationTitle": "Eliminar ficheiro",
       "deleteConfirmationMessage": "Você realmente deseja apagar o arquivo de log.",
+      "overwriteConfirmationTitle": "Substituir ficheiro",
+      "overwriteConfirmationMessage": "Tem a certeza de que deseja substituir o ficheiro?",
       "resetConfirmationTitle": "Confirmar reinicialização",
       "resetConfirmationMessage": "Tem certeza de que deseja reiniciar a sequência? Esta ação não pode ser desfeita.",
       "clearSequence": "Limpar tudo",

@@ -493,6 +493,8 @@
       "sequenceClose": "Schließen",
       "deleteConfirmationTitle": "Datei löschen",
       "deleteConfirmationMessage": "Möchten Sie die Datei wirklich löschen?",
+      "overwriteConfirmationTitle": "Datei überschreiben",
+      "overwriteConfirmationMessage": "Möchten Sie die Datei wirklich überschreiben?",
       "resetConfirmationTitle": "Zurücksetzen bestätigen",
       "resetConfirmationMessage": "Möchten Sie die Sequenz wirklich zurücksetzen? Diese Aktion kann nicht rückgängig gemacht werden.",
       "clearSequence": "Alles löschen",

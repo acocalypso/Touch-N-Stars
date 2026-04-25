@@ -5,6 +5,31 @@ const useWorker =
   typeof OffscreenCanvas !== 'undefined' &&
   typeof createImageBitmap === 'function';
 
+// Cap decoded pixel area to keep memory + JPEG-encode time bounded on phones/iPad.
+// Resizing happens inside createImageBitmap with high-quality resampling, so no
+// Moiré artefacts like a naive canvas drawImage downscale would produce.
+const MAX_DECODE_DIM = 2000;
+
+const decodedDimensions = (w, h) => {
+  const max = Math.max(w, h);
+  if (max <= MAX_DECODE_DIM) return { width: w, height: h };
+  const scale = MAX_DECODE_DIM / max;
+  return { width: Math.round(w * scale), height: Math.round(h * scale) };
+};
+
+const decodeBitmap = async (blob) => {
+  // Probe original dimensions without committing to a full-resolution decode
+  const probe = await createImageBitmap(blob);
+  const { width, height } = decodedDimensions(probe.width, probe.height);
+  if (width === probe.width && height === probe.height) return probe;
+  probe.close();
+  return createImageBitmap(blob, {
+    resizeWidth: width,
+    resizeHeight: height,
+    resizeQuality: 'high',
+  });
+};
+
 const clamp01 = (v) => Math.min(1, Math.max(0, v));
 
 const buildLut = (blackPoint, whitePoint, midPoint) => {
@@ -83,7 +108,7 @@ class WorkerEngine {
     const response = await fetch(imageUrl);
     if (!response.ok) throw new Error(`Failed to fetch image (${response.status})`);
     const blob = await response.blob();
-    const bitmap = await createImageBitmap(blob);
+    const bitmap = await decodeBitmap(blob);
     this.width = bitmap.width;
     this.height = bitmap.height;
 
@@ -92,9 +117,22 @@ class WorkerEngine {
       throw new Error('Engine disposed');
     }
 
-    this.worker = new Worker(new URL('@/utils/histogramWorker.js', import.meta.url), {
-      type: 'module',
-    });
+    // Classic (non-module) worker — better WKWebView/iOS Safari compatibility.
+    this.worker = new Worker(new URL('@/utils/histogramWorker.js', import.meta.url));
+
+    // Surface load/runtime errors so init doesn't hang silently
+    let workerError = null;
+    const onError = (e) => {
+      workerError = e?.message || e?.error?.message || 'Worker load/runtime error';
+      console.error('[WorkerEngine] worker error:', workerError, e);
+      this.pending.forEach(({ reject, handler }) => {
+        if (this.worker) this.worker.removeEventListener('message', handler);
+        reject(new Error(workerError));
+      });
+      this.pending.clear();
+    };
+    this.worker.addEventListener('error', onError);
+    this.worker.addEventListener('messageerror', onError);
 
     try {
       const result = await this._send('init', { bitmap }, [bitmap]);
@@ -143,21 +181,22 @@ class MainEngine {
   }
 
   async init(imageUrl) {
-    const img = await new Promise((resolve, reject) => {
-      const el = new Image();
-      el.crossOrigin = 'anonymous';
-      el.onload = () => resolve(el);
-      el.onerror = () => reject(new Error('Image load failed'));
-      el.src = imageUrl;
-    });
-    if (this.disposed) throw new Error('Engine disposed');
-    this.width = img.width;
-    this.height = img.height;
+    const response = await fetch(imageUrl);
+    if (!response.ok) throw new Error(`Failed to fetch image (${response.status})`);
+    const blob = await response.blob();
+    const bitmap = await decodeBitmap(blob);
+    if (this.disposed) {
+      bitmap.close();
+      throw new Error('Engine disposed');
+    }
+    this.width = bitmap.width;
+    this.height = bitmap.height;
     const canvas = document.createElement('canvas');
     canvas.width = this.width;
     canvas.height = this.height;
     const ctx = canvas.getContext('2d', { willReadFrequently: true });
-    ctx.drawImage(img, 0, 0);
+    ctx.drawImage(bitmap, 0, 0);
+    bitmap.close();
     const imageData = ctx.getImageData(0, 0, this.width, this.height);
     canvas.width = 0;
     canvas.height = 0;

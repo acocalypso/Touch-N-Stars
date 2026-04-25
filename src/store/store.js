@@ -983,6 +983,12 @@ export const apiStore = defineStore('store', {
       return true;
     },
     async checkForPINS() {
+      if (this.isPinsCheckDone) {
+        if (this.isPINS) {
+          await this.syncSystemTime();
+        }
+        return;
+      }
       try {
         const pinsVersion = await apiService.fetchPinsVersion();
         if (pinsVersion && pinsVersion.Response) {
@@ -990,6 +996,7 @@ export const apiStore = defineStore('store', {
           console.log('[API Store] PINS detected, version:', pinsVersion.Response);
         } else {
           this.isPINS = false;
+          console.log('[API Store] No PINS endpoint — assuming NINA');
         }
       } finally {
         this.isPinsCheckDone = true;

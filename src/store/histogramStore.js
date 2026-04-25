@@ -18,16 +18,35 @@ const decodedDimensions = (w, h) => {
 };
 
 const decodeBitmap = async (blob) => {
-  // Probe original dimensions without committing to a full-resolution decode
-  const probe = await createImageBitmap(blob);
-  const { width, height } = decodedDimensions(probe.width, probe.height);
-  if (width === probe.width && height === probe.height) return probe;
-  probe.close();
-  return createImageBitmap(blob, {
-    resizeWidth: width,
-    resizeHeight: height,
-    resizeQuality: 'high',
-  });
+  // Decode + downscale via canvas drawImage with imageSmoothingQuality='high'.
+  // Implemented this way (instead of createImageBitmap's resizeQuality) because
+  // iOS Safari / WKWebView silently ignores resizeQuality and falls back to
+  // a low-quality resampler — which produces visible block artefacts after
+  // contrast-stretching.
+  const url = URL.createObjectURL(blob);
+  try {
+    const img = await new Promise((resolve, reject) => {
+      const el = new Image();
+      el.crossOrigin = 'anonymous';
+      el.onload = () => resolve(el);
+      el.onerror = () => reject(new Error('Image load failed'));
+      el.src = url;
+    });
+    const target = decodedDimensions(img.naturalWidth, img.naturalHeight);
+    const canvas = document.createElement('canvas');
+    canvas.width = target.width;
+    canvas.height = target.height;
+    const ctx = canvas.getContext('2d');
+    ctx.imageSmoothingEnabled = true;
+    ctx.imageSmoothingQuality = 'high';
+    ctx.drawImage(img, 0, 0, target.width, target.height);
+    const bitmap = await createImageBitmap(canvas);
+    canvas.width = 0;
+    canvas.height = 0;
+    return bitmap;
+  } finally {
+    URL.revokeObjectURL(url);
+  }
 };
 
 const clamp01 = (v) => Math.min(1, Math.max(0, v));
@@ -219,7 +238,7 @@ class MainEngine {
       canvas.toBlob(
         (b) => (b ? resolve(b) : reject(new Error('toBlob returned null'))),
         'image/jpeg',
-        0.85
+        0.95
       );
     });
     canvas.width = 0;

@@ -139,14 +139,6 @@
             :midPoint="getStretchSettings().midPoint"
             :whitePoint="getStretchSettings().whitePoint"
             :statistics="isSaveEnabled || store.isPINS ? captureStats : null"
-            :stretchParams="
-              isSaveEnabled || store.isPINS
-                ? {
-                    blackClipping: store.profileInfo?.ImageSettings?.BlackClipping,
-                    autoStretchFactor: store.profileInfo?.ImageSettings?.AutoStretchFactor,
-                  }
-                : null
-            "
             :saveEnabled="isSaveEnabled || store.isPINS"
             @levels-changed="onLevelsChanged"
             @levels-reset="onLevelsReset"
@@ -583,6 +575,7 @@ const getStretchSettings = () => {
 };
 
 const onLevelsChanged = async (event) => {
+  console.log('[CameraPage] onLevelsChanged', event, 'imageData?', !!imageStore.imageData);
   if (!imageStore.imageData) return;
   const { blackPoint, whitePoint, midPoint } = event;
   await histogramStore.applyStretch(imageStore.imageData, blackPoint, whitePoint, midPoint);
@@ -609,26 +602,23 @@ watch(
 
 watch(
   () => store.lastImageStats,
-  async (newVal, oldVal) => {
+  (newVal, oldVal) => {
     const hasChanged = newVal?.Timestamp !== oldVal?.Timestamp;
     if (!hasChanged) return;
-    //console.log("[lastImageStats] has change")
     statsLoading.value = false;
-    //console.log("[lastImageStats] statsLoading false")
-    if (imageStore.imageData) {
-      await histogramStore.calculateHistogramForImage(imageStore.imageData);
-    }
   }
 );
+
+watch([showHistogram, () => imageStore.imageData], ([panelOpen, imageData]) => {
+  if (panelOpen && imageData) {
+    histogramStore.requestHistogram(imageData);
+  }
+});
 
 // Load image on mount if imageData is empty
 onMounted(async () => {
   if (!imageStore.imageData) {
     await imageStore.getImage();
-  }
-  // Calculate histogram for the image
-  if (imageStore.imageData) {
-    await histogramStore.calculateHistogramForImage(imageStore.imageData);
   }
   await cameraStore.readSettings();
 });

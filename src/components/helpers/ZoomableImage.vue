@@ -26,9 +26,9 @@
         <MagnifyingGlassPlusIcon class="w-5 h-5" />
       </button>
 
-      <!-- Histogram Button — temporarily disabled until reliability issue is fixed -->
+      <!-- Histogram Button -->
       <button
-        v-if="false"
+        v-if="showHistogram"
         @click.stop="handleHistogramToggle"
         class="w-10 h-10 bg-gray-800/90 hover:bg-gray-700 text-white rounded-lg shadow-lg flex items-center justify-center transition-colors"
         :class="{ 'bg-cyan-700 hover:bg-cyan-600': showHistogramActive }"

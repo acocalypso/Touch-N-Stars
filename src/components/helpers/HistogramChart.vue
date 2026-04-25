@@ -1,5 +1,5 @@
 <template>
-  <div v-if="data && data.length > 0" class="relative p-4 bg-gray-900/20 rounded-lg shadow-md">
+  <div class="relative p-4 bg-gray-900/20 rounded-lg shadow-md">
     <button
       v-if="showReset"
       type="button"
@@ -218,19 +218,9 @@ const props = defineProps({
     default: null,
     // Expected: { Mean, Median, Min, Max, StDev, MedianAbsoluteDeviation, Stars, HFR }
   },
-  stretchParams: {
-    type: Object,
-    default: null,
-    // Expected: { blackClipping: Number, autoStretchFactor: Number }
-    // NINA profile: ImageSettings.BlackClipping + ImageSettings.AutoStretchFactor
-  },
   saveEnabled: {
     type: Boolean,
     default: true,
-  },
-  useJpegHistogram: {
-    type: Boolean,
-    default: false,
   },
 });
 
@@ -275,63 +265,15 @@ const generateSyntheticHistogram = (mean, stdDev, min, max, bins = 256) => {
   return histogram;
 };
 
-/**
- * Invert NINA's auto-stretch MTF for a JPEG bucket index → 16-bit ADU value.
- *
- * NINA stretch:
- *   shadowsClip = (Median + BlackClipping * MAD) / 65535
- *   MTF midtone m is chosen so that MTF(Median/65535 - shadowsClip, m) = AutoStretchFactor
- *   Each pixel p_norm → MTF(max(0, p_norm - shadowsClip), m) → JPEG value
- *
- * Inverse: JPEG j → ADU via InvMTF + un-shift
- */
-const ninaJpegBucketToAdu = (jpegBucket, median, mad, blackClipping, autoStretchFactor) => {
-  const shadowsClip = Math.max(0, (median + blackClipping * mad) / 65535);
-  const x_bg = median / 65535 - shadowsClip;
-
-  // Solve MTF(x_bg, m) = autoStretchFactor for m
-  // MTF(x, m) = (m-1)*x / ((2m-1)*x - m)
-  // => m = x*(t-1) / (x*(2t-1) - t)  where t = autoStretchFactor
-  const t = autoStretchFactor;
-  const m = (x_bg * (t - 1)) / (x_bg * (2 * t - 1) - t);
-
-  // Inverse MTF: InvMTF(y, m) = m*y / ((2m-1)*y - (m-1))
-  const j_norm = jpegBucket / 255;
-  if (j_norm <= 0) return shadowsClip * 65535;
-  const denom = (2 * m - 1) * j_norm - (m - 1);
-  if (Math.abs(denom) < 1e-9) return shadowsClip * 65535;
-  const v_shifted = (m * j_norm) / denom;
-
-  return Math.max(0, (v_shifted + shadowsClip) * 65535);
-};
-
 const drawHistogram = () => {
   if (!canvasElement.value) return;
 
   const s = props.statistics;
-  const sp = props.stretchParams;
   const hasStats = !!(s?.Mean != null);
 
-  // Decide rendering mode:
-  // "stretch" = JPEG shape + inverse-stretch X mapping (best accuracy)
-  // "synth"   = Gaussian from API stats (no stretch params available)
-  // "jpeg"    = raw JPEG histogram with 0-255 axis (fallback)
-  // MAD may be missing from image-history; approximate from StDev (Gaussian: MAD ≈ 0.6745 * σ)
-  const mad = s?.MedianAbsoluteDeviation ?? (s?.StDev != null ? s.StDev * 0.6745 : null);
-
-  const canInvertStretch =
-    hasStats &&
-    mad != null &&
-    sp?.blackClipping != null &&
-    sp?.autoStretchFactor != null &&
-    props.data?.length > 0;
-  const mode = props.useJpegHistogram
-    ? 'jpeg'
-    : canInvertStretch
-      ? 'stretch'
-      : hasStats
-        ? 'synth'
-        : 'jpeg';
+  // "synth" = Gaussian from API stats when no JPEG histogram data is available
+  // "jpeg"  = real JPEG histogram (0-255 axis) computed by the worker
+  const mode = props.data?.length > 0 ? 'jpeg' : hasStats ? 'synth' : 'jpeg';
 
   const histData =
     mode === 'synth' ? generateSyntheticHistogram(s.Mean, s.StDev, s.Min, s.Max) : props.data;
@@ -374,33 +316,17 @@ const drawHistogram = () => {
 
   // Draw histogram bars
   const hue = 200;
-
-  if (mode === 'stretch') {
-    // Map each JPEG bucket to its true ADU position via inverse NINA stretch
-    histData.forEach((value, index) => {
-      const adu = ninaJpegBucketToAdu(index, s.Median, mad, sp.blackClipping, sp.autoStretchFactor);
-      const barHeight = (value / maxValue) * graphHeight;
-      const xPos = padding + ((adu - s.Min) / (s.Max - s.Min)) * graphWidth;
-      const y = padding + graphHeight - barHeight;
-      const gradient = ctx.createLinearGradient(0, y, 0, padding + graphHeight);
-      gradient.addColorStop(0, `hsl(${hue}, 80%, 50%)`);
-      gradient.addColorStop(1, `hsl(${hue}, 60%, 40%)`);
-      ctx.fillStyle = gradient;
-      ctx.fillRect(xPos, y, 1.5, barHeight);
-    });
-  } else {
-    const barWidth = graphWidth / histData.length;
-    histData.forEach((value, index) => {
-      const barHeight = (value / maxValue) * graphHeight;
-      const xPos = padding + index * barWidth;
-      const y = padding + graphHeight - barHeight;
-      const gradient = ctx.createLinearGradient(0, y, 0, padding + graphHeight);
-      gradient.addColorStop(0, `hsl(${hue}, 80%, 50%)`);
-      gradient.addColorStop(1, `hsl(${hue}, 60%, 40%)`);
-      ctx.fillStyle = gradient;
-      ctx.fillRect(xPos, y, barWidth - 0.5, barHeight);
-    });
-  }
+  const barWidth = graphWidth / histData.length;
+  histData.forEach((value, index) => {
+    const barHeight = (value / maxValue) * graphHeight;
+    const xPos = padding + index * barWidth;
+    const y = padding + graphHeight - barHeight;
+    const gradient = ctx.createLinearGradient(0, y, 0, padding + graphHeight);
+    gradient.addColorStop(0, `hsl(${hue}, 80%, 50%)`);
+    gradient.addColorStop(1, `hsl(${hue}, 60%, 40%)`);
+    ctx.fillStyle = gradient;
+    ctx.fillRect(xPos, y, barWidth - 0.5, barHeight);
+  });
 
   // Draw axes
   ctx.strokeStyle = '#666666';
@@ -417,7 +343,7 @@ const drawHistogram = () => {
   ctx.textAlign = 'center';
 
   const xLabelCount = 5;
-  if (hasStats) {
+  if (mode === 'synth') {
     // X-axis spans Min…Max in 16-bit ADU
     const range = s.Max - s.Min;
     for (let i = 0; i <= xLabelCount; i++) {
@@ -437,8 +363,8 @@ const drawHistogram = () => {
   ctx.textAlign = 'right';
   ctx.fillText('%', padding - 5, padding + 5);
 
-  // Draw marker lines aligned with the ADU axis
-  if (hasStats) {
+  // Draw marker lines aligned with the ADU axis (only meaningful in synth mode)
+  if (mode === 'synth') {
     const range = s.Max - s.Min;
     const toX = (val) => padding + ((val - s.Min) / range) * graphWidth;
 
@@ -484,7 +410,6 @@ const drawHistogram = () => {
     }
   }
 
-  // Calculate local stats only for JPEG-based histogram (no API stats)
   if (!hasStats) {
     stats.value = getHistogramStats(histData);
   }

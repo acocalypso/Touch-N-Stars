@@ -139,14 +139,6 @@
             :midPoint="getStretchSettings().midPoint"
             :whitePoint="getStretchSettings().whitePoint"
             :statistics="isSaveEnabled || store.isPINS ? captureStats : null"
-            :stretchParams="
-              isSaveEnabled || store.isPINS
-                ? {
-                    blackClipping: store.profileInfo?.ImageSettings?.BlackClipping,
-                    autoStretchFactor: store.profileInfo?.ImageSettings?.AutoStretchFactor,
-                  }
-                : null
-            "
             :saveEnabled="isSaveEnabled || store.isPINS"
             @levels-changed="onLevelsChanged"
             @levels-reset="onLevelsReset"
@@ -597,38 +589,51 @@ const onToggleSave = async () => {
   await apiService.profileChangeValue('SnapShotControlSettings-Save', true);
 };
 
+let statsLoadingTimeout = null;
+const setStatsLoading = (value) => {
+  statsLoading.value = value;
+  if (statsLoadingTimeout) {
+    clearTimeout(statsLoadingTimeout);
+    statsLoadingTimeout = null;
+  }
+  if (value) {
+    // Safety net: drop the spinner after 5 s even if no fresh stats arrive
+    // (e.g. on app resume where imageData was refetched without a new capture).
+    statsLoadingTimeout = setTimeout(() => {
+      statsLoading.value = false;
+      statsLoadingTimeout = null;
+    }, 5000);
+  }
+};
+
 watch(
   () => imageStore.imageData,
   (newVal, oldVal) => {
     if (newVal && oldVal && newVal !== oldVal && store.isPINS) {
-      statsLoading.value = true;
-      //console.log("[lastImageStats] statsLoading true")
+      setStatsLoading(true);
     }
   }
 );
 
 watch(
   () => store.lastImageStats,
-  async (newVal, oldVal) => {
+  (newVal, oldVal) => {
     const hasChanged = newVal?.Timestamp !== oldVal?.Timestamp;
     if (!hasChanged) return;
-    //console.log("[lastImageStats] has change")
-    statsLoading.value = false;
-    //console.log("[lastImageStats] statsLoading false")
-    if (imageStore.imageData) {
-      await histogramStore.calculateHistogramForImage(imageStore.imageData);
-    }
+    setStatsLoading(false);
   }
 );
+
+watch([showHistogram, () => imageStore.imageData], ([panelOpen, imageData]) => {
+  if (panelOpen && imageData) {
+    histogramStore.requestHistogram(imageData);
+  }
+});
 
 // Load image on mount if imageData is empty
 onMounted(async () => {
   if (!imageStore.imageData) {
     await imageStore.getImage();
-  }
-  // Calculate histogram for the image
-  if (imageStore.imageData) {
-    await histogramStore.calculateHistogramForImage(imageStore.imageData);
   }
   await cameraStore.readSettings();
 });

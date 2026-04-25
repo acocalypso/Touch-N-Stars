@@ -77,12 +77,7 @@ export const useImagetStore = defineStore('imageStore', {
             histogramStore.clearImageCache(this.imageData);
           }
           this.imageData = URL.createObjectURL(imageResponse.data);
-          // Calculate histogram for the new image
-          const isValid = await this.validateImage(this.imageData);
-          if (isValid) {
-            const histogramStore = useHistogramStore();
-            await histogramStore.calculateHistogramForImage(this.imageData);
-          }
+          await this.validateImage(this.imageData);
         }
       } catch (error) {
         console.error('[ImageStore] Error fetching information:', error);
@@ -194,10 +189,6 @@ export const useImagetStore = defineStore('imageStore', {
         this.lastImage.quality = quality;
         this.lastImage.index = index;
         this.lastImage.image = imageUrl;
-
-        // Calculate histogram for the sequence image
-        const histogramStore = useHistogramStore();
-        await histogramStore.calculateHistogramForImage(imageUrl);
 
         return imageUrl;
       } catch (error) {

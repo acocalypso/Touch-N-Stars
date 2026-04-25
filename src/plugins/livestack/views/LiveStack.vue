@@ -92,7 +92,7 @@
 
         <!-- Histogram Overlay -->
         <div
-          v-if="showHistogram && livestackStore.currentImageUrl && getHistogram()"
+          v-if="showHistogram && livestackStore.currentImageUrl"
           class="absolute top-60 left-4 landscape:left-36 landscape:top-24 right-4 z-70"
         >
           <div
@@ -158,6 +158,12 @@ const imageAltText = computed(() =>
 );
 const imagePlaceholderText = computed(() => t('plugins.livestack.loading_image'));
 
+watch([showHistogram, () => livestackStore.currentImageUrl], ([panelOpen, imageUrl]) => {
+  if (panelOpen && imageUrl) {
+    histogramStore.requestHistogram(imageUrl);
+  }
+});
+
 // Observe changes to target/filter together to avoid duplicate loads
 watch(
   () => [livestackRefs.selectedTarget.value, livestackRefs.selectedFilter.value],
@@ -206,9 +212,6 @@ const loadImage = async (target, filter, forceReload = false) => {
     // Only update the image URL after successful load
     livestackStore.setCurrentImageUrl(newImageUrl, targetLabel, filterLabel);
     lastUpdated.value = new Date(timeSync.getServerTime()).toLocaleTimeString();
-
-    // Calculate histogram for the new image
-    await histogramStore.calculateHistogramForImage(newImageUrl);
   } catch (error) {
     console.error('Error loading image:', error);
     errorMessage.value = t('plugins.livestack.errors.loading_image', { message: error.message });

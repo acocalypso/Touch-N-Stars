@@ -1,104 +1,213 @@
 import { defineStore } from 'pinia';
-import {
-  calculateHistogram,
-  applyLevelsStretch,
-  applyLevelsStretchCached,
-  cacheOriginalImageData,
-} from '@/utils/histogramUtils';
 
-/**
- * Store für Histogram und Stretch-Funktionen
- * Verwaltet Histogram-Daten und Stretch-Einstellungen für beliebig viele Bilder
- */
+const useWorker =
+  typeof Worker !== 'undefined' &&
+  typeof OffscreenCanvas !== 'undefined' &&
+  typeof createImageBitmap === 'function';
+
+const clamp01 = (v) => Math.min(1, Math.max(0, v));
+
+const buildLut = (blackPoint, whitePoint, midPoint) => {
+  const range = whitePoint - blackPoint;
+  const midTone = clamp01((midPoint - blackPoint) / range);
+  const m = Math.min(0.999, Math.max(0.001, midTone));
+  const isLinear = Math.abs(m - 0.5) < 1e-6;
+  const gamma = isLinear ? 1 : Math.log(0.5) / Math.log(m);
+
+  const lut = new Uint8ClampedArray(256);
+  for (let v = 0; v < 256; v++) {
+    const norm = clamp01((v - blackPoint) / range);
+    const transformed = isLinear ? norm : norm ** gamma;
+    lut[v] = Math.round(clamp01(transformed) * 255);
+  }
+  return lut;
+};
+
+const computeHistogram = (data, bucketCount = 256) => {
+  const histogram = new Array(bucketCount).fill(0);
+  let counted = 0;
+  for (let i = 0; i < data.length; i += 4) {
+    if (data[i + 3] === 0) continue;
+    const brightness = Math.round(0.299 * data[i] + 0.587 * data[i + 1] + 0.114 * data[i + 2]);
+    const bucket = Math.min(Math.floor((brightness / 255) * (bucketCount - 1)), bucketCount - 1);
+    histogram[bucket]++;
+    counted++;
+  }
+  if (counted === 0) return histogram;
+  return histogram.map((c) => (c / counted) * 100);
+};
+
+const applyLut = (src, dst, lut) => {
+  for (let i = 0; i < src.length; i += 4) {
+    dst[i] = lut[src[i]];
+    dst[i + 1] = lut[src[i + 1]];
+    dst[i + 2] = lut[src[i + 2]];
+    dst[i + 3] = src[i + 3];
+  }
+};
+
+const isDefaultStretch = (blackPoint, whitePoint, midPoint) =>
+  blackPoint === 0 && whitePoint === 255 && midPoint === 127;
+
+class WorkerEngine {
+  constructor() {
+    this.worker = null;
+    this.nextId = 1;
+    this.width = 0;
+    this.height = 0;
+    this.disposed = false;
+    this.pending = new Map(); // id → { resolve, reject, handler }
+  }
+
+  _send(type, payload, transfer) {
+    return new Promise((resolve, reject) => {
+      if (this.disposed || !this.worker) {
+        reject(new Error('Engine disposed'));
+        return;
+      }
+      const id = this.nextId++;
+      const handler = (event) => {
+        if (event.data?.id !== id) return;
+        this.worker.removeEventListener('message', handler);
+        this.pending.delete(id);
+        if (event.data.ok) resolve(event.data.result);
+        else reject(new Error(event.data.error || 'Worker error'));
+      };
+      this.pending.set(id, { resolve, reject, handler });
+      this.worker.addEventListener('message', handler);
+      this.worker.postMessage({ id, type, payload }, transfer || []);
+    });
+  }
+
+  async init(imageUrl) {
+    const response = await fetch(imageUrl);
+    if (!response.ok) throw new Error(`Failed to fetch image (${response.status})`);
+    const blob = await response.blob();
+    const bitmap = await createImageBitmap(blob);
+    this.width = bitmap.width;
+    this.height = bitmap.height;
+
+    if (this.disposed) {
+      bitmap.close();
+      throw new Error('Engine disposed');
+    }
+
+    this.worker = new Worker(new URL('@/utils/histogramWorker.js', import.meta.url), {
+      type: 'module',
+    });
+
+    try {
+      const result = await this._send('init', { bitmap }, [bitmap]);
+      return result.histogram;
+    } catch (error) {
+      if (this.worker) {
+        this.worker.terminate();
+        this.worker = null;
+      }
+      throw error;
+    }
+  }
+
+  async stretch(blackPoint, whitePoint, midPoint) {
+    if (!this.worker || this.disposed) throw new Error('Engine disposed');
+    const result = await this._send('stretch', { blackPoint, whitePoint, midPoint });
+    return result.blob;
+  }
+
+  dispose() {
+    this.disposed = true;
+    // Reject all pending message promises so awaiters unblock
+    this.pending.forEach(({ reject, handler }) => {
+      if (this.worker) this.worker.removeEventListener('message', handler);
+      reject(new Error('Engine disposed'));
+    });
+    this.pending.clear();
+    if (this.worker) {
+      try {
+        this.worker.postMessage({ id: -1, type: 'dispose' });
+      } catch {
+        // ignore
+      }
+      this.worker.terminate();
+      this.worker = null;
+    }
+  }
+}
+
+class MainEngine {
+  constructor() {
+    this.originalData = null;
+    this.width = 0;
+    this.height = 0;
+    this.disposed = false;
+  }
+
+  async init(imageUrl) {
+    const img = await new Promise((resolve, reject) => {
+      const el = new Image();
+      el.crossOrigin = 'anonymous';
+      el.onload = () => resolve(el);
+      el.onerror = () => reject(new Error('Image load failed'));
+      el.src = imageUrl;
+    });
+    if (this.disposed) throw new Error('Engine disposed');
+    this.width = img.width;
+    this.height = img.height;
+    const canvas = document.createElement('canvas');
+    canvas.width = this.width;
+    canvas.height = this.height;
+    const ctx = canvas.getContext('2d', { willReadFrequently: true });
+    ctx.drawImage(img, 0, 0);
+    const imageData = ctx.getImageData(0, 0, this.width, this.height);
+    canvas.width = 0;
+    canvas.height = 0;
+    this.originalData = new Uint8ClampedArray(imageData.data);
+    return computeHistogram(this.originalData);
+  }
+
+  async stretch(blackPoint, whitePoint, midPoint) {
+    if (this.disposed || !this.originalData) throw new Error('Engine disposed');
+    const lut = buildLut(blackPoint, whitePoint, midPoint);
+    const out = new Uint8ClampedArray(this.originalData.length);
+    applyLut(this.originalData, out, lut);
+    const stretched = new ImageData(out, this.width, this.height);
+    const canvas = document.createElement('canvas');
+    canvas.width = this.width;
+    canvas.height = this.height;
+    const ctx = canvas.getContext('2d');
+    ctx.putImageData(stretched, 0, 0);
+    const blob = await new Promise((resolve, reject) => {
+      canvas.toBlob(
+        (b) => (b ? resolve(b) : reject(new Error('toBlob returned null'))),
+        'image/jpeg',
+        0.85
+      );
+    });
+    canvas.width = 0;
+    canvas.height = 0;
+    return blob;
+  }
+
+  dispose() {
+    this.disposed = true;
+    this.originalData = null;
+  }
+}
+
+const createEngine = () => (useWorker ? new WorkerEngine() : new MainEngine());
+
 export const useHistogramStore = defineStore('histogramStore', {
   state: () => ({
-    // Map: imageUrl → { histogram, blackPoint, whitePoint, midPoint, stretchedImageData }
     imageSettings: new Map(),
-
-    // Processing flags
-    processingImages: new Set(), // Set of imageUrls currently being processed
-
-    // Throttle timers
-    stretchTimeouts: new Map(), // imageUrl → timeoutId
-    pendingStretchValues: new Map(), // imageUrl → { blackPoint, whitePoint, midPoint }
+    engines: new Map(),
+    pendingInits: new Map(),
+    processingImages: new Set(),
+    stretchTimeouts: new Map(),
+    pendingStretchValues: new Map(),
   }),
 
   actions: {
-    /**
-     * Calculate and cache histogram for an image
-     * @param {string} imageUrl - Image URL or blob URL
-     * @returns {Promise<Array<number>>} Histogram data
-     */
-    async calculateHistogramForImage(imageUrl) {
-      if (!imageUrl) {
-        return null;
-      }
-
-      try {
-        const histogram = await calculateHistogram(imageUrl);
-
-        // Store in settings
-        if (!this.imageSettings.has(imageUrl)) {
-          this.imageSettings.set(imageUrl, {
-            histogram: null,
-            blackPoint: 0,
-            whitePoint: 255,
-            midPoint: 127,
-            stretchedImageData: null,
-          });
-        }
-
-        const settings = this.imageSettings.get(imageUrl);
-        settings.histogram = histogram;
-
-        // Also cache the original image data for fast stretch operations
-        try {
-          const img = new Image();
-          img.crossOrigin = 'anonymous';
-          img.onload = () => {
-            const canvas = document.createElement('canvas');
-            const ctx = canvas.getContext('2d');
-            if (ctx) {
-              canvas.width = img.width;
-              canvas.height = img.height;
-              ctx.drawImage(img, 0, 0);
-              const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-              // Free canvas memory immediately after extracting pixel data
-              canvas.width = 0;
-              canvas.height = 0;
-              cacheOriginalImageData(imageUrl, imageData);
-            }
-            // Release image element resources
-            img.src = '';
-            img.onload = null;
-          };
-          img.src = imageUrl;
-        } catch (cacheErr) {
-          // Silently ignore cache errors
-        }
-
-        return histogram;
-      } catch (error) {
-        console.error('[HistogramStore] Error calculating histogram:', error);
-        return null;
-      }
-    },
-
-    /**
-     * Apply levels stretch to an image with throttling
-     * @param {string} imageUrl - Image URL or blob URL
-     * @param {number} blackPoint - Input black level (0-255)
-     * @param {number} whitePoint - Input white level (0-255)
-     * @param {number} midPoint - Midtone balance (0-255)
-     * @returns {Promise<void>}
-     */
-    async applyStretch(imageUrl, blackPoint, whitePoint, midPoint = 127) {
-      if (!imageUrl) {
-        console.warn('[HistogramStore] No image URL provided');
-        return;
-      }
-
-      // Initialize settings if not exists
+    _ensureSettings(imageUrl) {
       if (!this.imageSettings.has(imageUrl)) {
         this.imageSettings.set(imageUrl, {
           histogram: null,
@@ -108,136 +217,161 @@ export const useHistogramStore = defineStore('histogramStore', {
           stretchedImageData: null,
         });
       }
+      return this.imageSettings.get(imageUrl);
+    },
 
-      // Clamp incoming values to keep a valid range
+    async _initEngine(imageUrl) {
+      let engine = createEngine();
+      // Register engine immediately so clearImageCache can dispose it mid-init
+      this.engines.set(imageUrl, engine);
+      try {
+        const histogram = await engine.init(imageUrl);
+        if (engine.disposed) throw new Error('Engine disposed');
+        const settings = this._ensureSettings(imageUrl);
+        settings.histogram = histogram;
+        return histogram;
+      } catch (error) {
+        engine.dispose();
+        if (this.engines.get(imageUrl) === engine) {
+          this.engines.delete(imageUrl);
+        }
+        if (useWorker && !engine.disposed) {
+          console.warn('[HistogramStore] Worker engine failed, falling back to main thread', error);
+          engine = new MainEngine();
+          this.engines.set(imageUrl, engine);
+          try {
+            const histogram = await engine.init(imageUrl);
+            if (engine.disposed) throw new Error('Engine disposed');
+            const settings = this._ensureSettings(imageUrl);
+            settings.histogram = histogram;
+            return histogram;
+          } catch (fallbackError) {
+            engine.dispose();
+            if (this.engines.get(imageUrl) === engine) {
+              this.engines.delete(imageUrl);
+            }
+            throw fallbackError;
+          }
+        }
+        throw error;
+      }
+    },
+
+    async requestHistogram(imageUrl) {
+      if (!imageUrl) return null;
+
+      const settings = this._ensureSettings(imageUrl);
+      if (settings.histogram) return settings.histogram;
+
+      if (this.pendingInits.has(imageUrl)) {
+        return this.pendingInits.get(imageUrl);
+      }
+
+      const promise = this._initEngine(imageUrl)
+        .catch((error) => {
+          console.error('[HistogramStore] requestHistogram failed', error);
+          return null;
+        })
+        .finally(() => {
+          this.pendingInits.delete(imageUrl);
+        });
+
+      this.pendingInits.set(imageUrl, promise);
+      return promise;
+    },
+
+    async applyStretch(imageUrl, blackPoint, whitePoint, midPoint = 127) {
+      if (!imageUrl) return;
+
+      const settings = this._ensureSettings(imageUrl);
+
       const clampedBlack = Math.max(0, Math.min(254, blackPoint));
       const clampedWhite = Math.max(clampedBlack + 1, Math.min(255, whitePoint));
       const clampedMid = Math.min(Math.max(midPoint ?? 127, clampedBlack + 1), clampedWhite - 1);
 
-      const settings = this.imageSettings.get(imageUrl);
-
-      // Update the displayed values immediately for UI responsiveness
       settings.blackPoint = clampedBlack;
       settings.whitePoint = clampedWhite;
       settings.midPoint = clampedMid;
 
-      // Store pending values for later processing
+      // Default values produce no visible change — clear stretched data, skip work
+      if (isDefaultStretch(clampedBlack, clampedWhite, clampedMid)) {
+        if (settings.stretchedImageData) {
+          URL.revokeObjectURL(settings.stretchedImageData);
+          settings.stretchedImageData = null;
+        }
+        this.pendingStretchValues.delete(imageUrl);
+        return;
+      }
+
       this.pendingStretchValues.set(imageUrl, {
         blackPoint: clampedBlack,
         whitePoint: clampedWhite,
         midPoint: clampedMid,
       });
 
-      // If already processing, don't start another one - it will pick up pending values
-      if (this.processingImages.has(imageUrl)) {
-        return;
-      }
+      if (this.processingImages.has(imageUrl)) return;
 
-      // If we have a pending timeout, clear it and schedule a new one
       if (this.stretchTimeouts.has(imageUrl)) {
         clearTimeout(this.stretchTimeouts.get(imageUrl));
       }
 
-      // Throttle: only process after 300ms of no changes
       const timeoutId = setTimeout(async () => {
         this.stretchTimeouts.delete(imageUrl);
 
-        // Get the latest pending values
         const pending = this.pendingStretchValues.get(imageUrl);
         if (!pending) return;
 
-        const latestBlackPoint = pending.blackPoint;
-        const latestWhitePoint = pending.whitePoint;
-        const latestMidPoint = Math.min(
-          Math.max(pending.midPoint ?? 127, pending.blackPoint + 1),
-          pending.whitePoint - 1
-        );
-
+        this.processingImages.add(imageUrl);
         try {
-          this.processingImages.add(imageUrl);
-
-          // Try to use cached version for speed, fallback to regular version
-          let stretchedBlob;
-          try {
-            stretchedBlob = await applyLevelsStretchCached(
-              latestBlackPoint,
-              latestWhitePoint,
-              latestMidPoint
-            );
-          } catch (cacheError) {
-            // If cache not available, use regular method
-            stretchedBlob = await applyLevelsStretch(
-              imageUrl,
-              latestBlackPoint,
-              latestWhitePoint,
-              latestMidPoint
-            );
+          if (!this.engines.has(imageUrl)) {
+            await this.requestHistogram(imageUrl);
           }
+          const engine = this.engines.get(imageUrl);
+          if (!engine) return;
 
-          const settings = this.imageSettings.get(imageUrl);
-          if (settings) {
-            if (settings.stretchedImageData) {
-              URL.revokeObjectURL(settings.stretchedImageData);
+          const blob = await engine.stretch(
+            pending.blackPoint,
+            pending.whitePoint,
+            pending.midPoint
+          );
+
+          const current = this.imageSettings.get(imageUrl);
+          if (current) {
+            if (current.stretchedImageData) {
+              URL.revokeObjectURL(current.stretchedImageData);
             }
-            settings.stretchedImageData = URL.createObjectURL(stretchedBlob);
+            current.stretchedImageData = URL.createObjectURL(blob);
           }
         } catch (error) {
-          console.error('[HistogramStore] Error applying stretch:', error);
-          const settings = this.imageSettings.get(imageUrl);
-          if (settings) {
-            settings.stretchedImageData = null;
-          }
+          console.error('[HistogramStore] Stretch failed', error);
         } finally {
           this.processingImages.delete(imageUrl);
 
-          // If new values arrived while we were processing, apply them now
-          const pendingAfter = this.pendingStretchValues.get(imageUrl);
+          const after = this.pendingStretchValues.get(imageUrl);
           if (
-            pendingAfter &&
+            after &&
             !this.stretchTimeouts.has(imageUrl) &&
-            (pendingAfter.blackPoint !== latestBlackPoint ||
-              pendingAfter.whitePoint !== latestWhitePoint ||
-              pendingAfter.midPoint !== latestMidPoint)
+            (after.blackPoint !== pending.blackPoint ||
+              after.whitePoint !== pending.whitePoint ||
+              after.midPoint !== pending.midPoint)
           ) {
-            this.applyStretch(
-              imageUrl,
-              pendingAfter.blackPoint,
-              pendingAfter.whitePoint,
-              pendingAfter.midPoint
-            );
+            this.applyStretch(imageUrl, after.blackPoint, after.whitePoint, after.midPoint);
           }
         }
-      }, 300);
+      }, 150);
 
       this.stretchTimeouts.set(imageUrl, timeoutId);
     },
 
-    /**
-     * Get histogram for a specific image
-     * @param {string} imageUrl - Image URL
-     * @returns {Array<number>|null}
-     */
     getHistogram(imageUrl) {
-      const settings = this.imageSettings.get(imageUrl);
-      return settings?.histogram || null;
+      return this.imageSettings.get(imageUrl)?.histogram || null;
     },
 
-    /**
-     * Get stretch settings for a specific image
-     * @param {string} imageUrl - Image URL
-     * @returns {Object} { blackPoint, whitePoint, midPoint, stretchedImageData }
-     */
     getStretchSettings(imageUrl) {
-      if (!this.imageSettings.has(imageUrl)) {
-        return {
-          blackPoint: 0,
-          whitePoint: 255,
-          midPoint: 127,
-          stretchedImageData: null,
-        };
-      }
-
       const settings = this.imageSettings.get(imageUrl);
+      if (!settings) {
+        return { blackPoint: 0, whitePoint: 255, midPoint: 127, stretchedImageData: null };
+      }
       return {
         blackPoint: settings.blackPoint,
         whitePoint: settings.whitePoint,
@@ -246,80 +380,64 @@ export const useHistogramStore = defineStore('histogramStore', {
       };
     },
 
-    /**
-     * Reset stretch settings for a specific image
-     * @param {string} imageUrl - Image URL
-     */
     resetStretch(imageUrl) {
       const settings = this.imageSettings.get(imageUrl);
-      if (settings) {
-        if (settings.stretchedImageData) {
-          URL.revokeObjectURL(settings.stretchedImageData);
-        }
-        settings.blackPoint = 0;
-        settings.whitePoint = 255;
-        settings.midPoint = 127;
-        settings.stretchedImageData = null;
+      if (!settings) return;
+      if (settings.stretchedImageData) {
+        URL.revokeObjectURL(settings.stretchedImageData);
       }
+      settings.blackPoint = 0;
+      settings.whitePoint = 255;
+      settings.midPoint = 127;
+      settings.stretchedImageData = null;
     },
 
-    /**
-     * Clear all cache and settings for a specific image
-     * @param {string} imageUrl - Image URL
-     */
     clearImageCache(imageUrl) {
-      // Clear pending stretch if exists
       if (this.stretchTimeouts.has(imageUrl)) {
         clearTimeout(this.stretchTimeouts.get(imageUrl));
         this.stretchTimeouts.delete(imageUrl);
       }
-
       this.pendingStretchValues.delete(imageUrl);
 
-      // Clear settings
+      const engine = this.engines.get(imageUrl);
+      if (engine) {
+        engine.dispose();
+        this.engines.delete(imageUrl);
+      }
+
       const settings = this.imageSettings.get(imageUrl);
-      if (settings) {
-        if (settings.stretchedImageData) {
-          URL.revokeObjectURL(settings.stretchedImageData);
-        }
+      if (settings?.stretchedImageData) {
+        URL.revokeObjectURL(settings.stretchedImageData);
       }
 
       this.imageSettings.delete(imageUrl);
       this.processingImages.delete(imageUrl);
+      this.pendingInits.delete(imageUrl);
     },
 
-    /**
-     * Clear all caches
-     */
     clearAllCache() {
-      // Clear all timeouts
-      this.stretchTimeouts.forEach((timeoutId) => {
-        clearTimeout(timeoutId);
-      });
-
-      // Revoke all blob URLs
+      this.stretchTimeouts.forEach((id) => clearTimeout(id));
+      this.engines.forEach((engine) => engine.dispose());
       this.imageSettings.forEach((settings) => {
         if (settings.stretchedImageData) {
           URL.revokeObjectURL(settings.stretchedImageData);
         }
       });
 
-      // Clear all maps
       this.imageSettings.clear();
+      this.engines.clear();
+      this.pendingInits.clear();
       this.processingImages.clear();
       this.stretchTimeouts.clear();
       this.pendingStretchValues.clear();
-
-      console.log('[HistogramStore] Cleared all cache');
     },
 
-    /**
-     * Check if currently processing an image
-     * @param {string} imageUrl - Image URL
-     * @returns {boolean}
-     */
     isProcessing(imageUrl) {
       return this.processingImages.has(imageUrl);
+    },
+
+    isInitializing(imageUrl) {
+      return this.pendingInits.has(imageUrl);
     },
   },
 });

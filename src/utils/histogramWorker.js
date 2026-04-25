@@ -89,7 +89,7 @@ self.onmessage = async (event) => {
       }
 
       ctx.putImageData(new ImageData(out, width, height), 0, 0);
-      const blob = await canvas.convertToBlob({ type: 'image/jpeg', quality: 0.85 });
+      const blob = await canvas.convertToBlob({ type: 'image/jpeg', quality: 0.95 });
       self.postMessage({ id, ok: true, result: { blob } });
       return;
     }

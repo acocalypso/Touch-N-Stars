@@ -11,6 +11,14 @@
       </Suspense>
     </div>
 
+    <div
+      v-if="hasMissingEquipmentSettings"
+      class="missing-settings-warning absolute top-2 left-1/2 -translate-x-1/2 max-w-xl w-[min(100%,40rem)] bg-yellow-900/90 border border-yellow-600 text-yellow-100 text-sm rounded-lg shadow-lg p-3 backdrop-blur-sm flex items-start gap-2"
+    >
+      <ExclamationTriangleIcon class="w-5 h-5 flex-shrink-0 text-yellow-300 mt-0.5" />
+      <span>{{ $t('components.framing.missingEquipmentSettings') }}</span>
+    </div>
+
     <button
       v-if="!controlsVisible"
       class="controls-toggle absolute bottom-2 left-1/2 -translate-x-1/2 bg-gray-900/80 border border-gray-700 rounded-full shadow-lg p-2 backdrop-blur-sm hover:bg-gray-800"
@@ -67,6 +75,11 @@
         />
       </div>
 
+      <div class="flex items-center justify-between border border-gray-700 rounded-md px-2 py-1">
+        <label class="text-xs text-gray-300">{{ $t('components.framing.useNinaCache') }}</label>
+        <controlUseNinaCache />
+      </div>
+
       <MosaicControls />
       <div class="col-span-2">
         <getImageRotation />
@@ -101,8 +114,8 @@
 </template>
 
 <script setup>
-import { defineAsyncComponent, ref, watch } from 'vue';
-import { ChevronUpIcon, ChevronDownIcon } from '@heroicons/vue/24/outline';
+import { computed, defineAsyncComponent, ref, watch } from 'vue';
+import { ChevronUpIcon, ChevronDownIcon, ExclamationTriangleIcon } from '@heroicons/vue/24/outline';
 import { useFramingStore } from '@/store/framingStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import { apiStore } from '@/store/store';
@@ -115,6 +128,7 @@ import MosaicControls from '@/components/framing/MosaicControls.vue';
 import SaveFavTargets from '@/components/favTargets/SaveFavTargets.vue';
 import FavTargets from '@/components/favTargets/FavTargets.vue';
 import FitsPlateSolve from '@/components/fitsPlatesolve/FitsPlateSolve.vue';
+import controlUseNinaCache from '@/components/framing/controlUseNinaCache.vue';
 
 const framingStore = useFramingStore();
 const settingsStore = useSettingsStore();
@@ -127,6 +141,12 @@ const FramingAssitantImg = defineAsyncComponent(
 const searchQuery = ref('');
 const searchResults = ref([]);
 const controlsVisible = ref(true);
+
+const hasMissingEquipmentSettings = computed(() => {
+  const focalLength = appStore.profileInfo?.TelescopeSettings?.FocalLength;
+  const pixelSize = appStore.profileInfo?.CameraSettings?.PixelSize;
+  return !focalLength || focalLength <= 0 || !pixelSize || pixelSize <= 0;
+});
 
 async function fetchTargetSearch() {
   if (searchQuery.value.trim() === '') {
@@ -172,6 +192,14 @@ watch(
   (newFov) => {
     if (newFov < 0.1) framingStore.fov = 0.1;
     if (newFov > 180) framingStore.fov = 180;
+  }
+);
+
+// Cache-Toggle ändert die Bildquelle (NINA-Cache vs. HiPS) → Bild neu laden.
+watch(
+  () => settingsStore.framing.useNinaCache,
+  () => {
+    framingStore.framingReloadKey++;
   }
 );
 </script>

@@ -158,6 +158,7 @@
     },
     "framing": {
       "pageTitle": "Framing-Assistent",
+      "missingEquipmentSettings": "Fehlende Equipment-Einstellungen: Bitte Brennweite und Pixelgröße unter Einstellungen → Equipment setzen, damit das Kamera-FOV korrekt berechnet wird.",
       "confirmSetTargetTitle": "Zielauswahl bestätigen",
       "confirmSetTargetMessage": "Möchten Sie dieses Ziel wirklich als Sequenzziel festlegen?",
       "useNinaCache": "NINA-Cache für das Zielbild verwenden",

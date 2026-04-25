@@ -126,6 +126,7 @@
     },
     "framing": {
       "pageTitle": "フレーミングアシスタント",
+      "missingEquipmentSettings": "機材設定が不足しています：カメラの視野角が正しく計算されるよう、設定 → 機材で焦点距離とピクセルサイズを設定してください。",
       "confirmSetTargetTitle": "ターゲット選択の確認",
       "confirmSetTargetMessage": "このターゲットをシーケンスのターゲットとして設定しますか？",
       "useNinaCache": "NINA キャッシュをターゲット画像に使用する",

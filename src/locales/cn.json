@@ -118,6 +118,7 @@
     },
     "framing": {
       "pageTitle": "取景助手",
+      "missingEquipmentSettings": "缺少设备设置：请在设置 → 设备中设置焦距和像素大小，以便正确计算相机视场。",
       "confirmSetTargetTitle": "确认目标选择",
       "confirmSetTargetMessage": "您确定要将此目标设置为序列目标吗？",
       "useNinaCache": "使用 NINA 缓存作为目标图像",

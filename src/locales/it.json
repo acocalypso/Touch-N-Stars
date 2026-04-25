@@ -118,6 +118,7 @@
     },
     "framing": {
       "pageTitle": "Assistente Inquadratura",
+      "missingEquipmentSettings": "Impostazioni dell'attrezzatura mancanti: imposta la lunghezza focale e la dimensione dei pixel in Impostazioni → Attrezzatura affinché il FOV della camera venga calcolato correttamente.",
       "confirmSetTargetTitle": "Conferma Selezione Target",
       "confirmSetTargetMessage": "Sei sicuro di voler impostare questo target come target della sequenza?",
       "useNinaCache": "Usa cache NINA per l'immagine del target",

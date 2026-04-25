@@ -118,6 +118,7 @@
     },
     "framing": {
       "pageTitle": "Asystent kadrowania",
+      "missingEquipmentSettings": "Brak ustawień sprzętu: ustaw ogniskową i rozmiar piksela w Ustawienia → Sprzęt, aby pole widzenia kamery było poprawnie obliczone.",
       "confirmSetTargetTitle": "Potwierdź wybór celu",
       "confirmSetTargetMessage": "Czy na pewno chcesz ustawić ten cel jako cel sekwencji?",
       "useNinaCache": "Użyj pamięci podręcznej NINA dla obrazu celu",

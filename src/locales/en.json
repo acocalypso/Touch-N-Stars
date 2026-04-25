@@ -158,6 +158,7 @@
     },
     "framing": {
       "pageTitle": "Framing Assistant",
+      "missingEquipmentSettings": "Missing equipment settings: please set focal length and pixel size under Settings → Equipment so the camera FOV is calculated correctly.",
       "confirmSetTargetTitle": "Confirm Target Selection",
       "confirmSetTargetMessage": "Are you sure you want to set this target as the sequence target?",
       "useNinaCache": "Use NINA cache for the target image",

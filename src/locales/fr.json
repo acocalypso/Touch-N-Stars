@@ -118,6 +118,7 @@
     },
     "framing": {
       "pageTitle": "Assistant de Cadrage",
+      "missingEquipmentSettings": "Paramètres d'équipement manquants : veuillez définir la distance focale et la taille des pixels dans Paramètres → Équipement pour que le champ de vue de la caméra soit calculé correctement.",
       "confirmSetTargetTitle": "Confirmer la sélection de la cible",
       "confirmSetTargetMessage": "Êtes-vous sûr de choisir cette nouvelle cible?",
       "useNinaCache": "Utiliser le cache NINA pour cette image de la cible",

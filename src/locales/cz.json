@@ -118,6 +118,7 @@
     },
     "framing": {
       "pageTitle": "Framing Asistent",
+      "missingEquipmentSettings": "Chybí nastavení vybavení: prosím nastavte ohniskovou vzdálenost a velikost pixelu v Nastavení → Vybavení, aby byl FOV kamery správně vypočítán.",
       "confirmSetTargetTitle": "Potvrzení Výběru Cíle",
       "confirmSetTargetMessage": "Jste si jisti, že chcete tento cíl nastavit jako součást sekvence?",
       "useNinaCache": "Využití mezipaměti NINA pro cílový obraz",

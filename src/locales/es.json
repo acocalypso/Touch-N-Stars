@@ -118,6 +118,7 @@
     },
     "framing": {
       "pageTitle": "Asistente de Encuadre",
+      "missingEquipmentSettings": "Faltan ajustes de equipo: por favor, configure la distancia focal y el tamaño del píxel en Ajustes → Equipo para que el FOV de la cámara se calcule correctamente.",
       "confirmSetTargetTitle": "Confirmar Selección Objetivo",
       "confirmSetTargetMessage": "¿Estás seguro cambiar este objetivo en el sequenciador?",
       "useNinaCache": "Utilizar cache de N.I.N.A para imagen objetivo",

@@ -118,6 +118,7 @@
     },
     "framing": {
       "pageTitle": "Framing-assistent",
+      "missingEquipmentSettings": "Ontbrekende apparatuurinstellingen: stel de brandpuntsafstand en pixelgrootte in onder Instellingen → Apparatuur, zodat het FOV van de camera correct wordt berekend.",
       "confirmSetTargetTitle": "Bevestig Doel Selectie",
       "confirmSetTargetMessage": "Weet u zeker dat u dit Doel wilt instellen als het sequentie Doel?",
       "useNinaCache": "Gebruik NINA cache voor het Doel beeld",

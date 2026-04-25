@@ -375,7 +375,7 @@
 </template>
 
 <script setup>
-import { ref, computed, nextTick } from 'vue';
+import { ref, computed } from 'vue';
 
 // Multiple root nodes (button + FileBrowser + Teleport) = fragment → Vue won't auto-inherit attrs.
 // We manually forward them to the button so positioning classes from the parent work.
@@ -590,13 +590,7 @@ async function solve(blind) {
       RA: result.value.ra,
       Dec: result.value.dec,
     };
-    // Reload the framing assistant image by remounting FramingAssitantImg
-    // (it has no watcher on RAangle — only loads on mount, same as when a target is picked)
-    if (framingStore.showFramingModal) {
-      framingStore.showFramingModal = false;
-      await nextTick();
-      framingStore.showFramingModal = true;
-    }
+    framingStore.framingReloadKey++;
     step.value = 'result';
   } catch (e) {
     errorMessage.value = e?.message || t('components.fitsPlatesolve.solveFailed');

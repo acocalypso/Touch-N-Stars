@@ -71,6 +71,7 @@
 
 <script setup>
 import { ref, onMounted, computed } from 'vue';
+import { useRouter } from 'vue-router';
 import { apiStore } from '@/store/store';
 import { Capacitor } from '@capacitor/core';
 import ButtonSlewCenterRotate from '@/components/mount/ButtonSlewCenterRotate.vue';
@@ -82,6 +83,7 @@ import { useFramingStore } from '@/store/framingStore';
 
 const store = apiStore();
 const framingStore = useFramingStore();
+const router = useRouter();
 
 function openFramingModal() {
   framingStore.RAangle = props.selectedObjectRaDeg;
@@ -93,7 +95,7 @@ function openFramingModal() {
     RA: props.selectedObjectRaDeg,
     Dec: props.selectedObjectDecDeg,
   };
-  framingStore.showFramingModal = true;
+  router.push('/framing');
 }
 const props = defineProps({
   selectedObject: Object,

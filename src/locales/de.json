@@ -157,6 +157,8 @@
       "discoveryPermissionHintWrapper": "{message} Stelle sicher, dass die App in den Systemeinstellungen Zugriff auf das lokale Netzwerk bzw. auf Geräte in der Nähe hat."
     },
     "framing": {
+      "pageTitle": "Framing-Assistent",
+      "missingEquipmentSettings": "Fehlende Equipment-Einstellungen: Bitte Brennweite und Pixelgröße unter Einstellungen → Equipment setzen, damit das Kamera-FOV korrekt berechnet wird.",
       "confirmSetTargetTitle": "Zielauswahl bestätigen",
       "confirmSetTargetMessage": "Möchten Sie dieses Ziel wirklich als Sequenzziel festlegen?",
       "useNinaCache": "NINA-Cache für das Zielbild verwenden",
@@ -3805,6 +3807,7 @@
     "sequence": "Seq.",
     "monitoring": "Monitor",
     "flatWizard": "Flats",
+    "framing": "Framing",
     "skyView": "Stellarium",
     "settings": "Einstell.",
     "about": "Info"

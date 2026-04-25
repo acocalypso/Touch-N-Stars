@@ -117,6 +117,8 @@
       "discoveryPermissionHintWrapper": "{message} Zorg er voor dat de App toegang heeft tot lokale netwerk & Apparaten (Systeem Instellingen)."
     },
     "framing": {
+      "pageTitle": "Framing-assistent",
+      "missingEquipmentSettings": "Ontbrekende apparatuurinstellingen: stel de brandpuntsafstand en pixelgrootte in onder Instellingen → Apparatuur, zodat het FOV van de camera correct wordt berekend.",
       "confirmSetTargetTitle": "Bevestig Doel Selectie",
       "confirmSetTargetMessage": "Weet u zeker dat u dit Doel wilt instellen als het sequentie Doel?",
       "useNinaCache": "Gebruik NINA cache voor het Doel beeld",
@@ -3805,6 +3807,7 @@
     "sequence": "Volg.",
     "monitoring": "Monitor",
     "flatWizard": "Platte schoenen",
+    "framing": "Framing",
     "skyView": "Stellarium",
     "settings": "Instell.",
     "about": "Info"

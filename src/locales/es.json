@@ -117,6 +117,8 @@
       "discoveryPermissionHintWrapper": "{message} Asegúrate en los ajustes del sistema de que la aplicación tenga acceso a la red local o a los dispositivos cercanos."
     },
     "framing": {
+      "pageTitle": "Asistente de Encuadre",
+      "missingEquipmentSettings": "Faltan ajustes de equipo: por favor, configure la distancia focal y el tamaño del píxel en Ajustes → Equipo para que el FOV de la cámara se calcule correctamente.",
       "confirmSetTargetTitle": "Confirmar Selección Objetivo",
       "confirmSetTargetMessage": "¿Estás seguro cambiar este objetivo en el sequenciador?",
       "useNinaCache": "Utilizar cache de N.I.N.A para imagen objetivo",
@@ -3805,6 +3807,7 @@
     "sequence": "Sec.",
     "monitoring": "Monitor",
     "flatWizard": "Pisos",
+    "framing": "Encuadre",
     "skyView": "estelario",
     "settings": "Ajustes",
     "about": "Info"

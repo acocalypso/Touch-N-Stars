@@ -117,6 +117,8 @@
       "discoveryPermissionHintWrapper": "{message} Garanta, nas configurações do sistema, que o app tenha acesso à rede local / dispositivos próximos."
     },
     "framing": {
+      "pageTitle": "Assistente de Enquadramento",
+      "missingEquipmentSettings": "Configurações de equipamento em falta: por favor, defina a distância focal e o tamanho do pixel em Configurações → Equipamento para que o FOV da câmara seja calculado corretamente.",
       "confirmSetTargetTitle": "Confirmar Seleção do Alvo",
       "confirmSetTargetMessage": "Tem certeza de que deseja definir este alvo como alvo da sequência?",
       "useNinaCache": "Usar cache do NINA para imagem do alvo",
@@ -3805,6 +3807,7 @@
     "sequence": "Seq.",
     "monitoring": "Monitor",
     "flatWizard": "Apartamentos",
+    "framing": "Enquadrar",
     "skyView": "Stellarium",
     "settings": "Configurações",
     "about": "Sobre"

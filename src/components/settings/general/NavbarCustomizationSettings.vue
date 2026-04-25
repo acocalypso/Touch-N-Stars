@@ -152,6 +152,7 @@ const STATIC_NAV_ITEMS = [
   { id: 'sequence', labelKey: 'nav.sequence' },
   { id: 'monitoring', labelKey: 'nav.monitoring' },
   { id: 'flats', labelKey: 'nav.flatWizard' },
+  { id: 'framing', labelKey: 'nav.framing' },
   { id: 'skyview', labelKey: 'nav.skyView' },
   { id: 'settings', labelKey: 'nav.settings', alwaysVisible: true },
   { id: 'about', labelKey: 'nav.about' },

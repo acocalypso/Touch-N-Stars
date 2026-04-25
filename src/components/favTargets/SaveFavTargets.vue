@@ -77,7 +77,7 @@ function computePanels() {
   const centerRot = props.rotation;
 
   const framingStore = useFramingStore();
-  const scale = framingStore.fov / framingStore.containerSize;
+  const scale = framingStore.fov / framingStore.containerWidth;
   const fovX = framingStore.camWidth * scale;
   const fovY = framingStore.camHeight * scale;
 

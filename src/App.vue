@@ -597,6 +597,10 @@ async function resumeApp() {
     dialogStore.startPolling();
   }
 
+  // Clear any stale in-flight fetch flags from before the pause — connections
+  // killed by the OS in background would otherwise leave isImageFetching stuck true.
+  imageStore.isImageFetching = false;
+  imageStore.isSequenceImageFetching = false;
   imageStore.getImage();
   if (!sequenceStore.sequenceEdit) {
     sequenceStore.startFetching();

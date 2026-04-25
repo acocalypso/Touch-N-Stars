@@ -251,40 +251,15 @@ const throttledEmit = () => {
   }
 };
 
-/**
- * Approximate histogram from API statistics using a Gaussian distribution.
- * Bins span Min…Max in 16-bit ADU space.
- */
-const generateSyntheticHistogram = (mean, stdDev, min, max, bins = 256) => {
-  const histogram = new Array(bins).fill(0);
-  if (stdDev <= 0 || min >= max) return histogram;
-  for (let i = 0; i < bins; i++) {
-    const val = min + (i / (bins - 1)) * (max - min);
-    histogram[i] = Math.exp(-0.5 * ((val - mean) / stdDev) ** 2);
-  }
-  return histogram;
-};
-
 const drawHistogram = () => {
   if (!canvasElement.value) return;
 
-  const s = props.statistics;
-  const hasStats = !!(s?.Mean != null);
-
-  // "synth" = Gaussian from API stats when no JPEG histogram data is available
-  // "jpeg"  = real JPEG histogram (0-255 axis) computed by the worker
-  const mode = props.data?.length > 0 ? 'jpeg' : hasStats ? 'synth' : 'jpeg';
-
-  const histData =
-    mode === 'synth' ? generateSyntheticHistogram(s.Mean, s.StDev, s.Min, s.Max) : props.data;
-
-  if (!histData || histData.length === 0) return;
+  const histData = props.data;
 
   const canvas = canvasElement.value;
   const ctx = canvas.getContext('2d');
   if (!ctx) return;
 
-  // Set canvas size
   const rect = canvas.parentElement.getBoundingClientRect();
   canvas.width = rect.width;
   canvas.height = rect.height;
@@ -295,40 +270,32 @@ const drawHistogram = () => {
   const graphWidth = width - padding * 2;
   const graphHeight = height - padding * 2;
 
-  // Find max value for scaling
-  const maxValue = Math.max(...histData);
-
-  // Clear canvas
+  // Background
   ctx.fillStyle = '#1a1a1a';
   ctx.fillRect(0, 0, width, height);
 
-  // Draw grid lines
-  ctx.strokeStyle = '#333333';
-  ctx.lineWidth = 1;
-  const gridLines = 4;
-  for (let i = 0; i <= gridLines; i++) {
-    const y = padding + (graphHeight / gridLines) * i;
-    ctx.beginPath();
-    ctx.moveTo(padding, y);
-    ctx.lineTo(width - padding, y);
-    ctx.stroke();
+  if (histData?.length > 0) {
+    const maxValue = Math.max(...histData);
+    if (maxValue > 0) {
+      const hue = 200;
+      const barWidth = graphWidth / histData.length;
+      histData.forEach((value, index) => {
+        const barHeight = (value / maxValue) * graphHeight;
+        const xPos = padding + index * barWidth;
+        const y = padding + graphHeight - barHeight;
+        const gradient = ctx.createLinearGradient(0, y, 0, padding + graphHeight);
+        gradient.addColorStop(0, `hsl(${hue}, 80%, 50%)`);
+        gradient.addColorStop(1, `hsl(${hue}, 60%, 40%)`);
+        ctx.fillStyle = gradient;
+        ctx.fillRect(xPos, y, barWidth - 0.5, barHeight);
+      });
+    }
+    stats.value = getHistogramStats(histData);
+  } else {
+    return;
   }
 
-  // Draw histogram bars
-  const hue = 200;
-  const barWidth = graphWidth / histData.length;
-  histData.forEach((value, index) => {
-    const barHeight = (value / maxValue) * graphHeight;
-    const xPos = padding + index * barWidth;
-    const y = padding + graphHeight - barHeight;
-    const gradient = ctx.createLinearGradient(0, y, 0, padding + graphHeight);
-    gradient.addColorStop(0, `hsl(${hue}, 80%, 50%)`);
-    gradient.addColorStop(1, `hsl(${hue}, 60%, 40%)`);
-    ctx.fillStyle = gradient;
-    ctx.fillRect(xPos, y, barWidth - 0.5, barHeight);
-  });
-
-  // Draw axes
+  // Axis frame
   ctx.strokeStyle = '#666666';
   ctx.lineWidth = 2;
   ctx.beginPath();
@@ -337,81 +304,18 @@ const drawHistogram = () => {
   ctx.lineTo(width - padding, padding + graphHeight);
   ctx.stroke();
 
-  // Draw axis labels
-  ctx.fillStyle = '#999999';
-  ctx.font = '10px monospace';
-  ctx.textAlign = 'center';
-
-  const xLabelCount = 5;
-  if (mode === 'synth') {
-    // X-axis spans Min…Max in 16-bit ADU
-    const range = s.Max - s.Min;
-    for (let i = 0; i <= xLabelCount; i++) {
-      const xPos = padding + (graphWidth / xLabelCount) * i;
-      const label = Math.round(s.Min + (i / xLabelCount) * range);
-      ctx.fillText(label, xPos, height - 2);
-    }
-  } else {
-    // X-axis 0–255 for JPEG-based histogram
-    for (let i = 0; i <= xLabelCount; i++) {
-      const xPos = padding + (graphWidth / xLabelCount) * i;
-      ctx.fillText(Math.round((i / xLabelCount) * 255), xPos, height - 2);
-    }
-  }
-
-  // Y-axis label
-  ctx.textAlign = 'right';
-  ctx.fillText('%', padding - 5, padding + 5);
-
-  // Draw marker lines aligned with the ADU axis (only meaningful in synth mode)
-  if (mode === 'synth') {
-    const range = s.Max - s.Min;
-    const toX = (val) => padding + ((val - s.Min) / range) * graphWidth;
-
-    // Min / Max lines (dashed gray)
-    for (const val of [s.Min, s.Max]) {
-      if (val != null) {
-        ctx.save();
-        ctx.strokeStyle = '#555555';
-        ctx.lineWidth = 1;
-        ctx.setLineDash([3, 4]);
-        ctx.beginPath();
-        ctx.moveTo(toX(val), padding);
-        ctx.lineTo(toX(val), padding + graphHeight);
-        ctx.stroke();
-        ctx.restore();
-      }
-    }
-
-    // Median line (cyan)
-    if (s.Median != null) {
-      ctx.save();
-      ctx.strokeStyle = '#22d3ee';
-      ctx.lineWidth = 1.5;
-      ctx.setLineDash([]);
-      ctx.beginPath();
-      ctx.moveTo(toX(s.Median), padding);
-      ctx.lineTo(toX(s.Median), padding + graphHeight);
-      ctx.stroke();
-      ctx.restore();
-    }
-
-    // Mean line (yellow)
-    if (s.Mean != null) {
-      ctx.save();
-      ctx.strokeStyle = '#facc15';
-      ctx.lineWidth = 1.5;
-      ctx.setLineDash([]);
-      ctx.beginPath();
-      ctx.moveTo(toX(s.Mean), padding);
-      ctx.lineTo(toX(s.Mean), padding + graphHeight);
-      ctx.stroke();
-      ctx.restore();
-    }
-  }
-
-  if (!hasStats) {
-    stats.value = getHistogramStats(histData);
+  // X-axis tick marks
+  ctx.strokeStyle = '#bbbbbb';
+  ctx.lineWidth = 1.5;
+  const xTickCount = 10;
+  const tickLength = 6;
+  for (let i = 0; i <= xTickCount; i++) {
+    const xPos = padding + (graphWidth / xTickCount) * i;
+    const isMajor = i % 2 === 0;
+    ctx.beginPath();
+    ctx.moveTo(xPos, padding + graphHeight);
+    ctx.lineTo(xPos, padding + graphHeight - (isMajor ? tickLength : tickLength / 2));
+    ctx.stroke();
   }
 };
 

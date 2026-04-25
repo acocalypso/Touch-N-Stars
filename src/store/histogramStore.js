@@ -1,13 +1,9 @@
 import { defineStore } from 'pinia';
 
-const hasWorker = typeof Worker !== 'undefined';
-const hasOffscreen = typeof OffscreenCanvas !== 'undefined';
-const hasBitmap = typeof createImageBitmap === 'function';
-const useWorker = hasWorker && hasOffscreen && hasBitmap;
-
-console.log(
-  `[HistogramStore] Worker support: Worker=${hasWorker}, OffscreenCanvas=${hasOffscreen}, createImageBitmap=${hasBitmap}, useWorker=${useWorker}`
-);
+const useWorker =
+  typeof Worker !== 'undefined' &&
+  typeof OffscreenCanvas !== 'undefined' &&
+  typeof createImageBitmap === 'function';
 
 const clamp01 = (v) => Math.min(1, Math.max(0, v));
 
@@ -59,24 +55,31 @@ class WorkerEngine {
     this.nextId = 1;
     this.width = 0;
     this.height = 0;
+    this.disposed = false;
+    this.pending = new Map(); // id → { resolve, reject, handler }
   }
 
   _send(type, payload, transfer) {
     return new Promise((resolve, reject) => {
+      if (this.disposed || !this.worker) {
+        reject(new Error('Engine disposed'));
+        return;
+      }
       const id = this.nextId++;
       const handler = (event) => {
         if (event.data?.id !== id) return;
         this.worker.removeEventListener('message', handler);
+        this.pending.delete(id);
         if (event.data.ok) resolve(event.data.result);
         else reject(new Error(event.data.error || 'Worker error'));
       };
+      this.pending.set(id, { resolve, reject, handler });
       this.worker.addEventListener('message', handler);
       this.worker.postMessage({ id, type, payload }, transfer || []);
     });
   }
 
   async init(imageUrl) {
-    console.log('[WorkerEngine] init', imageUrl);
     const response = await fetch(imageUrl);
     if (!response.ok) throw new Error(`Failed to fetch image (${response.status})`);
     const blob = await response.blob();
@@ -84,34 +87,41 @@ class WorkerEngine {
     this.width = bitmap.width;
     this.height = bitmap.height;
 
+    if (this.disposed) {
+      bitmap.close();
+      throw new Error('Engine disposed');
+    }
+
     this.worker = new Worker(new URL('@/utils/histogramWorker.js', import.meta.url), {
       type: 'module',
     });
-    this.worker.addEventListener('error', (e) =>
-      console.error('[WorkerEngine] worker error', e.message, e)
-    );
-    this.worker.addEventListener('messageerror', (e) =>
-      console.error('[WorkerEngine] messageerror', e)
-    );
 
     try {
       const result = await this._send('init', { bitmap }, [bitmap]);
-      console.log('[WorkerEngine] init done, histogram length', result.histogram?.length);
       return result.histogram;
     } catch (error) {
-      this.worker.terminate();
-      this.worker = null;
+      if (this.worker) {
+        this.worker.terminate();
+        this.worker = null;
+      }
       throw error;
     }
   }
 
   async stretch(blackPoint, whitePoint, midPoint) {
-    if (!this.worker) throw new Error('Worker not initialized');
+    if (!this.worker || this.disposed) throw new Error('Engine disposed');
     const result = await this._send('stretch', { blackPoint, whitePoint, midPoint });
     return result.blob;
   }
 
   dispose() {
+    this.disposed = true;
+    // Reject all pending message promises so awaiters unblock
+    this.pending.forEach(({ reject, handler }) => {
+      if (this.worker) this.worker.removeEventListener('message', handler);
+      reject(new Error('Engine disposed'));
+    });
+    this.pending.clear();
     if (this.worker) {
       try {
         this.worker.postMessage({ id: -1, type: 'dispose' });
@@ -129,10 +139,10 @@ class MainEngine {
     this.originalData = null;
     this.width = 0;
     this.height = 0;
+    this.disposed = false;
   }
 
   async init(imageUrl) {
-    console.log('[MainEngine] init', imageUrl);
     const img = await new Promise((resolve, reject) => {
       const el = new Image();
       el.crossOrigin = 'anonymous';
@@ -140,6 +150,7 @@ class MainEngine {
       el.onerror = () => reject(new Error('Image load failed'));
       el.src = imageUrl;
     });
+    if (this.disposed) throw new Error('Engine disposed');
     this.width = img.width;
     this.height = img.height;
     const canvas = document.createElement('canvas');
@@ -151,13 +162,11 @@ class MainEngine {
     canvas.width = 0;
     canvas.height = 0;
     this.originalData = new Uint8ClampedArray(imageData.data);
-    const histogram = computeHistogram(this.originalData);
-    console.log('[MainEngine] init done, histogram length', histogram.length);
-    return histogram;
+    return computeHistogram(this.originalData);
   }
 
   async stretch(blackPoint, whitePoint, midPoint) {
-    if (!this.originalData) throw new Error('Engine not initialized');
+    if (this.disposed || !this.originalData) throw new Error('Engine disposed');
     const lut = buildLut(blackPoint, whitePoint, midPoint);
     const out = new Uint8ClampedArray(this.originalData.length);
     applyLut(this.originalData, out, lut);
@@ -180,6 +189,7 @@ class MainEngine {
   }
 
   dispose() {
+    this.disposed = true;
     this.originalData = null;
   }
 }
@@ -212,28 +222,34 @@ export const useHistogramStore = defineStore('histogramStore', {
 
     async _initEngine(imageUrl) {
       let engine = createEngine();
+      // Register engine immediately so clearImageCache can dispose it mid-init
+      this.engines.set(imageUrl, engine);
       try {
         const histogram = await engine.init(imageUrl);
-        this.engines.set(imageUrl, engine);
+        if (engine.disposed) throw new Error('Engine disposed');
         const settings = this._ensureSettings(imageUrl);
         settings.histogram = histogram;
         return histogram;
       } catch (error) {
-        console.error('[HistogramStore] Engine init failed', error);
         engine.dispose();
-        if (useWorker) {
-          // Worker path failed — fall back to main thread
-          console.warn('[HistogramStore] Falling back to main-thread engine');
+        if (this.engines.get(imageUrl) === engine) {
+          this.engines.delete(imageUrl);
+        }
+        if (useWorker && !engine.disposed) {
+          console.warn('[HistogramStore] Worker engine failed, falling back to main thread', error);
           engine = new MainEngine();
+          this.engines.set(imageUrl, engine);
           try {
             const histogram = await engine.init(imageUrl);
-            this.engines.set(imageUrl, engine);
+            if (engine.disposed) throw new Error('Engine disposed');
             const settings = this._ensureSettings(imageUrl);
             settings.histogram = histogram;
             return histogram;
           } catch (fallbackError) {
-            console.error('[HistogramStore] Fallback engine init failed', fallbackError);
             engine.dispose();
+            if (this.engines.get(imageUrl) === engine) {
+              this.engines.delete(imageUrl);
+            }
             throw fallbackError;
           }
         }
@@ -242,7 +258,6 @@ export const useHistogramStore = defineStore('histogramStore', {
     },
 
     async requestHistogram(imageUrl) {
-      console.log('[HistogramStore] requestHistogram', imageUrl);
       if (!imageUrl) return null;
 
       const settings = this._ensureSettings(imageUrl);
@@ -266,7 +281,6 @@ export const useHistogramStore = defineStore('histogramStore', {
     },
 
     async applyStretch(imageUrl, blackPoint, whitePoint, midPoint = 127) {
-      console.log('[HistogramStore] applyStretch', { imageUrl, blackPoint, whitePoint, midPoint });
       if (!imageUrl) return;
 
       const settings = this._ensureSettings(imageUrl);
@@ -313,18 +327,13 @@ export const useHistogramStore = defineStore('histogramStore', {
             await this.requestHistogram(imageUrl);
           }
           const engine = this.engines.get(imageUrl);
-          if (!engine) {
-            console.warn('[HistogramStore] No engine available for stretch');
-            return;
-          }
+          if (!engine) return;
 
-          console.log('[HistogramStore] stretch via engine', pending);
           const blob = await engine.stretch(
             pending.blackPoint,
             pending.whitePoint,
             pending.midPoint
           );
-          console.log('[HistogramStore] stretch blob size', blob?.size);
 
           const current = this.imageSettings.get(imageUrl);
           if (current) {
@@ -332,7 +341,6 @@ export const useHistogramStore = defineStore('histogramStore', {
               URL.revokeObjectURL(current.stretchedImageData);
             }
             current.stretchedImageData = URL.createObjectURL(blob);
-            console.log('[HistogramStore] stretchedImageData updated', current.stretchedImageData);
           }
         } catch (error) {
           console.error('[HistogramStore] Stretch failed', error);
@@ -425,7 +433,11 @@ export const useHistogramStore = defineStore('histogramStore', {
     },
 
     isProcessing(imageUrl) {
-      return this.processingImages.has(imageUrl) || this.pendingInits.has(imageUrl);
+      return this.processingImages.has(imageUrl);
+    },
+
+    isInitializing(imageUrl) {
+      return this.pendingInits.has(imageUrl);
     },
   },
 });

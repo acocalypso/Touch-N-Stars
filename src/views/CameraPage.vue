@@ -575,7 +575,6 @@ const getStretchSettings = () => {
 };
 
 const onLevelsChanged = async (event) => {
-  console.log('[CameraPage] onLevelsChanged', event, 'imageData?', !!imageStore.imageData);
   if (!imageStore.imageData) return;
   const { blackPoint, whitePoint, midPoint } = event;
   await histogramStore.applyStretch(imageStore.imageData, blackPoint, whitePoint, midPoint);
@@ -590,12 +589,28 @@ const onToggleSave = async () => {
   await apiService.profileChangeValue('SnapShotControlSettings-Save', true);
 };
 
+let statsLoadingTimeout = null;
+const setStatsLoading = (value) => {
+  statsLoading.value = value;
+  if (statsLoadingTimeout) {
+    clearTimeout(statsLoadingTimeout);
+    statsLoadingTimeout = null;
+  }
+  if (value) {
+    // Safety net: drop the spinner after 5 s even if no fresh stats arrive
+    // (e.g. on app resume where imageData was refetched without a new capture).
+    statsLoadingTimeout = setTimeout(() => {
+      statsLoading.value = false;
+      statsLoadingTimeout = null;
+    }, 5000);
+  }
+};
+
 watch(
   () => imageStore.imageData,
   (newVal, oldVal) => {
     if (newVal && oldVal && newVal !== oldVal && store.isPINS) {
-      statsLoading.value = true;
-      //console.log("[lastImageStats] statsLoading true")
+      setStatsLoading(true);
     }
   }
 );
@@ -605,7 +620,7 @@ watch(
   (newVal, oldVal) => {
     const hasChanged = newVal?.Timestamp !== oldVal?.Timestamp;
     if (!hasChanged) return;
-    statsLoading.value = false;
+    setStatsLoading(false);
   }
 );
 

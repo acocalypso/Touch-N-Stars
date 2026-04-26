@@ -73,14 +73,15 @@
         <Phd2ReverseDecAfterFlip />
         <Phd2UseMultipleStars />
       </div>
-      <!-- Optical Settings -->
+      <!-- Camera Settings -->
       <div
         class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
       >
         <h3 class="font-bold text-base text-cyan-400">
-          {{ $t('components.guider.phd2.optical') }}
+          {{ $t('components.guider.phd2.camera') }}
         </h3>
-        <Phd2FocalLength />
+        <Phd2CameraGain />
+        <Phd2CameraBinning />
       </div>
 
       <!-- Calibration Settings -->
@@ -90,7 +91,9 @@
         <h3 class="font-bold text-base text-cyan-400">
           {{ $t('components.guider.phd2.calibration') }}
         </h3>
+        <Phd2FocalLength />
         <Phd2CalibrationStep />
+        <Phd2RestoreCalibration />
       </div>
 
       <!-- Guide Algorithm Settings -->
@@ -121,6 +124,9 @@ import Phd2ReverseDecAfterFlip from '@/components/guider/PHD2/pins/Phd2ReverseDe
 import Phd2UseMultipleStars from '@/components/guider/PHD2/pins/Phd2UseMultipleStars.vue';
 import Phd2GuideAlgorithmRA from '@/components/guider/PHD2/pins/Phd2GuideAlgorithmRA.vue';
 import Phd2GuideAlgorithmDEC from '@/components/guider/PHD2/pins/Phd2GuideAlgorithmDEC.vue';
+import Phd2CameraGain from '@/components/guider/PHD2/pins/Phd2CameraGain.vue';
+import Phd2CameraBinning from '@/components/guider/PHD2/pins/Phd2CameraBinning.vue';
+import Phd2RestoreCalibration from '@/components/guider/PHD2/pins/Phd2RestoreCalibration.vue';
 import { apiStore } from '@/store/store';
 
 const guiderStore = useGuiderStore();

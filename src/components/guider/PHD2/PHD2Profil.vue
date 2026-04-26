@@ -129,6 +129,9 @@ async function onProfileChange() {
       await guiderStore.fetchPHD2ReverseDecAfterFlip();
       await guiderStore.fetchPHD2GuideAlgorithmRA();
       await guiderStore.fetchPHD2GuideAlgorithmDEC();
+      await guiderStore.fetchPHD2CameraGain();
+      await guiderStore.fetchPHD2CameraBinning();
+      await guiderStore.fetchPHD2RestoreCalibration();
     } finally {
       isChangingProfile.value = false;
     }

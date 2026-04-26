@@ -60,6 +60,18 @@ export const useGuiderStore = defineStore('guiderStore', {
     // PHD2 Guide Algorithm DEC State (PINS)
     phd2GuideAlgorithmDEC: null,
     phd2GuideAlgorithmDECLoading: false,
+
+    // PHD2 Camera Gain State (PINS)
+    phd2CameraGain: null,
+    phd2CameraGainLoading: false,
+
+    // PHD2 Camera Binning State (PINS)
+    phd2CameraBinning: null,
+    phd2CameraBinningLoading: false,
+
+    // PHD2 Restore Calibration State (PINS)
+    phd2RestoreCalibration: false,
+    phd2RestoreCalibrationLoading: false,
   }),
   actions: {
     async fetchGraphInfos() {
@@ -454,6 +466,96 @@ export const useGuiderStore = defineStore('guiderStore', {
         }
       } catch (error) {
         console.error('Error setting PHD2 guide algorithm DEC:', error);
+        throw error;
+      }
+    },
+
+    // PHD2 Camera Gain Actions (PINS)
+    async fetchPHD2CameraGain() {
+      const store = apiStore();
+      if (!store.isPINS) return;
+      this.phd2CameraGainLoading = true;
+      try {
+        const response = await apiPinsService.getPHD2CameraGain();
+        if (response.Success && response.Response) {
+          this.phd2CameraGain = response.Response.CameraGain;
+        }
+      } catch (error) {
+        console.error('Error fetching PHD2 camera gain:', error);
+      } finally {
+        this.phd2CameraGainLoading = false;
+      }
+    },
+
+    async setPHD2CameraGain(gain) {
+      try {
+        const response = await apiPinsService.setPHD2CameraGain(gain);
+        if (response.Success && response.Response) {
+          this.phd2CameraGain = response.Response.CameraGain;
+          return response;
+        }
+      } catch (error) {
+        console.error('Error setting PHD2 camera gain:', error);
+        throw error;
+      }
+    },
+
+    // PHD2 Camera Binning Actions (PINS)
+    async fetchPHD2CameraBinning() {
+      const store = apiStore();
+      if (!store.isPINS) return;
+      this.phd2CameraBinningLoading = true;
+      try {
+        const response = await apiPinsService.getPHD2CameraBinning();
+        if (response.Success && response.Response) {
+          this.phd2CameraBinning = response.Response.CameraBinning;
+        }
+      } catch (error) {
+        console.error('Error fetching PHD2 camera binning:', error);
+      } finally {
+        this.phd2CameraBinningLoading = false;
+      }
+    },
+
+    async setPHD2CameraBinning(binning) {
+      try {
+        const response = await apiPinsService.setPHD2CameraBinning(binning);
+        if (response.Success && response.Response) {
+          this.phd2CameraBinning = response.Response.CameraBinning;
+          return response;
+        }
+      } catch (error) {
+        console.error('Error setting PHD2 camera binning:', error);
+        throw error;
+      }
+    },
+
+    // PHD2 Restore Calibration Actions (PINS)
+    async fetchPHD2RestoreCalibration() {
+      const store = apiStore();
+      if (!store.isPINS) return;
+      this.phd2RestoreCalibrationLoading = true;
+      try {
+        const response = await apiPinsService.getPHD2RestoreCalibration();
+        if (response.Success && response.Response) {
+          this.phd2RestoreCalibration = response.Response.AutoRestoreCalibration;
+        }
+      } catch (error) {
+        console.error('Error fetching PHD2 restore calibration:', error);
+      } finally {
+        this.phd2RestoreCalibrationLoading = false;
+      }
+    },
+
+    async setPHD2RestoreCalibration(enabled) {
+      try {
+        const response = await apiPinsService.setPHD2RestoreCalibration(enabled);
+        if (response.Success && response.Response) {
+          this.phd2RestoreCalibration = response.Response.AutoRestoreCalibration;
+          return response;
+        }
+      } catch (error) {
+        console.error('Error setting PHD2 restore calibration:', error);
         throw error;
       }
     },

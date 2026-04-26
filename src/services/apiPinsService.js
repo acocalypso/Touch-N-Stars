@@ -227,6 +227,36 @@ export default {
     return this._simpleGetRequest(`${API_URL}phd2/camera/ids`);
   },
 
+  getPHD2CameraGain() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/camera/gain`);
+  },
+
+  setPHD2CameraGain(gain) {
+    const { API_URL } = getUrls();
+    return this._simplePutRequest(`${API_URL}phd2/camera/gain`, { gain });
+  },
+
+  getPHD2CameraBinning() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/camera/binning`);
+  },
+
+  setPHD2CameraBinning(binning) {
+    const { API_URL } = getUrls();
+    return this._simplePutRequest(`${API_URL}phd2/camera/binning`, { binning });
+  },
+
+  getPHD2RestoreCalibration() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/calibration/auto-restore`);
+  },
+
+  setPHD2RestoreCalibration(enabled) {
+    const { API_URL } = getUrls();
+    return this._simplePutRequest(`${API_URL}phd2/calibration/auto-restore`, { enabled });
+  },
+
   // Private method for simple GET requests
   _simpleGetRequest(url) {
     return axios

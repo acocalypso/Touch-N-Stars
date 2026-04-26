@@ -299,8 +299,9 @@
         "ReattemptDelay": "Délai (min) de nouvelle tentative",
         "BlindFailoverEnabled": "Basculement aveugle activé",
         "ASTAPLocation": "Emplacement ASTAP",
-        "Filter": "Filtre",
-        "FilterCurrent": "Actuel"
+        "Filter": "Filtre pour Plate Solving",
+        "FilterCurrent": "Actuel",
+        "FilterHint": "Filtre utilisé lors du plate solving (remplace le filtre actuel)"
       },
       "equipment": {
         "title": "Équipement",

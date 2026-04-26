@@ -279,8 +279,9 @@
         "ReattemptDelay": "Затримка між спробами (хв)",
         "BlindFailoverEnabled": "Сліпе перемикання увімкнено",
         "ASTAPLocation": "Розташування ASTAP",
-        "Filter": "Фільтр",
-        "FilterCurrent": "Поточний"
+        "Filter": "Фільтр для Plate Solving",
+        "FilterCurrent": "Поточний",
+        "FilterHint": "Фільтр, що використовується під час plate solving (замінює поточний фільтр)"
       },
       "equipment": {
         "title": "Обладнання",

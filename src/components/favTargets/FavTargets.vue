@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :class="showBadgeLabel ? 'relative pb-3' : ''">
     <!-- Modal Trigger -->
     <button
       @click="isModalOpen = true"
@@ -7,6 +7,12 @@
     >
       <HeartIcon class="w-6 h-6 text-white" />
     </button>
+    <span
+      v-if="showBadgeLabel"
+      class="absolute left-1/2 -translate-x-1/2 top-[calc(100%-20px)] text-[8.5px] font-semibold text-white/80 text-center leading-tight bg-slate-900/60 border border-slate-500/30 rounded px-1 py-0.5 whitespace-nowrap"
+    >
+      Favs
+    </span>
     <Teleport to="body">
       <div
         v-if="isModalOpen"
@@ -123,6 +129,10 @@ defineProps({
   showSeqTarget: {
     type: Boolean,
     default: true,
+  },
+  showBadgeLabel: {
+    type: Boolean,
+    default: false,
   },
   showFramning: {
     type: Boolean,

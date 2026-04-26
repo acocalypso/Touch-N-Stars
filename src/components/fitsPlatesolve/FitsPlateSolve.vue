@@ -1,19 +1,49 @@
 <template>
   <!-- Trigger Button — v-bind="$attrs" forwards positioning classes (fixed, right-*, z-*) from parent -->
+  <div
+    v-if="variant !== 'inline'"
+    v-bind="$attrs"
+    :class="props.showBadgeLabel ? 'relative pb-3' : ''"
+  >
+    <button
+      @click="start"
+      class="p-2 bg-gray-700 border border-cyan-600 rounded-full shadow-md z-10"
+      :title="$t('components.fitsPlatesolve.buttonTitle')"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="w-6 h-6 text-white"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.8"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      >
+        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z" />
+        <polyline points="14 2 14 8 20 8" />
+        <line x1="12" y1="12" x2="12" y2="16.5" />
+        <line x1="9.5" y1="14" x2="14.5" y2="14" />
+        <circle cx="12" cy="14" r="3.2" />
+      </svg>
+    </button>
+    <span
+      v-if="props.showBadgeLabel"
+      class="absolute left-1/2 -translate-x-1/2 top-[calc(100%-20px)] text-[8.5px] font-semibold text-white/80 text-center leading-tight bg-slate-900/60 border border-slate-500/30 rounded px-1 py-0.5 whitespace-nowrap"
+    >
+      Solve
+    </span>
+  </div>
   <button
+    v-else
     v-bind="$attrs"
     @click="start"
-    :class="
-      variant === 'inline'
-        ? 'flex items-center gap-1 px-2 py-1 bg-slate-700/60 border border-slate-600 rounded text-xs text-gray-200 hover:bg-slate-600'
-        : 'p-2 bg-gray-700 border border-cyan-600 rounded-full shadow-md z-10'
-    "
+    class="flex items-center gap-1 px-2 py-1 bg-slate-700/60 border border-slate-600 rounded text-xs text-gray-200 hover:bg-slate-600"
     :title="$t('components.fitsPlatesolve.buttonTitle')"
   >
-    <!-- FITS file + crosshair icon -->
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      :class="variant === 'inline' ? 'w-4 h-4' : 'w-6 h-6 text-white'"
+      class="w-4 h-4"
       viewBox="0 0 24 24"
       fill="none"
       stroke="currentColor"
@@ -399,6 +429,7 @@ const toastStore = useToastStore();
 const props = defineProps({
   showFraming: { type: Boolean, default: true },
   showSeqTarget: { type: Boolean, default: false },
+  showBadgeLabel: { type: Boolean, default: false },
   variant: { type: String, default: 'fab' }, // 'fab' = floating cyan circle | 'inline' = slate row button
 });
 

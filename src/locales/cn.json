@@ -299,8 +299,9 @@
         "ReattemptDelay": "重试延迟（分钟）",
         "BlindFailoverEnabled": "启用盲故障转移",
         "ASTAPLocation": "ASTAP地点",
-        "Filter": "滤镜",
-        "FilterCurrent": "当前"
+        "Filter": "天文定位滤镜",
+        "FilterCurrent": "当前",
+        "FilterHint": "用于天文定位的滤镜（覆盖当前滤镜）"
       },
       "equipment": {
         "title": "设备",

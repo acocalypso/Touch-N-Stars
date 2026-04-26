@@ -3,8 +3,15 @@
     class="border border-gray-700 rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg p-4 space-y-3"
   >
     <!-- Header with toggle -->
+    <!-- NINA Cache -->
     <div class="flex items-center justify-between">
-      <span class="text-sm font-semibold text-gray-200">{{
+      <span class="text-sm font-normal text-gray-300">{{
+        $t('components.framing.useNinaCache')
+      }}</span>
+      <controlUseNinaCache />
+    </div>
+    <div class="flex items-center justify-between">
+      <span class="text-sm font-normal text-gray-300">{{
         $t('components.framing.mosaic.title')
       }}</span>
       <toggleButton
@@ -70,6 +77,7 @@
 import { useFramingStore } from '@/store/framingStore';
 import toggleButton from '@/components/helpers/toggleButton.vue';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
+import controlUseNinaCache from '@/components/framing/controlUseNinaCache.vue';
 
 const framingStore = useFramingStore();
 </script>

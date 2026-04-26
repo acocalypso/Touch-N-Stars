@@ -299,8 +299,9 @@
         "ReattemptDelay": "Zpoždění opětovného pokusu (min)",
         "BlindFailoverEnabled": "Slepé převzetí služeb při selhání povoleno",
         "ASTAPLocation": "Umístění ASTAP",
-        "Filter": "Filtr",
-        "FilterCurrent": "Aktuální"
+        "Filter": "Filtr pro Plate Solving",
+        "FilterCurrent": "Aktuální",
+        "FilterHint": "Filtr používaný při plate solvingu (přepíše aktuální filtr)"
       },
       "equipment": {
         "title": "Vybavení",

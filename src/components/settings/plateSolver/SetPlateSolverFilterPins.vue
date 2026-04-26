@@ -1,24 +1,31 @@
 <template>
-  <div class="flex items-center justify-between">
-    <span class="text-sm font-medium text-gray-300">
-      {{ $t('components.settings.plate_solver.Filter') }}
-    </span>
-    <select
-      v-model="selectedValue"
-      @change="updateSetting"
-      :class="statusClass"
-      class="default-select h-8 w-40"
-    >
-      <option value="null">
-        {{ $t('components.settings.plate_solver.FilterCurrent') }}
-      </option>
-      <option v-if="currentMissing" :value="String(current.Position)">
-        {{ current.Name }}
-      </option>
-      <option v-for="f in filters" :key="f.Position" :value="String(f.Position)">
-        {{ f.Name }}
-      </option>
-    </select>
+  <div class="flex flex-col gap-1">
+    <div class="flex items-center justify-between">
+      <div class="flex flex-col">
+        <span class="text-sm font-medium text-gray-300">
+          {{ $t('components.settings.plate_solver.Filter') }}
+        </span>
+        <span class="text-xs text-gray-500">
+          {{ $t('components.settings.plate_solver.FilterHint') }}
+        </span>
+      </div>
+      <select
+        v-model="selectedValue"
+        @change="updateSetting"
+        :class="statusClass"
+        class="default-select h-8 w-40 ml-3 shrink-0"
+      >
+        <option value="null">
+          {{ $t('components.settings.plate_solver.FilterCurrent') }}
+        </option>
+        <option v-if="currentMissing" :value="String(current.Position)">
+          {{ current.Name }}
+        </option>
+        <option v-for="f in filters" :key="f.Position" :value="String(f.Position)">
+          {{ f.Name }}
+        </option>
+      </select>
+    </div>
   </div>
 </template>
 

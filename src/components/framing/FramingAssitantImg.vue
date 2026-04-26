@@ -312,11 +312,12 @@ function computeContainerDims() {
   if (!el) return { w: fallbackW, h: fallbackH };
   const rect = el.getBoundingClientRect();
   if (rect.width <= 0 || rect.height <= 0) return { w: fallbackW, h: fallbackH };
-  // Auf 20px runden, damit bei kleinen Schwankungen (Scrollbar, ResizeObserver-Jitter)
-  // kein unnötiger Bild-Reload ausgelöst wird.
-  const w = Math.max(Math.floor(rect.width / 20) * 20, 200);
-  const h = Math.max(Math.floor(rect.height / 20) * 20, 200);
-  return { w, h };
+  // NINA's targetpic-API erwartet ein quadratisches FOV — wir messen die Stage,
+  // nehmen die kleinere Dimension und nutzen sie für Width und Height. Das hält
+  // die FOV-Mathematik exakt (1° = fov°/containerSize · 1px in beiden Achsen)
+  // und verhindert, dass das Bild von NINA verzerrt zurückgegeben wird.
+  const side = Math.max(Math.floor(Math.min(rect.width, rect.height) / 20) * 20, 200);
+  return { w: side, h: side };
 }
 
 function measureStage() {

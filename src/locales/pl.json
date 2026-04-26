@@ -299,8 +299,9 @@
         "ReattemptDelay": "Opóźnienie (min) ponownej próby",
         "BlindFailoverEnabled": "Włączono ślepe przełączanie awaryjne",
         "ASTAPLocation": "Lokalizacja firmy ASAP",
-        "Filter": "Filtr",
-        "FilterCurrent": "Aktualny"
+        "Filter": "Filtr do Plate Solving",
+        "FilterCurrent": "Aktualny",
+        "FilterHint": "Filtr używany podczas plate solvingu (zastępuje bieżący filtr)"
       },
       "equipment": {
         "title": "Sprzęt",

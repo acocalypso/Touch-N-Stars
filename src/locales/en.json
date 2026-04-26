@@ -375,8 +375,9 @@
         "ReattemptDelay": "Reattempt delay (min)",
         "BlindFailoverEnabled": "Blind failover enabled",
         "ASTAPLocation": "ASTAP Location",
-        "Filter": "Filter",
-        "FilterCurrent": "Current"
+        "Filter": "Plate Solving Filter",
+        "FilterCurrent": "Current",
+        "FilterHint": "Filter used during plate solving (overrides the current filter)"
       },
       "equipment": {
         "title": "Equipment",

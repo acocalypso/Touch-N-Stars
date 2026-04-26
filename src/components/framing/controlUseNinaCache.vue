@@ -1,9 +1,5 @@
 <template>
-  <toggleButton
-    @click="toggleNinaCache"
-    :status-value="settingsStore.framing.useNinaCache"
-    class="pr-5 pl-5 justify-center"
-  />
+  <toggleButton @click="toggleNinaCache" :status-value="settingsStore.framing.useNinaCache" />
 </template>
 <script setup>
 import { useSettingsStore } from '@/store/settingsStore';

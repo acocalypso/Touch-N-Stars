@@ -29,28 +29,45 @@
 
     <div
       v-show="controlsVisible"
-      class="controls-overlay absolute bottom-2 left-1/2 -translate-x-1/2 flex-col w-[min(100%,26rem)] space-y-2 bg-gray-900/80 border border-gray-700 rounded-lg shadow-lg p-3 backdrop-blur-sm"
+      class="controls-overlay absolute bottom-2 left-1/2 -translate-x-1/2 flex flex-col w-[min(100%,22rem)] gap-1.5 bg-gray-900/85 border border-gray-700 rounded-lg shadow-lg p-2 backdrop-blur-sm max-h-[calc(100%-1rem)] overflow-y-auto"
     >
-      <button
-        class="absolute top-1 right-1 p-1 text-gray-400 hover:text-white"
-        @click="controlsVisible = false"
-      >
-        <ChevronDownIcon class="w-4 h-4" />
-      </button>
+      <!-- Row 1: Icon-Leiste -->
+      <div class="flex items-center gap-1.5">
+        <button
+          class="p-1.5 rounded transition-colors"
+          :class="searchVisible ? 'text-cyan-400' : 'text-gray-400 hover:text-white'"
+          @click="searchVisible = !searchVisible"
+        >
+          <MagnifyingGlassIcon class="w-6 h-6" />
+        </button>
+        <button
+          class="p-1.5 rounded transition-colors"
+          :class="settingsOpen ? 'text-cyan-400' : 'text-gray-400 hover:text-white'"
+          @click="settingsOpen = !settingsOpen"
+        >
+          <Cog6ToothIcon class="w-6 h-6" />
+        </button>
+        <button
+          class="p-1.5 text-gray-400 hover:text-white ml-auto"
+          @click="controlsVisible = false"
+        >
+          <ChevronDownIcon class="w-4 h-4" />
+        </button>
+      </div>
 
-      <!-- Target-Suche + Favoriten + Plate-Solve -->
-      <div class="flex items-start gap-2">
+      <!-- Suchzeile + Fav + Solve (einblendbar) -->
+      <div v-show="searchVisible" class="flex items-center gap-1.5">
         <div class="relative flex-1">
           <input
             v-model="searchQuery"
             type="text"
-            class="default-input h-9 w-full text-sm"
+            class="default-input h-8 w-full text-sm"
             :placeholder="$t('components.framing.search.placeholder')"
             @input="fetchTargetSearch"
           />
           <ul
             v-if="Array.isArray(searchResults) && searchResults.length > 0"
-            class="default-select absolute left-0 right-0 bottom-full mb-1 max-h-64 overflow-y-auto z-10"
+            class="default-select absolute left-0 right-0 top-full mt-1 max-h-64 overflow-y-auto z-10"
           >
             <li
               v-for="(item, index) in searchResults"
@@ -75,21 +92,18 @@
         />
       </div>
 
-      <div class="flex items-center justify-between border border-gray-700 rounded-md px-2 py-1">
-        <label class="text-xs text-gray-300">{{ $t('components.framing.useNinaCache') }}</label>
-        <controlUseNinaCache />
-      </div>
-
-      <MosaicControls />
-      <div class="col-span-2">
-        <getImageRotation />
-      </div>
+      <!-- Row 2: Slew -->
       <ButtonSlewCenterRotate
         class="w-full"
         :raAngle="framingStore.RAangle"
         :decAngle="framingStore.DECangle"
       />
-      <div class="flex gap-2">
+
+      <!-- Row 3: Sekundäre Aktionen -->
+      <div
+        v-if="!framingStore.isMosaicMode || framingStore.selectedItem"
+        class="flex items-center gap-1.5"
+      >
         <setSequenceTarget v-if="!framingStore.isMosaicMode" class="flex-1" />
         <SaveFavTargets
           v-if="framingStore.selectedItem"
@@ -109,13 +123,27 @@
           "
         />
       </div>
+
+      <!-- Determine Rotation (immer sichtbar) -->
+      <getImageRotation />
+
+      <!-- Ausklappbare Einstellungen -->
+      <div v-show="settingsOpen" class="pt-1.5 border-t border-gray-700/60">
+        <MosaicControls />
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
 import { computed, defineAsyncComponent, ref, watch } from 'vue';
-import { ChevronUpIcon, ChevronDownIcon, ExclamationTriangleIcon } from '@heroicons/vue/24/outline';
+import {
+  ChevronUpIcon,
+  ChevronDownIcon,
+  ExclamationTriangleIcon,
+  Cog6ToothIcon,
+  MagnifyingGlassIcon,
+} from '@heroicons/vue/24/outline';
 import { useFramingStore } from '@/store/framingStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import { apiStore } from '@/store/store';
@@ -128,7 +156,6 @@ import MosaicControls from '@/components/framing/MosaicControls.vue';
 import SaveFavTargets from '@/components/favTargets/SaveFavTargets.vue';
 import FavTargets from '@/components/favTargets/FavTargets.vue';
 import FitsPlateSolve from '@/components/fitsPlatesolve/FitsPlateSolve.vue';
-import controlUseNinaCache from '@/components/framing/controlUseNinaCache.vue';
 
 const framingStore = useFramingStore();
 const settingsStore = useSettingsStore();
@@ -141,6 +168,8 @@ const FramingAssitantImg = defineAsyncComponent(
 const searchQuery = ref('');
 const searchResults = ref([]);
 const controlsVisible = ref(true);
+const settingsOpen = ref(false);
+const searchVisible = ref(false);
 
 const hasMissingEquipmentSettings = computed(() => {
   const focalLength = appStore.profileInfo?.TelescopeSettings?.FocalLength;

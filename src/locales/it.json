@@ -299,8 +299,9 @@
         "ReattemptDelay": "Ritardo (min) per il nuovo tentativo",
         "BlindFailoverEnabled": "Failover cieco abilitato",
         "ASTAPLocation": "Posizione dell'ASTAP",
-        "Filter": "Filtro",
-        "FilterCurrent": "Attuale"
+        "Filter": "Filtro per Plate Solving",
+        "FilterCurrent": "Attuale",
+        "FilterHint": "Filtro utilizzato durante il plate solving (sovrascrive il filtro corrente)"
       },
       "equipment": {
         "title": "Attrezzatura",

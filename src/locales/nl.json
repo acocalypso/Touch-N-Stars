@@ -299,8 +299,9 @@
         "ReattemptDelay": "Vertraging (min) voor nieuwe poging",
         "BlindFailoverEnabled": "Blinde failover ingeschakeld",
         "ASTAPLocation": "ASTAP-locatie",
-        "Filter": "Filter",
-        "FilterCurrent": "Huidig"
+        "Filter": "Plate Solving Filter",
+        "FilterCurrent": "Huidig",
+        "FilterHint": "Filter gebruikt tijdens plate solving (overschrijft het huidige filter)"
       },
       "equipment": {
         "title": "Apparatuur",

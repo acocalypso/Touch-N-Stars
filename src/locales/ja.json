@@ -343,8 +343,9 @@
         "ReattemptDelay": "リトライ待機時間 (分)",
         "BlindFailoverEnabled": "ブラインド・フェイルオーバー有効",
         "ASTAPLocation": "ASTAP の場所",
-        "Filter": "フィルター",
-        "FilterCurrent": "現在"
+        "Filter": "プレートソルビング用フィルター",
+        "FilterCurrent": "現在",
+        "FilterHint": "プレートソルビング中に使用するフィルター（現在のフィルターを上書き）"
       },
       "equipment": {
         "title": "機器",

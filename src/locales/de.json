@@ -365,8 +365,9 @@
         "ReattemptDelay": "Verzögerung (min) bei erneutem Versuch",
         "BlindFailoverEnabled": "Blind Solver aktiviert",
         "ASTAPLocation": "ASTAP-Speicherort",
-        "Filter": "Filter",
-        "FilterCurrent": "Aktuell"
+        "Filter": "Plate-Solving-Filter",
+        "FilterCurrent": "Aktuell",
+        "FilterHint": "Filter, der für das Plate Solving verwendet wird (überschreibt den aktuellen Filter)"
       },
       "equipment": {
         "title": "Ausrüstung",

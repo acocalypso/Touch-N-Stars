@@ -1,14 +1,13 @@
 <template>
-  <div v-if="store.isPINS" class="w-full">
+  <div v-if="store.isPINS" class="flex flex-row w-full items-center min-w-28">
     <NumberInputPicker
       v-model="binningValue"
-      label="Binning"
+      :label="$t('components.guider.phd2.cameraBinning')"
       label-key="components.guider.phd2.cameraBinning"
       :min="1"
       :max="8"
       :step="1"
       :decimal-places="0"
-      wrapper-class="w-full"
       input-id="phd2-camera-binning"
       @change="onBinningChange"
     />

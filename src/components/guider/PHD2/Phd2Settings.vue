@@ -73,37 +73,6 @@
         <Phd2ReverseDecAfterFlip />
         <Phd2UseMultipleStars />
       </div>
-      <!-- Optical Settings -->
-      <div
-        class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
-      >
-        <h3 class="font-bold text-base text-cyan-400">
-          {{ $t('components.guider.phd2.optical') }}
-        </h3>
-        <Phd2FocalLength />
-      </div>
-
-      <!-- Calibration Settings -->
-      <div
-        class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
-      >
-        <h3 class="font-bold text-base text-cyan-400">
-          {{ $t('components.guider.phd2.calibration') }}
-        </h3>
-        <Phd2CalibrationStep />
-      </div>
-
-      <!-- Guide Algorithm Settings -->
-      <div
-        class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
-      >
-        <h3 class="font-bold text-base text-cyan-400">
-          {{ $t('components.guider.phd2.guideAlgorithm') }}
-        </h3>
-        <Phd2GuideAlgorithmRA />
-        <Phd2GuideAlgorithmDEC />
-      </div>
-
       <!-- Camera Settings -->
       <div
         class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
@@ -115,14 +84,27 @@
         <Phd2CameraBinning />
       </div>
 
-      <!-- Calibration Restore -->
+      <!-- Calibration Settings -->
       <div
         class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
       >
         <h3 class="font-bold text-base text-cyan-400">
           {{ $t('components.guider.phd2.calibration') }}
         </h3>
+        <Phd2FocalLength />
+        <Phd2CalibrationStep />
         <Phd2RestoreCalibration />
+      </div>
+
+      <!-- Guide Algorithm Settings -->
+      <div
+        class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
+      >
+        <h3 class="font-bold text-base text-cyan-400">
+          {{ $t('components.guider.phd2.guideAlgorithm') }}
+        </h3>
+        <Phd2GuideAlgorithmRA />
+        <Phd2GuideAlgorithmDEC />
       </div>
     </template>
   </div>

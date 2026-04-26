@@ -1,14 +1,13 @@
 <template>
-  <div v-if="store.isPINS" class="w-full">
+  <div v-if="store.isPINS" class="flex flex-row w-full items-center min-w-28">
     <NumberInputPicker
       v-model="gainValue"
-      label="Gain"
+      :label="$t('components.guider.phd2.cameraGain')"
       label-key="components.guider.phd2.cameraGain"
       :min="-1"
       :max="10000"
       :step="1"
       :decimal-places="0"
-      wrapper-class="w-full"
       input-id="phd2-camera-gain"
       @change="onGainChange"
     />

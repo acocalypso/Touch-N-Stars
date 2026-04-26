@@ -81,7 +81,7 @@
             </li>
           </ul>
         </div>
-        <FavTargets :showFramning="true" :showSeqTarget="false" />
+        <FavTargets :showFramning="true" :showSeqTarget="false" :showBadgeLabel="true" />
         <FitsPlateSolve
           v-if="
             appStore.isPINS ||
@@ -89,6 +89,7 @@
           "
           :showFraming="false"
           :showSeqTarget="false"
+          :showBadgeLabel="true"
         />
       </div>
 

@@ -161,9 +161,13 @@ const apiService = {
     } catch (err) {
       if (err.code === 'ECONNABORTED') {
         console.warn(`fetchPinsVersion: Timeout nach ${timeout} ms`);
-      } else {
-        // console.error('Error reaching backend:', err.message);
+        return null;
       }
+      if (err.response) {
+        // HTTP response received (e.g. 404) — backend is up but no PINS endpoint
+        return {};
+      }
+      // No response at all — backend not reachable
       return null;
     }
   },

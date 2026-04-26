@@ -989,18 +989,22 @@ export const apiStore = defineStore('store', {
         }
         return;
       }
-      try {
-        const pinsVersion = await apiService.fetchPinsVersion();
-        if (pinsVersion && pinsVersion.Response) {
-          this.isPINS = true;
-          console.log('[API Store] PINS detected, version:', pinsVersion.Response);
-        } else {
-          this.isPINS = false;
-          console.log('[API Store] No PINS endpoint — assuming NINA');
-        }
-      } finally {
-        this.isPinsCheckDone = true;
+      if (!this.isApiVersionNewerOrEqual) {
+        return;
       }
+      const pinsVersion = await apiService.fetchPinsVersion();
+      if (pinsVersion === null) {
+        // Backend not reachable — don't cache, allow retry on next call
+        return;
+      }
+      if (pinsVersion && pinsVersion.Response) {
+        this.isPINS = true;
+        console.log('[API Store] PINS detected, version:', pinsVersion.Response);
+      } else {
+        this.isPINS = false;
+        console.log('[API Store] No PINS endpoint — assuming NINA');
+      }
+      this.isPinsCheckDone = true;
       if (this.isPINS) {
         await this.syncSystemTime();
       }

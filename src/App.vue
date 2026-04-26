@@ -574,8 +574,6 @@ async function resumeApp() {
 
   // Set flag for recently returned from background
   store.setPageReturnedFromBackground();
-  store.checkForPINS(); // Re-check for PINS support
-
   // Important: Re-enable WebSocket Channel Service shouldReconnect flag
   const wsChannelService = (await import('@/services/websocketChannelSocket')).default;
   wsChannelService.shouldReconnect = true;

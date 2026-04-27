@@ -551,7 +551,8 @@
           "roiPct": "Návratnost investic (v %)"
         },
         "switchFilter": {
-          "filter": "Filtr"
+          "filter": "Filtr",
+          "noFilter": "No Filter"
         },
         "switchProfile": {
           "profile": "Profil",
@@ -648,7 +649,8 @@
           "targetDistance": "Vzdálenost cíle",
           "eastDirection": "Východní směr",
           "manualMode": "Manuální mód",
-          "startFromCurrentPosition": "Začít od aktuální pozice"
+          "startFromCurrentPosition": "Začít od aktuální pozice",
+          "manual": "Manual"
         },
         "skyFlat": {
           "shouldDither": "Váhat",
@@ -666,7 +668,13 @@
           "value": "Hodnota"
         },
         "setTracking": {
-          "trackingMode": "Režim sledování"
+          "trackingMode": "Režim sledování",
+          "sidereal": "Sidereal",
+          "lunar": "Lunar",
+          "solar": "Solar",
+          "king": "King",
+          "custom": "Custom",
+          "stopped": "Stopped"
         },
         "expressionVariable": {
           "identifier": "Jméno",
@@ -716,6 +724,29 @@
         },
         "warmCamera": {
           "duration": "Délka (min)"
+        },
+        "orbuculum": {
+          "hourAngle": "Hour Angle (h)",
+          "nextTarget": "Next target:",
+          "current": "Current:"
+        },
+        "autoBalancingExposure": {
+          "timeSeconds": "Time (s)",
+          "noEntries": "No entries",
+          "addRow": "Add row",
+          "progress": "Progress",
+          "ratio": "Ratio",
+          "bin": "Bin"
+        },
+        "setReadoutMode": {
+          "mode": "Mode"
+        },
+        "loopWhile": {
+          "expression": "Expression"
+        },
+        "slewScopeToAltAz": {
+          "azimuth": "Az",
+          "altitude": "Alt"
         }
       },
       "emptyContainer": "Prázdné — kliknutím na + přidáte položky",

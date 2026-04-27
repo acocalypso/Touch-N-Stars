@@ -6,7 +6,9 @@
 
     <template #editor="{ save }">
       <div class="flex items-center gap-3">
-        <label class="text-xs text-slate-400 flex-shrink-0">Mode</label>
+        <label class="text-xs text-slate-400 flex-shrink-0">{{
+          $t('components.sequence.items.setReadoutMode.mode')
+        }}</label>
         <select
           class="ml-auto w-36 md:w-40 bg-slate-700/60 border border-slate-600 rounded px-2 py-1 text-xs text-gray-200"
           :value="item.Mode"

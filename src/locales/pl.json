@@ -551,7 +551,8 @@
           "roiPct": "ROI (w %)"
         },
         "switchFilter": {
-          "filter": "Filtr"
+          "filter": "Filtr",
+          "noFilter": "No Filter"
         },
         "switchProfile": {
           "profile": "Profil",
@@ -648,7 +649,8 @@
           "targetDistance": "Docelowa odległość",
           "eastDirection": "Kierunek wschodni",
           "manualMode": "Tryb ręczny",
-          "startFromCurrentPosition": "Rozpocznij od bieżącej pozycji"
+          "startFromCurrentPosition": "Rozpocznij od bieżącej pozycji",
+          "manual": "Manual"
         },
         "skyFlat": {
           "shouldDither": "Rozpraszanie",
@@ -666,7 +668,13 @@
           "value": "Wartość"
         },
         "setTracking": {
-          "trackingMode": "Tryb śledzenia"
+          "trackingMode": "Tryb śledzenia",
+          "sidereal": "Sidereal",
+          "lunar": "Lunar",
+          "solar": "Solar",
+          "king": "King",
+          "custom": "Custom",
+          "stopped": "Stopped"
         },
         "expressionVariable": {
           "identifier": "Name / Nazwisko",
@@ -716,6 +724,29 @@
         },
         "warmCamera": {
           "duration": "Czas trwania (min)"
+        },
+        "orbuculum": {
+          "hourAngle": "Hour Angle (h)",
+          "nextTarget": "Next target:",
+          "current": "Current:"
+        },
+        "autoBalancingExposure": {
+          "timeSeconds": "Time (s)",
+          "noEntries": "No entries",
+          "addRow": "Add row",
+          "progress": "Progress",
+          "ratio": "Ratio",
+          "bin": "Bin"
+        },
+        "setReadoutMode": {
+          "mode": "Mode"
+        },
+        "loopWhile": {
+          "expression": "Expression"
+        },
+        "slewScopeToAltAz": {
+          "azimuth": "Az",
+          "altitude": "Alt"
         }
       },
       "emptyContainer": "Pusty — kliknij +, aby dodać pozycje",

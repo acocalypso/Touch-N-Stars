@@ -747,6 +747,17 @@
         "slewScopeToAltAz": {
           "azimuth": "Az",
           "altitude": "Alt"
+        },
+        "moveFocuserAbsolute": {
+          "position": "Position"
+        },
+        "moveFocuserRelative": {
+          "relativePosition": "Position relative"
+        },
+        "moveFocuserByTemperature": {
+          "slope": "Pente",
+          "intercept": "Ordonnée à l'origine",
+          "absolute": "Absolu"
         }
       },
       "emptyContainer": "Vide — cliquez sur + pour ajouter des éléments",

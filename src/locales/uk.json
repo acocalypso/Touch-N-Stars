@@ -736,6 +736,17 @@
         "slewScopeToAltAz": {
           "azimuth": "Az",
           "altitude": "Alt"
+        },
+        "moveFocuserAbsolute": {
+          "position": "Позиція"
+        },
+        "moveFocuserRelative": {
+          "relativePosition": "Відносна позиція"
+        },
+        "moveFocuserByTemperature": {
+          "slope": "Нахил",
+          "intercept": "Перетин",
+          "absolute": "Абсолютна"
         }
       },
       "emptyContainer": "Порожньо — натисніть + для додавання елементів",

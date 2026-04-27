@@ -764,6 +764,17 @@
         "slewScopeToAltAz": {
           "azimuth": "Az",
           "altitude": "Alt"
+        },
+        "moveFocuserAbsolute": {
+          "position": "位置"
+        },
+        "moveFocuserRelative": {
+          "relativePosition": "相対位置"
+        },
+        "moveFocuserByTemperature": {
+          "slope": "傾き",
+          "intercept": "切片",
+          "absolute": "絶対"
         }
       },
       "emptyContainer": "空です — + をクリックしてアイテムを追加",

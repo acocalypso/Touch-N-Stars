@@ -747,6 +747,17 @@
         "slewScopeToAltAz": {
           "azimuth": "Az",
           "altitude": "Alt"
+        },
+        "moveFocuserAbsolute": {
+          "position": "Pozice"
+        },
+        "moveFocuserRelative": {
+          "relativePosition": "Relativní pozice"
+        },
+        "moveFocuserByTemperature": {
+          "slope": "Sklon",
+          "intercept": "Průsečík",
+          "absolute": "Absolutní"
         }
       },
       "emptyContainer": "Prázdné — kliknutím na + přidáte položky",

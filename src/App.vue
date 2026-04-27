@@ -323,6 +323,7 @@ import UpdateAvailableModal from '@/components/helpers/UpdateAvailableModal.vue'
 import PickerOverlay from '@/components/helpers/PickerOverlay.vue';
 import Modal from '@/components/helpers/Modal.vue';
 import { usePinsStore } from '@/plugins/pins/store/pinsStore';
+import { useNightSummaryStore } from '@/plugins/nightsummary/store/nightsummaryStore';
 import {
   checkForManualUpdate,
   downloadAndApplyUpdate,
@@ -333,6 +334,7 @@ import {
 const store = apiStore();
 const settingsStore = useSettingsStore();
 const pinsStore = usePinsStore();
+const nightSummaryStore = useNightSummaryStore();
 const route = useRoute();
 
 const showTimeWarningModal = ref(false);
@@ -876,6 +878,12 @@ watch(
     if (isReachable && store.isPINS) {
       await dialogStore.initializeDialogSignalR();
       await messageboxStore.initializeMessageboxSignalR();
+    }
+
+    // Re-initialize night summary plugin after an instance switch so it
+    // fetches its status, settings, and sessions from the new backend.
+    if (isReachable) {
+      nightSummaryStore.initialize();
     }
 
     if (isReachable) {

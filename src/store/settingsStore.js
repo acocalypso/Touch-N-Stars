@@ -172,6 +172,7 @@ export const useSettingsStore = defineStore('settings', {
         this.loadMountSettings(),
         this.loadUseNinaCache(),
         this.loadCameraSettings(),
+        this.loadFlatsSettings(),
       ]);
     },
 
@@ -193,6 +194,28 @@ export const useSettingsStore = defineStore('settings', {
       } catch (error) {
         if (error.response?.status === 409) {
           await apiService.updateSetting('mount_settings', JSON.stringify(this.mount));
+        }
+      }
+    },
+
+    async loadFlatsSettings() {
+      const response = await apiService.getSetting('flats_settings');
+      if (response?.Response?.Value !== undefined) {
+        Object.assign(this.flats, JSON.parse(response.Response.Value));
+      } else if (response?.StatusCode === 404) {
+        this.saveFlatsSettings();
+      }
+    },
+
+    async saveFlatsSettings() {
+      try {
+        await apiService.createSetting({
+          Key: 'flats_settings',
+          Value: JSON.stringify(this.flats),
+        });
+      } catch (error) {
+        if (error.response?.status === 409) {
+          await apiService.updateSetting('flats_settings', JSON.stringify(this.flats));
         }
       }
     },

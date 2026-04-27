@@ -734,7 +734,10 @@
       "enable": "Ativar",
       "disable": "Desativar",
       "resetStatus": "Redefinir status",
-      "delete": "Excluir"
+      "delete": "Excluir",
+      "controlsLockedMessage": "Os controles de sequência são bloqueados enquanto a sequência está em execução.",
+      "lockControls": "Trancar",
+      "unlockControls": "Desbloquear"
     },
     "mount": {
       "title": "Montagem",

@@ -734,7 +734,10 @@
       "enable": "Włącz",
       "disable": "Wyłącz",
       "resetStatus": "Resetuj status",
-      "delete": "Usuń"
+      "delete": "Usuń",
+      "controlsLockedMessage": "Sterowanie sekwencją jest zablokowane na czas trwania sekwencji.",
+      "lockControls": "Zamek",
+      "unlockControls": "Odblokować"
     },
     "mount": {
       "title": "Montaż",

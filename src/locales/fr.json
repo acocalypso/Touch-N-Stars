@@ -734,7 +734,10 @@
       "enable": "Activer",
       "disable": "Désactiver",
       "resetStatus": "Réinitialiser le statut",
-      "delete": "Supprimer"
+      "delete": "Supprimer",
+      "controlsLockedMessage": "Les commandes de séquence sont verrouillées pendant l’exécution de la séquence.",
+      "lockControls": "Verrouillage",
+      "unlockControls": "Ouvrir"
     },
     "mount": {
       "title": "Monture",

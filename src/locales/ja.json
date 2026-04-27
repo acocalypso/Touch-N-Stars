@@ -742,7 +742,10 @@
       "enable": "有効にする",
       "disable": "無効にする",
       "resetStatus": "ステータスをリセット",
-      "delete": "削除"
+      "delete": "削除",
+      "controlsLockedMessage": "シーケンスの実行中はシーケンス コントロールがロックされます。",
+      "lockControls": "ロック",
+      "unlockControls": "ロックを解除する"
     },
     "mount": {
       "title": "赤道儀",

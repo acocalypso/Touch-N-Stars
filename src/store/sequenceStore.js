@@ -10,6 +10,7 @@ export const useSequenceStore = defineStore('sequenceStore', {
     collapsedStates: {},
     sequenceIsLoaded: false,
     sequenceRunning: false,
+    sequenceControlsLocked: false,
     sequenceEdit: false,
     sequenceIsEditable: true,
     targetName: '',
@@ -43,6 +44,14 @@ export const useSequenceStore = defineStore('sequenceStore', {
       }
 
       this.sequenceRunning = isRunning;
+    },
+    setSequenceControlsLocked(isLocked) {
+      this.sequenceControlsLocked = !!isLocked;
+
+      if (this.sequenceControlsLocked && this.sequenceEdit) {
+        this.sequenceEdit = false;
+        this.startFetching();
+      }
     },
     setImageTargetName(index, name) {
       if (!Number.isInteger(index) || index < 0) return;
@@ -207,7 +216,7 @@ export const useSequenceStore = defineStore('sequenceStore', {
         if (isEmptySequence) {
           this.sequenceInfo = [];
           this.sequenceIsLoaded = false;
-          this.sequenceRunning = false;
+          this.setSequenceRunning(false);
           this.targetName = '';
           this.runningItems = [];
           this.runningConditions = [];
@@ -280,7 +289,7 @@ export const useSequenceStore = defineStore('sequenceStore', {
         this.setSequenceRunning(isRunning || false);
       } else {
         this.sequenceIsLoaded = false;
-        this.sequenceRunning = false;
+        this.setSequenceRunning(false);
       }
     },
 

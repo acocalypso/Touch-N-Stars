@@ -15,8 +15,13 @@
       <button
         @click="toggleEdit"
         class="p-2 bg-gray-700 border border-cyan-600 rounded-full shadow-md"
-        :class="{ 'connected-glow': sequenceStore.sequenceEdit }"
+        :class="{
+          'connected-glow': sequenceStore.sequenceEdit,
+          'opacity-50 cursor-not-allowed': sequenceStore.sequenceControlsLocked,
+        }"
         v-if="sequenceStore.sequenceIsEditable"
+        :disabled="sequenceStore.sequenceControlsLocked"
+        :title="editButtonTitle"
       >
         <PencilIcon class="icon" />
       </button>
@@ -55,23 +60,29 @@
 </template>
 
 <script setup>
-import { onBeforeUnmount } from 'vue';
+import { computed, onBeforeUnmount, ref } from 'vue';
 import infoSequence from '@/components/sequence/infoSequence.vue';
 import controlSequence from '@/components/sequence/controlSequence.vue';
 import { useSequenceStore } from '@/store/sequenceStore';
-import { ref } from 'vue';
 import { PencilIcon } from '@heroicons/vue/24/outline';
 import FavTargets from '@/components/favTargets/FavTargets.vue';
 import FitsPlateSolve from '@/components/fitsPlatesolve/FitsPlateSolve.vue';
 import LoadSequence from '@/components/sequence/LoadSequence.vue';
 import SequenceV2Page from '@/views/SequenceV2Page.vue';
 import { apiStore } from '@/store/store';
+import { useI18n } from 'vue-i18n';
 
 const store = apiStore();
 const currentTab = ref('showSequenz'); // Standardwert
 const sequenceStore = useSequenceStore();
+const { t } = useI18n();
+const editButtonTitle = computed(() =>
+  sequenceStore.sequenceControlsLocked ? t('components.sequence.lockControls') : undefined
+);
 
 function toggleEdit() {
+  if (sequenceStore.sequenceControlsLocked) return;
+
   sequenceStore.sequenceEdit = !sequenceStore.sequenceEdit;
   if (sequenceStore.sequenceEdit) {
     sequenceStore.stopFetching();

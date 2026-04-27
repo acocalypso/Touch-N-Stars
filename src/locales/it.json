@@ -734,7 +734,10 @@
       "enable": "Abilita",
       "disable": "Disabilita",
       "resetStatus": "Reimposta stato",
-      "delete": "Elimina"
+      "delete": "Elimina",
+      "controlsLockedMessage": "I controlli della sequenza sono bloccati mentre la sequenza è in esecuzione.",
+      "lockControls": "Serratura",
+      "unlockControls": "Sbloccare"
     },
     "mount": {
       "title": "Montatura",

@@ -167,14 +167,38 @@ export const useSettingsStore = defineStore('settings', {
     },
   },
   actions: {
-    async loadUseNinaCache() {
+    async loadAllBackendSettings() {
+      await Promise.all([this.loadMountSettings(), this.loadUseNinaCache()]);
+    },
+
+    async loadMountSettings() {
+      const response = await apiService.getSetting('mount_settings');
+      if (response?.Response?.Value !== undefined) {
+        Object.assign(this.mount, JSON.parse(response.Response.Value));
+      } else if (response?.StatusCode === 404) {
+        this.saveMountSettings();
+      }
+    },
+
+    async saveMountSettings() {
       try {
-        const response = await apiService.getSetting('framing_useNinaCache');
-        if (response?.Response?.Value !== undefined) {
-          this.framing.useNinaCache = response.Response.Value === 'true';
+        await apiService.createSetting({
+          Key: 'mount_settings',
+          Value: JSON.stringify(this.mount),
+        });
+      } catch (error) {
+        if (error.response?.status === 409) {
+          await apiService.updateSetting('mount_settings', JSON.stringify(this.mount));
         }
-      } catch {
-        // 404 = noch nicht gespeichert → Default true bleibt
+      }
+    },
+
+    async loadUseNinaCache() {
+      const response = await apiService.getSetting('framing_useNinaCache');
+      if (response?.Response?.Value !== undefined) {
+        this.framing.useNinaCache = response.Response.Value === 'true';
+      } else if (response?.StatusCode === 404) {
+        this.saveUseNinaCache(this.framing.useNinaCache);
       }
     },
 
@@ -446,7 +470,6 @@ export const useSettingsStore = defineStore('settings', {
           'monitorViewSetting.graphDataSource1',
           'monitorViewSetting.graphDataSource2',
           'livestack',
-          'mount.settingsVisited',
           'tutorial.histogramVisited',
           'tutorial.selectTargetVisited',
           'tutorial.statusBarButtonsVisited',

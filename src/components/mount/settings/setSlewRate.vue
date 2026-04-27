@@ -27,10 +27,20 @@
 </template>
 
 <script setup>
+import { watch } from 'vue';
 import { useSettingsStore } from '@/store/settingsStore';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 
 const settingsStore = useSettingsStore();
+
+let saveDebounce;
+watch(
+  () => settingsStore.mount.slewRate,
+  () => {
+    clearTimeout(saveDebounce);
+    saveDebounce = setTimeout(() => settingsStore.saveMountSettings(), 600);
+  }
+);
 </script>
 
 <style scoped>

@@ -109,7 +109,6 @@ import { useTppaStore } from '@/store/tppaStore';
 import { useImagetStore } from '@/store/imageStore';
 import SubNav from '@/components/SubNav.vue';
 import { useI18n } from 'vue-i18n';
-
 const showTppa = ref(false); // eslint-disable-line no-unused-vars
 const { t } = useI18n();
 

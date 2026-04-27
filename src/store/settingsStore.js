@@ -188,15 +188,12 @@ export const useSettingsStore = defineStore('settings', {
     },
 
     async saveMountSettings() {
-      try {
-        await apiService.createSetting({
-          Key: 'mount_settings',
-          Value: JSON.stringify(this.mount),
-        });
-      } catch (error) {
-        if (error.response?.status === 409) {
-          await apiService.updateSetting('mount_settings', JSON.stringify(this.mount));
-        }
+      const res = await apiService.createSetting({
+        Key: 'mount_settings',
+        Value: JSON.stringify(this.mount),
+      });
+      if (res?.StatusCode === 409) {
+        await apiService.updateSetting('mount_settings', JSON.stringify(this.mount));
       }
     },
 
@@ -210,15 +207,12 @@ export const useSettingsStore = defineStore('settings', {
     },
 
     async saveFlatsSettings() {
-      try {
-        await apiService.createSetting({
-          Key: 'flats_settings',
-          Value: JSON.stringify(this.flats),
-        });
-      } catch (error) {
-        if (error.response?.status === 409) {
-          await apiService.updateSetting('flats_settings', JSON.stringify(this.flats));
-        }
+      const res = await apiService.createSetting({
+        Key: 'flats_settings',
+        Value: JSON.stringify(this.flats),
+      });
+      if (res?.StatusCode === 409) {
+        await apiService.updateSetting('flats_settings', JSON.stringify(this.flats));
       }
     },
 
@@ -232,15 +226,12 @@ export const useSettingsStore = defineStore('settings', {
     },
 
     async saveNavbarSettings() {
-      try {
-        await apiService.createSetting({
-          Key: 'navbar_settings',
-          Value: JSON.stringify(this.navbar),
-        });
-      } catch (error) {
-        if (error.response?.status === 409) {
-          await apiService.updateSetting('navbar_settings', JSON.stringify(this.navbar));
-        }
+      const res = await apiService.createSetting({
+        Key: 'navbar_settings',
+        Value: JSON.stringify(this.navbar),
+      });
+      if (res?.StatusCode === 409) {
+        await apiService.updateSetting('navbar_settings', JSON.stringify(this.navbar));
       }
     },
 
@@ -254,15 +245,12 @@ export const useSettingsStore = defineStore('settings', {
     },
 
     async saveGuiderSettings() {
-      try {
-        await apiService.createSetting({
-          Key: 'guider_settings',
-          Value: JSON.stringify(this.guider),
-        });
-      } catch (error) {
-        if (error.response?.status === 409) {
-          await apiService.updateSetting('guider_settings', JSON.stringify(this.guider));
-        }
+      const res = await apiService.createSetting({
+        Key: 'guider_settings',
+        Value: JSON.stringify(this.guider),
+      });
+      if (res?.StatusCode === 409) {
+        await apiService.updateSetting('guider_settings', JSON.stringify(this.guider));
       }
     },
 
@@ -276,15 +264,12 @@ export const useSettingsStore = defineStore('settings', {
     },
 
     async saveCameraSettings() {
-      try {
-        await apiService.createSetting({
-          Key: 'camera_settings',
-          Value: JSON.stringify(this.camera),
-        });
-      } catch (error) {
-        if (error.response?.status === 409) {
-          await apiService.updateSetting('camera_settings', JSON.stringify(this.camera));
-        }
+      const res = await apiService.createSetting({
+        Key: 'camera_settings',
+        Value: JSON.stringify(this.camera),
+      });
+      if (res?.StatusCode === 409) {
+        await apiService.updateSetting('camera_settings', JSON.stringify(this.camera));
       }
     },
 
@@ -299,12 +284,12 @@ export const useSettingsStore = defineStore('settings', {
 
     async saveUseNinaCache(value) {
       this.framing.useNinaCache = value;
-      try {
-        await apiService.createSetting({ Key: 'framing_useNinaCache', Value: String(value) });
-      } catch (error) {
-        if (error.response?.status === 409) {
-          await apiService.updateSetting('framing_useNinaCache', String(value));
-        }
+      const res = await apiService.createSetting({
+        Key: 'framing_useNinaCache',
+        Value: String(value),
+      });
+      if (res?.StatusCode === 409) {
+        await apiService.updateSetting('framing_useNinaCache', String(value));
       }
     },
 

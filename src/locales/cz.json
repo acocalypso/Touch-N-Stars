@@ -734,7 +734,10 @@
       "enable": "Povolit",
       "disable": "Zakázat",
       "resetStatus": "Resetovat stav",
-      "delete": "Smazat"
+      "delete": "Smazat",
+      "controlsLockedMessage": "Sequence controls are locked while the sequence is running.",
+      "lockControls": "Lock",
+      "unlockControls": "Unlock"
     },
     "mount": {
       "title": "Montáž",

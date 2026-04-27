@@ -734,7 +734,10 @@
       "enable": "Activar",
       "disable": "Desactivar",
       "resetStatus": "Restablecer estado",
-      "delete": "Eliminar"
+      "delete": "Eliminar",
+      "controlsLockedMessage": "Los controles de secuencia están bloqueados mientras la secuencia se está ejecutando.",
+      "lockControls": "Cerrar",
+      "unlockControls": "Descubrir"
     },
     "mount": {
       "title": "Montura",

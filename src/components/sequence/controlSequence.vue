@@ -67,6 +67,29 @@
     </button>
 
     <button
+      class="h-16 w-14 flex-col gap-0.5"
+      :class="
+        sequenceStore.sequenceControlsLocked
+          ? 'default-button-red'
+          : 'default-button-gray border border-cyan-500/40'
+      "
+      :title="
+        sequenceStore.sequenceControlsLocked
+          ? $t('components.sequence.unlockControls')
+          : $t('components.sequence.lockControls')
+      "
+      @click="toggleControlsLock"
+    >
+      <LockClosedIcon v-if="sequenceStore.sequenceControlsLocked" class="h-6 w-6" />
+      <LockOpenIcon v-else class="h-6 w-6" />
+      <span class="text-[9px] leading-none font-medium">{{
+        sequenceStore.sequenceControlsLocked
+          ? $t('components.sequence.unlockControls')
+          : $t('components.sequence.lockControls')
+      }}</span>
+    </button>
+
+    <button
       v-if="!sequenceStore.sequenceRunning"
       class="default-button-orange h-16 w-14 flex-col gap-0.5"
       @click="showResetConfirmation = true"
@@ -312,6 +335,8 @@ import {
   FolderOpenIcon,
   FlagIcon,
   ForwardIcon,
+  LockClosedIcon,
+  LockOpenIcon,
   PauseIcon,
   TrashIcon,
 } from '@heroicons/vue/24/outline';
@@ -350,6 +375,10 @@ async function skipCurrentItem() {
   } catch (e) {
     console.error('Error skipping current item:', e);
   }
+}
+
+function toggleControlsLock() {
+  sequenceStore.setSequenceControlsLocked(!sequenceStore.sequenceControlsLocked);
 }
 
 async function openFileManager() {

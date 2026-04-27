@@ -734,7 +734,10 @@
       "enable": "Activeren",
       "disable": "Deactiveren",
       "resetStatus": "Status herstellen",
-      "delete": "Verwijderen"
+      "delete": "Verwijderen",
+      "controlsLockedMessage": "De reeksbedieningen zijn vergrendeld terwijl de reeks wordt uitgevoerd.",
+      "lockControls": "Slot",
+      "unlockControls": "Ontgrendelen"
     },
     "mount": {
       "title": "Montering",

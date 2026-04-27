@@ -734,7 +734,10 @@
       "enable": "启用",
       "disable": "禁用",
       "resetStatus": "重置状态",
-      "delete": "删除"
+      "delete": "删除",
+      "controlsLockedMessage": "Sequence controls are locked while the sequence is running.",
+      "lockControls": "Lock",
+      "unlockControls": "Unlock"
     },
     "mount": {
       "title": "赤道仪",

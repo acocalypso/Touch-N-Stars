@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import apiService from '@/services/apiService';
 import { apiStore } from './store';
 import { useToastStore } from './toastStore';
+import { useSequenceStore } from './sequenceStore';
 
 const RUNTIME_FIELDS = [
   'ExpectedTime',
@@ -46,6 +47,10 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
     },
   },
   actions: {
+    _isControlsLocked() {
+      return useSequenceStore().sequenceControlsLocked;
+    },
+
     async loadCurrent() {
       const store = apiStore();
       if (!store.isBackendReachable) return;
@@ -149,6 +154,8 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
     },
 
     async move(id, targetId, insertAfter) {
+      if (this._isControlsLocked()) return;
+
       try {
         await apiService.sequenceMove(id, targetId, insertAfter);
       } catch (e) {
@@ -159,6 +166,8 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
     },
 
     async remove(id) {
+      if (this._isControlsLocked()) return;
+
       try {
         await apiService.sequenceRemove(id);
       } catch (e) {
@@ -169,6 +178,8 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
     },
 
     async duplicate(id) {
+      if (this._isControlsLocked()) return;
+
       try {
         await apiService.sequenceDuplicate(id);
       } catch (e) {
@@ -179,6 +190,8 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
     },
 
     async setProperty(id, propertyName, value) {
+      if (this._isControlsLocked()) return;
+
       try {
         await apiService.sequenceSetProperty(id, propertyName, value);
       } catch (e) {
@@ -189,6 +202,8 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
     },
 
     async enable(id, enabled) {
+      if (this._isControlsLocked()) return;
+
       try {
         await apiService.sequenceEnable(id, enabled);
       } catch (e) {
@@ -199,6 +214,8 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
     },
 
     async resetStatus(id) {
+      if (this._isControlsLocked()) return;
+
       try {
         await apiService.sequenceResetStatus(id);
       } catch (e) {
@@ -243,6 +260,8 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
     },
 
     async addItem(targetId, itemType, insertAfter = true) {
+      if (this._isControlsLocked()) return;
+
       try {
         const res = await apiService.sequenceAddItem(targetId, itemType, insertAfter);
         if (res?.Success === false) {
@@ -257,6 +276,8 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
     },
 
     async addTrigger(itemId, triggerType, insertAfter = true) {
+      if (this._isControlsLocked()) return;
+
       try {
         const res = await apiService.sequenceAddTrigger(itemId, triggerType, insertAfter);
         if (res?.Success === false) {
@@ -271,6 +292,8 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
     },
 
     async addCondition(itemId, conditionType, insertAfter = true) {
+      if (this._isControlsLocked()) return;
+
       try {
         const res = await apiService.sequenceAddCondition(itemId, conditionType, insertAfter);
         if (res?.Success === false) {
@@ -285,6 +308,8 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
     },
 
     async setDsoTarget(id, name, raDeg, decDeg, rotation) {
+      if (this._isControlsLocked()) return;
+
       const dsoContainers = [];
       const collectDso = (items) => {
         for (const item of items ?? []) {

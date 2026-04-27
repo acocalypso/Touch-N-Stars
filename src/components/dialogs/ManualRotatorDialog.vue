@@ -5,12 +5,16 @@
       <!-- Current Position -->
       <div class="bg-gray-800 p-4 rounded-lg text-center">
         <p class="text-gray-400 text-sm mb-2">{{ content.Text1 }}</p>
-        <p class="text-4xl font-bold text-white">{{ content.Text2 }}{{ content.Text3 }}</p>
+        <p class="text-4xl font-bold text-white">
+          {{ formattedCurrentPosition }}{{ content.Text3 }}
+        </p>
       </div>
       <!-- Target Position -->
       <div class="bg-gray-800 p-4 rounded-lg text-center">
         <p class="text-gray-400 text-sm mb-2">{{ content.Text4 }}</p>
-        <p class="text-4xl font-bold text-white">{{ content.Text5 }}{{ content.Text6 }}</p>
+        <p class="text-4xl font-bold text-white">
+          {{ formattedTargetPosition }}{{ content.Text6 }}
+        </p>
       </div>
     </div>
 
@@ -38,8 +42,8 @@
         <line
           x1="100"
           y1="100"
-          :x2="100 + Math.sin((parseFloat(content.Text2 || 0) * Math.PI) / 180) * 60"
-          :y2="100 - Math.cos((parseFloat(content.Text2 || 0) * Math.PI) / 180) * 60"
+          :x2="100 + Math.sin((currentAngle * Math.PI) / 180) * 60"
+          :y2="100 - Math.cos((currentAngle * Math.PI) / 180) * 60"
           stroke="#3B82F6"
           stroke-width="3"
           stroke-linecap="round"
@@ -49,8 +53,8 @@
         <line
           x1="100"
           y1="100"
-          :x2="100 + Math.sin((parseFloat(content.Text5 || 0) * Math.PI) / 180) * 60"
-          :y2="100 - Math.cos((parseFloat(content.Text5 || 0) * Math.PI) / 180) * 60"
+          :x2="100 + Math.sin((targetAngle * Math.PI) / 180) * 60"
+          :y2="100 - Math.cos((targetAngle * Math.PI) / 180) * 60"
           stroke="#10B981"
           stroke-width="3"
           stroke-linecap="round"
@@ -59,7 +63,7 @@
 
         <!-- Rotation Arc -->
         <path
-          :d="getRotationArc(parseFloat(content.Text2 || 0), parseFloat(content.Text5 || 0))"
+          :d="getRotationArc(currentAngle, targetAngle)"
           fill="none"
           stroke="#F59E0B"
           stroke-width="2"
@@ -90,7 +94,9 @@
       </div>
 
       <!-- Rotation Info -->
-      <p class="text-2xl font-bold text-yellow-500 mb-1">{{ content.Text7 }}{{ content.Text8 }}</p>
+      <p class="text-2xl font-bold text-yellow-500 mb-1">
+        {{ formattedRotationAmount }}{{ content.Text8 }}
+      </p>
       <p class="text-gray-400 text-sm">{{ content.Text9 }}</p>
     </div>
   </div>
@@ -109,6 +115,60 @@ const props = defineProps({
 const content = computed(() => {
   return props.dialog?.Content || {};
 });
+
+function parseCultureInvariantNumber(value) {
+  if (typeof value === 'number') {
+    return Number.isFinite(value) ? value : 0;
+  }
+
+  if (value === null || value === undefined) {
+    return 0;
+  }
+
+  const raw = String(value).trim();
+  if (!raw) {
+    return 0;
+  }
+
+  // Keep only sign and numeric separators so values like "12,5°" are still parsed correctly.
+  const cleaned = raw.replace(/[^0-9.,+-]/g, '');
+  if (!cleaned) {
+    return 0;
+  }
+
+  const lastComma = cleaned.lastIndexOf(',');
+  const lastDot = cleaned.lastIndexOf('.');
+
+  let normalized = cleaned;
+  if (lastComma > -1 && lastDot > -1) {
+    // Assume the rightmost separator is decimal separator.
+    if (lastComma > lastDot) {
+      normalized = cleaned.replace(/\./g, '').replace(',', '.');
+    } else {
+      normalized = cleaned.replace(/,/g, '');
+    }
+  } else if (lastComma > -1) {
+    normalized = cleaned.replace(',', '.');
+  }
+
+  const parsed = Number.parseFloat(normalized);
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
+function formatAngleValue(value) {
+  const parsed = parseCultureInvariantNumber(value);
+  return parsed.toLocaleString('en-US', {
+    useGrouping: false,
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 2,
+  });
+}
+
+const currentAngle = computed(() => parseCultureInvariantNumber(content.value.Text2));
+const targetAngle = computed(() => parseCultureInvariantNumber(content.value.Text5));
+const formattedCurrentPosition = computed(() => formatAngleValue(content.value.Text2));
+const formattedTargetPosition = computed(() => formatAngleValue(content.value.Text5));
+const formattedRotationAmount = computed(() => formatAngleValue(content.value.Text7));
 
 function getRotationArc(currentAngle, targetAngle) {
   const cx = 100;

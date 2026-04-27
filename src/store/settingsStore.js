@@ -174,6 +174,7 @@ export const useSettingsStore = defineStore('settings', {
         this.loadCameraSettings(),
         this.loadFlatsSettings(),
         this.loadGuiderSettings(),
+        this.loadNavbarSettings(),
       ]);
     },
 
@@ -217,6 +218,28 @@ export const useSettingsStore = defineStore('settings', {
       } catch (error) {
         if (error.response?.status === 409) {
           await apiService.updateSetting('flats_settings', JSON.stringify(this.flats));
+        }
+      }
+    },
+
+    async loadNavbarSettings() {
+      const response = await apiService.getSetting('navbar_settings');
+      if (response?.Response?.Value !== undefined) {
+        Object.assign(this.navbar, JSON.parse(response.Response.Value));
+      } else if (response?.StatusCode === 404) {
+        this.saveNavbarSettings();
+      }
+    },
+
+    async saveNavbarSettings() {
+      try {
+        await apiService.createSetting({
+          Key: 'navbar_settings',
+          Value: JSON.stringify(this.navbar),
+        });
+      } catch (error) {
+        if (error.response?.status === 409) {
+          await apiService.updateSetting('navbar_settings', JSON.stringify(this.navbar));
         }
       }
     },
@@ -506,6 +529,7 @@ export const useSettingsStore = defineStore('settings', {
 
     setNavbarOrder(order) {
       this.navbar.itemOrder = order;
+      this.saveNavbarSettings();
     },
 
     toggleNavbarItem(id) {
@@ -515,6 +539,7 @@ export const useSettingsStore = defineStore('settings', {
       } else {
         this.navbar.hiddenItems.splice(idx, 1);
       }
+      this.saveNavbarSettings();
     },
   },
   persist: {
@@ -545,7 +570,6 @@ export const useSettingsStore = defineStore('settings', {
           'tutorial.selectTargetVisited',
           'tutorial.statusBarButtonsVisited',
           'modalPositions',
-          'navbar',
         ],
       },
     ],

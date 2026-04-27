@@ -14,6 +14,7 @@ import signalRDialogService from '@/services/signalRDialogService';
 import signalRMessageboxesService from '@/services/signalRMessageboxesService';
 import { useProgressStore } from '@/store/progressStore';
 import { useLivestackStore } from '@/plugins/livestack/store/livestackStore';
+import { useNightSummaryStore } from '@/plugins/nightsummary/store/nightsummaryStore';
 import { useGuiderStore } from '@/store/guiderStore';
 import { useSequenceStore } from '@/store/sequenceStore';
 import { useDialogStore } from '@/store/dialogStore';
@@ -712,6 +713,32 @@ export const apiStore = defineStore('store', {
         currentImageUrl: null,
         lastImageUpdate: null,
         status: 'stopped',
+      });
+
+      // Clear night summary state from the previous instance
+      const nightSummaryStore = useNightSummaryStore();
+      nightSummaryStore.$patch({
+        pluginInstalled: null,
+        settings: null,
+        settingsLoading: false,
+        settingsSaving: false,
+        settingsError: null,
+        filterNames: [],
+        emailTestStatus: null,
+        discordTestStatus: null,
+        pushoverTestStatus: null,
+        emailTesting: false,
+        discordTesting: false,
+        pushoverTesting: false,
+        sessions: [],
+        selectedSessionId: null,
+        sessionDetail: null,
+        loadingSessions: false,
+        loadingDetail: false,
+        resendingSession: false,
+        resendStatus: null,
+        error: null,
+        deleteError: null,
       });
     },
 

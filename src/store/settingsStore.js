@@ -107,7 +107,7 @@ export const useSettingsStore = defineStore('settings', {
       dsosVisible: true, // Deep Sky Objects (Messier, NGC, etc.)
     },
     guider: {
-      phd2ForceCalibration: localStorage.getItem('phd2ForceCalibration') === 'true',
+      phd2ForceCalibration: false,
     },
     instanceColorClasses: [
       'bg-gray-900/95',
@@ -173,6 +173,7 @@ export const useSettingsStore = defineStore('settings', {
         this.loadUseNinaCache(),
         this.loadCameraSettings(),
         this.loadFlatsSettings(),
+        this.loadGuiderSettings(),
       ]);
     },
 
@@ -216,6 +217,28 @@ export const useSettingsStore = defineStore('settings', {
       } catch (error) {
         if (error.response?.status === 409) {
           await apiService.updateSetting('flats_settings', JSON.stringify(this.flats));
+        }
+      }
+    },
+
+    async loadGuiderSettings() {
+      const response = await apiService.getSetting('guider_settings');
+      if (response?.Response?.Value !== undefined) {
+        Object.assign(this.guider, JSON.parse(response.Response.Value));
+      } else if (response?.StatusCode === 404) {
+        this.saveGuiderSettings();
+      }
+    },
+
+    async saveGuiderSettings() {
+      try {
+        await apiService.createSetting({
+          Key: 'guider_settings',
+          Value: JSON.stringify(this.guider),
+        });
+      } catch (error) {
+        if (error.response?.status === 409) {
+          await apiService.updateSetting('guider_settings', JSON.stringify(this.guider));
         }
       }
     },
@@ -428,7 +451,7 @@ export const useSettingsStore = defineStore('settings', {
 
     setPhd2ForceCalibration(value) {
       this.guider.phd2ForceCalibration = value;
-      localStorage.setItem('phd2ForceCalibration', value);
+      this.saveGuiderSettings();
     },
 
     setKeepAwakeEnabled(value) {
@@ -510,7 +533,6 @@ export const useSettingsStore = defineStore('settings', {
           'monitorViewSetting',
           'tutorial',
           'showPlugins',
-          'guider',
           'keepAwakeEnabled',
           'livestack',
           'useBetaFeatures',

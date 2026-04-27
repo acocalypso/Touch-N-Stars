@@ -137,7 +137,7 @@
 </template>
 
 <script setup>
-import { computed, defineAsyncComponent, ref, watch } from 'vue';
+import { computed, defineAsyncComponent, onMounted, ref, watch } from 'vue';
 import {
   ChevronUpIcon,
   ChevronDownIcon,
@@ -161,6 +161,10 @@ import FitsPlateSolve from '@/components/fitsPlatesolve/FitsPlateSolve.vue';
 const framingStore = useFramingStore();
 const settingsStore = useSettingsStore();
 const appStore = apiStore();
+
+onMounted(() => {
+  settingsStore.loadUseNinaCache();
+});
 
 const FramingAssitantImg = defineAsyncComponent(
   () => import('@/components/framing/FramingAssitantImg.vue')

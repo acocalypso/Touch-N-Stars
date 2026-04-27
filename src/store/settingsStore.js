@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import tutorialContent from '@/assets/tutorial.json';
 import { apiStore } from '@/store/store';
 import { useImagetStore } from './imageStore';
+import apiService from '@/services/apiService';
 
 export const useSettingsStore = defineStore('settings', {
   state: () => ({
@@ -166,6 +167,28 @@ export const useSettingsStore = defineStore('settings', {
     },
   },
   actions: {
+    async loadUseNinaCache() {
+      try {
+        const response = await apiService.getSetting('framing_useNinaCache');
+        if (response?.Response?.Value !== undefined) {
+          this.framing.useNinaCache = response.Response.Value === 'true';
+        }
+      } catch {
+        // 404 = noch nicht gespeichert → Default true bleibt
+      }
+    },
+
+    async saveUseNinaCache(value) {
+      this.framing.useNinaCache = value;
+      try {
+        await apiService.createSetting({ Key: 'framing_useNinaCache', Value: String(value) });
+      } catch (error) {
+        if (error.response?.status === 409) {
+          await apiService.updateSetting('framing_useNinaCache', String(value));
+        }
+      }
+    },
+
     setImageRotation(degrees) {
       if (!this.selectedInstanceId) return;
       const instance = this.connection.instances.find((i) => i.id === this.selectedInstanceId);

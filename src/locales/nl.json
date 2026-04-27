@@ -551,7 +551,8 @@
           "roiPct": "Rendement van investeringen (%)"
         },
         "switchFilter": {
-          "filter": "Filter"
+          "filter": "Filter",
+          "noFilter": "No Filter"
         },
         "switchProfile": {
           "profile": "Profiel",
@@ -648,7 +649,8 @@
           "targetDistance": "Afstand doel",
           "eastDirection": "Rijrichting OOST:",
           "manualMode": "Handmatige modus",
-          "startFromCurrentPosition": "Start vanaf huidige positie"
+          "startFromCurrentPosition": "Start vanaf huidige positie",
+          "manual": "Manual"
         },
         "skyFlat": {
           "shouldDither": "Ditheren",
@@ -666,7 +668,13 @@
           "value": "Waarde"
         },
         "setTracking": {
-          "trackingMode": "Tracking-modus"
+          "trackingMode": "Tracking-modus",
+          "sidereal": "Sidereal",
+          "lunar": "Lunar",
+          "solar": "Solar",
+          "king": "King",
+          "custom": "Custom",
+          "stopped": "Stopped"
         },
         "expressionVariable": {
           "identifier": "Naam",
@@ -716,6 +724,40 @@
         },
         "warmCamera": {
           "duration": "Duur (min)"
+        },
+        "orbuculum": {
+          "hourAngle": "Hour Angle (h)",
+          "nextTarget": "Next target:",
+          "current": "Current:"
+        },
+        "autoBalancingExposure": {
+          "timeSeconds": "Time (s)",
+          "noEntries": "No entries",
+          "addRow": "Add row",
+          "progress": "Progress",
+          "ratio": "Ratio",
+          "bin": "Bin"
+        },
+        "setReadoutMode": {
+          "mode": "Mode"
+        },
+        "loopWhile": {
+          "expression": "Expression"
+        },
+        "slewScopeToAltAz": {
+          "azimuth": "Az",
+          "altitude": "Alt"
+        },
+        "moveFocuserAbsolute": {
+          "position": "Positie"
+        },
+        "moveFocuserRelative": {
+          "relativePosition": "Relatieve positie"
+        },
+        "moveFocuserByTemperature": {
+          "slope": "Helling",
+          "intercept": "Afsnijpunt",
+          "absolute": "Absoluut"
         }
       },
       "emptyContainer": "Leeg — klik op + om items toe te voegen",

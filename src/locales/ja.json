@@ -568,7 +568,8 @@
           "roiPct": "ROI (%)"
         },
         "switchFilter": {
-          "filter": "フィルター"
+          "filter": "フィルター",
+          "noFilter": "No Filter"
         },
         "switchProfile": {
           "profile": "プロファイル",
@@ -665,7 +666,8 @@
           "targetDistance": "目標距離 (°)",
           "eastDirection": "東方向",
           "manualMode": "マニュアルモード",
-          "startFromCurrentPosition": "現在位置から開始"
+          "startFromCurrentPosition": "現在位置から開始",
+          "manual": "Manual"
         },
         "skyFlat": {
           "shouldDither": "ディザリング",
@@ -683,7 +685,13 @@
           "value": "値"
         },
         "setTracking": {
-          "trackingMode": "追尾モード"
+          "trackingMode": "追尾モード",
+          "sidereal": "Sidereal",
+          "lunar": "Lunar",
+          "solar": "Solar",
+          "king": "King",
+          "custom": "Custom",
+          "stopped": "Stopped"
         },
         "expressionVariable": {
           "identifier": "名前",
@@ -733,6 +741,40 @@
         },
         "warmCamera": {
           "duration": "時間 (分)"
+        },
+        "orbuculum": {
+          "hourAngle": "Hour Angle (h)",
+          "nextTarget": "Next target:",
+          "current": "Current:"
+        },
+        "autoBalancingExposure": {
+          "timeSeconds": "Time (s)",
+          "noEntries": "No entries",
+          "addRow": "Add row",
+          "progress": "Progress",
+          "ratio": "Ratio",
+          "bin": "Bin"
+        },
+        "setReadoutMode": {
+          "mode": "Mode"
+        },
+        "loopWhile": {
+          "expression": "Expression"
+        },
+        "slewScopeToAltAz": {
+          "azimuth": "Az",
+          "altitude": "Alt"
+        },
+        "moveFocuserAbsolute": {
+          "position": "位置"
+        },
+        "moveFocuserRelative": {
+          "relativePosition": "相対位置"
+        },
+        "moveFocuserByTemperature": {
+          "slope": "傾き",
+          "intercept": "切片",
+          "absolute": "絶対"
         }
       },
       "emptyContainer": "空です — + をクリックしてアイテムを追加",

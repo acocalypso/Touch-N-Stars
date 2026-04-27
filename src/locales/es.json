@@ -551,7 +551,8 @@
           "roiPct": "Rendimiento de las inversiones (%)"
         },
         "switchFilter": {
-          "filter": "Filtro"
+          "filter": "Filtro",
+          "noFilter": "No Filter"
         },
         "switchProfile": {
           "profile": "Perfil",
@@ -648,7 +649,8 @@
           "targetDistance": "Distancia objetivo",
           "eastDirection": "Dirección Este",
           "manualMode": "Modo Manual",
-          "startFromCurrentPosition": "Empezar desde el puesto actual"
+          "startFromCurrentPosition": "Empezar desde el puesto actual",
+          "manual": "Manual"
         },
         "skyFlat": {
           "shouldDither": "Interpolación de colores",
@@ -666,7 +668,13 @@
           "value": "Valor"
         },
         "setTracking": {
-          "trackingMode": "Modo de seguimiento"
+          "trackingMode": "Modo de seguimiento",
+          "sidereal": "Sidereal",
+          "lunar": "Lunar",
+          "solar": "Solar",
+          "king": "King",
+          "custom": "Custom",
+          "stopped": "Stopped"
         },
         "expressionVariable": {
           "identifier": "Nombre",
@@ -716,6 +724,40 @@
         },
         "warmCamera": {
           "duration": "Duración (min)"
+        },
+        "orbuculum": {
+          "hourAngle": "Hour Angle (h)",
+          "nextTarget": "Next target:",
+          "current": "Current:"
+        },
+        "autoBalancingExposure": {
+          "timeSeconds": "Time (s)",
+          "noEntries": "No entries",
+          "addRow": "Add row",
+          "progress": "Progress",
+          "ratio": "Ratio",
+          "bin": "Bin"
+        },
+        "setReadoutMode": {
+          "mode": "Mode"
+        },
+        "loopWhile": {
+          "expression": "Expression"
+        },
+        "slewScopeToAltAz": {
+          "azimuth": "Az",
+          "altitude": "Alt"
+        },
+        "moveFocuserAbsolute": {
+          "position": "Posición"
+        },
+        "moveFocuserRelative": {
+          "relativePosition": "Posición relativa"
+        },
+        "moveFocuserByTemperature": {
+          "slope": "Pendiente",
+          "intercept": "Intercepto",
+          "absolute": "Absoluto"
         }
       },
       "emptyContainer": "Vacío — haga clic en + para añadir elementos",

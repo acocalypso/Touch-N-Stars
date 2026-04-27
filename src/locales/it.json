@@ -551,7 +551,8 @@
           "roiPct": "ROI (%)"
         },
         "switchFilter": {
-          "filter": "Filtra"
+          "filter": "Filtra",
+          "noFilter": "No Filter"
         },
         "switchProfile": {
           "profile": "Profilo",
@@ -648,7 +649,8 @@
           "targetDistance": "Distanza prescritta",
           "eastDirection": "Direzione est",
           "manualMode": "Modalità manuale",
-          "startFromCurrentPosition": "Inizia dalla posizione corrente"
+          "startFromCurrentPosition": "Inizia dalla posizione corrente",
+          "manual": "Manual"
         },
         "skyFlat": {
           "shouldDither": "Dither",
@@ -666,7 +668,13 @@
           "value": "Valore"
         },
         "setTracking": {
-          "trackingMode": "modalità di tracciamento."
+          "trackingMode": "modalità di tracciamento.",
+          "sidereal": "Sidereal",
+          "lunar": "Lunar",
+          "solar": "Solar",
+          "king": "King",
+          "custom": "Custom",
+          "stopped": "Stopped"
         },
         "expressionVariable": {
           "identifier": "Nome",
@@ -716,6 +724,40 @@
         },
         "warmCamera": {
           "duration": "Durata (min)"
+        },
+        "orbuculum": {
+          "hourAngle": "Hour Angle (h)",
+          "nextTarget": "Next target:",
+          "current": "Current:"
+        },
+        "autoBalancingExposure": {
+          "timeSeconds": "Time (s)",
+          "noEntries": "No entries",
+          "addRow": "Add row",
+          "progress": "Progress",
+          "ratio": "Ratio",
+          "bin": "Bin"
+        },
+        "setReadoutMode": {
+          "mode": "Mode"
+        },
+        "loopWhile": {
+          "expression": "Expression"
+        },
+        "slewScopeToAltAz": {
+          "azimuth": "Az",
+          "altitude": "Alt"
+        },
+        "moveFocuserAbsolute": {
+          "position": "Posizione"
+        },
+        "moveFocuserRelative": {
+          "relativePosition": "Posizione relativa"
+        },
+        "moveFocuserByTemperature": {
+          "slope": "Pendenza",
+          "intercept": "Intercetta",
+          "absolute": "Assoluto"
         }
       },
       "emptyContainer": "Vuoto — fai clic su + per aggiungere elementi",

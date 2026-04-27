@@ -603,7 +603,8 @@
           "roiPct": "ROI (%)"
         },
         "switchFilter": {
-          "filter": "Filter"
+          "filter": "Filter",
+          "noFilter": "Kein Filter"
         },
         "switchProfile": {
           "profile": "Profil",
@@ -700,6 +701,7 @@
           "targetDistance": "Zielabstand (°)",
           "eastDirection": "Ost-Richtung",
           "manualMode": "Manueller Modus",
+          "manual": "Manuell",
           "startFromCurrentPosition": "Von aktueller Position starten"
         },
         "skyFlat": {
@@ -718,7 +720,13 @@
           "value": "Wert"
         },
         "setTracking": {
-          "trackingMode": "Tracking-Modus"
+          "trackingMode": "Tracking-Modus",
+          "sidereal": "Siderisch",
+          "lunar": "Lunar",
+          "solar": "Solar",
+          "king": "King",
+          "custom": "Benutzerdefiniert",
+          "stopped": "Gestoppt"
         },
         "expressionVariable": {
           "identifier": "Name",
@@ -768,6 +776,40 @@
         },
         "warmCamera": {
           "duration": "Dauer (min)"
+        },
+        "orbuculum": {
+          "hourAngle": "Stundenwinkel (h)",
+          "nextTarget": "Nächstes Ziel:",
+          "current": "Aktuell:"
+        },
+        "autoBalancingExposure": {
+          "timeSeconds": "Zeit (s)",
+          "noEntries": "Keine Einträge",
+          "addRow": "Zeile hinzufügen",
+          "progress": "Fortschritt",
+          "ratio": "Verhältnis",
+          "bin": "Bin"
+        },
+        "setReadoutMode": {
+          "mode": "Modus"
+        },
+        "loopWhile": {
+          "expression": "Ausdruck"
+        },
+        "slewScopeToAltAz": {
+          "azimuth": "Az",
+          "altitude": "Alt"
+        },
+        "moveFocuserAbsolute": {
+          "position": "Position"
+        },
+        "moveFocuserRelative": {
+          "relativePosition": "Relative Position"
+        },
+        "moveFocuserByTemperature": {
+          "slope": "Steigung",
+          "intercept": "Achsenabschnitt",
+          "absolute": "Absolut"
         }
       },
       "emptyContainer": "Leer — auf + klicken um Items hinzuzufügen",

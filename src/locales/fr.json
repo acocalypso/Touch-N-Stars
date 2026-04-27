@@ -551,7 +551,8 @@
           "roiPct": "Rendement des investissements (en %)"
         },
         "switchFilter": {
-          "filter": "Filtre"
+          "filter": "Filtre",
+          "noFilter": "No Filter"
         },
         "switchProfile": {
           "profile": "Profil",
@@ -648,7 +649,8 @@
           "targetDistance": "distance-but",
           "eastDirection": "Direction Est",
           "manualMode": "Mode manuel",
-          "startFromCurrentPosition": "Commencer à partir de la position actuelle"
+          "startFromCurrentPosition": "Commencer à partir de la position actuelle",
+          "manual": "Manual"
         },
         "skyFlat": {
           "shouldDither": "Tremblement",
@@ -666,7 +668,13 @@
           "value": "Valeur"
         },
         "setTracking": {
-          "trackingMode": "Mode de suivi"
+          "trackingMode": "Mode de suivi",
+          "sidereal": "Sidereal",
+          "lunar": "Lunar",
+          "solar": "Solar",
+          "king": "King",
+          "custom": "Custom",
+          "stopped": "Stopped"
         },
         "expressionVariable": {
           "identifier": "nom",
@@ -716,6 +724,40 @@
         },
         "warmCamera": {
           "duration": "Durée (min)"
+        },
+        "orbuculum": {
+          "hourAngle": "Hour Angle (h)",
+          "nextTarget": "Next target:",
+          "current": "Current:"
+        },
+        "autoBalancingExposure": {
+          "timeSeconds": "Time (s)",
+          "noEntries": "No entries",
+          "addRow": "Add row",
+          "progress": "Progress",
+          "ratio": "Ratio",
+          "bin": "Bin"
+        },
+        "setReadoutMode": {
+          "mode": "Mode"
+        },
+        "loopWhile": {
+          "expression": "Expression"
+        },
+        "slewScopeToAltAz": {
+          "azimuth": "Az",
+          "altitude": "Alt"
+        },
+        "moveFocuserAbsolute": {
+          "position": "Position"
+        },
+        "moveFocuserRelative": {
+          "relativePosition": "Position relative"
+        },
+        "moveFocuserByTemperature": {
+          "slope": "Pente",
+          "intercept": "Ordonnée à l'origine",
+          "absolute": "Absolu"
         }
       },
       "emptyContainer": "Vide — cliquez sur + pour ajouter des éléments",

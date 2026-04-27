@@ -24,7 +24,8 @@
       />
 
       <div v-if="item.NextTargetName" class="text-xs text-slate-500">
-        Nächstes Ziel: <span class="text-slate-300">{{ item.NextTargetName }}</span>
+        {{ $t('components.sequence.items.orbuculum.nextTarget') }}
+        <span class="text-slate-300">{{ item.NextTargetName }}</span>
       </div>
     </template>
   </ItemShell>

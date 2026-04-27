@@ -551,7 +551,8 @@
           "roiPct": "ROI(%)"
         },
         "switchFilter": {
-          "filter": "Filtrar"
+          "filter": "Filtrar",
+          "noFilter": "No Filter"
         },
         "switchProfile": {
           "profile": "Perfil",
@@ -648,7 +649,8 @@
           "targetDistance": "distância-objectivo",
           "eastDirection": "Direção Este",
           "manualMode": "Modo Manual​​",
-          "startFromCurrentPosition": "Iniciar a partir da posição atual"
+          "startFromCurrentPosition": "Iniciar a partir da posição atual",
+          "manual": "Manual"
         },
         "skyFlat": {
           "shouldDither": "Pontilhamento",
@@ -666,7 +668,13 @@
           "value": "Valor"
         },
         "setTracking": {
-          "trackingMode": "Modo de Rastreamento"
+          "trackingMode": "Modo de Rastreamento",
+          "sidereal": "Sidereal",
+          "lunar": "Lunar",
+          "solar": "Solar",
+          "king": "King",
+          "custom": "Custom",
+          "stopped": "Stopped"
         },
         "expressionVariable": {
           "identifier": "Nome",
@@ -716,6 +724,40 @@
         },
         "warmCamera": {
           "duration": "Duração (min)"
+        },
+        "orbuculum": {
+          "hourAngle": "Hour Angle (h)",
+          "nextTarget": "Next target:",
+          "current": "Current:"
+        },
+        "autoBalancingExposure": {
+          "timeSeconds": "Time (s)",
+          "noEntries": "No entries",
+          "addRow": "Add row",
+          "progress": "Progress",
+          "ratio": "Ratio",
+          "bin": "Bin"
+        },
+        "setReadoutMode": {
+          "mode": "Mode"
+        },
+        "loopWhile": {
+          "expression": "Expression"
+        },
+        "slewScopeToAltAz": {
+          "azimuth": "Az",
+          "altitude": "Alt"
+        },
+        "moveFocuserAbsolute": {
+          "position": "Posição"
+        },
+        "moveFocuserRelative": {
+          "relativePosition": "Posição relativa"
+        },
+        "moveFocuserByTemperature": {
+          "slope": "Inclinação",
+          "intercept": "Intercepto",
+          "absolute": "Absoluto"
         }
       },
       "emptyContainer": "Vazio — clique em + para adicionar itens",

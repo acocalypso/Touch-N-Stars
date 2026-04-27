@@ -603,7 +603,8 @@
           "roiPct": "ROI (%)"
         },
         "switchFilter": {
-          "filter": "Filter"
+          "filter": "Filter",
+          "noFilter": "No Filter"
         },
         "switchProfile": {
           "profile": "Profile",
@@ -700,6 +701,7 @@
           "targetDistance": "Target Distance (°)",
           "eastDirection": "East Direction",
           "manualMode": "Manual Mode",
+          "manual": "Manual",
           "startFromCurrentPosition": "Start From Current Position"
         },
         "skyFlat": {
@@ -718,7 +720,13 @@
           "value": "Value"
         },
         "setTracking": {
-          "trackingMode": "Tracking Mode"
+          "trackingMode": "Tracking Mode",
+          "sidereal": "Sidereal",
+          "lunar": "Lunar",
+          "solar": "Solar",
+          "king": "King",
+          "custom": "Custom",
+          "stopped": "Stopped"
         },
         "expressionVariable": {
           "identifier": "Name",
@@ -768,6 +776,40 @@
         },
         "warmCamera": {
           "duration": "Duration (min)"
+        },
+        "orbuculum": {
+          "hourAngle": "Hour Angle (h)",
+          "nextTarget": "Next target:",
+          "current": "Current:"
+        },
+        "autoBalancingExposure": {
+          "timeSeconds": "Time (s)",
+          "noEntries": "No entries",
+          "addRow": "Add row",
+          "progress": "Progress",
+          "ratio": "Ratio",
+          "bin": "Bin"
+        },
+        "setReadoutMode": {
+          "mode": "Mode"
+        },
+        "loopWhile": {
+          "expression": "Expression"
+        },
+        "slewScopeToAltAz": {
+          "azimuth": "Az",
+          "altitude": "Alt"
+        },
+        "moveFocuserAbsolute": {
+          "position": "Position"
+        },
+        "moveFocuserRelative": {
+          "relativePosition": "Relative Position"
+        },
+        "moveFocuserByTemperature": {
+          "slope": "Slope",
+          "intercept": "Intercept",
+          "absolute": "Absolute"
         }
       },
       "emptyContainer": "Empty — click + to add items",

@@ -540,7 +540,8 @@
           "roiPct": "ROI (%)"
         },
         "switchFilter": {
-          "filter": "Фільтр"
+          "filter": "Фільтр",
+          "noFilter": "No Filter"
         },
         "switchProfile": {
           "profile": "Профіль",
@@ -637,7 +638,8 @@
           "targetDistance": "Цільова відстань (°)",
           "eastDirection": "Східний напрямок",
           "manualMode": "Ручний режим",
-          "startFromCurrentPosition": "Почати з поточної позиції"
+          "startFromCurrentPosition": "Почати з поточної позиції",
+          "manual": "Manual"
         },
         "skyFlat": {
           "shouldDither": "Дизерінг",
@@ -655,7 +657,13 @@
           "value": "Значення"
         },
         "setTracking": {
-          "trackingMode": "Режим стеження"
+          "trackingMode": "Режим стеження",
+          "sidereal": "Sidereal",
+          "lunar": "Lunar",
+          "solar": "Solar",
+          "king": "King",
+          "custom": "Custom",
+          "stopped": "Stopped"
         },
         "expressionVariable": {
           "identifier": "Назва",
@@ -705,6 +713,40 @@
         },
         "warmCamera": {
           "duration": "Тривалість (хв)"
+        },
+        "orbuculum": {
+          "hourAngle": "Hour Angle (h)",
+          "nextTarget": "Next target:",
+          "current": "Current:"
+        },
+        "autoBalancingExposure": {
+          "timeSeconds": "Time (s)",
+          "noEntries": "No entries",
+          "addRow": "Add row",
+          "progress": "Progress",
+          "ratio": "Ratio",
+          "bin": "Bin"
+        },
+        "setReadoutMode": {
+          "mode": "Mode"
+        },
+        "loopWhile": {
+          "expression": "Expression"
+        },
+        "slewScopeToAltAz": {
+          "azimuth": "Az",
+          "altitude": "Alt"
+        },
+        "moveFocuserAbsolute": {
+          "position": "Позиція"
+        },
+        "moveFocuserRelative": {
+          "relativePosition": "Відносна позиція"
+        },
+        "moveFocuserByTemperature": {
+          "slope": "Нахил",
+          "intercept": "Перетин",
+          "absolute": "Абсолютна"
         }
       },
       "emptyContainer": "Порожньо — натисніть + для додавання елементів",

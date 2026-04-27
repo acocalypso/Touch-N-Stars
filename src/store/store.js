@@ -415,6 +415,10 @@ export const apiStore = defineStore('store', {
           this.isTnsPluginVersionNewerOrEqual &&
           this.isWebSocketConnected
         ) {
+          if (!this.isBackendReachable) {
+            const settingsStore = useSettingsStore();
+            settingsStore.loadAllBackendSettings();
+          }
           this.isBackendReachable = true;
           this.attemptsToConnect = 0;
           //console.log('Backend is reachable', new Date().toLocaleTimeString());

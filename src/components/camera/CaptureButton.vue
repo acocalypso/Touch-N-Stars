@@ -203,7 +203,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import apiService from '@/services/apiService';
 import { useCameraStore } from '@/store/cameraStore';
 import { useSettingsStore } from '@/store/settingsStore';
@@ -223,6 +223,15 @@ const guiderStore = useGuiderStore();
 const store = apiStore();
 const openSettings = ref(false);
 const showDropdown = ref(false);
+
+let saveDebounce;
+watch(
+  () => settingsStore.camera.exposureTime,
+  () => {
+    clearTimeout(saveDebounce);
+    saveDebounce = setTimeout(() => settingsStore.saveCameraSettings(), 600);
+  }
+);
 
 // Astrophotography exposure time presets
 const quickTimes = [0.1, 0.2, 0.5, 1, 2, 3, 5];

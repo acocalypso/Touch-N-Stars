@@ -1043,6 +1043,7 @@ async function handleCapture() {
   const parsedExposure = Number(settingsStore.camera.exposureTime);
   const safeExposure = Number.isFinite(parsedExposure) && parsedExposure > 0 ? parsedExposure : 2;
   settingsStore.camera.exposureTime = safeExposure;
+  settingsStore.saveCameraSettings();
 
   try {
     await cameraStore.capturePhoto(

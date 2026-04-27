@@ -168,7 +168,11 @@ export const useSettingsStore = defineStore('settings', {
   },
   actions: {
     async loadAllBackendSettings() {
-      await Promise.all([this.loadMountSettings(), this.loadUseNinaCache()]);
+      await Promise.all([
+        this.loadMountSettings(),
+        this.loadUseNinaCache(),
+        this.loadCameraSettings(),
+      ]);
     },
 
     async loadMountSettings() {
@@ -189,6 +193,28 @@ export const useSettingsStore = defineStore('settings', {
       } catch (error) {
         if (error.response?.status === 409) {
           await apiService.updateSetting('mount_settings', JSON.stringify(this.mount));
+        }
+      }
+    },
+
+    async loadCameraSettings() {
+      const response = await apiService.getSetting('camera_settings');
+      if (response?.Response?.Value !== undefined) {
+        Object.assign(this.camera, JSON.parse(response.Response.Value));
+      } else if (response?.StatusCode === 404) {
+        this.saveCameraSettings();
+      }
+    },
+
+    async saveCameraSettings() {
+      try {
+        await apiService.createSetting({
+          Key: 'camera_settings',
+          Value: JSON.stringify(this.camera),
+        });
+      } catch (error) {
+        if (error.response?.status === 409) {
+          await apiService.updateSetting('camera_settings', JSON.stringify(this.camera));
         }
       }
     },

@@ -155,6 +155,7 @@ async function setOffset() {
   }
   try {
     await apiService.profileChangeValue('CameraSettings-Offset', settingsStore.camera.offset);
+    settingsStore.saveCameraSettings();
   } catch (error) {
     console.log('Error while setting offset');
   }
@@ -164,6 +165,7 @@ async function setGain() {
   try {
     await apiService.profileChangeValue('SnapShotControlSettings-Gain', settingsStore.camera.gain);
     await apiService.profileChangeValue('CameraSettings-Gain', settingsStore.camera.gain);
+    settingsStore.saveCameraSettings();
   } catch (error) {
     console.log('Error while setting gain');
   }

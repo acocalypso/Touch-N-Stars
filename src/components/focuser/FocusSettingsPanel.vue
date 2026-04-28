@@ -35,7 +35,7 @@
         labelKey="components.focuser.settings.AutoFocusStepSize"
         settingKey="FocuserSettings-AutoFocusStepSize"
         :modelValue="store.profileInfo.FocuserSettings.AutoFocusStepSize"
-        :max="1000"
+        :max="100000"
       />
       <SettingInput
         labelKey="components.focuser.settings.FocuserSettleTime"

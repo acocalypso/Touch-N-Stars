@@ -1118,10 +1118,7 @@ export const apiStore = defineStore('store', {
       const imageStore = useImagetStore();
       // Check if message has the expected structure with Response.Event
       if (message.Response && message.Response.Event === 'IMAGE-PREPARED') {
-        console.log(
-          '[WS] IMAGE-PREPARED received, isImageFetching =',
-          imageStore.isImageFetching
-        );
+        console.log('[WS] IMAGE-PREPARED received, isImageFetching =', imageStore.isImageFetching);
         // Verhindere mehrfache gleichzeitige Anfragen
         if (imageStore.isImageFetching) {
           return;

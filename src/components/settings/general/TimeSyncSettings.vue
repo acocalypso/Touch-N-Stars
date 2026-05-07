@@ -119,10 +119,7 @@ import ToggleButton from '@/components/helpers/toggleButton.vue';
 import InfoModal from '@/components/helpers/infoModal.vue';
 import apiService from '@/services/apiService';
 import axios from 'axios';
-import {
-  getDeviceDateTimePayload,
-  parsePinsTimeToSeconds,
-} from '@/utils/pinsTimeUtils';
+import { getDeviceDateTimePayload, parsePinsTimeToSeconds } from '@/utils/pinsTimeUtils';
 
 const PINS_PORT = 8000;
 const PINS_TOKEN = 'zZDqJ3IKeFaIZqG2JIFvsxzA5E48GC2gyGVagHFZqC0OMtgoupUDZCPhQDYKm35d';
@@ -145,7 +142,6 @@ const timeInfo = ref({
 function getPinsIp() {
   return settingsStore.connection.ip || window.location.hostname;
 }
-
 
 async function fetchPinsDeviceTime() {
   const ip = getPinsIp();

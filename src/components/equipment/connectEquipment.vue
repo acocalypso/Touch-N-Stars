@@ -656,6 +656,9 @@ async function disconnectAll() {
           await apiService.rotatorAction('disconnect');
           break;
         case 'guider':
+          if (device.id === 'PHD2_Single') {
+            await apiService.disconnectPHD2Equipment();
+          }
           await apiService.guiderAction('disconnect');
           break;
         case 'safety':

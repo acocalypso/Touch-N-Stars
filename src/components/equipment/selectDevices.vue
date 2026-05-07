@@ -265,6 +265,7 @@ async function toggleConnection() {
       console.log('disconnect');
       const response = await apiService[props.apiAction]('disconnect');
       if (deviceId == 'PHD2_Single') {
+        await apiService.disconnectPHD2Equipment();
         await apiService.disconnectPHD2();
       }
       console.log('response', response);

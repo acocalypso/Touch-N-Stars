@@ -1,8 +1,5 @@
 <template>
-  <div
-    v-if="isVisible"
-    class="flex flex-col border border-gray-500 p-1 md:p-2 rounded-lg"
-  >
+  <div v-if="isVisible" class="flex flex-col border border-gray-500 p-1 md:p-2 rounded-lg">
     <div class="flex flex-row items-center justify-between w-full">
       <label for="slotNum" class="text-xs md:text-sm text-gray-200 mr-2">
         {{ $t('components.filterwheel.settings.SlotNum') }}
@@ -15,7 +12,7 @@
         :class="statusClass"
       >
         <option :value="-1">{{ $t('components.filterwheel.settings.slotNumDefault') }}</option>
-        <option v-for="n in [5,7,8]" :key="n" :value="n">{{ n }}</option>
+        <option v-for="n in [5, 7, 8]" :key="n" :value="n">{{ n }}</option>
       </select>
     </div>
   </div>

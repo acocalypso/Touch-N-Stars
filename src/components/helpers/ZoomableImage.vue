@@ -5,7 +5,10 @@
     :style="{ height: height }"
   >
     <!-- Action Buttons -->
-    <div v-if="imageData" class="absolute top-2 right-2 z-30 flex gap-2 portrait:top-24">
+    <div
+      v-if="imageData"
+      class="absolute top-2 right-2 z-30 flex flex-wrap justify-end gap-2 portrait:top-24 portrait:left-20 landscape:left-40"
+    >
       <!-- Download Button -->
       <button
         v-if="showDownload"
@@ -28,7 +31,7 @@
 
       <!-- Histogram Button -->
       <button
-        v-if="showHistogram !== false"
+        v-if="showHistogram"
         @click.stop="handleHistogramToggle"
         class="w-10 h-10 bg-gray-800/90 hover:bg-gray-700 text-white rounded-lg shadow-lg flex items-center justify-center transition-colors"
         :class="{ 'bg-cyan-700 hover:bg-cyan-600': showHistogramActive }"
@@ -463,5 +466,10 @@ onBeforeUnmount(() => {
   width: 100%;
   height: 100%;
   object-fit: contain;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  pointer-events: auto;
 }
 </style>

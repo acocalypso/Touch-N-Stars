@@ -144,7 +144,7 @@ const DEVICE_TYPE_TO_INFO_KEY = {
 };
 
 const ipAddress = ref('127.0.0.1');
-const port = ref(5000);
+const port = ref(11111);
 const deviceNumber = ref(0);
 const serviceType = ref('Http');
 

@@ -16,7 +16,9 @@
     "scanning": "Scanning…",
     "connecting": "Connecting…",
     "refresh": "Refresh",
-    "help": "Help"
+    "help": "Help",
+    "expand": "Expand",
+    "collapse": "Collapse"
   },
   "general": {
     "cancel": "Cancel",
@@ -157,6 +159,8 @@
       "discoveryPermissionHintWrapper": "{message} Ensure the app has local network/Nearby Devices access in system settings."
     },
     "framing": {
+      "pageTitle": "Framing Assistant",
+      "missingEquipmentSettings": "Missing equipment settings: please set focal length and pixel size under Settings → Equipment so the camera FOV is calculated correctly.",
       "confirmSetTargetTitle": "Confirm Target Selection",
       "confirmSetTargetMessage": "Are you sure you want to set this target as the sequence target?",
       "useNinaCache": "Use NINA cache for the target image",
@@ -235,8 +239,8 @@
       "coordsMismatchWarning": "Profile and mount coordinates differ.",
       "timeSync": {
         "title": "Time Synchronisation",
-        "backendTime": "Backend UTC",
-        "mountTime": "Mount UTC",
+        "backendTime": "Backend Time",
+        "mountTime": "Mount Time",
         "syncLabel": "Sync time to mount",
         "syncLabelInfo": "When enabled, clicking \"Sync Now\" will briefly disconnect and reconnect the mount so that NINA can transfer the current time to it.",
         "mountNotConnected": "Mount not connected",
@@ -373,8 +377,9 @@
         "ReattemptDelay": "Reattempt delay (min)",
         "BlindFailoverEnabled": "Blind failover enabled",
         "ASTAPLocation": "ASTAP Location",
-        "Filter": "Filter",
-        "FilterCurrent": "Current"
+        "Filter": "Plate Solving Filter",
+        "FilterCurrent": "Current",
+        "FilterHint": "Filter used during plate solving (overrides the current filter)"
       },
       "equipment": {
         "title": "Equipment",
@@ -481,6 +486,9 @@
       "resetSequence": "Reset sequence",
       "skipToEnd": "Skip to end",
       "skipCurrentItem": "Skip current item",
+      "lockControls": "Lock",
+      "unlockControls": "Unlock",
+      "controlsLockedMessage": "Sequence controls are locked while the sequence is running.",
       "manageSequences": "Load / save sequences",
       "saveSequenceAs": "Save current sequence as",
       "sequenceFileName": "Filename",
@@ -491,6 +499,8 @@
       "sequenceClose": "Close",
       "deleteConfirmationTitle": "Delete File",
       "deleteConfirmationMessage": "Are you sure you want to delete the file?",
+      "overwriteConfirmationTitle": "Overwrite File",
+      "overwriteConfirmationMessage": "Are you sure you want to overwrite the file?",
       "resetConfirmationTitle": "Confirm Reset",
       "resetConfirmationMessage": "Are you sure you want to reset the sequence? This action cannot be undone.",
       "clearSequence": "Clear all",
@@ -595,7 +605,8 @@
           "roiPct": "ROI (%)"
         },
         "switchFilter": {
-          "filter": "Filter"
+          "filter": "Filter",
+          "noFilter": "No Filter"
         },
         "switchProfile": {
           "profile": "Profile",
@@ -692,6 +703,7 @@
           "targetDistance": "Target Distance (°)",
           "eastDirection": "East Direction",
           "manualMode": "Manual Mode",
+          "manual": "Manual",
           "startFromCurrentPosition": "Start From Current Position"
         },
         "skyFlat": {
@@ -710,7 +722,13 @@
           "value": "Value"
         },
         "setTracking": {
-          "trackingMode": "Tracking Mode"
+          "trackingMode": "Tracking Mode",
+          "sidereal": "Sidereal",
+          "lunar": "Lunar",
+          "solar": "Solar",
+          "king": "King",
+          "custom": "Custom",
+          "stopped": "Stopped"
         },
         "expressionVariable": {
           "identifier": "Name",
@@ -760,6 +778,40 @@
         },
         "warmCamera": {
           "duration": "Duration (min)"
+        },
+        "orbuculum": {
+          "hourAngle": "Hour Angle (h)",
+          "nextTarget": "Next target:",
+          "current": "Current:"
+        },
+        "autoBalancingExposure": {
+          "timeSeconds": "Time (s)",
+          "noEntries": "No entries",
+          "addRow": "Add row",
+          "progress": "Progress",
+          "ratio": "Ratio",
+          "bin": "Bin"
+        },
+        "setReadoutMode": {
+          "mode": "Mode"
+        },
+        "loopWhile": {
+          "expression": "Expression"
+        },
+        "slewScopeToAltAz": {
+          "azimuth": "Az",
+          "altitude": "Alt"
+        },
+        "moveFocuserAbsolute": {
+          "position": "Position"
+        },
+        "moveFocuserRelative": {
+          "relativePosition": "Relative Position"
+        },
+        "moveFocuserByTemperature": {
+          "slope": "Slope",
+          "intercept": "Intercept",
+          "absolute": "Absolute"
         }
       },
       "emptyContainer": "Empty — click + to add items",
@@ -918,6 +970,10 @@
         "guideAlgorithm": "Guide Algorithm",
         "guideAlgorithmRA": "RA Guide Algorithm",
         "guideAlgorithmDEC": "DEC Guide Algorithm",
+        "camera": "Camera",
+        "cameraGain": "Gain",
+        "cameraBinning": "Binning",
+        "restoreCalibration": "Restore Calibration",
         "guiderScale": "Guider Scale",
         "maxY": "Max Y",
         "historySize": "History Size",
@@ -1168,6 +1224,8 @@
       "readout_mode_image": "Readout Mode Sequence",
       "readout_mode_snap": "Readout Mode Snapshot",
       "LowNoiseMode": "Ultra Mode",
+      "BadPixelCorrection": "Bad Pixel Correction",
+      "BadPixelCorrectionThreshold": "Bad Pixel Threshold",
       "HighFullwellMode": "High Fullwell Mode",
       "BinAverageEnabled": "Binning averages pixels",
       "LEDLights": "LED",
@@ -1294,7 +1352,9 @@
         "TurboMode": "Turbo Mode",
         "Autorun": "Autorun",
         "Calibrate": "Calibrate",
-        "commandFailed": "Command not supported by this device"
+        "commandFailed": "Command not supported by this device",
+        "SlotNum": "Number of Slots",
+        "slotNumDefault": "Default"
       },
       "indi": {
         "settings": "Filter Wheel Settings"
@@ -1724,6 +1784,15 @@
       "indi3rdpartyInstall": "Install driver",
       "indi3rdpartyInstalling": "Installing...",
       "indi3rdpartyNoDrivers": "No not-installed drivers found.",
+      "indiInstallModalTitle": "Install INDI Driver",
+      "indiInstallModalDriverPackage": "Driver/Package",
+      "indiInstallModalAssetName": "Asset Name",
+      "indiInstallModalType": "Type",
+      "indiInstallModalLabel": "Label",
+      "indiInstallModalInstall": "Install",
+      "indiInstallModalInstalling": "Installing...",
+      "indiInstallModalSuccessStarted": "Installation started for {label}.",
+      "indiInstallModalSuccessCompleted": "Installation completed for {label}.",
       "pluginsTitle": "PINS Plugins",
       "pluginsDescription": "Manage optional PINS plugins (install or uninstall).",
       "pluginsRefresh": "Refresh plugin list",
@@ -2707,7 +2776,12 @@
         "dewPorts": "Dew Ports",
         "adjPorts": "Adjustable Power Ports",
         "powerStatus": "Power Status",
-        "meteoStation": "Meteo Station"
+        "meteoStation": "Meteo Station",
+        "rail12v": "12V Rail",
+        "rail5v": "5V Rail",
+        "averageAmps": "Average Amps",
+        "totalAmps": "Total Amps",
+        "totalWatts": "Total Watts"
       },
       "status": {
         "notConnected": "Not connected"
@@ -4023,6 +4097,7 @@
     "sequence": "Seq.",
     "monitoring": "Monitor",
     "flatWizard": "Flats",
+    "framing": "Framing",
     "skyView": "Stellarium",
     "settings": "Settings",
     "about": "About"

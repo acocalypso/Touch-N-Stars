@@ -323,16 +323,19 @@ import UpdateAvailableModal from '@/components/helpers/UpdateAvailableModal.vue'
 import PickerOverlay from '@/components/helpers/PickerOverlay.vue';
 import Modal from '@/components/helpers/Modal.vue';
 import { usePinsStore } from '@/plugins/pins/store/pinsStore';
+import { useNightSummaryStore } from '@/plugins/nightsummary/store/nightsummaryStore';
 import {
   checkForManualUpdate,
   downloadAndApplyUpdate,
   fetchChangelogWhatsNew,
   isNativePlatform,
 } from '@/services/updateService';
+import { getDeviceDateTimePayload, parsePinsTimeToSeconds } from '@/utils/pinsTimeUtils';
 
 const store = apiStore();
 const settingsStore = useSettingsStore();
 const pinsStore = usePinsStore();
+const nightSummaryStore = useNightSummaryStore();
 const route = useRoute();
 
 const showTimeWarningModal = ref(false);
@@ -352,12 +355,13 @@ async function checkPinsTimeMismatch() {
       headers: { Authorization: `Bearer ${PINS_TOKEN}` },
       timeout: 5000,
     });
-    if (response.data && response.data.timestamp) {
+    const deviceTimestamp = parsePinsTimeToSeconds(response.data);
+    if (deviceTimestamp !== null) {
       const clientTimestamp = Date.now() / 1000;
-      const diff = Math.abs(response.data.timestamp - clientTimestamp);
+      const diff = Math.abs(deviceTimestamp - clientTimestamp);
       if (diff > 60) {
         timeWarningClientTime.value = new Date(clientTimestamp * 1000).toLocaleTimeString();
-        timeWarningDeviceTime.value = new Date(response.data.timestamp * 1000).toLocaleTimeString();
+        timeWarningDeviceTime.value = new Date(deviceTimestamp * 1000).toLocaleTimeString();
         showTimeWarningModal.value = true;
       }
     }
@@ -371,17 +375,14 @@ async function syncPinsTimeToClient() {
   if (!ip) return;
   try {
     const directAxios = axios.create({ headers: {} });
-    await directAxios.post(
-      `http://${ip}:${PINS_PORT}/system/time`,
-      { timestamp: Date.now() / 1000 },
-      {
-        headers: {
-          Authorization: `Bearer ${PINS_TOKEN}`,
-          'Content-Type': 'application/json',
-        },
-        timeout: 5000,
-      }
-    );
+    const payload = getDeviceDateTimePayload();
+    await directAxios.post(`http://${ip}:${PINS_PORT}/system/time`, payload, {
+      headers: {
+        Authorization: `Bearer ${PINS_TOKEN}`,
+        'Content-Type': 'application/json',
+      },
+      timeout: 5000,
+    });
   } catch (e) {
     console.warn('[TimeWarning] Could not set PINS time:', e.message);
   }
@@ -574,8 +575,6 @@ async function resumeApp() {
 
   // Set flag for recently returned from background
   store.setPageReturnedFromBackground();
-  store.checkForPINS(); // Re-check for PINS support
-
   // Important: Re-enable WebSocket Channel Service shouldReconnect flag
   const wsChannelService = (await import('@/services/websocketChannelSocket')).default;
   wsChannelService.shouldReconnect = true;
@@ -597,6 +596,10 @@ async function resumeApp() {
     dialogStore.startPolling();
   }
 
+  // Clear any stale in-flight fetch flags from before the pause — connections
+  // killed by the OS in background would otherwise leave isImageFetching stuck true.
+  imageStore.isImageFetching = false;
+  imageStore.isSequenceImageFetching = false;
   imageStore.getImage();
   if (!sequenceStore.sequenceEdit) {
     sequenceStore.startFetching();
@@ -874,6 +877,12 @@ watch(
     if (isReachable && store.isPINS) {
       await dialogStore.initializeDialogSignalR();
       await messageboxStore.initializeMessageboxSignalR();
+    }
+
+    // Re-initialize night summary plugin after an instance switch so it
+    // fetches its status, settings, and sessions from the new backend.
+    if (isReachable) {
+      nightSummaryStore.initialize();
     }
 
     if (isReachable) {

@@ -4,6 +4,7 @@
       class="flex items-center gap-1 px-2 py-1 rounded transition-colors"
       :class="colorClass"
       :title="label"
+      :disabled="sequenceStore.sequenceControlsLocked || loading"
       @click.stop="toggle"
     >
       <svg v-if="loading" class="w-3.5 h-3.5 animate-spin" viewBox="0 0 24 24" fill="none">
@@ -63,6 +64,7 @@
 import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { PlusIcon } from '@heroicons/vue/24/outline';
 import { useSequenceV2Store } from '@/store/sequenceV2Store';
+import { useSequenceStore } from '@/store/sequenceStore';
 import { ITEM_COMPONENTS } from './items/index.js';
 
 const props = defineProps({
@@ -75,6 +77,7 @@ const props = defineProps({
 const emit = defineEmits(['open-change']);
 
 const store = useSequenceV2Store();
+const sequenceStore = useSequenceStore();
 const open = ref(false);
 const loading = ref(false);
 const search = ref('');
@@ -94,14 +97,16 @@ const shortLabel = computed(
   () => ({ item: 'Item', trigger: 'Trigger', condition: 'Condition' })[props.mode] ?? 'Hinzufügen'
 );
 
-const colorClass = computed(
-  () =>
-    ({
-      item: 'text-slate-400 hover:text-slate-200 hover:bg-slate-600/40',
-      trigger: 'text-cyan-500/70 hover:text-cyan-400 hover:bg-cyan-900/30',
-      condition: 'text-amber-500/70 hover:text-amber-400 hover:bg-amber-900/30',
-    })[props.mode] ?? 'text-slate-400 hover:text-slate-200 hover:bg-slate-600/40'
-);
+const MODE_COLOR_CLASSES = {
+  item: 'text-slate-400 hover:text-slate-200 hover:bg-slate-600/40',
+  trigger: 'text-cyan-500/70 hover:text-cyan-400 hover:bg-cyan-900/30',
+  condition: 'text-amber-500/70 hover:text-amber-400 hover:bg-amber-900/30',
+};
+
+const colorClass = computed(() => [
+  MODE_COLOR_CLASSES[props.mode] ?? MODE_COLOR_CLASSES.item,
+  sequenceStore.sequenceControlsLocked ? 'opacity-40 cursor-not-allowed hover:bg-transparent' : '',
+]);
 
 const types = computed(
   () =>
@@ -151,6 +156,8 @@ function updateDropdownPosition() {
 }
 
 async function toggle() {
+  if (sequenceStore.sequenceControlsLocked) return;
+
   if (open.value) {
     open.value = false;
     emit('open-change', false);
@@ -168,6 +175,8 @@ async function toggle() {
 }
 
 async function select(t) {
+  if (sequenceStore.sequenceControlsLocked) return;
+
   open.value = false;
   emit('open-change', false);
   if (props.mode === 'item') await store.addItem(props.targetId, t.FullTypeName, props.insertAfter);

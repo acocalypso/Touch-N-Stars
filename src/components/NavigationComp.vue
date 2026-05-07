@@ -399,6 +399,16 @@
         </div>
 
         <div
+          v-if="store.isBackendReachable && !isNavItemHidden('framing')"
+          :style="{ order: getNavOrder('framing') }"
+          :data-label="t('nav.framing')"
+        >
+          <router-link to="/framing" class="nav-button" active-class="active-nav-button">
+            <CameraFramingIcon class="icon force-visible" />
+          </router-link>
+        </div>
+
+        <div
           v-if="store.isBackendReachable && !isNavItemHidden('skyview')"
           :style="{ order: getNavOrder('skyview') }"
           :data-label="t('nav.skyView')"
@@ -481,6 +491,7 @@ import {
   InformationCircleIcon,
   LinkSlashIcon,
 } from '@heroicons/vue/24/outline';
+import CameraFramingIcon from '@/components/icons/CameraFramingIcon.vue';
 import { watch, computed, ref, onMounted, onBeforeUnmount, nextTick } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';

@@ -69,6 +69,9 @@ import OrbuculumNextTargetAltitudeItem from './OrbuculumNextTargetAltitudeItem.v
 import OrbuculumNextTargetHorizonItem from './OrbuculumNextTargetHorizonItem.vue';
 import OrbuculumHourAngleItem from './OrbuculumHourAngleItem.vue';
 import OrbuculumNextTargetHourAngleItem from './OrbuculumNextTargetHourAngleItem.vue';
+import MoveFocuserAbsoluteItem from './MoveFocuserAbsoluteItem.vue';
+import MoveFocuserRelativeItem from './MoveFocuserRelativeItem.vue';
+import MoveFocuserByTemperatureItem from './MoveFocuserByTemperatureItem.vue';
 import GenericItem from './GenericItem.vue';
 
 export const ITEM_COMPONENTS = {
@@ -100,6 +103,10 @@ export const ITEM_COMPONENTS = {
   'NINA.Sequencer.SequenceItem.Imaging.TakeManyExposures': TakeManyExposuresItem,
   'NINA.Sequencer.SequenceItem.Imaging.SmartExposure': SmartExposureItem,
   'NINA.Sequencer.SequenceItem.Autofocus.RunAutofocus': RunAutofocusItem,
+  'NINA.Sequencer.SequenceItem.Autofocus.RunAberrationInspector': RunAutofocusItem,
+  'NINA.Sequencer.SequenceItem.Focuser.MoveFocuserAbsolute': MoveFocuserAbsoluteItem,
+  'NINA.Sequencer.SequenceItem.Focuser.MoveFocuserRelative': MoveFocuserRelativeItem,
+  'NINA.Sequencer.SequenceItem.Focuser.MoveFocuserByTemperature': MoveFocuserByTemperatureItem,
   'NINA.Sequencer.SequenceItem.Telescope.UnparkScope': RunAutofocusItem,
   'NINA.Sequencer.SequenceItem.Telescope.ParkScope': RunAutofocusItem,
   'NINA.Sequencer.SequenceItem.Telescope.FindHome': RunAutofocusItem,

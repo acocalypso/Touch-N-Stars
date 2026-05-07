@@ -5,7 +5,7 @@
         {{ pad(item.Hours) }}:{{ pad(item.Minutes) }}:{{ pad(item.Seconds) }}
       </span>
       <span v-if="item.RemainingTime" class="text-xs text-amber-400/80 font-mono ml-2">
-        ⏱ {{ item.RemainingTime }}
+        ⏱ {{ formatRemaining(item.RemainingTime) }}
       </span>
     </template>
 
@@ -51,5 +51,9 @@ defineProps({
 
 function pad(v) {
   return String(v ?? 0).padStart(2, '0');
+}
+
+function formatRemaining(t) {
+  return String(t).replace(/\.\d+$/, '');
 }
 </script>

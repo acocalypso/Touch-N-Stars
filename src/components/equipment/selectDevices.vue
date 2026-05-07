@@ -144,7 +144,7 @@ const displayDevices = computed(() => {
 });
 
 // Funktion für API-Aufruf mit dynamischem `apiAction` mit Retry bei Backend-Neustart
-async function getDevices(retryCount = 0, maxRetries = 3, delayMs = 1000) {
+async function getDevices(retryCount = 0, maxRetries = 3, delayMs = 2000) {
   error.value = false;
 
   // Prüfung ob apiAction definiert ist
@@ -175,6 +175,14 @@ async function getDevices(retryCount = 0, maxRetries = 3, delayMs = 1000) {
     }
 
     if (Array.isArray(response.Response)) {
+      // Leeres Array kann bedeuten, dass das Backend noch nicht fertig gescannt hat
+      if (response.Response.length === 0 && retryCount < maxRetries) {
+        console.warn(
+          `[${apiName}] Empty device list, retrying in ${delayMs}ms... (${retryCount + 1}/${maxRetries})`
+        );
+        await new Promise((resolve) => setTimeout(resolve, delayMs));
+        return getDevices(retryCount + 1, maxRetries, delayMs);
+      }
       devices.value = response.Response;
     } else {
       error.value = true;

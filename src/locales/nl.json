@@ -16,7 +16,9 @@
     "connecting": "Verbinden…",
     "refresh": "Vernieuwen",
     "creating": "Creëren…",
-    "help": "Help"
+    "help": "Help",
+    "expand": "Uitvouwen",
+    "collapse": "Inklappen"
   },
   "general": {
     "cancel": "Annuleer",
@@ -117,6 +119,8 @@
       "discoveryPermissionHintWrapper": "{message} Zorg er voor dat de App toegang heeft tot lokale netwerk & Apparaten (Systeem Instellingen)."
     },
     "framing": {
+      "pageTitle": "Framing-assistent",
+      "missingEquipmentSettings": "Ontbrekende apparatuurinstellingen: stel de brandpuntsafstand en pixelgrootte in onder Instellingen → Apparatuur, zodat het FOV van de camera correct wordt berekend.",
       "confirmSetTargetTitle": "Bevestig Doel Selectie",
       "confirmSetTargetMessage": "Weet u zeker dat u dit Doel wilt instellen als het sequentie Doel?",
       "useNinaCache": "Gebruik NINA cache voor het Doel beeld",
@@ -297,8 +301,9 @@
         "ReattemptDelay": "Vertraging (min) voor nieuwe poging",
         "BlindFailoverEnabled": "Blinde failover ingeschakeld",
         "ASTAPLocation": "ASTAP-locatie",
-        "Filter": "Filter",
-        "FilterCurrent": "Huidig"
+        "Filter": "Plate Solving Filter",
+        "FilterCurrent": "Huidig",
+        "FilterHint": "Filter gebruikt tijdens plate solving (overschrijft het huidige filter)"
       },
       "equipment": {
         "title": "Apparatuur",
@@ -323,9 +328,9 @@
       },
       "coordsMismatchWarning": "Profiel- en montagecoördinaten verschillen.",
       "timeSync": {
-        "backendTime": "Back-end UTC",
+        "backendTime": "Servertijd",
         "mountNotConnected": "Mount niet aangesloten",
-        "mountTime": "Monteer UTC",
+        "mountTime": "Montagetijd",
         "notSupported": "Niet ondersteund door stuurprogramma",
         "syncLabel": "Synchroniseer de tijd om te mounten",
         "syncLabelInfo": "Indien ingeschakeld wordt bij het klikken op \"Nu synchroniseren\" de montuur kort verbroken en opnieuw verbonden zodat NINA de huidige tijd kan overdragen.",
@@ -451,6 +456,8 @@
       "sequenceClose": "Sluiten",
       "deleteConfirmationTitle": "Bestand verwijderen",
       "deleteConfirmationMessage": "Weet u zeker dat u het bestand wilt verwijderen?",
+      "overwriteConfirmationTitle": "Bestand overschrijven",
+      "overwriteConfirmationMessage": "Weet u zeker dat u het bestand wilt overschrijven?",
       "resetConfirmationTitle": "Bevestig Reset",
       "resetConfirmationMessage": "Weet u zeker dat u de sequentie wilt resetten? Deze actie kan niet ongedaan worden gemaakt.",
       "clearSequence": "Alles wissen",
@@ -546,7 +553,8 @@
           "roiPct": "Rendement van investeringen (%)"
         },
         "switchFilter": {
-          "filter": "Filter"
+          "filter": "Filter",
+          "noFilter": "No Filter"
         },
         "switchProfile": {
           "profile": "Profiel",
@@ -643,7 +651,8 @@
           "targetDistance": "Afstand doel",
           "eastDirection": "Rijrichting OOST:",
           "manualMode": "Handmatige modus",
-          "startFromCurrentPosition": "Start vanaf huidige positie"
+          "startFromCurrentPosition": "Start vanaf huidige positie",
+          "manual": "Manual"
         },
         "skyFlat": {
           "shouldDither": "Ditheren",
@@ -661,7 +670,13 @@
           "value": "Waarde"
         },
         "setTracking": {
-          "trackingMode": "Tracking-modus"
+          "trackingMode": "Tracking-modus",
+          "sidereal": "Sidereal",
+          "lunar": "Lunar",
+          "solar": "Solar",
+          "king": "King",
+          "custom": "Custom",
+          "stopped": "Stopped"
         },
         "expressionVariable": {
           "identifier": "Naam",
@@ -711,6 +726,40 @@
         },
         "warmCamera": {
           "duration": "Duur (min)"
+        },
+        "orbuculum": {
+          "hourAngle": "Hour Angle (h)",
+          "nextTarget": "Next target:",
+          "current": "Current:"
+        },
+        "autoBalancingExposure": {
+          "timeSeconds": "Time (s)",
+          "noEntries": "No entries",
+          "addRow": "Add row",
+          "progress": "Progress",
+          "ratio": "Ratio",
+          "bin": "Bin"
+        },
+        "setReadoutMode": {
+          "mode": "Mode"
+        },
+        "loopWhile": {
+          "expression": "Expression"
+        },
+        "slewScopeToAltAz": {
+          "azimuth": "Az",
+          "altitude": "Alt"
+        },
+        "moveFocuserAbsolute": {
+          "position": "Positie"
+        },
+        "moveFocuserRelative": {
+          "relativePosition": "Relatieve positie"
+        },
+        "moveFocuserByTemperature": {
+          "slope": "Helling",
+          "intercept": "Afsnijpunt",
+          "absolute": "Absoluut"
         }
       },
       "emptyContainer": "Leeg — klik op + om items toe te voegen",
@@ -729,7 +778,10 @@
       "enable": "Activeren",
       "disable": "Deactiveren",
       "resetStatus": "Status herstellen",
-      "delete": "Verwijderen"
+      "delete": "Verwijderen",
+      "controlsLockedMessage": "De reeksbedieningen zijn vergrendeld terwijl de reeks wordt uitgevoerd.",
+      "lockControls": "Slot",
+      "unlockControls": "Ontgrendelen"
     },
     "mount": {
       "title": "Montering",
@@ -878,6 +930,10 @@
         "guideAlgorithm": "Gidsalgoritme",
         "guideAlgorithmRA": "RA-gidsalgoritme",
         "guideAlgorithmDEC": "DEC-gidsalgoritme",
+        "camera": "Camera",
+        "cameraGain": "Gain",
+        "cameraBinning": "Binning",
+        "restoreCalibration": "Kalibratie herstellen",
         "guiderScale": "Gidsschaal",
         "maxY": "Max Y",
         "historySize": "Geschiedenisgrootte",
@@ -1126,6 +1182,8 @@
       "HighFullwellMode": "Hoge Fullwell-modus",
       "LEDLights": "LED",
       "LowNoiseMode": "Ultra-modus",
+      "BadPixelCorrection": "Slechte pixel correctie",
+      "BadPixelCorrectionThreshold": "Slechte pixel drempel",
       "dewHeaterStrength": "Sterkte van de dauwverwarmer",
       "tab_camera": "Camera",
       "tab_cooler": "Koeling",
@@ -1249,7 +1307,9 @@
         "Speed": "Snelheid",
         "TurboMode": "Turbo-modus",
         "commandFailed": "Commando wordt niet ondersteund door dit apparaat",
-        "deviceSpecific": "Apparaatinstellingen"
+        "deviceSpecific": "Apparaatinstellingen",
+        "SlotNum": "Aantal slots",
+        "slotNumDefault": "Standaard"
       },
       "indi": {
         "settings": "Filterwielinstellingen"
@@ -1747,7 +1807,16 @@
       "pluginsTitle": "PINS-plug-ins",
       "pluginsUninstall": "Verwijderen",
       "pluginsUninstalling": "Verwijderen...",
-      "pluginsVersion": "Versie"
+      "pluginsVersion": "Versie",
+      "indiInstallModalAssetName": "Naam van item",
+      "indiInstallModalDriverPackage": "Bestuurder/pakket",
+      "indiInstallModalInstall": "Installeren",
+      "indiInstallModalInstalling": "Installeren...",
+      "indiInstallModalLabel": "Label",
+      "indiInstallModalSuccessCompleted": "Installatie voltooid voor {label}.",
+      "indiInstallModalSuccessStarted": "Installatie gestart voor {label}.",
+      "indiInstallModalTitle": "Installeer het INDI-stuurprogramma",
+      "indiInstallModalType": "Type"
     },
     "bahtifocus": {
       "title": "Bahtinov Masker Analyse",
@@ -2623,7 +2692,12 @@
         "dewPorts": "Dauw poorten",
         "adjPorts": "Verstelbare stroompoorten",
         "powerStatus": "Stroomstatus",
-        "meteoStation": "Meteostation"
+        "meteoStation": "Meteostation",
+        "averageAmps": "Gemiddelde versterkers",
+        "rail12v": "12V-rail",
+        "rail5v": "5V-rail",
+        "totalAmps": "Totaal ampère",
+        "totalWatts": "Totaal watt"
       },
       "status": {
         "notConnected": "Niet verbonden"
@@ -3800,6 +3874,7 @@
     "sequence": "Volg.",
     "monitoring": "Monitor",
     "flatWizard": "Platte schoenen",
+    "framing": "Framing",
     "skyView": "Stellarium",
     "settings": "Instell.",
     "about": "Info"

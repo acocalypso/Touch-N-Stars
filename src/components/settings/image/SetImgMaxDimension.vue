@@ -34,9 +34,10 @@ const resolutionOptions = [
   { label: 'Low', value: 1024 },
 ];
 
-async function updateSetting() {
+function updateSetting() {
   statusClass.value = 'glow-green';
   console.log(`Set max image dimension to ${settingsStore.camera.maxDimension}px`);
+  settingsStore.saveCameraSettings();
   setTimeout(() => {
     statusClass.value = '';
   }, 1000);

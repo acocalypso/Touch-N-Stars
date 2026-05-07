@@ -14,12 +14,14 @@ import signalRDialogService from '@/services/signalRDialogService';
 import signalRMessageboxesService from '@/services/signalRMessageboxesService';
 import { useProgressStore } from '@/store/progressStore';
 import { useLivestackStore } from '@/plugins/livestack/store/livestackStore';
+import { useNightSummaryStore } from '@/plugins/nightsummary/store/nightsummaryStore';
 import { useGuiderStore } from '@/store/guiderStore';
 import { useSequenceStore } from '@/store/sequenceStore';
 import { useDialogStore } from '@/store/dialogStore';
 import { useLogStore } from '@/store/logStore';
 import websocketMountControlService from '@/services/websocketMountControl';
 import websocketTppaService from '@/services/websocketTppa';
+import { getDeviceDateTimePayload, parsePinsTimeToSeconds } from '@/utils/pinsTimeUtils';
 
 export const apiStore = defineStore('store', {
   state: () => ({
@@ -149,6 +151,7 @@ export const apiStore = defineStore('store', {
     minimumTnsPluginVersion: '1.2.0.0',
     currentApiVersion: null,
     currentTnsPluginVersion: null,
+    currentPinsVersion: null,
     isApiVersionNewerOrEqual: false,
     isTnsPluginVersionNewerOrEqual: false,
     mount: {
@@ -414,6 +417,10 @@ export const apiStore = defineStore('store', {
           this.isTnsPluginVersionNewerOrEqual &&
           this.isWebSocketConnected
         ) {
+          if (!this.isBackendReachable) {
+            const settingsStore = useSettingsStore();
+            settingsStore.loadAllBackendSettings();
+          }
           this.isBackendReachable = true;
           this.attemptsToConnect = 0;
           //console.log('Backend is reachable', new Date().toLocaleTimeString());
@@ -604,6 +611,7 @@ export const apiStore = defineStore('store', {
       this.afTimestampLastStart = null;
       this.currentApiVersion = null;
       this.currentTnsPluginVersion = null;
+      this.currentPinsVersion = null;
 
       // Disconnect Channel WebSocket when backend is not reachable
       if (websocketChannelService.isWebSocketConnected()) {
@@ -712,6 +720,32 @@ export const apiStore = defineStore('store', {
         currentImageUrl: null,
         lastImageUpdate: null,
         status: 'stopped',
+      });
+
+      // Clear night summary state from the previous instance
+      const nightSummaryStore = useNightSummaryStore();
+      nightSummaryStore.$patch({
+        pluginInstalled: null,
+        settings: null,
+        settingsLoading: false,
+        settingsSaving: false,
+        settingsError: null,
+        filterNames: [],
+        emailTestStatus: null,
+        discordTestStatus: null,
+        pushoverTestStatus: null,
+        emailTesting: false,
+        discordTesting: false,
+        pushoverTesting: false,
+        sessions: [],
+        selectedSessionId: null,
+        sessionDetail: null,
+        loadingSessions: false,
+        loadingDetail: false,
+        resendingSession: false,
+        resendStatus: null,
+        error: null,
+        deleteError: null,
       });
     },
 
@@ -983,17 +1017,30 @@ export const apiStore = defineStore('store', {
       return true;
     },
     async checkForPINS() {
-      try {
-        const pinsVersion = await apiService.fetchPinsVersion();
-        if (pinsVersion && pinsVersion.Response) {
-          this.isPINS = true;
-          console.log('[API Store] PINS detected, version:', pinsVersion.Response);
-        } else {
-          this.isPINS = false;
+      if (this.isPinsCheckDone) {
+        if (this.isPINS) {
+          await this.syncSystemTime();
         }
-      } finally {
-        this.isPinsCheckDone = true;
+        return;
       }
+      if (!this.isApiVersionNewerOrEqual) {
+        return;
+      }
+      const pinsVersion = await apiService.fetchPinsVersion();
+      if (pinsVersion === null) {
+        // Backend not reachable — don't cache, allow retry on next call
+        return;
+      }
+      if (pinsVersion && pinsVersion.Response) {
+        this.isPINS = true;
+        this.currentPinsVersion = pinsVersion.Response;
+        console.log('[API Store] PINS detected, version:', pinsVersion.Response);
+      } else {
+        this.isPINS = false;
+        this.currentPinsVersion = null;
+        console.log('[API Store] No PINS endpoint — assuming NINA');
+      }
+      this.isPinsCheckDone = true;
       if (this.isPINS) {
         await this.syncSystemTime();
       }
@@ -1014,8 +1061,13 @@ export const apiStore = defineStore('store', {
 
       const clientTime = new Date();
       const clientTimestamp = clientTime.getTime() / 1000; // Seconds
-      const serverTimestamp = serverTime.timestamp;
-      const serverIso = serverTime.iso;
+      const serverTimestamp = parsePinsTimeToSeconds(serverTime);
+      if (serverTimestamp === null) {
+        console.warn('[Time Sync] Could not parse server time payload:', serverTime);
+        return;
+      }
+      const serverIso =
+        serverTime.iso || serverTime.dateTime || new Date(serverTimestamp * 1000).toISOString();
 
       console.log(`[Time Sync] Client: ${clientTime.toISOString()} (${clientTimestamp})`);
       console.log(`[Time Sync] Server: ${serverIso} (${serverTimestamp})`);
@@ -1026,7 +1078,7 @@ export const apiStore = defineStore('store', {
       // If difference is more than 5 seconds, sync it
       if (diff > 5) {
         console.log('[Time Sync] Difference too large, updating server time...');
-        const success = await apiPinsService.setSystemTime(clientTimestamp);
+        const success = await apiPinsService.setSystemTime(getDeviceDateTimePayload(clientTime));
         if (success) {
           console.log('[Time Sync] Server time updated successfully.');
         } else {
@@ -1066,7 +1118,10 @@ export const apiStore = defineStore('store', {
       const imageStore = useImagetStore();
       // Check if message has the expected structure with Response.Event
       if (message.Response && message.Response.Event === 'IMAGE-PREPARED') {
-        //console.log('IMAGE-PREPARED event received');
+        console.log(
+          '[WS] IMAGE-PREPARED received, isImageFetching =',
+          imageStore.isImageFetching
+        );
         // Verhindere mehrfache gleichzeitige Anfragen
         if (imageStore.isImageFetching) {
           return;

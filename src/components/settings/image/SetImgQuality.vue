@@ -23,7 +23,7 @@ import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 
 const settingsStore = useSettingsStore();
 
-async function updateSetting() {
-  // StatusClass feedback wird durch NumberInputPicker gehandhabt
+function updateSetting() {
+  settingsStore.saveCameraSettings();
 }
 </script>

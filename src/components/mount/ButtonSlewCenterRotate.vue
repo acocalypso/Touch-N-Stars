@@ -85,7 +85,7 @@
             </div>
             <div class="ml-6">
               <toggleButton
-                @click="settingsStore.mount.useCenter = !settingsStore.mount.useCenter"
+                @click="toggleUseCenter"
                 :status-value="settingsStore.mount.useCenter"
               />
             </div>
@@ -100,7 +100,7 @@
             </div>
             <div class="ml-6">
               <toggleButton
-                @click="settingsStore.mount.useRotate = !settingsStore.mount.useRotate"
+                @click="toggleUseRotate"
                 :status-value="settingsStore.mount.useRotate"
                 :disabled="!store.rotatorInfo.Connected"
               />
@@ -140,9 +140,20 @@ const settingsStore = useSettingsStore();
 const { t } = useI18n();
 const showSettingsModal = ref(false);
 
+function toggleUseCenter() {
+  settingsStore.mount.useCenter = !settingsStore.mount.useCenter;
+  settingsStore.saveMountSettings();
+}
+
+function toggleUseRotate() {
+  settingsStore.mount.useRotate = !settingsStore.mount.useRotate;
+  settingsStore.saveMountSettings();
+}
+
 function openSettings() {
   showSettingsModal.value = true;
   settingsStore.mount.settingsVisited = true;
+  settingsStore.saveMountSettings();
 }
 
 const props = defineProps({

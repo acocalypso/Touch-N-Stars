@@ -39,7 +39,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { useFavTargetStore } from '@/store/favTargetsStore';
 import { HeartIcon } from '@heroicons/vue/24/outline';
 import { useI18n } from 'vue-i18n';
@@ -66,6 +66,10 @@ const props = defineProps({
 const showModal = ref(false);
 const nameInput = ref(props.name);
 
+watch(showModal, (isOpen) => {
+  if (isOpen) nameInput.value = props.name;
+});
+
 const isMosaic = computed(() => props.mosaicCols > 1 || props.mosaicRows > 1);
 
 function computePanels() {
@@ -77,7 +81,7 @@ function computePanels() {
   const centerRot = props.rotation;
 
   const framingStore = useFramingStore();
-  const scale = framingStore.fov / framingStore.containerSize;
+  const scale = framingStore.fov / framingStore.containerWidth;
   const fovX = framingStore.camWidth * scale;
   const fovY = framingStore.camHeight * scale;
 

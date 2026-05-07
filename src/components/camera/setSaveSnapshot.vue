@@ -27,6 +27,7 @@
   </div>
 </template>
 <script setup>
+import { watch } from 'vue';
 import toggleButton from '@/components/helpers/toggleButton.vue';
 import { apiStore } from '@/store/store';
 import apiService from '@/services/apiService';
@@ -34,6 +35,15 @@ import { useSettingsStore } from '@/store/settingsStore';
 
 const store = apiStore();
 const settingsStore = useSettingsStore();
+
+let saveDebounce;
+watch(
+  () => settingsStore.camera.snapshotTargetName,
+  () => {
+    clearTimeout(saveDebounce);
+    saveDebounce = setTimeout(() => settingsStore.saveCameraSettings(), 600);
+  }
+);
 
 async function toggleSave() {
   if (store.profileInfo.SnapShotControlSettings.Save) {

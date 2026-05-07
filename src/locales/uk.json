@@ -16,7 +16,9 @@
     "scanning": "Сканування…",
     "connecting": "З'єднання…",
     "refresh": "Оновити",
-    "help": "Допомога"
+    "help": "Допомога",
+    "expand": "Розгорнути",
+    "collapse": "Згорнути"
   },
   "general": {
     "cancel": "Скасувати",
@@ -117,6 +119,8 @@
       "discoveryPermissionHintWrapper": "{message} Переконайтеся, що додаток має доступ до локальної мережі / пристроїв поблизу в системних налаштуваннях."
     },
     "framing": {
+      "pageTitle": "Асистент фреймінгу",
+      "missingEquipmentSettings": "Відсутні налаштування обладнання: будь ласка, встановіть фокусну відстань і розмір пікселя в Налаштування → Обладнання, щоб поле зору камери розраховувалося правильно.",
       "confirmSetTargetTitle": "Підтвердження вибору цілі",
       "confirmSetTargetMessage": "Ви впевнені, що хочете встановити цю ціль як ціль послідовності?",
       "useNinaCache": "Використовувати кеш NINA для зображення цілі",
@@ -277,8 +281,9 @@
         "ReattemptDelay": "Затримка між спробами (хв)",
         "BlindFailoverEnabled": "Сліпе перемикання увімкнено",
         "ASTAPLocation": "Розташування ASTAP",
-        "Filter": "Фільтр",
-        "FilterCurrent": "Поточний"
+        "Filter": "Фільтр для Plate Solving",
+        "FilterCurrent": "Поточний",
+        "FilterHint": "Фільтр, що використовується під час plate solving (замінює поточний фільтр)"
       },
       "equipment": {
         "title": "Обладнання",
@@ -300,8 +305,8 @@
       "coordsMismatchWarning": "Координати профілю та монтування відрізняються.",
       "timeSync": {
         "title": "Синхронізація часу",
-        "backendTime": "UTC сервера",
-        "mountTime": "UTC монтування",
+        "backendTime": "Час сервера",
+        "mountTime": "Час монтування",
         "syncLabel": "Синхронізувати час з монтуванням",
         "syncLabelInfo": "Якщо увімкнено, натискання кнопки «Синхронізувати зараз» короткочасно від'єднає та знову підключить монтування, щоб NINA могла передати поточний час.",
         "mountNotConnected": "Монтування не підключено",
@@ -501,6 +506,8 @@
       "sequenceClose": "Закрити",
       "deleteConfirmationTitle": "Видалити файл",
       "deleteConfirmationMessage": "Ви впевнені, що хочете видалити файл?",
+      "overwriteConfirmationTitle": "Перезаписати файл",
+      "overwriteConfirmationMessage": "Ви впевнені, що хочете перезаписати файл?",
       "clearSequence": "Очистити все",
       "clearConfirmationTitle": "Підтвердження очищення",
       "clearConfirmationMessage": "Ви впевнені, що хочете очистити всю послідовність? Цю дію не можна скасувати.",
@@ -535,7 +542,8 @@
           "roiPct": "ROI (%)"
         },
         "switchFilter": {
-          "filter": "Фільтр"
+          "filter": "Фільтр",
+          "noFilter": "No Filter"
         },
         "switchProfile": {
           "profile": "Профіль",
@@ -632,7 +640,8 @@
           "targetDistance": "Цільова відстань (°)",
           "eastDirection": "Східний напрямок",
           "manualMode": "Ручний режим",
-          "startFromCurrentPosition": "Почати з поточної позиції"
+          "startFromCurrentPosition": "Почати з поточної позиції",
+          "manual": "Manual"
         },
         "skyFlat": {
           "shouldDither": "Дизерінг",
@@ -650,7 +659,13 @@
           "value": "Значення"
         },
         "setTracking": {
-          "trackingMode": "Режим стеження"
+          "trackingMode": "Режим стеження",
+          "sidereal": "Sidereal",
+          "lunar": "Lunar",
+          "solar": "Solar",
+          "king": "King",
+          "custom": "Custom",
+          "stopped": "Stopped"
         },
         "expressionVariable": {
           "identifier": "Назва",
@@ -700,6 +715,40 @@
         },
         "warmCamera": {
           "duration": "Тривалість (хв)"
+        },
+        "orbuculum": {
+          "hourAngle": "Hour Angle (h)",
+          "nextTarget": "Next target:",
+          "current": "Current:"
+        },
+        "autoBalancingExposure": {
+          "timeSeconds": "Time (s)",
+          "noEntries": "No entries",
+          "addRow": "Add row",
+          "progress": "Progress",
+          "ratio": "Ratio",
+          "bin": "Bin"
+        },
+        "setReadoutMode": {
+          "mode": "Mode"
+        },
+        "loopWhile": {
+          "expression": "Expression"
+        },
+        "slewScopeToAltAz": {
+          "azimuth": "Az",
+          "altitude": "Alt"
+        },
+        "moveFocuserAbsolute": {
+          "position": "Позиція"
+        },
+        "moveFocuserRelative": {
+          "relativePosition": "Відносна позиція"
+        },
+        "moveFocuserByTemperature": {
+          "slope": "Нахил",
+          "intercept": "Перетин",
+          "absolute": "Абсолютна"
         }
       },
       "emptyContainer": "Порожньо — натисніть + для додавання елементів",
@@ -709,7 +758,10 @@
       "enable": "Увімкнути",
       "disable": "Вимкнути",
       "resetStatus": "Скинути статус",
-      "delete": "Видалити"
+      "delete": "Видалити",
+      "controlsLockedMessage": "Елементи керування послідовністю блокуються під час виконання послідовності.",
+      "lockControls": "Замок",
+      "unlockControls": "Розблокувати"
     },
     "mount": {
       "title": "Монтування",
@@ -882,6 +934,10 @@
         "guideAlgorithm": "Алгоритм гідування",
         "guideAlgorithmRA": "Алгоритм гідування RA",
         "guideAlgorithmDEC": "Алгоритм гідування DEC",
+        "camera": "Камера",
+        "cameraGain": "Підсилення",
+        "cameraBinning": "Бінінг",
+        "restoreCalibration": "Відновити калібрування",
         "guiderScale": "Масштаб гіда",
         "maxY": "Макс Y",
         "historySize": "Розмір історії",
@@ -1103,6 +1159,8 @@
       "readout_mode_snap": "Режим зчитування знімка",
       "dewHeaterStrength": "Потужність обігрівача від роси",
       "LowNoiseMode": "Режим Ultra",
+      "BadPixelCorrection": "Корекція битих пікселів",
+      "BadPixelCorrectionThreshold": "Поріг битих пікселів",
       "HighFullwellMode": "Режим High Fullwell",
       "BinAverageEnabled": "Бінінг усереднює пікселі",
       "LEDLights": "LED",
@@ -1229,7 +1287,9 @@
         "TurboMode": "Турбо-режим",
         "Autorun": "Автозапуск",
         "Calibrate": "Калібрація",
-        "commandFailed": "Команда не підтримується цим пристроєм"
+        "commandFailed": "Команда не підтримується цим пристроєм",
+        "SlotNum": "Кількість слотів",
+        "slotNumDefault": "За замовчуванням"
       },
       "indi": {
         "settings": "Налаштування колеса фільтрів"
@@ -2588,7 +2648,16 @@
       "pluginsTitle": "Плагіни PINS",
       "pluginsUninstall": "Видалити",
       "pluginsUninstalling": "Видалення...",
-      "pluginsVersion": "Версія"
+      "pluginsVersion": "Версія",
+      "indiInstallModalAssetName": "Назва активу",
+      "indiInstallModalDriverPackage": "Драйвер/пакет",
+      "indiInstallModalInstall": "встановити",
+      "indiInstallModalInstalling": "Встановлення...",
+      "indiInstallModalLabel": "Мітка",
+      "indiInstallModalSuccessCompleted": "Встановлення для {label} завершено.",
+      "indiInstallModalSuccessStarted": "Розпочато встановлення для {label}.",
+      "indiInstallModalTitle": "Встановіть драйвер INDI",
+      "indiInstallModalType": "Тип"
     },
     "narrowband": {
       "title": "Калькулятор фільтрів",
@@ -3437,7 +3506,12 @@
         "dewPorts": "Порти обігрівача від роси",
         "adjPorts": "Регульовані порти живлення",
         "powerStatus": "Статус живлення",
-        "meteoStation": "Метеостанція"
+        "meteoStation": "Метеостанція",
+        "averageAmps": "Середній Ампер",
+        "rail12v": "Рейка 12В",
+        "rail5v": "Рейка 5В",
+        "totalAmps": "Загальна кількість ампер",
+        "totalWatts": "Загальна кількість ват"
       },
       "status": {
         "notConnected": "Не підключено"
@@ -3713,6 +3787,7 @@
     "sequence": "Посл.",
     "monitoring": "Монітор",
     "flatWizard": "Флети",
+    "framing": "Фреймінг",
     "skyView": "Stellarium",
     "settings": "Налашт.",
     "about": "Про нас"

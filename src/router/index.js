@@ -14,6 +14,7 @@ import RotatorPage from '@/views/RotatorPage.vue';
 import Flatassistant from '@/views/FlatassistantPage.vue';
 import FocusPage from '@/views/FocusPage.vue';
 import SequencePage from '@/views/SequencePage.vue';
+import FramingPage from '@/views/FramingPage.vue';
 import { useSettingsStore } from '@/store/settingsStore';
 
 const routes = [
@@ -41,6 +42,7 @@ const routes = [
   { path: '/rotator', component: RotatorPage, meta: { requiresSetup: true } },
   { path: '/flats', component: Flatassistant, meta: { requiresSetup: true } },
   { path: '/sequence', component: SequencePage, meta: { requiresSetup: true } },
+  { path: '/framing', component: FramingPage, meta: { requiresSetup: true } },
 ];
 
 const router = createRouter({
@@ -62,6 +64,7 @@ const NAV_ITEM_ROUTES = {
   sequence: '/sequence',
   monitoring: '/seq-mon',
   flats: '/flats',
+  framing: '/framing',
   settings: '/settings',
 };
 

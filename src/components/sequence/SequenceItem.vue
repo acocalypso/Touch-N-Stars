@@ -7,7 +7,12 @@
     <div class="flex items-center gap-1.5 px-2 py-2">
       <!-- Drag handle -->
       <span
-        class="drag-handle flex-shrink-0 cursor-grab active:cursor-grabbing p-1 text-slate-600 hover:text-slate-400 transition-colors touch-none"
+        class="drag-handle flex-shrink-0 p-1 text-slate-600 transition-colors touch-none"
+        :class="
+          isLocked
+            ? 'cursor-not-allowed opacity-40'
+            : 'cursor-grab active:cursor-grabbing hover:text-slate-400'
+        "
         :title="$t('components.sequence.move')"
       >
         <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
@@ -38,6 +43,7 @@
         <button
           class="p-1 rounded text-slate-500 hover:text-slate-300 hover:bg-slate-600/40 transition-colors"
           :title="$t('components.sequence.more')"
+          :disabled="isLocked"
           @click.stop="toggleMore"
         >
           <EllipsisVerticalIcon class="w-4 h-4" />
@@ -49,10 +55,10 @@
             :style="moreStyle"
             @click.stop
           >
-            <button class="menu-item" @click="doAction('duplicate')">
+            <button class="menu-item" :disabled="isLocked" @click="doAction('duplicate')">
               <DocumentDuplicateIcon class="w-4 h-4" /> {{ $t('components.sequence.duplicate') }}
             </button>
-            <button class="menu-item" @click="doAction('toggle-enable')">
+            <button class="menu-item" :disabled="isLocked" @click="doAction('toggle-enable')">
               <component
                 :is="item.Status === 'DISABLED' ? PlayCircleIcon : PauseCircleIcon"
                 class="w-4 h-4"
@@ -63,12 +69,13 @@
                   : $t('components.sequence.disable')
               }}
             </button>
-            <button class="menu-item" @click="doAction('reset')">
+            <button class="menu-item" :disabled="isLocked" @click="doAction('reset')">
               <ArrowPathIcon class="w-4 h-4" /> {{ $t('components.sequence.resetStatus') }}
             </button>
             <div class="border-t border-slate-700 my-1" />
             <button
               class="menu-item text-red-400 hover:text-red-300 hover:bg-red-900/20"
+              :disabled="isLocked"
               @click="doAction('remove')"
             >
               <TrashIcon class="w-4 h-4" /> {{ $t('components.sequence.delete') }}
@@ -109,6 +116,7 @@
           :force-fallback="true"
           class="space-y-1"
           :fallbackOnBody="true"
+          :disabled="isLocked"
           @end="(evt) => onSiblingDragEnd(evt, item.Triggers)"
         >
           <template #item="{ element }">
@@ -120,7 +128,7 @@
             />
           </template>
         </draggable>
-        <div v-if="canAdd" class="flex justify-center mt-1">
+        <div v-if="canAdd && !isLocked" class="flex justify-center mt-1">
           <AddTypeButton
             :targetId="item.Triggers?.at(-1)?.Id ?? item.Id"
             mode="trigger"
@@ -152,6 +160,7 @@
           :force-fallback="true"
           class="space-y-1"
           :fallbackOnBody="true"
+          :disabled="isLocked"
           @end="(evt) => onSiblingDragEnd(evt, item.Conditions)"
         >
           <template #item="{ element }">
@@ -163,7 +172,7 @@
             />
           </template>
         </draggable>
-        <div v-if="canAdd" class="flex justify-center mt-1">
+        <div v-if="canAdd && !isLocked" class="flex justify-center mt-1">
           <AddTypeButton
             :targetId="item.Conditions?.at(-1)?.Id ?? item.Id"
             mode="condition"
@@ -190,6 +199,7 @@
           :force-fallback="true"
           class="space-y-1.5"
           :fallbackOnBody="true"
+          :disabled="isLocked"
           @end="(evt) => onChildDragEnd(evt)"
         >
           <template #item="{ element }">
@@ -198,7 +208,10 @@
         </draggable>
 
         <!-- Add item button at bottom, centered -->
-        <div v-if="item.Items !== undefined && canAdd" class="flex justify-center mt-2">
+        <div
+          v-if="item.Items !== undefined && canAdd && !isLocked"
+          class="flex justify-center mt-2"
+        >
           <AddTypeButton
             :targetId="item.Items?.at(-1)?.Id ?? item.Id"
             mode="item"
@@ -217,6 +230,7 @@ import { ref, computed, onMounted, onUnmounted } from 'vue';
 import SkyChart from '@/components/framing/SkyChart.vue';
 import AddTypeButton from './AddTypeButton.vue';
 import { useSettingsStore } from '@/store/settingsStore';
+import { useSequenceStore } from '@/store/sequenceStore';
 import draggable from 'vuedraggable';
 import {
   ChevronRightIcon,
@@ -251,9 +265,11 @@ const canAdd = computed(() => !NO_ADD_TYPES.has(props.item.FullTypeName));
 const isNoExpand = computed(() => NO_EXPAND_TYPES.has(props.item.FullTypeName));
 
 const store = useSequenceV2Store();
+const sequenceStore = useSequenceStore();
 const settingsStore = useSettingsStore();
 const collapsed = ref(false);
 const activeSection = ref(null);
+const isLocked = computed(() => sequenceStore.sequenceControlsLocked);
 
 function onAddSectionActive(mode, isOpen) {
   activeSection.value = isOpen ? mode : null;
@@ -272,6 +288,8 @@ const moreRef = ref(null);
 const moreStyle = ref({});
 
 function toggleMore() {
+  if (isLocked.value) return;
+
   if (moreOpen.value) {
     moreOpen.value = false;
     return;
@@ -334,6 +352,8 @@ const borderClass = computed(() => {
 });
 
 async function doAction(action) {
+  if (isLocked.value) return;
+
   moreOpen.value = false;
   const id = props.item.Id;
   if (!id) return;
@@ -344,6 +364,7 @@ async function doAction(action) {
 }
 
 function onChildDragEnd(evt) {
+  if (isLocked.value) return;
   if (evt.oldIndex === evt.newIndex) return;
   const siblings = props.item.Items;
   const movedId = siblings[evt.newIndex].Id;
@@ -356,6 +377,7 @@ function onChildDragEnd(evt) {
 }
 
 function onSiblingDragEnd(evt, siblings) {
+  if (isLocked.value) return;
   if (evt.oldIndex === evt.newIndex) return;
   const movedId = siblings[evt.newIndex].Id;
   const newIdx = evt.newIndex;

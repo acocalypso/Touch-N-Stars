@@ -2,7 +2,9 @@
   <ItemShell :item="item">
     <template #summary>
       <span class="text-xs text-slate-400 font-mono">{{ item.ExposureTime }}s</span>
-      <span v-if="item.ManualMode" class="text-xs text-slate-500">Manual</span>
+      <span v-if="item.ManualMode" class="text-xs text-slate-500">{{
+        $t('components.sequence.items.polarAlignment.manual')
+      }}</span>
     </template>
 
     <template #editor="{ save }">
@@ -20,14 +22,14 @@
       <!-- Filter -->
       <div class="flex items-center gap-3">
         <label class="text-xs text-slate-400 flex-shrink-0">{{
-          $t('components.sequence.items.takeExposure.filter')
+          $t('components.sequence.items.switchFilter.filter')
         }}</label>
         <select
           class="ml-auto w-36 md:w-40 bg-slate-700/60 border border-slate-600 rounded px-2 py-1 text-xs text-gray-200"
           :value="item.Filter?._name ?? ''"
           @change="save('Filter', $event.target.value || null)"
         >
-          <option value="">(kein Filter)</option>
+          <option value="">{{ $t('components.sequence.items.switchFilter.noFilter') }}</option>
           <option
             v-for="filter in store.filterInfo?.AvailableFilters"
             :key="filter.Id"

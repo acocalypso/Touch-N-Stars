@@ -16,7 +16,9 @@
     "connecting": "Connessione…",
     "refresh": "Aggiorna",
     "creating": "Creazione…",
-    "help": "Aiuto"
+    "help": "Aiuto",
+    "expand": "Espandi",
+    "collapse": "Comprimi"
   },
   "general": {
     "cancel": "Annulla",
@@ -117,6 +119,8 @@
       "discoveryPermissionHintWrapper": "{message} Assicurati che l’app abbia l’accesso alla rete locale / ai dispositivi nelle vicinanze nelle impostazioni di sistema."
     },
     "framing": {
+      "pageTitle": "Assistente Inquadratura",
+      "missingEquipmentSettings": "Impostazioni dell'attrezzatura mancanti: imposta la lunghezza focale e la dimensione dei pixel in Impostazioni → Attrezzatura affinché il FOV della camera venga calcolato correttamente.",
       "confirmSetTargetTitle": "Conferma Selezione Target",
       "confirmSetTargetMessage": "Sei sicuro di voler impostare questo target come target della sequenza?",
       "useNinaCache": "Usa cache NINA per l'immagine del target",
@@ -297,8 +301,9 @@
         "ReattemptDelay": "Ritardo (min) per il nuovo tentativo",
         "BlindFailoverEnabled": "Failover cieco abilitato",
         "ASTAPLocation": "Posizione dell'ASTAP",
-        "Filter": "Filtro",
-        "FilterCurrent": "Attuale"
+        "Filter": "Filtro per Plate Solving",
+        "FilterCurrent": "Attuale",
+        "FilterHint": "Filtro utilizzato durante il plate solving (sovrascrive il filtro corrente)"
       },
       "equipment": {
         "title": "Attrezzatura",
@@ -323,9 +328,9 @@
       },
       "coordsMismatchWarning": "Le coordinate del profilo e della montatura differiscono.",
       "timeSync": {
-        "backendTime": "Back-end UTC",
+        "backendTime": "Ora del server",
         "mountNotConnected": "Montatura non connessa",
-        "mountTime": "Monte UTC",
+        "mountTime": "Ora della montatura",
         "notSupported": "Non supportato dal driver",
         "syncLabel": "Sincronizza il tempo per montare",
         "syncLabelInfo": "Se abilitato, facendo clic su \"Sincronizza ora\" la montatura verrà brevemente disconnessa e riconnessa in modo che NINA possa trasferirle l'ora corrente.",
@@ -451,6 +456,8 @@
       "sequenceClose": "Chiudi",
       "deleteConfirmationTitle": "Eliminare file",
       "deleteConfirmationMessage": "Sei sicuro di voler eliminare questo file?",
+      "overwriteConfirmationTitle": "Sovrascrivere file",
+      "overwriteConfirmationMessage": "Sei sicuro di voler sovrascrivere il file?",
       "resetConfirmationTitle": "Conferma reimpostazione",
       "resetConfirmationMessage": "Sei sicuro di voler reimpostare la sequenza? Questa azione non può essere annullata.",
       "clearSequence": "Cancella tutto",
@@ -546,7 +553,8 @@
           "roiPct": "ROI (%)"
         },
         "switchFilter": {
-          "filter": "Filtra"
+          "filter": "Filtra",
+          "noFilter": "No Filter"
         },
         "switchProfile": {
           "profile": "Profilo",
@@ -643,7 +651,8 @@
           "targetDistance": "Distanza prescritta",
           "eastDirection": "Direzione est",
           "manualMode": "Modalità manuale",
-          "startFromCurrentPosition": "Inizia dalla posizione corrente"
+          "startFromCurrentPosition": "Inizia dalla posizione corrente",
+          "manual": "Manual"
         },
         "skyFlat": {
           "shouldDither": "Dither",
@@ -661,7 +670,13 @@
           "value": "Valore"
         },
         "setTracking": {
-          "trackingMode": "modalità di tracciamento."
+          "trackingMode": "modalità di tracciamento.",
+          "sidereal": "Sidereal",
+          "lunar": "Lunar",
+          "solar": "Solar",
+          "king": "King",
+          "custom": "Custom",
+          "stopped": "Stopped"
         },
         "expressionVariable": {
           "identifier": "Nome",
@@ -711,6 +726,40 @@
         },
         "warmCamera": {
           "duration": "Durata (min)"
+        },
+        "orbuculum": {
+          "hourAngle": "Hour Angle (h)",
+          "nextTarget": "Next target:",
+          "current": "Current:"
+        },
+        "autoBalancingExposure": {
+          "timeSeconds": "Time (s)",
+          "noEntries": "No entries",
+          "addRow": "Add row",
+          "progress": "Progress",
+          "ratio": "Ratio",
+          "bin": "Bin"
+        },
+        "setReadoutMode": {
+          "mode": "Mode"
+        },
+        "loopWhile": {
+          "expression": "Expression"
+        },
+        "slewScopeToAltAz": {
+          "azimuth": "Az",
+          "altitude": "Alt"
+        },
+        "moveFocuserAbsolute": {
+          "position": "Posizione"
+        },
+        "moveFocuserRelative": {
+          "relativePosition": "Posizione relativa"
+        },
+        "moveFocuserByTemperature": {
+          "slope": "Pendenza",
+          "intercept": "Intercetta",
+          "absolute": "Assoluto"
         }
       },
       "emptyContainer": "Vuoto — fai clic su + per aggiungere elementi",
@@ -729,7 +778,10 @@
       "enable": "Abilita",
       "disable": "Disabilita",
       "resetStatus": "Reimposta stato",
-      "delete": "Elimina"
+      "delete": "Elimina",
+      "controlsLockedMessage": "I controlli della sequenza sono bloccati mentre la sequenza è in esecuzione.",
+      "lockControls": "Serratura",
+      "unlockControls": "Sbloccare"
     },
     "mount": {
       "title": "Montatura",
@@ -878,6 +930,10 @@
         "guideAlgorithm": "Algoritmo di guida",
         "guideAlgorithmRA": "Algoritmo di guida RA",
         "guideAlgorithmDEC": "Algoritmo di guida DEC",
+        "camera": "Fotocamera",
+        "cameraGain": "Gain",
+        "cameraBinning": "Binning",
+        "restoreCalibration": "Ripristina calibrazione",
         "guiderScale": "Scala del guidatore",
         "maxY": "Max Y",
         "historySize": "Dimensione cronologia",
@@ -1126,6 +1182,8 @@
       "HighFullwellMode": "Modalità Fullwell alta",
       "LEDLights": "GUIDATO",
       "LowNoiseMode": "Modalità Ultra",
+      "BadPixelCorrection": "Correzione pixel difettosi",
+      "BadPixelCorrectionThreshold": "Soglia pixel difettosi",
       "dewHeaterStrength": "Forza del riscaldatore di rugiada",
       "tab_camera": "Fotocamera",
       "tab_cooler": "Raffreddamento",
@@ -1249,7 +1307,9 @@
         "Speed": "Velocità",
         "TurboMode": "Modalità Turbo",
         "commandFailed": "Comando non supportato da questo dispositivo",
-        "deviceSpecific": "Impostazioni del dispositivo"
+        "deviceSpecific": "Impostazioni del dispositivo",
+        "SlotNum": "Numero di slot",
+        "slotNumDefault": "Predefinito"
       },
       "indi": {
         "settings": "Impostazioni della ruota dei filtri"
@@ -1747,7 +1807,16 @@
       "pluginsTitle": "Plugin PIN",
       "pluginsUninstall": "Disinstallare",
       "pluginsUninstalling": "Disinstallazione...",
-      "pluginsVersion": "Versione"
+      "pluginsVersion": "Versione",
+      "indiInstallModalAssetName": "Nome della risorsa",
+      "indiInstallModalDriverPackage": "Autista/Pacchetto",
+      "indiInstallModalInstall": "Installare",
+      "indiInstallModalInstalling": "Installazione...",
+      "indiInstallModalLabel": "Etichetta",
+      "indiInstallModalSuccessCompleted": "Installazione completata per {label}.",
+      "indiInstallModalSuccessStarted": "L'installazione è iniziata per {label}.",
+      "indiInstallModalTitle": "Installa il driver INDI",
+      "indiInstallModalType": "Tipo"
     },
     "bahtifocus": {
       "title": "Analizzatore di maschere Bahtinov",
@@ -2623,7 +2692,12 @@
         "dewPorts": "Porti di rugiada",
         "adjPorts": "Porte di alimentazione regolabili",
         "powerStatus": "Stato dell'alimentazione",
-        "meteoStation": "Stazione Meteo"
+        "meteoStation": "Stazione Meteo",
+        "averageAmps": "Ampere medi",
+        "rail12v": "Binario 12V",
+        "rail5v": "Binario 5V",
+        "totalAmps": "Ampere totali",
+        "totalWatts": "Watt totali"
       },
       "status": {
         "notConnected": "Non connesso"
@@ -3800,6 +3874,7 @@
     "sequence": "Seq.",
     "monitoring": "Monitorare",
     "flatWizard": "Appartamenti",
+    "framing": "Inquadratura",
     "skyView": "Stellarium",
     "settings": "Impost.",
     "about": "Info"

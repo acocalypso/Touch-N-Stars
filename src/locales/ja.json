@@ -16,7 +16,9 @@
     "scanning": "スキャン中…",
     "connecting": "接続中…",
     "refresh": "更新",
-    "help": "ヘルプ"
+    "help": "ヘルプ",
+    "expand": "展開",
+    "collapse": "折りたたむ"
   },
   "general": {
     "cancel": "キャンセル",
@@ -125,6 +127,8 @@
       "discoveryPermissionHintWrapper": "{message} システム設定でアプリに「ローカルネットワーク」または「近隣のデバイス」へのアクセス権限があるか確認してください。"
     },
     "framing": {
+      "pageTitle": "フレーミングアシスタント",
+      "missingEquipmentSettings": "機材設定が不足しています：カメラの視野角が正しく計算されるよう、設定 → 機材で焦点距離とピクセルサイズを設定してください。",
       "confirmSetTargetTitle": "ターゲット選択の確認",
       "confirmSetTargetMessage": "このターゲットをシーケンスのターゲットとして設定しますか？",
       "useNinaCache": "NINA キャッシュをターゲット画像に使用する",
@@ -203,8 +207,8 @@
       "coordsMismatchWarning": "プロファイルと赤道儀の座標が異なります。",
       "timeSync": {
         "title": "時刻同期",
-        "backendTime": "バックエンド UTC",
-        "mountTime": "赤道儀 UTC",
+        "backendTime": "サーバー時刻",
+        "mountTime": "赤道儀時刻",
         "syncLabel": "赤道儀に時刻を同期",
         "syncLabelInfo": "有効にすると、「今すぐ同期」をクリックした際に赤道儀が一時的に切断・再接続され、NINAが現在時刻を転送できるようになります。",
         "mountNotConnected": "赤道儀が接続されていません",
@@ -341,8 +345,9 @@
         "ReattemptDelay": "リトライ待機時間 (分)",
         "BlindFailoverEnabled": "ブラインド・フェイルオーバー有効",
         "ASTAPLocation": "ASTAP の場所",
-        "Filter": "フィルター",
-        "FilterCurrent": "現在"
+        "Filter": "プレートソルビング用フィルター",
+        "FilterCurrent": "現在",
+        "FilterHint": "プレートソルビング中に使用するフィルター（現在のフィルターを上書き）"
       },
       "equipment": {
         "title": "機器",
@@ -459,6 +464,8 @@
       "sequenceClose": "閉じる",
       "deleteConfirmationTitle": "ファイルの削除",
       "deleteConfirmationMessage": "このファイルを削除してもよろしいですか？",
+      "overwriteConfirmationTitle": "ファイルの上書き",
+      "overwriteConfirmationMessage": "このファイルを上書きしてもよろしいですか？",
       "resetConfirmationTitle": "リセットの確認",
       "resetConfirmationMessage": "シーケンスをリセットしてもよろしいですか？この操作は取り消せません。",
       "clearSequence": "すべてクリア",
@@ -563,7 +570,8 @@
           "roiPct": "ROI (%)"
         },
         "switchFilter": {
-          "filter": "フィルター"
+          "filter": "フィルター",
+          "noFilter": "No Filter"
         },
         "switchProfile": {
           "profile": "プロファイル",
@@ -660,7 +668,8 @@
           "targetDistance": "目標距離 (°)",
           "eastDirection": "東方向",
           "manualMode": "マニュアルモード",
-          "startFromCurrentPosition": "現在位置から開始"
+          "startFromCurrentPosition": "現在位置から開始",
+          "manual": "Manual"
         },
         "skyFlat": {
           "shouldDither": "ディザリング",
@@ -678,7 +687,13 @@
           "value": "値"
         },
         "setTracking": {
-          "trackingMode": "追尾モード"
+          "trackingMode": "追尾モード",
+          "sidereal": "Sidereal",
+          "lunar": "Lunar",
+          "solar": "Solar",
+          "king": "King",
+          "custom": "Custom",
+          "stopped": "Stopped"
         },
         "expressionVariable": {
           "identifier": "名前",
@@ -728,6 +743,40 @@
         },
         "warmCamera": {
           "duration": "時間 (分)"
+        },
+        "orbuculum": {
+          "hourAngle": "Hour Angle (h)",
+          "nextTarget": "Next target:",
+          "current": "Current:"
+        },
+        "autoBalancingExposure": {
+          "timeSeconds": "Time (s)",
+          "noEntries": "No entries",
+          "addRow": "Add row",
+          "progress": "Progress",
+          "ratio": "Ratio",
+          "bin": "Bin"
+        },
+        "setReadoutMode": {
+          "mode": "Mode"
+        },
+        "loopWhile": {
+          "expression": "Expression"
+        },
+        "slewScopeToAltAz": {
+          "azimuth": "Az",
+          "altitude": "Alt"
+        },
+        "moveFocuserAbsolute": {
+          "position": "位置"
+        },
+        "moveFocuserRelative": {
+          "relativePosition": "相対位置"
+        },
+        "moveFocuserByTemperature": {
+          "slope": "傾き",
+          "intercept": "切片",
+          "absolute": "絶対"
         }
       },
       "emptyContainer": "空です — + をクリックしてアイテムを追加",
@@ -737,7 +786,10 @@
       "enable": "有効にする",
       "disable": "無効にする",
       "resetStatus": "ステータスをリセット",
-      "delete": "削除"
+      "delete": "削除",
+      "controlsLockedMessage": "シーケンスの実行中はシーケンス コントロールがロックされます。",
+      "lockControls": "ロック",
+      "unlockControls": "ロックを解除する"
     },
     "mount": {
       "title": "赤道儀",
@@ -886,6 +938,10 @@
         "guideAlgorithm": "ガイドアルゴリズム",
         "guideAlgorithmRA": "RAガイドアルゴリズム",
         "guideAlgorithmDEC": "DECガイドアルゴリズム",
+        "camera": "カメラ",
+        "cameraGain": "ゲイン",
+        "cameraBinning": "ビニング",
+        "restoreCalibration": "キャリブレーションを復元",
         "guiderScale": "ガイダースケール",
         "maxY": "最大Y",
         "historySize": "履歴サイズ",
@@ -1131,6 +1187,8 @@
       "readout_mode_image": "読み出しモード: シーケンス",
       "readout_mode_snap": "読み出しモード: スナップショット",
       "LowNoiseMode": "ウルトラモード",
+      "BadPixelCorrection": "不良ピクセル補正",
+      "BadPixelCorrectionThreshold": "不良ピクセル閾値",
       "HighFullwellMode": "ハイフルウェルモード",
       "BinAverageEnabled": "ビニングでピクセルを平均化",
       "LEDLights": "LED",
@@ -1257,7 +1315,9 @@
         "TurboMode": "ターボモード",
         "Autorun": "自動実行",
         "Calibrate": "キャリブレーション",
-        "commandFailed": "このデバイスでサポートされていないコマンドです"
+        "commandFailed": "このデバイスでサポートされていないコマンドです",
+        "SlotNum": "スロット数",
+        "slotNumDefault": "デフォルト"
       },
       "indi": {
         "settings": "フィルターホイール設定"
@@ -1747,7 +1807,16 @@
       "pluginsTitle": "PINS プラグイン",
       "pluginsUninstall": "アンインストール",
       "pluginsUninstalling": "アンインストール中...",
-      "pluginsVersion": "バージョン"
+      "pluginsVersion": "バージョン",
+      "indiInstallModalAssetName": "アセット名",
+      "indiInstallModalDriverPackage": "ドライバー/パッケージ",
+      "indiInstallModalInstall": "インストール",
+      "indiInstallModalInstalling": "インストール中...",
+      "indiInstallModalLabel": "ラベル",
+      "indiInstallModalSuccessCompleted": "{label} のインストールが完了しました。",
+      "indiInstallModalSuccessStarted": "{label} のインストールが開始されました。",
+      "indiInstallModalTitle": "INDIドライバーをインストールする",
+      "indiInstallModalType": "タイプ"
     },
     "bahtifocus": {
       "title": "バーティノフマスク・アナライザー",
@@ -2707,7 +2776,12 @@
         "dewPorts": "結露防止ポート",
         "adjPorts": "可変電源ポート",
         "powerStatus": "電源ステータス",
-        "meteoStation": "気象ステーション"
+        "meteoStation": "気象ステーション",
+        "averageAmps": "平均電流",
+        "rail12v": "12Vレール",
+        "rail5v": "5Vレール",
+        "totalAmps": "合計アンペア数",
+        "totalWatts": "合計ワット数"
       },
       "status": {
         "notConnected": "未接続"
@@ -3800,6 +3874,7 @@
     "sequence": "シーケンス",
     "monitoring": "モニター",
     "flatWizard": "フラット",
+    "framing": "フレーミング",
     "skyView": "Stellarium",
     "settings": "設定",
     "about": "About"

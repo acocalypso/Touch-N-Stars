@@ -75,6 +75,7 @@ const currentIndex = computed(() => {
 function onInput(event) {
   const idx = parseInt(event.target.value, 10);
   settingsStore.mount.slewRate = SNAP_VALUES[idx];
+  settingsStore.saveMountSettings();
 }
 </script>
 

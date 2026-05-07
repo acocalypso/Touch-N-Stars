@@ -32,7 +32,7 @@
       <!-- NextTargetHourAngle -->
       <NumberInputPicker
         :modelValue="item.NextTargetHourAngle ?? 0"
-        label="Stundenwinkel h"
+        :label="$t('components.sequence.items.orbuculum.hourAngle')"
         labelKey="orb-next-ha"
         :min="-12"
         :max="12"
@@ -43,7 +43,8 @@
 
       <!-- Read-only status -->
       <div v-if="item.NextTargetName" class="text-xs text-slate-500">
-        Nächstes Ziel: <span class="text-slate-300">{{ item.NextTargetName }}</span>
+        {{ $t('components.sequence.items.orbuculum.nextTarget') }}
+        <span class="text-slate-300">{{ item.NextTargetName }}</span>
       </div>
     </template>
   </ItemShell>

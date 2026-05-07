@@ -16,7 +16,9 @@
     "connecting": "正在连接…",
     "refresh": "刷新",
     "creating": "创造……",
-    "help": "帮助"
+    "help": "帮助",
+    "expand": "展开",
+    "collapse": "收起"
   },
   "general": {
     "cancel": "取消",
@@ -117,6 +119,8 @@
       "discoveryPermissionHintWrapper": "{message} 请在系统设置中确保应用拥有局域网/附近设备的访问权限。"
     },
     "framing": {
+      "pageTitle": "取景助手",
+      "missingEquipmentSettings": "缺少设备设置：请在设置 → 设备中设置焦距和像素大小，以便正确计算相机视场。",
       "confirmSetTargetTitle": "确认目标选择",
       "confirmSetTargetMessage": "您确定要将此目标设置为序列目标吗？",
       "useNinaCache": "使用 NINA 缓存作为目标图像",
@@ -297,8 +301,9 @@
         "ReattemptDelay": "重试延迟（分钟）",
         "BlindFailoverEnabled": "启用盲故障转移",
         "ASTAPLocation": "ASTAP地点",
-        "Filter": "滤镜",
-        "FilterCurrent": "当前"
+        "Filter": "天文定位滤镜",
+        "FilterCurrent": "当前",
+        "FilterHint": "用于天文定位的滤镜（覆盖当前滤镜）"
       },
       "equipment": {
         "title": "设备",
@@ -323,9 +328,9 @@
       },
       "coordsMismatchWarning": "轮廓和安装坐标不同。",
       "timeSync": {
-        "backendTime": "后端UTC",
+        "backendTime": "服务器时间",
         "mountNotConnected": "安装未连接",
-        "mountTime": "安装UTC",
+        "mountTime": "赤道仪时间",
         "notSupported": "驱动程序不支持",
         "syncLabel": "同步挂载时间",
         "syncLabelInfo": "启用后，点击「立即同步」将短暂断开并重新连接赤道仪，以便 NINA 将当前时间传输给它。",
@@ -451,6 +456,8 @@
       "sequenceClose": "关闭",
       "deleteConfirmationTitle": "删除文件",
       "deleteConfirmationMessage": "您确定要删除日志文件？",
+      "overwriteConfirmationTitle": "覆盖文件",
+      "overwriteConfirmationMessage": "您确定要覆盖该文件吗？",
       "resetConfirmationTitle": "确认重置",
       "resetConfirmationMessage": "您确定要重置序列吗？此操作无法撤销。",
       "clearSequence": "清除全部",
@@ -546,7 +553,8 @@
           "roiPct": "投资回报率(%)"
         },
         "switchFilter": {
-          "filter": "籂選"
+          "filter": "籂選",
+          "noFilter": "No Filter"
         },
         "switchProfile": {
           "profile": "個人檔案",
@@ -643,7 +651,8 @@
           "targetDistance": "目标行程",
           "eastDirection": "东方向",
           "manualMode": "手动模式",
-          "startFromCurrentPosition": "从当前位置开始"
+          "startFromCurrentPosition": "从当前位置开始",
+          "manual": "Manual"
         },
         "skyFlat": {
           "shouldDither": "抖动",
@@ -661,7 +670,13 @@
           "value": "内容"
         },
         "setTracking": {
-          "trackingMode": "跟踪模式"
+          "trackingMode": "跟踪模式",
+          "sidereal": "Sidereal",
+          "lunar": "Lunar",
+          "solar": "Solar",
+          "king": "King",
+          "custom": "Custom",
+          "stopped": "Stopped"
         },
         "expressionVariable": {
           "identifier": "姓名",
@@ -711,6 +726,40 @@
         },
         "warmCamera": {
           "duration": "持续时间（分钟）"
+        },
+        "orbuculum": {
+          "hourAngle": "Hour Angle (h)",
+          "nextTarget": "Next target:",
+          "current": "Current:"
+        },
+        "autoBalancingExposure": {
+          "timeSeconds": "Time (s)",
+          "noEntries": "No entries",
+          "addRow": "Add row",
+          "progress": "Progress",
+          "ratio": "Ratio",
+          "bin": "Bin"
+        },
+        "setReadoutMode": {
+          "mode": "Mode"
+        },
+        "loopWhile": {
+          "expression": "Expression"
+        },
+        "slewScopeToAltAz": {
+          "azimuth": "Az",
+          "altitude": "Alt"
+        },
+        "moveFocuserAbsolute": {
+          "position": "位置"
+        },
+        "moveFocuserRelative": {
+          "relativePosition": "相对位置"
+        },
+        "moveFocuserByTemperature": {
+          "slope": "斜率",
+          "intercept": "截距",
+          "absolute": "绝对"
         }
       },
       "emptyContainer": "空—单击+以添加项目",
@@ -729,7 +778,10 @@
       "enable": "启用",
       "disable": "禁用",
       "resetStatus": "重置状态",
-      "delete": "删除"
+      "delete": "删除",
+      "controlsLockedMessage": "Sequence controls are locked while the sequence is running.",
+      "lockControls": "Lock",
+      "unlockControls": "Unlock"
     },
     "mount": {
       "title": "赤道仪",
@@ -878,6 +930,10 @@
         "guideAlgorithm": "导星算法",
         "guideAlgorithmRA": "赤经导星算法",
         "guideAlgorithmDEC": "赤纬导星算法",
+        "camera": "相机",
+        "cameraGain": "增益",
+        "cameraBinning": "合并",
+        "restoreCalibration": "恢复校准",
         "guiderScale": "导星比例",
         "maxY": "最大Y",
         "historySize": "历史大小",
@@ -1126,6 +1182,8 @@
       "HighFullwellMode": "高满井模式",
       "LEDLights": "引领",
       "LowNoiseMode": "超级模式",
+      "BadPixelCorrection": "坏点校正",
+      "BadPixelCorrectionThreshold": "坏点阈值",
       "dewHeaterStrength": "露水加热器强度",
       "tab_camera": "相机",
       "tab_cooler": "冷却",
@@ -1249,7 +1307,9 @@
         "Speed": "速度",
         "TurboMode": "涡轮模式",
         "commandFailed": "该设备不支持命令",
-        "deviceSpecific": "设备设置"
+        "deviceSpecific": "设备设置",
+        "SlotNum": "插槽数量",
+        "slotNumDefault": "默认"
       },
       "indi": {
         "settings": "滤镜轮设置"
@@ -1747,7 +1807,16 @@
       "pluginsTitle": "PINS Plugins",
       "pluginsUninstall": "Uninstall",
       "pluginsUninstalling": "Uninstalling...",
-      "pluginsVersion": "Version"
+      "pluginsVersion": "Version",
+      "indiInstallModalAssetName": "Asset Name",
+      "indiInstallModalDriverPackage": "Driver/Package",
+      "indiInstallModalInstall": "Install",
+      "indiInstallModalInstalling": "Installing...",
+      "indiInstallModalLabel": "Label",
+      "indiInstallModalSuccessCompleted": "Installation completed for {label}.",
+      "indiInstallModalSuccessStarted": "Installation started for {label}.",
+      "indiInstallModalTitle": "Install INDI Driver",
+      "indiInstallModalType": "Type"
     },
     "bahtifocus": {
       "title": "Bahtinov掩模分析仪",
@@ -2623,7 +2692,12 @@
         "dewPorts": "露点",
         "adjPorts": "可调节电源端口",
         "powerStatus": "电源状态",
-        "meteoStation": "气象站"
+        "meteoStation": "气象站",
+        "averageAmps": "Average Amps",
+        "rail12v": "12V Rail",
+        "rail5v": "5V Rail",
+        "totalAmps": "Total Amps",
+        "totalWatts": "Total Watts"
       },
       "status": {
         "notConnected": "未连接"
@@ -3800,6 +3874,7 @@
     "sequence": "序列",
     "monitoring": "监控",
     "flatWizard": "平场向导",
+    "framing": "取景",
     "skyView": "星辰",
     "settings": "设置",
     "about": "关于"

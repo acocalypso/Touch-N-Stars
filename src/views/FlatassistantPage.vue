@@ -99,6 +99,16 @@ onBeforeUnmount(() => {
   flatsStore.stopFetchingFlats();
 });
 
+let saveDebounce;
+watch(
+  () => settingsStore.flats,
+  () => {
+    clearTimeout(saveDebounce);
+    saveDebounce = setTimeout(() => settingsStore.saveFlatsSettings(), 600);
+  },
+  { deep: true }
+);
+
 watch(
   () => store.profileInfo?.FlatWizardSettings,
   (flatSettings) => {

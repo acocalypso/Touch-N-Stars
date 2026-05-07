@@ -16,7 +16,9 @@
     "connecting": "Conectando…",
     "refresh": "Atualizar",
     "creating": "Criando…",
-    "help": "Ajuda"
+    "help": "Ajuda",
+    "expand": "Expandir",
+    "collapse": "Recolher"
   },
   "general": {
     "cancel": "Cancelar",
@@ -117,6 +119,8 @@
       "discoveryPermissionHintWrapper": "{message} Garanta, nas configurações do sistema, que o app tenha acesso à rede local / dispositivos próximos."
     },
     "framing": {
+      "pageTitle": "Assistente de Enquadramento",
+      "missingEquipmentSettings": "Configurações de equipamento em falta: por favor, defina a distância focal e o tamanho do pixel em Configurações → Equipamento para que o FOV da câmara seja calculado corretamente.",
       "confirmSetTargetTitle": "Confirmar Seleção do Alvo",
       "confirmSetTargetMessage": "Tem certeza de que deseja definir este alvo como alvo da sequência?",
       "useNinaCache": "Usar cache do NINA para imagem do alvo",
@@ -297,8 +301,9 @@
         "ReattemptDelay": "Atraso (min) de nova tentativa",
         "BlindFailoverEnabled": "Failover cego ativado",
         "ASTAPLocation": "Localização ASTAP",
-        "Filter": "Filtro",
-        "FilterCurrent": "Atual"
+        "Filter": "Filtro para Plate Solving",
+        "FilterCurrent": "Atual",
+        "FilterHint": "Filtro usado durante o plate solving (substitui o filtro atual)"
       },
       "equipment": {
         "title": "Equipamento",
@@ -323,9 +328,9 @@
       },
       "coordsMismatchWarning": "As coordenadas de perfil e montagem são diferentes.",
       "timeSync": {
-        "backendTime": "Back-end UTC",
+        "backendTime": "Hora do servidor",
         "mountNotConnected": "Montagem não conectada",
-        "mountTime": "Montar UTC",
+        "mountTime": "Hora da montagem",
         "notSupported": "Não suportado pelo driver",
         "syncLabel": "Sincronize o tempo para montar",
         "syncLabelInfo": "Quando ativado, clicar em \"Sincronizar agora\" desconectará e reconectará brevemente a montagem para que o NINA possa transferir a hora atual.",
@@ -451,6 +456,8 @@
       "sequenceClose": "Fechar",
       "deleteConfirmationTitle": "Eliminar ficheiro",
       "deleteConfirmationMessage": "Você realmente deseja apagar o arquivo de log.",
+      "overwriteConfirmationTitle": "Substituir ficheiro",
+      "overwriteConfirmationMessage": "Tem a certeza de que deseja substituir o ficheiro?",
       "resetConfirmationTitle": "Confirmar reinicialização",
       "resetConfirmationMessage": "Tem certeza de que deseja reiniciar a sequência? Esta ação não pode ser desfeita.",
       "clearSequence": "Limpar tudo",
@@ -546,7 +553,8 @@
           "roiPct": "ROI(%)"
         },
         "switchFilter": {
-          "filter": "Filtrar"
+          "filter": "Filtrar",
+          "noFilter": "No Filter"
         },
         "switchProfile": {
           "profile": "Perfil",
@@ -643,7 +651,8 @@
           "targetDistance": "distância-objectivo",
           "eastDirection": "Direção Este",
           "manualMode": "Modo Manual​​",
-          "startFromCurrentPosition": "Iniciar a partir da posição atual"
+          "startFromCurrentPosition": "Iniciar a partir da posição atual",
+          "manual": "Manual"
         },
         "skyFlat": {
           "shouldDither": "Pontilhamento",
@@ -661,7 +670,13 @@
           "value": "Valor"
         },
         "setTracking": {
-          "trackingMode": "Modo de Rastreamento"
+          "trackingMode": "Modo de Rastreamento",
+          "sidereal": "Sidereal",
+          "lunar": "Lunar",
+          "solar": "Solar",
+          "king": "King",
+          "custom": "Custom",
+          "stopped": "Stopped"
         },
         "expressionVariable": {
           "identifier": "Nome",
@@ -711,6 +726,40 @@
         },
         "warmCamera": {
           "duration": "Duração (min)"
+        },
+        "orbuculum": {
+          "hourAngle": "Hour Angle (h)",
+          "nextTarget": "Next target:",
+          "current": "Current:"
+        },
+        "autoBalancingExposure": {
+          "timeSeconds": "Time (s)",
+          "noEntries": "No entries",
+          "addRow": "Add row",
+          "progress": "Progress",
+          "ratio": "Ratio",
+          "bin": "Bin"
+        },
+        "setReadoutMode": {
+          "mode": "Mode"
+        },
+        "loopWhile": {
+          "expression": "Expression"
+        },
+        "slewScopeToAltAz": {
+          "azimuth": "Az",
+          "altitude": "Alt"
+        },
+        "moveFocuserAbsolute": {
+          "position": "Posição"
+        },
+        "moveFocuserRelative": {
+          "relativePosition": "Posição relativa"
+        },
+        "moveFocuserByTemperature": {
+          "slope": "Inclinação",
+          "intercept": "Intercepto",
+          "absolute": "Absoluto"
         }
       },
       "emptyContainer": "Vazio — clique em + para adicionar itens",
@@ -729,7 +778,10 @@
       "enable": "Ativar",
       "disable": "Desativar",
       "resetStatus": "Redefinir status",
-      "delete": "Excluir"
+      "delete": "Excluir",
+      "controlsLockedMessage": "Os controles de sequência são bloqueados enquanto a sequência está em execução.",
+      "lockControls": "Trancar",
+      "unlockControls": "Desbloquear"
     },
     "mount": {
       "title": "Montagem",
@@ -878,6 +930,10 @@
         "guideAlgorithm": "Algoritmo de guiamento",
         "guideAlgorithmRA": "Algoritmo de guiamento RA",
         "guideAlgorithmDEC": "Algoritmo de guiamento DEC",
+        "camera": "Câmera",
+        "cameraGain": "Ganho",
+        "cameraBinning": "Binning",
+        "restoreCalibration": "Restaurar calibração",
         "guiderScale": "Escala do guia",
         "maxY": "Máx. Y",
         "historySize": "Tamanho do histórico",
@@ -1126,6 +1182,8 @@
       "HighFullwellMode": "Modo Fullwell alto",
       "LEDLights": "LIDERADO",
       "LowNoiseMode": "Modo Ultra",
+      "BadPixelCorrection": "Correção de pixels defeituosos",
+      "BadPixelCorrectionThreshold": "Limite de pixels defeituosos",
       "dewHeaterStrength": "Força do aquecedor de orvalho",
       "tab_camera": "Câmera",
       "tab_cooler": "Resfriamento",
@@ -1249,7 +1307,9 @@
         "Speed": "Velocidade",
         "TurboMode": "Modo Turbo",
         "commandFailed": "Comando não suportado por este dispositivo",
-        "deviceSpecific": "Configurações do dispositivo"
+        "deviceSpecific": "Configurações do dispositivo",
+        "SlotNum": "Número de slots",
+        "slotNumDefault": "Padrão"
       },
       "indi": {
         "settings": "Configurações da roda de filtros"
@@ -1747,7 +1807,16 @@
       "pluginsTitle": "Plug-ins PINS",
       "pluginsUninstall": "Desinstalar",
       "pluginsUninstalling": "Desinstalando...",
-      "pluginsVersion": "Versão"
+      "pluginsVersion": "Versão",
+      "indiInstallModalAssetName": "Nome do ativo",
+      "indiInstallModalDriverPackage": "Motorista/Pacote",
+      "indiInstallModalInstall": "Instalar",
+      "indiInstallModalInstalling": "Instalando...",
+      "indiInstallModalLabel": "Rótulo",
+      "indiInstallModalSuccessCompleted": "Instalação concluída para {label}.",
+      "indiInstallModalSuccessStarted": "A instalação de {label} foi iniciada.",
+      "indiInstallModalTitle": "Instale o driver INDI",
+      "indiInstallModalType": "Tipo"
     },
     "bahtifocus": {
       "title": "Analisador de máscara Bahtinov",
@@ -2623,7 +2692,12 @@
         "dewPorts": "Portas de orvalho",
         "adjPorts": "Portas de alimentação ajustáveis",
         "powerStatus": "Status de energia",
-        "meteoStation": "Estação Meteo"
+        "meteoStation": "Estação Meteo",
+        "averageAmps": "Amplificadores médios",
+        "rail12v": "Trilho 12V",
+        "rail5v": "Trilho 5V",
+        "totalAmps": "Amplificadores totais",
+        "totalWatts": "Watts totais"
       },
       "status": {
         "notConnected": "Não conectado"
@@ -3800,6 +3874,7 @@
     "sequence": "Seq.",
     "monitoring": "Monitor",
     "flatWizard": "Apartamentos",
+    "framing": "Enquadrar",
     "skyView": "Stellarium",
     "settings": "Configurações",
     "about": "Sobre"

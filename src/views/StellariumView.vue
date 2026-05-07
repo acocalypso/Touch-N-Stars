@@ -20,6 +20,12 @@
       :isSearchVisible="isSearchVisible"
     />
 
+    <!-- Camera FOV Frame Overlay -->
+    <StellariumFovFrame v-if="showFovFrame" />
+
+    <!-- Camera FOV Rotation Control + View-Center Actions -->
+    <StellariumFovRotation v-if="showFovFrame" />
+
     <!-- Overlay für das Suchfeld -->
     <div
       v-if="isSearchVisible"
@@ -74,23 +80,8 @@
       <stellariumClock v-if="stellariumStore.stel" />
     </div>
 
-    <!-- View Direction Display -->
-    <StellariumViewDirection v-if="stellariumStore.stel" />
-
-    <!-- Framing Modal -->
-    <div
-      v-if="framingStore.showFramingModal"
-      class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
-      @click.self="framingStore.showFramingModal = false"
-    >
-      <div
-        class="bg-gray-900 rounded-lg p-4 overflow-y-auto max-h-[75vh] border border-gray-700 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-800/50"
-        :style="{ minWidth: `${framingStore.containerSize}px` }"
-        @click.stop
-      >
-        <FramingAssistangModal />
-      </div>
-    </div>
+    <!-- View Direction Display (hidden when camera FOV frame is rendered) -->
+    <StellariumViewDirection v-if="stellariumStore.stel && !showFovFrame" />
   </div>
 </template>
 
@@ -111,8 +102,9 @@ import stellariumCredits from '@/components/stellarium/stellariumCredits.vue';
 import SelectedObject from '@/components/stellarium/SelectedObject.vue';
 import stellariumSettings from '@/components/stellarium/stellariumSettings.vue';
 import stellariumClock from '@/components/stellarium/stellariumClock.vue';
+import StellariumFovFrame from '@/components/stellarium/StellariumFovFrame.vue';
+import StellariumFovRotation from '@/components/stellarium/StellariumFovRotation.vue';
 import StellariumViewDirection from '@/components/stellarium/StellariumViewDirection.vue';
-import FramingAssistangModal from '@/components/framing/FramingAssistangModal.vue';
 import { timeSync } from '@/utils/timeSync';
 import { utcToMJD } from '@/utils/utils';
 
@@ -138,6 +130,13 @@ const containerClasses = computed(() => ({
   'stellarium-portrait': !isLandscape.value,
   'stellarium-landscape': isLandscape.value,
 }));
+
+const showFovFrame = computed(
+  () =>
+    !!stellariumStore.stel &&
+    !!store.cameraInfo.Connected &&
+    !!store.profileInfo?.TelescopeSettings?.FocalLength
+);
 
 // Controls positioning classes
 const controlsClasses = computed(() => ({
@@ -275,7 +274,7 @@ onMounted(async () => {
           console.log('Stellarium initialized with server time:', serverTime.toISOString());
 
           // Zeitgeschwindigkeit auf 1 setzen
-          stel.core.time_speed = 1;
+          stel.core.time_speed = 0;
 
           // Speichere Stellarium für späteren Zugriff
           stellariumStore.stel = stel;
@@ -340,35 +339,6 @@ onMounted(async () => {
 
           stellariumStore.getCurrentViewDirection = getCurrentViewDirection;
           stellariumStore.setViewDirection = setViewDirection;
-
-          // Watch for framing coordinates changes and update Stellarium view
-          let stopCoordWatch = null;
-          watch(
-            () => framingStore.showFramingModal,
-            (isVisible) => {
-              if (isVisible) {
-                // Start watching coordinates when modal opens
-                if (!stopCoordWatch) {
-                  stopCoordWatch = watch(
-                    () => ({
-                      ra: framingStore.RAangle,
-                      dec: framingStore.DECangle,
-                    }),
-                    (newCoords) => {
-                      setViewDirection(newCoords.ra, newCoords.dec);
-                    },
-                    { deep: true }
-                  );
-                }
-              } else {
-                // Stop watching when modal closes
-                if (stopCoordWatch) {
-                  stopCoordWatch();
-                  stopCoordWatch = null;
-                }
-              }
-            }
-          );
 
           // Schritt 3) Datenquellen (Kataloge) hinzufügen
           //IP und Port vom Plugin ermitteln

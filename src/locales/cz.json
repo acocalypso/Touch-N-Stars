@@ -16,7 +16,9 @@
     "connecting": "Spojovací…",
     "refresh": "Obnovit",
     "creating": "Vytváření…",
-    "help": "Pomoc"
+    "help": "Pomoc",
+    "expand": "Rozbalit",
+    "collapse": "Sbalit"
   },
   "general": {
     "cancel": "Zrušit",
@@ -117,6 +119,8 @@
       "discoveryPermissionHintWrapper": "{message} Zkontrolujte, zda má aplikace v nastavení systému přístup k místní síti / k zařízením v blízkosti."
     },
     "framing": {
+      "pageTitle": "Framing Asistent",
+      "missingEquipmentSettings": "Chybí nastavení vybavení: prosím nastavte ohniskovou vzdálenost a velikost pixelu v Nastavení → Vybavení, aby byl FOV kamery správně vypočítán.",
       "confirmSetTargetTitle": "Potvrzení Výběru Cíle",
       "confirmSetTargetMessage": "Jste si jisti, že chcete tento cíl nastavit jako součást sekvence?",
       "useNinaCache": "Využití mezipaměti NINA pro cílový obraz",
@@ -297,8 +301,9 @@
         "ReattemptDelay": "Zpoždění opětovného pokusu (min)",
         "BlindFailoverEnabled": "Slepé převzetí služeb při selhání povoleno",
         "ASTAPLocation": "Umístění ASTAP",
-        "Filter": "Filtr",
-        "FilterCurrent": "Aktuální"
+        "Filter": "Filtr pro Plate Solving",
+        "FilterCurrent": "Aktuální",
+        "FilterHint": "Filtr používaný při plate solvingu (přepíše aktuální filtr)"
       },
       "equipment": {
         "title": "Vybavení",
@@ -323,9 +328,9 @@
       },
       "coordsMismatchWarning": "Souřadnice profilu a montáže se liší.",
       "timeSync": {
-        "backendTime": "Backend UTC",
+        "backendTime": "Čas serveru",
         "mountNotConnected": "Montáž není připojena",
-        "mountTime": "Namontujte UTC",
+        "mountTime": "Čas montáže",
         "notSupported": "Není podporováno ovladačem",
         "syncLabel": "Synchronizujte čas pro připojení",
         "syncLabelInfo": "Pokud je tato možnost povolena, kliknutím na \"Synchronizovat nyní\" se montáž krátce odpojí a znovu připojí, aby NINA mohla přenést aktuální čas.",
@@ -451,6 +456,8 @@
       "sequenceClose": "Zavřít",
       "deleteConfirmationTitle": "Smazat soubor",
       "deleteConfirmationMessage": "Jste si jistý, že chcete smazat log?",
+      "overwriteConfirmationTitle": "Přepsat soubor",
+      "overwriteConfirmationMessage": "Jste si jistý, že chcete přepsat soubor?",
       "resetConfirmationTitle": "Potvrzení resetu",
       "resetConfirmationMessage": "Jste si jisti, že chcete resetovat sekvenci? Tuto akci nelze vrátit zpět.",
       "clearSequence": "Smazat vše",
@@ -546,7 +553,8 @@
           "roiPct": "Návratnost investic (v %)"
         },
         "switchFilter": {
-          "filter": "Filtr"
+          "filter": "Filtr",
+          "noFilter": "No Filter"
         },
         "switchProfile": {
           "profile": "Profil",
@@ -643,7 +651,8 @@
           "targetDistance": "Vzdálenost cíle",
           "eastDirection": "Východní směr",
           "manualMode": "Manuální mód",
-          "startFromCurrentPosition": "Začít od aktuální pozice"
+          "startFromCurrentPosition": "Začít od aktuální pozice",
+          "manual": "Manual"
         },
         "skyFlat": {
           "shouldDither": "Váhat",
@@ -661,7 +670,13 @@
           "value": "Hodnota"
         },
         "setTracking": {
-          "trackingMode": "Režim sledování"
+          "trackingMode": "Režim sledování",
+          "sidereal": "Sidereal",
+          "lunar": "Lunar",
+          "solar": "Solar",
+          "king": "King",
+          "custom": "Custom",
+          "stopped": "Stopped"
         },
         "expressionVariable": {
           "identifier": "Jméno",
@@ -711,6 +726,40 @@
         },
         "warmCamera": {
           "duration": "Délka (min)"
+        },
+        "orbuculum": {
+          "hourAngle": "Hour Angle (h)",
+          "nextTarget": "Next target:",
+          "current": "Current:"
+        },
+        "autoBalancingExposure": {
+          "timeSeconds": "Time (s)",
+          "noEntries": "No entries",
+          "addRow": "Add row",
+          "progress": "Progress",
+          "ratio": "Ratio",
+          "bin": "Bin"
+        },
+        "setReadoutMode": {
+          "mode": "Mode"
+        },
+        "loopWhile": {
+          "expression": "Expression"
+        },
+        "slewScopeToAltAz": {
+          "azimuth": "Az",
+          "altitude": "Alt"
+        },
+        "moveFocuserAbsolute": {
+          "position": "Pozice"
+        },
+        "moveFocuserRelative": {
+          "relativePosition": "Relativní pozice"
+        },
+        "moveFocuserByTemperature": {
+          "slope": "Sklon",
+          "intercept": "Průsečík",
+          "absolute": "Absolutní"
         }
       },
       "emptyContainer": "Prázdné — kliknutím na + přidáte položky",
@@ -729,7 +778,10 @@
       "enable": "Povolit",
       "disable": "Zakázat",
       "resetStatus": "Resetovat stav",
-      "delete": "Smazat"
+      "delete": "Smazat",
+      "controlsLockedMessage": "Sequence controls are locked while the sequence is running.",
+      "lockControls": "Lock",
+      "unlockControls": "Unlock"
     },
     "mount": {
       "title": "Montáž",
@@ -878,6 +930,10 @@
         "guideAlgorithm": "Algoritmus vedení",
         "guideAlgorithmRA": "RA algoritmus vedení",
         "guideAlgorithmDEC": "DEC algoritmus vedení",
+        "camera": "Kamera",
+        "cameraGain": "Zesílení",
+        "cameraBinning": "Binning",
+        "restoreCalibration": "Obnovit kalibraci",
         "guiderScale": "Měřítko guideru",
         "maxY": "Max Y",
         "historySize": "Velikost historie",
@@ -1126,6 +1182,8 @@
       "HighFullwellMode": "Vysoký režim Fullwell",
       "LEDLights": "LED",
       "LowNoiseMode": "Ultra režim",
+      "BadPixelCorrection": "Korekce vadných pixelů",
+      "BadPixelCorrectionThreshold": "Práh vadných pixelů",
       "dewHeaterStrength": "Síla ohřívače rosy",
       "tab_camera": "Kamera",
       "tab_cooler": "Chlazení",
@@ -1249,7 +1307,9 @@
         "Speed": "Rychlost",
         "TurboMode": "Turbo režim",
         "commandFailed": "Příkaz není tímto zařízením podporován",
-        "deviceSpecific": "Nastavení zařízení"
+        "deviceSpecific": "Nastavení zařízení",
+        "SlotNum": "Počet slotů",
+        "slotNumDefault": "Výchozí"
       },
       "indi": {
         "settings": "Nastavení filtračního kola"
@@ -1747,7 +1807,16 @@
       "pluginsTitle": "PINS Plugins",
       "pluginsUninstall": "Uninstall",
       "pluginsUninstalling": "Uninstalling...",
-      "pluginsVersion": "Version"
+      "pluginsVersion": "Version",
+      "indiInstallModalAssetName": "Asset Name",
+      "indiInstallModalDriverPackage": "Driver/Package",
+      "indiInstallModalInstall": "Install",
+      "indiInstallModalInstalling": "Installing...",
+      "indiInstallModalLabel": "Label",
+      "indiInstallModalSuccessCompleted": "Installation completed for {label}.",
+      "indiInstallModalSuccessStarted": "Installation started for {label}.",
+      "indiInstallModalTitle": "Install INDI Driver",
+      "indiInstallModalType": "Type"
     },
     "bahtifocus": {
       "title": "Bahtinovův analyzátor masky",
@@ -2623,7 +2692,12 @@
         "dewPorts": "Rosné porty",
         "adjPorts": "Nastavitelné napájecí porty",
         "powerStatus": "Stav napájení",
-        "meteoStation": "Meteo stanice"
+        "meteoStation": "Meteo stanice",
+        "averageAmps": "Average Amps",
+        "rail12v": "12V Rail",
+        "rail5v": "5V Rail",
+        "totalAmps": "Total Amps",
+        "totalWatts": "Total Watts"
       },
       "status": {
         "notConnected": "Nepřipojeno"
@@ -3800,6 +3874,7 @@
     "sequence": "Sekv.",
     "monitoring": "Monitor",
     "flatWizard": "Byty",
+    "framing": "Framing",
     "skyView": "Stellarium",
     "settings": "Nastav.",
     "about": "Info"

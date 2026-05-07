@@ -11,13 +11,27 @@
         <table class="w-full text-xs border-collapse">
           <thead>
             <tr class="text-slate-500 border-b border-slate-700">
-              <th class="text-left pb-1 pr-2 font-normal">Progress</th>
-              <th class="text-left pb-1 pr-2 font-normal">Ratio</th>
-              <th class="text-left pb-1 pr-2 font-normal">Zeit (s)</th>
-              <th class="text-left pb-1 pr-2 font-normal">Filter</th>
-              <th class="text-left pb-1 pr-2 font-normal">Bin</th>
-              <th class="text-left pb-1 pr-2 font-normal">Gain</th>
-              <th class="text-left pb-1 pr-2 font-normal">Offset</th>
+              <th class="text-left pb-1 pr-2 font-normal">
+                {{ $t('components.sequence.items.autoBalancingExposure.progress') }}
+              </th>
+              <th class="text-left pb-1 pr-2 font-normal">
+                {{ $t('components.sequence.items.autoBalancingExposure.ratio') }}
+              </th>
+              <th class="text-left pb-1 pr-2 font-normal">
+                {{ $t('components.sequence.items.autoBalancingExposure.timeSeconds') }}
+              </th>
+              <th class="text-left pb-1 pr-2 font-normal">
+                {{ $t('components.sequence.items.switchFilter.filter') }}
+              </th>
+              <th class="text-left pb-1 pr-2 font-normal">
+                {{ $t('components.sequence.items.autoBalancingExposure.bin') }}
+              </th>
+              <th class="text-left pb-1 pr-2 font-normal">
+                {{ $t('components.sequence.items.takeExposure.gain') }}
+              </th>
+              <th class="text-left pb-1 pr-2 font-normal">
+                {{ $t('components.sequence.items.takeExposure.offset') }}
+              </th>
               <th></th>
             </tr>
           </thead>
@@ -133,7 +147,9 @@
               </td>
             </tr>
             <tr v-if="localItems.length === 0">
-              <td colspan="8" class="py-2 text-center text-slate-600">Keine Einträge</td>
+              <td colspan="8" class="py-2 text-center text-slate-600">
+                {{ $t('components.sequence.items.autoBalancingExposure.noEntries') }}
+              </td>
             </tr>
           </tbody>
         </table>
@@ -144,13 +160,14 @@
           class="flex items-center gap-1 text-xs text-slate-400 hover:text-slate-200 px-2 py-1 rounded hover:bg-slate-700/40 transition-colors"
           @click="addRow"
         >
-          <PlusIcon class="w-3.5 h-3.5" /> Zeile hinzufügen
+          <PlusIcon class="w-3.5 h-3.5" />
+          {{ $t('components.sequence.items.autoBalancingExposure.addRow') }}
         </button>
         <button
           class="flex items-center gap-1 text-xs text-cyan-400 hover:text-cyan-300 px-2 py-1 rounded hover:bg-cyan-900/20 transition-colors"
           @click="saveAll(save)"
         >
-          Speichern
+          {{ $t('general.save') }}
         </button>
       </div>
     </template>

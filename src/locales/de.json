@@ -16,7 +16,9 @@
     "connecting": "Verbinden…",
     "refresh": "Aktualisieren",
     "creating": "Erstellen…",
-    "help": "Hilfe"
+    "help": "Hilfe",
+    "expand": "Erweitern",
+    "collapse": "Minimieren"
   },
   "general": {
     "cancel": "Abbrechen",
@@ -157,6 +159,8 @@
       "discoveryPermissionHintWrapper": "{message} Stelle sicher, dass die App in den Systemeinstellungen Zugriff auf das lokale Netzwerk bzw. auf Geräte in der Nähe hat."
     },
     "framing": {
+      "pageTitle": "Framing-Assistent",
+      "missingEquipmentSettings": "Fehlende Equipment-Einstellungen: Bitte Brennweite und Pixelgröße unter Einstellungen → Equipment setzen, damit das Kamera-FOV korrekt berechnet wird.",
       "confirmSetTargetTitle": "Zielauswahl bestätigen",
       "confirmSetTargetMessage": "Möchten Sie dieses Ziel wirklich als Sequenzziel festlegen?",
       "useNinaCache": "NINA-Cache für das Zielbild verwenden",
@@ -363,8 +367,9 @@
         "ReattemptDelay": "Verzögerung (min) bei erneutem Versuch",
         "BlindFailoverEnabled": "Blind Solver aktiviert",
         "ASTAPLocation": "ASTAP-Speicherort",
-        "Filter": "Filter",
-        "FilterCurrent": "Aktuell"
+        "Filter": "Plate-Solving-Filter",
+        "FilterCurrent": "Aktuell",
+        "FilterHint": "Filter, der für das Plate Solving verwendet wird (überschreibt den aktuellen Filter)"
       },
       "equipment": {
         "title": "Ausrüstung",
@@ -395,7 +400,7 @@
       },
       "coordsMismatchWarning": "Profil- und Montierungskoordinaten unterscheiden sich.",
       "timeSync": {
-        "backendTime": "Backend UTC",
+        "backendTime": "Backend Zeit",
         "mountNotConnected": "Montierung nicht verbunden",
         "mountTime": "Uhrzeit der Montierung",
         "notSupported": "Wird vom Treiber nicht unterstützt",
@@ -481,6 +486,9 @@
       "resetSequence": "Sequenz zurücksetzen",
       "skipToEnd": "Zum Ende springen",
       "skipCurrentItem": "Aktuelles Element überspringen",
+      "lockControls": "Sperren",
+      "unlockControls": "Entsperren",
+      "controlsLockedMessage": "Die Sequenzsteuerung ist gesperrt, solange die Sequenz läuft.",
       "manageSequences": "Sequenzen laden / speichern",
       "saveSequenceAs": "Aktuelle Sequenz speichern als",
       "sequenceFileName": "Dateiname",
@@ -491,6 +499,8 @@
       "sequenceClose": "Schließen",
       "deleteConfirmationTitle": "Datei löschen",
       "deleteConfirmationMessage": "Möchten Sie die Datei wirklich löschen?",
+      "overwriteConfirmationTitle": "Datei überschreiben",
+      "overwriteConfirmationMessage": "Möchten Sie die Datei wirklich überschreiben?",
       "resetConfirmationTitle": "Zurücksetzen bestätigen",
       "resetConfirmationMessage": "Möchten Sie die Sequenz wirklich zurücksetzen? Diese Aktion kann nicht rückgängig gemacht werden.",
       "clearSequence": "Alles löschen",
@@ -595,7 +605,8 @@
           "roiPct": "ROI (%)"
         },
         "switchFilter": {
-          "filter": "Filter"
+          "filter": "Filter",
+          "noFilter": "Kein Filter"
         },
         "switchProfile": {
           "profile": "Profil",
@@ -692,6 +703,7 @@
           "targetDistance": "Zielabstand (°)",
           "eastDirection": "Ost-Richtung",
           "manualMode": "Manueller Modus",
+          "manual": "Manuell",
           "startFromCurrentPosition": "Von aktueller Position starten"
         },
         "skyFlat": {
@@ -710,7 +722,13 @@
           "value": "Wert"
         },
         "setTracking": {
-          "trackingMode": "Tracking-Modus"
+          "trackingMode": "Tracking-Modus",
+          "sidereal": "Siderisch",
+          "lunar": "Lunar",
+          "solar": "Solar",
+          "king": "King",
+          "custom": "Benutzerdefiniert",
+          "stopped": "Gestoppt"
         },
         "expressionVariable": {
           "identifier": "Name",
@@ -760,6 +778,40 @@
         },
         "warmCamera": {
           "duration": "Dauer (min)"
+        },
+        "orbuculum": {
+          "hourAngle": "Stundenwinkel (h)",
+          "nextTarget": "Nächstes Ziel:",
+          "current": "Aktuell:"
+        },
+        "autoBalancingExposure": {
+          "timeSeconds": "Zeit (s)",
+          "noEntries": "Keine Einträge",
+          "addRow": "Zeile hinzufügen",
+          "progress": "Fortschritt",
+          "ratio": "Verhältnis",
+          "bin": "Bin"
+        },
+        "setReadoutMode": {
+          "mode": "Modus"
+        },
+        "loopWhile": {
+          "expression": "Ausdruck"
+        },
+        "slewScopeToAltAz": {
+          "azimuth": "Az",
+          "altitude": "Alt"
+        },
+        "moveFocuserAbsolute": {
+          "position": "Position"
+        },
+        "moveFocuserRelative": {
+          "relativePosition": "Relative Position"
+        },
+        "moveFocuserByTemperature": {
+          "slope": "Steigung",
+          "intercept": "Achsenabschnitt",
+          "absolute": "Absolut"
         }
       },
       "emptyContainer": "Leer — auf + klicken um Items hinzuzufügen",
@@ -918,6 +970,10 @@
         "guideAlgorithm": "Guiding-Algorithmus",
         "guideAlgorithmRA": "RA-Guiding-Algorithmus",
         "guideAlgorithmDEC": "DEC-Guiding-Algorithmus",
+        "camera": "Kamera",
+        "cameraGain": "Gain",
+        "cameraBinning": "Binning",
+        "restoreCalibration": "Kalibrierung behalten",
         "guiderScale": "Guider-Skala",
         "maxY": "Max Y",
         "historySize": "Verlaufsgröße",
@@ -1163,6 +1219,8 @@
       "readout_mode_image": "Auslesemodus Sequenz",
       "readout_mode_snap": "Auslesemodus Schnappschuss",
       "LowNoiseMode": "Ultra Mode",
+      "BadPixelCorrection": "Hot-Pixel Korrektur",
+      "BadPixelCorrectionThreshold": "Hot-Pixel Schwellwert",
       "HighFullwellMode": "High Fullwell Mode",
       "BinAverageEnabled": "Binning averages pixels",
       "LEDLights": "LED",
@@ -1289,7 +1347,9 @@
         "Speed": "Geschwindigkeit",
         "TurboMode": "Turbo-Modus",
         "commandFailed": "Befehl wird von diesem Gerät nicht unterstützt",
-        "deviceSpecific": "Geräteeinstellungen"
+        "deviceSpecific": "Geräteeinstellungen",
+        "SlotNum": "Anzahl Slots",
+        "slotNumDefault": "Standard"
       },
       "indi": {
         "settings": "Filter Wheel Settings"
@@ -1724,6 +1784,15 @@
       "indi3rdpartyInstall": "Install driver",
       "indi3rdpartyInstalling": "Installing...",
       "indi3rdpartyNoDrivers": "No not-installed drivers found.",
+      "indiInstallModalTitle": "INDI-Treiber installieren",
+      "indiInstallModalDriverPackage": "Treiber/Paket",
+      "indiInstallModalAssetName": "Asset-Name",
+      "indiInstallModalType": "Typ",
+      "indiInstallModalLabel": "Bezeichnung",
+      "indiInstallModalInstall": "Installieren",
+      "indiInstallModalInstalling": "Installiere...",
+      "indiInstallModalSuccessStarted": "Installation wurde fuer {label} gestartet.",
+      "indiInstallModalSuccessCompleted": "Installation wurde fuer {label} abgeschlossen.",
       "pluginsTitle": "PINS Plugins",
       "pluginsDescription": "Optionale PINS-Plugins verwalten (installieren oder deinstallieren).",
       "pluginsRefresh": "Pluginliste aktualisieren",
@@ -2704,7 +2773,12 @@
         "dewPorts": "Tauanschlüsse",
         "adjPorts": "Einstellbare Stromanschlüsse",
         "powerStatus": "Energiestatus",
-        "meteoStation": "Meteostation"
+        "meteoStation": "Meteostation",
+        "averageAmps": "Durchschnittliche Ampere",
+        "rail12v": "12V-Schiene",
+        "rail5v": "5V-Schiene",
+        "totalAmps": "Gesamtstärke",
+        "totalWatts": "Gesamtwatt"
       },
       "status": {
         "notConnected": "Nicht verbunden"
@@ -3934,6 +4008,7 @@
     "sequence": "Seq.",
     "monitoring": "Monitor",
     "flatWizard": "Flats",
+    "framing": "Framing",
     "skyView": "Stellarium",
     "settings": "Einstell.",
     "about": "Info"
@@ -4005,7 +4080,7 @@
       "showSkyThumbnails": "Himmelsminiaturansichten anzeigen",
       "showStarCountCV": "Star Count-Lebenslauf anzeigen",
       "showTsProgressBars": "TS-Fortschrittsbalken anzeigen",
-      "smtpPort": "Hafen",
+      "smtpPort": "smtp Port",
       "smtpServer": "SMTP-Server",
       "smtpSsl": "Verwenden Sie TLS/SSL",
       "testDiscord": "Testnachricht senden",

@@ -32,7 +32,7 @@
       <!-- HourAngle -->
       <NumberInputPicker
         :modelValue="item.HourAngle ?? 0"
-        label="Stundenwinkel h"
+        :label="$t('components.sequence.items.orbuculum.hourAngle')"
         labelKey="orb-ha"
         :min="-12"
         :max="12"
@@ -43,7 +43,7 @@
 
       <!-- Read-only current -->
       <div class="text-xs text-slate-500">
-        Aktuell:
+        {{ $t('components.sequence.items.orbuculum.current') }}
         <span class="text-slate-300">{{ Number(item.CurrentHourAngle).toFixed(2) }}h</span>
       </div>
     </template>

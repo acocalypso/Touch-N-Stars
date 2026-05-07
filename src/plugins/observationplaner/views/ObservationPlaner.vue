@@ -19,15 +19,6 @@
           >
             Refresh
           </button>
-
-          <button
-            class="px-3 py-2 rounded-lg bg-gray-800 hover:bg-gray-700 border border-gray-700 text-gray-100 text-sm"
-            @click="ensureLocation"
-            :disabled="busyLocation"
-            :title="tp('tooltips.gpsUpdate')"
-          >
-            get location
-          </button>
         </div>
       </div>
 
@@ -42,10 +33,6 @@
           </div>
 
           <div v-else class="text-sm text-gray-400">{{ tp('location.notAvailable') }}</div>
-
-          <div v-if="gpsError" class="mt-2 text-xs text-red-400 break-words">
-            {{ gpsError }}
-          </div>
         </div>
 
         <div class="rounded-xl border border-gray-700 bg-black/30 p-3">
@@ -512,14 +499,7 @@ import {
   RectangleGroupIcon,
   QueueListIcon,
 } from '@heroicons/vue/24/outline';
-import {
-  latitude,
-  longitude,
-  altitude,
-  gpsError,
-  getCurrentLocation,
-  useLocationStore,
-} from '../../../utils/location';
+import { useLocationStore, ninaCoords } from '../../../utils/location';
 
 // --------------------------
 // Basic helpers
@@ -604,7 +584,6 @@ const sequenceStore = useSequenceStore();
 const store = apiStore();
 const planerStore = useObservationPlanerStore();
 const busy = ref(false);
-const busyLocation = ref(false);
 
 const targets = ref([]); // merged list (favorites + seed)
 const apiFavorites = ref([]); // raw favorites from API
@@ -677,17 +656,17 @@ const isSelected = (t) => isSameTarget(t, lastSelectedTarget.value);
 // Location (computed from your utils/store)
 // --------------------------
 const siteLat = computed(() => {
-  const v = latitude?.value ?? locationStore?.latitude;
+  const v = ninaCoords.value?.latitude;
   const n = typeof v === 'string' ? Number(v) : v;
   return Number.isFinite(n) ? n : null;
 });
 const siteLon = computed(() => {
-  const v = longitude?.value ?? locationStore?.longitude;
+  const v = ninaCoords.value?.longitude;
   const n = typeof v === 'string' ? Number(v) : v;
   return Number.isFinite(n) ? n : null;
 });
 const siteAlt = computed(() => {
-  const v = altitude?.value ?? locationStore?.altitude;
+  const v = ninaCoords.value?.elevation;
   const n = typeof v === 'string' ? Number(v) : v;
   return Number.isFinite(n) ? n : null;
 });
@@ -802,7 +781,9 @@ const selectedMoonTarget = computed(() => {
 onMounted(async () => {
   // Load data first (API), then location, then compute tracks
   await loadFavorites();
-  await ensureLocation();
+  if (locationStore && store.isBackendReachable) {
+    await locationStore.loadFromAstrometrySettings();
+  }
   await recomputeAll();
 });
 
@@ -843,18 +824,6 @@ watch(
 // --------------------------
 // Actions
 // --------------------------
-async function ensureLocation() {
-  busyLocation.value = true;
-  try {
-    await getCurrentLocation();
-  } catch (e) {
-    // gpsError wird i.d.R. aus utils/location gesetzt
-    console.warn('getCurrentLocation failed:', e);
-  } finally {
-    busyLocation.value = false;
-  }
-}
-
 async function refreshAll() {
   await loadFavorites();
   await recomputeAll();

@@ -473,6 +473,17 @@
       "triggers": "Déclencheurs",
       "expandAll": "Tout développer",
       "collapseAll": "Tout réduire",
+      "addTypeButton": {
+        "searchPlaceholder": "Rechercher…",
+        "noResults": "Aucun résultat",
+        "addItem": "Ajouter un élément",
+        "addTrigger": "Ajouter un déclencheur",
+        "addCondition": "Ajouter une condition",
+        "add": "Ajouter",
+        "item": "Élément",
+        "trigger": "Déclencheur",
+        "condition": "Condition"
+      },
       "details": {},
       "hfr": "HFR",
       "mean": "Moyenne",

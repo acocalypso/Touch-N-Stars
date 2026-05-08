@@ -473,6 +473,17 @@
       "triggers": "Gatilhos",
       "expandAll": "Expandir tudo",
       "collapseAll": "Recolher tudo",
+      "addTypeButton": {
+        "searchPlaceholder": "Pesquisar…",
+        "noResults": "Sem resultados",
+        "addItem": "Adicionar item",
+        "addTrigger": "Adicionar gatilho",
+        "addCondition": "Adicionar condição",
+        "add": "Adicionar",
+        "item": "Item",
+        "trigger": "Gatilho",
+        "condition": "Condição"
+      },
       "details": {},
       "hfr": "HFR",
       "mean": "Média",

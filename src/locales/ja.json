@@ -481,6 +481,17 @@
       "triggers": "トリガー",
       "expandAll": "すべて展開",
       "collapseAll": "すべて折りたたむ",
+      "addTypeButton": {
+        "searchPlaceholder": "検索…",
+        "noResults": "結果なし",
+        "addItem": "アイテムを追加",
+        "addTrigger": "トリガーを追加",
+        "addCondition": "条件を追加",
+        "add": "追加",
+        "item": "アイテム",
+        "trigger": "トリガー",
+        "condition": "条件"
+      },
       "details": {},
       "hfr": "HFR",
       "mean": "平均",

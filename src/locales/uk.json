@@ -435,6 +435,17 @@
       "triggers": "Тригери",
       "expandAll": "Розгорнути все",
       "collapseAll": "Згорнути все",
+      "addTypeButton": {
+        "searchPlaceholder": "Пошук…",
+        "noResults": "Немає результатів",
+        "addItem": "Додати елемент",
+        "addTrigger": "Додати тригер",
+        "addCondition": "Додати умову",
+        "add": "Додати",
+        "item": "Елемент",
+        "trigger": "Тригер",
+        "condition": "Умова"
+      },
       "details": {},
       "hfr": "HFR",
       "mean": "Середнє",

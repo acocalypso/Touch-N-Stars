@@ -473,6 +473,17 @@
       "triggers": "Trigger",
       "expandAll": "Espandi tutto",
       "collapseAll": "Comprimi tutto",
+      "addTypeButton": {
+        "searchPlaceholder": "Cerca…",
+        "noResults": "Nessun risultato",
+        "addItem": "Aggiungi elemento",
+        "addTrigger": "Aggiungi trigger",
+        "addCondition": "Aggiungi condizione",
+        "add": "Aggiungi",
+        "item": "Elemento",
+        "trigger": "Trigger",
+        "condition": "Condizione"
+      },
       "details": {},
       "hfr": "HFR",
       "mean": "Media",

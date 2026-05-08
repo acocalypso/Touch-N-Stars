@@ -516,6 +516,17 @@
       "triggers": "Triggers",
       "expandAll": "Expand All",
       "collapseAll": "Collapse All",
+      "addTypeButton": {
+        "searchPlaceholder": "Search…",
+        "noResults": "No results",
+        "addItem": "Add item",
+        "addTrigger": "Add trigger",
+        "addCondition": "Add condition",
+        "add": "Add",
+        "item": "Item",
+        "trigger": "Trigger",
+        "condition": "Condition"
+      },
       "details": {},
       "hfr": "HFR",
       "mean": "Mean",

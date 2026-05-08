@@ -473,6 +473,17 @@
       "triggers": "Desencadenantes",
       "expandAll": "Expandir todo",
       "collapseAll": "Contraer todo",
+      "addTypeButton": {
+        "searchPlaceholder": "Buscar…",
+        "noResults": "Sin resultados",
+        "addItem": "Añadir elemento",
+        "addTrigger": "Añadir disparador",
+        "addCondition": "Añadir condición",
+        "add": "Añadir",
+        "item": "Elemento",
+        "trigger": "Disparador",
+        "condition": "Condición"
+      },
       "details": {},
       "hfr": "HFR",
       "mean": "Promedio",

@@ -473,6 +473,17 @@
       "triggers": "Spouštěče:",
       "expandAll": "Rozbalit vše",
       "collapseAll": "Sbalit vše",
+      "addTypeButton": {
+        "searchPlaceholder": "Hledat…",
+        "noResults": "Žádné výsledky",
+        "addItem": "Přidat položku",
+        "addTrigger": "Přidat spouštěč",
+        "addCondition": "Přidat podmínku",
+        "add": "Přidat",
+        "item": "Položka",
+        "trigger": "Spouštěč",
+        "condition": "Podmínka"
+      },
       "details": {},
       "hfr": "HFR",
       "mean": "Průměr",

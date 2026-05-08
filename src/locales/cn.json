@@ -473,6 +473,17 @@
       "triggers": "触发器",
       "expandAll": "展开全部",
       "collapseAll": "折叠全部",
+      "addTypeButton": {
+        "searchPlaceholder": "搜索…",
+        "noResults": "无结果",
+        "addItem": "添加项目",
+        "addTrigger": "添加触发器",
+        "addCondition": "添加条件",
+        "add": "添加",
+        "item": "项目",
+        "trigger": "触发器",
+        "condition": "条件"
+      },
       "details": {},
       "hfr": "高频率响应",
       "mean": "平均值",

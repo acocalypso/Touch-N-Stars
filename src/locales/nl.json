@@ -473,6 +473,17 @@
       "triggers": "Triggers",
       "expandAll": "Alles uitvouwen",
       "collapseAll": "Alles inklappen",
+      "addTypeButton": {
+        "searchPlaceholder": "Zoeken…",
+        "noResults": "Geen resultaten",
+        "addItem": "Item toevoegen",
+        "addTrigger": "Trigger toevoegen",
+        "addCondition": "Voorwaarde toevoegen",
+        "add": "Toevoegen",
+        "item": "Item",
+        "trigger": "Trigger",
+        "condition": "Voorwaarde"
+      },
       "details": {},
       "hfr": "HFR",
       "mean": "Gemeen",

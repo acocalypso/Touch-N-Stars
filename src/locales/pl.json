@@ -473,6 +473,17 @@
       "triggers": "Wyzwalacze",
       "expandAll": "Rozwiń wszystko",
       "collapseAll": "Zwiń wszystko",
+      "addTypeButton": {
+        "searchPlaceholder": "Szukaj…",
+        "noResults": "Brak wyników",
+        "addItem": "Dodaj element",
+        "addTrigger": "Dodaj wyzwalacz",
+        "addCondition": "Dodaj warunek",
+        "add": "Dodaj",
+        "item": "Element",
+        "trigger": "Wyzwalacz",
+        "condition": "Warunek"
+      },
       "details": {},
       "hfr": "HFR",
       "mean": "Średnia",

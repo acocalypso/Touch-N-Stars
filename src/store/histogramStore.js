@@ -104,19 +104,35 @@ class WorkerEngine {
   }
 
   _send(type, payload, transfer) {
+    // 30 s timeout guards against silent worker termination on iOS/WKWebView,
+    // where the OS can kill workers without firing an 'error' event.
+    const TIMEOUT_MS = 30_000;
     return new Promise((resolve, reject) => {
       if (this.disposed || !this.worker) {
         reject(new Error('Engine disposed'));
         return;
       }
       const id = this.nextId++;
+      let timeoutId = null;
+
+      const cleanup = () => {
+        clearTimeout(timeoutId);
+        if (this.worker) this.worker.removeEventListener('message', handler);
+        this.pending.delete(id);
+      };
+
       const handler = (event) => {
         if (event.data?.id !== id) return;
-        this.worker.removeEventListener('message', handler);
-        this.pending.delete(id);
+        cleanup();
         if (event.data.ok) resolve(event.data.result);
         else reject(new Error(event.data.error || 'Worker error'));
       };
+
+      timeoutId = setTimeout(() => {
+        cleanup();
+        reject(new Error('Worker request timed out'));
+      }, TIMEOUT_MS);
+
       this.pending.set(id, { resolve, reject, handler });
       this.worker.addEventListener('message', handler);
       this.worker.postMessage({ id, type, payload }, transfer || []);

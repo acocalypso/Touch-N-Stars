@@ -1039,6 +1039,15 @@
       "autofocus_active": "自动对焦激活中",
       "autofocus": "自动对焦",
       "last_autofocus": "上次自动对焦",
+      "graph": {
+        "measurePoints": "Measure Points",
+        "quadraticTrendline": "Quadratic Trendline",
+        "hyperbolicTrendline": "Hyperbolic Trendline",
+        "quadraticMin": "Quadratic Min",
+        "hyperbolicMin": "Hyperbolic Min",
+        "value": "Value",
+        "invalidDate": "无效日期"
+      },
       "settings": {
         "AutoFocusInitialOffsetSteps": "初始偏移步骤",
         "AutoFocusStepSize": "步长",

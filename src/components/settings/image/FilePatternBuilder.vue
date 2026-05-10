@@ -147,7 +147,6 @@ function buildPreview(raw, imageType) {
   return result.replaceAll(exampleValues['$$IMAGETYPE$$'], imageType);
 }
 
-const lightPreviewResult = computed(() => buildPreview(lightPattern.value, 'LIGHT'));
 const darkPreviewResult = computed(() => buildPreview(lightPattern.value, 'DARK'));
 const biasPreviewResult = computed(() => buildPreview(lightPattern.value, 'BIAS'));
 const flatPreviewResult = computed(() => buildPreview(lightPattern.value, 'FLAT'));

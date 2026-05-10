@@ -3733,6 +3733,12 @@
         "over": "over",
         "noSummary": "No summary data (calibration may have been interrupted)",
         "noData": "No calibration data for this session."
+      },
+      "settings": {
+        "title": "Log Directory",
+        "placeholder": "No path configured",
+        "notConfigured": "Please configure the PHD2 log directory",
+        "saveError": "Failed to save path"
       }
     }
   },

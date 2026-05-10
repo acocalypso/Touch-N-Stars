@@ -54,6 +54,19 @@
                 />
               </svg>
             </button>
+            <!-- Settings toggle -->
+            <button
+              type="button"
+              class="inline-flex items-center justify-center rounded-lg border p-2 text-gray-300 transition hover:bg-gray-700/60"
+              :class="showSettings ? 'border-cyan-500/50 bg-cyan-500/10 text-cyan-300' : 'border-gray-600 bg-gray-800/50'"
+              :title="t('plugins.phd2logviewer.settings.title')"
+              @click="showSettings = !showSettings"
+            >
+              <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9.594 3.94c.09-.542.56-.94 1.11-.94h2.593c.55 0 1.02.398 1.11.94l.213 1.281c.063.374.313.686.645.87.074.04.147.083.22.127.325.196.72.257 1.075.124l1.217-.456a1.125 1.125 0 0 1 1.37.49l1.296 2.247a1.125 1.125 0 0 1-.26 1.431l-1.003.827c-.293.241-.438.613-.43.992a7.723 7.723 0 0 1 0 .255c-.008.378.137.75.43.991l1.004.827c.424.35.534.955.26 1.43l-1.298 2.247a1.125 1.125 0 0 1-1.369.491l-1.217-.456c-.355-.133-.75-.072-1.076.124a6.47 6.47 0 0 1-.22.128c-.331.183-.581.495-.644.869l-.213 1.281c-.09.543-.56.94-1.11.94h-2.594c-.55 0-1.019-.398-1.11-.94l-.213-1.281c-.062-.374-.312-.686-.644-.87a6.52 6.52 0 0 1-.22-.127c-.325-.196-.72-.257-1.076-.124l-1.217.456a1.125 1.125 0 0 1-1.369-.49l-1.297-2.247a1.125 1.125 0 0 1 .26-1.431l1.004-.827c.292-.24.437-.613.43-.991a6.932 6.932 0 0 1 0-.255c.007-.38-.138-.751-.43-.992l-1.004-.827a1.125 1.125 0 0 1-.26-1.43l1.297-2.247a1.125 1.125 0 0 1 1.37-.491l1.216.456c.356.133.751.072 1.076-.124.072-.044.146-.086.22-.128.332-.183.582-.495.644-.869l.214-1.28Z" />
+                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
+              </svg>
+            </button>
             <span v-if="loadingFile" class="text-xs text-gray-400">{{
               t('plugins.phd2logviewer.loading')
             }}</span>
@@ -66,6 +79,17 @@
             >
               {{ t('plugins.phd2logviewer.clear') }}
             </button>
+          </div>
+        </div>
+
+        <!-- Settings row -->
+        <div
+          v-if="showSettings"
+          class="mt-4 flex flex-wrap items-center gap-3 border-t border-gray-700/50 pt-4"
+        >
+          <span class="text-xs text-gray-400 shrink-0">{{ t('plugins.phd2logviewer.settings.title') }}</span>
+          <div class="flex-1 min-w-0">
+            <Phd2LogPathSetting @path-changed="onLogPathChanged" />
           </div>
         </div>
 
@@ -434,6 +458,8 @@ import { parsePhd2Log, calcStats } from '../utils/phd2Parser.js';
 import { computeFFT } from '../utils/fft.js';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useI18n } from 'vue-i18n';
+import apiService from '@/services/apiService';
+import Phd2LogPathSetting from '../components/Phd2LogPathSetting.vue';
 
 // ── Refs ──────────────────────────────────────────────────────────────────
 const { t } = useI18n();
@@ -458,6 +484,8 @@ const showRawRA = ref(false);
 const activeTab = ref('guide');
 const fftPeak = ref('');
 const guideLabel = ref('');
+
+const showSettings = ref(false);
 
 const xZoomStart = ref(0);
 const xZoomEnd = ref(1);
@@ -628,45 +656,54 @@ function loadLogText(text, name) {
   resetZoom();
 }
 
+async function resolveLogDir(base) {
+  // 1. Try saved setting
+  try {
+    const settingRes = await apiService.getSetting('phd2_logviewer_path');
+    const saved = settingRes?.Response?.Value || '';
+    if (saved) return saved;
+  } catch {
+    // not yet saved
+  }
+
+  // 2. Fallback: auto-detect via filesystem/browse
+  const docsRes = await fetch(`${base}/api/filesystem/browse`);
+  const docsData = await docsRes.json();
+  if (!docsData.success) throw new Error(docsData.error || 'Failed to browse filesystem');
+
+  const sep = docsData.currentPath.includes('\\') ? '\\' : '/';
+  const normalize = (p) => p.replace(/[\\/]/g, sep);
+  const basePath = docsData.currentPath.replace(/[\\/]$/, '');
+  const parentPath = basePath.substring(0, basePath.lastIndexOf(sep));
+
+  for (const candidate of [
+    normalize(basePath + sep + 'PHD2'),
+    normalize(basePath + sep + 'Documents' + sep + 'PHD2'),
+    normalize(parentPath + sep + 'Documents' + sep + 'PHD2'),
+  ]) {
+    const res = await fetch(`${base}/api/filesystem/browse?path=${encodeURIComponent(candidate)}`);
+    const data = await res.json();
+    if (data.success) return candidate;
+  }
+
+  throw new Error('PHD2 log directory not found');
+}
+
 async function fetchLogList() {
   loadingList.value = true;
   listError.value = '';
   try {
     const base = pluginServerUrl.value;
+    const logDir = await resolveLogDir(base);
 
-    // Step 1: get Documents folder (browse with no path → returns currentPath = Documents)
-    const docsRes = await fetch(`${base}/api/filesystem/browse`);
-    const docsData = await docsRes.json();
-    if (!docsData.success) throw new Error(docsData.error || 'Failed to browse Documents');
-
-    // Step 2: browse the PHD2 subfolder
-    const phd2Path = docsData.currentPath.replace(/\\/g, '/') + '/PHD2';
-    const phd2Res = await fetch(
-      `${base}/api/filesystem/browse?path=${encodeURIComponent(phd2Path)}`
+    const browseRes = await fetch(
+      `${base}/api/filesystem/browse?path=${encodeURIComponent(logDir)}`
     );
-    const phd2Data = await phd2Res.json();
-    if (!phd2Data.success) throw new Error('PHD2 log directory not found');
+    const browseData = await browseRes.json();
+    if (!browseData.success) throw new Error(t('plugins.phd2logviewer.settings.notConfigured'));
 
-    const candidates = phd2Data.files.filter(
-      (f) => f.name.startsWith('PHD2_GuideLog_') && f.name.endsWith('.txt')
-    );
-
-    const checked = await Promise.all(
-      candidates.map(async (f) => {
-        try {
-          const r = await fetch(`${base}/api/filesystem/file?path=${encodeURIComponent(f.path)}`, {
-            headers: { Range: 'bytes=0-16383' },
-          });
-          const text = await r.text();
-          return text.includes('Guiding Begins') ? f : null;
-        } catch {
-          return null;
-        }
-      })
-    );
-
-    logFiles.value = checked
-      .filter(Boolean)
+    logFiles.value = browseData.files
+      .filter((f) => f.name.startsWith('PHD2_GuideLog_') && f.name.endsWith('.txt'))
       .sort((a, b) => b.lastModified.localeCompare(a.lastModified));
   } catch (e) {
     listError.value = e.message;
@@ -675,16 +712,18 @@ async function fetchLogList() {
   }
 }
 
+function onLogPathChanged() {
+  showSettings.value = false;
+  fetchLogList();
+}
+
 async function loadSelectedLog() {
   if (!selectedLogPath.value) return;
   loadingFile.value = true;
   listError.value = '';
   try {
-    const res = await fetch(
-      `${pluginServerUrl.value}/api/filesystem/file?path=${encodeURIComponent(selectedLogPath.value)}`
-    );
-    if (!res.ok) throw new Error(`Server returned ${res.status}`);
-    const text = await res.text();
+    const buffer = await apiService.fetchFilesystemFileBuffer(selectedLogPath.value);
+    const text = new TextDecoder('utf-8').decode(new Uint8Array(buffer));
     const name = selectedLogPath.value.split(/[\\/]/).pop();
     loadLogText(text, name);
   } catch (e) {

@@ -1,0 +1,10 @@
+{
+  "id": "phd2-logviewer",
+  "name": "PHD2 Log Viewer",
+  "description": "Visualize and analyze PHD2 guiding log files — guide graph, RMS statistics, calibration data and FFT frequency analysis",
+  "version": "1.0.0",
+  "author": "Florin Dumitrescu",
+  "defaultEnabled": false,
+  "enabled": true,
+  "isPins": false
+}

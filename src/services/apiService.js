@@ -1181,6 +1181,16 @@ const apiService = {
     return response.data;
   },
 
+  async fetchFilesystemFileText(path) {
+    const { API_URL } = getUrls();
+    const response = await axios.get(`${API_URL}filesystem/file`, {
+      params: { path },
+      responseType: 'text',
+      timeout: DEFAULT_TIMEOUT,
+    });
+    return response.data;
+  },
+
   // Available Serial Ports
   async availableSerialPorts() {
     try {

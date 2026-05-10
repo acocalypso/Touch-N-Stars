@@ -3669,6 +3669,71 @@
       "deviceCamera": "Camera",
       "deviceFocuser": "Focuser",
       "deviceFilterWheel": "Filter Wheel"
+    },
+    "phd2logviewer": {
+      "title": "PHD2 Log Viewer",
+      "subtitle": "Select a PHD2 guide log to visualize guiding performance and statistics.",
+      "loading": "Loading…",
+      "selectLog": "— select a log —",
+      "noLogs": "No logs found",
+      "refresh": "Refresh log list",
+      "clear": "Clear",
+      "session": "Session:",
+      "excludeDither": "Auto-exclude dither settling",
+      "rawRa": "Raw, uncorrected RA",
+      "emptyState": "Select a PHD2 guide log from the dropdown above.",
+      "tabs": {
+        "guide": "Guide Graph",
+        "calibration": "Calibration"
+      },
+      "legend": {
+        "ra": "RA",
+        "raRaw": "RA (raw)",
+        "dec": "Dec",
+        "dither": "Dither"
+      },
+      "info": {
+        "started": "Session started",
+        "ended": "Ended",
+        "duration": "Duration",
+        "camera": "Camera",
+        "mount": "Mount",
+        "focalLength": "Focal length",
+        "pixelScale": "Pixel scale",
+        "profile": "Profile",
+        "totalFrames": "Total frames"
+      },
+      "statistics": "Statistics",
+      "stats": {
+        "totalRms": "Total RMS",
+        "raRms": "RA RMS",
+        "decRms": "Dec RMS",
+        "peakRa": "Peak RA",
+        "peakDec": "Peak Dec",
+        "frames": "Frames",
+        "combined": "combined",
+        "rightAscension": "right ascension",
+        "declination": "declination",
+        "maxError": "max error",
+        "of": "of {total}"
+      },
+      "fft": {
+        "title": "RA Frequency Analysis",
+        "subtitle": "Identifies periodic error harmonics in RA guiding.",
+        "dominantPeriod": "Dominant period"
+      },
+      "cal": {
+        "axis": "Axis",
+        "angle": "Angle (°)",
+        "rate": "Rate (px/s)",
+        "parity": "Parity",
+        "steps": "Steps",
+        "dist": "Dist (px)",
+        "backlash": "Backlash",
+        "over": "over",
+        "noSummary": "No summary data (calibration may have been interrupted)",
+        "noData": "No calibration data for this session."
+      }
     }
   },
   "pinsDevices": {

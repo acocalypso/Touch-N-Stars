@@ -37,6 +37,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Flatassistant: Stop tracking after slew to zenith
 - Plugin: Add filebrowser
 - Stellarium: Add Camera FOV
+- Plugin: PHD2 Log Viewer – visualize PHD2 guiding sessions with guide graph, RMS statistics, FFT periodic error analysis and calibration data - thanks to Florin Dumitrescu
 
 ### Changed
 - Plate Solve: Use the NINA-style toolbar icon in the shared image viewer

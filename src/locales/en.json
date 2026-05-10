@@ -1079,6 +1079,15 @@
       "autofocus_active": "Autofocus active",
       "autofocus": "Autofocus",
       "last_autofocus": "Last autofocus",
+      "graph": {
+        "measurePoints": "Measure Points",
+        "quadraticTrendline": "Quadratic Trendline",
+        "hyperbolicTrendline": "Hyperbolic Trendline",
+        "quadraticMin": "Quadratic Min",
+        "hyperbolicMin": "Hyperbolic Min",
+        "value": "Value",
+        "invalidDate": "Invalid Date"
+      },
       "hfr": "HFR",
       "focuser_position": "Position",
       "IsStalled": "Stalled",

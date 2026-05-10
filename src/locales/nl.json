@@ -1039,6 +1039,15 @@
       "autofocus_active": "Autofocus actief",
       "autofocus": "Autofocus",
       "last_autofocus": "Laatste autofocus",
+      "graph": {
+        "measurePoints": "Measure Points",
+        "quadraticTrendline": "Quadratic Trendline",
+        "hyperbolicTrendline": "Hyperbolic Trendline",
+        "quadraticMin": "Quadratic Min",
+        "hyperbolicMin": "Hyperbolic Min",
+        "value": "Value",
+        "invalidDate": "Ongeldige datum"
+      },
       "settings": {
         "AutoFocusInitialOffsetSteps": "Initiële offset stappen",
         "AutoFocusStepSize": "Stapgrootte",

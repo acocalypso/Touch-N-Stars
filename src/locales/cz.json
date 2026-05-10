@@ -1039,6 +1039,15 @@
       "autofocus_active": "AutoOstření aktivní",
       "autofocus": "AutoOstření",
       "last_autofocus": "Poslední AutoOstření",
+      "graph": {
+        "measurePoints": "Measure Points",
+        "quadraticTrendline": "Quadratic Trendline",
+        "hyperbolicTrendline": "Hyperbolic Trendline",
+        "quadraticMin": "Quadratic Min",
+        "hyperbolicMin": "Hyperbolic Min",
+        "value": "Value",
+        "invalidDate": "Neplatné datum"
+      },
       "settings": {
         "AutoFocusInitialOffsetSteps": "Kroky počátečního posunu",
         "AutoFocusStepSize": "Velikost kroku",

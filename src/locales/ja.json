@@ -1047,6 +1047,15 @@
       "autofocus_active": "オートフォーカス実行中",
       "autofocus": "オートフォーカス",
       "last_autofocus": "前回のオートフォーカス",
+      "graph": {
+        "measurePoints": "Measure Points",
+        "quadraticTrendline": "Quadratic Trendline",
+        "hyperbolicTrendline": "Hyperbolic Trendline",
+        "quadraticMin": "Quadratic Min",
+        "hyperbolicMin": "Hyperbolic Min",
+        "value": "Value",
+        "invalidDate": "無効な日付"
+      },
       "hfr": "HFR",
       "focuser_position": "位置",
       "IsStalled": "ストール",

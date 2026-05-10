@@ -1039,6 +1039,15 @@
       "autofocus_active": "Autofocus actif",
       "autofocus": "Mise au point automatique",
       "last_autofocus": "Dernier autofocus",
+      "graph": {
+        "measurePoints": "Measure Points",
+        "quadraticTrendline": "Quadratic Trendline",
+        "hyperbolicTrendline": "Hyperbolic Trendline",
+        "quadraticMin": "Quadratic Min",
+        "hyperbolicMin": "Hyperbolic Min",
+        "value": "Value",
+        "invalidDate": "Date invalide"
+      },
       "settings": {
         "AutoFocusInitialOffsetSteps": "Étapes de compensation initiales",
         "AutoFocusStepSize": "Taille du pas",

@@ -1019,6 +1019,15 @@
       "autofocus_active": "Автофокус активний",
       "autofocus": "Автофокус",
       "last_autofocus": "Останній автофокус",
+      "graph": {
+        "measurePoints": "Measure Points",
+        "quadraticTrendline": "Quadratic Trendline",
+        "hyperbolicTrendline": "Hyperbolic Trendline",
+        "quadraticMin": "Quadratic Min",
+        "hyperbolicMin": "Hyperbolic Min",
+        "value": "Value",
+        "invalidDate": "Недійсна дата"
+      },
       "settings": {
         "AutoFocusInitialOffsetSteps": "Початкові кроки зміщення",
         "AutoFocusStepSize": "Розмір кроку",

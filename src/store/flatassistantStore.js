@@ -256,12 +256,12 @@ export const useFlatassistantStore = defineStore('flatassistantStore', {
             let completed, total;
             if (peakRunningTotal > 0) {
               total = peakRunningTotal;
-              // NINA reports T=-1, C=-1 in Finished (no count info). If C > 0 but
-              // C < total at the last Running poll, the final flat completed between
-              // polls — credit all. Require C > 0 so a never-incremented C=0 at
-              // Finished (NINA failed/rejected the flat) is not falsely credited.
               const ninaFinishedNegative =
                 status.State === 'Finished' && Number(status.TotalIterations) < 0;
+              // Credit all when NINA's Finished state zeroes out the count (T=-1, C=-1)
+              // and we had confirmed progress (C > 0) at the last Running poll.
+              // C=0 is intentionally excluded: NINA reports T=N during the exposure-search
+              // phase too, so C=0 + Finished could mean search failed, not capture succeeded.
               completed =
                 ninaFinishedNegative &&
                 peakRunningCompleted > 0 &&
@@ -300,7 +300,11 @@ export const useFlatassistantStore = defineStore('flatassistantStore', {
         return null;
       }
 
-      const { status: finalStatus, completed, total } = await this.waitForCompletion(statusLoader);
+      const {
+        status: finalStatus,
+        completed,
+        total,
+      } = await this.waitForCompletion(statusLoader, 250);
 
       this.lastRun = {
         type: this.currentRunType,
@@ -403,8 +407,9 @@ export const useFlatassistantStore = defineStore('flatassistantStore', {
           continue;
         }
 
-        const { status: finalStatus, completed: darkCompleted } = await this.waitForCompletion(() =>
-          apiService.flatassistantAction('status')
+        const { status: finalStatus, completed: darkCompleted } = await this.waitForCompletion(
+          () => apiService.flatassistantAction('status'),
+          250
         );
 
         totalCompleted += darkCompleted;

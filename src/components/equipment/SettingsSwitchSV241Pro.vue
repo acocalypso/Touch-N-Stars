@@ -5,18 +5,15 @@
       <label for="preConnectDelay" class="text-xs md:text-sm text-gray-200 mr-2">
         {{ $t('components.switch.sv241pro.preConnectDelay') }}
       </label>
-      <div class="flex items-center gap-1">
-        <input
-          id="preConnectDelay"
-          v-model.number="preConnectDelay"
-          @change="setPreConnectDelay"
-          type="number"
-          min="0"
-          class="default-input h-7 md:h-8 text-xs md:text-sm w-40"
-          :class="statusClassPre"
-        />
-        <span class="text-xs text-gray-400">{{ $t('components.switch.sv241pro.ms') }}</span>
-      </div>
+      <input
+        id="preConnectDelay"
+        v-model.number="preConnectDelay"
+        @change="setPreConnectDelay"
+        type="number"
+        min="0"
+        class="default-input h-7 md:h-8 text-xs md:text-sm w-48"
+        :class="statusClassPre"
+      />
     </div>
 
     <!-- Post Connect Delay -->
@@ -24,18 +21,15 @@
       <label for="postConnectDelay" class="text-xs md:text-sm text-gray-200 mr-2">
         {{ $t('components.switch.sv241pro.postConnectDelay') }}
       </label>
-      <div class="flex items-center gap-1">
-        <input
-          id="postConnectDelay"
-          v-model.number="postConnectDelay"
-          @change="setPostConnectDelay"
-          type="number"
-          min="0"
-          class="default-input h-7 md:h-8 text-xs md:text-sm w-40"
-          :class="statusClassPost"
-        />
-        <span class="text-xs text-gray-400">{{ $t('components.switch.sv241pro.ms') }}</span>
-      </div>
+      <input
+        id="postConnectDelay"
+        v-model.number="postConnectDelay"
+        @change="setPostConnectDelay"
+        type="number"
+        min="0"
+        class="default-input h-7 md:h-8 text-xs md:text-sm w-48"
+        :class="statusClassPost"
+      />
     </div>
   </div>
 </template>

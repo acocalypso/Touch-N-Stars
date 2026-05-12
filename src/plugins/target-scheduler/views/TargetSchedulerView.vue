@@ -42,20 +42,36 @@
         <div class="mt-3 grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4">
           <label class="text-xs text-slate-400">
             {{ t('plugins.targetScheduler.labels.sessionStart') }}
-            <input
-              v-model="sessionStartInput"
-              type="datetime-local"
-              class="mt-1 w-full rounded border border-slate-600 bg-slate-800 px-2 py-1.5 text-slate-100"
-            />
+            <div class="mt-1 grid grid-cols-1 gap-2 sm:grid-cols-2">
+              <input
+                v-model="sessionStartDate"
+                type="date"
+                class="w-full rounded border border-slate-600 bg-slate-800 px-2 py-1.5 text-slate-100"
+              />
+              <input
+                v-model="sessionStartTime"
+                type="time"
+                step="60"
+                class="w-full rounded border border-slate-600 bg-slate-800 px-2 py-1.5 text-slate-100"
+              />
+            </div>
           </label>
 
           <label class="text-xs text-slate-400">
             {{ t('plugins.targetScheduler.labels.sessionEnd') }}
-            <input
-              v-model="sessionEndInput"
-              type="datetime-local"
-              class="mt-1 w-full rounded border border-slate-600 bg-slate-800 px-2 py-1.5 text-slate-100"
-            />
+            <div class="mt-1 grid grid-cols-1 gap-2 sm:grid-cols-2">
+              <input
+                v-model="sessionEndDate"
+                type="date"
+                class="w-full rounded border border-slate-600 bg-slate-800 px-2 py-1.5 text-slate-100"
+              />
+              <input
+                v-model="sessionEndTime"
+                type="time"
+                step="60"
+                class="w-full rounded border border-slate-600 bg-slate-800 px-2 py-1.5 text-slate-100"
+              />
+            </div>
           </label>
 
           <label class="text-xs text-slate-400">
@@ -261,6 +277,7 @@
 </template>
 
 <script setup>
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import TargetList from '../components/TargetList.vue';
 import TargetEditor from '../components/TargetEditor.vue';
@@ -303,6 +320,67 @@ const {
   recomputeSchedule,
   applyScheduleToSequence,
 } = useTargetScheduler();
+
+function splitDateTimeLocal(value) {
+  const raw = String(value || '');
+  if (raw.includes('T')) {
+    const [datePart, timePartRaw] = raw.split('T');
+    const timePart = (timePartRaw || '').slice(0, 5);
+    return {
+      datePart: datePart || '',
+      timePart: timePart || '00:00',
+    };
+  }
+
+  const parsed = new Date(raw);
+  if (Number.isNaN(parsed.getTime())) {
+    return { datePart: '', timePart: '00:00' };
+  }
+
+  const datePart = [
+    String(parsed.getFullYear()),
+    String(parsed.getMonth() + 1).padStart(2, '0'),
+    String(parsed.getDate()).padStart(2, '0'),
+  ].join('-');
+  const timePart = `${String(parsed.getHours()).padStart(2, '0')}:${String(parsed.getMinutes()).padStart(2, '0')}`;
+  return { datePart, timePart };
+}
+
+function mergeDateTimeLocal(currentValue, nextDatePart, nextTimePart) {
+  const { datePart, timePart } = splitDateTimeLocal(currentValue);
+  const finalDatePart = nextDatePart || datePart;
+  const finalTimePart = nextTimePart || timePart || '00:00';
+  if (!finalDatePart) return currentValue;
+  return `${finalDatePart}T${finalTimePart}`;
+}
+
+const sessionStartDate = computed({
+  get: () => splitDateTimeLocal(sessionStartInput.value).datePart,
+  set: (value) => {
+    sessionStartInput.value = mergeDateTimeLocal(sessionStartInput.value, value, null);
+  },
+});
+
+const sessionStartTime = computed({
+  get: () => splitDateTimeLocal(sessionStartInput.value).timePart,
+  set: (value) => {
+    sessionStartInput.value = mergeDateTimeLocal(sessionStartInput.value, null, value);
+  },
+});
+
+const sessionEndDate = computed({
+  get: () => splitDateTimeLocal(sessionEndInput.value).datePart,
+  set: (value) => {
+    sessionEndInput.value = mergeDateTimeLocal(sessionEndInput.value, value, null);
+  },
+});
+
+const sessionEndTime = computed({
+  get: () => splitDateTimeLocal(sessionEndInput.value).timePart,
+  set: (value) => {
+    sessionEndInput.value = mergeDateTimeLocal(sessionEndInput.value, null, value);
+  },
+});
 
 function openNewTarget() {
   openCreateEditor();

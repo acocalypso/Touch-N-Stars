@@ -3971,7 +3971,13 @@
       "smtpSsl": "Gebruik TLS/SSL",
       "testDiscord": "Testbericht verzenden",
       "testEmail": "Test-e-mail verzenden",
-      "testPushover": "Testmelding verzenden"
+      "testPushover": "Testmelding verzenden",
+      "localDashboardEnabled": "Schakel lokale webserver in",
+      "localDashboardHint": "Serveert uw sessiegeschiedenis vanaf een lokale webserver die toegankelijk is vanuit elke browser in uw netwerk. \nGebruik een VPN voor externe toegang.",
+      "localDashboardPort": "Haven",
+      "localDashboardTitle": "Lokaal dashboard",
+      "showChartFilterChips": "Toon filterchiprij",
+      "showChartTargetChips": "Toon doelchiprij"
     },
     "stats": {
       "accepted": "Geaccepteerd",

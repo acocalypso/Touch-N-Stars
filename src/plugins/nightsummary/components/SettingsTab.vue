@@ -111,6 +111,16 @@
             :value="store.settings.ShowChartRoofMarkers"
             @update="save('ShowChartRoofMarkers', $event)"
           />
+          <CheckRow
+            :label="$t('nightsummary.settings.showChartTargetChips')"
+            :value="store.settings.ShowChartTargetChips"
+            @update="save('ShowChartTargetChips', $event)"
+          />
+          <CheckRow
+            :label="$t('nightsummary.settings.showChartFilterChips')"
+            :value="store.settings.ShowChartFilterChips"
+            @update="save('ShowChartFilterChips', $event)"
+          />
         </div>
 
         <template v-if="store.settings.ShowHFRGraph && store.settings.ReportDetailLevel >= 2">
@@ -449,6 +459,36 @@
             v-if="store.discordTestStatus"
             :ok="store.discordTestStatus.Ok"
             :message="store.discordTestStatus.Message"
+          />
+        </div>
+      </div>
+    </section>
+
+    <!-- Local Dashboard -->
+    <section class="mb-8">
+      <h2 class="text-lg font-semibold text-white mb-2">
+        {{ $t('nightsummary.settings.localDashboardTitle') }}
+      </h2>
+      <p class="text-gray-400 text-sm mb-4">
+        {{ $t('nightsummary.settings.localDashboardHint') }}
+      </p>
+      <div class="space-y-3">
+        <CheckRow
+          :label="$t('nightsummary.settings.localDashboardEnabled')"
+          :value="store.settings.LocalServerEnabled"
+          @update="save('LocalServerEnabled', $event)"
+        />
+        <div class="flex flex-col sm:flex-row sm:items-center gap-2">
+          <span class="text-gray-300 sm:w-52 sm:shrink-0">{{
+            $t('nightsummary.settings.localDashboardPort')
+          }}</span>
+          <input
+            type="number"
+            :value="store.settings.LocalServerPort"
+            @blur="save('LocalServerPort', +$event.target.value)"
+            class="default-input w-28"
+            min="1024"
+            max="65535"
           />
         </div>
       </div>

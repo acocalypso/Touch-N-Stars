@@ -1,17 +1,120 @@
 <template>
-  <div v-if="metricChartSvg" class="bg-gray-800 border border-gray-700 rounded-lg overflow-hidden">
+  <div v-if="hasData" class="bg-gray-800 border border-gray-700 rounded-lg overflow-hidden">
     <div class="px-4 py-3 border-b border-gray-700">
       <h3 class="text-white font-medium">{{ chartTitle }}</h3>
     </div>
+
+    <!-- Target chip row -->
+    <div
+      v-if="store.settings?.ShowChartTargetChips && targetChips.length > 1"
+      class="px-4 pt-3 flex flex-wrap gap-2"
+    >
+      <button
+        v-for="t in targetChips"
+        :key="t"
+        @click="toggleTarget(t)"
+        :class="[
+          'px-2 py-0.5 rounded-full text-xs font-medium border transition',
+          selectedTargets.has(t)
+            ? 'bg-cyan-700 border-cyan-500 text-white'
+            : 'bg-gray-700 border-gray-600 text-gray-400 hover:border-gray-400',
+        ]"
+      >
+        {{ t || '—' }}
+      </button>
+    </div>
+
+    <!-- Filter chip row -->
+    <div
+      v-if="store.settings?.ShowChartFilterChips && filterChips.length > 1"
+      class="px-4 pt-2 flex flex-wrap gap-2"
+    >
+      <button
+        v-for="f in filterChips"
+        :key="f"
+        @click="toggleFilter(f)"
+        :class="[
+          'px-2 py-0.5 rounded-full text-xs font-medium border transition',
+          selectedFilters.has(f)
+            ? 'bg-violet-700 border-violet-500 text-white'
+            : 'bg-gray-700 border-gray-600 text-gray-400 hover:border-gray-400',
+        ]"
+      >
+        {{ f || '—' }}
+      </button>
+    </div>
+
     <div class="p-4" v-html="metricChartSvg"></div>
   </div>
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useNightSummaryStore } from '../store/nightsummaryStore';
 
 const store = useNightSummaryStore();
+
+// ── Chip state ────────────────────────────────────────────────────────────────
+
+const selectedTargets = ref(new Set());
+const selectedFilters = ref(new Set());
+
+const lightImages = computed(() =>
+  (store.sessionDetail?.Images ?? []).filter((i) => !i.ImageType || i.ImageType === 'LIGHT')
+);
+
+const targetChips = computed(() => {
+  const seen = new Set();
+  for (const i of lightImages.value) {
+    const t = i.TargetName ?? '';
+    seen.add(t);
+  }
+  return [...seen].sort();
+});
+
+const filterChips = computed(() => {
+  const seen = new Set();
+  for (const i of lightImages.value) {
+    const f = i.Filter ?? '';
+    seen.add(f);
+  }
+  return [...seen].sort();
+});
+
+// Reset selections when the session changes.
+watch(
+  () => store.selectedSessionId,
+  () => {
+    selectedTargets.value = new Set();
+    selectedFilters.value = new Set();
+  }
+);
+
+function toggleTarget(t) {
+  const next = new Set(selectedTargets.value);
+  if (next.has(t)) next.delete(t);
+  else next.add(t);
+  selectedTargets.value = next;
+}
+
+function toggleFilter(f) {
+  const next = new Set(selectedFilters.value);
+  if (next.has(f)) next.delete(f);
+  else next.add(f);
+  selectedFilters.value = next;
+}
+
+// Images filtered by active chip selections (empty selection = all).
+const filteredImages = computed(() => {
+  let imgs = lightImages.value;
+  if (store.settings?.ShowChartTargetChips && selectedTargets.value.size > 0) {
+    imgs = imgs.filter((i) => selectedTargets.value.has(i.TargetName ?? ''));
+  }
+  if (store.settings?.ShowChartFilterChips && selectedFilters.value.size > 0) {
+    imgs = imgs.filter((i) => selectedFilters.value.has(i.Filter ?? ''));
+  }
+  return imgs;
+});
 
 const METRIC_FIELDS = [
   'HFR',
@@ -90,9 +193,7 @@ const chartTitle = computed(() => {
 
 const metricChartSvg = computed(() => {
   if (!store.settings?.ShowHFRGraph || (store.settings?.ReportDetailLevel ?? 0) < 2) return null;
-  const images = store.sessionDetail?.Images?.filter(
-    (i) => !i.ImageType || i.ImageType === 'LIGHT'
-  );
+  const images = filteredImages.value;
   if (!images?.length) return null;
 
   const primaryIdx = store.settings?.ChartPrimaryMetric ?? 0;
@@ -101,9 +202,9 @@ const metricChartSvg = computed(() => {
 
   const primaryPts = extractMetricPts(images, primaryIdx);
   const secondaryPts = secPriIdx >= 0 ? extractMetricPts(images, secPriIdx) : [];
-  if (primaryPts.length < 2) return null;
+  if (primaryPts.length < 1) return null;
 
-  const hasSec = secondaryPts.length >= 2;
+  const hasSec = secondaryPts.length >= 1;
   const W = 760,
     H = 260,
     padL = 52,
@@ -191,17 +292,23 @@ const metricChartSvg = computed(() => {
         )
       );
 
-  if (toYR && secondaryPts.length >= 2) {
-    const pts2 = secondaryPts
-      .map((p) => `${toXPx(p.t).toFixed(1)},${toYR(p.v).toFixed(1)}`)
-      .join(' ');
-    s += `<polyline points="${pts2}" fill="none" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="5,3"/>`;
+  if (toYR && secondaryPts.length >= 1) {
+    if (secondaryPts.length >= 2) {
+      const pts2 = secondaryPts
+        .map((p) => `${toXPx(p.t).toFixed(1)},${toYR(p.v).toFixed(1)}`)
+        .join(' ');
+      s += `<polyline points="${pts2}" fill="none" stroke="#f59e0b" stroke-width="1.5" stroke-dasharray="5,3"/>`;
+    }
     secondaryPts.forEach((p) => {
       s += `<circle cx="${toXPx(p.t).toFixed(1)}" cy="${toYR(p.v).toFixed(1)}" r="2.5" fill="#fcd34d"><title>${fmtTime(p.t)} — ${p.v.toFixed(2)}</title></circle>`;
     });
   }
-  const pts1 = primaryPts.map((p) => `${toXPx(p.t).toFixed(1)},${toYL(p.v).toFixed(1)}`).join(' ');
-  s += `<polyline points="${pts1}" fill="none" stroke="#7eb8f7" stroke-width="1.5"/>`;
+  if (primaryPts.length >= 2) {
+    const pts1 = primaryPts
+      .map((p) => `${toXPx(p.t).toFixed(1)},${toYL(p.v).toFixed(1)}`)
+      .join(' ');
+    s += `<polyline points="${pts1}" fill="none" stroke="#7eb8f7" stroke-width="1.5"/>`;
+  }
   primaryPts.forEach((p) => {
     s += `<circle cx="${toXPx(p.t).toFixed(1)}" cy="${toYL(p.v).toFixed(1)}" r="3" fill="#a8d4ff"><title>${fmtTime(p.t)} — ${p.v.toFixed(2)}</title></circle>`;
   });
@@ -209,4 +316,6 @@ const metricChartSvg = computed(() => {
   s += `</svg>`;
   return s;
 });
+
+const hasData = computed(() => metricChartSvg.value != null);
 </script>

@@ -4004,7 +4004,13 @@
       "discordTitle": "Discord Notifications",
       "discordEnabled": "Enable Discord",
       "discordWebhook": "Webhook URL",
-      "testDiscord": "Send Test Message"
+      "testDiscord": "Send Test Message",
+      "localDashboardTitle": "Local Dashboard",
+      "localDashboardEnabled": "Enable local web server",
+      "localDashboardPort": "Port",
+      "localDashboardHint": "Serves your session history from a local web server accessible from any browser on your network. Use a VPN for remote access.",
+      "showChartTargetChips": "Show target chip row",
+      "showChartFilterChips": "Show filter chip row"
     },
     "sessions": {
       "placeholder": "Select a session…",

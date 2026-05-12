@@ -3971,7 +3971,13 @@
       "smtpSsl": "Verwenden Sie TLS/SSL",
       "testDiscord": "Testnachricht senden",
       "testEmail": "Test-E-Mail senden",
-      "testPushover": "Testbenachrichtigung senden"
+      "testPushover": "Testbenachrichtigung senden",
+      "localDashboardEnabled": "Aktivieren Sie den lokalen Webserver",
+      "localDashboardHint": "Stellt Ihren Sitzungsverlauf von einem lokalen Webserver bereit, auf den Sie über jeden Browser in Ihrem Netzwerk zugreifen können. \nVerwenden Sie ein VPN für den Fernzugriff.",
+      "localDashboardPort": "Hafen",
+      "localDashboardTitle": "Lokales Dashboard",
+      "showChartFilterChips": "Filterchipreihe anzeigen",
+      "showChartTargetChips": "Zielchipreihe anzeigen"
     },
     "stats": {
       "accepted": "Akzeptiert",

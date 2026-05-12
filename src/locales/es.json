@@ -3971,7 +3971,13 @@
       "smtpSsl": "Usar TLS/SSL",
       "testDiscord": "Enviar mensaje de prueba",
       "testEmail": "Enviar correo electrónico de prueba",
-      "testPushover": "Enviar notificación de prueba"
+      "testPushover": "Enviar notificación de prueba",
+      "localDashboardEnabled": "Habilitar servidor web local",
+      "localDashboardHint": "Proporciona su historial de sesiones desde un servidor web local accesible desde cualquier navegador de su red. \nUtilice una VPN para acceso remoto.",
+      "localDashboardPort": "Puerto",
+      "localDashboardTitle": "Panel de control local",
+      "showChartFilterChips": "Mostrar fila de chips de filtro",
+      "showChartTargetChips": "Mostrar fila de chips objetivo"
     },
     "stats": {
       "accepted": "Aceptado",

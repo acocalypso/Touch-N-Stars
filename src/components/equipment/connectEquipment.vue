@@ -289,6 +289,10 @@
         equipmentType="switch"
         :selectedDevice="selectedSwitchDevice"
       />
+      <SettingsSwitchSV241Pro
+        v-if="!isAlpacaDirect(selectedSwitchObj)"
+        :selectedDevice="selectedSwitchDevice"
+      />
     </template>
   </Modal>
 
@@ -382,6 +386,7 @@ import SettingsSerialConnection from '@/components/equipment/SettingsSerialConne
 import SettingsWeather from '@/components/equipment/SettingsWeather.vue';
 import SettingsAlpacaDirect from '@/components/equipment/SettingsAlpacaDirect.vue';
 import SettingsFilterWheelSlotNum from '@/components/equipment/SettingsFilterWheelSlotNum.vue';
+import SettingsSwitchSV241Pro from '@/components/equipment/SettingsSwitchSV241Pro.vue';
 import { checkMountConnectionPermission } from '@/utils/locationSyncUtils';
 
 const { t } = useI18n();

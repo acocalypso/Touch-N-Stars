@@ -64,13 +64,16 @@ const statusClassPost = ref('');
 function initializeSettings() {
   const settings = store.profileInfo?.SwitchSettings;
   if (!settings) return;
-  preConnectDelay.value = settings.PreConnectDelay ?? 0;
-  postConnectDelay.value = settings.PostConnectDelay ?? 0;
+  preConnectDelay.value = settings.IndiPreConnectDelay ?? 0;
+  postConnectDelay.value = settings.IndiPostConnectDelay ?? 0;
 }
 
 async function setPreConnectDelay() {
   try {
-    await apiService.profileChangeValue('SwitchSettings-PreConnectDelay', preConnectDelay.value);
+    await apiService.profileChangeValue(
+      'SwitchSettings-IndiPreConnectDelay',
+      preConnectDelay.value
+    );
     statusClassPre.value = 'glow-green';
   } catch {
     statusClassPre.value = 'glow-red';
@@ -83,7 +86,10 @@ async function setPreConnectDelay() {
 
 async function setPostConnectDelay() {
   try {
-    await apiService.profileChangeValue('SwitchSettings-PostConnectDelay', postConnectDelay.value);
+    await apiService.profileChangeValue(
+      'SwitchSettings-IndiPostConnectDelay',
+      postConnectDelay.value
+    );
     statusClassPost.value = 'glow-green';
   } catch {
     statusClassPost.value = 'glow-red';

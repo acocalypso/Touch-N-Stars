@@ -1532,7 +1532,12 @@
     },
     "switch": {
       "gauges": "Gauges",
-      "switch": "Switch"
+      "switch": "Switch",
+      "sv241pro": {
+        "preConnectDelay": "Pre Connect Delay",
+        "postConnectDelay": "Post Connect Delay",
+        "ms": "ms"
+      }
     },
     "stellarium": {
       "selected_object": {

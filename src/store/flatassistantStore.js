@@ -58,8 +58,6 @@ export const useFlatassistantStore = defineStore('flatassistantStore', {
         }
 
         const prevState = this.status.State;
-        const prevCompleted = this.status.CompletedIterations;
-        const prevTotal = this.status.TotalIterations;
 
         // Check both TNS (multimode) and ninaAPI status in parallel.
         // TNS takes precedence when its task is running.

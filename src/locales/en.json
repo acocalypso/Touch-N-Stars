@@ -1533,10 +1533,11 @@
     "switch": {
       "gauges": "Gauges",
       "switch": "Switch",
+      "indi": {
+        "settings": "Switch Settings"
+      },
       "sv241pro": {
-        "preConnectDelay": "Pre Connect Delay",
-        "postConnectDelay": "Post Connect Delay",
-        "ms": "ms"
+        "preConnectDelay": "Pre Connect Delay (ms)"
       }
     },
     "stellarium": {

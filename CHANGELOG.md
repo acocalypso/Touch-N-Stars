@@ -45,6 +45,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Stellarium: sequence buttons are now always visible
 
 ### Fixed
+- i18n: Correct Spanish translations (close, scanning, save, message_tns_version, downgradeDescription) Thanks @Antonio
 - Total Exposuer time: filter total exposure time by LIGHT image type
 - Stellarium time fix
 - PINS: Manual Rotator dialog button

@@ -278,21 +278,23 @@
       <h2 class="text-2xl font-semibold">{{ $t('components.switch.indi.settings') }}</h2>
     </template>
     <template #body>
-      <SettingsAlpacaDirect
-        v-if="isAlpacaDirect(selectedSwitchObj)"
-        deviceType="switch"
-        :selectedDevice="selectedSwitchDevice"
-        :deviceId="selectedSwitchObj?.Id"
-      />
-      <SettingsSerialConnection
-        v-else
-        equipmentType="switch"
-        :selectedDevice="selectedSwitchDevice"
-      />
-      <SettingsSwitchSV241Pro
-        v-if="!isAlpacaDirect(selectedSwitchObj)"
-        :selectedDevice="selectedSwitchDevice"
-      />
+      <div class="flex flex-col gap-2">
+        <SettingsAlpacaDirect
+          v-if="isAlpacaDirect(selectedSwitchObj)"
+          deviceType="switch"
+          :selectedDevice="selectedSwitchDevice"
+          :deviceId="selectedSwitchObj?.Id"
+        />
+        <SettingsSerialConnection
+          v-else
+          equipmentType="switch"
+          :selectedDevice="selectedSwitchDevice"
+        />
+        <SettingsSwitchSV241Pro
+          :selectedDevice="selectedSwitchDevice"
+          :selectedDeviceObj="selectedSwitchObj"
+        />
+      </div>
     </template>
   </Modal>
 

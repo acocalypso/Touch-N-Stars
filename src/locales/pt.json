@@ -4044,7 +4044,13 @@
       "smtpSsl": "Utilizar TLS/SSL",
       "testDiscord": "Enviar mensagem de teste",
       "testEmail": "Enviar e-mail de teste",
-      "testPushover": "Enviar notificação de teste"
+      "testPushover": "Enviar notificação de teste",
+      "localDashboardEnabled": "Habilitar servidor web local",
+      "localDashboardHint": "Fornece seu histórico de sessão a partir de um servidor web local acessível a partir de qualquer navegador em sua rede. \nUse uma VPN para acesso remoto.",
+      "localDashboardPort": "Porta",
+      "localDashboardTitle": "Painel local",
+      "showChartFilterChips": "Mostrar linha de chip de filtro",
+      "showChartTargetChips": "Mostrar linha de fichas alvo"
     },
     "stats": {
       "accepted": "Aceito",

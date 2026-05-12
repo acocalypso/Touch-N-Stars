@@ -4044,7 +4044,13 @@
       "smtpSsl": "Użyj protokołu TLS/SSL",
       "testDiscord": "Wyślij wiadomość testową",
       "testEmail": "Wyślij e-mail testowy",
-      "testPushover": "Wyślij powiadomienie testowe"
+      "testPushover": "Wyślij powiadomienie testowe",
+      "localDashboardEnabled": "Włącz lokalny serwer WWW",
+      "localDashboardHint": "Wyświetla historię sesji z lokalnego serwera internetowego dostępnego z dowolnej przeglądarki w Twojej sieci. \nUżyj VPN do zdalnego dostępu.",
+      "localDashboardPort": "Port",
+      "localDashboardTitle": "Lokalny pulpit nawigacyjny",
+      "showChartFilterChips": "Pokaż rząd elementów filtrujących",
+      "showChartTargetChips": "Pokaż docelowy rząd żetonów"
     },
     "stats": {
       "accepted": "Przyjęty",

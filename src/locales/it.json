@@ -4044,7 +4044,13 @@
       "smtpSsl": "Utilizza TLS/SSL",
       "testDiscord": "Invia messaggio di prova",
       "testEmail": "Invia e-mail di prova",
-      "testPushover": "Invia notifica di prova"
+      "testPushover": "Invia notifica di prova",
+      "localDashboardEnabled": "Abilita il server web locale",
+      "localDashboardHint": "Fornisce la cronologia delle sessioni da un server Web locale accessibile da qualsiasi browser sulla rete. \nUtilizza una VPN per l'accesso remoto.",
+      "localDashboardPort": "Porta",
+      "localDashboardTitle": "Cruscotto locale",
+      "showChartFilterChips": "Mostra la riga del chip del filtro",
+      "showChartTargetChips": "Mostra la riga dei gettoni target"
     },
     "stats": {
       "accepted": "Accettato",

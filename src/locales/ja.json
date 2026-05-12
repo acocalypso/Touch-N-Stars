@@ -4044,7 +4044,13 @@
       "smtpSsl": "TLS/SSLを使用する",
       "testDiscord": "テストメッセージの送信",
       "testEmail": "テストメールを送信する",
-      "testPushover": "テスト通知を送信する"
+      "testPushover": "テスト通知を送信する",
+      "localDashboardEnabled": "ローカル Web サーバーを有効にする",
+      "localDashboardHint": "ネットワーク上のどのブラウザからでもアクセスできるローカル Web サーバーからセッション履歴を提供します。\nリモート アクセスには VPN を使用します。",
+      "localDashboardPort": "ポート",
+      "localDashboardTitle": "ローカルダッシュボード",
+      "showChartFilterChips": "フィルターチップ行を表示",
+      "showChartTargetChips": "ターゲットチップ行を表示"
     },
     "stats": {
       "accepted": "承認されました",

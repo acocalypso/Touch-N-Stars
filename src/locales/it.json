@@ -3567,7 +3567,9 @@
         "sessionStart": "Inizio della sessione",
         "siteAlt": "alt",
         "siteLat": "Sito lat",
-        "siteLon": "lon"
+        "siteLon": "lon",
+        "maxChunkInfo": "Limita il blocco pianificato continuo massimo per destinazione prima che lo scheduler possa passare a un'altra destinazione.",
+        "samplingStepInfo": "Definisce l'intervallo di calcolo in minuti. \nValori più bassi aumentano la precisione ma valutano più punti della sequenza temporale."
       },
       "subtitle": "Pianificazione mobile-first per visibilità del target, vincoli e inserimento di sequenze.",
       "targetCard": {
@@ -3669,6 +3671,77 @@
       "deleteDirectoryMessage": "Delete directory \"{name}\" recursively?",
       "deleteFileTitle": "Delete File",
       "deleteFileMessage": "Delete file \"{name}\"?"
+    },
+    "phd2logviewer": {
+      "cal": {
+        "angle": "Angolo (°)",
+        "axis": "Asse",
+        "backlash": "Gioco",
+        "dist": "Distanza (px)",
+        "noData": "Nessun dato di calibrazione per questa sessione.",
+        "noSummary": "Nessun dato riepilogativo (la calibrazione potrebbe essere stata interrotta)",
+        "over": "Sopra",
+        "parity": "Parità",
+        "rate": "Velocità (px/s)",
+        "steps": "Passi"
+      },
+      "clear": "Chiaro",
+      "emptyState": "Seleziona un registro della guida PHD2 dal menu a discesa in alto.",
+      "excludeDither": "Regolazione del dithering con esclusione automatica",
+      "fft": {
+        "dominantPeriod": "Periodo dominante",
+        "subtitle": "Identifica le armoniche dell'errore periodico nella guida AR.",
+        "title": "Analisi della frequenza RA"
+      },
+      "info": {
+        "camera": "Telecamera",
+        "duration": "Durata",
+        "ended": "Finito",
+        "focalLength": "Lunghezza focale",
+        "mount": "Montare",
+        "pixelScale": "Scala dei pixel",
+        "profile": "Profilo",
+        "started": "La sessione è iniziata",
+        "totalFrames": "Fotogrammi totali"
+      },
+      "legend": {
+        "dec": "dicembre",
+        "dither": "Dither",
+        "ra": "RA",
+        "raRaw": "RA (grezzo)"
+      },
+      "loading": "Caricamento…",
+      "noLogs": "Nessun registro trovato",
+      "rawRa": "RA cruda e non corretta",
+      "refresh": "Aggiorna l'elenco dei registri",
+      "selectLog": "— seleziona un registro —",
+      "session": "Sessione:",
+      "settings": {
+        "notConfigured": "Configura la directory del registro PHD2",
+        "placeholder": "Nessun percorso configurato",
+        "saveError": "Impossibile salvare il percorso",
+        "title": "Directory di registro"
+      },
+      "statistics": "Statistiche",
+      "stats": {
+        "combined": "combinato",
+        "decRms": "Dicembre RMS",
+        "declination": "declinazione",
+        "frames": "Cornici",
+        "maxError": "errore massimo",
+        "of": "di {totale}",
+        "peakDec": "Picco di dicembre",
+        "peakRa": "Picco RA",
+        "raRms": "RARMS",
+        "rightAscension": "ascensione retta",
+        "totalRms": "RMS totale"
+      },
+      "subtitle": "Seleziona un registro guida PHD2 per visualizzare le prestazioni e le statistiche della guida.",
+      "tabs": {
+        "calibration": "Calibrazione",
+        "guide": "Grafico guida"
+      },
+      "title": "Visualizzatore registro PHD2"
     }
   },
   "pinsDevices": {

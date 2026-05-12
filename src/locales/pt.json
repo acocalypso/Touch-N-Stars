@@ -3567,7 +3567,9 @@
         "sessionStart": "Início da sessão",
         "siteAlt": "alternativo",
         "siteLat": "Latência do site",
-        "siteLon": "muito"
+        "siteLon": "muito",
+        "maxChunkInfo": "Limita o bloco agendado contínuo máximo por destino antes que o agendador possa mudar para outro destino.",
+        "samplingStepInfo": "Define o intervalo de cálculo em minutos. \nValores mais baixos aumentam a precisão, mas avaliam mais pontos da linha do tempo."
       },
       "subtitle": "Planejamento mobile-first para visibilidade de alvo, restrições e inserção de sequência.",
       "targetCard": {
@@ -3669,6 +3671,77 @@
       "deleteDirectoryMessage": "Delete directory \"{name}\" recursively?",
       "deleteFileTitle": "Delete File",
       "deleteFileMessage": "Delete file \"{name}\"?"
+    },
+    "phd2logviewer": {
+      "cal": {
+        "angle": "Ângulo (°)",
+        "axis": "Eixo",
+        "backlash": "Retaliação",
+        "dist": "Dist (px)",
+        "noData": "Não há dados de calibração para esta sessão.",
+        "noSummary": "Nenhum dado de resumo (a calibração pode ter sido interrompida)",
+        "over": "sobre",
+        "parity": "Paridade",
+        "rate": "Taxa (px/s)",
+        "steps": "Passos"
+      },
+      "clear": "Claro",
+      "emptyState": "Selecione um registro de guia PHD2 no menu suspenso acima.",
+      "excludeDither": "Excluir automaticamente a resolução de pontilhamento",
+      "fft": {
+        "dominantPeriod": "Período dominante",
+        "subtitle": "Identifica harmônicos de erro periódicos na orientação de RA.",
+        "title": "Análise de frequência RA"
+      },
+      "info": {
+        "camera": "Câmera",
+        "duration": "Duração",
+        "ended": "Terminou",
+        "focalLength": "Distância focal",
+        "mount": "Montar",
+        "pixelScale": "Escala de pixels",
+        "profile": "Perfil",
+        "started": "Sessão iniciada",
+        "totalFrames": "Quadros totais"
+      },
+      "legend": {
+        "dec": "dezembro",
+        "dither": "Pontilhar",
+        "ra": "RA",
+        "raRaw": "RA (cru)"
+      },
+      "loading": "Carregando…",
+      "noLogs": "Nenhum registro encontrado",
+      "rawRa": "RA crua e não corrigida",
+      "refresh": "Atualizar lista de registros",
+      "selectLog": "— selecione um registro —",
+      "session": "Sessão:",
+      "settings": {
+        "notConfigured": "Configure o diretório de log do PHD2",
+        "placeholder": "Nenhum caminho configurado",
+        "saveError": "Falha ao salvar o caminho",
+        "title": "Diretório de registros"
+      },
+      "statistics": "Estatísticas",
+      "stats": {
+        "combined": "combinado",
+        "decRms": "Dezembro RMS",
+        "declination": "declinação",
+        "frames": "Molduras",
+        "maxError": "erro máximo",
+        "of": "de {total}",
+        "peakDec": "Pico de dezembro",
+        "peakRa": "Pico de RA",
+        "raRms": "RARMS",
+        "rightAscension": "ascensão reta",
+        "totalRms": "RMS total"
+      },
+      "subtitle": "Selecione um registro de guia PHD2 para visualizar o desempenho e as estatísticas do guia.",
+      "tabs": {
+        "calibration": "Calibração",
+        "guide": "Gráfico guia"
+      },
+      "title": "Visualizador de registros PHD2"
     }
   },
   "pinsDevices": {

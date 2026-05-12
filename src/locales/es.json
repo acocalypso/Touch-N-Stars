@@ -3567,7 +3567,9 @@
         "sessionStart": "Inicio de sesión",
         "siteAlt": "alternativo",
         "siteLat": "Latitud del sitio",
-        "siteLon": "lon"
+        "siteLon": "lon",
+        "maxChunkInfo": "Limita el bloque programado continuo máximo por objetivo antes de que el programador pueda cambiar a otro objetivo.",
+        "samplingStepInfo": "Define el intervalo de cálculo en minutos. \nLos valores más bajos aumentan la precisión pero evalúan más puntos de la línea de tiempo."
       },
       "subtitle": "Planificación móvil primero para visibilidad de objetivos, restricciones e inserción de secuencias.",
       "targetCard": {
@@ -3669,6 +3671,77 @@
       "deleteDirectoryMessage": "Delete directory \"{name}\" recursively?",
       "deleteFileTitle": "Delete File",
       "deleteFileMessage": "Delete file \"{name}\"?"
+    },
+    "phd2logviewer": {
+      "cal": {
+        "angle": "Ángulo (°)",
+        "axis": "Eje",
+        "backlash": "Reacción",
+        "dist": "Dist (px)",
+        "noData": "No hay datos de calibración para esta sesión.",
+        "noSummary": "No hay datos resumidos (es posible que se haya interrumpido la calibración)",
+        "over": "encima",
+        "parity": "Paridad",
+        "rate": "Velocidad (px/s)",
+        "steps": "Pasos"
+      },
+      "clear": "Claro",
+      "emptyState": "Seleccione un registro de guía PHD2 del menú desplegable de arriba.",
+      "excludeDither": "Excluir automáticamente la resolución de tramado",
+      "fft": {
+        "dominantPeriod": "Periodo dominante",
+        "subtitle": "Identifica armónicos de error periódico en el guiado RA.",
+        "title": "Análisis de frecuencia AR"
+      },
+      "info": {
+        "camera": "Cámara",
+        "duration": "Duración",
+        "ended": "Terminado",
+        "focalLength": "Longitud focal",
+        "mount": "Montar",
+        "pixelScale": "Escala de píxeles",
+        "profile": "Perfil",
+        "started": "Sesión iniciada",
+        "totalFrames": "Cuadros totales"
+      },
+      "legend": {
+        "dec": "Dic",
+        "dither": "Vacilar",
+        "ra": "REAL ACADEMIA DE BELLAS ARTES",
+        "raRaw": "RA (cruda)"
+      },
+      "loading": "Cargando…",
+      "noLogs": "No se encontraron registros",
+      "rawRa": "AR cruda y sin corregir",
+      "refresh": "Actualizar lista de registros",
+      "selectLog": "— seleccione un registro —",
+      "session": "Sesión:",
+      "settings": {
+        "notConfigured": "Configure el directorio de registro de PHD2",
+        "placeholder": "No hay ruta configurada",
+        "saveError": "No se pudo guardar la ruta",
+        "title": "Directorio de registros"
+      },
+      "statistics": "Estadística",
+      "stats": {
+        "combined": "conjunto",
+        "decRms": "RMS de diciembre",
+        "declination": "declinación",
+        "frames": "Marcos",
+        "maxError": "error máximo",
+        "of": "de {total}",
+        "peakDec": "Pico diciembre",
+        "peakRa": "RA máxima",
+        "raRms": "RA RMS",
+        "rightAscension": "ascensión recta",
+        "totalRms": "RMS totales"
+      },
+      "subtitle": "Seleccione un registro de guía PHD2 para visualizar el rendimiento y las estadísticas de la guía.",
+      "tabs": {
+        "calibration": "Calibración",
+        "guide": "Gráfico guía"
+      },
+      "title": "Visor de registros PHD2"
     }
   },
   "pinsDevices": {

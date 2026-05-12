@@ -8,7 +8,8 @@
         <span
           class="text-sm font-mono whitespace-nowrap"
           :class="path ? 'text-gray-200' : 'text-gray-500 italic'"
-        >{{ path || t('plugins.phd2logviewer.settings.placeholder') }}</span>
+          >{{ path || t('plugins.phd2logviewer.settings.placeholder') }}</span
+        >
       </div>
       <button
         type="button"
@@ -19,7 +20,12 @@
       </button>
     </div>
     <p v-if="statusMsg" class="text-xs text-red-400">{{ statusMsg }}</p>
-    <FileBrowser v-model="showBrowser" :initial-path="path" mode="folder" @select="onPathSelected" />
+    <FileBrowser
+      v-model="showBrowser"
+      :initial-path="path"
+      mode="folder"
+      @select="onPathSelected"
+    />
   </div>
 </template>
 

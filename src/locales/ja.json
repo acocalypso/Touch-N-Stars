@@ -3600,7 +3600,9 @@
         "sessionStart": "セッション開始",
         "siteAlt": "代替",
         "siteLat": "サイトの緯度",
-        "siteLon": "ロン"
+        "siteLon": "ロン",
+        "maxChunkInfo": "スケジューラが別のターゲットに切り替える前に、ターゲットごとの最大連続スケジュール ブロックを制限します。",
+        "samplingStepInfo": "計算間隔を分単位で定義します。\n値を低くすると精度は向上しますが、より多くのタイムライン ポイントを評価します。"
       },
       "subtitle": "ターゲットの可視性、制約、シーケンス挿入のためのモバイルファーストのプランニング。",
       "targetCard": {
@@ -3669,6 +3671,77 @@
       "subtitle": "各フィルター ホイール フィルターのフォーカス オフセットを計算して保存します。",
       "title": "フィルターオフセット計算機",
       "useRelativeOffsets": "相対オフセットを使用する"
+    },
+    "phd2logviewer": {
+      "cal": {
+        "angle": "角度(°)",
+        "axis": "軸",
+        "backlash": "バックラッシュ",
+        "dist": "距離 (ピクセル)",
+        "noData": "このセッションにはキャリブレーション データがありません。",
+        "noSummary": "概要データなし (校正が中断された可能性があります)",
+        "over": "以上",
+        "parity": "パリティ",
+        "rate": "レート (ピクセル/秒)",
+        "steps": "ステップ"
+      },
+      "clear": "クリア",
+      "emptyState": "上のドロップダウンから PHD2 ガイド ログを選択します。",
+      "excludeDither": "ディザリングの自動除外",
+      "fft": {
+        "dominantPeriod": "優勢期",
+        "subtitle": "RA ガイドの周期的誤差高調波を特定します。",
+        "title": "RA周波数分析"
+      },
+      "info": {
+        "camera": "カメラ",
+        "duration": "間隔",
+        "ended": "終了しました",
+        "focalLength": "焦点距離",
+        "mount": "マウント",
+        "pixelScale": "ピクセルスケール",
+        "profile": "プロフィール",
+        "started": "セッションが開始されました",
+        "totalFrames": "総フレーム数"
+      },
+      "legend": {
+        "dec": "12月",
+        "dither": "ディザリング",
+        "ra": "RA",
+        "raRaw": "RA（生）"
+      },
+      "loading": "読み込み中…",
+      "noLogs": "ログが見つかりません",
+      "rawRa": "生の未修正のRA",
+      "refresh": "ログリストを更新する",
+      "selectLog": "— ログを選択 —",
+      "session": "セッション：",
+      "settings": {
+        "notConfigured": "PHD2 ログ ディレクトリを構成してください",
+        "placeholder": "パスが設定されていません",
+        "saveError": "パスの保存に失敗しました",
+        "title": "ログディレクトリ"
+      },
+      "statistics": "統計",
+      "stats": {
+        "combined": "組み合わせた",
+        "decRms": "12月RMS",
+        "declination": "偏角",
+        "frames": "フレーム",
+        "maxError": "最大誤差",
+        "of": "{合計} 件中",
+        "peakDec": "ピーク 12 月",
+        "peakRa": "ピークRA",
+        "raRms": "RA RMS",
+        "rightAscension": "赤経",
+        "totalRms": "合計RMS"
+      },
+      "subtitle": "PHD2 ガイド ログを選択して、ガイドのパフォーマンスと統計を視覚化します。",
+      "tabs": {
+        "calibration": "較正",
+        "guide": "ガイドグラフ"
+      },
+      "title": "PHD2ログビューア"
     }
   },
   "pinsDevices": {

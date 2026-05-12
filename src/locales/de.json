@@ -3523,7 +3523,9 @@
         "sessionStart": "Sitzungsstart",
         "sessionEnd": "Sitzungsende",
         "samplingStepMinutes": "Abtastschritt (Minuten)",
+        "samplingStepInfo": "Legt das Berechnungsintervall in Minuten fest. Kleinere Werte sind genauer, berechnen aber mehr Zeitpunkte.",
         "maxChunkMinutes": "Max. Block (Minuten)",
+        "maxChunkInfo": "Begrenzt die maximale zusammenhaengende Planungsdauer pro Ziel, bevor der Scheduler zu einem anderen Ziel wechseln kann.",
         "siteLat": "Standort Breite",
         "siteLon": "Länge",
         "siteAlt": "Höhe",
@@ -3669,6 +3671,77 @@
       "subtitle": "Berechnen und speichern Sie Fokus-Offsets für jeden Filterradfilter",
       "title": "Filter-Offset-Rechner",
       "useRelativeOffsets": "Verwenden Sie relative Offsets"
+    },
+    "phd2logviewer": {
+      "cal": {
+        "angle": "Winkel (°)",
+        "axis": "Achse",
+        "backlash": "Gegenreaktion",
+        "dist": "Dist (px)",
+        "noData": "Keine Kalibrierungsdaten für diese Sitzung.",
+        "noSummary": "Keine zusammenfassenden Daten (Kalibrierung wurde möglicherweise unterbrochen)",
+        "over": "über",
+        "parity": "Parität",
+        "rate": "Rate (px/s)",
+        "steps": "Schritte"
+      },
+      "clear": "Klar",
+      "emptyState": "Wählen Sie aus der Dropdown-Liste oben ein PHD2-Guide-Protokoll aus.",
+      "excludeDither": "Automatisches Ausschließen der Dither-Beruhigung",
+      "fft": {
+        "dominantPeriod": "Dominante Periode",
+        "subtitle": "Identifiziert periodische Fehlerharmonische in der RA-Führung.",
+        "title": "RA-Frequenzanalyse"
+      },
+      "info": {
+        "camera": "Kamera",
+        "duration": "Dauer",
+        "ended": "Beendet",
+        "focalLength": "Brennweite",
+        "mount": "Montieren",
+        "pixelScale": "Pixelskala",
+        "profile": "Profil",
+        "started": "Sitzung gestartet",
+        "totalFrames": "Gesamtzahl der Frames"
+      },
+      "legend": {
+        "dec": "Dez",
+        "dither": "Zittern",
+        "ra": "RA",
+        "raRaw": "RA (roh)"
+      },
+      "loading": "Laden…",
+      "noLogs": "Keine Protokolle gefunden",
+      "rawRa": "Rohe, unkorrigierte RA",
+      "refresh": "Protokollliste aktualisieren",
+      "selectLog": "— Wählen Sie ein Protokoll aus —",
+      "session": "Sitzung:",
+      "settings": {
+        "notConfigured": "Bitte konfigurieren Sie das PHD2-Protokollverzeichnis",
+        "placeholder": "Kein Pfad konfiguriert",
+        "saveError": "Pfad konnte nicht gespeichert werden",
+        "title": "Protokollverzeichnis"
+      },
+      "statistics": "Statistiken",
+      "stats": {
+        "combined": "kombiniert",
+        "decRms": "Dezember RMS",
+        "declination": "Deklination",
+        "frames": "Rahmen",
+        "maxError": "maximaler Fehler",
+        "of": "von {total}",
+        "peakDec": "Spitzenwert im Dezember",
+        "peakRa": "Spitzen-RA",
+        "raRms": "RA RMS",
+        "rightAscension": "Rektaszension",
+        "totalRms": "Gesamt-RMS"
+      },
+      "subtitle": "Wählen Sie ein PHD2-Guide-Protokoll aus, um die Guiding-Leistung und -Statistiken zu visualisieren.",
+      "tabs": {
+        "calibration": "Kalibrierung",
+        "guide": "Leitfadendiagramm"
+      },
+      "title": "PHD2-Protokollanzeige"
     }
   },
   "pinsDevices": {

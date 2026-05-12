@@ -43,6 +43,48 @@ function defaultSessionEnd() {
   return d;
 }
 
+function getHoursMinutesOrFallback(value, fallbackDate) {
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) {
+    return {
+      hours: fallbackDate.getHours(),
+      minutes: fallbackDate.getMinutes(),
+    };
+  }
+
+  return {
+    hours: parsed.getHours(),
+    minutes: parsed.getMinutes(),
+  };
+}
+
+function buildTodayAt(hours, minutes) {
+  const d = new Date();
+  d.setHours(hours, minutes, 0, 0);
+  return d;
+}
+
+function resolveInitialSessionInputs(persisted) {
+  const fallbackStart = defaultSessionStart();
+  const fallbackEnd = defaultSessionEnd();
+
+  const startHm = getHoursMinutesOrFallback(persisted?.sessionStartInput, fallbackStart);
+  const endHm = getHoursMinutesOrFallback(persisted?.sessionEndInput, fallbackEnd);
+
+  const start = buildTodayAt(startHm.hours, startHm.minutes);
+  const end = buildTodayAt(endHm.hours, endHm.minutes);
+
+  // Preserve overnight sessions by moving end to next day when needed.
+  if (end <= start) {
+    end.setDate(end.getDate() + 1);
+  }
+
+  return {
+    sessionStartInput: toInputDateTime(start),
+    sessionEndInput: toInputDateTime(end),
+  };
+}
+
 function getTimeValueOrDefault(value, fallback) {
   const dt = new Date(value);
   return Number.isNaN(dt.getTime()) ? fallback : dt;
@@ -97,6 +139,40 @@ function normalizePersistedTarget(target) {
   return normalized;
 }
 
+function normalizePersistedTargetsWithUniqueIds(rawTargets) {
+  const seenTargetIds = new Set();
+  let changed = false;
+
+  const normalizedTargets = (Array.isArray(rawTargets) ? rawTargets : []).map((target) => {
+    const normalizedTarget = normalizePersistedTarget(target);
+
+    if (!normalizedTarget.id || seenTargetIds.has(normalizedTarget.id)) {
+      normalizedTarget.id = createDefaultTarget().id;
+      changed = true;
+    }
+    seenTargetIds.add(normalizedTarget.id);
+
+    const seenExposureIds = new Set();
+    normalizedTarget.exposures = normalizedTarget.exposures.map((exp) => {
+      const normalizedExposure = createExposure(exp);
+
+      if (!normalizedExposure.id || seenExposureIds.has(normalizedExposure.id)) {
+        const expWithoutId = { ...normalizedExposure };
+        delete expWithoutId.id;
+        changed = true;
+        return createExposure(expWithoutId);
+      }
+
+      seenExposureIds.add(normalizedExposure.id);
+      return normalizedExposure;
+    });
+
+    return normalizedTarget;
+  });
+
+  return { normalizedTargets, changed };
+}
+
 function loadPersistedState() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -126,17 +202,14 @@ export function useTargetScheduler() {
   const toastStore = useToastStore();
 
   const persisted = loadPersistedState();
+  const { normalizedTargets: hydratedTargets, changed: hadPersistedIdCollisions } =
+    normalizePersistedTargetsWithUniqueIds(persisted?.targets);
+  const initialSessionInputs = resolveInitialSessionInputs(persisted);
 
-  const targets = ref(
-    Array.isArray(persisted?.targets) && persisted.targets.length
-      ? persisted.targets.map(normalizePersistedTarget)
-      : []
-  );
+  const targets = ref(hydratedTargets);
 
-  const sessionStartInput = ref(
-    persisted?.sessionStartInput || toInputDateTime(defaultSessionStart())
-  );
-  const sessionEndInput = ref(persisted?.sessionEndInput || toInputDateTime(defaultSessionEnd()));
+  const sessionStartInput = ref(initialSessionInputs.sessionStartInput);
+  const sessionEndInput = ref(initialSessionInputs.sessionEndInput);
 
   const stepMinutes = ref(
     Number.isFinite(Number(persisted?.stepMinutes))
@@ -148,6 +221,16 @@ export function useTargetScheduler() {
       ? Number(persisted.maxChunkMinutes)
       : DEFAULT_MAX_CHUNK_MINUTES
   );
+
+  if (hadPersistedIdCollisions) {
+    savePersistedState({
+      targets: targets.value,
+      sessionStartInput: sessionStartInput.value,
+      sessionEndInput: sessionEndInput.value,
+      stepMinutes: stepMinutes.value,
+      maxChunkMinutes: maxChunkMinutes.value,
+    });
+  }
 
   const selectedTargetId = ref(targets.value[0]?.id || null);
   const isEditorOpen = ref(false);
@@ -263,13 +346,25 @@ export function useTargetScheduler() {
   function duplicateTarget(targetId) {
     const target = targets.value.find((item) => item.id === targetId);
     if (!target) return;
+
+    const targetWithoutIds = { ...target };
+    const sourceExposures = Array.isArray(targetWithoutIds.exposures)
+      ? targetWithoutIds.exposures
+      : [];
+    delete targetWithoutIds.id;
+    delete targetWithoutIds.exposures;
     const copy = createDefaultTarget({
-      ...target,
+      ...targetWithoutIds,
       name: `${target.name} ${t('plugins.targetScheduler.common.copySuffix')}`,
       isFavoriteLinked: false,
       favoriteId: null,
     });
-    copy.exposures = target.exposures.map((exp) => createExposure({ ...exp }));
+    copy.exposures = sourceExposures.map((exp) => {
+      const expWithoutId = { ...(exp || {}) };
+      delete expWithoutId.id;
+      return createExposure(expWithoutId);
+    });
+    if (!copy.exposures.length) copy.exposures = [createExposure()];
     targets.value.push(copy);
     selectedTargetId.value = copy.id;
   }

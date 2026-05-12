@@ -75,7 +75,16 @@
           </label>
 
           <label class="text-xs text-slate-400">
-            {{ t('plugins.targetScheduler.labels.samplingStepMinutes') }}
+            <span class="flex items-center gap-1">
+              <span>{{ t('plugins.targetScheduler.labels.samplingStepMinutes') }}</span>
+              <span
+                class="inline-flex items-center"
+                :title="t('plugins.targetScheduler.labels.samplingStepInfo')"
+                v-tooltip="t('plugins.targetScheduler.labels.samplingStepInfo')"
+              >
+                <InformationCircleIcon class="h-4 w-4 text-slate-400 cursor-help" />
+              </span>
+            </span>
             <input
               v-model.number="stepMinutes"
               type="number"
@@ -86,7 +95,16 @@
           </label>
 
           <label class="text-xs text-slate-400">
-            {{ t('plugins.targetScheduler.labels.maxChunkMinutes') }}
+            <span class="flex items-center gap-1">
+              <span>{{ t('plugins.targetScheduler.labels.maxChunkMinutes') }}</span>
+              <span
+                class="inline-flex items-center"
+                :title="t('plugins.targetScheduler.labels.maxChunkInfo')"
+                v-tooltip="t('plugins.targetScheduler.labels.maxChunkInfo')"
+              >
+                <InformationCircleIcon class="h-4 w-4 text-slate-400 cursor-help" />
+              </span>
+            </span>
             <input
               v-model.number="maxChunkMinutes"
               type="number"
@@ -279,6 +297,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { InformationCircleIcon } from '@heroicons/vue/24/outline';
 import TargetList from '../components/TargetList.vue';
 import TargetEditor from '../components/TargetEditor.vue';
 import ScheduleTimeline from '../components/ScheduleTimeline.vue';

@@ -3567,7 +3567,9 @@
         "sessionStart": "Początek sesji",
         "siteAlt": "alt",
         "siteLat": "Strona łac",
-        "siteLon": "długo"
+        "siteLon": "długo",
+        "maxChunkInfo": "Ogranicza maksymalny ciągły zaplanowany blok na cel, zanim planista będzie mógł przełączyć się na inny cel.",
+        "samplingStepInfo": "Określa interwał obliczeniowy w minutach. \nNiższe wartości zwiększają precyzję, ale oceniają więcej punktów na osi czasu."
       },
       "subtitle": "Planowanie zorientowane na urządzenia mobilne pod kątem widoczności celu, ograniczeń i wstawiania sekwencji.",
       "targetCard": {
@@ -3669,6 +3671,77 @@
       "deleteDirectoryMessage": "Delete directory \"{name}\" recursively?",
       "deleteFileTitle": "Delete File",
       "deleteFileMessage": "Delete file \"{name}\"?"
+    },
+    "phd2logviewer": {
+      "cal": {
+        "angle": "Kąt (°)",
+        "axis": "Oś",
+        "backlash": "Reakcja",
+        "dist": "Odległość (px)",
+        "noData": "Brak danych kalibracyjnych dla tej sesji.",
+        "noSummary": "Brak danych zbiorczych (mogła zostać przerwana kalibracja)",
+        "over": "nad",
+        "parity": "Parytet",
+        "rate": "Szybkość (px/s)",
+        "steps": "Kroki"
+      },
+      "clear": "Jasne",
+      "emptyState": "Wybierz dziennik przewodnika PHD2 z listy rozwijanej powyżej.",
+      "excludeDither": "Automatyczne wykluczanie roztrząsania",
+      "fft": {
+        "dominantPeriod": "Okres dominujący",
+        "subtitle": "Identyfikuje harmoniczne błędów okresowych w prowadzeniu RA.",
+        "title": "Analiza częstotliwości RA"
+      },
+      "info": {
+        "camera": "Kamera",
+        "duration": "Czas trwania",
+        "ended": "Zakończone",
+        "focalLength": "Ogniskowa",
+        "mount": "Uchwyt",
+        "pixelScale": "Skala pikseli",
+        "profile": "Profil",
+        "started": "Sesja rozpoczęta",
+        "totalFrames": "Całkowita liczba klatek"
+      },
+      "legend": {
+        "dec": "grudzień",
+        "dither": "Dygotać",
+        "ra": "RA",
+        "raRaw": "RA (surowe)"
+      },
+      "loading": "Załadunek…",
+      "noLogs": "Nie znaleziono dzienników",
+      "rawRa": "Surowe, nieskorygowane RA",
+      "refresh": "Odśwież listę logów",
+      "selectLog": "— wybierz dziennik —",
+      "session": "Sesja:",
+      "settings": {
+        "notConfigured": "Proszę skonfigurować katalog logów PHD2",
+        "placeholder": "Nie skonfigurowano ścieżki",
+        "saveError": "Nie udało się zapisać ścieżki",
+        "title": "Katalog dziennika"
+      },
+      "statistics": "Statystyka",
+      "stats": {
+        "combined": "łączny",
+        "decRms": "grudzień RMS",
+        "declination": "deklinacja",
+        "frames": "Ramki",
+        "maxError": "maksymalny błąd",
+        "of": "z {łącznie}",
+        "peakDec": "Szczyt grudzień",
+        "peakRa": "Szczyt RA",
+        "raRms": "RA RMS",
+        "rightAscension": "rektascensja",
+        "totalRms": "Całkowita wartość skuteczna"
+      },
+      "subtitle": "Wybierz dziennik prowadzenia PHD2, aby wizualizować wydajność i statystyki prowadzenia.",
+      "tabs": {
+        "calibration": "Kalibrowanie",
+        "guide": "Wykres przewodnika"
+      },
+      "title": "Przeglądarka logów PHD2"
     }
   },
   "pinsDevices": {

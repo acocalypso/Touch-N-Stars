@@ -1,9 +1,9 @@
 <template>
   <div>
     <img v-if="imagetStore.imageData" :src="displayImageData" alt="Flat Image" />
-    <FlatHistogram />
+    <FlatHistogram v-if="store.isPINS" />
     <HistogramChart
-      v-if="imagetStore.imageData"
+      v-if="imagetStore.imageData && store.isPINS"
       :data="getHistogram()"
       :blackPoint="getStretchSettings().blackPoint"
       :midPoint="getStretchSettings().midPoint"

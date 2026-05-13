@@ -915,18 +915,20 @@ export const apiStore = defineStore('store', {
       if (!this.isPINS) return; // Nur abrufen wenn PINS aktiv ist
       try {
         const [statsResult, histResult] = await Promise.all([
-          apiService.getCaptureStatisticsFull(),
-          apiService.getPreparedImageStatistics(),
+          apiService.getCaptureStatisticsFull().catch(() => null),
+          apiService.getPreparedImageStatistics().catch(() => null),
         ]);
-        if (statsResult.Response) {
-          this.lastImageStats = {
-            ...statsResult.Response,
-            Histogram: histResult?.Response?.Histogram ?? null,
-          };
-        } else {
-          if (statsResult?.Error === 'No capture processed') return;
-          console.error('Error in last image stats API response:', statsResult?.Error);
+        const base = histResult?.Response ?? statsResult?.Response ?? null;
+        if (!base) {
+          if (statsResult?.Error === 'No capture processed' || histResult?.Error === 'No capture processed') return;
+          console.error('[Store] fetchLastImageStats: both calls failed or returned no data');
+          return;
         }
+        this.lastImageStats = {
+          ...base,
+          ...(statsResult?.Response ?? {}),
+          Histogram: histResult?.Response?.Histogram ?? null,
+        };
       } catch (error) {
         console.error('Error fetching last image stats:', error);
       }

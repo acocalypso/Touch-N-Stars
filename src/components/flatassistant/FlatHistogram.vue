@@ -33,7 +33,7 @@ const PADDING = 10;
 const inTolerance = computed(() => {
   if (flatsStore.currentADU === null) return false;
   const fraction = flatsStore.currentADU / MAX_ADU;
-  return Math.abs(fraction - flatsStore.histogramMean) <= flatsStore.meanTolerance;
+  return Math.abs(fraction - flatsStore.histogramMean) <= flatsStore.meanTolerance / 2;
 });
 
 function draw() {
@@ -53,9 +53,9 @@ function draw() {
   ctx.fillRect(0, 0, w, h);
 
   const mean = flatsStore.histogramMean;
-  const tol = flatsStore.meanTolerance;
-  const lo = PADDING + Math.max(0, mean - tol) * graphW;
-  const hi = PADDING + Math.min(1, mean + tol) * graphW;
+  const halfTol = flatsStore.meanTolerance / 2;
+  const lo = PADDING + Math.max(0, mean - halfTol) * graphW;
+  const hi = PADDING + Math.min(1, mean + halfTol) * graphW;
   const mx = PADDING + mean * graphW;
 
   // Tolerance band

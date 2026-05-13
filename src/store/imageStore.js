@@ -89,6 +89,10 @@ export const useImagetStore = defineStore('imageStore', {
           }
           const newImageUrl = URL.createObjectURL(imageResponse.data);
           this.imageData = newImageUrl;
+          const store = apiStore();
+          if (store.isPINS) {
+            store.fetchLastImageStats();
+          }
           const isValid = await this.validateImage(newImageUrl);
           if (!isValid) {
             console.warn(

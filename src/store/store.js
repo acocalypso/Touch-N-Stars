@@ -547,7 +547,6 @@ export const apiStore = defineStore('store', {
         console.error('Error fetching information:', error);
       }
       await this.fetchProfilInfos();
-      await this.fetchLastImageStats();
       //when the backend is accessible again close modal
       if (this.isBackendReachable && !this.closeErrorModal) {
         this.closeErrorModal = true;
@@ -915,13 +914,18 @@ export const apiStore = defineStore('store', {
     async fetchLastImageStats() {
       if (!this.isPINS) return; // Nur abrufen wenn PINS aktiv ist
       try {
-        const lastImageStats = await apiService.getCaptureStatisticsFull();
-        //console.log('Last image stats response:', lastImageStats);
-        if (lastImageStats.Response) {
-          this.lastImageStats = lastImageStats.Response;
+        const [statsResult, histResult] = await Promise.all([
+          apiService.getCaptureStatisticsFull(),
+          apiService.getPreparedImageStatistics(),
+        ]);
+        if (statsResult.Response) {
+          this.lastImageStats = {
+            ...statsResult.Response,
+            Histogram: histResult?.Response?.Histogram ?? null,
+          };
         } else {
-          if (lastImageStats?.Error === 'No capture processed') return;
-          console.error('Error in last image stats API response:', lastImageStats?.Error);
+          if (statsResult?.Error === 'No capture processed') return;
+          console.error('Error in last image stats API response:', statsResult?.Error);
         }
       } catch (error) {
         console.error('Error fetching last image stats:', error);

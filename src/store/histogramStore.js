@@ -513,5 +513,26 @@ export const useHistogramStore = defineStore('histogramStore', {
     isInitializing(imageUrl) {
       return this.pendingInits.has(imageUrl);
     },
+
+    injectApiHistogram(imageUrl, apiHistogram) {
+      if (!imageUrl || !Array.isArray(apiHistogram) || apiHistogram.length === 0) return;
+
+      const maxX = apiHistogram.reduce((m, b) => Math.max(m, b.X), 0);
+      const sourceBuckets = new Array(maxX + 1).fill(0);
+      for (const { X, Y } of apiHistogram) sourceBuckets[X] = Y;
+
+      const TARGET = 256;
+      const histogram256 = new Array(TARGET).fill(0);
+      for (let i = 0; i < TARGET; i++) {
+        const srcIdx = Math.round((i / (TARGET - 1)) * maxX);
+        histogram256[i] = sourceBuckets[Math.min(srcIdx, maxX)];
+      }
+
+      const total = histogram256.reduce((s, v) => s + v, 0);
+      const normalized = total > 0 ? histogram256.map((v) => (v / total) * 100) : histogram256;
+
+      const settings = this._ensureSettings(imageUrl);
+      settings.histogram = normalized;
+    },
   },
 });

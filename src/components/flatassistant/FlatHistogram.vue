@@ -23,16 +23,21 @@
 <script setup>
 import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue';
 import { useFlatassistantStore } from '@/store/flatassistantStore';
+import { apiStore } from '@/store/store';
 
 const flatsStore = useFlatassistantStore();
+const store = apiStore();
 const canvasEl = ref(null);
 
-const MAX_ADU = 65535;
+const MAX_ADU = computed(() => {
+  const bits = store.cameraInfo?.BitDepth;
+  return bits > 0 ? (1 << bits) - 1 : 65535;
+});
 const PADDING = 10;
 
 const inTolerance = computed(() => {
   if (flatsStore.currentADU === null) return false;
-  const fraction = flatsStore.currentADU / MAX_ADU;
+  const fraction = flatsStore.currentADU / MAX_ADU.value;
   return Math.abs(fraction - flatsStore.histogramMean) <= flatsStore.meanTolerance / 2;
 });
 
@@ -84,7 +89,7 @@ function draw() {
 
   // Current ADU marker
   if (flatsStore.currentADU !== null) {
-    const ax = PADDING + Math.min(Math.max(flatsStore.currentADU / MAX_ADU, 0), 1) * graphW;
+    const ax = PADDING + Math.min(Math.max(flatsStore.currentADU / MAX_ADU.value, 0), 1) * graphW;
     ctx.strokeStyle = inTolerance.value ? '#4ade80' : '#facc15';
     ctx.lineWidth = 2.5;
     ctx.setLineDash([]);
@@ -117,7 +122,12 @@ function draw() {
 }
 
 watch(
-  [() => flatsStore.histogramMean, () => flatsStore.meanTolerance, () => flatsStore.currentADU],
+  [
+    () => flatsStore.histogramMean,
+    () => flatsStore.meanTolerance,
+    () => flatsStore.currentADU,
+    MAX_ADU,
+  ],
   draw
 );
 

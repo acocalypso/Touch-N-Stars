@@ -88,7 +88,7 @@ const selectedComponent = computed(() => {
 });
 
 onMounted(() => {
-  if (store.isPINS) {
+  if (!store.isPINS) {
     settingsStore.flats.activeMode = 'single';
   }
 });

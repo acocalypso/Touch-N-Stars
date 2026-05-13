@@ -597,7 +597,6 @@ async function resumeApp() {
   await store.fetchAllInfos(t);
   store.startFetchingInfo(t);
   logStore.startFetchingLog();
-  flatsStore.startFetchingFlats();
 
   // Check for PINS support first
   await store.checkForPINS();
@@ -607,6 +606,7 @@ async function resumeApp() {
     // PINS/Headless mode: Use SignalR for real-time updates
     await dialogStore.initializeDialogSignalR();
     await messageboxStore.initializeMessageboxSignalR();
+    flatsStore.startFetchingFlats();
   } else {
     // WPF mode: Use polling
     dialogStore.startPolling();
@@ -812,7 +812,6 @@ onMounted(async () => {
 
   store.startFetchingInfo(t);
   logStore.startFetchingLog();
-  flatsStore.startFetchingFlats();
 
   // Check for PINS support first
   await store.checkForPINS();
@@ -822,6 +821,7 @@ onMounted(async () => {
     // PINS/Headless mode: Use SignalR for real-time updates
     await dialogStore.initializeDialogSignalR();
     await messageboxStore.initializeMessageboxSignalR();
+    flatsStore.startFetchingFlats();
   } else {
     // WPF mode: Use polling
     dialogStore.startPolling();

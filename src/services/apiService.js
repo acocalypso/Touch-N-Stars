@@ -1305,6 +1305,11 @@ const apiService = {
     return this._simpleGetRequest(`${BASE_URL}/equipment/camera/capture/statistics/full`);
   },
 
+  async getPreparedImageStatistics() {
+    const { BASE_URL } = getUrls();
+    return this._simpleGetRequest(`${BASE_URL}/prepared-image/statistics`);
+  },
+
   async startCapture(
     duration,
     gain,

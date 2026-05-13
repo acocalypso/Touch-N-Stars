@@ -920,7 +920,11 @@ export const apiStore = defineStore('store', {
         ]);
         const base = histResult?.Response ?? statsResult?.Response ?? null;
         if (!base) {
-          if (statsResult?.Error === 'No capture processed' || histResult?.Error === 'No capture processed') return;
+          if (
+            statsResult?.Error === 'No capture processed' ||
+            histResult?.Error === 'No capture processed'
+          )
+            return;
           console.error('[Store] fetchLastImageStats: both calls failed or returned no data');
           return;
         }

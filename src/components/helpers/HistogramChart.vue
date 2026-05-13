@@ -159,7 +159,9 @@
         <span v-if="statistics.HFR" class="text-gray-500 ml-1">{{
           t('components.helpers.histogram.hfr')
         }}</span>
-        <span v-if="statistics.HFR" class="text-gray-300">{{ Number(statistics.HFR).toFixed(2) }}</span>
+        <span v-if="statistics.HFR" class="text-gray-300">{{
+          Number(statistics.HFR).toFixed(2)
+        }}</span>
       </div>
       <div class="flex gap-2">
         <span class="text-gray-500">{{ t('components.helpers.histogram.min') }}</span>

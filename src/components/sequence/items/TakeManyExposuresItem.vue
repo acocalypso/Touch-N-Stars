@@ -6,9 +6,9 @@
         <span class="text-xs text-slate-500">G{{ exposure.Gain }}</span>
         <span class="text-xs text-slate-500">{{ exposure.ImageType }}</span>
       </template>
-      <span v-if="loopIterations" class="text-xs text-slate-400 font-mono"
-        >× {{ loopIterations }}</span
-      >
+      <span v-if="loopIterations" class="text-xs text-slate-400 font-mono">
+        {{ completedIterations }} / {{ loopIterations }}
+      </span>
     </template>
 
     <template v-if="exposure && loopCondition" #editor>
@@ -103,6 +103,7 @@ const store = useSequenceV2Store();
 const exposure = computed(() => props.item.Items?.[0] ?? null);
 const loopCondition = computed(() => props.item.Conditions?.[0] ?? null);
 const loopIterations = computed(() => loopCondition.value?.Iterations ?? null);
+const completedIterations = computed(() => loopCondition.value?.CompletedIterations ?? 0);
 
 const binningValue = computed(() => {
   const b = exposure.value?.Binning;

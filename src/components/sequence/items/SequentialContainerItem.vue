@@ -1,7 +1,9 @@
 <template>
   <ItemShell :item="item">
     <template v-if="item.Iterations > 0" #summary>
-      <span class="text-xs text-slate-400 font-mono">× {{ item.Iterations }}</span>
+      <span class="text-xs text-slate-400 font-mono"
+        >{{ item.CompletedIterations ?? 0 }} / {{ item.Iterations }}</span
+      >
     </template>
 
     <template #editor="{ save }">

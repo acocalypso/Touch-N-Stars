@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import tutorialContent from '@/assets/tutorial.json';
 import { apiStore } from '@/store/store';
 import { useImagetStore } from './imageStore';
+import { useSequenceStore } from './sequenceStore';
 import apiService from '@/services/apiService';
 
 export const useSettingsStore = defineStore('settings', {
@@ -168,6 +169,7 @@ export const useSettingsStore = defineStore('settings', {
   },
   actions: {
     async loadAllBackendSettings() {
+      const sequenceStore = useSequenceStore();
       await Promise.all([
         this.loadMountSettings(),
         this.loadUseNinaCache(),
@@ -175,6 +177,7 @@ export const useSettingsStore = defineStore('settings', {
         this.loadFlatsSettings(),
         this.loadGuiderSettings(),
         this.loadNavbarSettings(),
+        sequenceStore.loadSequenceControlsLocked(),
       ]);
     },
 

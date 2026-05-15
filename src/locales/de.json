@@ -516,6 +516,17 @@
       "triggers": "Trigger",
       "expandAll": "Alle erweitern",
       "collapseAll": "Alle zuklappen",
+      "addTypeButton": {
+        "searchPlaceholder": "Suchen…",
+        "noResults": "Keine Ergebnisse",
+        "addItem": "Item hinzufügen",
+        "addTrigger": "Trigger hinzufügen",
+        "addCondition": "Bedingung hinzufügen",
+        "add": "Hinzufügen",
+        "item": "Item",
+        "trigger": "Trigger",
+        "condition": "Bedingung"
+      },
       "details": {},
       "hfr": "HFR",
       "mean": "Mittelwert",
@@ -1068,6 +1079,15 @@
       "autofocus_active": "Autofokus aktiv",
       "autofocus": "Autofokus",
       "last_autofocus": "Letzter Autofokus",
+      "graph": {
+        "measurePoints": "Measure Points",
+        "quadraticTrendline": "Quadratic Trendline",
+        "hyperbolicTrendline": "Hyperbolic Trendline",
+        "quadraticMin": "Quadratic Min",
+        "hyperbolicMin": "Hyperbolic Min",
+        "value": "Value",
+        "invalidDate": "Ungültiges Datum"
+      },
       "settings": {
         "AutoFocusInitialOffsetSteps": "Initial Offset Steps",
         "AutoFocusStepSize": "Schrittgröße",
@@ -3503,7 +3523,9 @@
         "sessionStart": "Sitzungsstart",
         "sessionEnd": "Sitzungsende",
         "samplingStepMinutes": "Abtastschritt (Minuten)",
+        "samplingStepInfo": "Legt das Berechnungsintervall in Minuten fest. Kleinere Werte sind genauer, berechnen aber mehr Zeitpunkte.",
         "maxChunkMinutes": "Max. Block (Minuten)",
+        "maxChunkInfo": "Begrenzt die maximale zusammenhaengende Planungsdauer pro Ziel, bevor der Scheduler zu einem anderen Ziel wechseln kann.",
         "siteLat": "Standort Breite",
         "siteLon": "Länge",
         "siteAlt": "Höhe",
@@ -3783,6 +3805,77 @@
         "failureTagsHint": "Kommagetrennt (z. B. warning,rotating_light)",
         "failurePriority": "Fehler-Priorität"
       }
+    },
+    "phd2logviewer": {
+      "cal": {
+        "angle": "Winkel (°)",
+        "axis": "Achse",
+        "backlash": "Gegenreaktion",
+        "dist": "Dist (px)",
+        "noData": "Keine Kalibrierungsdaten für diese Sitzung.",
+        "noSummary": "Keine zusammenfassenden Daten (Kalibrierung wurde möglicherweise unterbrochen)",
+        "over": "über",
+        "parity": "Parität",
+        "rate": "Rate (px/s)",
+        "steps": "Schritte"
+      },
+      "clear": "Klar",
+      "emptyState": "Wählen Sie aus der Dropdown-Liste oben ein PHD2-Guide-Protokoll aus.",
+      "excludeDither": "Automatisches Ausschließen der Dither-Beruhigung",
+      "fft": {
+        "dominantPeriod": "Dominante Periode",
+        "subtitle": "Identifiziert periodische Fehlerharmonische in der RA-Führung.",
+        "title": "RA-Frequenzanalyse"
+      },
+      "info": {
+        "camera": "Kamera",
+        "duration": "Dauer",
+        "ended": "Beendet",
+        "focalLength": "Brennweite",
+        "mount": "Montieren",
+        "pixelScale": "Pixelskala",
+        "profile": "Profil",
+        "started": "Sitzung gestartet",
+        "totalFrames": "Gesamtzahl der Frames"
+      },
+      "legend": {
+        "dec": "Dez",
+        "dither": "Zittern",
+        "ra": "RA",
+        "raRaw": "RA (roh)"
+      },
+      "loading": "Laden…",
+      "noLogs": "Keine Protokolle gefunden",
+      "rawRa": "Rohe, unkorrigierte RA",
+      "refresh": "Protokollliste aktualisieren",
+      "selectLog": "— Wählen Sie ein Protokoll aus —",
+      "session": "Sitzung:",
+      "settings": {
+        "notConfigured": "Bitte konfigurieren Sie das PHD2-Protokollverzeichnis",
+        "placeholder": "Kein Pfad konfiguriert",
+        "saveError": "Pfad konnte nicht gespeichert werden",
+        "title": "Protokollverzeichnis"
+      },
+      "statistics": "Statistiken",
+      "stats": {
+        "combined": "kombiniert",
+        "decRms": "Dezember RMS",
+        "declination": "Deklination",
+        "frames": "Rahmen",
+        "maxError": "maximaler Fehler",
+        "of": "von {total}",
+        "peakDec": "Spitzenwert im Dezember",
+        "peakRa": "Spitzen-RA",
+        "raRms": "RA RMS",
+        "rightAscension": "Rektaszension",
+        "totalRms": "Gesamt-RMS"
+      },
+      "subtitle": "Wählen Sie ein PHD2-Guide-Protokoll aus, um die Guiding-Leistung und -Statistiken zu visualisieren.",
+      "tabs": {
+        "calibration": "Kalibrierung",
+        "guide": "Leitfadendiagramm"
+      },
+      "title": "PHD2-Protokollanzeige"
     }
   },
   "pinsDevices": {
@@ -4085,7 +4178,13 @@
       "smtpSsl": "Verwenden Sie TLS/SSL",
       "testDiscord": "Testnachricht senden",
       "testEmail": "Test-E-Mail senden",
-      "testPushover": "Testbenachrichtigung senden"
+      "testPushover": "Testbenachrichtigung senden",
+      "localDashboardEnabled": "Aktivieren Sie den lokalen Webserver",
+      "localDashboardHint": "Stellt Ihren Sitzungsverlauf von einem lokalen Webserver bereit, auf den Sie über jeden Browser in Ihrem Netzwerk zugreifen können. \nVerwenden Sie ein VPN für den Fernzugriff.",
+      "localDashboardPort": "Hafen",
+      "localDashboardTitle": "Lokales Dashboard",
+      "showChartFilterChips": "Filterchipreihe anzeigen",
+      "showChartTargetChips": "Zielchipreihe anzeigen"
     },
     "stats": {
       "accepted": "Akzeptiert",

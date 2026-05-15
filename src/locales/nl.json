@@ -473,6 +473,17 @@
       "triggers": "Triggers",
       "expandAll": "Alles uitvouwen",
       "collapseAll": "Alles inklappen",
+      "addTypeButton": {
+        "searchPlaceholder": "Zoeken…",
+        "noResults": "Geen resultaten",
+        "addItem": "Item toevoegen",
+        "addTrigger": "Trigger toevoegen",
+        "addCondition": "Voorwaarde toevoegen",
+        "add": "Toevoegen",
+        "item": "Item",
+        "trigger": "Trigger",
+        "condition": "Voorwaarde"
+      },
       "details": {},
       "hfr": "HFR",
       "mean": "Gemeen",
@@ -1028,6 +1039,15 @@
       "autofocus_active": "Autofocus actief",
       "autofocus": "Autofocus",
       "last_autofocus": "Laatste autofocus",
+      "graph": {
+        "measurePoints": "Measure Points",
+        "quadraticTrendline": "Quadratic Trendline",
+        "hyperbolicTrendline": "Hyperbolic Trendline",
+        "quadraticMin": "Quadratic Min",
+        "hyperbolicMin": "Hyperbolic Min",
+        "value": "Value",
+        "invalidDate": "Ongeldige datum"
+      },
       "settings": {
         "AutoFocusInitialOffsetSteps": "Initiële offset stappen",
         "AutoFocusStepSize": "Stapgrootte",
@@ -3547,7 +3567,9 @@
         "sessionStart": "Sessie begint",
         "siteAlt": "alt",
         "siteLat": "Site lat",
-        "siteLon": "lang"
+        "siteLon": "lang",
+        "maxChunkInfo": "Beperkt het maximale aaneengesloten geplande blok per doel voordat de planner naar een ander doel kan overschakelen.",
+        "samplingStepInfo": "Definieert het berekeningsinterval in minuten. \nLagere waarden verhogen de nauwkeurigheid, maar evalueren meer tijdlijnpunten."
       },
       "subtitle": "Mobile-first planning voor zichtbaarheid van doelen, beperkingen en het invoegen van reeksen.",
       "targetCard": {
@@ -3649,6 +3671,77 @@
       "deleteDirectoryMessage": "Delete directory \"{name}\" recursively?",
       "deleteFileTitle": "Delete File",
       "deleteFileMessage": "Delete file \"{name}\"?"
+    },
+    "phd2logviewer": {
+      "cal": {
+        "angle": "Hoek (°)",
+        "axis": "As",
+        "backlash": "Verzet",
+        "dist": "Afstand (px)",
+        "noData": "Geen kalibratiegegevens voor deze sessie.",
+        "noSummary": "Geen samenvattende gegevens (kalibratie is mogelijk onderbroken)",
+        "over": "over",
+        "parity": "Pariteit",
+        "rate": "Tarief (px/s)",
+        "steps": "Stappen"
+      },
+      "clear": "Duidelijk",
+      "emptyState": "Selecteer een PHD2-gidslogboek in de vervolgkeuzelijst hierboven.",
+      "excludeDither": "Dither-afwikkeling automatisch uitsluiten",
+      "fft": {
+        "dominantPeriod": "Dominante periode",
+        "subtitle": "Identificeert periodieke foutharmonischen in RA-geleiding.",
+        "title": "RA-frequentieanalyse"
+      },
+      "info": {
+        "camera": "Camera",
+        "duration": "Duur",
+        "ended": "Beëindigd",
+        "focalLength": "Brandpuntsafstand",
+        "mount": "Monteren",
+        "pixelScale": "Pixelschaal",
+        "profile": "Profiel",
+        "started": "Sessie begonnen",
+        "totalFrames": "Totaal kaders"
+      },
+      "legend": {
+        "dec": "dec",
+        "dither": "Ditheren",
+        "ra": "RA",
+        "raRaw": "RA (rauw)"
+      },
+      "loading": "Laden…",
+      "noLogs": "Geen logboeken gevonden",
+      "rawRa": "Ruwe, ongecorrigeerde RA",
+      "refresh": "Ververs de loglijst",
+      "selectLog": "— selecteer een logboek —",
+      "session": "Sessie:",
+      "settings": {
+        "notConfigured": "Configureer de PHD2-logboekmap",
+        "placeholder": "Geen pad geconfigureerd",
+        "saveError": "Kan pad niet opslaan",
+        "title": "Logboekmap"
+      },
+      "statistics": "Statistieken",
+      "stats": {
+        "combined": "gecombineerd",
+        "decRms": "december RMS",
+        "declination": "declinatie",
+        "frames": "Lijsten",
+        "maxError": "maximale fout",
+        "of": "van {totaal}",
+        "peakDec": "Piek december",
+        "peakRa": "Piek RA",
+        "raRms": "RA RMS",
+        "rightAscension": "rechte klimming",
+        "totalRms": "Totaal RMS"
+      },
+      "subtitle": "Selecteer een PHD2-gidslogboek om de prestaties en statistieken van de begeleiding te visualiseren.",
+      "tabs": {
+        "calibration": "Kalibratie",
+        "guide": "Gidsgrafiek"
+      },
+      "title": "PHD2 Logviewer"
     }
   },
   "pinsDevices": {
@@ -3951,7 +4044,13 @@
       "smtpSsl": "Gebruik TLS/SSL",
       "testDiscord": "Testbericht verzenden",
       "testEmail": "Test-e-mail verzenden",
-      "testPushover": "Testmelding verzenden"
+      "testPushover": "Testmelding verzenden",
+      "localDashboardEnabled": "Schakel lokale webserver in",
+      "localDashboardHint": "Serveert uw sessiegeschiedenis vanaf een lokale webserver die toegankelijk is vanuit elke browser in uw netwerk. \nGebruik een VPN voor externe toegang.",
+      "localDashboardPort": "Haven",
+      "localDashboardTitle": "Lokaal dashboard",
+      "showChartFilterChips": "Toon filterchiprij",
+      "showChartTargetChips": "Toon doelchiprij"
     },
     "stats": {
       "accepted": "Geaccepteerd",

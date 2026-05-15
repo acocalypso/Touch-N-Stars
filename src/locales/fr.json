@@ -473,6 +473,17 @@
       "triggers": "Déclencheurs",
       "expandAll": "Tout développer",
       "collapseAll": "Tout réduire",
+      "addTypeButton": {
+        "searchPlaceholder": "Rechercher…",
+        "noResults": "Aucun résultat",
+        "addItem": "Ajouter un élément",
+        "addTrigger": "Ajouter un déclencheur",
+        "addCondition": "Ajouter une condition",
+        "add": "Ajouter",
+        "item": "Élément",
+        "trigger": "Déclencheur",
+        "condition": "Condition"
+      },
       "details": {},
       "hfr": "HFR",
       "mean": "Moyenne",
@@ -1028,6 +1039,15 @@
       "autofocus_active": "Autofocus actif",
       "autofocus": "Mise au point automatique",
       "last_autofocus": "Dernier autofocus",
+      "graph": {
+        "measurePoints": "Measure Points",
+        "quadraticTrendline": "Quadratic Trendline",
+        "hyperbolicTrendline": "Hyperbolic Trendline",
+        "quadraticMin": "Quadratic Min",
+        "hyperbolicMin": "Hyperbolic Min",
+        "value": "Value",
+        "invalidDate": "Date invalide"
+      },
       "settings": {
         "AutoFocusInitialOffsetSteps": "Étapes de compensation initiales",
         "AutoFocusStepSize": "Taille du pas",
@@ -3547,7 +3567,9 @@
         "sessionStart": "Début de séance",
         "siteAlt": "alt",
         "siteLat": "Latitude du site",
-        "siteLon": "lon"
+        "siteLon": "lon",
+        "maxChunkInfo": "Limite le nombre maximal de blocs planifiés continus par cible avant que le planificateur puisse passer à une autre cible.",
+        "samplingStepInfo": "Définit l'intervalle de calcul en minutes. \nDes valeurs inférieures augmentent la précision mais évaluent davantage de points dans la chronologie."
       },
       "subtitle": "Planification axée sur le mobile pour la visibilité des cibles, les contraintes et l'insertion de séquences.",
       "targetCard": {
@@ -3649,6 +3671,77 @@
       "deleteDirectoryMessage": "Delete directory \"{name}\" recursively?",
       "deleteFileTitle": "Delete File",
       "deleteFileMessage": "Delete file \"{name}\"?"
+    },
+    "phd2logviewer": {
+      "cal": {
+        "angle": "Angle (°)",
+        "axis": "Axe",
+        "backlash": "Contrecoup",
+        "dist": "Distance (px)",
+        "noData": "Aucune donnée d'étalonnage pour cette session.",
+        "noSummary": "Aucune donnée récapitulative (le calibrage peut avoir été interrompu)",
+        "over": "sur",
+        "parity": "Parité",
+        "rate": "Débit (px/s)",
+        "steps": "Mesures"
+      },
+      "clear": "Clair",
+      "emptyState": "Sélectionnez un journal de guide PHD2 dans la liste déroulante ci-dessus.",
+      "excludeDither": "Règlement du tramage avec exclusion automatique",
+      "fft": {
+        "dominantPeriod": "Période dominante",
+        "subtitle": "Identifie les harmoniques d’erreur périodiques dans le guidage RA.",
+        "title": "Analyse de fréquence RA"
+      },
+      "info": {
+        "camera": "Caméra",
+        "duration": "Durée",
+        "ended": "Terminé",
+        "focalLength": "Distance focale",
+        "mount": "Monter",
+        "pixelScale": "Échelle de pixels",
+        "profile": "Profil",
+        "started": "Séance démarrée",
+        "totalFrames": "Nombre total d'images"
+      },
+      "legend": {
+        "dec": "Déc",
+        "dither": "Tremblement",
+        "ra": "RA",
+        "raRaw": "RA (brut)"
+      },
+      "loading": "Chargement…",
+      "noLogs": "Aucun journal trouvé",
+      "rawRa": "RA brute non corrigée",
+      "refresh": "Actualiser la liste des journaux",
+      "selectLog": "— sélectionnez un journal —",
+      "session": "Session:",
+      "settings": {
+        "notConfigured": "Veuillez configurer le répertoire des journaux PHD2",
+        "placeholder": "Aucun chemin configuré",
+        "saveError": "Échec de l'enregistrement du chemin",
+        "title": "Répertoire des journaux"
+      },
+      "statistics": "Statistiques",
+      "stats": {
+        "combined": "combiné",
+        "decRms": "Décembre RMS",
+        "declination": "déclinaison",
+        "frames": "Cadres",
+        "maxError": "erreur maximale",
+        "of": "de {total}",
+        "peakDec": "Pic décembre",
+        "peakRa": "RA maximale",
+        "raRms": "RA RMS",
+        "rightAscension": "ascension droite",
+        "totalRms": "RMS total"
+      },
+      "subtitle": "Sélectionnez un journal de guidage PHD2 pour visualiser les performances et les statistiques de guidage.",
+      "tabs": {
+        "calibration": "Étalonnage",
+        "guide": "Graphique guide"
+      },
+      "title": "Visionneuse de journaux PHD2"
     }
   },
   "pinsDevices": {
@@ -3951,7 +4044,13 @@
       "smtpSsl": "Utiliser TLS/SSL",
       "testDiscord": "Envoyer un message test",
       "testEmail": "Envoyer un e-mail de test",
-      "testPushover": "Envoyer une notification de test"
+      "testPushover": "Envoyer une notification de test",
+      "localDashboardEnabled": "Activer le serveur Web local",
+      "localDashboardHint": "Sert l'historique de vos sessions à partir d'un serveur Web local accessible depuis n'importe quel navigateur de votre réseau. \nUtilisez un VPN pour l'accès à distance.",
+      "localDashboardPort": "Port",
+      "localDashboardTitle": "Tableau de bord local",
+      "showChartFilterChips": "Afficher la rangée de puces de filtre",
+      "showChartTargetChips": "Afficher la rangée de jetons cible"
     },
     "stats": {
       "accepted": "Accepté",

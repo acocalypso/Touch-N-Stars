@@ -36,9 +36,7 @@ export const useImagetStore = defineStore('imageStore', {
 
     async getImage() {
       if (this.isImageFetching) {
-        console.log(
-          '[ImageStore] getImage: skip — fetch in progress, queueing pending re-fetch'
-        );
+        console.log('[ImageStore] getImage: skip — fetch in progress, queueing pending re-fetch');
         this.pendingFetch = true;
         return;
       }
@@ -80,15 +78,33 @@ export const useImagetStore = defineStore('imageStore', {
           imageResponse?.data?.size
         );
 
-        if (imageResponse && imageResponse.data.type !== 'application/json') {
+        const responseType = imageResponse?.data?.type ?? '';
+        const isJsonResponse = responseType.startsWith('application/json');
+        if (imageResponse && !isJsonResponse) {
           if (this.imageData) {
             URL.revokeObjectURL(this.imageData);
             // Clean up old image from histogram store
             const histogramStore = useHistogramStore();
             histogramStore.clearImageCache(this.imageData);
           }
-          this.imageData = URL.createObjectURL(imageResponse.data);
-          await this.validateImage(this.imageData);
+          const newImageUrl = URL.createObjectURL(imageResponse.data);
+          this.imageData = newImageUrl;
+          const store = apiStore();
+          if (store.isPINS) {
+            store.fetchLastImageStats();
+          }
+          const isValid = await this.validateImage(newImageUrl);
+          if (!isValid) {
+            console.warn(
+              '[ImageStore] getImage: validation failed, clearing imageData to avoid stuck broken blob'
+            );
+            URL.revokeObjectURL(newImageUrl);
+            const histogramStore = useHistogramStore();
+            histogramStore.clearImageCache(newImageUrl);
+            if (this.imageData === newImageUrl) {
+              this.imageData = null;
+            }
+          }
         } else {
           console.log(
             '[ImageStore] getImage: response is JSON (no image yet on backend), imageData unchanged'

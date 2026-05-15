@@ -435,6 +435,17 @@
       "triggers": "Тригери",
       "expandAll": "Розгорнути все",
       "collapseAll": "Згорнути все",
+      "addTypeButton": {
+        "searchPlaceholder": "Пошук…",
+        "noResults": "Немає результатів",
+        "addItem": "Додати елемент",
+        "addTrigger": "Додати тригер",
+        "addCondition": "Додати умову",
+        "add": "Додати",
+        "item": "Елемент",
+        "trigger": "Тригер",
+        "condition": "Умова"
+      },
       "details": {},
       "hfr": "HFR",
       "mean": "Середнє",
@@ -1008,6 +1019,15 @@
       "autofocus_active": "Автофокус активний",
       "autofocus": "Автофокус",
       "last_autofocus": "Останній автофокус",
+      "graph": {
+        "measurePoints": "Measure Points",
+        "quadraticTrendline": "Quadratic Trendline",
+        "hyperbolicTrendline": "Hyperbolic Trendline",
+        "quadraticMin": "Quadratic Min",
+        "hyperbolicMin": "Hyperbolic Min",
+        "value": "Value",
+        "invalidDate": "Недійсна дата"
+      },
       "settings": {
         "AutoFocusInitialOffsetSteps": "Початкові кроки зміщення",
         "AutoFocusStepSize": "Розмір кроку",
@@ -3317,7 +3337,9 @@
         "siteLat": "Широта",
         "siteLon": "довг",
         "siteAlt": "вис",
-        "scheduled": "заплановано"
+        "scheduled": "заплановано",
+        "maxChunkInfo": "Обмежує максимальний безперервний запланований блок на ціль, перш ніж планувальник зможе переключитися на іншу ціль.",
+        "samplingStepInfo": "Визначає інтервал розрахунку в хвилинах. \nМенші значення підвищують точність, але оцінюють більше точок часової шкали."
       },
       "warnings": {
         "sequenceVersionRequired": "Вставка в послідовність потребує плагін TNS 1.2.8.0+ (або режим PINS)."
@@ -3649,6 +3671,77 @@
       "subtitle": "Обчислюйте та зберігайте зміщення фокуса для кожного фільтра колеса фільтра",
       "title": "Калькулятор зміщення фільтра",
       "useRelativeOffsets": "Використовуйте відносні зсуви"
+    },
+    "phd2logviewer": {
+      "cal": {
+        "angle": "Кут (°)",
+        "axis": "Вісь",
+        "backlash": "Люфт",
+        "dist": "Відстань (px)",
+        "noData": "Немає даних калібрування для цього сеансу.",
+        "noSummary": "Немає підсумкових даних (може бути перервано калібрування)",
+        "over": "закінчено",
+        "parity": "Парність",
+        "rate": "Швидкість (px/s)",
+        "steps": "Кроки"
+      },
+      "clear": "ясно",
+      "emptyState": "Виберіть журнал довідника PHD2 зі спадного списку вище.",
+      "excludeDither": "Автоматичне виключення регулювання тремтіння",
+      "fft": {
+        "dominantPeriod": "Домінантний період",
+        "subtitle": "Ідентифікує гармоніки періодичної помилки в напрямі RA.",
+        "title": "Частотний аналіз РА"
+      },
+      "info": {
+        "camera": "Камера",
+        "duration": "Тривалість",
+        "ended": "Завершено",
+        "focalLength": "Фокусна відстань",
+        "mount": "кріплення",
+        "pixelScale": "Масштаб пікселів",
+        "profile": "Профіль",
+        "started": "Сеанс розпочато",
+        "totalFrames": "Всього кадрів"
+      },
+      "legend": {
+        "dec": "груд",
+        "dither": "Дизер",
+        "ra": "RA",
+        "raRaw": "RA (необроблений)"
+      },
+      "loading": "Завантаження…",
+      "noLogs": "Журнали не знайдено",
+      "rawRa": "Необроблений, невиправлений РА",
+      "refresh": "Оновити список журналів",
+      "selectLog": "— виберіть журнал —",
+      "session": "Сесія:",
+      "settings": {
+        "notConfigured": "Будь ласка, налаштуйте каталог журналу PHD2",
+        "placeholder": "Шлях не налаштовано",
+        "saveError": "Не вдалося зберегти шлях",
+        "title": "Каталог журналів"
+      },
+      "statistics": "Статистика",
+      "stats": {
+        "combined": "комбіновані",
+        "decRms": "Dec RMS",
+        "declination": "відмінювання",
+        "frames": "Рамки",
+        "maxError": "максимальна помилка",
+        "of": "із {total}",
+        "peakDec": "Пік грудня",
+        "peakRa": "Пік RA",
+        "raRms": "RA RMS",
+        "rightAscension": "пряме сходження",
+        "totalRms": "Загальний RMS"
+      },
+      "subtitle": "Виберіть довідковий журнал PHD2, щоб візуалізувати продуктивність і статистику.",
+      "tabs": {
+        "calibration": "Калібрування",
+        "guide": "Керівний графік"
+      },
+      "title": "Перегляд журналів PHD2"
     }
   },
   "dialogs": {
@@ -3951,7 +4044,13 @@
       "smtpSsl": "Використовуйте TLS/SSL",
       "testDiscord": "Надіслати тестове повідомлення",
       "testEmail": "Надіслати тестовий електронний лист",
-      "testPushover": "Надіслати тестове сповіщення"
+      "testPushover": "Надіслати тестове сповіщення",
+      "localDashboardEnabled": "Увімкнути локальний веб-сервер",
+      "localDashboardHint": "Обслуговує вашу історію сеансів з локального веб-сервера, доступного з будь-якого браузера у вашій мережі. \nВикористовуйте VPN для віддаленого доступу.",
+      "localDashboardPort": "Порт",
+      "localDashboardTitle": "Локальна інформаційна панель",
+      "showChartFilterChips": "Показати рядок мікросхем фільтра",
+      "showChartTargetChips": "Показати цільовий рядок мікросхем"
     },
     "stats": {
       "accepted": "прийнято",

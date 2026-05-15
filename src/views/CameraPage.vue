@@ -111,7 +111,7 @@
         <!-- Histogram Overlay -->
         <div v-if="showHistogram && imageStore.imageData" class="z-50" :class="[histogramClasses]">
           <div
-            v-if="statsLoading && store.isPINS"
+            v-if="statsLoading && store.isPINS && showHistogram"
             class="absolute inset-0 z-10 flex items-center justify-center bg-black/40 rounded"
           >
             <svg
@@ -609,7 +609,7 @@ const setStatsLoading = (value) => {
 watch(
   () => imageStore.imageData,
   (newVal, oldVal) => {
-    if (newVal && oldVal && newVal !== oldVal && store.isPINS) {
+    if (newVal && oldVal && newVal !== oldVal && store.isPINS && showHistogram.value) {
       setStatsLoading(true);
     }
   }
@@ -625,10 +625,23 @@ watch(
 );
 
 watch([showHistogram, () => imageStore.imageData], ([panelOpen, imageData]) => {
-  if (panelOpen && imageData) {
-    histogramStore.requestHistogram(imageData);
-  }
+  if (!panelOpen || !imageData) return;
+  histogramStore.requestHistogram(imageData).then(() => {
+    if (store.isPINS && store.lastImageStats?.Histogram) {
+      histogramStore.injectApiHistogram(imageData, store.lastImageStats.Histogram);
+    }
+  });
 });
+
+watch(
+  () => store.lastImageStats,
+  (newVal) => {
+    if (!store.isPINS || !showHistogram.value || !imageStore.imageData) return;
+    if (newVal?.Histogram) {
+      histogramStore.injectApiHistogram(imageStore.imageData, newVal.Histogram);
+    }
+  }
+);
 
 // Load image on mount if imageData is empty
 onMounted(async () => {

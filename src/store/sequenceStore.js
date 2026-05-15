@@ -52,6 +52,28 @@ export const useSequenceStore = defineStore('sequenceStore', {
         this.sequenceEdit = false;
         this.startFetching();
       }
+
+      this.saveSequenceControlsLocked();
+    },
+
+    async loadSequenceControlsLocked() {
+      const response = await apiService.getSetting('sequence_controls_locked');
+      if (response?.Response?.Value !== undefined) {
+        this.sequenceControlsLocked = response.Response.Value === 'true';
+      }
+    },
+
+    async saveSequenceControlsLocked() {
+      const res = await apiService.createSetting({
+        Key: 'sequence_controls_locked',
+        Value: String(this.sequenceControlsLocked),
+      });
+      if (res?.StatusCode === 409) {
+        await apiService.updateSetting(
+          'sequence_controls_locked',
+          String(this.sequenceControlsLocked)
+        );
+      }
     },
     setImageTargetName(index, name) {
       if (!Number.isInteger(index) || index < 0) return;

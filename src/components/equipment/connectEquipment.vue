@@ -278,17 +278,23 @@
       <h2 class="text-2xl font-semibold">{{ $t('components.switch.indi.settings') }}</h2>
     </template>
     <template #body>
-      <SettingsAlpacaDirect
-        v-if="isAlpacaDirect(selectedSwitchObj)"
-        deviceType="switch"
-        :selectedDevice="selectedSwitchDevice"
-        :deviceId="selectedSwitchObj?.Id"
-      />
-      <SettingsSerialConnection
-        v-else
-        equipmentType="switch"
-        :selectedDevice="selectedSwitchDevice"
-      />
+      <div class="flex flex-col gap-2">
+        <SettingsAlpacaDirect
+          v-if="isAlpacaDirect(selectedSwitchObj)"
+          deviceType="switch"
+          :selectedDevice="selectedSwitchDevice"
+          :deviceId="selectedSwitchObj?.Id"
+        />
+        <SettingsSerialConnection
+          v-else
+          equipmentType="switch"
+          :selectedDevice="selectedSwitchDevice"
+        />
+        <SettingsSwitchSV241Pro
+          :selectedDevice="selectedSwitchDevice"
+          :selectedDeviceObj="selectedSwitchObj"
+        />
+      </div>
     </template>
   </Modal>
 
@@ -299,7 +305,10 @@
     </template>
     <template #body>
       <div class="flex flex-col gap-2">
-        <SettingsFilterWheelSlotNum :selectedDevice="selectedFilterDevice" :selectedDeviceObj="selectedFilterObj" />
+        <SettingsFilterWheelSlotNum
+          :selectedDevice="selectedFilterDevice"
+          :selectedDeviceObj="selectedFilterObj"
+        />
         <SettingsAlpacaDirect
           v-if="isAlpacaDirect(selectedFilterObj)"
           deviceType="filterwheel"
@@ -379,6 +388,7 @@ import SettingsSerialConnection from '@/components/equipment/SettingsSerialConne
 import SettingsWeather from '@/components/equipment/SettingsWeather.vue';
 import SettingsAlpacaDirect from '@/components/equipment/SettingsAlpacaDirect.vue';
 import SettingsFilterWheelSlotNum from '@/components/equipment/SettingsFilterWheelSlotNum.vue';
+import SettingsSwitchSV241Pro from '@/components/equipment/SettingsSwitchSV241Pro.vue';
 import { checkMountConnectionPermission } from '@/utils/locationSyncUtils';
 
 const { t } = useI18n();
@@ -653,6 +663,14 @@ async function disconnectAll() {
           await apiService.rotatorAction('disconnect');
           break;
         case 'guider':
+          if (device.id === 'PHD2_Single') {
+            try {
+              await apiService.setPHD2StopGuiding();
+            } catch (_) {
+              /* not guiding */
+            }
+            await apiService.disconnectPHD2Equipment();
+          }
           await apiService.guiderAction('disconnect');
           break;
         case 'safety':

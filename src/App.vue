@@ -323,6 +323,7 @@ import UpdateAvailableModal from '@/components/helpers/UpdateAvailableModal.vue'
 import PickerOverlay from '@/components/helpers/PickerOverlay.vue';
 import Modal from '@/components/helpers/Modal.vue';
 import { usePinsStore } from '@/plugins/pins/store/pinsStore';
+import { useFlatassistantStore } from '@/store/flatassistantStore';
 import { useNightSummaryStore } from '@/plugins/nightsummary/store/nightsummaryStore';
 import {
   checkForManualUpdate,
@@ -398,6 +399,19 @@ watch(
 );
 const sequenceStore = useSequenceStore();
 const logStore = useLogStore();
+const flatsStore = useFlatassistantStore();
+
+// Global flat run outcome — fires regardless of which page is active.
+// prevRun !== null guard mirrors the original page watcher: first setter wins,
+// so fetchFlatsInfos (Running-state values) beats waitForCompletion (Finished-state
+// values which NINA may zero out).
+watch(
+  () => flatsStore.lastRun,
+  (run, prevRun) => {
+    if (!run || prevRun !== null) return;
+    flatsStore.commitRunOutcome(run);
+  }
+);
 const cameraStore = useCameraStore();
 const dialogStore = useDialogStore();
 const messageboxStore = useMessageboxStore();
@@ -565,6 +579,7 @@ function pauseApp() {
   store.stopFetchingInfo();
   logStore.stopFetchingLog();
   sequenceStore.stopFetching();
+  flatsStore.stopFetchingFlats();
   cameraStore.stopCountdown();
   dialogStore.stopPolling();
   // Keine States zurücksetzen - UI bleibt erhalten
@@ -591,6 +606,7 @@ async function resumeApp() {
     // PINS/Headless mode: Use SignalR for real-time updates
     await dialogStore.initializeDialogSignalR();
     await messageboxStore.initializeMessageboxSignalR();
+    flatsStore.startFetchingFlats();
   } else {
     // WPF mode: Use polling
     dialogStore.startPolling();
@@ -805,6 +821,7 @@ onMounted(async () => {
     // PINS/Headless mode: Use SignalR for real-time updates
     await dialogStore.initializeDialogSignalR();
     await messageboxStore.initializeMessageboxSignalR();
+    flatsStore.startFetchingFlats();
   } else {
     // WPF mode: Use polling
     dialogStore.startPolling();
@@ -938,6 +955,7 @@ onBeforeUnmount(async () => {
   store.stopFetchingInfo();
   logStore.stopFetchingLog();
   sequenceStore.stopFetching();
+  flatsStore.stopFetchingFlats();
 
   if (pinsUpgradeRecoveryTimer) {
     clearTimeout(pinsUpgradeRecoveryTimer);

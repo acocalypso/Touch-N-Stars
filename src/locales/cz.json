@@ -473,6 +473,17 @@
       "triggers": "Spouštěče:",
       "expandAll": "Rozbalit vše",
       "collapseAll": "Sbalit vše",
+      "addTypeButton": {
+        "searchPlaceholder": "Hledat…",
+        "noResults": "Žádné výsledky",
+        "addItem": "Přidat položku",
+        "addTrigger": "Přidat spouštěč",
+        "addCondition": "Přidat podmínku",
+        "add": "Přidat",
+        "item": "Položka",
+        "trigger": "Spouštěč",
+        "condition": "Podmínka"
+      },
       "details": {},
       "hfr": "HFR",
       "mean": "Průměr",
@@ -1028,6 +1039,15 @@
       "autofocus_active": "AutoOstření aktivní",
       "autofocus": "AutoOstření",
       "last_autofocus": "Poslední AutoOstření",
+      "graph": {
+        "measurePoints": "Measure Points",
+        "quadraticTrendline": "Quadratic Trendline",
+        "hyperbolicTrendline": "Hyperbolic Trendline",
+        "quadraticMin": "Quadratic Min",
+        "hyperbolicMin": "Hyperbolic Min",
+        "value": "Value",
+        "invalidDate": "Neplatné datum"
+      },
       "settings": {
         "AutoFocusInitialOffsetSteps": "Kroky počátečního posunu",
         "AutoFocusStepSize": "Velikost kroku",
@@ -3547,7 +3567,9 @@
         "sessionStart": "Session start",
         "siteAlt": "alt",
         "siteLat": "Site lat",
-        "siteLon": "lon"
+        "siteLon": "lon",
+        "maxChunkInfo": "Limits the maximum continuous scheduled block per target before the scheduler can switch to another target.",
+        "samplingStepInfo": "Defines the calculation interval in minutes. Lower values increase precision but evaluate more timeline points."
       },
       "subtitle": "Mobile-first planning for target visibility, constraints, and sequence insertion.",
       "targetCard": {
@@ -3649,6 +3671,77 @@
       "deleteDirectoryMessage": "Delete directory \"{name}\" recursively?",
       "deleteFileTitle": "Delete File",
       "deleteFileMessage": "Delete file \"{name}\"?"
+    },
+    "phd2logviewer": {
+      "cal": {
+        "angle": "Angle (°)",
+        "axis": "Axis",
+        "backlash": "Backlash",
+        "dist": "Dist (px)",
+        "noData": "No calibration data for this session.",
+        "noSummary": "No summary data (calibration may have been interrupted)",
+        "over": "over",
+        "parity": "Parity",
+        "rate": "Rate (px/s)",
+        "steps": "Steps"
+      },
+      "clear": "Clear",
+      "emptyState": "Select a PHD2 guide log from the dropdown above.",
+      "excludeDither": "Auto-exclude dither settling",
+      "fft": {
+        "dominantPeriod": "Dominant period",
+        "subtitle": "Identifies periodic error harmonics in RA guiding.",
+        "title": "RA Frequency Analysis"
+      },
+      "info": {
+        "camera": "Camera",
+        "duration": "Duration",
+        "ended": "Ended",
+        "focalLength": "Focal length",
+        "mount": "Mount",
+        "pixelScale": "Pixel scale",
+        "profile": "Profile",
+        "started": "Session started",
+        "totalFrames": "Total frames"
+      },
+      "legend": {
+        "dec": "Dec",
+        "dither": "Dither",
+        "ra": "RA",
+        "raRaw": "RA (raw)"
+      },
+      "loading": "Loading…",
+      "noLogs": "No logs found",
+      "rawRa": "Raw, uncorrected RA",
+      "refresh": "Refresh log list",
+      "selectLog": "— select a log —",
+      "session": "Session:",
+      "settings": {
+        "notConfigured": "Please configure the PHD2 log directory",
+        "placeholder": "No path configured",
+        "saveError": "Failed to save path",
+        "title": "Log Directory"
+      },
+      "statistics": "Statistics",
+      "stats": {
+        "combined": "combined",
+        "decRms": "Dec RMS",
+        "declination": "declination",
+        "frames": "Frames",
+        "maxError": "max error",
+        "of": "of {total}",
+        "peakDec": "Peak Dec",
+        "peakRa": "Peak RA",
+        "raRms": "RA RMS",
+        "rightAscension": "right ascension",
+        "totalRms": "Total RMS"
+      },
+      "subtitle": "Select a PHD2 guide log to visualize guiding performance and statistics.",
+      "tabs": {
+        "calibration": "Calibration",
+        "guide": "Guide Graph"
+      },
+      "title": "PHD2 Log Viewer"
     }
   },
   "pinsDevices": {
@@ -3951,7 +4044,13 @@
       "smtpSsl": "Use TLS/SSL",
       "testDiscord": "Send Test Message",
       "testEmail": "Send Test Email",
-      "testPushover": "Send Test Notification"
+      "testPushover": "Send Test Notification",
+      "localDashboardEnabled": "Enable local web server",
+      "localDashboardHint": "Serves your session history from a local web server accessible from any browser on your network. Use a VPN for remote access.",
+      "localDashboardPort": "Port",
+      "localDashboardTitle": "Local Dashboard",
+      "showChartFilterChips": "Show filter chip row",
+      "showChartTargetChips": "Show target chip row"
     },
     "stats": {
       "accepted": "Accepted",

@@ -29,7 +29,7 @@
             v-model="search"
             type="text"
             inputmode="search"
-            placeholder="Suchen…"
+            :placeholder="t('components.sequence.addTypeButton.searchPlaceholder')"
             class="w-full bg-slate-700/60 border border-slate-600 rounded px-2 py-1 text-xs text-gray-200 placeholder-slate-500 outline-none focus:border-cyan-500/50"
             @click.stop
             @focus="updateDropdownPosition"
@@ -53,7 +53,9 @@
               </button>
             </template>
           </template>
-          <div v-else class="px-3 py-3 text-xs text-slate-500 text-center">Keine Ergebnisse</div>
+          <div v-else class="px-3 py-3 text-xs text-slate-500 text-center">
+            {{ t('components.sequence.addTypeButton.noResults') }}
+          </div>
         </div>
       </div>
     </Teleport>
@@ -62,10 +64,13 @@
 
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { PlusIcon } from '@heroicons/vue/24/outline';
 import { useSequenceV2Store } from '@/store/sequenceV2Store';
 import { useSequenceStore } from '@/store/sequenceStore';
 import { ITEM_COMPONENTS } from './items/index.js';
+
+const { t } = useI18n();
 
 const props = defineProps({
   targetId: { type: String, required: true },
@@ -87,14 +92,19 @@ const dropdownStyle = ref({});
 const label = computed(
   () =>
     ({
-      item: 'Item hinzufügen',
-      trigger: 'Trigger hinzufügen',
-      condition: 'Condition hinzufügen',
-    })[props.mode] ?? 'Hinzufügen'
+      item: t('components.sequence.addTypeButton.addItem'),
+      trigger: t('components.sequence.addTypeButton.addTrigger'),
+      condition: t('components.sequence.addTypeButton.addCondition'),
+    })[props.mode] ?? t('components.sequence.addTypeButton.add')
 );
 
 const shortLabel = computed(
-  () => ({ item: 'Item', trigger: 'Trigger', condition: 'Condition' })[props.mode] ?? 'Hinzufügen'
+  () =>
+    ({
+      item: t('components.sequence.addTypeButton.item'),
+      trigger: t('components.sequence.addTypeButton.trigger'),
+      condition: t('components.sequence.addTypeButton.condition'),
+    })[props.mode] ?? t('components.sequence.addTypeButton.add')
 );
 
 const MODE_COLOR_CLASSES = {

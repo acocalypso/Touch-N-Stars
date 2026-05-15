@@ -194,7 +194,7 @@ async function loadSettings() {
 
 async function persistSettings() {
   const response = await apiService.setAlpacaDirectSettings(props.deviceType, {
-    IpAddress: ipAddress.value,
+    IpAddress: ipAddress.value.replace(/\s/g, ''),
     Port: port.value,
     DeviceNumber: deviceNumber.value,
     ServiceType: serviceType.value,

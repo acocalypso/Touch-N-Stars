@@ -32,14 +32,18 @@ onMounted(() => {
 
 async function setFanSpeed() {
   try {
-    //equipment/filterwheel/set-setting?settingName=Unidirectional&newValue=false
-    const response = await apiService.cameraAction(
+    const cameraResponse = await apiService.cameraAction(
       `set-setting?settingName=FanSpeed&newValue=${fanSpeed.value}`
     );
+    console.log('[pinsSetFanSpeed Camera] ', cameraResponse);
+    const profileResponse = await apiService.profileChangeValue(
+      'CameraSettings-FanSpeed',
+      fanSpeed.value
+    );
+    console.log('[pinsSetFanSpeed Profile] ', profileResponse);
     await cameraStore.readSettings();
-    console.log('[FanSpeed] ', response);
   } catch (error) {
-    console.log('Error while setting FanSpeed');
+    console.log('[pinsSetFanSpeed] Error while setting FanSpeed', error);
   }
 }
 </script>

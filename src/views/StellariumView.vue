@@ -396,9 +396,21 @@ onMounted(async () => {
               }
               if (stel.core.selection) {
                 isSearchVisible.value = false;
-                const selectedDesignations = stel.core.selection.designations();
-                selectedObject.value = selectedDesignations;
-                console.log('Object designations:', selectedDesignations);
+                const selectedDesignations = stel.core.selection.designations() || [];
+                // For coordinate-based search results (NGC, etc.) designations()
+                // returns nothing useful — prepend the last searched name so it
+                // gets passed on to framing/sequence.
+                const searchedName = stellariumStore.lastSearchedName;
+                stellariumStore.lastSearchedName = '';
+                const designationsList = Array.isArray(selectedDesignations)
+                  ? selectedDesignations
+                  : [];
+                if (searchedName && !designationsList.includes(searchedName)) {
+                  selectedObject.value = [searchedName, ...designationsList];
+                } else {
+                  selectedObject.value = designationsList;
+                }
+                console.log('Object designations:', selectedObject.value);
                 const info = stel.core.selection;
                 //console.log('Object information:', info);
 

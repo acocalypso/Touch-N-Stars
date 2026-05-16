@@ -203,6 +203,11 @@ async function selectTarget(item) {
   // Extended delay for iOS to ensure keyboard is fully dismissed
   const delayTime = isIOS ? 300 : 10;
 
+  // Remember the searched name so the StellariumView change handler can use it.
+  // Important for coordinate-based results (NGC, etc.) where Stellarium's
+  // designations() returns no usable name.
+  stellariumStore.lastSearchedName = item.Name || '';
+
   // Wrap the complex operations in setTimeout to prevent iOS UI thread blocking
   setTimeout(async () => {
     try {

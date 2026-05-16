@@ -5,6 +5,7 @@ export const useStellariumStore = defineStore('stellariumStore', {
   state: () => ({
     stel: null,
     baseUrl: '',
+    lastSearchedName: '',
     search: {
       RAangle: 0,
       DECangle: 0,

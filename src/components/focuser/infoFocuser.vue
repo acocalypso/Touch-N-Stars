@@ -55,6 +55,16 @@
         :Name="$t('components.focuser.StepSize')"
         :Value="focuserStore.focuserSettings.StepSize.toFixed(4) + ' µm'"
       />
+      <StatusString
+        v-if="
+          focuserStore.focuserSettings.MaxStep !== undefined &&
+          focuserStore.focuserSettings.MaxStep !== -1 &&
+          !isNaN(focuserStore.focuserSettings.MaxStep)
+        "
+        :isEnabled="true"
+        :Name="$t('components.focuser.settings.MaxStep')"
+        :Value="focuserStore.focuserSettings.MaxStep"
+      />
     </template>
   </div>
 </template>

@@ -49,7 +49,8 @@
       <StatusString
         v-if="
           focuserStore.focuserSettings.StepSize !== undefined &&
-          focuserStore.focuserSettings.StepSize !== -1
+          focuserStore.focuserSettings.StepSize !== -1 &&
+          !isNaN(focuserStore.focuserSettings.StepSize)
         "
         :isEnabled="true"
         :Name="$t('components.focuser.StepSize')"

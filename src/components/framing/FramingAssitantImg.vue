@@ -29,6 +29,47 @@
       <!-- Verschiebbares / drehbares Ziel-Element (nur für Moveable Tracking) -->
       <div ref="targetRef" :style="mosaicTargetStyle"></div>
 
+      <!-- Pan-Steuerung (oben links) -->
+      <div class="absolute top-3 left-3 z-10">
+        <div
+          class="bg-gray-800/90 border border-gray-600 rounded-lg p-1 grid grid-cols-3 grid-rows-3 gap-1"
+        >
+          <div></div>
+          <button
+            @click="pan(0, 1)"
+            aria-label="Pan up"
+            class="w-8 h-8 bg-gray-600 hover:bg-gray-500 rounded text-white text-sm font-bold transition-colors flex items-center justify-center"
+          >
+            ↑
+          </button>
+          <div></div>
+          <button
+            @click="pan(-1, 0)"
+            aria-label="Pan left"
+            class="w-8 h-8 bg-gray-600 hover:bg-gray-500 rounded text-white text-sm font-bold transition-colors flex items-center justify-center"
+          >
+            ←
+          </button>
+          <div></div>
+          <button
+            @click="pan(1, 0)"
+            aria-label="Pan right"
+            class="w-8 h-8 bg-gray-600 hover:bg-gray-500 rounded text-white text-sm font-bold transition-colors flex items-center justify-center"
+          >
+            →
+          </button>
+          <div></div>
+          <button
+            @click="pan(0, -1)"
+            aria-label="Pan down"
+            class="w-8 h-8 bg-gray-600 hover:bg-gray-500 rounded text-white text-sm font-bold transition-colors flex items-center justify-center"
+          >
+            ↓
+          </button>
+          <div></div>
+        </div>
+      </div>
+
       <!-- FOV und Rotation Steuerung (oben rechts) -->
       <div class="absolute top-3 right-3 z-10 flex gap-2">
         <!-- FOV Steuerung -->
@@ -743,6 +784,33 @@ function rad2deg(rad) {
 function adjustFov(delta) {
   const newValue = parseFloat(framingStore.fov) + delta;
   framingStore.fov = Math.max(1, Math.min(50, Math.round(newValue)));
+}
+
+// Bildausschnitt mit Pfeilen verschieben.
+// dx: -1 = links, +1 = rechts.  dy: -1 = unten, +1 = oben.
+// Schrittweite: 25 % des aktuellen FOV — proportional zur Sichtgröße,
+// damit ein Klick bei hohem Zoom feine, bei niedrigem Zoom grobe Schritte
+// macht.
+function pan(dx, dy) {
+  let cosDec = Math.cos((baseDec * Math.PI) / 180);
+  if (Math.abs(cosDec) < 1e-8) cosDec = 1e-8;
+  const stepDeg = framingStore.fov * 0.25;
+
+  // Rechts auf dem Schirm = niedrigere RA (Astro-Konvention: East-Left,
+  // wenn man nach oben in den Himmel schaut). Höhere DEC = nach oben.
+  baseRA -= (dx * stepDeg) / cosDec;
+  baseDec = Math.max(-89.9, Math.min(89.9, baseDec + dy * stepDeg));
+
+  // RA in [0, 360) wrappen
+  baseRA = ((baseRA % 360) + 360) % 360;
+
+  // Frame-Sky-Koords aus aktueller Pixelposition + neuem baseRA/baseDec
+  // neu berechnen, damit RAangle/DECangle mit dem verschobenen Bild
+  // konsistent bleiben.
+  calculateRaDec();
+
+  // Hintergrundbild neu laden
+  debouncedImageReload();
 }
 </script>
 

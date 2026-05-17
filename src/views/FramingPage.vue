@@ -218,8 +218,8 @@ function selectTarget(item) {
 watch(
   () => framingStore.fov,
   (newFov) => {
-    if (newFov < 0.1) framingStore.fov = 0.1;
-    if (newFov > 180) framingStore.fov = 180;
+    const normalized = Math.max(1, Math.min(180, Math.round(newFov)));
+    if (normalized !== newFov) framingStore.fov = normalized;
   }
 );
 

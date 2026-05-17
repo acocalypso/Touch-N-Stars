@@ -36,16 +36,16 @@
           class="bg-gray-800/90 border border-gray-600 rounded-lg p-2 flex items-center space-x-2"
         >
           <button
-            @click="adjustFov(-0.5)"
+            @click="adjustFov(-1)"
             class="w-8 h-8 bg-gray-600 hover:bg-gray-500 rounded text-white text-sm font-bold transition-colors flex items-center justify-center"
           >
             -
           </button>
           <span class="text-xs text-gray-300 font-medium min-w-[2.5rem] text-center"
-            >{{ framingStore.fov.toFixed(1) }}°</span
+            >{{ Math.round(framingStore.fov) }}°</span
           >
           <button
-            @click="adjustFov(0.5)"
+            @click="adjustFov(1)"
             class="w-8 h-8 bg-gray-600 hover:bg-gray-500 rounded text-white text-sm font-bold transition-colors flex items-center justify-center"
           >
             +
@@ -348,11 +348,49 @@ function handleStageResize() {
   }, 300);
 }
 
+// Mindest-FOV: Wert, ab dem das Framing-Rechteck (bzw. Mosaikgitter) gerade
+// noch komplett in den Container passt. Verhindert den Bug-Zustand "Frame
+// größer als Container", in dem die Clamp-Logik im FOV-Watcher die Position
+// in die Ecke ziehen und RA/DEC mit einer dezentrierten Position überschreiben
+// würde — was beim Rauszoomen zu versetzter Position führte.
+function computeMinFov() {
+  if (
+    cameraFovX.value <= 0 ||
+    cameraFovY.value <= 0 ||
+    framingStore.containerWidth <= 0 ||
+    framingStore.containerHeight <= 0
+  ) {
+    return 0;
+  }
+
+  let effDegW;
+  let effDegH;
+  if (framingStore.isMosaicMode) {
+    const { w, h } = mosaicTotalSize();
+    effDegW = w * scaleDegPerPixel.value;
+    effDegH = h * scaleDegPerPixel.value;
+  } else {
+    effDegW = cameraFovX.value;
+    effDegH = cameraFovY.value;
+  }
+
+  const minFovForWidth = effDegW;
+  const minFovForHeight = (effDegH * framingStore.containerWidth) / framingStore.containerHeight;
+  return Math.max(minFovForWidth, minFovForHeight);
+}
+
 // FOV-Watcher: Nur Bild und Kamera-Box aktualisieren (KEINE Komponenten-Reload)
 watch(
   () => framingStore.fov,
   async (newFov, oldFov) => {
     if (cameraFovX.value > 0 && newFov !== oldFov) {
+      // Untergrenze durchsetzen, damit Frame nie größer als Container wird
+      const minAllowedFov = computeMinFov();
+      if (minAllowedFov > 0 && newFov < minAllowedFov) {
+        framingStore.fov = Math.ceil(minAllowedFov);
+        return;
+      }
+
       // Kamera-Box-Größe und Skala neu berechnen
       updateCameraBoxSize();
 
@@ -426,6 +464,13 @@ watch(
   () => framingStore.isMosaicMode,
   (active) => {
     if (active) {
+      // FOV anheben falls das Mosaikgitter bei aktuellem FOV größer als der
+      // Container wäre — der FOV-Watcher übernimmt dann die Neuberechnung.
+      const minAllowedFov = computeMinFov();
+      if (minAllowedFov > 0 && framingStore.fov < minAllowedFov) {
+        framingStore.fov = Math.ceil(minAllowedFov);
+        return;
+      }
       const { w, h } = mosaicTotalSize();
       x.value = framingStore.containerWidth / 2 - w / 2;
       y.value = framingStore.containerHeight / 2 - h / 2;
@@ -507,7 +552,7 @@ function ensureReasonableStartFov() {
 
     const newFov = Math.max(requiredFov, framingStore.fov * 1.5, 5); // Mindestens 5° oder 1.5x aktueller FOV
 
-    framingStore.fov = Math.round(newFov * 10) / 10; // Auf 0.1 runden
+    framingStore.fov = Math.round(newFov); // Auf ganze Grad runden
   }
 }
 
@@ -697,7 +742,7 @@ function rad2deg(rad) {
 // FOV Anpassung mit +/- Buttons
 function adjustFov(delta) {
   const newValue = parseFloat(framingStore.fov) + delta;
-  framingStore.fov = Math.max(0.5, Math.min(50, Math.round(newValue * 10) / 10));
+  framingStore.fov = Math.max(1, Math.min(50, Math.round(newValue)));
 }
 </script>
 

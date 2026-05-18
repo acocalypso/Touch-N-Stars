@@ -63,7 +63,7 @@ export const useFlatassistantStore = defineStore('flatassistantStore', {
         // TNS takes precedence when its task is running.
         const [tnsResult, ninaResult] = await Promise.allSettled([
           apiService.flatMultiStatus(),
-          store.isPINS ? apiService.flatassistantAction('status') : Promise.resolve(null),
+          apiService.flatassistantAction('status'),
         ]);
 
         const tnsNext = tnsResult.status === 'fulfilled' ? tnsResult.value?.Response : null;

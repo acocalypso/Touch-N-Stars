@@ -1,5 +1,5 @@
 <template>
-  <NumberInputPicker 
+  <NumberInputPicker
     v-if="store.isPINS"
     v-model="flatsStore.darkCount"
     :label="$t('components.flatassistant.darks_to_take')"

@@ -195,6 +195,12 @@ onBeforeUnmount(() => {
   }
 });
 
+function refreshPosition() {
+  if (raDegree.value != null && decDegree.value != null && stellariumStore.stel) {
+    handleMountUpdate(raDegree.value, decDegree.value);
+  }
+}
+
 // Expose mount position data and functions to the parent component
 defineExpose({
   mountRa,
@@ -204,5 +210,6 @@ defineExpose({
   syncViewClicked,
   autoSyncClicked,
   autoSyncEnabled,
+  refreshPosition,
 });
 </script>

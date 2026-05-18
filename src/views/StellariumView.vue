@@ -230,6 +230,22 @@ watch(
   }
 );
 
+watch(
+  () => [
+    store.profileInfo?.AstrometrySettings?.Latitude,
+    store.profileInfo?.AstrometrySettings?.Longitude,
+    store.profileInfo?.AstrometrySettings?.Elevation,
+  ],
+  ([lat, lon, elev]) => {
+    if (!stellariumStore.stel || lat == null) return;
+    const stel = stellariumStore.stel;
+    stel.core.observer.latitude = lat * stel.D2R;
+    stel.core.observer.longitude = lon * stel.D2R;
+    stel.core.observer.elevation = elev ?? 0;
+    mountComponent.value?.refreshPosition();
+  }
+);
+
 onMounted(async () => {
   //NINA vorbereiten
   await store.fetchProfilInfos();

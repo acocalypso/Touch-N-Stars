@@ -82,17 +82,9 @@ async function startAutoExposure() {
           flatsStore.offset,
           selectedFilterId.value,
           settingsStore.flats.exposureTime,
-          settingsStore.flats.keepClosed
+          settingsStore.flats.keepClosed,
+          flatsStore.darkCount
         ),
-      darkJobs: [
-        {
-          count: flatsStore.darkCount,
-          filterId: selectedFilterId.value,
-          binning: flatsStore.binning,
-          gain: flatsStore.gain,
-          offset: flatsStore.offset,
-        },
-      ],
       keepClosed: settingsStore.flats.keepClosed,
     });
   } catch (error) {

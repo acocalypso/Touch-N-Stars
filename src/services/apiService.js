@@ -1815,7 +1815,8 @@ const apiService = {
     offset,
     filterId,
     brightness,
-    keepClosed
+    keepClosed,
+    darkCount = 0
   ) {
     try {
       const { BASE_URL } = getUrls();
@@ -1832,6 +1833,7 @@ const apiService = {
           filterId,
           brightness,
           keepClosed,
+          darkCount,
         },
       });
       return response.data;
@@ -1853,7 +1855,8 @@ const apiService = {
     offset,
     filterId,
     exposureTime,
-    keepClosed
+    keepClosed,
+    darkCount = 0
   ) {
     try {
       const { BASE_URL } = getUrls();
@@ -1870,6 +1873,7 @@ const apiService = {
           filterId,
           exposureTime,
           keepClosed,
+          darkCount,
         },
       });
       return response.data;
@@ -1890,7 +1894,8 @@ const apiService = {
     gain,
     offset,
     filterId,
-    keepClosed
+    keepClosed,
+    darkCount = 0
   ) {
     try {
       const { BASE_URL } = getUrls();
@@ -1906,6 +1911,7 @@ const apiService = {
           offset,
           filterId,
           keepClosed,
+          darkCount,
         },
       });
       return response.data;

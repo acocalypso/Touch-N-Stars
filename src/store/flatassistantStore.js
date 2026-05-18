@@ -91,6 +91,15 @@ export const useFlatassistantStore = defineStore('flatassistantStore', {
         }
 
         this.status = next;
+
+        // When the ninaAPI backend tells us it's in the dark phase, reflect that.
+        if (
+          ninaNext?.State === 'Running' &&
+          ninaNext?.Type === 'darks' &&
+          this.currentRunType === 'flats'
+        ) {
+          this.currentRunType = 'darks';
+        }
       } catch (error) {
         console.error('Error fetching information:', error);
       }
@@ -286,8 +295,6 @@ export const useFlatassistantStore = defineStore('flatassistantStore', {
     async runFlatWorkflow({
       request,
       statusLoader = () => apiService.flatassistantAction('status'),
-      darkJobs = [],
-      keepClosed = false,
       runType = 'flats',
     }) {
       this.startManagedRun(runType);
@@ -311,10 +318,6 @@ export const useFlatassistantStore = defineStore('flatassistantStore', {
         success: total > 0 && completed >= total,
         lastADU: this.currentADU,
       };
-
-      if (darkJobs.length > 0 && this.shouldOfferDarks(finalStatus)) {
-        await this.runDarkSeries(darkJobs, keepClosed);
-      }
 
       return finalStatus;
     },

@@ -77,7 +77,8 @@ async function startAutoExposure() {
           flatsStore.gain,
           flatsStore.offset,
           selectedFilterId.value,
-          settingsStore.flats.keepClosed
+          settingsStore.flats.keepClosed,
+          flatsStore.darkCount
         ),
     });
   } catch (error) {

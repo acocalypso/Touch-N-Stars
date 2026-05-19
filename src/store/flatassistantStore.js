@@ -296,11 +296,15 @@ export const useFlatassistantStore = defineStore('flatassistantStore', {
       request,
       statusLoader = () => apiService.flatassistantAction('status'),
       runType = 'flats',
+      darkCount = 0,
     }) {
       this.startManagedRun(runType);
 
+      const connectedSimulator = darkCount > 0 ? await this.ensureFlatDeviceConnected() : false;
+
       const response = await request();
       if (response?.Success === false) {
+        if (connectedSimulator) await this.disconnectFlatDevice();
         this.notifyOperationIssue(response, 'warning');
         return null;
       }
@@ -319,6 +323,8 @@ export const useFlatassistantStore = defineStore('flatassistantStore', {
         lastADU: this.currentADU,
       };
 
+      if (connectedSimulator) await this.disconnectFlatDevice();
+
       return finalStatus;
     },
 
@@ -336,16 +342,7 @@ export const useFlatassistantStore = defineStore('flatassistantStore', {
         return false;
       }
       try {
-        const listResponse = await apiService.flatdeviceAction('list-devices');
-        const devices = listResponse?.Response;
-        if (!Array.isArray(devices)) return false;
-        const simulator = devices.find(
-          (d) =>
-            d.Name?.toLowerCase().includes('simulator') || d.Id?.toLowerCase().includes('simulator')
-        );
-        if (!simulator) return false;
-        const encodedId = encodeURIComponent(simulator.Id);
-        const connectResponse = await apiService.flatdeviceAction('connect?to=' + encodedId);
+        const connectResponse = await apiService.flatdeviceAction('connect?to=flip_flat_simulator');
         return connectResponse?.Success === true;
       } catch {
         return false;

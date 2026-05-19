@@ -80,6 +80,7 @@ async function startAutoExposure() {
           settingsStore.flats.keepClosed,
           flatsStore.darkCount
         ),
+      darkCount: flatsStore.darkCount,
     });
   } catch (error) {
     console.log('Error startAutoExposure');

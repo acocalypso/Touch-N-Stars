@@ -165,7 +165,7 @@ async function fetchParamsForAxis(axis) {
 }
 
 async function fetchMaxDurations() {
-  if (!store.isPINS) return;
+  if (!store.isPINS || !guiderStore.phd2IsConnected) return;
   try {
     const ra = await apiPinsService.getMaxRaDuration();
     if (ra?.Success) maxRaDuration.value = ra.Response?.MaxRaDuration ?? null;
@@ -198,7 +198,7 @@ function openMaxDurationPicker(axis) {
 }
 
 async function fetchDecGuideMode() {
-  if (!store.isPINS) return;
+  if (!store.isPINS || !guiderStore.phd2IsConnected) return;
   try {
     const r = await apiPinsService.getDecGuideMode();
     if (r?.Success) decGuideMode.value = r.Response?.DecGuideMode ?? null;
@@ -219,7 +219,7 @@ async function cycleDecGuideMode() {
 }
 
 async function fetchAlgoParams() {
-  if (!store.isPINS) return;
+  if (!store.isPINS || !guiderStore.phd2IsConnected) return;
   algoLoading.value = algoParams.value.ra === null && algoParams.value.dec === null;
   const [ra, dec] = await Promise.all([fetchParamsForAxis('ra'), fetchParamsForAxis('dec')]);
   algoParams.value = { ra, dec };
@@ -227,7 +227,7 @@ async function fetchAlgoParams() {
 }
 
 onMounted(async () => {
-  if (store.isPINS) {
+  if (store.isPINS && guiderStore.phd2IsConnected) {
     await Promise.all([
       guiderStore.fetchPHD2GuideAlgorithmRA(),
       guiderStore.fetchPHD2GuideAlgorithmDEC(),

@@ -1269,6 +1269,26 @@ const apiService = {
     }
   },
 
+  async postProfileHorizon(hrzText) {
+    try {
+      const { PLUGINSERVER_URL } = getUrls();
+      const response = await axios.post(`${PLUGINSERVER_URL}/api/profile/horizon`, hrzText, {
+        headers: { 'Content-Type': 'text/plain' },
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  async getProfileHorizon() {
+    const { BASE_URL } = getUrls();
+    const response = await axios.get(`${BASE_URL}/profile/horizon`);
+    const { Azimuths, Altitudes } = response.data.Response;
+    if (!Azimuths || !Altitudes || Azimuths.length === 0) return [];
+    return Azimuths.map((az, i) => ({ az, alt: Altitudes[i] }));
+  },
+
   //-------------------------------------  application ---------------------------------------
   async applicatioTabSwitch(tab) {
     try {

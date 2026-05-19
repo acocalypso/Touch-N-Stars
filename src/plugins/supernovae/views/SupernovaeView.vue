@@ -78,12 +78,13 @@
       <!-- Type filter -->
       <div class="flex flex-col gap-1">
         <label class="text-xs text-gray-400">{{ t('plugins.supernovae.filterType') }}</label>
-        <input
+        <select
           v-model="typeFilter"
-          type="text"
-          :placeholder="t('plugins.supernovae.filterTypePlaceholder')"
-          class="w-24 bg-gray-700/60 border border-gray-600 rounded px-2 py-1 text-xs text-gray-200 focus:outline-none focus:ring-1 focus:ring-cyan-500"
-        />
+          class="bg-gray-700/60 border border-gray-600 rounded px-2 py-1 text-xs text-gray-200 focus:outline-none focus:ring-1 focus:ring-cyan-500"
+        >
+          <option value="">{{ t('plugins.supernovae.filterAll') }}</option>
+          <option v-for="tp in availableTypes" :key="tp" :value="tp">{{ tp }}</option>
+        </select>
       </div>
 
       <!-- Year filter -->
@@ -120,6 +121,19 @@
         {{ t('plugins.supernovae.filterNewOnly') }}
       </label>
 
+      <!-- Sort -->
+      <div class="flex flex-col gap-1 sm:ml-auto">
+        <label class="text-xs text-gray-400">{{ t('plugins.supernovae.sortBy') }}</label>
+        <select
+          v-model="sortKey"
+          class="bg-gray-700/60 border border-gray-600 rounded px-2 py-1 text-xs text-gray-200 focus:outline-none focus:ring-1 focus:ring-cyan-500"
+        >
+          <option value="latestMag">{{ t('plugins.supernovae.sortLatestMag') }}</option>
+          <option value="firstObserved">{{ t('plugins.supernovae.sortFirstObserved') }}</option>
+          <option value="lastObserved">{{ t('plugins.supernovae.sortLastObserved') }}</option>
+        </select>
+      </div>
+
       <!-- Visible only -->
       <label
         class="flex items-center gap-1.5 cursor-pointer select-none text-xs text-gray-300 pb-1"
@@ -139,19 +153,6 @@
           t('plugins.supernovae.filterVisibleOnly')
         }}</span>
       </label>
-
-      <!-- Sort -->
-      <div class="flex flex-col gap-1 ml-auto">
-        <label class="text-xs text-gray-400">{{ t('plugins.supernovae.sortBy') }}</label>
-        <select
-          v-model="sortKey"
-          class="bg-gray-700/60 border border-gray-600 rounded px-2 py-1 text-xs text-gray-200 focus:outline-none focus:ring-1 focus:ring-cyan-500"
-        >
-          <option value="latestMag">{{ t('plugins.supernovae.sortLatestMag') }}</option>
-          <option value="firstObserved">{{ t('plugins.supernovae.sortFirstObserved') }}</option>
-          <option value="lastObserved">{{ t('plugins.supernovae.sortLastObserved') }}</option>
-        </select>
-      </div>
     </div>
 
     <!-- Count -->
@@ -167,140 +168,118 @@
       <table class="w-full text-xs text-left">
         <thead class="bg-gray-800 text-gray-400 uppercase tracking-wide">
           <tr>
-            <th class="px-3 py-2 w-8"></th>
-            <th class="px-3 py-2 w-6"></th>
+            <th class="px-2 py-2 w-8"></th>
             <th class="px-3 py-2">{{ t('plugins.supernovae.colName') }}</th>
             <th class="px-3 py-2">{{ t('plugins.supernovae.colType') }}</th>
-            <th class="px-3 py-2">{{ t('plugins.supernovae.colLatestMag') }}</th>
-            <th class="px-3 py-2">{{ t('plugins.supernovae.colMaxMag') }}</th>
-            <th class="px-3 py-2">{{ t('plugins.supernovae.colDiscovered') }}</th>
-            <th class="px-3 py-2">{{ t('plugins.supernovae.colLastObs') }}</th>
-            <th class="px-3 py-2 hidden md:table-cell">
-              {{ t('plugins.supernovae.colConstellation') }}
-            </th>
-            <th class="px-3 py-2 hidden md:table-cell">{{ t('plugins.supernovae.colHost') }}</th>
-            <th class="px-3 py-2 hidden lg:table-cell">{{ t('plugins.supernovae.colRA') }}</th>
-            <th class="px-3 py-2 hidden lg:table-cell">{{ t('plugins.supernovae.colDec') }}</th>
-            <th class="px-3 py-2"></th>
+            <th class="px-3 py-2 text-right">{{ sortColLabel }}</th>
+            <th class="px-3 py-2 w-6"></th>
           </tr>
         </thead>
         <tbody>
-          <tr
-            v-for="entry in paginated"
-            :key="entry.name"
-            class="border-t border-gray-700/60 hover:bg-gray-700/30 transition-colors"
-          >
-            <!-- NEW badge -->
-            <td class="px-2 py-2">
-              <span
-                v-if="entry.isNew"
-                class="inline-block rounded bg-cyan-700/70 text-cyan-200 text-[10px] font-bold px-1 py-0.5 leading-none"
-              >
-                NEW
-              </span>
-            </td>
+          <template v-for="entry in paginated" :key="entry.name">
+            <!-- Main row -->
+            <tr
+              @click="toggleExpand(entry.name)"
+              class="border-t border-gray-700/60 hover:bg-gray-700/30 transition-colors cursor-pointer select-none"
+            >
+              <!-- Status: NEW badge + visibility dot -->
+              <td class="px-2 py-2">
+                <div class="flex flex-col items-center gap-0.5">
+                  <span
+                    v-if="entry.isNew"
+                    class="inline-block rounded bg-cyan-700/70 text-cyan-200 text-[9px] font-bold px-1 py-0.5 leading-none"
+                  >NEW</span>
+                  <span v-if="hasLocation" :title="visLabel(visMap[entry.name])">
+                    <span v-if="visMap[entry.name] === 'circumpolar'" class="text-cyan-400 text-xs">◎</span>
+                    <span v-else-if="visMap[entry.name] === 'visible'" class="text-green-400 text-xs">●</span>
+                    <span v-else class="text-gray-600 text-xs">○</span>
+                  </span>
+                </div>
+              </td>
 
-            <!-- Visibility -->
-            <td class="px-1 py-2 text-center">
-              <span v-if="hasLocation" :title="visLabel(visMap[entry.name])">
-                <span v-if="visMap[entry.name] === 'circumpolar'" class="text-cyan-400 text-xs"
-                  >◎</span
+              <!-- Name -->
+              <td class="px-3 py-2 font-mono text-white font-medium whitespace-nowrap">
+                {{ entry.name }}
+              </td>
+
+              <!-- Type -->
+              <td class="px-3 py-2 whitespace-nowrap">
+                <span :class="typeClass(entry.type)" class="rounded px-1.5 py-0.5 text-[11px] font-medium">
+                  {{ entry.type || '—' }}
+                </span>
+              </td>
+
+              <!-- Sort column -->
+              <td class="px-3 py-2 font-mono text-right">{{ sortColValue(entry) }}</td>
+
+              <!-- Chevron -->
+              <td class="px-3 py-2 text-gray-500">
+                <svg
+                  class="w-3 h-3 transition-transform duration-200"
+                  :class="expandedRow === entry.name ? 'rotate-180' : ''"
+                  fill="none" stroke="currentColor" viewBox="0 0 24 24"
                 >
-                <span v-else-if="visMap[entry.name] === 'visible'" class="text-green-400 text-xs"
-                  >●</span
-                >
-                <span v-else class="text-gray-600 text-xs">○</span>
-              </span>
-            </td>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7" />
+                </svg>
+              </td>
+            </tr>
 
-            <!-- Name -->
-            <td class="px-3 py-2 font-mono text-white font-medium whitespace-nowrap">
-              {{ entry.name }}
-            </td>
-
-            <!-- Type -->
-            <td class="px-3 py-2 whitespace-nowrap">
-              <span
-                :class="typeClass(entry.type)"
-                class="rounded px-1.5 py-0.5 text-[11px] font-medium"
-              >
-                {{ entry.type || '—' }}
-              </span>
-            </td>
-
-            <!-- Latest mag -->
-            <td class="px-3 py-2 font-mono text-right">
-              {{ entry.latestMag !== null ? entry.latestMag.toFixed(1) : '—' }}
-            </td>
-
-            <!-- Max mag -->
-            <td class="px-3 py-2 font-mono text-right text-gray-400">
-              {{ entry.maxMag !== null ? entry.maxMag.toFixed(1) : '—' }}
-            </td>
-
-            <!-- Discovered -->
-            <td class="px-3 py-2 whitespace-nowrap text-gray-300">
-              {{ fmtDate(entry.firstObserved) }}
-            </td>
-
-            <!-- Last observed -->
-            <td class="px-3 py-2 whitespace-nowrap text-gray-400">
-              {{ fmtDate(entry.lastObserved) }}
-            </td>
-
-            <!-- Constellation -->
-            <td class="px-3 py-2 hidden md:table-cell text-gray-300 whitespace-nowrap text-xs">
-              {{ entry.constellation }}
-            </td>
-
-            <!-- Host galaxy -->
-            <td class="px-3 py-2 hidden md:table-cell text-gray-400 max-w-[120px] truncate">
-              {{ entry.hostGalaxy }}
-            </td>
-
-            <!-- RA -->
-            <td class="px-3 py-2 hidden lg:table-cell font-mono text-gray-400 whitespace-nowrap">
-              {{ fmtRA(entry.raDeg) }}
-            </td>
-
-            <!-- Dec -->
-            <td class="px-3 py-2 hidden lg:table-cell font-mono text-gray-400 whitespace-nowrap">
-              {{ fmtDec(entry.decDeg) }}
-            </td>
-
-            <!-- Action -->
-            <td class="px-3 py-2 whitespace-nowrap">
-              <div class="flex items-center gap-1.5">
-                <button
-                  @click="sendToFraming(entry)"
-                  class="flex items-center gap-1 px-2 py-1 text-[11px] bg-indigo-700/60 hover:bg-indigo-600/80 text-indigo-200 rounded transition"
-                  :title="t('plugins.supernovae.frameTitle')"
-                >
-                  <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5v-4m0 4h-4m4 0l-5-5"
-                    />
-                  </svg>
-                  {{ t('plugins.supernovae.frame') }}
-                </button>
-                <button
-                  @click="addToFavorites(entry)"
-                  class="flex items-center gap-1 px-2 py-1 text-[11px] bg-pink-900/50 hover:bg-pink-800/70 text-pink-300 rounded transition"
-                  :title="t('plugins.supernovae.favTitle')"
-                >
-                  <svg class="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
-                    <path
-                      d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"
-                    />
-                  </svg>
-                  {{ t('plugins.supernovae.fav') }}
-                </button>
-              </div>
-            </td>
-          </tr>
+            <!-- Expanded card -->
+            <tr v-if="expandedRow === entry.name" class="border-t border-gray-700/40 bg-gray-800/50">
+              <td colspan="5" class="px-4 py-3">
+                <div class="flex flex-wrap gap-x-6 gap-y-2 text-xs mb-3">
+                  <div>
+                    <span class="text-gray-500 uppercase tracking-wide text-[10px]">{{ t('plugins.supernovae.colConstellation') }}</span>
+                    <p class="text-gray-200 mt-0.5">{{ entry.constellation || '—' }}</p>
+                  </div>
+                  <div>
+                    <span class="text-gray-500 uppercase tracking-wide text-[10px]">{{ t('plugins.supernovae.colHost') }}</span>
+                    <p class="text-gray-200 mt-0.5">{{ entry.hostGalaxy || '—' }}</p>
+                  </div>
+                  <div>
+                    <span class="text-gray-500 uppercase tracking-wide text-[10px]">{{ t('plugins.supernovae.colRA') }}</span>
+                    <p class="font-mono text-gray-200 mt-0.5">{{ fmtRA(entry.raDeg) }}</p>
+                  </div>
+                  <div>
+                    <span class="text-gray-500 uppercase tracking-wide text-[10px]">{{ t('plugins.supernovae.colDec') }}</span>
+                    <p class="font-mono text-gray-200 mt-0.5">{{ fmtDec(entry.decDeg) }}</p>
+                  </div>
+                  <div>
+                    <span class="text-gray-500 uppercase tracking-wide text-[10px]">{{ t('plugins.supernovae.colMaxMag') }}</span>
+                    <p class="font-mono text-gray-200 mt-0.5">{{ entry.maxMag !== null ? entry.maxMag.toFixed(1) : '—' }}</p>
+                  </div>
+                  <div>
+                    <span class="text-gray-500 uppercase tracking-wide text-[10px]">{{ t('plugins.supernovae.colDiscovered') }}</span>
+                    <p class="text-gray-200 mt-0.5">{{ fmtDate(entry.firstObserved) }}</p>
+                  </div>
+                  <div>
+                    <span class="text-gray-500 uppercase tracking-wide text-[10px]">{{ t('plugins.supernovae.colLastObs') }}</span>
+                    <p class="text-gray-200 mt-0.5">{{ fmtDate(entry.lastObserved) }}</p>
+                  </div>
+                </div>
+                <div class="flex gap-2">
+                  <button
+                    @click.stop="sendToFraming(entry)"
+                    class="flex items-center gap-1 px-3 py-1.5 text-xs bg-indigo-700/60 hover:bg-indigo-600/80 text-indigo-200 rounded transition"
+                  >
+                    <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5v-4m0 4h-4m4 0l-5-5" />
+                    </svg>
+                    {{ t('plugins.supernovae.frame') }}
+                  </button>
+                  <button
+                    @click.stop="addToFavorites(entry)"
+                    class="flex items-center gap-1 px-3 py-1.5 text-xs bg-pink-900/50 hover:bg-pink-800/70 text-pink-300 rounded transition"
+                  >
+                    <svg class="w-3.5 h-3.5" fill="currentColor" viewBox="0 0 24 24">
+                      <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" />
+                    </svg>
+                    {{ t('plugins.supernovae.fav') }}
+                  </button>
+                </div>
+              </td>
+            </tr>
+          </template>
         </tbody>
       </table>
     </div>
@@ -383,6 +362,11 @@ const visMap = computed(() => {
   return map;
 });
 
+const expandedRow = ref(null);
+function toggleExpand(name) {
+  expandedRow.value = expandedRow.value === name ? null : name;
+}
+
 const magLimit = ref(20);
 const typeFilter = ref('');
 const yearFilter = ref('');
@@ -409,11 +393,27 @@ const availableConstellations = computed(() => {
   return cons.sort();
 });
 
+const availableTypes = computed(() => {
+  const types = [...new Set(store.entries.map((e) => e.type).filter(Boolean))];
+  return types.sort();
+});
+
+const sortColLabel = computed(() => {
+  if (sortKey.value === 'firstObserved') return t('plugins.supernovae.colDiscovered');
+  if (sortKey.value === 'lastObserved') return t('plugins.supernovae.colLastObs');
+  return t('plugins.supernovae.colLatestMag');
+});
+
+function sortColValue(entry) {
+  if (sortKey.value === 'firstObserved') return fmtDate(entry.firstObserved);
+  if (sortKey.value === 'lastObserved') return fmtDate(entry.lastObserved);
+  return entry.latestMag !== null ? entry.latestMag.toFixed(1) : '—';
+}
+
 const filtered = computed(() => {
   let list = store.entries.filter((e) => {
     if (e.latestMag !== null && e.latestMag > magLimit.value) return false;
-    if (typeFilter.value && !e.type.toLowerCase().includes(typeFilter.value.toLowerCase()))
-      return false;
+    if (typeFilter.value && e.type !== typeFilter.value) return false;
     if (yearFilter.value && e.discoveryYear !== yearFilter.value) return false;
     if (conFilter.value && e.constellation !== conFilter.value) return false;
     if (newOnly.value && !e.isNew) return false;
@@ -440,6 +440,7 @@ const paginated = computed(() => {
 
 watch([magLimit, typeFilter, yearFilter, conFilter, newOnly, visibleOnly, sortKey], () => {
   page.value = 1;
+  expandedRow.value = null;
 });
 
 function sendToFraming(entry) {

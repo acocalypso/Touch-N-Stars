@@ -1,17 +1,6 @@
 import { defineStore } from 'pinia';
-import axios from 'axios';
 import apiService from '@/services/apiService';
 import { getConstellationFull } from '../utils/constellation.js';
-
-function getProxyUrl(remoteUrl) {
-  const { API_URL } = apiService._getUrls
-    ? apiService._getUrls()
-    : (() => {
-        const { protocol, hostname, port } = window.location;
-        return { API_URL: `${protocol}//${hostname}:${port || 80}/api/` };
-      })();
-  return `${API_URL}proxy?url=${encodeURIComponent(remoteUrl)}`;
-}
 
 const SNACTIVE_URL = 'https://rochesterastronomy.org/snimages/snactive.html';
 
@@ -87,9 +76,9 @@ export const useSupernovaeStore = defineStore('supernovaeStore', {
       this.downloading = true;
       this.downloadError = null;
       try {
-        const proxyUrl = getProxyUrl(SNACTIVE_URL);
-        const res = await axios.get(proxyUrl, { responseType: 'text' });
-        const parsed = parseSnactiveHtml(res.data);
+        const blob = await apiService.proxyRequest(SNACTIVE_URL);
+        const html = await blob.text();
+        const parsed = parseSnactiveHtml(html);
         if (!parsed.length) throw new Error('No entries parsed — page format may have changed');
 
         const prev = this.knownIdSet;

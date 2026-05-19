@@ -553,9 +553,15 @@ async function startMultiMode() {
   for (const filterId of sortedIds) {
     if (flatsStore.workflowStopRequested) break;
 
+    // Skip filters that are no longer present in the wheel (stale persisted selection)
+    const filterEntry = store.filterInfo.AvailableFilters?.find((f) => f.Id === filterId);
+    if (!filterEntry) {
+      flatsStore.filterResults[filterId] = 'failed';
+      continue;
+    }
+
     const cfg = state.filterConfigs[filterId];
-    flatsStore.currentFilterName =
-      store.filterInfo.AvailableFilters?.find((f) => f.Id === filterId)?.Name ?? String(filterId);
+    flatsStore.currentFilterName = filterEntry.Name;
 
     // Sync histogram target for this filter
     flatsStore.histogramMean = cfg.histogramMean / 100;
@@ -607,15 +613,13 @@ async function startMultiMode() {
           state.keepClosed
         );
       }
-    } catch (err) {
-      flatsStore.notifyOperationIssue(err?.response?.data ?? err);
+    } catch {
       flatsStore.filterResults[filterId] = 'failed';
       totalRequested += cfg.count;
       continue;
     }
 
     if (response?.Success === false) {
-      flatsStore.notifyOperationIssue(response, 'warning');
       flatsStore.filterResults[filterId] = 'failed';
       totalRequested += cfg.count;
       continue;
@@ -700,6 +704,18 @@ async function stopFlats() {
 // ── Init configs from profile (only once on first load) ───────────────────────
 
 let configsInitialized = false;
+
+// Drop stale persisted selections that don't match the current filter wheel
+watch(
+  () => store.filterInfo.AvailableFilters,
+  (filters) => {
+    if (!filters?.length) return;
+    const validIds = new Set(filters.map((f) => f.Id));
+    state.activeFilterIds = state.activeFilterIds.filter((id) => validIds.has(id));
+    state.expandedFilterIds = state.expandedFilterIds.filter((id) => validIds.has(id));
+  },
+  { immediate: true }
+);
 
 watch(
   () => store.profileInfo?.FilterWheelSettings?.FilterWheelFilters,

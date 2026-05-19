@@ -170,7 +170,8 @@
       "moveRotator": "カメラを回転",
       "infoTargetImage": "画像が真っ黒に表示される場合は、NINAで「オフライン・スカイマップ・キャッシュ」を設定するか、「NINAキャッシュを使用する」オプションを無効にする必要があります",
       "useCenter": "中心",
-      "useRotate": "回転"
+      "useRotate": "回転",
+      "customTarget": "カスタムターゲット"
     },
     "tutorial": {
       "previous": "前へ",
@@ -1460,7 +1461,15 @@
       "status_stopped_darks": "早期に停止しました - {total} 件中 {completed} 件のダークをキャプチャしました",
       "status_stopped_flats": "早期に停止しました - {total} 件中 {completed} 件のアパートを確保しました",
       "status_success_darks": "完了 - {count} 個のダークを捕獲しました",
-      "status_success_flats": "完了 - {count} 軒のアパートを占領しました"
+      "status_success_flats": "完了 - {count} 軒のアパートを占領しました",
+      "filter_label": "フィルター",
+      "result_bright": "明るすぎる",
+      "result_dim": "薄暗すぎる",
+      "status_completed_flats": "完了",
+      "status_failed_flats_multi": "すべてのフィルターが有効な露出を決定できませんでした",
+      "status_partial_flats_multi": "失敗したフィルター: {filters}",
+      "status_running_unknown": "決定中…",
+      "target": "ターゲット"
     },
     "weatherModal": {
       "weatherInformation": "気象情報",
@@ -1487,7 +1496,13 @@
     },
     "switch": {
       "gauges": "ゲージ",
-      "switch": "スイッチ"
+      "switch": "スイッチ",
+      "indi": {
+        "settings": "スイッチ設定"
+      },
+      "sv241pro": {
+        "preConnectDelay": "接続前遅延 (ミリ秒)"
+      }
     },
     "stellarium": {
       "selected_object": {
@@ -3527,7 +3542,10 @@
         "timeWindowEnd": "タイムウィンドウの終了",
         "timeWindowHint": "セッション範囲全体をスケジュールできるようにするには、時間枠を空白のままにします。",
         "timeWindowStart": "タイムウィンドウの開始",
-        "title": "制約"
+        "title": "制約",
+        "maxMoonAltitude": "最大月高度",
+        "maxMoonAltitudeHint": "月が地平線の下にある間のみスケジュールを設定するには、0° 以下に設定します。",
+        "minMoonSeparationInfo": "スケジュールに必要なターゲットと月の間の最小角距離。"
       },
       "defaults": {
         "favoriteTargetName": "お気に入りのターゲット",
@@ -3640,6 +3658,17 @@
       },
       "warnings": {
         "sequenceVersionRequired": "シーケンスの挿入には、TNS プラグイン 1.2.8.0 (または PINS モード) が必要です。"
+      },
+      "sessionModes": {
+        "moonRise": "月の出",
+        "moonSet": "ムーンセット",
+        "sunRise": "日の出",
+        "sunSet": "日没",
+        "time": "時間",
+        "twilightEndAstronomical": "トワイライトエンドの天文学的",
+        "twilightEndNautical": "トワイライトエンド航海",
+        "twilightStartAstronomical": "天文学的なトワイライトスタート",
+        "twilightStartNautical": "トワイライトスタート航海"
       }
     },
     "filterOffset": {

@@ -162,7 +162,8 @@
         "setMosaicTargets": "Stel mozaïekdoelen in",
         "panelsSet": "panelen op volgorde geplaatst",
         "willBeSaved": "panelen worden afzonderlijk opgeslagen"
-      }
+      },
+      "customTarget": "Aangepast doel"
     },
     "tutorial": {
       "previous": "Vorige",
@@ -1452,7 +1453,15 @@
       "status_stopped_darks": "Vroeg gestopt - {voltooid} van {totaal} duisternis vastgelegd",
       "status_stopped_flats": "Vroeg gestopt - {voltooid} van {totaal} flats veroverd",
       "status_success_darks": "Klaar - {count} darks vastgelegd",
-      "status_success_flats": "Klaar - {count} flats veroverd"
+      "status_success_flats": "Klaar - {count} flats veroverd",
+      "filter_label": "Filter",
+      "result_bright": "te helder",
+      "result_dim": "te zwak",
+      "status_completed_flats": "Voltooid",
+      "status_failed_flats_multi": "Alle filters konden geen geldige blootstelling vaststellen",
+      "status_partial_flats_multi": "Mislukte filters: {filters}",
+      "status_running_unknown": "Bepalend…",
+      "target": "Doel"
     },
     "weatherModal": {
       "weatherInformation": "Weer Informatie",
@@ -1479,7 +1488,13 @@
     },
     "switch": {
       "gauges": "Meters",
-      "switch": "Schakelaar"
+      "switch": "Schakelaar",
+      "indi": {
+        "settings": "Schakel instellingen"
+      },
+      "sv241pro": {
+        "preConnectDelay": "Vertraging vóór verbinding (ms)"
+      }
     },
     "stellarium": {
       "selected_object": {
@@ -3494,7 +3509,10 @@
         "timeWindowEnd": "Einde van het tijdvenster",
         "timeWindowHint": "Laat het tijdvenster leeg om planning voor het volledige sessiebereik mogelijk te maken.",
         "timeWindowStart": "Tijdvenster starten",
-        "title": "Beperkingen"
+        "title": "Beperkingen",
+        "maxMoonAltitude": "Maximale maanhoogte",
+        "maxMoonAltitudeHint": "Stel deze in op 0° of lager om alleen een planning te maken als de maan zich onder de horizon bevindt.",
+        "minMoonSeparationInfo": "Minimale hoekafstand tussen doel en maan vereist voor planning."
       },
       "defaults": {
         "favoriteTargetName": "Favoriete doelwit",
@@ -3607,6 +3625,17 @@
       },
       "warnings": {
         "sequenceVersionRequired": "Voor het invoegen van sequenties is TNS-plug-in 1.2.8.0 (of PINS-modus) vereist."
+      },
+      "sessionModes": {
+        "moonRise": "Maan opkomst",
+        "moonSet": "Maan ingesteld",
+        "sunRise": "Zon opkomen",
+        "sunSet": "Zonsondergang",
+        "time": "Tijd",
+        "twilightEndAstronomical": "Het einde van de schemering is astronomisch",
+        "twilightEndNautical": "Schemering einde nautisch",
+        "twilightStartAstronomical": "De schemering begint astronomisch",
+        "twilightStartNautical": "Schemering start nautisch"
       }
     },
     "filterOffset": {

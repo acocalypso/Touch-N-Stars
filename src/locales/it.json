@@ -162,7 +162,8 @@
         "setMosaicTargets": "Stabilisci obiettivi a mosaico",
         "panelsSet": "pannelli disposti in sequenza",
         "willBeSaved": "i pannelli verranno salvati singolarmente"
-      }
+      },
+      "customTarget": "Obiettivo personalizzato"
     },
     "tutorial": {
       "previous": "Precedente",
@@ -1452,7 +1453,15 @@
       "status_stopped_darks": "Interrotto in anticipo: {completato} di {totale} oscuri catturati",
       "status_stopped_flats": "Interrotto in anticipo: {completato} di {totale} appartamenti catturati",
       "status_success_darks": "Fatto: {count} oscuri catturati",
-      "status_success_flats": "Fatto: {count} appartamenti catturati"
+      "status_success_flats": "Fatto: {count} appartamenti catturati",
+      "filter_label": "Filtro",
+      "result_bright": "troppo luminoso",
+      "result_dim": "troppo debole",
+      "status_completed_flats": "Completato",
+      "status_failed_flats_multi": "Tutti i filtri non sono riusciti a determinare un'esposizione valida",
+      "status_partial_flats_multi": "Filtri non riusciti: {filters}",
+      "status_running_unknown": "Determinazione...",
+      "target": "Bersaglio"
     },
     "weatherModal": {
       "weatherInformation": "Informazioni meteo",
@@ -1479,7 +1488,13 @@
     },
     "switch": {
       "gauges": "Misuratori",
-      "switch": "Interruttore"
+      "switch": "Interruttore",
+      "indi": {
+        "settings": "Cambia impostazioni"
+      },
+      "sv241pro": {
+        "preConnectDelay": "Ritardo pre-connessione (ms)"
+      }
     },
     "stellarium": {
       "selected_object": {
@@ -3494,7 +3509,10 @@
         "timeWindowEnd": "Fine della finestra temporale",
         "timeWindowHint": "Lasciare vuota la finestra temporale per consentire la pianificazione dell'intero intervallo di sessioni.",
         "timeWindowStart": "Inizio della finestra temporale",
-        "title": "Vincoli"
+        "title": "Vincoli",
+        "maxMoonAltitude": "Altitudine massima della luna",
+        "maxMoonAltitudeHint": "Impostare su 0° o inferiore per programmare solo mentre la Luna è sotto l'orizzonte.",
+        "minMoonSeparationInfo": "Distanza angolare minima tra target e Luna richiesta per la pianificazione."
       },
       "defaults": {
         "favoriteTargetName": "Bersaglio preferito",
@@ -3607,6 +3625,17 @@
       },
       "warnings": {
         "sequenceVersionRequired": "L'inserimento della sequenza richiede il plugin TNS 1.2.8.0 (o la modalità PINS)."
+      },
+      "sessionModes": {
+        "moonRise": "Sorgere della luna",
+        "moonSet": "Luna tramontata",
+        "sunRise": "Alba",
+        "sunSet": "Tramonto",
+        "time": "Tempo",
+        "twilightEndAstronomical": "Crepuscolo e fine astronomica",
+        "twilightEndNautical": "Crepuscolo e nautica",
+        "twilightStartAstronomical": "Il crepuscolo inizia in modo astronomico",
+        "twilightStartNautical": "Twilight inizia nautico"
       }
     },
     "filterOffset": {

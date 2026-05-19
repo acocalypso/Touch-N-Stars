@@ -204,6 +204,50 @@ export default {
     return this._simplePutRequest(`${API_URL}phd2/guide/algorithm-dec`, { algorithm });
   },
 
+  getAlgoParamNames(axis) {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(
+      `${API_URL}phd2/get-algo-param-names?axis=${encodeURIComponent(axis)}`
+    );
+  },
+
+  getAlgoParam(axis, name) {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(
+      `${API_URL}phd2/get-algo-param?axis=${encodeURIComponent(axis)}&name=${encodeURIComponent(name)}`
+    );
+  },
+
+  getDecGuideMode() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/get-dec-guide-mode`);
+  },
+
+  setDecGuideMode(mode) {
+    const { API_URL } = getUrls();
+    return this._simplePostRequest(`${API_URL}phd2/set-dec-guide-mode`, { mode });
+  },
+
+  getMaxRaDuration() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/get-max-ra-duration`);
+  },
+
+  setMaxRaDuration(ms) {
+    const { API_URL } = getUrls();
+    return this._simplePostRequest(`${API_URL}phd2/set-max-ra-duration`, { ms });
+  },
+
+  getMaxDecDuration() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/get-max-dec-duration`);
+  },
+
+  setMaxDecDuration(ms) {
+    const { API_URL } = getUrls();
+    return this._simplePostRequest(`${API_URL}phd2/set-max-dec-duration`, { ms });
+  },
+
   setPHD2SelectedProfile(id) {
     const { API_URL } = getUrls();
     return this._simplePutRequest(`${API_URL}phd2/profile/select`, { id });

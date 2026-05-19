@@ -37,11 +37,7 @@ function update() {
     const altR = alt * D2R;
     // NEZ vector in OBSERVED_GEOM frame (x=North, y=East, z=Zenith)
     // az is N=0°, E=90° (standard geographic convention)
-    const obsVec = [
-      Math.cos(altR) * Math.cos(azR),
-      Math.cos(altR) * Math.sin(azR),
-      Math.sin(altR),
-    ];
+    const obsVec = [Math.cos(altR) * Math.cos(azR), Math.cos(altR) * Math.sin(azR), Math.sin(altR)];
     const icrfVec = stel.convertFrame(stel.observer, 'OBSERVED_GEOM', 'ICRF', obsVec);
     const rd = stel.c2s(icrfVec);
     const raDeg = stel.anp(rd[0]) * R2D;
@@ -82,7 +78,10 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {
-  if (updateTimer) { clearInterval(updateTimer); updateTimer = null; }
+  if (updateTimer) {
+    clearInterval(updateTimer);
+    updateTimer = null;
+  }
   horizonLine = null;
   horizonLayer = null;
 });

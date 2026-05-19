@@ -408,7 +408,7 @@ export const useFlatassistantStore = defineStore('flatassistantStore', {
           continue;
         }
 
-        const { status: finalStatus, completed: darkCompleted } = await this.waitForCompletion(
+        const { completed: darkCompleted, total: darkTotal } = await this.waitForCompletion(
           () => apiService.flatassistantAction('status'),
           250
         );
@@ -416,7 +416,9 @@ export const useFlatassistantStore = defineStore('flatassistantStore', {
         totalCompleted += darkCompleted;
         lastADU = this.currentADU;
 
-        if (!this.didRunSucceed(finalStatus)) {
+        // Use waitForCompletion's resolved counts (handles NINA's T=-1 Finished state)
+        // instead of didRunSucceed(finalStatus) which would always fail when T=-1.
+        if (darkTotal <= 0 || darkCompleted < darkTotal) {
           allSucceeded = false;
         }
       }

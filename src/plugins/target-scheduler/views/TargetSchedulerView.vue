@@ -42,6 +42,18 @@
         <div class="mt-3 grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-4">
           <label class="text-xs text-slate-400">
             {{ t('plugins.targetScheduler.labels.sessionStart') }}
+            <select
+              v-model="sessionStartMode"
+              class="mt-1 w-full rounded border border-slate-600 bg-slate-800 px-2 py-1.5 text-slate-100"
+            >
+              <option
+                v-for="option in sessionStartModeOptions"
+                :key="option.value"
+                :value="option.value"
+              >
+                {{ option.label }}
+              </option>
+            </select>
             <div class="mt-1 grid grid-cols-1 gap-2 sm:grid-cols-2">
               <input
                 v-model="sessionStartDate"
@@ -52,24 +64,42 @@
                 v-model="sessionStartTime"
                 type="time"
                 step="60"
-                class="w-full rounded border border-slate-600 bg-slate-800 px-2 py-1.5 text-slate-100"
+                :disabled="!isSessionStartTimeMode"
+                :readonly="!isSessionStartTimeMode"
+                class="w-full rounded border border-slate-600 bg-slate-800 px-2 py-1.5 text-slate-100 disabled:opacity-60"
               />
             </div>
           </label>
 
           <label class="text-xs text-slate-400">
             {{ t('plugins.targetScheduler.labels.sessionEnd') }}
+            <select
+              v-model="sessionEndMode"
+              class="mt-1 w-full rounded border border-slate-600 bg-slate-800 px-2 py-1.5 text-slate-100"
+            >
+              <option
+                v-for="option in sessionEndModeOptions"
+                :key="option.value"
+                :value="option.value"
+              >
+                {{ option.label }}
+              </option>
+            </select>
             <div class="mt-1 grid grid-cols-1 gap-2 sm:grid-cols-2">
               <input
                 v-model="sessionEndDate"
                 type="date"
-                class="w-full rounded border border-slate-600 bg-slate-800 px-2 py-1.5 text-slate-100"
+                :disabled="!isSessionEndTimeMode"
+                :readonly="!isSessionEndTimeMode"
+                class="w-full rounded border border-slate-600 bg-slate-800 px-2 py-1.5 text-slate-100 disabled:opacity-60"
               />
               <input
                 v-model="sessionEndTime"
                 type="time"
                 step="60"
-                class="w-full rounded border border-slate-600 bg-slate-800 px-2 py-1.5 text-slate-100"
+                :disabled="!isSessionEndTimeMode"
+                :readonly="!isSessionEndTimeMode"
+                class="w-full rounded border border-slate-600 bg-slate-800 px-2 py-1.5 text-slate-100 disabled:opacity-60"
               />
             </div>
           </label>
@@ -314,6 +344,8 @@ const {
   showFavoritesPicker,
   sessionStartInput,
   sessionEndInput,
+  sessionStartMode,
+  sessionEndMode,
   stepMinutes,
   maxChunkMinutes,
   location,
@@ -339,6 +371,37 @@ const {
   recomputeSchedule,
   applyScheduleToSequence,
 } = useTargetScheduler();
+
+const sessionStartModeOptions = computed(() => [
+  { value: 'time', label: t('plugins.targetScheduler.sessionModes.time') },
+  {
+    value: 'twilight_end_nautical',
+    label: t('plugins.targetScheduler.sessionModes.twilightEndNautical'),
+  },
+  {
+    value: 'twilight_end_astronomical',
+    label: t('plugins.targetScheduler.sessionModes.twilightEndAstronomical'),
+  },
+  { value: 'sun_set', label: t('plugins.targetScheduler.sessionModes.sunSet') },
+  { value: 'moon_set', label: t('plugins.targetScheduler.sessionModes.moonSet') },
+]);
+
+const sessionEndModeOptions = computed(() => [
+  { value: 'time', label: t('plugins.targetScheduler.sessionModes.time') },
+  {
+    value: 'twilight_start_nautical',
+    label: t('plugins.targetScheduler.sessionModes.twilightStartNautical'),
+  },
+  {
+    value: 'twilight_start_astronomical',
+    label: t('plugins.targetScheduler.sessionModes.twilightStartAstronomical'),
+  },
+  { value: 'sun_rise', label: t('plugins.targetScheduler.sessionModes.sunRise') },
+  { value: 'moon_rise', label: t('plugins.targetScheduler.sessionModes.moonRise') },
+]);
+
+const isSessionStartTimeMode = computed(() => sessionStartMode.value === 'time');
+const isSessionEndTimeMode = computed(() => sessionEndMode.value === 'time');
 
 function splitDateTimeLocal(value) {
   const raw = String(value || '');

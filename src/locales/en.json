@@ -3546,6 +3546,17 @@
         "siteAlt": "alt",
         "scheduled": "scheduled"
       },
+      "sessionModes": {
+        "time": "Time",
+        "twilightEndNautical": "Twilight end nautical",
+        "twilightEndAstronomical": "Twilight end astronomical",
+        "sunSet": "Sun set",
+        "moonSet": "Moon set",
+        "twilightStartNautical": "Twilight start nautical",
+        "twilightStartAstronomical": "Twilight start astronomical",
+        "sunRise": "Sun rise",
+        "moonRise": "Moon rise"
+      },
       "warnings": {
         "sequenceVersionRequired": "Sequence insertion requires TNS plugin 1.2.8.0+ (or PINS mode)."
       },
@@ -3569,6 +3580,9 @@
         "minAltitude": "Min altitude",
         "maxAltitude": "Max altitude",
         "minMoonSeparation": "Min moon separation",
+        "minMoonSeparationInfo": "Minimum angular distance between target and Moon required for scheduling.",
+        "maxMoonAltitude": "Max moon altitude",
+        "maxMoonAltitudeHint": "Set to 0° or below to schedule only while the Moon is below the horizon.",
         "timeWindowStart": "Time window start",
         "timeWindowEnd": "Time window end",
         "timeWindowHint": "Leave time window blank to allow scheduling for the full session range."

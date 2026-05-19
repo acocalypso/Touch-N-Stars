@@ -162,7 +162,8 @@
         "setMosaicTargets": "Definir metas de mosaico",
         "panelsSet": "painéis definidos em sequência",
         "willBeSaved": "os painéis serão salvos individualmente"
-      }
+      },
+      "customTarget": "Alvo personalizado"
     },
     "tutorial": {
       "previous": "Anterior",
@@ -1452,7 +1453,15 @@
       "status_stopped_darks": "Interrompido cedo - {concluído} de {total} darks capturados",
       "status_stopped_flats": "Interrompido antecipadamente - {concluído} de {total} apartamentos capturados",
       "status_success_darks": "Concluído - {count} darks capturados",
-      "status_success_flats": "Concluído - {count} apartamentos capturados"
+      "status_success_flats": "Concluído - {count} apartamentos capturados",
+      "filter_label": "Filtro",
+      "result_bright": "muito brilhante",
+      "result_dim": "muito escuro",
+      "status_completed_flats": "Concluído",
+      "status_failed_flats_multi": "Todos os filtros não conseguiram determinar a exposição válida",
+      "status_partial_flats_multi": "Filtros com falha: {filtros}",
+      "status_running_unknown": "Determinando…",
+      "target": "Alvo"
     },
     "weatherModal": {
       "weatherInformation": "Informações meteorológicas",
@@ -1479,7 +1488,13 @@
     },
     "switch": {
       "gauges": "Medidores",
-      "switch": "Interruptor"
+      "switch": "Interruptor",
+      "indi": {
+        "settings": "Alternar configurações"
+      },
+      "sv241pro": {
+        "preConnectDelay": "Atraso de pré-conexão (ms)"
+      }
     },
     "stellarium": {
       "selected_object": {
@@ -3494,7 +3509,10 @@
         "timeWindowEnd": "Fim da janela de tempo",
         "timeWindowHint": "Deixe a janela de tempo em branco para permitir o agendamento de todo o intervalo da sessão.",
         "timeWindowStart": "Início da janela de tempo",
-        "title": "Restrições"
+        "title": "Restrições",
+        "maxMoonAltitude": "Altitude máxima da lua",
+        "maxMoonAltitudeHint": "Defina para 0° ou menos para programar apenas enquanto a Lua estiver abaixo do horizonte.",
+        "minMoonSeparationInfo": "Distância angular mínima entre o alvo e a Lua necessária para o agendamento."
       },
       "defaults": {
         "favoriteTargetName": "Alvo favorito",
@@ -3607,6 +3625,17 @@
       },
       "warnings": {
         "sequenceVersionRequired": "A inserção de sequência requer o plugin TNS 1.2.8.0 (ou modo PINS)."
+      },
+      "sessionModes": {
+        "moonRise": "Nascer da lua",
+        "moonSet": "Lua definida",
+        "sunRise": "Nascer do sol",
+        "sunSet": "Pôr do sol",
+        "time": "Tempo",
+        "twilightEndAstronomical": "Fim do crepúsculo astronômico",
+        "twilightEndNautical": "Fim do crepúsculo náutico",
+        "twilightStartAstronomical": "Crepúsculo começa astronômico",
+        "twilightStartNautical": "Crepúsculo começa náutico"
       }
     },
     "filterOffset": {

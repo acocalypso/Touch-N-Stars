@@ -183,7 +183,7 @@ const calibrationStarted = ref(false);
 
 // PHD2-style position settings
 const decOffset = ref(0); // Start neutral, let altitude calculation handle it
-const meridianOffset = ref(15); // Standard 15° offset from meridian
+const meridianOffset = ref(5); // Standard 5° offset from meridian
 const direction = ref('west');
 
 const canSlew = computed(() => {

@@ -80,6 +80,9 @@
       <stellariumClock v-if="stellariumStore.stel" />
     </div>
 
+    <!-- Horizon overlay (renders into SWE GeoJSON layer, no visible DOM element) -->
+    <StellariumHorizonOverlay v-if="stellariumStore.stel" />
+
     <!-- View Direction Display (hidden when camera FOV frame is rendered) -->
     <StellariumViewDirection v-if="stellariumStore.stel && !showFovFrame" />
   </div>
@@ -105,6 +108,7 @@ import stellariumClock from '@/components/stellarium/stellariumClock.vue';
 import StellariumFovFrame from '@/components/stellarium/StellariumFovFrame.vue';
 import StellariumFovRotation from '@/components/stellarium/StellariumFovRotation.vue';
 import StellariumViewDirection from '@/components/stellarium/StellariumViewDirection.vue';
+import StellariumHorizonOverlay from '@/components/stellarium/StellariumHorizonOverlay.vue';
 import { timeSync } from '@/utils/timeSync';
 import { utcToMJD } from '@/utils/utils';
 
@@ -289,8 +293,7 @@ onMounted(async () => {
           stel.core.observer.utc = mjd;
           console.log('Stellarium initialized with server time:', serverTime.toISOString());
 
-          // Zeitgeschwindigkeit auf 1 setzen
-          stel.core.time_speed = 0;
+          stel.core.time_speed = 1;
 
           // Speichere Stellarium für späteren Zugriff
           stellariumStore.stel = stel;

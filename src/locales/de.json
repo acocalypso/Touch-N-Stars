@@ -202,7 +202,8 @@
       "moveRotator": "Camera rotieren",
       "infoTargetImage": "Wenn das Bild nur in Schwarz angezeigt wird, muss der 'Offline Sky Map Cache' in NINA eingerichtet oder die Option 'NINA cache' deaktiviert werden",
       "useCenter": "Center",
-      "useRotate": "Rotieren"
+      "useRotate": "Rotieren",
+      "customTarget": "Benutzerdefiniertes Ziel"
     },
     "tutorial": {
       "previous": "Zurück",
@@ -1492,7 +1493,15 @@
       "status_failed": "Fehlgeschlagen",
       "status_running": "Läuft",
       "status_stopped": "Angehalten",
-      "status_success": "Erfolgreich"
+      "status_success": "Erfolgreich",
+      "filter_label": "Filter",
+      "result_bright": "zu hell",
+      "result_dim": "zu dunkel",
+      "status_completed_flats": "Vollendet",
+      "status_failed_flats_multi": "Alle Filter konnten keine gültige Belichtung ermitteln",
+      "status_partial_flats_multi": "Fehlerhafte Filter: {filters}",
+      "status_running_unknown": "Bestimmen…",
+      "target": "Ziel"
     },
     "weatherModal": {
       "weatherInformation": "Wetterinformationen",
@@ -1519,7 +1528,13 @@
     },
     "switch": {
       "gauges": "Messwerte",
-      "switch": "Schalter"
+      "switch": "Schalter",
+      "indi": {
+        "settings": "Einstellungen wechseln"
+      },
+      "sv241pro": {
+        "preConnectDelay": "Pre-Connect-Verzögerung (ms)"
+      }
     },
     "stellarium": {
       "selected_object": {
@@ -3531,6 +3546,17 @@
         "siteAlt": "Höhe",
         "scheduled": "geplant"
       },
+      "sessionModes": {
+        "time": "Zeit",
+        "twilightEndNautical": "Nautische Daemmerung Ende",
+        "twilightEndAstronomical": "Astronomische Daemmerung Ende",
+        "sunSet": "Sonnenuntergang",
+        "moonSet": "Monduntergang",
+        "twilightStartNautical": "Nautische Daemmerung Beginn",
+        "twilightStartAstronomical": "Astronomische Daemmerung Beginn",
+        "sunRise": "Sonnenaufgang",
+        "moonRise": "Mondaufgang"
+      },
       "warnings": {
         "sequenceVersionRequired": "Für das Einfügen in die Sequenz wird TNS-Plugin 1.2.8.0+ benötigt (oder PINS-Modus)."
       },
@@ -3554,6 +3580,9 @@
         "minAltitude": "Minimale Höhe",
         "maxAltitude": "Maximale Höhe",
         "minMoonSeparation": "Mindest-Mondabstand",
+        "minMoonSeparationInfo": "Minimaler Winkelabstand zwischen Ziel und Mond, der fuer die Planung erforderlich ist.",
+        "maxMoonAltitude": "Maximale Mondhoehe",
+        "maxMoonAltitudeHint": "Auf 0° oder darunter setzen, um nur bei Mond unter dem Horizont zu planen.",
         "timeWindowStart": "Zeitfenster Start",
         "timeWindowEnd": "Zeitfenster Ende",
         "timeWindowHint": "Zeitfenster leer lassen, um den gesamten Sitzungszeitraum zu planen."

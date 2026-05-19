@@ -162,7 +162,8 @@
         "setMosaicTargets": "Встановити цілі мозаїки",
         "panelsSet": "панелі встановлені в послідовності",
         "willBeSaved": "панелі будуть збережені окремо"
-      }
+      },
+      "customTarget": "Спеціальна ціль"
     },
     "tutorial": {
       "previous": "Назад",
@@ -1432,7 +1433,15 @@
       "status_failed": "не вдалося",
       "status_running": "Виконується",
       "status_stopped": "Зупинено",
-      "status_success": "Успішно"
+      "status_success": "Успішно",
+      "filter_label": "фільтр",
+      "result_bright": "занадто яскравий",
+      "result_dim": "занадто тьмяний",
+      "status_completed_flats": "Виконано",
+      "status_failed_flats_multi": "Усім фільтрам не вдалося визначити дійсну експозицію",
+      "status_partial_flats_multi": "Невдалі фільтри: {filters}",
+      "status_running_unknown": "Визначення…",
+      "target": "Цільова"
     },
     "weatherModal": {
       "weatherInformation": "Інформація про погоду",
@@ -1459,7 +1468,13 @@
     },
     "switch": {
       "gauges": "Датчики",
-      "switch": "Перемикач"
+      "switch": "Перемикач",
+      "indi": {
+        "settings": "Налаштування перемикача"
+      },
+      "sv241pro": {
+        "preConnectDelay": "Затримка перед підключенням (мс)"
+      }
     },
     "stellarium": {
       "selected_object": {
@@ -3366,7 +3381,10 @@
         "minMoonSeparation": "Мін. відстань від Місяця",
         "timeWindowStart": "Початок вікна часу",
         "timeWindowEnd": "Кінець вікна часу",
-        "timeWindowHint": "Залиште вікно часу порожнім для планування на весь діапазон сесії."
+        "timeWindowHint": "Залиште вікно часу порожнім для планування на весь діапазон сесії.",
+        "maxMoonAltitude": "Максимальна висота місяця",
+        "maxMoonAltitudeHint": "Встановіть 0° або нижче, щоб запланувати лише коли Місяць знаходиться за горизонтом.",
+        "minMoonSeparationInfo": "Мінімальна кутова відстань між метою та Місяцем, необхідна для планування."
       },
       "timeline": {
         "title": "Часова шкала сесії",
@@ -3450,6 +3468,17 @@
         "noImagingContainerFound": "Не вдалося знайти контейнер зйомки в активній послідовності.",
         "noValidTargetsForExport": "Не знайдено дійсних цілей для експорту.",
         "failedToApplySchedule": "Не вдалося застосувати розклад до послідовності."
+      },
+      "sessionModes": {
+        "moonRise": "Схід місяця",
+        "moonSet": "Місяць зайшов",
+        "sunRise": "Схід сонця",
+        "sunSet": "Сонце зайшло",
+        "time": "час",
+        "twilightEndAstronomical": "Астрономічні сутінки",
+        "twilightEndNautical": "Сутінковий кінець морський",
+        "twilightStartAstronomical": "Початок сутінків астрономічний",
+        "twilightStartNautical": "Сутінковий старт морський"
       }
     },
     "pinsDevices": {

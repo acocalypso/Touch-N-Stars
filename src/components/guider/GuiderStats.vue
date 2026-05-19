@@ -1,88 +1,97 @@
 <template>
-  <p class="font-bold">{{ $t('components.guider.rms_error') }}:</p>
-  <p>
-    RA: {{ store.guiderInfo?.RMSError?.RA.Pixel.toFixed(2) }} ({{
-      store.guiderInfo?.RMSError?.RA.Arcseconds.toFixed(2)
-    }}")
-  </p>
-  <p>
-    DEC: {{ store.guiderInfo.RMSError?.Dec.Pixel.toFixed(2) }} ({{
-      store.guiderInfo?.RMSError?.Dec.Arcseconds.toFixed(2)
-    }}")
-  </p>
-  <p>
-    Total: {{ store.guiderInfo.RMSError?.Total.Pixel.toFixed(2) }} ({{
-      store.guiderInfo.RMSError?.Total.Arcseconds.toFixed(2)
-    }}")
-  </p>
-
-  <template v-if="store.isPINS">
-    <p class="font-bold">Guide Algorithms:</p>
-    <p>RA algo: {{ guiderStore.phd2GuideAlgorithmRA }}</p>
-    <template v-if="algoParams.ra">
-      <p
-        v-for="(val, name) in algoParams.ra"
-        :key="name"
-        v-show="!EXCLUDED_PARAMS.includes(String(name))"
+  <!-- RMS Error — always visible -->
+  <div class="shrink-0 text-sm">
+    <p class="font-bold">{{ $t('components.guider.rms_error') }}:</p>
+    <div class="grid grid-cols-3 gap-x-3 tabular-nums w-fit">
+      <span class="text-gray-400">RA</span>
+      <span>{{ store.guiderInfo?.RMSError?.RA.Pixel.toFixed(2) }} px</span>
+      <span class="text-gray-400">{{ store.guiderInfo?.RMSError?.RA.Arcseconds.toFixed(2) }}"</span>
+      <span class="text-gray-400">DEC</span>
+      <span>{{ store.guiderInfo?.RMSError?.Dec.Pixel.toFixed(2) }} px</span>
+      <span class="text-gray-400"
+        >{{ store.guiderInfo?.RMSError?.Dec.Arcseconds.toFixed(2) }}"</span
       >
-        {{ name }}:
+      <span class="text-gray-400">Total</span>
+      <span class="font-semibold">{{ store.guiderInfo?.RMSError?.Total.Pixel.toFixed(2) }} px</span>
+      <span class="text-gray-400"
+        >{{ store.guiderInfo?.RMSError?.Total.Arcseconds.toFixed(2) }}"</span
+      >
+    </div>
+  </div>
+
+  <!-- Algo params (PINS only) -->
+  <template v-if="store.isPINS">
+    <div v-if="algoParams.ra" class="shrink-0 text-sm">
+      <p class="font-bold">RA params:</p>
+      <div class="grid grid-cols-2 gap-x-3 w-fit">
+        <template v-for="(val, name) in algoParams.ra" :key="name">
+          <template v-if="!EXCLUDED_PARAMS.includes(String(name))">
+            <span class="text-gray-400">{{ name }}</span>
+            <span
+              v-if="typeof val === 'number'"
+              class="cursor-pointer"
+              style="color: rgba(100, 170, 230, 1)"
+              @click="openParamPicker('ra', String(name), val)"
+              >{{ displayVal(String(name), val) }}</span
+            >
+            <span v-else>{{ val }}</span>
+          </template>
+        </template>
+      </div>
+    </div>
+    <p v-else-if="algoLoading" class="text-sm">…</p>
+
+    <div v-if="algoParams.dec" class="shrink-0 text-sm">
+      <p class="font-bold">DEC params:</p>
+      <div class="grid grid-cols-2 gap-x-3 w-fit">
+        <template v-for="(val, name) in algoParams.dec" :key="name">
+          <template v-if="!EXCLUDED_PARAMS.includes(String(name))">
+            <span class="text-gray-400">{{ name }}</span>
+            <span
+              v-if="typeof val === 'number'"
+              class="cursor-pointer"
+              style="color: rgba(255, 80, 100, 1)"
+              @click="openParamPicker('dec', String(name), val)"
+              >{{ displayVal(String(name), val) }}</span
+            >
+            <span v-else>{{ val }}</span>
+          </template>
+        </template>
+      </div>
+    </div>
+    <p v-else-if="algoLoading" class="text-sm">…</p>
+
+    <!-- Guide Algorithms — far right -->
+    <div class="shrink-0 text-sm">
+      <p class="font-bold">Guide Algorithms:</p>
+      <div class="grid grid-cols-4 gap-x-3 w-fit">
+        <span class="text-gray-400">RA algo</span>
+        <span>{{ guiderStore.phd2GuideAlgorithmRA }}</span>
+        <span class="text-gray-400">DEC algo</span>
+        <span>{{ guiderStore.phd2GuideAlgorithmDEC }}</span>
+        <span class="text-gray-400">Max RA</span>
         <span
-          v-if="typeof val === 'number'"
           class="cursor-pointer"
           style="color: rgba(100, 170, 230, 1)"
-          @click="openParamPicker('ra', String(name), val)"
-          >{{ displayVal(String(name), val) }}</span
+          @click="openMaxDurationPicker('ra')"
+          >{{ maxRaDuration ?? '…' }}</span
         >
-        <span v-else>{{ val }}</span>
-      </p>
-    </template>
-    <p v-else-if="algoLoading">…</p>
-    <p>
-      Max RA duration:
-      <span
-        class="cursor-pointer"
-        style="color: rgba(100, 170, 230, 1)"
-        @click="openMaxDurationPicker('ra')"
-        >{{ maxRaDuration ?? '…' }}</span
-      >
-    </p>
-    <p>DEC algo: {{ guiderStore.phd2GuideAlgorithmDEC }}</p>
-    <template v-if="algoParams.dec">
-      <p
-        v-for="(val, name) in algoParams.dec"
-        :key="name"
-        v-show="!EXCLUDED_PARAMS.includes(String(name))"
-      >
-        {{ name }}:
+        <span class="text-gray-400">Max DEC</span>
         <span
-          v-if="typeof val === 'number'"
           class="cursor-pointer"
           style="color: rgba(255, 80, 100, 1)"
-          @click="openParamPicker('dec', String(name), val)"
-          >{{ displayVal(String(name), val) }}</span
+          @click="openMaxDurationPicker('dec')"
+          >{{ maxDecDuration ?? '…' }}</span
         >
-        <span v-else>{{ val }}</span>
-      </p>
-    </template>
-    <p v-else-if="algoLoading">…</p>
-    <p>
-      Max DEC duration:
-      <span
-        class="cursor-pointer"
-        style="color: rgba(255, 80, 100, 1)"
-        @click="openMaxDurationPicker('dec')"
-        >{{ maxDecDuration ?? '…' }}</span
-      >
-    </p>
-    <p>
-      Dec guide mode:
-      <span
-        class="cursor-pointer"
-        style="color: rgba(255, 80, 100, 1)"
-        @click="cycleDecGuideMode"
-        >{{ decGuideMode ?? '…' }}</span
-      >
-    </p>
+        <span class="text-gray-400">Dec mode</span>
+        <span
+          class="cursor-pointer col-span-3"
+          style="color: rgba(255, 80, 100, 1)"
+          @click="cycleDecGuideMode"
+          >{{ decGuideMode ?? '…' }}</span
+        >
+      </div>
+    </div>
   </template>
 </template>
 
@@ -100,8 +109,6 @@ const { openPicker } = useNumberPicker();
 
 const EXCLUDED_PARAMS = ['algorithmName', 'fastSwitch', 'periodLength'];
 
-// Mirrors SetRaAlgoPara / SetDecAlgoPara: scale = multiply raw API value for display,
-// divide display value back when setting.
 const PARAM_CONFIG = {
   minMove: { min: 0, max: 20, step: 0.01, scale: 1 },
   aggression: { min: 0, max: 100, step: 1, scale: 100 },
@@ -158,7 +165,7 @@ async function fetchParamsForAxis(axis) {
 }
 
 async function fetchMaxDurations() {
-  if (!store.isPINS) return;
+  if (!store.isPINS || !guiderStore.phd2IsConnected) return;
   try {
     const ra = await apiPinsService.getMaxRaDuration();
     if (ra?.Success) maxRaDuration.value = ra.Response?.MaxRaDuration ?? null;
@@ -191,7 +198,7 @@ function openMaxDurationPicker(axis) {
 }
 
 async function fetchDecGuideMode() {
-  if (!store.isPINS) return;
+  if (!store.isPINS || !guiderStore.phd2IsConnected) return;
   try {
     const r = await apiPinsService.getDecGuideMode();
     if (r?.Success) decGuideMode.value = r.Response?.DecGuideMode ?? null;
@@ -212,7 +219,7 @@ async function cycleDecGuideMode() {
 }
 
 async function fetchAlgoParams() {
-  if (!store.isPINS) return;
+  if (!store.isPINS || !guiderStore.phd2IsConnected) return;
   algoLoading.value = algoParams.value.ra === null && algoParams.value.dec === null;
   const [ra, dec] = await Promise.all([fetchParamsForAxis('ra'), fetchParamsForAxis('dec')]);
   algoParams.value = { ra, dec };
@@ -220,7 +227,7 @@ async function fetchAlgoParams() {
 }
 
 onMounted(async () => {
-  if (store.isPINS) {
+  if (store.isPINS && guiderStore.phd2IsConnected) {
     await Promise.all([
       guiderStore.fetchPHD2GuideAlgorithmRA(),
       guiderStore.fetchPHD2GuideAlgorithmDEC(),

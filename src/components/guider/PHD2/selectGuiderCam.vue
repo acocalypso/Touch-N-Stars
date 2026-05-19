@@ -10,6 +10,7 @@
         class="w-full default-select min-w-0"
         v-model="selectedCam"
         @change="setGuiderCam"
+        :disabled="store.guiderInfo.Connected"
       >
         <option value="" disabled>{{ selectedCam || $t('common.select') }}</option>
         <option
@@ -93,8 +94,10 @@ function validateSelection() {
     borderClass.value = 'border-red-500 error-glow';
     guiderStore.guidecamOk = false;
   } else {
-    borderClass.value = 'border-green-500 connected-glow';
     guiderStore.guidecamOk = true;
+    borderClass.value = store.guiderInfo.Connected
+      ? 'border-green-500 connected-glow'
+      : 'border-gray-500';
   }
 }
 
@@ -112,6 +115,11 @@ async function setGuiderCam() {
     borderClass.value = 'border-red-500 error-glow';
   }
 }
+
+watch(
+  () => store.guiderInfo.Connected,
+  () => validateSelection()
+);
 
 watch(
   () => [

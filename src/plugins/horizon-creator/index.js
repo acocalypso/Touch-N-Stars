@@ -51,7 +51,11 @@ export default {
       pluginPath = `/plugin${next}`;
     }
 
-    router.addRoute({ path: pluginPath, component: HorizonCreatorView, meta: { requiresSetup: true } });
+    router.addRoute({
+      path: pluginPath,
+      component: HorizonCreatorView,
+      meta: { requiresSetup: true },
+    });
 
     if (currentPlugin?.enabled) {
       pluginStore.addNavigationItem({

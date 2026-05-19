@@ -82,7 +82,7 @@ export function altAzToRaDec(altDeg, azDeg, latRad, lstRad) {
     Math.tan(alt) * Math.cos(latRad) - Math.cos(az) * Math.sin(latRad)
   );
 
-  const ra = ((lstRad - H) % (2 * Math.PI) + 2 * Math.PI) % (2 * Math.PI);
+  const ra = (((lstRad - H) % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
   return { raDeg: ra * R2D, decDeg: decRad * R2D };
 }
 

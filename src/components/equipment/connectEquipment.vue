@@ -605,20 +605,26 @@ function waitForMountConnected(timeoutMs = 30000) {
 async function connectAll() {
   isConnecting.value = true;
   try {
+    const hasSwitch = store.existingEquipmentList.some((d) => d.apiName === 'switch');
+    if (hasSwitch) {
+      await apiService.switchAction('connect');
+      await new Promise((resolve) => setTimeout(resolve, 5000));
+    }
+
     for (const device of store.existingEquipmentList) {
       switch (device.apiName) {
         case 'camera':
           await apiService.cameraAction('connect');
           break;
-        case 'mount':
+        case 'mount': {
           const canConnect = await checkMountConnectionPermission(t);
           if (!canConnect) {
-            // Benutzer hat abgebrochen
             return;
           }
           await apiService.mountAction('connect');
           await waitForMountConnected();
           break;
+        }
         case 'filter':
           await apiService.filterAction('connect');
           break;
@@ -652,7 +658,6 @@ async function connectAll() {
           await apiService.weatherAction('connect');
           break;
         case 'switch':
-          await apiService.switchAction('connect');
           break;
       }
     }

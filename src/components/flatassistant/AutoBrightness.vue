@@ -86,6 +86,7 @@ async function startAutoExposure() {
           flatsStore.darkCount
         ),
       keepClosed: settingsStore.flats.keepClosed,
+      darkCount: flatsStore.darkCount,
     });
   } catch (error) {
     console.log('Error flatAutoBrightness');

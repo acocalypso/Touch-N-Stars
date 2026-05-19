@@ -667,7 +667,7 @@ async function startMultiMode() {
 
   flatsStore.currentFilterName = null;
 
-  // Restore run type and commit aggregate result — triggers App.vue watcher → toast
+  // Restore run type and build aggregate result
   flatsStore.currentRunType = 'flats-multi';
   const FAILURE_STATES = ['failed', 'dim', 'bright'];
   const failedFilterNames = sortedIds
@@ -679,7 +679,7 @@ async function startMultiMode() {
       if (result === 'bright') return `${name} (too bright)`;
       return name;
     });
-  flatsStore.lastRun = {
+  const flatsMultiResult = {
     type: 'flats-multi',
     completed: totalCompleted,
     total: totalRequested,
@@ -688,9 +688,18 @@ async function startMultiMode() {
     failedFilterNames,
   };
 
+  // Run dark series BEFORE committing lastRun. Setting lastRun first would schedule
+  // commitRunOutcome (App.vue watcher) which calls showToast, which overwrites the
+  // showConfirmation dialog before the user can see it.
   if (darkJobs.length > 0 && !flatsStore.workflowStopRequested) {
     await flatsStore.runDarkSeries(darkJobs, state.keepClosed);
+    // runDarkSeries sets lastRun to the dark result and triggers its own toast.
+    // Reset to null so the flats-multi result also triggers the App.vue watcher.
+    flatsStore.lastRun = null;
   }
+
+  // Commit flats-multi result — triggers App.vue watcher → toast
+  flatsStore.lastRun = flatsMultiResult;
 }
 
 async function stopFlats() {

@@ -162,7 +162,8 @@
         "setMosaicTargets": "Définir des cibles de mosaïque",
         "panelsSet": "panneaux disposés en séquence",
         "willBeSaved": "les panneaux seront enregistrés individuellement"
-      }
+      },
+      "customTarget": "Cible personnalisée"
     },
     "tutorial": {
       "previous": "Précédent",
@@ -1452,7 +1453,15 @@
       "status_stopped_darks": "Arrêté plus tôt – {terminé} sur {total} darks capturés",
       "status_stopped_flats": "Arrêté prématurément – {terminé} sur {total} appartements capturés",
       "status_success_darks": "Terminé – {count} darks capturés",
-      "status_success_flats": "Terminé – {count} appartements capturés"
+      "status_success_flats": "Terminé – {count} appartements capturés",
+      "filter_label": "Filtre",
+      "result_bright": "trop brillant",
+      "result_dim": "trop sombre",
+      "status_completed_flats": "Complété",
+      "status_failed_flats_multi": "Tous les filtres n'ont pas réussi à déterminer une exposition valide",
+      "status_partial_flats_multi": "Filtres ayant échoué : {filters}",
+      "status_running_unknown": "Déterminer…",
+      "target": "Cible"
     },
     "weatherModal": {
       "weatherInformation": "Informations météorologiques",
@@ -1479,7 +1488,13 @@
     },
     "switch": {
       "gauges": "Jauges",
-      "switch": "Commutateur"
+      "switch": "Commutateur",
+      "indi": {
+        "settings": "Paramètres du commutateur"
+      },
+      "sv241pro": {
+        "preConnectDelay": "Délai de pré-connexion (ms)"
+      }
     },
     "stellarium": {
       "selected_object": {
@@ -3494,7 +3509,10 @@
         "timeWindowEnd": "Fin de la fenêtre horaire",
         "timeWindowHint": "Laissez la fenêtre horaire vide pour permettre la planification de la plage complète des sessions.",
         "timeWindowStart": "Début de la fenêtre horaire",
-        "title": "Contraintes"
+        "title": "Contraintes",
+        "maxMoonAltitude": "Altitude maximale de la lune",
+        "maxMoonAltitudeHint": "Réglez sur 0° ou moins pour programmer uniquement lorsque la Lune est sous l'horizon.",
+        "minMoonSeparationInfo": "Distance angulaire minimale entre la cible et la Lune requise pour la planification."
       },
       "defaults": {
         "favoriteTargetName": "Cible préférée",
@@ -3607,6 +3625,17 @@
       },
       "warnings": {
         "sequenceVersionRequired": "L'insertion de séquence nécessite le plugin TNS 1.2.8.0 (ou le mode PINS)."
+      },
+      "sessionModes": {
+        "moonRise": "Lever de la lune",
+        "moonSet": "Lune réglée",
+        "sunRise": "Lever du soleil",
+        "sunSet": "Coucher de soleil",
+        "time": "Temps",
+        "twilightEndAstronomical": "Fin du crépuscule astronomique",
+        "twilightEndNautical": "Fin du crépuscule nautique",
+        "twilightStartAstronomical": "Le crépuscule commence astronomique",
+        "twilightStartNautical": "Début du crépuscule nautique"
       }
     },
     "filterOffset": {

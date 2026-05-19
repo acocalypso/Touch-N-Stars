@@ -162,7 +162,8 @@
         "setMosaicTargets": "Ustaw cele mozaikowe",
         "panelsSet": "panele ustawione w kolejności",
         "willBeSaved": "panele zostaną zapisane indywidualnie"
-      }
+      },
+      "customTarget": "Cel niestandardowy"
     },
     "tutorial": {
       "previous": "Poprzedni",
@@ -1452,7 +1453,15 @@
       "status_stopped_darks": "Zatrzymano wcześniej – {ukończono} z {total} zdobytych ciemności",
       "status_stopped_flats": "Zatrzymano wcześniej – {ukończono} z {total} zdobytych mieszkań",
       "status_success_darks": "Gotowe — przechwycono {count} ciemności",
-      "status_success_flats": "Gotowe – zajęto {count} mieszkań"
+      "status_success_flats": "Gotowe – zajęto {count} mieszkań",
+      "filter_label": "Filtr",
+      "result_bright": "zbyt jasny",
+      "result_dim": "zbyt ciemne",
+      "status_completed_flats": "Zakończony",
+      "status_failed_flats_multi": "Żadne filtry nie określiły prawidłowego narażenia",
+      "status_partial_flats_multi": "Nieudane filtry: {filters}",
+      "status_running_unknown": "Określający…",
+      "target": "Cel"
     },
     "weatherModal": {
       "weatherInformation": "Informacje o pogodzie",
@@ -1479,7 +1488,13 @@
     },
     "switch": {
       "gauges": "Wskaźniki",
-      "switch": "Przełącznik"
+      "switch": "Przełącznik",
+      "indi": {
+        "settings": "Zmień ustawienia"
+      },
+      "sv241pro": {
+        "preConnectDelay": "Opóźnienie wstępnego połączenia (ms)"
+      }
     },
     "stellarium": {
       "selected_object": {
@@ -3494,7 +3509,10 @@
         "timeWindowEnd": "Koniec okna czasowego",
         "timeWindowHint": "Pozostaw okno czasowe puste, aby umożliwić planowanie pełnego zakresu sesji.",
         "timeWindowStart": "Rozpoczęcie okna czasowego",
-        "title": "Ograniczenia"
+        "title": "Ograniczenia",
+        "maxMoonAltitude": "Maksymalna wysokość księżyca",
+        "maxMoonAltitudeHint": "Ustaw na 0° lub mniej, aby zaplanować tylko wtedy, gdy Księżyc znajduje się poniżej horyzontu.",
+        "minMoonSeparationInfo": "Minimalna odległość kątowa między celem a Księżycem wymagana do planowania."
       },
       "defaults": {
         "favoriteTargetName": "Ulubiony cel",
@@ -3607,6 +3625,17 @@
       },
       "warnings": {
         "sequenceVersionRequired": "Wstawianie sekwencji wymaga wtyczki TNS 1.2.8.0 (lub trybu PINS)."
+      },
+      "sessionModes": {
+        "moonRise": "Wschód księżyca",
+        "moonSet": "Zachód księżyca",
+        "sunRise": "Wschód słońca",
+        "sunSet": "Zachód słońca",
+        "time": "Czas",
+        "twilightEndAstronomical": "Zmierzch koniec astronomiczny",
+        "twilightEndNautical": "Żeglarski koniec zmierzchu",
+        "twilightStartAstronomical": "Zmierzch zaczyna się astronomicznie",
+        "twilightStartNautical": "Zmierzch zaczyna się nautycznie"
       }
     },
     "filterOffset": {

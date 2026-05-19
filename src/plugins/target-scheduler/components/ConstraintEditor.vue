@@ -57,7 +57,16 @@
     <div v-if="advancedOpen" class="space-y-3 border-t border-slate-700 pt-3">
       <div>
         <div class="flex items-center justify-between text-xs text-slate-400 mb-1">
-          <span>{{ t('plugins.targetScheduler.constraints.minMoonSeparation') }}</span>
+          <span class="flex items-center gap-1">
+            <span>{{ t('plugins.targetScheduler.constraints.minMoonSeparation') }}</span>
+            <span
+              class="inline-flex items-center"
+              :title="t('plugins.targetScheduler.constraints.minMoonSeparationInfo')"
+              v-tooltip="t('plugins.targetScheduler.constraints.minMoonSeparationInfo')"
+            >
+              <InformationCircleIcon class="h-4 w-4 text-slate-400 cursor-help" />
+            </span>
+          </span>
           <span>
             {{ localValue.minMoonSeparation }} {{ t('plugins.targetScheduler.common.deg') }}
           </span>
@@ -70,6 +79,26 @@
           step="1"
           class="w-full accent-amber-500"
         />
+      </div>
+
+      <div>
+        <div class="flex items-center justify-between text-xs text-slate-400 mb-1">
+          <span>{{ t('plugins.targetScheduler.constraints.maxMoonAltitude') }}</span>
+          <span>
+            {{ localValue.maxMoonAltitude }} {{ t('plugins.targetScheduler.common.deg') }}
+          </span>
+        </div>
+        <input
+          v-model.number="localValue.maxMoonAltitude"
+          type="range"
+          min="-30"
+          max="90"
+          step="1"
+          class="w-full accent-amber-500"
+        />
+        <p class="text-[11px] text-slate-500 mt-1">
+          {{ t('plugins.targetScheduler.constraints.maxMoonAltitudeHint') }}
+        </p>
       </div>
 
       <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -102,6 +131,7 @@
 <script setup>
 import { reactive, watch, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { InformationCircleIcon } from '@heroicons/vue/24/outline';
 import { DEFAULT_CONSTRAINTS } from '../services/TargetSchedulerService';
 
 const props = defineProps({
@@ -140,6 +170,7 @@ watch(
       minAltitude: Number(value.minAltitude),
       maxAltitude: Number(value.maxAltitude),
       minMoonSeparation: Number(value.minMoonSeparation),
+      maxMoonAltitude: Number(value.maxMoonAltitude),
       enabled: value.enabled !== false,
     });
   },

@@ -162,7 +162,8 @@
         "setMosaicTargets": "Establecer objetivos de mosaico",
         "panelsSet": "paneles colocados en secuencia",
         "willBeSaved": "Los paneles se guardarán individualmente."
-      }
+      },
+      "customTarget": "Objetivo personalizado"
     },
     "tutorial": {
       "previous": "Anterior",
@@ -1452,7 +1453,15 @@
       "status_stopped_darks": "Detenido antes de tiempo: {completed} de {total} oscuridades capturadas",
       "status_stopped_flats": "Detenido antes de tiempo: {completed} de {total} departamentos capturados",
       "status_success_darks": "Listo: {count} darks capturados",
-      "status_success_flats": "Listo: {count} flats capturados"
+      "status_success_flats": "Listo: {count} flats capturados",
+      "filter_label": "Filtrar",
+      "result_bright": "demasiado brillante",
+      "result_dim": "demasiado oscuro",
+      "status_completed_flats": "Terminado",
+      "status_failed_flats_multi": "Ninguno de los filtros pudo determinar la exposición válida",
+      "status_partial_flats_multi": "Filtros fallidos: {filters}",
+      "status_running_unknown": "Determinando…",
+      "target": "Objetivo"
     },
     "weatherModal": {
       "weatherInformation": "Información meteorológica",
@@ -1479,7 +1488,13 @@
     },
     "switch": {
       "gauges": "Medidores",
-      "switch": "Cambiar"
+      "switch": "Cambiar",
+      "indi": {
+        "settings": "Cambiar configuración"
+      },
+      "sv241pro": {
+        "preConnectDelay": "Retardo previo a la conexión (ms)"
+      }
     },
     "stellarium": {
       "selected_object": {
@@ -3494,7 +3509,10 @@
         "timeWindowEnd": "Fin de la ventana de tiempo",
         "timeWindowHint": "Deje la ventana de tiempo en blanco para permitir la programación para todo el rango de sesiones.",
         "timeWindowStart": "Inicio de la ventana de tiempo",
-        "title": "Restricciones"
+        "title": "Restricciones",
+        "maxMoonAltitude": "Altitud máxima de la luna",
+        "maxMoonAltitudeHint": "Configúrelo en 0° o menos para programar solo mientras la Luna esté debajo del horizonte.",
+        "minMoonSeparationInfo": "Distancia angular mínima entre el objetivo y la Luna requerida para la programación."
       },
       "defaults": {
         "favoriteTargetName": "Objetivo favorito",
@@ -3567,7 +3585,9 @@
         "sessionStart": "Inicio de sesión",
         "siteAlt": "alternativo",
         "siteLat": "Latitud del sitio",
-        "siteLon": "lon"
+        "siteLon": "lon",
+        "maxChunkInfo": "Limita el bloque programado continuo máximo por objetivo antes de que el programador pueda cambiar a otro objetivo.",
+        "samplingStepInfo": "Define el intervalo de cálculo en minutos. \nLos valores más bajos aumentan la precisión pero evalúan más puntos de la línea de tiempo."
       },
       "subtitle": "Planificación móvil primero para visibilidad de objetivos, restricciones e inserción de secuencias.",
       "targetCard": {
@@ -3605,6 +3625,17 @@
       },
       "warnings": {
         "sequenceVersionRequired": "La inserción de secuencia requiere el complemento TNS 1.2.8.0 (o modo PINS)."
+      },
+      "sessionModes": {
+        "moonRise": "salida de la luna",
+        "moonSet": "Conjunto de luna",
+        "sunRise": "Amanecer",
+        "sunSet": "Atardecer",
+        "time": "Tiempo",
+        "twilightEndAstronomical": "Crepúsculo final astronómico",
+        "twilightEndNautical": "Crepúsculo final náutico",
+        "twilightStartAstronomical": "Inicio del crepúsculo astronómico",
+        "twilightStartNautical": "Crepúsculo inicio náutico"
       }
     },
     "filterOffset": {
@@ -3713,6 +3744,77 @@
       "visVisible": "Visible tonight",
       "visHidden": "Below horizon tonight",
       "page": "{n} / {total}"
+    },
+    "phd2logviewer": {
+      "cal": {
+        "angle": "Ángulo (°)",
+        "axis": "Eje",
+        "backlash": "Reacción",
+        "dist": "Dist (px)",
+        "noData": "No hay datos de calibración para esta sesión.",
+        "noSummary": "No hay datos resumidos (es posible que se haya interrumpido la calibración)",
+        "over": "encima",
+        "parity": "Paridad",
+        "rate": "Velocidad (px/s)",
+        "steps": "Pasos"
+      },
+      "clear": "Claro",
+      "emptyState": "Seleccione un registro de guía PHD2 del menú desplegable de arriba.",
+      "excludeDither": "Excluir automáticamente la resolución de tramado",
+      "fft": {
+        "dominantPeriod": "Periodo dominante",
+        "subtitle": "Identifica armónicos de error periódico en el guiado RA.",
+        "title": "Análisis de frecuencia AR"
+      },
+      "info": {
+        "camera": "Cámara",
+        "duration": "Duración",
+        "ended": "Terminado",
+        "focalLength": "Longitud focal",
+        "mount": "Montar",
+        "pixelScale": "Escala de píxeles",
+        "profile": "Perfil",
+        "started": "Sesión iniciada",
+        "totalFrames": "Cuadros totales"
+      },
+      "legend": {
+        "dec": "Dic",
+        "dither": "Vacilar",
+        "ra": "REAL ACADEMIA DE BELLAS ARTES",
+        "raRaw": "RA (cruda)"
+      },
+      "loading": "Cargando…",
+      "noLogs": "No se encontraron registros",
+      "rawRa": "AR cruda y sin corregir",
+      "refresh": "Actualizar lista de registros",
+      "selectLog": "— seleccione un registro —",
+      "session": "Sesión:",
+      "settings": {
+        "notConfigured": "Configure el directorio de registro de PHD2",
+        "placeholder": "No hay ruta configurada",
+        "saveError": "No se pudo guardar la ruta",
+        "title": "Directorio de registros"
+      },
+      "statistics": "Estadística",
+      "stats": {
+        "combined": "conjunto",
+        "decRms": "RMS de diciembre",
+        "declination": "declinación",
+        "frames": "Marcos",
+        "maxError": "error máximo",
+        "of": "de {total}",
+        "peakDec": "Pico diciembre",
+        "peakRa": "RA máxima",
+        "raRms": "RA RMS",
+        "rightAscension": "ascensión recta",
+        "totalRms": "RMS totales"
+      },
+      "subtitle": "Seleccione un registro de guía PHD2 para visualizar el rendimiento y las estadísticas de la guía.",
+      "tabs": {
+        "calibration": "Calibración",
+        "guide": "Gráfico guía"
+      },
+      "title": "Visor de registros PHD2"
     }
   },
   "pinsDevices": {
@@ -4015,7 +4117,13 @@
       "smtpSsl": "Usar TLS/SSL",
       "testDiscord": "Enviar mensaje de prueba",
       "testEmail": "Enviar correo electrónico de prueba",
-      "testPushover": "Enviar notificación de prueba"
+      "testPushover": "Enviar notificación de prueba",
+      "localDashboardEnabled": "Habilitar servidor web local",
+      "localDashboardHint": "Proporciona su historial de sesiones desde un servidor web local accesible desde cualquier navegador de su red. \nUtilice una VPN para acceso remoto.",
+      "localDashboardPort": "Puerto",
+      "localDashboardTitle": "Panel de control local",
+      "showChartFilterChips": "Mostrar fila de chips de filtro",
+      "showChartTargetChips": "Mostrar fila de chips objetivo"
     },
     "stats": {
       "accepted": "Aceptado",

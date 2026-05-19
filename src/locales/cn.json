@@ -162,7 +162,8 @@
         "setMosaicTargets": "设置马赛克目标",
         "title": "马赛克模式",
         "willBeSaved": "面板将单独保存"
-      }
+      },
+      "customTarget": "Custom Target"
     },
     "tutorial": {
       "previous": "上一步",
@@ -1452,7 +1453,15 @@
       "status_stopped_darks": "Stopped early - {completed} of {total} darks captured",
       "status_stopped_flats": "Stopped early - {completed} of {total} flats captured",
       "status_success_darks": "Done - {count} darks captured",
-      "status_success_flats": "Done - {count} flats captured"
+      "status_success_flats": "Done - {count} flats captured",
+      "filter_label": "Filter",
+      "result_bright": "too bright",
+      "result_dim": "too dim",
+      "status_completed_flats": "Completed",
+      "status_failed_flats_multi": "All filters failed to determine valid exposure",
+      "status_partial_flats_multi": "Failed filters: {filters}",
+      "status_running_unknown": "Determining…",
+      "target": "Target"
     },
     "weatherModal": {
       "weatherInformation": "天气信息",
@@ -1479,7 +1488,13 @@
     },
     "switch": {
       "gauges": "仪表",
-      "switch": "开关"
+      "switch": "开关",
+      "indi": {
+        "settings": "Switch Settings"
+      },
+      "sv241pro": {
+        "preConnectDelay": "Pre Connect Delay (ms)"
+      }
     },
     "stellarium": {
       "selected_object": {
@@ -3494,7 +3509,10 @@
         "timeWindowEnd": "Time window end",
         "timeWindowHint": "Leave time window blank to allow scheduling for the full session range.",
         "timeWindowStart": "Time window start",
-        "title": "Constraints"
+        "title": "Constraints",
+        "maxMoonAltitude": "Max moon altitude",
+        "maxMoonAltitudeHint": "Set to 0° or below to schedule only while the Moon is below the horizon.",
+        "minMoonSeparationInfo": "Minimum angular distance between target and Moon required for scheduling."
       },
       "defaults": {
         "favoriteTargetName": "Favorite Target",
@@ -3607,6 +3625,17 @@
       },
       "warnings": {
         "sequenceVersionRequired": "Sequence insertion requires TNS plugin 1.2.8.0  (or PINS mode)."
+      },
+      "sessionModes": {
+        "moonRise": "Moon rise",
+        "moonSet": "Moon set",
+        "sunRise": "Sun rise",
+        "sunSet": "Sun set",
+        "time": "Time",
+        "twilightEndAstronomical": "Twilight end astronomical",
+        "twilightEndNautical": "Twilight end nautical",
+        "twilightStartAstronomical": "Twilight start astronomical",
+        "twilightStartNautical": "Twilight start nautical"
       }
     },
     "filterOffset": {

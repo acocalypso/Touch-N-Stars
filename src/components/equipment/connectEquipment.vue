@@ -375,7 +375,7 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { apiStore } from '@/store/store';
 import { useGuiderStore } from '@/store/guiderStore';
@@ -582,6 +582,26 @@ const hasAnyConnection = computed(() => {
   });
 });
 
+function waitForMountConnected(timeoutMs = 30000) {
+  if (store.mountInfo.Connected) return Promise.resolve(true);
+  return new Promise((resolve) => {
+    const timer = setTimeout(() => {
+      unwatch();
+      resolve(false);
+    }, timeoutMs);
+    const unwatch = watch(
+      () => store.mountInfo.Connected,
+      (connected) => {
+        if (connected) {
+          clearTimeout(timer);
+          unwatch();
+          resolve(true);
+        }
+      }
+    );
+  });
+}
+
 async function connectAll() {
   isConnecting.value = true;
   try {
@@ -597,6 +617,7 @@ async function connectAll() {
             return;
           }
           await apiService.mountAction('connect');
+          await waitForMountConnected();
           break;
         case 'filter':
           await apiService.filterAction('connect');

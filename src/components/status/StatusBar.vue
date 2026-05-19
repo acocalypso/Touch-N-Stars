@@ -301,7 +301,7 @@
       v-show="guiderStore.showGuiderGraph"
     >
       <GuiderGraph />
-      <div class="flex gap-2 ml-6 mb-2">
+      <div class="flex gap-2 ml-6 mb-2 overflow-x-auto scrollbar-hide">
         <GuiderStats />
       </div>
     </div>

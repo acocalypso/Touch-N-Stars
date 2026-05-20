@@ -1020,7 +1020,17 @@
         "starComponents": {
           "hide": "隐藏星形组件",
           "show": "显示星型组件"
-        }
+        },
+        "applyStep": "Apply",
+        "calculatedStep": "Calculated Step",
+        "calibDistance": "Distance",
+        "calibStepCalc": "Step Size Calculator",
+        "declination": "Declination",
+        "desiredSteps": "Desired Steps",
+        "guideSpeed": "Guide Speed",
+        "imageScale": "Image Scale",
+        "optimal": "Optimal",
+        "pixelSize": "Pixel Size"
       }
     },
     "focuser": {

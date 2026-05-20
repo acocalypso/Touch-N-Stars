@@ -1020,7 +1020,17 @@
         "starComponents": {
           "hide": "Ukryj komponenty gwiazdy",
           "show": "Pokaż komponenty gwiazdy"
-        }
+        },
+        "applyStep": "Stosować",
+        "calculatedStep": "Obliczony krok",
+        "calibDistance": "Dystans",
+        "calibStepCalc": "Kalkulator wielkości kroku",
+        "declination": "Deklinacja",
+        "desiredSteps": "Pożądane kroki",
+        "guideSpeed": "Prędkość przewodnia",
+        "imageScale": "Skala obrazu",
+        "optimal": "Optymalny",
+        "pixelSize": "Rozmiar piksela"
       }
     },
     "focuser": {

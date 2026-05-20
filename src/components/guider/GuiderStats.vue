@@ -20,7 +20,7 @@
   </div>
 
   <!-- Algo params (PINS only) -->
-  <template v-if="store.isPINS">
+  <template v-if="store.isPINS && guiderStore.phd2IsConnected">
     <div v-if="algoParams.ra" class="shrink-0 text-sm">
       <p class="font-bold">RA params:</p>
       <div class="grid grid-cols-2 gap-x-3 w-fit">
@@ -39,7 +39,6 @@
         </template>
       </div>
     </div>
-    <p v-else-if="algoLoading" class="text-sm">…</p>
 
     <div v-if="algoParams.dec" class="shrink-0 text-sm">
       <p class="font-bold">DEC params:</p>
@@ -59,7 +58,6 @@
         </template>
       </div>
     </div>
-    <p v-else-if="algoLoading" class="text-sm">…</p>
 
     <!-- Guide Algorithms — far right -->
     <div class="shrink-0 text-sm">
@@ -74,21 +72,23 @@
           class="cursor-pointer"
           style="color: rgba(100, 170, 230, 1)"
           @click="openMaxDurationPicker('ra')"
-          >{{ maxRaDuration ?? '…' }}</span
+          >{{ maxRaDuration }}</span
         >
         <span class="text-gray-400">Max DEC</span>
         <span
           class="cursor-pointer"
           style="color: rgba(255, 80, 100, 1)"
           @click="openMaxDurationPicker('dec')"
-          >{{ maxDecDuration ?? '…' }}</span
+          >{{ maxDecDuration }}</span
         >
+        <span></span>
+        <span></span>
         <span class="text-gray-400">Dec mode</span>
         <span
-          class="cursor-pointer col-span-3"
+          class="cursor-pointer"
           style="color: rgba(255, 80, 100, 1)"
           @click="cycleDecGuideMode"
-          >{{ decGuideMode ?? '…' }}</span
+          >{{ decGuideMode }}</span
         >
       </div>
     </div>
@@ -96,7 +96,7 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted, onUnmounted } from 'vue';
+import { ref, watch } from 'vue';
 import { apiStore } from '@/store/store';
 import { useGuiderStore } from '@/store/guiderStore';
 import apiPinsService from '@/services/apiPinsService';
@@ -145,7 +145,6 @@ const decGuideMode = ref(null);
 const DEC_GUIDE_MODES = ['Off', 'Auto', 'North', 'South'];
 const maxRaDuration = ref(null);
 const maxDecDuration = ref(null);
-let pollTimer = null;
 
 async function fetchParamsForAxis(axis) {
   try {
@@ -226,26 +225,35 @@ async function fetchAlgoParams() {
   algoLoading.value = false;
 }
 
-onMounted(async () => {
-  if (store.isPINS && guiderStore.phd2IsConnected) {
-    await Promise.all([
-      guiderStore.fetchPHD2GuideAlgorithmRA(),
-      guiderStore.fetchPHD2GuideAlgorithmDEC(),
-    ]);
-  }
+async function fetchGuideAlgorithms() {
+  if (!store.isPINS || !guiderStore.phd2IsConnected) return;
+  await Promise.all([
+    guiderStore.fetchPHD2GuideAlgorithmRA(),
+    guiderStore.fetchPHD2GuideAlgorithmDEC(),
+  ]);
+}
+
+function fetchAll() {
+  fetchGuideAlgorithms();
   fetchAlgoParams();
   fetchDecGuideMode();
   fetchMaxDurations();
-  pollTimer = setInterval(() => {
-    fetchAlgoParams();
-    fetchDecGuideMode();
-    fetchMaxDurations();
-  }, 10000);
-});
+}
 
-onUnmounted(() => {
-  clearInterval(pollTimer);
-});
+watch(
+  () => guiderStore.phd2IsConnected,
+  (connected) => {
+    if (connected) fetchAll();
+  },
+  { immediate: true }
+);
+
+watch(
+  () => guiderStore.showGuiderGraph,
+  (visible) => {
+    if (visible && guiderStore.phd2IsConnected) fetchAll();
+  }
+);
 
 watch(() => [guiderStore.phd2GuideAlgorithmRA, guiderStore.phd2GuideAlgorithmDEC], fetchAlgoParams);
 </script>

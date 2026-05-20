@@ -92,6 +92,26 @@
         >
       </div>
     </div>
+
+    <!-- Dark Library indicator — far right -->
+    <div class="shrink-0 text-sm">
+      <p class="font-bold">{{ $t('components.guider.phd2.darkLibrary.title') }}:</p>
+      <span
+        :class="
+          guiderStore.phd2DarkLibraryInfo?.Loaded
+            ? 'bg-green-500/20 text-green-400 border-green-500/40'
+            : 'bg-red-500/20 text-red-400 border-red-500/40'
+        "
+        class="inline-block px-2 py-0.5 text-xs font-bold rounded border"
+        :title="
+          guiderStore.phd2DarkLibraryInfo?.Loaded
+            ? $t('components.guider.phd2.darkLibrary.loaded')
+            : $t('components.guider.phd2.darkLibrary.notLoaded')
+        "
+      >
+        DARKS
+      </span>
+    </div>
   </template>
 </template>
 
@@ -238,6 +258,7 @@ function fetchAll() {
   fetchAlgoParams();
   fetchDecGuideMode();
   fetchMaxDurations();
+  guiderStore.fetchPHD2DarkLibraryInfo();
 }
 
 watch(

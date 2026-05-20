@@ -293,6 +293,11 @@ export default {
     return this._simplePutRequest(`${API_URL}phd2/camera/binning`, { binning });
   },
 
+  getPHD2CameraInfo() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/camera/info`);
+  },
+
   getPHD2RestoreCalibration() {
     const { API_URL } = getUrls();
     return this._simpleGetRequest(`${API_URL}phd2/calibration/auto-restore`);
@@ -301,6 +306,46 @@ export default {
   setPHD2RestoreCalibration(enabled) {
     const { API_URL } = getUrls();
     return this._simplePutRequest(`${API_URL}phd2/calibration/auto-restore`, { enabled });
+  },
+
+  //-------------------PHD2 Dark Library------------------------
+
+  getPHD2DarkLibraryInfo() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/dark-library/info`);
+  },
+
+  loadPHD2DarkLibrary() {
+    const { API_URL } = getUrls();
+    return this._simplePostRequest(`${API_URL}phd2/dark-library/load`, {});
+  },
+
+  unloadPHD2DarkLibrary() {
+    const { API_URL } = getUrls();
+    return this._simplePostRequest(`${API_URL}phd2/dark-library/unload`, {});
+  },
+
+  deletePHD2DarkLibrary() {
+    const { API_URL } = getUrls();
+    return this._simpleDeleteRequest(`${API_URL}phd2/dark-library`);
+  },
+
+  buildPHD2DarkLibrary(expTimesMs, frameCount) {
+    const { API_URL } = getUrls();
+    return this._simplePostRequest(`${API_URL}phd2/dark-library/build`, {
+      expTimesMs,
+      frameCount,
+    });
+  },
+
+  cancelPHD2DarkLibraryBuild() {
+    const { API_URL } = getUrls();
+    return this._simplePostRequest(`${API_URL}phd2/dark-library/cancel-build`, {});
+  },
+
+  getPHD2DarkLibraryBuildStatus() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/dark-library/build-status`);
   },
 
   // Private method for simple GET requests
@@ -327,6 +372,16 @@ export default {
   _simplePostRequest(url, data) {
     return axios
       .post(url, data)
+      .then((response) => response.data)
+      .catch((error) => {
+        throw error;
+      });
+  },
+
+  // Private method for simple DELETE requests
+  _simpleDeleteRequest(url) {
+    return axios
+      .delete(url)
       .then((response) => response.data)
       .catch((error) => {
         throw error;

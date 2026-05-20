@@ -579,6 +579,7 @@ const statusTextClasses = computed(() => {
 
 // Start guiding function
 async function startGuiding() {
+  if (guiderStore.isDarkLibraryBuildActive) return;
   isProcessing.value = true;
   try {
     await apiService.guiderStart(settingsStore.guider.phd2ForceCalibration);
@@ -597,6 +598,7 @@ async function startGuiding() {
 
 // Start guiding function
 async function startLooping() {
+  if (guiderStore.isDarkLibraryBuildActive) return;
   try {
     await apiService.setPHD2StartLooping(settingsStore.guider.phd2ForceCalibration);
     console.log('[PHD2] Start looping');
@@ -607,6 +609,7 @@ async function startLooping() {
 }
 
 async function stopGuiding() {
+  if (guiderStore.isDarkLibraryBuildActive) return;
   try {
     if (!store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.1.4.0')) {
       await apiService.guiderAction('stop');
@@ -623,6 +626,7 @@ async function stopGuiding() {
 }
 
 async function autoSelectStar() {
+  if (guiderStore.isDarkLibraryBuildActive) return;
   isAutoSelectingStar.value = true;
   try {
     await apiService.findPhd2Star();

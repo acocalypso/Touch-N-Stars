@@ -69,10 +69,26 @@ export const useGuiderStore = defineStore('guiderStore', {
     phd2CameraBinning: null,
     phd2CameraBinningLoading: false,
 
+    // PHD2 Pixel Size State (PINS)
+    phd2PixelSize: null,
+
     // PHD2 Restore Calibration State (PINS)
     phd2RestoreCalibration: false,
     phd2RestoreCalibrationLoading: false,
+
+    // PHD2 Dark Library State (PINS)
+    phd2DarkLibraryInfo: null,
+    phd2DarkLibraryInfoLoading: false,
+    phd2DarkLibraryBuildStatus: null,
+    phd2DarkLibraryBuildLoading: false,
+    phd2DarkLibraryPollHandle: null,
+    phd2DarkLibraryLastResult: null,
   }),
+  getters: {
+    isDarkLibraryBuildActive(state) {
+      return state.phd2DarkLibraryBuildStatus?.Active === true;
+    },
+  },
   actions: {
     async fetchGraphInfos() {
       const store = apiStore();
@@ -185,6 +201,10 @@ export const useGuiderStore = defineStore('guiderStore', {
     },
 
     async setPHD2Profil(id) {
+      if (this.isDarkLibraryBuildActive) {
+        console.warn('PHD2 dark library build active – aborting setPHD2Profil');
+        return;
+      }
       try {
         const response = await apiPinsService.setPHD2SelectedProfile(id);
         if (response.Success && response.Response) {
@@ -216,6 +236,10 @@ export const useGuiderStore = defineStore('guiderStore', {
     },
 
     async setPHD2Camera(index) {
+      if (this.isDarkLibraryBuildActive) {
+        console.warn('PHD2 dark library build active – aborting setPHD2Camera');
+        return;
+      }
       try {
         const response = await apiPinsService.setPHD2SelectedCamera(index);
         if (response.Success && response.Response) {
@@ -263,6 +287,10 @@ export const useGuiderStore = defineStore('guiderStore', {
     },
 
     async setPHD2Mount(index) {
+      if (this.isDarkLibraryBuildActive) {
+        console.warn('PHD2 dark library build active – aborting setPHD2Mount');
+        return;
+      }
       try {
         const response = await apiPinsService.setPHD2SelectedMount(index);
         if (response.Success && response.Response) {
@@ -308,6 +336,10 @@ export const useGuiderStore = defineStore('guiderStore', {
     },
 
     async setPHD2FocalLength(focalLength) {
+      if (this.isDarkLibraryBuildActive) {
+        console.warn('PHD2 dark library build active – aborting setPHD2FocalLength');
+        return;
+      }
       try {
         const response = await apiPinsService.setPHD2Focallength(focalLength);
         if (response.Success && response.Response) {
@@ -338,6 +370,10 @@ export const useGuiderStore = defineStore('guiderStore', {
     },
 
     async setPHD2CalibrationStep(calibrationStep) {
+      if (this.isDarkLibraryBuildActive) {
+        console.warn('PHD2 dark library build active – aborting setPHD2CalibrationStep');
+        return;
+      }
       try {
         const response = await apiPinsService.setPHD2CalibrationStep(calibrationStep);
         if (response.Success && response.Response) {
@@ -368,6 +404,10 @@ export const useGuiderStore = defineStore('guiderStore', {
     },
 
     async setPHD2ReverseDecAfterFlip(enabled) {
+      if (this.isDarkLibraryBuildActive) {
+        console.warn('PHD2 dark library build active – aborting setPHD2ReverseDecAfterFlip');
+        return;
+      }
       try {
         const response = await apiPinsService.setPHD2ReverseDecAfterFlip(enabled);
         if (response.Success && response.Response) {
@@ -398,6 +438,10 @@ export const useGuiderStore = defineStore('guiderStore', {
     },
 
     async setPHD2UseMultipleStars(enabled) {
+      if (this.isDarkLibraryBuildActive) {
+        console.warn('PHD2 dark library build active – aborting setPHD2UseMultipleStars');
+        return;
+      }
       try {
         const response = await apiPinsService.setPHD2UseMultipleStars(enabled);
         if (response.Success && response.Response) {
@@ -428,6 +472,10 @@ export const useGuiderStore = defineStore('guiderStore', {
     },
 
     async setPHD2GuideAlgorithmRA(algorithm) {
+      if (this.isDarkLibraryBuildActive) {
+        console.warn('PHD2 dark library build active – aborting setPHD2GuideAlgorithmRA');
+        return;
+      }
       try {
         const response = await apiPinsService.setPHD2GuideAlgorithmRA(algorithm);
         if (response.Success && response.Response) {
@@ -458,6 +506,10 @@ export const useGuiderStore = defineStore('guiderStore', {
     },
 
     async setPHD2GuideAlgorithmDEC(algorithm) {
+      if (this.isDarkLibraryBuildActive) {
+        console.warn('PHD2 dark library build active – aborting setPHD2GuideAlgorithmDEC');
+        return;
+      }
       try {
         const response = await apiPinsService.setPHD2GuideAlgorithmDEC(algorithm);
         if (response.Success && response.Response) {
@@ -488,6 +540,10 @@ export const useGuiderStore = defineStore('guiderStore', {
     },
 
     async setPHD2CameraGain(gain) {
+      if (this.isDarkLibraryBuildActive) {
+        console.warn('PHD2 dark library build active – aborting setPHD2CameraGain');
+        return;
+      }
       try {
         const response = await apiPinsService.setPHD2CameraGain(gain);
         if (response.Success && response.Response) {
@@ -518,6 +574,10 @@ export const useGuiderStore = defineStore('guiderStore', {
     },
 
     async setPHD2CameraBinning(binning) {
+      if (this.isDarkLibraryBuildActive) {
+        console.warn('PHD2 dark library build active – aborting setPHD2CameraBinning');
+        return;
+      }
       try {
         const response = await apiPinsService.setPHD2CameraBinning(binning);
         if (response.Success && response.Response) {
@@ -527,6 +587,19 @@ export const useGuiderStore = defineStore('guiderStore', {
       } catch (error) {
         console.error('Error setting PHD2 camera binning:', error);
         throw error;
+      }
+    },
+
+    async fetchPHD2PixelSize() {
+      const store = apiStore();
+      if (!store.isPINS) return;
+      try {
+        const response = await apiPinsService.getPHD2CameraInfo();
+        if (response.Success && response.Response) {
+          this.phd2PixelSize = response.Response.pixel_size ?? null;
+        }
+      } catch (error) {
+        console.error('Error fetching PHD2 pixel size:', error);
       }
     },
 
@@ -548,6 +621,10 @@ export const useGuiderStore = defineStore('guiderStore', {
     },
 
     async setPHD2RestoreCalibration(enabled) {
+      if (this.isDarkLibraryBuildActive) {
+        console.warn('PHD2 dark library build active – aborting setPHD2RestoreCalibration');
+        return;
+      }
       try {
         const response = await apiPinsService.setPHD2RestoreCalibration(enabled);
         if (response.Success && response.Response) {
@@ -637,6 +714,140 @@ export const useGuiderStore = defineStore('guiderStore', {
         }
       } catch (error) {
         console.error('Error deleting PHD2 profile:', error);
+        throw error;
+      }
+    },
+
+    // PHD2 Dark Library Actions (PINS)
+    async fetchPHD2DarkLibraryInfo() {
+      const store = apiStore();
+      if (!store.isPINS) return;
+      this.phd2DarkLibraryInfoLoading = true;
+      try {
+        const response = await apiPinsService.getPHD2DarkLibraryInfo();
+        if (response.Success && response.Response) {
+          this.phd2DarkLibraryInfo = response.Response;
+        }
+      } catch (error) {
+        console.error('Error fetching PHD2 dark library info:', error);
+      } finally {
+        this.phd2DarkLibraryInfoLoading = false;
+      }
+    },
+
+    async fetchPHD2DarkLibraryBuildStatus() {
+      const store = apiStore();
+      if (!store.isPINS) return null;
+      try {
+        const response = await apiPinsService.getPHD2DarkLibraryBuildStatus();
+        if (response.Success && response.Response) {
+          this.phd2DarkLibraryBuildStatus = response.Response;
+          return response.Response;
+        }
+      } catch (error) {
+        console.error('Error fetching PHD2 dark library build status:', error);
+      }
+      return null;
+    },
+
+    startDarkLibraryBuildPolling() {
+      if (this.phd2DarkLibraryPollHandle) return;
+      this.phd2DarkLibraryPollHandle = setInterval(async () => {
+        const status = await this.fetchPHD2DarkLibraryBuildStatus();
+        if (!status || status.Complete) {
+          this.stopDarkLibraryBuildPolling();
+          if (status) {
+            this.phd2DarkLibraryLastResult = {
+              success: status.Success === true,
+              error: status.Error || null,
+              frame: status.Frame,
+              totalFrames: status.TotalFrames,
+            };
+          }
+          await this.fetchPHD2DarkLibraryInfo();
+          if (this.phd2DarkLibraryBuildStatus) {
+            this.phd2DarkLibraryBuildStatus = {
+              ...this.phd2DarkLibraryBuildStatus,
+              Active: false,
+            };
+          }
+        }
+      }, 1000);
+    },
+
+    stopDarkLibraryBuildPolling() {
+      if (this.phd2DarkLibraryPollHandle) {
+        clearInterval(this.phd2DarkLibraryPollHandle);
+        this.phd2DarkLibraryPollHandle = null;
+      }
+    },
+
+    async buildPHD2DarkLibrary(expTimesMs, frameCount) {
+      this.phd2DarkLibraryBuildLoading = true;
+      this.phd2DarkLibraryLastResult = null;
+      try {
+        const response = await apiPinsService.buildPHD2DarkLibrary(expTimesMs, frameCount);
+        if (response.Success) {
+          this.phd2DarkLibraryBuildStatus = {
+            Active: true,
+            Complete: false,
+            Frame: 0,
+            TotalFrames: expTimesMs.length * frameCount,
+            ExposureMs: expTimesMs[0],
+          };
+          this.startDarkLibraryBuildPolling();
+        }
+        return response;
+      } catch (error) {
+        console.error('Error starting PHD2 dark library build:', error);
+        throw error;
+      } finally {
+        this.phd2DarkLibraryBuildLoading = false;
+      }
+    },
+
+    async cancelPHD2DarkLibraryBuild() {
+      try {
+        const response = await apiPinsService.cancelPHD2DarkLibraryBuild();
+        return response;
+      } catch (error) {
+        console.error('Error cancelling PHD2 dark library build:', error);
+        throw error;
+      }
+    },
+
+    async loadPHD2DarkLibrary() {
+      if (this.isDarkLibraryBuildActive) return;
+      try {
+        const response = await apiPinsService.loadPHD2DarkLibrary();
+        await this.fetchPHD2DarkLibraryInfo();
+        return response;
+      } catch (error) {
+        console.error('Error loading PHD2 dark library:', error);
+        throw error;
+      }
+    },
+
+    async unloadPHD2DarkLibrary() {
+      if (this.isDarkLibraryBuildActive) return;
+      try {
+        const response = await apiPinsService.unloadPHD2DarkLibrary();
+        await this.fetchPHD2DarkLibraryInfo();
+        return response;
+      } catch (error) {
+        console.error('Error unloading PHD2 dark library:', error);
+        throw error;
+      }
+    },
+
+    async deletePHD2DarkLibrary() {
+      if (this.isDarkLibraryBuildActive) return;
+      try {
+        const response = await apiPinsService.deletePHD2DarkLibrary();
+        await this.fetchPHD2DarkLibraryInfo();
+        return response;
+      } catch (error) {
+        console.error('Error deleting PHD2 dark library:', error);
         throw error;
       }
     },

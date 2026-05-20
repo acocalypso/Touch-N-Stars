@@ -900,7 +900,7 @@ watch(
 
     // Re-initialize night summary plugin after an instance switch so it
     // fetches its status, settings, and sessions from the new backend.
-    if (isReachable) {
+    if (isReachable && store.isPINS) {
       nightSummaryStore.initialize();
     }
 

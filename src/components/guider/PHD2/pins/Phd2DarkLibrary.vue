@@ -46,9 +46,7 @@
         v-if="info?.Exists"
         class="px-2 py-0.5 rounded bg-gray-700/50 text-gray-200 border border-gray-600/30"
       >
-        {{ (info.MinExposureSec / 1000).toFixed(1) }}–{{
-          (info.MaxExposureSec / 1000).toFixed(1)
-        }}
+        {{ (info.MinExposureSec / 1000).toFixed(1) }}–{{ (info.MaxExposureSec / 1000).toFixed(1) }}
         s
       </span>
     </div>

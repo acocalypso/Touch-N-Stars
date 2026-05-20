@@ -23,15 +23,11 @@
             {{ $t('components.guider.phd2.darkLibrary.status') }}
           </h3>
           <div v-if="info" class="text-sm grid grid-cols-2 gap-x-3 gap-y-1">
-            <div class="text-gray-400">
-              {{ $t('components.guider.phd2.darkLibrary.exists') }}:
-            </div>
+            <div class="text-gray-400">{{ $t('components.guider.phd2.darkLibrary.exists') }}:</div>
             <div :class="info.Exists ? 'text-green-400' : 'text-gray-300'">
               {{ info.Exists ? '✓' : '–' }}
             </div>
-            <div class="text-gray-400">
-              {{ $t('components.guider.phd2.darkLibrary.loaded') }}:
-            </div>
+            <div class="text-gray-400">{{ $t('components.guider.phd2.darkLibrary.loaded') }}:</div>
             <div :class="info.Loaded ? 'text-green-400' : 'text-gray-300'">
               {{ info.Loaded ? '✓' : '–' }}
             </div>
@@ -40,9 +36,7 @@
                 {{ $t('components.guider.phd2.darkLibrary.numDarks') }}:
               </div>
               <div class="text-gray-200">{{ info.NumDarks }}</div>
-              <div class="text-gray-400">
-                {{ $t('components.guider.phd2.darkLibrary.range') }}:
-              </div>
+              <div class="text-gray-400">{{ $t('components.guider.phd2.darkLibrary.range') }}:</div>
               <div class="text-gray-200">
                 {{ (info.MinExposureSec / 1000).toFixed(1) }} –
                 {{ (info.MaxExposureSec / 1000).toFixed(1) }} s

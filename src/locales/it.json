@@ -1052,7 +1052,17 @@
         "starComponents": {
           "hide": "Nascondi componenti stella",
           "show": "Mostra componenti stellari"
-        }
+        },
+        "applyStep": "Fare domanda a",
+        "calculatedStep": "Passo calcolato",
+        "calibDistance": "Distanza",
+        "calibStepCalc": "Calcolatore della dimensione del passo",
+        "declination": "Declinazione",
+        "desiredSteps": "Passi desiderati",
+        "guideSpeed": "Velocità guida",
+        "imageScale": "Scala dell'immagine",
+        "optimal": "Ottimale",
+        "pixelSize": "Dimensione pixel"
       }
     },
     "focuser": {

@@ -1,8 +1,10 @@
 import { defineStore } from 'pinia';
+import { toRaw } from 'vue';
 import apiService from '@/services/apiService';
 import { getConstellationFull } from '../utils/constellation.js';
+import { saveData, loadData } from '../utils/idb-cache.js';
 
-const SNACTIVE_URL = 'https://rochesterastronomy.org/snimages/snactive.html';
+const ROCHESTER_URL = 'https://rochesterastronomy.org/snimages/snactive.html';
 
 function parseRA(str) {
   const m = str.trim().match(/^(\d+):(\d+):([\d.]+)$/);
@@ -31,14 +33,13 @@ function parseSnactiveHtml(html) {
     const cells = rows[i].querySelectorAll('td');
     if (cells.length < 12) continue;
     const name = cells[0].textContent.trim();
-    const hostGalaxy = cells[1].textContent.trim();
     const raDeg = parseRA(cells[2].textContent);
     const decDeg = parseDec(cells[3].textContent);
     if (!name || raDeg === null || decDeg === null) continue;
     const firstObserved = cells[11].textContent.trim();
     entries.push({
       name,
-      hostGalaxy,
+      hostGalaxy: cells[1].textContent.trim(),
       raDeg,
       decDeg,
       constellation: getConstellationFull(raDeg, decDeg),
@@ -60,7 +61,7 @@ function parseSnactiveHtml(html) {
 export const useSupernovaeStore = defineStore('supernovaeStore', {
   state: () => ({
     entries: [],
-    knownIds: [], // SN names from the previous download — for "NEW" detection
+    knownIds: [],
     lastUpdated: null,
     downloading: false,
     downloadError: null,
@@ -71,36 +72,46 @@ export const useSupernovaeStore = defineStore('supernovaeStore', {
   },
 
   actions: {
+    async load() {
+      try {
+        const entries = await loadData('entries');
+        const knownIds = await loadData('knownIds');
+        const lastUpdated = await loadData('lastUpdated');
+        this.entries = entries ?? [];
+        this.knownIds = knownIds ?? [];
+        this.lastUpdated = lastUpdated ?? null;
+      } catch {
+        this.entries = [];
+        this.knownIds = [];
+        this.lastUpdated = null;
+      }
+    },
+
     async download() {
       if (this.downloading) return;
       this.downloading = true;
       this.downloadError = null;
       try {
-        const blob = await apiService.proxyRequest(SNACTIVE_URL);
+        const blob = await apiService.proxyRequest(ROCHESTER_URL);
         const html = await blob.text();
         const parsed = parseSnactiveHtml(html);
-        if (!parsed.length) throw new Error('No entries parsed — page format may have changed');
+        if (!parsed.length)
+          throw new Error('Rochester: No entries parsed — page format may have changed');
 
         const prev = this.knownIdSet;
         this.entries = parsed.map((e) => ({ ...e, isNew: !prev.has(e.name) }));
         this.knownIds = parsed.map((e) => e.name);
         this.lastUpdated = new Date().toISOString();
+
+        const rawEntries = toRaw(this.entries).map(toRaw);
+        await saveData('entries', rawEntries);
+        await saveData('knownIds', [...this.knownIds]);
+        await saveData('lastUpdated', this.lastUpdated);
       } catch (e) {
         this.downloadError = e.message ?? 'Download failed';
       } finally {
         this.downloading = false;
       }
     },
-  },
-
-  persist: {
-    enabled: true,
-    strategies: [
-      {
-        key: 'supernovae-store',
-        storage: localStorage,
-        paths: ['entries', 'knownIds', 'lastUpdated'],
-      },
-    ],
   },
 });

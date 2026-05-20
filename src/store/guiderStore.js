@@ -69,6 +69,9 @@ export const useGuiderStore = defineStore('guiderStore', {
     phd2CameraBinning: null,
     phd2CameraBinningLoading: false,
 
+    // PHD2 Pixel Size State (PINS)
+    phd2PixelSize: null,
+
     // PHD2 Restore Calibration State (PINS)
     phd2RestoreCalibration: false,
     phd2RestoreCalibrationLoading: false,
@@ -584,6 +587,19 @@ export const useGuiderStore = defineStore('guiderStore', {
       } catch (error) {
         console.error('Error setting PHD2 camera binning:', error);
         throw error;
+      }
+    },
+
+    async fetchPHD2PixelSize() {
+      const store = apiStore();
+      if (!store.isPINS) return;
+      try {
+        const response = await apiPinsService.getPHD2CameraInfo();
+        if (response.Success && response.Response) {
+          this.phd2PixelSize = response.Response.pixel_size ?? null;
+        }
+      } catch (error) {
+        console.error('Error fetching PHD2 pixel size:', error);
       }
     },
 

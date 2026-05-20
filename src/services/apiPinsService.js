@@ -293,6 +293,11 @@ export default {
     return this._simplePutRequest(`${API_URL}phd2/camera/binning`, { binning });
   },
 
+  getPHD2CameraInfo() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/camera/info`);
+  },
+
   getPHD2RestoreCalibration() {
     const { API_URL } = getUrls();
     return this._simpleGetRequest(`${API_URL}phd2/calibration/auto-restore`);

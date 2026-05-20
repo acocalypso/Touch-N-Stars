@@ -1052,7 +1052,17 @@
         "starComponents": {
           "hide": "Masquer les composants étoiles",
           "show": "Afficher les composants étoiles"
-        }
+        },
+        "applyStep": "Appliquer",
+        "calculatedStep": "Pas calculé",
+        "calibDistance": "Distance",
+        "calibStepCalc": "Calculateur de taille de pas",
+        "declination": "Déclinaison",
+        "desiredSteps": "Étapes souhaitées",
+        "guideSpeed": "Vitesse de guidage",
+        "imageScale": "Échelle de l'image",
+        "optimal": "Optimal",
+        "pixelSize": "Taille des pixels"
       }
     },
     "focuser": {

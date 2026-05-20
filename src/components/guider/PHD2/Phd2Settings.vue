@@ -13,17 +13,14 @@
           <div class="text-xs text-yellow-100/80">
             {{ $t('components.guider.phd2.darkLibrary.buildActiveMessage') }}
           </div>
-          <div
-            v-if="guiderStore.phd2DarkLibraryBuildStatus"
-            class="text-xs text-gray-200 mt-1"
-          >
+          <div v-if="guiderStore.phd2DarkLibraryBuildStatus" class="text-xs text-gray-200 mt-1">
             {{
               $t('components.guider.phd2.darkLibrary.buildProgress', {
                 frame: guiderStore.phd2DarkLibraryBuildStatus.Frame ?? 0,
                 total: guiderStore.phd2DarkLibraryBuildStatus.TotalFrames ?? 0,
-                exposure: (
-                  (guiderStore.phd2DarkLibraryBuildStatus.ExposureMs ?? 0) / 1000
-                ).toFixed(1),
+                exposure: ((guiderStore.phd2DarkLibraryBuildStatus.ExposureMs ?? 0) / 1000).toFixed(
+                  1
+                ),
               })
             }}
           </div>

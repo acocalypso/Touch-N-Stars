@@ -133,16 +133,6 @@
         <Phd2RestoreCalibration />
       </div>
 
-      <!-- Dark Library -->
-      <div
-        class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
-      >
-        <h3 class="font-bold text-base text-cyan-400">
-          {{ $t('components.guider.phd2.darkLibrary.title') }}
-        </h3>
-        <Phd2DarkLibrary />
-      </div>
-
       <!-- Guide Algorithm Settings -->
       <div
         class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
@@ -152,6 +142,16 @@
         </h3>
         <Phd2GuideAlgorithmRA />
         <Phd2GuideAlgorithmDEC />
+      </div>
+
+      <!-- Dark Library -->
+      <div
+        class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
+      >
+        <h3 class="font-bold text-base text-cyan-400">
+          {{ $t('components.guider.phd2.darkLibrary.title') }}
+        </h3>
+        <Phd2DarkLibrary />
       </div>
     </template>
   </div>

@@ -179,7 +179,7 @@
       @click.stop.prevent="handleWeatherClick"
     >
       <svg
-        v-if="store.weatherInfo.CloudCover < 20"
+        v-if="Number.isFinite(store.weatherInfo.CloudCover) && store.weatherInfo.CloudCover < 20"
         class="w-4 h-4"
         fill="currentColor"
         viewBox="0 0 24 24"
@@ -189,7 +189,9 @@
         />
       </svg>
       <svg
-        v-else-if="store.weatherInfo.CloudCover < 60"
+        v-else-if="
+          Number.isFinite(store.weatherInfo.CloudCover) && store.weatherInfo.CloudCover < 60
+        "
         class="w-4 h-4"
         fill="currentColor"
         viewBox="0 0 24 24"
@@ -206,7 +208,13 @@
           d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM19 18H6c-2.21 0-4-1.79-4-4 0-2.05 1.53-3.76 3.56-3.97l1.07-.11.5-.95C8.08 7.14 9.94 6 12 6c2.62 0 4.88 1.86 5.39 4.43l.3 1.5 1.53.11c1.56.1 2.78 1.41 2.78 2.96 0 1.65-1.35 3-3 3z"
         />
       </svg>
-      <span class="text-sm">{{ store.weatherInfo.Temperature.toFixed(1) }}°C</span>
+      <span class="text-sm"
+        >{{
+          Number.isFinite(store.weatherInfo.Temperature)
+            ? store.weatherInfo.Temperature.toFixed(1)
+            : '--'
+        }}°C</span
+      >
     </button>
     <!--Progress -->
     <button
@@ -256,15 +264,25 @@
         </svg>
       </button>
     </div>
-    <!--WS Status -->
-    <div class="flex w-5 h-5">
+    <!--WS Status + Instance Switcher -->
+    <button
+      class="flex items-center gap-1 bg-cyan-950 p-1 shadow-lg rounded-full border border-cyan-800"
+      @click.stop.prevent="showInstanceSwitcher = true"
+    >
       <LinkIcon
+        class="w-5 h-5"
         :class="{
           'text-green-500': store.isWebSocketConnected,
           'text-red-500': !store.isWebSocketConnected,
         }"
       />
-    </div>
+      <span class="text-xs hidden xs:block pr-1">{{
+        activeInstanceName.length > 5 ? activeInstanceName.slice(0, 5) + '…' : activeInstanceName
+      }}</span>
+    </button>
+
+    <!-- Instance Switcher Modal -->
+    <InstanceSwitcherModal v-if="showInstanceSwitcher" @close="showInstanceSwitcher = false" />
 
     <!-- Weather modal -->
     <WeatherModal
@@ -283,8 +301,8 @@
       v-show="guiderStore.showGuiderGraph"
     >
       <GuiderGraph />
-      <div class="flex gap-2 ml-6 mb-2">
-        <GuiderStats />
+      <div class="flex gap-2 ml-6 mb-2 overflow-x-auto scrollbar-hide">
+        <GuiderStats v-if="store.guiderInfo.Connected" />
       </div>
     </div>
 
@@ -333,6 +351,7 @@ import { ref, computed } from 'vue';
 import { CameraIcon, LinkIcon } from '@heroicons/vue/24/outline';
 import WeatherModal from '../WeatherModal.vue';
 import LogModal from './LogModal.vue';
+import InstanceSwitcherModal from './InstanceSwitcherModal.vue';
 import GuiderGraph from '../guider/GuiderGraph.vue';
 import GuiderStats from '../guider/GuiderStats.vue';
 import { useGuiderStore } from '@/store/guiderStore';
@@ -349,6 +368,7 @@ import infoProgress from './infoProgress.vue';
 const store = apiStore();
 const showWeatherModal = ref(false);
 const showLogModal = ref(false);
+const showInstanceSwitcher = ref(false);
 const showProgress = ref(false);
 const guiderStore = useGuiderStore();
 const settingsStore = useSettingsStore();
@@ -391,6 +411,10 @@ const handleGuiderClickWithVisit = () => {
 const activeInstanceColor = computed(() => {
   const color = settingsStore.getInstanceColorById(selectedInstanceId.value);
   return color;
+});
+
+const activeInstanceName = computed(() => {
+  return settingsStore.getInstance(selectedInstanceId.value)?.name ?? '';
 });
 
 // Initialize feature highlight on mount

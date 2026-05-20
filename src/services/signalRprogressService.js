@@ -1,5 +1,6 @@
 import * as signalR from '@microsoft/signalr';
 import { useSettingsStore } from '../store/settingsStore';
+import { useProgressStore } from '../store/progressStore';
 
 const backendProtokol = 'http';
 const backendPort = 4782; // NINA server port
@@ -16,6 +17,8 @@ class SignalRProgressService {
     this.isConnected = false;
     this.reconnectTimeoutId = null;
     this.url = null;
+    this._connectionId = 0;
+    this._connectingPromise = null;
   }
 
   setStatusCallback(callback) {
@@ -31,9 +34,23 @@ class SignalRProgressService {
   }
 
   connect() {
-    return new Promise((resolve, reject) => {
+    // Deduplicate concurrent connect() calls — return the in-flight promise if one exists
+    if (this._connectingPromise) {
+      return this._connectingPromise;
+    }
+
+    this._connectingPromise = new Promise((resolve, reject) => {
       // Setze shouldReconnect auf true bei jedem Connect-Versuch
       this.shouldReconnect = true;
+
+      // Invalidate any previous connection's handlers and stop the stale connection
+      this._connectionId++;
+      const connectionId = this._connectionId;
+      if (this.connection) {
+        const stale = this.connection;
+        this.connection = null;
+        stale.stop().catch(() => {});
+      }
 
       const settingsStore = useSettingsStore();
       const backendHost = settingsStore.connection.ip || window.location.hostname;
@@ -49,9 +66,11 @@ class SignalRProgressService {
 
         // Event Handler für Progress Updates
         this.connection.on('ReceiveProgress', (progressMessage) => {
+          if (connectionId !== this._connectionId) return;
           //console.log('Received progress:', progressMessage);
           const progressObj = {
             source: progressMessage.source,
+            state: progressMessage.state,
             status: progressMessage.status,
             status2: progressMessage.status2,
             status3: progressMessage.status3,
@@ -67,6 +86,10 @@ class SignalRProgressService {
             timestamp: new Date(progressMessage.timestamp),
           };
 
+          // Progress im Store speichern
+          const progressStore = useProgressStore();
+          progressStore.handleProgressMessage(progressObj);
+
           // Callback für Progress aufrufen (wenn gesetzt)
           if (this.progressCallback) {
             this.progressCallback(progressObj);
@@ -75,6 +98,7 @@ class SignalRProgressService {
 
         // Reconnection Events
         this.connection.onreconnected(() => {
+          if (connectionId !== this._connectionId) return;
           console.log('[SignalRProgressService] SignalR reconnected');
           this.isConnected = true;
           if (this.statusCallback) {
@@ -86,6 +110,7 @@ class SignalRProgressService {
         });
 
         this.connection.onreconnecting(() => {
+          if (connectionId !== this._connectionId) return;
           console.log('[SignalRProgressService] SignalR reconnecting...');
           this.isConnected = false;
           if (this.statusCallback) {
@@ -94,6 +119,7 @@ class SignalRProgressService {
         });
 
         this.connection.onclose((error) => {
+          if (connectionId !== this._connectionId) return;
           console.log('[SignalRProgressService] SignalR connection closed', error);
           this.isConnected = false;
 
@@ -102,7 +128,7 @@ class SignalRProgressService {
           }
 
           // Manual reconnect wenn shouldReconnect true ist
-          if (this.shouldReconnect && !error) {
+          if (this.shouldReconnect) {
             console.log(
               `[SignalRProgressService] SignalR: Attempting to reconnect in ${this.reconnectDelay / 1000} seconds...`
             );
@@ -114,11 +140,17 @@ class SignalRProgressService {
                   .then(() => {
                     console.log('[SignalRProgressService] SignalR successfully reconnected');
                   })
-                  .catch((error) => {
-                    console.warn(
-                      '[SignalRProgressService] SignalR reconnect failed:',
-                      error.message
-                    );
+                  .catch((err) => {
+                    console.warn('[SignalRProgressService] SignalR reconnect failed:', err.message);
+                    // Retry again after delay
+                    if (this.shouldReconnect) {
+                      this.reconnectTimeoutId = setTimeout(() => {
+                        this.reconnectTimeoutId = null;
+                        if (this.shouldReconnect) {
+                          this.connect().catch(() => {});
+                        }
+                      }, this.reconnectDelay);
+                    }
                   });
               }
             }, this.reconnectDelay);
@@ -129,6 +161,7 @@ class SignalRProgressService {
         this.connection
           .start()
           .then(() => {
+            this._connectingPromise = null;
             console.log('[SignalRProgressService] SignalR connected for progress updates');
             this.isConnected = true;
             if (this.statusCallback) {
@@ -137,18 +170,37 @@ class SignalRProgressService {
             resolve();
           })
           .catch((err) => {
+            this._connectingPromise = null;
             console.error('[SignalRProgressService] SignalR connection error:', err);
             this.isConnected = false;
             if (this.statusCallback) {
               this.statusCallback('Error: ' + err.message);
             }
-            reject(err);
+            // Retry initial connection after delay
+            if (this.shouldReconnect) {
+              console.log(
+                `[SignalRProgressService] Retrying initial connection in ${this.reconnectDelay / 1000} seconds...`
+              );
+              this.reconnectTimeoutId = setTimeout(() => {
+                this.reconnectTimeoutId = null;
+                if (this.shouldReconnect) {
+                  this.connect()
+                    .then(resolve)
+                    .catch(() => {});
+                }
+              }, this.reconnectDelay);
+            } else {
+              reject(err);
+            }
           });
       } catch (err) {
+        this._connectingPromise = null;
         console.error('[SignalRProgressService] SignalR setup error:', err);
         reject(err);
       }
     });
+
+    return this._connectingPromise;
   }
 
   disconnect() {
@@ -162,15 +214,15 @@ class SignalRProgressService {
     }
 
     if (this.connection) {
-      return this.connection
+      const conn = this.connection;
+      this.connection = null; // Clear immediately so concurrent connect() won't be overwritten
+      return conn
         .stop()
         .then(() => {
           console.log('[SignalRProgressService] SignalR disconnected');
-          this.connection = null;
         })
         .catch((err) => {
           console.error('[SignalRProgressService] Error disconnecting SignalR:', err);
-          this.connection = null;
         });
     }
     return Promise.resolve();

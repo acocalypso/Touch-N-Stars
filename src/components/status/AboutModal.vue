@@ -54,7 +54,10 @@
             </svg>
             <span>Version</span>
           </h3>
-          <p class="text-gray-300 pl-7">{{ version }}</p>
+          <p class="text-gray-300 pl-7">Touch 'N' Stars: {{ version }}</p>
+          <p v-if="store.isPINS" class="text-gray-300 pl-7 mt-1">
+            PINS: {{ store.currentPinsVersion || 'Unknown' }}
+          </p>
         </div>
 
         <div
@@ -116,7 +119,7 @@
             </svg>
             <span>Copyright</span>
           </h3>
-          <p class="text-gray-300 pl-7">© 2025 Touch-N-Stars</p>
+          <p class="text-gray-300 pl-7">© {{ currentYear }} Touch-N-Stars</p>
         </div>
 
         <div
@@ -313,11 +316,14 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
+import { apiStore } from '@/store/store';
 import { useSettingsStore } from '@/store/settingsStore';
 
 const settingsStore = useSettingsStore();
+const store = apiStore();
 const emit = defineEmits(['close']);
 const count = ref(0);
+const currentYear = new Date().getFullYear();
 
 function startBad() {
   count.value++;

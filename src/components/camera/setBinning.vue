@@ -46,10 +46,15 @@ const initializeBinningMode = () => {
 async function setBinnig() {
   console.log('Set binning to: ', cameraStore.binningMode);
   try {
-    const data = await apiService.setBinningMode(cameraStore.binningMode);
-    console.log(data);
+    const cameraResponse = await apiService.setBinningMode(cameraStore.binningMode);
+    console.log('[setBinning Camera] ', cameraResponse);
+    const [binX, binY] = cameraStore.binningMode.split('x').map(Number);
+    const profileX = await apiService.profileChangeValue('CameraSettings-BinningX', binX);
+    console.log('[setBinning Profile BinningX] ', profileX);
+    const profileY = await apiService.profileChangeValue('CameraSettings-BinningY', binY);
+    console.log('[setBinning Profile BinningY] ', profileY);
   } catch (error) {
-    console.log('Error while setting binning');
+    console.log('[setBinning] Error while setting binning', error);
   }
 }
 </script>

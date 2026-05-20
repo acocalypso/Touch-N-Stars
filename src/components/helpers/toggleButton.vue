@@ -4,44 +4,24 @@
       @click="updateToggled"
       :disabled="disabled"
       :class="[
-        statusValue
-          ? 'bg-emerald-600/20 border-emerald-500/60'
-          : 'bg-slate-700/40 border-slate-600/40',
-        disabled ? 'cursor-not-allowed opacity-60' : 'hover:shadow-md',
-        'relative inline-flex h-6 w-12 items-center rounded-full transition-all duration-300 ease-out border shadow-inner backdrop-blur-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/40',
+        statusValue ? 'bg-cyan-600/20 border-cyan-500/60' : 'bg-slate-700/40 border-slate-600/60',
+        disabled ? 'cursor-not-allowed opacity-50' : 'hover:border-slate-500/70 active:scale-95',
+        'relative inline-flex h-6 w-12 items-center rounded-full transition-all duration-300 ease-out border shadow-inner focus:outline-none focus:ring-2 focus:ring-cyan-500/40',
       ]"
       type="button"
       :aria-pressed="statusValue?.toString() || 'false'"
     >
-      <span class="sr-only">Toggle camera cooling</span>
-
-      <!-- Subtiler Glow bei aktiv -->
-      <div
-        :class="[
-          statusValue ? 'opacity-100' : 'opacity-0',
-          'absolute inset-0 rounded-full bg-emerald-500/10 blur-sm transition-opacity duration-300',
-        ]"
-      ></div>
+      <span class="sr-only">Toggle</span>
 
       <!-- Toggle Knopf -->
       <span
         :class="[
           statusValue
-            ? 'translate-x-6 bg-gradient-to-br from-emerald-400 to-emerald-600 shadow-emerald-400/40'
-            : 'translate-x-1 bg-gradient-to-br from-slate-300 to-slate-400 shadow-slate-400/30',
-          'relative inline-block h-4 w-4 transform rounded-full shadow-sm transition-all duration-300 ease-out',
+            ? 'translate-x-6 bg-gradient-to-br from-cyan-400 to-cyan-600'
+            : 'translate-x-1 bg-gradient-to-br from-slate-300 to-slate-500',
+          'inline-block h-4 w-4 transform rounded-full shadow-sm transition-all duration-300 ease-out',
         ]"
-      >
-        <!-- Innerer Glanz -->
-        <div
-          :class="[
-            statusValue
-              ? 'bg-gradient-to-br from-emerald-200/60 to-transparent'
-              : 'bg-gradient-to-br from-white/60 to-transparent',
-            'absolute inset-0 rounded-full',
-          ]"
-        ></div>
-      </span>
+      />
     </button>
   </div>
 </template>

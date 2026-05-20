@@ -21,7 +21,6 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import { useI18n } from 'vue-i18n';
 import { useWebcamStore } from '../store/webcamStore.js';
 import WebcamSnapshot from '../components/WebcamSnapshot.vue';
 import WebcamControlBar from '../components/WebcamControlBar.vue';

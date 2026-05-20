@@ -3,15 +3,38 @@
     <div>
       <canvas ref="chartCanvas" class="w-full h-72 md:h-96 xl:h-[600px]"></canvas>
     </div>
-    <div v-show="timestamp.length > 0" class="text-center mt-4">
+    <div v-show="timestamp.length > 0" class="text-center mt-4 space-y-1">
       <p>{{ timestamp }}</p>
       <p v-show="temperature != null">{{ temperature }}°C</p>
+      <template v-if="afRunData">
+        <p v-show="afRunData.filter">
+          {{ $t('components.focuser.filter') }}: {{ afRunData.filter }}
+        </p>
+        <p>
+          {{ $t('components.focuser.hfr') }}: {{ afRunData.initialHFR }} &rarr;
+          {{ afRunData.finalHFR
+          }}<span v-show="afRunData.estimatedFinalHFR">
+            ({{ $t('components.focuser.estimated') }}: {{ afRunData.estimatedFinalHFR }})</span
+          >
+        </p>
+        <p>
+          {{ $t('components.focuser.focuser_position') }}: {{ afRunData.initialPos }} &rarr;
+          {{ afRunData.finalPos }}
+        </p>
+        <p v-show="afRunData.duration != null">
+          {{ $t('components.focuser.duration_seconds') }}: {{ afRunData.duration }}s
+        </p>
+        <template v-if="afRunData.rSquares && afRunData.rSquaredValue != null">
+          <p>R&sup2;: {{ afRunData.rSquaredValue }}</p>
+        </template>
+      </template>
     </div>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted, onUnmounted, nextTick } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { Chart, registerables } from 'chart.js';
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
@@ -19,9 +42,11 @@ import { apiStore } from '@/store/store';
 // Registriere alle Chart.js Komponenten
 Chart.register(...registerables);
 
+const { t } = useI18n();
 const chartCanvas = ref(null);
 const timestamp = ref(''); // Timestamp für die Anzeige
 const temperature = ref();
+const afRunData = ref(null); // extra HocusFocus AF stats (null when unavailable)
 const store = apiStore();
 let chartInstance = null;
 let fetchInterval = null;
@@ -103,7 +128,9 @@ async function fetchLastAf() {
 
     // Timestamp aus API speichern
     const dateObject = new Date(apiData.Timestamp);
-    const dateTimeText = `${dateObject.toLocaleDateString()} ${dateObject.toLocaleTimeString()}`;
+    const dateTimeText = isNaN(dateObject.getTime())
+      ? t('components.focuser.graph.invalidDate')
+      : `${dateObject.toLocaleDateString()} ${dateObject.toLocaleTimeString()}`;
     timestamp.value = dateTimeText;
 
     // Fittings aus API extrahieren
@@ -163,6 +190,44 @@ async function fetchLastAf() {
 
       chartInstance.update();
     }
+    // Try to enrich with HocusFocus last-run data (silently degrades if unavailable)
+    try {
+      const hfData = await apiService.hocusfocus.getLastAutoFocusRun();
+      if (hfData?.Success) {
+        afRunData.value = {
+          initialHFR: hfData.InitialHFR != null ? parseFloat(hfData.InitialHFR).toFixed(2) : null,
+          finalHFR: hfData.FinalHFR != null ? parseFloat(hfData.FinalHFR).toFixed(2) : null,
+          estimatedFinalHFR:
+            hfData.EstimatedFinalHFR != null && !isNaN(parseFloat(hfData.EstimatedFinalHFR))
+              ? parseFloat(hfData.EstimatedFinalHFR).toFixed(2)
+              : null,
+          initialPos: hfData.InitialFocuserPosition,
+          finalPos: hfData.FinalFocuserPosition,
+          duration:
+            hfData.DurationSeconds != null ? parseFloat(hfData.DurationSeconds).toFixed(1) : null,
+          filter: hfData.Filter || null,
+          fitting: hfData.Fitting || null,
+          rSquares: hfData.RSquares || null,
+          rSquaredValue: (() => {
+            const rs = hfData.RSquares;
+            if (!rs) return null;
+            const f = (hfData.Fitting || '').toUpperCase();
+            let raw;
+            if (f.includes('HYPERBOLIC')) raw = rs.Hyperbolic;
+            else if (f.includes('PARABOLIC') || f.includes('QUADRATIC')) raw = rs.Quadratic;
+            else if (f.includes('TREND'))
+              raw = Math.max(parseFloat(rs.LeftTrend) || 0, parseFloat(rs.RightTrend) || 0);
+            else raw = rs.Hyperbolic ?? rs.Quadratic ?? rs.LeftTrend;
+            const n = parseFloat(raw);
+            return !isNaN(n) && n > 0 ? n.toFixed(4) : null;
+          })(),
+        };
+      } else {
+        afRunData.value = null;
+      }
+    } catch {
+      afRunData.value = null;
+    }
   } catch (error) {
     console.error('Error fetching data:', error);
   }
@@ -179,7 +244,7 @@ onMounted(async () => {
       labels: [], // Initial leer
       datasets: [
         {
-          label: 'Measure Points',
+          label: t('components.focuser.graph.measurePoints'),
           data: [],
           borderColor: 'blue',
           borderWidth: 2,
@@ -187,7 +252,7 @@ onMounted(async () => {
           pointRadius: 5,
         },
         {
-          label: 'Quadratic Trendline',
+          label: t('components.focuser.graph.quadraticTrendline'),
           data: [],
           borderColor: 'red',
           borderWidth: 2,
@@ -195,7 +260,7 @@ onMounted(async () => {
           tension: 0.4,
         },
         {
-          label: 'Hyperbolic Trendline',
+          label: t('components.focuser.graph.hyperbolicTrendline'),
           data: [],
           borderColor: 'green',
           borderWidth: 2,
@@ -203,8 +268,8 @@ onMounted(async () => {
           tension: 0.4,
         },
         {
-          label: 'Quadratic Min',
-          data: [], // Dynamisch aktualisiert
+          label: t('components.focuser.graph.quadraticMin'),
+          data: [],
           borderColor: 'red',
           backgroundColor: 'red',
           pointRadius: 6,
@@ -212,8 +277,8 @@ onMounted(async () => {
           showLine: false,
         },
         {
-          label: 'Hyperbolic Min',
-          data: [], // Dynamisch aktualisiert
+          label: t('components.focuser.graph.hyperbolicMin'),
+          data: [],
           borderColor: 'green',
           backgroundColor: 'green',
           pointRadius: 6,
@@ -258,7 +323,7 @@ onMounted(async () => {
         y: {
           title: {
             display: true,
-            text: 'Value',
+            text: t('components.focuser.graph.value'),
             color: '#CCCCCC',
           },
           ticks: {

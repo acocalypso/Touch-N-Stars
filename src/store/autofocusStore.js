@@ -57,13 +57,13 @@ export const useAutofocusStore = defineStore('autofocus', {
           this.points.unshift(events[i]);
         }
       }
-      console.log('[Autofocus] Processed', this.points.length, 'focus points');
-      console.log('[Autofocus] State:', {
-        isRunning: this.isRunning,
-        isFinished: this.isFinished,
-        pointsCount: this.points.length,
-        lastStartTime: this.lastStartTime,
-      });
+      //console.log('[Autofocus] Processed', this.points.length, 'focus points');
+      //console.log('[Autofocus] State:', {
+      //  isRunning: this.isRunning,
+      //  isFinished: this.isFinished,
+      //  pointsCount: this.points.length,
+      //  lastStartTime: this.lastStartTime,
+      //});
     },
 
     clearAutofocusData() {

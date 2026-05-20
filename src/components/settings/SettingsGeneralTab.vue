@@ -1,108 +1,122 @@
 <template>
   <div class="space-y-6">
     <!-- GPS Coordinates -->
-    <div
-      v-if="store.isBackendReachable"
-      class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
+    <template
+      v-if="
+        store.isPINS || store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.2.8.0')
+      "
     >
-      <h3 class="font-bold text-base text-cyan-400">
-        {{ $t('components.settings.coordinates') }}
-      </h3>
-      <div class="grid grid-cols-2 md:flex md:gap-4 md:items-end gap-2">
-        <div class="flex flex-col min-w-0 md:flex-1">
-          <label class="text-xs md:text-sm text-gray-300 mb-1">Latitude</label>
-          <NumberInputPicker
-            v-model="latitude"
-            :label="``"
-            :labelKey="'latitude'"
-            :min="-90"
-            :max="90"
-            :step="0.001"
-            :decimalPlaces="3"
-            placeholder="Latitude"
-            inputId="latitude"
-            wrapperClass="w-full"
-          />
+      <LocationSettingsPins />
+    </template>
+    <template v-else>
+      <div
+        v-if="store.isBackendReachable"
+        class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
+      >
+        <h3 class="font-bold text-base text-cyan-400">
+          {{ $t('components.settings.coordinates') }}
+        </h3>
+        <div class="grid grid-cols-2 md:flex md:gap-4 md:items-end gap-2">
+          <div class="flex flex-col min-w-0 md:flex-1">
+            <label class="text-xs md:text-sm text-gray-300 mb-1">Latitude</label>
+            <NumberInputPicker
+              v-model="latitude"
+              :label="``"
+              :labelKey="'latitude'"
+              :min="-90"
+              :max="90"
+              :step="0.001"
+              :decimalPlaces="3"
+              placeholder="Latitude"
+              inputId="latitude"
+              wrapperClass="w-full"
+            />
+          </div>
+          <div class="flex flex-col min-w-0 md:flex-1">
+            <label class="text-xs md:text-sm text-gray-300 mb-1">Longitude</label>
+            <NumberInputPicker
+              v-model="longitude"
+              :label="``"
+              :labelKey="'longitude'"
+              :min="-180"
+              :max="180"
+              :step="0.001"
+              :decimalPlaces="3"
+              placeholder="Longitude"
+              inputId="longitude"
+              wrapperClass="w-full"
+            />
+          </div>
+          <div class="flex flex-col min-w-0 md:flex-1">
+            <label class="text-xs md:text-sm text-gray-300 mb-1">Altitude</label>
+            <NumberInputPicker
+              v-model="altitude"
+              :label="``"
+              :labelKey="'altitude'"
+              :min="-500"
+              :max="9000"
+              :step="1"
+              :decimalPlaces="0"
+              placeholder="Altitude"
+              inputId="altitude"
+              wrapperClass="w-full"
+            />
+          </div>
+          <button
+            @click="getCurrentLocation"
+            class="default-button-gray md:w-10 md:h-10 md:flex-shrink-0 col-span-2 md:col-span-1 md:self-end"
+            title="Get current location"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              class="h-6 w-6 text-gray-300"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+              />
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+              />
+            </svg>
+          </button>
         </div>
-        <div class="flex flex-col min-w-0 md:flex-1">
-          <label class="text-xs md:text-sm text-gray-300 mb-1">Longitude</label>
-          <NumberInputPicker
-            v-model="longitude"
-            :label="``"
-            :labelKey="'longitude'"
-            :min="-180"
-            :max="180"
-            :step="0.001"
-            :decimalPlaces="3"
-            placeholder="Longitude"
-            inputId="longitude"
-            wrapperClass="w-full"
-          />
-        </div>
-        <div class="flex flex-col min-w-0 md:flex-1">
-          <label class="text-xs md:text-sm text-gray-300 mb-1">Altitude</label>
-          <NumberInputPicker
-            v-model="altitude"
-            :label="``"
-            :labelKey="'altitude'"
-            :min="-500"
-            :max="9000"
-            :step="1"
-            :decimalPlaces="0"
-            placeholder="Altitude"
-            inputId="altitude"
-            wrapperClass="w-full"
-          />
+        <div v-if="gpsError" class="mt-2 text-sm text-red-400">
+          {{ gpsError }}
         </div>
         <button
-          @click="getCurrentLocation"
-          class="default-button-gray md:w-10 md:h-10 md:flex-shrink-0 col-span-2 md:col-span-1 md:self-end"
-          title="Get current location"
+          v-if="
+            store.profileInfo.TelescopeSettings.TelescopeLocationSyncDirection === 'TOTELESCOPE'
+          "
+          @click="locationStore.saveCoordinates"
+          class="default-button-cyan mt-3"
         >
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            class="h-6 w-6 text-gray-300"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
-          >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-            />
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-            />
-          </svg>
+          {{ $t('components.settings.save') }}
         </button>
+        <div v-else>
+          <p class="text-red-500 text-sm mt-2">
+            {{ $t('components.settings.infoSetLocationSync') }}
+          </p>
+          <ButtonSetLocationSyncToMount class="mt-3" />
+        </div>
       </div>
-      <div v-if="gpsError" class="mt-2 text-sm text-red-400">
-        {{ gpsError }}
-      </div>
-      <button
-        v-if="store.profileInfo.TelescopeSettings.TelescopeLocationSyncDirection === 'TOTELESCOPE'"
-        @click="locationStore.saveCoordinates"
-        class="default-button-cyan mt-3"
-      >
-        {{ $t('components.settings.save') }}
-      </button>
-      <div v-else>
-        <p class="text-red-500 text-sm mt-2">
-          {{ $t('components.settings.infoSetLocationSync') }}
-        </p>
-        <ButtonSetLocationSyncToMount class="mt-3" />
-      </div>
-    </div>
+    </template>
+
+    <!-- Time Synchronisation -->
+    <TimeSyncSettings v-if="store.isPINS" />
 
     <!-- Connection Settings -->
     <div
       class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
-      v-if="['android', 'ios'].includes(Capacitor.getPlatform())"
+      v-if="['android', 'ios'].includes(Capacitor.getPlatform()) || true"
     >
       <h3 class="font-bold text-base text-cyan-400">
         {{ $t('components.settings.connection') }}
@@ -126,6 +140,17 @@
           {{ lang.name }}
         </option>
       </select>
+    </div>
+
+    <!-- Horizon File Path -->
+    <div
+      v-if="store.isBackendReachable && store.isPINS"
+      class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
+    >
+      <h3 class="font-bold text-base text-cyan-400">
+        {{ $t('components.settings.horizonFilePath.title') }}
+      </h3>
+      <SetHorizonFilePath />
     </div>
 
     <!-- Keep Screen Awake (mobile only) -->
@@ -165,6 +190,8 @@
       </div>
     </div>
 
+    <NavbarCustomizationSettings />
+
     <!-- set beta -->
     <div
       class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
@@ -194,6 +221,10 @@
         {{ $t('components.settings.debug.title') }}
       </h3>
       <SetDebug />
+      <div v-if="store.isPINS" class="flex items-center justify-between">
+        <p class="text-gray-300 text-sm mr-4">{{ $t('components.settings.debug.logLevel') }}</p>
+        <SetLogLevel />
+      </div>
     </div>
 
     <!-- System Controls -->
@@ -266,7 +297,9 @@
 
 <script setup>
 import { ref, onMounted, watchEffect } from 'vue';
-import { getAvailableLanguages } from '@/i18n';
+import { getAvailableLanguages, getBackendLanguageCode } from '@/i18n';
+import NavbarCustomizationSettings from '@/components/settings/general/NavbarCustomizationSettings.vue';
+import apiService from '@/services/apiService';
 import { useSettingsStore } from '@/store/settingsStore';
 import { apiStore } from '@/store/store';
 import {
@@ -279,12 +312,16 @@ import {
 } from '@/utils/location';
 import { Capacitor } from '@capacitor/core';
 import { KeepAwake } from '@capacitor-community/keep-awake';
-import SetInstance from '@/components/settings/setInstance.vue';
-import SetDebug from '@/components/settings/setDebug.vue';
+import SetInstance from '@/components/settings/general/SetInstance.vue';
+import SetDebug from '@/components/settings/general/SetDebug.vue';
 import ButtonSetLocationSyncToMount from '@/components/mount/ButtonSetLocationSyncToMount.vue';
 import ToggleButton from '@/components/helpers/toggleButton.vue';
-import SetBeta from '@/components/settings/setBeta.vue';
+import SetBeta from '@/components/settings/general/SetBeta.vue';
+import SetLogLevel from '@/components/settings/general/SetLogLevel.vue';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
+import LocationSettingsPins from '@/components/settings/general/LocationSettingsPins.vue';
+import TimeSyncSettings from '@/components/settings/general/TimeSyncSettings.vue';
+import SetHorizonFilePath from '@/components/settings/general/SetHorizonFilePath.vue';
 import { useI18n } from 'vue-i18n';
 
 const { locale } = useI18n();
@@ -325,9 +362,16 @@ watchEffect(() => {
 });
 
 // Watch language changes
-const changeLanguage = (newLanguage) => {
+const changeLanguage = async (newLanguage) => {
   locale.value = newLanguage;
   settingsStore.setLanguage(newLanguage);
+
+  if (store.isPINS || store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.2.8.0')) {
+    const backendCode = getBackendLanguageCode(newLanguage);
+    if (backendCode && store.isBackendReachable) {
+      await apiService.setLanguage(backendCode);
+    }
+  }
 };
 
 const onToggleKeepAwake = async (value) => {

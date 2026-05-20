@@ -47,7 +47,7 @@
       <div class="space-y-6 overflow-y-auto max-h-[50vh] pr-3 scrollbar-thin">
         <!-- Temperature -->
         <div
-          v-if="!isNaN(weatherInfo.Temperature)"
+          v-if="Number.isFinite(weatherInfo.Temperature)"
           class="bg-gray-700/20 p-5 rounded-xl hover:bg-gray-700/30 transition-colors duration-200"
         >
           <h3 class="font-semibold text-gray-100 mb-3 flex items-center space-x-2">
@@ -72,7 +72,7 @@
         </div>
         <!-- Cloud Cover -->
         <div
-          v-if="!isNaN(weatherInfo.CloudCover)"
+          v-if="Number.isFinite(weatherInfo.CloudCover)"
           class="bg-gray-700/20 p-5 rounded-xl hover:bg-gray-700/30 transition-colors duration-200"
         >
           <h3 class="font-semibold text-gray-100 mb-3 flex items-center space-x-2">
@@ -93,7 +93,9 @@
 
         <!-- Wind -->
         <div
-          v-if="!isNaN(weatherInfo.WindSpeed) || !isNaN(weatherInfo.WindDirection)"
+          v-if="
+            Number.isFinite(weatherInfo.WindSpeed) || Number.isFinite(weatherInfo.WindDirection)
+          "
           class="bg-gray-700/20 p-5 rounded-xl hover:bg-gray-700/30 transition-colors duration-200"
         >
           <h3 class="font-semibold text-gray-100 mb-3 flex items-center space-x-2">
@@ -111,13 +113,13 @@
           </h3>
           <p class="text-gray-300 pl-7">
             {{ windSpeed }} {{ windSpeedUnit }}
-            {{ !isNaN(weatherInfo.WindDirection) ? `(${windDirection})` : '' }}
+            {{ Number.isFinite(weatherInfo.WindDirection) ? `(${windDirection})` : '' }}
           </p>
         </div>
 
         <!-- Humidity -->
         <div
-          v-if="!isNaN(weatherInfo.Humidity)"
+          v-if="Number.isFinite(weatherInfo.Humidity)"
           class="bg-gray-700/20 p-5 rounded-xl hover:bg-gray-700/30 transition-colors duration-200"
         >
           <h3 class="font-semibold text-gray-100 mb-3 flex items-center space-x-2">
@@ -157,7 +159,7 @@
 
         <!-- Pressure -->
         <div
-          v-if="!isNaN(weatherInfo.Pressure)"
+          v-if="Number.isFinite(weatherInfo.Pressure)"
           class="bg-gray-700/20 p-5 rounded-xl hover:bg-gray-700/30 transition-colors duration-200"
         >
           <h3 class="font-semibold text-gray-100 mb-3 flex items-center space-x-2">
@@ -198,7 +200,7 @@
 
         <!-- Dew Point -->
         <div
-          v-if="!isNaN(weatherInfo.DewPoint)"
+          v-if="Number.isFinite(weatherInfo.DewPoint)"
           class="bg-gray-700/20 p-5 rounded-xl hover:bg-gray-700/30 transition-colors duration-200"
         >
           <h3 class="font-semibold text-gray-100 mb-3 flex items-center space-x-2">
@@ -224,7 +226,7 @@
 
         <!-- Rain Rate -->
         <div
-          v-if="!isNaN(Number(weatherInfo.RainRate))"
+          v-if="Number.isFinite(Number(weatherInfo.RainRate))"
           class="bg-gray-700/20 p-5 rounded-xl hover:bg-gray-700/30 transition-colors duration-200"
         >
           <h3 class="font-semibold text-gray-100 mb-3 flex items-center space-x-2">
@@ -248,7 +250,7 @@
 
         <!-- Sky Quality -->
         <div
-          v-if="!isNaN(Number(weatherInfo.SkyQuality))"
+          v-if="Number.isFinite(Number(weatherInfo.SkyQuality))"
           class="bg-gray-700/20 p-5 rounded-xl hover:bg-gray-700/30 transition-colors duration-200"
         >
           <h3 class="font-semibold text-gray-100 mb-3 flex items-center space-x-2">
@@ -272,7 +274,7 @@
 
         <!-- Sky Temperature -->
         <div
-          v-if="!isNaN(Number(weatherInfo.SkyTemperature))"
+          v-if="Number.isFinite(Number(weatherInfo.SkyTemperature))"
           class="bg-gray-700/20 p-5 rounded-xl hover:bg-gray-700/30 transition-colors duration-200"
         >
           <h3 class="font-semibold text-gray-100 mb-3 flex items-center space-x-2">
@@ -312,7 +314,7 @@ const props = defineProps({
 const settingsStore = useSettingsStore();
 
 const temperature = computed(() => {
-  if (isNaN(props.weatherInfo.Temperature)) {
+  if (!Number.isFinite(props.weatherInfo.Temperature)) {
     return 'N/A';
   }
   return settingsStore.useImperialUnits
@@ -325,7 +327,7 @@ const temperatureUnit = computed(() => {
 });
 
 const windSpeed = computed(() => {
-  if (isNaN(props.weatherInfo.WindSpeed)) {
+  if (!Number.isFinite(props.weatherInfo.WindSpeed)) {
     return 'N/A';
   }
   return settingsStore.useImperialUnits
@@ -334,7 +336,7 @@ const windSpeed = computed(() => {
 });
 
 const windDirection = computed(() => {
-  if (isNaN(props.weatherInfo.WindDirection)) {
+  if (!Number.isFinite(props.weatherInfo.WindDirection)) {
     return 'N/A';
   }
   const directions = [
@@ -364,25 +366,25 @@ const windSpeedUnit = computed(() => {
 });
 
 const cloudCover = computed(() => {
-  return isNaN(props.weatherInfo.CloudCover)
+  return !Number.isFinite(props.weatherInfo.CloudCover)
     ? 'N/A'
     : `${Number(props.weatherInfo.CloudCover).toFixed(2)}%`;
 });
 
 const humidity = computed(() => {
-  return isNaN(props.weatherInfo.Humidity)
+  return !Number.isFinite(props.weatherInfo.Humidity)
     ? 'N/A'
     : `${Number(props.weatherInfo.Humidity).toFixed(2)}%`;
 });
 
 const pressure = computed(() => {
-  return isNaN(props.weatherInfo.Pressure)
+  return !Number.isFinite(props.weatherInfo.Pressure)
     ? 'N/A'
     : `${Number(props.weatherInfo.Pressure).toFixed(2)} hPa`;
 });
 
 const dewPoint = computed(() => {
-  if (isNaN(props.weatherInfo.DewPoint)) {
+  if (!Number.isFinite(props.weatherInfo.DewPoint)) {
     return 'N/A';
   }
   return settingsStore.useImperialUnits
@@ -396,17 +398,17 @@ const dewPointUnit = computed(() => {
 
 const rainRate = computed(() => {
   const rate = Number(props.weatherInfo.RainRate);
-  return isNaN(rate) ? 'N/A' : `${rate.toFixed(2)} mm/h`;
+  return !Number.isFinite(rate) ? 'N/A' : `${rate.toFixed(2)} mm/h`;
 });
 
 const skyQuality = computed(() => {
   const quality = Number(props.weatherInfo.SkyQuality);
-  return isNaN(quality) ? 'N/A' : `${quality.toFixed(2)} mag/arcsec²`;
+  return !Number.isFinite(quality) ? 'N/A' : `${quality.toFixed(2)} mag/arcsec²`;
 });
 
 const skyTemperature = computed(() => {
   const temp = Number(props.weatherInfo.SkyTemperature);
-  if (isNaN(temp)) {
+  if (!Number.isFinite(temp)) {
     return 'N/A';
   }
   return settingsStore.useImperialUnits ? ((temp * 9) / 5 + 32).toFixed(2) : temp.toFixed(2);

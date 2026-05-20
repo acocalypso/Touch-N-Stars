@@ -52,7 +52,13 @@
         </div>
       </template>
       <template v-else>
-        {{ $t('components.framing.getImageRotation.startCapture') }}
+        <div class="flex items-center justify-center gap-2">
+          <div class="relative flex items-center justify-center w-7 h-7">
+            <ArrowPathIcon class="w-7 h-7 absolute text-cyan-300" />
+            <CameraIcon class="w-3.5 h-3.5" />
+          </div>
+          <span>{{ $t('components.framing.getImageRotation.startCapture') }}</span>
+        </div>
       </template>
     </button>
   </div>
@@ -68,6 +74,7 @@ import apiService from '@/services/apiService';
 import { useCameraStore } from '@/store/cameraStore';
 import { apiStore } from '@/store/store';
 import { ref } from 'vue';
+import { CameraIcon, ArrowPathIcon } from '@heroicons/vue/24/outline';
 
 const cameraStore = useCameraStore();
 const store = apiStore();

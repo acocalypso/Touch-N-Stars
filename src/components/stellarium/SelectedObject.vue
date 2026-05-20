@@ -31,23 +31,20 @@
         {{ $t('components.stellarium.selected_object.dec') }}: {{ selectedObjectDec }}
       </p>
 
-      <div
-        v-if="store.mountInfo.Connected && !store.sequenceRunning"
-        class="flex flex-col gap-2 mt-2"
-      >
+      <div class="flex flex-col gap-2 mt-2">
         <SaveFavTargets
           :name="selectedObject[0]"
           :ra="selectedObjectRaDeg"
           :dec="selectedObjectDecDeg"
           :ra-string="selectedObjectRa"
           :dec-string="selectedObjectDec"
+          :show-label="true"
         />
 
-        <ButtonSlewCenterRotate
-          class="w-full"
-          :raAngle="props.selectedObjectRaDeg"
-          :decAngle="props.selectedObjectDecDeg"
-        />
+        <button class="default-button-cyan w-full" @click="openFramingModal">
+          {{ $t('components.framing.openFraminingModal') }}
+        </button>
+
         <setSequenceTarget
           class="w-full"
           :raAngle="props.selectedObjectRaDeg"
@@ -55,9 +52,16 @@
           :name="props.selectedObject[0]"
         />
 
+        <ButtonSlewCenterRotate
+          :raAngle="props.selectedObjectRaDeg"
+          :decAngle="props.selectedObjectDecDeg"
+          :disabled="!store.mountInfo.Connected || store.sequenceRunning"
+        />
+
         <ButtomSyncCoordinatesToMount
           :raAngle="props.selectedObjectRaDeg"
           :decAngle="props.selectedObjectDecDeg"
+          :disabled="!store.mountInfo.Connected || store.sequenceRunning"
         />
       </div>
       <div class="pb-10"></div>
@@ -67,6 +71,7 @@
 
 <script setup>
 import { ref, onMounted, computed } from 'vue';
+import { useRouter } from 'vue-router';
 import { apiStore } from '@/store/store';
 import { Capacitor } from '@capacitor/core';
 import ButtonSlewCenterRotate from '@/components/mount/ButtonSlewCenterRotate.vue';
@@ -74,8 +79,24 @@ import SaveFavTargets from '@/components/favTargets/SaveFavTargets.vue';
 import ButtomSyncCoordinatesToMount from '@/components/mount/ButtomSyncCoordinatesToMount.vue';
 import setSequenceTarget from '../framing/setSequenceTarget.vue';
 import { useOrientation } from '@/composables/useOrientation';
+import { useFramingStore } from '@/store/framingStore';
 
 const store = apiStore();
+const framingStore = useFramingStore();
+const router = useRouter();
+
+function openFramingModal() {
+  framingStore.RAangle = props.selectedObjectRaDeg;
+  framingStore.DECangle = props.selectedObjectDecDeg;
+  framingStore.RAangleString = props.selectedObjectRa;
+  framingStore.DECangleString = props.selectedObjectDec;
+  framingStore.selectedItem = {
+    Name: props.selectedObject?.[0] ?? '',
+    RA: props.selectedObjectRaDeg,
+    Dec: props.selectedObjectDecDeg,
+  };
+  router.push('/framing');
+}
 const props = defineProps({
   selectedObject: Object,
   selectedObjectRa: String,

@@ -10,6 +10,7 @@ export const useSequenceStore = defineStore('sequenceStore', {
     collapsedStates: {},
     sequenceIsLoaded: false,
     sequenceRunning: false,
+    sequenceControlsLocked: false,
     sequenceEdit: false,
     sequenceIsEditable: true,
     targetName: '',
@@ -20,6 +21,7 @@ export const useSequenceStore = defineStore('sequenceStore', {
     showTnsModal: false,
     tnsModalMessage: '',
     selectedImageIndex: null,
+    lastSequenceFilePath: '',
   }),
   actions: {
     setSelectedImageIndex(index) {
@@ -42,6 +44,36 @@ export const useSequenceStore = defineStore('sequenceStore', {
       }
 
       this.sequenceRunning = isRunning;
+    },
+    setSequenceControlsLocked(isLocked) {
+      this.sequenceControlsLocked = !!isLocked;
+
+      if (this.sequenceControlsLocked && this.sequenceEdit) {
+        this.sequenceEdit = false;
+        this.startFetching();
+      }
+
+      this.saveSequenceControlsLocked();
+    },
+
+    async loadSequenceControlsLocked() {
+      const response = await apiService.getSetting('sequence_controls_locked');
+      if (response?.Response?.Value !== undefined) {
+        this.sequenceControlsLocked = response.Response.Value === 'true';
+      }
+    },
+
+    async saveSequenceControlsLocked() {
+      const res = await apiService.createSetting({
+        Key: 'sequence_controls_locked',
+        Value: String(this.sequenceControlsLocked),
+      });
+      if (res?.StatusCode === 409) {
+        await apiService.updateSetting(
+          'sequence_controls_locked',
+          String(this.sequenceControlsLocked)
+        );
+      }
     },
     setImageTargetName(index, name) {
       if (!Number.isInteger(index) || index < 0) return;
@@ -180,7 +212,11 @@ export const useSequenceStore = defineStore('sequenceStore', {
         this.firstLoad = false;
       }
 
-      if (this.sequenceIsEditable) {
+      if (
+        this.sequenceIsEditable &&
+        !store.isPINS &&
+        !store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.2.8.0')
+      ) {
         //console.log('Abfrage state');
         response = await this.getSequenceInfoState();
         const keysCount = this.countKeysDeep(response);
@@ -202,7 +238,7 @@ export const useSequenceStore = defineStore('sequenceStore', {
         if (isEmptySequence) {
           this.sequenceInfo = [];
           this.sequenceIsLoaded = false;
-          this.sequenceRunning = false;
+          this.setSequenceRunning(false);
           this.targetName = '';
           this.runningItems = [];
           this.runningConditions = [];
@@ -253,40 +289,29 @@ export const useSequenceStore = defineStore('sequenceStore', {
           sequence.Items?.some((item) => item.Status === 'RUNNING')
         );
 
-        // Collect all running items with their names - always use JSON data for this
-        const newRunningItems = [];
-        const newRunningConditions = [];
-        const jsonResponse = await this.getSequenceInfoJson();
-        if (jsonResponse?.Success) {
-          // Temporarily store in local variables
-          const oldRunningItems = this.runningItems;
-          const oldRunningConditions = this.runningConditions;
+        // Collect all running items with their names from already-fetched response
+        const oldRunningItems = this.runningItems;
+        const oldRunningConditions = this.runningConditions;
 
-          this.runningItems = newRunningItems;
-          this.runningConditions = newRunningConditions;
+        this.runningItems = [];
+        this.runningConditions = [];
 
-          this.collectRunningItems(jsonResponse.Response);
-          this.collectRunningConditions(jsonResponse.Response);
+        this.collectRunningItems(response.Response);
+        this.collectRunningConditions(response.Response);
 
-          // Only update if arrays actually changed
-          if (JSON.stringify(oldRunningItems) !== JSON.stringify(this.runningItems)) {
-            // runningItems changed, keep new values
-          } else {
-            this.runningItems = oldRunningItems;
-          }
-
-          if (JSON.stringify(oldRunningConditions) !== JSON.stringify(this.runningConditions)) {
-            // runningConditions changed, keep new values
-          } else {
-            this.runningConditions = oldRunningConditions;
-          }
+        // Only update if arrays actually changed
+        if (JSON.stringify(oldRunningItems) === JSON.stringify(this.runningItems)) {
+          this.runningItems = oldRunningItems;
+        }
+        if (JSON.stringify(oldRunningConditions) === JSON.stringify(this.runningConditions)) {
+          this.runningConditions = oldRunningConditions;
         }
 
         // Update sequence running state (this will trigger notification if state changed)
         this.setSequenceRunning(isRunning || false);
       } else {
         this.sequenceIsLoaded = false;
-        this.sequenceRunning = false;
+        this.setSequenceRunning(false);
       }
     },
 
@@ -577,6 +602,10 @@ export const useSequenceStore = defineStore('sequenceStore', {
         console.error('Error fetching available sequences:', error);
         throw error;
       }
+    },
+
+    setLastSequenceFilePath(filePath) {
+      this.lastSequenceFilePath = filePath;
     },
   },
 });

@@ -179,7 +179,8 @@ function currentValue() {
   if (isDefaultValue.value) {
     return props.defaultValue !== null ? props.defaultValue : props.min;
   }
-  return Number(props.modelValue);
+  const val = Number(props.modelValue);
+  return isNaN(val) ? 0 : val;
 }
 
 function stepDown() {

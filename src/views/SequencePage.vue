@@ -1,11 +1,27 @@
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 p-4 md:p-6">
+  <SequenceV2Page
+    v-if="store.isPINS || store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.2.8.0')"
+  />
+
+  <div
+    v-else-if="store.isTnsPluginConnected && !store.isPinsCheckDone"
+    class="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 flex items-center justify-center"
+  >
+    <div class="animate-spin rounded-full h-10 w-10 border-b-2 border-cyan-400"></div>
+  </div>
+
+  <div v-else class="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 p-4 md:p-6">
     <div class="fixed right-3 z-10" style="bottom: calc(env(safe-area-inset-bottom, 0px) + 48px)">
       <button
         @click="toggleEdit"
         class="p-2 bg-gray-700 border border-cyan-600 rounded-full shadow-md"
-        :class="{ 'connected-glow': sequenceStore.sequenceEdit }"
+        :class="{
+          'connected-glow': sequenceStore.sequenceEdit,
+          'opacity-50 cursor-not-allowed': sequenceStore.sequenceControlsLocked,
+        }"
         v-if="sequenceStore.sequenceIsEditable"
+        :disabled="sequenceStore.sequenceControlsLocked"
+        :title="editButtonTitle"
       >
         <PencilIcon class="icon" />
       </button>
@@ -14,6 +30,15 @@
     <FavTargets
       :show-framning="false"
       class="fixed right-16 z-10"
+      style="bottom: calc(env(safe-area-inset-bottom, 0px) + 48px)"
+    />
+    <FitsPlateSolve
+      v-if="
+        store.isPINS || store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.2.7.0')
+      "
+      :showFraming="false"
+      :showSeqTarget="true"
+      class="fixed right-28 z-10"
       style="bottom: calc(env(safe-area-inset-bottom, 0px) + 48px)"
     />
 
@@ -35,19 +60,29 @@
 </template>
 
 <script setup>
-import { onBeforeUnmount } from 'vue';
+import { computed, onBeforeUnmount, ref } from 'vue';
 import infoSequence from '@/components/sequence/infoSequence.vue';
 import controlSequence from '@/components/sequence/controlSequence.vue';
 import { useSequenceStore } from '@/store/sequenceStore';
-import { ref } from 'vue';
 import { PencilIcon } from '@heroicons/vue/24/outline';
 import FavTargets from '@/components/favTargets/FavTargets.vue';
+import FitsPlateSolve from '@/components/fitsPlatesolve/FitsPlateSolve.vue';
 import LoadSequence from '@/components/sequence/LoadSequence.vue';
+import SequenceV2Page from '@/views/SequenceV2Page.vue';
+import { apiStore } from '@/store/store';
+import { useI18n } from 'vue-i18n';
 
+const store = apiStore();
 const currentTab = ref('showSequenz'); // Standardwert
 const sequenceStore = useSequenceStore();
+const { t } = useI18n();
+const editButtonTitle = computed(() =>
+  sequenceStore.sequenceControlsLocked ? t('components.sequence.lockControls') : undefined
+);
 
 function toggleEdit() {
+  if (sequenceStore.sequenceControlsLocked) return;
+
   sequenceStore.sequenceEdit = !sequenceStore.sequenceEdit;
   if (sequenceStore.sequenceEdit) {
     sequenceStore.stopFetching();

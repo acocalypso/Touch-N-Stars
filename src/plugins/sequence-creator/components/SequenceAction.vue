@@ -156,20 +156,44 @@
           </select>
 
           <!-- Boolean Input -->
-          <label
-            v-else-if="param.type === 'boolean'"
-            class="flex items-center space-x-3 cursor-pointer py-2"
-          >
-            <input
-              :checked="param.value"
-              @change="updateParameter(key, $event.target.checked)"
-              type="checkbox"
-              class="w-5 h-5 sm:w-4 sm:h-4 rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800"
-            />
-            <span class="text-sm sm:text-xs text-gray-600 dark:text-gray-400">{{
-              param.label || 'Enabled'
-            }}</span>
-          </label>
+          <div v-else-if="param.type === 'boolean'" class="py-2">
+            <div
+              v-if="action.type === 'dew-heater' && key === 'onOff'"
+              class="flex w-full items-center"
+            >
+              <span class="text-sm sm:text-xs text-gray-600 dark:text-gray-400">
+                {{ param.label || 'Enabled' }}
+              </span>
+              <button
+                type="button"
+                role="switch"
+                :aria-checked="getBooleanValue(param)"
+                :class="[
+                  'relative ml-auto inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-blue-500',
+                  getBooleanValue(param) ? 'bg-blue-600' : 'bg-gray-400 dark:bg-gray-600',
+                ]"
+                @click="updateParameter(key, !getBooleanValue(param))"
+              >
+                <span
+                  :class="[
+                    'inline-block h-4 w-4 transform rounded-full bg-white transition-transform',
+                    getBooleanValue(param) ? 'translate-x-6' : 'translate-x-1',
+                  ]"
+                />
+              </button>
+            </div>
+            <label v-else class="flex items-center space-x-3 cursor-pointer">
+              <input
+                :checked="getBooleanValue(param)"
+                @change="updateParameter(key, $event.target.checked)"
+                type="checkbox"
+                class="w-5 h-5 sm:w-4 sm:h-4 rounded border-gray-300 dark:border-gray-600 text-blue-600 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800"
+              />
+              <span class="text-sm sm:text-xs text-gray-600 dark:text-gray-400">{{
+                param.label || 'Enabled'
+              }}</span>
+            </label>
+          </div>
         </div>
       </div>
     </div>
@@ -236,6 +260,10 @@ function formatParameterName(key) {
 
 function updateParameter(key, value) {
   emit('update-parameter', props.action.id, key, value);
+}
+
+function getBooleanValue(param) {
+  return param.value !== undefined ? param.value : param.default;
 }
 
 function handleNumberInput(key, value, param) {

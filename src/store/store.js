@@ -1,17 +1,34 @@
 import { defineStore } from 'pinia';
 import apiService from '@/services/apiService';
+import apiPinsService from '@/services/apiPinsService';
 import { useCameraStore } from '@/store/cameraStore';
 import { useSettingsStore } from '@/store/settingsStore';
+import { usePinsStore } from '@/plugins/pins/store/pinsStore';
 import { useToastStore } from '@/store/toastStore';
 import { useImagetStore } from './imageStore';
 import { useAutofocusStore } from '@/store/autofocusStore';
 import websocketChannelService from '@/services/websocketChannelSocket';
 import signalRNotificationService from '@/services/signalRNotificationService';
+import signalRProgressService from '@/services/signalRprogressService';
+import signalRDialogService from '@/services/signalRDialogService';
+import signalRMessageboxesService from '@/services/signalRMessageboxesService';
+import { useProgressStore } from '@/store/progressStore';
+import { useLivestackStore } from '@/plugins/livestack/store/livestackStore';
+import { useNightSummaryStore } from '@/plugins/nightsummary/store/nightsummaryStore';
+import { useGuiderStore } from '@/store/guiderStore';
+import { useSequenceStore } from '@/store/sequenceStore';
+import { useDialogStore } from '@/store/dialogStore';
+import { useLogStore } from '@/store/logStore';
+import websocketMountControlService from '@/services/websocketMountControl';
+import websocketTppaService from '@/services/websocketTppa';
+import { getDeviceDateTimePayload, parsePinsTimeToSeconds } from '@/utils/pinsTimeUtils';
 
 export const apiStore = defineStore('store', {
   state: () => ({
     apiPort: null,
     isPINS: false,
+    isPinsCheckDone: false,
+    isTimeSynced: false,
     intervalId: null,
     intervalIdGraph: null,
     lastEventHistoryFetch: 0,
@@ -24,6 +41,7 @@ export const apiStore = defineStore('store', {
         HistogramTolerance: 0,
         HistogramMeanTarget: 0,
         FlatCount: 0,
+        DarkFlatCount: 0,
       },
       TelescopeSettings: {
         Id: 'Celestron AVX',
@@ -66,6 +84,9 @@ export const apiStore = defineStore('store', {
       },
       ImageFileSettings: {
         FilePattern: '',
+        FilePatternDARK: '',
+        FilePatternBIAS: '',
+        FilePatternFLAT: '',
         FileType: 'TIFF',
       },
       SnapShotControlSettings: {
@@ -91,7 +112,7 @@ export const apiStore = defineStore('store', {
     cameraInfo: { Connected: false, IsExposing: false, BinningModes: [], ReadoutModes: [] },
     mountInfo: { Connected: false, TrackingMode: null },
     filterInfo: { Connected: false },
-    focuserInfo: { Connected: false, CanReverse: false },
+    focuserInfo: { Connected: false, CanReverse: false, CanSetMaxStep: false },
     rotatorInfo: { Connected: false },
     focuserAfInfo: { Connected: false },
     guiderInfo: { Connected: false },
@@ -115,6 +136,7 @@ export const apiStore = defineStore('store', {
     filterNr: null,
     showAfGraph: true,
     imageData: null,
+    imageSavePath: null,
     isLoadingImage: false,
     captureRunning: false,
     rotatorMechanicalPosition: 0,
@@ -129,6 +151,7 @@ export const apiStore = defineStore('store', {
     minimumTnsPluginVersion: '1.2.0.0',
     currentApiVersion: null,
     currentTnsPluginVersion: null,
+    currentPinsVersion: null,
     isApiVersionNewerOrEqual: false,
     isTnsPluginVersionNewerOrEqual: false,
     mount: {
@@ -156,13 +179,28 @@ export const apiStore = defineStore('store', {
     isSwitchConnected: false,
     isWeatherConnected: false,
     isSafetyConnected: false,
+    lastImageStats: null,
   }),
 
   actions: {
     async fetchAllInfos(t) {
       const toastStore = useToastStore();
+      const pinsStore = usePinsStore();
       //const settingsStore = useSettingsStore();
       //this.isPINS = settingsStore.isPinsEnabled;
+
+      const showConnectionErrorToast = (messageKey) => {
+        if (pinsStore.shouldSuppressConnectionToasts || this.errorMessageShown) {
+          return;
+        }
+
+        toastStore.showToast({
+          type: 'error',
+          title: t('app.connection_error_toast.title'),
+          message: t(messageKey),
+          autoClose: false,
+        });
+      };
 
       const tryWithRetry = async (fn, retries = 1, delay = 2000) => {
         let result = null;
@@ -189,14 +227,7 @@ export const apiStore = defineStore('store', {
         );
         if (!tnsVersionResponse) {
           console.warn('TNS-Plugin not reachable');
-          if (!this.errorMessageShown) {
-            toastStore.showToast({
-              type: 'error',
-              title: t('app.connection_error_toast.title'),
-              message: t('app.connection_error_toast.message_tns'),
-              autoClose: false,
-            });
-          }
+          showConnectionErrorToast('app.connection_error_toast.message_tns');
           this.isTnsPluginConnected = false;
           this.clearAllStates();
           return;
@@ -213,14 +244,7 @@ export const apiStore = defineStore('store', {
             );
             if (!this.isTnsPluginVersionNewerOrEqual) {
               console.warn('TNS version incompatible', this.currentTnsPluginVersion);
-              if (!this.errorMessageShown) {
-                toastStore.showToast({
-                  type: 'error',
-                  title: t('app.connection_error_toast.title'),
-                  message: t('app.connection_error_toast.message_tns_version'),
-                  autoClose: false,
-                });
-              }
+              showConnectionErrorToast('app.connection_error_toast.message_tns_version');
               this.clearAllStates();
               this.isTnsPluginVersionNewerOrEqual = false;
               return;
@@ -240,14 +264,7 @@ export const apiStore = defineStore('store', {
           //console.log('API Port response:', response);
           if (!response) {
             console.error('API not reachable');
-            if (!this.errorMessageShown) {
-              toastStore.showToast({
-                type: 'error',
-                title: t('app.connection_error_toast.title'),
-                message: t('app.connection_error_toast.message_api'),
-                autoClose: false,
-              });
-            }
+            showConnectionErrorToast('app.connection_error_toast.message_api');
             this.isApiConnected = false;
             this.apiPort = null;
             this.clearAllStates();
@@ -255,14 +272,7 @@ export const apiStore = defineStore('store', {
           }
           if (response.data === -1) {
             console.error('API not reachable');
-            if (!this.errorMessageShown) {
-              toastStore.showToast({
-                type: 'error',
-                title: t('app.connection_error_toast.title'),
-                message: t('app.connection_error_toast.message_api'),
-                autoClose: false,
-              });
-            }
+            showConnectionErrorToast('app.connection_error_toast.message_api');
             this.isApiConnected = false;
             this.apiPort = null;
             this.clearAllStates();
@@ -283,14 +293,7 @@ export const apiStore = defineStore('store', {
           //console.log('API Version response:', responseApiVersion);
           if (responseApiVersion?.Success === false) {
             console.warn('API-Plugin not reachable');
-            if (!this.errorMessageShown) {
-              toastStore.showToast({
-                type: 'error',
-                title: t('app.connection_error_toast.title'),
-                message: t('app.connection_error_toast.message_api'),
-                autoClose: false,
-              });
-            }
+            showConnectionErrorToast('app.connection_error_toast.message_api');
             this.clearAllStates();
             return;
           } else {
@@ -308,14 +311,7 @@ export const apiStore = defineStore('store', {
 
               if (!this.isApiVersionNewerOrEqual) {
                 console.warn('API version incompatible', this.currentApiVersion);
-                if (!this.errorMessageShown) {
-                  toastStore.showToast({
-                    type: 'error',
-                    title: t('app.connection_error_toast.title'),
-                    message: t('app.connection_error_toast.message_api_version'),
-                    autoClose: false,
-                  });
-                }
+                showConnectionErrorToast('app.connection_error_toast.message_api_version');
                 this.clearAllStates();
                 return;
               }
@@ -346,6 +342,16 @@ export const apiStore = defineStore('store', {
           try {
             await websocketChannelService.connect(1000);
             this.isWebSocketConnected = true;
+            websocketChannelService.subscribe('IMAGE-SAVE');
+            // Initial image history load after WS connect
+            try {
+              const historyResponse = await apiService.imageHistoryAll();
+              if (historyResponse?.Success) {
+                this.imageHistoryInfo = historyResponse.Response;
+              }
+            } catch (e) {
+              console.warn('[API Store] Could not load initial image history:', e.message);
+            }
           } catch (error) {
             // WebSocket fehlgeschlagen oder Timeout
             console.warn('[API Store] WebSocket connection failed or timeout:', error.message);
@@ -365,6 +371,10 @@ export const apiStore = defineStore('store', {
 
           signalRNotificationService.setNotificationCallback((notification) => {
             //console.log('[API Store] SignalR Notification:', notification);
+
+            if (notification.message === 'Not a 10u mount. 10u utilities disabled.') {
+              return;
+            }
 
             // Show toast notification
             const toastStore = useToastStore();
@@ -394,14 +404,9 @@ export const apiStore = defineStore('store', {
             });
           });
 
-          // Try to connect SignalR
-          try {
-            await signalRNotificationService.connect();
-            console.log('[API Store] SignalR Notification Service connected');
-          } catch (error) {
-            console.warn('[API Store] SignalR connection failed:', error.message);
-            // SignalR will automatically attempt to reconnect via reconnect logic
-          }
+          // Fire-and-forget: SignalR has its own retry loop; awaiting would block fetchAllInfos()
+          // indefinitely because connect() never rejects while shouldReconnect is true.
+          signalRNotificationService.connect().catch(() => {});
         }
 
         // If all conditions are met, mark backend as reachable
@@ -412,6 +417,10 @@ export const apiStore = defineStore('store', {
           this.isTnsPluginVersionNewerOrEqual &&
           this.isWebSocketConnected
         ) {
+          if (!this.isBackendReachable) {
+            const settingsStore = useSettingsStore();
+            settingsStore.loadAllBackendSettings();
+          }
           this.isBackendReachable = true;
           this.attemptsToConnect = 0;
           //console.log('Backend is reachable', new Date().toLocaleTimeString());
@@ -428,12 +437,7 @@ export const apiStore = defineStore('store', {
           return; // Equipment-Anfragen überspringen wenn Backend nicht erreichbar
         } else {
           this.clearAllStates();
-          toastStore.showToast({
-            type: 'error',
-            title: t('app.connection_error_toast.title'),
-            message: t('app.connection_error_toast.message_api'),
-            autoClose: false,
-          });
+          showConnectionErrorToast('app.connection_error_toast.message_api');
           console.warn(
             'Backend not reachable after multiple attempts, clearing states',
             new Date().toLocaleTimeString()
@@ -454,9 +458,6 @@ export const apiStore = defineStore('store', {
         // Build API requests dynamically based on connection status
         const requests = [];
         const requestMap = {};
-
-        requests.push(apiService.imageHistoryAll());
-        requestMap['imageHistoryResponse'] = 'imageHistoryResponse';
 
         if (this.isCameraConnected) {
           requests.push(apiService.cameraAction('info'));
@@ -511,7 +512,7 @@ export const apiStore = defineStore('store', {
 
         // Map responses to correct keys
         const responseData = {
-          imageHistoryResponse: responses[0],
+          imageHistoryResponse: null,
           cameraResponse: null,
           mountResponse: null,
           filterResponse: null,
@@ -526,7 +527,7 @@ export const apiStore = defineStore('store', {
           switchResponse: null,
         };
 
-        let responseIndex = 1;
+        let responseIndex = 0;
         if (this.isCameraConnected) responseData.cameraResponse = responses[responseIndex++];
         if (this.isMountConnected) responseData.mountResponse = responses[responseIndex++];
         if (this.isFilterConnected) responseData.filterResponse = responses[responseIndex++];
@@ -566,16 +567,185 @@ export const apiStore = defineStore('store', {
       this.apiPort = null;
       this.attemptsToConnect = 0;
       this.lastEventHistoryFetch = 0;
+      this.isPINS = false;
+      this.isPinsCheckDone = false;
+      this.isTimeSynced = false;
+      this.imageHistoryInfo = null;
+      this.lastImageStats = null;
+
+      // Clear equipment connection flags
+      this.isMountConnected = false;
+      this.isCameraConnected = false;
+      this.isFilterConnected = false;
+      this.isRotatorConnected = false;
+      this.isFocuserConnected = false;
+      this.isGuiderConnected = false;
+      this.isFlatdeviceConnected = false;
+      this.isDomeConnected = false;
+      this.isSwitchConnected = false;
+      this.isWeatherConnected = false;
+      this.isSafetyConnected = false;
+
+      // Clear equipment info from previous instance
+      this.cameraInfo = { Connected: false, IsExposing: false, BinningModes: [], ReadoutModes: [] };
+      this.mountInfo = { Connected: false, TrackingMode: null };
+      this.filterInfo = { Connected: false };
+      this.focuserInfo = { Connected: false, CanReverse: false, CanSetMaxStep: false };
+      this.rotatorInfo = { Connected: false };
+      this.focuserAfInfo = { Connected: false };
+      this.guiderInfo = { Connected: false };
+      this.flatdeviceInfo = { Connected: false };
+      this.domeInfo = { Connected: false };
+      this.safetyInfo = { Connected: false, IsSafe: false };
+      this.switchInfo = { Connected: false };
+      this.weatherInfo = { Connected: false };
+
+      // Clear other instance-specific state
+      this.filterName = 'unbekannt';
+      this.filterNr = null;
+      this.rotatorMechanicalPosition = 0;
+      this.existingEquipmentList = [];
+      this.imageData = null;
+      this.afCurveData = [];
+      this.afTimestampLastStart = null;
+      this.currentApiVersion = null;
+      this.currentTnsPluginVersion = null;
+      this.currentPinsVersion = null;
 
       // Disconnect Channel WebSocket when backend is not reachable
       if (websocketChannelService.isWebSocketConnected()) {
         websocketChannelService.disconnect();
       }
 
+      // Disconnect mount and TPPA WebSockets
+      websocketMountControlService.disconnect();
+      websocketTppaService.disconnect();
+
       // Disconnect SignalR when backend is not reachable
       if (signalRNotificationService.isSignalRConnected()) {
         signalRNotificationService.disconnect();
       }
+
+      // Disconnect progress SignalR so it reconnects to the new instance's backend
+      if (signalRProgressService.isSignalRConnected()) {
+        signalRProgressService.disconnect();
+      }
+
+      // Disconnect dialog SignalR so it reconnects to the new instance's backend
+      if (signalRDialogService.isSignalRConnected()) {
+        signalRDialogService.disconnect();
+      }
+
+      // Disconnect messagebox SignalR so it reconnects to the new instance's backend
+      if (signalRMessageboxesService.isSignalRConnected()) {
+        signalRMessageboxesService.disconnect();
+      }
+
+      // Clear progress data from the previous instance
+      const progressStore = useProgressStore();
+      progressStore.clearAll();
+
+      // Clear autofocus data from the previous instance
+      const autofocusStore = useAutofocusStore();
+      autofocusStore.clearAutofocusData();
+
+      // Clear guider graph data and stop polling
+      const guiderStore = useGuiderStore();
+      guiderStore.stopFetching();
+      guiderStore.$patch({
+        RADistanceRaw: [],
+        DECDistanceRaw: [],
+        raDuration: [],
+        decDuration: [],
+        chartInfo: [],
+        phd2Connection: [],
+        phd2Status: [],
+        phd2StarLostInfo: [],
+        phd2StarLost: false,
+        phd2IsConnected: false,
+        phd2StarInfo: null,
+        phd2CalibrationMessage: null,
+        phd2EquipmentProfiles: [],
+        phd2CurrentEquipment: [],
+        phd2Cameras: [],
+        phd2SelectedCameraIndex: null,
+        phd2SelectedCameraName: null,
+        phd2Mounts: [],
+        phd2SelectedMountIndex: null,
+        phd2SelectedMountName: null,
+      });
+
+      // Clear sequence data from the previous instance
+      const sequenceStore = useSequenceStore();
+      sequenceStore.$patch({
+        sequenceInfo: [],
+        sequenceIsLoaded: false,
+        sequenceRunning: false,
+        targetName: '',
+        lastTargetName: '',
+        imageTargetNames: {},
+        runningItems: [],
+        runningConditions: [],
+        firstLoad: true,
+      });
+
+      // Clear dialog data from the previous instance
+      const dialogStore = useDialogStore();
+      dialogStore.$patch({
+        dialogs: [],
+        dialogCount: 0,
+        meridianFlipData: null,
+        slewAndCenterData: null,
+      });
+
+      // Clear log data from the previous instance
+      const logStore = useLogStore();
+      logStore.$patch({
+        LogsInfo: { logs: [] },
+        focuserData: [],
+        foundPos: 0,
+      });
+
+      // Clear livestack state from the previous instance
+      const livestackStore = useLivestackStore();
+      livestackStore.$patch({
+        availableImages: [],
+        availableTargets: [],
+        availableFilters: [],
+        selectedFilter: null,
+        selectedTarget: null,
+        currentImageTarget: null,
+        currentImageFilter: null,
+        currentImageUrl: null,
+        lastImageUpdate: null,
+        status: 'stopped',
+      });
+
+      // Clear night summary state from the previous instance
+      const nightSummaryStore = useNightSummaryStore();
+      nightSummaryStore.$patch({
+        pluginInstalled: null,
+        settings: null,
+        settingsLoading: false,
+        settingsSaving: false,
+        settingsError: null,
+        filterNames: [],
+        emailTestStatus: null,
+        discordTestStatus: null,
+        pushoverTestStatus: null,
+        emailTesting: false,
+        discordTesting: false,
+        pushoverTesting: false,
+        sessions: [],
+        selectedSessionId: null,
+        sessionDetail: null,
+        loadingSessions: false,
+        loadingDetail: false,
+        resendingSession: false,
+        resendStatus: null,
+        error: null,
+        deleteError: null,
+      });
     },
 
     handleApiResponses({
@@ -708,12 +878,63 @@ export const apiStore = defineStore('store', {
 
         if (profileInfoResponse && profileInfoResponse.Response) {
           this.profileInfo = profileInfoResponse.Response;
+          this.imageSavePath = this.profileInfo?.ImageFileSettings?.FilePath || null;
           this.getExistingEquipment(this.profileInfo);
         } else {
           console.error('Error in profile API response:', profileInfoResponse?.Error);
         }
       } catch (error) {
         console.error('Error fetching profile information:', error);
+      }
+    },
+
+    async setImageSavePath(path) {
+      try {
+        await apiService.profileChangeValue('ImageFileSettings-FilePath', path);
+
+        this.imageSavePath = path;
+      } catch (e) {
+        console.error('Failed to set image save path', e);
+        throw e;
+      }
+    },
+
+    async setHorizonFilePath(path) {
+      try {
+        await apiService.profileChangeValue('AstrometrySettings-HorizonFilePath', path);
+        if (this.profileInfo?.AstrometrySettings) {
+          this.profileInfo.AstrometrySettings.HorizonFilePath = path;
+        }
+      } catch (e) {
+        console.error('Failed to set horizon file path', e);
+        throw e;
+      }
+    },
+
+    async fetchLastImageStats() {
+      if (!this.isPINS) return; // Nur abrufen wenn PINS aktiv ist
+      try {
+        const [statsResult, histResult] = await Promise.all([
+          apiService.getCaptureStatisticsFull().catch(() => null),
+          apiService.getPreparedImageStatistics().catch(() => null),
+        ]);
+        const base = histResult?.Response ?? statsResult?.Response ?? null;
+        if (!base) {
+          if (
+            statsResult?.Error === 'No capture processed' ||
+            histResult?.Error === 'No capture processed'
+          )
+            return;
+          console.error('[Store] fetchLastImageStats: both calls failed or returned no data');
+          return;
+        }
+        this.lastImageStats = {
+          ...base,
+          ...(statsResult?.Response ?? {}),
+          Histogram: histResult?.Response?.Histogram ?? null,
+        };
+      } catch (error) {
+        console.error('Error fetching last image stats:', error);
       }
     },
 
@@ -781,6 +1002,7 @@ export const apiStore = defineStore('store', {
       cStore.coordinates.altitude = this.profileInfo.AstrometrySettings.Elevation;
     },
     checkVersionNewerOrEqual(currentVersion, minimumVersion) {
+      if (!currentVersion || !minimumVersion) return true;
       const parseVersion = (version) => version.split('.').map(Number);
 
       //console.log('current', currentVersion, 'minimum', minimumVersion);
@@ -805,13 +1027,77 @@ export const apiStore = defineStore('store', {
       return true;
     },
     async checkForPINS() {
+      if (this.isPinsCheckDone) {
+        if (this.isPINS) {
+          await this.syncSystemTime();
+        }
+        return;
+      }
+      if (!this.isApiVersionNewerOrEqual) {
+        return;
+      }
       const pinsVersion = await apiService.fetchPinsVersion();
+      if (pinsVersion === null) {
+        // Backend not reachable — don't cache, allow retry on next call
+        return;
+      }
       if (pinsVersion && pinsVersion.Response) {
         this.isPINS = true;
+        this.currentPinsVersion = pinsVersion.Response;
         console.log('[API Store] PINS detected, version:', pinsVersion.Response);
       } else {
         this.isPINS = false;
+        this.currentPinsVersion = null;
+        console.log('[API Store] No PINS endpoint — assuming NINA');
       }
+      this.isPinsCheckDone = true;
+      if (this.isPINS) {
+        await this.syncSystemTime();
+      }
+    },
+
+    async syncSystemTime() {
+      const pinsStore = usePinsStore();
+
+      if (!pinsStore.timeSyncEnabled) {
+        console.log('[Time Sync] Time sync is disabled in settings.');
+        return;
+      }
+
+      if (this.isTimeSynced) return;
+
+      const serverTime = await apiPinsService.fetchSystemTime();
+      if (!serverTime) return;
+
+      const clientTime = new Date();
+      const clientTimestamp = clientTime.getTime() / 1000; // Seconds
+      const serverTimestamp = parsePinsTimeToSeconds(serverTime);
+      if (serverTimestamp === null) {
+        console.warn('[Time Sync] Could not parse server time payload:', serverTime);
+        return;
+      }
+      const serverIso =
+        serverTime.iso || serverTime.dateTime || new Date(serverTimestamp * 1000).toISOString();
+
+      console.log(`[Time Sync] Client: ${clientTime.toISOString()} (${clientTimestamp})`);
+      console.log(`[Time Sync] Server: ${serverIso} (${serverTimestamp})`);
+
+      const diff = Math.abs(clientTimestamp - serverTimestamp);
+      console.log(`[Time Sync] Difference: ${diff.toFixed(3)}s`);
+
+      // If difference is more than 5 seconds, sync it
+      if (diff > 5) {
+        console.log('[Time Sync] Difference too large, updating server time...');
+        const success = await apiPinsService.setSystemTime(getDeviceDateTimePayload(clientTime));
+        if (success) {
+          console.log('[Time Sync] Server time updated successfully.');
+        } else {
+          console.error('[Time Sync] Failed to update server time.');
+        }
+      } else {
+        console.log('[Time Sync] Time is synchronized.');
+      }
+      this.isTimeSynced = true;
     },
 
     setPageReturnedFromBackground() {
@@ -842,12 +1128,19 @@ export const apiStore = defineStore('store', {
       const imageStore = useImagetStore();
       // Check if message has the expected structure with Response.Event
       if (message.Response && message.Response.Event === 'IMAGE-PREPARED') {
-        //console.log('IMAGE-PREPARED event received');
+        console.log('[WS] IMAGE-PREPARED received, isImageFetching =', imageStore.isImageFetching);
         // Verhindere mehrfache gleichzeitige Anfragen
         if (imageStore.isImageFetching) {
           return;
         }
         await imageStore.getImage();
+      }
+
+      if (message.Response && message.Response.Event === 'IMAGE-SAVE') {
+        const stats = message.Response.ImageStatistics;
+        if (stats && Array.isArray(this.imageHistoryInfo)) {
+          this.imageHistoryInfo = [...this.imageHistoryInfo, stats];
+        }
       }
 
       // If a device connection event arrives via WebSocket, fetch event history immediately

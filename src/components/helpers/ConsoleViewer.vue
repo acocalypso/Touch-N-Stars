@@ -57,6 +57,8 @@ const isModalOpen = ref(false);
 const logs = ref([]);
 const showSuccess = ref(false);
 
+const MAX_LOGS = 1000;
+
 // Rate limiting cache for duplicate console messages
 const consoleCache = new Map();
 
@@ -86,7 +88,7 @@ function getCircularReplacer() {
 async function downloadLogs() {
   // Convert console logs to the format expected by the helper
   const formattedLogs = logs.value.map((log) => ({
-    timestamp: new Date().toISOString(), // Since console logs don't have timestamps, use current time
+    timestamp: log.timestamp,
     level: log.type.toUpperCase(),
     message: log.message,
   }));
@@ -156,8 +158,9 @@ if (!window.__consoleViewerPatched) {
 
       // Clean up old entries (older than 15 seconds)
       setTimeout(() => {
+        const cutoff = Date.now() - 15000;
         for (const [key, timestamp] of consoleCache.entries()) {
-          if (now - timestamp > 15000) {
+          if (timestamp < cutoff) {
             consoleCache.delete(key);
           }
         }
@@ -166,23 +169,30 @@ if (!window.__consoleViewerPatched) {
       logs.value.push({
         type,
         message,
+        timestamp: new Date().toISOString(),
       });
+
+      // Trim log buffer to prevent unbounded memory growth
+      if (logs.value.length > MAX_LOGS) {
+        logs.value.splice(0, logs.value.length - MAX_LOGS);
+      }
     };
   });
 
   // Patch WebSocket to catch connection errors
   const OriginalWebSocket = window.WebSocket;
-  window.WebSocket = function (url, protocols) {
-    const ws = new OriginalWebSocket(url, protocols);
-
-    ws.addEventListener('error', () => {
-      logs.value.push({
-        type: 'error',
-        message: `WebSocket error: ${url} - Connection failed`,
+  class PatchedWebSocket extends OriginalWebSocket {
+    constructor(url, protocols) {
+      super(url, protocols);
+      this.addEventListener('error', () => {
+        logs.value.push({
+          type: 'error',
+          message: `WebSocket error: ${url} - Connection failed`,
+          timestamp: new Date().toISOString(),
+        });
       });
-    });
-
-    return ws;
-  };
+    }
+  }
+  window.WebSocket = PatchedWebSocket;
 }
 </script>

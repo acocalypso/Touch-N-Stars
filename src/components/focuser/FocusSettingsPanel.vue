@@ -1,11 +1,22 @@
 <template>
   <div class="flex flex-col gap-2 sm:gap-4">
-    <!-- Basic Settings Container -->
+    <!-- General Settings Container -->
+    <div
+      v-if="store.isPINS"
+      class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
+    >
+      <h3 class="font-bold text-base text-cyan-400">
+        {{ $t('components.focuser.settings.general') }}
+      </h3>
+      <setFocuserMaxStep />
+    </div>
+
+    <!-- AutoFocus Settings Container -->
     <div
       class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
     >
       <h3 class="font-bold text-base text-cyan-400">
-        {{ $t('components.focuser.settings.basic') }}
+        {{ $t('components.focuser.settings.autofocus') }}
       </h3>
       <setFocuserUseFilterOffset />
       <SettingInput
@@ -24,7 +35,7 @@
         labelKey="components.focuser.settings.AutoFocusStepSize"
         settingKey="FocuserSettings-AutoFocusStepSize"
         :modelValue="store.profileInfo.FocuserSettings.AutoFocusStepSize"
-        :max="1000"
+        :max="100000"
       />
       <SettingInput
         labelKey="components.focuser.settings.FocuserSettleTime"
@@ -141,6 +152,27 @@
       />
       <setAutoFocusDisableGuiding />
     </div>
+    <!-- Device specific settings container -->
+    <div
+      v-if="store.isPINS && hasDeviceSettings"
+      class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
+    >
+      <h3 class="font-bold text-base text-cyan-400">
+        {{ $t('components.focuser.settings.deviceSpecific') }}
+      </h3>
+      <pinsSetMotorSpeedControl
+        v-if="store.isPINS && focuserStore.focuserSettings?.HasMotorSpeedControl"
+      />
+      <pinsSetBeepOnMove v-if="store.isPINS" />
+      <pinsSetBeepOnStartup v-if="store.isPINS" />
+      <pinsSetStallDetection v-if="store.isPINS" />
+      <pinsSetHeating v-if="store.isPINS" />
+      <pinsSetHeatingTemperature v-if="store.isPINS" />
+      <pinsSetUSBCapacity v-if="store.isPINS" />
+      <pinsSetFocuserAlias v-if="store.isPINS" />
+      <pinsClearStall v-if="store.isPINS" />
+      <pinsResetPosition v-if="store.isPINS" />
+    </div>
   </div>
 </template>
 
@@ -150,6 +182,22 @@ import SettingInput from '@/components/helpers/settings/UpdatePorfileNumber.vue'
 import SettingSelect from '@/components/helpers/settings/SettingProfilSelect.vue';
 import setAutoFocusDisableGuiding from './settings/setAutoFocusDisableGuiding.vue';
 import setFocuserUseFilterOffset from './settings/setFocuserUseFilterOffset.vue';
+import setFocuserMaxStep from './settings/setFocuserMaxStep.vue';
+import pinsSetMotorSpeedControl from './settingsPins/pinsSetMotorSpeedControl.vue';
+import pinsSetBeepOnMove from './settingsPins/pinsSetBeepOnMove.vue';
+import pinsSetBeepOnStartup from './settingsPins/pinsSetBeepOnStartup.vue';
+import pinsSetStallDetection from './settingsPins/pinsSetStallDetection.vue';
+import pinsSetHeating from './settingsPins/pinsSetHeating.vue';
+import pinsSetHeatingTemperature from './settingsPins/pinsSetHeatingTemperature.vue';
+import pinsSetUSBCapacity from './settingsPins/pinsSetUSBCapacity.vue';
+import pinsSetFocuserAlias from './settingsPins/pinsSetFocuserAlias.vue';
+import pinsClearStall from './settingsPins/pinsClearStall.vue';
+import pinsResetPosition from './settingsPins/pinsResetPosition.vue';
+import { useFocuserStore } from '@/store/focuserStore';
+import { computed } from 'vue';
 
 const store = apiStore();
+const focuserStore = useFocuserStore();
+
+const hasDeviceSettings = computed(() => focuserStore.focuserSettings != null);
 </script>

@@ -4,18 +4,7 @@
     class="w-10 h-10 bg-gray-800/90 hover:bg-gray-700 text-white rounded-lg shadow-lg flex items-center justify-center transition-colors"
     title="Plate Solve"
   >
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="1.5"
-      class="w-5 h-5"
-    >
-      <path d="M12 2L12 7M12 17L12 22M2 12L7 12M17 12L22 12" />
-      <circle cx="12" cy="12" r="4" />
-      <circle cx="12" cy="12" r="8" opacity="0.5" />
-    </svg>
+    <NinaPlateSolveIcon />
   </button>
 
   <Modal
@@ -128,6 +117,7 @@ import apiService from '@/services/apiService';
 import { useCameraStore } from '@/store/cameraStore';
 import { apiStore } from '@/store/store';
 import Modal from '@/components/helpers/Modal.vue';
+import NinaPlateSolveIcon from '@/components/platesolve/NinaPlateSolveIcon.vue';
 import ButtomSyncCoordinatesToMount from '../mount/ButtomSyncCoordinatesToMount.vue';
 
 const cameraStore = useCameraStore();

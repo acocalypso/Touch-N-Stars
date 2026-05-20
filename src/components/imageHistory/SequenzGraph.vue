@@ -14,6 +14,7 @@ import { apiStore } from '@/store/store';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useSequenceStore } from '@/store/sequenceStore';
 import TimeRangeControls from './TimeRangeControls.vue';
+import { applyImageFilter } from '@/composables/useImageFilter';
 
 const store = apiStore();
 const settingsStore = useSettingsStore();
@@ -30,19 +31,21 @@ onMounted(() => {
 function getFilteredData(allData) {
   if (!allData || allData.length === 0) return allData;
 
+  const globallyFiltered = applyImageFilter(allData, settingsStore.monitorViewSetting.imageFilter);
+
   const { startIndex, endIndex } = settingsStore.monitorViewSetting.historyTimeRange;
 
   // Auto-reset if startIndex is beyond current data length (new session with different data)
-  if (startIndex >= allData.length) {
+  if (startIndex >= globallyFiltered.length) {
     console.log('[SequenzGraph] startIndex exceeds data length, resetting time range');
     settingsStore.resetHistoryTimeRange();
-    return allData;
+    return globallyFiltered;
   }
 
   if (endIndex === null) {
-    return allData.slice(startIndex);
+    return globallyFiltered.slice(startIndex);
   }
-  return allData.slice(startIndex, endIndex + 1);
+  return globallyFiltered.slice(startIndex, endIndex + 1);
 }
 
 function destroyChart() {
@@ -104,10 +107,18 @@ function handleCanvasClick(event) {
   if (typeof dataIndex === 'number' && dataIndex >= 0 && dataIndex < chart.data.labels.length) {
     // Get the actual index in the full dataset (considering the time range)
     const { startIndex } = settingsStore.monitorViewSetting.historyTimeRange;
-    const actualIndex = startIndex + dataIndex;
+    const filteredIndex = startIndex + dataIndex;
 
-    console.log('[SequenzGraph] Clicked on data point index:', actualIndex);
-    sequenceStore.setSelectedImageIndex(actualIndex);
+    // Map filtered index back to absolute index in the full imageHistoryInfo array
+    const globallyFiltered = applyImageFilter(
+      store.imageHistoryInfo,
+      settingsStore.monitorViewSetting.imageFilter
+    );
+    const clickedItem = globallyFiltered[filteredIndex];
+    const absoluteIndex = store.imageHistoryInfo.indexOf(clickedItem);
+
+    console.log('[SequenzGraph] Clicked on data point, absolute index:', absoluteIndex);
+    sequenceStore.setSelectedImageIndex(absoluteIndex);
   }
 }
 
@@ -270,6 +281,15 @@ watch(
     destroyChart();
     initGraph();
   }
+);
+
+watch(
+  () => settingsStore.monitorViewSetting.imageFilter,
+  () => {
+    console.log('[SequenceGraph] Image filter changed, updating graph...');
+    updateChartData();
+  },
+  { deep: true }
 );
 </script>
 

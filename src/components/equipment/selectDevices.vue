@@ -13,11 +13,11 @@
       >
         <option disabled>{{ selectedDevice }}</option>
         <option
-          v-for="device in devices"
+          v-for="device in displayDevices"
           :key="device.DisplayName"
           :value="String(device.DisplayName)"
         >
-          {{ device.DisplayName }}
+          {{ device.displayLabel }}
         </option>
       </select>
       <div class="flex shrink-0 gap-1">
@@ -25,7 +25,9 @@
           v-if="store.isPINS"
           @click="configDevice"
           :disabled="
-            isScanning || isConnected || !(selectedDeviceObj && selectedDeviceObj.HasSetupDialog)
+            isScanning ||
+            isConnected ||
+            (!props.alwaysEnableConfig && !(selectedDeviceObj && selectedDeviceObj.HasSetupDialog))
           "
           class="flex justify-center items-center w-10 h-10 border border-cyan-500/20 bg-gray-700 text-white rounded-lg hover:bg-gray-600 disabled:opacity-70"
         >
@@ -35,7 +37,8 @@
               'text-gray-400':
                 isScanning ||
                 isConnected ||
-                !(selectedDeviceObj && selectedDeviceObj.HasSetupDialog),
+                (!props.alwaysEnableConfig &&
+                  !(selectedDeviceObj && selectedDeviceObj.HasSetupDialog)),
             }"
           />
         </button>
@@ -50,24 +53,50 @@
           />
         </button>
         <button
-          @click="toggleConnection"
+          @click="disableConnect && disableConnectMessage ? openDisableInfo() : toggleConnection()"
           :disabled="isToggleCon"
           class="flex justify-center items-center w-10 h-10 border border-cyan-500/20 bg-gray-700 text-white rounded-lg hover:bg-gray-600 disabled:opacity-30"
         >
-          <LinkIcon v-if="!isConnected" class="w-6 h-6" />
+          <InformationCircleIcon
+            v-if="disableConnect && disableConnectMessage"
+            class="w-6 h-6 text-yellow-500"
+          />
+          <LinkIcon v-else-if="!isConnected" class="w-6 h-6" />
           <LinkSlashIcon v-else class="w-6 h-6 text-red-600" />
         </button>
       </div>
     </div>
 
-    <!-- Modal entfernt - verwendet jetzt toastModal -->
+    <!-- Disable Info Modal -->
+    <div
+      v-if="showDisableModal"
+      class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center"
+      @click.self="showDisableModal = false"
+    >
+      <div class="bg-gray-800 text-white p-4 m-8 rounded-lg max-w-xl">
+        <div class="flex justify-end">
+          <button @click="showDisableModal = false" class="text-white hover:text-gray-300">
+            <XMarkIcon class="w-6 h-6" />
+          </button>
+        </div>
+        <h2 class="text-xl font-bold mb-4">Info</h2>
+        <p>{{ disableConnectMessage }}</p>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup>
 import { ref, onMounted, watch, computed } from 'vue';
 import apiService from '@/services/apiService';
-import { ArrowPathIcon, LinkIcon, LinkSlashIcon, Cog6ToothIcon } from '@heroicons/vue/24/outline';
+import {
+  ArrowPathIcon,
+  LinkIcon,
+  LinkSlashIcon,
+  Cog6ToothIcon,
+  InformationCircleIcon,
+  XMarkIcon,
+} from '@heroicons/vue/24/outline';
 import { useEquipmentStore } from '@/store/equipmentStore';
 import { useI18n } from 'vue-i18n';
 import { checkMountConnectionPermission } from '@/utils/locationSyncUtils';
@@ -82,6 +111,9 @@ const props = defineProps({
   defaultDeviceId: { type: String, default: '?' },
   deviceName: { type: String, default: 'Gerät' },
   isConnected: { type: Boolean, required: true },
+  disableConnect: { type: Boolean, default: false },
+  disableConnectMessage: { type: String, default: '' },
+  alwaysEnableConfig: { type: Boolean, default: false },
 });
 
 const devices = ref([]);
@@ -90,13 +122,29 @@ const error = ref(false);
 const isScanning = ref(false);
 const isToggleCon = ref(false);
 const borderClass = ref('border-gray-500');
+const showDisableModal = ref(false);
+
+function openDisableInfo() {
+  showDisableModal.value = true;
+}
 
 const selectedDeviceObj = computed(() =>
   devices.value.find((d) => d.DisplayName === selectedDevice.value)
 );
 
+const displayDevices = computed(() => {
+  if (props.apiAction !== 'focusAction') {
+    return devices.value.map((d) => ({ ...d, displayLabel: d.DisplayName }));
+  }
+  return devices.value.map((d) => ({
+    ...d,
+    displayLabel:
+      d.DisplayName === 'MyFocuserPro2 (INDI)' ? 'Gemini / MyFocuserPro2' : d.DisplayName,
+  }));
+});
+
 // Funktion für API-Aufruf mit dynamischem `apiAction` mit Retry bei Backend-Neustart
-async function getDevices(retryCount = 0, maxRetries = 3, delayMs = 1000) {
+async function getDevices(retryCount = 0, maxRetries = 3, delayMs = 2000) {
   error.value = false;
 
   // Prüfung ob apiAction definiert ist
@@ -106,14 +154,6 @@ async function getDevices(retryCount = 0, maxRetries = 3, delayMs = 1000) {
   }
 
   const apiName = props.apiAction.replace('Action', '');
-  if (
-    Array.isArray(equipmentStore.availableDevices[apiName]) &&
-    equipmentStore.availableDevices[apiName].length > 0
-  ) {
-    devices.value = equipmentStore.availableDevices[apiName];
-    console.log(`[${apiName}] Devices loaded from store`);
-    return;
-  }
   isScanning.value = true;
   try {
     if (!apiService[props.apiAction]) {
@@ -135,8 +175,15 @@ async function getDevices(retryCount = 0, maxRetries = 3, delayMs = 1000) {
     }
 
     if (Array.isArray(response.Response)) {
+      // Leeres Array kann bedeuten, dass das Backend noch nicht fertig gescannt hat
+      if (response.Response.length === 0 && retryCount < maxRetries) {
+        console.warn(
+          `[${apiName}] Empty device list, retrying in ${delayMs}ms... (${retryCount + 1}/${maxRetries})`
+        );
+        await new Promise((resolve) => setTimeout(resolve, delayMs));
+        return getDevices(retryCount + 1, maxRetries, delayMs);
+      }
       devices.value = response.Response;
-      equipmentStore.availableDevices[apiName] = response.Response;
     } else {
       error.value = true;
       console.error('Faulty API response:', response);
@@ -158,13 +205,14 @@ async function getDevices(retryCount = 0, maxRetries = 3, delayMs = 1000) {
   }
 }
 
-const emit = defineEmits(['openConfig']);
+const emit = defineEmits(['openConfig', 'deviceSelected']);
 
 async function configDevice() {
   emit('openConfig', {
     deviceName: props.deviceName,
     apiAction: props.apiAction,
     selectedDeviceDisplayName: selectedDevice.value,
+    selectedDeviceObj: selectedDeviceObj.value,
   });
 }
 
@@ -175,7 +223,6 @@ async function rescanDevices() {
     return;
   }
 
-  const apiName = props.apiAction.replace('Action', '');
   error.value = false;
   console.log('scan');
   isScanning.value = true;
@@ -195,7 +242,6 @@ async function rescanDevices() {
 
     if (Array.isArray(response.Response)) {
       devices.value = response.Response;
-      equipmentStore.availableDevices[apiName] = response.Response;
     } else {
       error.value = true;
       console.error('Faulty API response:', response);
@@ -219,6 +265,12 @@ async function toggleConnection() {
       console.log('disconnect');
       const response = await apiService[props.apiAction]('disconnect');
       if (deviceId == 'PHD2_Single') {
+        try {
+          await apiService.setPHD2StopGuiding();
+        } catch (_) {
+          /* not guiding */
+        }
+        await apiService.disconnectPHD2Equipment();
         await apiService.disconnectPHD2();
       }
       console.log('response', response);
@@ -279,11 +331,34 @@ watch(
     updateBorderClass();
   }
 );
-watch(
-  () => props.defaultDeviceId,
-  (newValues) => {
-    selectedDevice.value = getDeviceName(newValues);
+watch([() => props.defaultDeviceId, devices], ([newDeviceId]) => {
+  if (!newDeviceId || newDeviceId === '?') return;
+  const name = getDeviceName(newDeviceId);
+  if (name) {
+    selectedDevice.value = name;
     updateBorderClass();
+  }
+});
+watch(selectedDevice, (newValue) => {
+  emit('deviceSelected', newValue);
+});
+
+watch(
+  () => equipmentStore.rescanTrigger[props.apiAction.replace('Action', '')],
+  (newValue, oldValue) => {
+    if (newValue > 0 && newValue !== oldValue) {
+      rescanDevices();
+    }
+  }
+);
+watch(
+  () => equipmentStore.reloadTrigger,
+  async (newValue, oldValue) => {
+    if (newValue > 0 && newValue !== oldValue) {
+      await getDevices();
+      selectedDevice.value = getDeviceName(props.defaultDeviceId);
+      updateBorderClass();
+    }
   }
 );
 

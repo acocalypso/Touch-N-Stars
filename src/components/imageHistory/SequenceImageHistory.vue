@@ -67,13 +67,14 @@
 
 <script setup>
 import { useI18n } from 'vue-i18n';
-import { ref, watch, onMounted, computed } from 'vue';
+import { ref, watch, onMounted, onUnmounted, computed } from 'vue';
 import { ChevronUpIcon, ChevronDownIcon, ChartBarIcon } from '@heroicons/vue/24/outline';
 import SequenceImage from '@/components/imageHistory/SequenceImage.vue';
 import { apiStore } from '@/store/store';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useSequenceStore } from '@/store/sequenceStore';
 import { useImagetStore } from '@/store/imageStore';
+import { useImageFilter, getNightKey } from '@/composables/useImageFilter';
 
 const { t } = useI18n();
 const sequenceStore = useSequenceStore();
@@ -82,6 +83,7 @@ const imageHistory = ref([]);
 const store = apiStore();
 const settingsStore = useSettingsStore();
 const isLoadingImages = ref(false);
+const { filter } = useImageFilter();
 
 const sortAscending = ref(false);
 
@@ -90,8 +92,23 @@ function toggleShowHistoryStats() {
     !settingsStore.monitorViewSetting.showHistoryImageStats;
 }
 
+const filteredImageHistory = computed(() =>
+  imageHistory.value.filter((item) => {
+    const img = item.stats || {};
+    if (filter.value.selectedTarget !== null && img.TargetName !== filter.value.selectedTarget)
+      return false;
+    if (filter.value.selectedFilter !== null && img.Filter !== filter.value.selectedFilter)
+      return false;
+    if (filter.value.selectedNight !== null && getNightKey(img.Date) !== filter.value.selectedNight)
+      return false;
+    if (filter.value.selectedImageType !== null && img.ImageType !== filter.value.selectedImageType)
+      return false;
+    return true;
+  })
+);
+
 const sortedImageHistory = computed(() => {
-  return [...imageHistory.value].sort((a, b) => {
+  return [...filteredImageHistory.value].sort((a, b) => {
     const comparison = a.index - b.index;
     return sortAscending.value ? comparison : -comparison;
   });
@@ -193,36 +210,68 @@ async function wait(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+function getTypeInfo(absoluteIndex, historyArray) {
+  const imageType = historyArray[absoluteIndex]?.ImageType ?? null;
+  if (!imageType) return { idx: absoluteIndex, imageType: null };
+  const idx =
+    historyArray.slice(0, absoluteIndex + 1).filter((img) => img.ImageType === imageType).length -
+    1;
+  return { idx, imageType };
+}
+
+async function loadAllThumbnails() {
+  imageHistory.value = [];
+
+  for (const imageIndex in store.imageHistoryInfo) {
+    const absIdx = Number(imageIndex);
+    const { idx, imageType } = getTypeInfo(absIdx, store.imageHistoryInfo);
+    const image = await imageStore.getThumbnailByIndex(idx, imageType);
+    const stats = store.imageHistoryInfo[absIdx];
+    addImageToHistory(absIdx, image, stats);
+  }
+}
+
 watch(
   () => store.imageHistoryInfo,
   async (newVal, oldVal) => {
-    if (!newVal || newVal.length === 0) {
+    if (!newVal?.length || newVal.length <= (oldVal?.length ?? 0)) {
       return;
     }
 
-    if (!oldVal || newVal.length > oldVal.length) {
-      const latestIndex = newVal.length - 1;
-      const isImageLoaded = imageHistory.value.some((image) => image.index === latestIndex);
+    const latestAbsIdx = newVal.length - 1;
+    const isImageLoaded = imageHistory.value.some((image) => image.index === latestAbsIdx);
 
-      if (!isImageLoaded) {
-        await wait(3000); // Wait 3 seconds. The image may not be available yet.
-        isLoadingImages.value = true;
-        const stats = newVal[latestIndex];
+    if (!isImageLoaded) {
+      await wait(3000); // Wait 3 seconds. The image may not be available yet.
+      isLoadingImages.value = true;
+      const stats = newVal[latestAbsIdx];
+      const activeType = filter.value.selectedImageType;
 
-        const image = await imageStore.getImageByIndex(latestIndex);
-        addImageToHistory(latestIndex, image, stats);
-        isLoadingImages.value = false;
+      let image;
+      if (activeType && stats?.ImageType === activeType) {
+        const typeIdx = newVal.filter((img) => img.ImageType === activeType).length - 1;
+        image = await imageStore.getThumbnailByIndex(typeIdx, activeType);
+      } else if (!activeType) {
+        const { idx, imageType } = getTypeInfo(latestAbsIdx, newVal);
+        image = await imageStore.getThumbnailByIndex(idx, imageType);
       }
+
+      if (image !== undefined) addImageToHistory(latestAbsIdx, image, stats);
+      isLoadingImages.value = false;
     }
   },
   { immediate: false }
 );
 
 onMounted(async () => {
-  for (const imageIndex in store.imageHistoryInfo) {
-    const image = await imageStore.getThumbnailByIndex(imageIndex);
-    const stats = store.imageHistoryInfo[imageIndex];
-    addImageToHistory(Number(imageIndex), image, stats);
-  }
+  await loadAllThumbnails();
+});
+
+onUnmounted(() => {
+  imageHistory.value.forEach((item) => {
+    if (item.data) {
+      URL.revokeObjectURL(item.data);
+    }
+  });
 });
 </script>

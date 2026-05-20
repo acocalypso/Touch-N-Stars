@@ -9,6 +9,27 @@ import pt from './locales/pt.json';
 import es from './locales/es.json';
 import pl from './locales/pl.json';
 import nl from './locales/nl.json';
+import ja from './locales/ja.json';
+import uk from './locales/uk.json';
+
+const languageToBackendCode = {
+  en: 'en-GB',
+  de: 'de-DE',
+  fr: 'fr-FR',
+  it: 'it-IT',
+  ja: 'ja-JP',
+  cz: 'cs-CZ',
+  cn: 'zh-CN',
+  pt: 'pt-PT',
+  es: 'es-ES',
+  pl: 'pl-PL',
+  nl: 'nl-NL',
+  uk: 'uk-UA',
+};
+
+export function getBackendLanguageCode(frontendCode) {
+  return languageToBackendCode[frontendCode] ?? null;
+}
 
 // Available languages with their display names
 const availableLanguages = [
@@ -16,12 +37,14 @@ const availableLanguages = [
   { code: 'de', name: 'Deutsch' },
   { code: 'fr', name: 'Français' },
   { code: 'it', name: 'Italiano' },
+  { code: 'ja', name: '日本語' },
   { code: 'cz', name: 'Čeština' },
   { code: 'cn', name: '中文' },
   { code: 'pt', name: 'Português' },
   { code: 'es', name: 'Español' },
   { code: 'pl', name: 'Polski' },
   { code: 'nl', name: 'Nederlands' },
+  { code: 'uk', name: 'Українська' },
 ];
 
 const messages = {
@@ -35,6 +58,8 @@ const messages = {
   es,
   pl,
   nl,
+  ja,
+  uk,
 };
 
 // Create i18n instance

@@ -38,8 +38,8 @@
         <line
           x1="100"
           y1="100"
-          :x2="100 + Math.sin((parseFloat(currentPositionRaw) * Math.PI) / 180) * 60"
-          :y2="100 - Math.cos((parseFloat(currentPositionRaw) * Math.PI) / 180) * 60"
+          :x2="100 + Math.sin((currentAngle * Math.PI) / 180) * 60"
+          :y2="100 - Math.cos((currentAngle * Math.PI) / 180) * 60"
           stroke="#3B82F6"
           stroke-width="3"
           stroke-linecap="round"
@@ -49,8 +49,8 @@
         <line
           x1="100"
           y1="100"
-          :x2="100 + Math.sin((parseFloat(targetPositionRaw) * Math.PI) / 180) * 60"
-          :y2="100 - Math.cos((parseFloat(targetPositionRaw) * Math.PI) / 180) * 60"
+          :x2="100 + Math.sin((targetAngle * Math.PI) / 180) * 60"
+          :y2="100 - Math.cos((targetAngle * Math.PI) / 180) * 60"
           stroke="#10B981"
           stroke-width="3"
           stroke-linecap="round"
@@ -59,7 +59,7 @@
 
         <!-- Rotation Arc -->
         <path
-          :d="getRotationArc(parseFloat(currentPositionRaw), parseFloat(targetPositionRaw))"
+          :d="getRotationArc(currentAngle, targetAngle)"
           fill="none"
           stroke="#F59E0B"
           stroke-width="2"
@@ -123,7 +123,7 @@ const currentPositionRaw = computed(() => {
 });
 
 const targetPositionRaw = computed(() => {
-  return content.value.TargetPosition || content.value.AbsTargetPosition || '0';
+  return content.value.AbsTargetPosition ?? content.value.TargetPosition ?? '0';
 });
 
 const rotationAmountRaw = computed(() => {
@@ -134,14 +134,60 @@ const direction = computed(() => {
   return content.value.Direction || 'Clockwise';
 });
 
+function parseCultureInvariantNumber(value) {
+  if (typeof value === 'number') {
+    return Number.isFinite(value) ? value : 0;
+  }
+
+  if (value === null || value === undefined) {
+    return 0;
+  }
+
+  const raw = String(value).trim();
+  if (!raw) {
+    return 0;
+  }
+
+  // Keep sign and numeric separators, allowing values like "12,5°".
+  const cleaned = raw.replace(/[^0-9.,+-]/g, '');
+  if (!cleaned) {
+    return 0;
+  }
+
+  const lastComma = cleaned.lastIndexOf(',');
+  const lastDot = cleaned.lastIndexOf('.');
+
+  let normalized = cleaned;
+  if (lastComma > -1 && lastDot > -1) {
+    // Use the rightmost separator as decimal separator.
+    if (lastComma > lastDot) {
+      normalized = cleaned.replace(/\./g, '').replace(',', '.');
+    } else {
+      normalized = cleaned.replace(/,/g, '');
+    }
+  } else if (lastComma > -1) {
+    normalized = cleaned.replace(',', '.');
+  }
+
+  const parsed = Number.parseFloat(normalized);
+  return Number.isFinite(parsed) ? parsed : 0;
+}
+
 // Format numbers with 2 decimal places
 const formatNumber = (val) => {
-  const num = parseFloat(val || 0);
+  const num = parseCultureInvariantNumber(val);
   return num.toFixed(2);
 };
 
+// NINA can send target positions outside 0–360° (e.g. 448°); WPF normalizes there.
+const normalize360 = (val) => ((val % 360) + 360) % 360;
+
+const currentAngle = computed(() => parseCultureInvariantNumber(currentPositionRaw.value));
+const targetAngle = computed(() =>
+  normalize360(parseCultureInvariantNumber(targetPositionRaw.value))
+);
 const currentPosition = computed(() => formatNumber(currentPositionRaw.value));
-const targetPosition = computed(() => formatNumber(targetPositionRaw.value));
+const targetPosition = computed(() => targetAngle.value.toFixed(2));
 const rotationAmount = computed(() => formatNumber(rotationAmountRaw.value));
 
 function getRotationArc(currentAngle, targetAngle) {

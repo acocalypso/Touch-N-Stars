@@ -1,0 +1,9 @@
+{
+  "id": "narrowband-filter",
+  "name": "Narrowband Filter Calculator",
+  "description": "Calculate transmission characteristics of narrowband optical filters for your equipment",
+  "version": "1.0.0",
+  "author": "Nico",
+  "enabled": true,
+  "isPins": false
+}

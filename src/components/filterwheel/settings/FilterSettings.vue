@@ -34,17 +34,41 @@
       />
     </div>
     <AddNewFilter />
+
+    <!-- PINS Device Settings -->
+    <div
+      v-if="store.isPINS && hasDeviceSettings"
+      class="mt-2 p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
+    >
+      <h3 class="font-bold text-base text-cyan-400">
+        {{ $t('components.filterwheel.settings.deviceSpecific') }}
+      </h3>
+      <pinsSetFilterWheelAlias />
+      <pinsSetSpeed />
+      <pinsSetTurboMode />
+      <pinsSetAutorun />
+      <pinsCalibrate />
+    </div>
   </div>
 </template>
 <script setup>
 import { computed } from 'vue';
 import { apiStore } from '@/store/store';
+import { useFilterStore } from '@/store/filterStore';
 import SettingInput from '@/components/helpers/settings/UpdatePorfileNumber.vue';
 import SetFilterName from './SetFilterName.vue';
 import AddNewFilter from './AddNewFilter.vue';
 import RemoveFilter from './RemoveFilter.vue';
+import pinsSetFilterWheelAlias from './pinsSetFilterWheelAlias.vue';
+import pinsSetSpeed from './pinsSetSpeed.vue';
+import pinsSetTurboMode from './pinsSetTurboMode.vue';
+import pinsSetAutorun from './pinsSetAutorun.vue';
+import pinsCalibrate from './pinsCalibrate.vue';
 
 const store = apiStore();
+const filterStore = useFilterStore();
+
+const hasDeviceSettings = computed(() => Object.keys(filterStore.filterwheelSettings).length > 0);
 
 // Sortiere Filter nach Position
 const sortedFilters = computed(() => {

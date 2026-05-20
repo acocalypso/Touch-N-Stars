@@ -4,15 +4,62 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [App4.7.2] - 2026-04-07
-### Fixed
-- suppress toast and log for image-history informational errors
+## [App4.8.0] - xxxx-xx-xx
+### Added
+- Sequence: Set multi targets
+- GPS Sync option
+- Time Snyc option
+- Sequence Monitor: Global image filter by target, astronomy filter, observation night and image type – applies to image grid, graph and exposure time summary
+- Total Exposure Time: Filter by filter name or show all filters
+- Camera Page: Image rotation button (0°/90°/180°/270°) – rotation is saved per instance, enabling correct orientation for dual-camera setups
+- PINS Plugin: Option to disconnect wifi and start hotspot
+- PINS: TPPA set exposuretime and gain
+- PINS: switch between two instances
+- PINS: Log level selector in debug settings (requires PINS plugin support)
+- Log Modal: Multi-select level filter (ALL, DEBUG, INFO, WARNING, ERROR)
+- Plugin: PINS AllSky frontend for Pi HQ camera capture, timelapse, keogram, and startrails control with the companion backend plugin - thanks to sharon92
+- StatusBar: Instance switcher button showing active instance name and WebSocket status – tap to open a modal listing all online instances for quick switching
+- Navbar: Customizable navigation bar – reorder icons via drag & drop and hide individual items; at least one page besides Settings must remain visible; collapsible settings section with faded item preview when collapsed
+- Navbar: Plugin nav items included in customization, respecting enabled state and PINS availability
+- Navbar: App redirects to first visible page on startup if the default page (Equipment) is hidden
+- Image Viewer: Optional centered crosshair overlay toggle for the shared camera and livestack viewer - thanks to sharon92
+- PINS Flat Assistant: Add Multi Mode – configure and start flats for multiple filters simultaneously, with per-filter settings (gain, offset, binning, exposure, histogram) initialised from and saved back to the NINA profile (FlatWizardFilterSettings)
+- Framing: Add Mosaik-Mode
+- Framing Assistant: Now has its own dedicated page
+- Settings: PINS set Horizon File Path
+- Flat Assistant: Add dark flat count and post-flat dark workflow for supported flat modes - thanks to sharon92
+- PINS: Show time mismatch warning modal on startup when device time differs from client time by more than 1 minute – allows syncing device time to client or suppressing the warning permanently (re-enable via system time card)
+- Observation Planner: Persist filter, sort and performance settings across navigation and reloads
+- Observation Planner: Cache target preview images across navigation so returning to the view skips redundant DSS/targetpic requests
+- Image Viewer: Touch loupe for 1:1 pixel inspection – toggle in the image toolbar, drag with one finger to float a preview above the finger; adjustable zoom factor (1×/2×/4×), preview teleported to body so it floats above all overlays, Panzoom is paused while active and restored on disable
+- Filebrowser Plugin: View, delete or rename your images
+- Equipment: INDI driver selection for dome and safety monitor
+- Flatassistant: Stop tracking after slew to zenith
+- Plugin: Add filebrowser
+- Stellarium: Add Camera FOV
+- Plugin: PHD2 Log Viewer – visualize PHD2 guiding sessions with guide graph, RMS statistics, FFT periodic error analysis and calibration data - thanks to Florin Dumitrescu
+- PINS PHD2: Dark Library assistant (build/load/unload/delete) with DARKS indicator in guider stats
 
-## [App4.7.1] - 2026-03-20
-### Fixed
-- Message: Index out of range
+### Changed
+- Plate Solve: Use the NINA-style toolbar icon in the shared image viewer
+- PINS AllSky: Add AllSky auto-exposure tuning controls, timelapse overlay toggles for timestamp and exposure/gain, and show the active session label plus actual auto exposure/gain/mean values in live preview
+- Stellarium: sequence buttons are now always visible
 
-## [App4.7.0] - 2026-03-18
+### Fixed
+- i18n: Correct Spanish translations (close, scanning, save, message_tns_version, downgradeDescription) Thanks @Antonio
+- Total Exposuer time: filter total exposure time by LIGHT image type
+- Stellarium time fix
+- PINS: Manual Rotator dialog button
+- PINS AllSky: Live preview now shows the active session label instead of only the generated session ID
+- PINS AllSky: Show in-flight state for capture and cleanup actions, and use attachment downloads with session-based filenames for timelapse, keogram, and startrails
+- Fix crash when NINA plugin version is not yet loaded (checkVersionNewerOrEqual)
+- Fix app not reconnecting after backend restart: removed blocking `await` on SignalR connect in polling loop, added socket-ID guard to prevent stale WebSocket events from corrupting connection state, and fixed async race condition in `disconnect()` across all SignalR services
+- Debug console: fix SignalR "WebSocket is not in the OPEN state" error caused by WebSocket proxy losing static constants (`OPEN`, `CONNECTING`, etc.)
+- Filter Calculator Plugin: Fix Input field
+- Image spinner deadlock and extend image size options
+
+
+## [App4.7.0] - 2026-03-17
 ### Added
 - NumberInputPicker: Add step up/down buttons to increment and decrement values
 - Sequence Creator: Named sequence library – save, load and delete sequences with custom names
@@ -51,6 +98,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Pins Plugin: Autoconnect to wifi after reboot
 - Setup: Restart setup after GPS permission has been granted
 - Flatwizzard: max brightness
+- Flat Assistant: Add Multi Mode – configure and start flats for multiple filters simultaneously, with per-filter settings (gain, offset, binning, exposure, histogram) initialised from and saved back to the NINA profile (FlatWizardFilterSettings)
 
 ## [App4.6.0] - 2026-02-14
 ### Added
@@ -76,6 +124,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Fix set settletime
+- App: UI no longer reloads when returning from background
+- Camera: Spinner not updating after capture in Safari
 
 ## [App4.5.0] - 2026-10-20
 ### Added

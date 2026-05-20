@@ -14,6 +14,7 @@ export const useLivestackStore = defineStore('livestackStore', {
     currentImageUrl: null,
     lastImageUpdate: null,
     status: 'stopped',
+    resetSupported: true,
   }),
   getters: {
     currentCounter: (state) => {
@@ -284,6 +285,15 @@ export const useLivestackStore = defineStore('livestackStore', {
         this.availableFilters[0] ||
         null
       );
+    },
+
+    resetStack() {
+      this.availableImages = [];
+      this.availableTargets = [];
+      this.availableFilters = [];
+      this.selectedFilter = null;
+      this.selectedTarget = null;
+      this.clearCurrentImageUrl();
     },
   },
 });

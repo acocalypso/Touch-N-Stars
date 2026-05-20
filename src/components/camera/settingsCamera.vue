@@ -11,9 +11,7 @@
       :decimalPlaces="3"
       placeholder="sek"
       inputId="exposure"
-      @change="setExposureTime"
     />
-
     <div
       v-if="store.cameraInfo.Gains && store.cameraInfo.Gains.length > 0"
       class="flex items-center justify-between min-w-28 border border-gray-500 p-1 md:p-2 rounded-lg"
@@ -38,15 +36,14 @@
       v-model="settingsStore.camera.gain"
       :label="$t('components.camera.gain_iso')"
       labelKey="components.camera.gain_iso"
-      :min="0"
-      :max="9999"
+      :min="store.cameraInfo.GainMin"
+      :max="store.cameraInfo.GainMax"
       :step="1"
       :decimalPlaces="0"
       placeholder="1"
       inputId="gain"
       @change="setGain"
     />
-
     <div v-if="store.cameraInfo.CanSetOffset" class="w-full">
       <div
         v-if="store.cameraInfo.Offset && store.cameraInfo.Offset.length > 0"
@@ -82,10 +79,24 @@
       />
     </div>
     <setBinning v-if="store.cameraInfo.BinningModes.length > 1" />
-    <setReadoutMode v-if="store.cameraInfo.ReadoutModes.length > 1" />
-    <setCameraUsbLimit v-if="store.cameraInfo.CanSetUSBLimit" />
-    <setSolve />
-    <setSaveSnapshot />
+    <pinsSetBinAverageEnabled
+      v-if="store.isPINS && cameraStore.cameraSettings.SupportedActions?.includes('Bin Average')"
+    />
+    <div v-if="store.cameraInfo.ReadoutModes.length > 1" class="w-full">
+      <setReadoutMode v-if="!store.isPINS" />
+      <pinsSetReadoutMode v-else />
+    </div>
+    <pinsSetLowNoiseMode v-if="store.isPINS && cameraStore.cameraSettings.HasLowNoiseMode" />
+    <pinsSetBadPixelCorrection
+      v-if="store.isPINS && cameraStore.cameraSettings?.BadPixelCorrection !== undefined"
+    />
+    <pinsSetHighFullwellMode v-if="store.isPINS && cameraStore.cameraSettings.HasHighFullwell" />
+    <pinsSetLEDLights v-if="store.isPINS && cameraStore.cameraSettings.CanSetLEDLights" />
+    <div v-if="store.cameraInfo.CanSetUSBLimit" class="w-full">
+      <setCameraUsbLimit v-if="!store.isPINS" />
+      <pinsSetCameraUsbLimit v-else />
+    </div>
+    <pinsSetFanSpeed v-if="store.isPINS && cameraStore.cameraSettings.MaxFanSpeed > 0" />
   </div>
 </template>
 
@@ -97,12 +108,20 @@ import apiService from '@/services/apiService';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 import setBinning from '@/components/camera/setBinning.vue';
 import setReadoutMode from '@/components/camera/setReadoutMode.vue';
-import setSolve from '@/components/camera/setSolve.vue';
-import setSaveSnapshot from './setSaveSnapshot.vue';
 import setCameraUsbLimit from './setCameraUsbLimit.vue';
+import pinsSetCameraUsbLimit from './settingsPins/pinsSetCameraUsbLimit.vue';
+import pinsSetLowNoiseMode from './settingsPins/pinsSetLowNoiseMode.vue';
+import pinsSetBadPixelCorrection from './settingsPins/pinsSetBadPixelCorrection.vue';
+import pinsSetHighFullwellMode from './settingsPins/pinsSetHighFullwellMode.vue';
+import pinsSetBinAverageEnabled from './settingsPins/pinsSetBinAverageEnabled.vue';
+import pinsSetLEDLights from './settingsPins/pinsSetLEDLights.vue';
+import pinsSetFanSpeed from './settingsPins/pinsSetFanSpeed.vue';
+import pinsSetReadoutMode from './settingsPins/pinsSetReadoutMode.vue';
+import { useCameraStore } from '@/store/cameraStore';
 
 const store = apiStore();
 const settingsStore = useSettingsStore();
+const cameraStore = useCameraStore();
 
 // Setzt den initialen Offset
 const initializeOffset = () => {
@@ -124,7 +143,7 @@ const initializeGain = () => {
   settingsStore.camera.gain = store.profileInfo?.SnapShotControlSettings?.Gain || 0;
   if (settingsStore.camera.gain === -1) {
     settingsStore.camera.gain = store.profileInfo?.CameraSettings?.Gain;
-    console.log('[SettingsCamera] Gain from CameraSettings used:', settingsStore.camera.gain);
+    //console.log('[SettingsCamera] Gain from CameraSettings used:', settingsStore.camera.gain);
   }
 };
 
@@ -139,11 +158,8 @@ async function setOffset() {
     console.log('Offset too large, max:', store.cameraInfo.OffsetMax);
   }
   try {
-    const data = await apiService.profileChangeValue(
-      'CameraSettings-Offset',
-      settingsStore.camera.offset
-    );
-    console.log(data);
+    await apiService.profileChangeValue('CameraSettings-Offset', settingsStore.camera.offset);
+    settingsStore.saveCameraSettings();
   } catch (error) {
     console.log('Error while setting offset');
   }
@@ -151,24 +167,11 @@ async function setOffset() {
 
 async function setGain() {
   try {
-    const data = await apiService.profileChangeValue(
-      'SnapShotControlSettings-Gain',
-      settingsStore.camera.gain
-    );
-    console.log(data);
+    await apiService.profileChangeValue('SnapShotControlSettings-Gain', settingsStore.camera.gain);
+    await apiService.profileChangeValue('CameraSettings-Gain', settingsStore.camera.gain);
+    settingsStore.saveCameraSettings();
   } catch (error) {
     console.log('Error while setting gain');
-  }
-}
-
-async function setExposureTime() {
-  try {
-    await apiService.profileChangeValue(
-      'CameraSettings-ExposureTime',
-      settingsStore.camera.exposureTime
-    );
-  } catch (error) {
-    console.log('Error while setting exposure time');
   }
 }
 

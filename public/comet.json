@@ -1,0 +1,23 @@
+[
+  {
+    "name": "12P/Pons-Brooks",
+    "ra_deg": 23.456,
+    "dec_deg": 45.678,
+    "abs_mag": 5.2,
+    "k1": 10.0
+  },
+  {
+    "name": "C/2023 A3 (Tsuchinshan-ATLAS)",
+    "ra_deg": 185.123,
+    "dec_deg": -5.678,
+    "abs_mag": 6.5,
+    "k1": 10.0
+  },
+  {
+    "name": "62P/Tsuchinshan",
+    "ra_deg": 150.0,
+    "dec_deg": 12.0,
+    "abs_mag": 8.0,
+    "k1": 10.0
+  }
+]

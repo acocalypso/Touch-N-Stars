@@ -2,6 +2,8 @@ import { defineStore } from 'pinia';
 import tutorialContent from '@/assets/tutorial.json';
 import { apiStore } from '@/store/store';
 import { useImagetStore } from './imageStore';
+import { useSequenceStore } from './sequenceStore';
+import apiService from '@/services/apiService';
 
 export const useSettingsStore = defineStore('settings', {
   state: () => ({
@@ -41,6 +43,12 @@ export const useSettingsStore = defineStore('settings', {
       },
       graphDataSource1: 'HFR', // Erste Datenquelle für Graph
       graphDataSource2: 'Stars', // Zweite Datenquelle für Graph
+      imageFilter: {
+        selectedTarget: null,
+        selectedFilter: null,
+        selectedNight: null,
+        selectedImageType: null,
+      },
     },
     useImperialUnits: localStorage.getItem('useImperialUnits') === 'true',
     tutorial: {
@@ -73,11 +81,21 @@ export const useSettingsStore = defineStore('settings', {
       snapshotTargetName: 'Snapshot',
     },
     flats: {
+      activeMode: 'single',
       selectedOption: 'AutoExposure',
+      altitudeSite: 'EAST',
       minBrightness: 0,
       maxBrightness: 100,
       brightness: 50,
       exposureTime: 2,
+      keepClosed: false,
+      multiMode: {
+        selectedMode: 'AutoExposure',
+        keepClosed: false,
+        activeFilterIds: [],
+        expandedFilterIds: [],
+        filterConfigs: {},
+      },
     },
     stellarium: {
       constellationsLinesVisible: true,
@@ -90,7 +108,7 @@ export const useSettingsStore = defineStore('settings', {
       dsosVisible: true, // Deep Sky Objects (Messier, NGC, etc.)
     },
     guider: {
-      phd2ForceCalibration: localStorage.getItem('phd2ForceCalibration') === 'true',
+      phd2ForceCalibration: false,
     },
     instanceColorClasses: [
       'bg-gray-900/95',
@@ -119,8 +137,173 @@ export const useSettingsStore = defineStore('settings', {
     keepAwakeEnabled: false,
     // Modal Positionen
     modalPositions: {},
+    // Navbar customization
+    navbar: {
+      itemOrder: [
+        'equipment',
+        'camera',
+        'autofocus',
+        'mount',
+        'dome',
+        'flat',
+        'switch',
+        'filter',
+        'rotator',
+        'guider',
+        'sequence',
+        'monitoring',
+        'flats',
+        'framing',
+        'skyview',
+        'settings',
+        'about',
+      ],
+      hiddenItems: [],
+    },
   }),
+  getters: {
+    currentImageRotation(state) {
+      const instance = state.connection.instances.find((i) => i.id === state.selectedInstanceId);
+      return instance?.imageRotation ?? 0;
+    },
+  },
   actions: {
+    async loadAllBackendSettings() {
+      const sequenceStore = useSequenceStore();
+      await Promise.all([
+        this.loadMountSettings(),
+        this.loadUseNinaCache(),
+        this.loadCameraSettings(),
+        this.loadFlatsSettings(),
+        this.loadGuiderSettings(),
+        this.loadNavbarSettings(),
+        sequenceStore.loadSequenceControlsLocked(),
+      ]);
+    },
+
+    async loadMountSettings() {
+      const response = await apiService.getSetting('mount_settings');
+      if (response?.Response?.Value !== undefined) {
+        Object.assign(this.mount, JSON.parse(response.Response.Value));
+      } else if (response?.StatusCode === 404) {
+        this.saveMountSettings();
+      }
+    },
+
+    async saveMountSettings() {
+      const res = await apiService.createSetting({
+        Key: 'mount_settings',
+        Value: JSON.stringify(this.mount),
+      });
+      if (res?.StatusCode === 409) {
+        await apiService.updateSetting('mount_settings', JSON.stringify(this.mount));
+      }
+    },
+
+    async loadFlatsSettings() {
+      const response = await apiService.getSetting('flats_settings');
+      if (response?.Response?.Value !== undefined) {
+        Object.assign(this.flats, JSON.parse(response.Response.Value));
+      } else if (response?.StatusCode === 404) {
+        this.saveFlatsSettings();
+      }
+    },
+
+    async saveFlatsSettings() {
+      const res = await apiService.createSetting({
+        Key: 'flats_settings',
+        Value: JSON.stringify(this.flats),
+      });
+      if (res?.StatusCode === 409) {
+        await apiService.updateSetting('flats_settings', JSON.stringify(this.flats));
+      }
+    },
+
+    async loadNavbarSettings() {
+      const response = await apiService.getSetting('navbar_settings');
+      if (response?.Response?.Value !== undefined) {
+        Object.assign(this.navbar, JSON.parse(response.Response.Value));
+      } else if (response?.StatusCode === 404) {
+        this.saveNavbarSettings();
+      }
+    },
+
+    async saveNavbarSettings() {
+      const res = await apiService.createSetting({
+        Key: 'navbar_settings',
+        Value: JSON.stringify(this.navbar),
+      });
+      if (res?.StatusCode === 409) {
+        await apiService.updateSetting('navbar_settings', JSON.stringify(this.navbar));
+      }
+    },
+
+    async loadGuiderSettings() {
+      const response = await apiService.getSetting('guider_settings');
+      if (response?.Response?.Value !== undefined) {
+        Object.assign(this.guider, JSON.parse(response.Response.Value));
+      } else if (response?.StatusCode === 404) {
+        this.saveGuiderSettings();
+      }
+    },
+
+    async saveGuiderSettings() {
+      const res = await apiService.createSetting({
+        Key: 'guider_settings',
+        Value: JSON.stringify(this.guider),
+      });
+      if (res?.StatusCode === 409) {
+        await apiService.updateSetting('guider_settings', JSON.stringify(this.guider));
+      }
+    },
+
+    async loadCameraSettings() {
+      const response = await apiService.getSetting('camera_settings');
+      if (response?.Response?.Value !== undefined) {
+        Object.assign(this.camera, JSON.parse(response.Response.Value));
+      } else if (response?.StatusCode === 404) {
+        this.saveCameraSettings();
+      }
+    },
+
+    async saveCameraSettings() {
+      const res = await apiService.createSetting({
+        Key: 'camera_settings',
+        Value: JSON.stringify(this.camera),
+      });
+      if (res?.StatusCode === 409) {
+        await apiService.updateSetting('camera_settings', JSON.stringify(this.camera));
+      }
+    },
+
+    async loadUseNinaCache() {
+      const response = await apiService.getSetting('framing_useNinaCache');
+      if (response?.Response?.Value !== undefined) {
+        this.framing.useNinaCache = response.Response.Value === 'true';
+      } else if (response?.StatusCode === 404) {
+        this.saveUseNinaCache(this.framing.useNinaCache);
+      }
+    },
+
+    async saveUseNinaCache(value) {
+      this.framing.useNinaCache = value;
+      const res = await apiService.createSetting({
+        Key: 'framing_useNinaCache',
+        Value: String(value),
+      });
+      if (res?.StatusCode === 409) {
+        await apiService.updateSetting('framing_useNinaCache', String(value));
+      }
+    },
+
+    setImageRotation(degrees) {
+      if (!this.selectedInstanceId) return;
+      const instance = this.connection.instances.find((i) => i.id === this.selectedInstanceId);
+      if (instance) {
+        instance.imageRotation = degrees;
+      }
+    },
+
     _getApiStore() {
       return apiStore();
     },
@@ -279,7 +462,7 @@ export const useSettingsStore = defineStore('settings', {
 
     setPhd2ForceCalibration(value) {
       this.guider.phd2ForceCalibration = value;
-      localStorage.setItem('phd2ForceCalibration', value);
+      this.saveGuiderSettings();
     },
 
     setKeepAwakeEnabled(value) {
@@ -304,11 +487,47 @@ export const useSettingsStore = defineStore('settings', {
       this.monitorViewSetting.graphDataSource2 = dataSource;
     },
 
+    setImageFilterTarget(target) {
+      this.monitorViewSetting.imageFilter.selectedTarget = target;
+      this.monitorViewSetting.imageFilter.selectedFilter = null;
+      this.monitorViewSetting.imageFilter.selectedNight = null;
+    },
+    setImageFilterFilter(filter) {
+      this.monitorViewSetting.imageFilter.selectedFilter = filter;
+    },
+    setImageFilterNight(night) {
+      this.monitorViewSetting.imageFilter.selectedNight = night;
+    },
+    setImageFilterImageType(imageType) {
+      this.monitorViewSetting.imageFilter.selectedImageType = imageType;
+    },
+    resetImageFilter() {
+      this.monitorViewSetting.imageFilter.selectedTarget = null;
+      this.monitorViewSetting.imageFilter.selectedFilter = null;
+      this.monitorViewSetting.imageFilter.selectedNight = null;
+      this.monitorViewSetting.imageFilter.selectedImageType = null;
+    },
+
     setModalPosition(modalId, orientation, position) {
       if (!this.modalPositions[modalId]) {
         this.modalPositions[modalId] = {};
       }
       this.modalPositions[modalId][orientation] = { top: position.top, left: position.left };
+    },
+
+    setNavbarOrder(order) {
+      this.navbar.itemOrder = order;
+      this.saveNavbarSettings();
+    },
+
+    toggleNavbarItem(id) {
+      const idx = this.navbar.hiddenItems.indexOf(id);
+      if (idx === -1) {
+        this.navbar.hiddenItems.push(id);
+      } else {
+        this.navbar.hiddenItems.splice(idx, 1);
+      }
+      this.saveNavbarSettings();
     },
   },
   persist: {
@@ -327,7 +546,6 @@ export const useSettingsStore = defineStore('settings', {
           'monitorViewSetting',
           'tutorial',
           'showPlugins',
-          'guider',
           'keepAwakeEnabled',
           'livestack',
           'useBetaFeatures',
@@ -336,7 +554,6 @@ export const useSettingsStore = defineStore('settings', {
           'monitorViewSetting.graphDataSource1',
           'monitorViewSetting.graphDataSource2',
           'livestack',
-          'mount.settingsVisited',
           'tutorial.histogramVisited',
           'tutorial.selectTargetVisited',
           'tutorial.statusBarButtonsVisited',

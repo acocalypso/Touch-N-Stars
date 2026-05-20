@@ -1,5 +1,10 @@
 <template>
-  <Modal :show="showMessageBox" :zIndex="'z-[90]'" @close="handleClose">
+  <Modal
+    :show="showMessageBox"
+    :zIndex="'z-[90]'"
+    :disableClose="true"
+    :closeOnBackdropClick="false"
+  >
     <template #header>
       <h2 class="text-xl font-bold text-white">
         {{ currentMessageBox?.title || 'MessageBox' }}
@@ -12,13 +17,15 @@
           {{ currentMessageBox?.text }}
         </div>
 
-        <!-- Button -->
+        <!-- Buttons -->
         <div class="flex flex-col sm:flex-row gap-2 mt-6">
           <button
-            @click="handleButtonClick"
+            v-for="btn in messageBoxButtons"
+            :key="btn.label"
+            @click="handleButtonClick(btn.result)"
             class="default-button-cyan flex-1 px-4 py-3 rounded-lg font-medium transition-all"
           >
-            {{ currentMessageBox?.button || 'OK' }}
+            {{ btn.label }}
           </button>
         </div>
       </div>
@@ -44,26 +51,35 @@ const currentMessageBox = computed(() => {
   return messageboxStore.messageboxes[messageboxStore.messageboxes.length - 1];
 });
 
-async function handleButtonClick() {
+const buttonConfigs = {
+  OK: [{ label: 'OK', result: 'OK' }],
+  OKCancel: [
+    { label: 'OK', result: 'OK' },
+    { label: 'Cancel', result: 'Cancel' },
+  ],
+  YesNoCancel: [
+    { label: 'Yes', result: 'Yes' },
+    { label: 'No', result: 'No' },
+    { label: 'Cancel', result: 'Cancel' },
+  ],
+  YesNo: [
+    { label: 'Yes', result: 'Yes' },
+    { label: 'No', result: 'No' },
+  ],
+};
+
+const messageBoxButtons = computed(() => {
+  const buttonType = currentMessageBox.value?.button;
+  return buttonConfigs[buttonType] || buttonConfigs['OK'];
+});
+
+async function handleButtonClick(result) {
   const messageBoxId = currentMessageBox.value?.id;
-  const result = currentMessageBox.value?.defaultResult || 'OK';
 
   console.log('[MessageBoxModal] Clicking button:', result, 'MessageBox ID:', messageBoxId);
 
   if (messageBoxId) {
     await messageboxStore.respondToMessageBox(messageBoxId, result);
-    // Remove from local array after responding
-    await messageboxStore.closeMessagebox(messageBoxId);
-  }
-}
-
-async function handleClose() {
-  const messageBoxId = currentMessageBox.value?.id;
-
-  console.log('[MessageBoxModal] Closing MessageBox without response:', messageBoxId);
-
-  if (messageBoxId) {
-    // Just close without sending a response
     await messageboxStore.closeMessagebox(messageBoxId);
   }
 }

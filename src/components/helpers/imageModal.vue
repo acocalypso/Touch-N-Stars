@@ -24,6 +24,7 @@
       <div class="absolute top-4 right-4 flex gap-2 z-70">
         <!-- Histogram Toggle Button -->
         <button
+          v-if="imageData"
           @click="showHistogram = !showHistogram"
           class="w-10 h-10 bg-gray-800/90 hover:bg-gray-700 text-white rounded-lg shadow-lg flex items-center justify-center transition-colors backdrop-blur-sm"
           :class="{ 'bg-cyan-700 hover:bg-cyan-600': showHistogram }"
@@ -88,7 +89,15 @@
         <div v-if="!imageData" class="text-white text-center">
           <p class="text-2xl mb-4">{{ $t('components.helpers.imageModal.no_image') }}</p>
         </div>
-        <div v-if="imageData" ref="panzoomContainer" class="w-full h-full">
+        <div
+          v-if="imageData"
+          ref="panzoomContainer"
+          class="w-full h-full"
+          :style="{
+            transform: 'rotate(' + settingsStore.currentImageRotation + 'deg)',
+            transformOrigin: 'center',
+          }"
+        >
           <img
             :src="getStretchSettings().stretchedImageData || imageData"
             ref="image"
@@ -101,7 +110,7 @@
 
       <!-- Histogram Overlay -->
       <div
-        v-if="showHistogram && imageData && getHistogram()"
+        v-if="showHistogram && imageData"
         class="absolute bottom-4 left-4 right-4 z-70 bg-gray-900/80 rounded-lg p-3 backdrop-blur-sm"
       >
         <HistogramChart
@@ -111,6 +120,7 @@
           :blackPoint="getStretchSettings().blackPoint"
           :midPoint="getStretchSettings().midPoint"
           :whitePoint="getStretchSettings().whitePoint"
+          :statistics="statistics"
           @levels-changed="onLevelsChanged"
           @levels-reset="onLevelsReset"
         />
@@ -152,6 +162,10 @@ const props = defineProps({
   index: {
     type: Number,
     default: 0,
+  },
+  statistics: {
+    type: Object,
+    default: null,
   },
 });
 
@@ -234,15 +248,11 @@ watch(
   }
 );
 
-watch(
-  () => props.imageData,
-  (newVal) => {
-    if (newVal) {
-      // Calculate histogram for the new image
-      histogramStore.calculateHistogramForImage(newVal);
-    }
+watch([() => props.imageData, showHistogram], ([imageData, panelOpen]) => {
+  if (imageData && panelOpen) {
+    histogramStore.requestHistogram(imageData);
   }
-);
+});
 
 const getHistogram = () => {
   if (!props.imageData) return null;
@@ -302,6 +312,13 @@ onBeforeUnmount(() => {
   height: 100%;
   object-fit: contain;
   cursor: move;
+}
+
+img {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
 }
 
 button[aria-label='Schließen'] {

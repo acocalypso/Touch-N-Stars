@@ -48,13 +48,21 @@
         @touchend.passive="handleNavTouchEnd"
         @touchcancel.passive="handleNavTouchEnd"
       >
-        <div v-if="store.isBackendReachable" :data-label="t('nav.equipment')">
+        <div
+          v-if="store.isBackendReachable && !isNavItemHidden('equipment')"
+          :style="{ order: getNavOrder('equipment') }"
+          :data-label="t('nav.equipment')"
+        >
           <router-link to="/equipment" class="nav-button" active-class="active-nav-button">
             <LinkIcon class="icon force-visible" />
           </router-link>
         </div>
 
-        <div v-if="store.cameraInfo.Connected" :data-label="t('nav.camera')">
+        <div
+          v-if="store.cameraInfo.Connected && !isNavItemHidden('camera')"
+          :style="{ order: getNavOrder('camera') }"
+          :data-label="t('nav.camera')"
+        >
           <router-link
             to="/camera"
             class="nav-button camera-button"
@@ -90,13 +98,21 @@
           </router-link>
         </div>
 
-        <div v-if="store.focuserInfo.Connected" :data-label="t('nav.autofocus')">
+        <div
+          v-if="store.focuserInfo.Connected && !isNavItemHidden('autofocus')"
+          :style="{ order: getNavOrder('autofocus') }"
+          :data-label="t('nav.autofocus')"
+        >
           <router-link to="/autofocus" class="nav-button" active-class="active-nav-button">
             <EyeIcon class="icon force-visible" />
           </router-link>
         </div>
 
-        <div :data-label="t('nav.mount')">
+        <div
+          v-if="!isNavItemHidden('mount')"
+          :style="{ order: getNavOrder('mount') }"
+          :data-label="t('nav.mount')"
+        >
           <router-link to="/mount" class="nav-button" active-class="active-nav-button">
             <div class="relative">
               <svg
@@ -137,7 +153,11 @@
           </router-link>
         </div>
 
-        <div v-if="store.domeInfo.Connected" :data-label="t('nav.dome')">
+        <div
+          v-if="store.domeInfo.Connected && !isNavItemHidden('dome')"
+          :style="{ order: getNavOrder('dome') }"
+          :data-label="t('nav.dome')"
+        >
           <router-link to="/dome" class="nav-button" active-class="active-nav-button">
             <svg
               fill="#FFFFFF"
@@ -187,7 +207,11 @@
           </router-link>
         </div>
 
-        <div v-if="store.flatdeviceInfo.Connected" :data-label="t('nav.flatDevice')">
+        <div
+          v-if="store.flatdeviceInfo.Connected && !isNavItemHidden('flat')"
+          :style="{ order: getNavOrder('flat') }"
+          :data-label="t('nav.flatDevice')"
+        >
           <router-link to="/flat" class="nav-button touch-target" active-class="active-nav-button">
             <LightBulbIcon
               class="icon force-visible"
@@ -202,33 +226,55 @@
           </router-link>
         </div>
 
-        <div v-if="store.switchInfo.Connected" :data-label="t('nav.switch')">
+        <div
+          v-if="store.switchInfo.Connected && !isNavItemHidden('switch')"
+          :style="{ order: getNavOrder('switch') }"
+          :data-label="t('nav.switch')"
+        >
           <router-link to="/switch" class="nav-button" active-class="active-nav-button">
             <AdjustmentsVerticalIcon class="icon force-visible" />
           </router-link>
         </div>
 
-        <div v-if="store.filterInfo.Connected" :data-label="t('nav.filterWheel')">
+        <div
+          v-if="
+            store.profileInfo?.FilterWheelSettings?.FilterWheelFilters?.length &&
+            !isNavItemHidden('filter')
+          "
+          :style="{ order: getNavOrder('filter') }"
+          :data-label="t('nav.filterWheel')"
+        >
           <router-link to="/filterwheel" class="nav-button" active-class="active-nav-button">
-            <svg
-              baseProfile="full"
-              version="1.1"
-              viewBox="0 0 100 100"
-              xmlns="http://www.w3.org/2000/svg"
-              class="icon force-visible"
-            >
-              <defs />
-              <circle cx="50.0" cy="50.0" fill="currentColor" r="40.0" stroke="black" />
-              <circle cx="70.0" cy="50.0" fill="black" r="5.0" />
-              <circle cx="56.180339887498945" cy="69.02113032590307" fill="black" r="5.0" />
-              <circle cx="33.819660112501055" cy="61.75570504584947" fill="black" r="5.0" />
-              <circle cx="33.81966011250105" cy="38.24429495415054" fill="black" r="5.0" />
-              <circle cx="56.180339887498945" cy="30.978869674096927" fill="black" r="5.0" />
-            </svg>
+            <div class="relative">
+              <svg
+                baseProfile="full"
+                version="1.1"
+                viewBox="0 0 100 100"
+                xmlns="http://www.w3.org/2000/svg"
+                class="icon force-visible"
+              >
+                <defs />
+                <circle cx="50.0" cy="50.0" fill="currentColor" r="40.0" stroke="black" />
+                <circle cx="70.0" cy="50.0" fill="black" r="5.0" />
+                <circle cx="56.180339887498945" cy="69.02113032590307" fill="black" r="5.0" />
+                <circle cx="33.819660112501055" cy="61.75570504584947" fill="black" r="5.0" />
+                <circle cx="33.81966011250105" cy="38.24429495415054" fill="black" r="5.0" />
+                <circle cx="56.180339887498945" cy="30.978869674096927" fill="black" r="5.0" />
+              </svg>
+              <!-- Disconnect Icon - positioned below the filter wheel icon -->
+              <LinkSlashIcon
+                v-if="!store.filterInfo.Connected"
+                class="absolute -bottom-2 -right-2 w-4 h-4 text-red-500 bg-gray-800 rounded-full p-0.5"
+              />
+            </div>
           </router-link>
         </div>
 
-        <div v-if="store.rotatorInfo.Connected" :data-label="t('nav.rotator')">
+        <div
+          v-if="store.rotatorInfo.Connected && !isNavItemHidden('rotator')"
+          :style="{ order: getNavOrder('rotator') }"
+          :data-label="t('nav.rotator')"
+        >
           <router-link to="/rotator" class="nav-button" active-class="active-nav-button">
             <svg
               viewBox="0 0 16 16"
@@ -243,7 +289,11 @@
           </router-link>
         </div>
 
-        <div v-if="store.guiderInfo.Connected" :data-label="t('nav.guider')">
+        <div
+          v-if="store.guiderInfo.Connected && !isNavItemHidden('guider')"
+          :style="{ order: getNavOrder('guider') }"
+          :data-label="t('nav.guider')"
+        >
           <router-link to="/guider" class="nav-button" active-class="active-nav-button">
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -272,7 +322,11 @@
         </div>
 
         <!-- Fixed Sequence Button -->
-        <div :data-label="t('nav.sequence')">
+        <div
+          v-if="!isNavItemHidden('sequence')"
+          :style="{ order: getNavOrder('sequence') }"
+          :data-label="t('nav.sequence')"
+        >
           <router-link
             to="/sequence"
             class="nav-button touch-target"
@@ -288,10 +342,8 @@
         </div>
 
         <div
-          v-if="
-            sequenceStore.sequenceRunning ||
-            (store.imageHistoryInfo && store.imageHistoryInfo.length > 0)
-          "
+          v-if="!isNavItemHidden('monitoring')"
+          :style="{ order: getNavOrder('monitoring') }"
           :data-label="t('nav.monitoring')"
         >
           <router-link to="/seq-mon" class="nav-button" active-class="active-nav-button">
@@ -319,7 +371,11 @@
         </div>
 
         <!-- Fixed Flats Button -->
-        <div v-if="store.cameraInfo.Connected" :data-label="t('nav.flatWizard')">
+        <div
+          v-if="store.cameraInfo.Connected && !isNavItemHidden('flats')"
+          :style="{ order: getNavOrder('flats') }"
+          :data-label="t('nav.flatWizard')"
+        >
           <router-link
             to="/flats"
             class="nav-button touch-target"
@@ -342,7 +398,21 @@
           </router-link>
         </div>
 
-        <div v-if="store.isBackendReachable" :data-label="t('nav.skyView')">
+        <div
+          v-if="store.isBackendReachable && !isNavItemHidden('framing')"
+          :style="{ order: getNavOrder('framing') }"
+          :data-label="t('nav.framing')"
+        >
+          <router-link to="/framing" class="nav-button" active-class="active-nav-button">
+            <CameraFramingIcon class="icon force-visible" />
+          </router-link>
+        </div>
+
+        <div
+          v-if="store.isBackendReachable && !isNavItemHidden('skyview')"
+          :style="{ order: getNavOrder('skyview') }"
+          :data-label="t('nav.skyView')"
+        >
           <router-link
             to="/"
             class="nav-button"
@@ -352,24 +422,26 @@
             <SparklesIcon class="icon force-visible" />
           </router-link>
         </div>
-        <!-- Plugin navigation items first -->
-        <div
-          v-for="item in pluginStore.navigationItems"
-          :key="item.pluginId"
-          :data-label="item.title"
-        >
-          <router-link
-            :to="item.path"
-            class="nav-button"
-            active-class="active-nav-button"
-            :title="item.title"
+        <!-- Plugin navigation items -->
+        <template v-for="item in filteredNavigationItems" :key="item.pluginId">
+          <div
+            v-if="!isNavItemHidden('plugin-' + item.pluginId)"
+            :style="{ order: getNavOrder('plugin-' + item.pluginId) }"
+            :data-label="item.title"
           >
-            <component :is="item.icon" class="icon force-visible" />
-          </router-link>
-        </div>
+            <router-link
+              :to="item.path"
+              class="nav-button"
+              active-class="active-nav-button"
+              :title="item.title"
+            >
+              <component :is="item.icon" class="icon force-visible" />
+            </router-link>
+          </div>
+        </template>
 
         <!--  Settings Link -->
-        <div :data-label="t('nav.settings')">
+        <div :style="{ order: getNavOrder('settings') }" :data-label="t('nav.settings')">
           <router-link
             to="/settings"
             class="nav-button touch-target"
@@ -382,7 +454,11 @@
         </div>
 
         <!--  About Button -->
-        <div :data-label="t('nav.about')">
+        <div
+          v-if="!isNavItemHidden('about')"
+          :style="{ order: getNavOrder('about') }"
+          :data-label="t('nav.about')"
+        >
           <button
             @click="showAboutModal = true"
             @touchstart.passive="handleTouchStart"
@@ -415,6 +491,7 @@ import {
   InformationCircleIcon,
   LinkSlashIcon,
 } from '@heroicons/vue/24/outline';
+import CameraFramingIcon from '@/components/icons/CameraFramingIcon.vue';
 import { watch, computed, ref, onMounted, onBeforeUnmount, nextTick } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';
@@ -476,6 +553,26 @@ const wrapperClasses = computed(() => ({
   'flex space-x-2 px-2': !isLandscape.value,
   'flex flex-col space-y-2 px-2 py-4': isLandscape.value,
 }));
+
+function getNavOrder(id) {
+  const order = settingsStore.navbar?.itemOrder;
+  if (!order) return 99;
+  const idx = order.indexOf(id);
+  return idx === -1 ? 99 : idx;
+}
+
+function isNavItemHidden(id) {
+  return settingsStore.navbar?.hiddenItems?.includes(id) ?? false;
+}
+
+const filteredNavigationItems = computed(() => {
+  return pluginStore.navigationItems.filter((item) => {
+    const plugin = pluginStore.plugins.find((p) => p.id === item.pluginId);
+    if (!plugin || !plugin.enabled) return false;
+    if (plugin.isPins) return store.isPINS;
+    return true;
+  });
+});
 
 // Nav label touch handlers
 let navLabelTimer = null;
@@ -598,6 +695,7 @@ watch(
     () => store.domeInfo.Connected,
     () => store.flatdeviceInfo.Connected,
     () => store.switchInfo.Connected,
+    () => store.filterInfo.Connected,
     () => store.guiderInfo.Connected,
     () => sequenceStore.sequenceIsLoaded,
     () => isLandscape.value,

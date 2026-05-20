@@ -1,11 +1,24 @@
 {
   "common": {
+    "name": "名前",
     "cancel": "キャンセル",
     "confirm": "確認",
     "close": "閉じる",
     "select": "選択",
+    "edit": "編集",
     "delete": "削除",
-    "edit": "編集"
+    "enabled": "有効",
+    "disabled": "無効",
+    "enable": "有効にする",
+    "disable": "無効にする",
+    "loading": "読み込み中…",
+    "creating": "作成中…",
+    "scanning": "スキャン中…",
+    "connecting": "接続中…",
+    "refresh": "更新",
+    "help": "ヘルプ",
+    "expand": "展開",
+    "collapse": "折りたたむ"
   },
   "general": {
     "cancel": "キャンセル",
@@ -13,11 +26,14 @@
     "yes": "はい",
     "no": "いいえ",
     "delete": "削除",
-    "close": "閉じる"
+    "edit": "編集",
+    "close": "閉じる",
+    "save": "保存"
   },
   "pages": {
     "equipment": {
-      "title": "機器制御"
+      "title": "機器制御",
+      "indiSetup": "INDI セットアップ"
     }
   },
   "app": {
@@ -53,12 +69,33 @@
     "description": "クイックセットアップを開始しましょう",
     "selectLanguage": "言語を選択してください",
     "gpsConfiguration": "GPS設定",
+    "currentNinaCoords": "プロファイルの位置",
+    "currentMountCoords": "赤道儀の位置",
+    "syncDirection": "位置情報の同期方向",
+    "syncDirectionNosync": "同期しない",
+    "syncDirectionToApplication": "赤道儀からプロファイルへ同期",
+    "syncDirectionToTelescope": "プロファイルから赤道儀へ同期",
+    "mountNotConnected": "赤道儀が接続されていません",
+    "coordsNotSupported": "ドライバーが非対応です",
+    "loadingCoords": "読み込み中…",
+    "coordLat": "緯度",
+    "coordLon": "経度",
+    "coordAlt": "高度",
+    "coordUnit": "m",
     "completeSetup": "セットアップ完了",
     "instanceConfiguration": "N.I.N.A 接続詳細",
     "InfoAppsTitel": "Wiki",
     "check_wki": "詳細な手順はWikiでご確認いただけます"
   },
   "components": {
+    "instanceSwitcher": {
+      "title": "インスタンスの切り替え",
+      "active": "アクティブ",
+      "noInstances": "設定済みのインスタンスがありません",
+      "manageInstances": "インスタンスの管理",
+      "checking": "インスタンスを確認中…",
+      "noneOnline": "オンラインのインスタンスがありません"
+    },
     "instanceDetection": {
       "autoDetectionTitle": "自動検出",
       "scanButton": "スキャン",
@@ -90,10 +127,25 @@
       "discoveryPermissionHintWrapper": "{message} システム設定でアプリに「ローカルネットワーク」または「近隣のデバイス」へのアクセス権限があるか確認してください。"
     },
     "framing": {
+      "pageTitle": "フレーミングアシスタント",
+      "missingEquipmentSettings": "機材設定が不足しています：カメラの視野角が正しく計算されるよう、設定 → 機材で焦点距離とピクセルサイズを設定してください。",
       "confirmSetTargetTitle": "ターゲット選択の確認",
       "confirmSetTargetMessage": "このターゲットをシーケンスのターゲットとして設定しますか？",
       "useNinaCache": "NINA キャッシュをターゲット画像に使用する",
       "setSequnceTarget": "シーケンスのターゲットに設定",
+      "mosaic": {
+        "title": "モザイクモード",
+        "columns": "列数",
+        "rows": "行数",
+        "overlap": "オーバーラップ %",
+        "preserveAlignment": "アライメントを維持",
+        "preserveAlignmentHelp": "アライメントを維持",
+        "preserveAlignmentHelpText": "各パネルの回転角を個別に補正します。天球は曲面のため、大きなモザイクの端にあるパネルは中央パネルとわずかに異なる空の向きになります。このオプションを有効にすると、各パネルの撮影前にローテーターが調整され、すべてのパネルが同じ向き（例：北を上）に揃います。ローテーターがない場合はこのオプションを無効にしてください — パネルのつなぎ目の微小なズレは通常スタッキングソフトウェアが自動補正します。",
+        "panels": "パネル",
+        "setMosaicTargets": "モザイクターゲットを設定",
+        "panelsSet": "シーケンスに設定済みのパネル",
+        "willBeSaved": "パネルは個別に保存されます"
+      },
       "search": {
         "title": "検索",
         "placeholder": "検索語を入力...",
@@ -118,12 +170,33 @@
       "moveRotator": "カメラを回転",
       "infoTargetImage": "画像が真っ黒に表示される場合は、NINAで「オフライン・スカイマップ・キャッシュ」を設定するか、「NINAキャッシュを使用する」オプションを無効にする必要があります",
       "useCenter": "中心",
-      "useRotate": "回転"
+      "useRotate": "回転",
+      "customTarget": "カスタムターゲット"
     },
     "tutorial": {
       "previous": "前へ",
       "next": "次へ",
       "skip": "チュートリアルをスキップ"
+    },
+    "fileBrowser": {
+      "title": "Browse",
+      "goUp": "Go up one level",
+      "loading": "Loading...",
+      "empty": "Empty directory",
+      "dblClickHint": "Double-click to open",
+      "deleteDir": "Delete folder",
+      "folderPlaceholder": "Folder name...",
+      "newFolder": "+ New Folder",
+      "create": "Create",
+      "selectedPath": "Selected:",
+      "loadError": "Could not load directory.",
+      "createError": "Could not create folder.",
+      "deleteDirTitle": "Delete folder",
+      "deleteDirMessage": "Really delete \"{name}\" and all its contents?",
+      "deleteFileTitle": "Delete file",
+      "deleteFileMessage": "Really delete \"{name}\"?",
+      "deleteFile": "Delete file",
+      "deleteError": "Could not delete."
     },
     "settings": {
       "title": "設定",
@@ -132,8 +205,44 @@
       "coordinates": "GPS座標",
       "save": "保存",
       "infoSetLocationSync": "先に位置同期を赤道儀へ設定してください",
+      "coordsMismatchWarning": "プロファイルと赤道儀の座標が異なります。",
+      "timeSync": {
+        "title": "時刻同期",
+        "backendTime": "サーバー時刻",
+        "mountTime": "赤道儀時刻",
+        "syncLabel": "赤道儀に時刻を同期",
+        "syncLabelInfo": "有効にすると、「今すぐ同期」をクリックした際に赤道儀が一時的に切断・再接続され、NINAが現在時刻を転送できるようになります。",
+        "mountNotConnected": "赤道儀が接続されていません",
+        "notSupported": "ドライバーが非対応です"
+      },
       "connection": "接続設定",
       "language": "言語",
+      "imageSavePath": {
+        "title": "画像保存パス",
+        "placeholder": "パスが選択されていません",
+        "selectTitle": "保存場所を選択",
+        "save": "保存",
+        "saving": "...",
+        "savedMsg": "パスを保存しました：",
+        "errorMsg": "パスの保存中にエラーが発生しました。",
+        "toastTitle": "パスを保存しました",
+        "toastErrorTitle": "エラー",
+        "toastErrorMsg": "パスを保存できませんでした。",
+        "loading": "読み込み中...",
+        "loadingDirs": "ディレクトリを読み込み中...",
+        "noSubfolders": "表示可能なフォルダーがありません（空またはアクセス不可のパス）",
+        "dirLoadError": "ディレクトリを読み込めませんでした。",
+        "selectedPath": "選択済みパス：",
+        "dblClickHint": "ダブルクリックで開く",
+        "newFolder": "+ 新しいフォルダー",
+        "folderPlaceholder": "フォルダー名...",
+        "create": "作成"
+      },
+      "horizonFilePath": {
+        "title": "地平線ファイル",
+        "placeholder": "例：/home/pi/horizon.hrz",
+        "toastTitle": "地平線ファイルを保存しました"
+      },
       "image": {
         "title": "画像",
         "quality": "画質",
@@ -174,12 +283,18 @@
           "guiding": "ガイディング",
           "equipment": "機器",
           "other": "その他"
-        }
+        },
+        "advancedSettings": "詳細設定",
+        "darks": "ダーク",
+        "flats": "フラット",
+        "bias": "バイアス",
+        "useLightPattern": "ライトと同じ"
       },
       "debug": {
         "title": "デバッグ",
         "activate": "デバッグモードを有効にする",
-        "titel": "デバッグ"
+        "titel": "デバッグ",
+        "logLevel": "ログレベル"
       },
       "notifications": {
         "title": "通知",
@@ -210,7 +325,11 @@
         "info": "これらの操作はシステム全体に影響します",
         "confirmation": "操作の確認",
         "confirmShutdown": "システムを終了してもよろしいですか？",
-        "confirmRestart": "システムを再起動してもよろしいですか？"
+        "confirmRestart": "システムを再起動してもよろしいですか？",
+        "restartInfoTitle": "システムを再起動中",
+        "restartInfoMessage": "システムが再起動しています。",
+        "shutdownInfoTitle": "システムをシャットダウン中",
+        "shutdownInfoMessage": "システムがシャットダウンしています。このページは使用できなくなります。"
       },
       "plate_solver": {
         "title": "プレートソルバー",
@@ -226,11 +345,20 @@
         "NumberOfAttempts": "試行回数",
         "ReattemptDelay": "リトライ待機時間 (分)",
         "BlindFailoverEnabled": "ブラインド・フェイルオーバー有効",
-        "ASTAPLocation": "ASTAP の場所"
+        "ASTAPLocation": "ASTAP の場所",
+        "Filter": "プレートソルビング用フィルター",
+        "FilterCurrent": "現在",
+        "FilterHint": "プレートソルビング中に使用するフィルター（現在のフィルターを上書き）"
       },
       "equipment": {
         "title": "機器",
         "description": "機器設定の管理"
+      },
+      "navbarCustomization": {
+        "title": "ナビゲーションバーのカスタマイズ",
+        "hint": "ドラッグして並び替え。設定以外のページが少なくとも1つ表示されている必要があります。",
+        "alwaysVisible": "常に表示",
+        "minOneRequired": "少なくとも1ページが表示されている必要があります"
       },
       "update": "アップデート",
       "errors": {
@@ -244,46 +372,68 @@
         "titel": "望遠鏡設定",
         "name": "望遠鏡名",
         "focal_ratio": "口径比 (F値)"
+      },
+      "mount": {
+        "titel": "赤道儀設定",
+        "max_slew_rate": "最大スルーレート (°/s)"
       }
+    },
+    "alpacaDirect": {
+      "title": "Alpaca Direct Settings",
+      "ipAddress": "IP address",
+      "port": "Port",
+      "deviceNumber": "Device number",
+      "serviceType": "Service type",
+      "save": "Save",
+      "connect": "Connect",
+      "disconnect": "Disconnect",
+      "sharedGuidWarning": "Rotator and safety monitor share one storage slot in NINA — changing one also changes the other.",
+      "noReconnectHint": "New settings take effect on the next connect.",
+      "cameraNoSettings": "This camera has no settings to configure."
     },
     "connectEquipment": {
       "camera": {
         "name": "カメラ"
-     },
+      },
       "connectAll": "一括接続",
       "disconnectAll": "一括切断",
       "connectAllError": "一括接続中にエラーが発生しました",
       "disconnectAllError": "一括切断中にエラーが発生しました",
-      "filter": { 
+      "filter": {
         "name": "フィルターホイール"
-     },
-      "mount": { 
+      },
+      "mount": {
         "name": "赤道儀"
-     },
-      "focuser": { 
+      },
+      "focuser": {
         "name": "フォーカサー"
-     },
-      "rotator": { 
+      },
+      "rotator": {
         "name": "ローテーター"
-     },
-      "guider": { 
-        "name": "ガイダー"
-     },
+      },
+      "guider": {
+        "name": "ガイダー",
+        "mountRequired": "ガイダーを接続する前に赤道儀を接続する必要があります。",
+        "guideCamRequired": "有効なガイドカメラを選択する必要があります。"
+      },
+      "guiderCam": {
+        "name": "ガイドカメラ"
+      },
       "safety": {
-        "name": "セーフティ・モニター" 
-    },
-      "flat": { 
-        "name": "フラット・パネル" 
-    },
-      "dome": { 
-        "name": "ドーム" 
-    },
-      "switch": { 
-        "name": "スイッチ" 
-    },
-      "weather": { 
-        "name": "気象観測機器" 
-    },
+        "name": "セーフティ・モニター"
+      },
+      "flat": {
+        "name": "フラット・パネル"
+      },
+      "dome": {
+        "name": "ドーム"
+      },
+      "switch": {
+        "name": "スイッチ"
+      },
+      "weather": {
+        "name": "気象観測機器"
+      },
       "info": {
         "title": "情報",
         "message": "手動フィルターホイールおよび手動ローテーターは、現在 NINA 経由でのみ制御可能です。フィルターホイールには API の「Networked Filter Wheel」を使用してください。"
@@ -301,9 +451,27 @@
       "noSequenceData": "利用可能なデータがまだありません",
       "startSequence": "シーケンス開始",
       "stopSequence": "シーケンス停止",
+      "pauseSequence": "一時停止",
       "resetSequence": "シーケンス・リセット",
+      "skipToEnd": "末尾にスキップ",
+      "skipCurrentItem": "現在のアイテムをスキップ",
+      "manageSequences": "シーケンスの読み込み / 保存",
+      "saveSequenceAs": "現在のシーケンスを名前を付けて保存",
+      "sequenceFileName": "ファイル名",
+      "sequenceSave": "保存",
+      "sequenceLoad": "読み込み",
+      "sequenceNoFiles": "ファイルが見つかりません",
+      "sequenceLoading": "読み込み中...",
+      "sequenceClose": "閉じる",
+      "deleteConfirmationTitle": "ファイルの削除",
+      "deleteConfirmationMessage": "このファイルを削除してもよろしいですか？",
+      "overwriteConfirmationTitle": "ファイルの上書き",
+      "overwriteConfirmationMessage": "このファイルを上書きしてもよろしいですか？",
       "resetConfirmationTitle": "リセットの確認",
       "resetConfirmationMessage": "シーケンスをリセットしてもよろしいですか？この操作は取り消せません。",
+      "clearSequence": "すべてクリア",
+      "clearConfirmationTitle": "クリアの確認",
+      "clearConfirmationMessage": "シーケンス全体をクリアしてもよろしいですか？この操作は元に戻せません。",
       "load_sequence": "ディレクトリからシーケンスの読み込み",
       "choose_sequence": "シーケンスを選択",
       "saved_sequences": "TNS シーケンス・クリエイター",
@@ -314,12 +482,25 @@
       "triggers": "トリガー",
       "expandAll": "すべて展開",
       "collapseAll": "すべて折りたたむ",
+      "addTypeButton": {
+        "searchPlaceholder": "検索…",
+        "noResults": "結果なし",
+        "addItem": "アイテムを追加",
+        "addTrigger": "トリガーを追加",
+        "addCondition": "条件を追加",
+        "add": "追加",
+        "item": "アイテム",
+        "trigger": "トリガー",
+        "condition": "条件"
+      },
       "details": {},
       "hfr": "HFR",
       "mean": "平均",
       "median": "中央値",
       "stDev": "標準偏差",
       "rmsText": "RMS",
+      "gain": "ゲイン",
+      "offset": "オフセット",
       "monitor": {
         "settings": {
           "title": "表示設定",
@@ -327,6 +508,7 @@
           "showImageStats": "最新画像の統計情報を表示",
           "showImgStatsGraph": "HFRチャートを表示",
           "showGuiderAfGraph": "オートフォーカス・チャートを表示",
+          "imageRotation": "画像の回転",
           "display_status_under_image": "画像の下にステータスを表示",
           "sequenceCurrentState": "シーケンスの状態を表示"
         }
@@ -366,8 +548,260 @@
       "HFRStDev": "HFR 標準偏差",
       "totalExposureTime": {
         "title": "合計露出時間",
-        "Pictures": "枚数"
-      }
+        "Pictures": "枚数",
+        "AllFilters": "全フィルター",
+        "noFilter": "フィルターなし",
+        "total": "合計"
+      },
+      "imageFilter": {
+        "allTargets": "全ターゲット",
+        "allFilters": "全フィルター",
+        "allNights": "全夜",
+        "allImageTypes": "全タイプ",
+        "reset": "フィルターをリセット"
+      },
+      "items": {
+        "saving": "保存中…",
+        "generic": "汎用",
+        "on": "オン",
+        "off": "オフ",
+        "takeExposure": {
+          "exposureTime": "露出時間 (秒)",
+          "gain": "ゲイン",
+          "offset": "オフセット",
+          "binning": "ビニング",
+          "imageType": "画像タイプ"
+        },
+        "takeManyExposures": {
+          "iterations": "露出回数"
+        },
+        "smartExposure": {
+          "ditherAfter": "ディザリング間隔（露出回数）"
+        },
+        "takeSubframeExposure": {
+          "roiPct": "ROI (%)"
+        },
+        "switchFilter": {
+          "filter": "フィルター",
+          "noFilter": "No Filter"
+        },
+        "switchProfile": {
+          "profile": "プロファイル",
+          "reconnect": "再接続"
+        },
+        "loopCondition": {
+          "iterations": "繰り返し回数"
+        },
+        "moonIllumination": {
+          "illumination": "月明かり (%)"
+        },
+        "reconnect": {
+          "device": "デバイス"
+        },
+        "autofocus": {
+          "afterExposures": "露出後",
+          "afterExposuresCount": "露出回数",
+          "everyN": "{n} 回ごと",
+          "hfrIncrease": "HFR 増加率 (%)",
+          "sampleSize": "サンプルサイズ",
+          "samples": "{n} サンプル",
+          "trendPerFilter": "フィルターごとのトレンド",
+          "deltaT": "温度変化 (°)",
+          "minutes": "分"
+        },
+        "centerAfterDrift": {
+          "distance": "距離（角分）"
+        },
+        "meridianFlip": {
+          "minutesAfter": "子午線通過後の分数",
+          "maxMinutesAfter": "子午線通過後の最大分数",
+          "pauseBefore": "子午線通過前の一時停止（分）",
+          "useSideOfPier": "ピア側を使用"
+        },
+        "altitudeCondition": {
+          "altitude": "高度 (°)",
+          "horizonOffset": "地平線オフセット (°)"
+        },
+        "sunAltitudeCondition": {
+          "altitude": "太陽高度 (°)"
+        },
+        "timeCondition": {
+          "provider": "プロバイダー"
+        },
+        "timeSpan": {
+          "hours": "時間",
+          "minutes": "分",
+          "seconds": "秒",
+          "minutesOffset": "分オフセット"
+        },
+        "moonAltitude": {
+          "comparator": "比較演算子",
+          "below": "以下",
+          "above": "以上",
+          "altitude": "月の高度 (°)"
+        },
+        "dither": {
+          "afterExposures": "露出後にディザリング"
+        },
+        "center": {
+          "ra": "赤経",
+          "dec": "赤緯",
+          "inherited": "ターゲットから座標を継承"
+        },
+        "coolCamera": {
+          "temperature": "温度 (°C)",
+          "duration": "時間 (分)"
+        },
+        "dewHeater": {
+          "onOff": "ヒーター"
+        },
+        "setUSBLimit": {
+          "limit": "USB制限値"
+        },
+        "setBrightness": {
+          "brightness": "明るさ"
+        },
+        "autoExposureFlat": {
+          "minExposure": "最短露出時間 (秒)",
+          "maxExposure": "最長露出時間 (秒)"
+        },
+        "autoBrightnessFlat": {
+          "minBrightness": "最低輝度",
+          "maxBrightness": "最高輝度",
+          "histogramTarget": "ヒストグラム目標値 (%)",
+          "histogramTolerance": "ヒストグラム許容誤差 (%)",
+          "iterations": "回数",
+          "keepPanelClosed": "パネルを閉じたまま"
+        },
+        "polarAlignment": {
+          "searchRadius": "検索半径 (°)",
+          "alignmentTolerance": "アライメント許容誤差 (arcsec)",
+          "moveRate": "移動レート (°/s)",
+          "targetDistance": "目標距離 (°)",
+          "eastDirection": "東方向",
+          "manualMode": "マニュアルモード",
+          "startFromCurrentPosition": "現在位置から開始",
+          "manual": "Manual"
+        },
+        "skyFlat": {
+          "shouldDither": "ディザリング",
+          "ditherPixels": "ディザリングピクセル数",
+          "ditherSettleTime": "ディザリング安定待機時間 (秒)"
+        },
+        "moveRotatorMechanical": {
+          "mechanicalPosition": "機械位置 (°)"
+        },
+        "solveAndRotate": {
+          "positionAngle": "位置角 (°)"
+        },
+        "setSwitchValue": {
+          "switch": "スイッチ",
+          "value": "値"
+        },
+        "setTracking": {
+          "trackingMode": "追尾モード",
+          "sidereal": "Sidereal",
+          "lunar": "Lunar",
+          "solar": "Solar",
+          "king": "King",
+          "custom": "Custom",
+          "stopped": "Stopped"
+        },
+        "expressionVariable": {
+          "identifier": "名前",
+          "expression": "値",
+          "value": "値",
+          "initially": "初期値",
+          "newValue": "新しい値",
+          "time": "時刻",
+          "minutesOffset": "オフセット (分)"
+        },
+        "annotation": {
+          "text": "テキスト"
+        },
+        "waitUntil": {
+          "predicate": "条件"
+        },
+        "waitForTimeSpan": {
+          "time": "待機時間 (秒)"
+        },
+        "slewDomeAzimuth": {
+          "azimuth": "方位角 (°)"
+        },
+        "stackFlats": {
+          "waitForStack": "スタック完了まで待機"
+        },
+        "interruptWhenRMSAbove": {
+          "rmsThreshold": "RMS しきい値 (\")",
+          "mode": "モード",
+          "modeRMS": "RMS",
+          "modePeak": "ピーク",
+          "minimumPoints": "最小ポイント数"
+        },
+        "changePHD2Parameters": {
+          "parameter": "パラメーター",
+          "exposureTime": "露出時間 (秒)",
+          "ditherPixels": "ディザリング (px)",
+          "ditherRAOnly": "RAのみディザリング",
+          "settlePixels": "安定 (px)",
+          "settleTime": "安定待機時間 (秒)",
+          "settleTimeout": "安定タイムアウト (秒)",
+          "roiPct": "ROI (%)"
+        },
+        "dso": {
+          "targetName": "ターゲット名",
+          "positionAngle": "位置角 (°)",
+          "loadFromFavorites": "お気に入りから読み込む"
+        },
+        "warmCamera": {
+          "duration": "時間 (分)"
+        },
+        "orbuculum": {
+          "hourAngle": "Hour Angle (h)",
+          "nextTarget": "Next target:",
+          "current": "Current:"
+        },
+        "autoBalancingExposure": {
+          "timeSeconds": "Time (s)",
+          "noEntries": "No entries",
+          "addRow": "Add row",
+          "progress": "Progress",
+          "ratio": "Ratio",
+          "bin": "Bin"
+        },
+        "setReadoutMode": {
+          "mode": "Mode"
+        },
+        "loopWhile": {
+          "expression": "Expression"
+        },
+        "slewScopeToAltAz": {
+          "azimuth": "Az",
+          "altitude": "Alt"
+        },
+        "moveFocuserAbsolute": {
+          "position": "位置"
+        },
+        "moveFocuserRelative": {
+          "relativePosition": "相対位置"
+        },
+        "moveFocuserByTemperature": {
+          "slope": "傾き",
+          "intercept": "切片",
+          "absolute": "絶対"
+        }
+      },
+      "emptyContainer": "空です — + をクリックしてアイテムを追加",
+      "move": "移動",
+      "more": "その他",
+      "duplicate": "複製",
+      "enable": "有効にする",
+      "disable": "無効にする",
+      "resetStatus": "ステータスをリセット",
+      "delete": "削除",
+      "controlsLockedMessage": "シーケンスの実行中はシーケンス コントロールがロックされます。",
+      "lockControls": "ロック",
+      "unlockControls": "ロックを解除する"
     },
     "mount": {
       "title": "赤道儀",
@@ -376,14 +810,14 @@
         "title": "位置同期設定",
         "confirmationMessage": "NINAのLocation SyncがPromptに設定されている場合、座標を望遠鏡に送信する前に確認ウィンドウが表示されることがあります。この表示を抑制しTNSが自動的に座標を設定できるようにするには、設定をSync to Telescope（望遠鏡に同期）に変更することをお勧めします。",
         "toTelescope": {
-        "label": "望遠鏡に同期"
-    },
+          "label": "望遠鏡に同期"
+        },
         "toApplication": {
-          "label": "アプリに同期" 
-    },
-        "noSync": { 
+          "label": "アプリに同期"
+        },
+        "noSync": {
           "label": "同期しない"
-      }
+        }
       },
       "control": {
         "park": "パーク",
@@ -392,7 +826,7 @@
         "set_as_park": "パーク位置として設定",
         "trackingMode": "追尾モード",
         "manuellControl": "手動制御",
-        "slewRate": "導入速度 °/s",
+        "slewRate": "導入速度",
         "siderial": "恒星時",
         "sync_coordinates_to_mount": "座標を赤道儀に同期",
         "errors": {
@@ -436,9 +870,12 @@
         },
         "reverse_primary_axis": "主軸を反転",
         "reverse_secondary_axis": "副軸を反転"
+      },
+      "indi": {
+        "settings": "赤道儀設定"
       }
-    }
- "guider": {
+    },
+    "guider": {
       "notConnected": "ガイダーを接続してください",
       "start": "開始",
       "startWithCal": "キャリブレーションを開始",
@@ -497,6 +934,29 @@
       },
       "phd2": {
         "Exposuretime": "露出時間",
+        "profile": "プロファイル",
+        "forceCalibration": "強制キャリブレーション",
+        "calibration": "キャリブレーション",
+        "exposure": "露出",
+        "raAlgorithm": "RAアルゴリズム",
+        "decAlgorithm": "DECアルゴリズム",
+        "equipment": "機器",
+        "optical": "光学設定",
+        "focalLength": "焦点距離",
+        "calibrationStep": "キャリブレーションステップ",
+        "reverseDecAfterFlip": "フリップ後にDECを反転",
+        "useMultipleStars": "複数星を使用",
+        "shared_prarmeters": "共有パラメーター",
+        "guideAlgorithm": "ガイドアルゴリズム",
+        "guideAlgorithmRA": "RAガイドアルゴリズム",
+        "guideAlgorithmDEC": "DECガイドアルゴリズム",
+        "camera": "カメラ",
+        "cameraGain": "ゲイン",
+        "cameraBinning": "ビニング",
+        "restoreCalibration": "キャリブレーションを復元",
+        "guiderScale": "ガイダースケール",
+        "maxY": "最大Y",
+        "historySize": "履歴サイズ",
         "ra": {
           "aggression": "赤経: Aggression (修正感度)",
           "hysteresis": "赤経: Hysteresis (補正履歴)",
@@ -517,11 +977,89 @@
           "slope_weight": "赤緯: 傾斜ウェイト",
           "exp_factor": "赤緯: 露出係数"
         },
-        "profile": "プロファイル",
-        "forceCalibration": "強制キャリブレーション",
         "error": {
           "title": "PHD2 エラー",
           "star-lost-message": "星をロストしました"
+        },
+        "profileManagement": {
+          "title": "プロファイル管理",
+          "createNew": "新しいプロファイルを作成",
+          "profileName": "プロファイル名",
+          "profileNamePlaceholder": "プロファイル名を入力",
+          "profilesList": "プロファイル",
+          "create": "作成",
+          "rename": "名前を変更",
+          "delete": "削除",
+          "cancel": "キャンセル",
+          "confirmDelete": "削除を確認しますか？",
+          "lastProfileWarning": "最後のプロファイルは削除できません",
+          "success": {
+            "created": "プロファイルを作成しました",
+            "renamed": "プロファイル名を変更しました",
+            "deleted": "プロファイルを削除しました"
+          },
+          "errors": {
+            "emptyName": "プロファイル名を入力してください",
+            "duplicateName": "そのプロファイル名はすでに存在します",
+            "createFailed": "プロファイルの作成に失敗しました",
+            "renameFailed": "プロファイル名の変更に失敗しました",
+            "deleteFailed": "プロファイルの削除に失敗しました"
+          }
+        },
+        "starComponents": {
+          "show": "星のコンポーネントを表示",
+          "hide": "星のコンポーネントを非表示"
+        },
+        "autoSelectStar": "ガイド星を自動選択",
+        "reviewCalibration": "キャリブレーションを確認",
+        "calibrationData": {
+          "title": "キャリブレーションの確認",
+          "notCalibrated": "キャリブレーション未実施",
+          "lastMountCalibration": "最後の赤道儀キャリブレーション",
+          "cameraAngle": "カメラ角度：",
+          "orthogonalityError": "直交性誤差：",
+          "raRate": "RAレート：",
+          "decRate": "DECレート：",
+          "raParity": "RAパリティ：",
+          "decParity": "DECパリティ：",
+          "declination": "赤緯：",
+          "estimated": "（推定）",
+          "clearing": "クリア中...",
+          "clearCalibration": "キャリブレーションをクリア",
+          "rightAscension": "赤経",
+          "declinationAxis": "赤緯"
+        },
+        "darkLibrary": {
+          "title": "ダークライブラリ",
+          "manage": "ダークライブラリの管理",
+          "info": "異なる露出時間でダークフレームを撮影してダークライブラリを作成します。PHD2 はこれを使ってガイドフレームからセンサーノイズを差し引きます。",
+          "warning": "構築中は PHD2 がブロックされ、他のすべての PHD2 操作は無効になります。",
+          "status": "状態",
+          "exists": "ライブラリあり",
+          "loaded": "読み込み済み",
+          "notLoaded": "未読み込み",
+          "noLibrary": "ダークライブラリが見つかりません",
+          "numDarks": "ダーク枚数",
+          "range": "露出範囲",
+          "minExposure": "最小露出 (秒)",
+          "maxExposure": "最大露出 (秒)",
+          "frameCount": "1 露出あたりのフレーム数",
+          "previewExposures": "露出時間",
+          "totalFrames": "合計フレーム数",
+          "build": "作成",
+          "cancel": "作成をキャンセル",
+          "building": "作成中",
+          "buildProgress": "フレーム {frame} / {total} – {exposure} 秒",
+          "load": "読み込み",
+          "unload": "アンロード",
+          "delete": "削除",
+          "confirmDelete": "もう一度クリックして確定",
+          "buildSuccess": "ダークライブラリを作成しました",
+          "buildFailed": "ダークライブラリの作成に失敗しました",
+          "buildCancelled": "作成をキャンセルしました",
+          "invalidRange": "最小露出は最大露出以下である必要があります",
+          "buildActive": "ダークライブラリ作成中",
+          "buildActiveMessage": "作成が完了するまで PHD2 操作はブロックされます。"
         }
       }
     },
@@ -542,6 +1080,25 @@
       "autofocus_active": "オートフォーカス実行中",
       "autofocus": "オートフォーカス",
       "last_autofocus": "前回のオートフォーカス",
+      "graph": {
+        "measurePoints": "Measure Points",
+        "quadraticTrendline": "Quadratic Trendline",
+        "hyperbolicTrendline": "Hyperbolic Trendline",
+        "quadraticMin": "Quadratic Min",
+        "hyperbolicMin": "Hyperbolic Min",
+        "value": "Value",
+        "invalidDate": "無効な日付"
+      },
+      "hfr": "HFR",
+      "focuser_position": "位置",
+      "IsStalled": "ストール",
+      "HeatingPower": "ヒーター出力：",
+      "BoardTemperature": "ボード温度：",
+      "DcPower": "DC電源",
+      "StepSize": "ステップサイズ",
+      "duration_seconds": "時間",
+      "filter": "フィルター",
+      "estimated": "推定",
       "settings": {
         "AutoFocusInitialOffsetSteps": "初期オフセットステップ数",
         "AutoFocusStepSize": "ステップサイズ",
@@ -567,15 +1124,32 @@
         "OVERSHOOT": "オーバーシュート方式",
         "ABSOLUTE": "絶対値方式",
         "title": "オートフォーカス設定",
-        "basic": "基本設定",
+        "general": "一般設定",
+        "autofocus": "オートフォーカス設定",
         "crop_and_stars": "クロップ & 星の選択",
         "backlash": "バックラッシュ",
         "advanced": "高度な設定",
         "Reverse": "反転",
         "UseFilterWheelOffsets": "フィルターフォイールオフセットを使用",
+        "MaxStep": "最大ステップ数",
         "AutoFocusFilter": "オートフォーカス用フィルター",
         "AutoFocusFilterNone": "なし",
-        "AutoFocusExposureTime": "デフォルト露出時間"
+        "AutoFocusExposureTime": "デフォルト露出時間",
+        "MotorSpeedControl": "モーター速度制御",
+        "BeepOnMove": "移動時にビープ",
+        "BeepOnStartup": "起動時にビープ",
+        "StallDetection": "ストール検出",
+        "Heating": "加熱",
+        "HeatingTemperature": "加熱温度",
+        "USBCapacity": "USB容量",
+        "ClearStall": "ストールをクリア",
+        "ResetPosition": "位置をゼロに設定",
+        "commandFailed": "このデバイスではサポートされていないコマンドです",
+        "FocuserAlias": "フォーカサーの別名",
+        "deviceSpecific": "デバイス設定"
+      },
+      "indi": {
+        "settings": "フォーカサー設定"
       }
     },
     "dome": {
@@ -614,7 +1188,10 @@
       },
       "please_connect_dome": "ドームを接続してください",
       "is_sync": "同期中",
-      "not_sync": "非同期"
+      "not_sync": "非同期",
+      "indi": {
+        "settings": "ドームの設定"
+      }
     },
     "camera": {
       "connect": "カメラを接続してください",
@@ -632,6 +1209,7 @@
       "dew_heater": "結露防止ヒーター",
       "dew_heater_on": "結露防止ヒーター ON",
       "dew_heater_off": "結露防止ヒーター OFF",
+      "dewHeaterStrength": "結露防止ヒーター強度",
       "camera_cooling": "カメラ冷却",
       "target_temperature": "目標温度 (°C)",
       "warm_up_time": "ウォームアップ時間 (分)",
@@ -641,271 +1219,468 @@
       "usb_limit": "USBリミット",
       "set_use_platesolve": "プレートソルブを使用",
       "chip_settings": {
-          "title": "カメラセンサー設定",
-          "pixel_size": "ピクセルサイズ (μm)",
-          "width": "幅 (px)",
-          "height": "高さ (px)",
-          "focal_length": "焦点距離 (mm)"
+        "title": "カメラセンサー設定",
+        "pixel_size": "ピクセルサイズ (μm)",
+        "width": "幅 (px)",
+        "height": "高さ (px)",
+        "focal_length": "焦点距離 (mm)"
+      },
+      "at_target_temp": "目標温度に到達",
+      "temperature_setpoint": "設定温度 (°C)",
+      "cooler_power": "冷却パワー (%)",
+      "camera_warming": "カメラ温度上昇中",
+      "cooler_status": "冷却器ステータス",
+      "cooler_status_off": "オフ",
+      "cooler_status_cooling": "稼働中 - 冷却状況:",
+      "cooler_status_holding": "稼働中 - 目標温度維持",
+      "cooler_status_warming": "稼働中 - 加熱状況:",
+      "set_save_snapshot": "スナップショットを保存",
+      "snapshotTargetName": "対象名",
+      "set_use_solve_sync_to_mount": "架台に同期",
+      "readout_mode_image": "読み出しモード: シーケンス",
+      "readout_mode_snap": "読み出しモード: スナップショット",
+      "LowNoiseMode": "ウルトラモード",
+      "BadPixelCorrection": "不良ピクセル補正",
+      "BadPixelCorrectionThreshold": "不良ピクセル閾値",
+      "HighFullwellMode": "ハイフルウェルモード",
+      "BinAverageEnabled": "ビニングでピクセルを平均化",
+      "LEDLights": "LED",
+      "FanSpeed": "ファン速度",
+      "tab_camera": "カメラ",
+      "tab_cooler": "冷却",
+      "tab_filter": "フィルター",
+      "tab_snapshot": "保存 & ソルブ"
     },
-    "at_target_temp": "目標温度に到達",
-    "temperature_setpoint": "設定温度 (°C)",
-    "cooler_power": "冷却パワー (%)",
-    "camera_warming": "カメラ温度上昇中",
-    "cooler_status": "冷却器ステータス",
-    "cooler_status_off": "オフ",
-    "cooler_status_cooling": "稼働中 - 冷却状況:",
-    "cooler_status_holding": "稼働中 - 目標温度維持",
-    "cooler_status_warming": "稼働中 - 加熱状況:",
-    "set_save_snapshot": "スナップショットを保存",
-    "snapshotTargetName": "対象名",
-    "set_use_solve_sync_to_mount": "架台に同期",
-    "readout_mode_image": "読み出しモード: シーケンス",
-    "readout_mode_snap": "読み出しモード: スナップショット"
-  },
-  "tppa": {
-    "title": "3点極軸合わせ (TPPA)",
-    "camera_mount_required": "カメラの接続が必要です",
-    "start_alignment": "極軸合わせ開始",
-    "stop_alignment": "極軸合わせ停止",
-    "altitude_error": "高度誤差:",
-    "azimuth_error": "方位誤差:",
-    "total_error": "総合誤差:",
-    "error_values_missing": "誤差データが見つかりません",
-    "unknown_response_format": "不明なレスポンス形式",
-    "east": "東",
-    "west": "西",
-    "down": "下",
-    "up": "上",
-    "not_available": "利用不可",
-    "running": "実行中",
-    "plate_solve_start": "プレートソルブ開始",
-    "plate_solve_ok": "プレートソルブ成功",
-    "plate_solve_error": "プレートソルブエラー",
-    "slewing_first_position": "第1位置へ移動中",
-    "slewing_next_position": "次の位置へ移動中",
-    "capture_running": "露光中",
-    "last_messages": "最新のメッセージ",
-    "settings": {
-      "title": "TPPA 設定",
-      "StartFromCurrentPosition": "現在位置から開始しますか？",
-      "DirectionEast": "東方向へ移動",
-      "camera_settings": "カメラ設定",
-      "camera_settings_hint": "空欄の場合はNINAのデフォルト値を使用します",
-      "exposure_time": "露光時間 (秒)",
-      "gain": "ゲイン",
-      "nina_default": "NINA デフォルト",
-      "ManualMode": "マニュアルモード"
+    "tppa": {
+      "title": "3点極軸合わせ (TPPA)",
+      "camera_mount_required": "カメラの接続が必要です",
+      "start_alignment": "極軸合わせ開始",
+      "stop_alignment": "極軸合わせ停止",
+      "altitude_error": "高度誤差:",
+      "azimuth_error": "方位誤差:",
+      "total_error": "総合誤差:",
+      "error_values_missing": "誤差データが見つかりません",
+      "unknown_response_format": "不明なレスポンス形式",
+      "east": "東",
+      "west": "西",
+      "down": "下",
+      "up": "上",
+      "not_available": "利用不可",
+      "running": "実行中",
+      "plate_solve_start": "プレートソルブ開始",
+      "plate_solve_ok": "プレートソルブ成功",
+      "plate_solve_error": "プレートソルブエラー",
+      "slewing_first_position": "第1位置へ移動中",
+      "slewing_next_position": "次の位置へ移動中",
+      "capture_running": "露光中",
+      "last_messages": "最新のメッセージ",
+      "settings": {
+        "title": "TPPA 設定",
+        "StartFromCurrentPosition": "現在位置から開始しますか？",
+        "DirectionEast": "東方向へ移動",
+        "camera_settings": "カメラ設定",
+        "camera_settings_hint": "空欄の場合はNINAのデフォルト値を使用します",
+        "exposure_time": "露光時間 (秒)",
+        "gain": "ゲイン",
+        "nina_default": "NINA デフォルト",
+        "ManualMode": "マニュアルモード"
+      },
+      "pins_settings": {
+        "title": "PINS TPPA 設定",
+        "movement": "移動",
+        "offsets": "オフセット",
+        "behavior": "動作",
+        "default_move_rate": "最大移動レート (°/s)",
+        "default_east_direction": "デフォルト東方向",
+        "move_timeout_factor": "移動タイムアウト係数",
+        "default_target_distance": "デフォルト目標距離 (°)",
+        "default_search_radius": "デフォルト検索半径 (°)",
+        "default_azimuth_offset": "方位角オフセット (°)",
+        "default_altitude_offset": "高度オフセット (°)",
+        "alignment_tolerance": "アライメント許容誤差",
+        "refraction_adjustment": "大気屈折補正",
+        "stop_tracking_when_done": "完了時に追尾を停止",
+        "settle_time": "安定待機時間 (秒)",
+        "auto_pause": "自動一時停止",
+        "log_error": "エラーをログに記録",
+        "reset": "デフォルトにリセット",
+        "help_default_move_rate": "赤道儀の最大スルー速度（度/秒）です。TPPAはこの値を使用して測定点間の移動速度を計算します。赤道儀の実際の最大速度と一致していることが重要です。マウントメーカーによって移動レートの実装が異なります。赤道儀が期待した距離を移動しない場合は、移動タイムアウト係数を調整してください。",
+        "help_default_east_direction": "2番目と3番目の測定点へ移動する方向を、RAの東方向か西方向かを定義します。一部の赤道儀ドライバーでは、望遠鏡タブの設定でこれを反転させる必要があります。",
+        "help_move_timeout_factor": "（目標距離 / 移動レート × タイムアウト係数）秒後に、安全のため赤道儀の移動を停止します。目標距離に達しなかった警告が出る場合のみ値を増やしてください。",
+        "help_default_target_distance": "極軸アライメント手順中の測定点間の距離（度）です。",
+        "help_default_search_radius": "TPPA実行中にプレートソルバーが使用する検索半径（度）です。初期極軸誤差より大きく設定する必要がありますが、大きすぎると解析が遅くなります。",
+        "help_default_azimuth_offset": "最初の測定点として、極から始まる方位角オフセット（度）です。",
+        "help_default_altitude_offset": "最初の測定点として、極から始まる高度オフセット（度）です。",
+        "help_alignment_tolerance": "ゼロ以外の値を設定すると、誤差がこの許容値（角分）を下回ったときに極軸アライメント手順が自動的に完了します。",
+        "help_refraction_adjustment": "有効にすると、位置情報・標高・現在の気象条件に基づいて大気屈折を考慮します。気象ソースが接続されていない場合は標準的な大気パラメーターを使用します。",
+        "help_stop_tracking_when_done": "有効にすると、極軸アライメント完了後に赤道儀の追尾を停止します。追尾を続けたい場合は無効にしてください。",
+        "help_settle_time": "自動調整使用時に、各移動後に待機する時間（秒）を指定します。",
+        "help_auto_pause": "極軸アライメント手順の自動一時停止設定です。",
+        "help_log_error": "有効にすると、各調整後の極軸誤差と連続誤差を含むログファイルが作成されます。"
+      },
+      "error_modal": {},
+      "tppa": "極軸合わせ (TPPA)"
     },
-    "error_modal": {},
-    "tppa": "極軸合わせ (TPPA)"
-  },
-  "slewAndCenter": {
-    "title": "導入と中心合わせ",
-    "LastSelectedImageSource_wrong": "NINA / Framingで画像ソースにオフラインスカイマップを選択してください",
-    "ra": "赤経 (RA):",
-    "dec": "赤緯 (Dec):",
-    "ra_placeholder": "RA 03:47:28.2",
-    "dec_placeholder": "Dec +24:06:19",
-    "slew": "導入 (Slew)",
-    "slew_and_center": "導入と中心合わせ",
-    "errors": {
-      "invalidRAInput": "不正な赤経入力です。",
-      "invalidDECInput": "不正な赤緯入力です。",
-      "apiResponseError": "APIレスポンスエラー:",
-      "mountInfoError": "架台情報の取得エラー:",
-      "invalidAltInput": "不正な高度入力です。",
-      "invalidAzInput": "不正な方位入力です。"
-    },
-    "visibleStars": "表示中の星を検索",
-    "alt": "高度:",
-    "az": "方位:",
-    "slew_modal": {
-      "deviation_target": "目標との偏差:"
-    }
-  },
-  "filterwheel": {
-    "title": "フィルターホイール",
-    "filter": "フィルター:",
-    "unknown": "不明",
-    "nofilteravailable": "利用可能なフィルターなし",
-    "please_connect_filterwheel": "フィルターホイールを接続してください",
-    "currentFilter": "現在のフィルター",
-    "position": "位置",
-    "availableFilters": "利用可能なフィルター",
-    "settings": {
-      "title": "フィルター設定",
-      "FilterWheelFilters": {
-        "FocusOffset": "ピントオフセット",
-        "Position": "位置",
-        "AutoFocusExposureTime": "オートフォーカス露光時間",
-        "Name": "名前"
+    "slewAndCenter": {
+      "title": "導入と中心合わせ",
+      "LastSelectedImageSource_wrong": "NINA / Framingで画像ソースにオフラインスカイマップを選択してください",
+      "ra": "赤経 (RA):",
+      "dec": "赤緯 (Dec):",
+      "ra_placeholder": "RA 03:47:28.2",
+      "dec_placeholder": "Dec +24:06:19",
+      "slew": "導入 (Slew)",
+      "slew_and_center": "導入と中心合わせ",
+      "errors": {
+        "invalidRAInput": "不正な赤経入力です。",
+        "invalidDECInput": "不正な赤緯入力です。",
+        "apiResponseError": "APIレスポンスエラー:",
+        "mountInfoError": "架台情報の取得エラー:",
+        "invalidAltInput": "不正な高度入力です。",
+        "invalidAzInput": "不正な方位入力です。"
+      },
+      "visibleStars": "表示中の星を検索",
+      "alt": "高度:",
+      "az": "方位:",
+      "slew_modal": {
+        "deviation_target": "目標との偏差:"
       }
-    }
-  },
-  "RemoveFilter": {
-    "confirmTitle": "フィルターの削除",
-    "confirmMessage": "このフィルターを削除してもよろしいですか？この操作は取り消せません。"
-  },
-  "rotator": {
-    "title": "ローテーター",
-    "label": "ローテーター",
-    "move": "移動",
-    "control": "制御",
-    "please_connect_rotator": "ローテーターを接続してください",
-    "connected": "接続済み",
-    "disconnected": "未接続",
-    "currentPosition": "現在位置",
-    "moving": "移動中",
-    "stationary": "停止中",
-    "stepSize": "ステップサイズ",
-    "settings": {
-      "title": "設定",
-      "basic": "基本設定",
-      "QUARTER": "90°",
-      "HALF": "180°",
-      "FULL": "360°",
-      "RangeType": "可動範囲タイプ",
-      "RangeStartMechanicalPosition": "機械的開始位置"
-    }
-  },
-  "flat": {
-    "please_connect_flatDevice": "フラットデバイスを接続してください",
-    "device_name": "名称:",
-    "cover_state": "カバーの状態:",
-    "light_state": "ライトの状態:",
-    "brightness": "輝度:",
-    "toggle_light": "ライトの切替:",
-    "cover": {
-      "close": "カバーを閉じる",
-      "open": "カバーを開ける"
     },
-    "title": "フラットパネル"
-  },
-  "flatassistant": {
-    "title": "フラットアシスタント",
-    "count": "枚数",
-    "exposure_time": "露光時間",
-    "min_exposure_time": "最小露光時間",
-    "max_exposure_time": "最大露光時間",
-    "brightness": "輝度",
-    "min_brightness": "最小輝度",
-    "max_brightness": "最大輝度",
-    "histogram_mean_target": "ヒストグラム平均目標値",
-    "mean_tolerance": "許容誤差",
-    "completed_recordings": "完了記録数:",
-    "start_auto_exposure": "自動露光開始",
-    "start_auto_brightness": "自動輝度調整開始",
-    "start_sky_flat": "スカイフラット開始",
-    "stop": "停止",
-    "auto_exposure": "自動露光",
-    "auto_brightness": "自動輝度",
-    "skyflat": "スカイフラット",
-    "button_slew_to_zenith": "天頂へ移動"
-  },
-  "weatherModal": {
-    "weatherInformation": "気象情報",
-    "metric": "メートル法",
-    "imperial": "ヤード・ポンド法",
-    "temperature": "温度",
-    "cloudCover": "雲量",
-    "wind": "風速",
-    "humidity": "湿度",
-    "pressure": "気圧",
-    "skyTemperature": "空の温度",
-    "skyQuality": "空の暗さ (SQM)",
-    "rainRate": "降雨量",
-    "dewPoint": "露点"
-  },
-  "switch": {
-    "gauges": "ゲージ",
-    "switch": "スイッチ"
-  },
-  "stellarium": {
-    "selected_object": {
-      "title": "選択された天体",
-      "ra": "赤経 (RA)",
-      "dec": "赤緯 (Dec)",
-      "button_framing": "構図設定へ"
+    "filterwheel": {
+      "title": "フィルターホイール",
+      "filter": "フィルター:",
+      "unknown": "不明",
+      "nofilteravailable": "利用可能なフィルターなし",
+      "please_connect_filterwheel": "フィルターホイールを接続してください",
+      "currentFilter": "現在のフィルター",
+      "position": "位置",
+      "availableFilters": "利用可能なフィルター",
+      "settings": {
+        "title": "フィルター設定",
+        "FilterWheelFilters": {
+          "FocusOffset": "ピントオフセット",
+          "Position": "位置",
+          "AutoFocusExposureTime": "オートフォーカス露光時間",
+          "Name": "名前"
+        },
+        "deviceSpecific": "デバイス設定",
+        "FilterWheelAlias": "フィルターホイール別名",
+        "Speed": "速度",
+        "TurboMode": "ターボモード",
+        "Autorun": "自動実行",
+        "Calibrate": "キャリブレーション",
+        "commandFailed": "このデバイスでサポートされていないコマンドです",
+        "SlotNum": "スロット数",
+        "slotNumDefault": "デフォルト"
+      },
+      "indi": {
+        "settings": "フィルターホイール設定"
+      },
+      "Unidirectional": "フィルターホイール単方向",
+      "BoardTemperature": "ボード温度",
+      "State": "状態",
+      "Counter": "カウンター"
     },
-    "datetime": {
-      "title": "日付と時刻",
-      "date": "日付",
-      "time": "時刻",
-      "now": "現在",
-      "speed": "速度"
+    "RemoveFilter": {
+      "confirmTitle": "フィルターの削除",
+      "confirmMessage": "このフィルターを削除してもよろしいですか？この操作は取り消せません。"
     },
-    "mount_position": {},
-    "settings": {
-      "constellations_lines_visible": "星座線を表示",
-      "azimuthal_lines_visible": "地平座標線を表示",
-      "equatorial_lines_visible": "赤道座標線を表示",
-      "meridian_lines_visible": "子午線を表示",
-      "ecliptic_lines_visible": "黄道を表示",
-      "atmosphere_visible": "大気を表示",
-      "landscapes_visible": "風景を表示",
-      "dsos_visible": "ディープスカイ天体 (メシエ, NGC)",
-      "title": "設定"
-    }
-  },
-  "profile": {
-    "label": "プロファイル:"
-  },
-  "notifications": {
-    "modal": {
-      "title": "通知設定",
-      "description": "シーケンスのイベントに関する通知を受け取るための権限を許可してください。"
-    }
-  },
-  "fav_target": {
-    "table": {
-      "name": "天体名",
+    "rotator": {
+      "title": "ローテーター",
+      "label": "ローテーター",
+      "move": "移動",
+      "control": "制御",
+      "please_connect_rotator": "ローテーターを接続してください",
+      "connected": "接続済み",
+      "disconnected": "未接続",
+      "currentPosition": "現在位置",
+      "moving": "移動中",
+      "stationary": "停止中",
+      "stepSize": "ステップサイズ",
+      "settings": {
+        "title": "設定",
+        "basic": "基本設定",
+        "QUARTER": "90°",
+        "HALF": "180°",
+        "FULL": "360°",
+        "RangeType": "可動範囲タイプ",
+        "RangeStartMechanicalPosition": "機械的開始位置",
+        "Overshoot": "オーバーシュート",
+        "OvershootDirection": "オーバーシュート方向",
+        "OvershootAngle": "オーバーシュート角度",
+        "Backlash": "バックラッシュ",
+        "ResetPosition": "ゼロ位置をリセット"
+      },
+      "indi": {
+        "settings": "ローテーター設定"
+      }
+    },
+    "flat": {
+      "please_connect_flatDevice": "フラットデバイスを接続してください",
+      "device_name": "名称:",
+      "cover_state": "カバーの状態:",
+      "light_state": "ライトの状態:",
+      "brightness": "輝度:",
+      "toggle_light": "ライトの切替:",
+      "cover": {
+        "close": "カバーを閉じる",
+        "open": "カバーを開ける"
+      },
+      "title": "フラットパネル",
+      "settings": {
+        "title": "設定",
+        "heater": "ヒーター出力 (0-3)",
+        "openPosition": "開放位置 (°)",
+        "closedPosition": "閉鎖位置 (°)",
+        "currentPosition": "現在位置",
+        "trainedSettings": {
+          "title": "フラット露出学習済み設定",
+          "filter": "フィルター",
+          "noFilter": "フィルターなし",
+          "binning": "ビニング",
+          "gain": "ゲイン",
+          "offset": "オフセット",
+          "brightness": "明るさ",
+          "time": "時間 (秒)",
+          "confirmTitle": "設定を削除",
+          "confirmMessage": "この学習済みフラット露出設定を削除してもよろしいですか？"
+        }
+      },
+      "indi": {
+        "settings": "フラットデバイス設定"
+      }
+    },
+    "flatassistant": {
+      "title": "フラットアシスタント",
+      "count": "枚数",
+      "exposure_time": "露光時間",
+      "min_exposure_time": "最小露光時間",
+      "max_exposure_time": "最大露光時間",
+      "brightness": "輝度",
+      "min_brightness": "最小輝度",
+      "max_brightness": "最大輝度",
+      "histogram_mean_target": "ヒストグラム平均目標値",
+      "mean_tolerance": "許容誤差",
+      "completed_recordings": "完了記録数:",
+      "status_running": "実行中：{completed} / {total} フラット",
+      "status_success": "完了 — {count} 枚のフラットを撮影しました",
+      "status_stopped": "早期停止 — {completed} / {total} 枚のフラットを撮影しました",
+      "status_failed": "フラットを撮影できませんでした — 有効な露出を決定できませんでした",
+      "status_adu_live": "最後に測定したADU：{adu}",
+      "start_auto_exposure": "自動露光開始",
+      "start_auto_brightness": "自動輝度調整開始",
+      "start_sky_flat": "スカイフラット開始",
+      "stop": "停止",
+      "auto_exposure": "自動露光",
+      "auto_brightness": "自動輝度",
+      "skyflat": "スカイフラット",
+      "button_slew_to_zenith": "天頂へ移動",
+      "keep_closed": "フラットパネルを閉じたまま",
+      "mode": "モード",
+      "single_mode": "シングルモード",
+      "multi_mode": "マルチモード",
+      "start_multi_mode": "マルチモードを開始",
+      "multi_mode_no_filters": "フィルターホイールが接続されていません",
+      "status_filter_progress": "フィルター：{completed} / {total}",
+      "cover_scope_confirm": "わかりました",
+      "cover_scope_message": "今すぐスコープをカバーし、OK を押して暗闇の撮影を開始します。",
+      "cover_scope_title": "今すぐ範囲をカバーしましょう",
+      "darks_to_take": "撮影するDarkflats",
+      "operation_failed": "操作が失敗しました",
+      "status_failed_darks": "暗い部分がキャプチャされていません - 有効な露出を判断できませんでした",
+      "status_failed_flats": "フラットはキャプチャされませんでした - 有効な露出を決定できませんでした",
+      "status_running_darks": "実行中: {completed} / {total} ダーク",
+      "status_running_flats": "実行中: {完了} / {合計} 軒",
+      "status_stopped_darks": "早期に停止しました - {total} 件中 {completed} 件のダークをキャプチャしました",
+      "status_stopped_flats": "早期に停止しました - {total} 件中 {completed} 件のアパートを確保しました",
+      "status_success_darks": "完了 - {count} 個のダークを捕獲しました",
+      "status_success_flats": "完了 - {count} 軒のアパートを占領しました",
+      "filter_label": "フィルター",
+      "result_bright": "明るすぎる",
+      "result_dim": "薄暗すぎる",
+      "status_completed_flats": "完了",
+      "status_failed_flats_multi": "すべてのフィルターが有効な露出を決定できませんでした",
+      "status_partial_flats_multi": "失敗したフィルター: {filters}",
+      "status_running_unknown": "決定中…",
+      "target": "ターゲット"
+    },
+    "weatherModal": {
+      "weatherInformation": "気象情報",
+      "metric": "メートル法",
+      "imperial": "ヤード・ポンド法",
+      "temperature": "温度",
+      "cloudCover": "雲量",
+      "wind": "風速",
+      "humidity": "湿度",
+      "pressure": "気圧",
+      "skyTemperature": "空の温度",
+      "skyQuality": "空の暗さ (SQM)",
+      "rainRate": "降雨量",
+      "dewPoint": "露点",
+      "indi": {
+        "settings": "気象設定"
+      },
+      "settings": {
+        "apiKey": "APIキー",
+        "apiKeyPlaceholder": "APIキーを入力",
+        "stationId": "ステーションID",
+        "stationIdPlaceholder": "ステーションIDを入力"
+      }
+    },
+    "switch": {
+      "gauges": "ゲージ",
+      "switch": "スイッチ",
+      "indi": {
+        "settings": "スイッチ設定"
+      },
+      "sv241pro": {
+        "preConnectDelay": "接続前遅延 (ミリ秒)"
+      }
+    },
+    "stellarium": {
+      "selected_object": {
+        "title": "選択された天体",
+        "ra": "赤経 (RA)",
+        "dec": "赤緯 (Dec)",
+        "button_framing": "構図設定へ"
+      },
+      "datetime": {
+        "title": "日付と時刻",
+        "date": "日付",
+        "time": "時刻",
+        "now": "現在",
+        "speed": "速度"
+      },
+      "mount_position": {},
+      "settings": {
+        "constellations_lines_visible": "星座線を表示",
+        "azimuthal_lines_visible": "地平座標線を表示",
+        "equatorial_lines_visible": "赤道座標線を表示",
+        "meridian_lines_visible": "子午線を表示",
+        "ecliptic_lines_visible": "黄道を表示",
+        "atmosphere_visible": "大気を表示",
+        "landscapes_visible": "風景を表示",
+        "dsos_visible": "ディープスカイ天体 (メシエ, NGC)",
+        "title": "設定"
+      }
+    },
+    "profile": {
+      "label": "プロファイル:",
+      "manage": "プロファイル管理",
+      "add": "プロファイルを追加",
+      "switchTo": "このプロファイルに切り替え",
+      "rename": "名前を変更",
+      "clone": "複製",
+      "cloneOf": "コピー",
+      "remove": "削除",
+      "namePlaceholder": "プロファイル名",
+      "nameExists": "その名前はすでに存在します",
+      "cannotSwitchConnected": "デバイスが接続中はプロファイルを切り替えられません",
+      "cannotRemoveActive": "アクティブなプロファイルは削除できません",
+      "cannotRemoveLast": "最後のプロファイルは削除できません",
+      "noProfiles": "利用可能なプロファイルがありません"
+    },
+    "notifications": {
+      "modal": {
+        "title": "通知設定",
+        "description": "シーケンスのイベントに関する通知を受け取るための権限を許可してください。"
+      }
+    },
+    "fav_target": {
+      "table": {
+        "name": "天体名",
+        "ra": "赤経",
+        "dec": "赤緯",
+        "load": "読み込み",
+        "remove": "削除",
+        "rotation": "回転角"
+      },
+      "modal_sequence": {
+        "titel": "シーケンス"
+      },
+      "modal_sequence_ok": {
+        "message": "ターゲットを設定しました"
+      },
+      "modal_sequence_error": {
+        "message": "シーケンスが読み込まれていません"
+      },
+      "enter_name": "名前を入力",
+      "save_to_favorites": "お気に入りターゲットに保存",
+      "no_fav": "お気に入りが保存されていません",
+      "titel": "お気に入り"
+    },
+    "helpers": {
+      "imageModal": {
+        "no_image": "画像データがありません"
+      },
+      "histogram": {
+        "blackPoint": "ブラックポイント",
+        "whitePoint": "ホワイトポイント",
+        "gamma": "ガンマ",
+        "mean": "平均値",
+        "median": "中央値",
+        "stdDev": "標準偏差",
+        "min": "最小値",
+        "max": "最大値",
+        "stars": "星数",
+        "hfr": "HFR",
+        "reset": "リセット",
+        "noSaveHint": "統計は保存された画像に対してのみ計算されます",
+        "enableSave": "保存を有効にする"
+      },
+      "zoomableImage": {
+        "toggleCrosshair": "クロスヘアの切り替え",
+        "toggleLoupe": "ルーペの切り替え",
+        "loupeZoom": "ルーペの倍率"
+      }
+    },
+    "platesolve": {
+      "solve_successful": "解析成功",
+      "solve_failed": "解析失敗",
+      "solving": "解析中...",
+      "solve_time": "解析時間",
+      "orientation": "向き",
+      "flipped": "反転",
       "ra": "赤経",
       "dec": "赤緯",
-      "load": "読み込み",
-      "remove": "削除",
-      "rotation": "回転角"
+      "pixel_scale": "ピクセルスケール",
+      "focal_length": "焦点距離"
     },
-    "modal_sequence": {
-      "titel": "シーケンス"
+    "fitsPlatesolve": {
+      "binning": "ビニング",
+      "blindSolve": "ブラインドソルブ",
+      "browserTitle": "プレート解析用の FITS ファイルを選択してください",
+      "buttonTitle": "FITS プレートソルブ",
+      "coordinatesHint": "座標のヒント (ブラインド解決の場合は空白のままにします)",
+      "dec": "12月",
+      "decPlaceholder": "日:月:SS",
+      "error": "プレートの解決に失敗しました",
+      "errorLoadParams": "FITSパラメータの読み取りに失敗しました",
+      "file": "ファイル",
+      "focalLength": "焦点距離",
+      "loadingParams": "FITS ヘッダーを読み取り中…",
+      "pixelScale": "ピクセルスケール",
+      "pixelSize": "ピクセルサイズ",
+      "plateSolve": "プレートソルブ",
+      "ra": "RA",
+      "raPlaceholder": "時:MM:SS",
+      "rotation": "回転",
+      "solveFailed": "プレートの解決に失敗しました",
+      "solving": "解決中…",
+      "success": "プレートの解決が成功しました",
+      "targetApplied": "適用されたターゲット",
+      "titleConfirm": "プレートソルブパラメータの確認",
+      "titleError": "プレートの解決に失敗しました",
+      "titleLoading": "FITS パラメータを読み取っています…",
+      "titleResult": "プレートソルブ結果",
+      "titleSolving": "プレートを解決中…",
+      "tryAgain": "ファイルの選択",
+      "useAsTarget": "ターゲットとして使用",
+      "solvingHint": "プレートの解決には、ソルバーと検索半径に応じて 10 ～ 60 秒かかる場合があります。"
     },
-    "modal_sequence_ok": {
-      "message": "ターゲットを設定しました"
-    },
-    "modal_sequence_error": {
-      "message": "シーケンスが読み込まれていません"
-    },
-    "enter_name": "名前を入力",
-    "no_fav": "お気に入りが保存されていません",
-    "titel": "お気に入り"
-  },
-  "helpers": {
-    "imageModal": {
-      "no_image": "画像データがありません"
-    },
-    "histogram": {
-      "blackPoint": "ブラックポイント",
-      "whitePoint": "ホワイトポイント",
-      "gamma": "ガンマ",
-      "mean": "平均値",
-      "median": "中央値",
-      "stdDev": "標準偏差",
-      "min": "最小値",
-      "max": "最大値",
-      "stars": "星数",
-      "reset": "リセット"
-    }
-  },
-  "platesolve": {
-    "solve_successful": "解析成功",
-    "solve_failed": "解析失敗",
-    "solving": "解析中...",
-    "solve_time": "解析時間",
-    "orientation": "向き",
-    "flipped": "反転",
-    "ra": "赤経",
-    "dec": "赤緯",
-    "pixel_scale": "ピクセルスケール",
-    "focal_length": "焦点距離"
+    "safetyMonitor": {
+      "indi": {
+        "settings": "セーフティモニターの設定"
+      }
     }
   },
   "plugins": {
@@ -917,6 +1692,198 @@
         "required": "必要なバージョン",
         "current": "現在のバージョン"
       }
+    },
+    "pins": {
+      "title": "PINS管理",
+      "notAvailable": "PINS環境が検出されません。このプラグインは無効です。",
+      "dryRun": "ドライランモード",
+      "sambaTitle": "Samba共有",
+      "sambaDescription": "ネットワークファイル共有を有効または無効にする",
+      "phd2Title": "PHD2 自動起動",
+      "phd2Running": "サービスは現在実行中です",
+      "phd2Stopped": "サービスは現在停止中です",
+      "wifiTitle": "WiFi設定",
+      "stationaryMode": "固定モード",
+      "stationaryDescription": "ローカルWiFiネットワークのスキャンと接続を有効にする",
+      "noNetworks": "ネットワークが見つかりません",
+      "wifiSelect": "ネットワークを選択",
+      "wifiBand": "WiFiバンド",
+      "bandAuto": "自動",
+      "band24": "2.4 GHz",
+      "band5": "5 GHz",
+      "rescan": "WiFiネットワークを再スキャン",
+      "wifiPassword": "パスワード",
+      "autoConnect": "起動後に選択したWiFiへ自動接続",
+      "wifiConnect": "接続",
+      "scanning": "スキャン中...",
+      "hotspotPasswordTitle": "ホットスポットパスワード",
+      "hotspotConfigured": "カスタムのホットスポットパスワードが設定されています。",
+      "hotspotNotConfigured": "現在デフォルトのホットスポットパスワードが使用されています。",
+      "hotspotRefresh": "ホットスポットパスワードの状態を更新",
+      "hotspotNewPassword": "新しいホットスポットパスワード",
+      "hotspotPasswordHint": "最低8文字。",
+      "hotspotSave": "ホットスポットパスワードを保存",
+      "hotspotSaving": "ホットスポットパスワードを保存中...",
+      "systemTime": "システム時刻",
+      "deviceTime": "デバイス時刻",
+      "loadingTime": "時刻を読み込み中...",
+      "autoSync": "自動同期",
+      "syncNow": "今すぐ同期",
+      "timeWarning": {
+        "title": "時刻のずれを検出",
+        "message": "デバイスの時刻（{deviceTime}）がクライアントの時刻（{clientTime}）と1分以上ずれています。問題が発生する可能性があります。",
+        "setTime": "デバイスの時刻をクライアントの時刻に設定",
+        "suppress": "この警告を再表示しない",
+        "dismiss": "閉じる",
+        "reenable": "時刻のずれ警告を再度有効にする"
+      },
+      "startUpgrade": "アップグレード開始",
+      "upgrading": "アップグレード中...",
+      "terminalOutput": "ターミナル出力",
+      "clearOutput": "出力をクリア",
+      "waiting": "制御中... コマンドを待機中...",
+      "status": {
+        "idle": "アイドル",
+        "running": "実行中",
+        "success": "成功",
+        "failed": "失敗"
+      },
+      "logs": {
+        "syncingTime": "時刻差を検出：{diff}秒。時刻を同期中...",
+        "forcingSync": "手動で時刻を同期中...",
+        "timeInSync": "時刻は同期されています（差：{diff}秒）。",
+        "timeSynced": "システム時刻の同期が完了しました。",
+        "noIp": "エラー：設定にIPアドレスが見つかりません。最初にインスタンスに接続してください。",
+        "init": "ホスト {ip} のアップグレードシーケンスを初期化中",
+        "config": "設定：ドライラン = {dryRun}",
+        "sambaAction": "アクション：{action} Samba共有",
+        "sambaEnable": "有効化",
+        "sambaDisable": "無効化",
+        "phd2Action": "PHD2サービスを{action}中...",
+        "phd2Enabling": "有効化",
+        "phd2Disabling": "無効化",
+        "phd2Success": "PHD2サービスの更新が完了しました。",
+        "phd2Failed": "PHD2サービスの更新に失敗しました：{message}",
+        "connectingToWifi": "WiFiネットワークに接続中：{ssid}",
+        "wifiResponse": "WiFiレスポンス：{response}",
+        "hotspotFetched": "ホットスポットパスワードの状態を読み込みました（設定済み={configured}、ソース={source}）。",
+        "hotspotSaving": "ホットスポットパスワードを更新中...",
+        "hotspotSaved": "ホットスポットパスワードを更新しました：{message}",
+        "hotspotPasswordTooShort": "ホットスポットパスワードは最低8文字必要です。",
+        "jobCreated": "ジョブを正常に作成しました。ID：{jobId}",
+        "daemonCheck": "{ip}:{port} でPINSデーモンが実行されていることを確認してください",
+        "serverError": "サーバーエラー ({status})：{data}",
+        "corsHint": "ヒント：サーバーがリクエストメソッドを拒否しました。サーバーのCORS設定を確認してください。",
+        "networkError": "ネットワークエラー：リクエストに失敗しました。",
+        "noResponse": "ネットワークエラー：サーバーからの応答がありませんでした。",
+        "error": "エラー：{message}",
+        "wsConnecting": "{wsUrl} へのWebSocket接続を確立中...",
+        "wsConnected": "接続が確立されました。ログをストリーミング中...",
+        "wsCreationFailed": "WebSocketの作成に失敗しました：{message}",
+        "wsClosed": "接続が閉じられました。（コード：{code}）",
+        "wsError": "WebSocketエラーが発生しました。",
+        "verifyingStatus": "最終ジョブステータスを確認中...",
+        "jobReport": "ジョブレポート：{report}",
+        "upgradeSuccess": "アップグレードが正常に完了しました。",
+        "upgradeFailed": "アップグレードに失敗しました。終了コード：{exitCode}",
+        "jobStatus": "ジョブステータス：{status}",
+        "statusFetchFailed": "最終ステータスの取得に失敗しました：{message}",
+        "wifiDisabling": "WiFiを切断してホットスポットを有効化中...",
+        "wifiDisabled": "WiFiを切断してホットスポットを有効にしました。",
+        "updateCheckFailed": "更新の確認に失敗しました：{message}",
+        "indi3rdpartyLoadFailed": "INDIサードパーティパッケージの読み込みに失敗しました：{message}",
+        "indi3rdpartyInstallStart": "INDIパッケージをインストール中：{assetName}",
+        "indi3rdpartyInstallSuccess": "INDIパッケージのインストールが完了しました：{message}",
+        "indi3rdpartyInstallFailed": "INDIパッケージのインストールに失敗しました：{message}",
+        "wifiAdaptersLoadFailed": "WiFi アダプターのロードに失敗しました: {メッセージ}",
+        "wifiInterfacesLoadFailed": "選択した WiFi インターフェイスの読み込みに失敗しました: {message}",
+        "wifiInterfacesSaveFailed": "WiFi インターフェースを保存できませんでした: {message}",
+        "wifiInterfacesSaved": "保存された WiFi インターフェイス。\nクライアント: {clientInterface}、ホットスポット: {hotspotInterface}",
+        "pluginActionFailed": "{packageName} のプラグイン アクションが失敗しました。\nステータス: {ステータス}",
+        "pluginActionSuccess": "プラグインアクションが正常に終了しました: {packageName}",
+        "pluginInstallStart": "プラグインをインストールしています: {packageName}",
+        "pluginUninstallStart": "プラグインをアンインストールしています: {packageName}",
+        "pluginsLoadFailed": "PINS プラグインのロードに失敗しました: {message}",
+        "pluginsPackageNotAllowed": "API ポリシーによってパッケージが許可されていません: {packageName}",
+        "pluginsLoadMetadataFailed": "プラグイン メタデータ リポジトリが現在利用できないため、PINS プラグインをロードできませんでした (HTTP 502)。"
+      },
+      "wifiDisconnect": "WiFiを切断",
+      "disconnectConfirmTitle": "WiFiを切断しますか？",
+      "disconnectConfirmMessage": "現在のWiFi接続を切断してホットスポットを再有効化します。続行しますか？",
+      "updatesAvailable": "更新が利用可能です（{count}件）",
+      "updatesModalTitle": "利用可能な更新",
+      "updatesCheckedAt": "確認日時",
+      "checkUpdates": "再確認",
+      "checkingUpdates": "確認中...",
+      "noUpdatesAvailable": "利用可能な更新はありません",
+      "updatesPackage": "パッケージ",
+      "updatesInstalled": "インストール済み",
+      "updatesLatest": "最新",
+      "indi3rdpartyTitle": "INDIサードパーティドライバー",
+      "indi3rdpartyDescription": "現在インストールされていない追加のINDIドライバーをインストールします。",
+      "indi3rdpartySearch": "検索",
+      "indi3rdpartySearchPlaceholder": "ドライバーを検索（例：asi）",
+      "indi3rdpartyRefresh": "リストを更新",
+      "indi3rdpartySelect": "ドライバーパッケージを選択",
+      "indi3rdpartyInstall": "ドライバーをインストール",
+      "indi3rdpartyInstalling": "インストール中...",
+      "indi3rdpartyNoDrivers": "インストールされていないドライバーが見つかりません。",
+      "dhcpClientsTitle": "接続済みクライアント",
+      "dhcpClientsDescription": "ホットスポット上でアクティブなDHCPリースを持つデバイス。",
+      "dhcpClientsRefresh": "クライアントリストを更新",
+      "dhcpClientsLoading": "クライアントを読み込み中...",
+      "dhcpClientsEmpty": "アクティブなDHCPクライアントが見つかりません。",
+      "dhcpClientsIp": "IPアドレス",
+      "dhcpClientsMac": "MACアドレス",
+      "dhcpClientsHostname": "ホスト名",
+      "dhcpClientsExpires": "リース期限",
+      "tabs": {
+        "network": "ネットワーク",
+        "services": "サービス",
+        "software": "ソフトウェア",
+        "upgrade": "アップグレード"
+      },
+      "wifiAdapterRefresh": "アダプタリストを更新する",
+      "wifiAdapterSave": "アダプターの選択を保存",
+      "wifiAdapterSaving": "アダプターの選択を保存しています...",
+      "wifiAdaptersDescription": "どのアダプターがホーム WiFi を処理し、どのアダプターがホットスポット モードをホストするかを選択します。",
+      "wifiAdaptersTitle": "WiFiアダプターの割り当て",
+      "wifiAutoInterface": "自動 (デーモンのデフォルト)",
+      "wifiClientInterface": "ホーム WiFi アダプター",
+      "wifiHotspotInterface": "ホットスポットアダプター",
+      "wifiNoAdapters": "WiFi アダプターが見つかりません。",
+      "upgradeOverlay": {
+        "jobId": "ジョブ ID: {jobId}",
+        "keepOpen": "このアプリを開いたままにしてください。\n状態の不整合を防ぐために、コントロールは一時的にブロックされます。",
+        "running": "Raspberry Pi パッケージを更新しています。\n処理が完了するまでお待ちください。",
+        "title": "システムアップデート中",
+        "waitingForApi": "アップデートが完了しました。 \nNINA API が再びアクセス可能になるのを待っています...",
+        "close": "閉じる"
+      },
+      "pluginsAction": "アクション",
+      "pluginsCheckedAt": "チェックイン先",
+      "pluginsDescription": "オプションの PINS プラグインを管理します (インストールまたはアンインストール)。",
+      "pluginsEmpty": "利用可能なプラグインはありません。",
+      "pluginsInstall": "インストール",
+      "pluginsInstalled": "インストール済み",
+      "pluginsInstalledNo": "いいえ",
+      "pluginsInstalledYes": "はい",
+      "pluginsInstalling": "インストール中...",
+      "pluginsPackage": "パッケージ",
+      "pluginsRefresh": "プラグインリストを更新",
+      "pluginsTitle": "PINS プラグイン",
+      "pluginsUninstall": "アンインストール",
+      "pluginsUninstalling": "アンインストール中...",
+      "pluginsVersion": "バージョン",
+      "indiInstallModalAssetName": "アセット名",
+      "indiInstallModalDriverPackage": "ドライバー/パッケージ",
+      "indiInstallModalInstall": "インストール",
+      "indiInstallModalInstalling": "インストール中...",
+      "indiInstallModalLabel": "ラベル",
+      "indiInstallModalSuccessCompleted": "{label} のインストールが完了しました。",
+      "indiInstallModalSuccessStarted": "{label} のインストールが開始されました。",
+      "indiInstallModalTitle": "INDIドライバーをインストールする",
+      "indiInstallModalType": "タイプ"
     },
     "bahtifocus": {
       "title": "バーティノフマスク・アナライザー",
@@ -1044,7 +2011,7 @@
         "imageRequired": "解析を実行する前に画像を選択してください。"
       }
     },
-     "logfileCollector": {
+    "logfileCollector": {
       "title": "ログファイルコレクター",
       "intro": "最新のTNSログ（デバッグを含む）を収集し、設定されたエンドポイントにアップロードします。",
       "descriptionLabel": "説明（任意）",
@@ -1201,6 +2168,87 @@
       "configureUrl": "スナップショットURLを設定して画像を取得",
       "loadingImage": "画像を読み込み中...",
       "errors": {}
+    },
+    "multiImageMonitor": {
+      "addCamera": "カメラ",
+      "addCameraTitle": "カメラを追加",
+      "editCameraTitle": "カメラを編集",
+      "refreshNow": "今すぐ更新",
+      "settings": "設定",
+      "noCameras": "カメラが設定されていません",
+      "noCamerasHint": "タブバーの「+ カメラ」をクリックしてください。",
+      "cameraName": "カメラ名",
+      "cameraNamePlaceholder": "例：南天、All Sky...",
+      "snapshotUrl": "スナップショットURL",
+      "autoRefresh": "自動更新",
+      "autoRefreshHint": "画像を自動更新する",
+      "refreshInterval": "更新間隔",
+      "seconds": "秒",
+      "intervalMin": "最小：1秒",
+      "delete": "削除",
+      "cancel": "キャンセル",
+      "save": "保存",
+      "add": "追加",
+      "useProxy": "プロキシを使用",
+      "useProxyHint": "NINAバックエンド経由で画像をルーティングします。認証やCORS制限のあるカメラに必要です。インターネット直接カメラには無効にしてください。",
+      "deleteConfirm": "カメラ \"{name}\" を本当に削除しますか？",
+      "loadingImage": "画像を読み込み中…",
+      "unknownCamera": "不明なカメラ",
+      "noUrlConfigured": "設定でスナップショットURLを設定してください。",
+      "help": {
+        "title": "スナップショットURLのヘルプ",
+        "what": "スナップショットURLは、IPカメラの単一画像への直接リンクです。このURLはJPEGまたはPNG画像を直接返す必要があります（HTMLページやビデオストリームは不可）。",
+        "examplesTitle": "例",
+        "exampleLabels": [
+          "汎用IPカメラ",
+          "ONVIFカメラ",
+          "軸カメラ",
+          "ハイクビジョンカメラ"
+        ],
+        "credentialsTitle": "パスワード保護されたカメラ",
+        "credentials": "カメラにユーザー名とパスワードが必要な場合は、URLに認証情報を直接含めてください：",
+        "credentialsNote": "バックエンドプロキシが認証を自動的に処理します。URLの認証情報はBasic認証とDigest認証（例：Hikvision）の両方で動作します。",
+        "proxyTitle": "プロキシ vs. ダイレクト",
+        "proxyText": "各カメラは2通りの方法で取得できます：",
+        "proxyOptions": [
+          "プロキシ（デフォルト）：画像はNINAバックエンドで取得されブラウザに転送されます。認証やCORS制限のあるローカルネットワークカメラに必要です。VPN経由では若干遅くなります。",
+          "ダイレクト：ブラウザが画像を直接取得します。公開インターネットカメラ（例：公開AllSkyカメラ）に最適です。Chrome/EdgeではURLの認証情報をサポートしません。"
+        ],
+        "close": "閉じる"
+      }
+    },
+    "filebrowser": {
+      "title": "File Browser",
+      "subtitle": "Browse image folders and manage captured files.",
+      "jumpToImagePath": "Image Save Path",
+      "goUp": "Up",
+      "refresh": "Refresh",
+      "imagesOnly": "Images/FITS only",
+      "currentPath": "Current Path",
+      "directoriesCount": "Directories: {count}",
+      "filesCount": "Files: {count}",
+      "newFolderPlaceholder": "New folder name",
+      "createFolder": "Create Folder",
+      "loading": "Loading files...",
+      "empty": "This folder is empty.",
+      "openFolder": "Open",
+      "details": "Selection Details",
+      "type": "Type",
+      "directory": "Directory",
+      "file": "File",
+      "size": "Size",
+      "modified": "Modified",
+      "isImage": "Image/FITS",
+      "selectEntryHint": "Select a file or directory to see details.",
+      "onHoldTitle": "On Hold",
+      "onHoldMessage": "Rename and file open actions are intentionally on hold for now.",
+      "loadError": "Failed to load directory contents.",
+      "createError": "Failed to create directory.",
+      "deleteError": "Failed to delete entry.",
+      "deleteDirectoryTitle": "Delete Directory",
+      "deleteDirectoryMessage": "Delete directory \"{name}\" recursively?",
+      "deleteFileTitle": "Delete File",
+      "deleteFileMessage": "Delete file \"{name}\"?"
     },
     "sequenceCreator": {
       "title": "シーケンスクリエーター",
@@ -1363,6 +2411,12 @@
         "parkTelescope": {
           "name": "望遠鏡をパーク",
           "description": "赤道儀をパーク"
+        },
+        "dewHeater": {
+          "description": "カメラ露ヒーターの状態を設定する",
+          "name": "露ヒーター",
+          "onOffLabel": "有効",
+          "onOffTooltip": "カメラの結露ヒーターをオンまたはオフにする"
         }
       },
       "actionLibrary": {
@@ -1408,7 +2462,7 @@
     },
     "platesolveplus": {
       "title": "PlateSolvePlus",
-      "subtitle": "代替PlateSolveカメラV2用のリモートPlateSolvePlusコンソール",
+      "subtitle": "Platesolve Camera V2用リモートPlateSolvePlusコンソール",
       "ws": {
         "label": "WS",
         "connected": "接続済み",
@@ -1662,7 +2716,197 @@
         "stop_exception": "Livestackの停止エラー：{message}",
         "loading_image": "画像の読み込みエラー：{message}",
         "failed_to_load": "Livestack画像の読み込みに失敗しました",
-        "api_version_required": "APIバージョン{version}以上が必要です"
+        "api_version_required": "APIバージョン{version}以上が必要です",
+        "reset_exception": "ライブスタックのリセット中にエラーが発生しました: {メッセージ}",
+        "reset_failed": "ライブスタックのリセットに失敗しました"
+      },
+      "reset": "スタックをリセット"
+    },
+    "narrowband": {
+      "title": "フィルター計算機",
+      "subtitle": "ナローバンドフィルターの透過特性を計算します",
+      "sections": {
+        "optical": "光学パラメーター",
+        "bandpass": "バンドパス特性",
+        "chart": "バンドパスカーブ",
+        "results": "透過率の結果"
+      },
+      "aperture": "口径 (mm)",
+      "focalLength": "焦点距離 (mm)",
+      "peakTransmittance": "ピーク透過率",
+      "refractiveIndex": "屈折率",
+      "obstructionDiameter": "中央遮蔽径 (mm)",
+      "bandpassCenter": "バンドパス中心波長 (nm)",
+      "fwhm": "半値全幅FWHM (nm)",
+      "flatTop": "フラットトップ (nm)",
+      "populerFilters": "一般的なフィルター",
+      "selectManufacturer": "メーカーを選択...",
+      "clearSelection": "選択をクリア",
+      "customCurve": "カスタムバンドパスカーブ",
+      "csvInfo": {
+        "title": "期待するファイル形式",
+        "description": "1行に2列（波長(nm)と透過率(%)）をスペース区切りで記述するプレーンテキストファイルです。2つの数値として解析できない行は無視されます（コメントやヘッダーとして使用できます）。",
+        "example": "# 波長  透過率\n500.0   0.10\n656.3  98.50\n672.4  99.00\n700.0   0.05",
+        "note": "透過率の値は0〜100（パーセント）の範囲内である必要があります。カンマ区切りファイルはサポートされていません。"
+      },
+      "clearCurve": "カーブをクリア",
+      "loaded": "読み込み済み：",
+      "dataPoints": "データポイント",
+      "targetWavelength": "目標波長 (nm)",
+      "filterTransmission": "フィルター透過率",
+      "wavelengthLabel": "波長 (nm)",
+      "transmissionLabel": "透過率",
+      "transmissionPercent": "透過率：{percent}%",
+      "wavelengthRange": "波長範囲",
+      "flatTopRange": "フラットトップ範囲",
+      "fRatio": "Fレシオ",
+      "resetDefaults": "デフォルトにリセット",
+      "status": {
+        "success": "透過率の計算が正常に完了しました",
+        "invalidCsv": "CSVに有効な波長/透過率データが見つかりません",
+        "csvError": "CSV解析エラー：{error}"
+      }
+    },
+    "pinsDevices": {
+      "title": "PI'N'Stars デバイス",
+      "powerBox": "PINS.PowerBox",
+      "meteoStation": "PINS.MeteoStation",
+      "wifiTab": "WiFi",
+      "settings": {
+        "general": "全般",
+        "generalDescription": "一般的なデバイス設定と情報",
+        "powerPorts": "電源ポート",
+        "powerPortsDescription": "電源ポートの出力を設定・管理します",
+        "usbPorts": "USBポート",
+        "usbPortsDescription": "USBポートの接続を設定・管理します",
+        "dewPorts": "結露防止ポート",
+        "dewPortsDescription": "結露防止ヒーターポートを設定・管理します",
+        "adjustablePower": "可変電源ポート",
+        "adjustablePowerDescription": "可変電源ポートを設定・管理します",
+        "configuration": "設定",
+        "configurationDescription": "デバイス設定とセンサーキャリブレーションを設定します",
+        "ports": "PowerBox",
+        "wifi": "WiFi",
+        "weather": "MeteoStation",
+        "temperature": "温度",
+        "humidity": "湿度",
+        "dewPoint": "露点",
+        "placeholders": {
+          "networkName": "ネットワーク名",
+          "password": "パスワード",
+          "passwordHint": "最低8文字"
+        },
+        "validation": {
+          "passwordRequired": "パスワードは最低8文字必要です"
+        }
+      },
+      "config": {
+        "title": "設定",
+        "temperatureOffset": "温度オフセット",
+        "temperatureOffsetDesc": "温度センサーのキャリブレーションオフセット",
+        "humidityOffset": "湿度オフセット",
+        "humidityOffsetDesc": "湿度センサーのキャリブレーションオフセット",
+        "envUpdateRate": "環境更新レート",
+        "envUpdateRateDesc": "温度・湿度の更新間隔",
+        "updateRate": "デバイス更新レート",
+        "updateRateDesc": "デバイスステータス更新の間隔",
+        "factoryReset": "工場出荷時リセット",
+        "factoryResetDesc": "PINSデバイスを工場出荷時設定にリセットします",
+        "factoryResetConfirm": "工場出荷時リセットを実行してもよろしいですか？すべての設定がデフォルト値に戻ります。",
+        "notifications": {
+          "title": "通知",
+          "beepOnWarning": "警告時にビープ",
+          "beepOnWarningDesc": "NINAの警告受信時にPowerBoxをビープします",
+          "beepOnError": "エラー時にビープ",
+          "beepOnErrorDesc": "NINAのエラー受信時にPowerBoxをビープします",
+          "beepVolume": "ビープ音量",
+          "volumeLow": "小",
+          "volumeMedium": "中",
+          "volumeLoud": "大",
+          "beepLength": "ビープ時間",
+          "beepLengthDesc": "ビープ1回の時間（ミリ秒）（100〜10000）",
+          "beepRepeatDuration": "繰り返し時間",
+          "beepRepeatDurationDesc": "ビープパターンを繰り返す合計時間（1〜60秒）",
+          "powerboxRequired": "ビープ通知にはPowerBoxの接続が必要です",
+          "testBeep": "テストビープ",
+          "testBeepRunning": "ビープ中..."
+        }
+      },
+      "info": {
+        "coreTemp": "CPU温度",
+        "deviceId": "デバイスID",
+        "firmware": "ファームウェア",
+        "driverVersion": "ドライバーバージョン",
+        "ports": "利用可能なポート",
+        "powerPorts": "電源ポート",
+        "usbPorts": "USBポート",
+        "dewPorts": "結露防止ポート",
+        "adjPorts": "可変電源ポート",
+        "powerStatus": "電源ステータス",
+        "meteoStation": "気象ステーション",
+        "averageAmps": "平均電流",
+        "rail12v": "12Vレール",
+        "rail5v": "5Vレール",
+        "totalAmps": "合計アンペア数",
+        "totalWatts": "合計ワット数"
+      },
+      "status": {
+        "notConnected": "未接続"
+      },
+      "ports": {
+        "status": "ステータス",
+        "current": "電流",
+        "maxCurrent": "最大電流",
+        "overcurrent": "過電流",
+        "readOnly": "読み取り専用（制御不可）",
+        "noPorts": "利用可能なポートがありません",
+        "bootState": "電源投入時の状態",
+        "bootStateEnabled": "起動時に有効",
+        "bootStateDisabled": "起動時に無効",
+        "voltage": "電圧"
+      },
+      "wifi": {
+        "currentStatus": "現在のWiFiステータス",
+        "notConnected": "現在ネットワークに接続されていません",
+        "availableNetworks": "利用可能なネットワーク",
+        "scanNetworks": "ネットワークをスキャン",
+        "scanning": "WiFiネットワークをスキャン中...",
+        "noNetworksFound": "WiFiネットワークが見つかりません",
+        "channel": "チャンネル",
+        "connect": "接続",
+        "connectTo": "接続先",
+        "connectToNetwork": "WiFiネットワークに接続",
+        "ssid": "ネットワークSSID",
+        "password": "パスワード",
+        "enterPassword": "WiFiパスワードを入力",
+        "min8chars": "最低8文字",
+        "passwordTooShort": "パスワードは最低8文字必要です",
+        "connectAsClient": "クライアントとして接続",
+        "createHotspot": "ホットスポットを作成",
+        "hotspotName": "ホットスポット名",
+        "hotspotPassword": "ホットスポットパスワード",
+        "hotspotDesc": "他のデバイスが接続できるWiFiアクセスポイントを作成します"
+      },
+      "weather": {
+        "deviceInfo": "デバイス情報",
+        "name": "名前",
+        "id": "デバイスID",
+        "firmware": "ファームウェア",
+        "uptime": "稼働時間",
+        "disconnected": "MeteoStationは現在接続されていません",
+        "currentWeather": "現在の気象状況",
+        "temperature": "温度",
+        "humidity": "湿度",
+        "dewPoint": "露点",
+        "cloudCover": "雲量",
+        "skyQuality": "空の品質",
+        "skyBrightness": "空の明るさ",
+        "skyTemp": "空の温度",
+        "noData": "気象データがありません",
+        "conditions": "気象評価",
+        "cloudAssessment": "雲量評価",
+        "temperatureStatus": "温度ステータス",
+        "dewSpread": "露点スプレッド（T-Td）"
       }
     },
     "shortcuts": {
@@ -1716,9 +2960,970 @@
         "updated": "ショートカットを更新しました",
         "deleted": "ショートカットを削除しました"
       }
+    },
+    "hocusfocus": {
+      "title": "HocusFocus",
+      "tabs": {
+        "aberration": "収差インスペクター",
+        "aberrationOptions": "収差インスペクターオプション",
+        "autoFocusOptions": "オートフォーカスオプション",
+        "starDetection": "星検出",
+        "tilter": "チルター（ベータ）"
+      },
+      "modal": {
+        "selectDirectory": "再実行するオートフォーカスディレクトリを選択",
+        "loading": "オートフォーカスディレクトリを読み込み中...",
+        "placeholder": "オートフォーカスディレクトリを選択...",
+        "proceed": "続行",
+        "cancel": "キャンセル"
+      },
+      "aberrationInspector": {
+        "title": "オートフォーカスアクション",
+        "runButton": "詳細オートフォーカスを実行",
+        "cancelButton": "オートフォーカスをキャンセル",
+        "loadSaved": "保存済みAFを読み込む",
+        "clearAnalyses": "解析をクリア",
+        "focusCurveAnalysis": "フォーカスカーブ解析",
+        "finalFocusDataSummary": "最終フォーカスデータのサマリー",
+        "backfocusError": "バックフォーカス誤差：",
+        "hfrDifference": "HFR差：",
+        "innerHFR": "内側HFR：",
+        "outerHFR": "外側HFR：",
+        "moveSensor": "（センサーを移動",
+        "flattener": "フラットナー）",
+        "tiltCornerMeasurements": "チルトコーナー測定",
+        "sensorSide": "センサー側",
+        "focuserPosition": "フォーカサー位置",
+        "adjustmentSteps": "調整ステップ",
+        "adjustmentMicrons": "調整マイクロン",
+        "rSquared": "R²",
+        "unitMicrons": "µm",
+        "unitSteps": "ステップ"
+      },
+      "aberrationInspectorOptions": {
+        "loading": "収差インスペクターオプションを読み込み中...",
+        "noOptions": "収差インスペクターオプションはまだ利用できません。",
+        "error": "エラー：",
+        "inspectorSettings": "インスペクター設定",
+        "micronsPerFocuserStep": "フォーカサーステップあたりのマイクロン数",
+        "retry": "再試行",
+        "resetToDefaults": "デフォルトにリセット",
+        "resetting": "リセット中..."
+      },
+      "autoFocusOptions": {
+        "loading": "オートフォーカスオプションを読み込み中...",
+        "error": "エラー：",
+        "retry": "再試行",
+        "basicSettings": "基本設定",
+        "hfrValidation": "HFR検証"
+      },
+      "directoryBrowser": {
+        "browse": "参照...",
+        "error": "ディレクトリピッカーを開けませんでした"
+      },
+      "starDetection": {
+        "loading": "星検出オプションを読み込み中...",
+        "error": "エラー：",
+        "retry": "再試行",
+        "generalSettings": "一般設定",
+        "advancedMode": "詳細モード",
+        "useHotpixelThresholding": "ホットピクセルしきい値処理を使用",
+        "useAutoFocusCrop": "オートフォーカスのクロップを使用",
+        "fitPSF": "PSFのフィット",
+        "hotpixelFiltering": "ホットピクセルフィルタリング",
+        "noiseReducedStarMeasurement": "ノイズ低減星測定",
+        "debugMode": "デバッグモード",
+        "simpleModeSettings": "シンプルモード設定",
+        "noiseLevel": "ノイズレベル"
+      },
+      "tilter": {
+        "device": "デバイス",
+        "selectDevice": "デバイスを選択",
+        "scanTooltip": "デバイスをスキャン",
+        "connect": "接続",
+        "disconnect": "切断",
+        "deviceInfo": "デバイス情報（ベータ - 慎重に使用してください）",
+        "status": "ステータス",
+        "connected": "接続済み",
+        "moving": "移動中",
+        "idle": "アイドル",
+        "currentPositions": "現在の位置",
+        "noDeviceSelected": "最初にデバイスを選択してください",
+        "deviceNotConnected": "コントロールを表示するにはデバイスに接続してください",
+        "configuration": "設定",
+        "sensorWidth": "センサー幅",
+        "sensorHeight": "センサー高さ",
+        "sensorRotation": "センサー回転",
+        "sensorRotationDescription": "カメラ背面から見て時計回り",
+        "manualTilterConfiguration": "手動3点チルター設定（ベータ - 慎重に使用してください）",
+        "tilterOuterRadius": "チルター外径",
+        "tilterThreadPitch": "チルターネジピッチ",
+        "applyTiltPlane": "チルト面を適用",
+        "fetchFromAberrationInspector": "収差インスペクターから取得",
+        "calculateActuatorPositions": "アクチュエーター位置を計算",
+        "calculatedPositions": "計算済み位置",
+        "applyThesePositionsToDevice": "これらの位置をデバイスに適用",
+        "actuatorVisualizationLabel": "アクチュエーター {radius}mm 半径 • センサー回転 {rotation}° • 上面図",
+        "calculatingPositions": "計算中...",
+        "applyingPositions": "適用中...",
+        "savingConfiguration": "保存中..."
+      },
+      "common": {
+        "error": "エラー：",
+        "loading": "読み込み中..."
+      }
+    },
+    "tenmicron": {
+      "title": "10micron モデルビルダー",
+      "subtitle": "10micron赤道儀のポインティングモデルを構築・管理します",
+      "notLoaded": "TenMicronプラグインが読み込まれていません。NINA.Joko.Plugin.TenMicronプラグインをインストールして有効化してください。",
+      "mountNotConnected": "赤道儀が接続されていません。",
+      "cancel": "キャンセル",
+      "mountStatus": "赤道儀ステータス",
+      "dualAxisTracking": "デュアル軸追尾",
+      "refractionCorrection": "大気屈折補正",
+      "tabs": {
+        "builder": "モデルビルダー",
+        "model": "アライメントモデル",
+        "library": "モデルライブラリ",
+        "mount": "赤道儀情報"
+      },
+      "builder": {
+        "pointGeneration": "ポイント生成",
+        "buildControl": "ビルド制御",
+        "starCount": "星の数",
+        "generatePoints": "ゴールデンスパイラルを生成",
+        "generateSidereal": "恒星パスを生成",
+        "clear": "ポイントをクリア",
+        "buildModel": "モデルをビルド",
+        "stop": "停止",
+        "cancel": "キャンセル",
+        "buildRunning": "モデルのビルドが進行中です…",
+        "pointCount": "ポイント：{valid} 使用可能 / {total} 合計",
+        "pointFilters": "ポイントフィルター",
+        "altRange": "高度範囲",
+        "azRange": "方位角範囲",
+        "min": "最小",
+        "max": "最大",
+        "maxRMS": "最大RMS（0 = オフ）",
+        "numRetries": "ポイントごとのリトライ回数",
+        "showExcluded": "除外ポイントを表示",
+        "minimizeMeridian": "子午線フリップを最小化",
+        "removeHighRMS": "ビルド後に高RMSポイントを削除",
+        "buildOptions": "ビルドオプション",
+        "logCommands": "コマンドをログ記録",
+        "maxConcurrency": "最大並列数",
+        "allowBlindSolves": "ブラインドソルブを許可",
+        "optimizeDome": "ドームを最適化",
+        "westToEast": "西から東へ",
+        "plateSolveSubframe": "プレートソルブのサブフレーム",
+        "alternateDirection": "方向を交互に切り替え",
+        "disableRefractionCorrection": "大気屈折補正を無効化",
+        "decJitter": "DECジッター（σ°）",
+        "disableDAT": "モデリング中にDATを無効化",
+        "resetOptions": "デフォルトにリセット",
+        "noCameraConnected": "カメラが接続されていません — モデルのビルドにはカメラが必要です。",
+        "generatorType": "ジェネレーター",
+        "goldenSpiral": "ゴールデンスパイラル",
+        "siderealPath": "恒星パス",
+        "target": "ターゲット",
+        "raHours": "赤経（時）",
+        "decDegrees": "赤緯（°）",
+        "raDelta": "赤経間隔（°）",
+        "startTime": "開始時刻",
+        "endTime": "終了時刻",
+        "offsetMin": "オフセット（分）",
+        "fromScope": "赤道儀から",
+        "fromSequence": "シーケンスから",
+        "timeWindow": "時間帯",
+        "noPoints": "モデルポイントがありません。ポイントを生成して開始してください。",
+        "scatterChart": "モデルポイント（方位角/高度）",
+        "axisAz": "方位角（deg）",
+        "axisAlt": "高度（deg）",
+        "refresh": "更新"
+      },
+      "model": {
+        "alignmentInfo": "アライメント情報",
+        "stars": "星",
+        "rmsError": "RMS誤差",
+        "modelTerms": "モデルパラメーター",
+        "polarAlt": "極高度",
+        "polarAz": "極方位角",
+        "polarError": "極軸アライメント誤差",
+        "paAltError": "PA高度誤差",
+        "paAzError": "PA方位角誤差",
+        "paAngle": "PA誤差角度",
+        "coneError": "コーン誤差",
+        "azTurns": "方位角調整回転数",
+        "altTurns": "高度調整回転数",
+        "starsChart": "アライメント星（極座標表示）",
+        "deleteWorstStar": "最悪の星を削除",
+        "clearAlignment": "アライメントをクリア",
+        "clearConfirmTitle": "アライメントモデルをクリアしますか？",
+        "clearConfirmMsg": "赤道儀から現在のアライメントモデルが完全に削除されます。よろしいですか？",
+        "refresh": "更新",
+        "noModel": "アライメントモデルが読み込まれていません。"
+      },
+      "library": {
+        "savedModels": "保存済みモデル",
+        "namePlaceholder": "新しいモデル名…",
+        "save": "保存",
+        "load": "読み込み",
+        "delete": "削除",
+        "noModels": "保存済みモデルが見つかりません。",
+        "refresh": "更新"
+      },
+      "mount": {
+        "info": "赤道儀情報",
+        "product": "赤道儀",
+        "firmware": "ファームウェア",
+        "firmwareDate": "ファームウェア日付",
+        "ip": "IPアドレス",
+        "mac": "MACアドレス",
+        "statusTitle": "赤道儀ステータス",
+        "gpsSync": "GPS時刻同期",
+        "trackingRate": "追尾レート",
+        "slewSettle": "スルー後の安定時間",
+        "meridianLimit": "子午線制限",
+        "unattendedFlip": "自動フリップ",
+        "disable": "無効化",
+        "refractionTemp": "大気屈折温度",
+        "refractionPressure": "大気屈折気圧",
+        "reset": "リセット",
+        "set": "設定",
+        "arcsecPerSec": "arcsec/秒",
+        "seconds": "秒",
+        "degrees": "°",
+        "celsius": "°C",
+        "hPa": "hPa",
+        "slewRate": "スルーレート",
+        "horizonHigh": "地平線上限",
+        "horizonLow": "地平線下限",
+        "connectionType": "接続タイプ",
+        "deltaTExpiration": "ΔT有効期限",
+        "localTime": "現地時刻",
+        "localDate": "現地日付",
+        "siderealTime": "恒星時"
+      }
+    },
+    "pinsAllSky": {
+      "title": "AllSkyキャプチャ",
+      "common": {
+        "ok": "OK",
+        "cancel": "キャンセル",
+        "close": "閉じる",
+        "and": "および",
+        "download": "ダウンロード",
+        "saving": "保存中…",
+        "auto": "自動",
+        "unlimited": "無制限",
+        "notGenerated": "未生成",
+        "notAvailable": "—"
+      },
+      "buttons": {
+        "automation": "自動化",
+        "camera": "カメラ",
+        "outputs": "出力",
+        "showStatus": "ステータスを表示",
+        "updateBackend": "バックエンドを更新",
+        "startingUpdate": "更新を開始中…",
+        "startCapture": "キャプチャを開始",
+        "renderProgress": "レンダリング進捗",
+        "renderingProgress": "レンダリング中…",
+        "stopAndRender": "停止してレンダリング",
+        "refreshPreview": "プレビューを更新",
+        "refreshingPreview": "プレビューを更新中…",
+        "regenerate": "再生成",
+        "files": "ファイル",
+        "showStoredFiles": "保存済みファイルを表示",
+        "hideStoredFiles": "保存済みファイルを非表示",
+        "refreshFiles": "ファイルを更新",
+        "deleteAllSessions": "保存済みセッション・フレーム・生成物をすべて削除",
+        "deleteSession": "このセッションを削除",
+        "downloadTimelapse": "タイムラプスをダウンロード",
+        "deleteTimelapse": "タイムラプスを削除",
+        "downloadKeogram": "ケオグラムをダウンロード",
+        "deleteKeogram": "ケオグラムを削除",
+        "downloadStartrails": "スタートレイルをダウンロード",
+        "deleteStartrails": "スタートレイルを削除",
+        "downloadItem": "{name}をダウンロード",
+        "deleteItem": "{name}を削除"
+      },
+      "statusModal": {
+        "title": "AllSkyステータス",
+        "close": "ステータスダイアログを閉じる",
+        "updateBackendTooltip": "最新のバックエンドリポジトリを取得し、PINS AllSkyバックエンドプラグインを再インストールしてPINSを再起動します。"
+      },
+      "banners": {
+        "missingRuntimeDependencies": "ランタイム依存関係が不足しています：{dependencies}",
+        "backendUnavailableTitle": "AllSkyバックエンドに接続できません",
+        "backendUnavailableBody": "AllSkyバックエンドに接続できませんでした。Raspberry PiにPINS AllSkyバックエンドをインストールし、PINSを再起動してからこのページを更新してください。",
+        "backendUnavailableInstallLabel": "SSH経由でPiにインストール："
+      },
+      "sections": {
+        "sessionControl": "セッション制御",
+        "sessionEstimate": "セッション見積もり",
+        "recentSessions": "最近のセッション",
+        "recentSessionsDescription": "生成された成果物はバックエンドから直接配信され、新しいタブで開きます。",
+        "livePreview": "ライブプレビュー",
+        "storedFrames": "保存済みフレーム"
+      },
+      "preview": {
+        "noFrameYet": "キャプチャされたフレームがまだありません。セッションを開始するか、次の自動キャプチャをお待ちください。",
+        "session": "セッション",
+        "noActiveSession": "アクティブなセッションがありません",
+        "lastCapture": "最後のキャプチャ：",
+        "frameCount": "フレーム数：",
+        "captureInterval": "キャプチャ間隔：",
+        "exposure": "露出：",
+        "gain": "ゲイン：",
+        "mean": "平均："
+      },
+      "statusRows": {
+        "backend": "バックエンド",
+        "session": "セッション",
+        "sequence": "シーケンス",
+        "capture": "キャプチャ",
+        "rendering": "レンダリング",
+        "piUsed": "Pi使用量",
+        "piAvailable": "Pi利用可能量",
+        "pluginUsed": "プラグイン使用量",
+        "pluginLimit": "プラグイン制限",
+        "pluginAvailable": "プラグイン利用可能量",
+        "online": "オンライン",
+        "offline": "オフライン",
+        "running": "実行中",
+        "idle": "アイドル",
+        "active": "アクティブ",
+        "stopped": "停止",
+        "inProgress": "進行中",
+        "available": "利用可能",
+        "missing": "不足"
+      },
+      "dependencies": {
+        "rpiCamStill": "rpicam-still",
+        "ffmpeg": "ffmpeg",
+        "keogram": "AllSkyケオグラム",
+        "startrails": "AllSkyスタートレイル"
+      },
+      "estimate": {
+        "sessionLabelTitle": "次の手動キャプチャのセッションラベル。デフォルトは{label}です。",
+        "sessionLabelPlaceholder": "セッションラベル",
+        "start": "開始",
+        "end": "終了",
+        "expectedDuration": "予想時間",
+        "expectedFrames": "予想フレーム数",
+        "expectedStorage": "予想ストレージ",
+        "startTooltip": "ストレージ見積もりに使用する予定のキャプチャ開始時刻。デフォルトは現在の現地時刻です。",
+        "endTooltip": "ストレージ見積もりに使用する予定のキャプチャ終了時刻。デフォルトは翌日8:00現地時刻です。",
+        "invalidWindow": "有効な開始・終了時刻を設定してストレージを見積もってください。",
+        "endBeforeStart": "終了時刻は開始時刻より後にする必要があります。",
+        "noBaseline": "ベースラインセッションがまだ完了していません。ストレージを確実に見積もるには、まず1つのセッションを完了してください。",
+        "piFreeSpace": "Pi空き容量（{size}）",
+        "pluginLimitRemaining": "プラグイン制限の残量（{size}）",
+        "exceeds": "予想ストレージ {size} が {limits} を超えています。"
+      },
+      "modals": {
+        "closeDialog": "{title}ダイアログを閉じる",
+        "automationInfo": "有効にすると、PINSの詳細APIがアクティブなシーケンスを報告した時点でAllSkyがキャプチャセッションを開始し、シーケンスが終了すると自動的にキャプチャを停止して成果物をレンダリングします。",
+        "cameraRotationInfo": "rpicam-stillの回転は0または180度のみサポートされています。",
+        "startrailMountInfo": "赤道儀搭載の場合、カメラが空と一緒に追尾する可能性があるため、スタートレイル出力は生成できますが、従来の円弧状の軌跡にならない場合があります。",
+        "automation": {
+          "autoStartWithSequence": "シーケンスと共に自動開始",
+          "sequenceTriggeredCapture": "シーケンストリガーキャプチャ",
+          "advancedApiEnabled": "詳細APIが有効",
+          "backendMonitoring": "バックエンド監視",
+          "protocol": "プロトコル",
+          "sequencePollIntervalSeconds": "シーケンスポーリング間隔（秒）",
+          "sequencePollIntervalHelp": "シーケンスの状態のみをポーリングします。カメラのフレームレートは変更されません。",
+          "advancedApiHost": "詳細APIホスト",
+          "port": "ポート",
+          "timeoutSeconds": "タイムアウト（秒）",
+          "advancedApiBasePath": "詳細APIベースパス",
+          "maxPluginStorageGb": "プラグイン最大ストレージ（GB）",
+          "maxPluginStorageHelp": "無制限にするには0を設定してください。",
+          "protocolTooltip": "PINSが公開するローカル詳細APIへのアクセスに使用するプロトコル。",
+          "sequencePollTooltip": "AllSkyがPINS/NINAシーケンスの開始・停止を確認する頻度。",
+          "advancedApiHostTooltip": "PINS詳細APIサービスのホスト名またはIPアドレス。",
+          "portTooltip": "PINS詳細APIサービスが使用するTCPポート。",
+          "timeoutTooltip": "詳細APIリクエストが利用不可とみなされるまでの最大待機時間。",
+          "advancedApiBasePathTooltip": "詳細APIエンドポイントを呼び出す際に使用するベースパスプレフィックス。",
+          "maxPluginStorageTooltip": "PINS AllSkyがプラグインデータディレクトリで使用できる最大ストレージ。無制限は0を設定。制限を超えると、バックエンドは最も古い完了済みセッションを削除します。"
+        },
+        "camera": {
+          "intervalSeconds": "間隔（秒）",
+          "timeoutSeconds": "タイムアウト（秒）",
+          "width": "幅",
+          "height": "高さ",
+          "jpegQuality": "JPEG品質",
+          "warmupMilliseconds": "ウォームアップ（ms）",
+          "metering": "測光",
+          "awb": "AWB",
+          "denoise": "ノイズ除去",
+          "evCompensation": "EV補正",
+          "rotation": "回転",
+          "brightness": "明るさ",
+          "contrast": "コントラスト",
+          "saturation": "彩度",
+          "sharpness": "シャープネス",
+          "manualExposure": "手動露出",
+          "shutterMicroseconds": "シャッター（µs）",
+          "manualExposureHelp": "無効の場合、PINS AllSky は AllSky の平均値ベース制御を使用します。Target Mean が 0 のときだけ、rpicam-still の自動露出にフォールバックします。",
+          "manualGain": "手動ゲイン",
+          "analogGain": "アナログゲイン",
+          "manualGainHelp": "無効の場合、PINS AllSky は AllSky の平均値ベース制御を使用します。Target Mean が 0 のときだけ、rpicam-still の自動ゲインにフォールバックします。",
+          "horizontalFlip": "水平反転",
+          "mirrorOnXAxis": "X軸で反転",
+          "verticalFlip": "垂直反転",
+          "mirrorOnYAxis": "Y軸で反転",
+          "extraArguments": "追加rpicam-still引数",
+          "intervalTooltip": "キャプチャ開始間隔（秒）。実際のAllSkyフレームレートです。",
+          "timeoutTooltip": "単一のrpicam-stillキャプチャが失敗とみなされるまでの最大時間。",
+          "widthTooltip": "各キャプチャフレームの出力画像幅（ピクセル）。",
+          "heightTooltip": "各キャプチャフレームの出力画像高さ（ピクセル）。",
+          "jpegQualityTooltip": "キャプチャフレームのJPEG品質。高い値ほど大きなファイルサイズで詳細が保持されます。",
+          "warmupTooltip": "各フレームの書き込み前にrpicam-stillに渡すウォームアップ時間。",
+          "meteringTooltip": "rpicam-stillが使用する露出測光方式。",
+          "awbTooltip": "rpicam-stillが使用するオートホワイトバランスモード。",
+          "denoiseTooltip": "各キャプチャフレームでrpicam-stillが使用するノイズ低減モード。",
+          "evCompensationTooltip": "選択した露出モードに加えて適用されるEV補正値。",
+          "rotationTooltip": "画像の回転角度。Piカメラスタックは0または180のみサポートします。",
+          "brightnessTooltip": "rpicam-stillが適用する明るさ調整。",
+          "contrastTooltip": "rpicam-stillが適用するコントラスト倍率。",
+          "saturationTooltip": "rpicam-stillが適用する彩度倍率。",
+          "sharpnessTooltip": "rpicam-stillが適用するシャープネス倍率。",
+          "shutterTooltip": "手動シャッター時間（マイクロ秒）。手動露出が有効な場合のみ適用されます。",
+          "analogGainTooltip": "Piカメラに適用する手動アナログゲイン。手動ゲインが有効な場合のみ使用されます。",
+          "extraArgumentsTooltip": "管理されたカメラ設定の後に追加される生のrpicam-still引数。",
+          "options": {
+            "centre": "中央",
+            "spot": "スポット",
+            "average": "平均",
+            "custom": "カスタム",
+            "auto": "自動",
+            "incandescent": "白熱灯",
+            "tungsten": "タングステン",
+            "fluorescent": "蛍光灯",
+            "indoor": "室内",
+            "daylight": "昼光",
+            "cloudy": "曇り",
+            "off": "オフ",
+            "cdnOff": "CDN オフ",
+            "cdnFast": "CDN 高速",
+            "cdnHq": "CDN 高画質"
+          },
+          "allSkyAutoExposure": "AllSky 自動露出 / ゲイン",
+          "allSkyAutoExposureHelp": "AllSky の平均値ベース制御を移植したものです。手動露出または手動ゲインを無効にすると、PINS AllSky は前のフレームの平均輝度を測定して、次のシャッター時間とゲインを計算します。",
+          "autoMeanTarget": "目標平均値",
+          "autoMeanThreshold": "平均値しきい値",
+          "autoMaxExposureMicroseconds": "自動最大シャッター（µs）",
+          "autoMaxGain": "自動最大ゲイン",
+          "autoMeanP0": "補正係数 P0",
+          "autoMeanP1": "補正係数 P1",
+          "autoMeanP2": "補正係数 P2",
+          "autoMeanTargetTooltip": "AllSky 自動露出制御が目標とする正規化平均輝度です。0 にすると rpicam-still の自動露出に戻ります。",
+          "autoMeanThresholdTooltip": "平均輝度が目標値からどれだけ外れたら次フレームの露出レベルを変更するかを決める許容幅です。",
+          "autoMaxExposureTooltip": "手動露出が無効な場合に AllSky 自動露出制御が使用できる最大シャッター時間です。",
+          "autoMaxGainTooltip": "手動ゲインが無効な場合に AllSky 自動露出制御が使用できる最大アナログゲインです。",
+          "autoMeanP0Tooltip": "AllSky 制御定数 p0。値を大きくすると明るさ変化への反応が強くなります。",
+          "autoMeanP1Tooltip": "平均輝度誤差に対する線形応答に使う AllSky 制御定数 p1 です。",
+          "autoMeanP2Tooltip": "大きな輝度誤差に対する二次応答に使う AllSky 制御定数 p2 です。"
+        },
+        "outputs": {
+          "keepSourceFrames": "ソースフレームを保持",
+          "retainOriginalCaptures": "元のキャプチャを保持",
+          "timelapse": "タイムラプス",
+          "fps": "FPS",
+          "bitrateKbps": "ビットレート（kbps）",
+          "width": "幅",
+          "height": "高さ",
+          "codec": "コーデック",
+          "pixelFormat": "ピクセルフォーマット",
+          "ffmpegLogLevel": "FFmpegログレベル",
+          "extraFfmpegArguments": "追加ffmpeg引数",
+          "keogram": "ケオグラム",
+          "expandToFrameWidth": "フレーム幅に拡張",
+          "stretchOutput": "出力をストレッチ",
+          "showLabels": "ラベルを表示",
+          "drawCaptions": "キャプションを描画",
+          "showDate": "日付を表示",
+          "stampDate": "日付を刻印",
+          "rotateDegrees": "回転（deg）",
+          "fontName": "フォント名",
+          "fontColor": "フォント色",
+          "fontSize": "フォントサイズ",
+          "lineThickness": "線の太さ",
+          "extraKeogramArguments": "追加ケオグラム引数",
+          "startrails": "スタートレイル",
+          "brightnessThreshold": "輝度しきい値",
+          "extraStartrailsArguments": "追加スタートレイル引数",
+          "fpsTooltip": "タイムラプス動画を作成する際の再生フレームレート。",
+          "bitrateTooltip": "生成されるタイムラプスの目標ビットレート（キロビット/秒）。",
+          "timelapseWidthTooltip": "レンダリングされるタイムラプス動画の出力幅（ピクセル）。",
+          "timelapseHeightTooltip": "レンダリングされるタイムラプス動画の出力高さ（ピクセル）。",
+          "codecTooltip": "タイムラプス出力のエンコードに使用するffmpegビデオコーデック。",
+          "pixelFormatTooltip": "タイムラプス出力に使用するffmpegピクセルフォーマット。",
+          "ffmpegLogLevelTooltip": "タイムラプスのレンダリング中に使用するffmpegログの詳細度。",
+          "extraFfmpegArgumentsTooltip": "タイムラプスレンダリングコマンドに追加される追加ffmpeg引数。",
+          "rotateTooltip": "完成したケオグラム画像に適用する回転。",
+          "fontNameTooltip": "ラベル用にAllSkyケオグラムツールに渡すフォントファミリー名。",
+          "fontColorTooltip": "ケオグラムツールが使用するフォント色（通常16進カラー値）。",
+          "fontSizeTooltip": "生成されるケオグラムで使用するラベルフォントサイズ。",
+          "lineThicknessTooltip": "ケオグラムツールがラベルやマーカーを描画する際の線の太さ。",
+          "extraKeogramArgumentsTooltip": "AllSkyケオグラムツールに追加されるコマンドライン引数。",
+          "brightnessThresholdTooltip": "スタートレイル合成に寄与するピクセルの最小正規化輝度。",
+          "extraStartrailsArgumentsTooltip": "AllSkyスタートレイルツールに追加されるコマンドライン引数。",
+          "overlayTimestamp": "タイムスタンプを重ねる",
+          "stampTimestamp": "キャプチャ時刻を表示",
+          "overlayExposureGain": "露出とゲインを重ねる",
+          "stampExposureGain": "実際の露出値とゲインを表示",
+          "overlayTimestampTooltip": "各タイムラプスフレームにキャプチャ時刻を描画します。",
+          "overlayExposureGainTooltip": "各タイムラプスフレームに、そのフレームで実際に使用した露出値とゲインを描画します。"
+        }
+      },
+      "recentSessions": {
+        "noSessions": "完了したセッションはまだ記録されていません。",
+        "expanded": "展開",
+        "collapsed": "折りたたみ",
+        "storageWithinLimit": "ストレージは制限内です。",
+        "storageLimitExceeded": "ストレージ制限を超過しています。",
+        "pluginAvailable": "プラグイン利用可能：",
+        "piAvailable": "Pi利用可能：",
+        "started": "{date}に開始",
+        "stopped": "{date}に停止",
+        "framesReason": "フレーム：{count} • 理由：{reason}",
+        "storage": "ストレージ：{size}",
+        "timelapse": "タイムラプス",
+        "keogram": "ケオグラム",
+        "startrails": "スタートレイル",
+        "retainedFrames": "{count}フレームが保持されています",
+        "loadingStoredFiles": "保存済みファイルを読み込み中…",
+        "noStoredFrames": "このセッションで利用可能な保存済みフレームがありません。",
+        "reasons": {
+          "manualStart": "手動開始",
+          "manualStop": "手動停止",
+          "sequenceStart": "シーケンス開始",
+          "sequenceStop": "シーケンス停止",
+          "unknown": "不明"
+        }
+      },
+      "dialogs": {
+        "deleteSession": "{sessionName}とすべてのキャプチャフレーム/成果物を削除しますか？",
+        "deleteAllSessions": "保存済みのAllSkyセッション、フレーム、生成された成果物をすべて削除しますか？",
+        "deleteArtifact": "{artifactName}を削除しますか？",
+        "deleteFrame": "{frameName}を削除しますか？"
+      },
+      "messages": {
+        "noSessionsDeleted": "セッションは削除されませんでした。",
+        "deletedSessions": "{count}件のセッションを削除し、{freed}を解放しました。残りのプラグイン使用量：{remaining}。",
+        "deletedArtifact": "成果物を削除し、{freed}を解放しました。",
+        "deletedFrame": "フレームを削除し、{freed}を解放しました。",
+        "backendUpdateStarted": "バックエンドの更新を開始しました。インストール完了後にPINSが再起動します。"
+      },
+      "errors": {
+        "loadStatus": "バックエンドステータスを読み込めませんでした。",
+        "loadConfig": "設定を読み込めませんでした。",
+        "connectBackend": "AllSkyバックエンドに接続できませんでした。",
+        "saveConfig": "設定の保存に失敗しました。",
+        "startSession": "セッションを開始できませんでした。",
+        "stopSession": "セッションを停止できませんでした。",
+        "generateArtifacts": "成果物を生成できませんでした。",
+        "deleteSession": "選択したセッションを削除できませんでした。",
+        "deleteAllSessions": "保存済みセッションを削除できませんでした。",
+        "loadSessionDetails": "セッションの詳細を読み込めませんでした。",
+        "deleteArtifact": "選択した成果物を削除できませんでした。",
+        "deleteFrame": "選択したフレームを削除できませんでした。",
+        "startBackendUpdate": "バックエンドの更新を開始できませんでした。",
+        "downloadFailed": "ダウンロードに失敗しました（ステータス：{status}）。",
+        "downloadFile": "選択したファイルをダウンロードできませんでした。",
+        "refreshStatus": "バックエンドステータスを更新できませんでした。"
+      }
+    },
+    "targetScheduler": {
+      "actions": {
+        "addFromFavorites": "お気に入りから追加",
+        "addScheduleToSequence": "スケジュールをシーケンスに追加する",
+        "addTarget": "ターゲットの追加",
+        "applying": "申請中...",
+        "clearAll": "すべてクリア",
+        "computing": "コンピューティング中...",
+        "recomputeSchedule": "再計算スケジュール"
+      },
+      "common": {
+        "add": "追加",
+        "cancel": "キャンセル",
+        "close": "近い",
+        "copy": "コピー",
+        "copySuffix": "コピー",
+        "dec": "12月",
+        "deg": "度",
+        "edit": "編集",
+        "meters": "メートル",
+        "minutes": "分",
+        "ra": "RA",
+        "remove": "取り除く",
+        "seconds": "s"
+      },
+      "constraints": {
+        "hideAdvanced": "高度な非表示",
+        "maxAltitude": "最大高度",
+        "minAltitude": "最小高度",
+        "minMoonSeparation": "最小月間隔",
+        "showAdvanced": "詳細を表示",
+        "targetEnabled": "ターゲットが有効になっています",
+        "timeWindowEnd": "タイムウィンドウの終了",
+        "timeWindowHint": "セッション範囲全体をスケジュールできるようにするには、時間枠を空白のままにします。",
+        "timeWindowStart": "タイムウィンドウの開始",
+        "title": "制約",
+        "maxMoonAltitude": "最大月高度",
+        "maxMoonAltitudeHint": "月が地平線の下にある間のみスケジュールを設定するには、0° 以下に設定します。",
+        "minMoonSeparationInfo": "スケジュールに必要なターゲットと月の間の最小角距離。"
+      },
+      "defaults": {
+        "favoriteTargetName": "お気に入りのターゲット",
+        "newTargetName": "新たなターゲット",
+        "targetName": "ターゲット"
+      },
+      "editor": {
+        "addAtLeastOneExposure": "少なくとも 1 つの露出行を追加します。",
+        "addExposure": "露出を追加する",
+        "binning": "ビニング",
+        "count": "カウント",
+        "decLabel": "DEC (度または /-DD:MM:SS)",
+        "decPlaceholder": "41:16:07",
+        "duration": "間隔",
+        "editTarget": "ターゲットの編集",
+        "exposurePlan": "露出計画",
+        "exposureRow": "露出 {インデックス}",
+        "filter": "フィルター",
+        "gain": "得",
+        "imageType": "画像の種類",
+        "imageTypes": {
+          "bias": "バイアス",
+          "dark": "暗い",
+          "flat": "フラット",
+          "light": "ライト"
+        },
+        "linkedToFavorite": "お気に入りにリンクされています",
+        "name": "名前",
+        "namePlaceholder": "M31 - アンドロメダ",
+        "newTarget": "新たなターゲット",
+        "offset": "オフセット",
+        "presets": {
+          "lrgb": "LRGB",
+          "sho": "ショウ",
+          "singleL": "シングルL"
+        },
+        "priority": "優先度",
+        "raLabel": "RA (度または HH:MM:SS)",
+        "raPlaceholder": "00:42:44",
+        "rotation": "回転",
+        "saveTarget": "保存対象"
+      },
+      "errors": {
+        "computeFailed": "スケジュールの計算に失敗しました",
+        "couldNotAddSequenceItem": "シーケンス項目を追加できませんでした",
+        "failedToAddSequenceTarget": "{name} のシーケンス ターゲットを追加できませんでした",
+        "failedToApplySchedule": "スケジュールをシーケンスに適用できませんでした。",
+        "failedToResolveTargetContainer": "{name} 用に新しく作成されたターゲット コンテナを解決できませんでした",
+        "invalidDecFormat": "DEC形式が無効です。",
+        "invalidRaFormat": "RA 形式が無効です。",
+        "invalidSessionRange": "無効なセッション範囲です",
+        "missingSiteCoordinates": "サイトの緯度/経度がありません",
+        "noActiveSequenceLoaded": "アクティブなシーケンスがロードされていません。",
+        "noImagingContainerFound": "アクティブなシーケンスでイメージング コンテナが見つかりませんでした。",
+        "noValidTargetsForExport": "エクスポートに有効なターゲットが見つかりません。",
+        "targetNameRequired": "ターゲット名は必須です。"
+      },
+      "favorites": {
+        "addAll": "すべて追加",
+        "available": "{count} 個のお気に入りが利用可能です",
+        "importTitle": "お気に入りからインポート",
+        "noneFound": "お気に入りが見つかりませんでした。",
+        "unnamed": "名前のないお気に入り"
+      },
+      "labels": {
+        "maxChunkMinutes": "最大チャンク (分)",
+        "samplingStepMinutes": "サンプリングステップ (分)",
+        "scheduled": "予定されている",
+        "sessionEnd": "セッション終了",
+        "sessionStart": "セッション開始",
+        "siteAlt": "代替",
+        "siteLat": "サイトの緯度",
+        "siteLon": "ロン",
+        "maxChunkInfo": "スケジューラが別のターゲットに切り替える前に、ターゲットごとの最大連続スケジュール ブロックを制限します。",
+        "samplingStepInfo": "計算間隔を分単位で定義します。\n値を低くすると精度は向上しますが、より多くのタイムライン ポイントを評価します。"
+      },
+      "subtitle": "ターゲットの可視性、制約、シーケンス挿入のためのモバイルファーストのプランニング。",
+      "targetCard": {
+        "exposures": "{count} 回の露出",
+        "favoriteLinked": "お気に入りがリンクされました",
+        "priorityShort": "P{値}",
+        "scheduledVsRequested": "{スケジュール済み} / {リクエスト済み} 分"
+      },
+      "targetList": {
+        "dragToReorder": "ドラッグして並べ替えます",
+        "empty": "まだ目標はありません。\n手動で追加するか、お気に入りからインポートします。",
+        "title": "ターゲット",
+        "total": "合計 {count}"
+      },
+      "timeline": {
+        "idle": "アイドル状態",
+        "idleSegmentTitle": "アイドル: {開始} - {終了}",
+        "invalidSessionRange": "スケジュールをプレビューする有効なセッション範囲を設定します。",
+        "minutesShort": "{値}分",
+        "noSegments": "スケジュールセグメントはまだありません。\nターゲットの制約とサイトの座標を確認します。",
+        "range": "{開始}から{終了}まで",
+        "segmentTitle": "{名前}: {開始} - {終了}",
+        "title": "セッションのタイムライン"
+      },
+      "title": "ターゲットスケジューラ",
+      "toast": {
+        "addedTargetsToSequence": "{count} 個のターゲットをシーケンスに追加しました。",
+        "noTargetsToApply": "適用する対象がありません。",
+        "title": "ターゲットスケジューラ"
+      },
+      "unscheduled": {
+        "allScheduled": "要求された露出時間はすべてこのセッションに収まります。",
+        "remaining": ": 残り {分} 分",
+        "title": "予定外の残り"
+      },
+      "warnings": {
+        "sequenceVersionRequired": "シーケンスの挿入には、TNS プラグイン 1.2.8.0 (または PINS モード) が必要です。"
+      },
+      "sessionModes": {
+        "moonRise": "月の出",
+        "moonSet": "ムーンセット",
+        "sunRise": "日の出",
+        "sunSet": "日没",
+        "time": "時間",
+        "twilightEndAstronomical": "トワイライトエンドの天文学的",
+        "twilightEndNautical": "トワイライトエンド航海",
+        "twilightStartAstronomical": "天文学的なトワイライトスタート",
+        "twilightStartNautical": "トワイライトスタート航海"
+      }
+    },
+    "filterOffset": {
+      "abort": "アボート",
+      "accept": "受け入れる",
+      "calculate": "計算する",
+      "currentAutoFocusFilter": "現在のオートフォーカスフィルター",
+      "currentOffsets": "現在のオフセット",
+      "deviceCamera": "カメラ",
+      "deviceFilterWheel": "フィルターホイール",
+      "deviceFocuser": "フォーカサー",
+      "errorLabel": "エラー",
+      "filter": "フィルター",
+      "filterProgress": "フィルター",
+      "iterations": "反復",
+      "loop": "ループ",
+      "minTwoFilters": "少なくとも 2 つのフィルターを選択する必要があります",
+      "newAutoFocusFilter": "新しいオートフォーカスフィルター",
+      "newOffsets": "新しいオフセット",
+      "noFilters": "プロファイルで使用できるフィルターはありません",
+      "none": "なし",
+      "notConnected": "{device} が接続されていません",
+      "offset": "オフセット",
+      "position": "位置",
+      "runningFilter": "電流フィルター",
+      "selectFilters": "フィルターの選択",
+      "start": "計算を開始する",
+      "stop": "停止",
+      "subtitle": "各フィルター ホイール フィルターのフォーカス オフセットを計算して保存します。",
+      "title": "フィルターオフセット計算機",
+      "useRelativeOffsets": "相対オフセットを使用する"
+    },
+    "phd2logviewer": {
+      "cal": {
+        "angle": "角度(°)",
+        "axis": "軸",
+        "backlash": "バックラッシュ",
+        "dist": "距離 (ピクセル)",
+        "noData": "このセッションにはキャリブレーション データがありません。",
+        "noSummary": "概要データなし (校正が中断された可能性があります)",
+        "over": "以上",
+        "parity": "パリティ",
+        "rate": "レート (ピクセル/秒)",
+        "steps": "ステップ"
+      },
+      "clear": "クリア",
+      "emptyState": "上のドロップダウンから PHD2 ガイド ログを選択します。",
+      "excludeDither": "ディザリングの自動除外",
+      "fft": {
+        "dominantPeriod": "優勢期",
+        "subtitle": "RA ガイドの周期的誤差高調波を特定します。",
+        "title": "RA周波数分析"
+      },
+      "info": {
+        "camera": "カメラ",
+        "duration": "間隔",
+        "ended": "終了しました",
+        "focalLength": "焦点距離",
+        "mount": "マウント",
+        "pixelScale": "ピクセルスケール",
+        "profile": "プロフィール",
+        "started": "セッションが開始されました",
+        "totalFrames": "総フレーム数"
+      },
+      "legend": {
+        "dec": "12月",
+        "dither": "ディザリング",
+        "ra": "RA",
+        "raRaw": "RA（生）"
+      },
+      "loading": "読み込み中…",
+      "noLogs": "ログが見つかりません",
+      "rawRa": "生の未修正のRA",
+      "refresh": "ログリストを更新する",
+      "selectLog": "— ログを選択 —",
+      "session": "セッション：",
+      "settings": {
+        "notConfigured": "PHD2 ログ ディレクトリを構成してください",
+        "placeholder": "パスが設定されていません",
+        "saveError": "パスの保存に失敗しました",
+        "title": "ログディレクトリ"
+      },
+      "statistics": "統計",
+      "stats": {
+        "combined": "組み合わせた",
+        "decRms": "12月RMS",
+        "declination": "偏角",
+        "frames": "フレーム",
+        "maxError": "最大誤差",
+        "of": "{合計} 件中",
+        "peakDec": "ピーク 12 月",
+        "peakRa": "ピークRA",
+        "raRms": "RA RMS",
+        "rightAscension": "赤経",
+        "totalRms": "合計RMS"
+      },
+      "subtitle": "PHD2 ガイド ログを選択して、ガイドのパフォーマンスと統計を視覚化します。",
+      "tabs": {
+        "calibration": "較正",
+        "guide": "ガイドグラフ"
+      },
+      "title": "PHD2ログビューア"
+    },
+    "supernovae": {
+      "title": "Supernovae",
+      "source": "Source: Rochester Astronomy active SN list",
+      "updated": "updated {d}",
+      "download": "Download",
+      "downloading": "Downloading…",
+      "noData": "No data loaded. Click Download to fetch the current active supernova list.",
+      "filterMag": "Max magnitude",
+      "filterType": "Type",
+      "filterTypePlaceholder": "e.g. Ia",
+      "filterYear": "Year",
+      "filterConstellation": "Constellation",
+      "filterAll": "All",
+      "filterNewOnly": "New only",
+      "filterVisibleOnly": "Visible tonight",
+      "visibleHint": "Based on observer location from NINA profile",
+      "visibleNoLocation": "No observer location — set location in NINA profile",
+      "sortBy": "Sort by",
+      "sortLatestMag": "Latest mag (brightest first)",
+      "sortFirstObserved": "Discovery date (newest first)",
+      "sortLastObserved": "Last observed (newest first)",
+      "showing": "Showing {n} of {total} entries",
+      "newCount": "{n} new",
+      "colName": "Name",
+      "colType": "Type",
+      "colLatestMag": "Latest mag",
+      "colMaxMag": "Max mag",
+      "colDiscovered": "Discovered",
+      "colLastObs": "Last obs",
+      "colConstellation": "Constellation",
+      "colHost": "Host galaxy",
+      "colRA": "RA",
+      "colDec": "Dec",
+      "frame": "Frame",
+      "frameTitle": "Send to framing assistant",
+      "fav": "Favourite",
+      "favTitle": "Add to favourites",
+      "favAdded": "Added {name} to favourites",
+      "favError": "Failed to add to favourites",
+      "visCircumpolar": "Circumpolar — always above horizon",
+      "visVisible": "Visible tonight",
+      "visHidden": "Below horizon tonight",
+      "page": "{n} / {total}"
     }
   },
-  "diafs": {
+  "pinsDevices": {
+    "title": "PINSデバイス",
+    "powerBox": "PINS.PowerBox",
+    "meteoStation": "PINS.MeteoStation",
+    "configurationTab": "設定",
+    "generalTab": "全般",
+    "wifiTab": "WiFi",
+    "powerPortsTab": "電源ポート",
+    "dewPortsTab": "結露防止ポート",
+    "adjustablePowerTab": "可変電源",
+    "weatherTab": "気象",
+    "usbPortsTab": "USBポート",
+    "settings": {
+      "title": "設定",
+      "temperature": "温度",
+      "humidity": "湿度",
+      "dewPoint": "露点",
+      "placeholders": {
+        "networkName": "ネットワーク名",
+        "password": "パスワード",
+        "passwordHint": "パスワードのヒント"
+      },
+      "validation": {
+        "passwordRequired": "パスワードは必須です"
+      }
+    },
+    "ports": {
+      "disableOnStartup": "起動時に無効",
+      "enableOnStartup": "起動時に有効",
+      "alwaysEnabled": "常に有効",
+      "status": "ステータス",
+      "current": "電流",
+      "currentVoltage": "現在の電圧",
+      "currentPower": "現在の電力",
+      "outputVoltage": "出力電圧",
+      "powerLevel": "電力レベル",
+      "defaultVoltage": "デフォルト電圧"
+    },
+    "dew": {
+      "status": "ステータス",
+      "autoMode": "自動モード",
+      "disableAutoMode": "自動モードを無効化",
+      "enableAutoMode": "自動モードを有効化",
+      "probeTemperature": "プローブ温度",
+      "current": "電流",
+      "maxCurrent": "最大電流",
+      "currentPower": "現在の電力",
+      "autoThreshold": "自動しきい値",
+      "autoThresholdDisplay": "自動しきい値",
+      "autoThresholdDescription": "温度が露点に近い場合に自動的に結露防止ヒーターを加熱します",
+      "powerLevel": "電力レベル"
+    },
+    "power": {
+      "buckConverter": "バックコンバーター",
+      "pwmOutput": "PWM出力"
+    },
+    "general": {
+      "rail12v": "12Vレール",
+      "rail5v": "5Vレール",
+      "averageAmps": "平均電流",
+      "ampsPerHour": "アンペア時",
+      "wattsPerHour": "ワット時"
+    },
+    "weather": {
+      "luxUnit": "ルクス"
+    },
+    "errors": {
+      "failedRenamePort": "ポートの名前変更に失敗しました",
+      "failedTogglePort": "ポートの切り替えに失敗しました",
+      "failedToggleBootState": "ブート状態の切り替えに失敗しました",
+      "failedToggleAutoMode": "自動モードの切り替えに失敗しました",
+      "failedSetPowerLevel": "電力レベルの設定に失敗しました"
+    }
+  },
+  "dialogs": {
     "plateSolving": {
       "time": "時間",
       "status": "ステータス",
@@ -1840,6 +4045,19 @@
       "sequencerFailed": "シーケンサーに失敗しました"
     }
   },
+  "indi": {
+    "config": {
+      "connectionMode": "接続モード",
+      "serial": "シリアル",
+      "network": "ネットワーク",
+      "devicePort": "デバイスポート",
+      "baudRate": "ボーレート",
+      "autoDetect": "自動検索",
+      "ipAddress": "IPアドレス",
+      "tcpPort": "TCPポート",
+      "selectPort": "-- ポートを選択してください --"
+    }
+  },
   "nav": {
     "equipment": "機材",
     "camera": "カメラ",
@@ -1854,8 +4072,104 @@
     "sequence": "シーケンス",
     "monitoring": "モニター",
     "flatWizard": "フラット",
+    "framing": "フレーミング",
     "skyView": "Stellarium",
     "settings": "設定",
     "about": "About"
+  },
+  "nightsummary": {
+    "notAvailable": "Night Summary プラグインが検出されません。\nこのページを使用するには、Night Summary NINA プラグインをインストールしてください。",
+    "tnsPluginToOld": "Touch N Stars プラグインが古すぎてこの機能を使用できません。バージョン 1.2.8.0 以降に更新してください。",
+    "sessions": {
+      "delete": "消去",
+      "deleteConfirm": "このセッションを削除してもよろしいですか?\nこれを元に戻すことはできません。",
+      "deleteTitle": "セッションの削除",
+      "loading": "セッションを読み込み中…",
+      "noSessions": "セッションが選択されていません。\nドロップダウンからセッションを選択します。",
+      "placeholder": "セッションを選択してください…",
+      "resend": "レポートを再送信する"
+    },
+    "settings": {
+      "chartPrimary": "プライマリメトリクス",
+      "chartSecondary": "二次メトリック",
+      "chartXAxis": "X軸",
+      "detailFull": "満杯",
+      "detailLevel": "詳細レベル",
+      "detailSnapshot": "スナップショット",
+      "detailStandard": "標準",
+      "discordEnabled": "Discordを有効にする",
+      "discordTitle": "Discordの通知",
+      "discordWebhook": "Webhook URL",
+      "emailEnabled": "電子メールレポートを有効にする",
+      "emailOtherProvider": "他のプロバイダー",
+      "emailPassword": "アプリのパスワード",
+      "emailRecipient": "受信者の電子メールアドレス",
+      "emailSender": "送信者の電子メール",
+      "emailTitle": "電子メールレポート設定",
+      "equipmentHint": "各デバイスの可視性を切り替え、自動検出された名前を上書きします。",
+      "equipmentOverridePlaceholder": "上書き名 (オプション)",
+      "equipmentProfile": "設備概要",
+      "expandSectionsDefault": "デフォルトでセクションを展開する",
+      "fileNaming": "レポートファイルの命名",
+      "filePattern": "ファイル名のパターン",
+      "filePatternHint": "すべての配信チャネルに適用されます。 \n\\ を使用してローカル保存用のサブディレクトリを作成します。",
+      "filterAuto": "自動",
+      "filterBroadband": "ブロードバンド",
+      "filterClassifications": "フィルターの分類",
+      "filterClassificationsHint": "NINA プロフィールからフィルターします。\n自動では、最初の文字の一致が使用されます (L、R、G、B = 広帯域、H、S、O = 狭帯域)。",
+      "filterExclude": "除外する",
+      "filterNarrowband": "ナローバンド",
+      "lightModeReport": "ライトモードレポート",
+      "pushoverAppToken": "アプリトークン",
+      "pushoverEnabled": "プッシュオーバーを有効にする",
+      "pushoverTitle": "プッシュオーバー通知",
+      "pushoverUserKey": "ユーザーキー",
+      "reportContent": "報告内容",
+      "savePath": "パスの保存",
+      "savePathPlaceholder": "デフォルトの場所の場合は空白のままにします",
+      "saveReportLocally": "レポートをローカルに保存",
+      "showAltitudeChart": "高度グラフを表示",
+      "showChartAfMarkers": "オートフォーカスマーカーを表示",
+      "showChartFlipMarkers": "子午線反転マーカーを表示",
+      "showChartRoofMarkers": "屋根イベントマーカーを表示",
+      "showEquipmentProfile": "レポートに機器セクションを表示",
+      "showLiveStackImages": "ライブスタックイメージを表示",
+      "showMetricChart": "メトリックチャートを表示",
+      "showMinAltitude": "最小高度を表示",
+      "showMoonCurve": "ムーンカーブを表示",
+      "showNextNightPreview": "今夜のプレビューを表示",
+      "showOverheadBreakdown": "オーバーヘッドの内訳を表示",
+      "showPerTargetIQ": "ターゲットごとの画質を表示",
+      "showSessionHistory": "セッション履歴を表示",
+      "showSkyThumbnails": "空のサムネイルを表示",
+      "showStarCountCV": "スター数CVを表示",
+      "showTsProgressBars": "TS プログレスバーを表示する",
+      "smtpPort": "ポート",
+      "smtpServer": "SMTPサーバー",
+      "smtpSsl": "TLS/SSLを使用する",
+      "testDiscord": "テストメッセージの送信",
+      "testEmail": "テストメールを送信する",
+      "testPushover": "テスト通知を送信する",
+      "localDashboardEnabled": "ローカル Web サーバーを有効にする",
+      "localDashboardHint": "ネットワーク上のどのブラウザからでもアクセスできるローカル Web サーバーからセッション履歴を提供します。\nリモート アクセスには VPN を使用します。",
+      "localDashboardPort": "ポート",
+      "localDashboardTitle": "ローカルダッシュボード",
+      "showChartFilterChips": "フィルターチップ行を表示",
+      "showChartTargetChips": "ターゲットチップ行を表示"
+    },
+    "stats": {
+      "accepted": "承認されました",
+      "avgHfr": "平均HFR",
+      "byTarget": "ターゲット別",
+      "exposure": "暴露",
+      "images": "画像",
+      "target": "ターゲット",
+      "targets": "ターゲット",
+      "totalImages": "総画像数",
+      "totalTime": "合計時間"
+    },
+    "tabSessions": "セッション",
+    "tabSettings": "設定",
+    "title": "夜のまとめ"
   }
 }

@@ -23,6 +23,50 @@
       :enabledText="$t('components.focuser.autofocus_active')"
       :disabledText="$t('components.focuser.autofocus')"
     />
+    <template v-if="store.isPINS && focuserStore.focuserSettings">
+      <StatusBool
+        v-if="focuserStore.focuserSettings.IsStalled !== undefined"
+        :isEnabled="focuserStore.focuserSettings.IsStalled"
+        :enabledText="$t('components.focuser.IsStalled')"
+        :disabledText="$t('components.focuser.IsStalled')"
+      />
+      <StatusString
+        v-if="focuserStore.focuserSettings.HeatingPower !== undefined"
+        :Name="$t('components.focuser.HeatingPower')"
+        :Value="focuserStore.focuserSettings.HeatingPower + ' %'"
+      />
+      <StatusString
+        v-if="focuserStore.focuserSettings.BoardTemperature !== undefined"
+        :Name="$t('components.focuser.BoardTemperature')"
+        :Value="focuserStore.focuserSettings.BoardTemperature?.toFixed(1) + ' °C'"
+      />
+      <StatusBool
+        v-if="focuserStore.focuserSettings.DcPower !== undefined"
+        :isEnabled="focuserStore.focuserSettings.DcPower"
+        :enabledText="$t('components.focuser.DcPower')"
+        :disabledText="$t('components.focuser.DcPower')"
+      />
+      <StatusString
+        v-if="
+          focuserStore.focuserSettings.StepSize !== undefined &&
+          focuserStore.focuserSettings.StepSize !== -1 &&
+          !isNaN(focuserStore.focuserSettings.StepSize)
+        "
+        :isEnabled="true"
+        :Name="$t('components.focuser.StepSize')"
+        :Value="focuserStore.focuserSettings.StepSize.toFixed(4) + ' µm'"
+      />
+      <StatusString
+        v-if="
+          focuserStore.focuserSettings.MaxStep !== undefined &&
+          focuserStore.focuserSettings.MaxStep !== -1 &&
+          !isNaN(focuserStore.focuserSettings.MaxStep)
+        "
+        :isEnabled="true"
+        :Name="$t('components.focuser.settings.MaxStep')"
+        :Value="focuserStore.focuserSettings.MaxStep"
+      />
+    </template>
   </div>
 </template>
 
@@ -31,7 +75,9 @@ import { computed } from 'vue';
 import StatusBool from '@/components/helpers/StatusBool.vue';
 import StatusString from '@/components/helpers/StatusString.vue';
 import { apiStore } from '@/store/store';
+import { useFocuserStore } from '@/store/focuserStore';
 const store = apiStore();
+const focuserStore = useFocuserStore();
 
 // Computed properties für die Temperatur
 const isTemperatureEnabled = computed(() => {
@@ -46,6 +92,6 @@ const formattedTemperature = computed(() => {
   if (temp == null || isNaN(temp)) {
     return 'N/A'; // Fallback zu 'N/A' bei ungültigen Werten
   }
-  return temp.toFixed(2); // Formatierte Temperatur
+  return temp.toFixed(2) + ' °C'; // Formatierte Temperatur
 });
 </script>

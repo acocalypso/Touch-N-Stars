@@ -11,6 +11,7 @@ module.exports = {
         60: '60',  
         70: '70', 
         top: '1000', // topmost layer
+        numberPad: '9998', // number pad overlay
         toast: '9999', // toast notifications
       },
     },

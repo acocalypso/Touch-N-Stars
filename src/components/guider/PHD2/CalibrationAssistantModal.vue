@@ -48,6 +48,21 @@
               @change="calculateOptimalPosition"
             />
 
+            <!-- Calibration Step (PINS only) -->
+            <NumberInputPicker
+              v-if="store.isPINS"
+              v-model="calibrationStep"
+              :label="$t('components.guider.phd2.calibrationStep')"
+              labelKey="components.guider.phd2.calibrationStep"
+              :min="1"
+              :max="10000"
+              :step="1"
+              :decimalPlaces="0"
+              inputId="calibrationStepAssistant"
+              wrapperClass="w-full"
+              @change="onCalibrationStepChange"
+            />
+
             <!-- East/West Selection -->
             <div>
               <label class="block text-xs text-gray-400 mb-1">
@@ -93,6 +108,86 @@
             </div>
             <div v-if="calibrationResult.explanation" class="mt-2 text-gray-300">
               {{ calibrationResult.explanation }}
+            </div>
+          </div>
+        </div>
+
+        <!-- Step Size Calculator (PINS only) -->
+        <div v-if="store.isPINS" class="bg-gray-700/50 rounded-lg">
+          <button
+            class="w-full flex items-center justify-between p-3 text-sm font-medium text-gray-300 hover:text-white transition-colors"
+            @click="showCalc = !showCalc"
+          >
+            <span>
+              {{ $t('components.guider.phd2.calibStepCalc') }}
+              <span
+                v-if="calcStepResult !== null"
+                class="font-normal"
+                :class="
+                  calcStepResult !== guiderStore.phd2CalibrationStep
+                    ? 'text-orange-400'
+                    : 'text-gray-400'
+                "
+              >
+                ({{ $t('components.guider.phd2.optimal') }}: {{ calcStepResult }} ms)
+              </span>
+            </span>
+            <svg
+              class="w-4 h-4 transition-transform"
+              :class="showCalc ? 'rotate-180' : ''"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M19 9l-7 7-7-7"
+              />
+            </svg>
+          </button>
+
+          <div v-if="showCalc" class="px-3 pb-3 space-y-3">
+            <!-- Focal length -->
+            <NumberInputPicker
+              v-model="calcFocalLength"
+              :label="`${$t('components.guider.phd2.focalLength')} (mm)`"
+              labelKey="components.guider.phd2.focalLength"
+              :min="1"
+              :max="10000"
+              :step="1"
+              :decimalPlaces="0"
+              inputId="calcFocalLength"
+              wrapperClass="w-full"
+            />
+
+            <!-- Desired steps -->
+            <NumberInputPicker
+              v-model="calcDesiredSteps"
+              :label="$t('components.guider.phd2.desiredSteps')"
+              labelKey="components.guider.phd2.desiredSteps"
+              :min="6"
+              :max="60"
+              :step="1"
+              :decimalPlaces="0"
+              inputId="calcDesiredSteps"
+              wrapperClass="w-full"
+            />
+
+            <!-- Result row -->
+            <div class="flex items-center justify-between pt-2 border-t border-gray-600">
+              <span class="text-sm font-semibold text-white">
+                {{ $t('components.guider.phd2.calculatedStep') }}:
+                {{ calcStepResult !== null ? calcStepResult + ' ms' : '—' }}
+              </span>
+              <button
+                :disabled="calcStepResult === null"
+                class="px-3 py-1.5 text-sm bg-blue-600 hover:bg-blue-500 disabled:opacity-40 disabled:cursor-not-allowed text-white rounded transition-colors"
+                @click="applyCalcStep"
+              >
+                {{ $t('components.guider.phd2.applyStep') }}
+              </button>
             </div>
           </div>
         </div>
@@ -157,12 +252,14 @@ import Modal from '@/components/helpers/Modal.vue';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 import { apiStore } from '@/store/store';
 import { useFramingStore } from '@/store/framingStore';
+import { useGuiderStore } from '@/store/guiderStore';
 import { degreesToHMS, degreesToDMS, getLST } from '@/utils/utils';
 import apiService from '@/services/apiService';
 
 const { t } = useI18n();
 const store = apiStore();
 const framingStore = useFramingStore();
+const guiderStore = useGuiderStore();
 
 defineProps({
   show: Boolean,
@@ -181,8 +278,63 @@ const calibrationStarted = ref(false);
 
 // PHD2-style position settings
 const decOffset = ref(0); // Start neutral, let altitude calculation handle it
-const meridianOffset = ref(15); // Standard 15° offset from meridian
+const meridianOffset = ref(5); // Standard 5° offset from meridian
 const direction = ref('west');
+
+// ── Step size calculator state (PINS) ───────────────────────────────────────
+const showCalc = ref(false);
+const calcPixelSize = ref(null);
+const calcFocalLength = ref(null);
+const calcBinning = ref(1);
+const calcDesiredSteps = ref(12);
+
+// Guide speed: derived from mount's GuideRateRightAscensionArcsecPerSec (arcsec/s ÷ 15 = sidereal ×).
+// Falls back to 0.5 when not available.
+const calcGuideSpeed = computed(() => {
+  const rate = store.mountInfo?.GuideRateRightAscensionArcsecPerSec;
+  if (rate && isFinite(rate) && rate > 0) return rate / 15.0;
+  return 0.5;
+});
+
+const calcStepResult = computed(() => {
+  const p = calcPixelSize.value,
+    f = calcFocalLength.value,
+    b = calcBinning.value;
+  const g = calcGuideSpeed.value,
+    d = decOffset.value,
+    s = calcDesiredSteps.value;
+  if (!p || !f || !b || !g || !s) return null;
+  const scale = (206.265 * p * b) / f;
+  const distance = Math.max(25, Math.ceil(20 / scale));
+  const totalDuration = (distance * scale) / (15.0 * g);
+  const rawPulse = (totalDuration / s) * 1000;
+  const maxPulse = (totalDuration / 6) * 1000;
+  const pulse = Math.min(maxPulse, rawPulse / Math.cos((d * Math.PI) / 180));
+  return Math.ceil(pulse / 50) * 50;
+});
+
+const calibrationStep = computed({
+  get() {
+    return guiderStore.phd2CalibrationStep ?? 0;
+  },
+  set(value) {
+    guiderStore.phd2CalibrationStep = value;
+  },
+});
+
+async function onCalibrationStepChange(value) {
+  const prev = guiderStore.phd2CalibrationStep;
+  try {
+    await guiderStore.setPHD2CalibrationStep(value);
+  } catch {
+    guiderStore.phd2CalibrationStep = prev;
+  }
+}
+
+async function applyCalcStep() {
+  if (calcStepResult.value === null) return;
+  await guiderStore.setPHD2CalibrationStep(calcStepResult.value);
+}
 
 const canSlew = computed(() => {
   return (
@@ -208,7 +360,10 @@ const displayStatus = computed(() => {
   // Show guider state-based status
   switch (guiderState) {
     case 'Calibrating':
-      return t('components.guider.calibrationAssistant.calibrating');
+      return (
+        guiderStore.phd2CalibrationMessage ||
+        t('components.guider.calibrationAssistant.calibrating')
+      );
     case 'Guiding':
       return t('components.guider.calibrationAssistant.calibrationComplete');
     case 'Stopped':
@@ -327,6 +482,7 @@ async function stopSlew() {
 }
 
 async function slewToOptimalPosition() {
+  if (guiderStore.isDarkLibraryBuildActive) return;
   if (!canSlew.value) return;
 
   isSlewing.value = true;
@@ -352,6 +508,7 @@ async function slewToOptimalPosition() {
 }
 
 async function startCalibration() {
+  if (guiderStore.isDarkLibraryBuildActive) return;
   if (!store.guiderInfo?.Connected) return;
 
   calibrationStarted.value = true;
@@ -415,9 +572,20 @@ function watchCalibrationProgress() {
 }
 
 // Lifecycle
-onMounted(() => {
+onMounted(async () => {
   getCurrentPosition();
   calculateOptimalPosition();
+  if (store.isPINS) {
+    await Promise.all([
+      guiderStore.fetchPHD2PixelSize(),
+      guiderStore.fetchPHD2FocalLength(),
+      guiderStore.fetchPHD2CameraBinning(),
+      guiderStore.fetchPHD2CalibrationStep(),
+    ]);
+    if (guiderStore.phd2PixelSize) calcPixelSize.value = guiderStore.phd2PixelSize;
+    if (guiderStore.phd2FocalLength) calcFocalLength.value = guiderStore.phd2FocalLength;
+    if (guiderStore.phd2CameraBinning) calcBinning.value = guiderStore.phd2CameraBinning;
+  }
 });
 
 // Watch for mount position updates

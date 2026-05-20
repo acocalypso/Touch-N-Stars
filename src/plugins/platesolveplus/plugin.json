@@ -5,5 +5,6 @@
   "version": "1.1.0",
   "author": "Flashy_DE (Alex)",
   "defaultEnabled": false,
-  "enabled": true
+  "enabled": true,
+  "isPins": false
 }

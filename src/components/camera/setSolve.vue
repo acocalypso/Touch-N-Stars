@@ -46,6 +46,7 @@ function toggleSolve() {
     settingsStore.camera.useSolve = true;
     console.log('[setSolve] Platesolve on');
   }
+  settingsStore.saveCameraSettings();
 }
 
 function toggleSync() {
@@ -56,5 +57,6 @@ function toggleSync() {
     settingsStore.camera.useSyncSolveToMount = true;
     console.log('[setSolve] Sync solve to mount on');
   }
+  settingsStore.saveCameraSettings();
 }
 </script>

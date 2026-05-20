@@ -64,6 +64,11 @@ export const excludedKeys = new Set([
   'SoundTypes',
   'RemoveConditionCommand',
   'SoundTypesItems',
+  'FullTypeName',
+  'RolloverTime',
+  'ComboBoxText',
+  'Xfilter',
+  'TPAPAVM',
 ]);
 
 export const excludedKeysConditions = new Set([
@@ -126,6 +131,9 @@ export const excludedKeysConditions = new Set([
   'PriorityTypes',
   'SelectedPropertyForCondition',
   'ValueForCondition',
+  'FullTypeName',
+  'RolloverTime',
+  'TPAPAVM',
 ]);
 
 export const updateKeys = [

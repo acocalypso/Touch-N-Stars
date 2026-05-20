@@ -9,6 +9,7 @@
       :src="image"
       alt="Sequence Image"
       class="block w-full max-h-[80vh] object-contain"
+      :style="{ transform: 'rotate(' + settingsStore.currentImageRotation + 'deg)' }"
     />
     <div
       v-if="showStats"
@@ -82,6 +83,16 @@
           <span class="truncate">{{ stats.Temperature.toFixed(1) }}°C</span>
         </div>
 
+        <div v-if="isValidNumber(stats.Gain)" class="flex gap-1 min-w-0">
+          <span class="font-bold whitespace-nowrap">{{ $t('components.sequence.gain') }}:</span>
+          <span class="truncate">{{ stats.Gain }}</span>
+        </div>
+
+        <div v-if="isValidNumber(stats.Offset)" class="flex gap-1 min-w-0">
+          <span class="font-bold whitespace-nowrap">{{ $t('components.sequence.offset') }}:</span>
+          <span class="truncate">{{ stats.Offset }}</span>
+        </div>
+
         <div v-if="stats.Filter" class="flex gap-1 col-span-2 min-w-0">
           <span class="font-bold whitespace-nowrap">{{ $t('components.sequence.filter') }}:</span>
           <span class="truncate">{{ stats.Filter }}</span>
@@ -96,6 +107,7 @@
     :imageDate="stats.Date"
     :isLoading="isLoadingModal"
     :index="index"
+    :statistics="stats"
     @close="closeModal"
   />
 </template>
@@ -105,9 +117,11 @@ import { ref, computed, watch } from 'vue';
 import ImageModal from '@/components/helpers/imageModal.vue';
 import { useSequenceStore } from '@/store/sequenceStore';
 import { useImagetStore } from '@/store/imageStore';
+import { useSettingsStore } from '@/store/settingsStore';
 
 const sequenceStore = useSequenceStore();
 const imageStore = useImagetStore();
+const settingsStore = useSettingsStore();
 
 const props = defineProps({
   index: {

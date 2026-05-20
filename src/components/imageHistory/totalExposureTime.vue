@@ -1,81 +1,98 @@
 <template>
-  <div class="flex flex-col gap-3">
-    <!-- Selected Target Display -->
-    <div v-if="selectedTargetData" class="bg-gray-100 dark:bg-gray-800 p-4 rounded">
-      <div class="flex justify-between items-center">
-        <select id="targetSelect" v-model="selectedTarget" class="default-select">
-          <option
-            v-for="target in exposureTimeByTarget"
-            :key="target.targetName"
-            :value="target.targetName"
-          >
-            {{ target.targetName }}
-          </option>
-        </select>
+  <div class="flex flex-col gap-1">
+    <!-- Per-filter breakdown when no specific filter is selected -->
+    <template v-if="!filter.selectedFilter && filterBreakdown.length > 1">
+      <div
+        v-for="entry in filterBreakdown"
+        :key="entry.filterName"
+        class="flex justify-between items-center px-3 py-1"
+      >
+        <span class="text-xs text-gray-400">{{
+          entry.filterName || $t('components.sequence.totalExposureTime.noFilter')
+        }}</span>
         <span class="text-right">
-          <div class="text-sm text-gray-600 dark:text-gray-400">
-            {{ selectedTargetData.imageCount }}
-            {{ $t('components.sequence.totalExposureTime.Pictures') }}
-          </div>
-          <div class="font-mono text-lg text-gray-300 font-bold">
-            {{ formatExposureTime(selectedTargetData.totalTime) }}
-          </div>
+          <span class="text-xs text-gray-500 mr-2"
+            >{{ entry.imageCount }} {{ $t('components.sequence.totalExposureTime.Pictures') }}</span
+          >
+          <span class="font-mono text-sm text-gray-300 font-bold">{{
+            formatExposureTime(entry.totalTime)
+          }}</span>
         </span>
       </div>
+      <!-- Total row -->
+      <div class="flex justify-between items-center px-3 py-1 border-t border-gray-700 mt-1 pt-2">
+        <span class="text-xs text-gray-400">{{
+          $t('components.sequence.totalExposureTime.total')
+        }}</span>
+        <span class="text-right">
+          <span class="text-xs text-gray-500 mr-2"
+            >{{ totalData.imageCount }}
+            {{ $t('components.sequence.totalExposureTime.Pictures') }}</span
+          >
+          <span class="font-mono text-sm text-gray-300 font-bold">{{
+            formatExposureTime(totalData.totalTime)
+          }}</span>
+        </span>
+      </div>
+    </template>
+
+    <!-- Single row when a filter is selected or only one filter exists -->
+    <div v-else-if="totalData" class="flex justify-between items-center px-3 py-1">
+      <span class="text-xs text-gray-400">{{ displayLabel }}</span>
+      <span class="text-right">
+        <span class="text-xs text-gray-500 mr-2"
+          >{{ totalData.imageCount }}
+          {{ $t('components.sequence.totalExposureTime.Pictures') }}</span
+        >
+        <span class="font-mono text-sm text-gray-300 font-bold">{{
+          formatExposureTime(totalData.totalTime)
+        }}</span>
+      </span>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, watch, computed } from 'vue';
-import { apiStore } from '@/store/store';
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useImageFilter } from '@/composables/useImageFilter';
 
-const store = apiStore();
-const selectedTarget = ref(null);
-let previousLength = 0;
+const { t } = useI18n();
+const { filter, filteredImages } = useImageFilter();
 
-watch(
-  () => store.imageHistoryInfo,
-  (newVal) => {
-    if (newVal && newVal.length > 0) {
-      // Only auto-select the latest target if new images have been added
-      if (newVal.length > previousLength) {
-        const latestTarget = newVal[newVal.length - 1].TargetName;
-        selectedTarget.value = latestTarget;
-      }
-      previousLength = newVal.length;
-    }
-  },
-  { immediate: true }
+const lightFilteredImages = computed(() =>
+  filteredImages.value.filter((img) => img.ImageType === 'LIGHT' || img.ImageType === 'SNAPSHOT')
 );
 
-const exposureTimeByTarget = computed(() => {
-  if (!store.imageHistoryInfo || !Array.isArray(store.imageHistoryInfo)) {
-    return [];
+const filterBreakdown = computed(() => {
+  const images = lightFilteredImages.value;
+  if (!images || images.length === 0) return [];
+
+  const map = new Map();
+  for (const img of images) {
+    const key = img.Filter || '';
+    if (!map.has(key)) map.set(key, { filterName: img.Filter || '', imageCount: 0, totalTime: 0 });
+    const entry = map.get(key);
+    entry.imageCount++;
+    entry.totalTime += img.ExposureTime || 0;
   }
-
-  const targetMap = {};
-
-  store.imageHistoryInfo.forEach((image) => {
-    const targetName = image.TargetName || '?';
-
-    if (!targetMap[targetName]) {
-      targetMap[targetName] = {
-        targetName,
-        totalTime: 0,
-        imageCount: 0,
-      };
-    }
-
-    targetMap[targetName].totalTime += image.ExposureTime || 0;
-    targetMap[targetName].imageCount += 1;
-  });
-
-  return Object.values(targetMap).sort((a, b) => a.targetName.localeCompare(b.targetName));
+  return [...map.values()].sort((a, b) => a.filterName.localeCompare(b.filterName));
 });
 
-const selectedTargetData = computed(() => {
-  return exposureTimeByTarget.value.find((target) => target.targetName === selectedTarget.value);
+const totalData = computed(() => {
+  const images = lightFilteredImages.value;
+  if (!images || images.length === 0) return null;
+  return {
+    imageCount: images.length,
+    totalTime: images.reduce((sum, img) => sum + (img.ExposureTime || 0), 0),
+  };
+});
+
+const displayLabel = computed(() => {
+  const parts = [];
+  if (filter.value.selectedTarget) parts.push(filter.value.selectedTarget);
+  if (filter.value.selectedFilter) parts.push(filter.value.selectedFilter);
+  return parts.length > 0 ? parts.join(' / ') : t('components.sequence.imageFilter.allTargets');
 });
 
 const formatExposureTime = (seconds) => {

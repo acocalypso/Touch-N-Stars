@@ -1,7 +1,7 @@
 <template>
   <div>
-    <button @click="setSequenceTarget" :disabled="!hasTargetSelected" class="default-button-cyan">
-      {{ $t('components.framing.setSequnceTarget') }}
+    <button @click="setSequenceTarget" class="default-button-cyan">
+      <span>{{ $t('components.framing.setSequnceTarget') }}</span>
     </button>
   </div>
 </template>
@@ -12,6 +12,7 @@ import apiService from '@/services/apiService';
 import { useFramingStore } from '@/store/framingStore';
 import { useSequenceStore } from '@/store/sequenceStore';
 import { useToastStore } from '@/store/toastStore';
+import { degreesToHMS, degreesToDMS } from '@/utils/utils';
 import { useI18n } from 'vue-i18n';
 
 const props = defineProps({
@@ -25,20 +26,16 @@ const sequenceStore = useSequenceStore();
 const toastStore = useToastStore();
 const { t } = useI18n();
 
-const hasTargetSelected = computed(() => {
-  // Wenn Props übergeben wurden (z.B. von Stellarium), ist ein Target vorhanden
-  if (props.raAngle !== undefined && props.decAngle !== undefined && props.name) {
-    return true;
-  }
-  // Ansonsten prüfen, ob im framingStore ein Target ausgewählt ist
-  return !!framingStore.selectedItem;
-});
 const hasSequenceLoaded = computed(
   () =>
     sequenceStore.sequenceIsLoaded &&
     Array.isArray(sequenceStore.sequenceInfo) &&
     sequenceStore.sequenceInfo.length > 0
 );
+
+function buildCoordinateName(ra, dec) {
+  return `RA ${degreesToHMS(ra)} Dec ${degreesToDMS(dec)}`;
+}
 
 async function setSequenceTarget() {
   console.log('Setting sequence target');
@@ -54,18 +51,22 @@ async function setSequenceTarget() {
     }
   }
 
-  if (!framingStore.selectedItem) {
-    console.error('No target selected');
-    return;
-  }
-
-  const name = framingStore.selectedItem.Name;
-  const ra = framingStore.RAangle;
-  const dec = framingStore.DECangle;
+  const name =
+    framingStore.selectedItem?.Name ||
+    props.name ||
+    buildCoordinateName(framingStore.RAangle, framingStore.DECangle);
   const rotation = framingStore.rotationAngle;
-  const index = 0;
 
-  console.log('Name:', name, 'RA:', ra, 'Dec:', dec, 'Rotation:', rotation);
+  console.log(
+    'Name:',
+    name,
+    'RA:',
+    framingStore.RAangle,
+    'Dec:',
+    framingStore.DECangle,
+    'Rotation:',
+    rotation
+  );
 
   if (!hasSequenceLoaded.value) {
     console.error('No sequence loaded');
@@ -78,7 +79,13 @@ async function setSequenceTarget() {
   }
 
   try {
-    await apiService.sequnceTargetSet(name, ra, dec, rotation, index);
+    await apiService.sequnceTargetSet(
+      name,
+      framingStore.RAangle,
+      framingStore.DECangle,
+      rotation,
+      0
+    );
     toastStore.showToast({
       type: 'success',
       title: t('components.fav_target.modal_sequence.titel'),

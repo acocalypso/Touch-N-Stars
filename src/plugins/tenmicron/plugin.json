@@ -1,0 +1,10 @@
+{
+  "id": "tenmicron",
+  "name": "10micron Model Builder",
+  "description": "10micron mount alignment model builder and manager",
+  "version": "1.0.0",
+  "author": "Nico",
+  "defaultEnabled": false,
+  "enabled": true,
+  "isPins": true
+}

@@ -10,10 +10,7 @@
       <!-- Logo Splash Screen -->
       <Transition name="splash">
         <div
-          v-if="
-            (showSplashScreen || (!store.isBackendReachable && $route.path !== '/settings')) &&
-            $route.path !== '/setup'
-          "
+          v-if="shouldShowConnectionSplash"
           class="fixed inset-0 z-40 flex flex-col items-center justify-center bg-gray-900 p-4"
         >
           <!-- Minimaler Status-Text -->
@@ -64,15 +61,7 @@
         </div>
       </Transition>
 
-      <div
-        v-if="
-          !(
-            (showSplashScreen || (!store.isBackendReachable && $route.path !== '/settings')) &&
-            $route.path !== '/setup'
-          )
-        "
-        :class="mainContentClasses"
-      >
+      <div v-if="!shouldShowConnectionSplash" :class="mainContentClasses">
         <StellariumView
           v-show="store.showStellarium"
           v-if="settingsStore.setupCompleted && store.isBackendReachable"
@@ -124,6 +113,61 @@
     <!-- LocationSyncModal -->
     <LocationSyncModal />
 
+    <!-- PINS Upgrade Blocking Modal -->
+    <Modal
+      :show="pinsStore.shouldShowUpgradeOverlay"
+      maxWidth="max-w-lg"
+      :disableClose="true"
+      :closeOnBackdropClick="false"
+      zIndex="z-[80]"
+    >
+      <template #header>
+        <h2 class="text-xl font-bold text-blue-300">
+          {{ $t('plugins.pins.upgradeOverlay.title') }}
+        </h2>
+      </template>
+      <template #body>
+        <div class="flex flex-col items-center text-center gap-4 w-full">
+          <svg
+            class="h-10 w-10 text-blue-400"
+            :class="pinsStore.isUpgradeRunning ? 'animate-spin' : 'animate-pulse'"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              class="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              stroke-width="4"
+            />
+            <path
+              class="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+            />
+          </svg>
+          <p class="text-gray-200 text-sm sm:text-base">
+            {{ pinsUpgradeOverlayMessage }}
+          </p>
+          <p class="text-xs text-gray-400">
+            {{ $t('plugins.pins.upgradeOverlay.keepOpen') }}
+          </p>
+          <p v-if="pinsStore.currentJobId" class="text-xs text-blue-300 font-mono break-all">
+            {{ $t('plugins.pins.upgradeOverlay.jobId', { jobId: pinsStore.currentJobId }) }}
+          </p>
+          <button
+            @click="closePinsUpgradeOverlay"
+            class="mt-2 px-4 py-2 text-sm text-gray-300 hover:text-white border border-gray-600 hover:border-gray-400 rounded transition-colors"
+          >
+            {{ $t('plugins.pins.upgradeOverlay.close') }}
+          </button>
+        </div>
+      </template>
+    </Modal>
+
     <!-- Update Available Modal -->
     <UpdateAvailableModal
       v-if="showUpdateModal && updateInfo"
@@ -153,6 +197,56 @@
 
     <!-- Picker Overlay Component -->
     <PickerOverlay />
+
+    <!-- PINS Time Warning Modal -->
+    <Modal
+      :show="showTimeWarningModal"
+      @close="showTimeWarningModal = false"
+      maxWidth="max-w-md"
+      :closeOnBackdropClick="false"
+    >
+      <template #header>
+        <h2 class="text-xl font-bold text-yellow-400">
+          {{ $t('plugins.pins.timeWarning.title') }}
+        </h2>
+      </template>
+      <template #body>
+        <div class="flex flex-col gap-4 w-full text-sm">
+          <p class="text-gray-300">
+            {{
+              $t('plugins.pins.timeWarning.message', {
+                clientTime: timeWarningClientTime,
+                deviceTime: timeWarningDeviceTime,
+              })
+            }}
+          </p>
+          <button
+            @click="
+              syncPinsTimeToClient();
+              showTimeWarningModal = false;
+            "
+            class="w-full py-2 rounded bg-blue-600 hover:bg-blue-700 text-white font-semibold transition-colors"
+          >
+            {{ $t('plugins.pins.timeWarning.setTime') }}
+          </button>
+          <label class="flex items-center gap-2 cursor-pointer text-gray-300">
+            <input
+              type="checkbox"
+              :checked="pinsStore.suppressTimeWarning"
+              @change="pinsStore.setSuppressTimeWarning($event.target.checked)"
+              class="w-4 h-4"
+            />
+            <span>{{ $t('plugins.pins.timeWarning.suppress') }}</span>
+          </label>
+          <button
+            @click="showTimeWarningModal = false"
+            class="w-full py-2 rounded bg-gray-700 hover:bg-gray-600 text-white transition-colors"
+          >
+            {{ $t('plugins.pins.timeWarning.dismiss') }}
+          </button>
+        </div>
+      </template>
+    </Modal>
 
     <!-- Settings Modal -->
     <div
@@ -196,6 +290,7 @@
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount, computed, watch } from 'vue';
+import axios from 'axios';
 import { apiStore } from '@/store/store';
 import { useImagetStore } from './store/imageStore';
 import { useSettingsStore } from '@/store/settingsStore';
@@ -220,22 +315,103 @@ import StatusBar from '@/components/status/StatusBar.vue';
 import SettingsComp from '@/components/SettingsComp.vue';
 import LocationSyncModal from '@/components/helpers/LocationSyncModal.vue';
 import { useOrientation } from '@/composables/useOrientation';
+import { useRoute } from 'vue-router';
 import WhatsNewModal from '@/components/helpers/WhatsNewModal.vue';
 import DialogModal from '@/components/helpers/DialogModal.vue';
 import MessageBoxModal from '@/components/helpers/MessageBoxModal.vue';
 import UpdateAvailableModal from '@/components/helpers/UpdateAvailableModal.vue';
 import PickerOverlay from '@/components/helpers/PickerOverlay.vue';
+import Modal from '@/components/helpers/Modal.vue';
+import { usePinsStore } from '@/plugins/pins/store/pinsStore';
+import { useFlatassistantStore } from '@/store/flatassistantStore';
+import { useNightSummaryStore } from '@/plugins/nightsummary/store/nightsummaryStore';
 import {
   checkForManualUpdate,
   downloadAndApplyUpdate,
   fetchChangelogWhatsNew,
   isNativePlatform,
 } from '@/services/updateService';
+import { getDeviceDateTimePayload, parsePinsTimeToSeconds } from '@/utils/pinsTimeUtils';
 
 const store = apiStore();
 const settingsStore = useSettingsStore();
+const pinsStore = usePinsStore();
+const nightSummaryStore = useNightSummaryStore();
+const route = useRoute();
+
+const showTimeWarningModal = ref(false);
+const timeWarningClientTime = ref('');
+const timeWarningDeviceTime = ref('');
+
+const PINS_PORT = 8000;
+const PINS_TOKEN = 'zZDqJ3IKeFaIZqG2JIFvsxzA5E48GC2gyGVagHFZqC0OMtgoupUDZCPhQDYKm35d';
+
+async function checkPinsTimeMismatch() {
+  if (pinsStore.suppressTimeWarning) return;
+  const ip = settingsStore.connection.ip || window.location.hostname;
+  if (!ip) return;
+  try {
+    const directAxios = axios.create({ headers: {} });
+    const response = await directAxios.get(`http://${ip}:${PINS_PORT}/system/time`, {
+      headers: { Authorization: `Bearer ${PINS_TOKEN}` },
+      timeout: 5000,
+    });
+    const deviceTimestamp = parsePinsTimeToSeconds(response.data);
+    if (deviceTimestamp !== null) {
+      const clientTimestamp = Date.now() / 1000;
+      const diff = Math.abs(deviceTimestamp - clientTimestamp);
+      if (diff > 60) {
+        timeWarningClientTime.value = new Date(clientTimestamp * 1000).toLocaleTimeString();
+        timeWarningDeviceTime.value = new Date(deviceTimestamp * 1000).toLocaleTimeString();
+        showTimeWarningModal.value = true;
+      }
+    }
+  } catch (e) {
+    console.warn('[TimeWarning] Could not fetch PINS time:', e.message);
+  }
+}
+
+async function syncPinsTimeToClient() {
+  const ip = settingsStore.connection.ip || window.location.hostname;
+  if (!ip) return;
+  try {
+    const directAxios = axios.create({ headers: {} });
+    const payload = getDeviceDateTimePayload();
+    await directAxios.post(`http://${ip}:${PINS_PORT}/system/time`, payload, {
+      headers: {
+        Authorization: `Bearer ${PINS_TOKEN}`,
+        'Content-Type': 'application/json',
+      },
+      timeout: 5000,
+    });
+  } catch (e) {
+    console.warn('[TimeWarning] Could not set PINS time:', e.message);
+  }
+}
+
+watch(
+  () => store.isPINS,
+  (isPINS) => {
+    if (isPINS) {
+      setTimeout(checkPinsTimeMismatch, 3000);
+    }
+  }
+);
 const sequenceStore = useSequenceStore();
 const logStore = useLogStore();
+const flatsStore = useFlatassistantStore();
+
+// Global flat run outcome — fires regardless of which page is active.
+// prevRun !== null guard mirrors the original page watcher: first setter wins,
+// so fetchFlatsInfos (Running-state values) beats waitForCompletion (Finished-state
+// values which NINA may zero out).
+watch(
+  () => flatsStore.lastRun,
+  (run, prevRun) => {
+    if (!run || prevRun !== null) return;
+    flatsStore.commitRunOutcome(run);
+  }
+);
 const cameraStore = useCameraStore();
 const dialogStore = useDialogStore();
 const messageboxStore = useMessageboxStore();
@@ -263,6 +439,7 @@ const dismissedUpdateVersion = ref(null);
 const checkingUpdate = ref(false);
 let initialWidth = window.innerWidth;
 let initialHeight = window.innerHeight;
+let pinsUpgradeRecoveryTimer = null;
 
 // Orientation tracking
 const { isLandscape } = useOrientation();
@@ -323,6 +500,59 @@ const statusBarClasses = computed(() => ({
   'fixed bottom-0 left-32 right-0 z-20': isLandscape.value,
 }));
 
+const shouldShowConnectionSplash = computed(() => {
+  return (
+    (showSplashScreen.value || (!store.isBackendReachable && route.path !== '/settings')) &&
+    route.path !== '/setup' &&
+    !pinsStore.shouldShowUpgradeOverlay
+  );
+});
+
+const pinsUpgradeOverlayMessage = computed(() => {
+  if (pinsStore.isUpgradeWaitingForBackend) {
+    return t('plugins.pins.upgradeOverlay.waitingForApi');
+  }
+  return t('plugins.pins.upgradeOverlay.running');
+});
+
+function closePinsUpgradeOverlay() {
+  if (pinsUpgradeRecoveryTimer) {
+    clearTimeout(pinsUpgradeRecoveryTimer);
+    pinsUpgradeRecoveryTimer = null;
+  }
+  pinsStore.resetUpgradeOverlay();
+  try {
+    window.localStorage.removeItem('lastUpgradeJobId');
+    window.localStorage.removeItem('lastUpgradeJobResult');
+  } catch {
+    // Ignore storage cleanup errors.
+  }
+}
+
+function finalizePinsUpgradeRecoveryIfReady() {
+  if (!(pinsStore.isUpgradeWaitingForBackend && store.isBackendReachable)) {
+    return;
+  }
+
+  if (pinsUpgradeRecoveryTimer) {
+    clearTimeout(pinsUpgradeRecoveryTimer);
+  }
+
+  // Require a short stable reachable window before leaving the blocking overlay.
+  pinsUpgradeRecoveryTimer = setTimeout(() => {
+    if (pinsStore.isUpgradeWaitingForBackend && store.isBackendReachable) {
+      pinsStore.finalizeUpgradeRecovery();
+      try {
+        window.localStorage.removeItem('lastUpgradeJobId');
+        window.localStorage.removeItem('lastUpgradeJobResult');
+      } catch {
+        // Ignore storage cleanup errors.
+      }
+    }
+    pinsUpgradeRecoveryTimer = null;
+  }, 1500);
+}
+
 function handleOrientationChange() {
   setTimeout(() => {
     updateOrientation();
@@ -349,10 +579,10 @@ function pauseApp() {
   store.stopFetchingInfo();
   logStore.stopFetchingLog();
   sequenceStore.stopFetching();
+  flatsStore.stopFetchingFlats();
   cameraStore.stopCountdown();
   dialogStore.stopPolling();
-  // Alle Flags zurücksetzen für sauberen Neustart beim Resume
-  store.clearAllStates();
+  // Keine States zurücksetzen - UI bleibt erhalten
 }
 
 async function resumeApp() {
@@ -360,11 +590,6 @@ async function resumeApp() {
 
   // Set flag for recently returned from background
   store.setPageReturnedFromBackground();
-  store.checkForPINS(); // Re-check for PINS support
-
-  // Force UI refresh on resume
-  routerViewKey.value = Date.now();
-
   // Important: Re-enable WebSocket Channel Service shouldReconnect flag
   const wsChannelService = (await import('@/services/websocketChannelSocket')).default;
   wsChannelService.shouldReconnect = true;
@@ -381,11 +606,16 @@ async function resumeApp() {
     // PINS/Headless mode: Use SignalR for real-time updates
     await dialogStore.initializeDialogSignalR();
     await messageboxStore.initializeMessageboxSignalR();
+    flatsStore.startFetchingFlats();
   } else {
     // WPF mode: Use polling
     dialogStore.startPolling();
   }
 
+  // Clear any stale in-flight fetch flags from before the pause — connections
+  // killed by the OS in background would otherwise leave isImageFetching stuck true.
+  imageStore.isImageFetching = false;
+  imageStore.isSequenceImageFetching = false;
   imageStore.getImage();
   if (!sequenceStore.sequenceEdit) {
     sequenceStore.startFetching();
@@ -593,6 +823,7 @@ onMounted(async () => {
     // PINS/Headless mode: Use SignalR for real-time updates
     await dialogStore.initializeDialogSignalR();
     await messageboxStore.initializeMessageboxSignalR();
+    flatsStore.startFetchingFlats();
   } else {
     // WPF mode: Use polling
     dialogStore.startPolling();
@@ -653,11 +884,37 @@ onMounted(async () => {
 // Watch for backend connection and add delay before hiding splash screen
 watch(
   () => store.isBackendReachable,
-  (isReachable) => {
+  async (isReachable) => {
     if (isReachable && showSplashScreen.value) {
       setTimeout(() => {
         showSplashScreen.value = false;
       }, 200); // delay
+    }
+
+    // Re-initialize dialog and messagebox SignalR after an instance switch
+    // (clearAllStates disconnects them; they don't auto-reconnect on their own)
+    if (isReachable && store.isPINS) {
+      await dialogStore.initializeDialogSignalR();
+      await messageboxStore.initializeMessageboxSignalR();
+    }
+
+    // Re-initialize night summary plugin after an instance switch so it
+    // fetches its status, settings, and sessions from the new backend.
+    if (isReachable && store.isPINS) {
+      nightSummaryStore.initialize();
+    }
+
+    if (isReachable) {
+      finalizePinsUpgradeRecoveryIfReady();
+    }
+  }
+);
+
+watch(
+  () => pinsStore.isUpgradeWaitingForBackend,
+  (isWaiting) => {
+    if (isWaiting) {
+      finalizePinsUpgradeRecoveryIfReady();
     }
   }
 );
@@ -700,6 +957,12 @@ onBeforeUnmount(async () => {
   store.stopFetchingInfo();
   logStore.stopFetchingLog();
   sequenceStore.stopFetching();
+  flatsStore.stopFetchingFlats();
+
+  if (pinsUpgradeRecoveryTimer) {
+    clearTimeout(pinsUpgradeRecoveryTimer);
+    pinsUpgradeRecoveryTimer = null;
+  }
 
   // Stop dialog updates based on mode
   if (store.isPINS) {

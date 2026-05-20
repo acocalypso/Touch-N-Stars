@@ -24,12 +24,46 @@
       :Name="$t('components.filterwheel.availableFilters')"
       :Value="store.filterInfo.AvailableFilters ? store.filterInfo.AvailableFilters.length : 0"
     />
+    <template
+      v-if="
+        store.isPINS &&
+        filterStore.filterwheelSettings &&
+        Object.keys(filterStore.filterwheelSettings).length > 0
+      "
+    >
+      <StatusString
+        v-if="filterStore.filterwheelSettings.BoardTemperature !== undefined"
+        :isEnabled="true"
+        :Name="$t('components.filterwheel.BoardTemperature')"
+        :Value="filterStore.filterwheelSettings.BoardTemperature + ' °C'"
+      />
+      <StatusString
+        v-if="
+          filterStore.filterwheelSettings.States !== undefined &&
+          filterStore.filterwheelSettings.State !== undefined
+        "
+        :isEnabled="true"
+        :Name="$t('components.filterwheel.State')"
+        :Value="
+          filterStore.filterwheelSettings.States[filterStore.filterwheelSettings.State] ??
+          filterStore.filterwheelSettings.State
+        "
+      />
+      <StatusString
+        v-if="filterStore.filterwheelSettings.Counter !== undefined"
+        :isEnabled="true"
+        :Name="$t('components.filterwheel.Counter')"
+        :Value="filterStore.filterwheelSettings.Counter"
+      />
+    </template>
   </div>
 </template>
 
 <script setup>
 import StatusString from '@/components/helpers/StatusString.vue';
 import { apiStore } from '@/store/store';
+import { useFilterStore } from '@/store/filterStore';
 
 const store = apiStore();
+const filterStore = useFilterStore();
 </script>

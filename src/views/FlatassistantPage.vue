@@ -5,14 +5,22 @@
       <h1 class="text-xl text-center font-bold">{{ $t('components.flatassistant.title') }}</h1>
     </div>
 
+    <!-- Temporarily hide multi-mode there is a bug in the backend -->
+    <SubNav
+      v-if="store.isPINS"
+      :items="[
+        { name: t('components.flatassistant.single_mode'), value: 'single' },
+        { name: t('components.flatassistant.multi_mode'), value: 'multi' },
+      ]"
+      v-model:activeItem="settingsStore.flats.activeMode"
+    />
+
     <div class="flex flex-col items-center justify-center max-w-md p-2 mx-auto">
-      <ButtonSlew
-        class="p-4 w-full"
-        :label="t('components.flatassistant.button_slew_to_zenith')"
-        :raAngle="computedRa"
-        :decAngle="computedDec"
-      />
+      <SlewToZenith />
+
+      <!-- Single Mode: sub-type selector -->
       <select
+        v-if="settingsStore.flats.activeMode === 'single'"
         v-model="settingsStore.flats.selectedOption"
         class="p-2 w-full border border-gray-500 rounded-lg bg-gray-800 text-white"
       >
@@ -21,17 +29,25 @@
         <option value="SkyFlat">{{ $t('components.flatassistant.skyflat') }}</option>
       </select>
 
-      <component :is="selectedComponent" class="mt-4" />
+      <!-- Single Mode content -->
+      <component
+        v-if="settingsStore.flats.activeMode === 'single'"
+        :is="selectedComponent"
+        class="mt-4"
+      />
+
+      <!-- Multi Mode content -->
+      <MultiMode v-else />
 
       <div
-        v-show="flatsStore.status.CompletedIterations > -1"
+        v-show="
+          flatsStore.status.State === 'Running' ||
+          flatsStore.status.State === 'Finished' ||
+          flatsStore.lastRun !== null
+        "
         class="flex flex-col w-full max-w-md space-y-2 mt-4 border border-gray-700 rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg p-5"
       >
-        <div
-          class="flex justify-center items-center p-2 border border-gray-500 rounded-lg bg-gray-800"
-        >
-          <getStatus />
-        </div>
+        <getStatus />
         <LastImage />
       </div>
     </div>
@@ -41,17 +57,18 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { computed, onMounted, watch } from 'vue';
 import AutoExposure from '@/components/flatassistant/AutoExposure.vue';
 import AutoBrightness from '@/components/flatassistant/AutoBrightness.vue';
 import SkyFlat from '@/components/flatassistant/SkyFlat.vue';
+import MultiMode from '@/components/flatassistant/MultiMode.vue';
 import getStatus from '@/components/flatassistant/getStatus.vue';
 import LastImage from '@/components/flatassistant/LastImage.vue';
-import ButtonSlew from '@/components/mount/ButtonSlew.vue';
+import SlewToZenith from '@/components/flatassistant/SlewToZenith.vue';
+import SubNav from '@/components/SubNav.vue';
 import { useFlatassistantStore } from '@/store/flatassistantStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import { apiStore } from '@/store/store';
-import { altAzToRaDec } from '@/utils/utils';
 import { useI18n } from 'vue-i18n';
 
 const flatsStore = useFlatassistantStore();
@@ -70,27 +87,29 @@ const selectedComponent = computed(() => {
   }
 });
 
-const computedRa = computed(() => {
-  // Konvertiere Alt/Az zu RA/Dec für Flat Position
-  // Alt: 89° 00' 00", Az: 90° 00' 00"
-  const { ra } = altAzToRaDec(
-    89, // Altitude in Grad
-    90, // Azimut in Grad
-    store.profileInfo.AstrometrySettings.Latitude,
-    store.profileInfo.AstrometrySettings.Longitude
-  );
-  return ra;
+onMounted(() => {
+  if (!store.isPINS) {
+    settingsStore.flats.activeMode = 'single';
+  }
 });
 
-const computedDec = computed(() => {
-  // Konvertiere Alt/Az zu RA/Dec für Flat Position
-  // Alt: 89° 00' 00", Az: 90° 00' 00"
-  const { dec } = altAzToRaDec(
-    89, // Altitude in Grad
-    90, // Azimut in Grad
-    store.profileInfo.AstrometrySettings.Latitude,
-    store.profileInfo.AstrometrySettings.Longitude
-  );
-  return dec;
-});
+let saveDebounce;
+watch(
+  () => settingsStore.flats,
+  () => {
+    clearTimeout(saveDebounce);
+    saveDebounce = setTimeout(() => settingsStore.saveFlatsSettings(), 600);
+  },
+  { deep: true }
+);
+
+watch(
+  () => store.profileInfo?.FlatWizardSettings,
+  (flatSettings) => {
+    if (!flatSettings) return;
+    flatsStore.count = flatSettings.FlatCount ?? flatsStore.count;
+    flatsStore.darkCount = flatSettings.DarkFlatCount ?? 0;
+  },
+  { immediate: true }
+);
 </script>

@@ -1,16 +1,24 @@
 <template>
-  <div v-if="isLoading" class="flex items-center justify-center min-h-screen">
+  <div ref="stageRef" class="framing-stage w-full h-full flex items-center justify-center">
     <div
-      class="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"
-    ></div>
-  </div>
-  <div v-else>
-    <div
-      id="fov"
-      class="border relative overflow-hidden"
+      v-if="isLoading"
+      class="flex items-center justify-center"
       :style="{
-        width: `${framingStore.containerSize}px`,
-        height: `${framingStore.containerSize}px`,
+        width: framingStore.containerWidth ? `${framingStore.containerWidth}px` : '100%',
+        height: framingStore.containerHeight ? `${framingStore.containerHeight}px` : '100%',
+      }"
+    >
+      <div
+        class="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"
+      ></div>
+    </div>
+    <div
+      v-show="!isLoading"
+      id="fov"
+      class="relative overflow-hidden"
+      :style="{
+        width: `${framingStore.containerWidth}px`,
+        height: `${framingStore.containerHeight}px`,
         position: 'relative',
       }"
       ref="containerRef"
@@ -19,15 +27,48 @@
       <img class="absolute inset-0" :src="targetPic" />
 
       <!-- Verschiebbares / drehbares Ziel-Element (nur für Moveable Tracking) -->
-      <div
-        ref="targetRef"
-        :style="{
-          width: `${framingStore.camWidth}px`,
-          height: `${framingStore.camHeight}px`,
-          transform: `translate(${x}px, ${y}px) rotate(${rotationAngleVisu}deg)`,
-          zIndex: 2,
-        }"
-      ></div>
+      <div ref="targetRef" :style="mosaicTargetStyle"></div>
+
+      <!-- Pan-Steuerung (oben links) -->
+      <div class="absolute top-3 left-3 z-10">
+        <div
+          class="bg-gray-800/90 border border-gray-600 rounded-lg p-1 grid grid-cols-3 grid-rows-3 gap-1"
+        >
+          <div></div>
+          <button
+            @click="pan(0, 1)"
+            aria-label="Pan up"
+            class="w-8 h-8 bg-gray-600 hover:bg-gray-500 rounded text-white text-sm font-bold transition-colors flex items-center justify-center"
+          >
+            ↑
+          </button>
+          <div></div>
+          <button
+            @click="pan(-1, 0)"
+            aria-label="Pan left"
+            class="w-8 h-8 bg-gray-600 hover:bg-gray-500 rounded text-white text-sm font-bold transition-colors flex items-center justify-center"
+          >
+            ←
+          </button>
+          <div></div>
+          <button
+            @click="pan(1, 0)"
+            aria-label="Pan right"
+            class="w-8 h-8 bg-gray-600 hover:bg-gray-500 rounded text-white text-sm font-bold transition-colors flex items-center justify-center"
+          >
+            →
+          </button>
+          <div></div>
+          <button
+            @click="pan(0, -1)"
+            aria-label="Pan down"
+            class="w-8 h-8 bg-gray-600 hover:bg-gray-500 rounded text-white text-sm font-bold transition-colors flex items-center justify-center"
+          >
+            ↓
+          </button>
+          <div></div>
+        </div>
+      </div>
 
       <!-- FOV und Rotation Steuerung (oben rechts) -->
       <div class="absolute top-3 right-3 z-10 flex gap-2">
@@ -36,16 +77,16 @@
           class="bg-gray-800/90 border border-gray-600 rounded-lg p-2 flex items-center space-x-2"
         >
           <button
-            @click="adjustFov(-0.5)"
+            @click="adjustFov(-1)"
             class="w-8 h-8 bg-gray-600 hover:bg-gray-500 rounded text-white text-sm font-bold transition-colors flex items-center justify-center"
           >
             -
           </button>
           <span class="text-xs text-gray-300 font-medium min-w-[2.5rem] text-center"
-            >{{ framingStore.fov.toFixed(1) }}°</span
+            >{{ Math.round(framingStore.fov) }}°</span
           >
           <button
-            @click="adjustFov(0.5)"
+            @click="adjustFov(1)"
             class="w-8 h-8 bg-gray-600 hover:bg-gray-500 rounded text-white text-sm font-bold transition-colors flex items-center justify-center"
           >
             +
@@ -61,6 +102,41 @@
         </div>
       </div>
 
+      <!-- Mosaic panel overlay -->
+      <svg
+        v-if="framingStore.isMosaicMode"
+        class="absolute inset-0 pointer-events-none"
+        :width="framingStore.containerWidth"
+        :height="framingStore.containerHeight"
+        style="z-index: 3"
+      >
+        <g
+          :transform="`translate(${mosaicSvgOffset.x}, ${mosaicSvgOffset.y}) rotate(${rotationAngleVisu}, ${framingStore.containerWidth / 2}, ${framingStore.containerHeight / 2})`"
+        >
+          <g v-for="panel in mosaicPanels" :key="panel.label">
+            <rect
+              :x="panel.screenX - framingStore.camWidth / 2"
+              :y="panel.screenY - framingStore.camHeight / 2"
+              :width="framingStore.camWidth"
+              :height="framingStore.camHeight"
+              fill="rgba(59,130,246,0.12)"
+              stroke="#3b82f6"
+              stroke-width="1.5"
+            />
+            <text
+              :x="panel.screenX"
+              :y="panel.screenY"
+              text-anchor="middle"
+              dominant-baseline="middle"
+              fill="white"
+              font-size="11"
+            >
+              {{ panel.label }}
+            </text>
+          </g>
+        </g>
+      </svg>
+
       <!-- Moveable-->
       <Moveable
         ref="moveableRef"
@@ -75,29 +151,152 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, nextTick, watch } from 'vue';
+import { ref, computed, onMounted, onUnmounted, nextTick, watch } from 'vue';
 import Moveable from 'vue3-moveable';
 import { useFramingStore } from '@/store/framingStore';
 import { useSettingsStore } from '@/store/settingsStore';
+import { apiStore } from '@/store/store';
 import apiService from '@/services/apiService';
 
 const framingStore = useFramingStore();
 const settingsStore = useSettingsStore();
+const store = apiStore();
 const isLoading = ref(true);
 const targetPic = ref(null);
 const scaleDegPerPixel = ref(0.004); // Grad pro Pixel
 const cameraFovX = ref(0); // Echter Kamera-FOV in Grad (fest)
 const cameraFovY = ref(0); // Echter Kamera-FOV in Grad (fest)
-const baseRA = framingStore.RAangle;
-const baseDec = framingStore.DECangle;
+let baseRA = framingStore.RAangle;
+let baseDec = framingStore.DECangle;
 const x = ref(0);
 const y = ref(0);
 const containerRef = ref(null);
+const stageRef = ref(null);
 const targetRef = ref(null);
 const moveableRef = ref(null);
 const rotationAngleVisu = ref(0);
+let resizeObserver = null;
+
+// ── Mosaic helpers ──────────────────────────────────────────────────────────
+function computeMosaicPanels(store) {
+  const overlap = store.mosaicOverlap / 100;
+  const scale = store.fov / store.containerWidth;
+  const fovX = store.camWidth * scale;
+  const fovY = store.camHeight * scale;
+  const stepRa = fovX * (1 - overlap);
+  const stepDec = fovY * (1 - overlap);
+  let cosDec = Math.cos((store.DECangle * Math.PI) / 180);
+  if (Math.abs(cosDec) < 1e-8) cosDec = 1e-8;
+
+  const centerRA = store.RAangle;
+  const centerDec = store.DECangle;
+  const centerRot = store.rotationAngle;
+  const centerX = store.containerWidth / 2;
+  const centerY = store.containerHeight / 2;
+  const panels = [];
+
+  for (let row = 0; row < store.mosaicRows; row++) {
+    for (let col = 0; col < store.mosaicCols; col++) {
+      const dc = col - (store.mosaicCols - 1) / 2;
+      const dr = row - (store.mosaicRows - 1) / 2;
+      const panelRA = centerRA - (dc * stepRa) / cosDec;
+      const panelDec = centerDec - dr * stepDec;
+      const panelRot = centerRot;
+      panels.push({
+        label: `${col + 1}-${row + 1}`,
+        screenX: centerX + dc * (store.camWidth * (1 - overlap)),
+        screenY: centerY + dr * (store.camHeight * (1 - overlap)),
+        ra: panelRA,
+        dec: panelDec,
+        rotation: panelRot,
+      });
+    }
+  }
+  return panels;
+}
+
+const mosaicPanels = computed(() =>
+  framingStore.isMosaicMode ? computeMosaicPanels(framingStore) : []
+);
+
+function mosaicTotalSize() {
+  const ov = framingStore.mosaicOverlap / 100;
+  return {
+    w: framingStore.camWidth + (framingStore.mosaicCols - 1) * framingStore.camWidth * (1 - ov),
+    h: framingStore.camHeight + (framingStore.mosaicRows - 1) * framingStore.camHeight * (1 - ov),
+  };
+}
+
+const mosaicTargetStyle = computed(() => {
+  if (!framingStore.isMosaicMode) {
+    return {
+      width: `${framingStore.camWidth}px`,
+      height: `${framingStore.camHeight}px`,
+      transform: `translate(${x.value}px, ${y.value}px) rotate(${rotationAngleVisu.value}deg)`,
+      zIndex: 2,
+    };
+  }
+  const { w, h } = mosaicTotalSize();
+  return {
+    width: `${w}px`,
+    height: `${h}px`,
+    transform: `translate(${x.value}px, ${y.value}px) rotate(${rotationAngleVisu.value}deg)`,
+    zIndex: 2,
+    opacity: 0,
+  };
+});
+
+// Visuelle Verschiebung des SVG-Overlays während des Drags
+const mosaicSvgOffset = computed(() => {
+  if (!framingStore.isMosaicMode) return { x: 0, y: 0 };
+  const { w, h } = mosaicTotalSize();
+  return {
+    x: x.value + w / 2 - framingStore.containerWidth / 2,
+    y: y.value + h / 2 - framingStore.containerHeight / 2,
+  };
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
 
 onMounted(async () => {
+  // Initial: Stage messen, Container-Größe bestimmen (vor dem Fetch,
+  // damit das Bild sofort in passender Auflösung geladen werden kann)
+  await nextTick();
+  measureStage();
+
+  // ResizeObserver starten, um Container-Größe an Stage anzupassen
+  if (stageRef.value && typeof ResizeObserver !== 'undefined') {
+    resizeObserver = new ResizeObserver(() => {
+      handleStageResize();
+    });
+    resizeObserver.observe(stageRef.value);
+  }
+
+  await runInit();
+});
+
+// Cleanup beim Unmount
+onUnmounted(() => {
+  if (resizeObserver) {
+    resizeObserver.disconnect();
+    resizeObserver = null;
+  }
+});
+
+// Reload-Key: erlaubt externen Komponenten (z.B. FitsPlateSolve),
+// ein vollständiges Neu-Initialisieren auszulösen, auch wenn die
+// Framing-Seite bereits aktiv ist.
+watch(
+  () => framingStore.framingReloadKey,
+  async () => {
+    isLoading.value = true;
+    baseRA = framingStore.RAangle;
+    baseDec = framingStore.DECangle;
+    await runInit();
+  }
+);
+
+async function runInit() {
   await fetchFramingInfo();
 
   // Einmalig echten Kamera-FOV berechnen (basierend auf Hardware)
@@ -106,14 +305,8 @@ onMounted(async () => {
   // Init rotationAngleVisu
   rotationAngleVisu.value = 360 - framingStore.rotationAngle;
 
-  // Container-Größe berechnen (maximal nutzen)
-  const smallerDimension = Math.min(window.innerWidth - 20, window.innerHeight - 200);
-  const roundedDimension = Math.floor(smallerDimension / 100) * 100;
-  framingStore.containerSize = roundedDimension;
-
   // Sinnvollen Start-FOV nur beim allerersten Laden berechnen
   if (!framingStore.initialFovSet) {
-    // Nur beim ersten Öffnen des Framing Assistants
     ensureReasonableStartFov();
     framingStore.initialFovSet = true;
   }
@@ -127,9 +320,8 @@ onMounted(async () => {
   // Bild abrufen
   await getTargetPic();
 
-  // Kamera immer in die Mitte setzen, da das Bild bereits mit den richtigen Koordinaten geladen wird
-  x.value = framingStore.containerSize / 2 - framingStore.camWidth / 2;
-  y.value = framingStore.containerSize / 2 - framingStore.camHeight / 2;
+  // Bounding Box in die Mitte setzen (Mosaik-Gitter oder einzelne Kamera)
+  centerBoundingBox();
 
   // Position im Store speichern
   framingStore.cameraX = x.value;
@@ -137,33 +329,95 @@ onMounted(async () => {
   framingStore.cameraRelativeX = 0.5;
   framingStore.cameraRelativeY = 0.5;
 
-  // Resize Event-Listener hinzufügen
-  window.addEventListener('resize', handleWindowResize);
-
   await nextTick();
-  await new Promise((resolve) => setTimeout(resolve, 500));
   isLoading.value = false;
-});
+  // Moveable aktualisieren, nachdem das Container-Element sichtbar ist
+  updateMoveable();
+}
 
-// Cleanup beim Unmount
-onUnmounted(() => {
-  window.removeEventListener('resize', handleWindowResize);
-});
+function centerBoundingBox() {
+  if (framingStore.isMosaicMode) {
+    const { w, h } = mosaicTotalSize();
+    x.value = framingStore.containerWidth / 2 - w / 2;
+    y.value = framingStore.containerHeight / 2 - h / 2;
+  } else {
+    x.value = framingStore.containerWidth / 2 - framingStore.camWidth / 2;
+    y.value = framingStore.containerHeight / 2 - framingStore.camHeight / 2;
+  }
+}
 
-// Window Resize Handler
+function computeContainerDims() {
+  const el = stageRef.value;
+  const fallbackW = framingStore.containerWidth || 500;
+  const fallbackH = framingStore.containerHeight || 500;
+  if (!el) return { w: fallbackW, h: fallbackH };
+  const rect = el.getBoundingClientRect();
+  if (rect.width <= 0 || rect.height <= 0) return { w: fallbackW, h: fallbackH };
+  // NINA's targetpic-API erwartet ein quadratisches FOV — wir messen die Stage,
+  // nehmen die kleinere Dimension und nutzen sie für Width und Height. Das hält
+  // die FOV-Mathematik exakt (1° = fov°/containerSize · 1px in beiden Achsen)
+  // und verhindert, dass das Bild von NINA verzerrt zurückgegeben wird.
+  const side = Math.max(Math.floor(Math.min(rect.width, rect.height) / 20) * 20, 200);
+  return { w: side, h: side };
+}
+
+function measureStage() {
+  const { w, h } = computeContainerDims();
+  framingStore.containerWidth = w;
+  framingStore.containerHeight = h;
+  framingStore.containerSize = Math.min(w, h);
+}
+
 let resizeTimeout;
-function handleWindowResize() {
+function handleStageResize() {
   clearTimeout(resizeTimeout);
   resizeTimeout = setTimeout(() => {
-    const smallerDimension = Math.min(window.innerWidth - 20, window.innerHeight - 200);
-    const roundedDimension = Math.floor(smallerDimension / 100) * 100;
-
-    if (roundedDimension !== framingStore.containerSize) {
-      framingStore.containerSize = roundedDimension;
+    const { w, h } = computeContainerDims();
+    if (w !== framingStore.containerWidth || h !== framingStore.containerHeight) {
+      framingStore.containerWidth = w;
+      framingStore.containerHeight = h;
+      framingStore.containerSize = Math.min(w, h);
       updateCameraBoxSize();
+      centerBoundingBox();
+      framingStore.cameraX = x.value;
+      framingStore.cameraY = y.value;
+      framingStore.cameraRelativeX = 0.5;
+      framingStore.cameraRelativeY = 0.5;
+      debouncedImageReload();
       updateMoveable();
     }
   }, 300);
+}
+
+// Mindest-FOV: Wert, ab dem das Framing-Rechteck (bzw. Mosaikgitter) gerade
+// noch komplett in den Container passt. Verhindert den Bug-Zustand "Frame
+// größer als Container", in dem die Clamp-Logik im FOV-Watcher die Position
+// in die Ecke ziehen und RA/DEC mit einer dezentrierten Position überschreiben
+// würde — was beim Rauszoomen zu versetzter Position führte.
+function computeMinFov() {
+  if (
+    cameraFovX.value <= 0 ||
+    cameraFovY.value <= 0 ||
+    framingStore.containerWidth <= 0 ||
+    framingStore.containerHeight <= 0
+  ) {
+    return 0;
+  }
+
+  let effDegW;
+  let effDegH;
+  if (framingStore.isMosaicMode) {
+    const { w, h } = mosaicTotalSize();
+    effDegW = w * scaleDegPerPixel.value;
+    effDegH = h * scaleDegPerPixel.value;
+  } else {
+    effDegW = cameraFovX.value;
+    effDegH = cameraFovY.value;
+  }
+
+  const minFovForWidth = effDegW;
+  const minFovForHeight = (effDegH * framingStore.containerWidth) / framingStore.containerHeight;
+  return Math.max(minFovForWidth, minFovForHeight);
 }
 
 // FOV-Watcher: Nur Bild und Kamera-Box aktualisieren (KEINE Komponenten-Reload)
@@ -171,18 +425,62 @@ watch(
   () => framingStore.fov,
   async (newFov, oldFov) => {
     if (cameraFovX.value > 0 && newFov !== oldFov) {
-      // Kamera-Box-Größe neu berechnen
+      // Untergrenze durchsetzen, damit Frame nie größer als Container wird
+      const minAllowedFov = computeMinFov();
+      if (minAllowedFov > 0 && newFov < minAllowedFov) {
+        framingStore.fov = Math.ceil(minAllowedFov);
+        return;
+      }
+
+      // Kamera-Box-Größe und Skala neu berechnen
       updateCameraBoxSize();
 
-      // Rechteck in der Mitte des Containers positionieren
-      x.value = framingStore.containerSize / 2 - framingStore.camWidth / 2;
-      y.value = framingStore.containerSize / 2 - framingStore.camHeight / 2;
+      // Effektive Abmessungen (Mosaikgitter oder einzelne Kamera)
+      const effectiveW = framingStore.isMosaicMode ? mosaicTotalSize().w : framingStore.camWidth;
+      const effectiveH = framingStore.isMosaicMode ? mosaicTotalSize().h : framingStore.camHeight;
+
+      // Pixelposition aus aktuellem RA/DEC + neuer Skala neu berechnen.
+      // So bleibt das Rechteck auf demselben Himmelsausschnitt; nur seine
+      // Größe (und damit die Bildschirm-Position relativ zum Container) ändert sich.
+      let cosDec = Math.cos((baseDec * Math.PI) / 180);
+      if (Math.abs(cosDec) < 1e-8) cosDec = 1e-8;
+      const deltaX = ((baseRA - framingStore.RAangle) * cosDec) / scaleDegPerPixel.value;
+      const deltaY = (framingStore.DECangle - baseDec) / scaleDegPerPixel.value;
+      const targetCenterX = framingStore.containerWidth / 2 + deltaX;
+      const targetCenterY = framingStore.containerHeight / 2 - deltaY;
+      x.value = targetCenterX - effectiveW / 2;
+      y.value = targetCenterY - effectiveH / 2;
+
+      // Wenn das Rechteck durch den FOV-Wechsel aus dem Container heraus
+      // wandert (z.B. starkes Hineinzoomen nach vorherigem Drag), klemmen.
+      let clamped = false;
+      if (x.value < 0) {
+        x.value = 0;
+        clamped = true;
+      }
+      if (y.value < 0) {
+        y.value = 0;
+        clamped = true;
+      }
+      if (x.value > framingStore.containerWidth - effectiveW) {
+        x.value = framingStore.containerWidth - effectiveW;
+        clamped = true;
+      }
+      if (y.value > framingStore.containerHeight - effectiveH) {
+        y.value = framingStore.containerHeight - effectiveH;
+        clamped = true;
+      }
 
       // Position im Store speichern (absolut und relativ)
       framingStore.cameraX = x.value;
       framingStore.cameraY = y.value;
-      framingStore.cameraRelativeX = 0.5;
-      framingStore.cameraRelativeY = 0.5;
+      framingStore.cameraRelativeX = (x.value + effectiveW / 2) / framingStore.containerWidth;
+      framingStore.cameraRelativeY = (y.value + effectiveH / 2) / framingStore.containerHeight;
+
+      // Nach Klemmen RA/DEC aktualisieren, damit Position und Koordinaten konsistent bleiben
+      if (clamped) {
+        calculateRaDec();
+      }
 
       // Nur Hintergrundbild neu laden (mit Debounce)
       debouncedImageReload();
@@ -199,6 +497,31 @@ watch(
   (newAngle) => {
     rotationAngleVisu.value = 360 - newAngle;
     updateMoveable();
+  }
+);
+
+// Mosaic-Watcher: Bounding Box zentrieren wenn Mosaik-Modus (de)aktiviert wird
+watch(
+  () => framingStore.isMosaicMode,
+  (active) => {
+    if (active) {
+      // FOV anheben falls das Mosaikgitter bei aktuellem FOV größer als der
+      // Container wäre — der FOV-Watcher übernimmt dann die Neuberechnung.
+      const minAllowedFov = computeMinFov();
+      if (minAllowedFov > 0 && framingStore.fov < minAllowedFov) {
+        framingStore.fov = Math.ceil(minAllowedFov);
+        return;
+      }
+      const { w, h } = mosaicTotalSize();
+      x.value = framingStore.containerWidth / 2 - w / 2;
+      y.value = framingStore.containerHeight / 2 - h / 2;
+    } else {
+      x.value = framingStore.containerWidth / 2 - framingStore.camWidth / 2;
+      y.value = framingStore.containerHeight / 2 - framingStore.camHeight / 2;
+    }
+    framingStore.cameraRelativeX = 0.5;
+    framingStore.cameraRelativeY = 0.5;
+    nextTick(() => updateMoveable());
   }
 );
 
@@ -224,8 +547,8 @@ function updateMoveable() {
 function calculateRealCameraFov() {
   const sensorWidthPx = framingStore.framingInfo.CameraWidth;
   const sensorHeightPx = framingStore.framingInfo.CameraHeight;
-  const pixelSizeM = framingStore.framingInfo.CameraPixelSize / 1_000_000;
-  const focalLengthM = framingStore.framingInfo.FocalLength / 1000;
+  const pixelSizeM = store.profileInfo.CameraSettings.PixelSize / 1_000_000;
+  const focalLengthM = store.profileInfo.TelescopeSettings.FocalLength / 1000;
 
   // Sensor-Größe
   const sensorWidthM = sensorWidthPx * pixelSizeM;
@@ -238,8 +561,11 @@ function calculateRealCameraFov() {
 
 // Kamera-Box Größe basierend auf User-gewähltem Hintergrund-FOV berechnen
 function updateCameraBoxSize() {
-  // Skalierung basierend auf User-gewähltem Hintergrund-FOV
-  scaleDegPerPixel.value = framingStore.fov / framingStore.containerSize;
+  // Skalierung basierend auf User-gewähltem Hintergrund-FOV.
+  // Konvention: `fov` entspricht der horizontalen Ausdehnung (Width) in Grad;
+  // Pixel sind auf dem Bildschirm quadratisch, daher gilt derselbe Maßstab
+  // auch vertikal.
+  scaleDegPerPixel.value = framingStore.fov / framingStore.containerWidth;
 
   // Kamera-Box in Pixeln (basierend auf echtem Kamera-FOV)
   const fovPxX = cameraFovX.value / scaleDegPerPixel.value;
@@ -254,20 +580,20 @@ function ensureReasonableStartFov() {
   // Erst mal grob testen mit aktuellem FOV
   updateCameraBoxSize();
 
-  // Wenn Kamera-Box mehr als 70% des Containers ausfüllt, FOV vergrößern
+  // Wenn Kamera-Box mehr als 70% der kleineren Container-Dimension ausfüllt, FOV vergrößern
   const maxCamSize = Math.max(framingStore.camWidth, framingStore.camHeight);
-  const maxAllowedSize = framingStore.containerSize * 0.7; // 70% des Containers
+  const minContainerDim = Math.min(framingStore.containerWidth, framingStore.containerHeight);
+  const maxAllowedSize = minContainerDim * 0.7;
 
   // Nur anpassen wenn FOV wirklich zu klein ist UND kleiner als ein vernünftiger Mindestwert
   if (maxCamSize > maxAllowedSize && framingStore.fov < 5) {
-    // Berechne benötigten FOV für sinnvolle Kamera-Größe (50% des Containers)
-    const targetCamSize = framingStore.containerSize * 0.5;
+    const targetCamSize = minContainerDim * 0.5;
     const scaleFactor = maxCamSize / targetCamSize;
     const requiredFov = framingStore.fov * scaleFactor;
 
     const newFov = Math.max(requiredFov, framingStore.fov * 1.5, 5); // Mindestens 5° oder 1.5x aktueller FOV
 
-    framingStore.fov = Math.round(newFov * 10) / 10; // Auf 0.1 runden
+    framingStore.fov = Math.round(newFov); // Auf ganze Grad runden
   }
 }
 
@@ -276,18 +602,23 @@ function adjustContainerIfNeeded() {
   // Zuerst mit aktuellem FOV testen
   updateCameraBoxSize();
 
-  const minContainerSize = Math.max(framingStore.camWidth, framingStore.camHeight) + 100;
+  const minContainerWidth = framingStore.camWidth + 100;
+  const minContainerHeight = framingStore.camHeight + 100;
 
-  if (framingStore.containerSize < minContainerSize) {
-    // Container vergrößern statt FOV zu ändern
-    const newSize = Math.ceil(minContainerSize / 100) * 100; // Auf 100er runden
-    const maxSize = Math.min(window.innerWidth, window.innerHeight - 200);
+  const stageEl = stageRef.value;
+  const maxW = stageEl ? Math.floor(stageEl.clientWidth / 20) * 20 : framingStore.containerWidth;
+  const maxH = stageEl ? Math.floor(stageEl.clientHeight / 20) * 20 : framingStore.containerHeight;
 
-    if (newSize <= maxSize) {
-      framingStore.containerSize = newSize;
-    }
-    // User kann bewusst kleine FOV-Werte wählen, auch wenn die Kamera groß wird
+  if (framingStore.containerWidth < minContainerWidth) {
+    const newW = Math.ceil(minContainerWidth / 20) * 20;
+    if (newW <= maxW) framingStore.containerWidth = newW;
   }
+  if (framingStore.containerHeight < minContainerHeight) {
+    const newH = Math.ceil(minContainerHeight / 20) * 20;
+    if (newH <= maxH) framingStore.containerHeight = newH;
+  }
+  framingStore.containerSize = Math.min(framingStore.containerWidth, framingStore.containerHeight);
+  // User kann bewusst kleine FOV-Werte wählen, auch wenn die Kamera groß wird
 }
 
 let dragDebounceTimeout;
@@ -298,23 +629,27 @@ function onDrag(e) {
   x.value += e.delta[0];
   y.value += e.delta[1];
 
+  // Effektive Abmessungen (Mosaikgitter oder einzelne Kamera)
+  const effectiveW = framingStore.isMosaicMode ? mosaicTotalSize().w : framingStore.camWidth;
+  const effectiveH = framingStore.isMosaicMode ? mosaicTotalSize().h : framingStore.camHeight;
+
   // Begrenzung: nicht über Container hinausragen
   if (x.value < 0) x.value = 0;
   if (y.value < 0) y.value = 0;
-  if (x.value > framingStore.containerSize - framingStore.camWidth)
-    x.value = framingStore.containerSize - framingStore.camWidth;
-  if (y.value > framingStore.containerSize - framingStore.camHeight)
-    y.value = framingStore.containerSize - framingStore.camHeight;
+  if (x.value > framingStore.containerWidth - effectiveW)
+    x.value = framingStore.containerWidth - effectiveW;
+  if (y.value > framingStore.containerHeight - effectiveH)
+    y.value = framingStore.containerHeight - effectiveH;
 
   // Position im Store speichern für Reload-Persistenz
   framingStore.cameraX = x.value;
   framingStore.cameraY = y.value;
 
   // Relative Position berechnen und speichern (für bessere Wiederherstellung)
-  const centerX = x.value + framingStore.camWidth / 2;
-  const centerY = y.value + framingStore.camHeight / 2;
-  framingStore.cameraRelativeX = centerX / framingStore.containerSize;
-  framingStore.cameraRelativeY = centerY / framingStore.containerSize;
+  const centerX = x.value + effectiveW / 2;
+  const centerY = y.value + effectiveH / 2;
+  framingStore.cameraRelativeX = centerX / framingStore.containerWidth;
+  framingStore.cameraRelativeY = centerY / framingStore.containerHeight;
 
   // Debounced RA/DEC Berechnung
   clearTimeout(dragDebounceTimeout);
@@ -342,10 +677,14 @@ function onRotate(e) {
 
 async function getTargetPic() {
   try {
-    const ra = framingStore.RAangle;
-    const dec = framingStore.DECangle;
-    const width = framingStore.containerSize;
-    const height = framingStore.containerSize;
+    // Bild bleibt auf dem Ursprungs-Target zentriert (baseRA/baseDec) — nicht
+    // auf der per Drag verschobenen RAangle/DECangle. Sonst würde das Bild bei
+    // FOV-/Resize-Reloads mitspringen und das Kamera-Rechteck wäre plötzlich
+    // an einer anderen Stelle als zuvor.
+    const ra = baseRA;
+    const dec = baseDec;
+    const width = framingStore.containerWidth;
+    const height = framingStore.containerHeight;
     const fov = framingStore.fov;
     const useCache = settingsStore.framing.useNinaCache;
 
@@ -370,16 +709,21 @@ async function fetchFramingInfo() {
 }
 
 function calculateRaDec() {
-  // Center des Ziel-Rechtecks
-  const targetCenterX = x.value + framingStore.camWidth / 2;
-  const targetCenterY = y.value + framingStore.camHeight / 2;
+  // Effektive Abmessungen (Mosaikgitter oder einzelne Kamera)
+  const effectiveW = framingStore.isMosaicMode ? mosaicTotalSize().w : framingStore.camWidth;
+  const effectiveH = framingStore.isMosaicMode ? mosaicTotalSize().h : framingStore.camHeight;
+
+  // Center des Ziel-Rechtecks (Mitte des Mosaik-Gitters oder der einzelnen Kamera)
+  const targetCenterX = x.value + effectiveW / 2;
+  const targetCenterY = y.value + effectiveH / 2;
 
   // Container-Mitte
-  const center = framingStore.containerSize / 2;
+  const centerX = framingStore.containerWidth / 2;
+  const centerY = framingStore.containerHeight / 2;
 
   // Abweichung in Pixel
-  const deltaX = targetCenterX - center;
-  const deltaY = center - targetCenterY;
+  const deltaX = targetCenterX - centerX;
+  const deltaY = centerY - targetCenterY;
 
   // Offset DEC
   const offsetDec = deltaY * scaleDegPerPixel.value;
@@ -439,7 +783,34 @@ function rad2deg(rad) {
 // FOV Anpassung mit +/- Buttons
 function adjustFov(delta) {
   const newValue = parseFloat(framingStore.fov) + delta;
-  framingStore.fov = Math.max(0.1, Math.min(180, Math.round(newValue * 10) / 10));
+  framingStore.fov = Math.max(1, Math.min(50, Math.round(newValue)));
+}
+
+// Bildausschnitt mit Pfeilen verschieben.
+// dx: -1 = links, +1 = rechts.  dy: -1 = unten, +1 = oben.
+// Schrittweite: 25 % des aktuellen FOV — proportional zur Sichtgröße,
+// damit ein Klick bei hohem Zoom feine, bei niedrigem Zoom grobe Schritte
+// macht.
+function pan(dx, dy) {
+  let cosDec = Math.cos((baseDec * Math.PI) / 180);
+  if (Math.abs(cosDec) < 1e-8) cosDec = 1e-8;
+  const stepDeg = framingStore.fov * 0.25;
+
+  // Rechts auf dem Schirm = niedrigere RA (Astro-Konvention: East-Left,
+  // wenn man nach oben in den Himmel schaut). Höhere DEC = nach oben.
+  baseRA -= (dx * stepDeg) / cosDec;
+  baseDec = Math.max(-89.9, Math.min(89.9, baseDec + dy * stepDeg));
+
+  // RA in [0, 360) wrappen
+  baseRA = ((baseRA % 360) + 360) % 360;
+
+  // Frame-Sky-Koords aus aktueller Pixelposition + neuem baseRA/baseDec
+  // neu berechnen, damit RAangle/DECangle mit dem verschobenen Bild
+  // konsistent bleiben.
+  calculateRaDec();
+
+  // Hintergrundbild neu laden
+  debouncedImageReload();
 }
 </script>
 

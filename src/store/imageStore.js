@@ -7,8 +7,10 @@ import { useHistogramStore } from './histogramStore';
 export const useImagetStore = defineStore('imageStore', {
   state: () => ({
     imageData: null,
+    captureStatsFull: null,
     isImageFetching: false,
     isSequenceImageFetching: false,
+    pendingFetch: false,
     lastImage: {
       index: 0,
       quality: 0,
@@ -33,6 +35,11 @@ export const useImagetStore = defineStore('imageStore', {
     },
 
     async getImage() {
+      if (this.isImageFetching) {
+        console.log('[ImageStore] getImage: skip — fetch in progress, queueing pending re-fetch');
+        this.pendingFetch = true;
+        return;
+      }
       const settingsStore = useSettingsStore();
       const quality = settingsStore.camera.imageQuality;
       const scale = this.calcScale();
@@ -51,7 +58,10 @@ export const useImagetStore = defineStore('imageStore', {
                 resolve();
               }
             }, 100);
-            setTimeout(() => clearInterval(interval), 5000);
+            setTimeout(() => {
+              clearInterval(interval);
+              resolve();
+            }, 15000);
           });
         }
 
@@ -61,29 +71,44 @@ export const useImagetStore = defineStore('imageStore', {
         const imageResponse = await apiService.getImagePrepared(quality, resize, scale);
 
         console.log('[ImageStore] Image fetched from API', imageResponse.data);
+        console.log(
+          '[ImageStore] getImage: response type =',
+          imageResponse?.data?.type,
+          'size =',
+          imageResponse?.data?.size
+        );
 
-        if (imageResponse && imageResponse.data.type !== 'application/json') {
+        const responseType = imageResponse?.data?.type ?? '';
+        const isJsonResponse = responseType.startsWith('application/json');
+        if (imageResponse && !isJsonResponse) {
           if (this.imageData) {
             URL.revokeObjectURL(this.imageData);
             // Clean up old image from histogram store
             const histogramStore = useHistogramStore();
             histogramStore.clearImageCache(this.imageData);
           }
-          this.imageData = URL.createObjectURL(imageResponse.data);
-          // Calculate histogram for the new image
-          const isValid = await this.validateImage(this.imageData);
-          if (isValid) {
+          const newImageUrl = URL.createObjectURL(imageResponse.data);
+          this.imageData = newImageUrl;
+          const store = apiStore();
+          if (store.isPINS) {
+            store.fetchLastImageStats();
+          }
+          const isValid = await this.validateImage(newImageUrl);
+          if (!isValid) {
+            console.warn(
+              '[ImageStore] getImage: validation failed, clearing imageData to avoid stuck broken blob'
+            );
+            URL.revokeObjectURL(newImageUrl);
             const histogramStore = useHistogramStore();
-            await histogramStore.calculateHistogramForImage(this.imageData);
-            try {
-              const statsResult = await apiService.getCaptureStatistics();
-              if (statsResult?.Success) {
-                histogramStore.setCaptureStats(statsResult);
-              }
-            } catch {
-              // Statistics are optional — ignore errors
+            histogramStore.clearImageCache(newImageUrl);
+            if (this.imageData === newImageUrl) {
+              this.imageData = null;
             }
           }
+        } else {
+          console.log(
+            '[ImageStore] getImage: response is JSON (no image yet on backend), imageData unchanged'
+          );
         }
       } catch (error) {
         console.error('[ImageStore] Error fetching information:', error);
@@ -95,6 +120,11 @@ export const useImagetStore = defineStore('imageStore', {
           await new Promise((resolve) => setTimeout(resolve, minDuration - elapsedTime));
         }
         this.isImageFetching = false;
+        if (this.pendingFetch) {
+          console.log('[ImageStore] getImage: pending fetch triggered, re-running');
+          this.pendingFetch = false;
+          this.getImage();
+        }
       }
     },
 
@@ -137,7 +167,10 @@ export const useImagetStore = defineStore('imageStore', {
                 resolve();
               }
             }, 100);
-            setTimeout(() => clearInterval(interval), 5000);
+            setTimeout(() => {
+              clearInterval(interval);
+              resolve();
+            }, 15000);
           });
         }
 
@@ -193,10 +226,6 @@ export const useImagetStore = defineStore('imageStore', {
         this.lastImage.index = index;
         this.lastImage.image = imageUrl;
 
-        // Calculate histogram for the sequence image
-        const histogramStore = useHistogramStore();
-        await histogramStore.calculateHistogramForImage(imageUrl);
-
         return imageUrl;
       } catch (error) {
         console.error(
@@ -209,9 +238,9 @@ export const useImagetStore = defineStore('imageStore', {
       }
     },
 
-    async getThumbnailByIndex(index) {
+    async getThumbnailByIndex(index, imageType = null) {
       try {
-        const blob = await apiService.getSequenceThumbnail(index);
+        const blob = await apiService.getSequenceThumbnail(index, imageType);
         const imageUrl = URL.createObjectURL(blob);
         return imageUrl;
       } catch (error) {
@@ -300,6 +329,7 @@ export const useImagetStore = defineStore('imageStore', {
       this.imageData = null;
       this.isImageFetching = false;
       this.isSequenceImageFetching = false;
+      this.pendingFetch = false;
       this.lastImage.index = 0;
       this.lastImage.image = null;
       console.log('[ImageStore] Clearing image cache');

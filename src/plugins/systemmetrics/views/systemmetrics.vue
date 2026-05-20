@@ -129,6 +129,32 @@
               </div>
             </dl>
           </article>
+
+          <article
+            v-if="systemTemperatureCelsius !== null"
+            class="rounded-xl border border-gray-700 bg-gray-900/60 p-6 shadow-lg"
+          >
+            <header class="flex items-center justify-between">
+              <h2 class="text-lg font-semibold text-white">System Temperature</h2>
+              <span class="text-sm text-gray-400">{{
+                formatTemperature(systemTemperatureCelsius)
+              }}</span>
+            </header>
+            <dl class="mt-4 space-y-2 text-sm text-gray-300">
+              <div class="flex justify-between">
+                <dt>Celsius</dt>
+                <dd>{{ formatTemperature(systemTemperatureCelsius) }}</dd>
+              </div>
+              <div class="flex justify-between">
+                <dt>Fahrenheit</dt>
+                <dd>{{ formatTemperature(systemTemperatureFahrenheit, '°F') }}</dd>
+              </div>
+              <div v-if="systemTemperatureSource" class="flex justify-between text-gray-400">
+                <dt>Source</dt>
+                <dd>{{ systemTemperatureSource }}</dd>
+              </div>
+            </dl>
+          </article>
         </section>
 
         <section v-if="diskMetrics.length" class="space-y-4">
@@ -211,6 +237,14 @@ const percentToWidth = (value) => `${clampPercent(value)}%`;
 
 const formatPercent = (value) => `${percentFormatter.format(clampPercent(value))}%`;
 
+const formatTemperature = (value, unit = '°C') => {
+  const numeric = Number(value);
+  if (!Number.isFinite(numeric)) {
+    return `--${unit}`;
+  }
+  return `${percentFormatter.format(numeric)}${unit}`;
+};
+
 const formatBytes = (bytes) => {
   const numeric = Number(bytes);
   if (!Number.isFinite(numeric) || numeric <= 0) {
@@ -266,6 +300,16 @@ const cpuUsagePercent = computed(() => clampPercent(metrics.value?.CpuUsagePerce
 const memoryMetrics = computed(() => metrics.value?.Memory ?? null);
 const memoryUsagePercent = computed(() => clampPercent(memoryMetrics.value?.UsedPercent));
 const diskMetrics = computed(() => metrics.value?.Disks ?? []);
+const systemTemperature = computed(() => metrics.value?.SystemTemperature ?? null);
+const systemTemperatureCelsius = computed(() => {
+  const value = Number(systemTemperature.value?.celsius);
+  return Number.isFinite(value) ? value : null;
+});
+const systemTemperatureFahrenheit = computed(() => {
+  const value = Number(systemTemperature.value?.fahrenheit);
+  return Number.isFinite(value) ? value : null;
+});
+const systemTemperatureSource = computed(() => systemTemperature.value?.source || '');
 
 const isInitialLoading = computed(() => !metrics.value && pending.value);
 

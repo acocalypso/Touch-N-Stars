@@ -1,0 +1,9 @@
+{
+  "id": "filter-offset-calculator",
+  "name": "Filter Offset Calculator",
+  "description": "Calculates and stores focus offsets for each filter wheel filter by running autofocus on each filter (DarksCustoms plugin)",
+  "version": "1.0.0",
+  "author": "Nico",
+  "enabled": true,
+  "isPins": true
+}

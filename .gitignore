@@ -1,11 +1,11 @@
-c.DS_Store
+.DS_Store
 node_modules
 /dist
 /server/dist
 /server/build
 /server/static
 .claude
-package-lock.json
+CLAUDE.md
 
 # hrz
 *.hrz
@@ -13,6 +13,7 @@ package-lock.json
 # local env files
 .env.local
 .env.*.local
+.env
 
 # Log files
 npm-debug.log*
@@ -37,3 +38,5 @@ src/plugins/pluginRegistry.js
 public/whats-new.json
 nul
 /.vs/Touch-N-Stars.slnx
+tailwind.config.backup
+

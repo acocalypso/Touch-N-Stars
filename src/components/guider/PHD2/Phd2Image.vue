@@ -36,6 +36,20 @@
         :class="isCalibrating ? 'border-t-2 border-dashed border-green-500' : 'bg-green-500'"
       ></div>
     </div>
+
+    <!-- Secondary Stars Overlay (multi-star guiding) -->
+    <div
+      v-if="secondaryStars.length > 0 && imageElement && imageDimensions.width > 0"
+      class="absolute inset-0 pointer-events-none"
+      :style="overlayStyle"
+    >
+      <div
+        v-for="(star, i) in secondaryStarStyles"
+        :key="i"
+        class="absolute rounded-full border-2 border-green-400 opacity-80"
+        :style="star"
+      ></div>
+    </div>
   </div>
 </template>
 
@@ -56,10 +70,12 @@ defineEmits(['close']);
 const store = apiStore();
 const imageUrl = ref(null);
 const lockPosition = ref(null);
+const secondaryStars = ref([]);
 const imageElement = ref(null);
 const imageDimensions = ref({ width: 0, height: 0 });
 let intervalId = null;
 let lockPositionIntervalId = null;
+let starPositionsIntervalId = null;
 let lastImageData = null;
 
 const isGuiding = computed(() => store.guiderInfo?.State === 'Guiding');
@@ -81,6 +97,24 @@ const loadLockPosition = async () => {
   } catch (error) {
     console.log('PHD2 Image: Failed to load lock position:', error);
     lockPosition.value = null;
+  }
+};
+
+const loadStarPositions = async () => {
+  const currentState = store.guiderInfo?.State;
+  if (currentState === 'Stopped' || currentState === 'LostLock') {
+    secondaryStars.value = [];
+    return;
+  }
+  try {
+    const response = await apiService.getPhd2StarPositions();
+    if (response?.Success && response?.Response?.Secondary) {
+      secondaryStars.value = response.Response.Secondary;
+    } else {
+      secondaryStars.value = [];
+    }
+  } catch {
+    secondaryStars.value = [];
   }
 };
 
@@ -169,6 +203,27 @@ const guidingCrossVerticalStyle = computed(() => {
   };
 });
 
+const secondaryStarStyles = computed(() => {
+  if (!secondaryStars.value.length || !imageDimensions.value.width) return [];
+  const overlay = overlayStyle.value;
+  if (!overlay.width) return [];
+  const renderedWidth = parseFloat(overlay.width);
+  const renderedHeight = parseFloat(overlay.height);
+  const scaleX = renderedWidth / imageDimensions.value.width;
+  const scaleY = renderedHeight / imageDimensions.value.height;
+  const circleSize = 20 * Math.min(scaleX, scaleY);
+  return secondaryStars.value.map((star) => {
+    const cx = star.X * scaleX;
+    const cy = star.Y * scaleY;
+    return {
+      left: `${cx - circleSize / 2}px`,
+      top: `${cy - circleSize / 2}px`,
+      width: `${circleSize}px`,
+      height: `${circleSize}px`,
+    };
+  });
+});
+
 const guidingCrossHorizontalStyle = computed(() => {
   if (!lockPosition.value || !imageElement.value || !imageDimensions.value.width) return {};
 
@@ -228,8 +283,10 @@ watch(
       // Modal geöffnet - Bilder und Lock-Position laden starten
       loadPhd2Image();
       loadLockPosition();
+      loadStarPositions();
       intervalId = setInterval(loadPhd2Image, 2000);
       lockPositionIntervalId = setInterval(loadLockPosition, 3000);
+      starPositionsIntervalId = setInterval(loadStarPositions, 3000);
     } else {
       // Modal geschlossen - Intervals stoppen
       if (intervalId) {
@@ -240,7 +297,12 @@ watch(
         clearInterval(lockPositionIntervalId);
         lockPositionIntervalId = null;
       }
+      if (starPositionsIntervalId) {
+        clearInterval(starPositionsIntervalId);
+        starPositionsIntervalId = null;
+      }
       lockPosition.value = null;
+      secondaryStars.value = [];
     }
   }
 );
@@ -249,8 +311,10 @@ onMounted(() => {
   if (props.show) {
     loadPhd2Image();
     loadLockPosition();
+    loadStarPositions();
     intervalId = setInterval(loadPhd2Image, 2000);
     lockPositionIntervalId = setInterval(loadLockPosition, 3000);
+    starPositionsIntervalId = setInterval(loadStarPositions, 3000);
   }
 });
 
@@ -261,6 +325,9 @@ onUnmounted(() => {
   }
   if (lockPositionIntervalId) {
     clearInterval(lockPositionIntervalId);
+  }
+  if (starPositionsIntervalId) {
+    clearInterval(starPositionsIntervalId);
   }
 
   // URL freigeben

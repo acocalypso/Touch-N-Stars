@@ -81,9 +81,11 @@
           @click="openMaxDurationPicker('dec')"
           >{{ maxDecDuration }}</span
         >
+        <span></span>
+        <span></span>
         <span class="text-gray-400">Dec mode</span>
         <span
-          class="cursor-pointer col-span-3"
+          class="cursor-pointer"
           style="color: rgba(255, 80, 100, 1)"
           @click="cycleDecGuideMode"
           >{{ decGuideMode }}</span

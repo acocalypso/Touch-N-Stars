@@ -332,6 +332,7 @@ async function stopSlew() {
 }
 
 async function slewToOptimalPosition() {
+  if (guiderStore.isDarkLibraryBuildActive) return;
   if (!canSlew.value) return;
 
   isSlewing.value = true;
@@ -357,6 +358,7 @@ async function slewToOptimalPosition() {
 }
 
 async function startCalibration() {
+  if (guiderStore.isDarkLibraryBuildActive) return;
   if (!store.guiderInfo?.Connected) return;
 
   calibrationStarted.value = true;

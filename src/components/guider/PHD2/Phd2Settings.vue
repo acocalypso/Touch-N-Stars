@@ -2,7 +2,7 @@
   <div class="flex flex-col gap-2 sm:gap-4">
     <!-- Dark Library Build Banner -->
     <div
-      v-if="guiderStore.isDarkLibraryBuildActive"
+      v-if="store.isPINS && guiderStore.isDarkLibraryBuildActive"
       class="p-3 rounded-lg bg-yellow-500/20 border border-yellow-500/40"
     >
       <div class="flex items-center justify-between gap-2 flex-wrap">

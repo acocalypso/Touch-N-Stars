@@ -1020,7 +1020,17 @@
         "starComponents": {
           "hide": "Stercomponenten verbergen",
           "show": "Toon stercomponenten"
-        }
+        },
+        "applyStep": "Toepassen",
+        "calculatedStep": "Berekende stap",
+        "calibDistance": "Afstand",
+        "calibStepCalc": "Stapgroottecalculator",
+        "declination": "Declinatie",
+        "desiredSteps": "Gewenste stappen",
+        "guideSpeed": "Begeleidingssnelheid",
+        "imageScale": "Beeldschaal",
+        "optimal": "Optimaal",
+        "pixelSize": "Pixelgrootte"
       }
     },
     "focuser": {

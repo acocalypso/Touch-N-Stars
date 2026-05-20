@@ -1028,7 +1028,17 @@
           "clearCalibration": "キャリブレーションをクリア",
           "rightAscension": "赤経",
           "declinationAxis": "赤緯"
-        }
+        },
+        "applyStep": "適用する",
+        "calculatedStep": "計算されたステップ",
+        "calibDistance": "距離",
+        "calibStepCalc": "ステップ サイズ計算機",
+        "declination": "赤緯",
+        "desiredSteps": "望ましいステップ",
+        "guideSpeed": "ガイド速度",
+        "imageScale": "画像スケール",
+        "optimal": "最適",
+        "pixelSize": "ピクセルサイズ"
       }
     },
     "focuser": {

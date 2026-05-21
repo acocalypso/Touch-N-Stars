@@ -1807,7 +1807,11 @@
         "pluginUninstallStart": "Odinstalowywanie wtyczki: {packageName}",
         "pluginsLoadFailed": "Nie udało się załadować wtyczek PINS: {message}",
         "pluginsPackageNotAllowed": "Pakiet niedozwolony przez zasady API: {packageName}",
-        "pluginsLoadMetadataFailed": "Nie można załadować wtyczek PINS, ponieważ repozytorium metadanych wtyczek jest obecnie niedostępne (HTTP 502)."
+        "pluginsLoadMetadataFailed": "Nie można załadować wtyczek PINS, ponieważ repozytorium metadanych wtyczek jest obecnie niedostępne (HTTP 502).",
+        "hotspotChannelInvalid": "Kanał punktu aktywnego musi być dodatnią liczbą całkowitą, jeśli jest podany.",
+        "hotspotFetchFailed": "Nie udało się załadować ustawień hotspotu: {message}",
+        "hotspotPasswordInvalidLength": "Hasło do hotspotu jest wymagane i musi mieć od 8 do 63 znaków.",
+        "hotspotSaveFailed": "Nie udało się zapisać ustawień hotspotu: {message}"
       },
       "hotspotConfigured": "Skonfigurowano niestandardowe hasło hotspotu.",
       "hotspotNewPassword": "Nowe hasło do hotspotu",
@@ -1893,7 +1897,14 @@
       "indiInstallModalSuccessCompleted": "Instalacja dla {label} została ukończona.",
       "indiInstallModalSuccessStarted": "Rozpoczęto instalację dla {label}.",
       "indiInstallModalTitle": "Zainstaluj sterownik INDI",
-      "indiInstallModalType": "Typ"
+      "indiInstallModalType": "Typ",
+      "hotspotAppliedStatus": "Zastosowano do aktywnego hotspotu: {zastosowano} | \nZespół: {zespół} | \nKanał: {kanał}",
+      "hotspotBandAuto": "Automatycznie / Rozbrojony",
+      "hotspotBandLabel": "Zespół Hotspot",
+      "hotspotCapabilitiesUnavailable": "Lista możliwości adaptera jest niedostępna; \ndozwolony kanał ręczny.",
+      "hotspotChannelLabel": "Kanał Hotspotu",
+      "hotspotChannelPlaceholder": "Zostaw puste dla auto",
+      "hotspotMetaLine": "Źródło: {źródło} | \nInterfejs: {iface} | \nZespół: {zespół} | \nKanał: {kanał}"
     },
     "bahtifocus": {
       "title": "Analizator maski Bahtinowa",

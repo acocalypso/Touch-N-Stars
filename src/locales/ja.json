@@ -1060,7 +1060,17 @@
           "invalidRange": "最小露出は最大露出以下である必要があります",
           "buildActive": "ダークライブラリ作成中",
           "buildActiveMessage": "作成が完了するまで PHD2 操作はブロックされます。"
-        }
+        },
+        "applyStep": "適用する",
+        "calculatedStep": "計算されたステップ",
+        "calibDistance": "距離",
+        "calibStepCalc": "ステップ サイズ計算機",
+        "declination": "赤緯",
+        "desiredSteps": "望ましいステップ",
+        "guideSpeed": "ガイド速度",
+        "imageScale": "画像スケール",
+        "optimal": "最適",
+        "pixelSize": "ピクセルサイズ"
       }
     },
     "focuser": {
@@ -1805,7 +1815,11 @@
         "pluginUninstallStart": "プラグインをアンインストールしています: {packageName}",
         "pluginsLoadFailed": "PINS プラグインのロードに失敗しました: {message}",
         "pluginsPackageNotAllowed": "API ポリシーによってパッケージが許可されていません: {packageName}",
-        "pluginsLoadMetadataFailed": "プラグイン メタデータ リポジトリが現在利用できないため、PINS プラグインをロードできませんでした (HTTP 502)。"
+        "pluginsLoadMetadataFailed": "プラグイン メタデータ リポジトリが現在利用できないため、PINS プラグインをロードできませんでした (HTTP 502)。",
+        "hotspotChannelInvalid": "ホットスポット チャネルを指定する場合は、正の整数である必要があります。",
+        "hotspotFetchFailed": "ホットスポット設定の読み込みに失敗しました: {メッセージ}",
+        "hotspotPasswordInvalidLength": "ホットスポットのパスワードは必須であり、8 ～ 63 文字である必要があります。",
+        "hotspotSaveFailed": "ホットスポット設定を保存できませんでした: {メッセージ}"
       },
       "wifiDisconnect": "WiFiを切断",
       "disconnectConfirmTitle": "WiFiを切断しますか？",
@@ -1883,7 +1897,14 @@
       "indiInstallModalSuccessCompleted": "{label} のインストールが完了しました。",
       "indiInstallModalSuccessStarted": "{label} のインストールが開始されました。",
       "indiInstallModalTitle": "INDIドライバーをインストールする",
-      "indiInstallModalType": "タイプ"
+      "indiInstallModalType": "タイプ",
+      "hotspotAppliedStatus": "アクティブなホットスポットに適用: {applied} |\nバンド: {バンド} |\nチャンネル: {チャンネル}",
+      "hotspotBandAuto": "自動 / 未設定",
+      "hotspotBandLabel": "ホットスポットバンド",
+      "hotspotCapabilitiesUnavailable": "アダプタ機能リストは利用できません。\n手動チャンネルは許可されています。",
+      "hotspotChannelLabel": "ホットスポットチャンネル",
+      "hotspotChannelPlaceholder": "自動の場合は空のままにします",
+      "hotspotMetaLine": "出典: {出典} |\nインターフェース: {iface} |\nバンド: {バンド} |\nチャンネル: {チャンネル}"
     },
     "bahtifocus": {
       "title": "バーティノフマスク・アナライザー",

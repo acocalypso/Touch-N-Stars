@@ -1807,7 +1807,11 @@
         "pluginUninstallStart": "Plug-in verwijderen: {packageName}",
         "pluginsLoadFailed": "Kan PINS-plug-ins niet laden: {message}",
         "pluginsPackageNotAllowed": "Pakket niet toegestaan ​​door API-beleid: {packageName}",
-        "pluginsLoadMetadataFailed": "PINS-plug-ins kunnen niet worden geladen omdat de opslagplaats voor metagegevens van plug-ins momenteel niet beschikbaar is (HTTP 502)."
+        "pluginsLoadMetadataFailed": "PINS-plug-ins kunnen niet worden geladen omdat de opslagplaats voor metagegevens van plug-ins momenteel niet beschikbaar is (HTTP 502).",
+        "hotspotChannelInvalid": "Hotspotkanaal moet een positief geheel getal zijn, indien opgegeven.",
+        "hotspotFetchFailed": "Kan hotspot-instellingen niet laden: {message}",
+        "hotspotPasswordInvalidLength": "Hotspotwachtwoord is vereist en moet 8-63 tekens lang zijn.",
+        "hotspotSaveFailed": "Kan hotspot-instellingen niet opslaan: {message}"
       },
       "hotspotConfigured": "Er is een aangepast hotspotwachtwoord geconfigureerd.",
       "hotspotNewPassword": "Nieuw hotspot-wachtwoord",
@@ -1893,7 +1897,14 @@
       "indiInstallModalSuccessCompleted": "Installatie voltooid voor {label}.",
       "indiInstallModalSuccessStarted": "Installatie gestart voor {label}.",
       "indiInstallModalTitle": "Installeer het INDI-stuurprogramma",
-      "indiInstallModalType": "Type"
+      "indiInstallModalType": "Type",
+      "hotspotAppliedStatus": "Toegepast op actieve hotspot: {toegepast} | \nBand: {band} | \nKanaal: {kanaal}",
+      "hotspotBandAuto": "Automatisch / Uitgeschakeld",
+      "hotspotBandLabel": "Hotspotband",
+      "hotspotCapabilitiesUnavailable": "Lijst met adaptermogelijkheden niet beschikbaar; \nhandmatig kanaal toegestaan.",
+      "hotspotChannelLabel": "Hotspot-kanaal",
+      "hotspotChannelPlaceholder": "Laat leeg voor automatisch",
+      "hotspotMetaLine": "Bron: {bron} | \nInterface: {iface} | \nBand: {band} | \nKanaal: {kanaal}"
     },
     "bahtifocus": {
       "title": "Bahtinov Masker Analyse",

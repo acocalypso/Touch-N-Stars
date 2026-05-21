@@ -141,6 +141,16 @@
         <Phd2GuideAlgorithmDEC />
       </div>
 
+      <!-- Mount Settings -->
+      <div
+        class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
+      >
+        <h3 class="font-bold text-base text-cyan-400">
+          {{ $t('components.guider.phd2.mountSettings') }}
+        </h3>
+        <MountGuideRate />
+      </div>
+
       <!-- Dark Library -->
       <div
         class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
@@ -172,6 +182,7 @@ import Phd2CameraGain from '@/components/guider/PHD2/pins/Phd2CameraGain.vue';
 import Phd2CameraBinning from '@/components/guider/PHD2/pins/Phd2CameraBinning.vue';
 import Phd2RestoreCalibration from '@/components/guider/PHD2/pins/Phd2RestoreCalibration.vue';
 import Phd2DarkLibrary from '@/components/guider/PHD2/pins/Phd2DarkLibrary.vue';
+import MountGuideRate from '@/components/guider/PHD2/pins/MountGuideRate.vue';
 import { apiStore } from '@/store/store';
 
 const guiderStore = useGuiderStore();

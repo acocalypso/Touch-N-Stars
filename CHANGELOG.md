@@ -39,6 +39,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Stellarium: Add Camera FOV
 - Plugin: PHD2 Log Viewer – visualize PHD2 guiding sessions with guide graph, RMS statistics, FFT periodic error analysis and calibration data - thanks to Florin Dumitrescu
 - PINS PHD2: Dark Library assistant (build/load/unload/delete) with DARKS indicator in guider stats
+- PINS PHD2: Guide Rate setting in guider settings – shows current sidereal rate multiplier and allows changing it; read-only display when mount does not support changing the guide rate
 
 ### Changed
 - Plate Solve: Use the NINA-style toolbar icon in the shared image viewer

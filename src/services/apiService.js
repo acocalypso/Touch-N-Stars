@@ -984,6 +984,24 @@ const apiService = {
     }
   },
 
+  async getMountGuideRate() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}equipment/mount/guiderate`);
+  },
+
+  async setMountGuideRate(raSiderealMultiplier, decSiderealMultiplier) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.put(`${API_URL}equipment/mount/guiderate`, {
+        raSiderealMultiplier,
+        decSiderealMultiplier,
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
   //-------------------------------------  profile ---------------------------------------
   profileAction(action) {
     const { BASE_URL } = getUrls();

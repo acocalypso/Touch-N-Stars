@@ -14,14 +14,14 @@
           $t('components.sequence.items.moonAltitude.comparator')
         }}</label>
         <select
-          :key="item.Data?.Comparator"
+          :key="comparatorValue"
           class="ml-auto w-36 md:w-40 bg-slate-700/60 border border-slate-600 rounded px-2 py-1 text-xs text-gray-200"
           @change="save('Data.Comparator', Number($event.target.value))"
         >
-          <option value="3" :selected="item.Data?.Comparator === 3">
+          <option value="3" :selected="comparatorValue === 3">
             {{ $t('components.sequence.items.moonAltitude.above') }}
           </option>
-          <option value="1" :selected="item.Data?.Comparator === 1">
+          <option value="1" :selected="comparatorValue === 1">
             {{ $t('components.sequence.items.moonAltitude.below') }}
           </option>
         </select>
@@ -47,6 +47,7 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import ItemShell from './ItemShell.vue';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
+import { normalizeComparator } from '@/utils/sequenceUtils';
 
 const { t } = useI18n();
 
@@ -54,8 +55,12 @@ const props = defineProps({
   item: { type: Object, required: true },
 });
 
+const comparatorValue = computed(() =>
+  normalizeComparator(props.item.Data?.Comparator ?? props.item.Comparator)
+);
+
 const comparatorLabel = computed(() =>
-  props.item.Data?.Comparator === 3
+  comparatorValue.value === 3
     ? t('components.sequence.items.moonAltitude.above')
     : t('components.sequence.items.moonAltitude.below')
 );

@@ -125,7 +125,12 @@ const raStr = computed(() => {
   return `${String(co.RAHours).padStart(2, '0')}:${String(co.RAMinutes).padStart(2, '0')}`;
 });
 
-const decDeg = computed(() => (c.value.NegativeDec ? -c.value.DecDegrees : c.value.DecDegrees));
+const decDeg = computed(() => {
+  const co = c.value;
+  const isNegative = co.NegativeDec || (co.DecDegrees ?? 0) < 0;
+  const absDeg = Math.abs(co.DecDegrees ?? 0);
+  return isNegative ? -absDeg : absDeg;
+});
 
 function saveRa(h, m, s) {
   const decimal = Number(h) + Number(m) / 60 + Number(s) / 3600;

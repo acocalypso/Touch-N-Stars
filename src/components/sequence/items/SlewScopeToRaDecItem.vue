@@ -129,11 +129,18 @@ const raStr = computed(() => {
 const decStr = computed(() => {
   const co = c.value;
   if (!co.DecDegrees && co.DecDegrees !== 0) return '';
-  const sign = co.NegativeDec ? '-' : '+';
-  return `${sign}${String(co.DecDegrees).padStart(2, '0')}°${String(co.DecMinutes).padStart(2, '0')}'${String(Math.round(co.DecSeconds)).padStart(2, '0')}"`;
+  const isNegative = co.NegativeDec || (co.DecDegrees ?? 0) < 0;
+  const sign = isNegative ? '-' : '+';
+  const absDeg = Math.abs(co.DecDegrees);
+  return `${sign}${String(absDeg).padStart(2, '0')}°${String(co.DecMinutes).padStart(2, '0')}'${String(Math.round(co.DecSeconds)).padStart(2, '0')}"`;
 });
 
-const decDeg = computed(() => (c.value.NegativeDec ? -c.value.DecDegrees : c.value.DecDegrees));
+const decDeg = computed(() => {
+  const co = c.value;
+  const isNegative = co.NegativeDec || (co.DecDegrees ?? 0) < 0;
+  const absDeg = Math.abs(co.DecDegrees ?? 0);
+  return isNegative ? -absDeg : absDeg;
+});
 
 function saveCoords(patch) {
   const coords = { ...c.value, ...patch };

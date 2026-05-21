@@ -1807,7 +1807,11 @@
         "pluginUninstallStart": "Desinstalando plug-in: {packageName}",
         "pluginsLoadFailed": "Falha ao carregar plug-ins PINS: {message}",
         "pluginsPackageNotAllowed": "Pacote não permitido pela política da API: {packageName}",
-        "pluginsLoadMetadataFailed": "Os plug-ins PINS não puderam ser carregados porque o repositório de metadados do plug-in não está disponível no momento (HTTP 502)."
+        "pluginsLoadMetadataFailed": "Os plug-ins PINS não puderam ser carregados porque o repositório de metadados do plug-in não está disponível no momento (HTTP 502).",
+        "hotspotChannelInvalid": "O canal hotspot deve ser um número inteiro positivo quando fornecido.",
+        "hotspotFetchFailed": "Falha ao carregar as configurações do ponto de acesso: {message}",
+        "hotspotPasswordInvalidLength": "A senha do ponto de acesso é obrigatória e deve ter de 8 a 63 caracteres.",
+        "hotspotSaveFailed": "Falha ao salvar as configurações do ponto de acesso: {message}"
       },
       "hotspotConfigured": "A senha do ponto de acesso personalizado está configurada.",
       "hotspotNewPassword": "Nova senha do ponto de acesso",
@@ -1893,7 +1897,14 @@
       "indiInstallModalSuccessCompleted": "Instalação concluída para {label}.",
       "indiInstallModalSuccessStarted": "A instalação de {label} foi iniciada.",
       "indiInstallModalTitle": "Instale o driver INDI",
-      "indiInstallModalType": "Tipo"
+      "indiInstallModalType": "Tipo",
+      "hotspotAppliedStatus": "Aplicado ao hotspot ativo: {applied} | \nBanda: {banda} | \nCanal: {canal}",
+      "hotspotBandAuto": "Automático/Desativado",
+      "hotspotBandLabel": "Banda de ponto de acesso",
+      "hotspotCapabilitiesUnavailable": "Lista de recursos do adaptador indisponível; \ncanal manual permitido.",
+      "hotspotChannelLabel": "Canal de ponto de acesso",
+      "hotspotChannelPlaceholder": "Deixe em branco para automático",
+      "hotspotMetaLine": "Fonte: {fonte} | \nInterface: {iface} | \nBanda: {banda} | \nCanal: {canal}"
     },
     "bahtifocus": {
       "title": "Analisador de máscara Bahtinov",

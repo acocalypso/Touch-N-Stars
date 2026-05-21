@@ -32,6 +32,13 @@
               :selected-hotspot-interface="selectedHotspotInterface"
               :hotspot-configured="hotspotConfigured"
               :hotspot-password="hotspotPassword"
+              :hotspot-band="hotspotBand"
+              :hotspot-channel="hotspotChannel"
+              :hotspot-source="hotspotSource"
+              :hotspot-interface="hotspotInterface"
+              :supported-channels="supportedChannels"
+              :hotspot-save-result="hotspotSaveResult"
+              :hotspot-can-save-with-session-password="Boolean(lastHotspotPassword)"
               :hotspot-loading="isHotspotLoading"
               :hotspot-saving="isHotspotSaving"
               :disabled="status === 'Running'"
@@ -50,8 +57,10 @@
               @update:selected-client-interface="selectedClientInterface = $event"
               @update:selected-hotspot-interface="selectedHotspotInterface = $event"
               @update:hotspot-password="hotspotPassword = $event"
-              @load-hotspot="loadHotspotPasswordConfig"
-              @save-hotspot="saveHotspotPassword"
+              @update:hotspot-band="hotspotBand = $event"
+              @update:hotspot-channel="hotspotChannel = $event"
+              @load-hotspot="loadHotspotSettings"
+              @save-hotspot="saveHotspotSettings"
               @refresh-dhcp="loadDhcpClients"
             />
           </template>
@@ -260,6 +269,7 @@ import {
   extractIndiInstallErrorDetail,
   parseIndiInstallJobId,
 } from '../composables/indiInstallUtils';
+import { createHotspotSettingsApi } from '../composables/hotspotSettingsApi';
 
 const { t } = useI18n();
 const settingsStore = useSettingsStore();
@@ -271,7 +281,14 @@ const sambaEnabled = ref(false);
 const phd2Enabled = ref(false);
 const phd2Running = ref(false);
 const hotspotPassword = ref('');
+const lastHotspotPassword = ref('');
 const hotspotConfigured = ref(false);
+const hotspotBand = ref('auto');
+const hotspotChannel = ref('');
+const hotspotSource = ref('default');
+const hotspotInterface = ref('');
+const supportedChannels = ref({});
+const hotspotSaveResult = ref(null);
 const isHotspotLoading = ref(false);
 const isHotspotSaving = ref(false);
 const showDisconnectWifiModal = ref(false);
@@ -364,6 +381,12 @@ const {
   status,
 });
 
+const hotspotSettingsApi = createHotspotSettingsApi({
+  getIp,
+  port: PORT,
+  token: TOKEN,
+});
+
 const allowConcurrentWifiAndHotspot = computed(() => {
   const hasMultipleAdapters = wifiAdapters.value.length >= 2;
   const hasDedicatedClientInterface = Boolean(selectedClientInterface.value);
@@ -404,7 +427,7 @@ watch(
     if (newValue) {
       checkSambaStatus();
       checkPhd2Status();
-      loadHotspotPasswordConfig();
+      loadHotspotSettings();
       loadWifiInterfaceConfig();
       checkUpdates();
       loadIndi3rdpartyDrivers();
@@ -785,7 +808,42 @@ async function checkUpdates() {
   }
 }
 
-async function loadHotspotPasswordConfig() {
+function normalizeBandOrAuto(rawBand) {
+  const band = typeof rawBand === 'string' ? rawBand.trim() : '';
+  if (band === '2.4GHz' || band === '5GHz') {
+    return band;
+  }
+  return 'auto';
+}
+
+function normalizeChannelInput(rawChannel) {
+  if (rawChannel === '' || rawChannel === null || typeof rawChannel === 'undefined') {
+    return '';
+  }
+
+  const numeric = Number(rawChannel);
+  if (!Number.isInteger(numeric) || numeric < 1) {
+    return '';
+  }
+
+  return String(numeric);
+}
+
+function extractBackendErrorDetail(error) {
+  const details = error?.response?.data;
+  if (typeof details === 'string' && details.trim()) {
+    return details.trim();
+  }
+  if (details && typeof details.message === 'string' && details.message.trim()) {
+    return details.message.trim();
+  }
+  if (details && typeof details.detail === 'string' && details.detail.trim()) {
+    return details.detail.trim();
+  }
+  return error?.message || 'Unknown error';
+}
+
+async function loadHotspotSettings() {
   const ip = getIp();
   if (!ip) {
     appendLog(t('plugins.pins.logs.noIp'));
@@ -794,37 +852,44 @@ async function loadHotspotPasswordConfig() {
 
   isHotspotLoading.value = true;
   try {
-    const directAxios = axios.create({ headers: {} });
-    const response = await directAxios.get(`http://${ip}:${PORT}/wifi/hotspot/password`, {
-      headers: {
-        Authorization: `Bearer ${TOKEN}`,
-      },
-      timeout: 5000,
-    });
-
-    const data = response.data || {};
+    const data = await hotspotSettingsApi.fetchHotspotSettings();
     hotspotConfigured.value = Boolean(data.configured);
-    if (!hotspotConfigured.value) {
-      hotspotPassword.value = '';
-    }
+    hotspotSource.value = data.source === 'configured' ? 'configured' : 'default';
+    hotspotBand.value = normalizeBandOrAuto(data.band);
+    hotspotChannel.value = normalizeChannelInput(data.channel);
+    hotspotInterface.value = data.hotspotInterface || '';
+    supportedChannels.value =
+      data.supportedChannels && typeof data.supportedChannels === 'object'
+        ? data.supportedChannels
+        : {};
 
     appendLog(
       t('plugins.pins.logs.hotspotFetched', {
         configured: hotspotConfigured.value ? 'true' : 'false',
-        source: data.source || 'unknown',
+        source: hotspotSource.value,
+        band: data.band || 'unset',
+        channel: data.channel ?? 'unset',
       })
     );
   } catch (error) {
     console.error(error);
-    appendLog(
-      t('plugins.pins.logs.error', { message: 'Hotspot password fetch failed: ' + error.message })
-    );
+    const detail = extractBackendErrorDetail(error);
+    appendLog(t('plugins.pins.logs.hotspotFetchFailed', { message: detail }));
+
+    if (error.response) {
+      appendLog(
+        t('plugins.pins.logs.serverError', {
+          status: error.response.status,
+          data: JSON.stringify(error.response.data),
+        })
+      );
+    }
   } finally {
     isHotspotLoading.value = false;
   }
 }
 
-async function saveHotspotPassword() {
+async function saveHotspotSettings() {
   if (status.value === 'Running' || isHotspotSaving.value) return;
 
   const ip = getIp();
@@ -833,45 +898,62 @@ async function saveHotspotPassword() {
     return;
   }
 
-  if (!hotspotPassword.value || hotspotPassword.value.length < 8) {
-    appendLog(t('plugins.pins.logs.hotspotPasswordTooShort'));
+  const password = (hotspotPassword.value || lastHotspotPassword.value || '').trim();
+  if (!password || password.length < 8 || password.length > 63) {
+    appendLog(t('plugins.pins.logs.hotspotPasswordInvalidLength'));
     return;
+  }
+
+  const trimmedChannel = String(hotspotChannel.value || '').trim();
+  if (trimmedChannel && !/^[1-9]\d*$/.test(trimmedChannel)) {
+    appendLog(t('plugins.pins.logs.hotspotChannelInvalid'));
+    return;
+  }
+
+  const payload = {
+    password,
+  };
+
+  if (hotspotBand.value === '2.4GHz' || hotspotBand.value === '5GHz') {
+    payload.band = hotspotBand.value;
+  }
+
+  if (trimmedChannel) {
+    payload.channel = Number(trimmedChannel);
   }
 
   isHotspotSaving.value = true;
   appendLog(t('plugins.pins.logs.hotspotSaving'));
 
   try {
-    const directAxios = axios.create({ headers: {} });
-    const response = await directAxios.post(
-      `http://${ip}:${PORT}/wifi/hotspot/password`,
-      {
-        password: hotspotPassword.value,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${TOKEN}`,
-          'Content-Type': 'application/json',
-        },
-        timeout: 10000,
-      }
-    );
-
-    const data = response.data || {};
+    const data = await hotspotSettingsApi.updateHotspotSettings(payload);
     hotspotConfigured.value = Boolean(data.configured);
+    lastHotspotPassword.value = password;
+    hotspotSaveResult.value = {
+      status: data.status || 'success',
+      message: data.message || 'Hotspot settings updated',
+      appliedToActiveHotspot: Boolean(data.appliedToActiveHotspot),
+      band: data.band || null,
+      channel: typeof data.channel === 'number' ? data.channel : null,
+    };
+
     appendLog(
       t('plugins.pins.logs.hotspotSaved', {
         message: data.message || 'OK',
+        applied: data.appliedToActiveHotspot ? 'true' : 'false',
       })
     );
 
-    // Refresh status/source after update.
-    await loadHotspotPasswordConfig();
+    // Keep the input empty while retaining a session-only fallback password for future saves.
+    hotspotPassword.value = '';
+
+    // Refresh capabilities + normalized values after save.
+    await loadHotspotSettings();
   } catch (error) {
     console.error(error);
-    appendLog(
-      t('plugins.pins.logs.error', { message: 'Hotspot password save failed: ' + error.message })
-    );
+    hotspotSaveResult.value = null;
+    const detail = extractBackendErrorDetail(error);
+    appendLog(t('plugins.pins.logs.hotspotSaveFailed', { message: detail }));
 
     if (error.response) {
       appendLog(

@@ -1807,7 +1807,11 @@
         "pluginUninstallStart": "Plugin di disinstallazione: {packageName}",
         "pluginsLoadFailed": "Impossibile caricare i plug-in PINS: {messaggio}",
         "pluginsPackageNotAllowed": "Pacchetto non consentito dalla policy API: {packageName}",
-        "pluginsLoadMetadataFailed": "Impossibile caricare i plug-in PINS perché il repository dei metadati dei plug-in non è attualmente disponibile (HTTP 502)."
+        "pluginsLoadMetadataFailed": "Impossibile caricare i plug-in PINS perché il repository dei metadati dei plug-in non è attualmente disponibile (HTTP 502).",
+        "hotspotChannelInvalid": "Il canale hotspot deve essere un numero intero positivo quando fornito.",
+        "hotspotFetchFailed": "Impossibile caricare le impostazioni dell'hotspot: {messaggio}",
+        "hotspotPasswordInvalidLength": "La password dell'hotspot è obbligatoria e deve contenere da 8 a 63 caratteri.",
+        "hotspotSaveFailed": "Impossibile salvare le impostazioni dell'hotspot: {messaggio}"
       },
       "hotspotConfigured": "La password dell'hotspot personalizzata è configurata.",
       "hotspotNewPassword": "Nuova password dell'hotspot",
@@ -1893,7 +1897,14 @@
       "indiInstallModalSuccessCompleted": "Installazione completata per {label}.",
       "indiInstallModalSuccessStarted": "L'installazione è iniziata per {label}.",
       "indiInstallModalTitle": "Installa il driver INDI",
-      "indiInstallModalType": "Tipo"
+      "indiInstallModalType": "Tipo",
+      "hotspotAppliedStatus": "Applicato all'hotspot attivo: {applied} | \nBand: {band} | \nChannel: {channel}",
+      "hotspotCapabilitiesUnavailable": "Elenco delle funzionalità dell'adattatore non disponibile; \nmanual channel allowed.",
+      "hotspotChannelPlaceholder": "Lascia vuoto per automatico",
+      "hotspotMetaLine": "Fonte: {fonte} | \nInterfaccia: {iface} | \nBanda: {banda} | \nCanale: {canale}",
+      "hotspotBandAuto": "Auto/Disimposta",
+      "hotspotBandLabel": "Banda Hotspot",
+      "hotspotChannelLabel": "Canale Hotspot"
     },
     "bahtifocus": {
       "title": "Analizzatore di maschere Bahtinov",

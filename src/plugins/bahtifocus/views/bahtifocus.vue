@@ -854,7 +854,7 @@ const pluginServerUrl = computed(() => {
   const host = connection.ip || window.location.hostname;
   let port = connection.port || window.location.port || '';
 
-  const isDev = process.env.NODE_ENV === 'development';
+  const isDev = import.meta.env.DEV;
   if (isDev && Number(port) === 8080) {
     port = '5000';
   }
@@ -1981,16 +1981,18 @@ onBeforeUnmount(() => {
   }
 });
 
+const exampleImageModules = import.meta.glob(
+  '../image/*.{png,jpg,jpeg,webp,bmp,tif,tiff,fit,fits}',
+  { eager: true, import: 'default' }
+);
+
 function populateExampleOptions() {
   try {
-    const context = require.context('../image', false, /\.(png|jpe?g|webp|bmp|tiff?|fit|fits)$/i);
-    exampleOptions.value = context
-      .keys()
-      .map((key) => ({
-        key,
-        label: key.replace('./', ''),
-        url: context(key),
-      }))
+    exampleOptions.value = Object.entries(exampleImageModules)
+      .map(([fullPath, url]) => {
+        const label = fullPath.split('/').pop() || fullPath;
+        return { key: `./${label}`, label, url };
+      })
       .sort((a, b) => a.label.localeCompare(b.label));
   } catch (error) {
     console.warn('[Bahtifocus] No example images available', error);

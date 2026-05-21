@@ -76,6 +76,12 @@ export const useGuiderStore = defineStore('guiderStore', {
     phd2RestoreCalibration: false,
     phd2RestoreCalibrationLoading: false,
 
+    // Mount Guide Rate State (PINS)
+    mountGuideRateRA: null,
+    mountGuideRateDec: null,
+    mountCanSetGuideRate: false,
+    mountGuideRateLoading: false,
+
     // PHD2 Dark Library State (PINS)
     phd2DarkLibraryInfo: null,
     phd2DarkLibraryInfoLoading: false,
@@ -848,6 +854,33 @@ export const useGuiderStore = defineStore('guiderStore', {
         return response;
       } catch (error) {
         console.error('Error deleting PHD2 dark library:', error);
+        throw error;
+      }
+    },
+
+    async fetchMountGuideRate() {
+      const store = apiStore();
+      if (!store.isPINS) return;
+      this.mountGuideRateLoading = true;
+      try {
+        const response = await apiService.getMountGuideRate();
+        if (response?.success) {
+          this.mountGuideRateRA = response.raSiderealMultiplier;
+          this.mountGuideRateDec = response.decSiderealMultiplier;
+          this.mountCanSetGuideRate = response.canSetGuideRate ?? false;
+        }
+      } catch (error) {
+        console.error('Error fetching mount guide rate:', error);
+      } finally {
+        this.mountGuideRateLoading = false;
+      }
+    },
+
+    async setMountGuideRate(raSiderealMultiplier, decSiderealMultiplier) {
+      try {
+        return await apiService.setMountGuideRate(raSiderealMultiplier, decSiderealMultiplier);
+      } catch (error) {
+        console.error('Error setting mount guide rate:', error);
         throw error;
       }
     },

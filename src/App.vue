@@ -294,7 +294,7 @@ import axios from 'axios';
 import { apiStore } from '@/store/store';
 import { useImagetStore } from './store/imageStore';
 import { useSettingsStore } from '@/store/settingsStore';
-import { useHead } from '@vueuse/head';
+import { useHead } from '@unhead/vue';
 import { Capacitor } from '@capacitor/core';
 import { App as CapacitorApp } from '@capacitor/app';
 import { CapacitorUpdater } from '@capgo/capacitor-updater';

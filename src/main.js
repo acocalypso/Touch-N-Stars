@@ -4,7 +4,7 @@ import router from '@/router';
 import { createPinia } from 'pinia';
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
 import './assets/tailwind.css';
-import { createHead } from '@unhead/vue';
+import { createHead } from '@unhead/vue/client';
 import i18n from '@/i18n';
 import { usePluginStore } from '@/store/pluginStore';
 import { timeSync } from '@/utils/timeSync';

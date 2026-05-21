@@ -11,6 +11,7 @@ install! 'cocoapods', :disable_input_output_paths => true
 def capacitor_pods
   pod 'Capacitor', :path => '../../node_modules/@capacitor/ios'
   pod 'CapacitorCordova', :path => '../../node_modules/@capacitor/ios'
+  pod 'AcovanconisCapacitorMdns', :path => '../../node_modules/@acovanconis/capacitor-mdns'
   pod 'CapacitorCommunityKeepAwake', :path => '../../node_modules/@capacitor-community/keep-awake'
   pod 'CapacitorCommunityMedia', :path => '../../node_modules/@capacitor-community/media'
   pod 'CapacitorApp', :path => '../../node_modules/@capacitor/app'
@@ -21,7 +22,6 @@ def capacitor_pods
   pod 'CapacitorStatusBar', :path => '../../node_modules/@capacitor/status-bar'
   pod 'CapawesomeCapacitorFilePicker', :path => '../../node_modules/@capawesome/capacitor-file-picker'
   pod 'CapgoCapacitorUpdater', :path => '../../node_modules/@capgo/capacitor-updater'
-  pod 'DevioartsCapacitorMdns', :path => '../../node_modules/@devioarts/capacitor-mdns'
   pod 'CapacitorGetlocalip', :path => '../../node_modules/capacitor-getlocalip'
 end
 

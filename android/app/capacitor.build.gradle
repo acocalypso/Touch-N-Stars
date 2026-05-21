@@ -9,6 +9,7 @@ android {
 
 apply from: "../capacitor-cordova-android-plugins/cordova.variables.gradle"
 dependencies {
+    implementation project(':acovanconis-capacitor-mdns')
     implementation project(':capacitor-community-keep-awake')
     implementation project(':capacitor-community-media')
     implementation project(':capacitor-app')
@@ -20,7 +21,6 @@ dependencies {
     implementation project(':capawesome-capacitor-android-edge-to-edge-support')
     implementation project(':capawesome-capacitor-file-picker')
     implementation project(':capgo-capacitor-updater')
-    implementation project(':devioarts-capacitor-mdns')
     implementation project(':capacitor-getlocalip')
 
 }

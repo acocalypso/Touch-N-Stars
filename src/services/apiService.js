@@ -40,7 +40,7 @@ const getBaseUrl = () => {
   const apiPort = store.apiPort;
 
   //devport auf 5000 umleiten
-  const isDev = process.env.NODE_ENV === 'development';
+  const isDev = import.meta.env.DEV;
   if (isDev && port == 8080) {
     port = 5000;
   }

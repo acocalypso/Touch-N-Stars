@@ -1807,7 +1807,11 @@
         "pluginUninstallStart": "Uninstalling plugin: {packageName}",
         "pluginsLoadFailed": "Failed to load PINS plugins: {message}",
         "pluginsPackageNotAllowed": "Package not allowed by API policy: {packageName}",
-        "pluginsLoadMetadataFailed": "PINS plugins could not be loaded because plugin metadata repository is currently unavailable (HTTP 502)."
+        "pluginsLoadMetadataFailed": "PINS plugins could not be loaded because plugin metadata repository is currently unavailable (HTTP 502).",
+        "hotspotChannelInvalid": "Hotspot channel must be a positive integer when provided.",
+        "hotspotFetchFailed": "Failed to load hotspot settings: {message}",
+        "hotspotPasswordInvalidLength": "Hotspot password is required and must be 8-63 characters.",
+        "hotspotSaveFailed": "Failed to save hotspot settings: {message}"
       },
       "hotspotConfigured": "Je nakonfigurováno vlastní heslo hotspotu.",
       "hotspotNewPassword": "Nové heslo hotspotu",
@@ -1893,7 +1897,14 @@
       "indiInstallModalSuccessCompleted": "Installation completed for {label}.",
       "indiInstallModalSuccessStarted": "Installation started for {label}.",
       "indiInstallModalTitle": "Install INDI Driver",
-      "indiInstallModalType": "Type"
+      "indiInstallModalType": "Type",
+      "hotspotAppliedStatus": "Applied to active hotspot: {applied} | Band: {band} | Channel: {channel}",
+      "hotspotBandAuto": "Auto / Unset",
+      "hotspotBandLabel": "Hotspot Band",
+      "hotspotCapabilitiesUnavailable": "Adapter capability list unavailable; manual channel allowed.",
+      "hotspotChannelLabel": "Hotspot Channel",
+      "hotspotChannelPlaceholder": "Leave empty for auto",
+      "hotspotMetaLine": "Source: {source} | Interface: {iface} | Band: {band} | Channel: {channel}"
     },
     "bahtifocus": {
       "title": "Bahtinovův analyzátor masky",

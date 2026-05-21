@@ -1807,7 +1807,11 @@
         "pluginUninstallStart": "Plugin de désinstallation : {packageName}",
         "pluginsLoadFailed": "Échec du chargement des plug-ins PINS : {message}",
         "pluginsPackageNotAllowed": "Package non autorisé par la règle de l'API : {packageName}",
-        "pluginsLoadMetadataFailed": "Les plugins PINS n'ont pas pu être chargés car le référentiel de métadonnées du plugin est actuellement indisponible (HTTP 502)."
+        "pluginsLoadMetadataFailed": "Les plugins PINS n'ont pas pu être chargés car le référentiel de métadonnées du plugin est actuellement indisponible (HTTP 502).",
+        "hotspotChannelInvalid": "Le canal du point d'accès doit être un entier positif lorsqu'il est fourni.",
+        "hotspotFetchFailed": "Échec du chargement des paramètres du point d'accès : {message}",
+        "hotspotPasswordInvalidLength": "Le mot de passe du point d'accès est requis et doit comporter de 8 à 63 caractères.",
+        "hotspotSaveFailed": "Échec de l'enregistrement des paramètres du point d'accès : {message}"
       },
       "hotspotConfigured": "Le mot de passe du point d'accès personnalisé est configuré.",
       "hotspotNewPassword": "Nouveau mot de passe du point d'accès",
@@ -1893,7 +1897,14 @@
       "indiInstallModalSuccessCompleted": "Installation terminée pour {label}.",
       "indiInstallModalSuccessStarted": "L'installation a démarré pour {label}.",
       "indiInstallModalTitle": "Installer le pilote INDI",
-      "indiInstallModalType": "Taper"
+      "indiInstallModalType": "Taper",
+      "hotspotAppliedStatus": "Appliqué au point d'accès actif : {appliqué} | \nGroupe : {groupe} | \nChaîne : {chaîne}",
+      "hotspotBandAuto": "Auto/Désarmé",
+      "hotspotBandLabel": "Bande de point d'accès",
+      "hotspotCapabilitiesUnavailable": "Liste des capacités de l'adaptateur indisponible ; \ncanal manuel autorisé.",
+      "hotspotChannelLabel": "Canal de point d'accès",
+      "hotspotChannelPlaceholder": "Laisser vide pour auto",
+      "hotspotMetaLine": "Source : {source} | \nInterface : {iface} | \nGroupe : {groupe} | \nChaîne : {chaîne}"
     },
     "bahtifocus": {
       "title": "Analyseur de masque Bahtinov",

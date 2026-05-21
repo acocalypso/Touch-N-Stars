@@ -1032,7 +1032,17 @@
           "invalidRange": "Мін. експозиція має бути меншою або рівною макс.",
           "buildActive": "Створення бібліотеки триває",
           "buildActiveMessage": "Дії PHD2 заблоковано до завершення."
-        }
+        },
+        "applyStep": "Застосувати",
+        "calculatedStep": "Розрахований крок",
+        "calibDistance": "Відстань",
+        "calibStepCalc": "Калькулятор розміру кроку",
+        "declination": "відмінювання",
+        "desiredSteps": "Бажані кроки",
+        "guideSpeed": "Керівництво по швидкості",
+        "imageScale": "Масштаб зображення",
+        "optimal": "Оптимальний",
+        "pixelSize": "Розмір пікселя"
       }
     },
     "focuser": {
@@ -2661,7 +2671,11 @@
         "pluginUninstallStart": "Видалення плагіна: {packageName}",
         "pluginsLoadFailed": "Не вдалося завантажити плагіни PINS: {message}",
         "pluginsPackageNotAllowed": "Пакет заборонено політикою API: {packageName}",
-        "pluginsLoadMetadataFailed": "Не вдалося завантажити плагіни PINS, оскільки сховище метаданих плагінів наразі недоступне (HTTP 502)."
+        "pluginsLoadMetadataFailed": "Не вдалося завантажити плагіни PINS, оскільки сховище метаданих плагінів наразі недоступне (HTTP 502).",
+        "hotspotChannelInvalid": "Канал точки доступу має бути додатним цілим числом, якщо надається.",
+        "hotspotFetchFailed": "Не вдалося завантажити налаштування точки доступу: {message}",
+        "hotspotPasswordInvalidLength": "Пароль точки доступу потрібен і має містити 8-63 символи.",
+        "hotspotSaveFailed": "Не вдалося зберегти налаштування точки доступу: {message}"
       },
       "wifiDisconnect": "Відключити WiFi",
       "disconnectConfirmTitle": "Відключити WiFi?",
@@ -2724,7 +2738,14 @@
       "indiInstallModalSuccessCompleted": "Встановлення для {label} завершено.",
       "indiInstallModalSuccessStarted": "Розпочато встановлення для {label}.",
       "indiInstallModalTitle": "Встановіть драйвер INDI",
-      "indiInstallModalType": "Тип"
+      "indiInstallModalType": "Тип",
+      "hotspotAppliedStatus": "Застосовано до активної точки доступу: {застосовано} | \nГрупа: {band} | \nКанал: {channel}",
+      "hotspotBandAuto": "Авто / Не встановлено",
+      "hotspotBandLabel": "Група Hotspot",
+      "hotspotCapabilitiesUnavailable": "Список можливостей адаптера недоступний; \nдозволений ручний канал.",
+      "hotspotChannelLabel": "Канал Hotspot",
+      "hotspotChannelPlaceholder": "Залиште порожнім для авто",
+      "hotspotMetaLine": "Джерело: {джерело} | \nІнтерфейс: {iface} | \nГрупа: {band} | \nКанал: {channel}"
     },
     "narrowband": {
       "title": "Калькулятор фільтрів",

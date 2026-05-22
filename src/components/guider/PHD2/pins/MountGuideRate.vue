@@ -1,5 +1,8 @@
 <template>
-  <div v-if="store.isPINS && guiderStore.mountGuideRateRA !== null" class="flex flex-col gap-2 w-full">
+  <div
+    v-if="store.isPINS && guiderStore.mountGuideRateRA !== null"
+    class="flex flex-col gap-2 w-full"
+  >
     <div :class="{ 'pointer-events-none opacity-50': !guiderStore.mountCanSetGuideRate }">
       <NumberInputPicker
         v-model="guideRateValue"

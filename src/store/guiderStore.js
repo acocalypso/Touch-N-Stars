@@ -45,6 +45,10 @@ export const useGuiderStore = defineStore('guiderStore', {
     phd2CalibrationStep: null,
     phd2CalibrationStepLoading: false,
 
+    // PHD2 Calibration Distance State (PINS)
+    phd2CalibrationDistance: null,
+    phd2CalibrationDistanceLoading: false,
+
     // PHD2 Reverse DEC After Flip State (PINS)
     phd2ReverseDecAfterFlip: false,
     phd2ReverseDecAfterFlipLoading: false,
@@ -388,6 +392,39 @@ export const useGuiderStore = defineStore('guiderStore', {
         }
       } catch (error) {
         console.error('Error setting PHD2 calibration step:', error);
+        throw error;
+      }
+    },
+
+    async fetchPHD2CalibrationDistance() {
+      const store = apiStore();
+      if (!store.isPINS) return;
+      this.phd2CalibrationDistanceLoading = true;
+      try {
+        const response = await apiPinsService.getPHD2CalibrationDistance();
+        if (response.Success && response.Response) {
+          this.phd2CalibrationDistance = response.Response.CalibrationDistance;
+        }
+      } catch (error) {
+        console.error('Error fetching PHD2 calibration distance:', error);
+      } finally {
+        this.phd2CalibrationDistanceLoading = false;
+      }
+    },
+
+    async setPHD2CalibrationDistance(calibrationDistance) {
+      if (this.isDarkLibraryBuildActive) {
+        console.warn('PHD2 dark library build active – aborting setPHD2CalibrationDistance');
+        return;
+      }
+      try {
+        const response = await apiPinsService.setPHD2CalibrationDistance(calibrationDistance);
+        if (response.Success && response.Response) {
+          this.phd2CalibrationDistance = response.Response.CalibrationDistance;
+          return response;
+        }
+      } catch (error) {
+        console.error('Error setting PHD2 calibration distance:', error);
         throw error;
       }
     },

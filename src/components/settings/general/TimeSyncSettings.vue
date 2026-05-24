@@ -112,9 +112,11 @@
 
 <script setup>
 import { ref, onMounted } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { apiStore } from '@/store/store';
 import { usePinsStore } from '@/plugins/pins/store/pinsStore';
 import { useSettingsStore } from '@/store/settingsStore';
+import { useToastStore } from '@/store/toastStore';
 import ToggleButton from '@/components/helpers/toggleButton.vue';
 import InfoModal from '@/components/helpers/infoModal.vue';
 import apiService from '@/services/apiService';
@@ -124,9 +126,11 @@ import { getDeviceDateTimePayload, parsePinsTimeToSeconds } from '@/utils/pinsTi
 const PINS_PORT = 8000;
 const PINS_TOKEN = 'zZDqJ3IKeFaIZqG2JIFvsxzA5E48GC2gyGVagHFZqC0OMtgoupUDZCPhQDYKm35d';
 
+const { t } = useI18n();
 const store = apiStore();
 const pinsStore = usePinsStore();
 const settingsStore = useSettingsStore();
+const toast = useToastStore();
 
 const timeSyncLoading = ref(false);
 const pinsTimeActionLoading = ref(false);
@@ -206,6 +210,11 @@ const loadTimeInfo = async () => {
     await loadPinsTimeInfo();
   } catch (e) {
     console.error('Failed to load time info:', e);
+    toast.showToast({
+      type: 'error',
+      title: t('components.settings.timeSync.title'),
+      message: t('components.settings.timeSync.loadError'),
+    });
   } finally {
     timeSyncLoading.value = false;
   }
@@ -240,8 +249,18 @@ const manualPinsTimeSync = async () => {
     }
 
     await loadTimeInfo();
+    toast.showToast({
+      type: 'success',
+      title: t('components.settings.timeSync.title'),
+      message: t('components.settings.timeSync.syncSuccess'),
+    });
   } catch (e) {
     console.error('Failed to sync PINS system time:', e);
+    toast.showToast({
+      type: 'error',
+      title: t('components.settings.timeSync.title'),
+      message: t('components.settings.timeSync.syncError'),
+    });
   } finally {
     pinsTimeActionLoading.value = false;
   }

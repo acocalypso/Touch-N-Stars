@@ -335,7 +335,10 @@
         "notSupported": "Não suportado pelo driver",
         "syncLabel": "Sincronize o tempo para montar",
         "syncLabelInfo": "Quando ativado, clicar em \"Sincronizar agora\" desconectará e reconectará brevemente a montagem para que o NINA possa transferir a hora atual.",
-        "title": "Sincronização de horário"
+        "title": "Sincronização de horário",
+        "loadError": "Não foi possível carregar as informações de horário.",
+        "syncError": "A sincronização de horário falhou. \nVerifique a conexão com o dispositivo PINS.",
+        "syncSuccess": "Hora sincronizada com sucesso."
       },
       "navbarCustomization": {
         "alwaysVisible": "Sempre visível",
@@ -2063,6 +2066,39 @@
         "tokenCopyFailed": "Falha ao copiar token",
         "submissionRemoved": "Envio removido",
         "allSubmissionsCleared": "Todos os envios limpos"
+      },
+      "diagnostics": {
+        "archiveId": "ID do arquivo",
+        "autoDownloaded": "O arquivo foi baixado automaticamente e o upload foi tentado.",
+        "dmesgLines": "linhas dmesg",
+        "download": "Baixar ZIP",
+        "downloadBusy": "Baixando...",
+        "downloadFailed": "Falha ao baixar o arquivo de diagnóstico.",
+        "intro": "Selecione as seções de diagnóstico, inicie a coleta de arquivos e baixe/carregue o ZIP quando estiver pronto.",
+        "journalLines": "Linhas do diário",
+        "loadingOptions": "Carregando opções...",
+        "optionsLoadFailed": "Falha ao carregar opções de diagnóstico. \nUsando padrões.",
+        "optionsLoaded": "Opções de diagnóstico carregadas.",
+        "pollFailed": "Falha ao pesquisar o status do diagnóstico.",
+        "refreshOptions": "Opções de atualização",
+        "running": "Coletando...",
+        "sectionsTitle": "Seções",
+        "start": "Iniciar coleção",
+        "startFailed": "Falha ao iniciar o arquivo de diagnóstico.",
+        "started": "Arquivo de diagnóstico iniciado.",
+        "statusFailed": "Fracassado",
+        "statusIdle": "Parado",
+        "statusLabel": "Status",
+        "statusQueued": "Na fila",
+        "statusRunning": "Correndo",
+        "statusSuccess": "Sucesso",
+        "statusTimeout": "Tempo limite esgotado",
+        "stillPreparing": "O arquivo ainda está se preparando. \nPor favor, tente baixar novamente em breve.",
+        "title": "Suporte de diagnóstico (PINS)",
+        "uploaded": "ZIP de diagnóstico carregado para o endpoint de suporte.",
+        "validationDmesgLines": "As linhas dmesg devem estar entre 100 e 50.000.",
+        "validationJournalLines": "As linhas do diário devem estar entre 100 e 50.000.",
+        "validationSections": "Selecione pelo menos uma seção."
       }
     },
     "telescopius": {

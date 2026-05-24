@@ -335,7 +335,10 @@
         "notSupported": "驱动程序不支持",
         "syncLabel": "同步挂载时间",
         "syncLabelInfo": "启用后，点击「立即同步」将短暂断开并重新连接赤道仪，以便 NINA 将当前时间传输给它。",
-        "title": "时间同步"
+        "title": "时间同步",
+        "loadError": "Could not load time information.",
+        "syncError": "Time synchronisation failed. Check the connection to the PINS device.",
+        "syncSuccess": "Time synchronised successfully."
       },
       "navbarCustomization": {
         "alwaysVisible": "始终可见",
@@ -2063,6 +2066,39 @@
         "tokenCopyFailed": "复制令牌失败",
         "submissionRemoved": "提交已移除",
         "allSubmissionsCleared": "所有提交已清除"
+      },
+      "diagnostics": {
+        "archiveId": "Archive ID",
+        "autoDownloaded": "Archive was downloaded automatically and upload was attempted.",
+        "dmesgLines": "dmesg lines",
+        "download": "Download ZIP",
+        "downloadBusy": "Downloading...",
+        "downloadFailed": "Failed to download diagnostics archive.",
+        "intro": "Select diagnostics sections, start archive collection, and download/upload the ZIP when ready.",
+        "journalLines": "Journal lines",
+        "loadingOptions": "Loading options...",
+        "optionsLoadFailed": "Failed to load diagnostics options. Using defaults.",
+        "optionsLoaded": "Diagnostics options loaded.",
+        "pollFailed": "Failed to poll diagnostics status.",
+        "refreshOptions": "Refresh Options",
+        "running": "Collecting...",
+        "sectionsTitle": "Sections",
+        "start": "Start Collection",
+        "startFailed": "Failed to start diagnostics archive.",
+        "started": "Diagnostics archive started.",
+        "statusFailed": "Failed",
+        "statusIdle": "Idle",
+        "statusLabel": "Status",
+        "statusQueued": "Queued",
+        "statusRunning": "Running",
+        "statusSuccess": "Success",
+        "statusTimeout": "Timed out",
+        "stillPreparing": "Archive is still preparing. Please try download again shortly.",
+        "title": "Diagnostics Support (PINS)",
+        "uploaded": "Diagnostics ZIP uploaded to support endpoint.",
+        "validationDmesgLines": "dmesg lines must be between 100 and 50000.",
+        "validationJournalLines": "Journal lines must be between 100 and 50000.",
+        "validationSections": "Select at least one section."
       }
     },
     "telescopius": {

@@ -163,8 +163,8 @@ const apiService = {
         console.warn(`fetchPinsVersion: Timeout nach ${timeout} ms`);
         return null;
       }
-      if (err.response) {
-        // HTTP response received (e.g. 404) — backend is up but no PINS endpoint
+      if (err.response?.status === 404) {
+        // 404 = Backend erreichbar, kein PINS-Endpoint (Standard-NINA)
         return {};
       }
       // No response at all — backend not reachable

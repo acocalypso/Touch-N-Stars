@@ -28,6 +28,7 @@ export const apiStore = defineStore('store', {
     apiPort: null,
     isPINS: false,
     isPinsCheckDone: false,
+    pinsCheckNegativeCount: 0,
     isTimeSynced: false,
     intervalId: null,
     intervalIdGraph: null,
@@ -317,11 +318,12 @@ export const apiStore = defineStore('store', {
               }
               console.log('API Version:', this.currentApiVersion);
               this.isApiVersionNewerOrEqual = true;
-
-              //Check if ist PINS
-              await this.checkForPINS();
             }
           }
+        }
+
+        if (this.isApiVersionNewerOrEqual && !this.isPinsCheckDone) {
+          await this.checkForPINS();
         }
 
         // Check if mock API mode is enabled
@@ -569,6 +571,7 @@ export const apiStore = defineStore('store', {
       this.lastEventHistoryFetch = 0;
       this.isPINS = false;
       this.isPinsCheckDone = false;
+      this.pinsCheckNegativeCount = 0;
       this.isTimeSynced = false;
       this.imageHistoryInfo = null;
       this.lastImageStats = null;
@@ -1038,21 +1041,27 @@ export const apiStore = defineStore('store', {
       }
       const pinsVersion = await apiService.fetchPinsVersion();
       if (pinsVersion === null) {
-        // Backend not reachable — don't cache, allow retry on next call
+        // Timeout / kein Response — Zähler reset, nächster Polling-Cycle retries
+        this.pinsCheckNegativeCount = 0;
         return;
       }
-      if (pinsVersion && pinsVersion.Response) {
+      if (pinsVersion?.Response) {
         this.isPINS = true;
         this.currentPinsVersion = pinsVersion.Response;
+        this.pinsCheckNegativeCount = 0;
+        this.isPinsCheckDone = true;
         console.log('[API Store] PINS detected, version:', pinsVersion.Response);
-      } else {
+        await this.syncSystemTime();
+        return;
+      }
+      // Negativ-Antwort (z.B. 404 von Standard-NINA) — erst nach 2x cachen
+      this.pinsCheckNegativeCount++;
+      console.log(`[API Store] PINS check negative (${this.pinsCheckNegativeCount}/2)`);
+      if (this.pinsCheckNegativeCount >= 2) {
         this.isPINS = false;
         this.currentPinsVersion = null;
+        this.isPinsCheckDone = true;
         console.log('[API Store] No PINS endpoint — assuming NINA');
-      }
-      this.isPinsCheckDone = true;
-      if (this.isPINS) {
-        await this.syncSystemTime();
       }
     },
 

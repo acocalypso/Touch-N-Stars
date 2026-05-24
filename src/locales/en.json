@@ -245,7 +245,10 @@
         "syncLabel": "Sync time to mount",
         "syncLabelInfo": "When enabled, clicking \"Sync Now\" will briefly disconnect and reconnect the mount so that NINA can transfer the current time to it.",
         "mountNotConnected": "Mount not connected",
-        "notSupported": "Not supported by driver"
+        "notSupported": "Not supported by driver",
+        "syncSuccess": "Time synchronised successfully.",
+        "syncError": "Time synchronisation failed. Check the connection to the PINS device.",
+        "loadError": "Could not load time information."
       },
       "connection": "Connection Settings",
       "language": "Language",

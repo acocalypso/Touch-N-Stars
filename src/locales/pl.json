@@ -335,7 +335,10 @@
         "notSupported": "Nieobsługiwane przez sterownik",
         "syncLabel": "Czas synchronizacji podczas montażu",
         "syncLabelInfo": "Po włączeniu kliknięcie przycisku \"Synchronizuj teraz\" spowoduje krótkie rozłączenie i ponowne połączenie montażu, aby NINA mogła przesłać aktualny czas.",
-        "title": "Synchronizacja czasu"
+        "title": "Synchronizacja czasu",
+        "loadError": "Nie udało się wczytać informacji o czasie.",
+        "syncError": "Synchronizacja czasu nie powiodła się. \nSprawdź połączenie z urządzeniem PINS.",
+        "syncSuccess": "Czas zsynchronizowany pomyślnie."
       },
       "navbarCustomization": {
         "alwaysVisible": "Zawsze widoczny",
@@ -2063,6 +2066,39 @@
         "tokenCopyFailed": "Nie udało się skopiować tokenu",
         "submissionRemoved": "Przesłanie usunięte",
         "allSubmissionsCleared": "Wszystkie przesłania wyczyszczone"
+      },
+      "diagnostics": {
+        "archiveId": "Identyfikator archiwum",
+        "autoDownloaded": "Archiwum zostało pobrane automatycznie i podjęto próbę przesłania.",
+        "dmesgLines": "linie dmesg",
+        "download": "Pobierz ZIP-a",
+        "downloadBusy": "Ściąganie...",
+        "downloadFailed": "Nie udało się pobrać archiwum diagnostycznego.",
+        "intro": "Wybierz sekcje diagnostyczne, rozpocznij gromadzenie archiwum i pobierz/prześlij plik ZIP, gdy będzie gotowy.",
+        "journalLines": "Linie dziennika",
+        "loadingOptions": "Ładowanie opcji...",
+        "optionsLoadFailed": "Nie udało się załadować opcji diagnostycznych. \nUżywanie ustawień domyślnych.",
+        "optionsLoaded": "Załadowano opcje diagnostyczne.",
+        "pollFailed": "Nie udało się sondować stanu diagnostyki.",
+        "refreshOptions": "Opcje odświeżania",
+        "running": "Zbieranie...",
+        "sectionsTitle": "Sekcje",
+        "start": "Rozpocznij zbieranie",
+        "startFailed": "Nie udało się uruchomić archiwum diagnostycznego.",
+        "started": "Uruchomiono archiwum diagnostyki.",
+        "statusFailed": "Przegrany",
+        "statusIdle": "Bezczynny",
+        "statusLabel": "Status",
+        "statusQueued": "W kolejce",
+        "statusRunning": "Działanie",
+        "statusSuccess": "Sukces",
+        "statusTimeout": "Upłynął limit czasu",
+        "stillPreparing": "Archiwum jest wciąż w przygotowaniu. \nSpróbuj ponownie pobrać wkrótce.",
+        "title": "Wsparcie diagnostyczne (PINS)",
+        "uploaded": "Diagnostyka ZIP przesłana do obsługi punktu końcowego.",
+        "validationDmesgLines": "Linie dmesg muszą mieścić się w przedziale od 100 do 50000.",
+        "validationJournalLines": "Wiersze dziennika muszą zawierać się w przedziale od 100 do 50 000.",
+        "validationSections": "Wybierz co najmniej jedną sekcję."
       }
     },
     "telescopius": {

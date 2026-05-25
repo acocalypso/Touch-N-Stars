@@ -407,7 +407,10 @@
         "notSupported": "Wird vom Treiber nicht unterstützt",
         "syncLabel": "Zeit mit Montierung synchronisieren",
         "syncLabelInfo": "Wenn aktiviert, wird beim Klick auf \"Jetzt synchronisieren\" die Montierung kurz getrennt und neu verbunden, damit NINA die aktuelle Zeit übertragen kann.",
-        "title": "Zeitsynchronisation"
+        "title": "Zeitsynchronisation",
+        "loadError": "Zeitinformationen konnten nicht geladen werden.",
+        "syncError": "Die Zeitsynchronisierung ist fehlgeschlagen. \nÜberprüfen Sie die Verbindung zum PINS-Gerät.",
+        "syncSuccess": "Zeit erfolgreich synchronisiert."
       }
     },
     "alpacaDirect": {
@@ -1836,7 +1839,8 @@
         "pluginInstallStart": "Plugin wird installiert: {packageName}",
         "pluginUninstallStart": "Plugin wird deinstalliert: {packageName}",
         "pluginActionSuccess": "Plugin-Aktion erfolgreich abgeschlossen: {packageName}",
-        "pluginActionFailed": "Plugin-Aktion fehlgeschlagen für {packageName}. Status: {status}"
+        "pluginActionFailed": "Plugin-Aktion fehlgeschlagen für {packageName}. Status: {status}",
+        "hotspotPasswordTooShort": ""
       },
       "hotspotConfigured": "Das benutzerdefinierte Hotspot-Passwort ist konfiguriert.",
       "hotspotNewPassword": "Neues Hotspot-Passwort",
@@ -2042,6 +2046,39 @@
       "lastToken": "Generierter Token",
       "submissionHistory": "Übertragungsverlauf",
       "confirmClearAll": "Möchten Sie wirklich den gesamten Übertragungsverlauf löschen?",
+      "diagnostics": {
+        "title": "Diagnose-Support (PINS)",
+        "intro": "Waehlen Sie Diagnosebereiche aus, starten Sie die Archivsammlung und laden Sie die ZIP herunter/hoch, sobald sie bereit ist.",
+        "sectionsTitle": "Bereiche",
+        "journalLines": "Journal-Zeilen",
+        "dmesgLines": "dmesg-Zeilen",
+        "start": "Sammlung starten",
+        "running": "Sammle...",
+        "download": "ZIP herunterladen",
+        "downloadBusy": "Lade herunter...",
+        "refreshOptions": "Optionen aktualisieren",
+        "loadingOptions": "Optionen werden geladen...",
+        "statusLabel": "Status",
+        "archiveId": "Archiv-ID",
+        "statusIdle": "Leerlauf",
+        "statusQueued": "In Warteschlange",
+        "statusRunning": "Laeuft",
+        "statusSuccess": "Erfolg",
+        "statusFailed": "Fehlgeschlagen",
+        "statusTimeout": "Zeitueberschreitung",
+        "started": "Diagnosearchiv gestartet.",
+        "optionsLoaded": "Diagnoseoptionen geladen.",
+        "optionsLoadFailed": "Diagnoseoptionen konnten nicht geladen werden. Standardwerte werden verwendet.",
+        "startFailed": "Diagnosearchiv konnte nicht gestartet werden.",
+        "pollFailed": "Diagnosestatus konnte nicht abgefragt werden.",
+        "stillPreparing": "Archiv wird noch vorbereitet. Bitte versuchen Sie den Download gleich erneut.",
+        "downloadFailed": "Diagnosearchiv konnte nicht heruntergeladen werden.",
+        "uploaded": "Diagnose-ZIP wurde an den Support-Endpunkt hochgeladen.",
+        "validationSections": "Waehlen Sie mindestens einen Bereich aus.",
+        "validationJournalLines": "Journal-Zeilen muessen zwischen 100 und 50000 liegen.",
+        "validationDmesgLines": "dmesg-Zeilen muessen zwischen 100 und 50000 liegen.",
+        "autoDownloaded": "Archiv wurde automatisch heruntergeladen und Upload wurde versucht."
+      },
       "actions": {
         "collectUpload": "Sammeln & Hochladen",
         "uploading": "Lade hoch…",

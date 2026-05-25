@@ -335,7 +335,10 @@
         "notSupported": "Non pris en charge par le pilote",
         "syncLabel": "Temps de synchronisation pour monter",
         "syncLabelInfo": "Lorsqu'il est activé, cliquer sur « Synchroniser maintenant » déconnectera et reconnectera brièvement la monture afin que NINA puisse lui transférer l'heure actuelle.",
-        "title": "Synchronisation du temps"
+        "title": "Synchronisation du temps",
+        "loadError": "Impossible de charger les informations temporelles.",
+        "syncError": "La synchronisation de l'heure a échoué. \nVérifiez la connexion au périphérique PINS.",
+        "syncSuccess": "Heure synchronisée avec succès."
       },
       "navbarCustomization": {
         "alwaysVisible": "Toujours visible",
@@ -2063,6 +2066,39 @@
         "tokenCopyFailed": "Échec de la copie du token",
         "submissionRemoved": "Soumission supprimée",
         "allSubmissionsCleared": "Toutes les soumissions effacées"
+      },
+      "diagnostics": {
+        "archiveId": "ID d'archive",
+        "autoDownloaded": "L'archive a été téléchargée automatiquement et le téléchargement a été tenté.",
+        "dmesgLines": "lignes de message",
+        "download": "Télécharger le fichier ZIP",
+        "downloadBusy": "Téléchargement...",
+        "downloadFailed": "Échec du téléchargement de l'archive de diagnostics.",
+        "intro": "Sélectionnez les sections de diagnostic, démarrez la collecte des archives et téléchargez/téléchargez le ZIP lorsque vous êtes prêt.",
+        "journalLines": "Lignes de journal",
+        "loadingOptions": "Options de chargement...",
+        "optionsLoadFailed": "Échec du chargement des options de diagnostic. \nUtilisation des valeurs par défaut.",
+        "optionsLoaded": "Options de diagnostic chargées.",
+        "pollFailed": "Échec de l'interrogation de l'état des diagnostics.",
+        "refreshOptions": "Options d'actualisation",
+        "running": "Collectionner...",
+        "sectionsTitle": "Sections",
+        "start": "Commencer la collecte",
+        "startFailed": "Échec du démarrage de l'archive de diagnostics.",
+        "started": "L'archive de diagnostic a démarré.",
+        "statusFailed": "Échoué",
+        "statusIdle": "Inactif",
+        "statusLabel": "Statut",
+        "statusQueued": "En file d'attente",
+        "statusRunning": "En cours d'exécution",
+        "statusSuccess": "Succès",
+        "statusTimeout": "Délai expiré",
+        "stillPreparing": "Les archives sont toujours en préparation. \nVeuillez réessayer le téléchargement sous peu.",
+        "title": "Prise en charge du diagnostic (PINS)",
+        "uploaded": "ZIP de diagnostic téléchargé pour prendre en charge le point de terminaison.",
+        "validationDmesgLines": "Les lignes dmesg doivent être comprises entre 100 et 50 000.",
+        "validationJournalLines": "Les lignes du journal doivent être comprises entre 100 et 50 000.",
+        "validationSections": "Sélectionnez au moins une section."
       }
     },
     "telescopius": {

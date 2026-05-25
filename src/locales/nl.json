@@ -335,7 +335,10 @@
         "notSupported": "Niet ondersteund door stuurprogramma",
         "syncLabel": "Synchroniseer de tijd om te mounten",
         "syncLabelInfo": "Indien ingeschakeld wordt bij het klikken op \"Nu synchroniseren\" de montuur kort verbroken en opnieuw verbonden zodat NINA de huidige tijd kan overdragen.",
-        "title": "Tijdsynchronisatie"
+        "title": "Tijdsynchronisatie",
+        "loadError": "Kan tijdinformatie niet laden.",
+        "syncError": "Tijdsynchronisatie mislukt. \nControleer de verbinding met het PINS-apparaat.",
+        "syncSuccess": "Tijd succesvol gesynchroniseerd."
       },
       "navbarCustomization": {
         "alwaysVisible": "Altijd zichtbaar",
@@ -2063,6 +2066,39 @@
         "tokenCopyFailed": "Kopieer token mislukt",
         "submissionRemoved": "Verzending verwijdert",
         "allSubmissionsCleared": "Alle verzendingen verwijdert"
+      },
+      "diagnostics": {
+        "archiveId": "Archief-ID",
+        "autoDownloaded": "Het archief is automatisch gedownload en er is geprobeerd te uploaden.",
+        "dmesgLines": "dmesg-lijnen",
+        "download": "ZIP downloaden",
+        "downloadBusy": "Downloaden...",
+        "downloadFailed": "Kan diagnostisch archief niet downloaden.",
+        "intro": "Selecteer diagnostische secties, start het verzamelen van archief en download/upload de ZIP wanneer u klaar bent.",
+        "journalLines": "Journaalregels",
+        "loadingOptions": "Opties laden...",
+        "optionsLoadFailed": "Kan diagnostische opties niet laden. \nStandaardinstellingen gebruiken.",
+        "optionsLoaded": "Diagnostische opties geladen.",
+        "pollFailed": "Kan de diagnostische status niet opvragen.",
+        "refreshOptions": "Vernieuwingsopties",
+        "running": "Verzamelen...",
+        "sectionsTitle": "Secties",
+        "start": "Verzameling starten",
+        "startFailed": "Kan diagnostisch archief niet starten.",
+        "started": "Diagnostiekarchief gestart.",
+        "statusFailed": "Mislukt",
+        "statusIdle": "Inactief",
+        "statusLabel": "Status",
+        "statusQueued": "In de wachtrij",
+        "statusRunning": "Rennen",
+        "statusSuccess": "Succes",
+        "statusTimeout": "Time-out",
+        "stillPreparing": "Het archief is nog in voorbereiding. \nProbeer het binnenkort opnieuw te downloaden.",
+        "title": "Diagnostische ondersteuning (PINS)",
+        "uploaded": "Diagnostische ZIP geüpload naar ondersteuningseindpunt.",
+        "validationDmesgLines": "dmesg-regels moeten tussen 100 en 50000 liggen.",
+        "validationJournalLines": "Journaalregels moeten tussen 100 en 50.000 liggen.",
+        "validationSections": "Selecteer ten minste één sectie."
       }
     },
     "telescopius": {

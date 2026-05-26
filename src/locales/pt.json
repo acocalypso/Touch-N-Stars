@@ -1054,6 +1054,9 @@
           "buildActive": "Criação da biblioteca em andamento",
           "buildActiveMessage": "Ações do PHD2 estão bloqueadas até o término."
         },
+        "imageDisplay": "Exibição de imagem",
+        "imageGamma": "Estiramento (Gamma)",
+        "imageGammaHint": "Baixo = mais esticado, Alto = linear",
         "reviewCalibration": "Revise a calibração",
         "starComponents": {
           "hide": "Ocultar componentes estrela",

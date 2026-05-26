@@ -57,6 +57,7 @@
 import { ref, onMounted, onUnmounted, watch, computed } from 'vue';
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
+import { useSettingsStore } from '@/store/settingsStore';
 
 const props = defineProps({
   show: {
@@ -68,6 +69,7 @@ const props = defineProps({
 defineEmits(['close']);
 
 const store = apiStore();
+const settingsStore = useSettingsStore();
 const imageUrl = ref(null);
 const lockPosition = ref(null);
 const secondaryStars = ref([]);
@@ -245,7 +247,7 @@ const guidingCrossHorizontalStyle = computed(() => {
 const loadPhd2Image = async () => {
   try {
     // Neue Blob-URL holen
-    const newUrl = await apiService.getPhd2CurrentImage();
+    const newUrl = await apiService.getPhd2CurrentImage(settingsStore.guider.phd2ImageGamma);
 
     // Fetch der Blob-Daten um sie zu vergleichen
     const response = await fetch(newUrl);

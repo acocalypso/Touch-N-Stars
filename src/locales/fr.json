@@ -1054,6 +1054,9 @@
           "buildActive": "Construction de la bibliothèque en cours",
           "buildActiveMessage": "Les actions PHD2 sont bloquées jusqu'à la fin de la construction."
         },
+        "imageDisplay": "Affichage de l'image",
+        "imageGamma": "Étirement (Gamma)",
+        "imageGammaHint": "Bas = plus étiré, Haut = linéaire",
         "reviewCalibration": "Vérifier l'étalonnage",
         "starComponents": {
           "hide": "Masquer les composants étoiles",

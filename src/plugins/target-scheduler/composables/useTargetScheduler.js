@@ -2,7 +2,6 @@ import { computed, ref, watch } from 'vue';
 import i18n from '@/i18n';
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
-import { useSettingsStore } from '@/store/settingsStore';
 import { useSequenceV2Store } from '@/store/sequenceV2Store';
 import { useFavTargetStore } from '@/store/favTargetsStore';
 import { useToastStore } from '@/store/toastStore';
@@ -262,7 +261,6 @@ export function useTargetScheduler() {
   const t = i18n.global.t;
 
   const mainStore = apiStore();
-  const settingsStore = useSettingsStore();
   const sequenceStore = useSequenceV2Store();
   const favoritesStore = useFavTargetStore();
   const toastStore = useToastStore();
@@ -326,25 +324,14 @@ export function useTargetScheduler() {
   const isApplyingToSequence = ref(false);
 
   const location = computed(() => {
-    const profileCoords = mainStore.profileInfo?.AstrometrySettings || {};
-    const coord = settingsStore.coordinates || {};
-
-    const latitude = Number(
-      coord.latitude ?? profileCoords.Latitude ?? profileCoords.latitude ?? null
-    );
-
-    const longitude = Number(
-      coord.longitude ?? profileCoords.Longitude ?? profileCoords.longitude ?? null
-    );
-
-    const altitude = Number(
-      coord.altitude ?? profileCoords.Elevation ?? profileCoords.elevation ?? 0
-    );
-
+    const a = mainStore.profileInfo?.AstrometrySettings;
+    const latitude = a?.Latitude ?? null;
+    const longitude = a?.Longitude ?? null;
+    const altitude = a?.Elevation ?? 0;
     return {
-      latitude: Number.isFinite(latitude) ? latitude : null,
-      longitude: Number.isFinite(longitude) ? longitude : null,
-      altitude: Number.isFinite(altitude) ? altitude : 0,
+      latitude: Number.isFinite(Number(latitude)) ? Number(latitude) : null,
+      longitude: Number.isFinite(Number(longitude)) ? Number(longitude) : null,
+      altitude: Number.isFinite(Number(altitude)) ? Number(altitude) : 0,
     };
   });
 

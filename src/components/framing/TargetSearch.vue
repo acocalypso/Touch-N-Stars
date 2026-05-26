@@ -122,7 +122,7 @@
       <SkyChart
         v-if="framingStore.selectedItem"
         :target="{ RA: framingStore.selectedItem.RA, Dec: framingStore.selectedItem.Dec }"
-        :coordinates="settingsStore.coordinates"
+        :coordinates="{ latitude: appStore.profileInfo?.AstrometrySettings?.Latitude ?? 0, longitude: appStore.profileInfo?.AstrometrySettings?.Longitude ?? 0 }"
       />
 
       <!-- Open Framing Page Button -->
@@ -151,7 +151,6 @@ import slewAndCenter from '@/components/framing/slewAndCenter.vue';
 import TargetPic from '@/components/framing/TargetPic.vue';
 import controlUseNinaCache from '@/components/framing/controlUseNinaCache.vue';
 import { useFramingStore } from '@/store/framingStore';
-import { useSettingsStore } from '@/store/settingsStore';
 import SkyChart from '@/components/framing/SkyChart.vue';
 import FavTargets from '@/components/favTargets/FavTargets.vue';
 import SaveFavTargets from '@/components/favTargets/SaveFavTargets.vue';
@@ -162,7 +161,6 @@ import { apiStore } from '@/store/store';
 import { useRouter } from 'vue-router';
 
 const framingStore = useFramingStore();
-const settingsStore = useSettingsStore();
 const appStore = apiStore();
 const router = useRouter();
 
@@ -211,8 +209,8 @@ function selectTarget(item) {
   const { altitude, azimuth } = raDecToAltAz(
     item.RA,
     item.Dec,
-    settingsStore.coordinates.latitude,
-    settingsStore.coordinates.longitude
+    appStore.profileInfo?.AstrometrySettings?.Latitude ?? 0,
+    appStore.profileInfo?.AstrometrySettings?.Longitude ?? 0
   );
   framingStore.ALTangle = altitude;
   framingStore.AZangle = azimuth;
@@ -307,8 +305,8 @@ function calculateAltAz(raDeg, decDeg) {
   const { altitude, azimuth } = raDecToAltAz(
     raDeg,
     decDeg,
-    settingsStore.coordinates.latitude,
-    settingsStore.coordinates.longitude
+    appStore.profileInfo?.AstrometrySettings?.Latitude ?? 0,
+    appStore.profileInfo?.AstrometrySettings?.Longitude ?? 0
   );
   const direction = getDirection(azimuth);
   return { alt: altitude, az: azimuth, direction: direction };
@@ -338,7 +336,7 @@ function updateSiderealTime() {
   const now = new Date(timeSync.getServerTime());
   const JD = now / 86400000 - now.getTimezoneOffset() / 1440 + 2440587.5;
   const GMST = 18.697374558 + 24.06570982441908 * (JD - 2451545.0);
-  currentSiderealTime.value = (GMST % 24) * 15 + settingsStore.coordinates.longitude / 15;
+  currentSiderealTime.value = (GMST % 24) * 15 + (appStore.profileInfo?.AstrometrySettings?.Longitude ?? 0) / 15;
 }
 
 async function slew() {

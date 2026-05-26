@@ -89,9 +89,9 @@
     <div v-if="!collapsed && hasChildren" class="px-2 pb-2">
       <!-- Sky chart for DSO container -->
       <SkyChart
-        v-if="dsoTarget && settingsStore.coordinates.latitude !== null"
+        v-if="dsoTarget && mainStore.profileInfo?.AstrometrySettings?.Latitude != null"
         :target="dsoTarget"
-        :coordinates="settingsStore.coordinates"
+        :coordinates="{ latitude: mainStore.profileInfo.AstrometrySettings.Latitude, longitude: mainStore.profileInfo.AstrometrySettings.Longitude }"
         class="mb-1.5"
       />
 
@@ -229,8 +229,8 @@
 import { ref, computed, onMounted, onUnmounted } from 'vue';
 import SkyChart from '@/components/framing/SkyChart.vue';
 import AddTypeButton from './AddTypeButton.vue';
-import { useSettingsStore } from '@/store/settingsStore';
 import { useSequenceStore } from '@/store/sequenceStore';
+import { apiStore } from '@/store/store';
 import draggable from 'vuedraggable';
 import {
   ChevronRightIcon,
@@ -266,7 +266,7 @@ const isNoExpand = computed(() => NO_EXPAND_TYPES.has(props.item.FullTypeName));
 
 const store = useSequenceV2Store();
 const sequenceStore = useSequenceStore();
-const settingsStore = useSettingsStore();
+const mainStore = apiStore();
 const collapsed = ref(false);
 const activeSection = ref(null);
 const isLocked = computed(() => sequenceStore.sequenceControlsLocked);

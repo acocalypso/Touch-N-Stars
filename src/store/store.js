@@ -142,7 +142,6 @@ export const apiStore = defineStore('store', {
     captureRunning: false,
     rotatorMechanicalPosition: 0,
     existingEquipmentList: [],
-    coordinates: null,
     currentLanguage: 'en',
     showSettings: false,
     showFocuser: false,
@@ -997,12 +996,6 @@ export const apiStore = defineStore('store', {
     setDefaultRotatorSettings() {
       this.rotatorMechanicalPosition = this.rotatorInfo?.MechanicalPosition ?? 0;
       console.log('Rotator setting set:', this.rotatorMechanicalPosition);
-    },
-    setDefaultCoordinates() {
-      const cStore = useSettingsStore();
-      cStore.coordinates.longitude = this.profileInfo.AstrometrySettings.Longitude;
-      cStore.coordinates.latitude = this.profileInfo.AstrometrySettings.Latitude;
-      cStore.coordinates.altitude = this.profileInfo.AstrometrySettings.Elevation;
     },
     checkVersionNewerOrEqual(currentVersion, minimumVersion) {
       if (!currentVersion || !minimumVersion) return true;

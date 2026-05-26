@@ -383,8 +383,8 @@ import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useSupernovaeStore } from '../store/supernovaeStore';
 import { useFramingStore } from '@/store/framingStore';
-import { useSettingsStore } from '@/store/settingsStore';
 import { useFavTargetStore } from '@/store/favTargetsStore';
+import { apiStore } from '@/store/store';
 import { nightVisibility } from '../utils/visibility.js';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 import ToggleButton from '@/components/helpers/toggleButton.vue';
@@ -392,7 +392,7 @@ import ToggleButton from '@/components/helpers/toggleButton.vue';
 const { t } = useI18n();
 const store = useSupernovaeStore();
 const framingStore = useFramingStore();
-const settingsStore = useSettingsStore();
+const mainStore = apiStore();
 const favStore = useFavTargetStore();
 const router = useRouter();
 
@@ -407,16 +407,17 @@ function showToast(msg, ok = true) {
 }
 
 const hasLocation = computed(() => {
-  const c = settingsStore.coordinates;
-  return c?.latitude !== null && c?.latitude !== undefined;
+  const lat = mainStore.profileInfo?.AstrometrySettings?.Latitude;
+  return lat !== null && lat !== undefined;
 });
 
 const visMap = computed(() => {
-  const c = settingsStore.coordinates;
-  if (!c?.latitude) return {};
+  const lat = mainStore.profileInfo?.AstrometrySettings?.Latitude;
+  const lon = mainStore.profileInfo?.AstrometrySettings?.Longitude;
+  if (!lat) return {};
   const map = {};
   for (const e of store.entries) {
-    map[e.name] = nightVisibility(e.raDeg, e.decDeg, c.latitude, c.longitude);
+    map[e.name] = nightVisibility(e.raDeg, e.decDeg, lat, lon);
   }
   return map;
 });

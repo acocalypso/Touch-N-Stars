@@ -122,7 +122,10 @@
       <SkyChart
         v-if="framingStore.selectedItem"
         :target="{ RA: framingStore.selectedItem.RA, Dec: framingStore.selectedItem.Dec }"
-        :coordinates="{ latitude: appStore.profileInfo?.AstrometrySettings?.Latitude ?? 0, longitude: appStore.profileInfo?.AstrometrySettings?.Longitude ?? 0 }"
+        :coordinates="{
+          latitude: appStore.profileInfo?.AstrometrySettings?.Latitude ?? 0,
+          longitude: appStore.profileInfo?.AstrometrySettings?.Longitude ?? 0,
+        }"
       />
 
       <!-- Open Framing Page Button -->
@@ -336,7 +339,8 @@ function updateSiderealTime() {
   const now = new Date(timeSync.getServerTime());
   const JD = now / 86400000 - now.getTimezoneOffset() / 1440 + 2440587.5;
   const GMST = 18.697374558 + 24.06570982441908 * (JD - 2451545.0);
-  currentSiderealTime.value = (GMST % 24) * 15 + (appStore.profileInfo?.AstrometrySettings?.Longitude ?? 0) / 15;
+  currentSiderealTime.value =
+    (GMST % 24) * 15 + (appStore.profileInfo?.AstrometrySettings?.Longitude ?? 0) / 15;
 }
 
 async function slew() {

@@ -104,6 +104,13 @@
         </p>
       </div>
     </template>
+    <template #footer>
+      <div class="flex justify-center">
+        <button @click="showShutdownInfo = false" class="default-button-gray">
+          {{ $t('common.close') }}
+        </button>
+      </div>
+    </template>
   </Modal>
 
   <!-- Confirmation Modal -->

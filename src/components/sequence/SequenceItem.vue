@@ -91,7 +91,10 @@
       <SkyChart
         v-if="dsoTarget && mainStore.profileInfo?.AstrometrySettings?.Latitude != null"
         :target="dsoTarget"
-        :coordinates="{ latitude: mainStore.profileInfo.AstrometrySettings.Latitude, longitude: mainStore.profileInfo.AstrometrySettings.Longitude }"
+        :coordinates="{
+          latitude: mainStore.profileInfo.AstrometrySettings.Latitude,
+          longitude: mainStore.profileInfo.AstrometrySettings.Longitude,
+        }"
         class="mb-1.5"
       />
 

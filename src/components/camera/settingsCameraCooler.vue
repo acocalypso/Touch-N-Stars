@@ -194,7 +194,7 @@ const coolerStatusText = computed(() => {
 
 async function setCoolingTime() {
   try {
-    const response = await apiService.profileChangeValue(
+    await apiService.profileChangeValue(
       'CameraSettings-CoolingDuration',
       store.profileInfo.CameraSettings.CoolingDuration
     );
@@ -205,7 +205,7 @@ async function setCoolingTime() {
 
 async function setWarmingTime() {
   try {
-    const response = await apiService.profileChangeValue(
+    await apiService.profileChangeValue(
       'CameraSettings-WarmingDuration',
       store.profileInfo.CameraSettings.WarmingDuration
     );
@@ -216,7 +216,7 @@ async function setWarmingTime() {
 
 async function setCoolingTemp() {
   try {
-    const response = await apiService.profileChangeValue(
+    await apiService.profileChangeValue(
       'CameraSettings-Temperature',
       store.profileInfo.CameraSettings.Temperature
     );
@@ -277,7 +277,9 @@ async function startWarming() {
   try {
     await apiService.stopCameraCooling();
     cameraStore.buttonCoolerOn = false;
-    const response = await apiService.startCameraWarming(store.profileInfo.CameraSettings.WarmingDuration || 10);
+    const response = await apiService.startCameraWarming(
+      store.profileInfo.CameraSettings.WarmingDuration || 10
+    );
     cameraStore.buttonWarmingOn = true;
     console.log('[Camera] startWarming', response);
   } catch (error) {
@@ -385,5 +387,4 @@ watch(
     checkButtonStatus();
   }
 );
-
 </script>

@@ -90,7 +90,6 @@ async function fetchProfiles() {
 
       store.fetchProfilInfos();
       store.setDefaultCameraSettings();
-      store.setDefaultRotatorSettings();
     }
   } catch (error) {
     console.error('Error loading profiles:', error);

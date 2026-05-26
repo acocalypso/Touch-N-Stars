@@ -140,7 +140,6 @@ export const apiStore = defineStore('store', {
     imageSavePath: null,
     isLoadingImage: false,
     captureRunning: false,
-    rotatorMechanicalPosition: 0,
     existingEquipmentList: [],
     currentLanguage: 'en',
     showSettings: false,
@@ -605,7 +604,6 @@ export const apiStore = defineStore('store', {
       // Clear other instance-specific state
       this.filterName = 'unbekannt';
       this.filterNr = null;
-      this.rotatorMechanicalPosition = 0;
       this.existingEquipmentList = [];
       this.imageData = null;
       this.afCurveData = [];
@@ -992,10 +990,6 @@ export const apiStore = defineStore('store', {
         cStore.coolingTime,
         cStore.warmingTime
       );
-    },
-    setDefaultRotatorSettings() {
-      this.rotatorMechanicalPosition = this.rotatorInfo?.MechanicalPosition ?? 0;
-      console.log('Rotator setting set:', this.rotatorMechanicalPosition);
     },
     checkVersionNewerOrEqual(currentVersion, minimumVersion) {
       if (!currentVersion || !minimumVersion) return true;

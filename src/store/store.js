@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia';
 import apiService from '@/services/apiService';
 import apiPinsService from '@/services/apiPinsService';
-import { useCameraStore } from '@/store/cameraStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import { usePinsStore } from '@/plugins/pins/store/pinsStore';
 import { useToastStore } from '@/store/toastStore';
@@ -978,19 +977,6 @@ export const apiStore = defineStore('store', {
       });
     },
 
-    setDefaultCameraSettings() {
-      const cStore = useCameraStore();
-      const cameraSettings = this.profileInfo?.CameraSettings || {};
-      cStore.coolingTemp = cameraSettings.Temperature ?? -10;
-      cStore.coolingTime = cameraSettings.CoolingDuration ?? 10;
-      cStore.warmingTime = cameraSettings.WarmingDuration ?? 10;
-      console.log(
-        'Camera settings set:',
-        cStore.coolingTemp,
-        cStore.coolingTime,
-        cStore.warmingTime
-      );
-    },
     checkVersionNewerOrEqual(currentVersion, minimumVersion) {
       if (!currentVersion || !minimumVersion) return true;
       const parseVersion = (version) => version.split('.').map(Number);

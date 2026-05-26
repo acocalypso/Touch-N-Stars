@@ -45,7 +45,7 @@
         <div class="flex flex-col justify-between sm:flex-row gap-2">
           <NumberInputPicker
             class="border border-gray-500 p-1 md:p-2 rounded-lg"
-            v-model="cameraStore.coolingTemp"
+            v-model="store.profileInfo.CameraSettings.Temperature"
             :label="$t('components.camera.target_temperature')"
             labelKey="components.camera.target_temperature"
             :min="-50"
@@ -60,7 +60,7 @@
 
           <NumberInputPicker
             class="border border-gray-500 p-1 md:p-2 rounded-lg"
-            v-model="cameraStore.coolingTime"
+            v-model="store.profileInfo.CameraSettings.CoolingDuration"
             :label="$t('components.camera.cooling_time')"
             labelKey="components.camera.cooling_time"
             :min="0"
@@ -90,7 +90,7 @@
         <div class="flex flex-col justify-between sm:flex-row gap-2">
           <NumberInputPicker
             class="border border-gray-500 p-1 md:p-2 rounded-lg"
-            v-model="cameraStore.warmingTime"
+            v-model="store.profileInfo.CameraSettings.WarmingDuration"
             :label="$t('components.camera.warm_up_time')"
             labelKey="components.camera.warm_up_time"
             :min="0"
@@ -123,7 +123,7 @@
 </template>
 
 <script setup>
-import { watch, onMounted, computed, ref } from 'vue';
+import { watch, computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { apiStore } from '@/store/store';
 import { useCameraStore } from '@/store/cameraStore';
@@ -196,7 +196,7 @@ async function setCoolingTime() {
   try {
     const response = await apiService.profileChangeValue(
       'CameraSettings-CoolingDuration',
-      cameraStore.coolingTime
+      store.profileInfo.CameraSettings.CoolingDuration
     );
     console.log(response);
   } catch (error) {
@@ -208,7 +208,7 @@ async function setWarmingTime() {
   try {
     const response = await apiService.profileChangeValue(
       'CameraSettings-WarmingDuration',
-      cameraStore.warmingTime
+      store.profileInfo.CameraSettings.WarmingDuration
     );
     console.log(response);
   } catch (error) {
@@ -220,7 +220,7 @@ async function setCoolingTemp() {
   try {
     const response = await apiService.profileChangeValue(
       'CameraSettings-Temperature',
-      cameraStore.coolingTemp
+      store.profileInfo.CameraSettings.Temperature
     );
     console.log('setCoolingTemp', response);
   } catch (error) {
@@ -253,8 +253,8 @@ async function startCooling() {
       return;
     }
     const response2 = await apiService.startCameraCooling(
-      cameraStore.coolingTemp,
-      cameraStore.coolingTime
+      store.profileInfo.CameraSettings.Temperature,
+      store.profileInfo.CameraSettings.CoolingDuration || 10
     );
     cameraStore.buttonCoolerOn = true;
     console.log('Response cooling start:', response2);
@@ -287,7 +287,7 @@ async function startWarming() {
     const response = await apiService.stopCameraCooling();
     console.log('Response cooling stop:', response);
     cameraStore.buttonCoolerOn = false;
-    const response2 = await apiService.startCameraWarming(cameraStore.warmingTime);
+    const response2 = await apiService.startCameraWarming(store.profileInfo.CameraSettings.WarmingDuration || 10);
     cameraStore.buttonWarmingOn = true;
     console.log('Response warming start:', response2);
   } catch (error) {
@@ -404,19 +404,4 @@ watch(
   }
 );
 
-onMounted(() => {
-  cameraStore.coolingTemp = store.profileInfo.CameraSettings.Temperature;
-
-  if (store.profileInfo.CameraSettings.CoolingDuration <= 0) {
-    cameraStore.coolingTime = 10;
-  } else {
-    cameraStore.coolingTime = store.profileInfo.CameraSettings.CoolingDuration;
-  }
-
-  if (store.profileInfo.CameraSettings.WarmingDuration <= 0) {
-    cameraStore.warmingTime = 10;
-  } else {
-    cameraStore.warmingTime = store.profileInfo.CameraSettings.WarmingDuration;
-  }
-});
 </script>

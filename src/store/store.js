@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia';
 import apiService from '@/services/apiService';
 import apiPinsService from '@/services/apiPinsService';
-import { useCameraStore } from '@/store/cameraStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import { usePinsStore } from '@/plugins/pins/store/pinsStore';
 import { useToastStore } from '@/store/toastStore';
@@ -140,9 +139,7 @@ export const apiStore = defineStore('store', {
     imageSavePath: null,
     isLoadingImage: false,
     captureRunning: false,
-    rotatorMechanicalPosition: 0,
     existingEquipmentList: [],
-    coordinates: null,
     currentLanguage: 'en',
     showSettings: false,
     showFocuser: false,
@@ -606,7 +603,6 @@ export const apiStore = defineStore('store', {
       // Clear other instance-specific state
       this.filterName = 'unbekannt';
       this.filterNr = null;
-      this.rotatorMechanicalPosition = 0;
       this.existingEquipmentList = [];
       this.imageData = null;
       this.afCurveData = [];
@@ -981,29 +977,6 @@ export const apiStore = defineStore('store', {
       });
     },
 
-    setDefaultCameraSettings() {
-      const cStore = useCameraStore();
-      const cameraSettings = this.profileInfo?.CameraSettings || {};
-      cStore.coolingTemp = cameraSettings.Temperature ?? -10;
-      cStore.coolingTime = cameraSettings.CoolingDuration ?? 10;
-      cStore.warmingTime = cameraSettings.WarmingDuration ?? 10;
-      console.log(
-        'Camera settings set:',
-        cStore.coolingTemp,
-        cStore.coolingTime,
-        cStore.warmingTime
-      );
-    },
-    setDefaultRotatorSettings() {
-      this.rotatorMechanicalPosition = this.rotatorInfo?.MechanicalPosition ?? 0;
-      console.log('Rotator setting set:', this.rotatorMechanicalPosition);
-    },
-    setDefaultCoordinates() {
-      const cStore = useSettingsStore();
-      cStore.coordinates.longitude = this.profileInfo.AstrometrySettings.Longitude;
-      cStore.coordinates.latitude = this.profileInfo.AstrometrySettings.Latitude;
-      cStore.coordinates.altitude = this.profileInfo.AstrometrySettings.Elevation;
-    },
     checkVersionNewerOrEqual(currentVersion, minimumVersion) {
       if (!currentVersion || !minimumVersion) return true;
       const parseVersion = (version) => version.split('.').map(Number);

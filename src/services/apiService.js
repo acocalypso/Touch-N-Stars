@@ -1018,7 +1018,7 @@ const apiService = {
           newValue,
         },
       });
-      //console.log(response.data);
+      console.log('[profileChangeValue]', settingpath, newValue);
       return response.data;
     } catch (error) {
       // console.error('Error switch profil:', error);

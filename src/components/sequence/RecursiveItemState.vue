@@ -991,7 +991,6 @@
 import { watch } from 'vue';
 import apiService from '@/services/apiService';
 import { useSequenceStore } from '@/store/sequenceStore';
-import { useSettingsStore } from '@/store/settingsStore';
 import { apiStore } from '@/store/store';
 import { PowerIcon } from '@heroicons/vue/24/outline';
 import RecursiveItemState from '@/components/sequence/RecursiveItemState.vue';
@@ -1030,7 +1029,6 @@ const props = defineProps({
 
 const store = apiStore();
 const sequenceStore = useSequenceStore();
-const settingsStore = useSettingsStore();
 
 // Helper functions
 function formatKey(key) {
@@ -1136,8 +1134,8 @@ function getTargetForSkyChart(target) {
 
 function getObserverCoordinates() {
   return {
-    latitude: settingsStore.coordinates?.latitude || 0,
-    longitude: settingsStore.coordinates?.longitude || 0,
+    latitude: store.profileInfo?.AstrometrySettings?.Latitude ?? 0,
+    longitude: store.profileInfo?.AstrometrySettings?.Longitude ?? 0,
   };
 }
 

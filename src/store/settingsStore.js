@@ -16,11 +16,6 @@ export const useSettingsStore = defineStore('settings', {
     livestack: {
       showFilters: true,
     },
-    coordinates: {
-      latitude: null,
-      longitude: null,
-      altitude: null,
-    },
     connection: {
       ip: '',
       port: '',
@@ -308,14 +303,6 @@ export const useSettingsStore = defineStore('settings', {
       return apiStore();
     },
 
-    setCoordinates(coords) {
-      this.coordinates = {
-        latitude: coords.latitude,
-        longitude: coords.longitude,
-        altitude: coords.altitude,
-      };
-    },
-
     completeSetup() {
       this.setupCompleted = true;
       localStorage.setItem('setupCompleted', 'true');
@@ -539,7 +526,6 @@ export const useSettingsStore = defineStore('settings', {
         paths: [
           'language',
           'setupCompleted',
-          'coordinates',
           'connection',
           'selectedInstanceId',
           'lastCreatedInstanceId',

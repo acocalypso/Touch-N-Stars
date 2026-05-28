@@ -5,9 +5,7 @@ on:
     branches: [master, develop]
     paths:
       - src/locales/**
-      - scripts/**
-      - package.json
-      - package-lock.json
+      - scripts/check-i18n.mjs
       - .github/workflows/translation-validation.yml
   workflow_dispatch:
 

@@ -164,6 +164,16 @@ export default {
     return this._simplePutRequest(`${API_URL}phd2/calibration/step`, { calibrationStep });
   },
 
+  getPHD2CalibrationDistance() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/calibration/distance`);
+  },
+
+  setPHD2CalibrationDistance(calibrationDistance) {
+    const { API_URL } = getUrls();
+    return this._simplePutRequest(`${API_URL}phd2/calibration/distance`, { calibrationDistance });
+  },
+
   getPHD2ReverseDecAfterFlip() {
     const { API_URL } = getUrls();
     return this._simpleGetRequest(`${API_URL}phd2/reverse-dec-after-flip`);

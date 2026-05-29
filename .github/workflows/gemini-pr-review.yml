@@ -38,20 +38,36 @@ jobs:
 
           const diff = fs.readFileSync('pr.diff', 'utf8').slice(0, 180000);
           const contextPath = '.github/gemini-context.md';
+          const stylePath = '.gemini/styleguide.md';
+          const entryPath = 'GEMINI.md';
+
           const projectContext = fs.existsSync(contextPath)
-            ? fs.readFileSync(contextPath, 'utf8')
+            ? fs.readFileSync(contextPath, 'utf8').slice(0, 40000)
             : 'No additional project context file found.';
+          const styleGuide = fs.existsSync(stylePath)
+            ? fs.readFileSync(stylePath, 'utf8').slice(0, 60000)
+            : 'No style guide found.';
+          const geminiEntry = fs.existsSync(entryPath)
+            ? fs.readFileSync(entryPath, 'utf8').slice(0, 8000)
+            : 'No GEMINI.md entry found.';
           const body = {
             contents: [{
               parts: [{
                 text: [
                   'Review this PR diff as a strict senior frontend engineer.',
-                  'Use the project context below as authoritative guidance for domain behavior and risk assessment.',
+                  'Use the project context and style guide below as authoritative guidance for domain behavior and risk assessment.',
                   'Focus on correctness, regressions, security, test gaps, i18n quality, and CI robustness.',
+                  'Do not repeat style-only findings that are already covered by CI style gates unless they cause functional risk.',
                   'Return concise and actionable findings grouped by severity.',
+                  '',
+                  'GEMINI ENTRY:',
+                  geminiEntry,
                   '',
                   'PROJECT CONTEXT:',
                   projectContext,
+                  '',
+                  'STYLE GUIDE:',
+                  styleGuide,
                   '',
                   'DIFF:',
                   diff,

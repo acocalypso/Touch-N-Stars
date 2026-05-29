@@ -1,0 +1,66 @@
+name: PR Validation
+
+on:
+  pull_request:
+    branches: [master, develop]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: pr-validation-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+          cache: npm
+
+      - name: Install dependencies (reproducible)
+        run: npm ci
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Typecheck
+        run: npm run typecheck
+
+      - name: Unit tests
+        run: npm run test:run
+
+      - name: Coverage
+        run: npm run test:coverage
+
+      - name: Formatting check
+        run: npm run format:check
+
+      - name: Detect locale changes
+        id: locale_changes
+        run: |
+          git fetch origin "${{ github.base_ref }}" --depth=1
+          if git diff --name-only "origin/${{ github.base_ref }}...HEAD" | grep -E '^(src/locales/|scripts/check-i18n\.mjs)$' >/dev/null; then
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Translation validation
+        if: steps.locale_changes.outputs.changed == 'true'
+        run: npm run i18n:check
+
+      - name: Build
+        run: npm run build
+
+      - name: Preview smoke test
+        run: npm run preview:smoke

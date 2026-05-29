@@ -1,27 +1,35 @@
 {
   "name": "touch-n-stars",
-  "version": "4.8.0-beta70",
+  "version": "4.8.0-beta71",
   "private": true,
   "type": "module",
   "scripts": {
     "serve": "npm run lint:eslint && node scripts/generate-plugin-registry.js && node scripts/generate-whats-new.js && vite",
-    "build": "npm run lint:eslint && npm run build:app",
+    "build": "npm run lint && npm run build:app",
     "build:app": "node scripts/generate-plugin-registry.js && node scripts/generate-whats-new.js && vite build",
-    "build:native": "npm run lint:eslint && cross-env EXCLUDE_STELLARIUM_DATA=true npm run build:app",
+    "build:native": "npm run lint && cross-env EXCLUDE_STELLARIUM_DATA=true npm run build:app",
     "preview": "vite preview",
+    "preview:smoke": "start-server-and-test \"vite preview --host 127.0.0.1 --port 4173\" http://127.0.0.1:4173 \"node -e \\\"fetch('http://127.0.0.1:4173').then((r)=>{if(!r.ok)process.exit(1);})\\\"\"",
+    "ci:install": "npm ci",
     "lint": "eslint . --ext .js,.vue",
     "lint:eslint": "eslint . --ext .js,.vue --fix",
     "lint:fix": "eslint . --ext .js,.vue --fix",
+    "typecheck": "vue-tsc --noEmit -p tsconfig.json",
     "testbuild": "node scripts/generate-plugin-registry.js && node scripts/generate-whats-new.js && npm run lint:eslint && cross-env VITE_OUT_DIR=\"%LOCALAPPDATA%\\NINA\\Plugins\\3.0.0\\Touch 'N' Stars\\app\" vite build",
     "format": "prettier --write \"src/**/*.{js,vue}\"",
+    "format:check": "prettier --check \"src/**/*.{js,vue,json,css,md}\"",
+    "test:run": "node --test \"src/**/__tests__/*.test.js\"",
+    "test:coverage": "c8 --reporter=text --reporter=lcov node --test \"src/**/__tests__/*.test.js\"",
     "ionic:build": "npm run lint:eslint  && node scripts/generate-whats-new.js && npm run build:native",
     "ionic:serve": "npm run serve",
     "locale:entry": "node scripts/add-locale-entry.js",
     "locale:entry:all": "node scripts/add-locale-entry-all.js",
     "locale:find-missing-keys": "node scripts/find-missing-keys.js",
+    "i18n:check": "node scripts/check-i18n.mjs",
     "generate-plugins": "node scripts/generate-plugin-registry.js",
     "generate-whats-new": "node scripts/generate-whats-new.js",
     "create-plugin": "node scripts/generate-plugin.js",
+    "ci:verify": "npm run lint && npm run typecheck && npm run test:coverage && npm run format:check && npm run i18n:check && npm run build",
     "prepare": "husky"
   },
   "dependencies": {
@@ -72,6 +80,7 @@
   "devDependencies": {
     "@capacitor/cli": "8.3.4",
     "@vitejs/plugin-vue": "6.0.7",
+    "c8": "11.0.0",
     "cross-env": "10.1.0",
     "eslint": "10.4.0",
     "eslint-config-prettier": "10.1.8",
@@ -81,8 +90,11 @@
     "lint-staged": "17.0.5",
     "lodash": "4.18.1",
     "prettier": "3.8.3",
+    "start-server-and-test": "3.0.5",
+    "typescript": "5.9.3",
     "vite": "8.0.14",
-    "vue-eslint-parser": "^10.4.0"
+    "vue-eslint-parser": "^10.4.0",
+    "vue-tsc": "3.1.2"
   },
   "lint-staged": {
     "src/**/*.{js,vue}": [

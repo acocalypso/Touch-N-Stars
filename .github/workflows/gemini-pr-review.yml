@@ -37,13 +37,21 @@ jobs:
           const fs = require('node:fs');
 
           const diff = fs.readFileSync('pr.diff', 'utf8').slice(0, 180000);
+          const contextPath = '.github/gemini-context.md';
+          const projectContext = fs.existsSync(contextPath)
+            ? fs.readFileSync(contextPath, 'utf8')
+            : 'No additional project context file found.';
           const body = {
             contents: [{
               parts: [{
                 text: [
                   'Review this PR diff as a strict senior frontend engineer.',
+                  'Use the project context below as authoritative guidance for domain behavior and risk assessment.',
                   'Focus on correctness, regressions, security, test gaps, i18n quality, and CI robustness.',
                   'Return concise and actionable findings grouped by severity.',
+                  '',
+                  'PROJECT CONTEXT:',
+                  projectContext,
                   '',
                   'DIFF:',
                   diff,

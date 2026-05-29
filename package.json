@@ -14,7 +14,7 @@
     "lint": "eslint . --ext .js,.vue",
     "lint:eslint": "eslint . --ext .js,.vue --fix",
     "lint:fix": "eslint . --ext .js,.vue --fix",
-    "typecheck": "vue-tsc --noEmit -p tsconfig.json",
+    "typecheck": "vue-tsc --noEmit -p jsconfig.json",
     "testbuild": "node scripts/generate-plugin-registry.js && node scripts/generate-whats-new.js && npm run lint:eslint && cross-env VITE_OUT_DIR=\"%LOCALAPPDATA%\\NINA\\Plugins\\3.0.0\\Touch 'N' Stars\\app\" vite build",
     "format": "prettier --write \"src/**/*.{js,vue}\"",
     "format:check": "prettier --check \"src/**/*.{js,vue,json,css,md}\"",

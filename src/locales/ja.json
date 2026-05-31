@@ -1506,10 +1506,10 @@
       "status_failed_flats": "フラットはキャプチャされませんでした - 有効な露出を決定できませんでした",
       "status_running_darks": "実行中: {completed} / {total} ダーク",
       "status_running_flats": "実行中: {completed} / {total} フラット",
-      "status_stopped_darks": "早期に停止しました - {total} 件中 {completed} 件のダークをキ確保しました",
-      "status_stopped_flats": "早期に停止しました - {total} 件中 {completed} 件のフラットを確保しました",
-      "status_success_darks": "完了 - {count} 個のダークを確保しました",
-      "status_success_flats": "完了 - {count} 軒のフラットを確保しました",
+      "status_stopped_darks": "早期に停止しました - {total} 件中 {completed} 枚のダークを確保しました",
+      "status_stopped_flats": "早期に停止しました - {total} 件中 {completed} 枚のフラットを確保しました",
+      "status_success_darks": "完了 - {count} 枚のダークを確保しました",
+      "status_success_flats": "完了 - {count} 枚のフラットを確保しました",
       "filter_label": "フィルター",
       "result_bright": "明るすぎる",
       "result_dim": "薄暗すぎる",
@@ -2273,7 +2273,7 @@
       }
     },
     "filebrowser": {
-      "title": "",
+      "title": "ファイルブラウザ",
       "subtitle": "画像フォルダの参照と撮影済みファイルの管理を行います。",
       "jumpToImagePath": "画像保存先へ移動",
       "goUp": "上へ",
@@ -3729,7 +3729,7 @@
         "minutesShort": "{value}分",
         "noSegments": "スケジュールセグメントはまだありません。\nターゲットの制約とサイトの座標を確認します。",
         "range": "{start}から{end}まで",
-        "segmentTitle": "{名前}: {start} - {end}",
+        "segmentTitle": "{name}: {start} - {end}",
         "title": "セッションのタイムライン"
       },
       "title": "ターゲットスケジューラ",
@@ -4225,6 +4225,6 @@
     },
     "tabSessions": "セッション",
     "tabSettings": "設定",
-    "title": "ナイトサマリ―"
+    "title": "ナイトサマリ"
   }
 }

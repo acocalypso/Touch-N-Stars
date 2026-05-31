@@ -355,6 +355,13 @@
         </div>
 
         <div
+          v-if="settingsStore.showDebugConsole"
+          class="mb-3 rounded bg-yellow-900/30 p-2 text-xs text-yellow-200 border border-yellow-700/50"
+        >
+          ⚠ {{ $t('plugins.vncRemote.debugModeWarning') }}
+        </div>
+
+        <div
           v-if="errorMessage"
           class="mb-3 rounded bg-red-900/20 p-2 text-xs text-red-200 border border-red-900/30 truncate"
         >
@@ -589,7 +596,9 @@ const connectionUrl = computed(() => {
   return `${scheme}://${trimmedHost}:${trimmedPort}`;
 });
 
-const canConnect = computed(() => Boolean(host.value.trim()) && Boolean(port.value));
+const canConnect = computed(
+  () => Boolean(host.value.trim()) && Boolean(port.value) && !settingsStore.showDebugConsole
+);
 
 const toggleFullscreen = () => {
   if (!viewerRef.value) return;

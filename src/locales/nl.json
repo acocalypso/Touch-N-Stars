@@ -3902,6 +3902,9 @@
       "visVisible": "Visible tonight",
       "visHidden": "Below horizon tonight",
       "page": "{n} / {total}"
+    },
+    "vncRemote": {
+      "debugModeWarning": "Debugmodus actief – VNC-verbinding niet beschikbaar. Schakel de debugmodus uit in de instellingen."
     }
   },
   "pinsDevices": {

@@ -3901,6 +3901,9 @@
       "visVisible": "Visible tonight",
       "visHidden": "Below horizon tonight",
       "page": "{n} / {total}"
+    },
+    "vncRemote": {
+      "debugModeWarning": "Debug mode is active — VNC connection is not available. Please disable debug mode in settings."
     }
   },
   "pinsDevices": {

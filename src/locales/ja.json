@@ -16,7 +16,9 @@
     "scanning": "スキャン中…",
     "connecting": "接続中…",
     "refresh": "更新",
-    "help": "ヘルプ"
+    "help": "ヘルプ",
+    "expand": "展開",
+    "collapse": "折りたたむ"
   },
   "general": {
     "cancel": "キャンセル",
@@ -168,7 +170,8 @@
       "moveRotator": "カメラを回転",
       "infoTargetImage": "画像が真っ黒に表示される場合は、NINAで「オフライン・スカイマップ・キャッシュ」を設定するか、「NINAキャッシュを使用する」オプションを無効にする必要があります",
       "useCenter": "中心",
-      "useRotate": "回転"
+      "useRotate": "回転",
+      "customTarget": "カスタムターゲット"
     },
     "tutorial": {
       "previous": "前へ",
@@ -205,12 +208,15 @@
       "coordsMismatchWarning": "プロファイルと赤道儀の座標が異なります。",
       "timeSync": {
         "title": "時刻同期",
-        "backendTime": "バックエンド UTC",
-        "mountTime": "赤道儀 UTC",
+        "backendTime": "サーバー時刻",
+        "mountTime": "赤道儀時刻",
         "syncLabel": "赤道儀に時刻を同期",
         "syncLabelInfo": "有効にすると、「今すぐ同期」をクリックした際に赤道儀が一時的に切断・再接続され、NINAが現在時刻を転送できるようになります。",
         "mountNotConnected": "赤道儀が接続されていません",
-        "notSupported": "ドライバーが非対応です"
+        "notSupported": "ドライバーが非対応です",
+        "loadError": "時間情報を読み込めませんでした。",
+        "syncError": "時刻同期に失敗しました。 \nPINS デバイスへの接続を確認してください。",
+        "syncSuccess": "時刻が正常に同期されました。"
       },
       "connection": "接続設定",
       "language": "言語",
@@ -479,6 +485,17 @@
       "triggers": "トリガー",
       "expandAll": "すべて展開",
       "collapseAll": "すべて折りたたむ",
+      "addTypeButton": {
+        "searchPlaceholder": "検索…",
+        "noResults": "結果なし",
+        "addItem": "アイテムを追加",
+        "addTrigger": "トリガーを追加",
+        "addCondition": "条件を追加",
+        "add": "追加",
+        "item": "アイテム",
+        "trigger": "トリガー",
+        "condition": "条件"
+      },
       "details": {},
       "hfr": "HFR",
       "mean": "平均",
@@ -940,6 +957,9 @@
         "cameraGain": "ゲイン",
         "cameraBinning": "ビニング",
         "restoreCalibration": "キャリブレーションを復元",
+        "mountSettings": "マウント",
+        "guideRate": "ガイドレート",
+        "guideRateReadOnly": "読み取り専用",
         "guiderScale": "ガイダースケール",
         "maxY": "最大Y",
         "historySize": "履歴サイズ",
@@ -1014,7 +1034,49 @@
           "clearCalibration": "キャリブレーションをクリア",
           "rightAscension": "赤経",
           "declinationAxis": "赤緯"
-        }
+        },
+        "darkLibrary": {
+          "title": "ダークライブラリ",
+          "manage": "ダークライブラリの管理",
+          "info": "異なる露出時間でダークフレームを撮影してダークライブラリを作成します。PHD2 はこれを使ってガイドフレームからセンサーノイズを差し引きます。",
+          "warning": "構築中は PHD2 がブロックされ、他のすべての PHD2 操作は無効になります。",
+          "status": "状態",
+          "exists": "ライブラリあり",
+          "loaded": "読み込み済み",
+          "notLoaded": "未読み込み",
+          "noLibrary": "ダークライブラリが見つかりません",
+          "numDarks": "ダーク枚数",
+          "range": "露出範囲",
+          "minExposure": "最小露出 (秒)",
+          "maxExposure": "最大露出 (秒)",
+          "frameCount": "1 露出あたりのフレーム数",
+          "previewExposures": "露出時間",
+          "totalFrames": "合計フレーム数",
+          "build": "作成",
+          "cancel": "作成をキャンセル",
+          "building": "作成中",
+          "buildProgress": "フレーム {frame} / {total} – {exposure} 秒",
+          "load": "読み込み",
+          "unload": "アンロード",
+          "delete": "削除",
+          "confirmDelete": "もう一度クリックして確定",
+          "buildSuccess": "ダークライブラリを作成しました",
+          "buildFailed": "ダークライブラリの作成に失敗しました",
+          "buildCancelled": "作成をキャンセルしました",
+          "invalidRange": "最小露出は最大露出以下である必要があります",
+          "buildActive": "ダークライブラリ作成中",
+          "buildActiveMessage": "作成が完了するまで PHD2 操作はブロックされます。"
+        },
+        "applyStep": "適用する",
+        "calculatedStep": "計算されたステップ",
+        "calibDistance": "距離",
+        "calibStepCalc": "ステップ サイズ計算機",
+        "declination": "赤緯",
+        "desiredSteps": "望ましいステップ",
+        "guideSpeed": "ガイド速度",
+        "imageScale": "画像スケール",
+        "optimal": "最適",
+        "pixelSize": "ピクセルサイズ"
       }
     },
     "focuser": {
@@ -1034,6 +1096,15 @@
       "autofocus_active": "オートフォーカス実行中",
       "autofocus": "オートフォーカス",
       "last_autofocus": "前回のオートフォーカス",
+      "graph": {
+        "measurePoints": "Measure Points",
+        "quadraticTrendline": "Quadratic Trendline",
+        "hyperbolicTrendline": "Hyperbolic Trendline",
+        "quadraticMin": "Quadratic Min",
+        "hyperbolicMin": "Hyperbolic Min",
+        "value": "Value",
+        "invalidDate": "無効な日付"
+      },
       "hfr": "HFR",
       "focuser_position": "位置",
       "IsStalled": "ストール",
@@ -1185,6 +1256,8 @@
       "readout_mode_image": "読み出しモード: シーケンス",
       "readout_mode_snap": "読み出しモード: スナップショット",
       "LowNoiseMode": "ウルトラモード",
+      "BadPixelCorrection": "不良ピクセル補正",
+      "BadPixelCorrectionThreshold": "不良ピクセル閾値",
       "HighFullwellMode": "ハイフルウェルモード",
       "BinAverageEnabled": "ビニングでピクセルを平均化",
       "LEDLights": "LED",
@@ -1311,7 +1384,9 @@
         "TurboMode": "ターボモード",
         "Autorun": "自動実行",
         "Calibrate": "キャリブレーション",
-        "commandFailed": "このデバイスでサポートされていないコマンドです"
+        "commandFailed": "このデバイスでサポートされていないコマンドです",
+        "SlotNum": "スロット数",
+        "slotNumDefault": "デフォルト"
       },
       "indi": {
         "settings": "フィルターホイール設定"
@@ -1434,7 +1509,15 @@
       "status_stopped_darks": "早期に停止しました - {total} 件中 {completed} 件のダークをキャプチャしました",
       "status_stopped_flats": "早期に停止しました - {total} 件中 {completed} 件のアパートを確保しました",
       "status_success_darks": "完了 - {count} 個のダークを捕獲しました",
-      "status_success_flats": "完了 - {count} 軒のアパートを占領しました"
+      "status_success_flats": "完了 - {count} 軒のアパートを占領しました",
+      "filter_label": "フィルター",
+      "result_bright": "明るすぎる",
+      "result_dim": "薄暗すぎる",
+      "status_completed_flats": "完了",
+      "status_failed_flats_multi": "すべてのフィルターが有効な露出を決定できませんでした",
+      "status_partial_flats_multi": "失敗したフィルター: {filters}",
+      "status_running_unknown": "決定中…",
+      "target": "ターゲット"
     },
     "weatherModal": {
       "weatherInformation": "気象情報",
@@ -1461,7 +1544,13 @@
     },
     "switch": {
       "gauges": "ゲージ",
-      "switch": "スイッチ"
+      "switch": "スイッチ",
+      "indi": {
+        "settings": "スイッチ設定"
+      },
+      "sv241pro": {
+        "preConnectDelay": "接続前遅延 (ミリ秒)"
+      }
     },
     "stellarium": {
       "selected_object": {
@@ -1732,7 +1821,11 @@
         "pluginUninstallStart": "プラグインをアンインストールしています: {packageName}",
         "pluginsLoadFailed": "PINS プラグインのロードに失敗しました: {message}",
         "pluginsPackageNotAllowed": "API ポリシーによってパッケージが許可されていません: {packageName}",
-        "pluginsLoadMetadataFailed": "プラグイン メタデータ リポジトリが現在利用できないため、PINS プラグインをロードできませんでした (HTTP 502)。"
+        "pluginsLoadMetadataFailed": "プラグイン メタデータ リポジトリが現在利用できないため、PINS プラグインをロードできませんでした (HTTP 502)。",
+        "hotspotChannelInvalid": "ホットスポット チャネルを指定する場合は、正の整数である必要があります。",
+        "hotspotFetchFailed": "ホットスポット設定の読み込みに失敗しました: {メッセージ}",
+        "hotspotPasswordInvalidLength": "ホットスポットのパスワードは必須であり、8 ～ 63 文字である必要があります。",
+        "hotspotSaveFailed": "ホットスポット設定を保存できませんでした: {メッセージ}"
       },
       "wifiDisconnect": "WiFiを切断",
       "disconnectConfirmTitle": "WiFiを切断しますか？",
@@ -1801,7 +1894,23 @@
       "pluginsTitle": "PINS プラグイン",
       "pluginsUninstall": "アンインストール",
       "pluginsUninstalling": "アンインストール中...",
-      "pluginsVersion": "バージョン"
+      "pluginsVersion": "バージョン",
+      "indiInstallModalAssetName": "アセット名",
+      "indiInstallModalDriverPackage": "ドライバー/パッケージ",
+      "indiInstallModalInstall": "インストール",
+      "indiInstallModalInstalling": "インストール中...",
+      "indiInstallModalLabel": "ラベル",
+      "indiInstallModalSuccessCompleted": "{label} のインストールが完了しました。",
+      "indiInstallModalSuccessStarted": "{label} のインストールが開始されました。",
+      "indiInstallModalTitle": "INDIドライバーをインストールする",
+      "indiInstallModalType": "タイプ",
+      "hotspotAppliedStatus": "アクティブなホットスポットに適用: {applied} |\nバンド: {バンド} |\nチャンネル: {チャンネル}",
+      "hotspotBandAuto": "自動 / 未設定",
+      "hotspotBandLabel": "ホットスポットバンド",
+      "hotspotCapabilitiesUnavailable": "アダプタ機能リストは利用できません。\n手動チャンネルは許可されています。",
+      "hotspotChannelLabel": "ホットスポットチャンネル",
+      "hotspotChannelPlaceholder": "自動の場合は空のままにします",
+      "hotspotMetaLine": "出典: {出典} |\nインターフェース: {iface} |\nバンド: {バンド} |\nチャンネル: {チャンネル}"
     },
     "bahtifocus": {
       "title": "バーティノフマスク・アナライザー",
@@ -1957,6 +2066,39 @@
         "tokenCopyFailed": "トークンのコピーに失敗しました",
         "submissionRemoved": "送信を削除しました",
         "allSubmissionsCleared": "すべての送信をクリアしました"
+      },
+      "diagnostics": {
+        "archiveId": "アーカイブID",
+        "autoDownloaded": "アーカイブが自動的にダウンロードされ、アップロードが試行されました。",
+        "dmesgLines": "dmesg 行",
+        "download": "ZIPをダウンロード",
+        "downloadBusy": "ダウンロード中...",
+        "downloadFailed": "診断アーカイブのダウンロードに失敗しました。",
+        "intro": "診断セクションを選択し、アーカイブ収集を開始し、準備ができたら ZIP をダウンロード/アップロードします。",
+        "journalLines": "仕訳明細行",
+        "loadingOptions": "オプションを読み込んでいます...",
+        "optionsLoadFailed": "診断オプションのロードに失敗しました。\nデフォルトを使用します。",
+        "optionsLoaded": "診断オプションがロードされました。",
+        "pollFailed": "診断ステータスのポーリングに失敗しました。",
+        "refreshOptions": "更新オプション",
+        "running": "収集中...",
+        "sectionsTitle": "セクション",
+        "start": "コレクションの開始",
+        "startFailed": "診断アーカイブの開始に失敗しました。",
+        "started": "診断アーカイブが開始されました。",
+        "statusFailed": "失敗した",
+        "statusIdle": "アイドル状態",
+        "statusLabel": "状態",
+        "statusQueued": "キューに入れられました",
+        "statusRunning": "ランニング",
+        "statusSuccess": "成功",
+        "statusTimeout": "タイムアウトしました",
+        "stillPreparing": "アーカイブはまだ準備中です。\nしばらくしてからもう一度ダウンロードしてください。",
+        "title": "診断サポート (PINS)",
+        "uploaded": "診断 ZIP がサポート エンドポイントにアップロードされました。",
+        "validationDmesgLines": "dmesg 行は 100 ～ 50000 でなければなりません。",
+        "validationJournalLines": "仕訳帳行は 100 ～ 50000 である必要があります。",
+        "validationSections": "少なくとも 1 つのセクションを選択します。"
       }
     },
     "telescopius": {
@@ -2117,12 +2259,7 @@
         "title": "スナップショットURLのヘルプ",
         "what": "スナップショットURLは、IPカメラの単一画像への直接リンクです。このURLはJPEGまたはPNG画像を直接返す必要があります（HTMLページやビデオストリームは不可）。",
         "examplesTitle": "例",
-        "exampleLabels": [
-          "汎用IPカメラ",
-          "ONVIFカメラ",
-          "軸カメラ",
-          "ハイクビジョンカメラ"
-        ],
+        "exampleLabels": ["汎用IPカメラ", "ONVIFカメラ", "軸カメラ", "ハイクビジョンカメラ"],
         "credentialsTitle": "パスワード保護されたカメラ",
         "credentials": "カメラにユーザー名とパスワードが必要な場合は、URLに認証情報を直接含めてください：",
         "credentialsNote": "バックエンドプロキシが認証を自動的に処理します。URLの認証情報はBasic認証とDigest認証（例：Hikvision）の両方で動作します。",
@@ -3492,7 +3629,10 @@
         "timeWindowEnd": "タイムウィンドウの終了",
         "timeWindowHint": "セッション範囲全体をスケジュールできるようにするには、時間枠を空白のままにします。",
         "timeWindowStart": "タイムウィンドウの開始",
-        "title": "制約"
+        "title": "制約",
+        "maxMoonAltitude": "最大月高度",
+        "maxMoonAltitudeHint": "月が地平線の下にある間のみスケジュールを設定するには、0° 以下に設定します。",
+        "minMoonSeparationInfo": "スケジュールに必要なターゲットと月の間の最小角距離。"
       },
       "defaults": {
         "favoriteTargetName": "お気に入りのターゲット",
@@ -3565,7 +3705,9 @@
         "sessionStart": "セッション開始",
         "siteAlt": "代替",
         "siteLat": "サイトの緯度",
-        "siteLon": "ロン"
+        "siteLon": "ロン",
+        "maxChunkInfo": "スケジューラが別のターゲットに切り替える前に、ターゲットごとの最大連続スケジュール ブロックを制限します。",
+        "samplingStepInfo": "計算間隔を分単位で定義します。\n値を低くすると精度は向上しますが、より多くのタイムライン ポイントを評価します。"
       },
       "subtitle": "ターゲットの可視性、制約、シーケンス挿入のためのモバイルファーストのプランニング。",
       "targetCard": {
@@ -3603,6 +3745,17 @@
       },
       "warnings": {
         "sequenceVersionRequired": "シーケンスの挿入には、TNS プラグイン 1.2.8.0 (または PINS モード) が必要です。"
+      },
+      "sessionModes": {
+        "moonRise": "月の出",
+        "moonSet": "ムーンセット",
+        "sunRise": "日の出",
+        "sunSet": "日没",
+        "time": "時間",
+        "twilightEndAstronomical": "トワイライトエンドの天文学的",
+        "twilightEndNautical": "トワイライトエンド航海",
+        "twilightStartAstronomical": "天文学的なトワイライトスタート",
+        "twilightStartNautical": "トワイライトスタート航海"
       }
     },
     "filterOffset": {
@@ -3634,6 +3787,121 @@
       "subtitle": "各フィルター ホイール フィルターのフォーカス オフセットを計算して保存します。",
       "title": "フィルターオフセット計算機",
       "useRelativeOffsets": "相対オフセットを使用する"
+    },
+    "phd2logviewer": {
+      "cal": {
+        "angle": "角度(°)",
+        "axis": "軸",
+        "backlash": "バックラッシュ",
+        "dist": "距離 (ピクセル)",
+        "noData": "このセッションにはキャリブレーション データがありません。",
+        "noSummary": "概要データなし (校正が中断された可能性があります)",
+        "over": "以上",
+        "parity": "パリティ",
+        "rate": "レート (ピクセル/秒)",
+        "steps": "ステップ"
+      },
+      "clear": "クリア",
+      "emptyState": "上のドロップダウンから PHD2 ガイド ログを選択します。",
+      "excludeDither": "ディザリングの自動除外",
+      "fft": {
+        "dominantPeriod": "優勢期",
+        "subtitle": "RA ガイドの周期的誤差高調波を特定します。",
+        "title": "RA周波数分析"
+      },
+      "info": {
+        "camera": "カメラ",
+        "duration": "間隔",
+        "ended": "終了しました",
+        "focalLength": "焦点距離",
+        "mount": "マウント",
+        "pixelScale": "ピクセルスケール",
+        "profile": "プロフィール",
+        "started": "セッションが開始されました",
+        "totalFrames": "総フレーム数"
+      },
+      "legend": {
+        "dec": "12月",
+        "dither": "ディザリング",
+        "ra": "RA",
+        "raRaw": "RA（生）"
+      },
+      "loading": "読み込み中…",
+      "noLogs": "ログが見つかりません",
+      "rawRa": "生の未修正のRA",
+      "refresh": "ログリストを更新する",
+      "selectLog": "— ログを選択 —",
+      "session": "セッション：",
+      "settings": {
+        "notConfigured": "PHD2 ログ ディレクトリを構成してください",
+        "placeholder": "パスが設定されていません",
+        "saveError": "パスの保存に失敗しました",
+        "title": "ログディレクトリ"
+      },
+      "statistics": "統計",
+      "stats": {
+        "combined": "組み合わせた",
+        "decRms": "12月RMS",
+        "declination": "偏角",
+        "frames": "フレーム",
+        "maxError": "最大誤差",
+        "of": "{合計} 件中",
+        "peakDec": "ピーク 12 月",
+        "peakRa": "ピークRA",
+        "raRms": "RA RMS",
+        "rightAscension": "赤経",
+        "totalRms": "合計RMS"
+      },
+      "subtitle": "PHD2 ガイド ログを選択して、ガイドのパフォーマンスと統計を視覚化します。",
+      "tabs": {
+        "calibration": "較正",
+        "guide": "ガイドグラフ"
+      },
+      "title": "PHD2ログビューア"
+    },
+    "supernovae": {
+      "title": "Supernovae",
+      "source": "Source: Rochester Astronomy active SN list",
+      "updated": "updated {d}",
+      "download": "Download",
+      "downloading": "Downloading…",
+      "noData": "No data loaded. Click Download to fetch the current active supernova list.",
+      "filterMag": "Max magnitude",
+      "filterType": "Type",
+      "filterTypePlaceholder": "e.g. Ia",
+      "filterYear": "Year",
+      "filterConstellation": "Constellation",
+      "filterAll": "All",
+      "filterNewOnly": "New only",
+      "filterVisibleOnly": "Visible tonight",
+      "visibleHint": "Based on observer location from NINA profile",
+      "visibleNoLocation": "No observer location — set location in NINA profile",
+      "sortBy": "Sort by",
+      "sortLatestMag": "Latest mag (brightest first)",
+      "sortFirstObserved": "Discovery date (newest first)",
+      "sortLastObserved": "Last observed (newest first)",
+      "showing": "Showing {n} of {total} entries",
+      "newCount": "{n} new",
+      "colName": "Name",
+      "colType": "Type",
+      "colLatestMag": "Latest mag",
+      "colMaxMag": "Max mag",
+      "colDiscovered": "Discovered",
+      "colLastObs": "Last obs",
+      "colConstellation": "Constellation",
+      "colHost": "Host galaxy",
+      "colRA": "RA",
+      "colDec": "Dec",
+      "frame": "Frame",
+      "frameTitle": "Send to framing assistant",
+      "fav": "Favourite",
+      "favTitle": "Add to favourites",
+      "favAdded": "Added {name} to favourites",
+      "favError": "Failed to add to favourites",
+      "visCircumpolar": "Circumpolar — always above horizon",
+      "visVisible": "Visible tonight",
+      "visHidden": "Below horizon tonight",
+      "page": "{n} / {total}"
     }
   },
   "pinsDevices": {
@@ -3936,7 +4204,13 @@
       "smtpSsl": "TLS/SSLを使用する",
       "testDiscord": "テストメッセージの送信",
       "testEmail": "テストメールを送信する",
-      "testPushover": "テスト通知を送信する"
+      "testPushover": "テスト通知を送信する",
+      "localDashboardEnabled": "ローカル Web サーバーを有効にする",
+      "localDashboardHint": "ネットワーク上のどのブラウザからでもアクセスできるローカル Web サーバーからセッション履歴を提供します。\nリモート アクセスには VPN を使用します。",
+      "localDashboardPort": "ポート",
+      "localDashboardTitle": "ローカルダッシュボード",
+      "showChartFilterChips": "フィルターチップ行を表示",
+      "showChartTargetChips": "ターゲットチップ行を表示"
     },
     "stats": {
       "accepted": "承認されました",

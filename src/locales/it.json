@@ -16,7 +16,9 @@
     "connecting": "Connessione…",
     "refresh": "Aggiorna",
     "creating": "Creazione…",
-    "help": "Aiuto"
+    "help": "Aiuto",
+    "expand": "Espandi",
+    "collapse": "Comprimi"
   },
   "general": {
     "cancel": "Annulla",
@@ -160,7 +162,8 @@
         "setMosaicTargets": "Stabilisci obiettivi a mosaico",
         "panelsSet": "pannelli disposti in sequenza",
         "willBeSaved": "i pannelli verranno salvati singolarmente"
-      }
+      },
+      "customTarget": "Obiettivo personalizzato"
     },
     "tutorial": {
       "previous": "Precedente",
@@ -326,13 +329,16 @@
       },
       "coordsMismatchWarning": "Le coordinate del profilo e della montatura differiscono.",
       "timeSync": {
-        "backendTime": "Back-end UTC",
+        "backendTime": "Ora del server",
         "mountNotConnected": "Montatura non connessa",
-        "mountTime": "Monte UTC",
+        "mountTime": "Ora della montatura",
         "notSupported": "Non supportato dal driver",
         "syncLabel": "Sincronizza il tempo per montare",
         "syncLabelInfo": "Se abilitato, facendo clic su \"Sincronizza ora\" la montatura verrà brevemente disconnessa e riconnessa in modo che NINA possa trasferirle l'ora corrente.",
-        "title": "Sincronizzazione dell'ora"
+        "title": "Sincronizzazione dell'ora",
+        "loadError": "Impossibile caricare le informazioni sull'orario.",
+        "syncError": "La sincronizzazione dell'ora non è riuscita. \nVerificare la connessione al dispositivo PINS.",
+        "syncSuccess": "Orario sincronizzato correttamente."
       },
       "navbarCustomization": {
         "alwaysVisible": "Sempre visibile",
@@ -471,6 +477,17 @@
       "triggers": "Trigger",
       "expandAll": "Espandi tutto",
       "collapseAll": "Comprimi tutto",
+      "addTypeButton": {
+        "searchPlaceholder": "Cerca…",
+        "noResults": "Nessun risultato",
+        "addItem": "Aggiungi elemento",
+        "addTrigger": "Aggiungi trigger",
+        "addCondition": "Aggiungi condizione",
+        "add": "Aggiungi",
+        "item": "Elemento",
+        "trigger": "Trigger",
+        "condition": "Condizione"
+      },
       "details": {},
       "hfr": "HFR",
       "mean": "Media",
@@ -932,6 +949,9 @@
         "cameraGain": "Gain",
         "cameraBinning": "Binning",
         "restoreCalibration": "Ripristina calibrazione",
+        "mountSettings": "Montatura",
+        "guideRate": "Guide Rate",
+        "guideRateReadOnly": "Solo lettura",
         "guiderScale": "Scala del guidatore",
         "maxY": "Max Y",
         "historySize": "Dimensione cronologia",
@@ -1002,11 +1022,53 @@
           "rightAscension": "Ascensione retta",
           "title": "Rivedere la calibrazione"
         },
+        "darkLibrary": {
+          "title": "Libreria dark",
+          "manage": "Gestisci libreria dark",
+          "info": "Crea una libreria dark catturando immagini scure con tempi di esposizione diversi. PHD2 le usa per sottrarre il rumore del sensore dalle immagini di guida.",
+          "warning": "Durante la creazione PHD2 è bloccato — tutte le altre azioni PHD2 sono disabilitate.",
+          "status": "Stato",
+          "exists": "Libreria presente",
+          "loaded": "Caricata",
+          "notLoaded": "Non caricata",
+          "noLibrary": "Nessuna libreria dark trovata",
+          "numDarks": "Numero di dark",
+          "range": "Intervallo di esposizione",
+          "minExposure": "Esposizione min. (s)",
+          "maxExposure": "Esposizione max. (s)",
+          "frameCount": "Fotogrammi per esposizione",
+          "previewExposures": "Tempi di esposizione",
+          "totalFrames": "Fotogrammi totali",
+          "build": "Crea",
+          "cancel": "Annulla creazione",
+          "building": "Creazione in corso",
+          "buildProgress": "Fotogramma {frame} / {total} – {exposure} s",
+          "load": "Carica",
+          "unload": "Scarica",
+          "delete": "Elimina",
+          "confirmDelete": "Clicca di nuovo per confermare",
+          "buildSuccess": "Libreria dark creata con successo",
+          "buildFailed": "Creazione libreria fallita",
+          "buildCancelled": "Creazione annullata",
+          "invalidRange": "L'esposizione min. deve essere minore o uguale alla max.",
+          "buildActive": "Creazione libreria in corso",
+          "buildActiveMessage": "Le azioni PHD2 sono bloccate fino al completamento."
+        },
         "reviewCalibration": "Rivedere la calibrazione",
         "starComponents": {
           "hide": "Nascondi componenti stella",
           "show": "Mostra componenti stellari"
-        }
+        },
+        "applyStep": "Fare domanda a",
+        "calculatedStep": "Passo calcolato",
+        "calibDistance": "Distanza",
+        "calibStepCalc": "Calcolatore della dimensione del passo",
+        "declination": "Declinazione",
+        "desiredSteps": "Passi desiderati",
+        "guideSpeed": "Velocità guida",
+        "imageScale": "Scala dell'immagine",
+        "optimal": "Ottimale",
+        "pixelSize": "Dimensione pixel"
       }
     },
     "focuser": {
@@ -1026,6 +1088,15 @@
       "autofocus_active": "Autofocus attivo",
       "autofocus": "Messa a fuoco automatica",
       "last_autofocus": "Ultimo autofocus",
+      "graph": {
+        "measurePoints": "Measure Points",
+        "quadraticTrendline": "Quadratic Trendline",
+        "hyperbolicTrendline": "Hyperbolic Trendline",
+        "quadraticMin": "Quadratic Min",
+        "hyperbolicMin": "Hyperbolic Min",
+        "value": "Value",
+        "invalidDate": "Data non valida"
+      },
       "settings": {
         "AutoFocusInitialOffsetSteps": "Passaggi iniziali di offset",
         "AutoFocusStepSize": "Dimensione del passo",
@@ -1180,6 +1251,8 @@
       "HighFullwellMode": "Modalità Fullwell alta",
       "LEDLights": "GUIDATO",
       "LowNoiseMode": "Modalità Ultra",
+      "BadPixelCorrection": "Correzione pixel difettosi",
+      "BadPixelCorrectionThreshold": "Soglia pixel difettosi",
       "dewHeaterStrength": "Forza del riscaldatore di rugiada",
       "tab_camera": "Fotocamera",
       "tab_cooler": "Raffreddamento",
@@ -1303,7 +1376,9 @@
         "Speed": "Velocità",
         "TurboMode": "Modalità Turbo",
         "commandFailed": "Comando non supportato da questo dispositivo",
-        "deviceSpecific": "Impostazioni del dispositivo"
+        "deviceSpecific": "Impostazioni del dispositivo",
+        "SlotNum": "Numero di slot",
+        "slotNumDefault": "Predefinito"
       },
       "indi": {
         "settings": "Impostazioni della ruota dei filtri"
@@ -1426,7 +1501,15 @@
       "status_stopped_darks": "Interrotto in anticipo: {completato} di {totale} oscuri catturati",
       "status_stopped_flats": "Interrotto in anticipo: {completato} di {totale} appartamenti catturati",
       "status_success_darks": "Fatto: {count} oscuri catturati",
-      "status_success_flats": "Fatto: {count} appartamenti catturati"
+      "status_success_flats": "Fatto: {count} appartamenti catturati",
+      "filter_label": "Filtro",
+      "result_bright": "troppo luminoso",
+      "result_dim": "troppo debole",
+      "status_completed_flats": "Completato",
+      "status_failed_flats_multi": "Tutti i filtri non sono riusciti a determinare un'esposizione valida",
+      "status_partial_flats_multi": "Filtri non riusciti: {filters}",
+      "status_running_unknown": "Determinazione...",
+      "target": "Bersaglio"
     },
     "weatherModal": {
       "weatherInformation": "Informazioni meteo",
@@ -1453,7 +1536,13 @@
     },
     "switch": {
       "gauges": "Misuratori",
-      "switch": "Interruttore"
+      "switch": "Interruttore",
+      "indi": {
+        "settings": "Cambia impostazioni"
+      },
+      "sv241pro": {
+        "preConnectDelay": "Ritardo pre-connessione (ms)"
+      }
     },
     "stellarium": {
       "selected_object": {
@@ -1724,7 +1813,11 @@
         "pluginUninstallStart": "Plugin di disinstallazione: {packageName}",
         "pluginsLoadFailed": "Impossibile caricare i plug-in PINS: {messaggio}",
         "pluginsPackageNotAllowed": "Pacchetto non consentito dalla policy API: {packageName}",
-        "pluginsLoadMetadataFailed": "Impossibile caricare i plug-in PINS perché il repository dei metadati dei plug-in non è attualmente disponibile (HTTP 502)."
+        "pluginsLoadMetadataFailed": "Impossibile caricare i plug-in PINS perché il repository dei metadati dei plug-in non è attualmente disponibile (HTTP 502).",
+        "hotspotChannelInvalid": "Il canale hotspot deve essere un numero intero positivo quando fornito.",
+        "hotspotFetchFailed": "Impossibile caricare le impostazioni dell'hotspot: {messaggio}",
+        "hotspotPasswordInvalidLength": "La password dell'hotspot è obbligatoria e deve contenere da 8 a 63 caratteri.",
+        "hotspotSaveFailed": "Impossibile salvare le impostazioni dell'hotspot: {messaggio}"
       },
       "hotspotConfigured": "La password dell'hotspot personalizzata è configurata.",
       "hotspotNewPassword": "Nuova password dell'hotspot",
@@ -1801,7 +1894,23 @@
       "pluginsTitle": "Plugin PIN",
       "pluginsUninstall": "Disinstallare",
       "pluginsUninstalling": "Disinstallazione...",
-      "pluginsVersion": "Versione"
+      "pluginsVersion": "Versione",
+      "indiInstallModalAssetName": "Nome della risorsa",
+      "indiInstallModalDriverPackage": "Autista/Pacchetto",
+      "indiInstallModalInstall": "Installare",
+      "indiInstallModalInstalling": "Installazione...",
+      "indiInstallModalLabel": "Etichetta",
+      "indiInstallModalSuccessCompleted": "Installazione completata per {label}.",
+      "indiInstallModalSuccessStarted": "L'installazione è iniziata per {label}.",
+      "indiInstallModalTitle": "Installa il driver INDI",
+      "indiInstallModalType": "Tipo",
+      "hotspotAppliedStatus": "Applicato all'hotspot attivo: {applied} | \nBand: {band} | \nChannel: {channel}",
+      "hotspotCapabilitiesUnavailable": "Elenco delle funzionalità dell'adattatore non disponibile; \nmanual channel allowed.",
+      "hotspotChannelPlaceholder": "Lascia vuoto per automatico",
+      "hotspotMetaLine": "Fonte: {fonte} | \nInterfaccia: {iface} | \nBanda: {banda} | \nCanale: {canale}",
+      "hotspotBandAuto": "Auto/Disimposta",
+      "hotspotBandLabel": "Banda Hotspot",
+      "hotspotChannelLabel": "Canale Hotspot"
     },
     "bahtifocus": {
       "title": "Analizzatore di maschere Bahtinov",
@@ -1957,6 +2066,39 @@
         "tokenCopyFailed": "Copia token fallita",
         "submissionRemoved": "Invio rimosso",
         "allSubmissionsCleared": "Tutti gli invii cancellati"
+      },
+      "diagnostics": {
+        "archiveId": "ID dell'archivio",
+        "autoDownloaded": "L'archivio è stato scaricato automaticamente ed è stato tentato il caricamento.",
+        "dmesgLines": "linee dmesg",
+        "download": "Scarica ZIP",
+        "downloadBusy": "Download in corso...",
+        "downloadFailed": "Impossibile scaricare l'archivio di diagnostica.",
+        "intro": "Seleziona le sezioni di diagnostica, avvia la raccolta di archivi e scarica/carica lo ZIP quando è pronto.",
+        "journalLines": "Righe del diario",
+        "loadingOptions": "Caricamento opzioni...",
+        "optionsLoadFailed": "Impossibile caricare le opzioni di diagnostica. \nUtilizzo delle impostazioni predefinite.",
+        "optionsLoaded": "Opzioni di diagnostica caricate.",
+        "pollFailed": "Impossibile interrogare lo stato della diagnostica.",
+        "refreshOptions": "Aggiorna opzioni",
+        "running": "Raccolta...",
+        "sectionsTitle": "Sezioni",
+        "start": "Inizia la raccolta",
+        "startFailed": "Impossibile avviare l'archivio diagnostico.",
+        "started": "Avviato l'archivio diagnostico.",
+        "statusFailed": "Fallito",
+        "statusIdle": "Oziare",
+        "statusLabel": "Stato",
+        "statusQueued": "In coda",
+        "statusRunning": "Corsa",
+        "statusSuccess": "Successo",
+        "statusTimeout": "Timeout",
+        "stillPreparing": "L'archivio è ancora in preparazione. \nProva a eseguire di nuovo il download a breve.",
+        "title": "Supporto diagnostico (PIN)",
+        "uploaded": "ZIP di diagnostica caricato per supportare l'endpoint.",
+        "validationDmesgLines": "le righe dmesg devono essere comprese tra 100 e 50000.",
+        "validationJournalLines": "Le righe del giornale di registrazione devono essere comprese tra 100 e 50000.",
+        "validationSections": "Seleziona almeno una sezione."
       }
     },
     "telescopius": {
@@ -3459,7 +3601,10 @@
         "timeWindowEnd": "Fine della finestra temporale",
         "timeWindowHint": "Lasciare vuota la finestra temporale per consentire la pianificazione dell'intero intervallo di sessioni.",
         "timeWindowStart": "Inizio della finestra temporale",
-        "title": "Vincoli"
+        "title": "Vincoli",
+        "maxMoonAltitude": "Altitudine massima della luna",
+        "maxMoonAltitudeHint": "Impostare su 0° o inferiore per programmare solo mentre la Luna è sotto l'orizzonte.",
+        "minMoonSeparationInfo": "Distanza angolare minima tra target e Luna richiesta per la pianificazione."
       },
       "defaults": {
         "favoriteTargetName": "Bersaglio preferito",
@@ -3532,7 +3677,9 @@
         "sessionStart": "Inizio della sessione",
         "siteAlt": "alt",
         "siteLat": "Sito lat",
-        "siteLon": "lon"
+        "siteLon": "lon",
+        "maxChunkInfo": "Limita il blocco pianificato continuo massimo per destinazione prima che lo scheduler possa passare a un'altra destinazione.",
+        "samplingStepInfo": "Definisce l'intervallo di calcolo in minuti. \nValori più bassi aumentano la precisione ma valutano più punti della sequenza temporale."
       },
       "subtitle": "Pianificazione mobile-first per visibilità del target, vincoli e inserimento di sequenze.",
       "targetCard": {
@@ -3570,6 +3717,17 @@
       },
       "warnings": {
         "sequenceVersionRequired": "L'inserimento della sequenza richiede il plugin TNS 1.2.8.0 (o la modalità PINS)."
+      },
+      "sessionModes": {
+        "moonRise": "Sorgere della luna",
+        "moonSet": "Luna tramontata",
+        "sunRise": "Alba",
+        "sunSet": "Tramonto",
+        "time": "Tempo",
+        "twilightEndAstronomical": "Crepuscolo e fine astronomica",
+        "twilightEndNautical": "Crepuscolo e nautica",
+        "twilightStartAstronomical": "Il crepuscolo inizia in modo astronomico",
+        "twilightStartNautical": "Twilight inizia nautico"
       }
     },
     "filterOffset": {
@@ -3634,6 +3792,121 @@
       "deleteDirectoryMessage": "Delete directory \"{name}\" recursively?",
       "deleteFileTitle": "Delete File",
       "deleteFileMessage": "Delete file \"{name}\"?"
+    },
+    "phd2logviewer": {
+      "cal": {
+        "angle": "Angolo (°)",
+        "axis": "Asse",
+        "backlash": "Gioco",
+        "dist": "Distanza (px)",
+        "noData": "Nessun dato di calibrazione per questa sessione.",
+        "noSummary": "Nessun dato riepilogativo (la calibrazione potrebbe essere stata interrotta)",
+        "over": "Sopra",
+        "parity": "Parità",
+        "rate": "Velocità (px/s)",
+        "steps": "Passi"
+      },
+      "clear": "Chiaro",
+      "emptyState": "Seleziona un registro della guida PHD2 dal menu a discesa in alto.",
+      "excludeDither": "Regolazione del dithering con esclusione automatica",
+      "fft": {
+        "dominantPeriod": "Periodo dominante",
+        "subtitle": "Identifica le armoniche dell'errore periodico nella guida AR.",
+        "title": "Analisi della frequenza RA"
+      },
+      "info": {
+        "camera": "Telecamera",
+        "duration": "Durata",
+        "ended": "Finito",
+        "focalLength": "Lunghezza focale",
+        "mount": "Montare",
+        "pixelScale": "Scala dei pixel",
+        "profile": "Profilo",
+        "started": "La sessione è iniziata",
+        "totalFrames": "Fotogrammi totali"
+      },
+      "legend": {
+        "dec": "dicembre",
+        "dither": "Dither",
+        "ra": "RA",
+        "raRaw": "RA (grezzo)"
+      },
+      "loading": "Caricamento…",
+      "noLogs": "Nessun registro trovato",
+      "rawRa": "RA cruda e non corretta",
+      "refresh": "Aggiorna l'elenco dei registri",
+      "selectLog": "— seleziona un registro —",
+      "session": "Sessione:",
+      "settings": {
+        "notConfigured": "Configura la directory del registro PHD2",
+        "placeholder": "Nessun percorso configurato",
+        "saveError": "Impossibile salvare il percorso",
+        "title": "Directory di registro"
+      },
+      "statistics": "Statistiche",
+      "stats": {
+        "combined": "combinato",
+        "decRms": "Dicembre RMS",
+        "declination": "declinazione",
+        "frames": "Cornici",
+        "maxError": "errore massimo",
+        "of": "di {totale}",
+        "peakDec": "Picco di dicembre",
+        "peakRa": "Picco RA",
+        "raRms": "RARMS",
+        "rightAscension": "ascensione retta",
+        "totalRms": "RMS totale"
+      },
+      "subtitle": "Seleziona un registro guida PHD2 per visualizzare le prestazioni e le statistiche della guida.",
+      "tabs": {
+        "calibration": "Calibrazione",
+        "guide": "Grafico guida"
+      },
+      "title": "Visualizzatore registro PHD2"
+    },
+    "supernovae": {
+      "title": "Supernovae",
+      "source": "Source: Rochester Astronomy active SN list",
+      "updated": "updated {d}",
+      "download": "Download",
+      "downloading": "Downloading…",
+      "noData": "No data loaded. Click Download to fetch the current active supernova list.",
+      "filterMag": "Max magnitude",
+      "filterType": "Type",
+      "filterTypePlaceholder": "e.g. Ia",
+      "filterYear": "Year",
+      "filterConstellation": "Constellation",
+      "filterAll": "All",
+      "filterNewOnly": "New only",
+      "filterVisibleOnly": "Visible tonight",
+      "visibleHint": "Based on observer location from NINA profile",
+      "visibleNoLocation": "No observer location — set location in NINA profile",
+      "sortBy": "Sort by",
+      "sortLatestMag": "Latest mag (brightest first)",
+      "sortFirstObserved": "Discovery date (newest first)",
+      "sortLastObserved": "Last observed (newest first)",
+      "showing": "Showing {n} of {total} entries",
+      "newCount": "{n} new",
+      "colName": "Name",
+      "colType": "Type",
+      "colLatestMag": "Latest mag",
+      "colMaxMag": "Max mag",
+      "colDiscovered": "Discovered",
+      "colLastObs": "Last obs",
+      "colConstellation": "Constellation",
+      "colHost": "Host galaxy",
+      "colRA": "RA",
+      "colDec": "Dec",
+      "frame": "Frame",
+      "frameTitle": "Send to framing assistant",
+      "fav": "Favourite",
+      "favTitle": "Add to favourites",
+      "favAdded": "Added {name} to favourites",
+      "favError": "Failed to add to favourites",
+      "visCircumpolar": "Circumpolar — always above horizon",
+      "visVisible": "Visible tonight",
+      "visHidden": "Below horizon tonight",
+      "page": "{n} / {total}"
     }
   },
   "pinsDevices": {
@@ -3936,7 +4209,13 @@
       "smtpSsl": "Utilizza TLS/SSL",
       "testDiscord": "Invia messaggio di prova",
       "testEmail": "Invia e-mail di prova",
-      "testPushover": "Invia notifica di prova"
+      "testPushover": "Invia notifica di prova",
+      "localDashboardEnabled": "Abilita il server web locale",
+      "localDashboardHint": "Fornisce la cronologia delle sessioni da un server Web locale accessibile da qualsiasi browser sulla rete. \nUtilizza una VPN per l'accesso remoto.",
+      "localDashboardPort": "Porta",
+      "localDashboardTitle": "Cruscotto locale",
+      "showChartFilterChips": "Mostra la riga del chip del filtro",
+      "showChartTargetChips": "Mostra la riga dei gettoni target"
     },
     "stats": {
       "accepted": "Accettato",

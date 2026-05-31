@@ -32,7 +32,7 @@ const getBaseUrl = () => {
   let port = connection.port || window.location.port || 80;
   const apiPort = store.apiPort;
 
-  const isDev = process.env.NODE_ENV === 'development';
+  const isDev = import.meta.env.DEV;
   if (isDev && Number(port) === 8080) {
     port = 5000;
   }

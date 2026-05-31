@@ -278,17 +278,23 @@
       <h2 class="text-2xl font-semibold">{{ $t('components.switch.indi.settings') }}</h2>
     </template>
     <template #body>
-      <SettingsAlpacaDirect
-        v-if="isAlpacaDirect(selectedSwitchObj)"
-        deviceType="switch"
-        :selectedDevice="selectedSwitchDevice"
-        :deviceId="selectedSwitchObj?.Id"
-      />
-      <SettingsSerialConnection
-        v-else
-        equipmentType="switch"
-        :selectedDevice="selectedSwitchDevice"
-      />
+      <div class="flex flex-col gap-2">
+        <SettingsAlpacaDirect
+          v-if="isAlpacaDirect(selectedSwitchObj)"
+          deviceType="switch"
+          :selectedDevice="selectedSwitchDevice"
+          :deviceId="selectedSwitchObj?.Id"
+        />
+        <SettingsSerialConnection
+          v-else
+          equipmentType="switch"
+          :selectedDevice="selectedSwitchDevice"
+        />
+        <SettingsSwitchSV241Pro
+          :selectedDevice="selectedSwitchDevice"
+          :selectedDeviceObj="selectedSwitchObj"
+        />
+      </div>
     </template>
   </Modal>
 
@@ -298,17 +304,23 @@
       <h2 class="text-2xl font-semibold">{{ $t('components.filterwheel.indi.settings') }}</h2>
     </template>
     <template #body>
-      <SettingsAlpacaDirect
-        v-if="isAlpacaDirect(selectedFilterObj)"
-        deviceType="filterwheel"
-        :selectedDevice="selectedFilterDevice"
-        :deviceId="selectedFilterObj?.Id"
-      />
-      <SettingsSerialConnection
-        v-else
-        equipmentType="filterwheel"
-        :selectedDevice="selectedFilterDevice"
-      />
+      <div class="flex flex-col gap-2">
+        <SettingsFilterWheelSlotNum
+          :selectedDevice="selectedFilterDevice"
+          :selectedDeviceObj="selectedFilterObj"
+        />
+        <SettingsAlpacaDirect
+          v-if="isAlpacaDirect(selectedFilterObj)"
+          deviceType="filterwheel"
+          :selectedDevice="selectedFilterDevice"
+          :deviceId="selectedFilterObj?.Id"
+        />
+        <SettingsSerialConnection
+          v-else
+          equipmentType="filterwheel"
+          :selectedDevice="selectedFilterDevice"
+        />
+      </div>
     </template>
   </Modal>
 
@@ -363,7 +375,7 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { apiStore } from '@/store/store';
 import { useGuiderStore } from '@/store/guiderStore';
@@ -375,6 +387,8 @@ import settingsGuiderConnect from '@/components/guider/settingsGuiderConnect.vue
 import SettingsSerialConnection from '@/components/equipment/SettingsSerialConnection.vue';
 import SettingsWeather from '@/components/equipment/SettingsWeather.vue';
 import SettingsAlpacaDirect from '@/components/equipment/SettingsAlpacaDirect.vue';
+import SettingsFilterWheelSlotNum from '@/components/equipment/SettingsFilterWheelSlotNum.vue';
+import SettingsSwitchSV241Pro from '@/components/equipment/SettingsSwitchSV241Pro.vue';
 import { checkMountConnectionPermission } from '@/utils/locationSyncUtils';
 
 const { t } = useI18n();
@@ -568,22 +582,49 @@ const hasAnyConnection = computed(() => {
   });
 });
 
+function waitForMountConnected(timeoutMs = 30000) {
+  if (store.mountInfo.Connected) return Promise.resolve(true);
+  return new Promise((resolve) => {
+    const timer = setTimeout(() => {
+      unwatch();
+      resolve(false);
+    }, timeoutMs);
+    const unwatch = watch(
+      () => store.mountInfo.Connected,
+      (connected) => {
+        if (connected) {
+          clearTimeout(timer);
+          unwatch();
+          resolve(true);
+        }
+      }
+    );
+  });
+}
+
 async function connectAll() {
   isConnecting.value = true;
   try {
+    const hasSwitch = store.existingEquipmentList.some((d) => d.apiName === 'switch');
+    if (hasSwitch) {
+      await apiService.switchAction('connect');
+      await new Promise((resolve) => setTimeout(resolve, 5000));
+    }
+
     for (const device of store.existingEquipmentList) {
       switch (device.apiName) {
         case 'camera':
           await apiService.cameraAction('connect');
           break;
-        case 'mount':
+        case 'mount': {
           const canConnect = await checkMountConnectionPermission(t);
           if (!canConnect) {
-            // Benutzer hat abgebrochen
             return;
           }
           await apiService.mountAction('connect');
+          await waitForMountConnected();
           break;
+        }
         case 'filter':
           await apiService.filterAction('connect');
           break;
@@ -617,7 +658,6 @@ async function connectAll() {
           await apiService.weatherAction('connect');
           break;
         case 'switch':
-          await apiService.switchAction('connect');
           break;
       }
     }
@@ -649,6 +689,14 @@ async function disconnectAll() {
           await apiService.rotatorAction('disconnect');
           break;
         case 'guider':
+          if (device.id === 'PHD2_Single') {
+            try {
+              await apiService.setPHD2StopGuiding();
+            } catch (_) {
+              /* not guiding */
+            }
+            await apiService.disconnectPHD2Equipment();
+          }
           await apiService.guiderAction('disconnect');
           break;
         case 'safety':

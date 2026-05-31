@@ -16,7 +16,9 @@
     "scanning": "Сканування…",
     "connecting": "З'єднання…",
     "refresh": "Оновити",
-    "help": "Допомога"
+    "help": "Допомога",
+    "expand": "Розгорнути",
+    "collapse": "Згорнути"
   },
   "general": {
     "cancel": "Скасувати",
@@ -160,7 +162,8 @@
         "setMosaicTargets": "Встановити цілі мозаїки",
         "panelsSet": "панелі встановлені в послідовності",
         "willBeSaved": "панелі будуть збережені окремо"
-      }
+      },
+      "customTarget": "Спеціальна ціль"
     },
     "tutorial": {
       "previous": "Назад",
@@ -303,12 +306,15 @@
       "coordsMismatchWarning": "Координати профілю та монтування відрізняються.",
       "timeSync": {
         "title": "Синхронізація часу",
-        "backendTime": "UTC сервера",
-        "mountTime": "UTC монтування",
+        "backendTime": "Час сервера",
+        "mountTime": "Час монтування",
         "syncLabel": "Синхронізувати час з монтуванням",
         "syncLabelInfo": "Якщо увімкнено, натискання кнопки «Синхронізувати зараз» короткочасно від'єднає та знову підключить монтування, щоб NINA могла передати поточний час.",
         "mountNotConnected": "Монтування не підключено",
-        "notSupported": "Не підтримується драйвером"
+        "notSupported": "Не підтримується драйвером",
+        "loadError": "Не вдалося завантажити інформацію про час.",
+        "syncError": "Помилка синхронізації часу. \nПеревірте підключення до пристрою PINS.",
+        "syncSuccess": "Час успішно синхронізовано."
       },
       "imageSavePath": {
         "title": "Шлях збереження зображень",
@@ -433,6 +439,17 @@
       "triggers": "Тригери",
       "expandAll": "Розгорнути все",
       "collapseAll": "Згорнути все",
+      "addTypeButton": {
+        "searchPlaceholder": "Пошук…",
+        "noResults": "Немає результатів",
+        "addItem": "Додати елемент",
+        "addTrigger": "Додати тригер",
+        "addCondition": "Додати умову",
+        "add": "Додати",
+        "item": "Елемент",
+        "trigger": "Тригер",
+        "condition": "Умова"
+      },
       "details": {},
       "hfr": "HFR",
       "mean": "Середнє",
@@ -936,6 +953,9 @@
         "cameraGain": "Підсилення",
         "cameraBinning": "Бінінг",
         "restoreCalibration": "Відновити калібрування",
+        "mountSettings": "Монтування",
+        "guideRate": "Guide Rate",
+        "guideRateReadOnly": "Лише читання",
         "guiderScale": "Масштаб гіда",
         "maxY": "Макс Y",
         "historySize": "Розмір історії",
@@ -986,7 +1006,49 @@
           "clearCalibration": "Очистити калібрацію",
           "rightAscension": "Пряме сходження",
           "declinationAxis": "Схилення"
-        }
+        },
+        "darkLibrary": {
+          "title": "Бібліотека дарків",
+          "manage": "Керувати бібліотекою дарків",
+          "info": "Створіть бібліотеку дарків, знімаючи темні кадри з різними експозиціями. PHD2 використовує їх для віднімання шуму матриці з кадрів гідування.",
+          "warning": "Створення блокує PHD2 — усі інші дії PHD2 відключені під час побудови.",
+          "status": "Статус",
+          "exists": "Бібліотека існує",
+          "loaded": "Завантажена",
+          "notLoaded": "Не завантажена",
+          "noLibrary": "Бібліотеку дарків не знайдено",
+          "numDarks": "Кількість дарків",
+          "range": "Діапазон експозиції",
+          "minExposure": "Мін. експозиція (с)",
+          "maxExposure": "Макс. експозиція (с)",
+          "frameCount": "Кадрів на експозицію",
+          "previewExposures": "Часи експозиції",
+          "totalFrames": "Усього кадрів",
+          "build": "Створити",
+          "cancel": "Скасувати створення",
+          "building": "Створення",
+          "buildProgress": "Кадр {frame} / {total} – {exposure} с",
+          "load": "Завантажити",
+          "unload": "Вивантажити",
+          "delete": "Видалити",
+          "confirmDelete": "Натисніть ще раз для підтвердження",
+          "buildSuccess": "Бібліотеку дарків успішно створено",
+          "buildFailed": "Помилка створення бібліотеки",
+          "buildCancelled": "Створення скасовано",
+          "invalidRange": "Мін. експозиція має бути меншою або рівною макс.",
+          "buildActive": "Створення бібліотеки триває",
+          "buildActiveMessage": "Дії PHD2 заблоковано до завершення."
+        },
+        "applyStep": "Застосувати",
+        "calculatedStep": "Розрахований крок",
+        "calibDistance": "Відстань",
+        "calibStepCalc": "Калькулятор розміру кроку",
+        "declination": "відмінювання",
+        "desiredSteps": "Бажані кроки",
+        "guideSpeed": "Керівництво по швидкості",
+        "imageScale": "Масштаб зображення",
+        "optimal": "Оптимальний",
+        "pixelSize": "Розмір пікселя"
       }
     },
     "focuser": {
@@ -1006,6 +1068,15 @@
       "autofocus_active": "Автофокус активний",
       "autofocus": "Автофокус",
       "last_autofocus": "Останній автофокус",
+      "graph": {
+        "measurePoints": "Measure Points",
+        "quadraticTrendline": "Quadratic Trendline",
+        "hyperbolicTrendline": "Hyperbolic Trendline",
+        "quadraticMin": "Quadratic Min",
+        "hyperbolicMin": "Hyperbolic Min",
+        "value": "Value",
+        "invalidDate": "Недійсна дата"
+      },
       "settings": {
         "AutoFocusInitialOffsetSteps": "Початкові кроки зміщення",
         "AutoFocusStepSize": "Розмір кроку",
@@ -1157,6 +1228,8 @@
       "readout_mode_snap": "Режим зчитування знімка",
       "dewHeaterStrength": "Потужність обігрівача від роси",
       "LowNoiseMode": "Режим Ultra",
+      "BadPixelCorrection": "Корекція битих пікселів",
+      "BadPixelCorrectionThreshold": "Поріг битих пікселів",
       "HighFullwellMode": "Режим High Fullwell",
       "BinAverageEnabled": "Бінінг усереднює пікселі",
       "LEDLights": "LED",
@@ -1283,7 +1356,9 @@
         "TurboMode": "Турбо-режим",
         "Autorun": "Автозапуск",
         "Calibrate": "Калібрація",
-        "commandFailed": "Команда не підтримується цим пристроєм"
+        "commandFailed": "Команда не підтримується цим пристроєм",
+        "SlotNum": "Кількість слотів",
+        "slotNumDefault": "За замовчуванням"
       },
       "indi": {
         "settings": "Налаштування колеса фільтрів"
@@ -1406,7 +1481,15 @@
       "status_failed": "не вдалося",
       "status_running": "Виконується",
       "status_stopped": "Зупинено",
-      "status_success": "Успішно"
+      "status_success": "Успішно",
+      "filter_label": "фільтр",
+      "result_bright": "занадто яскравий",
+      "result_dim": "занадто тьмяний",
+      "status_completed_flats": "Виконано",
+      "status_failed_flats_multi": "Усім фільтрам не вдалося визначити дійсну експозицію",
+      "status_partial_flats_multi": "Невдалі фільтри: {filters}",
+      "status_running_unknown": "Визначення…",
+      "target": "Цільова"
     },
     "weatherModal": {
       "weatherInformation": "Інформація про погоду",
@@ -1433,7 +1516,13 @@
     },
     "switch": {
       "gauges": "Датчики",
-      "switch": "Перемикач"
+      "switch": "Перемикач",
+      "indi": {
+        "settings": "Налаштування перемикача"
+      },
+      "sv241pro": {
+        "preConnectDelay": "Затримка перед підключенням (мс)"
+      }
     },
     "stellarium": {
       "selected_object": {
@@ -1774,6 +1863,39 @@
         "tokenCopyFailed": "Не вдалося скопіювати токен",
         "submissionRemoved": "Відправлення видалено",
         "allSubmissionsCleared": "Всі відправлення очищено"
+      },
+      "diagnostics": {
+        "archiveId": "ID архіву",
+        "autoDownloaded": "Архів було завантажено автоматично та спробовано завантажити.",
+        "dmesgLines": "рядки dmesg",
+        "download": "Завантажити ZIP",
+        "downloadBusy": "Завантаження...",
+        "downloadFailed": "Не вдалося завантажити архів діагностики.",
+        "intro": "Виберіть розділи діагностики, почніть збір архіву та завантажте/завантажте ZIP, коли будете готові.",
+        "journalLines": "Рядки журналу",
+        "loadingOptions": "Завантаження параметрів...",
+        "optionsLoadFailed": "Не вдалося завантажити параметри діагностики. \nВикористання параметрів за замовчуванням.",
+        "optionsLoaded": "Параметри діагностики завантажено.",
+        "pollFailed": "Не вдалося отримати статус діагностики.",
+        "refreshOptions": "Параметри оновлення",
+        "running": "Збирання...",
+        "sectionsTitle": "Розділи",
+        "start": "Розпочати збір",
+        "startFailed": "Не вдалося запустити архів діагностики.",
+        "started": "Запущено архів діагностики.",
+        "statusFailed": "Не вдалося",
+        "statusIdle": "Бездіяльність",
+        "statusLabel": "Статус",
+        "statusQueued": "У черзі",
+        "statusRunning": "Біг",
+        "statusSuccess": "Успіх",
+        "statusTimeout": "Час очікування минув",
+        "stillPreparing": "Архів ще готується. \nСпробуйте завантажити знову незабаром.",
+        "title": "Підтримка діагностики (PINS)",
+        "uploaded": "ZIP-архів діагностики завантажено для підтримки кінцевої точки.",
+        "validationDmesgLines": "Рядки dmesg мають бути від 100 до 50 000.",
+        "validationJournalLines": "Кількість рядків журналу має бути від 100 до 50 000.",
+        "validationSections": "Виберіть принаймні один розділ."
       }
     },
     "telescopius": {
@@ -2588,7 +2710,11 @@
         "pluginUninstallStart": "Видалення плагіна: {packageName}",
         "pluginsLoadFailed": "Не вдалося завантажити плагіни PINS: {message}",
         "pluginsPackageNotAllowed": "Пакет заборонено політикою API: {packageName}",
-        "pluginsLoadMetadataFailed": "Не вдалося завантажити плагіни PINS, оскільки сховище метаданих плагінів наразі недоступне (HTTP 502)."
+        "pluginsLoadMetadataFailed": "Не вдалося завантажити плагіни PINS, оскільки сховище метаданих плагінів наразі недоступне (HTTP 502).",
+        "hotspotChannelInvalid": "Канал точки доступу має бути додатним цілим числом, якщо надається.",
+        "hotspotFetchFailed": "Не вдалося завантажити налаштування точки доступу: {message}",
+        "hotspotPasswordInvalidLength": "Пароль точки доступу потрібен і має містити 8-63 символи.",
+        "hotspotSaveFailed": "Не вдалося зберегти налаштування точки доступу: {message}"
       },
       "wifiDisconnect": "Відключити WiFi",
       "disconnectConfirmTitle": "Відключити WiFi?",
@@ -2642,7 +2768,23 @@
       "pluginsTitle": "Плагіни PINS",
       "pluginsUninstall": "Видалити",
       "pluginsUninstalling": "Видалення...",
-      "pluginsVersion": "Версія"
+      "pluginsVersion": "Версія",
+      "indiInstallModalAssetName": "Назва активу",
+      "indiInstallModalDriverPackage": "Драйвер/пакет",
+      "indiInstallModalInstall": "встановити",
+      "indiInstallModalInstalling": "Встановлення...",
+      "indiInstallModalLabel": "Мітка",
+      "indiInstallModalSuccessCompleted": "Встановлення для {label} завершено.",
+      "indiInstallModalSuccessStarted": "Розпочато встановлення для {label}.",
+      "indiInstallModalTitle": "Встановіть драйвер INDI",
+      "indiInstallModalType": "Тип",
+      "hotspotAppliedStatus": "Застосовано до активної точки доступу: {застосовано} | \nГрупа: {band} | \nКанал: {channel}",
+      "hotspotBandAuto": "Авто / Не встановлено",
+      "hotspotBandLabel": "Група Hotspot",
+      "hotspotCapabilitiesUnavailable": "Список можливостей адаптера недоступний; \nдозволений ручний канал.",
+      "hotspotChannelLabel": "Канал Hotspot",
+      "hotspotChannelPlaceholder": "Залиште порожнім для авто",
+      "hotspotMetaLine": "Джерело: {джерело} | \nІнтерфейс: {iface} | \nГрупа: {band} | \nКанал: {channel}"
     },
     "narrowband": {
       "title": "Калькулятор фільтрів",
@@ -3302,7 +3444,9 @@
         "siteLat": "Широта",
         "siteLon": "довг",
         "siteAlt": "вис",
-        "scheduled": "заплановано"
+        "scheduled": "заплановано",
+        "maxChunkInfo": "Обмежує максимальний безперервний запланований блок на ціль, перш ніж планувальник зможе переключитися на іншу ціль.",
+        "samplingStepInfo": "Визначає інтервал розрахунку в хвилинах. \nМенші значення підвищують точність, але оцінюють більше точок часової шкали."
       },
       "warnings": {
         "sequenceVersionRequired": "Вставка в послідовність потребує плагін TNS 1.2.8.0+ (або режим PINS)."
@@ -3329,7 +3473,10 @@
         "minMoonSeparation": "Мін. відстань від Місяця",
         "timeWindowStart": "Початок вікна часу",
         "timeWindowEnd": "Кінець вікна часу",
-        "timeWindowHint": "Залиште вікно часу порожнім для планування на весь діапазон сесії."
+        "timeWindowHint": "Залиште вікно часу порожнім для планування на весь діапазон сесії.",
+        "maxMoonAltitude": "Максимальна висота місяця",
+        "maxMoonAltitudeHint": "Встановіть 0° або нижче, щоб запланувати лише коли Місяць знаходиться за горизонтом.",
+        "minMoonSeparationInfo": "Мінімальна кутова відстань між метою та Місяцем, необхідна для планування."
       },
       "timeline": {
         "title": "Часова шкала сесії",
@@ -3413,6 +3560,17 @@
         "noImagingContainerFound": "Не вдалося знайти контейнер зйомки в активній послідовності.",
         "noValidTargetsForExport": "Не знайдено дійсних цілей для експорту.",
         "failedToApplySchedule": "Не вдалося застосувати розклад до послідовності."
+      },
+      "sessionModes": {
+        "moonRise": "Схід місяця",
+        "moonSet": "Місяць зайшов",
+        "sunRise": "Схід сонця",
+        "sunSet": "Сонце зайшло",
+        "time": "час",
+        "twilightEndAstronomical": "Астрономічні сутінки",
+        "twilightEndNautical": "Сутінковий кінець морський",
+        "twilightStartAstronomical": "Початок сутінків астрономічний",
+        "twilightStartNautical": "Сутінковий старт морський"
       }
     },
     "pinsDevices": {
@@ -3593,12 +3751,7 @@
         "proxyTitle": "Проксі vs. Прямий",
         "proxyText": "Кожна камера може отримуватися двома способами:",
         "close": "Закрити",
-        "exampleLabels": [
-          "Звичайна IP-камера",
-          "Камера ONVIF",
-          "Камера Axis",
-          "Камера Hikvision"
-        ],
+        "exampleLabels": ["Звичайна IP-камера", "Камера ONVIF", "Камера Axis", "Камера Hikvision"],
         "proxyOptions": [
           "Проксі (за замовчуванням): Зображення отримується сервером NINA та передається в браузер. Потрібно для камер локальної мережі з обліковими даними або обмеженнями CORS. Трохи повільніше при доступі через VPN.",
           "Прямий: Браузер отримує зображення безпосередньо. Швидше для публічних інтернет-камер (напр. публічні allsky-камери). Не підтримує облікові дані в URL в Chrome/Edge."
@@ -3634,6 +3787,121 @@
       "subtitle": "Обчислюйте та зберігайте зміщення фокуса для кожного фільтра колеса фільтра",
       "title": "Калькулятор зміщення фільтра",
       "useRelativeOffsets": "Використовуйте відносні зсуви"
+    },
+    "phd2logviewer": {
+      "cal": {
+        "angle": "Кут (°)",
+        "axis": "Вісь",
+        "backlash": "Люфт",
+        "dist": "Відстань (px)",
+        "noData": "Немає даних калібрування для цього сеансу.",
+        "noSummary": "Немає підсумкових даних (може бути перервано калібрування)",
+        "over": "закінчено",
+        "parity": "Парність",
+        "rate": "Швидкість (px/s)",
+        "steps": "Кроки"
+      },
+      "clear": "ясно",
+      "emptyState": "Виберіть журнал довідника PHD2 зі спадного списку вище.",
+      "excludeDither": "Автоматичне виключення регулювання тремтіння",
+      "fft": {
+        "dominantPeriod": "Домінантний період",
+        "subtitle": "Ідентифікує гармоніки періодичної помилки в напрямі RA.",
+        "title": "Частотний аналіз РА"
+      },
+      "info": {
+        "camera": "Камера",
+        "duration": "Тривалість",
+        "ended": "Завершено",
+        "focalLength": "Фокусна відстань",
+        "mount": "кріплення",
+        "pixelScale": "Масштаб пікселів",
+        "profile": "Профіль",
+        "started": "Сеанс розпочато",
+        "totalFrames": "Всього кадрів"
+      },
+      "legend": {
+        "dec": "груд",
+        "dither": "Дизер",
+        "ra": "RA",
+        "raRaw": "RA (необроблений)"
+      },
+      "loading": "Завантаження…",
+      "noLogs": "Журнали не знайдено",
+      "rawRa": "Необроблений, невиправлений РА",
+      "refresh": "Оновити список журналів",
+      "selectLog": "— виберіть журнал —",
+      "session": "Сесія:",
+      "settings": {
+        "notConfigured": "Будь ласка, налаштуйте каталог журналу PHD2",
+        "placeholder": "Шлях не налаштовано",
+        "saveError": "Не вдалося зберегти шлях",
+        "title": "Каталог журналів"
+      },
+      "statistics": "Статистика",
+      "stats": {
+        "combined": "комбіновані",
+        "decRms": "Dec RMS",
+        "declination": "відмінювання",
+        "frames": "Рамки",
+        "maxError": "максимальна помилка",
+        "of": "із {total}",
+        "peakDec": "Пік грудня",
+        "peakRa": "Пік RA",
+        "raRms": "RA RMS",
+        "rightAscension": "пряме сходження",
+        "totalRms": "Загальний RMS"
+      },
+      "subtitle": "Виберіть довідковий журнал PHD2, щоб візуалізувати продуктивність і статистику.",
+      "tabs": {
+        "calibration": "Калібрування",
+        "guide": "Керівний графік"
+      },
+      "title": "Перегляд журналів PHD2"
+    },
+    "supernovae": {
+      "title": "Supernovae",
+      "source": "Source: Rochester Astronomy active SN list",
+      "updated": "updated {d}",
+      "download": "Download",
+      "downloading": "Downloading…",
+      "noData": "No data loaded. Click Download to fetch the current active supernova list.",
+      "filterMag": "Max magnitude",
+      "filterType": "Type",
+      "filterTypePlaceholder": "e.g. Ia",
+      "filterYear": "Year",
+      "filterConstellation": "Constellation",
+      "filterAll": "All",
+      "filterNewOnly": "New only",
+      "filterVisibleOnly": "Visible tonight",
+      "visibleHint": "Based on observer location from NINA profile",
+      "visibleNoLocation": "No observer location — set location in NINA profile",
+      "sortBy": "Sort by",
+      "sortLatestMag": "Latest mag (brightest first)",
+      "sortFirstObserved": "Discovery date (newest first)",
+      "sortLastObserved": "Last observed (newest first)",
+      "showing": "Showing {n} of {total} entries",
+      "newCount": "{n} new",
+      "colName": "Name",
+      "colType": "Type",
+      "colLatestMag": "Latest mag",
+      "colMaxMag": "Max mag",
+      "colDiscovered": "Discovered",
+      "colLastObs": "Last obs",
+      "colConstellation": "Constellation",
+      "colHost": "Host galaxy",
+      "colRA": "RA",
+      "colDec": "Dec",
+      "frame": "Frame",
+      "frameTitle": "Send to framing assistant",
+      "fav": "Favourite",
+      "favTitle": "Add to favourites",
+      "favAdded": "Added {name} to favourites",
+      "favError": "Failed to add to favourites",
+      "visCircumpolar": "Circumpolar — always above horizon",
+      "visVisible": "Visible tonight",
+      "visHidden": "Below horizon tonight",
+      "page": "{n} / {total}"
     }
   },
   "dialogs": {
@@ -3936,7 +4204,13 @@
       "smtpSsl": "Використовуйте TLS/SSL",
       "testDiscord": "Надіслати тестове повідомлення",
       "testEmail": "Надіслати тестовий електронний лист",
-      "testPushover": "Надіслати тестове сповіщення"
+      "testPushover": "Надіслати тестове сповіщення",
+      "localDashboardEnabled": "Увімкнути локальний веб-сервер",
+      "localDashboardHint": "Обслуговує вашу історію сеансів з локального веб-сервера, доступного з будь-якого браузера у вашій мережі. \nВикористовуйте VPN для віддаленого доступу.",
+      "localDashboardPort": "Порт",
+      "localDashboardTitle": "Локальна інформаційна панель",
+      "showChartFilterChips": "Показати рядок мікросхем фільтра",
+      "showChartTargetChips": "Показати цільовий рядок мікросхем"
     },
     "stats": {
       "accepted": "прийнято",

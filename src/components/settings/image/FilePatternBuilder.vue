@@ -49,7 +49,7 @@
           v-if="darkUsesLight"
           class="bg-gray-900/50 border border-gray-700/50 rounded-lg px-3 py-2 font-mono text-xs text-cyan-300/60 break-all"
         >
-          {{ lightPreviewResult || '—' }}
+          {{ darkPreviewResult || '—' }}
         </div>
         <PatternEditorCore v-else v-model="darkPattern" v-model:showTokens="showDarkTokens" />
       </div>
@@ -69,7 +69,7 @@
           v-if="biasUsesLight"
           class="bg-gray-900/50 border border-gray-700/50 rounded-lg px-3 py-2 font-mono text-xs text-cyan-300/60 break-all"
         >
-          {{ lightPreviewResult || '—' }}
+          {{ biasPreviewResult || '—' }}
         </div>
         <PatternEditorCore v-else v-model="biasPattern" v-model:showTokens="showBiasTokens" />
       </div>
@@ -89,7 +89,7 @@
           v-if="flatUsesLight"
           class="bg-gray-900/50 border border-gray-700/50 rounded-lg px-3 py-2 font-mono text-xs text-cyan-300/60 break-all"
         >
-          {{ lightPreviewResult || '—' }}
+          {{ flatPreviewResult || '—' }}
         </div>
         <PatternEditorCore v-else v-model="flatPattern" v-model:showTokens="showFlatTokens" />
       </div>
@@ -138,15 +138,18 @@ const flatUsesLight = ref(true);
 const flatPattern = ref('');
 const showFlatTokens = ref(false);
 
-const lightPreviewResult = computed(() => {
-  const raw = lightPattern.value;
+function buildPreview(raw, imageType) {
   if (!raw) return '';
   let result = raw;
   for (const [token, value] of Object.entries(exampleValues)) {
     result = result.replaceAll(token, value);
   }
-  return result;
-});
+  return result.replaceAll(exampleValues['$$IMAGETYPE$$'], imageType);
+}
+
+const darkPreviewResult = computed(() => buildPreview(lightPattern.value, 'DARK'));
+const biasPreviewResult = computed(() => buildPreview(lightPattern.value, 'BIAS'));
+const flatPreviewResult = computed(() => buildPreview(lightPattern.value, 'FLAT'));
 
 function initFromSettings(settings) {
   const lightVal = settings.FilePattern || defaultPattern;

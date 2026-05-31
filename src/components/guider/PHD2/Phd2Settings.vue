@@ -1,5 +1,39 @@
 <template>
   <div class="flex flex-col gap-2 sm:gap-4">
+    <!-- Dark Library Build Banner -->
+    <div
+      v-if="store.isPINS && guiderStore.isDarkLibraryBuildActive"
+      class="p-3 rounded-lg bg-yellow-500/20 border border-yellow-500/40"
+    >
+      <div class="flex items-center justify-between gap-2 flex-wrap">
+        <div class="flex-1 min-w-0">
+          <div class="text-sm font-semibold text-yellow-200">
+            {{ $t('components.guider.phd2.darkLibrary.buildActive') }}
+          </div>
+          <div class="text-xs text-yellow-100/80">
+            {{ $t('components.guider.phd2.darkLibrary.buildActiveMessage') }}
+          </div>
+          <div v-if="guiderStore.phd2DarkLibraryBuildStatus" class="text-xs text-gray-200 mt-1">
+            {{
+              $t('components.guider.phd2.darkLibrary.buildProgress', {
+                frame: guiderStore.phd2DarkLibraryBuildStatus.Frame ?? 0,
+                total: guiderStore.phd2DarkLibraryBuildStatus.TotalFrames ?? 0,
+                exposure: ((guiderStore.phd2DarkLibraryBuildStatus.ExposureMs ?? 0) / 1000).toFixed(
+                  1
+                ),
+              })
+            }}
+          </div>
+        </div>
+        <button
+          @click="guiderStore.cancelPHD2DarkLibraryBuild()"
+          class="default-button-red px-3 py-1 text-xs"
+        >
+          {{ $t('components.guider.phd2.darkLibrary.cancel') }}
+        </button>
+      </div>
+    </div>
+
     <!-- PHD2 Profile -->
     <div
       class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
@@ -106,6 +140,26 @@
         <Phd2GuideAlgorithmRA />
         <Phd2GuideAlgorithmDEC />
       </div>
+
+      <!-- Mount Settings -->
+      <div
+        class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
+      >
+        <h3 class="font-bold text-base text-cyan-400">
+          {{ $t('components.guider.phd2.mountSettings') }}
+        </h3>
+        <MountGuideRate />
+      </div>
+
+      <!-- Dark Library -->
+      <div
+        class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
+      >
+        <h3 class="font-bold text-base text-cyan-400">
+          {{ $t('components.guider.phd2.darkLibrary.title') }}
+        </h3>
+        <Phd2DarkLibrary />
+      </div>
     </template>
   </div>
 </template>
@@ -127,6 +181,8 @@ import Phd2GuideAlgorithmDEC from '@/components/guider/PHD2/pins/Phd2GuideAlgori
 import Phd2CameraGain from '@/components/guider/PHD2/pins/Phd2CameraGain.vue';
 import Phd2CameraBinning from '@/components/guider/PHD2/pins/Phd2CameraBinning.vue';
 import Phd2RestoreCalibration from '@/components/guider/PHD2/pins/Phd2RestoreCalibration.vue';
+import Phd2DarkLibrary from '@/components/guider/PHD2/pins/Phd2DarkLibrary.vue';
+import MountGuideRate from '@/components/guider/PHD2/pins/MountGuideRate.vue';
 import { apiStore } from '@/store/store';
 
 const guiderStore = useGuiderStore();

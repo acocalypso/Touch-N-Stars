@@ -1,3 +1,24 @@
+// NINA-API can return Comparator either as numeric enum or as string name
+// (e.g. "LESS_THAN"). Normalize to the numeric form used by the UI.
+const COMPARATOR_NAME_TO_VALUE = {
+  EQUALS: 0,
+  LESS_THAN: 1,
+  LESS_THAN_OR_EQUAL: 2,
+  GREATER_THAN: 3,
+  GREATER_THAN_OR_EQUAL: 4,
+};
+
+export function normalizeComparator(raw) {
+  if (raw === null || raw === undefined) return undefined;
+  if (typeof raw === 'number') return raw;
+  if (typeof raw === 'string') {
+    if (raw in COMPARATOR_NAME_TO_VALUE) return COMPARATOR_NAME_TO_VALUE[raw];
+    const n = Number(raw);
+    return Number.isNaN(n) ? undefined : n;
+  }
+  return undefined;
+}
+
 export function removeSuffix(name) {
   if (!name) return '';
   return name.replace(/_Trigger$|_Container$|_Conditions$|_Condition$/, '');

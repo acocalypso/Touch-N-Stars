@@ -4,13 +4,18 @@ import router from '@/router';
 import { createPinia } from 'pinia';
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate';
 import './assets/tailwind.css';
-import { createHead } from '@unhead/vue';
+import { createHead } from '@unhead/vue/client';
+import { Capacitor } from '@capacitor/core';
+import { App as CapacitorApp } from '@capacitor/app';
+import { EdgeToEdge } from '@capawesome/capacitor-android-edge-to-edge-support';
 import i18n from '@/i18n';
 import { usePluginStore } from '@/store/pluginStore';
 import { timeSync } from '@/utils/timeSync';
 import { setupErrorHandler } from '@/utils/errorHandler';
 import { ensureConsolePatched } from '@/utils/consoleCapture';
 import { markAppReady } from '@/services/updateService';
+
+const SYSTEM_BAR_COLOR = '#1F2937';
 
 // Tooltip directive
 const tooltipDirective = {
@@ -74,6 +79,16 @@ if (settingsStore && settingsStore.language) {
   i18n.global.locale.value = settingsStore.language;
 }
 
+async function applyAndroidSystemBarColors() {
+  if (Capacitor.getPlatform() !== 'android') return;
+  try {
+    await EdgeToEdge.setStatusBarColor({ color: SYSTEM_BAR_COLOR });
+    await EdgeToEdge.setNavigationBarColor({ color: SYSTEM_BAR_COLOR });
+  } catch (error) {
+    console.warn('EdgeToEdge color sync failed:', error);
+  }
+}
+
 app.use(pinia).use(head).use(i18n).use(router);
 
 // Initialize plugin system
@@ -100,6 +115,16 @@ app.use(pinia).use(head).use(i18n).use(router);
 
   // Mount the app after plugins are initialized
   app.mount('#app');
+
+  // Some Android builds/OEM skins can ignore static config and apply dynamic theme colors.
+  // Re-applying at runtime keeps system bars aligned with the app theme.
+  await applyAndroidSystemBarColors();
+
+  CapacitorApp.addListener('appStateChange', async ({ isActive }) => {
+    if (isActive) {
+      await applyAndroidSystemBarColors();
+    }
+  });
 
   await markAppReady();
 

@@ -101,16 +101,12 @@
       />
 
       <!-- Row 3: Sekundäre Aktionen -->
-      <div
-        v-if="!framingStore.isMosaicMode || framingStore.selectedItem"
-        class="flex items-center gap-1.5"
-      >
+      <div class="flex items-center gap-1.5">
         <setSequenceTarget v-if="!framingStore.isMosaicMode" class="flex-1" />
         <SaveFavTargets
-          v-if="framingStore.selectedItem"
           :class="{ 'flex-1': framingStore.isMosaicMode }"
           :show-label="framingStore.isMosaicMode"
-          :name="framingStore.selectedItem?.Name"
+          :name="framingStore.selectedItem?.Name ?? t('components.framing.customTarget')"
           :ra="framingStore.RAangle"
           :dec="framingStore.DECangle"
           :ra-string="framingStore.RAangleString"
@@ -138,6 +134,7 @@
 
 <script setup>
 import { computed, defineAsyncComponent, ref, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
 import {
   ChevronUpIcon,
   ChevronDownIcon,
@@ -158,6 +155,7 @@ import SaveFavTargets from '@/components/favTargets/SaveFavTargets.vue';
 import FavTargets from '@/components/favTargets/FavTargets.vue';
 import FitsPlateSolve from '@/components/fitsPlatesolve/FitsPlateSolve.vue';
 
+const { t } = useI18n();
 const framingStore = useFramingStore();
 const settingsStore = useSettingsStore();
 const appStore = apiStore();
@@ -205,8 +203,8 @@ function selectTarget(item) {
   const { altitude, azimuth } = raDecToAltAz(
     item.RA,
     item.Dec,
-    settingsStore.coordinates.latitude,
-    settingsStore.coordinates.longitude
+    appStore.profileInfo?.AstrometrySettings?.Latitude ?? 0,
+    appStore.profileInfo?.AstrometrySettings?.Longitude ?? 0
   );
   framingStore.ALTangle = altitude;
   framingStore.AZangle = azimuth;
@@ -220,8 +218,8 @@ function selectTarget(item) {
 watch(
   () => framingStore.fov,
   (newFov) => {
-    if (newFov < 0.1) framingStore.fov = 0.1;
-    if (newFov > 180) framingStore.fov = 180;
+    const normalized = Math.max(1, Math.min(180, Math.round(newFov)));
+    if (normalized !== newFov) framingStore.fov = normalized;
   }
 );
 

@@ -16,7 +16,9 @@
     "connecting": "De liaison…",
     "refresh": "Rafraîchir",
     "creating": "Création…",
-    "help": "Aide"
+    "help": "Aide",
+    "expand": "Développer",
+    "collapse": "Réduire"
   },
   "general": {
     "cancel": "Annuler",
@@ -160,7 +162,8 @@
         "setMosaicTargets": "Définir des cibles de mosaïque",
         "panelsSet": "panneaux disposés en séquence",
         "willBeSaved": "les panneaux seront enregistrés individuellement"
-      }
+      },
+      "customTarget": "Cible personnalisée"
     },
     "tutorial": {
       "previous": "Précédent",
@@ -326,13 +329,16 @@
       },
       "coordsMismatchWarning": "Les coordonnées du profil et de la monture diffèrent.",
       "timeSync": {
-        "backendTime": "UTC du back-end",
+        "backendTime": "Heure du serveur",
         "mountNotConnected": "Support non connecté",
-        "mountTime": "Mont UTC",
+        "mountTime": "Heure de la monture",
         "notSupported": "Non pris en charge par le pilote",
         "syncLabel": "Temps de synchronisation pour monter",
         "syncLabelInfo": "Lorsqu'il est activé, cliquer sur « Synchroniser maintenant » déconnectera et reconnectera brièvement la monture afin que NINA puisse lui transférer l'heure actuelle.",
-        "title": "Synchronisation du temps"
+        "title": "Synchronisation du temps",
+        "loadError": "Impossible de charger les informations temporelles.",
+        "syncError": "La synchronisation de l'heure a échoué. \nVérifiez la connexion au périphérique PINS.",
+        "syncSuccess": "Heure synchronisée avec succès."
       },
       "navbarCustomization": {
         "alwaysVisible": "Toujours visible",
@@ -471,6 +477,17 @@
       "triggers": "Déclencheurs",
       "expandAll": "Tout développer",
       "collapseAll": "Tout réduire",
+      "addTypeButton": {
+        "searchPlaceholder": "Rechercher…",
+        "noResults": "Aucun résultat",
+        "addItem": "Ajouter un élément",
+        "addTrigger": "Ajouter un déclencheur",
+        "addCondition": "Ajouter une condition",
+        "add": "Ajouter",
+        "item": "Élément",
+        "trigger": "Déclencheur",
+        "condition": "Condition"
+      },
       "details": {},
       "hfr": "HFR",
       "mean": "Moyenne",
@@ -932,6 +949,9 @@
         "cameraGain": "Gain",
         "cameraBinning": "Binning",
         "restoreCalibration": "Restaurer la calibration",
+        "mountSettings": "Monture",
+        "guideRate": "Guide Rate",
+        "guideRateReadOnly": "Lecture seule",
         "guiderScale": "Échelle du guideur",
         "maxY": "Y maximum",
         "historySize": "Taille de l'historique",
@@ -1002,11 +1022,53 @@
           "rightAscension": "Ascension droite",
           "title": "Vérifier l'étalonnage"
         },
+        "darkLibrary": {
+          "title": "Bibliothèque de darks",
+          "manage": "Gérer la bibliothèque de darks",
+          "info": "Créez une bibliothèque de darks en capturant des images sombres à différents temps de pose. PHD2 les utilise pour soustraire le bruit du capteur des images de guidage.",
+          "warning": "La construction bloque PHD2 — toutes les autres actions PHD2 sont désactivées pendant cette opération.",
+          "status": "État",
+          "exists": "Bibliothèque présente",
+          "loaded": "Chargée",
+          "notLoaded": "Non chargée",
+          "noLibrary": "Aucune bibliothèque de darks trouvée",
+          "numDarks": "Nombre de darks",
+          "range": "Plage de pose",
+          "minExposure": "Pose min. (s)",
+          "maxExposure": "Pose max. (s)",
+          "frameCount": "Images par pose",
+          "previewExposures": "Temps de pose",
+          "totalFrames": "Total d'images",
+          "build": "Construire",
+          "cancel": "Annuler la construction",
+          "building": "Construction en cours",
+          "buildProgress": "Image {frame} / {total} – {exposure} s",
+          "load": "Charger",
+          "unload": "Décharger",
+          "delete": "Supprimer",
+          "confirmDelete": "Cliquez à nouveau pour confirmer",
+          "buildSuccess": "Bibliothèque de darks créée avec succès",
+          "buildFailed": "Échec de la construction de la bibliothèque",
+          "buildCancelled": "Construction annulée",
+          "invalidRange": "La pose min. doit être inférieure ou égale à la pose max.",
+          "buildActive": "Construction de la bibliothèque en cours",
+          "buildActiveMessage": "Les actions PHD2 sont bloquées jusqu'à la fin de la construction."
+        },
         "reviewCalibration": "Vérifier l'étalonnage",
         "starComponents": {
           "hide": "Masquer les composants étoiles",
           "show": "Afficher les composants étoiles"
-        }
+        },
+        "applyStep": "Appliquer",
+        "calculatedStep": "Pas calculé",
+        "calibDistance": "Distance",
+        "calibStepCalc": "Calculateur de taille de pas",
+        "declination": "Déclinaison",
+        "desiredSteps": "Étapes souhaitées",
+        "guideSpeed": "Vitesse de guidage",
+        "imageScale": "Échelle de l'image",
+        "optimal": "Optimal",
+        "pixelSize": "Taille des pixels"
       }
     },
     "focuser": {
@@ -1026,6 +1088,15 @@
       "autofocus_active": "Autofocus actif",
       "autofocus": "Mise au point automatique",
       "last_autofocus": "Dernier autofocus",
+      "graph": {
+        "measurePoints": "Measure Points",
+        "quadraticTrendline": "Quadratic Trendline",
+        "hyperbolicTrendline": "Hyperbolic Trendline",
+        "quadraticMin": "Quadratic Min",
+        "hyperbolicMin": "Hyperbolic Min",
+        "value": "Value",
+        "invalidDate": "Date invalide"
+      },
       "settings": {
         "AutoFocusInitialOffsetSteps": "Étapes de compensation initiales",
         "AutoFocusStepSize": "Taille du pas",
@@ -1180,6 +1251,8 @@
       "HighFullwellMode": "Mode Puits élevé",
       "LEDLights": "DIRIGÉ",
       "LowNoiseMode": "Mode Ultra",
+      "BadPixelCorrection": "Correction des pixels défectueux",
+      "BadPixelCorrectionThreshold": "Seuil des pixels défectueux",
       "dewHeaterStrength": "Force du réchauffeur de rosée",
       "tab_camera": "Caméra",
       "tab_cooler": "Refroidissement",
@@ -1303,7 +1376,9 @@
         "Speed": "Vitesse",
         "TurboMode": "Mode Turbo",
         "commandFailed": "Commande non prise en charge par cet appareil",
-        "deviceSpecific": "Paramètres de l'appareil"
+        "deviceSpecific": "Paramètres de l'appareil",
+        "SlotNum": "Nombre de positions",
+        "slotNumDefault": "Par défaut"
       },
       "indi": {
         "settings": "Paramètres de la roue à filtres"
@@ -1426,7 +1501,15 @@
       "status_stopped_darks": "Arrêté plus tôt – {terminé} sur {total} darks capturés",
       "status_stopped_flats": "Arrêté prématurément – {terminé} sur {total} appartements capturés",
       "status_success_darks": "Terminé – {count} darks capturés",
-      "status_success_flats": "Terminé – {count} appartements capturés"
+      "status_success_flats": "Terminé – {count} appartements capturés",
+      "filter_label": "Filtre",
+      "result_bright": "trop brillant",
+      "result_dim": "trop sombre",
+      "status_completed_flats": "Complété",
+      "status_failed_flats_multi": "Tous les filtres n'ont pas réussi à déterminer une exposition valide",
+      "status_partial_flats_multi": "Filtres ayant échoué : {filters}",
+      "status_running_unknown": "Déterminer…",
+      "target": "Cible"
     },
     "weatherModal": {
       "weatherInformation": "Informations météorologiques",
@@ -1453,7 +1536,13 @@
     },
     "switch": {
       "gauges": "Jauges",
-      "switch": "Commutateur"
+      "switch": "Commutateur",
+      "indi": {
+        "settings": "Paramètres du commutateur"
+      },
+      "sv241pro": {
+        "preConnectDelay": "Délai de pré-connexion (ms)"
+      }
     },
     "stellarium": {
       "selected_object": {
@@ -1724,7 +1813,11 @@
         "pluginUninstallStart": "Plugin de désinstallation : {packageName}",
         "pluginsLoadFailed": "Échec du chargement des plug-ins PINS : {message}",
         "pluginsPackageNotAllowed": "Package non autorisé par la règle de l'API : {packageName}",
-        "pluginsLoadMetadataFailed": "Les plugins PINS n'ont pas pu être chargés car le référentiel de métadonnées du plugin est actuellement indisponible (HTTP 502)."
+        "pluginsLoadMetadataFailed": "Les plugins PINS n'ont pas pu être chargés car le référentiel de métadonnées du plugin est actuellement indisponible (HTTP 502).",
+        "hotspotChannelInvalid": "Le canal du point d'accès doit être un entier positif lorsqu'il est fourni.",
+        "hotspotFetchFailed": "Échec du chargement des paramètres du point d'accès : {message}",
+        "hotspotPasswordInvalidLength": "Le mot de passe du point d'accès est requis et doit comporter de 8 à 63 caractères.",
+        "hotspotSaveFailed": "Échec de l'enregistrement des paramètres du point d'accès : {message}"
       },
       "hotspotConfigured": "Le mot de passe du point d'accès personnalisé est configuré.",
       "hotspotNewPassword": "Nouveau mot de passe du point d'accès",
@@ -1801,7 +1894,23 @@
       "pluginsTitle": "Plugins PINS",
       "pluginsUninstall": "Désinstaller",
       "pluginsUninstalling": "Désinstallation...",
-      "pluginsVersion": "Version"
+      "pluginsVersion": "Version",
+      "indiInstallModalAssetName": "Nom de l'actif",
+      "indiInstallModalDriverPackage": "Pilote/Package",
+      "indiInstallModalInstall": "Installer",
+      "indiInstallModalInstalling": "Installation...",
+      "indiInstallModalLabel": "Étiquette",
+      "indiInstallModalSuccessCompleted": "Installation terminée pour {label}.",
+      "indiInstallModalSuccessStarted": "L'installation a démarré pour {label}.",
+      "indiInstallModalTitle": "Installer le pilote INDI",
+      "indiInstallModalType": "Taper",
+      "hotspotAppliedStatus": "Appliqué au point d'accès actif : {appliqué} | \nGroupe : {groupe} | \nChaîne : {chaîne}",
+      "hotspotBandAuto": "Auto/Désarmé",
+      "hotspotBandLabel": "Bande de point d'accès",
+      "hotspotCapabilitiesUnavailable": "Liste des capacités de l'adaptateur indisponible ; \ncanal manuel autorisé.",
+      "hotspotChannelLabel": "Canal de point d'accès",
+      "hotspotChannelPlaceholder": "Laisser vide pour auto",
+      "hotspotMetaLine": "Source : {source} | \nInterface : {iface} | \nGroupe : {groupe} | \nChaîne : {chaîne}"
     },
     "bahtifocus": {
       "title": "Analyseur de masque Bahtinov",
@@ -1957,6 +2066,39 @@
         "tokenCopyFailed": "Échec de la copie du token",
         "submissionRemoved": "Soumission supprimée",
         "allSubmissionsCleared": "Toutes les soumissions effacées"
+      },
+      "diagnostics": {
+        "archiveId": "ID d'archive",
+        "autoDownloaded": "L'archive a été téléchargée automatiquement et le téléchargement a été tenté.",
+        "dmesgLines": "lignes de message",
+        "download": "Télécharger le fichier ZIP",
+        "downloadBusy": "Téléchargement...",
+        "downloadFailed": "Échec du téléchargement de l'archive de diagnostics.",
+        "intro": "Sélectionnez les sections de diagnostic, démarrez la collecte des archives et téléchargez/téléchargez le ZIP lorsque vous êtes prêt.",
+        "journalLines": "Lignes de journal",
+        "loadingOptions": "Options de chargement...",
+        "optionsLoadFailed": "Échec du chargement des options de diagnostic. \nUtilisation des valeurs par défaut.",
+        "optionsLoaded": "Options de diagnostic chargées.",
+        "pollFailed": "Échec de l'interrogation de l'état des diagnostics.",
+        "refreshOptions": "Options d'actualisation",
+        "running": "Collectionner...",
+        "sectionsTitle": "Sections",
+        "start": "Commencer la collecte",
+        "startFailed": "Échec du démarrage de l'archive de diagnostics.",
+        "started": "L'archive de diagnostic a démarré.",
+        "statusFailed": "Échoué",
+        "statusIdle": "Inactif",
+        "statusLabel": "Statut",
+        "statusQueued": "En file d'attente",
+        "statusRunning": "En cours d'exécution",
+        "statusSuccess": "Succès",
+        "statusTimeout": "Délai expiré",
+        "stillPreparing": "Les archives sont toujours en préparation. \nVeuillez réessayer le téléchargement sous peu.",
+        "title": "Prise en charge du diagnostic (PINS)",
+        "uploaded": "ZIP de diagnostic téléchargé pour prendre en charge le point de terminaison.",
+        "validationDmesgLines": "Les lignes dmesg doivent être comprises entre 100 et 50 000.",
+        "validationJournalLines": "Les lignes du journal doivent être comprises entre 100 et 50 000.",
+        "validationSections": "Sélectionnez au moins une section."
       }
     },
     "telescopius": {
@@ -3459,7 +3601,10 @@
         "timeWindowEnd": "Fin de la fenêtre horaire",
         "timeWindowHint": "Laissez la fenêtre horaire vide pour permettre la planification de la plage complète des sessions.",
         "timeWindowStart": "Début de la fenêtre horaire",
-        "title": "Contraintes"
+        "title": "Contraintes",
+        "maxMoonAltitude": "Altitude maximale de la lune",
+        "maxMoonAltitudeHint": "Réglez sur 0° ou moins pour programmer uniquement lorsque la Lune est sous l'horizon.",
+        "minMoonSeparationInfo": "Distance angulaire minimale entre la cible et la Lune requise pour la planification."
       },
       "defaults": {
         "favoriteTargetName": "Cible préférée",
@@ -3532,7 +3677,9 @@
         "sessionStart": "Début de séance",
         "siteAlt": "alt",
         "siteLat": "Latitude du site",
-        "siteLon": "lon"
+        "siteLon": "lon",
+        "maxChunkInfo": "Limite le nombre maximal de blocs planifiés continus par cible avant que le planificateur puisse passer à une autre cible.",
+        "samplingStepInfo": "Définit l'intervalle de calcul en minutes. \nDes valeurs inférieures augmentent la précision mais évaluent davantage de points dans la chronologie."
       },
       "subtitle": "Planification axée sur le mobile pour la visibilité des cibles, les contraintes et l'insertion de séquences.",
       "targetCard": {
@@ -3570,6 +3717,17 @@
       },
       "warnings": {
         "sequenceVersionRequired": "L'insertion de séquence nécessite le plugin TNS 1.2.8.0 (ou le mode PINS)."
+      },
+      "sessionModes": {
+        "moonRise": "Lever de la lune",
+        "moonSet": "Lune réglée",
+        "sunRise": "Lever du soleil",
+        "sunSet": "Coucher de soleil",
+        "time": "Temps",
+        "twilightEndAstronomical": "Fin du crépuscule astronomique",
+        "twilightEndNautical": "Fin du crépuscule nautique",
+        "twilightStartAstronomical": "Le crépuscule commence astronomique",
+        "twilightStartNautical": "Début du crépuscule nautique"
       }
     },
     "filterOffset": {
@@ -3634,6 +3792,121 @@
       "deleteDirectoryMessage": "Delete directory \"{name}\" recursively?",
       "deleteFileTitle": "Delete File",
       "deleteFileMessage": "Delete file \"{name}\"?"
+    },
+    "phd2logviewer": {
+      "cal": {
+        "angle": "Angle (°)",
+        "axis": "Axe",
+        "backlash": "Contrecoup",
+        "dist": "Distance (px)",
+        "noData": "Aucune donnée d'étalonnage pour cette session.",
+        "noSummary": "Aucune donnée récapitulative (le calibrage peut avoir été interrompu)",
+        "over": "sur",
+        "parity": "Parité",
+        "rate": "Débit (px/s)",
+        "steps": "Mesures"
+      },
+      "clear": "Clair",
+      "emptyState": "Sélectionnez un journal de guide PHD2 dans la liste déroulante ci-dessus.",
+      "excludeDither": "Règlement du tramage avec exclusion automatique",
+      "fft": {
+        "dominantPeriod": "Période dominante",
+        "subtitle": "Identifie les harmoniques d’erreur périodiques dans le guidage RA.",
+        "title": "Analyse de fréquence RA"
+      },
+      "info": {
+        "camera": "Caméra",
+        "duration": "Durée",
+        "ended": "Terminé",
+        "focalLength": "Distance focale",
+        "mount": "Monter",
+        "pixelScale": "Échelle de pixels",
+        "profile": "Profil",
+        "started": "Séance démarrée",
+        "totalFrames": "Nombre total d'images"
+      },
+      "legend": {
+        "dec": "Déc",
+        "dither": "Tremblement",
+        "ra": "RA",
+        "raRaw": "RA (brut)"
+      },
+      "loading": "Chargement…",
+      "noLogs": "Aucun journal trouvé",
+      "rawRa": "RA brute non corrigée",
+      "refresh": "Actualiser la liste des journaux",
+      "selectLog": "— sélectionnez un journal —",
+      "session": "Session:",
+      "settings": {
+        "notConfigured": "Veuillez configurer le répertoire des journaux PHD2",
+        "placeholder": "Aucun chemin configuré",
+        "saveError": "Échec de l'enregistrement du chemin",
+        "title": "Répertoire des journaux"
+      },
+      "statistics": "Statistiques",
+      "stats": {
+        "combined": "combiné",
+        "decRms": "Décembre RMS",
+        "declination": "déclinaison",
+        "frames": "Cadres",
+        "maxError": "erreur maximale",
+        "of": "de {total}",
+        "peakDec": "Pic décembre",
+        "peakRa": "RA maximale",
+        "raRms": "RA RMS",
+        "rightAscension": "ascension droite",
+        "totalRms": "RMS total"
+      },
+      "subtitle": "Sélectionnez un journal de guidage PHD2 pour visualiser les performances et les statistiques de guidage.",
+      "tabs": {
+        "calibration": "Étalonnage",
+        "guide": "Graphique guide"
+      },
+      "title": "Visionneuse de journaux PHD2"
+    },
+    "supernovae": {
+      "title": "Supernovae",
+      "source": "Source: Rochester Astronomy active SN list",
+      "updated": "updated {d}",
+      "download": "Download",
+      "downloading": "Downloading…",
+      "noData": "No data loaded. Click Download to fetch the current active supernova list.",
+      "filterMag": "Max magnitude",
+      "filterType": "Type",
+      "filterTypePlaceholder": "e.g. Ia",
+      "filterYear": "Year",
+      "filterConstellation": "Constellation",
+      "filterAll": "All",
+      "filterNewOnly": "New only",
+      "filterVisibleOnly": "Visible tonight",
+      "visibleHint": "Based on observer location from NINA profile",
+      "visibleNoLocation": "No observer location — set location in NINA profile",
+      "sortBy": "Sort by",
+      "sortLatestMag": "Latest mag (brightest first)",
+      "sortFirstObserved": "Discovery date (newest first)",
+      "sortLastObserved": "Last observed (newest first)",
+      "showing": "Showing {n} of {total} entries",
+      "newCount": "{n} new",
+      "colName": "Name",
+      "colType": "Type",
+      "colLatestMag": "Latest mag",
+      "colMaxMag": "Max mag",
+      "colDiscovered": "Discovered",
+      "colLastObs": "Last obs",
+      "colConstellation": "Constellation",
+      "colHost": "Host galaxy",
+      "colRA": "RA",
+      "colDec": "Dec",
+      "frame": "Frame",
+      "frameTitle": "Send to framing assistant",
+      "fav": "Favourite",
+      "favTitle": "Add to favourites",
+      "favAdded": "Added {name} to favourites",
+      "favError": "Failed to add to favourites",
+      "visCircumpolar": "Circumpolar — always above horizon",
+      "visVisible": "Visible tonight",
+      "visHidden": "Below horizon tonight",
+      "page": "{n} / {total}"
     }
   },
   "pinsDevices": {
@@ -3936,7 +4209,13 @@
       "smtpSsl": "Utiliser TLS/SSL",
       "testDiscord": "Envoyer un message test",
       "testEmail": "Envoyer un e-mail de test",
-      "testPushover": "Envoyer une notification de test"
+      "testPushover": "Envoyer une notification de test",
+      "localDashboardEnabled": "Activer le serveur Web local",
+      "localDashboardHint": "Sert l'historique de vos sessions à partir d'un serveur Web local accessible depuis n'importe quel navigateur de votre réseau. \nUtilisez un VPN pour l'accès à distance.",
+      "localDashboardPort": "Port",
+      "localDashboardTitle": "Tableau de bord local",
+      "showChartFilterChips": "Afficher la rangée de puces de filtre",
+      "showChartTargetChips": "Afficher la rangée de jetons cible"
     },
     "stats": {
       "accepted": "Accepté",

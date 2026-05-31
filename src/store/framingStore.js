@@ -89,6 +89,9 @@ export const useFramingStore = defineStore('FramingStore', {
         console.error('SlewAndCenter Error', error);
       } finally {
         this.isSlewing = false;
+        this.isSlewingAndCentering = false;
+        this.isRotating = false;
+        this.slewIsStopt = false;
       }
     },
     async cameraRotate() {

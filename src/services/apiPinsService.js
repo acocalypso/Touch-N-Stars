@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useSettingsStore } from '@/store/settingsStore';
 import { apiStore } from '@/store/store';
+import { getDeviceDateTimePayload } from '@/utils/pinsTimeUtils';
 
 const PINS_PORT = 8000;
 const PINS_TOKEN = 'zZDqJ3IKeFaIZqG2JIFvsxzA5E48GC2gyGVagHFZqC0OMtgoupUDZCPhQDYKm35d';
@@ -14,7 +15,7 @@ const getBaseUrl = () => {
   const apiPort = store.apiPort;
 
   // devport auf 5000 umleiten
-  const isDev = process.env.NODE_ENV === 'development';
+  const isDev = import.meta.env.DEV;
   if (isDev && port === 8080) {
     port = 5000;
   }
@@ -62,17 +63,18 @@ export default {
   async setSystemTime(timestamp) {
     const { PINS_SYSTEM_URL } = getUrls();
     try {
-      await axios.post(
-        `${PINS_SYSTEM_URL}/system/time`,
-        { timestamp },
-        {
-          headers: {
-            Authorization: `Bearer ${PINS_TOKEN}`,
-            'Content-Type': 'application/json',
-          },
-          timeout: 5000,
-        }
-      );
+      const payload =
+        typeof timestamp === 'number'
+          ? getDeviceDateTimePayload(new Date(timestamp * 1000))
+          : timestamp;
+
+      await axios.post(`${PINS_SYSTEM_URL}/system/time`, payload, {
+        headers: {
+          Authorization: `Bearer ${PINS_TOKEN}`,
+          'Content-Type': 'application/json',
+        },
+        timeout: 5000,
+      });
       return true;
     } catch (error) {
       console.error('Failed to set system time:', error);
@@ -162,6 +164,16 @@ export default {
     return this._simplePutRequest(`${API_URL}phd2/calibration/step`, { calibrationStep });
   },
 
+  getPHD2CalibrationDistance() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/calibration/distance`);
+  },
+
+  setPHD2CalibrationDistance(calibrationDistance) {
+    const { API_URL } = getUrls();
+    return this._simplePutRequest(`${API_URL}phd2/calibration/distance`, { calibrationDistance });
+  },
+
   getPHD2ReverseDecAfterFlip() {
     const { API_URL } = getUrls();
     return this._simpleGetRequest(`${API_URL}phd2/reverse-dec-after-flip`);
@@ -200,6 +212,50 @@ export default {
   setPHD2GuideAlgorithmDEC(algorithm) {
     const { API_URL } = getUrls();
     return this._simplePutRequest(`${API_URL}phd2/guide/algorithm-dec`, { algorithm });
+  },
+
+  getAlgoParamNames(axis) {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(
+      `${API_URL}phd2/get-algo-param-names?axis=${encodeURIComponent(axis)}`
+    );
+  },
+
+  getAlgoParam(axis, name) {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(
+      `${API_URL}phd2/get-algo-param?axis=${encodeURIComponent(axis)}&name=${encodeURIComponent(name)}`
+    );
+  },
+
+  getDecGuideMode() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/get-dec-guide-mode`);
+  },
+
+  setDecGuideMode(mode) {
+    const { API_URL } = getUrls();
+    return this._simplePostRequest(`${API_URL}phd2/set-dec-guide-mode`, { mode });
+  },
+
+  getMaxRaDuration() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/get-max-ra-duration`);
+  },
+
+  setMaxRaDuration(ms) {
+    const { API_URL } = getUrls();
+    return this._simplePostRequest(`${API_URL}phd2/set-max-ra-duration`, { ms });
+  },
+
+  getMaxDecDuration() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/get-max-dec-duration`);
+  },
+
+  setMaxDecDuration(ms) {
+    const { API_URL } = getUrls();
+    return this._simplePostRequest(`${API_URL}phd2/set-max-dec-duration`, { ms });
   },
 
   setPHD2SelectedProfile(id) {
@@ -247,6 +303,11 @@ export default {
     return this._simplePutRequest(`${API_URL}phd2/camera/binning`, { binning });
   },
 
+  getPHD2CameraInfo() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/camera/info`);
+  },
+
   getPHD2RestoreCalibration() {
     const { API_URL } = getUrls();
     return this._simpleGetRequest(`${API_URL}phd2/calibration/auto-restore`);
@@ -255,6 +316,46 @@ export default {
   setPHD2RestoreCalibration(enabled) {
     const { API_URL } = getUrls();
     return this._simplePutRequest(`${API_URL}phd2/calibration/auto-restore`, { enabled });
+  },
+
+  //-------------------PHD2 Dark Library------------------------
+
+  getPHD2DarkLibraryInfo() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/dark-library/info`);
+  },
+
+  loadPHD2DarkLibrary() {
+    const { API_URL } = getUrls();
+    return this._simplePostRequest(`${API_URL}phd2/dark-library/load`, {});
+  },
+
+  unloadPHD2DarkLibrary() {
+    const { API_URL } = getUrls();
+    return this._simplePostRequest(`${API_URL}phd2/dark-library/unload`, {});
+  },
+
+  deletePHD2DarkLibrary() {
+    const { API_URL } = getUrls();
+    return this._simpleDeleteRequest(`${API_URL}phd2/dark-library`);
+  },
+
+  buildPHD2DarkLibrary(expTimesMs, frameCount) {
+    const { API_URL } = getUrls();
+    return this._simplePostRequest(`${API_URL}phd2/dark-library/build`, {
+      expTimesMs,
+      frameCount,
+    });
+  },
+
+  cancelPHD2DarkLibraryBuild() {
+    const { API_URL } = getUrls();
+    return this._simplePostRequest(`${API_URL}phd2/dark-library/cancel-build`, {});
+  },
+
+  getPHD2DarkLibraryBuildStatus() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/dark-library/build-status`);
   },
 
   // Private method for simple GET requests
@@ -281,6 +382,16 @@ export default {
   _simplePostRequest(url, data) {
     return axios
       .post(url, data)
+      .then((response) => response.data)
+      .catch((error) => {
+        throw error;
+      });
+  },
+
+  // Private method for simple DELETE requests
+  _simpleDeleteRequest(url) {
+    return axios
+      .delete(url)
       .then((response) => response.data)
       .catch((error) => {
         throw error;

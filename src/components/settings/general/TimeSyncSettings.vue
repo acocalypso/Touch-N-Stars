@@ -7,32 +7,16 @@
       <h3 class="font-bold text-base text-cyan-400">
         {{ $t('components.settings.timeSync.title') }}
       </h3>
-      <button
-        @click="loadTimeInfo"
-        class="text-gray-400 hover:text-gray-200"
-        :title="$t('common.refresh')"
-      >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          :class="['h-4 w-4', { 'animate-spin': timeSyncLoading }]"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-          />
-        </svg>
-      </button>
     </div>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-2 text-xs">
       <div class="bg-gray-900/60 rounded p-2">
         <div class="text-gray-400 mb-1">{{ $t('components.settings.timeSync.backendTime') }}</div>
         <div class="text-gray-100 font-mono">
-          {{ timeInfo.backendUtc ? new Date(timeInfo.backendUtc).toUTCString() : '—' }}
+          {{
+            timeInfo.backendUtc
+              ? new Date(timeInfo.backendUtc).toLocaleString(undefined, { timeZoneName: 'short' })
+              : '—'
+          }}
         </div>
       </div>
       <div class="bg-gray-900/60 rounded p-2">
@@ -41,16 +25,16 @@
           {{ $t('components.settings.timeSync.mountNotConnected') }}
         </div>
         <div v-else-if="timeInfo.mountUtc" class="text-gray-100 font-mono">
-          {{ new Date(timeInfo.mountUtc).toUTCString() }}
+          {{ new Date(timeInfo.mountUtc).toLocaleString(undefined, { timeZoneName: 'short' }) }}
         </div>
         <div v-else class="text-gray-500 italic">
           {{ $t('components.settings.timeSync.notSupported') }}
         </div>
       </div>
       <div class="bg-gray-900/60 rounded p-2">
-        <div class="text-gray-400 mb-1">{{ $t('plugins.pins.deviceTime') }} (UTC)</div>
+        <div class="text-gray-400 mb-1">{{ $t('plugins.pins.deviceTime') }}</div>
         <div class="text-gray-100 font-mono">
-          {{ pinsDeviceTimestamp ? new Date(pinsDeviceTimestamp * 1000).toUTCString() : '—' }}
+          {{ clientTime }}
         </div>
       </div>
     </div>
@@ -107,25 +91,31 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { apiStore } from '@/store/store';
 import { usePinsStore } from '@/plugins/pins/store/pinsStore';
+import { useGuiderStore } from '@/store/guiderStore';
 import { useSettingsStore } from '@/store/settingsStore';
+import { useToastStore } from '@/store/toastStore';
 import ToggleButton from '@/components/helpers/toggleButton.vue';
 import InfoModal from '@/components/helpers/infoModal.vue';
 import apiService from '@/services/apiService';
 import axios from 'axios';
+import { getDeviceDateTimePayload, parsePinsTimeToSeconds } from '@/utils/pinsTimeUtils';
 
 const PINS_PORT = 8000;
 const PINS_TOKEN = 'zZDqJ3IKeFaIZqG2JIFvsxzA5E48GC2gyGVagHFZqC0OMtgoupUDZCPhQDYKm35d';
 
+const { t } = useI18n();
 const store = apiStore();
 const pinsStore = usePinsStore();
 const settingsStore = useSettingsStore();
+const toast = useToastStore();
 
-const timeSyncLoading = ref(false);
 const pinsTimeActionLoading = ref(false);
-const pinsDeviceTimestamp = ref(null);
+const pinsDeviceTime = ref(null);
+const clientTime = ref('—');
 const timeInfo = ref({
   backendUtc: null,
   mountUtc: null,
@@ -149,40 +139,41 @@ async function fetchPinsDeviceTime() {
     timeout: 5000,
   });
 
-  return response?.data?.timestamp ?? null;
+  return response?.data ?? null;
 }
 
-async function syncPinsSystemTime(remoteTimestamp, force = false) {
+async function syncPinsSystemTime(remoteTime, force = false) {
   const ip = getPinsIp();
-  if (!ip || !remoteTimestamp) return;
+  if (!ip || !remoteTime) return;
 
-  const localTime = Date.now() / 1000;
-  const diff = Math.abs(remoteTimestamp - localTime);
-  if (!force && diff <= 5) return;
+  const remoteTimeSeconds = parsePinsTimeToSeconds(remoteTime);
+  const localTimeSeconds = Date.now() / 1000;
+  if (remoteTimeSeconds !== null) {
+    const diff = Math.abs(remoteTimeSeconds - localTimeSeconds);
+    if (!force && diff <= 5) return;
+  }
+
+  const payload = getDeviceDateTimePayload();
 
   const directAxios = axios.create({ headers: {} });
-  await directAxios.post(
-    `http://${ip}:${PINS_PORT}/system/time`,
-    { timestamp: localTime },
-    {
-      headers: {
-        Authorization: `Bearer ${PINS_TOKEN}`,
-        'Content-Type': 'application/json',
-      },
-      timeout: 5000,
-    }
-  );
+  await directAxios.post(`http://${ip}:${PINS_PORT}/system/time`, payload, {
+    headers: {
+      Authorization: `Bearer ${PINS_TOKEN}`,
+      'Content-Type': 'application/json',
+    },
+    timeout: 5000,
+  });
 
-  pinsDeviceTimestamp.value = localTime;
+  pinsDeviceTime.value = payload;
 }
 
 async function loadPinsTimeInfo() {
   try {
-    const timestamp = await fetchPinsDeviceTime();
-    pinsDeviceTimestamp.value = timestamp;
+    const remoteTime = await fetchPinsDeviceTime();
+    pinsDeviceTime.value = remoteTime;
 
-    if (timestamp && pinsStore.timeSyncEnabled) {
-      await syncPinsSystemTime(timestamp, false);
+    if (remoteTime && pinsStore.timeSyncEnabled) {
+      await syncPinsSystemTime(remoteTime, false);
     }
   } catch (e) {
     console.error('Failed to load PINS device time:', e);
@@ -191,15 +182,18 @@ async function loadPinsTimeInfo() {
 
 const loadTimeInfo = async () => {
   if (!store.isBackendReachable) return;
-  timeSyncLoading.value = true;
+  clientTime.value = new Date().toLocaleString(undefined, { timeZoneName: 'short' });
   try {
     const data = await apiService.getTnsTime();
-    if (data) timeInfo.value = data;
+    if (data) {
+      timeInfo.value = {
+        ...data,
+        mountUtc: store.mountInfo?.Coordinates?.DateTime?.UtcNow ?? null,
+      };
+    }
     await loadPinsTimeInfo();
   } catch (e) {
     console.error('Failed to load time info:', e);
-  } finally {
-    timeSyncLoading.value = false;
   }
 };
 
@@ -222,26 +216,68 @@ const togglePinsTimeSync = async (value) => {
 const manualPinsTimeSync = async () => {
   pinsTimeActionLoading.value = true;
   try {
-    const timestamp = await fetchPinsDeviceTime();
-    pinsDeviceTimestamp.value = timestamp;
-    await syncPinsSystemTime(timestamp, true);
+    const remoteTime = await fetchPinsDeviceTime();
+    pinsDeviceTime.value = remoteTime;
+    await syncPinsSystemTime(remoteTime, true);
 
     if (timeInfo.value.timeSyncEnabled && store.mountInfo.Connected) {
+      const guiderStore = useGuiderStore();
+      const isPhd2 = store.guiderInfo?.DeviceId === 'PHD2_Single';
+      const isPhd2EquipmentConnected = isPhd2 && guiderStore.phd2IsConnected;
+
+      let phd2ProfileName = null;
+      if (isPhd2EquipmentConnected) {
+        try {
+          const profileResponse = await apiService.getPhd2CurrentProfile();
+          phd2ProfileName = profileResponse?.Response?.Profile?.name ?? null;
+        } catch (e) {
+          console.warn('Could not get PHD2 profile before mount reconnect:', e);
+        }
+      }
+
       await apiService.mountAction('disconnect');
       await apiService.mountAction('connect');
+
+      if (phd2ProfileName) {
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+        try {
+          await apiService.connectPHD2Equipment(phd2ProfileName);
+        } catch (e) {
+          console.warn('Could not reconnect PHD2 equipment after mount reconnect:', e);
+        }
+      }
     }
 
     await loadTimeInfo();
+    toast.showToast({
+      type: 'success',
+      title: t('components.settings.timeSync.title'),
+      message: t('components.settings.timeSync.syncSuccess'),
+    });
   } catch (e) {
     console.error('Failed to sync PINS system time:', e);
+    toast.showToast({
+      type: 'error',
+      title: t('components.settings.timeSync.title'),
+      message: t('components.settings.timeSync.syncError'),
+    });
   } finally {
     pinsTimeActionLoading.value = false;
   }
 };
 
+let timeInfoInterval = null;
+
 onMounted(() => {
   if (store.isBackendReachable) {
     loadTimeInfo();
   }
+  timeInfoInterval = setInterval(() => {
+    if (store.isBackendReachable) loadTimeInfo();
+  }, 1000);
+});
+
+onUnmounted(() => {
+  clearInterval(timeInfoInterval);
 });
 </script>

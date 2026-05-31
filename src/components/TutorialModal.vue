@@ -15,7 +15,7 @@
           <div class="flex items-center gap-4 mb-4">
             <img
               v-if="currentStep.icon"
-              :src="require(`@/assets/icons/${currentStep.icon}`)"
+              :src="resolveIcon(currentStep.icon)"
               class="w-8 h-8"
               :alt="currentStep.title[$i18n.locale]"
             />
@@ -58,6 +58,8 @@
 import tutorialData from '@/assets/tutorial.json';
 import { useSettingsStore } from '@/store/settingsStore';
 
+const iconModules = import.meta.glob('@/assets/icons/*', { eager: true, import: 'default' });
+
 export default {
   name: 'TutorialModal',
   data() {
@@ -79,6 +81,9 @@ export default {
     },
   },
   methods: {
+    resolveIcon(name) {
+      return iconModules[`/src/assets/icons/${name}`];
+    },
     nextStep() {
       if (this.currentStepIndex < this.steps.length - 1) {
         this.currentStepIndex++;

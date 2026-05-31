@@ -16,7 +16,9 @@
     "connecting": "正在连接…",
     "refresh": "刷新",
     "creating": "创造……",
-    "help": "帮助"
+    "help": "帮助",
+    "expand": "展开",
+    "collapse": "收起"
   },
   "general": {
     "cancel": "取消",
@@ -160,7 +162,8 @@
         "setMosaicTargets": "设置马赛克目标",
         "title": "马赛克模式",
         "willBeSaved": "面板将单独保存"
-      }
+      },
+      "customTarget": "Custom Target"
     },
     "tutorial": {
       "previous": "上一步",
@@ -326,13 +329,16 @@
       },
       "coordsMismatchWarning": "轮廓和安装坐标不同。",
       "timeSync": {
-        "backendTime": "后端UTC",
+        "backendTime": "服务器时间",
         "mountNotConnected": "安装未连接",
-        "mountTime": "安装UTC",
+        "mountTime": "赤道仪时间",
         "notSupported": "驱动程序不支持",
         "syncLabel": "同步挂载时间",
         "syncLabelInfo": "启用后，点击「立即同步」将短暂断开并重新连接赤道仪，以便 NINA 将当前时间传输给它。",
-        "title": "时间同步"
+        "title": "时间同步",
+        "loadError": "Could not load time information.",
+        "syncError": "Time synchronisation failed. Check the connection to the PINS device.",
+        "syncSuccess": "Time synchronised successfully."
       },
       "navbarCustomization": {
         "alwaysVisible": "始终可见",
@@ -471,6 +477,17 @@
       "triggers": "触发器",
       "expandAll": "展开全部",
       "collapseAll": "折叠全部",
+      "addTypeButton": {
+        "searchPlaceholder": "搜索…",
+        "noResults": "无结果",
+        "addItem": "添加项目",
+        "addTrigger": "添加触发器",
+        "addCondition": "添加条件",
+        "add": "添加",
+        "item": "项目",
+        "trigger": "触发器",
+        "condition": "条件"
+      },
       "details": {},
       "hfr": "高频率响应",
       "mean": "平均值",
@@ -932,6 +949,9 @@
         "cameraGain": "增益",
         "cameraBinning": "合并",
         "restoreCalibration": "恢复校准",
+        "mountSettings": "赤道仪",
+        "guideRate": "导星速率",
+        "guideRateReadOnly": "只读",
         "guiderScale": "导星比例",
         "maxY": "最大Y",
         "historySize": "历史大小",
@@ -1002,11 +1022,53 @@
           "rightAscension": "赤经",
           "title": "检查校准"
         },
+        "darkLibrary": {
+          "title": "暗场库",
+          "manage": "管理暗场库",
+          "info": "通过以不同曝光时间拍摄暗场来构建暗场库。PHD2 使用它从导星图像中减去传感器噪声。",
+          "warning": "构建会阻塞 PHD2 —— 构建过程中所有其他 PHD2 操作都将被禁用。",
+          "status": "状态",
+          "exists": "暗场库存在",
+          "loaded": "已加载",
+          "notLoaded": "未加载",
+          "noLibrary": "未找到暗场库",
+          "numDarks": "暗场数量",
+          "range": "曝光范围",
+          "minExposure": "最小曝光 (秒)",
+          "maxExposure": "最大曝光 (秒)",
+          "frameCount": "每个曝光的帧数",
+          "previewExposures": "曝光时间",
+          "totalFrames": "总帧数",
+          "build": "构建",
+          "cancel": "取消构建",
+          "building": "正在构建",
+          "buildProgress": "帧 {frame} / {total} – {exposure} 秒",
+          "load": "加载",
+          "unload": "卸载",
+          "delete": "删除",
+          "confirmDelete": "再次点击以确认",
+          "buildSuccess": "暗场库构建成功",
+          "buildFailed": "暗场库构建失败",
+          "buildCancelled": "构建已取消",
+          "invalidRange": "最小曝光必须小于或等于最大曝光",
+          "buildActive": "暗场库构建进行中",
+          "buildActiveMessage": "构建完成前 PHD2 操作被阻塞。"
+        },
         "reviewCalibration": "检查校准",
         "starComponents": {
           "hide": "隐藏星形组件",
           "show": "显示星型组件"
-        }
+        },
+        "applyStep": "Apply",
+        "calculatedStep": "Calculated Step",
+        "calibDistance": "Distance",
+        "calibStepCalc": "Step Size Calculator",
+        "declination": "Declination",
+        "desiredSteps": "Desired Steps",
+        "guideSpeed": "Guide Speed",
+        "imageScale": "Image Scale",
+        "optimal": "Optimal",
+        "pixelSize": "Pixel Size"
       }
     },
     "focuser": {
@@ -1026,6 +1088,15 @@
       "autofocus_active": "自动对焦激活中",
       "autofocus": "自动对焦",
       "last_autofocus": "上次自动对焦",
+      "graph": {
+        "measurePoints": "Measure Points",
+        "quadraticTrendline": "Quadratic Trendline",
+        "hyperbolicTrendline": "Hyperbolic Trendline",
+        "quadraticMin": "Quadratic Min",
+        "hyperbolicMin": "Hyperbolic Min",
+        "value": "Value",
+        "invalidDate": "无效日期"
+      },
       "settings": {
         "AutoFocusInitialOffsetSteps": "初始偏移步骤",
         "AutoFocusStepSize": "步长",
@@ -1180,6 +1251,8 @@
       "HighFullwellMode": "高满井模式",
       "LEDLights": "引领",
       "LowNoiseMode": "超级模式",
+      "BadPixelCorrection": "坏点校正",
+      "BadPixelCorrectionThreshold": "坏点阈值",
       "dewHeaterStrength": "露水加热器强度",
       "tab_camera": "相机",
       "tab_cooler": "冷却",
@@ -1303,7 +1376,9 @@
         "Speed": "速度",
         "TurboMode": "涡轮模式",
         "commandFailed": "该设备不支持命令",
-        "deviceSpecific": "设备设置"
+        "deviceSpecific": "设备设置",
+        "SlotNum": "插槽数量",
+        "slotNumDefault": "默认"
       },
       "indi": {
         "settings": "滤镜轮设置"
@@ -1426,7 +1501,15 @@
       "status_stopped_darks": "Stopped early - {completed} of {total} darks captured",
       "status_stopped_flats": "Stopped early - {completed} of {total} flats captured",
       "status_success_darks": "Done - {count} darks captured",
-      "status_success_flats": "Done - {count} flats captured"
+      "status_success_flats": "Done - {count} flats captured",
+      "filter_label": "Filter",
+      "result_bright": "too bright",
+      "result_dim": "too dim",
+      "status_completed_flats": "Completed",
+      "status_failed_flats_multi": "All filters failed to determine valid exposure",
+      "status_partial_flats_multi": "Failed filters: {filters}",
+      "status_running_unknown": "Determining…",
+      "target": "Target"
     },
     "weatherModal": {
       "weatherInformation": "天气信息",
@@ -1453,7 +1536,13 @@
     },
     "switch": {
       "gauges": "仪表",
-      "switch": "开关"
+      "switch": "开关",
+      "indi": {
+        "settings": "Switch Settings"
+      },
+      "sv241pro": {
+        "preConnectDelay": "Pre Connect Delay (ms)"
+      }
     },
     "stellarium": {
       "selected_object": {
@@ -1724,7 +1813,11 @@
         "pluginUninstallStart": "Uninstalling plugin: {packageName}",
         "pluginsLoadFailed": "Failed to load PINS plugins: {message}",
         "pluginsPackageNotAllowed": "Package not allowed by API policy: {packageName}",
-        "pluginsLoadMetadataFailed": "PINS plugins could not be loaded because plugin metadata repository is currently unavailable (HTTP 502)."
+        "pluginsLoadMetadataFailed": "PINS plugins could not be loaded because plugin metadata repository is currently unavailable (HTTP 502).",
+        "hotspotChannelInvalid": "Hotspot channel must be a positive integer when provided.",
+        "hotspotFetchFailed": "Failed to load hotspot settings: {message}",
+        "hotspotPasswordInvalidLength": "Hotspot password is required and must be 8-63 characters.",
+        "hotspotSaveFailed": "Failed to save hotspot settings: {message}"
       },
       "hotspotConfigured": "已配置自定义热点密码。",
       "hotspotNewPassword": "新热点密码",
@@ -1801,7 +1894,23 @@
       "pluginsTitle": "PINS Plugins",
       "pluginsUninstall": "Uninstall",
       "pluginsUninstalling": "Uninstalling...",
-      "pluginsVersion": "Version"
+      "pluginsVersion": "Version",
+      "indiInstallModalAssetName": "Asset Name",
+      "indiInstallModalDriverPackage": "Driver/Package",
+      "indiInstallModalInstall": "Install",
+      "indiInstallModalInstalling": "Installing...",
+      "indiInstallModalLabel": "Label",
+      "indiInstallModalSuccessCompleted": "Installation completed for {label}.",
+      "indiInstallModalSuccessStarted": "Installation started for {label}.",
+      "indiInstallModalTitle": "Install INDI Driver",
+      "indiInstallModalType": "Type",
+      "hotspotAppliedStatus": "Applied to active hotspot: {applied} | Band: {band} | Channel: {channel}",
+      "hotspotBandAuto": "Auto / Unset",
+      "hotspotBandLabel": "Hotspot Band",
+      "hotspotCapabilitiesUnavailable": "Adapter capability list unavailable; manual channel allowed.",
+      "hotspotChannelLabel": "Hotspot Channel",
+      "hotspotChannelPlaceholder": "Leave empty for auto",
+      "hotspotMetaLine": "Source: {source} | Interface: {iface} | Band: {band} | Channel: {channel}"
     },
     "bahtifocus": {
       "title": "Bahtinov掩模分析仪",
@@ -1957,6 +2066,39 @@
         "tokenCopyFailed": "复制令牌失败",
         "submissionRemoved": "提交已移除",
         "allSubmissionsCleared": "所有提交已清除"
+      },
+      "diagnostics": {
+        "archiveId": "Archive ID",
+        "autoDownloaded": "Archive was downloaded automatically and upload was attempted.",
+        "dmesgLines": "dmesg lines",
+        "download": "Download ZIP",
+        "downloadBusy": "Downloading...",
+        "downloadFailed": "Failed to download diagnostics archive.",
+        "intro": "Select diagnostics sections, start archive collection, and download/upload the ZIP when ready.",
+        "journalLines": "Journal lines",
+        "loadingOptions": "Loading options...",
+        "optionsLoadFailed": "Failed to load diagnostics options. Using defaults.",
+        "optionsLoaded": "Diagnostics options loaded.",
+        "pollFailed": "Failed to poll diagnostics status.",
+        "refreshOptions": "Refresh Options",
+        "running": "Collecting...",
+        "sectionsTitle": "Sections",
+        "start": "Start Collection",
+        "startFailed": "Failed to start diagnostics archive.",
+        "started": "Diagnostics archive started.",
+        "statusFailed": "Failed",
+        "statusIdle": "Idle",
+        "statusLabel": "Status",
+        "statusQueued": "Queued",
+        "statusRunning": "Running",
+        "statusSuccess": "Success",
+        "statusTimeout": "Timed out",
+        "stillPreparing": "Archive is still preparing. Please try download again shortly.",
+        "title": "Diagnostics Support (PINS)",
+        "uploaded": "Diagnostics ZIP uploaded to support endpoint.",
+        "validationDmesgLines": "dmesg lines must be between 100 and 50000.",
+        "validationJournalLines": "Journal lines must be between 100 and 50000.",
+        "validationSections": "Select at least one section."
       }
     },
     "telescopius": {
@@ -3393,12 +3535,7 @@
         "credentials": "If your camera requires a username and password, include the credentials directly in the URL:",
         "credentialsNote": "The backend proxy handles authentication automatically — credentials in the URL work with both Basic and Digest authentication (e.g. Hikvision).",
         "credentialsTitle": "Password-protected cameras",
-        "exampleLabels": [
-          "Generic IP camera",
-          "ONVIF camera",
-          "Axis camera",
-          "Hikvision camera"
-        ],
+        "exampleLabels": ["Generic IP camera", "ONVIF camera", "Axis camera", "Hikvision camera"],
         "examplesTitle": "Examples",
         "proxyOptions": [
           "Proxy (default): The image is fetched by the NINA backend and forwarded to the browser. Required for local network cameras with credentials or CORS restrictions. Slightly slower when accessed over VPN.",
@@ -3459,7 +3596,10 @@
         "timeWindowEnd": "Time window end",
         "timeWindowHint": "Leave time window blank to allow scheduling for the full session range.",
         "timeWindowStart": "Time window start",
-        "title": "Constraints"
+        "title": "Constraints",
+        "maxMoonAltitude": "Max moon altitude",
+        "maxMoonAltitudeHint": "Set to 0° or below to schedule only while the Moon is below the horizon.",
+        "minMoonSeparationInfo": "Minimum angular distance between target and Moon required for scheduling."
       },
       "defaults": {
         "favoriteTargetName": "Favorite Target",
@@ -3532,7 +3672,9 @@
         "sessionStart": "Session start",
         "siteAlt": "alt",
         "siteLat": "Site lat",
-        "siteLon": "lon"
+        "siteLon": "lon",
+        "maxChunkInfo": "Limits the maximum continuous scheduled block per target before the scheduler can switch to another target.",
+        "samplingStepInfo": "Defines the calculation interval in minutes. Lower values increase precision but evaluate more timeline points."
       },
       "subtitle": "Mobile-first planning for target visibility, constraints, and sequence insertion.",
       "targetCard": {
@@ -3570,6 +3712,17 @@
       },
       "warnings": {
         "sequenceVersionRequired": "Sequence insertion requires TNS plugin 1.2.8.0  (or PINS mode)."
+      },
+      "sessionModes": {
+        "moonRise": "Moon rise",
+        "moonSet": "Moon set",
+        "sunRise": "Sun rise",
+        "sunSet": "Sun set",
+        "time": "Time",
+        "twilightEndAstronomical": "Twilight end astronomical",
+        "twilightEndNautical": "Twilight end nautical",
+        "twilightStartAstronomical": "Twilight start astronomical",
+        "twilightStartNautical": "Twilight start nautical"
       }
     },
     "filterOffset": {
@@ -3634,6 +3787,121 @@
       "deleteDirectoryMessage": "Delete directory \"{name}\" recursively?",
       "deleteFileTitle": "Delete File",
       "deleteFileMessage": "Delete file \"{name}\"?"
+    },
+    "phd2logviewer": {
+      "cal": {
+        "angle": "Angle (°)",
+        "axis": "Axis",
+        "backlash": "Backlash",
+        "dist": "Dist (px)",
+        "noData": "No calibration data for this session.",
+        "noSummary": "No summary data (calibration may have been interrupted)",
+        "over": "over",
+        "parity": "Parity",
+        "rate": "Rate (px/s)",
+        "steps": "Steps"
+      },
+      "clear": "Clear",
+      "emptyState": "Select a PHD2 guide log from the dropdown above.",
+      "excludeDither": "Auto-exclude dither settling",
+      "fft": {
+        "dominantPeriod": "Dominant period",
+        "subtitle": "Identifies periodic error harmonics in RA guiding.",
+        "title": "RA Frequency Analysis"
+      },
+      "info": {
+        "camera": "Camera",
+        "duration": "Duration",
+        "ended": "Ended",
+        "focalLength": "Focal length",
+        "mount": "Mount",
+        "pixelScale": "Pixel scale",
+        "profile": "Profile",
+        "started": "Session started",
+        "totalFrames": "Total frames"
+      },
+      "legend": {
+        "dec": "Dec",
+        "dither": "Dither",
+        "ra": "RA",
+        "raRaw": "RA (raw)"
+      },
+      "loading": "Loading…",
+      "noLogs": "No logs found",
+      "rawRa": "Raw, uncorrected RA",
+      "refresh": "Refresh log list",
+      "selectLog": "— select a log —",
+      "session": "Session:",
+      "settings": {
+        "notConfigured": "Please configure the PHD2 log directory",
+        "placeholder": "No path configured",
+        "saveError": "Failed to save path",
+        "title": "Log Directory"
+      },
+      "statistics": "Statistics",
+      "stats": {
+        "combined": "combined",
+        "decRms": "Dec RMS",
+        "declination": "declination",
+        "frames": "Frames",
+        "maxError": "max error",
+        "of": "of {total}",
+        "peakDec": "Peak Dec",
+        "peakRa": "Peak RA",
+        "raRms": "RA RMS",
+        "rightAscension": "right ascension",
+        "totalRms": "Total RMS"
+      },
+      "subtitle": "Select a PHD2 guide log to visualize guiding performance and statistics.",
+      "tabs": {
+        "calibration": "Calibration",
+        "guide": "Guide Graph"
+      },
+      "title": "PHD2 Log Viewer"
+    },
+    "supernovae": {
+      "title": "Supernovae",
+      "source": "Source: Rochester Astronomy active SN list",
+      "updated": "updated {d}",
+      "download": "Download",
+      "downloading": "Downloading…",
+      "noData": "No data loaded. Click Download to fetch the current active supernova list.",
+      "filterMag": "Max magnitude",
+      "filterType": "Type",
+      "filterTypePlaceholder": "e.g. Ia",
+      "filterYear": "Year",
+      "filterConstellation": "Constellation",
+      "filterAll": "All",
+      "filterNewOnly": "New only",
+      "filterVisibleOnly": "Visible tonight",
+      "visibleHint": "Based on observer location from NINA profile",
+      "visibleNoLocation": "No observer location — set location in NINA profile",
+      "sortBy": "Sort by",
+      "sortLatestMag": "Latest mag (brightest first)",
+      "sortFirstObserved": "Discovery date (newest first)",
+      "sortLastObserved": "Last observed (newest first)",
+      "showing": "Showing {n} of {total} entries",
+      "newCount": "{n} new",
+      "colName": "Name",
+      "colType": "Type",
+      "colLatestMag": "Latest mag",
+      "colMaxMag": "Max mag",
+      "colDiscovered": "Discovered",
+      "colLastObs": "Last obs",
+      "colConstellation": "Constellation",
+      "colHost": "Host galaxy",
+      "colRA": "RA",
+      "colDec": "Dec",
+      "frame": "Frame",
+      "frameTitle": "Send to framing assistant",
+      "fav": "Favourite",
+      "favTitle": "Add to favourites",
+      "favAdded": "Added {name} to favourites",
+      "favError": "Failed to add to favourites",
+      "visCircumpolar": "Circumpolar — always above horizon",
+      "visVisible": "Visible tonight",
+      "visHidden": "Below horizon tonight",
+      "page": "{n} / {total}"
     }
   },
   "pinsDevices": {
@@ -3936,7 +4204,13 @@
       "smtpSsl": "Use TLS/SSL",
       "testDiscord": "Send Test Message",
       "testEmail": "Send Test Email",
-      "testPushover": "Send Test Notification"
+      "testPushover": "Send Test Notification",
+      "localDashboardEnabled": "Enable local web server",
+      "localDashboardHint": "Serves your session history from a local web server accessible from any browser on your network. Use a VPN for remote access.",
+      "localDashboardPort": "Port",
+      "localDashboardTitle": "Local Dashboard",
+      "showChartFilterChips": "Show filter chip row",
+      "showChartTargetChips": "Show target chip row"
     },
     "stats": {
       "accepted": "Accepted",

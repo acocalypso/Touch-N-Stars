@@ -2,13 +2,13 @@ import { computed, ref, watch } from 'vue';
 import i18n from '@/i18n';
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
-import { useSettingsStore } from '@/store/settingsStore';
 import { useSequenceV2Store } from '@/store/sequenceV2Store';
 import { useFavTargetStore } from '@/store/favTargetsStore';
 import { useToastStore } from '@/store/toastStore';
 import {
   DEFAULT_MAX_CHUNK_MINUTES,
   DEFAULT_STEP_MINUTES,
+  computeNightSessionEvents,
   computeSchedulePlan,
   createDefaultTarget,
   createExposure,
@@ -19,6 +19,23 @@ const STORAGE_KEY = 'tns.targetScheduler.state.v1';
 const DSO_CONTAINER_TYPE = 'NINA.Sequencer.Container.DeepSkyObjectContainer';
 const SMART_EXPOSURE_TYPE = 'NINA.Sequencer.SequenceItem.Imaging.SmartExposure';
 const ALTITUDE_CONDITION_TYPE = 'NINA.Sequencer.Conditions.AltitudeCondition';
+
+const SESSION_START_MODE_VALUES = Object.freeze([
+  'time',
+  'twilight_end_nautical',
+  'twilight_end_astronomical',
+  'sun_set',
+  'moon_set',
+]);
+const SESSION_END_MODE_VALUES = Object.freeze([
+  'time',
+  'twilight_start_nautical',
+  'twilight_start_astronomical',
+  'sun_rise',
+  'moon_rise',
+]);
+const DEFAULT_SESSION_START_MODE = 'twilight_end_astronomical';
+const DEFAULT_SESSION_END_MODE = 'twilight_start_astronomical';
 
 function pad(value) {
   return String(value).padStart(2, '0');
@@ -41,6 +58,96 @@ function defaultSessionEnd() {
   d.setDate(d.getDate() + 1);
   d.setHours(6, 0, 0, 0);
   return d;
+}
+
+function getHoursMinutesOrFallback(value, fallbackDate) {
+  const parsed = new Date(value);
+  if (Number.isNaN(parsed.getTime())) {
+    return {
+      hours: fallbackDate.getHours(),
+      minutes: fallbackDate.getMinutes(),
+    };
+  }
+
+  return {
+    hours: parsed.getHours(),
+    minutes: parsed.getMinutes(),
+  };
+}
+
+function buildTodayAt(hours, minutes) {
+  const d = new Date();
+  d.setHours(hours, minutes, 0, 0);
+  return d;
+}
+
+function resolveInitialSessionInputs(persisted) {
+  const fallbackStart = defaultSessionStart();
+  const fallbackEnd = defaultSessionEnd();
+
+  const startHm = getHoursMinutesOrFallback(persisted?.sessionStartInput, fallbackStart);
+  const endHm = getHoursMinutesOrFallback(persisted?.sessionEndInput, fallbackEnd);
+
+  const start = buildTodayAt(startHm.hours, startHm.minutes);
+  const end = buildTodayAt(endHm.hours, endHm.minutes);
+
+  // Preserve overnight sessions by moving end to next day when needed.
+  if (end <= start) {
+    end.setDate(end.getDate() + 1);
+  }
+
+  return {
+    sessionStartInput: toInputDateTime(start),
+    sessionEndInput: toInputDateTime(end),
+  };
+}
+
+function getValidMode(value, validValues, fallback) {
+  return validValues.includes(value) ? value : fallback;
+}
+
+function getDateOnlyOrToday(value) {
+  const parsed = new Date(value);
+  const out = Number.isNaN(parsed.getTime()) ? new Date() : new Date(parsed);
+  out.setHours(0, 0, 0, 0);
+  return out;
+}
+
+function buildDateWithInputTime(baseDate, inputValue, fallbackDate) {
+  const parsed = new Date(inputValue);
+  const hours = Number.isNaN(parsed.getTime()) ? fallbackDate.getHours() : parsed.getHours();
+  const minutes = Number.isNaN(parsed.getTime()) ? fallbackDate.getMinutes() : parsed.getMinutes();
+
+  const out = new Date(baseDate);
+  out.setHours(hours, minutes, 0, 0);
+  return out;
+}
+
+function resolveStartDateForMode(mode, events, nightDate, currentInput) {
+  const manualStart = buildDateWithInputTime(nightDate, currentInput, defaultSessionStart());
+
+  if (mode === 'time') return manualStart;
+  if (mode === 'twilight_end_nautical') return events.nauticalDusk || manualStart;
+  if (mode === 'twilight_end_astronomical') return events.astronomicalDusk || manualStart;
+  if (mode === 'sun_set') return events.sunSet || manualStart;
+  if (mode === 'moon_set') return events.moonSet || manualStart;
+
+  return manualStart;
+}
+
+function resolveEndDateForMode(mode, events, nightDate, currentInput) {
+  const morningDate = new Date(nightDate);
+  morningDate.setDate(morningDate.getDate() + 1);
+
+  const manualEnd = buildDateWithInputTime(morningDate, currentInput, defaultSessionEnd());
+
+  if (mode === 'time') return manualEnd;
+  if (mode === 'twilight_start_nautical') return events.nauticalDawn || manualEnd;
+  if (mode === 'twilight_start_astronomical') return events.astronomicalDawn || manualEnd;
+  if (mode === 'sun_rise') return events.sunRise || manualEnd;
+  if (mode === 'moon_rise') return events.moonRise || manualEnd;
+
+  return manualEnd;
 }
 
 function getTimeValueOrDefault(value, fallback) {
@@ -97,6 +204,40 @@ function normalizePersistedTarget(target) {
   return normalized;
 }
 
+function normalizePersistedTargetsWithUniqueIds(rawTargets) {
+  const seenTargetIds = new Set();
+  let changed = false;
+
+  const normalizedTargets = (Array.isArray(rawTargets) ? rawTargets : []).map((target) => {
+    const normalizedTarget = normalizePersistedTarget(target);
+
+    if (!normalizedTarget.id || seenTargetIds.has(normalizedTarget.id)) {
+      normalizedTarget.id = createDefaultTarget().id;
+      changed = true;
+    }
+    seenTargetIds.add(normalizedTarget.id);
+
+    const seenExposureIds = new Set();
+    normalizedTarget.exposures = normalizedTarget.exposures.map((exp) => {
+      const normalizedExposure = createExposure(exp);
+
+      if (!normalizedExposure.id || seenExposureIds.has(normalizedExposure.id)) {
+        const expWithoutId = { ...normalizedExposure };
+        delete expWithoutId.id;
+        changed = true;
+        return createExposure(expWithoutId);
+      }
+
+      seenExposureIds.add(normalizedExposure.id);
+      return normalizedExposure;
+    });
+
+    return normalizedTarget;
+  });
+
+  return { normalizedTargets, changed };
+}
+
 function loadPersistedState() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
@@ -120,23 +261,25 @@ export function useTargetScheduler() {
   const t = i18n.global.t;
 
   const mainStore = apiStore();
-  const settingsStore = useSettingsStore();
   const sequenceStore = useSequenceV2Store();
   const favoritesStore = useFavTargetStore();
   const toastStore = useToastStore();
 
   const persisted = loadPersistedState();
+  const { normalizedTargets: hydratedTargets, changed: hadPersistedIdCollisions } =
+    normalizePersistedTargetsWithUniqueIds(persisted?.targets);
+  const initialSessionInputs = resolveInitialSessionInputs(persisted);
 
-  const targets = ref(
-    Array.isArray(persisted?.targets) && persisted.targets.length
-      ? persisted.targets.map(normalizePersistedTarget)
-      : []
-  );
+  const targets = ref(hydratedTargets);
 
-  const sessionStartInput = ref(
-    persisted?.sessionStartInput || toInputDateTime(defaultSessionStart())
+  const sessionStartInput = ref(initialSessionInputs.sessionStartInput);
+  const sessionEndInput = ref(initialSessionInputs.sessionEndInput);
+  const sessionStartMode = ref(
+    getValidMode(persisted?.sessionStartMode, SESSION_START_MODE_VALUES, DEFAULT_SESSION_START_MODE)
   );
-  const sessionEndInput = ref(persisted?.sessionEndInput || toInputDateTime(defaultSessionEnd()));
+  const sessionEndMode = ref(
+    getValidMode(persisted?.sessionEndMode, SESSION_END_MODE_VALUES, DEFAULT_SESSION_END_MODE)
+  );
 
   const stepMinutes = ref(
     Number.isFinite(Number(persisted?.stepMinutes))
@@ -148,6 +291,18 @@ export function useTargetScheduler() {
       ? Number(persisted.maxChunkMinutes)
       : DEFAULT_MAX_CHUNK_MINUTES
   );
+
+  if (hadPersistedIdCollisions) {
+    savePersistedState({
+      targets: targets.value,
+      sessionStartInput: sessionStartInput.value,
+      sessionEndInput: sessionEndInput.value,
+      sessionStartMode: sessionStartMode.value,
+      sessionEndMode: sessionEndMode.value,
+      stepMinutes: stepMinutes.value,
+      maxChunkMinutes: maxChunkMinutes.value,
+    });
+  }
 
   const selectedTargetId = ref(targets.value[0]?.id || null);
   const isEditorOpen = ref(false);
@@ -169,25 +324,14 @@ export function useTargetScheduler() {
   const isApplyingToSequence = ref(false);
 
   const location = computed(() => {
-    const profileCoords = mainStore.profileInfo?.AstrometrySettings || {};
-    const coord = settingsStore.coordinates || {};
-
-    const latitude = Number(
-      coord.latitude ?? profileCoords.Latitude ?? profileCoords.latitude ?? null
-    );
-
-    const longitude = Number(
-      coord.longitude ?? profileCoords.Longitude ?? profileCoords.longitude ?? null
-    );
-
-    const altitude = Number(
-      coord.altitude ?? profileCoords.Elevation ?? profileCoords.elevation ?? 0
-    );
-
+    const a = mainStore.profileInfo?.AstrometrySettings;
+    const latitude = a?.Latitude ?? null;
+    const longitude = a?.Longitude ?? null;
+    const altitude = a?.Elevation ?? 0;
     return {
-      latitude: Number.isFinite(latitude) ? latitude : null,
-      longitude: Number.isFinite(longitude) ? longitude : null,
-      altitude: Number.isFinite(altitude) ? altitude : 0,
+      latitude: Number.isFinite(Number(latitude)) ? Number(latitude) : null,
+      longitude: Number.isFinite(Number(longitude)) ? Number(longitude) : null,
+      altitude: Number.isFinite(Number(altitude)) ? Number(altitude) : 0,
     };
   });
 
@@ -226,9 +370,54 @@ export function useTargetScheduler() {
       targets: targets.value,
       sessionStartInput: sessionStartInput.value,
       sessionEndInput: sessionEndInput.value,
+      sessionStartMode: sessionStartMode.value,
+      sessionEndMode: sessionEndMode.value,
       stepMinutes: stepMinutes.value,
       maxChunkMinutes: maxChunkMinutes.value,
     });
+  }
+
+  let isSyncingSessionInputs = false;
+  function syncSessionInputsWithModes() {
+    if (!Number.isFinite(location.value.latitude) || !Number.isFinite(location.value.longitude)) {
+      return;
+    }
+
+    const nightDate = getDateOnlyOrToday(sessionStartInput.value);
+    const events = computeNightSessionEvents({
+      nightDate,
+      location: location.value,
+    });
+
+    const nextStart = resolveStartDateForMode(
+      sessionStartMode.value,
+      events,
+      nightDate,
+      sessionStartInput.value
+    );
+    let nextEnd = resolveEndDateForMode(
+      sessionEndMode.value,
+      events,
+      nightDate,
+      sessionEndInput.value
+    );
+
+    if (nextEnd <= nextStart) {
+      nextEnd = new Date(nextEnd);
+      nextEnd.setDate(nextEnd.getDate() + 1);
+    }
+
+    const nextStartInput = toInputDateTime(nextStart);
+    const nextEndInput = toInputDateTime(nextEnd);
+
+    if (nextStartInput === sessionStartInput.value && nextEndInput === sessionEndInput.value) {
+      return;
+    }
+
+    isSyncingSessionInputs = true;
+    sessionStartInput.value = nextStartInput;
+    sessionEndInput.value = nextEndInput;
+    isSyncingSessionInputs = false;
   }
 
   function addTarget(partial) {
@@ -263,13 +452,25 @@ export function useTargetScheduler() {
   function duplicateTarget(targetId) {
     const target = targets.value.find((item) => item.id === targetId);
     if (!target) return;
+
+    const targetWithoutIds = { ...target };
+    const sourceExposures = Array.isArray(targetWithoutIds.exposures)
+      ? targetWithoutIds.exposures
+      : [];
+    delete targetWithoutIds.id;
+    delete targetWithoutIds.exposures;
     const copy = createDefaultTarget({
-      ...target,
+      ...targetWithoutIds,
       name: `${target.name} ${t('plugins.targetScheduler.common.copySuffix')}`,
       isFavoriteLinked: false,
       favoriteId: null,
     });
-    copy.exposures = target.exposures.map((exp) => createExposure({ ...exp }));
+    copy.exposures = sourceExposures.map((exp) => {
+      const expWithoutId = { ...(exp || {}) };
+      delete expWithoutId.id;
+      return createExposure(expWithoutId);
+    });
+    if (!copy.exposures.length) copy.exposures = [createExposure()];
     targets.value.push(copy);
     selectedTargetId.value = copy.id;
   }
@@ -637,6 +838,22 @@ export function useTargetScheduler() {
 
   let recomputeTimer = null;
   watch(
+    [
+      sessionStartMode,
+      sessionEndMode,
+      () => location.value.latitude,
+      () => location.value.longitude,
+      sessionStartInput,
+    ],
+    () => {
+      if (isSyncingSessionInputs) return;
+      if (sessionStartMode.value === 'time' && sessionEndMode.value === 'time') return;
+      syncSessionInputsWithModes();
+    },
+    { immediate: true }
+  );
+
+  watch(
     [targets, sessionStartInput, sessionEndInput, stepMinutes, maxChunkMinutes, location],
     () => {
       if (recomputeTimer) clearTimeout(recomputeTimer);
@@ -648,7 +865,15 @@ export function useTargetScheduler() {
   );
 
   watch(
-    [targets, sessionStartInput, sessionEndInput, stepMinutes, maxChunkMinutes],
+    [
+      targets,
+      sessionStartInput,
+      sessionEndInput,
+      sessionStartMode,
+      sessionEndMode,
+      stepMinutes,
+      maxChunkMinutes,
+    ],
     () => {
       persistState();
     },
@@ -667,6 +892,8 @@ export function useTargetScheduler() {
     showFavoritesPicker,
     sessionStartInput,
     sessionEndInput,
+    sessionStartMode,
+    sessionEndMode,
     stepMinutes,
     maxChunkMinutes,
     location,

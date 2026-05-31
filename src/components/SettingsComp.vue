@@ -102,6 +102,11 @@
         <p class="text-gray-300">
           {{ $t('components.settings.system.shutdownInfoMessage') }}
         </p>
+        <div class="flex justify-center mt-4">
+          <button @click="showShutdownInfo = false" class="default-button-gray">
+            {{ $t('common.close') }}
+          </button>
+        </div>
       </div>
     </template>
   </Modal>

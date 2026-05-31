@@ -294,7 +294,7 @@ import axios from 'axios';
 import { apiStore } from '@/store/store';
 import { useImagetStore } from './store/imageStore';
 import { useSettingsStore } from '@/store/settingsStore';
-import { useHead } from '@vueuse/head';
+import { useHead } from '@unhead/vue';
 import { Capacitor } from '@capacitor/core';
 import { App as CapacitorApp } from '@capacitor/app';
 import { CapacitorUpdater } from '@capgo/capacitor-updater';
@@ -323,6 +323,7 @@ import UpdateAvailableModal from '@/components/helpers/UpdateAvailableModal.vue'
 import PickerOverlay from '@/components/helpers/PickerOverlay.vue';
 import Modal from '@/components/helpers/Modal.vue';
 import { usePinsStore } from '@/plugins/pins/store/pinsStore';
+import { useFlatassistantStore } from '@/store/flatassistantStore';
 import { useNightSummaryStore } from '@/plugins/nightsummary/store/nightsummaryStore';
 import {
   checkForManualUpdate,
@@ -330,6 +331,7 @@ import {
   fetchChangelogWhatsNew,
   isNativePlatform,
 } from '@/services/updateService';
+import { getDeviceDateTimePayload, parsePinsTimeToSeconds } from '@/utils/pinsTimeUtils';
 
 const store = apiStore();
 const settingsStore = useSettingsStore();
@@ -354,12 +356,13 @@ async function checkPinsTimeMismatch() {
       headers: { Authorization: `Bearer ${PINS_TOKEN}` },
       timeout: 5000,
     });
-    if (response.data && response.data.timestamp) {
+    const deviceTimestamp = parsePinsTimeToSeconds(response.data);
+    if (deviceTimestamp !== null) {
       const clientTimestamp = Date.now() / 1000;
-      const diff = Math.abs(response.data.timestamp - clientTimestamp);
+      const diff = Math.abs(deviceTimestamp - clientTimestamp);
       if (diff > 60) {
         timeWarningClientTime.value = new Date(clientTimestamp * 1000).toLocaleTimeString();
-        timeWarningDeviceTime.value = new Date(response.data.timestamp * 1000).toLocaleTimeString();
+        timeWarningDeviceTime.value = new Date(deviceTimestamp * 1000).toLocaleTimeString();
         showTimeWarningModal.value = true;
       }
     }
@@ -373,17 +376,14 @@ async function syncPinsTimeToClient() {
   if (!ip) return;
   try {
     const directAxios = axios.create({ headers: {} });
-    await directAxios.post(
-      `http://${ip}:${PINS_PORT}/system/time`,
-      { timestamp: Date.now() / 1000 },
-      {
-        headers: {
-          Authorization: `Bearer ${PINS_TOKEN}`,
-          'Content-Type': 'application/json',
-        },
-        timeout: 5000,
-      }
-    );
+    const payload = getDeviceDateTimePayload();
+    await directAxios.post(`http://${ip}:${PINS_PORT}/system/time`, payload, {
+      headers: {
+        Authorization: `Bearer ${PINS_TOKEN}`,
+        'Content-Type': 'application/json',
+      },
+      timeout: 5000,
+    });
   } catch (e) {
     console.warn('[TimeWarning] Could not set PINS time:', e.message);
   }
@@ -399,6 +399,19 @@ watch(
 );
 const sequenceStore = useSequenceStore();
 const logStore = useLogStore();
+const flatsStore = useFlatassistantStore();
+
+// Global flat run outcome — fires regardless of which page is active.
+// prevRun !== null guard mirrors the original page watcher: first setter wins,
+// so fetchFlatsInfos (Running-state values) beats waitForCompletion (Finished-state
+// values which NINA may zero out).
+watch(
+  () => flatsStore.lastRun,
+  (run, prevRun) => {
+    if (!run || prevRun !== null) return;
+    flatsStore.commitRunOutcome(run);
+  }
+);
 const cameraStore = useCameraStore();
 const dialogStore = useDialogStore();
 const messageboxStore = useMessageboxStore();
@@ -566,6 +579,7 @@ function pauseApp() {
   store.stopFetchingInfo();
   logStore.stopFetchingLog();
   sequenceStore.stopFetching();
+  flatsStore.stopFetchingFlats();
   cameraStore.stopCountdown();
   dialogStore.stopPolling();
   // Keine States zurücksetzen - UI bleibt erhalten
@@ -592,6 +606,7 @@ async function resumeApp() {
     // PINS/Headless mode: Use SignalR for real-time updates
     await dialogStore.initializeDialogSignalR();
     await messageboxStore.initializeMessageboxSignalR();
+    flatsStore.startFetchingFlats();
   } else {
     // WPF mode: Use polling
     dialogStore.startPolling();
@@ -806,6 +821,7 @@ onMounted(async () => {
     // PINS/Headless mode: Use SignalR for real-time updates
     await dialogStore.initializeDialogSignalR();
     await messageboxStore.initializeMessageboxSignalR();
+    flatsStore.startFetchingFlats();
   } else {
     // WPF mode: Use polling
     dialogStore.startPolling();
@@ -882,7 +898,7 @@ watch(
 
     // Re-initialize night summary plugin after an instance switch so it
     // fetches its status, settings, and sessions from the new backend.
-    if (isReachable) {
+    if (isReachable && store.isPINS) {
       nightSummaryStore.initialize();
     }
 
@@ -939,6 +955,7 @@ onBeforeUnmount(async () => {
   store.stopFetchingInfo();
   logStore.stopFetchingLog();
   sequenceStore.stopFetching();
+  flatsStore.stopFetchingFlats();
 
   if (pinsUpgradeRecoveryTimer) {
     clearTimeout(pinsUpgradeRecoveryTimer);

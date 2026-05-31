@@ -16,7 +16,9 @@
     "connecting": "Verbinden…",
     "refresh": "Vernieuwen",
     "creating": "Creëren…",
-    "help": "Help"
+    "help": "Help",
+    "expand": "Uitvouwen",
+    "collapse": "Inklappen"
   },
   "general": {
     "cancel": "Annuleer",
@@ -160,7 +162,8 @@
         "setMosaicTargets": "Stel mozaïekdoelen in",
         "panelsSet": "panelen op volgorde geplaatst",
         "willBeSaved": "panelen worden afzonderlijk opgeslagen"
-      }
+      },
+      "customTarget": "Aangepast doel"
     },
     "tutorial": {
       "previous": "Vorige",
@@ -326,13 +329,16 @@
       },
       "coordsMismatchWarning": "Profiel- en montagecoördinaten verschillen.",
       "timeSync": {
-        "backendTime": "Back-end UTC",
+        "backendTime": "Servertijd",
         "mountNotConnected": "Mount niet aangesloten",
-        "mountTime": "Monteer UTC",
+        "mountTime": "Montagetijd",
         "notSupported": "Niet ondersteund door stuurprogramma",
         "syncLabel": "Synchroniseer de tijd om te mounten",
         "syncLabelInfo": "Indien ingeschakeld wordt bij het klikken op \"Nu synchroniseren\" de montuur kort verbroken en opnieuw verbonden zodat NINA de huidige tijd kan overdragen.",
-        "title": "Tijdsynchronisatie"
+        "title": "Tijdsynchronisatie",
+        "loadError": "Kan tijdinformatie niet laden.",
+        "syncError": "Tijdsynchronisatie mislukt. \nControleer de verbinding met het PINS-apparaat.",
+        "syncSuccess": "Tijd succesvol gesynchroniseerd."
       },
       "navbarCustomization": {
         "alwaysVisible": "Altijd zichtbaar",
@@ -471,6 +477,17 @@
       "triggers": "Triggers",
       "expandAll": "Alles uitvouwen",
       "collapseAll": "Alles inklappen",
+      "addTypeButton": {
+        "searchPlaceholder": "Zoeken…",
+        "noResults": "Geen resultaten",
+        "addItem": "Item toevoegen",
+        "addTrigger": "Trigger toevoegen",
+        "addCondition": "Voorwaarde toevoegen",
+        "add": "Toevoegen",
+        "item": "Item",
+        "trigger": "Trigger",
+        "condition": "Voorwaarde"
+      },
       "details": {},
       "hfr": "HFR",
       "mean": "Gemeen",
@@ -932,6 +949,9 @@
         "cameraGain": "Gain",
         "cameraBinning": "Binning",
         "restoreCalibration": "Kalibratie herstellen",
+        "mountSettings": "Montering",
+        "guideRate": "Guide Rate",
+        "guideRateReadOnly": "Alleen lezen",
         "guiderScale": "Gidsschaal",
         "maxY": "Max Y",
         "historySize": "Geschiedenisgrootte",
@@ -1002,11 +1022,53 @@
           "rightAscension": "Rechte Hemelvaart",
           "title": "Controleer kalibratie"
         },
+        "darkLibrary": {
+          "title": "Dark library",
+          "manage": "Dark library beheren",
+          "info": "Maak een dark library door dark frames op te nemen met verschillende belichtingstijden. PHD2 gebruikt deze om sensorruis uit de guidingbeelden te verwijderen.",
+          "warning": "Tijdens het bouwen is PHD2 geblokkeerd — alle andere PHD2-acties zijn uitgeschakeld.",
+          "status": "Status",
+          "exists": "Library aanwezig",
+          "loaded": "Geladen",
+          "notLoaded": "Niet geladen",
+          "noLibrary": "Geen dark library gevonden",
+          "numDarks": "Aantal darks",
+          "range": "Belichtingsbereik",
+          "minExposure": "Min. belichting (s)",
+          "maxExposure": "Max. belichting (s)",
+          "frameCount": "Beelden per belichting",
+          "previewExposures": "Belichtingstijden",
+          "totalFrames": "Totaal beelden",
+          "build": "Aanmaken",
+          "cancel": "Bouwen annuleren",
+          "building": "Bezig met bouwen",
+          "buildProgress": "Beeld {frame} / {total} – {exposure} s",
+          "load": "Laden",
+          "unload": "Ontladen",
+          "delete": "Verwijderen",
+          "confirmDelete": "Klik opnieuw om te bevestigen",
+          "buildSuccess": "Dark library succesvol aangemaakt",
+          "buildFailed": "Aanmaken dark library mislukt",
+          "buildCancelled": "Bouwen geannuleerd",
+          "invalidRange": "Min. belichting moet kleiner of gelijk zijn aan max. belichting",
+          "buildActive": "Dark library bouw actief",
+          "buildActiveMessage": "PHD2-acties zijn geblokkeerd tot het bouwen klaar is."
+        },
         "reviewCalibration": "Controleer kalibratie",
         "starComponents": {
           "hide": "Stercomponenten verbergen",
           "show": "Toon stercomponenten"
-        }
+        },
+        "applyStep": "Toepassen",
+        "calculatedStep": "Berekende stap",
+        "calibDistance": "Afstand",
+        "calibStepCalc": "Stapgroottecalculator",
+        "declination": "Declinatie",
+        "desiredSteps": "Gewenste stappen",
+        "guideSpeed": "Begeleidingssnelheid",
+        "imageScale": "Beeldschaal",
+        "optimal": "Optimaal",
+        "pixelSize": "Pixelgrootte"
       }
     },
     "focuser": {
@@ -1026,6 +1088,15 @@
       "autofocus_active": "Autofocus actief",
       "autofocus": "Autofocus",
       "last_autofocus": "Laatste autofocus",
+      "graph": {
+        "measurePoints": "Measure Points",
+        "quadraticTrendline": "Quadratic Trendline",
+        "hyperbolicTrendline": "Hyperbolic Trendline",
+        "quadraticMin": "Quadratic Min",
+        "hyperbolicMin": "Hyperbolic Min",
+        "value": "Value",
+        "invalidDate": "Ongeldige datum"
+      },
       "settings": {
         "AutoFocusInitialOffsetSteps": "Initiële offset stappen",
         "AutoFocusStepSize": "Stapgrootte",
@@ -1180,6 +1251,8 @@
       "HighFullwellMode": "Hoge Fullwell-modus",
       "LEDLights": "LED",
       "LowNoiseMode": "Ultra-modus",
+      "BadPixelCorrection": "Slechte pixel correctie",
+      "BadPixelCorrectionThreshold": "Slechte pixel drempel",
       "dewHeaterStrength": "Sterkte van de dauwverwarmer",
       "tab_camera": "Camera",
       "tab_cooler": "Koeling",
@@ -1303,7 +1376,9 @@
         "Speed": "Snelheid",
         "TurboMode": "Turbo-modus",
         "commandFailed": "Commando wordt niet ondersteund door dit apparaat",
-        "deviceSpecific": "Apparaatinstellingen"
+        "deviceSpecific": "Apparaatinstellingen",
+        "SlotNum": "Aantal slots",
+        "slotNumDefault": "Standaard"
       },
       "indi": {
         "settings": "Filterwielinstellingen"
@@ -1426,7 +1501,15 @@
       "status_stopped_darks": "Vroeg gestopt - {voltooid} van {totaal} duisternis vastgelegd",
       "status_stopped_flats": "Vroeg gestopt - {voltooid} van {totaal} flats veroverd",
       "status_success_darks": "Klaar - {count} darks vastgelegd",
-      "status_success_flats": "Klaar - {count} flats veroverd"
+      "status_success_flats": "Klaar - {count} flats veroverd",
+      "filter_label": "Filter",
+      "result_bright": "te helder",
+      "result_dim": "te zwak",
+      "status_completed_flats": "Voltooid",
+      "status_failed_flats_multi": "Alle filters konden geen geldige blootstelling vaststellen",
+      "status_partial_flats_multi": "Mislukte filters: {filters}",
+      "status_running_unknown": "Bepalend…",
+      "target": "Doel"
     },
     "weatherModal": {
       "weatherInformation": "Weer Informatie",
@@ -1453,7 +1536,13 @@
     },
     "switch": {
       "gauges": "Meters",
-      "switch": "Schakelaar"
+      "switch": "Schakelaar",
+      "indi": {
+        "settings": "Schakel instellingen"
+      },
+      "sv241pro": {
+        "preConnectDelay": "Vertraging vóór verbinding (ms)"
+      }
     },
     "stellarium": {
       "selected_object": {
@@ -1724,7 +1813,11 @@
         "pluginUninstallStart": "Plug-in verwijderen: {packageName}",
         "pluginsLoadFailed": "Kan PINS-plug-ins niet laden: {message}",
         "pluginsPackageNotAllowed": "Pakket niet toegestaan ​​door API-beleid: {packageName}",
-        "pluginsLoadMetadataFailed": "PINS-plug-ins kunnen niet worden geladen omdat de opslagplaats voor metagegevens van plug-ins momenteel niet beschikbaar is (HTTP 502)."
+        "pluginsLoadMetadataFailed": "PINS-plug-ins kunnen niet worden geladen omdat de opslagplaats voor metagegevens van plug-ins momenteel niet beschikbaar is (HTTP 502).",
+        "hotspotChannelInvalid": "Hotspotkanaal moet een positief geheel getal zijn, indien opgegeven.",
+        "hotspotFetchFailed": "Kan hotspot-instellingen niet laden: {message}",
+        "hotspotPasswordInvalidLength": "Hotspotwachtwoord is vereist en moet 8-63 tekens lang zijn.",
+        "hotspotSaveFailed": "Kan hotspot-instellingen niet opslaan: {message}"
       },
       "hotspotConfigured": "Er is een aangepast hotspotwachtwoord geconfigureerd.",
       "hotspotNewPassword": "Nieuw hotspot-wachtwoord",
@@ -1801,7 +1894,23 @@
       "pluginsTitle": "PINS-plug-ins",
       "pluginsUninstall": "Verwijderen",
       "pluginsUninstalling": "Verwijderen...",
-      "pluginsVersion": "Versie"
+      "pluginsVersion": "Versie",
+      "indiInstallModalAssetName": "Naam van item",
+      "indiInstallModalDriverPackage": "Bestuurder/pakket",
+      "indiInstallModalInstall": "Installeren",
+      "indiInstallModalInstalling": "Installeren...",
+      "indiInstallModalLabel": "Label",
+      "indiInstallModalSuccessCompleted": "Installatie voltooid voor {label}.",
+      "indiInstallModalSuccessStarted": "Installatie gestart voor {label}.",
+      "indiInstallModalTitle": "Installeer het INDI-stuurprogramma",
+      "indiInstallModalType": "Type",
+      "hotspotAppliedStatus": "Toegepast op actieve hotspot: {toegepast} | \nBand: {band} | \nKanaal: {kanaal}",
+      "hotspotBandAuto": "Automatisch / Uitgeschakeld",
+      "hotspotBandLabel": "Hotspotband",
+      "hotspotCapabilitiesUnavailable": "Lijst met adaptermogelijkheden niet beschikbaar; \nhandmatig kanaal toegestaan.",
+      "hotspotChannelLabel": "Hotspot-kanaal",
+      "hotspotChannelPlaceholder": "Laat leeg voor automatisch",
+      "hotspotMetaLine": "Bron: {bron} | \nInterface: {iface} | \nBand: {band} | \nKanaal: {kanaal}"
     },
     "bahtifocus": {
       "title": "Bahtinov Masker Analyse",
@@ -1957,6 +2066,39 @@
         "tokenCopyFailed": "Kopieer token mislukt",
         "submissionRemoved": "Verzending verwijdert",
         "allSubmissionsCleared": "Alle verzendingen verwijdert"
+      },
+      "diagnostics": {
+        "archiveId": "Archief-ID",
+        "autoDownloaded": "Het archief is automatisch gedownload en er is geprobeerd te uploaden.",
+        "dmesgLines": "dmesg-lijnen",
+        "download": "ZIP downloaden",
+        "downloadBusy": "Downloaden...",
+        "downloadFailed": "Kan diagnostisch archief niet downloaden.",
+        "intro": "Selecteer diagnostische secties, start het verzamelen van archief en download/upload de ZIP wanneer u klaar bent.",
+        "journalLines": "Journaalregels",
+        "loadingOptions": "Opties laden...",
+        "optionsLoadFailed": "Kan diagnostische opties niet laden. \nStandaardinstellingen gebruiken.",
+        "optionsLoaded": "Diagnostische opties geladen.",
+        "pollFailed": "Kan de diagnostische status niet opvragen.",
+        "refreshOptions": "Vernieuwingsopties",
+        "running": "Verzamelen...",
+        "sectionsTitle": "Secties",
+        "start": "Verzameling starten",
+        "startFailed": "Kan diagnostisch archief niet starten.",
+        "started": "Diagnostiekarchief gestart.",
+        "statusFailed": "Mislukt",
+        "statusIdle": "Inactief",
+        "statusLabel": "Status",
+        "statusQueued": "In de wachtrij",
+        "statusRunning": "Rennen",
+        "statusSuccess": "Succes",
+        "statusTimeout": "Time-out",
+        "stillPreparing": "Het archief is nog in voorbereiding. \nProbeer het binnenkort opnieuw te downloaden.",
+        "title": "Diagnostische ondersteuning (PINS)",
+        "uploaded": "Diagnostische ZIP geüpload naar ondersteuningseindpunt.",
+        "validationDmesgLines": "dmesg-regels moeten tussen 100 en 50000 liggen.",
+        "validationJournalLines": "Journaalregels moeten tussen 100 en 50.000 liggen.",
+        "validationSections": "Selecteer ten minste één sectie."
       }
     },
     "telescopius": {
@@ -3393,12 +3535,7 @@
         "credentials": "Als uw camera een gebruikersnaam en wachtwoord vereist, neemt u de inloggegevens rechtstreeks in de URL op:",
         "credentialsNote": "De backend-proxy verwerkt de authenticatie automatisch: de inloggegevens in de URL werken met zowel basis- als digest-authenticatie (bijv. Hikvision).",
         "credentialsTitle": "Met wachtwoord beveiligde camera's",
-        "exampleLabels": [
-          "Algemene IP-camera",
-          "ONVIF-camera",
-          "As-camera",
-          "Hikvision-camera"
-        ],
+        "exampleLabels": ["Algemene IP-camera", "ONVIF-camera", "As-camera", "Hikvision-camera"],
         "examplesTitle": "Voorbeelden",
         "proxyOptions": [
           "Proxy (standaard): De afbeelding wordt opgehaald door de NINA-backend en doorgestuurd naar de browser. \nVereist voor lokale netwerkcamera's met inloggegevens of CORS-beperkingen. \nIets langzamer bij toegang via VPN.",
@@ -3459,7 +3596,10 @@
         "timeWindowEnd": "Einde van het tijdvenster",
         "timeWindowHint": "Laat het tijdvenster leeg om planning voor het volledige sessiebereik mogelijk te maken.",
         "timeWindowStart": "Tijdvenster starten",
-        "title": "Beperkingen"
+        "title": "Beperkingen",
+        "maxMoonAltitude": "Maximale maanhoogte",
+        "maxMoonAltitudeHint": "Stel deze in op 0° of lager om alleen een planning te maken als de maan zich onder de horizon bevindt.",
+        "minMoonSeparationInfo": "Minimale hoekafstand tussen doel en maan vereist voor planning."
       },
       "defaults": {
         "favoriteTargetName": "Favoriete doelwit",
@@ -3532,7 +3672,9 @@
         "sessionStart": "Sessie begint",
         "siteAlt": "alt",
         "siteLat": "Site lat",
-        "siteLon": "lang"
+        "siteLon": "lang",
+        "maxChunkInfo": "Beperkt het maximale aaneengesloten geplande blok per doel voordat de planner naar een ander doel kan overschakelen.",
+        "samplingStepInfo": "Definieert het berekeningsinterval in minuten. \nLagere waarden verhogen de nauwkeurigheid, maar evalueren meer tijdlijnpunten."
       },
       "subtitle": "Mobile-first planning voor zichtbaarheid van doelen, beperkingen en het invoegen van reeksen.",
       "targetCard": {
@@ -3570,6 +3712,17 @@
       },
       "warnings": {
         "sequenceVersionRequired": "Voor het invoegen van sequenties is TNS-plug-in 1.2.8.0 (of PINS-modus) vereist."
+      },
+      "sessionModes": {
+        "moonRise": "Maan opkomst",
+        "moonSet": "Maan ingesteld",
+        "sunRise": "Zon opkomen",
+        "sunSet": "Zonsondergang",
+        "time": "Tijd",
+        "twilightEndAstronomical": "Het einde van de schemering is astronomisch",
+        "twilightEndNautical": "Schemering einde nautisch",
+        "twilightStartAstronomical": "De schemering begint astronomisch",
+        "twilightStartNautical": "Schemering start nautisch"
       }
     },
     "filterOffset": {
@@ -3634,6 +3787,121 @@
       "deleteDirectoryMessage": "Delete directory \"{name}\" recursively?",
       "deleteFileTitle": "Delete File",
       "deleteFileMessage": "Delete file \"{name}\"?"
+    },
+    "phd2logviewer": {
+      "cal": {
+        "angle": "Hoek (°)",
+        "axis": "As",
+        "backlash": "Verzet",
+        "dist": "Afstand (px)",
+        "noData": "Geen kalibratiegegevens voor deze sessie.",
+        "noSummary": "Geen samenvattende gegevens (kalibratie is mogelijk onderbroken)",
+        "over": "over",
+        "parity": "Pariteit",
+        "rate": "Tarief (px/s)",
+        "steps": "Stappen"
+      },
+      "clear": "Duidelijk",
+      "emptyState": "Selecteer een PHD2-gidslogboek in de vervolgkeuzelijst hierboven.",
+      "excludeDither": "Dither-afwikkeling automatisch uitsluiten",
+      "fft": {
+        "dominantPeriod": "Dominante periode",
+        "subtitle": "Identificeert periodieke foutharmonischen in RA-geleiding.",
+        "title": "RA-frequentieanalyse"
+      },
+      "info": {
+        "camera": "Camera",
+        "duration": "Duur",
+        "ended": "Beëindigd",
+        "focalLength": "Brandpuntsafstand",
+        "mount": "Monteren",
+        "pixelScale": "Pixelschaal",
+        "profile": "Profiel",
+        "started": "Sessie begonnen",
+        "totalFrames": "Totaal kaders"
+      },
+      "legend": {
+        "dec": "dec",
+        "dither": "Ditheren",
+        "ra": "RA",
+        "raRaw": "RA (rauw)"
+      },
+      "loading": "Laden…",
+      "noLogs": "Geen logboeken gevonden",
+      "rawRa": "Ruwe, ongecorrigeerde RA",
+      "refresh": "Ververs de loglijst",
+      "selectLog": "— selecteer een logboek —",
+      "session": "Sessie:",
+      "settings": {
+        "notConfigured": "Configureer de PHD2-logboekmap",
+        "placeholder": "Geen pad geconfigureerd",
+        "saveError": "Kan pad niet opslaan",
+        "title": "Logboekmap"
+      },
+      "statistics": "Statistieken",
+      "stats": {
+        "combined": "gecombineerd",
+        "decRms": "december RMS",
+        "declination": "declinatie",
+        "frames": "Lijsten",
+        "maxError": "maximale fout",
+        "of": "van {totaal}",
+        "peakDec": "Piek december",
+        "peakRa": "Piek RA",
+        "raRms": "RA RMS",
+        "rightAscension": "rechte klimming",
+        "totalRms": "Totaal RMS"
+      },
+      "subtitle": "Selecteer een PHD2-gidslogboek om de prestaties en statistieken van de begeleiding te visualiseren.",
+      "tabs": {
+        "calibration": "Kalibratie",
+        "guide": "Gidsgrafiek"
+      },
+      "title": "PHD2 Logviewer"
+    },
+    "supernovae": {
+      "title": "Supernovae",
+      "source": "Source: Rochester Astronomy active SN list",
+      "updated": "updated {d}",
+      "download": "Download",
+      "downloading": "Downloading…",
+      "noData": "No data loaded. Click Download to fetch the current active supernova list.",
+      "filterMag": "Max magnitude",
+      "filterType": "Type",
+      "filterTypePlaceholder": "e.g. Ia",
+      "filterYear": "Year",
+      "filterConstellation": "Constellation",
+      "filterAll": "All",
+      "filterNewOnly": "New only",
+      "filterVisibleOnly": "Visible tonight",
+      "visibleHint": "Based on observer location from NINA profile",
+      "visibleNoLocation": "No observer location — set location in NINA profile",
+      "sortBy": "Sort by",
+      "sortLatestMag": "Latest mag (brightest first)",
+      "sortFirstObserved": "Discovery date (newest first)",
+      "sortLastObserved": "Last observed (newest first)",
+      "showing": "Showing {n} of {total} entries",
+      "newCount": "{n} new",
+      "colName": "Name",
+      "colType": "Type",
+      "colLatestMag": "Latest mag",
+      "colMaxMag": "Max mag",
+      "colDiscovered": "Discovered",
+      "colLastObs": "Last obs",
+      "colConstellation": "Constellation",
+      "colHost": "Host galaxy",
+      "colRA": "RA",
+      "colDec": "Dec",
+      "frame": "Frame",
+      "frameTitle": "Send to framing assistant",
+      "fav": "Favourite",
+      "favTitle": "Add to favourites",
+      "favAdded": "Added {name} to favourites",
+      "favError": "Failed to add to favourites",
+      "visCircumpolar": "Circumpolar — always above horizon",
+      "visVisible": "Visible tonight",
+      "visHidden": "Below horizon tonight",
+      "page": "{n} / {total}"
     }
   },
   "pinsDevices": {
@@ -3936,7 +4204,13 @@
       "smtpSsl": "Gebruik TLS/SSL",
       "testDiscord": "Testbericht verzenden",
       "testEmail": "Test-e-mail verzenden",
-      "testPushover": "Testmelding verzenden"
+      "testPushover": "Testmelding verzenden",
+      "localDashboardEnabled": "Schakel lokale webserver in",
+      "localDashboardHint": "Serveert uw sessiegeschiedenis vanaf een lokale webserver die toegankelijk is vanuit elke browser in uw netwerk. \nGebruik een VPN voor externe toegang.",
+      "localDashboardPort": "Haven",
+      "localDashboardTitle": "Lokaal dashboard",
+      "showChartFilterChips": "Toon filterchiprij",
+      "showChartTargetChips": "Toon doelchiprij"
     },
     "stats": {
       "accepted": "Geaccepteerd",

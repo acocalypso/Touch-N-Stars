@@ -175,7 +175,6 @@ export const ITEM_COMPONENTS = {
   'NINA.Plugin.Livestack.Instructions.StackFlats': StackFlatsItem,
   'NINA.Plugin.Livestack.Instructions.StartLivestacking': RunAutofocusItem,
   'NINA.Plugin.Livestack.Instructions.StopLivestacking': RunAutofocusItem,
-  'nina.plugin.phd2tools.Phd2ToolsSequenceItems.ShutdownPhd2Instruction': RunAutofocusItem,
   'nina.plugin.phd2tools.Phd2ToolsSequenceItems.Phd2SettleInstruction': RunAutofocusItem,
   'nina.plugin.phd2tools.Phd2ToolsSequenceItems.ChangePHD2Parameters': ChangePHD2ParametersItem,
   'nina.plugin.phd2tools.Phd2ToolsSequenceItems.InterruptWhenRMSAbove': InterruptWhenRMSAboveItem,

@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia';
 import apiService from '@/services/apiService';
 import apiPinsService from '@/services/apiPinsService';
-import { useCameraStore } from '@/store/cameraStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import { usePinsStore } from '@/plugins/pins/store/pinsStore';
 import { useToastStore } from '@/store/toastStore';
@@ -21,12 +20,14 @@ import { useDialogStore } from '@/store/dialogStore';
 import { useLogStore } from '@/store/logStore';
 import websocketMountControlService from '@/services/websocketMountControl';
 import websocketTppaService from '@/services/websocketTppa';
+import { getDeviceDateTimePayload, parsePinsTimeToSeconds } from '@/utils/pinsTimeUtils';
 
 export const apiStore = defineStore('store', {
   state: () => ({
     apiPort: null,
     isPINS: false,
     isPinsCheckDone: false,
+    pinsCheckNegativeCount: 0,
     isTimeSynced: false,
     intervalId: null,
     intervalIdGraph: null,
@@ -138,9 +139,7 @@ export const apiStore = defineStore('store', {
     imageSavePath: null,
     isLoadingImage: false,
     captureRunning: false,
-    rotatorMechanicalPosition: 0,
     existingEquipmentList: [],
-    coordinates: null,
     currentLanguage: 'en',
     showSettings: false,
     showFocuser: false,
@@ -150,6 +149,7 @@ export const apiStore = defineStore('store', {
     minimumTnsPluginVersion: '1.2.0.0',
     currentApiVersion: null,
     currentTnsPluginVersion: null,
+    currentPinsVersion: null,
     isApiVersionNewerOrEqual: false,
     isTnsPluginVersionNewerOrEqual: false,
     mount: {
@@ -315,11 +315,12 @@ export const apiStore = defineStore('store', {
               }
               console.log('API Version:', this.currentApiVersion);
               this.isApiVersionNewerOrEqual = true;
-
-              //Check if ist PINS
-              await this.checkForPINS();
             }
           }
+        }
+
+        if (this.isApiVersionNewerOrEqual && !this.isPinsCheckDone) {
+          await this.checkForPINS();
         }
 
         // Check if mock API mode is enabled
@@ -545,7 +546,6 @@ export const apiStore = defineStore('store', {
         console.error('Error fetching information:', error);
       }
       await this.fetchProfilInfos();
-      await this.fetchLastImageStats();
       //when the backend is accessible again close modal
       if (this.isBackendReachable && !this.closeErrorModal) {
         this.closeErrorModal = true;
@@ -568,6 +568,7 @@ export const apiStore = defineStore('store', {
       this.lastEventHistoryFetch = 0;
       this.isPINS = false;
       this.isPinsCheckDone = false;
+      this.pinsCheckNegativeCount = 0;
       this.isTimeSynced = false;
       this.imageHistoryInfo = null;
       this.lastImageStats = null;
@@ -602,13 +603,13 @@ export const apiStore = defineStore('store', {
       // Clear other instance-specific state
       this.filterName = 'unbekannt';
       this.filterNr = null;
-      this.rotatorMechanicalPosition = 0;
       this.existingEquipmentList = [];
       this.imageData = null;
       this.afCurveData = [];
       this.afTimestampLastStart = null;
       this.currentApiVersion = null;
       this.currentTnsPluginVersion = null;
+      this.currentPinsVersion = null;
 
       // Disconnect Channel WebSocket when backend is not reachable
       if (websocketChannelService.isWebSocketConnected()) {
@@ -912,14 +913,25 @@ export const apiStore = defineStore('store', {
     async fetchLastImageStats() {
       if (!this.isPINS) return; // Nur abrufen wenn PINS aktiv ist
       try {
-        const lastImageStats = await apiService.getCaptureStatisticsFull();
-        //console.log('Last image stats response:', lastImageStats);
-        if (lastImageStats.Response) {
-          this.lastImageStats = lastImageStats.Response;
-        } else {
-          if (lastImageStats?.Error === 'No capture processed') return;
-          console.error('Error in last image stats API response:', lastImageStats?.Error);
+        const [statsResult, histResult] = await Promise.all([
+          apiService.getCaptureStatisticsFull().catch(() => null),
+          apiService.getPreparedImageStatistics().catch(() => null),
+        ]);
+        const base = histResult?.Response ?? statsResult?.Response ?? null;
+        if (!base) {
+          if (
+            statsResult?.Error === 'No capture processed' ||
+            histResult?.Error === 'No capture processed'
+          )
+            return;
+          console.error('[Store] fetchLastImageStats: both calls failed or returned no data');
+          return;
         }
+        this.lastImageStats = {
+          ...base,
+          ...(statsResult?.Response ?? {}),
+          Histogram: histResult?.Response?.Histogram ?? null,
+        };
       } catch (error) {
         console.error('Error fetching last image stats:', error);
       }
@@ -965,29 +977,6 @@ export const apiStore = defineStore('store', {
       });
     },
 
-    setDefaultCameraSettings() {
-      const cStore = useCameraStore();
-      const cameraSettings = this.profileInfo?.CameraSettings || {};
-      cStore.coolingTemp = cameraSettings.Temperature ?? -10;
-      cStore.coolingTime = cameraSettings.CoolingDuration ?? 10;
-      cStore.warmingTime = cameraSettings.WarmingDuration ?? 10;
-      console.log(
-        'Camera settings set:',
-        cStore.coolingTemp,
-        cStore.coolingTime,
-        cStore.warmingTime
-      );
-    },
-    setDefaultRotatorSettings() {
-      this.rotatorMechanicalPosition = this.rotatorInfo?.MechanicalPosition ?? 0;
-      console.log('Rotator setting set:', this.rotatorMechanicalPosition);
-    },
-    setDefaultCoordinates() {
-      const cStore = useSettingsStore();
-      cStore.coordinates.longitude = this.profileInfo.AstrometrySettings.Longitude;
-      cStore.coordinates.latitude = this.profileInfo.AstrometrySettings.Latitude;
-      cStore.coordinates.altitude = this.profileInfo.AstrometrySettings.Elevation;
-    },
     checkVersionNewerOrEqual(currentVersion, minimumVersion) {
       if (!currentVersion || !minimumVersion) return true;
       const parseVersion = (version) => version.split('.').map(Number);
@@ -1025,19 +1014,27 @@ export const apiStore = defineStore('store', {
       }
       const pinsVersion = await apiService.fetchPinsVersion();
       if (pinsVersion === null) {
-        // Backend not reachable — don't cache, allow retry on next call
+        // Timeout / kein Response — Zähler reset, nächster Polling-Cycle retries
+        this.pinsCheckNegativeCount = 0;
         return;
       }
-      if (pinsVersion && pinsVersion.Response) {
+      if (pinsVersion?.Response) {
         this.isPINS = true;
+        this.currentPinsVersion = pinsVersion.Response;
+        this.pinsCheckNegativeCount = 0;
+        this.isPinsCheckDone = true;
         console.log('[API Store] PINS detected, version:', pinsVersion.Response);
-      } else {
-        this.isPINS = false;
-        console.log('[API Store] No PINS endpoint — assuming NINA');
-      }
-      this.isPinsCheckDone = true;
-      if (this.isPINS) {
         await this.syncSystemTime();
+        return;
+      }
+      // Negativ-Antwort (z.B. 404 von Standard-NINA) — erst nach 2x cachen
+      this.pinsCheckNegativeCount++;
+      console.log(`[API Store] PINS check negative (${this.pinsCheckNegativeCount}/2)`);
+      if (this.pinsCheckNegativeCount >= 2) {
+        this.isPINS = false;
+        this.currentPinsVersion = null;
+        this.isPinsCheckDone = true;
+        console.log('[API Store] No PINS endpoint — assuming NINA');
       }
     },
 
@@ -1056,8 +1053,13 @@ export const apiStore = defineStore('store', {
 
       const clientTime = new Date();
       const clientTimestamp = clientTime.getTime() / 1000; // Seconds
-      const serverTimestamp = serverTime.timestamp;
-      const serverIso = serverTime.iso;
+      const serverTimestamp = parsePinsTimeToSeconds(serverTime);
+      if (serverTimestamp === null) {
+        console.warn('[Time Sync] Could not parse server time payload:', serverTime);
+        return;
+      }
+      const serverIso =
+        serverTime.iso || serverTime.dateTime || new Date(serverTimestamp * 1000).toISOString();
 
       console.log(`[Time Sync] Client: ${clientTime.toISOString()} (${clientTimestamp})`);
       console.log(`[Time Sync] Server: ${serverIso} (${serverTimestamp})`);
@@ -1068,7 +1070,7 @@ export const apiStore = defineStore('store', {
       // If difference is more than 5 seconds, sync it
       if (diff > 5) {
         console.log('[Time Sync] Difference too large, updating server time...');
-        const success = await apiPinsService.setSystemTime(clientTimestamp);
+        const success = await apiPinsService.setSystemTime(getDeviceDateTimePayload(clientTime));
         if (success) {
           console.log('[Time Sync] Server time updated successfully.');
         } else {
@@ -1108,7 +1110,7 @@ export const apiStore = defineStore('store', {
       const imageStore = useImagetStore();
       // Check if message has the expected structure with Response.Event
       if (message.Response && message.Response.Event === 'IMAGE-PREPARED') {
-        //console.log('IMAGE-PREPARED event received');
+        console.log('[WS] IMAGE-PREPARED received, isImageFetching =', imageStore.isImageFetching);
         // Verhindere mehrfache gleichzeitige Anfragen
         if (imageStore.isImageFetching) {
           return;

@@ -16,7 +16,9 @@
     "connecting": "Spojovací…",
     "refresh": "Obnovit",
     "creating": "Vytváření…",
-    "help": "Pomoc"
+    "help": "Pomoc",
+    "expand": "Rozbalit",
+    "collapse": "Sbalit"
   },
   "general": {
     "cancel": "Zrušit",
@@ -160,7 +162,8 @@
         "setMosaicTargets": "Stanovte si mozaikové cíle",
         "panelsSet": "panely nastavené v pořadí",
         "willBeSaved": "panely budou uloženy jednotlivě"
-      }
+      },
+      "customTarget": "Custom Target"
     },
     "tutorial": {
       "previous": "Předchozí",
@@ -326,13 +329,16 @@
       },
       "coordsMismatchWarning": "Souřadnice profilu a montáže se liší.",
       "timeSync": {
-        "backendTime": "Backend UTC",
+        "backendTime": "Čas serveru",
         "mountNotConnected": "Montáž není připojena",
-        "mountTime": "Namontujte UTC",
+        "mountTime": "Čas montáže",
         "notSupported": "Není podporováno ovladačem",
         "syncLabel": "Synchronizujte čas pro připojení",
         "syncLabelInfo": "Pokud je tato možnost povolena, kliknutím na \"Synchronizovat nyní\" se montáž krátce odpojí a znovu připojí, aby NINA mohla přenést aktuální čas.",
-        "title": "Synchronizace času"
+        "title": "Synchronizace času",
+        "loadError": "Could not load time information.",
+        "syncError": "Time synchronisation failed. Check the connection to the PINS device.",
+        "syncSuccess": "Time synchronised successfully."
       },
       "navbarCustomization": {
         "alwaysVisible": "Vždy viditelné",
@@ -471,6 +477,17 @@
       "triggers": "Spouštěče:",
       "expandAll": "Rozbalit vše",
       "collapseAll": "Sbalit vše",
+      "addTypeButton": {
+        "searchPlaceholder": "Hledat…",
+        "noResults": "Žádné výsledky",
+        "addItem": "Přidat položku",
+        "addTrigger": "Přidat spouštěč",
+        "addCondition": "Přidat podmínku",
+        "add": "Přidat",
+        "item": "Položka",
+        "trigger": "Spouštěč",
+        "condition": "Podmínka"
+      },
       "details": {},
       "hfr": "HFR",
       "mean": "Průměr",
@@ -932,6 +949,9 @@
         "cameraGain": "Zesílení",
         "cameraBinning": "Binning",
         "restoreCalibration": "Obnovit kalibraci",
+        "mountSettings": "Montáž",
+        "guideRate": "Guide Rate",
+        "guideRateReadOnly": "Pouze pro čtení",
         "guiderScale": "Měřítko guideru",
         "maxY": "Max Y",
         "historySize": "Velikost historie",
@@ -1002,11 +1022,53 @@
           "rightAscension": "Rektascenze",
           "title": "Zkontrolujte kalibraci"
         },
+        "darkLibrary": {
+          "title": "Knihovna darků",
+          "manage": "Spravovat knihovnu darků",
+          "info": "Vytvořte knihovnu darků pořízením dark snímků s různými expozičními časy. PHD2 je použije k odečtení šumu senzoru z guidingových snímků.",
+          "warning": "Sestavování blokuje PHD2 — všechny ostatní akce PHD2 jsou během něj zakázány.",
+          "status": "Stav",
+          "exists": "Knihovna existuje",
+          "loaded": "Načtena",
+          "notLoaded": "Nenačtena",
+          "noLibrary": "Knihovna darků nebyla nalezena",
+          "numDarks": "Počet darků",
+          "range": "Rozsah expozice",
+          "minExposure": "Min. expozice (s)",
+          "maxExposure": "Max. expozice (s)",
+          "frameCount": "Snímků na expozici",
+          "previewExposures": "Expoziční časy",
+          "totalFrames": "Celkem snímků",
+          "build": "Vytvořit",
+          "cancel": "Zrušit sestavování",
+          "building": "Probíhá sestavování",
+          "buildProgress": "Snímek {frame} / {total} – {exposure} s",
+          "load": "Načíst",
+          "unload": "Uvolnit",
+          "delete": "Smazat",
+          "confirmDelete": "Klikněte znovu pro potvrzení",
+          "buildSuccess": "Knihovna darků úspěšně vytvořena",
+          "buildFailed": "Sestavení knihovny selhalo",
+          "buildCancelled": "Sestavování zrušeno",
+          "invalidRange": "Min. expozice musí být menší nebo rovna max.",
+          "buildActive": "Probíhá sestavování knihovny",
+          "buildActiveMessage": "Akce PHD2 jsou blokovány až do dokončení."
+        },
         "reviewCalibration": "Zkontrolujte kalibraci",
         "starComponents": {
           "hide": "Skrýt hvězdné komponenty",
           "show": "Zobrazit hvězdné komponenty"
-        }
+        },
+        "applyStep": "Apply",
+        "calculatedStep": "Calculated Step",
+        "calibDistance": "Distance",
+        "calibStepCalc": "Step Size Calculator",
+        "declination": "Declination",
+        "desiredSteps": "Desired Steps",
+        "guideSpeed": "Guide Speed",
+        "imageScale": "Image Scale",
+        "optimal": "Optimal",
+        "pixelSize": "Pixel Size"
       }
     },
     "focuser": {
@@ -1026,6 +1088,15 @@
       "autofocus_active": "AutoOstření aktivní",
       "autofocus": "AutoOstření",
       "last_autofocus": "Poslední AutoOstření",
+      "graph": {
+        "measurePoints": "Measure Points",
+        "quadraticTrendline": "Quadratic Trendline",
+        "hyperbolicTrendline": "Hyperbolic Trendline",
+        "quadraticMin": "Quadratic Min",
+        "hyperbolicMin": "Hyperbolic Min",
+        "value": "Value",
+        "invalidDate": "Neplatné datum"
+      },
       "settings": {
         "AutoFocusInitialOffsetSteps": "Kroky počátečního posunu",
         "AutoFocusStepSize": "Velikost kroku",
@@ -1180,6 +1251,8 @@
       "HighFullwellMode": "Vysoký režim Fullwell",
       "LEDLights": "LED",
       "LowNoiseMode": "Ultra režim",
+      "BadPixelCorrection": "Korekce vadných pixelů",
+      "BadPixelCorrectionThreshold": "Práh vadných pixelů",
       "dewHeaterStrength": "Síla ohřívače rosy",
       "tab_camera": "Kamera",
       "tab_cooler": "Chlazení",
@@ -1303,7 +1376,9 @@
         "Speed": "Rychlost",
         "TurboMode": "Turbo režim",
         "commandFailed": "Příkaz není tímto zařízením podporován",
-        "deviceSpecific": "Nastavení zařízení"
+        "deviceSpecific": "Nastavení zařízení",
+        "SlotNum": "Počet slotů",
+        "slotNumDefault": "Výchozí"
       },
       "indi": {
         "settings": "Nastavení filtračního kola"
@@ -1426,7 +1501,15 @@
       "status_stopped_darks": "Stopped early - {completed} of {total} darks captured",
       "status_stopped_flats": "Stopped early - {completed} of {total} flats captured",
       "status_success_darks": "Done - {count} darks captured",
-      "status_success_flats": "Done - {count} flats captured"
+      "status_success_flats": "Done - {count} flats captured",
+      "filter_label": "Filter",
+      "result_bright": "too bright",
+      "result_dim": "too dim",
+      "status_completed_flats": "Completed",
+      "status_failed_flats_multi": "All filters failed to determine valid exposure",
+      "status_partial_flats_multi": "Failed filters: {filters}",
+      "status_running_unknown": "Determining…",
+      "target": "Target"
     },
     "weatherModal": {
       "weatherInformation": "Informace o Počasí",
@@ -1453,7 +1536,13 @@
     },
     "switch": {
       "gauges": "Měřící přístroje",
-      "switch": "Přepínač"
+      "switch": "Přepínač",
+      "indi": {
+        "settings": "Switch Settings"
+      },
+      "sv241pro": {
+        "preConnectDelay": "Pre Connect Delay (ms)"
+      }
     },
     "stellarium": {
       "selected_object": {
@@ -1724,7 +1813,11 @@
         "pluginUninstallStart": "Uninstalling plugin: {packageName}",
         "pluginsLoadFailed": "Failed to load PINS plugins: {message}",
         "pluginsPackageNotAllowed": "Package not allowed by API policy: {packageName}",
-        "pluginsLoadMetadataFailed": "PINS plugins could not be loaded because plugin metadata repository is currently unavailable (HTTP 502)."
+        "pluginsLoadMetadataFailed": "PINS plugins could not be loaded because plugin metadata repository is currently unavailable (HTTP 502).",
+        "hotspotChannelInvalid": "Hotspot channel must be a positive integer when provided.",
+        "hotspotFetchFailed": "Failed to load hotspot settings: {message}",
+        "hotspotPasswordInvalidLength": "Hotspot password is required and must be 8-63 characters.",
+        "hotspotSaveFailed": "Failed to save hotspot settings: {message}"
       },
       "hotspotConfigured": "Je nakonfigurováno vlastní heslo hotspotu.",
       "hotspotNewPassword": "Nové heslo hotspotu",
@@ -1801,7 +1894,23 @@
       "pluginsTitle": "PINS Plugins",
       "pluginsUninstall": "Uninstall",
       "pluginsUninstalling": "Uninstalling...",
-      "pluginsVersion": "Version"
+      "pluginsVersion": "Version",
+      "indiInstallModalAssetName": "Asset Name",
+      "indiInstallModalDriverPackage": "Driver/Package",
+      "indiInstallModalInstall": "Install",
+      "indiInstallModalInstalling": "Installing...",
+      "indiInstallModalLabel": "Label",
+      "indiInstallModalSuccessCompleted": "Installation completed for {label}.",
+      "indiInstallModalSuccessStarted": "Installation started for {label}.",
+      "indiInstallModalTitle": "Install INDI Driver",
+      "indiInstallModalType": "Type",
+      "hotspotAppliedStatus": "Applied to active hotspot: {applied} | Band: {band} | Channel: {channel}",
+      "hotspotBandAuto": "Auto / Unset",
+      "hotspotBandLabel": "Hotspot Band",
+      "hotspotCapabilitiesUnavailable": "Adapter capability list unavailable; manual channel allowed.",
+      "hotspotChannelLabel": "Hotspot Channel",
+      "hotspotChannelPlaceholder": "Leave empty for auto",
+      "hotspotMetaLine": "Source: {source} | Interface: {iface} | Band: {band} | Channel: {channel}"
     },
     "bahtifocus": {
       "title": "Bahtinovův analyzátor masky",
@@ -1957,6 +2066,39 @@
         "tokenCopyFailed": "Kopírování tokenu se nezdařilo",
         "submissionRemoved": "Příspěvek byl odstraněn",
         "allSubmissionsCleared": "Všechny žádosti byly přijaty"
+      },
+      "diagnostics": {
+        "archiveId": "Archive ID",
+        "autoDownloaded": "Archive was downloaded automatically and upload was attempted.",
+        "dmesgLines": "dmesg lines",
+        "download": "Download ZIP",
+        "downloadBusy": "Downloading...",
+        "downloadFailed": "Failed to download diagnostics archive.",
+        "intro": "Select diagnostics sections, start archive collection, and download/upload the ZIP when ready.",
+        "journalLines": "Journal lines",
+        "loadingOptions": "Loading options...",
+        "optionsLoadFailed": "Failed to load diagnostics options. Using defaults.",
+        "optionsLoaded": "Diagnostics options loaded.",
+        "pollFailed": "Failed to poll diagnostics status.",
+        "refreshOptions": "Refresh Options",
+        "running": "Collecting...",
+        "sectionsTitle": "Sections",
+        "start": "Start Collection",
+        "startFailed": "Failed to start diagnostics archive.",
+        "started": "Diagnostics archive started.",
+        "statusFailed": "Failed",
+        "statusIdle": "Idle",
+        "statusLabel": "Status",
+        "statusQueued": "Queued",
+        "statusRunning": "Running",
+        "statusSuccess": "Success",
+        "statusTimeout": "Timed out",
+        "stillPreparing": "Archive is still preparing. Please try download again shortly.",
+        "title": "Diagnostics Support (PINS)",
+        "uploaded": "Diagnostics ZIP uploaded to support endpoint.",
+        "validationDmesgLines": "dmesg lines must be between 100 and 50000.",
+        "validationJournalLines": "Journal lines must be between 100 and 50000.",
+        "validationSections": "Select at least one section."
       }
     },
     "telescopius": {
@@ -3393,12 +3535,7 @@
         "credentials": "If your camera requires a username and password, include the credentials directly in the URL:",
         "credentialsNote": "The backend proxy handles authentication automatically — credentials in the URL work with both Basic and Digest authentication (e.g. Hikvision).",
         "credentialsTitle": "Password-protected cameras",
-        "exampleLabels": [
-          "Generic IP camera",
-          "ONVIF camera",
-          "Axis camera",
-          "Hikvision camera"
-        ],
+        "exampleLabels": ["Generic IP camera", "ONVIF camera", "Axis camera", "Hikvision camera"],
         "examplesTitle": "Examples",
         "proxyOptions": [
           "Proxy (default): The image is fetched by the NINA backend and forwarded to the browser. Required for local network cameras with credentials or CORS restrictions. Slightly slower when accessed over VPN.",
@@ -3459,7 +3596,10 @@
         "timeWindowEnd": "Time window end",
         "timeWindowHint": "Leave time window blank to allow scheduling for the full session range.",
         "timeWindowStart": "Time window start",
-        "title": "Constraints"
+        "title": "Constraints",
+        "maxMoonAltitude": "Max moon altitude",
+        "maxMoonAltitudeHint": "Set to 0° or below to schedule only while the Moon is below the horizon.",
+        "minMoonSeparationInfo": "Minimum angular distance between target and Moon required for scheduling."
       },
       "defaults": {
         "favoriteTargetName": "Favorite Target",
@@ -3532,7 +3672,9 @@
         "sessionStart": "Session start",
         "siteAlt": "alt",
         "siteLat": "Site lat",
-        "siteLon": "lon"
+        "siteLon": "lon",
+        "maxChunkInfo": "Limits the maximum continuous scheduled block per target before the scheduler can switch to another target.",
+        "samplingStepInfo": "Defines the calculation interval in minutes. Lower values increase precision but evaluate more timeline points."
       },
       "subtitle": "Mobile-first planning for target visibility, constraints, and sequence insertion.",
       "targetCard": {
@@ -3570,6 +3712,17 @@
       },
       "warnings": {
         "sequenceVersionRequired": "Sequence insertion requires TNS plugin 1.2.8.0  (or PINS mode)."
+      },
+      "sessionModes": {
+        "moonRise": "Moon rise",
+        "moonSet": "Moon set",
+        "sunRise": "Sun rise",
+        "sunSet": "Sun set",
+        "time": "Time",
+        "twilightEndAstronomical": "Twilight end astronomical",
+        "twilightEndNautical": "Twilight end nautical",
+        "twilightStartAstronomical": "Twilight start astronomical",
+        "twilightStartNautical": "Twilight start nautical"
       }
     },
     "filterOffset": {
@@ -3634,6 +3787,121 @@
       "deleteDirectoryMessage": "Delete directory \"{name}\" recursively?",
       "deleteFileTitle": "Delete File",
       "deleteFileMessage": "Delete file \"{name}\"?"
+    },
+    "phd2logviewer": {
+      "cal": {
+        "angle": "Angle (°)",
+        "axis": "Axis",
+        "backlash": "Backlash",
+        "dist": "Dist (px)",
+        "noData": "No calibration data for this session.",
+        "noSummary": "No summary data (calibration may have been interrupted)",
+        "over": "over",
+        "parity": "Parity",
+        "rate": "Rate (px/s)",
+        "steps": "Steps"
+      },
+      "clear": "Clear",
+      "emptyState": "Select a PHD2 guide log from the dropdown above.",
+      "excludeDither": "Auto-exclude dither settling",
+      "fft": {
+        "dominantPeriod": "Dominant period",
+        "subtitle": "Identifies periodic error harmonics in RA guiding.",
+        "title": "RA Frequency Analysis"
+      },
+      "info": {
+        "camera": "Camera",
+        "duration": "Duration",
+        "ended": "Ended",
+        "focalLength": "Focal length",
+        "mount": "Mount",
+        "pixelScale": "Pixel scale",
+        "profile": "Profile",
+        "started": "Session started",
+        "totalFrames": "Total frames"
+      },
+      "legend": {
+        "dec": "Dec",
+        "dither": "Dither",
+        "ra": "RA",
+        "raRaw": "RA (raw)"
+      },
+      "loading": "Loading…",
+      "noLogs": "No logs found",
+      "rawRa": "Raw, uncorrected RA",
+      "refresh": "Refresh log list",
+      "selectLog": "— select a log —",
+      "session": "Session:",
+      "settings": {
+        "notConfigured": "Please configure the PHD2 log directory",
+        "placeholder": "No path configured",
+        "saveError": "Failed to save path",
+        "title": "Log Directory"
+      },
+      "statistics": "Statistics",
+      "stats": {
+        "combined": "combined",
+        "decRms": "Dec RMS",
+        "declination": "declination",
+        "frames": "Frames",
+        "maxError": "max error",
+        "of": "of {total}",
+        "peakDec": "Peak Dec",
+        "peakRa": "Peak RA",
+        "raRms": "RA RMS",
+        "rightAscension": "right ascension",
+        "totalRms": "Total RMS"
+      },
+      "subtitle": "Select a PHD2 guide log to visualize guiding performance and statistics.",
+      "tabs": {
+        "calibration": "Calibration",
+        "guide": "Guide Graph"
+      },
+      "title": "PHD2 Log Viewer"
+    },
+    "supernovae": {
+      "title": "Supernovae",
+      "source": "Source: Rochester Astronomy active SN list",
+      "updated": "updated {d}",
+      "download": "Download",
+      "downloading": "Downloading…",
+      "noData": "No data loaded. Click Download to fetch the current active supernova list.",
+      "filterMag": "Max magnitude",
+      "filterType": "Type",
+      "filterTypePlaceholder": "e.g. Ia",
+      "filterYear": "Year",
+      "filterConstellation": "Constellation",
+      "filterAll": "All",
+      "filterNewOnly": "New only",
+      "filterVisibleOnly": "Visible tonight",
+      "visibleHint": "Based on observer location from NINA profile",
+      "visibleNoLocation": "No observer location — set location in NINA profile",
+      "sortBy": "Sort by",
+      "sortLatestMag": "Latest mag (brightest first)",
+      "sortFirstObserved": "Discovery date (newest first)",
+      "sortLastObserved": "Last observed (newest first)",
+      "showing": "Showing {n} of {total} entries",
+      "newCount": "{n} new",
+      "colName": "Name",
+      "colType": "Type",
+      "colLatestMag": "Latest mag",
+      "colMaxMag": "Max mag",
+      "colDiscovered": "Discovered",
+      "colLastObs": "Last obs",
+      "colConstellation": "Constellation",
+      "colHost": "Host galaxy",
+      "colRA": "RA",
+      "colDec": "Dec",
+      "frame": "Frame",
+      "frameTitle": "Send to framing assistant",
+      "fav": "Favourite",
+      "favTitle": "Add to favourites",
+      "favAdded": "Added {name} to favourites",
+      "favError": "Failed to add to favourites",
+      "visCircumpolar": "Circumpolar — always above horizon",
+      "visVisible": "Visible tonight",
+      "visHidden": "Below horizon tonight",
+      "page": "{n} / {total}"
     }
   },
   "pinsDevices": {
@@ -3936,7 +4204,13 @@
       "smtpSsl": "Use TLS/SSL",
       "testDiscord": "Send Test Message",
       "testEmail": "Send Test Email",
-      "testPushover": "Send Test Notification"
+      "testPushover": "Send Test Notification",
+      "localDashboardEnabled": "Enable local web server",
+      "localDashboardHint": "Serves your session history from a local web server accessible from any browser on your network. Use a VPN for remote access.",
+      "localDashboardPort": "Port",
+      "localDashboardTitle": "Local Dashboard",
+      "showChartFilterChips": "Show filter chip row",
+      "showChartTargetChips": "Show target chip row"
     },
     "stats": {
       "accepted": "Accepted",

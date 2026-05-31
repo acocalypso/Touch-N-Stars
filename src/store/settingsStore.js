@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import tutorialContent from '@/assets/tutorial.json';
 import { apiStore } from '@/store/store';
 import { useImagetStore } from './imageStore';
+import { useSequenceStore } from './sequenceStore';
 import apiService from '@/services/apiService';
 
 export const useSettingsStore = defineStore('settings', {
@@ -14,11 +15,6 @@ export const useSettingsStore = defineStore('settings', {
     touchOptimized: true,
     livestack: {
       showFilters: true,
-    },
-    coordinates: {
-      latitude: null,
-      longitude: null,
-      altitude: null,
     },
     connection: {
       ip: '',
@@ -168,6 +164,7 @@ export const useSettingsStore = defineStore('settings', {
   },
   actions: {
     async loadAllBackendSettings() {
+      const sequenceStore = useSequenceStore();
       await Promise.all([
         this.loadMountSettings(),
         this.loadUseNinaCache(),
@@ -175,6 +172,7 @@ export const useSettingsStore = defineStore('settings', {
         this.loadFlatsSettings(),
         this.loadGuiderSettings(),
         this.loadNavbarSettings(),
+        sequenceStore.loadSequenceControlsLocked(),
       ]);
     },
 
@@ -303,14 +301,6 @@ export const useSettingsStore = defineStore('settings', {
 
     _getApiStore() {
       return apiStore();
-    },
-
-    setCoordinates(coords) {
-      this.coordinates = {
-        latitude: coords.latitude,
-        longitude: coords.longitude,
-        altitude: coords.altitude,
-      };
     },
 
     completeSetup() {
@@ -536,7 +526,6 @@ export const useSettingsStore = defineStore('settings', {
         paths: [
           'language',
           'setupCompleted',
-          'coordinates',
           'connection',
           'selectedInstanceId',
           'lastCreatedInstanceId',

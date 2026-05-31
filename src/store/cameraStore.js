@@ -17,9 +17,6 @@ export const useCameraStore = defineStore('cameraStore', () => {
   const isLooping = ref(false);
   const isAbort = ref(false);
   const showInfo = ref(false);
-  const coolingTemp = ref(-10);
-  const coolingTime = ref(10);
-  const warmingTime = ref(10);
   const buttonCoolerOn = ref(false);
   const buttonWarmingOn = ref(false);
   const plateSolveError = ref(false);
@@ -333,9 +330,6 @@ export const useCameraStore = defineStore('cameraStore', () => {
     isLooping,
     isAbort,
     showInfo,
-    coolingTemp,
-    coolingTime,
-    warmingTime,
     buttonCoolerOn,
     buttonWarmingOn,
     plateSolveError,

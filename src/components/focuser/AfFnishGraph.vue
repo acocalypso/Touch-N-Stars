@@ -34,6 +34,7 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted, nextTick } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { Chart, registerables } from 'chart.js';
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
@@ -41,6 +42,7 @@ import { apiStore } from '@/store/store';
 // Registriere alle Chart.js Komponenten
 Chart.register(...registerables);
 
+const { t } = useI18n();
 const chartCanvas = ref(null);
 const timestamp = ref(''); // Timestamp für die Anzeige
 const temperature = ref();
@@ -126,7 +128,9 @@ async function fetchLastAf() {
 
     // Timestamp aus API speichern
     const dateObject = new Date(apiData.Timestamp);
-    const dateTimeText = `${dateObject.toLocaleDateString()} ${dateObject.toLocaleTimeString()}`;
+    const dateTimeText = isNaN(dateObject.getTime())
+      ? t('components.focuser.graph.invalidDate')
+      : `${dateObject.toLocaleDateString()} ${dateObject.toLocaleTimeString()}`;
     timestamp.value = dateTimeText;
 
     // Fittings aus API extrahieren
@@ -240,7 +244,7 @@ onMounted(async () => {
       labels: [], // Initial leer
       datasets: [
         {
-          label: 'Measure Points',
+          label: t('components.focuser.graph.measurePoints'),
           data: [],
           borderColor: 'blue',
           borderWidth: 2,
@@ -248,7 +252,7 @@ onMounted(async () => {
           pointRadius: 5,
         },
         {
-          label: 'Quadratic Trendline',
+          label: t('components.focuser.graph.quadraticTrendline'),
           data: [],
           borderColor: 'red',
           borderWidth: 2,
@@ -256,7 +260,7 @@ onMounted(async () => {
           tension: 0.4,
         },
         {
-          label: 'Hyperbolic Trendline',
+          label: t('components.focuser.graph.hyperbolicTrendline'),
           data: [],
           borderColor: 'green',
           borderWidth: 2,
@@ -264,8 +268,8 @@ onMounted(async () => {
           tension: 0.4,
         },
         {
-          label: 'Quadratic Min',
-          data: [], // Dynamisch aktualisiert
+          label: t('components.focuser.graph.quadraticMin'),
+          data: [],
           borderColor: 'red',
           backgroundColor: 'red',
           pointRadius: 6,
@@ -273,8 +277,8 @@ onMounted(async () => {
           showLine: false,
         },
         {
-          label: 'Hyperbolic Min',
-          data: [], // Dynamisch aktualisiert
+          label: t('components.focuser.graph.hyperbolicMin'),
+          data: [],
           borderColor: 'green',
           backgroundColor: 'green',
           pointRadius: 6,
@@ -319,7 +323,7 @@ onMounted(async () => {
         y: {
           title: {
             display: true,
-            text: 'Value',
+            text: t('components.focuser.graph.value'),
             color: '#CCCCCC',
           },
           ticks: {

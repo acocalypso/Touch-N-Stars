@@ -40,7 +40,7 @@ const getBaseUrl = () => {
   const apiPort = store.apiPort;
 
   //devport auf 5000 umleiten
-  const isDev = process.env.NODE_ENV === 'development';
+  const isDev = import.meta.env.DEV;
   if (isDev && port == 8080) {
     port = 5000;
   }
@@ -163,8 +163,8 @@ const apiService = {
         console.warn(`fetchPinsVersion: Timeout nach ${timeout} ms`);
         return null;
       }
-      if (err.response) {
-        // HTTP response received (e.g. 404) — backend is up but no PINS endpoint
+      if (err.response?.status === 404) {
+        // 404 = Backend erreichbar, kein PINS-Endpoint (Standard-NINA)
         return {};
       }
       // No response at all — backend not reachable
@@ -984,6 +984,24 @@ const apiService = {
     }
   },
 
+  async getMountGuideRate() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}equipment/mount/guiderate`);
+  },
+
+  async setMountGuideRate(raSiderealMultiplier, decSiderealMultiplier) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.put(`${API_URL}equipment/mount/guiderate`, {
+        raSiderealMultiplier,
+        decSiderealMultiplier,
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
   //-------------------------------------  profile ---------------------------------------
   profileAction(action) {
     const { BASE_URL } = getUrls();
@@ -1000,7 +1018,7 @@ const apiService = {
           newValue,
         },
       });
-      //console.log(response.data);
+      console.log('[profileChangeValue]', settingpath, newValue);
       return response.data;
     } catch (error) {
       // console.error('Error switch profil:', error);
@@ -1181,6 +1199,16 @@ const apiService = {
     return response.data;
   },
 
+  async fetchFilesystemFileText(path) {
+    const { API_URL } = getUrls();
+    const response = await axios.get(`${API_URL}filesystem/file`, {
+      params: { path },
+      responseType: 'text',
+      timeout: DEFAULT_TIMEOUT,
+    });
+    return response.data;
+  },
+
   // Available Serial Ports
   async availableSerialPorts() {
     try {
@@ -1259,6 +1287,26 @@ const apiService = {
     }
   },
 
+  async postProfileHorizon(hrzText) {
+    try {
+      const { PLUGINSERVER_URL } = getUrls();
+      const response = await axios.post(`${PLUGINSERVER_URL}/api/profile/horizon`, hrzText, {
+        headers: { 'Content-Type': 'text/plain' },
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  async getProfileHorizon() {
+    const { BASE_URL } = getUrls();
+    const response = await axios.get(`${BASE_URL}/profile/horizon`);
+    const { Azimuths, Altitudes } = response.data.Response;
+    if (!Azimuths || !Altitudes || Azimuths.length === 0) return [];
+    return Azimuths.map((az, i) => ({ az, alt: Altitudes[i] }));
+  },
+
   //-------------------------------------  application ---------------------------------------
   async applicatioTabSwitch(tab) {
     try {
@@ -1293,6 +1341,11 @@ const apiService = {
   async getCaptureStatisticsFull() {
     const { BASE_URL } = getUrls();
     return this._simpleGetRequest(`${BASE_URL}/equipment/camera/capture/statistics/full`);
+  },
+
+  async getPreparedImageStatistics() {
+    const { BASE_URL } = getUrls();
+    return this._simpleGetRequest(`${BASE_URL}/prepared-image/statistics`);
   },
 
   async startCapture(
@@ -1800,7 +1853,8 @@ const apiService = {
     offset,
     filterId,
     brightness,
-    keepClosed
+    keepClosed,
+    darkCount = 0
   ) {
     try {
       const { BASE_URL } = getUrls();
@@ -1817,6 +1871,7 @@ const apiService = {
           filterId,
           brightness,
           keepClosed,
+          darkCount,
         },
       });
       return response.data;
@@ -1838,7 +1893,8 @@ const apiService = {
     offset,
     filterId,
     exposureTime,
-    keepClosed
+    keepClosed,
+    darkCount = 0
   ) {
     try {
       const { BASE_URL } = getUrls();
@@ -1855,6 +1911,7 @@ const apiService = {
           filterId,
           exposureTime,
           keepClosed,
+          darkCount,
         },
       });
       return response.data;
@@ -1875,7 +1932,8 @@ const apiService = {
     gain,
     offset,
     filterId,
-    keepClosed
+    keepClosed,
+    darkCount = 0
   ) {
     try {
       const { BASE_URL } = getUrls();
@@ -1891,6 +1949,7 @@ const apiService = {
           offset,
           filterId,
           keepClosed,
+          darkCount,
         },
       });
       return response.data;

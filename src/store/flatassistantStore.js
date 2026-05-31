@@ -33,9 +33,19 @@ export const useFlatassistantStore = defineStore('flatassistantStore', {
     lastRun: null,
     // ADU (Mean) of the most recently captured image during the current run
     currentADU: null,
+    // Last human-readable status message received from NINA/PINS via SignalR progress hub.
+    signalRStatus: null,
+    // Locked outcome set once when a run completes — stays until the next run starts.
+    // { type: 'success'|'warning'|'error'|'info', message: string }
+    lastRunOutcome: null,
     currentRunType: 'flats',
     workflowStopRequested: false,
     intervalId: null,
+    // Per-filter run results for multi-mode; survives tab switches as store state.
+    // { [filterId]: null | 'success' | 'failed' | 'dim' | 'bright' | 'stopped' }
+    filterResults: {},
+    // Name of the filter currently being processed in multi-mode, null otherwise.
+    currentFilterName: null,
   }),
   actions: {
     async fetchFlatsInfos() {
@@ -48,8 +58,6 @@ export const useFlatassistantStore = defineStore('flatassistantStore', {
         }
 
         const prevState = this.status.State;
-        const prevCompleted = this.status.CompletedIterations;
-        const prevTotal = this.status.TotalIterations;
 
         // Check both TNS (multimode) and ninaAPI status in parallel.
         // TNS takes precedence when its task is running.
@@ -60,31 +68,38 @@ export const useFlatassistantStore = defineStore('flatassistantStore', {
 
         const tnsNext = tnsResult.status === 'fulfilled' ? tnsResult.value?.Response : null;
         const ninaNext = ninaResult.status === 'fulfilled' ? ninaResult.value?.Response : null;
-        const next = tnsNext?.State === 'Running' ? tnsNext : (ninaNext ?? tnsNext ?? this.status);
+
+        // During an active multi-mode run prefer tnsNext always — even during brief
+        // inter-filter Finished transitions — to avoid flickering from ninaNext's stale ADU.
+        const isActiveMultiRun = this.currentRunType === 'flats-multi' && this.lastRun === null;
+        const next =
+          tnsNext?.State === 'Running' || isActiveMultiRun
+            ? (tnsNext ?? ninaNext ?? this.status)
+            : (ninaNext ?? tnsNext ?? this.status);
 
         // A new run is starting — clear the previous result
         if (prevState !== 'Running' && next.State === 'Running') {
           this.lastRun = null;
           this.currentADU = null;
+          this.lastRunOutcome = null;
         }
 
-        // ADU comes directly from the flat status response (both Running and Finished states)
-        if (next.CurrentADU !== null && next.CurrentADU !== undefined) {
+        // ADU: only update while a run is active (lastRun === null).
+        // Once waitForCompletion sets lastRun, freeze currentADU at that value.
+        if (this.lastRun === null && next.CurrentADU !== null && next.CurrentADU !== undefined) {
           this.currentADU = Math.round(next.CurrentADU);
         }
 
-        // A run just finished — save a summary so the UI can show the outcome
-        if (prevState === 'Running' && next.State === 'Finished') {
-          this.lastRun = {
-            type: this.currentRunType,
-            completed: prevCompleted,
-            total: prevTotal,
-            success: prevTotal > 0 && prevCompleted >= prevTotal,
-            lastADU: this.currentADU,
-          };
-        }
-
         this.status = next;
+
+        // When the ninaAPI backend tells us it's in the dark phase, reflect that.
+        if (
+          ninaNext?.State === 'Running' &&
+          ninaNext?.Type === 'darks' &&
+          this.currentRunType === 'flats'
+        ) {
+          this.currentRunType = 'darks';
+        }
       } catch (error) {
         console.error('Error fetching information:', error);
       }
@@ -95,14 +110,22 @@ export const useFlatassistantStore = defineStore('flatassistantStore', {
       this.workflowStopRequested = false;
       this.lastRun = null;
       this.currentADU = null;
+      this.signalRStatus = null;
+      this.lastRunOutcome = null;
+    },
+
+    updateSignalRStatus(message) {
+      if (message && message.trim()) {
+        this.signalRStatus = message.trim();
+      }
     },
 
     didRunSucceed(status) {
       if (status?.State !== 'Finished') return false;
       const total = Number(status?.TotalIterations);
       const completed = Number(status?.CompletedIterations);
-      // Some modes (e.g. SkyFlat) report -1 when iteration tracking is not applicable
-      if (total < 0) return true;
+      // PINS / SkyFlat report -1 — outcome unknown from REST alone, don't claim success
+      if (total < 0) return false;
       return total > 0 && completed >= total;
     },
 
@@ -136,10 +159,80 @@ export const useFlatassistantStore = defineStore('flatassistantStore', {
       });
     },
 
-    async waitForCompletion(statusLoader, pollMs = 1000) {
+    commitRunOutcome(run) {
+      let type = 'info';
+      let message;
+
+      if (run.total <= 0) {
+        if (this.workflowStopRequested) {
+          type = 'info';
+          message = i18n.global.t('components.flatassistant.status_completed_flats');
+        } else {
+          type = 'error';
+          message = i18n.global.t('components.flatassistant.status_failed_flats');
+        }
+      } else if (run.success) {
+        type = 'success';
+        message = i18n.global.t(
+          run.type === 'darks'
+            ? 'components.flatassistant.status_success_darks'
+            : 'components.flatassistant.status_success_flats',
+          { count: run.total }
+        );
+      } else if (run.completed > 0 && this.workflowStopRequested) {
+        // User explicitly stopped the run with some flats already taken
+        type = 'warning';
+        message = i18n.global.t(
+          run.type === 'darks'
+            ? 'components.flatassistant.status_stopped_darks'
+            : 'components.flatassistant.status_stopped_flats',
+          { completed: run.completed, total: run.total }
+        );
+      } else if (
+        run.type === 'flats-multi' &&
+        run.failedFilterNames?.length > 0 &&
+        run.completed > 0
+      ) {
+        // Partial failure: some filters succeeded, some failed
+        type = 'warning';
+        message = i18n.global.t('components.flatassistant.status_partial_flats_multi', {
+          filters: run.failedFilterNames.join(', '),
+        });
+      } else {
+        type = 'error';
+        message = i18n.global.t(
+          run.type === 'darks'
+            ? 'components.flatassistant.status_failed_darks'
+            : run.type === 'flats-multi'
+              ? 'components.flatassistant.status_failed_flats_multi'
+              : 'components.flatassistant.status_failed_flats'
+        );
+      }
+
+      this.lastRunOutcome = { type, message };
+
+      if (type !== 'info') {
+        useToastStore().showToast({
+          type,
+          title: i18n.global.t('components.flatassistant.title'),
+          message,
+          autoClose: true,
+          autoCloseDelay: 10000,
+        });
+      }
+    },
+
+    async waitForCompletion(statusLoader, pollMs = 1000, { gracePollLimit } = {}) {
+      let seenRunning = false;
+      let pollCount = 0;
+      let consecutiveNonRunning = 0;
+      let peakRunningCompleted = -1;
+      let peakRunningTotal = 0;
+
       while (!this.workflowStopRequested) {
         const response = await statusLoader();
         const status = response?.Response ?? response;
+        pollCount++;
 
         if (status) {
           this.status = status;
@@ -148,43 +241,89 @@ export const useFlatassistantStore = defineStore('flatassistantStore', {
             this.currentADU = Math.round(status.CurrentADU);
           }
 
-          if (status.State !== 'Running') {
-            this.lastRun = {
-              type: this.currentRunType,
-              completed: Math.max(0, Number(status.CompletedIterations) || 0),
-              total: Math.max(0, Number(status.TotalIterations) || 0),
-              success: this.didRunSucceed(status),
-              lastADU: this.currentADU,
-            };
-            return status;
+          if (status.State === 'Running') {
+            seenRunning = true;
+            consecutiveNonRunning = 0;
+            if (Number(status.TotalIterations) > 0) {
+              peakRunningCompleted = Number(status.CompletedIterations);
+              peakRunningTotal = Number(status.TotalIterations);
+            }
+          } else {
+            consecutiveNonRunning++;
+          }
+
+          const isMultiMode = this.currentRunType === 'flats-multi';
+          const effectiveGrace = gracePollLimit ?? (isMultiMode ? 30 : 5);
+          const pastStartupGrace = seenRunning || pollCount >= effectiveGrace;
+          const terminalState = isMultiMode
+            ? consecutiveNonRunning >= 3
+            : status.State === 'Finished' || consecutiveNonRunning >= 5;
+
+          if (pastStartupGrace && terminalState) {
+            let completed, total;
+            if (peakRunningTotal > 0) {
+              total = peakRunningTotal;
+              const ninaFinishedNegative =
+                status.State === 'Finished' && Number(status.TotalIterations) < 0;
+              // Credit all when NINA's Finished state zeroes out the count (T=-1, C=-1)
+              // and we had confirmed progress (C > 0) at the last Running poll.
+              // C=0 is intentionally excluded: NINA reports T=N during the exposure-search
+              // phase too, so C=0 + Finished could mean search failed, not capture succeeded.
+              completed =
+                ninaFinishedNegative &&
+                peakRunningCompleted > 0 &&
+                peakRunningCompleted < peakRunningTotal
+                  ? peakRunningTotal
+                  : peakRunningCompleted;
+            } else {
+              completed = Math.max(0, Number(status.CompletedIterations) || 0);
+              total = Math.max(0, Number(status.TotalIterations) || 0);
+            }
+            return { status, completed, total };
           }
         }
 
         await wait(pollMs);
       }
 
-      return this.status;
+      // Stopped by user — return whatever peak info we have
+      const completed = peakRunningTotal > 0 ? peakRunningCompleted : 0;
+      const total = peakRunningTotal > 0 ? peakRunningTotal : 0;
+      return { status: this.status, completed, total };
     },
 
     async runFlatWorkflow({
       request,
       statusLoader = () => apiService.flatassistantAction('status'),
-      darkJobs = [],
-      keepClosed = false,
+      runType = 'flats',
+      darkCount = 0,
     }) {
-      this.startManagedRun('flats');
+      this.startManagedRun(runType);
+
+      const connectedSimulator = darkCount > 0 ? await this.ensureFlatDeviceConnected() : false;
 
       const response = await request();
       if (response?.Success === false) {
+        if (connectedSimulator) await this.disconnectFlatDevice();
         this.notifyOperationIssue(response, 'warning');
         return null;
       }
 
-      const finalStatus = await this.waitForCompletion(statusLoader);
+      const {
+        status: finalStatus,
+        completed,
+        total,
+      } = await this.waitForCompletion(statusLoader, 250);
 
-      if (darkJobs.length > 0 && this.shouldOfferDarks(finalStatus)) {
-        await this.runDarkSeries(darkJobs, keepClosed);
-      }
+      this.lastRun = {
+        type: this.currentRunType,
+        completed,
+        total,
+        success: total > 0 && completed >= total,
+        lastADU: this.currentADU,
+      };
+
+      if (connectedSimulator) await this.disconnectFlatDevice();
 
       return finalStatus;
     },
@@ -203,16 +342,7 @@ export const useFlatassistantStore = defineStore('flatassistantStore', {
         return false;
       }
       try {
-        const listResponse = await apiService.flatdeviceAction('list-devices');
-        const devices = listResponse?.Response;
-        if (!Array.isArray(devices)) return false;
-        const simulator = devices.find(
-          (d) =>
-            d.Name?.toLowerCase().includes('simulator') || d.Id?.toLowerCase().includes('simulator')
-        );
-        if (!simulator) return false;
-        const encodedId = encodeURIComponent(simulator.Id);
-        const connectResponse = await apiService.flatdeviceAction('connect?to=' + encodedId);
+        const connectResponse = await apiService.flatdeviceAction('connect?to=flip_flat_simulator');
         return connectResponse?.Success === true;
       } catch {
         return false;
@@ -275,14 +405,17 @@ export const useFlatassistantStore = defineStore('flatassistantStore', {
           continue;
         }
 
-        const finalStatus = await this.waitForCompletion(() =>
-          apiService.flatassistantAction('status')
+        const { completed: darkCompleted, total: darkTotal } = await this.waitForCompletion(
+          () => apiService.flatassistantAction('status'),
+          250
         );
 
-        totalCompleted += Math.max(0, Number(finalStatus?.CompletedIterations) || 0);
+        totalCompleted += darkCompleted;
         lastADU = this.currentADU;
 
-        if (!this.didRunSucceed(finalStatus)) {
+        // Use waitForCompletion's resolved counts (handles NINA's T=-1 Finished state)
+        // instead of didRunSucceed(finalStatus) which would always fail when T=-1.
+        if (darkTotal <= 0 || darkCompleted < darkTotal) {
           allSucceeded = false;
         }
       }
@@ -307,14 +440,12 @@ export const useFlatassistantStore = defineStore('flatassistantStore', {
 
     startFetchingFlats() {
       if (!this.intervalId) {
-        console.log('startFetchingFlats ');
         this.intervalId = setInterval(this.fetchFlatsInfos, 1000);
       }
     },
 
     stopFetchingFlats() {
       if (this.intervalId) {
-        console.log('stopFetchingFlats ');
         clearInterval(this.intervalId);
         this.intervalId = null;
       }

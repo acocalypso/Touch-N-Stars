@@ -89,9 +89,6 @@ async function fetchProfiles() {
       }
 
       store.fetchProfilInfos();
-      store.setDefaultCameraSettings();
-      store.setDefaultRotatorSettings();
-      store.setDefaultCoordinates();
     }
   } catch (error) {
     console.error('Error loading profiles:', error);

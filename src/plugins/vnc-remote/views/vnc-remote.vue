@@ -370,7 +370,7 @@
 
         <button
           class="w-full rounded bg-indigo-600 py-2 text-sm font-semibold text-white shadow hover:bg-indigo-500 disabled:opacity-50"
-          :disabled="isConnecting || !canConnect || settingsStore.showDebugConsole"
+          :disabled="isConnecting || !canConnect"
           @click="connect"
         >
           {{ isConnecting ? 'Connecting...' : 'Connect' }}
@@ -596,7 +596,9 @@ const connectionUrl = computed(() => {
   return `${scheme}://${trimmedHost}:${trimmedPort}`;
 });
 
-const canConnect = computed(() => Boolean(host.value.trim()) && Boolean(port.value));
+const canConnect = computed(
+  () => Boolean(host.value.trim()) && Boolean(port.value) && !settingsStore.showDebugConsole,
+);
 
 const toggleFullscreen = () => {
   if (!viewerRef.value) return;

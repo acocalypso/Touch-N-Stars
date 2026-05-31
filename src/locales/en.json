@@ -2258,12 +2258,7 @@
         "title": "Snapshot URL Help",
         "what": "A snapshot URL is a direct link to a single image from your IP camera. The URL must return a JPEG or PNG image directly — not an HTML page or a video stream.",
         "examplesTitle": "Examples",
-        "exampleLabels": [
-          "Generic IP camera",
-          "ONVIF camera",
-          "Axis camera",
-          "Hikvision camera"
-        ],
+        "exampleLabels": ["Generic IP camera", "ONVIF camera", "Axis camera", "Hikvision camera"],
         "credentialsTitle": "Password-protected cameras",
         "credentials": "If your camera requires a username and password, include the credentials directly in the URL:",
         "credentialsNote": "The backend proxy handles authentication automatically — credentials in the URL work with both Basic and Digest authentication (e.g. Hikvision).",

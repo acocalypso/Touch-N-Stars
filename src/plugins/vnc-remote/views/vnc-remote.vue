@@ -597,7 +597,7 @@ const connectionUrl = computed(() => {
 });
 
 const canConnect = computed(
-  () => Boolean(host.value.trim()) && Boolean(port.value) && !settingsStore.showDebugConsole,
+  () => Boolean(host.value.trim()) && Boolean(port.value) && !settingsStore.showDebugConsole
 );
 
 const toggleFullscreen = () => {

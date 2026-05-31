@@ -3907,6 +3907,9 @@
       "visVisible": "Visible tonight",
       "visHidden": "Below horizon tonight",
       "page": "{n} / {total}"
+    },
+    "vncRemote": {
+      "debugModeWarning": "调试模式已激活 – VNC连接不可用。请在设置中关闭调试模式。"
     }
   },
   "pinsDevices": {

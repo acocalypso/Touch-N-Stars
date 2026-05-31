@@ -355,6 +355,13 @@
         </div>
 
         <div
+          v-if="settingsStore.showDebugConsole"
+          class="mb-3 rounded bg-yellow-900/30 p-2 text-xs text-yellow-200 border border-yellow-700/50"
+        >
+          ⚠ {{ $t('plugins.vncRemote.debugModeWarning') }}
+        </div>
+
+        <div
           v-if="errorMessage"
           class="mb-3 rounded bg-red-900/20 p-2 text-xs text-red-200 border border-red-900/30 truncate"
         >
@@ -363,7 +370,7 @@
 
         <button
           class="w-full rounded bg-indigo-600 py-2 text-sm font-semibold text-white shadow hover:bg-indigo-500 disabled:opacity-50"
-          :disabled="isConnecting || !canConnect"
+          :disabled="isConnecting || !canConnect || settingsStore.showDebugConsole"
           @click="connect"
         >
           {{ isConnecting ? 'Connecting...' : 'Connect' }}

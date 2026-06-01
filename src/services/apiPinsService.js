@@ -318,6 +318,102 @@ export default {
     return this._simplePutRequest(`${API_URL}phd2/calibration/auto-restore`, { enabled });
   },
 
+  //-------------------PHD2 Star Detection------------------------
+
+  getPHD2SearchRegion() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/tracking/search-region`);
+  },
+
+  setPHD2SearchRegion(pixels) {
+    const { API_URL } = getUrls();
+    return this._simplePutRequest(`${API_URL}phd2/tracking/search-region`, { pixels });
+  },
+
+  getPHD2MinStarHFD() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/tracking/min-star-hfr`);
+  },
+
+  setPHD2MinStarHFD(hfd) {
+    const { API_URL } = getUrls();
+    return this._simplePutRequest(`${API_URL}phd2/tracking/min-star-hfr`, { hfr: hfd });
+  },
+
+  getPHD2MaxStarHFD() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/tracking/max-star-hfr`);
+  },
+
+  setPHD2MaxStarHFD(hfd) {
+    const { API_URL } = getUrls();
+    return this._simplePutRequest(`${API_URL}phd2/tracking/max-star-hfr`, { hfr: hfd });
+  },
+
+  getPHD2MassChangeEnabled() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/tracking/star-mass-detection`);
+  },
+
+  setPHD2MassChangeEnabled(enabled) {
+    const { API_URL } = getUrls();
+    return this._simplePutRequest(`${API_URL}phd2/tracking/star-mass-detection`, { enabled });
+  },
+
+  getPHD2MassChangeThreshold() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/tracking/star-mass-detection/threshold`);
+  },
+
+  setPHD2MassChangeThreshold(threshold) {
+    const { API_URL } = getUrls();
+    return this._simplePutRequest(`${API_URL}phd2/tracking/star-mass-detection/threshold`, {
+      threshold,
+    });
+  },
+
+  getPHD2MinStarSNR() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/tracking/min-star-snr`);
+  },
+
+  setPHD2MinStarSNR(snr) {
+    const { API_URL } = getUrls();
+    return this._simplePutRequest(`${API_URL}phd2/tracking/min-star-snr`, { snr });
+  },
+
+  getPHD2AutoSelectDownsample() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/tracking/downsample`);
+  },
+
+  setPHD2AutoSelectDownsample(value) {
+    const { API_URL } = getUrls();
+    return this._simplePutRequest(`${API_URL}phd2/tracking/downsample`, { value });
+  },
+
+  getPHD2SaturationByADU() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/camera/saturation-by-adu`);
+  },
+
+  setPHD2SaturationByADU(byAdu) {
+    const { API_URL } = getUrls();
+    return this._simplePutRequest(`${API_URL}phd2/camera/saturation-by-adu`, { by_adu: byAdu });
+  },
+
+  getPHD2SaturationADUValue() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/camera/saturation-adu-value`);
+  },
+
+  setPHD2SaturationADUValue(aduValue) {
+    const { API_URL } = getUrls();
+    return this._simplePutRequest(`${API_URL}phd2/camera/saturation-adu-value`, {
+      adu_value: aduValue,
+    });
+  },
+
   //-------------------PHD2 Dark Library------------------------
 
   getPHD2DarkLibraryInfo() {

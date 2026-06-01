@@ -141,6 +141,24 @@
         <Phd2GuideAlgorithmDEC />
       </div>
 
+      <!-- Star Detection Settings -->
+      <div
+        class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
+      >
+        <h3 class="font-bold text-base text-cyan-400">
+          {{ $t('components.guider.phd2.starDetection') }}
+        </h3>
+        <Phd2SearchRegion />
+        <Phd2MinStarHFD />
+        <Phd2MaxStarHFD />
+        <Phd2MinStarSNR />
+        <Phd2AutoSelectDownsample />
+        <Phd2MassChangeEnabled />
+        <Phd2MassChangeThreshold />
+        <Phd2SaturationByADU />
+        <Phd2SaturationADUValue />
+      </div>
+
       <!-- Mount Settings -->
       <div
         class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
@@ -183,6 +201,15 @@ import Phd2CameraBinning from '@/components/guider/PHD2/pins/Phd2CameraBinning.v
 import Phd2RestoreCalibration from '@/components/guider/PHD2/pins/Phd2RestoreCalibration.vue';
 import Phd2DarkLibrary from '@/components/guider/PHD2/pins/Phd2DarkLibrary.vue';
 import MountGuideRate from '@/components/guider/PHD2/pins/MountGuideRate.vue';
+import Phd2SearchRegion from '@/components/guider/PHD2/pins/Phd2SearchRegion.vue';
+import Phd2MinStarHFD from '@/components/guider/PHD2/pins/Phd2MinStarHFD.vue';
+import Phd2MaxStarHFD from '@/components/guider/PHD2/pins/Phd2MaxStarHFD.vue';
+import Phd2MinStarSNR from '@/components/guider/PHD2/pins/Phd2MinStarSNR.vue';
+import Phd2AutoSelectDownsample from '@/components/guider/PHD2/pins/Phd2AutoSelectDownsample.vue';
+import Phd2MassChangeEnabled from '@/components/guider/PHD2/pins/Phd2MassChangeEnabled.vue';
+import Phd2MassChangeThreshold from '@/components/guider/PHD2/pins/Phd2MassChangeThreshold.vue';
+import Phd2SaturationByADU from '@/components/guider/PHD2/pins/Phd2SaturationByADU.vue';
+import Phd2SaturationADUValue from '@/components/guider/PHD2/pins/Phd2SaturationADUValue.vue';
 import { apiStore } from '@/store/store';
 
 const guiderStore = useGuiderStore();

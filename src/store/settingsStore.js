@@ -100,6 +100,9 @@ export const useSettingsStore = defineStore('settings', {
       eclipticLinesVisible: false,
       atmosphereVisible: true,
       landscapesVisible: true,
+      landscapeSourceMode: 'default',
+      customLandscapeUrl: '',
+      customLandscapeKey: 'custom',
       dsosVisible: true, // Deep Sky Objects (Messier, NGC, etc.)
     },
     guider: {
@@ -543,6 +546,7 @@ export const useSettingsStore = defineStore('settings', {
           'useBetaFeatures',
           'touchOptimized',
           'camera',
+          'stellarium',
           'monitorViewSetting.graphDataSource1',
           'monitorViewSetting.graphDataSource2',
           'livestack',

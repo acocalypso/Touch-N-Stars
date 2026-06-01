@@ -89,8 +89,6 @@
               <input
                 v-model="sessionEndDate"
                 type="date"
-                :disabled="!isSessionEndTimeMode"
-                :readonly="!isSessionEndTimeMode"
                 class="w-full rounded border border-slate-600 bg-slate-800 px-2 py-1.5 text-slate-100 disabled:opacity-60"
               />
               <input
@@ -374,6 +372,7 @@ const {
 
 const sessionStartModeOptions = computed(() => [
   { value: 'time', label: t('plugins.targetScheduler.sessionModes.time') },
+  { value: 'now', label: t('plugins.targetScheduler.sessionModes.now') },
   {
     value: 'twilight_end_nautical',
     label: t('plugins.targetScheduler.sessionModes.twilightEndNautical'),

@@ -1054,6 +1054,9 @@
           "buildActive": "Creación de biblioteca en progreso",
           "buildActiveMessage": "Las acciones de PHD2 están bloqueadas hasta que finalice la creación."
         },
+        "imageDisplay": "Visualización de imagen",
+        "imageGamma": "Estiramiento (Gamma)",
+        "imageGammaHint": "Bajo = más estirado, Alto = lineal",
         "reviewCalibration": "Revisar la calibración",
         "starComponents": {
           "hide": "Ocultar componentes de estrella",
@@ -1626,7 +1629,15 @@
         "atmosphere_visible": "Mostrar atmósfera",
         "landscapes_visible": "Mostrar horizonte",
         "dsos_visible": "Objetos de cielo profundo (Messier, NGC)",
-        "title": "Ajustes"
+        "title": "Ajustes",
+        "landscape_source_mode": "Landscape source",
+        "landscape_source_default": "Default landscape (Guereins)",
+        "landscape_source_neutral": "Neutral horizon (Gray)",
+        "landscape_source_custom": "Custom data source",
+        "custom_landscape_url": "Custom source URL",
+        "custom_landscape_url_placeholder": "e.g. /stellarium-data/landscapes/custom",
+        "custom_landscape_key": "Custom source key",
+        "custom_landscape_key_placeholder": "e.g. my-landscape"
       }
     },
     "profile": {

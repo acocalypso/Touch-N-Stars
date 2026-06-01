@@ -40,12 +40,11 @@ onMounted(async () => {
 });
 
 const onChange = async () => {
-  const previousValue = guiderStore.phd2AutoSelectDownsample;
   try {
     await guiderStore.setPHD2AutoSelectDownsample(guiderStore.phd2AutoSelectDownsample);
   } catch (error) {
     console.error('Error changing PHD2 auto-select downsample:', error);
-    guiderStore.phd2AutoSelectDownsample = previousValue;
+    await guiderStore.fetchPHD2AutoSelectDownsample();
   }
 };
 </script>

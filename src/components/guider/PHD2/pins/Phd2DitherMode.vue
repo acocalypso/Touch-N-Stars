@@ -45,12 +45,11 @@ onMounted(async () => {
 });
 
 const onChange = async () => {
-  const previousValue = guiderStore.phd2DitherMode;
   try {
     await guiderStore.setPHD2DitherMode(guiderStore.phd2DitherMode);
   } catch (error) {
     console.error('Error changing PHD2 dither mode:', error);
-    guiderStore.phd2DitherMode = previousValue;
+    await guiderStore.fetchPHD2DitherMode();
   }
 };
 </script>

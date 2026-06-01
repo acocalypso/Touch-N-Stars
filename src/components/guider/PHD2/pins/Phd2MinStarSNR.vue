@@ -38,12 +38,11 @@ onMounted(async () => {
 });
 
 const onChange = async (newValue) => {
-  const previousValue = guiderStore.phd2MinStarSNR;
   try {
     await guiderStore.setPHD2MinStarSNR(newValue);
   } catch (error) {
     console.error('Error changing PHD2 min star SNR:', error);
-    guiderStore.phd2MinStarSNR = previousValue;
+    await guiderStore.fetchPHD2MinStarSNR();
   }
 };
 </script>

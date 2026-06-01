@@ -38,12 +38,11 @@ onMounted(async () => {
 });
 
 const onChange = async (newValue) => {
-  const previousValue = guiderStore.phd2MassChangeThreshold;
   try {
     await guiderStore.setPHD2MassChangeThreshold(newValue);
   } catch (error) {
     console.error('Error changing PHD2 mass change threshold:', error);
-    guiderStore.phd2MassChangeThreshold = previousValue;
+    await guiderStore.fetchPHD2MassChangeThreshold();
   }
 };
 </script>

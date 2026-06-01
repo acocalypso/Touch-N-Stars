@@ -38,12 +38,11 @@ onMounted(async () => {
 });
 
 const onChange = async (newValue) => {
-  const previousValue = guiderStore.phd2SaturationADUValue;
   try {
     await guiderStore.setPHD2SaturationADUValue(newValue);
   } catch (error) {
     console.error('Error changing PHD2 saturation ADU value:', error);
-    guiderStore.phd2SaturationADUValue = previousValue;
+    await guiderStore.fetchPHD2SaturationADUValue();
   }
 };
 </script>

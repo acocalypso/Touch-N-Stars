@@ -38,12 +38,11 @@ onMounted(async () => {
 });
 
 const onChange = async (newValue) => {
-  const previousValue = guiderStore.phd2SearchRegion;
   try {
     await guiderStore.setPHD2SearchRegion(newValue);
   } catch (error) {
     console.error('Error changing PHD2 search region:', error);
-    guiderStore.phd2SearchRegion = previousValue;
+    await guiderStore.fetchPHD2SearchRegion();
   }
 };
 </script>

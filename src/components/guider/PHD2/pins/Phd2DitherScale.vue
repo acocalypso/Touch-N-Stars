@@ -38,12 +38,12 @@ onMounted(async () => {
 });
 
 const onChange = async (newValue) => {
-  const previousValue = guiderStore.phd2DitherScale;
   try {
     await guiderStore.setPHD2DitherScale(newValue);
   } catch (error) {
+    // v-model already mutated the store, so reload the real value from the server on failure.
     console.error('Error changing PHD2 dither scale:', error);
-    guiderStore.phd2DitherScale = previousValue;
+    await guiderStore.fetchPHD2DitherScale();
   }
 };
 </script>

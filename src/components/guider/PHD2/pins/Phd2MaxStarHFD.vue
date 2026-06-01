@@ -38,12 +38,11 @@ onMounted(async () => {
 });
 
 const onChange = async (newValue) => {
-  const previousValue = guiderStore.phd2MaxStarHFD;
   try {
     await guiderStore.setPHD2MaxStarHFD(newValue);
   } catch (error) {
     console.error('Error changing PHD2 max star HFD:', error);
-    guiderStore.phd2MaxStarHFD = previousValue;
+    await guiderStore.fetchPHD2MaxStarHFD();
   }
 };
 </script>

@@ -1,1 +1,0 @@
-var e=class{async scanFile(e){return console.log(`[MediaScanner] Web platform - no action needed`),{success:!0,path:e.path}}async saveImage(e){return console.log(`[PhotoLibrarySaver] Web platform - no action needed`),{success:!0,message:`Web platform - image already saved`,path:e.path}}};export{e as MediaScannerWeb};

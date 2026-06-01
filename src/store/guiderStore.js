@@ -63,6 +63,14 @@ export const useGuiderStore = defineStore('guiderStore', {
     phd2MountGuideOutput: false,
     phd2MountGuideOutputLoading: false,
 
+    // PHD2 Dither State (PINS)
+    phd2DitherMode: 'random',
+    phd2DitherModeLoading: false,
+    phd2DitherRaOnly: false,
+    phd2DitherRaOnlyLoading: false,
+    phd2DitherScale: null,
+    phd2DitherScaleLoading: false,
+
     // PHD2 Guide Algorithm RA State (PINS)
     phd2GuideAlgorithmRA: null,
     phd2GuideAlgorithmRALoading: false,
@@ -561,6 +569,108 @@ export const useGuiderStore = defineStore('guiderStore', {
         }
       } catch (error) {
         console.error('Error setting PHD2 mount guide output:', error);
+        throw error;
+      }
+    },
+
+    // PHD2 Dither Mode Actions (PINS)
+    async fetchPHD2DitherMode() {
+      const store = apiStore();
+      if (!store.isPINS) return;
+      this.phd2DitherModeLoading = true;
+      try {
+        const response = await apiPinsService.getPHD2DitherMode();
+        if (response.Success && response.Response) {
+          this.phd2DitherMode = response.Response.DitherMode;
+        }
+      } catch (error) {
+        console.error('Error fetching PHD2 dither mode:', error);
+      } finally {
+        this.phd2DitherModeLoading = false;
+      }
+    },
+
+    async setPHD2DitherMode(mode) {
+      if (this.isDarkLibraryBuildActive) {
+        console.warn('PHD2 dark library build active – aborting setPHD2DitherMode');
+        return;
+      }
+      try {
+        const response = await apiPinsService.setPHD2DitherMode(mode);
+        if (response.Success && response.Response) {
+          this.phd2DitherMode = response.Response.DitherMode;
+          return response;
+        }
+      } catch (error) {
+        console.error('Error setting PHD2 dither mode:', error);
+        throw error;
+      }
+    },
+
+    // PHD2 Dither RA Only Actions (PINS)
+    async fetchPHD2DitherRaOnly() {
+      const store = apiStore();
+      if (!store.isPINS) return;
+      this.phd2DitherRaOnlyLoading = true;
+      try {
+        const response = await apiPinsService.getPHD2DitherRaOnly();
+        if (response.Success && response.Response) {
+          this.phd2DitherRaOnly = response.Response.DitherRaOnly;
+        }
+      } catch (error) {
+        console.error('Error fetching PHD2 dither RA only:', error);
+      } finally {
+        this.phd2DitherRaOnlyLoading = false;
+      }
+    },
+
+    async setPHD2DitherRaOnly(raOnly) {
+      if (this.isDarkLibraryBuildActive) {
+        console.warn('PHD2 dark library build active – aborting setPHD2DitherRaOnly');
+        return;
+      }
+      try {
+        const response = await apiPinsService.setPHD2DitherRaOnly(raOnly);
+        if (response.Success && response.Response) {
+          this.phd2DitherRaOnly = response.Response.DitherRaOnly;
+          return response;
+        }
+      } catch (error) {
+        console.error('Error setting PHD2 dither RA only:', error);
+        throw error;
+      }
+    },
+
+    // PHD2 Dither Scale Actions (PINS)
+    async fetchPHD2DitherScale() {
+      const store = apiStore();
+      if (!store.isPINS) return;
+      this.phd2DitherScaleLoading = true;
+      try {
+        const response = await apiPinsService.getPHD2DitherScale();
+        if (response.Success && response.Response) {
+          this.phd2DitherScale = response.Response.DitherScale;
+        }
+      } catch (error) {
+        console.error('Error fetching PHD2 dither scale:', error);
+      } finally {
+        this.phd2DitherScaleLoading = false;
+      }
+    },
+
+    async setPHD2DitherScale(scale) {
+      if (this.isDarkLibraryBuildActive) {
+        console.warn('PHD2 dark library build active – aborting setPHD2DitherScale');
+        return;
+      }
+      try {
+        const response = await apiPinsService.setPHD2DitherScale(scale);
+        if (response.Success && response.Response) {
+          this.phd2DitherScale = response.Response.DitherScale;
+          return response;
+        }
+      } catch (error) {
+        console.error('Error setting PHD2 dither scale:', error);
         throw error;
       }
     },

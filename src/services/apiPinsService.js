@@ -204,6 +204,36 @@ export default {
     return this._simplePutRequest(`${API_URL}phd2/mount-guide-output`, { enabled });
   },
 
+  getPHD2DitherMode() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/guide/dither-mode`);
+  },
+
+  setPHD2DitherMode(mode) {
+    const { API_URL } = getUrls();
+    return this._simplePutRequest(`${API_URL}phd2/guide/dither-mode`, { mode });
+  },
+
+  getPHD2DitherRaOnly() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/guide/dither-ra-only`);
+  },
+
+  setPHD2DitherRaOnly(raOnly) {
+    const { API_URL } = getUrls();
+    return this._simplePutRequest(`${API_URL}phd2/guide/dither-ra-only`, { ra_only: raOnly });
+  },
+
+  getPHD2DitherScale() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/guide/dither-scale`);
+  },
+
+  setPHD2DitherScale(scale) {
+    const { API_URL } = getUrls();
+    return this._simplePutRequest(`${API_URL}phd2/guide/dither-scale`, { scale });
+  },
+
   getPHD2UseMultipleStars() {
     const { API_URL } = getUrls();
     return this._simpleGetRequest(`${API_URL}phd2/tracking/multistar`);

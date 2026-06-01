@@ -174,6 +174,18 @@
         <Phd2GuideAlgorithmDEC />
       </div>
 
+      <!-- Dither Settings -->
+      <div
+        class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
+      >
+        <h3 class="font-bold text-base text-cyan-400">
+          {{ $t('components.guider.phd2.dither') }}
+        </h3>
+        <Phd2DitherMode />
+        <Phd2DitherRaOnly />
+        <Phd2DitherScale />
+      </div>
+
       <!-- Mount Settings -->
       <div
         class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
@@ -230,6 +242,9 @@ import Phd2AssumeDecOrthogonal from '@/components/guider/PHD2/pins/Phd2AssumeDec
 import Phd2UseDecCompensation from '@/components/guider/PHD2/pins/Phd2UseDecCompensation.vue';
 import Phd2FastRecenter from '@/components/guider/PHD2/pins/Phd2FastRecenter.vue';
 import Phd2MountGuideOutput from '@/components/guider/PHD2/pins/Phd2MountGuideOutput.vue';
+import Phd2DitherMode from '@/components/guider/PHD2/pins/Phd2DitherMode.vue';
+import Phd2DitherRaOnly from '@/components/guider/PHD2/pins/Phd2DitherRaOnly.vue';
+import Phd2DitherScale from '@/components/guider/PHD2/pins/Phd2DitherScale.vue';
 import { apiStore } from '@/store/store';
 
 const guiderStore = useGuiderStore();

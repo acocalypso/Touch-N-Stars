@@ -3980,6 +3980,79 @@
     },
     "vncRemote": {
       "debugModeWarning": "Debug-Modus aktiv – VNC-Verbindung nicht verfügbar. Bitte Debug-Modus in den Einstellungen deaktivieren."
+    },
+    "landscaperCreator": {
+      "actions": {
+        "generate": "ZIP generieren",
+        "generating": "ZIP wird generiert..."
+      },
+      "details": {
+        "sectionTitle": "3) Landschaftsdetails"
+      },
+      "errors": {
+        "imageLoadFailed": "Das Bild konnte nicht geladen werden.",
+        "requestFailed": "Die Landschafts-ZIP-Datei konnte nicht generiert werden."
+      },
+      "fields": {
+        "altitude": "Höhe",
+        "author": "Autor",
+        "description": "Beschreibung",
+        "folderName": "Ordnername",
+        "folderNamePlaceholder": "automatisch aus dem Namen generiert",
+        "latitude": "Breite",
+        "longitude": "Länge",
+        "name": "Landschaftsname",
+        "namePlaceholder": "z.B. \nMein Observatoriumshorizont"
+      },
+      "folder": {
+        "autoHint": "Ordnernamen werden in ein sicheres Format mit Kleinbuchstaben und Unterstrichen/Bindestrichen bereinigt."
+      },
+      "image": {
+        "aspectRatio": "Seitenverhältnis",
+        "aspectWarning": "Das Seitenverhältnis des hochgeladenen Bildes ist {ratio}. \nEin 360°-Panorama sollte etwa 2:1 betragen.",
+        "dimensions": "Abmessungen",
+        "fileName": "Dateiname",
+        "fileSize": "Dateigröße",
+        "remove": "Entfernen",
+        "replace": "Panorama ersetzen",
+        "sectionTitle": "1) Bild-Upload",
+        "select": "Wählen Sie Panorama",
+        "typesHint": "Akzeptierte Formate: PNG, JPEG, WebP"
+      },
+      "instructions": {
+        "line1": "Verwenden Sie ein äquirechteckiges 360°-Panoramabild.",
+        "line2": "Halten Sie bei Landschaften, die nur am Horizont liegen, den Himmel nach Möglichkeit transparent.",
+        "line3": "Klicken oder ziehen Sie in der Vorschau an die Stelle, an der der geografische Norden liegen soll.",
+        "line4": "Laden Sie die ZIP-Datei herunter und extrahieren Sie sie in Ihren Stellarium Web Landscapes-Ordner.",
+        "title": "So bereiten Sie Ihren Beitrag vor"
+      },
+      "preview": {
+        "currentNorth": "NorthOffsetDeg:",
+        "empty": "Laden Sie ein Panoramabild hoch, um die Vorschau zu aktivieren.",
+        "help": "Klicken oder ziehen Sie horizontal auf das Panorama, um den geografischen Norden festzulegen.",
+        "imageAlt": "Hochgeladene Panoramavorschau",
+        "quickCenter": "Norden in der Mitte",
+        "quickLeft": "Norden am linken Rand",
+        "quickReset": "Zurücksetzen",
+        "sectionTitle": "2) Panoramavorschau und Nordmarkierung",
+        "signHint": "Wenn die generierte Landschaft gespiegelt oder in die falsche Richtung gedreht erscheint, muss je nach Backend-Konvention möglicherweise das Versatzzeichen umgekehrt werden."
+      },
+      "subtitle": "Laden Sie ein 360°-Panorama hoch, markieren Sie den geografischen Norden und erstellen Sie eine Stellarium-Landschafts-ZIP-Datei.",
+      "title": "Stellarium-Landschaftsersteller",
+      "toast": {
+        "errorTitle": "Die Erstellung der Landschaft ist fehlgeschlagen",
+        "invalidFileType": "Nicht unterstützter Dateityp. \nBitte laden Sie PNG, JPEG oder WebP hoch.",
+        "successMessage": "{Dateiname} heruntergeladen",
+        "successTitle": "Querformat ZIP-fähig",
+        "validationTitle": "Validierung"
+      },
+      "validation": {
+        "fixErrors": "Bitte korrigieren Sie die hervorgehobenen Felder.",
+        "folderNameInvalid": "Der Ordnername enthält ungültige Zeichen.",
+        "folderNameRequired": "Ordnername ist erforderlich.",
+        "imageRequired": "Bitte laden Sie eine Bilddatei hoch.",
+        "nameRequired": "Landschaftsname ist erforderlich."
+      }
     }
   },
   "pinsDevices": {

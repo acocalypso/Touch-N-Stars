@@ -3796,7 +3796,8 @@
         "twilightEndAstronomical": "Crepuscolo e fine astronomica",
         "twilightEndNautical": "Crepuscolo e nautica",
         "twilightStartAstronomical": "Il crepuscolo inizia in modo astronomico",
-        "twilightStartNautical": "Twilight inizia nautico"
+        "twilightStartNautical": "Twilight inizia nautico",
+        "now": "Ora"
       }
     },
     "filterOffset": {
@@ -3979,6 +3980,79 @@
     },
     "vncRemote": {
       "debugModeWarning": "Modalità debug attiva – Connessione VNC non disponibile. Disattiva la modalità debug nelle impostazioni."
+    },
+    "landscaperCreator": {
+      "actions": {
+        "generate": "Genera CAP",
+        "generating": "Generazione ZIP in corso..."
+      },
+      "details": {
+        "sectionTitle": "3) Dettagli del paesaggio"
+      },
+      "errors": {
+        "imageLoadFailed": "Impossibile caricare l'immagine.",
+        "requestFailed": "Impossibile generare lo ZIP orizzontale."
+      },
+      "fields": {
+        "altitude": "Altitudine",
+        "author": "Autore",
+        "description": "Descrizione",
+        "folderName": "Nome della cartella",
+        "folderNamePlaceholder": "nome-generato-automaticamente",
+        "latitude": "Latitudine",
+        "longitude": "Longitudine",
+        "name": "Nome del paesaggio",
+        "namePlaceholder": "per esempio. \nIl mio orizzonte dell'Osservatorio"
+      },
+      "folder": {
+        "autoHint": "I nomi delle cartelle vengono ripristinati in formato minuscolo, carattere di sottolineatura/trattino."
+      },
+      "image": {
+        "aspectRatio": "Proporzioni",
+        "aspectWarning": "Le proporzioni dell'immagine caricata sono {ratio}. \nUn panorama a 360° dovrebbe essere vicino a 2:1.",
+        "dimensions": "Dimensioni",
+        "fileName": "Nome del file",
+        "fileSize": "Dimensioni del file",
+        "remove": "Rimuovere",
+        "replace": "Sostituisci Panorama",
+        "sectionTitle": "1) Caricamento di immagini",
+        "select": "Seleziona Panorama",
+        "typesHint": "Formati accettati: PNG, JPEG, WebP"
+      },
+      "instructions": {
+        "line1": "Utilizza un'immagine panoramica equirettangolare a 360°.",
+        "line2": "Per i paesaggi solo all'orizzonte, mantieni il cielo trasparente quando possibile.",
+        "line3": "Fare clic o trascinare sull'anteprima dove dovrebbe trovarsi il Nord geografico.",
+        "line4": "Scarica lo ZIP ed estrailo nella cartella dei paesaggi di Stellarium Web.",
+        "title": "Come preparare il tuo contributo"
+      },
+      "preview": {
+        "currentNorth": "northOffsetDeg:",
+        "empty": "Carica un'immagine panoramica per abilitare l'anteprima.",
+        "help": "Fare clic o trascinare orizzontalmente sul panorama per impostare la posizione del Nord geografico.",
+        "imageAlt": "Anteprima panoramica caricata",
+        "quickCenter": "Nord al centro",
+        "quickLeft": "Nord al bordo sinistro",
+        "quickReset": "Reset",
+        "sectionTitle": "2) Anteprima panoramica e indicatore del nord",
+        "signHint": "Se il paesaggio generato appare specchiato o ruotato nella direzione sbagliata, potrebbe essere necessario invertire il segno di offset a seconda della convenzione del backend."
+      },
+      "subtitle": "Carica un panorama a 360 gradi, contrassegna il Nord geografico e genera uno ZIP del paesaggio Stellarium.",
+      "title": "Creatore di paesaggi Stellarium",
+      "toast": {
+        "errorTitle": "La generazione del paesaggio non è riuscita",
+        "invalidFileType": "Tipo di file non supportato. \nCarica PNG, JPEG o WebP.",
+        "successMessage": "Scaricato {nomefile}",
+        "successTitle": "ZIP orizzontale pronto",
+        "validationTitle": "Validazione"
+      },
+      "validation": {
+        "fixErrors": "Correggi i campi evidenziati.",
+        "folderNameInvalid": "Il nome della cartella contiene caratteri non validi.",
+        "folderNameRequired": "Il nome della cartella è obbligatorio.",
+        "imageRequired": "Carica un file immagine.",
+        "nameRequired": "Il nome del paesaggio è obbligatorio."
+      }
     }
   },
   "pinsDevices": {

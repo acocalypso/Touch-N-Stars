@@ -3604,7 +3604,12 @@
         "credentials": "Jeśli kamera wymaga nazwy użytkownika i hasła, podaj dane uwierzytelniające bezpośrednio w adresie URL:",
         "credentialsNote": "Serwer proxy zaplecza obsługuje uwierzytelnianie automatycznie — dane uwierzytelniające w adresie URL działają zarówno z uwierzytelnianiem podstawowym, jak i szyfrowanym (np. Hikvision).",
         "credentialsTitle": "Kamery chronione hasłem",
-        "exampleLabels": ["Typowa kamera IP", "Kamera ONVIF", "Kamera osiowa", "Kamera Hikvision"],
+        "exampleLabels": [
+          "Typowa kamera IP",
+          "Kamera ONVIF",
+          "Kamera osiowa",
+          "Kamera Hikvision"
+        ],
         "examplesTitle": "Przykłady",
         "proxyOptions": [
           "Proxy (domyślnie): Obraz jest pobierany przez backend NINA i przesyłany do przeglądarki. \nWymagane w przypadku kamer sieci lokalnej z poświadczeniami lub ograniczeniami CORS. \nNieco wolniejszy w przypadku dostępu przez VPN.",
@@ -3791,7 +3796,8 @@
         "twilightEndAstronomical": "Zmierzch koniec astronomiczny",
         "twilightEndNautical": "Żeglarski koniec zmierzchu",
         "twilightStartAstronomical": "Zmierzch zaczyna się astronomicznie",
-        "twilightStartNautical": "Zmierzch zaczyna się nautycznie"
+        "twilightStartNautical": "Zmierzch zaczyna się nautycznie",
+        "now": "Teraz"
       }
     },
     "filterOffset": {
@@ -3974,6 +3980,79 @@
     },
     "vncRemote": {
       "debugModeWarning": "Tryb debugowania aktywny – Połączenie VNC niedostępne. Wyłącz tryb debugowania w ustawieniach."
+    },
+    "landscaperCreator": {
+      "actions": {
+        "generate": "Wygeneruj ZIP",
+        "generating": "Generuję ZIP..."
+      },
+      "details": {
+        "sectionTitle": "3) Szczegóły krajobrazu"
+      },
+      "errors": {
+        "imageLoadFailed": "Nie można załadować obrazu.",
+        "requestFailed": "Nie udało się wygenerować poziomego pliku ZIP."
+      },
+      "fields": {
+        "altitude": "Wysokość",
+        "author": "Autor",
+        "description": "Opis",
+        "folderName": "Nazwa folderu",
+        "folderNamePlaceholder": "automatycznie wygenerowane z nazwy",
+        "latitude": "Szerokość",
+        "longitude": "Długość geograficzna",
+        "name": "Nazwa krajobrazu",
+        "namePlaceholder": "np. \nMój horyzont obserwatorium"
+      },
+      "folder": {
+        "autoHint": "Nazwy folderów są przekształcane do bezpiecznego formatu małych liter i podkreśleń/łączników."
+      },
+      "image": {
+        "aspectRatio": "Proporcje",
+        "aspectWarning": "Współczynnik proporcji przesłanego obrazu to {ratio}. \nPanorama 360 powinna mieć proporcje zbliżone do 2:1.",
+        "dimensions": "Wymiary",
+        "fileName": "Nazwa pliku",
+        "fileSize": "Rozmiar pliku",
+        "remove": "Usunąć",
+        "replace": "Wymień Panoramę",
+        "sectionTitle": "1) Przesyłanie obrazu",
+        "select": "Wybierz Panoramę",
+        "typesHint": "Akceptowane formaty: PNG, JPEG, WebP"
+      },
+      "instructions": {
+        "line1": "Użyj równoprostokątnego obrazu panoramicznego 360°.",
+        "line2": "W przypadku krajobrazów obejmujących wyłącznie horyzont, jeśli to możliwe, staraj się, aby niebo było przejrzyste.",
+        "line3": "Kliknij lub przeciągnij podgląd w miejsce, w którym powinna znajdować się północ geograficzna.",
+        "line4": "Pobierz plik ZIP i rozpakuj go do folderu krajobrazów Stellarium Web.",
+        "title": "Jak przygotować swój wkład"
+      },
+      "preview": {
+        "currentNorth": "północPrzesunięcieSt.:",
+        "empty": "Prześlij obraz panoramiczny, aby włączyć podgląd.",
+        "help": "Kliknij lub przeciągnij poziomo panoramę, aby ustawić północ geograficzną.",
+        "imageAlt": "Przesłany podgląd panoramy",
+        "quickCenter": "Północ w centrum",
+        "quickLeft": "Północ przy lewej krawędzi",
+        "quickReset": "Nastawić",
+        "sectionTitle": "2) Podgląd panoramy i znacznik północy",
+        "signHint": "Jeśli wygenerowany krajobraz wydaje się być lustrzanym odbiciem lub obrócony w złym kierunku, może zaistnieć potrzeba odwrócenia znaku przesunięcia, w zależności od konwencji zaplecza."
+      },
+      "subtitle": "Prześlij panoramę 360°, zaznacz północ geograficzną i wygeneruj ZIP krajobrazu Stellarium.",
+      "title": "Twórca krajobrazu Stellarium",
+      "toast": {
+        "errorTitle": "Generowanie krajobrazu nie powiodło się",
+        "invalidFileType": "Nieobsługiwany typ pliku. \nPrześlij plik PNG, JPEG lub WebP.",
+        "successMessage": "Pobrano {nazwa pliku}",
+        "successTitle": "Krajobraz ZIP gotowy",
+        "validationTitle": "Walidacja"
+      },
+      "validation": {
+        "fixErrors": "Popraw wyróżnione pola.",
+        "folderNameInvalid": "Nazwa folderu zawiera nieprawidłowe znaki.",
+        "folderNameRequired": "Nazwa folderu jest wymagana.",
+        "imageRequired": "Proszę przesłać plik obrazu.",
+        "nameRequired": "Nazwa krajobrazu jest wymagana."
+      }
     }
   },
   "pinsDevices": {

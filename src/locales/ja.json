@@ -2328,7 +2328,12 @@
         "title": "スナップショットURLのヘルプ",
         "what": "スナップショットURLは、IPカメラの単一画像への直接リンクです。このURLはJPEGまたはPNG画像を直接返す必要があります（HTMLページやビデオストリームは不可）。",
         "examplesTitle": "例",
-        "exampleLabels": ["汎用IPカメラ", "ONVIFカメラ", "軸カメラ", "ハイクビジョンカメラ"],
+        "exampleLabels": [
+          "汎用IPカメラ",
+          "ONVIFカメラ",
+          "軸カメラ",
+          "ハイクビジョンカメラ"
+        ],
         "credentialsTitle": "パスワード保護されたカメラ",
         "credentials": "カメラにユーザー名とパスワードが必要な場合は、URLに認証情報を直接含めてください：",
         "credentialsNote": "バックエンドプロキシが認証を自動的に処理します。URLの認証情報はBasic認証とDigest認証（例：Hikvision）の両方で動作します。",
@@ -3824,7 +3829,8 @@
         "twilightEndAstronomical": "トワイライトエンドの天文学的",
         "twilightEndNautical": "トワイライトエンド航海",
         "twilightStartAstronomical": "天文学的なトワイライトスタート",
-        "twilightStartNautical": "トワイライトスタート航海"
+        "twilightStartNautical": "トワイライトスタート航海",
+        "now": "今"
       }
     },
     "filterOffset": {
@@ -3974,6 +3980,79 @@
     },
     "vncRemote": {
       "debugModeWarning": "デバッグモードが有効です – VNC接続は利用できません。設定でデバッグモードを無効にしてください。"
+    },
+    "landscaperCreator": {
+      "actions": {
+        "generate": "ZIPの生成",
+        "generating": "ZIP を生成中..."
+      },
+      "details": {
+        "sectionTitle": "3) 風景の詳細"
+      },
+      "errors": {
+        "imageLoadFailed": "画像を読み込めませんでした。",
+        "requestFailed": "横向き ZIP の生成に失敗しました。"
+      },
+      "fields": {
+        "altitude": "高度",
+        "author": "著者",
+        "description": "説明",
+        "folderName": "フォルダ名",
+        "folderNamePlaceholder": "自動生成された名前",
+        "latitude": "緯度",
+        "longitude": "経度",
+        "name": "風景名",
+        "namePlaceholder": "例えば\n私の天文台ホライゾン"
+      },
+      "folder": {
+        "autoHint": "フォルダー名は、小文字、アンダースコア/ハイフンで安全な形式にサニタイズされます。"
+      },
+      "image": {
+        "aspectRatio": "アスペクト比",
+        "aspectWarning": "アップロードされた画像のアスペクト比は {ratio} です。 \n360 度のパノラマは 2:1 に近いはずです。",
+        "dimensions": "寸法",
+        "fileName": "ファイル名",
+        "fileSize": "ファイルサイズ",
+        "remove": "取り除く",
+        "replace": "パノラマを置換",
+        "sectionTitle": "1) 画像のアップロード",
+        "select": "パノラマを選択",
+        "typesHint": "受け入れられる形式: PNG、JPEG、WebP"
+      },
+      "instructions": {
+        "line1": "360° 正距円筒図法のパ​​ノラマ画像を使用します。",
+        "line2": "地平線のみの風景の場合は、可能な限り空を透明にしてください。",
+        "line3": "プレビュー上で地理的に北となる位置をクリックまたはドラッグします。",
+        "line4": "ZIP をダウンロードし、Stellarium Web ランドスケープ フォルダーに解凍します。",
+        "title": "入力を準備する方法"
+      },
+      "preview": {
+        "currentNorth": "北オフセット度:",
+        "empty": "パノラマ画像をアップロードしてプレビューを有効にします。",
+        "help": "パノラマ上でクリックまたは水平方向にドラッグして、地理的な北の位置を設定します。",
+        "imageAlt": "アップロードされたパノラマ プレビュー",
+        "quickCenter": "中央が北側",
+        "quickLeft": "左端が北",
+        "quickReset": "リセット",
+        "sectionTitle": "2) パノラマプレビューとノースマーカー",
+        "signHint": "生成されたランドスケープが鏡像化されているか、間違った方向に回転しているように見える場合は、バックエンドの規則に応じてオフセット符号を反転する必要がある場合があります。"
+      },
+      "subtitle": "360 パノラマをアップロードし、地理的な北をマークし、Stellarium の風景 ZIP を生成します。",
+      "title": "ステラリウム ランドスケープ クリエーター",
+      "toast": {
+        "errorTitle": "ランドスケープの生成に失敗しました",
+        "invalidFileType": "サポートされていないファイル形式です。 \nPNG、JPEG、または WebP をアップロードしてください。",
+        "successMessage": "ダウンロードされた {ファイル名}",
+        "successTitle": "横向きZIP対応",
+        "validationTitle": "検証"
+      },
+      "validation": {
+        "fixErrors": "強調表示されたフィールドを修正してください。",
+        "folderNameInvalid": "フォルダ名に無効な文字が含まれています。",
+        "folderNameRequired": "フォルダー名は必須です。",
+        "imageRequired": "画像ファイルをアップロードしてください。",
+        "nameRequired": "ランドスケープ名は必​​須です。"
+      }
     }
   },
   "pinsDevices": {

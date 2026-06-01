@@ -62,16 +62,20 @@ function defaultSessionEnd() {
 }
 
 function toInputDateTimeOrFallback(value, fallbackDate) {
-  const parsed = new Date(value);
+  const parsed = new Date(value || undefined);
   return Number.isNaN(parsed.getTime()) ? toInputDateTime(fallbackDate) : toInputDateTime(parsed);
 }
 
 function resolveInitialSessionInputs(persisted) {
   const fallbackStart = defaultSessionStart();
   const fallbackEnd = defaultSessionEnd();
+  const startInput =
+    persisted?.sessionStartMode === 'now'
+      ? toInputDateTime(new Date())
+      : toInputDateTimeOrFallback(persisted?.sessionStartInput, fallbackStart);
 
   return {
-    sessionStartInput: toInputDateTimeOrFallback(persisted?.sessionStartInput, fallbackStart),
+    sessionStartInput: startInput,
     sessionEndInput: toInputDateTimeOrFallback(persisted?.sessionEndInput, fallbackEnd),
   };
 }
@@ -88,8 +92,9 @@ function getDateOnlyOrToday(value) {
 }
 
 function resolveNightDateFromInput(value, mode, overnightModes) {
-  const nightDate = getDateOnlyOrToday(value);
-  const parsed = new Date(value);
+  const normalizedInput = value || undefined;
+  const nightDate = getDateOnlyOrToday(normalizedInput);
+  const parsed = new Date(normalizedInput);
 
   if (overnightModes.has(mode) && !Number.isNaN(parsed.getTime()) && parsed.getHours() < 12) {
     nightDate.setDate(nightDate.getDate() - 1);

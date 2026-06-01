@@ -5,7 +5,7 @@
       :label="$t('components.guider.phd2.maxStarHFD')"
       label-key="components.guider.phd2.maxStarHFD"
       :min="0"
-      :max="20"
+      :max="10"
       :step="0.1"
       :decimal-places="1"
       input-id="phd2-max-star-hfd"

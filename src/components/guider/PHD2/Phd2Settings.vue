@@ -105,8 +105,34 @@
           {{ $t('components.guider.phd2.shared_prarmeters') }}
         </h3>
         <Phd2ReverseDecAfterFlip />
-        <Phd2UseMultipleStars />
       </div>
+
+      <!-- Guide Star Tracking -->
+      <div
+        class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
+      >
+        <h3 class="font-bold text-base text-cyan-400">
+          {{ $t('components.guider.phd2.starDetection') }}
+        </h3>
+        <Phd2SearchRegion />
+        <Phd2MinStarHFD />
+        <Phd2MaxStarHFD />
+        <Phd2BeepForLostStar />
+
+        <!-- Star Mass Detection sub-group -->
+        <div class="p-2 flex flex-col gap-2 bg-gray-900/40 rounded-md border border-gray-700/50">
+          <h4 class="text-sm font-semibold text-gray-200">
+            {{ $t('components.guider.phd2.starMassDetection') }}
+          </h4>
+          <Phd2MassChangeEnabled />
+          <Phd2MassChangeThreshold />
+        </div>
+
+        <Phd2MinStarSNR />
+        <Phd2UseMultipleStars />
+        <Phd2AutoSelectDownsample />
+      </div>
+
       <!-- Camera Settings -->
       <div
         class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
@@ -116,6 +142,8 @@
         </h3>
         <Phd2CameraGain />
         <Phd2CameraBinning />
+        <Phd2SaturationByADU />
+        <Phd2SaturationADUValue />
       </div>
 
       <!-- Calibration Settings -->
@@ -139,24 +167,6 @@
         </h3>
         <Phd2GuideAlgorithmRA />
         <Phd2GuideAlgorithmDEC />
-      </div>
-
-      <!-- Star Detection Settings -->
-      <div
-        class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
-      >
-        <h3 class="font-bold text-base text-cyan-400">
-          {{ $t('components.guider.phd2.starDetection') }}
-        </h3>
-        <Phd2SearchRegion />
-        <Phd2MinStarHFD />
-        <Phd2MaxStarHFD />
-        <Phd2MinStarSNR />
-        <Phd2AutoSelectDownsample />
-        <Phd2MassChangeEnabled />
-        <Phd2MassChangeThreshold />
-        <Phd2SaturationByADU />
-        <Phd2SaturationADUValue />
       </div>
 
       <!-- Mount Settings -->
@@ -210,6 +220,7 @@ import Phd2MassChangeEnabled from '@/components/guider/PHD2/pins/Phd2MassChangeE
 import Phd2MassChangeThreshold from '@/components/guider/PHD2/pins/Phd2MassChangeThreshold.vue';
 import Phd2SaturationByADU from '@/components/guider/PHD2/pins/Phd2SaturationByADU.vue';
 import Phd2SaturationADUValue from '@/components/guider/PHD2/pins/Phd2SaturationADUValue.vue';
+import Phd2BeepForLostStar from '@/components/guider/PHD2/pins/Phd2BeepForLostStar.vue';
 import { apiStore } from '@/store/store';
 
 const guiderStore = useGuiderStore();

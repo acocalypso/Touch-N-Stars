@@ -7,7 +7,7 @@
       :min="0"
       :max="100"
       :step="1"
-      :decimal-places="0"
+      :decimal-places="1"
       input-id="phd2-mass-change-threshold"
       @change="onChange"
     />

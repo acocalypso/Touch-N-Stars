@@ -414,6 +414,16 @@ export default {
     });
   },
 
+  getPHD2BeepForLostStar() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/tracking/beep-for-lost-star`);
+  },
+
+  setPHD2BeepForLostStar(enabled) {
+    const { API_URL } = getUrls();
+    return this._simplePutRequest(`${API_URL}phd2/tracking/beep-for-lost-star`, { enabled });
+  },
+
   //-------------------PHD2 Dark Library------------------------
 
   getPHD2DarkLibraryInfo() {

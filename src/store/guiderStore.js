@@ -99,6 +99,8 @@ export const useGuiderStore = defineStore('guiderStore', {
     phd2SaturationByADULoading: false,
     phd2SaturationADUValue: null,
     phd2SaturationADUValueLoading: false,
+    phd2BeepForLostStar: false,
+    phd2BeepForLostStarLoading: false,
 
     // Mount Guide Rate State (PINS)
     mountGuideRateRA: null,
@@ -1002,6 +1004,40 @@ export const useGuiderStore = defineStore('guiderStore', {
         }
       } catch (error) {
         console.error('Error setting PHD2 saturation ADU value:', error);
+        throw error;
+      }
+    },
+
+    // PHD2 Beep For Lost Star Actions (PINS)
+    async fetchPHD2BeepForLostStar() {
+      const store = apiStore();
+      if (!store.isPINS) return;
+      this.phd2BeepForLostStarLoading = true;
+      try {
+        const response = await apiPinsService.getPHD2BeepForLostStar();
+        if (response.Success && response.Response) {
+          this.phd2BeepForLostStar = response.Response.BeepForLostStar;
+        }
+      } catch (error) {
+        console.error('Error fetching PHD2 beep for lost star:', error);
+      } finally {
+        this.phd2BeepForLostStarLoading = false;
+      }
+    },
+
+    async setPHD2BeepForLostStar(enabled) {
+      if (this.isDarkLibraryBuildActive) {
+        console.warn('PHD2 dark library build active – aborting setPHD2BeepForLostStar');
+        return;
+      }
+      try {
+        const response = await apiPinsService.setPHD2BeepForLostStar(enabled);
+        if (response.Success && response.Response) {
+          this.phd2BeepForLostStar = response.Response.BeepForLostStar;
+          return response;
+        }
+      } catch (error) {
+        console.error('Error setting PHD2 beep for lost star:', error);
         throw error;
       }
     },

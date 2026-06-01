@@ -1036,7 +1036,10 @@
             "reactiveWeight": "Predictive PEC: Gewichtung des reaktiven Anteils, basierend auf der Sternverschiebung im aktuellen Frame. Standardwerte passen für die meisten Montierungen.",
             "slopeWeight": "LowPass: wie stark der jüngste Trend (die Steigung) der Sternbewegung in die Korrektur einfließt, in Prozent. Verhindert, dass der Algorithmus zu träge wird; 0 nutzt nur den Median der jüngsten Historie.",
             "expFactor": "ZFilter: die virtuelle Belichtungszeit entspricht der realen Belichtung × diesem Faktor. Höhere Werte filtern mehr Seeing (glatter, aber langsamer); eine virtuelle Belichtung von ~2–4 s ist ein guter Startpunkt für RA."
-          }
+          },
+          "ditherMode": "Wie PHD2 jedes Dither berechnet. „Zufällig“ wählt Größe und Richtung zufällig; „Spirale“ nutzt Schritte fester Größe in einer Spirale im Uhrzeigersinn — nützlich, wenn die Aufnahmekamera festes Musterrauschen hat oder die Montierung störendes DEC-Backlash.",
+          "ditherRaOnly": "Dithert nur entlang der RA-Achse. Nützlich, wenn das DEC-Guiding aus ist oder die Montierung großes DEC-Backlash hat.",
+          "ditherScale": "Faktor für die vom Aufnahmeprogramm angeforderte Dither-Stärke — erhöhen für größere, verringern für kleinere Dithers."
         },
         "mountSettings": "Montierung",
         "guideRate": "Guide Rate",
@@ -1157,7 +1160,13 @@
         "guideSpeed": "Führungsgeschwindigkeit",
         "imageScale": "Bildskalierung",
         "optimal": "Optimal",
-        "pixelSize": "Pixelgröße"
+        "pixelSize": "Pixelgröße",
+        "dither": "Dithering",
+        "ditherMode": "Dither-Modus",
+        "ditherRaOnly": "Dither nur RA",
+        "ditherScale": "Dither-Skalierung",
+        "ditherModeRandom": "Zufällig",
+        "ditherModeSpiral": "Spirale"
       }
     },
     "focuser": {

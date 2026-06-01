@@ -1104,7 +1104,10 @@
             "reactiveWeight": "Predictive PEC: peso de la parte reactiva, basada en el desplazamiento de la estrella en el último fotograma. Los valores por defecto sirven para la mayoría de monturas.",
             "slopeWeight": "LowPass: cuánto influye la tendencia reciente (la pendiente) del movimiento de la estrella en la corrección, en porcentaje. Evita que el algoritmo sea demasiado lento; 0 usa solo la mediana del historial reciente.",
             "expFactor": "ZFilter: el tiempo de exposición virtual es la exposición real × este factor. Valores altos filtran más el seeing (más suave pero más lento); una exposición virtual de ~2–4 s es un buen punto de partida para AR."
-          }
+          },
+          "ditherMode": "Cómo calcula PHD2 cada dither. «Aleatorio» elige tamaño y dirección al azar; «Espiral» usa pasos de tamaño fijo en espiral horaria — útil si la cámara de imagen tiene ruido de patrón fijo o la montura tiene un juego en Dec molesto.",
+          "ditherRaOnly": "Dithering solo en el eje AR. Útil cuando el guiado en Dec está desactivado o la montura tiene mucho juego en Dec.",
+          "ditherScale": "Multiplicador aplicado a la cantidad de dither solicitada por la aplicación de captura: auméntalo para dithers mayores, redúcelo para menores."
         },
         "starDetection": "Seguimiento de la estrella guía",
         "searchRegion": "Región de búsqueda (píxeles)",
@@ -1117,7 +1120,13 @@
         "minStarSNR": "SNR mínimo de la estrella para AutoFind",
         "autoSelectDownsample": "Submuestreo de los fotogramas de selección",
         "saturationByADU": "Saturación por ADU",
-        "saturationADUValue": "Valor ADU de saturación"
+        "saturationADUValue": "Valor ADU de saturación",
+        "dither": "Dithering",
+        "ditherMode": "Modo de dither",
+        "ditherRaOnly": "Dither solo en AR",
+        "ditherScale": "Escala de dither",
+        "ditherModeRandom": "Aleatorio",
+        "ditherModeSpiral": "Espiral"
       }
     },
     "focuser": {

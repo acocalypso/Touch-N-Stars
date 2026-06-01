@@ -1104,7 +1104,10 @@
             "reactiveWeight": "Predictive PEC: peso della parte reattiva, basata sullo spostamento della stella nell’ultimo frame. I valori predefiniti vanno bene per la maggior parte delle montature.",
             "slopeWeight": "LowPass: quanto la tendenza recente (la pendenza) del movimento della stella influisce sulla correzione, in percentuale. Evita che l’algoritmo sia troppo lento; 0 usa solo la mediana dello storico recente.",
             "expFactor": "ZFilter: il tempo di esposizione virtuale è l’esposizione reale × questo fattore. Valori alti filtrano di più il seeing (più morbido ma più lento); un’esposizione virtuale di ~2–4 s è un buon punto di partenza per AR."
-          }
+          },
+          "ditherMode": "Come PHD2 calcola ogni dither. «Casuale» sceglie dimensione e direzione a caso; «Spirale» usa passi di dimensione fissa in spirale oraria — utile se la camera di ripresa ha rumore a motivo fisso o la montatura ha un fastidioso gioco in Dec.",
+          "ditherRaOnly": "Dithering solo sull’asse AR. Utile quando la guida in Dec è disattivata o la montatura ha molto gioco in Dec.",
+          "ditherScale": "Moltiplicatore applicato all’entità di dither richiesta dall’applicazione di ripresa — aumentalo per dither più ampi, diminuiscilo per più piccoli."
         },
         "starDetection": "Inseguimento della stella guida",
         "searchRegion": "Regione di ricerca (pixel)",
@@ -1117,7 +1120,13 @@
         "minStarSNR": "SNR minimo della stella per AutoFind",
         "autoSelectDownsample": "Sottocampionamento dei frame di selezione",
         "saturationByADU": "Saturazione per ADU",
-        "saturationADUValue": "Valore ADU di saturazione"
+        "saturationADUValue": "Valore ADU di saturazione",
+        "dither": "Dithering",
+        "ditherMode": "Modalità di dither",
+        "ditherRaOnly": "Dither solo in AR",
+        "ditherScale": "Scala del dither",
+        "ditherModeRandom": "Casuale",
+        "ditherModeSpiral": "Spirale"
       }
     },
     "focuser": {

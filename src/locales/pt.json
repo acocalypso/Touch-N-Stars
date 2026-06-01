@@ -1104,7 +1104,10 @@
             "reactiveWeight": "Predictive PEC: peso da parte reativa, baseada no deslocamento da estrela no último quadro. Os padrões servem para a maioria das montagens.",
             "slopeWeight": "LowPass: quanto a tendência recente (a inclinação) do movimento da estrela influencia a correção, em porcentagem. Evita que o algoritmo fique lento demais; 0 usa apenas a mediana do histórico recente.",
             "expFactor": "ZFilter: o tempo de exposição virtual é a exposição real × este fator. Valores altos filtram mais o seeing (mais suave, porém mais lento); uma exposição virtual de ~2–4 s é um bom ponto de partida para AR."
-          }
+          },
+          "ditherMode": "Como o PHD2 calcula cada dither. «Aleatório» escolhe tamanho e direção ao acaso; «Espiral» usa passos de tamanho fixo em espiral horária — útil se a câmera de captura tem ruído de padrão fixo ou a montagem tem folga em Dec incômoda.",
+          "ditherRaOnly": "Dithering apenas no eixo AR. Útil quando a guiagem em Dec está desligada ou a montagem tem muita folga em Dec.",
+          "ditherScale": "Multiplicador aplicado à quantidade de dither solicitada pelo aplicativo de captura — aumente para dithers maiores, diminua para menores."
         },
         "starDetection": "Acompanhamento da estrela-guia",
         "searchRegion": "Região de busca (pixels)",
@@ -1117,7 +1120,13 @@
         "minStarSNR": "SNR mínimo da estrela para AutoFind",
         "autoSelectDownsample": "Subamostragem dos quadros de seleção",
         "saturationByADU": "Saturação por ADU",
-        "saturationADUValue": "Valor ADU de saturação"
+        "saturationADUValue": "Valor ADU de saturação",
+        "dither": "Dithering",
+        "ditherMode": "Modo de dither",
+        "ditherRaOnly": "Dither só em AR",
+        "ditherScale": "Escala de dither",
+        "ditherModeRandom": "Aleatório",
+        "ditherModeSpiral": "Espiral"
       }
     },
     "focuser": {

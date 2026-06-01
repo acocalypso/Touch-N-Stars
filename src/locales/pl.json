@@ -1104,7 +1104,10 @@
             "reactiveWeight": "Predictive PEC: waga części reaktywnej, opartej na przesunięciu gwiazdy w ostatniej klatce. Domyślne wartości pasują większości montaży.",
             "slopeWeight": "LowPass: jak bardzo ostatni trend (nachylenie) ruchu gwiazdy wpływa na korektę, w procentach. Zapobiega zbytniej ospałości algorytmu; 0 używa tylko mediany ostatniej historii.",
             "expFactor": "ZFilter: wirtualny czas ekspozycji to rzeczywista ekspozycja × ten współczynnik. Wyższe wartości bardziej filtrują seeing (gładziej, ale wolniej); wirtualna ekspozycja ~2–4 s to dobry punkt wyjścia dla RA."
-          }
+          },
+          "ditherMode": "Jak PHD2 oblicza każdy dither. «Losowy» wybiera rozmiar i kierunek losowo; «Spiralny» używa kroków o stałym rozmiarze po spirali zgodnie z ruchem wskazówek zegara — przydatne, gdy kamera obrazująca ma stały szum wzorcowy lub montaż ma uciążliwy luz w Dec.",
+          "ditherRaOnly": "Dithering tylko w osi RA. Przydatne, gdy prowadzenie w Dec jest wyłączone lub montaż ma duży luz w Dec.",
+          "ditherScale": "Mnożnik stosowany do wielkości ditheru żądanej przez aplikację obrazującą — zwiększ dla większych, zmniejsz dla mniejszych ditherów."
         },
         "starDetection": "Śledzenie gwiazdy prowadzącej",
         "searchRegion": "Obszar wyszukiwania (piksele)",
@@ -1117,7 +1120,13 @@
         "minStarSNR": "Minimalny SNR gwiazdy dla AutoFind",
         "autoSelectDownsample": "Zmniejszanie próbkowania klatek wyboru",
         "saturationByADU": "Nasycenie wg ADU",
-        "saturationADUValue": "Wartość ADU nasycenia"
+        "saturationADUValue": "Wartość ADU nasycenia",
+        "dither": "Dithering",
+        "ditherMode": "Tryb ditheru",
+        "ditherRaOnly": "Dither tylko w RA",
+        "ditherScale": "Skala ditheru",
+        "ditherModeRandom": "Losowy",
+        "ditherModeSpiral": "Spiralny"
       }
     },
     "focuser": {

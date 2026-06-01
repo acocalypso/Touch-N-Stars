@@ -1104,7 +1104,10 @@
             "reactiveWeight": "Predictive PEC：反应部分的权重，基于最新帧中星点的位移。默认值适合大多数赤道仪。",
             "slopeWeight": "LowPass：星点运动的近期趋势（斜率）对校正的影响程度，以百分比表示。防止算法过于迟钝；0 表示仅使用近期历史的中位数。",
             "expFactor": "ZFilter：虚拟曝光时间 = 实际曝光 × 此系数。较高值滤除更多视宁度（更平滑但更慢）；约 2–4 秒的虚拟曝光是赤经的良好起点。"
-          }
+          },
+          "ditherMode": "PHD2 如何计算每次抖动。「随机」随机选择大小和方向；「螺旋」按顺时针螺旋以固定步长抖动——当成像相机有固定模式噪声或赤道仪赤纬空回较大时很有用。",
+          "ditherRaOnly": "仅沿赤经轴抖动。当赤纬导星关闭或赤道仪赤纬空回较大时很有用。",
+          "ditherScale": "对成像程序请求的抖动量所乘的倍数——增大可获得更大的抖动，减小则更小。"
         },
         "starDetection": "导星星点跟踪",
         "searchRegion": "搜索区域（像素）",
@@ -1117,7 +1120,13 @@
         "minStarSNR": "AutoFind 的最小星点信噪比",
         "autoSelectDownsample": "选择帧降采样",
         "saturationByADU": "按 ADU 判断饱和",
-        "saturationADUValue": "饱和 ADU 值"
+        "saturationADUValue": "饱和 ADU 值",
+        "dither": "抖动",
+        "ditherMode": "抖动模式",
+        "ditherRaOnly": "仅赤经抖动",
+        "ditherScale": "抖动比例",
+        "ditherModeRandom": "随机",
+        "ditherModeSpiral": "螺旋"
       }
     },
     "focuser": {

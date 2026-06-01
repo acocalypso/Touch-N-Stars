@@ -1034,7 +1034,10 @@
             "reactiveWeight": "Predictive PEC: weight of the reactive part, based on the star's displacement in the latest frame. Defaults suit most mounts.",
             "slopeWeight": "LowPass: how much the recent trend (slope) of star movement influences the correction, in percent. Keeps the algorithm from being too sluggish; 0 uses only the median of recent history.",
             "expFactor": "ZFilter: the virtual exposure time equals the real exposure × this factor. Higher values filter more seeing (smoother but slower); a virtual exposure of ~2–4 s is a good starting point for RA."
-          }
+          },
+          "ditherMode": "How PHD2 computes each dither. Random picks a random size and direction; Spiral uses fixed-size steps in a clockwise spiral — useful when the imaging camera has fixed-pattern noise or the mount has troublesome Dec backlash.",
+          "ditherRaOnly": "Dither only along the RA axis. Useful when Dec guiding is off or the mount has significant Dec backlash.",
+          "ditherScale": "Multiplier applied to the dither amount requested by the imaging application — increase it for larger dithers, decrease for smaller."
         },
         "starDetection": "Guide Star Tracking",
         "searchRegion": "Search region (pixels)",
@@ -1157,7 +1160,13 @@
           "invalidRange": "Min exposure must be less than or equal to max exposure",
           "buildActive": "Dark library build in progress",
           "buildActiveMessage": "PHD2 actions are blocked until the build completes."
-        }
+        },
+        "dither": "Dither",
+        "ditherMode": "Dither mode",
+        "ditherRaOnly": "Dither RA only",
+        "ditherScale": "Dither scale",
+        "ditherModeRandom": "Random",
+        "ditherModeSpiral": "Spiral"
       }
     },
     "focuser": {
@@ -2307,7 +2316,12 @@
         "title": "Snapshot URL Help",
         "what": "A snapshot URL is a direct link to a single image from your IP camera. The URL must return a JPEG or PNG image directly — not an HTML page or a video stream.",
         "examplesTitle": "Examples",
-        "exampleLabels": ["Generic IP camera", "ONVIF camera", "Axis camera", "Hikvision camera"],
+        "exampleLabels": [
+          "Generic IP camera",
+          "ONVIF camera",
+          "Axis camera",
+          "Hikvision camera"
+        ],
         "credentialsTitle": "Password-protected cameras",
         "credentials": "If your camera requires a username and password, include the credentials directly in the URL:",
         "credentialsNote": "The backend proxy handles authentication automatically — credentials in the URL work with both Basic and Digest authentication (e.g. Hikvision).",

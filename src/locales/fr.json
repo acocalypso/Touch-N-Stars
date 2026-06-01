@@ -1104,7 +1104,10 @@
             "reactiveWeight": "Predictive PEC : poids de la part réactive, basée sur le déplacement de l’étoile dans la dernière trame. Les valeurs par défaut conviennent à la plupart des montures.",
             "slopeWeight": "LowPass : influence de la tendance récente (la pente) du mouvement de l’étoile sur la correction, en pourcentage. Évite que l’algorithme soit trop lent ; 0 n’utilise que la médiane de l’historique récent.",
             "expFactor": "ZFilter : la durée d’exposition virtuelle vaut l’exposition réelle × ce facteur. Des valeurs élevées filtrent davantage le seeing (plus lisse mais plus lent) ; une exposition virtuelle de ~2–4 s est un bon point de départ pour l’AD."
-          }
+          },
+          "ditherMode": "Comment PHD2 calcule chaque dither. « Aléatoire » choisit une taille et une direction au hasard ; « Spirale » utilise des pas de taille fixe en spirale horaire — utile si la caméra d’imagerie a un bruit à motif fixe ou si la monture a un jeu en Dec gênant.",
+          "ditherRaOnly": "Dithering uniquement sur l’axe AD. Utile lorsque le guidage Dec est désactivé ou que la monture a un fort jeu en Dec.",
+          "ditherScale": "Multiplicateur appliqué à l’amplitude de dither demandée par l’application d’imagerie — augmentez-le pour des dithers plus grands, diminuez-le pour des plus petits."
         },
         "starDetection": "Suivi de l’étoile-guide",
         "searchRegion": "Région de recherche (pixels)",
@@ -1117,7 +1120,13 @@
         "minStarSNR": "SNR minimal de l’étoile pour AutoFind",
         "autoSelectDownsample": "Sous-échantillonnage des trames de sélection",
         "saturationByADU": "Saturation par ADU",
-        "saturationADUValue": "Valeur ADU de saturation"
+        "saturationADUValue": "Valeur ADU de saturation",
+        "dither": "Dithering",
+        "ditherMode": "Mode de dither",
+        "ditherRaOnly": "Dither en AD seulement",
+        "ditherScale": "Échelle de dither",
+        "ditherModeRandom": "Aléatoire",
+        "ditherModeSpiral": "Spirale"
       }
     },
     "focuser": {

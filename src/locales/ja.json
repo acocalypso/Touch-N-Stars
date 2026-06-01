@@ -1112,7 +1112,10 @@
             "reactiveWeight": "Predictive PEC：最新フレームの星の変位に基づく反応部分の重み。既定値で大半のマウントに適します。",
             "slopeWeight": "LowPass：星の動きの直近の傾向（傾き）が補正に与える影響度（パーセント）。アルゴリズムが鈍くなりすぎるのを防ぎます。0 は直近履歴の中央値のみを使用します。",
             "expFactor": "ZFilter：仮想露出時間 = 実際の露出 × この係数。値が大きいほどシーイングを多く除去（滑らかだが遅い）。約 2〜4 秒の仮想露出が赤経の良い出発点です。"
-          }
+          },
+          "ditherMode": "PHD2 が各ディザーをどう計算するか。「ランダム」はサイズと方向をランダムに選び、「スパイラル」は時計回りの渦巻きで一定サイズのステップを使います。撮像カメラに固定パターンノイズがある場合やマウントの赤緯バックラッシュが厄介な場合に有用です。",
+          "ditherRaOnly": "赤経軸のみでディザーします。赤緯ガイドがオフ、またはマウントの赤緯バックラッシュが大きい場合に有用です。",
+          "ditherScale": "撮像アプリが要求するディザー量に掛ける倍率。大きくすると広いディザー、小さくすると狭いディザーになります。"
         },
         "starDetection": "ガイド星の追尾",
         "searchRegion": "探索領域（ピクセル）",
@@ -1125,7 +1128,13 @@
         "minStarSNR": "AutoFind 用の最小星 SNR",
         "autoSelectDownsample": "選択フレームのダウンサンプリング",
         "saturationByADU": "ADU で飽和判定",
-        "saturationADUValue": "飽和 ADU 値"
+        "saturationADUValue": "飽和 ADU 値",
+        "dither": "ディザリング",
+        "ditherMode": "ディザーモード",
+        "ditherRaOnly": "赤経のみディザー",
+        "ditherScale": "ディザースケール",
+        "ditherModeRandom": "ランダム",
+        "ditherModeSpiral": "スパイラル"
       }
     },
     "focuser": {

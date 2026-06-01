@@ -1104,7 +1104,10 @@
             "reactiveWeight": "Predictive PEC: váha reaktivní části založené na posunu hvězdy v posledním snímku. Výchozí hodnoty vyhovují většině montáží.",
             "slopeWeight": "LowPass: jak moc nedávný trend (sklon) pohybu hvězdy ovlivňuje korekci, v procentech. Brání tomu, aby byl algoritmus příliš pomalý; 0 používá jen medián nedávné historie.",
             "expFactor": "ZFilter: virtuální expoziční čas je skutečná expozice × tento faktor. Vyšší hodnoty více filtrují seeing (hladší, ale pomalejší); virtuální expozice ~2–4 s je dobrý výchozí bod pro RA."
-          }
+          },
+          "ditherMode": "Jak PHD2 počítá každý dither. «Náhodný» volí velikost a směr náhodně; «Spirálový» používá kroky pevné velikosti ve spirále po směru hodin — užitečné, když má snímací kamera pevný vzorový šum nebo montáž obtěžující vůli v Dec.",
+          "ditherRaOnly": "Dithering pouze v ose RA. Užitečné, když je vedení v Dec vypnuté nebo má montáž velkou vůli v Dec.",
+          "ditherScale": "Násobitel aplikovaný na velikost ditheru požadovanou snímací aplikací — zvyšte pro větší, snižte pro menší dithery."
         },
         "starDetection": "Sledování vodicí hvězdy",
         "searchRegion": "Oblast hledání (pixely)",
@@ -1117,7 +1120,13 @@
         "minStarSNR": "Minimální SNR hvězdy pro AutoFind",
         "autoSelectDownsample": "Podvzorkování snímků výběru",
         "saturationByADU": "Saturace podle ADU",
-        "saturationADUValue": "Hodnota ADU saturace"
+        "saturationADUValue": "Hodnota ADU saturace",
+        "dither": "Dithering",
+        "ditherMode": "Režim ditheru",
+        "ditherRaOnly": "Dither jen v RA",
+        "ditherScale": "Měřítko ditheru",
+        "ditherModeRandom": "Náhodný",
+        "ditherModeSpiral": "Spirálový"
       }
     },
     "focuser": {

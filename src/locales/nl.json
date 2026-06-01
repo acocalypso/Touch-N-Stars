@@ -1104,7 +1104,10 @@
             "reactiveWeight": "Predictive PEC: gewicht van het reactieve deel, gebaseerd op de sterverplaatsing in het laatste frame. Standaardwaarden voldoen voor de meeste monteringen.",
             "slopeWeight": "LowPass: hoezeer de recente trend (de helling) van de sterbeweging de correctie beïnvloedt, in procenten. Voorkomt dat het algoritme te traag wordt; 0 gebruikt alleen de mediaan van de recente geschiedenis.",
             "expFactor": "ZFilter: de virtuele belichtingstijd is de werkelijke belichting × deze factor. Hoge waarden filteren meer seeing weg (vloeiender maar trager); een virtuele belichting van ~2–4 s is een goed startpunt voor RA."
-          }
+          },
+          "ditherMode": "Hoe PHD2 elke dither berekent. «Willekeurig» kiest grootte en richting willekeurig; «Spiraal» gebruikt stappen van vaste grootte in een spiraal met de klok mee — handig als de opnamecamera vast patroonruis heeft of de montering hinderlijke Dec-speling heeft.",
+          "ditherRaOnly": "Dithering alleen op de RA-as. Handig wanneer Dec-guiden uit staat of de montering veel Dec-speling heeft.",
+          "ditherScale": "Vermenigvuldiger voor de door de opnamesoftware gevraagde dither-hoeveelheid — verhoog voor grotere, verlaag voor kleinere dithers."
         },
         "starDetection": "Volgen van de gidsster",
         "searchRegion": "Zoekgebied (pixels)",
@@ -1117,7 +1120,13 @@
         "minStarSNR": "Minimale ster-SNR voor AutoFind",
         "autoSelectDownsample": "Downsampling van selectieframes",
         "saturationByADU": "Verzadiging via ADU",
-        "saturationADUValue": "Verzadigings-ADU-waarde"
+        "saturationADUValue": "Verzadigings-ADU-waarde",
+        "dither": "Dithering",
+        "ditherMode": "Dither-modus",
+        "ditherRaOnly": "Dither alleen RA",
+        "ditherScale": "Dither-schaal",
+        "ditherModeRandom": "Willekeurig",
+        "ditherModeSpiral": "Spiraal"
       }
     },
     "focuser": {

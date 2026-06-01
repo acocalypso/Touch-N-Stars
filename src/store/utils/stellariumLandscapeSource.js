@@ -1,3 +1,15 @@
+function normalizeBaseUrl(baseUrl) {
+  const safeBaseUrl = (baseUrl || '').trim();
+  if (!safeBaseUrl) return '';
+
+  return safeBaseUrl.endsWith('/') ? safeBaseUrl : `${safeBaseUrl}/`;
+}
+
+function buildRelativeUrl(baseUrl, relativePath) {
+  const normalizedRelative = (relativePath || '').replace(/^\.\//, '').replace(/^\//, '');
+  return `${normalizeBaseUrl(baseUrl)}${normalizedRelative}`;
+}
+
 function normalizeLandscapeUrl(rawUrl, baseUrl) {
   const trimmedUrl = (rawUrl || '').trim();
   if (!trimmedUrl) return '';
@@ -6,7 +18,7 @@ function normalizeLandscapeUrl(rawUrl, baseUrl) {
     return trimmedUrl;
   }
 
-  return `${baseUrl}${trimmedUrl.replace(/^\.\//, '')}`;
+  return buildRelativeUrl(baseUrl, trimmedUrl);
 }
 
 export function resolveLandscapeSource(stellariumSettings, baseUrl) {
@@ -21,7 +33,7 @@ export function resolveLandscapeSource(stellariumSettings, baseUrl) {
     return {
       visible: true,
       source: {
-        url: `${baseUrl}landscapes/gray`,
+        url: buildRelativeUrl(baseUrl, 'landscapes/gray'),
         key: 'gray',
       },
     };
@@ -45,7 +57,7 @@ export function resolveLandscapeSource(stellariumSettings, baseUrl) {
   return {
     visible: true,
     source: {
-      url: `${baseUrl}landscapes/guereins`,
+      url: buildRelativeUrl(baseUrl, 'landscapes/guereins'),
       key: 'guereins',
     },
   };

@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 import { resolveLandscapeSource } from '../utils/stellariumLandscapeSource.js';
 
 const BASE_URL = 'http://127.0.0.1:5000/stellarium-data/';
+const BASE_URL_NO_TRAILING_SLASH = 'http://127.0.0.1:5000/stellarium-data';
 
 test('returns hidden landscape config when landscapes are disabled', () => {
   const result = resolveLandscapeSource({ landscapesVisible: false }, BASE_URL);
@@ -94,5 +95,39 @@ test('falls back to default source when custom mode has no url', () => {
   assert.deepEqual(result.source, {
     url: `${BASE_URL}landscapes/guereins`,
     key: 'guereins',
+  });
+});
+
+test('normalizes default source when base URL has no trailing slash', () => {
+  const result = resolveLandscapeSource(
+    {
+      landscapesVisible: true,
+      landscapeSourceMode: 'default',
+    },
+    BASE_URL_NO_TRAILING_SLASH
+  );
+
+  assert.equal(result.visible, true);
+  assert.deepEqual(result.source, {
+    url: `${BASE_URL}landscapes/guereins`,
+    key: 'guereins',
+  });
+});
+
+test('uses relative custom path when base URL is empty', () => {
+  const result = resolveLandscapeSource(
+    {
+      landscapesVisible: true,
+      landscapeSourceMode: 'custom',
+      customLandscapeUrl: 'landscapes/my-custom',
+      customLandscapeKey: 'my-custom-key',
+    },
+    ''
+  );
+
+  assert.equal(result.visible, true);
+  assert.deepEqual(result.source, {
+    url: 'landscapes/my-custom',
+    key: 'my-custom-key',
   });
 });

@@ -2,11 +2,12 @@ import { defineStore } from 'pinia';
 import { useSettingsStore } from './settingsStore';
 import { resolveLandscapeSource } from './utils/stellariumLandscapeSource.js';
 
+const activeLandscapes = new WeakMap();
+
 export const useStellariumStore = defineStore('stellariumStore', {
   state: () => ({
     stel: null,
     baseUrl: '',
-    activeLandscapeSignature: '',
     lastSearchedName: '',
     search: {
       RAangle: 0,
@@ -36,9 +37,9 @@ export const useStellariumStore = defineStore('stellariumStore', {
         if (landscapeConfig.visible && landscapeConfig.source) {
           const nextLandscapeSignature = `${landscapeConfig.source.key}|${landscapeConfig.source.url}`;
 
-          if (this.activeLandscapeSignature !== nextLandscapeSignature) {
+          if (activeLandscapes.get(core) !== nextLandscapeSignature) {
             core.landscapes.addDataSource(landscapeConfig.source);
-            this.activeLandscapeSignature = nextLandscapeSignature;
+            activeLandscapes.set(core, nextLandscapeSignature);
           }
         }
 

@@ -3651,6 +3651,7 @@
       },
       "sessionModes": {
         "time": "Zeit",
+        "now": "Jetzt",
         "twilightEndNautical": "Nautische Daemmerung Ende",
         "twilightEndAstronomical": "Astronomische Daemmerung Ende",
         "sunSet": "Sonnenuntergang",

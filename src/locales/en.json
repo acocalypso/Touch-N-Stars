@@ -3645,6 +3645,7 @@
       },
       "sessionModes": {
         "time": "Time",
+        "now": "Now",
         "twilightEndNautical": "Twilight end nautical",
         "twilightEndAstronomical": "Twilight end astronomical",
         "sunSet": "Sun set",

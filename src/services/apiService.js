@@ -401,10 +401,11 @@ const apiService = {
     }
   },
 
-  async getPhd2CurrentImage() {
+  async getPhd2CurrentImage(gamma) {
     try {
       const { API_URL } = getUrls();
-      const response = await axios.get(`${API_URL}phd2/current-image`, {
+      const params = gamma !== undefined ? `?gamma=${gamma}` : '';
+      const response = await axios.get(`${API_URL}phd2/current-image${params}`, {
         responseType: 'blob',
       });
       return URL.createObjectURL(response.data);

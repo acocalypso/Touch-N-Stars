@@ -1067,6 +1067,9 @@
           "buildActive": "ダークライブラリ作成中",
           "buildActiveMessage": "作成が完了するまで PHD2 操作はブロックされます。"
         },
+        "imageDisplay": "画像表示",
+        "imageGamma": "ストレッチ（ガンマ）",
+        "imageGammaHint": "低 = 強いストレッチ、高 = 線形",
         "applyStep": "適用する",
         "calculatedStep": "計算されたステップ",
         "calibDistance": "距離",

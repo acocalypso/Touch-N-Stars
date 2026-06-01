@@ -109,9 +109,7 @@
           <span class="text-sm font-medium text-gray-300">
             {{ $t('components.guider.phd2.imageGamma') }}
           </span>
-          <span class="text-sm text-gray-400">
-            {{ settingsStore.guider.phd2ImageGamma.toFixed(2) }}
-          </span>
+          <span class="text-sm text-gray-400">{{ settingsStore.guider.phd2ImageGamma.toFixed(2) }}</span>
         </div>
         <input
           type="range"
@@ -223,6 +221,8 @@ const settingsStore = useSettingsStore();
 const store = apiStore();
 
 const showImageDisplay = computed(
-  () => store.isPINS || store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.2.7.3')
+  () =>
+    store.isPINS ||
+    store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.2.7.3')
 );
 </script>

@@ -1054,6 +1054,9 @@
           "buildActive": "Probíhá sestavování knihovny",
           "buildActiveMessage": "Akce PHD2 jsou blokovány až do dokončení."
         },
+        "imageDisplay": "Zobrazení obrazu",
+        "imageGamma": "Roztažení (Gamma)",
+        "imageGammaHint": "Nízké = silněji roztaženo, Vysoké = lineární",
         "reviewCalibration": "Zkontrolujte kalibraci",
         "starComponents": {
           "hide": "Skrýt hvězdné komponenty",

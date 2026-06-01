@@ -107,6 +107,7 @@ export const useSettingsStore = defineStore('settings', {
     },
     guider: {
       phd2ForceCalibration: false,
+      phd2ImageGamma: 0.5,
     },
     instanceColorClasses: [
       'bg-gray-900/95',
@@ -452,6 +453,11 @@ export const useSettingsStore = defineStore('settings', {
 
     setPhd2ForceCalibration(value) {
       this.guider.phd2ForceCalibration = value;
+      this.saveGuiderSettings();
+    },
+
+    setPhd2ImageGamma(value) {
+      this.guider.phd2ImageGamma = value;
       this.saveGuiderSettings();
     },
 

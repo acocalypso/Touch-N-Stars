@@ -1108,7 +1108,10 @@
           "invalidRange": "Min exposure must be less than or equal to max exposure",
           "buildActive": "Dark library build in progress",
           "buildActiveMessage": "PHD2 actions are blocked until the build completes."
-        }
+        },
+        "imageDisplay": "Image Display",
+        "imageGamma": "Stretch (Gamma)",
+        "imageGammaHint": "Low = stronger stretch, High = linear"
       }
     },
     "focuser": {

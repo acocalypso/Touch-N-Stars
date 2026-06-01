@@ -1613,7 +1613,15 @@
         "atmosphere_visible": "Show atmosphere",
         "landscapes_visible": "Show landscapes",
         "dsos_visible": "Deep Sky Objects (Messier, NGC)",
-        "title": "Settings"
+        "title": "Settings",
+        "landscape_source_mode": "Landscape source",
+        "landscape_source_default": "Default landscape (Guereins)",
+        "landscape_source_neutral": "Neutral horizon (Gray)",
+        "landscape_source_custom": "Custom data source",
+        "custom_landscape_url": "Custom source URL",
+        "custom_landscape_url_placeholder": "e.g. /stellarium-data/landscapes/custom",
+        "custom_landscape_key": "Custom source key",
+        "custom_landscape_key_placeholder": "e.g. my-landscape"
       }
     },
     "profile": {

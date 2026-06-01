@@ -1568,7 +1568,15 @@
         "atmosphere_visible": "Afficher l'atmosphère",
         "landscapes_visible": "Afficher les paysages",
         "dsos_visible": "Objets du ciel profond (Messier, NGC)",
-        "title": "Paramètres"
+        "title": "Paramètres",
+        "landscape_source_mode": "Landscape source",
+        "landscape_source_default": "Default landscape (Guereins)",
+        "landscape_source_neutral": "Neutral horizon (Gray)",
+        "landscape_source_custom": "Custom data source",
+        "custom_landscape_url": "Custom source URL",
+        "custom_landscape_url_placeholder": "e.g. /stellarium-data/landscapes/custom",
+        "custom_landscape_key": "Custom source key",
+        "custom_landscape_key_placeholder": "e.g. my-landscape"
       }
     },
     "profile": {

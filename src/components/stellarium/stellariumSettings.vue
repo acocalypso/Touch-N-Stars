@@ -131,6 +131,61 @@
         </div>
 
         <div
+          v-if="settingsStore.stellarium.landscapesVisible"
+          class="w-full border border-gray-500 p-2 rounded-lg col-span-full"
+        >
+          <label for="landscapeSourceMode" class="text-gray-400 block mb-1">
+            {{ $t('components.stellarium.settings.landscape_source_mode') }}
+          </label>
+          <select
+            id="landscapeSourceMode"
+            v-model="settingsStore.stellarium.landscapeSourceMode"
+            class="w-full bg-gray-800 border border-gray-600 rounded px-2 py-1 text-sm text-gray-200"
+          >
+            <option value="default">
+              {{ $t('components.stellarium.settings.landscape_source_default') }}
+            </option>
+            <option value="neutral">
+              {{ $t('components.stellarium.settings.landscape_source_neutral') }}
+            </option>
+            <option value="custom">
+              {{ $t('components.stellarium.settings.landscape_source_custom') }}
+            </option>
+          </select>
+
+          <div
+            v-if="settingsStore.stellarium.landscapeSourceMode === 'custom'"
+            class="mt-2 grid gap-2"
+          >
+            <div>
+              <label for="customLandscapeUrl" class="text-gray-400 block mb-1 text-sm">
+                {{ $t('components.stellarium.settings.custom_landscape_url') }}
+              </label>
+              <input
+                id="customLandscapeUrl"
+                v-model="settingsStore.stellarium.customLandscapeUrl"
+                type="text"
+                class="w-full bg-gray-800 border border-gray-600 rounded px-2 py-1 text-sm text-gray-200"
+                :placeholder="$t('components.stellarium.settings.custom_landscape_url_placeholder')"
+              />
+            </div>
+
+            <div>
+              <label for="customLandscapeKey" class="text-gray-400 block mb-1 text-sm">
+                {{ $t('components.stellarium.settings.custom_landscape_key') }}
+              </label>
+              <input
+                id="customLandscapeKey"
+                v-model="settingsStore.stellarium.customLandscapeKey"
+                type="text"
+                class="w-full bg-gray-800 border border-gray-600 rounded px-2 py-1 text-sm text-gray-200"
+                :placeholder="$t('components.stellarium.settings.custom_landscape_key_placeholder')"
+              />
+            </div>
+          </div>
+        </div>
+
+        <div
           class="flex flex-row items-center justify-between w-full border border-gray-500 p-2 rounded-lg"
         >
           <label for="dsosVisible" class="text-gray-400">

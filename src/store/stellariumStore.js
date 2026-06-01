@@ -1,10 +1,12 @@
 import { defineStore } from 'pinia';
 import { useSettingsStore } from './settingsStore';
+import { resolveLandscapeSource } from './utils/stellariumLandscapeSource.js';
 
 export const useStellariumStore = defineStore('stellariumStore', {
   state: () => ({
     stel: null,
     baseUrl: '',
+    activeLandscapeSignature: '',
     lastSearchedName: '',
     search: {
       RAangle: 0,
@@ -27,16 +29,18 @@ export const useStellariumStore = defineStore('stellariumStore', {
         core.lines.ecliptic.visible = settingsStore.stellarium.eclipticLinesVisible;
         core.atmosphere.visible = settingsStore.stellarium.atmosphereVisible;
         core.dsos.visible = settingsStore.stellarium.dsosVisible; // Deep Sky Objects (Messier, NGC, etc.)
-        // core.landscapes.visible = settingsStore.stellarium.landscapesVisible;
-        if (settingsStore.stellarium.landscapesVisible) {
-          core.landscapes.addDataSource({
-            url: this.baseUrl + 'landscapes/guereins',
-            key: 'guereins',
-          });
-        } else {
-          core.landscapes.addDataSource({ url: this.baseUrl + 'landscapes/gray', key: 'gray' });
+
+        const landscapeConfig = resolveLandscapeSource(settingsStore.stellarium, this.baseUrl);
+        core.landscapes.visible = landscapeConfig.visible;
+
+        if (landscapeConfig.visible && landscapeConfig.source) {
+          const nextLandscapeSignature = `${landscapeConfig.source.key}|${landscapeConfig.source.url}`;
+
+          if (this.activeLandscapeSignature !== nextLandscapeSignature) {
+            core.landscapes.addDataSource(landscapeConfig.source);
+            this.activeLandscapeSignature = nextLandscapeSignature;
+          }
         }
-        core.landscapes.visible = true;
 
         console.log('Stellarium settings updated:');
       }

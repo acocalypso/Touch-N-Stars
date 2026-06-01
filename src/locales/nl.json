@@ -3604,7 +3604,12 @@
         "credentials": "Als uw camera een gebruikersnaam en wachtwoord vereist, neemt u de inloggegevens rechtstreeks in de URL op:",
         "credentialsNote": "De backend-proxy verwerkt de authenticatie automatisch: de inloggegevens in de URL werken met zowel basis- als digest-authenticatie (bijv. Hikvision).",
         "credentialsTitle": "Met wachtwoord beveiligde camera's",
-        "exampleLabels": ["Algemene IP-camera", "ONVIF-camera", "As-camera", "Hikvision-camera"],
+        "exampleLabels": [
+          "Algemene IP-camera",
+          "ONVIF-camera",
+          "As-camera",
+          "Hikvision-camera"
+        ],
         "examplesTitle": "Voorbeelden",
         "proxyOptions": [
           "Proxy (standaard): De afbeelding wordt opgehaald door de NINA-backend en doorgestuurd naar de browser. \nVereist voor lokale netwerkcamera's met inloggegevens of CORS-beperkingen. \nIets langzamer bij toegang via VPN.",
@@ -3791,7 +3796,8 @@
         "twilightEndAstronomical": "Het einde van de schemering is astronomisch",
         "twilightEndNautical": "Schemering einde nautisch",
         "twilightStartAstronomical": "De schemering begint astronomisch",
-        "twilightStartNautical": "Schemering start nautisch"
+        "twilightStartNautical": "Schemering start nautisch",
+        "now": "Nu"
       }
     },
     "filterOffset": {
@@ -3974,6 +3980,79 @@
     },
     "vncRemote": {
       "debugModeWarning": "Debugmodus actief – VNC-verbinding niet beschikbaar. Schakel de debugmodus uit in de instellingen."
+    },
+    "landscaperCreator": {
+      "actions": {
+        "generate": "ZIP genereren",
+        "generating": "ZIP genereren..."
+      },
+      "details": {
+        "sectionTitle": "3) Landschapsdetails"
+      },
+      "errors": {
+        "imageLoadFailed": "De afbeelding kon niet worden geladen.",
+        "requestFailed": "Kan de liggende ZIP niet genereren."
+      },
+      "fields": {
+        "altitude": "Hoogte",
+        "author": "Auteur",
+        "description": "Beschrijving",
+        "folderName": "Mapnaam",
+        "folderNamePlaceholder": "automatisch gegenereerde-van-naam",
+        "latitude": "Breedte",
+        "longitude": "Lengte",
+        "name": "Landschapsnaam",
+        "namePlaceholder": "bijv. \nMijn observatiehorizon"
+      },
+      "folder": {
+        "autoHint": "Mapnamen worden opgeschoond naar een veilig formaat met kleine letters en onderstrepingstekens/afbreekstreepjes."
+      },
+      "image": {
+        "aspectRatio": "Beeldverhouding",
+        "aspectWarning": "De beeldverhouding van de geüploade afbeelding is {ratio}. \nEen 360-panorama moet bijna 2:1 zijn.",
+        "dimensions": "Afmetingen",
+        "fileName": "Bestandsnaam",
+        "fileSize": "Bestandsgrootte",
+        "remove": "Verwijderen",
+        "replace": "Panorama vervangen",
+        "sectionTitle": "1) Afbeelding uploaden",
+        "select": "Selecteer Panorama",
+        "typesHint": "Geaccepteerde formaten: PNG, JPEG, WebP"
+      },
+      "instructions": {
+        "line1": "Gebruik een equirectangulaire panoramaafbeelding van 360°.",
+        "line2": "Houd voor landschappen met alleen horizon de lucht waar mogelijk transparant.",
+        "line3": "Klik of sleep op het voorbeeld waar het geografische noorden zou moeten zijn.",
+        "line4": "Download de ZIP en pak deze uit in de map Stellarium Web Landscapes.",
+        "title": "Hoe u uw inbreng voorbereidt"
+      },
+      "preview": {
+        "currentNorth": "noordOffsetDeg:",
+        "empty": "Upload een panoramaafbeelding om voorbeeld in te schakelen.",
+        "help": "Klik of sleep horizontaal op het panorama om in te stellen waar het geografische noorden zich bevindt.",
+        "imageAlt": "Panoramavoorbeeld geüpload",
+        "quickCenter": "Noord in het midden",
+        "quickLeft": "Noord aan de linkerrand",
+        "quickReset": "Opnieuw instellen",
+        "sectionTitle": "2) Panoramavoorbeeld en noordmarkering",
+        "signHint": "Als het gegenereerde landschap gespiegeld lijkt of in de verkeerde richting is gedraaid, moet het offsetteken mogelijk worden omgekeerd, afhankelijk van de backend-conventie."
+      },
+      "subtitle": "Upload een 360-panorama, markeer het geografische noorden en genereer een Stellarium landschap-ZIP.",
+      "title": "Stellarium Landschapsmaker",
+      "toast": {
+        "errorTitle": "Het genereren van landschappen is mislukt",
+        "invalidFileType": "Niet-ondersteund bestandstype. \nUpload PNG, JPEG of WebP.",
+        "successMessage": "{bestandsnaam} gedownload",
+        "successTitle": "Liggend ZIP klaar",
+        "validationTitle": "Geldigmaking"
+      },
+      "validation": {
+        "fixErrors": "Corrigeer de gemarkeerde velden.",
+        "folderNameInvalid": "Mapnaam bevat ongeldige tekens.",
+        "folderNameRequired": "Mapnaam is vereist.",
+        "imageRequired": "Upload een afbeeldingsbestand.",
+        "nameRequired": "Landschapsnaam is vereist."
+      }
     }
   },
   "pinsDevices": {

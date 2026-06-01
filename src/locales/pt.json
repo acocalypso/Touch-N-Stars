@@ -3796,7 +3796,8 @@
         "twilightEndAstronomical": "Fim do crepúsculo astronômico",
         "twilightEndNautical": "Fim do crepúsculo náutico",
         "twilightStartAstronomical": "Crepúsculo começa astronômico",
-        "twilightStartNautical": "Crepúsculo começa náutico"
+        "twilightStartNautical": "Crepúsculo começa náutico",
+        "now": "Agora"
       }
     },
     "filterOffset": {
@@ -3979,6 +3980,79 @@
     },
     "vncRemote": {
       "debugModeWarning": "Modo de depuração ativo – Conexão VNC não disponível. Desative o modo de depuração nas configurações."
+    },
+    "landscaperCreator": {
+      "actions": {
+        "generate": "Gerar ZIP",
+        "generating": "Gerando ZIP..."
+      },
+      "details": {
+        "sectionTitle": "3) Detalhes da paisagem"
+      },
+      "errors": {
+        "imageLoadFailed": "A imagem não pôde ser carregada.",
+        "requestFailed": "Falha ao gerar o ZIP de paisagem."
+      },
+      "fields": {
+        "altitude": "Altitude",
+        "author": "Autor",
+        "description": "Descrição",
+        "folderName": "Nome da pasta",
+        "folderNamePlaceholder": "gerado automaticamente a partir do nome",
+        "latitude": "Latitude",
+        "longitude": "Longitude",
+        "name": "Nome da paisagem",
+        "namePlaceholder": "por exemplo \nMeu Horizonte Observatório"
+      },
+      "folder": {
+        "autoHint": "Os nomes das pastas são higienizados para letras minúsculas, formato seguro de sublinhado/hífen."
+      },
+      "image": {
+        "aspectRatio": "Proporção de aspecto",
+        "aspectWarning": "A proporção da imagem enviada é {ratio}. \nUm panorama 360 deve estar próximo de 2:1.",
+        "dimensions": "Dimensões",
+        "fileName": "Nome do arquivo",
+        "fileSize": "Tamanho do arquivo",
+        "remove": "Remover",
+        "replace": "Substituir panorama",
+        "sectionTitle": "1) Carregamento de imagem",
+        "select": "Selecione Panorama",
+        "typesHint": "Formatos aceitos: PNG, JPEG, WebP"
+      },
+      "instructions": {
+        "line1": "Use uma imagem panorâmica equirretangular de 360°.",
+        "line2": "Para paisagens apenas no horizonte, mantenha o céu transparente quando possível.",
+        "line3": "Clique ou arraste na visualização onde deveria estar o Norte geográfico.",
+        "line4": "Baixe o ZIP e extraia-o para a pasta de paisagens do Stellarium Web.",
+        "title": "Como preparar sua contribuição"
+      },
+      "preview": {
+        "currentNorth": "norteOffsetDeg:",
+        "empty": "Carregue uma imagem panorâmica para ativar a visualização.",
+        "help": "Clique ou arraste horizontalmente no panorama para definir onde fica o Norte geográfico.",
+        "imageAlt": "Pré-visualização do panorama carregado",
+        "quickCenter": "Norte no centro",
+        "quickLeft": "Norte na borda esquerda",
+        "quickReset": "Reiniciar",
+        "sectionTitle": "2) Pré-visualização do panorama e marcador norte",
+        "signHint": "Se a paisagem gerada parecer espelhada ou girada na direção errada, o sinal de deslocamento pode precisar ser invertido dependendo da convenção de back-end."
+      },
+      "subtitle": "Carregue um panorama 360, marque o Norte geográfico e gere um ZIP de paisagem Stellarium.",
+      "title": "Criador de paisagens Stellarium",
+      "toast": {
+        "errorTitle": "Falha na geração do cenário",
+        "invalidFileType": "Tipo de arquivo não suportado. \nFaça upload de PNG, JPEG ou WebP.",
+        "successMessage": "{nome do arquivo} baixado",
+        "successTitle": "Pronto para ZIP em paisagem",
+        "validationTitle": "Validação"
+      },
+      "validation": {
+        "fixErrors": "Corrija os campos destacados.",
+        "folderNameInvalid": "O nome da pasta contém caracteres inválidos.",
+        "folderNameRequired": "O nome da pasta é obrigatório.",
+        "imageRequired": "Por favor, carregue um arquivo de imagem.",
+        "nameRequired": "O nome da paisagem é obrigatório."
+      }
     }
   },
   "pinsDevices": {

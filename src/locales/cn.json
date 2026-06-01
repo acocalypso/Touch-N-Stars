@@ -3604,7 +3604,12 @@
         "credentials": "If your camera requires a username and password, include the credentials directly in the URL:",
         "credentialsNote": "The backend proxy handles authentication automatically — credentials in the URL work with both Basic and Digest authentication (e.g. Hikvision).",
         "credentialsTitle": "Password-protected cameras",
-        "exampleLabels": ["Generic IP camera", "ONVIF camera", "Axis camera", "Hikvision camera"],
+        "exampleLabels": [
+          "Generic IP camera",
+          "ONVIF camera",
+          "Axis camera",
+          "Hikvision camera"
+        ],
         "examplesTitle": "Examples",
         "proxyOptions": [
           "Proxy (default): The image is fetched by the NINA backend and forwarded to the browser. Required for local network cameras with credentials or CORS restrictions. Slightly slower when accessed over VPN.",
@@ -3791,7 +3796,8 @@
         "twilightEndAstronomical": "Twilight end astronomical",
         "twilightEndNautical": "Twilight end nautical",
         "twilightStartAstronomical": "Twilight start astronomical",
-        "twilightStartNautical": "Twilight start nautical"
+        "twilightStartNautical": "Twilight start nautical",
+        "now": "Now"
       }
     },
     "filterOffset": {
@@ -3974,6 +3980,79 @@
     },
     "vncRemote": {
       "debugModeWarning": "调试模式已激活 – VNC连接不可用。请在设置中关闭调试模式。"
+    },
+    "landscaperCreator": {
+      "actions": {
+        "generate": "Generate ZIP",
+        "generating": "Generating ZIP..."
+      },
+      "details": {
+        "sectionTitle": "3) Landscape Details"
+      },
+      "errors": {
+        "imageLoadFailed": "The image could not be loaded.",
+        "requestFailed": "Failed to generate the landscape ZIP."
+      },
+      "fields": {
+        "altitude": "Altitude",
+        "author": "Author",
+        "description": "Description",
+        "folderName": "Folder name",
+        "folderNamePlaceholder": "auto-generated-from-name",
+        "latitude": "Latitude",
+        "longitude": "Longitude",
+        "name": "Landscape name",
+        "namePlaceholder": "e.g. My Observatory Horizon"
+      },
+      "folder": {
+        "autoHint": "Folder names are sanitized to lowercase, underscore/hyphen safe format."
+      },
+      "image": {
+        "aspectRatio": "Aspect ratio",
+        "aspectWarning": "The uploaded image aspect ratio is {ratio}. A 360 panorama should be close to 2:1.",
+        "dimensions": "Dimensions",
+        "fileName": "File name",
+        "fileSize": "File size",
+        "remove": "Remove",
+        "replace": "Replace Panorama",
+        "sectionTitle": "1) Image Upload",
+        "select": "Select Panorama",
+        "typesHint": "Accepted formats: PNG, JPEG, WebP"
+      },
+      "instructions": {
+        "line1": "Use a 360° equirectangular panorama image.",
+        "line2": "For horizon-only landscapes, keep the sky transparent when possible.",
+        "line3": "Click or drag on the preview where geographic North should be.",
+        "line4": "Download the ZIP and extract it into your Stellarium Web landscapes folder.",
+        "title": "How to prepare your input"
+      },
+      "preview": {
+        "currentNorth": "northOffsetDeg:",
+        "empty": "Upload a panorama image to enable preview.",
+        "help": "Click or drag horizontally on the panorama to set where geographic North is.",
+        "imageAlt": "Uploaded panorama preview",
+        "quickCenter": "North at center",
+        "quickLeft": "North at left edge",
+        "quickReset": "Reset",
+        "sectionTitle": "2) Panorama Preview and North Marker",
+        "signHint": "If the generated landscape appears mirrored or rotated the wrong direction, the offset sign may need to be inverted depending on backend convention."
+      },
+      "subtitle": "Upload a 360 panorama, mark geographic North, and generate a Stellarium landscape ZIP.",
+      "title": "Stellarium Landscape Creator",
+      "toast": {
+        "errorTitle": "Landscape generation failed",
+        "invalidFileType": "Unsupported file type. Please upload PNG, JPEG, or WebP.",
+        "successMessage": "Downloaded {filename}",
+        "successTitle": "Landscape ZIP ready",
+        "validationTitle": "Validation"
+      },
+      "validation": {
+        "fixErrors": "Please fix the highlighted fields.",
+        "folderNameInvalid": "Folder name contains invalid characters.",
+        "folderNameRequired": "Folder name is required.",
+        "imageRequired": "Please upload an image file.",
+        "nameRequired": "Landscape name is required."
+      }
     }
   },
   "pinsDevices": {

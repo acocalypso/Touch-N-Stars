@@ -183,6 +183,16 @@
               />
             </div>
           </div>
+
+          <div class="mt-3 flex justify-end">
+            <button
+              class="px-3 py-1 rounded bg-cyan-700 hover:bg-cyan-600 text-sm text-white disabled:opacity-50 disabled:cursor-not-allowed"
+              :disabled="!landscapeSourceDirty"
+              @click="saveLandscapeSourceSettings"
+            >
+              {{ $t('general.save') }}
+            </button>
+          </div>
         </div>
 
         <div
@@ -207,7 +217,7 @@
 import { useStellariumStore } from '@/store/stellariumStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import toggleButton from '@/components/helpers/toggleButton.vue';
-import { watch, ref, computed, onBeforeUnmount } from 'vue';
+import { watch, ref, computed } from 'vue';
 import { Cog6ToothIcon } from '@heroicons/vue/24/outline';
 import { useOrientation } from '@/composables/useOrientation';
 import Modal from '@/components/helpers/Modal.vue';
@@ -215,7 +225,7 @@ import Modal from '@/components/helpers/Modal.vue';
 const stellariumStore = useStellariumStore();
 const settingsStore = useSettingsStore();
 const settingsVisible = ref(false);
-let landscapeRefreshTimeoutId = null;
+const landscapeSourceDirty = ref(false);
 
 function toggleControls() {
   settingsVisible.value = !settingsVisible.value;
@@ -226,8 +236,14 @@ function requestStellariumRefresh() {
   window.dispatchEvent(event);
 }
 
+function saveLandscapeSourceSettings() {
+  requestStellariumRefresh();
+  landscapeSourceDirty.value = false;
+}
+
 function showLandscape() {
   settingsStore.stellarium.landscapesVisible = !settingsStore.stellarium.landscapesVisible;
+  requestStellariumRefresh();
 }
 
 // Check if in landscape mode
@@ -245,29 +261,14 @@ watch(() => settingsStore.stellarium, stellariumStore.updateStellariumCore, { de
 
 watch(
   () => [
-    settingsStore.stellarium.landscapesVisible,
     settingsStore.stellarium.landscapeSourceMode,
     settingsStore.stellarium.customLandscapeUrl,
     settingsStore.stellarium.customLandscapeKey,
   ],
   () => {
-    if (landscapeRefreshTimeoutId) {
-      clearTimeout(landscapeRefreshTimeoutId);
-    }
-
-    landscapeRefreshTimeoutId = setTimeout(() => {
-      requestStellariumRefresh();
-      landscapeRefreshTimeoutId = null;
-    }, 250);
+    landscapeSourceDirty.value = true;
   }
 );
-
-onBeforeUnmount(() => {
-  if (landscapeRefreshTimeoutId) {
-    clearTimeout(landscapeRefreshTimeoutId);
-    landscapeRefreshTimeoutId = null;
-  }
-});
 </script>
 <style scoped>
 /* Scrollbar styling for landscape mode */

@@ -123,7 +123,7 @@ In Stellarium settings:
 3. Custom source URL -> `landscapes/<your-landscape-id>`
 4. Custom source key -> a unique key, for example `my-observatory`
 
-Touch-N-Stars now auto-refreshes Stellarium when these settings change.
+After entering or changing custom source settings, click **Save** in the Stellarium settings panel to trigger refresh.
 
 ## 5. Quality and troubleshooting checklist
 

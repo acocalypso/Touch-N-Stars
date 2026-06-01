@@ -109,7 +109,7 @@ ${imports}
 
 // Plugin registry
 export const pluginRegistry = [
-${registryEntries},
+${registryEntries ? registryEntries + ',' : ''}
 ];`;
 
   // Write the file

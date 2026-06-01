@@ -4,6 +4,7 @@
       v-model="minStarHFDValue"
       :label="$t('components.guider.phd2.minStarHFD')"
       label-key="components.guider.phd2.minStarHFD"
+      :help-message="$t('components.guider.phd2.help.minStarHFD')"
       :min="0"
       :max="10"
       :step="0.1"

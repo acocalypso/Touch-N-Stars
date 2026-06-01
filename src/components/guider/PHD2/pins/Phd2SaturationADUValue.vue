@@ -4,6 +4,7 @@
       v-model="aduValue"
       :label="$t('components.guider.phd2.saturationADUValue')"
       label-key="components.guider.phd2.saturationADUValue"
+      :help-message="$t('components.guider.phd2.help.saturationADUValue')"
       :min="0"
       :max="65535"
       :step="1"

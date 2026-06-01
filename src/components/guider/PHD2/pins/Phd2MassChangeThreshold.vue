@@ -4,6 +4,7 @@
       v-model="thresholdValue"
       :label="$t('components.guider.phd2.massChangeThreshold')"
       label-key="components.guider.phd2.massChangeThreshold"
+      :help-message="$t('components.guider.phd2.help.massChangeThreshold')"
       :min="0"
       :max="100"
       :step="1"

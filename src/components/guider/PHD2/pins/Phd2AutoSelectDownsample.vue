@@ -1,8 +1,15 @@
 <template>
   <div v-if="store.isPINS" class="flex flex-row w-full items-center min-w-28">
-    <label for="phd2-auto-select-downsample" class="text-sm sm:text-xs mr-3 mb-1 text-gray-200">
-      {{ $t('components.guider.phd2.autoSelectDownsample') }}
-    </label>
+    <div class="flex items-center gap-1 mr-3">
+      <label for="phd2-auto-select-downsample" class="text-sm sm:text-xs mb-1 text-gray-200">
+        {{ $t('components.guider.phd2.autoSelectDownsample') }}
+      </label>
+      <InfoModal
+        :title="$t('components.guider.phd2.autoSelectDownsample')"
+        :message="$t('components.guider.phd2.help.autoSelectDownsample')"
+        size="w-4 h-4"
+      />
+    </div>
     <select
       id="phd2-auto-select-downsample"
       v-model="guiderStore.phd2AutoSelectDownsample"
@@ -21,6 +28,7 @@
 import { onMounted } from 'vue';
 import { useGuiderStore } from '@/store/guiderStore';
 import { apiStore } from '@/store/store';
+import InfoModal from '@/components/helpers/infoModal.vue';
 
 const store = apiStore();
 const guiderStore = useGuiderStore();

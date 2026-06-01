@@ -4,6 +4,7 @@
       v-model="snrValue"
       :label="$t('components.guider.phd2.minStarSNR')"
       label-key="components.guider.phd2.minStarSNR"
+      :help-message="$t('components.guider.phd2.help.minStarSNR')"
       :min="0"
       :max="100"
       :step="1"

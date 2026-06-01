@@ -4,6 +4,7 @@
       v-model="searchRegionValue"
       :label="$t('components.guider.phd2.searchRegion')"
       label-key="components.guider.phd2.searchRegion"
+      :help-message="$t('components.guider.phd2.help.searchRegion')"
       :min="5"
       :max="50"
       :step="1"

@@ -4,6 +4,7 @@
       v-model="maxStarHFDValue"
       :label="$t('components.guider.phd2.maxStarHFD')"
       label-key="components.guider.phd2.maxStarHFD"
+      :help-message="$t('components.guider.phd2.help.maxStarHFD')"
       :min="0"
       :max="10"
       :step="0.1"

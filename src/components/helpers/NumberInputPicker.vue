@@ -5,17 +5,24 @@
       wrapperClass,
     ]"
   >
-    <label
-      v-if="label"
-      :for="inputId"
-      :class="
-        labelPosition === 'top'
-          ? 'block text-sm font-medium text-gray-300 mb-2'
-          : 'text-xs md:text-sm mr-3 mb-1 text-gray-200'
-      "
-    >
-      {{ label }}
-    </label>
+    <span v-if="label" class="flex items-center gap-1 mr-3 mb-1">
+      <label
+        :for="inputId"
+        :class="
+          labelPosition === 'top'
+            ? 'block text-sm font-medium text-gray-300 mb-2'
+            : 'text-xs md:text-sm text-gray-200'
+        "
+      >
+        {{ label }}
+      </label>
+      <InfoModal
+        v-if="helpMessage"
+        :title="helpTitle || label"
+        :message="helpMessage"
+        size="w-4 h-4"
+      />
+    </span>
     <div
       :class="[
         'flex items-center overflow-hidden',
@@ -60,6 +67,7 @@
 import { ref, computed } from 'vue';
 import { useNumberPicker } from '@/composables/useNumberPicker';
 import { useSettingsStore } from '@/store/settingsStore';
+import InfoModal from '@/components/helpers/infoModal.vue';
 
 const props = defineProps({
   modelValue: {
@@ -74,6 +82,16 @@ const props = defineProps({
   labelKey: {
     type: String,
     required: true,
+  },
+  helpTitle: {
+    type: String,
+    required: false,
+    default: '',
+  },
+  helpMessage: {
+    type: String,
+    required: false,
+    default: '',
   },
   min: {
     type: Number,

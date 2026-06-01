@@ -1308,6 +1308,22 @@ const apiService = {
     return Azimuths.map((az, i) => ({ az, alt: Altitudes[i] }));
   },
 
+  async createStellariumLandscape(formData) {
+    try {
+      const { PLUGINSERVER_URL } = getUrls();
+      const response = await axios.post(
+        `${PLUGINSERVER_URL}/api/stellarium/landscape/create`,
+        formData,
+        {
+          responseType: 'blob',
+        }
+      );
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
   //-------------------------------------  application ---------------------------------------
   async applicatioTabSwitch(tab) {
     try {

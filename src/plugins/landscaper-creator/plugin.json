@@ -1,0 +1,10 @@
+{
+  "id": "landscaper-creator",
+  "name": "Stellarium Landscape Creator",
+  "description": "Create custom Stellarium landscape ZIP packages from 360 panoramas",
+  "version": "1.0.0",
+  "author": "Christian Wöhrle",
+  "defaultEnabled": false,
+  "enabled": true,
+  "isPins": false
+}

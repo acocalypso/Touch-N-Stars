@@ -2169,6 +2169,79 @@
         "allSubmissionsCleared": "All submissions cleared"
       }
     },
+    "landscaperCreator": {
+      "title": "Stellarium Landscape Creator",
+      "subtitle": "Upload a 360 panorama, mark geographic North, and generate a Stellarium landscape ZIP.",
+      "instructions": {
+        "title": "How to prepare your input",
+        "line1": "Use a 360° equirectangular panorama image.",
+        "line2": "For horizon-only landscapes, keep the sky transparent when possible.",
+        "line3": "Click or drag on the preview where geographic North should be.",
+        "line4": "Download the ZIP and extract it into your Stellarium Web landscapes folder."
+      },
+      "image": {
+        "sectionTitle": "1) Image Upload",
+        "select": "Select Panorama",
+        "replace": "Replace Panorama",
+        "remove": "Remove",
+        "typesHint": "Accepted formats: PNG, JPEG, WebP",
+        "fileName": "File name",
+        "fileSize": "File size",
+        "dimensions": "Dimensions",
+        "aspectRatio": "Aspect ratio",
+        "aspectWarning": "The uploaded image aspect ratio is {ratio}. A 360 panorama should be close to 2:1."
+      },
+      "preview": {
+        "sectionTitle": "2) Panorama Preview and North Marker",
+        "help": "Click or drag horizontally on the panorama to set where geographic North is.",
+        "imageAlt": "Uploaded panorama preview",
+        "empty": "Upload a panorama image to enable preview.",
+        "currentNorth": "northOffsetDeg:",
+        "quickLeft": "North at left edge",
+        "quickCenter": "North at center",
+        "quickReset": "Reset",
+        "signHint": "If the generated landscape appears mirrored or rotated the wrong direction, the offset sign may need to be inverted depending on backend convention."
+      },
+      "details": {
+        "sectionTitle": "3) Landscape Details"
+      },
+      "fields": {
+        "name": "Landscape name",
+        "namePlaceholder": "e.g. My Observatory Horizon",
+        "folderName": "Folder name",
+        "folderNamePlaceholder": "auto-generated-from-name",
+        "description": "Description",
+        "latitude": "Latitude",
+        "longitude": "Longitude",
+        "altitude": "Altitude",
+        "author": "Author"
+      },
+      "folder": {
+        "autoHint": "Folder names are sanitized to lowercase, underscore/hyphen safe format."
+      },
+      "actions": {
+        "generate": "Generate ZIP",
+        "generating": "Generating ZIP..."
+      },
+      "validation": {
+        "fixErrors": "Please fix the highlighted fields.",
+        "imageRequired": "Please upload an image file.",
+        "nameRequired": "Landscape name is required.",
+        "folderNameRequired": "Folder name is required.",
+        "folderNameInvalid": "Folder name contains invalid characters."
+      },
+      "toast": {
+        "validationTitle": "Validation",
+        "successTitle": "Landscape ZIP ready",
+        "successMessage": "Downloaded {filename}",
+        "errorTitle": "Landscape generation failed",
+        "invalidFileType": "Unsupported file type. Please upload PNG, JPEG, or WebP."
+      },
+      "errors": {
+        "imageLoadFailed": "The image could not be loaded.",
+        "requestFailed": "Failed to generate the landscape ZIP."
+      }
+    },
     "telescopius": {
       "title": "Telescopius",
       "offlineInfo": "Loads personal target lists from telescopius.com and stores them locally for offline availability.",

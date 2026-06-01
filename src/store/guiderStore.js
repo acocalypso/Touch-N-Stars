@@ -57,6 +57,12 @@ export const useGuiderStore = defineStore('guiderStore', {
     phd2UseMultipleStars: false,
     phd2UseMultipleStarsLoading: false,
 
+    // PHD2 Shared Parameters State (PINS)
+    phd2FastRecenter: false,
+    phd2FastRecenterLoading: false,
+    phd2MountGuideOutput: false,
+    phd2MountGuideOutputLoading: false,
+
     // PHD2 Guide Algorithm RA State (PINS)
     phd2GuideAlgorithmRA: null,
     phd2GuideAlgorithmRALoading: false,
@@ -487,6 +493,74 @@ export const useGuiderStore = defineStore('guiderStore', {
         }
       } catch (error) {
         console.error('Error setting PHD2 reverse DEC after flip:', error);
+        throw error;
+      }
+    },
+
+    // PHD2 Fast Recenter Actions (PINS)
+    async fetchPHD2FastRecenter() {
+      const store = apiStore();
+      if (!store.isPINS) return;
+      this.phd2FastRecenterLoading = true;
+      try {
+        const response = await apiPinsService.getPHD2FastRecenter();
+        if (response.Success && response.Response) {
+          this.phd2FastRecenter = response.Response.FastRecenterEnabled;
+        }
+      } catch (error) {
+        console.error('Error fetching PHD2 fast recenter:', error);
+      } finally {
+        this.phd2FastRecenterLoading = false;
+      }
+    },
+
+    async setPHD2FastRecenter(enabled) {
+      if (this.isDarkLibraryBuildActive) {
+        console.warn('PHD2 dark library build active – aborting setPHD2FastRecenter');
+        return;
+      }
+      try {
+        const response = await apiPinsService.setPHD2FastRecenter(enabled);
+        if (response.Success && response.Response) {
+          this.phd2FastRecenter = response.Response.FastRecenterEnabled;
+          return response;
+        }
+      } catch (error) {
+        console.error('Error setting PHD2 fast recenter:', error);
+        throw error;
+      }
+    },
+
+    // PHD2 Mount Guide Output Actions (PINS)
+    async fetchPHD2MountGuideOutput() {
+      const store = apiStore();
+      if (!store.isPINS) return;
+      this.phd2MountGuideOutputLoading = true;
+      try {
+        const response = await apiPinsService.getPHD2MountGuideOutput();
+        if (response.Success && response.Response) {
+          this.phd2MountGuideOutput = response.Response.MountGuideOutputEnabled;
+        }
+      } catch (error) {
+        console.error('Error fetching PHD2 mount guide output:', error);
+      } finally {
+        this.phd2MountGuideOutputLoading = false;
+      }
+    },
+
+    async setPHD2MountGuideOutput(enabled) {
+      if (this.isDarkLibraryBuildActive) {
+        console.warn('PHD2 dark library build active – aborting setPHD2MountGuideOutput');
+        return;
+      }
+      try {
+        const response = await apiPinsService.setPHD2MountGuideOutput(enabled);
+        if (response.Success && response.Response) {
+          this.phd2MountGuideOutput = response.Response.MountGuideOutputEnabled;
+          return response;
+        }
+      } catch (error) {
+        console.error('Error setting PHD2 mount guide output:', error);
         throw error;
       }
     },

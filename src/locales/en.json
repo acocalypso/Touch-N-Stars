@@ -1001,7 +1001,11 @@
         "restoreCalibration": "Auto restore calibration",
         "assumeDecOrthogonal": "Assume Dec orthogonal to RA",
         "useDecCompensation": "Use Dec compensation",
+        "fastRecenter": "Fast recenter after calibration or dither",
+        "mountGuideOutput": "Enable mount guide output",
         "help": {
+          "fastRecenter": "During calibration or dithering the mount can move far from the lock position. If on, PHD2 moves back as fast as possible to save time — completely optional. If calibration often fails because the star snaps back too quickly, turn it off (often a sign of large polar-alignment or periodic error).",
+          "mountGuideOutput": "Lets PHD2 actually send guide commands to the mount. Normally on; turn it off only if you want to observe the mount's uncorrected behaviour.",
           "searchRegion": "Size of the tracking rectangle in pixels (a radius — 15 means a 30×30 box). Increase it if the mount tracks poorly or isn't well polar-aligned; too large a region can catch multiple stars and hurt guiding.",
           "minStarHFD": "Smallest half-flux-diameter (the 'size') a star must have to be used as guide star — the best way to stop PHD2 locking onto clumps of hot pixels. Default ~1.5 suits most setups; raise it only if real faint stars get rejected.",
           "maxStarHFD": "Largest half-flux-diameter a guide star may have; bloated or out-of-focus blobs above this are ignored during selection.",

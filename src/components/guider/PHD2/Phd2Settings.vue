@@ -106,6 +106,8 @@
           {{ $t('components.guider.phd2.shared_prarmeters') }}
         </h3>
         <Phd2ReverseDecAfterFlip />
+        <Phd2FastRecenter />
+        <Phd2MountGuideOutput />
       </div>
 
       <!-- Guide Star Tracking -->
@@ -226,6 +228,8 @@ import Phd2SaturationADUValue from '@/components/guider/PHD2/pins/Phd2Saturation
 import Phd2BeepForLostStar from '@/components/guider/PHD2/pins/Phd2BeepForLostStar.vue';
 import Phd2AssumeDecOrthogonal from '@/components/guider/PHD2/pins/Phd2AssumeDecOrthogonal.vue';
 import Phd2UseDecCompensation from '@/components/guider/PHD2/pins/Phd2UseDecCompensation.vue';
+import Phd2FastRecenter from '@/components/guider/PHD2/pins/Phd2FastRecenter.vue';
+import Phd2MountGuideOutput from '@/components/guider/PHD2/pins/Phd2MountGuideOutput.vue';
 import { apiStore } from '@/store/store';
 
 const guiderStore = useGuiderStore();

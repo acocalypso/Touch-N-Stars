@@ -184,6 +184,26 @@ export default {
     return this._simplePutRequest(`${API_URL}phd2/reverse-dec-after-flip`, { enabled });
   },
 
+  getPHD2FastRecenter() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/fast-recenter`);
+  },
+
+  setPHD2FastRecenter(enabled) {
+    const { API_URL } = getUrls();
+    return this._simplePutRequest(`${API_URL}phd2/fast-recenter`, { enabled });
+  },
+
+  getPHD2MountGuideOutput() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/mount-guide-output`);
+  },
+
+  setPHD2MountGuideOutput(enabled) {
+    const { API_URL } = getUrls();
+    return this._simplePutRequest(`${API_URL}phd2/mount-guide-output`, { enabled });
+  },
+
   getPHD2UseMultipleStars() {
     const { API_URL } = getUrls();
     return this._simpleGetRequest(`${API_URL}phd2/tracking/multistar`);

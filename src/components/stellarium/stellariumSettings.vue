@@ -207,7 +207,7 @@
 import { useStellariumStore } from '@/store/stellariumStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import toggleButton from '@/components/helpers/toggleButton.vue';
-import { watch, ref, computed } from 'vue';
+import { watch, ref, computed, onBeforeUnmount } from 'vue';
 import { Cog6ToothIcon } from '@heroicons/vue/24/outline';
 import { useOrientation } from '@/composables/useOrientation';
 import Modal from '@/components/helpers/Modal.vue';
@@ -215,16 +215,19 @@ import Modal from '@/components/helpers/Modal.vue';
 const stellariumStore = useStellariumStore();
 const settingsStore = useSettingsStore();
 const settingsVisible = ref(false);
+let landscapeRefreshTimeoutId = null;
 
 function toggleControls() {
   settingsVisible.value = !settingsVisible.value;
 }
 
-function showLandscape() {
-  settingsStore.stellarium.landscapesVisible = !settingsStore.stellarium.landscapesVisible;
-  // Emit event to parent to trigger re-render via landscapeSwitch
+function requestStellariumRefresh() {
   const event = new CustomEvent('refresh-stellarium');
   window.dispatchEvent(event);
+}
+
+function showLandscape() {
+  settingsStore.stellarium.landscapesVisible = !settingsStore.stellarium.landscapesVisible;
 }
 
 // Check if in landscape mode
@@ -239,6 +242,32 @@ const settingsContainerClasses = computed(() => ({
 }));
 
 watch(() => settingsStore.stellarium, stellariumStore.updateStellariumCore, { deep: true });
+
+watch(
+  () => [
+    settingsStore.stellarium.landscapesVisible,
+    settingsStore.stellarium.landscapeSourceMode,
+    settingsStore.stellarium.customLandscapeUrl,
+    settingsStore.stellarium.customLandscapeKey,
+  ],
+  () => {
+    if (landscapeRefreshTimeoutId) {
+      clearTimeout(landscapeRefreshTimeoutId);
+    }
+
+    landscapeRefreshTimeoutId = setTimeout(() => {
+      requestStellariumRefresh();
+      landscapeRefreshTimeoutId = null;
+    }, 250);
+  }
+);
+
+onBeforeUnmount(() => {
+  if (landscapeRefreshTimeoutId) {
+    clearTimeout(landscapeRefreshTimeoutId);
+    landscapeRefreshTimeoutId = null;
+  }
+});
 </script>
 <style scoped>
 /* Scrollbar styling for landscape mode */

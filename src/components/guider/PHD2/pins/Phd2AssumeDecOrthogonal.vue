@@ -2,18 +2,18 @@
   <div v-if="store.isPINS" class="flex items-center justify-between w-full">
     <div class="flex items-center gap-1">
       <span class="text-sm font-medium text-gray-300">
-        {{ $t('components.guider.phd2.restoreCalibration') }}
+        {{ $t('components.guider.phd2.assumeDecOrthogonal') }}
       </span>
       <InfoModal
-        :title="$t('components.guider.phd2.restoreCalibration')"
-        :message="$t('components.guider.phd2.help.restoreCalibration')"
+        :title="$t('components.guider.phd2.assumeDecOrthogonal')"
+        :message="$t('components.guider.phd2.help.assumeDecOrthogonal')"
         size="w-4 h-4"
       />
     </div>
     <toggleButton
-      @click="toggleRestoreCalibration"
-      :status-value="guiderStore.phd2RestoreCalibration"
-      :disabled="guiderStore.phd2RestoreCalibrationLoading"
+      @click="toggle"
+      :status-value="guiderStore.phd2AssumeDecOrthogonal"
+      :disabled="guiderStore.phd2AssumeDecOrthogonalLoading"
     />
   </div>
 </template>
@@ -29,18 +29,18 @@ const store = apiStore();
 const guiderStore = useGuiderStore();
 
 onMounted(async () => {
-  await guiderStore.fetchPHD2RestoreCalibration();
+  await guiderStore.fetchPHD2AssumeDecOrthogonal();
 });
 
-const toggleRestoreCalibration = async () => {
-  const previousValue = guiderStore.phd2RestoreCalibration;
+const toggle = async () => {
+  const previousValue = guiderStore.phd2AssumeDecOrthogonal;
   const newValue = !previousValue;
   try {
-    guiderStore.phd2RestoreCalibration = newValue;
-    await guiderStore.setPHD2RestoreCalibration(newValue);
+    guiderStore.phd2AssumeDecOrthogonal = newValue;
+    await guiderStore.setPHD2AssumeDecOrthogonal(newValue);
   } catch (error) {
-    console.error('Error changing PHD2 restore calibration:', error);
-    guiderStore.phd2RestoreCalibration = previousValue;
+    console.error('Error changing PHD2 assume dec orthogonal:', error);
+    guiderStore.phd2AssumeDecOrthogonal = previousValue;
   }
 };
 </script>

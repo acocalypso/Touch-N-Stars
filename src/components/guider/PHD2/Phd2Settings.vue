@@ -36,6 +36,7 @@
 
     <!-- PHD2 Profile -->
     <div
+      v-if="!store.isPINS"
       class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
     >
       <h3 class="font-bold text-base text-cyan-400">
@@ -137,8 +138,36 @@
           {{ $t('components.guider.phd2.shared_prarmeters') }}
         </h3>
         <Phd2ReverseDecAfterFlip />
-        <Phd2UseMultipleStars />
+        <Phd2FastRecenter />
+        <Phd2MountGuideOutput />
       </div>
+
+      <!-- Guide Star Tracking -->
+      <div
+        class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
+      >
+        <h3 class="font-bold text-base text-cyan-400">
+          {{ $t('components.guider.phd2.starDetection') }}
+        </h3>
+        <Phd2SearchRegion />
+        <Phd2MinStarHFD />
+        <Phd2MaxStarHFD />
+        <Phd2BeepForLostStar />
+
+        <!-- Star Mass Detection sub-group -->
+        <div class="p-2 flex flex-col gap-2 bg-gray-900/40 rounded-md border border-gray-700/50">
+          <h4 class="text-sm font-semibold text-gray-200">
+            {{ $t('components.guider.phd2.starMassDetection') }}
+          </h4>
+          <Phd2MassChangeEnabled />
+          <Phd2MassChangeThreshold />
+        </div>
+
+        <Phd2MinStarSNR />
+        <Phd2UseMultipleStars />
+        <Phd2AutoSelectDownsample />
+      </div>
+
       <!-- Camera Settings -->
       <div
         class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
@@ -148,6 +177,8 @@
         </h3>
         <Phd2CameraGain />
         <Phd2CameraBinning />
+        <Phd2SaturationByADU />
+        <Phd2SaturationADUValue />
       </div>
 
       <!-- Calibration Settings -->
@@ -160,6 +191,8 @@
         <Phd2FocalLength />
         <Phd2CalibrationStep />
         <Phd2RestoreCalibration />
+        <Phd2AssumeDecOrthogonal />
+        <Phd2UseDecCompensation />
       </div>
 
       <!-- Guide Algorithm Settings -->
@@ -171,6 +204,18 @@
         </h3>
         <Phd2GuideAlgorithmRA />
         <Phd2GuideAlgorithmDEC />
+      </div>
+
+      <!-- Dither Settings -->
+      <div
+        class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
+      >
+        <h3 class="font-bold text-base text-cyan-400">
+          {{ $t('components.guider.phd2.dither') }}
+        </h3>
+        <Phd2DitherMode />
+        <Phd2DitherRaOnly />
+        <Phd2DitherScale />
       </div>
 
       <!-- Mount Settings -->
@@ -215,6 +260,23 @@ import Phd2CameraBinning from '@/components/guider/PHD2/pins/Phd2CameraBinning.v
 import Phd2RestoreCalibration from '@/components/guider/PHD2/pins/Phd2RestoreCalibration.vue';
 import Phd2DarkLibrary from '@/components/guider/PHD2/pins/Phd2DarkLibrary.vue';
 import MountGuideRate from '@/components/guider/PHD2/pins/MountGuideRate.vue';
+import Phd2SearchRegion from '@/components/guider/PHD2/pins/Phd2SearchRegion.vue';
+import Phd2MinStarHFD from '@/components/guider/PHD2/pins/Phd2MinStarHFD.vue';
+import Phd2MaxStarHFD from '@/components/guider/PHD2/pins/Phd2MaxStarHFD.vue';
+import Phd2MinStarSNR from '@/components/guider/PHD2/pins/Phd2MinStarSNR.vue';
+import Phd2AutoSelectDownsample from '@/components/guider/PHD2/pins/Phd2AutoSelectDownsample.vue';
+import Phd2MassChangeEnabled from '@/components/guider/PHD2/pins/Phd2MassChangeEnabled.vue';
+import Phd2MassChangeThreshold from '@/components/guider/PHD2/pins/Phd2MassChangeThreshold.vue';
+import Phd2SaturationByADU from '@/components/guider/PHD2/pins/Phd2SaturationByADU.vue';
+import Phd2SaturationADUValue from '@/components/guider/PHD2/pins/Phd2SaturationADUValue.vue';
+import Phd2BeepForLostStar from '@/components/guider/PHD2/pins/Phd2BeepForLostStar.vue';
+import Phd2AssumeDecOrthogonal from '@/components/guider/PHD2/pins/Phd2AssumeDecOrthogonal.vue';
+import Phd2UseDecCompensation from '@/components/guider/PHD2/pins/Phd2UseDecCompensation.vue';
+import Phd2FastRecenter from '@/components/guider/PHD2/pins/Phd2FastRecenter.vue';
+import Phd2MountGuideOutput from '@/components/guider/PHD2/pins/Phd2MountGuideOutput.vue';
+import Phd2DitherMode from '@/components/guider/PHD2/pins/Phd2DitherMode.vue';
+import Phd2DitherRaOnly from '@/components/guider/PHD2/pins/Phd2DitherRaOnly.vue';
+import Phd2DitherScale from '@/components/guider/PHD2/pins/Phd2DitherScale.vue';
 import { computed } from 'vue';
 import { apiStore } from '@/store/store';
 

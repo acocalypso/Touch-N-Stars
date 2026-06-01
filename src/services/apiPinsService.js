@@ -184,6 +184,56 @@ export default {
     return this._simplePutRequest(`${API_URL}phd2/reverse-dec-after-flip`, { enabled });
   },
 
+  getPHD2FastRecenter() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/fast-recenter`);
+  },
+
+  setPHD2FastRecenter(enabled) {
+    const { API_URL } = getUrls();
+    return this._simplePutRequest(`${API_URL}phd2/fast-recenter`, { enabled });
+  },
+
+  getPHD2MountGuideOutput() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/mount-guide-output`);
+  },
+
+  setPHD2MountGuideOutput(enabled) {
+    const { API_URL } = getUrls();
+    return this._simplePutRequest(`${API_URL}phd2/mount-guide-output`, { enabled });
+  },
+
+  getPHD2DitherMode() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/guide/dither-mode`);
+  },
+
+  setPHD2DitherMode(mode) {
+    const { API_URL } = getUrls();
+    return this._simplePutRequest(`${API_URL}phd2/guide/dither-mode`, { mode });
+  },
+
+  getPHD2DitherRaOnly() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/guide/dither-ra-only`);
+  },
+
+  setPHD2DitherRaOnly(raOnly) {
+    const { API_URL } = getUrls();
+    return this._simplePutRequest(`${API_URL}phd2/guide/dither-ra-only`, { ra_only: raOnly });
+  },
+
+  getPHD2DitherScale() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/guide/dither-scale`);
+  },
+
+  setPHD2DitherScale(scale) {
+    const { API_URL } = getUrls();
+    return this._simplePutRequest(`${API_URL}phd2/guide/dither-scale`, { scale });
+  },
+
   getPHD2UseMultipleStars() {
     const { API_URL } = getUrls();
     return this._simpleGetRequest(`${API_URL}phd2/tracking/multistar`);
@@ -316,6 +366,132 @@ export default {
   setPHD2RestoreCalibration(enabled) {
     const { API_URL } = getUrls();
     return this._simplePutRequest(`${API_URL}phd2/calibration/auto-restore`, { enabled });
+  },
+
+  getPHD2AssumeDecOrthogonal() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/calibration/assume-dec-orthogonal`);
+  },
+
+  setPHD2AssumeDecOrthogonal(enabled) {
+    const { API_URL } = getUrls();
+    return this._simplePutRequest(`${API_URL}phd2/calibration/assume-dec-orthogonal`, { enabled });
+  },
+
+  getPHD2UseDecCompensation() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/calibration/use-dec-compensation`);
+  },
+
+  setPHD2UseDecCompensation(enabled) {
+    const { API_URL } = getUrls();
+    return this._simplePutRequest(`${API_URL}phd2/calibration/use-dec-compensation`, { enabled });
+  },
+
+  //-------------------PHD2 Star Detection------------------------
+
+  getPHD2SearchRegion() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/tracking/search-region`);
+  },
+
+  setPHD2SearchRegion(pixels) {
+    const { API_URL } = getUrls();
+    return this._simplePutRequest(`${API_URL}phd2/tracking/search-region`, { pixels });
+  },
+
+  getPHD2MinStarHFD() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/tracking/min-star-hfr`);
+  },
+
+  setPHD2MinStarHFD(hfd) {
+    const { API_URL } = getUrls();
+    return this._simplePutRequest(`${API_URL}phd2/tracking/min-star-hfr`, { hfr: hfd });
+  },
+
+  getPHD2MaxStarHFD() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/tracking/max-star-hfr`);
+  },
+
+  setPHD2MaxStarHFD(hfd) {
+    const { API_URL } = getUrls();
+    return this._simplePutRequest(`${API_URL}phd2/tracking/max-star-hfr`, { hfr: hfd });
+  },
+
+  getPHD2MassChangeEnabled() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/tracking/star-mass-detection`);
+  },
+
+  setPHD2MassChangeEnabled(enabled) {
+    const { API_URL } = getUrls();
+    return this._simplePutRequest(`${API_URL}phd2/tracking/star-mass-detection`, { enabled });
+  },
+
+  getPHD2MassChangeThreshold() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/tracking/star-mass-detection/threshold`);
+  },
+
+  setPHD2MassChangeThreshold(threshold) {
+    const { API_URL } = getUrls();
+    return this._simplePutRequest(`${API_URL}phd2/tracking/star-mass-detection/threshold`, {
+      threshold,
+    });
+  },
+
+  getPHD2MinStarSNR() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/tracking/min-star-snr`);
+  },
+
+  setPHD2MinStarSNR(snr) {
+    const { API_URL } = getUrls();
+    return this._simplePutRequest(`${API_URL}phd2/tracking/min-star-snr`, { snr });
+  },
+
+  getPHD2AutoSelectDownsample() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/tracking/downsample`);
+  },
+
+  setPHD2AutoSelectDownsample(value) {
+    const { API_URL } = getUrls();
+    return this._simplePutRequest(`${API_URL}phd2/tracking/downsample`, { value });
+  },
+
+  getPHD2SaturationByADU() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/camera/saturation-by-adu`);
+  },
+
+  setPHD2SaturationByADU(byAdu) {
+    const { API_URL } = getUrls();
+    return this._simplePutRequest(`${API_URL}phd2/camera/saturation-by-adu`, { by_adu: byAdu });
+  },
+
+  getPHD2SaturationADUValue() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/camera/saturation-adu-value`);
+  },
+
+  setPHD2SaturationADUValue(aduValue) {
+    const { API_URL } = getUrls();
+    return this._simplePutRequest(`${API_URL}phd2/camera/saturation-adu-value`, {
+      adu_value: aduValue,
+    });
+  },
+
+  getPHD2BeepForLostStar() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/tracking/beep-for-lost-star`);
+  },
+
+  setPHD2BeepForLostStar(enabled) {
+    const { API_URL } = getUrls();
+    return this._simplePutRequest(`${API_URL}phd2/tracking/beep-for-lost-star`, { enabled });
   },
 
   //-------------------PHD2 Dark Library------------------------

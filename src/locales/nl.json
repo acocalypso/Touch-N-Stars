@@ -1054,6 +1054,9 @@
           "buildActive": "Dark library bouw actief",
           "buildActiveMessage": "PHD2-acties zijn geblokkeerd tot het bouwen klaar is."
         },
+        "imageDisplay": "Beeldweergave",
+        "imageGamma": "Stretching (Gamma)",
+        "imageGammaHint": "Laag = sterk gestretcht, Hoog = lineair",
         "reviewCalibration": "Controleer kalibratie",
         "starComponents": {
           "hide": "Stercomponenten verbergen",

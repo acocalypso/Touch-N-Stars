@@ -1054,6 +1054,9 @@
           "buildActive": "暗场库构建进行中",
           "buildActiveMessage": "构建完成前 PHD2 操作被阻塞。"
         },
+        "imageDisplay": "图像显示",
+        "imageGamma": "拉伸（伽马）",
+        "imageGammaHint": "低 = 拉伸强, 高 = 线性",
         "reviewCalibration": "检查校准",
         "starComponents": {
           "hide": "隐藏星形组件",

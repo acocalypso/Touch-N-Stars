@@ -1054,6 +1054,9 @@
           "buildActive": "Creazione libreria in corso",
           "buildActiveMessage": "Le azioni PHD2 sono bloccate fino al completamento."
         },
+        "imageDisplay": "Visualizzazione immagine",
+        "imageGamma": "Stretching (Gamma)",
+        "imageGammaHint": "Basso = più allungato, Alto = lineare",
         "reviewCalibration": "Rivedere la calibrazione",
         "starComponents": {
           "hide": "Nascondi componenti stella",

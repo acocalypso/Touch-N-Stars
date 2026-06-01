@@ -1094,6 +1094,9 @@
           "buildActive": "Dark Library Build läuft",
           "buildActiveMessage": "PHD2-Aktionen sind bis zum Ende des Builds blockiert."
         },
+        "imageDisplay": "Bilddarstellung",
+        "imageGamma": "Streckung (Gamma)",
+        "imageGammaHint": "Niedrig = stärker gestreckt, Hoch = linear",
         "reviewCalibration": "Überprüfen Sie die Kalibrierung",
         "starComponents": {
           "hide": "Sternkomponenten ausblenden",

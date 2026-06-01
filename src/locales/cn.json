@@ -1054,6 +1054,9 @@
           "buildActive": "暗场库构建进行中",
           "buildActiveMessage": "构建完成前 PHD2 操作被阻塞。"
         },
+        "imageDisplay": "图像显示",
+        "imageGamma": "拉伸（伽马）",
+        "imageGammaHint": "低 = 拉伸强, 高 = 线性",
         "reviewCalibration": "检查校准",
         "starComponents": {
           "hide": "隐藏星形组件",
@@ -1568,7 +1571,15 @@
         "atmosphere_visible": "显示大气层",
         "landscapes_visible": "显示地平线",
         "dsos_visible": "深空天体 (梅西耶, NGC)",
-        "title": "设置"
+        "title": "设置",
+        "landscape_source_mode": "Landscape source",
+        "landscape_source_default": "Default landscape (Guereins)",
+        "landscape_source_neutral": "Neutral horizon (Gray)",
+        "landscape_source_custom": "Custom data source",
+        "custom_landscape_url": "Custom source URL",
+        "custom_landscape_url_placeholder": "e.g. /stellarium-data/landscapes/custom",
+        "custom_landscape_key": "Custom source key",
+        "custom_landscape_key_placeholder": "e.g. my-landscape"
       }
     },
     "profile": {

@@ -366,6 +366,10 @@ export function computeNightSessionEvents({ nightDate, location }) {
   const eveningStart = new Date(base);
   eveningStart.setHours(12, 0, 0, 0);
 
+  const nextNoon = new Date(base);
+  nextNoon.setDate(nextNoon.getDate() + 1);
+  nextNoon.setHours(12, 0, 0, 0);
+
   const midnight = new Date(base);
   midnight.setDate(midnight.getDate() + 1);
   midnight.setHours(0, 0, 0, 0);
@@ -381,7 +385,7 @@ export function computeNightSessionEvents({ nightDate, location }) {
       thresholdDeg: sunThreshold,
       direction: 'descending',
       start: eveningStart,
-      end: midnight,
+      end: nextNoon,
       location,
     }),
     nauticalDusk: findAltitudeCrossing({
@@ -389,7 +393,7 @@ export function computeNightSessionEvents({ nightDate, location }) {
       thresholdDeg: -12,
       direction: 'descending',
       start: eveningStart,
-      end: midnight,
+      end: nextNoon,
       location,
     }),
     astronomicalDusk: findAltitudeCrossing({
@@ -397,7 +401,7 @@ export function computeNightSessionEvents({ nightDate, location }) {
       thresholdDeg: -18,
       direction: 'descending',
       start: eveningStart,
-      end: midnight,
+      end: nextNoon,
       location,
     }),
     moonSet: findAltitudeCrossing({
@@ -405,7 +409,7 @@ export function computeNightSessionEvents({ nightDate, location }) {
       thresholdDeg: 0,
       direction: 'descending',
       start: eveningStart,
-      end: midnight,
+      end: nextNoon,
       location,
     }),
     sunRise: findAltitudeCrossing({

@@ -96,6 +96,38 @@
       </div>
     </template>
 
+    <!-- Image Display Settings -->
+    <div
+      v-if="showImageDisplay"
+      class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
+    >
+      <h3 class="font-bold text-base text-cyan-400">
+        {{ $t('components.guider.phd2.imageDisplay') }}
+      </h3>
+      <div class="flex flex-col gap-1">
+        <div class="flex items-center justify-between">
+          <span class="text-sm font-medium text-gray-300">
+            {{ $t('components.guider.phd2.imageGamma') }}
+          </span>
+          <span class="text-sm text-gray-400">{{
+            settingsStore.guider.phd2ImageGamma.toFixed(2)
+          }}</span>
+        </div>
+        <input
+          type="range"
+          min="0.1"
+          max="1.0"
+          step="0.05"
+          :value="settingsStore.guider.phd2ImageGamma"
+          @input="settingsStore.setPhd2ImageGamma(parseFloat($event.target.value))"
+          class="w-full accent-cyan-400"
+        />
+        <div class="flex justify-between text-xs text-gray-500">
+          <span>{{ $t('components.guider.phd2.imageGammaHint') }}</span>
+        </div>
+      </div>
+    </div>
+
     <template v-if="store.isPINS">
       <!-- Shared Parameters (always visible) -->
       <div
@@ -183,9 +215,14 @@ import Phd2CameraBinning from '@/components/guider/PHD2/pins/Phd2CameraBinning.v
 import Phd2RestoreCalibration from '@/components/guider/PHD2/pins/Phd2RestoreCalibration.vue';
 import Phd2DarkLibrary from '@/components/guider/PHD2/pins/Phd2DarkLibrary.vue';
 import MountGuideRate from '@/components/guider/PHD2/pins/MountGuideRate.vue';
+import { computed } from 'vue';
 import { apiStore } from '@/store/store';
 
 const guiderStore = useGuiderStore();
 const settingsStore = useSettingsStore();
 const store = apiStore();
+
+const showImageDisplay = computed(
+  () => store.isPINS || store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.2.7.3')
+);
 </script>

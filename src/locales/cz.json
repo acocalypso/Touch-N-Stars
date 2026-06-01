@@ -1054,6 +1054,9 @@
           "buildActive": "Probíhá sestavování knihovny",
           "buildActiveMessage": "Akce PHD2 jsou blokovány až do dokončení."
         },
+        "imageDisplay": "Zobrazení obrazu",
+        "imageGamma": "Roztažení (Gamma)",
+        "imageGammaHint": "Nízké = silněji roztaženo, Vysoké = lineární",
         "reviewCalibration": "Zkontrolujte kalibraci",
         "starComponents": {
           "hide": "Skrýt hvězdné komponenty",
@@ -1568,7 +1571,15 @@
         "atmosphere_visible": "Zobrazit atmosféru",
         "landscapes_visible": "Ukázat krajinu",
         "dsos_visible": "Deep Sky Objekty (Messier, NGC)",
-        "title": "Nastavení"
+        "title": "Nastavení",
+        "landscape_source_mode": "Landscape source",
+        "landscape_source_default": "Default landscape (Guereins)",
+        "landscape_source_neutral": "Neutral horizon (Gray)",
+        "landscape_source_custom": "Custom data source",
+        "custom_landscape_url": "Custom source URL",
+        "custom_landscape_url_placeholder": "e.g. /stellarium-data/landscapes/custom",
+        "custom_landscape_key": "Custom source key",
+        "custom_landscape_key_placeholder": "e.g. my-landscape"
       }
     },
     "profile": {

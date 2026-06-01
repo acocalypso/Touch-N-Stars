@@ -1067,6 +1067,9 @@
           "buildActive": "ダークライブラリ作成中",
           "buildActiveMessage": "作成が完了するまで PHD2 操作はブロックされます。"
         },
+        "imageDisplay": "画像表示",
+        "imageGamma": "ストレッチ（ガンマ）",
+        "imageGammaHint": "低 = 強いストレッチ、高 = 線形",
         "applyStep": "適用する",
         "calculatedStep": "計算されたステップ",
         "calibDistance": "距離",
@@ -1576,7 +1579,15 @@
         "atmosphere_visible": "大気を表示",
         "landscapes_visible": "風景を表示",
         "dsos_visible": "ディープスカイ天体 (メシエ, NGC)",
-        "title": "設定"
+        "title": "設定",
+        "landscape_source_mode": "Landscape source",
+        "landscape_source_default": "Default landscape (Guereins)",
+        "landscape_source_neutral": "Neutral horizon (Gray)",
+        "landscape_source_custom": "Custom data source",
+        "custom_landscape_url": "Custom source URL",
+        "custom_landscape_url_placeholder": "e.g. /stellarium-data/landscapes/custom",
+        "custom_landscape_key": "Custom source key",
+        "custom_landscape_key_placeholder": "e.g. my-landscape"
       }
     },
     "profile": {

@@ -131,6 +131,71 @@
         </div>
 
         <div
+          v-if="settingsStore.stellarium.landscapesVisible"
+          class="w-full border border-gray-500 p-2 rounded-lg col-span-full"
+        >
+          <label for="landscapeSourceMode" class="text-gray-400 block mb-1">
+            {{ $t('components.stellarium.settings.landscape_source_mode') }}
+          </label>
+          <select
+            id="landscapeSourceMode"
+            v-model="settingsStore.stellarium.landscapeSourceMode"
+            class="w-full bg-gray-800 border border-gray-600 rounded px-2 py-1 text-sm text-gray-200"
+          >
+            <option value="default">
+              {{ $t('components.stellarium.settings.landscape_source_default') }}
+            </option>
+            <option value="neutral">
+              {{ $t('components.stellarium.settings.landscape_source_neutral') }}
+            </option>
+            <option value="custom">
+              {{ $t('components.stellarium.settings.landscape_source_custom') }}
+            </option>
+          </select>
+
+          <div
+            v-if="settingsStore.stellarium.landscapeSourceMode === 'custom'"
+            class="mt-2 grid gap-2"
+          >
+            <div>
+              <label for="customLandscapeUrl" class="text-gray-400 block mb-1 text-sm">
+                {{ $t('components.stellarium.settings.custom_landscape_url') }}
+              </label>
+              <input
+                id="customLandscapeUrl"
+                v-model="settingsStore.stellarium.customLandscapeUrl"
+                type="text"
+                class="w-full bg-gray-800 border border-gray-600 rounded px-2 py-1 text-sm text-gray-200"
+                :placeholder="$t('components.stellarium.settings.custom_landscape_url_placeholder')"
+              />
+            </div>
+
+            <div>
+              <label for="customLandscapeKey" class="text-gray-400 block mb-1 text-sm">
+                {{ $t('components.stellarium.settings.custom_landscape_key') }}
+              </label>
+              <input
+                id="customLandscapeKey"
+                v-model="settingsStore.stellarium.customLandscapeKey"
+                type="text"
+                class="w-full bg-gray-800 border border-gray-600 rounded px-2 py-1 text-sm text-gray-200"
+                :placeholder="$t('components.stellarium.settings.custom_landscape_key_placeholder')"
+              />
+            </div>
+          </div>
+
+          <div class="mt-3 flex justify-end">
+            <button
+              class="px-3 py-1 rounded bg-cyan-700 hover:bg-cyan-600 text-sm text-white disabled:opacity-50 disabled:cursor-not-allowed"
+              :disabled="!landscapeSourceDirty"
+              @click="saveLandscapeSourceSettings"
+            >
+              {{ $t('general.save') }}
+            </button>
+          </div>
+        </div>
+
+        <div
           class="flex flex-row items-center justify-between w-full border border-gray-500 p-2 rounded-lg"
         >
           <label for="dsosVisible" class="text-gray-400">
@@ -160,16 +225,25 @@ import Modal from '@/components/helpers/Modal.vue';
 const stellariumStore = useStellariumStore();
 const settingsStore = useSettingsStore();
 const settingsVisible = ref(false);
+const landscapeSourceDirty = ref(false);
 
 function toggleControls() {
   settingsVisible.value = !settingsVisible.value;
 }
 
-function showLandscape() {
-  settingsStore.stellarium.landscapesVisible = !settingsStore.stellarium.landscapesVisible;
-  // Emit event to parent to trigger re-render via landscapeSwitch
+function requestStellariumRefresh() {
   const event = new CustomEvent('refresh-stellarium');
   window.dispatchEvent(event);
+}
+
+function saveLandscapeSourceSettings() {
+  requestStellariumRefresh();
+  landscapeSourceDirty.value = false;
+}
+
+function showLandscape() {
+  settingsStore.stellarium.landscapesVisible = !settingsStore.stellarium.landscapesVisible;
+  requestStellariumRefresh();
 }
 
 // Check if in landscape mode
@@ -184,6 +258,17 @@ const settingsContainerClasses = computed(() => ({
 }));
 
 watch(() => settingsStore.stellarium, stellariumStore.updateStellariumCore, { deep: true });
+
+watch(
+  () => [
+    settingsStore.stellarium.landscapeSourceMode,
+    settingsStore.stellarium.customLandscapeUrl,
+    settingsStore.stellarium.customLandscapeKey,
+  ],
+  () => {
+    landscapeSourceDirty.value = true;
+  }
+);
 </script>
 <style scoped>
 /* Scrollbar styling for landscape mode */

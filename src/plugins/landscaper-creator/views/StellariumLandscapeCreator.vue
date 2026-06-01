@@ -1,5 +1,27 @@
 <template>
   <div class="container py-4 px-3">
+    <div
+      v-if="isSubmitting"
+      class="fixed inset-0 z-[1200] flex items-center justify-center bg-black/70 backdrop-blur-[1px]"
+      role="dialog"
+      aria-modal="true"
+      :aria-label="t('plugins.landscaperCreator.actions.generating')"
+    >
+      <div
+        class="mx-4 w-full max-w-sm rounded-lg border border-gray-700 bg-gray-900 p-5 text-center shadow-xl"
+      >
+        <div
+          class="mx-auto mb-3 h-10 w-10 animate-spin rounded-full border-4 border-cyan-500/30 border-t-cyan-300"
+        ></div>
+        <p class="text-base font-semibold text-white">
+          {{ t('plugins.landscaperCreator.title') }}
+        </p>
+        <p class="mt-1 text-sm text-gray-300">
+          {{ t('plugins.landscaperCreator.actions.generating') }}
+        </p>
+      </div>
+    </div>
+
     <div class="mx-auto max-w-6xl space-y-4">
       <div class="space-y-1">
         <h5 class="text-2xl font-bold text-white">{{ t('plugins.landscaperCreator.title') }}</h5>

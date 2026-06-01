@@ -36,6 +36,7 @@
 
     <!-- PHD2 Profile -->
     <div
+      v-if="!store.isPINS"
       class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
     >
       <h3 class="font-bold text-base text-cyan-400">
@@ -156,6 +157,8 @@
         <Phd2FocalLength />
         <Phd2CalibrationStep />
         <Phd2RestoreCalibration />
+        <Phd2AssumeDecOrthogonal />
+        <Phd2UseDecCompensation />
       </div>
 
       <!-- Guide Algorithm Settings -->
@@ -221,6 +224,8 @@ import Phd2MassChangeThreshold from '@/components/guider/PHD2/pins/Phd2MassChang
 import Phd2SaturationByADU from '@/components/guider/PHD2/pins/Phd2SaturationByADU.vue';
 import Phd2SaturationADUValue from '@/components/guider/PHD2/pins/Phd2SaturationADUValue.vue';
 import Phd2BeepForLostStar from '@/components/guider/PHD2/pins/Phd2BeepForLostStar.vue';
+import Phd2AssumeDecOrthogonal from '@/components/guider/PHD2/pins/Phd2AssumeDecOrthogonal.vue';
+import Phd2UseDecCompensation from '@/components/guider/PHD2/pins/Phd2UseDecCompensation.vue';
 import { apiStore } from '@/store/store';
 
 const guiderStore = useGuiderStore();

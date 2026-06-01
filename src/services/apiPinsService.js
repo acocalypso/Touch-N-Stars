@@ -318,6 +318,26 @@ export default {
     return this._simplePutRequest(`${API_URL}phd2/calibration/auto-restore`, { enabled });
   },
 
+  getPHD2AssumeDecOrthogonal() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/calibration/assume-dec-orthogonal`);
+  },
+
+  setPHD2AssumeDecOrthogonal(enabled) {
+    const { API_URL } = getUrls();
+    return this._simplePutRequest(`${API_URL}phd2/calibration/assume-dec-orthogonal`, { enabled });
+  },
+
+  getPHD2UseDecCompensation() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/calibration/use-dec-compensation`);
+  },
+
+  setPHD2UseDecCompensation(enabled) {
+    const { API_URL } = getUrls();
+    return this._simplePutRequest(`${API_URL}phd2/calibration/use-dec-compensation`, { enabled });
+  },
+
   //-------------------PHD2 Star Detection------------------------
 
   getPHD2SearchRegion() {

@@ -102,6 +102,12 @@ export const useGuiderStore = defineStore('guiderStore', {
     phd2BeepForLostStar: false,
     phd2BeepForLostStarLoading: false,
 
+    // PHD2 Calibration Options State (PINS)
+    phd2AssumeDecOrthogonal: false,
+    phd2AssumeDecOrthogonalLoading: false,
+    phd2UseDecCompensation: false,
+    phd2UseDecCompensationLoading: false,
+
     // Mount Guide Rate State (PINS)
     mountGuideRateRA: null,
     mountGuideRateDec: null,
@@ -1038,6 +1044,74 @@ export const useGuiderStore = defineStore('guiderStore', {
         }
       } catch (error) {
         console.error('Error setting PHD2 beep for lost star:', error);
+        throw error;
+      }
+    },
+
+    // PHD2 Assume Dec Orthogonal Actions (PINS)
+    async fetchPHD2AssumeDecOrthogonal() {
+      const store = apiStore();
+      if (!store.isPINS) return;
+      this.phd2AssumeDecOrthogonalLoading = true;
+      try {
+        const response = await apiPinsService.getPHD2AssumeDecOrthogonal();
+        if (response.Success && response.Response) {
+          this.phd2AssumeDecOrthogonal = response.Response.AssumeDecOrthogonal;
+        }
+      } catch (error) {
+        console.error('Error fetching PHD2 assume dec orthogonal:', error);
+      } finally {
+        this.phd2AssumeDecOrthogonalLoading = false;
+      }
+    },
+
+    async setPHD2AssumeDecOrthogonal(enabled) {
+      if (this.isDarkLibraryBuildActive) {
+        console.warn('PHD2 dark library build active – aborting setPHD2AssumeDecOrthogonal');
+        return;
+      }
+      try {
+        const response = await apiPinsService.setPHD2AssumeDecOrthogonal(enabled);
+        if (response.Success && response.Response) {
+          this.phd2AssumeDecOrthogonal = response.Response.AssumeDecOrthogonal;
+          return response;
+        }
+      } catch (error) {
+        console.error('Error setting PHD2 assume dec orthogonal:', error);
+        throw error;
+      }
+    },
+
+    // PHD2 Use Dec Compensation Actions (PINS)
+    async fetchPHD2UseDecCompensation() {
+      const store = apiStore();
+      if (!store.isPINS) return;
+      this.phd2UseDecCompensationLoading = true;
+      try {
+        const response = await apiPinsService.getPHD2UseDecCompensation();
+        if (response.Success && response.Response) {
+          this.phd2UseDecCompensation = response.Response.UseDecCompensation;
+        }
+      } catch (error) {
+        console.error('Error fetching PHD2 use dec compensation:', error);
+      } finally {
+        this.phd2UseDecCompensationLoading = false;
+      }
+    },
+
+    async setPHD2UseDecCompensation(enabled) {
+      if (this.isDarkLibraryBuildActive) {
+        console.warn('PHD2 dark library build active – aborting setPHD2UseDecCompensation');
+        return;
+      }
+      try {
+        const response = await apiPinsService.setPHD2UseDecCompensation(enabled);
+        if (response.Success && response.Response) {
+          this.phd2UseDecCompensation = response.Response.UseDecCompensation;
+          return response;
+        }
+      } catch (error) {
+        console.error('Error setting PHD2 use dec compensation:', error);
         throw error;
       }
     },

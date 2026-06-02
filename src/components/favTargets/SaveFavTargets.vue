@@ -122,7 +122,12 @@ async function confirmSave() {
   const baseName = nameInput.value.trim();
 
   if (isMosaic.value) {
-    const panels = computePanels();
+    // Panel-Koordinaten kommen aus dem Store (von FramingAssitantImg aus den
+    // tatsächlich gerenderten Pixelpositionen berechnet) und stimmen damit exakt
+    // mit dem Overlay überein. Fallback auf lokale Berechnung, falls leer.
+    const framingStore = useFramingStore();
+    const panels =
+      framingStore.mosaicPanelCoords.length > 0 ? framingStore.mosaicPanelCoords : computePanels();
     for (const p of panels) {
       await favTargetsStore.addFavorite({
         Name: `${baseName} Panel ${p.label}`,

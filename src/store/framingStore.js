@@ -40,6 +40,11 @@ export const useFramingStore = defineStore('FramingStore', {
     mosaicRows: 2,
     mosaicOverlap: 10,
     mosaicPreserveAlignment: true,
+    // Sky-Koordinaten der einzelnen Mosaik-Panels, berechnet aus den tatsächlich
+    // gerenderten Pixelpositionen (inkl. Rotation + Drag). Quelle der Wahrheit
+    // beim Speichern als Favorit, damit gespeicherte Panels exakt dem Overlay
+    // entsprechen. Format: [{ label, ra, dec, rotation }]
+    mosaicPanelCoords: [],
   }),
   actions: {
     async slew(RAangle, DECangle) {

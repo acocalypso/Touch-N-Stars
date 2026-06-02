@@ -229,6 +229,37 @@ const mosaicPanels = computed(() =>
   framingStore.isMosaicMode ? computeMosaicPanels(framingStore) : []
 );
 
+// Sky-Koordinaten der Panels aus den TATSÄCHLICH gerenderten Pixelpositionen
+// ableiten (Basis-Raster + SVG-Rotation um die Container-Mitte + Drag-Offset)
+// und im Store ablegen. So entsprechen gespeicherte Favoriten exakt dem Overlay.
+function updateMosaicPanelCoords() {
+  if (!framingStore.isMosaicMode) {
+    framingStore.mosaicPanelCoords = [];
+    return;
+  }
+  const cx = framingStore.containerWidth / 2;
+  const cy = framingStore.containerHeight / 2;
+  // SVG dreht um rotationAngleVisu (= 360 − rotationAngle) im Uhrzeigersinn.
+  const ang = (rotationAngleVisu.value * Math.PI) / 180;
+  const cosA = Math.cos(ang);
+  const sinA = Math.sin(ang);
+  const off = mosaicSvgOffset.value;
+
+  framingStore.mosaicPanelCoords = mosaicPanels.value.map((panel) => {
+    // Position relativ zur Container-Mitte
+    const px = panel.screenX - cx;
+    const py = panel.screenY - cy;
+    // SVG-Rotation (clockwise, Y nach unten): Standard-Rotationsmatrix
+    const rx = px * cosA - py * sinA;
+    const ry = px * sinA + py * cosA;
+    // zurück in absolute Container-Koordinaten + Drag-Offset
+    const finalX = cx + rx + off.x;
+    const finalY = cy + ry + off.y;
+    const { ra, dec } = pixelToRaDec(finalX, finalY);
+    return { label: panel.label, ra, dec, rotation: framingStore.rotationAngle };
+  });
+}
+
 function mosaicTotalSize() {
   const ov = framingStore.mosaicOverlap / 100;
   return {
@@ -516,6 +547,26 @@ watch(
   }
 );
 
+// Mosaik-Panel-Koordinaten neu berechnen, sobald sich Position, Rotation, FOV
+// oder Gitter-Parameter ändern. Hält framingStore.mosaicPanelCoords aktuell,
+// damit beim Speichern als Favorit exakt die sichtbaren Panel-Zentren landen.
+watch(
+  () => [
+    x.value,
+    y.value,
+    rotationAngleVisu.value,
+    framingStore.fov,
+    framingStore.isMosaicMode,
+    framingStore.mosaicCols,
+    framingStore.mosaicRows,
+    framingStore.mosaicOverlap,
+    framingStore.RAangle,
+    framingStore.DECangle,
+  ],
+  () => updateMosaicPanelCoords(),
+  { immediate: true }
+);
+
 // Mosaic-Watcher: Bounding Box zentrieren wenn Mosaik-Modus (de)aktiviert wird
 watch(
   () => framingStore.isMosaicMode,
@@ -724,6 +775,50 @@ async function fetchFramingInfo() {
   }
 }
 
+// Pixelposition (relativ zur Container-Mitte, Bildschirm-Koordinaten mit
+// Y nach unten) → RA/DEC, ausgehend vom Bildzentrum baseRA/baseDec.
+// Wird sowohl für die Kamera-Box als auch für einzelne Mosaik-Panels genutzt,
+// damit gespeicherte Koordinaten exakt dem entsprechen, was im Overlay zu
+// sehen ist (inkl. cos(dec)-Korrektur und korrekter Pol-Überquerung).
+function pixelToRaDec(targetCenterX, targetCenterY) {
+  const centerX = framingStore.containerWidth / 2;
+  const centerY = framingStore.containerHeight / 2;
+  const deltaX = targetCenterX - centerX;
+  const deltaY = centerY - targetCenterY;
+
+  // Roh-DEC (kann den Pol überschreiten)
+  const rawDec = baseDec + deltaY * scaleDegPerPixel.value;
+
+  // Pol-Überquerung: Schiebt man über den Pol hinaus (rawDec > 90 bzw. < -90),
+  // läuft die Deklination auf der anderen Polseite zurück und die Rektaszension
+  // dreht sich um 180°. Ohne diese Reflexion bleibt es am Pol "kleben"
+  // (DEC=90, RA=0). Beispiel: rawDec = 92° → DEC = 88°, RA um 180° gedreht.
+  let dec;
+  let raFlip = 0;
+  if (rawDec > 90) {
+    dec = 180 - rawDec;
+    raFlip = 180;
+  } else if (rawDec < -90) {
+    dec = -180 - rawDec;
+    raFlip = 180;
+  } else {
+    dec = rawDec;
+  }
+
+  // RA-Korrektur (cos(dec)). Die 1/cos(dec)-Division ist physikalisch korrekt
+  // (ein Pixel entspricht bei hoher Dec mehr RA-Grad), wird aber am exakten Pol
+  // singulär: cos(±90°) = 0. Früher wurde cosDec hart auf 1e-8 geklemmt — das
+  // verwandelte selbst eine Pixel-Rundung von <1px in einen RA-Sprung von ~200°.
+  // Daher: am quasi-exakten Pol (Epsilon, da Math.cos(90°) ≈ 6e-17 ≠ 0) keinen
+  // RA-Offset anwenden. cos(89°) ≈ 0.0175 liegt klar über dem Epsilon, sodass
+  // Polnähe (Dec < 90) voll nutzbar bleibt.
+  const cosDec = Math.cos((dec * Math.PI) / 180);
+  const offsetRA = Math.abs(cosDec) < 1e-6 ? 0 : (deltaX * scaleDegPerPixel.value) / cosDec;
+  const ra = (((baseRA - offsetRA + raFlip) % 360) + 360) % 360;
+
+  return { ra, dec };
+}
+
 function calculateRaDec() {
   // Effektive Abmessungen (Mosaikgitter oder einzelne Kamera)
   const effectiveW = framingStore.isMosaicMode ? mosaicTotalSize().w : framingStore.camWidth;
@@ -733,46 +828,7 @@ function calculateRaDec() {
   const targetCenterX = x.value + effectiveW / 2;
   const targetCenterY = y.value + effectiveH / 2;
 
-  // Container-Mitte
-  const centerX = framingStore.containerWidth / 2;
-  const centerY = framingStore.containerHeight / 2;
-
-  // Abweichung in Pixel
-  const deltaX = targetCenterX - centerX;
-  const deltaY = centerY - targetCenterY;
-
-  // Roh-DEC (kann den Pol überschreiten)
-  const offsetDec = deltaY * scaleDegPerPixel.value;
-  const rawDec = baseDec + offsetDec;
-
-  // Pol-Überquerung korrekt behandeln: Schiebt man den Rahmen ÜBER den Pol
-  // hinaus (rawDec > 90 bzw. < -90), läuft die Deklination auf der anderen
-  // Polseite wieder zurück und die Rektaszension dreht sich um 180°. Ohne diese
-  // Reflexion bleibt der Rahmen am Pol "kleben" (DEC=90, RA=0). Beispiel:
-  // rawDec = 92° → currentDec = 88°, RA um 180° gedreht.
-  let currentDec;
-  let raFlip = 0;
-  if (rawDec > 90) {
-    currentDec = 180 - rawDec;
-    raFlip = 180;
-  } else if (rawDec < -90) {
-    currentDec = -180 - rawDec;
-    raFlip = 180;
-  } else {
-    currentDec = rawDec;
-  }
-
-  // RA-Korrektur (cos(dec)). Die 1/cos(dec)-Division ist physikalisch korrekt
-  // (ein Pixel entspricht bei hoher Dec mehr RA-Grad), wird aber am exakten Pol
-  // singulär: cos(±90°) = 0. Früher wurde cosDec hart auf 1e-8 geklemmt — das
-  // verwandelte selbst eine Pixel-Rundung von <1px in einen RA-Sprung von ~200°.
-  // Daher: cos der aktuellen Dec verwenden und am quasi-exakten Pol (Epsilon,
-  // da Math.cos(90°) ≈ 6e-17 ≠ 0) keinen RA-Offset anwenden. cos(89°) ≈ 0.0175
-  // liegt klar über dem Epsilon, sodass Polnähe (Dec < 90) voll nutzbar bleibt.
-  const cosDec = Math.cos((currentDec * Math.PI) / 180);
-  const offsetRA = Math.abs(cosDec) < 1e-6 ? 0 : (deltaX * scaleDegPerPixel.value) / cosDec;
-  // RA-Flip bei Pol-Überquerung einrechnen und auf 0–360° normalisieren.
-  const currentRA = (((baseRA - offsetRA + raFlip) % 360) + 360) % 360;
+  const { ra: currentRA, dec: currentDec } = pixelToRaDec(targetCenterX, targetCenterY);
 
   // Als String speichern
   framingStore.RAangleString = degreesToHMS(currentRA);

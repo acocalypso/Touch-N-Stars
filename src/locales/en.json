@@ -776,6 +776,9 @@
           "modePeak": "Peak",
           "minimumPoints": "Minimum Points"
         },
+        "startGuiding": {
+          "forceCalibrationLabel": "Force Calibration"
+        },
         "changePHD2Parameters": {
           "parameter": "Parameter",
           "exposureTime": "Exposure Time (s)",

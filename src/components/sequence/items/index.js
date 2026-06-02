@@ -72,6 +72,7 @@ import OrbuculumNextTargetHourAngleItem from './OrbuculumNextTargetHourAngleItem
 import MoveFocuserAbsoluteItem from './MoveFocuserAbsoluteItem.vue';
 import MoveFocuserRelativeItem from './MoveFocuserRelativeItem.vue';
 import MoveFocuserByTemperatureItem from './MoveFocuserByTemperatureItem.vue';
+import StartGuidingItem from './StartGuidingItem.vue';
 import GenericItem from './GenericItem.vue';
 
 export const ITEM_COMPONENTS = {
@@ -110,7 +111,7 @@ export const ITEM_COMPONENTS = {
   'NINA.Sequencer.SequenceItem.Telescope.UnparkScope': RunAutofocusItem,
   'NINA.Sequencer.SequenceItem.Telescope.ParkScope': RunAutofocusItem,
   'NINA.Sequencer.SequenceItem.Telescope.FindHome': RunAutofocusItem,
-  'NINA.Sequencer.SequenceItem.Guider.StartGuiding': RunAutofocusItem,
+  'NINA.Sequencer.SequenceItem.Guider.StartGuiding': StartGuidingItem,
   'NINA.Sequencer.SequenceItem.Guider.Dither': RunAutofocusItem,
   'NINA.Sequencer.SequenceItem.Guider.StopGuiding': RunAutofocusItem,
   'ninaAPI.SequenceItems.SendErrorTrigger': RunAutofocusItem,

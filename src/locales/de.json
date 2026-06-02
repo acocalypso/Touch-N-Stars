@@ -776,6 +776,9 @@
           "modePeak": "Peak",
           "minimumPoints": "Mindestpunkte"
         },
+        "startGuiding": {
+          "forceCalibrationLabel": "Kalibrierung erzwingen"
+        },
         "changePHD2Parameters": {
           "parameter": "Parameter",
           "exposureTime": "Belichtungszeit (s)",

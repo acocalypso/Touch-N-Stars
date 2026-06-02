@@ -90,13 +90,21 @@ function computePanels() {
   let cosDec = Math.cos((centerDec * Math.PI) / 180);
   if (Math.abs(cosDec) < 1e-8) cosDec = 1e-8;
 
+  const theta = (centerRot * Math.PI) / 180;
+  const cosT = Math.cos(theta);
+  const sinT = Math.sin(theta);
+
   const panels = [];
   for (let row = 0; row < rows; row++) {
     for (let col = 0; col < cols; col++) {
       const dc = col - (cols - 1) / 2;
       const dr = row - (rows - 1) / 2;
-      const panelRA = centerRA - (dc * stepRa) / cosDec;
-      const panelDec = centerDec - dr * stepDec;
+      const rawX = dc * stepRa;
+      const rawY = dr * stepDec;
+      const rotX = rawX * cosT - rawY * sinT;
+      const rotY = rawX * sinT + rawY * cosT;
+      const panelRA = centerRA - rotX / cosDec;
+      const panelDec = centerDec - rotY;
       const panelRot = centerRot;
       panels.push({
         label: `${col + 1}-${row + 1}`,

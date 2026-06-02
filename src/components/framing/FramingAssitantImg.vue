@@ -102,6 +102,16 @@
         </div>
       </div>
 
+      <!-- RA/DEC Anzeige (Mitte der Kamera-Box, debug/diagnostik) -->
+      <div class="absolute bottom-3 right-3 z-10">
+        <div
+          class="bg-gray-800/90 border border-gray-600 rounded-lg px-3 py-2 font-mono text-xs text-gray-300 leading-tight text-right"
+        >
+          <div>RA: {{ framingStore.RAangleString }}</div>
+          <div>DEC: {{ framingStore.DECangleString }}</div>
+        </div>
+      </div>
+
       <!-- Mosaic panel overlay -->
       <svg
         v-if="framingStore.isMosaicMode"
@@ -378,11 +388,14 @@ function handleStageResize() {
       framingStore.containerHeight = h;
       framingStore.containerSize = Math.min(w, h);
       updateCameraBoxSize();
-      centerBoundingBox();
+      const relX = framingStore.cameraRelativeX ?? 0.5;
+      const relY = framingStore.cameraRelativeY ?? 0.5;
+      const effectiveW = framingStore.isMosaicMode ? mosaicTotalSize().w : framingStore.camWidth;
+      const effectiveH = framingStore.isMosaicMode ? mosaicTotalSize().h : framingStore.camHeight;
+      x.value = relX * framingStore.containerWidth - effectiveW / 2;
+      y.value = relY * framingStore.containerHeight - effectiveH / 2;
       framingStore.cameraX = x.value;
       framingStore.cameraY = y.value;
-      framingStore.cameraRelativeX = 0.5;
-      framingStore.cameraRelativeY = 0.5;
       debouncedImageReload();
       updateMoveable();
     }
@@ -444,7 +457,10 @@ watch(
       // Größe (und damit die Bildschirm-Position relativ zum Container) ändert sich.
       let cosDec = Math.cos((baseDec * Math.PI) / 180);
       if (Math.abs(cosDec) < 1e-8) cosDec = 1e-8;
-      const deltaX = ((baseRA - framingStore.RAangle) * cosDec) / scaleDegPerPixel.value;
+      // RA-Differenz auf kürzesten Winkelabstand (-180…180) normalisieren,
+      // sonst entsteht an der 0°/360°-Grenze ein riesiger Sprung.
+      let raDiff = ((baseRA - framingStore.RAangle + 540) % 360) - 180;
+      const deltaX = (raDiff * cosDec) / scaleDegPerPixel.value;
       const deltaY = (framingStore.DECangle - baseDec) / scaleDegPerPixel.value;
       const targetCenterX = framingStore.containerWidth / 2 + deltaX;
       const targetCenterY = framingStore.containerHeight / 2 - deltaY;
@@ -725,17 +741,38 @@ function calculateRaDec() {
   const deltaX = targetCenterX - centerX;
   const deltaY = centerY - targetCenterY;
 
-  // Offset DEC
+  // Roh-DEC (kann den Pol überschreiten)
   const offsetDec = deltaY * scaleDegPerPixel.value;
+  const rawDec = baseDec + offsetDec;
 
-  // RA-Korrektur (cos(dec))
-  let cosDec = Math.cos((baseDec * Math.PI) / 180);
-  if (Math.abs(cosDec) < 1e-8) cosDec = 1e-8;
-  const offsetRA = (deltaX * scaleDegPerPixel.value) / cosDec;
+  // Pol-Überquerung korrekt behandeln: Schiebt man den Rahmen ÜBER den Pol
+  // hinaus (rawDec > 90 bzw. < -90), läuft die Deklination auf der anderen
+  // Polseite wieder zurück und die Rektaszension dreht sich um 180°. Ohne diese
+  // Reflexion bleibt der Rahmen am Pol "kleben" (DEC=90, RA=0). Beispiel:
+  // rawDec = 92° → currentDec = 88°, RA um 180° gedreht.
+  let currentDec;
+  let raFlip = 0;
+  if (rawDec > 90) {
+    currentDec = 180 - rawDec;
+    raFlip = 180;
+  } else if (rawDec < -90) {
+    currentDec = -180 - rawDec;
+    raFlip = 180;
+  } else {
+    currentDec = rawDec;
+  }
 
-  // Aktuelle Koords
-  const currentRA = baseRA - offsetRA;
-  const currentDec = baseDec + offsetDec;
+  // RA-Korrektur (cos(dec)). Die 1/cos(dec)-Division ist physikalisch korrekt
+  // (ein Pixel entspricht bei hoher Dec mehr RA-Grad), wird aber am exakten Pol
+  // singulär: cos(±90°) = 0. Früher wurde cosDec hart auf 1e-8 geklemmt — das
+  // verwandelte selbst eine Pixel-Rundung von <1px in einen RA-Sprung von ~200°.
+  // Daher: cos der aktuellen Dec verwenden und am quasi-exakten Pol (Epsilon,
+  // da Math.cos(90°) ≈ 6e-17 ≠ 0) keinen RA-Offset anwenden. cos(89°) ≈ 0.0175
+  // liegt klar über dem Epsilon, sodass Polnähe (Dec < 90) voll nutzbar bleibt.
+  const cosDec = Math.cos((currentDec * Math.PI) / 180);
+  const offsetRA = Math.abs(cosDec) < 1e-6 ? 0 : (deltaX * scaleDegPerPixel.value) / cosDec;
+  // RA-Flip bei Pol-Überquerung einrechnen und auf 0–360° normalisieren.
+  const currentRA = (((baseRA - offsetRA + raFlip) % 360) + 360) % 360;
 
   // Als String speichern
   framingStore.RAangleString = degreesToHMS(currentRA);

@@ -101,8 +101,10 @@ function computePanels() {
       const dr = row - (rows - 1) / 2;
       const rawX = dc * stepRa;
       const rawY = dr * stepDec;
-      const rotX = rawX * cosT - rawY * sinT;
-      const rotY = rawX * sinT + rawY * cosT;
+      // Im Uhrzeigersinn rotieren, passend zur visuellen Kamera-Rotation in
+      // FramingAssitantImg (SVG rotiert clockwise um rotationAngleVisu).
+      const rotX = rawX * cosT + rawY * sinT;
+      const rotY = -rawX * sinT + rawY * cosT;
       const panelRA = centerRA - rotX / cosDec;
       const panelDec = centerDec - rotY;
       const panelRot = centerRot;

@@ -1102,8 +1102,8 @@
         "autoSelectStar": "Leitstern automatisch auswählen",
         "calibrationData": {
           "cameraAngle": "Kamerawinkel:",
-          "clearCalibration": "Klare Kalibrierung",
-          "clearing": "Clearing...",
+          "clearCalibration": "Lösche Kalibrierung",
+          "clearing": "Löschen...",
           "decParity": "Dez.-Parität:",
           "decRate": "Dez.-Rate:",
           "declination": "Deklination:",

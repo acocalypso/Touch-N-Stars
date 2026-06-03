@@ -412,7 +412,8 @@
         "guideCamRequired": "Er moet een geldige guidecamera geselecteerd zijn."
       },
       "guiderCam": {
-        "name": "Gidscamera"
+        "name": "Gidscamera",
+        "manualVnc": "Handmatig via VNC"
       },
       "safety": {
         "name": "Veiligheidsmonitor"

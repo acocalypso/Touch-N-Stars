@@ -412,7 +412,8 @@
         "guideCamRequired": "必须选择一个有效的导星相机。"
       },
       "guiderCam": {
-        "name": "引导相机"
+        "name": "引导相机",
+        "manualVnc": "通过VNC手动"
       },
       "safety": {
         "name": "安全监控器"

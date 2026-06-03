@@ -412,7 +412,8 @@
         "guideCamRequired": "Należy wybrać prawidłową kamerę guidera."
       },
       "guiderCam": {
-        "name": "Kamera prowadząca"
+        "name": "Kamera prowadząca",
+        "manualVnc": "Ręcznie przez VNC"
       },
       "safety": {
         "name": "Monitor bezpieczeństwa"

@@ -452,7 +452,8 @@
         "guideCamRequired": "유효한 가이드 카메라를 선택해야 합니다."
       },
       "guiderCam": {
-        "name": "가이드 카메라"
+        "name": "가이드 카메라",
+        "manualVnc": "VNC를 통해 수동으로"
       },
       "safety": {
         "name": "안전 모니터"

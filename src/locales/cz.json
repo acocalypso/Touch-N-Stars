@@ -412,7 +412,8 @@
         "guideCamRequired": "Musí být vybrána platná guide kamera."
       },
       "guiderCam": {
-        "name": "Průvodce fotoaparátem"
+        "name": "Průvodce fotoaparátem",
+        "manualVnc": "Ručně přes VNC"
       },
       "safety": {
         "name": "Bez. monitor"

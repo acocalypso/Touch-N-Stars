@@ -420,7 +420,8 @@
         "guideCamRequired": "有効なガイドカメラを選択する必要があります。"
       },
       "guiderCam": {
-        "name": "ガイドカメラ"
+        "name": "ガイドカメラ",
+        "manualVnc": "VNC経由で手動"
       },
       "safety": {
         "name": "セーフティ・モニター"

@@ -452,7 +452,8 @@
         "guideCamRequired": "A valid guide camera must be selected."
       },
       "guiderCam": {
-        "name": "Guide Camera"
+        "name": "Guide Camera",
+        "manualVnc": "Manual via VNC"
       },
       "safety": {
         "name": "Safety monitor"

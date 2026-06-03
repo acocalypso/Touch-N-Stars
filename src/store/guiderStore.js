@@ -1070,7 +1070,9 @@ export const useGuiderStore = defineStore('guiderStore', {
     // PHD2 Backlash Compensation Actions (PINS)
     async fetchPHD2BacklashComp() {
       const store = apiStore();
-      if (!store.isPINS) return;
+      // All four backlash components share this single endpoint and call it on mount,
+      // so guard against duplicate concurrent requests in the same tick.
+      if (!store.isPINS || this.phd2BacklashLoading) return;
       this.phd2BacklashLoading = true;
       try {
         const response = await apiPinsService.getPHD2BacklashComp();

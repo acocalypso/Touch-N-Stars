@@ -81,6 +81,10 @@ async function loadCameras(withRescan = false) {
           name: cam.Name,
         }))
       );
+      if (cameras.value.length === 0 && store.guiderInfo.Connected) {
+        selectedCam.value = MANUAL_VNC;
+        guiderStore.guidecamManualVnc = true;
+      }
       validateSelection();
     }
   } catch (error) {
@@ -115,10 +119,12 @@ function validateSelection() {
 
 async function setGuiderCam() {
   if (selectedCam.value === MANUAL_VNC) {
+    guiderStore.guidecamManualVnc = true;
     guiderStore.guidecamOk = true;
     borderClass.value = 'border-green-500 connected-glow';
     return;
   }
+  guiderStore.guidecamManualVnc = false;
   const cam = cameras.value.find((c) => c.driver + ':' + c.id === selectedCam.value);
   if (!cam) return;
 
@@ -147,7 +153,9 @@ watch(
   async ([guiderName, phd2Camera, phd2CameraId], oldValues) => {
     if (!store.isPINS) return;
     if (guiderName !== 'PHD2_Single') return;
-    if (phd2Camera && phd2CameraId && selectedCam.value !== MANUAL_VNC) {
+    if (guiderStore.guidecamManualVnc) {
+      selectedCam.value = MANUAL_VNC;
+    } else if (phd2Camera && phd2CameraId) {
       selectedCam.value = phd2Camera + ':' + phd2CameraId;
     }
     const isFirstRun = !oldValues;

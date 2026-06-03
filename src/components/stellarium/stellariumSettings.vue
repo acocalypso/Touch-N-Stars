@@ -139,7 +139,7 @@
           </label>
           <select
             id="landscapeSourceMode"
-            v-model="settingsStore.stellarium.landscapeSourceMode"
+            v-model="landscapeSourceSelection"
             class="w-full bg-gray-800 border border-gray-600 rounded px-2 py-1 text-sm text-gray-200"
           >
             <option value="default">
@@ -147,6 +147,13 @@
             </option>
             <option value="neutral">
               {{ $t('components.stellarium.settings.landscape_source_neutral') }}
+            </option>
+            <option
+              v-for="landscapeOption in listedLandscapeOptions"
+              :key="landscapeOption.value"
+              :value="landscapeOption.value"
+            >
+              {{ landscapeOption.label }}
             </option>
             <option value="custom">
               {{ $t('components.stellarium.settings.landscape_source_custom') }}
@@ -193,6 +200,61 @@
               {{ $t('general.save') }}
             </button>
           </div>
+
+          <div class="mt-3 border border-gray-600 rounded-lg p-2 bg-gray-800/40">
+            <div class="flex items-center justify-between gap-2">
+              <p class="text-gray-300 text-sm font-medium">Available landscapes</p>
+              <button
+                type="button"
+                class="px-2 py-1 rounded border border-gray-500 bg-gray-700 hover:bg-gray-600 text-xs text-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
+                :disabled="landscapeListLoading"
+                @click="fetchAvailableLandscapes"
+              >
+                {{ $t('common.refresh') }}
+              </button>
+            </div>
+
+            <div class="mt-2 text-sm">
+              <p v-if="landscapeListLoading" class="text-gray-400">{{ $t('common.loading') }}</p>
+              <p v-else-if="landscapeListError" class="text-red-400">{{ landscapeListError }}</p>
+              <p
+                v-else-if="landscapeListLoaded && availableLandscapes.length === 0"
+                class="text-gray-400"
+              >
+                No landscapes available.
+              </p>
+
+              <ul v-else class="space-y-2 max-h-52 overflow-y-auto pr-1">
+                <li
+                  v-for="landscape in availableLandscapes"
+                  :key="`${landscape.folderName || 'unknown'}-${landscape.serviceUrl || ''}`"
+                  class="rounded border border-gray-700 bg-gray-900/60 p-2"
+                >
+                  <div class="flex items-center justify-between gap-2">
+                    <p class="text-gray-100 font-medium truncate">
+                      {{ landscape.title || landscape.folderName || 'Untitled landscape' }}
+                    </p>
+                    <span
+                      class="text-[10px] px-2 py-0.5 rounded-full"
+                      :class="
+                        landscape.hasAllsky
+                          ? 'bg-green-900 text-green-200'
+                          : 'bg-yellow-900 text-yellow-200'
+                      "
+                    >
+                      {{ landscape.hasAllsky ? 'Allsky' : 'No allsky' }}
+                    </span>
+                  </div>
+                  <p class="text-xs text-gray-400 mt-1 break-all">
+                    folderName: {{ landscape.folderName || '—' }}
+                  </p>
+                  <p class="text-xs text-gray-400 mt-1 break-all">
+                    serviceUrl: {{ landscape.serviceUrl || '—' }}
+                  </p>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
 
         <div
@@ -217,15 +279,101 @@
 import { useStellariumStore } from '@/store/stellariumStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import toggleButton from '@/components/helpers/toggleButton.vue';
-import { watch, ref, computed } from 'vue';
+import { watch, ref, computed, onMounted } from 'vue';
 import { Cog6ToothIcon } from '@heroicons/vue/24/outline';
 import { useOrientation } from '@/composables/useOrientation';
 import Modal from '@/components/helpers/Modal.vue';
+import apiService from '@/services/apiService';
 
 const stellariumStore = useStellariumStore();
 const settingsStore = useSettingsStore();
 const settingsVisible = ref(false);
 const landscapeSourceDirty = ref(false);
+const availableLandscapes = ref([]);
+const landscapeListLoading = ref(false);
+const landscapeListLoaded = ref(false);
+const landscapeListError = ref('');
+
+function normalizeLandscapePath(path) {
+  return String(path || '')
+    .trim()
+    .replace(/\/+$/g, '')
+    .toLowerCase();
+}
+
+const listedLandscapeOptions = computed(() => {
+  return availableLandscapes.value
+    .filter((item) => {
+      const folder = String(item?.folderName || '').toLowerCase();
+      return Boolean(folder) && folder !== 'gray' && folder !== 'guereins';
+    })
+    .map((item) => {
+      const folderName = item.folderName;
+      const title = item.title || folderName;
+      return {
+        value: `listed:${folderName}`,
+        label: `Landscape: ${title}`,
+        folderName,
+        serviceUrl: item.serviceUrl,
+      };
+    });
+});
+
+function applyListedLandscapeSelection(folderName) {
+  const selected = listedLandscapeOptions.value.find((option) => option.folderName === folderName);
+  if (!selected) return;
+
+  settingsStore.stellarium.landscapeSourceMode = 'custom';
+  settingsStore.stellarium.customLandscapeUrl = selected.serviceUrl || `landscapes/${folderName}`;
+  settingsStore.stellarium.customLandscapeKey = folderName || 'custom';
+}
+
+const landscapeSourceSelection = computed({
+  get() {
+    const mode = settingsStore.stellarium.landscapeSourceMode;
+    if (mode === 'default' || mode === 'neutral') {
+      return mode;
+    }
+
+    if (mode === 'custom') {
+      const customUrl = normalizeLandscapePath(settingsStore.stellarium.customLandscapeUrl);
+      const customKey = String(settingsStore.stellarium.customLandscapeKey || '')
+        .trim()
+        .toLowerCase();
+
+      const listedMatch = listedLandscapeOptions.value.find((option) => {
+        const optionUrl = normalizeLandscapePath(option.serviceUrl);
+        const optionFolder = String(option.folderName || '')
+          .trim()
+          .toLowerCase();
+
+        return (
+          (customUrl && optionUrl && customUrl === optionUrl) ||
+          (customKey && optionFolder && customKey === optionFolder)
+        );
+      });
+
+      if (listedMatch) {
+        return listedMatch.value;
+      }
+
+      return 'custom';
+    }
+
+    return 'default';
+  },
+  set(value) {
+    if (value === 'default' || value === 'neutral' || value === 'custom') {
+      settingsStore.stellarium.landscapeSourceMode = value;
+      return;
+    }
+
+    if (typeof value === 'string' && value.startsWith('listed:')) {
+      const folderName = value.slice('listed:'.length);
+      applyListedLandscapeSelection(folderName);
+    }
+  },
+});
 
 function toggleControls() {
   settingsVisible.value = !settingsVisible.value;
@@ -246,6 +394,34 @@ function showLandscape() {
   requestStellariumRefresh();
 }
 
+async function fetchAvailableLandscapes() {
+  landscapeListLoading.value = true;
+  landscapeListError.value = '';
+
+  try {
+    const response = await apiService.listStellariumLandscapes();
+    if (response?.success === true) {
+      const rawItems = Array.isArray(response.landscapes) ? response.landscapes : [];
+      availableLandscapes.value = rawItems.map((item) => ({
+        folderName: item?.folderName ?? item?.FolderName ?? '',
+        title: item?.title ?? item?.Title ?? '',
+        serviceUrl: item?.serviceUrl ?? item?.ServiceUrl ?? '',
+        hasAllsky: item?.hasAllsky ?? item?.HasAllsky ?? false,
+      }));
+    } else {
+      availableLandscapes.value = [];
+      landscapeListError.value = response?.message || 'Failed to load landscapes.';
+    }
+  } catch (error) {
+    const responseMessage = error?.response?.data?.message || error?.response?.data?.error;
+    landscapeListError.value = responseMessage || error?.message || 'Failed to load landscapes.';
+    availableLandscapes.value = [];
+  } finally {
+    landscapeListLoading.value = false;
+    landscapeListLoaded.value = true;
+  }
+}
+
 // Check if in landscape mode
 const { isLandscape } = useOrientation();
 
@@ -256,6 +432,10 @@ const settingsContainerClasses = computed(() => ({
   // Landscape mode - two columns
   'grid grid-cols-2 gap-2': isLandscape.value,
 }));
+
+onMounted(() => {
+  fetchAvailableLandscapes();
+});
 
 watch(() => settingsStore.stellarium, stellariumStore.updateStellariumCore, { deep: true });
 

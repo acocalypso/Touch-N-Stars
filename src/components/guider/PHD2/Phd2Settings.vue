@@ -195,6 +195,19 @@
         <Phd2UseDecCompensation />
       </div>
 
+      <!-- Backlash Compensation -->
+      <div
+        class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
+      >
+        <h3 class="font-bold text-base text-cyan-400">
+          {{ $t('components.guider.phd2.backlash.title') }}
+        </h3>
+        <Phd2BacklashEnabled />
+        <Phd2BacklashAmount />
+        <Phd2BacklashMin />
+        <Phd2BacklashMax />
+      </div>
+
       <!-- Guide Algorithm Settings -->
       <div
         class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
@@ -267,6 +280,10 @@ import Phd2MinStarSNR from '@/components/guider/PHD2/pins/Phd2MinStarSNR.vue';
 import Phd2AutoSelectDownsample from '@/components/guider/PHD2/pins/Phd2AutoSelectDownsample.vue';
 import Phd2MassChangeEnabled from '@/components/guider/PHD2/pins/Phd2MassChangeEnabled.vue';
 import Phd2MassChangeThreshold from '@/components/guider/PHD2/pins/Phd2MassChangeThreshold.vue';
+import Phd2BacklashEnabled from '@/components/guider/PHD2/pins/Phd2BacklashEnabled.vue';
+import Phd2BacklashAmount from '@/components/guider/PHD2/pins/Phd2BacklashAmount.vue';
+import Phd2BacklashMin from '@/components/guider/PHD2/pins/Phd2BacklashMin.vue';
+import Phd2BacklashMax from '@/components/guider/PHD2/pins/Phd2BacklashMax.vue';
 import Phd2SaturationByADU from '@/components/guider/PHD2/pins/Phd2SaturationByADU.vue';
 import Phd2SaturationADUValue from '@/components/guider/PHD2/pins/Phd2SaturationADUValue.vue';
 import Phd2BeepForLostStar from '@/components/guider/PHD2/pins/Phd2BeepForLostStar.vue';

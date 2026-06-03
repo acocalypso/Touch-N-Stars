@@ -1110,7 +1110,11 @@
           },
           "ditherMode": "Hoe PHD2 elke dither berekent. «Willekeurig» kiest grootte en richting willekeurig; «Spiraal» gebruikt stappen van vaste grootte in een spiraal met de klok mee — handig als de opnamecamera vast patroonruis heeft of de montering hinderlijke Dec-speling heeft.",
           "ditherRaOnly": "Dithering alleen op de RA-as. Handig wanneer Dec-guiden uit staat of de montering veel Dec-speling heeft.",
-          "ditherScale": "Vermenigvuldiger voor de door de opnamesoftware gevraagde dither-hoeveelheid — verhoog voor grotere, verlaag voor kleinere dithers."
+          "ditherScale": "Vermenigvuldiger voor de door de opnamesoftware gevraagde dither-hoeveelheid — verhoog voor grotere, verlaag voor kleinere dithers.",
+          "backlashEnabled": "Compenseert DEC-backlash door een extra puls toe te voegen wanneer de montering van richting verandert. Handig voor monteringen met merkbare tandwielspeling; laat uit als de montering schoon guidet in DEC.",
+          "backlashAmount": "Lengte van de extra correctiepuls (in ms) die PHD2 toevoegt bij een DEC-richtingsomkering. PHD2 stemt deze automatisch af tussen Min en Max.",
+          "backlashMin": "Ondergrens (ms) voor de automatisch aangepaste backlash-puls.",
+          "backlashMax": "Bovengrens (ms) voor de automatisch aangepaste backlash-puls."
         },
         "starDetection": "Volgen van de gidsster",
         "searchRegion": "Zoekgebied (pixels)",
@@ -1120,6 +1124,13 @@
         "starMassDetection": "Stermassa-detectie",
         "massChangeEnabled": "Ingeschakeld",
         "massChangeThreshold": "Tolerantie",
+        "backlash": {
+          "title": "Backlash-compensatie",
+          "enabled": "Ingeschakeld",
+          "amount": "Hoeveelheid (ms)",
+          "min": "Min (ms)",
+          "max": "Max (ms)"
+        },
         "minStarSNR": "Minimale ster-SNR voor AutoFind",
         "autoSelectDownsample": "Downsampling van selectieframes",
         "saturationByADU": "Verzadiging via ADU",

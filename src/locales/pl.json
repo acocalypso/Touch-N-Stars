@@ -1110,7 +1110,11 @@
           },
           "ditherMode": "Jak PHD2 oblicza każdy dither. «Losowy» wybiera rozmiar i kierunek losowo; «Spiralny» używa kroków o stałym rozmiarze po spirali zgodnie z ruchem wskazówek zegara — przydatne, gdy kamera obrazująca ma stały szum wzorcowy lub montaż ma uciążliwy luz w Dec.",
           "ditherRaOnly": "Dithering tylko w osi RA. Przydatne, gdy prowadzenie w Dec jest wyłączone lub montaż ma duży luz w Dec.",
-          "ditherScale": "Mnożnik stosowany do wielkości ditheru żądanej przez aplikację obrazującą — zwiększ dla większych, zmniejsz dla mniejszych ditherów."
+          "ditherScale": "Mnożnik stosowany do wielkości ditheru żądanej przez aplikację obrazującą — zwiększ dla większych, zmniejsz dla mniejszych ditherów.",
+          "backlashEnabled": "Kompensuje luz (backlash) w osi DEC, dodając dodatkowy impuls przy zmianie kierunku montażu. Przydatne dla montaży z wyraźnym luzem przekładni; pozostaw wyłączone, jeśli montaż prowadzi czysto w DEC.",
+          "backlashAmount": "Długość dodatkowego impulsu korekcyjnego (w ms), który PHD2 dodaje przy zmianie kierunku w DEC. PHD2 automatycznie dostraja go między Min a Maks.",
+          "backlashMin": "Dolny limit (ms) automatycznie dostrajanego impulsu backlash.",
+          "backlashMax": "Górny limit (ms) automatycznie dostrajanego impulsu backlash."
         },
         "starDetection": "Śledzenie gwiazdy prowadzącej",
         "searchRegion": "Obszar wyszukiwania (piksele)",
@@ -1120,6 +1124,13 @@
         "starMassDetection": "Wykrywanie masy gwiazdy",
         "massChangeEnabled": "Włączone",
         "massChangeThreshold": "Tolerancja",
+        "backlash": {
+          "title": "Kompensacja luzu",
+          "enabled": "Włączone",
+          "amount": "Wartość (ms)",
+          "min": "Min (ms)",
+          "max": "Maks (ms)"
+        },
         "minStarSNR": "Minimalny SNR gwiazdy dla AutoFind",
         "autoSelectDownsample": "Zmniejszanie próbkowania klatek wyboru",
         "saturationByADU": "Nasycenie wg ADU",

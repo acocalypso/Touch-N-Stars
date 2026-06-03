@@ -1110,7 +1110,11 @@
           },
           "ditherMode": "Como o PHD2 calcula cada dither. «Aleatório» escolhe tamanho e direção ao acaso; «Espiral» usa passos de tamanho fixo em espiral horária — útil se a câmera de captura tem ruído de padrão fixo ou a montagem tem folga em Dec incômoda.",
           "ditherRaOnly": "Dithering apenas no eixo AR. Útil quando a guiagem em Dec está desligada ou a montagem tem muita folga em Dec.",
-          "ditherScale": "Multiplicador aplicado à quantidade de dither solicitada pelo aplicativo de captura — aumente para dithers maiores, diminua para menores."
+          "ditherScale": "Multiplicador aplicado à quantidade de dither solicitada pelo aplicativo de captura — aumente para dithers maiores, diminua para menores.",
+          "backlashEnabled": "Compensa o backlash em DEC adicionando um pulso extra quando a montagem inverte a direção. Útil para montagens com folga de engrenagem perceptível; deixe desativado se a montagem guia de forma limpa em DEC.",
+          "backlashAmount": "Duração do pulso de correção extra (em ms) que o PHD2 adiciona ao inverter a direção em DEC. O PHD2 ajusta-o automaticamente entre Mín e Máx.",
+          "backlashMin": "Limite inferior (ms) do pulso de backlash ajustado automaticamente.",
+          "backlashMax": "Limite superior (ms) do pulso de backlash ajustado automaticamente."
         },
         "starDetection": "Acompanhamento da estrela-guia",
         "searchRegion": "Região de busca (pixels)",
@@ -1120,6 +1124,13 @@
         "starMassDetection": "Detecção de massa da estrela",
         "massChangeEnabled": "Ativado",
         "massChangeThreshold": "Tolerância",
+        "backlash": {
+          "title": "Compensação de backlash",
+          "enabled": "Ativado",
+          "amount": "Quantidade (ms)",
+          "min": "Mín (ms)",
+          "max": "Máx (ms)"
+        },
         "minStarSNR": "SNR mínimo da estrela para AutoFind",
         "autoSelectDownsample": "Subamostragem dos quadros de seleção",
         "saturationByADU": "Saturação por ADU",

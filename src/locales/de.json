@@ -1000,6 +1000,13 @@
         "starMassDetection": "Sternmasse-Erkennung",
         "massChangeEnabled": "Aktiviert",
         "massChangeThreshold": "Toleranz",
+        "backlash": {
+          "title": "Backlash-Kompensation",
+          "enabled": "Aktiviert",
+          "amount": "Betrag (ms)",
+          "min": "Min (ms)",
+          "max": "Max (ms)"
+        },
         "minStarSNR": "Minimales Stern-SNR für AutoFind",
         "autoSelectDownsample": "Downsampling der Auswahlframes",
         "saturationByADU": "Sättigung per ADU",
@@ -1042,7 +1049,11 @@
           },
           "ditherMode": "Wie PHD2 jedes Dither berechnet. „Zufällig“ wählt Größe und Richtung zufällig; „Spirale“ nutzt Schritte fester Größe in einer Spirale im Uhrzeigersinn — nützlich, wenn die Aufnahmekamera festes Musterrauschen hat oder die Montierung störendes DEC-Backlash.",
           "ditherRaOnly": "Dithert nur entlang der RA-Achse. Nützlich, wenn das DEC-Guiding aus ist oder die Montierung großes DEC-Backlash hat.",
-          "ditherScale": "Faktor für die vom Aufnahmeprogramm angeforderte Dither-Stärke — erhöhen für größere, verringern für kleinere Dithers."
+          "ditherScale": "Faktor für die vom Aufnahmeprogramm angeforderte Dither-Stärke — erhöhen für größere, verringern für kleinere Dithers.",
+          "backlashEnabled": "Gleicht DEC-Backlash aus, indem bei einem Richtungswechsel der Montierung ein zusätzlicher Puls hinzugefügt wird. Hilfreich bei Montierungen mit spürbarem Getriebespiel; aus lassen, wenn die Montierung in DEC sauber guidet.",
+          "backlashAmount": "Länge des zusätzlichen Korrekturpulses (in ms), den PHD2 bei einem DEC-Richtungswechsel hinzufügt. PHD2 stimmt diesen Wert automatisch zwischen Min und Max ab.",
+          "backlashMin": "Untergrenze (ms) für den automatisch angepassten Backlash-Puls.",
+          "backlashMax": "Obergrenze (ms) für den automatisch angepassten Backlash-Puls."
         },
         "mountSettings": "Montierung",
         "guideRate": "Guide Rate",

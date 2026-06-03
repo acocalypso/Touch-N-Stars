@@ -1110,7 +1110,11 @@
           },
           "ditherMode": "Cómo calcula PHD2 cada dither. «Aleatorio» elige tamaño y dirección al azar; «Espiral» usa pasos de tamaño fijo en espiral horaria — útil si la cámara de imagen tiene ruido de patrón fijo o la montura tiene un juego en Dec molesto.",
           "ditherRaOnly": "Dithering solo en el eje AR. Útil cuando el guiado en Dec está desactivado o la montura tiene mucho juego en Dec.",
-          "ditherScale": "Multiplicador aplicado a la cantidad de dither solicitada por la aplicación de captura: auméntalo para dithers mayores, redúcelo para menores."
+          "ditherScale": "Multiplicador aplicado a la cantidad de dither solicitada por la aplicación de captura: auméntalo para dithers mayores, redúcelo para menores.",
+          "backlashEnabled": "Compensa el backlash en DEC añadiendo un pulso adicional cuando la montura invierte la dirección. Útil para monturas con holgura de engranajes notable; déjalo desactivado si la montura guía limpiamente en DEC.",
+          "backlashAmount": "Duración del pulso de corrección adicional (en ms) que PHD2 añade al invertir la dirección en DEC. PHD2 lo ajusta automáticamente entre Mín y Máx.",
+          "backlashMin": "Límite inferior (ms) del pulso de backlash ajustado automáticamente.",
+          "backlashMax": "Límite superior (ms) del pulso de backlash ajustado automáticamente."
         },
         "starDetection": "Seguimiento de la estrella guía",
         "searchRegion": "Región de búsqueda (píxeles)",
@@ -1120,6 +1124,13 @@
         "starMassDetection": "Detección de masa de estrella",
         "massChangeEnabled": "Activada",
         "massChangeThreshold": "Tolerancia",
+        "backlash": {
+          "title": "Compensación de backlash",
+          "enabled": "Activada",
+          "amount": "Cantidad (ms)",
+          "min": "Mín (ms)",
+          "max": "Máx (ms)"
+        },
         "minStarSNR": "SNR mínimo de la estrella para AutoFind",
         "autoSelectDownsample": "Submuestreo de los fotogramas de selección",
         "saturationByADU": "Saturación por ADU",

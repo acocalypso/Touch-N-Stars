@@ -1110,7 +1110,11 @@
           },
           "ditherMode": "Come PHD2 calcola ogni dither. «Casuale» sceglie dimensione e direzione a caso; «Spirale» usa passi di dimensione fissa in spirale oraria — utile se la camera di ripresa ha rumore a motivo fisso o la montatura ha un fastidioso gioco in Dec.",
           "ditherRaOnly": "Dithering solo sull’asse AR. Utile quando la guida in Dec è disattivata o la montatura ha molto gioco in Dec.",
-          "ditherScale": "Moltiplicatore applicato all’entità di dither richiesta dall’applicazione di ripresa — aumentalo per dither più ampi, diminuiscilo per più piccoli."
+          "ditherScale": "Moltiplicatore applicato all’entità di dither richiesta dall’applicazione di ripresa — aumentalo per dither più ampi, diminuiscilo per più piccoli.",
+          "backlashEnabled": "Compensa il backlash in DEC aggiungendo un impulso extra quando la montatura inverte la direzione. Utile per montature con gioco degli ingranaggi evidente; lascialo disattivato se la montatura guida in modo pulito in DEC.",
+          "backlashAmount": "Durata dell’impulso di correzione extra (in ms) che PHD2 aggiunge all’inversione di direzione in DEC. PHD2 lo regola automaticamente tra Min e Max.",
+          "backlashMin": "Limite inferiore (ms) dell’impulso di backlash regolato automaticamente.",
+          "backlashMax": "Limite superiore (ms) dell’impulso di backlash regolato automaticamente."
         },
         "starDetection": "Inseguimento della stella guida",
         "searchRegion": "Regione di ricerca (pixel)",
@@ -1120,6 +1124,13 @@
         "starMassDetection": "Rilevamento massa della stella",
         "massChangeEnabled": "Attivo",
         "massChangeThreshold": "Tolleranza",
+        "backlash": {
+          "title": "Compensazione del backlash",
+          "enabled": "Attivo",
+          "amount": "Quantità (ms)",
+          "min": "Min (ms)",
+          "max": "Max (ms)"
+        },
         "minStarSNR": "SNR minimo della stella per AutoFind",
         "autoSelectDownsample": "Sottocampionamento dei frame di selezione",
         "saturationByADU": "Saturazione per ADU",

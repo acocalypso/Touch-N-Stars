@@ -1110,7 +1110,11 @@
           },
           "ditherMode": "PHD2 如何计算每次抖动。「随机」随机选择大小和方向；「螺旋」按顺时针螺旋以固定步长抖动——当成像相机有固定模式噪声或赤道仪赤纬空回较大时很有用。",
           "ditherRaOnly": "仅沿赤经轴抖动。当赤纬导星关闭或赤道仪赤纬空回较大时很有用。",
-          "ditherScale": "对成像程序请求的抖动量所乘的倍数——增大可获得更大的抖动，减小则更小。"
+          "ditherScale": "对成像程序请求的抖动量所乘的倍数——增大可获得更大的抖动，减小则更小。",
+          "backlashEnabled": "通过在赤道仪反向时增加一个额外脉冲来补偿赤纬（DEC）回差。适用于齿轮回差明显的赤道仪；若赤道仪在 DEC 方向导星干净，则保持关闭。",
+          "backlashAmount": "PHD2 在 DEC 方向换向时增加的额外校正脉冲长度（毫秒）。PHD2 会在最小值与最大值之间自动调节。",
+          "backlashMin": "自动调节的回差脉冲的下限（毫秒）。",
+          "backlashMax": "自动调节的回差脉冲的上限（毫秒）。"
         },
         "starDetection": "导星星点跟踪",
         "searchRegion": "搜索区域（像素）",
@@ -1120,6 +1124,13 @@
         "starMassDetection": "星点质量检测",
         "massChangeEnabled": "启用",
         "massChangeThreshold": "容差",
+        "backlash": {
+          "title": "回差补偿",
+          "enabled": "启用",
+          "amount": "数值 (ms)",
+          "min": "最小 (ms)",
+          "max": "最大 (ms)"
+        },
         "minStarSNR": "AutoFind 的最小星点信噪比",
         "autoSelectDownsample": "选择帧降采样",
         "saturationByADU": "按 ADU 判断饱和",

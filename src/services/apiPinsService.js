@@ -442,6 +442,31 @@ export default {
     });
   },
 
+  getPHD2BacklashComp() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/backlash/comp`);
+  },
+
+  setPHD2BacklashEnabled(enabled) {
+    const { API_URL } = getUrls();
+    return this._simplePutRequest(`${API_URL}phd2/backlash/comp`, { enabled });
+  },
+
+  setPHD2BacklashPulseWidth(pulseWidth) {
+    const { API_URL } = getUrls();
+    return this._simplePutRequest(`${API_URL}phd2/backlash/comp`, { pulseWidth });
+  },
+
+  setPHD2BacklashFloor(floor) {
+    const { API_URL } = getUrls();
+    return this._simplePutRequest(`${API_URL}phd2/backlash/comp`, { floor });
+  },
+
+  setPHD2BacklashCeiling(ceiling) {
+    const { API_URL } = getUrls();
+    return this._simplePutRequest(`${API_URL}phd2/backlash/comp`, { ceiling });
+  },
+
   getPHD2MinStarSNR() {
     const { API_URL } = getUrls();
     return this._simpleGetRequest(`${API_URL}phd2/tracking/min-star-snr`);

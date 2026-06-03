@@ -1110,7 +1110,11 @@
           },
           "ditherMode": "Comment PHD2 calcule chaque dither. « Aléatoire » choisit une taille et une direction au hasard ; « Spirale » utilise des pas de taille fixe en spirale horaire — utile si la caméra d’imagerie a un bruit à motif fixe ou si la monture a un jeu en Dec gênant.",
           "ditherRaOnly": "Dithering uniquement sur l’axe AD. Utile lorsque le guidage Dec est désactivé ou que la monture a un fort jeu en Dec.",
-          "ditherScale": "Multiplicateur appliqué à l’amplitude de dither demandée par l’application d’imagerie — augmentez-le pour des dithers plus grands, diminuez-le pour des plus petits."
+          "ditherScale": "Multiplicateur appliqué à l’amplitude de dither demandée par l’application d’imagerie — augmentez-le pour des dithers plus grands, diminuez-le pour des plus petits.",
+          "backlashEnabled": "Compense le backlash en DEC en ajoutant une impulsion supplémentaire lorsque la monture change de direction. Utile pour les montures avec un jeu d’engrenage notable ; laissez désactivé si la monture guide proprement en DEC.",
+          "backlashAmount": "Durée de l’impulsion de correction supplémentaire (en ms) que PHD2 ajoute lors d’un changement de direction en DEC. PHD2 l’ajuste automatiquement entre Min et Max.",
+          "backlashMin": "Limite inférieure (ms) de l’impulsion de backlash ajustée automatiquement.",
+          "backlashMax": "Limite supérieure (ms) de l’impulsion de backlash ajustée automatiquement."
         },
         "starDetection": "Suivi de l’étoile-guide",
         "searchRegion": "Région de recherche (pixels)",
@@ -1120,6 +1124,13 @@
         "starMassDetection": "Détection de masse d’étoile",
         "massChangeEnabled": "Activée",
         "massChangeThreshold": "Tolérance",
+        "backlash": {
+          "title": "Compensation du backlash",
+          "enabled": "Activée",
+          "amount": "Valeur (ms)",
+          "min": "Min (ms)",
+          "max": "Max (ms)"
+        },
         "minStarSNR": "SNR minimal de l’étoile pour AutoFind",
         "autoSelectDownsample": "Sous-échantillonnage des trames de sélection",
         "saturationByADU": "Saturation par ADU",

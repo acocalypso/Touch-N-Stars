@@ -105,6 +105,11 @@ export const useGuiderStore = defineStore('guiderStore', {
     phd2MassChangeEnabledLoading: false,
     phd2MassChangeThreshold: null,
     phd2MassChangeThresholdLoading: false,
+    phd2BacklashEnabled: false,
+    phd2BacklashPulseWidth: null,
+    phd2BacklashFloor: null,
+    phd2BacklashCeiling: null,
+    phd2BacklashLoading: false,
     phd2MinStarSNR: null,
     phd2MinStarSNRLoading: false,
     phd2AutoSelectDownsample: 'Auto',
@@ -1058,6 +1063,96 @@ export const useGuiderStore = defineStore('guiderStore', {
         }
       } catch (error) {
         console.error('Error setting PHD2 mass change threshold:', error);
+        throw error;
+      }
+    },
+
+    // PHD2 Backlash Compensation Actions (PINS)
+    async fetchPHD2BacklashComp() {
+      const store = apiStore();
+      if (!store.isPINS) return;
+      this.phd2BacklashLoading = true;
+      try {
+        const response = await apiPinsService.getPHD2BacklashComp();
+        if (response.Success && response.Response) {
+          this.phd2BacklashEnabled = response.Response.Enabled;
+          this.phd2BacklashPulseWidth = response.Response.PulseWidth;
+          this.phd2BacklashFloor = response.Response.Floor;
+          this.phd2BacklashCeiling = response.Response.Ceiling;
+        }
+      } catch (error) {
+        console.error('Error fetching PHD2 backlash comp:', error);
+      } finally {
+        this.phd2BacklashLoading = false;
+      }
+    },
+
+    async setPHD2BacklashEnabled(enabled) {
+      if (this.isDarkLibraryBuildActive) {
+        console.warn('PHD2 dark library build active – aborting setPHD2BacklashEnabled');
+        return;
+      }
+      try {
+        const response = await apiPinsService.setPHD2BacklashEnabled(enabled);
+        if (response.Success && response.Response) {
+          // PUT echoes back only the sent field; fall back to the sent value if it is null.
+          this.phd2BacklashEnabled = response.Response.Enabled ?? enabled;
+          return response;
+        }
+      } catch (error) {
+        console.error('Error setting PHD2 backlash enabled:', error);
+        throw error;
+      }
+    },
+
+    async setPHD2BacklashPulseWidth(pulseWidth) {
+      if (this.isDarkLibraryBuildActive) {
+        console.warn('PHD2 dark library build active – aborting setPHD2BacklashPulseWidth');
+        return;
+      }
+      try {
+        const response = await apiPinsService.setPHD2BacklashPulseWidth(pulseWidth);
+        if (response.Success) {
+          // PHD2 may silently clamp limits to its valid range, so reload the real state.
+          await this.fetchPHD2BacklashComp();
+          return response;
+        }
+      } catch (error) {
+        console.error('Error setting PHD2 backlash pulse width:', error);
+        throw error;
+      }
+    },
+
+    async setPHD2BacklashFloor(floor) {
+      if (this.isDarkLibraryBuildActive) {
+        console.warn('PHD2 dark library build active – aborting setPHD2BacklashFloor');
+        return;
+      }
+      try {
+        const response = await apiPinsService.setPHD2BacklashFloor(floor);
+        if (response.Success) {
+          await this.fetchPHD2BacklashComp();
+          return response;
+        }
+      } catch (error) {
+        console.error('Error setting PHD2 backlash floor:', error);
+        throw error;
+      }
+    },
+
+    async setPHD2BacklashCeiling(ceiling) {
+      if (this.isDarkLibraryBuildActive) {
+        console.warn('PHD2 dark library build active – aborting setPHD2BacklashCeiling');
+        return;
+      }
+      try {
+        const response = await apiPinsService.setPHD2BacklashCeiling(ceiling);
+        if (response.Success) {
+          await this.fetchPHD2BacklashComp();
+          return response;
+        }
+      } catch (error) {
+        console.error('Error setting PHD2 backlash ceiling:', error);
         throw error;
       }
     },

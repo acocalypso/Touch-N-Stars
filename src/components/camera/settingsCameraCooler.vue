@@ -247,7 +247,7 @@ async function startCooling() {
     }
     const response = await apiService.startCameraCooling(
       store.profileInfo.CameraSettings.Temperature,
-      store.profileInfo.CameraSettings.CoolingDuration || 10
+      store.profileInfo.CameraSettings.CoolingDuration ?? 10
     );
     cameraStore.buttonCoolerOn = true;
     console.log('[Camera] startCooling', response);
@@ -278,7 +278,7 @@ async function startWarming() {
     await apiService.stopCameraCooling();
     cameraStore.buttonCoolerOn = false;
     const response = await apiService.startCameraWarming(
-      store.profileInfo.CameraSettings.WarmingDuration || 10
+      store.profileInfo.CameraSettings.WarmingDuration ?? 10
     );
     cameraStore.buttonWarmingOn = true;
     console.log('[Camera] startWarming', response);

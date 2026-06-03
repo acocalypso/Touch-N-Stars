@@ -775,6 +775,9 @@
           "slope": "Inclinação",
           "intercept": "Intercepto",
           "absolute": "Absoluto"
+        },
+        "startGuiding": {
+          "forceCalibrationLabel": ""
         }
       },
       "emptyContainer": "Vazio — clique em + para adicionar itens",
@@ -1648,7 +1651,16 @@
         "custom_landscape_url": "Custom source URL",
         "custom_landscape_url_placeholder": "e.g. /stellarium-data/landscapes/custom",
         "custom_landscape_key": "Custom source key",
-        "custom_landscape_key_placeholder": "e.g. my-landscape"
+        "custom_landscape_key_placeholder": "e.g. my-landscape",
+        "available_landscapes": "Paisagens disponíveis",
+        "folder_name_label": "pastaNome",
+        "has_allsky": "Allsky",
+        "landscape_list_load_failed": "Falha ao carregar paisagens.",
+        "landscape_option_label": "Paisagem: {título}",
+        "no_allsky": "Não allsky",
+        "no_landscapes_available": "Nenhuma paisagem disponível.",
+        "service_url_label": "URL de serviço",
+        "untitled_landscape": "Paisagem sem título"
       }
     },
     "profile": {
@@ -4055,7 +4067,8 @@
         "invalidFileType": "Tipo de arquivo não suportado. \nFaça upload de PNG, JPEG ou WebP.",
         "successMessage": "{nome do arquivo} baixado",
         "successTitle": "Pronto para ZIP em paisagem",
-        "validationTitle": "Validação"
+        "validationTitle": "Validação",
+        "successMessageSaved": "{nome do arquivo} salvo em {caminho}."
       },
       "validation": {
         "fixErrors": "Corrija os campos destacados.",

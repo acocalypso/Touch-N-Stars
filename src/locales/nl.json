@@ -775,6 +775,9 @@
           "slope": "Helling",
           "intercept": "Afsnijpunt",
           "absolute": "Absoluut"
+        },
+        "startGuiding": {
+          "forceCalibrationLabel": ""
         }
       },
       "emptyContainer": "Leeg — klik op + om items toe te voegen",
@@ -1648,7 +1651,16 @@
         "custom_landscape_url": "Custom source URL",
         "custom_landscape_url_placeholder": "e.g. /stellarium-data/landscapes/custom",
         "custom_landscape_key": "Custom source key",
-        "custom_landscape_key_placeholder": "e.g. my-landscape"
+        "custom_landscape_key_placeholder": "e.g. my-landscape",
+        "available_landscapes": "Beschikbare landschappen",
+        "folder_name_label": "mapnaam",
+        "has_allsky": "Allski",
+        "landscape_list_load_failed": "Kan landschappen niet laden.",
+        "landscape_option_label": "Landschap: {titel}",
+        "no_allsky": "Geen allski",
+        "no_landscapes_available": "Geen landschappen beschikbaar.",
+        "service_url_label": "serviceUrl",
+        "untitled_landscape": "Zonder titel landschap"
       }
     },
     "profile": {
@@ -3615,7 +3627,12 @@
         "credentials": "Als uw camera een gebruikersnaam en wachtwoord vereist, neemt u de inloggegevens rechtstreeks in de URL op:",
         "credentialsNote": "De backend-proxy verwerkt de authenticatie automatisch: de inloggegevens in de URL werken met zowel basis- als digest-authenticatie (bijv. Hikvision).",
         "credentialsTitle": "Met wachtwoord beveiligde camera's",
-        "exampleLabels": ["Algemene IP-camera", "ONVIF-camera", "As-camera", "Hikvision-camera"],
+        "exampleLabels": [
+          "Algemene IP-camera",
+          "ONVIF-camera",
+          "As-camera",
+          "Hikvision-camera"
+        ],
         "examplesTitle": "Voorbeelden",
         "proxyOptions": [
           "Proxy (standaard): De afbeelding wordt opgehaald door de NINA-backend en doorgestuurd naar de browser. \nVereist voor lokale netwerkcamera's met inloggegevens of CORS-beperkingen. \nIets langzamer bij toegang via VPN.",
@@ -4050,7 +4067,8 @@
         "invalidFileType": "Niet-ondersteund bestandstype. \nUpload PNG, JPEG of WebP.",
         "successMessage": "{bestandsnaam} gedownload",
         "successTitle": "Liggend ZIP klaar",
-        "validationTitle": "Geldigmaking"
+        "validationTitle": "Geldigmaking",
+        "successMessageSaved": "{bestandsnaam} opgeslagen in {path}."
       },
       "validation": {
         "fixErrors": "Corrigeer de gemarkeerde velden.",

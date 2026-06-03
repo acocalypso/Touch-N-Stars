@@ -1324,6 +1324,12 @@ const apiService = {
     }
   },
 
+  async listStellariumLandscapes() {
+    const { PLUGINSERVER_URL } = getUrls();
+    const response = await axios.get(`${PLUGINSERVER_URL}/api/stellarium/landscape/list`);
+    return response.data;
+  },
+
   //-------------------------------------  application ---------------------------------------
   async applicatioTabSwitch(tab) {
     try {

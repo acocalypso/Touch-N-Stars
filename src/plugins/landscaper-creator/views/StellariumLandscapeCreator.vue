@@ -328,6 +328,8 @@
 <script setup>
 import { computed, onBeforeUnmount, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { Capacitor } from '@capacitor/core';
+import { Directory, Filesystem } from '@capacitor/filesystem';
 import { useToastStore } from '@/store/toastStore';
 import apiService from '@/services/apiService';
 
@@ -341,6 +343,7 @@ const cardinalMarkers = [
   { label: '180°', positionPercent: 50 },
   { label: '270°', positionPercent: 75 },
 ];
+const mobileLandscapeFolderName = 'TouchNStars-Landscapes';
 
 const fileInputRef = ref(null);
 const previewRef = ref(null);
@@ -675,6 +678,66 @@ function triggerZipDownload(blob, filename) {
   }, 1200);
 }
 
+function isNativeMobilePlatform() {
+  const platform = Capacitor.getPlatform();
+  return platform === 'android' || platform === 'ios';
+}
+
+function blobToBase64(blob) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const dataUrl = typeof reader.result === 'string' ? reader.result : '';
+      const base64Payload = dataUrl.includes(',') ? dataUrl.split(',')[1] : '';
+      if (base64Payload) {
+        resolve(base64Payload);
+        return;
+      }
+      reject(new Error('Failed to convert ZIP blob to base64'));
+    };
+    reader.onerror = () => reject(new Error('Failed to read ZIP blob'));
+    reader.readAsDataURL(blob);
+  });
+}
+
+async function saveZipToMobileDocuments(blob, filename) {
+  try {
+    await Filesystem.mkdir({
+      path: mobileLandscapeFolderName,
+      directory: Directory.Documents,
+      recursive: true,
+    });
+  } catch (error) {
+    const detail = String(error?.message || '');
+    if (!detail.includes('exists')) {
+      console.warn('Could not create mobile ZIP folder:', error);
+    }
+  }
+
+  const base64Payload = await blobToBase64(blob);
+  const relativePath = `${mobileLandscapeFolderName}/${filename}`;
+  await Filesystem.writeFile({
+    path: relativePath,
+    data: base64Payload,
+    directory: Directory.Documents,
+  });
+
+  return relativePath;
+}
+
+async function deliverLandscapeZip(zipBlob, zipFilename) {
+  if (!isNativeMobilePlatform()) {
+    triggerZipDownload(zipBlob, zipFilename);
+    return { mode: 'downloaded' };
+  }
+
+  const savedPath = await saveZipToMobileDocuments(zipBlob, zipFilename);
+  return {
+    mode: 'saved',
+    savedPath,
+  };
+}
+
 async function submitLandscape() {
   submitError.value = '';
   if (!validateForm()) return;
@@ -700,12 +763,23 @@ async function submitLandscape() {
     }
 
     const zipFilename = `${safeFolderName}.zip`;
-    triggerZipDownload(zipBlob, zipFilename);
+    const deliveryResult = await deliverLandscapeZip(zipBlob, zipFilename);
+
+    let successMessage = t('plugins.landscaperCreator.toast.successMessage', {
+      filename: zipFilename,
+    });
+
+    if (deliveryResult.mode === 'saved') {
+      successMessage = t('plugins.landscaperCreator.toast.successMessageSaved', {
+        filename: zipFilename,
+        path: deliveryResult.savedPath,
+      });
+    }
 
     toastStore.showToast({
       type: 'success',
       title: t('plugins.landscaperCreator.toast.successTitle'),
-      message: t('plugins.landscaperCreator.toast.successMessage', { filename: zipFilename }),
+      message: successMessage,
       autoClose: true,
     });
   } catch (error) {

@@ -792,6 +792,9 @@
           "slope": "傾き",
           "intercept": "切片",
           "absolute": "絶対"
+        },
+        "startGuiding": {
+          "forceCalibrationLabel": ""
         }
       },
       "emptyContainer": "空です — + をクリックしてアイテムを追加",
@@ -1656,7 +1659,16 @@
         "custom_landscape_url": "Custom source URL",
         "custom_landscape_url_placeholder": "e.g. /stellarium-data/landscapes/custom",
         "custom_landscape_key": "Custom source key",
-        "custom_landscape_key_placeholder": "e.g. my-landscape"
+        "custom_landscape_key_placeholder": "e.g. my-landscape",
+        "available_landscapes": "利用可能な風景",
+        "folder_name_label": "フォルダ名",
+        "has_allsky": "オールスカイ",
+        "landscape_list_load_failed": "風景の読み込みに失敗しました。",
+        "landscape_option_label": "風景: {タイトル}",
+        "no_allsky": "全空なし",
+        "no_landscapes_available": "利用できる風景はありません。",
+        "service_url_label": "サービスURL",
+        "untitled_landscape": "無題の風景"
       }
     },
     "profile": {
@@ -2339,7 +2351,12 @@
         "title": "スナップショットURLのヘルプ",
         "what": "スナップショットURLは、IPカメラの単一画像への直接リンクです。このURLはJPEGまたはPNG画像を直接返す必要があります（HTMLページやビデオストリームは不可）。",
         "examplesTitle": "例",
-        "exampleLabels": ["汎用IPカメラ", "ONVIFカメラ", "軸カメラ", "ハイクビジョンカメラ"],
+        "exampleLabels": [
+          "汎用IPカメラ",
+          "ONVIFカメラ",
+          "軸カメラ",
+          "ハイクビジョンカメラ"
+        ],
         "credentialsTitle": "パスワード保護されたカメラ",
         "credentials": "カメラにユーザー名とパスワードが必要な場合は、URLに認証情報を直接含めてください：",
         "credentialsNote": "バックエンドプロキシが認証を自動的に処理します。URLの認証情報はBasic認証とDigest認証（例：Hikvision）の両方で動作します。",
@@ -4050,7 +4067,8 @@
         "invalidFileType": "サポートされていないファイル形式です。 \nPNG、JPEG、または WebP をアップロードしてください。",
         "successMessage": "ダウンロードされた {ファイル名}",
         "successTitle": "横向きZIP対応",
-        "validationTitle": "検証"
+        "validationTitle": "検証",
+        "successMessageSaved": "{filename} を {path} に保存しました。"
       },
       "validation": {
         "fixErrors": "強調表示されたフィールドを修正してください。",

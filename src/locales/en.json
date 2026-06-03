@@ -776,9 +776,6 @@
           "modePeak": "Peak",
           "minimumPoints": "Minimum Points"
         },
-        "startGuiding": {
-          "forceCalibrationLabel": "Force Calibration"
-        },
         "changePHD2Parameters": {
           "parameter": "Parameter",
           "exposureTime": "Exposure Time (s)",
@@ -1040,11 +1037,7 @@
           },
           "ditherMode": "How PHD2 computes each dither. Random picks a random size and direction; Spiral uses fixed-size steps in a clockwise spiral — useful when the imaging camera has fixed-pattern noise or the mount has troublesome Dec backlash.",
           "ditherRaOnly": "Dither only along the RA axis. Useful when Dec guiding is off or the mount has significant Dec backlash.",
-          "ditherScale": "Multiplier applied to the dither amount requested by the imaging application — increase it for larger dithers, decrease for smaller.",
-          "backlashEnabled": "Compensates for DEC backlash by adding an extra pulse when the mount reverses direction. Helpful for mounts with noticeable gear backlash; leave off if your mount guides cleanly in DEC.",
-          "backlashAmount": "Length of the extra correction pulse (in ms) PHD2 adds on a DEC direction reversal. PHD2 auto-tunes this between Min and Max.",
-          "backlashMin": "Lower limit (ms) for the auto-adjusted backlash pulse amount.",
-          "backlashMax": "Upper limit (ms) for the auto-adjusted backlash pulse amount."
+          "ditherScale": "Multiplier applied to the dither amount requested by the imaging application — increase it for larger dithers, decrease for smaller."
         },
         "starDetection": "Guide Star Tracking",
         "searchRegion": "Search region (pixels)",
@@ -1054,13 +1047,6 @@
         "starMassDetection": "Star Mass Detection",
         "massChangeEnabled": "Enable",
         "massChangeThreshold": "Tolerance",
-        "backlash": {
-          "title": "Backlash Compensation",
-          "enabled": "Enable",
-          "amount": "Amount (ms)",
-          "min": "Min (ms)",
-          "max": "Max (ms)"
-        },
         "minStarSNR": "Minimum star SNR for AutoFind",
         "autoSelectDownsample": "Auto-selection frame downsample",
         "saturationByADU": "Saturation by ADU",
@@ -1693,10 +1679,19 @@
         "landscape_source_default": "Default landscape (Guereins)",
         "landscape_source_neutral": "Neutral horizon (Gray)",
         "landscape_source_custom": "Custom data source",
+        "landscape_option_label": "Landscape: {title}",
         "custom_landscape_url": "Custom source URL",
         "custom_landscape_url_placeholder": "e.g. /stellarium-data/landscapes/custom",
         "custom_landscape_key": "Custom source key",
-        "custom_landscape_key_placeholder": "e.g. my-landscape"
+        "custom_landscape_key_placeholder": "e.g. my-landscape",
+        "available_landscapes": "Available landscapes",
+        "no_landscapes_available": "No landscapes available.",
+        "untitled_landscape": "Untitled landscape",
+        "has_allsky": "Allsky",
+        "no_allsky": "No allsky",
+        "folder_name_label": "folderName",
+        "service_url_label": "serviceUrl",
+        "landscape_list_load_failed": "Failed to load landscapes."
       }
     },
     "profile": {
@@ -2248,6 +2243,7 @@
         "validationTitle": "Validation",
         "successTitle": "Landscape ZIP ready",
         "successMessage": "Downloaded {filename}",
+        "successMessageSaved": "Saved {filename} to {path}.",
         "errorTitle": "Landscape generation failed",
         "invalidFileType": "Unsupported file type. Please upload PNG, JPEG, or WebP."
       },

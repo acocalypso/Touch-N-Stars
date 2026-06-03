@@ -827,6 +827,9 @@
           "slope": "기울기",
           "intercept": "절편",
           "absolute": "절대값"
+        },
+        "startGuiding": {
+          "forceCalibrationLabel": ""
         }
       },
       "emptyContainer": "비어 있음 — +를 눌러 항목 추가",
@@ -1693,7 +1696,16 @@
         "custom_landscape_url": "Custom source URL",
         "custom_landscape_url_placeholder": "e.g. /stellarium-data/landscapes/custom",
         "custom_landscape_key": "Custom source key",
-        "custom_landscape_key_placeholder": "e.g. my-landscape"
+        "custom_landscape_key_placeholder": "e.g. my-landscape",
+        "available_landscapes": "사용 가능한 풍경",
+        "folder_name_label": "폴더이름",
+        "has_allsky": "올스키",
+        "landscape_list_load_failed": "풍경을 로드하지 못했습니다.",
+        "landscape_option_label": "풍경: {제목}",
+        "no_allsky": "올스카이 없음",
+        "no_landscapes_available": "사용할 수 있는 풍경이 없습니다.",
+        "service_url_label": "서비스 URL",
+        "untitled_landscape": "제목 없는 풍경"
       }
     },
     "profile": {
@@ -2339,7 +2351,12 @@
         "title": "스냅샷 URL 도움말",
         "what": "스냅샷 URL은 IP 카메라의 단일 이미지로 바로 연결되는 링크입니다. URL은 HTML 페이지나 동영상 스트림이 아니라 JPEG 또는 PNG 이미지를 직접 반환해야 합니다.",
         "examplesTitle": "예시",
-        "exampleLabels": ["일반 IP 카메라", "ONVIF 카메라", "Axis 카메라", "Hikvision 카메라"],
+        "exampleLabels": [
+          "일반 IP 카메라",
+          "ONVIF 카메라",
+          "Axis 카메라",
+          "Hikvision 카메라"
+        ],
         "credentialsTitle": "비밀번호로 보호된 카메라",
         "credentials": "카메라에 사용자 이름과 비밀번호가 필요한 경우, 인증 정보를 URL에 직접 포함하세요:",
         "credentialsNote": "백엔드 프록시가 인증을 자동으로 처리합니다 — URL의 인증 정보는 Basic 및 Digest 인증 모두에서 동작합니다 (예: Hikvision).",
@@ -4050,7 +4067,8 @@
         "invalidFileType": "지원되지 않는 파일 형식입니다. \nPNG, JPEG 또는 WebP를 업로드하세요.",
         "successMessage": "{파일 이름}을(를) 다운로드했습니다.",
         "successTitle": "가로 방향 ZIP 지원",
-        "validationTitle": "확인"
+        "validationTitle": "확인",
+        "successMessageSaved": "{filename}을(를) {path}에 저장했습니다."
       },
       "validation": {
         "fixErrors": "강조표시된 필드를 수정하세요.",

@@ -1679,10 +1679,19 @@
         "landscape_source_default": "Default landscape (Guereins)",
         "landscape_source_neutral": "Neutral horizon (Gray)",
         "landscape_source_custom": "Custom data source",
+        "landscape_option_label": "Landscape: {title}",
         "custom_landscape_url": "Custom source URL",
         "custom_landscape_url_placeholder": "e.g. /stellarium-data/landscapes/custom",
         "custom_landscape_key": "Custom source key",
-        "custom_landscape_key_placeholder": "e.g. my-landscape"
+        "custom_landscape_key_placeholder": "e.g. my-landscape",
+        "available_landscapes": "Available landscapes",
+        "no_landscapes_available": "No landscapes available.",
+        "untitled_landscape": "Untitled landscape",
+        "has_allsky": "Allsky",
+        "no_allsky": "No allsky",
+        "folder_name_label": "folderName",
+        "service_url_label": "serviceUrl",
+        "landscape_list_load_failed": "Failed to load landscapes."
       }
     },
     "profile": {
@@ -2234,6 +2243,7 @@
         "validationTitle": "Validation",
         "successTitle": "Landscape ZIP ready",
         "successMessage": "Downloaded {filename}",
+        "successMessageSaved": "Saved {filename} to {path}.",
         "errorTitle": "Landscape generation failed",
         "invalidFileType": "Unsupported file type. Please upload PNG, JPEG, or WebP."
       },

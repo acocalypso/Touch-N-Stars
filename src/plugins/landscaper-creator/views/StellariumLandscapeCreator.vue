@@ -770,7 +770,10 @@ async function submitLandscape() {
     });
 
     if (deliveryResult.mode === 'saved') {
-      successMessage = `${zipFilename} saved to ${deliveryResult.savedPath}.`;
+      successMessage = t('plugins.landscaperCreator.toast.successMessageSaved', {
+        filename: zipFilename,
+        path: deliveryResult.savedPath,
+      });
     }
 
     toastStore.showToast({

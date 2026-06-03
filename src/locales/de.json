@@ -1688,10 +1688,19 @@
         "landscape_source_default": "Default landscape (Guereins)",
         "landscape_source_neutral": "Neutral horizon (Gray)",
         "landscape_source_custom": "Custom data source",
+        "landscape_option_label": "Landschaft: {title}",
         "custom_landscape_url": "Custom source URL",
         "custom_landscape_url_placeholder": "e.g. /stellarium-data/landscapes/custom",
         "custom_landscape_key": "Custom source key",
-        "custom_landscape_key_placeholder": "e.g. my-landscape"
+        "custom_landscape_key_placeholder": "e.g. my-landscape",
+        "available_landscapes": "Verfügbare Landschaften",
+        "no_landscapes_available": "Keine Landschaften verfügbar.",
+        "untitled_landscape": "Unbenannte Landschaft",
+        "has_allsky": "Allsky",
+        "no_allsky": "Kein Allsky",
+        "folder_name_label": "Ordnername",
+        "service_url_label": "Service-URL",
+        "landscape_list_load_failed": "Landschaften konnten nicht geladen werden."
       }
     },
     "profile": {
@@ -4057,6 +4066,7 @@
         "errorTitle": "Die Erstellung der Landschaft ist fehlgeschlagen",
         "invalidFileType": "Nicht unterstützter Dateityp. \nBitte laden Sie PNG, JPEG oder WebP hoch.",
         "successMessage": "{Dateiname} heruntergeladen",
+        "successMessageSaved": "{filename} wurde unter {path} gespeichert.",
         "successTitle": "Querformat ZIP-fähig",
         "validationTitle": "Validierung"
       },

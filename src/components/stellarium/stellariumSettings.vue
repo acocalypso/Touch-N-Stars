@@ -153,7 +153,11 @@
               :key="landscapeOption.value"
               :value="landscapeOption.value"
             >
-              {{ landscapeOption.label }}
+              {{
+                $t('components.stellarium.settings.landscape_option_label', {
+                  title: landscapeOption.title,
+                })
+              }}
             </option>
             <option value="custom">
               {{ $t('components.stellarium.settings.landscape_source_custom') }}
@@ -203,7 +207,9 @@
 
           <div class="mt-3 border border-gray-600 rounded-lg p-2 bg-gray-800/40">
             <div class="flex items-center justify-between gap-2">
-              <p class="text-gray-300 text-sm font-medium">Available landscapes</p>
+              <p class="text-gray-300 text-sm font-medium">
+                {{ $t('components.stellarium.settings.available_landscapes') }}
+              </p>
               <button
                 type="button"
                 class="px-2 py-1 rounded border border-gray-500 bg-gray-700 hover:bg-gray-600 text-xs text-gray-100 disabled:opacity-50 disabled:cursor-not-allowed"
@@ -221,18 +227,22 @@
                 v-else-if="landscapeListLoaded && availableLandscapes.length === 0"
                 class="text-gray-400"
               >
-                No landscapes available.
+                {{ $t('components.stellarium.settings.no_landscapes_available') }}
               </p>
 
               <ul v-else class="space-y-2 max-h-52 overflow-y-auto pr-1">
                 <li
-                  v-for="landscape in availableLandscapes"
-                  :key="`${landscape.folderName || 'unknown'}-${landscape.serviceUrl || ''}`"
+                  v-for="(landscape, index) in availableLandscapes"
+                  :key="`${landscape.folderName || 'unknown'}-${landscape.serviceUrl || index}`"
                   class="rounded border border-gray-700 bg-gray-900/60 p-2"
                 >
                   <div class="flex items-center justify-between gap-2">
                     <p class="text-gray-100 font-medium truncate">
-                      {{ landscape.title || landscape.folderName || 'Untitled landscape' }}
+                      {{
+                        landscape.title ||
+                        landscape.folderName ||
+                        $t('components.stellarium.settings.untitled_landscape')
+                      }}
                     </p>
                     <span
                       class="text-[10px] px-2 py-0.5 rounded-full"
@@ -242,14 +252,20 @@
                           : 'bg-yellow-900 text-yellow-200'
                       "
                     >
-                      {{ landscape.hasAllsky ? 'Allsky' : 'No allsky' }}
+                      {{
+                        landscape.hasAllsky
+                          ? $t('components.stellarium.settings.has_allsky')
+                          : $t('components.stellarium.settings.no_allsky')
+                      }}
                     </span>
                   </div>
                   <p class="text-xs text-gray-400 mt-1 break-all">
-                    folderName: {{ landscape.folderName || '—' }}
+                    {{ $t('components.stellarium.settings.folder_name_label') }}:
+                    {{ landscape.folderName || '—' }}
                   </p>
                   <p class="text-xs text-gray-400 mt-1 break-all">
-                    serviceUrl: {{ landscape.serviceUrl || '—' }}
+                    {{ $t('components.stellarium.settings.service_url_label') }}:
+                    {{ landscape.serviceUrl || '—' }}
                   </p>
                 </li>
               </ul>
@@ -280,11 +296,13 @@ import { useStellariumStore } from '@/store/stellariumStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import toggleButton from '@/components/helpers/toggleButton.vue';
 import { watch, ref, computed, onMounted } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { Cog6ToothIcon } from '@heroicons/vue/24/outline';
 import { useOrientation } from '@/composables/useOrientation';
 import Modal from '@/components/helpers/Modal.vue';
 import apiService from '@/services/apiService';
 
+const { t } = useI18n();
 const stellariumStore = useStellariumStore();
 const settingsStore = useSettingsStore();
 const settingsVisible = ref(false);
@@ -312,7 +330,7 @@ const listedLandscapeOptions = computed(() => {
       const title = item.title || folderName;
       return {
         value: `listed:${folderName}`,
-        label: `Landscape: ${title}`,
+        title,
         folderName,
         serviceUrl: item.serviceUrl,
       };
@@ -410,11 +428,15 @@ async function fetchAvailableLandscapes() {
       }));
     } else {
       availableLandscapes.value = [];
-      landscapeListError.value = response?.message || 'Failed to load landscapes.';
+      landscapeListError.value =
+        response?.message || t('components.stellarium.settings.landscape_list_load_failed');
     }
   } catch (error) {
     const responseMessage = error?.response?.data?.message || error?.response?.data?.error;
-    landscapeListError.value = responseMessage || error?.message || 'Failed to load landscapes.';
+    landscapeListError.value =
+      responseMessage ||
+      error?.message ||
+      t('components.stellarium.settings.landscape_list_load_failed');
     availableLandscapes.value = [];
   } finally {
     landscapeListLoading.value = false;
@@ -437,7 +459,21 @@ onMounted(() => {
   fetchAvailableLandscapes();
 });
 
-watch(() => settingsStore.stellarium, stellariumStore.updateStellariumCore, { deep: true });
+watch(
+  () => [
+    settingsStore.stellarium.constellationsLinesVisible,
+    settingsStore.stellarium.azimuthalLinesVisible,
+    settingsStore.stellarium.equatorialLinesVisible,
+    settingsStore.stellarium.meridianLinesVisible,
+    settingsStore.stellarium.eclipticLinesVisible,
+    settingsStore.stellarium.atmosphereVisible,
+    settingsStore.stellarium.landscapesVisible,
+    settingsStore.stellarium.dsosVisible,
+  ],
+  () => {
+    stellariumStore.updateStellariumCore();
+  }
+);
 
 watch(
   () => [

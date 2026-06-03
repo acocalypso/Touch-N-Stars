@@ -775,6 +775,9 @@
           "slope": "Nachylenie",
           "intercept": "Punkt przecięcia",
           "absolute": "Bezwzględna"
+        },
+        "startGuiding": {
+          "forceCalibrationLabel": ""
         }
       },
       "emptyContainer": "Pusty — kliknij +, aby dodać pozycje",
@@ -1648,7 +1651,16 @@
         "custom_landscape_url": "Custom source URL",
         "custom_landscape_url_placeholder": "e.g. /stellarium-data/landscapes/custom",
         "custom_landscape_key": "Custom source key",
-        "custom_landscape_key_placeholder": "e.g. my-landscape"
+        "custom_landscape_key_placeholder": "e.g. my-landscape",
+        "available_landscapes": "Dostępne krajobrazy",
+        "folder_name_label": "Nazwa folderu",
+        "has_allsky": "Allski",
+        "landscape_list_load_failed": "Nie udało się załadować krajobrazów.",
+        "landscape_option_label": "Krajobraz: {tytuł}",
+        "no_allsky": "Nie, allsky",
+        "no_landscapes_available": "Brak dostępnych krajobrazów.",
+        "service_url_label": "adres usługi",
+        "untitled_landscape": "Krajobraz bez tytułu"
       }
     },
     "profile": {
@@ -3615,7 +3627,12 @@
         "credentials": "Jeśli kamera wymaga nazwy użytkownika i hasła, podaj dane uwierzytelniające bezpośrednio w adresie URL:",
         "credentialsNote": "Serwer proxy zaplecza obsługuje uwierzytelnianie automatycznie — dane uwierzytelniające w adresie URL działają zarówno z uwierzytelnianiem podstawowym, jak i szyfrowanym (np. Hikvision).",
         "credentialsTitle": "Kamery chronione hasłem",
-        "exampleLabels": ["Typowa kamera IP", "Kamera ONVIF", "Kamera osiowa", "Kamera Hikvision"],
+        "exampleLabels": [
+          "Typowa kamera IP",
+          "Kamera ONVIF",
+          "Kamera osiowa",
+          "Kamera Hikvision"
+        ],
         "examplesTitle": "Przykłady",
         "proxyOptions": [
           "Proxy (domyślnie): Obraz jest pobierany przez backend NINA i przesyłany do przeglądarki. \nWymagane w przypadku kamer sieci lokalnej z poświadczeniami lub ograniczeniami CORS. \nNieco wolniejszy w przypadku dostępu przez VPN.",
@@ -4050,7 +4067,8 @@
         "invalidFileType": "Nieobsługiwany typ pliku. \nPrześlij plik PNG, JPEG lub WebP.",
         "successMessage": "Pobrano {nazwa pliku}",
         "successTitle": "Krajobraz ZIP gotowy",
-        "validationTitle": "Walidacja"
+        "validationTitle": "Walidacja",
+        "successMessageSaved": "Zapisano {nazwa pliku} w {ścieżce}."
       },
       "validation": {
         "fixErrors": "Popraw wyróżnione pola.",

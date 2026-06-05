@@ -43,8 +43,7 @@
         </label>
         <select
           id="devicePort"
-          v-model="devicePort"
-          @change="setDevicePort"
+          v-model="selectedPort"
           class="default-input h-7 md:h-8 text-xs md:text-sm w-48"
           :class="[
             statusClassDevicePort,
@@ -73,8 +72,8 @@
         </label>
         <input
           id="manualPort"
-          v-model="manualPort"
-          @change="setManualPort"
+          v-model.trim="devicePort"
+          @change="setDevicePort"
           type="text"
           class="default-input h-7 md:h-8 text-xs md:text-sm w-48"
           :class="[
@@ -149,7 +148,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, watch } from 'vue';
 import { apiStore } from '@/store/store';
 import apiService from '@/services/apiService';
 
@@ -270,8 +269,25 @@ const autoDetect = ref(false);
 const availablePorts = ref([]);
 
 const MANUAL_PORT = '__manual__';
-const manualPortMode = ref(false); // true = Dropdown steht auf "Manuell"
-const manualPort = ref(''); // Wert im Textfeld
+const manualPortMode = ref(false); // true = Dropdown steht auf "Manuell", Textfeld sichtbar
+
+// The dropdown's selected value is decoupled from the real port value (devicePort).
+// In manual mode it reports the sentinel MANUAL_PORT so the "Manual…" option stays
+// selected, while devicePort always keeps the actual path (e.g. /dev/guidefocus).
+const selectedPort = computed({
+  get() {
+    return manualPortMode.value ? MANUAL_PORT : devicePort.value;
+  },
+  set(val) {
+    if (val === MANUAL_PORT) {
+      manualPortMode.value = true;
+      return;
+    }
+    manualPortMode.value = false;
+    devicePort.value = val;
+    setDevicePort();
+  },
+});
 
 const statusClassConnectionMode = ref('');
 const statusClassDevicePort = ref('');
@@ -330,25 +346,20 @@ async function fetchAvailablePorts() {
     console.error('Error fetching serial ports:', error);
     availablePorts.value = [];
   }
-  reconcileManualPort();
 }
 
 // If the saved port is not among the detected ports, treat it as a manual entry
 // (e.g. a udev symlink like /dev/guidefocus) and switch the dropdown to "Manual…".
-function reconcileManualPort() {
-  const savedPort = devicePort.value;
-  if (!savedPort || savedPort === MANUAL_PORT) {
+// devicePort keeps the real path; only manualPortMode flips so the text field shows.
+watch([devicePort, availablePorts], ([port, ports]) => {
+  if (!port || port === MANUAL_PORT || ports.length === 0) {
     return;
   }
-  const isKnownPort = availablePorts.value.some(
-    (port) => !port.separator && port.Port === savedPort
-  );
+  const isKnownPort = ports.some((p) => !p.separator && p.Port === port);
   if (!isKnownPort) {
-    manualPort.value = savedPort;
-    devicePort.value = MANUAL_PORT;
     manualPortMode.value = true;
   }
-}
+});
 
 async function setConnectionMode() {
   try {
@@ -389,13 +400,9 @@ async function setConnectionMode() {
 }
 
 async function setDevicePort() {
-  // Switching to manual mode: reveal the text field, don't save yet
-  if (devicePort.value === MANUAL_PORT) {
-    manualPortMode.value = true;
+  if (!devicePort.value || devicePort.value === MANUAL_PORT) {
     return;
   }
-  manualPortMode.value = false;
-
   try {
     const prefix = settingsPrefixMap[props.equipmentType];
     await apiService.profileChangeValue(
@@ -405,28 +412,6 @@ async function setDevicePort() {
     statusClassDevicePort.value = 'glow-green';
   } catch (error) {
     console.error('Error setting device port:', error);
-    statusClassDevicePort.value = 'glow-red';
-  } finally {
-    setTimeout(() => {
-      statusClassDevicePort.value = '';
-    }, 2000);
-  }
-}
-
-async function setManualPort() {
-  const value = manualPort.value.trim();
-  if (!value) {
-    return;
-  }
-  try {
-    const prefix = settingsPrefixMap[props.equipmentType];
-    await apiService.profileChangeValue(
-      `${settingsKeyMap[props.equipmentType]}-${prefix.port}`,
-      value
-    );
-    statusClassDevicePort.value = 'glow-green';
-  } catch (error) {
-    console.error('Error setting manual device port:', error);
     statusClassDevicePort.value = 'glow-red';
   } finally {
     setTimeout(() => {

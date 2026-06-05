@@ -4376,7 +4376,9 @@
       "autoDetect": "자동 검색",
       "ipAddress": "IP 주소",
       "tcpPort": "TCP 포트",
-      "selectPort": "-- 포트 선택 --"
+      "selectPort": "-- 포트 선택 --",
+      "manualPort": "수동…",
+      "manualPortPath": "수동 포트"
     }
   },
   "nav": {

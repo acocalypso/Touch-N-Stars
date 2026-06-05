@@ -4286,7 +4286,9 @@
       "autoDetect": "Detecção automática",
       "ipAddress": "Endereço IP",
       "tcpPort": "Porta TCP",
-      "selectPort": "-- Selecione uma porta --"
+      "selectPort": "-- Selecione uma porta --",
+      "manualPort": "Manual…",
+      "manualPortPath": "Porta manual"
     }
   },
   "nav": {

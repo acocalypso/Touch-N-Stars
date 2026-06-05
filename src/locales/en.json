@@ -4361,7 +4361,9 @@
       "autoDetect": "Auto Search",
       "ipAddress": "IP Address",
       "tcpPort": "TCP Port",
-      "selectPort": "-- Select a port --"
+      "selectPort": "-- Select a port --",
+      "manualPort": "Manual…",
+      "manualPortPath": "Manual Port"
     }
   },
   "nav": {

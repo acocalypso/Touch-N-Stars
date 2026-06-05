@@ -53,6 +53,7 @@
           :disabled="autoDetect"
         >
           <option value="" disabled>{{ $t('indi.config.selectPort') }}</option>
+          <option :value="MANUAL_PORT">{{ $t('indi.config.manualPort') }}</option>
           <template v-for="port in availablePorts" :key="port.separator ? port.label : port.Port">
             <option v-if="port.separator" value="" disabled>{{ port.label }}</option>
             <option v-else :value="port.Port">
@@ -60,6 +61,29 @@
             </option>
           </template>
         </select>
+      </div>
+
+      <!-- Device Port (Manual entry, e.g. udev symlink) -->
+      <div
+        v-if="manualPortMode"
+        class="flex flex-row items-center justify-between w-full mt-2 md:mt-3"
+      >
+        <label for="manualPort" class="text-xs md:text-sm text-gray-200 mr-2">
+          {{ $t('indi.config.manualPortPath') }}
+        </label>
+        <input
+          id="manualPort"
+          v-model="manualPort"
+          @change="setManualPort"
+          type="text"
+          class="default-input h-7 md:h-8 text-xs md:text-sm w-48"
+          :class="[
+            statusClassDevicePort,
+            autoDetect ? 'opacity-50 cursor-not-allowed bg-gray-600' : '',
+          ]"
+          :disabled="autoDetect"
+          placeholder="/dev/guidefocus"
+        />
       </div>
 
       <!-- Baud Rate -->
@@ -245,6 +269,10 @@ const tcpPort = ref('3492');
 const autoDetect = ref(false);
 const availablePorts = ref([]);
 
+const MANUAL_PORT = '__manual__';
+const manualPortMode = ref(false); // true = Dropdown steht auf "Manuell"
+const manualPort = ref(''); // Wert im Textfeld
+
 const statusClassConnectionMode = ref('');
 const statusClassDevicePort = ref('');
 const statusClassBaudRate = ref('');
@@ -302,6 +330,24 @@ async function fetchAvailablePorts() {
     console.error('Error fetching serial ports:', error);
     availablePorts.value = [];
   }
+  reconcileManualPort();
+}
+
+// If the saved port is not among the detected ports, treat it as a manual entry
+// (e.g. a udev symlink like /dev/guidefocus) and switch the dropdown to "Manual…".
+function reconcileManualPort() {
+  const savedPort = devicePort.value;
+  if (!savedPort || savedPort === MANUAL_PORT) {
+    return;
+  }
+  const isKnownPort = availablePorts.value.some(
+    (port) => !port.separator && port.Port === savedPort
+  );
+  if (!isKnownPort) {
+    manualPort.value = savedPort;
+    devicePort.value = MANUAL_PORT;
+    manualPortMode.value = true;
+  }
 }
 
 async function setConnectionMode() {
@@ -343,6 +389,13 @@ async function setConnectionMode() {
 }
 
 async function setDevicePort() {
+  // Switching to manual mode: reveal the text field, don't save yet
+  if (devicePort.value === MANUAL_PORT) {
+    manualPortMode.value = true;
+    return;
+  }
+  manualPortMode.value = false;
+
   try {
     const prefix = settingsPrefixMap[props.equipmentType];
     await apiService.profileChangeValue(
@@ -352,6 +405,28 @@ async function setDevicePort() {
     statusClassDevicePort.value = 'glow-green';
   } catch (error) {
     console.error('Error setting device port:', error);
+    statusClassDevicePort.value = 'glow-red';
+  } finally {
+    setTimeout(() => {
+      statusClassDevicePort.value = '';
+    }, 2000);
+  }
+}
+
+async function setManualPort() {
+  const value = manualPort.value.trim();
+  if (!value) {
+    return;
+  }
+  try {
+    const prefix = settingsPrefixMap[props.equipmentType];
+    await apiService.profileChangeValue(
+      `${settingsKeyMap[props.equipmentType]}-${prefix.port}`,
+      value
+    );
+    statusClassDevicePort.value = 'glow-green';
+  } catch (error) {
+    console.error('Error setting manual device port:', error);
     statusClassDevicePort.value = 'glow-red';
   } finally {
     setTimeout(() => {

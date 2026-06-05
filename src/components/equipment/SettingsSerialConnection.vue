@@ -400,7 +400,9 @@ async function setConnectionMode() {
 }
 
 async function setDevicePort() {
-  if (!devicePort.value || devicePort.value === MANUAL_PORT) {
+  // Don't save an empty value (e.g. cleared manual text field). The MANUAL_PORT
+  // sentinel never reaches here: selectedPort's setter returns early for it.
+  if (!devicePort.value) {
     return;
   }
   try {

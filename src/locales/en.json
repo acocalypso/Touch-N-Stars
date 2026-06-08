@@ -2995,6 +2995,7 @@
         "ports": "PowerBox",
         "wifi": "WiFi",
         "weather": "MeteoStation",
+        "lensControl": "LensControl",
         "temperature": "Temperature",
         "humidity": "Humidity",
         "dewPoint": "Dew Point",
@@ -3114,6 +3115,22 @@
         "cloudAssessment": "Cloud Coverage",
         "temperatureStatus": "Temperature Status",
         "dewSpread": "Dew Spread (T-Td)"
+      },
+      "lensControl": {
+        "lens": "Lens",
+        "focalLength": "Focal Length",
+        "position": "Focus Position",
+        "aperture": "Aperture",
+        "current": "Current",
+        "range": "Range",
+        "set": "Set",
+        "calibrate": "Calibrate",
+        "calibrating": "Calibrating...",
+        "deviceInfo": "Device Information",
+        "firmware": "Firmware",
+        "driver": "SDK Version",
+        "restart": "Restart Device",
+        "restarting": "Restarting..."
       }
     },
     "shortcuts": {

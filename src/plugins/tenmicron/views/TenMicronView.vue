@@ -1951,7 +1951,7 @@ async function toggleOption(key, currentValue) {
 async function loadAlignmentModel() {
   tmStore.isRefreshing = true;
   try {
-    const data = await apiService.tenMicronGetAlignmentModel();
+    const data = await apiService.tenMicronRefreshAlignmentModel();
     if (data?.Success !== false) tmStore.setAlignmentModel(data ?? {});
   } catch (e) {
     tmStore.lastError = e?.message;

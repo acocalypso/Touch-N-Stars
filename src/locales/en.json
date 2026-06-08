@@ -828,6 +828,9 @@
           "slope": "Slope",
           "intercept": "Intercept",
           "absolute": "Absolute"
+        },
+        "startGuiding": {
+          "forceCalibrationLabel": "Force Calibration"
         }
       },
       "emptyContainer": "Empty — click + to add items",
@@ -1038,7 +1041,11 @@
           },
           "ditherMode": "How PHD2 computes each dither. Random picks a random size and direction; Spiral uses fixed-size steps in a clockwise spiral — useful when the imaging camera has fixed-pattern noise or the mount has troublesome Dec backlash.",
           "ditherRaOnly": "Dither only along the RA axis. Useful when Dec guiding is off or the mount has significant Dec backlash.",
-          "ditherScale": "Multiplier applied to the dither amount requested by the imaging application — increase it for larger dithers, decrease for smaller."
+          "ditherScale": "Multiplier applied to the dither amount requested by the imaging application — increase it for larger dithers, decrease for smaller.",
+          "backlashAmount": "Length of the extra correction pulse (in ms) PHD2 adds on a DEC direction reversal. PHD2 auto-tunes this between Min and Max.",
+          "backlashEnabled": "Compensates for DEC backlash by adding an extra pulse when the mount reverses direction. Helpful for mounts with noticeable gear backlash; leave off if your mount guides cleanly in DEC.",
+          "backlashMax": "Upper limit (ms) for the auto-adjusted backlash pulse amount.",
+          "backlashMin": "Lower limit (ms) for the auto-adjusted backlash pulse amount."
         },
         "starDetection": "Guide Star Tracking",
         "searchRegion": "Search region (pixels)",
@@ -1170,7 +1177,14 @@
         "ditherModeSpiral": "Spiral",
         "imageDisplay": "Image Display",
         "imageGamma": "Stretch (Gamma)",
-        "imageGammaHint": "Low = stronger stretch, High = linear"
+        "imageGammaHint": "Low = stronger stretch, High = linear",
+        "backlash": {
+          "enabled": "Enable",
+          "amount": "Amount (ms)",
+          "max": "Max (ms)",
+          "min": "Mín (ms)",
+          "title": "Backlash Compensation"
+        }
       }
     },
     "focuser": {
@@ -1933,7 +1947,8 @@
         "pluginInstallStart": "Installing plugin: {packageName}",
         "pluginUninstallStart": "Uninstalling plugin: {packageName}",
         "pluginActionSuccess": "Plugin action finished successfully: {packageName}",
-        "pluginActionFailed": "Plugin action failed for {packageName}. Status: {status}"
+        "pluginActionFailed": "Plugin action failed for {packageName}. Status: {status}",
+        "hotspotPasswordTooShort": "The hotspot password must be at least 8 characters long."
       },
       "wifiDisconnect": "Disconnect WiFi",
       "disconnectConfirmTitle": "Disconnect WiFi?",
@@ -2411,7 +2426,12 @@
         "title": "Snapshot URL Help",
         "what": "A snapshot URL is a direct link to a single image from your IP camera. The URL must return a JPEG or PNG image directly — not an HTML page or a video stream.",
         "examplesTitle": "Examples",
-        "exampleLabels": ["Generic IP camera", "ONVIF camera", "Axis camera", "Hikvision camera"],
+        "exampleLabels": [
+          "Generic IP camera",
+          "ONVIF camera",
+          "Axis camera",
+          "Hikvision camera"
+        ],
         "credentialsTitle": "Password-protected cameras",
         "credentials": "If your camera requires a username and password, include the credentials directly in the URL:",
         "credentialsNote": "The backend proxy handles authentication automatically — credentials in the URL work with both Basic and Digest authentication (e.g. Hikvision).",

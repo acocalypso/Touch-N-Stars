@@ -1933,7 +1933,7 @@
         "pluginUninstallStart": "Plugin wird deinstalliert: {packageName}",
         "pluginActionSuccess": "Plugin-Aktion erfolgreich abgeschlossen: {packageName}",
         "pluginActionFailed": "Plugin-Aktion fehlgeschlagen für {packageName}. Status: {status}",
-        "hotspotPasswordTooShort": ""
+        "hotspotPasswordTooShort": "Das Passwort für den Hotspot muss mindestens 8 Zeichen lang sein."
       },
       "hotspotConfigured": "Das benutzerdefinierte Hotspot-Passwort ist konfiguriert.",
       "hotspotNewPassword": "Neues Hotspot-Passwort",

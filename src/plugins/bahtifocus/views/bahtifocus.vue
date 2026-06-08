@@ -1079,15 +1079,7 @@ async function loadLatestCapturedImage() {
   if (isLoadingCapture.value) return;
   try {
     isLoadingCapture.value = true;
-    if (!imageStore.imageData) {
-      await imageStore.getImage();
-    }
-    if (!imageStore.imageData) {
-      throw new Error('No image available');
-    }
-    const response = await fetch(imageStore.imageData);
-    if (!response.ok) throw new Error('Failed to load image');
-    const blob = await response.blob();
+    const blob = await fetchLatestCaptureBlob();
     const inferredName = t('plugins.bahtifocus.image.capturedName');
     await setImageFromBlob(blob, inferredName, 'capture');
     selectedExampleKey.value = '';
@@ -1096,6 +1088,43 @@ async function loadLatestCapturedImage() {
   } finally {
     isLoadingCapture.value = false;
   }
+}
+
+async function fetchLatestCaptureBlob() {
+  const quality = Number(settingsStore.camera.imageQuality);
+  const resolvedQuality = Number.isFinite(quality) && quality > 0 ? quality : 90;
+  const scale = imageStore.calcScale();
+  const resize = scale < 1;
+
+  const response = await apiService.getImagePrepared(resolvedQuality, resize, scale);
+  const blob = response?.data;
+
+  if (!blob || typeof blob.size !== 'number' || blob.size <= 0) {
+    throw new Error('Prepared image response was empty.');
+  }
+
+  const responseType = String(blob.type || '').toLowerCase();
+  if (responseType.startsWith('application/json')) {
+    let backendMessage = '';
+    try {
+      const text = await blob.text();
+      if (text) {
+        try {
+          const parsed = JSON.parse(text);
+          backendMessage =
+            parsed?.error || parsed?.message || parsed?.Response || parsed?.response || text;
+        } catch {
+          backendMessage = text;
+        }
+      }
+    } catch {
+      // Ignore blob-to-text parsing issues and use generic message below.
+    }
+
+    throw new Error(backendMessage || 'Latest capture is not available yet.');
+  }
+
+  return blob;
 }
 
 function clearImage() {
@@ -1125,13 +1154,55 @@ function clearImage() {
 
 function handleError(error, fallbackMessage) {
   const message = error?.message || fallbackMessage;
+  const details = formatErrorForLog(error, fallbackMessage);
   toastStore.showToast({
     type: 'error',
     title: t('plugins.bahtifocus.errors.title'),
     message,
     autoClose: true,
   });
-  console.error('[Bahtifocus] Error:', error);
+  console.error('[Bahtifocus] Error:', details);
+}
+
+function formatErrorForLog(error, fallbackMessage) {
+  if (!error) {
+    return {
+      message: fallbackMessage || 'Unknown error',
+    };
+  }
+
+  const details = {
+    name: error.name || 'Error',
+    message: error.message || fallbackMessage || 'Unknown error',
+  };
+
+  if (error.stack) {
+    details.stack = String(error.stack);
+  }
+
+  if (Number.isFinite(error.status)) {
+    details.status = error.status;
+  }
+
+  if (error.response) {
+    details.response = {
+      status: error.response.status,
+      statusText: error.response.statusText,
+      data: error.response.data,
+    };
+  }
+
+  if (error.cause) {
+    details.cause =
+      typeof error.cause === 'object'
+        ? {
+            name: error.cause.name,
+            message: error.cause.message,
+          }
+        : String(error.cause);
+  }
+
+  return details;
 }
 
 async function setImageFromBlob(blob, name, source) {

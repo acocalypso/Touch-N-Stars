@@ -3684,7 +3684,9 @@ const apiService = {
   async tenMicronRefreshAlignmentModel(timeout = 60000) {
     try {
       const { API_URL } = getUrls();
-      const response = await axios.post(`${API_URL}tenmicron/refresh-alignment-model`, null, { timeout });
+      const response = await axios.post(`${API_URL}tenmicron/refresh-alignment-model`, null, {
+        timeout,
+      });
       return response.data;
     } catch (error) {
       console.error('Error refreshing TenMicron alignment model:', error);

@@ -4281,7 +4281,9 @@
       "autoDetect": "自動検索",
       "ipAddress": "IPアドレス",
       "tcpPort": "TCPポート",
-      "selectPort": "-- ポートを選択してください --"
+      "selectPort": "-- ポートを選択してください --",
+      "manualPort": "手動…",
+      "manualPortPath": "手動ポート"
     }
   },
   "nav": {

@@ -4281,7 +4281,9 @@
       "autoDetect": "Auto Detect",
       "ipAddress": "IP 地址",
       "tcpPort": "TCP端口",
-      "selectPort": "-- 选择端口 --"
+      "selectPort": "-- 选择端口 --",
+      "manualPort": "手动…",
+      "manualPortPath": "手动端口"
     }
   },
   "nav": {

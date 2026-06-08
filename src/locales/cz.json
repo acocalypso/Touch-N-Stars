@@ -4281,7 +4281,9 @@
       "autoDetect": "Auto Detect",
       "ipAddress": "IP adresa",
       "tcpPort": "TCP port",
-      "selectPort": "-- Vyberte port --"
+      "selectPort": "-- Vyberte port --",
+      "manualPort": "Ručně…",
+      "manualPortPath": "Ruční port"
     }
   },
   "nav": {

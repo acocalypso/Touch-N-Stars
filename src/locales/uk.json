@@ -4226,7 +4226,9 @@
       "autoDetect": "Автопошук",
       "ipAddress": "IP-адреса",
       "tcpPort": "TCP-порт",
-      "selectPort": "-- Оберіть порт --"
+      "selectPort": "-- Оберіть порт --",
+      "manualPort": "Вручну…",
+      "manualPortPath": "Порт вручну"
     }
   },
   "pinsDevices": {

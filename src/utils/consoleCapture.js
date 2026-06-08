@@ -14,6 +14,17 @@ function getCircularReplacer() {
   };
 }
 
+function serializeResponseData(data) {
+  if (typeof Blob !== 'undefined' && data instanceof Blob) {
+    return {
+      size: data.size,
+      type: data.type,
+    };
+  }
+
+  return data;
+}
+
 function safeToString(arg) {
   try {
     if (arg instanceof Error) {
@@ -34,7 +45,7 @@ function safeToString(arg) {
             ? {
                 status: arg.response.status,
                 statusText: arg.response.statusText,
-                data: arg.response.data,
+                data: serializeResponseData(arg.response.data),
               }
             : undefined,
         },
@@ -60,7 +71,7 @@ function safeToString(arg) {
             ? {
                 status: arg.response.status,
                 statusText: arg.response.statusText,
-                data: arg.response.data,
+                data: serializeResponseData(arg.response.data),
               }
             : undefined,
         },

@@ -1096,7 +1096,16 @@ async function fetchLatestCaptureBlob() {
   const scale = imageStore.calcScale();
   const resize = scale < 1;
 
-  const response = await apiService.getImagePrepared(resolvedQuality, resize, scale);
+  let response;
+  try {
+    response = await apiService.getImagePrepared(resolvedQuality, resize, scale);
+  } catch (error) {
+    const backendMessage = await extractBackendMessageFromBlob(error?.response?.data);
+    if (backendMessage) {
+      error.message = backendMessage;
+    }
+    throw error;
+  }
   const blob = response?.data;
 
   if (!blob || typeof blob.size !== 'number' || blob.size <= 0) {
@@ -1105,26 +1114,48 @@ async function fetchLatestCaptureBlob() {
 
   const responseType = String(blob.type || '').toLowerCase();
   if (responseType.startsWith('application/json')) {
-    let backendMessage = '';
-    try {
-      const text = await blob.text();
-      if (text) {
-        try {
-          const parsed = JSON.parse(text);
-          backendMessage =
-            parsed?.error || parsed?.message || parsed?.Response || parsed?.response || text;
-        } catch {
-          backendMessage = text;
-        }
-      }
-    } catch {
-      // Ignore blob-to-text parsing issues and use generic message below.
-    }
+    const backendMessage = await extractBackendMessageFromBlob(blob);
 
     throw new Error(backendMessage || 'Latest capture is not available yet.');
   }
 
   return blob;
+}
+
+async function extractBackendMessageFromBlob(data) {
+  if (typeof Blob === 'undefined' || !(data instanceof Blob)) {
+    return '';
+  }
+
+  const responseType = String(data.type || '').toLowerCase();
+  if (!responseType.includes('application/json') && !responseType.startsWith('text/')) {
+    return '';
+  }
+
+  try {
+    const text = await data.text();
+    if (!text) {
+      return '';
+    }
+
+    try {
+      const parsed = JSON.parse(text);
+      return (
+        parsed?.Error ||
+        parsed?.error ||
+        parsed?.Message ||
+        parsed?.message ||
+        parsed?.Response ||
+        parsed?.response ||
+        text
+      );
+    } catch {
+      return text;
+    }
+  } catch {
+    // Ignore blob-to-text parsing issues and let caller use fallback messages.
+    return '';
+  }
 }
 
 function clearImage() {

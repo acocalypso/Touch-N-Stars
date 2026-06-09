@@ -2,9 +2,11 @@
   <div class="flex flex-col gap-2 pt-1 border-t border-gray-700/60">
     <div class="flex items-center justify-between gap-3">
       <div class="flex flex-col">
-        <span class="text-sm font-medium text-gray-300">ASTAP Star Database (PINS)</span>
+        <span class="text-sm font-medium text-gray-300">
+          {{ $t('components.settings.plate_solver.astapDatabaseTitle') }}
+        </span>
         <span class="text-xs text-gray-500">
-          Install missing ASTAP star databases directly on your PINS device.
+          {{ $t('components.settings.plate_solver.astapDatabaseDescription') }}
         </span>
       </div>
 
@@ -25,7 +27,9 @@
       >
         <option value="">
           {{
-            packages.length ? 'Select a database' : 'No installable ASTAP star databases available'
+            packages.length
+              ? $t('components.settings.plate_solver.astapDatabaseSelectPlaceholder')
+              : $t('components.settings.plate_solver.astapDatabaseNoInstallable')
           }}
         </option>
         <option v-for="pkg in packages" :key="pkg.databaseId" :value="pkg.databaseId">
@@ -45,11 +49,20 @@
     </div>
 
     <div v-if="checkedAt" class="text-xs text-gray-500">
-      Last checked: {{ formatCheckedAt(checkedAt) }}
+      {{
+        $t('components.settings.plate_solver.astapDatabaseLastChecked', {
+          value: formatCheckedAt(checkedAt),
+        })
+      }}
     </div>
 
     <div v-if="jobId" class="text-xs text-cyan-400">
-      Job {{ jobId }}: {{ jobStatus || 'started' }}
+      {{
+        $t('components.settings.plate_solver.astapDatabaseJobStatus', {
+          jobId,
+          status: jobStatus || $t('components.settings.plate_solver.astapDatabaseJobStarted'),
+        })
+      }}
     </div>
 
     <div v-if="feedbackMessage" :class="feedbackClass" class="text-xs">
@@ -60,7 +73,10 @@
 
 <script setup>
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import apiPinsService from '@/services/apiPinsService';
+
+const { t } = useI18n();
 
 const packages = ref([]);
 const selectedDatabaseId = ref('');
@@ -75,6 +91,7 @@ const feedbackMessage = ref('');
 const feedbackTone = ref('info');
 
 let pollTimer = null;
+let isDestroyed = false;
 
 const isJobActive = computed(() => {
   const status = normalizeStatus(jobStatus.value);
@@ -83,12 +100,12 @@ const isJobActive = computed(() => {
 
 const installButtonLabel = computed(() => {
   if (isJobActive.value) {
-    return 'Installing...';
+    return t('components.settings.plate_solver.astapDatabaseInstalling');
   }
   if (isInstalling.value) {
-    return 'Starting...';
+    return t('components.settings.plate_solver.astapDatabaseStarting');
   }
-  return 'Install';
+  return t('components.settings.plate_solver.astapDatabaseInstall');
 });
 
 const feedbackClass = computed(() => {
@@ -106,6 +123,9 @@ function normalizeStatus(value) {
 }
 
 function setFeedback(message, tone = 'info') {
+  if (isDestroyed) {
+    return;
+  }
   feedbackMessage.value = message;
   feedbackTone.value = tone;
 }
@@ -119,7 +139,7 @@ function clearPollTimer() {
 
 function scheduleJobPoll(delayMs = 1500) {
   clearPollTimer();
-  if (!jobId.value || !isJobActive.value) {
+  if (!jobId.value || !isJobActive.value || isDestroyed) {
     return;
   }
 
@@ -139,7 +159,7 @@ function extractErrorDetail(error) {
   if (details && typeof details.message === 'string' && details.message.trim()) {
     return details.message.trim();
   }
-  return error?.message || 'Unknown error';
+  return error?.message || t('components.settings.plate_solver.astapDatabaseUnknownError');
 }
 
 function formatCheckedAt(value) {
@@ -166,9 +186,17 @@ function extractJobId(data) {
 }
 
 async function loadPackages() {
+  if (isDestroyed) {
+    return;
+  }
+
   isLoading.value = true;
   try {
     const payload = (await apiPinsService.getAstapStarDatabases()) || {};
+    if (isDestroyed) {
+      return;
+    }
+
     const availablePackages = Array.isArray(payload.packages) ? payload.packages : [];
     packages.value = availablePackages;
     checkedAt.value = payload.checkedAt || '';
@@ -178,25 +206,35 @@ async function loadPackages() {
     }
 
     if (!availablePackages.length) {
-      setFeedback('All ASTAP star databases are already installed.', 'info');
+      setFeedback(t('components.settings.plate_solver.astapDatabaseAllInstalled'), 'info');
     } else if (feedbackTone.value !== 'error') {
       setFeedback('');
     }
   } catch (error) {
     console.error('Failed to load ASTAP star databases:', error);
-    setFeedback(`Failed to load databases: ${extractErrorDetail(error)}`, 'error');
+    setFeedback(
+      t('components.settings.plate_solver.astapDatabaseLoadFailed', {
+        detail: extractErrorDetail(error),
+      }),
+      'error'
+    );
   } finally {
-    isLoading.value = false;
+    if (!isDestroyed) {
+      isLoading.value = false;
+    }
   }
 }
 
 async function pollJobStatus() {
-  if (!jobId.value) {
+  if (!jobId.value || isDestroyed) {
     return;
   }
 
   try {
     const response = await apiPinsService.getPinsDaemonJob(jobId.value);
+    if (isDestroyed) {
+      return;
+    }
 
     const currentStatus = normalizeStatus(response?.status);
     jobStatus.value = currentStatus || 'running';
@@ -204,7 +242,9 @@ async function pollJobStatus() {
     if (currentStatus === 'success') {
       isInstalling.value = false;
       setFeedback(
-        `ASTAP star database ${selectedDatabaseId.value} installed successfully.`,
+        t('components.settings.plate_solver.astapDatabaseInstallSuccess', {
+          databaseId: selectedDatabaseId.value,
+        }),
         'success'
       );
       await loadPackages();
@@ -215,7 +255,9 @@ async function pollJobStatus() {
       isInstalling.value = false;
       const exitCode = response?.exitCode ?? response?.exit_code;
       setFeedback(
-        `ASTAP star database install failed${typeof exitCode === 'number' ? ` (exit code ${exitCode})` : ''}.`,
+        t('components.settings.plate_solver.astapDatabaseInstallFailed', {
+          exitCode: typeof exitCode === 'number' ? ` (${exitCode})` : '',
+        }),
         'error'
       );
       await loadPackages();
@@ -226,12 +268,21 @@ async function pollJobStatus() {
   } catch (error) {
     if (error?.response?.status === 401) {
       isInstalling.value = false;
-      setFeedback('Unauthorized while checking install status.', 'error');
+      setFeedback(t('components.settings.plate_solver.astapDatabaseUnauthorizedStatus'), 'error');
       return;
     }
 
     // Keep polling for transient errors while the job may still be running.
-    setFeedback(`Status check failed: ${extractErrorDetail(error)}. Retrying...`, 'info');
+    if (isDestroyed) {
+      return;
+    }
+
+    setFeedback(
+      t('components.settings.plate_solver.astapDatabaseStatusCheckFailedRetrying', {
+        detail: extractErrorDetail(error),
+      }),
+      'info'
+    );
     scheduleJobPoll(2500);
   }
 }
@@ -242,29 +293,48 @@ async function installSelectedDatabase() {
     isLoading.value ||
     isInstalling.value ||
     isJobActive.value ||
-    !packages.value.length
+    !packages.value.length ||
+    isDestroyed
   ) {
     return;
   }
 
   isInstalling.value = true;
-  setFeedback(`Starting installation for ${selectedDatabaseId.value}...`, 'info');
+  setFeedback(
+    t('components.settings.plate_solver.astapDatabaseStartInstall', {
+      databaseId: selectedDatabaseId.value,
+    }),
+    'info'
+  );
 
   try {
     const data = (await apiPinsService.installAstapStarDatabase(selectedDatabaseId.value)) || {};
+    if (isDestroyed) {
+      return;
+    }
+
     const returnedJobId = extractJobId(data);
     if (!returnedJobId) {
       isInstalling.value = false;
-      setFeedback('Install request succeeded but no jobId was returned.', 'error');
+      setFeedback(t('components.settings.plate_solver.astapDatabaseMissingJobId'), 'error');
       await loadPackages();
       return;
     }
 
     jobId.value = returnedJobId;
     jobStatus.value = normalizeStatus(data.status) || 'started';
-    setFeedback(`Install job started for ${selectedDatabaseId.value}.`, 'info');
+    setFeedback(
+      t('components.settings.plate_solver.astapDatabaseJobStartedMessage', {
+        databaseId: selectedDatabaseId.value,
+      }),
+      'info'
+    );
     scheduleJobPoll(0);
   } catch (error) {
+    if (isDestroyed) {
+      return;
+    }
+
     isInstalling.value = false;
 
     if (error?.response?.status === 409) {
@@ -274,11 +344,16 @@ async function installSelectedDatabase() {
     }
 
     if (error?.response?.status === 401) {
-      setFeedback('Unauthorized while starting ASTAP star database install.', 'error');
+      setFeedback(t('components.settings.plate_solver.astapDatabaseUnauthorizedStart'), 'error');
       return;
     }
 
-    setFeedback(`Failed to start install: ${extractErrorDetail(error)}`, 'error');
+    setFeedback(
+      t('components.settings.plate_solver.astapDatabaseStartFailed', {
+        detail: extractErrorDetail(error),
+      }),
+      'error'
+    );
   }
 }
 
@@ -287,6 +362,7 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {
+  isDestroyed = true;
   clearPollTimer();
 });
 </script>

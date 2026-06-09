@@ -304,7 +304,29 @@
         "ASTAPLocation": "Umístění ASTAP",
         "Filter": "Filtr pro Plate Solving",
         "FilterCurrent": "Aktuální",
-        "FilterHint": "Filtr používaný při plate solvingu (přepíše aktuální filtr)"
+        "FilterHint": "Filtr používaný při plate solvingu (přepíše aktuální filtr)",
+        "astapDatabaseAllInstalled": "All ASTAP star databases are already installed.",
+        "astapDatabaseDescription": "Install missing ASTAP star databases directly on your PINS device.",
+        "astapDatabaseInstall": "Install",
+        "astapDatabaseInstallFailed": "ASTAP star database install failed{exitCode}.",
+        "astapDatabaseInstallSuccess": "ASTAP star database {databaseId} installed successfully.",
+        "astapDatabaseInstalling": "Installing...",
+        "astapDatabaseJobStarted": "started",
+        "astapDatabaseJobStartedMessage": "Install job started for {databaseId}.",
+        "astapDatabaseJobStatus": "Job {jobId}: {status}",
+        "astapDatabaseLastChecked": "Last checked: {value}",
+        "astapDatabaseLoadFailed": "Failed to load databases: {detail}",
+        "astapDatabaseMissingJobId": "Install request succeeded but no jobId was returned.",
+        "astapDatabaseNoInstallable": "No installable ASTAP star databases available",
+        "astapDatabaseSelectPlaceholder": "Select a database",
+        "astapDatabaseStartFailed": "Failed to start install: {detail}",
+        "astapDatabaseStartInstall": "Starting installation for {databaseId}...",
+        "astapDatabaseStarting": "Starting...",
+        "astapDatabaseStatusCheckFailedRetrying": "Status check failed: {detail}. Retrying...",
+        "astapDatabaseTitle": "ASTAP Star Database (PINS)",
+        "astapDatabaseUnauthorizedStart": "Unauthorized while starting ASTAP star database install.",
+        "astapDatabaseUnauthorizedStatus": "Unauthorized while checking install status.",
+        "astapDatabaseUnknownError": "Unknown error"
       },
       "equipment": {
         "title": "Vybavení",
@@ -778,7 +800,7 @@
           "absolute": "Absolutní"
         },
         "startGuiding": {
-          "forceCalibrationLabel": ""
+          "forceCalibrationLabel": "Force Calibration"
         }
       },
       "emptyContainer": "Prázdné — kliknutím na + přidáte položky",
@@ -2867,7 +2889,8 @@
         },
         "validation": {
           "passwordRequired": "Heslo musí mít alespoň 8 znaků"
-        }
+        },
+        "lensControl": "LensControl"
       },
       "config": {
         "title": "Konfigurace",
@@ -2979,7 +3002,23 @@
       },
       "meteoStation": "PINS.MeteoStation",
       "powerBox": "PINS.PowerBox",
-      "wifiTab": "WiFi"
+      "wifiTab": "WiFi",
+      "lensControl": {
+        "aperture": "Aperture",
+        "calibrate": "Calibrate",
+        "calibrating": "Calibrating...",
+        "current": "Current",
+        "deviceInfo": "Device Information",
+        "driver": "SDK Version",
+        "firmware": "Firmware",
+        "focalLength": "Focal Length",
+        "lens": "Lens",
+        "position": "Focus Position",
+        "range": "Range",
+        "restart": "Restart Device",
+        "restarting": "Restarting...",
+        "set": "Set"
+      }
     },
     "shortcuts": {
       "title": "Zkratky Sekvencí",
@@ -3628,7 +3667,12 @@
         "credentials": "If your camera requires a username and password, include the credentials directly in the URL:",
         "credentialsNote": "The backend proxy handles authentication automatically — credentials in the URL work with both Basic and Digest authentication (e.g. Hikvision).",
         "credentialsTitle": "Password-protected cameras",
-        "exampleLabels": ["Generic IP camera", "ONVIF camera", "Axis camera", "Hikvision camera"],
+        "exampleLabels": [
+          "Generic IP camera",
+          "ONVIF camera",
+          "Axis camera",
+          "Hikvision camera"
+        ],
         "examplesTitle": "Examples",
         "proxyOptions": [
           "Proxy (default): The image is fetched by the NINA backend and forwarded to the browser. Required for local network cameras with credentials or CORS restrictions. Slightly slower when accessed over VPN.",

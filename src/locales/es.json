@@ -304,7 +304,29 @@
         "ASTAPLocation": "Ubicación de ASTAP",
         "Filter": "Filtro para Plate Solving",
         "FilterCurrent": "Actual",
-        "FilterHint": "Filtro utilizado durante el plate solving (anula el filtro actual)"
+        "FilterHint": "Filtro utilizado durante el plate solving (anula el filtro actual)",
+        "astapDatabaseAllInstalled": "Todas las bases de datos estrella de ASTAP ya están instaladas.",
+        "astapDatabaseDescription": "Instale las bases de datos de estrellas ASTAP que faltan directamente en su dispositivo PINS.",
+        "astapDatabaseInstall": "Instalar",
+        "astapDatabaseInstallFailed": "La instalación de la base de datos ASTAP Star falló {exitCode}.",
+        "astapDatabaseInstallSuccess": "La base de datos estrella ASTAP {databaseId} se instaló correctamente.",
+        "astapDatabaseInstalling": "Instalando...",
+        "astapDatabaseJobStarted": "comenzó",
+        "astapDatabaseJobStartedMessage": "Se inició el trabajo de instalación para {databaseId}.",
+        "astapDatabaseJobStatus": "Trabajo {jobId}: {estado}",
+        "astapDatabaseLastChecked": "Última comprobación: {valor}",
+        "astapDatabaseLoadFailed": "No se pudieron cargar las bases de datos: {detalle}",
+        "astapDatabaseMissingJobId": "La solicitud de instalación se realizó correctamente pero no se devolvió ningún ID de trabajo.",
+        "astapDatabaseNoInstallable": "No hay bases de datos de estrellas ASTAP instalables disponibles",
+        "astapDatabaseSelectPlaceholder": "Seleccione una base de datos",
+        "astapDatabaseStartFailed": "No se pudo iniciar la instalación: {detalle}",
+        "astapDatabaseStartInstall": "Iniciando la instalación de {databaseId}....",
+        "astapDatabaseStarting": "A partir de...",
+        "astapDatabaseStatusCheckFailedRetrying": "Error en la verificación de estado: {detalle}. \nReintentando...",
+        "astapDatabaseTitle": "Base de datos de estrellas ASTAP (PINS)",
+        "astapDatabaseUnauthorizedStart": "No autorizado al iniciar la instalación de la base de datos ASTAP Star.",
+        "astapDatabaseUnauthorizedStatus": "No autorizado mientras se verifica el estado de la instalación.",
+        "astapDatabaseUnknownError": "Error desconocido"
       },
       "equipment": {
         "title": "Equipo",
@@ -778,7 +800,7 @@
           "absolute": "Absoluto"
         },
         "startGuiding": {
-          "forceCalibrationLabel": ""
+          "forceCalibrationLabel": "Calibración de fuerza"
         }
       },
       "emptyContainer": "Vacío — haga clic en + para añadir elementos",
@@ -2867,7 +2889,8 @@
         },
         "validation": {
           "passwordRequired": "La contraseña debe tener al menos 8 caracteres."
-        }
+        },
+        "lensControl": "Control de lentes"
       },
       "config": {
         "title": "Configuración",
@@ -2979,7 +3002,23 @@
       },
       "meteoStation": "PINS.MeteoStation",
       "powerBox": "PINS.PowerBox",
-      "wifiTab": "Wi-Fi"
+      "wifiTab": "Wi-Fi",
+      "lensControl": {
+        "aperture": "Abertura",
+        "calibrate": "Calibrar",
+        "calibrating": "Calibrando...",
+        "current": "Actual",
+        "deviceInfo": "Información del dispositivo",
+        "driver": "Versión SDK",
+        "firmware": "firmware",
+        "focalLength": "Longitud focal",
+        "lens": "Lente",
+        "position": "Posición de enfoque",
+        "range": "Rango",
+        "restart": "Reiniciar dispositivo",
+        "restarting": "Reiniciando...",
+        "set": "Colocar"
+      }
     },
     "shortcuts": {
       "title": "Atajos de secuencia",

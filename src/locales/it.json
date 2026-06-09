@@ -304,7 +304,29 @@
         "ASTAPLocation": "Posizione dell'ASTAP",
         "Filter": "Filtro per Plate Solving",
         "FilterCurrent": "Attuale",
-        "FilterHint": "Filtro utilizzato durante il plate solving (sovrascrive il filtro corrente)"
+        "FilterHint": "Filtro utilizzato durante il plate solving (sovrascrive il filtro corrente)",
+        "astapDatabaseAllInstalled": "Tutti i database stellari ASTAP sono già installati.",
+        "astapDatabaseDescription": "Installa i database stellari ASTAP mancanti direttamente sul tuo dispositivo PINS.",
+        "astapDatabaseInstall": "Installare",
+        "astapDatabaseInstallFailed": "Installazione del database stellare ASTAP non riuscita{exitCode}.",
+        "astapDatabaseInstallSuccess": "Database stella ASTAP {databaseId} installato correttamente.",
+        "astapDatabaseInstalling": "Installazione...",
+        "astapDatabaseJobStarted": "iniziato",
+        "astapDatabaseJobStartedMessage": "Processo di installazione avviato per {databaseId}.",
+        "astapDatabaseJobStatus": "Lavoro {jobId}: {status}",
+        "astapDatabaseLastChecked": "Ultimo controllo: {valore}",
+        "astapDatabaseLoadFailed": "Impossibile caricare i database: {dettaglio}",
+        "astapDatabaseMissingJobId": "La richiesta di installazione è riuscita ma non è stato restituito alcun jobId.",
+        "astapDatabaseNoInstallable": "Nessun database stellare ASTAP installabile disponibile",
+        "astapDatabaseSelectPlaceholder": "Seleziona una banca dati",
+        "astapDatabaseStartFailed": "Impossibile avviare l'installazione: {detail}",
+        "astapDatabaseStartInstall": "Avvio dell'installazione per {databaseId}...",
+        "astapDatabaseStarting": "Di partenza...",
+        "astapDatabaseStatusCheckFailedRetrying": "Controllo dello stato non riuscito: {dettaglio}. \nNuovo tentativo...",
+        "astapDatabaseTitle": "Database stellare ASTAP (PIN)",
+        "astapDatabaseUnauthorizedStart": "Non autorizzato durante l'avvio dell'installazione del database Star ASTAP.",
+        "astapDatabaseUnauthorizedStatus": "Non autorizzato durante il controllo dello stato dell'installazione.",
+        "astapDatabaseUnknownError": "Errore sconosciuto"
       },
       "equipment": {
         "title": "Attrezzatura",
@@ -778,7 +800,7 @@
           "absolute": "Assoluto"
         },
         "startGuiding": {
-          "forceCalibrationLabel": ""
+          "forceCalibrationLabel": "Calibrazione della forza"
         }
       },
       "emptyContainer": "Vuoto — fai clic su + per aggiungere elementi",
@@ -2867,7 +2889,8 @@
         },
         "validation": {
           "passwordRequired": "La password deve contenere almeno 8 caratteri"
-        }
+        },
+        "lensControl": "Controllo lente"
       },
       "config": {
         "title": "Configurazione",
@@ -2979,7 +3002,23 @@
       },
       "meteoStation": "PINS.MeteoStation",
       "powerBox": "PINS.PowerBox",
-      "wifiTab": "Wifi"
+      "wifiTab": "Wifi",
+      "lensControl": {
+        "aperture": "Apertura",
+        "calibrate": "Calibrare",
+        "calibrating": "Calibrazione...",
+        "current": "Attuale",
+        "deviceInfo": "Informazioni sul dispositivo",
+        "driver": "Versione dell'SDK",
+        "firmware": "Firmware",
+        "focalLength": "Lunghezza focale",
+        "lens": "Lente",
+        "position": "Posizione di messa a fuoco",
+        "range": "Allineare",
+        "restart": "Riavvia il dispositivo",
+        "restarting": "Riavvio...",
+        "set": "Impostato"
+      }
     },
     "shortcuts": {
       "title": "Scorciatoie di sequenza",

@@ -370,7 +370,29 @@
         "ASTAPLocation": "ASTAP-Speicherort",
         "Filter": "Plate-Solving-Filter",
         "FilterCurrent": "Aktuell",
-        "FilterHint": "Filter, der für das Plate Solving verwendet wird (überschreibt den aktuellen Filter)"
+        "FilterHint": "Filter, der für das Plate Solving verwendet wird (überschreibt den aktuellen Filter)",
+        "astapDatabaseAllInstalled": "Alle ASTAP-Star-Datenbanken sind bereits installiert.",
+        "astapDatabaseDescription": "Installieren Sie fehlende ASTAP-Star-Datenbanken direkt auf Ihrem PINS-Gerät.",
+        "astapDatabaseInstall": "Installieren",
+        "astapDatabaseInstallFailed": "Die Installation der ASTAP Star-Datenbank ist fehlgeschlagen{exitCode}.",
+        "astapDatabaseInstallSuccess": "Die ASTAP-Sterndatenbank {databaseId} wurde erfolgreich installiert.",
+        "astapDatabaseInstalling": "Installieren...",
+        "astapDatabaseJobStarted": "begonnen",
+        "astapDatabaseJobStartedMessage": "Installationsjob für {databaseId} gestartet.",
+        "astapDatabaseJobStatus": "Job {jobId}: {status}",
+        "astapDatabaseLastChecked": "Zuletzt geprüft: {value}",
+        "astapDatabaseLoadFailed": "Datenbanken konnten nicht geladen werden: {detail}",
+        "astapDatabaseMissingJobId": "Die Installationsanforderung war erfolgreich, aber es wurde keine Job-ID zurückgegeben.",
+        "astapDatabaseNoInstallable": "Keine installierbaren ASTAP-Star-Datenbanken verfügbar",
+        "astapDatabaseSelectPlaceholder": "Wählen Sie eine Datenbank aus",
+        "astapDatabaseStartFailed": "Installation konnte nicht gestartet werden: {detail}",
+        "astapDatabaseStartInstall": "Installation für {databaseId} wird gestartet...",
+        "astapDatabaseStarting": "Beginnt...",
+        "astapDatabaseStatusCheckFailedRetrying": "Statusprüfung fehlgeschlagen: {detail}. \nErneuter Versuch...",
+        "astapDatabaseTitle": "ASTAP Star-Datenbank (PINS)",
+        "astapDatabaseUnauthorizedStart": "Beim Starten der ASTAP Star-Datenbankinstallation wurde keine Autorisierung durchgeführt.",
+        "astapDatabaseUnauthorizedStatus": "Nicht autorisiert, während der Installationsstatus überprüft wird.",
+        "astapDatabaseUnknownError": "Unbekannter Fehler"
       },
       "equipment": {
         "title": "Ausrüstung",
@@ -2948,7 +2970,8 @@
         },
         "validation": {
           "passwordRequired": "Das Passwort muss mindestens 8 Zeichen lang sein"
-        }
+        },
+        "lensControl": "LensControl"
       },
       "config": {
         "title": "Konfiguration",
@@ -3060,7 +3083,23 @@
       },
       "meteoStation": "PINS.MeteoStation",
       "powerBox": "PINS.PowerBox",
-      "wifiTab": "W-lan"
+      "wifiTab": "W-lan",
+      "lensControl": {
+        "aperture": "Öffnung",
+        "calibrate": "Kalibrieren",
+        "calibrating": "Kalibrieren...",
+        "current": "Aktuell",
+        "deviceInfo": "Geräteinformationen",
+        "driver": "SDK-Version",
+        "firmware": "Firmware",
+        "focalLength": "Brennweite",
+        "lens": "Linse",
+        "position": "Fokusposition",
+        "range": "Reichweite",
+        "restart": "Gerät neu starten",
+        "restarting": "Neustart...",
+        "set": "Satz"
+      }
     },
     "shortcuts": {
       "title": "Sequence-Shortcuts",

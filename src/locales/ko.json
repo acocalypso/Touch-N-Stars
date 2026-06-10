@@ -1948,7 +1948,7 @@
         "pluginUninstallStart": "플러그인 제거 중: {packageName}",
         "pluginActionSuccess": "플러그인 작업 완료: {packageName}",
         "pluginActionFailed": "{packageName} 플러그인 작업 실패. 상태: {status}",
-        "hotspotPasswordTooShort": ""
+        "hotspotPasswordTooShort": "The hotspot password must be at least 8 characters long."
       },
       "wifiDisconnect": "WiFi 연결 해제",
       "disconnectConfirmTitle": "WiFi 연결을 해제할까요?",

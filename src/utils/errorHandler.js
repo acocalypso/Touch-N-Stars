@@ -66,7 +66,11 @@ export function setupErrorHandler() {
         const logLevel = isRealError ? 'ERROR' : 'INFO';
 
         // Skip logging and toasts for known informational endpoints
-        const suppressedUrls = ['/capture/statistics/full', '/image-history'];
+        const suppressedUrls = [
+          '/capture/statistics/full',
+          '/image-history',
+          '/equipment/flatdevice/get-currentposition',
+        ];
         const isSuppressedUrl = suppressedUrls.some((u) => url.includes(u));
         if (isSuppressedUrl) return response;
 

@@ -44,12 +44,6 @@
       "message_api_version": "Zásuvný modul API je příliš starý. Proveďte aktualizaci",
       "message_tns": "Zásuvný modul TouchNStars není k dispozici. Zkontrolujte prosím nastavení v NINA",
       "message_tns_version": "Zásuvný modul Touch N Stars je příliš starý. Proveďte prosím aktualizaci"
-    },
-    "connection_splash": {
-      "trying": "Trying to connect to instance {instance} at {endpoint} ({elapsed}s elapsed, {remaining}s until this is marked as delayed).",
-      "delayed": "Still trying to connect to instance {instance} at {endpoint} ({elapsed}s elapsed). Open Settings to verify your Touch-N-Stars instance.",
-      "configured_instance": "configured instance",
-      "default_instance_name": "selected instance"
     }
   },
   "whatsnew": {

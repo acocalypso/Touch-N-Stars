@@ -44,12 +44,6 @@
       "message_api_version": "API plugin is te oud. Voer update uit",
       "message_tns": "De Touch'N'Stars plugin is niet beschikbaar. Controleer instellingen in NINA",
       "message_tns_version": "De Touch N Stars plugin is te oud. Voer update uit"
-    },
-    "connection_splash": {
-      "trying": "Trying to connect to instance {instance} at {endpoint} ({elapsed}s elapsed, {remaining}s until this is marked as delayed).",
-      "delayed": "Still trying to connect to instance {instance} at {endpoint} ({elapsed}s elapsed). Open Settings to verify your Touch-N-Stars instance.",
-      "configured_instance": "configured instance",
-      "default_instance_name": "selected instance"
     }
   },
   "whatsnew": {

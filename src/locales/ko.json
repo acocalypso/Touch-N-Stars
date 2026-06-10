@@ -44,12 +44,6 @@
       "message_api_version": "API 플러그인이 너무 오래되었습니다. 업데이트를 진행하세요",
       "message_tns": "Touch'N'Stars 플러그인을 사용할 수 없습니다. NINA에서 설정을 확인하세요",
       "message_tns_version": "Touch N Stars 플러그인이 너무 오래되었습니다. 업데이트를 진행하세요"
-    },
-    "connection_splash": {
-      "trying": "Trying to connect to instance {instance} at {endpoint} ({elapsed}s elapsed, {remaining}s until this is marked as delayed).",
-      "delayed": "Still trying to connect to instance {instance} at {endpoint} ({elapsed}s elapsed). Open Settings to verify your Touch-N-Stars instance.",
-      "configured_instance": "configured instance",
-      "default_instance_name": "selected instance"
     }
   },
   "whatsnew": {

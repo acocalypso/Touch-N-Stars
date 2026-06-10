@@ -570,6 +570,20 @@ function updateConnectionElapsed() {
   );
 }
 
+function startConnectionTimer() {
+  if (!connectionElapsedIntervalId) {
+    resetConnectionAttemptTimer();
+    connectionElapsedIntervalId = setInterval(updateConnectionElapsed, 1000);
+  }
+}
+
+function stopConnectionTimer() {
+  if (connectionElapsedIntervalId) {
+    clearInterval(connectionElapsedIntervalId);
+    connectionElapsedIntervalId = null;
+  }
+}
+
 function closePinsUpgradeOverlay() {
   if (pinsUpgradeRecoveryTimer) {
     clearTimeout(pinsUpgradeRecoveryTimer);
@@ -809,8 +823,9 @@ onMounted(async () => {
   window.addEventListener('pageshow', handlePageShow);
   window.addEventListener('focus', handleFocus);
 
-  resetConnectionAttemptTimer();
-  connectionElapsedIntervalId = setInterval(updateConnectionElapsed, 1000);
+  if (!store.isBackendReachable) {
+    startConnectionTimer();
+  }
 
   // Check for app update immediately - independent from backend status
   if (isNativePlatform()) {
@@ -943,8 +958,9 @@ watch(
   async (isReachable, wasReachable) => {
     if (isReachable) {
       connectionElapsedSeconds.value = 0;
+      stopConnectionTimer();
     } else if (wasReachable) {
-      resetConnectionAttemptTimer();
+      startConnectionTimer();
     }
 
     if (isReachable && showSplashScreen.value) {
@@ -1027,10 +1043,7 @@ onBeforeUnmount(async () => {
   sequenceStore.stopFetching();
   flatsStore.stopFetchingFlats();
 
-  if (connectionElapsedIntervalId) {
-    clearInterval(connectionElapsedIntervalId);
-    connectionElapsedIntervalId = null;
-  }
+  stopConnectionTimer();
 
   if (pinsUpgradeRecoveryTimer) {
     clearTimeout(pinsUpgradeRecoveryTimer);

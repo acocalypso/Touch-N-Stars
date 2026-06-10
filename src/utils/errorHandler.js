@@ -69,7 +69,12 @@ export function setupErrorHandler() {
         const suppressedUrls = [
           '/capture/statistics/full',
           '/image-history',
+          // WandererCover-only position endpoints return 501 on other flat devices
           '/equipment/flatdevice/get-currentposition',
+          '/equipment/flatdevice/get-openposition',
+          '/equipment/flatdevice/set-openposition',
+          '/equipment/flatdevice/get-closedposition',
+          '/equipment/flatdevice/set-closedposition',
         ];
         const isSuppressedUrl = suppressedUrls.some((u) => url.includes(u));
         if (isSuppressedUrl) return response;

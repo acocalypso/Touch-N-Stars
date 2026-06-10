@@ -726,6 +726,7 @@ async function checkForAppUpdate(options = {}) {
 
   checkingUpdate.value = true;
   try {
+    // Resolve currently active OTA bundle version first to avoid re-offering the same update.
     let currentBundleVersion;
     try {
       const current = await CapacitorUpdater.current();
@@ -742,6 +743,7 @@ async function checkForAppUpdate(options = {}) {
     const result = await checkForManualUpdate(currentBundleVersion, { allowDowngrade });
 
     if (result?.available && currentBundleVersion && result.version === currentBundleVersion) {
+      // Extra guard in case update service fallback/version parsing returns a false positive.
       return;
     }
 

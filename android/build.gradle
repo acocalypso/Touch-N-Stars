@@ -21,6 +21,23 @@ allprojects {
         google()
         mavenCentral()
     }
+
+    subprojects {
+        afterEvaluate { project ->
+            if (project.plugins.hasPlugin('com.android.application') || project.plugins.hasPlugin('com.android.library')) {
+                project.android {
+                    buildTypes {
+                        release {
+                            def oldFiles = proguardFiles
+                            if (oldFiles.contains('proguard-android.txt')) {
+                                setProguardFiles(oldFiles.collect { it == 'proguard-android.txt' ? 'proguard-android-optimize.txt' : it })
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 tasks.register('clean', Delete) {

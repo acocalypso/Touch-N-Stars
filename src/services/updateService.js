@@ -226,6 +226,7 @@ async function resolveCurrentVersion(fallbackVersion = appVersion) {
     const currentBundleVersion = current?.bundle?.version;
     const nativeVersion = current?.native;
 
+    // "builtin" means no OTA bundle is active yet, so use native/app version.
     if (currentBundleVersion && currentBundleVersion !== 'builtin') {
       return currentBundleVersion;
     }

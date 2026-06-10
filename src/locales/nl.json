@@ -304,7 +304,29 @@
         "ASTAPLocation": "ASTAP-locatie",
         "Filter": "Plate Solving Filter",
         "FilterCurrent": "Huidig",
-        "FilterHint": "Filter gebruikt tijdens plate solving (overschrijft het huidige filter)"
+        "FilterHint": "Filter gebruikt tijdens plate solving (overschrijft het huidige filter)",
+        "astapDatabaseAllInstalled": "Alle ASTAP-sterrendatabases zijn al geïnstalleerd.",
+        "astapDatabaseDescription": "Installeer ontbrekende ASTAP-sterrendatabases rechtstreeks op uw PINS-apparaat.",
+        "astapDatabaseInstall": "Installeren",
+        "astapDatabaseInstallFailed": "Installatie van ASTAP-sterrendatabase mislukt{exitCode}.",
+        "astapDatabaseInstallSuccess": "ASTAP-sterrendatabase {databaseId} is succesvol geïnstalleerd.",
+        "astapDatabaseInstalling": "Installeren...",
+        "astapDatabaseJobStarted": "begonnen",
+        "astapDatabaseJobStartedMessage": "Installatietaak gestart voor {databaseId}.",
+        "astapDatabaseJobStatus": "Taak {jobId}: {status}",
+        "astapDatabaseLastChecked": "Laatst gecontroleerd: {value}",
+        "astapDatabaseLoadFailed": "Kan databases niet laden: {detail}",
+        "astapDatabaseMissingJobId": "Installatieverzoek is geslaagd, maar er is geen jobId geretourneerd.",
+        "astapDatabaseNoInstallable": "Er zijn geen installeerbare ASTAP-sterrendatabases beschikbaar",
+        "astapDatabaseSelectPlaceholder": "Selecteer een databank",
+        "astapDatabaseStartFailed": "Kan de installatie niet starten: {detail}",
+        "astapDatabaseStartInstall": "Installatie starten voor {databaseId}...",
+        "astapDatabaseStarting": "Beginnen...",
+        "astapDatabaseStatusCheckFailedRetrying": "Statuscontrole mislukt: {detail}. \nOpnieuw proberen...",
+        "astapDatabaseTitle": "ASTAP Star-database (PINS)",
+        "astapDatabaseUnauthorizedStart": "Ongeautoriseerd tijdens het starten van de installatie van de ASTAP-sterrendatabase.",
+        "astapDatabaseUnauthorizedStatus": "Ongeautoriseerd tijdens het controleren van de installatiestatus.",
+        "astapDatabaseUnknownError": "Onbekende fout"
       },
       "equipment": {
         "title": "Apparatuur",
@@ -778,7 +800,7 @@
           "absolute": "Absoluut"
         },
         "startGuiding": {
-          "forceCalibrationLabel": ""
+          "forceCalibrationLabel": "Kalibratie forceren"
         }
       },
       "emptyContainer": "Leeg — klik op + om items toe te voegen",
@@ -2867,7 +2889,8 @@
         },
         "validation": {
           "passwordRequired": "Wachtwoord moet minimaal 8 tekens lang zijn"
-        }
+        },
+        "lensControl": "Lenscontrole"
       },
       "config": {
         "title": "Configuratie",
@@ -2979,7 +3002,23 @@
       },
       "meteoStation": "PINS.MeteoStation",
       "powerBox": "PINS.PowerBox",
-      "wifiTab": "WiFi"
+      "wifiTab": "WiFi",
+      "lensControl": {
+        "aperture": "Opening",
+        "calibrate": "Kalibreren",
+        "calibrating": "Kalibreren...",
+        "current": "Huidig",
+        "deviceInfo": "Apparaatinformatie",
+        "driver": "SDK-versie",
+        "firmware": "Firmware",
+        "focalLength": "Brandpuntsafstand",
+        "lens": "Lens",
+        "position": "Focuspositie",
+        "range": "Bereik",
+        "restart": "Start het apparaat opnieuw op",
+        "restarting": "Opnieuw opstarten...",
+        "set": "Set"
+      }
     },
     "shortcuts": {
       "title": "Sequentie-Shortcuts",
@@ -3628,7 +3667,12 @@
         "credentials": "Als uw camera een gebruikersnaam en wachtwoord vereist, neemt u de inloggegevens rechtstreeks in de URL op:",
         "credentialsNote": "De backend-proxy verwerkt de authenticatie automatisch: de inloggegevens in de URL werken met zowel basis- als digest-authenticatie (bijv. Hikvision).",
         "credentialsTitle": "Met wachtwoord beveiligde camera's",
-        "exampleLabels": ["Algemene IP-camera", "ONVIF-camera", "As-camera", "Hikvision-camera"],
+        "exampleLabels": [
+          "Algemene IP-camera",
+          "ONVIF-camera",
+          "As-camera",
+          "Hikvision-camera"
+        ],
         "examplesTitle": "Voorbeelden",
         "proxyOptions": [
           "Proxy (standaard): De afbeelding wordt opgehaald door de NINA-backend en doorgestuurd naar de browser. \nVereist voor lokale netwerkcamera's met inloggegevens of CORS-beperkingen. \nIets langzamer bij toegang via VPN.",

@@ -304,7 +304,29 @@
         "ASTAPLocation": "ASTAP地点",
         "Filter": "天文定位滤镜",
         "FilterCurrent": "当前",
-        "FilterHint": "用于天文定位的滤镜（覆盖当前滤镜）"
+        "FilterHint": "用于天文定位的滤镜（覆盖当前滤镜）",
+        "astapDatabaseAllInstalled": "All ASTAP star databases are already installed.",
+        "astapDatabaseDescription": "Install missing ASTAP star databases directly on your PINS device.",
+        "astapDatabaseInstall": "Install",
+        "astapDatabaseInstallFailed": "ASTAP star database install failed{exitCode}.",
+        "astapDatabaseInstallSuccess": "ASTAP star database {databaseId} installed successfully.",
+        "astapDatabaseInstalling": "Installing...",
+        "astapDatabaseJobStarted": "started",
+        "astapDatabaseJobStartedMessage": "Install job started for {databaseId}.",
+        "astapDatabaseJobStatus": "Job {jobId}: {status}",
+        "astapDatabaseLastChecked": "Last checked: {value}",
+        "astapDatabaseLoadFailed": "Failed to load databases: {detail}",
+        "astapDatabaseMissingJobId": "Install request succeeded but no jobId was returned.",
+        "astapDatabaseNoInstallable": "No installable ASTAP star databases available",
+        "astapDatabaseSelectPlaceholder": "Select a database",
+        "astapDatabaseStartFailed": "Failed to start install: {detail}",
+        "astapDatabaseStartInstall": "Starting installation for {databaseId}...",
+        "astapDatabaseStarting": "Starting...",
+        "astapDatabaseStatusCheckFailedRetrying": "Status check failed: {detail}. Retrying...",
+        "astapDatabaseTitle": "ASTAP Star Database (PINS)",
+        "astapDatabaseUnauthorizedStart": "Unauthorized while starting ASTAP star database install.",
+        "astapDatabaseUnauthorizedStatus": "Unauthorized while checking install status.",
+        "astapDatabaseUnknownError": "Unknown error"
       },
       "equipment": {
         "title": "设备",
@@ -778,7 +800,7 @@
           "absolute": "绝对"
         },
         "startGuiding": {
-          "forceCalibrationLabel": ""
+          "forceCalibrationLabel": "Force Calibration"
         }
       },
       "emptyContainer": "空—单击+以添加项目",
@@ -2867,7 +2889,8 @@
         },
         "validation": {
           "passwordRequired": "密码必须至少为 8 个字符"
-        }
+        },
+        "lensControl": "LensControl"
       },
       "config": {
         "title": "配置",
@@ -2979,7 +3002,23 @@
       },
       "meteoStation": "PINS.气象站",
       "powerBox": "PIN.PowerBox",
-      "wifiTab": "无线上网"
+      "wifiTab": "无线上网",
+      "lensControl": {
+        "aperture": "Aperture",
+        "calibrate": "Calibrate",
+        "calibrating": "Calibrating...",
+        "current": "Current",
+        "deviceInfo": "Device Information",
+        "driver": "SDK Version",
+        "firmware": "Firmware",
+        "focalLength": "Focal Length",
+        "lens": "Lens",
+        "position": "Focus Position",
+        "range": "Range",
+        "restart": "Restart Device",
+        "restarting": "Restarting...",
+        "set": "Set"
+      }
     },
     "shortcuts": {
       "title": "序列快捷方式",
@@ -3628,7 +3667,12 @@
         "credentials": "If your camera requires a username and password, include the credentials directly in the URL:",
         "credentialsNote": "The backend proxy handles authentication automatically — credentials in the URL work with both Basic and Digest authentication (e.g. Hikvision).",
         "credentialsTitle": "Password-protected cameras",
-        "exampleLabels": ["Generic IP camera", "ONVIF camera", "Axis camera", "Hikvision camera"],
+        "exampleLabels": [
+          "Generic IP camera",
+          "ONVIF camera",
+          "Axis camera",
+          "Hikvision camera"
+        ],
         "examplesTitle": "Examples",
         "proxyOptions": [
           "Proxy (default): The image is fetched by the NINA backend and forwarded to the browser. Required for local network cameras with credentials or CORS restrictions. Slightly slower when accessed over VPN.",

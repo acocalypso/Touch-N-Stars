@@ -304,7 +304,29 @@
         "ASTAPLocation": "Lokalizacja firmy ASAP",
         "Filter": "Filtr do Plate Solving",
         "FilterCurrent": "Aktualny",
-        "FilterHint": "Filtr używany podczas plate solvingu (zastępuje bieżący filtr)"
+        "FilterHint": "Filtr używany podczas plate solvingu (zastępuje bieżący filtr)",
+        "astapDatabaseAllInstalled": "Wszystkie bazy danych gwiazd ASTAP są już zainstalowane.",
+        "astapDatabaseDescription": "Zainstaluj brakujące bazy danych gwiazd ASTAP bezpośrednio na urządzeniu PINS.",
+        "astapDatabaseInstall": "Zainstalować",
+        "astapDatabaseInstallFailed": "Instalacja bazy danych gwiazdy ASTAP nie powiodła się{exitCode}.",
+        "astapDatabaseInstallSuccess": "Baza danych gwiazdek ASTAP {databaseId} została pomyślnie zainstalowana.",
+        "astapDatabaseInstalling": "Instaluję...",
+        "astapDatabaseJobStarted": "zaczął",
+        "astapDatabaseJobStartedMessage": "Rozpoczęto zadanie instalacji dla {databaseId}.",
+        "astapDatabaseJobStatus": "Stanowisko {jobId}: {status}",
+        "astapDatabaseLastChecked": "Ostatnio sprawdzane: {value}",
+        "astapDatabaseLoadFailed": "Nie udało się załadować baz danych: {detail}",
+        "astapDatabaseMissingJobId": "Żądanie instalacji powiodło się, ale nie zwrócono żadnego identyfikatora zadania.",
+        "astapDatabaseNoInstallable": "Brak dostępnych baz danych gwiazdek ASTAP do zainstalowania",
+        "astapDatabaseSelectPlaceholder": "Wybierz bazę danych",
+        "astapDatabaseStartFailed": "Nie udało się rozpocząć instalacji: {detail}",
+        "astapDatabaseStartInstall": "Rozpoczęcie instalacji dla {databaseId}...",
+        "astapDatabaseStarting": "Startowy...",
+        "astapDatabaseStatusCheckFailedRetrying": "Sprawdzenie statusu nie powiodło się: {detail}. \nPonawiam próbę...",
+        "astapDatabaseTitle": "Baza danych gwiazd ASTAP (PINS)",
+        "astapDatabaseUnauthorizedStart": "Brak autoryzacji podczas uruchamiania instalacji bazy danych ASTAP Star.",
+        "astapDatabaseUnauthorizedStatus": "Brak autoryzacji podczas sprawdzania stanu instalacji.",
+        "astapDatabaseUnknownError": "Nieznany błąd"
       },
       "equipment": {
         "title": "Sprzęt",
@@ -778,7 +800,7 @@
           "absolute": "Bezwzględna"
         },
         "startGuiding": {
-          "forceCalibrationLabel": ""
+          "forceCalibrationLabel": "Kalibracja siły"
         }
       },
       "emptyContainer": "Pusty — kliknij +, aby dodać pozycje",
@@ -2867,7 +2889,8 @@
         },
         "validation": {
           "passwordRequired": "Hasło musi mieć co najmniej 8 znaków"
-        }
+        },
+        "lensControl": "Kontrola obiektywu"
       },
       "config": {
         "title": "Konfiguracja",
@@ -2979,7 +3002,23 @@
       },
       "meteoStation": "Stacja PINS.Meteo",
       "powerBox": "PINY.PowerBox",
-      "wifiTab": "WiFi"
+      "wifiTab": "WiFi",
+      "lensControl": {
+        "aperture": "Otwór",
+        "calibrate": "Kalibrować",
+        "calibrating": "Kalibracja...",
+        "current": "Aktualny",
+        "deviceInfo": "Informacje o urządzeniu",
+        "driver": "Wersja SDK",
+        "firmware": "Oprogramowanie sprzętowe",
+        "focalLength": "Ogniskowa",
+        "lens": "Obiektyw",
+        "position": "Pozycja ostrości",
+        "range": "Zakres",
+        "restart": "Uruchom ponownie urządzenie",
+        "restarting": "Ponowne uruchamianie...",
+        "set": "Ustawić"
+      }
     },
     "shortcuts": {
       "title": "Skróty sekwencji",
@@ -3628,7 +3667,12 @@
         "credentials": "Jeśli kamera wymaga nazwy użytkownika i hasła, podaj dane uwierzytelniające bezpośrednio w adresie URL:",
         "credentialsNote": "Serwer proxy zaplecza obsługuje uwierzytelnianie automatycznie — dane uwierzytelniające w adresie URL działają zarówno z uwierzytelnianiem podstawowym, jak i szyfrowanym (np. Hikvision).",
         "credentialsTitle": "Kamery chronione hasłem",
-        "exampleLabels": ["Typowa kamera IP", "Kamera ONVIF", "Kamera osiowa", "Kamera Hikvision"],
+        "exampleLabels": [
+          "Typowa kamera IP",
+          "Kamera ONVIF",
+          "Kamera osiowa",
+          "Kamera Hikvision"
+        ],
         "examplesTitle": "Przykłady",
         "proxyOptions": [
           "Proxy (domyślnie): Obraz jest pobierany przez backend NINA i przesyłany do przeglądarki. \nWymagane w przypadku kamer sieci lokalnej z poświadczeniami lub ograniczeniami CORS. \nNieco wolniejszy w przypadku dostępu przez VPN.",

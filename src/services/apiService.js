@@ -3112,6 +3112,91 @@ const apiService = {
     }
   },
 
+  async getLensControlInfo() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}pins/lenscontrol`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching lenscontrol info:', error);
+      throw error;
+    }
+  },
+
+  async getLensControlStatus() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}pins/lenscontrol/status`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching lenscontrol status:', error);
+      throw error;
+    }
+  },
+
+  async moveLensControl(position) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.put(
+        `${API_URL}pins/lenscontrol/move`,
+        {},
+        { params: { position } }
+      );
+      return response.data;
+    } catch (error) {
+      console.error('Error moving lenscontrol:', error);
+      throw error;
+    }
+  },
+
+  async haltLensControl() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.put(`${API_URL}pins/lenscontrol/halt`, {});
+      return response.data;
+    } catch (error) {
+      console.error('Error halting lenscontrol:', error);
+      throw error;
+    }
+  },
+
+  async setLensControlAperture(aperture) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.put(
+        `${API_URL}pins/lenscontrol/set-aperture`,
+        {},
+        { params: { aperture } }
+      );
+      return response.data;
+    } catch (error) {
+      console.error('Error setting lenscontrol aperture:', error);
+      throw error;
+    }
+  },
+
+  async calibrateLensControl() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.post(`${API_URL}pins/lenscontrol/calibrate`, {});
+      return response.data;
+    } catch (error) {
+      console.error('Error calibrating lenscontrol:', error);
+      throw error;
+    }
+  },
+
+  async restartLensControl() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.post(`${API_URL}pins/lenscontrol/restart`, {});
+      return response.data;
+    } catch (error) {
+      console.error('Error restarting lenscontrol:', error);
+      throw error;
+    }
+  },
+
   // --------------------------------- HocusFocus Plugin ---------------------------------
   hocusfocus: {
     async listAutoFocusSessions() {

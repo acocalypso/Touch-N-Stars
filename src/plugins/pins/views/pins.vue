@@ -254,7 +254,7 @@ import { useSettingsStore } from '@/store/settingsStore';
 import { usePinsStore } from '../store/pinsStore';
 import { apiStore } from '@/store/store';
 import { useToastStore } from '@/store/toastStore';
-import axios from 'axios';
+import apiPinsService from '@/services/apiPinsService';
 import SubNav from '@/components/SubNav.vue';
 import Modal from '@/components/helpers/Modal.vue';
 import PinsNetworkTab from '../components/tabs/PinsNetworkTab.vue';
@@ -376,16 +376,10 @@ const {
   t,
   appendLog,
   getIp,
-  PORT,
-  TOKEN,
   status,
 });
 
-const hotspotSettingsApi = createHotspotSettingsApi({
-  getIp,
-  port: PORT,
-  token: TOKEN,
-});
+const hotspotSettingsApi = createHotspotSettingsApi();
 
 const allowConcurrentWifiAndHotspot = computed(() => {
   const hasMultipleAdapters = wifiAdapters.value.length >= 2;
@@ -416,8 +410,6 @@ const {
   jobId,
   activeOperation,
   getIp,
-  PORT,
-  TOKEN,
   shouldWaitForApiRecovery: () => !store.isBackendReachable,
 });
 
@@ -451,19 +443,12 @@ async function loadIndi3rdpartyDrivers() {
 
   isIndi3rdpartyLoading.value = true;
   try {
-    const directAxios = axios.create({ headers: {} });
-    const response = await directAxios.get(`http://${ip}:${PORT}/packages/indi3rdparty`, {
-      headers: {
-        Authorization: `Bearer ${TOKEN}`,
-      },
-      params: {
-        onlyNotInstalled: true,
-        ...(indi3rdpartyQuery.value?.trim() ? { q: indi3rdpartyQuery.value.trim() } : {}),
-      },
-      timeout: 15000,
+    const response = await apiPinsService.getPinsIndi3rdpartyPackages({
+      onlyNotInstalled: true,
+      q: indi3rdpartyQuery.value?.trim() ? indi3rdpartyQuery.value.trim() : undefined,
     });
 
-    const packages = response.data?.packages || [];
+    const packages = response?.packages || [];
     indi3rdpartyDrivers.value = packages;
 
     if (!packages.some((pkg) => pkg.assetName === selectedIndi3rdpartyAsset.value)) {
@@ -537,20 +522,7 @@ async function installIndi3rdpartyDriver(formInput) {
   indi3rdpartyInstallError.value = '';
   isIndi3rdpartyInstalling.value = true;
   try {
-    const directAxios = axios.create({ headers: {} });
-    const response = await directAxios.post(
-      `http://${ip}:${PORT}/packages/indi3rdparty/install`,
-      payload,
-      {
-        headers: {
-          Authorization: `Bearer ${TOKEN}`,
-          'Content-Type': 'application/json',
-        },
-        timeout: 30000,
-      }
-    );
-
-    const data = response.data;
+    const data = await apiPinsService.installPinsIndi3rdparty(payload);
     const returnedJobId = parseIndiInstallJobId(data);
 
     closeIndi3rdpartyInstallModal();
@@ -603,15 +575,7 @@ async function loadPinsPlugins() {
 
   isPinsPluginsLoading.value = true;
   try {
-    const directAxios = axios.create({ headers: {} });
-    const response = await directAxios.get(`http://${ip}:${PORT}/plugins`, {
-      headers: {
-        Authorization: `Bearer ${TOKEN}`,
-      },
-      timeout: 15000,
-    });
-
-    const payload = response.data || {};
+    const payload = (await apiPinsService.getPinsPlugins()) || {};
     pinsPluginsCheckedAt.value = payload.checkedAt || '';
     const apiPlugins = Array.isArray(payload.plugins) ? payload.plugins : [];
     pinsPlugins.value = apiPlugins
@@ -665,18 +629,10 @@ function isJobFailed(result) {
   );
 }
 
-async function pollJobUntilFinished(ip, id, { intervalMs = 2000, maxAttempts = 120 } = {}) {
+async function pollJobUntilFinished(id, { intervalMs = 2000, maxAttempts = 120 } = {}) {
   let lastStatus = null;
   for (let attempt = 0; attempt < maxAttempts; attempt++) {
-    const directAxios = axios.create({ headers: {} });
-    const response = await directAxios.get(`http://${ip}:${PORT}/jobs/${id}`, {
-      headers: {
-        Authorization: `Bearer ${TOKEN}`,
-      },
-      timeout: 8000,
-    });
-
-    const result = response.data || {};
+    const result = (await apiPinsService.getPinsDaemonJob(id)) || {};
     const currentStatus = String(result.status || '').toLowerCase();
 
     if (currentStatus && currentStatus !== lastStatus) {
@@ -721,20 +677,7 @@ async function runPinsPluginAction(action, packageName) {
   appendLog(t(startMessageKey, { packageName }));
 
   try {
-    const directAxios = axios.create({ headers: {} });
-    const response = await directAxios.post(
-      `http://${ip}:${PORT}/plugins/${endpoint}`,
-      { packageName },
-      {
-        headers: {
-          Authorization: `Bearer ${TOKEN}`,
-          'Content-Type': 'application/json',
-        },
-        timeout: 15000,
-      }
-    );
-
-    const data = response.data;
+    const data = await apiPinsService.runPinsPluginAction(endpoint, packageName);
     const returnedJobId = parseJobIdFromResponse(data);
 
     if (!returnedJobId) {
@@ -745,7 +688,7 @@ async function runPinsPluginAction(action, packageName) {
 
     appendLog(t('plugins.pins.logs.jobCreated', { jobId: returnedJobId }));
 
-    const pollResult = await pollJobUntilFinished(ip, returnedJobId);
+    const pollResult = await pollJobUntilFinished(returnedJobId);
     if (pollResult.success) {
       status.value = 'Success';
       appendLog(t('plugins.pins.logs.pluginActionSuccess', { packageName }));
@@ -791,15 +734,7 @@ async function checkUpdates() {
 
   isCheckingUpdates.value = true;
   try {
-    const directAxios = axios.create({ headers: {} });
-    const response = await directAxios.get(`http://${ip}:${PORT}/updates/check`, {
-      headers: {
-        Authorization: `Bearer ${TOKEN}`,
-      },
-      timeout: 10000,
-    });
-
-    updatesCheckResult.value = response.data || null;
+    updatesCheckResult.value = (await apiPinsService.getPinsUpdatesCheck()) || null;
   } catch (error) {
     console.error(error);
     appendLog(t('plugins.pins.logs.updateCheckFailed', { message: error.message }));
@@ -973,16 +908,10 @@ async function checkSambaStatus() {
   if (!ip) return;
 
   try {
-    const directAxios = axios.create({ headers: {} });
-    const response = await directAxios.get(`http://${ip}:${PORT}/samba`, {
-      headers: {
-        Authorization: `Bearer ${TOKEN}`,
-      },
-      timeout: 5000,
-    });
+    const response = await apiPinsService.getPinsSambaStatus();
 
-    if (response.data && typeof response.data.enabled !== 'undefined') {
-      sambaEnabled.value = response.data.enabled;
+    if (response && typeof response.enabled !== 'undefined') {
+      sambaEnabled.value = response.enabled;
     }
   } catch (error) {
     console.error('Failed to check Samba status:', error);
@@ -994,20 +923,14 @@ async function checkPhd2Status() {
   if (!ip) return;
 
   try {
-    const directAxios = axios.create({ headers: {} });
-    const response = await directAxios.get(`http://${ip}:${PORT}/phd2`, {
-      headers: {
-        Authorization: `Bearer ${TOKEN}`,
-      },
-      timeout: 5000,
-    });
+    const response = await apiPinsService.getPinsPhd2Status();
 
-    if (response.data) {
-      if (typeof response.data.enabled !== 'undefined') {
-        phd2Enabled.value = response.data.enabled;
+    if (response) {
+      if (typeof response.enabled !== 'undefined') {
+        phd2Enabled.value = response.enabled;
       }
-      if (typeof response.data.running !== 'undefined') {
-        phd2Running.value = response.data.running;
+      if (typeof response.running !== 'undefined') {
+        phd2Running.value = response.running;
       }
     }
   } catch (error) {
@@ -1021,14 +944,8 @@ async function loadDhcpClients() {
 
   isDhcpClientsLoading.value = true;
   try {
-    const directAxios = axios.create({ headers: {} });
-    const response = await directAxios.get(`http://${ip}:${PORT}/wifi/clients`, {
-      headers: {
-        Authorization: `Bearer ${TOKEN}`,
-      },
-      timeout: 5000,
-    });
-    dhcpClients.value = response.data?.clients || [];
+    const response = await apiPinsService.getPinsDhcpClients();
+    dhcpClients.value = response?.clients || [];
   } catch (error) {
     console.error('Failed to load DHCP clients:', error);
     dhcpClients.value = [];
@@ -1061,21 +978,8 @@ async function handlePhd2Toggle(newValue) {
   );
 
   try {
-    const directAxios = axios.create({ headers: {} });
-    const response = await directAxios.post(
-      `http://${ip}:${PORT}/phd2`,
-      { enable: newValue },
-      {
-        headers: {
-          Authorization: `Bearer ${TOKEN}`,
-          'Content-Type': 'application/json',
-        },
-        timeout: 10000, // Increased timeout for systemctl
-      }
-    );
-
     // Check for Job ID pattern just in case
-    const data = response.data;
+    const data = await apiPinsService.setPinsPhd2Status(newValue);
     let returnedJobId;
 
     if (data && typeof data === 'object' && data.jobId) {
@@ -1147,15 +1051,7 @@ async function scanWifi() {
   wifiList.value = [];
 
   try {
-    const directAxios = axios.create({ headers: {} });
-    const response = await directAxios.get(`http://${ip}:${PORT}/wifi/scan`, {
-      headers: {
-        Authorization: `Bearer ${TOKEN}`,
-      },
-      timeout: 15000,
-    });
-
-    let networks = response.data || [];
+    const networks = (await apiPinsService.scanPinsWifi()) || [];
     // Deduplicate by SSID and filter empty SSIDs
     const seen = new Set();
     wifiList.value = networks
@@ -1195,27 +1091,14 @@ async function connectWifi() {
   }
 
   try {
-    const directAxios = axios.create({ headers: {} });
-    const response = await directAxios.post(
-      `http://${ip}:${PORT}/wifi/connect`,
-      {
-        ssid: selectedSsid.value,
-        password: wifiPassword.value,
-        auto_connect: autoConnect.value,
-        band: selectedBand.value === 'auto' ? null : selectedBand.value,
-        client_interface: selectedClientInterface.value || null,
-        hotspot_interface: selectedHotspotInterface.value || null,
-      },
-      {
-        headers: {
-          Authorization: `Bearer ${TOKEN}`,
-          'Content-Type': 'application/json',
-        },
-        timeout: 30000,
-      }
-    );
-
-    const data = response.data;
+    const data = await apiPinsService.connectPinsWifi({
+      ssid: selectedSsid.value,
+      password: wifiPassword.value,
+      auto_connect: autoConnect.value,
+      band: selectedBand.value === 'auto' ? null : selectedBand.value,
+      client_interface: selectedClientInterface.value || null,
+      hotspot_interface: selectedHotspotInterface.value || null,
+    });
     let returnedJobId;
 
     if (data && typeof data === 'object' && data.jobId) {
@@ -1278,15 +1161,7 @@ async function disableWifi() {
   appendLog(t('plugins.pins.logs.wifiDisabling'));
 
   try {
-    const directAxios = axios.create({ headers: {} });
-    const response = await directAxios.post(`http://${ip}:${PORT}/wifi/disable`, null, {
-      headers: {
-        Authorization: `Bearer ${TOKEN}`,
-      },
-      timeout: 30000,
-    });
-
-    const data = response.data;
+    const data = await apiPinsService.disablePinsWifi();
     let returnedJobId;
 
     if (data && typeof data === 'object' && data.jobId) {
@@ -1342,21 +1217,7 @@ async function handleSambaToggle(newValue) {
   appendLog(t('plugins.pins.logs.sambaAction', { action: t(actionKey) }));
 
   try {
-    const directAxios = axios.create({ headers: {} });
-
-    const response = await directAxios.post(
-      `http://${ip}:${PORT}/samba`,
-      { enable: newValue },
-      {
-        headers: {
-          Authorization: `Bearer ${TOKEN}`,
-          'Content-Type': 'application/json',
-        },
-        timeout: 5000,
-      }
-    );
-
-    const data = response.data;
+    const data = await apiPinsService.setPinsSambaStatus(newValue);
     let returnedJobId;
 
     if (data && typeof data === 'object' && data.jobId) {
@@ -1413,25 +1274,7 @@ async function startUpgrade() {
   appendLog(t('plugins.pins.logs.init', { ip }));
 
   try {
-    // Create a clean axios instance to avoid global interceptors
-    const directAxios = axios.create({
-      headers: {}, // Start with empty headers
-    });
-
-    const response = await directAxios.post(
-      `http://${ip}:${PORT}/upgrade`,
-      { dryRun: false },
-      {
-        headers: {
-          Authorization: `Bearer ${TOKEN}`,
-          'Content-Type': 'application/json',
-        },
-        timeout: 5000,
-      }
-    );
-
-    // Flexible handling of job ID
-    const data = response.data;
+    const data = await apiPinsService.startPinsUpgrade({ dryRun: false });
     let returnedJobId;
 
     if (data && typeof data === 'object' && data.jobId) {
@@ -1518,7 +1361,7 @@ function connectWebSocket(ip, id) {
       }
 
       // Non-upgrade operations still use a single final status fetch.
-      checkFinalStatus(ip, id);
+      checkFinalStatus(id);
     };
   } catch (e) {
     appendLog(t('plugins.pins.logs.wsCreationFailed', { message: e.message }));
@@ -1526,18 +1369,10 @@ function connectWebSocket(ip, id) {
   }
 }
 
-async function checkFinalStatus(ip, id) {
+async function checkFinalStatus(id) {
   appendLog(t('plugins.pins.logs.verifyingStatus'));
   try {
-    const directAxios = axios.create();
-    const response = await directAxios.get(`http://${ip}:${PORT}/jobs/${id}`, {
-      headers: {
-        Authorization: `Bearer ${TOKEN}`,
-      },
-      timeout: 5000,
-    });
-
-    const result = response.data;
+    const result = await apiPinsService.getPinsDaemonJob(id);
     if (typeof result === 'object') {
       appendLog(t('plugins.pins.logs.jobReport', { report: JSON.stringify(result, null, 2) }));
 

@@ -112,6 +112,21 @@
               </button>
 
               <button
+                :disabled="!store.isLensControlConnected"
+                class="px-4 py-3 text-sm font-semibold transition-all whitespace-nowrap flex-shrink-0"
+                :class="{
+                  'text-white border-b-2 border-cyan-400': activeTab === 'lenscontrol',
+                  'text-gray-400 hover:text-white':
+                    activeTab !== 'lenscontrol' && store.isLensControlConnected,
+                  'text-gray-600 cursor-not-allowed': !store.isLensControlConnected,
+                }"
+                data-tab="lenscontrol"
+                @click="store.isLensControlConnected && setActiveTab('lenscontrol')"
+              >
+                {{ t('plugins.pinsDevices.settings.lensControl') }}
+              </button>
+
+              <button
                 class="px-4 py-3 text-sm font-semibold whitespace-nowrap flex-shrink-0"
                 :class="
                   activeTab === 'configuration'
@@ -249,6 +264,11 @@
               <PinsDeviceWeatherTab />
             </div>
 
+            <!-- LensControl Tab -->
+            <div v-show="activeTab === 'lenscontrol'">
+              <PinsDeviceLensControlTab />
+            </div>
+
             <!-- Configuration Tab -->
             <div v-show="activeTab === 'configuration'">
               <PinsDeviceConfigurationTab />
@@ -280,6 +300,7 @@ import PinsDeviceUsbPortsTab from './PinsDeviceUsbPortsTab.vue';
 import PinsDeviceDewPortsTab from './PinsDeviceDewPortsTab.vue';
 import PinsDeviceAdjustablePowerTab from './PinsDeviceAdjustablePowerTab.vue';
 import PinsDeviceWeatherTab from './PinsDeviceWeatherTab.vue';
+import PinsDeviceLensControlTab from './PinsDeviceLensControlTab.vue';
 import PinsDeviceConfigurationTab from './PinsDeviceConfigurationTab.vue';
 import { usePinsDeviceStore } from '../store/pinsDevicesStore.js';
 

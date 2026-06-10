@@ -284,7 +284,29 @@
         "ASTAPLocation": "Розташування ASTAP",
         "Filter": "Фільтр для Plate Solving",
         "FilterCurrent": "Поточний",
-        "FilterHint": "Фільтр, що використовується під час plate solving (замінює поточний фільтр)"
+        "FilterHint": "Фільтр, що використовується під час plate solving (замінює поточний фільтр)",
+        "astapDatabaseAllInstalled": "Усі бази даних зірок ASTAP уже встановлено.",
+        "astapDatabaseDescription": "Встановіть відсутні бази даних зірок ASTAP безпосередньо на свій пристрій PINS.",
+        "astapDatabaseInstall": "встановити",
+        "astapDatabaseInstallFailed": "Помилка встановлення бази даних ASTAP star{exitCode}.",
+        "astapDatabaseInstallSuccess": "Базу даних зірки ASTAP {databaseId} успішно встановлено.",
+        "astapDatabaseInstalling": "Встановлення...",
+        "astapDatabaseJobStarted": "почався",
+        "astapDatabaseJobStartedMessage": "Розпочато встановлення для {databaseId}.",
+        "astapDatabaseJobStatus": "Вакансія {jobId}: {статус}",
+        "astapDatabaseLastChecked": "Остання перевірка: {value}",
+        "astapDatabaseLoadFailed": "Не вдалося завантажити бази даних: {detail}",
+        "astapDatabaseMissingJobId": "Запит на встановлення виконано успішно, але ідентифікатор завдання не повернуто.",
+        "astapDatabaseNoInstallable": "Немає доступних баз даних зірок ASTAP, які можна встановити",
+        "astapDatabaseSelectPlaceholder": "Виберіть базу даних",
+        "astapDatabaseStartFailed": "Не вдалося розпочати встановлення: {detail}",
+        "astapDatabaseStartInstall": "Початок встановлення для {databaseId}...",
+        "astapDatabaseStarting": "Починаючи...",
+        "astapDatabaseStatusCheckFailedRetrying": "Не вдалося перевірити статус: {detail}. \nПовторна спроба...",
+        "astapDatabaseTitle": "База даних ASTAP Star (PINS)",
+        "astapDatabaseUnauthorizedStart": "Неавторизовано під час запуску встановлення бази даних ASTAP star.",
+        "astapDatabaseUnauthorizedStatus": "Неавторизовано під час перевірки статусу встановлення.",
+        "astapDatabaseUnknownError": "Невідома помилка"
       },
       "equipment": {
         "title": "Обладнання",
@@ -767,7 +789,7 @@
           "absolute": "Абсолютна"
         },
         "startGuiding": {
-          "forceCalibrationLabel": ""
+          "forceCalibrationLabel": "Калібрування сили"
         }
       },
       "emptyContainer": "Порожньо — натисніть + для додавання елементів",
@@ -3698,7 +3720,8 @@
         },
         "validation": {
           "passwordRequired": "Пароль повинен містити щонайменше 8 символів"
-        }
+        },
+        "lensControl": "LensControl"
       },
       "config": {
         "title": "Конфігурація",
@@ -3807,6 +3830,22 @@
         "cloudAssessment": "Оцінка хмарності",
         "temperatureStatus": "Стан температури",
         "dewSpread": "Різниця роси (T-Td)"
+      },
+      "lensControl": {
+        "aperture": "Діафрагма",
+        "calibrate": "Відкалібрувати",
+        "calibrating": "Калібрування...",
+        "current": "поточний",
+        "deviceInfo": "Інформація про пристрій",
+        "driver": "Версія SDK",
+        "firmware": "Прошивка",
+        "focalLength": "Фокусна відстань",
+        "lens": "Об'єктив",
+        "position": "Позиція фокусу",
+        "range": "Діапазон",
+        "restart": "Перезапустіть пристрій",
+        "restarting": "Перезапуск...",
+        "set": "встановити"
       }
     },
     "multiImageMonitor": {
@@ -3845,7 +3884,12 @@
         "proxyTitle": "Проксі vs. Прямий",
         "proxyText": "Кожна камера може отримуватися двома способами:",
         "close": "Закрити",
-        "exampleLabels": ["Звичайна IP-камера", "Камера ONVIF", "Камера Axis", "Камера Hikvision"],
+        "exampleLabels": [
+          "Звичайна IP-камера",
+          "Камера ONVIF",
+          "Камера Axis",
+          "Камера Hikvision"
+        ],
         "proxyOptions": [
           "Проксі (за замовчуванням): Зображення отримується сервером NINA та передається в браузер. Потрібно для камер локальної мережі з обліковими даними або обмеженнями CORS. Трохи повільніше при доступі через VPN.",
           "Прямий: Браузер отримує зображення безпосередньо. Швидше для публічних інтернет-камер (напр. публічні allsky-камери). Не підтримує облікові дані в URL в Chrome/Edge."

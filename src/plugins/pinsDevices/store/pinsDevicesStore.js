@@ -6,6 +6,7 @@ export const usePinsDeviceStore = defineStore('pinsDevices', {
     devices: {
       powerBox: 'not connected',
       meteoStation: 'not connected',
+      lensControl: 'not connected',
     },
     powerboxInfo: {
       Name: '',
@@ -93,6 +94,33 @@ export const usePinsDeviceStore = defineStore('pinsDevices', {
       TemperatureOffset: 0,
       HumidityOffset: 0,
     },
+    lensControlInfo: {
+      Name: '',
+      DisplayName: '',
+      Id: '',
+      UniqueId: '',
+      Firmware: '',
+      DriverVersion: '',
+      Connected: false,
+      LensName: '',
+      FocalLength: 0,
+      Position: 0,
+      MaxStep: 0,
+      Aperture: 0,
+      MinAperture: 0,
+      MaxAperture: 0,
+    },
+    lensControlStatus: {
+      Connected: false,
+      LensName: '',
+      FocalLength: 0,
+      Position: 0,
+      MaxStep: 0,
+      IsMoving: false,
+      Aperture: 0,
+      MinAperture: 0,
+      MaxAperture: 0,
+    },
     isWiFiConnecting: false,
     isLoading: false,
     error: null,
@@ -109,8 +137,11 @@ export const usePinsDeviceStore = defineStore('pinsDevices', {
   getters: {
     isPowerboxConnected: (state) => state.devices.powerBox !== 'not connected',
     isMeteostationConnected: (state) => state.devices.meteoStation !== 'not connected',
+    isLensControlConnected: (state) => state.devices.lensControl !== 'not connected',
     isAnyDeviceConnected: (state) =>
-      state.devices.powerBox !== 'not connected' || state.devices.meteoStation !== 'not connected',
+      state.devices.powerBox !== 'not connected' ||
+      state.devices.meteoStation !== 'not connected' ||
+      state.devices.lensControl !== 'not connected',
   },
 
   actions: {
@@ -585,10 +616,13 @@ export const usePinsDeviceStore = defineStore('pinsDevices', {
         await this.fetchBuckPorts();
         await this.fetchPwmPorts();
       }
-      // Always try to fetch MeteoStation info - it will fail gracefully if not connected
       if (this.isMeteostationConnected) {
         await this.fetchMeteoStationInfo();
         await this.fetchMeteoStationStatus();
+      }
+      if (this.isLensControlConnected) {
+        await this.fetchLensControlInfo();
+        await this.fetchLensControlStatus();
       }
     },
 
@@ -614,6 +648,9 @@ export const usePinsDeviceStore = defineStore('pinsDevices', {
       if (this.isMeteostationConnected) {
         await this.fetchMeteoStationStatus();
       }
+      if (this.isLensControlConnected) {
+        await this.fetchLensControlStatus();
+      }
 
       // Then set up interval for ongoing updates
       this.pollingInterval = setInterval(async () => {
@@ -627,6 +664,9 @@ export const usePinsDeviceStore = defineStore('pinsDevices', {
         }
         if (this.isMeteostationConnected) {
           await this.fetchMeteoStationStatus();
+        }
+        if (this.isLensControlConnected) {
+          await this.fetchLensControlStatus();
         }
       }, intervalMs);
     },
@@ -848,6 +888,92 @@ export const usePinsDeviceStore = defineStore('pinsDevices', {
         }
       } catch (error) {
         // Silent fail - device may have disconnected
+      }
+    },
+
+    async fetchLensControlInfo() {
+      try {
+        const response = await apiService.getLensControlInfo();
+        if (response.Success) {
+          this.lensControlInfo = response.Response;
+          this.error = null;
+        }
+      } catch (error) {
+        // Silent fail - device may have disconnected
+      }
+    },
+
+    async fetchLensControlStatus() {
+      try {
+        const response = await apiService.getLensControlStatus();
+        if (response.Success) {
+          this.lensControlStatus = response.Response;
+          this.error = null;
+        }
+      } catch (error) {
+        // Silent fail - device may have disconnected
+      }
+    },
+
+    async moveLensControl(position) {
+      try {
+        const response = await apiService.moveLensControl(position);
+        return response.Success;
+      } catch (error) {
+        console.error('Error moving lenscontrol:', error);
+        this.error = error.message;
+        return false;
+      }
+    },
+
+    async haltLensControl() {
+      try {
+        const response = await apiService.haltLensControl();
+        if (response.Success && response.Response) {
+          this.lensControlStatus.Position = response.Response.Position;
+          this.lensControlStatus.IsMoving = false;
+        }
+        return response.Success;
+      } catch (error) {
+        console.error('Error halting lenscontrol:', error);
+        this.error = error.message;
+        return false;
+      }
+    },
+
+    async setLensControlAperture(aperture) {
+      try {
+        const response = await apiService.setLensControlAperture(aperture);
+        if (response.Success && response.Response) {
+          this.lensControlStatus.Aperture = response.Response.Aperture;
+        }
+        return response.Success;
+      } catch (error) {
+        console.error('Error setting lenscontrol aperture:', error);
+        this.error = error.message;
+        return false;
+      }
+    },
+
+    async calibrateLensControl() {
+      try {
+        const response = await apiService.calibrateLensControl();
+        return response.Success;
+      } catch (error) {
+        console.error('Error calibrating lenscontrol:', error);
+        this.error = error.message;
+        return false;
+      }
+    },
+
+    async restartLensControl() {
+      try {
+        const response = await apiService.restartLensControl();
+        return response.Success;
+      } catch (error) {
+        console.error('Error restarting lenscontrol:', error);
+        this.error = error.message;
+        return false;
       }
     },
 

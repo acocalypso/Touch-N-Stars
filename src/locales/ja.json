@@ -44,6 +44,12 @@
       "message_api_version": "APIプラグインのバージョンが古すぎます。アップデートを実行してください。",
       "message_tns": "Touch'N'Stars プラグインが利用できません。NINAの設定を確認してください。",
       "message_tns_version": "Touch'N'Starsプラグインのバージョンが古すぎます。アップデートを実行してください。"
+    },
+    "connection_splash": {
+      "trying": "Trying to connect to instance {instance} at {endpoint} ({elapsed}s elapsed, {remaining}s until this is marked as delayed).",
+      "delayed": "Still trying to connect to instance {instance} at {endpoint} ({elapsed}s elapsed). Open Settings to verify your Touch-N-Stars instance.",
+      "configured_instance": "configured instance",
+      "default_instance_name": "selected instance"
     }
   },
   "whatsnew": {

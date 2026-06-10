@@ -44,6 +44,12 @@
       "message_api_version": "API 插件版本过旧。请进行更新",
       "message_tns": "TouchNStars 插件不可用。请检查 NINA 中的设置",
       "message_tns_version": "Touch N Stars 插件版本过于陈旧。请进行更新"
+    },
+    "connection_splash": {
+      "trying": "Trying to connect to instance {instance} at {endpoint} ({elapsed}s elapsed, {remaining}s until this is marked as delayed).",
+      "delayed": "Still trying to connect to instance {instance} at {endpoint} ({elapsed}s elapsed). Open Settings to verify your Touch-N-Stars instance.",
+      "configured_instance": "configured instance",
+      "default_instance_name": "selected instance"
     }
   },
   "whatsnew": {

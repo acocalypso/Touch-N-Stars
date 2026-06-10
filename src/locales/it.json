@@ -44,6 +44,12 @@
       "message_api_version": "Il plugin API è troppo vecchio. Si prega di eseguire un aggiornamento",
       "message_tns": "Il plugin TouchNStars non è disponibile. Si prega di controllare le impostazioni in NINA",
       "message_tns_version": "Il plugin Touch N Stars è troppo vecchio. Si prega di eseguire un aggiornamento"
+    },
+    "connection_splash": {
+      "trying": "Trying to connect to instance {instance} at {endpoint} ({elapsed}s elapsed, {remaining}s until this is marked as delayed).",
+      "delayed": "Still trying to connect to instance {instance} at {endpoint} ({elapsed}s elapsed). Open Settings to verify your Touch-N-Stars instance.",
+      "configured_instance": "configured instance",
+      "default_instance_name": "selected instance"
     }
   },
   "whatsnew": {

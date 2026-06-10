@@ -9,8 +9,8 @@ android {
     defaultConfig {
         applicationId "com.TouchNStars.dev"  // Must match package in MainActivity.java
         minSdkVersion 29  // Android 10
-        versionCode 50
-        versionName "4.4.0"
+        versionCode 51
+        versionName "4.8.0"
         targetSdkVersion 35
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {
@@ -50,7 +50,7 @@ dependencies {
     implementation "androidx.core:core-splashscreen:$coreSplashScreenVersion"
     implementation project(':capacitor-android')
     implementation 'com.squareup.okhttp3:okhttp:5.3.2'
-    implementation 'com.squareup.okio:okio:3.16.4'
+    implementation 'com.squareup.okio:okio:3.17.0'
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"

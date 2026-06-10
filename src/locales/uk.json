@@ -44,6 +44,12 @@
       "message_api_version": "Плагін API застарілий. Будь ласка, оновіть його",
       "message_tns": "Плагін Touch'N'Stars недоступний. Перевірте налаштування в NINA",
       "message_tns_version": "Плагін Touch N Stars застарілий. Будь ласка, оновіть його"
+    },
+    "connection_splash": {
+      "trying": "Trying to connect to instance {instance} at {endpoint} ({elapsed}s elapsed, {remaining}s until this is marked as delayed).",
+      "delayed": "Still trying to connect to instance {instance} at {endpoint} ({elapsed}s elapsed). Open Settings to verify your Touch-N-Stars instance.",
+      "configured_instance": "configured instance",
+      "default_instance_name": "selected instance"
     }
   },
   "whatsnew": {

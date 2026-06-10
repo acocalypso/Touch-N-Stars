@@ -120,7 +120,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { usePinsDeviceStore } from '../store/pinsDevicesStore.js';
 
@@ -128,6 +128,14 @@ const { t } = useI18n();
 const store = usePinsDeviceStore();
 
 const targetAperture = ref(store.lensControlStatus.Aperture);
+
+// Mit dem Store synchron halten, da lensControlStatus asynchron (Polling) nachgeladen wird
+watch(
+  () => store.lensControlStatus.Aperture,
+  (newVal) => {
+    targetAperture.value = newVal;
+  }
+);
 const isSettingAperture = ref(false);
 const isCalibrating = ref(false);
 const isRestarting = ref(false);

@@ -38,6 +38,7 @@
       <SetPlateSolverFilterPins
         v-if="store.profileInfo?.FilterWheelSettings?.FilterWheelFilters?.length"
       />
+      <SetPlateSolverAstapDatabasePins v-if="store.isPINS" />
     </div>
 
     <!-- Search Settings Container -->
@@ -107,6 +108,7 @@ import { apiStore } from '@/store/store';
 import SettingInput from '@/components/helpers/settings/UpdatePorfileNumber.vue';
 import setPlateSolverBlindFailover from './SetPlateSolverBlindFailover.vue';
 import SetPlateSolverFilterPins from './SetPlateSolverFilterPins.vue';
+import SetPlateSolverAstapDatabasePins from './SetPlateSolverAstapDatabasePins.vue';
 import apiService from '@/services/apiService';
 
 const store = apiStore();

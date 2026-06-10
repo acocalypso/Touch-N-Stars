@@ -351,7 +351,29 @@
         "ASTAPLocation": "ASTAP の場所",
         "Filter": "プレートソルビング用フィルター",
         "FilterCurrent": "現在",
-        "FilterHint": "プレートソルビング中に使用するフィルター（現在のフィルターを上書き）"
+        "FilterHint": "プレートソルビング中に使用するフィルター（現在のフィルターを上書き）",
+        "astapDatabaseAllInstalled": "すべての ASTAP スター データベースはすでにインストールされています。",
+        "astapDatabaseDescription": "不足している ASTAP スター データベースを PINS デバイスに直接インストールします。",
+        "astapDatabaseInstall": "インストール",
+        "astapDatabaseInstallFailed": "ASTAP スター データベースのインストールに失敗しました {exitCode}。",
+        "astapDatabaseInstallSuccess": "ASTAP スター データベース {databaseId} が正常にインストールされました。",
+        "astapDatabaseInstalling": "インストール中...",
+        "astapDatabaseJobStarted": "始めました",
+        "astapDatabaseJobStartedMessage": "{databaseId} のインストール ジョブが開始されました。",
+        "astapDatabaseJobStatus": "ジョブ {jobId}: {ステータス}",
+        "astapDatabaseLastChecked": "最終チェック: {値}",
+        "astapDatabaseLoadFailed": "データベースのロードに失敗しました: {detail}",
+        "astapDatabaseMissingJobId": "インストール要求は成功しましたが、jobId が返されませんでした。",
+        "astapDatabaseNoInstallable": "インストール可能な ASTAP スター データベースがありません",
+        "astapDatabaseSelectPlaceholder": "データベースを選択してください",
+        "astapDatabaseStartFailed": "インストールを開始できませんでした: {detail}",
+        "astapDatabaseStartInstall": "{databaseId} のインストールを開始しています...",
+        "astapDatabaseStarting": "起動...",
+        "astapDatabaseStatusCheckFailedRetrying": "ステータスチェックに失敗しました: {detail}。\n再試行中...",
+        "astapDatabaseTitle": "ASTAP星系データベース(PINS)",
+        "astapDatabaseUnauthorizedStart": "ASTAP スター データベースのインストールの開始中に権限がありません。",
+        "astapDatabaseUnauthorizedStatus": "インストール状況の確認中に不正です。",
+        "astapDatabaseUnknownError": "不明なエラー"
       },
       "equipment": {
         "title": "機器",
@@ -795,7 +817,7 @@
           "absolute": "絶対"
         },
         "startGuiding": {
-          "forceCalibrationLabel": ""
+          "forceCalibrationLabel": "力の校正"
         }
       },
       "emptyContainer": "空です — + をクリックしてアイテムを追加",
@@ -2352,7 +2374,12 @@
         "title": "スナップショットURLのヘルプ",
         "what": "スナップショットURLは、IPカメラの単一画像への直接リンクです。このURLはJPEGまたはPNG画像を直接返す必要があります（HTMLページやビデオストリームは不可）。",
         "examplesTitle": "例",
-        "exampleLabels": ["汎用IPカメラ", "ONVIFカメラ", "軸カメラ", "ハイクビジョンカメラ"],
+        "exampleLabels": [
+          "汎用IPカメラ",
+          "ONVIFカメラ",
+          "軸カメラ",
+          "ハイクビジョンカメラ"
+        ],
         "credentialsTitle": "パスワード保護されたカメラ",
         "credentials": "カメラにユーザー名とパスワードが必要な場合は、URLに認証情報を直接含めてください：",
         "credentialsNote": "バックエンドプロキシが認証を自動的に処理します。URLの認証情報はBasic認証とDigest認証（例：Hikvision）の両方で動作します。",
@@ -2946,7 +2973,8 @@
         },
         "validation": {
           "passwordRequired": "パスワードは最低8文字必要です"
-        }
+        },
+        "lensControl": "レンズコントロール"
       },
       "config": {
         "title": "設定",
@@ -3055,6 +3083,22 @@
         "cloudAssessment": "雲量評価",
         "temperatureStatus": "温度ステータス",
         "dewSpread": "露点スプレッド（T-Td）"
+      },
+      "lensControl": {
+        "aperture": "絞り",
+        "calibrate": "校正する",
+        "calibrating": "校正中...",
+        "current": "現在",
+        "deviceInfo": "デバイス情報",
+        "driver": "SDKのバージョン",
+        "firmware": "ファームウェア",
+        "focalLength": "焦点距離",
+        "lens": "レンズ",
+        "position": "フォーカス位置",
+        "range": "範囲",
+        "restart": "デバイスを再起動します",
+        "restarting": "再起動中...",
+        "set": "セット"
       }
     },
     "shortcuts": {

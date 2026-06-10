@@ -559,6 +559,238 @@ export default {
     return this._simpleGetRequest(`${API_URL}phd2/dark-library/build-status`);
   },
 
+  //-------------------PINS Daemon ASTAP------------------------
+
+  getAstapStarDatabases({ onlyNotInstalled = true, q } = {}) {
+    const { PINSDAEMON_URL } = getUrls();
+    const params = {
+      onlyNotInstalled,
+      ...(q?.trim() ? { q: q.trim() } : {}),
+    };
+
+    return this._pinsDaemonGetRequest('/packages/astap/stardatabases', {
+      baseUrl: PINSDAEMON_URL,
+      params,
+      timeout: 15000,
+    });
+  },
+
+  installAstapStarDatabase(databaseId) {
+    const { PINSDAEMON_URL } = getUrls();
+    return this._pinsDaemonPostRequest(
+      '/packages/astap/stardatabases/install',
+      {
+        databaseId,
+      },
+      {
+        baseUrl: PINSDAEMON_URL,
+        timeout: 30000,
+      }
+    );
+  },
+
+  getPinsDaemonJob(jobId) {
+    const { PINSDAEMON_URL } = getUrls();
+    return this._pinsDaemonGetRequest(`/jobs/${jobId}`, {
+      baseUrl: PINSDAEMON_URL,
+      timeout: 8000,
+    });
+  },
+
+  getPinsDaemonLatestJob() {
+    const { PINSDAEMON_URL } = getUrls();
+    return this._pinsDaemonGetRequest('/jobs/latest', {
+      baseUrl: PINSDAEMON_URL,
+      timeout: 8000,
+    });
+  },
+
+  getPinsIndi3rdpartyPackages({ onlyNotInstalled = true, q } = {}) {
+    const { PINSDAEMON_URL } = getUrls();
+    const params = {
+      onlyNotInstalled,
+      ...(q?.trim() ? { q: q.trim() } : {}),
+    };
+
+    return this._pinsDaemonGetRequest('/packages/indi3rdparty', {
+      baseUrl: PINSDAEMON_URL,
+      params,
+      timeout: 15000,
+    });
+  },
+
+  installPinsIndi3rdparty(payload) {
+    const { PINSDAEMON_URL } = getUrls();
+    return this._pinsDaemonPostRequest('/packages/indi3rdparty/install', payload, {
+      baseUrl: PINSDAEMON_URL,
+      timeout: 30000,
+    });
+  },
+
+  getPinsPlugins() {
+    const { PINSDAEMON_URL } = getUrls();
+    return this._pinsDaemonGetRequest('/plugins', {
+      baseUrl: PINSDAEMON_URL,
+      timeout: 15000,
+    });
+  },
+
+  runPinsPluginAction(action, packageName) {
+    const normalizedAction = String(action || '').toLowerCase();
+    if (normalizedAction !== 'install' && normalizedAction !== 'uninstall') {
+      throw new Error(`Unsupported plugin action: ${action}`);
+    }
+
+    const { PINSDAEMON_URL } = getUrls();
+    return this._pinsDaemonPostRequest(
+      `/plugins/${normalizedAction}`,
+      { packageName },
+      {
+        baseUrl: PINSDAEMON_URL,
+        timeout: 15000,
+      }
+    );
+  },
+
+  getPinsUpdatesCheck() {
+    const { PINSDAEMON_URL } = getUrls();
+    return this._pinsDaemonGetRequest('/updates/check', {
+      baseUrl: PINSDAEMON_URL,
+      timeout: 10000,
+    });
+  },
+
+  getPinsSambaStatus() {
+    const { PINSDAEMON_URL } = getUrls();
+    return this._pinsDaemonGetRequest('/samba', {
+      baseUrl: PINSDAEMON_URL,
+      timeout: 5000,
+    });
+  },
+
+  setPinsSambaStatus(enable) {
+    const { PINSDAEMON_URL } = getUrls();
+    return this._pinsDaemonPostRequest(
+      '/samba',
+      { enable },
+      {
+        baseUrl: PINSDAEMON_URL,
+        timeout: 5000,
+      }
+    );
+  },
+
+  getPinsPhd2Status() {
+    const { PINSDAEMON_URL } = getUrls();
+    return this._pinsDaemonGetRequest('/phd2', {
+      baseUrl: PINSDAEMON_URL,
+      timeout: 5000,
+    });
+  },
+
+  setPinsPhd2Status(enable) {
+    const { PINSDAEMON_URL } = getUrls();
+    return this._pinsDaemonPostRequest(
+      '/phd2',
+      { enable },
+      {
+        baseUrl: PINSDAEMON_URL,
+        timeout: 10000,
+      }
+    );
+  },
+
+  getPinsDhcpClients() {
+    const { PINSDAEMON_URL } = getUrls();
+    return this._pinsDaemonGetRequest('/wifi/clients', {
+      baseUrl: PINSDAEMON_URL,
+      timeout: 5000,
+    });
+  },
+
+  scanPinsWifi() {
+    const { PINSDAEMON_URL } = getUrls();
+    return this._pinsDaemonGetRequest('/wifi/scan', {
+      baseUrl: PINSDAEMON_URL,
+      timeout: 15000,
+    });
+  },
+
+  connectPinsWifi(payload) {
+    const { PINSDAEMON_URL } = getUrls();
+    return this._pinsDaemonPostRequest('/wifi/connect', payload, {
+      baseUrl: PINSDAEMON_URL,
+      timeout: 30000,
+    });
+  },
+
+  disablePinsWifi() {
+    const { PINSDAEMON_URL } = getUrls();
+    return this._pinsDaemonPostRequest('/wifi/disable', null, {
+      baseUrl: PINSDAEMON_URL,
+      timeout: 30000,
+    });
+  },
+
+  startPinsUpgrade({ dryRun = false } = {}) {
+    const { PINSDAEMON_URL } = getUrls();
+    return this._pinsDaemonPostRequest(
+      '/upgrade',
+      { dryRun },
+      {
+        baseUrl: PINSDAEMON_URL,
+        timeout: 5000,
+      }
+    );
+  },
+
+  getPinsWifiAdapters() {
+    const { PINSDAEMON_URL } = getUrls();
+    return this._pinsDaemonGetRequest('/wifi/adapters', {
+      baseUrl: PINSDAEMON_URL,
+      timeout: 10000,
+    });
+  },
+
+  getPinsWifiInterfaces() {
+    const { PINSDAEMON_URL } = getUrls();
+    return this._pinsDaemonGetRequest('/wifi/interfaces', {
+      baseUrl: PINSDAEMON_URL,
+      timeout: 10000,
+    });
+  },
+
+  setPinsWifiInterfaces({ clientInterface = null, hotspotInterface = null } = {}) {
+    const { PINSDAEMON_URL } = getUrls();
+    return this._pinsDaemonPostRequest(
+      '/wifi/interfaces',
+      {
+        client_interface: clientInterface,
+        hotspot_interface: hotspotInterface,
+      },
+      {
+        baseUrl: PINSDAEMON_URL,
+        timeout: 10000,
+      }
+    );
+  },
+
+  getPinsHotspotSettings() {
+    const { PINSDAEMON_URL } = getUrls();
+    return this._pinsDaemonGetRequest('/wifi/hotspot/settings', {
+      baseUrl: PINSDAEMON_URL,
+      timeout: 8000,
+    });
+  },
+
+  setPinsHotspotSettings(payload) {
+    const { PINSDAEMON_URL } = getUrls();
+    return this._pinsDaemonPostRequest('/wifi/hotspot/settings', payload, {
+      baseUrl: PINSDAEMON_URL,
+      timeout: 30000,
+    });
+  },
+
   // Private method for simple GET requests
   _simpleGetRequest(url) {
     return axios
@@ -593,6 +825,36 @@ export default {
   _simpleDeleteRequest(url) {
     return axios
       .delete(url)
+      .then((response) => response.data)
+      .catch((error) => {
+        throw error;
+      });
+  },
+
+  _pinsDaemonGetRequest(path, { baseUrl, params, timeout = 10000 } = {}) {
+    return axios
+      .get(`${baseUrl}${path}`, {
+        headers: {
+          Authorization: `Bearer ${PINS_TOKEN}`,
+        },
+        params,
+        timeout,
+      })
+      .then((response) => response.data)
+      .catch((error) => {
+        throw error;
+      });
+  },
+
+  _pinsDaemonPostRequest(path, data, { baseUrl, timeout = 10000 } = {}) {
+    return axios
+      .post(`${baseUrl}${path}`, data, {
+        headers: {
+          Authorization: `Bearer ${PINS_TOKEN}`,
+          'Content-Type': 'application/json',
+        },
+        timeout,
+      })
       .then((response) => response.data)
       .catch((error) => {
         throw error;

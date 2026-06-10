@@ -50,7 +50,7 @@ dependencies {
     implementation "androidx.core:core-splashscreen:$coreSplashScreenVersion"
     implementation project(':capacitor-android')
     implementation 'com.squareup.okhttp3:okhttp:5.3.2'
-    implementation 'com.squareup.okio:okio:3.16.4'
+    implementation 'com.squareup.okio:okio:3.17.0'
     testImplementation "junit:junit:$junitVersion"
     androidTestImplementation "androidx.test.ext:junit:$androidxJunitVersion"
     androidTestImplementation "androidx.test.espresso:espresso-core:$androidxEspressoCoreVersion"

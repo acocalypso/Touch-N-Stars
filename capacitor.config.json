@@ -7,13 +7,21 @@
     "androidScheme": "http"
   },
   "plugins": {
+    "SystemBars": {
+      "insetsHandling": "disable"
+    },
     "StatusBar": {
       "overlaysWebView": false,
       "style": "DARK",
       "backgroundColor": "#1F2937"
     },
+    "Keyboard": {
+      "resizeOnFullScreen": false
+    },
     "EdgeToEdge": {
-      "backgroundColor": "#1F2937"
+      "backgroundColor": "#1F2937",
+      "statusBarColor": "#1F2937",
+      "navigationBarColor": "#1F2937"
     },
     "CapacitorUpdater": {
       "autoUpdate": false,

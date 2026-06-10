@@ -40,7 +40,7 @@ const getBaseUrl = () => {
   const apiPort = store.apiPort;
 
   //devport auf 5000 umleiten
-  const isDev = process.env.NODE_ENV === 'development';
+  const isDev = import.meta.env.DEV;
   if (isDev && port == 8080) {
     port = 5000;
   }
@@ -163,8 +163,8 @@ const apiService = {
         console.warn(`fetchPinsVersion: Timeout nach ${timeout} ms`);
         return null;
       }
-      if (err.response) {
-        // HTTP response received (e.g. 404) — backend is up but no PINS endpoint
+      if (err.response?.status === 404) {
+        // 404 = Backend erreichbar, kein PINS-Endpoint (Standard-NINA)
         return {};
       }
       // No response at all — backend not reachable
@@ -401,10 +401,11 @@ const apiService = {
     }
   },
 
-  async getPhd2CurrentImage() {
+  async getPhd2CurrentImage(gamma) {
     try {
       const { API_URL } = getUrls();
-      const response = await axios.get(`${API_URL}phd2/current-image`, {
+      const params = gamma !== undefined ? `?gamma=${gamma}` : '';
+      const response = await axios.get(`${API_URL}phd2/current-image${params}`, {
         responseType: 'blob',
       });
       return URL.createObjectURL(response.data);
@@ -984,6 +985,24 @@ const apiService = {
     }
   },
 
+  async getMountGuideRate() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}equipment/mount/guiderate`);
+  },
+
+  async setMountGuideRate(raSiderealMultiplier, decSiderealMultiplier) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.put(`${API_URL}equipment/mount/guiderate`, {
+        raSiderealMultiplier,
+        decSiderealMultiplier,
+      });
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
   //-------------------------------------  profile ---------------------------------------
   profileAction(action) {
     const { BASE_URL } = getUrls();
@@ -1000,7 +1019,7 @@ const apiService = {
           newValue,
         },
       });
-      //console.log(response.data);
+      console.log('[profileChangeValue]', settingpath, newValue);
       return response.data;
     } catch (error) {
       // console.error('Error switch profil:', error);
@@ -1287,6 +1306,28 @@ const apiService = {
     const { Azimuths, Altitudes } = response.data.Response;
     if (!Azimuths || !Altitudes || Azimuths.length === 0) return [];
     return Azimuths.map((az, i) => ({ az, alt: Altitudes[i] }));
+  },
+
+  async createStellariumLandscape(formData) {
+    try {
+      const { PLUGINSERVER_URL } = getUrls();
+      const response = await axios.post(
+        `${PLUGINSERVER_URL}/api/stellarium/landscape/create`,
+        formData,
+        {
+          responseType: 'blob',
+        }
+      );
+      return response.data;
+    } catch (error) {
+      throw error;
+    }
+  },
+
+  async listStellariumLandscapes() {
+    const { PLUGINSERVER_URL } = getUrls();
+    const response = await axios.get(`${PLUGINSERVER_URL}/api/stellarium/landscape/list`);
+    return response.data;
   },
 
   //-------------------------------------  application ---------------------------------------
@@ -3071,6 +3112,91 @@ const apiService = {
     }
   },
 
+  async getLensControlInfo() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}pins/lenscontrol`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching lenscontrol info:', error);
+      throw error;
+    }
+  },
+
+  async getLensControlStatus() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}pins/lenscontrol/status`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching lenscontrol status:', error);
+      throw error;
+    }
+  },
+
+  async moveLensControl(position) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.put(
+        `${API_URL}pins/lenscontrol/move`,
+        {},
+        { params: { position } }
+      );
+      return response.data;
+    } catch (error) {
+      console.error('Error moving lenscontrol:', error);
+      throw error;
+    }
+  },
+
+  async haltLensControl() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.put(`${API_URL}pins/lenscontrol/halt`, {});
+      return response.data;
+    } catch (error) {
+      console.error('Error halting lenscontrol:', error);
+      throw error;
+    }
+  },
+
+  async setLensControlAperture(aperture) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.put(
+        `${API_URL}pins/lenscontrol/set-aperture`,
+        {},
+        { params: { aperture } }
+      );
+      return response.data;
+    } catch (error) {
+      console.error('Error setting lenscontrol aperture:', error);
+      throw error;
+    }
+  },
+
+  async calibrateLensControl() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.post(`${API_URL}pins/lenscontrol/calibrate`, {});
+      return response.data;
+    } catch (error) {
+      console.error('Error calibrating lenscontrol:', error);
+      throw error;
+    }
+  },
+
+  async restartLensControl() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.post(`${API_URL}pins/lenscontrol/restart`, {});
+      return response.data;
+    } catch (error) {
+      console.error('Error restarting lenscontrol:', error);
+      throw error;
+    }
+  },
+
   // --------------------------------- HocusFocus Plugin ---------------------------------
   hocusfocus: {
     async listAutoFocusSessions() {
@@ -3636,6 +3762,19 @@ const apiService = {
       return response.data;
     } catch (error) {
       console.error('Error getting TenMicron alignment model:', error);
+      throw error;
+    }
+  },
+
+  async tenMicronRefreshAlignmentModel(timeout = 60000) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.post(`${API_URL}tenmicron/refresh-alignment-model`, null, {
+        timeout,
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error refreshing TenMicron alignment model:', error);
       throw error;
     }
   },

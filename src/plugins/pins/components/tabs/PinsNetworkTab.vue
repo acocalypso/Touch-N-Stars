@@ -16,6 +16,13 @@
       :selected-hotspot-interface="selectedHotspotInterface"
       :hotspot-configured="hotspotConfigured"
       :hotspot-password="hotspotPassword"
+      :hotspot-band="hotspotBand"
+      :hotspot-channel="hotspotChannel"
+      :hotspot-source="hotspotSource"
+      :hotspot-interface="hotspotInterface"
+      :supported-channels="supportedChannels"
+      :hotspot-save-result="hotspotSaveResult"
+      :hotspot-can-save-with-session-password="hotspotCanSaveWithSessionPassword"
       :hotspot-loading="hotspotLoading"
       :hotspot-saving="hotspotSaving"
       :disabled="disabled"
@@ -32,6 +39,8 @@
       @update:selected-client-interface="$emit('update:selected-client-interface', $event)"
       @update:selected-hotspot-interface="$emit('update:selected-hotspot-interface', $event)"
       @update:hotspot-password="$emit('update:hotspot-password', $event)"
+      @update:hotspot-band="$emit('update:hotspot-band', $event)"
+      @update:hotspot-channel="$emit('update:hotspot-channel', $event)"
       @load-hotspot="$emit('load-hotspot')"
       @save-hotspot="$emit('save-hotspot')"
     />
@@ -110,6 +119,35 @@ defineProps({
     type: String,
     required: true,
   },
+  hotspotBand: {
+    type: String,
+    required: true,
+  },
+  hotspotChannel: {
+    type: String,
+    required: true,
+  },
+  hotspotSource: {
+    type: String,
+    required: true,
+  },
+  hotspotInterface: {
+    type: String,
+    required: true,
+  },
+  supportedChannels: {
+    type: Object,
+    required: true,
+  },
+  hotspotSaveResult: {
+    type: Object,
+    required: false,
+    default: null,
+  },
+  hotspotCanSaveWithSessionPassword: {
+    type: Boolean,
+    required: true,
+  },
   hotspotLoading: {
     type: Boolean,
     required: true,
@@ -146,6 +184,8 @@ defineEmits([
   'update:selected-client-interface',
   'update:selected-hotspot-interface',
   'update:hotspot-password',
+  'update:hotspot-band',
+  'update:hotspot-channel',
   'load-hotspot',
   'save-hotspot',
   'refresh-dhcp',

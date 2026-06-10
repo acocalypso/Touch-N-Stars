@@ -4,6 +4,7 @@
       v-model="gainValue"
       :label="$t('components.guider.phd2.cameraGain')"
       label-key="components.guider.phd2.cameraGain"
+      :help-message="$t('components.guider.phd2.help.cameraGain')"
       :min="-1"
       :max="10000"
       :step="1"

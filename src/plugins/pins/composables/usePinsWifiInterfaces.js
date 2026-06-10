@@ -1,7 +1,7 @@
 import { ref } from 'vue';
-import axios from 'axios';
+import apiPinsService from '@/services/apiPinsService';
 
-export function usePinsWifiInterfaces({ t, appendLog, getIp, PORT, TOKEN, status }) {
+export function usePinsWifiInterfaces({ t, appendLog, getIp, status }) {
   const wifiAdapters = ref([]);
   const isWifiAdaptersLoading = ref(false);
   const isWifiInterfacesSaving = ref(false);
@@ -42,15 +42,8 @@ export function usePinsWifiInterfaces({ t, appendLog, getIp, PORT, TOKEN, status
 
     isWifiAdaptersLoading.value = true;
     try {
-      const directAxios = axios.create({ headers: {} });
-      const response = await directAxios.get(`http://${ip}:${PORT}/wifi/adapters`, {
-        headers: {
-          Authorization: `Bearer ${TOKEN}`,
-        },
-        timeout: 10000,
-      });
-
-      const adapters = response.data?.adapters || [];
+      const response = await apiPinsService.getPinsWifiAdapters();
+      const adapters = response?.adapters || [];
       wifiAdapters.value = adapters.map(normalizeWifiAdapter).filter(Boolean);
       reconcileSelectedWifiInterfaces();
     } catch (error) {
@@ -66,15 +59,7 @@ export function usePinsWifiInterfaces({ t, appendLog, getIp, PORT, TOKEN, status
     if (!ip) return;
 
     try {
-      const directAxios = axios.create({ headers: {} });
-      const response = await directAxios.get(`http://${ip}:${PORT}/wifi/interfaces`, {
-        headers: {
-          Authorization: `Bearer ${TOKEN}`,
-        },
-        timeout: 10000,
-      });
-
-      const data = response.data || {};
+      const data = (await apiPinsService.getPinsWifiInterfaces()) || {};
       selectedClientInterface.value = data.client_interface || '';
       selectedHotspotInterface.value = data.hotspot_interface || '';
       reconcileSelectedWifiInterfaces();
@@ -100,23 +85,11 @@ export function usePinsWifiInterfaces({ t, appendLog, getIp, PORT, TOKEN, status
 
     isWifiInterfacesSaving.value = true;
     try {
-      const directAxios = axios.create({ headers: {} });
-      const response = await directAxios.post(
-        `http://${ip}:${PORT}/wifi/interfaces`,
-        {
-          client_interface: selectedClientInterface.value || null,
-          hotspot_interface: selectedHotspotInterface.value || null,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${TOKEN}`,
-            'Content-Type': 'application/json',
-          },
-          timeout: 10000,
-        }
-      );
-
-      const data = response.data || {};
+      const data =
+        (await apiPinsService.setPinsWifiInterfaces({
+          clientInterface: selectedClientInterface.value || null,
+          hotspotInterface: selectedHotspotInterface.value || null,
+        })) || {};
       selectedClientInterface.value = data.client_interface || '';
       selectedHotspotInterface.value = data.hotspot_interface || '';
       reconcileSelectedWifiInterfaces();

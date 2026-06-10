@@ -29,7 +29,7 @@
       v-if="isWandererCover"
       :isEnabled="currentPosition !== undefined && !isNaN(currentPosition)"
       :Name="$t('components.flat.settings.currentPosition')"
-      :Value="`${currentPosition.toFixed(1)}°`"
+      :Value="currentPosition !== undefined ? `${currentPosition.toFixed(1)}°` : ''"
     />
   </div>
 </template>

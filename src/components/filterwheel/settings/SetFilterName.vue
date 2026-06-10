@@ -3,7 +3,13 @@
     <label class="text-sm text-gray-200 mr-10 whitespace-nowrap">
       {{ $t('components.filterwheel.settings.FilterWheelFilters.Name') }}
     </label>
-    <input v-model="value" type="text" class="default-input w-full" @change="updateSetting" />
+    <input
+      v-model="value"
+      type="text"
+      class="default-input w-full"
+      @input="sanitizeName"
+      @change="updateSetting"
+    />
   </div>
 </template>
 
@@ -24,6 +30,10 @@ const props = defineProps({
 
 const value = ref('');
 const filterName = ref(props.modelValue);
+
+function sanitizeName(event) {
+  value.value = event.target.value.replace(/[^a-zA-Z0-9äöüÄÖÜß]/g, '');
+}
 
 async function updateSetting() {
   try {

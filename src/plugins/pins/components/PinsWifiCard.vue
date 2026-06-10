@@ -279,13 +279,25 @@
           <h4 class="text-base font-bold text-white">
             {{ $t('plugins.pins.hotspotPasswordTitle') }}
           </h4>
-          <p class="text-gray-400 text-xs">
-            {{
-              hotspotConfigured
-                ? $t('plugins.pins.hotspotConfigured')
-                : $t('plugins.pins.hotspotNotConfigured')
-            }}
-          </p>
+          <div class="text-gray-400 text-xs space-y-1">
+            <p>
+              {{
+                hotspotConfigured
+                  ? $t('plugins.pins.hotspotConfigured')
+                  : $t('plugins.pins.hotspotNotConfigured')
+              }}
+            </p>
+            <p>
+              {{
+                $t('plugins.pins.hotspotMetaLine', {
+                  source: hotspotSource || 'default',
+                  iface: hotspotInterface || 'auto',
+                  band: hotspotBand === 'auto' ? 'unset' : hotspotBand,
+                  channel: hotspotChannel || 'unset',
+                })
+              }}
+            </p>
+          </div>
         </div>
         <button
           class="text-blue-400 hover:text-white transition-colors p-2"
@@ -311,6 +323,60 @@
       </div>
 
       <div class="flex flex-col gap-2">
+        <label class="text-gray-400 text-xs uppercase font-bold">
+          {{ $t('plugins.pins.hotspotBandLabel') }}
+        </label>
+        <select
+          :value="hotspotBand"
+          @change="$emit('update:hotspotBand', $event.target.value)"
+          class="bg-gray-900 border border-gray-600 rounded-lg p-3 text-white focus:border-blue-500 outline-none w-full"
+          :disabled="hotspotSaving || hotspotLoading || disabled"
+        >
+          <option value="auto">{{ $t('plugins.pins.hotspotBandAuto') }}</option>
+          <option value="2.4GHz">{{ $t('plugins.pins.band24') }}</option>
+          <option value="5GHz">{{ $t('plugins.pins.band5') }}</option>
+        </select>
+      </div>
+
+      <div class="flex flex-col gap-2">
+        <label class="text-gray-400 text-xs uppercase font-bold">
+          {{ $t('plugins.pins.hotspotChannelLabel') }}
+        </label>
+        <input
+          :value="hotspotChannel"
+          @input="$emit('update:hotspotChannel', sanitizePositiveInteger($event.target.value))"
+          type="number"
+          min="1"
+          step="1"
+          class="bg-gray-900 border border-gray-600 rounded-lg p-3 text-white focus:border-blue-500 outline-none w-full"
+          :placeholder="$t('plugins.pins.hotspotChannelPlaceholder')"
+          :disabled="hotspotSaving || hotspotLoading || disabled"
+        />
+
+        <div v-if="selectedBandChannels.length" class="flex flex-wrap gap-2">
+          <button
+            v-for="channel in selectedBandChannels"
+            :key="`hotspot-channel-${channel}`"
+            type="button"
+            class="px-3 py-1 rounded-full text-xs border transition-colors"
+            :class="
+              String(channel) === hotspotChannel
+                ? 'bg-blue-600 border-blue-500 text-white'
+                : 'bg-gray-900 border-gray-600 text-gray-300 hover:text-white hover:border-blue-400'
+            "
+            :disabled="hotspotSaving || hotspotLoading || disabled"
+            @click="$emit('update:hotspotChannel', String(channel))"
+          >
+            {{ channel }}
+          </button>
+        </div>
+
+        <p v-if="selectedBandCapabilitiesEmpty" class="text-xs text-amber-300">
+          {{ $t('plugins.pins.hotspotCapabilitiesUnavailable') }}
+        </p>
+      </div>
+
+      <div class="flex flex-col gap-2">
         <label class="text-gray-400 text-xs uppercase font-bold">{{
           $t('plugins.pins.hotspotNewPassword')
         }}</label>
@@ -325,15 +391,36 @@
         <p class="text-xs text-gray-500">{{ $t('plugins.pins.hotspotPasswordHint') }}</p>
       </div>
 
+      <div
+        v-if="hotspotSaveResult"
+        class="rounded-lg border p-3 text-sm"
+        :class="
+          hotspotSaveResult.appliedToActiveHotspot
+            ? 'border-emerald-700 bg-emerald-900/20 text-emerald-200'
+            : 'border-amber-700 bg-amber-900/20 text-amber-200'
+        "
+      >
+        <p class="font-semibold">{{ hotspotSaveResult.message }}</p>
+        <p class="text-xs mt-1">
+          {{
+            $t('plugins.pins.hotspotAppliedStatus', {
+              applied: hotspotSaveResult.appliedToActiveHotspot
+                ? $t('common.yes')
+                : $t('common.no'),
+              band: hotspotSaveResult.band || 'unset',
+              channel:
+                hotspotSaveResult.channel === null ||
+                typeof hotspotSaveResult.channel === 'undefined'
+                  ? 'unset'
+                  : hotspotSaveResult.channel,
+            })
+          }}
+        </p>
+      </div>
+
       <button
         class="w-full py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white font-bold rounded-lg shadow-lg shadow-blue-900/20 transition-all disabled:opacity-50"
-        :disabled="
-          hotspotSaving ||
-          hotspotLoading ||
-          disabled ||
-          !hotspotPassword ||
-          hotspotPassword.length < 8
-        "
+        :disabled="hotspotSaving || hotspotLoading || disabled || !canSaveHotspot"
         @click="$emit('save-hotspot')"
       >
         {{ hotspotSaving ? $t('plugins.pins.hotspotSaving') : $t('plugins.pins.hotspotSave') }}
@@ -343,9 +430,10 @@
 </template>
 
 <script setup>
+import { computed } from 'vue';
 import toggleButton from '@/components/helpers/toggleButton.vue';
 
-defineProps({
+const props = defineProps({
   stationaryMode: {
     type: Boolean,
     required: true,
@@ -406,6 +494,35 @@ defineProps({
     type: String,
     required: true,
   },
+  hotspotBand: {
+    type: String,
+    required: true,
+  },
+  hotspotChannel: {
+    type: String,
+    required: true,
+  },
+  hotspotSource: {
+    type: String,
+    required: true,
+  },
+  hotspotInterface: {
+    type: String,
+    required: true,
+  },
+  supportedChannels: {
+    type: Object,
+    required: true,
+  },
+  hotspotSaveResult: {
+    type: Object,
+    required: false,
+    default: null,
+  },
+  hotspotCanSaveWithSessionPassword: {
+    type: Boolean,
+    required: true,
+  },
   hotspotLoading: {
     type: Boolean,
     required: true,
@@ -434,9 +551,58 @@ defineEmits([
   'update:selectedClientInterface',
   'update:selectedHotspotInterface',
   'update:hotspotPassword',
+  'update:hotspotBand',
+  'update:hotspotChannel',
   'load-hotspot',
   'save-hotspot',
 ]);
+
+const selectedBandChannels = computed(() => {
+  if (props.hotspotBand !== '2.4GHz' && props.hotspotBand !== '5GHz') {
+    return [];
+  }
+
+  const candidates = props.supportedChannels?.[props.hotspotBand];
+  if (!Array.isArray(candidates)) {
+    return [];
+  }
+
+  return candidates
+    .map((value) => Number(value))
+    .filter((value) => Number.isInteger(value) && value > 0);
+});
+
+const selectedBandCapabilitiesEmpty = computed(() => {
+  if (props.hotspotBand !== '2.4GHz' && props.hotspotBand !== '5GHz') {
+    return false;
+  }
+
+  if (!Object.prototype.hasOwnProperty.call(props.supportedChannels || {}, props.hotspotBand)) {
+    return false;
+  }
+
+  return selectedBandChannels.value.length === 0;
+});
+
+const canSaveHotspot = computed(() => {
+  const inlinePassword = String(props.hotspotPassword || '').trim();
+  const passwordValidLength = inlinePassword.length >= 8 && inlinePassword.length <= 63;
+  return passwordValidLength || props.hotspotCanSaveWithSessionPassword;
+});
+
+function sanitizePositiveInteger(value) {
+  const text = String(value ?? '').trim();
+  if (!text) {
+    return '';
+  }
+
+  const asNumber = Number(text);
+  if (!Number.isInteger(asNumber) || asNumber < 1) {
+    return '';
+  }
+
+  return String(asNumber);
+}
 
 function formatAdapterLabel(adapter) {
   if (!adapter || !adapter.interface) {

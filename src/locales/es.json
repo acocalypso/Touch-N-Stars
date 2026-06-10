@@ -304,7 +304,29 @@
         "ASTAPLocation": "Ubicación de ASTAP",
         "Filter": "Filtro para Plate Solving",
         "FilterCurrent": "Actual",
-        "FilterHint": "Filtro utilizado durante el plate solving (anula el filtro actual)"
+        "FilterHint": "Filtro utilizado durante el plate solving (anula el filtro actual)",
+        "astapDatabaseAllInstalled": "Todas las bases de datos estrella de ASTAP ya están instaladas.",
+        "astapDatabaseDescription": "Instale las bases de datos de estrellas ASTAP que faltan directamente en su dispositivo PINS.",
+        "astapDatabaseInstall": "Instalar",
+        "astapDatabaseInstallFailed": "La instalación de la base de datos ASTAP Star falló {exitCode}.",
+        "astapDatabaseInstallSuccess": "La base de datos estrella ASTAP {databaseId} se instaló correctamente.",
+        "astapDatabaseInstalling": "Instalando...",
+        "astapDatabaseJobStarted": "comenzó",
+        "astapDatabaseJobStartedMessage": "Se inició el trabajo de instalación para {databaseId}.",
+        "astapDatabaseJobStatus": "Trabajo {jobId}: {estado}",
+        "astapDatabaseLastChecked": "Última comprobación: {valor}",
+        "astapDatabaseLoadFailed": "No se pudieron cargar las bases de datos: {detalle}",
+        "astapDatabaseMissingJobId": "La solicitud de instalación se realizó correctamente pero no se devolvió ningún ID de trabajo.",
+        "astapDatabaseNoInstallable": "No hay bases de datos de estrellas ASTAP instalables disponibles",
+        "astapDatabaseSelectPlaceholder": "Seleccione una base de datos",
+        "astapDatabaseStartFailed": "No se pudo iniciar la instalación: {detalle}",
+        "astapDatabaseStartInstall": "Iniciando la instalación de {databaseId}....",
+        "astapDatabaseStarting": "A partir de...",
+        "astapDatabaseStatusCheckFailedRetrying": "Error en la verificación de estado: {detalle}. \nReintentando...",
+        "astapDatabaseTitle": "Base de datos de estrellas ASTAP (PINS)",
+        "astapDatabaseUnauthorizedStart": "No autorizado al iniciar la instalación de la base de datos ASTAP Star.",
+        "astapDatabaseUnauthorizedStatus": "No autorizado mientras se verifica el estado de la instalación.",
+        "astapDatabaseUnknownError": "Error desconocido"
       },
       "equipment": {
         "title": "Equipo",
@@ -335,7 +357,10 @@
         "notSupported": "No soportado por el controlador",
         "syncLabel": "Sincronizar la hora a la montura",
         "syncLabelInfo": "Cuando está activado, al hacer clic en \"Sincronizar ahora\" se desconectará y reconectará brevemente la montura para que NINA pueda transferirle la hora actual.",
-        "title": "Sincronización horaria"
+        "title": "Sincronización horaria",
+        "loadError": "No se pudo cargar la información de tiempo.",
+        "syncError": "Error de sincronización horaria. \nVerifique la conexión al dispositivo PINS.",
+        "syncSuccess": "Hora sincronizada exitosamente."
       },
       "navbarCustomization": {
         "alwaysVisible": "Siempre visible",
@@ -409,7 +434,8 @@
         "guideCamRequired": "Se debe seleccionar una cámara guía válida."
       },
       "guiderCam": {
-        "name": "Cámara guía"
+        "name": "Cámara guía",
+        "manualVnc": "Manual mediante VNC"
       },
       "safety": {
         "name": "Monitor de seguridad"
@@ -772,6 +798,9 @@
           "slope": "Pendiente",
           "intercept": "Intersección",
           "absolute": "Absoluto"
+        },
+        "startGuiding": {
+          "forceCalibrationLabel": "Calibración de fuerza"
         }
       },
       "emptyContainer": "Vacío — haga clic en + para añadir elementos",
@@ -945,7 +974,10 @@
         "camera": "Cámara",
         "cameraGain": "Ganancia",
         "cameraBinning": "Binning",
-        "restoreCalibration": "Restaurar calibración",
+        "restoreCalibration": "Restaurar calibración auto.",
+        "mountSettings": "Montura",
+        "guideRate": "Guide Rate",
+        "guideRateReadOnly": "Solo lectura",
         "guiderScale": "Escala del guiador",
         "maxY": "Y máx.",
         "historySize": "Tamaño del historial",
@@ -1048,6 +1080,9 @@
           "buildActive": "Creación de biblioteca en progreso",
           "buildActiveMessage": "Las acciones de PHD2 están bloqueadas hasta que finalice la creación."
         },
+        "imageDisplay": "Visualización de imagen",
+        "imageGamma": "Estiramiento (Gamma)",
+        "imageGammaHint": "Bajo = más estirado, Alto = lineal",
         "reviewCalibration": "Revisar la calibración",
         "starComponents": {
           "hide": "Ocultar componentes de estrella",
@@ -1062,7 +1097,76 @@
         "guideSpeed": "Velocidad de guía",
         "imageScale": "Escala de imagen",
         "optimal": "Óptimo",
-        "pixelSize": "Tamaño de píxel"
+        "pixelSize": "Tamaño de píxel",
+        "assumeDecOrthogonal": "Suponer Dec ortogonal a AR",
+        "useDecCompensation": "Usar compensación de Dec",
+        "fastRecenter": "Recentrado rápido tras calibración o dither",
+        "mountGuideOutput": "Habilitar salida de guiado a la montura",
+        "help": {
+          "fastRecenter": "Durante la calibración o el dither la montura puede alejarse mucho de la posición de bloqueo. Si está activo, PHD2 vuelve lo más rápido posible para ahorrar tiempo: totalmente opcional. Si la calibración falla a menudo porque la estrella vuelve demasiado rápido, desactívalo (suele indicar gran error de alineación o periódico).",
+          "mountGuideOutput": "Permite que PHD2 envíe realmente los comandos de guiado a la montura. Normalmente activado; desactívalo solo para observar el comportamiento no corregido de la montura.",
+          "searchRegion": "Tamaño del rectángulo de seguimiento en píxeles (un radio: 15 equivale a una caja de 30×30). Auméntalo si la montura sigue mal o no está bien alineada al polo; una región demasiado grande puede captar varias estrellas y empeorar el guiado.",
+          "minStarHFD": "Diámetro de flujo medio más pequeño (el «tamaño») que debe tener una estrella para usarse como guía: la mejor forma de evitar que PHD2 se fije en cúmulos de píxeles calientes. El valor ~1,5 sirve para la mayoría; súbelo solo si se rechazan estrellas débiles reales.",
+          "maxStarHFD": "Mayor diámetro de flujo medio permitido para una estrella guía; las manchas hinchadas o desenfocadas por encima se ignoran en la selección.",
+          "massChangeEnabled": "Vigila el brillo y el tamaño de la estrella guía frente al fondo del cielo. Obsoleto: normalmente mejor desactivado; actívalo solo para asegurarte de que PHD2 no cambie a una estrella cercana.",
+          "massChangeThreshold": "Con la detección de masa activada, PHD2 informa de «estrella perdida» si el brillo o el tamaño cambian más que este porcentaje. Auméntalo (o desactiva la detección) si recibes errores frecuentes de «estrella perdida – cambio de masa» con la estrella claramente visible.",
+          "minStarSNR": "SNR mínimo que debe tener una estrella para la selección automática (estrellas no saturadas). Cámbialo solo si tienes experiencia: un valor demasiado alto puede impedir que se seleccione ninguna; refrescar la biblioteca de darks o alargar la exposición suele ser mejor.",
+          "useMultipleStars": "Guía sobre varias estrellas a la vez en lugar de una sola, lo que mejora la estabilidad. No disponible al usar subtramas.",
+          "autoSelectDownsample": "Para casos raros en los que la selección automática falla porque las estrellas se ven deformes. Déjalo en «Auto»; valores superiores a 1 pueden mejorar el reconocimiento.",
+          "saturationByADU": "Cómo detecta PHD2 las estrellas saturadas para evitarlas. «Por valor ADU» usa el brillo que informa el sensor (recomendado); la alternativa juzga la saturación por la forma del perfil y es menos precisa.",
+          "saturationADUValue": "Valor de píxel a partir del cual una estrella se considera saturada (cámaras de 8 bits ≈ 255, de 16 bits ≈ 65535). Si tienes dudas, ajústalo al valor de píxel máximo de tu cámara.",
+          "cameraGain": "Ganancia de la cámara guía como porcentaje del rango de la cámara (p. ej., 50 % equivale a ganancia 60 en una cámara 40–80). Menos ganancia reduce el ruido; normalmente no hace falta cambiarla una vez estabilizado el equipo.",
+          "cameraBinning": "Binning por hardware de las tomas de guiado: aumenta la sensibilidad y acelera la descarga a costa de la resolución. Usa un perfil PHD2 distinto para cada valor de binning.",
+          "focalLength": "Distancia focal del tubo guía en milímetros. Junto con el tamaño de píxel fija la escala de imagen y permite a PHD2 expresar el guiado en segundos de arco, así que ajústala correctamente.",
+          "calibrationStep": "Duración de cada pulso de guiado durante la calibración. Busca un valor que dé de 8 a 14 pasos por dirección y calibra cerca del ecuador celeste (declinación ≈ 0).",
+          "restoreCalibration": "Recarga automáticamente la última calibración al conectar el equipo (útil para monturas ASCOM/INDI o aux-mount). Si la usas, la cámara guía no debe estar girada respecto al tubo o al cielo.",
+          "assumeDecOrthogonal": "Normalmente PHD2 mide los ángulos de cámara para AR y Dec por separado. Fuerza el ángulo de Dec perpendicular a AR para ayudar con un error periódico muy alto, mucho juego en Dec o mal seeing.",
+          "useDecCompensation": "Ajusta automáticamente la velocidad de guiado en AR según la declinación actual (requiere conexión ASCOM/INDI a la montura). Déjalo activado salvo en casos poco habituales. No es lo mismo que la compensación de juego en declinación.",
+          "reverseDecAfterFlip": "Indica a PHD2 cómo ajustar la calibración tras un giro de meridiano. Déjalo desactivado si el guiado es normal tras un flip; actívalo (y recalibra) solo si ves un guiado desbocado en declinación.",
+          "guideAlgorithm": "Selecciona el algoritmo de guiado para este eje. Hysteresis pondera las correcciones recientes frente a la última desviación; ResistSwitch resiste los cambios de dirección (bueno para el juego en Dec); LowPass/LowPass2 son opciones conservadoras para buenas monturas; Predictive PEC (PPEC) modela y corrige por anticipado el error periódico (AR); ZFilter trabaja en el dominio de la frecuencia. Los valores por defecto sirven para la mayoría.",
+          "algo": {
+            "minMove": "Menor desviación de la estrella (en píxeles) que dispara una corrección; los movimientos menores se ignoran para no perseguir el seeing. Es el parámetro más útil de ajustar cada noche según las condiciones.",
+            "maxMove": "Mayor corrección de guiado permitida de una vez (píxeles); limita la sobrerreacción ante un salto grande aislado.",
+            "aggression": "Con qué fuerza se corrige cada error medido, en porcentaje. 100 % aplica la corrección completa; valores menores (p. ej. 60 %) corrigen menos para evitar sobrepasar. Más bajo es más seguro.",
+            "hysteresis": "Peso dado al historial de correcciones recientes frente al fotograma actual, en porcentaje. Valores altos suavizan las correcciones pero reaccionan más despacio ante un cambio real de dirección.",
+            "predictiveWeight": "Predictive PEC: peso de la parte predicha (modelada) de la corrección. Los valores por defecto sirven para la mayoría de monturas; cambios grandes pueden empeorar el guiado.",
+            "reactiveWeight": "Predictive PEC: peso de la parte reactiva, basada en el desplazamiento de la estrella en el último fotograma. Los valores por defecto sirven para la mayoría de monturas.",
+            "slopeWeight": "LowPass: cuánto influye la tendencia reciente (la pendiente) del movimiento de la estrella en la corrección, en porcentaje. Evita que el algoritmo sea demasiado lento; 0 usa solo la mediana del historial reciente.",
+            "expFactor": "ZFilter: el tiempo de exposición virtual es la exposición real × este factor. Valores altos filtran más el seeing (más suave pero más lento); una exposición virtual de ~2–4 s es un buen punto de partida para AR."
+          },
+          "ditherMode": "Cómo calcula PHD2 cada dither. «Aleatorio» elige tamaño y dirección al azar; «Espiral» usa pasos de tamaño fijo en espiral horaria — útil si la cámara de imagen tiene ruido de patrón fijo o la montura tiene un juego en Dec molesto.",
+          "ditherRaOnly": "Dithering solo en el eje AR. Útil cuando el guiado en Dec está desactivado o la montura tiene mucho juego en Dec.",
+          "ditherScale": "Multiplicador aplicado a la cantidad de dither solicitada por la aplicación de captura: auméntalo para dithers mayores, redúcelo para menores.",
+          "backlashEnabled": "Compensa el backlash en DEC añadiendo un pulso adicional cuando la montura invierte la dirección. Útil para monturas con holgura de engranajes notable; déjalo desactivado si la montura guía limpiamente en DEC.",
+          "backlashAmount": "Duración del pulso de corrección adicional (en ms) que PHD2 añade al invertir la dirección en DEC. PHD2 lo ajusta automáticamente entre Mín y Máx.",
+          "backlashMin": "Límite inferior (ms) del pulso de backlash ajustado automáticamente.",
+          "backlashMax": "Límite superior (ms) del pulso de backlash ajustado automáticamente."
+        },
+        "starDetection": "Seguimiento de la estrella guía",
+        "searchRegion": "Región de búsqueda (píxeles)",
+        "minStarHFD": "HFD mínimo de la estrella (píxeles)",
+        "maxStarHFD": "HFD máximo de la estrella (píxeles)",
+        "beepForLostStar": "Pitido al perder la estrella",
+        "starMassDetection": "Detección de masa de estrella",
+        "massChangeEnabled": "Activada",
+        "massChangeThreshold": "Tolerancia",
+        "backlash": {
+          "title": "Compensación de backlash",
+          "enabled": "Activada",
+          "amount": "Cantidad (ms)",
+          "min": "Mín (ms)",
+          "max": "Máx (ms)"
+        },
+        "minStarSNR": "SNR mínimo de la estrella para AutoFind",
+        "autoSelectDownsample": "Submuestreo de los fotogramas de selección",
+        "saturationByADU": "Saturación por ADU",
+        "saturationADUValue": "Valor ADU de saturación",
+        "dither": "Dithering",
+        "ditherMode": "Modo de dither",
+        "ditherRaOnly": "Dither solo en AR",
+        "ditherScale": "Escala de dither",
+        "ditherModeRandom": "Aleatorio",
+        "ditherModeSpiral": "Espiral"
       }
     },
     "focuser": {
@@ -1562,7 +1666,24 @@
         "atmosphere_visible": "Mostrar atmósfera",
         "landscapes_visible": "Mostrar horizonte",
         "dsos_visible": "Objetos de cielo profundo (Messier, NGC)",
-        "title": "Ajustes"
+        "title": "Ajustes",
+        "landscape_source_mode": "Landscape source",
+        "landscape_source_default": "Default landscape (Guereins)",
+        "landscape_source_neutral": "Neutral horizon (Gray)",
+        "landscape_source_custom": "Custom data source",
+        "custom_landscape_url": "Custom source URL",
+        "custom_landscape_url_placeholder": "e.g. /stellarium-data/landscapes/custom",
+        "custom_landscape_key": "Custom source key",
+        "custom_landscape_key_placeholder": "e.g. my-landscape",
+        "available_landscapes": "Paisajes disponibles",
+        "folder_name_label": "nombre de carpeta",
+        "has_allsky": "Allsky",
+        "landscape_list_load_failed": "No se pudieron cargar los paisajes.",
+        "landscape_option_label": "Paisaje: {título}",
+        "no_allsky": "No todo el cielo",
+        "no_landscapes_available": "No hay paisajes disponibles.",
+        "service_url_label": "URL de servicio",
+        "untitled_landscape": "Paisaje sin título"
       }
     },
     "profile": {
@@ -1807,7 +1928,11 @@
         "pluginUninstallStart": "Desinstalación del complemento: {packageName}",
         "pluginsLoadFailed": "No se pudieron cargar los complementos PINS: {message}",
         "pluginsPackageNotAllowed": "Paquete no permitido por la política de API: {packageName}",
-        "pluginsLoadMetadataFailed": "Los complementos PINS no se pudieron cargar porque el repositorio de metadatos de complementos no está disponible actualmente (HTTP 502)."
+        "pluginsLoadMetadataFailed": "Los complementos PINS no se pudieron cargar porque el repositorio de metadatos de complementos no está disponible actualmente (HTTP 502).",
+        "hotspotChannelInvalid": "El canal de hotspot debe ser un número entero positivo cuando se proporciona.",
+        "hotspotFetchFailed": "No se pudo cargar la configuración del punto de acceso: {mensaje}",
+        "hotspotPasswordInvalidLength": "La contraseña del punto de acceso es obligatoria y debe tener entre 8 y 63 caracteres.",
+        "hotspotSaveFailed": "No se pudo guardar la configuración del punto de acceso: {mensaje}"
       },
       "hotspotConfigured": "La contraseña del punto de acceso personalizado está configurada.",
       "hotspotNewPassword": "Nueva contraseña de punto de acceso",
@@ -1893,7 +2018,14 @@
       "indiInstallModalSuccessCompleted": "Instalación completada para {label}.",
       "indiInstallModalSuccessStarted": "La instalación comenzó para {label}.",
       "indiInstallModalTitle": "Instalar el controlador INDI",
-      "indiInstallModalType": "Tipo"
+      "indiInstallModalType": "Tipo",
+      "hotspotAppliedStatus": "Aplicado al punto de acceso activo: {aplicado} | \nBanda: {banda} | \nCanal: {canal}",
+      "hotspotBandAuto": "Automático / Desarmado",
+      "hotspotBandLabel": "Banda de punto de acceso",
+      "hotspotCapabilitiesUnavailable": "Lista de capacidades del adaptador no disponible; \ncanal manual permitido.",
+      "hotspotChannelLabel": "Canal de punto de acceso",
+      "hotspotChannelPlaceholder": "Dejar vacío para auto",
+      "hotspotMetaLine": "Fuente: {fuente} | \nInterfaz: {iface} | \nBanda: {banda} | \nCanal: {canal}"
     },
     "bahtifocus": {
       "title": "Analizador de máscaras de Bahtinov",
@@ -2049,6 +2181,39 @@
         "tokenCopyFailed": "No se pudo copiar token",
         "submissionRemoved": "Envío eliminado",
         "allSubmissionsCleared": "Todos los envíos se eliminaron"
+      },
+      "diagnostics": {
+        "archiveId": "ID de archivo",
+        "autoDownloaded": "El archivo se descargó automáticamente y se intentó cargarlo.",
+        "dmesgLines": "líneas dmesg",
+        "download": "Descargar ZIP",
+        "downloadBusy": "Descargando...",
+        "downloadFailed": "No se pudo descargar el archivo de diagnóstico.",
+        "intro": "Seleccione las secciones de diagnóstico, inicie la recopilación de archivos y descargue/cargue el ZIP cuando esté listo.",
+        "journalLines": "Líneas de diario",
+        "loadingOptions": "Cargando opciones...",
+        "optionsLoadFailed": "No se pudieron cargar las opciones de diagnóstico. \nUsando valores predeterminados.",
+        "optionsLoaded": "Opciones de diagnóstico cargadas.",
+        "pollFailed": "No se pudo sondear el estado de diagnóstico.",
+        "refreshOptions": "Opciones de actualización",
+        "running": "Coleccionando...",
+        "sectionsTitle": "Secciones",
+        "start": "Iniciar colección",
+        "startFailed": "No se pudo iniciar el archivo de diagnóstico.",
+        "started": "Se inició el archivo de diagnóstico.",
+        "statusFailed": "Fallido",
+        "statusIdle": "Inactivo",
+        "statusLabel": "Estado",
+        "statusQueued": "En cola",
+        "statusRunning": "Correr",
+        "statusSuccess": "Éxito",
+        "statusTimeout": "Tiempo agotado",
+        "stillPreparing": "El archivo todavía se está preparando. \nIntente descargar nuevamente en breve.",
+        "title": "Soporte de diagnóstico (PINS)",
+        "uploaded": "ZIP de diagnóstico subido al punto final de soporte.",
+        "validationDmesgLines": "Las líneas dmesg deben estar entre 100 y 50000.",
+        "validationJournalLines": "Las líneas del diario deben tener entre 100 y 50000.",
+        "validationSections": "Seleccione al menos una sección."
       }
     },
     "telescopius": {
@@ -2724,7 +2889,8 @@
         },
         "validation": {
           "passwordRequired": "La contraseña debe tener al menos 8 caracteres."
-        }
+        },
+        "lensControl": "Control de lentes"
       },
       "config": {
         "title": "Configuración",
@@ -2836,7 +3002,23 @@
       },
       "meteoStation": "PINS.MeteoStation",
       "powerBox": "PINS.PowerBox",
-      "wifiTab": "Wi-Fi"
+      "wifiTab": "Wi-Fi",
+      "lensControl": {
+        "aperture": "Abertura",
+        "calibrate": "Calibrar",
+        "calibrating": "Calibrando...",
+        "current": "Actual",
+        "deviceInfo": "Información del dispositivo",
+        "driver": "Versión SDK",
+        "firmware": "firmware",
+        "focalLength": "Longitud focal",
+        "lens": "Lente",
+        "position": "Posición de enfoque",
+        "range": "Rango",
+        "restart": "Reiniciar dispositivo",
+        "restarting": "Reiniciando...",
+        "set": "Colocar"
+      }
     },
     "shortcuts": {
       "title": "Atajos de secuencia",
@@ -3677,7 +3859,8 @@
         "twilightEndAstronomical": "Crepúsculo final astronómico",
         "twilightEndNautical": "Crepúsculo final náutico",
         "twilightStartAstronomical": "Inicio del crepúsculo astronómico",
-        "twilightStartNautical": "Crepúsculo inicio náutico"
+        "twilightStartNautical": "Crepúsculo inicio náutico",
+        "now": "Ahora"
       }
     },
     "filterOffset": {
@@ -3857,6 +4040,83 @@
         "guide": "Gráfico guía"
       },
       "title": "Visor de registros PHD2"
+    },
+    "vncRemote": {
+      "debugModeWarning": "Modo de depuración activo – Conexión VNC no disponible. Desactiva el modo de depuración en los ajustes."
+    },
+    "landscaperCreator": {
+      "actions": {
+        "generate": "Generar código postal",
+        "generating": "Generando ZIP..."
+      },
+      "details": {
+        "sectionTitle": "3) Detalles del paisaje"
+      },
+      "errors": {
+        "imageLoadFailed": "No se pudo cargar la imagen.",
+        "requestFailed": "No se pudo generar el ZIP horizontal."
+      },
+      "fields": {
+        "altitude": "Altitud",
+        "author": "Autor",
+        "description": "Descripción",
+        "folderName": "Nombre de la carpeta",
+        "folderNamePlaceholder": "generado-automáticamente-a partir del nombre",
+        "latitude": "Latitud",
+        "longitude": "Longitud",
+        "name": "Nombre del paisaje",
+        "namePlaceholder": "p.ej. \nMi horizonte de observatorio"
+      },
+      "folder": {
+        "autoHint": "Los nombres de las carpetas se desinfectan en formato seguro de minúsculas, guiones bajos y guiones."
+      },
+      "image": {
+        "aspectRatio": "relación de aspecto",
+        "aspectWarning": "La relación de aspecto de la imagen cargada es {ratio}. \nUna panorámica de 360 ​​debería ser cercana a 2:1.",
+        "dimensions": "Dimensiones",
+        "fileName": "Nombre del archivo",
+        "fileSize": "Tamaño del archivo",
+        "remove": "Eliminar",
+        "replace": "Reemplazar panorama",
+        "sectionTitle": "1) Carga de imagen",
+        "select": "Seleccionar panorámica",
+        "typesHint": "Formatos aceptados: PNG, JPEG, WebP"
+      },
+      "instructions": {
+        "line1": "Utilice una imagen panorámica equirectangular de 360°.",
+        "line2": "Para paisajes que solo tengan horizonte, mantenga el cielo transparente cuando sea posible.",
+        "line3": "Haga clic o arrastre en la vista previa dónde debería estar el norte geográfico.",
+        "line4": "Descargue el ZIP y extráigalo en su carpeta de paisajes de Stellarium Web.",
+        "title": "Cómo preparar tu entrada"
+      },
+      "preview": {
+        "currentNorth": "NorthOffsetDeg:",
+        "empty": "Cargue una imagen panorámica para habilitar la vista previa.",
+        "help": "Haga clic o arrastre horizontalmente en el panorama para establecer dónde está el norte geográfico.",
+        "imageAlt": "Vista previa panorámica cargada",
+        "quickCenter": "Norte en el centro",
+        "quickLeft": "Norte en el borde izquierdo",
+        "quickReset": "Reiniciar",
+        "sectionTitle": "2) Vista previa panorámica y marcador de norte",
+        "signHint": "Si el paisaje generado aparece reflejado o girado en la dirección incorrecta, es posible que sea necesario invertir el signo de desplazamiento según la convención del backend."
+      },
+      "subtitle": "Cargue una panorámica de 360, marque el norte geográfico y genere un ZIP de paisaje Stellarium.",
+      "title": "Creador de paisajes Stellarium",
+      "toast": {
+        "errorTitle": "La generación del paisaje falló",
+        "invalidFileType": "Tipo de archivo no compatible. \nCargue PNG, JPEG o WebP.",
+        "successMessage": "Descargado {nombre de archivo}",
+        "successTitle": "Listo para ZIP horizontal",
+        "validationTitle": "Validación",
+        "successMessageSaved": "Guardado {nombre de archivo} en {ruta}."
+      },
+      "validation": {
+        "fixErrors": "Por favor corrija los campos resaltados.",
+        "folderNameInvalid": "El nombre de la carpeta contiene caracteres no válidos.",
+        "folderNameRequired": "El nombre de la carpeta es obligatorio.",
+        "imageRequired": "Por favor cargue un archivo de imagen.",
+        "nameRequired": "Se requiere el nombre del paisaje."
+      }
     }
   },
   "pinsDevices": {
@@ -4065,7 +4325,9 @@
       "autoDetect": "Detección automática",
       "ipAddress": "Dirección IP",
       "tcpPort": "Puerto TCP",
-      "selectPort": "-- Seleccione un puerto --"
+      "selectPort": "-- Seleccione un puerto --",
+      "manualPort": "Manual…",
+      "manualPortPath": "Puerto manual"
     }
   },
   "nav": {

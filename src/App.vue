@@ -16,9 +16,9 @@
           <!-- Minimaler Status-Text -->
           <p
             v-if="!store.isBackendReachable && connectionCheckCompleted"
-            class="absolute top-5 left-1/2 transform -translate-x-1/2 text-red-400 text-sm sm:text-base font-medium animate-pulse bg-gray-800 px-4 py-2 rounded-lg border border-red-500/30"
+            class="absolute top-5 left-1/2 transform -translate-x-1/2 text-red-400 text-sm sm:text-base font-medium animate-pulse bg-gray-800 px-4 py-2 rounded-lg border border-red-500/30 max-w-[calc(100%-2rem)] text-center"
           >
-            Trying to establish connection...
+            {{ connectionStatusMessage }}
           </p>
 
           <!-- Settings Button -->
@@ -425,6 +425,10 @@ const whatsNewData = ref(null);
 const whatsNewPending = ref(false);
 const connectionCheckCompleted = ref(false);
 const { t, locale } = useI18n();
+const CONNECTION_STALL_HINT_SECONDS = 10;
+const connectionAttemptStartedAt = ref(Date.now());
+const connectionElapsedSeconds = ref(0);
+let connectionElapsedIntervalId = null;
 const tutorialSteps = computed(() => settingsStore.tutorial.steps);
 const orientation = ref(window.innerWidth > window.innerHeight ? 'landscape' : 'portrait');
 const landscapeSwitch = ref(null);
@@ -514,6 +518,71 @@ const pinsUpgradeOverlayMessage = computed(() => {
   }
   return t('plugins.pins.upgradeOverlay.running');
 });
+
+const connectionTargetLabel = computed(() => {
+  const host =
+    settingsStore.connection.ip ||
+    window.location.hostname ||
+    t('app.connection_splash.configured_instance');
+  const port = settingsStore.connection.port || 5000;
+  return `${host}:${port}`;
+});
+
+const connectionInstanceName = computed(() => {
+  const selectedId = settingsStore.selectedInstanceId;
+  const selectedInstance = selectedId ? settingsStore.getInstance(selectedId) : null;
+  return selectedInstance?.name || t('app.connection_splash.default_instance_name');
+});
+
+const connectionRemainingSeconds = computed(() => {
+  return Math.max(CONNECTION_STALL_HINT_SECONDS - connectionElapsedSeconds.value, 0);
+});
+
+const connectionStatusMessage = computed(() => {
+  if (connectionRemainingSeconds.value === 0) {
+    return t('app.connection_splash.delayed', {
+      instance: connectionInstanceName.value,
+      endpoint: connectionTargetLabel.value,
+      elapsed: connectionElapsedSeconds.value,
+    });
+  }
+
+  return t('app.connection_splash.trying', {
+    instance: connectionInstanceName.value,
+    endpoint: connectionTargetLabel.value,
+    elapsed: connectionElapsedSeconds.value,
+    remaining: connectionRemainingSeconds.value,
+  });
+});
+
+function resetConnectionAttemptTimer() {
+  connectionAttemptStartedAt.value = Date.now();
+  connectionElapsedSeconds.value = 0;
+}
+
+function updateConnectionElapsed() {
+  if (!connectionCheckCompleted.value || store.isBackendReachable) {
+    return;
+  }
+
+  connectionElapsedSeconds.value = Math.floor(
+    (Date.now() - connectionAttemptStartedAt.value) / 1000
+  );
+}
+
+function startConnectionTimer() {
+  if (!connectionElapsedIntervalId) {
+    resetConnectionAttemptTimer();
+    connectionElapsedIntervalId = setInterval(updateConnectionElapsed, 1000);
+  }
+}
+
+function stopConnectionTimer() {
+  if (connectionElapsedIntervalId) {
+    clearInterval(connectionElapsedIntervalId);
+    connectionElapsedIntervalId = null;
+  }
+}
 
 function closePinsUpgradeOverlay() {
   if (pinsUpgradeRecoveryTimer) {
@@ -754,6 +823,10 @@ onMounted(async () => {
   window.addEventListener('pageshow', handlePageShow);
   window.addEventListener('focus', handleFocus);
 
+  if (!store.isBackendReachable) {
+    startConnectionTimer();
+  }
+
   // Check for app update immediately - independent from backend status
   if (isNativePlatform()) {
     void checkForAppUpdate();
@@ -882,7 +955,14 @@ onMounted(async () => {
 // Watch for backend connection and add delay before hiding splash screen
 watch(
   () => store.isBackendReachable,
-  async (isReachable) => {
+  async (isReachable, wasReachable) => {
+    if (isReachable) {
+      connectionElapsedSeconds.value = 0;
+      stopConnectionTimer();
+    } else if (wasReachable) {
+      startConnectionTimer();
+    }
+
     if (isReachable && showSplashScreen.value) {
       setTimeout(() => {
         showSplashScreen.value = false;
@@ -907,6 +987,12 @@ watch(
     }
   }
 );
+
+watch(connectionCheckCompleted, (isCompleted) => {
+  if (isCompleted) {
+    updateConnectionElapsed();
+  }
+});
 
 watch(
   () => pinsStore.isUpgradeWaitingForBackend,
@@ -956,6 +1042,8 @@ onBeforeUnmount(async () => {
   logStore.stopFetchingLog();
   sequenceStore.stopFetching();
   flatsStore.stopFetchingFlats();
+
+  stopConnectionTimer();
 
   if (pinsUpgradeRecoveryTimer) {
     clearTimeout(pinsUpgradeRecoveryTimer);

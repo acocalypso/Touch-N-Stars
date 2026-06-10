@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia';
 import apiService from '@/services/apiService';
 import apiPinsService from '@/services/apiPinsService';
-import { useCameraStore } from '@/store/cameraStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import { usePinsStore } from '@/plugins/pins/store/pinsStore';
 import { useToastStore } from '@/store/toastStore';
@@ -28,6 +27,7 @@ export const apiStore = defineStore('store', {
     apiPort: null,
     isPINS: false,
     isPinsCheckDone: false,
+    pinsCheckNegativeCount: 0,
     isTimeSynced: false,
     intervalId: null,
     intervalIdGraph: null,
@@ -139,9 +139,7 @@ export const apiStore = defineStore('store', {
     imageSavePath: null,
     isLoadingImage: false,
     captureRunning: false,
-    rotatorMechanicalPosition: 0,
     existingEquipmentList: [],
-    coordinates: null,
     currentLanguage: 'en',
     showSettings: false,
     showFocuser: false,
@@ -317,11 +315,12 @@ export const apiStore = defineStore('store', {
               }
               console.log('API Version:', this.currentApiVersion);
               this.isApiVersionNewerOrEqual = true;
-
-              //Check if ist PINS
-              await this.checkForPINS();
             }
           }
+        }
+
+        if (this.isApiVersionNewerOrEqual && !this.isPinsCheckDone) {
+          await this.checkForPINS();
         }
 
         // Check if mock API mode is enabled
@@ -569,6 +568,7 @@ export const apiStore = defineStore('store', {
       this.lastEventHistoryFetch = 0;
       this.isPINS = false;
       this.isPinsCheckDone = false;
+      this.pinsCheckNegativeCount = 0;
       this.isTimeSynced = false;
       this.imageHistoryInfo = null;
       this.lastImageStats = null;
@@ -603,7 +603,6 @@ export const apiStore = defineStore('store', {
       // Clear other instance-specific state
       this.filterName = 'unbekannt';
       this.filterNr = null;
-      this.rotatorMechanicalPosition = 0;
       this.existingEquipmentList = [];
       this.imageData = null;
       this.afCurveData = [];
@@ -978,29 +977,6 @@ export const apiStore = defineStore('store', {
       });
     },
 
-    setDefaultCameraSettings() {
-      const cStore = useCameraStore();
-      const cameraSettings = this.profileInfo?.CameraSettings || {};
-      cStore.coolingTemp = cameraSettings.Temperature ?? -10;
-      cStore.coolingTime = cameraSettings.CoolingDuration ?? 10;
-      cStore.warmingTime = cameraSettings.WarmingDuration ?? 10;
-      console.log(
-        'Camera settings set:',
-        cStore.coolingTemp,
-        cStore.coolingTime,
-        cStore.warmingTime
-      );
-    },
-    setDefaultRotatorSettings() {
-      this.rotatorMechanicalPosition = this.rotatorInfo?.MechanicalPosition ?? 0;
-      console.log('Rotator setting set:', this.rotatorMechanicalPosition);
-    },
-    setDefaultCoordinates() {
-      const cStore = useSettingsStore();
-      cStore.coordinates.longitude = this.profileInfo.AstrometrySettings.Longitude;
-      cStore.coordinates.latitude = this.profileInfo.AstrometrySettings.Latitude;
-      cStore.coordinates.altitude = this.profileInfo.AstrometrySettings.Elevation;
-    },
     checkVersionNewerOrEqual(currentVersion, minimumVersion) {
       if (!currentVersion || !minimumVersion) return true;
       const parseVersion = (version) => version.split('.').map(Number);
@@ -1038,21 +1014,27 @@ export const apiStore = defineStore('store', {
       }
       const pinsVersion = await apiService.fetchPinsVersion();
       if (pinsVersion === null) {
-        // Backend not reachable — don't cache, allow retry on next call
+        // Timeout / kein Response — Zähler reset, nächster Polling-Cycle retries
+        this.pinsCheckNegativeCount = 0;
         return;
       }
-      if (pinsVersion && pinsVersion.Response) {
+      if (pinsVersion?.Response) {
         this.isPINS = true;
         this.currentPinsVersion = pinsVersion.Response;
+        this.pinsCheckNegativeCount = 0;
+        this.isPinsCheckDone = true;
         console.log('[API Store] PINS detected, version:', pinsVersion.Response);
-      } else {
+        await this.syncSystemTime();
+        return;
+      }
+      // Negativ-Antwort (z.B. 404 von Standard-NINA) — erst nach 2x cachen
+      this.pinsCheckNegativeCount++;
+      console.log(`[API Store] PINS check negative (${this.pinsCheckNegativeCount}/2)`);
+      if (this.pinsCheckNegativeCount >= 2) {
         this.isPINS = false;
         this.currentPinsVersion = null;
+        this.isPinsCheckDone = true;
         console.log('[API Store] No PINS endpoint — assuming NINA');
-      }
-      this.isPinsCheckDone = true;
-      if (this.isPINS) {
-        await this.syncSystemTime();
       }
     },
 

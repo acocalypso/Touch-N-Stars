@@ -304,7 +304,29 @@
         "ASTAPLocation": "Emplacement ASTAP",
         "Filter": "Filtre pour Plate Solving",
         "FilterCurrent": "Actuel",
-        "FilterHint": "Filtre utilisé lors du plate solving (remplace le filtre actuel)"
+        "FilterHint": "Filtre utilisé lors du plate solving (remplace le filtre actuel)",
+        "astapDatabaseAllInstalled": "Toutes les bases de données d'étoiles ASTAP sont déjà installées.",
+        "astapDatabaseDescription": "Installez les bases de données d'étoiles ASTAP manquantes directement sur votre appareil PINS.",
+        "astapDatabaseInstall": "Installer",
+        "astapDatabaseInstallFailed": "L'installation de la base de données ASTAP Star a échoué {exitCode}.",
+        "astapDatabaseInstallSuccess": "La base de données ASTAP star {databaseId} a été installée avec succès.",
+        "astapDatabaseInstalling": "Installation...",
+        "astapDatabaseJobStarted": "commencé",
+        "astapDatabaseJobStartedMessage": "La tâche d'installation a démarré pour {databaseId}.",
+        "astapDatabaseJobStatus": "Emploi {jobId} : {status}",
+        "astapDatabaseLastChecked": "Dernière vérification : {value}",
+        "astapDatabaseLoadFailed": "Échec du chargement des bases de données : {détail}",
+        "astapDatabaseMissingJobId": "La demande d'installation a réussi mais aucun ID de travail n'a été renvoyé.",
+        "astapDatabaseNoInstallable": "Aucune base de données d'étoiles ASTAP installable disponible",
+        "astapDatabaseSelectPlaceholder": "Sélectionnez une base de données",
+        "astapDatabaseStartFailed": "Échec du démarrage de l'installation : {détail}",
+        "astapDatabaseStartInstall": "Démarrage de l'installation pour {databaseId}...",
+        "astapDatabaseStarting": "Départ...",
+        "astapDatabaseStatusCheckFailedRetrying": "Échec de la vérification de l'état : {détail}. \nNouvelle tentative...",
+        "astapDatabaseTitle": "Base de données d'étoiles ASTAP (PINS)",
+        "astapDatabaseUnauthorizedStart": "Non autorisé lors du démarrage de l'installation de la base de données ASTAP star.",
+        "astapDatabaseUnauthorizedStatus": "Non autorisé lors de la vérification de l'état de l'installation.",
+        "astapDatabaseUnknownError": "Erreur inconnue"
       },
       "equipment": {
         "title": "Équipement",
@@ -335,7 +357,10 @@
         "notSupported": "Non pris en charge par le pilote",
         "syncLabel": "Temps de synchronisation pour monter",
         "syncLabelInfo": "Lorsqu'il est activé, cliquer sur « Synchroniser maintenant » déconnectera et reconnectera brièvement la monture afin que NINA puisse lui transférer l'heure actuelle.",
-        "title": "Synchronisation du temps"
+        "title": "Synchronisation du temps",
+        "loadError": "Impossible de charger les informations temporelles.",
+        "syncError": "La synchronisation de l'heure a échoué. \nVérifiez la connexion au périphérique PINS.",
+        "syncSuccess": "Heure synchronisée avec succès."
       },
       "navbarCustomization": {
         "alwaysVisible": "Toujours visible",
@@ -409,7 +434,8 @@
         "guideCamRequired": "Une caméra de guidage valide doit être sélectionnée."
       },
       "guiderCam": {
-        "name": "Caméra de guidage"
+        "name": "Caméra de guidage",
+        "manualVnc": "Manuel via VNC"
       },
       "safety": {
         "name": "Moniteur de sécurité"
@@ -772,6 +798,9 @@
           "slope": "Pente",
           "intercept": "Ordonnée à l'origine",
           "absolute": "Absolu"
+        },
+        "startGuiding": {
+          "forceCalibrationLabel": "Calibrage des forces"
         }
       },
       "emptyContainer": "Vide — cliquez sur + pour ajouter des éléments",
@@ -945,7 +974,10 @@
         "camera": "Caméra",
         "cameraGain": "Gain",
         "cameraBinning": "Binning",
-        "restoreCalibration": "Restaurer la calibration",
+        "restoreCalibration": "Restaurer auto. la calibration",
+        "mountSettings": "Monture",
+        "guideRate": "Guide Rate",
+        "guideRateReadOnly": "Lecture seule",
         "guiderScale": "Échelle du guideur",
         "maxY": "Y maximum",
         "historySize": "Taille de l'historique",
@@ -1048,6 +1080,9 @@
           "buildActive": "Construction de la bibliothèque en cours",
           "buildActiveMessage": "Les actions PHD2 sont bloquées jusqu'à la fin de la construction."
         },
+        "imageDisplay": "Affichage de l'image",
+        "imageGamma": "Étirement (Gamma)",
+        "imageGammaHint": "Bas = plus étiré, Haut = linéaire",
         "reviewCalibration": "Vérifier l'étalonnage",
         "starComponents": {
           "hide": "Masquer les composants étoiles",
@@ -1062,7 +1097,76 @@
         "guideSpeed": "Vitesse de guidage",
         "imageScale": "Échelle de l'image",
         "optimal": "Optimal",
-        "pixelSize": "Taille des pixels"
+        "pixelSize": "Taille des pixels",
+        "assumeDecOrthogonal": "Supposer Dec orthogonale à AD",
+        "useDecCompensation": "Utiliser la compensation Dec",
+        "fastRecenter": "Recentrage rapide après calibration ou dither",
+        "mountGuideOutput": "Activer la sortie de guidage vers la monture",
+        "help": {
+          "fastRecenter": "Pendant la calibration ou le dither, la monture peut s’éloigner fortement de la position de verrouillage. Si activé, PHD2 y revient le plus vite possible pour gagner du temps — entièrement optionnel. Si la calibration échoue souvent parce que l’étoile revient trop vite, désactivez-le (souvent signe d’une erreur de mise en station ou périodique importante).",
+          "mountGuideOutput": "Permet à PHD2 d’envoyer réellement les commandes de guidage à la monture. Normalement activé ; à désactiver seulement pour observer le comportement non corrigé de la monture.",
+          "searchRegion": "Taille du rectangle de suivi en pixels (un rayon — 15 correspond à une boîte de 30×30). Augmentez-la si la monture suit mal ou n’est pas bien mise en station ; une région trop grande peut capter plusieurs étoiles et nuire au guidage.",
+          "minStarHFD": "Plus petit diamètre à demi-flux (la « taille ») qu’une étoile doit avoir pour servir d’étoile-guide — le meilleur moyen d’éviter que PHD2 ne s’accroche à des amas de pixels chauds. La valeur ~1,5 convient à la plupart des configurations ; ne l’augmentez que si de vraies étoiles faibles sont rejetées.",
+          "maxStarHFD": "Plus grand diamètre à demi-flux autorisé pour une étoile-guide ; les taches dilatées ou floues au-dessus sont ignorées lors de la sélection.",
+          "massChangeEnabled": "Surveille la luminosité et la taille de l’étoile-guide par rapport au fond du ciel. Obsolète — généralement à laisser désactivé ; n’activez que pour être sûr que PHD2 ne bascule pas sur une étoile voisine.",
+          "massChangeThreshold": "Si la détection de masse est activée, PHD2 signale une « étoile perdue » lorsque la luminosité ou la taille varie de plus de ce pourcentage. Augmentez-le (ou désactivez la détection) si vous obtenez souvent des erreurs « étoile perdue – changement de masse » alors que l’étoile est bien visible.",
+          "minStarSNR": "SNR minimal qu’une étoile doit avoir pour être sélectionnée automatiquement (étoiles non saturées). À modifier seulement si vous êtes expérimenté — une valeur trop élevée peut empêcher toute sélection ; rafraîchir la bibliothèque de darks ou allonger l’exposition est souvent préférable.",
+          "useMultipleStars": "Guide sur plusieurs étoiles à la fois au lieu d’une seule, ce qui améliore la stabilité. Indisponible avec les sous-trames.",
+          "autoSelectDownsample": "Pour les rares cas où la sélection automatique échoue parce que les étoiles paraissent déformées. Laissez sur « Auto » ; des valeurs supérieures à 1 peuvent améliorer la reconnaissance.",
+          "saturationByADU": "Comment PHD2 détecte les étoiles saturées pour les éviter. « Par valeur ADU » utilise la luminosité rapportée par le capteur (recommandé) ; l’autre méthode juge la saturation d’après la forme du profil et est moins précise.",
+          "saturationADUValue": "Valeur de pixel à partir de laquelle une étoile est considérée comme saturée (caméras 8 bits ≈ 255, 16 bits ≈ 65535). En cas de doute, réglez-la sur la valeur de pixel maximale de votre caméra.",
+          "cameraGain": "Gain de la caméra de guidage en pourcentage de la plage de la caméra (par ex. 50 % correspond à un gain de 60 sur une caméra 40–80). Un gain plus faible réduit le bruit ; il n’a généralement plus besoin d’être modifié une fois la configuration stable.",
+          "cameraBinning": "Binning matériel des poses de guidage — augmente la sensibilité et accélère le téléchargement au prix de la résolution. Utilisez un profil PHD2 distinct pour chaque valeur de binning.",
+          "focalLength": "Focale de la lunette-guide en millimètres. Avec la taille des pixels, elle fixe l’échelle d’image et permet à PHD2 d’exprimer le guidage en secondes d’arc — réglez-la donc correctement.",
+          "calibrationStep": "Durée de chaque impulsion de guidage pendant la calibration. Visez une valeur donnant 8 à 14 pas par direction et calibrez près de l’équateur céleste (déclinaison ≈ 0).",
+          "restoreCalibration": "Recharge automatiquement la dernière calibration à la connexion du matériel (utile pour les montures ASCOM/INDI ou aux-mount). Si vous l’utilisez, la caméra de guidage ne doit pas être tournée par rapport à la lunette ou au ciel.",
+          "assumeDecOrthogonal": "PHD2 mesure normalement les angles caméra pour l’AD et la Dec indépendamment. Forcez l’angle Dec perpendiculaire à l’AD pour aider en cas d’erreur périodique très élevée, de fort jeu en Dec ou de mauvais seeing.",
+          "useDecCompensation": "Ajuste automatiquement la vitesse de guidage en AD selon la déclinaison actuelle (nécessite une connexion ASCOM/INDI à la monture). À laisser activé sauf cas particuliers. À ne pas confondre avec la compensation du jeu en déclinaison.",
+          "reverseDecAfterFlip": "Indique à PHD2 comment ajuster la calibration après un retournement au méridien. Laissez désactivé si le guidage est normal après un flip ; activez-le (et recalibrez) seulement si vous constatez un emballement du guidage en déclinaison.",
+          "guideAlgorithm": "Choisit l’algorithme de guidage pour cet axe. Hysteresis pondère les corrections récentes par rapport à la dernière déviation ; ResistSwitch résiste aux changements de direction (utile pour le jeu en Dec) ; LowPass/LowPass2 sont des choix conservateurs pour les bonnes montures ; Predictive PEC (PPEC) modélise et corrige par anticipation l’erreur périodique (AD) ; ZFilter travaille dans le domaine fréquentiel. Les valeurs par défaut conviennent à la plupart.",
+          "algo": {
+            "minMove": "Plus petite déviation de l’étoile (en pixels) déclenchant une correction ; les mouvements plus petits sont ignorés pour ne pas courir après le seeing. C’est le paramètre le plus utile à ajuster d’une nuit à l’autre selon les conditions.",
+            "maxMove": "Plus grande correction de guidage autorisée en une fois (pixels) ; limite la surréaction à un grand saut isolé.",
+            "aggression": "Intensité de correction de chaque erreur mesurée, en pourcentage. 100 % applique la correction complète ; des valeurs plus faibles (par ex. 60 %) corrigent moins pour éviter le dépassement. Plus bas est plus sûr.",
+            "hysteresis": "Poids donné à l’historique des corrections récentes par rapport à la trame actuelle, en pourcentage. Des valeurs élevées lissent les corrections mais réagissent plus lentement à un vrai changement de direction.",
+            "predictiveWeight": "Predictive PEC : poids de la part prédite (modélisée) de la correction. Les valeurs par défaut conviennent à la plupart des montures ; de gros changements peuvent dégrader le guidage.",
+            "reactiveWeight": "Predictive PEC : poids de la part réactive, basée sur le déplacement de l’étoile dans la dernière trame. Les valeurs par défaut conviennent à la plupart des montures.",
+            "slopeWeight": "LowPass : influence de la tendance récente (la pente) du mouvement de l’étoile sur la correction, en pourcentage. Évite que l’algorithme soit trop lent ; 0 n’utilise que la médiane de l’historique récent.",
+            "expFactor": "ZFilter : la durée d’exposition virtuelle vaut l’exposition réelle × ce facteur. Des valeurs élevées filtrent davantage le seeing (plus lisse mais plus lent) ; une exposition virtuelle de ~2–4 s est un bon point de départ pour l’AD."
+          },
+          "ditherMode": "Comment PHD2 calcule chaque dither. « Aléatoire » choisit une taille et une direction au hasard ; « Spirale » utilise des pas de taille fixe en spirale horaire — utile si la caméra d’imagerie a un bruit à motif fixe ou si la monture a un jeu en Dec gênant.",
+          "ditherRaOnly": "Dithering uniquement sur l’axe AD. Utile lorsque le guidage Dec est désactivé ou que la monture a un fort jeu en Dec.",
+          "ditherScale": "Multiplicateur appliqué à l’amplitude de dither demandée par l’application d’imagerie — augmentez-le pour des dithers plus grands, diminuez-le pour des plus petits.",
+          "backlashEnabled": "Compense le backlash en DEC en ajoutant une impulsion supplémentaire lorsque la monture change de direction. Utile pour les montures avec un jeu d’engrenage notable ; laissez désactivé si la monture guide proprement en DEC.",
+          "backlashAmount": "Durée de l’impulsion de correction supplémentaire (en ms) que PHD2 ajoute lors d’un changement de direction en DEC. PHD2 l’ajuste automatiquement entre Min et Max.",
+          "backlashMin": "Limite inférieure (ms) de l’impulsion de backlash ajustée automatiquement.",
+          "backlashMax": "Limite supérieure (ms) de l’impulsion de backlash ajustée automatiquement."
+        },
+        "starDetection": "Suivi de l’étoile-guide",
+        "searchRegion": "Région de recherche (pixels)",
+        "minStarHFD": "HFD minimal de l’étoile (pixels)",
+        "maxStarHFD": "HFD maximal de l’étoile (pixels)",
+        "beepForLostStar": "Bip en cas d’étoile perdue",
+        "starMassDetection": "Détection de masse d’étoile",
+        "massChangeEnabled": "Activée",
+        "massChangeThreshold": "Tolérance",
+        "backlash": {
+          "title": "Compensation du backlash",
+          "enabled": "Activée",
+          "amount": "Valeur (ms)",
+          "min": "Min (ms)",
+          "max": "Max (ms)"
+        },
+        "minStarSNR": "SNR minimal de l’étoile pour AutoFind",
+        "autoSelectDownsample": "Sous-échantillonnage des trames de sélection",
+        "saturationByADU": "Saturation par ADU",
+        "saturationADUValue": "Valeur ADU de saturation",
+        "dither": "Dithering",
+        "ditherMode": "Mode de dither",
+        "ditherRaOnly": "Dither en AD seulement",
+        "ditherScale": "Échelle de dither",
+        "ditherModeRandom": "Aléatoire",
+        "ditherModeSpiral": "Spirale"
       }
     },
     "focuser": {
@@ -1562,7 +1666,24 @@
         "atmosphere_visible": "Afficher l'atmosphère",
         "landscapes_visible": "Afficher les paysages",
         "dsos_visible": "Objets du ciel profond (Messier, NGC)",
-        "title": "Paramètres"
+        "title": "Paramètres",
+        "landscape_source_mode": "Landscape source",
+        "landscape_source_default": "Default landscape (Guereins)",
+        "landscape_source_neutral": "Neutral horizon (Gray)",
+        "landscape_source_custom": "Custom data source",
+        "custom_landscape_url": "Custom source URL",
+        "custom_landscape_url_placeholder": "e.g. /stellarium-data/landscapes/custom",
+        "custom_landscape_key": "Custom source key",
+        "custom_landscape_key_placeholder": "e.g. my-landscape",
+        "available_landscapes": "Paysages disponibles",
+        "folder_name_label": "nomdudossier",
+        "has_allsky": "Allsky",
+        "landscape_list_load_failed": "Échec du chargement des paysages.",
+        "landscape_option_label": "Paysage : {titre}",
+        "no_allsky": "Pas de tout-sky",
+        "no_landscapes_available": "Aucun paysage disponible.",
+        "service_url_label": "URL du service",
+        "untitled_landscape": "Paysage sans titre"
       }
     },
     "profile": {
@@ -1807,7 +1928,11 @@
         "pluginUninstallStart": "Plugin de désinstallation : {packageName}",
         "pluginsLoadFailed": "Échec du chargement des plug-ins PINS : {message}",
         "pluginsPackageNotAllowed": "Package non autorisé par la règle de l'API : {packageName}",
-        "pluginsLoadMetadataFailed": "Les plugins PINS n'ont pas pu être chargés car le référentiel de métadonnées du plugin est actuellement indisponible (HTTP 502)."
+        "pluginsLoadMetadataFailed": "Les plugins PINS n'ont pas pu être chargés car le référentiel de métadonnées du plugin est actuellement indisponible (HTTP 502).",
+        "hotspotChannelInvalid": "Le canal du point d'accès doit être un entier positif lorsqu'il est fourni.",
+        "hotspotFetchFailed": "Échec du chargement des paramètres du point d'accès : {message}",
+        "hotspotPasswordInvalidLength": "Le mot de passe du point d'accès est requis et doit comporter de 8 à 63 caractères.",
+        "hotspotSaveFailed": "Échec de l'enregistrement des paramètres du point d'accès : {message}"
       },
       "hotspotConfigured": "Le mot de passe du point d'accès personnalisé est configuré.",
       "hotspotNewPassword": "Nouveau mot de passe du point d'accès",
@@ -1893,7 +2018,14 @@
       "indiInstallModalSuccessCompleted": "Installation terminée pour {label}.",
       "indiInstallModalSuccessStarted": "L'installation a démarré pour {label}.",
       "indiInstallModalTitle": "Installer le pilote INDI",
-      "indiInstallModalType": "Taper"
+      "indiInstallModalType": "Taper",
+      "hotspotAppliedStatus": "Appliqué au point d'accès actif : {appliqué} | \nGroupe : {groupe} | \nChaîne : {chaîne}",
+      "hotspotBandAuto": "Auto/Désarmé",
+      "hotspotBandLabel": "Bande de point d'accès",
+      "hotspotCapabilitiesUnavailable": "Liste des capacités de l'adaptateur indisponible ; \ncanal manuel autorisé.",
+      "hotspotChannelLabel": "Canal de point d'accès",
+      "hotspotChannelPlaceholder": "Laisser vide pour auto",
+      "hotspotMetaLine": "Source : {source} | \nInterface : {iface} | \nGroupe : {groupe} | \nChaîne : {chaîne}"
     },
     "bahtifocus": {
       "title": "Analyseur de masque Bahtinov",
@@ -2049,6 +2181,39 @@
         "tokenCopyFailed": "Échec de la copie du token",
         "submissionRemoved": "Soumission supprimée",
         "allSubmissionsCleared": "Toutes les soumissions effacées"
+      },
+      "diagnostics": {
+        "archiveId": "ID d'archive",
+        "autoDownloaded": "L'archive a été téléchargée automatiquement et le téléchargement a été tenté.",
+        "dmesgLines": "lignes de message",
+        "download": "Télécharger le fichier ZIP",
+        "downloadBusy": "Téléchargement...",
+        "downloadFailed": "Échec du téléchargement de l'archive de diagnostics.",
+        "intro": "Sélectionnez les sections de diagnostic, démarrez la collecte des archives et téléchargez/téléchargez le ZIP lorsque vous êtes prêt.",
+        "journalLines": "Lignes de journal",
+        "loadingOptions": "Options de chargement...",
+        "optionsLoadFailed": "Échec du chargement des options de diagnostic. \nUtilisation des valeurs par défaut.",
+        "optionsLoaded": "Options de diagnostic chargées.",
+        "pollFailed": "Échec de l'interrogation de l'état des diagnostics.",
+        "refreshOptions": "Options d'actualisation",
+        "running": "Collectionner...",
+        "sectionsTitle": "Sections",
+        "start": "Commencer la collecte",
+        "startFailed": "Échec du démarrage de l'archive de diagnostics.",
+        "started": "L'archive de diagnostic a démarré.",
+        "statusFailed": "Échoué",
+        "statusIdle": "Inactif",
+        "statusLabel": "Statut",
+        "statusQueued": "En file d'attente",
+        "statusRunning": "En cours d'exécution",
+        "statusSuccess": "Succès",
+        "statusTimeout": "Délai expiré",
+        "stillPreparing": "Les archives sont toujours en préparation. \nVeuillez réessayer le téléchargement sous peu.",
+        "title": "Prise en charge du diagnostic (PINS)",
+        "uploaded": "ZIP de diagnostic téléchargé pour prendre en charge le point de terminaison.",
+        "validationDmesgLines": "Les lignes dmesg doivent être comprises entre 100 et 50 000.",
+        "validationJournalLines": "Les lignes du journal doivent être comprises entre 100 et 50 000.",
+        "validationSections": "Sélectionnez au moins une section."
       }
     },
     "telescopius": {
@@ -2724,7 +2889,8 @@
         },
         "validation": {
           "passwordRequired": "Le mot de passe doit contenir au moins 8 caractères"
-        }
+        },
+        "lensControl": "Contrôle de l'objectif"
       },
       "config": {
         "title": "Configuration",
@@ -2836,7 +3002,23 @@
       },
       "meteoStation": "PINS.MétéoStation",
       "powerBox": "PINS.PowerBox",
-      "wifiTab": "Wi-Fi"
+      "wifiTab": "Wi-Fi",
+      "lensControl": {
+        "aperture": "Ouverture",
+        "calibrate": "Étalonner",
+        "calibrating": "Calibrage...",
+        "current": "Actuel",
+        "deviceInfo": "Informations sur l'appareil",
+        "driver": "Version du SDK",
+        "firmware": "Micrologiciel",
+        "focalLength": "Distance focale",
+        "lens": "Lentille",
+        "position": "Position de mise au point",
+        "range": "Gamme",
+        "restart": "Redémarrer l'appareil",
+        "restarting": "Redémarrage...",
+        "set": "Ensemble"
+      }
     },
     "shortcuts": {
       "title": "Raccourcis de séquence",
@@ -3677,7 +3859,8 @@
         "twilightEndAstronomical": "Fin du crépuscule astronomique",
         "twilightEndNautical": "Fin du crépuscule nautique",
         "twilightStartAstronomical": "Le crépuscule commence astronomique",
-        "twilightStartNautical": "Début du crépuscule nautique"
+        "twilightStartNautical": "Début du crépuscule nautique",
+        "now": "Maintenant"
       }
     },
     "filterOffset": {
@@ -3857,6 +4040,83 @@
       "visVisible": "Visible tonight",
       "visHidden": "Below horizon tonight",
       "page": "{n} / {total}"
+    },
+    "vncRemote": {
+      "debugModeWarning": "Mode débogage actif – Connexion VNC non disponible. Veuillez désactiver le mode débogage dans les paramètres."
+    },
+    "landscaperCreator": {
+      "actions": {
+        "generate": "Générer un ZIP",
+        "generating": "Génération du ZIP..."
+      },
+      "details": {
+        "sectionTitle": "3) Détails du paysage"
+      },
+      "errors": {
+        "imageLoadFailed": "L'image n'a pas pu être chargée.",
+        "requestFailed": "Échec de la génération du ZIP paysage."
+      },
+      "fields": {
+        "altitude": "Altitude",
+        "author": "Auteur",
+        "description": "Description",
+        "folderName": "Nom du dossier",
+        "folderNamePlaceholder": "généré automatiquement à partir du nom",
+        "latitude": "Latitude",
+        "longitude": "Longitude",
+        "name": "Nom du paysage",
+        "namePlaceholder": "par ex. \nMon horizon d'observatoire"
+      },
+      "folder": {
+        "autoHint": "Les noms de dossiers sont nettoyés au format minuscule, souligné/trait d’union."
+      },
+      "image": {
+        "aspectRatio": "Rapport hauteur/largeur",
+        "aspectWarning": "Le rapport hauteur/largeur de l'image téléchargée est {ratio}. \nUn panorama à 360° doit être proche de 2:1.",
+        "dimensions": "Dimensions",
+        "fileName": "Nom de fichier",
+        "fileSize": "Taille du fichier",
+        "remove": "Retirer",
+        "replace": "Remplacer le panorama",
+        "sectionTitle": "1) Téléchargement d'images",
+        "select": "Sélectionnez Panorama",
+        "typesHint": "Formats acceptés : PNG, JPEG, WebP"
+      },
+      "instructions": {
+        "line1": "Utilisez une image panoramique équirectangulaire à 360°.",
+        "line2": "Pour les paysages à horizon uniquement, gardez le ciel transparent lorsque cela est possible.",
+        "line3": "Cliquez ou faites glisser sur l'aperçu à l'endroit où le nord géographique devrait se trouver.",
+        "line4": "Téléchargez le ZIP et extrayez-le dans votre dossier de paysages Stellarium Web.",
+        "title": "Comment préparer votre contribution"
+      },
+      "preview": {
+        "currentNorth": "northOffsetDeg :",
+        "empty": "Téléchargez une image panoramique pour activer l'aperçu.",
+        "help": "Cliquez ou faites glisser horizontalement sur le panorama pour définir où se trouve le nord géographique.",
+        "imageAlt": "Aperçu du panorama téléchargé",
+        "quickCenter": "Nord au centre",
+        "quickLeft": "Nord au bord gauche",
+        "quickReset": "Réinitialiser",
+        "sectionTitle": "2) Aperçu panoramique et marqueur nord",
+        "signHint": "Si le paysage généré apparaît en miroir ou pivoté dans le mauvais sens, le signe de décalage devra peut-être être inversé en fonction de la convention du backend."
+      },
+      "subtitle": "Téléchargez un panorama à 360°, marquez le nord géographique et générez un ZIP paysage Stellarium.",
+      "title": "Créateur de paysage Stellarium",
+      "toast": {
+        "errorTitle": "La génération du paysage a échoué",
+        "invalidFileType": "Type de fichier non pris en charge. \nVeuillez télécharger PNG, JPEG ou WebP.",
+        "successMessage": "Téléchargé {nom du fichier}",
+        "successTitle": "Paysage ZIP prêt",
+        "validationTitle": "Validation",
+        "successMessageSaved": "{filename} enregistré dans {path}."
+      },
+      "validation": {
+        "fixErrors": "Veuillez corriger les champs en surbrillance.",
+        "folderNameInvalid": "Le nom du dossier contient des caractères non valides.",
+        "folderNameRequired": "Le nom du dossier est requis.",
+        "imageRequired": "Veuillez télécharger un fichier image.",
+        "nameRequired": "Le nom du paysage est obligatoire."
+      }
     }
   },
   "pinsDevices": {
@@ -4065,7 +4325,9 @@
       "autoDetect": "Détection automatique",
       "ipAddress": "Adresse IP",
       "tcpPort": "Port TCP",
-      "selectPort": "-- Sélectionnez un port --"
+      "selectPort": "-- Sélectionnez un port --",
+      "manualPort": "Manuel…",
+      "manualPortPath": "Port manuel"
     }
   },
   "nav": {

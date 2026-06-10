@@ -4,6 +4,7 @@
       v-model="focalLengthValue"
       :label="$t('components.guider.phd2.focalLength')"
       label-key="components.guider.phd2.focalLength"
+      :help-message="$t('components.guider.phd2.help.focalLength')"
       :min="1"
       :max="10000"
       :step="1"

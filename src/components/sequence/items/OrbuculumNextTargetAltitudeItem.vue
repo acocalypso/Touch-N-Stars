@@ -38,14 +38,16 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import ItemShell from './ItemShell.vue';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
+import { normalizeComparator } from '@/utils/sequenceUtils';
 
 const { t } = useI18n();
 
 const props = defineProps({ item: { type: Object, required: true } });
 
-const comparatorLabel = computed(() =>
-  props.item.Data?.Comparator === 1
+const comparatorLabel = computed(() => {
+  const value = normalizeComparator(props.item.Data?.Comparator ?? props.item.Comparator);
+  return value === 1
     ? t('components.sequence.items.moonAltitude.below')
-    : t('components.sequence.items.moonAltitude.above')
-);
+    : t('components.sequence.items.moonAltitude.above');
+});
 </script>

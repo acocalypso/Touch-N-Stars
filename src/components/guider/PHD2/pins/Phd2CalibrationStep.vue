@@ -4,6 +4,7 @@
       v-model="calibrationStepValue"
       :label="$t('components.guider.phd2.calibrationStep')"
       label-key="components.guider.phd2.calibrationStep"
+      :help-message="$t('components.guider.phd2.help.calibrationStep')"
       :min="1"
       :max="10000"
       :step="1"

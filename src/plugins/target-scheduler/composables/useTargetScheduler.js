@@ -2,7 +2,6 @@ import { computed, ref, watch } from 'vue';
 import i18n from '@/i18n';
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
-import { useSettingsStore } from '@/store/settingsStore';
 import { useSequenceV2Store } from '@/store/sequenceV2Store';
 import { useFavTargetStore } from '@/store/favTargetsStore';
 import { useToastStore } from '@/store/toastStore';
@@ -23,6 +22,7 @@ const ALTITUDE_CONDITION_TYPE = 'NINA.Sequencer.Conditions.AltitudeCondition';
 
 const SESSION_START_MODE_VALUES = Object.freeze([
   'time',
+  'now',
   'twilight_end_nautical',
   'twilight_end_astronomical',
   'sun_set',
@@ -61,45 +61,22 @@ function defaultSessionEnd() {
   return d;
 }
 
-function getHoursMinutesOrFallback(value, fallbackDate) {
-  const parsed = new Date(value);
-  if (Number.isNaN(parsed.getTime())) {
-    return {
-      hours: fallbackDate.getHours(),
-      minutes: fallbackDate.getMinutes(),
-    };
-  }
-
-  return {
-    hours: parsed.getHours(),
-    minutes: parsed.getMinutes(),
-  };
-}
-
-function buildTodayAt(hours, minutes) {
-  const d = new Date();
-  d.setHours(hours, minutes, 0, 0);
-  return d;
+function toInputDateTimeOrFallback(value, fallbackDate) {
+  const parsed = new Date(value || undefined);
+  return Number.isNaN(parsed.getTime()) ? toInputDateTime(fallbackDate) : toInputDateTime(parsed);
 }
 
 function resolveInitialSessionInputs(persisted) {
   const fallbackStart = defaultSessionStart();
   const fallbackEnd = defaultSessionEnd();
-
-  const startHm = getHoursMinutesOrFallback(persisted?.sessionStartInput, fallbackStart);
-  const endHm = getHoursMinutesOrFallback(persisted?.sessionEndInput, fallbackEnd);
-
-  const start = buildTodayAt(startHm.hours, startHm.minutes);
-  const end = buildTodayAt(endHm.hours, endHm.minutes);
-
-  // Preserve overnight sessions by moving end to next day when needed.
-  if (end <= start) {
-    end.setDate(end.getDate() + 1);
-  }
+  const startInput =
+    persisted?.sessionStartMode === 'now'
+      ? toInputDateTime(new Date())
+      : toInputDateTimeOrFallback(persisted?.sessionStartInput, fallbackStart);
 
   return {
-    sessionStartInput: toInputDateTime(start),
-    sessionEndInput: toInputDateTime(end),
+    sessionStartInput: startInput,
+    sessionEndInput: toInputDateTimeOrFallback(persisted?.sessionEndInput, fallbackEnd),
   };
 }
 
@@ -112,6 +89,18 @@ function getDateOnlyOrToday(value) {
   const out = Number.isNaN(parsed.getTime()) ? new Date() : new Date(parsed);
   out.setHours(0, 0, 0, 0);
   return out;
+}
+
+function resolveNightDateFromInput(value, mode, overnightModes) {
+  const normalizedInput = value || undefined;
+  const nightDate = getDateOnlyOrToday(normalizedInput);
+  const parsed = new Date(normalizedInput);
+
+  if (overnightModes.has(mode) && !Number.isNaN(parsed.getTime()) && parsed.getHours() < 12) {
+    nightDate.setDate(nightDate.getDate() - 1);
+  }
+
+  return nightDate;
 }
 
 function buildDateWithInputTime(baseDate, inputValue, fallbackDate) {
@@ -127,7 +116,7 @@ function buildDateWithInputTime(baseDate, inputValue, fallbackDate) {
 function resolveStartDateForMode(mode, events, nightDate, currentInput) {
   const manualStart = buildDateWithInputTime(nightDate, currentInput, defaultSessionStart());
 
-  if (mode === 'time') return manualStart;
+  if (mode === 'time' || mode === 'now') return manualStart;
   if (mode === 'twilight_end_nautical') return events.nauticalDusk || manualStart;
   if (mode === 'twilight_end_astronomical') return events.astronomicalDusk || manualStart;
   if (mode === 'sun_set') return events.sunSet || manualStart;
@@ -137,10 +126,7 @@ function resolveStartDateForMode(mode, events, nightDate, currentInput) {
 }
 
 function resolveEndDateForMode(mode, events, nightDate, currentInput) {
-  const morningDate = new Date(nightDate);
-  morningDate.setDate(morningDate.getDate() + 1);
-
-  const manualEnd = buildDateWithInputTime(morningDate, currentInput, defaultSessionEnd());
+  const manualEnd = buildDateWithInputTime(nightDate, currentInput, defaultSessionEnd());
 
   if (mode === 'time') return manualEnd;
   if (mode === 'twilight_start_nautical') return events.nauticalDawn || manualEnd;
@@ -262,7 +248,6 @@ export function useTargetScheduler() {
   const t = i18n.global.t;
 
   const mainStore = apiStore();
-  const settingsStore = useSettingsStore();
   const sequenceStore = useSequenceV2Store();
   const favoritesStore = useFavTargetStore();
   const toastStore = useToastStore();
@@ -326,25 +311,14 @@ export function useTargetScheduler() {
   const isApplyingToSequence = ref(false);
 
   const location = computed(() => {
-    const profileCoords = mainStore.profileInfo?.AstrometrySettings || {};
-    const coord = settingsStore.coordinates || {};
-
-    const latitude = Number(
-      coord.latitude ?? profileCoords.Latitude ?? profileCoords.latitude ?? null
-    );
-
-    const longitude = Number(
-      coord.longitude ?? profileCoords.Longitude ?? profileCoords.longitude ?? null
-    );
-
-    const altitude = Number(
-      coord.altitude ?? profileCoords.Elevation ?? profileCoords.elevation ?? 0
-    );
-
+    const a = mainStore.profileInfo?.AstrometrySettings;
+    const latitude = a?.Latitude ?? null;
+    const longitude = a?.Longitude ?? null;
+    const altitude = a?.Elevation ?? 0;
     return {
-      latitude: Number.isFinite(latitude) ? latitude : null,
-      longitude: Number.isFinite(longitude) ? longitude : null,
-      altitude: Number.isFinite(altitude) ? altitude : 0,
+      latitude: Number.isFinite(Number(latitude)) ? Number(latitude) : null,
+      longitude: Number.isFinite(Number(longitude)) ? Number(longitude) : null,
+      altitude: Number.isFinite(Number(altitude)) ? Number(altitude) : 0,
     };
   });
 
@@ -396,29 +370,38 @@ export function useTargetScheduler() {
       return;
     }
 
-    const nightDate = getDateOnlyOrToday(sessionStartInput.value);
-    const events = computeNightSessionEvents({
-      nightDate,
+    const startNightDate = resolveNightDateFromInput(
+      sessionStartInput.value,
+      sessionStartMode.value,
+      new Set(['twilight_end_nautical', 'twilight_end_astronomical', 'sun_set', 'moon_set'])
+    );
+    const endNightDate = resolveNightDateFromInput(
+      sessionEndInput.value,
+      sessionEndMode.value,
+      new Set(['twilight_start_nautical', 'twilight_start_astronomical', 'sun_rise', 'moon_rise'])
+    );
+
+    const startEvents = computeNightSessionEvents({
+      nightDate: startNightDate,
+      location: location.value,
+    });
+    const endEvents = computeNightSessionEvents({
+      nightDate: endNightDate,
       location: location.value,
     });
 
     const nextStart = resolveStartDateForMode(
       sessionStartMode.value,
-      events,
-      nightDate,
+      startEvents,
+      startNightDate,
       sessionStartInput.value
     );
-    let nextEnd = resolveEndDateForMode(
+    const nextEnd = resolveEndDateForMode(
       sessionEndMode.value,
-      events,
-      nightDate,
+      endEvents,
+      endNightDate,
       sessionEndInput.value
     );
-
-    if (nextEnd <= nextStart) {
-      nextEnd = new Date(nextEnd);
-      nextEnd.setDate(nextEnd.getDate() + 1);
-    }
 
     const nextStartInput = toInputDateTime(nextStart);
     const nextEndInput = toInputDateTime(nextEnd);
@@ -850,6 +833,14 @@ export function useTargetScheduler() {
   }
 
   let recomputeTimer = null;
+  watch(sessionStartMode, (nextMode, prevMode) => {
+    if (nextMode === 'now' && prevMode !== 'now') {
+      isSyncingSessionInputs = true;
+      sessionStartInput.value = toInputDateTime(new Date());
+      isSyncingSessionInputs = false;
+    }
+  });
+
   watch(
     [
       sessionStartMode,
@@ -857,6 +848,7 @@ export function useTargetScheduler() {
       () => location.value.latitude,
       () => location.value.longitude,
       sessionStartInput,
+      sessionEndInput,
     ],
     () => {
       if (isSyncingSessionInputs) return;

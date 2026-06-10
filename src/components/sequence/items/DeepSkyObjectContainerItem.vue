@@ -307,13 +307,18 @@ const raStr = computed(() => {
 const decStr = computed(() => {
   const co = coords.value;
   if (!co.DecDegrees && co.DecDegrees !== 0) return '';
-  const sign = co.NegativeDec ? '-' : '+';
-  return `${sign}${String(co.DecDegrees).padStart(2, '0')}°${String(co.DecMinutes).padStart(2, '0')}'${String(Math.round(co.DecSeconds)).padStart(2, '0')}"`;
+  const isNegative = co.NegativeDec || (co.DecDegrees ?? 0) < 0;
+  const sign = isNegative ? '-' : '+';
+  const absDeg = Math.abs(co.DecDegrees);
+  return `${sign}${String(absDeg).padStart(2, '0')}°${String(co.DecMinutes).padStart(2, '0')}'${String(Math.round(co.DecSeconds)).padStart(2, '0')}"`;
 });
 
-const decDeg = computed(() =>
-  coords.value.NegativeDec ? -coords.value.DecDegrees : coords.value.DecDegrees
-);
+const decDeg = computed(() => {
+  const co = coords.value;
+  const isNegative = co.NegativeDec || (co.DecDegrees ?? 0) < 0;
+  const absDeg = Math.abs(co.DecDegrees ?? 0);
+  return isNegative ? -absDeg : absDeg;
+});
 
 const displayPositionAngle = computed(() => {
   const value = parsedTarget.value?.PositionAngle ?? props.item.Target?.PositionAngle ?? 0;
@@ -326,8 +331,9 @@ const currentRaDeg = computed(() => {
 });
 const currentDecDeg = computed(() => {
   const c = coords.value;
-  const abs = (c.DecDegrees ?? 0) + (c.DecMinutes ?? 0) / 60 + (c.DecSeconds ?? 0) / 3600;
-  return c.NegativeDec ? -abs : abs;
+  const isNegative = c.NegativeDec || (c.DecDegrees ?? 0) < 0;
+  const abs = Math.abs(c.DecDegrees ?? 0) + (c.DecMinutes ?? 0) / 60 + (c.DecSeconds ?? 0) / 3600;
+  return isNegative ? -abs : abs;
 });
 
 function callSetTarget(raDeg, decDeg, name, rotation) {

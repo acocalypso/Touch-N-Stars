@@ -44,6 +44,12 @@
       "message_api_version": "The API plugin is too old. Please perform an update",
       "message_tns": "The Touch'N'Stars plugin is not available. Please check the settings in NINA",
       "message_tns_version": "The Touch N Stars plugin is too old. Please perform an update"
+    },
+    "connection_splash": {
+      "trying": "Trying to connect to instance {instance} at {endpoint} ({elapsed}s elapsed, {remaining}s until this is marked as delayed).",
+      "delayed": "Still trying to connect to instance {instance} at {endpoint} ({elapsed}s elapsed). Open Settings to verify your Touch-N-Stars instance.",
+      "configured_instance": "configured instance",
+      "default_instance_name": "selected instance"
     }
   },
   "whatsnew": {
@@ -245,7 +251,10 @@
         "syncLabel": "Sync time to mount",
         "syncLabelInfo": "When enabled, clicking \"Sync Now\" will briefly disconnect and reconnect the mount so that NINA can transfer the current time to it.",
         "mountNotConnected": "Mount not connected",
-        "notSupported": "Not supported by driver"
+        "notSupported": "Not supported by driver",
+        "syncSuccess": "Time synchronised successfully.",
+        "syncError": "Time synchronisation failed. Check the connection to the PINS device.",
+        "loadError": "Could not load time information."
       },
       "connection": "Connection Settings",
       "language": "Language",
@@ -380,7 +389,29 @@
         "ASTAPLocation": "ASTAP Location",
         "Filter": "Plate Solving Filter",
         "FilterCurrent": "Current",
-        "FilterHint": "Filter used during plate solving (overrides the current filter)"
+        "FilterHint": "Filter used during plate solving (overrides the current filter)",
+        "astapDatabaseTitle": "ASTAP Star Database (PINS)",
+        "astapDatabaseDescription": "Install missing ASTAP star databases directly on your PINS device.",
+        "astapDatabaseSelectPlaceholder": "Select a database",
+        "astapDatabaseNoInstallable": "No installable ASTAP star databases available",
+        "astapDatabaseInstall": "Install",
+        "astapDatabaseInstalling": "Installing...",
+        "astapDatabaseStarting": "Starting...",
+        "astapDatabaseLastChecked": "Last checked: {value}",
+        "astapDatabaseJobStatus": "Job {jobId}: {status}",
+        "astapDatabaseJobStarted": "started",
+        "astapDatabaseUnknownError": "Unknown error",
+        "astapDatabaseAllInstalled": "All ASTAP star databases are already installed.",
+        "astapDatabaseLoadFailed": "Failed to load databases: {detail}",
+        "astapDatabaseInstallSuccess": "ASTAP star database {databaseId} installed successfully.",
+        "astapDatabaseInstallFailed": "ASTAP star database install failed{exitCode}.",
+        "astapDatabaseUnauthorizedStatus": "Unauthorized while checking install status.",
+        "astapDatabaseStatusCheckFailedRetrying": "Status check failed: {detail}. Retrying...",
+        "astapDatabaseStartInstall": "Starting installation for {databaseId}...",
+        "astapDatabaseMissingJobId": "Install request succeeded but no jobId was returned.",
+        "astapDatabaseJobStartedMessage": "Install job started for {databaseId}.",
+        "astapDatabaseUnauthorizedStart": "Unauthorized while starting ASTAP star database install.",
+        "astapDatabaseStartFailed": "Failed to start install: {detail}"
       },
       "equipment": {
         "title": "Equipment",
@@ -449,7 +480,8 @@
         "guideCamRequired": "A valid guide camera must be selected."
       },
       "guiderCam": {
-        "name": "Guide Camera"
+        "name": "Guide Camera",
+        "manualVnc": "Manual via VNC"
       },
       "safety": {
         "name": "Safety monitor"
@@ -824,6 +856,9 @@
           "slope": "Slope",
           "intercept": "Intercept",
           "absolute": "Absolute"
+        },
+        "startGuiding": {
+          "forceCalibrationLabel": "Force Calibration"
         }
       },
       "emptyContainer": "Empty — click + to add items",
@@ -995,7 +1030,66 @@
         "camera": "Camera",
         "cameraGain": "Gain",
         "cameraBinning": "Binning",
-        "restoreCalibration": "Restore Calibration",
+        "restoreCalibration": "Auto restore calibration",
+        "assumeDecOrthogonal": "Assume Dec orthogonal to RA",
+        "useDecCompensation": "Use Dec compensation",
+        "fastRecenter": "Fast recenter after calibration or dither",
+        "mountGuideOutput": "Enable mount guide output",
+        "help": {
+          "fastRecenter": "During calibration or dithering the mount can move far from the lock position. If on, PHD2 moves back as fast as possible to save time — completely optional. If calibration often fails because the star snaps back too quickly, turn it off (often a sign of large polar-alignment or periodic error).",
+          "mountGuideOutput": "Lets PHD2 actually send guide commands to the mount. Normally on; turn it off only if you want to observe the mount's uncorrected behaviour.",
+          "searchRegion": "Size of the tracking rectangle in pixels (a radius — 15 means a 30×30 box). Increase it if the mount tracks poorly or isn't well polar-aligned; too large a region can catch multiple stars and hurt guiding.",
+          "minStarHFD": "Smallest half-flux-diameter (the 'size') a star must have to be used as guide star — the best way to stop PHD2 locking onto clumps of hot pixels. Default ~1.5 suits most setups; raise it only if real faint stars get rejected.",
+          "maxStarHFD": "Largest half-flux-diameter a guide star may have; bloated or out-of-focus blobs above this are ignored during selection.",
+          "massChangeEnabled": "Monitors the guide star's brightness and size versus the background. Deprecated — usually best left off; enable only to be sure PHD2 doesn't switch to a nearby star.",
+          "massChangeThreshold": "With Star Mass Detection on, PHD2 reports a lost star if the star's brightness or size changes more than this percent. Increase it (or disable detection) if you get frequent 'star lost – mass change' errors while the star is clearly visible.",
+          "minStarSNR": "Minimum SNR a star needs to be auto-selected (non-saturated stars). Change only if experienced — too high a value means no star gets picked; refreshing the dark library or using longer exposures is usually better.",
+          "useMultipleStars": "Guides on several stars at once instead of just one, which improves stability. Not available when sub-frames are used.",
+          "autoSelectDownsample": "For rare cases where auto-selection fails because the stars look misshapen. Leave on 'Auto'; values above 1 can improve recognition.",
+          "saturationByADU": "How PHD2 detects saturated stars so it can avoid them. 'By ADU value' uses the brightness reported by the sensor (recommended); the alternative judges saturation from the star-profile shape and is less accurate.",
+          "saturationADUValue": "Pixel value at which a star counts as saturated (8-bit cameras ≈ 255, 16-bit ≈ 65535). If unsure, set it to your camera's maximum pixel value.",
+          "cameraGain": "Guide-camera gain as a percentage of the camera's range (e.g. 50% maps to gain 60 on a 40–80 camera). Lower gain reduces noise; it usually doesn't need changing once your setup is stable.",
+          "cameraBinning": "Hardware binning for guide exposures — raises sensitivity and speeds downloads at the cost of resolution. Use a separate PHD2 profile for each binning value.",
+          "focalLength": "Focal length of the guide scope in millimetres. With the pixel size it sets the image scale and lets PHD2 report guiding in arc-seconds, so set it correctly.",
+          "calibrationStep": "Length of each guide pulse during calibration. Aim for a value giving 8–14 steps in each direction, and calibrate near the celestial equator (declination ≈ 0).",
+          "restoreCalibration": "Automatically reloads the latest calibration when equipment connects (good for ASCOM/INDI or aux-mount setups). If you use it, the guide camera must not be rotated relative to the scope or sky.",
+          "assumeDecOrthogonal": "PHD2 normally measures the camera angle for RA and Dec independently. Force the Dec angle perpendicular to RA to help with very high periodic error, large Dec backlash or poor seeing.",
+          "useDecCompensation": "Automatically adjusts the RA guide rate for the current declination (needs an ASCOM/INDI mount connection). Leave on except in unusual cases. Not the same as declination backlash compensation.",
+          "reverseDecAfterFlip": "Tells PHD2 how to adjust calibration after a meridian flip. Leave off if guiding is normal after a flip; turn it on and recalibrate only if you see run-away guiding in declination afterwards.",
+          "guideAlgorithm": "Selects the guiding algorithm for this axis. Hysteresis weighs recent corrections against the latest deflection; ResistSwitch resists direction changes (good for Dec backlash); LowPass/LowPass2 are conservative choices for good mounts; Predictive PEC (PPEC) models and pre-corrects periodic error (RA); ZFilter works in the frequency domain. Defaults suit most users.",
+          "algo": {
+            "minMove": "Smallest star deflection (in pixels) that triggers a guide correction; smaller moves are ignored to avoid chasing seeing. This is the parameter most worth tuning per night for the conditions.",
+            "maxMove": "Largest single guide correction allowed, in pixels; caps over-reaction to a spurious large jump.",
+            "aggression": "How strongly each measured error is corrected, in percent. 100% applies the full correction; lower values (e.g. 60%) correct less to avoid over-shoot. Lower is safer.",
+            "hysteresis": "Weight given to the history of recent corrections versus the latest frame, in percent. Higher values smooth the corrections but react more slowly to a genuine change of direction.",
+            "predictiveWeight": "Predictive PEC: weight of the predicted (modelled) part of the correction. Defaults suit most mounts; large changes can worsen guiding.",
+            "reactiveWeight": "Predictive PEC: weight of the reactive part, based on the star's displacement in the latest frame. Defaults suit most mounts.",
+            "slopeWeight": "LowPass: how much the recent trend (slope) of star movement influences the correction, in percent. Keeps the algorithm from being too sluggish; 0 uses only the median of recent history.",
+            "expFactor": "ZFilter: the virtual exposure time equals the real exposure × this factor. Higher values filter more seeing (smoother but slower); a virtual exposure of ~2–4 s is a good starting point for RA."
+          },
+          "ditherMode": "How PHD2 computes each dither. Random picks a random size and direction; Spiral uses fixed-size steps in a clockwise spiral — useful when the imaging camera has fixed-pattern noise or the mount has troublesome Dec backlash.",
+          "ditherRaOnly": "Dither only along the RA axis. Useful when Dec guiding is off or the mount has significant Dec backlash.",
+          "ditherScale": "Multiplier applied to the dither amount requested by the imaging application — increase it for larger dithers, decrease for smaller.",
+          "backlashAmount": "Length of the extra correction pulse (in ms) PHD2 adds on a DEC direction reversal. PHD2 auto-tunes this between Min and Max.",
+          "backlashEnabled": "Compensates for DEC backlash by adding an extra pulse when the mount reverses direction. Helpful for mounts with noticeable gear backlash; leave off if your mount guides cleanly in DEC.",
+          "backlashMax": "Upper limit (ms) for the auto-adjusted backlash pulse amount.",
+          "backlashMin": "Lower limit (ms) for the auto-adjusted backlash pulse amount."
+        },
+        "starDetection": "Guide Star Tracking",
+        "searchRegion": "Search region (pixels)",
+        "minStarHFD": "Minimum star HFD (pixels)",
+        "maxStarHFD": "Maximum star HFD (pixels)",
+        "beepForLostStar": "Beep on lost star",
+        "starMassDetection": "Star Mass Detection",
+        "massChangeEnabled": "Enable",
+        "massChangeThreshold": "Tolerance",
+        "minStarSNR": "Minimum star SNR for AutoFind",
+        "autoSelectDownsample": "Auto-selection frame downsample",
+        "saturationByADU": "Saturation by ADU",
+        "saturationADUValue": "Saturation ADU Value",
+        "mountSettings": "Mount",
+        "guideRate": "Guide Rate",
+        "guideRateReadOnly": "Read only",
         "guiderScale": "Guider Scale",
         "maxY": "Max Y",
         "historySize": "History Size",
@@ -1102,6 +1196,22 @@
           "invalidRange": "Min exposure must be less than or equal to max exposure",
           "buildActive": "Dark library build in progress",
           "buildActiveMessage": "PHD2 actions are blocked until the build completes."
+        },
+        "dither": "Dither",
+        "ditherMode": "Dither mode",
+        "ditherRaOnly": "Dither RA only",
+        "ditherScale": "Dither scale",
+        "ditherModeRandom": "Random",
+        "ditherModeSpiral": "Spiral",
+        "imageDisplay": "Image Display",
+        "imageGamma": "Stretch (Gamma)",
+        "imageGammaHint": "Low = stronger stretch, High = linear",
+        "backlash": {
+          "enabled": "Enable",
+          "amount": "Amount (ms)",
+          "max": "Max (ms)",
+          "min": "Mín (ms)",
+          "title": "Backlash Compensation"
         }
       }
     },
@@ -1607,7 +1717,24 @@
         "atmosphere_visible": "Show atmosphere",
         "landscapes_visible": "Show landscapes",
         "dsos_visible": "Deep Sky Objects (Messier, NGC)",
-        "title": "Settings"
+        "title": "Settings",
+        "landscape_source_mode": "Landscape source",
+        "landscape_source_default": "Default landscape (Guereins)",
+        "landscape_source_neutral": "Neutral horizon (Gray)",
+        "landscape_source_custom": "Custom data source",
+        "landscape_option_label": "Landscape: {title}",
+        "custom_landscape_url": "Custom source URL",
+        "custom_landscape_url_placeholder": "e.g. /stellarium-data/landscapes/custom",
+        "custom_landscape_key": "Custom source key",
+        "custom_landscape_key_placeholder": "e.g. my-landscape",
+        "available_landscapes": "Available landscapes",
+        "no_landscapes_available": "No landscapes available.",
+        "untitled_landscape": "Untitled landscape",
+        "has_allsky": "Allsky",
+        "no_allsky": "No allsky",
+        "folder_name_label": "folderName",
+        "service_url_label": "serviceUrl",
+        "landscape_list_load_failed": "Failed to load landscapes."
       }
     },
     "profile": {
@@ -1745,8 +1872,15 @@
       "hotspotConfigured": "Custom hotspot password is configured.",
       "hotspotNotConfigured": "Default hotspot password is currently in use.",
       "hotspotRefresh": "Refresh hotspot password status",
+      "hotspotMetaLine": "Source: {source} | Interface: {iface} | Band: {band} | Channel: {channel}",
+      "hotspotBandLabel": "Hotspot Band",
+      "hotspotBandAuto": "Auto / Unset",
+      "hotspotChannelLabel": "Hotspot Channel",
+      "hotspotChannelPlaceholder": "Leave empty for auto",
+      "hotspotAppliedStatus": "Applied to active hotspot: {applied} | Band: {band} | Channel: {channel}",
+      "hotspotCapabilitiesUnavailable": "Adapter capability list unavailable; manual channel allowed.",
       "hotspotNewPassword": "New hotspot password",
-      "hotspotPasswordHint": "Minimum 8 characters.",
+      "hotspotPasswordHint": "Required once per session or when changing password. Use 8-63 characters.",
       "hotspotSave": "Save Hotspot Password",
       "hotspotSaving": "Saving hotspot password...",
       "systemTime": "System Time",
@@ -1803,10 +1937,13 @@
         "wifiInterfacesLoadFailed": "Failed to load selected WiFi interfaces: {message}",
         "wifiInterfacesSaved": "Saved WiFi interfaces. Client: {clientInterface}, Hotspot: {hotspotInterface}",
         "wifiInterfacesSaveFailed": "Failed to save WiFi interfaces: {message}",
-        "hotspotFetched": "Hotspot password status loaded (configured={configured}, source={source}).",
+        "hotspotFetched": "Hotspot settings loaded (configured={configured}, source={source}, band={band}, channel={channel}).",
+        "hotspotFetchFailed": "Failed to load hotspot settings: {message}",
         "hotspotSaving": "Updating hotspot password...",
-        "hotspotSaved": "Hotspot password updated successfully: {message}",
-        "hotspotPasswordTooShort": "Hotspot password must be at least 8 characters.",
+        "hotspotSaved": "Hotspot settings updated successfully: {message} (applied to active hotspot: {applied}).",
+        "hotspotSaveFailed": "Failed to save hotspot settings: {message}",
+        "hotspotPasswordInvalidLength": "Hotspot password is required and must be 8-63 characters.",
+        "hotspotChannelInvalid": "Hotspot channel must be a positive integer when provided.",
         "jobCreated": "Job successfully created. ID: {jobId}",
         "daemonCheck": "Make sure the PINS daemon is running on {ip}:{port}",
         "serverError": "Server Error ({status}): {data}",
@@ -1838,7 +1975,8 @@
         "pluginInstallStart": "Installing plugin: {packageName}",
         "pluginUninstallStart": "Uninstalling plugin: {packageName}",
         "pluginActionSuccess": "Plugin action finished successfully: {packageName}",
-        "pluginActionFailed": "Plugin action failed for {packageName}. Status: {status}"
+        "pluginActionFailed": "Plugin action failed for {packageName}. Status: {status}",
+        "hotspotPasswordTooShort": "The hotspot password must be at least 8 characters long."
       },
       "wifiDisconnect": "Disconnect WiFi",
       "disconnectConfirmTitle": "Disconnect WiFi?",
@@ -2029,6 +2167,39 @@
       "lastToken": "Generated Token",
       "submissionHistory": "Submission History",
       "confirmClearAll": "Are you sure you want to clear all submission history?",
+      "diagnostics": {
+        "title": "Diagnostics Support (PINS)",
+        "intro": "Select diagnostics sections, start archive collection, and download/upload the ZIP when ready.",
+        "sectionsTitle": "Sections",
+        "journalLines": "Journal lines",
+        "dmesgLines": "dmesg lines",
+        "start": "Start Collection",
+        "running": "Collecting...",
+        "download": "Download ZIP",
+        "downloadBusy": "Downloading...",
+        "refreshOptions": "Refresh Options",
+        "loadingOptions": "Loading options...",
+        "statusLabel": "Status",
+        "archiveId": "Archive ID",
+        "statusIdle": "Idle",
+        "statusQueued": "Queued",
+        "statusRunning": "Running",
+        "statusSuccess": "Success",
+        "statusFailed": "Failed",
+        "statusTimeout": "Timed out",
+        "started": "Diagnostics archive started.",
+        "optionsLoaded": "Diagnostics options loaded.",
+        "optionsLoadFailed": "Failed to load diagnostics options. Using defaults.",
+        "startFailed": "Failed to start diagnostics archive.",
+        "pollFailed": "Failed to poll diagnostics status.",
+        "stillPreparing": "Archive is still preparing. Please try download again shortly.",
+        "downloadFailed": "Failed to download diagnostics archive.",
+        "uploaded": "Diagnostics ZIP uploaded to support endpoint.",
+        "validationSections": "Select at least one section.",
+        "validationJournalLines": "Journal lines must be between 100 and 50000.",
+        "validationDmesgLines": "dmesg lines must be between 100 and 50000.",
+        "autoDownloaded": "Archive was downloaded automatically and upload was attempted."
+      },
       "actions": {
         "collectUpload": "Collect & Upload",
         "uploading": "Uploading…",
@@ -2049,6 +2220,80 @@
         "tokenCopyFailed": "Failed to copy token",
         "submissionRemoved": "Submission removed",
         "allSubmissionsCleared": "All submissions cleared"
+      }
+    },
+    "landscaperCreator": {
+      "title": "Stellarium Landscape Creator",
+      "subtitle": "Upload a 360 panorama, mark geographic North, and generate a Stellarium landscape ZIP.",
+      "instructions": {
+        "title": "How to prepare your input",
+        "line1": "Use a 360° equirectangular panorama image.",
+        "line2": "For horizon-only landscapes, keep the sky transparent when possible.",
+        "line3": "Click or drag on the preview where geographic North should be.",
+        "line4": "Download the ZIP and extract it into your Stellarium Web landscapes folder."
+      },
+      "image": {
+        "sectionTitle": "1) Image Upload",
+        "select": "Select Panorama",
+        "replace": "Replace Panorama",
+        "remove": "Remove",
+        "typesHint": "Accepted formats: PNG, JPEG, WebP",
+        "fileName": "File name",
+        "fileSize": "File size",
+        "dimensions": "Dimensions",
+        "aspectRatio": "Aspect ratio",
+        "aspectWarning": "The uploaded image aspect ratio is {ratio}. A 360 panorama should be close to 2:1."
+      },
+      "preview": {
+        "sectionTitle": "2) Panorama Preview and North Marker",
+        "help": "Click or drag horizontally on the panorama to set where geographic North is.",
+        "imageAlt": "Uploaded panorama preview",
+        "empty": "Upload a panorama image to enable preview.",
+        "currentNorth": "northOffsetDeg:",
+        "quickLeft": "North at left edge",
+        "quickCenter": "North at center",
+        "quickReset": "Reset",
+        "signHint": "If the generated landscape appears mirrored or rotated the wrong direction, the offset sign may need to be inverted depending on backend convention."
+      },
+      "details": {
+        "sectionTitle": "3) Landscape Details"
+      },
+      "fields": {
+        "name": "Landscape name",
+        "namePlaceholder": "e.g. My Observatory Horizon",
+        "folderName": "Folder name",
+        "folderNamePlaceholder": "auto-generated-from-name",
+        "description": "Description",
+        "latitude": "Latitude",
+        "longitude": "Longitude",
+        "altitude": "Altitude",
+        "author": "Author"
+      },
+      "folder": {
+        "autoHint": "Folder names are sanitized to lowercase, underscore/hyphen safe format."
+      },
+      "actions": {
+        "generate": "Generate ZIP",
+        "generating": "Generating ZIP..."
+      },
+      "validation": {
+        "fixErrors": "Please fix the highlighted fields.",
+        "imageRequired": "Please upload an image file.",
+        "nameRequired": "Landscape name is required.",
+        "folderNameRequired": "Folder name is required.",
+        "folderNameInvalid": "Folder name contains invalid characters."
+      },
+      "toast": {
+        "validationTitle": "Validation",
+        "successTitle": "Landscape ZIP ready",
+        "successMessage": "Downloaded {filename}",
+        "successMessageSaved": "Saved {filename} to {path}.",
+        "errorTitle": "Landscape generation failed",
+        "invalidFileType": "Unsupported file type. Please upload PNG, JPEG, or WebP."
+      },
+      "errors": {
+        "imageLoadFailed": "The image could not be loaded.",
+        "requestFailed": "Failed to generate the landscape ZIP."
       }
     },
     "telescopius": {
@@ -2209,12 +2454,7 @@
         "title": "Snapshot URL Help",
         "what": "A snapshot URL is a direct link to a single image from your IP camera. The URL must return a JPEG or PNG image directly — not an HTML page or a video stream.",
         "examplesTitle": "Examples",
-        "exampleLabels": [
-          "Generic IP camera",
-          "ONVIF camera",
-          "Axis camera",
-          "Hikvision camera"
-        ],
+        "exampleLabels": ["Generic IP camera", "ONVIF camera", "Axis camera", "Hikvision camera"],
         "credentialsTitle": "Password-protected cameras",
         "credentials": "If your camera requires a username and password, include the credentials directly in the URL:",
         "credentialsNote": "The backend proxy handles authentication automatically — credentials in the URL work with both Basic and Digest authentication (e.g. Hikvision).",
@@ -2798,6 +3038,7 @@
         "ports": "PowerBox",
         "wifi": "WiFi",
         "weather": "MeteoStation",
+        "lensControl": "LensControl",
         "temperature": "Temperature",
         "humidity": "Humidity",
         "dewPoint": "Dew Point",
@@ -2917,6 +3158,22 @@
         "cloudAssessment": "Cloud Coverage",
         "temperatureStatus": "Temperature Status",
         "dewSpread": "Dew Spread (T-Td)"
+      },
+      "lensControl": {
+        "lens": "Lens",
+        "focalLength": "Focal Length",
+        "position": "Focus Position",
+        "aperture": "Aperture",
+        "current": "Current",
+        "range": "Range",
+        "set": "Set",
+        "calibrate": "Calibrate",
+        "calibrating": "Calibrating...",
+        "deviceInfo": "Device Information",
+        "firmware": "Firmware",
+        "driver": "SDK Version",
+        "restart": "Restart Device",
+        "restarting": "Restarting..."
       }
     },
     "shortcuts": {
@@ -3590,6 +3847,7 @@
       },
       "sessionModes": {
         "time": "Time",
+        "now": "Now",
         "twilightEndNautical": "Twilight end nautical",
         "twilightEndAstronomical": "Twilight end astronomical",
         "sunSet": "Sun set",
@@ -3857,6 +4115,9 @@
       "visVisible": "Visible tonight",
       "visHidden": "Below horizon tonight",
       "page": "{n} / {total}"
+    },
+    "vncRemote": {
+      "debugModeWarning": "Debug mode is active — VNC connection is not available. Please disable debug mode in settings."
     }
   },
   "pinsDevices": {
@@ -4160,7 +4421,9 @@
       "autoDetect": "Auto Search",
       "ipAddress": "IP Address",
       "tcpPort": "TCP Port",
-      "selectPort": "-- Select a port --"
+      "selectPort": "-- Select a port --",
+      "manualPort": "Manual…",
+      "manualPortPath": "Manual Port"
     }
   },
   "nav": {

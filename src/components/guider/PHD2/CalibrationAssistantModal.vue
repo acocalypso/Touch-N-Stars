@@ -63,6 +63,21 @@
               @change="onCalibrationStepChange"
             />
 
+            <!-- Calibration Distance (PINS only) -->
+            <NumberInputPicker
+              v-if="store.isPINS"
+              v-model="calibrationDistance"
+              :label="$t('components.guider.phd2.calibDistance')"
+              labelKey="components.guider.phd2.calibDistance"
+              :min="10"
+              :max="200"
+              :step="1"
+              :decimalPlaces="0"
+              inputId="calibrationDistanceAssistant"
+              wrapperClass="w-full"
+              @change="onCalibrationDistanceChange"
+            />
+
             <!-- East/West Selection -->
             <div>
               <label class="block text-xs text-gray-400 mb-1">
@@ -328,6 +343,24 @@ async function onCalibrationStepChange(value) {
     await guiderStore.setPHD2CalibrationStep(value);
   } catch {
     guiderStore.phd2CalibrationStep = prev;
+  }
+}
+
+const calibrationDistance = computed({
+  get() {
+    return guiderStore.phd2CalibrationDistance ?? 25;
+  },
+  set(value) {
+    guiderStore.phd2CalibrationDistance = value;
+  },
+});
+
+async function onCalibrationDistanceChange(value) {
+  const prev = guiderStore.phd2CalibrationDistance;
+  try {
+    await guiderStore.setPHD2CalibrationDistance(value);
+  } catch {
+    guiderStore.phd2CalibrationDistance = prev;
   }
 }
 

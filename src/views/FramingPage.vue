@@ -203,8 +203,8 @@ function selectTarget(item) {
   const { altitude, azimuth } = raDecToAltAz(
     item.RA,
     item.Dec,
-    settingsStore.coordinates.latitude,
-    settingsStore.coordinates.longitude
+    appStore.profileInfo?.AstrometrySettings?.Latitude ?? 0,
+    appStore.profileInfo?.AstrometrySettings?.Longitude ?? 0
   );
   framingStore.ALTangle = altitude;
   framingStore.AZangle = azimuth;

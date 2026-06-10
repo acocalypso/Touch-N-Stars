@@ -90,13 +90,23 @@ function computePanels() {
   let cosDec = Math.cos((centerDec * Math.PI) / 180);
   if (Math.abs(cosDec) < 1e-8) cosDec = 1e-8;
 
+  const theta = (centerRot * Math.PI) / 180;
+  const cosT = Math.cos(theta);
+  const sinT = Math.sin(theta);
+
   const panels = [];
   for (let row = 0; row < rows; row++) {
     for (let col = 0; col < cols; col++) {
       const dc = col - (cols - 1) / 2;
       const dr = row - (rows - 1) / 2;
-      const panelRA = centerRA - (dc * stepRa) / cosDec;
-      const panelDec = centerDec - dr * stepDec;
+      const rawX = dc * stepRa;
+      const rawY = dr * stepDec;
+      // Im Uhrzeigersinn rotieren, passend zur visuellen Kamera-Rotation in
+      // FramingAssitantImg (SVG rotiert clockwise um rotationAngleVisu).
+      const rotX = rawX * cosT + rawY * sinT;
+      const rotY = -rawX * sinT + rawY * cosT;
+      const panelRA = centerRA - rotX / cosDec;
+      const panelDec = centerDec - rotY;
       const panelRot = centerRot;
       panels.push({
         label: `${col + 1}-${row + 1}`,
@@ -114,7 +124,12 @@ async function confirmSave() {
   const baseName = nameInput.value.trim();
 
   if (isMosaic.value) {
-    const panels = computePanels();
+    // Panel-Koordinaten kommen aus dem Store (von FramingAssitantImg aus den
+    // tatsächlich gerenderten Pixelpositionen berechnet) und stimmen damit exakt
+    // mit dem Overlay überein. Fallback auf lokale Berechnung, falls leer.
+    const framingStore = useFramingStore();
+    const panels =
+      framingStore.mosaicPanelCoords.length > 0 ? framingStore.mosaicPanelCoords : computePanels();
     for (const p of panels) {
       await favTargetsStore.addFavorite({
         Name: `${baseName} Panel ${p.label}`,

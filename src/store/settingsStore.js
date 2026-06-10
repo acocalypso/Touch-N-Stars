@@ -16,11 +16,6 @@ export const useSettingsStore = defineStore('settings', {
     livestack: {
       showFilters: true,
     },
-    coordinates: {
-      latitude: null,
-      longitude: null,
-      altitude: null,
-    },
     connection: {
       ip: '',
       port: '',
@@ -105,10 +100,14 @@ export const useSettingsStore = defineStore('settings', {
       eclipticLinesVisible: false,
       atmosphereVisible: true,
       landscapesVisible: true,
+      landscapeSourceMode: 'default',
+      customLandscapeUrl: '',
+      customLandscapeKey: 'custom',
       dsosVisible: true, // Deep Sky Objects (Messier, NGC, etc.)
     },
     guider: {
       phd2ForceCalibration: false,
+      phd2ImageGamma: 0.5,
     },
     instanceColorClasses: [
       'bg-gray-900/95',
@@ -308,14 +307,6 @@ export const useSettingsStore = defineStore('settings', {
       return apiStore();
     },
 
-    setCoordinates(coords) {
-      this.coordinates = {
-        latitude: coords.latitude,
-        longitude: coords.longitude,
-        altitude: coords.altitude,
-      };
-    },
-
     completeSetup() {
       this.setupCompleted = true;
       localStorage.setItem('setupCompleted', 'true');
@@ -465,6 +456,11 @@ export const useSettingsStore = defineStore('settings', {
       this.saveGuiderSettings();
     },
 
+    setPhd2ImageGamma(value) {
+      this.guider.phd2ImageGamma = value;
+      this.saveGuiderSettings();
+    },
+
     setKeepAwakeEnabled(value) {
       this.keepAwakeEnabled = value;
     },
@@ -539,7 +535,6 @@ export const useSettingsStore = defineStore('settings', {
         paths: [
           'language',
           'setupCompleted',
-          'coordinates',
           'connection',
           'selectedInstanceId',
           'lastCreatedInstanceId',
@@ -551,6 +546,7 @@ export const useSettingsStore = defineStore('settings', {
           'useBetaFeatures',
           'touchOptimized',
           'camera',
+          'stellarium',
           'monitorViewSetting.graphDataSource1',
           'monitorViewSetting.graphDataSource2',
           'livestack',

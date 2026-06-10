@@ -116,7 +116,7 @@
 </template>
 
 <script setup>
-import { ref, watch } from 'vue';
+import { ref, watch, onUnmounted } from 'vue';
 import { apiStore } from '@/store/store';
 import { useGuiderStore } from '@/store/guiderStore';
 import apiPinsService from '@/services/apiPinsService';
@@ -269,12 +269,35 @@ watch(
   { immediate: true }
 );
 
+let pollInterval = null;
+
+function startPolling() {
+  stopPolling();
+  pollInterval = setInterval(() => {
+    if (store.isPINS && guiderStore.phd2IsConnected) fetchAll();
+  }, 5000);
+}
+
+function stopPolling() {
+  if (pollInterval !== null) {
+    clearInterval(pollInterval);
+    pollInterval = null;
+  }
+}
+
 watch(
   () => guiderStore.showGuiderGraph,
   (visible) => {
-    if (visible && guiderStore.phd2IsConnected) fetchAll();
+    if (visible && guiderStore.phd2IsConnected && store.isPINS) {
+      fetchAll();
+      startPolling();
+    } else {
+      stopPolling();
+    }
   }
 );
+
+onUnmounted(stopPolling);
 
 watch(() => [guiderStore.phd2GuideAlgorithmRA, guiderStore.phd2GuideAlgorithmDEC], fetchAlgoParams);
 </script>

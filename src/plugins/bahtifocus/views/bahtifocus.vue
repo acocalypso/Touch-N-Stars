@@ -1223,10 +1223,6 @@ function formatErrorForLog(error, fallbackMessage) {
     };
   }
 
-  if (error.context) {
-    details.context = error.context;
-  }
-
   if (error.cause) {
     details.cause =
       typeof error.cause === 'object'
@@ -1604,23 +1600,25 @@ async function submitBahtinovAnalysis(metadata, controller) {
     const contentType = imageState.mimeType || blob.type || inferMimeType(imageState.name);
     const binaryPayload = await blob.arrayBuffer();
 
-    const response = await fetchWithContext(
+    console.info('[Bahtifocus] Analyze request (binary)', {
       endpoint,
-      {
-        method: 'POST',
-        headers: {
-          'Content-Type': contentType || 'application/octet-stream',
-          'X-Bahtinov-Metadata': metadataHeader,
-        },
-        body: binaryPayload,
-        signal: controller.signal,
-        keepalive: false,
+      transportMode: metadata.transportMode,
+      contentType: contentType || 'application/octet-stream',
+      fileName: imageState.name || null,
+      mimeType: imageState.mimeType || null,
+      imageBytes: blob.size,
+    });
+
+    const response = await fetch(endpoint, {
+      method: 'POST',
+      headers: {
+        'Content-Type': contentType || 'application/octet-stream',
+        'X-Bahtinov-Metadata': metadataHeader,
       },
-      {
-        operation: 'bahtinov analyze (binary)',
-        transportMode: metadata.transportMode,
-      }
-    );
+      body: binaryPayload,
+      signal: controller.signal,
+      keepalive: false,
+    });
 
     const responseType = response.headers.get('content-type') || '';
     if (
@@ -1660,51 +1658,26 @@ async function submitLegacyAnalysis(metadata, controller) {
     fileName: imageState.name || undefined,
   };
 
-  const response = await fetchWithContext(
+  console.info('[Bahtifocus] Analyze request (legacy-json)', {
     endpoint,
-    {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(payload),
-      signal: controller.signal,
-      keepalive: false,
+    transportMode: 'legacy-json',
+    contentType: 'application/json',
+    fileName: imageState.name || null,
+    mimeType: imageState.mimeType || null,
+    imageBytes: imageState.sizeBytes || null,
+  });
+
+  const response = await fetch(endpoint, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
     },
-    {
-      operation: 'bahtinov analyze (legacy)',
-      transportMode: metadata.transportMode,
-    }
-  );
+    body: JSON.stringify(payload),
+    signal: controller.signal,
+    keepalive: false,
+  });
 
   return await parseBahtinovResponse(response);
-}
-
-async function fetchWithContext(url, options, context = {}) {
-  try {
-    return await fetch(url, options);
-  } catch (error) {
-    const method = options?.method || 'GET';
-    const operation = context.operation ? `${context.operation}: ` : '';
-    const enriched = new Error(
-      `${operation}${error?.message || 'Request failed'} (${method} ${url})`
-    );
-
-    enriched.name = error?.name || 'NetworkError';
-    enriched.cause = error;
-    enriched.context = {
-      ...context,
-      url,
-      method,
-      isOnline: typeof navigator !== 'undefined' ? navigator.onLine : null,
-    };
-
-    if (error?.response) {
-      enriched.response = error.response;
-    }
-
-    throw enriched;
-  }
 }
 
 function supportsBinaryUploads(blob) {

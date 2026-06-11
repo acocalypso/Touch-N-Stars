@@ -59,7 +59,9 @@
         {{ Number(store.cameraInfo.Temperature).toFixed(1) }}
       </p>
       <p v-if="store.cameraInfo.CoolerOn" class="hidden xs:block">
-        ({{ isNaN(store.cameraInfo.CoolerPower) ? 0 : Number(store.cameraInfo.CoolerPower).toFixed(0) }}%)
+        ({{
+          isNaN(store.cameraInfo.CoolerPower) ? 0 : Number(store.cameraInfo.CoolerPower).toFixed(0)
+        }}%)
       </p>
     </button>
     <!--Filter-->

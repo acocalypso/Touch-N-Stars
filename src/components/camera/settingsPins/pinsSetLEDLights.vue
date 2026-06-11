@@ -28,7 +28,7 @@ async function toggleMode() {
     }
   } else {
     try {
-      await apiService.cameraAction(`set-setting?settingName=LowNoiseMode&newValue=true`);
+      await apiService.cameraAction(`set-setting?settingName=LEDLights&newValue=true`);
     } catch (error) {
       console.log('Error:', error);
     }

@@ -748,6 +748,39 @@
         "annotation": {
           "text": "テキスト"
         },
+        "groundstation": {
+          "message": "メッセージ",
+          "title": "タイトル",
+          "subject": "件名",
+          "body": "本文",
+          "recipient": "宛先",
+          "topic": "トピック",
+          "payload": "ペイロード",
+          "qos": "QoS",
+          "retain": "Retain",
+          "description": "説明",
+          "method": "メソッド",
+          "url": "URL",
+          "contentType": "コンテンツタイプ",
+          "username": "ユーザー名",
+          "password": "パスワード",
+          "showEmbed": "埋め込みを表示",
+          "embedTitle": "埋め込みタイトル",
+          "embedText": "埋め込みテキスト",
+          "eventName": "イベント名",
+          "value1": "値 1",
+          "value2": "値 2",
+          "value3": "値 3",
+          "priority": "優先度",
+          "notificationSound": "通知音",
+          "tags": "タグ",
+          "channel": "チャンネル",
+          "doNotNotify": "サイレント通知",
+          "address": "アドレス",
+          "port": "ポート",
+          "payloadType": "ペイロードタイプ",
+          "lineTermination": "行末"
+        },
         "waitUntil": {
           "predicate": "条件"
         },
@@ -2377,12 +2410,7 @@
         "title": "スナップショットURLのヘルプ",
         "what": "スナップショットURLは、IPカメラの単一画像への直接リンクです。このURLはJPEGまたはPNG画像を直接返す必要があります（HTMLページやビデオストリームは不可）。",
         "examplesTitle": "例",
-        "exampleLabels": [
-          "汎用IPカメラ",
-          "ONVIFカメラ",
-          "軸カメラ",
-          "ハイクビジョンカメラ"
-        ],
+        "exampleLabels": ["汎用IPカメラ", "ONVIFカメラ", "軸カメラ", "ハイクビジョンカメラ"],
         "credentialsTitle": "パスワード保護されたカメラ",
         "credentials": "カメラにユーザー名とパスワードが必要な場合は、URLに認証情報を直接含めてください：",
         "credentialsNote": "バックエンドプロキシが認証を自動的に処理します。URLの認証情報はBasic認証とDigest認証（例：Hikvision）の両方で動作します。",

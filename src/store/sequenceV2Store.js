@@ -240,10 +240,12 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
       try {
         const res = await apiService.sequenceFetchTriggerTypes();
         const allTriggers = Array.isArray(res) ? res : (res?.Items ?? res?.Response ?? []);
-        this.availableTriggers = allTriggers.filter(
-          (t) =>
-            t.FullTypeName !== 'NINA.Sequencer.Trigger.MeridianFlip.ProgrammableMeridianFlipTrigger'
-        );
+        const hiddenTriggers = new Set([
+          'NINA.Sequencer.Trigger.MeridianFlip.ProgrammableMeridianFlipTrigger',
+          'DaleGhent.NINA.GroundStation.TTS.FailuresToTTS',
+          'DaleGhent.NINA.GroundStation.PlaySoundOnFailureTrigger.PlaySoundOnFailureTrigger',
+        ]);
+        this.availableTriggers = allTriggers.filter((t) => !hiddenTriggers.has(t.FullTypeName));
       } catch (e) {
         console.error('sequenceFetchTriggerTypes:', e);
       }

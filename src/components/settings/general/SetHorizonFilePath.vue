@@ -49,7 +49,9 @@
       </template>
       <template #body>
         <div class="flex flex-col gap-4">
-          <p class="text-gray-300">{{ $t('components.settings.horizonFilePath.confirmMessage') }}</p>
+          <p class="text-gray-300">
+            {{ $t('components.settings.horizonFilePath.confirmMessage') }}
+          </p>
           <div class="flex gap-3 justify-end">
             <button @click="showConfirm = false" class="default-button-gray">
               {{ $t('common.cancel') }}

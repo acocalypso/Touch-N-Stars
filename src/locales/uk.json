@@ -720,6 +720,39 @@
         "annotation": {
           "text": "Текст"
         },
+        "groundstation": {
+          "message": "Повідомлення",
+          "title": "Заголовок",
+          "subject": "Тема",
+          "body": "Текст",
+          "recipient": "Отримувач",
+          "topic": "Топік",
+          "payload": "Payload",
+          "qos": "QoS",
+          "retain": "Retain",
+          "description": "Опис",
+          "method": "Метод",
+          "url": "URL",
+          "contentType": "Тип вмісту",
+          "username": "Ім'я користувача",
+          "password": "Пароль",
+          "showEmbed": "Показати embed",
+          "embedTitle": "Заголовок embed",
+          "embedText": "Текст embed",
+          "eventName": "Назва події",
+          "value1": "Значення 1",
+          "value2": "Значення 2",
+          "value3": "Значення 3",
+          "priority": "Пріоритет",
+          "notificationSound": "Звук сповіщення",
+          "tags": "Теги",
+          "channel": "Канал",
+          "doNotNotify": "Тихе сповіщення",
+          "address": "Адреса",
+          "port": "Порт",
+          "payloadType": "Тип payload",
+          "lineTermination": "Кінець рядка"
+        },
         "waitUntil": {
           "predicate": "Умова"
         },
@@ -3887,12 +3920,7 @@
         "proxyTitle": "Проксі vs. Прямий",
         "proxyText": "Кожна камера може отримуватися двома способами:",
         "close": "Закрити",
-        "exampleLabels": [
-          "Звичайна IP-камера",
-          "Камера ONVIF",
-          "Камера Axis",
-          "Камера Hikvision"
-        ],
+        "exampleLabels": ["Звичайна IP-камера", "Камера ONVIF", "Камера Axis", "Камера Hikvision"],
         "proxyOptions": [
           "Проксі (за замовчуванням): Зображення отримується сервером NINA та передається в браузер. Потрібно для камер локальної мережі з обліковими даними або обмеженнями CORS. Трохи повільніше при доступі через VPN.",
           "Прямий: Браузер отримує зображення безпосередньо. Швидше для публічних інтернет-камер (напр. публічні allsky-камери). Не підтримує облікові дані в URL в Chrome/Edge."

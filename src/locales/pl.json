@@ -731,6 +731,39 @@
         "annotation": {
           "text": "Tekst"
         },
+        "groundstation": {
+          "message": "Wiadomość",
+          "title": "Tytuł",
+          "subject": "Temat",
+          "body": "Treść",
+          "recipient": "Odbiorca",
+          "topic": "Topic",
+          "payload": "Payload",
+          "qos": "QoS",
+          "retain": "Retain",
+          "description": "Opis",
+          "method": "Metoda",
+          "url": "URL",
+          "contentType": "Typ zawartości",
+          "username": "Nazwa użytkownika",
+          "password": "Hasło",
+          "showEmbed": "Pokaż embed",
+          "embedTitle": "Tytuł embedu",
+          "embedText": "Tekst embedu",
+          "eventName": "Nazwa zdarzenia",
+          "value1": "Wartość 1",
+          "value2": "Wartość 2",
+          "value3": "Wartość 3",
+          "priority": "Priorytet",
+          "notificationSound": "Dźwięk powiadomienia",
+          "tags": "Tagi",
+          "channel": "Kanał",
+          "doNotNotify": "Ciche powiadomienie",
+          "address": "Adres",
+          "port": "Port",
+          "payloadType": "Typ payloadu",
+          "lineTermination": "Koniec linii"
+        },
         "waitUntil": {
           "predicate": "Warunek"
         },
@@ -3670,12 +3703,7 @@
         "credentials": "Jeśli kamera wymaga nazwy użytkownika i hasła, podaj dane uwierzytelniające bezpośrednio w adresie URL:",
         "credentialsNote": "Serwer proxy zaplecza obsługuje uwierzytelnianie automatycznie — dane uwierzytelniające w adresie URL działają zarówno z uwierzytelnianiem podstawowym, jak i szyfrowanym (np. Hikvision).",
         "credentialsTitle": "Kamery chronione hasłem",
-        "exampleLabels": [
-          "Typowa kamera IP",
-          "Kamera ONVIF",
-          "Kamera osiowa",
-          "Kamera Hikvision"
-        ],
+        "exampleLabels": ["Typowa kamera IP", "Kamera ONVIF", "Kamera osiowa", "Kamera Hikvision"],
         "examplesTitle": "Przykłady",
         "proxyOptions": [
           "Proxy (domyślnie): Obraz jest pobierany przez backend NINA i przesyłany do przeglądarki. \nWymagane w przypadku kamer sieci lokalnej z poświadczeniami lub ograniczeniami CORS. \nNieco wolniejszy w przypadku dostępu przez VPN.",

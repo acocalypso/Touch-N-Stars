@@ -731,6 +731,39 @@
         "annotation": {
           "text": "Text"
         },
+        "groundstation": {
+          "message": "Zpráva",
+          "title": "Titulek",
+          "subject": "Předmět",
+          "body": "Obsah",
+          "recipient": "Příjemce",
+          "topic": "Topic",
+          "payload": "Payload",
+          "qos": "QoS",
+          "retain": "Retain",
+          "description": "Popis",
+          "method": "Metoda",
+          "url": "URL",
+          "contentType": "Typ obsahu",
+          "username": "Uživatelské jméno",
+          "password": "Heslo",
+          "showEmbed": "Zobrazit embed",
+          "embedTitle": "Titulek embedu",
+          "embedText": "Text embedu",
+          "eventName": "Název události",
+          "value1": "Hodnota 1",
+          "value2": "Hodnota 2",
+          "value3": "Hodnota 3",
+          "priority": "Priorita",
+          "notificationSound": "Zvuk oznámení",
+          "tags": "Tagy",
+          "channel": "Kanál",
+          "doNotNotify": "Tiché oznámení",
+          "address": "Adresa",
+          "port": "Port",
+          "payloadType": "Typ payloadu",
+          "lineTermination": "Konec řádku"
+        },
         "waitUntil": {
           "predicate": "Stav"
         },
@@ -3670,12 +3703,7 @@
         "credentials": "If your camera requires a username and password, include the credentials directly in the URL:",
         "credentialsNote": "The backend proxy handles authentication automatically — credentials in the URL work with both Basic and Digest authentication (e.g. Hikvision).",
         "credentialsTitle": "Password-protected cameras",
-        "exampleLabels": [
-          "Generic IP camera",
-          "ONVIF camera",
-          "Axis camera",
-          "Hikvision camera"
-        ],
+        "exampleLabels": ["Generic IP camera", "ONVIF camera", "Axis camera", "Hikvision camera"],
         "examplesTitle": "Examples",
         "proxyOptions": [
           "Proxy (default): The image is fetched by the NINA backend and forwarded to the browser. Required for local network cameras with credentials or CORS restrictions. Slightly slower when accessed over VPN.",

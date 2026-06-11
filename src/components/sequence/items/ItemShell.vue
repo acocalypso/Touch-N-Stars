@@ -143,6 +143,7 @@ import {
   AdjustmentsVerticalIcon,
   QueueListIcon,
   ViewColumnsIcon,
+  BellAlertIcon,
 } from '@heroicons/vue/24/outline';
 import { useSequenceV2Store } from '@/store/sequenceV2Store';
 
@@ -248,6 +249,8 @@ const ICON_MAP = [
   ['RMS', SparklesIcon, 'text-cyan-400'],
   // Livestack
   ['Livestack', PhotoIcon, 'text-violet-300'],
+  // Ground Station
+  ['DaleGhent.NINA.GroundStation', BellAlertIcon, 'text-rose-400'],
 ];
 
 const itemIcon = computed(() => {

@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - Settings: Clear Horizon File Path via a dedicated button
+- Sequence: Ground Station plugin support – add and edit notification items (Telegram, Discord, Slack, Pushover, ntfy, IFTTT, Email, MQTT, HTTP request, UDP) and failure triggers with dedicated editors
+- Sequence: Add picker now groups types into collapsible categories with item count, and the search also matches category names
 
 ## [App5.0.0] - 2026-05-20
 ### Added

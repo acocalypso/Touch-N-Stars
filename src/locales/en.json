@@ -789,6 +789,39 @@
         "annotation": {
           "text": "Text"
         },
+        "groundstation": {
+          "message": "Message",
+          "title": "Title",
+          "subject": "Subject",
+          "body": "Body",
+          "recipient": "Recipient",
+          "topic": "Topic",
+          "payload": "Payload",
+          "qos": "QoS",
+          "retain": "Retain",
+          "description": "Description",
+          "method": "Method",
+          "url": "URL",
+          "contentType": "Content Type",
+          "username": "Username",
+          "password": "Password",
+          "showEmbed": "Show Embed",
+          "embedTitle": "Embed Title",
+          "embedText": "Embed Text",
+          "eventName": "Event Name",
+          "value1": "Value 1",
+          "value2": "Value 2",
+          "value3": "Value 3",
+          "priority": "Priority",
+          "notificationSound": "Notification Sound",
+          "tags": "Tags",
+          "channel": "Channel",
+          "doNotNotify": "Silent Notification",
+          "address": "Address",
+          "port": "Port",
+          "payloadType": "Payload Type",
+          "lineTermination": "Line Termination"
+        },
         "waitUntil": {
           "predicate": "Condition"
         },
@@ -2457,12 +2490,7 @@
         "title": "Snapshot URL Help",
         "what": "A snapshot URL is a direct link to a single image from your IP camera. The URL must return a JPEG or PNG image directly — not an HTML page or a video stream.",
         "examplesTitle": "Examples",
-        "exampleLabels": [
-          "Generic IP camera",
-          "ONVIF camera",
-          "Axis camera",
-          "Hikvision camera"
-        ],
+        "exampleLabels": ["Generic IP camera", "ONVIF camera", "Axis camera", "Hikvision camera"],
         "credentialsTitle": "Password-protected cameras",
         "credentials": "If your camera requires a username and password, include the credentials directly in the URL:",
         "credentialsNote": "The backend proxy handles authentication automatically — credentials in the URL work with both Basic and Digest authentication (e.g. Hikvision).",

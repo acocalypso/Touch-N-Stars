@@ -162,7 +162,8 @@
         "setMosaicTargets": "设置马赛克目标",
         "title": "马赛克模式",
         "willBeSaved": "面板将单独保存"
-      }
+      },
+      "customTarget": "Custom Target"
     },
     "tutorial": {
       "previous": "上一步",
@@ -303,7 +304,29 @@
         "ASTAPLocation": "ASTAP地点",
         "Filter": "天文定位滤镜",
         "FilterCurrent": "当前",
-        "FilterHint": "用于天文定位的滤镜（覆盖当前滤镜）"
+        "FilterHint": "用于天文定位的滤镜（覆盖当前滤镜）",
+        "astapDatabaseAllInstalled": "All ASTAP star databases are already installed.",
+        "astapDatabaseDescription": "Install missing ASTAP star databases directly on your PINS device.",
+        "astapDatabaseInstall": "Install",
+        "astapDatabaseInstallFailed": "ASTAP star database install failed{exitCode}.",
+        "astapDatabaseInstallSuccess": "ASTAP star database {databaseId} installed successfully.",
+        "astapDatabaseInstalling": "Installing...",
+        "astapDatabaseJobStarted": "started",
+        "astapDatabaseJobStartedMessage": "Install job started for {databaseId}.",
+        "astapDatabaseJobStatus": "Job {jobId}: {status}",
+        "astapDatabaseLastChecked": "Last checked: {value}",
+        "astapDatabaseLoadFailed": "Failed to load databases: {detail}",
+        "astapDatabaseMissingJobId": "Install request succeeded but no jobId was returned.",
+        "astapDatabaseNoInstallable": "No installable ASTAP star databases available",
+        "astapDatabaseSelectPlaceholder": "Select a database",
+        "astapDatabaseStartFailed": "Failed to start install: {detail}",
+        "astapDatabaseStartInstall": "Starting installation for {databaseId}...",
+        "astapDatabaseStarting": "Starting...",
+        "astapDatabaseStatusCheckFailedRetrying": "Status check failed: {detail}. Retrying...",
+        "astapDatabaseTitle": "ASTAP Star Database (PINS)",
+        "astapDatabaseUnauthorizedStart": "Unauthorized while starting ASTAP star database install.",
+        "astapDatabaseUnauthorizedStatus": "Unauthorized while checking install status.",
+        "astapDatabaseUnknownError": "Unknown error"
       },
       "equipment": {
         "title": "设备",
@@ -334,7 +357,10 @@
         "notSupported": "驱动程序不支持",
         "syncLabel": "同步挂载时间",
         "syncLabelInfo": "启用后，点击「立即同步」将短暂断开并重新连接赤道仪，以便 NINA 将当前时间传输给它。",
-        "title": "时间同步"
+        "title": "时间同步",
+        "loadError": "Could not load time information.",
+        "syncError": "Time synchronisation failed. Check the connection to the PINS device.",
+        "syncSuccess": "Time synchronised successfully."
       },
       "navbarCustomization": {
         "alwaysVisible": "始终可见",
@@ -366,7 +392,10 @@
       "horizonFilePath": {
         "title": "地平线文件",
         "placeholder": "例如 /home/pi/horizon.hrz",
-        "toastTitle": "地平线文件已保存"
+        "toastTitle": "地平线文件已保存",
+        "clearTitle": "清除地平线文件路径",
+        "confirmTitle": "清除地平线文件路径",
+        "confirmMessage": "确定要清除地平线文件路径吗？"
       }
     },
     "alpacaDirect": {
@@ -408,7 +437,8 @@
         "guideCamRequired": "必须选择一个有效的导星相机。"
       },
       "guiderCam": {
-        "name": "引导相机"
+        "name": "引导相机",
+        "manualVnc": "通过VNC手动"
       },
       "safety": {
         "name": "安全监控器"
@@ -771,6 +801,9 @@
           "slope": "斜率",
           "intercept": "截距",
           "absolute": "绝对"
+        },
+        "startGuiding": {
+          "forceCalibrationLabel": "Force Calibration"
         }
       },
       "emptyContainer": "空—单击+以添加项目",
@@ -944,7 +977,10 @@
         "camera": "相机",
         "cameraGain": "增益",
         "cameraBinning": "合并",
-        "restoreCalibration": "恢复校准",
+        "restoreCalibration": "自动恢复校准",
+        "mountSettings": "赤道仪",
+        "guideRate": "导星速率",
+        "guideRateReadOnly": "只读",
         "guiderScale": "导星比例",
         "maxY": "最大Y",
         "historySize": "历史大小",
@@ -1015,11 +1051,125 @@
           "rightAscension": "赤经",
           "title": "检查校准"
         },
+        "darkLibrary": {
+          "title": "暗场库",
+          "manage": "管理暗场库",
+          "info": "通过以不同曝光时间拍摄暗场来构建暗场库。PHD2 使用它从导星图像中减去传感器噪声。",
+          "warning": "构建会阻塞 PHD2 —— 构建过程中所有其他 PHD2 操作都将被禁用。",
+          "status": "状态",
+          "exists": "暗场库存在",
+          "loaded": "已加载",
+          "notLoaded": "未加载",
+          "noLibrary": "未找到暗场库",
+          "numDarks": "暗场数量",
+          "range": "曝光范围",
+          "minExposure": "最小曝光 (秒)",
+          "maxExposure": "最大曝光 (秒)",
+          "frameCount": "每个曝光的帧数",
+          "previewExposures": "曝光时间",
+          "totalFrames": "总帧数",
+          "build": "构建",
+          "cancel": "取消构建",
+          "building": "正在构建",
+          "buildProgress": "帧 {frame} / {total} – {exposure} 秒",
+          "load": "加载",
+          "unload": "卸载",
+          "delete": "删除",
+          "confirmDelete": "再次点击以确认",
+          "buildSuccess": "暗场库构建成功",
+          "buildFailed": "暗场库构建失败",
+          "buildCancelled": "构建已取消",
+          "invalidRange": "最小曝光必须小于或等于最大曝光",
+          "buildActive": "暗场库构建进行中",
+          "buildActiveMessage": "构建完成前 PHD2 操作被阻塞。"
+        },
+        "imageDisplay": "图像显示",
+        "imageGamma": "拉伸（伽马）",
+        "imageGammaHint": "低 = 拉伸强, 高 = 线性",
         "reviewCalibration": "检查校准",
         "starComponents": {
           "hide": "隐藏星形组件",
           "show": "显示星型组件"
-        }
+        },
+        "applyStep": "Apply",
+        "calculatedStep": "Calculated Step",
+        "calibDistance": "Distance",
+        "calibStepCalc": "Step Size Calculator",
+        "declination": "Declination",
+        "desiredSteps": "Desired Steps",
+        "guideSpeed": "Guide Speed",
+        "imageScale": "Image Scale",
+        "optimal": "Optimal",
+        "pixelSize": "Pixel Size",
+        "assumeDecOrthogonal": "假定赤纬与赤经正交",
+        "useDecCompensation": "使用赤纬补偿",
+        "fastRecenter": "校准或抖动后快速回中",
+        "mountGuideOutput": "启用对赤道仪的导星输出",
+        "help": {
+          "fastRecenter": "校准或抖动期间，赤道仪可能远离锁定位置。开启后 PHD2 会尽快返回以节省时间——完全可选。若因星点回弹过快导致校准频繁失败，请关闭它（常意味着较大的极轴或周期误差）。",
+          "mountGuideOutput": "让 PHD2 真正向赤道仪发送导星指令。通常开启；仅为观察赤道仪未校正的行为时才关闭。",
+          "searchRegion": "跟踪框的大小，以像素为单位（这是半径——15 相当于 30×30 的方框）。若赤道仪跟踪不佳或极轴未对准，可增大它；区域过大可能框入多颗星而影响导星。",
+          "minStarHFD": "星点可作为导星所需的最小半流量直径（即「大小」）——这是防止 PHD2 误锁到热噪点群的最佳方法。默认约 1.5 适用于大多数配置；仅当真实暗星被拒绝时才调高。",
+          "maxStarHFD": "导星允许的最大半流量直径；超过此值的膨胀或离焦光斑在选星时会被忽略。",
+          "massChangeEnabled": "监测导星相对天空背景的亮度和大小变化。已弃用——通常保持关闭即可；仅当需要确保 PHD2 不会切换到邻近星时才启用。",
+          "massChangeThreshold": "启用星点质量检测后，若星点亮度或大小变化超过此百分比，PHD2 会报告「丢星」。如果星点清晰可见却频繁出现「丢星—质量变化」错误，可调高此值（或关闭检测）。",
+          "minStarSNR": "自动选星时星点所需的最小信噪比（针对未饱和星点）。仅建议有经验者修改：数值过高可能导致选不到星；刷新暗场库或延长曝光通常更有效。",
+          "useMultipleStars": "同时在多颗星上导星而非单颗，可提高稳定性。使用子帧时不可用。",
+          "autoSelectDownsample": "用于自动选星因星点变形而失败的少见情况。保持「Auto」即可；大于 1 的值可改善识别。",
+          "saturationByADU": "PHD2 如何识别并避开饱和星点。「按 ADU 值」使用传感器报告的亮度（推荐）；另一种依据星点轮廓形状判断饱和，精度较低。",
+          "saturationADUValue": "判定星点饱和的像素值（8 位相机 ≈ 255，16 位 ≈ 65535）。不确定时，设为你相机的最大像素值。",
+          "cameraGain": "导星相机增益，以相机量程的百分比表示（例如在 40–80 的相机上 50% 对应增益 60）。降低增益可减少噪声；设备稳定后通常无需再改。",
+          "cameraBinning": "导星曝光的硬件合并（binning）——以分辨率为代价提高灵敏度并加快下载。每个 binning 值请使用单独的 PHD2 配置。",
+          "focalLength": "导星镜的焦距（毫米）。它与像元大小共同决定图像比例，使 PHD2 能以角秒报告导星，因此须正确设置。",
+          "calibrationStep": "校准期间每个导星脉冲的时长。目标是每个方向 8–14 步，并在天赤道附近（赤纬 ≈ 0）进行校准。",
+          "restoreCalibration": "连接设备时自动载入最近一次校准（适用于 ASCOM/INDI 或 aux-mount 配置）。使用时，导星相机不得相对镜筒或天空发生旋转。",
+          "assumeDecOrthogonal": "PHD2 通常分别测量赤经和赤纬的相机角度。强制赤纬角度与赤经垂直，有助于应对极高的周期误差、较大的赤纬空回或较差的视宁度。",
+          "useDecCompensation": "根据当前赤纬自动调整赤经导星速率（需要 ASCOM/INDI 赤道仪连接）。除特殊情况外应保持开启。请勿与「赤纬空回补偿」混淆。",
+          "reverseDecAfterFlip": "告诉 PHD2 在中天翻转后如何调整校准。翻转后导星正常则保持关闭；仅当之后出现赤纬方向失控导星时才开启（并重新校准）。",
+          "guideAlgorithm": "为该轴选择导星算法。Hysteresis 权衡近期校正与最新偏差；ResistSwitch 抵抗方向变化（适合赤纬空回）；LowPass/LowPass2 为优质赤道仪的保守选择；Predictive PEC（PPEC）建模并提前校正周期误差（赤经）；ZFilter 在频域工作。默认值适合大多数用户。",
+          "algo": {
+            "minMove": "触发导星校正的最小星点偏移（像素）；更小的移动会被忽略以免追逐视宁度。这是最值得根据当晚条件调整的参数。",
+            "maxMove": "单次允许的最大导星校正（像素）；限制对单个大跳变的过度反应。",
+            "aggression": "对每次测得误差的校正强度，以百分比表示。100% 应用全部校正；较低值（如 60%）校正较少以避免过冲。越低越稳妥。",
+            "hysteresis": "近期校正历史相对当前帧所占的权重，以百分比表示。较高值使校正更平滑，但对真正的方向变化反应更慢。",
+            "predictiveWeight": "Predictive PEC：校正中预测（建模）部分的权重。默认值适合大多数赤道仪；大幅改动可能使导星变差。",
+            "reactiveWeight": "Predictive PEC：反应部分的权重，基于最新帧中星点的位移。默认值适合大多数赤道仪。",
+            "slopeWeight": "LowPass：星点运动的近期趋势（斜率）对校正的影响程度，以百分比表示。防止算法过于迟钝；0 表示仅使用近期历史的中位数。",
+            "expFactor": "ZFilter：虚拟曝光时间 = 实际曝光 × 此系数。较高值滤除更多视宁度（更平滑但更慢）；约 2–4 秒的虚拟曝光是赤经的良好起点。"
+          },
+          "ditherMode": "PHD2 如何计算每次抖动。「随机」随机选择大小和方向；「螺旋」按顺时针螺旋以固定步长抖动——当成像相机有固定模式噪声或赤道仪赤纬空回较大时很有用。",
+          "ditherRaOnly": "仅沿赤经轴抖动。当赤纬导星关闭或赤道仪赤纬空回较大时很有用。",
+          "ditherScale": "对成像程序请求的抖动量所乘的倍数——增大可获得更大的抖动，减小则更小。",
+          "backlashEnabled": "通过在赤道仪反向时增加一个额外脉冲来补偿赤纬（DEC）回差。适用于齿轮回差明显的赤道仪；若赤道仪在 DEC 方向导星干净，则保持关闭。",
+          "backlashAmount": "PHD2 在 DEC 方向换向时增加的额外校正脉冲长度（毫秒）。PHD2 会在最小值与最大值之间自动调节。",
+          "backlashMin": "自动调节的回差脉冲的下限（毫秒）。",
+          "backlashMax": "自动调节的回差脉冲的上限（毫秒）。"
+        },
+        "starDetection": "导星星点跟踪",
+        "searchRegion": "搜索区域（像素）",
+        "minStarHFD": "星点最小 HFD（像素）",
+        "maxStarHFD": "星点最大 HFD（像素）",
+        "beepForLostStar": "丢星时蜂鸣提示",
+        "starMassDetection": "星点质量检测",
+        "massChangeEnabled": "启用",
+        "massChangeThreshold": "容差",
+        "backlash": {
+          "title": "回差补偿",
+          "enabled": "启用",
+          "amount": "数值 (ms)",
+          "min": "最小 (ms)",
+          "max": "最大 (ms)"
+        },
+        "minStarSNR": "AutoFind 的最小星点信噪比",
+        "autoSelectDownsample": "选择帧降采样",
+        "saturationByADU": "按 ADU 判断饱和",
+        "saturationADUValue": "饱和 ADU 值",
+        "dither": "抖动",
+        "ditherMode": "抖动模式",
+        "ditherRaOnly": "仅赤经抖动",
+        "ditherScale": "抖动比例",
+        "ditherModeRandom": "随机",
+        "ditherModeSpiral": "螺旋"
       }
     },
     "focuser": {
@@ -1452,7 +1602,15 @@
       "status_stopped_darks": "Stopped early - {completed} of {total} darks captured",
       "status_stopped_flats": "Stopped early - {completed} of {total} flats captured",
       "status_success_darks": "Done - {count} darks captured",
-      "status_success_flats": "Done - {count} flats captured"
+      "status_success_flats": "Done - {count} flats captured",
+      "filter_label": "Filter",
+      "result_bright": "too bright",
+      "result_dim": "too dim",
+      "status_completed_flats": "Completed",
+      "status_failed_flats_multi": "All filters failed to determine valid exposure",
+      "status_partial_flats_multi": "Failed filters: {filters}",
+      "status_running_unknown": "Determining…",
+      "target": "Target"
     },
     "weatherModal": {
       "weatherInformation": "天气信息",
@@ -1479,7 +1637,13 @@
     },
     "switch": {
       "gauges": "仪表",
-      "switch": "开关"
+      "switch": "开关",
+      "indi": {
+        "settings": "Switch Settings"
+      },
+      "sv241pro": {
+        "preConnectDelay": "Pre Connect Delay (ms)"
+      }
     },
     "stellarium": {
       "selected_object": {
@@ -1505,7 +1669,24 @@
         "atmosphere_visible": "显示大气层",
         "landscapes_visible": "显示地平线",
         "dsos_visible": "深空天体 (梅西耶, NGC)",
-        "title": "设置"
+        "title": "设置",
+        "landscape_source_mode": "Landscape source",
+        "landscape_source_default": "Default landscape (Guereins)",
+        "landscape_source_neutral": "Neutral horizon (Gray)",
+        "landscape_source_custom": "Custom data source",
+        "custom_landscape_url": "Custom source URL",
+        "custom_landscape_url_placeholder": "e.g. /stellarium-data/landscapes/custom",
+        "custom_landscape_key": "Custom source key",
+        "custom_landscape_key_placeholder": "e.g. my-landscape",
+        "available_landscapes": "Available landscapes",
+        "folder_name_label": "folderName",
+        "has_allsky": "Allsky",
+        "landscape_list_load_failed": "Failed to load landscapes.",
+        "landscape_option_label": "Landscape: {title}",
+        "no_allsky": "No allsky",
+        "no_landscapes_available": "No landscapes available.",
+        "service_url_label": "serviceUrl",
+        "untitled_landscape": "Untitled landscape"
       }
     },
     "profile": {
@@ -1750,7 +1931,11 @@
         "pluginUninstallStart": "Uninstalling plugin: {packageName}",
         "pluginsLoadFailed": "Failed to load PINS plugins: {message}",
         "pluginsPackageNotAllowed": "Package not allowed by API policy: {packageName}",
-        "pluginsLoadMetadataFailed": "PINS plugins could not be loaded because plugin metadata repository is currently unavailable (HTTP 502)."
+        "pluginsLoadMetadataFailed": "PINS plugins could not be loaded because plugin metadata repository is currently unavailable (HTTP 502).",
+        "hotspotChannelInvalid": "Hotspot channel must be a positive integer when provided.",
+        "hotspotFetchFailed": "Failed to load hotspot settings: {message}",
+        "hotspotPasswordInvalidLength": "Hotspot password is required and must be 8-63 characters.",
+        "hotspotSaveFailed": "Failed to save hotspot settings: {message}"
       },
       "hotspotConfigured": "已配置自定义热点密码。",
       "hotspotNewPassword": "新热点密码",
@@ -1836,7 +2021,14 @@
       "indiInstallModalSuccessCompleted": "Installation completed for {label}.",
       "indiInstallModalSuccessStarted": "Installation started for {label}.",
       "indiInstallModalTitle": "Install INDI Driver",
-      "indiInstallModalType": "Type"
+      "indiInstallModalType": "Type",
+      "hotspotAppliedStatus": "Applied to active hotspot: {applied} | Band: {band} | Channel: {channel}",
+      "hotspotBandAuto": "Auto / Unset",
+      "hotspotBandLabel": "Hotspot Band",
+      "hotspotCapabilitiesUnavailable": "Adapter capability list unavailable; manual channel allowed.",
+      "hotspotChannelLabel": "Hotspot Channel",
+      "hotspotChannelPlaceholder": "Leave empty for auto",
+      "hotspotMetaLine": "Source: {source} | Interface: {iface} | Band: {band} | Channel: {channel}"
     },
     "bahtifocus": {
       "title": "Bahtinov掩模分析仪",
@@ -1992,6 +2184,39 @@
         "tokenCopyFailed": "复制令牌失败",
         "submissionRemoved": "提交已移除",
         "allSubmissionsCleared": "所有提交已清除"
+      },
+      "diagnostics": {
+        "archiveId": "Archive ID",
+        "autoDownloaded": "Archive was downloaded automatically and upload was attempted.",
+        "dmesgLines": "dmesg lines",
+        "download": "Download ZIP",
+        "downloadBusy": "Downloading...",
+        "downloadFailed": "Failed to download diagnostics archive.",
+        "intro": "Select diagnostics sections, start archive collection, and download/upload the ZIP when ready.",
+        "journalLines": "Journal lines",
+        "loadingOptions": "Loading options...",
+        "optionsLoadFailed": "Failed to load diagnostics options. Using defaults.",
+        "optionsLoaded": "Diagnostics options loaded.",
+        "pollFailed": "Failed to poll diagnostics status.",
+        "refreshOptions": "Refresh Options",
+        "running": "Collecting...",
+        "sectionsTitle": "Sections",
+        "start": "Start Collection",
+        "startFailed": "Failed to start diagnostics archive.",
+        "started": "Diagnostics archive started.",
+        "statusFailed": "Failed",
+        "statusIdle": "Idle",
+        "statusLabel": "Status",
+        "statusQueued": "Queued",
+        "statusRunning": "Running",
+        "statusSuccess": "Success",
+        "statusTimeout": "Timed out",
+        "stillPreparing": "Archive is still preparing. Please try download again shortly.",
+        "title": "Diagnostics Support (PINS)",
+        "uploaded": "Diagnostics ZIP uploaded to support endpoint.",
+        "validationDmesgLines": "dmesg lines must be between 100 and 50000.",
+        "validationJournalLines": "Journal lines must be between 100 and 50000.",
+        "validationSections": "Select at least one section."
       }
     },
     "telescopius": {
@@ -2667,7 +2892,8 @@
         },
         "validation": {
           "passwordRequired": "密码必须至少为 8 个字符"
-        }
+        },
+        "lensControl": "LensControl"
       },
       "config": {
         "title": "配置",
@@ -2779,7 +3005,23 @@
       },
       "meteoStation": "PINS.气象站",
       "powerBox": "PIN.PowerBox",
-      "wifiTab": "无线上网"
+      "wifiTab": "无线上网",
+      "lensControl": {
+        "aperture": "Aperture",
+        "calibrate": "Calibrate",
+        "calibrating": "Calibrating...",
+        "current": "Current",
+        "deviceInfo": "Device Information",
+        "driver": "SDK Version",
+        "firmware": "Firmware",
+        "focalLength": "Focal Length",
+        "lens": "Lens",
+        "position": "Focus Position",
+        "range": "Range",
+        "restart": "Restart Device",
+        "restarting": "Restarting...",
+        "set": "Set"
+      }
     },
     "shortcuts": {
       "title": "序列快捷方式",
@@ -3494,7 +3736,10 @@
         "timeWindowEnd": "Time window end",
         "timeWindowHint": "Leave time window blank to allow scheduling for the full session range.",
         "timeWindowStart": "Time window start",
-        "title": "Constraints"
+        "title": "Constraints",
+        "maxMoonAltitude": "Max moon altitude",
+        "maxMoonAltitudeHint": "Set to 0° or below to schedule only while the Moon is below the horizon.",
+        "minMoonSeparationInfo": "Minimum angular distance between target and Moon required for scheduling."
       },
       "defaults": {
         "favoriteTargetName": "Favorite Target",
@@ -3607,6 +3852,18 @@
       },
       "warnings": {
         "sequenceVersionRequired": "Sequence insertion requires TNS plugin 1.2.8.0  (or PINS mode)."
+      },
+      "sessionModes": {
+        "moonRise": "Moon rise",
+        "moonSet": "Moon set",
+        "sunRise": "Sun rise",
+        "sunSet": "Sun set",
+        "time": "Time",
+        "twilightEndAstronomical": "Twilight end astronomical",
+        "twilightEndNautical": "Twilight end nautical",
+        "twilightStartAstronomical": "Twilight start astronomical",
+        "twilightStartNautical": "Twilight start nautical",
+        "now": "Now"
       }
     },
     "filterOffset": {
@@ -3742,6 +3999,127 @@
         "guide": "Guide Graph"
       },
       "title": "PHD2 Log Viewer"
+    },
+    "supernovae": {
+      "title": "Supernovae",
+      "source": "Source: Rochester Astronomy active SN list",
+      "updated": "updated {d}",
+      "download": "Download",
+      "downloading": "Downloading…",
+      "noData": "No data loaded. Click Download to fetch the current active supernova list.",
+      "filterMag": "Max magnitude",
+      "filterType": "Type",
+      "filterTypePlaceholder": "e.g. Ia",
+      "filterYear": "Year",
+      "filterConstellation": "Constellation",
+      "filterAll": "All",
+      "filterNewOnly": "New only",
+      "filterVisibleOnly": "Visible tonight",
+      "visibleHint": "Based on observer location from NINA profile",
+      "visibleNoLocation": "No observer location — set location in NINA profile",
+      "sortBy": "Sort by",
+      "sortLatestMag": "Latest mag (brightest first)",
+      "sortFirstObserved": "Discovery date (newest first)",
+      "sortLastObserved": "Last observed (newest first)",
+      "showing": "Showing {n} of {total} entries",
+      "newCount": "{n} new",
+      "colName": "Name",
+      "colType": "Type",
+      "colLatestMag": "Latest mag",
+      "colMaxMag": "Max mag",
+      "colDiscovered": "Discovered",
+      "colLastObs": "Last obs",
+      "colConstellation": "Constellation",
+      "colHost": "Host galaxy",
+      "colRA": "RA",
+      "colDec": "Dec",
+      "frame": "Frame",
+      "frameTitle": "Send to framing assistant",
+      "fav": "Favourite",
+      "favTitle": "Add to favourites",
+      "favAdded": "Added {name} to favourites",
+      "favError": "Failed to add to favourites",
+      "visCircumpolar": "Circumpolar — always above horizon",
+      "visVisible": "Visible tonight",
+      "visHidden": "Below horizon tonight",
+      "page": "{n} / {total}"
+    },
+    "vncRemote": {
+      "debugModeWarning": "调试模式已激活 – VNC连接不可用。请在设置中关闭调试模式。"
+    },
+    "landscaperCreator": {
+      "actions": {
+        "generate": "Generate ZIP",
+        "generating": "Generating ZIP..."
+      },
+      "details": {
+        "sectionTitle": "3) Landscape Details"
+      },
+      "errors": {
+        "imageLoadFailed": "The image could not be loaded.",
+        "requestFailed": "Failed to generate the landscape ZIP."
+      },
+      "fields": {
+        "altitude": "Altitude",
+        "author": "Author",
+        "description": "Description",
+        "folderName": "Folder name",
+        "folderNamePlaceholder": "auto-generated-from-name",
+        "latitude": "Latitude",
+        "longitude": "Longitude",
+        "name": "Landscape name",
+        "namePlaceholder": "e.g. My Observatory Horizon"
+      },
+      "folder": {
+        "autoHint": "Folder names are sanitized to lowercase, underscore/hyphen safe format."
+      },
+      "image": {
+        "aspectRatio": "Aspect ratio",
+        "aspectWarning": "The uploaded image aspect ratio is {ratio}. A 360 panorama should be close to 2:1.",
+        "dimensions": "Dimensions",
+        "fileName": "File name",
+        "fileSize": "File size",
+        "remove": "Remove",
+        "replace": "Replace Panorama",
+        "sectionTitle": "1) Image Upload",
+        "select": "Select Panorama",
+        "typesHint": "Accepted formats: PNG, JPEG, WebP"
+      },
+      "instructions": {
+        "line1": "Use a 360° equirectangular panorama image.",
+        "line2": "For horizon-only landscapes, keep the sky transparent when possible.",
+        "line3": "Click or drag on the preview where geographic North should be.",
+        "line4": "Download the ZIP and extract it into your Stellarium Web landscapes folder.",
+        "title": "How to prepare your input"
+      },
+      "preview": {
+        "currentNorth": "northOffsetDeg:",
+        "empty": "Upload a panorama image to enable preview.",
+        "help": "Click or drag horizontally on the panorama to set where geographic North is.",
+        "imageAlt": "Uploaded panorama preview",
+        "quickCenter": "North at center",
+        "quickLeft": "North at left edge",
+        "quickReset": "Reset",
+        "sectionTitle": "2) Panorama Preview and North Marker",
+        "signHint": "If the generated landscape appears mirrored or rotated the wrong direction, the offset sign may need to be inverted depending on backend convention."
+      },
+      "subtitle": "Upload a 360 panorama, mark geographic North, and generate a Stellarium landscape ZIP.",
+      "title": "Stellarium Landscape Creator",
+      "toast": {
+        "errorTitle": "Landscape generation failed",
+        "invalidFileType": "Unsupported file type. Please upload PNG, JPEG, or WebP.",
+        "successMessage": "Downloaded {filename}",
+        "successTitle": "Landscape ZIP ready",
+        "validationTitle": "Validation",
+        "successMessageSaved": "Saved {filename} to {path}."
+      },
+      "validation": {
+        "fixErrors": "Please fix the highlighted fields.",
+        "folderNameInvalid": "Folder name contains invalid characters.",
+        "folderNameRequired": "Folder name is required.",
+        "imageRequired": "Please upload an image file.",
+        "nameRequired": "Landscape name is required."
+      }
     }
   },
   "pinsDevices": {
@@ -3950,7 +4328,9 @@
       "autoDetect": "Auto Detect",
       "ipAddress": "IP 地址",
       "tcpPort": "TCP端口",
-      "selectPort": "-- 选择端口 --"
+      "selectPort": "-- 选择端口 --",
+      "manualPort": "手动…",
+      "manualPortPath": "手动端口"
     }
   },
   "nav": {

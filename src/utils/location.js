@@ -1,7 +1,6 @@
 import { ref } from 'vue';
 import { Geolocation } from '@capacitor/geolocation';
 import apiService from '@/services/apiService';
-import { useSettingsStore } from '@/store/settingsStore';
 import { apiStore } from '@/store/store';
 import { useGuiderStore } from '@/store/guiderStore';
 
@@ -76,7 +75,6 @@ export async function getCurrentLocation() {
 }
 
 export function useLocationStore() {
-  const settingsStore = useSettingsStore();
   const store = apiStore();
 
   function sanitizeCoordinate(input) {
@@ -145,11 +143,9 @@ export function useLocationStore() {
           altitude.value = mountCoords.value.elevation;
         }
 
-        settingsStore.setCoordinates({
-          latitude: (latitude.value = sanitizeCoordinate(latitude.value)),
-          longitude: (longitude.value = sanitizeCoordinate(longitude.value)),
-          altitude: (altitude.value = sanitizeCoordinate(altitude.value)),
-        });
+        latitude.value = sanitizeCoordinate(latitude.value);
+        longitude.value = sanitizeCoordinate(longitude.value);
+        altitude.value = sanitizeCoordinate(altitude.value);
 
         if (store.isBackendReachable) {
           // Always save coordinates to the profile

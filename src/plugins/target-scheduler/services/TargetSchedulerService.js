@@ -11,6 +11,7 @@ export const DEFAULT_CONSTRAINTS = Object.freeze({
   minAltitude: 25,
   maxAltitude: 89,
   minMoonSeparation: 0,
+  maxMoonAltitude: 90,
   timeWindowStart: '',
   timeWindowEnd: '',
 });
@@ -302,6 +303,150 @@ function getMoonEquatorial(date) {
   return eclipticToEquatorial(normalizeDeg360(lon), lat, date);
 }
 
+function getBodyEquatorial(body, date) {
+  return body === 'sun' ? getSunEquatorial(date) : getMoonEquatorial(date);
+}
+
+function getBodyAltitudeDeg(body, date, location) {
+  const eq = getBodyEquatorial(body, date);
+  return radecToAltAz(eq.raDeg, eq.decDeg, date, location.latitude, location.longitude).altDeg;
+}
+
+function interpolateCrossingTime(t1, alt1, t2, alt2, thresholdDeg) {
+  if (alt2 === alt1) return new Date((t1 + t2) / 2);
+  const ratio = clamp((thresholdDeg - alt1) / (alt2 - alt1), 0, 1);
+  return new Date(t1 + ratio * (t2 - t1));
+}
+
+function findAltitudeCrossing({
+  body,
+  thresholdDeg,
+  direction,
+  start,
+  end,
+  location,
+  stepMinutes = 5,
+}) {
+  let prevTime = new Date(start);
+  let prevAlt = getBodyAltitudeDeg(body, prevTime, location);
+
+  for (
+    let t = prevTime.getTime() + stepMinutes * 60 * 1000;
+    t <= end.getTime();
+    t += stepMinutes * 60 * 1000
+  ) {
+    const nextTime = new Date(t);
+    const nextAlt = getBodyAltitudeDeg(body, nextTime, location);
+
+    const crossed = (prevAlt - thresholdDeg) * (nextAlt - thresholdDeg) <= 0;
+    const isAscending = nextAlt >= prevAlt;
+    const directionMatches = direction === 'ascending' ? isAscending : !isAscending;
+
+    if (crossed && directionMatches) {
+      return interpolateCrossingTime(
+        prevTime.getTime(),
+        prevAlt,
+        nextTime.getTime(),
+        nextAlt,
+        thresholdDeg
+      );
+    }
+
+    prevTime = nextTime;
+    prevAlt = nextAlt;
+  }
+
+  return null;
+}
+
+export function computeNightSessionEvents({ nightDate, location }) {
+  const base = new Date(nightDate);
+  base.setHours(0, 0, 0, 0);
+
+  const eveningStart = new Date(base);
+  eveningStart.setHours(12, 0, 0, 0);
+
+  const nextNoon = new Date(base);
+  nextNoon.setDate(nextNoon.getDate() + 1);
+  nextNoon.setHours(12, 0, 0, 0);
+
+  const midnight = new Date(base);
+  midnight.setDate(midnight.getDate() + 1);
+  midnight.setHours(0, 0, 0, 0);
+
+  const morningEnd = new Date(midnight);
+  morningEnd.setHours(12, 0, 0, 0);
+
+  const sunThreshold = -0.833;
+
+  return {
+    sunSet: findAltitudeCrossing({
+      body: 'sun',
+      thresholdDeg: sunThreshold,
+      direction: 'descending',
+      start: eveningStart,
+      end: nextNoon,
+      location,
+    }),
+    nauticalDusk: findAltitudeCrossing({
+      body: 'sun',
+      thresholdDeg: -12,
+      direction: 'descending',
+      start: eveningStart,
+      end: nextNoon,
+      location,
+    }),
+    astronomicalDusk: findAltitudeCrossing({
+      body: 'sun',
+      thresholdDeg: -18,
+      direction: 'descending',
+      start: eveningStart,
+      end: nextNoon,
+      location,
+    }),
+    moonSet: findAltitudeCrossing({
+      body: 'moon',
+      thresholdDeg: 0,
+      direction: 'descending',
+      start: eveningStart,
+      end: nextNoon,
+      location,
+    }),
+    sunRise: findAltitudeCrossing({
+      body: 'sun',
+      thresholdDeg: sunThreshold,
+      direction: 'ascending',
+      start: midnight,
+      end: morningEnd,
+      location,
+    }),
+    nauticalDawn: findAltitudeCrossing({
+      body: 'sun',
+      thresholdDeg: -12,
+      direction: 'ascending',
+      start: midnight,
+      end: morningEnd,
+      location,
+    }),
+    astronomicalDawn: findAltitudeCrossing({
+      body: 'sun',
+      thresholdDeg: -18,
+      direction: 'ascending',
+      start: midnight,
+      end: morningEnd,
+      location,
+    }),
+    moonRise: findAltitudeCrossing({
+      body: 'moon',
+      thresholdDeg: 0,
+      direction: 'ascending',
+      start: midnight,
+      end: morningEnd,
+      location,
+    }),
+  };
+}
+
 function angularSeparationDeg(ra1Deg, dec1Deg, ra2Deg, dec2Deg) {
   const ra1 = toRad(ra1Deg);
   const dec1 = toRad(dec1Deg);
@@ -314,7 +459,7 @@ function angularSeparationDeg(ra1Deg, dec1Deg, ra2Deg, dec2Deg) {
   return toDeg(Math.acos(clamp(cosSep, -1, 1)));
 }
 
-function getMoonDataForTarget(targetRaDeg, targetDecDeg, date) {
+function getMoonDataForTarget(targetRaDeg, targetDecDeg, date, location) {
   const sun = getSunEquatorial(date);
   const moon = getMoonEquatorial(date);
 
@@ -323,9 +468,18 @@ function getMoonDataForTarget(targetRaDeg, targetDecDeg, date) {
 
   const separationDeg = angularSeparationDeg(targetRaDeg, targetDecDeg, moon.raDeg, moon.decDeg);
 
+  const moonAltDeg = radecToAltAz(
+    moon.raDeg,
+    moon.decDeg,
+    date,
+    location.latitude,
+    location.longitude
+  ).altDeg;
+
   return {
     separationDeg,
     illumination,
+    altDeg: moonAltDeg,
   };
 }
 
@@ -406,6 +560,11 @@ function normalizeTarget(target) {
         90
       ),
       minMoonSeparation: clamp(Number(target?.constraints?.minMoonSeparation) || 0, 0, 180),
+      maxMoonAltitude: clamp(
+        Number(target?.constraints?.maxMoonAltitude ?? DEFAULT_CONSTRAINTS.maxMoonAltitude),
+        -30,
+        90
+      ),
     },
   };
 }
@@ -441,15 +600,16 @@ function buildTargetTrack(target, sessionStart, sessionEnd, location, stepMinute
       location.latitude,
       location.longitude
     );
-    const moon = getMoonDataForTarget(target.ra, target.dec, at);
+    const moon = getMoonDataForTarget(target.ra, target.dec, at, location);
 
     const visibleByAltitude =
       altDeg >= target.constraints.minAltitude && altDeg <= target.constraints.maxAltitude;
     const visibleByMoon =
       target.constraints.minMoonSeparation <= 0 ||
       moon.separationDeg >= target.constraints.minMoonSeparation;
+    const visibleByMoonAltitude = moon.altDeg <= Number(target.constraints.maxMoonAltitude ?? 90);
 
-    const visible = inWindow && visibleByAltitude && visibleByMoon;
+    const visible = inWindow && visibleByAltitude && visibleByMoon && visibleByMoonAltitude;
 
     if (visible) {
       visibleMinutes += stepMinutes;
@@ -464,6 +624,7 @@ function buildTargetTrack(target, sessionStart, sessionEnd, location, stepMinute
         azDeg,
         moonSeparationDeg: moon.separationDeg,
         moonIllumination: moon.illumination,
+        moonAltitudeDeg: moon.altDeg,
       };
     }
 
@@ -473,6 +634,7 @@ function buildTargetTrack(target, sessionStart, sessionEnd, location, stepMinute
       azDeg,
       moonSeparationDeg: moon.separationDeg,
       moonIllumination: moon.illumination,
+      moonAltitudeDeg: moon.altDeg,
       visible,
       inWindow,
     });

@@ -1,9 +1,11 @@
 # Touch 'N' Stars Plugin System
 
 ## Overview
+
 The plugin system allows you to extend Touch 'N' Stars with additional features through plugins. Each plugin is a self-contained module that can include its own views, components, and stores.
 
 ## Plugin Structure
+
 ```
 plugins/
   my-plugin/
@@ -15,6 +17,7 @@ plugins/
 ```
 
 ## Plugin Metadata (plugin.json)
+
 ```json
 {
   "id": "unique-plugin-id",
@@ -28,6 +31,7 @@ plugins/
 ```
 
 ## Plugin Entry Point (index.js)
+
 ```javascript
 // Import your icon directly in your plugin
 import { YourIconComponent } from '@heroicons/vue/24/outline';
@@ -42,27 +46,27 @@ export default {
   install(app, options) {
     const pluginStore = usePluginStore();
     const router = options.router;
-    
+
     // Register routes
     router.addRoute({
       path: '/my-plugin',
       component: MyPluginView,
       meta: { requiresSetup: true },
     });
-    
+
     // Register plugin metadata
     pluginStore.registerPlugin(metadata);
-    
+
     // Add navigation item only if plugin is enabled
     if (metadata.enabled) {
       pluginStore.addPluginNavigationItem(metadata.id, {
         path: '/my-plugin',
-        icon: YourIconComponent,  // Each plugin provides its own icon
+        icon: YourIconComponent, // Each plugin provides its own icon
         title: metadata.name,
       });
     }
-  }
-}
+  },
+};
 ```
 
 ## Creating a New Plugin
@@ -76,6 +80,7 @@ npm run create-plugin
 ```
 
 This interactive command will:
+
 1. Ask you for the plugin name, description, and author
 2. Generate the necessary folder structure based on your plugin name
 3. Create a properly formatted `plugin.json` file with your metadata
@@ -101,6 +106,7 @@ That's it! No manual registration is required. The system will automatically dis
 Touch 'N' Stars features an automatic plugin discovery system. When you add a new plugin folder with the correct structure, it gets automatically detected and included in the plugin registry during the build process.
 
 This is handled by a build script that:
+
 1. Scans the plugins directory for valid plugin folders
 2. Verifies each folder has the required files (index.js and plugin.json)
 3. Generates a registry file with imports for all plugins
@@ -125,15 +131,17 @@ import MyCustomIcon from './components/MyCustomIcon.vue';
 // Then in your plugin install function:
 pluginStore.addPluginNavigationItem(metadata.id, {
   path: '/my-plugin',
-  icon: SparklesIcon,  // or MyCustomIcon
+  icon: SparklesIcon, // or MyCustomIcon
   title: metadata.name,
 });
 ```
 
 ## Example
+
 See the example plugin in `plugins/bahtifocus/` for a complete implementation.
 
 ## Guidelines
+
 - Each plugin should be self-contained
 - Use unique identifiers for your plugin
 - Follow Vue 3 composition API patterns

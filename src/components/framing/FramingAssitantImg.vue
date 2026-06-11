@@ -29,6 +29,47 @@
       <!-- Verschiebbares / drehbares Ziel-Element (nur für Moveable Tracking) -->
       <div ref="targetRef" :style="mosaicTargetStyle"></div>
 
+      <!-- Pan-Steuerung (oben links) -->
+      <div class="absolute top-3 left-3 z-10">
+        <div
+          class="bg-gray-800/90 border border-gray-600 rounded-lg p-1 grid grid-cols-3 grid-rows-3 gap-1"
+        >
+          <div></div>
+          <button
+            @click="pan(0, 1)"
+            aria-label="Pan up"
+            class="w-8 h-8 bg-gray-600 hover:bg-gray-500 rounded text-white text-sm font-bold transition-colors flex items-center justify-center"
+          >
+            ↑
+          </button>
+          <div></div>
+          <button
+            @click="pan(-1, 0)"
+            aria-label="Pan left"
+            class="w-8 h-8 bg-gray-600 hover:bg-gray-500 rounded text-white text-sm font-bold transition-colors flex items-center justify-center"
+          >
+            ←
+          </button>
+          <div></div>
+          <button
+            @click="pan(1, 0)"
+            aria-label="Pan right"
+            class="w-8 h-8 bg-gray-600 hover:bg-gray-500 rounded text-white text-sm font-bold transition-colors flex items-center justify-center"
+          >
+            →
+          </button>
+          <div></div>
+          <button
+            @click="pan(0, -1)"
+            aria-label="Pan down"
+            class="w-8 h-8 bg-gray-600 hover:bg-gray-500 rounded text-white text-sm font-bold transition-colors flex items-center justify-center"
+          >
+            ↓
+          </button>
+          <div></div>
+        </div>
+      </div>
+
       <!-- FOV und Rotation Steuerung (oben rechts) -->
       <div class="absolute top-3 right-3 z-10 flex gap-2">
         <!-- FOV Steuerung -->
@@ -36,16 +77,16 @@
           class="bg-gray-800/90 border border-gray-600 rounded-lg p-2 flex items-center space-x-2"
         >
           <button
-            @click="adjustFov(-0.5)"
+            @click="adjustFov(-1)"
             class="w-8 h-8 bg-gray-600 hover:bg-gray-500 rounded text-white text-sm font-bold transition-colors flex items-center justify-center"
           >
             -
           </button>
           <span class="text-xs text-gray-300 font-medium min-w-[2.5rem] text-center"
-            >{{ framingStore.fov.toFixed(1) }}°</span
+            >{{ Math.round(framingStore.fov) }}°</span
           >
           <button
-            @click="adjustFov(0.5)"
+            @click="adjustFov(1)"
             class="w-8 h-8 bg-gray-600 hover:bg-gray-500 rounded text-white text-sm font-bold transition-colors flex items-center justify-center"
           >
             +
@@ -58,6 +99,16 @@
           <span class="text-xs text-gray-300 font-medium"
             >{{ Math.round(framingStore.rotationAngle) }}°</span
           >
+        </div>
+      </div>
+
+      <!-- RA/DEC Anzeige (Mitte der Kamera-Box, debug/diagnostik) -->
+      <div class="absolute bottom-3 right-3 z-10">
+        <div
+          class="bg-gray-800/90 border border-gray-600 rounded-lg px-3 py-2 font-mono text-xs text-gray-300 leading-tight text-right"
+        >
+          <div>RA: {{ framingStore.RAangleString }}</div>
+          <div>DEC: {{ framingStore.DECangleString }}</div>
         </div>
       </div>
 
@@ -177,6 +228,37 @@ function computeMosaicPanels(store) {
 const mosaicPanels = computed(() =>
   framingStore.isMosaicMode ? computeMosaicPanels(framingStore) : []
 );
+
+// Sky-Koordinaten der Panels aus den TATSÄCHLICH gerenderten Pixelpositionen
+// ableiten (Basis-Raster + SVG-Rotation um die Container-Mitte + Drag-Offset)
+// und im Store ablegen. So entsprechen gespeicherte Favoriten exakt dem Overlay.
+function updateMosaicPanelCoords() {
+  if (!framingStore.isMosaicMode) {
+    framingStore.mosaicPanelCoords = [];
+    return;
+  }
+  const cx = framingStore.containerWidth / 2;
+  const cy = framingStore.containerHeight / 2;
+  // SVG dreht um rotationAngleVisu (= 360 − rotationAngle) im Uhrzeigersinn.
+  const ang = (rotationAngleVisu.value * Math.PI) / 180;
+  const cosA = Math.cos(ang);
+  const sinA = Math.sin(ang);
+  const off = mosaicSvgOffset.value;
+
+  framingStore.mosaicPanelCoords = mosaicPanels.value.map((panel) => {
+    // Position relativ zur Container-Mitte
+    const px = panel.screenX - cx;
+    const py = panel.screenY - cy;
+    // SVG-Rotation (clockwise, Y nach unten): Standard-Rotationsmatrix
+    const rx = px * cosA - py * sinA;
+    const ry = px * sinA + py * cosA;
+    // zurück in absolute Container-Koordinaten + Drag-Offset
+    const finalX = cx + rx + off.x;
+    const finalY = cy + ry + off.y;
+    const { ra, dec } = pixelToRaDec(finalX, finalY);
+    return { label: panel.label, ra, dec, rotation: framingStore.rotationAngle };
+  });
+}
 
 function mosaicTotalSize() {
   const ov = framingStore.mosaicOverlap / 100;
@@ -337,15 +419,49 @@ function handleStageResize() {
       framingStore.containerHeight = h;
       framingStore.containerSize = Math.min(w, h);
       updateCameraBoxSize();
-      centerBoundingBox();
+      const relX = framingStore.cameraRelativeX ?? 0.5;
+      const relY = framingStore.cameraRelativeY ?? 0.5;
+      const effectiveW = framingStore.isMosaicMode ? mosaicTotalSize().w : framingStore.camWidth;
+      const effectiveH = framingStore.isMosaicMode ? mosaicTotalSize().h : framingStore.camHeight;
+      x.value = relX * framingStore.containerWidth - effectiveW / 2;
+      y.value = relY * framingStore.containerHeight - effectiveH / 2;
       framingStore.cameraX = x.value;
       framingStore.cameraY = y.value;
-      framingStore.cameraRelativeX = 0.5;
-      framingStore.cameraRelativeY = 0.5;
       debouncedImageReload();
       updateMoveable();
     }
   }, 300);
+}
+
+// Mindest-FOV: Wert, ab dem das Framing-Rechteck (bzw. Mosaikgitter) gerade
+// noch komplett in den Container passt. Verhindert den Bug-Zustand "Frame
+// größer als Container", in dem die Clamp-Logik im FOV-Watcher die Position
+// in die Ecke ziehen und RA/DEC mit einer dezentrierten Position überschreiben
+// würde — was beim Rauszoomen zu versetzter Position führte.
+function computeMinFov() {
+  if (
+    cameraFovX.value <= 0 ||
+    cameraFovY.value <= 0 ||
+    framingStore.containerWidth <= 0 ||
+    framingStore.containerHeight <= 0
+  ) {
+    return 0;
+  }
+
+  let effDegW;
+  let effDegH;
+  if (framingStore.isMosaicMode) {
+    const { w, h } = mosaicTotalSize();
+    effDegW = w * scaleDegPerPixel.value;
+    effDegH = h * scaleDegPerPixel.value;
+  } else {
+    effDegW = cameraFovX.value;
+    effDegH = cameraFovY.value;
+  }
+
+  const minFovForWidth = effDegW;
+  const minFovForHeight = (effDegH * framingStore.containerWidth) / framingStore.containerHeight;
+  return Math.max(minFovForWidth, minFovForHeight);
 }
 
 // FOV-Watcher: Nur Bild und Kamera-Box aktualisieren (KEINE Komponenten-Reload)
@@ -353,6 +469,13 @@ watch(
   () => framingStore.fov,
   async (newFov, oldFov) => {
     if (cameraFovX.value > 0 && newFov !== oldFov) {
+      // Untergrenze durchsetzen, damit Frame nie größer als Container wird
+      const minAllowedFov = computeMinFov();
+      if (minAllowedFov > 0 && newFov < minAllowedFov) {
+        framingStore.fov = Math.ceil(minAllowedFov);
+        return;
+      }
+
       // Kamera-Box-Größe und Skala neu berechnen
       updateCameraBoxSize();
 
@@ -365,7 +488,10 @@ watch(
       // Größe (und damit die Bildschirm-Position relativ zum Container) ändert sich.
       let cosDec = Math.cos((baseDec * Math.PI) / 180);
       if (Math.abs(cosDec) < 1e-8) cosDec = 1e-8;
-      const deltaX = ((baseRA - framingStore.RAangle) * cosDec) / scaleDegPerPixel.value;
+      // RA-Differenz auf kürzesten Winkelabstand (-180…180) normalisieren,
+      // sonst entsteht an der 0°/360°-Grenze ein riesiger Sprung.
+      let raDiff = ((baseRA - framingStore.RAangle + 540) % 360) - 180;
+      const deltaX = (raDiff * cosDec) / scaleDegPerPixel.value;
       const deltaY = (framingStore.DECangle - baseDec) / scaleDegPerPixel.value;
       const targetCenterX = framingStore.containerWidth / 2 + deltaX;
       const targetCenterY = framingStore.containerHeight / 2 - deltaY;
@@ -421,11 +547,38 @@ watch(
   }
 );
 
+// Mosaik-Panel-Koordinaten neu berechnen, sobald sich Position, Rotation, FOV
+// oder Gitter-Parameter ändern. Hält framingStore.mosaicPanelCoords aktuell,
+// damit beim Speichern als Favorit exakt die sichtbaren Panel-Zentren landen.
+watch(
+  () => [
+    x.value,
+    y.value,
+    rotationAngleVisu.value,
+    framingStore.fov,
+    framingStore.isMosaicMode,
+    framingStore.mosaicCols,
+    framingStore.mosaicRows,
+    framingStore.mosaicOverlap,
+    framingStore.RAangle,
+    framingStore.DECangle,
+  ],
+  () => updateMosaicPanelCoords(),
+  { immediate: true }
+);
+
 // Mosaic-Watcher: Bounding Box zentrieren wenn Mosaik-Modus (de)aktiviert wird
 watch(
   () => framingStore.isMosaicMode,
   (active) => {
     if (active) {
+      // FOV anheben falls das Mosaikgitter bei aktuellem FOV größer als der
+      // Container wäre — der FOV-Watcher übernimmt dann die Neuberechnung.
+      const minAllowedFov = computeMinFov();
+      if (minAllowedFov > 0 && framingStore.fov < minAllowedFov) {
+        framingStore.fov = Math.ceil(minAllowedFov);
+        return;
+      }
       const { w, h } = mosaicTotalSize();
       x.value = framingStore.containerWidth / 2 - w / 2;
       y.value = framingStore.containerHeight / 2 - h / 2;
@@ -507,7 +660,7 @@ function ensureReasonableStartFov() {
 
     const newFov = Math.max(requiredFov, framingStore.fov * 1.5, 5); // Mindestens 5° oder 1.5x aktueller FOV
 
-    framingStore.fov = Math.round(newFov * 10) / 10; // Auf 0.1 runden
+    framingStore.fov = Math.round(newFov); // Auf ganze Grad runden
   }
 }
 
@@ -622,6 +775,50 @@ async function fetchFramingInfo() {
   }
 }
 
+// Pixelposition (relativ zur Container-Mitte, Bildschirm-Koordinaten mit
+// Y nach unten) → RA/DEC, ausgehend vom Bildzentrum baseRA/baseDec.
+// Wird sowohl für die Kamera-Box als auch für einzelne Mosaik-Panels genutzt,
+// damit gespeicherte Koordinaten exakt dem entsprechen, was im Overlay zu
+// sehen ist (inkl. cos(dec)-Korrektur und korrekter Pol-Überquerung).
+function pixelToRaDec(targetCenterX, targetCenterY) {
+  const centerX = framingStore.containerWidth / 2;
+  const centerY = framingStore.containerHeight / 2;
+  const deltaX = targetCenterX - centerX;
+  const deltaY = centerY - targetCenterY;
+
+  // Roh-DEC (kann den Pol überschreiten)
+  const rawDec = baseDec + deltaY * scaleDegPerPixel.value;
+
+  // Pol-Überquerung: Schiebt man über den Pol hinaus (rawDec > 90 bzw. < -90),
+  // läuft die Deklination auf der anderen Polseite zurück und die Rektaszension
+  // dreht sich um 180°. Ohne diese Reflexion bleibt es am Pol "kleben"
+  // (DEC=90, RA=0). Beispiel: rawDec = 92° → DEC = 88°, RA um 180° gedreht.
+  let dec;
+  let raFlip = 0;
+  if (rawDec > 90) {
+    dec = 180 - rawDec;
+    raFlip = 180;
+  } else if (rawDec < -90) {
+    dec = -180 - rawDec;
+    raFlip = 180;
+  } else {
+    dec = rawDec;
+  }
+
+  // RA-Korrektur (cos(dec)). Die 1/cos(dec)-Division ist physikalisch korrekt
+  // (ein Pixel entspricht bei hoher Dec mehr RA-Grad), wird aber am exakten Pol
+  // singulär: cos(±90°) = 0. Früher wurde cosDec hart auf 1e-8 geklemmt — das
+  // verwandelte selbst eine Pixel-Rundung von <1px in einen RA-Sprung von ~200°.
+  // Daher: am quasi-exakten Pol (Epsilon, da Math.cos(90°) ≈ 6e-17 ≠ 0) keinen
+  // RA-Offset anwenden. cos(89°) ≈ 0.0175 liegt klar über dem Epsilon, sodass
+  // Polnähe (Dec < 90) voll nutzbar bleibt.
+  const cosDec = Math.cos((dec * Math.PI) / 180);
+  const offsetRA = Math.abs(cosDec) < 1e-6 ? 0 : (deltaX * scaleDegPerPixel.value) / cosDec;
+  const ra = (((baseRA - offsetRA + raFlip) % 360) + 360) % 360;
+
+  return { ra, dec };
+}
+
 function calculateRaDec() {
   // Effektive Abmessungen (Mosaikgitter oder einzelne Kamera)
   const effectiveW = framingStore.isMosaicMode ? mosaicTotalSize().w : framingStore.camWidth;
@@ -631,25 +828,7 @@ function calculateRaDec() {
   const targetCenterX = x.value + effectiveW / 2;
   const targetCenterY = y.value + effectiveH / 2;
 
-  // Container-Mitte
-  const centerX = framingStore.containerWidth / 2;
-  const centerY = framingStore.containerHeight / 2;
-
-  // Abweichung in Pixel
-  const deltaX = targetCenterX - centerX;
-  const deltaY = centerY - targetCenterY;
-
-  // Offset DEC
-  const offsetDec = deltaY * scaleDegPerPixel.value;
-
-  // RA-Korrektur (cos(dec))
-  let cosDec = Math.cos((baseDec * Math.PI) / 180);
-  if (Math.abs(cosDec) < 1e-8) cosDec = 1e-8;
-  const offsetRA = (deltaX * scaleDegPerPixel.value) / cosDec;
-
-  // Aktuelle Koords
-  const currentRA = baseRA - offsetRA;
-  const currentDec = baseDec + offsetDec;
+  const { ra: currentRA, dec: currentDec } = pixelToRaDec(targetCenterX, targetCenterY);
 
   // Als String speichern
   framingStore.RAangleString = degreesToHMS(currentRA);
@@ -697,7 +876,34 @@ function rad2deg(rad) {
 // FOV Anpassung mit +/- Buttons
 function adjustFov(delta) {
   const newValue = parseFloat(framingStore.fov) + delta;
-  framingStore.fov = Math.max(0.5, Math.min(50, Math.round(newValue * 10) / 10));
+  framingStore.fov = Math.max(1, Math.min(50, Math.round(newValue)));
+}
+
+// Bildausschnitt mit Pfeilen verschieben.
+// dx: -1 = links, +1 = rechts.  dy: -1 = unten, +1 = oben.
+// Schrittweite: 25 % des aktuellen FOV — proportional zur Sichtgröße,
+// damit ein Klick bei hohem Zoom feine, bei niedrigem Zoom grobe Schritte
+// macht.
+function pan(dx, dy) {
+  let cosDec = Math.cos((baseDec * Math.PI) / 180);
+  if (Math.abs(cosDec) < 1e-8) cosDec = 1e-8;
+  const stepDeg = framingStore.fov * 0.25;
+
+  // Rechts auf dem Schirm = niedrigere RA (Astro-Konvention: East-Left,
+  // wenn man nach oben in den Himmel schaut). Höhere DEC = nach oben.
+  baseRA -= (dx * stepDeg) / cosDec;
+  baseDec = Math.max(-89.9, Math.min(89.9, baseDec + dy * stepDeg));
+
+  // RA in [0, 360) wrappen
+  baseRA = ((baseRA % 360) + 360) % 360;
+
+  // Frame-Sky-Koords aus aktueller Pixelposition + neuem baseRA/baseDec
+  // neu berechnen, damit RAangle/DECangle mit dem verschobenen Bild
+  // konsistent bleiben.
+  calculateRaDec();
+
+  // Hintergrundbild neu laden
+  debouncedImageReload();
 }
 </script>
 

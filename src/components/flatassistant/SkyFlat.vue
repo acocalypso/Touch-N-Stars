@@ -77,8 +77,10 @@ async function startAutoExposure() {
           flatsStore.gain,
           flatsStore.offset,
           selectedFilterId.value,
-          settingsStore.flats.keepClosed
+          settingsStore.flats.keepClosed,
+          flatsStore.darkCount
         ),
+      darkCount: flatsStore.darkCount,
     });
   } catch (error) {
     console.log('Error startAutoExposure');

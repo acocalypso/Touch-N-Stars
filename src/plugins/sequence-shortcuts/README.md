@@ -31,6 +31,7 @@ This plugin is automatically installed with Touch'N'Stars. No additional install
 ### Using a shortcut
 
 Simply click the shortcut button. This will:
+
 1. Load the associated sequence in N.I.N.A
 2. If auto-start is enabled, start the sequence immediately
 
@@ -50,21 +51,27 @@ Simply click the shortcut button. This will:
 This plugin uses the following N.I.N.A APIs:
 
 ### List available sequences
+
 ```javascript
-GET /v2/api/sequence/list-available
+GET / v2 / api / sequence / list - available;
 ```
+
 Returns the list of sequence files (.json) available in N.I.N.A.
 
 ### Load a sequence
+
 ```javascript
 GET /v2/api/sequence/load?sequenceName=<filename.json>
 ```
+
 Loads a specific sequence in N.I.N.A.
 
 ### Start sequence
+
 ```javascript
 GET /v2/api/sequence/start?skipValidation=true
 ```
+
 Starts the currently loaded sequence.
 
 ## Storage
@@ -77,6 +84,7 @@ Value: JSON with shortcuts array
 ```
 
 Each shortcut has the following structure:
+
 ```javascript
 {
   id: string,           // Unique UUID

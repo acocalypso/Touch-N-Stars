@@ -4,6 +4,7 @@
       v-model="binningValue"
       :label="$t('components.guider.phd2.cameraBinning')"
       label-key="components.guider.phd2.cameraBinning"
+      :help-message="$t('components.guider.phd2.help.cameraBinning')"
       :min="1"
       :max="8"
       :step="1"

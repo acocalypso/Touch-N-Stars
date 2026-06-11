@@ -80,6 +80,9 @@
       <stellariumClock v-if="stellariumStore.stel" />
     </div>
 
+    <!-- Horizon overlay (renders into SWE GeoJSON layer, no visible DOM element) -->
+    <StellariumHorizonOverlay v-if="stellariumStore.stel" />
+
     <!-- View Direction Display (hidden when camera FOV frame is rendered) -->
     <StellariumViewDirection v-if="stellariumStore.stel && !showFovFrame" />
   </div>
@@ -105,6 +108,7 @@ import stellariumClock from '@/components/stellarium/stellariumClock.vue';
 import StellariumFovFrame from '@/components/stellarium/StellariumFovFrame.vue';
 import StellariumFovRotation from '@/components/stellarium/StellariumFovRotation.vue';
 import StellariumViewDirection from '@/components/stellarium/StellariumViewDirection.vue';
+import StellariumHorizonOverlay from '@/components/stellarium/StellariumHorizonOverlay.vue';
 import { timeSync } from '@/utils/timeSync';
 import { utcToMJD } from '@/utils/utils';
 
@@ -230,6 +234,22 @@ watch(
   }
 );
 
+watch(
+  () => [
+    store.profileInfo?.AstrometrySettings?.Latitude,
+    store.profileInfo?.AstrometrySettings?.Longitude,
+    store.profileInfo?.AstrometrySettings?.Elevation,
+  ],
+  ([lat, lon, elev]) => {
+    if (!stellariumStore.stel || lat == null) return;
+    const stel = stellariumStore.stel;
+    stel.core.observer.latitude = lat * stel.D2R;
+    stel.core.observer.longitude = lon * stel.D2R;
+    stel.core.observer.elevation = elev ?? 0;
+    mountComponent.value?.refreshPosition();
+  }
+);
+
 onMounted(async () => {
   //NINA vorbereiten
   await store.fetchProfilInfos();
@@ -273,8 +293,7 @@ onMounted(async () => {
           stel.core.observer.utc = mjd;
           console.log('Stellarium initialized with server time:', serverTime.toISOString());
 
-          // Zeitgeschwindigkeit auf 1 setzen
-          stel.core.time_speed = 0;
+          stel.core.time_speed = 1;
 
           // Speichere Stellarium für späteren Zugriff
           stellariumStore.stel = stel;
@@ -396,9 +415,21 @@ onMounted(async () => {
               }
               if (stel.core.selection) {
                 isSearchVisible.value = false;
-                const selectedDesignations = stel.core.selection.designations();
-                selectedObject.value = selectedDesignations;
-                console.log('Object designations:', selectedDesignations);
+                const selectedDesignations = stel.core.selection.designations() || [];
+                // For coordinate-based search results (NGC, etc.) designations()
+                // returns nothing useful — prepend the last searched name so it
+                // gets passed on to framing/sequence.
+                const searchedName = stellariumStore.lastSearchedName;
+                stellariumStore.lastSearchedName = '';
+                const designationsList = Array.isArray(selectedDesignations)
+                  ? selectedDesignations
+                  : [];
+                if (searchedName && !designationsList.includes(searchedName)) {
+                  selectedObject.value = [searchedName, ...designationsList];
+                } else {
+                  selectedObject.value = designationsList;
+                }
+                console.log('Object designations:', selectedObject.value);
                 const info = stel.core.selection;
                 //console.log('Object information:', info);
 

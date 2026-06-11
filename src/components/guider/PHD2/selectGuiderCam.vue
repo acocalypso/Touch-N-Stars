@@ -10,8 +10,12 @@
         class="w-full default-select min-w-0"
         v-model="selectedCam"
         @change="setGuiderCam"
+        :disabled="store.guiderInfo.Connected"
       >
         <option value="" disabled>{{ selectedCam || $t('common.select') }}</option>
+        <option :value="MANUAL_VNC">
+          {{ $t('components.connectEquipment.guiderCam.manualVnc') }}
+        </option>
         <option
           v-for="cam in cameras"
           :key="cam.driver + ':' + cam.id"
@@ -51,6 +55,8 @@ defineProps({
 const store = apiStore();
 const guiderStore = useGuiderStore();
 
+const MANUAL_VNC = '__manual_vnc__';
+
 const cameras = ref([]);
 const selectedCam = ref('');
 const isLoading = ref(false);
@@ -75,6 +81,10 @@ async function loadCameras(withRescan = false) {
           name: cam.Name,
         }))
       );
+      if (cameras.value.length === 0 && store.guiderInfo.Connected) {
+        selectedCam.value = MANUAL_VNC;
+        guiderStore.guidecamManualVnc = true;
+      }
       validateSelection();
     }
   } catch (error) {
@@ -86,6 +96,13 @@ async function loadCameras(withRescan = false) {
 }
 
 function validateSelection() {
+  if (selectedCam.value === MANUAL_VNC) {
+    guiderStore.guidecamOk = true;
+    borderClass.value = store.guiderInfo.Connected
+      ? 'border-green-500 connected-glow'
+      : 'border-gray-500';
+    return;
+  }
   if (
     !selectedCam.value ||
     !cameras.value.some((c) => c.driver + ':' + c.id === selectedCam.value)
@@ -93,12 +110,21 @@ function validateSelection() {
     borderClass.value = 'border-red-500 error-glow';
     guiderStore.guidecamOk = false;
   } else {
-    borderClass.value = 'border-green-500 connected-glow';
     guiderStore.guidecamOk = true;
+    borderClass.value = store.guiderInfo.Connected
+      ? 'border-green-500 connected-glow'
+      : 'border-gray-500';
   }
 }
 
 async function setGuiderCam() {
+  if (selectedCam.value === MANUAL_VNC) {
+    guiderStore.guidecamManualVnc = true;
+    guiderStore.guidecamOk = true;
+    borderClass.value = 'border-green-500 connected-glow';
+    return;
+  }
+  guiderStore.guidecamManualVnc = false;
   const cam = cameras.value.find((c) => c.driver + ':' + c.id === selectedCam.value);
   if (!cam) return;
 
@@ -114,6 +140,11 @@ async function setGuiderCam() {
 }
 
 watch(
+  () => store.guiderInfo.Connected,
+  () => validateSelection()
+);
+
+watch(
   () => [
     store.profileInfo?.GuiderSettings?.GuiderName,
     store.profileInfo?.GuiderSettings?.PHD2Camera,
@@ -122,7 +153,9 @@ watch(
   async ([guiderName, phd2Camera, phd2CameraId], oldValues) => {
     if (!store.isPINS) return;
     if (guiderName !== 'PHD2_Single') return;
-    if (phd2Camera && phd2CameraId) {
+    if (guiderStore.guidecamManualVnc) {
+      selectedCam.value = MANUAL_VNC;
+    } else if (phd2Camera && phd2CameraId) {
       selectedCam.value = phd2Camera + ':' + phd2CameraId;
     }
     const isFirstRun = !oldValues;

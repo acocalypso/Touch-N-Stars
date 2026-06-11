@@ -12,6 +12,20 @@
         >
       </div>
       <button
+        v-if="path"
+        class="p-2 text-gray-500 hover:text-red-500 transition-colors shrink-0"
+        @click="showConfirm = true"
+        :title="$t('components.settings.horizonFilePath.clearTitle')"
+      >
+        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+          <path
+            fill-rule="evenodd"
+            d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
+            clip-rule="evenodd"
+          />
+        </svg>
+      </button>
+      <button
         class="px-3 py-2 bg-gray-700 hover:bg-gray-600 border border-gray-600 rounded text-sm text-gray-200 transition-colors shrink-0"
         @click="showBrowser = true"
         :title="$t('components.settings.horizonFilePath.placeholder')"
@@ -25,6 +39,28 @@
 
     <!-- FileBrowser Dialog -->
     <FileBrowser v-model="showBrowser" :initial-path="path" mode="file" @select="onPathSelected" />
+
+    <!-- Confirm clear modal -->
+    <Modal :show="showConfirm" @close="showConfirm = false" maxWidth="max-w-md">
+      <template #header>
+        <h2 class="text-lg font-bold text-red-500">
+          {{ $t('components.settings.horizonFilePath.confirmTitle') }}
+        </h2>
+      </template>
+      <template #body>
+        <div class="flex flex-col gap-4">
+          <p class="text-gray-300">{{ $t('components.settings.horizonFilePath.confirmMessage') }}</p>
+          <div class="flex gap-3 justify-end">
+            <button @click="showConfirm = false" class="default-button-gray">
+              {{ $t('common.cancel') }}
+            </button>
+            <button @click="clearPath" class="default-button-red">
+              {{ $t('common.delete') }}
+            </button>
+          </div>
+        </div>
+      </template>
+    </Modal>
   </div>
 </template>
 
@@ -35,6 +71,7 @@ import { apiStore } from '@/store/store';
 import { useToastStore } from '@/store/toastStore';
 import apiService from '@/services/apiService';
 import FileBrowser from '../../helpers/fileBrowser.vue';
+import Modal from '@/components/helpers/Modal.vue';
 
 const { t } = useI18n();
 const store = apiStore();
@@ -42,12 +79,25 @@ const toast = useToastStore();
 
 const path = ref('');
 const showBrowser = ref(false);
+const showConfirm = ref(false);
 const saveSuccess = ref(false);
 const statusMsg = ref('');
 
 onMounted(() => {
   path.value = store.profileInfo?.AstrometrySettings?.HorizonFilePath || '';
 });
+
+async function clearPath() {
+  showConfirm.value = false;
+  try {
+    await apiService.setHorizonFilePath('');
+    path.value = '';
+    saveSuccess.value = true;
+    setTimeout(() => (saveSuccess.value = false), 2000);
+  } catch (e) {
+    statusMsg.value = t('components.settings.imageSavePath.errorMsg');
+  }
+}
 
 async function onPathSelected(selectedPath) {
   path.value = selectedPath;

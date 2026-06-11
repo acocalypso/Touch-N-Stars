@@ -91,6 +91,15 @@ export const useFlatassistantStore = defineStore('flatassistantStore', {
         }
 
         this.status = next;
+
+        // When the ninaAPI backend tells us it's in the dark phase, reflect that.
+        if (
+          ninaNext?.State === 'Running' &&
+          ninaNext?.Type === 'darks' &&
+          this.currentRunType === 'flats'
+        ) {
+          this.currentRunType = 'darks';
+        }
       } catch (error) {
         console.error('Error fetching information:', error);
       }
@@ -286,14 +295,16 @@ export const useFlatassistantStore = defineStore('flatassistantStore', {
     async runFlatWorkflow({
       request,
       statusLoader = () => apiService.flatassistantAction('status'),
-      darkJobs = [],
-      keepClosed = false,
       runType = 'flats',
+      darkCount = 0,
     }) {
       this.startManagedRun(runType);
 
+      const connectedSimulator = darkCount > 0 ? await this.ensureFlatDeviceConnected() : false;
+
       const response = await request();
       if (response?.Success === false) {
+        if (connectedSimulator) await this.disconnectFlatDevice();
         this.notifyOperationIssue(response, 'warning');
         return null;
       }
@@ -312,9 +323,7 @@ export const useFlatassistantStore = defineStore('flatassistantStore', {
         lastADU: this.currentADU,
       };
 
-      if (darkJobs.length > 0 && this.shouldOfferDarks(finalStatus)) {
-        await this.runDarkSeries(darkJobs, keepClosed);
-      }
+      if (connectedSimulator) await this.disconnectFlatDevice();
 
       return finalStatus;
     },
@@ -333,16 +342,7 @@ export const useFlatassistantStore = defineStore('flatassistantStore', {
         return false;
       }
       try {
-        const listResponse = await apiService.flatdeviceAction('list-devices');
-        const devices = listResponse?.Response;
-        if (!Array.isArray(devices)) return false;
-        const simulator = devices.find(
-          (d) =>
-            d.Name?.toLowerCase().includes('simulator') || d.Id?.toLowerCase().includes('simulator')
-        );
-        if (!simulator) return false;
-        const encodedId = encodeURIComponent(simulator.Id);
-        const connectResponse = await apiService.flatdeviceAction('connect?to=' + encodedId);
+        const connectResponse = await apiService.flatdeviceAction('connect?to=flip_flat_simulator');
         return connectResponse?.Success === true;
       } catch {
         return false;
@@ -405,7 +405,7 @@ export const useFlatassistantStore = defineStore('flatassistantStore', {
           continue;
         }
 
-        const { status: finalStatus, completed: darkCompleted } = await this.waitForCompletion(
+        const { completed: darkCompleted, total: darkTotal } = await this.waitForCompletion(
           () => apiService.flatassistantAction('status'),
           250
         );
@@ -413,7 +413,9 @@ export const useFlatassistantStore = defineStore('flatassistantStore', {
         totalCompleted += darkCompleted;
         lastADU = this.currentADU;
 
-        if (!this.didRunSucceed(finalStatus)) {
+        // Use waitForCompletion's resolved counts (handles NINA's T=-1 Finished state)
+        // instead of didRunSucceed(finalStatus) which would always fail when T=-1.
+        if (darkTotal <= 0 || darkCompleted < darkTotal) {
           allSucceeded = false;
         }
       }

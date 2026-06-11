@@ -1,15 +1,23 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
+import { DIAGNOSTICS_STATUS, applyArchiveStatusTransition } from '../utils/diagnosticsSupport';
 
 export const useLogCollectorStore = defineStore('logCollector', () => {
   // State
   const submissions = ref([]);
+  const diagnosticsRun = ref(createInitialDiagnosticsRun());
 
   // Getters
   const getAllSubmissions = computed(() => submissions.value);
   const getSubmissionByToken = computed(
     () => (token) => submissions.value.find((sub) => sub.token === token)
   );
+  const diagnosticsIsActive = computed(() => {
+    return (
+      diagnosticsRun.value.status === DIAGNOSTICS_STATUS.QUEUED ||
+      diagnosticsRun.value.status === DIAGNOSTICS_STATUS.RUNNING
+    );
+  });
 
   // Actions
   function addSubmission({ date, filename, token }) {
@@ -69,6 +77,63 @@ export const useLogCollectorStore = defineStore('logCollector', () => {
     }
   }
 
+  function resetDiagnosticsRun() {
+    diagnosticsRun.value = createInitialDiagnosticsRun();
+  }
+
+  function beginDiagnosticsRun(startResponse) {
+    diagnosticsRun.value = {
+      archiveId: startResponse?.archiveId || '',
+      status: startResponse?.status || DIAGNOSTICS_STATUS.QUEUED,
+      error: null,
+      pollUrl: startResponse?.pollUrl || '',
+      downloadUrl: startResponse?.downloadUrl || '',
+      startedAt: Date.now(),
+      finishedAt: null,
+      autoDownloaded: false,
+      uploadedToSupport: false,
+      lastMessage: '',
+    };
+  }
+
+  function setDiagnosticsStatusResponse(statusResponse, options) {
+    diagnosticsRun.value = applyArchiveStatusTransition(
+      diagnosticsRun.value,
+      statusResponse,
+      options
+    );
+  }
+
+  function setDiagnosticsError(message) {
+    diagnosticsRun.value = {
+      ...diagnosticsRun.value,
+      status: DIAGNOSTICS_STATUS.FAILED,
+      error: message || 'Diagnostics run failed.',
+      finishedAt: Date.now(),
+    };
+  }
+
+  function markDiagnosticsAutoDownloaded() {
+    diagnosticsRun.value = {
+      ...diagnosticsRun.value,
+      autoDownloaded: true,
+    };
+  }
+
+  function markDiagnosticsUploadedToSupport() {
+    diagnosticsRun.value = {
+      ...diagnosticsRun.value,
+      uploadedToSupport: true,
+    };
+  }
+
+  function setDiagnosticsLastMessage(message) {
+    diagnosticsRun.value = {
+      ...diagnosticsRun.value,
+      lastMessage: message || '',
+    };
+  }
+
   // Load data on store initialization
   loadFromStorage();
 
@@ -79,11 +144,35 @@ export const useLogCollectorStore = defineStore('logCollector', () => {
     // Getters
     getAllSubmissions,
     getSubmissionByToken,
+    diagnosticsIsActive,
 
     // Actions
     addSubmission,
     removeSubmission,
     clearAllSubmissions,
     loadFromStorage,
+    resetDiagnosticsRun,
+    beginDiagnosticsRun,
+    setDiagnosticsStatusResponse,
+    setDiagnosticsError,
+    markDiagnosticsAutoDownloaded,
+    markDiagnosticsUploadedToSupport,
+    setDiagnosticsLastMessage,
+    diagnosticsRun,
   };
 });
+
+function createInitialDiagnosticsRun() {
+  return {
+    archiveId: '',
+    status: DIAGNOSTICS_STATUS.IDLE,
+    error: null,
+    pollUrl: '',
+    downloadUrl: '',
+    startedAt: null,
+    finishedAt: null,
+    autoDownloaded: false,
+    uploadedToSupport: false,
+    lastMessage: '',
+  };
+}

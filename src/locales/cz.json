@@ -162,7 +162,8 @@
         "setMosaicTargets": "Stanovte si mozaikové cíle",
         "panelsSet": "panely nastavené v pořadí",
         "willBeSaved": "panely budou uloženy jednotlivě"
-      }
+      },
+      "customTarget": "Custom Target"
     },
     "tutorial": {
       "previous": "Předchozí",
@@ -303,7 +304,29 @@
         "ASTAPLocation": "Umístění ASTAP",
         "Filter": "Filtr pro Plate Solving",
         "FilterCurrent": "Aktuální",
-        "FilterHint": "Filtr používaný při plate solvingu (přepíše aktuální filtr)"
+        "FilterHint": "Filtr používaný při plate solvingu (přepíše aktuální filtr)",
+        "astapDatabaseAllInstalled": "All ASTAP star databases are already installed.",
+        "astapDatabaseDescription": "Install missing ASTAP star databases directly on your PINS device.",
+        "astapDatabaseInstall": "Install",
+        "astapDatabaseInstallFailed": "ASTAP star database install failed{exitCode}.",
+        "astapDatabaseInstallSuccess": "ASTAP star database {databaseId} installed successfully.",
+        "astapDatabaseInstalling": "Installing...",
+        "astapDatabaseJobStarted": "started",
+        "astapDatabaseJobStartedMessage": "Install job started for {databaseId}.",
+        "astapDatabaseJobStatus": "Job {jobId}: {status}",
+        "astapDatabaseLastChecked": "Last checked: {value}",
+        "astapDatabaseLoadFailed": "Failed to load databases: {detail}",
+        "astapDatabaseMissingJobId": "Install request succeeded but no jobId was returned.",
+        "astapDatabaseNoInstallable": "No installable ASTAP star databases available",
+        "astapDatabaseSelectPlaceholder": "Select a database",
+        "astapDatabaseStartFailed": "Failed to start install: {detail}",
+        "astapDatabaseStartInstall": "Starting installation for {databaseId}...",
+        "astapDatabaseStarting": "Starting...",
+        "astapDatabaseStatusCheckFailedRetrying": "Status check failed: {detail}. Retrying...",
+        "astapDatabaseTitle": "ASTAP Star Database (PINS)",
+        "astapDatabaseUnauthorizedStart": "Unauthorized while starting ASTAP star database install.",
+        "astapDatabaseUnauthorizedStatus": "Unauthorized while checking install status.",
+        "astapDatabaseUnknownError": "Unknown error"
       },
       "equipment": {
         "title": "Vybavení",
@@ -334,7 +357,10 @@
         "notSupported": "Není podporováno ovladačem",
         "syncLabel": "Synchronizujte čas pro připojení",
         "syncLabelInfo": "Pokud je tato možnost povolena, kliknutím na \"Synchronizovat nyní\" se montáž krátce odpojí a znovu připojí, aby NINA mohla přenést aktuální čas.",
-        "title": "Synchronizace času"
+        "title": "Synchronizace času",
+        "loadError": "Could not load time information.",
+        "syncError": "Time synchronisation failed. Check the connection to the PINS device.",
+        "syncSuccess": "Time synchronised successfully."
       },
       "navbarCustomization": {
         "alwaysVisible": "Vždy viditelné",
@@ -366,7 +392,10 @@
       "horizonFilePath": {
         "title": "Soubor horizontu",
         "placeholder": "např. /home/pi/horizon.hrz",
-        "toastTitle": "Soubor horizontu uložen"
+        "toastTitle": "Soubor horizontu uložen",
+        "clearTitle": "Vymazat cestu souboru horizontu",
+        "confirmTitle": "Vymazat cestu souboru horizontu",
+        "confirmMessage": "Opravdu chcete vymazat cestu souboru horizontu?"
       }
     },
     "alpacaDirect": {
@@ -408,7 +437,8 @@
         "guideCamRequired": "Musí být vybrána platná guide kamera."
       },
       "guiderCam": {
-        "name": "Průvodce fotoaparátem"
+        "name": "Průvodce fotoaparátem",
+        "manualVnc": "Ručně přes VNC"
       },
       "safety": {
         "name": "Bez. monitor"
@@ -771,6 +801,9 @@
           "slope": "Sklon",
           "intercept": "Průsečík",
           "absolute": "Absolutní"
+        },
+        "startGuiding": {
+          "forceCalibrationLabel": "Force Calibration"
         }
       },
       "emptyContainer": "Prázdné — kliknutím na + přidáte položky",
@@ -944,7 +977,10 @@
         "camera": "Kamera",
         "cameraGain": "Zesílení",
         "cameraBinning": "Binning",
-        "restoreCalibration": "Obnovit kalibraci",
+        "restoreCalibration": "Autom. obnovit kalibraci",
+        "mountSettings": "Montáž",
+        "guideRate": "Guide Rate",
+        "guideRateReadOnly": "Pouze pro čtení",
         "guiderScale": "Měřítko guideru",
         "maxY": "Max Y",
         "historySize": "Velikost historie",
@@ -1015,11 +1051,125 @@
           "rightAscension": "Rektascenze",
           "title": "Zkontrolujte kalibraci"
         },
+        "darkLibrary": {
+          "title": "Knihovna darků",
+          "manage": "Spravovat knihovnu darků",
+          "info": "Vytvořte knihovnu darků pořízením dark snímků s různými expozičními časy. PHD2 je použije k odečtení šumu senzoru z guidingových snímků.",
+          "warning": "Sestavování blokuje PHD2 — všechny ostatní akce PHD2 jsou během něj zakázány.",
+          "status": "Stav",
+          "exists": "Knihovna existuje",
+          "loaded": "Načtena",
+          "notLoaded": "Nenačtena",
+          "noLibrary": "Knihovna darků nebyla nalezena",
+          "numDarks": "Počet darků",
+          "range": "Rozsah expozice",
+          "minExposure": "Min. expozice (s)",
+          "maxExposure": "Max. expozice (s)",
+          "frameCount": "Snímků na expozici",
+          "previewExposures": "Expoziční časy",
+          "totalFrames": "Celkem snímků",
+          "build": "Vytvořit",
+          "cancel": "Zrušit sestavování",
+          "building": "Probíhá sestavování",
+          "buildProgress": "Snímek {frame} / {total} – {exposure} s",
+          "load": "Načíst",
+          "unload": "Uvolnit",
+          "delete": "Smazat",
+          "confirmDelete": "Klikněte znovu pro potvrzení",
+          "buildSuccess": "Knihovna darků úspěšně vytvořena",
+          "buildFailed": "Sestavení knihovny selhalo",
+          "buildCancelled": "Sestavování zrušeno",
+          "invalidRange": "Min. expozice musí být menší nebo rovna max.",
+          "buildActive": "Probíhá sestavování knihovny",
+          "buildActiveMessage": "Akce PHD2 jsou blokovány až do dokončení."
+        },
+        "imageDisplay": "Zobrazení obrazu",
+        "imageGamma": "Roztažení (Gamma)",
+        "imageGammaHint": "Nízké = silněji roztaženo, Vysoké = lineární",
         "reviewCalibration": "Zkontrolujte kalibraci",
         "starComponents": {
           "hide": "Skrýt hvězdné komponenty",
           "show": "Zobrazit hvězdné komponenty"
-        }
+        },
+        "applyStep": "Apply",
+        "calculatedStep": "Calculated Step",
+        "calibDistance": "Distance",
+        "calibStepCalc": "Step Size Calculator",
+        "declination": "Declination",
+        "desiredSteps": "Desired Steps",
+        "guideSpeed": "Guide Speed",
+        "imageScale": "Image Scale",
+        "optimal": "Optimal",
+        "pixelSize": "Pixel Size",
+        "assumeDecOrthogonal": "Předpokládat Dec kolmou na RA",
+        "useDecCompensation": "Použít kompenzaci Dec",
+        "fastRecenter": "Rychlé vystředění po kalibraci nebo ditheru",
+        "mountGuideOutput": "Povolit výstup vedení na montáž",
+        "help": {
+          "fastRecenter": "Během kalibrace nebo ditheru se montáž může výrazně vzdálit od zamykací pozice. Je-li zapnuto, PHD2 se k ní co nejrychleji vrátí pro úsporu času — zcela volitelné. Selhává-li kalibrace často kvůli příliš rychlému návratu hvězdy, vypněte to (často známka velké chyby ustavení nebo periodické chyby).",
+          "mountGuideOutput": "Umožňuje PHD2 skutečně posílat vodicí příkazy na montáž. Obvykle zapnuto; vypněte jen pro sledování nekorigovaného chování montáže.",
+          "searchRegion": "Velikost sledovacího obdélníku v pixelech (poloměr: 15 odpovídá poli 30×30). Zvyšte ji, pokud montáž špatně vede nebo není dobře ustavená na pól; příliš velká oblast může zachytit více hvězd a zhoršit vedení.",
+          "minStarHFD": "Nejmenší poloměr poloviny toku (tzn. «velikost»), který hvězda musí mít, aby sloužila jako vodicí — nejlepší způsob, jak zabránit PHD2 v uchycení na shluky horkých pixelů. Hodnota ~1,5 vyhovuje většině sestav; zvyšujte jen tehdy, jsou-li odmítány skutečné slabé hvězdy.",
+          "maxStarHFD": "Největší povolený poloměr poloviny toku vodicí hvězdy; nafouklé nebo rozostřené skvrny nad touto hodnotou se při výběru ignorují.",
+          "massChangeEnabled": "Sleduje jas a velikost vodicí hvězdy vůči pozadí oblohy. Zastaralé — obvykle lépe vypnuté; zapněte jen pro jistotu, že PHD2 nepřepne na sousední hvězdu.",
+          "massChangeThreshold": "Při zapnuté detekci hmotnosti PHD2 hlásí «ztrátu hvězdy», změní-li se jas nebo velikost o více než toto procento. Zvyšte ji (nebo detekci vypněte), pokud často dostáváte chyby «ztráta hvězdy – změna hmotnosti», přestože je hvězda jasně viditelná.",
+          "minStarSNR": "Minimální SNR, které hvězda potřebuje pro automatický výběr (nenasycené hvězdy). Měňte jen jako zkušený uživatel: příliš vysoká hodnota může zabránit jakémukoli výběru; obnovení knihovny darků nebo delší expozice obvykle pomůže více.",
+          "useMultipleStars": "Vede na více hvězdách najednou místo jediné, což zlepšuje stabilitu. Nedostupné při použití podsnímků.",
+          "autoSelectDownsample": "Pro vzácné případy, kdy automatický výběr selže, protože hvězdy vypadají zdeformovaně. Ponechte na «Auto»; hodnoty nad 1 mohou zlepšit rozpoznávání.",
+          "saturationByADU": "Jak PHD2 rozpoznává nasycené hvězdy, aby se jim vyhnul. «Podle hodnoty ADU» využívá jas hlášený senzorem (doporučeno); alternativa posuzuje saturaci podle tvaru profilu a je méně přesná.",
+          "saturationADUValue": "Hodnota pixelu, od níž se hvězda považuje za nasycenou (8bitové kamery ≈ 255, 16bitové ≈ 65535). Při pochybnostech nastavte maximální hodnotu pixelu své kamery.",
+          "cameraGain": "Zisk vodicí kamery v procentech rozsahu kamery (např. 50 % odpovídá zisku 60 u kamery 40–80). Nižší zisk snižuje šum; po stabilizaci sestavy jej obvykle není třeba měnit.",
+          "cameraBinning": "Hardwarový binning snímků vedení — zvyšuje citlivost a zrychluje stahování na úkor rozlišení. Pro každou hodnotu binningu použijte samostatný profil PHD2.",
+          "focalLength": "Ohnisková vzdálenost vodicího dalekohledu v milimetrech. Spolu s velikostí pixelu určuje měřítko obrazu a umožňuje PHD2 uvádět vedení v obloukových vteřinách, proto ji nastavte správně.",
+          "calibrationStep": "Délka každého vodicího impulzu během kalibrace. Zvolte hodnotu dávající 8–14 kroků na směr a kalibrujte poblíž nebeského rovníku (deklinace ≈ 0).",
+          "restoreCalibration": "Automaticky načte poslední kalibraci po připojení vybavení (vhodné pro montáže ASCOM/INDI nebo aux-mount). Používáte-li to, vodicí kamera nesmí být pootočená vůči dalekohledu ani obloze.",
+          "assumeDecOrthogonal": "PHD2 obvykle měří úhly kamery pro RA a Dec nezávisle. Vynuťte úhel Dec kolmý na RA, abyste pomohli při velmi vysoké periodické chybě, velké vůli v Dec nebo špatném seeingu.",
+          "useDecCompensation": "Automaticky upravuje rychlost vedení v RA podle aktuální deklinace (vyžaduje připojení montáže přes ASCOM/INDI). Ponechte zapnuté kromě neobvyklých případů. Nezaměňovat s kompenzací vůle v deklinaci.",
+          "reverseDecAfterFlip": "Říká PHD2, jak upravit kalibraci po překlopení přes poledník. Ponechte vypnuté, je-li vedení po flipu normální; zapněte (a překalibrujte) jen tehdy, vidíte-li ujíždějící vedení v deklinaci.",
+          "guideAlgorithm": "Vybírá algoritmus vedení pro tuto osu. Hysteresis váží nedávné korekce vůči poslední odchylce; ResistSwitch odolává změnám směru (vhodné pro vůli v Dec); LowPass/LowPass2 jsou konzervativní volby pro dobré montáže; Predictive PEC (PPEC) modeluje a předem koriguje periodickou chybu (RA); ZFilter pracuje ve frekvenční oblasti. Výchozí hodnoty vyhovují většině.",
+          "algo": {
+            "minMove": "Nejmenší odchylka hvězdy (v pixelech) spouštějící korekci; menší pohyby se ignorují, aby se nehonil seeing. Parametr, který se nejvíce vyplatí ladit každou noc podle podmínek.",
+            "maxMove": "Největší jednorázová korekce vedení (pixely); omezuje přehnanou reakci na jediný velký skok.",
+            "aggression": "Jak silně se koriguje každá změřená chyba, v procentech. 100 % aplikuje plnou korekci; nižší hodnoty (např. 60 %) korigují méně, aby nedošlo k překmitu. Níže je bezpečněji.",
+            "hysteresis": "Váha přikládaná historii nedávných korekcí vůči aktuálnímu snímku, v procentech. Vyšší hodnoty korekce vyhlazují, ale pomaleji reagují na skutečnou změnu směru.",
+            "predictiveWeight": "Predictive PEC: váha předpovězené (modelované) části korekce. Výchozí hodnoty vyhovují většině montáží; velké změny mohou vedení zhoršit.",
+            "reactiveWeight": "Predictive PEC: váha reaktivní části založené na posunu hvězdy v posledním snímku. Výchozí hodnoty vyhovují většině montáží.",
+            "slopeWeight": "LowPass: jak moc nedávný trend (sklon) pohybu hvězdy ovlivňuje korekci, v procentech. Brání tomu, aby byl algoritmus příliš pomalý; 0 používá jen medián nedávné historie.",
+            "expFactor": "ZFilter: virtuální expoziční čas je skutečná expozice × tento faktor. Vyšší hodnoty více filtrují seeing (hladší, ale pomalejší); virtuální expozice ~2–4 s je dobrý výchozí bod pro RA."
+          },
+          "ditherMode": "Jak PHD2 počítá každý dither. «Náhodný» volí velikost a směr náhodně; «Spirálový» používá kroky pevné velikosti ve spirále po směru hodin — užitečné, když má snímací kamera pevný vzorový šum nebo montáž obtěžující vůli v Dec.",
+          "ditherRaOnly": "Dithering pouze v ose RA. Užitečné, když je vedení v Dec vypnuté nebo má montáž velkou vůli v Dec.",
+          "ditherScale": "Násobitel aplikovaný na velikost ditheru požadovanou snímací aplikací — zvyšte pro větší, snižte pro menší dithery.",
+          "backlashEnabled": "Kompenzuje vůli (backlash) v ose DEC přidáním dalšího pulzu při změně směru montáže. Užitečné pro montáže s výraznou vůlí převodů; ponechte vypnuté, pokud montáž v DEC vede čistě.",
+          "backlashAmount": "Délka dodatečného korekčního pulzu (v ms), který PHD2 přidává při změně směru v DEC. PHD2 jej automaticky ladí mezi Min a Max.",
+          "backlashMin": "Dolní mez (ms) automaticky laděného pulzu backlash.",
+          "backlashMax": "Horní mez (ms) automaticky laděného pulzu backlash."
+        },
+        "starDetection": "Sledování vodicí hvězdy",
+        "searchRegion": "Oblast hledání (pixely)",
+        "minStarHFD": "Minimální HFD hvězdy (pixely)",
+        "maxStarHFD": "Maximální HFD hvězdy (pixely)",
+        "beepForLostStar": "Pípnutí při ztrátě hvězdy",
+        "starMassDetection": "Detekce hmotnosti hvězdy",
+        "massChangeEnabled": "Zapnuto",
+        "massChangeThreshold": "Tolerance",
+        "backlash": {
+          "title": "Kompenzace vůle",
+          "enabled": "Zapnuto",
+          "amount": "Hodnota (ms)",
+          "min": "Min (ms)",
+          "max": "Max (ms)"
+        },
+        "minStarSNR": "Minimální SNR hvězdy pro AutoFind",
+        "autoSelectDownsample": "Podvzorkování snímků výběru",
+        "saturationByADU": "Saturace podle ADU",
+        "saturationADUValue": "Hodnota ADU saturace",
+        "dither": "Dithering",
+        "ditherMode": "Režim ditheru",
+        "ditherRaOnly": "Dither jen v RA",
+        "ditherScale": "Měřítko ditheru",
+        "ditherModeRandom": "Náhodný",
+        "ditherModeSpiral": "Spirálový"
       }
     },
     "focuser": {
@@ -1452,7 +1602,15 @@
       "status_stopped_darks": "Stopped early - {completed} of {total} darks captured",
       "status_stopped_flats": "Stopped early - {completed} of {total} flats captured",
       "status_success_darks": "Done - {count} darks captured",
-      "status_success_flats": "Done - {count} flats captured"
+      "status_success_flats": "Done - {count} flats captured",
+      "filter_label": "Filter",
+      "result_bright": "too bright",
+      "result_dim": "too dim",
+      "status_completed_flats": "Completed",
+      "status_failed_flats_multi": "All filters failed to determine valid exposure",
+      "status_partial_flats_multi": "Failed filters: {filters}",
+      "status_running_unknown": "Determining…",
+      "target": "Target"
     },
     "weatherModal": {
       "weatherInformation": "Informace o Počasí",
@@ -1479,7 +1637,13 @@
     },
     "switch": {
       "gauges": "Měřící přístroje",
-      "switch": "Přepínač"
+      "switch": "Přepínač",
+      "indi": {
+        "settings": "Switch Settings"
+      },
+      "sv241pro": {
+        "preConnectDelay": "Pre Connect Delay (ms)"
+      }
     },
     "stellarium": {
       "selected_object": {
@@ -1505,7 +1669,24 @@
         "atmosphere_visible": "Zobrazit atmosféru",
         "landscapes_visible": "Ukázat krajinu",
         "dsos_visible": "Deep Sky Objekty (Messier, NGC)",
-        "title": "Nastavení"
+        "title": "Nastavení",
+        "landscape_source_mode": "Landscape source",
+        "landscape_source_default": "Default landscape (Guereins)",
+        "landscape_source_neutral": "Neutral horizon (Gray)",
+        "landscape_source_custom": "Custom data source",
+        "custom_landscape_url": "Custom source URL",
+        "custom_landscape_url_placeholder": "e.g. /stellarium-data/landscapes/custom",
+        "custom_landscape_key": "Custom source key",
+        "custom_landscape_key_placeholder": "e.g. my-landscape",
+        "available_landscapes": "Available landscapes",
+        "folder_name_label": "folderName",
+        "has_allsky": "Allsky",
+        "landscape_list_load_failed": "Failed to load landscapes.",
+        "landscape_option_label": "Landscape: {title}",
+        "no_allsky": "No allsky",
+        "no_landscapes_available": "No landscapes available.",
+        "service_url_label": "serviceUrl",
+        "untitled_landscape": "Untitled landscape"
       }
     },
     "profile": {
@@ -1750,7 +1931,11 @@
         "pluginUninstallStart": "Uninstalling plugin: {packageName}",
         "pluginsLoadFailed": "Failed to load PINS plugins: {message}",
         "pluginsPackageNotAllowed": "Package not allowed by API policy: {packageName}",
-        "pluginsLoadMetadataFailed": "PINS plugins could not be loaded because plugin metadata repository is currently unavailable (HTTP 502)."
+        "pluginsLoadMetadataFailed": "PINS plugins could not be loaded because plugin metadata repository is currently unavailable (HTTP 502).",
+        "hotspotChannelInvalid": "Hotspot channel must be a positive integer when provided.",
+        "hotspotFetchFailed": "Failed to load hotspot settings: {message}",
+        "hotspotPasswordInvalidLength": "Hotspot password is required and must be 8-63 characters.",
+        "hotspotSaveFailed": "Failed to save hotspot settings: {message}"
       },
       "hotspotConfigured": "Je nakonfigurováno vlastní heslo hotspotu.",
       "hotspotNewPassword": "Nové heslo hotspotu",
@@ -1836,7 +2021,14 @@
       "indiInstallModalSuccessCompleted": "Installation completed for {label}.",
       "indiInstallModalSuccessStarted": "Installation started for {label}.",
       "indiInstallModalTitle": "Install INDI Driver",
-      "indiInstallModalType": "Type"
+      "indiInstallModalType": "Type",
+      "hotspotAppliedStatus": "Applied to active hotspot: {applied} | Band: {band} | Channel: {channel}",
+      "hotspotBandAuto": "Auto / Unset",
+      "hotspotBandLabel": "Hotspot Band",
+      "hotspotCapabilitiesUnavailable": "Adapter capability list unavailable; manual channel allowed.",
+      "hotspotChannelLabel": "Hotspot Channel",
+      "hotspotChannelPlaceholder": "Leave empty for auto",
+      "hotspotMetaLine": "Source: {source} | Interface: {iface} | Band: {band} | Channel: {channel}"
     },
     "bahtifocus": {
       "title": "Bahtinovův analyzátor masky",
@@ -1992,6 +2184,39 @@
         "tokenCopyFailed": "Kopírování tokenu se nezdařilo",
         "submissionRemoved": "Příspěvek byl odstraněn",
         "allSubmissionsCleared": "Všechny žádosti byly přijaty"
+      },
+      "diagnostics": {
+        "archiveId": "Archive ID",
+        "autoDownloaded": "Archive was downloaded automatically and upload was attempted.",
+        "dmesgLines": "dmesg lines",
+        "download": "Download ZIP",
+        "downloadBusy": "Downloading...",
+        "downloadFailed": "Failed to download diagnostics archive.",
+        "intro": "Select diagnostics sections, start archive collection, and download/upload the ZIP when ready.",
+        "journalLines": "Journal lines",
+        "loadingOptions": "Loading options...",
+        "optionsLoadFailed": "Failed to load diagnostics options. Using defaults.",
+        "optionsLoaded": "Diagnostics options loaded.",
+        "pollFailed": "Failed to poll diagnostics status.",
+        "refreshOptions": "Refresh Options",
+        "running": "Collecting...",
+        "sectionsTitle": "Sections",
+        "start": "Start Collection",
+        "startFailed": "Failed to start diagnostics archive.",
+        "started": "Diagnostics archive started.",
+        "statusFailed": "Failed",
+        "statusIdle": "Idle",
+        "statusLabel": "Status",
+        "statusQueued": "Queued",
+        "statusRunning": "Running",
+        "statusSuccess": "Success",
+        "statusTimeout": "Timed out",
+        "stillPreparing": "Archive is still preparing. Please try download again shortly.",
+        "title": "Diagnostics Support (PINS)",
+        "uploaded": "Diagnostics ZIP uploaded to support endpoint.",
+        "validationDmesgLines": "dmesg lines must be between 100 and 50000.",
+        "validationJournalLines": "Journal lines must be between 100 and 50000.",
+        "validationSections": "Select at least one section."
       }
     },
     "telescopius": {
@@ -2667,7 +2892,8 @@
         },
         "validation": {
           "passwordRequired": "Heslo musí mít alespoň 8 znaků"
-        }
+        },
+        "lensControl": "LensControl"
       },
       "config": {
         "title": "Konfigurace",
@@ -2779,7 +3005,23 @@
       },
       "meteoStation": "PINS.MeteoStation",
       "powerBox": "PINS.PowerBox",
-      "wifiTab": "WiFi"
+      "wifiTab": "WiFi",
+      "lensControl": {
+        "aperture": "Aperture",
+        "calibrate": "Calibrate",
+        "calibrating": "Calibrating...",
+        "current": "Current",
+        "deviceInfo": "Device Information",
+        "driver": "SDK Version",
+        "firmware": "Firmware",
+        "focalLength": "Focal Length",
+        "lens": "Lens",
+        "position": "Focus Position",
+        "range": "Range",
+        "restart": "Restart Device",
+        "restarting": "Restarting...",
+        "set": "Set"
+      }
     },
     "shortcuts": {
       "title": "Zkratky Sekvencí",
@@ -3494,7 +3736,10 @@
         "timeWindowEnd": "Time window end",
         "timeWindowHint": "Leave time window blank to allow scheduling for the full session range.",
         "timeWindowStart": "Time window start",
-        "title": "Constraints"
+        "title": "Constraints",
+        "maxMoonAltitude": "Max moon altitude",
+        "maxMoonAltitudeHint": "Set to 0° or below to schedule only while the Moon is below the horizon.",
+        "minMoonSeparationInfo": "Minimum angular distance between target and Moon required for scheduling."
       },
       "defaults": {
         "favoriteTargetName": "Favorite Target",
@@ -3607,6 +3852,18 @@
       },
       "warnings": {
         "sequenceVersionRequired": "Sequence insertion requires TNS plugin 1.2.8.0  (or PINS mode)."
+      },
+      "sessionModes": {
+        "moonRise": "Moon rise",
+        "moonSet": "Moon set",
+        "sunRise": "Sun rise",
+        "sunSet": "Sun set",
+        "time": "Time",
+        "twilightEndAstronomical": "Twilight end astronomical",
+        "twilightEndNautical": "Twilight end nautical",
+        "twilightStartAstronomical": "Twilight start astronomical",
+        "twilightStartNautical": "Twilight start nautical",
+        "now": "Now"
       }
     },
     "filterOffset": {
@@ -3742,6 +3999,127 @@
         "guide": "Guide Graph"
       },
       "title": "PHD2 Log Viewer"
+    },
+    "supernovae": {
+      "title": "Supernovae",
+      "source": "Source: Rochester Astronomy active SN list",
+      "updated": "updated {d}",
+      "download": "Download",
+      "downloading": "Downloading…",
+      "noData": "No data loaded. Click Download to fetch the current active supernova list.",
+      "filterMag": "Max magnitude",
+      "filterType": "Type",
+      "filterTypePlaceholder": "e.g. Ia",
+      "filterYear": "Year",
+      "filterConstellation": "Constellation",
+      "filterAll": "All",
+      "filterNewOnly": "New only",
+      "filterVisibleOnly": "Visible tonight",
+      "visibleHint": "Based on observer location from NINA profile",
+      "visibleNoLocation": "No observer location — set location in NINA profile",
+      "sortBy": "Sort by",
+      "sortLatestMag": "Latest mag (brightest first)",
+      "sortFirstObserved": "Discovery date (newest first)",
+      "sortLastObserved": "Last observed (newest first)",
+      "showing": "Showing {n} of {total} entries",
+      "newCount": "{n} new",
+      "colName": "Name",
+      "colType": "Type",
+      "colLatestMag": "Latest mag",
+      "colMaxMag": "Max mag",
+      "colDiscovered": "Discovered",
+      "colLastObs": "Last obs",
+      "colConstellation": "Constellation",
+      "colHost": "Host galaxy",
+      "colRA": "RA",
+      "colDec": "Dec",
+      "frame": "Frame",
+      "frameTitle": "Send to framing assistant",
+      "fav": "Favourite",
+      "favTitle": "Add to favourites",
+      "favAdded": "Added {name} to favourites",
+      "favError": "Failed to add to favourites",
+      "visCircumpolar": "Circumpolar — always above horizon",
+      "visVisible": "Visible tonight",
+      "visHidden": "Below horizon tonight",
+      "page": "{n} / {total}"
+    },
+    "vncRemote": {
+      "debugModeWarning": "Režim ladění je aktivní – Připojení VNC není dostupné. Vypněte prosím režim ladění v nastavení."
+    },
+    "landscaperCreator": {
+      "actions": {
+        "generate": "Generate ZIP",
+        "generating": "Generating ZIP..."
+      },
+      "details": {
+        "sectionTitle": "3) Landscape Details"
+      },
+      "errors": {
+        "imageLoadFailed": "The image could not be loaded.",
+        "requestFailed": "Failed to generate the landscape ZIP."
+      },
+      "fields": {
+        "altitude": "Altitude",
+        "author": "Author",
+        "description": "Description",
+        "folderName": "Folder name",
+        "folderNamePlaceholder": "auto-generated-from-name",
+        "latitude": "Latitude",
+        "longitude": "Longitude",
+        "name": "Landscape name",
+        "namePlaceholder": "e.g. My Observatory Horizon"
+      },
+      "folder": {
+        "autoHint": "Folder names are sanitized to lowercase, underscore/hyphen safe format."
+      },
+      "image": {
+        "aspectRatio": "Aspect ratio",
+        "aspectWarning": "The uploaded image aspect ratio is {ratio}. A 360 panorama should be close to 2:1.",
+        "dimensions": "Dimensions",
+        "fileName": "File name",
+        "fileSize": "File size",
+        "remove": "Remove",
+        "replace": "Replace Panorama",
+        "sectionTitle": "1) Image Upload",
+        "select": "Select Panorama",
+        "typesHint": "Accepted formats: PNG, JPEG, WebP"
+      },
+      "instructions": {
+        "line1": "Use a 360° equirectangular panorama image.",
+        "line2": "For horizon-only landscapes, keep the sky transparent when possible.",
+        "line3": "Click or drag on the preview where geographic North should be.",
+        "line4": "Download the ZIP and extract it into your Stellarium Web landscapes folder.",
+        "title": "How to prepare your input"
+      },
+      "preview": {
+        "currentNorth": "northOffsetDeg:",
+        "empty": "Upload a panorama image to enable preview.",
+        "help": "Click or drag horizontally on the panorama to set where geographic North is.",
+        "imageAlt": "Uploaded panorama preview",
+        "quickCenter": "North at center",
+        "quickLeft": "North at left edge",
+        "quickReset": "Reset",
+        "sectionTitle": "2) Panorama Preview and North Marker",
+        "signHint": "If the generated landscape appears mirrored or rotated the wrong direction, the offset sign may need to be inverted depending on backend convention."
+      },
+      "subtitle": "Upload a 360 panorama, mark geographic North, and generate a Stellarium landscape ZIP.",
+      "title": "Stellarium Landscape Creator",
+      "toast": {
+        "errorTitle": "Landscape generation failed",
+        "invalidFileType": "Unsupported file type. Please upload PNG, JPEG, or WebP.",
+        "successMessage": "Downloaded {filename}",
+        "successTitle": "Landscape ZIP ready",
+        "validationTitle": "Validation",
+        "successMessageSaved": "Saved {filename} to {path}."
+      },
+      "validation": {
+        "fixErrors": "Please fix the highlighted fields.",
+        "folderNameInvalid": "Folder name contains invalid characters.",
+        "folderNameRequired": "Folder name is required.",
+        "imageRequired": "Please upload an image file.",
+        "nameRequired": "Landscape name is required."
+      }
     }
   },
   "pinsDevices": {
@@ -3950,7 +4328,9 @@
       "autoDetect": "Auto Detect",
       "ipAddress": "IP adresa",
       "tcpPort": "TCP port",
-      "selectPort": "-- Vyberte port --"
+      "selectPort": "-- Vyberte port --",
+      "manualPort": "Ručně…",
+      "manualPortPath": "Ruční port"
     }
   },
   "nav": {

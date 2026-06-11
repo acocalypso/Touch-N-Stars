@@ -5,7 +5,7 @@
 </template>
 
 <script setup>
-import { onMounted, ref, watch, computed } from 'vue';
+import { onMounted, onUnmounted, ref, watch, computed } from 'vue';
 import { Chart, registerables } from 'chart.js';
 import apiService from '@/services/apiService';
 import { timeSync } from '@/utils/timeSync';
@@ -27,11 +27,14 @@ const props = defineProps({
 
 const canvasRef = ref(null);
 let chartInstance = null;
+let timeUpdateInterval = null;
 
-const baseTime = computed(() => {
+function computeBaseTime() {
   const now = new Date(timeSync.getServerTime());
-  return new Date(now.getTime() - 12 * 60 * 60 * 1000); // Startzeit = 12h vor jetzt
-});
+  return new Date(now.getTime() - 12 * 60 * 60 * 1000);
+}
+
+const baseTime = ref(computeBaseTime());
 
 // UTC-basiertes Julianisches Datum
 function toJulian(date) {
@@ -106,7 +109,7 @@ function interpolateHorizon(azimuth) {
 }
 
 const altitudeData = computed(() => {
-  if (!props.target?.RA || !props.target?.Dec) return [];
+  if (props.target?.RA == null || props.target?.Dec == null) return [];
 
   const points = [];
   const steps = 96; // 24h * 4 (alle 15 Minuten)
@@ -336,6 +339,16 @@ function getDarknessFill(thresholdDeg = -18) {
 onMounted(async () => {
   await loadCustomHorizont();
   createChart();
+  timeUpdateInterval = setInterval(
+    () => {
+      baseTime.value = computeBaseTime();
+    },
+    15 * 60 * 1000
+  );
+});
+
+onUnmounted(() => {
+  clearInterval(timeUpdateInterval);
 });
 
 watch([altitudeData, horizonAltitudes], () => {

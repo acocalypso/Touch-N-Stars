@@ -162,7 +162,8 @@
         "setMosaicTargets": "Встановити цілі мозаїки",
         "panelsSet": "панелі встановлені в послідовності",
         "willBeSaved": "панелі будуть збережені окремо"
-      }
+      },
+      "customTarget": "Спеціальна ціль"
     },
     "tutorial": {
       "previous": "Назад",
@@ -283,7 +284,29 @@
         "ASTAPLocation": "Розташування ASTAP",
         "Filter": "Фільтр для Plate Solving",
         "FilterCurrent": "Поточний",
-        "FilterHint": "Фільтр, що використовується під час plate solving (замінює поточний фільтр)"
+        "FilterHint": "Фільтр, що використовується під час plate solving (замінює поточний фільтр)",
+        "astapDatabaseAllInstalled": "Усі бази даних зірок ASTAP уже встановлено.",
+        "astapDatabaseDescription": "Встановіть відсутні бази даних зірок ASTAP безпосередньо на свій пристрій PINS.",
+        "astapDatabaseInstall": "встановити",
+        "astapDatabaseInstallFailed": "Помилка встановлення бази даних ASTAP star{exitCode}.",
+        "astapDatabaseInstallSuccess": "Базу даних зірки ASTAP {databaseId} успішно встановлено.",
+        "astapDatabaseInstalling": "Встановлення...",
+        "astapDatabaseJobStarted": "почався",
+        "astapDatabaseJobStartedMessage": "Розпочато встановлення для {databaseId}.",
+        "astapDatabaseJobStatus": "Вакансія {jobId}: {статус}",
+        "astapDatabaseLastChecked": "Остання перевірка: {value}",
+        "astapDatabaseLoadFailed": "Не вдалося завантажити бази даних: {detail}",
+        "astapDatabaseMissingJobId": "Запит на встановлення виконано успішно, але ідентифікатор завдання не повернуто.",
+        "astapDatabaseNoInstallable": "Немає доступних баз даних зірок ASTAP, які можна встановити",
+        "astapDatabaseSelectPlaceholder": "Виберіть базу даних",
+        "astapDatabaseStartFailed": "Не вдалося розпочати встановлення: {detail}",
+        "astapDatabaseStartInstall": "Початок встановлення для {databaseId}...",
+        "astapDatabaseStarting": "Починаючи...",
+        "astapDatabaseStatusCheckFailedRetrying": "Не вдалося перевірити статус: {detail}. \nПовторна спроба...",
+        "astapDatabaseTitle": "База даних ASTAP Star (PINS)",
+        "astapDatabaseUnauthorizedStart": "Неавторизовано під час запуску встановлення бази даних ASTAP star.",
+        "astapDatabaseUnauthorizedStatus": "Неавторизовано під час перевірки статусу встановлення.",
+        "astapDatabaseUnknownError": "Невідома помилка"
       },
       "equipment": {
         "title": "Обладнання",
@@ -310,7 +333,10 @@
         "syncLabel": "Синхронізувати час з монтуванням",
         "syncLabelInfo": "Якщо увімкнено, натискання кнопки «Синхронізувати зараз» короткочасно від'єднає та знову підключить монтування, щоб NINA могла передати поточний час.",
         "mountNotConnected": "Монтування не підключено",
-        "notSupported": "Не підтримується драйвером"
+        "notSupported": "Не підтримується драйвером",
+        "loadError": "Не вдалося завантажити інформацію про час.",
+        "syncError": "Помилка синхронізації часу. \nПеревірте підключення до пристрою PINS.",
+        "syncSuccess": "Час успішно синхронізовано."
       },
       "imageSavePath": {
         "title": "Шлях збереження зображень",
@@ -336,7 +362,10 @@
       "horizonFilePath": {
         "title": "Файл горизонту",
         "placeholder": "напр. /home/pi/horizon.hrz",
-        "toastTitle": "Файл горизонту збережено"
+        "toastTitle": "Файл горизонту збережено",
+        "clearTitle": "Очистити шлях до файлу горизонту",
+        "confirmTitle": "Очистити шлях до файлу горизонту",
+        "confirmMessage": "Ви впевнені, що хочете очистити шлях до файлу горизонту?"
       },
       "navbarCustomization": {
         "title": "Налаштування панелі навігації",
@@ -407,7 +436,8 @@
         "message": "Ручне колесо фільтрів та ручний ротатор наразі можна керувати лише через NINA. Використовуйте «Networked Filter Wheel» API для колеса фільтрів"
       },
       "guiderCam": {
-        "name": "Камера гіда"
+        "name": "Камера гіда",
+        "manualVnc": "Вручну через VNC"
       }
     },
     "lastLogs": {
@@ -760,6 +790,9 @@
           "slope": "Нахил",
           "intercept": "Перетин",
           "absolute": "Абсолютна"
+        },
+        "startGuiding": {
+          "forceCalibrationLabel": "Калібрування сили"
         }
       },
       "emptyContainer": "Порожньо — натисніть + для додавання елементів",
@@ -948,7 +981,10 @@
         "camera": "Камера",
         "cameraGain": "Підсилення",
         "cameraBinning": "Бінінг",
-        "restoreCalibration": "Відновити калібрування",
+        "restoreCalibration": "Автом. відновлення калібрування",
+        "mountSettings": "Монтування",
+        "guideRate": "Guide Rate",
+        "guideRateReadOnly": "Лише читання",
         "guiderScale": "Масштаб гіда",
         "maxY": "Макс Y",
         "historySize": "Розмір історії",
@@ -999,7 +1035,121 @@
           "clearCalibration": "Очистити калібрацію",
           "rightAscension": "Пряме сходження",
           "declinationAxis": "Схилення"
-        }
+        },
+        "darkLibrary": {
+          "title": "Бібліотека дарків",
+          "manage": "Керувати бібліотекою дарків",
+          "info": "Створіть бібліотеку дарків, знімаючи темні кадри з різними експозиціями. PHD2 використовує їх для віднімання шуму матриці з кадрів гідування.",
+          "warning": "Створення блокує PHD2 — усі інші дії PHD2 відключені під час побудови.",
+          "status": "Статус",
+          "exists": "Бібліотека існує",
+          "loaded": "Завантажена",
+          "notLoaded": "Не завантажена",
+          "noLibrary": "Бібліотеку дарків не знайдено",
+          "numDarks": "Кількість дарків",
+          "range": "Діапазон експозиції",
+          "minExposure": "Мін. експозиція (с)",
+          "maxExposure": "Макс. експозиція (с)",
+          "frameCount": "Кадрів на експозицію",
+          "previewExposures": "Часи експозиції",
+          "totalFrames": "Усього кадрів",
+          "build": "Створити",
+          "cancel": "Скасувати створення",
+          "building": "Створення",
+          "buildProgress": "Кадр {frame} / {total} – {exposure} с",
+          "load": "Завантажити",
+          "unload": "Вивантажити",
+          "delete": "Видалити",
+          "confirmDelete": "Натисніть ще раз для підтвердження",
+          "buildSuccess": "Бібліотеку дарків успішно створено",
+          "buildFailed": "Помилка створення бібліотеки",
+          "buildCancelled": "Створення скасовано",
+          "invalidRange": "Мін. експозиція має бути меншою або рівною макс.",
+          "buildActive": "Створення бібліотеки триває",
+          "buildActiveMessage": "Дії PHD2 заблоковано до завершення."
+        },
+        "imageDisplay": "Відображення зображення",
+        "imageGamma": "Розтяжка (Гамма)",
+        "imageGammaHint": "Низьке = сильніша розтяжка, Високе = лінійне",
+        "applyStep": "Застосувати",
+        "calculatedStep": "Розрахований крок",
+        "calibDistance": "Відстань",
+        "calibStepCalc": "Калькулятор розміру кроку",
+        "declination": "відмінювання",
+        "desiredSteps": "Бажані кроки",
+        "guideSpeed": "Керівництво по швидкості",
+        "imageScale": "Масштаб зображення",
+        "optimal": "Оптимальний",
+        "pixelSize": "Розмір пікселя",
+        "assumeDecOrthogonal": "Вважати Dec ортогональною до RA",
+        "useDecCompensation": "Використовувати компенсацію Dec",
+        "fastRecenter": "Швидке центрування після калібрування чи дизерингу",
+        "mountGuideOutput": "Увімкнути вивід гідування на монтування",
+        "help": {
+          "fastRecenter": "Під час калібрування чи дизерингу монтування може значно відійти від позиції блокування. Якщо ввімкнено, PHD2 повертається до неї якомога швидше, щоб заощадити час — цілком необовʼязково. Якщо калібрування часто зривається через надто швидке повернення зорі, вимкніть це (часто ознака великої похибки вивірення на полюс або періодичної).",
+          "mountGuideOutput": "Дозволяє PHD2 справді надсилати команди гідування на монтування. Зазвичай увімкнено; вимикайте лише щоб спостерігати нескориговану поведінку монтування.",
+          "searchRegion": "Розмір прямокутника стеження в пікселях (радіус: 15 відповідає полю 30×30). Збільшіть його, якщо монтування погано веде або погано виставлене на полюс; завелика область може захопити кілька зір і погіршити гідування.",
+          "minStarHFD": "Найменший діаметр половинного потоку (тобто «розмір»), який повинна мати зоря, щоб бути опорною — найкращий спосіб не дати PHD2 чіплятися за скупчення гарячих пікселів. Значення ~1,5 підходить для більшості установок; підвищуйте лише якщо відхиляються справжні слабкі зорі.",
+          "maxStarHFD": "Найбільший дозволений діаметр половинного потоку опорної зорі; роздуті або розфокусовані плями понад це значення ігноруються під час вибору.",
+          "massChangeEnabled": "Стежить за яскравістю та розміром опорної зорі відносно фону неба. Застаріле — зазвичай краще вимкнено; вмикайте лише щоб переконатися, що PHD2 не перемкнеться на сусідню зорю.",
+          "massChangeThreshold": "За увімкненого виявлення маси PHD2 повідомляє про «втрату зорі», якщо яскравість або розмір змінюються більше ніж на цей відсоток. Збільшіть його (або вимкніть виявлення), якщо часто отримуєте помилки «втрата зорі – зміна маси», хоча зоря чітко видима.",
+          "minStarSNR": "Мінімальний SNR, потрібний зорі для автоматичного вибору (ненасичені зорі). Змінюйте лише як досвідчений користувач: завелике значення може унеможливити вибір; оновлення бібліотеки дарків або довша експозиція зазвичай кращі.",
+          "useMultipleStars": "Гідує по кількох зорях одночасно замість однієї, що покращує стабільність. Недоступно під час використання субкадрів.",
+          "autoSelectDownsample": "Для рідкісних випадків, коли автоматичний вибір не вдається через спотворений вигляд зір. Залиште на «Auto»; значення понад 1 можуть покращити розпізнавання.",
+          "saturationByADU": "Як PHD2 виявляє насичені зорі, щоб їх уникати. «За значенням ADU» використовує яскравість, повідомлену сенсором (рекомендовано); альтернатива оцінює насичення за формою профілю і є менш точною.",
+          "saturationADUValue": "Значення пікселя, за якого зоря вважається насиченою (8-бітні камери ≈ 255, 16-бітні ≈ 65535). Якщо не впевнені, встановіть максимальне значення пікселя вашої камери.",
+          "cameraGain": "Підсилення гідувальної камери у відсотках діапазону камери (напр., 50 % відповідає підсиленню 60 для камери 40–80). Менше підсилення зменшує шум; зазвичай його не треба змінювати після стабілізації установки.",
+          "cameraBinning": "Апаратний бінінг кадрів гідування — підвищує чутливість і прискорює завантаження ціною роздільності. Використовуйте окремий профіль PHD2 для кожного значення бінінгу.",
+          "focalLength": "Фокусна відстань гіда в міліметрах. Разом із розміром пікселя задає масштаб зображення і дає змогу PHD2 подавати гідування в кутових секундах, тож встановіть її правильно.",
+          "calibrationStep": "Тривалість кожного імпульсу гідування під час калібрування. Прагніть значення, що дає 8–14 кроків на напрямок, і калібруйте поблизу небесного екватора (схилення ≈ 0).",
+          "restoreCalibration": "Автоматично завантажує останнє калібрування при підключенні обладнання (зручно для монтувань ASCOM/INDI або aux-mount). Якщо ви це використовуєте, гідувальна камера не повинна бути повернута відносно труби чи неба.",
+          "assumeDecOrthogonal": "Зазвичай PHD2 вимірює кути камери для RA і Dec незалежно. Примусьте кут Dec перпендикулярним до RA, щоб допомогти за дуже високої періодичної похибки, великого люфту в Dec або поганого сіїнгу.",
+          "useDecCompensation": "Автоматично коригує швидкість гідування в RA відповідно до поточного схилення (потрібне підключення монтування через ASCOM/INDI). Залиште увімкненим, крім незвичних випадків. Не плутати з компенсацією люфту схилення.",
+          "reverseDecAfterFlip": "Вказує PHD2, як скоригувати калібрування після перекидання через меридіан. Залиште вимкненим, якщо гідування після фліпу нормальне; вмикайте (і перекалібруйте) лише якщо бачите розбіжне гідування у схиленні.",
+          "guideAlgorithm": "Вибирає алгоритм гідування для цієї осі. Hysteresis зважує нещодавні корекції відносно останнього відхилення; ResistSwitch протидіє змінам напрямку (добре для люфту Dec); LowPass/LowPass2 — консервативні варіанти для добрих монтувань; Predictive PEC (PPEC) моделює і завчасно коригує періодичну похибку (RA); ZFilter працює в частотній області. Типові значення підходять для більшості.",
+          "algo": {
+            "minMove": "Найменше відхилення зорі (у пікселях), що запускає корекцію; менші рухи ігноруються, щоб не ганятися за сіїнгом. Параметр, який найбільше варто підлаштовувати щоночі під умови.",
+            "maxMove": "Найбільша одноразова корекція гідування (пікселі); обмежує надмірну реакцію на один великий стрибок.",
+            "aggression": "Наскільки сильно коригується кожна виміряна похибка, у відсотках. 100 % застосовує повну корекцію; менші значення (напр., 60 %) коригують менше, щоб уникнути перерегулювання. Менше — безпечніше.",
+            "hysteresis": "Вага, що надається історії нещодавніх корекцій відносно поточного кадру, у відсотках. Високі значення згладжують корекції, але повільніше реагують на справжню зміну напрямку.",
+            "predictiveWeight": "Predictive PEC: вага передбаченої (змодельованої) частини корекції. Типові значення підходять для більшості монтувань; великі зміни можуть погіршити гідування.",
+            "reactiveWeight": "Predictive PEC: вага реактивної частини на основі зміщення зорі в останньому кадрі. Типові значення підходять для більшості монтувань.",
+            "slopeWeight": "LowPass: наскільки нещодавній тренд (нахил) руху зорі впливає на корекцію, у відсотках. Запобігає надмірній повільності алгоритму; 0 використовує лише медіану нещодавньої історії.",
+            "expFactor": "ZFilter: віртуальний час експозиції дорівнює реальній експозиції × цей коефіцієнт. Вищі значення більше фільтрують сіїнг (плавніше, але повільніше); віртуальна експозиція ~2–4 с — добра відправна точка для RA."
+          },
+          "ditherMode": "Як PHD2 обчислює кожен дизеринг. «Випадковий» обирає розмір і напрямок випадково; «Спіральний» використовує кроки фіксованого розміру по спіралі за годинниковою стрілкою — корисно, коли камера зйомки має фіксований візерунковий шум або монтування має надокучливий люфт у Dec.",
+          "ditherRaOnly": "Дизеринг лише вздовж осі RA. Корисно, коли гідування в Dec вимкнено або монтування має великий люфт у Dec.",
+          "ditherScale": "Множник до величини дизерингу, яку запитує програма зйомки — збільшіть для більших, зменшіть для менших дизерингів.",
+          "backlashEnabled": "Компенсує люфт (backlash) по осі DEC, додаючи додатковий імпульс під час зміни напрямку монтування. Корисно для монтувань із помітним люфтом передач; залиште вимкненим, якщо монтування веде чисто по DEC.",
+          "backlashAmount": "Тривалість додаткового коригувального імпульсу (у мс), який PHD2 додає під час зміни напрямку по DEC. PHD2 автоматично налаштовує його між Мін і Макс.",
+          "backlashMin": "Нижня межа (мс) автоматично налаштованого імпульсу backlash.",
+          "backlashMax": "Верхня межа (мс) автоматично налаштованого імпульсу backlash."
+        },
+        "starDetection": "Відстеження опорної зорі",
+        "searchRegion": "Область пошуку (пікселі)",
+        "minStarHFD": "Мінімальний HFD зорі (пікселі)",
+        "maxStarHFD": "Максимальний HFD зорі (пікселі)",
+        "beepForLostStar": "Звуковий сигнал при втраті зорі",
+        "starMassDetection": "Виявлення маси зорі",
+        "massChangeEnabled": "Увімкнено",
+        "massChangeThreshold": "Допуск",
+        "backlash": {
+          "title": "Компенсація люфту",
+          "enabled": "Увімкнено",
+          "amount": "Значення (мс)",
+          "min": "Мін (мс)",
+          "max": "Макс (мс)"
+        },
+        "minStarSNR": "Мінімальний SNR зорі для AutoFind",
+        "autoSelectDownsample": "Зменшення дискретизації кадрів вибору",
+        "saturationByADU": "Насичення за ADU",
+        "saturationADUValue": "Значення ADU насичення",
+        "dither": "Дизеринг",
+        "ditherMode": "Режим дизерингу",
+        "ditherRaOnly": "Дизеринг лише в RA",
+        "ditherScale": "Масштаб дизерингу",
+        "ditherModeRandom": "Випадковий",
+        "ditherModeSpiral": "Спіральний"
       }
     },
     "focuser": {
@@ -1432,7 +1582,15 @@
       "status_failed": "не вдалося",
       "status_running": "Виконується",
       "status_stopped": "Зупинено",
-      "status_success": "Успішно"
+      "status_success": "Успішно",
+      "filter_label": "фільтр",
+      "result_bright": "занадто яскравий",
+      "result_dim": "занадто тьмяний",
+      "status_completed_flats": "Виконано",
+      "status_failed_flats_multi": "Усім фільтрам не вдалося визначити дійсну експозицію",
+      "status_partial_flats_multi": "Невдалі фільтри: {filters}",
+      "status_running_unknown": "Визначення…",
+      "target": "Цільова"
     },
     "weatherModal": {
       "weatherInformation": "Інформація про погоду",
@@ -1459,7 +1617,13 @@
     },
     "switch": {
       "gauges": "Датчики",
-      "switch": "Перемикач"
+      "switch": "Перемикач",
+      "indi": {
+        "settings": "Налаштування перемикача"
+      },
+      "sv241pro": {
+        "preConnectDelay": "Затримка перед підключенням (мс)"
+      }
     },
     "stellarium": {
       "selected_object": {
@@ -1485,7 +1649,24 @@
         "atmosphere_visible": "Показати атмосферу",
         "landscapes_visible": "Показати ландшафти",
         "dsos_visible": "Об'єкти глибокого космосу (Messier, NGC)",
-        "title": "Налаштування"
+        "title": "Налаштування",
+        "landscape_source_mode": "Landscape source",
+        "landscape_source_default": "Default landscape (Guereins)",
+        "landscape_source_neutral": "Neutral horizon (Gray)",
+        "landscape_source_custom": "Custom data source",
+        "custom_landscape_url": "Custom source URL",
+        "custom_landscape_url_placeholder": "e.g. /stellarium-data/landscapes/custom",
+        "custom_landscape_key": "Custom source key",
+        "custom_landscape_key_placeholder": "e.g. my-landscape",
+        "available_landscapes": "Доступні пейзажі",
+        "folder_name_label": "folderName",
+        "has_allsky": "Альський",
+        "landscape_list_load_failed": "Не вдалося завантажити пейзажі.",
+        "landscape_option_label": "Пейзаж: {title}",
+        "no_allsky": "Немає allsky",
+        "no_landscapes_available": "Немає пейзажів.",
+        "service_url_label": "serviceUrl",
+        "untitled_landscape": "Пейзаж без назви"
       }
     },
     "profile": {
@@ -1800,6 +1981,39 @@
         "tokenCopyFailed": "Не вдалося скопіювати токен",
         "submissionRemoved": "Відправлення видалено",
         "allSubmissionsCleared": "Всі відправлення очищено"
+      },
+      "diagnostics": {
+        "archiveId": "ID архіву",
+        "autoDownloaded": "Архів було завантажено автоматично та спробовано завантажити.",
+        "dmesgLines": "рядки dmesg",
+        "download": "Завантажити ZIP",
+        "downloadBusy": "Завантаження...",
+        "downloadFailed": "Не вдалося завантажити архів діагностики.",
+        "intro": "Виберіть розділи діагностики, почніть збір архіву та завантажте/завантажте ZIP, коли будете готові.",
+        "journalLines": "Рядки журналу",
+        "loadingOptions": "Завантаження параметрів...",
+        "optionsLoadFailed": "Не вдалося завантажити параметри діагностики. \nВикористання параметрів за замовчуванням.",
+        "optionsLoaded": "Параметри діагностики завантажено.",
+        "pollFailed": "Не вдалося отримати статус діагностики.",
+        "refreshOptions": "Параметри оновлення",
+        "running": "Збирання...",
+        "sectionsTitle": "Розділи",
+        "start": "Розпочати збір",
+        "startFailed": "Не вдалося запустити архів діагностики.",
+        "started": "Запущено архів діагностики.",
+        "statusFailed": "Не вдалося",
+        "statusIdle": "Бездіяльність",
+        "statusLabel": "Статус",
+        "statusQueued": "У черзі",
+        "statusRunning": "Біг",
+        "statusSuccess": "Успіх",
+        "statusTimeout": "Час очікування минув",
+        "stillPreparing": "Архів ще готується. \nСпробуйте завантажити знову незабаром.",
+        "title": "Підтримка діагностики (PINS)",
+        "uploaded": "ZIP-архів діагностики завантажено для підтримки кінцевої точки.",
+        "validationDmesgLines": "Рядки dmesg мають бути від 100 до 50 000.",
+        "validationJournalLines": "Кількість рядків журналу має бути від 100 до 50 000.",
+        "validationSections": "Виберіть принаймні один розділ."
       }
     },
     "telescopius": {
@@ -2614,7 +2828,11 @@
         "pluginUninstallStart": "Видалення плагіна: {packageName}",
         "pluginsLoadFailed": "Не вдалося завантажити плагіни PINS: {message}",
         "pluginsPackageNotAllowed": "Пакет заборонено політикою API: {packageName}",
-        "pluginsLoadMetadataFailed": "Не вдалося завантажити плагіни PINS, оскільки сховище метаданих плагінів наразі недоступне (HTTP 502)."
+        "pluginsLoadMetadataFailed": "Не вдалося завантажити плагіни PINS, оскільки сховище метаданих плагінів наразі недоступне (HTTP 502).",
+        "hotspotChannelInvalid": "Канал точки доступу має бути додатним цілим числом, якщо надається.",
+        "hotspotFetchFailed": "Не вдалося завантажити налаштування точки доступу: {message}",
+        "hotspotPasswordInvalidLength": "Пароль точки доступу потрібен і має містити 8-63 символи.",
+        "hotspotSaveFailed": "Не вдалося зберегти налаштування точки доступу: {message}"
       },
       "wifiDisconnect": "Відключити WiFi",
       "disconnectConfirmTitle": "Відключити WiFi?",
@@ -2677,7 +2895,14 @@
       "indiInstallModalSuccessCompleted": "Встановлення для {label} завершено.",
       "indiInstallModalSuccessStarted": "Розпочато встановлення для {label}.",
       "indiInstallModalTitle": "Встановіть драйвер INDI",
-      "indiInstallModalType": "Тип"
+      "indiInstallModalType": "Тип",
+      "hotspotAppliedStatus": "Застосовано до активної точки доступу: {застосовано} | \nГрупа: {band} | \nКанал: {channel}",
+      "hotspotBandAuto": "Авто / Не встановлено",
+      "hotspotBandLabel": "Група Hotspot",
+      "hotspotCapabilitiesUnavailable": "Список можливостей адаптера недоступний; \nдозволений ручний канал.",
+      "hotspotChannelLabel": "Канал Hotspot",
+      "hotspotChannelPlaceholder": "Залиште порожнім для авто",
+      "hotspotMetaLine": "Джерело: {джерело} | \nІнтерфейс: {iface} | \nГрупа: {band} | \nКанал: {channel}"
     },
     "narrowband": {
       "title": "Калькулятор фільтрів",
@@ -3366,7 +3591,10 @@
         "minMoonSeparation": "Мін. відстань від Місяця",
         "timeWindowStart": "Початок вікна часу",
         "timeWindowEnd": "Кінець вікна часу",
-        "timeWindowHint": "Залиште вікно часу порожнім для планування на весь діапазон сесії."
+        "timeWindowHint": "Залиште вікно часу порожнім для планування на весь діапазон сесії.",
+        "maxMoonAltitude": "Максимальна висота місяця",
+        "maxMoonAltitudeHint": "Встановіть 0° або нижче, щоб запланувати лише коли Місяць знаходиться за горизонтом.",
+        "minMoonSeparationInfo": "Мінімальна кутова відстань між метою та Місяцем, необхідна для планування."
       },
       "timeline": {
         "title": "Часова шкала сесії",
@@ -3450,6 +3678,18 @@
         "noImagingContainerFound": "Не вдалося знайти контейнер зйомки в активній послідовності.",
         "noValidTargetsForExport": "Не знайдено дійсних цілей для експорту.",
         "failedToApplySchedule": "Не вдалося застосувати розклад до послідовності."
+      },
+      "sessionModes": {
+        "moonRise": "Схід місяця",
+        "moonSet": "Місяць зайшов",
+        "sunRise": "Схід сонця",
+        "sunSet": "Сонце зайшло",
+        "time": "час",
+        "twilightEndAstronomical": "Астрономічні сутінки",
+        "twilightEndNautical": "Сутінковий кінець морський",
+        "twilightStartAstronomical": "Початок сутінків астрономічний",
+        "twilightStartNautical": "Сутінковий старт морський",
+        "now": "Зараз"
       }
     },
     "pinsDevices": {
@@ -3483,7 +3723,8 @@
         },
         "validation": {
           "passwordRequired": "Пароль повинен містити щонайменше 8 символів"
-        }
+        },
+        "lensControl": "LensControl"
       },
       "config": {
         "title": "Конфігурація",
@@ -3592,6 +3833,22 @@
         "cloudAssessment": "Оцінка хмарності",
         "temperatureStatus": "Стан температури",
         "dewSpread": "Різниця роси (T-Td)"
+      },
+      "lensControl": {
+        "aperture": "Діафрагма",
+        "calibrate": "Відкалібрувати",
+        "calibrating": "Калібрування...",
+        "current": "поточний",
+        "deviceInfo": "Інформація про пристрій",
+        "driver": "Версія SDK",
+        "firmware": "Прошивка",
+        "focalLength": "Фокусна відстань",
+        "lens": "Об'єктив",
+        "position": "Позиція фокусу",
+        "range": "Діапазон",
+        "restart": "Перезапустіть пристрій",
+        "restarting": "Перезапуск...",
+        "set": "встановити"
       }
     },
     "multiImageMonitor": {
@@ -3742,6 +3999,127 @@
         "guide": "Керівний графік"
       },
       "title": "Перегляд журналів PHD2"
+    },
+    "supernovae": {
+      "title": "Supernovae",
+      "source": "Source: Rochester Astronomy active SN list",
+      "updated": "updated {d}",
+      "download": "Download",
+      "downloading": "Downloading…",
+      "noData": "No data loaded. Click Download to fetch the current active supernova list.",
+      "filterMag": "Max magnitude",
+      "filterType": "Type",
+      "filterTypePlaceholder": "e.g. Ia",
+      "filterYear": "Year",
+      "filterConstellation": "Constellation",
+      "filterAll": "All",
+      "filterNewOnly": "New only",
+      "filterVisibleOnly": "Visible tonight",
+      "visibleHint": "Based on observer location from NINA profile",
+      "visibleNoLocation": "No observer location — set location in NINA profile",
+      "sortBy": "Sort by",
+      "sortLatestMag": "Latest mag (brightest first)",
+      "sortFirstObserved": "Discovery date (newest first)",
+      "sortLastObserved": "Last observed (newest first)",
+      "showing": "Showing {n} of {total} entries",
+      "newCount": "{n} new",
+      "colName": "Name",
+      "colType": "Type",
+      "colLatestMag": "Latest mag",
+      "colMaxMag": "Max mag",
+      "colDiscovered": "Discovered",
+      "colLastObs": "Last obs",
+      "colConstellation": "Constellation",
+      "colHost": "Host galaxy",
+      "colRA": "RA",
+      "colDec": "Dec",
+      "frame": "Frame",
+      "frameTitle": "Send to framing assistant",
+      "fav": "Favourite",
+      "favTitle": "Add to favourites",
+      "favAdded": "Added {name} to favourites",
+      "favError": "Failed to add to favourites",
+      "visCircumpolar": "Circumpolar — always above horizon",
+      "visVisible": "Visible tonight",
+      "visHidden": "Below horizon tonight",
+      "page": "{n} / {total}"
+    },
+    "vncRemote": {
+      "debugModeWarning": "Режим налагодження активний – з'єднання VNC недоступне. Будь ласка, вимкніть режим налагодження в налаштуваннях."
+    },
+    "landscaperCreator": {
+      "actions": {
+        "generate": "Створити ZIP",
+        "generating": "Генерація ZIP..."
+      },
+      "details": {
+        "sectionTitle": "3) Деталі пейзажу"
+      },
+      "errors": {
+        "imageLoadFailed": "Не вдалося завантажити зображення.",
+        "requestFailed": "Не вдалося створити альбомний архів ZIP."
+      },
+      "fields": {
+        "altitude": "Висота",
+        "author": "Автор",
+        "description": "опис",
+        "folderName": "Назва папки",
+        "folderNamePlaceholder": "автоматично створене-з-назви",
+        "latitude": "Широта",
+        "longitude": "Довгота",
+        "name": "Альбомна назва",
+        "namePlaceholder": "напр. \nМоя обсерваторія Горизонт"
+      },
+      "folder": {
+        "autoHint": "Назви папок очищаються до безпечного формату нижнього регістру, підкреслення/дефіса."
+      },
+      "image": {
+        "aspectRatio": "Співвідношення сторін",
+        "aspectWarning": "Співвідношення сторін завантаженого зображення становить {ratio}. \nПанорама 360 має бути близькою до 2:1.",
+        "dimensions": "Розміри",
+        "fileName": "Ім'я файлу",
+        "fileSize": "Розмір файлу",
+        "remove": "видалити",
+        "replace": "Замінити панораму",
+        "sectionTitle": "1) Завантаження зображення",
+        "select": "Виберіть Панорама",
+        "typesHint": "Прийнятні формати: PNG, JPEG, WebP"
+      },
+      "instructions": {
+        "line1": "Використовуйте 360° рівнокутне панорамне зображення.",
+        "line2": "Для пейзажів лише з горизонтом за можливості залишайте небо прозорим.",
+        "line3": "Клацніть або перетягніть на попередньому перегляді, де має бути географічна північ.",
+        "line4": "Завантажте ZIP-архів і розпакуйте його в папку веб-ландшафтів Stellarium.",
+        "title": "Як підготувати свій внесок"
+      },
+      "preview": {
+        "currentNorth": "northOffsetDeg:",
+        "empty": "Завантажте панорамне зображення, щоб увімкнути попередній перегляд.",
+        "help": "Клацніть або перетягніть горизонтально панораму, щоб установити географічну північ.",
+        "imageAlt": "Завантажений попередній перегляд панорами",
+        "quickCenter": "Північ у центрі",
+        "quickLeft": "Північ на лівому краю",
+        "quickReset": "Скинути",
+        "sectionTitle": "2) Попередній перегляд панорами та північний маркер",
+        "signHint": "Якщо згенерований ландшафт виглядає дзеркально відображеним або оберненим у неправильному напрямку, можливо, знадобиться інвертувати знак зсуву залежно від угоди серверної частини."
+      },
+      "subtitle": "Завантажте 360-градусну панораму, позначте географічний північ і створіть ZIP-архів Stellarium.",
+      "title": "Stellarium Landscape Creator",
+      "toast": {
+        "errorTitle": "Помилка створення пейзажу",
+        "invalidFileType": "Непідтримуваний тип файлу. \nЗавантажте PNG, JPEG або WebP.",
+        "successMessage": "Завантажено {filename}",
+        "successTitle": "Альбомний ZIP готовий",
+        "validationTitle": "Перевірка",
+        "successMessageSaved": "{filename} збережено в {path}."
+      },
+      "validation": {
+        "fixErrors": "Будь ласка, виправте виділені поля.",
+        "folderNameInvalid": "Назва папки містить неприпустимі символи.",
+        "folderNameRequired": "Потрібно вказати назву папки.",
+        "imageRequired": "Будь ласка, завантажте файл зображення.",
+        "nameRequired": "Необхідно вказати альбомну назву."
+      }
     }
   },
   "dialogs": {
@@ -3895,7 +4273,9 @@
       "autoDetect": "Автопошук",
       "ipAddress": "IP-адреса",
       "tcpPort": "TCP-порт",
-      "selectPort": "-- Оберіть порт --"
+      "selectPort": "-- Оберіть порт --",
+      "manualPort": "Вручну…",
+      "manualPortPath": "Порт вручну"
     }
   },
   "pinsDevices": {

@@ -162,7 +162,8 @@
         "setMosaicTargets": "Ustaw cele mozaikowe",
         "panelsSet": "panele ustawione w kolejności",
         "willBeSaved": "panele zostaną zapisane indywidualnie"
-      }
+      },
+      "customTarget": "Cel niestandardowy"
     },
     "tutorial": {
       "previous": "Poprzedni",
@@ -303,7 +304,29 @@
         "ASTAPLocation": "Lokalizacja firmy ASAP",
         "Filter": "Filtr do Plate Solving",
         "FilterCurrent": "Aktualny",
-        "FilterHint": "Filtr używany podczas plate solvingu (zastępuje bieżący filtr)"
+        "FilterHint": "Filtr używany podczas plate solvingu (zastępuje bieżący filtr)",
+        "astapDatabaseAllInstalled": "Wszystkie bazy danych gwiazd ASTAP są już zainstalowane.",
+        "astapDatabaseDescription": "Zainstaluj brakujące bazy danych gwiazd ASTAP bezpośrednio na urządzeniu PINS.",
+        "astapDatabaseInstall": "Zainstalować",
+        "astapDatabaseInstallFailed": "Instalacja bazy danych gwiazdy ASTAP nie powiodła się{exitCode}.",
+        "astapDatabaseInstallSuccess": "Baza danych gwiazdek ASTAP {databaseId} została pomyślnie zainstalowana.",
+        "astapDatabaseInstalling": "Instaluję...",
+        "astapDatabaseJobStarted": "zaczął",
+        "astapDatabaseJobStartedMessage": "Rozpoczęto zadanie instalacji dla {databaseId}.",
+        "astapDatabaseJobStatus": "Stanowisko {jobId}: {status}",
+        "astapDatabaseLastChecked": "Ostatnio sprawdzane: {value}",
+        "astapDatabaseLoadFailed": "Nie udało się załadować baz danych: {detail}",
+        "astapDatabaseMissingJobId": "Żądanie instalacji powiodło się, ale nie zwrócono żadnego identyfikatora zadania.",
+        "astapDatabaseNoInstallable": "Brak dostępnych baz danych gwiazdek ASTAP do zainstalowania",
+        "astapDatabaseSelectPlaceholder": "Wybierz bazę danych",
+        "astapDatabaseStartFailed": "Nie udało się rozpocząć instalacji: {detail}",
+        "astapDatabaseStartInstall": "Rozpoczęcie instalacji dla {databaseId}...",
+        "astapDatabaseStarting": "Startowy...",
+        "astapDatabaseStatusCheckFailedRetrying": "Sprawdzenie statusu nie powiodło się: {detail}. \nPonawiam próbę...",
+        "astapDatabaseTitle": "Baza danych gwiazd ASTAP (PINS)",
+        "astapDatabaseUnauthorizedStart": "Brak autoryzacji podczas uruchamiania instalacji bazy danych ASTAP Star.",
+        "astapDatabaseUnauthorizedStatus": "Brak autoryzacji podczas sprawdzania stanu instalacji.",
+        "astapDatabaseUnknownError": "Nieznany błąd"
       },
       "equipment": {
         "title": "Sprzęt",
@@ -334,7 +357,10 @@
         "notSupported": "Nieobsługiwane przez sterownik",
         "syncLabel": "Czas synchronizacji podczas montażu",
         "syncLabelInfo": "Po włączeniu kliknięcie przycisku \"Synchronizuj teraz\" spowoduje krótkie rozłączenie i ponowne połączenie montażu, aby NINA mogła przesłać aktualny czas.",
-        "title": "Synchronizacja czasu"
+        "title": "Synchronizacja czasu",
+        "loadError": "Nie udało się wczytać informacji o czasie.",
+        "syncError": "Synchronizacja czasu nie powiodła się. \nSprawdź połączenie z urządzeniem PINS.",
+        "syncSuccess": "Czas zsynchronizowany pomyślnie."
       },
       "navbarCustomization": {
         "alwaysVisible": "Zawsze widoczny",
@@ -366,7 +392,10 @@
       "horizonFilePath": {
         "title": "Plik horyzontu",
         "placeholder": "np. /home/pi/horizon.hrz",
-        "toastTitle": "Plik horyzontu zapisany"
+        "toastTitle": "Plik horyzontu zapisany",
+        "clearTitle": "Wyczyść ścieżkę pliku horyzontu",
+        "confirmTitle": "Wyczyść ścieżkę pliku horyzontu",
+        "confirmMessage": "Czy na pewno chcesz wyczyścić ścieżkę pliku horyzontu?"
       }
     },
     "alpacaDirect": {
@@ -408,7 +437,8 @@
         "guideCamRequired": "Należy wybrać prawidłową kamerę guidera."
       },
       "guiderCam": {
-        "name": "Kamera prowadząca"
+        "name": "Kamera prowadząca",
+        "manualVnc": "Ręcznie przez VNC"
       },
       "safety": {
         "name": "Monitor bezpieczeństwa"
@@ -771,6 +801,9 @@
           "slope": "Nachylenie",
           "intercept": "Punkt przecięcia",
           "absolute": "Bezwzględna"
+        },
+        "startGuiding": {
+          "forceCalibrationLabel": "Kalibracja siły"
         }
       },
       "emptyContainer": "Pusty — kliknij +, aby dodać pozycje",
@@ -944,7 +977,10 @@
         "camera": "Kamera",
         "cameraGain": "Wzmocnienie",
         "cameraBinning": "Binning",
-        "restoreCalibration": "Przywróć kalibrację",
+        "restoreCalibration": "Autom. przywracanie kalibracji",
+        "mountSettings": "Montaż",
+        "guideRate": "Guide Rate",
+        "guideRateReadOnly": "Tylko do odczytu",
         "guiderScale": "Skala guidera",
         "maxY": "Maks Y",
         "historySize": "Rozmiar historii",
@@ -1015,11 +1051,125 @@
           "rightAscension": "Rektascensja",
           "title": "Przejrzyj kalibrację"
         },
+        "darkLibrary": {
+          "title": "Biblioteka darków",
+          "manage": "Zarządzaj biblioteką darków",
+          "info": "Utwórz bibliotekę darków, rejestrując klatki dark przy różnych czasach ekspozycji. PHD2 wykorzystuje je do odejmowania szumu matrycy z klatek guidingowych.",
+          "warning": "Tworzenie blokuje PHD2 — wszystkie inne akcje PHD2 są wyłączone w trakcie pracy.",
+          "status": "Status",
+          "exists": "Biblioteka istnieje",
+          "loaded": "Załadowana",
+          "notLoaded": "Nie załadowana",
+          "noLibrary": "Nie znaleziono biblioteki darków",
+          "numDarks": "Liczba darków",
+          "range": "Zakres ekspozycji",
+          "minExposure": "Ekspozycja min. (s)",
+          "maxExposure": "Ekspozycja maks. (s)",
+          "frameCount": "Klatki na ekspozycję",
+          "previewExposures": "Czasy ekspozycji",
+          "totalFrames": "Łącznie klatek",
+          "build": "Utwórz",
+          "cancel": "Anuluj tworzenie",
+          "building": "Trwa tworzenie",
+          "buildProgress": "Klatka {frame} / {total} – {exposure} s",
+          "load": "Załaduj",
+          "unload": "Wyładuj",
+          "delete": "Usuń",
+          "confirmDelete": "Kliknij ponownie, aby potwierdzić",
+          "buildSuccess": "Biblioteka darków utworzona pomyślnie",
+          "buildFailed": "Tworzenie biblioteki nie powiodło się",
+          "buildCancelled": "Tworzenie anulowane",
+          "invalidRange": "Ekspozycja min. musi być mniejsza lub równa maks.",
+          "buildActive": "Tworzenie biblioteki w toku",
+          "buildActiveMessage": "Akcje PHD2 są zablokowane do zakończenia tworzenia."
+        },
+        "imageDisplay": "Wyświetlanie obrazu",
+        "imageGamma": "Rozciąganie (Gamma)",
+        "imageGammaHint": "Niskie = mocniejsze rozciąganie, Wysokie = liniowe",
         "reviewCalibration": "Przejrzyj kalibrację",
         "starComponents": {
           "hide": "Ukryj komponenty gwiazdy",
           "show": "Pokaż komponenty gwiazdy"
-        }
+        },
+        "applyStep": "Stosować",
+        "calculatedStep": "Obliczony krok",
+        "calibDistance": "Dystans",
+        "calibStepCalc": "Kalkulator wielkości kroku",
+        "declination": "Deklinacja",
+        "desiredSteps": "Pożądane kroki",
+        "guideSpeed": "Prędkość przewodnia",
+        "imageScale": "Skala obrazu",
+        "optimal": "Optymalny",
+        "pixelSize": "Rozmiar piksela",
+        "assumeDecOrthogonal": "Załóż Dec prostopadłą do RA",
+        "useDecCompensation": "Użyj kompensacji Dec",
+        "fastRecenter": "Szybkie wyśrodkowanie po kalibracji lub ditherze",
+        "mountGuideOutput": "Włącz wyjście prowadzenia do montażu",
+        "help": {
+          "fastRecenter": "Podczas kalibracji lub ditheru montaż może oddalić się od pozycji blokady. Po włączeniu PHD2 wraca do niej jak najszybciej, by zaoszczędzić czas — całkowicie opcjonalne. Jeśli kalibracja często zawodzi, bo gwiazda zbyt szybko wraca, wyłącz to (często oznaka dużego błędu ustawienia na biegun lub okresowego).",
+          "mountGuideOutput": "Pozwala PHD2 faktycznie wysyłać polecenia prowadzenia do montażu. Zwykle włączone; wyłącz tylko, by obserwować nieskorygowane zachowanie montażu.",
+          "searchRegion": "Rozmiar prostokąta śledzenia w pikselach (promień: 15 odpowiada polu 30×30). Zwiększ go, jeśli montaż źle prowadzi lub nie jest dobrze ustawiony na biegun; zbyt duży obszar może objąć kilka gwiazd i pogorszyć prowadzenie.",
+          "minStarHFD": "Najmniejsza średnica połowy strumienia (czyli «rozmiar»), jaką musi mieć gwiazda, by służyć jako prowadząca — najlepszy sposób, by PHD2 nie czepiał się skupisk gorących pikseli. Wartość ~1,5 pasuje do większości zestawów; zwiększaj tylko, gdy odrzucane są prawdziwe słabe gwiazdy.",
+          "maxStarHFD": "Największa dozwolona średnica połowy strumienia gwiazdy prowadzącej; rozdęte lub nieostre plamy powyżej tej wartości są pomijane przy wyborze.",
+          "massChangeEnabled": "Monitoruje jasność i rozmiar gwiazdy prowadzącej względem tła nieba. Przestarzałe — zwykle lepiej wyłączone; włącz tylko, by mieć pewność, że PHD2 nie przełączy się na sąsiednią gwiazdę.",
+          "massChangeThreshold": "Przy włączonym wykrywaniu masy PHD2 zgłasza «utratę gwiazdy», gdy jasność lub rozmiar zmienią się o więcej niż ten procent. Zwiększ go (lub wyłącz wykrywanie), jeśli często pojawia się błąd «utrata gwiazdy – zmiana masy», choć gwiazda jest wyraźnie widoczna.",
+          "minStarSNR": "Minimalny SNR, jaki gwiazda musi mieć do automatycznego wyboru (gwiazdy nienasycone). Zmieniaj tylko jako doświadczony użytkownik: zbyt wysoka wartość może uniemożliwić wybór; odświeżenie biblioteki darków lub dłuższa ekspozycja zwykle pomaga bardziej.",
+          "useMultipleStars": "Prowadzi na kilku gwiazdach naraz zamiast na jednej, co poprawia stabilność. Niedostępne przy użyciu podklatek.",
+          "autoSelectDownsample": "Do rzadkich przypadków, gdy automatyczny wybór zawodzi, bo gwiazdy wyglądają na zniekształcone. Zostaw na «Auto»; wartości powyżej 1 mogą poprawić rozpoznawanie.",
+          "saturationByADU": "Jak PHD2 wykrywa nasycone gwiazdy, by ich unikać. «Wg wartości ADU» korzysta z jasności zgłaszanej przez sensor (zalecane); alternatywa ocenia nasycenie po kształcie profilu i jest mniej dokładna.",
+          "saturationADUValue": "Wartość piksela, od której gwiazdę uznaje się za nasyconą (kamery 8-bit ≈ 255, 16-bit ≈ 65535). W razie wątpliwości ustaw maksymalną wartość piksela swojej kamery.",
+          "cameraGain": "Wzmocnienie kamery prowadzącej jako procent zakresu kamery (np. 50 % odpowiada wzmocnieniu 60 w kamerze 40–80). Niższe wzmocnienie zmniejsza szum; zwykle nie trzeba go zmieniać po ustabilizowaniu zestawu.",
+          "cameraBinning": "Sprzętowy binning klatek prowadzenia — zwiększa czułość i przyspiesza pobieranie kosztem rozdzielczości. Użyj osobnego profilu PHD2 dla każdej wartości binningu.",
+          "focalLength": "Ogniskowa lunety prowadzącej w milimetrach. Wraz z rozmiarem piksela wyznacza skalę obrazu i pozwala PHD2 podawać prowadzenie w sekundach łuku, więc ustaw ją poprawnie.",
+          "calibrationStep": "Czas trwania każdego impulsu prowadzenia podczas kalibracji. Dąż do wartości dającej 8–14 kroków na kierunek i kalibruj blisko równika niebieskiego (deklinacja ≈ 0).",
+          "restoreCalibration": "Automatycznie ładuje ostatnią kalibrację po podłączeniu sprzętu (przydatne dla montaży ASCOM/INDI lub aux-mount). Jeśli z tego korzystasz, kamera prowadząca nie może być obrócona względem lunety ani nieba.",
+          "assumeDecOrthogonal": "Zwykle PHD2 mierzy kąty kamery dla RA i Dec niezależnie. Wymuś kąt Dec prostopadły do RA, by pomóc przy bardzo dużym błędzie okresowym, dużym luzie w Dec lub złym seeingu.",
+          "useDecCompensation": "Automatycznie dostosowuje prędkość prowadzenia w RA do bieżącej deklinacji (wymaga połączenia ASCOM/INDI z montażem). Zostaw włączone poza nietypowymi przypadkami. Nie mylić z kompensacją luzu deklinacji.",
+          "reverseDecAfterFlip": "Mówi PHD2, jak dostosować kalibrację po obrocie przez południk. Zostaw wyłączone, jeśli prowadzenie po flipie jest normalne; włącz (i przekalibruj) tylko, gdy widzisz uciekające prowadzenie w deklinacji.",
+          "guideAlgorithm": "Wybiera algorytm prowadzenia dla tej osi. Hysteresis waży ostatnie korekty względem najnowszego odchylenia; ResistSwitch opiera się zmianom kierunku (dobry przy luzie Dec); LowPass/LowPass2 to konserwatywne wybory dla dobrych montaży; Predictive PEC (PPEC) modeluje i z wyprzedzeniem koryguje błąd okresowy (RA); ZFilter działa w dziedzinie częstotliwości. Wartości domyślne pasują większości.",
+          "algo": {
+            "minMove": "Najmniejsze odchylenie gwiazdy (w pikselach) wyzwalające korektę; mniejsze ruchy są ignorowane, by nie gonić seeingu. To parametr, który najbardziej warto dostrajać każdej nocy do warunków.",
+            "maxMove": "Największa pojedyncza korekta prowadzenia (piksele); ogranicza nadmierną reakcję na pojedynczy duży skok.",
+            "aggression": "Jak mocno korygowany jest każdy zmierzony błąd, w procentach. 100 % stosuje pełną korektę; niższe wartości (np. 60 %) korygują mniej, by uniknąć przeregulowania. Niżej znaczy bezpieczniej.",
+            "hysteresis": "Waga nadawana historii ostatnich korekt względem bieżącej klatki, w procentach. Wysokie wartości wygładzają korekty, ale wolniej reagują na rzeczywistą zmianę kierunku.",
+            "predictiveWeight": "Predictive PEC: waga przewidywanej (modelowanej) części korekty. Domyślne wartości pasują większości montaży; duże zmiany mogą pogorszyć prowadzenie.",
+            "reactiveWeight": "Predictive PEC: waga części reaktywnej, opartej na przesunięciu gwiazdy w ostatniej klatce. Domyślne wartości pasują większości montaży.",
+            "slopeWeight": "LowPass: jak bardzo ostatni trend (nachylenie) ruchu gwiazdy wpływa na korektę, w procentach. Zapobiega zbytniej ospałości algorytmu; 0 używa tylko mediany ostatniej historii.",
+            "expFactor": "ZFilter: wirtualny czas ekspozycji to rzeczywista ekspozycja × ten współczynnik. Wyższe wartości bardziej filtrują seeing (gładziej, ale wolniej); wirtualna ekspozycja ~2–4 s to dobry punkt wyjścia dla RA."
+          },
+          "ditherMode": "Jak PHD2 oblicza każdy dither. «Losowy» wybiera rozmiar i kierunek losowo; «Spiralny» używa kroków o stałym rozmiarze po spirali zgodnie z ruchem wskazówek zegara — przydatne, gdy kamera obrazująca ma stały szum wzorcowy lub montaż ma uciążliwy luz w Dec.",
+          "ditherRaOnly": "Dithering tylko w osi RA. Przydatne, gdy prowadzenie w Dec jest wyłączone lub montaż ma duży luz w Dec.",
+          "ditherScale": "Mnożnik stosowany do wielkości ditheru żądanej przez aplikację obrazującą — zwiększ dla większych, zmniejsz dla mniejszych ditherów.",
+          "backlashEnabled": "Kompensuje luz (backlash) w osi DEC, dodając dodatkowy impuls przy zmianie kierunku montażu. Przydatne dla montaży z wyraźnym luzem przekładni; pozostaw wyłączone, jeśli montaż prowadzi czysto w DEC.",
+          "backlashAmount": "Długość dodatkowego impulsu korekcyjnego (w ms), który PHD2 dodaje przy zmianie kierunku w DEC. PHD2 automatycznie dostraja go między Min a Maks.",
+          "backlashMin": "Dolny limit (ms) automatycznie dostrajanego impulsu backlash.",
+          "backlashMax": "Górny limit (ms) automatycznie dostrajanego impulsu backlash."
+        },
+        "starDetection": "Śledzenie gwiazdy prowadzącej",
+        "searchRegion": "Obszar wyszukiwania (piksele)",
+        "minStarHFD": "Minimalny HFD gwiazdy (piksele)",
+        "maxStarHFD": "Maksymalny HFD gwiazdy (piksele)",
+        "beepForLostStar": "Sygnał przy utracie gwiazdy",
+        "starMassDetection": "Wykrywanie masy gwiazdy",
+        "massChangeEnabled": "Włączone",
+        "massChangeThreshold": "Tolerancja",
+        "backlash": {
+          "title": "Kompensacja luzu",
+          "enabled": "Włączone",
+          "amount": "Wartość (ms)",
+          "min": "Min (ms)",
+          "max": "Maks (ms)"
+        },
+        "minStarSNR": "Minimalny SNR gwiazdy dla AutoFind",
+        "autoSelectDownsample": "Zmniejszanie próbkowania klatek wyboru",
+        "saturationByADU": "Nasycenie wg ADU",
+        "saturationADUValue": "Wartość ADU nasycenia",
+        "dither": "Dithering",
+        "ditherMode": "Tryb ditheru",
+        "ditherRaOnly": "Dither tylko w RA",
+        "ditherScale": "Skala ditheru",
+        "ditherModeRandom": "Losowy",
+        "ditherModeSpiral": "Spiralny"
       }
     },
     "focuser": {
@@ -1452,7 +1602,15 @@
       "status_stopped_darks": "Zatrzymano wcześniej – {ukończono} z {total} zdobytych ciemności",
       "status_stopped_flats": "Zatrzymano wcześniej – {ukończono} z {total} zdobytych mieszkań",
       "status_success_darks": "Gotowe — przechwycono {count} ciemności",
-      "status_success_flats": "Gotowe – zajęto {count} mieszkań"
+      "status_success_flats": "Gotowe – zajęto {count} mieszkań",
+      "filter_label": "Filtr",
+      "result_bright": "zbyt jasny",
+      "result_dim": "zbyt ciemne",
+      "status_completed_flats": "Zakończony",
+      "status_failed_flats_multi": "Żadne filtry nie określiły prawidłowego narażenia",
+      "status_partial_flats_multi": "Nieudane filtry: {filters}",
+      "status_running_unknown": "Określający…",
+      "target": "Cel"
     },
     "weatherModal": {
       "weatherInformation": "Informacje o pogodzie",
@@ -1479,7 +1637,13 @@
     },
     "switch": {
       "gauges": "Wskaźniki",
-      "switch": "Przełącznik"
+      "switch": "Przełącznik",
+      "indi": {
+        "settings": "Zmień ustawienia"
+      },
+      "sv241pro": {
+        "preConnectDelay": "Opóźnienie wstępnego połączenia (ms)"
+      }
     },
     "stellarium": {
       "selected_object": {
@@ -1505,7 +1669,24 @@
         "atmosphere_visible": "Pokaż atmosferę",
         "landscapes_visible": "Pokaż krajobrazy",
         "dsos_visible": "Obiekty Deep Sky (Messier, NGC)",
-        "title": "Ustawienia"
+        "title": "Ustawienia",
+        "landscape_source_mode": "Landscape source",
+        "landscape_source_default": "Default landscape (Guereins)",
+        "landscape_source_neutral": "Neutral horizon (Gray)",
+        "landscape_source_custom": "Custom data source",
+        "custom_landscape_url": "Custom source URL",
+        "custom_landscape_url_placeholder": "e.g. /stellarium-data/landscapes/custom",
+        "custom_landscape_key": "Custom source key",
+        "custom_landscape_key_placeholder": "e.g. my-landscape",
+        "available_landscapes": "Dostępne krajobrazy",
+        "folder_name_label": "Nazwa folderu",
+        "has_allsky": "Allski",
+        "landscape_list_load_failed": "Nie udało się załadować krajobrazów.",
+        "landscape_option_label": "Krajobraz: {tytuł}",
+        "no_allsky": "Nie, allsky",
+        "no_landscapes_available": "Brak dostępnych krajobrazów.",
+        "service_url_label": "adres usługi",
+        "untitled_landscape": "Krajobraz bez tytułu"
       }
     },
     "profile": {
@@ -1750,7 +1931,11 @@
         "pluginUninstallStart": "Odinstalowywanie wtyczki: {packageName}",
         "pluginsLoadFailed": "Nie udało się załadować wtyczek PINS: {message}",
         "pluginsPackageNotAllowed": "Pakiet niedozwolony przez zasady API: {packageName}",
-        "pluginsLoadMetadataFailed": "Nie można załadować wtyczek PINS, ponieważ repozytorium metadanych wtyczek jest obecnie niedostępne (HTTP 502)."
+        "pluginsLoadMetadataFailed": "Nie można załadować wtyczek PINS, ponieważ repozytorium metadanych wtyczek jest obecnie niedostępne (HTTP 502).",
+        "hotspotChannelInvalid": "Kanał punktu aktywnego musi być dodatnią liczbą całkowitą, jeśli jest podany.",
+        "hotspotFetchFailed": "Nie udało się załadować ustawień hotspotu: {message}",
+        "hotspotPasswordInvalidLength": "Hasło do hotspotu jest wymagane i musi mieć od 8 do 63 znaków.",
+        "hotspotSaveFailed": "Nie udało się zapisać ustawień hotspotu: {message}"
       },
       "hotspotConfigured": "Skonfigurowano niestandardowe hasło hotspotu.",
       "hotspotNewPassword": "Nowe hasło do hotspotu",
@@ -1836,7 +2021,14 @@
       "indiInstallModalSuccessCompleted": "Instalacja dla {label} została ukończona.",
       "indiInstallModalSuccessStarted": "Rozpoczęto instalację dla {label}.",
       "indiInstallModalTitle": "Zainstaluj sterownik INDI",
-      "indiInstallModalType": "Typ"
+      "indiInstallModalType": "Typ",
+      "hotspotAppliedStatus": "Zastosowano do aktywnego hotspotu: {zastosowano} | \nZespół: {zespół} | \nKanał: {kanał}",
+      "hotspotBandAuto": "Automatycznie / Rozbrojony",
+      "hotspotBandLabel": "Zespół Hotspot",
+      "hotspotCapabilitiesUnavailable": "Lista możliwości adaptera jest niedostępna; \ndozwolony kanał ręczny.",
+      "hotspotChannelLabel": "Kanał Hotspotu",
+      "hotspotChannelPlaceholder": "Zostaw puste dla auto",
+      "hotspotMetaLine": "Źródło: {źródło} | \nInterfejs: {iface} | \nZespół: {zespół} | \nKanał: {kanał}"
     },
     "bahtifocus": {
       "title": "Analizator maski Bahtinowa",
@@ -1992,6 +2184,39 @@
         "tokenCopyFailed": "Nie udało się skopiować tokenu",
         "submissionRemoved": "Przesłanie usunięte",
         "allSubmissionsCleared": "Wszystkie przesłania wyczyszczone"
+      },
+      "diagnostics": {
+        "archiveId": "Identyfikator archiwum",
+        "autoDownloaded": "Archiwum zostało pobrane automatycznie i podjęto próbę przesłania.",
+        "dmesgLines": "linie dmesg",
+        "download": "Pobierz ZIP-a",
+        "downloadBusy": "Ściąganie...",
+        "downloadFailed": "Nie udało się pobrać archiwum diagnostycznego.",
+        "intro": "Wybierz sekcje diagnostyczne, rozpocznij gromadzenie archiwum i pobierz/prześlij plik ZIP, gdy będzie gotowy.",
+        "journalLines": "Linie dziennika",
+        "loadingOptions": "Ładowanie opcji...",
+        "optionsLoadFailed": "Nie udało się załadować opcji diagnostycznych. \nUżywanie ustawień domyślnych.",
+        "optionsLoaded": "Załadowano opcje diagnostyczne.",
+        "pollFailed": "Nie udało się sondować stanu diagnostyki.",
+        "refreshOptions": "Opcje odświeżania",
+        "running": "Zbieranie...",
+        "sectionsTitle": "Sekcje",
+        "start": "Rozpocznij zbieranie",
+        "startFailed": "Nie udało się uruchomić archiwum diagnostycznego.",
+        "started": "Uruchomiono archiwum diagnostyki.",
+        "statusFailed": "Przegrany",
+        "statusIdle": "Bezczynny",
+        "statusLabel": "Status",
+        "statusQueued": "W kolejce",
+        "statusRunning": "Działanie",
+        "statusSuccess": "Sukces",
+        "statusTimeout": "Upłynął limit czasu",
+        "stillPreparing": "Archiwum jest wciąż w przygotowaniu. \nSpróbuj ponownie pobrać wkrótce.",
+        "title": "Wsparcie diagnostyczne (PINS)",
+        "uploaded": "Diagnostyka ZIP przesłana do obsługi punktu końcowego.",
+        "validationDmesgLines": "Linie dmesg muszą mieścić się w przedziale od 100 do 50000.",
+        "validationJournalLines": "Wiersze dziennika muszą zawierać się w przedziale od 100 do 50 000.",
+        "validationSections": "Wybierz co najmniej jedną sekcję."
       }
     },
     "telescopius": {
@@ -2667,7 +2892,8 @@
         },
         "validation": {
           "passwordRequired": "Hasło musi mieć co najmniej 8 znaków"
-        }
+        },
+        "lensControl": "Kontrola obiektywu"
       },
       "config": {
         "title": "Konfiguracja",
@@ -2779,7 +3005,23 @@
       },
       "meteoStation": "Stacja PINS.Meteo",
       "powerBox": "PINY.PowerBox",
-      "wifiTab": "WiFi"
+      "wifiTab": "WiFi",
+      "lensControl": {
+        "aperture": "Otwór",
+        "calibrate": "Kalibrować",
+        "calibrating": "Kalibracja...",
+        "current": "Aktualny",
+        "deviceInfo": "Informacje o urządzeniu",
+        "driver": "Wersja SDK",
+        "firmware": "Oprogramowanie sprzętowe",
+        "focalLength": "Ogniskowa",
+        "lens": "Obiektyw",
+        "position": "Pozycja ostrości",
+        "range": "Zakres",
+        "restart": "Uruchom ponownie urządzenie",
+        "restarting": "Ponowne uruchamianie...",
+        "set": "Ustawić"
+      }
     },
     "shortcuts": {
       "title": "Skróty sekwencji",
@@ -3494,7 +3736,10 @@
         "timeWindowEnd": "Koniec okna czasowego",
         "timeWindowHint": "Pozostaw okno czasowe puste, aby umożliwić planowanie pełnego zakresu sesji.",
         "timeWindowStart": "Rozpoczęcie okna czasowego",
-        "title": "Ograniczenia"
+        "title": "Ograniczenia",
+        "maxMoonAltitude": "Maksymalna wysokość księżyca",
+        "maxMoonAltitudeHint": "Ustaw na 0° lub mniej, aby zaplanować tylko wtedy, gdy Księżyc znajduje się poniżej horyzontu.",
+        "minMoonSeparationInfo": "Minimalna odległość kątowa między celem a Księżycem wymagana do planowania."
       },
       "defaults": {
         "favoriteTargetName": "Ulubiony cel",
@@ -3607,6 +3852,18 @@
       },
       "warnings": {
         "sequenceVersionRequired": "Wstawianie sekwencji wymaga wtyczki TNS 1.2.8.0 (lub trybu PINS)."
+      },
+      "sessionModes": {
+        "moonRise": "Wschód księżyca",
+        "moonSet": "Zachód księżyca",
+        "sunRise": "Wschód słońca",
+        "sunSet": "Zachód słońca",
+        "time": "Czas",
+        "twilightEndAstronomical": "Zmierzch koniec astronomiczny",
+        "twilightEndNautical": "Żeglarski koniec zmierzchu",
+        "twilightStartAstronomical": "Zmierzch zaczyna się astronomicznie",
+        "twilightStartNautical": "Zmierzch zaczyna się nautycznie",
+        "now": "Teraz"
       }
     },
     "filterOffset": {
@@ -3742,6 +3999,127 @@
         "guide": "Wykres przewodnika"
       },
       "title": "Przeglądarka logów PHD2"
+    },
+    "supernovae": {
+      "title": "Supernovae",
+      "source": "Source: Rochester Astronomy active SN list",
+      "updated": "updated {d}",
+      "download": "Download",
+      "downloading": "Downloading…",
+      "noData": "No data loaded. Click Download to fetch the current active supernova list.",
+      "filterMag": "Max magnitude",
+      "filterType": "Type",
+      "filterTypePlaceholder": "e.g. Ia",
+      "filterYear": "Year",
+      "filterConstellation": "Constellation",
+      "filterAll": "All",
+      "filterNewOnly": "New only",
+      "filterVisibleOnly": "Visible tonight",
+      "visibleHint": "Based on observer location from NINA profile",
+      "visibleNoLocation": "No observer location — set location in NINA profile",
+      "sortBy": "Sort by",
+      "sortLatestMag": "Latest mag (brightest first)",
+      "sortFirstObserved": "Discovery date (newest first)",
+      "sortLastObserved": "Last observed (newest first)",
+      "showing": "Showing {n} of {total} entries",
+      "newCount": "{n} new",
+      "colName": "Name",
+      "colType": "Type",
+      "colLatestMag": "Latest mag",
+      "colMaxMag": "Max mag",
+      "colDiscovered": "Discovered",
+      "colLastObs": "Last obs",
+      "colConstellation": "Constellation",
+      "colHost": "Host galaxy",
+      "colRA": "RA",
+      "colDec": "Dec",
+      "frame": "Frame",
+      "frameTitle": "Send to framing assistant",
+      "fav": "Favourite",
+      "favTitle": "Add to favourites",
+      "favAdded": "Added {name} to favourites",
+      "favError": "Failed to add to favourites",
+      "visCircumpolar": "Circumpolar — always above horizon",
+      "visVisible": "Visible tonight",
+      "visHidden": "Below horizon tonight",
+      "page": "{n} / {total}"
+    },
+    "vncRemote": {
+      "debugModeWarning": "Tryb debugowania aktywny – Połączenie VNC niedostępne. Wyłącz tryb debugowania w ustawieniach."
+    },
+    "landscaperCreator": {
+      "actions": {
+        "generate": "Wygeneruj ZIP",
+        "generating": "Generuję ZIP..."
+      },
+      "details": {
+        "sectionTitle": "3) Szczegóły krajobrazu"
+      },
+      "errors": {
+        "imageLoadFailed": "Nie można załadować obrazu.",
+        "requestFailed": "Nie udało się wygenerować poziomego pliku ZIP."
+      },
+      "fields": {
+        "altitude": "Wysokość",
+        "author": "Autor",
+        "description": "Opis",
+        "folderName": "Nazwa folderu",
+        "folderNamePlaceholder": "automatycznie wygenerowane z nazwy",
+        "latitude": "Szerokość",
+        "longitude": "Długość geograficzna",
+        "name": "Nazwa krajobrazu",
+        "namePlaceholder": "np. \nMój horyzont obserwatorium"
+      },
+      "folder": {
+        "autoHint": "Nazwy folderów są przekształcane do bezpiecznego formatu małych liter i podkreśleń/łączników."
+      },
+      "image": {
+        "aspectRatio": "Proporcje",
+        "aspectWarning": "Współczynnik proporcji przesłanego obrazu to {ratio}. \nPanorama 360 powinna mieć proporcje zbliżone do 2:1.",
+        "dimensions": "Wymiary",
+        "fileName": "Nazwa pliku",
+        "fileSize": "Rozmiar pliku",
+        "remove": "Usunąć",
+        "replace": "Wymień Panoramę",
+        "sectionTitle": "1) Przesyłanie obrazu",
+        "select": "Wybierz Panoramę",
+        "typesHint": "Akceptowane formaty: PNG, JPEG, WebP"
+      },
+      "instructions": {
+        "line1": "Użyj równoprostokątnego obrazu panoramicznego 360°.",
+        "line2": "W przypadku krajobrazów obejmujących wyłącznie horyzont, jeśli to możliwe, staraj się, aby niebo było przejrzyste.",
+        "line3": "Kliknij lub przeciągnij podgląd w miejsce, w którym powinna znajdować się północ geograficzna.",
+        "line4": "Pobierz plik ZIP i rozpakuj go do folderu krajobrazów Stellarium Web.",
+        "title": "Jak przygotować swój wkład"
+      },
+      "preview": {
+        "currentNorth": "północPrzesunięcieSt.:",
+        "empty": "Prześlij obraz panoramiczny, aby włączyć podgląd.",
+        "help": "Kliknij lub przeciągnij poziomo panoramę, aby ustawić północ geograficzną.",
+        "imageAlt": "Przesłany podgląd panoramy",
+        "quickCenter": "Północ w centrum",
+        "quickLeft": "Północ przy lewej krawędzi",
+        "quickReset": "Nastawić",
+        "sectionTitle": "2) Podgląd panoramy i znacznik północy",
+        "signHint": "Jeśli wygenerowany krajobraz wydaje się być lustrzanym odbiciem lub obrócony w złym kierunku, może zaistnieć potrzeba odwrócenia znaku przesunięcia, w zależności od konwencji zaplecza."
+      },
+      "subtitle": "Prześlij panoramę 360°, zaznacz północ geograficzną i wygeneruj ZIP krajobrazu Stellarium.",
+      "title": "Twórca krajobrazu Stellarium",
+      "toast": {
+        "errorTitle": "Generowanie krajobrazu nie powiodło się",
+        "invalidFileType": "Nieobsługiwany typ pliku. \nPrześlij plik PNG, JPEG lub WebP.",
+        "successMessage": "Pobrano {nazwa pliku}",
+        "successTitle": "Krajobraz ZIP gotowy",
+        "validationTitle": "Walidacja",
+        "successMessageSaved": "Zapisano {nazwa pliku} w {ścieżce}."
+      },
+      "validation": {
+        "fixErrors": "Popraw wyróżnione pola.",
+        "folderNameInvalid": "Nazwa folderu zawiera nieprawidłowe znaki.",
+        "folderNameRequired": "Nazwa folderu jest wymagana.",
+        "imageRequired": "Proszę przesłać plik obrazu.",
+        "nameRequired": "Nazwa krajobrazu jest wymagana."
+      }
     }
   },
   "pinsDevices": {
@@ -3950,7 +4328,9 @@
       "autoDetect": "Automatyczne wykrywanie",
       "ipAddress": "Adres IP",
       "tcpPort": "Port TCP",
-      "selectPort": "-- Wybierz port --"
+      "selectPort": "-- Wybierz port --",
+      "manualPort": "Ręcznie…",
+      "manualPortPath": "Port ręczny"
     }
   },
   "nav": {

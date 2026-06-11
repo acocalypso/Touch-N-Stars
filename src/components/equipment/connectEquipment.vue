@@ -375,7 +375,7 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { apiStore } from '@/store/store';
 import { useGuiderStore } from '@/store/guiderStore';
@@ -582,22 +582,49 @@ const hasAnyConnection = computed(() => {
   });
 });
 
+function waitForMountConnected(timeoutMs = 30000) {
+  if (store.mountInfo.Connected) return Promise.resolve(true);
+  return new Promise((resolve) => {
+    const timer = setTimeout(() => {
+      unwatch();
+      resolve(false);
+    }, timeoutMs);
+    const unwatch = watch(
+      () => store.mountInfo.Connected,
+      (connected) => {
+        if (connected) {
+          clearTimeout(timer);
+          unwatch();
+          resolve(true);
+        }
+      }
+    );
+  });
+}
+
 async function connectAll() {
   isConnecting.value = true;
   try {
+    const hasSwitch = store.existingEquipmentList.some((d) => d.apiName === 'switch');
+    if (hasSwitch) {
+      await apiService.switchAction('connect');
+      await new Promise((resolve) => setTimeout(resolve, 5000));
+    }
+
     for (const device of store.existingEquipmentList) {
       switch (device.apiName) {
         case 'camera':
           await apiService.cameraAction('connect');
           break;
-        case 'mount':
+        case 'mount': {
           const canConnect = await checkMountConnectionPermission(t);
           if (!canConnect) {
-            // Benutzer hat abgebrochen
             return;
           }
           await apiService.mountAction('connect');
+          await waitForMountConnected();
           break;
+        }
         case 'filter':
           await apiService.filterAction('connect');
           break;
@@ -631,7 +658,6 @@ async function connectAll() {
           await apiService.weatherAction('connect');
           break;
         case 'switch':
-          await apiService.switchAction('connect');
           break;
       }
     }

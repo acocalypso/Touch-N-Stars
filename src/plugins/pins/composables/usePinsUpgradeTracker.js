@@ -1,5 +1,5 @@
 import { ref } from 'vue';
-import axios from 'axios';
+import apiPinsService from '@/services/apiPinsService';
 
 const LAST_UPGRADE_JOB_ID_KEY = 'lastUpgradeJobId';
 const LAST_UPGRADE_JOB_RESULT_KEY = 'lastUpgradeJobResult';
@@ -16,8 +16,6 @@ export function usePinsUpgradeTracker({
   jobId,
   activeOperation,
   getIp,
-  PORT,
-  TOKEN,
   shouldWaitForApiRecovery = () => false,
 }) {
   const upgradeExitCode = ref(null);
@@ -212,27 +210,21 @@ export function usePinsUpgradeTracker({
   }
 
   async function fetchUpgradeJobById(ip, id) {
-    const directAxios = axios.create({ headers: {} });
-    const response = await directAxios.get(`http://${ip}:${PORT}/jobs/${id}`, {
-      headers: {
-        Authorization: `Bearer ${TOKEN}`,
-      },
-      timeout: 8000,
-    });
+    if (!ip) {
+      throw new Error('Missing host IP');
+    }
 
-    return normalizeUpgradeJob(response.data);
+    const response = await apiPinsService.getPinsDaemonJob(id);
+    return normalizeUpgradeJob(response);
   }
 
   async function fetchLatestUpgradeJob(ip) {
-    const directAxios = axios.create({ headers: {} });
-    const response = await directAxios.get(`http://${ip}:${PORT}/jobs/latest`, {
-      headers: {
-        Authorization: `Bearer ${TOKEN}`,
-      },
-      timeout: 8000,
-    });
+    if (!ip) {
+      throw new Error('Missing host IP');
+    }
 
-    return normalizeUpgradeJob(response.data);
+    const response = await apiPinsService.getPinsDaemonLatestJob();
+    return normalizeUpgradeJob(response);
   }
 
   function selectPreferredJob(storedFinalResult, latestJob) {

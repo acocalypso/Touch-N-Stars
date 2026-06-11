@@ -854,7 +854,7 @@ const pluginServerUrl = computed(() => {
   const host = connection.ip || window.location.hostname;
   let port = connection.port || window.location.port || '';
 
-  const isDev = process.env.NODE_ENV === 'development';
+  const isDev = import.meta.env.DEV;
   if (isDev && Number(port) === 8080) {
     port = '5000';
   }
@@ -1079,15 +1079,7 @@ async function loadLatestCapturedImage() {
   if (isLoadingCapture.value) return;
   try {
     isLoadingCapture.value = true;
-    if (!imageStore.imageData) {
-      await imageStore.getImage();
-    }
-    if (!imageStore.imageData) {
-      throw new Error('No image available');
-    }
-    const response = await fetch(imageStore.imageData);
-    if (!response.ok) throw new Error('Failed to load image');
-    const blob = await response.blob();
+    const blob = await fetchLatestCaptureBlob();
     const inferredName = t('plugins.bahtifocus.image.capturedName');
     await setImageFromBlob(blob, inferredName, 'capture');
     selectedExampleKey.value = '';
@@ -1095,6 +1087,74 @@ async function loadLatestCapturedImage() {
     handleError(error, t('plugins.bahtifocus.errors.captureLoad'));
   } finally {
     isLoadingCapture.value = false;
+  }
+}
+
+async function fetchLatestCaptureBlob() {
+  const quality = Number(settingsStore.camera.imageQuality);
+  const resolvedQuality = Number.isFinite(quality) && quality > 0 ? quality : 90;
+  const scale = imageStore.calcScale();
+  const resize = scale < 1;
+
+  let response;
+  try {
+    response = await apiService.getImagePrepared(resolvedQuality, resize, scale);
+  } catch (error) {
+    const backendMessage = await extractBackendMessageFromBlob(error?.response?.data);
+    if (backendMessage) {
+      error.message = backendMessage;
+    }
+    throw error;
+  }
+  const blob = response?.data;
+
+  if (!blob || typeof blob.size !== 'number' || blob.size <= 0) {
+    throw new Error('Prepared image response was empty.');
+  }
+
+  const responseType = String(blob.type || '').toLowerCase();
+  if (responseType.startsWith('application/json')) {
+    const backendMessage = await extractBackendMessageFromBlob(blob);
+
+    throw new Error(backendMessage || 'Latest capture is not available yet.');
+  }
+
+  return blob;
+}
+
+async function extractBackendMessageFromBlob(data) {
+  if (typeof Blob === 'undefined' || !(data instanceof Blob)) {
+    return '';
+  }
+
+  const responseType = String(data.type || '').toLowerCase();
+  if (!responseType.includes('application/json') && !responseType.startsWith('text/')) {
+    return '';
+  }
+
+  try {
+    const text = await data.text();
+    if (!text) {
+      return '';
+    }
+
+    try {
+      const parsed = JSON.parse(text);
+      return (
+        parsed?.Error ||
+        parsed?.error ||
+        parsed?.Message ||
+        parsed?.message ||
+        parsed?.Response ||
+        parsed?.response ||
+        text
+      );
+    } catch {
+      return text;
+    }
+  } catch {
+    // Ignore blob-to-text parsing issues and let caller use fallback messages.
+    return '';
   }
 }
 
@@ -1125,13 +1185,55 @@ function clearImage() {
 
 function handleError(error, fallbackMessage) {
   const message = error?.message || fallbackMessage;
+  const details = formatErrorForLog(error, fallbackMessage);
   toastStore.showToast({
     type: 'error',
     title: t('plugins.bahtifocus.errors.title'),
     message,
     autoClose: true,
   });
-  console.error('[Bahtifocus] Error:', error);
+  console.error('[Bahtifocus] Error:', details);
+}
+
+function formatErrorForLog(error, fallbackMessage) {
+  if (!error) {
+    return {
+      message: fallbackMessage || 'Unknown error',
+    };
+  }
+
+  const details = {
+    name: error.name || 'Error',
+    message: error.message || fallbackMessage || 'Unknown error',
+  };
+
+  if (error.stack) {
+    details.stack = String(error.stack);
+  }
+
+  if (Number.isFinite(error.status)) {
+    details.status = error.status;
+  }
+
+  if (error.response) {
+    details.response = {
+      status: error.response.status,
+      statusText: error.response.statusText,
+      data: error.response.data,
+    };
+  }
+
+  if (error.cause) {
+    details.cause =
+      typeof error.cause === 'object'
+        ? {
+            name: error.cause.name,
+            message: error.cause.message,
+          }
+        : String(error.cause);
+  }
+
+  return details;
 }
 
 async function setImageFromBlob(blob, name, source) {
@@ -1498,6 +1600,15 @@ async function submitBahtinovAnalysis(metadata, controller) {
     const contentType = imageState.mimeType || blob.type || inferMimeType(imageState.name);
     const binaryPayload = await blob.arrayBuffer();
 
+    console.info('[Bahtifocus] Analyze request (binary)', {
+      endpoint,
+      transportMode: metadata.transportMode,
+      contentType: contentType || 'application/octet-stream',
+      fileName: imageState.name || null,
+      mimeType: imageState.mimeType || null,
+      imageBytes: blob.size,
+    });
+
     const response = await fetch(endpoint, {
       method: 'POST',
       headers: {
@@ -1546,6 +1657,15 @@ async function submitLegacyAnalysis(metadata, controller) {
     mimeType: imageState.mimeType || undefined,
     fileName: imageState.name || undefined,
   };
+
+  console.info('[Bahtifocus] Analyze request (legacy-json)', {
+    endpoint,
+    transportMode: 'legacy-json',
+    contentType: 'application/json',
+    fileName: imageState.name || null,
+    mimeType: imageState.mimeType || null,
+    imageBytes: imageState.sizeBytes || null,
+  });
 
   const response = await fetch(endpoint, {
     method: 'POST',
@@ -1981,16 +2101,18 @@ onBeforeUnmount(() => {
   }
 });
 
+const exampleImageModules = import.meta.glob(
+  '../image/*.{png,jpg,jpeg,webp,bmp,tif,tiff,fit,fits}',
+  { eager: true, import: 'default' }
+);
+
 function populateExampleOptions() {
   try {
-    const context = require.context('../image', false, /\.(png|jpe?g|webp|bmp|tiff?|fit|fits)$/i);
-    exampleOptions.value = context
-      .keys()
-      .map((key) => ({
-        key,
-        label: key.replace('./', ''),
-        url: context(key),
-      }))
+    exampleOptions.value = Object.entries(exampleImageModules)
+      .map(([fullPath, url]) => {
+        const label = fullPath.split('/').pop() || fullPath;
+        return { key: `./${label}`, label, url };
+      })
       .sort((a, b) => a.label.localeCompare(b.label));
   } catch (error) {
     console.warn('[Bahtifocus] No example images available', error);

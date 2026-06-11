@@ -2,6 +2,9 @@
 include ':capacitor-android'
 project(':capacitor-android').projectDir = new File('../node_modules/@capacitor/android/capacitor')
 
+include ':acovanconis-capacitor-mdns'
+project(':acovanconis-capacitor-mdns').projectDir = new File('../node_modules/@acovanconis/capacitor-mdns/android')
+
 include ':capacitor-community-keep-awake'
 project(':capacitor-community-keep-awake').projectDir = new File('../node_modules/@capacitor-community/keep-awake/android')
 
@@ -34,9 +37,6 @@ project(':capawesome-capacitor-file-picker').projectDir = new File('../node_modu
 
 include ':capgo-capacitor-updater'
 project(':capgo-capacitor-updater').projectDir = new File('../node_modules/@capgo/capacitor-updater/android')
-
-include ':devioarts-capacitor-mdns'
-project(':devioarts-capacitor-mdns').projectDir = new File('../node_modules/@devioarts/capacitor-mdns/android')
 
 include ':capacitor-getlocalip'
 project(':capacitor-getlocalip').projectDir = new File('../node_modules/capacitor-getlocalip/android')

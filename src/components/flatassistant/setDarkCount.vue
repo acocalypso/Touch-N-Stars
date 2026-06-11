@@ -1,5 +1,6 @@
 <template>
   <NumberInputPicker
+    v-if="store.isPINS"
     v-model="flatsStore.darkCount"
     :label="$t('components.flatassistant.darks_to_take')"
     labelKey="components.flatassistant.darks_to_take"
@@ -28,5 +29,8 @@ async function updateDarkCount(value) {
 
 onMounted(() => {
   flatsStore.darkCount = store.profileInfo?.FlatWizardSettings?.DarkFlatCount || 0;
+  if (!store.isPINS) {
+    flatsStore.darkCount = 0;
+  }
 });
 </script>

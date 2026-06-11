@@ -162,7 +162,8 @@
         "setMosaicTargets": "Stel mozaïekdoelen in",
         "panelsSet": "panelen op volgorde geplaatst",
         "willBeSaved": "panelen worden afzonderlijk opgeslagen"
-      }
+      },
+      "customTarget": "Aangepast doel"
     },
     "tutorial": {
       "previous": "Vorige",
@@ -303,7 +304,29 @@
         "ASTAPLocation": "ASTAP-locatie",
         "Filter": "Plate Solving Filter",
         "FilterCurrent": "Huidig",
-        "FilterHint": "Filter gebruikt tijdens plate solving (overschrijft het huidige filter)"
+        "FilterHint": "Filter gebruikt tijdens plate solving (overschrijft het huidige filter)",
+        "astapDatabaseAllInstalled": "Alle ASTAP-sterrendatabases zijn al geïnstalleerd.",
+        "astapDatabaseDescription": "Installeer ontbrekende ASTAP-sterrendatabases rechtstreeks op uw PINS-apparaat.",
+        "astapDatabaseInstall": "Installeren",
+        "astapDatabaseInstallFailed": "Installatie van ASTAP-sterrendatabase mislukt{exitCode}.",
+        "astapDatabaseInstallSuccess": "ASTAP-sterrendatabase {databaseId} is succesvol geïnstalleerd.",
+        "astapDatabaseInstalling": "Installeren...",
+        "astapDatabaseJobStarted": "begonnen",
+        "astapDatabaseJobStartedMessage": "Installatietaak gestart voor {databaseId}.",
+        "astapDatabaseJobStatus": "Taak {jobId}: {status}",
+        "astapDatabaseLastChecked": "Laatst gecontroleerd: {value}",
+        "astapDatabaseLoadFailed": "Kan databases niet laden: {detail}",
+        "astapDatabaseMissingJobId": "Installatieverzoek is geslaagd, maar er is geen jobId geretourneerd.",
+        "astapDatabaseNoInstallable": "Er zijn geen installeerbare ASTAP-sterrendatabases beschikbaar",
+        "astapDatabaseSelectPlaceholder": "Selecteer een databank",
+        "astapDatabaseStartFailed": "Kan de installatie niet starten: {detail}",
+        "astapDatabaseStartInstall": "Installatie starten voor {databaseId}...",
+        "astapDatabaseStarting": "Beginnen...",
+        "astapDatabaseStatusCheckFailedRetrying": "Statuscontrole mislukt: {detail}. \nOpnieuw proberen...",
+        "astapDatabaseTitle": "ASTAP Star-database (PINS)",
+        "astapDatabaseUnauthorizedStart": "Ongeautoriseerd tijdens het starten van de installatie van de ASTAP-sterrendatabase.",
+        "astapDatabaseUnauthorizedStatus": "Ongeautoriseerd tijdens het controleren van de installatiestatus.",
+        "astapDatabaseUnknownError": "Onbekende fout"
       },
       "equipment": {
         "title": "Apparatuur",
@@ -334,7 +357,10 @@
         "notSupported": "Niet ondersteund door stuurprogramma",
         "syncLabel": "Synchroniseer de tijd om te mounten",
         "syncLabelInfo": "Indien ingeschakeld wordt bij het klikken op \"Nu synchroniseren\" de montuur kort verbroken en opnieuw verbonden zodat NINA de huidige tijd kan overdragen.",
-        "title": "Tijdsynchronisatie"
+        "title": "Tijdsynchronisatie",
+        "loadError": "Kan tijdinformatie niet laden.",
+        "syncError": "Tijdsynchronisatie mislukt. \nControleer de verbinding met het PINS-apparaat.",
+        "syncSuccess": "Tijd succesvol gesynchroniseerd."
       },
       "navbarCustomization": {
         "alwaysVisible": "Altijd zichtbaar",
@@ -366,7 +392,10 @@
       "horizonFilePath": {
         "title": "Horizonbestand",
         "placeholder": "bijv. /home/pi/horizon.hrz",
-        "toastTitle": "Horizonbestand opgeslagen"
+        "toastTitle": "Horizonbestand opgeslagen",
+        "clearTitle": "Horizonbestandspad wissen",
+        "confirmTitle": "Horizonbestandspad wissen",
+        "confirmMessage": "Weet u zeker dat u het horizonbestandspad wilt wissen?"
       }
     },
     "alpacaDirect": {
@@ -408,7 +437,8 @@
         "guideCamRequired": "Er moet een geldige guidecamera geselecteerd zijn."
       },
       "guiderCam": {
-        "name": "Gidscamera"
+        "name": "Gidscamera",
+        "manualVnc": "Handmatig via VNC"
       },
       "safety": {
         "name": "Veiligheidsmonitor"
@@ -771,6 +801,9 @@
           "slope": "Helling",
           "intercept": "Afsnijpunt",
           "absolute": "Absoluut"
+        },
+        "startGuiding": {
+          "forceCalibrationLabel": "Kalibratie forceren"
         }
       },
       "emptyContainer": "Leeg — klik op + om items toe te voegen",
@@ -944,7 +977,10 @@
         "camera": "Camera",
         "cameraGain": "Gain",
         "cameraBinning": "Binning",
-        "restoreCalibration": "Kalibratie herstellen",
+        "restoreCalibration": "Kalibratie autom. herstellen",
+        "mountSettings": "Montering",
+        "guideRate": "Guide Rate",
+        "guideRateReadOnly": "Alleen lezen",
         "guiderScale": "Gidsschaal",
         "maxY": "Max Y",
         "historySize": "Geschiedenisgrootte",
@@ -1015,11 +1051,125 @@
           "rightAscension": "Rechte Hemelvaart",
           "title": "Controleer kalibratie"
         },
+        "darkLibrary": {
+          "title": "Dark library",
+          "manage": "Dark library beheren",
+          "info": "Maak een dark library door dark frames op te nemen met verschillende belichtingstijden. PHD2 gebruikt deze om sensorruis uit de guidingbeelden te verwijderen.",
+          "warning": "Tijdens het bouwen is PHD2 geblokkeerd — alle andere PHD2-acties zijn uitgeschakeld.",
+          "status": "Status",
+          "exists": "Library aanwezig",
+          "loaded": "Geladen",
+          "notLoaded": "Niet geladen",
+          "noLibrary": "Geen dark library gevonden",
+          "numDarks": "Aantal darks",
+          "range": "Belichtingsbereik",
+          "minExposure": "Min. belichting (s)",
+          "maxExposure": "Max. belichting (s)",
+          "frameCount": "Beelden per belichting",
+          "previewExposures": "Belichtingstijden",
+          "totalFrames": "Totaal beelden",
+          "build": "Aanmaken",
+          "cancel": "Bouwen annuleren",
+          "building": "Bezig met bouwen",
+          "buildProgress": "Beeld {frame} / {total} – {exposure} s",
+          "load": "Laden",
+          "unload": "Ontladen",
+          "delete": "Verwijderen",
+          "confirmDelete": "Klik opnieuw om te bevestigen",
+          "buildSuccess": "Dark library succesvol aangemaakt",
+          "buildFailed": "Aanmaken dark library mislukt",
+          "buildCancelled": "Bouwen geannuleerd",
+          "invalidRange": "Min. belichting moet kleiner of gelijk zijn aan max. belichting",
+          "buildActive": "Dark library bouw actief",
+          "buildActiveMessage": "PHD2-acties zijn geblokkeerd tot het bouwen klaar is."
+        },
+        "imageDisplay": "Beeldweergave",
+        "imageGamma": "Stretching (Gamma)",
+        "imageGammaHint": "Laag = sterk gestretcht, Hoog = lineair",
         "reviewCalibration": "Controleer kalibratie",
         "starComponents": {
           "hide": "Stercomponenten verbergen",
           "show": "Toon stercomponenten"
-        }
+        },
+        "applyStep": "Toepassen",
+        "calculatedStep": "Berekende stap",
+        "calibDistance": "Afstand",
+        "calibStepCalc": "Stapgroottecalculator",
+        "declination": "Declinatie",
+        "desiredSteps": "Gewenste stappen",
+        "guideSpeed": "Begeleidingssnelheid",
+        "imageScale": "Beeldschaal",
+        "optimal": "Optimaal",
+        "pixelSize": "Pixelgrootte",
+        "assumeDecOrthogonal": "Dec orthogonaal op RA aannemen",
+        "useDecCompensation": "Dec-compensatie gebruiken",
+        "fastRecenter": "Snel hercentreren na kalibratie of dither",
+        "mountGuideOutput": "Guide-uitvoer naar montering inschakelen",
+        "help": {
+          "fastRecenter": "Tijdens kalibratie of dither kan de montering ver van de lock-positie bewegen. Indien aan keert PHD2 zo snel mogelijk terug om tijd te besparen — volledig optioneel. Als kalibratie vaak mislukt doordat de ster te snel terugspringt, schakel het dan uit (vaak een teken van grote uitlijn- of periodieke fout).",
+          "mountGuideOutput": "Laat PHD2 daadwerkelijk guide-commando’s naar de montering sturen. Normaal aan; schakel alleen uit om het ongecorrigeerde gedrag van de montering te bekijken.",
+          "searchRegion": "Grootte van de volgrechthoek in pixels (een straal: 15 komt overeen met een 30×30-vak). Verhoog deze als de montering slecht volgt of niet goed op de pool is uitgelijnd; een te groot gebied kan meerdere sterren bevatten en het guiden verslechteren.",
+          "minStarHFD": "Kleinste halfflux-diameter (de «grootte») die een ster moet hebben om als gidsster te dienen — de beste manier om te voorkomen dat PHD2 op clusters hete pixels vastloopt. ~1,5 voldoet voor de meeste opstellingen; verhoog alleen als echte zwakke sterren worden afgewezen.",
+          "maxStarHFD": "Grootste toegestane halfflux-diameter voor een gidsster; opgeblazen of onscherpe vlekken daarboven worden bij de selectie genegeerd.",
+          "massChangeEnabled": "Bewaakt helderheid en grootte van de gidsster ten opzichte van de achtergrond. Verouderd — meestal beter uit; schakel alleen in om zeker te zijn dat PHD2 niet naar een nabije ster overschakelt.",
+          "massChangeThreshold": "Met stermassa-detectie aan meldt PHD2 «ster verloren» als helderheid of grootte meer dan dit percentage verandert. Verhoog deze (of schakel detectie uit) als je vaak «ster verloren – massaverandering»-fouten krijgt terwijl de ster duidelijk zichtbaar is.",
+          "minStarSNR": "Minimale SNR die een ster nodig heeft voor automatische selectie (niet-verzadigde sterren). Wijzig dit alleen als je ervaren bent: een te hoge waarde kan ervoor zorgen dat geen ster wordt gekozen; de darkbibliotheek verversen of langer belichten is meestal beter.",
+          "useMultipleStars": "Guidet op meerdere sterren tegelijk in plaats van één, wat de stabiliteit verbetert. Niet beschikbaar bij subframes.",
+          "autoSelectDownsample": "Voor zeldzame gevallen waarin automatische selectie mislukt omdat sterren vervormd lijken. Laat op «Auto» staan; waarden boven 1 kunnen de herkenning verbeteren.",
+          "saturationByADU": "Hoe PHD2 verzadigde sterren detecteert om ze te vermijden. «Op ADU-waarde» gebruikt de door de sensor gerapporteerde helderheid (aanbevolen); het alternatief beoordeelt verzadiging op de profielvorm en is minder nauwkeurig.",
+          "saturationADUValue": "Pixelwaarde waarbij een ster als verzadigd geldt (8-bit camera’s ≈ 255, 16-bit ≈ 65535). Bij twijfel: stel in op de maximale pixelwaarde van je camera.",
+          "cameraGain": "Gain van de guidecamera als percentage van het camerabereik (bijv. 50 % komt overeen met gain 60 op een 40–80-camera). Lagere gain vermindert ruis; hoeft meestal niet meer gewijzigd te worden zodra de opstelling stabiel is.",
+          "cameraBinning": "Hardware-binning voor guide-opnamen — verhoogt de gevoeligheid en versnelt het downloaden ten koste van resolutie. Gebruik een apart PHD2-profiel per binningwaarde.",
+          "focalLength": "Brandpuntsafstand van de gidskijker in millimeters. Samen met de pixelgrootte bepaalt dit de beeldschaal en laat PHD2 het guiden in boogseconden weergeven, dus stel deze correct in.",
+          "calibrationStep": "Duur van elke guide-puls tijdens de kalibratie. Streef naar een waarde die 8–14 stappen per richting geeft en kalibreer nabij de hemelevenaar (declinatie ≈ 0).",
+          "restoreCalibration": "Laadt automatisch de laatste kalibratie bij het verbinden van de apparatuur (handig voor ASCOM/INDI- of aux-mount-opstellingen). Als je dit gebruikt, mag de guidecamera niet gedraaid zijn t.o.v. de kijker of de hemel.",
+          "assumeDecOrthogonal": "PHD2 meet de camerahoeken voor RA en Dec normaal onafhankelijk. Forceer de Dec-hoek loodrecht op RA om te helpen bij zeer hoge periodieke fout, grote Dec-speling of slecht seeing.",
+          "useDecCompensation": "Past de RA-guidesnelheid automatisch aan de huidige declinatie aan (vereist een ASCOM/INDI-monteringsverbinding). Laat aan staan behalve in ongewone gevallen. Niet te verwarren met declinatie-spelingcompensatie.",
+          "reverseDecAfterFlip": "Vertelt PHD2 hoe de kalibratie aan te passen na een meridiaanflip. Laat uit als het guiden normaal is na een flip; schakel alleen in (en herkalibreer) als je een op hol geslagen guiden in declinatie ziet.",
+          "guideAlgorithm": "Kiest het guide-algoritme voor deze as. Hysteresis weegt recente correcties tegen de laatste afwijking; ResistSwitch weerstaat richtingswisselingen (goed voor Dec-speling); LowPass/LowPass2 zijn behoudende keuzes voor goede monteringen; Predictive PEC (PPEC) modelleert en corrigeert periodieke fout vooraf (RA); ZFilter werkt in het frequentiedomein. De standaardwaarden voldoen voor de meeste gebruikers.",
+          "algo": {
+            "minMove": "Kleinste sterafwijking (in pixels) die een correctie activeert; kleinere bewegingen worden genegeerd om het seeing niet achterna te jagen. De parameter die het meest de moeite waard is om per nacht aan te passen aan de omstandigheden.",
+            "maxMove": "Grootste guide-correctie die in één keer is toegestaan (pixels); begrenst overreactie op een enkele grote sprong.",
+            "aggression": "Hoe sterk elke gemeten fout wordt gecorrigeerd, in procenten. 100 % past de volledige correctie toe; lagere waarden (bijv. 60 %) corrigeren minder om overschot te voorkomen. Lager is veiliger.",
+            "hysteresis": "Gewicht dat aan de geschiedenis van recente correcties wordt gegeven t.o.v. het huidige frame, in procenten. Hoge waarden vereffenen de correcties maar reageren trager op een echte richtingswisseling.",
+            "predictiveWeight": "Predictive PEC: gewicht van het voorspelde (gemodelleerde) deel van de correctie. Standaardwaarden voldoen voor de meeste monteringen; grote wijzigingen kunnen het guiden verslechteren.",
+            "reactiveWeight": "Predictive PEC: gewicht van het reactieve deel, gebaseerd op de sterverplaatsing in het laatste frame. Standaardwaarden voldoen voor de meeste monteringen.",
+            "slopeWeight": "LowPass: hoezeer de recente trend (de helling) van de sterbeweging de correctie beïnvloedt, in procenten. Voorkomt dat het algoritme te traag wordt; 0 gebruikt alleen de mediaan van de recente geschiedenis.",
+            "expFactor": "ZFilter: de virtuele belichtingstijd is de werkelijke belichting × deze factor. Hoge waarden filteren meer seeing weg (vloeiender maar trager); een virtuele belichting van ~2–4 s is een goed startpunt voor RA."
+          },
+          "ditherMode": "Hoe PHD2 elke dither berekent. «Willekeurig» kiest grootte en richting willekeurig; «Spiraal» gebruikt stappen van vaste grootte in een spiraal met de klok mee — handig als de opnamecamera vast patroonruis heeft of de montering hinderlijke Dec-speling heeft.",
+          "ditherRaOnly": "Dithering alleen op de RA-as. Handig wanneer Dec-guiden uit staat of de montering veel Dec-speling heeft.",
+          "ditherScale": "Vermenigvuldiger voor de door de opnamesoftware gevraagde dither-hoeveelheid — verhoog voor grotere, verlaag voor kleinere dithers.",
+          "backlashEnabled": "Compenseert DEC-backlash door een extra puls toe te voegen wanneer de montering van richting verandert. Handig voor monteringen met merkbare tandwielspeling; laat uit als de montering schoon guidet in DEC.",
+          "backlashAmount": "Lengte van de extra correctiepuls (in ms) die PHD2 toevoegt bij een DEC-richtingsomkering. PHD2 stemt deze automatisch af tussen Min en Max.",
+          "backlashMin": "Ondergrens (ms) voor de automatisch aangepaste backlash-puls.",
+          "backlashMax": "Bovengrens (ms) voor de automatisch aangepaste backlash-puls."
+        },
+        "starDetection": "Volgen van de gidsster",
+        "searchRegion": "Zoekgebied (pixels)",
+        "minStarHFD": "Minimale ster-HFD (pixels)",
+        "maxStarHFD": "Maximale ster-HFD (pixels)",
+        "beepForLostStar": "Pieptoon bij verloren ster",
+        "starMassDetection": "Stermassa-detectie",
+        "massChangeEnabled": "Ingeschakeld",
+        "massChangeThreshold": "Tolerantie",
+        "backlash": {
+          "title": "Backlash-compensatie",
+          "enabled": "Ingeschakeld",
+          "amount": "Hoeveelheid (ms)",
+          "min": "Min (ms)",
+          "max": "Max (ms)"
+        },
+        "minStarSNR": "Minimale ster-SNR voor AutoFind",
+        "autoSelectDownsample": "Downsampling van selectieframes",
+        "saturationByADU": "Verzadiging via ADU",
+        "saturationADUValue": "Verzadigings-ADU-waarde",
+        "dither": "Dithering",
+        "ditherMode": "Dither-modus",
+        "ditherRaOnly": "Dither alleen RA",
+        "ditherScale": "Dither-schaal",
+        "ditherModeRandom": "Willekeurig",
+        "ditherModeSpiral": "Spiraal"
       }
     },
     "focuser": {
@@ -1452,7 +1602,15 @@
       "status_stopped_darks": "Vroeg gestopt - {voltooid} van {totaal} duisternis vastgelegd",
       "status_stopped_flats": "Vroeg gestopt - {voltooid} van {totaal} flats veroverd",
       "status_success_darks": "Klaar - {count} darks vastgelegd",
-      "status_success_flats": "Klaar - {count} flats veroverd"
+      "status_success_flats": "Klaar - {count} flats veroverd",
+      "filter_label": "Filter",
+      "result_bright": "te helder",
+      "result_dim": "te zwak",
+      "status_completed_flats": "Voltooid",
+      "status_failed_flats_multi": "Alle filters konden geen geldige blootstelling vaststellen",
+      "status_partial_flats_multi": "Mislukte filters: {filters}",
+      "status_running_unknown": "Bepalend…",
+      "target": "Doel"
     },
     "weatherModal": {
       "weatherInformation": "Weer Informatie",
@@ -1479,7 +1637,13 @@
     },
     "switch": {
       "gauges": "Meters",
-      "switch": "Schakelaar"
+      "switch": "Schakelaar",
+      "indi": {
+        "settings": "Schakel instellingen"
+      },
+      "sv241pro": {
+        "preConnectDelay": "Vertraging vóór verbinding (ms)"
+      }
     },
     "stellarium": {
       "selected_object": {
@@ -1505,7 +1669,24 @@
         "atmosphere_visible": "Toon atmosfeer",
         "landscapes_visible": "Toon landschap",
         "dsos_visible": "Deep Sky-objecten (Messier, NGC)",
-        "title": "Instellingen"
+        "title": "Instellingen",
+        "landscape_source_mode": "Landscape source",
+        "landscape_source_default": "Default landscape (Guereins)",
+        "landscape_source_neutral": "Neutral horizon (Gray)",
+        "landscape_source_custom": "Custom data source",
+        "custom_landscape_url": "Custom source URL",
+        "custom_landscape_url_placeholder": "e.g. /stellarium-data/landscapes/custom",
+        "custom_landscape_key": "Custom source key",
+        "custom_landscape_key_placeholder": "e.g. my-landscape",
+        "available_landscapes": "Beschikbare landschappen",
+        "folder_name_label": "mapnaam",
+        "has_allsky": "Allski",
+        "landscape_list_load_failed": "Kan landschappen niet laden.",
+        "landscape_option_label": "Landschap: {titel}",
+        "no_allsky": "Geen allski",
+        "no_landscapes_available": "Geen landschappen beschikbaar.",
+        "service_url_label": "serviceUrl",
+        "untitled_landscape": "Zonder titel landschap"
       }
     },
     "profile": {
@@ -1750,7 +1931,11 @@
         "pluginUninstallStart": "Plug-in verwijderen: {packageName}",
         "pluginsLoadFailed": "Kan PINS-plug-ins niet laden: {message}",
         "pluginsPackageNotAllowed": "Pakket niet toegestaan ​​door API-beleid: {packageName}",
-        "pluginsLoadMetadataFailed": "PINS-plug-ins kunnen niet worden geladen omdat de opslagplaats voor metagegevens van plug-ins momenteel niet beschikbaar is (HTTP 502)."
+        "pluginsLoadMetadataFailed": "PINS-plug-ins kunnen niet worden geladen omdat de opslagplaats voor metagegevens van plug-ins momenteel niet beschikbaar is (HTTP 502).",
+        "hotspotChannelInvalid": "Hotspotkanaal moet een positief geheel getal zijn, indien opgegeven.",
+        "hotspotFetchFailed": "Kan hotspot-instellingen niet laden: {message}",
+        "hotspotPasswordInvalidLength": "Hotspotwachtwoord is vereist en moet 8-63 tekens lang zijn.",
+        "hotspotSaveFailed": "Kan hotspot-instellingen niet opslaan: {message}"
       },
       "hotspotConfigured": "Er is een aangepast hotspotwachtwoord geconfigureerd.",
       "hotspotNewPassword": "Nieuw hotspot-wachtwoord",
@@ -1836,7 +2021,14 @@
       "indiInstallModalSuccessCompleted": "Installatie voltooid voor {label}.",
       "indiInstallModalSuccessStarted": "Installatie gestart voor {label}.",
       "indiInstallModalTitle": "Installeer het INDI-stuurprogramma",
-      "indiInstallModalType": "Type"
+      "indiInstallModalType": "Type",
+      "hotspotAppliedStatus": "Toegepast op actieve hotspot: {toegepast} | \nBand: {band} | \nKanaal: {kanaal}",
+      "hotspotBandAuto": "Automatisch / Uitgeschakeld",
+      "hotspotBandLabel": "Hotspotband",
+      "hotspotCapabilitiesUnavailable": "Lijst met adaptermogelijkheden niet beschikbaar; \nhandmatig kanaal toegestaan.",
+      "hotspotChannelLabel": "Hotspot-kanaal",
+      "hotspotChannelPlaceholder": "Laat leeg voor automatisch",
+      "hotspotMetaLine": "Bron: {bron} | \nInterface: {iface} | \nBand: {band} | \nKanaal: {kanaal}"
     },
     "bahtifocus": {
       "title": "Bahtinov Masker Analyse",
@@ -1992,6 +2184,39 @@
         "tokenCopyFailed": "Kopieer token mislukt",
         "submissionRemoved": "Verzending verwijdert",
         "allSubmissionsCleared": "Alle verzendingen verwijdert"
+      },
+      "diagnostics": {
+        "archiveId": "Archief-ID",
+        "autoDownloaded": "Het archief is automatisch gedownload en er is geprobeerd te uploaden.",
+        "dmesgLines": "dmesg-lijnen",
+        "download": "ZIP downloaden",
+        "downloadBusy": "Downloaden...",
+        "downloadFailed": "Kan diagnostisch archief niet downloaden.",
+        "intro": "Selecteer diagnostische secties, start het verzamelen van archief en download/upload de ZIP wanneer u klaar bent.",
+        "journalLines": "Journaalregels",
+        "loadingOptions": "Opties laden...",
+        "optionsLoadFailed": "Kan diagnostische opties niet laden. \nStandaardinstellingen gebruiken.",
+        "optionsLoaded": "Diagnostische opties geladen.",
+        "pollFailed": "Kan de diagnostische status niet opvragen.",
+        "refreshOptions": "Vernieuwingsopties",
+        "running": "Verzamelen...",
+        "sectionsTitle": "Secties",
+        "start": "Verzameling starten",
+        "startFailed": "Kan diagnostisch archief niet starten.",
+        "started": "Diagnostiekarchief gestart.",
+        "statusFailed": "Mislukt",
+        "statusIdle": "Inactief",
+        "statusLabel": "Status",
+        "statusQueued": "In de wachtrij",
+        "statusRunning": "Rennen",
+        "statusSuccess": "Succes",
+        "statusTimeout": "Time-out",
+        "stillPreparing": "Het archief is nog in voorbereiding. \nProbeer het binnenkort opnieuw te downloaden.",
+        "title": "Diagnostische ondersteuning (PINS)",
+        "uploaded": "Diagnostische ZIP geüpload naar ondersteuningseindpunt.",
+        "validationDmesgLines": "dmesg-regels moeten tussen 100 en 50000 liggen.",
+        "validationJournalLines": "Journaalregels moeten tussen 100 en 50.000 liggen.",
+        "validationSections": "Selecteer ten minste één sectie."
       }
     },
     "telescopius": {
@@ -2667,7 +2892,8 @@
         },
         "validation": {
           "passwordRequired": "Wachtwoord moet minimaal 8 tekens lang zijn"
-        }
+        },
+        "lensControl": "Lenscontrole"
       },
       "config": {
         "title": "Configuratie",
@@ -2779,7 +3005,23 @@
       },
       "meteoStation": "PINS.MeteoStation",
       "powerBox": "PINS.PowerBox",
-      "wifiTab": "WiFi"
+      "wifiTab": "WiFi",
+      "lensControl": {
+        "aperture": "Opening",
+        "calibrate": "Kalibreren",
+        "calibrating": "Kalibreren...",
+        "current": "Huidig",
+        "deviceInfo": "Apparaatinformatie",
+        "driver": "SDK-versie",
+        "firmware": "Firmware",
+        "focalLength": "Brandpuntsafstand",
+        "lens": "Lens",
+        "position": "Focuspositie",
+        "range": "Bereik",
+        "restart": "Start het apparaat opnieuw op",
+        "restarting": "Opnieuw opstarten...",
+        "set": "Set"
+      }
     },
     "shortcuts": {
       "title": "Sequentie-Shortcuts",
@@ -3494,7 +3736,10 @@
         "timeWindowEnd": "Einde van het tijdvenster",
         "timeWindowHint": "Laat het tijdvenster leeg om planning voor het volledige sessiebereik mogelijk te maken.",
         "timeWindowStart": "Tijdvenster starten",
-        "title": "Beperkingen"
+        "title": "Beperkingen",
+        "maxMoonAltitude": "Maximale maanhoogte",
+        "maxMoonAltitudeHint": "Stel deze in op 0° of lager om alleen een planning te maken als de maan zich onder de horizon bevindt.",
+        "minMoonSeparationInfo": "Minimale hoekafstand tussen doel en maan vereist voor planning."
       },
       "defaults": {
         "favoriteTargetName": "Favoriete doelwit",
@@ -3607,6 +3852,18 @@
       },
       "warnings": {
         "sequenceVersionRequired": "Voor het invoegen van sequenties is TNS-plug-in 1.2.8.0 (of PINS-modus) vereist."
+      },
+      "sessionModes": {
+        "moonRise": "Maan opkomst",
+        "moonSet": "Maan ingesteld",
+        "sunRise": "Zon opkomen",
+        "sunSet": "Zonsondergang",
+        "time": "Tijd",
+        "twilightEndAstronomical": "Het einde van de schemering is astronomisch",
+        "twilightEndNautical": "Schemering einde nautisch",
+        "twilightStartAstronomical": "De schemering begint astronomisch",
+        "twilightStartNautical": "Schemering start nautisch",
+        "now": "Nu"
       }
     },
     "filterOffset": {
@@ -3742,6 +3999,127 @@
         "guide": "Gidsgrafiek"
       },
       "title": "PHD2 Logviewer"
+    },
+    "supernovae": {
+      "title": "Supernovae",
+      "source": "Source: Rochester Astronomy active SN list",
+      "updated": "updated {d}",
+      "download": "Download",
+      "downloading": "Downloading…",
+      "noData": "No data loaded. Click Download to fetch the current active supernova list.",
+      "filterMag": "Max magnitude",
+      "filterType": "Type",
+      "filterTypePlaceholder": "e.g. Ia",
+      "filterYear": "Year",
+      "filterConstellation": "Constellation",
+      "filterAll": "All",
+      "filterNewOnly": "New only",
+      "filterVisibleOnly": "Visible tonight",
+      "visibleHint": "Based on observer location from NINA profile",
+      "visibleNoLocation": "No observer location — set location in NINA profile",
+      "sortBy": "Sort by",
+      "sortLatestMag": "Latest mag (brightest first)",
+      "sortFirstObserved": "Discovery date (newest first)",
+      "sortLastObserved": "Last observed (newest first)",
+      "showing": "Showing {n} of {total} entries",
+      "newCount": "{n} new",
+      "colName": "Name",
+      "colType": "Type",
+      "colLatestMag": "Latest mag",
+      "colMaxMag": "Max mag",
+      "colDiscovered": "Discovered",
+      "colLastObs": "Last obs",
+      "colConstellation": "Constellation",
+      "colHost": "Host galaxy",
+      "colRA": "RA",
+      "colDec": "Dec",
+      "frame": "Frame",
+      "frameTitle": "Send to framing assistant",
+      "fav": "Favourite",
+      "favTitle": "Add to favourites",
+      "favAdded": "Added {name} to favourites",
+      "favError": "Failed to add to favourites",
+      "visCircumpolar": "Circumpolar — always above horizon",
+      "visVisible": "Visible tonight",
+      "visHidden": "Below horizon tonight",
+      "page": "{n} / {total}"
+    },
+    "vncRemote": {
+      "debugModeWarning": "Debugmodus actief – VNC-verbinding niet beschikbaar. Schakel de debugmodus uit in de instellingen."
+    },
+    "landscaperCreator": {
+      "actions": {
+        "generate": "ZIP genereren",
+        "generating": "ZIP genereren..."
+      },
+      "details": {
+        "sectionTitle": "3) Landschapsdetails"
+      },
+      "errors": {
+        "imageLoadFailed": "De afbeelding kon niet worden geladen.",
+        "requestFailed": "Kan de liggende ZIP niet genereren."
+      },
+      "fields": {
+        "altitude": "Hoogte",
+        "author": "Auteur",
+        "description": "Beschrijving",
+        "folderName": "Mapnaam",
+        "folderNamePlaceholder": "automatisch gegenereerde-van-naam",
+        "latitude": "Breedte",
+        "longitude": "Lengte",
+        "name": "Landschapsnaam",
+        "namePlaceholder": "bijv. \nMijn observatiehorizon"
+      },
+      "folder": {
+        "autoHint": "Mapnamen worden opgeschoond naar een veilig formaat met kleine letters en onderstrepingstekens/afbreekstreepjes."
+      },
+      "image": {
+        "aspectRatio": "Beeldverhouding",
+        "aspectWarning": "De beeldverhouding van de geüploade afbeelding is {ratio}. \nEen 360-panorama moet bijna 2:1 zijn.",
+        "dimensions": "Afmetingen",
+        "fileName": "Bestandsnaam",
+        "fileSize": "Bestandsgrootte",
+        "remove": "Verwijderen",
+        "replace": "Panorama vervangen",
+        "sectionTitle": "1) Afbeelding uploaden",
+        "select": "Selecteer Panorama",
+        "typesHint": "Geaccepteerde formaten: PNG, JPEG, WebP"
+      },
+      "instructions": {
+        "line1": "Gebruik een equirectangulaire panoramaafbeelding van 360°.",
+        "line2": "Houd voor landschappen met alleen horizon de lucht waar mogelijk transparant.",
+        "line3": "Klik of sleep op het voorbeeld waar het geografische noorden zou moeten zijn.",
+        "line4": "Download de ZIP en pak deze uit in de map Stellarium Web Landscapes.",
+        "title": "Hoe u uw inbreng voorbereidt"
+      },
+      "preview": {
+        "currentNorth": "noordOffsetDeg:",
+        "empty": "Upload een panoramaafbeelding om voorbeeld in te schakelen.",
+        "help": "Klik of sleep horizontaal op het panorama om in te stellen waar het geografische noorden zich bevindt.",
+        "imageAlt": "Panoramavoorbeeld geüpload",
+        "quickCenter": "Noord in het midden",
+        "quickLeft": "Noord aan de linkerrand",
+        "quickReset": "Opnieuw instellen",
+        "sectionTitle": "2) Panoramavoorbeeld en noordmarkering",
+        "signHint": "Als het gegenereerde landschap gespiegeld lijkt of in de verkeerde richting is gedraaid, moet het offsetteken mogelijk worden omgekeerd, afhankelijk van de backend-conventie."
+      },
+      "subtitle": "Upload een 360-panorama, markeer het geografische noorden en genereer een Stellarium landschap-ZIP.",
+      "title": "Stellarium Landschapsmaker",
+      "toast": {
+        "errorTitle": "Het genereren van landschappen is mislukt",
+        "invalidFileType": "Niet-ondersteund bestandstype. \nUpload PNG, JPEG of WebP.",
+        "successMessage": "{bestandsnaam} gedownload",
+        "successTitle": "Liggend ZIP klaar",
+        "validationTitle": "Geldigmaking",
+        "successMessageSaved": "{bestandsnaam} opgeslagen in {path}."
+      },
+      "validation": {
+        "fixErrors": "Corrigeer de gemarkeerde velden.",
+        "folderNameInvalid": "Mapnaam bevat ongeldige tekens.",
+        "folderNameRequired": "Mapnaam is vereist.",
+        "imageRequired": "Upload een afbeeldingsbestand.",
+        "nameRequired": "Landschapsnaam is vereist."
+      }
     }
   },
   "pinsDevices": {
@@ -3950,7 +4328,9 @@
       "autoDetect": "Automatische detectie",
       "ipAddress": "IP-adres",
       "tcpPort": "TCP-poort",
-      "selectPort": "-- Selecteer een poort --"
+      "selectPort": "-- Selecteer een poort --",
+      "manualPort": "Handmatig…",
+      "manualPortPath": "Handmatige poort"
     }
   },
   "nav": {

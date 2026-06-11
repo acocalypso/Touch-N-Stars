@@ -27,9 +27,13 @@
     />
     <StatusString
       v-if="isWandererCover"
-      :isEnabled="currentPosition !== undefined && !isNaN(currentPosition)"
+      :isEnabled="typeof currentPosition === 'number' && !isNaN(currentPosition)"
       :Name="$t('components.flat.settings.currentPosition')"
-      :Value="`${currentPosition.toFixed(1)}°`"
+      :Value="
+        typeof currentPosition === 'number' && !isNaN(currentPosition)
+          ? `${currentPosition.toFixed(1)}°`
+          : ''
+      "
     />
   </div>
 </template>

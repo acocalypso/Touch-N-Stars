@@ -1,0 +1,10 @@
+{
+  "id": "supernovae",
+  "name": "Supernovae",
+  "description": "Browse active supernovae from the Rochester Astronomy catalogue. Filter by magnitude and discovery date, see new discoveries highlighted, and send any target to the framing assistant.",
+  "version": "1.0.0",
+  "author": "Florin Dumitrescu",
+  "defaultEnabled": false,
+  "enabled": true,
+  "isPins": false
+}

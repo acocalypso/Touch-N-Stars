@@ -10,7 +10,7 @@ android {
         applicationId "com.TouchNStars.dev"  // Must match package in MainActivity.java
         minSdkVersion 29  // Android 10
         versionCode 54
-        versionName "4.7.0"
+        versionName "5.0.0"
         targetSdkVersion 36
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
         aaptOptions {

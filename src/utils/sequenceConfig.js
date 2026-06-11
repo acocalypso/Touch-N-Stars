@@ -69,6 +69,8 @@ export const excludedKeys = new Set([
   'ComboBoxText',
   'Xfilter',
   'TPAPAVM',
+  'WindowService',
+  'EmbedEdgeColor',
 ]);
 
 export const excludedKeysConditions = new Set([

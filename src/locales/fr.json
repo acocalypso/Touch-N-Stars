@@ -392,7 +392,10 @@
       "horizonFilePath": {
         "title": "Fichier d'horizon",
         "placeholder": "ex. /home/pi/horizon.hrz",
-        "toastTitle": "Fichier d'horizon enregistré"
+        "toastTitle": "Fichier d'horizon enregistré",
+        "clearTitle": "Effacer le chemin du fichier d'horizon",
+        "confirmTitle": "Effacer le chemin du fichier d'horizon",
+        "confirmMessage": "Voulez-vous vraiment effacer le chemin du fichier d'horizon ?"
       }
     },
     "alpacaDirect": {
@@ -727,6 +730,39 @@
         },
         "annotation": {
           "text": "Texte"
+        },
+        "groundstation": {
+          "message": "Message",
+          "title": "Titre",
+          "subject": "Sujet",
+          "body": "Corps",
+          "recipient": "Destinataire",
+          "topic": "Topic",
+          "payload": "Payload",
+          "qos": "QoS",
+          "retain": "Retain",
+          "description": "Description",
+          "method": "Méthode",
+          "url": "URL",
+          "contentType": "Type de contenu",
+          "username": "Nom d'utilisateur",
+          "password": "Mot de passe",
+          "showEmbed": "Afficher l'embed",
+          "embedTitle": "Titre de l'embed",
+          "embedText": "Texte de l'embed",
+          "eventName": "Nom de l'événement",
+          "value1": "Valeur 1",
+          "value2": "Valeur 2",
+          "value3": "Valeur 3",
+          "priority": "Priorité",
+          "notificationSound": "Son de notification",
+          "tags": "Tags",
+          "channel": "Canal",
+          "doNotNotify": "Notification silencieuse",
+          "address": "Adresse",
+          "port": "Port",
+          "payloadType": "Type de payload",
+          "lineTermination": "Fin de ligne"
         },
         "waitUntil": {
           "predicate": "Condition"

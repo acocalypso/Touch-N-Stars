@@ -392,7 +392,10 @@
       "horizonFilePath": {
         "title": "Soubor horizontu",
         "placeholder": "např. /home/pi/horizon.hrz",
-        "toastTitle": "Soubor horizontu uložen"
+        "toastTitle": "Soubor horizontu uložen",
+        "clearTitle": "Vymazat cestu souboru horizontu",
+        "confirmTitle": "Vymazat cestu souboru horizontu",
+        "confirmMessage": "Opravdu chcete vymazat cestu souboru horizontu?"
       }
     },
     "alpacaDirect": {
@@ -727,6 +730,39 @@
         },
         "annotation": {
           "text": "Text"
+        },
+        "groundstation": {
+          "message": "Zpráva",
+          "title": "Titulek",
+          "subject": "Předmět",
+          "body": "Obsah",
+          "recipient": "Příjemce",
+          "topic": "Topic",
+          "payload": "Payload",
+          "qos": "QoS",
+          "retain": "Retain",
+          "description": "Popis",
+          "method": "Metoda",
+          "url": "URL",
+          "contentType": "Typ obsahu",
+          "username": "Uživatelské jméno",
+          "password": "Heslo",
+          "showEmbed": "Zobrazit embed",
+          "embedTitle": "Titulek embedu",
+          "embedText": "Text embedu",
+          "eventName": "Název události",
+          "value1": "Hodnota 1",
+          "value2": "Hodnota 2",
+          "value3": "Hodnota 3",
+          "priority": "Priorita",
+          "notificationSound": "Zvuk oznámení",
+          "tags": "Tagy",
+          "channel": "Kanál",
+          "doNotNotify": "Tiché oznámení",
+          "address": "Adresa",
+          "port": "Port",
+          "payloadType": "Typ payloadu",
+          "lineTermination": "Konec řádku"
         },
         "waitUntil": {
           "predicate": "Stav"

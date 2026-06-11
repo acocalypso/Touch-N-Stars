@@ -276,7 +276,10 @@
       "horizonFilePath": {
         "title": "호라이즌 파일",
         "placeholder": "예: /home/pi/horizon.hrz",
-        "toastTitle": "호라이즌 파일 저장됨"
+        "toastTitle": "호라이즌 파일 저장됨",
+        "clearTitle": "지평선 파일 경로 지우기",
+        "confirmTitle": "지평선 파일 경로 지우기",
+        "confirmMessage": "지평선 파일 경로를 지우시겠습니까?"
       },
       "image": {
         "title": "이미지",
@@ -779,6 +782,39 @@
         },
         "annotation": {
           "text": "텍스트"
+        },
+        "groundstation": {
+          "message": "메시지",
+          "title": "제목",
+          "subject": "메일 제목",
+          "body": "본문",
+          "recipient": "받는 사람",
+          "topic": "토픽",
+          "payload": "페이로드",
+          "qos": "QoS",
+          "retain": "Retain",
+          "description": "설명",
+          "method": "메서드",
+          "url": "URL",
+          "contentType": "콘텐츠 유형",
+          "username": "사용자 이름",
+          "password": "비밀번호",
+          "showEmbed": "임베드 표시",
+          "embedTitle": "임베드 제목",
+          "embedText": "임베드 텍스트",
+          "eventName": "이벤트 이름",
+          "value1": "값 1",
+          "value2": "값 2",
+          "value3": "값 3",
+          "priority": "우선순위",
+          "notificationSound": "알림음",
+          "tags": "태그",
+          "channel": "채널",
+          "doNotNotify": "무음 알림",
+          "address": "주소",
+          "port": "포트",
+          "payloadType": "페이로드 유형",
+          "lineTermination": "줄 끝"
         },
         "waitUntil": {
           "predicate": "조건"

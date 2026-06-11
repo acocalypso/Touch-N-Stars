@@ -362,7 +362,10 @@
       "horizonFilePath": {
         "title": "Файл горизонту",
         "placeholder": "напр. /home/pi/horizon.hrz",
-        "toastTitle": "Файл горизонту збережено"
+        "toastTitle": "Файл горизонту збережено",
+        "clearTitle": "Очистити шлях до файлу горизонту",
+        "confirmTitle": "Очистити шлях до файлу горизонту",
+        "confirmMessage": "Ви впевнені, що хочете очистити шлях до файлу горизонту?"
       },
       "navbarCustomization": {
         "title": "Налаштування панелі навігації",
@@ -716,6 +719,39 @@
         },
         "annotation": {
           "text": "Текст"
+        },
+        "groundstation": {
+          "message": "Повідомлення",
+          "title": "Заголовок",
+          "subject": "Тема",
+          "body": "Текст",
+          "recipient": "Отримувач",
+          "topic": "Топік",
+          "payload": "Payload",
+          "qos": "QoS",
+          "retain": "Retain",
+          "description": "Опис",
+          "method": "Метод",
+          "url": "URL",
+          "contentType": "Тип вмісту",
+          "username": "Ім'я користувача",
+          "password": "Пароль",
+          "showEmbed": "Показати embed",
+          "embedTitle": "Заголовок embed",
+          "embedText": "Текст embed",
+          "eventName": "Назва події",
+          "value1": "Значення 1",
+          "value2": "Значення 2",
+          "value3": "Значення 3",
+          "priority": "Пріоритет",
+          "notificationSound": "Звук сповіщення",
+          "tags": "Теги",
+          "channel": "Канал",
+          "doNotNotify": "Тихе сповіщення",
+          "address": "Адреса",
+          "port": "Порт",
+          "payloadType": "Тип payload",
+          "lineTermination": "Кінець рядка"
         },
         "waitUntil": {
           "predicate": "Умова"

@@ -73,6 +73,7 @@ import MoveFocuserAbsoluteItem from './MoveFocuserAbsoluteItem.vue';
 import MoveFocuserRelativeItem from './MoveFocuserRelativeItem.vue';
 import MoveFocuserByTemperatureItem from './MoveFocuserByTemperatureItem.vue';
 import StartGuidingItem from './StartGuidingItem.vue';
+import GroundStationItem from './GroundStationItem.vue';
 import GenericItem from './GenericItem.vue';
 
 export const ITEM_COMPONENTS = {
@@ -189,6 +190,27 @@ export const ITEM_COMPONENTS = {
   'Orbuculum.Instructions.LoopWhileNextTargetHourAngle': OrbuculumNextTargetHourAngleItem,
   'NINA.Plugin.NightSummary.Sequencer.NightSummaryInstruction': GenericItem,
   'NINA.Plugin.NightSummary.Sequencer.NightSummaryEndInstruction': GenericItem,
+  'DaleGhent.NINA.GroundStation.SendToMqtt.SendToMqtt': GroundStationItem,
+  'DaleGhent.NINA.GroundStation.SendToEmail.SendToEmail': GroundStationItem,
+  'DaleGhent.NINA.GroundStation.HTTP.HttpClient': GroundStationItem,
+  'DaleGhent.NINA.GroundStation.DiscordWebhook.SendToDiscordWebhook': GroundStationItem,
+  'DaleGhent.NINA.GroundStation.SendToIftttWebhook.SendToIftttWebhook': GroundStationItem,
+  'DaleGhent.NINA.GroundStation.NtfySh.SendToNtfySh': GroundStationItem,
+  'DaleGhent.NINA.GroundStation.SendToPushover.SendToPushover': GroundStationItem,
+  'DaleGhent.NINA.GroundStation.Slack.SendToSlack': GroundStationItem,
+  'DaleGhent.NINA.GroundStation.SendToTelegram.SendToTelegram': GroundStationItem,
+  'DaleGhent.NINA.GroundStation.IpProtocols.SendUdp': GroundStationItem,
+  'DaleGhent.NINA.GroundStation.FailuresToDiscordWebhookTrigger.FailuresToDiscordWebhookTrigger':
+    GroundStationItem,
+  'DaleGhent.NINA.GroundStation.FailuresToEmailTrigger.FailuresToEmailTrigger': GroundStationItem,
+  'DaleGhent.NINA.GroundStation.FailuresToIftttTrigger.FailuresToIftttTrigger': GroundStationItem,
+  'DaleGhent.NINA.GroundStation.FailuresToMqttTrigger.FailuresToMqttTrigger': GroundStationItem,
+  'DaleGhent.NINA.GroundStation.NtfySh.FailuresToNtfySh': GroundStationItem,
+  'DaleGhent.NINA.GroundStation.FailuresToPushoverTrigger.FailuresToPushoverTrigger':
+    GroundStationItem,
+  'DaleGhent.NINA.GroundStation.Slack.FailuresToSlackTrigger': GroundStationItem,
+  'DaleGhent.NINA.GroundStation.FailuresToTelegramTrigger.FailuresToTelegramTrigger':
+    GroundStationItem,
 };
 
 export { GenericItem };

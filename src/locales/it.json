@@ -392,7 +392,10 @@
       "horizonFilePath": {
         "title": "File orizzonte",
         "placeholder": "es. /home/pi/horizon.hrz",
-        "toastTitle": "File orizzonte salvato"
+        "toastTitle": "File orizzonte salvato",
+        "clearTitle": "Cancella percorso file orizzonte",
+        "confirmTitle": "Cancella percorso file orizzonte",
+        "confirmMessage": "Sei sicuro di voler cancellare il percorso del file orizzonte?"
       }
     },
     "alpacaDirect": {
@@ -727,6 +730,39 @@
         },
         "annotation": {
           "text": "Testo"
+        },
+        "groundstation": {
+          "message": "Messaggio",
+          "title": "Titolo",
+          "subject": "Oggetto",
+          "body": "Corpo",
+          "recipient": "Destinatario",
+          "topic": "Topic",
+          "payload": "Payload",
+          "qos": "QoS",
+          "retain": "Retain",
+          "description": "Descrizione",
+          "method": "Metodo",
+          "url": "URL",
+          "contentType": "Tipo di contenuto",
+          "username": "Nome utente",
+          "password": "Password",
+          "showEmbed": "Mostra embed",
+          "embedTitle": "Titolo embed",
+          "embedText": "Testo embed",
+          "eventName": "Nome evento",
+          "value1": "Valore 1",
+          "value2": "Valore 2",
+          "value3": "Valore 3",
+          "priority": "Priorità",
+          "notificationSound": "Suono di notifica",
+          "tags": "Tag",
+          "channel": "Canale",
+          "doNotNotify": "Notifica silenziosa",
+          "address": "Indirizzo",
+          "port": "Porta",
+          "payloadType": "Tipo di payload",
+          "lineTermination": "Fine riga"
         },
         "waitUntil": {
           "predicate": "Condizioni"

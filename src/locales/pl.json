@@ -392,7 +392,10 @@
       "horizonFilePath": {
         "title": "Plik horyzontu",
         "placeholder": "np. /home/pi/horizon.hrz",
-        "toastTitle": "Plik horyzontu zapisany"
+        "toastTitle": "Plik horyzontu zapisany",
+        "clearTitle": "Wyczyść ścieżkę pliku horyzontu",
+        "confirmTitle": "Wyczyść ścieżkę pliku horyzontu",
+        "confirmMessage": "Czy na pewno chcesz wyczyścić ścieżkę pliku horyzontu?"
       }
     },
     "alpacaDirect": {
@@ -727,6 +730,39 @@
         },
         "annotation": {
           "text": "Tekst"
+        },
+        "groundstation": {
+          "message": "Wiadomość",
+          "title": "Tytuł",
+          "subject": "Temat",
+          "body": "Treść",
+          "recipient": "Odbiorca",
+          "topic": "Topic",
+          "payload": "Payload",
+          "qos": "QoS",
+          "retain": "Retain",
+          "description": "Opis",
+          "method": "Metoda",
+          "url": "URL",
+          "contentType": "Typ zawartości",
+          "username": "Nazwa użytkownika",
+          "password": "Hasło",
+          "showEmbed": "Pokaż embed",
+          "embedTitle": "Tytuł embedu",
+          "embedText": "Tekst embedu",
+          "eventName": "Nazwa zdarzenia",
+          "value1": "Wartość 1",
+          "value2": "Wartość 2",
+          "value3": "Wartość 3",
+          "priority": "Priorytet",
+          "notificationSound": "Dźwięk powiadomienia",
+          "tags": "Tagi",
+          "channel": "Kanał",
+          "doNotNotify": "Ciche powiadomienie",
+          "address": "Adres",
+          "port": "Port",
+          "payloadType": "Typ payloadu",
+          "lineTermination": "Koniec linii"
         },
         "waitUntil": {
           "predicate": "Warunek"

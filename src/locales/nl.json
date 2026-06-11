@@ -392,7 +392,10 @@
       "horizonFilePath": {
         "title": "Horizonbestand",
         "placeholder": "bijv. /home/pi/horizon.hrz",
-        "toastTitle": "Horizonbestand opgeslagen"
+        "toastTitle": "Horizonbestand opgeslagen",
+        "clearTitle": "Horizonbestandspad wissen",
+        "confirmTitle": "Horizonbestandspad wissen",
+        "confirmMessage": "Weet u zeker dat u het horizonbestandspad wilt wissen?"
       }
     },
     "alpacaDirect": {
@@ -727,6 +730,39 @@
         },
         "annotation": {
           "text": "Tekst"
+        },
+        "groundstation": {
+          "message": "Bericht",
+          "title": "Titel",
+          "subject": "Onderwerp",
+          "body": "Inhoud",
+          "recipient": "Ontvanger",
+          "topic": "Topic",
+          "payload": "Payload",
+          "qos": "QoS",
+          "retain": "Retain",
+          "description": "Beschrijving",
+          "method": "Methode",
+          "url": "URL",
+          "contentType": "Contenttype",
+          "username": "Gebruikersnaam",
+          "password": "Wachtwoord",
+          "showEmbed": "Embed tonen",
+          "embedTitle": "Embed-titel",
+          "embedText": "Embed-tekst",
+          "eventName": "Eventnaam",
+          "value1": "Waarde 1",
+          "value2": "Waarde 2",
+          "value3": "Waarde 3",
+          "priority": "Prioriteit",
+          "notificationSound": "Meldingsgeluid",
+          "tags": "Tags",
+          "channel": "Kanaal",
+          "doNotNotify": "Stille melding",
+          "address": "Adres",
+          "port": "Poort",
+          "payloadType": "Payloadtype",
+          "lineTermination": "Regeleinde"
         },
         "waitUntil": {
           "predicate": "Voorwaarde"

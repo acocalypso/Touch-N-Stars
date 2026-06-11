@@ -25,6 +25,24 @@
     </div>
 
     <template v-else>
+      <!-- Camera -->
+      <div class="flex flex-row w-full items-center">
+        <label for="indi-camera" class="mr-3 text-gray-200">
+          {{ $t('components.connectEquipment.camera.name') }}
+        </label>
+        <select
+          id="indi-camera"
+          v-model="selectedCamera"
+          @change="onCameraChange"
+          class="default-select w-40 ml-auto"
+        >
+          <option value="None">None</option>
+          <option v-for="item in camera" :key="item.Name" :value="item.Name">
+            {{ item.Label }}
+          </option>
+        </select>
+      </div>
+
       <!-- Focuser -->
       <div class="flex flex-row w-full items-center">
         <label for="indi-focuser" class="mr-3 text-gray-200">
@@ -199,6 +217,7 @@ import { useEquipmentStore } from '@/store/equipmentStore';
 const store = apiStore();
 const equipmentStore = useEquipmentStore();
 const loading = ref(true);
+const camera = ref([]);
 const focuser = ref([]);
 const filterwheel = ref([]);
 const rotator = ref([]);
@@ -209,6 +228,7 @@ const flatpanel = ref([]);
 const dome = ref([]);
 const safetymonitor = ref([]);
 
+const selectedCamera = ref('None');
 const selectedFocuser = ref('None');
 const selectedFilterwheel = ref('None');
 const selectedRotator = ref('None');
@@ -218,6 +238,18 @@ const selectedSwitches = ref('None');
 const selectedFlatpanel = ref('None');
 const selectedDome = ref('None');
 const selectedSafetymonitor = ref('None');
+
+const onCameraChange = async () => {
+  try {
+    await apiService.profileChangeValue('CameraSettings-IndiDriver', selectedCamera.value);
+    await apiService.cameraAction('list-devices');
+    equipmentStore.triggerRescan('camera');
+    await store.fetchProfilInfos();
+    console.log('[SelectIndi] Camera selected:', selectedCamera.value);
+  } catch (error) {
+    console.error('[SelectIndi] Error Camera selection:', error);
+  }
+};
 
 const onFocuserChange = async () => {
   try {
@@ -336,6 +368,7 @@ const onSafetymonitorChange = async () => {
 onMounted(async () => {
   try {
     const [
+      cameraResponse,
       focuserResponse,
       filterwheelResponse,
       rotatorResponse,
@@ -346,6 +379,7 @@ onMounted(async () => {
       domeResponse,
       safetymonitorResponse,
     ] = await Promise.all([
+      apiPinsService.getINDIDeviceList('camera'),
       apiPinsService.getINDIDeviceList('focuser'),
       apiPinsService.getINDIDeviceList('filterwheel'),
       apiPinsService.getINDIDeviceList('rotator'),
@@ -363,6 +397,7 @@ onMounted(async () => {
     const sortFocuserByLabel = (arr) =>
       [...arr].sort((a, b) => getFocuserLabel(a).localeCompare(getFocuserLabel(b)));
 
+    camera.value = sortByLabel(cameraResponse.Response);
     focuser.value = sortFocuserByLabel(
       focuserResponse.Response.filter((item) => item.Name !== 'indi_gemini_focus')
     );
@@ -376,6 +411,7 @@ onMounted(async () => {
     safetymonitor.value = sortByLabel(safetymonitorResponse.Response);
 
     // Set saved values from store as defaults
+    selectedCamera.value = store.profileInfo?.CameraSettings?.IndiDriver || 'None';
     selectedFocuser.value = store.profileInfo?.FocuserSettings?.IndiDriver || 'None';
     selectedFilterwheel.value = store.profileInfo?.FilterWheelSettings?.IndiDriver || 'None';
     selectedRotator.value = store.profileInfo?.RotatorSettings?.IndiDriver || 'None';

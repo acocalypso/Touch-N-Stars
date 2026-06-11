@@ -392,7 +392,10 @@
       "horizonFilePath": {
         "title": "Archivo de horizonte",
         "placeholder": "ej. /home/pi/horizon.hrz",
-        "toastTitle": "Archivo de horizonte guardado"
+        "toastTitle": "Archivo de horizonte guardado",
+        "clearTitle": "Borrar ruta del archivo de horizonte",
+        "confirmTitle": "Borrar ruta del archivo de horizonte",
+        "confirmMessage": "¿Desea borrar la ruta del archivo de horizonte?"
       }
     },
     "alpacaDirect": {

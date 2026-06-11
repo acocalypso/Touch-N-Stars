@@ -263,7 +263,10 @@
       "horizonFilePath": {
         "title": "Horizont-Datei",
         "placeholder": "z.B. /home/pi/horizon.hrz",
-        "toastTitle": "Horizont-Datei gespeichert"
+        "toastTitle": "Horizont-Datei gespeichert",
+        "clearTitle": "Horizont-Dateipfad löschen",
+        "confirmTitle": "Horizont-Dateipfad löschen",
+        "confirmMessage": "Soll der Horizont-Dateipfad wirklich gelöscht werden?"
       },
       "image": {
         "title": "Bild",

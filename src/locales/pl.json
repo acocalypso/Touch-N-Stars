@@ -392,7 +392,10 @@
       "horizonFilePath": {
         "title": "Plik horyzontu",
         "placeholder": "np. /home/pi/horizon.hrz",
-        "toastTitle": "Plik horyzontu zapisany"
+        "toastTitle": "Plik horyzontu zapisany",
+        "clearTitle": "Wyczyść ścieżkę pliku horyzontu",
+        "confirmTitle": "Wyczyść ścieżkę pliku horyzontu",
+        "confirmMessage": "Czy na pewno chcesz wyczyścić ścieżkę pliku horyzontu?"
       }
     },
     "alpacaDirect": {
@@ -3667,7 +3670,12 @@
         "credentials": "Jeśli kamera wymaga nazwy użytkownika i hasła, podaj dane uwierzytelniające bezpośrednio w adresie URL:",
         "credentialsNote": "Serwer proxy zaplecza obsługuje uwierzytelnianie automatycznie — dane uwierzytelniające w adresie URL działają zarówno z uwierzytelnianiem podstawowym, jak i szyfrowanym (np. Hikvision).",
         "credentialsTitle": "Kamery chronione hasłem",
-        "exampleLabels": ["Typowa kamera IP", "Kamera ONVIF", "Kamera osiowa", "Kamera Hikvision"],
+        "exampleLabels": [
+          "Typowa kamera IP",
+          "Kamera ONVIF",
+          "Kamera osiowa",
+          "Kamera Hikvision"
+        ],
         "examplesTitle": "Przykłady",
         "proxyOptions": [
           "Proxy (domyślnie): Obraz jest pobierany przez backend NINA i przesyłany do przeglądarki. \nWymagane w przypadku kamer sieci lokalnej z poświadczeniami lub ograniczeniami CORS. \nNieco wolniejszy w przypadku dostępu przez VPN.",

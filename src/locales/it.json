@@ -392,7 +392,10 @@
       "horizonFilePath": {
         "title": "File orizzonte",
         "placeholder": "es. /home/pi/horizon.hrz",
-        "toastTitle": "File orizzonte salvato"
+        "toastTitle": "File orizzonte salvato",
+        "clearTitle": "Cancella percorso file orizzonte",
+        "confirmTitle": "Cancella percorso file orizzonte",
+        "confirmMessage": "Sei sicuro di voler cancellare il percorso del file orizzonte?"
       }
     },
     "alpacaDirect": {

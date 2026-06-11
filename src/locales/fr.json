@@ -392,7 +392,10 @@
       "horizonFilePath": {
         "title": "Fichier d'horizon",
         "placeholder": "ex. /home/pi/horizon.hrz",
-        "toastTitle": "Fichier d'horizon enregistré"
+        "toastTitle": "Fichier d'horizon enregistré",
+        "clearTitle": "Effacer le chemin du fichier d'horizon",
+        "confirmTitle": "Effacer le chemin du fichier d'horizon",
+        "confirmMessage": "Voulez-vous vraiment effacer le chemin du fichier d'horizon ?"
       }
     },
     "alpacaDirect": {

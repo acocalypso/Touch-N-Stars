@@ -44,6 +44,12 @@
       "message_api_version": "APIプラグインのバージョンが古すぎます。アップデートを実行してください。",
       "message_tns": "Touch'N'Stars プラグインが利用できません。NINAの設定を確認してください。",
       "message_tns_version": "Touch'N'Starsプラグインのバージョンが古すぎます。アップデートを実行してください。"
+    },
+    "connection_splash": {
+      "configured_instance": "構成されたインスタンス",
+      "default_instance_name": "選択されたインスタンス",
+      "delayed": "{endpoint} でインスタンス {instance} に接続しようとしています ({elapsed} 秒が経過しました)。 \n[設定] を開いて、Touch-N-Stars インスタンスを確認します。",
+      "trying": "{endpoint} でインスタンス {instance} に接続しようとしています (遅延としてマークされるまで、{elapsed} 秒が経過し、{remaining} 秒が経過します)。"
     }
   },
   "whatsnew": {
@@ -2061,7 +2067,33 @@
       "hotspotCapabilitiesUnavailable": "アダプタ機能リストは利用できません。\n手動チャンネルは許可されています。",
       "hotspotChannelLabel": "ホットスポットチャンネル",
       "hotspotChannelPlaceholder": "自動の場合は空のままにします",
-      "hotspotMetaLine": "出典: {出典} |\nインターフェース: {iface} |\nバンド: {バンド} |\nチャンネル: {チャンネル}"
+      "hotspotMetaLine": "出典: {出典} |\nインターフェース: {iface} |\nバンド: {バンド} |\nチャンネル: {チャンネル}",
+      "indiRegistryEditConfig": "構成の編集",
+      "indiRegistryModalActions": "アクション",
+      "indiRegistryModalDescription": "インストールされている INDI サードパーティ レジストリ エントリの名前、ラベル、タイプを編集します。",
+      "indiRegistryModalEmpty": "レジストリ エントリが見つかりません。",
+      "indiRegistryModalErrorConflict": "名前はすでに存在します (409 重複した名前変更)。",
+      "indiRegistryModalErrorGeneric": "エントリを保存できませんでした: {メッセージ}",
+      "indiRegistryModalErrorLoad": "レジストリのロードに失敗しました: {メッセージ}",
+      "indiRegistryModalErrorNotFound": "エントリが見つかりません (404)。",
+      "indiRegistryModalErrorUnknown": "不明なエラー。",
+      "indiRegistryModalErrorValidation": "検証に失敗しました: {メッセージ}",
+      "indiRegistryModalLabel": "ラベル",
+      "indiRegistryModalLabelLength": "ラベルは 200 文字以下にする必要があります。",
+      "indiRegistryModalLoading": "レジストリを読み込んでいます...",
+      "indiRegistryModalName": "名前",
+      "indiRegistryModalNameLength": "名前は 200 文字以下にする必要があります。",
+      "indiRegistryModalNameRequired": "名前は必須です。",
+      "indiRegistryModalNoChanges": "保存する変更はありません。",
+      "indiRegistryModalReload": "リロード",
+      "indiRegistryModalSave": "保存",
+      "indiRegistryModalSaved": "エントリが保存されました。\nレジストリがバックエンドからリロードされました。",
+      "indiRegistryModalSaving": "保存中...",
+      "indiRegistryModalTitle": "INDI レジストリの編集",
+      "indiRegistryModalTotalEntries": "エントリー",
+      "indiRegistryModalType": "タイプ",
+      "indiRegistryModalTypeInvalid": "Type は許可された値の 1 つである必要があります。",
+      "indiRegistryModalUpdatedAt": "更新されました"
     },
     "bahtifocus": {
       "title": "バーティノフマスク・アナライザー",
@@ -4148,6 +4180,140 @@
         "imageRequired": "画像ファイルをアップロードしてください。",
         "nameRequired": "ランドスケープ名は必​​須です。"
       }
+    },
+    "groundStation": {
+      "common": {
+        "leaveEmpty": "(変更なし)",
+        "loading": "読み込み中…",
+        "passwordUnchanged": "現在の値を維持するには空のままにしておきます",
+        "save": "保存",
+        "saving": "保存中…",
+        "test": "テストの送信",
+        "testFailed": "テストが失敗しました",
+        "testSuccess": "テストは正常に送信されました",
+        "testing": "送信中…"
+      },
+      "discord": {
+        "botName": "ボットの表示名",
+        "defaultWebhook": "デフォルトの Webhook URL",
+        "failureMessage": "失敗メッセージ",
+        "failureTitle": "失敗タイトル",
+        "failureWebhook": "失敗 Webhook URL",
+        "imageEventEnabled": "画像キャプチャイベントを公開する",
+        "imageEvents": "画像イベント",
+        "imageInterval": "N 枚ごとに画像を投稿する",
+        "imagePostTitle": "画像投稿タイトル",
+        "imageTypes": "画像の種類",
+        "imageTypesHint": "カンマ区切り (例: LIGHT、FLAT、DARK)",
+        "imageWebhook": "画像 Webhook URL"
+      },
+      "email": {
+        "failureBody": "失敗本体",
+        "failureSubject": "失敗の件名",
+        "fromAddress": "送信元アドレス",
+        "host": "SMTPホスト",
+        "password": "パスワード",
+        "port": "SMTPポート",
+        "recipients": "デフォルトの受信者",
+        "recipientsHint": "カンマ区切り",
+        "username": "ユーザー名"
+      },
+      "ifttt": {
+        "value1": "失敗値 1",
+        "value2": "失敗値 2",
+        "value3": "失敗値 3",
+        "webhookKey": "Webhook キー"
+      },
+      "mqtt": {
+        "broker": "ブローカ",
+        "clientId": "クライアントID",
+        "defaultQos": "デフォルトのQoS",
+        "defaultRetain": "デフォルトで保持",
+        "defaultTopic": "デフォルトのトピック",
+        "defaults": "デフォルトの公開",
+        "failureQos": "QoS の失敗",
+        "host": "ホスト",
+        "imagePublisher": "画像発行者",
+        "imagePublisherEnabled": "有効",
+        "imageQos": "画像のQoS",
+        "imageRetain": "画像を保持する",
+        "imageTopic": "画像トピック",
+        "imageTypes": "画像の種類",
+        "lwt": "最後の意志",
+        "lwtBirth": "誕生ペイロード",
+        "lwtClose": "ペイロードを閉じる",
+        "lwtEnabled": "LWTを有効にする",
+        "lwtLastWill": "遺言ペイロード",
+        "lwtTopic": "LWT トピック",
+        "maxReconnect": "最大再接続試行回数",
+        "metadataOnly": "メタデータのみ",
+        "metadataTopic": "メタデータのトピック",
+        "password": "パスワード",
+        "port": "ポート",
+        "useTls": "TLS を使用します (ポートを 8883 に切り替えます)",
+        "username": "ユーザー名"
+      },
+      "notLoaded": "Ground Station プラグインが NINA にインストールされていないか、ロードされていません。\nこれらの設定を使用するには、NINA に「Ground Station」プラグインをインストールします。",
+      "ntfysh": {
+        "defaultIcon": "デフォルトのアイコンの URL",
+        "defaultTopic": "デフォルトのトピック",
+        "failureMessage": "失敗メッセージ",
+        "failureNotification": "失敗通知",
+        "failurePriority": "障害の優先順位",
+        "failureTags": "失敗タグ",
+        "failureTagsHint": "カンマ区切り (例: warning,rotating_light)",
+        "failureTitle": "失敗タイトル",
+        "password": "パスワード",
+        "token": "アクセストークン",
+        "url": "サーバーURL",
+        "user": "ユーザー名"
+      },
+      "pushover": {
+        "appKey": "アプリAPIトークン",
+        "emergExpire": "緊急期限切れ後 (秒)",
+        "emergExpireHint": "30～86400秒",
+        "emergRetry": "緊急再試行間隔 (秒)",
+        "emergRetryHint": "30～86400秒",
+        "failureBody": "失敗本体",
+        "failurePriority": "障害の優先順位",
+        "failureSound": "失敗音",
+        "failureTitle": "失敗タイトル",
+        "notificationPriority": "通知の優先順位",
+        "notificationSound": "通知音",
+        "userKey": "ユーザーキー"
+      },
+      "slack": {
+        "botDisplayName": "ボットの表示名",
+        "channels": "チャンネル",
+        "failureMessage": "失敗メッセージ",
+        "imageEventChannel": "画像イベントチャンネル",
+        "imageEventEnabled": "画像キャプチャイベントを公開する",
+        "imageEvents": "画像イベント",
+        "imageInterval": "N 枚ごとに画像を投稿する",
+        "imageTypes": "画像の種類",
+        "members": "メンバー",
+        "oauthToken": "ボットOAuthトークン",
+        "refreshChannels": "チャンネルを更新する",
+        "refreshing": "爽やか…",
+        "workspace": "ワークスペース"
+      },
+      "subtitle": "NINA Ground Station 通知サービスを構成する",
+      "tabs": {
+        "discord": "不和",
+        "email": "電子メール",
+        "ifttt": "イフト",
+        "mqtt": "MQTT",
+        "ntfysh": "ntfy.sh",
+        "pushover": "プッシュオーバー",
+        "slack": "スラック",
+        "telegram": "電報"
+      },
+      "telegram": {
+        "accessToken": "ボットアクセストークン",
+        "chatId": "チャットID",
+        "failureBody": "失敗本体"
+      },
+      "title": "地上局"
     }
   },
   "pinsDevices": {

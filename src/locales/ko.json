@@ -44,6 +44,12 @@
       "message_api_version": "API 플러그인이 너무 오래되었습니다. 업데이트를 진행하세요",
       "message_tns": "Touch'N'Stars 플러그인을 사용할 수 없습니다. NINA에서 설정을 확인하세요",
       "message_tns_version": "Touch N Stars 플러그인이 너무 오래되었습니다. 업데이트를 진행하세요"
+    },
+    "connection_splash": {
+      "configured_instance": "구성된 인스턴스",
+      "default_instance_name": "선택한 인스턴스",
+      "delayed": "아직 {endpoint}에서 {instance} 인스턴스에 연결을 시도 중입니다({elapsed}초 경과). \n설정을 열어 Touch-N-Stars 인스턴스를 확인하세요.",
+      "trying": "{endpoint}에서 {instance} 인스턴스에 연결을 시도 중입니다({elapsed}초 경과, 지연으로 표시될 때까지 {remaining}초)."
     }
   },
   "whatsnew": {
@@ -2061,7 +2067,33 @@
       "dhcpClientsIp": "IP 주소",
       "dhcpClientsMac": "MAC 주소",
       "dhcpClientsHostname": "호스트명",
-      "dhcpClientsExpires": "임대 만료"
+      "dhcpClientsExpires": "임대 만료",
+      "indiRegistryEditConfig": "구성 수정",
+      "indiRegistryModalActions": "행위",
+      "indiRegistryModalDescription": "설치된 INDI 타사 레지스트리 항목의 이름, 레이블 및 유형을 편집합니다.",
+      "indiRegistryModalEmpty": "레지스트리 항목을 찾을 수 없습니다.",
+      "indiRegistryModalErrorConflict": "이름이 이미 존재합니다(409 중복 이름 변경).",
+      "indiRegistryModalErrorGeneric": "항목을 저장하지 못했습니다: {message}",
+      "indiRegistryModalErrorLoad": "레지스트리를 로드하지 못했습니다: {message}",
+      "indiRegistryModalErrorNotFound": "항목을 찾을 수 없습니다(404).",
+      "indiRegistryModalErrorUnknown": "알 수 없는 오류입니다.",
+      "indiRegistryModalErrorValidation": "검증 실패: {message}",
+      "indiRegistryModalLabel": "상표",
+      "indiRegistryModalLabelLength": "라벨은 200자 이하여야 합니다.",
+      "indiRegistryModalLoading": "레지스트리 로드 중...",
+      "indiRegistryModalName": "이름",
+      "indiRegistryModalNameLength": "이름은 200자 이하여야 합니다.",
+      "indiRegistryModalNameRequired": "이름은 필수입니다.",
+      "indiRegistryModalNoChanges": "저장할 변경사항이 없습니다.",
+      "indiRegistryModalReload": "새로고침",
+      "indiRegistryModalSave": "구하다",
+      "indiRegistryModalSaved": "항목이 저장되었습니다. \n백엔드에서 레지스트리가 다시 로드되었습니다.",
+      "indiRegistryModalSaving": "절약...",
+      "indiRegistryModalTitle": "INDI 레지스트리 편집",
+      "indiRegistryModalTotalEntries": "항목",
+      "indiRegistryModalType": "유형",
+      "indiRegistryModalTypeInvalid": "유형은 허용되는 값 중 하나여야 합니다.",
+      "indiRegistryModalUpdatedAt": "업데이트됨"
     },
     "bahtifocus": {
       "title": "바티노프 마스크 분석기",
@@ -4148,6 +4180,140 @@
         "imageRequired": "이미지 파일을 업로드해주세요.",
         "nameRequired": "풍경 이름이 필요합니다."
       }
+    },
+    "groundStation": {
+      "common": {
+        "leaveEmpty": "(변하지 않은)",
+        "loading": "로드 중…",
+        "passwordUnchanged": "현재 값을 유지하려면 비워 두세요.",
+        "save": "구하다",
+        "saving": "절약…",
+        "test": "테스트 보내기",
+        "testFailed": "테스트 실패",
+        "testSuccess": "테스트가 성공적으로 전송되었습니다.",
+        "testing": "배상…"
+      },
+      "discord": {
+        "botName": "봇 표시 이름",
+        "defaultWebhook": "기본 웹훅 URL",
+        "failureMessage": "실패 메시지",
+        "failureTitle": "실패 제목",
+        "failureWebhook": "실패 웹훅 URL",
+        "imageEventEnabled": "이미지 캡처 이벤트 게시",
+        "imageEvents": "이미지 이벤트",
+        "imageInterval": "N개의 이미지마다 게시",
+        "imagePostTitle": "이미지 게시물 제목",
+        "imageTypes": "이미지 유형",
+        "imageTypesHint": "쉼표로 구분(예: LIGHT,FLAT,DARK)",
+        "imageWebhook": "이미지 웹훅 URL"
+      },
+      "email": {
+        "failureBody": "실패 본문",
+        "failureSubject": "실패 제목",
+        "fromAddress": "보낸 사람 주소",
+        "host": "SMTP 호스트",
+        "password": "비밀번호",
+        "port": "SMTP 포트",
+        "recipients": "기본 수신자",
+        "recipientsHint": "쉼표로 구분",
+        "username": "사용자 이름"
+      },
+      "ifttt": {
+        "value1": "실패 값 1",
+        "value2": "실패 값 2",
+        "value3": "실패 값 3",
+        "webhookKey": "웹훅 키"
+      },
+      "mqtt": {
+        "broker": "브로커",
+        "clientId": "클라이언트 ID",
+        "defaultQos": "기본 QoS",
+        "defaultRetain": "기본적으로 유지",
+        "defaultTopic": "기본 주제",
+        "defaults": "게시 기본값",
+        "failureQos": "장애 QoS",
+        "host": "주인",
+        "imagePublisher": "이미지 게시자",
+        "imagePublisherEnabled": "활성화됨",
+        "imageQos": "이미지 QoS",
+        "imageRetain": "이미지 유지",
+        "imageTopic": "이미지 주제",
+        "imageTypes": "이미지 유형",
+        "lwt": "마지막 의지",
+        "lwtBirth": "출생 페이로드",
+        "lwtClose": "페이로드 닫기",
+        "lwtEnabled": "LWT 활성화",
+        "lwtLastWill": "마지막 유언장 페이로드",
+        "lwtTopic": "LWT 주제",
+        "maxReconnect": "최대 재연결 시도 횟수",
+        "metadataOnly": "메타데이터만",
+        "metadataTopic": "메타데이터 주제",
+        "password": "비밀번호",
+        "port": "포트",
+        "useTls": "TLS 사용(포트를 8883으로 전환)",
+        "username": "사용자 이름"
+      },
+      "notLoaded": "Ground Station 플러그인이 NINA에 설치되지 않았거나 로드되지 않았습니다. \n이러한 설정을 사용하려면 NINA에 'Ground Station' 플러그인을 설치하세요.",
+      "ntfysh": {
+        "defaultIcon": "기본 아이콘 URL",
+        "defaultTopic": "기본 주제",
+        "failureMessage": "실패 메시지",
+        "failureNotification": "실패 알림",
+        "failurePriority": "실패 우선순위",
+        "failureTags": "실패 태그",
+        "failureTagsHint": "쉼표로 구분됨(예: warning,rotating_light)",
+        "failureTitle": "실패 제목",
+        "password": "비밀번호",
+        "token": "액세스 토큰",
+        "url": "서버 URL",
+        "user": "사용자 이름"
+      },
+      "pushover": {
+        "appKey": "앱 API 토큰",
+        "emergExpire": "다음 이후 긴급 만료",
+        "emergExpireHint": "30 – 86400초",
+        "emergRetry": "긴급 재시도 간격",
+        "emergRetryHint": "30 – 86400초",
+        "failureBody": "실패 본문",
+        "failurePriority": "실패 우선순위",
+        "failureSound": "실패 소리",
+        "failureTitle": "실패 제목",
+        "notificationPriority": "알림 우선순위",
+        "notificationSound": "알림음",
+        "userKey": "사용자 키"
+      },
+      "slack": {
+        "botDisplayName": "봇 표시 이름",
+        "channels": "채널",
+        "failureMessage": "실패 메시지",
+        "imageEventChannel": "이미지 이벤트 채널",
+        "imageEventEnabled": "이미지 캡처 이벤트 게시",
+        "imageEvents": "이미지 이벤트",
+        "imageInterval": "N개의 이미지마다 게시",
+        "imageTypes": "이미지 유형",
+        "members": "회원",
+        "oauthToken": "봇 OAuth 토큰",
+        "refreshChannels": "채널 새로고침",
+        "refreshing": "상쾌하다…",
+        "workspace": "작업공간"
+      },
+      "subtitle": "NINA 지상국 알림 서비스 구성",
+      "tabs": {
+        "discord": "불화",
+        "email": "이메일",
+        "ifttt": "IFTTT",
+        "mqtt": "MQTT",
+        "ntfysh": "ntfy.sh",
+        "pushover": "쉬운 일",
+        "slack": "느슨하게",
+        "telegram": "전보"
+      },
+      "telegram": {
+        "accessToken": "봇 액세스 토큰",
+        "chatId": "채팅 ID",
+        "failureBody": "실패 본문"
+      },
+      "title": "지상국"
     }
   },
   "pinsDevices": {

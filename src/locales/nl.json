@@ -44,6 +44,12 @@
       "message_api_version": "API plugin is te oud. Voer update uit",
       "message_tns": "De Touch'N'Stars plugin is niet beschikbaar. Controleer instellingen in NINA",
       "message_tns_version": "De Touch N Stars plugin is te oud. Voer update uit"
+    },
+    "connection_splash": {
+      "configured_instance": "geconfigureerd exemplaar",
+      "default_instance_name": "geselecteerde exemplaar",
+      "delayed": "Ik probeer nog steeds verbinding te maken met instantie {instance} op {endpoint} ({elapsed}s verstreken). \nOpen Instellingen om uw Touch-N-Stars-instantie te verifiëren.",
+      "trying": "Er wordt geprobeerd verbinding te maken met instantie {instance} op {endpoint} ({elapsed}s verstreken, {remaining}s totdat dit als vertraagd is gemarkeerd)."
     }
   },
   "whatsnew": {
@@ -2061,7 +2067,33 @@
       "hotspotCapabilitiesUnavailable": "Lijst met adaptermogelijkheden niet beschikbaar; \nhandmatig kanaal toegestaan.",
       "hotspotChannelLabel": "Hotspot-kanaal",
       "hotspotChannelPlaceholder": "Laat leeg voor automatisch",
-      "hotspotMetaLine": "Bron: {bron} | \nInterface: {iface} | \nBand: {band} | \nKanaal: {kanaal}"
+      "hotspotMetaLine": "Bron: {bron} | \nInterface: {iface} | \nBand: {band} | \nKanaal: {kanaal}",
+      "indiRegistryEditConfig": "Configuratie bewerken",
+      "indiRegistryModalActions": "Acties",
+      "indiRegistryModalDescription": "Bewerk naam, label en type voor geïnstalleerde INDI-registervermeldingen van derden.",
+      "indiRegistryModalEmpty": "Geen registervermeldingen gevonden.",
+      "indiRegistryModalErrorConflict": "Naam bestaat al (409 dubbele hernoeming).",
+      "indiRegistryModalErrorGeneric": "Kan invoer niet opslaan: {message}",
+      "indiRegistryModalErrorLoad": "Kan register niet laden: {message}",
+      "indiRegistryModalErrorNotFound": "Invoer niet gevonden (404).",
+      "indiRegistryModalErrorUnknown": "Onbekende fout.",
+      "indiRegistryModalErrorValidation": "Validatie mislukt: {message}",
+      "indiRegistryModalLabel": "Label",
+      "indiRegistryModalLabelLength": "Het label moet 200 tekens of minder bevatten.",
+      "indiRegistryModalLoading": "Register laden...",
+      "indiRegistryModalName": "Naam",
+      "indiRegistryModalNameLength": "Naam moet 200 tekens of minder bevatten.",
+      "indiRegistryModalNameRequired": "Naam is vereist.",
+      "indiRegistryModalNoChanges": "Geen wijzigingen om op te slaan.",
+      "indiRegistryModalReload": "Herladen",
+      "indiRegistryModalSave": "Redden",
+      "indiRegistryModalSaved": "Invoer opgeslagen. \nRegister opnieuw geladen vanuit de backend.",
+      "indiRegistryModalSaving": "Besparing...",
+      "indiRegistryModalTitle": "INDI-register bewerken",
+      "indiRegistryModalTotalEntries": "Inzendingen",
+      "indiRegistryModalType": "Type",
+      "indiRegistryModalTypeInvalid": "Type moet een van de toegestane waarden zijn.",
+      "indiRegistryModalUpdatedAt": "Bijgewerkt"
     },
     "bahtifocus": {
       "title": "Bahtinov Masker Analyse",
@@ -4148,6 +4180,140 @@
         "imageRequired": "Upload een afbeeldingsbestand.",
         "nameRequired": "Landschapsnaam is vereist."
       }
+    },
+    "groundStation": {
+      "common": {
+        "leaveEmpty": "(ongewijzigd)",
+        "loading": "Laden…",
+        "passwordUnchanged": "Laat leeg om de huidige waarde te behouden",
+        "save": "Redden",
+        "saving": "Besparing…",
+        "test": "Test verzenden",
+        "testFailed": "Test mislukt",
+        "testSuccess": "Test succesvol verzonden",
+        "testing": "Verzenden…"
+      },
+      "discord": {
+        "botName": "Bot-weergavenaam",
+        "defaultWebhook": "Standaard webhook-URL",
+        "failureMessage": "Mislukkingsbericht",
+        "failureTitle": "Titel van de mislukking",
+        "failureWebhook": "Mislukte webhook-URL",
+        "imageEventEnabled": "Publiceer gebeurtenissen voor het vastleggen van afbeeldingen",
+        "imageEvents": "Afbeeldingsgebeurtenissen",
+        "imageInterval": "Plaats elke N afbeeldingen",
+        "imagePostTitle": "Titel afbeeldingsbericht",
+        "imageTypes": "Afbeeldingstypen",
+        "imageTypesHint": "Door komma's gescheiden (bijv. LICHT, FLAT, DONKER)",
+        "imageWebhook": "Webhook-URL voor afbeelding"
+      },
+      "email": {
+        "failureBody": "Mislukking lichaam",
+        "failureSubject": "Onderwerp van mislukking",
+        "fromAddress": "Van adres",
+        "host": "SMTP-host",
+        "password": "Wachtwoord",
+        "port": "SMTP-poort",
+        "recipients": "Standaardontvangers",
+        "recipientsHint": "Door komma's gescheiden",
+        "username": "Gebruikersnaam"
+      },
+      "ifttt": {
+        "value1": "Foutwaarde 1",
+        "value2": "Foutwaarde 2",
+        "value3": "Foutwaarde 3",
+        "webhookKey": "Webhook-sleutel"
+      },
+      "mqtt": {
+        "broker": "Makelaar",
+        "clientId": "Klant-ID",
+        "defaultQos": "Standaard QoS",
+        "defaultRetain": "Standaard behouden",
+        "defaultTopic": "Standaardonderwerp",
+        "defaults": "Standaardinstellingen publiceren",
+        "failureQos": "Fout QoS",
+        "host": "Gastheer",
+        "imagePublisher": "Uitgever van afbeeldingen",
+        "imagePublisherEnabled": "Ingeschakeld",
+        "imageQos": "Afbeelding QoS",
+        "imageRetain": "Bewaar afbeeldingen",
+        "imageTopic": "Afbeeldingsonderwerp",
+        "imageTypes": "Afbeeldingstypen",
+        "lwt": "Laatste testament",
+        "lwtBirth": "Geboortelading",
+        "lwtClose": "Sluit de lading",
+        "lwtEnabled": "Schakel LWT in",
+        "lwtLastWill": "Laatste wil Payload",
+        "lwtTopic": "LWT-onderwerp",
+        "maxReconnect": "Maximaal aantal pogingen tot opnieuw verbinden",
+        "metadataOnly": "Alleen metadata",
+        "metadataTopic": "Metagegevensonderwerp",
+        "password": "Wachtwoord",
+        "port": "Haven",
+        "useTls": "Gebruik TLS (schakelt poort naar 8883)",
+        "username": "Gebruikersnaam"
+      },
+      "notLoaded": "De Ground Station plugin is niet geïnstalleerd of geladen in NINA. \nInstalleer de plugin 'Ground Station' in NINA om deze instellingen te gebruiken.",
+      "ntfysh": {
+        "defaultIcon": "Standaard pictogram-URL",
+        "defaultTopic": "Standaardonderwerp",
+        "failureMessage": "Mislukkingsbericht",
+        "failureNotification": "Foutmelding",
+        "failurePriority": "Mislukkingsprioriteit",
+        "failureTags": "Mislukkingstags",
+        "failureTagsHint": "Door komma's gescheiden (bijv. waarschuwing, roterend_licht)",
+        "failureTitle": "Titel van de mislukking",
+        "password": "Wachtwoord",
+        "token": "Toegangstoken",
+        "url": "Server-URL",
+        "user": "Gebruikersnaam"
+      },
+      "pushover": {
+        "appKey": "App API-token",
+        "emergExpire": "Noodgeval vervalt na (s)",
+        "emergExpireHint": "30 – 86400 seconden",
+        "emergRetry": "Noodpogingsinterval(s)",
+        "emergRetryHint": "30 – 86400 seconden",
+        "failureBody": "Mislukking lichaam",
+        "failurePriority": "Mislukkingsprioriteit",
+        "failureSound": "Mislukkingsgeluid",
+        "failureTitle": "Titel van de mislukking",
+        "notificationPriority": "Meldingsprioriteit",
+        "notificationSound": "Meldingsgeluid",
+        "userKey": "Gebruikerssleutel"
+      },
+      "slack": {
+        "botDisplayName": "Bot-weergavenaam",
+        "channels": "Kanalen",
+        "failureMessage": "Mislukkingsbericht",
+        "imageEventChannel": "Kanaal voor beeldgebeurtenissen",
+        "imageEventEnabled": "Publiceer gebeurtenissen voor het vastleggen van afbeeldingen",
+        "imageEvents": "Afbeeldingsgebeurtenissen",
+        "imageInterval": "Plaats elke N afbeeldingen",
+        "imageTypes": "Afbeeldingstypen",
+        "members": "leden",
+        "oauthToken": "Bot OAuth-token",
+        "refreshChannels": "Kanalen vernieuwen",
+        "refreshing": "Verfrissend…",
+        "workspace": "Werkruimte"
+      },
+      "subtitle": "Configureer NINA Ground Station-meldingsservices",
+      "tabs": {
+        "discord": "Meningsverschil",
+        "email": "E-mail",
+        "ifttt": "IFTTT",
+        "mqtt": "MQTT",
+        "ntfysh": "ntfy.sh",
+        "pushover": "Overvaller",
+        "slack": "Slank",
+        "telegram": "Telegram"
+      },
+      "telegram": {
+        "accessToken": "Bot-toegangstoken",
+        "chatId": "Chat-ID",
+        "failureBody": "Mislukking lichaam"
+      },
+      "title": "Grondstation"
     }
   },
   "pinsDevices": {

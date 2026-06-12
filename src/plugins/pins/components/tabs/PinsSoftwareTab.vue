@@ -19,6 +19,7 @@
       @refresh="$emit('refresh')"
       @search="$emit('search')"
       @install="$emit('install')"
+      @edit-config="$emit('open-indi-registry-config')"
       @update:search-query="$emit('update:search-query', $event)"
       @update:selected-asset="$emit('update:selected-asset', $event)"
     />
@@ -92,6 +93,7 @@ defineEmits([
   'refresh',
   'search',
   'install',
+  'open-indi-registry-config',
   'plugins-refresh',
   'plugin-install',
   'plugin-uninstall',

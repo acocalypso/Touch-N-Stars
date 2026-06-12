@@ -93,6 +93,7 @@
               @refresh="loadIndi3rdpartyDrivers"
               @search="loadIndi3rdpartyDrivers"
               @install="openIndi3rdpartyInstallModal"
+              @open-indi-registry-config="openIndiRegistryEditModal"
               @plugins-refresh="loadPinsPlugins"
               @plugin-install="installPinsPlugin"
               @plugin-uninstall="uninstallPinsPlugin"
@@ -108,6 +109,12 @@
             :error-message="indi3rdpartyInstallError"
             @close="closeIndi3rdpartyInstallModal"
             @confirm="installIndi3rdpartyDriver"
+          />
+
+          <PinsIndiRegistryEditModal
+            :show="showIndiRegistryEditModal"
+            :disabled="status === 'Running'"
+            @close="showIndiRegistryEditModal = false"
           />
 
           <template v-if="activeTab === 'upgrade'">
@@ -262,6 +269,7 @@ import PinsServicesTab from '../components/tabs/PinsServicesTab.vue';
 import PinsSoftwareTab from '../components/tabs/PinsSoftwareTab.vue';
 import PinsUpgradeTab from '../components/tabs/PinsUpgradeTab.vue';
 import PinsIndiInstallConfirmModal from '../components/PinsIndiInstallConfirmModal.vue';
+import PinsIndiRegistryEditModal from '../components/PinsIndiRegistryEditModal.vue';
 import { usePinsWifiInterfaces } from '../composables/usePinsWifiInterfaces';
 import { usePinsUpgradeTracker } from '../composables/usePinsUpgradeTracker';
 import {
@@ -307,6 +315,7 @@ const dhcpClients = ref([]);
 const isDhcpClientsLoading = ref(false);
 const selectedIndi3rdpartyAsset = ref('');
 const showIndi3rdpartyInstallModal = ref(false);
+const showIndiRegistryEditModal = ref(false);
 const indi3rdpartyInstallError = ref('');
 const activeTab = ref('network');
 const {
@@ -474,6 +483,14 @@ function openIndi3rdpartyInstallModal() {
 
   indi3rdpartyInstallError.value = '';
   showIndi3rdpartyInstallModal.value = true;
+}
+
+function openIndiRegistryEditModal() {
+  if (status.value === 'Running') {
+    return;
+  }
+
+  showIndiRegistryEditModal.value = true;
 }
 
 function closeIndi3rdpartyInstallModal() {

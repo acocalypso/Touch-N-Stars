@@ -627,6 +627,31 @@ export default {
     });
   },
 
+  getPinsIndi3rdpartyRegistry() {
+    const { PINSDAEMON_URL } = getUrls();
+    return this._pinsDaemonGetRequest('/packages/indi3rdparty/registry', {
+      baseUrl: PINSDAEMON_URL,
+      timeout: 15000,
+    });
+  },
+
+  updatePinsIndi3rdpartyRegistryEntry(entryName, payload) {
+    const { PINSDAEMON_URL } = getUrls();
+    const normalizedEntryName = String(entryName || '').trim();
+    if (!normalizedEntryName) {
+      throw new Error('entryName is required to update INDI registry entry.');
+    }
+
+    return this._pinsDaemonPatchRequest(
+      `/packages/indi3rdparty/registry/${encodeURIComponent(normalizedEntryName)}`,
+      payload,
+      {
+        baseUrl: PINSDAEMON_URL,
+        timeout: 15000,
+      }
+    );
+  },
+
   getPinsPlugins() {
     const { PINSDAEMON_URL } = getUrls();
     return this._pinsDaemonGetRequest('/plugins', {
@@ -849,6 +874,21 @@ export default {
   _pinsDaemonPostRequest(path, data, { baseUrl, timeout = 10000 } = {}) {
     return axios
       .post(`${baseUrl}${path}`, data, {
+        headers: {
+          Authorization: `Bearer ${PINS_TOKEN}`,
+          'Content-Type': 'application/json',
+        },
+        timeout,
+      })
+      .then((response) => response.data)
+      .catch((error) => {
+        throw error;
+      });
+  },
+
+  _pinsDaemonPatchRequest(path, data, { baseUrl, timeout = 10000 } = {}) {
+    return axios
+      .patch(`${baseUrl}${path}`, data, {
         headers: {
           Authorization: `Bearer ${PINS_TOKEN}`,
           'Content-Type': 'application/json',

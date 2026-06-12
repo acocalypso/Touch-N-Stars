@@ -2053,6 +2053,7 @@
       "indiRegistryModalNoChanges": "Keine Aenderungen zum Speichern.",
       "indiRegistryModalNameRequired": "Name ist erforderlich.",
       "indiRegistryModalNameLength": "Name darf maximal 200 Zeichen haben.",
+      "indiRegistryModalNameDuplicate": "Name existiert bereits in einer anderen Zeile.",
       "indiRegistryModalLabelLength": "Bezeichnung darf maximal 200 Zeichen haben.",
       "indiRegistryModalTypeInvalid": "Typ muss einer der erlaubten Werte sein.",
       "indiRegistryModalErrorLoad": "Registry konnte nicht geladen werden: {message}",

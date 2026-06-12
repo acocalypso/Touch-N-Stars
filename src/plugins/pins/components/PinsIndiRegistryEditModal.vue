@@ -381,13 +381,32 @@ function getTrimmedLength(value) {
   return normalizeInput(value).length;
 }
 
-function flattenRegistryPayload(payload) {
+function hasUnsavedChanges(row) {
+  if (!row || typeof row !== 'object') {
+    return false;
+  }
+
+  return (
+    normalizeInput(row.name) !== row.originalName ||
+    normalizeInput(row.label) !== row.originalLabel ||
+    normalizeType(row.type) !== row.originalType
+  );
+}
+
+function flattenRegistryPayload(
+  payload,
+  existingRows = [],
+  { skipPreserveForOriginalName = '' } = {}
+) {
   const entriesByType = payload?.entriesByType;
   if (!entriesByType || typeof entriesByType !== 'object') {
     return [];
   }
 
   const flattenedRows = [];
+  const existingMap = new Map(
+    Array.isArray(existingRows) ? existingRows.map((row) => [row.originalName, row]) : []
+  );
 
   for (const [bucketType, entries] of Object.entries(entriesByType)) {
     if (!Array.isArray(entries)) {
@@ -401,14 +420,30 @@ function flattenRegistryPayload(payload) {
       }
 
       const normalizedType = normalizeType(entry?.Type || bucketType);
+      const originalLabel = normalizeInput(entry?.Label);
+      const existingRow = existingMap.get(originalName);
+
+      let rowName = originalName;
+      let rowLabel = originalLabel;
+      let rowType = normalizedType;
+
+      if (
+        existingRow &&
+        originalName !== skipPreserveForOriginalName &&
+        hasUnsavedChanges(existingRow)
+      ) {
+        rowName = normalizeInput(existingRow.name);
+        rowLabel = normalizeInput(existingRow.label);
+        rowType = normalizeType(existingRow.type);
+      }
 
       flattenedRows.push({
         originalName,
-        originalLabel: normalizeInput(entry?.Label),
+        originalLabel,
         originalType: normalizedType,
-        name: originalName,
-        label: normalizeInput(entry?.Label),
-        type: normalizedType,
+        name: rowName,
+        label: rowLabel,
+        type: rowType,
       });
     }
   }
@@ -442,7 +477,7 @@ async function loadRegistry() {
   try {
     const response = await apiPinsService.getPinsIndi3rdpartyRegistry();
     registry.value = response;
-    rows.value = flattenRegistryPayload(response);
+    rows.value = flattenRegistryPayload(response, rows.value);
   } catch (error) {
     const detail = extractErrorDetail(error);
     loadError.value = t('plugins.pins.indiRegistryModalErrorLoad', { message: detail });
@@ -505,6 +540,21 @@ function validateRow(row) {
     return {
       isValid: false,
       message: t('plugins.pins.indiRegistryModalTypeInvalid'),
+    };
+  }
+
+  const duplicateName = rows.value.some((candidate) => {
+    if (candidate.originalName === row.originalName) {
+      return false;
+    }
+
+    return normalizeInput(candidate.name).toLowerCase() === normalizedName.toLowerCase();
+  });
+
+  if (duplicateName) {
+    return {
+      isValid: false,
+      message: t('plugins.pins.indiRegistryModalNameDuplicate'),
     };
   }
 
@@ -607,7 +657,9 @@ async function saveRow(row) {
       payload
     );
     registry.value = response;
-    rows.value = flattenRegistryPayload(response);
+    rows.value = flattenRegistryPayload(response, rows.value, {
+      skipPreserveForOriginalName: row.originalName,
+    });
     rowMessages.value = {};
     globalInfo.value = t('plugins.pins.indiRegistryModalSaved');
   } catch (error) {
@@ -635,6 +687,10 @@ watch(
   async (visible) => {
     if (!visible) {
       document.body.style.overflow = '';
+      loadError.value = '';
+      globalInfo.value = '';
+      rowMessages.value = {};
+      rows.value = [];
       return;
     }
 

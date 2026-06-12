@@ -44,6 +44,12 @@
       "message_api_version": "Das API-Plugin ist zu alt. \nBitte führen Sie ein Update durch",
       "message_tns": "Das Touch'N'Stars -Plugin ist nicht verfügbar. \nBitte überprüfen Sie die Einstellungen in N.I.N.A",
       "message_tns_version": "Das Touch N Stars Plugin ist zu alt. \nBitte führen Sie ein Update durch"
+    },
+    "connection_splash": {
+      "configured_instance": "konfigurierte Instanz",
+      "default_instance_name": "ausgewählte Instanz",
+      "delayed": "Ich versuche immer noch, eine Verbindung zur Instanz {instance} am {endpoint} herzustellen ({elapsed}s sind abgelaufen). \nÖffnen Sie die Einstellungen, um Ihre Touch-N-Stars-Instanz zu überprüfen.",
+      "trying": "Es wird versucht, eine Verbindung zur Instanz {instance} am {endpoint} herzustellen ({elapsed}s sind vergangen, {remaining}s, bis dies als verzögert markiert wird)."
     }
   },
   "whatsnew": {

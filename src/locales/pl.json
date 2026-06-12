@@ -44,6 +44,12 @@
       "message_api_version": "Wtyczka API jest zbyt stara. Wykonaj aktualizację",
       "message_tns": "Wtyczka Touch'N'Stars jest niedostępna. Sprawdź ustawienia w NINA",
       "message_tns_version": "Wtyczka Touch N Stars jest zbyt stara. Wykonaj aktualizację"
+    },
+    "connection_splash": {
+      "configured_instance": "skonfigurowana instancja",
+      "default_instance_name": "wybrana instancja",
+      "delayed": "Nadal próbuję połączyć się z instancją {instance} w {punkcie końcowym} (upłynęło: {elapsed} s). \nOtwórz Ustawienia, aby zweryfikować instancję Touch-N-Stars.",
+      "trying": "Próbuję połączyć się z instancją {instance} o godzinie {endpoint} (upłynęło: {elapsed}, {pozostałe} s do oznaczenia jako opóźnione)."
     }
   },
   "whatsnew": {
@@ -2061,7 +2067,33 @@
       "hotspotCapabilitiesUnavailable": "Lista możliwości adaptera jest niedostępna; \ndozwolony kanał ręczny.",
       "hotspotChannelLabel": "Kanał Hotspotu",
       "hotspotChannelPlaceholder": "Zostaw puste dla auto",
-      "hotspotMetaLine": "Źródło: {źródło} | \nInterfejs: {iface} | \nZespół: {zespół} | \nKanał: {kanał}"
+      "hotspotMetaLine": "Źródło: {źródło} | \nInterfejs: {iface} | \nZespół: {zespół} | \nKanał: {kanał}",
+      "indiRegistryEditConfig": "Edytuj konfigurację",
+      "indiRegistryModalActions": "Działania",
+      "indiRegistryModalDescription": "Edytuj nazwę, etykietę i typ zainstalowanych wpisów rejestru innych firm INDI.",
+      "indiRegistryModalEmpty": "Nie znaleziono wpisów rejestru.",
+      "indiRegistryModalErrorConflict": "Nazwa już istnieje (409 duplikatów zmiany nazwy).",
+      "indiRegistryModalErrorGeneric": "Nie udało się zapisać wpisu: {wiadomość}",
+      "indiRegistryModalErrorLoad": "Nie udało się załadować rejestru: {wiadomość}",
+      "indiRegistryModalErrorNotFound": "Nie znaleziono wpisu (404).",
+      "indiRegistryModalErrorUnknown": "Nieznany błąd.",
+      "indiRegistryModalErrorValidation": "Weryfikacja nie powiodła się: {wiadomość}",
+      "indiRegistryModalLabel": "Etykieta",
+      "indiRegistryModalLabelLength": "Etykieta musi mieć maksymalnie 200 znaków.",
+      "indiRegistryModalLoading": "Ładowanie rejestru...",
+      "indiRegistryModalName": "Nazwa",
+      "indiRegistryModalNameLength": "Nazwa musi mieć maksymalnie 200 znaków.",
+      "indiRegistryModalNameRequired": "Imię i nazwisko jest wymagane.",
+      "indiRegistryModalNoChanges": "Brak zmian do zapisania.",
+      "indiRegistryModalReload": "Przeładować",
+      "indiRegistryModalSave": "Ratować",
+      "indiRegistryModalSaved": "Wpis został zapisany. \nRejestr został ponownie załadowany z backendu.",
+      "indiRegistryModalSaving": "Oszczędność...",
+      "indiRegistryModalTitle": "Edytuj rejestr INDI",
+      "indiRegistryModalTotalEntries": "Wpisy",
+      "indiRegistryModalType": "Typ",
+      "indiRegistryModalTypeInvalid": "Typ musi być jedną z dozwolonych wartości.",
+      "indiRegistryModalUpdatedAt": "Zaktualizowano"
     },
     "bahtifocus": {
       "title": "Analizator maski Bahtinowa",
@@ -3703,7 +3735,12 @@
         "credentials": "Jeśli kamera wymaga nazwy użytkownika i hasła, podaj dane uwierzytelniające bezpośrednio w adresie URL:",
         "credentialsNote": "Serwer proxy zaplecza obsługuje uwierzytelnianie automatycznie — dane uwierzytelniające w adresie URL działają zarówno z uwierzytelnianiem podstawowym, jak i szyfrowanym (np. Hikvision).",
         "credentialsTitle": "Kamery chronione hasłem",
-        "exampleLabels": ["Typowa kamera IP", "Kamera ONVIF", "Kamera osiowa", "Kamera Hikvision"],
+        "exampleLabels": [
+          "Typowa kamera IP",
+          "Kamera ONVIF",
+          "Kamera osiowa",
+          "Kamera Hikvision"
+        ],
         "examplesTitle": "Przykłady",
         "proxyOptions": [
           "Proxy (domyślnie): Obraz jest pobierany przez backend NINA i przesyłany do przeglądarki. \nWymagane w przypadku kamer sieci lokalnej z poświadczeniami lub ograniczeniami CORS. \nNieco wolniejszy w przypadku dostępu przez VPN.",
@@ -4148,6 +4185,140 @@
         "imageRequired": "Proszę przesłać plik obrazu.",
         "nameRequired": "Nazwa krajobrazu jest wymagana."
       }
+    },
+    "groundStation": {
+      "common": {
+        "leaveEmpty": "(bez zmian)",
+        "loading": "Załadunek…",
+        "passwordUnchanged": "Pozostaw puste, aby zachować bieżącą wartość",
+        "save": "Ratować",
+        "saving": "Oszczędność…",
+        "test": "Wyślij test",
+        "testFailed": "Test nie powiódł się",
+        "testSuccess": "Test został wysłany pomyślnie",
+        "testing": "Przesyłka…"
+      },
+      "discord": {
+        "botName": "Nazwa wyświetlana bota",
+        "defaultWebhook": "Domyślny adres URL webhooka",
+        "failureMessage": "Komunikat o niepowodzeniu",
+        "failureTitle": "Tytuł porażki",
+        "failureWebhook": "Adres URL webhooka nie powiódł się",
+        "imageEventEnabled": "Publikuj zdarzenia przechwytywania obrazu",
+        "imageEvents": "Wydarzenia obrazowe",
+        "imageInterval": "Publikuj co N zdjęć",
+        "imagePostTitle": "Tytuł postu obrazu",
+        "imageTypes": "Typy obrazów",
+        "imageTypesHint": "Oddzielone przecinkami (np. JASNY, PŁASKI, CIEMNY)",
+        "imageWebhook": "Adres URL webhooka obrazu"
+      },
+      "email": {
+        "failureBody": "Ciało awarii",
+        "failureSubject": "Temat awarii",
+        "fromAddress": "Z adresu",
+        "host": "Host SMTP",
+        "password": "Hasło",
+        "port": "Port SMTP",
+        "recipients": "Domyślni odbiorcy",
+        "recipientsHint": "Oddzielone przecinkami",
+        "username": "Nazwa użytkownika"
+      },
+      "ifttt": {
+        "value1": "Wartość błędu 1",
+        "value2": "Wartość awarii 2",
+        "value3": "Wartość awarii 3",
+        "webhookKey": "Klucz webhooka"
+      },
+      "mqtt": {
+        "broker": "Pośrednik",
+        "clientId": "Identyfikator klienta",
+        "defaultQos": "Domyślna jakość usług",
+        "defaultRetain": "Zachowaj domyślnie",
+        "defaultTopic": "Domyślny temat",
+        "defaults": "Publikuj wartości domyślne",
+        "failureQos": "Awaria QoS",
+        "host": "Gospodarz",
+        "imagePublisher": "Wydawca obrazów",
+        "imagePublisherEnabled": "Włączony",
+        "imageQos": "Jakość obrazu",
+        "imageRetain": "Zachowaj obrazy",
+        "imageTopic": "Temat obrazu",
+        "imageTypes": "Typy obrazów",
+        "lwt": "Ostatnia wola",
+        "lwtBirth": "Ładunek urodzeniowy",
+        "lwtClose": "Zamknij ładunek",
+        "lwtEnabled": "Włącz LWT",
+        "lwtLastWill": "Ładunek ostatniej woli",
+        "lwtTopic": "Temat LWT",
+        "maxReconnect": "Maksymalna liczba prób ponownego połączenia",
+        "metadataOnly": "Tylko metadane",
+        "metadataTopic": "Temat metadanych",
+        "password": "Hasło",
+        "port": "Port",
+        "useTls": "Użyj TLS (przełącza port na 8883)",
+        "username": "Nazwa użytkownika"
+      },
+      "notLoaded": "Wtyczka Ground Station nie jest zainstalowana lub nie jest załadowana w NINA. \nZainstaluj wtyczkę „Ground Station” w NINA, aby móc korzystać z tych ustawień.",
+      "ntfysh": {
+        "defaultIcon": "Domyślny adres URL ikony",
+        "defaultTopic": "Domyślny temat",
+        "failureMessage": "Komunikat o niepowodzeniu",
+        "failureNotification": "Powiadomienie o awarii",
+        "failurePriority": "Priorytet awarii",
+        "failureTags": "Tagi niepowodzeń",
+        "failureTagsHint": "Oddzielone przecinkami (np. ostrzeżenie,obrotowe_światło)",
+        "failureTitle": "Tytuł porażki",
+        "password": "Hasło",
+        "token": "Token dostępu",
+        "url": "Adres URL serwera",
+        "user": "Nazwa użytkownika"
+      },
+      "pushover": {
+        "appKey": "Token interfejsu API aplikacji",
+        "emergExpire": "Awaryjne wygaśnięcie po (s)",
+        "emergExpireHint": "30 – 86400 sekund",
+        "emergRetry": "Interwał prób awaryjnych (s)",
+        "emergRetryHint": "30 – 86400 sekund",
+        "failureBody": "Ciało awarii",
+        "failurePriority": "Priorytet awarii",
+        "failureSound": "Dźwięk awarii",
+        "failureTitle": "Tytuł porażki",
+        "notificationPriority": "Priorytet powiadomień",
+        "notificationSound": "Dźwięk powiadomienia",
+        "userKey": "Klucz użytkownika"
+      },
+      "slack": {
+        "botDisplayName": "Nazwa wyświetlana bota",
+        "channels": "Kanały",
+        "failureMessage": "Komunikat o niepowodzeniu",
+        "imageEventChannel": "Kanał zdarzeń obrazu",
+        "imageEventEnabled": "Publikuj zdarzenia przechwytywania obrazu",
+        "imageEvents": "Wydarzenia obrazowe",
+        "imageInterval": "Publikuj co N zdjęć",
+        "imageTypes": "Typy obrazów",
+        "members": "członkowie",
+        "oauthToken": "Token OAuth bota",
+        "refreshChannels": "Odśwież kanały",
+        "refreshing": "Orzeźwiający…",
+        "workspace": "Obszar roboczy"
+      },
+      "subtitle": "Skonfiguruj usługi powiadomień stacji naziemnej NINA",
+      "tabs": {
+        "discord": "Niezgoda",
+        "email": "E-mail",
+        "ifttt": "IFTTT",
+        "mqtt": "MQTT",
+        "ntfysh": "ntfy.sh",
+        "pushover": "Łatwizna",
+        "slack": "Luźny",
+        "telegram": "Telegram"
+      },
+      "telegram": {
+        "accessToken": "Token dostępu bota",
+        "chatId": "Identyfikator czatu",
+        "failureBody": "Ciało awarii"
+      },
+      "title": "Stacja naziemna"
     }
   },
   "pinsDevices": {

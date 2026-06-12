@@ -44,6 +44,12 @@
       "message_api_version": "O plugin API está muito antigo. Execute uma atualização",
       "message_tns": "O plugin TouchNStars não está disponível. Verifique as configurações no NINA",
       "message_tns_version": "O plugin Touch N Stars está muito antigo. Execute uma atualização"
+    },
+    "connection_splash": {
+      "configured_instance": "instância configurada",
+      "default_instance_name": "instância selecionada",
+      "delayed": "Ainda tentando se conectar à instância {instance} em {endpoint} ({elapsed}s decorridos). \nAbra Configurações para verificar sua instância Touch-N-Stars.",
+      "trying": "Tentando se conectar à instância {instance} em {endpoint} ({elapsed}s decorridos, {remaining}s até que seja marcado como atrasado)."
     }
   },
   "whatsnew": {
@@ -2061,7 +2067,33 @@
       "hotspotCapabilitiesUnavailable": "Lista de recursos do adaptador indisponível; \ncanal manual permitido.",
       "hotspotChannelLabel": "Canal de ponto de acesso",
       "hotspotChannelPlaceholder": "Deixe em branco para automático",
-      "hotspotMetaLine": "Fonte: {fonte} | \nInterface: {iface} | \nBanda: {banda} | \nCanal: {canal}"
+      "hotspotMetaLine": "Fonte: {fonte} | \nInterface: {iface} | \nBanda: {banda} | \nCanal: {canal}",
+      "indiRegistryEditConfig": "Editar configuração",
+      "indiRegistryModalActions": "Ações",
+      "indiRegistryModalDescription": "Edite o nome, o rótulo e o tipo para entradas de registro de terceiros INDI instaladas.",
+      "indiRegistryModalEmpty": "Nenhuma entrada de registro encontrada.",
+      "indiRegistryModalErrorConflict": "O nome já existe (renomeação duplicada 409).",
+      "indiRegistryModalErrorGeneric": "Falha ao salvar a entrada: {message}",
+      "indiRegistryModalErrorLoad": "Falha ao carregar o registro: {message}",
+      "indiRegistryModalErrorNotFound": "Entrada não encontrada (404).",
+      "indiRegistryModalErrorUnknown": "Erro desconhecido.",
+      "indiRegistryModalErrorValidation": "Falha na validação: {message}",
+      "indiRegistryModalLabel": "Rótulo",
+      "indiRegistryModalLabelLength": "O rótulo deve ter 200 caracteres ou menos.",
+      "indiRegistryModalLoading": "Carregando registro...",
+      "indiRegistryModalName": "Nome",
+      "indiRegistryModalNameLength": "O nome deve ter 200 caracteres ou menos.",
+      "indiRegistryModalNameRequired": "O nome é obrigatório.",
+      "indiRegistryModalNoChanges": "Nenhuma alteração para salvar.",
+      "indiRegistryModalReload": "Recarregar",
+      "indiRegistryModalSave": "Salvar",
+      "indiRegistryModalSaved": "Entrada salva. \nRegistro recarregado do back-end.",
+      "indiRegistryModalSaving": "Salvando...",
+      "indiRegistryModalTitle": "Editar registro INDI",
+      "indiRegistryModalTotalEntries": "Entradas",
+      "indiRegistryModalType": "Tipo",
+      "indiRegistryModalTypeInvalid": "O tipo deve ser um dos valores permitidos.",
+      "indiRegistryModalUpdatedAt": "Atualizado"
     },
     "bahtifocus": {
       "title": "Analisador de máscara Bahtinov",
@@ -4153,6 +4185,140 @@
         "imageRequired": "Por favor, carregue um arquivo de imagem.",
         "nameRequired": "O nome da paisagem é obrigatório."
       }
+    },
+    "groundStation": {
+      "common": {
+        "leaveEmpty": "(inalterado)",
+        "loading": "Carregando…",
+        "passwordUnchanged": "Deixe em branco para manter o valor atual",
+        "save": "Salvar",
+        "saving": "Salvando…",
+        "test": "Enviar teste",
+        "testFailed": "Falha no teste",
+        "testSuccess": "Teste enviado com sucesso",
+        "testing": "Enviando…"
+      },
+      "discord": {
+        "botName": "Nome de exibição do bot",
+        "defaultWebhook": "URL padrão do webhook",
+        "failureMessage": "Mensagem de falha",
+        "failureTitle": "Título de falha",
+        "failureWebhook": "URL do webhook de falha",
+        "imageEventEnabled": "Publicar eventos de captura de imagem",
+        "imageEvents": "Eventos de imagem",
+        "imageInterval": "Publique cada N imagens",
+        "imagePostTitle": "Título da postagem da imagem",
+        "imageTypes": "Tipos de imagem",
+        "imageTypesHint": "Separados por vírgula (por exemplo, CLARO, PLANO, ESCURO)",
+        "imageWebhook": "URL do webhook da imagem"
+      },
+      "email": {
+        "failureBody": "Corpo de falha",
+        "failureSubject": "Assunto de falha",
+        "fromAddress": "Do endereço",
+        "host": "Anfitrião SMTP",
+        "password": "Senha",
+        "port": "Porta SMTP",
+        "recipients": "Destinatários padrão",
+        "recipientsHint": "Separados por vírgula",
+        "username": "Nome de usuário"
+      },
+      "ifttt": {
+        "value1": "Valor de falha 1",
+        "value2": "Valor de falha 2",
+        "value3": "Valor de falha 3",
+        "webhookKey": "Chave do webhook"
+      },
+      "mqtt": {
+        "broker": "Corretor",
+        "clientId": "ID do cliente",
+        "defaultQos": "QoS padrão",
+        "defaultRetain": "Reter por padrão",
+        "defaultTopic": "Tópico padrão",
+        "defaults": "Publicar padrões",
+        "failureQos": "QoS de falha",
+        "host": "Hospedar",
+        "imagePublisher": "Editor de imagens",
+        "imagePublisherEnabled": "Habilitado",
+        "imageQos": "QoS da imagem",
+        "imageRetain": "Reter imagens",
+        "imageTopic": "Tópico de imagem",
+        "imageTypes": "Tipos de imagem",
+        "lwt": "Última vontade",
+        "lwtBirth": "Carga útil de nascimento",
+        "lwtClose": "Fechar carga útil",
+        "lwtEnabled": "Habilitar LWT",
+        "lwtLastWill": "Última carga útil",
+        "lwtTopic": "Tópico LWT",
+        "maxReconnect": "Máximo de tentativas de reconexão",
+        "metadataOnly": "Somente metadados",
+        "metadataTopic": "Tópico de metadados",
+        "password": "Senha",
+        "port": "Porta",
+        "useTls": "Use TLS (muda a porta para 8883)",
+        "username": "Nome de usuário"
+      },
+      "notLoaded": "O plugin Ground Station não está instalado ou não carregado no NINA. \nInstale o plugin 'Ground Station' no NINA para usar essas configurações.",
+      "ntfysh": {
+        "defaultIcon": "URL do ícone padrão",
+        "defaultTopic": "Tópico padrão",
+        "failureMessage": "Mensagem de falha",
+        "failureNotification": "Notificação de falha",
+        "failurePriority": "Prioridade de falha",
+        "failureTags": "Tags de falha",
+        "failureTagsHint": "Separados por vírgula (por exemplo, warning,rotating_light)",
+        "failureTitle": "Título de falha",
+        "password": "Senha",
+        "token": "Token de acesso",
+        "url": "URL do servidor",
+        "user": "Nome de usuário"
+      },
+      "pushover": {
+        "appKey": "Token da API do aplicativo",
+        "emergExpire": "Expiração de emergência após (s)",
+        "emergExpireHint": "30 – 86.400 segundos",
+        "emergRetry": "Intervalo(s) de Novas Tentativas de Emergência",
+        "emergRetryHint": "30 – 86.400 segundos",
+        "failureBody": "Corpo de falha",
+        "failurePriority": "Prioridade de falha",
+        "failureSound": "Som de falha",
+        "failureTitle": "Título de falha",
+        "notificationPriority": "Prioridade de notificação",
+        "notificationSound": "Som de notificação",
+        "userKey": "Chave do usuário"
+      },
+      "slack": {
+        "botDisplayName": "Nome de exibição do bot",
+        "channels": "Canais",
+        "failureMessage": "Mensagem de falha",
+        "imageEventChannel": "Canal de eventos de imagem",
+        "imageEventEnabled": "Publicar eventos de captura de imagem",
+        "imageEvents": "Eventos de imagem",
+        "imageInterval": "Publique cada N imagens",
+        "imageTypes": "Tipos de imagem",
+        "members": "membros",
+        "oauthToken": "Token OAuth de bot",
+        "refreshChannels": "Atualizar canais",
+        "refreshing": "Refrescante…",
+        "workspace": "Espaço de trabalho"
+      },
+      "subtitle": "Configurar serviços de notificação da Estação Terrestre NINA",
+      "tabs": {
+        "discord": "Discórdia",
+        "email": "E-mail",
+        "ifttt": "IFTTT",
+        "mqtt": "MQTT",
+        "ntfysh": "ntfy.sh",
+        "pushover": "Flexão",
+        "slack": "Folga",
+        "telegram": "Telegrama"
+      },
+      "telegram": {
+        "accessToken": "Token de acesso de bot",
+        "chatId": "ID do bate-papo",
+        "failureBody": "Corpo de falha"
+      },
+      "title": "Estação Terrestre"
     }
   },
   "pinsDevices": {

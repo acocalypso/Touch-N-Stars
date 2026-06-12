@@ -44,6 +44,12 @@
       "message_api_version": "API 插件版本过旧。请进行更新",
       "message_tns": "TouchNStars 插件不可用。请检查 NINA 中的设置",
       "message_tns_version": "Touch N Stars 插件版本过于陈旧。请进行更新"
+    },
+    "connection_splash": {
+      "configured_instance": "configured instance",
+      "default_instance_name": "selected instance",
+      "delayed": "Still trying to connect to instance {instance} at {endpoint} ({elapsed}s elapsed). Open Settings to verify your Touch-N-Stars instance.",
+      "trying": "Trying to connect to instance {instance} at {endpoint} ({elapsed}s elapsed, {remaining}s until this is marked as delayed)."
     }
   },
   "whatsnew": {
@@ -2061,7 +2067,33 @@
       "hotspotCapabilitiesUnavailable": "Adapter capability list unavailable; manual channel allowed.",
       "hotspotChannelLabel": "Hotspot Channel",
       "hotspotChannelPlaceholder": "Leave empty for auto",
-      "hotspotMetaLine": "Source: {source} | Interface: {iface} | Band: {band} | Channel: {channel}"
+      "hotspotMetaLine": "Source: {source} | Interface: {iface} | Band: {band} | Channel: {channel}",
+      "indiRegistryEditConfig": "Edit config",
+      "indiRegistryModalActions": "Actions",
+      "indiRegistryModalDescription": "Edit Name, Label, and Type for installed INDI 3rdparty registry entries.",
+      "indiRegistryModalEmpty": "No registry entries found.",
+      "indiRegistryModalErrorConflict": "Name already exists (409 duplicate rename).",
+      "indiRegistryModalErrorGeneric": "Failed to save entry: {message}",
+      "indiRegistryModalErrorLoad": "Failed to load registry: {message}",
+      "indiRegistryModalErrorNotFound": "Entry not found (404).",
+      "indiRegistryModalErrorUnknown": "Unknown error.",
+      "indiRegistryModalErrorValidation": "Validation failed: {message}",
+      "indiRegistryModalLabel": "Label",
+      "indiRegistryModalLabelLength": "Label must be 200 characters or fewer.",
+      "indiRegistryModalLoading": "Loading registry...",
+      "indiRegistryModalName": "Name",
+      "indiRegistryModalNameLength": "Name must be 200 characters or fewer.",
+      "indiRegistryModalNameRequired": "Name is required.",
+      "indiRegistryModalNoChanges": "No changes to save.",
+      "indiRegistryModalReload": "Reload",
+      "indiRegistryModalSave": "Save",
+      "indiRegistryModalSaved": "Entry saved. Registry reloaded from backend.",
+      "indiRegistryModalSaving": "Saving...",
+      "indiRegistryModalTitle": "Edit INDI Registry",
+      "indiRegistryModalTotalEntries": "Entries",
+      "indiRegistryModalType": "Type",
+      "indiRegistryModalTypeInvalid": "Type must be one of the allowed values.",
+      "indiRegistryModalUpdatedAt": "Updated"
     },
     "bahtifocus": {
       "title": "Bahtinov掩模分析仪",
@@ -3703,7 +3735,12 @@
         "credentials": "If your camera requires a username and password, include the credentials directly in the URL:",
         "credentialsNote": "The backend proxy handles authentication automatically — credentials in the URL work with both Basic and Digest authentication (e.g. Hikvision).",
         "credentialsTitle": "Password-protected cameras",
-        "exampleLabels": ["Generic IP camera", "ONVIF camera", "Axis camera", "Hikvision camera"],
+        "exampleLabels": [
+          "Generic IP camera",
+          "ONVIF camera",
+          "Axis camera",
+          "Hikvision camera"
+        ],
         "examplesTitle": "Examples",
         "proxyOptions": [
           "Proxy (default): The image is fetched by the NINA backend and forwarded to the browser. Required for local network cameras with credentials or CORS restrictions. Slightly slower when accessed over VPN.",
@@ -4148,6 +4185,140 @@
         "imageRequired": "Please upload an image file.",
         "nameRequired": "Landscape name is required."
       }
+    },
+    "groundStation": {
+      "common": {
+        "leaveEmpty": "(unchanged)",
+        "loading": "Loading…",
+        "passwordUnchanged": "Leave empty to keep current value",
+        "save": "Save",
+        "saving": "Saving…",
+        "test": "Send Test",
+        "testFailed": "Test failed",
+        "testSuccess": "Test sent successfully",
+        "testing": "Sending…"
+      },
+      "discord": {
+        "botName": "Bot Display Name",
+        "defaultWebhook": "Default Webhook URL",
+        "failureMessage": "Failure Message",
+        "failureTitle": "Failure Title",
+        "failureWebhook": "Failure Webhook URL",
+        "imageEventEnabled": "Publish image capture events",
+        "imageEvents": "Image Events",
+        "imageInterval": "Post Every N Images",
+        "imagePostTitle": "Image Post Title",
+        "imageTypes": "Image Types",
+        "imageTypesHint": "Comma-separated (e.g. LIGHT,FLAT,DARK)",
+        "imageWebhook": "Image Webhook URL"
+      },
+      "email": {
+        "failureBody": "Failure Body",
+        "failureSubject": "Failure Subject",
+        "fromAddress": "From Address",
+        "host": "SMTP Host",
+        "password": "Password",
+        "port": "SMTP Port",
+        "recipients": "Default Recipients",
+        "recipientsHint": "Comma-separated",
+        "username": "Username"
+      },
+      "ifttt": {
+        "value1": "Failure Value 1",
+        "value2": "Failure Value 2",
+        "value3": "Failure Value 3",
+        "webhookKey": "Webhook Key"
+      },
+      "mqtt": {
+        "broker": "Broker",
+        "clientId": "Client ID",
+        "defaultQos": "Default QoS",
+        "defaultRetain": "Retain by default",
+        "defaultTopic": "Default Topic",
+        "defaults": "Publish Defaults",
+        "failureQos": "Failure QoS",
+        "host": "Host",
+        "imagePublisher": "Image Publisher",
+        "imagePublisherEnabled": "Enabled",
+        "imageQos": "Image QoS",
+        "imageRetain": "Retain images",
+        "imageTopic": "Image Topic",
+        "imageTypes": "Image Types",
+        "lwt": "Last Will",
+        "lwtBirth": "Birth Payload",
+        "lwtClose": "Close Payload",
+        "lwtEnabled": "Enable LWT",
+        "lwtLastWill": "Last Will Payload",
+        "lwtTopic": "LWT Topic",
+        "maxReconnect": "Max Reconnect Attempts",
+        "metadataOnly": "Metadata only",
+        "metadataTopic": "Metadata Topic",
+        "password": "Password",
+        "port": "Port",
+        "useTls": "Use TLS (switches port to 8883)",
+        "username": "Username"
+      },
+      "notLoaded": "The Ground Station plugin is not installed or not loaded in NINA. Install the 'Ground Station' plugin in NINA to use these settings.",
+      "ntfysh": {
+        "defaultIcon": "Default Icon URL",
+        "defaultTopic": "Default Topic",
+        "failureMessage": "Failure Message",
+        "failureNotification": "Failure Notification",
+        "failurePriority": "Failure Priority",
+        "failureTags": "Failure Tags",
+        "failureTagsHint": "Comma-separated (e.g. warning,rotating_light)",
+        "failureTitle": "Failure Title",
+        "password": "Password",
+        "token": "Access Token",
+        "url": "Server URL",
+        "user": "Username"
+      },
+      "pushover": {
+        "appKey": "App API Token",
+        "emergExpire": "Emergency Expire After (s)",
+        "emergExpireHint": "30 – 86400 seconds",
+        "emergRetry": "Emergency Retry Interval (s)",
+        "emergRetryHint": "30 – 86400 seconds",
+        "failureBody": "Failure Body",
+        "failurePriority": "Failure Priority",
+        "failureSound": "Failure Sound",
+        "failureTitle": "Failure Title",
+        "notificationPriority": "Notification Priority",
+        "notificationSound": "Notification Sound",
+        "userKey": "User Key"
+      },
+      "slack": {
+        "botDisplayName": "Bot Display Name",
+        "channels": "Channels",
+        "failureMessage": "Failure Message",
+        "imageEventChannel": "Image Event Channel",
+        "imageEventEnabled": "Publish image capture events",
+        "imageEvents": "Image Events",
+        "imageInterval": "Post Every N Images",
+        "imageTypes": "Image Types",
+        "members": "members",
+        "oauthToken": "Bot OAuth Token",
+        "refreshChannels": "Refresh Channels",
+        "refreshing": "Refreshing…",
+        "workspace": "Workspace"
+      },
+      "subtitle": "Configure NINA Ground Station notification services",
+      "tabs": {
+        "discord": "Discord",
+        "email": "Email",
+        "ifttt": "IFTTT",
+        "mqtt": "MQTT",
+        "ntfysh": "ntfy.sh",
+        "pushover": "Pushover",
+        "slack": "Slack",
+        "telegram": "Telegram"
+      },
+      "telegram": {
+        "accessToken": "Bot Access Token",
+        "chatId": "Chat ID",
+        "failureBody": "Failure Body"
+      },
+      "title": "Ground Station"
     }
   },
   "pinsDevices": {

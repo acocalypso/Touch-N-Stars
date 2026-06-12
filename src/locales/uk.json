@@ -44,6 +44,12 @@
       "message_api_version": "Плагін API застарілий. Будь ласка, оновіть його",
       "message_tns": "Плагін Touch'N'Stars недоступний. Перевірте налаштування в NINA",
       "message_tns_version": "Плагін Touch N Stars застарілий. Будь ласка, оновіть його"
+    },
+    "connection_splash": {
+      "configured_instance": "налаштований екземпляр",
+      "default_instance_name": "вибраний екземпляр",
+      "delayed": "Продовжується спроба підключитися до екземпляра {instance} на {endpoint} (минуло {elapsed} с). \nВідкрийте налаштування, щоб перевірити свій екземпляр Touch-N-Stars.",
+      "trying": "Спроба підключитися до екземпляра {instance} у {endpoint} ({elapsed} с минуло, {remaining} с, поки це не позначено як відкладене)."
     }
   },
   "whatsnew": {
@@ -2935,7 +2941,33 @@
       "hotspotCapabilitiesUnavailable": "Список можливостей адаптера недоступний; \nдозволений ручний канал.",
       "hotspotChannelLabel": "Канал Hotspot",
       "hotspotChannelPlaceholder": "Залиште порожнім для авто",
-      "hotspotMetaLine": "Джерело: {джерело} | \nІнтерфейс: {iface} | \nГрупа: {band} | \nКанал: {channel}"
+      "hotspotMetaLine": "Джерело: {джерело} | \nІнтерфейс: {iface} | \nГрупа: {band} | \nКанал: {channel}",
+      "indiRegistryEditConfig": "Редагувати конфігурацію",
+      "indiRegistryModalActions": "Дії",
+      "indiRegistryModalDescription": "Редагувати назву, мітку та тип для встановлених записів реєстру сторонніх розробників INDI.",
+      "indiRegistryModalEmpty": "Записи реєстру не знайдено.",
+      "indiRegistryModalErrorConflict": "Ім'я вже існує (409 дублікатів перейменування).",
+      "indiRegistryModalErrorGeneric": "Не вдалося зберегти запис: {message}",
+      "indiRegistryModalErrorLoad": "Не вдалося завантажити реєстр: {message}",
+      "indiRegistryModalErrorNotFound": "Запис не знайдено (404).",
+      "indiRegistryModalErrorUnknown": "Невідома помилка.",
+      "indiRegistryModalErrorValidation": "Помилка перевірки: {message}",
+      "indiRegistryModalLabel": "Мітка",
+      "indiRegistryModalLabelLength": "Мітка має містити 200 символів або менше.",
+      "indiRegistryModalLoading": "Завантаження реєстру...",
+      "indiRegistryModalName": "Ім'я",
+      "indiRegistryModalNameLength": "Назва має містити 200 символів або менше.",
+      "indiRegistryModalNameRequired": "Необхідно вказати ім'я.",
+      "indiRegistryModalNoChanges": "Немає змін для збереження.",
+      "indiRegistryModalReload": "Перезавантажити",
+      "indiRegistryModalSave": "зберегти",
+      "indiRegistryModalSaved": "Запис збережено. \nРеєстр перезавантажено з серверної частини.",
+      "indiRegistryModalSaving": "Збереження...",
+      "indiRegistryModalTitle": "Редагувати реєстр INDI",
+      "indiRegistryModalTotalEntries": "Записи",
+      "indiRegistryModalType": "Тип",
+      "indiRegistryModalTypeInvalid": "Тип має бути одним із дозволених значень.",
+      "indiRegistryModalUpdatedAt": "Оновлено"
     },
     "narrowband": {
       "title": "Калькулятор фільтрів",
@@ -3920,7 +3952,12 @@
         "proxyTitle": "Проксі vs. Прямий",
         "proxyText": "Кожна камера може отримуватися двома способами:",
         "close": "Закрити",
-        "exampleLabels": ["Звичайна IP-камера", "Камера ONVIF", "Камера Axis", "Камера Hikvision"],
+        "exampleLabels": [
+          "Звичайна IP-камера",
+          "Камера ONVIF",
+          "Камера Axis",
+          "Камера Hikvision"
+        ],
         "proxyOptions": [
           "Проксі (за замовчуванням): Зображення отримується сервером NINA та передається в браузер. Потрібно для камер локальної мережі з обліковими даними або обмеженнями CORS. Трохи повільніше при доступі через VPN.",
           "Прямий: Браузер отримує зображення безпосередньо. Швидше для публічних інтернет-камер (напр. публічні allsky-камери). Не підтримує облікові дані в URL в Chrome/Edge."
@@ -4148,6 +4185,140 @@
         "imageRequired": "Будь ласка, завантажте файл зображення.",
         "nameRequired": "Необхідно вказати альбомну назву."
       }
+    },
+    "groundStation": {
+      "common": {
+        "leaveEmpty": "(без змін)",
+        "loading": "Завантаження…",
+        "passwordUnchanged": "Залиште пустим, щоб зберегти поточне значення",
+        "save": "зберегти",
+        "saving": "Збереження…",
+        "test": "Надіслати тест",
+        "testFailed": "Тест не вдалося",
+        "testSuccess": "Тест успішно надіслано",
+        "testing": "Надсилання…"
+      },
+      "discord": {
+        "botName": "Відображуване ім'я бота",
+        "defaultWebhook": "URL-адреса Webhook за умовчанням",
+        "failureMessage": "Повідомлення про помилку",
+        "failureTitle": "Назва помилки",
+        "failureWebhook": "Помилка URL-адреси вебхуку",
+        "imageEventEnabled": "Публікувати події захоплення зображень",
+        "imageEvents": "Іміджеві події",
+        "imageInterval": "Публікуйте кожні N зображень",
+        "imagePostTitle": "Заголовок публікації зображення",
+        "imageTypes": "Типи зображень",
+        "imageTypesHint": "Розділені комами (наприклад, LIGHT, FLAT, DARK)",
+        "imageWebhook": "URL-адреса вебхука зображення"
+      },
+      "email": {
+        "failureBody": "Відмова тіла",
+        "failureSubject": "Тема невдачі",
+        "fromAddress": "З адреси",
+        "host": "Хост SMTP",
+        "password": "Пароль",
+        "port": "Порт SMTP",
+        "recipients": "Одержувачі за умовчанням",
+        "recipientsHint": "Через кому",
+        "username": "Ім'я користувача"
+      },
+      "ifttt": {
+        "value1": "Значення помилки 1",
+        "value2": "Значення помилки 2",
+        "value3": "Значення помилки 3",
+        "webhookKey": "Ключ вебхуку"
+      },
+      "mqtt": {
+        "broker": "Брокер",
+        "clientId": "ID клієнта",
+        "defaultQos": "QoS за замовчуванням",
+        "defaultRetain": "Зберігати за умовчанням",
+        "defaultTopic": "Тема за замовчуванням",
+        "defaults": "Опублікувати параметри за замовчуванням",
+        "failureQos": "Помилка QoS",
+        "host": "Хост",
+        "imagePublisher": "Видавець зображень",
+        "imagePublisherEnabled": "Увімкнено",
+        "imageQos": "QoS зображення",
+        "imageRetain": "Зберігати зображення",
+        "imageTopic": "Тема зображення",
+        "imageTypes": "Типи зображень",
+        "lwt": "Остання воля",
+        "lwtBirth": "Корисне навантаження від народження",
+        "lwtClose": "Закрити Payload",
+        "lwtEnabled": "Увімкнути LWT",
+        "lwtLastWill": "Last Will Payload",
+        "lwtTopic": "Тема LWT",
+        "maxReconnect": "Максимальна кількість спроб повторного підключення",
+        "metadataOnly": "Лише метадані",
+        "metadataTopic": "Тема метаданих",
+        "password": "Пароль",
+        "port": "Порт",
+        "useTls": "Використовувати TLS (перемикає порт на 8883)",
+        "username": "Ім'я користувача"
+      },
+      "notLoaded": "Плагін Ground Station не встановлено або не завантажено в NINA. \nВстановіть плагін «Наземна станція» в NINA, щоб використовувати ці налаштування.",
+      "ntfysh": {
+        "defaultIcon": "URL-адреса значка за умовчанням",
+        "defaultTopic": "Тема за замовчуванням",
+        "failureMessage": "Повідомлення про помилку",
+        "failureNotification": "Повідомлення про помилку",
+        "failurePriority": "Пріоритет відмов",
+        "failureTags": "Теги помилок",
+        "failureTagsHint": "Розділені комами (наприклад, warning,rotating_light)",
+        "failureTitle": "Назва помилки",
+        "password": "Пароль",
+        "token": "Маркер доступу",
+        "url": "URL-адреса сервера",
+        "user": "Ім'я користувача"
+      },
+      "pushover": {
+        "appKey": "Маркер API програми",
+        "emergExpire": "Екстрений термін дії закінчується через (s)",
+        "emergExpireHint": "30 – 86400 секунд",
+        "emergRetry": "Інтервал екстрених спроб (с)",
+        "emergRetryHint": "30 – 86400 секунд",
+        "failureBody": "Відмова тіла",
+        "failurePriority": "Пріоритет відмов",
+        "failureSound": "Звук несправності",
+        "failureTitle": "Назва помилки",
+        "notificationPriority": "Пріоритет сповіщень",
+        "notificationSound": "Звук сповіщення",
+        "userKey": "Ключ користувача"
+      },
+      "slack": {
+        "botDisplayName": "Відображуване ім'я бота",
+        "channels": "Канали",
+        "failureMessage": "Повідомлення про помилку",
+        "imageEventChannel": "Image Event Channel",
+        "imageEventEnabled": "Публікувати події захоплення зображень",
+        "imageEvents": "Іміджеві події",
+        "imageInterval": "Публікуйте кожні N зображень",
+        "imageTypes": "Типи зображень",
+        "members": "членів",
+        "oauthToken": "Маркер OAuth бота",
+        "refreshChannels": "Оновити канали",
+        "refreshing": "Оновлення…",
+        "workspace": "Робоча область"
+      },
+      "subtitle": "Налаштуйте служби сповіщень наземної станції NINA",
+      "tabs": {
+        "discord": "Розбрат",
+        "email": "Електронна пошта",
+        "ifttt": "IFTTT",
+        "mqtt": "MQTT",
+        "ntfysh": "ntfy.sh",
+        "pushover": "Pushover",
+        "slack": "Млява",
+        "telegram": "Телеграма"
+      },
+      "telegram": {
+        "accessToken": "Маркер доступу бота",
+        "chatId": "Ідентифікатор чату",
+        "failureBody": "Відмова тіла"
+      },
+      "title": "Наземна станція"
     }
   },
   "dialogs": {

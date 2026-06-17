@@ -17,6 +17,7 @@
       >
         <option value="CONNECTION_SERIAL">{{ $t('indi.config.serial') }}</option>
         <option value="CONNECTION_TCP">{{ $t('indi.config.network') }}</option>
+        <option value="CONNECTION_HTTP">{{ $t('indi.config.http') }}</option>
       </select>
     </div>
 
@@ -141,6 +142,25 @@
           class="default-input h-7 md:h-8 text-xs md:text-sm w-48"
           :class="statusClassTCPPort"
           placeholder="3492"
+        />
+      </div>
+    </div>
+
+    <!-- HTTP Connection Settings (e.g. Starbook Ten) -->
+    <div v-if="connectionMode === 'CONNECTION_HTTP'">
+      <!-- IP Address -->
+      <div class="flex flex-row items-center justify-between w-full mt-2 md:mt-3">
+        <label for="httpAddress" class="text-xs md:text-sm text-gray-200 mr-2">
+          {{ $t('indi.config.ipAddress') }}
+        </label>
+        <input
+          id="httpAddress"
+          v-model="ipAddress"
+          @change="setIPAddress"
+          type="text"
+          class="default-input h-7 md:h-8 text-xs md:text-sm w-48"
+          :class="statusClassIPAddress"
+          placeholder="192.168.0.1"
         />
       </div>
     </div>
@@ -322,13 +342,16 @@ const initializeSettings = () => {
   // IndiPort is shared between serial and TCP, so load it into the appropriate field based on connection mode
   if (prefix.port) {
     const portValue = settings[prefix.port] ?? '3492';
-    // If we're in TCP mode, load into tcpPort; otherwise, load into devicePort
     if (connectionMode.value === 'CONNECTION_TCP') {
       tcpPort.value = portValue;
-      devicePort.value = '/dev/ttyUSB0'; // Set default for serial
+      devicePort.value = '/dev/ttyUSB0';
+    } else if (connectionMode.value === 'CONNECTION_HTTP') {
+      // HTTP mode has no port; address is stored separately
+      devicePort.value = '/dev/ttyUSB0';
+      tcpPort.value = '3492';
     } else {
       devicePort.value = portValue;
-      tcpPort.value = '3492'; // Keep default for TCP
+      tcpPort.value = '3492';
     }
   }
 
@@ -369,15 +392,16 @@ async function setConnectionMode() {
       connectionMode.value
     );
 
-    // When switching modes, update the port setting to the appropriate value
+    // When switching modes, persist the port setting that makes sense for that mode
     if (connectionMode.value === 'CONNECTION_TCP') {
-      // Switching to TCP: save the TCP port
       await apiService.profileChangeValue(
         `${settingsKeyMap[props.equipmentType]}-${prefix.port}`,
         tcpPort.value
       );
+    } else if (connectionMode.value === 'CONNECTION_HTTP') {
+      // HTTP mode: no port to persist; address is saved separately via setIPAddress
     } else {
-      // Switching to Serial: save the device port
+      // Serial: save device port
       await apiService.profileChangeValue(
         `${settingsKeyMap[props.equipmentType]}-${prefix.port}`,
         devicePort.value

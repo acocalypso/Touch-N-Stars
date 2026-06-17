@@ -1857,6 +1857,23 @@
     }
   },
   "plugins": {
+    "indiControlPanel": {
+      "title": "INDI Control Panel",
+      "description": "Inspect and control every property of the INDI drivers currently loaded on the server.",
+      "refresh": "Refresh",
+      "updated": "Updated",
+      "set": "Set",
+      "readonly": "read-only",
+      "noDevices": "No INDI devices are currently active. Connect equipment first, then refresh.",
+      "loadFailed": "Failed to load INDI properties.",
+      "setFailed": "Failed to set the property.",
+      "invalidNumber": "Invalid number for {element}.",
+      "log": "INDI Messages",
+      "enableLog": "Enable",
+      "logDisabled": "Message log is disabled.",
+      "scrollToLatest": "Scroll to latest",
+      "noMessages": "No messages yet."
+    },
     "common": {
       "initializing": "Initializing...",
       "outdated": {

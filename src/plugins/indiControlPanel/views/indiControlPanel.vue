@@ -240,6 +240,7 @@ const logEnabled = ref(localStorage.getItem('indiControlPanel.logEnabled') === '
 const edits = reactive({});
 
 let pollTimer = null;
+let stopped = false;
 
 const devices = computed(() => deviceSnapshots.value || []);
 
@@ -331,8 +332,10 @@ async function submitProperty(prop) {
     }
     elements[el.Name] = value;
   }
-  await sendSet(prop, elements);
-  clearEdits(prop);
+  const success = await sendSet(prop, elements);
+  if (success) {
+    clearEdits(prop);
+  }
 }
 
 async function toggleSwitch(prop, el) {
@@ -353,11 +356,14 @@ async function sendSet(prop, elements) {
     const res = await apiPinsService.setINDIProperty(selectedDeviceName.value, prop.Name, elements);
     if (res && res.Success === false) {
       error.value = res.Error || t('plugins.indiControlPanel.setFailed');
+      return false;
     }
     // Pull a fresh snapshot quickly so the UI reflects the driver's response.
     await loadProperties();
+    return true;
   } catch (e) {
     error.value = e?.message || t('plugins.indiControlPanel.setFailed');
+    return false;
   } finally {
     busyKey.value = null;
   }
@@ -428,9 +434,17 @@ function formatMessageTime(ts) {
   return Number.isNaN(d.getTime()) ? ts : d.toLocaleTimeString();
 }
 
+// Recursive setTimeout (not setInterval) so the next poll is only scheduled once the
+// previous one has fully completed — avoids overlapping/piling requests on a slow backend.
 async function poll() {
-  await loadProperties();
-  await loadMessages();
+  try {
+    await loadProperties();
+    await loadMessages();
+  } finally {
+    if (!stopped) {
+      pollTimer = setTimeout(poll, POLL_INTERVAL_MS);
+    }
+  }
 }
 
 async function reload() {
@@ -438,8 +452,11 @@ async function reload() {
   error.value = '';
   try {
     await apiPinsService.refreshINDIProperties();
-    await poll();
+    await loadProperties();
+    await loadMessages();
     nextTick(scrollLogToBottom);
+  } catch (e) {
+    error.value = e?.message || t('plugins.indiControlPanel.loadFailed');
   } finally {
     loading.value = false;
   }
@@ -447,10 +464,13 @@ async function reload() {
 
 onMounted(async () => {
   await reload();
-  pollTimer = setInterval(poll, POLL_INTERVAL_MS);
+  if (!stopped) {
+    pollTimer = setTimeout(poll, POLL_INTERVAL_MS);
+  }
 });
 
 onUnmounted(() => {
-  if (pollTimer) clearInterval(pollTimer);
+  stopped = true;
+  if (pollTimer) clearTimeout(pollTimer);
 });
 </script>

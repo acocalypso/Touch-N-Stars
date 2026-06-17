@@ -4612,7 +4612,8 @@
     "config": {
       "connectionMode": "Connection Mode",
       "serial": "Serial",
-      "network": "Network",
+      "network": "Network (TCP)",
+      "http": "HTTP",
       "devicePort": "Device Port",
       "baudRate": "Baud Rate",
       "autoDetect": "Auto Search",

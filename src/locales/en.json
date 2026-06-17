@@ -1867,7 +1867,12 @@
       "noDevices": "No INDI devices are currently active. Connect equipment first, then refresh.",
       "loadFailed": "Failed to load INDI properties.",
       "setFailed": "Failed to set the property.",
-      "invalidNumber": "Invalid number for {element}."
+      "invalidNumber": "Invalid number for {element}.",
+      "log": "INDI Messages",
+      "enableLog": "Enable",
+      "logDisabled": "Message log is disabled.",
+      "scrollToLatest": "Scroll to latest",
+      "noMessages": "No messages yet."
     },
     "common": {
       "initializing": "Initializing...",

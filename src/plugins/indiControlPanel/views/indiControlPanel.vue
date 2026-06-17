@@ -164,11 +164,59 @@
         </div>
       </div>
     </div>
+
+    <!-- INDI message log -->
+    <div class="mt-6">
+      <div class="flex items-center justify-between mb-2">
+        <h2 class="text-sm font-semibold text-gray-300">
+          {{ $t('plugins.indiControlPanel.log') }}
+        </h2>
+        <div class="flex items-center gap-3">
+          <button
+            v-if="logEnabled"
+            class="text-xs text-gray-500 hover:text-gray-300"
+            @click="scrollLogToBottom"
+          >
+            {{ $t('plugins.indiControlPanel.scrollToLatest') }}
+          </button>
+          <label class="flex items-center gap-1.5 text-xs text-gray-400 cursor-pointer select-none">
+            <input
+              type="checkbox"
+              class="accent-indigo-500"
+              :checked="logEnabled"
+              @change="toggleLog"
+            />
+            {{ $t('plugins.indiControlPanel.enableLog') }}
+          </label>
+        </div>
+      </div>
+      <div
+        v-if="logEnabled"
+        ref="logContainer"
+        class="h-40 overflow-y-auto rounded-lg bg-black/60 border border-gray-700 p-2 font-mono text-xs leading-relaxed"
+      >
+        <p v-if="messages.length === 0" class="text-gray-600">
+          {{ $t('plugins.indiControlPanel.noMessages') }}
+        </p>
+        <div
+          v-for="(msg, idx) in messages"
+          :key="idx"
+          class="whitespace-pre-wrap break-words text-gray-300"
+        >
+          <span class="text-gray-500">{{ formatMessageTime(msg.Timestamp) }}</span>
+          <span v-if="msg.Device" class="text-indigo-400"> [{{ msg.Device }}]</span>
+          <span class="text-gray-200"> {{ msg.Message }}</span>
+        </div>
+      </div>
+      <p v-else class="text-xs text-gray-600">
+        {{ $t('plugins.indiControlPanel.logDisabled') }}
+      </p>
+    </div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, reactive, watch, onMounted, onUnmounted } from 'vue';
+import { ref, computed, reactive, watch, nextTick, onMounted, onUnmounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import apiPinsService from '@/services/apiPinsService';
 
@@ -183,6 +231,9 @@ const loading = ref(false);
 const error = ref('');
 const lastUpdated = ref(0);
 const busyKey = ref(null);
+const messages = ref([]);
+const logContainer = ref(null);
+const logEnabled = ref(localStorage.getItem('indiControlPanel.logEnabled') === 'true');
 
 // Local edit buffers so polling does not clobber values the user is typing.
 // key: `${propertyName}|${elementName}`
@@ -331,12 +382,64 @@ async function loadProperties() {
   }
 }
 
+function toggleLog() {
+  logEnabled.value = !logEnabled.value;
+  localStorage.setItem('indiControlPanel.logEnabled', logEnabled.value ? 'true' : 'false');
+  if (logEnabled.value) {
+    loadMessages().then(() => nextTick(scrollLogToBottom));
+  } else {
+    messages.value = [];
+  }
+}
+
+async function loadMessages() {
+  if (!logEnabled.value) return;
+  try {
+    const res = await apiPinsService.getINDIMessages(200);
+    const list = res && res.Response ? res.Response : [];
+    const next = Array.isArray(list) ? list : [];
+
+    // Only touch the DOM/scroll when something actually changed.
+    const wasAtBottom = isScrolledToBottom();
+    const changed = next.length !== messages.value.length;
+    messages.value = next;
+    if (changed && wasAtBottom) {
+      nextTick(scrollLogToBottom);
+    }
+  } catch {
+    // Messages are best-effort; never surface as a blocking error.
+  }
+}
+
+function isScrolledToBottom() {
+  const el = logContainer.value;
+  if (!el) return true;
+  return el.scrollHeight - el.scrollTop - el.clientHeight < 24;
+}
+
+function scrollLogToBottom() {
+  const el = logContainer.value;
+  if (el) el.scrollTop = el.scrollHeight;
+}
+
+function formatMessageTime(ts) {
+  if (!ts) return '';
+  const d = new Date(ts);
+  return Number.isNaN(d.getTime()) ? ts : d.toLocaleTimeString();
+}
+
+async function poll() {
+  await loadProperties();
+  await loadMessages();
+}
+
 async function reload() {
   loading.value = true;
   error.value = '';
   try {
     await apiPinsService.refreshINDIProperties();
-    await loadProperties();
+    await poll();
+    nextTick(scrollLogToBottom);
   } finally {
     loading.value = false;
   }
@@ -344,7 +447,7 @@ async function reload() {
 
 onMounted(async () => {
   await reload();
-  pollTimer = setInterval(loadProperties, POLL_INTERVAL_MS);
+  pollTimer = setInterval(poll, POLL_INTERVAL_MS);
 });
 
 onUnmounted(() => {

@@ -142,6 +142,12 @@ export default {
     });
   },
 
+  // Recent human-readable INDI messages (driver/server log lines), oldest first.
+  getINDIMessages(limit = 200) {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}indi/messages?limit=${encodeURIComponent(limit)}`);
+  },
+
   //-------------------Focuser------------------------
   focuserAction(action) {
     const { BASE_URL } = getUrls();

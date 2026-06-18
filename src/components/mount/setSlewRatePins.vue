@@ -62,9 +62,9 @@ import apiPinsService from '@/services/apiPinsService';
 
 // Fallback steps used when no INDI slew rate property can be resolved.
 const FALLBACK_VALUES = [0.01, 1, 2, 3, 4, 5, 6, 7, 8, 9];
-// Bounds for the numeric `rate` value sent over the WS (kept identical to the old behaviour).
-const RATE_MIN = 0.01;
-const RATE_MAX = 9;
+// Fallback for the configured max slew rate (°/s) when the profile value is missing.
+// Matches the backend default (TelescopeSettings.IndiMaxSlewRateDps).
+const DEFAULT_MAX_SLEW_RATE_DPS = 3.0;
 
 const settingsStore = useSettingsStore();
 const store = apiStore();
@@ -72,16 +72,25 @@ const store = apiStore();
 // INDI slew rate switch elements [{ name, label }], in driver order. Empty => fallback.
 const indiSteps = ref([]);
 
-// Numeric rate value for each slider stop. INDI switches carry no speed value, so we
-// keep the backend-expected range by spreading linearly from RATE_MIN to RATE_MAX.
+// Configured maximum slew rate in °/s. The backend reports AxisRates as (0, this) and maps
+// the WS `rate` proportionally onto the ordered INDI switch list, so the per-stop rate must
+// span 0..maxSlewRateDps for stop i to select switch index i.
+const maxSlewRateDps = computed(
+  () => store.profileInfo?.TelescopeSettings?.IndiMaxSlewRateDps ?? DEFAULT_MAX_SLEW_RATE_DPS
+);
+
+// Smallest non-zero rate for the slowest stop. The WS treats rate 0 as "stop", so the
+// lowest INDI step must still move; this stays well below the backend's index-0 threshold.
+const MIN_RATE = 0.01;
+
+// Numeric rate value (°/s) for each slider stop. INDI switches carry no speed value, so we
+// spread linearly from ~0 to maxSlewRateDps; the backend then rounds rate/maxDps*maxIndex to
+// the matching switch index.
 const stops = computed(() => {
   const n = indiSteps.value.length;
   if (n === 0) return FALLBACK_VALUES;
-  if (n === 1) return [RATE_MAX];
-  return indiSteps.value.map((_, i) => {
-    if (i === 0) return RATE_MIN;
-    return RATE_MIN + ((RATE_MAX - RATE_MIN) * i) / (n - 1);
-  });
+  if (n === 1) return [maxSlewRateDps.value];
+  return indiSteps.value.map((_, i) => (i === 0 ? MIN_RATE : (maxSlewRateDps.value * i) / (n - 1)));
 });
 
 const stepCount = computed(() => stops.value.length);

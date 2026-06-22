@@ -1467,7 +1467,15 @@
         "help_log_error": "Při zapnutí bude vytvořen soubor protokolu s úpravami chyby polárního nastavení a průběžnými chybami po každé úpravě."
       },
       "error_modal": {},
-      "tppa": "TPPA"
+      "tppa": "TPPA",
+      "warn_dec_spread_body": "The mount's reported declination changed by {arcsec}\" between measurements. This may affect polar alignment accuracy — ensure only the RA axis moves during measurement.",
+      "warn_dec_spread_title": "Declination spread detected",
+      "warn_east_west_body": "The current field is within 5° of exact East or West. If the live solution is unstable, slew to a field farther from East/West and rerun.",
+      "warn_east_west_title": "Correction field within {deg}° of East/West",
+      "warn_huge_body": "Either the mount is far off alignment or the calculation could not determine the result. Check site location, confirm the mount is roughly pointing to the pole, and that only the RA axis was moved between the three measurement points.",
+      "warn_huge_title": "Calculated error is huge",
+      "warn_large_body": "The correction phase will be less reliable. Bring the mount closer to polar alignment and run TPPA again to verify.",
+      "warn_large_title": "Initial polar alignment error is large"
     },
     "slewAndCenter": {
       "title": "Přejet a Vycentrovat",
@@ -2093,7 +2101,8 @@
       "indiRegistryModalTotalEntries": "Entries",
       "indiRegistryModalType": "Type",
       "indiRegistryModalTypeInvalid": "Type must be one of the allowed values.",
-      "indiRegistryModalUpdatedAt": "Updated"
+      "indiRegistryModalUpdatedAt": "Updated",
+      "indiRegistryModalNameDuplicate": "Name already exists in another row."
     },
     "bahtifocus": {
       "title": "Bahtinovův analyzátor masky",
@@ -3735,7 +3744,12 @@
         "credentials": "If your camera requires a username and password, include the credentials directly in the URL:",
         "credentialsNote": "The backend proxy handles authentication automatically — credentials in the URL work with both Basic and Digest authentication (e.g. Hikvision).",
         "credentialsTitle": "Password-protected cameras",
-        "exampleLabels": ["Generic IP camera", "ONVIF camera", "Axis camera", "Hikvision camera"],
+        "exampleLabels": [
+          "Generic IP camera",
+          "ONVIF camera",
+          "Axis camera",
+          "Hikvision camera"
+        ],
         "examplesTitle": "Examples",
         "proxyOptions": [
           "Proxy (default): The image is fetched by the NINA backend and forwarded to the browser. Required for local network cameras with credentials or CORS restrictions. Slightly slower when accessed over VPN.",
@@ -4314,6 +4328,23 @@
         "failureBody": "Failure Body"
       },
       "title": "Ground Station"
+    },
+    "indiControlPanel": {
+      "description": "Inspect and control every property of the INDI drivers currently loaded on the server.",
+      "enableLog": "Enable",
+      "invalidNumber": "Invalid number for {element}.",
+      "loadFailed": "Failed to load INDI properties.",
+      "log": "INDI Messages",
+      "logDisabled": "Message log is disabled.",
+      "noDevices": "No INDI devices are currently active. Connect equipment first, then refresh.",
+      "noMessages": "No messages yet.",
+      "readonly": "read-only",
+      "refresh": "Refresh",
+      "scrollToLatest": "Scroll to latest",
+      "set": "Set",
+      "setFailed": "Failed to set the property.",
+      "title": "INDI Control Panel",
+      "updated": "Updated"
     }
   },
   "pinsDevices": {
@@ -4524,7 +4555,8 @@
       "tcpPort": "TCP port",
       "selectPort": "-- Vyberte port --",
       "manualPort": "Ručně…",
-      "manualPortPath": "Ruční port"
+      "manualPortPath": "Ruční port",
+      "http": "HTTP"
     }
   },
   "nav": {

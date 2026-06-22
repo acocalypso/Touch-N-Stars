@@ -1467,7 +1467,15 @@
         "help_log_error": "Lorsqu'il est activé, un fichier journal sera créé avec les ajustements de l'erreur d'alignement polaire et les erreurs continues après chaque ajustement."
       },
       "error_modal": {},
-      "tppa": "TPPA"
+      "tppa": "TPPA",
+      "warn_dec_spread_body": "La déclinaison signalée par la monture a changé de {arcsec}\" entre les mesures. Cela peut affecter la précision de l'alignement polaire : assurez-vous que seul l'axe RA bouge pendant la mesure.",
+      "warn_dec_spread_title": "Écart de déclinaison détecté",
+      "warn_east_west_body": "Le champ actuel est à moins de 5° de l’est ou de l’ouest exact. \nSi la solution active est instable, déplacez-vous vers un champ plus éloigné de l'est/de l'ouest et réexécutez.",
+      "warn_east_west_title": "Champ de correction dans {deg}° d’Est/Ouest",
+      "warn_huge_body": "Soit la monture est loin de l'alignement, soit le calcul n'a pas pu déterminer le résultat. \nVérifiez l'emplacement du site, confirmez que le support pointe à peu près vers le poteau et que seul l'axe RA a été déplacé entre les trois points de mesure.",
+      "warn_huge_title": "L'erreur de calcul est énorme",
+      "warn_large_body": "La phase de correction sera moins fiable. \nRapprochez la monture de l'alignement polaire et exécutez à nouveau TPPA pour vérifier.",
+      "warn_large_title": "L'erreur d'alignement polaire initiale est importante"
     },
     "slewAndCenter": {
       "title": "Déplacer et centrer",
@@ -2093,7 +2101,8 @@
       "indiRegistryModalTotalEntries": "Entrées",
       "indiRegistryModalType": "Taper",
       "indiRegistryModalTypeInvalid": "Le type doit être l’une des valeurs autorisées.",
-      "indiRegistryModalUpdatedAt": "Mis à jour"
+      "indiRegistryModalUpdatedAt": "Mis à jour",
+      "indiRegistryModalNameDuplicate": "Le nom existe déjà dans une autre ligne."
     },
     "bahtifocus": {
       "title": "Analyseur de masque Bahtinov",
@@ -4319,6 +4328,23 @@
         "failureBody": "Corps d'échec"
       },
       "title": "Station au sol"
+    },
+    "indiControlPanel": {
+      "description": "Inspectez et contrôlez chaque propriété des pilotes INDI actuellement chargés sur le serveur.",
+      "enableLog": "Activer",
+      "invalidNumber": "Numéro non valide pour {element}.",
+      "loadFailed": "Échec du chargement des propriétés INDI.",
+      "log": "Messages INDI",
+      "logDisabled": "Le journal des messages est désactivé.",
+      "noDevices": "Aucun appareil INDI n'est actuellement actif. \nConnectez d’abord l’équipement, puis actualisez.",
+      "noMessages": "Aucun message pour l'instant.",
+      "readonly": "en lecture seule",
+      "refresh": "Rafraîchir",
+      "scrollToLatest": "Faites défiler jusqu'au dernier",
+      "set": "Ensemble",
+      "setFailed": "Échec de la définition de la propriété.",
+      "title": "Panneau de configuration INDI",
+      "updated": "Mis à jour"
     }
   },
   "pinsDevices": {
@@ -4529,7 +4555,8 @@
       "tcpPort": "Port TCP",
       "selectPort": "-- Sélectionnez un port --",
       "manualPort": "Manuel…",
-      "manualPortPath": "Port manuel"
+      "manualPortPath": "Port manuel",
+      "http": "HTTP"
     }
   },
   "nav": {

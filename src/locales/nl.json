@@ -1467,7 +1467,15 @@
         "help_log_error": "Wanneer ingeschakeld wordt er een logbestand aangemaakt met de correcties van de polaire uitlijnfout en de doorlopende fouten na elke aanpassing."
       },
       "error_modal": {},
-      "tppa": "TPPA"
+      "tppa": "TPPA",
+      "warn_dec_spread_body": "De gerapporteerde declinatie van de montering is tussen metingen met {arcsec}\" veranderd. Dit kan de nauwkeurigheid van de polaire uitlijning beïnvloeden - zorg ervoor dat alleen de RA-as beweegt tijdens de meting.",
+      "warn_dec_spread_title": "Declinatiespreiding gedetecteerd",
+      "warn_east_west_body": "Het huidige veld bevindt zich binnen 5° van het exacte oosten of westen. \nAls de live-oplossing onstabiel is, zwenk dan naar een veld verder van Oost/West en voer het spel opnieuw uit.",
+      "warn_east_west_title": "Correctieveld binnen {deg}° van Oost/West",
+      "warn_huge_body": "Ofwel de steun is ver verwijderd van de uitlijning, ofwel de berekening kon het resultaat niet bepalen. \nControleer de locatie van de locatie, bevestig dat de houder ruwweg naar de paal wijst en dat alleen de RA-as tussen de drie meetpunten is verplaatst.",
+      "warn_huge_title": "De berekende fout is enorm",
+      "warn_large_body": "De correctiefase zal minder betrouwbaar zijn. \nBreng de houder dichter bij de polaire uitlijning en voer TPPA opnieuw uit om dit te verifiëren.",
+      "warn_large_title": "De initiële polaire uitlijningsfout is groot"
     },
     "slewAndCenter": {
       "title": "Slew en Centreer",
@@ -2093,7 +2101,8 @@
       "indiRegistryModalTotalEntries": "Inzendingen",
       "indiRegistryModalType": "Type",
       "indiRegistryModalTypeInvalid": "Type moet een van de toegestane waarden zijn.",
-      "indiRegistryModalUpdatedAt": "Bijgewerkt"
+      "indiRegistryModalUpdatedAt": "Bijgewerkt",
+      "indiRegistryModalNameDuplicate": "Naam bestaat al in een andere rij."
     },
     "bahtifocus": {
       "title": "Bahtinov Masker Analyse",
@@ -4314,6 +4323,23 @@
         "failureBody": "Mislukking lichaam"
       },
       "title": "Grondstation"
+    },
+    "indiControlPanel": {
+      "description": "Inspecteer en controleer alle eigendommen van de INDI-stuurprogramma's die momenteel op de server zijn geladen.",
+      "enableLog": "Inschakelen",
+      "invalidNumber": "Ongeldig nummer voor {element}.",
+      "loadFailed": "Kan INDI-eigenschappen niet laden.",
+      "log": "INDI-berichten",
+      "logDisabled": "Berichtenlogboek is uitgeschakeld.",
+      "noDevices": "Er zijn momenteel geen INDI-apparaten actief. \nSluit eerst de apparatuur aan en vernieuw vervolgens.",
+      "noMessages": "Nog geen berichten.",
+      "readonly": "alleen-lezen",
+      "refresh": "Vernieuwen",
+      "scrollToLatest": "Scroll naar nieuwste",
+      "set": "Set",
+      "setFailed": "Kan de eigenschap niet instellen.",
+      "title": "INDI-bedieningspaneel",
+      "updated": "Bijgewerkt"
     }
   },
   "pinsDevices": {
@@ -4524,7 +4550,8 @@
       "tcpPort": "TCP-poort",
       "selectPort": "-- Selecteer een poort --",
       "manualPort": "Handmatig…",
-      "manualPortPath": "Handmatige poort"
+      "manualPortPath": "Handmatige poort",
+      "http": "HTTP"
     }
   },
   "nav": {

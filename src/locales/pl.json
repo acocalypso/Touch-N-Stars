@@ -1467,7 +1467,15 @@
         "help_log_error": "Po włączeniu zostanie utworzony plik dziennika z korektami błędu wyrównania polarnego i ciągłymi błędami po każdej korekcie."
       },
       "error_modal": {},
-      "tppa": "TPA"
+      "tppa": "TPA",
+      "warn_dec_spread_body": "Zgłoszona deklinacja mocowania zmieniała się o {arcsec}” pomiędzy pomiarami. Może to mieć wpływ na dokładność ustawienia biegunowego — upewnij się, że podczas pomiaru porusza się tylko oś RA.",
+      "warn_dec_spread_title": "Wykryto rozproszenie deklinacji",
+      "warn_east_west_body": "Aktualne pole znajduje się w promieniu 5° od dokładnego wschodu lub zachodu. \nJeśli rozwiązanie na żywo jest niestabilne, skieruj się na pole położone dalej od wschodu/zachodu i uruchom ponownie.",
+      "warn_east_west_title": "Pole korekcyjne w promieniu {deg}° od wschodu/zachodu",
+      "warn_huge_body": "Albo mocowanie jest zbyt daleko od siebie ustawione, albo obliczenia nie mogły określić wyniku. \nSprawdź lokalizację miejsca, upewnij się, że uchwyt jest mniej więcej skierowany w stronę słupa i że pomiędzy trzema punktami pomiarowymi przesunięto tylko oś RA.",
+      "warn_huge_title": "Błąd obliczony jest ogromny",
+      "warn_large_body": "Faza korekty będzie mniej niezawodna. \nPrzybliż uchwyt do ustawienia biegunowego i ponownie uruchom TPPA, aby to sprawdzić.",
+      "warn_large_title": "Początkowy błąd ustawienia biegunowego jest duży"
     },
     "slewAndCenter": {
       "title": "Obróć i wyśrodkuj",
@@ -2093,7 +2101,8 @@
       "indiRegistryModalTotalEntries": "Wpisy",
       "indiRegistryModalType": "Typ",
       "indiRegistryModalTypeInvalid": "Typ musi być jedną z dozwolonych wartości.",
-      "indiRegistryModalUpdatedAt": "Zaktualizowano"
+      "indiRegistryModalUpdatedAt": "Zaktualizowano",
+      "indiRegistryModalNameDuplicate": "Nazwa już istnieje w innym wierszu."
     },
     "bahtifocus": {
       "title": "Analizator maski Bahtinowa",
@@ -4314,6 +4323,23 @@
         "failureBody": "Ciało awarii"
       },
       "title": "Stacja naziemna"
+    },
+    "indiControlPanel": {
+      "description": "Sprawdzaj i kontroluj każdą właściwość sterowników INDI aktualnie załadowanych na serwerze.",
+      "enableLog": "Włączać",
+      "invalidNumber": "Nieprawidłowy numer dla {element}.",
+      "loadFailed": "Nie udało się załadować właściwości INDI.",
+      "log": "Wiadomości INDI",
+      "logDisabled": "Dziennik wiadomości jest wyłączony.",
+      "noDevices": "Żadne urządzenia INDI nie są obecnie aktywne. \nNajpierw podłącz sprzęt, potem odśwież.",
+      "noMessages": "Nie ma jeszcze żadnych wiadomości.",
+      "readonly": "tylko do odczytu",
+      "refresh": "Odświeżać",
+      "scrollToLatest": "Przewiń do najnowszych",
+      "set": "Ustawić",
+      "setFailed": "Nie udało się ustawić właściwości.",
+      "title": "Panel sterowania INDI",
+      "updated": "Zaktualizowano"
     }
   },
   "pinsDevices": {
@@ -4524,7 +4550,8 @@
       "tcpPort": "Port TCP",
       "selectPort": "-- Wybierz port --",
       "manualPort": "Ręcznie…",
-      "manualPortPath": "Port ręczny"
+      "manualPortPath": "Port ręczny",
+      "http": "HTTP"
     }
   },
   "nav": {

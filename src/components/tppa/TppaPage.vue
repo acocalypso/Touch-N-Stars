@@ -195,6 +195,51 @@
             </div>
           </div>
         </div>
+
+        <!-- Warning banners -->
+        <div
+          v-if="tppaStore.initialErrorHuge"
+          class="mt-4 p-3 bg-red-900/60 border border-red-500 rounded-md text-red-200 text-sm"
+        >
+          <p class="font-bold">{{ $t('components.tppa.warn_huge_title') }}</p>
+          <p>{{ $t('components.tppa.warn_huge_body') }}</p>
+        </div>
+        <div
+          v-else-if="tppaStore.initialErrorLarge"
+          class="mt-4 p-3 bg-yellow-900/60 border border-yellow-500 rounded-md text-yellow-200 text-sm"
+        >
+          <p class="font-bold">{{ $t('components.tppa.warn_large_title') }}</p>
+          <p>{{ $t('components.tppa.warn_large_body') }}</p>
+        </div>
+        <div
+          v-if="tppaStore.declinationSpreadLarge"
+          class="mt-2 p-3 bg-yellow-900/60 border border-yellow-500 rounded-md text-yellow-200 text-sm"
+        >
+          <p class="font-bold">{{ $t('components.tppa.warn_dec_spread_title') }}</p>
+          <p>
+            {{
+              $t('components.tppa.warn_dec_spread_body', {
+                arcsec: tppaStore.declinationSpreadArcsec.toFixed(2),
+              })
+            }}
+          </p>
+        </div>
+        <div
+          v-if="tppaStore.nearEastWest"
+          class="mt-2 p-3 bg-yellow-900/60 border border-yellow-500 rounded-md text-yellow-200 text-sm"
+        >
+          <p class="font-bold">
+            {{
+              $t('components.tppa.warn_east_west_title', {
+                deg:
+                  tppaStore.distanceToEastWest !== null
+                    ? tppaStore.distanceToEastWest.toFixed(1)
+                    : '?',
+              })
+            }}
+          </p>
+          <p>{{ $t('components.tppa.warn_east_west_body') }}</p>
+        </div>
       </div>
     </div>
   </div>
@@ -396,6 +441,13 @@ function formatMessage(message) {
         if (tppaStore.isSouthernHemisphere) {
           console.log('isSouthernHemisphere');
         }
+
+        tppaStore.initialErrorLarge = message.Response.InitialErrorLarge ?? false;
+        tppaStore.initialErrorHuge = message.Response.InitialErrorHuge ?? false;
+        tppaStore.declinationSpreadLarge = message.Response.DeclinationSpreadLarge ?? false;
+        tppaStore.declinationSpreadArcsec = message.Response.DeclinationSpreadArcsec ?? 0;
+        tppaStore.nearEastWest = message.Response.NearEastWest ?? false;
+        tppaStore.distanceToEastWest = message.Response.DistanceToEastWest ?? null;
       } else {
         return t('components.tppa.error_values_missing');
       }
@@ -484,6 +536,12 @@ function resetErrors() {
   tppaStore.showTotalError = '';
   tppaStore.azimuthCorDirectionLeft = false;
   tppaStore.altitudeCorDirectionTop = false;
+  tppaStore.initialErrorLarge = false;
+  tppaStore.initialErrorHuge = false;
+  tppaStore.declinationSpreadLarge = false;
+  tppaStore.declinationSpreadArcsec = 0;
+  tppaStore.nearEastWest = false;
+  tppaStore.distanceToEastWest = null;
 }
 
 function stopAlignment() {

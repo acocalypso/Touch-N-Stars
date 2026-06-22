@@ -1467,7 +1467,15 @@
         "help_log_error": "Cuando está activado, se creará un archivo de registro con los ajustes del error de alineación polar y los errores continuos después de cada ajuste."
       },
       "error_modal": {},
-      "tppa": "TPPA"
+      "tppa": "TPPA",
+      "warn_dec_spread_body": "La declinación informada de la montura cambió en {arcsec}\" entre mediciones. Esto puede afectar la precisión de la alineación polar; asegúrese de que solo el eje RA se mueva durante la medición.",
+      "warn_dec_spread_title": "Se ha detectado un diferencial de declinación",
+      "warn_east_west_body": "El campo actual está dentro de los 5° exactos del Este u Oeste. \nSi la solución activa es inestable, diríjase a un campo más alejado del Este/Oeste y vuelva a ejecutar.",
+      "warn_east_west_title": "Campo de corrección dentro de {deg}° de este/oeste",
+      "warn_huge_body": "O el soporte está muy desalineado o el cálculo no pudo determinar el resultado. \nVerifique la ubicación del sitio, confirme que el soporte apunte aproximadamente al poste y que solo se movió el eje RA entre los tres puntos de medición.",
+      "warn_huge_title": "El error calculado es enorme.",
+      "warn_large_body": "La fase de corrección será menos fiable. \nAcerque la montura a la alineación polar y ejecute TPPA nuevamente para verificar.",
+      "warn_large_title": "El error de alineación polar inicial es grande"
     },
     "slewAndCenter": {
       "title": "Desplazar y Centrar",
@@ -2093,7 +2101,8 @@
       "indiRegistryModalTotalEntries": "Entradas",
       "indiRegistryModalType": "Tipo",
       "indiRegistryModalTypeInvalid": "El tipo debe ser uno de los valores permitidos.",
-      "indiRegistryModalUpdatedAt": "Actualizado"
+      "indiRegistryModalUpdatedAt": "Actualizado",
+      "indiRegistryModalNameDuplicate": "El nombre ya existe en otra fila."
     },
     "bahtifocus": {
       "title": "Analizador de máscaras de Bahtinov",
@@ -4319,6 +4328,23 @@
         "failureBody": "Cuerpo de falla"
       },
       "title": "Estación terrestre"
+    },
+    "indiControlPanel": {
+      "description": "Inspeccione y controle todas las propiedades de los controladores INDI actualmente cargados en el servidor.",
+      "enableLog": "Permitir",
+      "invalidNumber": "Número no válido para {elemento}.",
+      "loadFailed": "No se pudieron cargar las propiedades INDI.",
+      "log": "Mensajes INDI",
+      "logDisabled": "El registro de mensajes está deshabilitado.",
+      "noDevices": "No hay ningún dispositivo INDI activo actualmente. \nPrimero conecte el equipo y luego actualice.",
+      "noMessages": "Aún no hay mensajes.",
+      "readonly": "solo lectura",
+      "refresh": "Refrescar",
+      "scrollToLatest": "Desplácese hasta lo último",
+      "set": "Colocar",
+      "setFailed": "No se pudo establecer la propiedad.",
+      "title": "Panel de control INDI",
+      "updated": "Actualizado"
     }
   },
   "pinsDevices": {
@@ -4529,7 +4555,8 @@
       "tcpPort": "Puerto TCP",
       "selectPort": "-- Seleccione un puerto --",
       "manualPort": "Manual…",
-      "manualPortPath": "Puerto manual"
+      "manualPortPath": "Puerto manual",
+      "http": "HTTP"
     }
   },
   "nav": {

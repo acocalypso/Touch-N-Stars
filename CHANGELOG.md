@@ -5,9 +5,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+
+## [App5.0.0-beta4] - 2026-06-17
+### Added
+- Plugin: INDI Control Panel – inspect and control every property of the INDI drivers currently loaded on the server
+- Equipment: HTTP connection mode for INDI mounts (in addition to Serial and Network/TCP)
+- PINS: INDI registry edit config flow – edit Name, Label and Type of installed INDI 3rd-party registry entries via a mobile-friendly modal, patching only changed fields and preserving unsaved edits across refresh - thanks to acocalypso
+
+## [App5.0.0-beta2] - 2026-06-11
 ### Added
 - Settings: Clear Horizon File Path via a dedicated button
 - Sequence: Ground Station plugin support – add and edit notification items (Telegram, Discord, Slack, Pushover, ntfy, IFTTT, Email, MQTT, HTTP request, UDP) and failure triggers with dedicated editors
+- Equipment: INDI camera selection
+
+## [App5.0.0-beta1] - 2026-06-11
+### Added
 - Sequence: Add picker now groups types into collapsible categories with item count, and the search also matches category names
 
 ## [App5.0.0] - 2026-05-20

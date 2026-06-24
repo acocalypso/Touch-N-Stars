@@ -106,6 +106,48 @@ export default {
     return this._simpleGetRequest(`${API_URL}indi/${device}`);
   },
 
+  //-------------------INDI Control Panel------------------------
+  // List INDI devices currently live on the embedded indiserver (loaded drivers only).
+  getINDIActiveDevices() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}indi/devices`);
+  },
+
+  // Full property tree for all devices, or a single device when `device` is provided.
+  getINDIProperties(device) {
+    const { API_URL } = getUrls();
+    const url = device
+      ? `${API_URL}indi/properties?device=${encodeURIComponent(device)}`
+      : `${API_URL}indi/properties`;
+    return this._simpleGetRequest(url);
+  },
+
+  // Ask the server to re-send property definitions for all devices, or a single device.
+  refreshINDIProperties(device) {
+    const { API_URL } = getUrls();
+    const url = device
+      ? `${API_URL}indi/properties/refresh?device=${encodeURIComponent(device)}`
+      : `${API_URL}indi/properties/refresh`;
+    return this._simplePostRequest(url, {});
+  },
+
+  // Write a writable property. `elements` is a map of element name -> value
+  // (number, string, or boolean for switches).
+  setINDIProperty(device, property, elements) {
+    const { API_URL } = getUrls();
+    return this._simplePostRequest(`${API_URL}indi/properties/set`, {
+      device,
+      property,
+      elements,
+    });
+  },
+
+  // Recent human-readable INDI messages (driver/server log lines), oldest first.
+  getINDIMessages(limit = 200) {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}indi/messages?limit=${encodeURIComponent(limit)}`);
+  },
+
   //-------------------Focuser------------------------
   focuserAction(action) {
     const { BASE_URL } = getUrls();

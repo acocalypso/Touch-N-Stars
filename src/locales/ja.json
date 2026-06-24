@@ -1475,7 +1475,15 @@
         "help_log_error": "有効にすると、各調整後の極軸誤差と連続誤差を含むログファイルが作成されます。"
       },
       "error_modal": {},
-      "tppa": "極軸合わせ (TPPA)"
+      "tppa": "極軸合わせ (TPPA)",
+      "warn_dec_spread_body": "マウントの報告された偏角は、測定間で {arcsec}\" だけ変化しました。これは極軸合わせの精度に影響を与える可能性があります。測定中は赤経軸のみが移動するようにしてください。",
+      "warn_dec_spread_title": "赤緯広がりが検出されました",
+      "warn_east_west_body": "現在のフィールドは正確な東または西から 5° 以内にあります。\nライブ ソリューションが不安定な場合は、東/西から離れたフィールドに移動して再実行してください。",
+      "warn_east_west_title": "東/西の {deg}° 以内の補正フィールド",
+      "warn_huge_body": "マウントの位置が大きくずれているか、計算で結果を判断できませんでした。\n現場の位置を確認し、マウントがおおよそポールを指していること、および 3 つの測定点間で RA 軸のみが移動されていることを確認します。",
+      "warn_huge_title": "計算誤差が大きい",
+      "warn_large_body": "修正フェーズの信頼性は低くなります。\nマウントを極軸に近づけ、TPPA を再度実行して確認します。",
+      "warn_large_title": "初期極軸誤差が大きい"
     },
     "slewAndCenter": {
       "title": "導入と中心合わせ",
@@ -2093,7 +2101,8 @@
       "indiRegistryModalTotalEntries": "エントリー",
       "indiRegistryModalType": "タイプ",
       "indiRegistryModalTypeInvalid": "Type は許可された値の 1 つである必要があります。",
-      "indiRegistryModalUpdatedAt": "更新されました"
+      "indiRegistryModalUpdatedAt": "更新されました",
+      "indiRegistryModalNameDuplicate": "名前はすでに別の行に存在します。"
     },
     "bahtifocus": {
       "title": "バーティノフマスク・アナライザー",
@@ -4314,6 +4323,23 @@
         "failureBody": "失敗本体"
       },
       "title": "地上局"
+    },
+    "indiControlPanel": {
+      "description": "現在サーバーにロードされている INDI ドライバーのすべてのプロパティを検査して制御します。",
+      "enableLog": "有効にする",
+      "invalidNumber": "{要素} の数値が無効です。",
+      "loadFailed": "INDI プロパティのロードに失敗しました。",
+      "log": "INDIメッセージ",
+      "logDisabled": "メッセージログは無効になっています。",
+      "noDevices": "現在アクティブな INDI デバイスはありません。\n最初に機器を接続してからリフレッシュしてください。",
+      "noMessages": "まだメッセージはありません。",
+      "readonly": "読み取り専用",
+      "refresh": "リフレッシュ",
+      "scrollToLatest": "最新までスクロール",
+      "set": "セット",
+      "setFailed": "プロパティの設定に失敗しました。",
+      "title": "INDIコントロールパネル",
+      "updated": "更新されました"
     }
   },
   "pinsDevices": {
@@ -4524,7 +4550,8 @@
       "tcpPort": "TCPポート",
       "selectPort": "-- ポートを選択してください --",
       "manualPort": "手動…",
-      "manualPortPath": "手動ポート"
+      "manualPortPath": "手動ポート",
+      "http": "HTTP"
     }
   },
   "nav": {

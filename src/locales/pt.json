@@ -1467,7 +1467,15 @@
         "help_log_error": "Quando ativado, será criado um arquivo de log com os ajustes do erro de alinhamento polar e os erros contínuos após cada ajuste."
       },
       "error_modal": {},
-      "tppa": "TPPA"
+      "tppa": "TPPA",
+      "warn_dec_spread_body": "A declinação relatada da montagem mudou em {arcsec}\" entre as medições. Isso pode afetar a precisão do alinhamento polar — certifique-se de que apenas o eixo RA se mova durante a medição.",
+      "warn_dec_spread_title": "Propagação de declinação detectada",
+      "warn_east_west_body": "O campo atual está dentro de 5° do Leste ou Oeste exato. \nSe a solução ativa for instável, gire para um campo mais distante do Leste/Oeste e execute novamente.",
+      "warn_east_west_title": "Campo de correção dentro de {deg}° de Leste/Oeste",
+      "warn_huge_body": "A montagem está muito desalinhada ou o cálculo não conseguiu determinar o resultado. \nVerifique a localização do local, confirme se a montagem está apontando aproximadamente para o poste e se apenas o eixo RA foi movido entre os três pontos de medição.",
+      "warn_huge_title": "O erro calculado é enorme",
+      "warn_large_body": "A fase de correção será menos confiável. \nAproxime a montagem do alinhamento polar e execute o TPPA novamente para verificar.",
+      "warn_large_title": "O erro inicial de alinhamento polar é grande"
     },
     "slewAndCenter": {
       "title": "Mover e centralizar",
@@ -2093,7 +2101,8 @@
       "indiRegistryModalTotalEntries": "Entradas",
       "indiRegistryModalType": "Tipo",
       "indiRegistryModalTypeInvalid": "O tipo deve ser um dos valores permitidos.",
-      "indiRegistryModalUpdatedAt": "Atualizado"
+      "indiRegistryModalUpdatedAt": "Atualizado",
+      "indiRegistryModalNameDuplicate": "O nome já existe em outra linha."
     },
     "bahtifocus": {
       "title": "Analisador de máscara Bahtinov",
@@ -4319,6 +4328,23 @@
         "failureBody": "Corpo de falha"
       },
       "title": "Estação Terrestre"
+    },
+    "indiControlPanel": {
+      "description": "Inspecione e controle todas as propriedades dos drivers INDI atualmente carregados no servidor.",
+      "enableLog": "Habilitar",
+      "invalidNumber": "Número inválido para {element}.",
+      "loadFailed": "Falha ao carregar propriedades INDI.",
+      "log": "Mensagens INDI",
+      "logDisabled": "O log de mensagens está desativado.",
+      "noDevices": "Nenhum dispositivo INDI está ativo no momento. \nConecte o equipamento primeiro e depois atualize.",
+      "noMessages": "Nenhuma mensagem ainda.",
+      "readonly": "somente leitura",
+      "refresh": "Atualizar",
+      "scrollToLatest": "Role até o mais recente",
+      "set": "Definir",
+      "setFailed": "Falha ao definir a propriedade.",
+      "title": "Painel de controle INDI",
+      "updated": "Atualizado"
     }
   },
   "pinsDevices": {
@@ -4529,7 +4555,8 @@
       "tcpPort": "Porta TCP",
       "selectPort": "-- Selecione uma porta --",
       "manualPort": "Manual…",
-      "manualPortPath": "Porta manual"
+      "manualPortPath": "Porta manual",
+      "http": "HTTP"
     }
   },
   "nav": {

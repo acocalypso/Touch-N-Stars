@@ -1512,7 +1512,15 @@
         "help_log_error": "활성화하면 극축 정렬 오차 조정 내역과 각 조정 후의 연속 오차가 기록된 로그 파일이 생성됩니다."
       },
       "error_modal": {},
-      "tppa": "TPPA"
+      "tppa": "TPPA",
+      "warn_dec_spread_body": "보고된 마운트의 편각은 측정 사이에 {arcsec}\"만큼 변경되었습니다. 이는 극 정렬 정확도에 영향을 미칠 수 있습니다. 측정 중에 적경 축만 이동하는지 확인하세요.",
+      "warn_dec_spread_title": "적위 확산 감지됨",
+      "warn_east_west_body": "현재 필드는 정확한 동쪽 또는 서쪽에서 5° 이내에 있습니다. \n라이브 솔루션이 불안정한 경우 동쪽/서쪽에서 더 멀리 떨어진 필드로 이동한 후 다시 실행하세요.",
+      "warn_east_west_title": "동쪽/서쪽 {deg}° 이내의 수정 필드",
+      "warn_huge_body": "마운트가 정렬에서 멀리 떨어져 있거나 계산으로 결과를 확인할 수 없습니다. \n현장 위치를 ​​확인하고, 마운트가 대략 극을 가리키고 있는지, 적경 축만 세 측정 지점 사이에서 이동되었는지 확인합니다.",
+      "warn_huge_title": "계산된 오류가 엄청납니다",
+      "warn_large_body": "수정 단계의 신뢰성이 떨어집니다. \n마운트를 극 정렬에 더 가깝게 가져오고 TPPA를 다시 실행하여 확인하십시오.",
+      "warn_large_title": "초기 극축 정렬 오류가 큼"
     },
     "slewAndCenter": {
       "title": "슬루 및 센터링",
@@ -2093,7 +2101,8 @@
       "indiRegistryModalTotalEntries": "항목",
       "indiRegistryModalType": "유형",
       "indiRegistryModalTypeInvalid": "유형은 허용되는 값 중 하나여야 합니다.",
-      "indiRegistryModalUpdatedAt": "업데이트됨"
+      "indiRegistryModalUpdatedAt": "업데이트됨",
+      "indiRegistryModalNameDuplicate": "이름이 이미 다른 행에 존재합니다."
     },
     "bahtifocus": {
       "title": "바티노프 마스크 분석기",
@@ -4314,6 +4323,23 @@
         "failureBody": "실패 본문"
       },
       "title": "지상국"
+    },
+    "indiControlPanel": {
+      "description": "현재 서버에 로드된 INDI 드라이버의 모든 속성을 검사하고 제어합니다.",
+      "enableLog": "할 수 있게 하다",
+      "invalidNumber": "{element}의 숫자가 잘못되었습니다.",
+      "loadFailed": "INDI 속성을 로드하지 못했습니다.",
+      "log": "인디 메시지",
+      "logDisabled": "메시지 로그가 비활성화되었습니다.",
+      "noDevices": "현재 활성화된 INDI 장치가 없습니다. \n장비를 먼저 연결한 후 새로 고치세요.",
+      "noMessages": "아직 메시지가 없습니다.",
+      "readonly": "읽기 전용",
+      "refresh": "새로 고치다",
+      "scrollToLatest": "최신으로 스크롤",
+      "set": "세트",
+      "setFailed": "속성을 설정하지 못했습니다.",
+      "title": "인디 제어판",
+      "updated": "업데이트됨"
     }
   },
   "pinsDevices": {
@@ -4619,7 +4645,8 @@
       "tcpPort": "TCP 포트",
       "selectPort": "-- 포트 선택 --",
       "manualPort": "수동…",
-      "manualPortPath": "수동 포트"
+      "manualPortPath": "수동 포트",
+      "http": "HTTP"
     }
   },
   "nav": {

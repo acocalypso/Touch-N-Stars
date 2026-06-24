@@ -19,6 +19,12 @@ export const useTppaStore = defineStore('tppaStore', {
     altitudeCorDirectionTop: false,
     isWithinTolerance: false,
     isPause: false,
+    initialErrorLarge: false,
+    initialErrorHuge: false,
+    declinationSpreadLarge: false,
+    declinationSpreadArcsec: 0,
+    nearEastWest: false,
+    distanceToEastWest: null,
     settings: {
       StartFromCurrentPosition: false,
       EastDirection: false,

@@ -1507,7 +1507,15 @@
         "help_log_error": "Bei Aktivierung wird eine Protokolldatei mit den Polarausrichtungsfehlern und den kontinuierlichen Fehlern nach jeder Anpassung erstellt."
       },
       "error_modal": {},
-      "tppa": "TPPA"
+      "tppa": "TPPA",
+      "warn_dec_spread_body": "Die gemeldete Deklination der Montierung änderte sich zwischen den Messungen um {Bogensekunden}\". Dies kann die Genauigkeit der Polausrichtung beeinträchtigen. Stellen Sie sicher, dass sich während der Messung nur die RA-Achse bewegt.",
+      "warn_dec_spread_title": "Deklinationsausbreitung erkannt",
+      "warn_east_west_body": "Das aktuelle Feld liegt innerhalb von 5° vom genauen Osten oder Westen. \nWenn die Live-Lösung instabil ist, schwenken Sie zu einem Feld, das weiter von Ost/West entfernt ist, und führen Sie es erneut aus.",
+      "warn_east_west_title": "Korrekturfeld innerhalb von {deg}° von Ost/West",
+      "warn_huge_body": "Entweder ist die Halterung weit von der Ausrichtung entfernt oder die Berechnung konnte das Ergebnis nicht ermitteln. \nÜberprüfen Sie den Standort des Standorts, stellen Sie sicher, dass die Halterung ungefähr auf den Mast zeigt und dass nur die RA-Achse zwischen den drei Messpunkten bewegt wurde.",
+      "warn_huge_title": "Der berechnete Fehler ist riesig",
+      "warn_large_body": "Die Korrekturphase wird weniger zuverlässig sein. \nBringen Sie die Montierung näher an die Polarausrichtung und führen Sie zur Überprüfung erneut TPPA aus.",
+      "warn_large_title": "Der anfängliche Polausrichtungsfehler ist groß"
     },
     "slewAndCenter": {
       "title": "Schwenken und zentrieren",
@@ -4320,6 +4328,23 @@
         "imageRequired": "Bitte laden Sie eine Bilddatei hoch.",
         "nameRequired": "Landschaftsname ist erforderlich."
       }
+    },
+    "indiControlPanel": {
+      "description": "Überprüfen und kontrollieren Sie alle Eigenschaften der aktuell auf dem Server geladenen INDI-Treiber.",
+      "enableLog": "Aktivieren",
+      "invalidNumber": "Ungültige Zahl für {element}.",
+      "loadFailed": "INDI-Eigenschaften konnten nicht geladen werden.",
+      "log": "INDI-Nachrichten",
+      "logDisabled": "Das Nachrichtenprotokoll ist deaktiviert.",
+      "noDevices": "Derzeit sind keine INDI-Geräte aktiv. \nSchließen Sie zuerst die Geräte an und aktualisieren Sie sie dann.",
+      "noMessages": "Noch keine Nachrichten.",
+      "readonly": "schreibgeschützt",
+      "refresh": "Aktualisieren",
+      "scrollToLatest": "Scrollen Sie zum Neuesten",
+      "set": "Satz",
+      "setFailed": "Die Eigenschaft konnte nicht festgelegt werden.",
+      "title": "INDI-Systemsteuerung",
+      "updated": "Aktualisiert"
     }
   },
   "pinsDevices": {
@@ -4530,7 +4555,8 @@
       "tcpPort": "TCP-Port",
       "selectPort": "-- Select a port --",
       "manualPort": "Manuell…",
-      "manualPortPath": "Manueller Port"
+      "manualPortPath": "Manueller Port",
+      "http": "HTTP"
     }
   },
   "nav": {

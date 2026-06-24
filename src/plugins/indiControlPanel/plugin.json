@@ -1,0 +1,10 @@
+{
+  "id": "indiControlPanel",
+  "name": "INDI Control Panel",
+  "description": "Inspect and control all INDI device properties directly",
+  "version": "1.0.0",
+  "author": "Nico",
+  "defaultEnabled": false,
+  "enabled": true,
+  "isPins": true
+}

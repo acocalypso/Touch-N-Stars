@@ -10,7 +10,7 @@
     <!-- Icon -->
     <component
       :is="iconComponent"
-      class="w-8 h-8 text-white flex-shrink-0"
+      class="w-8 h-8 text-white shrink-0"
       :class="{ 'animate-pulse': isExecuting }"
     />
 

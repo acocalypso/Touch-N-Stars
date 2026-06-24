@@ -10,7 +10,7 @@
     </button>
     <div
       v-else
-      class="flex flex-col gap-2 bg-black bg-opacity-90 border border-cyan-600 rounded-lg p-3 shadow-md w-80"
+      class="flex flex-col gap-2 bg-black/90 border border-cyan-600 rounded-lg p-3 shadow-md w-80"
     >
       <div class="flex justify-between items-start gap-2">
         <NumberInputPicker

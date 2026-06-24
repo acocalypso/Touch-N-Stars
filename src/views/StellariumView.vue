@@ -30,7 +30,7 @@
     <div
       v-if="isSearchVisible"
       :class="searchModalClasses"
-      class="absolute bg-black bg-opacity-80 p-4 rounded-lg shadow-lg text-white w-80"
+      class="absolute bg-black/80 p-4 rounded-lg shadow-lg text-white w-80"
       style="z-index: 100"
     >
       <steallriumSearch ref="searchComponent" />
@@ -48,7 +48,7 @@
     />
     <div
       :class="controlsClasses"
-      class="fixed flex gap-2 bg-black bg-opacity-90 p-2 rounded-full stellarium-controls"
+      class="fixed flex gap-2 bg-black/90 p-2 rounded-full stellarium-controls"
       style="bottom: calc(env(safe-area-inset-bottom, 0px) + 48px)"
     >
       <stellariumCredits />

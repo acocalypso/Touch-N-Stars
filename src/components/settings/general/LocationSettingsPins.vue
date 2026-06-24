@@ -164,7 +164,7 @@
       </div>
       <button
         @click="getCurrentLocation"
-        class="default-button-gray md:w-10 md:h-10 md:flex-shrink-0 col-span-2 md:col-span-1 md:self-end"
+        class="default-button-gray md:w-10 md:h-10 md:shrink-0 col-span-2 md:col-span-1 md:self-end"
         title="Get current location"
       >
         <svg

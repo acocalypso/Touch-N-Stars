@@ -18,7 +18,7 @@
                   ? 'border-b-2 border-cyan-400 text-white'
                   : 'text-gray-400 hover:text-white'
               "
-              class="px-6 py-3 font-semibold transition whitespace-nowrap snap-start flex-shrink-0"
+              class="px-6 py-3 font-semibold transition whitespace-nowrap snap-start shrink-0"
             >
               {{ $t('plugins.hocusfocus.tabs.aberration') }}
             </button>
@@ -29,7 +29,7 @@
                   ? 'border-b-2 border-cyan-400 text-white'
                   : 'text-gray-400 hover:text-white'
               "
-              class="px-6 py-3 font-semibold transition whitespace-nowrap snap-start flex-shrink-0"
+              class="px-6 py-3 font-semibold transition whitespace-nowrap snap-start shrink-0"
             >
               {{ $t('plugins.hocusfocus.tabs.aberrationOptions') }}
             </button>
@@ -40,7 +40,7 @@
                   ? 'border-b-2 border-cyan-400 text-white'
                   : 'text-gray-400 hover:text-white'
               "
-              class="px-6 py-3 font-semibold transition whitespace-nowrap snap-start flex-shrink-0"
+              class="px-6 py-3 font-semibold transition whitespace-nowrap snap-start shrink-0"
             >
               {{ $t('plugins.hocusfocus.tabs.autoFocusOptions') }}
             </button>
@@ -52,7 +52,7 @@
                   ? 'border-b-2 border-cyan-400 text-white'
                   : 'text-gray-400 hover:text-white'
               "
-              class="px-6 py-3 font-semibold transition whitespace-nowrap snap-start flex-shrink-0"
+              class="px-6 py-3 font-semibold transition whitespace-nowrap snap-start shrink-0"
             >
               {{ $t('plugins.hocusfocus.tabs.starDetection') }}
             </button>
@@ -63,7 +63,7 @@
                   ? 'border-b-2 border-cyan-400 text-white'
                   : 'text-gray-400 hover:text-white'
               "
-              class="px-6 py-3 font-semibold transition whitespace-nowrap snap-start flex-shrink-0"
+              class="px-6 py-3 font-semibold transition whitespace-nowrap snap-start shrink-0"
             >
               {{ $t('plugins.hocusfocus.tabs.tilter') }}
             </button>
@@ -72,7 +72,7 @@
           <!-- AutoFocus Directory Selection Modal -->
           <div
             v-if="showAFDirectoryModal"
-            class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+            class="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
           >
             <div class="bg-gray-800 rounded-lg p-6 w-96 border border-gray-700">
               <h3 class="text-xl font-semibold text-white mb-4">

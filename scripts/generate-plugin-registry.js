@@ -1,6 +1,6 @@
 /**
  * Plugin Registry Generator
- * 
+ *
  * This script automatically generates the plugin registry file by scanning the plugins directory
  * It should be run as part of your build process
  */
@@ -18,7 +18,7 @@ const PLUGINS_DIR = path.join(__dirname, '../src/plugins');
 const REGISTRY_FILE = path.join(PLUGINS_DIR, 'pluginRegistry.js');
 const PLUGIN_STRUCTURE_REQUIREMENTS = {
   index: 'index.js',
-  metadata: 'plugin.json'
+  metadata: 'plugin.json',
 };
 
 // Header for the generated file
@@ -36,10 +36,11 @@ const FILE_HEADER = `/**
  * @returns {Array<string>} Array of plugin directory names
  */
 function getPluginDirectories() {
-  return fs.readdirSync(PLUGINS_DIR, { withFileTypes: true })
-    .filter(dirent => dirent.isDirectory())
-    .filter(dirent => dirent.name !== 'node_modules') // Skip node_modules
-    .map(dirent => dirent.name);
+  return fs
+    .readdirSync(PLUGINS_DIR, { withFileTypes: true })
+    .filter((dirent) => dirent.isDirectory())
+    .filter((dirent) => dirent.name !== 'node_modules') // Skip node_modules
+    .map((dirent) => dirent.name);
 }
 
 /**
@@ -50,8 +51,10 @@ function getPluginDirectories() {
 function isValidPluginDirectory(pluginDir) {
   const fullPath = path.join(PLUGINS_DIR, pluginDir);
   const hasIndexFile = fs.existsSync(path.join(fullPath, PLUGIN_STRUCTURE_REQUIREMENTS.index));
-  const hasMetadataFile = fs.existsSync(path.join(fullPath, PLUGIN_STRUCTURE_REQUIREMENTS.metadata));
-  
+  const hasMetadataFile = fs.existsSync(
+    path.join(fullPath, PLUGIN_STRUCTURE_REQUIREMENTS.metadata)
+  );
+
   return hasIndexFile && hasMetadataFile;
 }
 
@@ -61,10 +64,14 @@ function isValidPluginDirectory(pluginDir) {
  * @returns {string} - Generated import statements
  */
 function generateImports(validPlugins) {
-  return validPlugins.map(plugin => {
-    return `import ${plugin.replace(/-/g, '')}Plugin from './${plugin}/index.js';\n` +
-           `import ${plugin.replace(/-/g, '')}Metadata from './${plugin}/plugin.json';`;
-  }).join('\n');
+  return validPlugins
+    .map((plugin) => {
+      return (
+        `import ${plugin.replace(/-/g, '')}Plugin from './${plugin}/index.js';\n` +
+        `import ${plugin.replace(/-/g, '')}Metadata from './${plugin}/plugin.json';`
+      );
+    })
+    .join('\n');
 }
 
 /**
@@ -73,14 +80,16 @@ function generateImports(validPlugins) {
  * @returns {string} - Generated registry entries
  */
 function generateRegistryEntries(validPlugins) {
-  return validPlugins.map(plugin => {
-    const normalizedName = plugin.replace(/-/g, '');
-    return `  {
+  return validPlugins
+    .map((plugin) => {
+      const normalizedName = plugin.replace(/-/g, '');
+      return `  {
     id: '${plugin}',
     module: ${normalizedName}Plugin,
     metadata: ${normalizedName}Metadata,
   }`;
-  }).join(',\n');
+    })
+    .join(',\n');
 }
 
 /**
@@ -88,29 +97,30 @@ function generateRegistryEntries(validPlugins) {
  */
 function generatePluginRegistry() {
   console.log('Generating plugin registry...');
-  
+
   // Get all plugin directories
   const allPluginDirs = getPluginDirectories();
   console.log(`Found ${allPluginDirs.length} potential plugin directories`);
-  
+
   // Filter for valid plugin directories
   const validPlugins = allPluginDirs
-    .filter(dir => isValidPluginDirectory(dir))
-    .filter(dir => dir !== 'pluginRegistry.js'); // Skip registry file
-  
+    .filter((dir) => isValidPluginDirectory(dir))
+    .filter((dir) => dir !== 'pluginRegistry.js'); // Skip registry file
+
   console.log(`Found ${validPlugins.length} valid plugins: ${validPlugins.join(', ')}`);
-  
+
   // Generate the registry file content
   const imports = generateImports(validPlugins);
   const registryEntries = generateRegistryEntries(validPlugins);
-  
+
   const fileContent = `${FILE_HEADER}// Plugin imports
 ${imports}
 
 // Plugin registry
 export const pluginRegistry = [
 ${registryEntries ? registryEntries + ',' : ''}
-];`;
+];
+`;
 
   // Write the file
   fs.writeFileSync(REGISTRY_FILE, fileContent);

@@ -36,7 +36,7 @@
             :key="tab.id"
             @click="store.activeTab = tab.id"
             :class="[
-              'px-5 py-3 text-sm font-semibold transition whitespace-nowrap flex-shrink-0',
+              'px-5 py-3 text-sm font-semibold transition whitespace-nowrap shrink-0',
               store.activeTab === tab.id
                 ? 'border-b-2 border-cyan-400 text-white'
                 : 'text-gray-400 hover:text-white',

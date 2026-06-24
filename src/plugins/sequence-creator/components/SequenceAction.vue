@@ -49,7 +49,7 @@
         </div>
 
         <!-- Index Badge -->
-        <div class="flex-shrink-0">
+        <div class="shrink-0">
           <span
             class="text-xs text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded"
           >

@@ -78,7 +78,7 @@
     <!-- Logs Modal -->
     <div
       v-if="showLogsModal"
-      class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
     >
       <div
         class="bg-gray-900 rounded-lg p-4 sm:p-6 w-full sm:max-w-4xl h-full sm:h-auto sm:max-h-[90vh] overflow-y-auto mx-2 sm:mx-0 scrollbar-hide"
@@ -251,7 +251,7 @@
     <!-- Settings Modal -->
     <div
       v-if="showSettingsModal"
-      class="fixed inset-0 z-top flex items-center justify-center bg-black bg-opacity-50"
+      class="fixed inset-0 z-top flex items-center justify-center bg-black/50"
     >
       <div
         class="bg-gray-900 rounded-lg w-full h-full sm:w-auto sm:h-auto sm:max-w-4xl sm:max-h-[90vh] overflow-y-auto mx-0 sm:mx-4 scrollbar-hide"

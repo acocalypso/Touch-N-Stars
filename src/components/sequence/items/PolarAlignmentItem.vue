@@ -21,7 +21,7 @@
 
       <!-- Filter -->
       <div class="flex items-center gap-3">
-        <label class="text-xs text-slate-400 flex-shrink-0">{{
+        <label class="text-xs text-slate-400 shrink-0">{{
           $t('components.sequence.items.switchFilter.filter')
         }}</label>
         <select
@@ -63,7 +63,7 @@
       />
 
       <div class="flex items-center gap-3">
-        <label class="text-xs text-slate-400 flex-shrink-0">{{
+        <label class="text-xs text-slate-400 shrink-0">{{
           $t('components.sequence.items.takeExposure.binning')
         }}</label>
         <select
@@ -123,7 +123,7 @@
       />
 
       <div class="flex items-center gap-3">
-        <label class="text-xs text-slate-400 flex-shrink-0">{{
+        <label class="text-xs text-slate-400 shrink-0">{{
           $t('components.sequence.items.polarAlignment.eastDirection')
         }}</label>
         <div class="ml-auto">
@@ -135,7 +135,7 @@
       </div>
 
       <div class="flex items-center gap-3">
-        <label class="text-xs text-slate-400 flex-shrink-0">{{
+        <label class="text-xs text-slate-400 shrink-0">{{
           $t('components.sequence.items.polarAlignment.manualMode')
         }}</label>
         <div class="ml-auto">
@@ -147,7 +147,7 @@
       </div>
 
       <div class="flex items-center gap-3">
-        <label class="text-xs text-slate-400 flex-shrink-0">{{
+        <label class="text-xs text-slate-400 shrink-0">{{
           $t('components.sequence.items.polarAlignment.startFromCurrentPosition')
         }}</label>
         <div class="ml-auto">

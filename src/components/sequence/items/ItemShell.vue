@@ -8,13 +8,11 @@
           <component
             :is="itemIcon"
             v-if="itemIcon"
-            class="w-3.5 h-3.5 flex-shrink-0"
+            class="w-3.5 h-3.5 shrink-0"
             :class="itemIconColor"
           />
           <span class="text-sm font-medium text-gray-200 truncate min-w-0">{{ displayName }}</span>
-          <span v-if="label" class="flex-shrink-0 text-xs text-slate-500 font-normal">{{
-            label
-          }}</span>
+          <span v-if="label" class="shrink-0 text-xs text-slate-500 font-normal">{{ label }}</span>
         </div>
         <div v-if="$slots.summary" class="flex flex-wrap items-center gap-x-2 gap-y-0.5 mt-0.5">
           <slot name="summary" />
@@ -22,7 +20,7 @@
       </div>
 
       <!-- Right: badges + edit, centered relative to full height -->
-      <div class="flex-shrink-0 flex items-center gap-1.5">
+      <div class="shrink-0 flex items-center gap-1.5">
         <!-- Issues badge -->
         <button
           v-if="item.Issues && item.Issues.length"
@@ -45,7 +43,7 @@
               :key="i"
               class="text-red-300 text-xs flex items-start gap-1.5 py-0.5"
             >
-              <ExclamationTriangleIcon class="w-3.5 h-3.5 flex-shrink-0 mt-0.5" />
+              <ExclamationTriangleIcon class="w-3.5 h-3.5 shrink-0 mt-0.5" />
               {{ iss }}
             </p>
           </div>
@@ -85,7 +83,7 @@
           :key="i"
           class="text-red-300 text-xs flex items-start gap-1"
         >
-          <ExclamationTriangleIcon class="w-3.5 h-3.5 flex-shrink-0 mt-0.5" />
+          <ExclamationTriangleIcon class="w-3.5 h-3.5 shrink-0 mt-0.5" />
           {{ iss }}
         </p>
       </div>

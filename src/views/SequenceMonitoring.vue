@@ -114,7 +114,7 @@
             v-if="settingsStore.monitorViewSetting.showGuiderAfGraph && store.focuserInfo.Connected"
           >
             <p class="mb-4 text-center">{{ $t('components.focuser.last_autofocus') }}</p>
-            <AutofocusGrafik class="flex-grow h-screen-3/4" />
+            <AutofocusGrafik class="grow h-screen-3/4" />
           </div>
           <div class="p-5"></div>
         </div>

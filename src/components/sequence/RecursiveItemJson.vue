@@ -14,7 +14,7 @@
       <!-- Header Section -->
       <div class="flex items-center justify-between p-2 sm:p-3 border-b border-slate-700/30">
         <div class="flex items-center gap-2 min-w-0">
-          <div class="w-1.5 h-1.5 bg-slate-400 rounded-full flex-shrink-0"></div>
+          <div class="w-1.5 h-1.5 bg-slate-400 rounded-full shrink-0"></div>
           <h3 class="font-medium text-slate-100 text-sm md:text-base truncate">
             {{ removeSuffix(item.Name) }}
           </h3>
@@ -22,7 +22,7 @@
         <span
           v-if="isTopLevel"
           :class="statusColor(item.Status)"
-          class="px-2 py-1 rounded-full text-sm font-medium flex-shrink-0"
+          class="px-2 py-1 rounded-full text-sm font-medium shrink-0"
         >
           {{ item.Status }}
         </span>
@@ -37,9 +37,7 @@
               :key="key"
               class="flex flex-col sm:flex-row gap-6 p-3 bg-gray-800/30 rounded text-sm border border-gray-700/20"
             >
-              <span class="text-gray-400 font-medium w-28 flex-shrink-0"
-                >{{ formatKey(key) }}:</span
-              >
+              <span class="text-gray-400 font-medium w-28 shrink-0">{{ formatKey(key) }}:</span>
               <span class="text-gray-200 break-all min-w-0">
                 <template v-if="key === 'CalculatedWaitDuration'">
                   {{ formatDuration(value) }}
@@ -106,7 +104,7 @@
             </div>
             <button
               @click="sequenceStore.toggleCollapsedState(`${item._path || 'items'}-items`)"
-              class="flex-shrink-0 p-1 rounded-md hover:bg-slate-700/50 transition-colors"
+              class="shrink-0 p-1 rounded-md hover:bg-slate-700/50 transition-colors"
               :title="
                 sequenceStore.isCollapsed(`${item._path || 'items'}-items`)
                   ? 'Erweitern'
@@ -154,7 +152,7 @@
             </div>
             <button
               @click="sequenceStore.toggleCollapsedState(`${item._path || 'triggers'}-triggers`)"
-              class="flex-shrink-0 p-1 rounded-md hover:bg-slate-700/50 transition-colors"
+              class="shrink-0 p-1 rounded-md hover:bg-slate-700/50 transition-colors"
               :title="
                 sequenceStore.isCollapsed(`${item._path || 'triggers'}-triggers`)
                   ? 'Erweitern'

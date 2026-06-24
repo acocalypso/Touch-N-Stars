@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center p-4"
-  >
+  <div class="fixed inset-0 z-50 overflow-y-auto bg-black/50 flex items-center justify-center p-4">
     <div
       class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-4xl w-full max-h-full flex flex-col"
     >

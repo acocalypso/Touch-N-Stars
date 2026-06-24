@@ -1,12 +1,10 @@
 <template>
   <ItemShell :item="item">
     <template #summary>
-      <span class="text-xs text-slate-400 flex-shrink-0 font-mono">{{ item.ExposureTime }}s</span>
-      <span class="text-xs text-slate-500 flex-shrink-0">G{{ item.Gain }}</span>
-      <span class="text-xs text-slate-500 flex-shrink-0">{{ item.ImageType }}</span>
-      <span v-if="item.IsROI" class="text-xs text-slate-500 flex-shrink-0"
-        >ROI {{ item.ROIPct }}%</span
-      >
+      <span class="text-xs text-slate-400 shrink-0 font-mono">{{ item.ExposureTime }}s</span>
+      <span class="text-xs text-slate-500 shrink-0">G{{ item.Gain }}</span>
+      <span class="text-xs text-slate-500 shrink-0">{{ item.ImageType }}</span>
+      <span v-if="item.IsROI" class="text-xs text-slate-500 shrink-0">ROI {{ item.ROIPct }}%</span>
     </template>
 
     <template #editor="{ save }">
@@ -41,7 +39,7 @@
 
       <!-- Binning -->
       <div class="flex items-center gap-3">
-        <label class="text-xs text-slate-400 flex-shrink-0">{{
+        <label class="text-xs text-slate-400 shrink-0">{{
           $t('components.sequence.items.takeExposure.binning')
         }}</label>
         <select
@@ -58,7 +56,7 @@
 
       <!-- Image Type -->
       <div class="flex items-center gap-3">
-        <label class="text-xs text-slate-400 flex-shrink-0">{{
+        <label class="text-xs text-slate-400 shrink-0">{{
           $t('components.sequence.items.takeExposure.imageType')
         }}</label>
         <select

@@ -4,7 +4,7 @@
     <div
       v-if="show && !isMinimized"
       :class="[
-        'fixed inset-0 flex items-center justify-center text-gray-200 p-2 bg-black bg-opacity-30',
+        'fixed inset-0 flex items-center justify-center text-gray-200 p-2 bg-black/30',
         zIndexClass,
       ]"
       @click="handleBackdropClick"

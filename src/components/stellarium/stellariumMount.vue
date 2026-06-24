@@ -3,7 +3,7 @@
     <!-- Mount Controls - moved to left side -->
     <div
       :class="controlsClasses"
-      class="fixed flex gap-2 bg-black bg-opacity-90 p-2 rounded-full"
+      class="fixed flex gap-2 bg-black/90 p-2 rounded-full"
       style="bottom: calc(env(safe-area-inset-bottom, 0px) + 48px)"
     >
       <button

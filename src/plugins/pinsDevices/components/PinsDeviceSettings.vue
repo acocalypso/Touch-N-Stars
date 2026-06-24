@@ -69,7 +69,7 @@
               @scroll="onMainTabScroll"
             >
               <button
-                class="px-4 py-3 text-sm font-semibold whitespace-nowrap flex-shrink-0"
+                class="px-4 py-3 text-sm font-semibold whitespace-nowrap shrink-0"
                 :class="
                   activeTab === 'general'
                     ? 'text-white border-b-2 border-cyan-400'
@@ -83,7 +83,7 @@
 
               <button
                 :disabled="!store.isPowerboxConnected"
-                class="px-4 py-3 text-sm font-semibold transition-all whitespace-nowrap flex-shrink-0"
+                class="px-4 py-3 text-sm font-semibold transition-all whitespace-nowrap shrink-0"
                 :class="{
                   'text-white border-b-2 border-cyan-400': activeTab === 'ports',
                   'text-gray-400 hover:text-white':
@@ -98,7 +98,7 @@
 
               <button
                 :disabled="!store.isMeteostationConnected"
-                class="px-4 py-3 text-sm font-semibold transition-all whitespace-nowrap flex-shrink-0"
+                class="px-4 py-3 text-sm font-semibold transition-all whitespace-nowrap shrink-0"
                 :class="{
                   'text-white border-b-2 border-cyan-400': activeTab === 'weather',
                   'text-gray-400 hover:text-white':
@@ -113,7 +113,7 @@
 
               <button
                 :disabled="!store.isLensControlConnected"
-                class="px-4 py-3 text-sm font-semibold transition-all whitespace-nowrap flex-shrink-0"
+                class="px-4 py-3 text-sm font-semibold transition-all whitespace-nowrap shrink-0"
                 :class="{
                   'text-white border-b-2 border-cyan-400': activeTab === 'lenscontrol',
                   'text-gray-400 hover:text-white':
@@ -127,7 +127,7 @@
               </button>
 
               <button
-                class="px-4 py-3 text-sm font-semibold whitespace-nowrap flex-shrink-0"
+                class="px-4 py-3 text-sm font-semibold whitespace-nowrap shrink-0"
                 :class="
                   activeTab === 'configuration'
                     ? 'text-white border-b-2 border-cyan-400'
@@ -172,7 +172,7 @@
                   >
                     <button
                       v-if="hasPowerPorts"
-                      class="px-4 py-2 text-sm font-semibold whitespace-nowrap flex-shrink-0"
+                      class="px-4 py-2 text-sm font-semibold whitespace-nowrap shrink-0"
                       :class="
                         activePortsSubTab === 'power'
                           ? 'text-white border-b-2 border-cyan-400'
@@ -185,7 +185,7 @@
                     </button>
                     <button
                       v-if="hasUsbPorts"
-                      class="px-4 py-2 text-sm font-semibold whitespace-nowrap flex-shrink-0"
+                      class="px-4 py-2 text-sm font-semibold whitespace-nowrap shrink-0"
                       :class="
                         activePortsSubTab === 'usb'
                           ? 'text-white border-b-2 border-cyan-400'
@@ -198,7 +198,7 @@
                     </button>
                     <button
                       v-if="hasDewPorts"
-                      class="px-4 py-2 text-sm font-semibold whitespace-nowrap flex-shrink-0"
+                      class="px-4 py-2 text-sm font-semibold whitespace-nowrap shrink-0"
                       :class="
                         activePortsSubTab === 'dew'
                           ? 'text-white border-b-2 border-cyan-400'
@@ -211,7 +211,7 @@
                     </button>
                     <button
                       v-if="hasAdjustablePorts"
-                      class="px-4 py-2 text-sm font-semibold whitespace-nowrap flex-shrink-0"
+                      class="px-4 py-2 text-sm font-semibold whitespace-nowrap shrink-0"
                       :class="
                         activePortsSubTab === 'adjustable'
                           ? 'text-white border-b-2 border-cyan-400'

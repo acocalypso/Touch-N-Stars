@@ -90,11 +90,12 @@ watch(
 );
 </script>
 <style scoped>
+@reference '../assets/tailwind.css';
 .subnav {
   @apply border-cyan-500/30 transition-all duration-300 ease-in-out;
 }
 .subnav-button {
-  @apply flex-shrink-0 h-auto
+  @apply shrink-0 h-auto
     bg-transparent
     text-gray-400
     rounded-md

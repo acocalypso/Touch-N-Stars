@@ -156,7 +156,7 @@
         <!-- PINS: Capture Stats Overlay -->
         <div
           v-if="store.isPINS && showCaptureStats && store.lastImageStats && imageStore.imageData"
-          class="absolute right-0 z-20 flex flex-col p-2 text-xs text-gray-300 bg-black bg-opacity-50"
+          class="absolute right-0 z-20 flex flex-col p-2 text-xs text-gray-300 bg-black/50"
           :class="isLandscape ? 'left-32 top-0' : 'left-0 top-0'"
         >
           <div v-if="statsLoading" class="flex items-center gap-2 py-1 opacity-60">
@@ -264,7 +264,7 @@
       <!-- Slew Modal -->
       <div
         v-if="cameraStore.slewModal"
-        class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+        class="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
       >
         <div
           class="bg-gray-900 rounded-lg p-4 overflow-y-auto max-h-[95vh] border border-gray-700 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-800/50"

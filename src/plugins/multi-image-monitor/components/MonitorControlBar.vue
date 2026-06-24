@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="camera"
-    class="monitor-control-bar flex items-center justify-between px-3 py-2 bg-gray-900 bg-opacity-80 backdrop-blur-md border-t border-gray-800 shadow-lg"
+    class="monitor-control-bar flex items-center justify-between px-3 py-2 bg-gray-900/80 backdrop-blur-md border-t border-gray-800 shadow-lg"
   >
     <!-- Left: Last Update -->
     <div class="flex flex-col min-w-0">

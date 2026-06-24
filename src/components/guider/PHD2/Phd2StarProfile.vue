@@ -1,7 +1,7 @@
 <template>
   <div class="w-full h-full flex flex-col text-white text-xs overflow-hidden">
     <!-- Header mit Star-Werten -->
-    <div class="px-2 pt-1 pb-1 flex-shrink-0">
+    <div class="px-2 pt-1 pb-1 shrink-0">
       <h3 class="font-semibold text-center mb-1">Star Profile</h3>
       <div class="flex justify-between">
         <span
@@ -32,7 +32,7 @@
     </div>
 
     <!-- Footer -->
-    <div class="px-2 pb-1 flex-shrink-0 text-gray-400 text-center">Mass: {{ massValue }}</div>
+    <div class="px-2 pb-1 shrink-0 text-gray-400 text-center">Mass: {{ massValue }}</div>
   </div>
 </template>
 

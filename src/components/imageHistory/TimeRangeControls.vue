@@ -6,10 +6,10 @@
       class="flex items-center gap-2 px-3 py-2 h-8 text-sm font-semibold text-gray-200 hover:bg-gray-700/50 transition-colors w-full text-left"
     >
       <ChevronRightIcon
-        class="w-4 h-4 flex-shrink-0 transition-transform duration-200"
+        class="w-4 h-4 shrink-0 transition-transform duration-200"
         :class="{ 'rotate-90': isControlsOpen }"
       />
-      <Cog6ToothIcon class="w-4 h-4 flex-shrink-0" />
+      <Cog6ToothIcon class="w-4 h-4 shrink-0" />
       <span>{{ $t('components.sequence.graphControls.title') }}</span>
     </button>
 

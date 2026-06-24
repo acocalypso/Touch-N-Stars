@@ -221,6 +221,7 @@ defineEmits(['openApiKeyModal']);
 </script>
 
 <style scoped>
+@reference '../../../assets/tailwind.css';
 /* Landing Page Styles */
 .landing-page {
   max-width: 100%;
@@ -259,7 +260,7 @@ defineEmits(['openApiKeyModal']);
 }
 
 .step-number {
-  @apply bg-gradient-to-br from-blue-500 to-purple-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm flex-shrink-0;
+  @apply bg-gradient-to-br from-blue-500 to-purple-600 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm shrink-0;
 }
 
 .step-content {

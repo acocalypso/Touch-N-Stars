@@ -44,8 +44,8 @@
                 class="flex items-center gap-1.5 w-full px-3 py-1.5 text-xs font-semibold text-slate-400 uppercase tracking-wide hover:bg-slate-700/40 transition-colors text-left"
                 @click="toggleCategory(cat)"
               >
-                <ChevronDownIcon v-if="isExpanded(cat)" class="w-3 h-3 flex-shrink-0" />
-                <ChevronRightIcon v-else class="w-3 h-3 flex-shrink-0" />
+                <ChevronDownIcon v-if="isExpanded(cat)" class="w-3 h-3 shrink-0" />
+                <ChevronRightIcon v-else class="w-3 h-3 shrink-0" />
                 <span class="truncate">{{ cat }}</span>
                 <span class="ml-auto font-normal text-slate-500">{{ group.length }}</span>
               </button>

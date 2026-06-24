@@ -333,7 +333,7 @@
         </div>
 
         <div class="flex gap-2 mb-3">
-          <div class="flex-grow relative">
+          <div class="grow relative">
             <input
               v-model.trim="host"
               type="text"
@@ -343,7 +343,7 @@
             />
           </div>
 
-          <div class="w-20 flex-shrink-0">
+          <div class="w-20 shrink-0">
             <input
               v-model.trim="port"
               type="number"

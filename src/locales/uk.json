@@ -832,6 +832,15 @@
         },
         "startGuiding": {
           "forceCalibrationLabel": "Калібрування сили"
+        },
+        "slewToGuiderCalibrationPosition": {
+          "clearBacklash": "Очистити люфт DEC",
+          "side": "Вказівна сторона",
+          "dec": "груд",
+          "sideEast": "схід",
+          "sideStay": "Залишся",
+          "sideWest": "Захід",
+          "haOffset": "HA Offset"
         }
       },
       "emptyContainer": "Порожньо — натисніть + для додавання елементів",

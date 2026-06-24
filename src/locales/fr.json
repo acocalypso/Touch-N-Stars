@@ -843,6 +843,15 @@
         },
         "startGuiding": {
           "forceCalibrationLabel": "Calibrage des forces"
+        },
+        "slewToGuiderCalibrationPosition": {
+          "clearBacklash": "Effacer le jeu DEC",
+          "dec": "Déc",
+          "haOffset": "Décalage HA",
+          "side": "Côté pointant",
+          "sideEast": "Est",
+          "sideStay": "Rester",
+          "sideWest": "Ouest"
         }
       },
       "emptyContainer": "Vide — cliquez sur + pour ajouter des éléments",

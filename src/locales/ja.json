@@ -860,6 +860,15 @@
         },
         "startGuiding": {
           "forceCalibrationLabel": "力の校正"
+        },
+        "slewToGuiderCalibrationPosition": {
+          "clearBacklash": "DEC バックラッシュをクリア",
+          "dec": "12月",
+          "haOffset": "HA オフセット",
+          "side": "ポインティングサイド",
+          "sideEast": "東",
+          "sideStay": "滞在する",
+          "sideWest": "西"
         }
       },
       "emptyContainer": "空です — + をクリックしてアイテムを追加",

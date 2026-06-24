@@ -44,6 +44,7 @@ import RunAutofocusItem from './RunAutofocusItem.vue';
 import SequentialContainerItem from './SequentialContainerItem.vue';
 import CenterItem from './CenterItem.vue';
 import SlewScopeToRaDecItem from './SlewScopeToRaDecItem.vue';
+import SlewToGuiderCalibrationPositionItem from './SlewToGuiderCalibrationPositionItem.vue';
 import DeepSkyObjectContainerItem from './DeepSkyObjectContainerItem.vue';
 import WarmCameraItem from './WarmCameraItem.vue';
 import MoonAltitudeConditionItem from './MoonAltitudeConditionItem.vue';
@@ -150,6 +151,8 @@ export const ITEM_COMPONENTS = {
   'NINA.Sequencer.SequenceItem.Telescope.SetTracking': SetTrackingItem,
   'NINA.Sequencer.SequenceItem.Telescope.SlewScopeToAltAz': SlewScopeToAltAzItem,
   'NINA.Sequencer.SequenceItem.Telescope.SlewScopeToRaDec': SlewScopeToRaDecItem,
+  'NINA.Sequencer.SequenceItem.Telescope.SlewToGuiderCalibrationPosition':
+    SlewToGuiderCalibrationPositionItem,
   'NINA.Sequencer.SequenceItem.Platesolving.CenterAndRotate': CenterAndRotateItem,
   'NINA.Sequencer.SequenceItem.Platesolving.SolveAndSync': RunAutofocusItem,
   'NINA.Sequencer.SequenceItem.Expressions.GlobalConstant': ExpressionVariableItem,

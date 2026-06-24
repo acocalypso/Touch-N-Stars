@@ -843,6 +843,15 @@
         },
         "startGuiding": {
           "forceCalibrationLabel": "Calibrazione della forza"
+        },
+        "slewToGuiderCalibrationPosition": {
+          "clearBacklash": "Elimina il gioco DEC",
+          "dec": "dicembre",
+          "haOffset": "Compensazione HA",
+          "side": "Lato di puntamento",
+          "sideEast": "Est",
+          "sideStay": "Rimanere",
+          "sideWest": "Ovest"
         }
       },
       "emptyContainer": "Vuoto — fai clic su + per aggiungere elementi",

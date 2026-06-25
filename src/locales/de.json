@@ -895,6 +895,15 @@
           "slope": "Steigung",
           "intercept": "Achsenabschnitt",
           "absolute": "Absolut"
+        },
+        "slewToGuiderCalibrationPosition": {
+          "clearBacklash": "DEC-Spiel löschen",
+          "dec": "Dez",
+          "haOffset": "HA-Offset",
+          "side": "Zeigende Seite",
+          "sideEast": "Ost",
+          "sideStay": "Bleiben",
+          "sideWest": "Westen"
         }
       },
       "emptyContainer": "Leer — auf + klicken um Items hinzuzufügen",

@@ -843,6 +843,15 @@
         },
         "startGuiding": {
           "forceCalibrationLabel": "Calibração de Força"
+        },
+        "slewToGuiderCalibrationPosition": {
+          "clearBacklash": "Limpar reação DEC",
+          "dec": "dezembro",
+          "haOffset": "Deslocamento de alta disponibilidade",
+          "side": "Lado apontador",
+          "sideEast": "Leste",
+          "sideStay": "Ficar",
+          "sideWest": "Oeste"
         }
       },
       "emptyContainer": "Vazio — clique em + para adicionar itens",

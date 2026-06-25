@@ -8,7 +8,7 @@
       <template v-for="f in visibleFields" :key="f.key">
         <!-- Select -->
         <div v-if="f.type === 'select'" class="flex items-center gap-3">
-          <label class="text-xs text-slate-400 flex-shrink-0">{{ fieldLabel(f) }}</label>
+          <label class="text-xs text-slate-400 shrink-0">{{ fieldLabel(f) }}</label>
           <select
             class="ml-auto w-36 md:w-40 bg-slate-700/60 border border-slate-600 rounded px-2 py-1 text-xs text-gray-200"
             :value="item[f.key]"
@@ -52,7 +52,7 @@
 
         <!-- Textarea -->
         <div v-else-if="f.type === 'textarea'" class="flex items-start gap-3">
-          <label class="text-xs text-slate-400 flex-shrink-0 mt-1">{{ fieldLabel(f) }}</label>
+          <label class="text-xs text-slate-400 shrink-0 mt-1">{{ fieldLabel(f) }}</label>
           <TextAreaInput
             :modelValue="item[f.key] ?? ''"
             inputClass="ml-auto w-36 md:w-40 bg-slate-700/60 border border-slate-600 rounded px-2 py-1 text-xs text-gray-200 resize-none"
@@ -63,7 +63,7 @@
 
         <!-- Password -->
         <div v-else-if="f.type === 'password'" class="flex items-center gap-3">
-          <label class="text-xs text-slate-400 flex-shrink-0">{{ fieldLabel(f) }}</label>
+          <label class="text-xs text-slate-400 shrink-0">{{ fieldLabel(f) }}</label>
           <input
             type="password"
             class="ml-auto w-36 md:w-40 bg-slate-700/60 border border-slate-600 rounded px-2 py-1 text-xs text-gray-200"
@@ -74,7 +74,7 @@
 
         <!-- Text -->
         <div v-else class="flex items-center gap-3">
-          <label class="text-xs text-slate-400 flex-shrink-0">{{ fieldLabel(f) }}</label>
+          <label class="text-xs text-slate-400 shrink-0">{{ fieldLabel(f) }}</label>
           <TextInput
             :modelValue="item[f.key] ?? ''"
             inputClass="ml-auto w-36 md:w-40 bg-slate-700/60 border border-slate-600 rounded px-2 py-1 text-xs text-gray-200"

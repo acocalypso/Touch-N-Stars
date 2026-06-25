@@ -80,7 +80,7 @@
           <div v-for="prop in activeGroup.properties" :key="prop.Name" class="p-3">
             <div class="flex items-center gap-2 mb-2">
               <span
-                class="w-2.5 h-2.5 rounded-full flex-shrink-0"
+                class="w-2.5 h-2.5 rounded-full shrink-0"
                 :class="stateColor(prop.State)"
               ></span>
               <span class="text-sm font-medium text-gray-100">{{ prop.Label || prop.Name }}</span>

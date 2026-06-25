@@ -1,12 +1,12 @@
 <template>
   <ItemShell :item="item">
     <template #summary>
-      <span class="text-xs text-slate-400 flex-shrink-0">{{ modeLabel }}</span>
+      <span class="text-xs text-slate-400 shrink-0">{{ modeLabel }}</span>
     </template>
 
     <template #editor="{ save }">
       <div class="flex items-center gap-3">
-        <label class="text-xs text-slate-400 flex-shrink-0">{{
+        <label class="text-xs text-slate-400 shrink-0">{{
           $t('components.sequence.items.setReadoutMode.mode')
         }}</label>
         <select

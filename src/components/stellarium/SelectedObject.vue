@@ -2,12 +2,12 @@
   <div
     v-if="selectedObject"
     :class="containerClasses"
-    class="absolute bg-black bg-opacity-90 backdrop-blur-sm text-gray-300 p-4 rounded-lg shadow-lg border border-gray-600 z-50"
+    class="absolute bg-black/90 backdrop-blur-sm text-gray-300 p-4 rounded-lg shadow-lg border border-gray-600 z-50"
   >
     <!-- Overlay mit Spinner um eine versehntliches drücken der Button zu verhindern -->
     <div
       v-if="!buttonsEnabled"
-      class="absolute inset-0 z-50 bg-black bg-opacity-50 flex items-center justify-center rounded-lg"
+      class="absolute inset-0 z-50 bg-black/50 flex items-center justify-center rounded-lg"
     >
       <span class="spinner"></span>
     </div>

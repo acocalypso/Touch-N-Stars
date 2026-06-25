@@ -155,7 +155,7 @@
                 <button
                   type="button"
                   @click="showCsvInfo = !showCsvInfo"
-                  class="text-gray-400 hover:text-blue-400 transition-colors flex-shrink-0"
+                  class="text-gray-400 hover:text-blue-400 transition-colors shrink-0"
                   :title="$t('plugins.narrowband.csvInfo.title')"
                 >
                   <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

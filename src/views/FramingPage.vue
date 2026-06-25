@@ -15,7 +15,7 @@
       v-if="hasMissingEquipmentSettings"
       class="missing-settings-warning absolute top-2 left-1/2 -translate-x-1/2 max-w-xl w-[min(100%,40rem)] bg-yellow-900/90 border border-yellow-600 text-yellow-100 text-sm rounded-lg shadow-lg p-3 backdrop-blur-sm flex items-start gap-2"
     >
-      <ExclamationTriangleIcon class="w-5 h-5 flex-shrink-0 text-yellow-300 mt-0.5" />
+      <ExclamationTriangleIcon class="w-5 h-5 shrink-0 text-yellow-300 mt-0.5" />
       <span>{{ $t('components.framing.missingEquipmentSettings') }}</span>
     </div>
 

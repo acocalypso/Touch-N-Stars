@@ -73,7 +73,7 @@
               <svg v-if="store.cameraInfo.IsExposing" class="progress-ring" viewBox="0 0 36 36">
                 <!-- Background Circle -->
                 <path
-                  class="text-white text-opacity-30 fill-none stroke-current stroke-[2.8]"
+                  class="text-white/30 fill-none stroke-current stroke-[2.8]"
                   d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
                 />
                 <!-- Progress Circle -->
@@ -712,6 +712,7 @@ watch(
 </script>
 
 <style scoped>
+@reference '../assets/tailwind.css';
 /* Base Navigation Container */
 .navigation-container {
   @apply flex justify-center h-20 top-0 z-50 transition-all duration-300 ease-in-out;
@@ -731,8 +732,14 @@ watch(
 
 /* Content Area Anpassungen */
 .nav-content {
-  @apply scrollbar-hide transition-all duration-300 ease-in-out;
+  @apply transition-all duration-300 ease-in-out;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
   scroll-snap-type: x mandatory;
+}
+
+.nav-content::-webkit-scrollbar {
+  display: none;
 }
 
 /* Portrait Mode Content */

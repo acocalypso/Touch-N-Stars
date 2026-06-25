@@ -6,14 +6,14 @@
   >
     <button
       @click="togglePlayPause"
-      class="bg-black bg-opacity-80 p-2 rounded-full text-gray-200 transition-all duration-200 shadow-md"
+      class="bg-black/80 p-2 rounded-full text-gray-200 transition-all duration-200 shadow-md"
       :title="isPaused ? 'Play' : 'Pause'"
     >
       <PlayIcon v-if="isPaused" class="w-6 h-6" />
       <PauseIcon v-else class="w-6 h-6" />
     </button>
     <button
-      class="bg-black bg-opacity-80 p-2 rounded-full text-gray-200 font-mono transition-all duration-200 shadow-md"
+      class="bg-black/80 p-2 rounded-full text-gray-200 font-mono transition-all duration-200 shadow-md"
       @click="toggleDateTimeControls"
     >
       <p class="text-center">{{ formattedTime }}</p>

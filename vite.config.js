@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
+import tailwindcss from '@tailwindcss/vite';
 import { fileURLToPath, URL } from 'node:url';
 import { rm } from 'node:fs/promises';
 import { resolve } from 'node:path';
@@ -22,7 +23,7 @@ function stellariumDataExclude(outDir) {
 const OUT_DIR = process.env.VITE_OUT_DIR || 'dist';
 
 export default defineConfig({
-  plugins: [vue(), stellariumDataExclude(OUT_DIR)],
+  plugins: [tailwindcss(), vue(), stellariumDataExclude(OUT_DIR)],
   publicDir: 'public',
   resolve: {
     alias: {

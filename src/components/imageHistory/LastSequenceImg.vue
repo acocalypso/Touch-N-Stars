@@ -30,7 +30,7 @@
       <!-- Loading Spinner Overlay -->
       <div
         v-if="isLoadingImg && imageData"
-        class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-20 z-40"
+        class="absolute inset-0 flex items-center justify-center bg-black/20 z-40"
       >
         <div class="flex flex-col items-center text-white">
           <div class="animate-spin rounded-full h-12 w-12 border-b-2 border-white mb-2"></div>

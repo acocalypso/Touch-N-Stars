@@ -102,7 +102,7 @@
           @click="formData.color = colorName"
           :class="[
             colorClass,
-            formData.color === colorName ? 'ring-4 ring-white ring-opacity-50 scale-110' : '',
+            formData.color === colorName ? 'ring-4 ring-white/50 scale-110' : '',
           ]"
           class="w-10 h-10 rounded-full transition-all duration-200 hover:scale-105"
         />

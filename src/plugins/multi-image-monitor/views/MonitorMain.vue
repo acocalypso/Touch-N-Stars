@@ -111,7 +111,7 @@
     </div>
 
     <!-- Image Area: full height including footer zone (gray bg blends), image inset via bottom padding -->
-    <div class="flex-grow min-h-0 relative overflow-hidden">
+    <div class="grow min-h-0 relative overflow-hidden">
       <MonitorSnapshot
         v-for="camera in store.cameras"
         :key="camera.id"

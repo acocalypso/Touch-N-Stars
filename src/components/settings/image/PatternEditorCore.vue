@@ -169,10 +169,7 @@
     </div>
 
     <!-- Help Modal -->
-    <div
-      v-if="showHelp"
-      class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center"
-    >
+    <div v-if="showHelp" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
       <div class="bg-gray-800 text-white p-4 m-4 rounded-lg max-w-xl max-h-[80vh] overflow-y-auto">
         <div class="flex justify-between items-center mb-3">
           <h2 class="text-lg font-bold">

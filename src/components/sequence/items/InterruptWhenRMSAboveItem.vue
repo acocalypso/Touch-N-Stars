@@ -17,7 +17,7 @@
       />
 
       <div class="flex items-center gap-3">
-        <label class="text-xs text-slate-400 flex-shrink-0">{{
+        <label class="text-xs text-slate-400 shrink-0">{{
           $t('components.sequence.items.interruptWhenRMSAbove.mode')
         }}</label>
         <select

@@ -1,16 +1,14 @@
 <template>
   <ItemShell :item="item">
     <template #summary>
-      <span v-if="switchFilter?.ComboBoxText" class="text-xs text-slate-400 flex-shrink-0">{{
+      <span v-if="switchFilter?.ComboBoxText" class="text-xs text-slate-400 shrink-0">{{
         switchFilter.ComboBoxText
       }}</span>
       <template v-if="exposure">
-        <span class="text-xs text-slate-400 font-mono flex-shrink-0"
-          >{{ exposure.ExposureTime }}s</span
-        >
-        <span class="text-xs text-slate-500 flex-shrink-0">G{{ exposure.Gain }}</span>
+        <span class="text-xs text-slate-400 font-mono shrink-0">{{ exposure.ExposureTime }}s</span>
+        <span class="text-xs text-slate-500 shrink-0">G{{ exposure.Gain }}</span>
       </template>
-      <span v-if="loopCondition" class="text-xs text-slate-400 font-mono flex-shrink-0">
+      <span v-if="loopCondition" class="text-xs text-slate-400 font-mono shrink-0">
         {{ loopCondition.CompletedIterations }}/{{ loopCondition.Iterations }}
       </span>
     </template>
@@ -18,7 +16,7 @@
     <template v-if="switchFilter && exposure && loopCondition" #editor>
       <!-- Filter -->
       <div class="flex items-center gap-3">
-        <label class="text-xs text-slate-400 flex-shrink-0">{{
+        <label class="text-xs text-slate-400 shrink-0">{{
           $t('components.sequence.items.switchFilter.filter')
         }}</label>
         <select
@@ -86,7 +84,7 @@
 
       <!-- Binning -->
       <div class="flex items-center gap-3">
-        <label class="text-xs text-slate-400 flex-shrink-0">{{
+        <label class="text-xs text-slate-400 shrink-0">{{
           $t('components.sequence.items.takeExposure.binning')
         }}</label>
         <select
@@ -103,7 +101,7 @@
 
       <!-- Image Type -->
       <div class="flex items-center gap-3">
-        <label class="text-xs text-slate-400 flex-shrink-0">{{
+        <label class="text-xs text-slate-400 shrink-0">{{
           $t('components.sequence.items.takeExposure.imageType')
         }}</label>
         <select

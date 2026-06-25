@@ -41,7 +41,7 @@
               @click="toggleDualAxisTracking"
               :disabled="!tmStore.connected"
               :class="[
-                'relative inline-flex h-5 w-9 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-40',
+                'relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-40',
                 tmStore.dualAxisTrackingEnabled ? 'bg-cyan-500' : 'bg-gray-600',
               ]"
               role="switch"
@@ -64,7 +64,7 @@
               @click="toggleRefractionCorrection"
               :disabled="!tmStore.connected"
               :class="[
-                'relative inline-flex h-5 w-9 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-40',
+                'relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-40',
                 tmStore.refractionCorrectionEnabled ? 'bg-cyan-500' : 'bg-gray-600',
               ]"
               role="switch"
@@ -92,7 +92,7 @@
             :key="tab.id"
             @click="tmStore.activeTab = tab.id"
             :class="[
-              'px-5 py-3 text-sm font-semibold transition whitespace-nowrap flex-shrink-0',
+              'px-5 py-3 text-sm font-semibold transition whitespace-nowrap shrink-0',
               tmStore.activeTab === tab.id
                 ? 'border-b-2 border-cyan-400 text-white'
                 : 'text-gray-400 hover:text-white',
@@ -503,7 +503,7 @@
                     <button
                       @click="toggleOption('ShowRemovedPoints', optShowRemoved)"
                       :class="[
-                        'relative inline-flex h-5 w-9 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200',
+                        'relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200',
                         optShowRemoved ? 'bg-cyan-500' : 'bg-gray-600',
                       ]"
                       role="switch"
@@ -524,7 +524,7 @@
                     <button
                       @click="toggleOption('MinimizeMeridianFlips', optMinimizeMeridian)"
                       :class="[
-                        'relative inline-flex h-5 w-9 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200',
+                        'relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200',
                         optMinimizeMeridian ? 'bg-cyan-500' : 'bg-gray-600',
                       ]"
                       role="switch"
@@ -545,7 +545,7 @@
                     <button
                       @click="toggleOption('RemoveHighRMSAfterBuild', optRemoveHighRMS)"
                       :class="[
-                        'relative inline-flex h-5 w-9 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200',
+                        'relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200',
                         optRemoveHighRMS ? 'bg-cyan-500' : 'bg-gray-600',
                       ]"
                       role="switch"
@@ -634,7 +634,7 @@
                     <button
                       @click="toggleOption('LogCommands', optLogCommands)"
                       :class="[
-                        'relative inline-flex h-5 w-9 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200',
+                        'relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200',
                         optLogCommands ? 'bg-cyan-500' : 'bg-gray-600',
                       ]"
                       role="switch"
@@ -655,7 +655,7 @@
                     <button
                       @click="toggleOption('AllowBlindSolves', optAllowBlindSolves)"
                       :class="[
-                        'relative inline-flex h-5 w-9 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200',
+                        'relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200',
                         optAllowBlindSolves ? 'bg-cyan-500' : 'bg-gray-600',
                       ]"
                       role="switch"
@@ -676,7 +676,7 @@
                     <button
                       @click="toggleOption('OptimizeDome', optOptimizeDome)"
                       :class="[
-                        'relative inline-flex h-5 w-9 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200',
+                        'relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200',
                         optOptimizeDome ? 'bg-cyan-500' : 'bg-gray-600',
                       ]"
                       role="switch"
@@ -697,7 +697,7 @@
                     <button
                       @click="toggleOption('WestToEast', optWestToEast)"
                       :class="[
-                        'relative inline-flex h-5 w-9 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200',
+                        'relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200',
                         optWestToEast ? 'bg-cyan-500' : 'bg-gray-600',
                       ]"
                       role="switch"
@@ -718,7 +718,7 @@
                     <button
                       @click="toggleOption('AlternateDirection', optAlternateDirection)"
                       :class="[
-                        'relative inline-flex h-5 w-9 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200',
+                        'relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200',
                         optAlternateDirection ? 'bg-cyan-500' : 'bg-gray-600',
                       ]"
                       role="switch"
@@ -741,7 +741,7 @@
                         toggleOption('DisableRefractionCorrection', optDisableRefractionCorrection)
                       "
                       :class="[
-                        'relative inline-flex h-5 w-9 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200',
+                        'relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200',
                         optDisableRefractionCorrection ? 'bg-cyan-500' : 'bg-gray-600',
                       ]"
                       role="switch"
@@ -762,7 +762,7 @@
                     <button
                       @click="toggleOption('DisableDAT', optDisableDAT)"
                       :class="[
-                        'relative inline-flex h-5 w-9 flex-shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200',
+                        'relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200',
                         optDisableDAT ? 'bg-cyan-500' : 'bg-gray-600',
                       ]"
                       role="switch"

@@ -70,7 +70,7 @@
     <!-- Disable Info Modal -->
     <div
       v-if="showDisableModal"
-      class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center"
+      class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center"
       @click.self="showDisableModal = false"
     >
       <div class="bg-gray-800 text-white p-4 m-8 rounded-lg max-w-xl">

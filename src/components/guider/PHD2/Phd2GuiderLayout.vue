@@ -640,6 +640,7 @@ async function autoSelectStar() {
 </script>
 
 <style scoped>
+@reference '../../../assets/tailwind.css';
 .status-indicator {
   @apply relative w-4 h-4 rounded-full flex items-center justify-center;
 }

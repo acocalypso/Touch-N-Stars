@@ -17,7 +17,7 @@
               class="flex items-center gap-3 py-2 px-3 rounded-md bg-gray-700/60 mb-2 select-none"
               :class="{ 'opacity-50': isHidden(item.id) }"
             >
-              <div class="text-gray-400 flex-shrink-0">
+              <div class="text-gray-400 shrink-0">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   class="w-4 h-4"
@@ -49,7 +49,7 @@
       </div>
       <svg
         xmlns="http://www.w3.org/2000/svg"
-        class="w-5 h-5 text-gray-400 transition-transform duration-200 flex-shrink-0"
+        class="w-5 h-5 text-gray-400 transition-transform duration-200 shrink-0"
         :class="{ 'rotate-180': expanded }"
         fill="none"
         viewBox="0 0 24 24"
@@ -78,7 +78,7 @@
             :class="{ 'opacity-50': isHidden(element.id) }"
           >
             <!-- Drag handle -->
-            <div class="drag-handle cursor-grab active:cursor-grabbing text-gray-400 flex-shrink-0">
+            <div class="drag-handle cursor-grab active:cursor-grabbing text-gray-400 shrink-0">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 class="w-4 h-4"

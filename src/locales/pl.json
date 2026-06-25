@@ -843,6 +843,15 @@
         },
         "startGuiding": {
           "forceCalibrationLabel": "Kalibracja siły"
+        },
+        "slewToGuiderCalibrationPosition": {
+          "clearBacklash": "Wyczyść luz DEC",
+          "dec": "grudzień",
+          "haOffset": "Przesunięcie HA",
+          "side": "Wskazująca strona",
+          "sideEast": "Wschód",
+          "sideStay": "Zostawać",
+          "sideWest": "Zachód"
         }
       },
       "emptyContainer": "Pusty — kliknij +, aby dodać pozycje",

@@ -843,6 +843,15 @@
         },
         "startGuiding": {
           "forceCalibrationLabel": "Force Calibration"
+        },
+        "slewToGuiderCalibrationPosition": {
+          "clearBacklash": "Clear DEC Backlash",
+          "dec": "Dec",
+          "haOffset": "HA Offset",
+          "side": "Pointing Side",
+          "sideEast": "East",
+          "sideStay": "Stay",
+          "sideWest": "West"
         }
       },
       "emptyContainer": "空—单击+以添加项目",

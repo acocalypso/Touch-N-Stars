@@ -895,6 +895,15 @@
         },
         "startGuiding": {
           "forceCalibrationLabel": "Force Calibration"
+        },
+        "slewToGuiderCalibrationPosition": {
+          "haOffset": "HA Offset",
+          "dec": "Dec",
+          "side": "Pointing Side",
+          "sideStay": "Stay",
+          "sideEast": "East",
+          "sideWest": "West",
+          "clearBacklash": "Clear DEC Backlash"
         }
       },
       "emptyContainer": "Empty — click + to add items",

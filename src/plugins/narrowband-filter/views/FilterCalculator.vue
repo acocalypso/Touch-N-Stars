@@ -47,7 +47,7 @@
                 :label="$t('plugins.narrowband.aperture')"
                 labelKey="plugins.narrowband.aperture"
                 :min="10"
-                :max="300"
+                :max="2000"
                 :step="1"
               />
 
@@ -57,7 +57,7 @@
                 :label="$t('plugins.narrowband.focalLength')"
                 labelKey="plugins.narrowband.focalLength"
                 :min="100"
-                :max="2000"
+                :max="10000"
                 :step="10"
               />
 

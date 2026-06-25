@@ -843,6 +843,15 @@
         },
         "startGuiding": {
           "forceCalibrationLabel": "Kalibratie forceren"
+        },
+        "slewToGuiderCalibrationPosition": {
+          "clearBacklash": "Duidelijke DEC-reactie",
+          "dec": "dec",
+          "haOffset": "HA-compensatie",
+          "side": "Wijzende kant",
+          "sideEast": "Oosten",
+          "sideStay": "Verblijf",
+          "sideWest": "Westen"
         }
       },
       "emptyContainer": "Leeg — klik op + om items toe te voegen",

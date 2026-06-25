@@ -2,7 +2,8 @@
   <ItemShell :item="item">
     <template #summary>
       <span class="text-xs text-slate-400 font-mono">
-        HA±{{ item.HaOffsetDegrees }}° Dec{{ item.TargetDec >= 0 ? '+' : '' }}{{ item.TargetDec }}°
+        HA±{{ item.HaOffsetDegrees ?? 5 }}° Dec{{ (item.TargetDec ?? 0) >= 0 ? '+' : ''
+        }}{{ item.TargetDec ?? 0 }}°
         {{
           item.PointingSide === 'East'
             ? $t('components.sequence.items.slewToGuiderCalibrationPosition.sideEast')
@@ -55,16 +56,17 @@
           {{ $t('components.sequence.items.slewToGuiderCalibrationPosition.side') }}
         </label>
         <select
+          :value="item.PointingSide"
           class="ml-auto bg-slate-700/60 border border-slate-600 rounded px-2 py-1 text-xs text-gray-200"
           @change="save('PointingSide', $event.target.value)"
         >
-          <option value="Stay" :selected="item.PointingSide === 'Stay'">
+          <option value="Stay">
             {{ $t('components.sequence.items.slewToGuiderCalibrationPosition.sideStay') }}
           </option>
-          <option value="East" :selected="item.PointingSide === 'East'">
+          <option value="East">
             {{ $t('components.sequence.items.slewToGuiderCalibrationPosition.sideEast') }}
           </option>
-          <option value="West" :selected="item.PointingSide === 'West'">
+          <option value="West">
             {{ $t('components.sequence.items.slewToGuiderCalibrationPosition.sideWest') }}
           </option>
         </select>

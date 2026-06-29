@@ -93,7 +93,7 @@ const mountCircle = ref(null);
 // Check if in landscape mode
 const { isLandscape } = useOrientation();
 
-// Controls positioning classes - angepasst für rechte Navigation
+// Controls positioning classes - adjusted for the right-side navigation
 const controlsClasses = computed(() => ({
   'right-2': !isLandscape.value,
   'right-3': isLandscape.value,
@@ -120,7 +120,7 @@ function syncViewToMount() {
   }
 }
 
-// 6) Kreis auf RA/Dec aktualisieren
+// 6) Update circle to RA/Dec
 function updateCirclePos(ra_deg, dec_deg) {
   const stel = stellariumStore.stel;
   const ra_rad = ra_deg * stel.D2R - 0.0;
@@ -184,7 +184,11 @@ onMounted(() => {
     mountCircle.value.update();
     mountLayer.value.add(mountCircle.value);
     handleMountUpdate(ra, dec);
-    syncViewToMount();
+    // Point at the mount on first open. If the engine was destroyed before and a
+    // view was saved, keep that view instead of jumping to the mount.
+    if (!stellariumStore.savedView) {
+      syncViewToMount();
+    }
   }
 });
 

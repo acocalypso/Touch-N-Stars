@@ -63,8 +63,7 @@
 
       <div v-if="!shouldShowConnectionSplash" :class="mainContentClasses">
         <StellariumView
-          v-show="store.showStellarium"
-          v-if="settingsStore.setupCompleted && store.isBackendReachable"
+          v-if="settingsStore.setupCompleted && store.isBackendReachable && store.showStellarium"
           :key="stellariumRefreshKey"
         />
         <router-view v-show="!store.showStellarium" :key="routerViewKey" />

@@ -1746,6 +1746,7 @@
       }
     },
     "stellarium": {
+      "loading": "Stellarium wird geladen…",
       "selected_object": {
         "title": "Ausgewähltes Objekt",
         "ra": "Ra",

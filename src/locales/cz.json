@@ -1706,6 +1706,7 @@
       }
     },
     "stellarium": {
+      "loading": "Načítání Stellaria…",
       "selected_object": {
         "title": "Vybraný objekt",
         "ra": "RA",

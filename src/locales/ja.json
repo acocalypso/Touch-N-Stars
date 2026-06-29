@@ -1714,6 +1714,7 @@
       }
     },
     "stellarium": {
+      "loading": "Stellarium を読み込んでいます…",
       "selected_object": {
         "title": "選択された天体",
         "ra": "赤経 (RA)",

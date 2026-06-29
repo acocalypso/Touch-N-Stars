@@ -1751,6 +1751,7 @@
       }
     },
     "stellarium": {
+      "loading": "Stellarium 로드 중…",
       "selected_object": {
         "title": "선택한 천체",
         "ra": "RA",

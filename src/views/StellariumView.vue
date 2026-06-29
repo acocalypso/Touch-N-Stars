@@ -1,9 +1,20 @@
 <template>
   <div class="stellarium-container" :class="containerClasses">
-    <!-- Canvas für Stellarium -->
+    <!-- Canvas for Stellarium -->
     <canvas ref="stelCanvas" class="stellarium-canvas"></canvas>
 
-    <!-- Button für das Suchfeld (Lupe) -->
+    <!-- Loading spinner while the Stellarium engine (WASM + catalogs) loads -->
+    <div
+      v-if="!isStellariumReady"
+      class="absolute inset-0 z-50 flex flex-col items-center justify-center gap-4 bg-black"
+    >
+      <div
+        class="w-12 h-12 border-4 border-cyan-500 border-t-transparent rounded-full animate-spin"
+      ></div>
+      <span class="text-white text-sm">{{ t('components.stellarium.loading') }}</span>
+    </div>
+
+    <!-- Search field button (magnifier) -->
     <button
       @click="toggleSearch"
       :class="searchButtonClasses"
@@ -26,7 +37,7 @@
     <!-- Camera FOV Rotation Control + View-Center Actions -->
     <StellariumFovRotation v-if="showFovFrame" />
 
-    <!-- Overlay für das Suchfeld -->
+    <!-- Search field overlay -->
     <div
       v-if="isSearchVisible"
       :class="searchModalClasses"
@@ -36,7 +47,7 @@
       <steallriumSearch ref="searchComponent" />
     </div>
 
-    <!-- Overlay für das ausgewählte Objekt -->
+    <!-- Selected object overlay -->
     <SelectedObject
       v-if="selectedObject"
       :selectedObject="selectedObject"
@@ -98,6 +109,7 @@ import { useStellariumStore } from '@/store/stellariumStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import { Capacitor } from '@capacitor/core';
 import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 import steallriumSearch from '@/components/stellarium/steallriumSearch.vue';
 import stellariumMount from '@/components/stellarium/stellariumMount.vue';
 import { MagnifyingGlassIcon } from '@heroicons/vue/24/outline';
@@ -117,6 +129,18 @@ const framingStore = useFramingStore();
 const stellariumStore = useStellariumStore();
 const settingsStore = useSettingsStore();
 const router = useRouter();
+const { t } = useI18n();
+// Dedicated ready flag: only true once the engine is ready AND the catalogs are
+// registered and a few frames have rendered. This keeps the spinner covering the
+// visible sky build-up (instead of just the WASM initialization).
+const isStellariumReady = ref(false);
+let renderWaitHandle = null;
+// The Stellarium engine drives its own requestAnimationFrame(render) loop that
+// cannot be stopped (no destroy/pause API). To avoid the continuous GPU load
+// while Stellarium is not visible, we wrap the engine's native _core_render so
+// the expensive render call is skipped whenever the view is hidden. The RAF
+// tick keeps running but does almost nothing.
+let renderActive = true;
 const stelCanvas = ref(null);
 const selectedObject = ref(null);
 const selectedObjectRa = ref(null);
@@ -160,7 +184,7 @@ const searchModalClasses = computed(() => ({
   'top-16 right-4': isLandscape.value,
 }));
 
-// Funktion zum Ein-/Ausblenden des Suchfeldes
+// Toggles the search field
 function toggleSearch(event) {
   // Prevent default behavior if event is provided
   if (event) {
@@ -200,7 +224,7 @@ function toggleSearch(event) {
   );
 }
 
-// Framing-Koordinaten
+// Framing coordinates
 function setFramingCoordinates(data) {
   framingStore.RAangleString = data?.raString || selectedObjectRa.value;
   framingStore.DECangleString = data?.decString || selectedObjectDec.value;
@@ -216,6 +240,66 @@ function setFramingCoordinates(data) {
   store.mount.currentTab = 'showSlew';
   console.log('store.mount.currentTab', store.mount.currentTab);
   router.push('/mount');
+}
+
+// Keeps the loading spinner up for a short while after onReady so Stellarium can
+// load the catalogs and build the sky before the black overlay is removed. The
+// engine offers no reliable "fully loaded" event, hence a fixed minimum duration
+// plus a two-frame buffer.
+const RENDER_SETTLE_MS = 1500;
+function waitForStellariumRender() {
+  renderWaitHandle = setTimeout(() => {
+    if (!stellariumStore.stel) return; // engine is gone in the meantime
+    // Wait two more frames so the first rendered sky is visible.
+    requestAnimationFrame(() => requestAnimationFrame(() => (isStellariumReady.value = true)));
+  }, RENDER_SETTLE_MS);
+}
+
+// Wrap the engine's native _core_render so we can skip the expensive GPU work
+// while Stellarium is hidden. _core_update is left untouched so the engine state
+// (time/position) stays current and resuming is instant.
+//
+// _core_render uses Emscripten's lazy-binding pattern: on its first call it does
+// `Module._core_render = realWasmFn`, which would overwrite a plain wrapper. To
+// survive that, we install an accessor property: the getter always returns our
+// gated wrapper, and the setter captures whatever the engine assigns (the real
+// WASM function) as the underlying implementation.
+function installRenderGate(stel) {
+  if (!stel || stel._coreRenderGated) return;
+
+  let impl = stel._core_render;
+  if (typeof impl !== 'function') return;
+
+  const gated = function (...args) {
+    if (!renderActive) return; // skip rendering while hidden
+    return impl.apply(stel, args);
+  };
+
+  Object.defineProperty(stel, '_core_render', {
+    configurable: true,
+    get() {
+      return gated;
+    },
+    set(fn) {
+      // The lazy-binding resolves to the real WASM function; keep it as impl
+      // but keep exposing our gated wrapper.
+      impl = fn;
+    },
+  });
+
+  stel._coreRenderGated = true;
+}
+
+// Enable/disable the actual rendering. Resuming forces one immediate update so
+// the canvas is up to date the instant Stellarium becomes visible again.
+function setRenderActive(active) {
+  renderActive = active;
+  // Mirror the state into the store so overlay components can stop their own
+  // requestAnimationFrame loops while Stellarium is hidden.
+  stellariumStore.isVisible = active;
+  if (active && typeof stellariumStore.stel?._core_update === 'function') {
+    stellariumStore.stel._core_update();
+  }
 }
 
 // Refresh Stellarium function
@@ -250,11 +334,36 @@ watch(
   }
 );
 
+// Skip rendering when Stellarium is not the visible page.
+watch(
+  () => store.showStellarium,
+  (visible) => {
+    setRenderActive(visible);
+  }
+);
+
+// Also skip rendering when the whole app goes into the background, and resume
+// only if Stellarium is the visible page again.
+function handleVisibilityChange() {
+  if (document.hidden) {
+    setRenderActive(false);
+  } else {
+    setRenderActive(store.showStellarium);
+  }
+}
+
 onMounted(async () => {
-  //NINA vorbereiten
+  document.addEventListener('visibilitychange', handleVisibilityChange);
+
+  // Stellarium starts hidden (the default page is not Stellarium); only render
+  // once it actually becomes visible.
+  renderActive = store.showStellarium;
+  stellariumStore.isVisible = store.showStellarium;
+
+  // Prepare NINA
   await store.fetchProfilInfos();
 
-  // Schritt 1) Stellarium-Web-Engine-Skript dynamisch laden
+  // Step 1) Dynamically load the Stellarium Web Engine script
   const script = document.createElement('script');
   script.src = '/stellarium-js/stellarium-web-engine.js';
   console.log('Loading Stellarium Web Engine script...');
@@ -281,7 +390,7 @@ onMounted(async () => {
           console.log('Stellarium is ready!');
           stellariumStore.stel = stel;
 
-          // Beobachter-Standort setzen (Koordinaten müssen in Radian sein):
+          // Set the observer location (coordinates must be in radians):
           stel.core.observer.latitude = store.profileInfo.AstrometrySettings.Latitude * stel.D2R;
           stel.core.observer.longitude = store.profileInfo.AstrometrySettings.Longitude * stel.D2R;
           stel.core.observer.elevation = store.profileInfo.AstrometrySettings.Elevation;
@@ -295,21 +404,26 @@ onMounted(async () => {
 
           stel.core.time_speed = 1;
 
-          // Speichere Stellarium für späteren Zugriff
+          // Store Stellarium for later access
           stellariumStore.stel = stel;
 
-          // Hilfsfunktion zum Auslesen der aktuellen Blickrichtung (RA/Dec)
+          // Wrap the engine's native render so it can be skipped while Stellarium
+          // is hidden. onReady receives the Emscripten Module itself, so
+          // _core_render is available directly on `stel`.
+          installRenderGate(stel);
+
+          // Helper to read the current view direction (RA/Dec)
           function getCurrentViewDirection() {
             const obs = stel.core.observer;
 
-            // Im VIEW-Frame zeigt [0, 0, -1] nach vorne (wo die Kamera hinzeigt)
-            // Im VIEW-Frame zeigt [0, 0, 1] nach hinten (hinter die Kamera)
+            // In the VIEW frame [0, 0, -1] points forward (where the camera looks)
+            // In the VIEW frame [0, 0, 1] points backward (behind the camera)
             const viewVec = [0, 0, -1];
 
-            // Konvertiere von VIEW zu CIRS
+            // Convert from VIEW to CIRS
             const cirsVec = stel.convertFrame(stel.observer, 'VIEW', 'CIRS', viewVec);
 
-            // Konvertiere zu sphärischen Koordinaten (RA/Dec)
+            // Convert to spherical coordinates (RA/Dec)
             const raDecSpherical = stel.c2s(cirsVec);
 
             const alt = obs.azalt[0];
@@ -323,7 +437,7 @@ onMounted(async () => {
             };
           }
 
-          // Hilfsfunktion zum Setzen der Blickrichtung (RA/Dec)
+          // Helper to set the view direction (RA/Dec)
           function setViewDirection(raDeg, decDeg) {
             try {
               // Convert degrees to radians
@@ -359,8 +473,8 @@ onMounted(async () => {
           stellariumStore.getCurrentViewDirection = getCurrentViewDirection;
           stellariumStore.setViewDirection = setViewDirection;
 
-          // Schritt 3) Datenquellen (Kataloge) hinzufügen
-          //IP und Port vom Plugin ermitteln
+          // Step 3) Add data sources (catalogs)
+          // Determine the plugin's IP and port
           const protocol = settingsStore.backendProtocol || 'http';
           const host = settingsStore.connection.ip || window.location.hostname;
           const port = settingsStore.connection.port || window.location.port;
@@ -371,7 +485,7 @@ onMounted(async () => {
           core.dsos.hints_mag_offset = 4;
           //core.stars.hints_mag_offset = 3;
 
-          //Daten hinzufügen
+          // Add data
           core.stars.addDataSource({ url: baseUrl + 'stars' });
           core.skycultures.addDataSource({ url: baseUrl + 'skycultures/western', key: 'western' });
           core.dsos.addDataSource({ url: baseUrl + 'dso' });
@@ -380,7 +494,7 @@ onMounted(async () => {
           //core.landscapes.addDataSource({ url: baseUrl + 'landscapes/gray', key: 'guereins' });
           core.milkyway.addDataSource({ url: baseUrl + 'surveys/milkyway' });
           core.minor_planets.addDataSource({ url: baseUrl + 'mpcorb.dat', key: 'mpc_asteroids' });
-          // Planeten mit offiziellen HiPS-Texturen
+          // Planets with official HiPS textures
           core.planets.addDataSource({ url: baseUrl + 'surveys/sso/moon', key: 'moon' });
           core.planets.addDataSource({ url: baseUrl + 'surveys/sso/sun', key: 'sun' });
           core.planets.addDataSource({ url: baseUrl + 'surveys/sso/mercury', key: 'mercury' });
@@ -391,7 +505,7 @@ onMounted(async () => {
           core.planets.addDataSource({ url: baseUrl + 'surveys/sso/uranus', key: 'uranus' });
           core.planets.addDataSource({ url: baseUrl + 'surveys/sso/neptune', key: 'neptune' });
 
-          // Jupiter-Monde
+          // Jupiter moons
           core.planets.addDataSource({ url: baseUrl + 'surveys/sso/io', key: 'io' });
           core.planets.addDataSource({ url: baseUrl + 'surveys/sso/europa', key: 'europa' });
           core.planets.addDataSource({ url: baseUrl + 'surveys/sso/ganymede', key: 'ganymede' });
@@ -403,12 +517,17 @@ onMounted(async () => {
 
           stellariumStore.updateStellariumCore();
 
-          // Schritt 4) Selektion beobachten
+          // Only remove the spinner once the catalogs are loaded and the sky has
+          // rendered. The engine has no "fully loaded" event, so we keep the
+          // overlay for a short settle time before hiding it.
+          waitForStellariumRender();
+
+          // Step 4) Watch for selection changes
           stel.change((obj, attr) => {
             if (attr === 'selection') {
               const selection = core.selection;
               if (!selection) {
-                // Abwahl
+                // Deselected
                 selectedObject.value = null;
                 console.log('No selection (deselected).');
                 return;
@@ -459,10 +578,18 @@ onMounted(async () => {
   document.head.appendChild(script);
 });
 onBeforeUnmount(() => {
-  if (stellariumStore.stel) {
-    console.log('Destroying Stellarium...');
+  document.removeEventListener('visibilitychange', handleVisibilityChange);
 
-    // Entferne die Stellarium-Instanz
+  // The engine's render loop cannot be stopped, so at least disable rendering so
+  // it stops producing GPU work once the component is gone.
+  renderActive = false;
+
+  if (renderWaitHandle) {
+    clearTimeout(renderWaitHandle);
+    renderWaitHandle = null;
+  }
+  if (stellariumStore.stel) {
+    console.log('Tearing down Stellarium...');
     stellariumStore.stel = null;
 
     if (stelCanvas.value) {
@@ -470,7 +597,7 @@ onBeforeUnmount(() => {
       stelCanvas.value.height = 0;
     }
 
-    console.log('Stellarium successfully terminated.');
+    console.log('Stellarium torn down.');
   }
 });
 </script>

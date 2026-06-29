@@ -1753,6 +1753,7 @@
       }
     },
     "stellarium": {
+      "loading": "Loading Stellarium…",
       "selected_object": {
         "title": "Selected object",
         "ra": "RA",

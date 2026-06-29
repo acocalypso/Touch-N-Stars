@@ -9,6 +9,10 @@ export const useStellariumStore = defineStore('stellariumStore', {
     stel: null,
     baseUrl: '',
     lastSearchedName: '',
+    // Whether the Stellarium view is currently visible. Overlay components watch
+    // this to stop their requestAnimationFrame loops while Stellarium is hidden,
+    // so they do not keep consuming CPU in the background.
+    isVisible: false,
     search: {
       RAangle: 0,
       DECangle: 0,

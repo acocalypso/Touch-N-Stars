@@ -79,6 +79,11 @@ function updateViewFov() {
 }
 
 function viewFovLoop() {
+  // Stop the loop while Stellarium is hidden; restarted by the isVisible watcher.
+  if (!stellariumStore.isVisible) {
+    rafId = null;
+    return;
+  }
   updateViewFov();
   rafId = requestAnimationFrame(viewFovLoop);
 }
@@ -89,6 +94,16 @@ watch(
     lastViewRa = null;
     lastViewDec = null;
     updateViewFov();
+  }
+);
+
+// Restart the FOV loop when Stellarium becomes visible again.
+watch(
+  () => stellariumStore.isVisible,
+  (visible) => {
+    if (visible && rafId === null) {
+      rafId = requestAnimationFrame(viewFovLoop);
+    }
   }
 );
 

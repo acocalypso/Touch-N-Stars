@@ -1706,6 +1706,7 @@
       }
     },
     "stellarium": {
+      "loading": "Stellarium wordt geladen…",
       "selected_object": {
         "title": "Geselecteerde object",
         "ra": "RA",

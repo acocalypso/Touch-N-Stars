@@ -1706,6 +1706,7 @@
       }
     },
     "stellarium": {
+      "loading": "Caricamento di Stellarium…",
       "selected_object": {
         "title": "Oggetto selezionato",
         "ra": "AR",

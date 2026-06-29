@@ -1639,5 +1639,17 @@ export const useGuiderStore = defineStore('guiderStore', {
         throw error;
       }
     },
+
+    // Disconnect and reconnect the guider (e.g. to apply settings that only take
+    // effect on reconnect, like PHD2 auto-restore calibration).
+    async reconnectGuider() {
+      try {
+        await apiService.guiderAction('disconnect');
+        await apiService.guiderAction('connect');
+      } catch (error) {
+        console.error('Error reconnecting guider:', error);
+        throw error;
+      }
+    },
   },
 });

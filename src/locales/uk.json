@@ -1030,6 +1030,10 @@
         "cameraGain": "Підсилення",
         "cameraBinning": "Бінінг",
         "restoreCalibration": "Автом. відновлення калібрування",
+        "restoreCalibrationReconnect": {
+          "title": "Перепідключити гід?",
+          "message": "Це налаштування набуде чинності лише після перепідключення гіда. Перепідключити зараз?"
+        },
         "mountSettings": "Монтування",
         "guideRate": "Guide Rate",
         "guideRateReadOnly": "Лише читання",

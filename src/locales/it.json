@@ -1026,6 +1026,10 @@
         "cameraGain": "Gain",
         "cameraBinning": "Binning",
         "restoreCalibration": "Ripristina calibrazione auto.",
+        "restoreCalibrationReconnect": {
+          "title": "Riconnettere la guida?",
+          "message": "Questa impostazione ha effetto solo dopo aver riconnesso la guida. Riconnettere ora?"
+        },
         "mountSettings": "Montatura",
         "guideRate": "Guide Rate",
         "guideRateReadOnly": "Solo lettura",

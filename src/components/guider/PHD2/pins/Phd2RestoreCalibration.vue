@@ -13,20 +13,52 @@
     <toggleButton
       @click="toggleRestoreCalibration"
       :status-value="guiderStore.phd2RestoreCalibration"
-      :disabled="guiderStore.phd2RestoreCalibrationLoading"
+      :disabled="guiderStore.phd2RestoreCalibrationLoading || reconnecting"
     />
+
+    <!-- Reconnect confirmation modal -->
+    <Modal :show="showReconnectConfirm" @close="showReconnectConfirm = false" maxWidth="max-w-md">
+      <template #header>
+        <h2 class="text-lg font-bold text-white">
+          {{ $t('components.guider.phd2.restoreCalibrationReconnect.title') }}
+        </h2>
+      </template>
+      <template #body>
+        <div class="flex flex-col gap-4">
+          <p class="text-gray-300">
+            {{ $t('components.guider.phd2.restoreCalibrationReconnect.message') }}
+          </p>
+          <div class="flex gap-3 justify-end">
+            <button
+              @click="showReconnectConfirm = false"
+              class="default-button-gray"
+              :disabled="reconnecting"
+            >
+              {{ $t('general.no') }}
+            </button>
+            <button @click="confirmReconnect" class="default-button-cyan" :disabled="reconnecting">
+              {{ $t('general.yes') }}
+            </button>
+          </div>
+        </div>
+      </template>
+    </Modal>
   </div>
 </template>
 
 <script setup>
-import { onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 import { useGuiderStore } from '@/store/guiderStore';
 import toggleButton from '@/components/helpers/toggleButton.vue';
 import InfoModal from '@/components/helpers/infoModal.vue';
+import Modal from '@/components/helpers/Modal.vue';
 import { apiStore } from '@/store/store';
 
 const store = apiStore();
 const guiderStore = useGuiderStore();
+
+const showReconnectConfirm = ref(false);
+const reconnecting = ref(false);
 
 onMounted(async () => {
   await guiderStore.fetchPHD2RestoreCalibration();
@@ -38,9 +70,23 @@ const toggleRestoreCalibration = async () => {
   try {
     guiderStore.phd2RestoreCalibration = newValue;
     await guiderStore.setPHD2RestoreCalibration(newValue);
+    // Setting is saved, but only takes effect after a guider reconnect.
+    showReconnectConfirm.value = true;
   } catch (error) {
     console.error('Error changing PHD2 restore calibration:', error);
     guiderStore.phd2RestoreCalibration = previousValue;
+  }
+};
+
+const confirmReconnect = async () => {
+  reconnecting.value = true;
+  try {
+    await guiderStore.reconnectGuider();
+  } catch (error) {
+    console.error('Error reconnecting guider:', error);
+  } finally {
+    reconnecting.value = false;
+    showReconnectConfirm.value = false;
   }
 };
 </script>

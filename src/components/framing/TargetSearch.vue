@@ -79,7 +79,7 @@
           class="default-select h-10 w-full"
           @change="updateRaDec"
         >
-          <option v-for="star in visibleStars" :key="star.name" :value="star">
+          <option v-for="star in visibleStars" :key="star.name" :value="star.name">
             {{ star.name }} (Mag: {{ star.magnitude }}) - Alt: {{ star.altAz.alt.toFixed(1) }}°, Az:
             {{ star.altAz.az.toFixed(1) }}° ({{ star.altAz.direction }})
           </option>
@@ -147,7 +147,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted } from 'vue';
 import Papa from 'papaparse';
 import apiService from '@/services/apiService';
 import slewAndCenter from '@/components/framing/slewAndCenter.vue';
@@ -174,16 +174,20 @@ const stars = ref([]);
 const selectedStar = ref(null);
 const currentSiderealTime = ref(0);
 
-// Computed property to filter visible stars and calculate Alt/Az.
-const visibleStars = computed(() => {
-  return stars.value
+// Visible stars are computed once on load (see computeVisibleStars), not reactively,
+// so the 2s profileInfo polling does not reset the dropdown selection.
+const visibleStars = ref([]);
+
+// Filters visible stars and calculates Alt/Az – called once, not reactive.
+function computeVisibleStars() {
+  visibleStars.value = stars.value
     .map((star) => {
       const altAz = calculateAltAz(star.raDeg, star.decDeg);
       return { ...star, altAz };
     })
     .filter((star) => star.altAz.alt > 0)
     .sort((a, b) => parseFloat(b.altAz.alt) - parseFloat(a.altAz.alt));
-});
+}
 
 async function fetchTargetSearch() {
   if (framingStore.searchQuery.trim() === '') {
@@ -228,8 +232,8 @@ onMounted(async () => {
   await loadStarData();
   updateSiderealTime();
   setInterval(updateSiderealTime, 1000);
-  // Container-Dimensionen werden beim Mount der Framing-Seite via ResizeObserver
-  // aus dem tatsächlichen Stage-Wrapper gesetzt — kein Window-basiertes Init mehr.
+  // Container dimensions are set on mount of the framing page via ResizeObserver
+  // from the actual stage wrapper — no more window-based init.
 });
 
 async function loadStarData() {
@@ -252,6 +256,7 @@ async function loadStarData() {
             decDeg,
           };
         });
+        computeVisibleStars();
       },
     });
   } catch (error) {
@@ -285,22 +290,23 @@ function convertDECtoDegrees(dec) {
 // When a star is selected, update the displayed values.
 // In ALT/AZ mode the values are converted using calculateAltAz.
 async function updateRaDec() {
-  if (selectedStar.value) {
-    framingStore.RAangleString = degreesToHMS(selectedStar.value.raDeg);
-    framingStore.DECangleString = degreesToDMS(selectedStar.value.decDeg);
-    framingStore.RAangle = selectedStar.value.raDeg;
-    framingStore.DECangle = selectedStar.value.decDeg;
-    framingStore.selectedItem = {
-      Name: selectedStar.value.name,
-      RA: selectedStar.value.raDeg,
-      Dec: selectedStar.value.decDeg,
-    };
-    try {
-      await apiService.setFramingImageSource('SKYATLAS');
-      await apiService.setFramingCoordinates(selectedStar.value.raDeg, selectedStar.value.decDeg);
-    } catch (error) {
-      console.error('Error updating sky atlas:', error);
-    }
+  const star = visibleStars.value.find((s) => s.name === selectedStar.value);
+  if (!star) return;
+
+  framingStore.RAangleString = degreesToHMS(star.raDeg);
+  framingStore.DECangleString = degreesToDMS(star.decDeg);
+  framingStore.RAangle = star.raDeg;
+  framingStore.DECangle = star.decDeg;
+  framingStore.selectedItem = {
+    Name: star.name,
+    RA: star.raDeg,
+    Dec: star.decDeg,
+  };
+  try {
+    await apiService.setFramingImageSource('SKYATLAS');
+    await apiService.setFramingCoordinates(star.raDeg, star.decDeg);
+  } catch (error) {
+    console.error('Error updating sky atlas:', error);
   }
 }
 

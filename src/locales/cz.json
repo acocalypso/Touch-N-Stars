@@ -1026,6 +1026,10 @@
         "cameraGain": "Zesílení",
         "cameraBinning": "Binning",
         "restoreCalibration": "Autom. obnovit kalibraci",
+        "restoreCalibrationReconnect": {
+          "title": "Znovu připojit guider?",
+          "message": "Toto nastavení se projeví až po opětovném připojení guideru. Připojit znovu nyní?"
+        },
         "mountSettings": "Montáž",
         "guideRate": "Guide Rate",
         "guideRateReadOnly": "Pouze pro čtení",

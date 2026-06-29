@@ -1026,6 +1026,10 @@
         "cameraGain": "增益",
         "cameraBinning": "合并",
         "restoreCalibration": "自动恢复校准",
+        "restoreCalibrationReconnect": {
+          "title": "重新连接导星？",
+          "message": "此设置需在重新连接导星后才会生效。现在重新连接吗？"
+        },
         "mountSettings": "赤道仪",
         "guideRate": "导星速率",
         "guideRateReadOnly": "只读",

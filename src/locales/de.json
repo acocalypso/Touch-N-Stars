@@ -1066,6 +1066,10 @@
         "cameraGain": "Gain",
         "cameraBinning": "Binning",
         "restoreCalibration": "Kalibrierung autom. wiederherstellen",
+        "restoreCalibrationReconnect": {
+          "title": "Guider neu verbinden?",
+          "message": "Diese Einstellung wird erst nach einem Neuverbinden des Guiders wirksam. Jetzt neu verbinden?"
+        },
         "starDetection": "Leitsternverfolgung",
         "searchRegion": "Suchregion (Pixel)",
         "minStarHFD": "Minimaler Stern-HFD (Pixel)",

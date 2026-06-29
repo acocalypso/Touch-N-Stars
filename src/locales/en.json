@@ -1076,6 +1076,10 @@
         "cameraGain": "Gain",
         "cameraBinning": "Binning",
         "restoreCalibration": "Auto restore calibration",
+        "restoreCalibrationReconnect": {
+          "title": "Reconnect guider?",
+          "message": "This setting only takes effect after the guider has been reconnected. Reconnect now?"
+        },
         "assumeDecOrthogonal": "Assume Dec orthogonal to RA",
         "useDecCompensation": "Use Dec compensation",
         "fastRecenter": "Fast recenter after calibration or dither",

@@ -1686,6 +1686,7 @@
       }
     },
     "stellarium": {
+      "loading": "Завантаження Stellarium…",
       "selected_object": {
         "title": "Обраний об'єкт",
         "ra": "RA",

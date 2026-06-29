@@ -1706,6 +1706,7 @@
       }
     },
     "stellarium": {
+      "loading": "正在加载 Stellarium…",
       "selected_object": {
         "title": "已选对象",
         "ra": "赤经",

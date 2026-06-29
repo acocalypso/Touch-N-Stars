@@ -172,10 +172,11 @@ const sendCommand = (direction) => {
     }
 
     console.log('sendMessage');
-    const message = {
-      direction: direction,
-      rate: settingsStore.mount.slewRate,
-    };
+    // PINS sets the slew rate separately via the capability REST endpoint, so movement is
+    // direction only. Upstream NINA still carries the rate on each message.
+    const message = store.isPINS
+      ? { direction: direction }
+      : { direction: direction, rate: settingsStore.mount.slewRate };
 
     websocketMountControl.socket.send(JSON.stringify(message));
     console.log(`WS command sent:`, message);
@@ -255,10 +256,9 @@ const sendStop = () => {
     return;
   }
 
-  const message = {
-    direction: mountStore.lastDirection,
-    rate: 0,
-  };
+  const message = store.isPINS
+    ? { direction: 'stop' }
+    : { direction: mountStore.lastDirection, rate: 0 };
 
   websocketMountControl.socket.send(JSON.stringify(message));
   console.log(`WS stop command sent:`, message);

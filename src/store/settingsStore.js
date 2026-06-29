@@ -58,6 +58,7 @@ export const useSettingsStore = defineStore('settings', {
     },
     mount: {
       slewRate: 9,
+      slewRateIndex: 0,
       reversePrimaryAxis: false,
       reverseSecondaryAxis: false,
       useCenter: false,

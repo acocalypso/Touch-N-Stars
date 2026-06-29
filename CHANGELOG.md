@@ -5,6 +5,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Sequence: PHD2 calibration slew item – slew to a guider calibration position (HA offset, Dec, pointing side, optional DEC backlash clearing)
+- Guider: Prompt to reconnect the guider after toggling PHD2 auto restore calibration, since the setting only takes effect after a reconnect
+- TPPA: Alignment warnings for huge/large polar alignment errors, declination spread between measurements, and correction fields close to East/West
+
+### Fixed
+- Narrowband Filter: Correct aperture and focal length limitation in the filter calculator
+- Framing: Compute visible stars once on load instead of reactively
 
 ## [App5.0.0-beta4] - 2026-06-17
 ### Added

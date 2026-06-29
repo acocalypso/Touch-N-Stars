@@ -1026,6 +1026,10 @@
         "cameraGain": "Ganho",
         "cameraBinning": "Binning",
         "restoreCalibration": "Restaurar calibração auto.",
+        "restoreCalibrationReconnect": {
+          "title": "Reconectar o guider?",
+          "message": "Esta configuração só tem efeito depois de o guider ser reconectado. Reconectar agora?"
+        },
         "mountSettings": "Montagem",
         "guideRate": "Guide Rate",
         "guideRateReadOnly": "Somente leitura",

@@ -1034,6 +1034,10 @@
         "cameraGain": "ゲイン",
         "cameraBinning": "ビニング",
         "restoreCalibration": "キャリブレーションを自動復元",
+        "restoreCalibrationReconnect": {
+          "title": "ガイダーを再接続しますか？",
+          "message": "この設定はガイダーを再接続した後にのみ有効になります。今すぐ再接続しますか？"
+        },
         "mountSettings": "マウント",
         "guideRate": "ガイドレート",
         "guideRateReadOnly": "読み取り専用",

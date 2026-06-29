@@ -1076,6 +1076,10 @@
         "cameraGain": "게인",
         "cameraBinning": "비닝",
         "restoreCalibration": "캘리브레이션 복원",
+        "restoreCalibrationReconnect": {
+          "title": "가이더를 다시 연결할까요?",
+          "message": "이 설정은 가이더를 다시 연결한 후에만 적용됩니다. 지금 다시 연결할까요?"
+        },
         "mountSettings": "마운트",
         "guideRate": "가이드 레이트",
         "guideRateReadOnly": "읽기 전용",

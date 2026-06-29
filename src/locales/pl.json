@@ -1026,6 +1026,10 @@
         "cameraGain": "Wzmocnienie",
         "cameraBinning": "Binning",
         "restoreCalibration": "Autom. przywracanie kalibracji",
+        "restoreCalibrationReconnect": {
+          "title": "Połączyć ponownie guider?",
+          "message": "To ustawienie zacznie działać dopiero po ponownym połączeniu guidera. Połączyć ponownie teraz?"
+        },
         "mountSettings": "Montaż",
         "guideRate": "Guide Rate",
         "guideRateReadOnly": "Tylko do odczytu",

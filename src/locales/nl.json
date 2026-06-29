@@ -1026,6 +1026,10 @@
         "cameraGain": "Gain",
         "cameraBinning": "Binning",
         "restoreCalibration": "Kalibratie autom. herstellen",
+        "restoreCalibrationReconnect": {
+          "title": "Guider opnieuw verbinden?",
+          "message": "Deze instelling wordt pas van kracht nadat de guider opnieuw is verbonden. Nu opnieuw verbinden?"
+        },
         "mountSettings": "Montering",
         "guideRate": "Guide Rate",
         "guideRateReadOnly": "Alleen lezen",

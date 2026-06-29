@@ -1026,6 +1026,10 @@
         "cameraGain": "Gain",
         "cameraBinning": "Binning",
         "restoreCalibration": "Restaurer auto. la calibration",
+        "restoreCalibrationReconnect": {
+          "title": "Reconnecter le guidage ?",
+          "message": "Ce réglage ne prend effet qu’après une reconnexion du guidage. Reconnecter maintenant ?"
+        },
         "mountSettings": "Monture",
         "guideRate": "Guide Rate",
         "guideRateReadOnly": "Lecture seule",

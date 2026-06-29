@@ -9,6 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Sequence: PHD2 calibration slew item – slew to a guider calibration position (HA offset, Dec, pointing side, optional DEC backlash clearing)
 - Guider: Prompt to reconnect the guider after toggling PHD2 auto restore calibration, since the setting only takes effect after a reconnect
 - TPPA: Alignment warnings for huge/large polar alignment errors, declination spread between measurements, and correction fields close to East/West
+- Stellarium: Loading spinner while the engine initializes
+
+### Changed
+- Stellarium: Destroy the WebGL engine when leaving the view instead of keeping it running hidden, significantly reducing battery drain and device heat; the previous view (direction, zoom, time) is restored when reopening
 
 ### Fixed
 - Narrowband Filter: Correct aperture and focal length limitation in the filter calculator

@@ -258,15 +258,35 @@ function waitForStellariumRender() {
 // Wrap the engine's native _core_render so we can skip the expensive GPU work
 // while Stellarium is hidden. _core_update is left untouched so the engine state
 // (time/position) stays current and resuming is instant.
+//
+// _core_render uses Emscripten's lazy-binding pattern: on its first call it does
+// `Module._core_render = realWasmFn`, which would overwrite a plain wrapper. To
+// survive that, we install an accessor property: the getter always returns our
+// gated wrapper, and the setter captures whatever the engine assigns (the real
+// WASM function) as the underlying implementation.
 function installRenderGate(stel) {
-  if (!stel || typeof stel._core_render !== 'function' || stel._coreRenderGated) {
-    return;
-  }
-  const nativeRender = stel._core_render.bind(stel);
-  stel._core_render = function (...args) {
+  if (!stel || stel._coreRenderGated) return;
+
+  let impl = stel._core_render;
+  if (typeof impl !== 'function') return;
+
+  const gated = function (...args) {
     if (!renderActive) return; // skip rendering while hidden
-    return nativeRender(...args);
+    return impl.apply(stel, args);
   };
+
+  Object.defineProperty(stel, '_core_render', {
+    configurable: true,
+    get() {
+      return gated;
+    },
+    set(fn) {
+      // The lazy-binding resolves to the real WASM function; keep it as impl
+      // but keep exposing our gated wrapper.
+      impl = fn;
+    },
+  });
+
   stel._coreRenderGated = true;
 }
 

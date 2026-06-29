@@ -8,8 +8,9 @@ import { createHead } from '@unhead/vue/client';
 import { Capacitor } from '@capacitor/core';
 import { App as CapacitorApp } from '@capacitor/app';
 import { EdgeToEdge } from '@capawesome/capacitor-android-edge-to-edge-support';
-import i18n from '@/i18n';
+import i18n, { initializeI18n } from '@/i18n';
 import { usePluginStore } from '@/store/pluginStore';
+import { useSettingsStore } from '@/store/settingsStore';
 import { timeSync } from '@/utils/timeSync';
 import { setupErrorHandler } from '@/utils/errorHandler';
 import { ensureConsolePatched } from '@/utils/consoleCapture';
@@ -73,12 +74,6 @@ try {
   /* noop */
 }
 
-// Initialize i18n with store before mounting
-const settingsStore = pinia.state.value.settings;
-if (settingsStore && settingsStore.language) {
-  i18n.global.locale.value = settingsStore.language;
-}
-
 async function applyAndroidSystemBarColors() {
   if (Capacitor.getPlatform() !== 'android') return;
   try {
@@ -93,6 +88,9 @@ app.use(pinia).use(head).use(i18n).use(router);
 
 // Initialize plugin system
 (async () => {
+  const settingsStore = useSettingsStore(pinia);
+  await initializeI18n(settingsStore);
+
   const pluginStore = usePluginStore(pinia);
 
   // Store references to app and router in plugin store

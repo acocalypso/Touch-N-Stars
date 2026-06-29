@@ -48,7 +48,7 @@ export const importPlugin = async (pluginId) => {
   }
 
   try {
-    return plugin.module;
+    return await plugin.loadModule();
   } catch (error) {
     console.error(`Failed to import plugin ${pluginId}:`, error);
     return null;

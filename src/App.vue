@@ -289,7 +289,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount, computed, watch } from 'vue';
+import { defineAsyncComponent, ref, onMounted, onBeforeUnmount, computed, watch } from 'vue';
 import axios from 'axios';
 import { apiStore } from '@/store/store';
 import { useImagetStore } from './store/imageStore';
@@ -300,7 +300,6 @@ import { App as CapacitorApp } from '@capacitor/app';
 import { CapacitorUpdater } from '@capgo/capacitor-updater';
 import { KeepAwake } from '@capacitor-community/keep-awake';
 import NavigationComp from '@/components/NavigationComp.vue';
-import StellariumView from './views/StellariumView.vue';
 import { useLogStore } from '@/store/logStore';
 import { useSequenceStore } from './store/sequenceStore';
 import { useCameraStore } from './store/cameraStore';
@@ -308,23 +307,19 @@ import { useDialogStore } from './store/dialogStore';
 import { useMessageboxStore } from './store/messageboxStore';
 import { usePickerStore } from '@/store/pickerStore';
 import { useI18n } from 'vue-i18n';
-import TutorialModal from '@/components/TutorialModal.vue';
 import ToastModal from '@/components/helpers/ToastModal.vue';
-import ConsoleViewer from '@/components/helpers/ConsoleViewer.vue';
 import StatusBar from '@/components/status/StatusBar.vue';
-import SettingsComp from '@/components/SettingsComp.vue';
 import LocationSyncModal from '@/components/helpers/LocationSyncModal.vue';
 import { useOrientation } from '@/composables/useOrientation';
 import { useRoute } from 'vue-router';
-import WhatsNewModal from '@/components/helpers/WhatsNewModal.vue';
 import DialogModal from '@/components/helpers/DialogModal.vue';
 import MessageBoxModal from '@/components/helpers/MessageBoxModal.vue';
-import UpdateAvailableModal from '@/components/helpers/UpdateAvailableModal.vue';
 import PickerOverlay from '@/components/helpers/PickerOverlay.vue';
 import Modal from '@/components/helpers/Modal.vue';
 import { usePinsStore } from '@/plugins/pins/store/pinsStore';
 import { useFlatassistantStore } from '@/store/flatassistantStore';
 import { useNightSummaryStore } from '@/plugins/nightsummary/store/nightsummaryStore';
+import websocketChannelService from '@/services/websocketChannelSocket';
 import {
   checkForManualUpdate,
   downloadAndApplyUpdate,
@@ -332,6 +327,16 @@ import {
   isNativePlatform,
 } from '@/services/updateService';
 import { getDeviceDateTimePayload, parsePinsTimeToSeconds } from '@/utils/pinsTimeUtils';
+import { setLocaleLanguage } from '@/i18n';
+
+const StellariumView = defineAsyncComponent(() => import('./views/StellariumView.vue'));
+const TutorialModal = defineAsyncComponent(() => import('@/components/TutorialModal.vue'));
+const ConsoleViewer = defineAsyncComponent(() => import('@/components/helpers/ConsoleViewer.vue'));
+const SettingsComp = defineAsyncComponent(() => import('@/components/SettingsComp.vue'));
+const WhatsNewModal = defineAsyncComponent(() => import('@/components/helpers/WhatsNewModal.vue'));
+const UpdateAvailableModal = defineAsyncComponent(
+  () => import('@/components/helpers/UpdateAvailableModal.vue')
+);
 
 const store = apiStore();
 const settingsStore = useSettingsStore();
@@ -424,7 +429,7 @@ const showWhatsNew = ref(false);
 const whatsNewData = ref(null);
 const whatsNewPending = ref(false);
 const connectionCheckCompleted = ref(false);
-const { t, locale } = useI18n();
+const { t } = useI18n();
 const CONNECTION_STALL_HINT_SECONDS = 10;
 const connectionAttemptStartedAt = ref(Date.now());
 const connectionElapsedSeconds = ref(0);
@@ -660,8 +665,7 @@ async function resumeApp() {
   // Set flag for recently returned from background
   store.setPageReturnedFromBackground();
   // Important: Re-enable WebSocket Channel Service shouldReconnect flag
-  const wsChannelService = (await import('@/services/websocketChannelSocket')).default;
-  wsChannelService.shouldReconnect = true;
+  websocketChannelService.shouldReconnect = true;
 
   await store.fetchAllInfos(t);
   store.startFetchingInfo(t);
@@ -907,7 +911,7 @@ onMounted(async () => {
   }
 
   // Initialize language from settings store
-  locale.value = settingsStore.getLanguage();
+  await setLocaleLanguage(settingsStore.getLanguage());
 
   // Show tutorial on first visit
   if (!settingsStore.tutorial.completed) {

@@ -3,7 +3,6 @@ import { apiStore } from '@/store/store';
 import { useMountStore } from '@/store/mountStore';
 
 const backendProtokol = 'ws';
-const backendPfad = '/v2/mount';
 
 class WebSocketService {
   constructor() {
@@ -29,8 +28,20 @@ class WebSocketService {
     this.shouldReconnect = true; // Reconnect aktivieren bei neuer Verbindung
     const settingsStore = useSettingsStore();
     const store = apiStore();
-    const backendPort = store.apiPort;
     const backendHost = settingsStore.connection.ip || window.location.hostname;
+
+    // PINS serves manual slew INDI-direct from the Touch-N-Stars plugin (TNS port,
+    // /ws/mount-control, direction only). Upstream NINA uses the ninaAPI socket (/v2/mount).
+    let backendPort;
+    let backendPfad;
+    if (store.isPINS) {
+      backendPort = settingsStore.connection.port || window.location.port || 80;
+      backendPfad = '/ws/mount-control';
+    } else {
+      backendPort = store.apiPort;
+      backendPfad = '/v2/mount';
+    }
+
     this.backendUrl = `${backendProtokol}://${backendHost}:${backendPort}${backendPfad}`;
 
     //console.log('ws url: ', this.backendUrl);

@@ -1237,6 +1237,30 @@ const apiService = {
     }
   },
 
+  // Manual-slew rate capability of the connected INDI mount (discrete steps / continuous range / none)
+  async getMountSlewRates() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}indi/mount/slew-rates`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching mount slew rates:', error);
+      throw error;
+    }
+  },
+
+  // Select the mount slew rate: { index } for discrete drivers, { value } (°/s) for continuous ones
+  async setMountSlewRate(selection) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.post(`${API_URL}indi/mount/slew-rate`, selection);
+      return response.data;
+    } catch (error) {
+      console.error('Error setting mount slew rate:', error);
+      throw error;
+    }
+  },
+
   // Profil Switch
   async profileSwitch(profileid) {
     try {

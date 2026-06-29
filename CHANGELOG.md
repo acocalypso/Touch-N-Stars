@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Stellarium: Loading spinner while the engine initializes
 
 ### Changed
-- Stellarium: Destroy the WebGL engine when leaving the view instead of keeping it running hidden, significantly reducing battery drain and device heat; the previous view (direction, zoom, time) is restored when reopening
+- Stellarium: Skip rendering while the view is hidden or the app is in the background instead of letting the WebGL engine render continuously, significantly reducing battery drain and device heat; the view stays loaded and resumes instantly
 
 ### Fixed
 - Narrowband Filter: Correct aperture and focal length limitation in the filter calculator

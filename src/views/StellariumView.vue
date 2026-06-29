@@ -135,6 +135,12 @@ const { t } = useI18n();
 // visible sky build-up (instead of just the WASM initialization).
 const isStellariumReady = ref(false);
 let renderWaitHandle = null;
+// The Stellarium engine drives its own requestAnimationFrame(render) loop that
+// cannot be stopped (no destroy/pause API). To avoid the continuous GPU load
+// while Stellarium is not visible, we wrap the engine's native _core_render so
+// the expensive render call is skipped whenever the view is hidden. The RAF
+// tick keeps running but does almost nothing.
+let renderActive = true;
 const stelCanvas = ref(null);
 const selectedObject = ref(null);
 const selectedObjectRa = ref(null);
@@ -243,10 +249,37 @@ function setFramingCoordinates(data) {
 const RENDER_SETTLE_MS = 1500;
 function waitForStellariumRender() {
   renderWaitHandle = setTimeout(() => {
-    if (!stellariumStore.stel) return; // engine was destroyed in the meantime
+    if (!stellariumStore.stel) return; // engine is gone in the meantime
     // Wait two more frames so the first rendered sky is visible.
     requestAnimationFrame(() => requestAnimationFrame(() => (isStellariumReady.value = true)));
   }, RENDER_SETTLE_MS);
+}
+
+// Wrap the engine's native _core_render so we can skip the expensive GPU work
+// while Stellarium is hidden. _core_update is left untouched so the engine state
+// (time/position) stays current and resuming is instant.
+function installRenderGate(stel) {
+  if (!stel || typeof stel._core_render !== 'function' || stel._coreRenderGated) {
+    return;
+  }
+  const nativeRender = stel._core_render.bind(stel);
+  stel._core_render = function (...args) {
+    if (!renderActive) return; // skip rendering while hidden
+    return nativeRender(...args);
+  };
+  stel._coreRenderGated = true;
+}
+
+// Enable/disable the actual rendering. Resuming forces one immediate update so
+// the canvas is up to date the instant Stellarium becomes visible again.
+function setRenderActive(active) {
+  renderActive = active;
+  // Mirror the state into the store so overlay components can stop their own
+  // requestAnimationFrame loops while Stellarium is hidden.
+  stellariumStore.isVisible = active;
+  if (active && typeof stellariumStore.stel?._core_update === 'function') {
+    stellariumStore.stel._core_update();
+  }
 }
 
 // Refresh Stellarium function
@@ -281,7 +314,32 @@ watch(
   }
 );
 
+// Skip rendering when Stellarium is not the visible page.
+watch(
+  () => store.showStellarium,
+  (visible) => {
+    setRenderActive(visible);
+  }
+);
+
+// Also skip rendering when the whole app goes into the background, and resume
+// only if Stellarium is the visible page again.
+function handleVisibilityChange() {
+  if (document.hidden) {
+    setRenderActive(false);
+  } else {
+    setRenderActive(store.showStellarium);
+  }
+}
+
 onMounted(async () => {
+  document.addEventListener('visibilitychange', handleVisibilityChange);
+
+  // Stellarium starts hidden (the default page is not Stellarium); only render
+  // once it actually becomes visible.
+  renderActive = store.showStellarium;
+  stellariumStore.isVisible = store.showStellarium;
+
   // Prepare NINA
   await store.fetchProfilInfos();
 
@@ -329,10 +387,10 @@ onMounted(async () => {
           // Store Stellarium for later access
           stellariumStore.stel = stel;
 
-          // Restore the previous view (direction, zoom, time) in case the engine
-          // was destroyed before. On first load savedView is empty and the
-          // default behavior is kept.
-          stellariumStore.restoreViewState(stel);
+          // Wrap the engine's native render so it can be skipped while Stellarium
+          // is hidden. onReady receives the Emscripten Module itself, so
+          // _core_render is available directly on `stel`.
+          installRenderGate(stel);
 
           // Helper to read the current view direction (RA/Dec)
           function getCurrentViewDirection() {
@@ -500,18 +558,18 @@ onMounted(async () => {
   document.head.appendChild(script);
 });
 onBeforeUnmount(() => {
+  document.removeEventListener('visibilitychange', handleVisibilityChange);
+
+  // The engine's render loop cannot be stopped, so at least disable rendering so
+  // it stops producing GPU work once the component is gone.
+  renderActive = false;
+
   if (renderWaitHandle) {
     clearTimeout(renderWaitHandle);
     renderWaitHandle = null;
   }
   if (stellariumStore.stel) {
-    console.log('Destroying Stellarium...');
-
-    // Save the current view before the engine is destroyed so it can be
-    // restored when reopened.
-    stellariumStore.saveViewState(stellariumStore.stel);
-
-    // Remove the Stellarium instance
+    console.log('Tearing down Stellarium...');
     stellariumStore.stel = null;
 
     if (stelCanvas.value) {
@@ -519,7 +577,7 @@ onBeforeUnmount(() => {
       stelCanvas.value.height = 0;
     }
 
-    console.log('Stellarium successfully terminated.');
+    console.log('Stellarium torn down.');
   }
 });
 </script>

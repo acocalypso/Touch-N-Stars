@@ -9,9 +9,10 @@ export const useStellariumStore = defineStore('stellariumStore', {
     stel: null,
     baseUrl: '',
     lastSearchedName: '',
-    // Cached view direction/zoom/time so the view is preserved across
-    // destroying and reloading the engine (v-if).
-    savedView: null,
+    // Whether the Stellarium view is currently visible. Overlay components watch
+    // this to stop their requestAnimationFrame loops while Stellarium is hidden,
+    // so they do not keep consuming CPU in the background.
+    isVisible: false,
     search: {
       RAangle: 0,
       DECangle: 0,
@@ -20,45 +21,6 @@ export const useStellariumStore = defineStore('stellariumStore', {
     },
   }),
   actions: {
-    // Reads the current view from the engine before it is destroyed.
-    saveViewState(stel) {
-      const engine = stel || this.stel;
-      if (!engine || !engine.core) return;
-      try {
-        const core = engine.core;
-        const observer = core.observer;
-        this.savedView = {
-          yaw: observer?.yaw,
-          pitch: observer?.pitch,
-          roll: observer?.roll,
-          fov: core.fov,
-          utc: observer?.utc,
-        };
-      } catch (e) {
-        console.warn('Failed to save Stellarium view state:', e);
-      }
-    },
-
-    // Restores a previously saved view after the engine has been reloaded.
-    restoreViewState(stel) {
-      const engine = stel || this.stel;
-      if (!engine || !engine.core || !this.savedView) return;
-      try {
-        const core = engine.core;
-        const observer = core.observer;
-        const view = this.savedView;
-        if (observer) {
-          if (typeof view.yaw === 'number') observer.yaw = view.yaw;
-          if (typeof view.pitch === 'number') observer.pitch = view.pitch;
-          if (typeof view.roll === 'number') observer.roll = view.roll;
-          if (typeof view.utc === 'number') observer.utc = view.utc;
-        }
-        if (typeof view.fov === 'number') core.fov = view.fov;
-      } catch (e) {
-        console.warn('Failed to restore Stellarium view state:', e);
-      }
-    },
-
     updateStellariumCore() {
       const settingsStore = useSettingsStore();
       if (this.stel) {

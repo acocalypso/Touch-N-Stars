@@ -20,6 +20,8 @@ let updateTimer = null;
 function update() {
   const stel = stellariumStore.stel;
   if (!stel || !horizonLine) return;
+  // Skip while Stellarium is hidden; nothing is visible to update.
+  if (!stellariumStore.isVisible) return;
 
   if (horizonStore.points.length < 2) {
     horizonLine.data = EMPTY_FC;

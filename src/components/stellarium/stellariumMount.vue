@@ -184,11 +184,7 @@ onMounted(() => {
     mountCircle.value.update();
     mountLayer.value.add(mountCircle.value);
     handleMountUpdate(ra, dec);
-    // Point at the mount on first open. If the engine was destroyed before and a
-    // view was saved, keep that view instead of jumping to the mount.
-    if (!stellariumStore.savedView) {
-      syncViewToMount();
-    }
+    syncViewToMount();
   }
 });
 

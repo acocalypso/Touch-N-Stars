@@ -174,6 +174,12 @@ const contentGridClasses = computed(() => ({
 
 function updateTime() {
   if (!stellariumStore.stel) return;
+  // Stop the loop while Stellarium is hidden so the clock does not keep running
+  // in the background. It is restarted by the isVisible watcher below.
+  if (!stellariumStore.isVisible) {
+    animationFrameId = null;
+    return;
+  }
 
   const mjd = stellariumStore.stel.core.observer.utc;
   const date = mjdToDate(mjd);
@@ -338,6 +344,16 @@ function togglePlayPause() {
   isPaused.value = !isPaused.value;
   stellariumStore.stel.core.time_speed = isPaused.value ? 0 : Math.pow(2, Number(timeSpeed.value));
 }
+
+// Restart the update loop when Stellarium becomes visible again.
+watch(
+  () => stellariumStore.isVisible,
+  (visible) => {
+    if (visible && animationFrameId === null) {
+      updateTime();
+    }
+  }
+);
 
 onMounted(() => {
   resetToCurrentTime();

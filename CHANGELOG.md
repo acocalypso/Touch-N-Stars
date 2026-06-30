@@ -5,8 +5,13 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- Settings: New $$FWHM$$ and $$ECCENTRICITY$$ tokens for the image file pattern
 
-[App5.0.0-beta5] - 2026-06-29
+### Fixed
+- Diagnostics: Mobile diagnostic ZIP downloads now work on mobile devices
+
+## [App5.0.0-beta5] - 2026-06-29
 ### Added
 - Sequence: PHD2 calibration slew item – slew to a guider calibration position (HA offset, Dec, pointing side, optional DEC backlash clearing)
 - Guider: Prompt to reconnect the guider after toggling PHD2 auto restore calibration, since the setting only takes effect after a reconnect

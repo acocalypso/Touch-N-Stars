@@ -5,42 +5,37 @@ import { MediaScanner } from './mediaScanner';
 
 // Note: MediaStoreImageSaver plugin removed to fix performance issues on Android
 
-// We'll create our own notification manager instance for images
-// by importing the styles and classes from logDownloader
+// Create a notification manager instance for image downloads.
 let notificationManager;
 
 // Initialize notification manager
 const initNotificationManager = () => {
   if (!notificationManager) {
-    // Import and initialize the notification manager class from logDownloader
-    import('@/utils/logDownloader').then(() => {
-      // The notification manager is available globally now
-      // Create a simple version for images
-      class ImageNotificationManager {
-        constructor() {
-          this.container = null;
-          this.createContainer();
-        }
+    class ImageNotificationManager {
+      constructor() {
+        this.container = null;
+        this.createContainer();
+      }
 
-        createContainer() {
-          if (document.getElementById('image-download-notifications')) return;
+      createContainer() {
+        if (document.getElementById('image-download-notifications')) return;
 
-          this.container = document.createElement('div');
-          this.container.id = 'image-download-notifications';
-          this.container.style.cssText = `
+        this.container = document.createElement('div');
+        this.container.id = 'image-download-notifications';
+        this.container.style.cssText = `
             position: fixed;
             top: 20px;
             right: 20px;
             z-index: 9999;
             pointer-events: none;
           `;
-          document.body.appendChild(this.container);
-        }
+        document.body.appendChild(this.container);
+      }
 
-        showProgress() {
-          const notification = document.createElement('div');
-          notification.id = 'image-download-progress';
-          notification.innerHTML = `
+      showProgress() {
+        const notification = document.createElement('div');
+        notification.id = 'image-download-progress';
+        notification.innerHTML = `
             <div style="
               background: linear-gradient(135deg, #1f2937 0%, #374151 100%);
               border: 1px solid #06b6d4;
@@ -69,18 +64,18 @@ const initNotificationManager = () => {
             </div>
           `;
 
-          this.container.appendChild(notification);
-          return notification;
+        this.container.appendChild(notification);
+        return notification;
+      }
+
+      showSuccess(message, details) {
+        const existingProgress = document.getElementById('image-download-progress');
+        if (existingProgress) {
+          existingProgress.remove();
         }
 
-        showSuccess(message, details) {
-          const existingProgress = document.getElementById('image-download-progress');
-          if (existingProgress) {
-            existingProgress.remove();
-          }
-
-          const notification = document.createElement('div');
-          notification.innerHTML = `
+        const notification = document.createElement('div');
+        notification.innerHTML = `
             <div style="
               background: linear-gradient(135deg, #065f46 0%, #059669 100%);
               border: 1px solid #10b981;
@@ -123,29 +118,29 @@ const initNotificationManager = () => {
             </div>
           `;
 
-          this.container.appendChild(notification);
+        this.container.appendChild(notification);
 
-          // Auto remove after 5 seconds
-          setTimeout(() => {
-            if (notification.parentElement) {
-              notification.style.animation = 'slideOutRight 0.3s ease-in';
-              setTimeout(() => {
-                if (notification.parentElement) {
-                  notification.parentElement.removeChild(notification);
-                }
-              }, 300);
-            }
-          }, 5000);
+        // Auto remove after 5 seconds
+        setTimeout(() => {
+          if (notification.parentElement) {
+            notification.style.animation = 'slideOutRight 0.3s ease-in';
+            setTimeout(() => {
+              if (notification.parentElement) {
+                notification.parentElement.removeChild(notification);
+              }
+            }, 300);
+          }
+        }, 5000);
+      }
+
+      showError(message) {
+        const existingProgress = document.getElementById('image-download-progress');
+        if (existingProgress) {
+          existingProgress.remove();
         }
 
-        showError(message) {
-          const existingProgress = document.getElementById('image-download-progress');
-          if (existingProgress) {
-            existingProgress.remove();
-          }
-
-          const notification = document.createElement('div');
-          notification.innerHTML = `
+        const notification = document.createElement('div');
+        notification.innerHTML = `
             <div style="
               background: linear-gradient(135deg, #7f1d1d 0%, #dc2626 100%);
               border: 1px solid #ef4444;
@@ -188,24 +183,23 @@ const initNotificationManager = () => {
             </div>
           `;
 
-          this.container.appendChild(notification);
+        this.container.appendChild(notification);
 
-          // Auto remove after 7 seconds for errors
-          setTimeout(() => {
-            if (notification.parentElement) {
-              notification.style.animation = 'slideOutRight 0.3s ease-in';
-              setTimeout(() => {
-                if (notification.parentElement) {
-                  notification.parentElement.removeChild(notification);
-                }
-              }, 300);
-            }
-          }, 7000);
-        }
+        // Auto remove after 7 seconds for errors
+        setTimeout(() => {
+          if (notification.parentElement) {
+            notification.style.animation = 'slideOutRight 0.3s ease-in';
+            setTimeout(() => {
+              if (notification.parentElement) {
+                notification.parentElement.removeChild(notification);
+              }
+            }, 300);
+          }
+        }, 7000);
       }
+    }
 
-      notificationManager = new ImageNotificationManager();
-    });
+    notificationManager = new ImageNotificationManager();
   }
 };
 

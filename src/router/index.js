@@ -1,21 +1,22 @@
 import { createRouter, createWebHistory } from 'vue-router';
-import EquipmentPage from '@/views/EquipmentPage.vue';
-import CameraPage from '@/views/CameraPage.vue';
-import MountPage from '@/views/MountPage.vue';
-import GuidingPage from '@/views/GuidingPage.vue';
-import DomePage from '@/views/DomePage.vue';
-import SettingsPage from '@/views/SettingsPage.vue';
-import FlatdevicePage from '@/views/FlatdevicePage.vue';
-import SequenceMonitoring from '@/views/SequenceMonitoring.vue';
-import SetupPage from '@/views/SetupPage.vue';
-import SwitchPage from '@/views/SwitchPage.vue';
-import FilterwheelPage from '@/views/FilterwheelPage.vue';
-import RotatorPage from '@/views/RotatorPage.vue';
-import Flatassistant from '@/views/FlatassistantPage.vue';
-import FocusPage from '@/views/FocusPage.vue';
-import SequencePage from '@/views/SequencePage.vue';
-import FramingPage from '@/views/FramingPage.vue';
 import { useSettingsStore } from '@/store/settingsStore';
+
+const EquipmentPage = () => import('@/views/EquipmentPage.vue');
+const CameraPage = () => import('@/views/CameraPage.vue');
+const MountPage = () => import('@/views/MountPage.vue');
+const GuidingPage = () => import('@/views/GuidingPage.vue');
+const DomePage = () => import('@/views/DomePage.vue');
+const SettingsPage = () => import('@/views/SettingsPage.vue');
+const FlatdevicePage = () => import('@/views/FlatdevicePage.vue');
+const SequenceMonitoring = () => import('@/views/SequenceMonitoring.vue');
+const SetupPage = () => import('@/views/SetupPage.vue');
+const SwitchPage = () => import('@/views/SwitchPage.vue');
+const FilterwheelPage = () => import('@/views/FilterwheelPage.vue');
+const RotatorPage = () => import('@/views/RotatorPage.vue');
+const Flatassistant = () => import('@/views/FlatassistantPage.vue');
+const FocusPage = () => import('@/views/FocusPage.vue');
+const SequencePage = () => import('@/views/SequencePage.vue');
+const FramingPage = () => import('@/views/FramingPage.vue');
 
 const routes = [
   {

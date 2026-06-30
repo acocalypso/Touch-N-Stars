@@ -297,7 +297,7 @@
 
 <script setup>
 import { ref, onMounted, watchEffect } from 'vue';
-import { getAvailableLanguages, getBackendLanguageCode } from '@/i18n';
+import { getAvailableLanguages, getBackendLanguageCode, setLocaleLanguage } from '@/i18n';
 import NavbarCustomizationSettings from '@/components/settings/general/NavbarCustomizationSettings.vue';
 import apiService from '@/services/apiService';
 import { useSettingsStore } from '@/store/settingsStore';
@@ -363,11 +363,10 @@ watchEffect(() => {
 
 // Watch language changes
 const changeLanguage = async (newLanguage) => {
-  locale.value = newLanguage;
-  settingsStore.setLanguage(newLanguage);
+  const activeLanguage = await setLocaleLanguage(newLanguage);
 
   if (store.isPINS || store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.2.8.0')) {
-    const backendCode = getBackendLanguageCode(newLanguage);
+    const backendCode = getBackendLanguageCode(activeLanguage);
     if (backendCode && store.isBackendReachable) {
       await apiService.setLanguage(backendCode);
     }

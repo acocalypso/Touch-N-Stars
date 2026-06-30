@@ -1,17 +1,5 @@
 import { createI18n } from 'vue-i18n';
-import de from './locales/de.json';
 import en from './locales/en.json';
-import fr from './locales/fr.json';
-import it from './locales/it.json';
-import cz from './locales/cz.json';
-import cn from './locales/cn.json';
-import pt from './locales/pt.json';
-import es from './locales/es.json';
-import pl from './locales/pl.json';
-import nl from './locales/nl.json';
-import ja from './locales/ja.json';
-import uk from './locales/uk.json';
-import ko from './locales/ko.json';
 
 const languageToBackendCode = {
   en: 'en-GB',
@@ -51,20 +39,26 @@ const availableLanguages = [
 ];
 
 const messages = {
-  de,
   en,
-  fr,
-  it,
-  cz,
-  cn,
-  pt,
-  es,
-  pl,
-  nl,
-  ja,
-  uk,
-  ko,
 };
+
+const localeLoaders = {
+  en: () => Promise.resolve({ default: en }),
+  de: () => import('./locales/de.json'),
+  fr: () => import('./locales/fr.json'),
+  it: () => import('./locales/it.json'),
+  cz: () => import('./locales/cz.json'),
+  cn: () => import('./locales/cn.json'),
+  pt: () => import('./locales/pt.json'),
+  es: () => import('./locales/es.json'),
+  pl: () => import('./locales/pl.json'),
+  nl: () => import('./locales/nl.json'),
+  ja: () => import('./locales/ja.json'),
+  uk: () => import('./locales/uk.json'),
+  ko: () => import('./locales/ko.json'),
+};
+
+const loadedLocales = new Set(['en']);
 
 // Create i18n instance
 const i18n = createI18n({
@@ -79,20 +73,39 @@ export function getAvailableLanguages() {
   return availableLanguages;
 }
 
+export async function loadLocaleMessages(locale) {
+  const normalizedLocale = localeLoaders[locale] ? locale : 'en';
+  if (!loadedLocales.has(normalizedLocale)) {
+    const module = await localeLoaders[normalizedLocale]();
+    i18n.global.setLocaleMessage(normalizedLocale, module.default ?? module);
+    loadedLocales.add(normalizedLocale);
+  }
+  return normalizedLocale;
+}
+
+export async function setLocaleLanguage(locale) {
+  const normalizedLocale = await loadLocaleMessages(locale);
+  i18n.global.locale.value = normalizedLocale;
+  if (settingsStore) {
+    settingsStore.setLanguage(normalizedLocale);
+  }
+  return normalizedLocale;
+}
+
 export { i18n as default, initializeI18n };
 
 // Initialize store and set locale after app is mounted
 let settingsStore;
-function initializeI18n(store) {
+async function initializeI18n(store) {
   settingsStore = store;
 
   // Initialize language from store or default to 'en'
   const storedLanguage = settingsStore.language;
-  i18n.global.locale.value = storedLanguage || 'en';
+  const activeLanguage = await setLocaleLanguage(storedLanguage || 'en');
 
   // Update store with current language
   if (!storedLanguage) {
-    settingsStore.setLanguage(i18n.global.locale.value);
+    settingsStore.setLanguage(activeLanguage);
   }
 
   // Add language change handler

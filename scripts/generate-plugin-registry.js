@@ -66,10 +66,7 @@ function isValidPluginDirectory(pluginDir) {
 function generateImports(validPlugins) {
   return validPlugins
     .map((plugin) => {
-      return (
-        `import ${plugin.replace(/-/g, '')}Plugin from './${plugin}/index.js';\n` +
-        `import ${plugin.replace(/-/g, '')}Metadata from './${plugin}/plugin.json';`
-      );
+      return `import ${plugin.replace(/-/g, '')}Metadata from './${plugin}/plugin.json';`;
     })
     .join('\n');
 }
@@ -85,7 +82,7 @@ function generateRegistryEntries(validPlugins) {
       const normalizedName = plugin.replace(/-/g, '');
       return `  {
     id: '${plugin}',
-    module: ${normalizedName}Plugin,
+    loadModule: () => import('./${plugin}/index.js').then((module) => module.default),
     metadata: ${normalizedName}Metadata,
   }`;
     })

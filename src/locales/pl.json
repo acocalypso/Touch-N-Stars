@@ -46,10 +46,14 @@
       "message_tns_version": "Wtyczka Touch N Stars jest zbyt stara. Wykonaj aktualizację"
     },
     "connection_splash": {
+      "connecting": "Łączenie…",
+      "trying": "Ponowne łączenie z {instance}…",
+      "delayed": "Nadal nie można połączyć się z {instance}. Może to oznaczać problem — otwórz Ustawienia, aby zweryfikować instancję Touch-N-Stars.",
+      "retry_now": "Spróbuj teraz",
+      "show_details": "Pokaż szczegóły",
+      "details": "Cel: {endpoint} · upłynęło {elapsed} s",
       "configured_instance": "skonfigurowana instancja",
-      "default_instance_name": "wybrana instancja",
-      "delayed": "Nadal próbuję połączyć się z instancją {instance} w {punkcie końcowym} (upłynęło: {elapsed} s). \nOtwórz Ustawienia, aby zweryfikować instancję Touch-N-Stars.",
-      "trying": "Próbuję połączyć się z instancją {instance} o godzinie {endpoint} (upłynęło: {elapsed}, {pozostałe} s do oznaczenia jako opóźnione)."
+      "default_instance_name": "wybrana instancja"
     }
   },
   "whatsnew": {

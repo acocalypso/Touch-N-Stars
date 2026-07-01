@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+
+## [App5.0.0-beta8] - 2026-07-01
+### Changed
+- Connection: Reworked the reconnect screen to be calmer and more useful - a brief background/foreground blip now only shows a neutral spinner, escalating to a friendlier message with "Retry now" and "Settings" actions (technical connection details tucked behind an optional "Show details") only if it's still not reachable after a few seconds; the "this may indicate a problem" warning now only appears after 15s instead of 10s, since reconnecting after being backgrounded can normally take up to ~12s on its own
+
+### Fixed
+- Connection: Overlapping WebSocket reconnect attempts no longer cancel each other out every ~2 seconds, so reconnecting after resume is noticeably faster
+- Connection: The reconnect screen now shows immediately when returning from background instead of briefly showing stale data before the connection-error banner appears a few seconds later
+
+
 ## [App5.0.0-beta7] - 2026-07-01
 ### Fixed
 - Connection: App no longer gets stuck showing "trying to reconnect" indefinitely after returning from a locked screen if an earlier resume attempt was still in progress - the pending reconnect is now retried instead of silently dropped

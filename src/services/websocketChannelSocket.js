@@ -15,7 +15,7 @@ class WebSocketChannelService {
     this.isConnected = false;
     this.reconnectTimeoutId = null; // Track reconnect timeout
     this._socketId = 0; // Incremented on each connect() to invalidate stale socket handlers
-    this._pendingReject = null; // reject() of the currently in-flight connect() promise, if any
+    this._pendingConnect = null; // in-flight connect() promise, shared by concurrent callers
   }
 
   setStatusCallback(callback) {
@@ -27,28 +27,25 @@ class WebSocketChannelService {
   }
 
   connect(timeout = 500) {
-    return new Promise((resolve, reject) => {
+    // A connect() attempt is already in flight (typically the internal auto-reconnect
+    // loop below). Concurrent callers - most notably fetchAllInfos() polling on its own
+    // ~2s cadence - used to start a *competing* connect() that tore down and replaced
+    // the in-flight one. With both loops retrying on a similar cadence, they kept
+    // cancelling each other roughly every 2 seconds, so neither ever got an
+    // uninterrupted window to actually finish the WebSocket handshake - a self-inflicted
+    // livelock that could stretch reconnection out to 10+ seconds. Piggyback on the
+    // existing attempt instead of starting a new one.
+    if (this._pendingConnect) {
+      return this._pendingConnect;
+    }
+
+    const connectPromise = new Promise((resolve, reject) => {
       // Setze shouldReconnect auf true bei jedem Connect-Versuch
       this.shouldReconnect = true;
-
-      // If an older connect() call is still pending (its onopen/timeout hasn't fired
-      // yet), reject it now. Without this, two overlapping connect() calls (e.g. the
-      // internal auto-reconnect below racing an explicit call from fetchAllInfos())
-      // could leave the older one's promise unsettled forever: its timeout handler
-      // used to check the *shared* isConnected flag, which the newer call had already
-      // flipped to true, so it silently did nothing instead of resolving/rejecting.
-      // Whoever awaited that older call (fetchAllInfos()) would then hang forever,
-      // permanently stalling the info poller.
-      if (this._pendingReject) {
-        const staleReject = this._pendingReject;
-        this._pendingReject = null;
-        staleReject(new Error('WebSocket connect superseded by a newer connect() call'));
-      }
 
       // Invalidate any previous socket's event handlers by incrementing the id
       this._socketId++;
       const socketId = this._socketId;
-      this._pendingReject = reject;
 
       // Close any existing socket to avoid orphaned connections
       if (this.socket && this.socket.readyState !== WebSocket.CLOSED) {
@@ -62,7 +59,6 @@ class WebSocketChannelService {
 
       // Sicherheitsprüfung: apiPort muss gesetzt sein
       if (backendPort === null || backendPort === undefined) {
-        this._pendingReject = null;
         reject(new Error('WebSocket connection failed: API port not available'));
         return;
       }
@@ -74,13 +70,12 @@ class WebSocketChannelService {
 
       // Timeout wenn Verbindung zu lange dauert
       const timeoutId = setTimeout(() => {
-        if (socketId !== this._socketId) return; // superseded, already settled above
+        if (socketId !== this._socketId) return; // stale socket, ignore
         if (!this.isConnected) {
           // WICHTIG: Socket schließen, damit onclose-Handler getriggert wird
           if (this.socket && this.socket.readyState !== WebSocket.CLOSED) {
             this.socket.close();
           }
-          this._pendingReject = null;
           reject(new Error('WebSocket connection timeout'));
         }
       }, timeout);
@@ -90,7 +85,6 @@ class WebSocketChannelService {
         //console.log('Channel WebSocket verbunden.');
         clearTimeout(timeoutId);
         this.isConnected = true;
-        this._pendingReject = null;
         if (this.statusCallback) {
           this.statusCallback('Connected');
         }
@@ -150,11 +144,8 @@ class WebSocketChannelService {
 
         // Socket closed before ever successfully opening (e.g. connection refused) -
         // settle the connect() promise now instead of leaving the caller hanging.
-        if (this._pendingReject) {
-          const pendingReject = this._pendingReject;
-          this._pendingReject = null;
-          pendingReject(new Error('WebSocket closed before connection was established'));
-        }
+        // A no-op if onopen already resolved it.
+        reject(new Error('WebSocket closed before connection was established'));
 
         // Reconnect basierend auf shouldReconnect und ob API/TNS-Plugin erreichbar sind
         // Warte NICHT auf isBackendReachable, da das einen Teufelskreis erzeugt
@@ -199,6 +190,15 @@ class WebSocketChannelService {
         }
       };
     });
+
+    this._pendingConnect = connectPromise;
+    connectPromise.finally(() => {
+      if (this._pendingConnect === connectPromise) {
+        this._pendingConnect = null;
+      }
+    });
+
+    return connectPromise;
   }
 
   disconnect() {
@@ -255,6 +255,8 @@ class WebSocketChannelService {
 
   // Force reconnect
   forceReconnect() {
+    // Discard any dedup target so this always starts a genuinely fresh attempt.
+    this._pendingConnect = null;
     if (this.socket) {
       this.socket.close();
     }

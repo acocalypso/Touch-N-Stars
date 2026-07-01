@@ -46,10 +46,14 @@
       "message_tns_version": "Touch N Stars 플러그인이 너무 오래되었습니다. 업데이트를 진행하세요"
     },
     "connection_splash": {
+      "connecting": "연결 중…",
+      "trying": "{instance}에 다시 연결 중…",
+      "delayed": "{instance}에 계속 연결할 수 없습니다. 문제가 있을 수 있습니다 — 설정을 열어 Touch-N-Stars 인스턴스를 확인하세요.",
+      "retry_now": "지금 다시 시도",
+      "show_details": "세부정보 표시",
+      "details": "대상: {endpoint} · {elapsed}초 경과",
       "configured_instance": "구성된 인스턴스",
-      "default_instance_name": "선택한 인스턴스",
-      "delayed": "아직 {endpoint}에서 {instance} 인스턴스에 연결을 시도 중입니다({elapsed}초 경과). \n설정을 열어 Touch-N-Stars 인스턴스를 확인하세요.",
-      "trying": "{endpoint}에서 {instance} 인스턴스에 연결을 시도 중입니다({elapsed}초 경과, 지연으로 표시될 때까지 {remaining}초)."
+      "default_instance_name": "선택한 인스턴스"
     }
   },
   "whatsnew": {

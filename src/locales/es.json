@@ -46,10 +46,14 @@
       "message_tns_version": "El complemento Touch N Stars es demasiado antiguo. Por favor actualice el complemento"
     },
     "connection_splash": {
+      "connecting": "Conectando…",
+      "trying": "Reconectando con {instance}…",
+      "delayed": "Aún no se puede conectar con {instance}. Esto podría indicar un problema — abre Configuración para verificar tu instancia de Touch-N-Stars.",
+      "retry_now": "Reintentar ahora",
+      "show_details": "Mostrar detalles",
+      "details": "Destino: {endpoint} · {elapsed}s transcurridos",
       "configured_instance": "instancia configurada",
-      "default_instance_name": "instancia seleccionada",
-      "delayed": "Todavía intento conectarme a la instancia {instancia} en {punto final} ({elapsed}s transcurridos). \nAbra Configuración para verificar su instancia de Touch-N-Stars.",
-      "trying": "Intentando conectarse a la instancia {instancia} en {punto final} ({transcurrieron}, {restantes} hasta que se marque como retrasado)."
+      "default_instance_name": "instancia seleccionada"
     }
   },
   "whatsnew": {

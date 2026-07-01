@@ -46,10 +46,14 @@
       "message_tns_version": "Zásuvný modul Touch N Stars je příliš starý. Proveďte prosím aktualizaci"
     },
     "connection_splash": {
-      "configured_instance": "configured instance",
-      "default_instance_name": "selected instance",
-      "delayed": "Still trying to connect to instance {instance} at {endpoint} ({elapsed}s elapsed). Open Settings to verify your Touch-N-Stars instance.",
-      "trying": "Trying to connect to instance {instance} at {endpoint} ({elapsed}s elapsed, {remaining}s until this is marked as delayed)."
+      "connecting": "Připojování…",
+      "trying": "Připojuji se znovu k {instance}…",
+      "delayed": "Stále se nedaří připojit k {instance}. To může znamenat problém — otevřete Nastavení a zkontrolujte svou instanci Touch-N-Stars.",
+      "retry_now": "Zkusit znovu",
+      "show_details": "Zobrazit podrobnosti",
+      "details": "Cíl: {endpoint} · uplynulo {elapsed} s",
+      "configured_instance": "nakonfigurovaná instance",
+      "default_instance_name": "vybraná instance"
     }
   },
   "whatsnew": {

@@ -13,42 +13,93 @@
           v-if="shouldShowConnectionSplash"
           class="fixed inset-0 z-40 flex flex-col items-center justify-center bg-gray-900 p-4"
         >
-          <!-- Minimaler Status-Text -->
-          <p
-            v-if="!store.isBackendReachable && connectionCheckCompleted"
-            class="absolute top-5 left-1/2 transform -translate-x-1/2 text-red-400 text-sm sm:text-base font-medium animate-pulse bg-gray-800 px-4 py-2 rounded-lg border border-red-500/30 max-w-[calc(100%-2rem)] text-center"
+          <!-- Reconnect status: calm spinner-only while just lost, escalates to a
+               fuller message + actions after a few seconds (connectionPhase) -->
+          <div
+            v-if="connectionPhase !== 'hidden'"
+            class="absolute top-16 flex flex-col items-center gap-3"
           >
-            {{ connectionStatusMessage }}
-          </p>
+            <div
+              class="w-8 h-8 border-4 border-t-transparent border-solid rounded-full animate-spin"
+              :class="connectionIsStalled ? 'border-amber-400' : 'border-blue-400'"
+            ></div>
 
-          <!-- Settings Button -->
-          <button
-            v-if="!store.isBackendReachable && connectionCheckCompleted"
-            @click="showSettingsModal = true"
-            class="absolute bottom-10 left-1/2 transform -translate-x-1/2 px-4 py-2 sm:px-6 sm:py-3 bg-gray-700 hover:bg-gray-600 text-white text-sm sm:text-base rounded-lg border border-gray-600 hover:border-gray-500 transition-colors flex items-center gap-2"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-4 w-4 sm:h-5 sm:w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+            <p
+              v-if="connectionPhase === 'connecting'"
+              class="text-gray-300 text-sm sm:text-base font-medium text-center"
             >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-              />
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-              />
-            </svg>
-            {{ $t('components.settings.title') }}
-          </button>
+              {{ connectionConnectingMessage }}
+            </p>
+
+            <p
+              v-if="connectionPhase === 'attention'"
+              class="text-sm sm:text-base font-medium bg-gray-800 px-4 py-2 rounded-lg max-w-[calc(100%-2rem)] text-center"
+              :class="
+                connectionIsStalled
+                  ? 'text-amber-300 border border-amber-500/30'
+                  : 'text-blue-300 border border-blue-500/30'
+              "
+            >
+              {{ connectionAttentionMessage }}
+            </p>
+
+            <div v-if="connectionPhase === 'attention'" class="text-center">
+              <button
+                v-if="!showConnectionDetails"
+                @click="showConnectionDetails = true"
+                class="text-xs text-gray-400 hover:text-gray-300 underline"
+              >
+                {{ $t('app.connection_splash.show_details') }}
+              </button>
+              <p v-else class="text-xs text-gray-400 mt-1">
+                {{
+                  $t('app.connection_splash.details', {
+                    endpoint: connectionTargetLabel,
+                    elapsed: connectionElapsedSeconds,
+                  })
+                }}
+              </p>
+            </div>
+          </div>
+
+          <!-- Actions: only once we've escalated to the attention phase -->
+          <div
+            v-if="connectionPhase === 'attention'"
+            class="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex items-center gap-3"
+          >
+            <button
+              @click="retryConnectionNow"
+              class="px-4 py-2 sm:px-6 sm:py-3 bg-blue-600 hover:bg-blue-500 text-white text-sm sm:text-base rounded-lg transition-colors flex items-center gap-2"
+            >
+              {{ $t('app.connection_splash.retry_now') }}
+            </button>
+            <button
+              @click="showSettingsModal = true"
+              class="px-4 py-2 sm:px-6 sm:py-3 bg-gray-700 hover:bg-gray-600 text-white text-sm sm:text-base rounded-lg border border-gray-600 hover:border-gray-500 transition-colors flex items-center gap-2"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4 sm:h-5 sm:w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                />
+              </svg>
+              {{ $t('components.settings.title') }}
+            </button>
+          </div>
 
           <h1 class="text-3xl sm:text-4xl md:text-5xl text-yellow-50 font-mono font-bold mb-4">
             {{ $t('app.title') }}
@@ -432,9 +483,15 @@ const whatsNewData = ref(null);
 const whatsNewPending = ref(false);
 const connectionCheckCompleted = ref(false);
 const { t } = useI18n();
-const CONNECTION_STALL_HINT_SECONDS = 10;
+// Reconnecting after being backgrounded routinely takes up to ~12s on its own (Android
+// radio/network wake-up after Doze, see websocketChannelSocket reconnect timing) - that
+// is normal, not a stall. CONNECTION_STALL_HINT_SECONDS must stay comfortably above that
+// so the "this may indicate a problem" wording only kicks in once it's genuinely unusual.
+const CONNECTION_STALL_HINT_SECONDS = 15;
+const CONNECTION_ATTENTION_THRESHOLD_SECONDS = 3;
 const connectionAttemptStartedAt = ref(Date.now());
 const connectionElapsedSeconds = ref(0);
+const showConnectionDetails = ref(false);
 let connectionElapsedIntervalId = null;
 const tutorialSteps = computed(() => settingsStore.tutorial.steps);
 const orientation = ref(window.innerWidth > window.innerHeight ? 'landscape' : 'portrait');
@@ -545,26 +602,43 @@ const connectionRemainingSeconds = computed(() => {
   return Math.max(CONNECTION_STALL_HINT_SECONDS - connectionElapsedSeconds.value, 0);
 });
 
-const connectionStatusMessage = computed(() => {
-  if (connectionRemainingSeconds.value === 0) {
+// 'hidden': backend reachable (or first-ever check still pending) - splash content
+// stays hidden entirely. 'connecting': just lost the connection, show a calm spinner
+// only - covers the common case of a brief background/foreground blip without ever
+// showing an alarming error state. 'attention': still not reachable after a few
+// seconds - now show the full message plus actionable buttons.
+const connectionPhase = computed(() => {
+  if (!connectionCheckCompleted.value || store.isBackendReachable) return 'hidden';
+  return connectionElapsedSeconds.value < CONNECTION_ATTENTION_THRESHOLD_SECONDS
+    ? 'connecting'
+    : 'attention';
+});
+
+const connectionConnectingMessage = computed(() => t('app.connection_splash.connecting'));
+
+// Only true once we're past the normal-reconnect window (CONNECTION_STALL_HINT_SECONDS) -
+// drives both the wording and the color (blue/neutral while still within the expected
+// up-to-~12s reconnect time, amber only once it's genuinely taking unusually long).
+const connectionIsStalled = computed(
+  () => connectionPhase.value === 'attention' && connectionRemainingSeconds.value === 0
+);
+
+const connectionAttentionMessage = computed(() => {
+  if (connectionIsStalled.value) {
     return t('app.connection_splash.delayed', {
       instance: connectionInstanceName.value,
-      endpoint: connectionTargetLabel.value,
-      elapsed: connectionElapsedSeconds.value,
     });
   }
 
   return t('app.connection_splash.trying', {
     instance: connectionInstanceName.value,
-    endpoint: connectionTargetLabel.value,
-    elapsed: connectionElapsedSeconds.value,
-    remaining: connectionRemainingSeconds.value,
   });
 });
 
 function resetConnectionAttemptTimer() {
   connectionAttemptStartedAt.value = Date.now();
   connectionElapsedSeconds.value = 0;
+  showConnectionDetails.value = false;
 }
 
 function updateConnectionElapsed() {
@@ -702,6 +776,16 @@ function resumeApp() {
   }, RESUME_DEBOUNCE_MS);
 }
 
+// Manual "Retry now" trigger from the connection splash. performResume() is already
+// re-entrancy-guarded (isResuming/resumePending) and sets isBackendReachable = false
+// itself, so calling it directly here is safe. Resetting the timer first drops the
+// splash back to the calm "connecting" phase immediately instead of staying on the
+// attention view while the new attempt is in flight.
+function retryConnectionNow() {
+  resetConnectionAttemptTimer();
+  void performResume();
+}
+
 async function performResume() {
   // Re-entrancy guard: don't run overlapping resume attempts, but remember that
   // one was requested so it can be replayed once the in-flight run finishes.
@@ -712,6 +796,12 @@ async function performResume() {
   }
   isResuming = true;
   isPaused = false;
+  // The last known reachable state is stale after being backgrounded - show the
+  // reconnect splash immediately instead of leaving the (possibly outdated) page up
+  // for a few seconds until the first poll tick notices the connection is actually
+  // gone. It clears itself again via fetchAllInfos() once fresh data confirms we're
+  // really back.
+  store.isBackendReachable = false;
   try {
     console.log('App resumed, restarting intervals...');
 
@@ -1050,6 +1140,7 @@ watch(
   async (isReachable, wasReachable) => {
     if (isReachable) {
       connectionElapsedSeconds.value = 0;
+      showConnectionDetails.value = false;
       stopConnectionTimer();
     } else if (wasReachable) {
       startConnectionTimer();

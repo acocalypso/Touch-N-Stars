@@ -46,8 +46,12 @@
       "message_tns_version": "The Touch N Stars plugin is too old. Please perform an update"
     },
     "connection_splash": {
-      "trying": "Trying to connect to instance {instance} at {endpoint} ({elapsed}s elapsed, {remaining}s until this is marked as delayed).",
-      "delayed": "Still trying to connect to instance {instance} at {endpoint} ({elapsed}s elapsed). Open Settings to verify your Touch-N-Stars instance.",
+      "connecting": "Connecting…",
+      "trying": "Reconnecting to {instance}…",
+      "delayed": "Still trying to reach {instance}. This may indicate a problem — open Settings to verify your Touch-N-Stars instance.",
+      "retry_now": "Retry now",
+      "show_details": "Show details",
+      "details": "Target: {endpoint} · {elapsed}s elapsed",
       "configured_instance": "configured instance",
       "default_instance_name": "selected instance"
     }

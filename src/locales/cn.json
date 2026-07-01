@@ -46,10 +46,14 @@
       "message_tns_version": "Touch N Stars 插件版本过于陈旧。请进行更新"
     },
     "connection_splash": {
-      "configured_instance": "configured instance",
-      "default_instance_name": "selected instance",
-      "delayed": "Still trying to connect to instance {instance} at {endpoint} ({elapsed}s elapsed). Open Settings to verify your Touch-N-Stars instance.",
-      "trying": "Trying to connect to instance {instance} at {endpoint} ({elapsed}s elapsed, {remaining}s until this is marked as delayed)."
+      "connecting": "正在连接…",
+      "trying": "正在重新连接到 {instance}…",
+      "delayed": "仍无法连接到 {instance}，这可能表示存在问题 — 请打开设置以检查您的 Touch-N-Stars 实例。",
+      "retry_now": "立即重试",
+      "show_details": "显示详情",
+      "details": "目标：{endpoint} · 已用时 {elapsed} 秒",
+      "configured_instance": "已配置的实例",
+      "default_instance_name": "选定的实例"
     }
   },
   "whatsnew": {

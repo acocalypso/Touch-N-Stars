@@ -27,7 +27,15 @@ async function toggleDebug(value) {
   // Trigger update check in App.vue via custom event
   // Pass reset flag to clear dismissed version when switching channels
   console.log('[Beta Settings] Update channel switched, triggering update check...');
-  window.dispatchEvent(new CustomEvent('check-app-update', { detail: { resetDismissed: true } }));
+  window.dispatchEvent(
+    new CustomEvent('check-app-update', {
+      detail: {
+        resetDismissed: true,
+        syncChannel: true,
+        useBetaFeatures: value,
+      },
+    })
+  );
 }
 </script>
 <style scoped>

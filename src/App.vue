@@ -324,7 +324,9 @@ import {
   checkForManualUpdate,
   downloadAndApplyUpdate,
   fetchChangelogWhatsNew,
+  getPreferredUpdateChannel,
   isNativePlatform,
+  syncNativeUpdateChannel,
 } from '@/services/updateService';
 import { getDeviceDateTimePayload, parsePinsTimeToSeconds } from '@/utils/pinsTimeUtils';
 import { setLocaleLanguage } from '@/i18n';
@@ -776,6 +778,34 @@ async function checkForAppUpdate(options = {}) {
   }
 }
 
+async function handleCheckAppUpdate(event) {
+  console.log('Update check requested via channel switch');
+  const useBetaFeatures =
+    typeof event?.detail?.useBetaFeatures === 'boolean'
+      ? event.detail.useBetaFeatures
+      : settingsStore.useBetaFeatures;
+
+  if (event?.detail?.resetDismissed) {
+    dismissedUpdateVersion.value = null;
+    console.log('Cleared dismissed update version for channel switch');
+  }
+
+  if (event?.detail?.syncChannel) {
+    await syncNativeUpdateChannel(useBetaFeatures, { triggerAutoUpdate: false });
+  }
+
+  if (isNativePlatform()) {
+    showUpdateModal.value = false;
+    updateInfo.value = null;
+    updateStatus.value = 'idle';
+    updateProgress.value = 0;
+    updateError.value = '';
+
+    // Allow downgrades when switching channels or when beta mode is selected.
+    void checkForAppUpdate({ allowDowngrade: true });
+  }
+}
+
 async function handleUpdateConfirm() {
   if (!updateInfo.value || updateStatus.value === 'downloading') {
     return;
@@ -835,7 +865,7 @@ onMounted(async () => {
 
   // Check for app update immediately - independent from backend status
   if (isNativePlatform()) {
-    void checkForAppUpdate();
+    void checkForAppUpdate({ allowDowngrade: getPreferredUpdateChannel() === 'beta' });
   }
 
   // Capacitor App Lifecycle Events for mobile platforms
@@ -866,18 +896,7 @@ onMounted(async () => {
     stellariumRefreshKey.value = Date.now();
   });
 
-  // Listen for update channel changes
-  window.addEventListener('check-app-update', (event) => {
-    console.log('Update check requested via channel switch');
-    if (event?.detail?.resetDismissed) {
-      dismissedUpdateVersion.value = null;
-      console.log('Cleared dismissed update version for channel switch');
-    }
-    if (isNativePlatform()) {
-      // Allow downgrades when switching channels (e.g., Beta -> Stable)
-      void checkForAppUpdate({ allowDowngrade: true });
-    }
-  });
+  window.addEventListener('check-app-update', handleCheckAppUpdate);
 
   // Timeout for connectionCheckCompleted after 3 seconds
   const connectionTimeout = setTimeout(() => {
@@ -1076,11 +1095,7 @@ onBeforeUnmount(async () => {
   window.removeEventListener('refresh-stellarium', () => {
     stellariumRefreshKey.value = Date.now();
   });
-  window.removeEventListener('check-app-update', () => {
-    if (isNativePlatform()) {
-      void checkForAppUpdate();
-    }
-  });
+  window.removeEventListener('check-app-update', handleCheckAppUpdate);
 
   // Remove Capacitor listeners
   if (['android', 'ios'].includes(Capacitor.getPlatform())) {

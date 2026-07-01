@@ -3,10 +3,10 @@ import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
 import { useToastStore } from '@/store/toastStore';
 import { usePinsDeviceStore } from '@/plugins/pinsDevices/store/pinsDevicesStore';
+import { createPoller } from '@/utils/poller';
 
 export const useLogStore = defineStore('LogStore', {
   state: () => ({
-    intervalId: null,
     LogsInfo: {
       logs: [],
     },
@@ -183,16 +183,14 @@ export const useLogStore = defineStore('LogStore', {
     },
 
     startFetchingLog() {
-      if (!this.intervalId) {
-        this.intervalId = setInterval(this.fetchLogInfos, 1000);
+      if (!this._logPoller) {
+        this._logPoller = createPoller(() => this.fetchLogInfos(), 1000);
       }
+      this._logPoller.start();
     },
 
     stopFetchingLog() {
-      if (this.intervalId) {
-        clearInterval(this.intervalId);
-        this.intervalId = null;
-      }
+      this._logPoller?.stop();
     },
   },
 });

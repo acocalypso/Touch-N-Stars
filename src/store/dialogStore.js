@@ -3,6 +3,7 @@ import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
 import signalRDialogService from '@/services/signalRDialogService';
 import { useFramingStore } from '@/store/framingStore';
+import { createPoller } from '@/utils/poller';
 
 export const useDialogStore = defineStore('dialogStore', {
   state: () => ({
@@ -10,7 +11,6 @@ export const useDialogStore = defineStore('dialogStore', {
     dialogCount: 0,
     meridianFlipData: null,
     slewAndCenterData: null,
-    intervalId: null,
     isPolling: false,
     isConnectedToSignalR: false,
     minimizedDialogs: {}, // Track minimized state per dialog ID
@@ -133,8 +133,12 @@ export const useDialogStore = defineStore('dialogStore', {
       if (!this.isPolling) {
         console.log('Start polling dialogs...');
         this.isPolling = true;
-        this.fetchDialogs();
-        this.intervalId = setInterval(() => this.fetchDialogs(), interval);
+        if (!this._dialogPoller) {
+          this._dialogPoller = createPoller(() => this.fetchDialogs(), interval, {
+            immediate: true,
+          });
+        }
+        this._dialogPoller.start();
       }
     },
 
@@ -142,10 +146,7 @@ export const useDialogStore = defineStore('dialogStore', {
       if (this.isPolling) {
         console.log('Stop polling dialogs...');
         this.isPolling = false;
-        if (this.intervalId) {
-          clearInterval(this.intervalId);
-          this.intervalId = null;
-        }
+        this._dialogPoller?.stop();
       }
     },
 

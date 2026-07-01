@@ -46,10 +46,14 @@
       "message_tns_version": "Touch'N'Starsプラグインのバージョンが古すぎます。アップデートを実行してください。"
     },
     "connection_splash": {
+      "connecting": "接続中…",
+      "trying": "{instance} に再接続しています…",
+      "delayed": "{instance} にまだ接続できません。問題がある可能性があります — 設定を開いて Touch-N-Stars インスタンスを確認してください。",
+      "retry_now": "今すぐ再試行",
+      "show_details": "詳細を表示",
+      "details": "接続先: {endpoint} ・経過時間 {elapsed} 秒",
       "configured_instance": "構成されたインスタンス",
-      "default_instance_name": "選択されたインスタンス",
-      "delayed": "{endpoint} でインスタンス {instance} に接続しようとしています ({elapsed} 秒が経過しました)。 \n[設定] を開いて、Touch-N-Stars インスタンスを確認します。",
-      "trying": "{endpoint} でインスタンス {instance} に接続しようとしています (遅延としてマークされるまで、{elapsed} 秒が経過し、{remaining} 秒が経過します)。"
+      "default_instance_name": "選択されたインスタンス"
     }
   },
   "whatsnew": {

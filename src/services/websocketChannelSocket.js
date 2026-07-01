@@ -15,6 +15,7 @@ class WebSocketChannelService {
     this.isConnected = false;
     this.reconnectTimeoutId = null; // Track reconnect timeout
     this._socketId = 0; // Incremented on each connect() to invalidate stale socket handlers
+    this._pendingConnect = null; // in-flight connect() promise, shared by concurrent callers
   }
 
   setStatusCallback(callback) {
@@ -26,7 +27,19 @@ class WebSocketChannelService {
   }
 
   connect(timeout = 500) {
-    return new Promise((resolve, reject) => {
+    // A connect() attempt is already in flight (typically the internal auto-reconnect
+    // loop below). Concurrent callers - most notably fetchAllInfos() polling on its own
+    // ~2s cadence - used to start a *competing* connect() that tore down and replaced
+    // the in-flight one. With both loops retrying on a similar cadence, they kept
+    // cancelling each other roughly every 2 seconds, so neither ever got an
+    // uninterrupted window to actually finish the WebSocket handshake - a self-inflicted
+    // livelock that could stretch reconnection out to 10+ seconds. Piggyback on the
+    // existing attempt instead of starting a new one.
+    if (this._pendingConnect) {
+      return this._pendingConnect;
+    }
+
+    const connectPromise = new Promise((resolve, reject) => {
       // Setze shouldReconnect auf true bei jedem Connect-Versuch
       this.shouldReconnect = true;
 
@@ -57,6 +70,7 @@ class WebSocketChannelService {
 
       // Timeout wenn Verbindung zu lange dauert
       const timeoutId = setTimeout(() => {
+        if (socketId !== this._socketId) return; // stale socket, ignore
         if (!this.isConnected) {
           // WICHTIG: Socket schließen, damit onclose-Handler getriggert wird
           if (this.socket && this.socket.readyState !== WebSocket.CLOSED) {
@@ -117,6 +131,7 @@ class WebSocketChannelService {
       this.socket.onclose = (event) => {
         if (socketId !== this._socketId) return; // stale socket, ignore
         console.log('Channel WebSocket closed.', event.code, event.reason);
+        clearTimeout(timeoutId);
         this.isConnected = false;
 
         // Store-Flag aktualisieren
@@ -126,6 +141,11 @@ class WebSocketChannelService {
         if (this.statusCallback) {
           this.statusCallback('Closed');
         }
+
+        // Socket closed before ever successfully opening (e.g. connection refused) -
+        // settle the connect() promise now instead of leaving the caller hanging.
+        // A no-op if onopen already resolved it.
+        reject(new Error('WebSocket closed before connection was established'));
 
         // Reconnect basierend auf shouldReconnect und ob API/TNS-Plugin erreichbar sind
         // Warte NICHT auf isBackendReachable, da das einen Teufelskreis erzeugt
@@ -150,7 +170,12 @@ class WebSocketChannelService {
               store.apiPort !== null;
 
             if (recheckConditions) {
-              this.connect()
+              // Use a longer timeout than the default 500ms here: right after the
+              // app resumes from background, the radio (WiFi/mobile) is often still
+              // waking up and a real handshake can take a few seconds. With the
+              // short default this loop would time out forever every 2s and never
+              // succeed, even though the backend is otherwise reachable.
+              this.connect(5000)
                 .then(() => {
                   // KRITISCH: Store-Flag aktualisieren nach erfolgreichem Reconnect!
                   store.isWebSocketConnected = true;
@@ -165,6 +190,15 @@ class WebSocketChannelService {
         }
       };
     });
+
+    this._pendingConnect = connectPromise;
+    connectPromise.finally(() => {
+      if (this._pendingConnect === connectPromise) {
+        this._pendingConnect = null;
+      }
+    });
+
+    return connectPromise;
   }
 
   disconnect() {
@@ -221,6 +255,8 @@ class WebSocketChannelService {
 
   // Force reconnect
   forceReconnect() {
+    // Discard any dedup target so this always starts a genuinely fresh attempt.
+    this._pendingConnect = null;
     if (this.socket) {
       this.socket.close();
     }

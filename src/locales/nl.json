@@ -46,10 +46,14 @@
       "message_tns_version": "De Touch N Stars plugin is te oud. Voer update uit"
     },
     "connection_splash": {
+      "connecting": "Verbinden…",
+      "trying": "Opnieuw verbinden met {instance}…",
+      "delayed": "Nog steeds geen verbinding met {instance}. Dit kan op een probleem duiden — open Instellingen om je Touch-N-Stars-instantie te controleren.",
+      "retry_now": "Nu opnieuw proberen",
+      "show_details": "Details tonen",
+      "details": "Doel: {endpoint} · {elapsed}s verstreken",
       "configured_instance": "geconfigureerd exemplaar",
-      "default_instance_name": "geselecteerde exemplaar",
-      "delayed": "Ik probeer nog steeds verbinding te maken met instantie {instance} op {endpoint} ({elapsed}s verstreken). \nOpen Instellingen om uw Touch-N-Stars-instantie te verifiëren.",
-      "trying": "Er wordt geprobeerd verbinding te maken met instantie {instance} op {endpoint} ({elapsed}s verstreken, {remaining}s totdat dit als vertraagd is gemarkeerd)."
+      "default_instance_name": "geselecteerde exemplaar"
     }
   },
   "whatsnew": {

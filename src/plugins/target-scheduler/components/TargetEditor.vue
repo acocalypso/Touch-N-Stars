@@ -188,11 +188,11 @@
             </div>
             <input
               v-model.number="exp.durationSeconds"
-              type="range"
-              min="30"
+              type="number"
+              :min="MIN_EXPOSURE_SECONDS"
               max="1800"
-              step="10"
-              class="w-full accent-cyan-500"
+              step="1"
+              class="w-full rounded border border-slate-600 bg-slate-800 px-2 py-1 text-slate-100"
             />
           </div>
 
@@ -289,6 +289,7 @@ import ConstraintEditor from './ConstraintEditor.vue';
 import {
   createDefaultTarget,
   createExposure,
+  MIN_EXPOSURE_SECONDS,
   parseDecToDeg,
   parseRaToDeg,
 } from '../services/TargetSchedulerService';
@@ -402,14 +403,20 @@ function save() {
     dec: parsedDec,
     priority: Number(localTarget.priority),
     rotation: Number(localTarget.rotation) || 0,
-    exposures: localTarget.exposures.map((exp) => ({
-      ...exp,
-      durationSeconds: Number(exp.durationSeconds),
-      gain: Number(exp.gain),
-      offset: Number(exp.offset),
-      count: Number(exp.count),
-      binning: Number(exp.binning),
-    })),
+    exposures: localTarget.exposures.map((exp) => {
+      const durationSeconds = Number(exp.durationSeconds);
+
+      return {
+        ...exp,
+        durationSeconds: Number.isFinite(durationSeconds)
+          ? Math.max(MIN_EXPOSURE_SECONDS, durationSeconds)
+          : MIN_EXPOSURE_SECONDS,
+        gain: Number(exp.gain),
+        offset: Number(exp.offset),
+        count: Number(exp.count),
+        binning: Number(exp.binning),
+      };
+    }),
   });
 }
 

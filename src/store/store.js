@@ -21,6 +21,7 @@ import { useLogStore } from '@/store/logStore';
 import websocketMountControlService from '@/services/websocketMountControl';
 import websocketTppaService from '@/services/websocketTppa';
 import { getDeviceDateTimePayload, parsePinsTimeToSeconds } from '@/utils/pinsTimeUtils';
+import { createPoller } from '@/utils/poller';
 
 export const apiStore = defineStore('store', {
   state: () => ({
@@ -29,7 +30,6 @@ export const apiStore = defineStore('store', {
     isPinsCheckDone: false,
     pinsCheckNegativeCount: 0,
     isTimeSynced: false,
-    intervalId: null,
     intervalIdGraph: null,
     lastEventHistoryFetch: 0,
     profileInfo: {
@@ -840,20 +840,21 @@ export const apiStore = defineStore('store', {
     },
 
     startFetchingInfo(t) {
-      if (!this.intervalId) {
+      this._infoPollerT = t;
+      if (!this._infoPoller) {
+        this._infoPoller = createPoller(() => this.fetchAllInfos(this._infoPollerT), 2000);
+      }
+      if (!this._infoPoller.isRunning()) {
         this.attemptsToConnect = 0;
-        this.intervalId = setInterval(() => {
-          this.fetchAllInfos(t);
-        }, 2000);
+        this._infoPoller.start();
         console.log('Started fetching info interval');
       }
     },
 
     stopFetchingInfo() {
-      if (this.intervalId) {
+      if (this._infoPoller?.isRunning()) {
         this.attemptsToConnect = 0;
-        clearInterval(this.intervalId);
-        this.intervalId = null;
+        this._infoPoller.stop();
         websocketChannelService.disconnect();
         signalRNotificationService.disconnect();
         console.log('Stopped fetching info interval');

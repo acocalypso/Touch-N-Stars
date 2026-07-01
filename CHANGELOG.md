@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Diagnostics: Mobile diagnostic ZIP downloads now work on mobile devices
+- Connection: Mount and TPPA WebSockets no longer keep delivering events from a stale socket after a reconnect; polling loops now skip a tick instead of overlapping when a request is still in flight
 
 ## [App5.0.0-beta5] - 2026-06-29
 ### Added

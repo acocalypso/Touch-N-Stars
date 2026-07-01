@@ -1,10 +1,10 @@
 import { defineStore } from 'pinia';
 import apiService from '@/services/apiService';
 import { apiStore } from './store';
+import { createPoller } from '@/utils/poller';
 
 export const useSequenceStore = defineStore('sequenceStore', {
   state: () => ({
-    intervalId: null,
     firstLoad: true,
     sequenceInfo: [],
     collapsedStates: {},
@@ -569,18 +569,16 @@ export const useSequenceStore = defineStore('sequenceStore', {
 
     startFetching() {
       this.stopFetching(); // Stop any existing interval before starting a new one
-      this.getSequenceInfo(); // Fetch immediately
-      // Start the interval to fetch every 5 seconds
-      if (!this.intervalId) {
-        this.intervalId = setInterval(this.getSequenceInfo, 5000);
+      if (!this._sequencePoller) {
+        this._sequencePoller = createPoller(() => this.getSequenceInfo(), 5000, {
+          immediate: true,
+        });
       }
+      this._sequencePoller.start();
     },
 
     stopFetching() {
-      if (this.intervalId) {
-        clearInterval(this.intervalId);
-        this.intervalId = null;
-      }
+      this._sequencePoller?.stop();
     },
     // Reset the active sequence on the backend
     async resetSequence() {

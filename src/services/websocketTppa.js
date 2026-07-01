@@ -12,6 +12,7 @@ class WebSocketService {
     this.backendUrl = null;
     this.reconnectDelay = 2000; // 2 Sekunden
     this.shouldReconnect = true;
+    this._socketId = 0; // Incremented on each connect() to invalidate stale socket handlers
   }
 
   setStatusCallback(callback) {
@@ -29,6 +30,15 @@ class WebSocketService {
   connect() {
     this.shouldReconnect = true;
 
+    // Invalidate any previous socket's event handlers by incrementing the id
+    this._socketId++;
+    const socketId = this._socketId;
+
+    // Close any existing socket to avoid orphaned connections
+    if (this.socket && this.socket.readyState !== WebSocket.CLOSED) {
+      this.socket.close();
+    }
+
     const settingsStore = useSettingsStore();
     const store = apiStore();
     const backendPort = store.apiPort;
@@ -40,6 +50,7 @@ class WebSocketService {
     this.socket = new WebSocket(this.backendUrl);
 
     this.socket.onopen = () => {
+      if (socketId !== this._socketId) return; // stale socket, ignore
       console.log('WebSocket TPPA connected.');
       if (this.statusCallback) {
         this.statusCallback('connected');
@@ -47,6 +58,7 @@ class WebSocketService {
     };
 
     this.socket.onmessage = (event) => {
+      if (socketId !== this._socketId) return; // stale socket, ignore
       //console.log('Nachricht empfangen:', event.data);
       try {
         const message = JSON.parse(event.data);
@@ -63,6 +75,7 @@ class WebSocketService {
     };
 
     this.socket.onerror = (error) => {
+      if (socketId !== this._socketId) return; // stale socket, ignore
       console.error('WebSocket-Error:', error);
       if (this.statusCallback) {
         this.statusCallback('Error: ' + error.message);
@@ -70,6 +83,7 @@ class WebSocketService {
     };
 
     this.socket.onclose = () => {
+      if (socketId !== this._socketId) return; // stale socket, ignore
       console.log('WebSocket closed.');
       if (this.statusCallback) {
         this.statusCallback('Closed');

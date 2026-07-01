@@ -2,12 +2,12 @@ import { defineStore } from 'pinia';
 import apiService from '@/services/apiService';
 import apiPinsService from '@/services/apiPinsService';
 import { apiStore } from '@/store/store';
+import { createPoller } from '@/utils/poller';
 
 export const useGuiderStore = defineStore('guiderStore', {
   state: () => ({
     guidecamOk: false,
     guidecamManualVnc: false,
-    intervalId: null,
     RADistanceRaw: [],
     DECDistanceRaw: [],
     raDuration: [],
@@ -245,17 +245,15 @@ export const useGuiderStore = defineStore('guiderStore', {
 
     startFetching() {
       console.log('Start fetching graph data...');
-      if (!this.intervalId) {
-        this.intervalId = setInterval(this.fetchGraphInfos, 1000);
+      if (!this._graphPoller) {
+        this._graphPoller = createPoller(() => this.fetchGraphInfos(), 1000);
       }
+      this._graphPoller.start();
     },
 
     stopFetching() {
       console.log('Stop fetching graph data...');
-      if (this.intervalId) {
-        clearInterval(this.intervalId);
-        this.intervalId = null;
-      }
+      this._graphPoller?.stop();
     },
 
     async setPHD2Profil(id) {

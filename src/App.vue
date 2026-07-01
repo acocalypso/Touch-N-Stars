@@ -648,7 +648,21 @@ window.closePickerOverlay = () => {
   pickerStore.close();
 };
 
+// Lifecycle re-entrancy guards: on mobile, multiple triggers (Capacitor
+// resume/appStateChange + DOM visibilitychange/pageshow/focus) can fire almost
+// simultaneously. Without guarding, several concurrent resumeApp() runs race each
+// other's socket connect() calls and cause reconnect churn.
+let isResuming = false;
+let resumeDebounceId = null;
+const RESUME_DEBOUNCE_MS = 300;
+
 function pauseApp() {
+  // Cancel any pending resume so a quick background->foreground->background does
+  // not leave a scheduled resume running after we already paused.
+  if (resumeDebounceId) {
+    clearTimeout(resumeDebounceId);
+    resumeDebounceId = null;
+  }
   console.log('App paused, stopping all intervals...');
   store.stopFetchingInfo();
   logStore.stopFetchingLog();
@@ -659,43 +673,70 @@ function pauseApp() {
   // Keine States zurücksetzen - UI bleibt erhalten
 }
 
-async function resumeApp() {
-  console.log('App resumed, restarting intervals...');
-
-  // Set flag for recently returned from background
-  store.setPageReturnedFromBackground();
-  // Important: Re-enable WebSocket Channel Service shouldReconnect flag
-  websocketChannelService.shouldReconnect = true;
-
-  await store.fetchAllInfos(t);
-  store.startFetchingInfo(t);
-  logStore.startFetchingLog();
-
-  // Check for PINS support first
-  await store.checkForPINS();
-
-  // Initialize dialog updates based on mode
-  if (store.isPINS) {
-    // PINS/Headless mode: Use SignalR for real-time updates
-    await dialogStore.initializeDialogSignalR();
-    await messageboxStore.initializeMessageboxSignalR();
-    flatsStore.startFetchingFlats();
-  } else {
-    // WPF mode: Use polling
-    dialogStore.startPolling();
+// Debounced entry point: collapses the burst of resume triggers into a single
+// reconnect run. The actual work lives in performResume().
+function resumeApp() {
+  if (resumeDebounceId) {
+    clearTimeout(resumeDebounceId);
   }
+  resumeDebounceId = setTimeout(() => {
+    resumeDebounceId = null;
+    void performResume();
+  }, RESUME_DEBOUNCE_MS);
+}
 
-  // Clear any stale in-flight fetch flags from before the pause — connections
-  // killed by the OS in background would otherwise leave isImageFetching stuck true.
-  imageStore.isImageFetching = false;
-  imageStore.isSequenceImageFetching = false;
-  imageStore.getImage();
-  if (!sequenceStore.sequenceEdit) {
-    sequenceStore.startFetching();
+async function performResume() {
+  // Re-entrancy guard: ignore overlapping resume runs.
+  if (isResuming) {
+    console.log('App resume already in progress, skipping duplicate trigger');
+    return;
   }
+  isResuming = true;
+  try {
+    console.log('App resumed, restarting intervals...');
 
-  if (isNativePlatform()) {
-    void checkForAppUpdate();
+    // Set flag for recently returned from background
+    store.setPageReturnedFromBackground();
+
+    // Force-close any channel socket that may have been silently killed by the OS
+    // while backgrounded (a half-open "zombie" socket can still report readyState
+    // OPEN, which would make fetchAllInfos skip the reconnect). disconnect() clears
+    // shouldReconnect, so we re-enable it right after to allow a fresh connect.
+    websocketChannelService.disconnect();
+    websocketChannelService.shouldReconnect = true;
+
+    await store.fetchAllInfos(t);
+    store.startFetchingInfo(t);
+    logStore.startFetchingLog();
+
+    // Check for PINS support first
+    await store.checkForPINS();
+
+    // Initialize dialog updates based on mode
+    if (store.isPINS) {
+      // PINS/Headless mode: Use SignalR for real-time updates
+      await dialogStore.initializeDialogSignalR();
+      await messageboxStore.initializeMessageboxSignalR();
+      flatsStore.startFetchingFlats();
+    } else {
+      // WPF mode: Use polling
+      dialogStore.startPolling();
+    }
+
+    // Clear any stale in-flight fetch flags from before the pause — connections
+    // killed by the OS in background would otherwise leave isImageFetching stuck true.
+    imageStore.isImageFetching = false;
+    imageStore.isSequenceImageFetching = false;
+    imageStore.getImage();
+    if (!sequenceStore.sequenceEdit) {
+      sequenceStore.startFetching();
+    }
+
+    if (isNativePlatform()) {
+      void checkForAppUpdate();
+    }
+  } finally {
+    isResuming = false;
   }
 }
 
@@ -838,18 +879,12 @@ onMounted(async () => {
     void checkForAppUpdate();
   }
 
-  // Capacitor App Lifecycle Events for mobile platforms
+  // Capacitor App Lifecycle Events for mobile platforms.
+  // Use only appStateChange as the canonical trigger; it covers both foreground
+  // and background. Separate pause/resume listeners would be redundant and, since
+  // resumeApp is now debounced, only add noise. pauseApp/resumeApp are internally
+  // guarded against duplicate triggers.
   if (['android', 'ios'].includes(Capacitor.getPlatform())) {
-    CapacitorApp.addListener('pause', () => {
-      console.log('Capacitor App pause event');
-      pauseApp();
-    });
-
-    CapacitorApp.addListener('resume', () => {
-      console.log('Capacitor App resume event');
-      resumeApp();
-    });
-
     CapacitorApp.addListener('appStateChange', (state) => {
       console.log('Capacitor App state change:', state.isActive);
       if (state.isActive) {
@@ -1044,6 +1079,11 @@ watch(
 
 onBeforeUnmount(async () => {
   console.log('App.vue unmounted, cleaning up...');
+  // Cancel any pending debounced resume so it cannot fire after teardown.
+  if (resumeDebounceId) {
+    clearTimeout(resumeDebounceId);
+    resumeDebounceId = null;
+  }
   store.stopFetchingInfo();
   logStore.stopFetchingLog();
   sequenceStore.stopFetching();

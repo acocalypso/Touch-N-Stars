@@ -147,6 +147,8 @@ export const useDialogStore = defineStore('dialogStore', {
         console.log('Stop polling dialogs...');
         this.isPolling = false;
         this._dialogPoller?.stop();
+        // Reset so a later startPolling(interval) with a different interval takes effect.
+        this._dialogPoller = null;
       }
     },
 

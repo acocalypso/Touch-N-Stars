@@ -653,6 +653,7 @@ window.closePickerOverlay = () => {
 // simultaneously. Without guarding, several concurrent resumeApp() runs race each
 // other's socket connect() calls and cause reconnect churn.
 let isResuming = false;
+let isPaused = false;
 let resumeDebounceId = null;
 const RESUME_DEBOUNCE_MS = 300;
 
@@ -663,6 +664,10 @@ function pauseApp() {
     clearTimeout(resumeDebounceId);
     resumeDebounceId = null;
   }
+  // Checked by performResume() after each await so a pause that lands mid-resume
+  // (long async chain: fetchAllInfos, checkForPINS, SignalR init...) still wins —
+  // otherwise performResume() would restart all intervals after we already paused.
+  isPaused = true;
   console.log('App paused, stopping all intervals...');
   store.stopFetchingInfo();
   logStore.stopFetchingLog();
@@ -692,6 +697,7 @@ async function performResume() {
     return;
   }
   isResuming = true;
+  isPaused = false;
   try {
     console.log('App resumed, restarting intervals...');
 
@@ -706,17 +712,23 @@ async function performResume() {
     websocketChannelService.shouldReconnect = true;
 
     await store.fetchAllInfos(t);
+    // The app may have been paused again while we were awaiting above (long async
+    // chain racing a quick foreground->background). Bail out instead of restarting
+    // intervals pauseApp() already stopped.
+    if (isPaused) return;
     store.startFetchingInfo(t);
     logStore.startFetchingLog();
 
     // Check for PINS support first
     await store.checkForPINS();
+    if (isPaused) return;
 
     // Initialize dialog updates based on mode
     if (store.isPINS) {
       // PINS/Headless mode: Use SignalR for real-time updates
       await dialogStore.initializeDialogSignalR();
       await messageboxStore.initializeMessageboxSignalR();
+      if (isPaused) return;
       flatsStore.startFetchingFlats();
     } else {
       // WPF mode: Use polling

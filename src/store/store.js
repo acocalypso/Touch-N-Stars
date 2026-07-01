@@ -840,8 +840,9 @@ export const apiStore = defineStore('store', {
     },
 
     startFetchingInfo(t) {
+      this._infoPollerT = t;
       if (!this._infoPoller) {
-        this._infoPoller = createPoller(() => this.fetchAllInfos(t), 2000);
+        this._infoPoller = createPoller(() => this.fetchAllInfos(this._infoPollerT), 2000);
       }
       if (!this._infoPoller.isRunning()) {
         this.attemptsToConnect = 0;

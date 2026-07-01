@@ -5,6 +5,7 @@ const scheduleCache = new Map();
 
 export const DEFAULT_STEP_MINUTES = 5;
 export const DEFAULT_MAX_CHUNK_MINUTES = 90;
+export const MIN_EXPOSURE_SECONDS = 1;
 
 export const DEFAULT_CONSTRAINTS = Object.freeze({
   enabled: true,
@@ -513,7 +514,7 @@ function resolveTargetWindow(target, sessionStart, sessionEnd) {
 
 function normalizeExposure(exp) {
   const durationSeconds = Math.max(
-    1,
+    MIN_EXPOSURE_SECONDS,
     Number(exp?.durationSeconds) || DEFAULT_EXPOSURE.durationSeconds
   );
   const count = Math.max(1, Number(exp?.count) || DEFAULT_EXPOSURE.count);

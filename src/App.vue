@@ -489,10 +489,17 @@ const { t } = useI18n();
 // so the "this may indicate a problem" wording only kicks in once it's genuinely unusual.
 const CONNECTION_STALL_HINT_SECONDS = 15;
 const CONNECTION_ATTENTION_THRESHOLD_SECONDS = 3;
+// Short grace period before the reconnect overlay actually renders. isBackendReachable
+// flips false immediately on every resume (even ones that recover in well under a
+// second), so without this a near-instant reconnect would still flash the full-screen
+// overlay (which hides the whole app content, not just a status line) briefly.
+const RECONNECT_SPLASH_GRACE_MS = 300;
 const connectionAttemptStartedAt = ref(Date.now());
 const connectionElapsedSeconds = ref(0);
 const showConnectionDetails = ref(false);
+const showReconnectOverlay = ref(false);
 let connectionElapsedIntervalId = null;
+let reconnectSplashGraceTimer = null;
 const tutorialSteps = computed(() => settingsStore.tutorial.steps);
 const orientation = ref(window.innerWidth > window.innerHeight ? 'landscape' : 'portrait');
 const landscapeSwitch = ref(null);
@@ -570,7 +577,7 @@ const statusBarClasses = computed(() => ({
 
 const shouldShowConnectionSplash = computed(() => {
   return (
-    (showSplashScreen.value || (!store.isBackendReachable && route.path !== '/settings')) &&
+    (showSplashScreen.value || (showReconnectOverlay.value && route.path !== '/settings')) &&
     route.path !== '/setup' &&
     !pinsStore.shouldShowUpgradeOverlay
   );
@@ -656,6 +663,17 @@ function startConnectionTimer() {
     resetConnectionAttemptTimer();
     connectionElapsedIntervalId = setInterval(updateConnectionElapsed, 1000);
   }
+  // Debounce the overlay itself: only actually show it once we've been unreachable for
+  // RECONNECT_SPLASH_GRACE_MS, so a reconnect that resolves faster than that never
+  // flashes the full-screen overlay at all.
+  if (!reconnectSplashGraceTimer && !showReconnectOverlay.value) {
+    reconnectSplashGraceTimer = setTimeout(() => {
+      reconnectSplashGraceTimer = null;
+      if (!store.isBackendReachable) {
+        showReconnectOverlay.value = true;
+      }
+    }, RECONNECT_SPLASH_GRACE_MS);
+  }
 }
 
 function stopConnectionTimer() {
@@ -663,6 +681,11 @@ function stopConnectionTimer() {
     clearInterval(connectionElapsedIntervalId);
     connectionElapsedIntervalId = null;
   }
+  if (reconnectSplashGraceTimer) {
+    clearTimeout(reconnectSplashGraceTimer);
+    reconnectSplashGraceTimer = null;
+  }
+  showReconnectOverlay.value = false;
 }
 
 function closePinsUpgradeOverlay() {

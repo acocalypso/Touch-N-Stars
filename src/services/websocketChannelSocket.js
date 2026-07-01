@@ -26,7 +26,13 @@ class WebSocketChannelService {
     this.messageCallback = callback;
   }
 
-  connect(timeout = 500) {
+  // Default matches the internal auto-reconnect loop's timeout (see below). Any caller
+  // that omits it, or passes a shorter one, risks claiming the dedup slot below with too
+  // little patience: since concurrent connect() calls now piggyback on whichever attempt
+  // started first, a short-timeout caller that happens to fire first would silently
+  // downgrade what was meant to be a more patient attempt - undermining the whole point
+  // of the internal loop's longer timeout (radios need a few seconds to wake up).
+  connect(timeout = 5000) {
     // A connect() attempt is already in flight (typically the internal auto-reconnect
     // loop below). Concurrent callers - most notably fetchAllInfos() polling on its own
     // ~2s cadence - used to start a *competing* connect() that tore down and replaced
@@ -204,6 +210,13 @@ class WebSocketChannelService {
   disconnect() {
     this.shouldReconnect = false;
     this.isConnected = false;
+
+    // Drop the dedup pointer now, before the async close below settles it. The
+    // in-flight promise (if any) will still resolve correctly via its own onclose
+    // handler - this just stops a connect() called right after disconnect() (e.g. the
+    // resume flow: disconnect() immediately followed by a fresh connect()) from being
+    // deduped onto a promise that's already on its way out.
+    this._pendingConnect = null;
 
     // WICHTIG: Laufende Reconnect-Timeouts clearen
     if (this.reconnectTimeoutId) {

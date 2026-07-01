@@ -15,6 +15,7 @@ class WebSocketChannelService {
     this.isConnected = false;
     this.reconnectTimeoutId = null; // Track reconnect timeout
     this._socketId = 0; // Incremented on each connect() to invalidate stale socket handlers
+    this._pendingReject = null; // reject() of the currently in-flight connect() promise, if any
   }
 
   setStatusCallback(callback) {
@@ -30,9 +31,24 @@ class WebSocketChannelService {
       // Setze shouldReconnect auf true bei jedem Connect-Versuch
       this.shouldReconnect = true;
 
+      // If an older connect() call is still pending (its onopen/timeout hasn't fired
+      // yet), reject it now. Without this, two overlapping connect() calls (e.g. the
+      // internal auto-reconnect below racing an explicit call from fetchAllInfos())
+      // could leave the older one's promise unsettled forever: its timeout handler
+      // used to check the *shared* isConnected flag, which the newer call had already
+      // flipped to true, so it silently did nothing instead of resolving/rejecting.
+      // Whoever awaited that older call (fetchAllInfos()) would then hang forever,
+      // permanently stalling the info poller.
+      if (this._pendingReject) {
+        const staleReject = this._pendingReject;
+        this._pendingReject = null;
+        staleReject(new Error('WebSocket connect superseded by a newer connect() call'));
+      }
+
       // Invalidate any previous socket's event handlers by incrementing the id
       this._socketId++;
       const socketId = this._socketId;
+      this._pendingReject = reject;
 
       // Close any existing socket to avoid orphaned connections
       if (this.socket && this.socket.readyState !== WebSocket.CLOSED) {
@@ -46,6 +62,7 @@ class WebSocketChannelService {
 
       // Sicherheitsprüfung: apiPort muss gesetzt sein
       if (backendPort === null || backendPort === undefined) {
+        this._pendingReject = null;
         reject(new Error('WebSocket connection failed: API port not available'));
         return;
       }
@@ -57,11 +74,13 @@ class WebSocketChannelService {
 
       // Timeout wenn Verbindung zu lange dauert
       const timeoutId = setTimeout(() => {
+        if (socketId !== this._socketId) return; // superseded, already settled above
         if (!this.isConnected) {
           // WICHTIG: Socket schließen, damit onclose-Handler getriggert wird
           if (this.socket && this.socket.readyState !== WebSocket.CLOSED) {
             this.socket.close();
           }
+          this._pendingReject = null;
           reject(new Error('WebSocket connection timeout'));
         }
       }, timeout);
@@ -71,6 +90,7 @@ class WebSocketChannelService {
         //console.log('Channel WebSocket verbunden.');
         clearTimeout(timeoutId);
         this.isConnected = true;
+        this._pendingReject = null;
         if (this.statusCallback) {
           this.statusCallback('Connected');
         }
@@ -117,6 +137,7 @@ class WebSocketChannelService {
       this.socket.onclose = (event) => {
         if (socketId !== this._socketId) return; // stale socket, ignore
         console.log('Channel WebSocket closed.', event.code, event.reason);
+        clearTimeout(timeoutId);
         this.isConnected = false;
 
         // Store-Flag aktualisieren
@@ -125,6 +146,14 @@ class WebSocketChannelService {
 
         if (this.statusCallback) {
           this.statusCallback('Closed');
+        }
+
+        // Socket closed before ever successfully opening (e.g. connection refused) -
+        // settle the connect() promise now instead of leaving the caller hanging.
+        if (this._pendingReject) {
+          const pendingReject = this._pendingReject;
+          this._pendingReject = null;
+          pendingReject(new Error('WebSocket closed before connection was established'));
         }
 
         // Reconnect basierend auf shouldReconnect und ob API/TNS-Plugin erreichbar sind
@@ -150,7 +179,12 @@ class WebSocketChannelService {
               store.apiPort !== null;
 
             if (recheckConditions) {
-              this.connect()
+              // Use a longer timeout than the default 500ms here: right after the
+              // app resumes from background, the radio (WiFi/mobile) is often still
+              // waking up and a real handshake can take a few seconds. With the
+              // short default this loop would time out forever every 2s and never
+              // succeed, even though the backend is otherwise reachable.
+              this.connect(5000)
                 .then(() => {
                   // KRITISCH: Store-Flag aktualisieren nach erfolgreichem Reconnect!
                   store.isWebSocketConnected = true;

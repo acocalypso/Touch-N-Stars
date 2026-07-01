@@ -657,6 +657,11 @@ window.closePickerOverlay = () => {
 let isResuming = false;
 let isPaused = false;
 let resumeDebounceId = null;
+// Set when resumeApp() fires while a previous performResume() is still stuck
+// (e.g. a slow fetchAllInfos() retry loop after a network hiccup). Without this,
+// that later resume trigger would just be dropped by the isResuming guard below,
+// leaving the app permanently disconnected even after coming back to foreground.
+let resumePending = false;
 const RESUME_DEBOUNCE_MS = 300;
 
 function pauseApp() {
@@ -683,6 +688,11 @@ function pauseApp() {
 // Debounced entry point: collapses the burst of resume triggers into a single
 // reconnect run. The actual work lives in performResume().
 function resumeApp() {
+  // Reflect the foreground state immediately (not just once performResume() runs) so
+  // a stale run's isPaused check — and the resumePending replay in its finally block —
+  // see the current state even if this trigger itself gets swallowed by the isResuming
+  // guard below.
+  isPaused = false;
   if (resumeDebounceId) {
     clearTimeout(resumeDebounceId);
   }
@@ -693,9 +703,11 @@ function resumeApp() {
 }
 
 async function performResume() {
-  // Re-entrancy guard: ignore overlapping resume runs.
+  // Re-entrancy guard: don't run overlapping resume attempts, but remember that
+  // one was requested so it can be replayed once the in-flight run finishes.
   if (isResuming) {
-    console.log('App resume already in progress, skipping duplicate trigger');
+    console.log('App resume already in progress, queueing follow-up resume');
+    resumePending = true;
     return;
   }
   isResuming = true;
@@ -751,6 +763,14 @@ async function performResume() {
     }
   } finally {
     isResuming = false;
+    // A resume was requested while this run was still busy. Replay it now,
+    // unless we're paused again by the time we get here.
+    if (resumePending) {
+      resumePending = false;
+      if (!isPaused) {
+        void performResume();
+      }
+    }
   }
 }
 

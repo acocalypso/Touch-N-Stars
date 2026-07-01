@@ -11,7 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Connection: Overlapping WebSocket reconnect attempts no longer cancel each other out every ~2 seconds, so reconnecting after resume is noticeably faster
-- Connection: The reconnect screen now shows immediately when returning from background instead of briefly showing stale data before the connection-error banner appears a few seconds later
+- Connection: The reconnect screen now shows immediately when returning from background instead of briefly showing stale data before the connection-error banner appears a few seconds later, but only after a brief grace period so a near-instant reconnect no longer flashes the overlay at all
+- Connection: A short-timeout WebSocket connect attempt could silently claim the shared reconnect slot and cap every subsequent attempt at its shorter timeout; reconnect timeouts are now consistent everywhere
+- Connection: Disconnecting no longer leaves a stale pending connection reference behind that could cause the next reconnect attempt to wait on an already-dying connection
 
 
 ## [App5.0.0-beta7] - 2026-07-01

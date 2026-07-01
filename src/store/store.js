@@ -337,9 +337,12 @@ export const apiStore = defineStore('store', {
             this.handleWebSocketMessage(message);
           });
 
-          // Versuche WebSocket zu verbinden (max 1000ms warten)
+          // Versuche WebSocket zu verbinden. Matches the internal auto-reconnect loop's
+          // timeout - a shorter one here would let this call win the dedup slot (see
+          // websocketChannelSocket.js connect()) and silently cap every reconnect
+          // attempt at a timeout too short for the radio to actually wake up.
           try {
-            await websocketChannelService.connect(1000);
+            await websocketChannelService.connect(5000);
             this.isWebSocketConnected = true;
             websocketChannelService.subscribe('IMAGE-SAVE');
             // Initial image history load after WS connect

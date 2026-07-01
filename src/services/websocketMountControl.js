@@ -14,6 +14,7 @@ class WebSocketService {
     this.reconnectInterval = 2000; // 2 Sekunden
     this.reconnectTimeout = null;
     this.shouldReconnect = true;
+    this._socketId = 0; // Incremented on each connect() to invalidate stale socket handlers
   }
 
   setStatusCallback(callback) {
@@ -26,6 +27,16 @@ class WebSocketService {
 
   connect() {
     this.shouldReconnect = true; // Reconnect aktivieren bei neuer Verbindung
+
+    // Invalidate any previous socket's event handlers by incrementing the id
+    this._socketId++;
+    const socketId = this._socketId;
+
+    // Close any existing socket to avoid orphaned connections
+    if (this.socket && this.socket.readyState !== WebSocket.CLOSED) {
+      this.socket.close();
+    }
+
     const settingsStore = useSettingsStore();
     const store = apiStore();
     const backendHost = settingsStore.connection.ip || window.location.hostname;
@@ -49,6 +60,7 @@ class WebSocketService {
     this.socket = new WebSocket(this.backendUrl);
 
     this.socket.onopen = () => {
+      if (socketId !== this._socketId) return; // stale socket, ignore
       console.log('WebSocket Mount connected.');
       const mountStore = useMountStore();
       mountStore.wsIsConnected = true;
@@ -64,6 +76,7 @@ class WebSocketService {
     };
 
     this.socket.onmessage = (event) => {
+      if (socketId !== this._socketId) return; // stale socket, ignore
       try {
         const message = JSON.parse(event.data);
         console.log('Message:', message);
@@ -80,6 +93,7 @@ class WebSocketService {
     };
 
     this.socket.onerror = (error) => {
+      if (socketId !== this._socketId) return; // stale socket, ignore
       console.error('WebSocket error:', error);
       const mountStore = useMountStore();
       mountStore.wsIsConnected = false;
@@ -90,6 +104,7 @@ class WebSocketService {
     };
 
     this.socket.onclose = () => {
+      if (socketId !== this._socketId) return; // stale socket, ignore
       console.log('WebSocket closed.');
       const mountStore = useMountStore();
       mountStore.wsIsConnected = false;

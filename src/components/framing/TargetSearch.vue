@@ -147,7 +147,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onUnmounted } from 'vue';
 import Papa from 'papaparse';
 import apiService from '@/services/apiService';
 import slewAndCenter from '@/components/framing/slewAndCenter.vue';
@@ -225,15 +225,26 @@ function selectTarget(item) {
   framingStore.AZangleString = azimuth.toFixed(3);
 }
 
+let siderealTimeInterval = null;
+let isUnmounted = false;
+
 onMounted(async () => {
   framingStore.height = 200;
   framingStore.width = 200;
   framingStore.fov = 2;
   await loadStarData();
+  // The component may have been unmounted while loadStarData() was in flight;
+  // onUnmounted has already run then, so an interval started here would leak.
+  if (isUnmounted) return;
   updateSiderealTime();
-  setInterval(updateSiderealTime, 1000);
+  siderealTimeInterval = setInterval(updateSiderealTime, 1000);
   // Container dimensions are set on mount of the framing page via ResizeObserver
   // from the actual stage wrapper — no more window-based init.
+});
+
+onUnmounted(() => {
+  isUnmounted = true;
+  clearInterval(siderealTimeInterval);
 });
 
 async function loadStarData() {

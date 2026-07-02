@@ -116,10 +116,18 @@ const apiService = {
     }
   },
 
+  // NOTE for both reachability probes below: the global error interceptor
+  // (errorHandler.js) converts network failures into RESOLVED mock responses
+  // ({ Success: false, ... }), so the catch blocks never fire. Without the
+  // explicit envelope checks a timeout would count as "reachable" and the
+  // error envelope would even end up stored as the API port.
   async fetchApiPort(timeout = DEFAULT_TIMEOUT) {
     try {
       const { API_URL } = getUrls();
       const response = await axios.get(`${API_URL}get-api-port`, { timeout });
+      if (response.status !== 200 || response.data?.Success === false) {
+        return false;
+      }
       return response;
     } catch (error) {
       return false;
@@ -130,6 +138,9 @@ const apiService = {
     try {
       const { API_URL } = getUrls();
       const response = await axios.get(`${API_URL}version`, { timeout });
+      if (response.status !== 200 || response.data?.Success === false) {
+        return false;
+      }
       return response.data;
     } catch (error) {
       return false;
@@ -141,6 +152,11 @@ const apiService = {
     const { BASE_URL } = getUrls();
     try {
       const { data } = await axios.get(`${BASE_URL}/version`, { timeout });
+      // Error envelope from the global interceptor (see note above): returning
+      // it would be truthy and skip tryWithRetry's retries in fetchAllInfos.
+      if (data?.Success === false && data?.Type === 'API' && !data?.Response) {
+        return null;
+      }
       return data; // Erfolg
     } catch (err) {
       if (err.code === 'ECONNABORTED') {
@@ -157,6 +173,12 @@ const apiService = {
     const { BASE_URL } = getUrls();
     try {
       const { data } = await axios.get(`${BASE_URL}/version/pins`, { timeout });
+      // Error envelope from the global interceptor (see note above):
+      // 404 = backend reachable but no PINS endpoint (standard NINA),
+      // anything else = backend not reachable.
+      if (data?.Success === false && data?.Type === 'API' && !data?.Response) {
+        return data.StatusCode === 404 ? {} : null;
+      }
       return data;
     } catch (err) {
       if (err.code === 'ECONNABORTED') {

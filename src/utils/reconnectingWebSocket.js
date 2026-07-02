@@ -181,7 +181,18 @@ export class ReconnectingWebSocket {
       // connect() promise instead of orphaning its awaiter.
       this._rejectCurrent = (err) => settle(reject, err);
 
-      this.socket = new WebSocket(url);
+      try {
+        this.socket = new WebSocket(url);
+      } catch (err) {
+        // A malformed URL (e.g. a corrupted port value) throws synchronously.
+        // No socket means onclose never fires, so arm the reconnect loop here
+        // or it would silently die on this path.
+        if (this._shouldReconnect) {
+          this._scheduleReconnect();
+        }
+        settle(reject, err);
+        return;
+      }
 
       const timeoutId = this._setTimeout(() => {
         if (socketId !== this._socketId) return; // superseded

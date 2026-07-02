@@ -221,17 +221,23 @@ export const apiStore = defineStore('store', {
 
       if (!this.isBackendReachable) this.closeErrorModal = false;
 
-      // Right after a resume the connection pool may still hold dead sockets
-      // from the background phase; a probe riding one hangs for the full 10s
-      // default timeout. Fail fast instead - the poller retries every cycle
-      // anyway, and the flag clears itself 10s after the resume.
-      const probeTimeout = this.isPageRecentlyReturnedFromBackground() ? 3000 : undefined;
+      // While disconnected (or right after a resume, when the pool may hold
+      // dead sockets), probe fast and without inner retries: the 2s poller IS
+      // the retry loop, and stacking 3 attempts x 10s per probe inside one
+      // cycle means the user stares at the splash for ~36s after the network
+      // returns. The long timeout + inner retries only stay in place while the
+      // backend is reachable, where they prevent a single slow response from
+      // tearing the whole session down (clearAllStates).
+      const probingWhileDisconnected =
+        !this.isBackendReachable || this.isPageRecentlyReturnedFromBackground();
+      const probeTimeout = probingWhileDisconnected ? 3000 : undefined;
+      const probeRetries = probingWhileDisconnected ? 0 : this.connectingAttempts;
 
       try {
         //const tnsVersionResponse = await apiService.fetchTnsPluginVersion(); //Check if Plugin is reachable
         const tnsVersionResponse = await tryWithRetry(
           () => apiService.fetchTnsPluginVersion(probeTimeout),
-          this.connectingAttempts
+          probeRetries
         );
         if (!tnsVersionResponse) {
           console.warn('TNS-Plugin not reachable');
@@ -267,7 +273,7 @@ export const apiStore = defineStore('store', {
           //const response = await apiService.fetchApiPort();
           const response = await tryWithRetry(
             () => apiService.fetchApiPort(probeTimeout),
-            this.connectingAttempts
+            probeRetries
           );
           //console.log('API Port response:', response);
           if (!response) {
@@ -296,7 +302,7 @@ export const apiStore = defineStore('store', {
           //const responseApoVersion = await apiService.fetchApiVersion();
           const responseApiVersion = await tryWithRetry(
             () => apiService.fetchApiVersion(probeTimeout),
-            this.connectingAttempts
+            probeRetries
           );
           //console.log('API Version response:', responseApiVersion);
           if (responseApiVersion?.Success === false) {

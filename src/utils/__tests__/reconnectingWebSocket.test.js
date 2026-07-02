@@ -378,6 +378,42 @@ test('idle recheck keeps the loop alive while getUrl() is null, then dials', asy
   assert.equal(rws.isOpen(), true);
 });
 
+test('a synchronously throwing WebSocket constructor does not kill the reconnect loop', async (t) => {
+  // e.g. new WebSocket('ws://host:[object Object]/path') throws a SyntaxError
+  // synchronously - no socket, no onclose. The loop must re-arm itself.
+  let urlValid = false;
+  const RealFake = FakeWebSocket;
+  globalThis.WebSocket = class extends RealFake {
+    constructor(url) {
+      if (!urlValid) throw new SyntaxError('invalid URL');
+      super(url);
+    }
+  };
+  const timers = makeTimers();
+  const rws = new ReconnectingWebSocket({
+    name: 'Test',
+    getUrl: () => 'ws://localhost:1234/test',
+    backoffInitialMs: 500,
+    backoffFactor: 1.8,
+    backoffMaxMs: 10000,
+    connectTimeoutMs: 5000,
+    setTimeoutFn: timers.setTimeoutFn,
+    clearTimeoutFn: timers.clearTimeoutFn,
+  });
+  t.after(() => rws.disconnect());
+
+  await assert.rejects(rws.connect(), /invalid URL/);
+  assert.ok(timers.pendingCount() >= 1, 'reconnect timer armed despite constructor throw');
+
+  // URL becomes constructible again; the loop recovers on its own.
+  urlValid = true;
+  liveSockets = [];
+  await timers.advance(11000);
+  assert.ok(liveSockets.length >= 1, 'loop dialed again once the constructor stopped throwing');
+  liveSockets[liveSockets.length - 1].emitOpen();
+  assert.equal(rws.isOpen(), true);
+});
+
 test('resumeReconnect() dials immediately and drops backoff built up while backgrounded', async (t) => {
   const { rws, timers, lastSocket } = setup(t);
   rws.connect();

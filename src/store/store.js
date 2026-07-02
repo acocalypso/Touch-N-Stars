@@ -130,8 +130,6 @@ export const apiStore = defineStore('store', {
     isApiConnected: false,
     isApiVersionNewerOrEqual: false,
     isTnsPluginVersionNewerOrEqual: false,
-    webSocketDisconnectTime: null,
-    webSocketTimeoutId: null,
     filterName: 'unbekannt',
     filterNr: null,
     showAfGraph: true,
@@ -217,10 +215,16 @@ export const apiStore = defineStore('store', {
 
       if (!this.isBackendReachable) this.closeErrorModal = false;
 
+      // Right after a resume the connection pool may still hold dead sockets
+      // from the background phase; a probe riding one hangs for the full 10s
+      // default timeout. Fail fast instead - the poller retries every cycle
+      // anyway, and the flag clears itself 10s after the resume.
+      const probeTimeout = this.isPageRecentlyReturnedFromBackground() ? 3000 : undefined;
+
       try {
         //const tnsVersionResponse = await apiService.fetchTnsPluginVersion(); //Check if Plugin is reachable
         const tnsVersionResponse = await tryWithRetry(
-          () => apiService.fetchTnsPluginVersion(),
+          () => apiService.fetchTnsPluginVersion(probeTimeout),
           this.connectingAttempts
         );
         if (!tnsVersionResponse) {
@@ -256,7 +260,7 @@ export const apiStore = defineStore('store', {
           //fetch API Port
           //const response = await apiService.fetchApiPort();
           const response = await tryWithRetry(
-            () => apiService.fetchApiPort(),
+            () => apiService.fetchApiPort(probeTimeout),
             this.connectingAttempts
           );
           //console.log('API Port response:', response);
@@ -285,7 +289,7 @@ export const apiStore = defineStore('store', {
         if (this.apiPort) {
           //const responseApoVersion = await apiService.fetchApiVersion();
           const responseApiVersion = await tryWithRetry(
-            () => apiService.fetchApiVersion(),
+            () => apiService.fetchApiVersion(probeTimeout),
             this.connectingAttempts
           );
           //console.log('API Version response:', responseApiVersion);
@@ -332,19 +336,24 @@ export const apiStore = defineStore('store', {
           console.log('[MOCK MODE] Skipping WebSocket connection');
           this.isWebSocketConnected = true;
         } else if (!websocketChannelService.isWebSocketConnected()) {
-          // Setup message callback für IMAGE-PREPARED handling
+          // Setup message callback for IMAGE-PREPARED handling
           websocketChannelService.setMessageCallback((message) => {
             this.handleWebSocketMessage(message);
           });
 
-          // Versuche WebSocket zu verbinden. Matches the internal auto-reconnect loop's
-          // timeout - a shorter one here would let this call win the dedup slot (see
-          // websocketChannelSocket.js connect()) and silently cap every reconnect
-          // attempt at a timeout too short for the radio to actually wake up.
+          // Register the subscription before connecting: subscribe() always
+          // adds to the replay registry regardless of connection state. If
+          // registered only after a successful connect() below, a timed-out
+          // first attempt would skip it - and once the internal reconnect loop
+          // opens the socket on its own later, it replays an empty registry,
+          // silently dropping IMAGE-SAVE events until a full clearAllStates().
+          websocketChannelService.subscribe('IMAGE-SAVE');
+
+          // The connect timeout is owned by the service (channel socket core);
+          // no need to pass one here.
           try {
-            await websocketChannelService.connect(5000);
+            await websocketChannelService.connect();
             this.isWebSocketConnected = true;
-            websocketChannelService.subscribe('IMAGE-SAVE');
             // Initial image history load after WS connect
             try {
               const historyResponse = await apiService.imageHistoryAll();
@@ -355,13 +364,15 @@ export const apiStore = defineStore('store', {
               console.warn('[API Store] Could not load initial image history:', e.message);
             }
           } catch (error) {
-            // WebSocket fehlgeschlagen oder Timeout
+            // Connect failed or timed out; the service will keep retrying via its
+            // own reconnect loop.
             console.warn('[API Store] WebSocket connection failed or timeout:', error.message);
             this.isWebSocketConnected = false;
-            // WebSocket wird automatisch via onclose-Handler versuchen wiederherzustellen
           }
         } else {
           this.isWebSocketConnected = true;
+          // Socket looks connected: verify it isn't a silent zombie.
+          websocketChannelService.checkStaleness();
         }
 
         // Connect SignalR Notification Service

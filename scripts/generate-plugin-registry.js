@@ -8,6 +8,7 @@
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import prettier from 'prettier';
 
 // Get current directory name in ESM
 const __filename = fileURLToPath(import.meta.url);
@@ -92,7 +93,7 @@ function generateRegistryEntries(validPlugins) {
 /**
  * Main function to generate the plugin registry file
  */
-function generatePluginRegistry() {
+async function generatePluginRegistry() {
   console.log('Generating plugin registry...');
 
   // Get all plugin directories
@@ -119,10 +120,18 @@ ${registryEntries ? registryEntries + ',' : ''}
 ];
 `;
 
+  // Format with the project's prettier config so the generated file always
+  // passes lint regardless of how long individual plugin names get.
+  const prettierConfig = await prettier.resolveConfig(REGISTRY_FILE);
+  const formatted = await prettier.format(fileContent, {
+    ...prettierConfig,
+    filepath: REGISTRY_FILE,
+  });
+
   // Write the file
-  fs.writeFileSync(REGISTRY_FILE, fileContent);
+  fs.writeFileSync(REGISTRY_FILE, formatted);
   console.log(`Plugin registry generated at: ${REGISTRY_FILE}`);
 }
 
 // Run the generator
-generatePluginRegistry();
+await generatePluginRegistry();

@@ -1,18 +1,50 @@
 import { useSettingsStore } from '../store/settingsStore';
 import { apiStore } from '@/store/store';
+import { ReconnectingWebSocket } from '@/utils/reconnectingWebSocket';
 
 const backendProtokol = 'ws';
 const backendPfad = '/v2/tppa';
 
-class WebSocketService {
+/**
+ * TPPA alignment WebSocket. Thin adapter over ReconnectingWebSocket so the
+ * reconnect lifecycle (backoff, dedup, generation guard, cancelable timers,
+ * idle recheck while unreachable) is shared with the other sockets.
+ *
+ * App-scoped: the socket survives page navigation. TppaPage only nulls the
+ * callbacks on unmount; only store.clearAllStates() / disconnect() closes it.
+ */
+class WebSocketTppaService {
   constructor() {
-    this.socket = null;
     this.statusCallback = null;
     this.messageCallback = null;
-    this.backendUrl = null;
-    this.reconnectDelay = 2000; // 2 Sekunden
-    this.shouldReconnect = true;
-    this._socketId = 0; // Incremented on each connect() to invalidate stale socket handlers
+
+    this._rws = new ReconnectingWebSocket({
+      name: 'TPPA',
+      getUrl: () => {
+        const settingsStore = useSettingsStore();
+        const store = apiStore();
+        const host = settingsStore.connection.ip || window.location.hostname;
+        const port = store.apiPort;
+        if (port === null || port === undefined) return null;
+        return `${backendProtokol}://${host}:${port}${backendPfad}`;
+      },
+      // Gate on the raw reachability inputs, not the composite isBackendReachable
+      // (which itself includes isWebSocketConnected and would create a cycle).
+      canReconnect: () => {
+        const store = apiStore();
+        return store.isApiConnected && store.isTnsPluginConnected;
+      },
+      onStatus: (status) => {
+        if (!this.statusCallback) return;
+        // Preserve the exact strings TppaPage compares against.
+        if (status === 'open') this.statusCallback('connected');
+        else if (status === 'closed') this.statusCallback('Closed');
+        else if (status === 'error') this.statusCallback('Error: TPPA websocket error');
+      },
+      onMessage: (message) => {
+        if (this.messageCallback) this.messageCallback(message);
+      },
+    });
   }
 
   setStatusCallback(callback) {
@@ -24,96 +56,25 @@ class WebSocketService {
   }
 
   isOpen() {
-    return this.socket !== null && this.socket.readyState === WebSocket.OPEN;
+    return this._rws.isOpen();
   }
 
   connect() {
-    this.shouldReconnect = true;
-
-    // Invalidate any previous socket's event handlers by incrementing the id
-    this._socketId++;
-    const socketId = this._socketId;
-
-    // Close any existing socket to avoid orphaned connections
-    if (this.socket && this.socket.readyState !== WebSocket.CLOSED) {
-      this.socket.close();
-    }
-
-    const settingsStore = useSettingsStore();
-    const store = apiStore();
-    const backendPort = store.apiPort;
-    const backendHost = settingsStore.connection.ip || window.location.hostname;
-    this.backendUrl = `${backendProtokol}://${backendHost}:${backendPort}${backendPfad}`;
-
-    console.log('ws url: ', this.backendUrl);
-
-    this.socket = new WebSocket(this.backendUrl);
-
-    this.socket.onopen = () => {
-      if (socketId !== this._socketId) return; // stale socket, ignore
-      console.log('WebSocket TPPA connected.');
-      if (this.statusCallback) {
-        this.statusCallback('connected');
-      }
-    };
-
-    this.socket.onmessage = (event) => {
-      if (socketId !== this._socketId) return; // stale socket, ignore
-      //console.log('Nachricht empfangen:', event.data);
-      try {
-        const message = JSON.parse(event.data);
-        //console.log('Geparste Nachricht:', message);
-        if (this.messageCallback) {
-          this.messageCallback(message);
-        }
-      } catch (error) {
-        console.error('Error parsing message:', error);
-        if (this.statusCallback) {
-          this.statusCallback('Error receiving message');
-        }
-      }
-    };
-
-    this.socket.onerror = (error) => {
-      if (socketId !== this._socketId) return; // stale socket, ignore
-      console.error('WebSocket-Error:', error);
-      if (this.statusCallback) {
-        this.statusCallback('Error: ' + error.message);
-      }
-    };
-
-    this.socket.onclose = () => {
-      if (socketId !== this._socketId) return; // stale socket, ignore
-      console.log('WebSocket closed.');
-      if (this.statusCallback) {
-        this.statusCallback('Closed');
-      }
-
-      if (this.shouldReconnect && store.isBackendReachable) {
-        console.log(`Attempting to reconnect in ${this.reconnectDelay / 1000} seconds...`);
-        setTimeout(() => this.connect(), this.reconnectDelay);
-      }
-    };
+    return this._rws.connect();
   }
 
   disconnect() {
-    this.shouldReconnect = false;
-    if (this.socket) {
-      this.socket.close();
-    }
+    this._rws.disconnect();
+  }
+
+  resumeAfterBackground() {
+    this._rws.resumeReconnect();
   }
 
   sendMessage(message) {
-    if (this.socket && this.socket.readyState === 1) {
-      this.socket.send(message);
-    } else {
-      console.error('WebSocket TPPA is not connected. Message could not be sent.');
-      if (this.statusCallback) {
-        this.statusCallback('Error: WebSocket TPPA not connected');
-      }
-    }
+    this._rws.send(message);
   }
 }
 
-const websocketService = new WebSocketService();
+const websocketService = new WebSocketTppaService();
 export default websocketService;

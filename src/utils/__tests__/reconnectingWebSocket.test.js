@@ -389,6 +389,11 @@ test('a synchronously throwing WebSocket constructor does not kill the reconnect
       super(url);
     }
   };
+  // Restore the plain fake for subsequent tests - they must not inherit the
+  // throwing constructor.
+  t.after(() => {
+    globalThis.WebSocket = RealFake;
+  });
   const timers = makeTimers();
   const rws = new ReconnectingWebSocket({
     name: 'Test',

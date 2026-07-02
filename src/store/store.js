@@ -305,7 +305,10 @@ export const apiStore = defineStore('store', {
             probeRetries
           );
           //console.log('API Version response:', responseApiVersion);
-          if (responseApiVersion?.Success === false) {
+          // null = all attempts failed (fetchApiVersion maps network errors to
+          // null); without this check a null would fall through to the else
+          // branch and mark the API as connected.
+          if (!responseApiVersion || responseApiVersion.Success === false) {
             console.warn('API-Plugin not reachable');
             showConnectionErrorToast('app.connection_error_toast.message_api');
             this.clearAllStates();

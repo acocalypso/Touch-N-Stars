@@ -226,12 +226,16 @@ function selectTarget(item) {
 }
 
 let siderealTimeInterval = null;
+let isUnmounted = false;
 
 onMounted(async () => {
   framingStore.height = 200;
   framingStore.width = 200;
   framingStore.fov = 2;
   await loadStarData();
+  // The component may have been unmounted while loadStarData() was in flight;
+  // onUnmounted has already run then, so an interval started here would leak.
+  if (isUnmounted) return;
   updateSiderealTime();
   siderealTimeInterval = setInterval(updateSiderealTime, 1000);
   // Container dimensions are set on mount of the framing page via ResizeObserver
@@ -239,6 +243,7 @@ onMounted(async () => {
 });
 
 onUnmounted(() => {
+  isUnmounted = true;
   clearInterval(siderealTimeInterval);
 });
 

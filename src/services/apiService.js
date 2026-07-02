@@ -152,6 +152,11 @@ const apiService = {
     const { BASE_URL } = getUrls();
     try {
       const { data } = await axios.get(`${BASE_URL}/version`, { timeout });
+      // Error envelope from the global interceptor (see note above): returning
+      // it would be truthy and skip tryWithRetry's retries in fetchAllInfos.
+      if (data?.Success === false && data?.Type === 'API' && !data?.Response) {
+        return null;
+      }
       return data; // Erfolg
     } catch (err) {
       if (err.code === 'ECONNABORTED') {

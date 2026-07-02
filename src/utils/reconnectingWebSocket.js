@@ -366,6 +366,21 @@ export class ReconnectingWebSocket {
   }
 
   /**
+   * Kick the loop after an app resume. Backoff accumulated while backgrounded
+   * (radio off, every dial failing) says nothing about current conditions, so
+   * waiting out a maxed-out timer would delay the reconnect by up to
+   * backoffMaxMs. Also force-closes a possibly half-open zombie socket left
+   * over from the background phase (same rationale as the channel socket's
+   * force-close on resume). No-op when the socket was disconnected on purpose.
+   */
+  resumeReconnect() {
+    if (!this._shouldReconnect) return;
+    this.forceReconnect().catch(() => {
+      // onclose arms the next attempt with a fresh backoff; nothing to do here
+    });
+  }
+
+  /**
    * Send a payload. Objects are JSON-stringified. Never throws.
    * @returns {boolean} whether the payload was handed to the socket
    */

@@ -9,13 +9,28 @@ export class TimeSync {
     this.serverTimeOffset = 0; // Difference between server and client time in milliseconds
     this.lastSyncTime = 0;
     this.syncInterval = 60000; // Sync every minute
+    this._syncPromise = null; // in-flight dedup, see syncWithServer()
   }
 
   /**
-   * Synchronizes with server time using fetchNinaTime API
+   * Synchronizes with server time using fetchNinaTime API.
+   * Deduplicates concurrent calls: lastSyncTime only advances on success, so
+   * while one request is stuck (e.g. app backgrounded, network frozen) every
+   * countdown tick would otherwise queue another one - they then all resolve
+   * at once on resume and hog the browser's per-host connection slots.
    * @returns {Promise<boolean>} Success status
    */
-  async syncWithServer() {
+  syncWithServer() {
+    if (this._syncPromise) {
+      return this._syncPromise;
+    }
+    this._syncPromise = this._doSyncWithServer().finally(() => {
+      this._syncPromise = null;
+    });
+    return this._syncPromise;
+  }
+
+  async _doSyncWithServer() {
     try {
       const clientTimeBeforeRequest = Date.now();
       const response = await apiService.fetchNinaTime();

@@ -378,6 +378,45 @@ test('idle recheck keeps the loop alive while getUrl() is null, then dials', asy
   assert.equal(rws.isOpen(), true);
 });
 
+test('resumeReconnect() dials immediately and drops backoff built up while backgrounded', async (t) => {
+  const { rws, timers, lastSocket } = setup(t);
+  rws.connect();
+  lastSocket().emitClose();
+
+  // Fail enough attempts to max out the backoff (500 -> ... -> 10000).
+  for (const delay of [500, 900, 1620, 2916, 5248, 9446]) {
+    await timers.advance(delay);
+    lastSocket().emitClose();
+  }
+  const socketsBefore = liveSockets.length;
+
+  // App resumes: must not sit out the pending ~10s timer.
+  rws.resumeReconnect();
+  assert.equal(liveSockets.length, socketsBefore + 1, 'redialed immediately on resume');
+  lastSocket().emitOpen();
+  assert.equal(rws.isOpen(), true);
+
+  // Backoff must have been reset: the next failure reschedules at 500, not 10000.
+  lastSocket().emitClose();
+  await timers.advance(499);
+  assert.equal(liveSockets.length, socketsBefore + 1, 'not yet - initial delay is 500');
+  await timers.advance(1);
+  assert.equal(liveSockets.length, socketsBefore + 2, 'redialed after the initial 500ms backoff');
+});
+
+test('resumeReconnect() is a no-op after a deliberate disconnect()', async (t) => {
+  const { rws, timers, lastSocket } = setup(t);
+  const p = rws.connect();
+  lastSocket().emitOpen();
+  await p;
+
+  rws.disconnect();
+  const socketsBefore = liveSockets.length;
+  rws.resumeReconnect();
+  await timers.advance(60000);
+  assert.equal(liveSockets.length, socketsBefore, 'no dial while disconnected on purpose');
+});
+
 test('send() returns false and does not throw when not open', (t) => {
   const { rws } = setup(t);
   assert.doesNotThrow(() => {

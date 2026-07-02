@@ -371,6 +371,8 @@ import { usePinsStore } from '@/plugins/pins/store/pinsStore';
 import { useFlatassistantStore } from '@/store/flatassistantStore';
 import { useNightSummaryStore } from '@/plugins/nightsummary/store/nightsummaryStore';
 import websocketChannelService from '@/services/websocketChannelSocket';
+import websocketTppaService from '@/services/websocketTppa';
+import websocketMountControlService from '@/services/websocketMountControl';
 import {
   checkForManualUpdate,
   downloadAndApplyUpdate,
@@ -380,6 +382,7 @@ import {
   syncNativeUpdateChannel,
 } from '@/services/updateService';
 import { getDeviceDateTimePayload, parsePinsTimeToSeconds } from '@/utils/pinsTimeUtils';
+import { abortInFlightRequests } from '@/utils/httpLifecycle';
 import { setLocaleLanguage } from '@/i18n';
 
 const StellariumView = defineAsyncComponent(() => import('./views/StellariumView.vue'));
@@ -837,6 +840,19 @@ async function performResume() {
     // shouldReconnect, so we re-enable it right after to allow a fresh connect.
     websocketChannelService.disconnect();
     websocketChannelService.shouldReconnect = true;
+
+    // Same for the TPPA/mount sockets, which reconnect via their internal loop
+    // instead of fetchAllInfos: drop any backoff built up while backgrounded
+    // (every dial failed -> maxed out at 10s) and redial now. No-op when the
+    // respective socket was disconnected on purpose.
+    websocketTppaService.resumeAfterBackground();
+    websocketMountControlService.resumeAfterBackground();
+
+    // Kill all HTTP requests still in flight from before the background phase.
+    // Their TCP connections are likely dead (Android cuts them), but they hog
+    // the browser's ~6 connection slots per host until they time out - the
+    // reconnect probes below would queue behind them for many seconds.
+    abortInFlightRequests();
 
     await store.fetchAllInfos(t);
     // The app may have been paused again while we were awaiting above (long async

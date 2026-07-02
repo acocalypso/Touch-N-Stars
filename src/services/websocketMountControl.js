@@ -88,6 +88,12 @@ class WebSocketMountControlService {
     this._rws.disconnect();
   }
 
+  resumeAfterBackground() {
+    // No-op unless the slew page is open (it disconnects on unmount, which
+    // turns the reconnect loop off).
+    this._rws.resumeReconnect();
+  }
+
   sendMessage(message) {
     this._rws.send(message);
   }

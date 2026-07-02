@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { useToastStore } from '@/store/toastStore';
 import { createStructuredLog } from './logger';
+import { getHttpAbortSignal } from './httpLifecycle';
 
 // Rate limiting cache for toast notifications
 const toastCache = new Map();
@@ -13,6 +14,11 @@ export function setupErrorHandler() {
   axios.interceptors.request.use((config) => {
     // Track request start time
     config.metadata = { startTime: performance.now() };
+    // Attach the app-wide abort signal (unless the caller brought its own) so
+    // stale in-flight requests can be killed on app resume - see httpLifecycle.js.
+    if (!config.signal) {
+      config.signal = getHttpAbortSignal();
+    }
     return config;
   });
 
@@ -136,6 +142,22 @@ export function setupErrorHandler() {
       const duration = error.config?.metadata?.startTime
         ? Math.round(performance.now() - error.config.metadata.startTime)
         : null;
+
+      // Deliberately canceled (stale requests aborted on app resume): not an
+      // error condition, skip the ERROR log/toast machinery entirely.
+      if (error.code === 'ERR_CANCELED') {
+        return {
+          data: {
+            Response: '',
+            Error: 'Request canceled',
+            StatusCode: 499,
+            Success: false,
+            Type: 'API',
+          },
+          status: 499,
+          config: error.config,
+        };
+      }
 
       let message;
       let category = 'NETWORK';

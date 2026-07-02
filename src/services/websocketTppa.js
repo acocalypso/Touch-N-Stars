@@ -67,6 +67,10 @@ class WebSocketTppaService {
     this._rws.disconnect();
   }
 
+  resumeAfterBackground() {
+    this._rws.resumeReconnect();
+  }
+
   sendMessage(message) {
     this._rws.send(message);
   }

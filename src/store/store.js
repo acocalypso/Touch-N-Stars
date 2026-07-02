@@ -215,10 +215,16 @@ export const apiStore = defineStore('store', {
 
       if (!this.isBackendReachable) this.closeErrorModal = false;
 
+      // Right after a resume the connection pool may still hold dead sockets
+      // from the background phase; a probe riding one hangs for the full 10s
+      // default timeout. Fail fast instead - the poller retries every cycle
+      // anyway, and the flag clears itself 10s after the resume.
+      const probeTimeout = this.isPageRecentlyReturnedFromBackground() ? 3000 : undefined;
+
       try {
         //const tnsVersionResponse = await apiService.fetchTnsPluginVersion(); //Check if Plugin is reachable
         const tnsVersionResponse = await tryWithRetry(
-          () => apiService.fetchTnsPluginVersion(),
+          () => apiService.fetchTnsPluginVersion(probeTimeout),
           this.connectingAttempts
         );
         if (!tnsVersionResponse) {
@@ -254,7 +260,7 @@ export const apiStore = defineStore('store', {
           //fetch API Port
           //const response = await apiService.fetchApiPort();
           const response = await tryWithRetry(
-            () => apiService.fetchApiPort(),
+            () => apiService.fetchApiPort(probeTimeout),
             this.connectingAttempts
           );
           //console.log('API Port response:', response);
@@ -283,7 +289,7 @@ export const apiStore = defineStore('store', {
         if (this.apiPort) {
           //const responseApoVersion = await apiService.fetchApiVersion();
           const responseApiVersion = await tryWithRetry(
-            () => apiService.fetchApiVersion(),
+            () => apiService.fetchApiVersion(probeTimeout),
             this.connectingAttempts
           );
           //console.log('API Version response:', responseApiVersion);

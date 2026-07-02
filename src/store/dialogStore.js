@@ -79,7 +79,7 @@ export const useDialogStore = defineStore('dialogStore', {
               currentDialog.ContentType,
               buttonName
             );
-            await signalRDialogService.connection.invoke(
+            await signalRDialogService.invoke(
               'ClickDialogButton',
               currentDialog.ContentType,
               buttonName
@@ -199,10 +199,12 @@ export const useDialogStore = defineStore('dialogStore', {
           this.isConnectedToSignalR = status === 'Connected' || status === 'Reconnected';
         });
 
-        // Connect
+        // Connect. isConnectedToSignalR is driven exclusively by the status
+        // callback above: connect() can resolve without a live connection when
+        // the first attempt fails (the factory arms a background restart
+        // instead of rejecting), so it must not set the flag itself here.
         await signalRDialogService.connect();
-        console.log('[dialogStore] Dialog SignalR connection established');
-        this.isConnectedToSignalR = true;
+        console.log('[dialogStore] Dialog SignalR connect() attempt finished');
       } catch (error) {
         console.error('[dialogStore] Failed to establish SignalR connection:', error);
         this.isConnectedToSignalR = false;

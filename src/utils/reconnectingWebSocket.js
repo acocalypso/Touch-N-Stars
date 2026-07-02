@@ -129,6 +129,22 @@ export class ReconnectingWebSocket {
     this._backoffMs = this._backoffInitialMs;
     this._shouldReconnect = true;
 
+    return this._dial(timeoutMs);
+  }
+
+  /**
+   * Open a socket without touching backoff/shouldReconnect state. This is the
+   * dial path used by the internal reconnect loop, which must NOT reset the
+   * backoff on every attempt - otherwise _scheduleReconnect() always sees the
+   * initial value and the exponential growth/cap never takes effect.
+   * @param {number} [timeoutMs]
+   * @returns {Promise<void>}
+   */
+  _dial(timeoutMs = this.connectTimeoutMs) {
+    if (this._pendingConnect) {
+      return this._pendingConnect;
+    }
+
     const connectPromise = new Promise((resolve, reject) => {
       this._rejectCurrent = null;
       this._socketId++;
@@ -141,6 +157,14 @@ export class ReconnectingWebSocket {
 
       const url = this._getUrl();
       if (!url) {
+        // Arm the self-healing idle-recheck loop here too, or a connect() call
+        // that happens to land while getUrl() is still null (e.g. a page
+        // mounting before the API port handshake finishes) would reject once
+        // and never dial again - onclose (which normally schedules this) never
+        // fires because no socket was ever created.
+        if (this._shouldReconnect) {
+          this._scheduleReconnect();
+        }
         reject(new Error(`[${this.name}] cannot connect: no URL available`));
         return;
       }
@@ -287,7 +311,7 @@ export class ReconnectingWebSocket {
       this._reconnectTimerId = null;
       // Re-check the gate right before dialing - conditions may have changed
       if (this._shouldReconnect && this._canReconnect() && this._getUrl() !== null) {
-        this.connect().catch(() => {
+        this._dial().catch(() => {
           // onclose will schedule the next attempt; nothing to do here
         });
       } else {

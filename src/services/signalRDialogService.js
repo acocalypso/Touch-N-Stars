@@ -66,6 +66,10 @@ class SignalRDialogService {
   isSignalRConnected() {
     return this._service.isSignalRConnected();
   }
+
+  invoke(methodName, ...args) {
+    return this._service.sendMessage(methodName, ...args);
+  }
 }
 
 const signalRDialogService = new SignalRDialogService();

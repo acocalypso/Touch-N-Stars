@@ -220,6 +220,38 @@ test('backoff grows and is capped, resets on open', async (t) => {
   assert.equal(rws.isOpen(), true);
 });
 
+test('backoff delay is exact per attempt, not just eventually reached', async (t) => {
+  // Regression test: connect() must not reset the backoff when it's invoked by
+  // the internal reconnect loop, or every attempt silently falls back to
+  // backoffInitialMs regardless of how many times it has failed. Unlike the
+  // "grows and is capped" test above, this asserts no-dial-yet at each delay
+  // boundary instead of only checking cumulative time, so a flat 500ms retry
+  // loop cannot pass by accident.
+  const { rws, timers, lastSocket } = setup(t);
+  const socketsAfter = () => liveSockets.length;
+
+  rws.connect();
+  assert.equal(socketsAfter(), 1);
+  lastSocket().emitClose(); // schedules reconnect at 500
+
+  await timers.advance(499);
+  assert.equal(socketsAfter(), 1, 'must not redial before the 500ms delay elapses');
+  await timers.advance(1);
+  assert.equal(socketsAfter(), 2, 'redials once the 500ms delay elapses');
+  lastSocket().emitClose(); // schedules reconnect at 900
+
+  await timers.advance(899);
+  assert.equal(socketsAfter(), 2, 'must not redial before the 900ms delay elapses');
+  await timers.advance(1);
+  assert.equal(socketsAfter(), 3, 'redials once the 900ms delay elapses');
+  lastSocket().emitClose(); // schedules reconnect at 1620
+
+  await timers.advance(1619);
+  assert.equal(socketsAfter(), 3, 'must not redial before the 1620ms delay elapses');
+  await timers.advance(1);
+  assert.equal(socketsAfter(), 4, 'redials once the 1620ms delay elapses');
+});
+
 test('manual connect() resets backoff and cancels the pending reconnect timer', (t) => {
   const { rws, timers, lastSocket } = setup(t);
   rws.connect();
@@ -298,6 +330,31 @@ test('getUrl() returning null: connect rejects and creates no socket', async (t)
   assert.equal(liveSockets.length, 1);
   lastSocket().emitOpen();
   await p2;
+  assert.equal(rws.isOpen(), true);
+});
+
+test('connect() with a null URL from the very first attempt self-heals without a second manual connect()', async (t) => {
+  // Regression test: unlike the test above (which recovers via a second manual
+  // connect() call), a real caller like a mounting page only calls connect()
+  // once. If that first attempt hits a null URL (e.g. the API port handshake
+  // hasn't finished yet), the reconnect loop must arm itself here - onclose
+  // never fires to do it, since no socket was ever created.
+  let url = null;
+  const { rws, timers, lastSocket } = setup(t, { getUrl: () => url });
+
+  const p = rws.connect();
+  await assert.rejects(p, /no URL available/);
+  assert.equal(liveSockets.length, 0, 'no socket created while URL is null');
+  assert.equal(timers.pendingCount(), 1, 'an idle-recheck timer must be armed');
+
+  // URL becomes available later, purely through the idle-recheck loop - no
+  // second connect() call from the caller. The recheck fires at the max-backoff
+  // cadence (10000ms), then schedules the actual dial after one more backoff
+  // delay, so give it more than 10000ms total.
+  url = 'ws://localhost:9/x';
+  await timers.advance(11000);
+  assert.equal(liveSockets.length, 1, 'the idle recheck dialed on its own once the URL appeared');
+  lastSocket().emitOpen();
   assert.equal(rws.isOpen(), true);
 });
 

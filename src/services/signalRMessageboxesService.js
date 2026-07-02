@@ -59,6 +59,10 @@ class SignalRMessageboxesService {
   isSignalRConnected() {
     return this._service.isSignalRConnected();
   }
+
+  invoke(methodName, ...args) {
+    return this._service.sendMessage(methodName, ...args);
+  }
 }
 
 const signalRMessageboxesService = new SignalRMessageboxesService();

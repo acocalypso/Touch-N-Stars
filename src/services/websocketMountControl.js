@@ -37,6 +37,14 @@ class WebSocketMountControlService {
       },
       canReconnect: () => {
         const store = apiStore();
+        // PINS serves this socket from the TNS plugin port directly (see
+        // getUrl() above), independent of the ninaAPI. Gating on isApiConnected
+        // too would keep the manual slew socket dead whenever the ninaAPI is
+        // briefly unreachable, even though the plugin endpoint this socket
+        // actually talks to is fine.
+        if (store.isPINS) {
+          return store.isTnsPluginConnected;
+        }
         return store.isApiConnected && store.isTnsPluginConnected;
       },
       onOpen: () => {

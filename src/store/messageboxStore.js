@@ -18,11 +18,7 @@ export const useMessageboxStore = defineStore('messageboxStore', {
             result
           );
 
-          await signalRMessageboxesService.connection.invoke(
-            'RespondToMessageBox',
-            messageBoxId,
-            result
-          );
+          await signalRMessageboxesService.invoke('RespondToMessageBox', messageBoxId, result);
 
           console.log('[messageboxStore] MessageBox response sent successfully');
           return { Success: true };
@@ -70,10 +66,12 @@ export const useMessageboxStore = defineStore('messageboxStore', {
           this.isConnectedToSignalR = status === 'Connected' || status === 'Reconnected';
         });
 
-        // Connect
+        // Connect. isConnectedToSignalR is driven exclusively by the status
+        // callback above: connect() can resolve without a live connection when
+        // the first attempt fails (the factory arms a background restart
+        // instead of rejecting), so it must not set the flag itself here.
         await signalRMessageboxesService.connect();
-        console.log('[messageboxStore] Messagebox SignalR connection established');
-        this.isConnectedToSignalR = true;
+        console.log('[messageboxStore] Messagebox SignalR connect() attempt finished');
       } catch (error) {
         console.error('[messageboxStore] Failed to establish SignalR connection:', error);
         this.isConnectedToSignalR = false;

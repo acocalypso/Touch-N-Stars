@@ -15,6 +15,12 @@ const CHANNEL_CONNECT_TIMEOUT_MS = 5000;
 // back within PROBE_TIMEOUT_MS, treat it as a zombie half-open socket.
 const STALE_AFTER_MS = 30000;
 const PROBE_TIMEOUT_MS = 10000;
+// A single probe's bufferedAmount rarely proves anything: a small subscribe
+// frame is handed off to the OS send buffer almost instantly even over a dead
+// (NAT-dropped) TCP connection, so the "stuck buffer" case below almost never
+// fires in practice. Falling back to reconnecting after this many consecutive
+// inconclusive probes catches the common case the buffer check misses.
+const MAX_INCONCLUSIVE_PROBES = 3;
 
 /**
  * Main event channel WebSocket (image events, device events, livestack, ...).
@@ -32,7 +38,7 @@ class WebSocketChannelService {
 
     this._subscriptions = new Set();
     this._probeSentAt = null;
-    this._probeBufferedAmount = 0;
+    this._inconclusiveProbeCount = 0;
 
     this._rws = new ReconnectingWebSocket({
       name: 'Channel',
@@ -112,7 +118,15 @@ class WebSocketChannelService {
 
   subscribe(eventType) {
     this._subscriptions.add(eventType);
-    this._rws.send({ action: 'subscribe', eventType });
+    // Only send immediately if the socket is already open. Adding to the
+    // registry alone is enough otherwise: onOpen replays every registered
+    // subscription, whether this connect() call or the internal reconnect
+    // loop is the one that eventually opens the socket. Sending here
+    // unconditionally would fail silently on every call made before the
+    // first successful connect and spam the error status on each poll tick.
+    if (this._rws.isOpen()) {
+      this._rws.send({ action: 'subscribe', eventType });
+    }
   }
 
   unsubscribe(eventType) {
@@ -129,9 +143,12 @@ class WebSocketChannelService {
     return this._rws.forceReconnect();
   }
 
+  // Full reset: called when the connection is known-good (a message arrived)
+  // or its lifecycle just turned over (open/close), so any accumulated
+  // inconclusive-probe history no longer applies.
   _clearProbe() {
     this._probeSentAt = null;
-    this._probeBufferedAmount = 0;
+    this._inconclusiveProbeCount = 0;
   }
 
   /**
@@ -158,7 +175,6 @@ class WebSocketChannelService {
         const probeEvent = this._subscriptions.values().next().value || 'IMAGE-SAVE';
         this._rws.send({ action: 'subscribe', eventType: probeEvent });
         this._probeSentAt = now;
-        this._probeBufferedAmount = this._rws.bufferedAmount;
       }
       return;
     }
@@ -167,17 +183,27 @@ class WebSocketChannelService {
     // via onMessage, so if we're still here the socket has been silent since.
     if (now - this._probeSentAt > PROBE_TIMEOUT_MS) {
       // The frame we sent never left userland (send buffer still not drained) =>
-      // the TCP send window is stalled => the peer is gone. This is the one
-      // conclusive signal we get without server-side pong support; a drained
-      // buffer on an idle-but-alive session is indistinguishable from a healthy
-      // one, so we only reconnect on this evidence to avoid false positives.
+      // the TCP send window is stalled => the peer is gone. This is a conclusive
+      // signal, but rarely fires in practice: a tiny probe frame is handed off to
+      // the OS send buffer almost instantly even over a dead (NAT-dropped)
+      // connection, so a drained buffer here does NOT prove the peer is alive.
       const stuckBuffer = this._rws.bufferedAmount > 0;
       if (stuckBuffer) {
         console.warn('[Channel] zombie socket detected (send buffer stalled), reconnecting');
         this.forceReconnect();
+        return;
+      }
+
+      this._inconclusiveProbeCount += 1;
+      if (this._inconclusiveProbeCount >= MAX_INCONCLUSIVE_PROBES) {
+        console.warn(
+          `[Channel] zombie socket suspected (${this._inconclusiveProbeCount} silent probes), reconnecting`
+        );
+        this.forceReconnect();
       } else {
-        // Inconclusive: reset the probe and let the next stale window try again.
-        this._clearProbe();
+        // Inconclusive: reset just the in-flight probe timer (not the count) and
+        // let the next stale window try again.
+        this._probeSentAt = null;
       }
     }
   }

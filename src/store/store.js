@@ -335,12 +335,19 @@ export const apiStore = defineStore('store', {
             this.handleWebSocketMessage(message);
           });
 
+          // Register the subscription before connecting: subscribe() always
+          // adds to the replay registry regardless of connection state. If
+          // registered only after a successful connect() below, a timed-out
+          // first attempt would skip it - and once the internal reconnect loop
+          // opens the socket on its own later, it replays an empty registry,
+          // silently dropping IMAGE-SAVE events until a full clearAllStates().
+          websocketChannelService.subscribe('IMAGE-SAVE');
+
           // The connect timeout is owned by the service (channel socket core);
           // no need to pass one here.
           try {
             await websocketChannelService.connect();
             this.isWebSocketConnected = true;
-            websocketChannelService.subscribe('IMAGE-SAVE');
             // Initial image history load after WS connect
             try {
               const historyResponse = await apiService.imageHistoryAll();

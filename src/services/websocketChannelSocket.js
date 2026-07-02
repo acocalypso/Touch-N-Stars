@@ -1,21 +1,81 @@
 import { useSettingsStore } from '../store/settingsStore';
 import { apiStore } from '@/store/store';
+import { ReconnectingWebSocket } from '@/utils/reconnectingWebSocket';
 
 const backendProtokol = 'ws';
 const backendPfad = '/v2/socket';
 
+// Single owner of the connect timeout. The old code kept three call sites
+// (store.js, the internal reconnect loop, the default) manually aligned at
+// 5000ms; the core now owns one timeout, so the alignment is structural.
+const CHANNEL_CONNECT_TIMEOUT_MS = 5000;
+
+// Staleness watchdog: if the socket looks open but no message has arrived for
+// STALE_AFTER_MS while HTTP is healthy, send a cheap probe and, if nothing comes
+// back within PROBE_TIMEOUT_MS, treat it as a zombie half-open socket.
+const STALE_AFTER_MS = 30000;
+const PROBE_TIMEOUT_MS = 10000;
+
+/**
+ * Main event channel WebSocket (image events, device events, livestack, ...).
+ * Thin adapter over ReconnectingWebSocket. App-scoped singleton.
+ *
+ * Keeps a subscription registry so subscriptions are replayed on every (re)open
+ * - the old code only re-subscribed when fetchAllInfos() itself did the connect,
+ * so a reconnect driven by the internal loop silently dropped every subscription.
+ */
 class WebSocketChannelService {
   constructor() {
-    this.socket = null;
+    // Public fields: LiveStack chains by reading these directly.
     this.statusCallback = null;
     this.messageCallback = null;
-    this.backendUrl = null;
-    this.reconnectDelay = 2000; // 2 Sekunden
-    this.shouldReconnect = true;
-    this.isConnected = false;
-    this.reconnectTimeoutId = null; // Track reconnect timeout
-    this._socketId = 0; // Incremented on each connect() to invalidate stale socket handlers
-    this._pendingConnect = null; // in-flight connect() promise, shared by concurrent callers
+
+    this._subscriptions = new Set();
+    this._probeSentAt = null;
+    this._probeBufferedAmount = 0;
+
+    this._rws = new ReconnectingWebSocket({
+      name: 'Channel',
+      connectTimeoutMs: CHANNEL_CONNECT_TIMEOUT_MS,
+      getUrl: () => {
+        const settingsStore = useSettingsStore();
+        const store = apiStore();
+        const host = settingsStore.connection.ip || window.location.hostname;
+        const port = store.apiPort;
+        if (port === null || port === undefined) return null;
+        return `${backendProtokol}://${host}:${port}${backendPfad}`;
+      },
+      // Gate on the raw reachability inputs, not the composite isBackendReachable
+      // (which includes isWebSocketConnected and would create a cycle).
+      canReconnect: () => {
+        const store = apiStore();
+        return store.isApiConnected && store.isTnsPluginConnected;
+      },
+      onOpen: () => {
+        apiStore().isWebSocketConnected = true;
+        this._clearProbe();
+        // Replay every subscription so events keep flowing after any reconnect.
+        for (const eventType of this._subscriptions) {
+          this._rws.send({ action: 'subscribe', eventType });
+        }
+        if (this.statusCallback) this.statusCallback('Connected');
+      },
+      onClose: () => {
+        apiStore().isWebSocketConnected = false;
+        this._clearProbe();
+        if (this.statusCallback) this.statusCallback('Closed');
+      },
+      onStatus: (status) => {
+        if (status === 'error' && this.statusCallback) {
+          this.statusCallback('Error: channel websocket error');
+        }
+      },
+      onMessage: (message) => {
+        // Any inbound traffic proves the socket is alive.
+        this._clearProbe();
+        if (this.messageCallback) this.messageCallback(message);
+      },
+    });
   }
 
   setStatusCallback(callback) {
@@ -26,254 +86,100 @@ class WebSocketChannelService {
     this.messageCallback = callback;
   }
 
-  // Default matches the internal auto-reconnect loop's timeout (see below). Any caller
-  // that omits it, or passes a shorter one, risks claiming the dedup slot below with too
-  // little patience: since concurrent connect() calls now piggyback on whichever attempt
-  // started first, a short-timeout caller that happens to fire first would silently
-  // downgrade what was meant to be a more patient attempt - undermining the whole point
-  // of the internal loop's longer timeout (radios need a few seconds to wake up).
-  connect(timeout = 5000) {
-    // A connect() attempt is already in flight (typically the internal auto-reconnect
-    // loop below). Concurrent callers - most notably fetchAllInfos() polling on its own
-    // ~2s cadence - used to start a *competing* connect() that tore down and replaced
-    // the in-flight one. With both loops retrying on a similar cadence, they kept
-    // cancelling each other roughly every 2 seconds, so neither ever got an
-    // uninterrupted window to actually finish the WebSocket handshake - a self-inflicted
-    // livelock that could stretch reconnection out to 10+ seconds. Piggyback on the
-    // existing attempt instead of starting a new one.
-    if (this._pendingConnect) {
-      return this._pendingConnect;
-    }
+  get shouldReconnect() {
+    return this._rws.shouldReconnect;
+  }
 
-    const connectPromise = new Promise((resolve, reject) => {
-      // Setze shouldReconnect auf true bei jedem Connect-Versuch
-      this.shouldReconnect = true;
+  set shouldReconnect(value) {
+    this._rws.shouldReconnect = value;
+  }
 
-      // Invalidate any previous socket's event handlers by incrementing the id
-      this._socketId++;
-      const socketId = this._socketId;
-
-      // Close any existing socket to avoid orphaned connections
-      if (this.socket && this.socket.readyState !== WebSocket.CLOSED) {
-        this.socket.close();
-      }
-
-      const settingsStore = useSettingsStore();
-      const store = apiStore();
-      const backendPort = store.apiPort;
-      const backendHost = settingsStore.connection.ip || window.location.hostname;
-
-      // Sicherheitsprüfung: apiPort muss gesetzt sein
-      if (backendPort === null || backendPort === undefined) {
-        reject(new Error('WebSocket connection failed: API port not available'));
-        return;
-      }
-
-      this.backendUrl = `${backendProtokol}://${backendHost}:${backendPort}${backendPfad}`;
-      //console.log('Channel WebSocket URL: ', this.backendUrl);
-
-      this.socket = new WebSocket(this.backendUrl);
-
-      // Timeout wenn Verbindung zu lange dauert
-      const timeoutId = setTimeout(() => {
-        if (socketId !== this._socketId) return; // stale socket, ignore
-        if (!this.isConnected) {
-          // WICHTIG: Socket schließen, damit onclose-Handler getriggert wird
-          if (this.socket && this.socket.readyState !== WebSocket.CLOSED) {
-            this.socket.close();
-          }
-          reject(new Error('WebSocket connection timeout'));
-        }
-      }, timeout);
-
-      this.socket.onopen = () => {
-        if (socketId !== this._socketId) return; // stale socket, ignore
-        //console.log('Channel WebSocket verbunden.');
-        clearTimeout(timeoutId);
-        this.isConnected = true;
-        if (this.statusCallback) {
-          this.statusCallback('Connected');
-        }
-        resolve();
-      };
-
-      this.socket.onmessage = (event) => {
-        if (socketId !== this._socketId) return; // stale socket, ignore
-        //console.log('Channel Nachricht empfangen:', event.data);
-        try {
-          let message;
-          if (event.data.startsWith('{') || event.data.startsWith('[')) {
-            message = JSON.parse(event.data);
-          } else {
-            message = event.data;
-          }
-
-          if (this.messageCallback) {
-            this.messageCallback(message);
-          }
-        } catch (error) {
-          console.error('Channel error parsing message:', error);
-          if (this.messageCallback) {
-            this.messageCallback(event.data);
-          }
-          if (this.statusCallback) {
-            this.statusCallback('Error receiving message');
-          }
-        }
-      };
-
-      this.socket.onerror = (error) => {
-        if (socketId !== this._socketId) return; // stale socket, ignore
-        console.error('Channel WebSocket error:', error);
-        clearTimeout(timeoutId);
-        this.isConnected = false;
-        if (this.statusCallback) {
-          this.statusCallback('Error: ' + error.message);
-        }
-        // NICHT reject() hier - onclose wird automatisch nach onerror getriggert
-        // und handled den Reconnect
-      };
-
-      this.socket.onclose = (event) => {
-        if (socketId !== this._socketId) return; // stale socket, ignore
-        console.log('Channel WebSocket closed.', event.code, event.reason);
-        clearTimeout(timeoutId);
-        this.isConnected = false;
-
-        // Store-Flag aktualisieren
-        const store = apiStore();
-        store.isWebSocketConnected = false;
-
-        if (this.statusCallback) {
-          this.statusCallback('Closed');
-        }
-
-        // Socket closed before ever successfully opening (e.g. connection refused) -
-        // settle the connect() promise now instead of leaving the caller hanging.
-        // A no-op if onopen already resolved it.
-        reject(new Error('WebSocket closed before connection was established'));
-
-        // Reconnect basierend auf shouldReconnect und ob API/TNS-Plugin erreichbar sind
-        // Warte NICHT auf isBackendReachable, da das einen Teufelskreis erzeugt
-        const shouldAttemptReconnect =
-          this.shouldReconnect &&
-          store.isApiConnected &&
-          store.isTnsPluginConnected &&
-          store.apiPort !== null;
-
-        if (shouldAttemptReconnect) {
-          console.log(
-            `Channel WebSocket: Attempting to reconnect in ${this.reconnectDelay / 1000} seconds...`
-          );
-          // WICHTIG: Timeout tracken, damit es bei disconnect() gecleard werden kann
-          this.reconnectTimeoutId = setTimeout(() => {
-            this.reconnectTimeoutId = null;
-            // Erneute Prüfung vor Reconnect
-            const recheckConditions =
-              this.shouldReconnect &&
-              store.isApiConnected &&
-              store.isTnsPluginConnected &&
-              store.apiPort !== null;
-
-            if (recheckConditions) {
-              // Use a longer timeout than the default 500ms here: right after the
-              // app resumes from background, the radio (WiFi/mobile) is often still
-              // waking up and a real handshake can take a few seconds. With the
-              // short default this loop would time out forever every 2s and never
-              // succeed, even though the backend is otherwise reachable.
-              this.connect(5000)
-                .then(() => {
-                  // KRITISCH: Store-Flag aktualisieren nach erfolgreichem Reconnect!
-                  store.isWebSocketConnected = true;
-                  console.log('WebSocket successfully reconnected');
-                })
-                .catch((error) => {
-                  console.warn('WebSocket reconnect failed:', error.message);
-                  store.isWebSocketConnected = false;
-                });
-            }
-          }, this.reconnectDelay);
-        }
-      };
-    });
-
-    this._pendingConnect = connectPromise;
-    connectPromise.finally(() => {
-      if (this._pendingConnect === connectPromise) {
-        this._pendingConnect = null;
-      }
-    });
-
-    return connectPromise;
+  connect(timeout = CHANNEL_CONNECT_TIMEOUT_MS) {
+    return this._rws.connect(timeout);
   }
 
   disconnect() {
-    this.shouldReconnect = false;
-    this.isConnected = false;
-
-    // Drop the dedup pointer now, before the async close below settles it. The
-    // in-flight promise (if any) will still resolve correctly via its own onclose
-    // handler - this just stops a connect() called right after disconnect() (e.g. the
-    // resume flow: disconnect() immediately followed by a fresh connect()) from being
-    // deduped onto a promise that's already on its way out.
-    this._pendingConnect = null;
-
-    // WICHTIG: Laufende Reconnect-Timeouts clearen
-    if (this.reconnectTimeoutId) {
-      clearTimeout(this.reconnectTimeoutId);
-      this.reconnectTimeoutId = null;
-    }
-
-    if (this.socket) {
-      this.socket.close();
-    }
+    this._clearProbe();
+    this._rws.disconnect();
   }
 
   sendMessage(message) {
-    if (this.socket && this.socket.readyState === WebSocket.OPEN) {
-      // Für strukturierte Nachrichten (Objekte) JSON.stringify verwenden
-      const messageToSend = typeof message === 'string' ? message : JSON.stringify(message);
-      this.socket.send(messageToSend);
-      console.log('Channel message sent:', message);
-    } else {
-      console.error('WebSocket is not connected. Message could not be sent.');
-      if (this.statusCallback) {
-        this.statusCallback('Error: WebSocket not connected');
+    const ok = this._rws.send(message);
+    if (!ok && this.statusCallback) {
+      this.statusCallback('Error: WebSocket not connected');
+    }
+  }
+
+  subscribe(eventType) {
+    this._subscriptions.add(eventType);
+    this._rws.send({ action: 'subscribe', eventType });
+  }
+
+  unsubscribe(eventType) {
+    this._subscriptions.delete(eventType);
+    this._rws.send({ action: 'unsubscribe', eventType });
+  }
+
+  isWebSocketConnected() {
+    return this._rws.isOpen();
+  }
+
+  forceReconnect() {
+    this._clearProbe();
+    return this._rws.forceReconnect();
+  }
+
+  _clearProbe() {
+    this._probeSentAt = null;
+    this._probeBufferedAmount = 0;
+  }
+
+  /**
+   * Detect and recover a zombie (half-open) socket. Called from the 2s
+   * fetchAllInfos() poll, which only runs its "already connected" branch when the
+   * HTTP chain just succeeded - so this is inherently "HTTP healthy, WS silent".
+   *
+   * Browser WebSockets have no ping frames, so we probe with a cheap re-subscribe
+   * (idempotent server-side) and watch for ANY inbound message. If none arrives
+   * within PROBE_TIMEOUT_MS we treat it as dead and force a reconnect.
+   */
+  checkStaleness() {
+    if (!this._rws.isOpen()) return;
+
+    const now = Date.now();
+    const lastMessageAt = this._rws.lastMessageAt;
+    const silentFor = lastMessageAt === null ? Infinity : now - lastMessageAt;
+
+    // No probe in flight yet: if silent too long, send one.
+    if (this._probeSentAt === null) {
+      if (silentFor > STALE_AFTER_MS) {
+        // Re-send an existing subscription as a liveness probe (idempotent). If
+        // there are none, IMAGE-SAVE is always registered by fetchAllInfos().
+        const probeEvent = this._subscriptions.values().next().value || 'IMAGE-SAVE';
+        this._rws.send({ action: 'subscribe', eventType: probeEvent });
+        this._probeSentAt = now;
+        this._probeBufferedAmount = this._rws.bufferedAmount;
+      }
+      return;
+    }
+
+    // A probe is in flight. Any received message would have cleared _probeSentAt
+    // via onMessage, so if we're still here the socket has been silent since.
+    if (now - this._probeSentAt > PROBE_TIMEOUT_MS) {
+      // The frame we sent never left userland (send buffer still not drained) =>
+      // the TCP send window is stalled => the peer is gone. This is the one
+      // conclusive signal we get without server-side pong support; a drained
+      // buffer on an idle-but-alive session is indistinguishable from a healthy
+      // one, so we only reconnect on this evidence to avoid false positives.
+      const stuckBuffer = this._rws.bufferedAmount > 0;
+      if (stuckBuffer) {
+        console.warn('[Channel] zombie socket detected (send buffer stalled), reconnecting');
+        this.forceReconnect();
+      } else {
+        // Inconclusive: reset the probe and let the next stale window try again.
+        this._clearProbe();
       }
     }
-  }
-
-  // Subscription zu WebSocket events
-  subscribe(eventType) {
-    const subscribeMessage = {
-      action: 'subscribe',
-      eventType: eventType,
-    };
-    this.sendMessage(subscribeMessage);
-  }
-
-  // Unsubscription von WebSocket events
-  unsubscribe(eventType) {
-    const unsubscribeMessage = {
-      action: 'unsubscribe',
-      eventType: eventType,
-    };
-    this.sendMessage(unsubscribeMessage);
-  }
-
-  // Status prüfen
-  isWebSocketConnected() {
-    return this.isConnected && this.socket && this.socket.readyState === 1;
-  }
-
-  // Force reconnect
-  forceReconnect() {
-    // Discard any dedup target so this always starts a genuinely fresh attempt.
-    this._pendingConnect = null;
-    if (this.socket) {
-      this.socket.close();
-    }
-    this.connect();
   }
 }
 

@@ -7,13 +7,19 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [App5.0.0-beta8] - 2026-07-01
 ### Changed
+- Connection: All WebSocket connections (event channel, mount control, TPPA) now share a single reconnect engine with exponential backoff instead of a fixed 2-second retry, so a backend that is temporarily unreachable is no longer hammered every 2 seconds while still recovering promptly once it returns
 - Connection: Reworked the reconnect screen to be calmer and more useful - a brief background/foreground blip now only shows a neutral spinner, escalating to a friendlier message with "Retry now" and "Settings" actions (technical connection details tucked behind an optional "Show details") only if it's still not reachable after a few seconds; the "this may indicate a problem" warning now only appears after 15s instead of 10s, since reconnecting after being backgrounded can normally take up to ~12s on its own
 
 ### Fixed
+- Connection: Event subscriptions (new images, live stacking updates) are now re-established after every reconnect - previously a reconnect handled internally could silently stop delivering these events until the app was restarted
+- Connection: Detect and recover "zombie" connections where the socket looks open but no longer receives anything (e.g. after switching between WiFi and mobile data while the app stays in the foreground)
+- Connection: The mount control connection no longer keeps retrying every 2 seconds while the backend is unreachable, and now recovers on its own once it comes back without needing to leave and re-open the page
+- Connection: The TPPA alignment connection now reconnects through a single path (a duplicate retry loop was removed) and its pending reconnect can now be properly cancelled
 - Connection: Overlapping WebSocket reconnect attempts no longer cancel each other out every ~2 seconds, so reconnecting after resume is noticeably faster
 - Connection: The reconnect screen now shows immediately when returning from background instead of briefly showing stale data before the connection-error banner appears a few seconds later, but only after a brief grace period so a near-instant reconnect no longer flashes the overlay at all
 - Connection: A short-timeout WebSocket connect attempt could silently claim the shared reconnect slot and cap every subsequent attempt at its shorter timeout; reconnect timeouts are now consistent everywhere
 - Connection: Disconnecting no longer leaves a stale pending connection reference behind that could cause the next reconnect attempt to wait on an already-dying connection
+- Connection: The four SignalR services (PINS notifications, progress, dialogs, message boxes) no longer run two competing reconnect mechanisms at once
 
 
 ## [App5.0.0-beta7] - 2026-07-01

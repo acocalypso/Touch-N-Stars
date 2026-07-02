@@ -130,28 +130,13 @@ let failsafeTimeout = null; // Sicherheits-Timeout
 
 const sendCommand = (direction) => {
   console.log('sendCommand called for:', direction);
-  console.log('WebSocket exists:', !!websocketMountControl.socket);
-  console.log('WebSocket state:', websocketMountControl.socket?.readyState);
-  console.log('WebSocket OPEN constant:', WebSocket.OPEN);
-  console.log('WebSocket connected:', mountStore.wsIsConnected);
-  console.log('WebSocket comparison:', websocketMountControl.socket?.readyState === WebSocket.OPEN);
 
-  // Prüfe zuerst den Store-Status
   if (!mountStore.wsIsConnected) {
-    console.error('WebSocket is not connected (Store).');
+    console.error('WebSocket is not connected.');
     return;
   }
 
-  // Vereinfachte Überprüfung - nur auf readyState 1 (OPEN) prüfen
-  if (!websocketMountControl.socket || websocketMountControl.socket.readyState !== 1) {
-    console.error(
-      'WebSocket ist nicht verbunden (Socket). State:',
-      websocketMountControl.socket?.readyState
-    );
-    return;
-  }
-
-  // WICHTIG: Stoppe zuerst das alte Intervall falls es noch läuft!
+  // Stop a still-running interval before starting a new one
   if (commandInterval) {
     clearInterval(commandInterval);
     commandInterval = null;
@@ -160,37 +145,33 @@ const sendCommand = (direction) => {
 
   mountStore.lastDirection = direction;
 
-  const sendMessage = () => {
-    if (!websocketMountControl.socket || websocketMountControl.socket.readyState !== 1) {
-      console.error(
-        'WebSocket lost during command. State:',
-        websocketMountControl.socket?.readyState
-      );
+  const sendMoveMessage = () => {
+    if (!mountStore.wsIsConnected) {
+      console.error('WebSocket lost during command.');
       clearInterval(commandInterval);
       commandInterval = null;
       return;
     }
 
-    console.log('sendMessage');
     // PINS sets the slew rate separately via the capability REST endpoint, so movement is
     // direction only. Upstream NINA still carries the rate on each message.
     const message = store.isPINS
       ? { direction: direction }
       : { direction: direction, rate: settingsStore.mount.slewRate };
 
-    websocketMountControl.socket.send(JSON.stringify(message));
+    websocketMountControl.sendMessage(JSON.stringify(message));
     console.log(`WS command sent:`, message);
   };
 
-  sendMessage(); // Sende den Befehl sofort
-  commandInterval = setInterval(sendMessage, 800); // Wiederhole jede Sekunde
+  sendMoveMessage(); // send the command immediately
+  commandInterval = setInterval(sendMoveMessage, 800);
 
-  // Sicherheits-Timeout: Stoppt automatisch nach 30 Sekunden
+  // Failsafe: stop automatically after 30 seconds
   if (failsafeTimeout) {
     clearTimeout(failsafeTimeout);
   }
   failsafeTimeout = setTimeout(() => {
-    console.log('FAILSAFE: Automatischer Stop nach 30s');
+    console.log('FAILSAFE: automatic stop after 30s');
     sendStop();
   }, 30000);
 };
@@ -245,13 +226,9 @@ const sendStop = () => {
     console.log('Failsafe timeout cleared');
   }
 
-  // Vereinfachte WebSocket-Überprüfung wie bei sendCommand
-  if (!websocketMountControl.socket || websocketMountControl.socket.readyState !== 1) {
-    console.error(
-      'WebSocket is not connected for stop. State:',
-      websocketMountControl.socket?.readyState
-    );
-    // Trotzdem lastDirection zurücksetzen
+  if (!mountStore.wsIsConnected) {
+    console.error('WebSocket is not connected for stop.');
+    // Reset lastDirection anyway
     mountStore.lastDirection = '';
     return;
   }
@@ -260,7 +237,7 @@ const sendStop = () => {
     ? { direction: 'stop' }
     : { direction: mountStore.lastDirection, rate: 0 };
 
-  websocketMountControl.socket.send(JSON.stringify(message));
+  websocketMountControl.sendMessage(JSON.stringify(message));
   console.log(`WS stop command sent:`, message);
   mountStore.lastDirection = '';
 };

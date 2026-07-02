@@ -587,16 +587,8 @@ onMounted(() => {
     console.log('status updated tppa ws:', status);
     isConnected.value = status === 'connected';
     tppaStore.isConnected = isConnected.value;
-
-    // Automatische Wiederverbindung wenn Verbindung geschlossen wurde
-    if (status === 'Closed') {
-      console.log('connection closed, trying to reconnect in 2 seconds');
-      setTimeout(() => {
-        if (!isConnected.value) {
-          websocketService.connect();
-        }
-      }, 2000);
-    }
+    // Reconnecting is owned entirely by the websocket service; a second
+    // reconnect loop here would race the service's own timer.
   });
 
   websocketService.setMessageCallback((message) => {

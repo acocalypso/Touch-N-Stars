@@ -1,6 +1,6 @@
 {
   "name": "touch-n-stars",
-  "version": "5.0.0-beta8",
+  "version": "5.0.0-beta9",
   "private": true,
   "type": "module",
   "scripts": {

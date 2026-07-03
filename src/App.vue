@@ -369,6 +369,7 @@ import PickerOverlay from '@/components/helpers/PickerOverlay.vue';
 import Modal from '@/components/helpers/Modal.vue';
 import { usePinsStore } from '@/plugins/pins/store/pinsStore';
 import { useFlatassistantStore } from '@/store/flatassistantStore';
+import { useGuiderStore } from '@/store/guiderStore';
 import { useNightSummaryStore } from '@/plugins/nightsummary/store/nightsummaryStore';
 import websocketChannelService from '@/services/websocketChannelSocket';
 import websocketTppaService from '@/services/websocketTppa';
@@ -461,6 +462,7 @@ watch(
 const sequenceStore = useSequenceStore();
 const logStore = useLogStore();
 const flatsStore = useFlatassistantStore();
+const guiderStore = useGuiderStore();
 
 // Global flat run outcome — fires regardless of which page is active.
 // prevRun !== null guard mirrors the original page watcher: first setter wins,
@@ -763,6 +765,12 @@ let resumeDebounceId = null;
 // leaving the app permanently disconnected even after coming back to foreground.
 let resumePending = false;
 const RESUME_DEBOUNCE_MS = 300;
+// guiderStore's poller is normally owned by GuiderGraph.vue's mount lifecycle
+// (only running while that view is open), not started globally like the other
+// stores. Track whether it was actually running at pause time so resume only
+// restarts it when the guiding view was open, instead of starting a poller
+// for a view that isn't even mounted.
+let wasGuiderFetchingBeforePause = false;
 
 function pauseApp() {
   // Cancel any pending resume so a quick background->foreground->background does
@@ -782,6 +790,8 @@ function pauseApp() {
   flatsStore.stopFetchingFlats();
   cameraStore.stopCountdown();
   dialogStore.stopPolling();
+  wasGuiderFetchingBeforePause = guiderStore.isFetchingGraph();
+  guiderStore.stopFetching();
   // Keine States zurücksetzen - UI bleibt erhalten
 }
 
@@ -861,6 +871,13 @@ async function performResume() {
     if (isPaused) return;
     store.startFetchingInfo(t);
     logStore.startFetchingLog();
+    // Only restart the guider graph poller if the guiding view was actually
+    // open when we paused - otherwise this would start polling for a view
+    // that isn't mounted (GuiderGraph.vue normally owns this via its own
+    // onMounted/onBeforeUnmount).
+    if (wasGuiderFetchingBeforePause) {
+      guiderStore.startFetching();
+    }
 
     // PINS detection already ran inside fetchAllInfos() above; calling it again
     // here would burn a second consecutive negative-check attempt in the same

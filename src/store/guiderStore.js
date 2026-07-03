@@ -256,6 +256,10 @@ export const useGuiderStore = defineStore('guiderStore', {
       this._graphPoller?.stop();
     },
 
+    isFetchingGraph() {
+      return this._graphPoller?.isRunning() ?? false;
+    },
+
     async setPHD2Profil(id) {
       if (this.isDarkLibraryBuildActive) {
         console.warn('PHD2 dark library build active – aborting setPHD2Profil');

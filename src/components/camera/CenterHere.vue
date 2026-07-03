@@ -212,10 +212,7 @@ async function calculateRaDec() {
   let sensorWidth = store.cameraInfo.XSize;
   let sensorHeight = store.cameraInfo.YSize;
 
-  sensorWidth = -1;
-
-  if (sensorWidth === -1) {
-    console.log('DSLR detected');
+  if (!sensorWidth || !sensorHeight || sensorWidth <= 0 || sensorHeight <= 0) {
     await fetchFramingInfo();
     sensorWidth = framingStore.framingInfo.CameraWidth;
     sensorHeight = framingStore.framingInfo.CameraHeight;
@@ -225,10 +222,6 @@ async function calculateRaDec() {
   const ratioX = sensorWidth / displayedWidth;
   const displayedHeight = rect.height;
   const ratioY = sensorHeight / displayedHeight;
-
-  console.log(
-    `Chipgröße org in Pixeln: ${Math.round(store.cameraInfo.XSize)} x ${Math.round(store.cameraInfo.YSize)}`
-  );
 
   // Bildmitte
   const centerX = rect.width / 2;

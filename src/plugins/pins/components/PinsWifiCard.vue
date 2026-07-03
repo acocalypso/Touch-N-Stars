@@ -145,6 +145,34 @@
       v-if="stationaryMode || allowConcurrentMode"
       class="w-full relative z-10 flex flex-col gap-3 mt-2 animate-fade-in-up"
     >
+      <div
+        class="rounded-lg border p-3 text-sm"
+        :class="
+          wifiIsConnected
+            ? 'border-emerald-700 bg-emerald-900/20 text-emerald-100'
+            : 'border-gray-700 bg-gray-900/40 text-gray-300'
+        "
+      >
+        <div class="flex flex-col gap-1 sm:flex-row sm:items-center sm:justify-between">
+          <div class="flex items-center gap-2">
+            <span
+              class="h-2.5 w-2.5 rounded-full"
+              :class="wifiIsConnected ? 'bg-emerald-400' : 'bg-gray-500'"
+            ></span>
+            <span class="font-semibold">
+              {{
+                wifiIsConnected
+                  ? $t('plugins.pins.wifiStatusConnected')
+                  : $t('plugins.pins.wifiStatusDisconnected')
+              }}
+            </span>
+          </div>
+          <div v-if="wifiIsConnected" class="text-xs text-emerald-200 sm:text-right">
+            <span>{{ wifiStatusLabel }}</span>
+          </div>
+        </div>
+      </div>
+
       <div v-if="isScanning" class="flex items-center gap-2 text-blue-400 py-4 justify-center">
         <svg
           class="animate-spin h-6 w-6"
@@ -252,15 +280,29 @@
 
         <button
           v-if="selectedSsid"
-          class="mt-2 w-full py-3 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white font-bold rounded-lg shadow-lg shadow-blue-900/20 transition-all disabled:opacity-50"
-          :disabled="disabled"
+          class="mt-2 w-full py-3 font-bold rounded-lg transition-all disabled:opacity-50"
+          :class="
+            isSelectedNetworkConnected
+              ? 'bg-gray-700 text-gray-300 border border-emerald-700/60'
+              : 'bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-500 hover:to-blue-600 text-white shadow-lg shadow-blue-900/20'
+          "
+          :disabled="disabled || isSelectedNetworkConnected"
           @click="$emit('connect-wifi')"
         >
-          {{ $t('plugins.pins.wifiConnect') }}
+          {{
+            isSelectedNetworkConnected
+              ? $t('plugins.pins.wifiConnectedAction')
+              : $t('plugins.pins.wifiConnect')
+          }}
         </button>
 
         <button
-          class="w-full py-3 bg-gradient-to-r from-red-700 to-red-800 hover:from-red-600 hover:to-red-700 text-white font-bold rounded-lg shadow-lg shadow-red-900/20 transition-all disabled:opacity-50"
+          class="w-full py-3 font-bold rounded-lg transition-all disabled:opacity-50"
+          :class="
+            wifiIsConnected
+              ? 'bg-gray-800 border border-red-700/70 text-red-200 hover:bg-red-900/30'
+              : 'bg-gradient-to-r from-red-700 to-red-800 hover:from-red-600 hover:to-red-700 text-white shadow-lg shadow-red-900/20'
+          "
           :disabled="disabled"
           @click="$emit('disconnect-wifi')"
         >
@@ -450,6 +492,11 @@ const props = defineProps({
     type: Array,
     required: true,
   },
+  wifiStatus: {
+    type: Object,
+    required: false,
+    default: null,
+  },
   selectedSsid: {
     type: String,
     required: true,
@@ -588,6 +635,36 @@ const canSaveHotspot = computed(() => {
   const inlinePassword = String(props.hotspotPassword || '').trim();
   const passwordValidLength = inlinePassword.length >= 8 && inlinePassword.length <= 63;
   return passwordValidLength || props.hotspotCanSaveWithSessionPassword;
+});
+
+const wifiIsConnected = computed(() => Boolean(props.wifiStatus?.connected));
+
+const wifiStatusLabel = computed(() => {
+  if (!wifiIsConnected.value) {
+    return '';
+  }
+
+  const parts = [];
+  if (props.wifiStatus?.ssid) {
+    parts.push(props.wifiStatus.ssid);
+  }
+  if (props.wifiStatus?.ipAddress) {
+    parts.push(props.wifiStatus.ipAddress);
+  }
+  if (props.wifiStatus?.interface) {
+    parts.push(props.wifiStatus.interface);
+  }
+  if (props.wifiStatus?.band) {
+    parts.push(props.wifiStatus.band);
+  }
+
+  return parts.join(' | ');
+});
+
+const isSelectedNetworkConnected = computed(() => {
+  const connectedSsid = String(props.wifiStatus?.ssid || '').trim();
+  const selected = String(props.selectedSsid || '').trim();
+  return Boolean(wifiIsConnected.value && connectedSsid && selected && connectedSsid === selected);
 });
 
 function sanitizePositiveInteger(value) {

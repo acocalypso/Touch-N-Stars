@@ -1447,6 +1447,8 @@
         "camera_settings_hint": "Pozostaw puste dla domyślnych ustawień NINA",
         "exposure_time": "Czas naświetlania (s)",
         "gain": "Wzmocnienie",
+        "filter": "Filtr",
+        "filter_default": "Domyślne",
         "nina_default": "Domyślne NINA",
         "ManualMode": "Tryb ręczny"
       },

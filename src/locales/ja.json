@@ -1455,6 +1455,8 @@
         "camera_settings_hint": "空欄の場合はNINAのデフォルト値を使用します",
         "exposure_time": "露光時間 (秒)",
         "gain": "ゲイン",
+        "filter": "フィルター",
+        "filter_default": "デフォルト",
         "nina_default": "NINA デフォルト",
         "ManualMode": "マニュアルモード"
       },

@@ -1447,6 +1447,8 @@
         "camera_settings_hint": "Laat leeg voor NINA standaard waardes",
         "exposure_time": "Belichtingstijd (s)",
         "gain": "Verdienen",
+        "filter": "Filter",
+        "filter_default": "Standaard",
         "nina_default": "NINA standaard",
         "ManualMode": "Manuele mode"
       },

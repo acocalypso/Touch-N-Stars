@@ -7,6 +7,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [App5.0.0-beta9] - unreleased 
 ### Added
+- TPPA: Filter can now be selected in the alignment settings and is passed to the start-alignment request (leave on "Default" to use NINA's defaults)
 - Mount: Telescope settle time setting in the mount settings panel
 - PINS: WiFi card now shows the current connection (SSID, IP address, interface, band) with signal strength and a short history graph - thanks to acocalypso
 

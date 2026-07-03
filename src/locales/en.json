@@ -1502,6 +1502,8 @@
         "camera_settings_hint": "Leave empty for NINA defaults",
         "exposure_time": "Exposure Time (s)",
         "gain": "Gain",
+        "filter": "Filter",
+        "filter_default": "Default",
         "nina_default": "NINA Default",
         "ManualMode": "Manual mode"
       },

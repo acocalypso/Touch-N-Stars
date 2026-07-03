@@ -1447,6 +1447,8 @@
         "camera_settings_hint": "Deixe em branco para padrões do NINA",
         "exposure_time": "Tempo de exposição (s)",
         "gain": "Ganho",
+        "filter": "Filtro",
+        "filter_default": "Padrão",
         "nina_default": "Padrão NINA",
         "ManualMode": "Modo manual"
       },

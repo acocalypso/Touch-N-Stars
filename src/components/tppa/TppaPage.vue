@@ -487,6 +487,9 @@ async function startAlignment() {
     if (tppaStore.settings.Gain !== null) {
       message.Gain = tppaStore.settings.Gain;
     }
+    if (tppaStore.settings.Filter) {
+      message.Filter = tppaStore.settings.Filter;
+    }
   } else {
     // NINA
     //Defines if the direction for the second and third point should be done by moving the mount in east or west direction along the RA axis
@@ -519,6 +522,10 @@ async function startAlignment() {
 
     if (tppaStore.settings.Gain !== null) {
       message.Gain = tppaStore.settings.Gain;
+    }
+
+    if (tppaStore.settings.Filter) {
+      message.Filter = tppaStore.settings.Filter;
     }
   }
 

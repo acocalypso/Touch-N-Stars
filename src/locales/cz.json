@@ -1447,6 +1447,8 @@
         "camera_settings_hint": "Nechte prázdné pro výchozí nastavení NINA",
         "exposure_time": "Doba Expozice (s)",
         "gain": "Získat",
+        "filter": "Filtr",
+        "filter_default": "Výchozí",
         "nina_default": "NINA Výchozí",
         "ManualMode": "Manuální režim"
       },

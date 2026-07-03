@@ -1447,6 +1447,8 @@
         "camera_settings_hint": "留空则使用 NINA 默认值",
         "exposure_time": "曝光时间 (秒)",
         "gain": "增益",
+        "filter": "滤镜",
+        "filter_default": "默认值",
         "nina_default": "NINA 默认值",
         "ManualMode": "手动模式"
       },

@@ -5,6 +5,21 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [App5.0.0-beta9 and 10] - 2026-07-03 
+### Added
+- TPPA: Filter can now be selected in the alignment settings and is passed to the start-alignment request (leave on "Default" to use NINA's defaults)
+- Mount: Telescope settle time setting in the mount settings panel
+- PINS: WiFi card now shows the current connection (SSID, IP address, interface, band) with signal strength and a short history graph - thanks to acocalypso
+
+### Changed
+- Background handling: Guider stats/graph, dark library build progress, the sequence editor, PINS device list, PINS AllSky, system metrics, INDI Control Panel, log collector and framing polling now all pause while the app is in the background (via a new shared polling composable) instead of continuing to poll, and resume only if they were actually active before pausing
+
+### Fixed
+- PINS: WiFi connect/disconnect buttons now reflect the actual connection state - no longer offer to "connect" to a network you're already connected to, and disconnect is styled distinctly while connected
+- PINS: Fixed a re-probe race that could double-check or miss PINS availability, plus poller start/stop races and an unsafe framing data access
+- Camera: Fixed "Center Here" always treating the connected camera as a DSLR, which broke the sensor-size fallback for cameras that do report a native sensor size
+- Guider: PHD2 calibration data button is no longer shown outside PINS mode
+
 ## [App5.0.0-beta8] - 2026-07-01
 ### Changed
 - Connection: All WebSocket connections (event channel, mount control, TPPA) now share a single reconnect engine with exponential backoff instead of a fixed 2-second retry, so a backend that is temporarily unreachable is no longer hammered every 2 seconds while still recovering promptly once it returns

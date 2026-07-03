@@ -31,6 +31,7 @@ export const useTppaStore = defineStore('tppaStore', {
       ManualMode: false,
       ExposureTime: null,
       Gain: null,
+      Filter: null,
     },
   }),
 

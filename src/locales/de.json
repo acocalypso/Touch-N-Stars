@@ -1487,6 +1487,8 @@
         "camera_settings_hint": "Leer lassen für NINA Standardwerte",
         "exposure_time": "Belichtungszeit (s)",
         "gain": "Verstärkung",
+        "filter": "Filter",
+        "filter_default": "Standard",
         "nina_default": "NINA Standard",
         "ManualMode": "Manuell"
       },

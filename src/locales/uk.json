@@ -1427,6 +1427,8 @@
         "camera_settings_hint": "Залиште порожнім для значень NINA за замовчуванням",
         "exposure_time": "Час експозиції (с)",
         "gain": "Gain",
+        "filter": "Фільтр",
+        "filter_default": "За замовчуванням",
         "nina_default": "За замовчуванням NINA",
         "ManualMode": "Ручний режим"
       },

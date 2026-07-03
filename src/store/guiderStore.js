@@ -1515,7 +1515,7 @@ export const useGuiderStore = defineStore('guiderStore', {
 
     startDarkLibraryBuildPolling() {
       if (this.phd2DarkLibraryPollHandle) return;
-      this.phd2DarkLibraryPollHandle = setInterval(async () => {
+      this.phd2DarkLibraryPollHandle = createPoller(async () => {
         const status = await this.fetchPHD2DarkLibraryBuildStatus();
         if (!status || status.Complete) {
           this.stopDarkLibraryBuildPolling();
@@ -1536,13 +1536,16 @@ export const useGuiderStore = defineStore('guiderStore', {
           }
         }
       }, 1000);
+      this.phd2DarkLibraryPollHandle.start();
     },
 
     stopDarkLibraryBuildPolling() {
-      if (this.phd2DarkLibraryPollHandle) {
-        clearInterval(this.phd2DarkLibraryPollHandle);
-        this.phd2DarkLibraryPollHandle = null;
-      }
+      this.phd2DarkLibraryPollHandle?.stop();
+      this.phd2DarkLibraryPollHandle = null;
+    },
+
+    isDarkLibraryBuildPolling() {
+      return this.phd2DarkLibraryPollHandle?.isRunning() === true;
     },
 
     async buildPHD2DarkLibrary(expTimesMs, frameCount) {

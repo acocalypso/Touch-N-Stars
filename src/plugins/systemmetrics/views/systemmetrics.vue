@@ -207,7 +207,8 @@
 </template>
 
 <script setup>
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
+import { useBackgroundAwarePolling } from '@/utils/appLifecycle';
 import systemMetricsService from '../services/systemMetricsService';
 
 const REFRESH_INTERVAL_MS = 10000;
@@ -219,7 +220,9 @@ const loading = ref(false);
 const errorMessage = ref('');
 const lastPolledAt = ref(null);
 
-let refreshTimerId;
+// Always active while this view is mounted, but pausing while the app is
+// backgrounded (see src/utils/appLifecycle.js).
+const isActive = ref(true);
 
 const percentFormatter = new Intl.NumberFormat(undefined, { maximumFractionDigits: 1 });
 
@@ -342,25 +345,20 @@ const fetchMetrics = async (options = {}) => {
   }
 };
 
-const scheduleAutoRefresh = () => {
-  clearInterval(refreshTimerId);
-  // Ensure the timer resets after manual refreshes so cadence stays consistent
-  refreshTimerId = setInterval(() => {
-    fetchMetrics({ silent: true });
-  }, REFRESH_INTERVAL_MS);
-};
+const poller = useBackgroundAwarePolling(
+  () => fetchMetrics({ silent: true }),
+  REFRESH_INTERVAL_MS,
+  isActive
+);
 
 const handleManualRefresh = async () => {
   await fetchMetrics();
-  scheduleAutoRefresh();
+  // Ensure the timer resets after manual refreshes so cadence stays consistent
+  poller.stop();
+  poller.start();
 };
 
 onMounted(() => {
   fetchMetrics();
-  scheduleAutoRefresh();
-});
-
-onBeforeUnmount(() => {
-  clearInterval(refreshTimerId);
 });
 </script>

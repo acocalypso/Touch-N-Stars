@@ -3,6 +3,7 @@ import apiService from '@/services/apiService';
 import { apiStore } from './store';
 import { useToastStore } from './toastStore';
 import { useSequenceStore } from './sequenceStore';
+import { createPoller } from '@/utils/poller';
 
 const RUNTIME_FIELDS = [
   'ExpectedTime',
@@ -142,15 +143,17 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
     async startPolling() {
       this.stopPolling();
       await this.loadCurrent();
-      this.fetchStatusUpdate();
-      this.intervalId = setInterval(this.fetchStatusUpdate, 2000);
+      this.intervalId = createPoller(() => this.fetchStatusUpdate(), 2000, { immediate: true });
+      this.intervalId.start();
     },
 
     stopPolling() {
-      if (this.intervalId) {
-        clearInterval(this.intervalId);
-        this.intervalId = null;
-      }
+      this.intervalId?.stop();
+      this.intervalId = null;
+    },
+
+    isFetching() {
+      return this.intervalId?.isRunning() === true;
     },
 
     async move(id, targetId, insertAfter) {

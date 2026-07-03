@@ -169,7 +169,8 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
+import { ref, computed, onMounted } from 'vue';
+import { useBackgroundAwarePolling } from '@/utils/appLifecycle';
 import { useHocusFocusStore } from '../store/hocusfocusStore';
 import apiService from '@/services/apiService';
 import AberrationInspector from '../components/AberrationInspector.vue';
@@ -202,29 +203,21 @@ const canRunAutoFocus = computed(() => {
   );
 });
 
-// Polling management
-let statusPollingInterval = null;
+// Polling management - always active while this view is mounted, but pausing
+// while the app is backgrounded (see src/utils/appLifecycle.js).
+const isActive = ref(true);
 
-const startStatusPolling = () => {
-  if (statusPollingInterval) return; // Already polling
-
-  console.log('[HocusFocus] Starting status polling...');
-  statusPollingInterval = setInterval(async () => {
+useBackgroundAwarePolling(
+  async () => {
     try {
       await updateStatus();
     } catch (err) {
       console.error('[HocusFocus] Error in status polling:', err);
     }
-  }, 1000);
-};
-
-const stopStatusPolling = () => {
-  if (statusPollingInterval) {
-    clearInterval(statusPollingInterval);
-    statusPollingInterval = null;
-    console.log('[HocusFocus] Status polling stopped');
-  }
-};
+  },
+  1000,
+  isActive
+);
 
 // Fetch and update tilt corner measurements
 const updateTiltMeasurements = async () => {
@@ -455,12 +448,5 @@ const clearDetailedAutoFocus = async () => {
 // Generate sample focus data on mount
 onMounted(() => {
   store.fetchEquipmentStatus();
-  // Start polling for status updates
-  startStatusPolling();
-});
-
-// Cleanup on component unmount
-onBeforeUnmount(() => {
-  stopStatusPolling();
 });
 </script>

@@ -372,6 +372,7 @@ import { useFlatassistantStore } from '@/store/flatassistantStore';
 import { useGuiderStore } from '@/store/guiderStore';
 import { usePinsDeviceStore } from '@/plugins/pinsDevices/store/pinsDevicesStore';
 import { useImageMonitorStore } from '@/plugins/multi-image-monitor/store/imageMonitorStore';
+import { usePinsAllSkyStore } from '@/plugins/pins-allsky/store/pinsAllskyStore';
 import { useNightSummaryStore } from '@/plugins/nightsummary/store/nightsummaryStore';
 import websocketChannelService from '@/services/websocketChannelSocket';
 import websocketTppaService from '@/services/websocketTppa';
@@ -386,7 +387,9 @@ import {
 } from '@/services/updateService';
 import { getDeviceDateTimePayload, parsePinsTimeToSeconds } from '@/utils/pinsTimeUtils';
 import { abortInFlightRequests } from '@/utils/httpLifecycle';
+import { setAppBackgrounded } from '@/utils/appLifecycle';
 import { setLocaleLanguage } from '@/i18n';
+import { useSequenceV2Store } from '@/store/sequenceV2Store';
 
 const StellariumView = defineAsyncComponent(() => import('./views/StellariumView.vue'));
 const TutorialModal = defineAsyncComponent(() => import('@/components/TutorialModal.vue'));
@@ -467,6 +470,8 @@ const flatsStore = useFlatassistantStore();
 const guiderStore = useGuiderStore();
 const pinsDeviceStore = usePinsDeviceStore();
 const imageMonitorStore = useImageMonitorStore();
+const sequenceV2Store = useSequenceV2Store();
+const pinsAllSkyStore = usePinsAllSkyStore();
 
 // Global flat run outcome — fires regardless of which page is active.
 // prevRun !== null guard mirrors the original page watcher: first setter wins,
@@ -776,6 +781,9 @@ const RESUME_DEBOUNCE_MS = 300;
 // view was open, instead of starting a poller for a view that isn't mounted.
 let wasGuiderFetchingBeforePause = false;
 let wasPinsDevicePollingBeforePause = false;
+let wasSequenceV2PollingBeforePause = false;
+let wasDarkLibraryBuildPollingBeforePause = false;
+let wasPinsAllSkyPollingBeforePause = false;
 
 function pauseApp() {
   // Cancel any pending resume so a quick background->foreground->background does
@@ -788,6 +796,9 @@ function pauseApp() {
   // (long async chain: fetchAllInfos, checkForPINS, SignalR init...) still wins —
   // otherwise performResume() would restart all intervals after we already paused.
   isPaused = true;
+  // Flip the shared background flag so any useBackgroundAwarePolling() consumer
+  // (see src/utils/appLifecycle.js) pauses itself without needing to be listed here.
+  setAppBackgrounded(true);
   console.log('App paused, stopping all intervals...');
   store.stopFetchingInfo();
   logStore.stopFetchingLog();
@@ -797,8 +808,14 @@ function pauseApp() {
   dialogStore.stopPolling();
   wasGuiderFetchingBeforePause = guiderStore.isFetchingGraph();
   guiderStore.stopFetching();
+  wasDarkLibraryBuildPollingBeforePause = guiderStore.isDarkLibraryBuildPolling();
+  guiderStore.stopDarkLibraryBuildPolling();
   wasPinsDevicePollingBeforePause = pinsDeviceStore.isFetchingDevices();
   pinsDeviceStore.stopPolling();
+  wasSequenceV2PollingBeforePause = sequenceV2Store.isFetching();
+  sequenceV2Store.stopPolling();
+  wasPinsAllSkyPollingBeforePause = pinsAllSkyStore.isPolling();
+  pinsAllSkyStore.stopPolling();
   // imageMonitorStore already tracks paused cameras internally (it also has its
   // own visibilitychange listener), so this call is a safe no-op if nothing is
   // running or if visibilitychange already paused it - it exists so the
@@ -815,6 +832,7 @@ function resumeApp() {
   // see the current state even if this trigger itself gets swallowed by the isResuming
   // guard below.
   isPaused = false;
+  setAppBackgrounded(false);
   if (resumeDebounceId) {
     clearTimeout(resumeDebounceId);
   }
@@ -890,20 +908,27 @@ async function performResume() {
     if (wasGuiderFetchingBeforePause) {
       guiderStore.startFetching();
     }
+    if (wasDarkLibraryBuildPollingBeforePause) {
+      guiderStore.startDarkLibraryBuildPolling();
+    }
     // Same reasoning as guiderStore above: only resume if the PINS devices
     // view was actually open when we paused.
     if (wasPinsDevicePollingBeforePause) {
       pinsDeviceStore.startPolling();
     }
+    // Same reasoning: only resume if the sequence editor view was actually
+    // open when we paused (sequenceV2Store's polling is otherwise owned by
+    // SequenceCurrentView.vue's own onMounted/onUnmounted).
+    if (wasSequenceV2PollingBeforePause) {
+      sequenceV2Store.startPolling();
+    }
+    // Same reasoning: only resume if the AllSky view was actually open when we paused.
+    if (wasPinsAllSkyPollingBeforePause) {
+      pinsAllSkyStore.startPolling();
+    }
     if (imageMonitorStore.hasPausedCameras()) {
       imageMonitorStore.resumeAllAutoRefresh();
     }
-
-    // PINS detection already ran inside fetchAllInfos() above; calling it again
-    // here would burn a second consecutive negative-check attempt in the same
-    // cycle instead of spreading them across separate poll ticks (see
-    // checkForPINS()'s 2-negatives-in-a-row guard), which could latch
-    // isPINS=false on a single transient hiccup right after resume.
 
     // Initialize dialog updates based on mode
     if (store.isPINS) {

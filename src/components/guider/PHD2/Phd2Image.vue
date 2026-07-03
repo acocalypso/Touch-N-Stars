@@ -54,10 +54,11 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, watch, computed } from 'vue';
+import { ref, onUnmounted, watch, computed } from 'vue';
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
 import { useSettingsStore } from '@/store/settingsStore';
+import { useBackgroundAwarePolling } from '@/utils/appLifecycle';
 
 const props = defineProps({
   show: {
@@ -75,10 +76,8 @@ const lockPosition = ref(null);
 const secondaryStars = ref([]);
 const imageElement = ref(null);
 const imageDimensions = ref({ width: 0, height: 0 });
-let intervalId = null;
-let lockPositionIntervalId = null;
-let starPositionsIntervalId = null;
 let lastImageData = null;
+const isShown = computed(() => props.show);
 
 const isGuiding = computed(() => store.guiderInfo?.State === 'Guiding');
 const isCalibrating = computed(() => store.guiderInfo?.State === 'Calibrating');
@@ -277,61 +276,23 @@ const loadPhd2Image = async () => {
   }
 };
 
-// Nur laden wenn Modal geöffnet ist
+// Nur laden wenn Modal geöffnet ist - und pausiert wenn die App im Hintergrund ist
+// (siehe src/utils/appLifecycle.js)
+useBackgroundAwarePolling(loadPhd2Image, 2000, isShown, { immediate: true });
+useBackgroundAwarePolling(loadLockPosition, 3000, isShown, { immediate: true });
+useBackgroundAwarePolling(loadStarPositions, 3000, isShown, { immediate: true });
+
 watch(
   () => props.show,
   (newShow) => {
-    if (newShow) {
-      // Modal geöffnet - Bilder und Lock-Position laden starten
-      loadPhd2Image();
-      loadLockPosition();
-      loadStarPositions();
-      intervalId = setInterval(loadPhd2Image, 2000);
-      lockPositionIntervalId = setInterval(loadLockPosition, 3000);
-      starPositionsIntervalId = setInterval(loadStarPositions, 3000);
-    } else {
-      // Modal geschlossen - Intervals stoppen
-      if (intervalId) {
-        clearInterval(intervalId);
-        intervalId = null;
-      }
-      if (lockPositionIntervalId) {
-        clearInterval(lockPositionIntervalId);
-        lockPositionIntervalId = null;
-      }
-      if (starPositionsIntervalId) {
-        clearInterval(starPositionsIntervalId);
-        starPositionsIntervalId = null;
-      }
+    if (!newShow) {
       lockPosition.value = null;
       secondaryStars.value = [];
     }
   }
 );
 
-onMounted(() => {
-  if (props.show) {
-    loadPhd2Image();
-    loadLockPosition();
-    loadStarPositions();
-    intervalId = setInterval(loadPhd2Image, 2000);
-    lockPositionIntervalId = setInterval(loadLockPosition, 3000);
-    starPositionsIntervalId = setInterval(loadStarPositions, 3000);
-  }
-});
-
 onUnmounted(() => {
-  // Intervals stoppen
-  if (intervalId) {
-    clearInterval(intervalId);
-  }
-  if (lockPositionIntervalId) {
-    clearInterval(lockPositionIntervalId);
-  }
-  if (starPositionsIntervalId) {
-    clearInterval(starPositionsIntervalId);
-  }
-
   // URL freigeben
   if (imageUrl.value) {
     URL.revokeObjectURL(imageUrl.value);

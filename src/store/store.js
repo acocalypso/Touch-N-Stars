@@ -16,6 +16,7 @@ import { useLivestackStore } from '@/plugins/livestack/store/livestackStore';
 import { useNightSummaryStore } from '@/plugins/nightsummary/store/nightsummaryStore';
 import { useGuiderStore } from '@/store/guiderStore';
 import { useSequenceStore } from '@/store/sequenceStore';
+import { useSequenceV2Store } from '@/store/sequenceV2Store';
 import { useDialogStore } from '@/store/dialogStore';
 import { useLogStore } from '@/store/logStore';
 import websocketMountControlService from '@/services/websocketMountControl';
@@ -699,6 +700,7 @@ export const apiStore = defineStore('store', {
       // Clear guider graph data and stop polling
       const guiderStore = useGuiderStore();
       guiderStore.stopFetching();
+      guiderStore.stopDarkLibraryBuildPolling();
       guiderStore.$patch({
         RADistanceRaw: [],
         DECDistanceRaw: [],
@@ -721,6 +723,9 @@ export const apiStore = defineStore('store', {
         phd2SelectedMountIndex: null,
         phd2SelectedMountName: null,
       });
+
+      // Stop sequence editor polling from the previous instance
+      useSequenceV2Store().stopPolling();
 
       // Clear sequence data from the previous instance
       const sequenceStore = useSequenceStore();

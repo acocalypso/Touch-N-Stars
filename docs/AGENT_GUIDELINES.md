@@ -299,6 +299,17 @@ Required rules:
 - Prefer event-driven assertions over arbitrary timing waits in tests.
 - WebSocket and SignalR changes must handle disconnects, reconnection, duplicate subscriptions, and stale events.
 
+### Background/Foreground Polling Rule
+
+Any new `setInterval`/recursive `setTimeout` poller (store action or component-owned) **must** pause while the app is backgrounded and resume on foreground. On Android, backgrounded WebViews are throttled/suspended unpredictably rather than reliably killed outright, so an unpaused poller can keep hitting the backend for a variable window before the OS actually freezes it, and then fire a burst of stale/overlapping requests on resume.
+
+Required rules:
+
+- Do not add a raw `setInterval`/`setTimeout` poller. Use `createPoller` from `src/utils/poller.js` (guards against overlapping ticks) as the base primitive.
+- If the poller's active/inactive state is driven by a prop, `v-if`, or a computed condition (e.g. "only while this modal is open"), wrap it with `useBackgroundAwarePolling(fetchFn, intervalMs, activeRef)` from `src/utils/appLifecycle.js` instead of managing `onMounted`/`onUnmounted`/`watch` by hand. This automatically pauses on background and resumes on foreground without needing to be wired into `App.vue`.
+- If the poller is store-owned and view-scoped (started/stopped by a specific view's `onMounted`/`onUnmounted`, e.g. `guiderStore`, `pinsDeviceStore`, `sequenceV2Store`, `pinsAllSkyStore`), keep using `createPoller` directly, but register a `was<X>PollingBeforePause` flag and explicit `stop()`/`start()` calls in `App.vue`'s `pauseApp()`/`performResume()`, and add a `stop()` call to `store.js`'s `clearAllStates()`.
+- Never add a poller that only stops in `onUnmounted`/`onBeforeUnmount` without also reacting to background/foreground — that was the recurring bug class this rule exists to prevent.
+
 ## PINS And pinsdaemon Rules
 
 PINS/headless support can involve Raspberry Pi/Linux hosts, daemon-backed system features, INDI/PHD2 integration, system services, firmware upload, Wi-Fi changes, updates, package installation, and diagnostic archives.
@@ -502,6 +513,7 @@ Every reviewer must specifically check:
 - Did this preserve real-session safety?
 - Did this preserve N.I.N.A. Advanced API and Touch-N-Stars plugin server contracts?
 - Did this preserve connection handshake, dynamic port handling, polling, WebSocket, and SignalR behavior?
+- Does every new/changed poller pause on app background and resume on foreground (via `createPoller` + `useBackgroundAwarePolling`, or an explicit `App.vue` pause/resume hook)?
 - Did this preserve standard N.I.N.A., PINS/headless, and mock-mode semantics as relevant?
 - Did this avoid real hardware or system mutation in default tests?
 - Did this preserve mobile-first UX and Capacitor Android/iOS behavior?

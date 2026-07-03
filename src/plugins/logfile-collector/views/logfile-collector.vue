@@ -270,6 +270,7 @@
 
 <script setup>
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
+import { useBackgroundAwarePolling } from '@/utils/appLifecycle';
 import { useI18n } from 'vue-i18n';
 import { useLogStore } from '@/store/logStore';
 import { useLogCollectorStore } from '../store/logCollectorStore';
@@ -317,8 +318,15 @@ const diagnosticsApi = createDiagnosticsApi({
   token: TOKEN,
 });
 
-let diagnosticsPollInterval = null;
-let diagnosticsPollInFlight = false;
+// Poll only while a diagnostics archive run is in progress - and pause
+// automatically when the app is backgrounded (see src/utils/appLifecycle.js).
+const isDiagnosticsPolling = ref(false);
+useBackgroundAwarePolling(
+  () => pollDiagnosticsStatus(),
+  DIAGNOSTICS_DEFAULTS.pollIntervalMs,
+  isDiagnosticsPolling,
+  { immediate: true }
+);
 
 const diagnosticsUiState = computed(() => getDiagnosticsUiStatus(logCollectorStore.diagnosticsRun));
 const diagnosticsStatusText = computed(() => {
@@ -542,35 +550,22 @@ async function startDiagnosticsCollection() {
 }
 
 function startDiagnosticsPolling() {
-  if (diagnosticsPollInterval || !logCollectorStore.diagnosticsRun.archiveId) {
+  if (isDiagnosticsPolling.value || !logCollectorStore.diagnosticsRun.archiveId) {
     return;
   }
-
-  diagnosticsPollInterval = setInterval(() => {
-    pollDiagnosticsStatus();
-  }, DIAGNOSTICS_DEFAULTS.pollIntervalMs);
-
-  pollDiagnosticsStatus();
+  isDiagnosticsPolling.value = true;
 }
 
 function stopDiagnosticsPolling() {
-  if (diagnosticsPollInterval) {
-    clearInterval(diagnosticsPollInterval);
-    diagnosticsPollInterval = null;
-  }
+  isDiagnosticsPolling.value = false;
 }
 
 async function pollDiagnosticsStatus() {
-  if (diagnosticsPollInFlight) {
-    return;
-  }
-
   const archiveId = logCollectorStore.diagnosticsRun.archiveId;
   if (!archiveId) {
     return;
   }
 
-  diagnosticsPollInFlight = true;
   try {
     const statusResponse = await diagnosticsApi.getDiagnosticsArchiveStatus(archiveId);
     logCollectorStore.setDiagnosticsStatusResponse(statusResponse, {
@@ -596,8 +591,6 @@ async function pollDiagnosticsStatus() {
       t('plugins.logfileCollector.diagnostics.pollFailed')
     );
     logCollectorStore.setDiagnosticsLastMessage(message);
-  } finally {
-    diagnosticsPollInFlight = false;
   }
 }
 

@@ -144,7 +144,7 @@
 
           <!-- Calibration Data Button -->
           <button
-            v-if="guiderStore.phd2Connection?.IsConnected"
+            v-if="guiderStore.phd2Connection?.IsConnected && store.isPINS"
             @click="openCalibrationData = true"
             class="default-button-gray flex items-center justify-center px-3 py-3"
             :title="$t('components.guider.phd2.reviewCalibration')"
@@ -292,7 +292,7 @@
 
           <!-- Calibration Data Button -->
           <button
-            v-if="guiderStore.phd2Connection?.IsConnected"
+            v-if="guiderStore.phd2Connection?.IsConnected && store.isPINS"
             @click="openCalibrationData = true"
             class="default-button-gray flex items-center justify-center px-3 py-3"
             :title="$t('components.guider.phd2.reviewCalibration')"

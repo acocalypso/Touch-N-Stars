@@ -2,6 +2,7 @@ import axios from 'axios';
 import { defineStore } from 'pinia';
 import i18n from '@/i18n';
 import { useSettingsStore } from '@/store/settingsStore';
+import { createPoller } from '@/utils/poller';
 
 const DEFAULT_BACKEND_PORT = 19091;
 const DEFAULT_POLL_INTERVAL_MS = 5000;
@@ -493,18 +494,23 @@ export const usePinsAllSkyStore = defineStore('pinsAllSkyStore', {
 
     startPolling() {
       this.stopPolling();
-      this.pollTimer = setInterval(() => {
-        this.fetchStatus().catch((error) => {
-          this.error = error?.message || i18n.global.t('plugins.pinsAllSky.errors.refreshStatus');
-        });
-      }, DEFAULT_POLL_INTERVAL_MS);
+      this.pollTimer = createPoller(
+        () =>
+          this.fetchStatus().catch((error) => {
+            this.error = error?.message || i18n.global.t('plugins.pinsAllSky.errors.refreshStatus');
+          }),
+        DEFAULT_POLL_INTERVAL_MS
+      );
+      this.pollTimer.start();
     },
 
     stopPolling() {
-      if (this.pollTimer) {
-        clearInterval(this.pollTimer);
-        this.pollTimer = null;
-      }
+      this.pollTimer?.stop();
+      this.pollTimer = null;
+    },
+
+    isPolling() {
+      return this.pollTimer?.isRunning() === true;
     },
   },
 });

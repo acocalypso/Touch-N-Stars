@@ -216,7 +216,8 @@
 </template>
 
 <script setup>
-import { ref, computed, reactive, watch, nextTick, onMounted, onUnmounted } from 'vue';
+import { ref, computed, reactive, watch, nextTick, onMounted } from 'vue';
+import { useBackgroundAwarePolling } from '@/utils/appLifecycle';
 import { useI18n } from 'vue-i18n';
 import apiPinsService from '@/services/apiPinsService';
 
@@ -239,8 +240,9 @@ const logEnabled = ref(localStorage.getItem('indiControlPanel.logEnabled') === '
 // key: `${propertyName}|${elementName}`
 const edits = reactive({});
 
-let pollTimer = null;
-let stopped = false;
+// Always active while this view is mounted, but pausing while the app is
+// backgrounded (see src/utils/appLifecycle.js) instead of polling indefinitely.
+const isActive = ref(true);
 
 const devices = computed(() => deviceSnapshots.value || []);
 
@@ -434,17 +436,11 @@ function formatMessageTime(ts) {
   return Number.isNaN(d.getTime()) ? ts : d.toLocaleTimeString();
 }
 
-// Recursive setTimeout (not setInterval) so the next poll is only scheduled once the
-// previous one has fully completed — avoids overlapping/piling requests on a slow backend.
+// createPoller (via useBackgroundAwarePolling) already skips a tick if the previous
+// one is still in flight, so this never overlaps/piles up requests on a slow backend.
 async function poll() {
-  try {
-    await loadProperties();
-    await loadMessages();
-  } finally {
-    if (!stopped) {
-      pollTimer = setTimeout(poll, POLL_INTERVAL_MS);
-    }
-  }
+  await loadProperties();
+  await loadMessages();
 }
 
 async function reload() {
@@ -462,15 +458,9 @@ async function reload() {
   }
 }
 
+useBackgroundAwarePolling(poll, POLL_INTERVAL_MS, isActive);
+
 onMounted(async () => {
   await reload();
-  if (!stopped) {
-    pollTimer = setTimeout(poll, POLL_INTERVAL_MS);
-  }
-});
-
-onUnmounted(() => {
-  stopped = true;
-  if (pollTimer) clearTimeout(pollTimer);
 });
 </script>

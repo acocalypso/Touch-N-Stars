@@ -26,8 +26,9 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted, watch } from 'vue';
+import { ref, onUnmounted, computed } from 'vue';
 import apiService from '@/services/apiService';
+import { useBackgroundAwarePolling } from '@/utils/appLifecycle';
 
 const props = defineProps({
   show: {
@@ -40,8 +41,8 @@ defineEmits(['close']);
 
 const imageUrl = ref(null);
 const imageElement = ref(null);
-let intervalId = null;
 let lastImageData = null;
+const isShown = computed(() => props.show);
 
 const onImageLoad = () => {
   // Image loaded successfully
@@ -80,37 +81,11 @@ const loadPhd2StarImage = async () => {
   }
 };
 
-// Nur laden wenn Modal geöffnet ist
-watch(
-  () => props.show,
-  (newShow) => {
-    if (newShow) {
-      // Modal geöffnet - Bilder laden starten
-      loadPhd2StarImage();
-      intervalId = setInterval(loadPhd2StarImage, 2000);
-    } else {
-      // Modal geschlossen - Interval stoppen
-      if (intervalId) {
-        clearInterval(intervalId);
-        intervalId = null;
-      }
-    }
-  }
-);
-
-onMounted(() => {
-  if (props.show) {
-    loadPhd2StarImage();
-    intervalId = setInterval(loadPhd2StarImage, 2000);
-  }
-});
+// Nur laden wenn Modal geöffnet ist - und pausiert wenn die App im Hintergrund ist
+// (siehe src/utils/appLifecycle.js)
+useBackgroundAwarePolling(loadPhd2StarImage, 2000, isShown, { immediate: true });
 
 onUnmounted(() => {
-  // Interval stoppen
-  if (intervalId) {
-    clearInterval(intervalId);
-  }
-
   // URL freigeben
   if (imageUrl.value) {
     URL.revokeObjectURL(imageUrl.value);

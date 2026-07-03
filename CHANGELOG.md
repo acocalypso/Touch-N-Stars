@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
-## [App5.0.0-beta9] - unreleased 
+## [App5.0.0-beta9 and 10] - 2026-07-03 
 ### Added
 - TPPA: Filter can now be selected in the alignment settings and is passed to the start-alignment request (leave on "Default" to use NINA's defaults)
 - Mount: Telescope settle time setting in the mount settings panel

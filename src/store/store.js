@@ -29,12 +29,17 @@ import { createPoller } from '@/utils/poller';
 // the object reference and re-renders all consumers, even for identical data.
 let lastWrittenInfoJson = {};
 
+// After a negative PINS-detection result, re-probe on this cadence instead of
+// staying silenced for the rest of the session (see checkForPINS()).
+const PINS_RECHECK_INTERVAL_MS = 15000;
+
 export const apiStore = defineStore('store', {
   state: () => ({
     apiPort: null,
     isPINS: false,
     isPinsCheckDone: false,
     pinsCheckNegativeCount: 0,
+    pinsLastNegativeCheckAt: 0,
     isTimeSynced: false,
     intervalIdGraph: null,
     lastEventHistoryFetch: 0,
@@ -1053,8 +1058,16 @@ export const apiStore = defineStore('store', {
       if (this.isPinsCheckDone) {
         if (this.isPINS) {
           await this.syncSystemTime();
+          return;
         }
-        return;
+        // A negative result isn't permanent: re-probe periodically instead of
+        // staying silenced for the rest of the session (PINS may come up after
+        // NINA, or the earlier negative may have been a transient hiccup).
+        if (Date.now() - this.pinsLastNegativeCheckAt < PINS_RECHECK_INTERVAL_MS) {
+          return;
+        }
+        this.isPinsCheckDone = false;
+        this.pinsCheckNegativeCount = 0;
       }
       if (!this.isApiVersionNewerOrEqual) {
         return;
@@ -1081,7 +1094,8 @@ export const apiStore = defineStore('store', {
         this.isPINS = false;
         this.currentPinsVersion = null;
         this.isPinsCheckDone = true;
-        console.log('[API Store] No PINS endpoint — assuming NINA');
+        this.pinsLastNegativeCheckAt = Date.now();
+        console.log('[API Store] No PINS endpoint — assuming NINA, rechecking in 15s');
       }
     },
 

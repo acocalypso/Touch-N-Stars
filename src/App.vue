@@ -862,9 +862,11 @@ async function performResume() {
     store.startFetchingInfo(t);
     logStore.startFetchingLog();
 
-    // Check for PINS support first
-    await store.checkForPINS();
-    if (isPaused) return;
+    // PINS detection already ran inside fetchAllInfos() above; calling it again
+    // here would burn a second consecutive negative-check attempt in the same
+    // cycle instead of spreading them across separate poll ticks (see
+    // checkForPINS()'s 2-negatives-in-a-row guard), which could latch
+    // isPINS=false on a single transient hiccup right after resume.
 
     // Initialize dialog updates based on mode
     if (store.isPINS) {
@@ -1107,8 +1109,8 @@ onMounted(async () => {
   store.startFetchingInfo(t);
   logStore.startFetchingLog();
 
-  // Check for PINS support first
-  await store.checkForPINS();
+  // PINS detection already ran inside fetchAllInfos() above; see the resume
+  // path's comment for why calling it again here is unsafe.
 
   // Initialize dialog updates based on mode
   if (store.isPINS) {

@@ -336,6 +336,7 @@ const {
 } = storeToRefs(pinsStore);
 let ws = null;
 let isComponentUnmounting = false;
+let wifiStatusTimer = null;
 
 const PORT = 8000;
 const TOKEN = 'zZDqJ3IKeFaIZqG2JIFvsxzA5E48GC2gyGVagHFZqC0OMtgoupUDZCPhQDYKm35d';
@@ -437,8 +438,10 @@ watch(
       loadPinsPlugins();
       loadDhcpClients();
       loadWifiStatus();
+      startWifiStatusPolling();
       restoreUpgradeState();
     } else {
+      stopWifiStatusPolling();
       // Keep polling while an upgrade lifecycle is active, even if PINS detection
       // temporarily drops during service restart.
       if (!pinsStore.shouldShowUpgradeOverlay) {
@@ -1106,6 +1109,22 @@ async function loadWifiStatus() {
   }
 }
 
+function startWifiStatusPolling() {
+  stopWifiStatusPolling();
+  wifiStatusTimer = window.setInterval(() => {
+    if (store.isPINS) {
+      loadWifiStatus();
+    }
+  }, 10000);
+}
+
+function stopWifiStatusPolling() {
+  if (wifiStatusTimer) {
+    window.clearInterval(wifiStatusTimer);
+    wifiStatusTimer = null;
+  }
+}
+
 async function connectWifi() {
   if (status.value === 'Running') return;
 
@@ -1455,6 +1474,7 @@ async function checkFinalStatus(id) {
 
 onUnmounted(() => {
   isComponentUnmounting = true;
+  stopWifiStatusPolling();
   stopUpgradePolling();
   if (ws) {
     ws.close();

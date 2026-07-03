@@ -173,6 +173,81 @@
         </div>
       </div>
 
+      <div v-if="wifiConnectionRows.length > 0" class="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <div
+          v-for="connection in wifiConnectionRows"
+          :key="connection.key"
+          class="rounded-lg border border-gray-700 bg-gray-900/40 p-3 flex flex-col gap-2"
+        >
+          <div class="flex items-start justify-between gap-3">
+            <div class="min-w-0">
+              <div class="text-xs uppercase font-bold text-gray-400">
+                {{ formatConnectionRole(connection.role) }}
+              </div>
+              <div class="text-white font-semibold truncate">
+                {{ connection.ssid || connection.connectionName || connection.interface || '-' }}
+              </div>
+            </div>
+            <span
+              class="text-xs px-2 py-1 rounded border"
+              :class="
+                connection.connected
+                  ? 'border-emerald-700 bg-emerald-900/30 text-emerald-200'
+                  : 'border-gray-700 bg-gray-800 text-gray-400'
+              "
+            >
+              {{
+                connection.connected
+                  ? $t('plugins.pins.wifiStatusConnected')
+                  : $t('plugins.pins.wifiStatusDisconnected')
+              }}
+            </span>
+          </div>
+
+          <div class="text-xs text-gray-400 flex flex-wrap gap-x-3 gap-y-1">
+            <span v-if="connection.interface">{{ connection.interface }}</span>
+            <span v-if="connection.ipAddress">{{ connection.ipAddress }}</span>
+            <span v-if="connection.band">{{ connection.band }}</span>
+            <span v-if="connection.channel">{{
+              $t('plugins.pins.wifiChannel', { channel: connection.channel })
+            }}</span>
+          </div>
+
+          <div v-if="hasSignal(connection)" class="flex flex-col gap-1">
+            <div class="flex items-center justify-between text-xs text-gray-300">
+              <span>{{ $t('plugins.pins.wifiSignal') }}</span>
+              <span>{{
+                $t('plugins.pins.wifiSignalValue', { value: connection.signalStrength })
+              }}</span>
+            </div>
+            <div class="h-2 rounded-full bg-gray-800 overflow-hidden">
+              <div
+                class="h-full rounded-full"
+                :class="signalBarClass(connection.signalStrength)"
+                :style="{ width: `${connection.signalStrength}%` }"
+              ></div>
+            </div>
+            <div
+              v-if="signalHistory(connection).length > 1"
+              class="flex items-end gap-1 h-8 pt-1"
+              :aria-label="$t('plugins.pins.wifiSignalHistory')"
+            >
+              <span
+                v-for="(sample, index) in signalHistory(connection)"
+                :key="`${connection.key}-${index}`"
+                class="flex-1 min-w-[3px] rounded-sm"
+                :class="signalBarClass(sample)"
+                :style="{ height: `${Math.max(15, sample)}%` }"
+              ></span>
+            </div>
+          </div>
+
+          <div v-else class="text-xs text-gray-500">
+            {{ $t('plugins.pins.wifiSignalUnavailable') }}
+          </div>
+        </div>
+      </div>
+
       <div v-if="isScanning" class="flex items-center gap-2 text-blue-400 py-4 justify-center">
         <svg
           class="animate-spin h-6 w-6"
@@ -472,8 +547,11 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { computed, ref, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
 import toggleButton from '@/components/helpers/toggleButton.vue';
+
+const { t } = useI18n();
 
 const props = defineProps({
   stationaryMode: {
@@ -666,6 +744,97 @@ const isSelectedNetworkConnected = computed(() => {
   const selected = String(props.selectedSsid || '').trim();
   return Boolean(wifiIsConnected.value && connectedSsid && selected && connectedSsid === selected);
 });
+
+const signalHistoryByKey = ref({});
+
+const wifiConnectionRows = computed(() => {
+  const rows = Array.isArray(props.wifiStatus?.connections) ? props.wifiStatus.connections : [];
+  const normalized = rows
+    .filter((connection) => connection && connection.connected)
+    .map((connection) => normalizeWifiConnection(connection));
+
+  if (normalized.length > 0) {
+    return normalized;
+  }
+
+  if (!props.wifiStatus?.connected) {
+    return [];
+  }
+
+  return [normalizeWifiConnection({ ...props.wifiStatus, role: 'client' })];
+});
+
+watch(
+  wifiConnectionRows,
+  (connections) => {
+    const nextKeys = new Set();
+    const nextHistory = { ...signalHistoryByKey.value };
+
+    connections.forEach((connection) => {
+      nextKeys.add(connection.key);
+      if (!hasSignal(connection)) {
+        return;
+      }
+
+      const existing = Array.isArray(nextHistory[connection.key])
+        ? nextHistory[connection.key]
+        : [];
+      nextHistory[connection.key] = [...existing, connection.signalStrength].slice(-12);
+    });
+
+    Object.keys(nextHistory).forEach((key) => {
+      if (!nextKeys.has(key)) {
+        delete nextHistory[key];
+      }
+    });
+
+    signalHistoryByKey.value = nextHistory;
+  },
+  { immediate: true }
+);
+
+function normalizeWifiConnection(connection) {
+  const role = connection.role || 'client';
+  const iface = connection.interface || '';
+  const name = connection.ssid || connection.connectionName || '';
+  const signal =
+    Number.isFinite(Number(connection.signalStrength)) && Number(connection.signalStrength) >= 0
+      ? Math.min(100, Math.max(0, Number(connection.signalStrength)))
+      : null;
+
+  return {
+    ...connection,
+    role,
+    interface: iface,
+    signalStrength: signal,
+    key: `${role}:${iface}:${name}`,
+  };
+}
+
+function hasSignal(connection) {
+  return Number.isFinite(connection?.signalStrength);
+}
+
+function signalHistory(connection) {
+  return signalHistoryByKey.value[connection.key] || [];
+}
+
+function signalBarClass(value) {
+  if (value >= 70) {
+    return 'bg-emerald-400';
+  }
+  if (value >= 40) {
+    return 'bg-amber-400';
+  }
+  return 'bg-red-400';
+}
+
+function formatConnectionRole(role) {
+  if (role === 'hotspot') {
+    return t('plugins.pins.wifiRoleHotspot');
+  }
+  return t('plugins.pins.wifiRoleClient');
+}
 
 function sanitizePositiveInteger(value) {
   const text = String(value ?? '').trim();

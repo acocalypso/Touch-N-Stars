@@ -775,6 +775,14 @@ export default {
     });
   },
 
+  getPinsWifiStatus() {
+    const { PINSDAEMON_URL } = getUrls();
+    return this._pinsDaemonGetRequest('/wifi/status', {
+      baseUrl: PINSDAEMON_URL,
+      timeout: 5000,
+    });
+  },
+
   scanPinsWifi() {
     const { PINSDAEMON_URL } = getUrls();
     return this._pinsDaemonGetRequest('/wifi/scan', {

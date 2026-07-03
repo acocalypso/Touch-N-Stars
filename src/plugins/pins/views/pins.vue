@@ -21,6 +21,7 @@
               :allow-concurrent-mode="allowConcurrentWifiAndHotspot"
               :is-scanning="isScanning"
               :wifi-list="wifiList"
+              :wifi-status="wifiStatus"
               :selected-ssid="selectedSsid"
               :wifi-password="wifiPassword"
               :selected-band="selectedBand"
@@ -313,6 +314,7 @@ const pinsPluginsCheckedAt = ref('');
 const pinsPluginsBusyPackage = ref('');
 const dhcpClients = ref([]);
 const isDhcpClientsLoading = ref(false);
+const wifiStatus = ref(null);
 const selectedIndi3rdpartyAsset = ref('');
 const showIndi3rdpartyInstallModal = ref(false);
 const showIndiRegistryEditModal = ref(false);
@@ -434,6 +436,7 @@ watch(
       loadIndi3rdpartyDrivers();
       loadPinsPlugins();
       loadDhcpClients();
+      loadWifiStatus();
       restoreUpgradeState();
     } else {
       // Keep polling while an upgrade lifecycle is active, even if PINS detection
@@ -1068,6 +1071,7 @@ async function scanWifi() {
   wifiList.value = [];
 
   try {
+    await loadWifiStatus();
     const networks = (await apiPinsService.scanPinsWifi()) || [];
     // Deduplicate by SSID and filter empty SSIDs
     const seen = new Set();
@@ -1084,6 +1088,21 @@ async function scanWifi() {
     appendLog(t('plugins.pins.logs.error', { message: 'Wifi Scan Failed: ' + error.message }));
   } finally {
     isScanning.value = false;
+  }
+}
+
+async function loadWifiStatus() {
+  const ip = getIp();
+  if (!ip) return;
+
+  try {
+    const response = await apiPinsService.getPinsWifiStatus();
+    wifiStatus.value = response || null;
+    wifiConnected.value = Boolean(response?.connected);
+  } catch (error) {
+    console.error('Failed to load WiFi status:', error);
+    wifiStatus.value = null;
+    wifiConnected.value = false;
   }
 }
 
@@ -1131,7 +1150,7 @@ async function connectWifi() {
       connectWebSocket(ip, returnedJobId);
     } else {
       appendLog(t('plugins.pins.logs.wifiResponse', { response: JSON.stringify(data) }));
-      wifiConnected.value = true;
+      await loadWifiStatus();
       status.value = 'Success';
     }
   } catch (error) {
@@ -1194,7 +1213,7 @@ async function disableWifi() {
       connectWebSocket(ip, returnedJobId);
     } else {
       appendLog(t('plugins.pins.logs.wifiDisabled'));
-      wifiConnected.value = false;
+      await loadWifiStatus();
       status.value = 'Success';
     }
   } catch (error) {
@@ -1403,7 +1422,21 @@ async function checkFinalStatus(id) {
 
       if (isSuccess) {
         status.value = 'Success';
-        appendLog(t('plugins.pins.logs.upgradeSuccess'));
+        if (activeOperation.value === 'wifi') {
+          await loadWifiStatus();
+          if (wifiStatus.value?.connected) {
+            appendLog(
+              t('plugins.pins.logs.wifiConnected', {
+                ssid: wifiStatus.value.ssid || '-',
+                ip: wifiStatus.value.ipAddress || '-',
+              })
+            );
+          } else {
+            appendLog(t('plugins.pins.logs.wifiDisabled'));
+          }
+        } else {
+          appendLog(t('plugins.pins.logs.upgradeSuccess'));
+        }
       } else {
         status.value = 'Failed';
         appendLog(t('plugins.pins.logs.upgradeFailed', { exitCode: result.exitCode ?? 'Unknown' }));

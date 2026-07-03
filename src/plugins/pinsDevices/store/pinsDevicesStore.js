@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
 import apiService from '@/services/apiService';
+import { createPoller } from '@/utils/poller';
 
 export const usePinsDeviceStore = defineStore('pinsDevices', {
   state: () => ({
@@ -626,17 +627,7 @@ export const usePinsDeviceStore = defineStore('pinsDevices', {
       }
     },
 
-    async startPolling(intervalMs = 1000) {
-      if (this.isPolling) {
-        console.warn('Polling already started');
-        return;
-      }
-
-      this.isPolling = true;
-
-      await this.fetchDevices();
-
-      // Fetch immediately
+    async pollConnectedDevices() {
       if (this.isPowerboxConnected) {
         await this.fetchPowerboxStatus();
         await this.fetchPowerPorts();
@@ -651,32 +642,31 @@ export const usePinsDeviceStore = defineStore('pinsDevices', {
       if (this.isLensControlConnected) {
         await this.fetchLensControlStatus();
       }
+    },
 
-      // Then set up interval for ongoing updates
-      this.pollingInterval = setInterval(async () => {
-        if (this.isPowerboxConnected) {
-          await this.fetchPowerboxStatus();
-          await this.fetchPowerPorts();
-          await this.fetchUsbPorts();
-          await this.fetchDewPorts();
-          await this.fetchBuckPorts();
-          await this.fetchPwmPorts();
-        }
-        if (this.isMeteostationConnected) {
-          await this.fetchMeteoStationStatus();
-        }
-        if (this.isLensControlConnected) {
-          await this.fetchLensControlStatus();
-        }
-      }, intervalMs);
+    async startPolling(intervalMs = 1000) {
+      if (this.isPolling) {
+        console.warn('Polling already started');
+        return;
+      }
+
+      this.isPolling = true;
+
+      await this.fetchDevices();
+      await this.pollConnectedDevices();
+
+      this.pollingInterval = createPoller(() => this.pollConnectedDevices(), intervalMs);
+      this.pollingInterval.start();
     },
 
     stopPolling() {
-      if (this.pollingInterval) {
-        clearInterval(this.pollingInterval);
-        this.pollingInterval = null;
-      }
+      this.pollingInterval?.stop();
+      this.pollingInterval = null;
       this.isPolling = false;
+    },
+
+    isFetchingDevices() {
+      return this.isPolling;
     },
 
     resetError() {

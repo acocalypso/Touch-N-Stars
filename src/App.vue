@@ -370,6 +370,7 @@ import Modal from '@/components/helpers/Modal.vue';
 import { usePinsStore } from '@/plugins/pins/store/pinsStore';
 import { useFlatassistantStore } from '@/store/flatassistantStore';
 import { useGuiderStore } from '@/store/guiderStore';
+import { usePinsDeviceStore } from '@/plugins/pinsDevices/store/pinsDevicesStore';
 import { useNightSummaryStore } from '@/plugins/nightsummary/store/nightsummaryStore';
 import websocketChannelService from '@/services/websocketChannelSocket';
 import websocketTppaService from '@/services/websocketTppa';
@@ -463,6 +464,7 @@ const sequenceStore = useSequenceStore();
 const logStore = useLogStore();
 const flatsStore = useFlatassistantStore();
 const guiderStore = useGuiderStore();
+const pinsDeviceStore = usePinsDeviceStore();
 
 // Global flat run outcome — fires regardless of which page is active.
 // prevRun !== null guard mirrors the original page watcher: first setter wins,
@@ -765,12 +767,13 @@ let resumeDebounceId = null;
 // leaving the app permanently disconnected even after coming back to foreground.
 let resumePending = false;
 const RESUME_DEBOUNCE_MS = 300;
-// guiderStore's poller is normally owned by GuiderGraph.vue's mount lifecycle
-// (only running while that view is open), not started globally like the other
-// stores. Track whether it was actually running at pause time so resume only
-// restarts it when the guiding view was open, instead of starting a poller
-// for a view that isn't even mounted.
+// guiderStore's and pinsDeviceStore's pollers are normally owned by their
+// respective view's mount lifecycle (only running while that view is open),
+// not started globally like the other stores. Track whether they were
+// actually running at pause time so resume only restarts them when their
+// view was open, instead of starting a poller for a view that isn't mounted.
 let wasGuiderFetchingBeforePause = false;
+let wasPinsDevicePollingBeforePause = false;
 
 function pauseApp() {
   // Cancel any pending resume so a quick background->foreground->background does
@@ -792,6 +795,8 @@ function pauseApp() {
   dialogStore.stopPolling();
   wasGuiderFetchingBeforePause = guiderStore.isFetchingGraph();
   guiderStore.stopFetching();
+  wasPinsDevicePollingBeforePause = pinsDeviceStore.isFetchingDevices();
+  pinsDeviceStore.stopPolling();
   // Keine States zurücksetzen - UI bleibt erhalten
 }
 
@@ -877,6 +882,11 @@ async function performResume() {
     // onMounted/onBeforeUnmount).
     if (wasGuiderFetchingBeforePause) {
       guiderStore.startFetching();
+    }
+    // Same reasoning as guiderStore above: only resume if the PINS devices
+    // view was actually open when we paused.
+    if (wasPinsDevicePollingBeforePause) {
+      pinsDeviceStore.startPolling();
     }
 
     // PINS detection already ran inside fetchAllInfos() above; calling it again

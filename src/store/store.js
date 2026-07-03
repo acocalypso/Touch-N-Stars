@@ -344,7 +344,11 @@ export const apiStore = defineStore('store', {
           }
         }
 
-        if (this.isApiVersionNewerOrEqual && !this.isPinsCheckDone) {
+        // checkForPINS() owns its own "already done / re-probe after cooldown"
+        // logic internally, so it must be called every cycle - gating it on
+        // !isPinsCheckDone here would make the periodic negative-result re-probe
+        // (PINS may come up after NINA) permanently unreachable.
+        if (this.isApiVersionNewerOrEqual) {
           await this.checkForPINS();
         }
 

@@ -214,8 +214,17 @@ async function calculateRaDec() {
 
   if (!sensorWidth || !sensorHeight || sensorWidth <= 0 || sensorHeight <= 0) {
     await fetchFramingInfo();
-    sensorWidth = framingStore.framingInfo.CameraWidth;
-    sensorHeight = framingStore.framingInfo.CameraHeight;
+    // framingInfo may be null/[] if the fetch failed or returned an empty
+    // envelope - guard the access so a failed framing call can't crash here.
+    sensorWidth = framingStore.framingInfo?.CameraWidth;
+    sensorHeight = framingStore.framingInfo?.CameraHeight;
+  }
+
+  // Without valid sensor dimensions the ratios below would be NaN and produce
+  // bogus RA/Dec - bail out instead of computing garbage coordinates.
+  if (!sensorWidth || !sensorHeight) {
+    console.warn('calculateRaDec: no valid sensor dimensions available, aborting');
+    return;
   }
 
   const displayedWidth = rect.width;

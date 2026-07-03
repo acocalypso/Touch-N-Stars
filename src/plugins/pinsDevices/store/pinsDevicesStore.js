@@ -655,6 +655,13 @@ export const usePinsDeviceStore = defineStore('pinsDevices', {
       await this.fetchDevices();
       await this.pollConnectedDevices();
 
+      // stopPolling() may have run during the awaits above (e.g. app backgrounded
+      // mid-initialization). Bail out instead of starting an interval that
+      // stopPolling already cleared - otherwise it would poll on forever.
+      if (!this.isPolling) {
+        return;
+      }
+
       this.pollingInterval = createPoller(() => this.pollConnectedDevices(), intervalMs);
       this.pollingInterval.start();
     },

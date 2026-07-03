@@ -207,7 +207,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from 'vue';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
 import { useBackgroundAwarePolling } from '@/utils/appLifecycle';
 import systemMetricsService from '../services/systemMetricsService';
 
@@ -353,6 +353,12 @@ const poller = useBackgroundAwarePolling(
 
 const handleManualRefresh = async () => {
   await fetchMetrics();
+  // The component may have unmounted during the await above. useBackgroundAwarePolling
+  // already stopped the poller in its onUnmounted, so restarting it here would leak
+  // an interval that nothing ever stops again. isActive is flipped false on unmount.
+  if (!isActive.value) {
+    return;
+  }
   // Ensure the timer resets after manual refreshes so cadence stays consistent
   poller.stop();
   poller.start();
@@ -360,5 +366,9 @@ const handleManualRefresh = async () => {
 
 onMounted(() => {
   fetchMetrics();
+});
+
+onUnmounted(() => {
+  isActive.value = false;
 });
 </script>

@@ -26,9 +26,12 @@ export function setAppBackgrounded(value) {
  */
 export function useBackgroundAwarePolling(fetchFn, intervalMs, activeRef, options = {}) {
   const poller = createPoller(fetchFn, intervalMs, options);
+  let disposed = false;
+
+  const canRun = () => !disposed && activeRef.value && !isAppBackgrounded.value;
 
   const sync = () => {
-    if (activeRef.value && !isAppBackgrounded.value) {
+    if (canRun()) {
       poller.start();
     } else {
       poller.stop();
@@ -39,10 +42,27 @@ export function useBackgroundAwarePolling(fetchFn, intervalMs, activeRef, option
   const stopWatchBackground = watch(isAppBackgrounded, sync);
 
   onUnmounted(() => {
+    disposed = true;
     poller.stop();
     stopWatchActive();
     stopWatchBackground();
   });
 
-  return poller;
+  // Return a guarded wrapper rather than the raw poller: a caller that calls
+  // start() directly (e.g. to reset cadence after a manual refresh) must not be
+  // able to bypass the active/background/unmounted guards and revive a poller
+  // that should stay stopped. stop() stays a plain passthrough.
+  return {
+    start() {
+      if (canRun()) {
+        poller.start();
+      }
+    },
+    stop() {
+      poller.stop();
+    },
+    isRunning() {
+      return poller.isRunning();
+    },
+  };
 }

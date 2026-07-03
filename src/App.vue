@@ -371,6 +371,7 @@ import { usePinsStore } from '@/plugins/pins/store/pinsStore';
 import { useFlatassistantStore } from '@/store/flatassistantStore';
 import { useGuiderStore } from '@/store/guiderStore';
 import { usePinsDeviceStore } from '@/plugins/pinsDevices/store/pinsDevicesStore';
+import { useImageMonitorStore } from '@/plugins/multi-image-monitor/store/imageMonitorStore';
 import { useNightSummaryStore } from '@/plugins/nightsummary/store/nightsummaryStore';
 import websocketChannelService from '@/services/websocketChannelSocket';
 import websocketTppaService from '@/services/websocketTppa';
@@ -465,6 +466,7 @@ const logStore = useLogStore();
 const flatsStore = useFlatassistantStore();
 const guiderStore = useGuiderStore();
 const pinsDeviceStore = usePinsDeviceStore();
+const imageMonitorStore = useImageMonitorStore();
 
 // Global flat run outcome — fires regardless of which page is active.
 // prevRun !== null guard mirrors the original page watcher: first setter wins,
@@ -797,6 +799,11 @@ function pauseApp() {
   guiderStore.stopFetching();
   wasPinsDevicePollingBeforePause = pinsDeviceStore.isFetchingDevices();
   pinsDeviceStore.stopPolling();
+  // imageMonitorStore already tracks paused cameras internally (it also has its
+  // own visibilitychange listener), so this call is a safe no-op if nothing is
+  // running or if visibilitychange already paused it - it exists so the
+  // canonical native appStateChange trigger covers it too.
+  imageMonitorStore.pauseAllAutoRefresh();
   // Keine States zurücksetzen - UI bleibt erhalten
 }
 
@@ -887,6 +894,9 @@ async function performResume() {
     // view was actually open when we paused.
     if (wasPinsDevicePollingBeforePause) {
       pinsDeviceStore.startPolling();
+    }
+    if (imageMonitorStore.hasPausedCameras()) {
+      imageMonitorStore.resumeAllAutoRefresh();
     }
 
     // PINS detection already ran inside fetchAllInfos() above; calling it again

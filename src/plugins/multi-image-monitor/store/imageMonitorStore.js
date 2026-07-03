@@ -200,37 +200,53 @@ export const useImageMonitorStore = defineStore('imageMonitorStore', {
       }
     },
 
+    // Pause all running camera intervals, remembering which ones were active
+    // so pauseAllAutoRefresh()/resumeAllAutoRefresh() can be driven both by the
+    // internal visibilitychange listener below and by App.vue's pauseApp()/
+    // performResume() (the canonical trigger on native Android/iOS, where
+    // visibilitychange is not guaranteed to fire on backgrounding).
+    pauseAllAutoRefresh() {
+      intervals.forEach((interval, id) => {
+        clearInterval(interval);
+        pausedCameras.add(id);
+      });
+      intervals.clear();
+    },
+
+    resumeAllAutoRefresh() {
+      // Trigger an immediate background refresh so the image updates as soon
+      // as possible, then restart the normal interval cycle. displayUrl stays
+      // visible until the preloader has finished loading.
+      pausedCameras.forEach((id) => {
+        const cam = this.getCameraById(id);
+        if (!cam || !cam.autoRefresh) return;
+        this.refreshCamera(id); // loads in background via preloader
+        const iv = setInterval(() => {
+          const c = this.getCameraById(id);
+          if (!c || !c.autoRefresh) {
+            this.stopAutoRefresh(id);
+            return;
+          }
+          this.refreshCamera(id);
+        }, cam.interval);
+        intervals.set(id, iv);
+      });
+      pausedCameras.clear();
+    },
+
+    hasPausedCameras() {
+      return pausedCameras.size > 0;
+    },
+
     setupVisibilityHandling() {
       if (visibilityListenerAdded) return;
       visibilityListenerAdded = true;
 
       document.addEventListener('visibilitychange', () => {
         if (document.hidden) {
-          // Pause all running intervals — remember which ones were active
-          intervals.forEach((interval, id) => {
-            clearInterval(interval);
-            pausedCameras.add(id);
-          });
-          intervals.clear();
+          this.pauseAllAutoRefresh();
         } else {
-          // Resume: trigger an immediate background refresh so the image
-          // updates as soon as possible, then restart the normal interval cycle.
-          // displayUrl stays visible until the preloader has finished loading.
-          pausedCameras.forEach((id) => {
-            const cam = this.getCameraById(id);
-            if (!cam || !cam.autoRefresh) return;
-            this.refreshCamera(id); // loads in background via preloader
-            const iv = setInterval(() => {
-              const c = this.getCameraById(id);
-              if (!c || !c.autoRefresh) {
-                this.stopAutoRefresh(id);
-                return;
-              }
-              this.refreshCamera(id);
-            }, cam.interval);
-            intervals.set(id, iv);
-          });
-          pausedCameras.clear();
+          this.resumeAllAutoRefresh();
         }
       });
     },

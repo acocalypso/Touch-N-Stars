@@ -112,12 +112,17 @@
         </div>
       </Transition>
 
+      <!-- Stellarium lives outside the splash-gated subtree and is not bound to
+           isBackendReachable: every remount creates a fresh WASM engine whose
+           requestAnimationFrame loop can never be stopped, so the previous
+           engine (including its multi-MB heap) would leak on each reconnect.
+           While disconnected, the splash (z-40) simply covers it. -->
+      <StellariumView
+        v-if="settingsStore.setupCompleted"
+        v-show="store.showStellarium"
+        :key="stellariumRefreshKey"
+      />
       <div v-if="!shouldShowConnectionSplash" :class="mainContentClasses">
-        <StellariumView
-          v-show="store.showStellarium"
-          v-if="settingsStore.setupCompleted && store.isBackendReachable"
-          :key="stellariumRefreshKey"
-        />
         <router-view v-show="!store.showStellarium" :key="routerViewKey" />
       </div>
       <!-- Footer -->

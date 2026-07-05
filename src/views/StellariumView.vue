@@ -135,6 +135,11 @@ const { t } = useI18n();
 // visible sky build-up (instead of just the WASM initialization).
 const isStellariumReady = ref(false);
 let renderWaitHandle = null;
+// Guards for the async onMounted flow: the profile wait and the script load can
+// outlive the component (e.g. explicit iOS refresh remount), and must not
+// initialize an engine for an instance that is already gone.
+let isUnmounted = false;
+let stopProfileWait = null;
 // The Stellarium engine drives its own requestAnimationFrame(render) loop that
 // cannot be stopped (no destroy/pause API). To avoid the continuous GPU load
 // while Stellarium is not visible, we wrap the engine's native _core_render so
@@ -426,224 +431,255 @@ onMounted(async () => {
   renderActive = store.showStellarium;
   stellariumStore.isVisible = store.showStellarium;
 
-  // Prepare NINA
+  // Prepare NINA. The view is mounted independently of the backend connection
+  // (App.vue keeps it alive across reconnects, since a remount would leak the
+  // engine), so the profile may not be available yet — the engine init below
+  // needs it for the observer location, so wait for it.
   await store.fetchProfilInfos();
+  if (!store.profileInfo?.AstrometrySettings) {
+    await new Promise((resolve) => {
+      stopProfileWait = watch(
+        () => store.profileInfo?.AstrometrySettings,
+        (settings) => {
+          if (settings) resolve();
+        }
+      );
+    });
+    stopProfileWait();
+    stopProfileWait = null;
+  }
+  if (isUnmounted) return;
 
-  // Step 1) Dynamically load the Stellarium Web Engine script
+  // Step 1) Load the Stellarium Web Engine script. Only evaluate it once per
+  // page: on an explicit remount (iOS refresh button) StelWebEngine already
+  // exists, and re-evaluating the script blocks the main thread for ~250 ms.
+  if (window.StelWebEngine) {
+    initStellariumEngine();
+    return;
+  }
   const script = document.createElement('script');
   script.src = '/stellarium-js/stellarium-web-engine.js';
   console.log('Loading Stellarium Web Engine script...');
 
-  script.onload = async () => {
-    if (!window.StelWebEngine) {
-      console.error('StelWebEngine global object not found!');
-      return;
-    }
-
-    try {
-      const response = await fetch(wasmPath);
-      if (!response.ok) {
-        throw new Error(`Error loading WASM file: ${response.statusText}`);
-      }
-      const wasmArrayBuffer = await response.arrayBuffer();
-      console.log('WASM file loaded successfully. Size (bytes):', wasmArrayBuffer.byteLength);
-
-      window.StelWebEngine({
-        wasmFile: wasmPath,
-
-        canvas: stelCanvas.value,
-        async onReady(stel) {
-          console.log('Stellarium is ready!');
-          stellariumStore.stel = stel;
-
-          // Set the observer location (coordinates must be in radians):
-          stel.core.observer.latitude = store.profileInfo.AstrometrySettings.Latitude * stel.D2R;
-          stel.core.observer.longitude = store.profileInfo.AstrometrySettings.Longitude * stel.D2R;
-          stel.core.observer.elevation = store.profileInfo.AstrometrySettings.Elevation;
-
-          // Ensure timeSync is synced, then set server time
-          await timeSync.ensureSync();
-          const serverTime = new Date(timeSync.getServerTime());
-          const mjd = utcToMJD(serverTime);
-          stel.core.observer.utc = mjd;
-          console.log('Stellarium initialized with server time:', serverTime.toISOString());
-
-          stel.core.time_speed = 1;
-
-          // Store Stellarium for later access
-          stellariumStore.stel = stel;
-
-          // Wrap the engine's native render so it can be skipped while Stellarium
-          // is hidden. onReady receives the Emscripten Module itself, so
-          // _core_render is available directly on `stel`.
-          installRenderGate(stel);
-
-          // Helper to read the current view direction (RA/Dec)
-          function getCurrentViewDirection() {
-            const obs = stel.core.observer;
-
-            // In the VIEW frame [0, 0, -1] points forward (where the camera looks)
-            // In the VIEW frame [0, 0, 1] points backward (behind the camera)
-            const viewVec = [0, 0, -1];
-
-            // Convert from VIEW to CIRS
-            const cirsVec = stel.convertFrame(stel.observer, 'VIEW', 'CIRS', viewVec);
-
-            // Convert to spherical coordinates (RA/Dec)
-            const raDecSpherical = stel.c2s(cirsVec);
-
-            const alt = obs.azalt[0];
-            const az = obs.azalt[1];
-
-            return {
-              ra: raDecSpherical[0],
-              dec: raDecSpherical[1],
-              alt,
-              az,
-            };
-          }
-
-          // Helper to set the view direction (RA/Dec)
-          function setViewDirection(raDeg, decDeg) {
-            try {
-              // Convert degrees to radians
-              const raRad = raDeg * stel.D2R;
-              const decRad = decDeg * stel.D2R;
-
-              // Create ICRF vector from RA/Dec
-              const icrfVec = stel.s2c(raRad, decRad);
-
-              // Convert from ICRF to CIRS frame
-              const cirsVec = stel.convertFrame(stel.observer, 'ICRF', 'CIRS', icrfVec);
-
-              // Create a virtual circle object at the specified position
-              const targetCircle = stel.createObj('circle', {
-                id: 'framingTarget',
-                pos: cirsVec,
-                color: [0, 0, 0, 0.1],
-                size: [0.05, 0.05],
-              });
-
-              // Update the object and select it
-              targetCircle.pos = cirsVec;
-              targetCircle.update();
-              stel.core.selection = targetCircle;
-              stel.pointAndLock(targetCircle);
-
-              console.log('Updated Stellarium view to RA:', raDeg, 'Dec:', decDeg);
-            } catch (error) {
-              console.error('Error setting view direction:', error);
-            }
-          }
-
-          stellariumStore.getCurrentViewDirection = getCurrentViewDirection;
-          stellariumStore.setViewDirection = setViewDirection;
-
-          // Step 3) Add data sources (catalogs)
-          // Determine the plugin's IP and port
-          const protocol = settingsStore.backendProtocol || 'http';
-          const host = settingsStore.connection.ip || window.location.hostname;
-          const port = settingsStore.connection.port || window.location.port;
-          const baseUrl = `${protocol}://${host}:${port}/stellarium-data/`;
-          stellariumStore.baseUrl = baseUrl;
-          const core = stel.core;
-
-          core.dsos.hints_mag_offset = 4;
-          //core.stars.hints_mag_offset = 3;
-
-          // Add data
-          core.stars.addDataSource({ url: baseUrl + 'stars' });
-          core.skycultures.addDataSource({ url: baseUrl + 'skycultures/western', key: 'western' });
-          core.dsos.addDataSource({ url: baseUrl + 'dso' });
-          core.dss.addDataSource({ url: baseUrl + 'surveys/dss' });
-          //core.landscapes.addDataSource({ url: baseUrl + 'landscapes/guereins', key: 'guereins' });
-          //core.landscapes.addDataSource({ url: baseUrl + 'landscapes/gray', key: 'guereins' });
-          core.milkyway.addDataSource({ url: baseUrl + 'surveys/milkyway' });
-          core.minor_planets.addDataSource({ url: baseUrl + 'mpcorb.dat', key: 'mpc_asteroids' });
-          // Planets with official HiPS textures
-          core.planets.addDataSource({ url: baseUrl + 'surveys/sso/moon', key: 'moon' });
-          core.planets.addDataSource({ url: baseUrl + 'surveys/sso/sun', key: 'sun' });
-          core.planets.addDataSource({ url: baseUrl + 'surveys/sso/mercury', key: 'mercury' });
-          core.planets.addDataSource({ url: baseUrl + 'surveys/sso/venus', key: 'venus' });
-          core.planets.addDataSource({ url: baseUrl + 'surveys/sso/mars', key: 'mars' });
-          core.planets.addDataSource({ url: baseUrl + 'surveys/sso/jupiter', key: 'jupiter' });
-          core.planets.addDataSource({ url: baseUrl + 'surveys/sso/saturn', key: 'saturn' });
-          core.planets.addDataSource({ url: baseUrl + 'surveys/sso/uranus', key: 'uranus' });
-          core.planets.addDataSource({ url: baseUrl + 'surveys/sso/neptune', key: 'neptune' });
-
-          // Jupiter moons
-          core.planets.addDataSource({ url: baseUrl + 'surveys/sso/io', key: 'io' });
-          core.planets.addDataSource({ url: baseUrl + 'surveys/sso/europa', key: 'europa' });
-          core.planets.addDataSource({ url: baseUrl + 'surveys/sso/ganymede', key: 'ganymede' });
-          core.planets.addDataSource({ url: baseUrl + 'surveys/sso/callisto', key: 'callisto' });
-
-          core.planets.addDataSource({ url: baseUrl + 'surveys/sso', key: 'default' });
-          core.comets.addDataSource({ url: baseUrl + 'CometEls.txt', key: 'mpc_comets' });
-          // core.satellites.addDataSource({url: baseUrl + 'tle_satellite.jsonl.gz',key: 'jsonl/sat', });
-
-          stellariumStore.updateStellariumCore();
-
-          // Only remove the spinner once the catalogs are loaded and the sky has
-          // rendered. The engine has no "fully loaded" event, so we keep the
-          // overlay for a short settle time before hiding it.
-          waitForStellariumRender();
-
-          // Step 4) Watch for selection changes
-          stel.change((obj, attr) => {
-            if (attr === 'selection') {
-              const selection = core.selection;
-              if (!selection) {
-                // Deselected
-                selectedObject.value = null;
-                console.log('No selection (deselected).');
-                return;
-              }
-              if (stel.core.selection) {
-                isSearchVisible.value = false;
-                const selectedDesignations = stel.core.selection.designations() || [];
-                // For coordinate-based search results (NGC, etc.) designations()
-                // returns nothing useful — prepend the last searched name so it
-                // gets passed on to framing/sequence.
-                const searchedName = stellariumStore.lastSearchedName;
-                stellariumStore.lastSearchedName = '';
-                const designationsList = Array.isArray(selectedDesignations)
-                  ? selectedDesignations
-                  : [];
-                if (searchedName && !designationsList.includes(searchedName)) {
-                  selectedObject.value = [searchedName, ...designationsList];
-                } else {
-                  selectedObject.value = designationsList;
-                }
-                console.log('Object designations:', selectedObject.value);
-                const info = stel.core.selection;
-                //console.log('Object information:', info);
-
-                const raDec = info.getInfo('RADEC');
-                console.log(raDec);
-                //const cirs = stel.convertFrame(stel.observer, 'ICRF', 'ICRF', raDec);
-                const radecCIRS = stel.c2s(raDec);
-                console.log('radecCIRS', radecCIRS);
-                const ra = stel.anp(radecCIRS[0]); // RA in Radian
-                const dec = stel.anpm(radecCIRS[1]); // Dec in Radian
-
-                console.log(ra, dec);
-
-                selectedObjectRa.value = degreesToHMS(rad2deg(ra));
-                selectedObjectDec.value = degreesToDMS(rad2deg(dec));
-                selectedObjectRaDeg.value = rad2deg(ra);
-                selectedObjectDecDeg.value = rad2deg(dec);
-              }
-            }
-          });
-        },
-      });
-    } catch (err) {
-      console.error('Error with Fetch or StelWebEngine:', err);
-    }
-  };
+  script.onload = initStellariumEngine;
   document.head.appendChild(script);
 });
+
+async function initStellariumEngine() {
+  if (!window.StelWebEngine) {
+    console.error('StelWebEngine global object not found!');
+    return;
+  }
+
+  try {
+    const response = await fetch(wasmPath);
+    if (!response.ok) {
+      throw new Error(`Error loading WASM file: ${response.statusText}`);
+    }
+    const wasmArrayBuffer = await response.arrayBuffer();
+    console.log('WASM file loaded successfully. Size (bytes):', wasmArrayBuffer.byteLength);
+
+    // Unmounted while loading — creating the engine now would leak it (its
+    // rAF loop can never be stopped).
+    if (isUnmounted) return;
+
+    window.StelWebEngine({
+      wasmFile: wasmPath,
+
+      canvas: stelCanvas.value,
+      async onReady(stel) {
+        console.log('Stellarium is ready!');
+        stellariumStore.stel = stel;
+
+        // Set the observer location (coordinates must be in radians):
+        stel.core.observer.latitude = store.profileInfo.AstrometrySettings.Latitude * stel.D2R;
+        stel.core.observer.longitude = store.profileInfo.AstrometrySettings.Longitude * stel.D2R;
+        stel.core.observer.elevation = store.profileInfo.AstrometrySettings.Elevation;
+
+        // Ensure timeSync is synced, then set server time
+        await timeSync.ensureSync();
+        const serverTime = new Date(timeSync.getServerTime());
+        const mjd = utcToMJD(serverTime);
+        stel.core.observer.utc = mjd;
+        console.log('Stellarium initialized with server time:', serverTime.toISOString());
+
+        stel.core.time_speed = 1;
+
+        // Store Stellarium for later access
+        stellariumStore.stel = stel;
+
+        // Wrap the engine's native render so it can be skipped while Stellarium
+        // is hidden. onReady receives the Emscripten Module itself, so
+        // _core_render is available directly on `stel`.
+        installRenderGate(stel);
+
+        // Helper to read the current view direction (RA/Dec)
+        function getCurrentViewDirection() {
+          const obs = stel.core.observer;
+
+          // In the VIEW frame [0, 0, -1] points forward (where the camera looks)
+          // In the VIEW frame [0, 0, 1] points backward (behind the camera)
+          const viewVec = [0, 0, -1];
+
+          // Convert from VIEW to CIRS
+          const cirsVec = stel.convertFrame(stel.observer, 'VIEW', 'CIRS', viewVec);
+
+          // Convert to spherical coordinates (RA/Dec)
+          const raDecSpherical = stel.c2s(cirsVec);
+
+          const alt = obs.azalt[0];
+          const az = obs.azalt[1];
+
+          return {
+            ra: raDecSpherical[0],
+            dec: raDecSpherical[1],
+            alt,
+            az,
+          };
+        }
+
+        // Helper to set the view direction (RA/Dec)
+        function setViewDirection(raDeg, decDeg) {
+          try {
+            // Convert degrees to radians
+            const raRad = raDeg * stel.D2R;
+            const decRad = decDeg * stel.D2R;
+
+            // Create ICRF vector from RA/Dec
+            const icrfVec = stel.s2c(raRad, decRad);
+
+            // Convert from ICRF to CIRS frame
+            const cirsVec = stel.convertFrame(stel.observer, 'ICRF', 'CIRS', icrfVec);
+
+            // Create a virtual circle object at the specified position
+            const targetCircle = stel.createObj('circle', {
+              id: 'framingTarget',
+              pos: cirsVec,
+              color: [0, 0, 0, 0.1],
+              size: [0.05, 0.05],
+            });
+
+            // Update the object and select it
+            targetCircle.pos = cirsVec;
+            targetCircle.update();
+            stel.core.selection = targetCircle;
+            stel.pointAndLock(targetCircle);
+
+            console.log('Updated Stellarium view to RA:', raDeg, 'Dec:', decDeg);
+          } catch (error) {
+            console.error('Error setting view direction:', error);
+          }
+        }
+
+        stellariumStore.getCurrentViewDirection = getCurrentViewDirection;
+        stellariumStore.setViewDirection = setViewDirection;
+
+        // Step 3) Add data sources (catalogs)
+        // Determine the plugin's IP and port
+        const protocol = settingsStore.backendProtocol || 'http';
+        const host = settingsStore.connection.ip || window.location.hostname;
+        const port = settingsStore.connection.port || window.location.port;
+        const baseUrl = `${protocol}://${host}:${port}/stellarium-data/`;
+        stellariumStore.baseUrl = baseUrl;
+        const core = stel.core;
+
+        core.dsos.hints_mag_offset = 4;
+        //core.stars.hints_mag_offset = 3;
+
+        // Add data
+        core.stars.addDataSource({ url: baseUrl + 'stars' });
+        core.skycultures.addDataSource({ url: baseUrl + 'skycultures/western', key: 'western' });
+        core.dsos.addDataSource({ url: baseUrl + 'dso' });
+        core.dss.addDataSource({ url: baseUrl + 'surveys/dss' });
+        //core.landscapes.addDataSource({ url: baseUrl + 'landscapes/guereins', key: 'guereins' });
+        //core.landscapes.addDataSource({ url: baseUrl + 'landscapes/gray', key: 'guereins' });
+        core.milkyway.addDataSource({ url: baseUrl + 'surveys/milkyway' });
+        core.minor_planets.addDataSource({ url: baseUrl + 'mpcorb.dat', key: 'mpc_asteroids' });
+        // Planets with official HiPS textures
+        core.planets.addDataSource({ url: baseUrl + 'surveys/sso/moon', key: 'moon' });
+        core.planets.addDataSource({ url: baseUrl + 'surveys/sso/sun', key: 'sun' });
+        core.planets.addDataSource({ url: baseUrl + 'surveys/sso/mercury', key: 'mercury' });
+        core.planets.addDataSource({ url: baseUrl + 'surveys/sso/venus', key: 'venus' });
+        core.planets.addDataSource({ url: baseUrl + 'surveys/sso/mars', key: 'mars' });
+        core.planets.addDataSource({ url: baseUrl + 'surveys/sso/jupiter', key: 'jupiter' });
+        core.planets.addDataSource({ url: baseUrl + 'surveys/sso/saturn', key: 'saturn' });
+        core.planets.addDataSource({ url: baseUrl + 'surveys/sso/uranus', key: 'uranus' });
+        core.planets.addDataSource({ url: baseUrl + 'surveys/sso/neptune', key: 'neptune' });
+
+        // Jupiter moons
+        core.planets.addDataSource({ url: baseUrl + 'surveys/sso/io', key: 'io' });
+        core.planets.addDataSource({ url: baseUrl + 'surveys/sso/europa', key: 'europa' });
+        core.planets.addDataSource({ url: baseUrl + 'surveys/sso/ganymede', key: 'ganymede' });
+        core.planets.addDataSource({ url: baseUrl + 'surveys/sso/callisto', key: 'callisto' });
+
+        core.planets.addDataSource({ url: baseUrl + 'surveys/sso', key: 'default' });
+        core.comets.addDataSource({ url: baseUrl + 'CometEls.txt', key: 'mpc_comets' });
+        // core.satellites.addDataSource({url: baseUrl + 'tle_satellite.jsonl.gz',key: 'jsonl/sat', });
+
+        stellariumStore.updateStellariumCore();
+
+        // Only remove the spinner once the catalogs are loaded and the sky has
+        // rendered. The engine has no "fully loaded" event, so we keep the
+        // overlay for a short settle time before hiding it.
+        waitForStellariumRender();
+
+        // Step 4) Watch for selection changes
+        stel.change((obj, attr) => {
+          if (attr === 'selection') {
+            const selection = core.selection;
+            if (!selection) {
+              // Deselected
+              selectedObject.value = null;
+              console.log('No selection (deselected).');
+              return;
+            }
+            if (stel.core.selection) {
+              isSearchVisible.value = false;
+              const selectedDesignations = stel.core.selection.designations() || [];
+              // For coordinate-based search results (NGC, etc.) designations()
+              // returns nothing useful — prepend the last searched name so it
+              // gets passed on to framing/sequence.
+              const searchedName = stellariumStore.lastSearchedName;
+              stellariumStore.lastSearchedName = '';
+              const designationsList = Array.isArray(selectedDesignations)
+                ? selectedDesignations
+                : [];
+              if (searchedName && !designationsList.includes(searchedName)) {
+                selectedObject.value = [searchedName, ...designationsList];
+              } else {
+                selectedObject.value = designationsList;
+              }
+              console.log('Object designations:', selectedObject.value);
+              const info = stel.core.selection;
+              //console.log('Object information:', info);
+
+              const raDec = info.getInfo('RADEC');
+              console.log(raDec);
+              //const cirs = stel.convertFrame(stel.observer, 'ICRF', 'ICRF', raDec);
+              const radecCIRS = stel.c2s(raDec);
+              console.log('radecCIRS', radecCIRS);
+              const ra = stel.anp(radecCIRS[0]); // RA in Radian
+              const dec = stel.anpm(radecCIRS[1]); // Dec in Radian
+
+              console.log(ra, dec);
+
+              selectedObjectRa.value = degreesToHMS(rad2deg(ra));
+              selectedObjectDec.value = degreesToDMS(rad2deg(dec));
+              selectedObjectRaDeg.value = rad2deg(ra);
+              selectedObjectDecDeg.value = rad2deg(dec);
+            }
+          }
+        });
+      },
+    });
+  } catch (err) {
+    console.error('Error with Fetch or StelWebEngine:', err);
+  }
+}
 onBeforeUnmount(() => {
+  isUnmounted = true;
+  stopProfileWait?.();
+  stopProfileWait = null;
   document.removeEventListener('visibilitychange', handleVisibilityChange);
   RENDER_BOOST_EVENTS.forEach((ev) => stelCanvas.value?.removeEventListener(ev, boostRender));
 

@@ -2122,7 +2122,9 @@
       "indiRegistryModalType": "Type",
       "indiRegistryModalTypeInvalid": "Type must be one of the allowed values.",
       "indiRegistryModalUpdatedAt": "Updated",
-      "indiRegistryModalNameDuplicate": "Name already exists in another row."
+      "indiRegistryModalNameDuplicate": "Name already exists in another row.",
+      "wifiSignalMobile": "Mobile signal",
+      "wifiRssiValue": "{value} dBm"
     },
     "bahtifocus": {
       "title": "Bahtinov掩模分析仪",

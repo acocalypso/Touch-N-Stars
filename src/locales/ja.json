@@ -2122,7 +2122,9 @@
       "indiRegistryModalType": "タイプ",
       "indiRegistryModalTypeInvalid": "Type は許可された値の 1 つである必要があります。",
       "indiRegistryModalUpdatedAt": "更新されました",
-      "indiRegistryModalNameDuplicate": "名前はすでに別の行に存在します。"
+      "indiRegistryModalNameDuplicate": "名前はすでに別の行に存在します。",
+      "wifiSignalMobile": "Mobile signal",
+      "wifiRssiValue": "{value} dBm"
     },
     "bahtifocus": {
       "title": "バーティノフマスク・アナライザー",

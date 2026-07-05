@@ -2122,7 +2122,9 @@
       "indiRegistryModalType": "Type",
       "indiRegistryModalTypeInvalid": "Type moet een van de toegestane waarden zijn.",
       "indiRegistryModalUpdatedAt": "Bijgewerkt",
-      "indiRegistryModalNameDuplicate": "Naam bestaat al in een andere rij."
+      "indiRegistryModalNameDuplicate": "Naam bestaat al in een andere rij.",
+      "wifiSignalMobile": "Mobile signal",
+      "wifiRssiValue": "{value} dBm"
     },
     "bahtifocus": {
       "title": "Bahtinov Masker Analyse",

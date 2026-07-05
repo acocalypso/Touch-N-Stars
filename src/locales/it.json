@@ -2122,7 +2122,9 @@
       "indiRegistryModalType": "Tipo",
       "indiRegistryModalTypeInvalid": "Il tipo deve essere uno dei valori consentiti.",
       "indiRegistryModalUpdatedAt": "Aggiornato",
-      "indiRegistryModalNameDuplicate": "Il nome esiste già in un'altra riga."
+      "indiRegistryModalNameDuplicate": "Il nome esiste già in un'altra riga.",
+      "wifiSignalMobile": "Mobile signal",
+      "wifiRssiValue": "{value} dBm"
     },
     "bahtifocus": {
       "title": "Analizzatore di maschere Bahtinov",

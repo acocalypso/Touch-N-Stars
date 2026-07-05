@@ -2122,7 +2122,9 @@
       "indiRegistryModalType": "유형",
       "indiRegistryModalTypeInvalid": "유형은 허용되는 값 중 하나여야 합니다.",
       "indiRegistryModalUpdatedAt": "업데이트됨",
-      "indiRegistryModalNameDuplicate": "이름이 이미 다른 행에 존재합니다."
+      "indiRegistryModalNameDuplicate": "이름이 이미 다른 행에 존재합니다.",
+      "wifiSignalMobile": "Mobile signal",
+      "wifiRssiValue": "{value} dBm"
     },
     "bahtifocus": {
       "title": "바티노프 마스크 분석기",

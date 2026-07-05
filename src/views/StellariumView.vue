@@ -255,37 +255,94 @@ function waitForStellariumRender() {
   }, RENDER_SETTLE_MS);
 }
 
+// The star field changes slowly, so rendering at the full display refresh rate
+// only burns CPU/GPU (and battery on phones). While visible, cap rendering at
+// ~30 fps; user interaction and programmatic slews lift the cap temporarily so
+// panning, zooming and pointAndLock animations stay smooth. The 30 ms minimum
+// interval (instead of exactly 1000/30) tolerates rAF timestamp jitter, so a
+// 60 Hz display reliably renders every 2nd frame.
+const VISIBLE_MIN_FRAME_MS = 30;
+const RENDER_BOOST_MS = 1500;
+// While hidden the engine's rAF loop keeps ticking (it cannot be stopped), but
+// its per-frame _core_update is throttled to ~1 Hz — enough to keep the engine
+// clock current at negligible cost.
+const HIDDEN_UPDATE_INTERVAL_MS = 1000;
+let renderBoostUntil = 0;
+let lastRenderTs = 0;
+let lastHiddenUpdateTs = 0;
+
+// Render at full display refresh rate for the next RENDER_BOOST_MS.
+function boostRender() {
+  renderBoostUntil = performance.now() + RENDER_BOOST_MS;
+}
+
+const RENDER_BOOST_EVENTS = ['pointerdown', 'pointermove', 'touchstart', 'touchmove', 'wheel'];
+
 // Wrap the engine's native _core_render so we can skip the expensive GPU work
-// while Stellarium is hidden. _core_update is left untouched so the engine state
-// (time/position) stays current and resuming is instant.
+// while Stellarium is hidden (and FPS-cap it while visible). _core_update gets
+// the same treatment but keeps running at ~1 Hz while hidden; resuming stays
+// instant because setRenderActive(true) forces one update.
 //
-// _core_render uses Emscripten's lazy-binding pattern: on its first call it does
-// `Module._core_render = realWasmFn`, which would overwrite a plain wrapper. To
-// survive that, we install an accessor property: the getter always returns our
-// gated wrapper, and the setter captures whatever the engine assigns (the real
-// WASM function) as the underlying implementation.
+// The engine's exports use Emscripten's lazy-binding pattern: on the first call
+// it does `Module._core_render = realWasmFn`, which would overwrite a plain
+// wrapper. To survive that, we install an accessor property: the getter always
+// returns our gated wrapper, and the setter captures whatever the engine
+// assigns (the real WASM function) as the underlying implementation.
 function installRenderGate(stel) {
   if (!stel || stel._coreRenderGated) return;
 
-  let impl = stel._core_render;
-  if (typeof impl !== 'function') return;
+  let renderImpl = stel._core_render;
+  let updateImpl = stel._core_update;
+  if (typeof renderImpl !== 'function' || typeof updateImpl !== 'function') return;
 
-  const gated = function (...args) {
+  const gatedRender = function (...args) {
     if (!renderActive) return; // skip rendering while hidden
-    return impl.apply(stel, args);
+    const now = performance.now();
+    if (now > renderBoostUntil && now - lastRenderTs < VISIBLE_MIN_FRAME_MS) return;
+    lastRenderTs = now;
+    return renderImpl.apply(stel, args);
+  };
+
+  const gatedUpdate = function (...args) {
+    if (!renderActive) {
+      const now = performance.now();
+      if (now - lastHiddenUpdateTs < HIDDEN_UPDATE_INTERVAL_MS) return;
+      lastHiddenUpdateTs = now;
+    }
+    return updateImpl.apply(stel, args);
   };
 
   Object.defineProperty(stel, '_core_render', {
     configurable: true,
     get() {
-      return gated;
+      return gatedRender;
     },
     set(fn) {
       // The lazy-binding resolves to the real WASM function; keep it as impl
       // but keep exposing our gated wrapper.
-      impl = fn;
+      renderImpl = fn;
     },
   });
+
+  Object.defineProperty(stel, '_core_update', {
+    configurable: true,
+    get() {
+      return gatedUpdate;
+    },
+    set(fn) {
+      updateImpl = fn;
+    },
+  });
+
+  // Programmatic slews (search, mount sync, framing target) animate the view
+  // over ~1 s — lift the FPS cap for their duration.
+  const pointAndLockImpl = stel.pointAndLock?.bind(stel);
+  if (pointAndLockImpl) {
+    stel.pointAndLock = (...args) => {
+      boostRender();
+      return pointAndLockImpl(...args);
+    };
+  }
 
   stel._coreRenderGated = true;
 }
@@ -297,8 +354,12 @@ function setRenderActive(active) {
   // Mirror the state into the store so overlay components can stop their own
   // requestAnimationFrame loops while Stellarium is hidden.
   stellariumStore.isVisible = active;
-  if (active && typeof stellariumStore.stel?._core_update === 'function') {
-    stellariumStore.stel._core_update();
+  if (active) {
+    // Full frame rate for the first moments after becoming visible.
+    boostRender();
+    if (typeof stellariumStore.stel?._core_update === 'function') {
+      stellariumStore.stel._core_update();
+    }
   }
 }
 
@@ -354,6 +415,11 @@ function handleVisibilityChange() {
 
 onMounted(async () => {
   document.addEventListener('visibilitychange', handleVisibilityChange);
+
+  // Lift the FPS cap while the user pans/zooms so interaction stays smooth.
+  RENDER_BOOST_EVENTS.forEach((ev) =>
+    stelCanvas.value?.addEventListener(ev, boostRender, { passive: true })
+  );
 
   // Stellarium starts hidden (the default page is not Stellarium); only render
   // once it actually becomes visible.
@@ -579,6 +645,7 @@ onMounted(async () => {
 });
 onBeforeUnmount(() => {
   document.removeEventListener('visibilitychange', handleVisibilityChange);
+  RENDER_BOOST_EVENTS.forEach((ev) => stelCanvas.value?.removeEventListener(ev, boostRender));
 
   // The engine's render loop cannot be stopped, so at least disable rendering so
   // it stops producing GPU work once the component is gone.

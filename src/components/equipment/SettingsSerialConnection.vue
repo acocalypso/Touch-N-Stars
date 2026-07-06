@@ -397,14 +397,16 @@ async function setConnectionMode() {
     // otherwise a stale/default address never reaches the backend if the user only touches
     // the dropdown (e.g. INDI reports "Server address is missing or invalid" on first connect).
     if (connectionMode.value === 'CONNECTION_TCP') {
-      await apiService.profileChangeValue(
-        `${settingsKeyMap[props.equipmentType]}-${prefix.port}`,
-        tcpPort.value
-      );
-      await apiService.profileChangeValue(
-        `${settingsKeyMap[props.equipmentType]}-${prefix.address}`,
-        ipAddress.value
-      );
+      await Promise.all([
+        apiService.profileChangeValue(
+          `${settingsKeyMap[props.equipmentType]}-${prefix.port}`,
+          tcpPort.value
+        ),
+        apiService.profileChangeValue(
+          `${settingsKeyMap[props.equipmentType]}-${prefix.address}`,
+          ipAddress.value
+        ),
+      ]);
     } else if (connectionMode.value === 'CONNECTION_HTTP') {
       await apiService.profileChangeValue(
         `${settingsKeyMap[props.equipmentType]}-${prefix.address}`,

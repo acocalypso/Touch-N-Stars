@@ -15,7 +15,7 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, watch } from 'vue';
 import { apiStore } from '@/store/store';
 import apiService from '@/services/apiService';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
@@ -25,11 +25,14 @@ const backlashValue = ref(0);
 
 const isWandererRotator = computed(() => store.rotatorInfo?.Name?.includes('Wanderer') ?? false);
 
-onMounted(async () => {
-  if (isWandererRotator.value) {
+watch(
+  isWandererRotator,
+  async (isWanderer) => {
+    if (!isWanderer) return;
     await loadBacklash();
-  }
-});
+  },
+  { immediate: true }
+);
 
 async function loadBacklash() {
   try {

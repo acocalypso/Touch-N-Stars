@@ -50,8 +50,7 @@
                 @change="
                   (e) => {
                     const val = e.target.value === '' ? -1 : parseFloat(e.target.value);
-                    options[meta.key] = val;
-                    saveOption(meta.key, val);
+                    saveNumericOption(meta.key, val);
                   }
                 "
                 type="text"
@@ -69,8 +68,7 @@
                 @change="
                   (e) => {
                     const val = parseFloat(e.target.value);
-                    options[meta.key] = val;
-                    saveOption(meta.key, val);
+                    saveNumericOption(meta.key, val);
                   }
                 "
                 type="number"
@@ -191,6 +189,12 @@ const saveOption = async (key, value) => {
     savingOptions.value.delete(key);
   }
 };
+
+function saveNumericOption(key, value) {
+  if (Number.isNaN(value)) return;
+  options[key] = value;
+  saveOption(key, value);
+}
 
 // Reset to defaults
 const resetToDefaults = async () => {

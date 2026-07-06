@@ -911,7 +911,9 @@
         },
         "setLocationSyncToMount": "Stel in \"Sync naar Telescoop\"",
         "slewRateINDI": "Bewegingssnelheid",
-        "reverse_axis": "Asrichting"
+        "reverse_axis": "Asrichting",
+        "slewRateDriverControlled": "De zwenksnelheid wordt geregeld door de bestuurder",
+        "slewRateUnavailable": "Sluit een steun aan om de zwenksnelheid aan te passen"
       },
       "info": {
         "notConnected": "Verbind montering",
@@ -2002,7 +2004,8 @@
         "hotspotChannelInvalid": "Hotspotkanaal moet een positief geheel getal zijn, indien opgegeven.",
         "hotspotFetchFailed": "Kan hotspot-instellingen niet laden: {message}",
         "hotspotPasswordInvalidLength": "Hotspotwachtwoord is vereist en moet 8-63 tekens lang zijn.",
-        "hotspotSaveFailed": "Kan hotspot-instellingen niet opslaan: {message}"
+        "hotspotSaveFailed": "Kan hotspot-instellingen niet opslaan: {message}",
+        "wifiConnected": "Wifi verbonden: {ssid} ({ip})"
       },
       "hotspotConfigured": "Er is een aangepast hotspotwachtwoord geconfigureerd.",
       "hotspotNewPassword": "Nieuw hotspot-wachtwoord",
@@ -2122,7 +2125,17 @@
       "indiRegistryModalType": "Type",
       "indiRegistryModalTypeInvalid": "Type moet een van de toegestane waarden zijn.",
       "indiRegistryModalUpdatedAt": "Bijgewerkt",
-      "indiRegistryModalNameDuplicate": "Naam bestaat al in een andere rij."
+      "indiRegistryModalNameDuplicate": "Naam bestaat al in een andere rij.",
+      "wifiChannel": "Kanaal {kanaal}",
+      "wifiConnectedAction": "Aangesloten",
+      "wifiRoleClient": "Thuis-wifi",
+      "wifiRoleHotspot": "Hotspot",
+      "wifiSignal": "Signaal",
+      "wifiSignalHistory": "WiFi-signaalgeschiedenis",
+      "wifiSignalUnavailable": "Signaal niet beschikbaar",
+      "wifiSignalValue": "{waarde}%",
+      "wifiStatusConnected": "Aangesloten",
+      "wifiStatusDisconnected": "Niet verbonden"
     },
     "bahtifocus": {
       "title": "Bahtinov Masker Analyse",
@@ -3216,7 +3229,18 @@
         "micronsPerFocuserStep": "Micronen per Focusserstap",
         "retry": "Opnieuw proberen",
         "resetToDefaults": "Standaardwaarden herstellen",
-        "resetting": "Resetten..."
+        "resetting": "Resetten...",
+        "autoPlaceholder": "auto",
+        "centerFocuserBeforeRun": "Centerfocuser vóór het rennen",
+        "detailedAnalysisExposureSeconds": "Gedetailleerde analyse Belichtingstijd (seconden)",
+        "framesPerPoint": "Frames per punt",
+        "numRegionsWide": "Aantal regio's breed",
+        "sensorCurveModelEnabled": "Sensorcurvemodel",
+        "signalAmplification": "Signaalversterking",
+        "simpleExposureSeconds": "Belichtingstijd (seconden)",
+        "stepCount": "Staptelling",
+        "stepSize": "Stapgrootte",
+        "timeoutSeconds": "Time-out (seconden)"
       },
       "autoFocusOptions": {
         "loading": "Autofocus-opties laden...",
@@ -3242,7 +3266,8 @@
         "noiseReducedStarMeasurement": "Ster-meting met ruisvermindering",
         "debugMode": "Foutopsporingmodus",
         "simpleModeSettings": "Eenvoudige modusinstellingen",
-        "noiseLevel": "Geluidsniveau"
+        "noiseLevel": "Geluidsniveau",
+        "useOptimizedSettings": "Gebruik geoptimaliseerde instellingen"
       },
       "tilter": {
         "device": "Apparaat",

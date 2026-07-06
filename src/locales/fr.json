@@ -911,7 +911,9 @@
         },
         "setLocationSyncToMount": "Définir \"Synchroniser au télescope\"",
         "slewRateINDI": "Vitesse de balayage",
-        "reverse_axis": "Direction des axes"
+        "reverse_axis": "Direction des axes",
+        "slewRateDriverControlled": "Le taux de balayage est contrôlé par le pilote",
+        "slewRateUnavailable": "Connectez un support pour ajuster la vitesse de balayage"
       },
       "info": {
         "notConnected": "Veuillez connecter la monture",
@@ -2002,7 +2004,8 @@
         "hotspotChannelInvalid": "Le canal du point d'accès doit être un entier positif lorsqu'il est fourni.",
         "hotspotFetchFailed": "Échec du chargement des paramètres du point d'accès : {message}",
         "hotspotPasswordInvalidLength": "Le mot de passe du point d'accès est requis et doit comporter de 8 à 63 caractères.",
-        "hotspotSaveFailed": "Échec de l'enregistrement des paramètres du point d'accès : {message}"
+        "hotspotSaveFailed": "Échec de l'enregistrement des paramètres du point d'accès : {message}",
+        "wifiConnected": "Wi-Fi connecté : {ssid} ({ip})"
       },
       "hotspotConfigured": "Le mot de passe du point d'accès personnalisé est configuré.",
       "hotspotNewPassword": "Nouveau mot de passe du point d'accès",
@@ -2122,7 +2125,17 @@
       "indiRegistryModalType": "Taper",
       "indiRegistryModalTypeInvalid": "Le type doit être l’une des valeurs autorisées.",
       "indiRegistryModalUpdatedAt": "Mis à jour",
-      "indiRegistryModalNameDuplicate": "Le nom existe déjà dans une autre ligne."
+      "indiRegistryModalNameDuplicate": "Le nom existe déjà dans une autre ligne.",
+      "wifiChannel": "Chaîne {chaîne}",
+      "wifiConnectedAction": "Connecté",
+      "wifiRoleClient": "Wi-Fi domestique",
+      "wifiRoleHotspot": "Point chaud",
+      "wifiSignal": "Signal",
+      "wifiSignalHistory": "Historique du signal Wi-Fi",
+      "wifiSignalUnavailable": "Signal indisponible",
+      "wifiSignalValue": "{valeur}%",
+      "wifiStatusConnected": "Connecté",
+      "wifiStatusDisconnected": "Non connecté"
     },
     "bahtifocus": {
       "title": "Analyseur de masque Bahtinov",
@@ -3216,7 +3229,18 @@
         "micronsPerFocuserStep": "Microns par Étape du Focaliseur",
         "retry": "Réessayer",
         "resetToDefaults": "Réinitialiser aux Valeurs par Défaut",
-        "resetting": "Réinitialisation..."
+        "resetting": "Réinitialisation...",
+        "autoPlaceholder": "auto",
+        "centerFocuserBeforeRun": "Centre de mise au point avant l'exécution",
+        "detailedAnalysisExposureSeconds": "Temps d'exposition de l'analyse détaillée (secondes)",
+        "framesPerPoint": "Images par point",
+        "numRegionsWide": "Nombre de régions à l'échelle",
+        "sensorCurveModelEnabled": "Modèle de courbe de capteur",
+        "signalAmplification": "Amplification des signaux",
+        "simpleExposureSeconds": "Temps d'exposition (secondes)",
+        "stepCount": "Nombre de pas",
+        "stepSize": "Taille du pas",
+        "timeoutSeconds": "Délai d'expiration (secondes)"
       },
       "autoFocusOptions": {
         "loading": "Chargement des options d'Autofocus...",
@@ -3242,7 +3266,8 @@
         "noiseReducedStarMeasurement": "Mesure d'Étoiles à Bruit Réduit",
         "debugMode": "Mode Débogage",
         "simpleModeSettings": "Paramètres du Mode Simple",
-        "noiseLevel": "Niveau de Bruit"
+        "noiseLevel": "Niveau de Bruit",
+        "useOptimizedSettings": "Utiliser les paramètres optimisés"
       },
       "tilter": {
         "device": "Appareil",

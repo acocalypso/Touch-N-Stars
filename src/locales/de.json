@@ -951,7 +951,9 @@
         },
         "setLocationSyncToMount": "Setze \"Sync to telescope\"",
         "slewRateINDI": "Schwenkgeschwindigkeit",
-        "reverse_axis": "Achsenrichtung"
+        "reverse_axis": "Achsenrichtung",
+        "slewRateDriverControlled": "Die Anstiegsgeschwindigkeit wird vom Treiber gesteuert",
+        "slewRateUnavailable": "Schließen Sie eine Halterung an, um die Anstiegsgeschwindigkeit anzupassen"
       },
       "info": {
         "notConnected": "Bitte Montierung verbinden",
@@ -3308,7 +3310,18 @@
         "micronsPerFocuserStep": "Mikronen pro Fokussierschritt",
         "retry": "Wiederholen",
         "resetToDefaults": "Auf Standardwerte zurücksetzen",
-        "resetting": "Wird zurückgesetzt..."
+        "resetting": "Wird zurückgesetzt...",
+        "autoPlaceholder": "Auto",
+        "centerFocuserBeforeRun": "Fokussierer vor dem Lauf zentrieren",
+        "detailedAnalysisExposureSeconds": "Detaillierte Analyse-Belichtungszeit (Sekunden)",
+        "framesPerPoint": "Frames pro Punkt",
+        "numRegionsWide": "Anzahl der Regionen insgesamt",
+        "sensorCurveModelEnabled": "Sensorkurvenmodell",
+        "signalAmplification": "Signalverstärkung",
+        "simpleExposureSeconds": "Belichtungszeit (Sekunden)",
+        "stepCount": "Schrittzahl",
+        "stepSize": "Schrittgröße",
+        "timeoutSeconds": "Timeout (Sekunden)"
       },
       "autoFocusOptions": {
         "loading": "Lade Autofokus-Optionen...",
@@ -3334,7 +3347,8 @@
         "noiseReducedStarMeasurement": "Rausch-reduzierte Sternmessung",
         "debugMode": "Debug-Modus",
         "simpleModeSettings": "Einfacher Modus-Einstellungen",
-        "noiseLevel": "Rauschpegel"
+        "noiseLevel": "Rauschpegel",
+        "useOptimizedSettings": "Verwenden Sie optimierte Einstellungen"
       },
       "tilter": {
         "device": "Device",

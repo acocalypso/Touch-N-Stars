@@ -911,7 +911,9 @@
         },
         "setLocationSyncToMount": "Establecer \"Sincronizar al telescopio\"",
         "slewRateINDI": "Velocidad de desolazamiento",
-        "reverse_axis": "Dirección de ejes"
+        "reverse_axis": "Dirección de ejes",
+        "slewRateDriverControlled": "La velocidad de giro la controla el conductor",
+        "slewRateUnavailable": "Conecte un soporte para ajustar la velocidad de giro"
       },
       "info": {
         "notConnected": "Por favor conectar montura",
@@ -2002,7 +2004,8 @@
         "hotspotChannelInvalid": "El canal de hotspot debe ser un número entero positivo cuando se proporciona.",
         "hotspotFetchFailed": "No se pudo cargar la configuración del punto de acceso: {mensaje}",
         "hotspotPasswordInvalidLength": "La contraseña del punto de acceso es obligatoria y debe tener entre 8 y 63 caracteres.",
-        "hotspotSaveFailed": "No se pudo guardar la configuración del punto de acceso: {mensaje}"
+        "hotspotSaveFailed": "No se pudo guardar la configuración del punto de acceso: {mensaje}",
+        "wifiConnected": "WiFi conectado: {ssid} ({ip})"
       },
       "hotspotConfigured": "La contraseña del punto de acceso personalizado está configurada.",
       "hotspotNewPassword": "Nueva contraseña de punto de acceso",
@@ -2122,7 +2125,17 @@
       "indiRegistryModalType": "Tipo",
       "indiRegistryModalTypeInvalid": "El tipo debe ser uno de los valores permitidos.",
       "indiRegistryModalUpdatedAt": "Actualizado",
-      "indiRegistryModalNameDuplicate": "El nombre ya existe en otra fila."
+      "indiRegistryModalNameDuplicate": "El nombre ya existe en otra fila.",
+      "wifiChannel": "Canal {canal}",
+      "wifiConnectedAction": "Conectado",
+      "wifiRoleClient": "WiFi en casa",
+      "wifiRoleHotspot": "Punto de acceso",
+      "wifiSignal": "Señal",
+      "wifiSignalHistory": "Historial de señal WiFi",
+      "wifiSignalUnavailable": "Señal no disponible",
+      "wifiSignalValue": "{valor}%",
+      "wifiStatusConnected": "Conectado",
+      "wifiStatusDisconnected": "No conectado"
     },
     "bahtifocus": {
       "title": "Analizador de máscaras de Bahtinov",
@@ -3216,7 +3229,18 @@
         "micronsPerFocuserStep": "Micrones por Paso del Enfocador",
         "retry": "Reintentar",
         "resetToDefaults": "Restablecer Valores Predeterminados",
-        "resetting": "Restableciendo..."
+        "resetting": "Restableciendo...",
+        "autoPlaceholder": "auto",
+        "centerFocuserBeforeRun": "Centrar el enfoque antes de ejecutar",
+        "detailedAnalysisExposureSeconds": "Tiempo de exposición del análisis detallado (segundos)",
+        "framesPerPoint": "Cuadros por punto",
+        "numRegionsWide": "Número de regiones en todo el mundo",
+        "sensorCurveModelEnabled": "Modelo de curva del sensor",
+        "signalAmplification": "Amplificación de señal",
+        "simpleExposureSeconds": "Tiempo de exposición (segundos)",
+        "stepCount": "Conteo de pasos",
+        "stepSize": "Tamaño del paso",
+        "timeoutSeconds": "Tiempo de espera (segundos)"
       },
       "autoFocusOptions": {
         "loading": "Cargando opciones de Enfoque Automático...",
@@ -3242,7 +3266,8 @@
         "noiseReducedStarMeasurement": "Medición de Estrellas con Ruido Reducido",
         "debugMode": "Modo de Depuración",
         "simpleModeSettings": "Configuración del Modo Simple",
-        "noiseLevel": "Nivel de Ruido"
+        "noiseLevel": "Nivel de Ruido",
+        "useOptimizedSettings": "Utilice configuraciones optimizadas"
       },
       "tilter": {
         "device": "Dispositivo",

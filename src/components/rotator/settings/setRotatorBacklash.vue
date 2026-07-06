@@ -26,7 +26,9 @@ const backlashValue = ref(0);
 const isWandererRotator = computed(() => store.rotatorInfo?.Name?.includes('Wanderer') ?? false);
 
 onMounted(async () => {
-  await loadBacklash();
+  if (isWandererRotator.value) {
+    await loadBacklash();
+  }
 });
 
 async function loadBacklash() {

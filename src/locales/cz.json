@@ -911,7 +911,9 @@
         },
         "setLocationSyncToMount": "Nastavit 'Synchronizovat s dalekohledem'",
         "slewRateINDI": "Rychlost pohybu",
-        "reverse_axis": "Směr os"
+        "reverse_axis": "Směr os",
+        "slewRateDriverControlled": "Slew rate is controlled by the driver",
+        "slewRateUnavailable": "Connect a mount to adjust the slew rate"
       },
       "info": {
         "notConnected": "Připojte montáž",
@@ -2002,7 +2004,8 @@
         "hotspotChannelInvalid": "Hotspot channel must be a positive integer when provided.",
         "hotspotFetchFailed": "Failed to load hotspot settings: {message}",
         "hotspotPasswordInvalidLength": "Hotspot password is required and must be 8-63 characters.",
-        "hotspotSaveFailed": "Failed to save hotspot settings: {message}"
+        "hotspotSaveFailed": "Failed to save hotspot settings: {message}",
+        "wifiConnected": "WiFi connected: {ssid} ({ip})"
       },
       "hotspotConfigured": "Je nakonfigurováno vlastní heslo hotspotu.",
       "hotspotNewPassword": "Nové heslo hotspotu",
@@ -2122,7 +2125,17 @@
       "indiRegistryModalType": "Type",
       "indiRegistryModalTypeInvalid": "Type must be one of the allowed values.",
       "indiRegistryModalUpdatedAt": "Updated",
-      "indiRegistryModalNameDuplicate": "Name already exists in another row."
+      "indiRegistryModalNameDuplicate": "Name already exists in another row.",
+      "wifiChannel": "Channel {channel}",
+      "wifiConnectedAction": "Connected",
+      "wifiRoleClient": "Home WiFi",
+      "wifiRoleHotspot": "Hotspot",
+      "wifiSignal": "Signal",
+      "wifiSignalHistory": "WiFi signal history",
+      "wifiSignalUnavailable": "Signal unavailable",
+      "wifiSignalValue": "{value}%",
+      "wifiStatusConnected": "Connected",
+      "wifiStatusDisconnected": "Not connected"
     },
     "bahtifocus": {
       "title": "Bahtinovův analyzátor masky",
@@ -3216,7 +3229,18 @@
         "micronsPerFocuserStep": "Mikrony na krok fokusáru",
         "retry": "Zkusit znovu",
         "resetToDefaults": "Obnovit výchozí hodnoty",
-        "resetting": "Obnovování..."
+        "resetting": "Obnovování...",
+        "autoPlaceholder": "auto",
+        "centerFocuserBeforeRun": "Center Focuser Before Run",
+        "detailedAnalysisExposureSeconds": "Detailed Analysis Exposure Time (seconds)",
+        "framesPerPoint": "Frames Per Point",
+        "numRegionsWide": "Number of Regions Wide",
+        "sensorCurveModelEnabled": "Sensor Curve Model",
+        "signalAmplification": "Signal Amplification",
+        "simpleExposureSeconds": "Exposure Time (seconds)",
+        "stepCount": "Step Count",
+        "stepSize": "Step Size",
+        "timeoutSeconds": "Timeout (seconds)"
       },
       "autoFocusOptions": {
         "loading": "Načítání možností automatického zaostření...",
@@ -3242,7 +3266,8 @@
         "noiseReducedStarMeasurement": "Měření hvězd se sníženým šumem",
         "debugMode": "Režim ladění",
         "simpleModeSettings": "Nastavení jednoduchého režimu",
-        "noiseLevel": "Úroveň hluku"
+        "noiseLevel": "Úroveň hluku",
+        "useOptimizedSettings": "Use Optimized Settings"
       },
       "tilter": {
         "device": "Zařízení",

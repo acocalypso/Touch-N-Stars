@@ -951,7 +951,9 @@
         },
         "setLocationSyncToMount": "\"망원경으로 동기화\" 설정",
         "slewRateINDI": "슬루 속도",
-        "reverse_axis": "축 방향"
+        "reverse_axis": "축 방향",
+        "slewRateDriverControlled": "슬루율은 드라이버에 의해 제어됩니다.",
+        "slewRateUnavailable": "슬루율을 조정하려면 마운트를 연결하세요."
       },
       "info": {
         "notConnected": "마운트를 연결하세요",
@@ -2040,7 +2042,8 @@
         "pluginUninstallStart": "플러그인 제거 중: {packageName}",
         "pluginActionSuccess": "플러그인 작업 완료: {packageName}",
         "pluginActionFailed": "{packageName} 플러그인 작업 실패. 상태: {status}",
-        "hotspotPasswordTooShort": "The hotspot password must be at least 8 characters long."
+        "hotspotPasswordTooShort": "The hotspot password must be at least 8 characters long.",
+        "wifiConnected": "Wi-Fi 연결됨: {ssid} ({ip})"
       },
       "wifiDisconnect": "WiFi 연결 해제",
       "disconnectConfirmTitle": "WiFi 연결을 해제할까요?",
@@ -2122,7 +2125,17 @@
       "indiRegistryModalType": "유형",
       "indiRegistryModalTypeInvalid": "유형은 허용되는 값 중 하나여야 합니다.",
       "indiRegistryModalUpdatedAt": "업데이트됨",
-      "indiRegistryModalNameDuplicate": "이름이 이미 다른 행에 존재합니다."
+      "indiRegistryModalNameDuplicate": "이름이 이미 다른 행에 존재합니다.",
+      "wifiChannel": "채널 {채널}",
+      "wifiConnectedAction": "연결됨",
+      "wifiRoleClient": "가정용 WiFi",
+      "wifiRoleHotspot": "핫스팟",
+      "wifiSignal": "신호",
+      "wifiSignalHistory": "WiFi 신호 기록",
+      "wifiSignalUnavailable": "신호를 사용할 수 없음",
+      "wifiSignalValue": "{값}%",
+      "wifiStatusConnected": "연결됨",
+      "wifiStatusDisconnected": "연결되지 않음"
     },
     "bahtifocus": {
       "title": "바티노프 마스크 분석기",
@@ -3292,7 +3305,18 @@
         "micronsPerFocuserStep": "포커서 스텝당 마이크론",
         "retry": "다시 시도",
         "resetToDefaults": "기본값으로 초기화",
-        "resetting": "초기화 중..."
+        "resetting": "초기화 중...",
+        "autoPlaceholder": "자동",
+        "centerFocuserBeforeRun": "달리기 전 센터 포커서",
+        "detailedAnalysisExposureSeconds": "상세 분석 노출 시간(초)",
+        "framesPerPoint": "포인트당 프레임",
+        "numRegionsWide": "광범위한 지역 수",
+        "sensorCurveModelEnabled": "센서 곡선 모델",
+        "signalAmplification": "신호 증폭",
+        "simpleExposureSeconds": "노출 시간(초)",
+        "stepCount": "걸음수",
+        "stepSize": "단계 크기",
+        "timeoutSeconds": "시간 초과(초)"
       },
       "autoFocusOptions": {
         "loading": "오토포커스 옵션을 불러오는 중...",
@@ -3318,7 +3342,8 @@
         "noiseReducedStarMeasurement": "노이즈 감소 별 측정",
         "debugMode": "디버그 모드",
         "simpleModeSettings": "간단 모드 설정",
-        "noiseLevel": "노이즈 레벨"
+        "noiseLevel": "노이즈 레벨",
+        "useOptimizedSettings": "최적화된 설정 사용"
       },
       "tilter": {
         "device": "장치",

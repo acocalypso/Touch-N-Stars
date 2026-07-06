@@ -392,14 +392,24 @@ async function setConnectionMode() {
       connectionMode.value
     );
 
-    // When switching modes, persist the port setting that makes sense for that mode
+    // When switching modes, persist the port/address settings that make sense for that mode.
+    // Both must be (re-)sent here, not just left to their own field-level @change handlers,
+    // otherwise a stale/default address never reaches the backend if the user only touches
+    // the dropdown (e.g. INDI reports "Server address is missing or invalid" on first connect).
     if (connectionMode.value === 'CONNECTION_TCP') {
       await apiService.profileChangeValue(
         `${settingsKeyMap[props.equipmentType]}-${prefix.port}`,
         tcpPort.value
       );
+      await apiService.profileChangeValue(
+        `${settingsKeyMap[props.equipmentType]}-${prefix.address}`,
+        ipAddress.value
+      );
     } else if (connectionMode.value === 'CONNECTION_HTTP') {
-      // HTTP mode: no port to persist; address is saved separately via setIPAddress
+      await apiService.profileChangeValue(
+        `${settingsKeyMap[props.equipmentType]}-${prefix.address}`,
+        ipAddress.value
+      );
     } else {
       // Serial: save device port
       await apiService.profileChangeValue(

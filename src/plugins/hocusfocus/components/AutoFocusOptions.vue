@@ -171,6 +171,83 @@
         </div>
       </div>
 
+      <!-- Curve Fitting Section -->
+      <div
+        v-if="getSectionOptions('Curve Fitting').length > 0"
+        class="border border-gray-700 rounded-lg p-4"
+      >
+        <h3 class="text-lg font-semibold text-cyan-400 mb-4">Curve Fitting</h3>
+        <div class="space-y-3">
+          <div v-for="key in getSectionOptions('Curve Fitting')" :key="key">
+            <template v-if="isEnum(key)">
+              <label class="text-white mb-2 block">{{ formatOptionName(key) }}</label>
+              <select
+                :value="store.autoFocusOptions[key]"
+                @change="
+                  (e) => {
+                    store.autoFocusOptions[key] = e.target.value;
+                    saveAutoFocusOption(key, e.target.value);
+                  }
+                "
+                class="w-full bg-gray-700 text-white p-2 rounded"
+                :disabled="savingOptions.has(key)"
+              >
+                <option v-for="value in getEnumValues(key)" :key="value" :value="value">
+                  {{ value }}
+                </option>
+              </select>
+              <div v-if="optionErrors[key]" class="text-red-400 text-xs mt-1">
+                {{ optionErrors[key] }}
+              </div>
+            </template>
+            <template v-else-if="isNumeric(key)">
+              <label class="text-white mb-2 block"
+                >{{ formatOptionName(key) }}: {{ store.autoFocusOptions[key] }}</label
+              >
+              <input
+                :value="store.autoFocusOptions[key]"
+                @change="
+                  (e) => {
+                    const num = parseFloat(e.target.value);
+                    store.autoFocusOptions[key] = num;
+                    saveAutoFocusOption(key, num);
+                  }
+                "
+                type="range"
+                :min="getNumericRangeMin(key)"
+                :max="getNumericRangeMax(key)"
+                :step="getNumericStep(key)"
+                class="w-full"
+                :disabled="savingOptions.has(key)"
+              />
+              <div v-if="optionErrors[key]" class="text-red-400 text-xs mt-1">
+                {{ optionErrors[key] }}
+              </div>
+            </template>
+            <template v-else-if="isBoolean(key)">
+              <label class="flex items-center text-white">
+                <input
+                  :checked="store.autoFocusOptions[key]"
+                  @change="
+                    (e) => {
+                      store.autoFocusOptions[key] = e.target.checked;
+                      saveAutoFocusOption(key, e.target.checked);
+                    }
+                  "
+                  type="checkbox"
+                  class="mr-3"
+                  :disabled="savingOptions.has(key)"
+                />
+                <span>{{ formatOptionName(key) }}</span>
+              </label>
+              <div v-if="optionErrors[key]" class="text-red-400 text-xs mt-1">
+                {{ optionErrors[key] }}
+              </div>
+            </template>
+          </div>
+        </div>
+      </div>
+
       <!-- Outlier Rejection Section -->
       <div
         v-if="getSectionOptions('Outlier Rejection').length > 0"
@@ -501,9 +578,12 @@ const optionCategories = {
   ValidateHfrImprovement: 'HFR Validation',
   HFRImprovementThreshold: 'HFR Validation',
 
-  // Hyperbolic Fit
-  UnevenHyperbolicFitEnabled: 'Hyperbolic Fit',
-  WeightedHyperbolicFitEnabled: 'Hyperbolic Fit',
+  // Curve Fitting
+  WeightedHyperbolicFitEnabled: 'Curve Fitting',
+  HyperbolicFitModel: 'Curve Fitting',
+  FitRejectionCriterion: 'Curve Fitting',
+  RSquaredRejectionThreshold: 'Curve Fitting',
+  ReducedChiSquaredRejectionThreshold: 'Curve Fitting',
 
   // Outlier Rejection
   MaxOutlierRejections: 'Outlier Rejection',
@@ -520,6 +600,7 @@ const optionCategories = {
   // Storage
   Save: 'Storage',
   SavePath: 'Storage',
+  KeepFramesForReview: 'Storage',
 };
 
 // Friendly display names for options
@@ -529,8 +610,12 @@ const optionDisplayNames = {
   FocuserOffset: 'Focuser Offset',
   ValidateHfrImprovement: 'Validate HFR Improvement',
   HFRImprovementThreshold: 'HFR Improvement Threshold',
-  UnevenHyperbolicFitEnabled: 'Uneven Hyperbolic Fit',
   WeightedHyperbolicFitEnabled: 'Weighted Hyperbolic Fit',
+  HyperbolicFitModel: 'Hyperbolic Fit Model',
+  FitRejectionCriterion: 'Fit Rejection Criterion',
+  RSquaredRejectionThreshold: 'R² Rejection Threshold',
+  ReducedChiSquaredRejectionThreshold: 'Reduced χ² Rejection Threshold',
+  KeepFramesForReview: 'Keep Frames For Review',
   MaxOutlierRejections: 'Max Outlier Rejections',
   OutlierRejectionConfidence: 'Outlier Rejection Confidence',
   FastFocusModeEnabled: 'Fast Focus Mode',
@@ -580,6 +665,8 @@ const getNumericRangeMin = (key) => {
     MaxOutlierRejections: 0,
     HFRImprovementThreshold: 0,
     OutlierRejectionConfidence: 0.5001,
+    RSquaredRejectionThreshold: 0,
+    ReducedChiSquaredRejectionThreshold: 1,
   };
   return ranges[key] !== undefined ? ranges[key] : 0;
 };
@@ -598,6 +685,8 @@ const getNumericRangeMax = (key) => {
     MaxOutlierRejections: 10,
     HFRImprovementThreshold: 1,
     OutlierRejectionConfidence: 0.9999,
+    RSquaredRejectionThreshold: 1,
+    ReducedChiSquaredRejectionThreshold: 20,
   };
   return ranges[key] !== undefined ? ranges[key] : 100;
 };
@@ -607,8 +696,19 @@ const getNumericStep = (key) => {
   const steps = {
     HFRImprovementThreshold: 0.01,
     OutlierRejectionConfidence: 0.01,
+    RSquaredRejectionThreshold: 0.01,
+    ReducedChiSquaredRejectionThreshold: 0.5,
   };
   return steps[key] !== undefined ? steps[key] : 1;
+};
+
+// Enum option helpers (enum values are provided by the backend per option name)
+const isEnum = (key) => {
+  return !!store.autoFocusEnumOptions && Array.isArray(store.autoFocusEnumOptions[key]);
+};
+
+const getEnumValues = (key) => {
+  return store.autoFocusEnumOptions?.[key] || [];
 };
 
 // Helper function to format option names

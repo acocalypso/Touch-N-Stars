@@ -19,6 +19,7 @@ export const useHocusFocusStore = defineStore('hocusfocus', {
 
     // AutoFocus Options state
     autoFocusOptions: null,
+    autoFocusEnumOptions: {},
     isLoadingAutoFocusOptions: false,
     autoFocusOptionsError: null,
 
@@ -132,8 +133,9 @@ export const useHocusFocusStore = defineStore('hocusfocus', {
       try {
         this.isLoadingAutoFocusOptions = true;
         this.autoFocusOptionsError = null;
-        const options = await apiService.hocusfocus.getAutoFocusOptions();
+        const { options, enumOptions } = await apiService.hocusfocus.getAutoFocusOptions();
         this.autoFocusOptions = options;
+        this.autoFocusEnumOptions = enumOptions;
         return options;
       } catch (err) {
         this.autoFocusOptionsError = err.message || 'Failed to load AutoFocus options';

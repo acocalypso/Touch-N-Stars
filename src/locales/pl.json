@@ -911,7 +911,9 @@
         },
         "setLocationSyncToMount": "Ustaw \"Synchronizuj z teleskopem\"",
         "slewRateINDI": "Prędkość ruchu",
-        "reverse_axis": "Kierunek osi"
+        "reverse_axis": "Kierunek osi",
+        "slewRateDriverControlled": "Szybkość narastania jest kontrolowana przez sterownik",
+        "slewRateUnavailable": "Podłącz uchwyt, aby wyregulować prędkość narastania"
       },
       "info": {
         "notConnected": "Proszę podłączyć montaż",
@@ -2002,7 +2004,8 @@
         "hotspotChannelInvalid": "Kanał punktu aktywnego musi być dodatnią liczbą całkowitą, jeśli jest podany.",
         "hotspotFetchFailed": "Nie udało się załadować ustawień hotspotu: {message}",
         "hotspotPasswordInvalidLength": "Hasło do hotspotu jest wymagane i musi mieć od 8 do 63 znaków.",
-        "hotspotSaveFailed": "Nie udało się zapisać ustawień hotspotu: {message}"
+        "hotspotSaveFailed": "Nie udało się zapisać ustawień hotspotu: {message}",
+        "wifiConnected": "Połączono z Wi-Fi: {ssid} ({ip})"
       },
       "hotspotConfigured": "Skonfigurowano niestandardowe hasło hotspotu.",
       "hotspotNewPassword": "Nowe hasło do hotspotu",
@@ -2122,7 +2125,17 @@
       "indiRegistryModalType": "Typ",
       "indiRegistryModalTypeInvalid": "Typ musi być jedną z dozwolonych wartości.",
       "indiRegistryModalUpdatedAt": "Zaktualizowano",
-      "indiRegistryModalNameDuplicate": "Nazwa już istnieje w innym wierszu."
+      "indiRegistryModalNameDuplicate": "Nazwa już istnieje w innym wierszu.",
+      "wifiChannel": "Kanał {kanał}",
+      "wifiConnectedAction": "Połączony",
+      "wifiRoleClient": "Domowe Wi-Fi",
+      "wifiRoleHotspot": "Hotspot",
+      "wifiSignal": "Sygnał",
+      "wifiSignalHistory": "Historia sygnału WiFi",
+      "wifiSignalUnavailable": "Sygnał niedostępny",
+      "wifiSignalValue": "{wartość}%",
+      "wifiStatusConnected": "Połączony",
+      "wifiStatusDisconnected": "Nie podłączony"
     },
     "bahtifocus": {
       "title": "Analizator maski Bahtinowa",
@@ -3216,7 +3229,18 @@
         "micronsPerFocuserStep": "Mikrony na krok fokusera",
         "retry": "Ponów",
         "resetToDefaults": "Przywróć ustawienia domyślne",
-        "resetting": "Przywracanie..."
+        "resetting": "Przywracanie...",
+        "autoPlaceholder": "automatyczny",
+        "centerFocuserBeforeRun": "Centralny wyciąg okularowy przed biegiem",
+        "detailedAnalysisExposureSeconds": "Szczegółowa analiza Czas ekspozycji (sekundy)",
+        "framesPerPoint": "Klatki na punkt",
+        "numRegionsWide": "Liczba regionów szeroka",
+        "sensorCurveModelEnabled": "Model krzywej czujnika",
+        "signalAmplification": "Wzmocnienie sygnału",
+        "simpleExposureSeconds": "Czas ekspozycji (sekundy)",
+        "stepCount": "Liczba kroków",
+        "stepSize": "Rozmiar kroku",
+        "timeoutSeconds": "Limit czasu (sekundy)"
       },
       "autoFocusOptions": {
         "loading": "Ładowanie opcji autofokusu...",
@@ -3242,7 +3266,8 @@
         "noiseReducedStarMeasurement": "Pomiar gwiazd ze zmniejszonym szumem",
         "debugMode": "Tryb debugowania",
         "simpleModeSettings": "Ustawienia trybu prostego",
-        "noiseLevel": "Poziom szumu"
+        "noiseLevel": "Poziom szumu",
+        "useOptimizedSettings": "Użyj zoptymalizowanych ustawień"
       },
       "tilter": {
         "device": "Urządzenie",

@@ -283,6 +283,21 @@ function boostRender() {
 
 const RENDER_BOOST_EVENTS = ['pointerdown', 'pointermove', 'touchstart', 'touchmove', 'wheel'];
 
+// WebKit (especially iPadOS) fires touchcancel instead of touchend when the
+// system takes over a gesture (edge swipes, multitasking gestures, long-press
+// magnifier). The engine only listens for touchend, so a cancelled finger
+// would stay registered as "down" forever — the next touch then reads as a
+// two-finger pinch (sudden zoom) and gesture handling deadlocks. Replay
+// cancelled touches as releases so the engine's touch state stays consistent.
+function handleTouchCancel(e) {
+  const stel = stellariumStore.stel;
+  if (typeof stel?._core_on_mouse !== 'function' || !stelCanvas.value) return;
+  const rect = stelCanvas.value.getBoundingClientRect();
+  for (const touch of e.changedTouches) {
+    stel._core_on_mouse(touch.identifier, 0, touch.pageX - rect.left, touch.pageY - rect.top, 1);
+  }
+}
+
 // Wrap the engine's native _core_render so we can skip the expensive GPU work
 // while Stellarium is hidden (and FPS-cap it while visible). _core_update gets
 // the same treatment but keeps running at ~1 Hz while hidden; resuming stays
@@ -425,6 +440,7 @@ onMounted(async () => {
   RENDER_BOOST_EVENTS.forEach((ev) =>
     stelCanvas.value?.addEventListener(ev, boostRender, { passive: true })
   );
+  stelCanvas.value?.addEventListener('touchcancel', handleTouchCancel, { passive: true });
 
   // Stellarium starts hidden (the default page is not Stellarium); only render
   // once it actually becomes visible.
@@ -682,6 +698,7 @@ onBeforeUnmount(() => {
   stopProfileWait = null;
   document.removeEventListener('visibilitychange', handleVisibilityChange);
   RENDER_BOOST_EVENTS.forEach((ev) => stelCanvas.value?.removeEventListener(ev, boostRender));
+  stelCanvas.value?.removeEventListener('touchcancel', handleTouchCancel);
 
   // The engine's render loop cannot be stopped, so at least disable rendering so
   // it stops producing GPU work once the component is gone.
@@ -736,5 +753,11 @@ onBeforeUnmount(() => {
 .stellarium-canvas {
   width: 100%;
   height: 100%;
+  /* Keep the browser from claiming pan/pinch/double-tap gestures on the sky
+     canvas — WebKit otherwise aborts engine touches with touchcancel. */
+  touch-action: none;
+  /* No long-press text-selection/magnifier callout on iPadOS. */
+  -webkit-user-select: none;
+  user-select: none;
 }
 </style>

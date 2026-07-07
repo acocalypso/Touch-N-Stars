@@ -7,6 +7,27 @@ import { getHttpAbortSignal } from './httpLifecycle';
 const toastCache = new Map();
 
 /**
+ * Registers a global handler for otherwise-unhandled promise rejections so
+ * they surface in the structured log (and thus the log download) instead of
+ * only appearing in the raw devtools console. The axios interceptor already
+ * catches HTTP failures; this is a safety net for everything else (async code
+ * that throws without a local try/catch).
+ */
+export function setupUnhandledRejectionLogging() {
+  if (typeof window === 'undefined') return;
+  window.addEventListener('unhandledrejection', (event) => {
+    const reason = event.reason;
+    createStructuredLog('ERROR', 'UNHANDLED_REJECTION', {
+      message: reason?.message || String(reason),
+      extra: {
+        errorName: reason?.name,
+        stack: reason?.stack,
+      },
+    });
+  });
+}
+
+/**
  * Sets up global axios interceptors for error handling and logging
  */
 export function setupErrorHandler() {

@@ -46,8 +46,13 @@ export function createStructuredLog(level, category, data) {
     }
   }, 30000);
 
-  // Log both structured and human-readable
-  console.log(JSON.stringify(logEntry));
+  // Route to the matching console method so errors/warnings stand out (in
+  // devtools and in the captured log download) instead of hiding among the
+  // regular console.log noise. Swallowed network failures are logged as ERROR
+  // here, so this is what makes them findable after the fact.
+  const consoleMethod =
+    level === 'ERROR' ? console.error : level === 'WARN' ? console.warn : console.log;
+  consoleMethod(JSON.stringify(logEntry));
 
   return logEntry;
 }

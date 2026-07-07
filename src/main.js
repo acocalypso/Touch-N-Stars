@@ -12,7 +12,7 @@ import i18n, { initializeI18n } from '@/i18n';
 import { usePluginStore } from '@/store/pluginStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import { timeSync } from '@/utils/timeSync';
-import { setupErrorHandler } from '@/utils/errorHandler';
+import { setupErrorHandler, setupUnhandledRejectionLogging } from '@/utils/errorHandler';
 import { ensureConsolePatched } from '@/utils/consoleCapture';
 import { markAppReady } from '@/services/updateService';
 
@@ -63,6 +63,7 @@ const head = createHead();
 
 // Setup global error handling
 setupErrorHandler();
+setupUnhandledRejectionLogging();
 
 const app = createApp(App);
 app.directive('tooltip', tooltipDirective);

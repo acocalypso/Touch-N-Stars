@@ -155,9 +155,14 @@ export const useGuiderStore = defineStore('guiderStore', {
           console.warn('Backend is not reachable log');
           return;
         }
-        //Graphdaten vom Backend holen
-        const response = await apiService.guiderAction('graph');
-        this.chartInfo = response.Response;
+        // Only fetch the (large) guide-step history while the graph flyout is
+        // actually open — it is its only consumer. The PHD2 status below keeps
+        // polling regardless, because the status bar star-lost indicator
+        // depends on it.
+        if (this.showGuiderGraph) {
+          const response = await apiService.guiderAction('graph');
+          this.chartInfo = response.Response;
+        }
       } catch (error) {
         console.error('Error fetching the information:', error);
       }

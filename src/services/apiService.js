@@ -3421,7 +3421,10 @@ const apiService = {
       try {
         const { API_URL } = getUrls();
         const response = await axios.get(`${API_URL}hocusfocus/autofocus/options`);
-        return response.data?.Options || {};
+        return {
+          options: response.data?.Options || {},
+          enumOptions: response.data?.EnumOptions || {},
+        };
       } catch (error) {
         console.error('Error getting AutoFocus options:', error);
         throw error;
@@ -3467,7 +3470,10 @@ const apiService = {
       try {
         const { API_URL } = getUrls();
         const response = await axios.get(`${API_URL}hocusfocus/aberration-inspector/options`);
-        return response.data?.Options || {};
+        return {
+          options: response.data?.Options || {},
+          enumOptions: response.data?.EnumOptions || {},
+        };
       } catch (error) {
         console.error('Error getting Aberration Inspector options:', error);
         throw error;

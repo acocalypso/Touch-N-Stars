@@ -911,7 +911,9 @@
         },
         "setLocationSyncToMount": "设置\"与望远镜同步\"",
         "slewRateINDI": "运动速度",
-        "reverse_axis": "轴向方向"
+        "reverse_axis": "轴向方向",
+        "slewRateDriverControlled": "Slew rate is controlled by the driver",
+        "slewRateUnavailable": "Connect a mount to adjust the slew rate"
       },
       "info": {
         "notConnected": "请连接赤道仪",
@@ -2002,7 +2004,8 @@
         "hotspotChannelInvalid": "Hotspot channel must be a positive integer when provided.",
         "hotspotFetchFailed": "Failed to load hotspot settings: {message}",
         "hotspotPasswordInvalidLength": "Hotspot password is required and must be 8-63 characters.",
-        "hotspotSaveFailed": "Failed to save hotspot settings: {message}"
+        "hotspotSaveFailed": "Failed to save hotspot settings: {message}",
+        "wifiConnected": "WiFi connected: {ssid} ({ip})"
       },
       "hotspotConfigured": "已配置自定义热点密码。",
       "hotspotNewPassword": "新热点密码",
@@ -2125,6 +2128,16 @@
       "indiRegistryModalNameDuplicate": "Name already exists in another row.",
       "wifiSignalMobile": "Mobile signal",
       "wifiRssiValue": "{value} dBm"
+      "wifiChannel": "Channel {channel}",
+      "wifiConnectedAction": "Connected",
+      "wifiRoleClient": "Home WiFi",
+      "wifiRoleHotspot": "Hotspot",
+      "wifiSignal": "Signal",
+      "wifiSignalHistory": "WiFi signal history",
+      "wifiSignalUnavailable": "Signal unavailable",
+      "wifiSignalValue": "{value}%",
+      "wifiStatusConnected": "Connected",
+      "wifiStatusDisconnected": "Not connected"
     },
     "bahtifocus": {
       "title": "Bahtinov掩模分析仪",
@@ -3218,7 +3231,18 @@
         "micronsPerFocuserStep": "每个对焦器步骤的微米数",
         "retry": "重试",
         "resetToDefaults": "重置为默认值",
-        "resetting": "正在重置..."
+        "resetting": "正在重置...",
+        "autoPlaceholder": "auto",
+        "centerFocuserBeforeRun": "Center Focuser Before Run",
+        "detailedAnalysisExposureSeconds": "Detailed Analysis Exposure Time (seconds)",
+        "framesPerPoint": "Frames Per Point",
+        "numRegionsWide": "Number of Regions Wide",
+        "sensorCurveModelEnabled": "Sensor Curve Model",
+        "signalAmplification": "Signal Amplification",
+        "simpleExposureSeconds": "Exposure Time (seconds)",
+        "stepCount": "Step Count",
+        "stepSize": "Step Size",
+        "timeoutSeconds": "Timeout (seconds)"
       },
       "autoFocusOptions": {
         "loading": "正在加载自动对焦选项...",
@@ -3244,7 +3268,8 @@
         "noiseReducedStarMeasurement": "降噪星测量",
         "debugMode": "调试模式",
         "simpleModeSettings": "简单模式设置",
-        "noiseLevel": "噪声级别"
+        "noiseLevel": "噪声级别",
+        "useOptimizedSettings": "Use Optimized Settings"
       },
       "tilter": {
         "device": "设备",

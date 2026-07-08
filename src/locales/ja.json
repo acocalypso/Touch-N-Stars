@@ -919,7 +919,9 @@
         },
         "setLocationSyncToMount": "「望遠鏡に同期」に設定",
         "slewRateINDI": "導入速度",
-        "reverse_axis": "軸方向"
+        "reverse_axis": "軸方向",
+        "slewRateDriverControlled": "スルーレートはドライバーによって制御されます",
+        "slewRateUnavailable": "マウントを接続してスルーレートを調整する"
       },
       "info": {
         "notConnected": "赤道儀を接続してください",
@@ -2010,7 +2012,8 @@
         "hotspotChannelInvalid": "ホットスポット チャネルを指定する場合は、正の整数である必要があります。",
         "hotspotFetchFailed": "ホットスポット設定の読み込みに失敗しました: {message}",
         "hotspotPasswordInvalidLength": "ホットスポットのパスワードは必須であり、8 ～ 63 文字である必要があります。",
-        "hotspotSaveFailed": "ホットスポット設定を保存できませんでした: {message}"
+        "hotspotSaveFailed": "ホットスポット設定を保存できませんでした: {message}",
+        "wifiConnected": "WiFi が接続されました: {ssid} ({ip})"
       },
       "wifiDisconnect": "WiFiを切断",
       "disconnectConfirmTitle": "WiFiを切断しますか？",
@@ -2125,6 +2128,16 @@
       "indiRegistryModalNameDuplicate": "名前はすでに別の行に存在します。",
       "wifiSignalMobile": "Mobile signal",
       "wifiRssiValue": "{value} dBm"
+      "wifiChannel": "チャンネル {チャンネル}",
+      "wifiConnectedAction": "接続済み",
+      "wifiRoleClient": "ホームWiFi",
+      "wifiRoleHotspot": "ホットスポット",
+      "wifiSignal": "信号",
+      "wifiSignalHistory": "WiFi信号履歴",
+      "wifiSignalUnavailable": "信号が利用できません",
+      "wifiSignalValue": "{価値}％",
+      "wifiStatusConnected": "接続済み",
+      "wifiStatusDisconnected": "接続されていません"
     },
     "bahtifocus": {
       "title": "バーティノフマスク・アナライザー",
@@ -3294,7 +3307,18 @@
         "micronsPerFocuserStep": "フォーカサーステップあたりのマイクロン数",
         "retry": "再試行",
         "resetToDefaults": "デフォルトにリセット",
-        "resetting": "リセット中..."
+        "resetting": "リセット中...",
+        "autoPlaceholder": "自動",
+        "centerFocuserBeforeRun": "実行前のセンターフォーカサー",
+        "detailedAnalysisExposureSeconds": "詳細分析露光時間（秒）",
+        "framesPerPoint": "ポイントあたりのフレーム数",
+        "numRegionsWide": "広い領域の数",
+        "sensorCurveModelEnabled": "センサー曲線モデル",
+        "signalAmplification": "信号増幅",
+        "simpleExposureSeconds": "露光時間(秒)",
+        "stepCount": "歩数",
+        "stepSize": "ステップサイズ",
+        "timeoutSeconds": "タイムアウト (秒)"
       },
       "autoFocusOptions": {
         "loading": "オートフォーカスオプションを読み込み中...",
@@ -3320,7 +3344,8 @@
         "noiseReducedStarMeasurement": "ノイズ低減星測定",
         "debugMode": "デバッグモード",
         "simpleModeSettings": "シンプルモード設定",
-        "noiseLevel": "ノイズレベル"
+        "noiseLevel": "ノイズレベル",
+        "useOptimizedSettings": "最適化された設定を使用する"
       },
       "tilter": {
         "device": "デバイス",

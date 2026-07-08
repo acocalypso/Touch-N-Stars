@@ -177,6 +177,7 @@
                     :step="1"
                     :decimalPlaces="0"
                     wrapperClass="w-full"
+                    @change="setOption('GoldenSpiralStarCount', starCount)"
                   />
                 </div>
               </div>
@@ -239,6 +240,7 @@
                       :step="0.1"
                       :decimalPlaces="1"
                       wrapperClass="w-full"
+                      @change="setOption('SiderealRaDelta', siderealRaDelta)"
                     />
                   </div>
                 </div>
@@ -256,6 +258,7 @@
                       <select
                         v-model="siderealStartProvider"
                         class="default-select text-xs h-8 flex-1"
+                        @change="setOption('SiderealStartProvider', $event.target.value)"
                       >
                         <option v-for="p in SIDEREAL_START_PROVIDERS" :key="p" :value="p">
                           {{ p }}
@@ -275,6 +278,7 @@
                           :step="5"
                           :decimalPlaces="0"
                           wrapperClass="w-full"
+                          @change="setOption('SiderealStartOffset', siderealStartOffset)"
                         />
                       </div>
                     </div>
@@ -288,6 +292,7 @@
                       <select
                         v-model="siderealEndProvider"
                         class="default-select text-xs h-8 flex-1"
+                        @change="setOption('SiderealEndProvider', $event.target.value)"
                       >
                         <option v-for="p in SIDEREAL_END_PROVIDERS" :key="p" :value="p">
                           {{ p }}
@@ -307,6 +312,7 @@
                           :step="5"
                           :decimalPlaces="0"
                           wrapperClass="w-full"
+                          @change="setOption('SiderealEndOffset', siderealEndOffset)"
                         />
                       </div>
                     </div>
@@ -1864,30 +1870,42 @@ async function loadBuilderStatus() {
   }
 }
 
+function syncOptionRefsFromStore() {
+  optMinAlt.value = tmStore.builderOptions.minPointAltitude;
+  optMaxAlt.value = tmStore.builderOptions.maxPointAltitude;
+  optMinAz.value = tmStore.builderOptions.minPointAzimuth;
+  optMaxAz.value = tmStore.builderOptions.maxPointAzimuth;
+  optMaxRMS.value = tmStore.builderOptions.maxPointRMS;
+  optShowRemoved.value = tmStore.builderOptions.showRemovedPoints;
+  optMinimizeMeridian.value = tmStore.builderOptions.minimizeMeridianFlips;
+  optNumRetries.value = tmStore.builderOptions.builderNumRetries;
+  optRemoveHighRMS.value = tmStore.builderOptions.removeHighRMSAfterBuild;
+  optLogCommands.value = tmStore.builderOptions.logCommands;
+  optMaxConcurrency.value = tmStore.builderOptions.maxConcurrency;
+  optAllowBlindSolves.value = tmStore.builderOptions.allowBlindSolves;
+  optOptimizeDome.value = tmStore.builderOptions.optimizeDome;
+  optWestToEast.value = tmStore.builderOptions.westToEast;
+  optPlateSolveSubframe.value = tmStore.builderOptions.plateSolveSubframe;
+  optAlternateDirection.value = tmStore.builderOptions.alternateDirection;
+  optDisableRefractionCorrection.value = tmStore.builderOptions.disableRefractionCorrection;
+  optDecJitter.value = tmStore.builderOptions.decJitter;
+  optDisableDAT.value = tmStore.builderOptions.disableDAT;
+  starCount.value = tmStore.builderOptions.goldenSpiralStarCount;
+  siderealRaDelta.value = tmStore.builderOptions.siderealRaDelta;
+  if (SIDEREAL_START_PROVIDERS.includes(tmStore.builderOptions.siderealStartProvider))
+    siderealStartProvider.value = tmStore.builderOptions.siderealStartProvider;
+  if (SIDEREAL_END_PROVIDERS.includes(tmStore.builderOptions.siderealEndProvider))
+    siderealEndProvider.value = tmStore.builderOptions.siderealEndProvider;
+  siderealStartOffset.value = tmStore.builderOptions.siderealStartOffset;
+  siderealEndOffset.value = tmStore.builderOptions.siderealEndOffset;
+}
+
 async function loadBuilderOptions() {
   try {
     const data = await apiService.tenMicronGetBuilderOptions();
     if (data?.Success) {
       tmStore.setBuilderOptions(data);
-      optMinAlt.value = tmStore.builderOptions.minPointAltitude;
-      optMaxAlt.value = tmStore.builderOptions.maxPointAltitude;
-      optMinAz.value = tmStore.builderOptions.minPointAzimuth;
-      optMaxAz.value = tmStore.builderOptions.maxPointAzimuth;
-      optMaxRMS.value = tmStore.builderOptions.maxPointRMS;
-      optShowRemoved.value = tmStore.builderOptions.showRemovedPoints;
-      optMinimizeMeridian.value = tmStore.builderOptions.minimizeMeridianFlips;
-      optNumRetries.value = tmStore.builderOptions.builderNumRetries;
-      optRemoveHighRMS.value = tmStore.builderOptions.removeHighRMSAfterBuild;
-      optLogCommands.value = tmStore.builderOptions.logCommands;
-      optMaxConcurrency.value = tmStore.builderOptions.maxConcurrency;
-      optAllowBlindSolves.value = tmStore.builderOptions.allowBlindSolves;
-      optOptimizeDome.value = tmStore.builderOptions.optimizeDome;
-      optWestToEast.value = tmStore.builderOptions.westToEast;
-      optPlateSolveSubframe.value = tmStore.builderOptions.plateSolveSubframe;
-      optAlternateDirection.value = tmStore.builderOptions.alternateDirection;
-      optDisableRefractionCorrection.value = tmStore.builderOptions.disableRefractionCorrection;
-      optDecJitter.value = tmStore.builderOptions.decJitter;
-      optDisableDAT.value = tmStore.builderOptions.disableDAT;
+      syncOptionRefsFromStore();
     }
   } catch (e) {
     tmStore.lastError = e?.message;
@@ -1907,25 +1925,7 @@ async function resetBuilderOptions() {
     const data = await apiService.tenMicronResetBuilderOptions();
     if (data?.Success) {
       tmStore.setBuilderOptions(data);
-      optMinAlt.value = tmStore.builderOptions.minPointAltitude;
-      optMaxAlt.value = tmStore.builderOptions.maxPointAltitude;
-      optMinAz.value = tmStore.builderOptions.minPointAzimuth;
-      optMaxAz.value = tmStore.builderOptions.maxPointAzimuth;
-      optMaxRMS.value = tmStore.builderOptions.maxPointRMS;
-      optShowRemoved.value = tmStore.builderOptions.showRemovedPoints;
-      optMinimizeMeridian.value = tmStore.builderOptions.minimizeMeridianFlips;
-      optNumRetries.value = tmStore.builderOptions.builderNumRetries;
-      optRemoveHighRMS.value = tmStore.builderOptions.removeHighRMSAfterBuild;
-      optLogCommands.value = tmStore.builderOptions.logCommands;
-      optMaxConcurrency.value = tmStore.builderOptions.maxConcurrency;
-      optAllowBlindSolves.value = tmStore.builderOptions.allowBlindSolves;
-      optOptimizeDome.value = tmStore.builderOptions.optimizeDome;
-      optWestToEast.value = tmStore.builderOptions.westToEast;
-      optPlateSolveSubframe.value = tmStore.builderOptions.plateSolveSubframe;
-      optAlternateDirection.value = tmStore.builderOptions.alternateDirection;
-      optDisableRefractionCorrection.value = tmStore.builderOptions.disableRefractionCorrection;
-      optDecJitter.value = tmStore.builderOptions.decJitter;
-      optDisableDAT.value = tmStore.builderOptions.disableDAT;
+      syncOptionRefsFromStore();
     }
   } catch (e) {
     tmStore.lastError = e?.message;

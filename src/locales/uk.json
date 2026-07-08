@@ -891,7 +891,9 @@
         },
         "setLocationSyncToMount": "Встановити «Синхронізацію з телескопом»",
         "slewRateINDI": "Швидкість наведення",
-        "reverse_axis": "Напрямок осі"
+        "reverse_axis": "Напрямок осі",
+        "slewRateUnavailable": "Підключіть кріплення, щоб відрегулювати швидкість наростання",
+        "slewRateDriverControlled": "Швидкість повороту контролюється драйвером"
       },
       "info": {
         "notConnected": "Будь ласка, підключіть монтування",
@@ -2899,7 +2901,8 @@
         "hotspotChannelInvalid": "Канал точки доступу має бути додатним цілим числом, якщо надається.",
         "hotspotFetchFailed": "Не вдалося завантажити налаштування точки доступу: {message}",
         "hotspotPasswordInvalidLength": "Пароль точки доступу потрібен і має містити 8-63 символи.",
-        "hotspotSaveFailed": "Не вдалося зберегти налаштування точки доступу: {message}"
+        "hotspotSaveFailed": "Не вдалося зберегти налаштування точки доступу: {message}",
+        "wifiConnected": "Wi-Fi підключено: {ssid} ({ip})"
       },
       "wifiDisconnect": "Відключити WiFi",
       "disconnectConfirmTitle": "Відключити WiFi?",
@@ -2999,6 +3002,16 @@
       "indiRegistryModalNameDuplicate": "Назва вже існує в іншому рядку.",
       "wifiSignalMobile": "Mobile signal",
       "wifiRssiValue": "{value} dBm"
+      "wifiConnectedAction": "Підключено",
+      "wifiChannel": "Канал {channel}",
+      "wifiSignal": "Сигнал",
+      "wifiRoleHotspot": "Точка доступу",
+      "wifiSignalHistory": "Історія сигналу WiFi",
+      "wifiRoleClient": "Домашній WiFi",
+      "wifiSignalUnavailable": "Сигнал недоступний",
+      "wifiSignalValue": "{value}%",
+      "wifiStatusConnected": "Підключено",
+      "wifiStatusDisconnected": "Не підключено"
     },
     "narrowband": {
       "title": "Калькулятор фільтрів",
@@ -3092,7 +3105,18 @@
         "micronsPerFocuserStep": "Мікрони на крок фокусера",
         "retry": "Повторити",
         "resetToDefaults": "Скинути до значень за замовчуванням",
-        "resetting": "Скидання..."
+        "resetting": "Скидання...",
+        "autoPlaceholder": "авто",
+        "centerFocuserBeforeRun": "Центральний фокус перед запуском",
+        "framesPerPoint": "Кількість кадрів на точку",
+        "detailedAnalysisExposureSeconds": "Час експозиції детального аналізу (секунди)",
+        "numRegionsWide": "Кількість регіонів",
+        "simpleExposureSeconds": "Час експозиції (секунди)",
+        "sensorCurveModelEnabled": "Модель кривої датчика",
+        "stepCount": "Підрахунок кроків",
+        "stepSize": "Розмір кроку",
+        "signalAmplification": "Посилення сигналу",
+        "timeoutSeconds": "Час очікування (секунди)"
       },
       "autoFocusOptions": {
         "loading": "Завантаження параметрів автофокусу...",
@@ -3118,7 +3142,8 @@
         "noiseReducedStarMeasurement": "Вимірювання зірок зі зниженим шумом",
         "debugMode": "Режим налагодження",
         "simpleModeSettings": "Налаштування простого режиму",
-        "noiseLevel": "Рівень шуму"
+        "noiseLevel": "Рівень шуму",
+        "useOptimizedSettings": "Використовуйте оптимізовані налаштування"
       },
       "tilter": {
         "device": "Пристрій",

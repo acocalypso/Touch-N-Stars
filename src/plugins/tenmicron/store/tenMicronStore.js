@@ -61,6 +61,13 @@ export const useTenMicronStore = defineStore('tenMicronStore', {
       disableRefractionCorrection: false,
       decJitter: 1.0,
       disableDAT: false,
+      // point-generation inputs (persisted in the NINA profile via TenMicronOptions)
+      goldenSpiralStarCount: 30,
+      siderealRaDelta: 1.5,
+      siderealStartProvider: 'Nautical Dusk',
+      siderealEndProvider: 'Nautical Dawn',
+      siderealStartOffset: 0,
+      siderealEndOffset: 0,
     },
 
     // Alignment model
@@ -203,6 +210,18 @@ export const useTenMicronStore = defineStore('tenMicronStore', {
         this.builderOptions.disableRefractionCorrection = data.DisableRefractionCorrection;
       if (data.DecJitter !== undefined) this.builderOptions.decJitter = data.DecJitter;
       if (data.DisableDAT !== undefined) this.builderOptions.disableDAT = data.DisableDAT;
+      if (data.GoldenSpiralStarCount !== undefined)
+        this.builderOptions.goldenSpiralStarCount = data.GoldenSpiralStarCount;
+      if (data.SiderealRaDelta !== undefined)
+        this.builderOptions.siderealRaDelta = data.SiderealRaDelta;
+      if (data.SiderealStartProvider)
+        this.builderOptions.siderealStartProvider = data.SiderealStartProvider;
+      if (data.SiderealEndProvider)
+        this.builderOptions.siderealEndProvider = data.SiderealEndProvider;
+      if (data.SiderealStartOffset !== undefined)
+        this.builderOptions.siderealStartOffset = data.SiderealStartOffset;
+      if (data.SiderealEndOffset !== undefined)
+        this.builderOptions.siderealEndOffset = data.SiderealEndOffset;
     },
 
     setMountTime(data) {

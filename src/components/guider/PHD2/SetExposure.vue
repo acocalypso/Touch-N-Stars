@@ -31,7 +31,12 @@ async function setExposureTime() {
 
 onMounted(async () => {
   const response = await apiService.getPhd2Exposure();
-  exposureTime.value = response.Response.Exposure / 1000;
-  console.log(response.Response.Exposure);
+  // On a failed request the global interceptor returns { Success: false,
+  // Response: '' }, so guard against the missing Exposure value instead of
+  // writing NaN into the select.
+  const exposureMs = response?.Response?.Exposure;
+  if (typeof exposureMs === 'number') {
+    exposureTime.value = exposureMs / 1000;
+  }
 });
 </script>

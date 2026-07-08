@@ -911,7 +911,9 @@
         },
         "setLocationSyncToMount": "Definir \"Sincronizar com telescópio\"",
         "slewRateINDI": "Velocidade de movimento",
-        "reverse_axis": "Direção dos eixos"
+        "reverse_axis": "Direção dos eixos",
+        "slewRateDriverControlled": "A taxa de variação é controlada pelo driver",
+        "slewRateUnavailable": "Conecte uma montagem para ajustar a taxa de variação"
       },
       "info": {
         "notConnected": "Conecte a montagem",
@@ -2002,7 +2004,8 @@
         "hotspotChannelInvalid": "O canal hotspot deve ser um número inteiro positivo quando fornecido.",
         "hotspotFetchFailed": "Falha ao carregar as configurações do ponto de acesso: {message}",
         "hotspotPasswordInvalidLength": "A senha do ponto de acesso é obrigatória e deve ter de 8 a 63 caracteres.",
-        "hotspotSaveFailed": "Falha ao salvar as configurações do ponto de acesso: {message}"
+        "hotspotSaveFailed": "Falha ao salvar as configurações do ponto de acesso: {message}",
+        "wifiConnected": "Wi-Fi conectado: {ssid} ({ip})"
       },
       "hotspotConfigured": "A senha do ponto de acesso personalizado está configurada.",
       "hotspotNewPassword": "Nova senha do ponto de acesso",
@@ -2125,6 +2128,16 @@
       "indiRegistryModalNameDuplicate": "O nome já existe em outra linha.",
       "wifiSignalMobile": "Mobile signal",
       "wifiRssiValue": "{value} dBm"
+      "wifiChannel": "Canal {canal}",
+      "wifiConnectedAction": "Conectado",
+      "wifiRoleClient": "Wi-Fi doméstico",
+      "wifiRoleHotspot": "Ponto de acesso",
+      "wifiSignal": "Sinal",
+      "wifiSignalHistory": "Histórico de sinal WiFi",
+      "wifiSignalUnavailable": "Sinal indisponível",
+      "wifiSignalValue": "{valor}%",
+      "wifiStatusConnected": "Conectado",
+      "wifiStatusDisconnected": "Não conectado"
     },
     "bahtifocus": {
       "title": "Analisador de máscara Bahtinov",
@@ -3218,7 +3231,18 @@
         "micronsPerFocuserStep": "Microns por Etapa do Focalizador",
         "retry": "Tentar novamente",
         "resetToDefaults": "Redefinir para Padrões",
-        "resetting": "Redefinindo..."
+        "resetting": "Redefinindo...",
+        "autoPlaceholder": "auto",
+        "centerFocuserBeforeRun": "Centralizar o foco antes da execução",
+        "detailedAnalysisExposureSeconds": "Tempo de exposição de análise detalhada (segundos)",
+        "framesPerPoint": "Quadros por ponto",
+        "numRegionsWide": "Número de regiões em toda a extensão",
+        "sensorCurveModelEnabled": "Modelo de Curva do Sensor",
+        "signalAmplification": "Amplificação de sinal",
+        "simpleExposureSeconds": "Tempo de exposição (segundos)",
+        "stepCount": "Contagem de passos",
+        "stepSize": "Tamanho do passo",
+        "timeoutSeconds": "Tempo limite (segundos)"
       },
       "autoFocusOptions": {
         "loading": "Carregando opções de Autofoco...",
@@ -3244,7 +3268,8 @@
         "noiseReducedStarMeasurement": "Medição de Estrelas com Ruído Reduzido",
         "debugMode": "Modo de Depuração",
         "simpleModeSettings": "Configurações do Modo Simples",
-        "noiseLevel": "Nível de Ruído"
+        "noiseLevel": "Nível de Ruído",
+        "useOptimizedSettings": "Use configurações otimizadas"
       },
       "tilter": {
         "device": "Dispositivo",

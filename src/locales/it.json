@@ -911,7 +911,9 @@
         },
         "setLocationSyncToMount": "Imposta \"Sincronizza con telescopio\"",
         "slewRateINDI": "Velocità di movimento",
-        "reverse_axis": "Direzione assi"
+        "reverse_axis": "Direzione assi",
+        "slewRateDriverControlled": "La velocità di rotazione è controllata dal conducente",
+        "slewRateUnavailable": "Collegare una montatura per regolare la velocità di rotazione"
       },
       "info": {
         "notConnected": "Connetti la montatura",
@@ -2002,7 +2004,8 @@
         "hotspotChannelInvalid": "Il canale hotspot deve essere un numero intero positivo quando fornito.",
         "hotspotFetchFailed": "Impossibile caricare le impostazioni dell'hotspot: {messaggio}",
         "hotspotPasswordInvalidLength": "La password dell'hotspot è obbligatoria e deve contenere da 8 a 63 caratteri.",
-        "hotspotSaveFailed": "Impossibile salvare le impostazioni dell'hotspot: {messaggio}"
+        "hotspotSaveFailed": "Impossibile salvare le impostazioni dell'hotspot: {messaggio}",
+        "wifiConnected": "WiFi connesso: {ssid} ({ip})"
       },
       "hotspotConfigured": "La password dell'hotspot personalizzata è configurata.",
       "hotspotNewPassword": "Nuova password dell'hotspot",
@@ -2125,6 +2128,16 @@
       "indiRegistryModalNameDuplicate": "Il nome esiste già in un'altra riga.",
       "wifiSignalMobile": "Mobile signal",
       "wifiRssiValue": "{value} dBm"
+      "wifiChannel": "Canale {canale}",
+      "wifiConnectedAction": "Collegato",
+      "wifiRoleClient": "WiFi domestico",
+      "wifiRoleHotspot": "Punto caldo",
+      "wifiSignal": "Segnale",
+      "wifiSignalHistory": "Cronologia del segnale Wi-Fi",
+      "wifiSignalUnavailable": "Segnale non disponibile",
+      "wifiSignalValue": "{valore}%",
+      "wifiStatusConnected": "Collegato",
+      "wifiStatusDisconnected": "Non connesso"
     },
     "bahtifocus": {
       "title": "Analizzatore di maschere Bahtinov",
@@ -3218,7 +3231,18 @@
         "micronsPerFocuserStep": "Micron per Passaggio Focusser",
         "retry": "Riprova",
         "resetToDefaults": "Reimposta Valori Predefiniti",
-        "resetting": "Reimpostazione..."
+        "resetting": "Reimpostazione...",
+        "autoPlaceholder": "auto",
+        "centerFocuserBeforeRun": "Focheggiatore centrale prima della corsa",
+        "detailedAnalysisExposureSeconds": "Analisi dettagliata Tempo di esposizione (secondi)",
+        "framesPerPoint": "Fotogrammi per punto",
+        "numRegionsWide": "Numero di regioni ampie",
+        "sensorCurveModelEnabled": "Modello della curva del sensore",
+        "signalAmplification": "Amplificazione del segnale",
+        "simpleExposureSeconds": "Tempo di esposizione (secondi)",
+        "stepCount": "Conteggio dei passi",
+        "stepSize": "Dimensione del passo",
+        "timeoutSeconds": "Timeout (secondi)"
       },
       "autoFocusOptions": {
         "loading": "Caricamento opzioni Autofocus...",
@@ -3244,7 +3268,8 @@
         "noiseReducedStarMeasurement": "Misurazione Stelle con Rumore Ridotto",
         "debugMode": "Modalità Debug",
         "simpleModeSettings": "Impostazioni Modalità Semplice",
-        "noiseLevel": "Livello di Rumore"
+        "noiseLevel": "Livello di Rumore",
+        "useOptimizedSettings": "Utilizza impostazioni ottimizzate"
       },
       "tilter": {
         "device": "Dispositivo",

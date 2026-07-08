@@ -322,6 +322,10 @@
         "title": "画面をスリープしない",
         "description": "アプリが開いている間、デバイスの減光やロックを防ぎます。"
       },
+      "wifiBinding": {
+        "title": "ローカルネットワークバインディング",
+        "description": "インスタンスがインターネットのないローカルネットワーク（PINS ホットスポットなど）で動作している間もアプリを Wi-Fi 経由で接続し続け、スマートフォンのその他の通信は引き続きモバイルデータを使用します。"
+      },
       "input": {
         "title": "入力の最適化",
         "touchOptimized": "タッチ操作用ピッカー"
@@ -2127,7 +2131,7 @@
       "indiRegistryModalUpdatedAt": "更新されました",
       "indiRegistryModalNameDuplicate": "名前はすでに別の行に存在します。",
       "wifiSignalMobile": "Mobile signal",
-      "wifiRssiValue": "{value} dBm"
+      "wifiRssiValue": "{value} dBm",
       "wifiChannel": "チャンネル {チャンネル}",
       "wifiConnectedAction": "接続済み",
       "wifiRoleClient": "ホームWiFi",

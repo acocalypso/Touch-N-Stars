@@ -272,6 +272,10 @@
         "title": "Mantieni schermo acceso",
         "description": "Impedisce al dispositivo di spegnersi o bloccarsi mentre l'app è aperta."
       },
+      "wifiBinding": {
+        "title": "Associazione alla rete locale",
+        "description": "Mantiene l'app connessa tramite Wi-Fi quando l'istanza è in una rete locale senza internet (ad es. hotspot PINS), mentre il resto del telefono continua a usare i dati mobili."
+      },
       "input": {
         "title": "Ottimizzazione input",
         "touchOptimized": "Selettore ottimizzato per touch"
@@ -2127,7 +2131,7 @@
       "indiRegistryModalUpdatedAt": "Aggiornato",
       "indiRegistryModalNameDuplicate": "Il nome esiste già in un'altra riga.",
       "wifiSignalMobile": "Mobile signal",
-      "wifiRssiValue": "{value} dBm"
+      "wifiRssiValue": "{value} dBm",
       "wifiChannel": "Canale {canale}",
       "wifiConnectedAction": "Collegato",
       "wifiRoleClient": "WiFi domestico",

@@ -272,6 +272,10 @@
         "title": "Udržet Obrazovku Aktivní",
         "description": "Zabraňte usnutí nebo uzamčení zařízení, když je aplikace otevřená."
       },
+      "wifiBinding": {
+        "title": "Vazba na místní síť",
+        "description": "Udržuje aplikaci připojenou přes Wi-Fi, když instance běží v místní síti bez internetu (např. PINS hotspot), zatímco zbytek telefonu dál používá mobilní data."
+      },
       "input": {
         "title": "Optimalizace vstupu",
         "touchOptimized": "Dotykový selektor"
@@ -2127,7 +2131,7 @@
       "indiRegistryModalUpdatedAt": "Updated",
       "indiRegistryModalNameDuplicate": "Name already exists in another row.",
       "wifiSignalMobile": "Mobile signal",
-      "wifiRssiValue": "{value} dBm"
+      "wifiRssiValue": "{value} dBm",
       "wifiChannel": "Channel {channel}",
       "wifiConnectedAction": "Connected",
       "wifiRoleClient": "Home WiFi",

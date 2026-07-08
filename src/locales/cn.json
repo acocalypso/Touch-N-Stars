@@ -272,6 +272,10 @@
         "title": "保持屏幕唤醒",
         "description": "防止应用程序打开时设备变暗或锁定。"
       },
+      "wifiBinding": {
+        "title": "本地网络绑定",
+        "description": "当实例运行在没有互联网的本地网络（例如 PINS 热点）时，让应用保持通过 Wi-Fi 连接，而手机的其他流量继续使用移动数据。"
+      },
       "input": {
         "title": "输入优化",
         "touchOptimized": "触摸优化选择器"
@@ -2127,7 +2131,7 @@
       "indiRegistryModalUpdatedAt": "Updated",
       "indiRegistryModalNameDuplicate": "Name already exists in another row.",
       "wifiSignalMobile": "Mobile signal",
-      "wifiRssiValue": "{value} dBm"
+      "wifiRssiValue": "{value} dBm",
       "wifiChannel": "Channel {channel}",
       "wifiConnectedAction": "Connected",
       "wifiRoleClient": "Home WiFi",

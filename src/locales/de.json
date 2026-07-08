@@ -341,6 +341,10 @@
         "title": "Bildschirm aktiv halten",
         "description": "Verhindert, dass das Gerät den Bildschirm dimmt oder sperrt, während die App geöffnet ist. "
       },
+      "wifiBinding": {
+        "title": "Lokale Netzwerkbindung",
+        "description": "Hält die App über WLAN verbunden, wenn die Instanz in einem lokalen Netzwerk ohne Internet läuft (z. B. PINS-Hotspot), während das übrige Telefon weiterhin mobile Daten nutzt."
+      },
       "input": {
         "title": "Eingabeoptimierung",
         "touchOptimized": "Touchscreen-optimierte Auswahl"

@@ -354,6 +354,10 @@
         "title": "화면 켜짐 유지",
         "description": "앱이 열려 있는 동안 기기가 어두워지거나 잠기지 않게 합니다."
       },
+      "wifiBinding": {
+        "title": "로컬 네트워크 바인딩",
+        "description": "인스턴스가 인터넷이 없는 로컬 네트워크(예: PINS 핫스팟)에서 실행될 때 앱이 Wi-Fi를 통해 연결을 유지하며, 휴대폰의 나머지 통신은 계속 모바일 데이터를 사용합니다."
+      },
       "input": {
         "title": "입력 최적화",
         "touchOptimized": "터치 최적화 선택기"
@@ -2127,7 +2131,7 @@
       "indiRegistryModalUpdatedAt": "업데이트됨",
       "indiRegistryModalNameDuplicate": "이름이 이미 다른 행에 존재합니다.",
       "wifiSignalMobile": "Mobile signal",
-      "wifiRssiValue": "{value} dBm"
+      "wifiRssiValue": "{value} dBm",
       "wifiChannel": "채널 {채널}",
       "wifiConnectedAction": "연결됨",
       "wifiRoleClient": "가정용 WiFi",

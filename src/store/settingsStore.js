@@ -135,6 +135,8 @@ export const useSettingsStore = defineStore('settings', {
     ],
     // Device/screen behavior
     keepAwakeEnabled: false,
+    // Android: bind app process to Wi-Fi when the instance IP is in its subnet
+    wifiBindingEnabled: true,
     // Modal Positionen
     modalPositions: {},
     // Navbar customization
@@ -466,6 +468,10 @@ export const useSettingsStore = defineStore('settings', {
       this.keepAwakeEnabled = value;
     },
 
+    setWifiBindingEnabled(value) {
+      this.wifiBindingEnabled = value;
+    },
+
     setHistoryTimeRange(startIndex, endIndex) {
       this.monitorViewSetting.historyTimeRange.startIndex = startIndex;
       this.monitorViewSetting.historyTimeRange.endIndex = endIndex;
@@ -543,6 +549,7 @@ export const useSettingsStore = defineStore('settings', {
           'tutorial',
           'showPlugins',
           'keepAwakeEnabled',
+          'wifiBindingEnabled',
           'livestack',
           'useBetaFeatures',
           'touchOptimized',

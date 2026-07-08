@@ -272,6 +272,10 @@
         "title": "Manter tela ligada",
         "description": "Impede que o dispositivo escureça ou trave enquanto o aplicativo está aberto."
       },
+      "wifiBinding": {
+        "title": "Vinculação à rede local",
+        "description": "Mantém o aplicativo conectado por Wi-Fi quando a sua instância está em uma rede local sem internet (ex.: hotspot PINS), enquanto o resto do telefone continua usando dados móveis."
+      },
       "input": {
         "title": "Otimização de entrada",
         "touchOptimized": "Seletor otimizado para toque"
@@ -2127,7 +2131,7 @@
       "indiRegistryModalUpdatedAt": "Atualizado",
       "indiRegistryModalNameDuplicate": "O nome já existe em outra linha.",
       "wifiSignalMobile": "Mobile signal",
-      "wifiRssiValue": "{value} dBm"
+      "wifiRssiValue": "{value} dBm",
       "wifiChannel": "Canal {canal}",
       "wifiConnectedAction": "Conectado",
       "wifiRoleClient": "Wi-Fi doméstico",

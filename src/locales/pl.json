@@ -272,6 +272,10 @@
         "title": "Utrzymuj ekran aktywnym",
         "description": "Zapobiega przyciemnieniu lub blokowaniu urządzenia podczas otwartej aplikacji."
       },
+      "wifiBinding": {
+        "title": "Powiązanie z siecią lokalną",
+        "description": "Utrzymuje połączenie aplikacji przez Wi-Fi, gdy instancja działa w sieci lokalnej bez internetu (np. hotspot PINS), podczas gdy reszta telefonu nadal korzysta z danych komórkowych."
+      },
       "input": {
         "title": "Optymalizacja wejścia",
         "touchOptimized": "Selektor zoptymalizowany dla dotyku"
@@ -2127,7 +2131,7 @@
       "indiRegistryModalUpdatedAt": "Zaktualizowano",
       "indiRegistryModalNameDuplicate": "Nazwa już istnieje w innym wierszu.",
       "wifiSignalMobile": "Mobile signal",
-      "wifiRssiValue": "{value} dBm"
+      "wifiRssiValue": "{value} dBm",
       "wifiChannel": "Kanał {kanał}",
       "wifiConnectedAction": "Połączony",
       "wifiRoleClient": "Domowe Wi-Fi",

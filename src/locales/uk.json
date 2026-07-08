@@ -252,6 +252,10 @@
         "title": "Тримати екран увімкненим",
         "description": "Запобігти затемненню або блокуванню пристрою, поки додаток відкритий."
       },
+      "wifiBinding": {
+        "title": "Прив'язка до локальної мережі",
+        "description": "Підтримує з'єднання застосунку через Wi-Fi, коли ваш екземпляр працює в локальній мережі без інтернету (напр., точка доступу PINS), тоді як решта телефона продовжує використовувати мобільні дані."
+      },
       "input": {
         "title": "Оптимізація введення",
         "touchOptimized": "Сенсорний вибір"
@@ -3001,7 +3005,7 @@
       "indiRegistryModalUpdatedAt": "Оновлено",
       "indiRegistryModalNameDuplicate": "Назва вже існує в іншому рядку.",
       "wifiSignalMobile": "Mobile signal",
-      "wifiRssiValue": "{value} dBm"
+      "wifiRssiValue": "{value} dBm",
       "wifiConnectedAction": "Підключено",
       "wifiChannel": "Канал {channel}",
       "wifiSignal": "Сигнал",

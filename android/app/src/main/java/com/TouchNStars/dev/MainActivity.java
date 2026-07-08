@@ -12,6 +12,10 @@ public class MainActivity extends BridgeActivity {
         registerPlugin(MediaScannerPlugin.class);
         registerPlugin(WifiSignalPlugin.class);
 
+        // Register WifiNetworkBinder plugin to keep the backend reachable on
+        // internet-less Wi-Fi (PINS hotspot) while mobile data is active
+        registerPlugin(WifiNetworkBinderPlugin.class);
+
         super.onCreate(savedInstanceState);
     }
 

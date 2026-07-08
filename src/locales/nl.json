@@ -272,6 +272,10 @@
         "title": "Scherm actief",
         "description": "Voorkom dat het scherm dimt of vergrendeld terwijl de App actief is."
       },
+      "wifiBinding": {
+        "title": "Lokale netwerkbinding",
+        "description": "Houdt de app via wifi verbonden wanneer je instantie op een lokaal netwerk zonder internet draait (bijv. PINS-hotspot), terwijl de rest van de telefoon mobiele data blijft gebruiken."
+      },
       "input": {
         "title": "Invoeroptimalisatie",
         "touchOptimized": "Touch-geoptimaliseerde kiezer"
@@ -2127,7 +2131,7 @@
       "indiRegistryModalUpdatedAt": "Bijgewerkt",
       "indiRegistryModalNameDuplicate": "Naam bestaat al in een andere rij.",
       "wifiSignalMobile": "Mobile signal",
-      "wifiRssiValue": "{value} dBm"
+      "wifiRssiValue": "{value} dBm",
       "wifiChannel": "Kanaal {kanaal}",
       "wifiConnectedAction": "Aangesloten",
       "wifiRoleClient": "Thuis-wifi",

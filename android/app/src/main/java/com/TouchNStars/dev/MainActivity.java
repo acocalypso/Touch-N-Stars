@@ -12,6 +12,10 @@ public class MainActivity extends BridgeActivity {
 
         // Register MediaScanner plugin for gallery integration
         registerPlugin(MediaScannerPlugin.class);
+
+        // Register WifiNetworkBinder plugin to keep the backend reachable on
+        // internet-less Wi-Fi (PINS hotspot) while mobile data is active
+        registerPlugin(WifiNetworkBinderPlugin.class);
     }
 
     @Override

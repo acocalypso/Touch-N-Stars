@@ -15,6 +15,7 @@ import { timeSync } from '@/utils/timeSync';
 import { setupErrorHandler, setupUnhandledRejectionLogging } from '@/utils/errorHandler';
 import { ensureConsolePatched } from '@/utils/consoleCapture';
 import { markAppReady } from '@/services/updateService';
+import { initWifiBinding } from '@/services/wifiBindingService';
 
 const SYSTEM_BAR_COLOR = '#1F2937';
 
@@ -118,6 +119,9 @@ app.use(pinia).use(head).use(i18n).use(router);
   // Some Android builds/OEM skins can ignore static config and apply dynamic theme colors.
   // Re-applying at runtime keeps system bars aligned with the app theme.
   await applyAndroidSystemBarColors();
+
+  // Keep the backend reachable on internet-less Wi-Fi (PINS hotspot) on Android
+  initWifiBinding();
 
   CapacitorApp.addListener('appStateChange', async ({ isActive }) => {
     if (isActive) {

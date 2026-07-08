@@ -354,6 +354,10 @@
         "title": "Keep Screen Awake",
         "description": "Prevent the device from dimming or locking while the app is open."
       },
+      "wifiBinding": {
+        "title": "Local Network Binding",
+        "description": "Keep the app connected through Wi-Fi when your instance runs on a local network without internet (e.g. PINS hotspot), while the rest of the phone keeps using mobile data."
+      },
       "input": {
         "title": "Input Optimization",
         "touchOptimized": "Touch-optimized picker"

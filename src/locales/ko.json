@@ -2126,6 +2126,8 @@
       "indiRegistryModalTypeInvalid": "유형은 허용되는 값 중 하나여야 합니다.",
       "indiRegistryModalUpdatedAt": "업데이트됨",
       "indiRegistryModalNameDuplicate": "이름이 이미 다른 행에 존재합니다.",
+      "wifiSignalMobile": "Mobile signal",
+      "wifiRssiValue": "{value} dBm"
       "wifiChannel": "채널 {채널}",
       "wifiConnectedAction": "연결됨",
       "wifiRoleClient": "가정용 WiFi",

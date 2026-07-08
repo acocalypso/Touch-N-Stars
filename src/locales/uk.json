@@ -3000,6 +3000,8 @@
       "indiRegistryModalTypeInvalid": "Тип має бути одним із дозволених значень.",
       "indiRegistryModalUpdatedAt": "Оновлено",
       "indiRegistryModalNameDuplicate": "Назва вже існує в іншому рядку.",
+      "wifiSignalMobile": "Mobile signal",
+      "wifiRssiValue": "{value} dBm"
       "wifiConnectedAction": "Підключено",
       "wifiChannel": "Канал {channel}",
       "wifiSignal": "Сигнал",

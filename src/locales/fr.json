@@ -2126,6 +2126,8 @@
       "indiRegistryModalTypeInvalid": "Le type doit être l’une des valeurs autorisées.",
       "indiRegistryModalUpdatedAt": "Mis à jour",
       "indiRegistryModalNameDuplicate": "Le nom existe déjà dans une autre ligne.",
+      "wifiSignalMobile": "Mobile signal",
+      "wifiRssiValue": "{value} dBm"
       "wifiChannel": "Chaîne {chaîne}",
       "wifiConnectedAction": "Connecté",
       "wifiRoleClient": "Wi-Fi domestique",

@@ -8,14 +8,15 @@ public class MainActivity extends BridgeActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        // Register MediaScanner plugin for gallery integration
+        // Register local Capacitor plugins before BridgeActivity initializes the bridge.
         registerPlugin(MediaScannerPlugin.class);
+        registerPlugin(WifiSignalPlugin.class);
 
         // Register WifiNetworkBinder plugin to keep the backend reachable on
         // internet-less Wi-Fi (PINS hotspot) while mobile data is active
         registerPlugin(WifiNetworkBinderPlugin.class);
+
+        super.onCreate(savedInstanceState);
     }
 
     @Override

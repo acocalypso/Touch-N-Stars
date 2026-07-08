@@ -2126,6 +2126,8 @@
       "indiRegistryModalTypeInvalid": "Type は許可された値の 1 つである必要があります。",
       "indiRegistryModalUpdatedAt": "更新されました",
       "indiRegistryModalNameDuplicate": "名前はすでに別の行に存在します。",
+      "wifiSignalMobile": "Mobile signal",
+      "wifiRssiValue": "{value} dBm"
       "wifiChannel": "チャンネル {チャンネル}",
       "wifiConnectedAction": "接続済み",
       "wifiRoleClient": "ホームWiFi",

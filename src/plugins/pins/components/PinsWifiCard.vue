@@ -215,7 +215,13 @@
 
           <div v-if="hasSignal(connection)" class="flex flex-col gap-1">
             <div class="flex items-center justify-between text-xs text-gray-300">
-              <span>{{ $t('plugins.pins.wifiSignal') }}</span>
+              <span>
+                {{
+                  connection.measuredOnMobile
+                    ? $t('plugins.pins.wifiSignalMobile')
+                    : $t('plugins.pins.wifiSignal')
+                }}
+              </span>
               <span>{{
                 $t('plugins.pins.wifiSignalValue', { value: connection.signalStrength })
               }}</span>
@@ -239,6 +245,9 @@
                 :class="signalBarClass(sample)"
                 :style="{ height: `${Math.max(15, sample)}%` }"
               ></span>
+            </div>
+            <div v-if="connection.rssiDbm" class="text-[11px] text-gray-500">
+              {{ $t('plugins.pins.wifiRssiValue', { value: connection.rssiDbm }) }}
             </div>
           </div>
 
@@ -575,6 +584,11 @@ const props = defineProps({
     required: false,
     default: null,
   },
+  mobileWifiSignal: {
+    type: Object,
+    required: false,
+    default: null,
+  },
   selectedSsid: {
     type: String,
     required: true,
@@ -797,9 +811,12 @@ function normalizeWifiConnection(connection) {
   const role = connection.role || 'client';
   const iface = connection.interface || '';
   const name = connection.ssid || connection.connectionName || '';
+  const mobileSignal =
+    role === 'hotspot' && mobileSignalMatchesConnection(connection) ? props.mobileWifiSignal : null;
+  const rawSignal = mobileSignal?.signalStrength ?? connection.signalStrength;
   const signal =
-    Number.isFinite(Number(connection.signalStrength)) && Number(connection.signalStrength) >= 0
-      ? Math.min(100, Math.max(0, Number(connection.signalStrength)))
+    Number.isFinite(Number(rawSignal)) && Number(rawSignal) >= 0
+      ? Math.min(100, Math.max(0, Number(rawSignal)))
       : null;
 
   return {
@@ -807,8 +824,42 @@ function normalizeWifiConnection(connection) {
     role,
     interface: iface,
     signalStrength: signal,
+    quality: mobileSignal?.quality || connection.quality,
+    rssiDbm: mobileSignal?.rssiDbm ?? connection.rssiDbm,
+    measuredOnMobile: Boolean(mobileSignal),
     key: `${role}:${iface}:${name}`,
   };
+}
+
+function mobileSignalMatchesConnection(connection) {
+  if (!props.mobileWifiSignal?.available || !props.mobileWifiSignal?.ssid) {
+    return false;
+  }
+
+  const mobileSsid = normalizeSsid(props.mobileWifiSignal.ssid);
+  const candidates = [connection.ssid, connection.connectionName]
+    .map((value) => normalizeSsid(value))
+    .filter(Boolean);
+
+  if (candidates.includes(mobileSsid)) {
+    return true;
+  }
+
+  if (connection.role !== 'hotspot') {
+    return false;
+  }
+
+  const genericHotspotNames = ['Hotspot', 'hotspot-ap'].map((value) => normalizeSsid(value));
+  const hasGenericHotspotName = candidates.some((candidate) =>
+    genericHotspotNames.includes(candidate)
+  );
+  return hasGenericHotspotName && mobileSsid.startsWith('pins-');
+}
+
+function normalizeSsid(value) {
+  return String(value || '')
+    .trim()
+    .replace(/^"|"$/g, '');
 }
 
 function hasSignal(connection) {

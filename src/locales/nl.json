@@ -2126,6 +2126,8 @@
       "indiRegistryModalTypeInvalid": "Type moet een van de toegestane waarden zijn.",
       "indiRegistryModalUpdatedAt": "Bijgewerkt",
       "indiRegistryModalNameDuplicate": "Naam bestaat al in een andere rij.",
+      "wifiSignalMobile": "Mobile signal",
+      "wifiRssiValue": "{value} dBm"
       "wifiChannel": "Kanaal {kanaal}",
       "wifiConnectedAction": "Aangesloten",
       "wifiRoleClient": "Thuis-wifi",

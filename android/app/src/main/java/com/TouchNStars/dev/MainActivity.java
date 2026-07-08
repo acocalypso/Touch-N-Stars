@@ -8,10 +8,11 @@ public class MainActivity extends BridgeActivity {
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-
-        // Register MediaScanner plugin for gallery integration
+        // Register local Capacitor plugins before BridgeActivity initializes the bridge.
         registerPlugin(MediaScannerPlugin.class);
+        registerPlugin(WifiSignalPlugin.class);
+
+        super.onCreate(savedInstanceState);
     }
 
     @Override

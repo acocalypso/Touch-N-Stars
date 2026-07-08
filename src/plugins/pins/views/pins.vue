@@ -22,6 +22,7 @@
               :is-scanning="isScanning"
               :wifi-list="wifiList"
               :wifi-status="wifiStatus"
+              :mobile-wifi-signal="mobileWifiSignal"
               :selected-ssid="selectedSsid"
               :wifi-password="wifiPassword"
               :selected-band="selectedBand"
@@ -279,6 +280,7 @@ import {
   parseIndiInstallJobId,
 } from '../composables/indiInstallUtils';
 import { createHotspotSettingsApi } from '../composables/hotspotSettingsApi';
+import { WifiSignal } from '@/utils/wifiSignal';
 
 const { t } = useI18n();
 const settingsStore = useSettingsStore();
@@ -315,6 +317,7 @@ const pinsPluginsBusyPackage = ref('');
 const dhcpClients = ref([]);
 const isDhcpClientsLoading = ref(false);
 const wifiStatus = ref(null);
+const mobileWifiSignal = ref(null);
 const selectedIndi3rdpartyAsset = ref('');
 const showIndi3rdpartyInstallModal = ref(false);
 const showIndiRegistryEditModal = ref(false);
@@ -1099,13 +1102,31 @@ async function loadWifiStatus() {
   if (!ip) return;
 
   try {
-    const response = await apiPinsService.getPinsWifiStatus();
+    const [response, mobileSignal] = await Promise.all([
+      apiPinsService.getPinsWifiStatus(),
+      loadMobileWifiSignal(),
+    ]);
     wifiStatus.value = response || null;
+    mobileWifiSignal.value = mobileSignal;
     wifiConnected.value = Boolean(response?.connected);
   } catch (error) {
     console.error('Failed to load WiFi status:', error);
     wifiStatus.value = null;
+    mobileWifiSignal.value = await loadMobileWifiSignal();
     wifiConnected.value = false;
+  }
+}
+
+async function loadMobileWifiSignal() {
+  try {
+    return await WifiSignal.getCurrent();
+  } catch (error) {
+    return {
+      available: false,
+      platform: 'unknown',
+      reason: error?.message || 'native-unavailable',
+      source: 'mobile-device',
+    };
   }
 }
 

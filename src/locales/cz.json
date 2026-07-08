@@ -2126,6 +2126,8 @@
       "indiRegistryModalTypeInvalid": "Type must be one of the allowed values.",
       "indiRegistryModalUpdatedAt": "Updated",
       "indiRegistryModalNameDuplicate": "Name already exists in another row.",
+      "wifiSignalMobile": "Mobile signal",
+      "wifiRssiValue": "{value} dBm"
       "wifiChannel": "Channel {channel}",
       "wifiConnectedAction": "Connected",
       "wifiRoleClient": "Home WiFi",

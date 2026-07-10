@@ -61,10 +61,13 @@ import {
 } from '@/integrations/celestiaAtlas/contracts';
 import { timeSync } from '@/utils/timeSync';
 import { degreesToDMS, degreesToHMS } from '@/utils/utils';
+import { useHorizonStore } from '@/plugins/horizon-creator/store/horizonStore';
+import { interpolateHorizon } from '@/plugins/horizon-creator/utils/horizon-utils';
 
 const store = apiStore();
 const framingStore = useFramingStore();
 const settingsStore = useSettingsStore();
+const horizonStore = useHorizonStore();
 const { t } = useI18n();
 const router = useRouter();
 const { isLandscape } = useOrientation();
@@ -128,6 +131,20 @@ function updateDisplayOptions() {
   });
 }
 
+function updateHorizon() {
+  if (!viewer) return;
+  if (horizonStore.points.length < 2) {
+    viewer.setHorizon([]);
+    return;
+  }
+  const points = interpolateHorizon(horizonStore.points, 2).map(({ az, alt }) => ({
+    azimuthDeg: az,
+    altitudeDeg: alt,
+  }));
+  points.push({ ...points[0], azimuthDeg: 360 });
+  viewer.setHorizon(points);
+}
+
 function runSearch() {
   searchResults.value = viewer?.search(searchQuery.value) ?? [];
 }
@@ -181,6 +198,7 @@ watch(
 );
 watch(() => store.showStellarium, updateVisibility);
 watch(() => store.mountInfo, updateMount, { deep: true });
+watch(() => horizonStore.points, updateHorizon, { deep: true });
 watch(
   () => [
     settingsStore.stellarium.equatorialLinesVisible,
@@ -222,6 +240,7 @@ onMounted(async () => {
     updateFieldOfView();
     updateMount();
     updateDisplayOptions();
+    updateHorizon();
     updateVisibility();
     document.addEventListener('visibilitychange', handleVisibilityChange);
     ready.value = true;

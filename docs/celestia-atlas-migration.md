@@ -66,7 +66,8 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 - Phase 6 (partial): localized date, local-time, server-now, pause and time-rate controls are connected. The standalone compatibility `app.js` is now a loader for `app-v8.js`, removing the duplicated legacy standalone implementation.
 - Phase 5 (partial): spherical gnomonic projection replaces flat RA/Dec mapping; 130 bright stars and 27 constellation line sets are generated reproducibly, packaged offline, searchable, and controlled by host display settings.
 - Phase 5 (partial): custom horizon points are interpolated by the host and projected by the engine from geographic north/east azimuth into the live observer sky. Engine UTC advances while active and horizon projection refreshes once per minute without a continuous render loop.
-- Phase 3: host conversion boundary and safety tests implemented; independent astronomy golden reference remains open.
+- Phase 5 (partial): the Sun, Moon, eight planets and Pluto now use live, offline Astronomy Engine ephemerides. They render, label, search, select and hand off topocentric J2000 coordinates at the viewer's observer and UTC.
+- Phase 3: host conversion boundary and safety tests implemented. A topocentric Mars position matches an independent JPL Horizons ICRF/J2000 fixture within one arcminute; broader golden-reference coverage remains open.
 - Phases 2 and 4-9: not started.
 
 ## 9. Feature-parity matrix
@@ -92,6 +93,7 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 - Host `npm run typecheck`: passed in 97.6 seconds.
 - Flagged POC `npm run build:app`: passed. Viewer chunk is 9.21 kB (3.73 kB gzip); the lazy full OpenNGC chunk is 5,452.22 kB (915.53 kB gzip). Vite reports the expected large-chunk warning for the catalogue.
 - Pinned OpenNGC `v20260501` generation produced 12,578 records. After fixing nondeterministic metadata, two offline rebuilds produced identical SHA-256 hashes.
+- Candidate solar-system suite: 11 tests passed, including time motion, observer parallax and the JPL Horizons Mars tolerance fixture.
 
 ## 11. Remaining blockers
 
@@ -100,7 +102,7 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 - Host coordinate provenance must be proven before any viewer selection can feed commands.
 - Android and iOS runtime validation require suitable platform environments.
 - Mandatory parity phases remain.
-- Package boundary resolved: Touch-N-Stars uses the public Git repository pinned to immutable commit `914773c55b2459405e932672733db59943416e66` over HTTPS.
+- Package boundary resolved: Touch-N-Stars uses the public Git repository pinned to immutable commit `bde52f8d8cec915c3888768a3adc860543f2651c` over HTTPS.
 
 ## 12. Removal checklist
 

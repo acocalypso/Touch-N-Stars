@@ -41,17 +41,19 @@ export function ninaObserverToAtlas(astrometrySettings) {
 
 export function ninaMountToAtlas(mountInfo, timestampUtcMs = Date.now()) {
   if (!mountInfo?.Connected) return null;
-  // NINA's mount API exposes RightAscension in hours and Declination in degrees.
-  // The API does not tag an apparent/epoch frame, so callers must provide the
-  // proven frame before this value can be rendered or used for follow behavior.
-  const frame = mountInfo.CoordinateFrame;
-  if (!VALID_FRAMES.has(frame)) throw new TypeError('Mount coordinate frame is unproven');
+  const source = mountInfo.Coordinates ?? {};
+  const epoch = source.Epoch ?? mountInfo.EquatorialSystem;
+  if (epoch !== 'J2000') {
+    throw new TypeError(`Unsupported mount coordinate epoch: ${epoch ?? 'unknown'}`);
+  }
+  const raDeg = source.RADegrees ?? mountInfo.RightAscension * 15;
+  const decDeg = source.Dec ?? mountInfo.Declination;
   return {
     coordinates: toAtlasCoordinates({
-      raDeg: mountInfo.RightAscension * 15,
-      decDeg: mountInfo.Declination,
-      frame,
-      epochJulianYear: mountInfo.EpochJulianYear,
+      raDeg,
+      decDeg,
+      frame: 'J2000',
+      epochJulianYear: 2000,
     }),
     connected: true,
     stale: Boolean(mountInfo.Stale),

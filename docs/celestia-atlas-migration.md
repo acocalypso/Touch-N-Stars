@@ -51,7 +51,7 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 - Observer longitude is east-positive and normalized to `[-180, 180)`; elevation is metres.
 - Time is an explicit UTC Unix timestamp in milliseconds.
 - Catalogue legacy RA remains hours internally until converted at the adapter boundary.
-- NINA mount `RightAscension` is hours and must be multiplied by 15 exactly once. The current API payload does not expose a proven frame in repository fixtures, so mount display/follow is deliberately rejected unless the adapter receives `CoordinateFrame: ICRS|J2000`.
+- Advanced API mount data includes `Coordinates.RADegrees`, `Coordinates.Dec`, and `Coordinates.Epoch`. The adapter accepts `J2000` directly, prefers the degree fields, and rejects JNOW/B1950/J2050 pending explicit precession. Framing and slew endpoints construct NINA `Epoch.J2000` coordinates.
 - Atlas selections preserve their frame tag when converted to framing state. Existing downstream APIs do not accept a frame tag, so command enablement remains blocked until NINA frame provenance is established.
 - Precession, nutation, refraction, host coordinate-frame provenance, and rotation convention remain mandatory unresolved validation items.
 
@@ -60,6 +60,7 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 - Phase 0: complete enough to begin isolated engine work; baseline lint timed out.
 - Phase 1: public API, lifecycle, pointer cancellation and initial overlays implemented; standalone renderer extraction remains open.
 - Phase 2: lazy Vue proof of concept implemented behind `VITE_CELESTIA_ATLAS_POC=true`; observer, synchronized UTC, FOV, visibility and deterministic teardown are connected. Normal builds retain Stellarium rollback.
+- Phase 4 (partial): offline search, focus, canvas hit selection, selected-object details, safe framing handoff, J2000 mount marker, grid/display settings, and mock mount epoch are connected.
 - Phase 3: host conversion boundary and safety tests implemented; independent astronomy golden reference remains open.
 - Phases 2 and 4-9: not started.
 
@@ -81,6 +82,7 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 - Host `npm run lint`: timed out after 60 seconds; no pass claimed.
 - Candidate JavaScript syntax checks: passed before Phase 1 changes.
 - Host after coordinate contract: 44 passed, 0 failed; targeted ESLint passed.
+- Host after search/selection/mount integration: 46 passed, 0 failed; targeted ESLint, typecheck and flagged production build passed.
 - Candidate Phase 1 unit tests: 3 passed, 0 failed; syntax and diff checks passed.
 - Host `npm run typecheck`: passed in 97.6 seconds.
 - Flagged POC `npm run build:app`: passed. Viewer chunk is 9.21 kB (3.73 kB gzip); the lazy full OpenNGC chunk is 5,452.22 kB (915.53 kB gzip). Vite reports the expected large-chunk warning for the catalogue.
@@ -93,7 +95,7 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 - Host coordinate provenance must be proven before any viewer selection can feed commands.
 - Android and iOS runtime validation require suitable platform environments.
 - Mandatory parity phases remain.
-- Package boundary resolved: Touch-N-Stars uses the public Git repository pinned to immutable commit `d1ab1c26ca8f4a34f0e0b9ee90b8525014146f36` over HTTPS.
+- Package boundary resolved: Touch-N-Stars uses the public Git repository pinned to immutable commit `70b97a30c826aa02b5347f20133869008e0e27ee` over HTTPS.
 
 ## 12. Removal checklist
 

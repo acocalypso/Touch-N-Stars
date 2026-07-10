@@ -27,17 +27,42 @@ test('normalizes east-positive observer longitude', () => {
 test('blocks an untagged mount coordinate from the viewer boundary', () => {
   assert.throws(
     () => ninaMountToAtlas({ Connected: true, RightAscension: 12, Declination: -20 }),
-    /unproven/
+    /unknown/
   );
 });
 
 test('converts proven mount RA hours to atlas degrees', () => {
   const value = ninaMountToAtlas(
-    { Connected: true, RightAscension: 23.5, Declination: -20, CoordinateFrame: 'J2000' },
+    { Connected: true, RightAscension: 23.5, Declination: -20, Coordinates: { Epoch: 'J2000' } },
     123
   );
   assert.equal(value.coordinates.raDeg, 352.5);
   assert.equal(value.timestampUtcMs, 123);
+});
+
+test('prefers Advanced API tagged degree coordinates', () => {
+  const value = ninaMountToAtlas(
+    {
+      Connected: true,
+      RightAscension: 1,
+      Declination: 2,
+      Coordinates: { RADegrees: 123.4, Dec: -55.6, Epoch: 'J2000' },
+    },
+    123
+  );
+  assert.equal(value.coordinates.raDeg, 123.4);
+  assert.equal(value.coordinates.decDeg, -55.6);
+});
+
+test('rejects JNOW until precession is explicit', () => {
+  assert.throws(
+    () =>
+      ninaMountToAtlas({
+        Connected: true,
+        Coordinates: { RADegrees: 1, Dec: 2, Epoch: 'JNOW' },
+      }),
+    /Unsupported/
+  );
 });
 
 test('keeps a tagged selection safe for framing', () => {

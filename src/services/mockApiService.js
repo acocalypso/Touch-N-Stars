@@ -405,6 +405,7 @@ const mockApiService = {
             Coordinates: {
               RADegrees: 82.5, // 5.5 hours * 15 degrees/hour
               Dec: 22.0,
+              Epoch: 'J2000',
               Altitude: 45.0,
               Azimuth: 180.0,
             },

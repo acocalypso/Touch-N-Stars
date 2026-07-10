@@ -61,6 +61,7 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 - Phase 1: public API, lifecycle, pointer cancellation and initial overlays implemented; standalone renderer extraction remains open.
 - Phase 2: lazy Vue proof of concept implemented behind `VITE_CELESTIA_ATLAS_POC=true`; observer, synchronized UTC, FOV, visibility and deterministic teardown are connected. Normal builds retain Stellarium rollback.
 - Phase 4 (partial): offline search, focus, canvas hit selection, selected-object details, safe framing handoff, J2000 mount marker, grid/display settings, and mock mount epoch are connected.
+- Phase 5 (partial): spherical gnomonic projection replaces flat RA/Dec mapping; 130 bright stars and 27 constellation line sets are generated reproducibly, packaged offline, searchable, and controlled by host display settings.
 - Phase 3: host conversion boundary and safety tests implemented; independent astronomy golden reference remains open.
 - Phases 2 and 4-9: not started.
 
@@ -95,7 +96,7 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 - Host coordinate provenance must be proven before any viewer selection can feed commands.
 - Android and iOS runtime validation require suitable platform environments.
 - Mandatory parity phases remain.
-- Package boundary resolved: Touch-N-Stars uses the public Git repository pinned to immutable commit `70b97a30c826aa02b5347f20133869008e0e27ee` over HTTPS.
+- Package boundary resolved: Touch-N-Stars uses the public Git repository pinned to immutable commit `d0468ff0b47c0d824853365c6d765cf3a73d6ef6` over HTTPS.
 
 ## 12. Removal checklist
 

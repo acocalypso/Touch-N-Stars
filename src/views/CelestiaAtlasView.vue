@@ -121,6 +121,7 @@ function updateDisplayOptions() {
   if (!viewer) return;
   viewer.setDisplayOptions({
     grid: Boolean(settingsStore.stellarium.equatorialLinesVisible),
+    constellations: Boolean(settingsStore.stellarium.constellationsLinesVisible),
     labels: true,
     deepSkyObjects: Boolean(settingsStore.stellarium.dsosVisible),
     horizon: Boolean(settingsStore.stellarium.landscapesVisible),
@@ -183,6 +184,7 @@ watch(() => store.mountInfo, updateMount, { deep: true });
 watch(
   () => [
     settingsStore.stellarium.equatorialLinesVisible,
+    settingsStore.stellarium.constellationsLinesVisible,
     settingsStore.stellarium.dsosVisible,
     settingsStore.stellarium.landscapesVisible,
   ],
@@ -194,7 +196,10 @@ onMounted(async () => {
     await store.fetchProfilInfos();
     await timeSync.ensureSync();
     await nextTick();
-    const catalogModule = await import('@acocalypso/celestia-atlas/catalog-data');
+    const [catalogModule, brightSkyModule] = await Promise.all([
+      import('@acocalypso/celestia-atlas/catalog-data'),
+      import('@acocalypso/celestia-atlas/bright-sky-data'),
+    ]);
     const catalog = catalogModule.default.objects.map((object) => ({
       ...object,
       // OpenNGC stores RA as decimal hours. Conversion happens exactly once at
@@ -208,6 +213,8 @@ onMounted(async () => {
       observer: ninaObserverToAtlas(store.profileInfo.AstrometrySettings),
       utcMs: timeSync.getServerTime(),
       catalog,
+      stars: brightSkyModule.default.stars,
+      constellations: brightSkyModule.default.constellations,
       onSelect: (target) => {
         selectedTarget.value = target;
       },

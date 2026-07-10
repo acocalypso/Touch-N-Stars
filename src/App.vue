@@ -416,6 +416,7 @@ const nightSummaryStore = useNightSummaryStore();
 const route = useRoute();
 
 const showTimeWarningModal = ref(false);
+let appStateListenerHandle = null;
 const timeWarningClientTime = ref('');
 const timeWarningDeviceTime = ref('');
 
@@ -1149,7 +1150,7 @@ onMounted(async () => {
   // resumeApp is now debounced, only add noise. pauseApp/resumeApp are internally
   // guarded against duplicate triggers.
   if (['android', 'ios'].includes(Capacitor.getPlatform())) {
-    CapacitorApp.addListener('appStateChange', (state) => {
+    appStateListenerHandle = await CapacitorApp.addListener('appStateChange', (state) => {
       console.log('Capacitor App state change:', state.isActive);
       if (state.isActive) {
         resumeApp();
@@ -1374,7 +1375,8 @@ onBeforeUnmount(async () => {
 
   // Remove Capacitor listeners
   if (['android', 'ios'].includes(Capacitor.getPlatform())) {
-    await CapacitorApp.removeAllListeners();
+    await appStateListenerHandle?.remove();
+    appStateListenerHandle = null;
   }
 });
 </script>

@@ -33,7 +33,7 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@acocalypso/celestia-atlas": "git+https://github.com/acocalypso/celestia_atlas.git#9412034b638bfff10426cea65daee1d914476239",
+    "@acocalypso/celestia-atlas": "git+https://github.com/acocalypso/celestia_atlas.git#073b37b2baf3b726162e82dcc5eafa48a0f455bd",
     "@acovanconis/capacitor-mdns": "0.0.4",
     "@capacitor-community/keep-awake": "8.0.1",
     "@capacitor-community/media": "9.1.0",

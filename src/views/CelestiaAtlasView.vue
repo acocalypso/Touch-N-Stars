@@ -39,6 +39,15 @@
         ↻
       </button>
     </div>
+    <button
+      v-if="ready"
+      class="celestia-atlas-clock bg-black/80 rounded-full"
+      type="button"
+      :title="clockPaused ? 'Play' : 'Pause'"
+      @click="toggleClock"
+    >
+      {{ clockPaused ? '▶' : 'Ⅱ' }} {{ clockLabel }}
+    </button>
     <section v-if="selectedTarget" class="celestia-atlas-selection">
       <strong>{{ t('components.stellarium.selected_object.title') }}</strong>
       <span>{{ selectedTarget.name }}</span>
@@ -82,6 +91,7 @@ import { timeSync } from '@/utils/timeSync';
 import { degreesToDMS, degreesToHMS } from '@/utils/utils';
 import { useHorizonStore } from '@/plugins/horizon-creator/store/horizonStore';
 import { interpolateHorizon } from '@/plugins/horizon-creator/utils/horizon-utils';
+import { isAppBackgrounded } from '@/utils/appLifecycle';
 
 const store = apiStore();
 const framingStore = useFramingStore();
@@ -97,7 +107,13 @@ const searchQuery = ref('');
 const searchResults = ref([]);
 const selectedTarget = ref(null);
 const mountFollow = ref(false);
+const clockPaused = ref(false);
+const clockLabel = ref('');
 let viewer = null;
+let viewSaveTimer = null;
+let pendingViewState = null;
+let clockDisplayTimer = null;
+const VIEW_STATE_KEY = 'tns.celestia-atlas.view';
 
 const containerClasses = computed(() => ({
   'celestia-atlas-portrait': !isLandscape.value,
@@ -144,6 +160,40 @@ function toggleMountFollow() {
 
 function focusMount() {
   viewer?.focusMount();
+}
+
+function toggleClock() {
+  clockPaused.value = !clockPaused.value;
+  viewer?.setTimeRate(clockPaused.value ? 0 : 1);
+  updateClockLabel();
+}
+
+function updateClockLabel() {
+  if (!viewer) return;
+  clockLabel.value = new Date(viewer.getTime()).toLocaleTimeString([], {
+    hour: '2-digit',
+    minute: '2-digit',
+    second: '2-digit',
+  });
+}
+
+function startClockDisplay() {
+  updateClockLabel();
+  if (clockDisplayTimer === null) clockDisplayTimer = setInterval(updateClockLabel, 1000);
+}
+
+function stopClockDisplay() {
+  if (clockDisplayTimer !== null) clearInterval(clockDisplayTimer);
+  clockDisplayTimer = null;
+}
+
+function queueViewPersistence(viewState) {
+  pendingViewState = viewState;
+  if (viewSaveTimer !== null) clearTimeout(viewSaveTimer);
+  viewSaveTimer = setTimeout(() => {
+    sessionStorage.setItem(VIEW_STATE_KEY, JSON.stringify(pendingViewState));
+    viewSaveTimer = null;
+  }, 200);
 }
 
 function updateMount() {
@@ -213,8 +263,13 @@ function sendSelectionToFraming() {
 
 function updateVisibility() {
   if (!viewer) return;
-  if (store.showStellarium && !document.hidden) viewer.resume();
-  else viewer.pause();
+  if (store.showStellarium && !document.hidden && !isAppBackgrounded.value) {
+    viewer.resume();
+    startClockDisplay();
+  } else {
+    viewer.pause();
+    stopClockDisplay();
+  }
 }
 
 function handleVisibilityChange() {
@@ -237,6 +292,7 @@ watch(
   updateFieldOfView
 );
 watch(() => store.showStellarium, updateVisibility);
+watch(isAppBackgrounded, updateVisibility);
 watch(() => store.mountInfo, updateMount, { deep: true });
 watch(() => horizonStore.points, updateHorizon, { deep: true });
 watch(
@@ -276,7 +332,17 @@ onMounted(async () => {
       onSelect: (target) => {
         selectedTarget.value = target;
       },
+      onViewChange: queueViewPersistence,
     });
+    const savedView = sessionStorage.getItem(VIEW_STATE_KEY);
+    if (savedView) {
+      try {
+        viewer.setView(JSON.parse(savedView));
+      } catch (error) {
+        sessionStorage.removeItem(VIEW_STATE_KEY);
+        console.warn('[Celestia Atlas] Ignored invalid saved view:', error.message);
+      }
+    }
     updateFieldOfView();
     updateMount();
     updateDisplayOptions();
@@ -291,6 +357,9 @@ onMounted(async () => {
 
 onBeforeUnmount(() => {
   document.removeEventListener('visibilitychange', handleVisibilityChange);
+  if (viewSaveTimer !== null) clearTimeout(viewSaveTimer);
+  if (pendingViewState) sessionStorage.setItem(VIEW_STATE_KEY, JSON.stringify(pendingViewState));
+  stopClockDisplay();
   viewer?.destroy();
   viewer = null;
 });
@@ -363,5 +432,14 @@ onBeforeUnmount(() => {
   display: flex;
   gap: 0.5rem;
   color: white;
+}
+.celestia-atlas-clock {
+  position: absolute;
+  z-index: 3;
+  left: 50%;
+  bottom: 2.5rem;
+  padding: 0.6rem 0.9rem;
+  color: white;
+  transform: translateX(-50%);
 }
 </style>

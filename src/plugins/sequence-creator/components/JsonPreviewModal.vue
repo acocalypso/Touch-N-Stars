@@ -71,8 +71,7 @@
           <div class="bg-gray-50 dark:bg-gray-900 rounded-lg p-4 h-full overflow-auto">
             <pre
               class="text-sm text-gray-800 dark:text-gray-200 whitespace-pre-wrap font-mono leading-relaxed"
-              >{{ formattedJson }}</pre
-            >
+              >{{ formattedJson }}</pre>
           </div>
         </div>
       </div>

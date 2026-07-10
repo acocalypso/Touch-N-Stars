@@ -39,15 +39,42 @@
         ↻
       </button>
     </div>
-    <button
-      v-if="ready"
-      class="celestia-atlas-clock bg-black/80 rounded-full"
-      type="button"
-      :title="clockPaused ? 'Play' : 'Pause'"
-      @click="toggleClock"
-    >
-      {{ clockPaused ? '▶' : 'Ⅱ' }} {{ clockLabel }}
-    </button>
+    <div v-if="ready" class="celestia-atlas-clock">
+      <div class="flex gap-2">
+        <button
+          class="bg-black/80 rounded-full px-3 py-2"
+          type="button"
+          :title="clockPaused ? 'Play' : 'Pause'"
+          @click="toggleClock"
+        >
+          {{ clockPaused ? '▶' : 'Ⅱ' }}
+        </button>
+        <button
+          class="bg-black/80 rounded-full px-3 py-2 font-mono"
+          type="button"
+          @click="toggleClockPanel"
+        >
+          {{ clockLabel }}
+        </button>
+      </div>
+      <div v-if="clockPanelVisible" class="celestia-atlas-clock-panel">
+        <label>
+          {{ t('components.stellarium.datetime.date') }}
+          <input v-model="clockDate" class="default-input" type="date" @change="applyClockInput" />
+        </label>
+        <label>
+          {{ t('components.stellarium.datetime.time') }}
+          <input v-model="clockTime" class="default-input" type="time" @change="applyClockInput" />
+        </label>
+        <label>
+          {{ t('components.stellarium.datetime.speed') }}: {{ Math.pow(2, clockSpeedPower) }}×
+          <input v-model.number="clockSpeedPower" type="range" min="-10" max="10" step="1" />
+        </label>
+        <button class="default-button-cyan" type="button" @click="resetClockToServer">
+          {{ t('components.stellarium.datetime.now') }}
+        </button>
+      </div>
+    </div>
     <section v-if="selectedTarget" class="celestia-atlas-selection">
       <strong>{{ t('components.stellarium.selected_object.title') }}</strong>
       <span>{{ selectedTarget.name }}</span>
@@ -109,6 +136,10 @@ const selectedTarget = ref(null);
 const mountFollow = ref(false);
 const clockPaused = ref(false);
 const clockLabel = ref('');
+const clockPanelVisible = ref(false);
+const clockDate = ref('');
+const clockTime = ref('');
+const clockSpeedPower = ref(0);
 let viewer = null;
 let viewSaveTimer = null;
 let pendingViewState = null;
@@ -164,7 +195,34 @@ function focusMount() {
 
 function toggleClock() {
   clockPaused.value = !clockPaused.value;
-  viewer?.setTimeRate(clockPaused.value ? 0 : 1);
+  viewer?.setTimeRate(clockPaused.value ? 0 : Math.pow(2, clockSpeedPower.value));
+  updateClockLabel();
+}
+
+function updateClockInputs() {
+  if (!viewer) return;
+  const date = new Date(viewer.getTime());
+  const local = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
+  clockDate.value = local.toISOString().slice(0, 10);
+  clockTime.value = local.toISOString().slice(11, 16);
+}
+
+function toggleClockPanel() {
+  clockPanelVisible.value = !clockPanelVisible.value;
+  if (clockPanelVisible.value) updateClockInputs();
+}
+
+function applyClockInput() {
+  if (!viewer || !clockDate.value || !clockTime.value) return;
+  const value = new Date(`${clockDate.value}T${clockTime.value}:00`);
+  if (!Number.isNaN(value.getTime())) viewer.setTime(value.getTime());
+  updateClockLabel();
+}
+
+async function resetClockToServer() {
+  await timeSync.ensureSync();
+  viewer?.setTime(timeSync.getServerTime());
+  updateClockInputs();
   updateClockLabel();
 }
 
@@ -293,6 +351,9 @@ watch(
 );
 watch(() => store.showStellarium, updateVisibility);
 watch(isAppBackgrounded, updateVisibility);
+watch(clockSpeedPower, (value) => {
+  if (!clockPaused.value) viewer?.setTimeRate(Math.pow(2, Number(value)));
+});
 watch(() => store.mountInfo, updateMount, { deep: true });
 watch(() => horizonStore.points, updateHorizon, { deep: true });
 watch(
@@ -438,8 +499,25 @@ onBeforeUnmount(() => {
   z-index: 3;
   left: 50%;
   bottom: 2.5rem;
-  padding: 0.6rem 0.9rem;
   color: white;
   transform: translateX(-50%);
+}
+.celestia-atlas-clock-panel {
+  position: absolute;
+  bottom: 3.5rem;
+  left: 50%;
+  display: grid;
+  gap: 0.6rem;
+  width: min(22rem, calc(100vw - 2rem));
+  padding: 0.8rem;
+  color: white;
+  background: rgb(3 7 18 / 95%);
+  border: 1px solid rgb(8 145 178);
+  border-radius: 0.75rem;
+  transform: translateX(-50%);
+}
+.celestia-atlas-clock-panel label {
+  display: grid;
+  gap: 0.25rem;
 }
 </style>

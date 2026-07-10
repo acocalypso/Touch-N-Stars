@@ -67,6 +67,7 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 - Phase 5 (partial): spherical gnomonic projection replaces flat RA/Dec mapping; 130 bright stars and 27 constellation line sets are generated reproducibly, packaged offline, searchable, and controlled by host display settings.
 - Phase 5 (partial): custom horizon points are interpolated by the host and projected by the engine from geographic north/east azimuth into the live observer sky. Engine UTC advances while active and horizon projection refreshes once per minute without a continuous render loop.
 - Phase 5 (partial): the Sun, Moon, eight planets and Pluto now use live, offline Astronomy Engine ephemerides. They render, label, search, select and hand off topocentric J2000 coordinates at the viewer's observer and UTC.
+- Phase 5 (partial): 1,214 pinned IAU Minor Planet Center comet records now render and search offline using universal-variable propagation, light-time correction and observer parallax. Embedded and standalone Atlas consumers load the same engine modules.
 - Phase 3: host conversion boundary and safety tests implemented. A topocentric Mars position matches an independent JPL Horizons ICRF/J2000 fixture within one arcminute; broader golden-reference coverage remains open.
 - Phases 2 and 4-9: not started.
 
@@ -94,6 +95,7 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 - Flagged POC `npm run build:app`: passed. Viewer chunk is 9.21 kB (3.73 kB gzip); the lazy full OpenNGC chunk is 5,452.22 kB (915.53 kB gzip). Vite reports the expected large-chunk warning for the catalogue.
 - Pinned OpenNGC `v20260501` generation produced 12,578 records. After fixing nondeterministic metadata, two offline rebuilds produced identical SHA-256 hashes.
 - Candidate solar-system suite: 11 tests passed, including time motion, observer parallax and the JPL Horizons Mars tolerance fixture.
+- Candidate moving-object suite: 17 tests passed. A 12P/Pons-Brooks topocentric position matches JPL Horizons within one arcminute; two catalogue rebuilds produced the same SHA-256.
 
 ## 11. Remaining blockers
 
@@ -102,7 +104,7 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 - Host coordinate provenance must be proven before any viewer selection can feed commands.
 - Android and iOS runtime validation require suitable platform environments.
 - Mandatory parity phases remain.
-- Package boundary resolved: Touch-N-Stars uses the public Git repository pinned to immutable commit `25f5dea46ef1a1ef71ef5017506aac812fc94483` over HTTPS. This revision also exposes the same live solar-system objects in the standalone Atlas shell.
+- Package boundary resolved: Touch-N-Stars uses the public Git repository pinned to immutable commit `33901928bbbee2193c76cab0f61b30bf38cbe4fc` over HTTPS. Embedded and standalone Atlas shells share the same planet and comet engine modules.
 
 ## 12. Removal checklist
 

@@ -102,7 +102,7 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 - Host coordinate provenance must be proven before any viewer selection can feed commands.
 - Android and iOS runtime validation require suitable platform environments.
 - Mandatory parity phases remain.
-- Package boundary resolved: Touch-N-Stars uses the public Git repository pinned to immutable commit `bde52f8d8cec915c3888768a3adc860543f2651c` over HTTPS.
+- Package boundary resolved: Touch-N-Stars uses the public Git repository pinned to immutable commit `25f5dea46ef1a1ef71ef5017506aac812fc94483` over HTTPS. This revision also exposes the same live solar-system objects in the standalone Atlas shell.
 
 ## 12. Removal checklist
 

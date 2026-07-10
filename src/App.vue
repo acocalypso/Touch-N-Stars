@@ -396,7 +396,11 @@ import { setAppBackgrounded } from '@/utils/appLifecycle';
 import { setLocaleLanguage } from '@/i18n';
 import { useSequenceV2Store } from '@/store/sequenceV2Store';
 
-const StellariumView = defineAsyncComponent(() => import('./views/StellariumView.vue'));
+const StellariumView = defineAsyncComponent(() =>
+  import.meta.env.VITE_CELESTIA_ATLAS_POC === 'true'
+    ? import('./views/CelestiaAtlasView.vue')
+    : import('./views/StellariumView.vue')
+);
 const TutorialModal = defineAsyncComponent(() => import('@/components/TutorialModal.vue'));
 const ConsoleViewer = defineAsyncComponent(() => import('@/components/helpers/ConsoleViewer.vue'));
 const SettingsComp = defineAsyncComponent(() => import('@/components/SettingsComp.vue'));

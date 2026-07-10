@@ -20,6 +20,25 @@
         </li>
       </ul>
     </div>
+    <div v-if="ready && store.mountInfo.Connected" class="celestia-atlas-mount-controls">
+      <button
+        class="p-2 bg-gray-700 border border-cyan-600 rounded-full"
+        type="button"
+        title="Center view on mount position"
+        @click="focusMount"
+      >
+        ⌖
+      </button>
+      <button
+        class="p-2 border border-cyan-600 rounded-full"
+        :class="mountFollow ? 'bg-cyan-600' : 'bg-gray-700'"
+        type="button"
+        title="Toggle auto-sync view with mount"
+        @click="toggleMountFollow"
+      >
+        ↻
+      </button>
+    </div>
     <section v-if="selectedTarget" class="celestia-atlas-selection">
       <strong>{{ t('components.stellarium.selected_object.title') }}</strong>
       <span>{{ selectedTarget.name }}</span>
@@ -77,6 +96,7 @@ const errorMessage = ref('');
 const searchQuery = ref('');
 const searchResults = ref([]);
 const selectedTarget = ref(null);
+const mountFollow = ref(false);
 let viewer = null;
 
 const containerClasses = computed(() => ({
@@ -107,7 +127,23 @@ function updateFieldOfView() {
     heightDeg: fov.fovY,
     rotationDeg: Number(framingStore.rotationAngle ?? 0),
     rotationConvention: 'clockwise-from-celestial-north',
+    mosaic: framingStore.isMosaicMode
+      ? {
+          columns: Number(framingStore.mosaicCols),
+          rows: Number(framingStore.mosaicRows),
+          overlapPercent: Number(framingStore.mosaicOverlap),
+        }
+      : undefined,
   });
+}
+
+function toggleMountFollow() {
+  mountFollow.value = !mountFollow.value;
+  viewer?.setMountFollow(mountFollow.value);
+}
+
+function focusMount() {
+  viewer?.focusMount();
 }
 
 function updateMount() {
@@ -193,6 +229,10 @@ watch(
     store.profileInfo?.FramingAssistantSettings?.CameraWidth,
     store.profileInfo?.FramingAssistantSettings?.CameraHeight,
     framingStore.rotationAngle,
+    framingStore.isMosaicMode,
+    framingStore.mosaicCols,
+    framingStore.mosaicRows,
+    framingStore.mosaicOverlap,
   ],
   updateFieldOfView
 );
@@ -314,5 +354,14 @@ onBeforeUnmount(() => {
   background: rgb(17 24 39 / 92%);
   border: 1px solid rgb(8 145 178);
   border-radius: 0.75rem;
+}
+.celestia-atlas-mount-controls {
+  position: absolute;
+  z-index: 3;
+  left: 1rem;
+  bottom: 2.5rem;
+  display: flex;
+  gap: 0.5rem;
+  color: white;
 }
 </style>

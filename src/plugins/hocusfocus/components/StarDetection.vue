@@ -127,6 +127,24 @@
             />
             <span>{{ $t('plugins.hocusfocus.starDetection.debugMode') }}</span>
           </label>
+          <label
+            class="flex items-center text-white"
+            :class="{ 'opacity-50': !store.starDetectionOptions.HasOptimizedSettings }"
+          >
+            <input
+              :checked="store.starDetectionOptions.UseOptimizedSettings"
+              @change="
+                (e) => {
+                  store.starDetectionOptions.UseOptimizedSettings = e.target.checked;
+                  saveStarDetectionOption('UseOptimizedSettings', e.target.checked);
+                }
+              "
+              type="checkbox"
+              class="mr-3"
+              :disabled="!store.starDetectionOptions.HasOptimizedSettings"
+            />
+            <span>{{ $t('plugins.hocusfocus.starDetection.useOptimizedSettings') }}</span>
+          </label>
         </div>
       </div>
 
@@ -298,6 +316,60 @@
               min="0"
               max="20"
               step="0.01"
+              class="w-full"
+            />
+          </div>
+          <div>
+            <label class="text-white mb-2 block"
+              >Structure Layer Boost: {{ store.starDetectionOptions.StructureLayerBoost }}</label
+            >
+            <input
+              :value="store.starDetectionOptions.StructureLayerBoost"
+              @change="
+                (e) => {
+                  const num = parseInt(e.target.value);
+                  store.starDetectionOptions.StructureLayerBoost = num;
+                  saveStarDetectionOption('StructureLayerBoost', num);
+                }
+              "
+              type="range"
+              min="0"
+              max="5"
+              class="w-full"
+            />
+          </div>
+          <label class="flex items-center text-white">
+            <input
+              :checked="store.starDetectionOptions.LocallyAdaptiveBinarization"
+              @change="
+                (e) => {
+                  store.starDetectionOptions.LocallyAdaptiveBinarization = e.target.checked;
+                  saveStarDetectionOption('LocallyAdaptiveBinarization', e.target.checked);
+                }
+              "
+              type="checkbox"
+              class="mr-3"
+            />
+            <span>Locally Adaptive Binarization</span>
+          </label>
+          <div v-if="store.starDetectionOptions.LocallyAdaptiveBinarization">
+            <label class="text-white mb-2 block"
+              >Adaptive Noise Block Size:
+              {{ store.starDetectionOptions.AdaptiveNoiseBlockSize }}</label
+            >
+            <input
+              :value="store.starDetectionOptions.AdaptiveNoiseBlockSize"
+              @change="
+                (e) => {
+                  const num = parseInt(e.target.value);
+                  store.starDetectionOptions.AdaptiveNoiseBlockSize = num;
+                  saveStarDetectionOption('AdaptiveNoiseBlockSize', num);
+                }
+              "
+              type="range"
+              min="32"
+              max="512"
+              step="16"
               class="w-full"
             />
           </div>
@@ -497,6 +569,251 @@
         </div>
       </div>
 
+      <!-- Contamination Detection Card -->
+      <div
+        v-if="store.starDetectionOptions.UseAdvanced"
+        class="border border-gray-700 rounded-lg p-4"
+      >
+        <h3 class="text-lg font-semibold text-cyan-400 mb-4">Contamination Detection</h3>
+        <div class="space-y-3">
+          <label class="flex items-center text-white">
+            <input
+              :checked="store.starDetectionOptions.RejectContaminatedStars"
+              @change="
+                (e) => {
+                  store.starDetectionOptions.RejectContaminatedStars = e.target.checked;
+                  saveStarDetectionOption('RejectContaminatedStars', e.target.checked);
+                }
+              "
+              type="checkbox"
+              class="mr-3"
+            />
+            <span>Reject Contaminated Stars</span>
+          </label>
+          <div v-if="store.starDetectionOptions.RejectContaminatedStars">
+            <label class="text-white mb-2 block"
+              >Contamination Sensitivity:
+              {{ store.starDetectionOptions.ContaminationSensitivity.toFixed(1) }}</label
+            >
+            <input
+              :value="store.starDetectionOptions.ContaminationSensitivity"
+              @change="
+                (e) => {
+                  const num = parseFloat(e.target.value);
+                  store.starDetectionOptions.ContaminationSensitivity = num;
+                  saveStarDetectionOption('ContaminationSensitivity', num);
+                }
+              "
+              type="range"
+              min="0"
+              max="20"
+              step="0.5"
+              class="w-full"
+            />
+          </div>
+        </div>
+      </div>
+
+      <!-- Defocus & Donut Detection Card -->
+      <div
+        v-if="store.starDetectionOptions.UseAdvanced"
+        class="border border-gray-700 rounded-lg p-4"
+      >
+        <h3 class="text-lg font-semibold text-cyan-400 mb-4">Defocus &amp; Donut Detection</h3>
+        <div class="space-y-3">
+          <label class="flex items-center text-white">
+            <input
+              :checked="store.starDetectionOptions.DefocusAwareGates"
+              @change="
+                (e) => {
+                  store.starDetectionOptions.DefocusAwareGates = e.target.checked;
+                  saveStarDetectionOption('DefocusAwareGates', e.target.checked);
+                }
+              "
+              type="checkbox"
+              class="mr-3"
+            />
+            <span>Defocus-Aware Gates</span>
+          </label>
+          <div v-if="store.starDetectionOptions.DefocusAwareGates">
+            <label class="text-white mb-2 block"
+              >Defocus Distortion Size Reference:
+              {{ store.starDetectionOptions.DefocusDistortionSizeReference.toFixed(0) }}</label
+            >
+            <input
+              :value="store.starDetectionOptions.DefocusDistortionSizeReference"
+              @change="
+                (e) => {
+                  const num = parseFloat(e.target.value);
+                  store.starDetectionOptions.DefocusDistortionSizeReference = num;
+                  saveStarDetectionOption('DefocusDistortionSizeReference', num);
+                }
+              "
+              type="range"
+              min="5"
+              max="100"
+              step="1"
+              class="w-full"
+            />
+          </div>
+          <div v-if="store.starDetectionOptions.DefocusAwareGates">
+            <label class="text-white mb-2 block"
+              >Defocus Distortion Min Factor:
+              {{ store.starDetectionOptions.DefocusDistortionMinFactor.toFixed(2) }}</label
+            >
+            <input
+              :value="store.starDetectionOptions.DefocusDistortionMinFactor"
+              @change="
+                (e) => {
+                  const num = parseFloat(e.target.value);
+                  store.starDetectionOptions.DefocusDistortionMinFactor = num;
+                  saveStarDetectionOption('DefocusDistortionMinFactor', num);
+                }
+              "
+              type="range"
+              min="0"
+              max="1"
+              step="0.05"
+              class="w-full"
+            />
+          </div>
+          <div v-if="store.starDetectionOptions.DefocusAwareGates">
+            <label class="text-white mb-2 block"
+              >Defocus Centering Tolerance Factor:
+              {{ store.starDetectionOptions.DefocusCenteringToleranceFactor.toFixed(1) }}</label
+            >
+            <input
+              :value="store.starDetectionOptions.DefocusCenteringToleranceFactor"
+              @change="
+                (e) => {
+                  const num = parseFloat(e.target.value);
+                  store.starDetectionOptions.DefocusCenteringToleranceFactor = num;
+                  saveStarDetectionOption('DefocusCenteringToleranceFactor', num);
+                }
+              "
+              type="range"
+              min="0.5"
+              max="5"
+              step="0.1"
+              class="w-full"
+            />
+          </div>
+          <label class="flex items-center text-white">
+            <input
+              :checked="store.starDetectionOptions.DefocusAwareStructure"
+              @change="
+                (e) => {
+                  store.starDetectionOptions.DefocusAwareStructure = e.target.checked;
+                  saveStarDetectionOption('DefocusAwareStructure', e.target.checked);
+                }
+              "
+              type="checkbox"
+              class="mr-3"
+            />
+            <span>Defocus-Aware Structure</span>
+          </label>
+          <label class="flex items-center text-white">
+            <input
+              :checked="store.starDetectionOptions.DefocusAwareDonutDetection"
+              @change="
+                (e) => {
+                  store.starDetectionOptions.DefocusAwareDonutDetection = e.target.checked;
+                  saveStarDetectionOption('DefocusAwareDonutDetection', e.target.checked);
+                }
+              "
+              type="checkbox"
+              class="mr-3"
+            />
+            <span>Defocus-Aware Donut Detection</span>
+          </label>
+          <template v-if="store.starDetectionOptions.DefocusAwareDonutDetection">
+            <div>
+              <label class="text-white mb-2 block"
+                >Donut Morph Close Size: {{ store.starDetectionOptions.DonutMorphCloseSize }}</label
+              >
+              <input
+                :value="store.starDetectionOptions.DonutMorphCloseSize"
+                @change="
+                  (e) => {
+                    const num = parseInt(e.target.value);
+                    store.starDetectionOptions.DonutMorphCloseSize = num;
+                    saveStarDetectionOption('DonutMorphCloseSize', num);
+                  }
+                "
+                type="range"
+                min="1"
+                max="15"
+                step="2"
+                class="w-full"
+              />
+            </div>
+            <div>
+              <label class="text-white mb-2 block"
+                >Donut Min Annularity Hole Fraction:
+                {{ store.starDetectionOptions.DonutMinAnnularityHoleFraction.toFixed(2) }}</label
+              >
+              <input
+                :value="store.starDetectionOptions.DonutMinAnnularityHoleFraction"
+                @change="
+                  (e) => {
+                    const num = parseFloat(e.target.value);
+                    store.starDetectionOptions.DonutMinAnnularityHoleFraction = num;
+                    saveStarDetectionOption('DonutMinAnnularityHoleFraction', num);
+                  }
+                "
+                type="range"
+                min="0"
+                max="1"
+                step="0.05"
+                class="w-full"
+              />
+            </div>
+            <div>
+              <label class="text-white mb-2 block"
+                >Donut Max Streak Eccentricity:
+                {{ store.starDetectionOptions.DonutMaxStreakEccentricity.toFixed(2) }}</label
+              >
+              <input
+                :value="store.starDetectionOptions.DonutMaxStreakEccentricity"
+                @change="
+                  (e) => {
+                    const num = parseFloat(e.target.value);
+                    store.starDetectionOptions.DonutMaxStreakEccentricity = num;
+                    saveStarDetectionOption('DonutMaxStreakEccentricity', num);
+                  }
+                "
+                type="range"
+                min="0"
+                max="1"
+                step="0.01"
+                class="w-full"
+              />
+            </div>
+            <div>
+              <label class="text-white mb-2 block"
+                >Donut Saturation Bloom Radius:
+                {{ store.starDetectionOptions.DonutSaturationBloomRadius.toFixed(0) }}</label
+              >
+              <input
+                :value="store.starDetectionOptions.DonutSaturationBloomRadius"
+                @change="
+                  (e) => {
+                    const num = parseFloat(e.target.value);
+                    store.starDetectionOptions.DonutSaturationBloomRadius = num;
+                    saveStarDetectionOption('DonutSaturationBloomRadius', num);
+                  }
+                "
+                type="range"
+                min="0"
+                max="50"
+                step="1"
+                class="w-full"
+              />
+            </div>
+          </template>
+        </div>
+      </div>
+
       <!-- PSF Settings Card -->
       <div
         v-if="store.starDetectionOptions.ModelPSF && store.starDetectionOptions.UseAdvanced"
@@ -594,6 +911,20 @@
             />
             <span>PSF MAD Fitting</span>
           </label>
+          <label class="flex items-center text-white">
+            <input
+              :checked="store.starDetectionOptions.PSFPixelIntegration"
+              @change="
+                (e) => {
+                  store.starDetectionOptions.PSFPixelIntegration = e.target.checked;
+                  saveStarDetectionOption('PSFPixelIntegration', e.target.checked);
+                }
+              "
+              type="checkbox"
+              class="mr-3"
+            />
+            <span>PSF Pixel Integration</span>
+          </label>
         </div>
       </div>
 
@@ -677,6 +1008,20 @@
               <option>MeanOutliers</option>
             </select>
           </div>
+          <label class="flex items-center text-white">
+            <input
+              :checked="store.starDetectionOptions.ExcludeSaturatedStarsFromHFR"
+              @change="
+                (e) => {
+                  store.starDetectionOptions.ExcludeSaturatedStarsFromHFR = e.target.checked;
+                  saveStarDetectionOption('ExcludeSaturatedStarsFromHFR', e.target.checked);
+                }
+              "
+              type="checkbox"
+              class="mr-3"
+            />
+            <span>Exclude Saturated Stars From HFR</span>
+          </label>
         </div>
       </div>
 

@@ -47,7 +47,7 @@
     <div v-else class="h-full flex flex-col">
       <!-- Header -->
       <div
-        class="flex-shrink-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-4"
+        class="shrink-0 bg-white dark:bg-gray-800 border-b border-gray-200 dark:border-gray-700 p-4"
       >
         <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
           <div>
@@ -101,7 +101,7 @@
             >
               <!-- Floppy disk icon -->
               <svg
-                class="w-5 h-5 flex-shrink-0"
+                class="w-5 h-5 shrink-0"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -129,12 +129,7 @@
               class="default-button-blue p-2 lg:px-3 lg:py-2 flex items-center justify-center lg:justify-start gap-1 w-10 lg:w-auto h-10 lg:min-h-[3.5rem]"
               :title="t('plugins.sequenceCreator.toolbar.openLibrary')"
             >
-              <svg
-                class="w-5 h-5 flex-shrink-0"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
+              <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
                   stroke-linecap="round"
                   stroke-linejoin="round"
@@ -153,12 +148,7 @@
               class="default-button-red p-2 lg:px-3 lg:py-2 flex items-center justify-center lg:justify-start gap-1 w-10 lg:w-auto h-10 lg:min-h-[3.5rem]"
               :title="t('plugins.sequenceCreator.toolbar.clearSequence')"
             >
-              <svg
-                class="w-5 h-5 flex-shrink-0"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
+              <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
                   stroke-linecap="round"
                   stroke-linejoin="round"
@@ -185,7 +175,7 @@
             >
               <svg
                 v-if="isSendingToNina"
-                class="w-5 h-5 flex-shrink-0 animate-spin"
+                class="w-5 h-5 shrink-0 animate-spin"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -199,7 +189,7 @@
               </svg>
               <svg
                 v-else
-                class="w-5 h-5 flex-shrink-0"
+                class="w-5 h-5 shrink-0"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -475,7 +465,7 @@
                   <p class="text-white font-medium truncate">{{ seq.name }}</p>
                   <span
                     v-if="store.defaultSequenceKey === seq.key"
-                    class="flex-shrink-0 text-xs bg-blue-600 text-white px-1.5 py-0.5 rounded font-medium"
+                    class="shrink-0 text-xs bg-blue-600 text-white px-1.5 py-0.5 rounded font-medium"
                   >
                     {{ t('plugins.sequenceCreator.library.isDefault') }}
                   </span>
@@ -484,7 +474,7 @@
                   {{ new Date(seq.createdAt).toLocaleString() }}
                 </p>
               </div>
-              <div v-if="libraryDeleteConfirmKey === seq.key" class="flex gap-2 flex-shrink-0">
+              <div v-if="libraryDeleteConfirmKey === seq.key" class="flex gap-2 shrink-0">
                 <button
                   @click="libraryDeleteConfirmKey = null"
                   class="default-button-gray text-xs px-2 py-1"
@@ -498,7 +488,7 @@
                   {{ t('general.confirm') }}
                 </button>
               </div>
-              <div v-else class="flex gap-2 flex-shrink-0">
+              <div v-else class="flex gap-2 shrink-0">
                 <button
                   v-if="store.defaultSequenceKey !== seq.key"
                   @click="handleSetAsDefault(seq.key)"

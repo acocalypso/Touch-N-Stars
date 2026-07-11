@@ -460,7 +460,7 @@
 
             <!-- Vertical alt slider — 40 px wide, same height as SVG -->
             <div
-              class="flex-shrink-0 flex flex-col items-center"
+              class="shrink-0 flex flex-col items-center"
               :style="`width:40px;height:${SVG_CHART_H}px;padding-top:${PROF_T}px;padding-bottom:${SVG_CHART_H - PROF_B}px`"
             >
               <div class="flex-1 relative" style="width: 28px">
@@ -1078,6 +1078,7 @@ function onLoadHrz(event) {
 </script>
 
 <style scoped>
+@reference '../../../assets/tailwind.css';
 .dpad-btn {
   @apply w-12 h-12 bg-gray-700 hover:bg-gray-600 active:bg-cyan-700 rounded text-lg font-bold
          disabled:opacity-40 disabled:cursor-not-allowed transition-colors;

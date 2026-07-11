@@ -17,7 +17,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue';
+import { ref, onMounted, onBeforeUnmount, watch } from 'vue';
 import { useStellariumStore } from '@/store/stellariumStore';
 import { degreesToHMS, degreesToDMS, rad2deg } from '@/utils/utils';
 
@@ -29,6 +29,11 @@ let animationFrameId = null;
 
 function updateViewDirection() {
   if (!stellariumStore.stel) return;
+  // Stop the loop while Stellarium is hidden; restarted by the isVisible watcher.
+  if (!stellariumStore.isVisible) {
+    animationFrameId = null;
+    return;
+  }
 
   try {
     const stel = stellariumStore.stel;
@@ -49,6 +54,16 @@ function updateViewDirection() {
 
   animationFrameId = requestAnimationFrame(updateViewDirection);
 }
+
+// Restart the loop when Stellarium becomes visible again.
+watch(
+  () => stellariumStore.isVisible,
+  (visible) => {
+    if (visible && animationFrameId === null) {
+      updateViewDirection();
+    }
+  }
+);
 
 onMounted(() => {
   updateViewDirection();

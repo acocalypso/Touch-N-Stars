@@ -13,7 +13,7 @@
     <div class="p-4">
       <div class="relative">
         <!-- Action Controls - Positioned at top right -->
-        <div class="absolute -top-6 right-0 flex items-center gap-1 flex-shrink-0">
+        <div class="absolute -top-6 right-0 flex items-center gap-1 shrink-0">
           <!-- Edit Toggle Button -->
           <button
             v-if="hasParameters"
@@ -119,7 +119,7 @@
         <div class="flex items-center gap-3 mt-4">
           <div
             :class="[
-              'flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center text-white',
+              'shrink-0 w-10 h-10 rounded-lg flex items-center justify-center text-white',
               action.color,
             ]"
           >

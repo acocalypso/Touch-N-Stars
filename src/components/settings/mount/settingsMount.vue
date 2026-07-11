@@ -16,6 +16,12 @@
       inputId="indi-max-slew-rate"
       @change="updateIndiMaxSlewRateDps"
     />
+    <SettingInput
+      labelKey="components.mount.settings.telescope_settle_time"
+      settingKey="TelescopeSettings-SettleTime"
+      :modelValue="store.profileInfo?.TelescopeSettings?.SettleTime ?? 0"
+      :max="600"
+    />
   </div>
 </template>
 
@@ -24,6 +30,7 @@ import { onMounted, ref } from 'vue';
 import { apiStore } from '@/store/store';
 import apiService from '@/services/apiService';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
+import SettingInput from '@/components/helpers/settings/UpdatePorfileNumber.vue';
 
 const store = apiStore();
 

@@ -1,20 +1,72 @@
 import { useSettingsStore } from '@/store/settingsStore';
 import { apiStore } from '@/store/store';
 import { useMountStore } from '@/store/mountStore';
+import { ReconnectingWebSocket } from '@/utils/reconnectingWebSocket';
 
 const backendProtokol = 'ws';
-const backendPfad = '/v2/mount';
 
-class WebSocketService {
+/**
+ * Manual mount-slew WebSocket. Thin adapter over ReconnectingWebSocket.
+ *
+ * Page-scoped: moveAxis.vue connects on mount and disconnects on unmount.
+ * The reachability gate + idle recheck mean that if the backend dies while the
+ * page stays open, the socket stops hammering and recovers on its own once the
+ * backend returns - previously it re-dialed every 2s regardless.
+ */
+class WebSocketMountControlService {
   constructor() {
-    this.socket = null;
     this.statusCallback = null;
     this.messageCallback = null;
-    this.backendUrl = null;
 
-    this.reconnectInterval = 2000; // 2 Sekunden
-    this.reconnectTimeout = null;
-    this.shouldReconnect = true;
+    this._rws = new ReconnectingWebSocket({
+      name: 'Mount',
+      getUrl: () => {
+        const settingsStore = useSettingsStore();
+        const store = apiStore();
+        const host = settingsStore.connection.ip || window.location.hostname;
+        // PINS serves manual slew INDI-direct from the Touch-N-Stars plugin (TNS
+        // port, /ws/mount-control, direction only). Upstream NINA uses the
+        // ninaAPI socket (/v2/mount).
+        if (store.isPINS) {
+          const port = settingsStore.connection.port || window.location.port || 80;
+          return `${backendProtokol}://${host}:${port}/ws/mount-control`;
+        }
+        const port = store.apiPort;
+        if (port === null || port === undefined) return null;
+        return `${backendProtokol}://${host}:${port}/v2/mount`;
+      },
+      canReconnect: () => {
+        const store = apiStore();
+        // PINS serves this socket from the TNS plugin port directly (see
+        // getUrl() above), independent of the ninaAPI. Gating on isApiConnected
+        // too would keep the manual slew socket dead whenever the ninaAPI is
+        // briefly unreachable, even though the plugin endpoint this socket
+        // actually talks to is fine.
+        if (store.isPINS) {
+          return store.isTnsPluginConnected;
+        }
+        return store.isApiConnected && store.isTnsPluginConnected;
+      },
+      onOpen: () => {
+        useMountStore().wsIsConnected = true;
+        if (this.statusCallback) this.statusCallback('connected');
+      },
+      onClose: () => {
+        useMountStore().wsIsConnected = false;
+        if (this.statusCallback) this.statusCallback('Closed');
+      },
+      onStatus: (status) => {
+        if (status === 'error') {
+          useMountStore().wsIsConnected = false;
+          if (this.statusCallback) this.statusCallback('Error: mount websocket error');
+        }
+      },
+      onMessage: (message) => {
+        // Mount API wraps every payload in a Success flag
+        if (!message || !message.Success) return;
+        if (this.messageCallback) this.messageCallback(message);
+      },
+    });
   }
 
   setStatusCallback(callback) {
@@ -25,105 +77,31 @@ class WebSocketService {
     this.messageCallback = callback;
   }
 
+  get shouldReconnect() {
+    return this._rws.shouldReconnect;
+  }
+
   connect() {
-    this.shouldReconnect = true; // Reconnect aktivieren bei neuer Verbindung
-    const settingsStore = useSettingsStore();
-    const store = apiStore();
-    const backendPort = store.apiPort;
-    const backendHost = settingsStore.connection.ip || window.location.hostname;
-    this.backendUrl = `${backendProtokol}://${backendHost}:${backendPort}${backendPfad}`;
-
-    //console.log('ws url: ', this.backendUrl);
-
-    this.socket = new WebSocket(this.backendUrl);
-
-    this.socket.onopen = () => {
-      console.log('WebSocket Mount connected.');
-      const mountStore = useMountStore();
-      mountStore.wsIsConnected = true;
-
-      if (this.statusCallback) {
-        this.statusCallback('connected');
-      }
-
-      if (this.reconnectTimeout) {
-        clearTimeout(this.reconnectTimeout);
-        this.reconnectTimeout = null;
-      }
-    };
-
-    this.socket.onmessage = (event) => {
-      try {
-        const message = JSON.parse(event.data);
-        console.log('Message:', message);
-        if (!message.Success) return;
-        if (this.messageCallback) {
-          this.messageCallback(message);
-        }
-      } catch (error) {
-        console.error('Error parsing message:', error);
-        if (this.statusCallback) {
-          this.statusCallback('Error receiving message');
-        }
-      }
-    };
-
-    this.socket.onerror = (error) => {
-      console.error('WebSocket error:', error);
-      const mountStore = useMountStore();
-      mountStore.wsIsConnected = false;
-
-      if (this.statusCallback) {
-        this.statusCallback('Error: ' + error.message);
-      }
-    };
-
-    this.socket.onclose = () => {
-      console.log('WebSocket closed.');
-      const mountStore = useMountStore();
-      mountStore.wsIsConnected = false;
-
-      if (this.statusCallback) {
-        this.statusCallback('Closed');
-      }
-
-      console.log('shouldReconnect:', this.shouldReconnect);
-      if (this.shouldReconnect) {
-        console.log(`Attempting reconnect in ${this.reconnectInterval / 1000}s...`);
-        this.reconnectTimeout = setTimeout(() => {
-          console.log('Attempting reconnect...');
-          this.connect();
-        }, this.reconnectInterval);
-      } else {
-        console.log('Reconnect disabled');
-      }
-    };
+    // Fire-and-forget: callers don't await. The core sinks its own rejection,
+    // so a failed dial won't surface as an unhandled rejection.
+    return this._rws.connect();
   }
 
   disconnect() {
-    this.shouldReconnect = false;
-    const mountStore = useMountStore();
-    mountStore.wsIsConnected = false;
+    useMountStore().wsIsConnected = false;
+    this._rws.disconnect();
+  }
 
-    if (this.reconnectTimeout) {
-      clearTimeout(this.reconnectTimeout);
-    }
-    if (this.socket) {
-      this.socket.close();
-    }
+  resumeAfterBackground() {
+    // No-op unless the slew page is open (it disconnects on unmount, which
+    // turns the reconnect loop off).
+    this._rws.resumeReconnect();
   }
 
   sendMessage(message) {
-    if (this.socket && this.socket.readyState === 1) {
-      this.socket.send(message);
-    } else {
-      console.error('WebSocket is not connected. Message could not be sent.');
-      if (this.statusCallback) {
-        this.statusCallback('Error: WebSocket not connected');
-      }
-    }
+    this._rws.send(message);
   }
 }
 
-const websocketService = new WebSocketService();
+const websocketService = new WebSocketMountControlService();
 export default websocketService;

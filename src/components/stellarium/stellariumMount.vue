@@ -3,7 +3,7 @@
     <!-- Mount Controls - moved to left side -->
     <div
       :class="controlsClasses"
-      class="fixed flex gap-2 bg-black bg-opacity-90 p-2 rounded-full"
+      class="fixed flex gap-2 bg-black/90 p-2 rounded-full"
       style="bottom: calc(env(safe-area-inset-bottom, 0px) + 48px)"
     >
       <button
@@ -93,7 +93,7 @@ const mountCircle = ref(null);
 // Check if in landscape mode
 const { isLandscape } = useOrientation();
 
-// Controls positioning classes - angepasst für rechte Navigation
+// Controls positioning classes - adjusted for the right-side navigation
 const controlsClasses = computed(() => ({
   'right-2': !isLandscape.value,
   'right-3': isLandscape.value,
@@ -120,7 +120,7 @@ function syncViewToMount() {
   }
 }
 
-// 6) Kreis auf RA/Dec aktualisieren
+// 6) Update circle to RA/Dec
 function updateCirclePos(ra_deg, dec_deg) {
   const stel = stellariumStore.stel;
   const ra_rad = ra_deg * stel.D2R - 0.0;

@@ -116,10 +116,18 @@ const apiService = {
     }
   },
 
+  // NOTE for both reachability probes below: the global error interceptor
+  // (errorHandler.js) converts network failures into RESOLVED mock responses
+  // ({ Success: false, ... }), so the catch blocks never fire. Without the
+  // explicit envelope checks a timeout would count as "reachable" and the
+  // error envelope would even end up stored as the API port.
   async fetchApiPort(timeout = DEFAULT_TIMEOUT) {
     try {
       const { API_URL } = getUrls();
       const response = await axios.get(`${API_URL}get-api-port`, { timeout });
+      if (response.status !== 200 || response.data?.Success === false) {
+        return false;
+      }
       return response;
     } catch (error) {
       return false;
@@ -130,6 +138,9 @@ const apiService = {
     try {
       const { API_URL } = getUrls();
       const response = await axios.get(`${API_URL}version`, { timeout });
+      if (response.status !== 200 || response.data?.Success === false) {
+        return false;
+      }
       return response.data;
     } catch (error) {
       return false;
@@ -141,6 +152,11 @@ const apiService = {
     const { BASE_URL } = getUrls();
     try {
       const { data } = await axios.get(`${BASE_URL}/version`, { timeout });
+      // Error envelope from the global interceptor (see note above): returning
+      // it would be truthy and skip tryWithRetry's retries in fetchAllInfos.
+      if (data?.Success === false && data?.Type === 'API' && !data?.Response) {
+        return null;
+      }
       return data; // Erfolg
     } catch (err) {
       if (err.code === 'ECONNABORTED') {
@@ -157,6 +173,12 @@ const apiService = {
     const { BASE_URL } = getUrls();
     try {
       const { data } = await axios.get(`${BASE_URL}/version/pins`, { timeout });
+      // Error envelope from the global interceptor (see note above):
+      // 404 = backend reachable but no PINS endpoint (standard NINA),
+      // anything else = backend not reachable.
+      if (data?.Success === false && data?.Type === 'API' && !data?.Response) {
+        return data.StatusCode === 404 ? {} : null;
+      }
       return data;
     } catch (err) {
       if (err.code === 'ECONNABORTED') {
@@ -1234,6 +1256,30 @@ const apiService = {
     } catch (error) {
       console.error('Error fetching available serial ports:', error);
       return [];
+    }
+  },
+
+  // Manual-slew rate capability of the connected INDI mount (discrete steps / continuous range / none)
+  async getMountSlewRates() {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}indi/mount/slew-rates`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching mount slew rates:', error);
+      throw error;
+    }
+  },
+
+  // Select the mount slew rate: { index } for discrete drivers, { value } (°/s) for continuous ones
+  async setMountSlewRate(selection) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.post(`${API_URL}indi/mount/slew-rate`, selection);
+      return response.data;
+    } catch (error) {
+      console.error('Error setting mount slew rate:', error);
+      throw error;
     }
   },
 
@@ -3375,7 +3421,10 @@ const apiService = {
       try {
         const { API_URL } = getUrls();
         const response = await axios.get(`${API_URL}hocusfocus/autofocus/options`);
-        return response.data?.Options || {};
+        return {
+          options: response.data?.Options || {},
+          enumOptions: response.data?.EnumOptions || {},
+        };
       } catch (error) {
         console.error('Error getting AutoFocus options:', error);
         throw error;
@@ -3421,7 +3470,10 @@ const apiService = {
       try {
         const { API_URL } = getUrls();
         const response = await axios.get(`${API_URL}hocusfocus/aberration-inspector/options`);
-        return response.data?.Options || {};
+        return {
+          options: response.data?.Options || {},
+          enumOptions: response.data?.EnumOptions || {},
+        };
       } catch (error) {
         console.error('Error getting Aberration Inspector options:', error);
         throw error;
@@ -4184,6 +4236,147 @@ const apiService = {
         console.error('Error deleting Night Summary session:', error);
         throw error;
       }
+    },
+  },
+
+  // --------------------------------- Ground Station Plugin ---------------------------------
+  groundstation: {
+    async getStatus() {
+      try {
+        const { API_URL } = getUrls();
+        const response = await axios.get(`${API_URL}groundstation/status`);
+        return response.data;
+      } catch (error) {
+        return { Success: false, Response: { Installed: false } };
+      }
+    },
+
+    async getPushover() {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}groundstation/pushover`);
+      return response.data;
+    },
+    async updatePushover(patch) {
+      const { API_URL } = getUrls();
+      const response = await axios.put(`${API_URL}groundstation/pushover`, patch);
+      return response.data;
+    },
+    async testPushover() {
+      const { API_URL } = getUrls();
+      const response = await axios.post(`${API_URL}groundstation/pushover/test`);
+      return response.data;
+    },
+
+    async getTelegram() {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}groundstation/telegram`);
+      return response.data;
+    },
+    async updateTelegram(patch) {
+      const { API_URL } = getUrls();
+      const response = await axios.put(`${API_URL}groundstation/telegram`, patch);
+      return response.data;
+    },
+    async testTelegram() {
+      const { API_URL } = getUrls();
+      const response = await axios.post(`${API_URL}groundstation/telegram/test`);
+      return response.data;
+    },
+
+    async getEmail() {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}groundstation/email`);
+      return response.data;
+    },
+    async updateEmail(patch) {
+      const { API_URL } = getUrls();
+      const response = await axios.put(`${API_URL}groundstation/email`, patch);
+      return response.data;
+    },
+    async testEmail() {
+      const { API_URL } = getUrls();
+      const response = await axios.post(`${API_URL}groundstation/email/test`);
+      return response.data;
+    },
+
+    async getDiscord() {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}groundstation/discord`);
+      return response.data;
+    },
+    async updateDiscord(patch) {
+      const { API_URL } = getUrls();
+      const response = await axios.put(`${API_URL}groundstation/discord`, patch);
+      return response.data;
+    },
+    async testDiscord() {
+      const { API_URL } = getUrls();
+      const response = await axios.post(`${API_URL}groundstation/discord/test`);
+      return response.data;
+    },
+
+    async getSlack() {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}groundstation/slack`);
+      return response.data;
+    },
+    async updateSlack(patch) {
+      const { API_URL } = getUrls();
+      const response = await axios.put(`${API_URL}groundstation/slack`, patch);
+      return response.data;
+    },
+    async refreshSlackChannels() {
+      const { API_URL } = getUrls();
+      const response = await axios.post(`${API_URL}groundstation/slack/refresh-channels`);
+      return response.data;
+    },
+
+    async getMqtt() {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}groundstation/mqtt`);
+      return response.data;
+    },
+    async updateMqtt(patch) {
+      const { API_URL } = getUrls();
+      const response = await axios.put(`${API_URL}groundstation/mqtt`, patch);
+      return response.data;
+    },
+    async testMqtt() {
+      const { API_URL } = getUrls();
+      const response = await axios.post(`${API_URL}groundstation/mqtt/test`);
+      return response.data;
+    },
+
+    async getIfttt() {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}groundstation/ifttt`);
+      return response.data;
+    },
+    async updateIfttt(patch) {
+      const { API_URL } = getUrls();
+      const response = await axios.put(`${API_URL}groundstation/ifttt`, patch);
+      return response.data;
+    },
+    async testIfttt() {
+      const { API_URL } = getUrls();
+      const response = await axios.post(`${API_URL}groundstation/ifttt/test`);
+      return response.data;
+    },
+
+    async getNtfysh() {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}groundstation/ntfysh`);
+      return response.data;
+    },
+    async updateNtfysh(patch) {
+      const { API_URL } = getUrls();
+      const response = await axios.put(`${API_URL}groundstation/ntfysh`, patch);
+      return response.data;
+    },
+    async testNtfysh() {
+      const { API_URL } = getUrls();
+      const response = await axios.post(`${API_URL}groundstation/ntfysh/test`);
+      return response.data;
     },
   },
 };

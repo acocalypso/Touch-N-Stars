@@ -13,42 +13,93 @@
           v-if="shouldShowConnectionSplash"
           class="fixed inset-0 z-40 flex flex-col items-center justify-center bg-gray-900 p-4"
         >
-          <!-- Minimaler Status-Text -->
-          <p
-            v-if="!store.isBackendReachable && connectionCheckCompleted"
-            class="absolute top-5 left-1/2 transform -translate-x-1/2 text-red-400 text-sm sm:text-base font-medium animate-pulse bg-gray-800 px-4 py-2 rounded-lg border border-red-500/30 max-w-[calc(100%-2rem)] text-center"
+          <!-- Reconnect status: calm spinner-only while just lost, escalates to a
+               fuller message + actions after a few seconds (connectionPhase) -->
+          <div
+            v-if="connectionPhase !== 'hidden'"
+            class="absolute top-16 flex flex-col items-center gap-3"
           >
-            {{ connectionStatusMessage }}
-          </p>
+            <div
+              class="w-8 h-8 border-4 border-t-transparent border-solid rounded-full animate-spin"
+              :class="connectionIsStalled ? 'border-amber-400' : 'border-blue-400'"
+            ></div>
 
-          <!-- Settings Button -->
-          <button
-            v-if="!store.isBackendReachable && connectionCheckCompleted"
-            @click="showSettingsModal = true"
-            class="absolute bottom-10 left-1/2 transform -translate-x-1/2 px-4 py-2 sm:px-6 sm:py-3 bg-gray-700 hover:bg-gray-600 text-white text-sm sm:text-base rounded-lg border border-gray-600 hover:border-gray-500 transition-colors flex items-center gap-2"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-4 w-4 sm:h-5 sm:w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
+            <p
+              v-if="connectionPhase === 'connecting'"
+              class="text-gray-300 text-sm sm:text-base font-medium text-center"
             >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
-              />
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
-              />
-            </svg>
-            {{ $t('components.settings.title') }}
-          </button>
+              {{ connectionConnectingMessage }}
+            </p>
+
+            <p
+              v-if="connectionPhase === 'attention'"
+              class="text-sm sm:text-base font-medium bg-gray-800 px-4 py-2 rounded-lg max-w-[calc(100%-2rem)] text-center"
+              :class="
+                connectionIsStalled
+                  ? 'text-amber-300 border border-amber-500/30'
+                  : 'text-blue-300 border border-blue-500/30'
+              "
+            >
+              {{ connectionAttentionMessage }}
+            </p>
+
+            <div v-if="connectionPhase === 'attention'" class="text-center">
+              <button
+                v-if="!showConnectionDetails"
+                @click="showConnectionDetails = true"
+                class="text-xs text-gray-400 hover:text-gray-300 underline"
+              >
+                {{ $t('app.connection_splash.show_details') }}
+              </button>
+              <p v-else class="text-xs text-gray-400 mt-1">
+                {{
+                  $t('app.connection_splash.details', {
+                    endpoint: connectionTargetLabel,
+                    elapsed: connectionElapsedSeconds,
+                  })
+                }}
+              </p>
+            </div>
+          </div>
+
+          <!-- Actions: only once we've escalated to the attention phase -->
+          <div
+            v-if="connectionPhase === 'attention'"
+            class="absolute bottom-10 left-1/2 transform -translate-x-1/2 flex items-center gap-3"
+          >
+            <button
+              @click="retryConnectionNow"
+              class="px-4 py-2 sm:px-6 sm:py-3 bg-blue-600 hover:bg-blue-500 text-white text-sm sm:text-base rounded-lg transition-colors flex items-center gap-2"
+            >
+              {{ $t('app.connection_splash.retry_now') }}
+            </button>
+            <button
+              @click="showSettingsModal = true"
+              class="px-4 py-2 sm:px-6 sm:py-3 bg-gray-700 hover:bg-gray-600 text-white text-sm sm:text-base rounded-lg border border-gray-600 hover:border-gray-500 transition-colors flex items-center gap-2"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-4 w-4 sm:h-5 sm:w-5"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"
+                />
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"
+                />
+              </svg>
+              {{ $t('components.settings.title') }}
+            </button>
+          </div>
 
           <h1 class="text-3xl sm:text-4xl md:text-5xl text-yellow-50 font-mono font-bold mb-4">
             {{ $t('app.title') }}
@@ -61,12 +112,17 @@
         </div>
       </Transition>
 
+      <!-- Stellarium lives outside the splash-gated subtree and is not bound to
+           isBackendReachable: every remount creates a fresh WASM engine whose
+           requestAnimationFrame loop can never be stopped, so the previous
+           engine (including its multi-MB heap) would leak on each reconnect.
+           While disconnected, the splash (z-40) simply covers it. -->
+      <StellariumView
+        v-if="settingsStore.setupCompleted"
+        v-show="store.showStellarium"
+        :key="stellariumRefreshKey"
+      />
       <div v-if="!shouldShowConnectionSplash" :class="mainContentClasses">
-        <StellariumView
-          v-show="store.showStellarium"
-          v-if="settingsStore.setupCompleted && store.isBackendReachable"
-          :key="stellariumRefreshKey"
-        />
         <router-view v-show="!store.showStellarium" :key="routerViewKey" />
       </div>
       <!-- Footer -->
@@ -78,7 +134,7 @@
     <!-- Logs Modal -->
     <div
       v-if="showLogsModal"
-      class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50"
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
     >
       <div
         class="bg-gray-900 rounded-lg p-4 sm:p-6 w-full sm:max-w-4xl h-full sm:h-auto sm:max-h-[90vh] overflow-y-auto mx-2 sm:mx-0 scrollbar-hide"
@@ -251,7 +307,7 @@
     <!-- Settings Modal -->
     <div
       v-if="showSettingsModal"
-      class="fixed inset-0 z-top flex items-center justify-center bg-black bg-opacity-50"
+      class="fixed inset-0 z-top flex items-center justify-center bg-black/50"
     >
       <div
         class="bg-gray-900 rounded-lg w-full h-full sm:w-auto sm:h-auto sm:max-w-4xl sm:max-h-[90vh] overflow-y-auto mx-0 sm:mx-4 scrollbar-hide"
@@ -289,7 +345,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount, computed, watch } from 'vue';
+import { defineAsyncComponent, ref, onMounted, onBeforeUnmount, computed, watch } from 'vue';
 import axios from 'axios';
 import { apiStore } from '@/store/store';
 import { useImagetStore } from './store/imageStore';
@@ -300,7 +356,6 @@ import { App as CapacitorApp } from '@capacitor/app';
 import { CapacitorUpdater } from '@capgo/capacitor-updater';
 import { KeepAwake } from '@capacitor-community/keep-awake';
 import NavigationComp from '@/components/NavigationComp.vue';
-import StellariumView from './views/StellariumView.vue';
 import { useLogStore } from '@/store/logStore';
 import { useSequenceStore } from './store/sequenceStore';
 import { useCameraStore } from './store/cameraStore';
@@ -308,30 +363,47 @@ import { useDialogStore } from './store/dialogStore';
 import { useMessageboxStore } from './store/messageboxStore';
 import { usePickerStore } from '@/store/pickerStore';
 import { useI18n } from 'vue-i18n';
-import TutorialModal from '@/components/TutorialModal.vue';
 import ToastModal from '@/components/helpers/ToastModal.vue';
-import ConsoleViewer from '@/components/helpers/ConsoleViewer.vue';
 import StatusBar from '@/components/status/StatusBar.vue';
-import SettingsComp from '@/components/SettingsComp.vue';
 import LocationSyncModal from '@/components/helpers/LocationSyncModal.vue';
 import { useOrientation } from '@/composables/useOrientation';
 import { useRoute } from 'vue-router';
-import WhatsNewModal from '@/components/helpers/WhatsNewModal.vue';
 import DialogModal from '@/components/helpers/DialogModal.vue';
 import MessageBoxModal from '@/components/helpers/MessageBoxModal.vue';
-import UpdateAvailableModal from '@/components/helpers/UpdateAvailableModal.vue';
 import PickerOverlay from '@/components/helpers/PickerOverlay.vue';
 import Modal from '@/components/helpers/Modal.vue';
 import { usePinsStore } from '@/plugins/pins/store/pinsStore';
 import { useFlatassistantStore } from '@/store/flatassistantStore';
+import { useGuiderStore } from '@/store/guiderStore';
+import { usePinsDeviceStore } from '@/plugins/pinsDevices/store/pinsDevicesStore';
+import { useImageMonitorStore } from '@/plugins/multi-image-monitor/store/imageMonitorStore';
+import { usePinsAllSkyStore } from '@/plugins/pins-allsky/store/pinsAllskyStore';
 import { useNightSummaryStore } from '@/plugins/nightsummary/store/nightsummaryStore';
+import websocketChannelService from '@/services/websocketChannelSocket';
+import websocketTppaService from '@/services/websocketTppa';
+import websocketMountControlService from '@/services/websocketMountControl';
 import {
   checkForManualUpdate,
   downloadAndApplyUpdate,
   fetchChangelogWhatsNew,
+  getPreferredUpdateChannel,
   isNativePlatform,
+  syncNativeUpdateChannel,
 } from '@/services/updateService';
 import { getDeviceDateTimePayload, parsePinsTimeToSeconds } from '@/utils/pinsTimeUtils';
+import { abortInFlightRequests } from '@/utils/httpLifecycle';
+import { setAppBackgrounded } from '@/utils/appLifecycle';
+import { setLocaleLanguage } from '@/i18n';
+import { useSequenceV2Store } from '@/store/sequenceV2Store';
+
+const StellariumView = defineAsyncComponent(() => import('./views/StellariumView.vue'));
+const TutorialModal = defineAsyncComponent(() => import('@/components/TutorialModal.vue'));
+const ConsoleViewer = defineAsyncComponent(() => import('@/components/helpers/ConsoleViewer.vue'));
+const SettingsComp = defineAsyncComponent(() => import('@/components/SettingsComp.vue'));
+const WhatsNewModal = defineAsyncComponent(() => import('@/components/helpers/WhatsNewModal.vue'));
+const UpdateAvailableModal = defineAsyncComponent(
+  () => import('@/components/helpers/UpdateAvailableModal.vue')
+);
 
 const store = apiStore();
 const settingsStore = useSettingsStore();
@@ -400,6 +472,11 @@ watch(
 const sequenceStore = useSequenceStore();
 const logStore = useLogStore();
 const flatsStore = useFlatassistantStore();
+const guiderStore = useGuiderStore();
+const pinsDeviceStore = usePinsDeviceStore();
+const imageMonitorStore = useImageMonitorStore();
+const sequenceV2Store = useSequenceV2Store();
+const pinsAllSkyStore = usePinsAllSkyStore();
 
 // Global flat run outcome — fires regardless of which page is active.
 // prevRun !== null guard mirrors the original page watcher: first setter wins,
@@ -424,11 +501,24 @@ const showWhatsNew = ref(false);
 const whatsNewData = ref(null);
 const whatsNewPending = ref(false);
 const connectionCheckCompleted = ref(false);
-const { t, locale } = useI18n();
-const CONNECTION_STALL_HINT_SECONDS = 10;
+const { t } = useI18n();
+// Reconnecting after being backgrounded routinely takes up to ~12s on its own (Android
+// radio/network wake-up after Doze, see websocketChannelSocket reconnect timing) - that
+// is normal, not a stall. CONNECTION_STALL_HINT_SECONDS must stay comfortably above that
+// so the "this may indicate a problem" wording only kicks in once it's genuinely unusual.
+const CONNECTION_STALL_HINT_SECONDS = 15;
+const CONNECTION_ATTENTION_THRESHOLD_SECONDS = 3;
+// Short grace period before the reconnect overlay actually renders. isBackendReachable
+// flips false immediately on every resume (even ones that recover in well under a
+// second), so without this a near-instant reconnect would still flash the full-screen
+// overlay (which hides the whole app content, not just a status line) briefly.
+const RECONNECT_SPLASH_GRACE_MS = 300;
 const connectionAttemptStartedAt = ref(Date.now());
 const connectionElapsedSeconds = ref(0);
+const showConnectionDetails = ref(false);
+const showReconnectOverlay = ref(false);
 let connectionElapsedIntervalId = null;
+let reconnectSplashGraceTimer = null;
 const tutorialSteps = computed(() => settingsStore.tutorial.steps);
 const orientation = ref(window.innerWidth > window.innerHeight ? 'landscape' : 'portrait');
 const landscapeSwitch = ref(null);
@@ -506,7 +596,7 @@ const statusBarClasses = computed(() => ({
 
 const shouldShowConnectionSplash = computed(() => {
   return (
-    (showSplashScreen.value || (!store.isBackendReachable && route.path !== '/settings')) &&
+    (showSplashScreen.value || (showReconnectOverlay.value && route.path !== '/settings')) &&
     route.path !== '/setup' &&
     !pinsStore.shouldShowUpgradeOverlay
   );
@@ -538,26 +628,43 @@ const connectionRemainingSeconds = computed(() => {
   return Math.max(CONNECTION_STALL_HINT_SECONDS - connectionElapsedSeconds.value, 0);
 });
 
-const connectionStatusMessage = computed(() => {
-  if (connectionRemainingSeconds.value === 0) {
+// 'hidden': backend reachable (or first-ever check still pending) - splash content
+// stays hidden entirely. 'connecting': just lost the connection, show a calm spinner
+// only - covers the common case of a brief background/foreground blip without ever
+// showing an alarming error state. 'attention': still not reachable after a few
+// seconds - now show the full message plus actionable buttons.
+const connectionPhase = computed(() => {
+  if (!connectionCheckCompleted.value || store.isBackendReachable) return 'hidden';
+  return connectionElapsedSeconds.value < CONNECTION_ATTENTION_THRESHOLD_SECONDS
+    ? 'connecting'
+    : 'attention';
+});
+
+const connectionConnectingMessage = computed(() => t('app.connection_splash.connecting'));
+
+// Only true once we're past the normal-reconnect window (CONNECTION_STALL_HINT_SECONDS) -
+// drives both the wording and the color (blue/neutral while still within the expected
+// up-to-~12s reconnect time, amber only once it's genuinely taking unusually long).
+const connectionIsStalled = computed(
+  () => connectionPhase.value === 'attention' && connectionRemainingSeconds.value === 0
+);
+
+const connectionAttentionMessage = computed(() => {
+  if (connectionIsStalled.value) {
     return t('app.connection_splash.delayed', {
       instance: connectionInstanceName.value,
-      endpoint: connectionTargetLabel.value,
-      elapsed: connectionElapsedSeconds.value,
     });
   }
 
   return t('app.connection_splash.trying', {
     instance: connectionInstanceName.value,
-    endpoint: connectionTargetLabel.value,
-    elapsed: connectionElapsedSeconds.value,
-    remaining: connectionRemainingSeconds.value,
   });
 });
 
 function resetConnectionAttemptTimer() {
   connectionAttemptStartedAt.value = Date.now();
   connectionElapsedSeconds.value = 0;
+  showConnectionDetails.value = false;
 }
 
 function updateConnectionElapsed() {
@@ -575,6 +682,17 @@ function startConnectionTimer() {
     resetConnectionAttemptTimer();
     connectionElapsedIntervalId = setInterval(updateConnectionElapsed, 1000);
   }
+  // Debounce the overlay itself: only actually show it once we've been unreachable for
+  // RECONNECT_SPLASH_GRACE_MS, so a reconnect that resolves faster than that never
+  // flashes the full-screen overlay at all.
+  if (!reconnectSplashGraceTimer && !showReconnectOverlay.value) {
+    reconnectSplashGraceTimer = setTimeout(() => {
+      reconnectSplashGraceTimer = null;
+      if (!store.isBackendReachable) {
+        showReconnectOverlay.value = true;
+      }
+    }, RECONNECT_SPLASH_GRACE_MS);
+  }
 }
 
 function stopConnectionTimer() {
@@ -582,6 +700,11 @@ function stopConnectionTimer() {
     clearInterval(connectionElapsedIntervalId);
     connectionElapsedIntervalId = null;
   }
+  if (reconnectSplashGraceTimer) {
+    clearTimeout(reconnectSplashGraceTimer);
+    reconnectSplashGraceTimer = null;
+  }
+  showReconnectOverlay.value = false;
 }
 
 function closePinsUpgradeOverlay() {
@@ -643,7 +766,44 @@ window.closePickerOverlay = () => {
   pickerStore.close();
 };
 
+// Lifecycle re-entrancy guards: on mobile, multiple triggers (Capacitor
+// resume/appStateChange + DOM visibilitychange/pageshow/focus) can fire almost
+// simultaneously. Without guarding, several concurrent resumeApp() runs race each
+// other's socket connect() calls and cause reconnect churn.
+let isResuming = false;
+let isPaused = false;
+let resumeDebounceId = null;
+// Set when resumeApp() fires while a previous performResume() is still stuck
+// (e.g. a slow fetchAllInfos() retry loop after a network hiccup). Without this,
+// that later resume trigger would just be dropped by the isResuming guard below,
+// leaving the app permanently disconnected even after coming back to foreground.
+let resumePending = false;
+const RESUME_DEBOUNCE_MS = 300;
+// guiderStore's and pinsDeviceStore's pollers are normally owned by their
+// respective view's mount lifecycle (only running while that view is open),
+// not started globally like the other stores. Track whether they were
+// actually running at pause time so resume only restarts them when their
+// view was open, instead of starting a poller for a view that isn't mounted.
+let wasGuiderFetchingBeforePause = false;
+let wasPinsDevicePollingBeforePause = false;
+let wasSequenceV2PollingBeforePause = false;
+let wasDarkLibraryBuildPollingBeforePause = false;
+let wasPinsAllSkyPollingBeforePause = false;
+
 function pauseApp() {
+  // Cancel any pending resume so a quick background->foreground->background does
+  // not leave a scheduled resume running after we already paused.
+  if (resumeDebounceId) {
+    clearTimeout(resumeDebounceId);
+    resumeDebounceId = null;
+  }
+  // Checked by performResume() after each await so a pause that lands mid-resume
+  // (long async chain: fetchAllInfos, checkForPINS, SignalR init...) still wins —
+  // otherwise performResume() would restart all intervals after we already paused.
+  isPaused = true;
+  // Flip the shared background flag so any useBackgroundAwarePolling() consumer
+  // (see src/utils/appLifecycle.js) pauses itself without needing to be listed here.
+  setAppBackgrounded(true);
   console.log('App paused, stopping all intervals...');
   store.stopFetchingInfo();
   logStore.stopFetchingLog();
@@ -651,47 +811,164 @@ function pauseApp() {
   flatsStore.stopFetchingFlats();
   cameraStore.stopCountdown();
   dialogStore.stopPolling();
+  wasGuiderFetchingBeforePause = guiderStore.isFetchingGraph();
+  guiderStore.stopFetching();
+  wasDarkLibraryBuildPollingBeforePause = guiderStore.isDarkLibraryBuildPolling();
+  guiderStore.stopDarkLibraryBuildPolling();
+  wasPinsDevicePollingBeforePause = pinsDeviceStore.isFetchingDevices();
+  pinsDeviceStore.stopPolling();
+  wasSequenceV2PollingBeforePause = sequenceV2Store.isFetching();
+  sequenceV2Store.stopPolling();
+  wasPinsAllSkyPollingBeforePause = pinsAllSkyStore.isPolling();
+  pinsAllSkyStore.stopPolling();
+  // imageMonitorStore already tracks paused cameras internally (it also has its
+  // own visibilitychange listener), so this call is a safe no-op if nothing is
+  // running or if visibilitychange already paused it - it exists so the
+  // canonical native appStateChange trigger covers it too.
+  imageMonitorStore.pauseAllAutoRefresh();
   // Keine States zurücksetzen - UI bleibt erhalten
 }
 
-async function resumeApp() {
-  console.log('App resumed, restarting intervals...');
-
-  // Set flag for recently returned from background
-  store.setPageReturnedFromBackground();
-  // Important: Re-enable WebSocket Channel Service shouldReconnect flag
-  const wsChannelService = (await import('@/services/websocketChannelSocket')).default;
-  wsChannelService.shouldReconnect = true;
-
-  await store.fetchAllInfos(t);
-  store.startFetchingInfo(t);
-  logStore.startFetchingLog();
-
-  // Check for PINS support first
-  await store.checkForPINS();
-
-  // Initialize dialog updates based on mode
-  if (store.isPINS) {
-    // PINS/Headless mode: Use SignalR for real-time updates
-    await dialogStore.initializeDialogSignalR();
-    await messageboxStore.initializeMessageboxSignalR();
-    flatsStore.startFetchingFlats();
-  } else {
-    // WPF mode: Use polling
-    dialogStore.startPolling();
+// Debounced entry point: collapses the burst of resume triggers into a single
+// reconnect run. The actual work lives in performResume().
+function resumeApp() {
+  // Reflect the foreground state immediately (not just once performResume() runs) so
+  // a stale run's isPaused check — and the resumePending replay in its finally block —
+  // see the current state even if this trigger itself gets swallowed by the isResuming
+  // guard below.
+  isPaused = false;
+  setAppBackgrounded(false);
+  if (resumeDebounceId) {
+    clearTimeout(resumeDebounceId);
   }
+  resumeDebounceId = setTimeout(() => {
+    resumeDebounceId = null;
+    void performResume();
+  }, RESUME_DEBOUNCE_MS);
+}
 
-  // Clear any stale in-flight fetch flags from before the pause — connections
-  // killed by the OS in background would otherwise leave isImageFetching stuck true.
-  imageStore.isImageFetching = false;
-  imageStore.isSequenceImageFetching = false;
-  imageStore.getImage();
-  if (!sequenceStore.sequenceEdit) {
-    sequenceStore.startFetching();
+// Manual "Retry now" trigger from the connection splash. performResume() is already
+// re-entrancy-guarded (isResuming/resumePending) and sets isBackendReachable = false
+// itself, so calling it directly here is safe. Resetting the timer first drops the
+// splash back to the calm "connecting" phase immediately instead of staying on the
+// attention view while the new attempt is in flight.
+function retryConnectionNow() {
+  resetConnectionAttemptTimer();
+  void performResume();
+}
+
+async function performResume() {
+  // Re-entrancy guard: don't run overlapping resume attempts, but remember that
+  // one was requested so it can be replayed once the in-flight run finishes.
+  if (isResuming) {
+    console.log('App resume already in progress, queueing follow-up resume');
+    resumePending = true;
+    return;
   }
+  isResuming = true;
+  isPaused = false;
+  // The last known reachable state is stale after being backgrounded - show the
+  // reconnect splash immediately instead of leaving the (possibly outdated) page up
+  // for a few seconds until the first poll tick notices the connection is actually
+  // gone. It clears itself again via fetchAllInfos() once fresh data confirms we're
+  // really back.
+  store.isBackendReachable = false;
+  try {
+    console.log('App resumed, restarting intervals...');
 
-  if (isNativePlatform()) {
-    void checkForAppUpdate();
+    // Set flag for recently returned from background
+    store.setPageReturnedFromBackground();
+
+    // Force-close any channel socket that may have been silently killed by the OS
+    // while backgrounded (a half-open "zombie" socket can still report readyState
+    // OPEN, which would make fetchAllInfos skip the reconnect). disconnect() clears
+    // shouldReconnect, so we re-enable it right after to allow a fresh connect.
+    websocketChannelService.disconnect();
+    websocketChannelService.shouldReconnect = true;
+
+    // Same for the TPPA/mount sockets, which reconnect via their internal loop
+    // instead of fetchAllInfos: drop any backoff built up while backgrounded
+    // (every dial failed -> maxed out at 10s) and redial now. No-op when the
+    // respective socket was disconnected on purpose.
+    websocketTppaService.resumeAfterBackground();
+    websocketMountControlService.resumeAfterBackground();
+
+    // Kill all HTTP requests still in flight from before the background phase.
+    // Their TCP connections are likely dead (Android cuts them), but they hog
+    // the browser's ~6 connection slots per host until they time out - the
+    // reconnect probes below would queue behind them for many seconds.
+    abortInFlightRequests();
+
+    await store.fetchAllInfos(t);
+    // The app may have been paused again while we were awaiting above (long async
+    // chain racing a quick foreground->background). Bail out instead of restarting
+    // intervals pauseApp() already stopped.
+    if (isPaused) return;
+    store.startFetchingInfo(t);
+    logStore.startFetchingLog();
+    // Only restart the guider graph poller if the guiding view was actually
+    // open when we paused - otherwise this would start polling for a view
+    // that isn't mounted (GuiderGraph.vue normally owns this via its own
+    // onMounted/onBeforeUnmount).
+    if (wasGuiderFetchingBeforePause) {
+      guiderStore.startFetching();
+    }
+    if (wasDarkLibraryBuildPollingBeforePause) {
+      guiderStore.startDarkLibraryBuildPolling();
+    }
+    // Same reasoning as guiderStore above: only resume if the PINS devices
+    // view was actually open when we paused.
+    if (wasPinsDevicePollingBeforePause) {
+      pinsDeviceStore.startPolling();
+    }
+    // Same reasoning: only resume if the sequence editor view was actually
+    // open when we paused (sequenceV2Store's polling is otherwise owned by
+    // SequenceCurrentView.vue's own onMounted/onUnmounted).
+    if (wasSequenceV2PollingBeforePause) {
+      sequenceV2Store.startPolling();
+    }
+    // Same reasoning: only resume if the AllSky view was actually open when we paused.
+    if (wasPinsAllSkyPollingBeforePause) {
+      pinsAllSkyStore.startPolling();
+    }
+    if (imageMonitorStore.hasPausedCameras()) {
+      imageMonitorStore.resumeAllAutoRefresh();
+    }
+
+    // Initialize dialog updates based on mode
+    if (store.isPINS) {
+      // PINS/Headless mode: Use SignalR for real-time updates
+      await dialogStore.initializeDialogSignalR();
+      await messageboxStore.initializeMessageboxSignalR();
+      if (isPaused) return;
+      flatsStore.startFetchingFlats();
+    } else {
+      // WPF mode: Use polling
+      dialogStore.startPolling();
+    }
+
+    // Clear any stale in-flight fetch flags from before the pause — connections
+    // killed by the OS in background would otherwise leave isImageFetching stuck true.
+    imageStore.isImageFetching = false;
+    imageStore.isSequenceImageFetching = false;
+    imageStore.getImage();
+    if (!sequenceStore.sequenceEdit) {
+      sequenceStore.startFetching();
+    }
+
+    if (isNativePlatform()) {
+      void checkForAppUpdate();
+    }
+  } finally {
+    isResuming = false;
+    // A resume was requested while this run was still busy. Replay it now,
+    // unless we're paused again by the time we get here.
+    if (resumePending) {
+      resumePending = false;
+      if (!isPaused) {
+        void performResume();
+      }
+    }
   }
 }
 
@@ -772,6 +1049,34 @@ async function checkForAppUpdate(options = {}) {
   }
 }
 
+async function handleCheckAppUpdate(event) {
+  console.log('Update check requested via channel switch');
+  const useBetaFeatures =
+    typeof event?.detail?.useBetaFeatures === 'boolean'
+      ? event.detail.useBetaFeatures
+      : settingsStore.useBetaFeatures;
+
+  if (event?.detail?.resetDismissed) {
+    dismissedUpdateVersion.value = null;
+    console.log('Cleared dismissed update version for channel switch');
+  }
+
+  if (event?.detail?.syncChannel) {
+    await syncNativeUpdateChannel(useBetaFeatures, { triggerAutoUpdate: false });
+  }
+
+  if (isNativePlatform()) {
+    showUpdateModal.value = false;
+    updateInfo.value = null;
+    updateStatus.value = 'idle';
+    updateProgress.value = 0;
+    updateError.value = '';
+
+    // Allow downgrades when switching channels or when beta mode is selected.
+    void checkForAppUpdate({ allowDowngrade: true });
+  }
+}
+
 async function handleUpdateConfirm() {
   if (!updateInfo.value || updateStatus.value === 'downloading') {
     return;
@@ -831,21 +1136,15 @@ onMounted(async () => {
 
   // Check for app update immediately - independent from backend status
   if (isNativePlatform()) {
-    void checkForAppUpdate();
+    void checkForAppUpdate({ allowDowngrade: getPreferredUpdateChannel() === 'beta' });
   }
 
-  // Capacitor App Lifecycle Events for mobile platforms
+  // Capacitor App Lifecycle Events for mobile platforms.
+  // Use only appStateChange as the canonical trigger; it covers both foreground
+  // and background. Separate pause/resume listeners would be redundant and, since
+  // resumeApp is now debounced, only add noise. pauseApp/resumeApp are internally
+  // guarded against duplicate triggers.
   if (['android', 'ios'].includes(Capacitor.getPlatform())) {
-    CapacitorApp.addListener('pause', () => {
-      console.log('Capacitor App pause event');
-      pauseApp();
-    });
-
-    CapacitorApp.addListener('resume', () => {
-      console.log('Capacitor App resume event');
-      resumeApp();
-    });
-
     CapacitorApp.addListener('appStateChange', (state) => {
       console.log('Capacitor App state change:', state.isActive);
       if (state.isActive) {
@@ -862,18 +1161,7 @@ onMounted(async () => {
     stellariumRefreshKey.value = Date.now();
   });
 
-  // Listen for update channel changes
-  window.addEventListener('check-app-update', (event) => {
-    console.log('Update check requested via channel switch');
-    if (event?.detail?.resetDismissed) {
-      dismissedUpdateVersion.value = null;
-      console.log('Cleared dismissed update version for channel switch');
-    }
-    if (isNativePlatform()) {
-      // Allow downgrades when switching channels (e.g., Beta -> Stable)
-      void checkForAppUpdate({ allowDowngrade: true });
-    }
-  });
+  window.addEventListener('check-app-update', handleCheckAppUpdate);
 
   // Timeout for connectionCheckCompleted after 3 seconds
   const connectionTimeout = setTimeout(() => {
@@ -888,8 +1176,8 @@ onMounted(async () => {
   store.startFetchingInfo(t);
   logStore.startFetchingLog();
 
-  // Check for PINS support first
-  await store.checkForPINS();
+  // PINS detection already ran inside fetchAllInfos() above; see the resume
+  // path's comment for why calling it again here is unsafe.
 
   // Initialize dialog updates based on mode
   if (store.isPINS) {
@@ -907,7 +1195,7 @@ onMounted(async () => {
   }
 
   // Initialize language from settings store
-  locale.value = settingsStore.getLanguage();
+  await setLocaleLanguage(settingsStore.getLanguage());
 
   // Show tutorial on first visit
   if (!settingsStore.tutorial.completed) {
@@ -960,6 +1248,7 @@ watch(
   async (isReachable, wasReachable) => {
     if (isReachable) {
       connectionElapsedSeconds.value = 0;
+      showConnectionDetails.value = false;
       stopConnectionTimer();
     } else if (wasReachable) {
       startConnectionTimer();
@@ -1040,6 +1329,11 @@ watch(
 
 onBeforeUnmount(async () => {
   console.log('App.vue unmounted, cleaning up...');
+  // Cancel any pending debounced resume so it cannot fire after teardown.
+  if (resumeDebounceId) {
+    clearTimeout(resumeDebounceId);
+    resumeDebounceId = null;
+  }
   store.stopFetchingInfo();
   logStore.stopFetchingLog();
   sequenceStore.stopFetching();
@@ -1072,11 +1366,7 @@ onBeforeUnmount(async () => {
   window.removeEventListener('refresh-stellarium', () => {
     stellariumRefreshKey.value = Date.now();
   });
-  window.removeEventListener('check-app-update', () => {
-    if (isNativePlatform()) {
-      void checkForAppUpdate();
-    }
-  });
+  window.removeEventListener('check-app-update', handleCheckAppUpdate);
 
   // Remove Capacitor listeners
   if (['android', 'ios'].includes(Capacitor.getPlatform())) {

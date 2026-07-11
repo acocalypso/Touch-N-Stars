@@ -22,7 +22,7 @@
           <button
             v-if="hasContent(item)"
             @click="sequenceStore.toggleCollapsedState(item._path)"
-            class="flex-shrink-0 p-1 rounded-md hover:bg-slate-700/50 transition-colors"
+            class="shrink-0 p-1 rounded-md hover:bg-slate-700/50 transition-colors"
             :title="sequenceStore.isCollapsed(item._path) ? 'Erweitern' : 'Zusammenklappen'"
           >
             <ChevronRightIcon
@@ -68,7 +68,7 @@
             <div class="flex items-center gap-3">
               <button
                 @click="sequenceStore.toggleCollapsedState(`${item._path || 'target'}-target`)"
-                class="flex-shrink-0 p-1 rounded-md hover:bg-slate-700/50 transition-colors"
+                class="shrink-0 p-1 rounded-md hover:bg-slate-700/50 transition-colors"
                 :title="
                   sequenceStore.isCollapsed(`${item._path || 'target'}-target`)
                     ? 'Erweitern'
@@ -92,7 +92,7 @@
           >
             <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
               <div class="flex items-center gap-2">
-                <span class="text-amber-300 text-sm font-medium w-12 flex-shrink-0">RA:</span>
+                <span class="text-amber-300 text-sm font-medium w-12 shrink-0">RA:</span>
                 <code
                   class="text-amber-100 bg-gray-900/60 px-2 py-1 rounded text-sm border border-amber-500/20"
                 >
@@ -100,7 +100,7 @@
                 </code>
               </div>
               <div class="flex items-center gap-2">
-                <span class="text-amber-300 text-sm font-medium w-12 flex-shrink-0">DEC:</span>
+                <span class="text-amber-300 text-sm font-medium w-12 shrink-0">DEC:</span>
                 <code
                   class="text-amber-100 bg-gray-900/60 px-2 py-1 rounded text-sm border border-amber-500/20"
                 >
@@ -127,7 +127,7 @@
             <div class="flex items-center gap-3">
               <button
                 @click="sequenceStore.toggleCollapsedState(`${item._path || 'triggers'}-triggers`)"
-                class="flex-shrink-0 p-1 rounded-md hover:bg-slate-700/50 transition-colors"
+                class="shrink-0 p-1 rounded-md hover:bg-slate-700/50 transition-colors"
                 :title="
                   sequenceStore.isCollapsed(`${item._path || 'triggers'}-triggers`)
                     ? 'Erweitern'
@@ -163,7 +163,7 @@
                 <div class="flex items-center gap-2 min-w-0">
                   <button
                     @click="sequenceStore.toggleCollapsedState(trigger._path)"
-                    class="flex-shrink-0 p-1 rounded-md hover:bg-slate-700/50 transition-colors"
+                    class="shrink-0 p-1 rounded-md hover:bg-slate-700/50 transition-colors"
                     :title="
                       sequenceStore.isCollapsed(trigger._path) ? 'Erweitern' : 'Zusammenklappen'
                     "
@@ -175,12 +175,12 @@
                       }"
                     />
                   </button>
-                  <div class="w-1.5 h-1.5 bg-green-400/60 rounded-full flex-shrink-0"></div>
+                  <div class="w-1.5 h-1.5 bg-green-400/60 rounded-full shrink-0"></div>
                   <span class="text-sm font-medium text-slate-200 truncate">
                     {{ removeSuffix(trigger.Name) }}
                   </span>
                 </div>
-                <div class="flex items-center gap-2 flex-shrink-0">
+                <div class="flex items-center gap-2 shrink-0">
                   <span
                     v-if="trigger.Status != 'CREATED'"
                     :class="statusColor(trigger.Status)"
@@ -210,7 +210,7 @@
                   :key="key"
                   class="flex flex-col sm:flex-row gap-6"
                 >
-                  <span class="text-gray-400 text-sm font-medium w-28 flex-shrink-0"
+                  <span class="text-gray-400 text-sm font-medium w-28 shrink-0"
                     >{{ formatKey(key) }}:</span
                   >
                   <span class="text-gray-200 break-all min-w-0">
@@ -274,7 +274,7 @@
                 @click="
                   sequenceStore.toggleCollapsedState(`${item._path || 'conditions'}-conditions`)
                 "
-                class="flex-shrink-0 p-1 rounded-md hover:bg-slate-700/50 transition-colors"
+                class="shrink-0 p-1 rounded-md hover:bg-slate-700/50 transition-colors"
                 :title="
                   sequenceStore.isCollapsed(`${item._path || 'conditions'}-conditions`)
                     ? 'Erweitern'
@@ -309,7 +309,7 @@
                 <div class="flex items-center gap-2 min-w-0">
                   <button
                     @click="sequenceStore.toggleCollapsedState(condition._path)"
-                    class="flex-shrink-0 p-1 rounded-md hover:bg-slate-700/50 transition-colors"
+                    class="shrink-0 p-1 rounded-md hover:bg-slate-700/50 transition-colors"
                     :title="
                       sequenceStore.isCollapsed(condition._path) ? 'Erweitern' : 'Zusammenklappen'
                     "
@@ -321,12 +321,12 @@
                       }"
                     />
                   </button>
-                  <div class="w-1.5 h-1.5 bg-orange-400/60 rounded-full flex-shrink-0"></div>
+                  <div class="w-1.5 h-1.5 bg-orange-400/60 rounded-full shrink-0"></div>
                   <span class="text-sm font-medium text-slate-200 truncate">
                     {{ removeSuffix(condition.Name) }}
                   </span>
                 </div>
-                <div class="flex items-center gap-2 flex-shrink-0">
+                <div class="flex items-center gap-2 shrink-0">
                   <span
                     v-if="condition.Status != 'CREATED'"
                     :class="statusColor(condition.Status)"
@@ -363,7 +363,7 @@
                   <div
                     class="flex flex-col sm:flex-row gap-2 sm:gap-6 p-2 sm:p-3 bg-gray-800/30 rounded border border-gray-700/20"
                   >
-                    <span class="text-gray-400 text-sm font-medium w-28 flex-shrink-0">Time:</span>
+                    <span class="text-gray-400 text-sm font-medium w-28 shrink-0">Time:</span>
                     <span class="text-slate-200 break-all min-w-0">
                       <template v-if="sequenceStore.sequenceEdit && !readOnly">
                         <div class="flex flex-wrap items-center gap-1 sm:gap-2">
@@ -417,9 +417,7 @@
                   <div
                     class="flex flex-col sm:flex-row gap-2 sm:gap-6 p-2 sm:p-3 bg-gray-800/30 rounded border border-gray-700/20"
                   >
-                    <span class="text-gray-400 text-sm font-medium w-28 flex-shrink-0"
-                      >Comparator:</span
-                    >
+                    <span class="text-gray-400 text-sm font-medium w-28 shrink-0">Comparator:</span>
                     <span class="text-slate-200 break-all min-w-0">
                       <template v-if="sequenceStore.sequenceEdit && !readOnly">
                         <select
@@ -449,7 +447,7 @@
                   <div
                     class="flex flex-col sm:flex-row gap-2 sm:gap-6 p-2 sm:p-3 bg-gray-800/30 rounded border border-gray-700/20"
                   >
-                    <span class="text-gray-400 text-sm font-medium w-28 flex-shrink-0"
+                    <span class="text-gray-400 text-sm font-medium w-28 shrink-0"
                       >User Moon Illumination:</span
                     >
                     <span class="text-slate-200 break-all min-w-0">
@@ -479,7 +477,7 @@
                   <div
                     class="flex flex-col sm:flex-row gap-2 sm:gap-6 p-2 sm:p-3 bg-gray-800/30 rounded border border-gray-700/20"
                   >
-                    <span class="text-gray-400 text-sm font-medium w-28 flex-shrink-0"
+                    <span class="text-gray-400 text-sm font-medium w-28 shrink-0"
                       >Current Moon Illumination:</span
                     >
                     <span class="text-slate-200 break-all min-w-0">
@@ -507,9 +505,7 @@
                     "
                     class="flex flex-col sm:flex-row gap-2 sm:gap-6 p-2 sm:p-3 bg-gray-800/30 rounded border border-gray-700/20"
                   >
-                    <span class="text-gray-400 text-sm font-medium w-28 flex-shrink-0"
-                      >Comparator:</span
-                    >
+                    <span class="text-gray-400 text-sm font-medium w-28 shrink-0">Comparator:</span>
                     <span class="text-slate-200 break-all min-w-0">
                       <template v-if="sequenceStore.sequenceEdit && !readOnly">
                         <select
@@ -559,9 +555,7 @@
                   <div
                     class="flex flex-col sm:flex-row gap-2 sm:gap-6 p-2 sm:p-3 bg-gray-800/30 rounded border border-gray-700/20"
                   >
-                    <span class="text-gray-400 text-sm font-medium w-28 flex-shrink-0"
-                      >Offset:</span
-                    >
+                    <span class="text-gray-400 text-sm font-medium w-28 shrink-0">Offset:</span>
                     <span class="text-slate-200 break-all min-w-0">
                       <template v-if="sequenceStore.sequenceEdit && !readOnly">
                         <div class="flex items-center gap-1 sm:gap-2">
@@ -588,7 +582,7 @@
                     "
                     class="flex flex-col sm:flex-row gap-2 sm:gap-6 p-2 sm:p-3 bg-gray-800/30 rounded border border-gray-700/20"
                   >
-                    <span class="text-gray-400 text-sm font-medium w-28 flex-shrink-0">RA:</span>
+                    <span class="text-gray-400 text-sm font-medium w-28 shrink-0">RA:</span>
                     <span class="text-slate-200 break-all min-w-0">
                       <template v-if="sequenceStore.sequenceEdit && !readOnly">
                         <div class="flex flex-wrap items-center gap-1 sm:gap-2">
@@ -658,7 +652,7 @@
                   :key="key"
                   class="flex flex-col sm:flex-row gap-6"
                 >
-                  <span class="text-gray-400 text-sm font-medium w-28 flex-shrink-0"
+                  <span class="text-gray-400 text-sm font-medium w-28 shrink-0"
                     >{{ formatKey(key) }}:</span
                   >
                   <span class="text-gray-200 break-all min-w-0">
@@ -753,7 +747,7 @@
               :key="key"
               class="flex flex-col sm:flex-row gap-6 p-3 bg-gray-800/30 rounded border border-gray-700/20"
             >
-              <span class="text-gray-400 text-sm font-medium w-28 flex-shrink-0"
+              <span class="text-gray-400 text-sm font-medium w-28 shrink-0"
                 >{{ formatKey(key) }}:</span
               >
               <span class="text-slate-200 break-all min-w-0">
@@ -943,7 +937,7 @@
             <div class="flex items-center gap-3">
               <button
                 @click="sequenceStore.toggleCollapsedState(`${item._path || 'items'}-items`)"
-                class="flex-shrink-0 p-1 rounded-md hover:bg-slate-700/50 transition-colors"
+                class="shrink-0 p-1 rounded-md hover:bg-slate-700/50 transition-colors"
                 :title="
                   sequenceStore.isCollapsed(`${item._path || 'items'}-items`)
                     ? 'Erweitern'

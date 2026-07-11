@@ -1,82 +1,204 @@
 <template>
   <div class="flex flex-col w-full gap-1">
-    <p class="text-xs sm:text-sm min-w-24 sm:min-w-32 font-medium text-gray-500">
-      {{ $t('components.mount.control.slewRate') }}
-    </p>
+    <div class="flex items-baseline justify-between">
+      <p class="text-xs sm:text-sm min-w-24 sm:min-w-32 font-medium text-gray-500">
+        {{ $t('components.mount.control.slewRate') }}
+      </p>
+      <p
+        v-if="kind !== 'none' && currentLabel"
+        class="text-xs sm:text-sm text-cyan-400 font-medium"
+      >
+        {{ currentLabel }}
+      </p>
+    </div>
 
-    <div class="relative pt-3 pb-5">
+    <!-- Discrete: driver-provided named steps (e.g. Guide / Center / Find / Max) -->
+    <div v-if="kind === 'discrete'" class="relative pt-3 pb-5">
       <div
         class="absolute top-1/2 left-0 right-0 h-1 bg-gray-700 rounded-full -translate-y-1/2"
       ></div>
-
       <div
         class="absolute top-1/2 left-0 h-1 bg-cyan-800 rounded-full -translate-y-1/2 pointer-events-none"
-        :style="{ width: `${(currentIndex / 9) * 100}%` }"
+        :style="{ width: `${trackFillPercent}%` }"
       ></div>
-
       <div
-        v-for="i in 10"
+        v-for="i in options.length"
         :key="`tick-${i}`"
         class="absolute top-1/2 w-px h-2 bg-gray-500 -translate-y-1/2 pointer-events-none"
-        :style="{ left: `${((i - 1) / 9) * 100}%` }"
+        :style="{ left: `${ratioPercent(i - 1)}%` }"
       ></div>
-
-      <span
-        class="absolute bottom-0 left-0 text-[10px] text-gray-500 pointer-events-none select-none leading-none"
-      >
-        min
-      </span>
-      <span
-        class="absolute bottom-0 right-0 text-[10px] text-gray-500 pointer-events-none select-none leading-none"
-      >
-        max
-      </span>
-
       <div
         class="absolute top-1/2 w-2 h-6 rounded-md bg-cyan-500 -translate-y-1/2 -translate-x-1/2 pointer-events-none shadow-lg"
-        :style="{ left: `${(currentIndex / 9) * 100}%` }"
+        :style="{ left: `${trackFillPercent}%` }"
       ></div>
-
       <input
         type="range"
         min="0"
-        max="9"
+        :max="Math.max(0, options.length - 1)"
         step="1"
-        :value="currentIndex"
-        @input="onInput"
+        :value="discreteIndex"
+        @input="onDiscreteInput"
         class="absolute w-full top-1/2 -translate-y-1/2 h-8 appearance-none bg-transparent cursor-pointer slider-input"
       />
     </div>
+
+    <!-- Continuous: numeric °/s range provided by the driver -->
+    <div v-else-if="kind === 'continuous'" class="relative pt-3 pb-5">
+      <div
+        class="absolute top-1/2 left-0 right-0 h-1 bg-gray-700 rounded-full -translate-y-1/2"
+      ></div>
+      <div
+        class="absolute top-1/2 left-0 h-1 bg-cyan-800 rounded-full -translate-y-1/2 pointer-events-none"
+        :style="{ width: `${trackFillPercent}%` }"
+      ></div>
+      <div
+        class="absolute top-1/2 w-2 h-6 rounded-md bg-cyan-500 -translate-y-1/2 -translate-x-1/2 pointer-events-none shadow-lg"
+        :style="{ left: `${trackFillPercent}%` }"
+      ></div>
+      <input
+        type="range"
+        :min="capability.Min"
+        :max="capability.Max"
+        :step="continuousStep"
+        :value="continuousValue"
+        @input="onContinuousInput"
+        class="absolute w-full top-1/2 -translate-y-1/2 h-8 appearance-none bg-transparent cursor-pointer slider-input"
+      />
+    </div>
+
+    <!-- No rate control exposed by the driver, or no mount connected -->
+    <p v-else class="text-xs text-gray-500 italic py-2">
+      {{
+        kind === 'none'
+          ? $t('components.mount.control.slewRateDriverControlled')
+          : $t('components.mount.control.slewRateUnavailable')
+      }}
+    </p>
   </div>
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue';
 import { useSettingsStore } from '@/store/settingsStore';
-
-const SNAP_VALUES = [0.01, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+import { useMountStore } from '@/store/mountStore';
+import apiService from '@/services/apiService';
 
 const settingsStore = useSettingsStore();
+const mountStore = useMountStore();
 
-const currentIndex = computed(() => {
-  const v = settingsStore.mount.slewRate;
-  let bestIdx = 0;
-  let bestDist = Infinity;
-  for (let i = 0; i < SNAP_VALUES.length; i++) {
-    const d = Math.abs(SNAP_VALUES[i] - v);
-    if (d < bestDist) {
-      bestDist = d;
-      bestIdx = i;
-    }
+// 'none' until the capability is fetched; renders the "unavailable" hint meanwhile.
+const kind = ref('none');
+const capability = ref({ Kind: 'None', Options: [], Min: 0, Max: 0, Step: 0, Unit: '°/s' });
+const discreteIndex = ref(0);
+const continuousValue = ref(0);
+
+let postTimer = null;
+
+const options = computed(() => capability.value?.Options ?? []);
+const continuousStep = computed(() => capability.value?.Step || 0.1);
+
+function normalizeKind(k) {
+  // Tolerate both numeric (Swan enum) and string serialization.
+  if (k === 1 || k === 'Discrete') return 'discrete';
+  if (k === 2 || k === 'Continuous') return 'continuous';
+  return 'none';
+}
+
+function ratioPercent(idx) {
+  const maxIdx = Math.max(1, options.value.length - 1);
+  return (idx / maxIdx) * 100;
+}
+
+const trackFillPercent = computed(() => {
+  if (kind.value === 'discrete') {
+    return ratioPercent(discreteIndex.value);
   }
-  return bestIdx;
+  if (kind.value === 'continuous') {
+    const { Min, Max } = capability.value;
+    if (Max <= Min) return 0;
+    return ((continuousValue.value - Min) / (Max - Min)) * 100;
+  }
+  return 0;
 });
 
-function onInput(event) {
-  const idx = parseInt(event.target.value, 10);
-  settingsStore.mount.slewRate = SNAP_VALUES[idx];
-  settingsStore.saveMountSettings();
+const currentLabel = computed(() => {
+  if (kind.value === 'discrete') {
+    return options.value[discreteIndex.value]?.Label ?? '';
+  }
+  if (kind.value === 'continuous') {
+    return `${Number(continuousValue.value).toFixed(2)} ${capability.value.Unit || '°/s'}`;
+  }
+  return '';
+});
+
+async function loadCapability() {
+  try {
+    const data = await apiService.getMountSlewRates();
+    if (!data?.Success || !data.Response) {
+      kind.value = 'none';
+      return;
+    }
+    const cap = data.Response;
+    capability.value = cap;
+    kind.value = normalizeKind(cap.Kind);
+
+    if (kind.value === 'discrete') {
+      // Prefer the driver's current selection, fall back to the persisted choice.
+      const selected = cap.Options.findIndex((o) => o.IsSelected);
+      const stored = settingsStore.mount.slewRateIndex;
+      const idx = selected >= 0 ? selected : stored;
+      discreteIndex.value = Math.min(Math.max(0, idx ?? 0), Math.max(0, cap.Options.length - 1));
+    } else if (kind.value === 'continuous') {
+      const stored = settingsStore.mount.slewRate;
+      const v = cap.CurrentValue ?? stored ?? cap.Min;
+      continuousValue.value = Math.min(Math.max(cap.Min, v), cap.Max);
+    }
+  } catch {
+    // 404 / network: mount not connected — show the unavailable hint.
+    kind.value = 'none';
+    capability.value = { Kind: 'None', Options: [], Min: 0, Max: 0, Step: 0, Unit: '°/s' };
+  }
 }
+
+function onDiscreteInput(event) {
+  const idx = parseInt(event.target.value, 10);
+  discreteIndex.value = idx;
+  settingsStore.mount.slewRateIndex = idx;
+  settingsStore.saveMountSettings();
+  postRate({ index: idx });
+}
+
+function onContinuousInput(event) {
+  const value = parseFloat(event.target.value);
+  continuousValue.value = value;
+  settingsStore.mount.slewRate = value;
+  settingsStore.saveMountSettings();
+  postRate({ value });
+}
+
+function postRate(selection) {
+  // Debounce so dragging the slider doesn't flood the driver with switch changes.
+  if (postTimer) clearTimeout(postTimer);
+  postTimer = setTimeout(() => {
+    apiService
+      .setMountSlewRate(selection)
+      .catch((e) => console.error('setMountSlewRate failed', e));
+  }, 250);
+}
+
+onMounted(loadCapability);
+
+// Re-fetch when the mount control socket (re)connects, e.g. after connecting the mount.
+watch(
+  () => mountStore.wsIsConnected,
+  (connected) => {
+    if (connected) loadCapability();
+  }
+);
+
+onBeforeUnmount(() => {
+  if (postTimer) clearTimeout(postTimer);
+});
 </script>
 
 <style scoped>

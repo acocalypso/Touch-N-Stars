@@ -2121,9 +2121,25 @@ function populateExampleOptions() {
 }
 </script>
 
-<style scoped lang="postcss">
+<style scoped>
 .default-input {
-  @apply rounded-lg border border-gray-700 bg-gray-950/80 px-3 py-2 text-sm text-gray-200 shadow-inner focus:border-cyan-500 focus:outline-none focus:ring focus:ring-cyan-500/30;
+  border-radius: 0.5rem;
+  border: 1px solid rgb(55 65 81);
+  background-color: rgb(3 7 18 / 80%);
+  padding: 0.5rem 0.75rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: rgb(229 231 235);
+  box-shadow: inset 0 2px 4px 0 rgb(0 0 0 / 5%);
+}
+
+.default-input:focus {
+  border-color: rgb(6 182 212);
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  box-shadow:
+    inset 0 2px 4px 0 rgb(0 0 0 / 5%),
+    0 0 0 3px rgb(6 182 212 / 30%);
 }
 
 .bahtifocus-view {

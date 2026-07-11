@@ -1,23 +1,39 @@
-import * as signalR from '@microsoft/signalr';
-import { useSettingsStore } from '../store/settingsStore';
+import { createSignalRService } from './signalRServiceFactory';
 
-const backendProtokol = 'http';
-const backendPort = 4782; // NINA server port
-const backendPfad = '/hubs/notifications';
-
+/**
+ * Notifications hub. Thin adapter over the shared SignalR factory.
+ */
 class SignalRNotificationService {
   constructor() {
-    this.connection = null;
     this.statusCallback = null;
     this.messageCallback = null;
     this.notificationCallback = null;
-    this.reconnectDelay = 2000; // 2 Sekunden
-    this.shouldReconnect = true;
-    this.isConnected = false;
-    this.reconnectTimeoutId = null;
-    this.url = null;
-    this._connectionId = 0;
-    this._connectingPromise = null;
+
+    this._service = createSignalRService({
+      name: 'SignalRNotificationService',
+      path: '/hubs/notifications',
+      emitStatus: (s) => {
+        if (this.statusCallback) this.statusCallback(s);
+      },
+      registerHandlers: (connection, ctx) => {
+        connection.on('ReceiveNotification', (notification) => {
+          if (ctx.getConnectionId() !== ctx.currentConnectionId()) return;
+
+          const notifObj = {
+            ...notification,
+            id: Date.now() + Math.random(),
+            timestamp: new Date(notification.timestamp),
+          };
+
+          if (notification.lifetime) {
+            notifObj.lifetimeMs = this.parseTimespan(notification.lifetime);
+          }
+
+          if (this.notificationCallback) this.notificationCallback(notifObj);
+          if (this.messageCallback) this.messageCallback(notifObj);
+        });
+      },
+    });
   }
 
   setStatusCallback(callback) {
@@ -33,13 +49,11 @@ class SignalRNotificationService {
   }
 
   parseTimespan(timespan) {
-    // Parse ISO 8601 duration or HH:MM:SS format
+    // Parse ISO 8601 duration (PT5S, PT1M30S) or HH:MM:SS into milliseconds.
     if (typeof timespan !== 'string') return 5000;
 
-    // ISO 8601 format: PT5S, PT1M30S, etc.
     const iso8601Regex = /^PT(?:(\d+)H)?(?:(\d+)M)?(?:(\d+(?:\.\d+)?)S)?$/;
     const match = timespan.match(iso8601Regex);
-
     if (match) {
       const hours = parseInt(match[1] || 0);
       const minutes = parseInt(match[2] || 0);
@@ -47,7 +61,6 @@ class SignalRNotificationService {
       return (hours * 3600 + minutes * 60 + seconds) * 1000;
     }
 
-    // HH:MM:SS format
     const parts = timespan.split(':');
     if (parts.length === 3) {
       const h = parseInt(parts[0]);
@@ -56,247 +69,23 @@ class SignalRNotificationService {
       return (h * 3600 + m * 60 + s) * 1000;
     }
 
-    return 5000; // Default 5 seconds
+    return 5000;
   }
 
   connect() {
-    // Deduplicate concurrent connect() calls — return the in-flight promise if one exists
-    if (this._connectingPromise) {
-      return this._connectingPromise;
-    }
-
-    this._connectingPromise = new Promise((resolve, reject) => {
-      // Setze shouldReconnect auf true bei jedem Connect-Versuch
-      this.shouldReconnect = true;
-
-      // Invalidate any previous connection's handlers and stop the stale connection
-      this._connectionId++;
-      const connectionId = this._connectionId;
-      if (this.connection) {
-        const stale = this.connection;
-        this.connection = null;
-        stale.stop().catch(() => {});
-      }
-
-      const settingsStore = useSettingsStore();
-      const backendHost = settingsStore.connection.ip || window.location.hostname;
-
-      this.url = `${backendProtokol}://${backendHost}:${backendPort}${backendPfad}`;
-      console.log('[SignalRNotificationService] Connecting to SignalR at:', this.url);
-
-      try {
-        this.connection = new signalR.HubConnectionBuilder()
-          .withUrl(this.url, { withCredentials: false })
-          .withAutomaticReconnect([1000, 3000, 5000, 10000, 30000])
-          .build();
-
-        // Event Handler für Notifications
-        this.connection.on('ReceiveNotification', (notification) => {
-          if (connectionId !== this._connectionId) return;
-          console.log('[SignalRNotificationService] Received notification:', notification);
-
-          const notifObj = {
-            ...notification,
-            id: Date.now() + Math.random(),
-            timestamp: new Date(notification.timestamp),
-          };
-
-          // Callback für Notification aufrufen (wenn gesetzt)
-          if (this.notificationCallback) {
-            this.notificationCallback(notifObj);
-          }
-
-          // Generischer Message Callback (wenn gesetzt)
-          if (this.messageCallback) {
-            this.messageCallback(notifObj);
-          }
-
-          // Auto-remove handling (optional - Callback muss selbst implementieren)
-          if (notification.lifetime) {
-            const lifetimeMs = this.parseTimespan(notification.lifetime);
-            // Weitergeben der Lifetime-Info
-            if (this.notificationCallback) {
-              notifObj.lifetimeMs = lifetimeMs;
-            }
-          }
-        });
-
-        // Reconnection Events
-        this.connection.onreconnected(() => {
-          if (connectionId !== this._connectionId) return;
-          console.log('[SignalRNotificationService] SignalR reconnected');
-          this.isConnected = true;
-          if (this.statusCallback) {
-            this.statusCallback('Reconnected');
-          }
-        });
-
-        this.connection.onreconnecting(() => {
-          if (connectionId !== this._connectionId) return;
-          console.log('[SignalRNotificationService] SignalR reconnecting...');
-          this.isConnected = false;
-          if (this.statusCallback) {
-            this.statusCallback('Reconnecting');
-          }
-        });
-
-        this.connection.onclose((error) => {
-          if (connectionId !== this._connectionId) return;
-          console.log('[SignalRNotificationService] SignalR connection closed', error);
-          this.isConnected = false;
-
-          if (this.statusCallback) {
-            this.statusCallback('Closed');
-          }
-
-          // Manual reconnect wenn shouldReconnect true ist
-          if (this.shouldReconnect) {
-            console.log(
-              `[SignalRNotificationService] SignalR: Attempting to reconnect in ${this.reconnectDelay / 1000} seconds...`
-            );
-            this.reconnectTimeoutId = setTimeout(() => {
-              this.reconnectTimeoutId = null;
-
-              if (this.shouldReconnect) {
-                this.connect()
-                  .then(() => {
-                    console.log('[SignalRNotificationService] SignalR successfully reconnected');
-                  })
-                  .catch((err) => {
-                    console.warn(
-                      '[SignalRNotificationService] SignalR reconnect failed:',
-                      err.message
-                    );
-                    // Retry again after delay
-                    if (this.shouldReconnect) {
-                      this.reconnectTimeoutId = setTimeout(() => {
-                        this.reconnectTimeoutId = null;
-                        if (this.shouldReconnect) {
-                          this.connect().catch(() => {});
-                        }
-                      }, this.reconnectDelay);
-                    }
-                  });
-              }
-            }, this.reconnectDelay);
-          }
-        });
-
-        // Verbindung starten
-        this.connection
-          .start()
-          .then(() => {
-            this._connectingPromise = null;
-            console.log('[SignalRNotificationService] SignalR connected for notifications');
-            this.isConnected = true;
-            if (this.statusCallback) {
-              this.statusCallback('Connected');
-            }
-            resolve();
-          })
-          .catch((err) => {
-            this._connectingPromise = null;
-            console.error('[SignalRNotificationService] SignalR connection error:', err);
-            this.isConnected = false;
-            if (this.statusCallback) {
-              this.statusCallback('Error: ' + err.message);
-            }
-            // Retry initial connection after delay
-            if (this.shouldReconnect) {
-              console.log(
-                `[SignalRNotificationService] Retrying initial connection in ${this.reconnectDelay / 1000} seconds...`
-              );
-              this.reconnectTimeoutId = setTimeout(() => {
-                this.reconnectTimeoutId = null;
-                if (this.shouldReconnect) {
-                  this.connect()
-                    .then(resolve)
-                    .catch(() => {});
-                }
-              }, this.reconnectDelay);
-            } else {
-              reject(err);
-            }
-          });
-      } catch (err) {
-        this._connectingPromise = null;
-        console.error('[SignalRNotificationService] SignalR setup error:', err);
-        reject(err);
-      }
-    });
-
-    return this._connectingPromise;
+    return this._service.connect();
   }
 
   disconnect() {
-    this.shouldReconnect = false;
-    this.isConnected = false;
-
-    // Laufende Reconnect-Timeouts clearen
-    if (this.reconnectTimeoutId) {
-      clearTimeout(this.reconnectTimeoutId);
-      this.reconnectTimeoutId = null;
-    }
-
-    if (this.connection) {
-      const conn = this.connection;
-      this.connection = null; // Clear immediately so concurrent connect() won't be overwritten
-      return conn
-        .stop()
-        .then(() => {
-          console.log('[SignalRNotificationService] SignalR disconnected');
-        })
-        .catch((err) => {
-          console.error('[SignalRNotificationService] Error disconnecting SignalR:', err);
-        });
-    }
-    return Promise.resolve();
+    return this._service.disconnect();
   }
 
-  // Optional: Methode zum Senden von Messages an den Hub (falls benötigt)
   sendMessage(methodName, ...args) {
-    if (this.connection && this.isConnected) {
-      return this.connection
-        .invoke(methodName, ...args)
-        .then(() => {
-          console.log('[SignalRNotificationService] SignalR message sent:', methodName, args);
-        })
-        .catch((err) => {
-          console.error('[SignalRNotificationService] Error sending SignalR message:', err);
-          if (this.statusCallback) {
-            this.statusCallback('Error: Failed to send message');
-          }
-          throw err;
-        });
-    } else {
-      const error = new Error(
-        '[SignalRNotificationService] SignalR is not connected. Message could not be sent.'
-      );
-      console.error(error.message);
-      if (this.statusCallback) {
-        this.statusCallback('[SignalRNotificationService] Error: SignalR not connected');
-      }
-      return Promise.reject(error);
-    }
+    return this._service.sendMessage(methodName, ...args);
   }
 
-  // Status prüfen
   isSignalRConnected() {
-    return (
-      this.isConnected &&
-      this.connection &&
-      this.connection.state === signalR.HubConnectionState.Connected
-    );
-  }
-
-  // Force reconnect
-  forceReconnect() {
-    if (this.connection) {
-      return this.disconnect().then(() => {
-        return this.connect();
-      });
-    }
-    return this.connect();
+    return this._service.isSignalRConnected();
   }
 }
 

@@ -1,7 +1,7 @@
 <template>
   <ItemShell :item="item">
     <template #summary>
-      <span v-if="switchFilter?.ComboBoxText" class="text-xs text-slate-400 flex-shrink-0">{{
+      <span v-if="switchFilter?.ComboBoxText" class="text-xs text-slate-400 shrink-0">{{
         switchFilter.ComboBoxText
       }}</span>
       <span v-if="loopCondition" class="text-xs text-slate-500"
@@ -25,7 +25,7 @@
 
       <!-- Filter from inner SwitchFilter -->
       <div v-if="switchFilter" class="flex items-center gap-3">
-        <label class="text-xs text-slate-400 flex-shrink-0">{{
+        <label class="text-xs text-slate-400 shrink-0">{{
           $t('components.sequence.items.switchFilter.filter')
         }}</label>
         <select
@@ -53,7 +53,7 @@
 
       <!-- Binning from inner TakeExposure -->
       <div v-if="exposure" class="flex items-center gap-3">
-        <label class="text-xs text-slate-400 flex-shrink-0">{{
+        <label class="text-xs text-slate-400 shrink-0">{{
           $t('components.sequence.items.takeExposure.binning')
         }}</label>
         <select
@@ -95,7 +95,7 @@
       />
 
       <div class="flex items-center gap-3">
-        <label class="text-xs text-slate-400 flex-shrink-0">{{
+        <label class="text-xs text-slate-400 shrink-0">{{
           $t('components.sequence.items.autoBrightnessFlat.keepPanelClosed')
         }}</label>
         <div class="ml-auto">

@@ -47,7 +47,7 @@
                 :label="$t('plugins.narrowband.aperture')"
                 labelKey="plugins.narrowband.aperture"
                 :min="10"
-                :max="300"
+                :max="2000"
                 :step="1"
               />
 
@@ -57,7 +57,7 @@
                 :label="$t('plugins.narrowband.focalLength')"
                 labelKey="plugins.narrowband.focalLength"
                 :min="100"
-                :max="2000"
+                :max="10000"
                 :step="10"
               />
 
@@ -155,7 +155,7 @@
                 <button
                   type="button"
                   @click="showCsvInfo = !showCsvInfo"
-                  class="text-gray-400 hover:text-blue-400 transition-colors flex-shrink-0"
+                  class="text-gray-400 hover:text-blue-400 transition-colors shrink-0"
                   :title="$t('plugins.narrowband.csvInfo.title')"
                 >
                   <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">

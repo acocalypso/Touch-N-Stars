@@ -90,6 +90,27 @@
               inputId="tppa-gain"
             />
           </div>
+
+          <!-- Filter -->
+          <div v-if="store.filterInfo.Connected" class="mt-2">
+            <label for="tppa-filter" class="text-xs mb-1 text-gray-400 block">
+              {{ $t('components.tppa.settings.filter') }}
+            </label>
+            <select
+              id="tppa-filter"
+              v-model="tppaStore.settings.Filter"
+              class="default-select h-10 w-full"
+            >
+              <option :value="null">{{ $t('components.tppa.settings.filter_default') }}</option>
+              <option
+                v-for="filter in store.filterInfo.AvailableFilters"
+                :key="filter.Id"
+                :value="filter.Name"
+              >
+                {{ filter.Name }}
+              </option>
+            </select>
+          </div>
         </div>
       </div>
     </div>

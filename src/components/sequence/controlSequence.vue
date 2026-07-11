@@ -183,7 +183,7 @@
               class="flex items-center justify-between gap-2 px-2 py-1.5 rounded hover:bg-slate-700/40"
             >
               <span class="text-sm text-gray-200 truncate">{{ file.FileName }}</span>
-              <div class="flex gap-1 flex-shrink-0">
+              <div class="flex gap-1 shrink-0">
                 <button
                   v-if="!sequenceStore.sequenceRunning"
                   class="text-xs text-cyan-400 hover:text-cyan-300 px-2 py-1 rounded hover:bg-cyan-900/20 transition-colors"
@@ -227,7 +227,7 @@
                 @keydown.enter="saveFile"
               />
               <button
-                class="text-xs text-cyan-400 hover:text-cyan-300 px-3 py-1.5 rounded border border-cyan-500/40 hover:bg-cyan-900/20 flex-shrink-0 transition-colors"
+                class="text-xs text-cyan-400 hover:text-cyan-300 px-3 py-1.5 rounded border border-cyan-500/40 hover:bg-cyan-900/20 shrink-0 transition-colors"
                 :disabled="!saveFileName.trim() || saveLoading"
                 @click="saveFile"
               >

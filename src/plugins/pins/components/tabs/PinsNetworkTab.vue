@@ -5,6 +5,8 @@
       :allow-concurrent-mode="allowConcurrentMode"
       :is-scanning="isScanning"
       :wifi-list="wifiList"
+      :wifi-status="wifiStatus"
+      :mobile-wifi-signal="mobileWifiSignal"
       :selected-ssid="selectedSsid"
       :wifi-password="wifiPassword"
       :selected-band="selectedBand"
@@ -74,6 +76,16 @@ defineProps({
   wifiList: {
     type: Array,
     required: true,
+  },
+  wifiStatus: {
+    type: Object,
+    required: false,
+    default: null,
+  },
+  mobileWifiSignal: {
+    type: Object,
+    required: false,
+    default: null,
   },
   selectedSsid: {
     type: String,

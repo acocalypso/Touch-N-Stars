@@ -16,20 +16,39 @@ import { useLivestackStore } from '@/plugins/livestack/store/livestackStore';
 import { useNightSummaryStore } from '@/plugins/nightsummary/store/nightsummaryStore';
 import { useGuiderStore } from '@/store/guiderStore';
 import { useSequenceStore } from '@/store/sequenceStore';
+import { useSequenceV2Store } from '@/store/sequenceV2Store';
 import { useDialogStore } from '@/store/dialogStore';
 import { useLogStore } from '@/store/logStore';
 import websocketMountControlService from '@/services/websocketMountControl';
 import websocketTppaService from '@/services/websocketTppa';
 import { getDeviceDateTimePayload, parsePinsTimeToSeconds } from '@/utils/pinsTimeUtils';
+import { createPoller } from '@/utils/poller';
+import { abortInFlightRequests } from '@/utils/httpLifecycle';
+
+// Serialized snapshots of the last payload written per state key (module-level,
+// deliberately non-reactive). Used by setInfoIfChanged() so the 2s poll only
+// touches the store when the backend data actually changed - every write swaps
+// the object reference and re-renders all consumers, even for identical data.
+let lastWrittenInfoJson = {};
+
+// After a negative PINS-detection result, re-probe on this cadence instead of
+// staying silenced for the rest of the session (see checkForPINS()).
+const PINS_RECHECK_INTERVAL_MS = 15000;
 
 export const apiStore = defineStore('store', {
   state: () => ({
     apiPort: null,
+    // Bumped by switchBackend() on every instance switch. fetchAllInfos()
+    // cycles capture it at entry and bail after each await once it moved on,
+    // so an in-flight cycle for the OLD instance can neither write its apiPort
+    // back nor tear down the freshly built session via its error branches.
+    // Deliberately NOT reset in clearAllStates().
+    connectionEpoch: 0,
     isPINS: false,
     isPinsCheckDone: false,
     pinsCheckNegativeCount: 0,
+    pinsLastNegativeCheckAt: 0,
     isTimeSynced: false,
-    intervalId: null,
     intervalIdGraph: null,
     lastEventHistoryFetch: 0,
     profileInfo: {
@@ -130,8 +149,6 @@ export const apiStore = defineStore('store', {
     isApiConnected: false,
     isApiVersionNewerOrEqual: false,
     isTnsPluginVersionNewerOrEqual: false,
-    webSocketDisconnectTime: null,
-    webSocketTimeoutId: null,
     filterName: 'unbekannt',
     filterNr: null,
     showAfGraph: true,
@@ -182,6 +199,14 @@ export const apiStore = defineStore('store', {
 
   actions: {
     async fetchAllInfos(t) {
+      // Staleness guard: if switchBackend() bumps the epoch while this cycle
+      // is parked on an await, every result below belongs to the OLD instance.
+      // Each checkpoint bails BEFORE the result is inspected, so a stale cycle
+      // can neither write the old apiPort nor hit a clearAllStates() error
+      // branch against the new session.
+      const startEpoch = this.connectionEpoch;
+      const isStale = () => this.connectionEpoch !== startEpoch;
+
       const toastStore = useToastStore();
       const pinsStore = usePinsStore();
       //const settingsStore = useSettingsStore();
@@ -217,12 +242,25 @@ export const apiStore = defineStore('store', {
 
       if (!this.isBackendReachable) this.closeErrorModal = false;
 
+      // While disconnected (or right after a resume, when the pool may hold
+      // dead sockets), probe fast and without inner retries: the 2s poller IS
+      // the retry loop, and stacking 3 attempts x 10s per probe inside one
+      // cycle means the user stares at the splash for ~36s after the network
+      // returns. The long timeout + inner retries only stay in place while the
+      // backend is reachable, where they prevent a single slow response from
+      // tearing the whole session down (clearAllStates).
+      const probingWhileDisconnected =
+        !this.isBackendReachable || this.isPageRecentlyReturnedFromBackground();
+      const probeTimeout = probingWhileDisconnected ? 3000 : undefined;
+      const probeRetries = probingWhileDisconnected ? 0 : this.connectingAttempts;
+
       try {
         //const tnsVersionResponse = await apiService.fetchTnsPluginVersion(); //Check if Plugin is reachable
         const tnsVersionResponse = await tryWithRetry(
-          () => apiService.fetchTnsPluginVersion(),
-          this.connectingAttempts
+          () => apiService.fetchTnsPluginVersion(probeTimeout),
+          probeRetries
         );
+        if (isStale()) return;
         if (!tnsVersionResponse) {
           console.warn('TNS-Plugin not reachable');
           showConnectionErrorToast('app.connection_error_toast.message_tns');
@@ -256,9 +294,10 @@ export const apiStore = defineStore('store', {
           //fetch API Port
           //const response = await apiService.fetchApiPort();
           const response = await tryWithRetry(
-            () => apiService.fetchApiPort(),
-            this.connectingAttempts
+            () => apiService.fetchApiPort(probeTimeout),
+            probeRetries
           );
+          if (isStale()) return;
           //console.log('API Port response:', response);
           if (!response) {
             console.error('API not reachable');
@@ -285,11 +324,15 @@ export const apiStore = defineStore('store', {
         if (this.apiPort) {
           //const responseApoVersion = await apiService.fetchApiVersion();
           const responseApiVersion = await tryWithRetry(
-            () => apiService.fetchApiVersion(),
-            this.connectingAttempts
+            () => apiService.fetchApiVersion(probeTimeout),
+            probeRetries
           );
+          if (isStale()) return;
           //console.log('API Version response:', responseApiVersion);
-          if (responseApiVersion?.Success === false) {
+          // null = all attempts failed (fetchApiVersion maps network errors to
+          // null); without this check a null would fall through to the else
+          // branch and mark the API as connected.
+          if (!responseApiVersion || responseApiVersion.Success === false) {
             console.warn('API-Plugin not reachable');
             showConnectionErrorToast('app.connection_error_toast.message_api');
             this.clearAllStates();
@@ -319,8 +362,13 @@ export const apiStore = defineStore('store', {
           }
         }
 
-        if (this.isApiVersionNewerOrEqual && !this.isPinsCheckDone) {
+        // checkForPINS() owns its own "already done / re-probe after cooldown"
+        // logic internally, so it must be called every cycle - gating it on
+        // !isPinsCheckDone here would make the periodic negative-result re-probe
+        // (PINS may come up after NINA) permanently unreachable.
+        if (this.isApiVersionNewerOrEqual) {
           await this.checkForPINS();
+          if (isStale()) return;
         }
 
         // Check if mock API mode is enabled
@@ -332,19 +380,29 @@ export const apiStore = defineStore('store', {
           console.log('[MOCK MODE] Skipping WebSocket connection');
           this.isWebSocketConnected = true;
         } else if (!websocketChannelService.isWebSocketConnected()) {
-          // Setup message callback für IMAGE-PREPARED handling
+          // Setup message callback for IMAGE-PREPARED handling
           websocketChannelService.setMessageCallback((message) => {
             this.handleWebSocketMessage(message);
           });
 
-          // Versuche WebSocket zu verbinden (max 1000ms warten)
+          // Register the subscription before connecting: subscribe() always
+          // adds to the replay registry regardless of connection state. If
+          // registered only after a successful connect() below, a timed-out
+          // first attempt would skip it - and once the internal reconnect loop
+          // opens the socket on its own later, it replays an empty registry,
+          // silently dropping IMAGE-SAVE events until a full clearAllStates().
+          websocketChannelService.subscribe('IMAGE-SAVE');
+
+          // The connect timeout is owned by the service (channel socket core);
+          // no need to pass one here.
           try {
-            await websocketChannelService.connect(1000);
+            await websocketChannelService.connect();
+            if (isStale()) return;
             this.isWebSocketConnected = true;
-            websocketChannelService.subscribe('IMAGE-SAVE');
             // Initial image history load after WS connect
             try {
               const historyResponse = await apiService.imageHistoryAll();
+              if (isStale()) return;
               if (historyResponse?.Success) {
                 this.imageHistoryInfo = historyResponse.Response;
               }
@@ -352,13 +410,15 @@ export const apiStore = defineStore('store', {
               console.warn('[API Store] Could not load initial image history:', e.message);
             }
           } catch (error) {
-            // WebSocket fehlgeschlagen oder Timeout
+            // Connect failed or timed out; the service will keep retrying via its
+            // own reconnect loop.
             console.warn('[API Store] WebSocket connection failed or timeout:', error.message);
             this.isWebSocketConnected = false;
-            // WebSocket wird automatisch via onclose-Handler versuchen wiederherzustellen
           }
         } else {
           this.isWebSocketConnected = true;
+          // Socket looks connected: verify it isn't a silent zombie.
+          websocketChannelService.checkStaleness();
         }
 
         // Connect SignalR Notification Service
@@ -448,6 +508,7 @@ export const apiStore = defineStore('store', {
         if (this.lastEventHistoryFetch === 0 || now - this.lastEventHistoryFetch >= 15000) {
           //console.log('[Store] Fetch history');
           const eventHistoryResponse = await apiService.getEventHistory();
+          if (isStale()) return;
 
           // Process event history to determine connection status
           this.processEventHistory(eventHistoryResponse);
@@ -508,6 +569,7 @@ export const apiStore = defineStore('store', {
         }
 
         const responses = await Promise.all(requests);
+        if (isStale()) return;
 
         // Map responses to correct keys
         const responseData = {
@@ -545,7 +607,9 @@ export const apiStore = defineStore('store', {
       } catch (error) {
         console.error('Error fetching information:', error);
       }
+      if (isStale()) return;
       await this.fetchProfilInfos();
+      if (isStale()) return;
       //when the backend is accessible again close modal
       if (this.isBackendReachable && !this.closeErrorModal) {
         this.closeErrorModal = true;
@@ -555,7 +619,21 @@ export const apiStore = defineStore('store', {
       }
     },
 
+    // Writes only when the payload differs from the last written one; returns
+    // whether a write happened so callers can skip derived updates too.
+    setInfoIfChanged(key, payload) {
+      const json = JSON.stringify(payload);
+      if (lastWrittenInfoJson[key] === json) return false;
+      lastWrittenInfoJson[key] = json;
+      this[key] = payload;
+      return true;
+    },
+
     clearAllStates() {
+      // The reset below writes defaults directly, bypassing the cache; without
+      // clearing it, an identical post-reconnect payload would be skipped and
+      // the state would stay stuck at the cleared defaults.
+      lastWrittenInfoJson = {};
       this.isBackendReachable = false;
       this.errorMessageShown = true;
       this.isApiConnected = false;
@@ -611,34 +689,17 @@ export const apiStore = defineStore('store', {
       this.currentTnsPluginVersion = null;
       this.currentPinsVersion = null;
 
-      // Disconnect Channel WebSocket when backend is not reachable
-      if (websocketChannelService.isWebSocketConnected()) {
-        websocketChannelService.disconnect();
-      }
-
-      // Disconnect mount and TPPA WebSockets
+      // Disconnect all transports unconditionally: a "connected" check would
+      // skip a service that is mid-reconnect, leaving its retry loop armed and
+      // pointed at the old instance. disconnect() is idempotent on all of them
+      // and also cancels pending reconnect/restart timers.
+      websocketChannelService.disconnect();
       websocketMountControlService.disconnect();
       websocketTppaService.disconnect();
-
-      // Disconnect SignalR when backend is not reachable
-      if (signalRNotificationService.isSignalRConnected()) {
-        signalRNotificationService.disconnect();
-      }
-
-      // Disconnect progress SignalR so it reconnects to the new instance's backend
-      if (signalRProgressService.isSignalRConnected()) {
-        signalRProgressService.disconnect();
-      }
-
-      // Disconnect dialog SignalR so it reconnects to the new instance's backend
-      if (signalRDialogService.isSignalRConnected()) {
-        signalRDialogService.disconnect();
-      }
-
-      // Disconnect messagebox SignalR so it reconnects to the new instance's backend
-      if (signalRMessageboxesService.isSignalRConnected()) {
-        signalRMessageboxesService.disconnect();
-      }
+      signalRNotificationService.disconnect();
+      signalRProgressService.disconnect();
+      signalRDialogService.disconnect();
+      signalRMessageboxesService.disconnect();
 
       // Clear progress data from the previous instance
       const progressStore = useProgressStore();
@@ -651,6 +712,7 @@ export const apiStore = defineStore('store', {
       // Clear guider graph data and stop polling
       const guiderStore = useGuiderStore();
       guiderStore.stopFetching();
+      guiderStore.stopDarkLibraryBuildPolling();
       guiderStore.$patch({
         RADistanceRaw: [],
         DECDistanceRaw: [],
@@ -673,6 +735,9 @@ export const apiStore = defineStore('store', {
         phd2SelectedMountIndex: null,
         phd2SelectedMountName: null,
       });
+
+      // Stop sequence editor polling from the previous instance
+      useSequenceV2Store().stopPolling();
 
       // Clear sequence data from the previous instance
       const sequenceStore = useSequenceStore();
@@ -763,97 +828,127 @@ export const apiStore = defineStore('store', {
       switchResponse,
     }) {
       if (imageHistoryResponse?.Success) {
-        this.imageHistoryInfo = imageHistoryResponse.Response;
+        this.setInfoIfChanged('imageHistoryInfo', imageHistoryResponse.Response);
       }
 
       if (cameraResponse?.Success) {
-        this.cameraInfo = cameraResponse.Response;
+        this.setInfoIfChanged('cameraInfo', cameraResponse.Response);
       } else if (cameraResponse) {
         console.error('Error in camera API response:', cameraResponse.Error);
       }
 
       if (mountResponse?.Success) {
-        this.mountInfo = mountResponse.Response;
+        this.setInfoIfChanged('mountInfo', mountResponse.Response);
       } else if (mountResponse) {
         console.error('Error in mount API response:', mountResponse.Error);
       }
 
       if (filterResponse?.Success) {
-        this.filterInfo = filterResponse.Response;
+        this.setInfoIfChanged('filterInfo', filterResponse.Response);
       } else if (filterResponse) {
         console.error('Error in filter API response:', filterResponse.Error);
       }
 
       if (rotatorResponse?.Success) {
-        this.rotatorInfo = rotatorResponse.Response;
+        this.setInfoIfChanged('rotatorInfo', rotatorResponse.Response);
       } else if (rotatorResponse) {
         console.error('Error in rotator API response:', rotatorResponse.Error);
       }
 
       if (focuserResponse?.Success) {
-        this.focuserInfo = focuserResponse.Response;
+        this.setInfoIfChanged('focuserInfo', focuserResponse.Response);
       } else if (focuserResponse) {
         console.error('Error in focuser API response:', focuserResponse.Error);
       }
 
       if (focuserAfResponse?.Success) {
-        this.focuserAfInfo = focuserAfResponse;
+        this.setInfoIfChanged('focuserAfInfo', focuserAfResponse);
       } else if (focuserAfResponse) {
         console.error('Error in focuser AF API response:', focuserAfResponse.Error);
       }
 
       if (safetyResponse?.Success) {
-        this.safetyInfo = safetyResponse.Response;
+        this.setInfoIfChanged('safetyInfo', safetyResponse.Response);
       } else if (safetyResponse) {
         console.error('Error in safety API response:', safetyResponse.Error);
       }
 
       if (guiderResponse?.Success) {
-        this.guiderInfo = guiderResponse.Response;
+        this.setInfoIfChanged('guiderInfo', guiderResponse.Response);
       } else if (guiderResponse) {
         console.error('Error in guider API response:', guiderResponse.Error);
       }
 
       if (flatdeviceResponse?.Success) {
-        this.flatdeviceInfo = flatdeviceResponse.Response;
+        this.setInfoIfChanged('flatdeviceInfo', flatdeviceResponse.Response);
       } else if (flatdeviceResponse) {
         console.error('Error in flat device API response:', flatdeviceResponse.Error);
       }
 
       if (domeResponse?.Success) {
-        this.domeInfo = domeResponse.Response;
+        this.setInfoIfChanged('domeInfo', domeResponse.Response);
       } else if (domeResponse) {
         console.error('Error in dome API response:', domeResponse.Error);
       }
 
       if (weatherResponse?.Success) {
-        this.weatherInfo = weatherResponse.Response;
+        this.setInfoIfChanged('weatherInfo', weatherResponse.Response);
       } else if (weatherResponse) {
         console.error('Error in weather API response:', weatherResponse.Error);
       }
 
       if (switchResponse?.Success) {
-        this.switchInfo = switchResponse.Response;
+        this.setInfoIfChanged('switchInfo', switchResponse.Response);
       } else if (switchResponse) {
         console.error('Error in switch API response:', switchResponse.Error);
       }
     },
 
+    // Full teardown + fresh connect when the backend endpoint changes
+    // (instance switch, edited ip/port). Callers mutate
+    // settingsStore.connection first, then invoke this synchronously.
+    async switchBackend() {
+      // Invalidate every in-flight fetchAllInfos cycle before the first await.
+      const myEpoch = ++this.connectionEpoch;
+      const wasPolling = !!this._infoPoller?.isRunning();
+      // Capture BEFORE clearAllStates() latches shouldReconnect to false.
+      const mountWasArmed = websocketMountControlService.shouldReconnect;
+      const tppaWasArmed = websocketTppaService.shouldReconnect;
+
+      this.stopFetchingInfo();
+      abortInFlightRequests('instance-switch');
+      this.clearAllStates();
+
+      // Re-arm the sockets that were live before the switch. connect() with a
+      // null URL (apiPort is null right after teardown) arms the idle-recheck
+      // loop, which dials as soon as the new handshake sets apiPort.
+      if (mountWasArmed) websocketMountControlService.connect().catch(() => {});
+      if (tppaWasArmed) websocketTppaService.connect().catch(() => {});
+
+      // Startup (App.vue onMounted) and pause/resume own polling otherwise.
+      if (!wasPolling || !this._infoPollerT) return;
+      await this.fetchAllInfos(this._infoPollerT);
+      // Rapid double-switch: a newer switchBackend() owns the restart.
+      if (this.connectionEpoch !== myEpoch) return;
+      this.startFetchingInfo(this._infoPollerT);
+    },
+
     startFetchingInfo(t) {
-      if (!this.intervalId) {
+      this._infoPollerT = t;
+      if (!this._infoPoller) {
+        this._infoPoller = createPoller(() => this.fetchAllInfos(this._infoPollerT), 2000);
+      }
+      if (!this._infoPoller.isRunning()) {
         this.attemptsToConnect = 0;
-        this.intervalId = setInterval(() => {
-          this.fetchAllInfos(t);
-        }, 2000);
+        this._infoPoller.start();
         console.log('Started fetching info interval');
       }
     },
 
     stopFetchingInfo() {
-      if (this.intervalId) {
+      if (this._infoPoller?.isRunning()) {
         this.attemptsToConnect = 0;
-        clearInterval(this.intervalId);
-        this.intervalId = null;
+        this._infoPoller.stop();
         websocketChannelService.disconnect();
         signalRNotificationService.disconnect();
         console.log('Stopped fetching info interval');
@@ -864,7 +959,7 @@ export const apiStore = defineStore('store', {
       try {
         const response = await apiService.guiderAction('info');
         if (response.Success) {
-          this.guiderInfo = response.Response;
+          this.setInfoIfChanged('guiderInfo', response.Response);
         }
       } catch (error) {
         console.error('Error fetching guider info:', error);
@@ -876,9 +971,12 @@ export const apiStore = defineStore('store', {
         const profileInfoResponse = await apiService.profileAction('show?active=true');
 
         if (profileInfoResponse && profileInfoResponse.Response) {
-          this.profileInfo = profileInfoResponse.Response;
-          this.imageSavePath = this.profileInfo?.ImageFileSettings?.FilePath || null;
-          this.getExistingEquipment(this.profileInfo);
+          // imageSavePath and existingEquipmentList are derived purely from the
+          // profile, so they only need recomputing when the profile changed.
+          if (this.setInfoIfChanged('profileInfo', profileInfoResponse.Response)) {
+            this.imageSavePath = this.profileInfo?.ImageFileSettings?.FilePath || null;
+            this.getExistingEquipment(this.profileInfo);
+          }
         } else {
           console.error('Error in profile API response:', profileInfoResponse?.Error);
         }
@@ -1006,8 +1104,16 @@ export const apiStore = defineStore('store', {
       if (this.isPinsCheckDone) {
         if (this.isPINS) {
           await this.syncSystemTime();
+          return;
         }
-        return;
+        // A negative result isn't permanent: re-probe periodically instead of
+        // staying silenced for the rest of the session (PINS may come up after
+        // NINA, or the earlier negative may have been a transient hiccup).
+        if (Date.now() - this.pinsLastNegativeCheckAt < PINS_RECHECK_INTERVAL_MS) {
+          return;
+        }
+        this.isPinsCheckDone = false;
+        this.pinsCheckNegativeCount = 0;
       }
       if (!this.isApiVersionNewerOrEqual) {
         return;
@@ -1034,7 +1140,8 @@ export const apiStore = defineStore('store', {
         this.isPINS = false;
         this.currentPinsVersion = null;
         this.isPinsCheckDone = true;
-        console.log('[API Store] No PINS endpoint — assuming NINA');
+        this.pinsLastNegativeCheckAt = Date.now();
+        console.log('[API Store] No PINS endpoint — assuming NINA, rechecking in 15s');
       }
     },
 
@@ -1240,25 +1347,33 @@ export const apiStore = defineStore('store', {
         //console.log(`Device ${deviceName}: ${event.Event} -> ${isConnected}`);
       });
 
-      // Clear data for disconnected devices
-      if (!this.isCameraConnected) this.cameraInfo = { Connected: false, IsExposing: false };
-      if (!this.isMountConnected) this.mountInfo = { Connected: false, TrackingMode: null };
-      if (!this.isFilterConnected) this.filterInfo = { Connected: false };
-      if (!this.isRotatorConnected) this.rotatorInfo = { Connected: false };
+      // Clear data for disconnected devices. Must go through setInfoIfChanged:
+      // a direct write would leave the cache holding the pre-disconnect payload,
+      // and a reconnect returning identical data would then be skipped, leaving
+      // the state stuck at the cleared defaults.
+      if (!this.isCameraConnected)
+        this.setInfoIfChanged('cameraInfo', { Connected: false, IsExposing: false });
+      if (!this.isMountConnected)
+        this.setInfoIfChanged('mountInfo', { Connected: false, TrackingMode: null });
+      if (!this.isFilterConnected) this.setInfoIfChanged('filterInfo', { Connected: false });
+      if (!this.isRotatorConnected) this.setInfoIfChanged('rotatorInfo', { Connected: false });
       if (!this.isFocuserConnected) {
-        this.focuserInfo = { Connected: false };
-        this.focuserAfInfo = { Connected: false };
+        this.setInfoIfChanged('focuserInfo', { Connected: false });
+        this.setInfoIfChanged('focuserAfInfo', { Connected: false });
       }
       if (!this.isGuiderConnected) {
-        this.guiderInfo = { Connected: false };
-        this.afCurveData = [];
-        this.afTimestampLastStart = null;
+        if (this.setInfoIfChanged('guiderInfo', { Connected: false })) {
+          this.afCurveData = [];
+          this.afTimestampLastStart = null;
+        }
       }
-      if (!this.isFlatdeviceConnected) this.flatdeviceInfo = { Connected: false };
-      if (!this.isDomeConnected) this.domeInfo = { Connected: false };
-      if (!this.isSafetyConnected) this.safetyInfo = { Connected: false, IsSafe: false };
-      if (!this.isWeatherConnected) this.weatherInfo = { Connected: false };
-      if (!this.isSwitchConnected) this.switchInfo = { Connected: false };
+      if (!this.isFlatdeviceConnected)
+        this.setInfoIfChanged('flatdeviceInfo', { Connected: false });
+      if (!this.isDomeConnected) this.setInfoIfChanged('domeInfo', { Connected: false });
+      if (!this.isSafetyConnected)
+        this.setInfoIfChanged('safetyInfo', { Connected: false, IsSafe: false });
+      if (!this.isWeatherConnected) this.setInfoIfChanged('weatherInfo', { Connected: false });
+      if (!this.isSwitchConnected) this.setInfoIfChanged('switchInfo', { Connected: false });
 
       // Process autofocus events
       const autofocusStore = useAutofocusStore();

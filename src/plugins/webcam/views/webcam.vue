@@ -9,7 +9,7 @@
 
     <!-- Controls Sidebar (Right desktop) or Bottom Bar (Mobile) -->
     <div
-      class="h-24 pb-8 w-full md:h-full md:pb-0 md:w-20 lg:w-24 bg-gray-900 border-t md:border-t-0 md:border-l border-gray-800 flex flex-shrink-0 z-20 shadow-[0_-4px_20px_rgba(0,0,0,0.5)] md:shadow-[-4px_0_20px_rgba(0,0,0,0.5)]"
+      class="h-24 pb-8 w-full md:h-full md:pb-0 md:w-20 lg:w-24 bg-gray-900 border-t md:border-t-0 md:border-l border-gray-800 flex shrink-0 z-20 shadow-[0_-4px_20px_rgba(0,0,0,0.5)] md:shadow-[-4px_0_20px_rgba(0,0,0,0.5)]"
     >
       <WebcamControlBar @open-settings="openSettings" />
     </div>

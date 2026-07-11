@@ -15,7 +15,7 @@
       <!-- Step indicator -->
       <div
         :class="[
-          'flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm transition-colors',
+          'shrink-0 w-8 h-8 rounded-full flex items-center justify-center font-bold text-sm transition-colors',
           step.finished
             ? 'bg-green-600 text-white'
             : step.isCurrent

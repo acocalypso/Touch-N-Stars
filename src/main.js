@@ -8,12 +8,14 @@ import { createHead } from '@unhead/vue/client';
 import { Capacitor } from '@capacitor/core';
 import { App as CapacitorApp } from '@capacitor/app';
 import { EdgeToEdge } from '@capawesome/capacitor-android-edge-to-edge-support';
-import i18n from '@/i18n';
+import i18n, { initializeI18n } from '@/i18n';
 import { usePluginStore } from '@/store/pluginStore';
+import { useSettingsStore } from '@/store/settingsStore';
 import { timeSync } from '@/utils/timeSync';
-import { setupErrorHandler } from '@/utils/errorHandler';
+import { setupErrorHandler, setupUnhandledRejectionLogging } from '@/utils/errorHandler';
 import { ensureConsolePatched } from '@/utils/consoleCapture';
 import { markAppReady } from '@/services/updateService';
+import { initWifiBinding } from '@/services/wifiBindingService';
 
 const SYSTEM_BAR_COLOR = '#1F2937';
 
@@ -62,6 +64,7 @@ const head = createHead();
 
 // Setup global error handling
 setupErrorHandler();
+setupUnhandledRejectionLogging();
 
 const app = createApp(App);
 app.directive('tooltip', tooltipDirective);
@@ -71,12 +74,6 @@ try {
   ensureConsolePatched();
 } catch (e) {
   /* noop */
-}
-
-// Initialize i18n with store before mounting
-const settingsStore = pinia.state.value.settings;
-if (settingsStore && settingsStore.language) {
-  i18n.global.locale.value = settingsStore.language;
 }
 
 async function applyAndroidSystemBarColors() {
@@ -93,6 +90,9 @@ app.use(pinia).use(head).use(i18n).use(router);
 
 // Initialize plugin system
 (async () => {
+  const settingsStore = useSettingsStore(pinia);
+  await initializeI18n(settingsStore);
+
   const pluginStore = usePluginStore(pinia);
 
   // Store references to app and router in plugin store
@@ -119,6 +119,9 @@ app.use(pinia).use(head).use(i18n).use(router);
   // Some Android builds/OEM skins can ignore static config and apply dynamic theme colors.
   // Re-applying at runtime keeps system bars aligned with the app theme.
   await applyAndroidSystemBarColors();
+
+  // Keep the backend reachable on internet-less Wi-Fi (PINS hotspot) on Android
+  initWifiBinding();
 
   CapacitorApp.addListener('appStateChange', async ({ isActive }) => {
     if (isActive) {

@@ -38,7 +38,7 @@
       <button
         v-if="scale > 1"
         @click.stop="resetZoom"
-        class="absolute bottom-4 right-4 p-1.5 bg-black bg-opacity-60 text-white rounded-lg backdrop-blur-sm hover:bg-opacity-80 transition-all"
+        class="absolute bottom-4 right-4 p-1.5 bg-black/60 text-white rounded-lg backdrop-blur-sm hover:bg-black/80 transition-all"
         title="Fit image"
       >
         <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
@@ -77,7 +77,7 @@
       v-else
       class="w-full h-full flex flex-col items-center justify-center text-gray-500 space-y-4 bg-gray-900"
     >
-      <div class="p-6 bg-gray-800 rounded-full bg-opacity-50">
+      <div class="p-6 bg-gray-800/50 rounded-full">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           class="h-16 w-16"

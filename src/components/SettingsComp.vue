@@ -112,10 +112,7 @@
   </Modal>
 
   <!-- Confirmation Modal -->
-  <div
-    v-if="confirmAction"
-    class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50"
-  >
+  <div v-if="confirmAction" class="fixed inset-0 flex items-center justify-center bg-black/50 z-50">
     <div class="bg-gray-800 rounded-lg p-6 max-w-sm w-full border border-gray-700">
       <h3 class="text-lg font-semibold text-white mb-4">
         {{ $t('components.settings.system.confirmation') }}

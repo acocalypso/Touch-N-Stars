@@ -20,6 +20,10 @@ function isBetaUpdateChannelEnabled() {
   }
 }
 
+export function getPreferredUpdateChannel() {
+  return isBetaUpdateChannelEnabled() ? 'beta' : 'stable';
+}
+
 const defaultHeaders = {
   Accept: 'application/vnd.github+json',
   'User-Agent': 'touch-n-stars-updater',
@@ -48,6 +52,32 @@ function getPlatform() {
 
 export function isNativePlatform() {
   return SUPPORTED_PLATFORMS.has(getPlatform());
+}
+
+export async function syncNativeUpdateChannel(useBetaChannel, options = {}) {
+  if (!isNativePlatform()) {
+    return { skipped: true, reason: 'non-native-platform' };
+  }
+
+  const triggerAutoUpdate = options.triggerAutoUpdate === true;
+
+  try {
+    if (useBetaChannel) {
+      const result = await CapacitorUpdater.setChannel({
+        channel: 'beta',
+        triggerAutoUpdate,
+      });
+      console.info('[Updater] Native update channel set to beta:', result);
+      return { channel: 'beta', result };
+    }
+
+    await CapacitorUpdater.unsetChannel({ triggerAutoUpdate });
+    console.info('[Updater] Native update channel reset to default stable channel');
+    return { channel: 'stable' };
+  } catch (error) {
+    console.warn('[Updater] Failed to sync native update channel:', error);
+    return { channel: useBetaChannel ? 'beta' : 'stable', error };
+  }
 }
 
 function parseVersion(version) {

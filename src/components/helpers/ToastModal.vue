@@ -66,7 +66,7 @@
           </div>
           <button
             @click="toastStore.closeToast()"
-            class="text-gray-400 hover:text-white ml-2 flex-shrink-0"
+            class="text-gray-400 hover:text-white ml-2 shrink-0"
           >
             <XMarkIcon class="w-4 h-4" />
           </button>

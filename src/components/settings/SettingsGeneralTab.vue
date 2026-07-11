@@ -64,7 +64,7 @@
           </div>
           <button
             @click="getCurrentLocation"
-            class="default-button-gray md:w-10 md:h-10 md:flex-shrink-0 col-span-2 md:col-span-1 md:self-end"
+            class="default-button-gray md:w-10 md:h-10 md:shrink-0 col-span-2 md:col-span-1 md:self-end"
             title="Get current location"
           >
             <svg
@@ -168,6 +168,25 @@
         <ToggleButton
           :statusValue="settingsStore.keepAwakeEnabled"
           @update:statusValue="onToggleKeepAwake"
+        />
+      </div>
+    </div>
+
+    <!-- Local Wi-Fi Binding (Android only) -->
+    <div
+      class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
+      v-if="Capacitor.getPlatform() === 'android'"
+    >
+      <h3 class="font-bold text-base text-cyan-400">
+        {{ $t('components.settings.wifiBinding.title') }}
+      </h3>
+      <div class="flex items-center justify-between">
+        <p class="text-gray-300 text-sm mr-4">
+          {{ $t('components.settings.wifiBinding.description') }}
+        </p>
+        <ToggleButton
+          :statusValue="settingsStore.wifiBindingEnabled"
+          @update:statusValue="settingsStore.setWifiBindingEnabled($event)"
         />
       </div>
     </div>
@@ -297,7 +316,7 @@
 
 <script setup>
 import { ref, onMounted, watchEffect } from 'vue';
-import { getAvailableLanguages, getBackendLanguageCode } from '@/i18n';
+import { getAvailableLanguages, getBackendLanguageCode, setLocaleLanguage } from '@/i18n';
 import NavbarCustomizationSettings from '@/components/settings/general/NavbarCustomizationSettings.vue';
 import apiService from '@/services/apiService';
 import { useSettingsStore } from '@/store/settingsStore';
@@ -363,11 +382,10 @@ watchEffect(() => {
 
 // Watch language changes
 const changeLanguage = async (newLanguage) => {
-  locale.value = newLanguage;
-  settingsStore.setLanguage(newLanguage);
+  const activeLanguage = await setLocaleLanguage(newLanguage);
 
   if (store.isPINS || store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.2.8.0')) {
-    const backendCode = getBackendLanguageCode(newLanguage);
+    const backendCode = getBackendLanguageCode(activeLanguage);
     if (backendCode && store.isBackendReachable) {
       await apiService.setLanguage(backendCode);
     }

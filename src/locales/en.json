@@ -46,8 +46,12 @@
       "message_tns_version": "The Touch N Stars plugin is too old. Please perform an update"
     },
     "connection_splash": {
-      "trying": "Trying to connect to instance {instance} at {endpoint} ({elapsed}s elapsed, {remaining}s until this is marked as delayed).",
-      "delayed": "Still trying to connect to instance {instance} at {endpoint} ({elapsed}s elapsed). Open Settings to verify your Touch-N-Stars instance.",
+      "connecting": "Connecting…",
+      "trying": "Reconnecting to {instance}…",
+      "delayed": "Still trying to reach {instance}. This may indicate a problem — open Settings to verify your Touch-N-Stars instance.",
+      "retry_now": "Retry now",
+      "show_details": "Show details",
+      "details": "Target: {endpoint} · {elapsed}s elapsed",
       "configured_instance": "configured instance",
       "default_instance_name": "selected instance"
     }
@@ -282,7 +286,10 @@
       "horizonFilePath": {
         "title": "Horizon File",
         "placeholder": "e.g. /home/pi/horizon.hrz",
-        "toastTitle": "Horizon file saved"
+        "toastTitle": "Horizon file saved",
+        "clearTitle": "Clear horizon file path",
+        "confirmTitle": "Clear Horizon File Path",
+        "confirmMessage": "Are you sure you want to clear the horizon file path?"
       },
       "image": {
         "title": "Image",
@@ -346,6 +353,10 @@
       "keepAwake": {
         "title": "Keep Screen Awake",
         "description": "Prevent the device from dimming or locking while the app is open."
+      },
+      "wifiBinding": {
+        "title": "Local Network Binding",
+        "description": "Keep the app connected through Wi-Fi when your instance runs on a local network without internet (e.g. PINS hotspot), while the rest of the phone keeps using mobile data."
       },
       "input": {
         "title": "Input Optimization",
@@ -786,6 +797,39 @@
         "annotation": {
           "text": "Text"
         },
+        "groundstation": {
+          "message": "Message",
+          "title": "Title",
+          "subject": "Subject",
+          "body": "Body",
+          "recipient": "Recipient",
+          "topic": "Topic",
+          "payload": "Payload",
+          "qos": "QoS",
+          "retain": "Retain",
+          "description": "Description",
+          "method": "Method",
+          "url": "URL",
+          "contentType": "Content Type",
+          "username": "Username",
+          "password": "Password",
+          "showEmbed": "Show Embed",
+          "embedTitle": "Embed Title",
+          "embedText": "Embed Text",
+          "eventName": "Event Name",
+          "value1": "Value 1",
+          "value2": "Value 2",
+          "value3": "Value 3",
+          "priority": "Priority",
+          "notificationSound": "Notification Sound",
+          "tags": "Tags",
+          "channel": "Channel",
+          "doNotNotify": "Silent Notification",
+          "address": "Address",
+          "port": "Port",
+          "payloadType": "Payload Type",
+          "lineTermination": "Line Termination"
+        },
         "waitUntil": {
           "predicate": "Condition"
         },
@@ -859,6 +903,15 @@
         },
         "startGuiding": {
           "forceCalibrationLabel": "Force Calibration"
+        },
+        "slewToGuiderCalibrationPosition": {
+          "haOffset": "HA Offset",
+          "dec": "Dec",
+          "side": "Pointing Side",
+          "sideStay": "Stay",
+          "sideEast": "East",
+          "sideWest": "West",
+          "clearBacklash": "Clear DEC Backlash"
         }
       },
       "emptyContainer": "Empty — click + to add items",
@@ -894,6 +947,8 @@
         "trackingMode": "Tracking Mode",
         "manuellControl": "Manual control",
         "slewRate": "Slew rate",
+        "slewRateDriverControlled": "Slew rate is controlled by the driver",
+        "slewRateUnavailable": "Connect a mount to adjust the slew rate",
         "siderial": "Sidereal",
         "sync_coordinates_to_mount": "Sync coordinates with mount",
         "errors": {
@@ -1031,6 +1086,10 @@
         "cameraGain": "Gain",
         "cameraBinning": "Binning",
         "restoreCalibration": "Auto restore calibration",
+        "restoreCalibrationReconnect": {
+          "title": "Reconnect guider?",
+          "message": "This setting only takes effect after the guider has been reconnected. Reconnect now?"
+        },
         "assumeDecOrthogonal": "Assume Dec orthogonal to RA",
         "useDecCompensation": "Use Dec compensation",
         "fastRecenter": "Fast recenter after calibration or dither",
@@ -1423,6 +1482,14 @@
       "down": "Down",
       "up": "Up",
       "not_available": "Not available",
+      "warn_huge_title": "Calculated error is huge",
+      "warn_huge_body": "Either the mount is far off alignment or the calculation could not determine the result. Check site location, confirm the mount is roughly pointing to the pole, and that only the RA axis was moved between the three measurement points.",
+      "warn_large_title": "Initial polar alignment error is large",
+      "warn_large_body": "The correction phase will be less reliable. Bring the mount closer to polar alignment and run TPPA again to verify.",
+      "warn_dec_spread_title": "Declination spread detected",
+      "warn_dec_spread_body": "The mount's reported declination changed by {arcsec}\" between measurements. This may affect polar alignment accuracy — ensure only the RA axis moves during measurement.",
+      "warn_east_west_title": "Correction field within {deg}° of East/West",
+      "warn_east_west_body": "The current field is within 5° of exact East or West. If the live solution is unstable, slew to a field farther from East/West and rerun.",
       "running": "RUNNING",
       "plate_solve_start": "Platesolve start",
       "plate_solve_ok": "Platesolve successful",
@@ -1439,6 +1506,8 @@
         "camera_settings_hint": "Leave empty for NINA defaults",
         "exposure_time": "Exposure Time (s)",
         "gain": "Gain",
+        "filter": "Filter",
+        "filter_default": "Default",
         "nina_default": "NINA Default",
         "ManualMode": "Manual mode"
       },
@@ -1694,6 +1763,7 @@
       }
     },
     "stellarium": {
+      "loading": "Loading Stellarium…",
       "selected_object": {
         "title": "Selected object",
         "ra": "RA",
@@ -1821,6 +1891,23 @@
     }
   },
   "plugins": {
+    "indiControlPanel": {
+      "title": "INDI Control Panel",
+      "description": "Inspect and control every property of the INDI drivers currently loaded on the server.",
+      "refresh": "Refresh",
+      "updated": "Updated",
+      "set": "Set",
+      "readonly": "read-only",
+      "noDevices": "No INDI devices are currently active. Connect equipment first, then refresh.",
+      "loadFailed": "Failed to load INDI properties.",
+      "setFailed": "Failed to set the property.",
+      "invalidNumber": "Invalid number for {element}.",
+      "log": "INDI Messages",
+      "enableLog": "Enable",
+      "logDisabled": "Message log is disabled.",
+      "scrollToLatest": "Scroll to latest",
+      "noMessages": "No messages yet."
+    },
     "common": {
       "initializing": "Initializing...",
       "outdated": {
@@ -1867,6 +1954,18 @@
       "wifiPassword": "Password",
       "autoConnect": "Autoconnect to selected wifi after boot",
       "wifiConnect": "Connect",
+      "wifiConnectedAction": "Connected",
+      "wifiStatusConnected": "Connected",
+      "wifiStatusDisconnected": "Not connected",
+      "wifiRoleClient": "Home WiFi",
+      "wifiRoleHotspot": "Hotspot",
+      "wifiSignal": "Signal",
+      "wifiSignalMobile": "Mobile signal",
+      "wifiSignalValue": "{value}%",
+      "wifiRssiValue": "{value} dBm",
+      "wifiSignalHistory": "WiFi signal history",
+      "wifiSignalUnavailable": "Signal unavailable",
+      "wifiChannel": "Channel {channel}",
       "scanning": "Scanning...",
       "hotspotPasswordTitle": "Hotspot Password",
       "hotspotConfigured": "Custom hotspot password is configured.",
@@ -1963,6 +2062,7 @@
         "jobStatus": "Job status: {status}",
         "statusFetchFailed": "Failed to fetch final status: {message}",
         "wifiDisabling": "Disconnecting WiFi and enabling hotspot...",
+        "wifiConnected": "WiFi connected: {ssid} ({ip})",
         "wifiDisabled": "WiFi disconnected and hotspot enabled.",
         "updateCheckFailed": "Failed to check updates: {message}",
         "indi3rdpartyLoadFailed": "Failed to load INDI 3rdparty packages: {message}",
@@ -1995,10 +2095,37 @@
       "indi3rdpartySearch": "Search",
       "indi3rdpartySearchPlaceholder": "Search drivers (e.g. asi)",
       "indi3rdpartyRefresh": "Refresh list",
+      "indiRegistryEditConfig": "Edit config",
       "indi3rdpartySelect": "Select driver package",
       "indi3rdpartyInstall": "Install driver",
       "indi3rdpartyInstalling": "Installing...",
       "indi3rdpartyNoDrivers": "No not-installed drivers found.",
+      "indiRegistryModalTitle": "Edit INDI Registry",
+      "indiRegistryModalDescription": "Edit Name, Label, and Type for installed INDI 3rdparty registry entries.",
+      "indiRegistryModalUpdatedAt": "Updated",
+      "indiRegistryModalTotalEntries": "Entries",
+      "indiRegistryModalReload": "Reload",
+      "indiRegistryModalLoading": "Loading registry...",
+      "indiRegistryModalEmpty": "No registry entries found.",
+      "indiRegistryModalName": "Name",
+      "indiRegistryModalLabel": "Label",
+      "indiRegistryModalType": "Type",
+      "indiRegistryModalActions": "Actions",
+      "indiRegistryModalSave": "Save",
+      "indiRegistryModalSaving": "Saving...",
+      "indiRegistryModalSaved": "Entry saved. Registry reloaded from backend.",
+      "indiRegistryModalNoChanges": "No changes to save.",
+      "indiRegistryModalNameRequired": "Name is required.",
+      "indiRegistryModalNameLength": "Name must be 200 characters or fewer.",
+      "indiRegistryModalNameDuplicate": "Name already exists in another row.",
+      "indiRegistryModalLabelLength": "Label must be 200 characters or fewer.",
+      "indiRegistryModalTypeInvalid": "Type must be one of the allowed values.",
+      "indiRegistryModalErrorLoad": "Failed to load registry: {message}",
+      "indiRegistryModalErrorNotFound": "Entry not found (404).",
+      "indiRegistryModalErrorConflict": "Name already exists (409 duplicate rename).",
+      "indiRegistryModalErrorValidation": "Validation failed: {message}",
+      "indiRegistryModalErrorGeneric": "Failed to save entry: {message}",
+      "indiRegistryModalErrorUnknown": "Unknown error.",
       "indiInstallModalTitle": "Install INDI Driver",
       "indiInstallModalDriverPackage": "Driver/Package",
       "indiInstallModalAssetName": "Asset Name",
@@ -3273,6 +3400,17 @@
         "error": "Error:",
         "inspectorSettings": "Inspector Settings",
         "micronsPerFocuserStep": "Microns Per Focuser Step",
+        "stepCount": "Step Count",
+        "stepSize": "Step Size",
+        "framesPerPoint": "Frames Per Point",
+        "simpleExposureSeconds": "Exposure Time (seconds)",
+        "detailedAnalysisExposureSeconds": "Detailed Analysis Exposure Time (seconds)",
+        "timeoutSeconds": "Timeout (seconds)",
+        "signalAmplification": "Signal Amplification",
+        "centerFocuserBeforeRun": "Center Focuser Before Run",
+        "numRegionsWide": "Number of Regions Wide",
+        "sensorCurveModelEnabled": "Sensor Curve Model",
+        "autoPlaceholder": "auto",
         "retry": "Retry",
         "resetToDefaults": "Reset to Defaults",
         "resetting": "Resetting..."
@@ -3300,6 +3438,7 @@
         "hotpixelFiltering": "Hotpixel Filtering",
         "noiseReducedStarMeasurement": "Noise Reduced Star Measurement",
         "debugMode": "Debug Mode",
+        "useOptimizedSettings": "Use Optimized Settings",
         "simpleModeSettings": "Simple Mode Settings",
         "noiseLevel": "Noise Level"
       },
@@ -4001,6 +4140,140 @@
       "deviceFocuser": "Focuser",
       "deviceFilterWheel": "Filter Wheel"
     },
+    "groundStation": {
+      "title": "Ground Station",
+      "subtitle": "Configure NINA Ground Station notification services",
+      "notLoaded": "The Ground Station plugin is not installed or not loaded in NINA. Install the 'Ground Station' plugin in NINA to use these settings.",
+      "tabs": {
+        "pushover": "Pushover",
+        "telegram": "Telegram",
+        "email": "Email",
+        "discord": "Discord",
+        "slack": "Slack",
+        "mqtt": "MQTT",
+        "ifttt": "IFTTT",
+        "ntfysh": "ntfy.sh"
+      },
+      "common": {
+        "loading": "Loading…",
+        "save": "Save",
+        "saving": "Saving…",
+        "test": "Send Test",
+        "testing": "Sending…",
+        "testSuccess": "Test sent successfully",
+        "testFailed": "Test failed",
+        "passwordUnchanged": "Leave empty to keep current value",
+        "leaveEmpty": "(unchanged)"
+      },
+      "pushover": {
+        "userKey": "User Key",
+        "appKey": "App API Token",
+        "notificationSound": "Notification Sound",
+        "notificationPriority": "Notification Priority",
+        "failureSound": "Failure Sound",
+        "failurePriority": "Failure Priority",
+        "emergRetry": "Emergency Retry Interval (s)",
+        "emergRetryHint": "30 – 86400 seconds",
+        "emergExpire": "Emergency Expire After (s)",
+        "emergExpireHint": "30 – 86400 seconds",
+        "failureTitle": "Failure Title",
+        "failureBody": "Failure Body"
+      },
+      "telegram": {
+        "accessToken": "Bot Access Token",
+        "chatId": "Chat ID",
+        "failureBody": "Failure Body"
+      },
+      "email": {
+        "fromAddress": "From Address",
+        "recipients": "Default Recipients",
+        "recipientsHint": "Comma-separated",
+        "host": "SMTP Host",
+        "port": "SMTP Port",
+        "username": "Username",
+        "password": "Password",
+        "failureSubject": "Failure Subject",
+        "failureBody": "Failure Body"
+      },
+      "discord": {
+        "defaultWebhook": "Default Webhook URL",
+        "botName": "Bot Display Name",
+        "imageWebhook": "Image Webhook URL",
+        "failureWebhook": "Failure Webhook URL",
+        "failureTitle": "Failure Title",
+        "failureMessage": "Failure Message",
+        "imagePostTitle": "Image Post Title",
+        "imageEvents": "Image Events",
+        "imageEventEnabled": "Publish image capture events",
+        "imageTypes": "Image Types",
+        "imageTypesHint": "Comma-separated (e.g. LIGHT,FLAT,DARK)",
+        "imageInterval": "Post Every N Images"
+      },
+      "slack": {
+        "oauthToken": "Bot OAuth Token",
+        "workspace": "Workspace",
+        "botDisplayName": "Bot Display Name",
+        "imageEventChannel": "Image Event Channel",
+        "failureMessage": "Failure Message",
+        "imageEvents": "Image Events",
+        "imageEventEnabled": "Publish image capture events",
+        "imageTypes": "Image Types",
+        "imageInterval": "Post Every N Images",
+        "refreshChannels": "Refresh Channels",
+        "refreshing": "Refreshing…",
+        "channels": "Channels",
+        "members": "members"
+      },
+      "mqtt": {
+        "broker": "Broker",
+        "host": "Host",
+        "port": "Port",
+        "useTls": "Use TLS (switches port to 8883)",
+        "username": "Username",
+        "password": "Password",
+        "clientId": "Client ID",
+        "maxReconnect": "Max Reconnect Attempts",
+        "defaults": "Publish Defaults",
+        "defaultTopic": "Default Topic",
+        "defaultQos": "Default QoS",
+        "failureQos": "Failure QoS",
+        "defaultRetain": "Retain by default",
+        "lwt": "Last Will & Testament",
+        "lwtEnabled": "Enable LWT",
+        "lwtTopic": "LWT Topic",
+        "lwtBirth": "Birth Payload",
+        "lwtLastWill": "Last Will Payload",
+        "lwtClose": "Close Payload",
+        "imagePublisher": "Image Publisher",
+        "imagePublisherEnabled": "Enabled",
+        "metadataOnly": "Metadata only",
+        "imageRetain": "Retain images",
+        "imageTopic": "Image Topic",
+        "metadataTopic": "Metadata Topic",
+        "imageQos": "Image QoS",
+        "imageTypes": "Image Types"
+      },
+      "ifttt": {
+        "webhookKey": "Webhook Key",
+        "value1": "Failure Value 1",
+        "value2": "Failure Value 2",
+        "value3": "Failure Value 3"
+      },
+      "ntfysh": {
+        "url": "Server URL",
+        "defaultTopic": "Default Topic",
+        "defaultIcon": "Default Icon URL",
+        "user": "Username",
+        "password": "Password",
+        "token": "Access Token",
+        "failureNotification": "Failure Notification",
+        "failureTitle": "Failure Title",
+        "failureMessage": "Failure Message",
+        "failureTags": "Failure Tags",
+        "failureTagsHint": "Comma-separated (e.g. warning,rotating_light)",
+        "failurePriority": "Failure Priority"
+      }
+    },
     "phd2logviewer": {
       "title": "PHD2 Log Viewer",
       "subtitle": "Select a PHD2 guide log to visualize guiding performance and statistics.",
@@ -4415,7 +4688,8 @@
     "config": {
       "connectionMode": "Connection Mode",
       "serial": "Serial",
-      "network": "Network",
+      "network": "Network (TCP)",
+      "http": "HTTP",
       "devicePort": "Device Port",
       "baudRate": "Baud Rate",
       "autoDetect": "Auto Search",

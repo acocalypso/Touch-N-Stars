@@ -24,7 +24,7 @@
 
         <div v-else class="flex gap-4 items-start">
           <!-- Left: Graph -->
-          <div class="flex-shrink-0 flex flex-col items-center gap-1">
+          <div class="shrink-0 flex flex-col items-center gap-1">
             <svg width="200" height="200" class="bg-black rounded">
               <!-- Dashed crosshair -->
               <line

@@ -3,6 +3,7 @@ import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
 import signalRDialogService from '@/services/signalRDialogService';
 import { useFramingStore } from '@/store/framingStore';
+import { createPoller } from '@/utils/poller';
 
 export const useDialogStore = defineStore('dialogStore', {
   state: () => ({
@@ -10,7 +11,6 @@ export const useDialogStore = defineStore('dialogStore', {
     dialogCount: 0,
     meridianFlipData: null,
     slewAndCenterData: null,
-    intervalId: null,
     isPolling: false,
     isConnectedToSignalR: false,
     minimizedDialogs: {}, // Track minimized state per dialog ID
@@ -79,7 +79,7 @@ export const useDialogStore = defineStore('dialogStore', {
               currentDialog.ContentType,
               buttonName
             );
-            await signalRDialogService.connection.invoke(
+            await signalRDialogService.invoke(
               'ClickDialogButton',
               currentDialog.ContentType,
               buttonName
@@ -133,8 +133,12 @@ export const useDialogStore = defineStore('dialogStore', {
       if (!this.isPolling) {
         console.log('Start polling dialogs...');
         this.isPolling = true;
-        this.fetchDialogs();
-        this.intervalId = setInterval(() => this.fetchDialogs(), interval);
+        if (!this._dialogPoller) {
+          this._dialogPoller = createPoller(() => this.fetchDialogs(), interval, {
+            immediate: true,
+          });
+        }
+        this._dialogPoller.start();
       }
     },
 
@@ -142,10 +146,9 @@ export const useDialogStore = defineStore('dialogStore', {
       if (this.isPolling) {
         console.log('Stop polling dialogs...');
         this.isPolling = false;
-        if (this.intervalId) {
-          clearInterval(this.intervalId);
-          this.intervalId = null;
-        }
+        this._dialogPoller?.stop();
+        // Reset so a later startPolling(interval) with a different interval takes effect.
+        this._dialogPoller = null;
       }
     },
 
@@ -196,10 +199,12 @@ export const useDialogStore = defineStore('dialogStore', {
           this.isConnectedToSignalR = status === 'Connected' || status === 'Reconnected';
         });
 
-        // Connect
+        // Connect. isConnectedToSignalR is driven exclusively by the status
+        // callback above: connect() can resolve without a live connection when
+        // the first attempt fails (the factory arms a background restart
+        // instead of rejecting), so it must not set the flag itself here.
         await signalRDialogService.connect();
-        console.log('[dialogStore] Dialog SignalR connection established');
-        this.isConnectedToSignalR = true;
+        console.log('[dialogStore] Dialog SignalR connect() attempt finished');
       } catch (error) {
         console.error('[dialogStore] Failed to establish SignalR connection:', error);
         this.isConnectedToSignalR = false;

@@ -54,7 +54,7 @@
         </svg>
       </button>
       <p class="text-xs sm:text-sm italic">{{ $t('components.focuser.autofocus_graph') }}</p>
-      <div class="flex-grow h-[1px] bg-gray-700"></div>
+      <div class="grow h-[1px] bg-gray-700"></div>
       <!-- lange Linie -->
     </div>
 
@@ -72,7 +72,7 @@
       </div>
       <div v-else-if="!store.focuserAfInfo.afError">
         <p class="mb-4 text-center">{{ $t('components.focuser.last_autofocus') }}</p>
-        <div class="flex-grow h-screen">
+        <div class="grow h-screen">
           <AfFnishGraph />
         </div>
       </div>

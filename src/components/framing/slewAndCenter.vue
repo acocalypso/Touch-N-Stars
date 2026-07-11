@@ -80,6 +80,7 @@ import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
 import { useFramingStore } from '@/store/framingStore';
 import { useI18n } from 'vue-i18n';
+import { useBackgroundAwarePolling } from '@/utils/appLifecycle';
 import {
   hmsToDegrees,
   dmsToDegrees,
@@ -279,39 +280,14 @@ async function fetchInfo() {
   }
 }
 
-let intervalId = null;
-let altAzUpdateIntervalId = null;
+// Always active while this component is mounted, but pausing while the app is
+// backgrounded (see src/utils/appLifecycle.js) instead of polling indefinitely.
+const isActive = ref(true);
 
-function startFetchingInfo() {
-  fetchInfo();
-  intervalId = setInterval(() => fetchInfo(), 1000);
-}
-
-function stopFetchingInfo() {
-  if (intervalId) {
-    clearInterval(intervalId);
-    intervalId = null;
-  }
-}
-
-function startUpdatingAltAz() {
-  updateAltAzFromRaDec(); // Initial update
-  altAzUpdateIntervalId = setInterval(() => {
-    updateAltAzFromRaDec();
-  }, 1000); // Update every second
-}
-
-function stopUpdatingAltAz() {
-  if (altAzUpdateIntervalId) {
-    clearInterval(altAzUpdateIntervalId);
-    altAzUpdateIntervalId = null;
-  }
-}
+useBackgroundAwarePolling(fetchInfo, 1000, isActive, { immediate: true });
+useBackgroundAwarePolling(updateAltAzFromRaDec, 1000, isActive, { immediate: true });
 
 onMounted(async () => {
-  startFetchingInfo();
-  startUpdatingAltAz();
-
   if (!hasSkyAtlasSource.value && store.isPINS) {
     await apiService.profileChangeValue(
       'FramingAssistantSettings-LastSelectedImageSource',
@@ -322,8 +298,7 @@ onMounted(async () => {
 });
 
 onBeforeUnmount(() => {
-  stopFetchingInfo();
-  stopUpdatingAltAz();
+  isActive.value = false;
 });
 </script>
 

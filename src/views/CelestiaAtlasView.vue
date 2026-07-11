@@ -45,6 +45,9 @@
       :active="store.showStellarium"
       default-target-name="Celestia Atlas view"
     />
+    <div v-if="ready" class="celestia-atlas-controls">
+      <stellariumSettings renderer-managed />
+    </div>
     <div v-if="ready" class="celestia-atlas-clock">
       <div class="flex gap-2">
         <button
@@ -130,6 +133,7 @@ import { interpolateHorizon } from '@/plugins/horizon-creator/utils/horizon-util
 import { isAppBackgrounded } from '@/utils/appLifecycle';
 import { resolveLandscapeSource } from '@/store/utils/stellariumLandscapeSource';
 import StellariumFovRotation from '@/components/stellarium/StellariumFovRotation.vue';
+import stellariumSettings from '@/components/stellarium/stellariumSettings.vue';
 
 const store = apiStore();
 const framingStore = useFramingStore();
@@ -547,7 +551,7 @@ onBeforeUnmount(() => {
   position: absolute;
   z-index: 3;
   right: 1rem;
-  bottom: 2.5rem;
+  bottom: 6.5rem;
   display: grid;
   gap: 0.4rem;
   width: min(22rem, calc(100% - 2rem));
@@ -556,6 +560,18 @@ onBeforeUnmount(() => {
   background: rgb(17 24 39 / 92%);
   border: 1px solid rgb(8 145 178);
   border-radius: 0.75rem;
+}
+.celestia-atlas-controls {
+  position: absolute;
+  z-index: 4;
+  right: 1rem;
+  bottom: 2.5rem;
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.4rem;
+  color: white;
+  background: rgb(0 0 0 / 85%);
+  border-radius: 9999px;
 }
 .celestia-atlas-mount-controls {
   position: absolute;

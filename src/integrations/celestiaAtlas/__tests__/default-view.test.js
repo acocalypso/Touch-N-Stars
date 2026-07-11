@@ -12,3 +12,20 @@ test('loads Celestia Atlas by default and keeps Stellarium behind an explicit ro
   );
   assert.doesNotMatch(app, /VITE_CELESTIA_ATLAS_POC/);
 });
+
+test('connects the existing display settings through the host-managed Atlas adapter', async () => {
+  const [view, settings] = await Promise.all([
+    readFile(new URL('../../../views/CelestiaAtlasView.vue', import.meta.url), 'utf8'),
+    readFile(
+      new URL('../../../components/stellarium/stellariumSettings.vue', import.meta.url),
+      'utf8'
+    ),
+  ]);
+
+  assert.match(view, /<stellariumSettings renderer-managed \/>/);
+  assert.match(settings, /rendererManaged/);
+  assert.match(
+    settings,
+    /if \(!props\.rendererManaged\) stellariumStore\.updateStellariumCore\(\)/
+  );
+});

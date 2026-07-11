@@ -302,6 +302,12 @@ import { useOrientation } from '@/composables/useOrientation';
 import Modal from '@/components/helpers/Modal.vue';
 import apiService from '@/services/apiService';
 
+const props = defineProps({
+  rendererManaged: {
+    type: Boolean,
+    default: false,
+  },
+});
 const { t } = useI18n();
 const stellariumStore = useStellariumStore();
 const settingsStore = useSettingsStore();
@@ -398,6 +404,7 @@ function toggleControls() {
 }
 
 function requestStellariumRefresh() {
+  if (props.rendererManaged) return;
   const event = new CustomEvent('refresh-stellarium');
   window.dispatchEvent(event);
 }
@@ -471,7 +478,7 @@ watch(
     settingsStore.stellarium.dsosVisible,
   ],
   () => {
-    stellariumStore.updateStellariumCore();
+    if (!props.rendererManaged) stellariumStore.updateStellariumCore();
   }
 );
 

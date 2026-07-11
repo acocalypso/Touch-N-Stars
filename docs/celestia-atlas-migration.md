@@ -61,6 +61,7 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 - Phase 1: public API, lifecycle, pointer cancellation and initial overlays implemented; standalone renderer extraction remains open.
 - Phase 2: the lazy Vue integration connects observer, synchronized UTC, FOV, visibility and deterministic teardown.
 - Phase 7 (partial): Celestia Atlas is now the default viewer in normal builds. The legacy viewer remains available for one rollback interval only when `VITE_STELLARIUM_ROLLBACK=true` is explicitly set.
+- Phase 7 (partial): the existing display and landscape settings modal is exposed on the Atlas screen in renderer-managed mode. Host settings flow through the Atlas public API watchers without legacy store mutation or viewer remount events.
 - Phase 4 (partial): offline search, focus, canvas hit selection, selected-object details, safe framing handoff, J2000 mount marker, grid/display settings, and mock mount epoch are connected.
 - Phase 4 (partial): manual mount centering and view-local auto-follow are connected through public viewer methods. FOV overlay renders framing-store mosaic columns, rows, rotation and overlap without exposing renderer state to Vue.
 - Phase 6 (partial): app-wide native background state pauses the viewer and its clock display; view state is session-persisted with throttled writes; UTC progression can be paused/resumed through the engine clock API. App-owned Capacitor listener cleanup now removes only its own handle.
@@ -94,6 +95,7 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 - Host `npm run test:run`: 39 passed, 0 failed.
 - Default-view promotion adds a regression test proving Atlas is the normal import and Stellarium requires the explicit rollback flag.
 - Default-view promotion validation: 47 host tests passed; targeted ESLint passed; normal and `VITE_STELLARIUM_ROLLBACK=true` production builds passed. A production browser load requested the `CelestiaAtlasView` JS/CSS chunks and no `StellariumView` chunk. Console errors were limited to expected missing NINA API responses from the static-only test server; no viewer or Vue runtime errors occurred.
+- Atlas settings parity validation: 48 host tests passed; targeted ESLint and the production build passed. On a 390×844 browser viewport the settings modal opened, the azimuth-grid toggle updated host settings, and the original Atlas canvas remained mounted. Console errors were limited to expected missing NINA API and landscape-list responses from the static-only server.
 - Host `npm run lint`: timed out after 60 seconds; no pass claimed.
 - Candidate JavaScript syntax checks: passed before Phase 1 changes.
 - Host after coordinate contract: 44 passed, 0 failed; targeted ESLint passed.

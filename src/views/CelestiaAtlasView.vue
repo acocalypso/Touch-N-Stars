@@ -304,6 +304,7 @@ function selectSearchResult(result) {
     name: result.name || result.id,
     aliases: result.aliases,
     objectType: result.type,
+    parentBody: result.parentBody,
     magnitude: result.mag,
     catalogueSource: result.catalogSource,
     coordinates: { raDeg: result.raDeg, decDeg: result.decDeg, frame: result.frame || 'ICRS' },

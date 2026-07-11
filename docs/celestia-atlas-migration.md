@@ -69,20 +69,21 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 - Phase 5 (partial): the Sun, Moon, eight planets and Pluto now use live, offline Astronomy Engine ephemerides. They render, label, search, select and hand off topocentric J2000 coordinates at the viewer's observer and UTC.
 - Phase 5 (partial): 1,214 pinned IAU Minor Planet Center comet records now render and search offline using universal-variable propagation, light-time correction and observer parallax. Embedded and standalone Atlas consumers load the same engine modules.
 - Phase 5 (partial): the embedded viewer now honors the existing azimuth-grid, equatorial-grid, local-meridian, ecliptic and atmosphere settings and includes an offline Galactic-plane Milky Way layer.
+- Phase 5 (partial): Io, Europa, Ganymede and Callisto now use live offline ephemerides and support rendering, search, selection and narrow-field centering.
 - Phase 3: host conversion boundary and safety tests implemented. A topocentric Mars position matches an independent JPL Horizons ICRF/J2000 fixture within one arcminute; broader golden-reference coverage remains open.
 - Phases 2 and 4-9: not started.
 
 ## 9. Feature-parity matrix
 
-| Capability               | Existing                                        | New engine                                        | Status                         |
-| ------------------------ | ----------------------------------------------- | ------------------------------------------------- | ------------------------------ |
-| Explicit lifecycle       | Hidden render suppression plus host workarounds | `pause`, `resume`, `resize`, idempotent `destroy` | Partial                        |
-| Observer and UTC         | Supported                                       | Validated setters                                 | Partial                        |
-| Offline catalogue search | Stellarium packaged data                        | Injected local catalogue search                   | Partial; full data unavailable |
-| Framing selection        | Supported                                       | Typed selection callback                          | Not connected                  |
-| Mount/FOV/rotation       | Supported                                       | Not implemented                                   | Mandatory gap                  |
-| Horizon/landscape        | Supported                                       | Not implemented                                   | Mandatory gap                  |
-| Mobile lifecycle         | Host workarounds                                | API is pause/resume capable                       | Not connected/tested           |
+| Capability               | Existing                                        | New engine                                                    | Status                         |
+| ------------------------ | ----------------------------------------------- | ------------------------------------------------------------- | ------------------------------ |
+| Explicit lifecycle       | Hidden render suppression plus host workarounds | `pause`, `resume`, `resize`, idempotent `destroy`             | Partial                        |
+| Observer and UTC         | Supported                                       | Validated setters                                             | Partial                        |
+| Offline catalogue search | Stellarium packaged data                        | Injected local catalogue search                               | Partial; full data unavailable |
+| Framing selection        | Supported                                       | Typed selection callback                                      | Not connected                  |
+| Mount/FOV/rotation       | Supported                                       | Not implemented                                               | Mandatory gap                  |
+| Horizon/landscape        | Supported                                       | Custom horizon implemented; HEALPix landscape imagery pending | Mandatory landscape gap        |
+| Mobile lifecycle         | Host workarounds                                | API is pause/resume capable                                   | Not connected/tested           |
 
 ## 10. Test results
 
@@ -104,8 +105,9 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 - The complete pinned offline catalogue is generated locally and builds lazily, but its publication awaits the source-code licensing decision and immutable package boundary.
 - Host coordinate provenance must be proven before any viewer selection can feed commands.
 - Android and iOS runtime validation require suitable platform environments.
+- Existing listed and custom landscapes are HEALPix spherical tile sets; correct textured-sphere rendering remains a mandatory gate and cannot be replaced by flat panorama projection.
 - Mandatory parity phases remain.
-- Package boundary resolved: Touch-N-Stars uses the public Git repository pinned to immutable commit `9078165953025169f38bd81386d964c0fc5d1cef` over HTTPS. Embedded and standalone Atlas shells share the same astronomy engine modules.
+- Package boundary resolved: Touch-N-Stars uses the public Git repository pinned to immutable commit `064109aa975208e0fe3b7a1f28caaad105d54f28` over HTTPS. Embedded and standalone Atlas shells share the same astronomy engine modules.
 
 ## 12. Removal checklist
 

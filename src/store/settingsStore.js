@@ -328,8 +328,8 @@ export const useSettingsStore = defineStore('settings', {
       this.connection.ip = connection.ip;
       this.connection.port = connection.port;
 
-      // Clear all backend states when connection changes
-      this._getApiStore().clearAllStates();
+      // Tear down the old backend session and reconnect to the new endpoint
+      void this._getApiStore().switchBackend();
     },
 
     addInstance(instance) {
@@ -369,11 +369,17 @@ export const useSettingsStore = defineStore('settings', {
 
         // If the updated instance is the selected one, update connection details
         if (this.selectedInstanceId === id) {
+          // Only tear down the live session when the endpoint actually changed;
+          // a name-only edit must not kill the connection.
+          const endpointChanged =
+            this.connection.ip !== mergedInstance.ip ||
+            this.connection.port !== mergedInstance.port;
           this.connection.ip = mergedInstance.ip;
           this.connection.port = mergedInstance.port;
 
-          // Clear all backend states when active connection changes
-          this._getApiStore().clearAllStates();
+          if (endpointChanged) {
+            void this._getApiStore().switchBackend();
+          }
         }
       }
     },
@@ -405,15 +411,26 @@ export const useSettingsStore = defineStore('settings', {
     },
 
     setSelectedInstanceId(id) {
-      this.selectedInstanceId = id;
       const instance = this.getInstance(id);
+      // No-op when re-selecting the already-active instance (also absorbs the
+      // double fire from SetInstance.vue's explicit call + watcher) so tapping
+      // the current instance doesn't tear down a healthy session.
+      if (
+        id === this.selectedInstanceId &&
+        instance &&
+        this.connection.ip === instance.ip &&
+        this.connection.port === instance.port
+      ) {
+        return;
+      }
+      this.selectedInstanceId = id;
       const imageStore = useImagetStore();
       if (instance) {
         this.connection.ip = instance.ip;
         this.connection.port = instance.port;
 
-        // Clear all backend states when switching instances
-        this._getApiStore().clearAllStates();
+        // Tear down the old instance's session and connect to the new one
+        void this._getApiStore().switchBackend();
         imageStore.clearImageCache();
         console.log('[SettingsStore] Selected instance set to:', id);
       }
@@ -423,8 +440,8 @@ export const useSettingsStore = defineStore('settings', {
       this.connection.ip = ip;
       this.connection.port = port;
 
-      // Clear all backend states when connection changes
-      this._getApiStore().clearAllStates();
+      // Tear down the old backend session and reconnect to the new endpoint
+      void this._getApiStore().switchBackend();
     },
 
     setLanguage(lang) {

@@ -59,7 +59,8 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 
 - Phase 0: complete enough to begin isolated engine work; baseline lint timed out.
 - Phase 1: public API, lifecycle, pointer cancellation and initial overlays implemented; standalone renderer extraction remains open.
-- Phase 2: lazy Vue proof of concept implemented behind `VITE_CELESTIA_ATLAS_POC=true`; observer, synchronized UTC, FOV, visibility and deterministic teardown are connected. Normal builds retain Stellarium rollback.
+- Phase 2: the lazy Vue integration connects observer, synchronized UTC, FOV, visibility and deterministic teardown.
+- Phase 7 (partial): Celestia Atlas is now the default viewer in normal builds. The legacy viewer remains available for one rollback interval only when `VITE_STELLARIUM_ROLLBACK=true` is explicitly set.
 - Phase 4 (partial): offline search, focus, canvas hit selection, selected-object details, safe framing handoff, J2000 mount marker, grid/display settings, and mock mount epoch are connected.
 - Phase 4 (partial): manual mount centering and view-local auto-follow are connected through public viewer methods. FOV overlay renders framing-store mosaic columns, rows, rotation and overlap without exposing renderer state to Vue.
 - Phase 6 (partial): app-wide native background state pauses the viewer and its clock display; view state is session-persisted with throttled writes; UTC progression can be paused/resumed through the engine clock API. App-owned Capacitor listener cleanup now removes only its own handle.
@@ -80,7 +81,7 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 
 | Capability               | Existing                                        | New engine                                                  | Status                         |
 | ------------------------ | ----------------------------------------------- | ----------------------------------------------------------- | ------------------------------ |
-| Explicit lifecycle       | Hidden render suppression plus host workarounds | `pause`, `resume`, `resize`, idempotent `destroy`           | Connected; native test pending |
+| Explicit lifecycle       | Hidden render suppression plus host workarounds | `pause`, `resume`, `resize`, idempotent `destroy`           | Default web path; native test pending |
 | Observer and UTC         | Supported                                       | Validated setters and synchronized host time                | Connected; fixtures expanding  |
 | Offline catalogue search | Stellarium packaged data                        | Pinned 12,578-object OpenNGC catalogue and moving objects   | Connected; perf test pending   |
 | Framing selection        | Supported                                       | Typed selection callback and framing handoff                | Connected; command gate open   |
@@ -91,6 +92,8 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 ## 10. Test results
 
 - Host `npm run test:run`: 39 passed, 0 failed.
+- Default-view promotion adds a regression test proving Atlas is the normal import and Stellarium requires the explicit rollback flag.
+- Default-view promotion validation: 47 host tests passed; targeted ESLint passed; normal and `VITE_STELLARIUM_ROLLBACK=true` production builds passed. A production browser load requested the `CelestiaAtlasView` JS/CSS chunks and no `StellariumView` chunk. Console errors were limited to expected missing NINA API responses from the static-only test server; no viewer or Vue runtime errors occurred.
 - Host `npm run lint`: timed out after 60 seconds; no pass claimed.
 - Candidate JavaScript syntax checks: passed before Phase 1 changes.
 - Host after coordinate contract: 44 passed, 0 failed; targeted ESLint passed.
@@ -121,6 +124,6 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 - [ ] Astronomy reference fixtures and tolerances pass.
 - [ ] Full offline catalogue and notices are packaged.
 - [ ] Web and required native lifecycle tests pass.
-- [ ] Celestia is default with a tested rollback interval.
+- [x] Celestia is default with a tested rollback interval.
 - [ ] Stellarium runtime, WASM, data, globals, stores, workarounds, and build logic are removed.
 - [ ] Final search classifies every historical reference.

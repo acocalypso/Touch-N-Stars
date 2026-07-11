@@ -112,12 +112,10 @@
         </div>
       </Transition>
 
-      <!-- Stellarium lives outside the splash-gated subtree and is not bound to
-           isBackendReachable: every remount creates a fresh WASM engine whose
-           requestAnimationFrame loop can never be stopped, so the previous
-           engine (including its multi-MB heap) would leak on each reconnect.
-           While disconnected, the splash (z-40) simply covers it. -->
-      <StellariumView
+      <!-- Keep the sky viewer outside the splash-gated subtree so reconnects do
+           not discard its catalogue and view state. The splash covers it while
+           disconnected, and the viewer lifecycle pauses rendering when hidden. -->
+      <SkyAtlasView
         v-if="settingsStore.setupCompleted"
         v-show="store.showStellarium"
         :key="stellariumRefreshKey"
@@ -396,10 +394,10 @@ import { setAppBackgrounded } from '@/utils/appLifecycle';
 import { setLocaleLanguage } from '@/i18n';
 import { useSequenceV2Store } from '@/store/sequenceV2Store';
 
-const StellariumView = defineAsyncComponent(() =>
-  import.meta.env.VITE_CELESTIA_ATLAS_POC === 'true'
-    ? import('./views/CelestiaAtlasView.vue')
-    : import('./views/StellariumView.vue')
+const SkyAtlasView = defineAsyncComponent(() =>
+  import.meta.env.VITE_STELLARIUM_ROLLBACK === 'true'
+    ? import('./views/StellariumView.vue')
+    : import('./views/CelestiaAtlasView.vue')
 );
 const TutorialModal = defineAsyncComponent(() => import('@/components/TutorialModal.vue'));
 const ConsoleViewer = defineAsyncComponent(() => import('@/components/helpers/ConsoleViewer.vue'));
@@ -539,6 +537,11 @@ const checkingUpdate = ref(false);
 let initialWidth = window.innerWidth;
 let initialHeight = window.innerHeight;
 let pinsUpgradeRecoveryTimer = null;
+
+function handleSkyAtlasRefresh() {
+  console.log('Manual sky atlas refresh requested');
+  stellariumRefreshKey.value = Date.now();
+}
 
 // Orientation tracking
 const { isLandscape } = useOrientation();
@@ -1160,11 +1163,7 @@ onMounted(async () => {
     });
   }
 
-  // Listen for manual Stellarium refresh ONLY
-  window.addEventListener('refresh-stellarium', () => {
-    console.log('Manual Stellarium refresh requested');
-    stellariumRefreshKey.value = Date.now();
-  });
+  window.addEventListener('refresh-stellarium', handleSkyAtlasRefresh);
 
   window.addEventListener('check-app-update', handleCheckAppUpdate);
 
@@ -1368,9 +1367,7 @@ onBeforeUnmount(async () => {
   window.removeEventListener('focus', handleFocus);
   window.removeEventListener('resize', updateOrientation);
   window.removeEventListener('orientationchange', handleOrientationChange);
-  window.removeEventListener('refresh-stellarium', () => {
-    stellariumRefreshKey.value = Date.now();
-  });
+  window.removeEventListener('refresh-stellarium', handleSkyAtlasRefresh);
   window.removeEventListener('check-app-update', handleCheckAppUpdate);
 
   // Remove Capacitor listeners

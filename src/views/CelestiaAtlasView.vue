@@ -268,6 +268,11 @@ function updateDisplayOptions() {
   if (!viewer) return;
   viewer.setDisplayOptions({
     grid: Boolean(settingsStore.stellarium.equatorialLinesVisible),
+    azimuthalGrid: Boolean(settingsStore.stellarium.azimuthalLinesVisible),
+    meridian: Boolean(settingsStore.stellarium.meridianLinesVisible),
+    ecliptic: Boolean(settingsStore.stellarium.eclipticLinesVisible),
+    atmosphere: Boolean(settingsStore.stellarium.atmosphereVisible),
+    milkyWay: true,
     constellations: Boolean(settingsStore.stellarium.constellationsLinesVisible),
     labels: true,
     deepSkyObjects: Boolean(settingsStore.stellarium.dsosVisible),
@@ -359,6 +364,10 @@ watch(() => horizonStore.points, updateHorizon, { deep: true });
 watch(
   () => [
     settingsStore.stellarium.equatorialLinesVisible,
+    settingsStore.stellarium.azimuthalLinesVisible,
+    settingsStore.stellarium.meridianLinesVisible,
+    settingsStore.stellarium.eclipticLinesVisible,
+    settingsStore.stellarium.atmosphereVisible,
     settingsStore.stellarium.constellationsLinesVisible,
     settingsStore.stellarium.dsosVisible,
     settingsStore.stellarium.landscapesVisible,

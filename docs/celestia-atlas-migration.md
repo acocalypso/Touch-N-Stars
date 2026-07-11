@@ -68,6 +68,7 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 - Phase 5 (partial): custom horizon points are interpolated by the host and projected by the engine from geographic north/east azimuth into the live observer sky. Engine UTC advances while active and horizon projection refreshes once per minute without a continuous render loop.
 - Phase 5 (partial): the Sun, Moon, eight planets and Pluto now use live, offline Astronomy Engine ephemerides. They render, label, search, select and hand off topocentric J2000 coordinates at the viewer's observer and UTC.
 - Phase 5 (partial): 1,214 pinned IAU Minor Planet Center comet records now render and search offline using universal-variable propagation, light-time correction and observer parallax. Embedded and standalone Atlas consumers load the same engine modules.
+- Phase 5 (partial): the embedded viewer now honors the existing azimuth-grid, equatorial-grid, local-meridian, ecliptic and atmosphere settings and includes an offline Galactic-plane Milky Way layer.
 - Phase 3: host conversion boundary and safety tests implemented. A topocentric Mars position matches an independent JPL Horizons ICRF/J2000 fixture within one arcminute; broader golden-reference coverage remains open.
 - Phases 2 and 4-9: not started.
 
@@ -104,7 +105,7 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 - Host coordinate provenance must be proven before any viewer selection can feed commands.
 - Android and iOS runtime validation require suitable platform environments.
 - Mandatory parity phases remain.
-- Package boundary resolved: Touch-N-Stars uses the public Git repository pinned to immutable commit `33901928bbbee2193c76cab0f61b30bf38cbe4fc` over HTTPS. Embedded and standalone Atlas shells share the same planet and comet engine modules.
+- Package boundary resolved: Touch-N-Stars uses the public Git repository pinned to immutable commit `9078165953025169f38bd81386d964c0fc5d1cef` over HTTPS. Embedded and standalone Atlas shells share the same astronomy engine modules.
 
 ## 12. Removal checklist
 

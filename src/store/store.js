@@ -23,6 +23,7 @@ import websocketMountControlService from '@/services/websocketMountControl';
 import websocketTppaService from '@/services/websocketTppa';
 import { getDeviceDateTimePayload, parsePinsTimeToSeconds } from '@/utils/pinsTimeUtils';
 import { createPoller } from '@/utils/poller';
+import { abortInFlightRequests } from '@/utils/httpLifecycle';
 
 // Serialized snapshots of the last payload written per state key (module-level,
 // deliberately non-reactive). Used by setInfoIfChanged() so the 2s poll only
@@ -37,6 +38,12 @@ const PINS_RECHECK_INTERVAL_MS = 15000;
 export const apiStore = defineStore('store', {
   state: () => ({
     apiPort: null,
+    // Bumped by switchBackend() on every instance switch. fetchAllInfos()
+    // cycles capture it at entry and bail after each await once it moved on,
+    // so an in-flight cycle for the OLD instance can neither write its apiPort
+    // back nor tear down the freshly built session via its error branches.
+    // Deliberately NOT reset in clearAllStates().
+    connectionEpoch: 0,
     isPINS: false,
     isPinsCheckDone: false,
     pinsCheckNegativeCount: 0,
@@ -192,6 +199,14 @@ export const apiStore = defineStore('store', {
 
   actions: {
     async fetchAllInfos(t) {
+      // Staleness guard: if switchBackend() bumps the epoch while this cycle
+      // is parked on an await, every result below belongs to the OLD instance.
+      // Each checkpoint bails BEFORE the result is inspected, so a stale cycle
+      // can neither write the old apiPort nor hit a clearAllStates() error
+      // branch against the new session.
+      const startEpoch = this.connectionEpoch;
+      const isStale = () => this.connectionEpoch !== startEpoch;
+
       const toastStore = useToastStore();
       const pinsStore = usePinsStore();
       //const settingsStore = useSettingsStore();
@@ -245,6 +260,7 @@ export const apiStore = defineStore('store', {
           () => apiService.fetchTnsPluginVersion(probeTimeout),
           probeRetries
         );
+        if (isStale()) return;
         if (!tnsVersionResponse) {
           console.warn('TNS-Plugin not reachable');
           showConnectionErrorToast('app.connection_error_toast.message_tns');
@@ -281,6 +297,7 @@ export const apiStore = defineStore('store', {
             () => apiService.fetchApiPort(probeTimeout),
             probeRetries
           );
+          if (isStale()) return;
           //console.log('API Port response:', response);
           if (!response) {
             console.error('API not reachable');
@@ -310,6 +327,7 @@ export const apiStore = defineStore('store', {
             () => apiService.fetchApiVersion(probeTimeout),
             probeRetries
           );
+          if (isStale()) return;
           //console.log('API Version response:', responseApiVersion);
           // null = all attempts failed (fetchApiVersion maps network errors to
           // null); without this check a null would fall through to the else
@@ -350,6 +368,7 @@ export const apiStore = defineStore('store', {
         // (PINS may come up after NINA) permanently unreachable.
         if (this.isApiVersionNewerOrEqual) {
           await this.checkForPINS();
+          if (isStale()) return;
         }
 
         // Check if mock API mode is enabled
@@ -378,10 +397,12 @@ export const apiStore = defineStore('store', {
           // no need to pass one here.
           try {
             await websocketChannelService.connect();
+            if (isStale()) return;
             this.isWebSocketConnected = true;
             // Initial image history load after WS connect
             try {
               const historyResponse = await apiService.imageHistoryAll();
+              if (isStale()) return;
               if (historyResponse?.Success) {
                 this.imageHistoryInfo = historyResponse.Response;
               }
@@ -487,6 +508,7 @@ export const apiStore = defineStore('store', {
         if (this.lastEventHistoryFetch === 0 || now - this.lastEventHistoryFetch >= 15000) {
           //console.log('[Store] Fetch history');
           const eventHistoryResponse = await apiService.getEventHistory();
+          if (isStale()) return;
 
           // Process event history to determine connection status
           this.processEventHistory(eventHistoryResponse);
@@ -547,6 +569,7 @@ export const apiStore = defineStore('store', {
         }
 
         const responses = await Promise.all(requests);
+        if (isStale()) return;
 
         // Map responses to correct keys
         const responseData = {
@@ -584,7 +607,9 @@ export const apiStore = defineStore('store', {
       } catch (error) {
         console.error('Error fetching information:', error);
       }
+      if (isStale()) return;
       await this.fetchProfilInfos();
+      if (isStale()) return;
       //when the backend is accessible again close modal
       if (this.isBackendReachable && !this.closeErrorModal) {
         this.closeErrorModal = true;
@@ -664,34 +689,17 @@ export const apiStore = defineStore('store', {
       this.currentTnsPluginVersion = null;
       this.currentPinsVersion = null;
 
-      // Disconnect Channel WebSocket when backend is not reachable
-      if (websocketChannelService.isWebSocketConnected()) {
-        websocketChannelService.disconnect();
-      }
-
-      // Disconnect mount and TPPA WebSockets
+      // Disconnect all transports unconditionally: a "connected" check would
+      // skip a service that is mid-reconnect, leaving its retry loop armed and
+      // pointed at the old instance. disconnect() is idempotent on all of them
+      // and also cancels pending reconnect/restart timers.
+      websocketChannelService.disconnect();
       websocketMountControlService.disconnect();
       websocketTppaService.disconnect();
-
-      // Disconnect SignalR when backend is not reachable
-      if (signalRNotificationService.isSignalRConnected()) {
-        signalRNotificationService.disconnect();
-      }
-
-      // Disconnect progress SignalR so it reconnects to the new instance's backend
-      if (signalRProgressService.isSignalRConnected()) {
-        signalRProgressService.disconnect();
-      }
-
-      // Disconnect dialog SignalR so it reconnects to the new instance's backend
-      if (signalRDialogService.isSignalRConnected()) {
-        signalRDialogService.disconnect();
-      }
-
-      // Disconnect messagebox SignalR so it reconnects to the new instance's backend
-      if (signalRMessageboxesService.isSignalRConnected()) {
-        signalRMessageboxesService.disconnect();
-      }
+      signalRNotificationService.disconnect();
+      signalRProgressService.disconnect();
+      signalRDialogService.disconnect();
+      signalRMessageboxesService.disconnect();
 
       // Clear progress data from the previous instance
       const progressStore = useProgressStore();
@@ -894,6 +902,35 @@ export const apiStore = defineStore('store', {
       } else if (switchResponse) {
         console.error('Error in switch API response:', switchResponse.Error);
       }
+    },
+
+    // Full teardown + fresh connect when the backend endpoint changes
+    // (instance switch, edited ip/port). Callers mutate
+    // settingsStore.connection first, then invoke this synchronously.
+    async switchBackend() {
+      // Invalidate every in-flight fetchAllInfos cycle before the first await.
+      const myEpoch = ++this.connectionEpoch;
+      const wasPolling = !!this._infoPoller?.isRunning();
+      // Capture BEFORE clearAllStates() latches shouldReconnect to false.
+      const mountWasArmed = websocketMountControlService.shouldReconnect;
+      const tppaWasArmed = websocketTppaService.shouldReconnect;
+
+      this.stopFetchingInfo();
+      abortInFlightRequests('instance-switch');
+      this.clearAllStates();
+
+      // Re-arm the sockets that were live before the switch. connect() with a
+      // null URL (apiPort is null right after teardown) arms the idle-recheck
+      // loop, which dials as soon as the new handshake sets apiPort.
+      if (mountWasArmed) websocketMountControlService.connect().catch(() => {});
+      if (tppaWasArmed) websocketTppaService.connect().catch(() => {});
+
+      // Startup (App.vue onMounted) and pause/resume own polling otherwise.
+      if (!wasPolling || !this._infoPollerT) return;
+      await this.fetchAllInfos(this._infoPollerT);
+      // Rapid double-switch: a newer switchBackend() owns the restart.
+      if (this.connectionEpoch !== myEpoch) return;
+      this.startFetchingInfo(this._infoPollerT);
     },
 
     startFetchingInfo(t) {

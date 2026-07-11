@@ -35,7 +35,7 @@
     <StellariumFovFrame v-if="showFovFrame" />
 
     <!-- Camera FOV Rotation Control + View-Center Actions -->
-    <StellariumFovRotation v-if="showFovFrame" />
+    <StellariumFovRotation v-if="showFovFrame" :active="store.showStellarium" />
 
     <!-- Search field overlay -->
     <div

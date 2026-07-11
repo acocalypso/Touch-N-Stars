@@ -39,6 +39,12 @@
         ↻
       </button>
     </div>
+    <StellariumFovRotation
+      v-if="showFovControls"
+      :get-view-center="getAtlasViewCenter"
+      :active="store.showStellarium"
+      default-target-name="Celestia Atlas view"
+    />
     <div v-if="ready" class="celestia-atlas-clock">
       <div class="flex gap-2">
         <button
@@ -123,6 +129,7 @@ import { useHorizonStore } from '@/plugins/horizon-creator/store/horizonStore';
 import { interpolateHorizon } from '@/plugins/horizon-creator/utils/horizon-utils';
 import { isAppBackgrounded } from '@/utils/appLifecycle';
 import { resolveLandscapeSource } from '@/store/utils/stellariumLandscapeSource';
+import StellariumFovRotation from '@/components/stellarium/StellariumFovRotation.vue';
 
 const store = apiStore();
 const framingStore = useFramingStore();
@@ -155,6 +162,16 @@ const containerClasses = computed(() => ({
   'celestia-atlas-portrait': !isLandscape.value,
   'celestia-atlas-landscape': isLandscape.value,
 }));
+const showFovControls = computed(
+  () =>
+    ready.value &&
+    Boolean(store.cameraInfo.Connected) &&
+    Boolean(store.profileInfo?.TelescopeSettings?.FocalLength)
+);
+
+function getAtlasViewCenter() {
+  return viewer?.getView().center ?? null;
+}
 
 function updateObserver() {
   if (!viewer || !store.profileInfo?.AstrometrySettings) return;

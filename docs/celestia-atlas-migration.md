@@ -71,6 +71,7 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 - Phase 5 (partial): the embedded viewer now honors the existing azimuth-grid, equatorial-grid, local-meridian, ecliptic and atmosphere settings and includes an offline Galactic-plane Milky Way layer.
 - Phase 5 (partial): Io, Europa, Ganymede and Callisto now use live offline ephemerides and support rendering, search, selection and narrow-field centering.
 - Phase 5 (partial): existing default, neutral and custom order-0 HiPS/HEALPix landscapes now load through the Atlas API and render in the live observed frame; browser and native visual validation remains open.
+- Phase 4 (partial): the existing FOV rotation and view-center action panel now reads the active Atlas center through the typed public API, so rotation, slew/center, sequence-target and favorite-target workflows no longer depend on Stellarium internals. Its sampling loop stops while the sky view is hidden.
 - Phase 3: host conversion boundary and safety tests implemented. A topocentric Mars position matches an independent JPL Horizons ICRF/J2000 fixture within one arcminute; broader golden-reference coverage remains open.
 - Phases 2 and 4-9: not started.
 
@@ -78,13 +79,13 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 
 | Capability               | Existing                                        | New engine                                                  | Status                         |
 | ------------------------ | ----------------------------------------------- | ----------------------------------------------------------- | ------------------------------ |
-| Explicit lifecycle       | Hidden render suppression plus host workarounds | `pause`, `resume`, `resize`, idempotent `destroy`           | Partial                        |
-| Observer and UTC         | Supported                                       | Validated setters                                           | Partial                        |
-| Offline catalogue search | Stellarium packaged data                        | Injected local catalogue search                             | Partial; full data unavailable |
-| Framing selection        | Supported                                       | Typed selection callback                                    | Not connected                  |
-| Mount/FOV/rotation       | Supported                                       | Not implemented                                             | Mandatory gap                  |
+| Explicit lifecycle       | Hidden render suppression plus host workarounds | `pause`, `resume`, `resize`, idempotent `destroy`           | Connected; native test pending |
+| Observer and UTC         | Supported                                       | Validated setters and synchronized host time                | Connected; fixtures expanding  |
+| Offline catalogue search | Stellarium packaged data                        | Pinned 12,578-object OpenNGC catalogue and moving objects   | Connected; perf test pending   |
+| Framing selection        | Supported                                       | Typed selection callback and framing handoff                | Connected; command gate open   |
+| Mount/FOV/rotation       | Supported                                       | Marker/follow, mosaic overlay and shared rotation controls  | Connected; native test pending |
 | Horizon/landscape        | Supported                                       | Custom horizon and order-0 HiPS/HEALPix imagery implemented | Visual validation pending      |
-| Mobile lifecycle         | Host workarounds                                | API is pause/resume capable                                 | Not connected/tested           |
+| Mobile lifecycle         | Host workarounds                                | App background state pauses viewer and clock display        | Connected; native test pending |
 
 ## 10. Test results
 
@@ -100,16 +101,17 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 - Candidate solar-system suite: 11 tests passed, including time motion, observer parallax and the JPL Horizons Mars tolerance fixture.
 - Candidate moving-object suite: 17 tests passed. A 12P/Pons-Brooks topocentric position matches JPL Horizons within one arcminute; two catalogue rebuilds produced the same SHA-256.
 - Landscape integration slice: candidate suite 22 passed; host suite 46 passed; targeted ESLint, 6 GB typecheck and flagged production build passed.
+- Shared FOV-control slice: candidate suite 22 passed; host suite 46 passed; targeted ESLint, 6 GB typecheck and flagged production build passed.
 
 ## 11. Remaining blockers
 
 - Licensing resolved by owner authorization on 2026-07-10: Celestia Atlas uses GNU GPL v3 or later, matching Touch-N-Stars. OpenNGC remains CC BY-SA 4.0 under the third-party notices.
-- The complete pinned offline catalogue is generated locally and builds lazily, but its publication awaits the source-code licensing decision and immutable package boundary.
+- The complete pinned offline catalogue is packaged and loaded lazily; browser and native search/render performance validation remains open.
 - Host coordinate provenance must be proven before any viewer selection can feed commands.
 - Android and iOS runtime validation require suitable platform environments.
 - Existing listed and custom landscapes now use spherical order-0 HEALPix projection; browser and native orientation/transparency validation remains a release gate.
 - Mandatory parity phases remain.
-- Package boundary resolved: Touch-N-Stars uses the public Git repository pinned to immutable commit `f6c661ca8a1301dfee79cda8f8de6a3bf0bea665` over HTTPS. Embedded and standalone Atlas shells share the same astronomy engine modules.
+- Package boundary resolved: Touch-N-Stars uses the public Git repository pinned to immutable commit `579d628a40b188a6af92a2f3f6baec271c0c897a` over HTTPS. Embedded and standalone Atlas shells share the same astronomy engine modules.
 
 ## 12. Removal checklist
 

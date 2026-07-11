@@ -91,6 +91,21 @@ import setSequenceTarget from '@/components/framing/setSequenceTarget.vue';
 import SaveFavTargets from '@/components/favTargets/SaveFavTargets.vue';
 import getImageRotation from '@/components/framing/getImageRotation.vue';
 
+const props = defineProps({
+  getViewCenter: {
+    type: Function,
+    default: null,
+  },
+  defaultTargetName: {
+    type: String,
+    default: 'Stellarium view',
+  },
+  active: {
+    type: Boolean,
+    default: true,
+  },
+});
+
 const store = apiStore();
 const framingStore = useFramingStore();
 const stellariumStore = useStellariumStore();
@@ -117,10 +132,19 @@ const hasMount = computed(() => store.mountInfo.Connected && !store.sequenceRunn
 const effectiveTargetName = computed(() => {
   if (targetName.value && targetName.value.trim() !== '') return targetName.value.trim();
   if (raString.value && decString.value) return `${raString.value} ${decString.value}`;
-  return 'Stellarium view';
+  return props.defaultTargetName;
 });
 
 function sampleView() {
+  if (props.getViewCenter) {
+    const center = props.getViewCenter();
+    if (!center || !Number.isFinite(center.raDeg) || !Number.isFinite(center.decDeg)) return;
+    raDeg.value = center.raDeg;
+    decDeg.value = center.decDeg;
+    raString.value = degreesToHMS(center.raDeg);
+    decString.value = degreesToDMS(center.decDeg);
+    return;
+  }
   const stel = stellariumStore.stel;
   if (!stel) return;
   const icrfVec = stel.convertFrame(stel.observer, 'VIEW', 'ICRF', [0, 0, -1]);
@@ -144,12 +168,13 @@ function open() {
   expanded.value = true;
 }
 
-watch(expanded, (isExpanded) => {
-  if (isExpanded) {
-    rafId = requestAnimationFrame(loop);
-  } else if (rafId !== null) {
+watch([expanded, () => props.active], ([isExpanded, isActive]) => {
+  if (rafId !== null) {
     cancelAnimationFrame(rafId);
     rafId = null;
+  }
+  if (isExpanded && isActive) {
+    rafId = requestAnimationFrame(loop);
   }
 });
 

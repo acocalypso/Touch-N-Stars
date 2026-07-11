@@ -72,6 +72,7 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 - Phase 5 (partial): Io, Europa, Ganymede and Callisto now use live offline ephemerides and support rendering, search, selection and narrow-field centering.
 - Phase 5 (partial): existing default, neutral and custom order-0 HiPS/HEALPix landscapes now load through the Atlas API and render in the live observed frame; browser and native visual validation remains open.
 - Phase 4 (partial): the existing FOV rotation and view-center action panel now reads the active Atlas center through the typed public API, so rotation, slew/center, sequence-target and favorite-target workflows no longer depend on Stellarium internals. Its sampling loop stops while the sky view is hidden.
+- Phase 5: the standalone shell now instantiates the same public viewer as Touch-N-Stars. Planets, Galilean moons, comets, OpenNGC search/selection, reference layers, offline HEALPix landscape, time/location, lifecycle, camera FOV and mosaic overlays share the embedded renderer.
 - Phase 3: host conversion boundary and safety tests implemented. A topocentric Mars position matches an independent JPL Horizons ICRF/J2000 fixture within one arcminute; broader golden-reference coverage remains open.
 - Phases 2 and 4-9: not started.
 
@@ -102,6 +103,7 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 - Candidate moving-object suite: 17 tests passed. A 12P/Pons-Brooks topocentric position matches JPL Horizons within one arcminute; two catalogue rebuilds produced the same SHA-256.
 - Landscape integration slice: candidate suite 22 passed; host suite 46 passed; targeted ESLint, 6 GB typecheck and flagged production build passed.
 - Shared FOV-control slice: candidate suite 22 passed; host suite 46 passed; targeted ESLint, 6 GB typecheck and flagged production build passed.
+- Shared standalone-renderer slice: candidate suite 24 passed; all standalone DOM IDs, service-worker paths, local catalogue and landscape resources validated.
 
 ## 11. Remaining blockers
 
@@ -111,7 +113,7 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 - Android and iOS runtime validation require suitable platform environments.
 - Existing listed and custom landscapes now use spherical order-0 HEALPix projection; browser and native orientation/transparency validation remains a release gate.
 - Mandatory parity phases remain.
-- Package boundary resolved: Touch-N-Stars uses the public Git repository pinned to immutable commit `579d628a40b188a6af92a2f3f6baec271c0c897a` over HTTPS. Embedded and standalone Atlas shells share the same astronomy engine modules.
+- Package boundary resolved: Touch-N-Stars uses the public Git repository pinned to immutable commit `51c5bff0748ce41459e1983bb0da777e7d47c83a` over HTTPS. Embedded and standalone Atlas shells now share the same viewer and astronomy engine modules.
 
 ## 12. Removal checklist
 

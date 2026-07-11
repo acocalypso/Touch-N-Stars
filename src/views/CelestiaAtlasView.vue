@@ -93,6 +93,9 @@
     <div v-if="errorMessage" class="celestia-atlas-error" role="alert">
       {{ errorMessage }}
     </div>
+    <div v-else-if="landscapeErrorMessage" class="celestia-atlas-landscape-error" role="status">
+      {{ landscapeErrorMessage }}
+    </div>
     <div v-else-if="!ready" class="celestia-atlas-loading">
       {{ t('components.stellarium.loading') }}
     </div>
@@ -119,6 +122,7 @@ import { degreesToDMS, degreesToHMS } from '@/utils/utils';
 import { useHorizonStore } from '@/plugins/horizon-creator/store/horizonStore';
 import { interpolateHorizon } from '@/plugins/horizon-creator/utils/horizon-utils';
 import { isAppBackgrounded } from '@/utils/appLifecycle';
+import { resolveLandscapeSource } from '@/store/utils/stellariumLandscapeSource';
 
 const store = apiStore();
 const framingStore = useFramingStore();
@@ -130,6 +134,7 @@ const { isLandscape } = useOrientation();
 const viewerContainer = ref(null);
 const ready = ref(false);
 const errorMessage = ref('');
+const landscapeErrorMessage = ref('');
 const searchQuery = ref('');
 const searchResults = ref([]);
 const selectedTarget = ref(null);
@@ -294,6 +299,18 @@ function updateHorizon() {
   viewer.setHorizon(points);
 }
 
+function updateLandscape() {
+  if (!viewer) return;
+  landscapeErrorMessage.value = '';
+  const protocol = settingsStore.backendProtocol || 'http';
+  const host = settingsStore.connection.ip || window.location.hostname;
+  const port = settingsStore.connection.port || window.location.port;
+  const authority = port ? `${host}:${port}` : host;
+  const baseUrl = `${protocol}://${authority}/stellarium-data/`;
+  const config = resolveLandscapeSource(settingsStore.stellarium, baseUrl);
+  void viewer.setLandscape(config.visible ? config.source : null);
+}
+
 function runSearch() {
   searchResults.value = viewer?.search(searchQuery.value) ?? [];
 }
@@ -364,6 +381,15 @@ watch(() => store.mountInfo, updateMount, { deep: true });
 watch(() => horizonStore.points, updateHorizon, { deep: true });
 watch(
   () => [
+    settingsStore.stellarium.landscapesVisible,
+    settingsStore.stellarium.landscapeSourceMode,
+    settingsStore.stellarium.customLandscapeUrl,
+    settingsStore.stellarium.customLandscapeKey,
+  ],
+  updateLandscape
+);
+watch(
+  () => [
     settingsStore.stellarium.equatorialLinesVisible,
     settingsStore.stellarium.azimuthalLinesVisible,
     settingsStore.stellarium.meridianLinesVisible,
@@ -404,6 +430,12 @@ onMounted(async () => {
         selectedTarget.value = target;
       },
       onViewChange: queueViewPersistence,
+      onError: (error) => {
+        console.warn('[Celestia Atlas] Landscape unavailable:', error.message);
+        landscapeErrorMessage.value = t(
+          'components.stellarium.settings.landscape_list_load_failed'
+        );
+      },
     });
     const savedView = sessionStorage.getItem(VIEW_STATE_KEY);
     if (savedView) {
@@ -418,6 +450,7 @@ onMounted(async () => {
     updateMount();
     updateDisplayOptions();
     updateHorizon();
+    updateLandscape();
     updateVisibility();
     document.addEventListener('visibilitychange', handleVisibilityChange);
     ready.value = true;
@@ -466,6 +499,18 @@ onBeforeUnmount(() => {
   padding: 1rem;
   color: white;
   background: #03060d;
+}
+.celestia-atlas-landscape-error {
+  position: absolute;
+  left: 50%;
+  bottom: 4.5rem;
+  transform: translateX(-50%);
+  max-width: min(90%, 32rem);
+  padding: 0.5rem 0.75rem;
+  border-radius: 0.5rem;
+  background: rgba(120, 53, 15, 0.9);
+  color: white;
+  z-index: 20;
 }
 .celestia-atlas-error {
   color: #fca5a5;

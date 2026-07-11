@@ -1,15 +1,15 @@
 # Custom Landscape Creation Guide (Touch-N-Stars)
 
-This guide explains how to create a custom terrestrial landscape dataset for Stellarium in Touch-N-Stars, which tools to use, and how to validate the result.
+This guide explains how to create a custom terrestrial landscape dataset for Celestia Atlas in Touch-N-Stars, which tools to use, and how to validate the result.
 
 ## 1. What Touch-N-Stars expects
 
-Touch-N-Stars passes your custom landscape URL directly to Stellarium Web Engine as a HiPS data source.
+Touch-N-Stars passes your custom landscape URL to Celestia Atlas as a HiPS data source.
 
 At minimum, your custom dataset folder must contain:
 
 - `properties` at the dataset root
-- tiled files under `Norder.../Dir.../Npix...`
+- twelve order-0 tiles under `Norder0/Dir0/Npix0...Npix11`
 - usually an all-sky preview tile `Norder0/Allsky.<ext>` (recommended)
 
 Reference examples in this repository:
@@ -36,7 +36,8 @@ type = landscape
 Notes:
 
 - `type = landscape` marks the HiPS as a landscape dataset.
-- `hips_tile_format` can be `webp`, `png`, or `jpeg` in Stellarium Web Engine.
+- `hips_tile_format` can be `webp`, `png`, `jpg`, or `jpeg` in Celestia Atlas.
+- The current Atlas integration renders order 0. Higher-order tiles may be included for compatibility, but the twelve order-0 tiles are required.
 - If you use `png` or `jpeg`, keep `hips_tile_format` in sync with actual file extensions.
 
 ## 3. Recommended toolchain (researched)

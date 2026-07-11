@@ -59,6 +59,10 @@ class WebSocketTppaService {
     return this._rws.isOpen();
   }
 
+  get shouldReconnect() {
+    return this._rws.shouldReconnect;
+  }
+
   connect() {
     return this._rws.connect();
   }

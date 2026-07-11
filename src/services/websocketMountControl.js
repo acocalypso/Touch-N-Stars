@@ -77,6 +77,10 @@ class WebSocketMountControlService {
     this.messageCallback = callback;
   }
 
+  get shouldReconnect() {
+    return this._rws.shouldReconnect;
+  }
+
   connect() {
     // Fire-and-forget: callers don't await. The core sinks its own rejection,
     // so a failed dial won't surface as an unhandled rejection.

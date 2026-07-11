@@ -1703,6 +1703,7 @@ canvas {
 }
 </style>
 <style scoped>
+@reference '../../../assets/tailwind.css';
 .action-icon-btn {
   @apply inline-flex flex-col md:flex-row items-center justify-center gap-0.5 md:gap-2 w-full h-14 md:h-10 rounded-lg border text-sm transition disabled:opacity-50 disabled:cursor-not-allowed;
 }

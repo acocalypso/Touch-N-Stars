@@ -44,6 +44,16 @@
       "message_api_version": "O plugin API está muito antigo. Execute uma atualização",
       "message_tns": "O plugin TouchNStars não está disponível. Verifique as configurações no NINA",
       "message_tns_version": "O plugin Touch N Stars está muito antigo. Execute uma atualização"
+    },
+    "connection_splash": {
+      "connecting": "Conectando…",
+      "trying": "Reconectando a {instance}…",
+      "delayed": "Ainda não foi possível conectar a {instance}. Isso pode indicar um problema — abra Configurações para verificar sua instância Touch-N-Stars.",
+      "retry_now": "Tentar novamente",
+      "show_details": "Mostrar detalhes",
+      "details": "Destino: {endpoint} · {elapsed}s decorridos",
+      "configured_instance": "instância configurada",
+      "default_instance_name": "instância selecionada"
     }
   },
   "whatsnew": {
@@ -262,6 +272,10 @@
         "title": "Manter tela ligada",
         "description": "Impede que o dispositivo escureça ou trave enquanto o aplicativo está aberto."
       },
+      "wifiBinding": {
+        "title": "Vinculação à rede local",
+        "description": "Mantém o aplicativo conectado por Wi-Fi quando a sua instância está em uma rede local sem internet (ex.: hotspot PINS), enquanto o resto do telefone continua usando dados móveis."
+      },
       "input": {
         "title": "Otimização de entrada",
         "touchOptimized": "Seletor otimizado para toque"
@@ -392,7 +406,10 @@
       "horizonFilePath": {
         "title": "Arquivo de horizonte",
         "placeholder": "ex. /home/pi/horizon.hrz",
-        "toastTitle": "Arquivo de horizonte salvo"
+        "toastTitle": "Arquivo de horizonte salvo",
+        "clearTitle": "Limpar caminho do ficheiro de horizonte",
+        "confirmTitle": "Limpar caminho do ficheiro de horizonte",
+        "confirmMessage": "Tem a certeza que deseja limpar o caminho do ficheiro de horizonte?"
       }
     },
     "alpacaDirect": {
@@ -728,6 +745,39 @@
         "annotation": {
           "text": "Texto"
         },
+        "groundstation": {
+          "message": "Mensagem",
+          "title": "Título",
+          "subject": "Assunto",
+          "body": "Corpo",
+          "recipient": "Destinatário",
+          "topic": "Topic",
+          "payload": "Payload",
+          "qos": "QoS",
+          "retain": "Retain",
+          "description": "Descrição",
+          "method": "Método",
+          "url": "URL",
+          "contentType": "Tipo de conteúdo",
+          "username": "Nome de usuário",
+          "password": "Senha",
+          "showEmbed": "Mostrar embed",
+          "embedTitle": "Título do embed",
+          "embedText": "Texto do embed",
+          "eventName": "Nome do evento",
+          "value1": "Valor 1",
+          "value2": "Valor 2",
+          "value3": "Valor 3",
+          "priority": "Prioridade",
+          "notificationSound": "Som de notificação",
+          "tags": "Tags",
+          "channel": "Canal",
+          "doNotNotify": "Notificação silenciosa",
+          "address": "Endereço",
+          "port": "Porta",
+          "payloadType": "Tipo de payload",
+          "lineTermination": "Fim de linha"
+        },
         "waitUntil": {
           "predicate": "Condição"
         },
@@ -801,6 +851,15 @@
         },
         "startGuiding": {
           "forceCalibrationLabel": "Calibração de Força"
+        },
+        "slewToGuiderCalibrationPosition": {
+          "clearBacklash": "Limpar reação DEC",
+          "dec": "dezembro",
+          "haOffset": "Deslocamento de alta disponibilidade",
+          "side": "Lado apontador",
+          "sideEast": "Leste",
+          "sideStay": "Ficar",
+          "sideWest": "Oeste"
         }
       },
       "emptyContainer": "Vazio — clique em + para adicionar itens",
@@ -856,7 +915,9 @@
         },
         "setLocationSyncToMount": "Definir \"Sincronizar com telescópio\"",
         "slewRateINDI": "Velocidade de movimento",
-        "reverse_axis": "Direção dos eixos"
+        "reverse_axis": "Direção dos eixos",
+        "slewRateDriverControlled": "A taxa de variação é controlada pelo driver",
+        "slewRateUnavailable": "Conecte uma montagem para ajustar a taxa de variação"
       },
       "info": {
         "notConnected": "Conecte a montagem",
@@ -975,6 +1036,10 @@
         "cameraGain": "Ganho",
         "cameraBinning": "Binning",
         "restoreCalibration": "Restaurar calibração auto.",
+        "restoreCalibrationReconnect": {
+          "title": "Reconectar o guider?",
+          "message": "Esta configuração só tem efeito depois de o guider ser reconectado. Reconectar agora?"
+        },
         "mountSettings": "Montagem",
         "guideRate": "Guide Rate",
         "guideRateReadOnly": "Somente leitura",
@@ -1388,6 +1453,8 @@
         "camera_settings_hint": "Deixe em branco para padrões do NINA",
         "exposure_time": "Tempo de exposição (s)",
         "gain": "Ganho",
+        "filter": "Filtro",
+        "filter_default": "Padrão",
         "nina_default": "Padrão NINA",
         "ManualMode": "Modo manual"
       },
@@ -1425,7 +1492,15 @@
         "help_log_error": "Quando ativado, será criado um arquivo de log com os ajustes do erro de alinhamento polar e os erros contínuos após cada ajuste."
       },
       "error_modal": {},
-      "tppa": "TPPA"
+      "tppa": "TPPA",
+      "warn_dec_spread_body": "A declinação relatada da montagem mudou em {arcsec}\" entre as medições. Isso pode afetar a precisão do alinhamento polar — certifique-se de que apenas o eixo RA se mova durante a medição.",
+      "warn_dec_spread_title": "Propagação de declinação detectada",
+      "warn_east_west_body": "O campo atual está dentro de 5° do Leste ou Oeste exato. \nSe a solução ativa for instável, gire para um campo mais distante do Leste/Oeste e execute novamente.",
+      "warn_east_west_title": "Campo de correção dentro de {deg}° de Leste/Oeste",
+      "warn_huge_body": "A montagem está muito desalinhada ou o cálculo não conseguiu determinar o resultado. \nVerifique a localização do local, confirme se a montagem está apontando aproximadamente para o poste e se apenas o eixo RA foi movido entre os três pontos de medição.",
+      "warn_huge_title": "O erro calculado é enorme",
+      "warn_large_body": "A fase de correção será menos confiável. \nAproxime a montagem do alinhamento polar e execute o TPPA novamente para verificar.",
+      "warn_large_title": "O erro inicial de alinhamento polar é grande"
     },
     "slewAndCenter": {
       "title": "Mover e centralizar",
@@ -1643,6 +1718,7 @@
       }
     },
     "stellarium": {
+      "loading": "A carregar o Stellarium…",
       "selected_object": {
         "title": "Objeto selecionado",
         "ra": "AR",
@@ -1932,7 +2008,8 @@
         "hotspotChannelInvalid": "O canal hotspot deve ser um número inteiro positivo quando fornecido.",
         "hotspotFetchFailed": "Falha ao carregar as configurações do ponto de acesso: {message}",
         "hotspotPasswordInvalidLength": "A senha do ponto de acesso é obrigatória e deve ter de 8 a 63 caracteres.",
-        "hotspotSaveFailed": "Falha ao salvar as configurações do ponto de acesso: {message}"
+        "hotspotSaveFailed": "Falha ao salvar as configurações do ponto de acesso: {message}",
+        "wifiConnected": "Wi-Fi conectado: {ssid} ({ip})"
       },
       "hotspotConfigured": "A senha do ponto de acesso personalizado está configurada.",
       "hotspotNewPassword": "Nova senha do ponto de acesso",
@@ -2025,7 +2102,46 @@
       "hotspotCapabilitiesUnavailable": "Lista de recursos do adaptador indisponível; \ncanal manual permitido.",
       "hotspotChannelLabel": "Canal de ponto de acesso",
       "hotspotChannelPlaceholder": "Deixe em branco para automático",
-      "hotspotMetaLine": "Fonte: {fonte} | \nInterface: {iface} | \nBanda: {banda} | \nCanal: {canal}"
+      "hotspotMetaLine": "Fonte: {fonte} | \nInterface: {iface} | \nBanda: {banda} | \nCanal: {canal}",
+      "indiRegistryEditConfig": "Editar configuração",
+      "indiRegistryModalActions": "Ações",
+      "indiRegistryModalDescription": "Edite o nome, o rótulo e o tipo para entradas de registro de terceiros INDI instaladas.",
+      "indiRegistryModalEmpty": "Nenhuma entrada de registro encontrada.",
+      "indiRegistryModalErrorConflict": "O nome já existe (renomeação duplicada 409).",
+      "indiRegistryModalErrorGeneric": "Falha ao salvar a entrada: {message}",
+      "indiRegistryModalErrorLoad": "Falha ao carregar o registro: {message}",
+      "indiRegistryModalErrorNotFound": "Entrada não encontrada (404).",
+      "indiRegistryModalErrorUnknown": "Erro desconhecido.",
+      "indiRegistryModalErrorValidation": "Falha na validação: {message}",
+      "indiRegistryModalLabel": "Rótulo",
+      "indiRegistryModalLabelLength": "O rótulo deve ter 200 caracteres ou menos.",
+      "indiRegistryModalLoading": "Carregando registro...",
+      "indiRegistryModalName": "Nome",
+      "indiRegistryModalNameLength": "O nome deve ter 200 caracteres ou menos.",
+      "indiRegistryModalNameRequired": "O nome é obrigatório.",
+      "indiRegistryModalNoChanges": "Nenhuma alteração para salvar.",
+      "indiRegistryModalReload": "Recarregar",
+      "indiRegistryModalSave": "Salvar",
+      "indiRegistryModalSaved": "Entrada salva. \nRegistro recarregado do back-end.",
+      "indiRegistryModalSaving": "Salvando...",
+      "indiRegistryModalTitle": "Editar registro INDI",
+      "indiRegistryModalTotalEntries": "Entradas",
+      "indiRegistryModalType": "Tipo",
+      "indiRegistryModalTypeInvalid": "O tipo deve ser um dos valores permitidos.",
+      "indiRegistryModalUpdatedAt": "Atualizado",
+      "indiRegistryModalNameDuplicate": "O nome já existe em outra linha.",
+      "wifiSignalMobile": "Mobile signal",
+      "wifiRssiValue": "{value} dBm",
+      "wifiChannel": "Canal {canal}",
+      "wifiConnectedAction": "Conectado",
+      "wifiRoleClient": "Wi-Fi doméstico",
+      "wifiRoleHotspot": "Ponto de acesso",
+      "wifiSignal": "Sinal",
+      "wifiSignalHistory": "Histórico de sinal WiFi",
+      "wifiSignalUnavailable": "Sinal indisponível",
+      "wifiSignalValue": "{valor}%",
+      "wifiStatusConnected": "Conectado",
+      "wifiStatusDisconnected": "Não conectado"
     },
     "bahtifocus": {
       "title": "Analisador de máscara Bahtinov",
@@ -3119,7 +3235,18 @@
         "micronsPerFocuserStep": "Microns por Etapa do Focalizador",
         "retry": "Tentar novamente",
         "resetToDefaults": "Redefinir para Padrões",
-        "resetting": "Redefinindo..."
+        "resetting": "Redefinindo...",
+        "autoPlaceholder": "auto",
+        "centerFocuserBeforeRun": "Centralizar o foco antes da execução",
+        "detailedAnalysisExposureSeconds": "Tempo de exposição de análise detalhada (segundos)",
+        "framesPerPoint": "Quadros por ponto",
+        "numRegionsWide": "Número de regiões em toda a extensão",
+        "sensorCurveModelEnabled": "Modelo de Curva do Sensor",
+        "signalAmplification": "Amplificação de sinal",
+        "simpleExposureSeconds": "Tempo de exposição (segundos)",
+        "stepCount": "Contagem de passos",
+        "stepSize": "Tamanho do passo",
+        "timeoutSeconds": "Tempo limite (segundos)"
       },
       "autoFocusOptions": {
         "loading": "Carregando opções de Autofoco...",
@@ -3145,7 +3272,8 @@
         "noiseReducedStarMeasurement": "Medição de Estrelas com Ruído Reduzido",
         "debugMode": "Modo de Depuração",
         "simpleModeSettings": "Configurações do Modo Simples",
-        "noiseLevel": "Nível de Ruído"
+        "noiseLevel": "Nível de Ruído",
+        "useOptimizedSettings": "Use configurações otimizadas"
       },
       "tilter": {
         "device": "Dispositivo",
@@ -4117,6 +4245,157 @@
         "imageRequired": "Por favor, carregue um arquivo de imagem.",
         "nameRequired": "O nome da paisagem é obrigatório."
       }
+    },
+    "groundStation": {
+      "common": {
+        "leaveEmpty": "(inalterado)",
+        "loading": "Carregando…",
+        "passwordUnchanged": "Deixe em branco para manter o valor atual",
+        "save": "Salvar",
+        "saving": "Salvando…",
+        "test": "Enviar teste",
+        "testFailed": "Falha no teste",
+        "testSuccess": "Teste enviado com sucesso",
+        "testing": "Enviando…"
+      },
+      "discord": {
+        "botName": "Nome de exibição do bot",
+        "defaultWebhook": "URL padrão do webhook",
+        "failureMessage": "Mensagem de falha",
+        "failureTitle": "Título de falha",
+        "failureWebhook": "URL do webhook de falha",
+        "imageEventEnabled": "Publicar eventos de captura de imagem",
+        "imageEvents": "Eventos de imagem",
+        "imageInterval": "Publique cada N imagens",
+        "imagePostTitle": "Título da postagem da imagem",
+        "imageTypes": "Tipos de imagem",
+        "imageTypesHint": "Separados por vírgula (por exemplo, CLARO, PLANO, ESCURO)",
+        "imageWebhook": "URL do webhook da imagem"
+      },
+      "email": {
+        "failureBody": "Corpo de falha",
+        "failureSubject": "Assunto de falha",
+        "fromAddress": "Do endereço",
+        "host": "Anfitrião SMTP",
+        "password": "Senha",
+        "port": "Porta SMTP",
+        "recipients": "Destinatários padrão",
+        "recipientsHint": "Separados por vírgula",
+        "username": "Nome de usuário"
+      },
+      "ifttt": {
+        "value1": "Valor de falha 1",
+        "value2": "Valor de falha 2",
+        "value3": "Valor de falha 3",
+        "webhookKey": "Chave do webhook"
+      },
+      "mqtt": {
+        "broker": "Corretor",
+        "clientId": "ID do cliente",
+        "defaultQos": "QoS padrão",
+        "defaultRetain": "Reter por padrão",
+        "defaultTopic": "Tópico padrão",
+        "defaults": "Publicar padrões",
+        "failureQos": "QoS de falha",
+        "host": "Hospedar",
+        "imagePublisher": "Editor de imagens",
+        "imagePublisherEnabled": "Habilitado",
+        "imageQos": "QoS da imagem",
+        "imageRetain": "Reter imagens",
+        "imageTopic": "Tópico de imagem",
+        "imageTypes": "Tipos de imagem",
+        "lwt": "Última vontade",
+        "lwtBirth": "Carga útil de nascimento",
+        "lwtClose": "Fechar carga útil",
+        "lwtEnabled": "Habilitar LWT",
+        "lwtLastWill": "Última carga útil",
+        "lwtTopic": "Tópico LWT",
+        "maxReconnect": "Máximo de tentativas de reconexão",
+        "metadataOnly": "Somente metadados",
+        "metadataTopic": "Tópico de metadados",
+        "password": "Senha",
+        "port": "Porta",
+        "useTls": "Use TLS (muda a porta para 8883)",
+        "username": "Nome de usuário"
+      },
+      "notLoaded": "O plugin Ground Station não está instalado ou não carregado no NINA. \nInstale o plugin 'Ground Station' no NINA para usar essas configurações.",
+      "ntfysh": {
+        "defaultIcon": "URL do ícone padrão",
+        "defaultTopic": "Tópico padrão",
+        "failureMessage": "Mensagem de falha",
+        "failureNotification": "Notificação de falha",
+        "failurePriority": "Prioridade de falha",
+        "failureTags": "Tags de falha",
+        "failureTagsHint": "Separados por vírgula (por exemplo, warning,rotating_light)",
+        "failureTitle": "Título de falha",
+        "password": "Senha",
+        "token": "Token de acesso",
+        "url": "URL do servidor",
+        "user": "Nome de usuário"
+      },
+      "pushover": {
+        "appKey": "Token da API do aplicativo",
+        "emergExpire": "Expiração de emergência após (s)",
+        "emergExpireHint": "30 – 86.400 segundos",
+        "emergRetry": "Intervalo(s) de Novas Tentativas de Emergência",
+        "emergRetryHint": "30 – 86.400 segundos",
+        "failureBody": "Corpo de falha",
+        "failurePriority": "Prioridade de falha",
+        "failureSound": "Som de falha",
+        "failureTitle": "Título de falha",
+        "notificationPriority": "Prioridade de notificação",
+        "notificationSound": "Som de notificação",
+        "userKey": "Chave do usuário"
+      },
+      "slack": {
+        "botDisplayName": "Nome de exibição do bot",
+        "channels": "Canais",
+        "failureMessage": "Mensagem de falha",
+        "imageEventChannel": "Canal de eventos de imagem",
+        "imageEventEnabled": "Publicar eventos de captura de imagem",
+        "imageEvents": "Eventos de imagem",
+        "imageInterval": "Publique cada N imagens",
+        "imageTypes": "Tipos de imagem",
+        "members": "membros",
+        "oauthToken": "Token OAuth de bot",
+        "refreshChannels": "Atualizar canais",
+        "refreshing": "Refrescante…",
+        "workspace": "Espaço de trabalho"
+      },
+      "subtitle": "Configurar serviços de notificação da Estação Terrestre NINA",
+      "tabs": {
+        "discord": "Discórdia",
+        "email": "E-mail",
+        "ifttt": "IFTTT",
+        "mqtt": "MQTT",
+        "ntfysh": "ntfy.sh",
+        "pushover": "Flexão",
+        "slack": "Folga",
+        "telegram": "Telegrama"
+      },
+      "telegram": {
+        "accessToken": "Token de acesso de bot",
+        "chatId": "ID do bate-papo",
+        "failureBody": "Corpo de falha"
+      },
+      "title": "Estação Terrestre"
+    },
+    "indiControlPanel": {
+      "description": "Inspecione e controle todas as propriedades dos drivers INDI atualmente carregados no servidor.",
+      "enableLog": "Habilitar",
+      "invalidNumber": "Número inválido para {element}.",
+      "loadFailed": "Falha ao carregar propriedades INDI.",
+      "log": "Mensagens INDI",
+      "logDisabled": "O log de mensagens está desativado.",
+      "noDevices": "Nenhum dispositivo INDI está ativo no momento. \nConecte o equipamento primeiro e depois atualize.",
+      "noMessages": "Nenhuma mensagem ainda.",
+      "readonly": "somente leitura",
+      "refresh": "Atualizar",
+      "scrollToLatest": "Role até o mais recente",
+      "set": "Definir",
+      "setFailed": "Falha ao definir a propriedade.",
+      "title": "Painel de controle INDI",
+      "updated": "Atualizado"
     }
   },
   "pinsDevices": {
@@ -4327,7 +4606,8 @@
       "tcpPort": "Porta TCP",
       "selectPort": "-- Selecione uma porta --",
       "manualPort": "Manual…",
-      "manualPortPath": "Porta manual"
+      "manualPortPath": "Porta manual",
+      "http": "HTTP"
     }
   },
   "nav": {

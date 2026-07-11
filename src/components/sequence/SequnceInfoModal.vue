@@ -11,7 +11,7 @@
     <!-- Modal Overlay -->
     <div
       v-if="isModalOpen"
-      class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center"
+      class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center"
       @click.self="isModalOpen = false"
     >
       <div

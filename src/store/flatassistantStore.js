@@ -3,6 +3,7 @@ import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
 import { useToastStore } from '@/store/toastStore';
 import i18n from '@/i18n';
+import { createPoller } from '@/utils/poller';
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -40,7 +41,6 @@ export const useFlatassistantStore = defineStore('flatassistantStore', {
     lastRunOutcome: null,
     currentRunType: 'flats',
     workflowStopRequested: false,
-    intervalId: null,
     // Per-filter run results for multi-mode; survives tab switches as store state.
     // { [filterId]: null | 'success' | 'failed' | 'dim' | 'bright' | 'stopped' }
     filterResults: {},
@@ -439,16 +439,14 @@ export const useFlatassistantStore = defineStore('flatassistantStore', {
     },
 
     startFetchingFlats() {
-      if (!this.intervalId) {
-        this.intervalId = setInterval(this.fetchFlatsInfos, 1000);
+      if (!this._flatsPoller) {
+        this._flatsPoller = createPoller(() => this.fetchFlatsInfos(), 1000);
       }
+      this._flatsPoller.start();
     },
 
     stopFetchingFlats() {
-      if (this.intervalId) {
-        clearInterval(this.intervalId);
-        this.intervalId = null;
-      }
+      this._flatsPoller?.stop();
     },
   },
 });

@@ -44,6 +44,16 @@
       "message_api_version": "Zásuvný modul API je příliš starý. Proveďte aktualizaci",
       "message_tns": "Zásuvný modul TouchNStars není k dispozici. Zkontrolujte prosím nastavení v NINA",
       "message_tns_version": "Zásuvný modul Touch N Stars je příliš starý. Proveďte prosím aktualizaci"
+    },
+    "connection_splash": {
+      "connecting": "Připojování…",
+      "trying": "Připojuji se znovu k {instance}…",
+      "delayed": "Stále se nedaří připojit k {instance}. To může znamenat problém — otevřete Nastavení a zkontrolujte svou instanci Touch-N-Stars.",
+      "retry_now": "Zkusit znovu",
+      "show_details": "Zobrazit podrobnosti",
+      "details": "Cíl: {endpoint} · uplynulo {elapsed} s",
+      "configured_instance": "nakonfigurovaná instance",
+      "default_instance_name": "vybraná instance"
     }
   },
   "whatsnew": {
@@ -262,6 +272,10 @@
         "title": "Udržet Obrazovku Aktivní",
         "description": "Zabraňte usnutí nebo uzamčení zařízení, když je aplikace otevřená."
       },
+      "wifiBinding": {
+        "title": "Vazba na místní síť",
+        "description": "Udržuje aplikaci připojenou přes Wi-Fi, když instance běží v místní síti bez internetu (např. PINS hotspot), zatímco zbytek telefonu dál používá mobilní data."
+      },
       "input": {
         "title": "Optimalizace vstupu",
         "touchOptimized": "Dotykový selektor"
@@ -392,7 +406,10 @@
       "horizonFilePath": {
         "title": "Soubor horizontu",
         "placeholder": "např. /home/pi/horizon.hrz",
-        "toastTitle": "Soubor horizontu uložen"
+        "toastTitle": "Soubor horizontu uložen",
+        "clearTitle": "Vymazat cestu souboru horizontu",
+        "confirmTitle": "Vymazat cestu souboru horizontu",
+        "confirmMessage": "Opravdu chcete vymazat cestu souboru horizontu?"
       }
     },
     "alpacaDirect": {
@@ -728,6 +745,39 @@
         "annotation": {
           "text": "Text"
         },
+        "groundstation": {
+          "message": "Zpráva",
+          "title": "Titulek",
+          "subject": "Předmět",
+          "body": "Obsah",
+          "recipient": "Příjemce",
+          "topic": "Topic",
+          "payload": "Payload",
+          "qos": "QoS",
+          "retain": "Retain",
+          "description": "Popis",
+          "method": "Metoda",
+          "url": "URL",
+          "contentType": "Typ obsahu",
+          "username": "Uživatelské jméno",
+          "password": "Heslo",
+          "showEmbed": "Zobrazit embed",
+          "embedTitle": "Titulek embedu",
+          "embedText": "Text embedu",
+          "eventName": "Název události",
+          "value1": "Hodnota 1",
+          "value2": "Hodnota 2",
+          "value3": "Hodnota 3",
+          "priority": "Priorita",
+          "notificationSound": "Zvuk oznámení",
+          "tags": "Tagy",
+          "channel": "Kanál",
+          "doNotNotify": "Tiché oznámení",
+          "address": "Adresa",
+          "port": "Port",
+          "payloadType": "Typ payloadu",
+          "lineTermination": "Konec řádku"
+        },
         "waitUntil": {
           "predicate": "Stav"
         },
@@ -801,6 +851,15 @@
         },
         "startGuiding": {
           "forceCalibrationLabel": "Force Calibration"
+        },
+        "slewToGuiderCalibrationPosition": {
+          "clearBacklash": "Clear DEC Backlash",
+          "dec": "Dec",
+          "haOffset": "HA Offset",
+          "side": "Pointing Side",
+          "sideEast": "East",
+          "sideStay": "Stay",
+          "sideWest": "West"
         }
       },
       "emptyContainer": "Prázdné — kliknutím na + přidáte položky",
@@ -856,7 +915,9 @@
         },
         "setLocationSyncToMount": "Nastavit 'Synchronizovat s dalekohledem'",
         "slewRateINDI": "Rychlost pohybu",
-        "reverse_axis": "Směr os"
+        "reverse_axis": "Směr os",
+        "slewRateDriverControlled": "Slew rate is controlled by the driver",
+        "slewRateUnavailable": "Connect a mount to adjust the slew rate"
       },
       "info": {
         "notConnected": "Připojte montáž",
@@ -975,6 +1036,10 @@
         "cameraGain": "Zesílení",
         "cameraBinning": "Binning",
         "restoreCalibration": "Autom. obnovit kalibraci",
+        "restoreCalibrationReconnect": {
+          "title": "Znovu připojit guider?",
+          "message": "Toto nastavení se projeví až po opětovném připojení guideru. Připojit znovu nyní?"
+        },
         "mountSettings": "Montáž",
         "guideRate": "Guide Rate",
         "guideRateReadOnly": "Pouze pro čtení",
@@ -1388,6 +1453,8 @@
         "camera_settings_hint": "Nechte prázdné pro výchozí nastavení NINA",
         "exposure_time": "Doba Expozice (s)",
         "gain": "Získat",
+        "filter": "Filtr",
+        "filter_default": "Výchozí",
         "nina_default": "NINA Výchozí",
         "ManualMode": "Manuální režim"
       },
@@ -1425,7 +1492,15 @@
         "help_log_error": "Při zapnutí bude vytvořen soubor protokolu s úpravami chyby polárního nastavení a průběžnými chybami po každé úpravě."
       },
       "error_modal": {},
-      "tppa": "TPPA"
+      "tppa": "TPPA",
+      "warn_dec_spread_body": "The mount's reported declination changed by {arcsec}\" between measurements. This may affect polar alignment accuracy — ensure only the RA axis moves during measurement.",
+      "warn_dec_spread_title": "Declination spread detected",
+      "warn_east_west_body": "The current field is within 5° of exact East or West. If the live solution is unstable, slew to a field farther from East/West and rerun.",
+      "warn_east_west_title": "Correction field within {deg}° of East/West",
+      "warn_huge_body": "Either the mount is far off alignment or the calculation could not determine the result. Check site location, confirm the mount is roughly pointing to the pole, and that only the RA axis was moved between the three measurement points.",
+      "warn_huge_title": "Calculated error is huge",
+      "warn_large_body": "The correction phase will be less reliable. Bring the mount closer to polar alignment and run TPPA again to verify.",
+      "warn_large_title": "Initial polar alignment error is large"
     },
     "slewAndCenter": {
       "title": "Přejet a Vycentrovat",
@@ -1643,6 +1718,7 @@
       }
     },
     "stellarium": {
+      "loading": "Načítání Stellaria…",
       "selected_object": {
         "title": "Vybraný objekt",
         "ra": "RA",
@@ -1932,7 +2008,8 @@
         "hotspotChannelInvalid": "Hotspot channel must be a positive integer when provided.",
         "hotspotFetchFailed": "Failed to load hotspot settings: {message}",
         "hotspotPasswordInvalidLength": "Hotspot password is required and must be 8-63 characters.",
-        "hotspotSaveFailed": "Failed to save hotspot settings: {message}"
+        "hotspotSaveFailed": "Failed to save hotspot settings: {message}",
+        "wifiConnected": "WiFi connected: {ssid} ({ip})"
       },
       "hotspotConfigured": "Je nakonfigurováno vlastní heslo hotspotu.",
       "hotspotNewPassword": "Nové heslo hotspotu",
@@ -2025,7 +2102,46 @@
       "hotspotCapabilitiesUnavailable": "Adapter capability list unavailable; manual channel allowed.",
       "hotspotChannelLabel": "Hotspot Channel",
       "hotspotChannelPlaceholder": "Leave empty for auto",
-      "hotspotMetaLine": "Source: {source} | Interface: {iface} | Band: {band} | Channel: {channel}"
+      "hotspotMetaLine": "Source: {source} | Interface: {iface} | Band: {band} | Channel: {channel}",
+      "indiRegistryEditConfig": "Edit config",
+      "indiRegistryModalActions": "Actions",
+      "indiRegistryModalDescription": "Edit Name, Label, and Type for installed INDI 3rdparty registry entries.",
+      "indiRegistryModalEmpty": "No registry entries found.",
+      "indiRegistryModalErrorConflict": "Name already exists (409 duplicate rename).",
+      "indiRegistryModalErrorGeneric": "Failed to save entry: {message}",
+      "indiRegistryModalErrorLoad": "Failed to load registry: {message}",
+      "indiRegistryModalErrorNotFound": "Entry not found (404).",
+      "indiRegistryModalErrorUnknown": "Unknown error.",
+      "indiRegistryModalErrorValidation": "Validation failed: {message}",
+      "indiRegistryModalLabel": "Label",
+      "indiRegistryModalLabelLength": "Label must be 200 characters or fewer.",
+      "indiRegistryModalLoading": "Loading registry...",
+      "indiRegistryModalName": "Name",
+      "indiRegistryModalNameLength": "Name must be 200 characters or fewer.",
+      "indiRegistryModalNameRequired": "Name is required.",
+      "indiRegistryModalNoChanges": "No changes to save.",
+      "indiRegistryModalReload": "Reload",
+      "indiRegistryModalSave": "Save",
+      "indiRegistryModalSaved": "Entry saved. Registry reloaded from backend.",
+      "indiRegistryModalSaving": "Saving...",
+      "indiRegistryModalTitle": "Edit INDI Registry",
+      "indiRegistryModalTotalEntries": "Entries",
+      "indiRegistryModalType": "Type",
+      "indiRegistryModalTypeInvalid": "Type must be one of the allowed values.",
+      "indiRegistryModalUpdatedAt": "Updated",
+      "indiRegistryModalNameDuplicate": "Name already exists in another row.",
+      "wifiSignalMobile": "Mobile signal",
+      "wifiRssiValue": "{value} dBm",
+      "wifiChannel": "Channel {channel}",
+      "wifiConnectedAction": "Connected",
+      "wifiRoleClient": "Home WiFi",
+      "wifiRoleHotspot": "Hotspot",
+      "wifiSignal": "Signal",
+      "wifiSignalHistory": "WiFi signal history",
+      "wifiSignalUnavailable": "Signal unavailable",
+      "wifiSignalValue": "{value}%",
+      "wifiStatusConnected": "Connected",
+      "wifiStatusDisconnected": "Not connected"
     },
     "bahtifocus": {
       "title": "Bahtinovův analyzátor masky",
@@ -3119,7 +3235,18 @@
         "micronsPerFocuserStep": "Mikrony na krok fokusáru",
         "retry": "Zkusit znovu",
         "resetToDefaults": "Obnovit výchozí hodnoty",
-        "resetting": "Obnovování..."
+        "resetting": "Obnovování...",
+        "autoPlaceholder": "auto",
+        "centerFocuserBeforeRun": "Center Focuser Before Run",
+        "detailedAnalysisExposureSeconds": "Detailed Analysis Exposure Time (seconds)",
+        "framesPerPoint": "Frames Per Point",
+        "numRegionsWide": "Number of Regions Wide",
+        "sensorCurveModelEnabled": "Sensor Curve Model",
+        "signalAmplification": "Signal Amplification",
+        "simpleExposureSeconds": "Exposure Time (seconds)",
+        "stepCount": "Step Count",
+        "stepSize": "Step Size",
+        "timeoutSeconds": "Timeout (seconds)"
       },
       "autoFocusOptions": {
         "loading": "Načítání možností automatického zaostření...",
@@ -3145,7 +3272,8 @@
         "noiseReducedStarMeasurement": "Měření hvězd se sníženým šumem",
         "debugMode": "Režim ladění",
         "simpleModeSettings": "Nastavení jednoduchého režimu",
-        "noiseLevel": "Úroveň hluku"
+        "noiseLevel": "Úroveň hluku",
+        "useOptimizedSettings": "Use Optimized Settings"
       },
       "tilter": {
         "device": "Zařízení",
@@ -4112,6 +4240,157 @@
         "imageRequired": "Please upload an image file.",
         "nameRequired": "Landscape name is required."
       }
+    },
+    "groundStation": {
+      "common": {
+        "leaveEmpty": "(unchanged)",
+        "loading": "Loading…",
+        "passwordUnchanged": "Leave empty to keep current value",
+        "save": "Save",
+        "saving": "Saving…",
+        "test": "Send Test",
+        "testFailed": "Test failed",
+        "testSuccess": "Test sent successfully",
+        "testing": "Sending…"
+      },
+      "discord": {
+        "botName": "Bot Display Name",
+        "defaultWebhook": "Default Webhook URL",
+        "failureMessage": "Failure Message",
+        "failureTitle": "Failure Title",
+        "failureWebhook": "Failure Webhook URL",
+        "imageEventEnabled": "Publish image capture events",
+        "imageEvents": "Image Events",
+        "imageInterval": "Post Every N Images",
+        "imagePostTitle": "Image Post Title",
+        "imageTypes": "Image Types",
+        "imageTypesHint": "Comma-separated (e.g. LIGHT,FLAT,DARK)",
+        "imageWebhook": "Image Webhook URL"
+      },
+      "email": {
+        "failureBody": "Failure Body",
+        "failureSubject": "Failure Subject",
+        "fromAddress": "From Address",
+        "host": "SMTP Host",
+        "password": "Password",
+        "port": "SMTP Port",
+        "recipients": "Default Recipients",
+        "recipientsHint": "Comma-separated",
+        "username": "Username"
+      },
+      "ifttt": {
+        "value1": "Failure Value 1",
+        "value2": "Failure Value 2",
+        "value3": "Failure Value 3",
+        "webhookKey": "Webhook Key"
+      },
+      "mqtt": {
+        "broker": "Broker",
+        "clientId": "Client ID",
+        "defaultQos": "Default QoS",
+        "defaultRetain": "Retain by default",
+        "defaultTopic": "Default Topic",
+        "defaults": "Publish Defaults",
+        "failureQos": "Failure QoS",
+        "host": "Host",
+        "imagePublisher": "Image Publisher",
+        "imagePublisherEnabled": "Enabled",
+        "imageQos": "Image QoS",
+        "imageRetain": "Retain images",
+        "imageTopic": "Image Topic",
+        "imageTypes": "Image Types",
+        "lwt": "Last Will",
+        "lwtBirth": "Birth Payload",
+        "lwtClose": "Close Payload",
+        "lwtEnabled": "Enable LWT",
+        "lwtLastWill": "Last Will Payload",
+        "lwtTopic": "LWT Topic",
+        "maxReconnect": "Max Reconnect Attempts",
+        "metadataOnly": "Metadata only",
+        "metadataTopic": "Metadata Topic",
+        "password": "Password",
+        "port": "Port",
+        "useTls": "Use TLS (switches port to 8883)",
+        "username": "Username"
+      },
+      "notLoaded": "The Ground Station plugin is not installed or not loaded in NINA. Install the 'Ground Station' plugin in NINA to use these settings.",
+      "ntfysh": {
+        "defaultIcon": "Default Icon URL",
+        "defaultTopic": "Default Topic",
+        "failureMessage": "Failure Message",
+        "failureNotification": "Failure Notification",
+        "failurePriority": "Failure Priority",
+        "failureTags": "Failure Tags",
+        "failureTagsHint": "Comma-separated (e.g. warning,rotating_light)",
+        "failureTitle": "Failure Title",
+        "password": "Password",
+        "token": "Access Token",
+        "url": "Server URL",
+        "user": "Username"
+      },
+      "pushover": {
+        "appKey": "App API Token",
+        "emergExpire": "Emergency Expire After (s)",
+        "emergExpireHint": "30 – 86400 seconds",
+        "emergRetry": "Emergency Retry Interval (s)",
+        "emergRetryHint": "30 – 86400 seconds",
+        "failureBody": "Failure Body",
+        "failurePriority": "Failure Priority",
+        "failureSound": "Failure Sound",
+        "failureTitle": "Failure Title",
+        "notificationPriority": "Notification Priority",
+        "notificationSound": "Notification Sound",
+        "userKey": "User Key"
+      },
+      "slack": {
+        "botDisplayName": "Bot Display Name",
+        "channels": "Channels",
+        "failureMessage": "Failure Message",
+        "imageEventChannel": "Image Event Channel",
+        "imageEventEnabled": "Publish image capture events",
+        "imageEvents": "Image Events",
+        "imageInterval": "Post Every N Images",
+        "imageTypes": "Image Types",
+        "members": "members",
+        "oauthToken": "Bot OAuth Token",
+        "refreshChannels": "Refresh Channels",
+        "refreshing": "Refreshing…",
+        "workspace": "Workspace"
+      },
+      "subtitle": "Configure NINA Ground Station notification services",
+      "tabs": {
+        "discord": "Discord",
+        "email": "Email",
+        "ifttt": "IFTTT",
+        "mqtt": "MQTT",
+        "ntfysh": "ntfy.sh",
+        "pushover": "Pushover",
+        "slack": "Slack",
+        "telegram": "Telegram"
+      },
+      "telegram": {
+        "accessToken": "Bot Access Token",
+        "chatId": "Chat ID",
+        "failureBody": "Failure Body"
+      },
+      "title": "Ground Station"
+    },
+    "indiControlPanel": {
+      "description": "Inspect and control every property of the INDI drivers currently loaded on the server.",
+      "enableLog": "Enable",
+      "invalidNumber": "Invalid number for {element}.",
+      "loadFailed": "Failed to load INDI properties.",
+      "log": "INDI Messages",
+      "logDisabled": "Message log is disabled.",
+      "noDevices": "No INDI devices are currently active. Connect equipment first, then refresh.",
+      "noMessages": "No messages yet.",
+      "readonly": "read-only",
+      "refresh": "Refresh",
+      "scrollToLatest": "Scroll to latest",
+      "set": "Set",
+      "setFailed": "Failed to set the property.",
+      "title": "INDI Control Panel",
+      "updated": "Updated"
     }
   },
   "pinsDevices": {
@@ -4322,7 +4601,8 @@
       "tcpPort": "TCP port",
       "selectPort": "-- Vyberte port --",
       "manualPort": "Ručně…",
-      "manualPortPath": "Ruční port"
+      "manualPortPath": "Ruční port",
+      "http": "HTTP"
     }
   },
   "nav": {

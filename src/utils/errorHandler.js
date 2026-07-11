@@ -1,9 +1,31 @@
 import axios from 'axios';
 import { useToastStore } from '@/store/toastStore';
 import { createStructuredLog } from './logger';
+import { getHttpAbortSignal } from './httpLifecycle';
 
 // Rate limiting cache for toast notifications
 const toastCache = new Map();
+
+/**
+ * Registers a global handler for otherwise-unhandled promise rejections so
+ * they surface in the structured log (and thus the log download) instead of
+ * only appearing in the raw devtools console. The axios interceptor already
+ * catches HTTP failures; this is a safety net for everything else (async code
+ * that throws without a local try/catch).
+ */
+export function setupUnhandledRejectionLogging() {
+  if (typeof window === 'undefined') return;
+  window.addEventListener('unhandledrejection', (event) => {
+    const reason = event.reason;
+    createStructuredLog('ERROR', 'UNHANDLED_REJECTION', {
+      message: reason?.message || String(reason),
+      extra: {
+        errorName: reason?.name,
+        stack: reason?.stack,
+      },
+    });
+  });
+}
 
 /**
  * Sets up global axios interceptors for error handling and logging
@@ -13,6 +35,11 @@ export function setupErrorHandler() {
   axios.interceptors.request.use((config) => {
     // Track request start time
     config.metadata = { startTime: performance.now() };
+    // Attach the app-wide abort signal (unless the caller brought its own) so
+    // stale in-flight requests can be killed on app resume - see httpLifecycle.js.
+    if (!config.signal) {
+      config.signal = getHttpAbortSignal();
+    }
     return config;
   });
 
@@ -136,6 +163,22 @@ export function setupErrorHandler() {
       const duration = error.config?.metadata?.startTime
         ? Math.round(performance.now() - error.config.metadata.startTime)
         : null;
+
+      // Deliberately canceled (stale requests aborted on app resume): not an
+      // error condition, skip the ERROR log/toast machinery entirely.
+      if (error.code === 'ERR_CANCELED') {
+        return {
+          data: {
+            Response: '',
+            Error: 'Request canceled',
+            StatusCode: 499,
+            Success: false,
+            Type: 'API',
+          },
+          status: 499,
+          config: error.config,
+        };
+      }
 
       let message;
       let category = 'NETWORK';

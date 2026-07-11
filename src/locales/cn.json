@@ -44,6 +44,16 @@
       "message_api_version": "API 插件版本过旧。请进行更新",
       "message_tns": "TouchNStars 插件不可用。请检查 NINA 中的设置",
       "message_tns_version": "Touch N Stars 插件版本过于陈旧。请进行更新"
+    },
+    "connection_splash": {
+      "connecting": "正在连接…",
+      "trying": "正在重新连接到 {instance}…",
+      "delayed": "仍无法连接到 {instance}，这可能表示存在问题 — 请打开设置以检查您的 Touch-N-Stars 实例。",
+      "retry_now": "立即重试",
+      "show_details": "显示详情",
+      "details": "目标：{endpoint} · 已用时 {elapsed} 秒",
+      "configured_instance": "已配置的实例",
+      "default_instance_name": "选定的实例"
     }
   },
   "whatsnew": {
@@ -262,6 +272,10 @@
         "title": "保持屏幕唤醒",
         "description": "防止应用程序打开时设备变暗或锁定。"
       },
+      "wifiBinding": {
+        "title": "本地网络绑定",
+        "description": "当实例运行在没有互联网的本地网络（例如 PINS 热点）时，让应用保持通过 Wi-Fi 连接，而手机的其他流量继续使用移动数据。"
+      },
       "input": {
         "title": "输入优化",
         "touchOptimized": "触摸优化选择器"
@@ -392,7 +406,10 @@
       "horizonFilePath": {
         "title": "地平线文件",
         "placeholder": "例如 /home/pi/horizon.hrz",
-        "toastTitle": "地平线文件已保存"
+        "toastTitle": "地平线文件已保存",
+        "clearTitle": "清除地平线文件路径",
+        "confirmTitle": "清除地平线文件路径",
+        "confirmMessage": "确定要清除地平线文件路径吗？"
       }
     },
     "alpacaDirect": {
@@ -728,6 +745,39 @@
         "annotation": {
           "text": "文本"
         },
+        "groundstation": {
+          "message": "消息",
+          "title": "标题",
+          "subject": "邮件主题",
+          "body": "正文",
+          "recipient": "收件人",
+          "topic": "主题",
+          "payload": "负载",
+          "qos": "QoS",
+          "retain": "保留",
+          "description": "描述",
+          "method": "方法",
+          "url": "URL",
+          "contentType": "内容类型",
+          "username": "用户名",
+          "password": "密码",
+          "showEmbed": "显示嵌入",
+          "embedTitle": "嵌入标题",
+          "embedText": "嵌入文本",
+          "eventName": "事件名称",
+          "value1": "值 1",
+          "value2": "值 2",
+          "value3": "值 3",
+          "priority": "优先级",
+          "notificationSound": "通知声音",
+          "tags": "标签",
+          "channel": "频道",
+          "doNotNotify": "静默通知",
+          "address": "地址",
+          "port": "端口",
+          "payloadType": "负载类型",
+          "lineTermination": "行结束符"
+        },
         "waitUntil": {
           "predicate": "状况"
         },
@@ -801,6 +851,15 @@
         },
         "startGuiding": {
           "forceCalibrationLabel": "Force Calibration"
+        },
+        "slewToGuiderCalibrationPosition": {
+          "clearBacklash": "Clear DEC Backlash",
+          "dec": "Dec",
+          "haOffset": "HA Offset",
+          "side": "Pointing Side",
+          "sideEast": "East",
+          "sideStay": "Stay",
+          "sideWest": "West"
         }
       },
       "emptyContainer": "空—单击+以添加项目",
@@ -856,7 +915,9 @@
         },
         "setLocationSyncToMount": "设置\"与望远镜同步\"",
         "slewRateINDI": "运动速度",
-        "reverse_axis": "轴向方向"
+        "reverse_axis": "轴向方向",
+        "slewRateDriverControlled": "Slew rate is controlled by the driver",
+        "slewRateUnavailable": "Connect a mount to adjust the slew rate"
       },
       "info": {
         "notConnected": "请连接赤道仪",
@@ -975,6 +1036,10 @@
         "cameraGain": "增益",
         "cameraBinning": "合并",
         "restoreCalibration": "自动恢复校准",
+        "restoreCalibrationReconnect": {
+          "title": "重新连接导星？",
+          "message": "此设置需在重新连接导星后才会生效。现在重新连接吗？"
+        },
         "mountSettings": "赤道仪",
         "guideRate": "导星速率",
         "guideRateReadOnly": "只读",
@@ -1388,6 +1453,8 @@
         "camera_settings_hint": "留空则使用 NINA 默认值",
         "exposure_time": "曝光时间 (秒)",
         "gain": "增益",
+        "filter": "滤镜",
+        "filter_default": "默认值",
         "nina_default": "NINA 默认值",
         "ManualMode": "手动模式"
       },
@@ -1425,7 +1492,15 @@
         "help_log_error": "启用后，将创建一个日志文件，记录极轴对准误差调整及每次调整后的连续误差。"
       },
       "error_modal": {},
-      "tppa": "极轴对准 (TPPA)"
+      "tppa": "极轴对准 (TPPA)",
+      "warn_dec_spread_body": "The mount's reported declination changed by {arcsec}\" between measurements. This may affect polar alignment accuracy — ensure only the RA axis moves during measurement.",
+      "warn_dec_spread_title": "Declination spread detected",
+      "warn_east_west_body": "The current field is within 5° of exact East or West. If the live solution is unstable, slew to a field farther from East/West and rerun.",
+      "warn_east_west_title": "Correction field within {deg}° of East/West",
+      "warn_huge_body": "Either the mount is far off alignment or the calculation could not determine the result. Check site location, confirm the mount is roughly pointing to the pole, and that only the RA axis was moved between the three measurement points.",
+      "warn_huge_title": "Calculated error is huge",
+      "warn_large_body": "The correction phase will be less reliable. Bring the mount closer to polar alignment and run TPPA again to verify.",
+      "warn_large_title": "Initial polar alignment error is large"
     },
     "slewAndCenter": {
       "title": "转动与居中",
@@ -1643,6 +1718,7 @@
       }
     },
     "stellarium": {
+      "loading": "正在加载 Stellarium…",
       "selected_object": {
         "title": "已选对象",
         "ra": "赤经",
@@ -1932,7 +2008,8 @@
         "hotspotChannelInvalid": "Hotspot channel must be a positive integer when provided.",
         "hotspotFetchFailed": "Failed to load hotspot settings: {message}",
         "hotspotPasswordInvalidLength": "Hotspot password is required and must be 8-63 characters.",
-        "hotspotSaveFailed": "Failed to save hotspot settings: {message}"
+        "hotspotSaveFailed": "Failed to save hotspot settings: {message}",
+        "wifiConnected": "WiFi connected: {ssid} ({ip})"
       },
       "hotspotConfigured": "已配置自定义热点密码。",
       "hotspotNewPassword": "新热点密码",
@@ -2025,7 +2102,46 @@
       "hotspotCapabilitiesUnavailable": "Adapter capability list unavailable; manual channel allowed.",
       "hotspotChannelLabel": "Hotspot Channel",
       "hotspotChannelPlaceholder": "Leave empty for auto",
-      "hotspotMetaLine": "Source: {source} | Interface: {iface} | Band: {band} | Channel: {channel}"
+      "hotspotMetaLine": "Source: {source} | Interface: {iface} | Band: {band} | Channel: {channel}",
+      "indiRegistryEditConfig": "Edit config",
+      "indiRegistryModalActions": "Actions",
+      "indiRegistryModalDescription": "Edit Name, Label, and Type for installed INDI 3rdparty registry entries.",
+      "indiRegistryModalEmpty": "No registry entries found.",
+      "indiRegistryModalErrorConflict": "Name already exists (409 duplicate rename).",
+      "indiRegistryModalErrorGeneric": "Failed to save entry: {message}",
+      "indiRegistryModalErrorLoad": "Failed to load registry: {message}",
+      "indiRegistryModalErrorNotFound": "Entry not found (404).",
+      "indiRegistryModalErrorUnknown": "Unknown error.",
+      "indiRegistryModalErrorValidation": "Validation failed: {message}",
+      "indiRegistryModalLabel": "Label",
+      "indiRegistryModalLabelLength": "Label must be 200 characters or fewer.",
+      "indiRegistryModalLoading": "Loading registry...",
+      "indiRegistryModalName": "Name",
+      "indiRegistryModalNameLength": "Name must be 200 characters or fewer.",
+      "indiRegistryModalNameRequired": "Name is required.",
+      "indiRegistryModalNoChanges": "No changes to save.",
+      "indiRegistryModalReload": "Reload",
+      "indiRegistryModalSave": "Save",
+      "indiRegistryModalSaved": "Entry saved. Registry reloaded from backend.",
+      "indiRegistryModalSaving": "Saving...",
+      "indiRegistryModalTitle": "Edit INDI Registry",
+      "indiRegistryModalTotalEntries": "Entries",
+      "indiRegistryModalType": "Type",
+      "indiRegistryModalTypeInvalid": "Type must be one of the allowed values.",
+      "indiRegistryModalUpdatedAt": "Updated",
+      "indiRegistryModalNameDuplicate": "Name already exists in another row.",
+      "wifiSignalMobile": "Mobile signal",
+      "wifiRssiValue": "{value} dBm",
+      "wifiChannel": "Channel {channel}",
+      "wifiConnectedAction": "Connected",
+      "wifiRoleClient": "Home WiFi",
+      "wifiRoleHotspot": "Hotspot",
+      "wifiSignal": "Signal",
+      "wifiSignalHistory": "WiFi signal history",
+      "wifiSignalUnavailable": "Signal unavailable",
+      "wifiSignalValue": "{value}%",
+      "wifiStatusConnected": "Connected",
+      "wifiStatusDisconnected": "Not connected"
     },
     "bahtifocus": {
       "title": "Bahtinov掩模分析仪",
@@ -3119,7 +3235,18 @@
         "micronsPerFocuserStep": "每个对焦器步骤的微米数",
         "retry": "重试",
         "resetToDefaults": "重置为默认值",
-        "resetting": "正在重置..."
+        "resetting": "正在重置...",
+        "autoPlaceholder": "auto",
+        "centerFocuserBeforeRun": "Center Focuser Before Run",
+        "detailedAnalysisExposureSeconds": "Detailed Analysis Exposure Time (seconds)",
+        "framesPerPoint": "Frames Per Point",
+        "numRegionsWide": "Number of Regions Wide",
+        "sensorCurveModelEnabled": "Sensor Curve Model",
+        "signalAmplification": "Signal Amplification",
+        "simpleExposureSeconds": "Exposure Time (seconds)",
+        "stepCount": "Step Count",
+        "stepSize": "Step Size",
+        "timeoutSeconds": "Timeout (seconds)"
       },
       "autoFocusOptions": {
         "loading": "正在加载自动对焦选项...",
@@ -3145,7 +3272,8 @@
         "noiseReducedStarMeasurement": "降噪星测量",
         "debugMode": "调试模式",
         "simpleModeSettings": "简单模式设置",
-        "noiseLevel": "噪声级别"
+        "noiseLevel": "噪声级别",
+        "useOptimizedSettings": "Use Optimized Settings"
       },
       "tilter": {
         "device": "设备",
@@ -4112,6 +4240,157 @@
         "imageRequired": "Please upload an image file.",
         "nameRequired": "Landscape name is required."
       }
+    },
+    "groundStation": {
+      "common": {
+        "leaveEmpty": "(unchanged)",
+        "loading": "Loading…",
+        "passwordUnchanged": "Leave empty to keep current value",
+        "save": "Save",
+        "saving": "Saving…",
+        "test": "Send Test",
+        "testFailed": "Test failed",
+        "testSuccess": "Test sent successfully",
+        "testing": "Sending…"
+      },
+      "discord": {
+        "botName": "Bot Display Name",
+        "defaultWebhook": "Default Webhook URL",
+        "failureMessage": "Failure Message",
+        "failureTitle": "Failure Title",
+        "failureWebhook": "Failure Webhook URL",
+        "imageEventEnabled": "Publish image capture events",
+        "imageEvents": "Image Events",
+        "imageInterval": "Post Every N Images",
+        "imagePostTitle": "Image Post Title",
+        "imageTypes": "Image Types",
+        "imageTypesHint": "Comma-separated (e.g. LIGHT,FLAT,DARK)",
+        "imageWebhook": "Image Webhook URL"
+      },
+      "email": {
+        "failureBody": "Failure Body",
+        "failureSubject": "Failure Subject",
+        "fromAddress": "From Address",
+        "host": "SMTP Host",
+        "password": "Password",
+        "port": "SMTP Port",
+        "recipients": "Default Recipients",
+        "recipientsHint": "Comma-separated",
+        "username": "Username"
+      },
+      "ifttt": {
+        "value1": "Failure Value 1",
+        "value2": "Failure Value 2",
+        "value3": "Failure Value 3",
+        "webhookKey": "Webhook Key"
+      },
+      "mqtt": {
+        "broker": "Broker",
+        "clientId": "Client ID",
+        "defaultQos": "Default QoS",
+        "defaultRetain": "Retain by default",
+        "defaultTopic": "Default Topic",
+        "defaults": "Publish Defaults",
+        "failureQos": "Failure QoS",
+        "host": "Host",
+        "imagePublisher": "Image Publisher",
+        "imagePublisherEnabled": "Enabled",
+        "imageQos": "Image QoS",
+        "imageRetain": "Retain images",
+        "imageTopic": "Image Topic",
+        "imageTypes": "Image Types",
+        "lwt": "Last Will",
+        "lwtBirth": "Birth Payload",
+        "lwtClose": "Close Payload",
+        "lwtEnabled": "Enable LWT",
+        "lwtLastWill": "Last Will Payload",
+        "lwtTopic": "LWT Topic",
+        "maxReconnect": "Max Reconnect Attempts",
+        "metadataOnly": "Metadata only",
+        "metadataTopic": "Metadata Topic",
+        "password": "Password",
+        "port": "Port",
+        "useTls": "Use TLS (switches port to 8883)",
+        "username": "Username"
+      },
+      "notLoaded": "The Ground Station plugin is not installed or not loaded in NINA. Install the 'Ground Station' plugin in NINA to use these settings.",
+      "ntfysh": {
+        "defaultIcon": "Default Icon URL",
+        "defaultTopic": "Default Topic",
+        "failureMessage": "Failure Message",
+        "failureNotification": "Failure Notification",
+        "failurePriority": "Failure Priority",
+        "failureTags": "Failure Tags",
+        "failureTagsHint": "Comma-separated (e.g. warning,rotating_light)",
+        "failureTitle": "Failure Title",
+        "password": "Password",
+        "token": "Access Token",
+        "url": "Server URL",
+        "user": "Username"
+      },
+      "pushover": {
+        "appKey": "App API Token",
+        "emergExpire": "Emergency Expire After (s)",
+        "emergExpireHint": "30 – 86400 seconds",
+        "emergRetry": "Emergency Retry Interval (s)",
+        "emergRetryHint": "30 – 86400 seconds",
+        "failureBody": "Failure Body",
+        "failurePriority": "Failure Priority",
+        "failureSound": "Failure Sound",
+        "failureTitle": "Failure Title",
+        "notificationPriority": "Notification Priority",
+        "notificationSound": "Notification Sound",
+        "userKey": "User Key"
+      },
+      "slack": {
+        "botDisplayName": "Bot Display Name",
+        "channels": "Channels",
+        "failureMessage": "Failure Message",
+        "imageEventChannel": "Image Event Channel",
+        "imageEventEnabled": "Publish image capture events",
+        "imageEvents": "Image Events",
+        "imageInterval": "Post Every N Images",
+        "imageTypes": "Image Types",
+        "members": "members",
+        "oauthToken": "Bot OAuth Token",
+        "refreshChannels": "Refresh Channels",
+        "refreshing": "Refreshing…",
+        "workspace": "Workspace"
+      },
+      "subtitle": "Configure NINA Ground Station notification services",
+      "tabs": {
+        "discord": "Discord",
+        "email": "Email",
+        "ifttt": "IFTTT",
+        "mqtt": "MQTT",
+        "ntfysh": "ntfy.sh",
+        "pushover": "Pushover",
+        "slack": "Slack",
+        "telegram": "Telegram"
+      },
+      "telegram": {
+        "accessToken": "Bot Access Token",
+        "chatId": "Chat ID",
+        "failureBody": "Failure Body"
+      },
+      "title": "Ground Station"
+    },
+    "indiControlPanel": {
+      "description": "Inspect and control every property of the INDI drivers currently loaded on the server.",
+      "enableLog": "Enable",
+      "invalidNumber": "Invalid number for {element}.",
+      "loadFailed": "Failed to load INDI properties.",
+      "log": "INDI Messages",
+      "logDisabled": "Message log is disabled.",
+      "noDevices": "No INDI devices are currently active. Connect equipment first, then refresh.",
+      "noMessages": "No messages yet.",
+      "readonly": "read-only",
+      "refresh": "Refresh",
+      "scrollToLatest": "Scroll to latest",
+      "set": "Set",
+      "setFailed": "Failed to set the property.",
+      "title": "INDI Control Panel",
+      "updated": "Updated"
     }
   },
   "pinsDevices": {
@@ -4322,7 +4601,8 @@
       "tcpPort": "TCP端口",
       "selectPort": "-- 选择端口 --",
       "manualPort": "手动…",
-      "manualPortPath": "手动端口"
+      "manualPortPath": "手动端口",
+      "http": "HTTP"
     }
   },
   "nav": {

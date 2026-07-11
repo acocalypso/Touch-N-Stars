@@ -6,14 +6,14 @@
   >
     <button
       @click="togglePlayPause"
-      class="bg-black bg-opacity-80 p-2 rounded-full text-gray-200 transition-all duration-200 shadow-md"
+      class="bg-black/80 p-2 rounded-full text-gray-200 transition-all duration-200 shadow-md"
       :title="isPaused ? 'Play' : 'Pause'"
     >
       <PlayIcon v-if="isPaused" class="w-6 h-6" />
       <PauseIcon v-else class="w-6 h-6" />
     </button>
     <button
-      class="bg-black bg-opacity-80 p-2 rounded-full text-gray-200 font-mono transition-all duration-200 shadow-md"
+      class="bg-black/80 p-2 rounded-full text-gray-200 font-mono transition-all duration-200 shadow-md"
       @click="toggleDateTimeControls"
     >
       <p class="text-center">{{ formattedTime }}</p>
@@ -174,6 +174,12 @@ const contentGridClasses = computed(() => ({
 
 function updateTime() {
   if (!stellariumStore.stel) return;
+  // Stop the loop while Stellarium is hidden so the clock does not keep running
+  // in the background. It is restarted by the isVisible watcher below.
+  if (!stellariumStore.isVisible) {
+    animationFrameId = null;
+    return;
+  }
 
   const mjd = stellariumStore.stel.core.observer.utc;
   const date = mjdToDate(mjd);
@@ -338,6 +344,16 @@ function togglePlayPause() {
   isPaused.value = !isPaused.value;
   stellariumStore.stel.core.time_speed = isPaused.value ? 0 : Math.pow(2, Number(timeSpeed.value));
 }
+
+// Restart the update loop when Stellarium becomes visible again.
+watch(
+  () => stellariumStore.isVisible,
+  (visible) => {
+    if (visible && animationFrameId === null) {
+      updateTime();
+    }
+  }
+);
 
 onMounted(() => {
   resetToCurrentTime();

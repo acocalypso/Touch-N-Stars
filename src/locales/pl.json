@@ -44,6 +44,16 @@
       "message_api_version": "Wtyczka API jest zbyt stara. Wykonaj aktualizację",
       "message_tns": "Wtyczka Touch'N'Stars jest niedostępna. Sprawdź ustawienia w NINA",
       "message_tns_version": "Wtyczka Touch N Stars jest zbyt stara. Wykonaj aktualizację"
+    },
+    "connection_splash": {
+      "connecting": "Łączenie…",
+      "trying": "Ponowne łączenie z {instance}…",
+      "delayed": "Nadal nie można połączyć się z {instance}. Może to oznaczać problem — otwórz Ustawienia, aby zweryfikować instancję Touch-N-Stars.",
+      "retry_now": "Spróbuj teraz",
+      "show_details": "Pokaż szczegóły",
+      "details": "Cel: {endpoint} · upłynęło {elapsed} s",
+      "configured_instance": "skonfigurowana instancja",
+      "default_instance_name": "wybrana instancja"
     }
   },
   "whatsnew": {
@@ -262,6 +272,10 @@
         "title": "Utrzymuj ekran aktywnym",
         "description": "Zapobiega przyciemnieniu lub blokowaniu urządzenia podczas otwartej aplikacji."
       },
+      "wifiBinding": {
+        "title": "Powiązanie z siecią lokalną",
+        "description": "Utrzymuje połączenie aplikacji przez Wi-Fi, gdy instancja działa w sieci lokalnej bez internetu (np. hotspot PINS), podczas gdy reszta telefonu nadal korzysta z danych komórkowych."
+      },
       "input": {
         "title": "Optymalizacja wejścia",
         "touchOptimized": "Selektor zoptymalizowany dla dotyku"
@@ -392,7 +406,10 @@
       "horizonFilePath": {
         "title": "Plik horyzontu",
         "placeholder": "np. /home/pi/horizon.hrz",
-        "toastTitle": "Plik horyzontu zapisany"
+        "toastTitle": "Plik horyzontu zapisany",
+        "clearTitle": "Wyczyść ścieżkę pliku horyzontu",
+        "confirmTitle": "Wyczyść ścieżkę pliku horyzontu",
+        "confirmMessage": "Czy na pewno chcesz wyczyścić ścieżkę pliku horyzontu?"
       }
     },
     "alpacaDirect": {
@@ -728,6 +745,39 @@
         "annotation": {
           "text": "Tekst"
         },
+        "groundstation": {
+          "message": "Wiadomość",
+          "title": "Tytuł",
+          "subject": "Temat",
+          "body": "Treść",
+          "recipient": "Odbiorca",
+          "topic": "Topic",
+          "payload": "Payload",
+          "qos": "QoS",
+          "retain": "Retain",
+          "description": "Opis",
+          "method": "Metoda",
+          "url": "URL",
+          "contentType": "Typ zawartości",
+          "username": "Nazwa użytkownika",
+          "password": "Hasło",
+          "showEmbed": "Pokaż embed",
+          "embedTitle": "Tytuł embedu",
+          "embedText": "Tekst embedu",
+          "eventName": "Nazwa zdarzenia",
+          "value1": "Wartość 1",
+          "value2": "Wartość 2",
+          "value3": "Wartość 3",
+          "priority": "Priorytet",
+          "notificationSound": "Dźwięk powiadomienia",
+          "tags": "Tagi",
+          "channel": "Kanał",
+          "doNotNotify": "Ciche powiadomienie",
+          "address": "Adres",
+          "port": "Port",
+          "payloadType": "Typ payloadu",
+          "lineTermination": "Koniec linii"
+        },
         "waitUntil": {
           "predicate": "Warunek"
         },
@@ -801,6 +851,15 @@
         },
         "startGuiding": {
           "forceCalibrationLabel": "Kalibracja siły"
+        },
+        "slewToGuiderCalibrationPosition": {
+          "clearBacklash": "Wyczyść luz DEC",
+          "dec": "grudzień",
+          "haOffset": "Przesunięcie HA",
+          "side": "Wskazująca strona",
+          "sideEast": "Wschód",
+          "sideStay": "Zostawać",
+          "sideWest": "Zachód"
         }
       },
       "emptyContainer": "Pusty — kliknij +, aby dodać pozycje",
@@ -856,7 +915,9 @@
         },
         "setLocationSyncToMount": "Ustaw \"Synchronizuj z teleskopem\"",
         "slewRateINDI": "Prędkość ruchu",
-        "reverse_axis": "Kierunek osi"
+        "reverse_axis": "Kierunek osi",
+        "slewRateDriverControlled": "Szybkość narastania jest kontrolowana przez sterownik",
+        "slewRateUnavailable": "Podłącz uchwyt, aby wyregulować prędkość narastania"
       },
       "info": {
         "notConnected": "Proszę podłączyć montaż",
@@ -975,6 +1036,10 @@
         "cameraGain": "Wzmocnienie",
         "cameraBinning": "Binning",
         "restoreCalibration": "Autom. przywracanie kalibracji",
+        "restoreCalibrationReconnect": {
+          "title": "Połączyć ponownie guider?",
+          "message": "To ustawienie zacznie działać dopiero po ponownym połączeniu guidera. Połączyć ponownie teraz?"
+        },
         "mountSettings": "Montaż",
         "guideRate": "Guide Rate",
         "guideRateReadOnly": "Tylko do odczytu",
@@ -1388,6 +1453,8 @@
         "camera_settings_hint": "Pozostaw puste dla domyślnych ustawień NINA",
         "exposure_time": "Czas naświetlania (s)",
         "gain": "Wzmocnienie",
+        "filter": "Filtr",
+        "filter_default": "Domyślne",
         "nina_default": "Domyślne NINA",
         "ManualMode": "Tryb ręczny"
       },
@@ -1425,7 +1492,15 @@
         "help_log_error": "Po włączeniu zostanie utworzony plik dziennika z korektami błędu wyrównania polarnego i ciągłymi błędami po każdej korekcie."
       },
       "error_modal": {},
-      "tppa": "TPA"
+      "tppa": "TPA",
+      "warn_dec_spread_body": "Zgłoszona deklinacja mocowania zmieniała się o {arcsec}” pomiędzy pomiarami. Może to mieć wpływ na dokładność ustawienia biegunowego — upewnij się, że podczas pomiaru porusza się tylko oś RA.",
+      "warn_dec_spread_title": "Wykryto rozproszenie deklinacji",
+      "warn_east_west_body": "Aktualne pole znajduje się w promieniu 5° od dokładnego wschodu lub zachodu. \nJeśli rozwiązanie na żywo jest niestabilne, skieruj się na pole położone dalej od wschodu/zachodu i uruchom ponownie.",
+      "warn_east_west_title": "Pole korekcyjne w promieniu {deg}° od wschodu/zachodu",
+      "warn_huge_body": "Albo mocowanie jest zbyt daleko od siebie ustawione, albo obliczenia nie mogły określić wyniku. \nSprawdź lokalizację miejsca, upewnij się, że uchwyt jest mniej więcej skierowany w stronę słupa i że pomiędzy trzema punktami pomiarowymi przesunięto tylko oś RA.",
+      "warn_huge_title": "Błąd obliczony jest ogromny",
+      "warn_large_body": "Faza korekty będzie mniej niezawodna. \nPrzybliż uchwyt do ustawienia biegunowego i ponownie uruchom TPPA, aby to sprawdzić.",
+      "warn_large_title": "Początkowy błąd ustawienia biegunowego jest duży"
     },
     "slewAndCenter": {
       "title": "Obróć i wyśrodkuj",
@@ -1643,6 +1718,7 @@
       }
     },
     "stellarium": {
+      "loading": "Ładowanie Stellarium…",
       "selected_object": {
         "title": "Wybrany obiekt",
         "ra": "RA",
@@ -1932,7 +2008,8 @@
         "hotspotChannelInvalid": "Kanał punktu aktywnego musi być dodatnią liczbą całkowitą, jeśli jest podany.",
         "hotspotFetchFailed": "Nie udało się załadować ustawień hotspotu: {message}",
         "hotspotPasswordInvalidLength": "Hasło do hotspotu jest wymagane i musi mieć od 8 do 63 znaków.",
-        "hotspotSaveFailed": "Nie udało się zapisać ustawień hotspotu: {message}"
+        "hotspotSaveFailed": "Nie udało się zapisać ustawień hotspotu: {message}",
+        "wifiConnected": "Połączono z Wi-Fi: {ssid} ({ip})"
       },
       "hotspotConfigured": "Skonfigurowano niestandardowe hasło hotspotu.",
       "hotspotNewPassword": "Nowe hasło do hotspotu",
@@ -2025,7 +2102,46 @@
       "hotspotCapabilitiesUnavailable": "Lista możliwości adaptera jest niedostępna; \ndozwolony kanał ręczny.",
       "hotspotChannelLabel": "Kanał Hotspotu",
       "hotspotChannelPlaceholder": "Zostaw puste dla auto",
-      "hotspotMetaLine": "Źródło: {źródło} | \nInterfejs: {iface} | \nZespół: {zespół} | \nKanał: {kanał}"
+      "hotspotMetaLine": "Źródło: {źródło} | \nInterfejs: {iface} | \nZespół: {zespół} | \nKanał: {kanał}",
+      "indiRegistryEditConfig": "Edytuj konfigurację",
+      "indiRegistryModalActions": "Działania",
+      "indiRegistryModalDescription": "Edytuj nazwę, etykietę i typ zainstalowanych wpisów rejestru innych firm INDI.",
+      "indiRegistryModalEmpty": "Nie znaleziono wpisów rejestru.",
+      "indiRegistryModalErrorConflict": "Nazwa już istnieje (409 duplikatów zmiany nazwy).",
+      "indiRegistryModalErrorGeneric": "Nie udało się zapisać wpisu: {wiadomość}",
+      "indiRegistryModalErrorLoad": "Nie udało się załadować rejestru: {wiadomość}",
+      "indiRegistryModalErrorNotFound": "Nie znaleziono wpisu (404).",
+      "indiRegistryModalErrorUnknown": "Nieznany błąd.",
+      "indiRegistryModalErrorValidation": "Weryfikacja nie powiodła się: {wiadomość}",
+      "indiRegistryModalLabel": "Etykieta",
+      "indiRegistryModalLabelLength": "Etykieta musi mieć maksymalnie 200 znaków.",
+      "indiRegistryModalLoading": "Ładowanie rejestru...",
+      "indiRegistryModalName": "Nazwa",
+      "indiRegistryModalNameLength": "Nazwa musi mieć maksymalnie 200 znaków.",
+      "indiRegistryModalNameRequired": "Imię i nazwisko jest wymagane.",
+      "indiRegistryModalNoChanges": "Brak zmian do zapisania.",
+      "indiRegistryModalReload": "Przeładować",
+      "indiRegistryModalSave": "Ratować",
+      "indiRegistryModalSaved": "Wpis został zapisany. \nRejestr został ponownie załadowany z backendu.",
+      "indiRegistryModalSaving": "Oszczędność...",
+      "indiRegistryModalTitle": "Edytuj rejestr INDI",
+      "indiRegistryModalTotalEntries": "Wpisy",
+      "indiRegistryModalType": "Typ",
+      "indiRegistryModalTypeInvalid": "Typ musi być jedną z dozwolonych wartości.",
+      "indiRegistryModalUpdatedAt": "Zaktualizowano",
+      "indiRegistryModalNameDuplicate": "Nazwa już istnieje w innym wierszu.",
+      "wifiSignalMobile": "Mobile signal",
+      "wifiRssiValue": "{value} dBm",
+      "wifiChannel": "Kanał {kanał}",
+      "wifiConnectedAction": "Połączony",
+      "wifiRoleClient": "Domowe Wi-Fi",
+      "wifiRoleHotspot": "Hotspot",
+      "wifiSignal": "Sygnał",
+      "wifiSignalHistory": "Historia sygnału WiFi",
+      "wifiSignalUnavailable": "Sygnał niedostępny",
+      "wifiSignalValue": "{wartość}%",
+      "wifiStatusConnected": "Połączony",
+      "wifiStatusDisconnected": "Nie podłączony"
     },
     "bahtifocus": {
       "title": "Analizator maski Bahtinowa",
@@ -3119,7 +3235,18 @@
         "micronsPerFocuserStep": "Mikrony na krok fokusera",
         "retry": "Ponów",
         "resetToDefaults": "Przywróć ustawienia domyślne",
-        "resetting": "Przywracanie..."
+        "resetting": "Przywracanie...",
+        "autoPlaceholder": "automatyczny",
+        "centerFocuserBeforeRun": "Centralny wyciąg okularowy przed biegiem",
+        "detailedAnalysisExposureSeconds": "Szczegółowa analiza Czas ekspozycji (sekundy)",
+        "framesPerPoint": "Klatki na punkt",
+        "numRegionsWide": "Liczba regionów szeroka",
+        "sensorCurveModelEnabled": "Model krzywej czujnika",
+        "signalAmplification": "Wzmocnienie sygnału",
+        "simpleExposureSeconds": "Czas ekspozycji (sekundy)",
+        "stepCount": "Liczba kroków",
+        "stepSize": "Rozmiar kroku",
+        "timeoutSeconds": "Limit czasu (sekundy)"
       },
       "autoFocusOptions": {
         "loading": "Ładowanie opcji autofokusu...",
@@ -3145,7 +3272,8 @@
         "noiseReducedStarMeasurement": "Pomiar gwiazd ze zmniejszonym szumem",
         "debugMode": "Tryb debugowania",
         "simpleModeSettings": "Ustawienia trybu prostego",
-        "noiseLevel": "Poziom szumu"
+        "noiseLevel": "Poziom szumu",
+        "useOptimizedSettings": "Użyj zoptymalizowanych ustawień"
       },
       "tilter": {
         "device": "Urządzenie",
@@ -4112,6 +4240,157 @@
         "imageRequired": "Proszę przesłać plik obrazu.",
         "nameRequired": "Nazwa krajobrazu jest wymagana."
       }
+    },
+    "groundStation": {
+      "common": {
+        "leaveEmpty": "(bez zmian)",
+        "loading": "Załadunek…",
+        "passwordUnchanged": "Pozostaw puste, aby zachować bieżącą wartość",
+        "save": "Ratować",
+        "saving": "Oszczędność…",
+        "test": "Wyślij test",
+        "testFailed": "Test nie powiódł się",
+        "testSuccess": "Test został wysłany pomyślnie",
+        "testing": "Przesyłka…"
+      },
+      "discord": {
+        "botName": "Nazwa wyświetlana bota",
+        "defaultWebhook": "Domyślny adres URL webhooka",
+        "failureMessage": "Komunikat o niepowodzeniu",
+        "failureTitle": "Tytuł porażki",
+        "failureWebhook": "Adres URL webhooka nie powiódł się",
+        "imageEventEnabled": "Publikuj zdarzenia przechwytywania obrazu",
+        "imageEvents": "Wydarzenia obrazowe",
+        "imageInterval": "Publikuj co N zdjęć",
+        "imagePostTitle": "Tytuł postu obrazu",
+        "imageTypes": "Typy obrazów",
+        "imageTypesHint": "Oddzielone przecinkami (np. JASNY, PŁASKI, CIEMNY)",
+        "imageWebhook": "Adres URL webhooka obrazu"
+      },
+      "email": {
+        "failureBody": "Ciało awarii",
+        "failureSubject": "Temat awarii",
+        "fromAddress": "Z adresu",
+        "host": "Host SMTP",
+        "password": "Hasło",
+        "port": "Port SMTP",
+        "recipients": "Domyślni odbiorcy",
+        "recipientsHint": "Oddzielone przecinkami",
+        "username": "Nazwa użytkownika"
+      },
+      "ifttt": {
+        "value1": "Wartość błędu 1",
+        "value2": "Wartość awarii 2",
+        "value3": "Wartość awarii 3",
+        "webhookKey": "Klucz webhooka"
+      },
+      "mqtt": {
+        "broker": "Pośrednik",
+        "clientId": "Identyfikator klienta",
+        "defaultQos": "Domyślna jakość usług",
+        "defaultRetain": "Zachowaj domyślnie",
+        "defaultTopic": "Domyślny temat",
+        "defaults": "Publikuj wartości domyślne",
+        "failureQos": "Awaria QoS",
+        "host": "Gospodarz",
+        "imagePublisher": "Wydawca obrazów",
+        "imagePublisherEnabled": "Włączony",
+        "imageQos": "Jakość obrazu",
+        "imageRetain": "Zachowaj obrazy",
+        "imageTopic": "Temat obrazu",
+        "imageTypes": "Typy obrazów",
+        "lwt": "Ostatnia wola",
+        "lwtBirth": "Ładunek urodzeniowy",
+        "lwtClose": "Zamknij ładunek",
+        "lwtEnabled": "Włącz LWT",
+        "lwtLastWill": "Ładunek ostatniej woli",
+        "lwtTopic": "Temat LWT",
+        "maxReconnect": "Maksymalna liczba prób ponownego połączenia",
+        "metadataOnly": "Tylko metadane",
+        "metadataTopic": "Temat metadanych",
+        "password": "Hasło",
+        "port": "Port",
+        "useTls": "Użyj TLS (przełącza port na 8883)",
+        "username": "Nazwa użytkownika"
+      },
+      "notLoaded": "Wtyczka Ground Station nie jest zainstalowana lub nie jest załadowana w NINA. \nZainstaluj wtyczkę „Ground Station” w NINA, aby móc korzystać z tych ustawień.",
+      "ntfysh": {
+        "defaultIcon": "Domyślny adres URL ikony",
+        "defaultTopic": "Domyślny temat",
+        "failureMessage": "Komunikat o niepowodzeniu",
+        "failureNotification": "Powiadomienie o awarii",
+        "failurePriority": "Priorytet awarii",
+        "failureTags": "Tagi niepowodzeń",
+        "failureTagsHint": "Oddzielone przecinkami (np. ostrzeżenie,obrotowe_światło)",
+        "failureTitle": "Tytuł porażki",
+        "password": "Hasło",
+        "token": "Token dostępu",
+        "url": "Adres URL serwera",
+        "user": "Nazwa użytkownika"
+      },
+      "pushover": {
+        "appKey": "Token interfejsu API aplikacji",
+        "emergExpire": "Awaryjne wygaśnięcie po (s)",
+        "emergExpireHint": "30 – 86400 sekund",
+        "emergRetry": "Interwał prób awaryjnych (s)",
+        "emergRetryHint": "30 – 86400 sekund",
+        "failureBody": "Ciało awarii",
+        "failurePriority": "Priorytet awarii",
+        "failureSound": "Dźwięk awarii",
+        "failureTitle": "Tytuł porażki",
+        "notificationPriority": "Priorytet powiadomień",
+        "notificationSound": "Dźwięk powiadomienia",
+        "userKey": "Klucz użytkownika"
+      },
+      "slack": {
+        "botDisplayName": "Nazwa wyświetlana bota",
+        "channels": "Kanały",
+        "failureMessage": "Komunikat o niepowodzeniu",
+        "imageEventChannel": "Kanał zdarzeń obrazu",
+        "imageEventEnabled": "Publikuj zdarzenia przechwytywania obrazu",
+        "imageEvents": "Wydarzenia obrazowe",
+        "imageInterval": "Publikuj co N zdjęć",
+        "imageTypes": "Typy obrazów",
+        "members": "członkowie",
+        "oauthToken": "Token OAuth bota",
+        "refreshChannels": "Odśwież kanały",
+        "refreshing": "Orzeźwiający…",
+        "workspace": "Obszar roboczy"
+      },
+      "subtitle": "Skonfiguruj usługi powiadomień stacji naziemnej NINA",
+      "tabs": {
+        "discord": "Niezgoda",
+        "email": "E-mail",
+        "ifttt": "IFTTT",
+        "mqtt": "MQTT",
+        "ntfysh": "ntfy.sh",
+        "pushover": "Łatwizna",
+        "slack": "Luźny",
+        "telegram": "Telegram"
+      },
+      "telegram": {
+        "accessToken": "Token dostępu bota",
+        "chatId": "Identyfikator czatu",
+        "failureBody": "Ciało awarii"
+      },
+      "title": "Stacja naziemna"
+    },
+    "indiControlPanel": {
+      "description": "Sprawdzaj i kontroluj każdą właściwość sterowników INDI aktualnie załadowanych na serwerze.",
+      "enableLog": "Włączać",
+      "invalidNumber": "Nieprawidłowy numer dla {element}.",
+      "loadFailed": "Nie udało się załadować właściwości INDI.",
+      "log": "Wiadomości INDI",
+      "logDisabled": "Dziennik wiadomości jest wyłączony.",
+      "noDevices": "Żadne urządzenia INDI nie są obecnie aktywne. \nNajpierw podłącz sprzęt, potem odśwież.",
+      "noMessages": "Nie ma jeszcze żadnych wiadomości.",
+      "readonly": "tylko do odczytu",
+      "refresh": "Odświeżać",
+      "scrollToLatest": "Przewiń do najnowszych",
+      "set": "Ustawić",
+      "setFailed": "Nie udało się ustawić właściwości.",
+      "title": "Panel sterowania INDI",
+      "updated": "Zaktualizowano"
     }
   },
   "pinsDevices": {
@@ -4322,7 +4601,8 @@
       "tcpPort": "Port TCP",
       "selectPort": "-- Wybierz port --",
       "manualPort": "Ręcznie…",
-      "manualPortPath": "Port ręczny"
+      "manualPortPath": "Port ręczny",
+      "http": "HTTP"
     }
   },
   "nav": {

@@ -44,6 +44,16 @@
       "message_api_version": "Das API-Plugin ist zu alt. \nBitte führen Sie ein Update durch",
       "message_tns": "Das Touch'N'Stars -Plugin ist nicht verfügbar. \nBitte überprüfen Sie die Einstellungen in N.I.N.A",
       "message_tns_version": "Das Touch N Stars Plugin ist zu alt. \nBitte führen Sie ein Update durch"
+    },
+    "connection_splash": {
+      "connecting": "Verbinde…",
+      "trying": "Verbinde erneut mit {instance}…",
+      "delayed": "Weiterhin keine Verbindung zu {instance}. Das könnte auf ein Problem hindeuten — öffne die Einstellungen, um deine Touch-N-Stars-Instanz zu überprüfen.",
+      "retry_now": "Erneut versuchen",
+      "show_details": "Details anzeigen",
+      "details": "Ziel: {endpoint} · {elapsed}s vergangen",
+      "configured_instance": "konfigurierte Instanz",
+      "default_instance_name": "ausgewählte Instanz"
     }
   },
   "whatsnew": {
@@ -263,7 +273,10 @@
       "horizonFilePath": {
         "title": "Horizont-Datei",
         "placeholder": "z.B. /home/pi/horizon.hrz",
-        "toastTitle": "Horizont-Datei gespeichert"
+        "toastTitle": "Horizont-Datei gespeichert",
+        "clearTitle": "Horizont-Dateipfad löschen",
+        "confirmTitle": "Horizont-Dateipfad löschen",
+        "confirmMessage": "Soll der Horizont-Dateipfad wirklich gelöscht werden?"
       },
       "image": {
         "title": "Bild",
@@ -327,6 +340,10 @@
       "keepAwake": {
         "title": "Bildschirm aktiv halten",
         "description": "Verhindert, dass das Gerät den Bildschirm dimmt oder sperrt, während die App geöffnet ist. "
+      },
+      "wifiBinding": {
+        "title": "Lokale Netzwerkbindung",
+        "description": "Hält die App über WLAN verbunden, wenn die Instanz in einem lokalen Netzwerk ohne Internet läuft (z. B. PINS-Hotspot), während das übrige Telefon weiterhin mobile Daten nutzt."
       },
       "input": {
         "title": "Eingabeoptimierung",
@@ -780,6 +797,39 @@
         "annotation": {
           "text": "Text"
         },
+        "groundstation": {
+          "message": "Nachricht",
+          "title": "Titel",
+          "subject": "Betreff",
+          "body": "Inhalt",
+          "recipient": "Empfänger",
+          "topic": "Topic",
+          "payload": "Payload",
+          "qos": "QoS",
+          "retain": "Retain",
+          "description": "Beschreibung",
+          "method": "Methode",
+          "url": "URL",
+          "contentType": "Content-Type",
+          "username": "Benutzername",
+          "password": "Passwort",
+          "showEmbed": "Embed anzeigen",
+          "embedTitle": "Embed-Titel",
+          "embedText": "Embed-Text",
+          "eventName": "Event-Name",
+          "value1": "Wert 1",
+          "value2": "Wert 2",
+          "value3": "Wert 3",
+          "priority": "Priorität",
+          "notificationSound": "Benachrichtigungston",
+          "tags": "Tags",
+          "channel": "Kanal",
+          "doNotNotify": "Stille Benachrichtigung",
+          "address": "Adresse",
+          "port": "Port",
+          "payloadType": "Payload-Typ",
+          "lineTermination": "Zeilenende"
+        },
         "waitUntil": {
           "predicate": "Bedingung"
         },
@@ -853,6 +903,15 @@
           "slope": "Steigung",
           "intercept": "Achsenabschnitt",
           "absolute": "Absolut"
+        },
+        "slewToGuiderCalibrationPosition": {
+          "clearBacklash": "DEC-Spiel löschen",
+          "dec": "Dez",
+          "haOffset": "HA-Offset",
+          "side": "Zeigende Seite",
+          "sideEast": "Ost",
+          "sideStay": "Bleiben",
+          "sideWest": "Westen"
         }
       },
       "emptyContainer": "Leer — auf + klicken um Items hinzuzufügen",
@@ -896,7 +955,9 @@
         },
         "setLocationSyncToMount": "Setze \"Sync to telescope\"",
         "slewRateINDI": "Schwenkgeschwindigkeit",
-        "reverse_axis": "Achsenrichtung"
+        "reverse_axis": "Achsenrichtung",
+        "slewRateDriverControlled": "Die Anstiegsgeschwindigkeit wird vom Treiber gesteuert",
+        "slewRateUnavailable": "Schließen Sie eine Halterung an, um die Anstiegsgeschwindigkeit anzupassen"
       },
       "info": {
         "notConnected": "Bitte Montierung verbinden",
@@ -1015,6 +1076,10 @@
         "cameraGain": "Gain",
         "cameraBinning": "Binning",
         "restoreCalibration": "Kalibrierung autom. wiederherstellen",
+        "restoreCalibrationReconnect": {
+          "title": "Guider neu verbinden?",
+          "message": "Diese Einstellung wird erst nach einem Neuverbinden des Guiders wirksam. Jetzt neu verbinden?"
+        },
         "starDetection": "Leitsternverfolgung",
         "searchRegion": "Suchregion (Pixel)",
         "minStarHFD": "Minimaler Stern-HFD (Pixel)",
@@ -1428,6 +1493,8 @@
         "camera_settings_hint": "Leer lassen für NINA Standardwerte",
         "exposure_time": "Belichtungszeit (s)",
         "gain": "Verstärkung",
+        "filter": "Filter",
+        "filter_default": "Standard",
         "nina_default": "NINA Standard",
         "ManualMode": "Manuell"
       },
@@ -1465,7 +1532,15 @@
         "help_log_error": "Bei Aktivierung wird eine Protokolldatei mit den Polarausrichtungsfehlern und den kontinuierlichen Fehlern nach jeder Anpassung erstellt."
       },
       "error_modal": {},
-      "tppa": "TPPA"
+      "tppa": "TPPA",
+      "warn_dec_spread_body": "Die gemeldete Deklination der Montierung änderte sich zwischen den Messungen um {Bogensekunden}\". Dies kann die Genauigkeit der Polausrichtung beeinträchtigen. Stellen Sie sicher, dass sich während der Messung nur die RA-Achse bewegt.",
+      "warn_dec_spread_title": "Deklinationsausbreitung erkannt",
+      "warn_east_west_body": "Das aktuelle Feld liegt innerhalb von 5° vom genauen Osten oder Westen. \nWenn die Live-Lösung instabil ist, schwenken Sie zu einem Feld, das weiter von Ost/West entfernt ist, und führen Sie es erneut aus.",
+      "warn_east_west_title": "Korrekturfeld innerhalb von {deg}° von Ost/West",
+      "warn_huge_body": "Entweder ist die Halterung weit von der Ausrichtung entfernt oder die Berechnung konnte das Ergebnis nicht ermitteln. \nÜberprüfen Sie den Standort des Standorts, stellen Sie sicher, dass die Halterung ungefähr auf den Mast zeigt und dass nur die RA-Achse zwischen den drei Messpunkten bewegt wurde.",
+      "warn_huge_title": "Der berechnete Fehler ist riesig",
+      "warn_large_body": "Die Korrekturphase wird weniger zuverlässig sein. \nBringen Sie die Montierung näher an die Polarausrichtung und führen Sie zur Überprüfung erneut TPPA aus.",
+      "warn_large_title": "Der anfängliche Polausrichtungsfehler ist groß"
     },
     "slewAndCenter": {
       "title": "Schwenken und zentrieren",
@@ -1683,6 +1758,7 @@
       }
     },
     "stellarium": {
+      "loading": "Stellarium wird geladen…",
       "selected_object": {
         "title": "Ausgewähltes Objekt",
         "ra": "Ra",
@@ -1861,6 +1937,18 @@
       "wifiPassword": "Passwort",
       "autoConnect": "Nach dem Start automatisch mit ausgewähltem WLAN verbinden",
       "wifiConnect": "Verbinden",
+      "wifiConnectedAction": "Verbunden",
+      "wifiStatusConnected": "Verbunden",
+      "wifiStatusDisconnected": "Nicht verbunden",
+      "wifiRoleClient": "Heim-WLAN",
+      "wifiRoleHotspot": "Hotspot",
+      "wifiSignal": "Signal",
+      "wifiSignalMobile": "Mobiles Signal",
+      "wifiSignalValue": "{value}%",
+      "wifiRssiValue": "{value} dBm",
+      "wifiSignalHistory": "WLAN-Signalverlauf",
+      "wifiSignalUnavailable": "Signal nicht verfuegbar",
+      "wifiChannel": "Kanal {channel}",
       "scanning": "Scannen...",
       "systemTime": "Systemzeit",
       "deviceTime": "Gerätezeit",
@@ -1942,6 +2030,7 @@
         "hotspotChannelInvalid": "Hotspot-Kanal muss eine positive Ganzzahl sein, wenn angegeben.",
         "hotspotSaving": "Hotspot-Passwort wird aktualisiert...",
         "wifiDisabling": "Disconnecting WiFi and enabling hotspot...",
+        "wifiConnected": "WLAN verbunden: {ssid} ({ip})",
         "wifiDisabled": "WiFi disconnected and hotspot enabled.",
         "updateCheckFailed": "Failed to check updates: {message}",
         "indi3rdpartyLoadFailed": "Failed to load INDI 3rdparty packages: {message}",
@@ -1989,10 +2078,37 @@
       "indi3rdpartySearch": "Search",
       "indi3rdpartySearchPlaceholder": "Search drivers (e.g. asi)",
       "indi3rdpartyRefresh": "Refresh list",
+      "indiRegistryEditConfig": "Edit config",
       "indi3rdpartySelect": "Select driver package",
       "indi3rdpartyInstall": "Install driver",
       "indi3rdpartyInstalling": "Installing...",
       "indi3rdpartyNoDrivers": "No not-installed drivers found.",
+      "indiRegistryModalTitle": "INDI Registry bearbeiten",
+      "indiRegistryModalDescription": "Bearbeite Name, Bezeichnung und Typ fuer installierte INDI 3rdparty Registry-Eintraege.",
+      "indiRegistryModalUpdatedAt": "Aktualisiert",
+      "indiRegistryModalTotalEntries": "Eintraege",
+      "indiRegistryModalReload": "Neu laden",
+      "indiRegistryModalLoading": "Registry wird geladen...",
+      "indiRegistryModalEmpty": "Keine Registry-Eintraege gefunden.",
+      "indiRegistryModalName": "Name",
+      "indiRegistryModalLabel": "Bezeichnung",
+      "indiRegistryModalType": "Typ",
+      "indiRegistryModalActions": "Aktionen",
+      "indiRegistryModalSave": "Speichern",
+      "indiRegistryModalSaving": "Speichere...",
+      "indiRegistryModalSaved": "Eintrag gespeichert. Registry vom Backend neu geladen.",
+      "indiRegistryModalNoChanges": "Keine Aenderungen zum Speichern.",
+      "indiRegistryModalNameRequired": "Name ist erforderlich.",
+      "indiRegistryModalNameLength": "Name darf maximal 200 Zeichen haben.",
+      "indiRegistryModalNameDuplicate": "Name existiert bereits in einer anderen Zeile.",
+      "indiRegistryModalLabelLength": "Bezeichnung darf maximal 200 Zeichen haben.",
+      "indiRegistryModalTypeInvalid": "Typ muss einer der erlaubten Werte sein.",
+      "indiRegistryModalErrorLoad": "Registry konnte nicht geladen werden: {message}",
+      "indiRegistryModalErrorNotFound": "Eintrag nicht gefunden (404).",
+      "indiRegistryModalErrorConflict": "Name existiert bereits (409, doppeltes Rename).",
+      "indiRegistryModalErrorValidation": "Validierung fehlgeschlagen: {message}",
+      "indiRegistryModalErrorGeneric": "Eintrag konnte nicht gespeichert werden: {message}",
+      "indiRegistryModalErrorUnknown": "Unbekannter Fehler.",
       "indiInstallModalTitle": "INDI-Treiber installieren",
       "indiInstallModalDriverPackage": "Treiber/Paket",
       "indiInstallModalAssetName": "Asset-Name",
@@ -3200,7 +3316,18 @@
         "micronsPerFocuserStep": "Mikronen pro Fokussierschritt",
         "retry": "Wiederholen",
         "resetToDefaults": "Auf Standardwerte zurücksetzen",
-        "resetting": "Wird zurückgesetzt..."
+        "resetting": "Wird zurückgesetzt...",
+        "autoPlaceholder": "Auto",
+        "centerFocuserBeforeRun": "Fokussierer vor dem Lauf zentrieren",
+        "detailedAnalysisExposureSeconds": "Detaillierte Analyse-Belichtungszeit (Sekunden)",
+        "framesPerPoint": "Frames pro Punkt",
+        "numRegionsWide": "Anzahl der Regionen insgesamt",
+        "sensorCurveModelEnabled": "Sensorkurvenmodell",
+        "signalAmplification": "Signalverstärkung",
+        "simpleExposureSeconds": "Belichtungszeit (Sekunden)",
+        "stepCount": "Schrittzahl",
+        "stepSize": "Schrittgröße",
+        "timeoutSeconds": "Timeout (Sekunden)"
       },
       "autoFocusOptions": {
         "loading": "Lade Autofokus-Optionen...",
@@ -3226,7 +3353,8 @@
         "noiseReducedStarMeasurement": "Rausch-reduzierte Sternmessung",
         "debugMode": "Debug-Modus",
         "simpleModeSettings": "Einfacher Modus-Einstellungen",
-        "noiseLevel": "Rauschpegel"
+        "noiseLevel": "Rauschpegel",
+        "useOptimizedSettings": "Verwenden Sie optimierte Einstellungen"
       },
       "tilter": {
         "device": "Device",
@@ -3926,6 +4054,140 @@
       "title": "Filter-Offset-Rechner",
       "useRelativeOffsets": "Verwenden Sie relative Offsets"
     },
+    "groundStation": {
+      "title": "Ground Station",
+      "subtitle": "Benachrichtigungsdienste des NINA Ground Station Plugins konfigurieren",
+      "notLoaded": "Das Ground Station Plugin ist in NINA nicht installiert oder nicht geladen. Installiere das Plugin 'Ground Station' in NINA, um diese Einstellungen zu nutzen.",
+      "tabs": {
+        "pushover": "Pushover",
+        "telegram": "Telegram",
+        "email": "E-Mail",
+        "discord": "Discord",
+        "slack": "Slack",
+        "mqtt": "MQTT",
+        "ifttt": "IFTTT",
+        "ntfysh": "ntfy.sh"
+      },
+      "common": {
+        "loading": "Lädt…",
+        "save": "Speichern",
+        "saving": "Speichert…",
+        "test": "Test senden",
+        "testing": "Sendet…",
+        "testSuccess": "Test erfolgreich gesendet",
+        "testFailed": "Test fehlgeschlagen",
+        "passwordUnchanged": "Leer lassen, um den aktuellen Wert beizubehalten",
+        "leaveEmpty": "(unverändert)"
+      },
+      "pushover": {
+        "userKey": "User Key",
+        "appKey": "App API Token",
+        "notificationSound": "Benachrichtigungston",
+        "notificationPriority": "Benachrichtigungs-Priorität",
+        "failureSound": "Fehlermeldungs-Ton",
+        "failurePriority": "Fehlermeldungs-Priorität",
+        "emergRetry": "Emergency-Wiederholung (s)",
+        "emergRetryHint": "30 – 86400 Sekunden",
+        "emergExpire": "Emergency-Ablauf nach (s)",
+        "emergExpireHint": "30 – 86400 Sekunden",
+        "failureTitle": "Fehler-Titel",
+        "failureBody": "Fehler-Nachricht"
+      },
+      "telegram": {
+        "accessToken": "Bot Access Token",
+        "chatId": "Chat-ID",
+        "failureBody": "Fehler-Nachricht"
+      },
+      "email": {
+        "fromAddress": "Absender-Adresse",
+        "recipients": "Standard-Empfänger",
+        "recipientsHint": "Kommagetrennt",
+        "host": "SMTP-Server",
+        "port": "SMTP-Port",
+        "username": "Benutzername",
+        "password": "Passwort",
+        "failureSubject": "Fehler-Betreff",
+        "failureBody": "Fehler-Nachricht"
+      },
+      "discord": {
+        "defaultWebhook": "Standard-Webhook-URL",
+        "botName": "Bot-Anzeigename",
+        "imageWebhook": "Bild-Webhook-URL",
+        "failureWebhook": "Fehler-Webhook-URL",
+        "failureTitle": "Fehler-Titel",
+        "failureMessage": "Fehler-Nachricht",
+        "imagePostTitle": "Titel bei Bild-Post",
+        "imageEvents": "Bild-Events",
+        "imageEventEnabled": "Bildaufnahme-Events veröffentlichen",
+        "imageTypes": "Bildtypen",
+        "imageTypesHint": "Kommagetrennt (z. B. LIGHT,FLAT,DARK)",
+        "imageInterval": "Alle N Bilder posten"
+      },
+      "slack": {
+        "oauthToken": "Bot OAuth Token",
+        "workspace": "Workspace",
+        "botDisplayName": "Bot-Anzeigename",
+        "imageEventChannel": "Kanal für Bild-Events",
+        "failureMessage": "Fehler-Nachricht",
+        "imageEvents": "Bild-Events",
+        "imageEventEnabled": "Bildaufnahme-Events veröffentlichen",
+        "imageTypes": "Bildtypen",
+        "imageInterval": "Alle N Bilder posten",
+        "refreshChannels": "Kanäle aktualisieren",
+        "refreshing": "Aktualisiert…",
+        "channels": "Kanäle",
+        "members": "Mitglieder"
+      },
+      "mqtt": {
+        "broker": "Broker",
+        "host": "Host",
+        "port": "Port",
+        "useTls": "TLS verwenden (setzt Port auf 8883)",
+        "username": "Benutzername",
+        "password": "Passwort",
+        "clientId": "Client-ID",
+        "maxReconnect": "Max. Reconnect-Versuche",
+        "defaults": "Publish-Standards",
+        "defaultTopic": "Standard-Topic",
+        "defaultQos": "Standard-QoS",
+        "failureQos": "QoS für Fehler",
+        "defaultRetain": "Standardmäßig Retain",
+        "lwt": "Last Will & Testament",
+        "lwtEnabled": "LWT aktivieren",
+        "lwtTopic": "LWT-Topic",
+        "lwtBirth": "Birth-Payload",
+        "lwtLastWill": "Last-Will-Payload",
+        "lwtClose": "Close-Payload",
+        "imagePublisher": "Bild-Publisher",
+        "imagePublisherEnabled": "Aktiviert",
+        "metadataOnly": "Nur Metadaten",
+        "imageRetain": "Bilder retainen",
+        "imageTopic": "Bild-Topic",
+        "metadataTopic": "Metadaten-Topic",
+        "imageQos": "Bild-QoS",
+        "imageTypes": "Bildtypen"
+      },
+      "ifttt": {
+        "webhookKey": "Webhook-Key",
+        "value1": "Fehler-Wert 1",
+        "value2": "Fehler-Wert 2",
+        "value3": "Fehler-Wert 3"
+      },
+      "ntfysh": {
+        "url": "Server-URL",
+        "defaultTopic": "Standard-Topic",
+        "defaultIcon": "Standard-Icon-URL",
+        "user": "Benutzername",
+        "password": "Passwort",
+        "token": "Access Token",
+        "failureNotification": "Fehler-Benachrichtigung",
+        "failureTitle": "Fehler-Titel",
+        "failureMessage": "Fehler-Nachricht",
+        "failureTags": "Fehler-Tags",
+        "failureTagsHint": "Kommagetrennt (z. B. warning,rotating_light)",
+        "failurePriority": "Fehler-Priorität"
+      }
+    },
     "phd2logviewer": {
       "cal": {
         "angle": "Winkel (°)",
@@ -4117,6 +4379,23 @@
         "imageRequired": "Bitte laden Sie eine Bilddatei hoch.",
         "nameRequired": "Landschaftsname ist erforderlich."
       }
+    },
+    "indiControlPanel": {
+      "description": "Überprüfen und kontrollieren Sie alle Eigenschaften der aktuell auf dem Server geladenen INDI-Treiber.",
+      "enableLog": "Aktivieren",
+      "invalidNumber": "Ungültige Zahl für {element}.",
+      "loadFailed": "INDI-Eigenschaften konnten nicht geladen werden.",
+      "log": "INDI-Nachrichten",
+      "logDisabled": "Das Nachrichtenprotokoll ist deaktiviert.",
+      "noDevices": "Derzeit sind keine INDI-Geräte aktiv. \nSchließen Sie zuerst die Geräte an und aktualisieren Sie sie dann.",
+      "noMessages": "Noch keine Nachrichten.",
+      "readonly": "schreibgeschützt",
+      "refresh": "Aktualisieren",
+      "scrollToLatest": "Scrollen Sie zum Neuesten",
+      "set": "Satz",
+      "setFailed": "Die Eigenschaft konnte nicht festgelegt werden.",
+      "title": "INDI-Systemsteuerung",
+      "updated": "Aktualisiert"
     }
   },
   "pinsDevices": {
@@ -4327,7 +4606,8 @@
       "tcpPort": "TCP-Port",
       "selectPort": "-- Select a port --",
       "manualPort": "Manuell…",
-      "manualPortPath": "Manueller Port"
+      "manualPortPath": "Manueller Port",
+      "http": "HTTP"
     }
   },
   "nav": {

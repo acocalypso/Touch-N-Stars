@@ -6,7 +6,7 @@
     <button
       @click="toggleAutoRefresh"
       :disabled="!webcamStore.isValid"
-      class="w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center transition-colors shadow-lg flex-shrink-0"
+      class="w-10 h-10 md:w-12 md:h-12 rounded-full flex items-center justify-center transition-colors shadow-lg shrink-0"
       :class="
         webcamStore.autoRefresh
           ? 'bg-red-600 hover:bg-red-500 shadow-red-900/50'
@@ -31,7 +31,7 @@
     <!-- 2. Actions: Settings -->
     <button
       @click="emit('open-settings')"
-      class="w-10 h-10 md:w-12 md:h-12 bg-gray-700 hover:bg-gray-600 border border-gray-600 rounded-full flex items-center justify-center transition-colors shadow-lg shadow-black/50 flex-shrink-0"
+      class="w-10 h-10 md:w-12 md:h-12 bg-gray-700 hover:bg-gray-600 border border-gray-600 rounded-full flex items-center justify-center transition-colors shadow-lg shadow-black/50 shrink-0"
       :title="t('plugins.webcam.settings')"
     >
       <svg
@@ -57,10 +57,10 @@
 
     <!-- 3. Status -->
     <div
-      class="flex flex-row md:flex-col items-center gap-2 md:gap-3 ml-auto md:ml-0 md:mt-auto md:mb-16 flex-shrink-0"
+      class="flex flex-row md:flex-col items-center gap-2 md:gap-3 ml-auto md:ml-0 md:mt-auto md:mb-16 shrink-0"
     >
       <div
-        class="w-3 h-3 md:w-3.5 md:h-3.5 rounded-full flex-shrink-0"
+        class="w-3 h-3 md:w-3.5 md:h-3.5 rounded-full shrink-0"
         :class="
           webcamStore.isConnected
             ? 'bg-green-500 shadow-[0_0_12px_rgba(34,197,94,0.9)]'

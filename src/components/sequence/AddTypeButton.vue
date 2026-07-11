@@ -40,17 +40,25 @@
         <div class="max-h-64 overflow-y-auto py-1">
           <template v-if="filteredTypes.length">
             <template v-for="(group, cat) in grouped" :key="cat">
-              <div class="px-3 py-1 text-xs font-semibold text-slate-500 uppercase tracking-wide">
-                {{ cat }}
-              </div>
               <button
-                v-for="t in group"
-                :key="t.FullTypeName"
-                class="flex items-center w-full px-4 py-1.5 text-xs text-slate-300 hover:bg-slate-700/60 transition-colors text-left"
-                @click="select(t)"
+                class="flex items-center gap-1.5 w-full px-3 py-1.5 text-xs font-semibold text-slate-400 uppercase tracking-wide hover:bg-slate-700/40 transition-colors text-left"
+                @click="toggleCategory(cat)"
               >
-                {{ t.Name }}
+                <ChevronDownIcon v-if="isExpanded(cat)" class="w-3 h-3 shrink-0" />
+                <ChevronRightIcon v-else class="w-3 h-3 shrink-0" />
+                <span class="truncate">{{ cat }}</span>
+                <span class="ml-auto font-normal text-slate-500">{{ group.length }}</span>
               </button>
+              <template v-if="isExpanded(cat)">
+                <button
+                  v-for="t in group"
+                  :key="t.FullTypeName"
+                  class="flex items-center w-full pl-7 pr-4 py-1.5 text-xs text-slate-300 hover:bg-slate-700/60 transition-colors text-left"
+                  @click="select(t)"
+                >
+                  {{ t.Name }}
+                </button>
+              </template>
             </template>
           </template>
           <div v-else class="px-3 py-3 text-xs text-slate-500 text-center">
@@ -65,7 +73,7 @@
 <script setup>
 import { ref, computed, onMounted, onUnmounted } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { PlusIcon } from '@heroicons/vue/24/outline';
+import { PlusIcon, ChevronDownIcon, ChevronRightIcon } from '@heroicons/vue/24/outline';
 import { useSequenceV2Store } from '@/store/sequenceV2Store';
 import { useSequenceStore } from '@/store/sequenceStore';
 import { ITEM_COMPONENTS } from './items/index.js';
@@ -134,7 +142,9 @@ const filteredTypes = computed(() => {
     list = list.filter((t) => ITEM_COMPONENTS[t.FullTypeName] !== undefined);
   }
   if (!q) return list;
-  return list.filter((t) => t.Name?.toLowerCase().includes(q));
+  return list.filter(
+    (t) => t.Name?.toLowerCase().includes(q) || t.Category?.toLowerCase().includes(q)
+  );
 });
 
 const grouped = computed(() => {
@@ -146,6 +156,24 @@ const grouped = computed(() => {
   }
   return groups;
 });
+
+const expandedCategories = ref(new Set());
+
+function isExpanded(cat) {
+  if (search.value.trim()) return true;
+  if (Object.keys(grouped.value).length === 1) return true;
+  return expandedCategories.value.has(cat);
+}
+
+function toggleCategory(cat) {
+  const next = new Set(expandedCategories.value);
+  if (next.has(cat)) {
+    next.delete(cat);
+  } else {
+    next.add(cat);
+  }
+  expandedCategories.value = next;
+}
 
 function updateDropdownPosition() {
   if (!rootRef.value) return;
@@ -179,6 +207,7 @@ async function toggle() {
   if (props.mode === 'condition') await store.fetchAvailableConditions();
   loading.value = false;
   search.value = '';
+  expandedCategories.value = new Set();
   updateDropdownPosition();
   open.value = true;
   emit('open-change', true);

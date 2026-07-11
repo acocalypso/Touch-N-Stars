@@ -1,12 +1,12 @@
 <template>
   <ItemShell :item="item">
     <template #summary>
-      <span class="text-xs text-slate-400 flex-shrink-0">{{ item.ComboBoxText }}</span>
+      <span class="text-xs text-slate-400 shrink-0">{{ item.ComboBoxText }}</span>
     </template>
 
     <template #editor="{ save }">
       <div class="flex items-center gap-3">
-        <label class="text-xs text-slate-400 flex-shrink-0">{{
+        <label class="text-xs text-slate-400 shrink-0">{{
           $t('components.sequence.items.switchFilter.filter')
         }}</label>
         <select

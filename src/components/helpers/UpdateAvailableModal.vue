@@ -1,14 +1,12 @@
 <template>
-  <div
-    class="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-60 backdrop-blur-sm"
-  >
+  <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-sm">
     <div
       class="relative mx-4 w-full max-w-xl overflow-hidden rounded-2xl border border-cyan-500/40 bg-gray-900 shadow-2xl"
     >
       <div class="p-6 sm:p-8">
         <div class="mb-6 flex items-start gap-4">
           <div
-            class="flex h-12 w-12 flex-shrink-0 items-center justify-center rounded-full bg-cyan-500/20"
+            class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-cyan-500/20"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"

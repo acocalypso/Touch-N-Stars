@@ -44,6 +44,16 @@
       "message_api_version": "Плагін API застарілий. Будь ласка, оновіть його",
       "message_tns": "Плагін Touch'N'Stars недоступний. Перевірте налаштування в NINA",
       "message_tns_version": "Плагін Touch N Stars застарілий. Будь ласка, оновіть його"
+    },
+    "connection_splash": {
+      "connecting": "Підключення…",
+      "trying": "Повторне підключення до {instance}…",
+      "delayed": "Досі не вдається підключитися до {instance}. Це може свідчити про проблему — відкрийте Налаштування, щоб перевірити свій екземпляр Touch-N-Stars.",
+      "retry_now": "Повторити зараз",
+      "show_details": "Показати деталі",
+      "details": "Ціль: {endpoint} · минуло {elapsed} с",
+      "configured_instance": "налаштований екземпляр",
+      "default_instance_name": "вибраний екземпляр"
     }
   },
   "whatsnew": {
@@ -242,6 +252,10 @@
         "title": "Тримати екран увімкненим",
         "description": "Запобігти затемненню або блокуванню пристрою, поки додаток відкритий."
       },
+      "wifiBinding": {
+        "title": "Прив'язка до локальної мережі",
+        "description": "Підтримує з'єднання застосунку через Wi-Fi, коли ваш екземпляр працює в локальній мережі без інтернету (напр., точка доступу PINS), тоді як решта телефона продовжує використовувати мобільні дані."
+      },
       "input": {
         "title": "Оптимізація введення",
         "touchOptimized": "Сенсорний вибір"
@@ -362,7 +376,10 @@
       "horizonFilePath": {
         "title": "Файл горизонту",
         "placeholder": "напр. /home/pi/horizon.hrz",
-        "toastTitle": "Файл горизонту збережено"
+        "toastTitle": "Файл горизонту збережено",
+        "clearTitle": "Очистити шлях до файлу горизонту",
+        "confirmTitle": "Очистити шлях до файлу горизонту",
+        "confirmMessage": "Ви впевнені, що хочете очистити шлях до файлу горизонту?"
       },
       "navbarCustomization": {
         "title": "Налаштування панелі навігації",
@@ -717,6 +734,39 @@
         "annotation": {
           "text": "Текст"
         },
+        "groundstation": {
+          "message": "Повідомлення",
+          "title": "Заголовок",
+          "subject": "Тема",
+          "body": "Текст",
+          "recipient": "Отримувач",
+          "topic": "Топік",
+          "payload": "Payload",
+          "qos": "QoS",
+          "retain": "Retain",
+          "description": "Опис",
+          "method": "Метод",
+          "url": "URL",
+          "contentType": "Тип вмісту",
+          "username": "Ім'я користувача",
+          "password": "Пароль",
+          "showEmbed": "Показати embed",
+          "embedTitle": "Заголовок embed",
+          "embedText": "Текст embed",
+          "eventName": "Назва події",
+          "value1": "Значення 1",
+          "value2": "Значення 2",
+          "value3": "Значення 3",
+          "priority": "Пріоритет",
+          "notificationSound": "Звук сповіщення",
+          "tags": "Теги",
+          "channel": "Канал",
+          "doNotNotify": "Тихе сповіщення",
+          "address": "Адреса",
+          "port": "Порт",
+          "payloadType": "Тип payload",
+          "lineTermination": "Кінець рядка"
+        },
         "waitUntil": {
           "predicate": "Умова"
         },
@@ -790,6 +840,15 @@
         },
         "startGuiding": {
           "forceCalibrationLabel": "Калібрування сили"
+        },
+        "slewToGuiderCalibrationPosition": {
+          "clearBacklash": "Очистити люфт DEC",
+          "side": "Вказівна сторона",
+          "dec": "груд",
+          "sideEast": "схід",
+          "sideStay": "Залишся",
+          "sideWest": "Захід",
+          "haOffset": "HA Offset"
         }
       },
       "emptyContainer": "Порожньо — натисніть + для додавання елементів",
@@ -836,7 +895,9 @@
         },
         "setLocationSyncToMount": "Встановити «Синхронізацію з телескопом»",
         "slewRateINDI": "Швидкість наведення",
-        "reverse_axis": "Напрямок осі"
+        "reverse_axis": "Напрямок осі",
+        "slewRateUnavailable": "Підключіть кріплення, щоб відрегулювати швидкість наростання",
+        "slewRateDriverControlled": "Швидкість повороту контролюється драйвером"
       },
       "info": {
         "notConnected": "Будь ласка, підключіть монтування",
@@ -979,6 +1040,10 @@
         "cameraGain": "Підсилення",
         "cameraBinning": "Бінінг",
         "restoreCalibration": "Автом. відновлення калібрування",
+        "restoreCalibrationReconnect": {
+          "title": "Перепідключити гід?",
+          "message": "Це налаштування набуде чинності лише після перепідключення гіда. Перепідключити зараз?"
+        },
         "mountSettings": "Монтування",
         "guideRate": "Guide Rate",
         "guideRateReadOnly": "Лише читання",
@@ -1368,6 +1433,8 @@
         "camera_settings_hint": "Залиште порожнім для значень NINA за замовчуванням",
         "exposure_time": "Час експозиції (с)",
         "gain": "Gain",
+        "filter": "Фільтр",
+        "filter_default": "За замовчуванням",
         "nina_default": "За замовчуванням NINA",
         "ManualMode": "Ручний режим"
       },
@@ -1405,7 +1472,15 @@
         "help_settle_time": "При використанні автоматичних коригувань визначає час очікування в секундах після кожного руху.",
         "help_auto_pause": "Автоматична пауза для процедури полярного вирівнювання.",
         "help_log_error": "При увімкненні створюється лог-файл з коригуваннями полярного вирівнювання та безперервними похибками після кожного коригування."
-      }
+      },
+      "warn_dec_spread_body": "Повідомлене відхилення кріплення змінилося на {arcsec}\" між вимірюваннями. Це може вплинути на точність полярного вирівнювання — переконайтеся, що під час вимірювання рухається лише вісь RA.",
+      "warn_dec_spread_title": "Виявлено поширення відмінювання",
+      "warn_east_west_title": "Поле корекції в межах {deg}° на схід/захід",
+      "warn_east_west_body": "Поточне поле знаходиться в межах 5° від точного сходу чи заходу. \nЯкщо живий розчин нестабільний, поверніться на поле далі від Сходу/Заходу та запустіть повторно.",
+      "warn_huge_body": "Або кріплення далеко від вирівнювання, або розрахунок не міг визначити результат. \nПеревірте розташування місця, переконайтеся, що кріплення приблизно вказує на полюс і що лише вісь RA переміщена між трьома точками вимірювання.",
+      "warn_huge_title": "Розрахункова похибка величезна",
+      "warn_large_body": "Фаза корекції буде менш надійною. \nНаблизите кріплення до полярного вирівнювання та знову запустіть TPPA, щоб перевірити.",
+      "warn_large_title": "Початкова помилка полярного вирівнювання велика"
     },
     "slewAndCenter": {
       "title": "Наведення та центрування",
@@ -1623,6 +1698,7 @@
       }
     },
     "stellarium": {
+      "loading": "Завантаження Stellarium…",
       "selected_object": {
         "title": "Обраний об'єкт",
         "ra": "RA",
@@ -2829,7 +2905,8 @@
         "hotspotChannelInvalid": "Канал точки доступу має бути додатним цілим числом, якщо надається.",
         "hotspotFetchFailed": "Не вдалося завантажити налаштування точки доступу: {message}",
         "hotspotPasswordInvalidLength": "Пароль точки доступу потрібен і має містити 8-63 символи.",
-        "hotspotSaveFailed": "Не вдалося зберегти налаштування точки доступу: {message}"
+        "hotspotSaveFailed": "Не вдалося зберегти налаштування точки доступу: {message}",
+        "wifiConnected": "Wi-Fi підключено: {ssid} ({ip})"
       },
       "wifiDisconnect": "Відключити WiFi",
       "disconnectConfirmTitle": "Відключити WiFi?",
@@ -2899,7 +2976,46 @@
       "hotspotCapabilitiesUnavailable": "Список можливостей адаптера недоступний; \nдозволений ручний канал.",
       "hotspotChannelLabel": "Канал Hotspot",
       "hotspotChannelPlaceholder": "Залиште порожнім для авто",
-      "hotspotMetaLine": "Джерело: {джерело} | \nІнтерфейс: {iface} | \nГрупа: {band} | \nКанал: {channel}"
+      "hotspotMetaLine": "Джерело: {джерело} | \nІнтерфейс: {iface} | \nГрупа: {band} | \nКанал: {channel}",
+      "indiRegistryEditConfig": "Редагувати конфігурацію",
+      "indiRegistryModalActions": "Дії",
+      "indiRegistryModalDescription": "Редагувати назву, мітку та тип для встановлених записів реєстру сторонніх розробників INDI.",
+      "indiRegistryModalEmpty": "Записи реєстру не знайдено.",
+      "indiRegistryModalErrorConflict": "Ім'я вже існує (409 дублікатів перейменування).",
+      "indiRegistryModalErrorGeneric": "Не вдалося зберегти запис: {message}",
+      "indiRegistryModalErrorLoad": "Не вдалося завантажити реєстр: {message}",
+      "indiRegistryModalErrorNotFound": "Запис не знайдено (404).",
+      "indiRegistryModalErrorUnknown": "Невідома помилка.",
+      "indiRegistryModalErrorValidation": "Помилка перевірки: {message}",
+      "indiRegistryModalLabel": "Мітка",
+      "indiRegistryModalLabelLength": "Мітка має містити 200 символів або менше.",
+      "indiRegistryModalLoading": "Завантаження реєстру...",
+      "indiRegistryModalName": "Ім'я",
+      "indiRegistryModalNameLength": "Назва має містити 200 символів або менше.",
+      "indiRegistryModalNameRequired": "Необхідно вказати ім'я.",
+      "indiRegistryModalNoChanges": "Немає змін для збереження.",
+      "indiRegistryModalReload": "Перезавантажити",
+      "indiRegistryModalSave": "зберегти",
+      "indiRegistryModalSaved": "Запис збережено. \nРеєстр перезавантажено з серверної частини.",
+      "indiRegistryModalSaving": "Збереження...",
+      "indiRegistryModalTitle": "Редагувати реєстр INDI",
+      "indiRegistryModalTotalEntries": "Записи",
+      "indiRegistryModalType": "Тип",
+      "indiRegistryModalTypeInvalid": "Тип має бути одним із дозволених значень.",
+      "indiRegistryModalUpdatedAt": "Оновлено",
+      "indiRegistryModalNameDuplicate": "Назва вже існує в іншому рядку.",
+      "wifiSignalMobile": "Mobile signal",
+      "wifiRssiValue": "{value} dBm",
+      "wifiConnectedAction": "Підключено",
+      "wifiChannel": "Канал {channel}",
+      "wifiSignal": "Сигнал",
+      "wifiRoleHotspot": "Точка доступу",
+      "wifiSignalHistory": "Історія сигналу WiFi",
+      "wifiRoleClient": "Домашній WiFi",
+      "wifiSignalUnavailable": "Сигнал недоступний",
+      "wifiSignalValue": "{value}%",
+      "wifiStatusConnected": "Підключено",
+      "wifiStatusDisconnected": "Не підключено"
     },
     "narrowband": {
       "title": "Калькулятор фільтрів",
@@ -2993,7 +3109,18 @@
         "micronsPerFocuserStep": "Мікрони на крок фокусера",
         "retry": "Повторити",
         "resetToDefaults": "Скинути до значень за замовчуванням",
-        "resetting": "Скидання..."
+        "resetting": "Скидання...",
+        "autoPlaceholder": "авто",
+        "centerFocuserBeforeRun": "Центральний фокус перед запуском",
+        "framesPerPoint": "Кількість кадрів на точку",
+        "detailedAnalysisExposureSeconds": "Час експозиції детального аналізу (секунди)",
+        "numRegionsWide": "Кількість регіонів",
+        "simpleExposureSeconds": "Час експозиції (секунди)",
+        "sensorCurveModelEnabled": "Модель кривої датчика",
+        "stepCount": "Підрахунок кроків",
+        "stepSize": "Розмір кроку",
+        "signalAmplification": "Посилення сигналу",
+        "timeoutSeconds": "Час очікування (секунди)"
       },
       "autoFocusOptions": {
         "loading": "Завантаження параметрів автофокусу...",
@@ -3019,7 +3146,8 @@
         "noiseReducedStarMeasurement": "Вимірювання зірок зі зниженим шумом",
         "debugMode": "Режим налагодження",
         "simpleModeSettings": "Налаштування простого режиму",
-        "noiseLevel": "Рівень шуму"
+        "noiseLevel": "Рівень шуму",
+        "useOptimizedSettings": "Використовуйте оптимізовані налаштування"
       },
       "tilter": {
         "device": "Пристрій",
@@ -4112,6 +4240,157 @@
         "imageRequired": "Будь ласка, завантажте файл зображення.",
         "nameRequired": "Необхідно вказати альбомну назву."
       }
+    },
+    "groundStation": {
+      "common": {
+        "leaveEmpty": "(без змін)",
+        "loading": "Завантаження…",
+        "passwordUnchanged": "Залиште пустим, щоб зберегти поточне значення",
+        "save": "зберегти",
+        "saving": "Збереження…",
+        "test": "Надіслати тест",
+        "testFailed": "Тест не вдалося",
+        "testSuccess": "Тест успішно надіслано",
+        "testing": "Надсилання…"
+      },
+      "discord": {
+        "botName": "Відображуване ім'я бота",
+        "defaultWebhook": "URL-адреса Webhook за умовчанням",
+        "failureMessage": "Повідомлення про помилку",
+        "failureTitle": "Назва помилки",
+        "failureWebhook": "Помилка URL-адреси вебхуку",
+        "imageEventEnabled": "Публікувати події захоплення зображень",
+        "imageEvents": "Іміджеві події",
+        "imageInterval": "Публікуйте кожні N зображень",
+        "imagePostTitle": "Заголовок публікації зображення",
+        "imageTypes": "Типи зображень",
+        "imageTypesHint": "Розділені комами (наприклад, LIGHT, FLAT, DARK)",
+        "imageWebhook": "URL-адреса вебхука зображення"
+      },
+      "email": {
+        "failureBody": "Відмова тіла",
+        "failureSubject": "Тема невдачі",
+        "fromAddress": "З адреси",
+        "host": "Хост SMTP",
+        "password": "Пароль",
+        "port": "Порт SMTP",
+        "recipients": "Одержувачі за умовчанням",
+        "recipientsHint": "Через кому",
+        "username": "Ім'я користувача"
+      },
+      "ifttt": {
+        "value1": "Значення помилки 1",
+        "value2": "Значення помилки 2",
+        "value3": "Значення помилки 3",
+        "webhookKey": "Ключ вебхуку"
+      },
+      "mqtt": {
+        "broker": "Брокер",
+        "clientId": "ID клієнта",
+        "defaultQos": "QoS за замовчуванням",
+        "defaultRetain": "Зберігати за умовчанням",
+        "defaultTopic": "Тема за замовчуванням",
+        "defaults": "Опублікувати параметри за замовчуванням",
+        "failureQos": "Помилка QoS",
+        "host": "Хост",
+        "imagePublisher": "Видавець зображень",
+        "imagePublisherEnabled": "Увімкнено",
+        "imageQos": "QoS зображення",
+        "imageRetain": "Зберігати зображення",
+        "imageTopic": "Тема зображення",
+        "imageTypes": "Типи зображень",
+        "lwt": "Остання воля",
+        "lwtBirth": "Корисне навантаження від народження",
+        "lwtClose": "Закрити Payload",
+        "lwtEnabled": "Увімкнути LWT",
+        "lwtLastWill": "Last Will Payload",
+        "lwtTopic": "Тема LWT",
+        "maxReconnect": "Максимальна кількість спроб повторного підключення",
+        "metadataOnly": "Лише метадані",
+        "metadataTopic": "Тема метаданих",
+        "password": "Пароль",
+        "port": "Порт",
+        "useTls": "Використовувати TLS (перемикає порт на 8883)",
+        "username": "Ім'я користувача"
+      },
+      "notLoaded": "Плагін Ground Station не встановлено або не завантажено в NINA. \nВстановіть плагін «Наземна станція» в NINA, щоб використовувати ці налаштування.",
+      "ntfysh": {
+        "defaultIcon": "URL-адреса значка за умовчанням",
+        "defaultTopic": "Тема за замовчуванням",
+        "failureMessage": "Повідомлення про помилку",
+        "failureNotification": "Повідомлення про помилку",
+        "failurePriority": "Пріоритет відмов",
+        "failureTags": "Теги помилок",
+        "failureTagsHint": "Розділені комами (наприклад, warning,rotating_light)",
+        "failureTitle": "Назва помилки",
+        "password": "Пароль",
+        "token": "Маркер доступу",
+        "url": "URL-адреса сервера",
+        "user": "Ім'я користувача"
+      },
+      "pushover": {
+        "appKey": "Маркер API програми",
+        "emergExpire": "Екстрений термін дії закінчується через (s)",
+        "emergExpireHint": "30 – 86400 секунд",
+        "emergRetry": "Інтервал екстрених спроб (с)",
+        "emergRetryHint": "30 – 86400 секунд",
+        "failureBody": "Відмова тіла",
+        "failurePriority": "Пріоритет відмов",
+        "failureSound": "Звук несправності",
+        "failureTitle": "Назва помилки",
+        "notificationPriority": "Пріоритет сповіщень",
+        "notificationSound": "Звук сповіщення",
+        "userKey": "Ключ користувача"
+      },
+      "slack": {
+        "botDisplayName": "Відображуване ім'я бота",
+        "channels": "Канали",
+        "failureMessage": "Повідомлення про помилку",
+        "imageEventChannel": "Image Event Channel",
+        "imageEventEnabled": "Публікувати події захоплення зображень",
+        "imageEvents": "Іміджеві події",
+        "imageInterval": "Публікуйте кожні N зображень",
+        "imageTypes": "Типи зображень",
+        "members": "членів",
+        "oauthToken": "Маркер OAuth бота",
+        "refreshChannels": "Оновити канали",
+        "refreshing": "Оновлення…",
+        "workspace": "Робоча область"
+      },
+      "subtitle": "Налаштуйте служби сповіщень наземної станції NINA",
+      "tabs": {
+        "discord": "Розбрат",
+        "email": "Електронна пошта",
+        "ifttt": "IFTTT",
+        "mqtt": "MQTT",
+        "ntfysh": "ntfy.sh",
+        "pushover": "Pushover",
+        "slack": "Млява",
+        "telegram": "Телеграма"
+      },
+      "telegram": {
+        "accessToken": "Маркер доступу бота",
+        "chatId": "Ідентифікатор чату",
+        "failureBody": "Відмова тіла"
+      },
+      "title": "Наземна станція"
+    },
+    "indiControlPanel": {
+      "description": "Перевіряйте та контролюйте кожну властивість драйверів INDI, завантажених на сервері.",
+      "enableLog": "Увімкнути",
+      "invalidNumber": "Недійсне число для {element}.",
+      "loadFailed": "Не вдалося завантажити властивості INDI.",
+      "log": "Повідомлення INDI",
+      "noMessages": "Поки немає повідомлень.",
+      "logDisabled": "Журнал повідомлень вимкнено.",
+      "noDevices": "Зараз немає активних пристроїв INDI. \nСпочатку підключіть обладнання, а потім оновіть.",
+      "scrollToLatest": "Перейдіть до останнього",
+      "readonly": "тільки для читання",
+      "setFailed": "Не вдалося встановити властивість.",
+      "refresh": "Оновити",
+      "set": "встановити",
+      "title": "Панель керування INDI",
+      "updated": "Оновлено"
     }
   },
   "dialogs": {
@@ -4267,7 +4546,8 @@
       "tcpPort": "TCP-порт",
       "selectPort": "-- Оберіть порт --",
       "manualPort": "Вручну…",
-      "manualPortPath": "Порт вручну"
+      "manualPortPath": "Порт вручну",
+      "http": "HTTP"
     }
   },
   "pinsDevices": {

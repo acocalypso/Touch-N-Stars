@@ -11,7 +11,7 @@
         <div v-if="store.cameraInfo.IsExposing" class="flex items-center">
           <svg class="w-6 h-6" viewBox="0 0 36 36">
             <path
-              class="text-white text-opacity-30 fill-none stroke-current stroke-[2.8]"
+              class="text-white/30 fill-none stroke-current stroke-[2.8]"
               d="M18 2.0845
                            a 15.9155 15.9155 0 0 1 0 31.831
                            a 15.9155 15.9155 0 0 1 0 -31.831"

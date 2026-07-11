@@ -68,6 +68,7 @@ const statusTextClasses = computed(() => {
 </script>
 
 <style scoped>
+@reference '../../assets/tailwind.css';
 .guider-status {
   @apply p-4 bg-gray-800/50 rounded-lg border border-gray-700/50;
 }

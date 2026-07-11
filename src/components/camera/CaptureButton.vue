@@ -9,7 +9,7 @@
     <div v-if="showDropdown" class="dropdown-backdrop" @click="showDropdown = false"></div>
     <!-- Capture / Cancel Combined Button -->
     <button
-      class="relative flex-shrink-0 rounded-full flex items-center justify-center shadow-md shadow-black border border-cyan-900 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+      class="relative shrink-0 rounded-full flex items-center justify-center shadow-md shadow-black border border-cyan-900 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
       :class="[store.cameraInfo.IsExposing ? 'bg-red-600' : 'bg-gray-600', buttonSizeClasses]"
       @click="
         store.cameraInfo.IsExposing
@@ -29,7 +29,7 @@
       <template v-if="store.cameraInfo.IsExposing">
         <svg :class="['absolute inset-0', progressSizeClasses]" viewBox="0 0 36 36">
           <path
-            class="text-white text-opacity-30 fill-none stroke-current stroke-[2.8]"
+            class="text-white/30 fill-none stroke-current stroke-[2.8]"
             d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831"
           />
           <path
@@ -86,7 +86,7 @@
     <button
       @click="cameraStore.isLooping = !cameraStore.isLooping"
       :class="[
-        'flex-shrink-0 rounded-full bg-gray-600 flex items-center justify-center shadow-md shadow-black border border-cyan-900 transition-colors duration-200',
+        'shrink-0 rounded-full bg-gray-600 flex items-center justify-center shadow-md shadow-black border border-cyan-900 transition-colors duration-200',
         cameraStore.isLooping ? 'text-green-400 glow-green' : 'text-gray-300',
         buttonSizeClasses,
       ]"
@@ -95,7 +95,7 @@
     </button>
 
     <!-- Exposure Time Input with Dropdown -->
-    <div class="flex flex-col items-center gap-1 flex-shrink-0">
+    <div class="flex flex-col items-center gap-1 shrink-0">
       <!-- Label -->
       <label for="exposure" :class="labelClasses">
         {{ $t('components.camera.exposure_time') }}
@@ -177,7 +177,7 @@
       </div>
     </div>
 
-    <div class="flex-shrink-0">
+    <div class="shrink-0">
       <button
         @click="openSettings = true"
         :class="[

@@ -44,6 +44,16 @@
       "message_api_version": "API plugin is te oud. Voer update uit",
       "message_tns": "De Touch'N'Stars plugin is niet beschikbaar. Controleer instellingen in NINA",
       "message_tns_version": "De Touch N Stars plugin is te oud. Voer update uit"
+    },
+    "connection_splash": {
+      "connecting": "Verbinden…",
+      "trying": "Opnieuw verbinden met {instance}…",
+      "delayed": "Nog steeds geen verbinding met {instance}. Dit kan op een probleem duiden — open Instellingen om je Touch-N-Stars-instantie te controleren.",
+      "retry_now": "Nu opnieuw proberen",
+      "show_details": "Details tonen",
+      "details": "Doel: {endpoint} · {elapsed}s verstreken",
+      "configured_instance": "geconfigureerd exemplaar",
+      "default_instance_name": "geselecteerde exemplaar"
     }
   },
   "whatsnew": {
@@ -262,6 +272,10 @@
         "title": "Scherm actief",
         "description": "Voorkom dat het scherm dimt of vergrendeld terwijl de App actief is."
       },
+      "wifiBinding": {
+        "title": "Lokale netwerkbinding",
+        "description": "Houdt de app via wifi verbonden wanneer je instantie op een lokaal netwerk zonder internet draait (bijv. PINS-hotspot), terwijl de rest van de telefoon mobiele data blijft gebruiken."
+      },
       "input": {
         "title": "Invoeroptimalisatie",
         "touchOptimized": "Touch-geoptimaliseerde kiezer"
@@ -392,7 +406,10 @@
       "horizonFilePath": {
         "title": "Horizonbestand",
         "placeholder": "bijv. /home/pi/horizon.hrz",
-        "toastTitle": "Horizonbestand opgeslagen"
+        "toastTitle": "Horizonbestand opgeslagen",
+        "clearTitle": "Horizonbestandspad wissen",
+        "confirmTitle": "Horizonbestandspad wissen",
+        "confirmMessage": "Weet u zeker dat u het horizonbestandspad wilt wissen?"
       }
     },
     "alpacaDirect": {
@@ -728,6 +745,39 @@
         "annotation": {
           "text": "Tekst"
         },
+        "groundstation": {
+          "message": "Bericht",
+          "title": "Titel",
+          "subject": "Onderwerp",
+          "body": "Inhoud",
+          "recipient": "Ontvanger",
+          "topic": "Topic",
+          "payload": "Payload",
+          "qos": "QoS",
+          "retain": "Retain",
+          "description": "Beschrijving",
+          "method": "Methode",
+          "url": "URL",
+          "contentType": "Contenttype",
+          "username": "Gebruikersnaam",
+          "password": "Wachtwoord",
+          "showEmbed": "Embed tonen",
+          "embedTitle": "Embed-titel",
+          "embedText": "Embed-tekst",
+          "eventName": "Eventnaam",
+          "value1": "Waarde 1",
+          "value2": "Waarde 2",
+          "value3": "Waarde 3",
+          "priority": "Prioriteit",
+          "notificationSound": "Meldingsgeluid",
+          "tags": "Tags",
+          "channel": "Kanaal",
+          "doNotNotify": "Stille melding",
+          "address": "Adres",
+          "port": "Poort",
+          "payloadType": "Payloadtype",
+          "lineTermination": "Regeleinde"
+        },
         "waitUntil": {
           "predicate": "Voorwaarde"
         },
@@ -801,6 +851,15 @@
         },
         "startGuiding": {
           "forceCalibrationLabel": "Kalibratie forceren"
+        },
+        "slewToGuiderCalibrationPosition": {
+          "clearBacklash": "Duidelijke DEC-reactie",
+          "dec": "dec",
+          "haOffset": "HA-compensatie",
+          "side": "Wijzende kant",
+          "sideEast": "Oosten",
+          "sideStay": "Verblijf",
+          "sideWest": "Westen"
         }
       },
       "emptyContainer": "Leeg — klik op + om items toe te voegen",
@@ -856,7 +915,9 @@
         },
         "setLocationSyncToMount": "Stel in \"Sync naar Telescoop\"",
         "slewRateINDI": "Bewegingssnelheid",
-        "reverse_axis": "Asrichting"
+        "reverse_axis": "Asrichting",
+        "slewRateDriverControlled": "De zwenksnelheid wordt geregeld door de bestuurder",
+        "slewRateUnavailable": "Sluit een steun aan om de zwenksnelheid aan te passen"
       },
       "info": {
         "notConnected": "Verbind montering",
@@ -975,6 +1036,10 @@
         "cameraGain": "Gain",
         "cameraBinning": "Binning",
         "restoreCalibration": "Kalibratie autom. herstellen",
+        "restoreCalibrationReconnect": {
+          "title": "Guider opnieuw verbinden?",
+          "message": "Deze instelling wordt pas van kracht nadat de guider opnieuw is verbonden. Nu opnieuw verbinden?"
+        },
         "mountSettings": "Montering",
         "guideRate": "Guide Rate",
         "guideRateReadOnly": "Alleen lezen",
@@ -1388,6 +1453,8 @@
         "camera_settings_hint": "Laat leeg voor NINA standaard waardes",
         "exposure_time": "Belichtingstijd (s)",
         "gain": "Verdienen",
+        "filter": "Filter",
+        "filter_default": "Standaard",
         "nina_default": "NINA standaard",
         "ManualMode": "Manuele mode"
       },
@@ -1425,7 +1492,15 @@
         "help_log_error": "Wanneer ingeschakeld wordt er een logbestand aangemaakt met de correcties van de polaire uitlijnfout en de doorlopende fouten na elke aanpassing."
       },
       "error_modal": {},
-      "tppa": "TPPA"
+      "tppa": "TPPA",
+      "warn_dec_spread_body": "De gerapporteerde declinatie van de montering is tussen metingen met {arcsec}\" veranderd. Dit kan de nauwkeurigheid van de polaire uitlijning beïnvloeden - zorg ervoor dat alleen de RA-as beweegt tijdens de meting.",
+      "warn_dec_spread_title": "Declinatiespreiding gedetecteerd",
+      "warn_east_west_body": "Het huidige veld bevindt zich binnen 5° van het exacte oosten of westen. \nAls de live-oplossing onstabiel is, zwenk dan naar een veld verder van Oost/West en voer het spel opnieuw uit.",
+      "warn_east_west_title": "Correctieveld binnen {deg}° van Oost/West",
+      "warn_huge_body": "Ofwel de steun is ver verwijderd van de uitlijning, ofwel de berekening kon het resultaat niet bepalen. \nControleer de locatie van de locatie, bevestig dat de houder ruwweg naar de paal wijst en dat alleen de RA-as tussen de drie meetpunten is verplaatst.",
+      "warn_huge_title": "De berekende fout is enorm",
+      "warn_large_body": "De correctiefase zal minder betrouwbaar zijn. \nBreng de houder dichter bij de polaire uitlijning en voer TPPA opnieuw uit om dit te verifiëren.",
+      "warn_large_title": "De initiële polaire uitlijningsfout is groot"
     },
     "slewAndCenter": {
       "title": "Slew en Centreer",
@@ -1643,6 +1718,7 @@
       }
     },
     "stellarium": {
+      "loading": "Stellarium wordt geladen…",
       "selected_object": {
         "title": "Geselecteerde object",
         "ra": "RA",
@@ -1932,7 +2008,8 @@
         "hotspotChannelInvalid": "Hotspotkanaal moet een positief geheel getal zijn, indien opgegeven.",
         "hotspotFetchFailed": "Kan hotspot-instellingen niet laden: {message}",
         "hotspotPasswordInvalidLength": "Hotspotwachtwoord is vereist en moet 8-63 tekens lang zijn.",
-        "hotspotSaveFailed": "Kan hotspot-instellingen niet opslaan: {message}"
+        "hotspotSaveFailed": "Kan hotspot-instellingen niet opslaan: {message}",
+        "wifiConnected": "Wifi verbonden: {ssid} ({ip})"
       },
       "hotspotConfigured": "Er is een aangepast hotspotwachtwoord geconfigureerd.",
       "hotspotNewPassword": "Nieuw hotspot-wachtwoord",
@@ -2025,7 +2102,46 @@
       "hotspotCapabilitiesUnavailable": "Lijst met adaptermogelijkheden niet beschikbaar; \nhandmatig kanaal toegestaan.",
       "hotspotChannelLabel": "Hotspot-kanaal",
       "hotspotChannelPlaceholder": "Laat leeg voor automatisch",
-      "hotspotMetaLine": "Bron: {bron} | \nInterface: {iface} | \nBand: {band} | \nKanaal: {kanaal}"
+      "hotspotMetaLine": "Bron: {bron} | \nInterface: {iface} | \nBand: {band} | \nKanaal: {kanaal}",
+      "indiRegistryEditConfig": "Configuratie bewerken",
+      "indiRegistryModalActions": "Acties",
+      "indiRegistryModalDescription": "Bewerk naam, label en type voor geïnstalleerde INDI-registervermeldingen van derden.",
+      "indiRegistryModalEmpty": "Geen registervermeldingen gevonden.",
+      "indiRegistryModalErrorConflict": "Naam bestaat al (409 dubbele hernoeming).",
+      "indiRegistryModalErrorGeneric": "Kan invoer niet opslaan: {message}",
+      "indiRegistryModalErrorLoad": "Kan register niet laden: {message}",
+      "indiRegistryModalErrorNotFound": "Invoer niet gevonden (404).",
+      "indiRegistryModalErrorUnknown": "Onbekende fout.",
+      "indiRegistryModalErrorValidation": "Validatie mislukt: {message}",
+      "indiRegistryModalLabel": "Label",
+      "indiRegistryModalLabelLength": "Het label moet 200 tekens of minder bevatten.",
+      "indiRegistryModalLoading": "Register laden...",
+      "indiRegistryModalName": "Naam",
+      "indiRegistryModalNameLength": "Naam moet 200 tekens of minder bevatten.",
+      "indiRegistryModalNameRequired": "Naam is vereist.",
+      "indiRegistryModalNoChanges": "Geen wijzigingen om op te slaan.",
+      "indiRegistryModalReload": "Herladen",
+      "indiRegistryModalSave": "Redden",
+      "indiRegistryModalSaved": "Invoer opgeslagen. \nRegister opnieuw geladen vanuit de backend.",
+      "indiRegistryModalSaving": "Besparing...",
+      "indiRegistryModalTitle": "INDI-register bewerken",
+      "indiRegistryModalTotalEntries": "Inzendingen",
+      "indiRegistryModalType": "Type",
+      "indiRegistryModalTypeInvalid": "Type moet een van de toegestane waarden zijn.",
+      "indiRegistryModalUpdatedAt": "Bijgewerkt",
+      "indiRegistryModalNameDuplicate": "Naam bestaat al in een andere rij.",
+      "wifiSignalMobile": "Mobile signal",
+      "wifiRssiValue": "{value} dBm",
+      "wifiChannel": "Kanaal {kanaal}",
+      "wifiConnectedAction": "Aangesloten",
+      "wifiRoleClient": "Thuis-wifi",
+      "wifiRoleHotspot": "Hotspot",
+      "wifiSignal": "Signaal",
+      "wifiSignalHistory": "WiFi-signaalgeschiedenis",
+      "wifiSignalUnavailable": "Signaal niet beschikbaar",
+      "wifiSignalValue": "{waarde}%",
+      "wifiStatusConnected": "Aangesloten",
+      "wifiStatusDisconnected": "Niet verbonden"
     },
     "bahtifocus": {
       "title": "Bahtinov Masker Analyse",
@@ -3119,7 +3235,18 @@
         "micronsPerFocuserStep": "Micronen per Focusserstap",
         "retry": "Opnieuw proberen",
         "resetToDefaults": "Standaardwaarden herstellen",
-        "resetting": "Resetten..."
+        "resetting": "Resetten...",
+        "autoPlaceholder": "auto",
+        "centerFocuserBeforeRun": "Centerfocuser vóór het rennen",
+        "detailedAnalysisExposureSeconds": "Gedetailleerde analyse Belichtingstijd (seconden)",
+        "framesPerPoint": "Frames per punt",
+        "numRegionsWide": "Aantal regio's breed",
+        "sensorCurveModelEnabled": "Sensorcurvemodel",
+        "signalAmplification": "Signaalversterking",
+        "simpleExposureSeconds": "Belichtingstijd (seconden)",
+        "stepCount": "Staptelling",
+        "stepSize": "Stapgrootte",
+        "timeoutSeconds": "Time-out (seconden)"
       },
       "autoFocusOptions": {
         "loading": "Autofocus-opties laden...",
@@ -3145,7 +3272,8 @@
         "noiseReducedStarMeasurement": "Ster-meting met ruisvermindering",
         "debugMode": "Foutopsporingmodus",
         "simpleModeSettings": "Eenvoudige modusinstellingen",
-        "noiseLevel": "Geluidsniveau"
+        "noiseLevel": "Geluidsniveau",
+        "useOptimizedSettings": "Gebruik geoptimaliseerde instellingen"
       },
       "tilter": {
         "device": "Apparaat",
@@ -4112,6 +4240,157 @@
         "imageRequired": "Upload een afbeeldingsbestand.",
         "nameRequired": "Landschapsnaam is vereist."
       }
+    },
+    "groundStation": {
+      "common": {
+        "leaveEmpty": "(ongewijzigd)",
+        "loading": "Laden…",
+        "passwordUnchanged": "Laat leeg om de huidige waarde te behouden",
+        "save": "Redden",
+        "saving": "Besparing…",
+        "test": "Test verzenden",
+        "testFailed": "Test mislukt",
+        "testSuccess": "Test succesvol verzonden",
+        "testing": "Verzenden…"
+      },
+      "discord": {
+        "botName": "Bot-weergavenaam",
+        "defaultWebhook": "Standaard webhook-URL",
+        "failureMessage": "Mislukkingsbericht",
+        "failureTitle": "Titel van de mislukking",
+        "failureWebhook": "Mislukte webhook-URL",
+        "imageEventEnabled": "Publiceer gebeurtenissen voor het vastleggen van afbeeldingen",
+        "imageEvents": "Afbeeldingsgebeurtenissen",
+        "imageInterval": "Plaats elke N afbeeldingen",
+        "imagePostTitle": "Titel afbeeldingsbericht",
+        "imageTypes": "Afbeeldingstypen",
+        "imageTypesHint": "Door komma's gescheiden (bijv. LICHT, FLAT, DONKER)",
+        "imageWebhook": "Webhook-URL voor afbeelding"
+      },
+      "email": {
+        "failureBody": "Mislukking lichaam",
+        "failureSubject": "Onderwerp van mislukking",
+        "fromAddress": "Van adres",
+        "host": "SMTP-host",
+        "password": "Wachtwoord",
+        "port": "SMTP-poort",
+        "recipients": "Standaardontvangers",
+        "recipientsHint": "Door komma's gescheiden",
+        "username": "Gebruikersnaam"
+      },
+      "ifttt": {
+        "value1": "Foutwaarde 1",
+        "value2": "Foutwaarde 2",
+        "value3": "Foutwaarde 3",
+        "webhookKey": "Webhook-sleutel"
+      },
+      "mqtt": {
+        "broker": "Makelaar",
+        "clientId": "Klant-ID",
+        "defaultQos": "Standaard QoS",
+        "defaultRetain": "Standaard behouden",
+        "defaultTopic": "Standaardonderwerp",
+        "defaults": "Standaardinstellingen publiceren",
+        "failureQos": "Fout QoS",
+        "host": "Gastheer",
+        "imagePublisher": "Uitgever van afbeeldingen",
+        "imagePublisherEnabled": "Ingeschakeld",
+        "imageQos": "Afbeelding QoS",
+        "imageRetain": "Bewaar afbeeldingen",
+        "imageTopic": "Afbeeldingsonderwerp",
+        "imageTypes": "Afbeeldingstypen",
+        "lwt": "Laatste testament",
+        "lwtBirth": "Geboortelading",
+        "lwtClose": "Sluit de lading",
+        "lwtEnabled": "Schakel LWT in",
+        "lwtLastWill": "Laatste wil Payload",
+        "lwtTopic": "LWT-onderwerp",
+        "maxReconnect": "Maximaal aantal pogingen tot opnieuw verbinden",
+        "metadataOnly": "Alleen metadata",
+        "metadataTopic": "Metagegevensonderwerp",
+        "password": "Wachtwoord",
+        "port": "Haven",
+        "useTls": "Gebruik TLS (schakelt poort naar 8883)",
+        "username": "Gebruikersnaam"
+      },
+      "notLoaded": "De Ground Station plugin is niet geïnstalleerd of geladen in NINA. \nInstalleer de plugin 'Ground Station' in NINA om deze instellingen te gebruiken.",
+      "ntfysh": {
+        "defaultIcon": "Standaard pictogram-URL",
+        "defaultTopic": "Standaardonderwerp",
+        "failureMessage": "Mislukkingsbericht",
+        "failureNotification": "Foutmelding",
+        "failurePriority": "Mislukkingsprioriteit",
+        "failureTags": "Mislukkingstags",
+        "failureTagsHint": "Door komma's gescheiden (bijv. waarschuwing, roterend_licht)",
+        "failureTitle": "Titel van de mislukking",
+        "password": "Wachtwoord",
+        "token": "Toegangstoken",
+        "url": "Server-URL",
+        "user": "Gebruikersnaam"
+      },
+      "pushover": {
+        "appKey": "App API-token",
+        "emergExpire": "Noodgeval vervalt na (s)",
+        "emergExpireHint": "30 – 86400 seconden",
+        "emergRetry": "Noodpogingsinterval(s)",
+        "emergRetryHint": "30 – 86400 seconden",
+        "failureBody": "Mislukking lichaam",
+        "failurePriority": "Mislukkingsprioriteit",
+        "failureSound": "Mislukkingsgeluid",
+        "failureTitle": "Titel van de mislukking",
+        "notificationPriority": "Meldingsprioriteit",
+        "notificationSound": "Meldingsgeluid",
+        "userKey": "Gebruikerssleutel"
+      },
+      "slack": {
+        "botDisplayName": "Bot-weergavenaam",
+        "channels": "Kanalen",
+        "failureMessage": "Mislukkingsbericht",
+        "imageEventChannel": "Kanaal voor beeldgebeurtenissen",
+        "imageEventEnabled": "Publiceer gebeurtenissen voor het vastleggen van afbeeldingen",
+        "imageEvents": "Afbeeldingsgebeurtenissen",
+        "imageInterval": "Plaats elke N afbeeldingen",
+        "imageTypes": "Afbeeldingstypen",
+        "members": "leden",
+        "oauthToken": "Bot OAuth-token",
+        "refreshChannels": "Kanalen vernieuwen",
+        "refreshing": "Verfrissend…",
+        "workspace": "Werkruimte"
+      },
+      "subtitle": "Configureer NINA Ground Station-meldingsservices",
+      "tabs": {
+        "discord": "Meningsverschil",
+        "email": "E-mail",
+        "ifttt": "IFTTT",
+        "mqtt": "MQTT",
+        "ntfysh": "ntfy.sh",
+        "pushover": "Overvaller",
+        "slack": "Slank",
+        "telegram": "Telegram"
+      },
+      "telegram": {
+        "accessToken": "Bot-toegangstoken",
+        "chatId": "Chat-ID",
+        "failureBody": "Mislukking lichaam"
+      },
+      "title": "Grondstation"
+    },
+    "indiControlPanel": {
+      "description": "Inspecteer en controleer alle eigendommen van de INDI-stuurprogramma's die momenteel op de server zijn geladen.",
+      "enableLog": "Inschakelen",
+      "invalidNumber": "Ongeldig nummer voor {element}.",
+      "loadFailed": "Kan INDI-eigenschappen niet laden.",
+      "log": "INDI-berichten",
+      "logDisabled": "Berichtenlogboek is uitgeschakeld.",
+      "noDevices": "Er zijn momenteel geen INDI-apparaten actief. \nSluit eerst de apparatuur aan en vernieuw vervolgens.",
+      "noMessages": "Nog geen berichten.",
+      "readonly": "alleen-lezen",
+      "refresh": "Vernieuwen",
+      "scrollToLatest": "Scroll naar nieuwste",
+      "set": "Set",
+      "setFailed": "Kan de eigenschap niet instellen.",
+      "title": "INDI-bedieningspaneel",
+      "updated": "Bijgewerkt"
     }
   },
   "pinsDevices": {
@@ -4322,7 +4601,8 @@
       "tcpPort": "TCP-poort",
       "selectPort": "-- Selecteer een poort --",
       "manualPort": "Handmatig…",
-      "manualPortPath": "Handmatige poort"
+      "manualPortPath": "Handmatige poort",
+      "http": "HTTP"
     }
   },
   "nav": {

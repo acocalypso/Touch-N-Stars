@@ -116,12 +116,13 @@
 </template>
 
 <script setup>
-import { ref, watch, onUnmounted } from 'vue';
+import { ref, watch, computed } from 'vue';
 import { apiStore } from '@/store/store';
 import { useGuiderStore } from '@/store/guiderStore';
 import apiPinsService from '@/services/apiPinsService';
 import apiService from '@/services/apiService';
 import { useNumberPicker } from '@/composables/useNumberPicker';
+import { useBackgroundAwarePolling } from '@/utils/appLifecycle';
 
 const store = apiStore();
 const guiderStore = useGuiderStore();
@@ -269,35 +270,20 @@ watch(
   { immediate: true }
 );
 
-let pollInterval = null;
-
-function startPolling() {
-  stopPolling();
-  pollInterval = setInterval(() => {
-    if (store.isPINS && guiderStore.phd2IsConnected) fetchAll();
-  }, 5000);
-}
-
-function stopPolling() {
-  if (pollInterval !== null) {
-    clearInterval(pollInterval);
-    pollInterval = null;
-  }
-}
-
-watch(
-  () => guiderStore.showGuiderGraph,
-  (visible) => {
-    if (visible && guiderStore.phd2IsConnected && store.isPINS) {
-      fetchAll();
-      startPolling();
-    } else {
-      stopPolling();
-    }
-  }
+// Poll only while the guider graph is visible and PHD2 is connected - and
+// pause automatically when the app is backgrounded (see src/utils/appLifecycle.js).
+const shouldPoll = computed(
+  () => guiderStore.showGuiderGraph && guiderStore.phd2IsConnected && store.isPINS
 );
 
-onUnmounted(stopPolling);
+useBackgroundAwarePolling(
+  () => {
+    if (store.isPINS && guiderStore.phd2IsConnected) fetchAll();
+  },
+  5000,
+  shouldPoll,
+  { immediate: true }
+);
 
 watch(() => [guiderStore.phd2GuideAlgorithmRA, guiderStore.phd2GuideAlgorithmDEC], fetchAlgoParams);
 </script>

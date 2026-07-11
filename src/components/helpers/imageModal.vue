@@ -2,7 +2,7 @@
   <!-- Nur anzeigen, wenn showModal true ist -->
   <div v-if="showModal" class="fixed inset-0 z-50 flex items-center justify-center">
     <!-- Halbtransparenter Overlay-Hintergrund -->
-    <div class="absolute inset-0 bg-black bg-opacity-70" @click="closeModal"></div>
+    <div class="absolute inset-0 bg-black/70" @click="closeModal"></div>
     <div v-if="isLoading">
       <!-- Spinner -->
       <div class="flex items-center justify-center w-full h-full">

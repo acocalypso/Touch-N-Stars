@@ -3,6 +3,7 @@ import apiService from '@/services/apiService';
 import { apiStore } from './store';
 import { useToastStore } from './toastStore';
 import { useSequenceStore } from './sequenceStore';
+import { createPoller } from '@/utils/poller';
 
 const RUNTIME_FIELDS = [
   'ExpectedTime',
@@ -24,6 +25,9 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
     data: [],
     loaded: false,
     intervalId: null,
+    // Bumped by every stopPolling(); startPolling() captures it before its await
+    // and bails if it changed, so a stop during initialization can't be lost.
+    pollGeneration: 0,
     availableItems: [],
     availableTriggers: [],
     availableConditions: [],
@@ -141,16 +145,26 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
 
     async startPolling() {
       this.stopPolling();
+      const generation = this.pollGeneration;
       await this.loadCurrent();
-      this.fetchStatusUpdate();
-      this.intervalId = setInterval(this.fetchStatusUpdate, 2000);
+      // stopPolling() may have run during loadCurrent() (e.g. app backgrounded
+      // mid-initialization). It bumps pollGeneration, so bail out instead of
+      // starting an interval that stopPolling already meant to prevent.
+      if (generation !== this.pollGeneration) {
+        return;
+      }
+      this.intervalId = createPoller(() => this.fetchStatusUpdate(), 2000, { immediate: true });
+      this.intervalId.start();
     },
 
     stopPolling() {
-      if (this.intervalId) {
-        clearInterval(this.intervalId);
-        this.intervalId = null;
-      }
+      this.pollGeneration++;
+      this.intervalId?.stop();
+      this.intervalId = null;
+    },
+
+    isFetching() {
+      return this.intervalId?.isRunning() === true;
     },
 
     async move(id, targetId, insertAfter) {
@@ -240,10 +254,12 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
       try {
         const res = await apiService.sequenceFetchTriggerTypes();
         const allTriggers = Array.isArray(res) ? res : (res?.Items ?? res?.Response ?? []);
-        this.availableTriggers = allTriggers.filter(
-          (t) =>
-            t.FullTypeName !== 'NINA.Sequencer.Trigger.MeridianFlip.ProgrammableMeridianFlipTrigger'
-        );
+        const hiddenTriggers = new Set([
+          'NINA.Sequencer.Trigger.MeridianFlip.ProgrammableMeridianFlipTrigger',
+          'DaleGhent.NINA.GroundStation.TTS.FailuresToTTS',
+          'DaleGhent.NINA.GroundStation.PlaySoundOnFailureTrigger.PlaySoundOnFailureTrigger',
+        ]);
+        this.availableTriggers = allTriggers.filter((t) => !hiddenTriggers.has(t.FullTypeName));
       } catch (e) {
         console.error('sequenceFetchTriggerTypes:', e);
       }

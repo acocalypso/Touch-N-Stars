@@ -106,6 +106,48 @@ export default {
     return this._simpleGetRequest(`${API_URL}indi/${device}`);
   },
 
+  //-------------------INDI Control Panel------------------------
+  // List INDI devices currently live on the embedded indiserver (loaded drivers only).
+  getINDIActiveDevices() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}indi/devices`);
+  },
+
+  // Full property tree for all devices, or a single device when `device` is provided.
+  getINDIProperties(device) {
+    const { API_URL } = getUrls();
+    const url = device
+      ? `${API_URL}indi/properties?device=${encodeURIComponent(device)}`
+      : `${API_URL}indi/properties`;
+    return this._simpleGetRequest(url);
+  },
+
+  // Ask the server to re-send property definitions for all devices, or a single device.
+  refreshINDIProperties(device) {
+    const { API_URL } = getUrls();
+    const url = device
+      ? `${API_URL}indi/properties/refresh?device=${encodeURIComponent(device)}`
+      : `${API_URL}indi/properties/refresh`;
+    return this._simplePostRequest(url, {});
+  },
+
+  // Write a writable property. `elements` is a map of element name -> value
+  // (number, string, or boolean for switches).
+  setINDIProperty(device, property, elements) {
+    const { API_URL } = getUrls();
+    return this._simplePostRequest(`${API_URL}indi/properties/set`, {
+      device,
+      property,
+      elements,
+    });
+  },
+
+  // Recent human-readable INDI messages (driver/server log lines), oldest first.
+  getINDIMessages(limit = 200) {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}indi/messages?limit=${encodeURIComponent(limit)}`);
+  },
+
   //-------------------Focuser------------------------
   focuserAction(action) {
     const { BASE_URL } = getUrls();
@@ -627,6 +669,31 @@ export default {
     });
   },
 
+  getPinsIndi3rdpartyRegistry() {
+    const { PINSDAEMON_URL } = getUrls();
+    return this._pinsDaemonGetRequest('/packages/indi3rdparty/registry', {
+      baseUrl: PINSDAEMON_URL,
+      timeout: 15000,
+    });
+  },
+
+  updatePinsIndi3rdpartyRegistryEntry(entryName, payload) {
+    const { PINSDAEMON_URL } = getUrls();
+    const normalizedEntryName = String(entryName || '').trim();
+    if (!normalizedEntryName) {
+      throw new Error('entryName is required to update INDI registry entry.');
+    }
+
+    return this._pinsDaemonPatchRequest(
+      `/packages/indi3rdparty/registry/${encodeURIComponent(normalizedEntryName)}`,
+      payload,
+      {
+        baseUrl: PINSDAEMON_URL,
+        timeout: 15000,
+      }
+    );
+  },
+
   getPinsPlugins() {
     const { PINSDAEMON_URL } = getUrls();
     return this._pinsDaemonGetRequest('/plugins', {
@@ -703,6 +770,14 @@ export default {
   getPinsDhcpClients() {
     const { PINSDAEMON_URL } = getUrls();
     return this._pinsDaemonGetRequest('/wifi/clients', {
+      baseUrl: PINSDAEMON_URL,
+      timeout: 5000,
+    });
+  },
+
+  getPinsWifiStatus() {
+    const { PINSDAEMON_URL } = getUrls();
+    return this._pinsDaemonGetRequest('/wifi/status', {
       baseUrl: PINSDAEMON_URL,
       timeout: 5000,
     });
@@ -849,6 +924,21 @@ export default {
   _pinsDaemonPostRequest(path, data, { baseUrl, timeout = 10000 } = {}) {
     return axios
       .post(`${baseUrl}${path}`, data, {
+        headers: {
+          Authorization: `Bearer ${PINS_TOKEN}`,
+          'Content-Type': 'application/json',
+        },
+        timeout,
+      })
+      .then((response) => response.data)
+      .catch((error) => {
+        throw error;
+      });
+  },
+
+  _pinsDaemonPatchRequest(path, data, { baseUrl, timeout = 10000 } = {}) {
+    return axios
+      .patch(`${baseUrl}${path}`, data, {
         headers: {
           Authorization: `Bearer ${PINS_TOKEN}`,
           'Content-Type': 'application/json',

@@ -68,7 +68,7 @@
         >
           <!-- Color dot -->
           <span
-            class="w-3 h-3 rounded-full flex-shrink-0"
+            class="w-3 h-3 rounded-full shrink-0"
             :class="getDotColor(settingsStore.getInstanceColorByIndex(getOriginalIndex(instance)))"
           />
 
@@ -79,10 +79,7 @@
           </div>
 
           <!-- Active indicator -->
-          <div
-            v-if="instance.id === selectedInstanceId"
-            class="flex items-center gap-1 flex-shrink-0"
-          >
+          <div v-if="instance.id === selectedInstanceId" class="flex items-center gap-1 shrink-0">
             <span class="w-2 h-2 rounded-full bg-green-500" />
             <span class="text-xs text-green-400">{{
               $t('components.instanceSwitcher.active')

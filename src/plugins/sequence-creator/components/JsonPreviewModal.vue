@@ -1,7 +1,5 @@
 <template>
-  <div
-    class="fixed inset-0 z-50 overflow-y-auto bg-black bg-opacity-50 flex items-center justify-center p-4"
-  >
+  <div class="fixed inset-0 z-50 overflow-y-auto bg-black/50 flex items-center justify-center p-4">
     <div
       class="bg-white dark:bg-gray-800 rounded-lg shadow-xl max-w-4xl w-full max-h-full flex flex-col"
     >
@@ -73,8 +71,7 @@
           <div class="bg-gray-50 dark:bg-gray-900 rounded-lg p-4 h-full overflow-auto">
             <pre
               class="text-sm text-gray-800 dark:text-gray-200 whitespace-pre-wrap font-mono leading-relaxed"
-              >{{ formattedJson }}</pre
-            >
+              >{{ formattedJson }}</pre>
           </div>
         </div>
       </div>

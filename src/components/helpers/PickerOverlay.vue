@@ -126,6 +126,7 @@ const isConfirmDisabled = computed(() => {
 </script>
 
 <style scoped>
+@reference '../../assets/tailwind.css';
 .numpad-btn {
   @apply h-14 rounded-lg text-xl font-semibold
     text-gray-300

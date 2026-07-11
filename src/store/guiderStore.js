@@ -2,12 +2,12 @@ import { defineStore } from 'pinia';
 import apiService from '@/services/apiService';
 import apiPinsService from '@/services/apiPinsService';
 import { apiStore } from '@/store/store';
+import { createPoller } from '@/utils/poller';
 
 export const useGuiderStore = defineStore('guiderStore', {
   state: () => ({
     guidecamOk: false,
     guidecamManualVnc: false,
-    intervalId: null,
     RADistanceRaw: [],
     DECDistanceRaw: [],
     raDuration: [],
@@ -155,9 +155,14 @@ export const useGuiderStore = defineStore('guiderStore', {
           console.warn('Backend is not reachable log');
           return;
         }
-        //Graphdaten vom Backend holen
-        const response = await apiService.guiderAction('graph');
-        this.chartInfo = response.Response;
+        // Only fetch the (large) guide-step history while the graph flyout is
+        // actually open — it is its only consumer. The PHD2 status below keeps
+        // polling regardless, because the status bar star-lost indicator
+        // depends on it.
+        if (this.showGuiderGraph) {
+          const response = await apiService.guiderAction('graph');
+          this.chartInfo = response.Response;
+        }
       } catch (error) {
         console.error('Error fetching the information:', error);
       }
@@ -245,17 +250,19 @@ export const useGuiderStore = defineStore('guiderStore', {
 
     startFetching() {
       console.log('Start fetching graph data...');
-      if (!this.intervalId) {
-        this.intervalId = setInterval(this.fetchGraphInfos, 1000);
+      if (!this._graphPoller) {
+        this._graphPoller = createPoller(() => this.fetchGraphInfos(), 1000);
       }
+      this._graphPoller.start();
     },
 
     stopFetching() {
       console.log('Stop fetching graph data...');
-      if (this.intervalId) {
-        clearInterval(this.intervalId);
-        this.intervalId = null;
-      }
+      this._graphPoller?.stop();
+    },
+
+    isFetchingGraph() {
+      return this._graphPoller?.isRunning() ?? false;
     },
 
     async setPHD2Profil(id) {
@@ -1513,7 +1520,7 @@ export const useGuiderStore = defineStore('guiderStore', {
 
     startDarkLibraryBuildPolling() {
       if (this.phd2DarkLibraryPollHandle) return;
-      this.phd2DarkLibraryPollHandle = setInterval(async () => {
+      this.phd2DarkLibraryPollHandle = createPoller(async () => {
         const status = await this.fetchPHD2DarkLibraryBuildStatus();
         if (!status || status.Complete) {
           this.stopDarkLibraryBuildPolling();
@@ -1534,13 +1541,16 @@ export const useGuiderStore = defineStore('guiderStore', {
           }
         }
       }, 1000);
+      this.phd2DarkLibraryPollHandle.start();
     },
 
     stopDarkLibraryBuildPolling() {
-      if (this.phd2DarkLibraryPollHandle) {
-        clearInterval(this.phd2DarkLibraryPollHandle);
-        this.phd2DarkLibraryPollHandle = null;
-      }
+      this.phd2DarkLibraryPollHandle?.stop();
+      this.phd2DarkLibraryPollHandle = null;
+    },
+
+    isDarkLibraryBuildPolling() {
+      return this.phd2DarkLibraryPollHandle?.isRunning() === true;
     },
 
     async buildPHD2DarkLibrary(expTimesMs, frameCount) {
@@ -1636,6 +1646,21 @@ export const useGuiderStore = defineStore('guiderStore', {
         return await apiService.setMountGuideRate(raSiderealMultiplier, decSiderealMultiplier);
       } catch (error) {
         console.error('Error setting mount guide rate:', error);
+        throw error;
+      }
+    },
+
+    // Disconnect and reconnect the guider (e.g. to apply settings that only take
+    // effect on reconnect, like PHD2 auto-restore calibration).
+    async reconnectGuider() {
+      try {
+        await apiService.guiderAction('disconnect');
+        // Give NINA/PHD2 a moment to fully tear down the connection before
+        // reconnecting, otherwise the connect can race the pending disconnect.
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        await apiService.guiderAction('connect');
+      } catch (error) {
+        console.error('Error reconnecting guider:', error);
         throw error;
       }
     },

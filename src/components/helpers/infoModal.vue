@@ -6,10 +6,7 @@
   </div>
   <div>
     <!-- Modal Overlay -->
-    <div
-      v-if="isModalOpen"
-      class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center"
-    >
+    <div v-if="isModalOpen" class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center">
       <div
         class="bg-gray-800 text-white p-4 m-8 rounded-lg max-w-xl max-h-[80vh] min-h-48 overflow-y-auto"
       >

@@ -10,10 +10,7 @@
     </button>
 
     <!-- Modal -->
-    <div
-      v-if="showModal"
-      class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-    >
+    <div v-if="showModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
       <div
         class="bg-gray-800 text-gray-300 p-4 m-8 rounded-lg max-w-xl max-h-[80vh] min-h-48 min-w-72 overflow-y-auto"
       >

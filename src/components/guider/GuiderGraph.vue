@@ -237,6 +237,18 @@ watch(
   }
 );
 
+// The poller skips the graph fetch while the flyout is closed (the component
+// stays mounted via v-show); refresh immediately when it opens so the chart
+// does not show stale data until the next poll tick.
+watch(
+  () => guiderStore.showGuiderGraph,
+  (visible) => {
+    if (visible) {
+      guiderStore.fetchGraphInfos(t);
+    }
+  }
+);
+
 onMounted(async () => {
   await guiderStore.fetchGraphInfos(t);
   guiderStore.startFetching(t);

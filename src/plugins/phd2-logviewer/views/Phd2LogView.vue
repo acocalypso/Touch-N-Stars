@@ -1263,6 +1263,7 @@ onBeforeUnmount(() => resizeObserver?.disconnect());
 </script>
 
 <style scoped>
+@reference '../../../assets/tailwind.css';
 .zoom-btn {
   @apply flex h-7 w-7 items-center justify-center rounded-md border border-gray-600 bg-gray-800/50 text-sm font-semibold text-gray-300 transition hover:bg-gray-700/60 disabled:cursor-default disabled:opacity-30;
 }

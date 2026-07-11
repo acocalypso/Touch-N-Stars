@@ -344,7 +344,7 @@
 <script setup>
 import { ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { getAvailableLanguages } from '@/i18n';
+import { getAvailableLanguages, setLocaleLanguage } from '@/i18n';
 import { useRouter } from 'vue-router';
 import { useSettingsStore } from '@/store/settingsStore';
 import {
@@ -487,9 +487,8 @@ function previousStep() {
   }
 }
 
-function saveLanguage() {
-  locale.value = selectedLanguage.value;
-  settingsStore.setLanguage(selectedLanguage.value);
+async function saveLanguage() {
+  await setLocaleLanguage(selectedLanguage.value);
   nextStep();
 }
 

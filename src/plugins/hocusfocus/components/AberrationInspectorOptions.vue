@@ -39,26 +39,64 @@
           {{ $t('plugins.hocusfocus.aberrationInspectorOptions.inspectorSettings') }}
         </h3>
         <div class="space-y-3">
-          <!-- Microns Per Focuser Step -->
-          <div>
-            <label class="text-white mb-2 block">{{
-              $t('plugins.hocusfocus.aberrationInspectorOptions.micronsPerFocuserStep')
-            }}</label>
-            <input
-              :value="options.MicronsPerFocuserStep === -1 ? '' : options.MicronsPerFocuserStep"
-              @change="
-                (e) => {
-                  const val = e.target.value === '' ? -1 : parseFloat(e.target.value);
-                  options.MicronsPerFocuserStep = val;
-                  saveOption('MicronsPerFocuserStep', val);
-                }
-              "
-              type="text"
-              class="w-full bg-gray-700 text-white p-2 rounded"
-              :disabled="savingOptions.has('MicronsPerFocuserStep')"
-            />
-            <div v-if="optionErrors.MicronsPerFocuserStep" class="text-red-400 text-xs mt-1">
-              {{ optionErrors.MicronsPerFocuserStep }}
+          <div v-for="meta in visibleOptionMeta" :key="meta.key">
+            <!-- Numeric option where -1 means "auto" (shown as blank) -->
+            <template v-if="meta.type === 'auto-number'">
+              <label class="text-white mb-2 block">{{
+                $t('plugins.hocusfocus.aberrationInspectorOptions.' + meta.labelKey)
+              }}</label>
+              <input
+                :value="options[meta.key] === -1 ? '' : options[meta.key]"
+                @change="
+                  (e) => {
+                    const val = e.target.value === '' ? -1 : parseFloat(e.target.value);
+                    saveNumericOption(meta.key, val);
+                  }
+                "
+                type="text"
+                :placeholder="$t('plugins.hocusfocus.aberrationInspectorOptions.autoPlaceholder')"
+                class="w-full bg-gray-700 text-white p-2 rounded"
+                :disabled="savingOptions.has(meta.key)"
+              />
+            </template>
+            <template v-else-if="meta.type === 'number'">
+              <label class="text-white mb-2 block">{{
+                $t('plugins.hocusfocus.aberrationInspectorOptions.' + meta.labelKey)
+              }}</label>
+              <input
+                :value="options[meta.key]"
+                @change="
+                  (e) => {
+                    const val = parseFloat(e.target.value);
+                    saveNumericOption(meta.key, val);
+                  }
+                "
+                type="number"
+                class="w-full bg-gray-700 text-white p-2 rounded"
+                :disabled="savingOptions.has(meta.key)"
+              />
+            </template>
+            <template v-else-if="meta.type === 'boolean'">
+              <label class="flex items-center text-white">
+                <input
+                  :checked="options[meta.key]"
+                  @change="
+                    (e) => {
+                      options[meta.key] = e.target.checked;
+                      saveOption(meta.key, e.target.checked);
+                    }
+                  "
+                  type="checkbox"
+                  class="mr-3"
+                  :disabled="savingOptions.has(meta.key)"
+                />
+                <span>{{
+                  $t('plugins.hocusfocus.aberrationInspectorOptions.' + meta.labelKey)
+                }}</span>
+              </label>
+            </template>
+            <div v-if="optionErrors[meta.key]" class="text-red-400 text-xs mt-1">
+              {{ optionErrors[meta.key] }}
             </div>
           </div>
         </div>
@@ -83,7 +121,7 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue';
+import { ref, reactive, computed } from 'vue';
 import apiService from '@/services/apiService';
 
 const isLoading = ref(false);
@@ -93,6 +131,29 @@ const options = reactive({});
 const savingOptions = ref(new Set());
 const optionErrors = ref({});
 
+// Curated set of inspector options surfaced in TNS.
+// 'auto-number' options treat -1 as "auto" and render blank.
+const inspectorOptionMeta = [
+  { key: 'StepCount', type: 'auto-number', labelKey: 'stepCount' },
+  { key: 'StepSize', type: 'auto-number', labelKey: 'stepSize' },
+  { key: 'FramesPerPoint', type: 'auto-number', labelKey: 'framesPerPoint' },
+  { key: 'SimpleExposureSeconds', type: 'auto-number', labelKey: 'simpleExposureSeconds' },
+  {
+    key: 'DetailedAnalysisExposureSeconds',
+    type: 'auto-number',
+    labelKey: 'detailedAnalysisExposureSeconds',
+  },
+  { key: 'TimeoutSeconds', type: 'auto-number', labelKey: 'timeoutSeconds' },
+  { key: 'SignalAmplification', type: 'number', labelKey: 'signalAmplification' },
+  { key: 'CenterFocuserBeforeRun', type: 'boolean', labelKey: 'centerFocuserBeforeRun' },
+  { key: 'NumRegionsWide', type: 'number', labelKey: 'numRegionsWide' },
+  { key: 'MicronsPerFocuserStep', type: 'auto-number', labelKey: 'micronsPerFocuserStep' },
+  { key: 'SensorCurveModelEnabled', type: 'boolean', labelKey: 'sensorCurveModelEnabled' },
+];
+
+// Only render options the backend actually reports (older plugin versions may miss some)
+const visibleOptionMeta = computed(() => inspectorOptionMeta.filter((m) => m.key in options));
+
 // Load options from API
 const loadOptions = async () => {
   isLoading.value = true;
@@ -100,7 +161,7 @@ const loadOptions = async () => {
   try {
     const response = await apiService.hocusfocus.getAberrationInspectorOptions();
     if (response && typeof response === 'object') {
-      Object.assign(options, response);
+      Object.assign(options, response.options);
     }
   } catch (err) {
     console.error('[AberrationInspectorOptions] Error loading options:', err);
@@ -128,6 +189,12 @@ const saveOption = async (key, value) => {
     savingOptions.value.delete(key);
   }
 };
+
+function saveNumericOption(key, value) {
+  if (Number.isNaN(value)) return;
+  options[key] = value;
+  saveOption(key, value);
+}
 
 // Reset to defaults
 const resetToDefaults = async () => {

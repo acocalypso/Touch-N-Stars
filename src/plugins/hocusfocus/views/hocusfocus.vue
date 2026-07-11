@@ -18,7 +18,7 @@
                   ? 'border-b-2 border-cyan-400 text-white'
                   : 'text-gray-400 hover:text-white'
               "
-              class="px-6 py-3 font-semibold transition whitespace-nowrap snap-start flex-shrink-0"
+              class="px-6 py-3 font-semibold transition whitespace-nowrap snap-start shrink-0"
             >
               {{ $t('plugins.hocusfocus.tabs.aberration') }}
             </button>
@@ -29,7 +29,7 @@
                   ? 'border-b-2 border-cyan-400 text-white'
                   : 'text-gray-400 hover:text-white'
               "
-              class="px-6 py-3 font-semibold transition whitespace-nowrap snap-start flex-shrink-0"
+              class="px-6 py-3 font-semibold transition whitespace-nowrap snap-start shrink-0"
             >
               {{ $t('plugins.hocusfocus.tabs.aberrationOptions') }}
             </button>
@@ -40,7 +40,7 @@
                   ? 'border-b-2 border-cyan-400 text-white'
                   : 'text-gray-400 hover:text-white'
               "
-              class="px-6 py-3 font-semibold transition whitespace-nowrap snap-start flex-shrink-0"
+              class="px-6 py-3 font-semibold transition whitespace-nowrap snap-start shrink-0"
             >
               {{ $t('plugins.hocusfocus.tabs.autoFocusOptions') }}
             </button>
@@ -52,7 +52,7 @@
                   ? 'border-b-2 border-cyan-400 text-white'
                   : 'text-gray-400 hover:text-white'
               "
-              class="px-6 py-3 font-semibold transition whitespace-nowrap snap-start flex-shrink-0"
+              class="px-6 py-3 font-semibold transition whitespace-nowrap snap-start shrink-0"
             >
               {{ $t('plugins.hocusfocus.tabs.starDetection') }}
             </button>
@@ -63,7 +63,7 @@
                   ? 'border-b-2 border-cyan-400 text-white'
                   : 'text-gray-400 hover:text-white'
               "
-              class="px-6 py-3 font-semibold transition whitespace-nowrap snap-start flex-shrink-0"
+              class="px-6 py-3 font-semibold transition whitespace-nowrap snap-start shrink-0"
             >
               {{ $t('plugins.hocusfocus.tabs.tilter') }}
             </button>
@@ -72,7 +72,7 @@
           <!-- AutoFocus Directory Selection Modal -->
           <div
             v-if="showAFDirectoryModal"
-            class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
+            class="fixed inset-0 bg-black/50 flex items-center justify-center z-50"
           >
             <div class="bg-gray-800 rounded-lg p-6 w-96 border border-gray-700">
               <h3 class="text-xl font-semibold text-white mb-4">
@@ -169,7 +169,8 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
+import { ref, computed, onMounted } from 'vue';
+import { useBackgroundAwarePolling } from '@/utils/appLifecycle';
 import { useHocusFocusStore } from '../store/hocusfocusStore';
 import apiService from '@/services/apiService';
 import AberrationInspector from '../components/AberrationInspector.vue';
@@ -202,29 +203,21 @@ const canRunAutoFocus = computed(() => {
   );
 });
 
-// Polling management
-let statusPollingInterval = null;
+// Polling management - always active while this view is mounted, but pausing
+// while the app is backgrounded (see src/utils/appLifecycle.js).
+const isActive = ref(true);
 
-const startStatusPolling = () => {
-  if (statusPollingInterval) return; // Already polling
-
-  console.log('[HocusFocus] Starting status polling...');
-  statusPollingInterval = setInterval(async () => {
+useBackgroundAwarePolling(
+  async () => {
     try {
       await updateStatus();
     } catch (err) {
       console.error('[HocusFocus] Error in status polling:', err);
     }
-  }, 1000);
-};
-
-const stopStatusPolling = () => {
-  if (statusPollingInterval) {
-    clearInterval(statusPollingInterval);
-    statusPollingInterval = null;
-    console.log('[HocusFocus] Status polling stopped');
-  }
-};
+  },
+  1000,
+  isActive
+);
 
 // Fetch and update tilt corner measurements
 const updateTiltMeasurements = async () => {
@@ -455,12 +448,5 @@ const clearDetailedAutoFocus = async () => {
 // Generate sample focus data on mount
 onMounted(() => {
   store.fetchEquipmentStatus();
-  // Start polling for status updates
-  startStatusPolling();
-});
-
-// Cleanup on component unmount
-onBeforeUnmount(() => {
-  stopStatusPolling();
 });
 </script>

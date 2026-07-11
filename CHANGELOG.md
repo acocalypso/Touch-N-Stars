@@ -4,6 +4,93 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+### Added
+- Settings: New "Local Network Binding" option (Android) to keep the app connected via Wi-Fi when the NINA instance runs on a local network without internet (e.g. PINS hotspot), while the rest of the phone keeps using mobile data
+
+### Fixed
+- Sequence: Three Point Polar Alignment item now shows the actually selected filter instead of always appearing empty
+- Guider: PHD2 exposure field no longer shows NaN when the initial exposure request fails
+
+## [App5.0.0-beta12] - 2026-07-07
+### Fixed
+- Stellarium: Fixed the sky view suddenly zooming and then freezing (no more pan/zoom) after a few touch gestures on iPadOS - the browser could claim the gesture and cancel the touch without the engine ever seeing it end, leaving a phantom finger "held down"
+
+## [App5.0.0-beta9 and 10] - 2026-07-03 
+### Added
+- TPPA: Filter can now be selected in the alignment settings and is passed to the start-alignment request (leave on "Default" to use NINA's defaults)
+- Mount: Telescope settle time setting in the mount settings panel
+- PINS: WiFi card now shows the current connection (SSID, IP address, interface, band) with signal strength and a short history graph - thanks to acocalypso
+
+### Changed
+- Background handling: Guider stats/graph, dark library build progress, the sequence editor, PINS device list, PINS AllSky, system metrics, INDI Control Panel, log collector and framing polling now all pause while the app is in the background (via a new shared polling composable) instead of continuing to poll, and resume only if they were actually active before pausing
+
+### Fixed
+- PINS: WiFi connect/disconnect buttons now reflect the actual connection state - no longer offer to "connect" to a network you're already connected to, and disconnect is styled distinctly while connected
+- PINS: Fixed a re-probe race that could double-check or miss PINS availability, plus poller start/stop races and an unsafe framing data access
+- Camera: Fixed "Center Here" always treating the connected camera as a DSLR, which broke the sensor-size fallback for cameras that do report a native sensor size
+- Guider: PHD2 calibration data button is no longer shown outside PINS mode
+
+## [App5.0.0-beta8] - 2026-07-01
+### Changed
+- Connection: All WebSocket connections (event channel, mount control, TPPA) now share a single reconnect engine with exponential backoff instead of a fixed 2-second retry, so a backend that is temporarily unreachable is no longer hammered every 2 seconds while still recovering promptly once it returns
+- Connection: Reworked the reconnect screen to be calmer and more useful - a brief background/foreground blip now only shows a neutral spinner, escalating to a friendlier message with "Retry now" and "Settings" actions (technical connection details tucked behind an optional "Show details") only if it's still not reachable after a few seconds; the "this may indicate a problem" warning now only appears after 15s instead of 10s, since reconnecting after being backgrounded can normally take up to ~12s on its own
+
+### Fixed
+- Connection: Event subscriptions (new images, live stacking updates) are now re-established after every reconnect - previously a reconnect handled internally could silently stop delivering these events until the app was restarted
+- Connection: Detect and recover "zombie" connections where the socket looks open but no longer receives anything (e.g. after switching between WiFi and mobile data while the app stays in the foreground)
+- Connection: The mount control connection no longer keeps retrying every 2 seconds while the backend is unreachable, and now recovers on its own once it comes back without needing to leave and re-open the page
+- Connection: The TPPA alignment connection now reconnects through a single path (a duplicate retry loop was removed) and its pending reconnect can now be properly cancelled
+- Connection: Overlapping WebSocket reconnect attempts no longer cancel each other out every ~2 seconds, so reconnecting after resume is noticeably faster
+- Connection: The reconnect screen now shows immediately when returning from background instead of briefly showing stale data before the connection-error banner appears a few seconds later, but only after a brief grace period so a near-instant reconnect no longer flashes the overlay at all
+- Connection: A short-timeout WebSocket connect attempt could silently claim the shared reconnect slot and cap every subsequent attempt at its shorter timeout; reconnect timeouts are now consistent everywhere
+- Connection: Disconnecting no longer leaves a stale pending connection reference behind that could cause the next reconnect attempt to wait on an already-dying connection
+- Connection: The four SignalR services (PINS notifications, progress, dialogs, message boxes) no longer run two competing reconnect mechanisms at once
+
+
+## [App5.0.0-beta7] - 2026-07-01
+### Fixed
+- Connection: App no longer gets stuck showing "trying to reconnect" indefinitely after returning from a locked screen if an earlier resume attempt was still in progress - the pending reconnect is now retried instead of silently dropped
+- Connection: Fixed a race between overlapping WebSocket reconnect attempts that could permanently freeze the backend status polling after resuming from background, requiring an app restart to recover
+
+## [App5.0.0-beta6] - 2026-07-01
+### Added
+- Settings: New $$FWHM$$ and $$ECCENTRICITY$$ tokens for the image file pattern
+
+### Fixed
+- Diagnostics: Mobile diagnostic ZIP downloads now work on mobile devices
+- Connection: Mount and TPPA WebSockets no longer keep delivering events from a stale socket after a reconnect; polling loops now skip a tick instead of overlapping when a request is still in flight
+
+## [App5.0.0-beta5] - 2026-06-29
+### Added
+- Sequence: PHD2 calibration slew item – slew to a guider calibration position (HA offset, Dec, pointing side, optional DEC backlash clearing)
+- Guider: Prompt to reconnect the guider after toggling PHD2 auto restore calibration, since the setting only takes effect after a reconnect
+- TPPA: Alignment warnings for huge/large polar alignment errors, declination spread between measurements, and correction fields close to East/West
+- Stellarium: Loading spinner while the engine initializes
+
+### Changed
+- Stellarium: Skip rendering while the view is hidden or the app is in the background instead of letting the WebGL engine render continuously, significantly reducing battery drain and device heat; the view stays loaded and resumes instantly
+
+### Fixed
+- Narrowband Filter: Correct aperture and focal length limitation in the filter calculator
+- Framing: Compute visible stars once on load instead of reactively
+
+## [App5.0.0-beta4] - 2026-06-17
+### Added
+- Plugin: INDI Control Panel – inspect and control every property of the INDI drivers currently loaded on the server
+- Equipment: HTTP connection mode for INDI mounts (in addition to Serial and Network/TCP)
+- PINS: INDI registry edit config flow – edit Name, Label and Type of installed INDI 3rd-party registry entries via a mobile-friendly modal, patching only changed fields and preserving unsaved edits across refresh - thanks to acocalypso
+
+## [App5.0.0-beta2] - 2026-06-11
+### Added
+- Settings: Clear Horizon File Path via a dedicated button
+- Sequence: Ground Station plugin support – add and edit notification items (Telegram, Discord, Slack, Pushover, ntfy, IFTTT, Email, MQTT, HTTP request, UDP) and failure triggers with dedicated editors
+- Equipment: INDI camera selection
+
+## [App5.0.0-beta1] - 2026-06-11
+### Added
+- Sequence: Add picker now groups types into collapsible categories with item count, and the search also matches category names
+
 ## [App5.0.0] - 2026-05-20
 ### Added
 - Sequence: Set multi targets

@@ -44,6 +44,16 @@
       "message_api_version": "API 플러그인이 너무 오래되었습니다. 업데이트를 진행하세요",
       "message_tns": "Touch'N'Stars 플러그인을 사용할 수 없습니다. NINA에서 설정을 확인하세요",
       "message_tns_version": "Touch N Stars 플러그인이 너무 오래되었습니다. 업데이트를 진행하세요"
+    },
+    "connection_splash": {
+      "connecting": "연결 중…",
+      "trying": "{instance}에 다시 연결 중…",
+      "delayed": "{instance}에 계속 연결할 수 없습니다. 문제가 있을 수 있습니다 — 설정을 열어 Touch-N-Stars 인스턴스를 확인하세요.",
+      "retry_now": "지금 다시 시도",
+      "show_details": "세부정보 표시",
+      "details": "대상: {endpoint} · {elapsed}초 경과",
+      "configured_instance": "구성된 인스턴스",
+      "default_instance_name": "선택한 인스턴스"
     }
   },
   "whatsnew": {
@@ -276,7 +286,10 @@
       "horizonFilePath": {
         "title": "호라이즌 파일",
         "placeholder": "예: /home/pi/horizon.hrz",
-        "toastTitle": "호라이즌 파일 저장됨"
+        "toastTitle": "호라이즌 파일 저장됨",
+        "clearTitle": "지평선 파일 경로 지우기",
+        "confirmTitle": "지평선 파일 경로 지우기",
+        "confirmMessage": "지평선 파일 경로를 지우시겠습니까?"
       },
       "image": {
         "title": "이미지",
@@ -340,6 +353,10 @@
       "keepAwake": {
         "title": "화면 켜짐 유지",
         "description": "앱이 열려 있는 동안 기기가 어두워지거나 잠기지 않게 합니다."
+      },
+      "wifiBinding": {
+        "title": "로컬 네트워크 바인딩",
+        "description": "인스턴스가 인터넷이 없는 로컬 네트워크(예: PINS 핫스팟)에서 실행될 때 앱이 Wi-Fi를 통해 연결을 유지하며, 휴대폰의 나머지 통신은 계속 모바일 데이터를 사용합니다."
       },
       "input": {
         "title": "입력 최적화",
@@ -780,6 +797,39 @@
         "annotation": {
           "text": "텍스트"
         },
+        "groundstation": {
+          "message": "메시지",
+          "title": "제목",
+          "subject": "메일 제목",
+          "body": "본문",
+          "recipient": "받는 사람",
+          "topic": "토픽",
+          "payload": "페이로드",
+          "qos": "QoS",
+          "retain": "Retain",
+          "description": "설명",
+          "method": "메서드",
+          "url": "URL",
+          "contentType": "콘텐츠 유형",
+          "username": "사용자 이름",
+          "password": "비밀번호",
+          "showEmbed": "임베드 표시",
+          "embedTitle": "임베드 제목",
+          "embedText": "임베드 텍스트",
+          "eventName": "이벤트 이름",
+          "value1": "값 1",
+          "value2": "값 2",
+          "value3": "값 3",
+          "priority": "우선순위",
+          "notificationSound": "알림음",
+          "tags": "태그",
+          "channel": "채널",
+          "doNotNotify": "무음 알림",
+          "address": "주소",
+          "port": "포트",
+          "payloadType": "페이로드 유형",
+          "lineTermination": "줄 끝"
+        },
         "waitUntil": {
           "predicate": "조건"
         },
@@ -853,6 +903,15 @@
         },
         "startGuiding": {
           "forceCalibrationLabel": "강제 교정"
+        },
+        "slewToGuiderCalibrationPosition": {
+          "clearBacklash": "DEC 백래시 지우기",
+          "dec": "12월",
+          "haOffset": "HA 오프셋",
+          "side": "가리키는 쪽",
+          "sideEast": "동쪽",
+          "sideStay": "머무르다",
+          "sideWest": "서쪽"
         }
       },
       "emptyContainer": "비어 있음 — +를 눌러 항목 추가",
@@ -896,7 +955,9 @@
         },
         "setLocationSyncToMount": "\"망원경으로 동기화\" 설정",
         "slewRateINDI": "슬루 속도",
-        "reverse_axis": "축 방향"
+        "reverse_axis": "축 방향",
+        "slewRateDriverControlled": "슬루율은 드라이버에 의해 제어됩니다.",
+        "slewRateUnavailable": "슬루율을 조정하려면 마운트를 연결하세요."
       },
       "info": {
         "notConnected": "마운트를 연결하세요",
@@ -1025,6 +1086,10 @@
         "cameraGain": "게인",
         "cameraBinning": "비닝",
         "restoreCalibration": "캘리브레이션 복원",
+        "restoreCalibrationReconnect": {
+          "title": "가이더를 다시 연결할까요?",
+          "message": "이 설정은 가이더를 다시 연결한 후에만 적용됩니다. 지금 다시 연결할까요?"
+        },
         "mountSettings": "마운트",
         "guideRate": "가이드 레이트",
         "guideRateReadOnly": "읽기 전용",
@@ -1433,6 +1498,8 @@
         "camera_settings_hint": "NINA 기본값을 사용하려면 비워 두세요",
         "exposure_time": "노출 시간 (초)",
         "gain": "게인",
+        "filter": "필터",
+        "filter_default": "기본값",
         "nina_default": "NINA 기본값",
         "ManualMode": "수동 모드"
       },
@@ -1470,7 +1537,15 @@
         "help_log_error": "활성화하면 극축 정렬 오차 조정 내역과 각 조정 후의 연속 오차가 기록된 로그 파일이 생성됩니다."
       },
       "error_modal": {},
-      "tppa": "TPPA"
+      "tppa": "TPPA",
+      "warn_dec_spread_body": "보고된 마운트의 편각은 측정 사이에 {arcsec}\"만큼 변경되었습니다. 이는 극 정렬 정확도에 영향을 미칠 수 있습니다. 측정 중에 적경 축만 이동하는지 확인하세요.",
+      "warn_dec_spread_title": "적위 확산 감지됨",
+      "warn_east_west_body": "현재 필드는 정확한 동쪽 또는 서쪽에서 5° 이내에 있습니다. \n라이브 솔루션이 불안정한 경우 동쪽/서쪽에서 더 멀리 떨어진 필드로 이동한 후 다시 실행하세요.",
+      "warn_east_west_title": "동쪽/서쪽 {deg}° 이내의 수정 필드",
+      "warn_huge_body": "마운트가 정렬에서 멀리 떨어져 있거나 계산으로 결과를 확인할 수 없습니다. \n현장 위치를 ​​확인하고, 마운트가 대략 극을 가리키고 있는지, 적경 축만 세 측정 지점 사이에서 이동되었는지 확인합니다.",
+      "warn_huge_title": "계산된 오류가 엄청납니다",
+      "warn_large_body": "수정 단계의 신뢰성이 떨어집니다. \n마운트를 극 정렬에 더 가깝게 가져오고 TPPA를 다시 실행하여 확인하십시오.",
+      "warn_large_title": "초기 극축 정렬 오류가 큼"
     },
     "slewAndCenter": {
       "title": "슬루 및 센터링",
@@ -1688,6 +1763,7 @@
       }
     },
     "stellarium": {
+      "loading": "Stellarium 로드 중…",
       "selected_object": {
         "title": "선택한 천체",
         "ra": "RA",
@@ -1970,7 +2046,8 @@
         "pluginUninstallStart": "플러그인 제거 중: {packageName}",
         "pluginActionSuccess": "플러그인 작업 완료: {packageName}",
         "pluginActionFailed": "{packageName} 플러그인 작업 실패. 상태: {status}",
-        "hotspotPasswordTooShort": "The hotspot password must be at least 8 characters long."
+        "hotspotPasswordTooShort": "The hotspot password must be at least 8 characters long.",
+        "wifiConnected": "Wi-Fi 연결됨: {ssid} ({ip})"
       },
       "wifiDisconnect": "WiFi 연결 해제",
       "disconnectConfirmTitle": "WiFi 연결을 해제할까요?",
@@ -2025,7 +2102,46 @@
       "dhcpClientsIp": "IP 주소",
       "dhcpClientsMac": "MAC 주소",
       "dhcpClientsHostname": "호스트명",
-      "dhcpClientsExpires": "임대 만료"
+      "dhcpClientsExpires": "임대 만료",
+      "indiRegistryEditConfig": "구성 수정",
+      "indiRegistryModalActions": "행위",
+      "indiRegistryModalDescription": "설치된 INDI 타사 레지스트리 항목의 이름, 레이블 및 유형을 편집합니다.",
+      "indiRegistryModalEmpty": "레지스트리 항목을 찾을 수 없습니다.",
+      "indiRegistryModalErrorConflict": "이름이 이미 존재합니다(409 중복 이름 변경).",
+      "indiRegistryModalErrorGeneric": "항목을 저장하지 못했습니다: {message}",
+      "indiRegistryModalErrorLoad": "레지스트리를 로드하지 못했습니다: {message}",
+      "indiRegistryModalErrorNotFound": "항목을 찾을 수 없습니다(404).",
+      "indiRegistryModalErrorUnknown": "알 수 없는 오류입니다.",
+      "indiRegistryModalErrorValidation": "검증 실패: {message}",
+      "indiRegistryModalLabel": "상표",
+      "indiRegistryModalLabelLength": "라벨은 200자 이하여야 합니다.",
+      "indiRegistryModalLoading": "레지스트리 로드 중...",
+      "indiRegistryModalName": "이름",
+      "indiRegistryModalNameLength": "이름은 200자 이하여야 합니다.",
+      "indiRegistryModalNameRequired": "이름은 필수입니다.",
+      "indiRegistryModalNoChanges": "저장할 변경사항이 없습니다.",
+      "indiRegistryModalReload": "새로고침",
+      "indiRegistryModalSave": "구하다",
+      "indiRegistryModalSaved": "항목이 저장되었습니다. \n백엔드에서 레지스트리가 다시 로드되었습니다.",
+      "indiRegistryModalSaving": "절약...",
+      "indiRegistryModalTitle": "INDI 레지스트리 편집",
+      "indiRegistryModalTotalEntries": "항목",
+      "indiRegistryModalType": "유형",
+      "indiRegistryModalTypeInvalid": "유형은 허용되는 값 중 하나여야 합니다.",
+      "indiRegistryModalUpdatedAt": "업데이트됨",
+      "indiRegistryModalNameDuplicate": "이름이 이미 다른 행에 존재합니다.",
+      "wifiSignalMobile": "Mobile signal",
+      "wifiRssiValue": "{value} dBm",
+      "wifiChannel": "채널 {채널}",
+      "wifiConnectedAction": "연결됨",
+      "wifiRoleClient": "가정용 WiFi",
+      "wifiRoleHotspot": "핫스팟",
+      "wifiSignal": "신호",
+      "wifiSignalHistory": "WiFi 신호 기록",
+      "wifiSignalUnavailable": "신호를 사용할 수 없음",
+      "wifiSignalValue": "{값}%",
+      "wifiStatusConnected": "연결됨",
+      "wifiStatusDisconnected": "연결되지 않음"
     },
     "bahtifocus": {
       "title": "바티노프 마스크 분석기",
@@ -3195,7 +3311,18 @@
         "micronsPerFocuserStep": "포커서 스텝당 마이크론",
         "retry": "다시 시도",
         "resetToDefaults": "기본값으로 초기화",
-        "resetting": "초기화 중..."
+        "resetting": "초기화 중...",
+        "autoPlaceholder": "자동",
+        "centerFocuserBeforeRun": "달리기 전 센터 포커서",
+        "detailedAnalysisExposureSeconds": "상세 분석 노출 시간(초)",
+        "framesPerPoint": "포인트당 프레임",
+        "numRegionsWide": "광범위한 지역 수",
+        "sensorCurveModelEnabled": "센서 곡선 모델",
+        "signalAmplification": "신호 증폭",
+        "simpleExposureSeconds": "노출 시간(초)",
+        "stepCount": "걸음수",
+        "stepSize": "단계 크기",
+        "timeoutSeconds": "시간 초과(초)"
       },
       "autoFocusOptions": {
         "loading": "오토포커스 옵션을 불러오는 중...",
@@ -3221,7 +3348,8 @@
         "noiseReducedStarMeasurement": "노이즈 감소 별 측정",
         "debugMode": "디버그 모드",
         "simpleModeSettings": "간단 모드 설정",
-        "noiseLevel": "노이즈 레벨"
+        "noiseLevel": "노이즈 레벨",
+        "useOptimizedSettings": "최적화된 설정 사용"
       },
       "tilter": {
         "device": "장치",
@@ -4112,6 +4240,157 @@
         "imageRequired": "이미지 파일을 업로드해주세요.",
         "nameRequired": "풍경 이름이 필요합니다."
       }
+    },
+    "groundStation": {
+      "common": {
+        "leaveEmpty": "(변하지 않은)",
+        "loading": "로드 중…",
+        "passwordUnchanged": "현재 값을 유지하려면 비워 두세요.",
+        "save": "구하다",
+        "saving": "절약…",
+        "test": "테스트 보내기",
+        "testFailed": "테스트 실패",
+        "testSuccess": "테스트가 성공적으로 전송되었습니다.",
+        "testing": "배상…"
+      },
+      "discord": {
+        "botName": "봇 표시 이름",
+        "defaultWebhook": "기본 웹훅 URL",
+        "failureMessage": "실패 메시지",
+        "failureTitle": "실패 제목",
+        "failureWebhook": "실패 웹훅 URL",
+        "imageEventEnabled": "이미지 캡처 이벤트 게시",
+        "imageEvents": "이미지 이벤트",
+        "imageInterval": "N개의 이미지마다 게시",
+        "imagePostTitle": "이미지 게시물 제목",
+        "imageTypes": "이미지 유형",
+        "imageTypesHint": "쉼표로 구분(예: LIGHT,FLAT,DARK)",
+        "imageWebhook": "이미지 웹훅 URL"
+      },
+      "email": {
+        "failureBody": "실패 본문",
+        "failureSubject": "실패 제목",
+        "fromAddress": "보낸 사람 주소",
+        "host": "SMTP 호스트",
+        "password": "비밀번호",
+        "port": "SMTP 포트",
+        "recipients": "기본 수신자",
+        "recipientsHint": "쉼표로 구분",
+        "username": "사용자 이름"
+      },
+      "ifttt": {
+        "value1": "실패 값 1",
+        "value2": "실패 값 2",
+        "value3": "실패 값 3",
+        "webhookKey": "웹훅 키"
+      },
+      "mqtt": {
+        "broker": "브로커",
+        "clientId": "클라이언트 ID",
+        "defaultQos": "기본 QoS",
+        "defaultRetain": "기본적으로 유지",
+        "defaultTopic": "기본 주제",
+        "defaults": "게시 기본값",
+        "failureQos": "장애 QoS",
+        "host": "주인",
+        "imagePublisher": "이미지 게시자",
+        "imagePublisherEnabled": "활성화됨",
+        "imageQos": "이미지 QoS",
+        "imageRetain": "이미지 유지",
+        "imageTopic": "이미지 주제",
+        "imageTypes": "이미지 유형",
+        "lwt": "마지막 의지",
+        "lwtBirth": "출생 페이로드",
+        "lwtClose": "페이로드 닫기",
+        "lwtEnabled": "LWT 활성화",
+        "lwtLastWill": "마지막 유언장 페이로드",
+        "lwtTopic": "LWT 주제",
+        "maxReconnect": "최대 재연결 시도 횟수",
+        "metadataOnly": "메타데이터만",
+        "metadataTopic": "메타데이터 주제",
+        "password": "비밀번호",
+        "port": "포트",
+        "useTls": "TLS 사용(포트를 8883으로 전환)",
+        "username": "사용자 이름"
+      },
+      "notLoaded": "Ground Station 플러그인이 NINA에 설치되지 않았거나 로드되지 않았습니다. \n이러한 설정을 사용하려면 NINA에 'Ground Station' 플러그인을 설치하세요.",
+      "ntfysh": {
+        "defaultIcon": "기본 아이콘 URL",
+        "defaultTopic": "기본 주제",
+        "failureMessage": "실패 메시지",
+        "failureNotification": "실패 알림",
+        "failurePriority": "실패 우선순위",
+        "failureTags": "실패 태그",
+        "failureTagsHint": "쉼표로 구분됨(예: warning,rotating_light)",
+        "failureTitle": "실패 제목",
+        "password": "비밀번호",
+        "token": "액세스 토큰",
+        "url": "서버 URL",
+        "user": "사용자 이름"
+      },
+      "pushover": {
+        "appKey": "앱 API 토큰",
+        "emergExpire": "다음 이후 긴급 만료",
+        "emergExpireHint": "30 – 86400초",
+        "emergRetry": "긴급 재시도 간격",
+        "emergRetryHint": "30 – 86400초",
+        "failureBody": "실패 본문",
+        "failurePriority": "실패 우선순위",
+        "failureSound": "실패 소리",
+        "failureTitle": "실패 제목",
+        "notificationPriority": "알림 우선순위",
+        "notificationSound": "알림음",
+        "userKey": "사용자 키"
+      },
+      "slack": {
+        "botDisplayName": "봇 표시 이름",
+        "channels": "채널",
+        "failureMessage": "실패 메시지",
+        "imageEventChannel": "이미지 이벤트 채널",
+        "imageEventEnabled": "이미지 캡처 이벤트 게시",
+        "imageEvents": "이미지 이벤트",
+        "imageInterval": "N개의 이미지마다 게시",
+        "imageTypes": "이미지 유형",
+        "members": "회원",
+        "oauthToken": "봇 OAuth 토큰",
+        "refreshChannels": "채널 새로고침",
+        "refreshing": "상쾌하다…",
+        "workspace": "작업공간"
+      },
+      "subtitle": "NINA 지상국 알림 서비스 구성",
+      "tabs": {
+        "discord": "불화",
+        "email": "이메일",
+        "ifttt": "IFTTT",
+        "mqtt": "MQTT",
+        "ntfysh": "ntfy.sh",
+        "pushover": "쉬운 일",
+        "slack": "느슨하게",
+        "telegram": "전보"
+      },
+      "telegram": {
+        "accessToken": "봇 액세스 토큰",
+        "chatId": "채팅 ID",
+        "failureBody": "실패 본문"
+      },
+      "title": "지상국"
+    },
+    "indiControlPanel": {
+      "description": "현재 서버에 로드된 INDI 드라이버의 모든 속성을 검사하고 제어합니다.",
+      "enableLog": "할 수 있게 하다",
+      "invalidNumber": "{element}의 숫자가 잘못되었습니다.",
+      "loadFailed": "INDI 속성을 로드하지 못했습니다.",
+      "log": "인디 메시지",
+      "logDisabled": "메시지 로그가 비활성화되었습니다.",
+      "noDevices": "현재 활성화된 INDI 장치가 없습니다. \n장비를 먼저 연결한 후 새로 고치세요.",
+      "noMessages": "아직 메시지가 없습니다.",
+      "readonly": "읽기 전용",
+      "refresh": "새로 고치다",
+      "scrollToLatest": "최신으로 스크롤",
+      "set": "세트",
+      "setFailed": "속성을 설정하지 못했습니다.",
+      "title": "인디 제어판",
+      "updated": "업데이트됨"
     }
   },
   "pinsDevices": {
@@ -4417,7 +4696,8 @@
       "tcpPort": "TCP 포트",
       "selectPort": "-- 포트 선택 --",
       "manualPort": "수동…",
-      "manualPortPath": "수동 포트"
+      "manualPortPath": "수동 포트",
+      "http": "HTTP"
     }
   },
   "nav": {

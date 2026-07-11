@@ -17,7 +17,7 @@
           {{ action.description }}
         </div>
       </div>
-      <div class="flex-shrink-0">
+      <div class="shrink-0">
         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path
             stroke-linecap="round"

@@ -20,27 +20,29 @@
           <p class="text-gray-400 text-sm">{{ $t('plugins.pins.indi3rdpartyDescription') }}</p>
         </div>
 
-        <button
-          class="text-blue-400 hover:text-white transition-colors p-2 self-end sm:self-auto"
-          :disabled="loading || disabled"
-          :title="$t('plugins.pins.indi3rdpartyRefresh')"
-          @click="$emit('refresh')"
-        >
-          <svg
-            class="w-5 h-5"
-            :class="{ 'animate-spin': loading }"
-            fill="none"
-            viewBox="0 0 24 24"
-            stroke="currentColor"
+        <div class="flex items-center gap-2 self-end sm:self-auto">
+          <button
+            class="text-blue-400 hover:text-white transition-colors p-2"
+            :disabled="loading || disabled"
+            :title="$t('plugins.pins.indi3rdpartyRefresh')"
+            @click="$emit('refresh')"
           >
-            <path
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
-              d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
-            />
-          </svg>
-        </button>
+            <svg
+              class="w-5 h-5"
+              :class="{ 'animate-spin': loading }"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+              />
+            </svg>
+          </button>
+        </div>
       </div>
 
       <div class="flex flex-col sm:flex-row gap-3">
@@ -94,6 +96,14 @@
               : $t('plugins.pins.indi3rdpartyInstall')
           }}
         </button>
+
+        <button
+          class="w-full px-3 py-2 bg-gray-700 hover:bg-gray-600 text-white text-sm font-medium rounded-lg transition-all disabled:opacity-50"
+          :disabled="loading || disabled"
+          @click="$emit('edit-config')"
+        >
+          {{ $t('plugins.pins.indiRegistryEditConfig') }}
+        </button>
       </div>
     </div>
   </div>
@@ -127,5 +137,12 @@ defineProps({
   },
 });
 
-defineEmits(['refresh', 'search', 'install', 'update:searchQuery', 'update:selectedAsset']);
+defineEmits([
+  'refresh',
+  'search',
+  'install',
+  'edit-config',
+  'update:searchQuery',
+  'update:selectedAsset',
+]);
 </script>

@@ -138,6 +138,28 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
   The landscape stayed level and no Atlas or coordinate errors appeared; the
   local preview reported only expected missing-NINA API/WebSocket failures.
 
+### 2026-07-12 Milky Way orientation fix
+
+- The bundled panorama is Galactic north-up, but its longitude increases from
+  left to right. The renderer previously sampled longitude in the opposite
+  direction, mirroring the Milky Way's local-horizon crossing.
+- Atlas now uses the panorama's actual rightward-longitude convention in both
+  its shared Canvas renderer and legacy WebGL compatibility path. Latitude was
+  deliberately left unchanged so Galactic north remains at the top.
+- Independent axis-coded regression coverage checks both longitude direction
+  and north-up latitude instead of comparing two copies of the same mapping.
+- Browser validation against the real panorama placed its
+  [LMC](https://simbad.cds.unistra.fr/simbad/sim-basic?Ident=LMC) sample at the
+  published Galactic position with luminance 57 versus 0 at the mirrored
+  longitude; the
+  [SMC](https://simbad.cds.unistra.fr/simbad/sim-id?Ident=Small+Magellanic+Cloud)
+  sample was 3.03 versus 0 at its mirror.
+- The Touch-N-Stars production bundle loaded the corrected engine and Milky Way
+  asset with HTTP 200 on a mobile viewport. Its minified engine contains the
+  rightward-longitude formula and no old mirrored formula, and the console had
+  no Atlas or renderer errors; remaining preview noise was missing-NINA backend
+  traffic.
+
 ## 9. Feature-parity matrix
 
 | Capability               | Existing                                        | New engine                                                                                                   | Status                                                               |

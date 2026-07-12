@@ -19,6 +19,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   the TypeScript 7 compiler export; lint, typecheck and production build pass
 
 ### Fixed
+- Celestia Atlas: Correct the mirrored Galactic-longitude mapping so the Milky
+  Way crosses the local horizon in the expected north-to-south direction
 - Celestia Atlas: Keep the embedded view explicitly horizon-aligned even when
   both coordinate-grid overlays are hidden, so landscapes stay level and
   horizontal drags follow azimuth instead of appearing to rotate the sky

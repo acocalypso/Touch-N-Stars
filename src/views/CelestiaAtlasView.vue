@@ -492,6 +492,7 @@ onMounted(async () => {
         );
       },
     });
+    viewer.setCoordinateMode('horizontal');
     const savedView = sessionStorage.getItem(VIEW_STATE_KEY);
     if (savedView) {
       try {

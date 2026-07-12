@@ -41,6 +41,12 @@ test('connects the existing display settings through the host-managed Atlas adap
   assert.match(view, /starMagnitudeLimit: normalizeAtlasMagnitudeLimit/);
   assert.match(view, /galaxyMagnitudeLimit: normalizeAtlasMagnitudeLimit/);
   assert.match(view, /deepSkyMagnitudeLimit: normalizeAtlasMagnitudeLimit/);
+  const viewerCreation = view.indexOf('viewer = createCelestiaAtlasViewer({');
+  const horizontalMode = view.indexOf("viewer.setCoordinateMode('horizontal')");
+  const savedViewRestore = view.indexOf('const savedView = sessionStorage.getItem');
+  assert.ok(
+    viewerCreation >= 0 && viewerCreation < horizontalMode && horizontalMode < savedViewRestore
+  );
 });
 
 test('defers Atlas resources until first open and guards late async initialization', async () => {

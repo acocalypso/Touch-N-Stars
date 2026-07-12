@@ -19,6 +19,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   the TypeScript 7 compiler export; lint, typecheck and production build pass
 
 ### Fixed
+- Celestia Atlas: Keep the embedded view explicitly horizon-aligned even when
+  both coordinate-grid overlays are hidden, so landscapes stay level and
+  horizontal drags follow azimuth instead of appearing to rotate the sky
 - Sequence: Three Point Polar Alignment item now shows the actually selected filter instead of always appearing empty
 - Guider: PHD2 exposure field no longer shows NaN when the initial exposure request fails
 

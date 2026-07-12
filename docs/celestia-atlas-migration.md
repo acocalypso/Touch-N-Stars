@@ -122,6 +122,22 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
   magnitude objects, selected targets remain visible, and search remains
   complete and unfiltered.
 
+### 2026-07-12 horizon-aligned embedded-view fix
+
+- Coordinate mode is now explicit and independent of overlay visibility.
+  Touch-N-Stars always selects the Atlas `horizontal` mode during viewer
+  initialization; the azimuthal and equatorial settings continue to control
+  grid drawing only.
+- Hiding both coordinate grids no longer restores an equator-up projection.
+  Landscapes remain aligned to the local horizon and left/right dragging keeps
+  altitude fixed while changing azimuth. The standalone Atlas can still opt
+  into equatorial orientation through its own mode control.
+- Production mobile-Chrome validation used the default grid-off host settings.
+  An 80-pixel horizontal touch drag changed azimuth by 6.829 degrees while
+  altitude changed by 0.000143 degrees and the 70-degree FOV remained fixed.
+  The landscape stayed level and no Atlas or coordinate errors appeared; the
+  local preview reported only expected missing-NINA API/WebSocket failures.
+
 ## 9. Feature-parity matrix
 
 | Capability               | Existing                                        | New engine                                                                                                   | Status                                                               |

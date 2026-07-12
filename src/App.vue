@@ -116,7 +116,7 @@
            not discard its catalogue and view state. The splash covers it while
            disconnected, and the viewer lifecycle pauses rendering when hidden. -->
       <SkyAtlasView
-        v-if="settingsStore.setupCompleted"
+        v-if="settingsStore.setupCompleted && skyAtlasMounted"
         v-show="store.showStellarium"
         :key="stellariumRefreshKey"
       />
@@ -412,6 +412,15 @@ const settingsStore = useSettingsStore();
 const pinsStore = usePinsStore();
 const nightSummaryStore = useNightSummaryStore();
 const route = useRoute();
+const skyAtlasMounted = ref(Boolean(store.showStellarium));
+
+watch(
+  () => store.showStellarium,
+  (visible) => {
+    if (visible) skyAtlasMounted.value = true;
+  },
+  { immediate: true }
+);
 
 const showTimeWarningModal = ref(false);
 let appStateListenerHandle = null;
@@ -524,7 +533,6 @@ let connectionElapsedIntervalId = null;
 let reconnectSplashGraceTimer = null;
 const tutorialSteps = computed(() => settingsStore.tutorial.steps);
 const orientation = ref(window.innerWidth > window.innerHeight ? 'landscape' : 'portrait');
-const landscapeSwitch = ref(null);
 const stellariumRefreshKey = ref(null);
 const routerViewKey = ref(Date.now());
 const showUpdateModal = ref(false);
@@ -550,13 +558,6 @@ useHead({
   title: 'TouchNStars',
 });
 
-function checkOrientationChange() {
-  // Force re-render of StellariumView when orientation changes
-  if (store.showStellarium) {
-    landscapeSwitch.value = Date.now();
-  }
-}
-
 function updateOrientation() {
   const width = window.innerWidth;
   const height = window.innerHeight;
@@ -567,16 +568,12 @@ function updateOrientation() {
 
     if (newOrientation !== orientation.value) {
       orientation.value = newOrientation;
-      checkOrientationChange(); // Force re-render of StellariumView
       routerViewKey.value = Date.now();
       console.log('Orientation changed, re-rendering router-view:', newOrientation);
     }
 
     initialWidth = width;
     initialHeight = height;
-  } else {
-    // Also check orientation for small changes (for better responsiveness)
-    checkOrientationChange();
   }
 }
 
@@ -1313,23 +1310,6 @@ function dismissWhatsNew() {
     localStorage.setItem('tns.whatsnew.version', whatsNewData.value.version);
   }
 }
-
-watch(
-  () => settingsStore.stellarium.landscapesVisible,
-  () => {
-    landscapeSwitch.value = Date.now();
-  }
-);
-
-// Watch for Stellarium visibility changes to force re-render
-watch(
-  () => store.showStellarium,
-  (newValue) => {
-    if (newValue) {
-      landscapeSwitch.value = Date.now();
-    }
-  }
-);
 
 onBeforeUnmount(async () => {
   console.log('App.vue unmounted, cleaning up...');

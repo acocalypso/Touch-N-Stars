@@ -39,3 +39,27 @@ test('connects the existing display settings through the host-managed Atlas adap
   assert.match(view, /FramingAssistantSettings\?\.CameraHeight/);
   assert.doesNotMatch(view, /computeCameraFovDeg/);
 });
+
+test('defers Atlas resources until first open and guards late async initialization', async () => {
+  const [app, view, vite] = await Promise.all([
+    readFile(new URL('../../../App.vue', import.meta.url), 'utf8'),
+    readFile(new URL('../../../views/CelestiaAtlasView.vue', import.meta.url), 'utf8'),
+    readFile(new URL('../../../../vite.config.js', import.meta.url), 'utf8'),
+  ]);
+
+  assert.match(app, /v-if="settingsStore\.setupCompleted && skyAtlasMounted"/);
+  assert.match(app, /const skyAtlasMounted = ref\(Boolean\(store\.showStellarium\)\)/);
+  assert.match(app, /if \(visible\) skyAtlasMounted\.value = true/);
+  assert.match(view, /void store\.fetchProfilInfos\(\)\.catch/);
+  assert.match(view, /Promise\.all\(\[[\s\S]*viewer-catalog-data[\s\S]*bright-sky-data/);
+  assert.match(view, /const catalog = catalogModule\.default\.objects/);
+  assert.doesNotMatch(view, /object\.ra \* 15/);
+  assert.match(view, /if \(disposed\) return;[\s\S]*createCelestiaAtlasViewer/);
+  assert.match(view, /onBeforeUnmount\(\(\) => \{[\s\S]*disposed = true[\s\S]*viewer\?\.destroy/);
+
+  const catalogGroup = vite.indexOf("name: 'celestia-catalog'");
+  const engineGroup = vite.indexOf("name: 'celestia-engine'");
+  const catchAllVendor = vite.indexOf("name: 'vendor'");
+  assert.ok(catalogGroup > 0 && catalogGroup < catchAllVendor);
+  assert.ok(engineGroup > catalogGroup && engineGroup < catchAllVendor);
+});

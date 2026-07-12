@@ -159,7 +159,10 @@ let viewer = null;
 let viewSaveTimer = null;
 let pendingViewState = null;
 let clockDisplayTimer = null;
+let searchTimer = null;
+let disposed = false;
 const VIEW_STATE_KEY = 'tns.celestia-atlas.view';
+const SEARCH_DEBOUNCE_MS = 120;
 
 const containerClasses = computed(() => ({
   'celestia-atlas-portrait': !isLandscape.value,
@@ -337,10 +340,21 @@ function updateLandscape() {
 }
 
 function runSearch() {
-  searchResults.value = viewer?.search(searchQuery.value) ?? [];
+  if (searchTimer !== null) clearTimeout(searchTimer);
+  if (!searchQuery.value.trim()) {
+    searchResults.value = [];
+    searchTimer = null;
+    return;
+  }
+  searchTimer = setTimeout(() => {
+    searchResults.value = viewer?.search(searchQuery.value) ?? [];
+    searchTimer = null;
+  }, SEARCH_DEBOUNCE_MS);
 }
 
 function selectSearchResult(result) {
+  if (searchTimer !== null) clearTimeout(searchTimer);
+  searchTimer = null;
   const target = {
     id: result.id,
     name: result.name || result.id,
@@ -430,21 +444,20 @@ watch(
 
 onMounted(async () => {
   try {
-    await store.fetchProfilInfos();
-    await timeSync.ensureSync();
     await nextTick();
+    void store.fetchProfilInfos().catch(() => {});
+    void timeSync
+      .ensureSync()
+      .then(() => {
+        if (!disposed) viewer?.setTime(timeSync.getServerTime());
+      })
+      .catch(() => {});
     const [catalogModule, brightSkyModule] = await Promise.all([
-      import('@acocalypso/celestia-atlas/catalog-data'),
+      import('@acocalypso/celestia-atlas/viewer-catalog-data'),
       import('@acocalypso/celestia-atlas/bright-sky-data'),
     ]);
-    const catalog = catalogModule.default.objects.map((object) => ({
-      ...object,
-      // OpenNGC stores RA as decimal hours. Conversion happens exactly once at
-      // this explicit adapter boundary; engine catalogue coordinates are degrees.
-      raDeg: object.ra * 15,
-      decDeg: object.dec,
-      frame: 'ICRS',
-    }));
+    if (disposed) return;
+    const catalog = catalogModule.default.objects;
     viewer = createCelestiaAtlasViewer({
       container: viewerContainer.value,
       observer: ninaObserverToAtlas(store.profileInfo.AstrometrySettings),
@@ -481,13 +494,15 @@ onMounted(async () => {
     document.addEventListener('visibilitychange', handleVisibilityChange);
     ready.value = true;
   } catch (error) {
-    errorMessage.value = error instanceof Error ? error.message : String(error);
+    if (!disposed) errorMessage.value = error instanceof Error ? error.message : String(error);
   }
 });
 
 onBeforeUnmount(() => {
+  disposed = true;
   document.removeEventListener('visibilitychange', handleVisibilityChange);
   if (viewSaveTimer !== null) clearTimeout(viewSaveTimer);
+  if (searchTimer !== null) clearTimeout(searchTimer);
   if (pendingViewState) sessionStorage.setItem(VIEW_STATE_KEY, JSON.stringify(pendingViewState));
   stopClockDisplay();
   viewer?.destroy();
@@ -544,8 +559,8 @@ onBeforeUnmount(() => {
 .celestia-atlas-search {
   position: absolute;
   z-index: 3;
-  top: 1rem;
-  right: 1rem;
+  top: calc(1rem + env(safe-area-inset-top, 0px));
+  right: calc(1rem + env(safe-area-inset-right, 0px));
   width: min(24rem, calc(100% - 2rem));
 }
 .celestia-atlas-results {
@@ -555,7 +570,7 @@ onBeforeUnmount(() => {
 .celestia-atlas-selection {
   position: absolute;
   z-index: 3;
-  right: 1rem;
+  right: calc(1rem + env(safe-area-inset-right, 0px));
   bottom: 6.5rem;
   display: grid;
   gap: 0.4rem;
@@ -569,7 +584,7 @@ onBeforeUnmount(() => {
 .celestia-atlas-controls {
   position: absolute;
   z-index: 4;
-  right: 1rem;
+  right: calc(1rem + env(safe-area-inset-right, 0px));
   bottom: 2.5rem;
   display: flex;
   gap: 0.5rem;
@@ -581,7 +596,7 @@ onBeforeUnmount(() => {
 .celestia-atlas-mount-controls {
   position: absolute;
   z-index: 3;
-  left: 1rem;
+  left: calc(1rem + env(safe-area-inset-left, 0px));
   bottom: 2.5rem;
   display: flex;
   gap: 0.5rem;

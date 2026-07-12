@@ -66,6 +66,21 @@ export default defineConfig({
         codeSplitting: {
           groups: [
             {
+              name: 'celestia-catalog',
+              test: /node_modules[\/]@acocalypso[\/]celestia-atlas[\/]data[\/]openngc-viewer-catalog\.json/,
+              priority: 52,
+            },
+            {
+              name: 'celestia-bright-sky',
+              test: /node_modules[\/]@acocalypso[\/]celestia-atlas[\/]data[\/]bright-sky\.json/,
+              priority: 51,
+            },
+            {
+              name: 'celestia-engine',
+              test: /node_modules[\/](?:@acocalypso[\/]celestia-atlas|astronomy-engine)[\/]/,
+              priority: 50,
+            },
+            {
               name: 'vue-vendor',
               test: /node_modules[\\/](vue|@vue|vue-router|pinia|vue-i18n|@unhead)[\\/]/,
               priority: 30,

@@ -313,7 +313,7 @@
 import { useStellariumStore } from '@/store/stellariumStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import toggleButton from '@/components/helpers/toggleButton.vue';
-import { watch, ref, computed, onMounted } from 'vue';
+import { watch, ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { Cog6ToothIcon } from '@heroicons/vue/24/outline';
 import { useOrientation } from '@/composables/useOrientation';
@@ -418,7 +418,11 @@ const landscapeSourceSelection = computed({
 });
 
 function toggleControls() {
-  settingsVisible.value = !settingsVisible.value;
+  const opening = !settingsVisible.value;
+  settingsVisible.value = opening;
+  if (opening && !landscapeListLoaded.value && !landscapeListLoading.value) {
+    void fetchAvailableLandscapes();
+  }
 }
 
 function requestStellariumRefresh() {
@@ -479,10 +483,6 @@ const settingsContainerClasses = computed(() => ({
   // Landscape mode - two columns
   'grid grid-cols-2 gap-2': isLandscape.value,
 }));
-
-onMounted(() => {
-  fetchAvailableLandscapes();
-});
 
 watch(
   () => [

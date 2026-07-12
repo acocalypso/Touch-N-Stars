@@ -119,6 +119,8 @@ const raString = ref('');
 const decString = ref('');
 const targetName = ref('');
 let rafId = null;
+let lastViewSampleAt = 0;
+const VIEW_SAMPLE_INTERVAL_MS = 100;
 
 const rotationModel = computed({
   get: () => Number(framingStore.rotationAngle ?? 0),
@@ -158,8 +160,11 @@ function sampleView() {
   decString.value = degreesToDMS(dec);
 }
 
-function loop() {
-  sampleView();
+function loop(timestamp) {
+  if (timestamp - lastViewSampleAt >= VIEW_SAMPLE_INTERVAL_MS) {
+    sampleView();
+    lastViewSampleAt = timestamp;
+  }
   rafId = requestAnimationFrame(loop);
 }
 
@@ -174,6 +179,7 @@ watch([expanded, () => props.active], ([isExpanded, isActive]) => {
     rafId = null;
   }
   if (isExpanded && isActive) {
+    lastViewSampleAt = 0;
     rafId = requestAnimationFrame(loop);
   }
 });

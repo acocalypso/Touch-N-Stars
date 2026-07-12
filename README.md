@@ -52,7 +52,9 @@ The application aims to make controlling and adjusting already configured profil
 ### 💙 **Acknowledgements**  
 - Special thanks go to the entire **NINA** development team, whose excellent work enabled the creation of this web app.  
 - A special thank you to **Christian**, the developer of the **Advanced API**, for his efforts and support. His work has significantly enabled the development of this web app.
-- [Stellarium Web Engine](https://github.com/Stellarium/stellarium-web-engine) by the Stellarium Team, licensed under AGPL-3.0
+- [Celestia Atlas](https://github.com/acocalypso/celestia_atlas), the default offline sky renderer, licensed under GPL-3.0-or-later
+- OpenNGC catalogue data by Mattia Verga and contributors, licensed under CC-BY-SA-4.0
+- [Stellarium Web Engine](https://github.com/Stellarium/stellarium-web-engine) by the Stellarium Team, licensed under AGPL-3.0 (rollback-only migration path)
 
 ### 🔍 Further information
 - Visit our website: https://touch-n-stars.eu

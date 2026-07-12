@@ -38,6 +38,9 @@ test('connects the existing display settings through the host-managed Atlas adap
   assert.match(view, /FramingAssistantSettings\?\.CameraWidth/);
   assert.match(view, /FramingAssistantSettings\?\.CameraHeight/);
   assert.doesNotMatch(view, /computeCameraFovDeg/);
+  assert.match(view, /starMagnitudeLimit: normalizeAtlasMagnitudeLimit/);
+  assert.match(view, /galaxyMagnitudeLimit: normalizeAtlasMagnitudeLimit/);
+  assert.match(view, /deepSkyMagnitudeLimit: normalizeAtlasMagnitudeLimit/);
 });
 
 test('defers Atlas resources until first open and guards late async initialization', async () => {
@@ -62,4 +65,27 @@ test('defers Atlas resources until first open and guards late async initializati
   const catchAllVendor = vite.indexOf("name: 'vendor'");
   assert.ok(catalogGroup > 0 && catalogGroup < catchAllVendor);
   assert.ok(engineGroup > catalogGroup && engineGroup < catchAllVendor);
+});
+
+test('persists touch-sized brightness controls for all three Atlas categories', async () => {
+  const [settingsStore, settingsView, englishLocale] = await Promise.all([
+    readFile(new URL('../../../store/settingsStore.js', import.meta.url), 'utf8'),
+    readFile(
+      new URL('../../../components/stellarium/stellariumSettings.vue', import.meta.url),
+      'utf8'
+    ),
+    readFile(new URL('../../../locales/en.json', import.meta.url), 'utf8'),
+  ]);
+
+  assert.match(settingsStore, /starMagnitudeLimit: 6\.5/);
+  assert.match(settingsStore, /galaxyMagnitudeLimit: 30/);
+  assert.match(settingsStore, /deepSkyMagnitudeLimit: 30/);
+  assert.match(settingsView, /v-if="rendererManaged"[\s\S]*brightness_filters/);
+  assert.match(settingsView, /v-model\.number="starMagnitudeLimit"/);
+  assert.match(settingsView, /v-model\.number="galaxyMagnitudeLimit"/);
+  assert.match(settingsView, /v-model\.number="deepSkyMagnitudeLimit"/);
+  assert.match(settingsView, /class="w-full h-11 accent-cyan-500"/);
+  const messages = JSON.parse(englishLocale).components.stellarium.settings;
+  assert.equal(messages.magnitude_limit_auto, 'Auto');
+  assert.match(messages.magnitude_limit_hint, /Lower values show only brighter objects/);
 });

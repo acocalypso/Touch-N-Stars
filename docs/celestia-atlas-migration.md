@@ -6,9 +6,11 @@
 - Celestia Atlas: branch `main`, revision `813aa1bcdaa3d4be0988817bc145786e30c79c0b`.
 - Requested host branch is `develop`; the existing working branch was preserved per the no-switch rule.
 
-## 2. Current working-tree state
+## 2. Initial working-tree state
 
-Both repositories were clean before implementation. No reset, clean, branch switch, commit, or push was performed.
+Both repositories were clean before implementation. The historical revisions
+above describe the starting point; subsequent slices were committed and pushed
+on the preserved branches.
 
 ## 3. Stellarium dependency inventory
 
@@ -37,7 +39,7 @@ Verified flow details:
 
 Revision `813aa1b` is a standalone global-script application. `app-v8.js` owns fixed DOM IDs, application-global listeners, URL hash state, service-worker registration, catalogue globals, and an unconditional animation loop. `app.js` duplicates the engine. There was no package manifest or public lifecycle API. The committed DSO catalogue is explicitly a small fallback; the full OpenNGC data is generated only in CI. The repository has third-party notices but no source-code `LICENSE`.
 
-Phase 1 adds a framework-neutral ESM boundary with explicit container ownership, validation, pause/resume/resize/destroy, observer/time/view setters, search and selection callbacks, mount/FOV/horizon inputs, and cancellable pointer interaction. It is event-driven and performs no continuous hidden rendering. It is not yet the single renderer source of truth; the standalone shell still uses the legacy global engine.
+Phase 1 added a framework-neutral ESM boundary with explicit container ownership, validation, pause/resume/resize/destroy, observer/time/view setters, search and selection callbacks, mount/FOV/horizon inputs, and cancellable pointer interaction. It is event-driven and performs no continuous hidden rendering. The standalone and embedded shells now instantiate this same public viewer.
 
 ## 6. Context7 findings
 
@@ -50,7 +52,9 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 - Every command-producing coordinate is tagged `ICRS` or `J2000`; untagged values are rejected.
 - Observer longitude is east-positive and normalized to `[-180, 180)`; elevation is metres.
 - Time is an explicit UTC Unix timestamp in milliseconds.
-- Catalogue legacy RA remains hours internally until converted at the adapter boundary.
+- The legacy standalone catalogue source retains hour-based RA. The compact
+  `openngc-viewer-catalog.json` package export supplies tagged ICRS decimal
+  degrees directly, so embedded clients perform no per-object conversion.
 - Advanced API mount data includes `Coordinates.RADegrees`, `Coordinates.Dec`, and `Coordinates.Epoch`. The adapter accepts `J2000` directly, prefers the degree fields, and rejects JNOW/B1950/J2050 pending explicit precession. Framing and slew endpoints construct NINA `Epoch.J2000` coordinates.
 - Atlas selections preserve their frame tag when converted to framing state. Existing downstream APIs do not accept a frame tag, so command enablement remains blocked until NINA frame provenance is established.
 - Precession, nutation, refraction, host coordinate-frame provenance, and rotation convention remain mandatory unresolved validation items.
@@ -58,7 +62,7 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 ## 8. Implementation phases
 
 - Phase 0: complete enough to begin isolated engine work; baseline lint timed out.
-- Phase 1: public API, lifecycle, pointer cancellation and initial overlays implemented; standalone renderer extraction remains open.
+- Phase 1: public API, lifecycle, pointer cancellation and initial overlays implemented; standalone renderer extraction is complete.
 - Phase 2: the lazy Vue integration connects observer, synchronized UTC, FOV, visibility and deterministic teardown.
 - Phase 7 (partial): Celestia Atlas is now the default viewer in normal builds. The legacy viewer remains available for one rollback interval only when `VITE_STELLARIUM_ROLLBACK=true` is explicitly set.
 - Phase 7 (partial): the existing display and landscape settings modal is exposed on the Atlas screen in renderer-managed mode. Host settings flow through the Atlas public API watchers without legacy store mutation or viewer remount events.
@@ -72,11 +76,10 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 - Phase 5 (partial): 1,214 pinned IAU Minor Planet Center comet records now render and search offline using universal-variable propagation, light-time correction and observer parallax. Embedded and standalone Atlas consumers load the same engine modules.
 - Phase 5 (partial): the embedded viewer now honors the existing azimuth-grid, equatorial-grid, local-meridian, ecliptic and atmosphere settings and includes an offline Galactic-plane Milky Way layer.
 - Phase 5 (partial): Io, Europa, Ganymede and Callisto now use live offline ephemerides and support rendering, search, selection and narrow-field centering.
-- Phase 5 (partial): existing default, neutral and custom order-0 HiPS/HEALPix landscapes now load through the Atlas API and render in the live observed frame; browser and native visual validation remains open.
+- Phase 5 (partial): existing default, neutral and custom order-0 HiPS/HEALPix landscapes now load through the Atlas API and render in the live observed frame; production browser validation passed and native visual validation remains open.
 - Phase 4 (partial): the existing FOV rotation and view-center action panel now reads the active Atlas center through the typed public API, so rotation, slew/center, sequence-target and favorite-target workflows no longer depend on Stellarium internals. Its sampling loop stops while the sky view is hidden.
 - Phase 5: the standalone shell now instantiates the same public viewer as Touch-N-Stars. Planets, Galilean moons, comets, OpenNGC search/selection, reference layers, offline HEALPix landscape, time/location, lifecycle, camera FOV and mosaic overlays share the embedded renderer.
 - Phase 3: host conversion boundary and safety tests implemented. A topocentric Mars position matches an independent JPL Horizons ICRF/J2000 fixture within one arcminute; broader golden-reference coverage remains open.
-- Phases 2 and 4-9: not started.
 
 ### 2026-07-12 controls, horizon, optics, and landscape slice
 
@@ -86,20 +89,52 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 - The standalone framing inputs are now physical imaging-train values: sensor width and height in pixels, pixel size in micrometres, telescope focal length and optional aperture in millimetres, plus rotation and mosaic settings. The derived readout reports sensor size, angular width/height, pixel scale, and focal ratio. Aperture affects focal ratio but does not affect angular FOV. Overlay dimensions use the same gnomonic tangent projection as the sky canvas rather than a linear degrees-to-pixels approximation.
 - Touch-N-Stars continues to derive the camera frame from the active NINA profile: `CameraSettings.PixelSize`, `FramingAssistantSettings.CameraWidth`/`CameraHeight`, and `TelescopeSettings.FocalLength`. Rotation and mosaic values remain host-owned framing settings. Invalid or incomplete profile geometry removes the overlay instead of rendering an invented frame.
 - Landscape sampling now follows Stellarium's nested HEALPix axis-swap convention while preserving the existing observed-frame azimuth reflection. Continuous source coordinates and premultiplied-alpha bilinear interpolation remove the 0/360-degree and face-boundary discontinuities without dark fringes around transparent terrain edges.
-- Landscape and Milky Way rasters are DPR-aware and bounded: interaction uses a 384-pixel-wide budget, the settled redraw uses up to 1024 pixels, and wheel input schedules a full-quality refinement after interaction becomes idle. This retains responsive navigation without leaving the landscape in the former low-resolution state.
+- Landscape and Milky Way rasters are DPR-aware and bounded. Coarse pointers use
+  a 64-pixel-wide interaction raster and up to 768 pixels when settled; fine
+  pointers use 384/1024 pixels. Default canvas DPR caps are 1.25 on coarse
+  pointers and 2 on fine pointers. Wheel and pointer input schedule a settled
+  refinement without leaving navigation in the reduced-resolution state.
+
+### 2026-07-12 mobile hardening and brightness-filter slice
+
+- `App.vue` uses a first-open `v-if` latch, so the Atlas component and its data
+  are absent from startup. After first use, `v-show` retains the warm viewer and
+  view state while its lifecycle API pauses hidden work.
+- Production splitting isolates the viewer, engine, bright-sky data and compact
+  OpenNGC data. The 12,578-object viewer payload is 2,971,964 raw bytes versus
+  6,019,427 bytes for the source-preserving file, a 50.6% reduction, and no
+  longer requires a host-side 12,578-object copy/conversion.
+- Mobile rendering uses allocation-free landscape and Milky Way ray projection,
+  cached raster uploads, conditional backing-canvas resizing, projected
+  off-screen culling, one-second Solar System caching and one view callback per
+  drawn interaction frame. Pause/destroy cancel active pointers, and 2D context
+  loss cancels interaction until the context is restored.
+- Host work is deferred or bounded: profile/time refreshes no longer block
+  viewer creation, landscape discovery starts when settings first open, search
+  has a 120 ms debounce, expanded FOV sampling runs at 10 Hz, and mobile overlays
+  respect safe-area insets.
+- `starMagnitudeLimit`, `galaxyMagnitudeLimit` and
+  `deepSkyMagnitudeLimit` are persisted independently. Lower apparent
+  magnitudes show only brighter objects. Galaxy pairs, triplets, groups and
+  clusters use the galaxy limit; the deep-sky limit covers all other DSOs.
+  `30` is shown as Auto/no user cap, while the adaptive field-of-view ceiling
+  still protects wide-view performance. A stricter DSO cap hides unknown-
+  magnitude objects, selected targets remain visible, and search remains
+  complete and unfiltered.
 
 ## 9. Feature-parity matrix
 
 | Capability               | Existing                                        | New engine                                                                                                   | Status                                                               |
 | ------------------------ | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------- |
-| Explicit lifecycle       | Hidden render suppression plus host workarounds | `pause`, `resume`, `resize`, idempotent `destroy`                                                            | Default web path; native test pending                                |
+| Explicit lifecycle       | Hidden render suppression plus host workarounds | `pause`, `resume`, `resize`, idempotent `destroy`                                                            | Web passed; native test pending                                      |
 | Observer and UTC         | Supported                                       | Validated setters and synchronized host time                                                                 | Connected; fixtures expanding                                        |
-| Offline catalogue search | Stellarium packaged data                        | Pinned 12,578-object OpenNGC catalogue and moving objects                                                    | Connected; perf test pending                                         |
-| Framing selection        | Supported                                       | Typed selection callback and framing handoff                                                                 | Connected; command gate open                                         |
+| Offline catalogue search | Stellarium packaged data                        | Lazy compact 12,578-object OpenNGC catalogue and moving objects                                              | Web load/search performance passed; native pending                   |
+| Brightness filters       | Shared display density                          | Independent persisted star, galaxy-family and other-DSO limiting magnitudes                                  | Standalone and host web passed                                       |
+| Framing selection        | Supported                                       | Typed selection callback and framing handoff                                                                 | Connected; downstream command provenance remains gated               |
 | Mount/FOV/rotation       | Supported                                       | Profile-derived physical camera geometry, exact projected frame, marker/follow, mosaic and rotation controls | Connected; native test pending                                       |
 | Horizon/landscape        | Supported                                       | Default-on persisted horizon mask; seam-correct, bilinear and DPR-aware order-0 HiPS/HEALPix imagery         | Standalone and host production browsers passed; native tests pending |
 | Standalone controls      | Open control panel                              | Control panel starts closed with synchronized accessibility state                                            | Connected                                                            |
-| Mobile lifecycle         | Host workarounds                                | App background state pauses viewer and clock display                                                         | Connected; native test pending                                       |
+| Mobile lifecycle         | Host workarounds                                | First-use lazy mount, warm reuse, app-background pause and deterministic pointer cancellation                | Web passed; native test pending                                      |
 
 ## 10. Test results
 
@@ -113,7 +148,9 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 - Host after search/selection/mount integration: 46 passed, 0 failed; targeted ESLint, typecheck and flagged production build passed.
 - Candidate Phase 1 unit tests: 3 passed, 0 failed; syntax and diff checks passed.
 - Host `npm run typecheck`: passed in 97.6 seconds.
-- Flagged POC `npm run build:app`: passed. Viewer chunk is 9.21 kB (3.73 kB gzip); the lazy full OpenNGC chunk is 5,452.22 kB (915.53 kB gzip). Vite reports the expected large-chunk warning for the catalogue.
+- Historical flagged POC `npm run build:app`: passed. That build produced a
+  9.21 kB viewer chunk and a 5,452.22 kB full-catalogue chunk; it predates the
+  compact catalogue and final startup-graph verification below.
 - Pinned OpenNGC `v20260501` generation produced 12,578 records. After fixing nondeterministic metadata, two offline rebuilds produced identical SHA-256 hashes.
 - Candidate solar-system suite: 11 tests passed, including time motion, observer parallax and the JPL Horizons Mars tolerance fixture.
 - Candidate moving-object suite: 17 tests passed. A 12P/Pons-Brooks topocentric position matches JPL Horizons within one arcminute; two catalogue rebuilds produced the same SHA-256.
@@ -127,21 +164,57 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 - The standalone physical-input readout reported `23.49 × 15.70 mm sensor`, `FoV 2.692° × 1.799°`, `1.55″/px`, and `f/5.0` for the test train. North/south landscape sweeps showed no central wrap seam, and wheel instrumentation recorded a 384-pixel interaction raster followed by the 1024-pixel idle refinement. All 32 page requests returned HTTP 200, with no browser console errors, warnings, or reported issues.
 - The Touch-N-Stars production bundle loaded the Atlas JS/CSS chunks, Milky Way image, landscape properties and all twelve Guereins faces with HTTP 200 in Chrome. The renderer-managed settings panel showed the localized default-on horizon switch; switching it off and on updated both its pressed state and the persisted host store. A mocked active NINA profile (6248 × 4176 pixels, 3.76 µm, 500 mm focal length, 100 mm aperture) produced the expected centered 28 × 18-pixel framing rectangle at the tested 70-degree viewer scale. No Celestia Atlas, Vue, `TypeError`, `ReferenceError`, or unhandled runtime errors appeared; remaining console traffic came from the intentionally absent NINA backend on the static preview server.
 
+### Phase 6 browser performance evidence
+
+| Check                      | Environment and method                                                                                        | Result                                                                                                                                                               |
+| -------------------------- | ------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Pre-hardening pan baseline | Previous production build, 390x844 CSS px, DPR 3, coarse touch, no CPU throttle; six synthetic pointer frames | 946.82 ms mean. This is a historical baseline, not a direct ratio against differently throttled runs.                                                                |
+| Final pan, normal CPU      | Final production host, same viewport/DPR and synthetic touch method; ten frames                               | 13.32 ms mean, 13.3 ms median, 13.4 ms maximum; backing canvas 488x1025 (DPR cap 1.25).                                                                              |
+| Final pan, 4x CPU slowdown | Same final host and viewport with DevTools 4x slowdown; ten frames                                            | 13.33 ms mean, 13.3 ms median, 13.4 ms maximum.                                                                                                                      |
+| Startup graph              | Fresh production navigation before first Atlas open                                                           | No `CelestiaAtlasView`, `celestia-engine`, `celestia-bright-sky`, `celestia-catalog`, Milky Way or landscape request/module preload.                                 |
+| First open                 | Local production preview                                                                                      | Ready in 311.8 ms; viewer resource began 0.8 ms after the latch, engine request took 23.4 ms and compact catalogue request 93.0 ms. All Atlas resources loaded once. |
+| Warm reuse/idle            | Twenty hide/show cycles, followed by 1.2 s hidden instrumentation                                             | Same single canvas, zero additional Atlas requests and zero hidden draw calls; resume produced one visible redraw.                                                   |
+| Offline search             | `M31` query against the full compact catalogue                                                                | 135.3 ms to the Andromeda result, including the intentional 120 ms debounce.                                                                                         |
+| Touch regression           | Synthetic two-pointer pinch                                                                                   | FOV changed from 16.15 to 7.18 degrees; one canvas remained mounted.                                                                                                 |
+| Selection regression       | Search and select Venus, then wait 3.2 s through clock updates                                                | Details remained visible with unchanged coordinates.                                                                                                                 |
+| Brightness controls        | Mobile settings UI and persisted Pinia state                                                                  | Star 2.5, galaxy 10.0 and other DSO 8.0 updated independently; `30` renders as localized Auto.                                                                       |
+
+The final production chunks are 31,545 bytes for the view (9,572 gzip),
+429,526 for the Atlas engine (102,930 gzip), 23,051 for bright-sky data (6,400
+gzip), and 2,730,350 for the compact catalogue module (528,804 gzip). The prior
+5,947,978-byte vendor chunk (1,007,570 gzip) was preloaded at startup; the final
+46,573-byte catch-all vendor chunk is unrelated to Atlas. Atlas unit tests pass
+42/42 and host integration tests pass 51/51. ESLint, typecheck and the production
+build pass. The locale-key additions are complete across all 13 packs; the
+repository-wide i18n checker still reports only its pre-existing placeholder-
+translation mismatches.
+
+Native Android/iOS interaction, package-size and memory/heap profiling remain
+explicit Phase 6 release gates; no native result is inferred from browser
+emulation.
+
 ## 11. Remaining blockers
 
 - Licensing resolved by owner authorization on 2026-07-10: Celestia Atlas uses GNU GPL v3 or later, matching Touch-N-Stars. OpenNGC remains CC BY-SA 4.0 under the third-party notices.
-- The complete pinned offline catalogue is packaged and loaded lazily; browser and native search/render performance validation remains open.
+- The complete pinned offline catalogue is packaged and network-lazy. Browser
+  search/render and startup-graph validation passed; native validation remains
+  open.
 - Host coordinate provenance must be proven before any viewer selection can feed commands.
 - Android and iOS runtime validation require suitable platform environments.
 - Existing listed and custom landscapes now use seam-correct spherical order-0 HEALPix projection. The standalone and Touch-N-Stars production browsers passed orientation, seam, settled-resolution, request, and Atlas console checks; Android and iOS validation remain release gates.
-- Mandatory parity phases remain.
-- Package boundary resolved: Touch-N-Stars uses the public Git repository pinned to immutable commit `8429e384e2008ff233d44206aee80b7d15b0c22c` over HTTPS. Embedded and standalone Atlas shells now share the same viewer and astronomy engine modules.
+- Remaining parity gates are Android/iOS lifecycle and gesture validation,
+  native package-size/heap profiling, expanded astronomy reference fixtures and
+  final removal of the rollback-only Stellarium runtime after its release window.
+- Package boundary resolved: Touch-N-Stars uses the public Git repository pinned
+  over HTTPS to immutable Atlas commit
+  `53d1ae5ca70af434264ff185b7b31ec788758796`. Embedded and standalone shells
+  share the same viewer and astronomy engine modules.
 
 ## 12. Removal checklist
 
 - [ ] All mandatory parity gates pass.
 - [ ] Astronomy reference fixtures and tolerances pass.
-- [ ] Full offline catalogue and notices are packaged.
+- [x] Full offline catalogue and notices are packaged.
 - [ ] Web and required native lifecycle tests pass.
 - [x] Celestia is default with a tested rollback interval.
 - [ ] Stellarium runtime, WASM, data, globals, stores, workarounds, and build logic are removed.

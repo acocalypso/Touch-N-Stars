@@ -8,7 +8,7 @@ Touch-N-Stars is a Vue 3 + Capacitor client for remotely operating NINA-based as
 2. PINS/headless mode with additional daemon APIs and SignalR channels.
 3. Local mock mode for UI and workflow testing without a backend.
 
-This document describes the architecture as implemented in the current codebase (branch `develop`).
+This document describes the architecture as implemented in the current codebase.
 
 ## 2. System Context
 
@@ -168,7 +168,7 @@ flowchart LR
 - Equipment: camera, mount, focuser, guider, filter wheel, rotator, dome, switch, flat device, weather, safety.
 - Imaging workflows: sequence monitoring/control, image history, stats and graphs.
 - Setup and profiles: instance-based backend selection and active profile driven behavior.
-- Targeting and planning: framing, favorites, Stellarium integration.
+- Targeting and planning: framing, favorites, and the Celestia Atlas integration.
 - Alignment and utilities: TPPA, flat assistant, plugin-specific workflows.
 
 ### 9.2 Cross-Cutting UX
@@ -177,6 +177,17 @@ flowchart LR
 - Toasts/modals/dialog systems.
 - Orientation-aware layout behavior and route view refresh handling.
 - Error capture and debug console support.
+
+### 9.3 Sky Atlas
+
+Celestia Atlas is the default sky renderer. `App.vue` lazy-loads its Vue wrapper
+only on first use, after which one warm instance is retained and paused while
+hidden. The wrapper owns observer/time synchronization, mount and framing
+adapters, physical camera FOV, landscape/horizon settings, offline search and
+independent star/galaxy/other-DSO limiting magnitudes. The renderer package is
+pinned to an immutable Git revision. Legacy Stellarium Web assets remain only
+for the explicit `VITE_STELLARIUM_ROLLBACK=true` rollback path during the
+migration window.
 
 ## 10. Build, Packaging, and Release
 
@@ -205,7 +216,11 @@ flowchart LR
 
 ## 11. Data and Assets
 
-- `public/stellarium-data` and `public/stellarium-js` host heavy astronomy/visualization assets.
+- The pinned Celestia Atlas package supplies the offline engine, compact
+  OpenNGC/bright-sky catalogues and Milky Way asset. Backend-served
+  `stellarium-data` landscape folders remain compatible data sources.
+- `public/stellarium-js` and the remaining Stellarium Web assets are rollback-
+  only and can be removed after the migration release gate passes.
 - `public/whats-new.json` is generated at build time.
 - `src/locales/*.json` provide locale resources.
 
@@ -253,4 +268,3 @@ flowchart LR
 2. Introduce typed API contracts (for example with schema validation) at service boundaries.
 3. Consolidate transport status into a shared connection-health module used by all stores.
 4. Add architecture decision records (ADRs) for plugin routing strategy, mode switching, and update channel policy.
-

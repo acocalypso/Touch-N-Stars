@@ -125,6 +125,7 @@ import {
   ninaMountToAtlas,
   ninaObserverToAtlas,
 } from '@/integrations/celestiaAtlas/contracts';
+import { normalizeAtlasMagnitudeLimit } from '@/integrations/celestiaAtlas/magnitudeFilters';
 import { timeSync } from '@/utils/timeSync';
 import { degreesToDMS, degreesToHMS } from '@/utils/utils';
 import { useHorizonStore } from '@/plugins/horizon-creator/store/horizonStore';
@@ -307,6 +308,18 @@ function updateDisplayOptions() {
     milkyWay: true,
     constellations: Boolean(settingsStore.stellarium.constellationsLinesVisible),
     labels: true,
+    starMagnitudeLimit: normalizeAtlasMagnitudeLimit(
+      settingsStore.stellarium.starMagnitudeLimit,
+      6.5
+    ),
+    galaxyMagnitudeLimit: normalizeAtlasMagnitudeLimit(
+      settingsStore.stellarium.galaxyMagnitudeLimit,
+      30
+    ),
+    deepSkyMagnitudeLimit: normalizeAtlasMagnitudeLimit(
+      settingsStore.stellarium.deepSkyMagnitudeLimit,
+      30
+    ),
     deepSkyObjects: Boolean(settingsStore.stellarium.dsosVisible),
     horizon: Boolean(settingsStore.stellarium.landscapesVisible),
     hideBelowHorizon: settingsStore.stellarium.hideBelowHorizon !== false,
@@ -436,6 +449,9 @@ watch(
     settingsStore.stellarium.atmosphereVisible,
     settingsStore.stellarium.constellationsLinesVisible,
     settingsStore.stellarium.dsosVisible,
+    settingsStore.stellarium.starMagnitudeLimit,
+    settingsStore.stellarium.galaxyMagnitudeLimit,
+    settingsStore.stellarium.deepSkyMagnitudeLimit,
     settingsStore.stellarium.landscapesVisible,
     settingsStore.stellarium.hideBelowHorizon,
   ],

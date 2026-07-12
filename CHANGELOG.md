@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 ### Added
 - Settings: New "Local Network Binding" option (Android) to keep the app connected via Wi-Fi when the NINA instance runs on a local network without internet (e.g. PINS hotspot), while the rest of the phone keeps using mobile data
+- Celestia Atlas: Independent persisted limiting-magnitude controls for stars,
+  galaxies and other deep-sky objects; lower values keep only brighter objects
+  and Auto preserves adaptive field-of-view filtering
+
+### Changed
+- Celestia Atlas: Defer engine/catalogue loading until first open, retain one
+  paused warm viewer after that, use the compact degree-based OpenNGC payload,
+  and reduce mobile panorama, search, FOV sampling and lifecycle work
+- Build: Pin TypeScript 6.0.3 because the current `vue-tsc` wrapper cannot load
+  the TypeScript 7 compiler export; lint, typecheck and production build pass
 
 ### Fixed
 - Sequence: Three Point Polar Alignment item now shows the actually selected filter instead of always appearing empty

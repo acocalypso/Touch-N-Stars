@@ -117,14 +117,14 @@ After conversion:
 
 ### Step E: Configure in app
 
-In Stellarium settings:
+In Celestia Atlas settings:
 
 1. Enable Landscapes
 2. Landscape source -> Custom data source
 3. Custom source URL -> `landscapes/<your-landscape-id>`
 4. Custom source key -> a unique key, for example `my-observatory`
 
-After entering or changing custom source settings, click **Save** in the Stellarium settings panel to trigger refresh.
+After entering or changing custom source settings, click **Save** in the Celestia Atlas settings panel to trigger refresh.
 
 ## 5. Quality and troubleshooting checklist
 

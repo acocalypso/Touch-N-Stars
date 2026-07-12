@@ -106,6 +106,9 @@ export const useSettingsStore = defineStore('settings', {
       customLandscapeUrl: '',
       customLandscapeKey: 'custom',
       dsosVisible: true, // Deep Sky Objects (Messier, NGC, etc.)
+      starMagnitudeLimit: 6.5,
+      galaxyMagnitudeLimit: 30,
+      deepSkyMagnitudeLimit: 30,
     },
     guider: {
       phd2ForceCalibration: false,

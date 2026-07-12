@@ -304,6 +304,68 @@
             />
           </div>
         </div>
+
+        <div
+          v-if="rendererManaged"
+          class="w-full border border-gray-500 p-3 rounded-lg col-span-full grid gap-3"
+        >
+          <div>
+            <p class="text-gray-200 font-medium">
+              {{ $t('components.stellarium.settings.brightness_filters') }}
+            </p>
+            <p class="text-xs text-gray-400">
+              {{ $t('components.stellarium.settings.magnitude_limit_hint') }}
+            </p>
+          </div>
+
+          <label class="grid gap-1" for="starMagnitudeLimit">
+            <span class="flex justify-between gap-2 text-sm text-gray-300">
+              <span>{{ $t('components.stellarium.settings.star_magnitude_limit') }}</span>
+              <output>{{ formatMagnitudeLimit(starMagnitudeLimit) }}</output>
+            </span>
+            <input
+              id="starMagnitudeLimit"
+              v-model.number="starMagnitudeLimit"
+              type="range"
+              min="-2"
+              max="6.5"
+              step="0.1"
+              class="w-full h-11 accent-cyan-500"
+            />
+          </label>
+
+          <label class="grid gap-1" for="galaxyMagnitudeLimit">
+            <span class="flex justify-between gap-2 text-sm text-gray-300">
+              <span>{{ $t('components.stellarium.settings.galaxy_magnitude_limit') }}</span>
+              <output>{{ formatMagnitudeLimit(galaxyMagnitudeLimit) }}</output>
+            </span>
+            <input
+              id="galaxyMagnitudeLimit"
+              v-model.number="galaxyMagnitudeLimit"
+              type="range"
+              min="-2"
+              max="30"
+              step="0.5"
+              class="w-full h-11 accent-cyan-500"
+            />
+          </label>
+
+          <label class="grid gap-1" for="deepSkyMagnitudeLimit">
+            <span class="flex justify-between gap-2 text-sm text-gray-300">
+              <span>{{ $t('components.stellarium.settings.dso_magnitude_limit') }}</span>
+              <output>{{ formatMagnitudeLimit(deepSkyMagnitudeLimit) }}</output>
+            </span>
+            <input
+              id="deepSkyMagnitudeLimit"
+              v-model.number="deepSkyMagnitudeLimit"
+              type="range"
+              min="-2"
+              max="30"
+              step="0.5"
+              class="w-full h-11 accent-cyan-500"
+            />
+          </label>
+        </div>
       </div>
     </template>
   </Modal>
@@ -483,6 +545,26 @@ const settingsContainerClasses = computed(() => ({
   // Landscape mode - two columns
   'grid grid-cols-2 gap-2': isLandscape.value,
 }));
+
+function formatMagnitudeLimit(value) {
+  return value === 30 ? t('components.stellarium.settings.magnitude_limit_auto') : value.toFixed(1);
+}
+
+function createMagnitudeModel(key, fallback, minimum, maximum) {
+  return computed({
+    get() {
+      const value = Number(settingsStore.stellarium[key]);
+      return Number.isFinite(value) ? Math.max(minimum, Math.min(maximum, value)) : fallback;
+    },
+    set(value) {
+      settingsStore.stellarium[key] = Math.max(minimum, Math.min(maximum, Number(value)));
+    },
+  });
+}
+
+const starMagnitudeLimit = createMagnitudeModel('starMagnitudeLimit', 6.5, -2, 6.5);
+const galaxyMagnitudeLimit = createMagnitudeModel('galaxyMagnitudeLimit', 30, -2, 30);
+const deepSkyMagnitudeLimit = createMagnitudeModel('deepSkyMagnitudeLimit', 30, -2, 30);
 
 watch(
   () => [

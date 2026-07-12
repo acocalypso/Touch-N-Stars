@@ -5,7 +5,7 @@ Touch-N-Stars is a powerful WebApp designed for mobile control of NINA (Nighttim
 ## Core Functionality & Integration
 
 *   **Mobile Control of NINA**: Seamlessly control and adjust pre-configured NINA profiles directly from a tablet or smartphone.
-*   **Stellarium Integration**: Deep integration with Stellarium, providing advanced functionalities for sky visualization and object selection.
+*   **Celestia Atlas Integration**: Offline sky visualization and catalogue search with target selection, framing handoff, mount/FOV overlays, horizon and landscape support, and independent brightness filters for stars, galaxies, and other deep-sky objects.
 *   **Comprehensive Equipment Management**: Manage various astronomical equipment, including:
     *   **Camera Control**: Detailed control over camera settings and operations.
     *   **Mount Control**: Precise control over telescope mounts.

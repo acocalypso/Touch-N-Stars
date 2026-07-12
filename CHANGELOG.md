@@ -19,6 +19,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   the TypeScript 7 compiler export; lint, typecheck and production build pass
 
 ### Fixed
+- Celestia Atlas: Convert ICRS catalogue selections to the J2000 frame required
+  by NINA framing and mount commands, while retaining source-frame provenance
+  and rejecting untagged coordinates
 - Celestia Atlas: Correct the mirrored Galactic-longitude mapping so the Milky
   Way crosses the local horizon in the expected north-to-south direction
 - Celestia Atlas: Keep the embedded view explicitly horizon-aligned even when

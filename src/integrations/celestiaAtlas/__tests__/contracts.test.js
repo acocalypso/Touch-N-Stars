@@ -4,6 +4,7 @@ import {
   atlasSelectionToFraming,
   ninaMountToAtlas,
   ninaObserverToAtlas,
+  toNinaJ2000Coordinates,
   toAtlasCoordinates,
 } from '../contracts.js';
 
@@ -65,14 +66,41 @@ test('rejects JNOW until precession is explicit', () => {
   );
 });
 
-test('keeps a tagged selection safe for framing', () => {
-  assert.deepEqual(
-    atlasSelectionToFraming({
-      name: 'M 31',
-      coordinates: { raDeg: 10.6847, decDeg: 41.269, frame: 'ICRS' },
-    }),
-    { Name: 'M 31', RA: 10.6847, Dec: 41.269, coordinateFrame: 'ICRS', epochJulianYear: undefined }
-  );
+test('passes J2000 coordinates through to the NINA command boundary', () => {
+  assert.deepEqual(toNinaJ2000Coordinates({ raDeg: 359.75, decDeg: -20, frame: 'J2000' }), {
+    raDeg: 359.75,
+    decDeg: -20,
+    frame: 'J2000',
+    epochJulianYear: 2000,
+  });
+});
+
+test('applies the IAU SOFA ICRS-to-FK5/J2000 orientation', () => {
+  const coordinates = toNinaJ2000Coordinates({
+    raDeg: 1.767794352 * (180 / Math.PI),
+    decDeg: -0.2917512594 * (180 / Math.PI),
+    frame: 'ICRS',
+  });
+
+  assert.equal(coordinates.frame, 'J2000');
+  assert.equal(coordinates.epochJulianYear, 2000);
+  assert.ok(Math.abs(coordinates.raDeg * (Math.PI / 180) - 1.7677944557000655) < 1e-14);
+  assert.ok(Math.abs(coordinates.decDeg * (Math.PI / 180) + 0.2917513626469639) < 1e-14);
+});
+
+test('converts every tagged selection to the proven J2000 framing contract', () => {
+  const target = atlasSelectionToFraming({
+    name: 'M 31',
+    coordinates: { raDeg: 10.6847, decDeg: 41.269, frame: 'ICRS' },
+  });
+
+  assert.equal(target.Name, 'M 31');
+  assert.equal(target.coordinateFrame, 'J2000');
+  assert.equal(target.epochJulianYear, 2000);
+  assert.equal(target.sourceCoordinateFrame, 'ICRS');
+  assert.ok(Math.abs(target.RA - 10.684711539261059) < 1e-12);
+  assert.ok(Math.abs(target.Dec - 41.26900145907812) < 1e-12);
+
   assert.throws(
     () => atlasSelectionToFraming({ name: 'unsafe', coordinates: { raDeg: 1, decDeg: 2 } }),
     /explicit/

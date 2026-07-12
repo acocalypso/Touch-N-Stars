@@ -1,5 +1,16 @@
 const VALID_FRAMES = new Set(['ICRS', 'J2000']);
 
+// Transpose of the IAU SOFA 2023-10-11 iauFk5hip orientation matrix:
+// Hipparcos/ICRS to FK5 equinox and epoch J2000.0.
+// https://www.iausofa.org/current-software
+const ICRS_TO_J2000 = [
+  [0.9999999999999929, -0.00000011102233084587464, -0.00000004411805033656962],
+  [0.00000011102233510229197, 0.9999999999999892, 0.00000009647792009175314],
+  [0.00000004411803962536558, -0.00000009647792498984142, 0.9999999999999943],
+];
+const DEG_TO_RAD = Math.PI / 180;
+const RAD_TO_DEG = 180 / Math.PI;
+
 export function normalizeRaDeg(value) {
   if (value >= 0 && value < 360) return value;
   return ((value % 360) + 360) % 360;
@@ -61,14 +72,43 @@ export function ninaMountToAtlas(mountInfo, timestampUtcMs = Date.now()) {
   };
 }
 
+export function toNinaJ2000Coordinates(value) {
+  const coordinates = toAtlasCoordinates(value);
+  if (coordinates.frame === 'J2000') {
+    return {
+      raDeg: coordinates.raDeg,
+      decDeg: coordinates.decDeg,
+      frame: 'J2000',
+      epochJulianYear: 2000,
+    };
+  }
+
+  const ra = coordinates.raDeg * DEG_TO_RAD;
+  const dec = coordinates.decDeg * DEG_TO_RAD;
+  const cosDec = Math.cos(dec);
+  const vector = [cosDec * Math.cos(ra), cosDec * Math.sin(ra), Math.sin(dec)];
+  const [x, y, z] = ICRS_TO_J2000.map(
+    (row) => row[0] * vector[0] + row[1] * vector[1] + row[2] * vector[2]
+  );
+
+  return {
+    raDeg: normalizeRaDeg(Math.atan2(y, x) * RAD_TO_DEG),
+    decDeg: Math.atan2(z, Math.hypot(x, y)) * RAD_TO_DEG,
+    frame: 'J2000',
+    epochJulianYear: 2000,
+  };
+}
+
 export function atlasSelectionToFraming(target) {
   if (!target?.name) throw new TypeError('Selected target requires a name');
-  const coordinates = toAtlasCoordinates(target.coordinates ?? {});
+  const sourceCoordinates = toAtlasCoordinates(target.coordinates ?? {});
+  const coordinates = toNinaJ2000Coordinates(sourceCoordinates);
   return {
     Name: target.name,
     RA: coordinates.raDeg,
     Dec: coordinates.decDeg,
-    coordinateFrame: coordinates.frame,
-    epochJulianYear: coordinates.epochJulianYear,
+    coordinateFrame: 'J2000',
+    epochJulianYear: 2000,
+    sourceCoordinateFrame: sourceCoordinates.frame,
   };
 }

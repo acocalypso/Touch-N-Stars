@@ -1786,6 +1786,7 @@
         "ecliptic_lines_visible": "Show ecliptic",
         "atmosphere_visible": "Show atmosphere",
         "landscapes_visible": "Show landscapes",
+        "hide_below_horizon": "Hide objects below horizon",
         "dsos_visible": "Deep Sky Objects (Messier, NGC)",
         "title": "Settings",
         "landscape_source_mode": "Landscape source",

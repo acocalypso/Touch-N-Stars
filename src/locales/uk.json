@@ -1721,6 +1721,7 @@
         "ecliptic_lines_visible": "Показати екліптику",
         "atmosphere_visible": "Показати атмосферу",
         "landscapes_visible": "Показати ландшафти",
+        "hide_below_horizon": "Приховати об'єкти нижче горизонту",
         "dsos_visible": "Об'єкти глибокого космосу (Messier, NGC)",
         "title": "Налаштування",
         "landscape_source_mode": "Landscape source",

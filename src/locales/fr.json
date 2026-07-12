@@ -1741,6 +1741,7 @@
         "ecliptic_lines_visible": "Afficher l'écliptique",
         "atmosphere_visible": "Afficher l'atmosphère",
         "landscapes_visible": "Afficher les paysages",
+        "hide_below_horizon": "Masquer les objets sous l'horizon",
         "dsos_visible": "Objets du ciel profond (Messier, NGC)",
         "title": "Paramètres",
         "landscape_source_mode": "Landscape source",

@@ -1741,6 +1741,7 @@
         "ecliptic_lines_visible": "Mostrar eclíptica",
         "atmosphere_visible": "Mostrar atmosfera",
         "landscapes_visible": "Mostrar paisagens",
+        "hide_below_horizon": "Ocultar objetos abaixo do horizonte",
         "dsos_visible": "Objetos do céu profundo (Messier, NGC)",
         "title": "Configurações",
         "landscape_source_mode": "Landscape source",

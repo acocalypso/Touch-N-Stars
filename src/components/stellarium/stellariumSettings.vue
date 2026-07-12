@@ -131,6 +131,24 @@
         </div>
 
         <div
+          v-if="rendererManaged"
+          class="flex flex-row items-center justify-between w-full border border-gray-500 p-2 rounded-lg"
+        >
+          <label for="hideBelowHorizon" class="text-gray-400">
+            {{ $t('components.stellarium.settings.hide_below_horizon') }}
+          </label>
+          <div>
+            <toggleButton
+              @click="
+                settingsStore.stellarium.hideBelowHorizon =
+                  settingsStore.stellarium.hideBelowHorizon === false
+              "
+              :status-value="settingsStore.stellarium.hideBelowHorizon !== false"
+            />
+          </div>
+        </div>
+
+        <div
           v-if="settingsStore.stellarium.landscapesVisible"
           class="w-full border border-gray-500 p-2 rounded-lg col-span-full"
         >
@@ -475,6 +493,7 @@ watch(
     settingsStore.stellarium.eclipticLinesVisible,
     settingsStore.stellarium.atmosphereVisible,
     settingsStore.stellarium.landscapesVisible,
+    settingsStore.stellarium.hideBelowHorizon,
     settingsStore.stellarium.dsosVisible,
   ],
   () => {

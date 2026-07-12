@@ -78,17 +78,28 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 - Phase 3: host conversion boundary and safety tests implemented. A topocentric Mars position matches an independent JPL Horizons ICRF/J2000 fixture within one arcminute; broader golden-reference coverage remains open.
 - Phases 2 and 4-9: not started.
 
+### 2026-07-12 controls, horizon, optics, and landscape slice
+
+- The standalone sky-control panel now starts closed, including matching `aria-hidden` and `aria-expanded` state. The controls and time buttons open the same panel and keep their visual and accessibility state synchronized. The Touch-N-Stars settings modal already started closed and retains that behavior.
+- `hideBelowHorizon` is a separate display option from landscape visibility and defaults to enabled in the public viewer. Standalone persists it under `celestia-atlas.hide-below-horizon`; Touch-N-Stars persists `stellarium.hideBelowHorizon` in the existing settings store and exposes the switch only for the renderer-managed Atlas path. An absent setting is interpreted as enabled so existing installations receive the new default.
+- The horizon mask uses the interpolated custom site-horizon altitude at each azimuth when one is available and otherwise uses the geometric 0-degree horizon. It suppresses below-horizon Milky Way pixels, celestial reference curves, constellation segments, stars, deep-sky objects, Solar System objects, comets, mount markers, associated object labels, and hit targets. Landscape imagery, horizon/cardinal context, and the camera framing overlay remain independently controllable.
+- The standalone framing inputs are now physical imaging-train values: sensor width and height in pixels, pixel size in micrometres, telescope focal length and optional aperture in millimetres, plus rotation and mosaic settings. The derived readout reports sensor size, angular width/height, pixel scale, and focal ratio. Aperture affects focal ratio but does not affect angular FOV. Overlay dimensions use the same gnomonic tangent projection as the sky canvas rather than a linear degrees-to-pixels approximation.
+- Touch-N-Stars continues to derive the camera frame from the active NINA profile: `CameraSettings.PixelSize`, `FramingAssistantSettings.CameraWidth`/`CameraHeight`, and `TelescopeSettings.FocalLength`. Rotation and mosaic values remain host-owned framing settings. Invalid or incomplete profile geometry removes the overlay instead of rendering an invented frame.
+- Landscape sampling now follows Stellarium's nested HEALPix axis-swap convention while preserving the existing observed-frame azimuth reflection. Continuous source coordinates and premultiplied-alpha bilinear interpolation remove the 0/360-degree and face-boundary discontinuities without dark fringes around transparent terrain edges.
+- Landscape and Milky Way rasters are DPR-aware and bounded: interaction uses a 384-pixel-wide budget, the settled redraw uses up to 1024 pixels, and wheel input schedules a full-quality refinement after interaction becomes idle. This retains responsive navigation without leaving the landscape in the former low-resolution state.
+
 ## 9. Feature-parity matrix
 
-| Capability               | Existing                                        | New engine                                                  | Status                         |
-| ------------------------ | ----------------------------------------------- | ----------------------------------------------------------- | ------------------------------ |
-| Explicit lifecycle       | Hidden render suppression plus host workarounds | `pause`, `resume`, `resize`, idempotent `destroy`           | Default web path; native test pending |
-| Observer and UTC         | Supported                                       | Validated setters and synchronized host time                | Connected; fixtures expanding  |
-| Offline catalogue search | Stellarium packaged data                        | Pinned 12,578-object OpenNGC catalogue and moving objects   | Connected; perf test pending   |
-| Framing selection        | Supported                                       | Typed selection callback and framing handoff                | Connected; command gate open   |
-| Mount/FOV/rotation       | Supported                                       | Marker/follow, mosaic overlay and shared rotation controls  | Connected; native test pending |
-| Horizon/landscape        | Supported                                       | Custom horizon and order-0 HiPS/HEALPix imagery implemented | Visual validation pending      |
-| Mobile lifecycle         | Host workarounds                                | App background state pauses viewer and clock display        | Connected; native test pending |
+| Capability               | Existing                                        | New engine                                                                                                   | Status                                                           |
+| ------------------------ | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------- |
+| Explicit lifecycle       | Hidden render suppression plus host workarounds | `pause`, `resume`, `resize`, idempotent `destroy`                                                            | Default web path; native test pending                            |
+| Observer and UTC         | Supported                                       | Validated setters and synchronized host time                                                                 | Connected; fixtures expanding                                    |
+| Offline catalogue search | Stellarium packaged data                        | Pinned 12,578-object OpenNGC catalogue and moving objects                                                    | Connected; perf test pending                                     |
+| Framing selection        | Supported                                       | Typed selection callback and framing handoff                                                                 | Connected; command gate open                                     |
+| Mount/FOV/rotation       | Supported                                       | Profile-derived physical camera geometry, exact projected frame, marker/follow, mosaic and rotation controls | Connected; native test pending                                   |
+| Horizon/landscape        | Supported                                       | Default-on persisted horizon mask; seam-correct, bilinear and DPR-aware order-0 HiPS/HEALPix imagery         | Standalone browser passed; host browser and native tests pending |
+| Standalone controls      | Open control panel                              | Control panel starts closed with synchronized accessibility state                                            | Connected                                                        |
+| Mobile lifecycle         | Host workarounds                                | App background state pauses viewer and clock display                                                         | Connected; native test pending                                   |
 
 ## 10. Test results
 
@@ -109,6 +120,11 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 - Landscape integration slice: candidate suite 22 passed; host suite 46 passed; targeted ESLint, 6 GB typecheck and flagged production build passed.
 - Shared FOV-control slice: candidate suite 22 passed; host suite 46 passed; targeted ESLint, 6 GB typecheck and flagged production build passed.
 - Shared standalone-renderer slice: candidate suite 24 passed; all standalone DOM IDs, service-worker paths, local catalogue and landscape resources validated.
+- Controls/horizon/optics/landscape slice: Atlas `npm test` passed 33 tests with 0 failures; Touch-N-Stars `npm run test:run` passed 48 tests with 0 failures.
+- New Atlas coverage verifies custom-horizon interpolation across 359/0 degrees, default-closed standalone controls, default-on hide-below-horizon wiring, physical camera geometry and validation, aperture/FOV independence, exact gnomonic frame sizing, DPR-aware landscape quality budgets, HEALPix axis mapping, and transparent RGBA rasterization. Host coverage verifies the persisted default and renderer-managed Atlas settings pass-through.
+- Landscape seam diagnostics using the bundled Guereins data reduced the RGBA L1 discontinuity from 126 to 5 across azimuth 0 degrees at altitude -50 degrees, and from 214 to 20 across the tested face boundary at altitude -60 degrees/azimuth 180 degrees.
+- Standalone Chrome DevTools validation used an isolated 1190x905, DPR 1 context. With fresh storage, the control panel was closed and `aria-hidden`, both launch controls reported `aria-expanded=false`, and the hide-below-horizon switch was checked without a stored preference. Switching it off and reloading restored the persisted false value while the controls remained closed; the preference was then restored to true.
+- The standalone physical-input readout reported `23.49 × 15.70 mm sensor`, `FoV 2.692° × 1.799°`, `1.55″/px`, and `f/5.0` for the test train. North/south landscape sweeps showed no central wrap seam, and wheel instrumentation recorded a 384-pixel interaction raster followed by the 1024-pixel idle refinement. All 32 page requests returned HTTP 200, with no browser console errors, warnings, or reported issues.
 
 ## 11. Remaining blockers
 
@@ -116,7 +132,7 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 - The complete pinned offline catalogue is packaged and loaded lazily; browser and native search/render performance validation remains open.
 - Host coordinate provenance must be proven before any viewer selection can feed commands.
 - Android and iOS runtime validation require suitable platform environments.
-- Existing listed and custom landscapes now use spherical order-0 HEALPix projection; browser and native orientation/transparency validation remains a release gate.
+- Existing listed and custom landscapes now use seam-correct spherical order-0 HEALPix projection. The standalone browser passed orientation, seam, settled-resolution, request, and console checks; the Touch-N-Stars production/browser path plus Android and iOS validation remain release gates.
 - Mandatory parity phases remain.
 - Package boundary resolved: Touch-N-Stars uses the public Git repository pinned to immutable commit `51c5bff0748ce41459e1983bb0da777e7d47c83a` over HTTPS. Embedded and standalone Atlas shells now share the same viewer and astronomy engine modules.
 

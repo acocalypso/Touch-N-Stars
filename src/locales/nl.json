@@ -1741,6 +1741,7 @@
         "ecliptic_lines_visible": "Toon ecliptica",
         "atmosphere_visible": "Toon atmosfeer",
         "landscapes_visible": "Toon landschap",
+        "hide_below_horizon": "Verberg objecten onder de horizon",
         "dsos_visible": "Deep Sky-objecten (Messier, NGC)",
         "title": "Instellingen",
         "landscape_source_mode": "Landscape source",

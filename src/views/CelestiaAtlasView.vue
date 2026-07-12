@@ -113,14 +113,13 @@
 
 <script setup>
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
-import { createCelestiaAtlasViewer } from '@acocalypso/celestia-atlas';
+import { calculateCameraFieldOfView, createCelestiaAtlasViewer } from '@acocalypso/celestia-atlas';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useOrientation } from '@/composables/useOrientation';
 import { apiStore } from '@/store/store';
 import { useFramingStore } from '@/store/framingStore';
 import { useSettingsStore } from '@/store/settingsStore';
-import { computeCameraFovDeg } from '@/utils/fovGeometry';
 import {
   atlasSelectionToFraming,
   ninaMountToAtlas,
@@ -185,19 +184,23 @@ function updateObserver() {
 function updateFieldOfView() {
   if (!viewer) return;
   const profile = store.profileInfo;
-  const fov = computeCameraFovDeg({
-    pixelSizeMicrons: profile?.CameraSettings?.PixelSize,
-    focalLengthMm: profile?.TelescopeSettings?.FocalLength,
-    sensorWidthPx: profile?.FramingAssistantSettings?.CameraWidth,
-    sensorHeightPx: profile?.FramingAssistantSettings?.CameraHeight,
-  });
-  if (!fov.fovX || !fov.fovY) {
+  const apertureMm = Number(profile?.TelescopeSettings?.Aperture);
+  let fov;
+  try {
+    fov = calculateCameraFieldOfView({
+      pixelSizeMicrons: Number(profile?.CameraSettings?.PixelSize),
+      focalLengthMm: Number(profile?.TelescopeSettings?.FocalLength),
+      sensorWidthPx: Number(profile?.FramingAssistantSettings?.CameraWidth),
+      sensorHeightPx: Number(profile?.FramingAssistantSettings?.CameraHeight),
+      ...(Number.isFinite(apertureMm) && apertureMm > 0 ? { apertureMm } : {}),
+    });
+  } catch {
     viewer.setFieldOfView(null);
     return;
   }
   viewer.setFieldOfView({
-    widthDeg: fov.fovX,
-    heightDeg: fov.fovY,
+    widthDeg: fov.widthDeg,
+    heightDeg: fov.heightDeg,
     rotationDeg: Number(framingStore.rotationAngle ?? 0),
     rotationConvention: 'clockwise-from-celestial-north',
     mosaic: framingStore.isMosaicMode
@@ -303,6 +306,7 @@ function updateDisplayOptions() {
     labels: true,
     deepSkyObjects: Boolean(settingsStore.stellarium.dsosVisible),
     horizon: Boolean(settingsStore.stellarium.landscapesVisible),
+    hideBelowHorizon: settingsStore.stellarium.hideBelowHorizon !== false,
   });
 }
 
@@ -419,6 +423,7 @@ watch(
     settingsStore.stellarium.constellationsLinesVisible,
     settingsStore.stellarium.dsosVisible,
     settingsStore.stellarium.landscapesVisible,
+    settingsStore.stellarium.hideBelowHorizon,
   ],
   updateDisplayOptions
 );

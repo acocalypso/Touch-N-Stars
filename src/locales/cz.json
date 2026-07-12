@@ -1741,6 +1741,7 @@
         "ecliptic_lines_visible": "Zobrazit ekliptiku",
         "atmosphere_visible": "Zobrazit atmosféru",
         "landscapes_visible": "Ukázat krajinu",
+        "hide_below_horizon": "Skrýt objekty pod obzorem",
         "dsos_visible": "Deep Sky Objekty (Messier, NGC)",
         "title": "Nastavení",
         "landscape_source_mode": "Landscape source",

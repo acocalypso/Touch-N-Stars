@@ -1786,6 +1786,7 @@
         "ecliptic_lines_visible": "황도 표시",
         "atmosphere_visible": "대기 표시",
         "landscapes_visible": "지형 표시",
+        "hide_below_horizon": "지평선 아래 천체 숨기기",
         "dsos_visible": "심원천체 (메시에, NGC)",
         "title": "설정",
         "landscape_source_mode": "Landscape source",

@@ -101,6 +101,7 @@ export const useSettingsStore = defineStore('settings', {
       eclipticLinesVisible: false,
       atmosphereVisible: true,
       landscapesVisible: true,
+      hideBelowHorizon: true,
       landscapeSourceMode: 'default',
       customLandscapeUrl: '',
       customLandscapeKey: 'custom',

@@ -1749,6 +1749,7 @@
         "ecliptic_lines_visible": "黄道を表示",
         "atmosphere_visible": "大気を表示",
         "landscapes_visible": "風景を表示",
+        "hide_below_horizon": "地平線下の天体を非表示",
         "dsos_visible": "ディープスカイ天体 (メシエ, NGC)",
         "title": "設定",
         "landscape_source_mode": "Landscape source",

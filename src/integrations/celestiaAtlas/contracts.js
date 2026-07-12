@@ -99,6 +99,28 @@ export function toNinaJ2000Coordinates(value) {
   };
 }
 
+export function atlasSearchResultToTarget(result) {
+  if (!result || typeof result !== 'object') {
+    throw new TypeError('Atlas search result is required');
+  }
+  const id = result.id ?? result.catalogId;
+  const name = result.name || id;
+  if (typeof id !== 'string' || !id.trim() || typeof name !== 'string' || !name.trim()) {
+    throw new TypeError('Atlas search result requires an id and name');
+  }
+  const coordinates = toAtlasCoordinates(result.coordinates ?? result);
+  return {
+    id,
+    name,
+    aliases: result.aliases,
+    objectType: result.type,
+    parentBody: result.parentBody,
+    magnitude: result.mag,
+    catalogueSource: result.catalogSource,
+    coordinates,
+  };
+}
+
 export function atlasSelectionToFraming(target) {
   if (!target?.name) throw new TypeError('Selected target requires a name');
   const sourceCoordinates = toAtlasCoordinates(target.coordinates ?? {});

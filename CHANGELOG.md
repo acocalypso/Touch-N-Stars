@@ -19,6 +19,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   the TypeScript 7 compiler export; lint, typecheck and production build pass
 
 ### Fixed
+- Celestia Atlas: Route view-center slew, center, rotate, sequence and favorite
+  actions through the proven J2000 command boundary; invalid or untagged view
+  coordinates now disable the actions instead of reusing stale values
 - Celestia Atlas: Convert ICRS catalogue selections to the J2000 frame required
   by NINA framing and mount commands, while retaining source-frame provenance
   and rejecting untagged coordinates

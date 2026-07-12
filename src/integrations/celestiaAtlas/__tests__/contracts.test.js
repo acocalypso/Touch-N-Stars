@@ -1,6 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
+  atlasSearchResultToTarget,
   atlasSelectionToFraming,
   ninaMountToAtlas,
   ninaObserverToAtlas,
@@ -75,6 +76,10 @@ test('passes J2000 coordinates through to the NINA command boundary', () => {
   });
 });
 
+test('requires an explicit frame for a command-producing view center', () => {
+  assert.throws(() => toNinaJ2000Coordinates({ raDeg: 10, decDeg: 20 }), /explicit/);
+});
+
 test('applies the IAU SOFA ICRS-to-FK5/J2000 orientation', () => {
   const coordinates = toNinaJ2000Coordinates({
     raDeg: 1.767794352 * (180 / Math.PI),
@@ -103,6 +108,32 @@ test('converts every tagged selection to the proven J2000 framing contract', () 
 
   assert.throws(
     () => atlasSelectionToFraming({ name: 'unsafe', coordinates: { raDeg: 1, decDeg: 2 } }),
+    /explicit/
+  );
+});
+
+test('builds viewer targets only from explicitly framed search results', () => {
+  const result = atlasSearchResultToTarget({
+    id: 'M 31',
+    name: 'Andromeda Galaxy',
+    type: 'Galaxy',
+    raDeg: 10.6847,
+    decDeg: 41.269,
+    frame: 'ICRS',
+  });
+
+  assert.equal(result.id, 'M 31');
+  assert.equal(result.name, 'Andromeda Galaxy');
+  assert.deepEqual(result.coordinates, { raDeg: 10.6847, decDeg: 41.269, frame: 'ICRS' });
+  assert.deepEqual(
+    atlasSearchResultToTarget({
+      id: 'Jupiter',
+      coordinates: { raDeg: 123.4, decDeg: -5.6, frame: 'J2000', epochJulianYear: 2000 },
+    }).coordinates,
+    { raDeg: 123.4, decDeg: -5.6, frame: 'J2000', epochJulianYear: 2000 }
+  );
+  assert.throws(
+    () => atlasSearchResultToTarget({ id: 'unsafe', raDeg: 10, decDeg: 20 }),
     /explicit/
   );
 });

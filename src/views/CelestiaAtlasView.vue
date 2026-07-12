@@ -121,9 +121,11 @@ import { apiStore } from '@/store/store';
 import { useFramingStore } from '@/store/framingStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import {
+  atlasSearchResultToTarget,
   atlasSelectionToFraming,
   ninaMountToAtlas,
   ninaObserverToAtlas,
+  toNinaJ2000Coordinates,
 } from '@/integrations/celestiaAtlas/contracts';
 import { normalizeAtlasMagnitudeLimit } from '@/integrations/celestiaAtlas/magnitudeFilters';
 import { timeSync } from '@/utils/timeSync';
@@ -177,7 +179,8 @@ const showFovControls = computed(
 );
 
 function getAtlasViewCenter() {
-  return viewer?.getView().center ?? null;
+  const center = viewer?.getView().center;
+  return center ? toNinaJ2000Coordinates(center) : null;
 }
 
 function updateObserver() {
@@ -368,17 +371,14 @@ function runSearch() {
 function selectSearchResult(result) {
   if (searchTimer !== null) clearTimeout(searchTimer);
   searchTimer = null;
-  const target = {
-    id: result.id,
-    name: result.name || result.id,
-    aliases: result.aliases,
-    objectType: result.type,
-    parentBody: result.parentBody,
-    magnitude: result.mag,
-    catalogueSource: result.catalogSource,
-    coordinates: { raDeg: result.raDeg, decDeg: result.decDeg, frame: result.frame || 'ICRS' },
-  };
   searchResults.value = [];
+  let target;
+  try {
+    target = atlasSearchResultToTarget(result);
+  } catch (error) {
+    console.warn('[Celestia Atlas] Ignored invalid search result:', error.message);
+    return;
+  }
   viewer.focusTarget(target);
   viewer.select(target);
 }

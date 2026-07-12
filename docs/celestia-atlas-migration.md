@@ -57,6 +57,7 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
   degrees directly, so embedded clients perform no per-object conversion.
 - Advanced API mount data includes `Coordinates.RADegrees`, `Coordinates.Dec`, and `Coordinates.Epoch`. The adapter accepts `J2000` directly, prefers the degree fields, and rejects JNOW/B1950/J2050 pending explicit precession. Source inspection of `pinsAPI/WebService/V2/Application/Framing.cs` and `Equipment/Mount.cs` proves that framing, slew, center, rotate and sync endpoints interpret decimal-degree inputs as NINA `Epoch.J2000` coordinates.
 - Atlas J2000 selections pass through unchanged. ICRS selections are rotated to FK5 equinox and epoch J2000.0 with the transpose of the IAU SOFA `iauFk5hip` orientation matrix before entering framing state. The framing record is always tagged `J2000`, retains its source-frame provenance, and untagged inputs remain rejected. The SOFA `iauH2fk5` validation vector is covered by a host unit test. See the [official SOFA ANSI C release](https://www.iausofa.org/2023-10-11c).
+- The Atlas view-center action panel uses the same boundary before exposing coordinates to slew, center, rotate, sequence-target, and favorite-target workflows. Its shared action component accepts only validated J2000 values, clears stale coordinates after any invalid sample, and disables every command-producing control until a new valid sample exists. The rollback viewer's ICRF center follows the same explicit ICRS-to-J2000 conversion.
 - JNOW/B1950/J2050 precession, nutation, refraction, and native rotation-convention fixtures remain mandatory unresolved validation items. They cannot silently enter the command boundary.
 
 ## 8. Implementation phases
@@ -77,7 +78,7 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 - Phase 5 (partial): the embedded viewer now honors the existing azimuth-grid, equatorial-grid, local-meridian, ecliptic and atmosphere settings and includes an offline Galactic-plane Milky Way layer.
 - Phase 5 (partial): Io, Europa, Ganymede and Callisto now use live offline ephemerides and support rendering, search, selection and narrow-field centering.
 - Phase 5 (partial): existing default, neutral and custom order-0 HiPS/HEALPix landscapes now load through the Atlas API and render in the live observed frame; production browser validation passed and native visual validation remains open.
-- Phase 4 (partial): the existing FOV rotation and view-center action panel now reads the active Atlas center through the typed public API, so rotation, slew/center, sequence-target and favorite-target workflows no longer depend on Stellarium internals. Its sampling loop stops while the sky view is hidden.
+- Phase 4 (partial): the existing FOV rotation and view-center action panel now reads the active Atlas center through the typed public API and converts it to the proven NINA J2000 command contract before supplying slew/center/rotate, sequence-target, and favorite-target workflows. Invalid samples clear old values and disable all actions. Its sampling loop stops while the sky view is hidden.
 - Phase 5: the standalone shell now instantiates the same public viewer as Touch-N-Stars. Planets, Galilean moons, comets, OpenNGC search/selection, reference layers, offline HEALPix landscape, time/location, lifecycle, camera FOV and mosaic overlays share the embedded renderer.
 - Phase 3: host conversion and command boundaries are implemented and tested. The IAU SOFA `iauH2fk5` reference vector validates ICRS-to-FK5/J2000 orientation, and a topocentric Mars position matches an independent JPL Horizons ICRF/J2000 fixture within one arcminute; broader golden-reference coverage remains open.
 
@@ -160,6 +161,20 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
   no Atlas or renderer errors; remaining preview noise was missing-NINA backend
   traffic.
 
+### 2026-07-12 view-center command boundary
+
+- Search results must supply an explicit ICRS or J2000 frame before they can be
+  focused or selected; the host no longer silently labels missing metadata as
+  ICRS.
+- The Atlas view-center callback converts its tagged center to FK5/J2000 before
+  returning it to the shared action panel. The panel validates that value again
+  at its final consumer boundary, and the rollback viewer converts its ICRF
+  sample through the same path.
+- Slew, center, rotate, sequence-target, and favorite-target controls share one
+  J2000 coordinate sample. A missing, untagged, non-finite, or out-of-range
+  sample clears the displayed coordinates and disables the complete action
+  fieldset instead of retaining `0,0` or a previously valid target.
+
 ## 9. Feature-parity matrix
 
 | Capability               | Existing                                        | New engine                                                                                                   | Status                                                               |
@@ -185,6 +200,7 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 - Host after coordinate contract: 44 passed, 0 failed; targeted ESLint passed.
 - Host command-boundary coverage validates J2000 pass-through, the official IAU SOFA `iauH2fk5` ICRS-to-FK5/J2000 reference vector, source-frame retention, and rejection of untagged coordinates.
 - Production-browser command-boundary validation selected the ICRS M31 catalogue result and used `go to framing`. The host opened the mount slew tab with a J2000/epoch-2000 framing record and retained `sourceCoordinateFrame: ICRS`. The console contained only expected missing-NINA network retries from the static preview; no Atlas, Vue, `ReferenceError`, `TypeError`, or unhandled errors appeared.
+- Production-browser view-center validation focused the ICRS M31 result and opened the shared action panel. Slew and favorite actions received the same converted J2000 pair (`10.684802539`, `41.269057059`). Injecting an untagged callback result cleared both coordinate labels, made all descendant actions match `:disabled`, blocked sequence/favorite handlers, and did not replace sentinel framing-store coordinates. Restoring the valid callback re-enabled the fieldset. Full console inspection found only expected missing-backend traffic; no Atlas, Vue, `ReferenceError`, `TypeError`, or unhandled errors appeared.
 - Host after search/selection/mount integration: 46 passed, 0 failed; targeted ESLint, typecheck and flagged production build passed.
 - Candidate Phase 1 unit tests: 3 passed, 0 failed; syntax and diff checks passed.
 - Host `npm run typecheck`: passed in 97.6 seconds.
@@ -219,12 +235,12 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 | Selection regression       | Search and select Venus, then wait 3.2 s through clock updates                                                | Details remained visible with unchanged coordinates.                                                                                                                 |
 | Brightness controls        | Mobile settings UI and persisted Pinia state                                                                  | Star 2.5, galaxy 10.0 and other DSO 8.0 updated independently; `30` renders as localized Auto.                                                                       |
 
-The final production chunks are 31,545 bytes for the view (9,572 gzip),
-429,526 for the Atlas engine (102,930 gzip), 23,051 for bright-sky data (6,400
-gzip), and 2,730,350 for the compact catalogue module (528,804 gzip). The prior
+The final production chunks are 32,734 bytes for the view (10,044 gzip),
+429,731 for the Atlas engine (105,113 gzip), 23,051 for bright-sky data (6,409
+gzip), and 2,730,350 for the compact catalogue module (538,063 gzip). The prior
 5,947,978-byte vendor chunk (1,007,570 gzip) was preloaded at startup; the final
 46,573-byte catch-all vendor chunk is unrelated to Atlas. Atlas unit tests pass
-42/42 and host integration tests pass 53/53. ESLint, typecheck and the production
+42/42 and host integration tests pass 56/56. ESLint, typecheck and the production
 build pass. The locale-key additions are complete across all 13 packs; the
 repository-wide i18n checker still reports only its pre-existing placeholder-
 translation mismatches.

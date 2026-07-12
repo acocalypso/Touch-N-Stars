@@ -95,3 +95,21 @@ test('persists touch-sized brightness controls for all three Atlas categories', 
   assert.equal(messages.magnitude_limit_auto, 'Auto');
   assert.match(messages.magnitude_limit_hint, /Lower values show only brighter objects/);
 });
+
+test('routes every Atlas view-center action through the J2000 command boundary', async () => {
+  const [view, actions] = await Promise.all([
+    readFile(new URL('../../../views/CelestiaAtlasView.vue', import.meta.url), 'utf8'),
+    readFile(
+      new URL('../../../components/stellarium/StellariumFovRotation.vue', import.meta.url),
+      'utf8'
+    ),
+  ]);
+
+  assert.match(view, /function getAtlasViewCenter\(\)[\s\S]*toNinaJ2000Coordinates\(center\)/);
+  assert.match(view, /target = atlasSearchResultToTarget\(result\)/);
+  assert.doesNotMatch(view, /result\.frame \|\| 'ICRS'/);
+  assert.match(actions, /setCommandCoordinates\(props\.getViewCenter\(\)\)/);
+  assert.match(actions, /toNinaJ2000Coordinates\(value \?\? \{\}\)/);
+  assert.match(actions, /function invalidateCoordinates\(\)[\s\S]*raDeg\.value = null/);
+  assert.match(actions, /<fieldset[\s\S]*:disabled="!hasValidCoordinates"/);
+});

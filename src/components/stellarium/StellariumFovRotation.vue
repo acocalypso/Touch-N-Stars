@@ -53,24 +53,34 @@
 
         <input v-model="targetName" type="text" placeholder="Target name" class="default-input" />
 
-        <ButtonSlewCenterRotate :raAngle="raDeg" :decAngle="decDeg" :disabled="!hasMount" />
+        <fieldset
+          :disabled="!hasValidCoordinates"
+          class="flex flex-col gap-2"
+          :class="{ 'opacity-50': !hasValidCoordinates }"
+        >
+          <ButtonSlewCenterRotate
+            :raAngle="raDeg"
+            :decAngle="decDeg"
+            :disabled="!hasMount || !hasValidCoordinates"
+          />
 
-        <setSequenceTarget
-          class="w-full"
-          :raAngle="raDeg"
-          :decAngle="decDeg"
-          :name="effectiveTargetName"
-        />
+          <setSequenceTarget
+            class="w-full"
+            :raAngle="raDeg"
+            :decAngle="decDeg"
+            :name="effectiveTargetName"
+          />
 
-        <SaveFavTargets
-          :name="effectiveTargetName"
-          :ra="raDeg"
-          :dec="decDeg"
-          :ra-string="raString"
-          :dec-string="decString"
-          :rotation="rotationModel"
-          :show-label="true"
-        />
+          <SaveFavTargets
+            :name="effectiveTargetName"
+            :ra="raDeg"
+            :dec="decDeg"
+            :ra-string="raString"
+            :dec-string="decString"
+            :rotation="rotationModel"
+            :show-label="true"
+          />
+        </fieldset>
       </template>
     </div>
   </div>
@@ -85,6 +95,7 @@ import { useFramingStore } from '@/store/framingStore';
 import { useStellariumStore } from '@/store/stellariumStore';
 import { useOrientation } from '@/composables/useOrientation';
 import { degreesToHMS, degreesToDMS, rad2deg } from '@/utils/utils';
+import { toNinaJ2000Coordinates } from '@/integrations/celestiaAtlas/contracts';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 import ButtonSlewCenterRotate from '@/components/mount/ButtonSlewCenterRotate.vue';
 import setSequenceTarget from '@/components/framing/setSequenceTarget.vue';
@@ -113,10 +124,11 @@ const { isLandscape } = useOrientation();
 
 const expanded = ref(false);
 const rotationOnly = ref(false);
-const raDeg = ref(0);
-const decDeg = ref(0);
+const raDeg = ref(null);
+const decDeg = ref(null);
 const raString = ref('');
 const decString = ref('');
+const hasValidCoordinates = ref(false);
 const targetName = ref('');
 let rafId = null;
 let lastViewSampleAt = 0;
@@ -139,25 +151,45 @@ const effectiveTargetName = computed(() => {
 
 function sampleView() {
   if (props.getViewCenter) {
-    const center = props.getViewCenter();
-    if (!center || !Number.isFinite(center.raDeg) || !Number.isFinite(center.decDeg)) return;
-    raDeg.value = center.raDeg;
-    decDeg.value = center.decDeg;
-    raString.value = degreesToHMS(center.raDeg);
-    decString.value = degreesToDMS(center.decDeg);
+    try {
+      setCommandCoordinates(props.getViewCenter());
+    } catch {
+      invalidateCoordinates();
+    }
     return;
   }
   const stel = stellariumStore.stel;
-  if (!stel) return;
+  if (!stel) {
+    invalidateCoordinates();
+    return;
+  }
   const icrfVec = stel.convertFrame(stel.observer, 'VIEW', 'ICRF', [0, 0, -1]);
   const raDecRad = stel.c2s(icrfVec);
   let ra = rad2deg(raDecRad[0]);
   const dec = rad2deg(raDecRad[1]);
   if (ra < 0) ra += 360;
-  raDeg.value = ra;
-  decDeg.value = dec;
-  raString.value = degreesToHMS(ra);
-  decString.value = degreesToDMS(dec);
+  setCommandCoordinates({ raDeg: ra, decDeg: dec, frame: 'ICRS' });
+}
+
+function setCommandCoordinates(value) {
+  try {
+    const coordinates = toNinaJ2000Coordinates(value ?? {});
+    raDeg.value = coordinates.raDeg;
+    decDeg.value = coordinates.decDeg;
+    raString.value = degreesToHMS(coordinates.raDeg);
+    decString.value = degreesToDMS(coordinates.decDeg);
+    hasValidCoordinates.value = true;
+  } catch {
+    invalidateCoordinates();
+  }
+}
+
+function invalidateCoordinates() {
+  raDeg.value = null;
+  decDeg.value = null;
+  raString.value = '';
+  decString.value = '';
+  hasValidCoordinates.value = false;
 }
 
 function loop(timestamp) {

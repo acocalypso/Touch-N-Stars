@@ -1,4 +1,5 @@
 import { defineStore } from 'pinia';
+import apiService from '@/services/apiService';
 
 export const useTppaStore = defineStore('tppaStore', {
   state: () => ({
@@ -39,6 +40,17 @@ export const useTppaStore = defineStore('tppaStore', {
     setRunning(isRunning) {
       this.isRunning = isRunning;
       localStorage.setItem('tppaStore', JSON.stringify(this.$state));
+    },
+    // Fetch the current TPPA status (running or not) from the backend.
+    async fetchInfo() {
+      try {
+        const response = await apiService.getTppaInfo();
+        if (response?.Success) {
+          this.setRunning(!!response.IsRunning);
+        }
+      } catch (error) {
+        console.error('Error fetching TPPA info:', error);
+      }
     },
     initialize() {
       if (!this.initialized) {

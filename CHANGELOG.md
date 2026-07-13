@@ -4,11 +4,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [App5.1.0] - 2026-07-13
 ### Added
 - Settings: New "Local Network Binding" option (Android) to keep the app connected via Wi-Fi when the NINA instance runs on a local network without internet (e.g. PINS hotspot), while the rest of the phone keeps using mobile data
 
 ### Fixed
+- Stellarium: Fixed the sky view flickering and mouse-wheel zoom appearing broken in Chrome by removing the frame rate cap while Stellarium is visible
 - Sequence: Three Point Polar Alignment item now shows the actually selected filter instead of always appearing empty
 - Guider: PHD2 exposure field no longer shows NaN when the initial exposure request fails
 

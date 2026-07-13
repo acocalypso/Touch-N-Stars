@@ -58,7 +58,9 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 - Advanced API mount data includes `Coordinates.RADegrees`, `Coordinates.Dec`, and `Coordinates.Epoch`. The adapter accepts `J2000` directly, prefers the degree fields, and rejects JNOW/B1950/J2050 pending explicit precession. Source inspection of `pinsAPI/WebService/V2/Application/Framing.cs` and `Equipment/Mount.cs` proves that framing, slew, center, rotate and sync endpoints interpret decimal-degree inputs as NINA `Epoch.J2000` coordinates.
 - Atlas J2000 selections pass through unchanged. ICRS selections are rotated to FK5 equinox and epoch J2000.0 with the transpose of the IAU SOFA `iauFk5hip` orientation matrix before entering framing state. The framing record is always tagged `J2000`, retains its source-frame provenance, and untagged inputs remain rejected. The SOFA `iauH2fk5` validation vector is covered by a host unit test. See the [official SOFA ANSI C release](https://www.iausofa.org/2023-10-11c).
 - The Atlas view-center action panel uses the same boundary before exposing coordinates to slew, center, rotate, sequence-target, and favorite-target workflows. Its shared action component accepts only validated J2000 values, clears stale coordinates after any invalid sample, and disables every command-producing control until a new valid sample exists. The rollback viewer's ICRF center follows the same explicit ICRS-to-J2000 conversion.
-- JNOW/B1950/J2050 precession, nutation, refraction, and native rotation-convention fixtures remain mandatory unresolved validation items. They cannot silently enter the command boundary.
+- JNOW/B1950/J2050 precession, nutation, refraction, and independent handedness
+  fixtures for every upstream FITS/image rotation source remain mandatory
+  unresolved validation items. They cannot silently enter the command boundary.
 
 ## 8. Implementation phases
 
@@ -68,7 +70,7 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 - Phase 7 (partial): Celestia Atlas is now the default viewer in normal builds. The legacy viewer remains available for one rollback interval only when `VITE_STELLARIUM_ROLLBACK=true` is explicitly set.
 - Phase 7 (partial): the existing display and landscape settings modal is exposed on the Atlas screen in renderer-managed mode. Host settings flow through the Atlas public API watchers without legacy store mutation or viewer remount events.
 - Phase 4 (partial): offline search, focus, canvas hit selection, selected-object details, proven ICRS/J2000-to-NINA-J2000 framing handoff, J2000 mount marker, grid/display settings, and mock mount epoch are connected.
-- Phase 4 (partial): manual mount centering and view-local auto-follow are connected through public viewer methods. FOV overlay renders framing-store mosaic columns, rows, rotation and overlap without exposing renderer state to Vue.
+- Phase 4 (partial): manual mount centering and view-local auto-follow are connected through public viewer methods. The FOV overlay renders framing-store mosaic columns, rows, celestial-north position angle and overlap without exposing renderer state to Vue.
 - Phase 6 (partial): app-wide native background state pauses the viewer and its clock display; view state is session-persisted with throttled writes; UTC progression can be paused/resumed through the engine clock API. App-owned Capacitor listener cleanup now removes only its own handle.
 - Phase 6 (partial): localized date, local-time, server-now, pause and time-rate controls are connected. The standalone compatibility `app.js` is now a loader for `app-v8.js`, removing the duplicated legacy standalone implementation.
 - Phase 5 (partial): spherical gnomonic projection replaces flat RA/Dec mapping; 130 bright stars and 27 constellation line sets are generated reproducibly, packaged offline, searchable, and controlled by host display settings.
@@ -175,6 +177,27 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
   sample clears the displayed coordinates and disables the complete action
   fieldset instead of retaining `0,0` or a previously valid target.
 
+### 2026-07-13 celestial-north camera frame
+
+- Touch-N-Stars passes its established NINA position angle unchanged and tags
+  it explicitly as clockwise from celestial north. The host does not inspect
+  renderer roll or apply a second sign conversion.
+- Atlas now composes the requested position angle with the current projection
+  roll as `-projection rotation + signed camera angle`. PA 0 therefore follows
+  projected celestial north and PA 90 follows celestial east even while the
+  embedded view remains aligned to the local horizon.
+- The corrected Canvas transform wraps both the single camera rectangle and the
+  complete mosaic, including panel offsets. Independent projection tests cover
+  north/east/west axes, both angle conventions, view rotations of 0, +37 and
+  -112 degrees, and a fixed Berlin horizontal-view geometry.
+- Production-browser instrumentation measured PA 0 at 26.319144 degrees and PA
+  30 at 56.319144 degrees. A 3-by-2 mosaic used one identical transform for all
+  six panels. After a horizontal drag, projected celestial north was 11.587519
+  degrees and the PA 30 frame was 41.587518 degrees, an error below one
+  millionth of a degree. No Atlas, coordinate, panning, reference or renderer
+  exception appeared in the console; remaining messages were known mock or
+  missing-backend traffic and pre-existing form issues.
+
 ## 9. Feature-parity matrix
 
 | Capability               | Existing                                        | New engine                                                                                                   | Status                                                               |
@@ -184,7 +207,7 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 | Offline catalogue search | Stellarium packaged data                        | Lazy compact 12,578-object OpenNGC catalogue and moving objects                                              | Web load/search performance passed; native pending                   |
 | Brightness filters       | Shared display density                          | Independent persisted star, galaxy-family and other-DSO limiting magnitudes                                  | Standalone and host web passed                                       |
 | Framing selection        | Supported                                       | Typed selection callback and explicit ICRS/J2000-to-NINA-J2000 command boundary                              | Connected; endpoint provenance and SOFA conversion tested            |
-| Mount/FOV/rotation       | Supported                                       | Profile-derived physical camera geometry, exact projected frame, marker/follow, mosaic and rotation controls | Connected; native test pending                                       |
+| Mount/FOV/rotation       | Supported                                       | Profile-derived physical camera geometry, celestial-north frame, marker/follow, mosaic and rotation controls | Production web passed; native test pending                           |
 | Horizon/landscape        | Supported                                       | Default-on persisted horizon mask; seam-correct, bilinear and DPR-aware order-0 HiPS/HEALPix imagery         | Standalone and host production browsers passed; native tests pending |
 | Standalone controls      | Open control panel                              | Control panel starts closed with synchronized accessibility state                                            | Connected                                                            |
 | Mobile lifecycle         | Host workarounds                                | First-use lazy mount, warm reuse, app-background pause and deterministic pointer cancellation                | Web passed; native test pending                                      |
@@ -201,6 +224,9 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 - Host command-boundary coverage validates J2000 pass-through, the official IAU SOFA `iauH2fk5` ICRS-to-FK5/J2000 reference vector, source-frame retention, and rejection of untagged coordinates.
 - Production-browser command-boundary validation selected the ICRS M31 catalogue result and used `go to framing`. The host opened the mount slew tab with a J2000/epoch-2000 framing record and retained `sourceCoordinateFrame: ICRS`. The console contained only expected missing-NINA network retries from the static preview; no Atlas, Vue, `ReferenceError`, `TypeError`, or unhandled errors appeared.
 - Production-browser view-center validation focused the ICRS M31 result and opened the shared action panel. Slew and favorite actions received the same converted J2000 pair (`10.684802539`, `41.269057059`). Injecting an untagged callback result cleared both coordinate labels, made all descendant actions match `:disabled`, blocked sequence/favorite handlers, and did not replace sentinel framing-store coordinates. Restoring the valid callback re-enabled the fieldset. Full console inspection found only expected missing-backend traffic; no Atlas, Vue, `ReferenceError`, `TypeError`, or unhandled errors appeared.
+- Celestial-north camera-frame coverage passes 47 Atlas tests and locks the host
+  boundary to the raw framing-store angle plus the explicit
+  `clockwise-from-celestial-north` convention.
 - Host after search/selection/mount integration: 46 passed, 0 failed; targeted ESLint, typecheck and flagged production build passed.
 - Candidate Phase 1 unit tests: 3 passed, 0 failed; syntax and diff checks passed.
 - Host `npm run typecheck`: passed in 97.6 seconds.
@@ -240,7 +266,7 @@ The final production chunks are 32,734 bytes for the view (10,044 gzip),
 gzip), and 2,730,350 for the compact catalogue module (538,063 gzip). The prior
 5,947,978-byte vendor chunk (1,007,570 gzip) was preloaded at startup; the final
 46,573-byte catch-all vendor chunk is unrelated to Atlas. Atlas unit tests pass
-42/42 and host integration tests pass 56/56. ESLint, typecheck and the production
+47/47 and host integration tests pass 56/56. ESLint, typecheck and the production
 build pass. The locale-key additions are complete across all 13 packs; the
 repository-wide i18n checker still reports only its pre-existing placeholder-
 translation mismatches.
@@ -262,7 +288,7 @@ emulation.
   final removal of the rollback-only Stellarium runtime after its release window.
 - Package boundary resolved: Touch-N-Stars uses the public Git repository pinned
   over HTTPS to immutable Atlas commit
-  `80a76b29043dd59357e8a0965bba4542eb8ecd20`. Embedded and standalone shells
+  `8a772f5c46381fcafb5ddf522c8a4e899370d844`. Embedded and standalone shells
   share the same viewer and astronomy engine modules.
 
 ## 12. Removal checklist

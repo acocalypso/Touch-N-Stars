@@ -19,6 +19,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   the TypeScript 7 compiler export; lint, typecheck and production build pass
 
 ### Fixed
+- Celestia Atlas: Keep camera and mosaic position angles anchored to projected
+  celestial north while the embedded view follows the local horizon
 - Celestia Atlas: Route view-center slew, center, rotate, sequence and favorite
   actions through the proven J2000 command boundary; invalid or untagged view
   coordinates now disable the actions instead of reusing stale values

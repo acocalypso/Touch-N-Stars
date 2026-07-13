@@ -1,0 +1,45 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import { readFile } from 'node:fs/promises';
+import { equatorialToHorizontal, horizontalToEquatorial } from '@acocalypso/celestia-atlas';
+
+const ATLAS_REVISION = '3706e561d31282e428120dd10c3ddcf67cacf21c';
+const TOLERANCE_DEG = 1e-10;
+
+function angularErrorDeg(actual, expected) {
+  return Math.abs(((actual - expected + 540) % 360) - 180);
+}
+
+test('uses the corrected pinned J2000 observed-frame transform', () => {
+  const observer = {
+    latitudeDeg: 52.52,
+    longitudeDeg: 13.405,
+    elevationM: 35,
+  };
+  const timestampUtcMs = Date.parse('2026-07-13T00:00:00.000Z');
+  const coordinates = { raDeg: 120, decDeg: 30, frame: 'J2000' };
+  const horizontal = equatorialToHorizontal(coordinates, observer, timestampUtcMs);
+
+  assert.ok(angularErrorDeg(horizontal.azimuthDeg, 3.3919848105957726) < TOLERANCE_DEG);
+  assert.ok(Math.abs(horizontal.altitudeDeg + 7.483089613944132) < TOLERANCE_DEG);
+
+  const inverse = horizontalToEquatorial(horizontal, observer, timestampUtcMs, 'J2000');
+  assert.ok(angularErrorDeg(inverse.raDeg, coordinates.raDeg) < TOLERANCE_DEG);
+  assert.ok(Math.abs(inverse.decDeg - coordinates.decDeg) < TOLERANCE_DEG);
+});
+
+test('keeps the host package and lockfile on the same immutable HTTPS revision', async () => {
+  const [manifest, lockfile] = await Promise.all([
+    readFile(new URL('../../../../package.json', import.meta.url), 'utf8'),
+    readFile(new URL('../../../../package-lock.json', import.meta.url), 'utf8'),
+  ]);
+  const expected = `git+https://github.com/acocalypso/celestia_atlas.git#${ATLAS_REVISION}`;
+
+  assert.equal(JSON.parse(manifest).dependencies['@acocalypso/celestia-atlas'], expected);
+  const parsedLockfile = JSON.parse(lockfile);
+  assert.equal(parsedLockfile.packages[''].dependencies['@acocalypso/celestia-atlas'], expected);
+  assert.equal(
+    parsedLockfile.packages['node_modules/@acocalypso/celestia-atlas'].resolved,
+    expected
+  );
+});

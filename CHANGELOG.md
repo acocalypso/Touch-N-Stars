@@ -19,6 +19,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   the TypeScript 7 compiler export; lint, typecheck and production build pass
 
 ### Fixed
+- Celestia Atlas: Correct J2000/ICRS-to-horizontal geometry with precession,
+  nutation and observed sidereal orientation, keeping landscapes, the Milky
+  Way horizon mask, grids and horizontal navigation on one cached frame
 - Celestia Atlas: Keep camera and mosaic position angles anchored to projected
   celestial north while the embedded view follows the local horizon
 - Celestia Atlas: Route view-center slew, center, rotate, sequence and favorite

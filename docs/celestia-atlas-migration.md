@@ -58,9 +58,11 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 - Advanced API mount data includes `Coordinates.RADegrees`, `Coordinates.Dec`, and `Coordinates.Epoch`. The adapter accepts `J2000` directly, prefers the degree fields, and rejects JNOW/B1950/J2050 pending explicit precession. Source inspection of `pinsAPI/WebService/V2/Application/Framing.cs` and `Equipment/Mount.cs` proves that framing, slew, center, rotate and sync endpoints interpret decimal-degree inputs as NINA `Epoch.J2000` coordinates.
 - Atlas J2000 selections pass through unchanged. ICRS selections are rotated to FK5 equinox and epoch J2000.0 with the transpose of the IAU SOFA `iauFk5hip` orientation matrix before entering framing state. The framing record is always tagged `J2000`, retains its source-frame provenance, and untagged inputs remain rejected. The SOFA `iauH2fk5` validation vector is covered by a host unit test. See the [official SOFA ANSI C release](https://www.iausofa.org/2023-10-11c).
 - The Atlas view-center action panel uses the same boundary before exposing coordinates to slew, center, rotate, sequence-target, and favorite-target workflows. Its shared action component accepts only validated J2000 values, clears stale coordinates after any invalid sample, and disables every command-producing control until a new valid sample exists. The rollback viewer's ICRF center follows the same explicit ICRS-to-J2000 conversion.
-- JNOW/B1950/J2050 precession, nutation, refraction, and independent handedness
-  fixtures for every upstream FITS/image rotation source remain mandatory
-  unresolved validation items. They cannot silently enter the command boundary.
+- JNOW/B1950/J2050 inputs remain rejected at the NINA command boundary.
+  Atmospheric refraction is deliberately absent from Atlas altitude, and live
+  IERS DUT1/polar-motion data is not ingested. Upstream FITS/image position-angle
+  provenance remains a separate validation item and cannot silently enter the
+  command boundary.
 
 ## 8. Implementation phases
 
@@ -82,7 +84,12 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 - Phase 5 (partial): existing default, neutral and custom order-0 HiPS/HEALPix landscapes now load through the Atlas API and render in the live observed frame; production browser validation passed and native visual validation remains open.
 - Phase 4 (partial): the existing FOV rotation and view-center action panel now reads the active Atlas center through the typed public API and converts it to the proven NINA J2000 command contract before supplying slew/center/rotate, sequence-target, and favorite-target workflows. Invalid samples clear old values and disable all actions. Its sampling loop stops while the sky view is hidden.
 - Phase 5: the standalone shell now instantiates the same public viewer as Touch-N-Stars. Planets, Galilean moons, comets, OpenNGC search/selection, reference layers, offline HEALPix landscape, time/location, lifecycle, camera FOV and mosaic overlays share the embedded renderer.
-- Phase 3: host conversion and command boundaries are implemented and tested. The IAU SOFA `iauH2fk5` reference vector validates ICRS-to-FK5/J2000 orientation, and a topocentric Mars position matches an independent JPL Horizons ICRF/J2000 fixture within one arcminute; broader golden-reference coverage remains open.
+- Phase 3: host conversion and command boundaries are implemented and tested.
+  The IAU SOFA `iauH2fk5` vector validates ICRS-to-FK5/J2000 orientation,
+  SOFA `Hd2ae`/`Ae2hd` vectors validate horizontal handedness, fixed
+  Astronomy Engine values validate the full observed frame, and topocentric
+  Mars/12P positions match independent JPL Horizons fixtures within one
+  arcminute. Upstream FITS/image position-angle provenance remains open.
 
 ### 2026-07-12 controls, horizon, optics, and landscape slice
 
@@ -198,12 +205,47 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
   exception appeared in the console; remaining messages were known mock or
   missing-backend traffic and pre-existing form issues.
 
+### 2026-07-13 observed-coordinate frame
+
+- The Atlas dependency is pinned to `3706e561d31282e428120dd10c3ddcf67cacf21c`. Tagged
+  J2000 coordinates now enter Astronomy Engine's EQJ-to-HOR rotation instead
+  of being treated as equatorial-of-date; tagged ICRS coordinates first receive
+  the same SOFA `iauFk5hip` orientation rotation used at the host command
+  boundary. The inverse path returns the frame explicitly requested by the
+  caller.
+- The observed rotation includes precession, nutation and sidereal Earth
+  orientation at the supplied UTC and east-positive observer longitude.
+  Horizontal azimuth remains north-zero/east-positive and altitude is geometric
+  without atmospheric refraction. One observer/time matrix and its inverse are
+  cached and reused by object clipping, grids, landscapes and the Milky Way
+  horizon mask.
+- Official SOFA `Hd2ae`/`Ae2hd` vectors retain their `1e-13`/`1e-14`
+  radian tolerances. Fixed Astronomy Engine 2.1.19 fixtures cover RA wrap,
+  both celestial poles, northern/southern and east/west sites, the equator,
+  leap day, multiple dates, a meridian crossing and a below-horizon target at
+  `1e-10` degree. Camera 0/90/180/270/wrap and independent portrait/landscape
+  gnomonic edges are also covered.
+- Standalone Chrome validation at 390x844 CSS pixels and DPR 3 reproduced the
+  Berlin reference (`Az 3.391984811 degrees`, `Alt -7.483089614 degrees`).
+  A horizontal drag changed the center from azimuth 180.2 to 186.8 degrees
+  while altitude stayed 35.0 degrees; a synthetic pinch changed FOV from 70 to
+  35 degrees with a 488x1055 backing canvas. The landscape remained level,
+  altitude labels were visible and the console contained no warnings, errors
+  or reported issues.
+- The Touch-N-Stars production bundle was rechecked at the same mobile viewport.
+  Drag updated and persisted the center, pinch changed FOV from 35 to 17.5
+  degrees, one Atlas canvas remained mounted, and the view, engine, bright-sky,
+  catalogue and stylesheet chunks all returned HTTP 200. Console inspection
+  found no Atlas exception, coordinate failure or unhandled error; the remaining
+  messages were expected API/backend retries from running without NINA and the
+  pre-existing form-field issues.
+
 ## 9. Feature-parity matrix
 
 | Capability               | Existing                                        | New engine                                                                                                   | Status                                                               |
 | ------------------------ | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------- |
 | Explicit lifecycle       | Hidden render suppression plus host workarounds | `pause`, `resume`, `resize`, idempotent `destroy`                                                            | Web passed; native test pending                                      |
-| Observer and UTC         | Supported                                       | Validated setters and synchronized host time                                                                 | Connected; fixtures expanding                                        |
+| Observer and UTC         | Supported                                       | Validated setters, synchronized host time and cached EQJ/ICRS observed frame                                 | Web reference fixtures passed; native pending                        |
 | Offline catalogue search | Stellarium packaged data                        | Lazy compact 12,578-object OpenNGC catalogue and moving objects                                              | Web load/search performance passed; native pending                   |
 | Brightness filters       | Shared display density                          | Independent persisted star, galaxy-family and other-DSO limiting magnitudes                                  | Standalone and host web passed                                       |
 | Framing selection        | Supported                                       | Typed selection callback and explicit ICRS/J2000-to-NINA-J2000 command boundary                              | Connected; endpoint provenance and SOFA conversion tested            |
@@ -261,13 +303,13 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 | Selection regression       | Search and select Venus, then wait 3.2 s through clock updates                                                | Details remained visible with unchanged coordinates.                                                                                                                 |
 | Brightness controls        | Mobile settings UI and persisted Pinia state                                                                  | Star 2.5, galaxy 10.0 and other DSO 8.0 updated independently; `30` renders as localized Auto.                                                                       |
 
-The final production chunks are 32,734 bytes for the view (10,044 gzip),
-429,731 for the Atlas engine (105,113 gzip), 23,051 for bright-sky data (6,409
-gzip), and 2,730,350 for the compact catalogue module (538,063 gzip). The prior
+The final production chunks are 32,734 bytes for the view (10,032 gzip),
+432,509 for the Atlas engine (103,363 gzip), 23,051 for bright-sky data (6,400
+gzip), and 2,730,350 for the compact catalogue module (528,804 gzip). The prior
 5,947,978-byte vendor chunk (1,007,570 gzip) was preloaded at startup; the final
-46,573-byte catch-all vendor chunk is unrelated to Atlas. Atlas unit tests pass
-47/47 and host integration tests pass 56/56. ESLint, typecheck and the production
-build pass. The locale-key additions are complete across all 13 packs; the
+46,573-byte catch-all vendor chunk (9,487 gzip) is unrelated to Atlas. Atlas unit
+tests pass 59/59 and host integration tests pass 58/58. ESLint, typecheck and the
+production build pass. The locale-key additions are complete across all 13 packs; the
 repository-wide i18n checker still reports only its pre-existing placeholder-
 translation mismatches.
 
@@ -284,17 +326,20 @@ emulation.
 - Android and iOS runtime validation require suitable platform environments.
 - Existing listed and custom landscapes now use seam-correct spherical order-0 HEALPix projection. The standalone and Touch-N-Stars production browsers passed orientation, seam, settled-resolution, request, and Atlas console checks; Android and iOS validation remain release gates.
 - Remaining parity gates are Android/iOS lifecycle and gesture validation,
-  native package-size/heap profiling, expanded astronomy reference fixtures and
-  final removal of the rollback-only Stellarium runtime after its release window.
+  native package-size/heap profiling, upstream FITS/image position-angle
+  provenance, and final removal of the rollback-only Stellarium runtime after
+  its release window.
 - Package boundary resolved: Touch-N-Stars uses the public Git repository pinned
   over HTTPS to immutable Atlas commit
-  `8a772f5c46381fcafb5ddf522c8a4e899370d844`. Embedded and standalone shells
+  `3706e561d31282e428120dd10c3ddcf67cacf21c`. Embedded and standalone shells
   share the same viewer and astronomy engine modules.
 
 ## 12. Removal checklist
 
 - [ ] All mandatory parity gates pass.
-- [ ] Astronomy reference fixtures and tolerances pass.
+- [x] Astronomy reference fixtures and tolerances pass for Atlas coordinates,
+      horizontal geometry, projection and camera rotation; upstream image metadata
+      provenance remains tracked separately.
 - [x] Full offline catalogue and notices are packaged.
 - [ ] Web and required native lifecycle tests pass.
 - [x] Celestia is default with a tested rollback interval.

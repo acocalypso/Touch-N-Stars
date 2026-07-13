@@ -298,7 +298,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount, computed } from 'vue';
+import { ref, onMounted, onBeforeUnmount, computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 const { t } = useI18n();
 const emit = defineEmits(['close']);
@@ -579,8 +579,21 @@ async function wait(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+// Re-sync the TPPA status from the backend whenever the connection comes back
+// (e.g. after an instance switch) while this view is open.
+watch(
+  () => store.isBackendReachable,
+  (reachable) => {
+    if (reachable) tppaStore.fetchInfo();
+  }
+);
+
 onMounted(() => {
   tppaStore.initialize();
+
+  // Load the real TPPA status from the backend on open (an alignment may have
+  // been started before mount or on another client).
+  tppaStore.fetchInfo();
 
   // Check initial states if there's already a current message
   if (tppaStore.currentMessage?.message?.Response?.Status) {

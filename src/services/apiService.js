@@ -3699,6 +3699,17 @@ const apiService = {
   },
 
   //------------------------------------------- TPPA (PINS) ------------------------------------------
+  async getTppaInfo(timeout = DEFAULT_TIMEOUT) {
+    try {
+      const { API_URL } = getUrls();
+      const response = await axios.get(`${API_URL}tppa/info`, { timeout });
+      return response.data; // { Success, IsRunning }
+    } catch (error) {
+      console.error('Error fetching TPPA info:', error);
+      throw error;
+    }
+  },
+
   async getTppaOptions(timeout = DEFAULT_TIMEOUT) {
     try {
       const { API_URL } = getUrls();

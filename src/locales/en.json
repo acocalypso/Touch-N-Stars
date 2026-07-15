@@ -1451,7 +1451,7 @@
       "cooler_status_holding": "Active - At target temp",
       "cooler_status_warming": "Active - Warming to",
       "set_save_snapshot": "Save snapshots",
-      "snapshotTargetName": "Targe name",
+      "snapshotTargetName": "Target name",
       "set_use_solve_sync_to_mount": "Sync to mount",
       "readout_mode_image": "Readout Mode Sequence",
       "readout_mode_snap": "Readout Mode Snapshot",
@@ -2581,7 +2581,12 @@
         "title": "Snapshot URL Help",
         "what": "A snapshot URL is a direct link to a single image from your IP camera. The URL must return a JPEG or PNG image directly — not an HTML page or a video stream.",
         "examplesTitle": "Examples",
-        "exampleLabels": ["Generic IP camera", "ONVIF camera", "Axis camera", "Hikvision camera"],
+        "exampleLabels": [
+          "Generic IP camera",
+          "ONVIF camera",
+          "Axis camera",
+          "Hikvision camera"
+        ],
         "credentialsTitle": "Password-protected cameras",
         "credentials": "If your camera requires a username and password, include the credentials directly in the URL:",
         "credentialsNote": "The backend proxy handles authentication automatically — credentials in the URL work with both Basic and Digest authentication (e.g. Hikvision).",

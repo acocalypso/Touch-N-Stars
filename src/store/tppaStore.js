@@ -16,6 +16,15 @@ function settingsStorageKey() {
   return `tppaStore.settings:${connection?.ip ?? ''}:${connection?.port ?? ''}`;
 }
 
+const defaultSettings = () => ({
+  StartFromCurrentPosition: false,
+  EastDirection: false,
+  ManualMode: false,
+  ExposureTime: null,
+  Gain: null,
+  Filter: null,
+});
+
 export const useTppaStore = defineStore('tppaStore', {
   state: () => ({
     lastMessage: null,
@@ -40,14 +49,7 @@ export const useTppaStore = defineStore('tppaStore', {
     declinationSpreadArcsec: 0,
     nearEastWest: false,
     distanceToEastWest: null,
-    settings: {
-      StartFromCurrentPosition: false,
-      EastDirection: false,
-      ManualMode: false,
-      ExposureTime: null,
-      Gain: null,
-      Filter: null,
-    },
+    settings: defaultSettings(),
   }),
 
   actions: {
@@ -91,9 +93,10 @@ export const useTppaStore = defineStore('tppaStore', {
       } catch (error) {
         console.error('Error loading TPPA settings from localStorage:', error);
       }
-      if (savedSettings) {
-        this.settings = { ...this.settings, ...savedSettings };
-      }
+      // Start from defaults, not from the in-memory values: after a live
+      // instance switch, the previous instance's filter/gain must not carry
+      // over to an instance that has nothing persisted yet.
+      this.settings = { ...defaultSettings(), ...(savedSettings ?? {}) };
     },
   },
 });

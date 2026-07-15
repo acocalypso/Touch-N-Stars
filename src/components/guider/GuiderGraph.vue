@@ -249,6 +249,19 @@ watch(
   }
 );
 
+// Restart the graph poller when the backend comes back while this view is
+// mounted: instance switches AND transient connection losses both run
+// clearAllStates(), which stops the poller without this view ever unmounting.
+watch(
+  () => store.isBackendReachable,
+  (reachable) => {
+    if (reachable && !guiderStore.isFetchingGraph()) {
+      guiderStore.fetchGraphInfos(t);
+      guiderStore.startFetching(t);
+    }
+  }
+);
+
 onMounted(async () => {
   await guiderStore.fetchGraphInfos(t);
   guiderStore.startFetching(t);

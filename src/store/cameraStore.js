@@ -71,7 +71,11 @@ export const useCameraStore = defineStore('cameraStore', () => {
       // Phase 1: Start exposure (Server provides ExposureEndTime and IsExposing)
       await apiService.startCapture(exposureTime, gain, solve, true, save, targetName);
       isLoadingImage.value = true;
+      // This wait has no timeout, so it must honor aborts: resetCaptureState()
+      // (backend teardown) and abortExposure() set isAbort while we may be
+      // stuck here waiting for an exposure that will never report back.
       while (!imageStore.isImageFetching) {
+        if (isAbort.value) return;
         await wait(100);
         //console.log('[cameraStore] Waiting for exposure to complete...');
       }
@@ -209,6 +213,27 @@ export const useCameraStore = defineStore('cameraStore', () => {
       isLoadingImage.value = false;
       await nextTick(); // Force DOM update for Safari
     }
+  }
+
+  // Tear down all client-driven capture activity. Called from
+  // apiStore.clearAllStates() when the backend session ends (instance switch,
+  // connection lost): without this, a running snapshot loop survives the
+  // teardown and starts commanding whatever backend connects next, and the
+  // wait loops in capturePhoto() can hang forever. Backend-derived settings
+  // (cameraSettings, binning/readout indices) are dropped too - they belong
+  // to the previous instance's camera.
+  function resetCaptureState() {
+    isLooping.value = false;
+    // Releases capturePhoto()'s wait loops; every new capture resets it.
+    isAbort.value = true;
+    stopCountdown();
+    exposureCountdown.value = 0;
+    exposureProgress.value = 0;
+    loading.value = false;
+    isLoadingImage.value = false;
+    cameraSettings.value = undefined;
+    binningMode.value = '1x1';
+    readoutMode.value = 0;
   }
 
   // Stop countdown (e.g. when app is paused)
@@ -349,6 +374,7 @@ export const useCameraStore = defineStore('cameraStore', () => {
     abortExposure,
     updateCountdown,
     stopCountdown,
+    resetCaptureState,
     readSettings,
   };
 });

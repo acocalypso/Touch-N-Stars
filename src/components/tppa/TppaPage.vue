@@ -584,7 +584,11 @@ async function wait(ms) {
 watch(
   () => store.isBackendReachable,
   (reachable) => {
-    if (reachable) tppaStore.fetchInfo();
+    if (reachable) {
+      // Reloads the persisted per-instance settings if the endpoint changed.
+      tppaStore.initialize();
+      tppaStore.fetchInfo();
+    }
   }
 );
 

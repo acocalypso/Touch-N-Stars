@@ -1787,6 +1787,8 @@
         "atmosphere_visible": "Show atmosphere",
         "landscapes_visible": "Show landscapes",
         "hide_below_horizon": "Hide objects below horizon",
+        "sky_survey_visible": "Photographic sky survey",
+        "sky_survey_hint": "Loads real-sky images on demand online. Recently viewed fields stay cached offline; unseen fields use the local atlas.",
         "dsos_visible": "Deep Sky Objects (Messier, NGC)",
         "brightness_filters": "Brightness filters",
         "magnitude_limit_hint": "Lower values show only brighter objects; higher values include fainter objects.",

@@ -1742,6 +1742,8 @@
         "atmosphere_visible": "Afficher l'atmosphère",
         "landscapes_visible": "Afficher les paysages",
         "hide_below_horizon": "Masquer les objets sous l'horizon",
+        "sky_survey_visible": "Relevé photographique du ciel",
+        "sky_survey_hint": "Charge en ligne les images réelles du ciel à la demande. Les champs récemment consultés restent en cache hors connexion ; les champs jamais consultés utilisent l’atlas local.",
         "dsos_visible": "Objets du ciel profond (Messier, NGC)",
         "brightness_filters": "Filtres de luminosité",
         "magnitude_limit_hint": "Les valeurs basses n'affichent que les objets brillants ; les valeurs élevées incluent les objets plus faibles.",

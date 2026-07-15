@@ -1742,6 +1742,8 @@
         "atmosphere_visible": "Mostrar atmósfera",
         "landscapes_visible": "Mostrar horizonte",
         "hide_below_horizon": "Ocultar objetos bajo el horizonte",
+        "sky_survey_visible": "Estudio fotográfico del cielo",
+        "sky_survey_hint": "Carga imágenes reales del cielo bajo demanda al estar en línea. Los campos vistos recientemente quedan en caché sin conexión; los no vistos usan el atlas local.",
         "dsos_visible": "Objetos de cielo profundo (Messier, NGC)",
         "brightness_filters": "Filtros de brillo",
         "magnitude_limit_hint": "Los valores más bajos muestran solo objetos más brillantes; los más altos incluyen objetos más tenues.",

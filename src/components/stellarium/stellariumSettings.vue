@@ -149,6 +149,29 @@
         </div>
 
         <div
+          v-if="rendererManaged"
+          class="flex min-h-16 w-full items-center justify-between gap-3 rounded-lg border border-gray-500 p-3 col-span-full"
+        >
+          <div class="min-w-0">
+            <label for="skySurveyVisible" class="text-gray-300">
+              {{ $t('components.stellarium.settings.sky_survey_visible') }}
+            </label>
+            <p class="mt-1 text-xs leading-5 text-gray-400">
+              {{ $t('components.stellarium.settings.sky_survey_hint') }}
+            </p>
+          </div>
+          <div class="shrink-0">
+            <toggleButton
+              @click="
+                settingsStore.stellarium.skySurveyVisible =
+                  settingsStore.stellarium.skySurveyVisible === false
+              "
+              :status-value="settingsStore.stellarium.skySurveyVisible !== false"
+            />
+          </div>
+        </div>
+
+        <div
           v-if="settingsStore.stellarium.landscapesVisible"
           class="w-full border border-gray-500 p-2 rounded-lg col-span-full"
         >
@@ -576,6 +599,7 @@ watch(
     settingsStore.stellarium.atmosphereVisible,
     settingsStore.stellarium.landscapesVisible,
     settingsStore.stellarium.hideBelowHorizon,
+    settingsStore.stellarium.skySurveyVisible,
     settingsStore.stellarium.dsosVisible,
   ],
   () => {

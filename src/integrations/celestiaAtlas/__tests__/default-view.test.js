@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { readFile } from 'node:fs/promises';
+import { readdir, readFile } from 'node:fs/promises';
 
 test('loads Celestia Atlas by default and keeps Stellarium behind an explicit rollback flag', async () => {
   const app = await readFile(new URL('../../../App.vue', import.meta.url), 'utf8');
@@ -49,6 +49,47 @@ test('connects the existing display settings through the host-managed Atlas adap
   assert.ok(
     viewerCreation >= 0 && viewerCreation < horizontalMode && horizontalMode < savedViewRestore
   );
+});
+
+test('persists the default-on photographic survey without making offline Atlas use depend on it', async () => {
+  const [view, settings, settingsStore] = await Promise.all([
+    readFile(new URL('../../../views/CelestiaAtlasView.vue', import.meta.url), 'utf8'),
+    readFile(
+      new URL('../../../components/stellarium/stellariumSettings.vue', import.meta.url),
+      'utf8'
+    ),
+    readFile(new URL('../../../store/settingsStore.js', import.meta.url), 'utf8'),
+  ]);
+
+  assert.match(settingsStore, /skySurveyVisible: true/);
+  assert.match(view, /skySurvey: settingsStore\.stellarium\.skySurveyVisible !== false/);
+  assert.match(view, /settingsStore\.stellarium\.skySurveyVisible/);
+  assert.match(settings, /sky_survey_visible/);
+  assert.match(settings, /sky_survey_hint/);
+  assert.match(settings, /settingsStore\.stellarium\.skySurveyVisible !== false/);
+  assert.match(view, /:deep\(\.celestia-atlas-survey-credit\)/);
+  assert.match(view, /top: calc\(4\.5rem \+ env\(safe-area-inset-top, 0px\)\)/);
+  assert.match(view, /bottom: auto !important/);
+  assert.match(view, /max-width:[^;]+!important/);
+
+  const localeDirectory = new URL('../../../locales/', import.meta.url);
+  const localeFiles = (await readdir(localeDirectory)).filter((name) => name.endsWith('.json'));
+  assert.ok(localeFiles.length > 1);
+  for (const localeFile of localeFiles) {
+    const locale = JSON.parse(await readFile(new URL(localeFile, localeDirectory), 'utf8'));
+    const messages = locale.components.stellarium.settings;
+    assert.ok(messages.sky_survey_visible?.trim(), `${localeFile} is missing the survey label`);
+    assert.ok(messages.sky_survey_hint?.trim(), `${localeFile} is missing the survey hint`);
+  }
+
+  const english = JSON.parse(await readFile(new URL('en.json', localeDirectory), 'utf8'));
+  const hint = english.components.stellarium.settings.sky_survey_hint;
+  assert.match(hint, /on demand/i);
+  assert.match(hint, /recently viewed/i);
+  assert.match(hint, /cached offline/i);
+  assert.match(hint, /unseen fields/i);
+  assert.match(hint, /local atlas/i);
+  assert.match(hint, /offline/i);
 });
 
 test('defers Atlas resources until first open and guards late async initialization', async () => {

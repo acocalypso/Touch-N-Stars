@@ -1750,6 +1750,8 @@
         "atmosphere_visible": "大気を表示",
         "landscapes_visible": "風景を表示",
         "hide_below_horizon": "地平線下の天体を非表示",
+        "sky_survey_visible": "写真による全天サーベイ",
+        "sky_survey_hint": "オンライン時に実写の空画像を必要に応じて読み込みます。最近見た領域はオフライン用にキャッシュされ、未表示の領域はローカルのアトラスを使います。",
         "dsos_visible": "ディープスカイ天体 (メシエ, NGC)",
         "brightness_filters": "明るさフィルター",
         "magnitude_limit_hint": "値を小さくすると明るい天体だけを表示し、大きくすると暗い天体も表示します。",

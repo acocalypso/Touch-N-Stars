@@ -1742,6 +1742,8 @@
         "atmosphere_visible": "Pokaż atmosferę",
         "landscapes_visible": "Pokaż krajobrazy",
         "hide_below_horizon": "Ukryj obiekty poniżej horyzontu",
+        "sky_survey_visible": "Fotograficzny przegląd nieba",
+        "sky_survey_hint": "Online pobiera na żądanie prawdziwe obrazy nieba. Ostatnio oglądane pola pozostają w pamięci podręcznej offline; niewidziane pola używają lokalnego atlasu.",
         "dsos_visible": "Obiekty Deep Sky (Messier, NGC)",
         "brightness_filters": "Filtry jasności",
         "magnitude_limit_hint": "Niższe wartości pokazują tylko jaśniejsze obiekty; wyższe obejmują także słabsze obiekty.",

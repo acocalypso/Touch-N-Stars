@@ -1742,6 +1742,8 @@
         "atmosphere_visible": "显示大气层",
         "landscapes_visible": "显示地平线",
         "hide_below_horizon": "隐藏地平线以下的天体",
+        "sky_survey_visible": "实拍巡天图像",
+        "sky_survey_hint": "联网时按需加载真实天空图像。最近查看的天区会缓存供离线使用；未查看的天区则回退到本地星图。",
         "dsos_visible": "深空天体 (梅西耶, NGC)",
         "brightness_filters": "亮度筛选",
         "magnitude_limit_hint": "较低数值仅显示较亮天体；较高数值也显示较暗天体。",

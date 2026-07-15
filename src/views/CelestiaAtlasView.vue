@@ -309,6 +309,7 @@ function updateDisplayOptions() {
     ecliptic: Boolean(settingsStore.stellarium.eclipticLinesVisible),
     atmosphere: Boolean(settingsStore.stellarium.atmosphereVisible),
     milkyWay: true,
+    skySurvey: settingsStore.stellarium.skySurveyVisible !== false,
     constellations: Boolean(settingsStore.stellarium.constellationsLinesVisible),
     labels: true,
     starMagnitudeLimit: normalizeAtlasMagnitudeLimit(
@@ -454,6 +455,7 @@ watch(
     settingsStore.stellarium.deepSkyMagnitudeLimit,
     settingsStore.stellarium.landscapesVisible,
     settingsStore.stellarium.hideBelowHorizon,
+    settingsStore.stellarium.skySurveyVisible,
   ],
   updateDisplayOptions
 );
@@ -537,6 +539,17 @@ onBeforeUnmount(() => {
   width: 100%;
   height: 100%;
   background: #03060d;
+}
+:deep(.celestia-atlas-survey-credit) {
+  z-index: 2 !important;
+  top: calc(4.5rem + env(safe-area-inset-top, 0px)) !important;
+  right: calc(0.75rem + env(safe-area-inset-right, 0px)) !important;
+  bottom: auto !important;
+  max-width: calc(
+    100% - 1.5rem - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px)
+  ) !important;
+  text-align: right;
+  white-space: normal;
 }
 .celestia-atlas-landscape {
   left: 8rem;

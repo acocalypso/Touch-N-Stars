@@ -1742,6 +1742,8 @@
         "atmosphere_visible": "Toon atmosfeer",
         "landscapes_visible": "Toon landschap",
         "hide_below_horizon": "Verberg objecten onder de horizon",
+        "sky_survey_visible": "Fotografische hemelkaart",
+        "sky_survey_hint": "Laadt online echte hemelbeelden op aanvraag. Recent bekeken velden blijven offline in de cache; ongeziene velden gebruiken de lokale atlas.",
         "dsos_visible": "Deep Sky-objecten (Messier, NGC)",
         "brightness_filters": "Helderheidsfilters",
         "magnitude_limit_hint": "Lagere waarden tonen alleen helderdere objecten; hogere waarden tonen ook zwakkere objecten.",

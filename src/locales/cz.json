@@ -1742,6 +1742,8 @@
         "atmosphere_visible": "Zobrazit atmosféru",
         "landscapes_visible": "Ukázat krajinu",
         "hide_below_horizon": "Skrýt objekty pod obzorem",
+        "sky_survey_visible": "Fotografický průzkum oblohy",
+        "sky_survey_hint": "Online načítá skutečné snímky oblohy podle potřeby. Nedávno zobrazená pole zůstávají offline v mezipaměti; dosud nezobrazená pole použijí místní atlas.",
         "dsos_visible": "Deep Sky Objekty (Messier, NGC)",
         "brightness_filters": "Filtry jasnosti",
         "magnitude_limit_hint": "Nižší hodnoty zobrazí jen jasnější objekty; vyšší zahrnou i slabší objekty.",

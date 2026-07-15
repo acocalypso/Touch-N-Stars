@@ -102,6 +102,7 @@ export const useSettingsStore = defineStore('settings', {
       atmosphereVisible: true,
       landscapesVisible: true,
       hideBelowHorizon: true,
+      skySurveyVisible: true,
       landscapeSourceMode: 'default',
       customLandscapeUrl: '',
       customLandscapeKey: 'custom',

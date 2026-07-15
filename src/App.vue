@@ -305,42 +305,19 @@
     </Modal>
 
     <!-- Settings Modal -->
-    <div
-      v-if="showSettingsModal"
-      class="fixed inset-0 z-top flex items-center justify-center bg-black/50"
+    <Modal
+      :show="showSettingsModal"
+      @close="showSettingsModal = false"
+      maxWidth="max-w-4xl"
+      zIndex="z-top"
     >
-      <div
-        class="bg-gray-900 rounded-lg w-full h-full sm:w-auto sm:h-auto sm:max-w-4xl sm:max-h-[90vh] overflow-y-auto mx-0 sm:mx-4 scrollbar-hide"
-      >
-        <div
-          class="sticky top-0 z-10 bg-gray-900 p-4 border-b border-gray-700 flex justify-between items-center"
-        >
-          <h2 class="text-xl font-bold text-white">{{ $t('components.settings.title') }}</h2>
-          <button
-            @click="showSettingsModal = false"
-            class="p-2 text-gray-400 hover:text-white bg-gray-800 rounded-full"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              class="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="2"
-                d="M6 18L18 6M6 6l12 12"
-              />
-            </svg>
-          </button>
-        </div>
-        <div class="p-4">
-          <SettingsComp />
-        </div>
-      </div>
-    </div>
+      <template #header>
+        <h2 class="text-xl font-bold text-white">{{ $t('components.settings.title') }}</h2>
+      </template>
+      <template #body>
+        <SettingsComp />
+      </template>
+    </Modal>
   </div>
 </template>
 

@@ -1925,10 +1925,6 @@ async function handleAnalyze() {
   const started = performance.now();
 
   try {
-    if (localStorage.getItem('USE_MOCK_API') === 'true') {
-      throw new Error(t('plugins.bahtifocus.errors.mockMode'));
-    }
-
     const metadata = buildBahtinovMetadata(parsed);
     const response = await submitBahtinovAnalysis(metadata, controller);
 

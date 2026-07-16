@@ -1534,6 +1534,7 @@
 
 <script setup>
 import { ref, computed, watch, onMounted, onUnmounted } from 'vue';
+import { usePolling } from '@/composables/usePolling';
 import { hmsToDegrees, dmsToDegrees, degreesToHMS, degreesToDMS } from '@/utils/utils';
 import { useI18n } from 'vue-i18n';
 import { useTenMicronStore } from '../store/tenMicronStore';
@@ -2212,8 +2213,6 @@ async function setHorizonLow() {
 }
 
 // ── lifecycle ─────────────────────────────────────────────────────────────────
-let pollTimer = null;
-
 async function initialLoad() {
   await fetchStatus();
   await loadBuilderStatus();
@@ -2222,10 +2221,9 @@ async function initialLoad() {
   await loadModelNames();
 }
 
-onMounted(() => {
-  initialLoad();
-  // Poll builder status while build is in progress, otherwise lighter polling
-  pollTimer = setInterval(async () => {
+// Poll builder status while build is in progress, otherwise lighter polling
+usePolling(
+  async () => {
     await fetchStatus();
     if (tmStore.buildInProgress) {
       await loadBuilderStatus();
@@ -2233,11 +2231,16 @@ onMounted(() => {
     if (tmStore.activeTab === 'mount' && tmStore.connected) {
       await fetchMountTime();
     }
-  }, 3000);
+  },
+  3000,
+  { immediate: false }
+);
+
+onMounted(() => {
+  initialLoad();
 });
 
 onUnmounted(() => {
-  if (pollTimer) clearInterval(pollTimer);
   scatterResizeObserver?.disconnect();
 });
 </script>

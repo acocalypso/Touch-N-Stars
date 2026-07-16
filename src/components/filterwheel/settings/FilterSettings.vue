@@ -45,8 +45,17 @@
       </h3>
       <pinsSetFilterWheelAlias />
       <pinsSetSpeed />
-      <pinsSetTurboMode />
-      <pinsSetAutorun />
+      <PinsSettingToggle
+        v-if="filterStore.filterwheelSettings?.HasTurboMode"
+        device="filter"
+        settingName="TurboMode"
+        labelKey="components.filterwheel.settings.TurboMode"
+      />
+      <PinsSettingToggle
+        device="filter"
+        settingName="Autorun"
+        labelKey="components.filterwheel.settings.Autorun"
+      />
       <pinsCalibrate />
     </div>
   </div>
@@ -61,8 +70,7 @@ import AddNewFilter from './AddNewFilter.vue';
 import RemoveFilter from './RemoveFilter.vue';
 import pinsSetFilterWheelAlias from './pinsSetFilterWheelAlias.vue';
 import pinsSetSpeed from './pinsSetSpeed.vue';
-import pinsSetTurboMode from './pinsSetTurboMode.vue';
-import pinsSetAutorun from './pinsSetAutorun.vue';
+import PinsSettingToggle from '@/components/helpers/settings/PinsSettingToggle.vue';
 import pinsCalibrate from './pinsCalibrate.vue';
 
 const store = apiStore();

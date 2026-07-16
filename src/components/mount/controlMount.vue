@@ -22,8 +22,18 @@
     <div class="grow ml-2 h-[1px] bg-gray-700"></div>
   </div>
   <div class="flex gap-x-2 mt-2">
-    <setReversePrimaryAxis class="flex-1" />
-    <setReverseSecondaryAxis class="flex-1" />
+    <ProfileToggle
+      class="flex-1"
+      labelKey="components.mount.settings.reverse_primary_axis"
+      settingKey="TelescopeSettings-PrimaryReversed"
+      :spread="false"
+    />
+    <ProfileToggle
+      class="flex-1"
+      labelKey="components.mount.settings.reverse_secondary_axis"
+      settingKey="TelescopeSettings-SecondaryReversed"
+      :spread="false"
+    />
   </div>
 
   <div class="flex mt-4 justify-center items-center">
@@ -45,6 +55,5 @@ import ButtonPark from '@/components/mount/ButtonPark.vue';
 import ButtonSlewStop from '@/components/mount//ButtonSlewStop.vue';
 import ButtonTrackingMode from '@/components/mount/ButtonTrackingMode.vue';
 import ButtonTrackingStop from '@/components/mount/ButtonTrackingStop.vue';
-import setReversePrimaryAxis from './settings/setReversePrimaryAxis.vue';
-import setReverseSecondaryAxis from './settings/setReverseSecondaryAxis.vue';
+import ProfileToggle from '@/components/helpers/settings/ProfileToggle.vue';
 </script>

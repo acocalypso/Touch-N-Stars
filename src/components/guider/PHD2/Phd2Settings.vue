@@ -137,9 +137,21 @@
         <h3 class="font-bold text-base text-cyan-400">
           {{ $t('components.guider.phd2.shared_prarmeters') }}
         </h3>
-        <Phd2ReverseDecAfterFlip />
-        <Phd2FastRecenter />
-        <Phd2MountGuideOutput />
+        <Phd2Toggle
+          labelKey="components.guider.phd2.reverseDecAfterFlip"
+          helpKey="components.guider.phd2.help.reverseDecAfterFlip"
+          field="phd2ReverseDecAfterFlip"
+        />
+        <Phd2Toggle
+          labelKey="components.guider.phd2.fastRecenter"
+          helpKey="components.guider.phd2.help.fastRecenter"
+          field="phd2FastRecenter"
+        />
+        <Phd2Toggle
+          labelKey="components.guider.phd2.mountGuideOutput"
+          helpKey="components.guider.phd2.help.mountGuideOutput"
+          field="phd2MountGuideOutput"
+        />
       </div>
 
       <!-- Guide Star Tracking -->
@@ -152,19 +164,27 @@
         <Phd2SearchRegion />
         <Phd2MinStarHFD />
         <Phd2MaxStarHFD />
-        <Phd2BeepForLostStar />
+        <Phd2Toggle labelKey="components.guider.phd2.beepForLostStar" field="phd2BeepForLostStar" />
 
         <!-- Star Mass Detection sub-group -->
         <div class="p-2 flex flex-col gap-2 bg-gray-900/40 rounded-md border border-gray-700/50">
           <h4 class="text-sm font-semibold text-gray-200">
             {{ $t('components.guider.phd2.starMassDetection') }}
           </h4>
-          <Phd2MassChangeEnabled />
+          <Phd2Toggle
+            labelKey="components.guider.phd2.massChangeEnabled"
+            helpKey="components.guider.phd2.help.massChangeEnabled"
+            field="phd2MassChangeEnabled"
+          />
           <Phd2MassChangeThreshold />
         </div>
 
         <Phd2MinStarSNR />
-        <Phd2UseMultipleStars />
+        <Phd2Toggle
+          labelKey="components.guider.phd2.useMultipleStars"
+          helpKey="components.guider.phd2.help.useMultipleStars"
+          field="phd2UseMultipleStars"
+        />
         <Phd2AutoSelectDownsample />
       </div>
 
@@ -177,7 +197,11 @@
         </h3>
         <Phd2CameraGain />
         <Phd2CameraBinning />
-        <Phd2SaturationByADU />
+        <Phd2Toggle
+          labelKey="components.guider.phd2.saturationByADU"
+          helpKey="components.guider.phd2.help.saturationByADU"
+          field="phd2SaturationByADU"
+        />
         <Phd2SaturationADUValue />
       </div>
 
@@ -191,8 +215,16 @@
         <Phd2FocalLength />
         <Phd2CalibrationStep />
         <Phd2RestoreCalibration />
-        <Phd2AssumeDecOrthogonal />
-        <Phd2UseDecCompensation />
+        <Phd2Toggle
+          labelKey="components.guider.phd2.assumeDecOrthogonal"
+          helpKey="components.guider.phd2.help.assumeDecOrthogonal"
+          field="phd2AssumeDecOrthogonal"
+        />
+        <Phd2Toggle
+          labelKey="components.guider.phd2.useDecCompensation"
+          helpKey="components.guider.phd2.help.useDecCompensation"
+          field="phd2UseDecCompensation"
+        />
       </div>
 
       <!-- Backlash Compensation -->
@@ -202,7 +234,13 @@
         <h3 class="font-bold text-base text-cyan-400">
           {{ $t('components.guider.phd2.backlash.title') }}
         </h3>
-        <Phd2BacklashEnabled />
+        <Phd2Toggle
+          labelKey="components.guider.phd2.backlash.enabled"
+          helpKey="components.guider.phd2.help.backlashEnabled"
+          field="phd2BacklashEnabled"
+          fetchAction="fetchPHD2BacklashComp"
+          loadingField="phd2BacklashLoading"
+        />
         <Phd2BacklashAmount />
         <Phd2BacklashMin />
         <Phd2BacklashMax />
@@ -227,7 +265,11 @@
           {{ $t('components.guider.phd2.dither') }}
         </h3>
         <Phd2DitherMode />
-        <Phd2DitherRaOnly />
+        <Phd2Toggle
+          labelKey="components.guider.phd2.ditherRaOnly"
+          helpKey="components.guider.phd2.help.ditherRaOnly"
+          field="phd2DitherRaOnly"
+        />
         <Phd2DitherScale />
       </div>
 
@@ -264,8 +306,7 @@ import PHD2Profil from '@/components/guider/PHD2/PHD2Profil.vue';
 import toggleButton from '@/components/helpers/toggleButton.vue';
 import Phd2FocalLength from '@/components/guider/PHD2/pins/Phd2FocalLength.vue';
 import Phd2CalibrationStep from '@/components/guider/PHD2/pins/Phd2CalibrationStep.vue';
-import Phd2ReverseDecAfterFlip from '@/components/guider/PHD2/pins/Phd2ReverseDecAfterFlip.vue';
-import Phd2UseMultipleStars from '@/components/guider/PHD2/pins/Phd2UseMultipleStars.vue';
+import Phd2Toggle from '@/components/guider/PHD2/pins/Phd2Toggle.vue';
 import Phd2GuideAlgorithmRA from '@/components/guider/PHD2/pins/Phd2GuideAlgorithmRA.vue';
 import Phd2GuideAlgorithmDEC from '@/components/guider/PHD2/pins/Phd2GuideAlgorithmDEC.vue';
 import Phd2CameraGain from '@/components/guider/PHD2/pins/Phd2CameraGain.vue';
@@ -278,21 +319,12 @@ import Phd2MinStarHFD from '@/components/guider/PHD2/pins/Phd2MinStarHFD.vue';
 import Phd2MaxStarHFD from '@/components/guider/PHD2/pins/Phd2MaxStarHFD.vue';
 import Phd2MinStarSNR from '@/components/guider/PHD2/pins/Phd2MinStarSNR.vue';
 import Phd2AutoSelectDownsample from '@/components/guider/PHD2/pins/Phd2AutoSelectDownsample.vue';
-import Phd2MassChangeEnabled from '@/components/guider/PHD2/pins/Phd2MassChangeEnabled.vue';
 import Phd2MassChangeThreshold from '@/components/guider/PHD2/pins/Phd2MassChangeThreshold.vue';
-import Phd2BacklashEnabled from '@/components/guider/PHD2/pins/Phd2BacklashEnabled.vue';
 import Phd2BacklashAmount from '@/components/guider/PHD2/pins/Phd2BacklashAmount.vue';
 import Phd2BacklashMin from '@/components/guider/PHD2/pins/Phd2BacklashMin.vue';
 import Phd2BacklashMax from '@/components/guider/PHD2/pins/Phd2BacklashMax.vue';
-import Phd2SaturationByADU from '@/components/guider/PHD2/pins/Phd2SaturationByADU.vue';
 import Phd2SaturationADUValue from '@/components/guider/PHD2/pins/Phd2SaturationADUValue.vue';
-import Phd2BeepForLostStar from '@/components/guider/PHD2/pins/Phd2BeepForLostStar.vue';
-import Phd2AssumeDecOrthogonal from '@/components/guider/PHD2/pins/Phd2AssumeDecOrthogonal.vue';
-import Phd2UseDecCompensation from '@/components/guider/PHD2/pins/Phd2UseDecCompensation.vue';
-import Phd2FastRecenter from '@/components/guider/PHD2/pins/Phd2FastRecenter.vue';
-import Phd2MountGuideOutput from '@/components/guider/PHD2/pins/Phd2MountGuideOutput.vue';
 import Phd2DitherMode from '@/components/guider/PHD2/pins/Phd2DitherMode.vue';
-import Phd2DitherRaOnly from '@/components/guider/PHD2/pins/Phd2DitherRaOnly.vue';
 import Phd2DitherScale from '@/components/guider/PHD2/pins/Phd2DitherScale.vue';
 import { computed } from 'vue';
 import { apiStore } from '@/store/store';

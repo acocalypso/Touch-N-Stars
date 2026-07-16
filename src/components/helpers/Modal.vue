@@ -16,8 +16,8 @@
         ]"
         @click.stop
       >
-        <!-- Header -->
-        <div class="mb-4 border-b pb-2 flex justify-between items-center">
+        <!-- Header (relative + z-index so it paints above fixed descendants like SubNav) -->
+        <div class="relative z-20 mb-4 border-b pb-2 flex justify-between items-center">
           <slot name="header">
             <h2 class="text-xl font-bold">Standard Titel</h2>
           </slot>
@@ -47,8 +47,8 @@
           'min-w-[300px]',
         ]"
       >
-        <!-- Header -->
-        <div class="mb-4 border-b pb-2 flex justify-between items-center">
+        <!-- Header (relative + z-index so it paints above fixed descendants like SubNav) -->
+        <div class="relative z-20 mb-4 border-b pb-2 flex justify-between items-center">
           <slot name="header">
             <h2 class="text-xl font-bold">Standard Titel</h2>
           </slot>

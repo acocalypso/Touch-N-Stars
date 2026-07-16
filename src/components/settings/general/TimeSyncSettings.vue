@@ -91,7 +91,8 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref } from 'vue';
+import { usePolling } from '@/composables/usePolling';
 import { useI18n } from 'vue-i18n';
 import { apiStore } from '@/store/store';
 import { usePinsStore } from '@/plugins/pins/store/pinsStore';
@@ -103,9 +104,7 @@ import InfoModal from '@/components/helpers/infoModal.vue';
 import apiService from '@/services/apiService';
 import axios from 'axios';
 import { getDeviceDateTimePayload, parsePinsTimeToSeconds } from '@/utils/pinsTimeUtils';
-
-const PINS_PORT = 8000;
-const PINS_TOKEN = 'zZDqJ3IKeFaIZqG2JIFvsxzA5E48GC2gyGVagHFZqC0OMtgoupUDZCPhQDYKm35d';
+import { PINS_PORT, DEFAULT_PINS_DAEMON_API_TOKEN as PINS_TOKEN } from '@/services/pinsConfig';
 
 const { t } = useI18n();
 const store = apiStore();
@@ -266,18 +265,7 @@ const manualPinsTimeSync = async () => {
   }
 };
 
-let timeInfoInterval = null;
-
-onMounted(() => {
-  if (store.isBackendReachable) {
-    loadTimeInfo();
-  }
-  timeInfoInterval = setInterval(() => {
-    if (store.isBackendReachable) loadTimeInfo();
-  }, 1000);
-});
-
-onUnmounted(() => {
-  clearInterval(timeInfoInterval);
-});
+usePolling(() => {
+  if (store.isBackendReachable) loadTimeInfo();
+}, 1000);
 </script>

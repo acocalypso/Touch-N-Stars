@@ -150,7 +150,11 @@
         :options="['TRENDLINES', 'PARABOLIC', 'TRENDPARABOLIC', 'HYPERBOLIC', 'TRENDHYPERBOLIC']"
         translationPrefix="components.focuser.settings."
       />
-      <setAutoFocusDisableGuiding />
+      <ProfileToggle
+        class="border border-gray-500 p-1 rounded-lg"
+        labelKey="components.focuser.settings.AutoFocusDisableGuiding"
+        settingKey="FocuserSettings-AutoFocusDisableGuiding"
+      />
     </div>
     <!-- Device specific settings container -->
     <div
@@ -180,7 +184,7 @@
 import { apiStore } from '@/store/store';
 import SettingInput from '@/components/helpers/settings/UpdatePorfileNumber.vue';
 import SettingSelect from '@/components/helpers/settings/SettingProfilSelect.vue';
-import setAutoFocusDisableGuiding from './settings/setAutoFocusDisableGuiding.vue';
+import ProfileToggle from '@/components/helpers/settings/ProfileToggle.vue';
 import setFocuserUseFilterOffset from './settings/setFocuserUseFilterOffset.vue';
 import setFocuserMaxStep from './settings/setFocuserMaxStep.vue';
 import pinsSetMotorSpeedControl from './settingsPins/pinsSetMotorSpeedControl.vue';

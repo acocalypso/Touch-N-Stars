@@ -16,6 +16,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Celestia Atlas: Selected catalogue targets now expose aliases and the complete
   favorite, Framing Assistant, sequence-target, slew/center/rotate and mount-sync
   workflow through the existing Touch-N-Stars action panel
+- Celestia Atlas: Persist independent marker filters for 17 deep-sky object
+  types and nine offline catalogue sources, including separate Abell/ACO galaxy
+  cluster and Abell planetary-nebula controls
 
 ### Changed
 - Celestia Atlas: Defer engine/catalogue loading until first open, retain one

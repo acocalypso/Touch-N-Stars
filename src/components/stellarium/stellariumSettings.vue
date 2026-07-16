@@ -328,6 +328,13 @@
           </div>
         </div>
 
+        <AtlasCatalogFilters
+          v-if="rendererManaged"
+          :object-types="catalogObjectTypes"
+          :catalogue-groups="catalogueGroups"
+          :disabled="!settingsStore.stellarium.dsosVisible"
+        />
+
         <div
           v-if="rendererManaged"
           class="w-full border border-gray-500 p-3 rounded-lg col-span-full grid gap-3"
@@ -404,11 +411,20 @@ import { Cog6ToothIcon } from '@heroicons/vue/24/outline';
 import { useOrientation } from '@/composables/useOrientation';
 import Modal from '@/components/helpers/Modal.vue';
 import apiService from '@/services/apiService';
+import AtlasCatalogFilters from '@/components/stellarium/AtlasCatalogFilters.vue';
 
 const props = defineProps({
   rendererManaged: {
     type: Boolean,
     default: false,
+  },
+  catalogObjectTypes: {
+    type: Array,
+    default: () => [],
+  },
+  catalogueGroups: {
+    type: Array,
+    default: () => [],
   },
 });
 const { t } = useI18n();

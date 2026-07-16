@@ -23,7 +23,10 @@ test('connects the existing display settings through the host-managed Atlas adap
     readFile(new URL('../../../store/settingsStore.js', import.meta.url), 'utf8'),
   ]);
 
-  assert.match(view, /<stellariumSettings renderer-managed \/>/);
+  assert.match(
+    view,
+    /<stellariumSettings[\s\S]*renderer-managed[\s\S]*:catalog-object-types="catalogFacets\.objectTypes"[\s\S]*:catalogue-groups="catalogFacets\.catalogueGroups"/
+  );
   assert.match(settings, /rendererManaged/);
   assert.match(
     settings,
@@ -145,6 +148,82 @@ test('persists touch-sized brightness controls for all three Atlas categories', 
   const messages = JSON.parse(englishLocale).components.stellarium.settings;
   assert.equal(messages.magnitude_limit_auto, 'Auto');
   assert.match(messages.magnitude_limit_hint, /Lower values show only brighter objects/);
+});
+
+test('persists touch-sized Atlas type and catalogue filters without limiting offline search', async () => {
+  const [view, settingsView, filterView, facetView, settingsStore] = await Promise.all([
+    readFile(new URL('../../../views/CelestiaAtlasView.vue', import.meta.url), 'utf8'),
+    readFile(
+      new URL('../../../components/stellarium/stellariumSettings.vue', import.meta.url),
+      'utf8'
+    ),
+    readFile(
+      new URL('../../../components/stellarium/AtlasCatalogFilters.vue', import.meta.url),
+      'utf8'
+    ),
+    readFile(
+      new URL('../../../components/stellarium/AtlasFacetGroup.vue', import.meta.url),
+      'utf8'
+    ),
+    readFile(new URL('../../../store/settingsStore.js', import.meta.url), 'utf8'),
+  ]);
+
+  assert.match(settingsStore, /deepSkyObjectTypes: null/);
+  assert.match(settingsStore, /deepSkyCatalogueGroups: null/);
+  assert.match(settingsStore, /persist: true/);
+  assert.doesNotMatch(settingsStore, /settings-store/);
+  assert.match(view, /catalogFacets\.value = buildAtlasCatalogFacets\(catalog\)/);
+  assert.match(view, /synchronizeCatalogFilterSettings\(\)/);
+  assert.match(view, /deepSkyObjectTypes: normalizeAtlasFacetSelection/);
+  assert.match(view, /deepSkyCatalogueGroups: normalizeAtlasFacetSelection/);
+  assert.match(view, /settingsStore\.stellarium\.deepSkyObjectTypes/);
+  assert.match(view, /settingsStore\.stellarium\.deepSkyCatalogueGroups/);
+  assert.match(view, /searchResults\.value = viewer\?\.search\(searchQuery\.value\) \?\? \[\]/);
+  assert.match(settingsView, /<AtlasCatalogFilters[\s\S]*v-if="rendererManaged"/);
+  assert.match(settingsView, /:disabled="!settingsStore\.stellarium\.dsosVisible"/);
+  assert.match(filterView, /toggleAtlasFacetSelection/);
+  assert.match(filterView, /settingsStore\.stellarium\[setting\] = value/);
+  assert.match(facetView, /<details/);
+  assert.match(facetView, /type="checkbox"/);
+  assert.match(facetView, /:id="`atlas-\$\{kind\}-\$\{facet\.key\}`"/);
+  assert.match(facetView, /:name="`atlas-\$\{kind\}`"/);
+  assert.match(facetView, /data-filter-action="all"/);
+  assert.match(facetView, /data-filter-action="none"/);
+  assert.match(facetView, /:data-facet-key="facet\.key"/);
+  assert.ok((facetView.match(/min-h-11/g) ?? []).length >= 4);
+
+  const localeDirectory = new URL('../../../locales/', import.meta.url);
+  const localeFiles = (await readdir(localeDirectory)).filter((name) => name.endsWith('.json'));
+  const requiredKeys = [
+    'catalog_filters',
+    'catalog_filter_hint',
+    'catalog_filter_types',
+    'catalog_filter_sources',
+    'catalog_filter_selected',
+    'catalog_filter_all',
+    'catalog_filter_none',
+  ];
+  for (const localeFile of localeFiles) {
+    const locale = JSON.parse(await readFile(new URL(localeFile, localeDirectory), 'utf8'));
+    const messages = locale.components.stellarium.settings;
+    for (const key of requiredKeys) {
+      assert.ok(messages[key]?.trim(), `${localeFile} is missing ${key}`);
+    }
+    assert.deepEqual(
+      [...messages.catalog_filter_selected.matchAll(/\{([^}]+)\}/g)]
+        .map((match) => match[1])
+        .sort(),
+      ['selected', 'total'],
+      `${localeFile} has mismatched catalogue-filter placeholders`
+    );
+  }
+
+  const english = JSON.parse(await readFile(new URL('en.json', localeDirectory), 'utf8'));
+  assert.match(english.components.stellarium.settings.catalog_filter_hint, /offline search/i);
+  assert.match(
+    english.components.stellarium.settings.catalog_filter_hint,
+    /every catalogue object/i
+  );
 });
 
 test('routes every Atlas view-center action through the J2000 command boundary', async () => {

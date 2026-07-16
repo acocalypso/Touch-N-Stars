@@ -110,6 +110,8 @@ export const useSettingsStore = defineStore('settings', {
       starMagnitudeLimit: 6.5,
       galaxyMagnitudeLimit: 30,
       deepSkyMagnitudeLimit: 30,
+      deepSkyObjectTypes: null,
+      deepSkyCatalogueGroups: null,
     },
     guider: {
       phd2ForceCalibration: false,
@@ -555,37 +557,7 @@ export const useSettingsStore = defineStore('settings', {
       this.saveNavbarSettings();
     },
   },
-  persist: {
-    enabled: true,
-    strategies: [
-      {
-        key: 'settings-store',
-        storage: localStorage,
-        paths: [
-          'language',
-          'setupCompleted',
-          'connection',
-          'selectedInstanceId',
-          'lastCreatedInstanceId',
-          'monitorViewSetting',
-          'tutorial',
-          'showPlugins',
-          'keepAwakeEnabled',
-          'wifiBindingEnabled',
-          'livestack',
-          'useBetaFeatures',
-          'touchOptimized',
-          'camera',
-          'stellarium',
-          'monitorViewSetting.graphDataSource1',
-          'monitorViewSetting.graphDataSource2',
-          'livestack',
-          'tutorial.histogramVisited',
-          'tutorial.selectTargetVisited',
-          'tutorial.statusBarButtonsVisited',
-          'modalPositions',
-        ],
-      },
-    ],
-  },
+  // pinia-plugin-persistedstate 4.x uses the store id (`settings`) as the key.
+  // Keep the current whole-store behavior so existing installations hydrate without migration.
+  persist: true,
 });

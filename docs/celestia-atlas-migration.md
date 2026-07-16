@@ -293,6 +293,36 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
   unhandled exception; remaining messages were expected absent-NINA traffic and
   pre-existing form-field issues.
 
+### 2026-07-16 persisted catalogue-marker filters
+
+- Touch-N-Stars derives filter facets once from the exact 21,191-object offline
+  catalogue using the Atlas public type and catalogue-group classifiers. The
+  resulting renderer controls expose all 17 object types and nine catalogue
+  sources with real membership counts.
+- `deepSkyObjectTypes` and `deepSkyCatalogueGroups` are independent persisted
+  allowlists. `null` is the future-safe All state, `[]` is an intentional None,
+  and partial selections use trimmed lowercase keys. Malformed or stale-only
+  persisted values recover to All instead of hiding the catalogue.
+- The catalogue controls mount only for the renderer-managed Atlas path. Native
+  collapsed disclosure groups, checkboxes and 44-pixel All/None actions keep
+  the 17- and nine-item lists usable in the existing mobile settings modal.
+  Abell/ACO galaxy clusters (`abell`) remain separate from A66 planetary
+  nebulae (`abell-pn`). Turning off the global DSO layer disables, but does not
+  discard, these selections.
+- Type/source filters affect visible DSO markers and hit targets. Offline search
+  intentionally remains complete, and an already selected target remains
+  visible so its action panel does not disappear underneath the user.
+- Production validation showed 17/17 and 9/9 facets, persisted an LDN-only
+  selection in the real `settings` local-storage record, restored it as 1/9
+  after reload, and canonicalized malformed and obsolete saved values back to
+  All. At 390x844/DPR 3, both lists scrolled to their final entry; summaries,
+  rows and All/None actions measured 44 CSS pixels and passed center-point hit
+  testing. After the preview origin stopped, the already-loaded filtered Atlas
+  still returned `LDN 1235` from its offline search index. Console inspection
+  found only expected absent-NINA/origin network traffic and the pre-existing
+  form-label issues, with no Atlas/Vue exception, invalid-prop warning,
+  `ReferenceError`, `TypeError` or unhandled failure.
+
 ## 9. Feature-parity matrix
 
 | Capability               | Existing                                        | New engine                                                                                                   | Status                                                               |
@@ -301,6 +331,7 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 | Observer and UTC         | Supported                                       | Validated setters, synchronized host time and cached EQJ/ICRS observed frame                                 | Web reference fixtures passed; native pending                        |
 | Offline catalogue search | Stellarium packaged data                        | Lazy 21,191-object layered DSO catalogue, 8,910 stars and moving objects                                      | Host and production-browser search passed; native validation pending |
 | Brightness filters       | Shared display density                          | Independent persisted star, galaxy-family and other-DSO limiting magnitudes                                  | Standalone and host web passed                                       |
+| Catalogue marker filters | Shared display density                          | Independent persisted 17-type and nine-source allowlists with All/None and stale-state recovery              | Host and production mobile web passed                                |
 | Framing selection        | Supported                                       | Shared selected-object actions and explicit ICRS/J2000-to-NINA-J2000 command boundary                        | Connected; full action parity, provenance and conversion tested      |
 | Mount/FOV/rotation       | Supported                                       | Profile-derived physical camera geometry, celestial-north frame, marker/follow, mosaic and rotation controls | Production web passed; native test pending                           |
 | Horizon/landscape        | Supported                                       | Default-on persisted horizon mask; seam-correct, bilinear and DPR-aware order-0 HiPS/HEALPix imagery         | Standalone and host production browsers passed; native tests pending |
@@ -309,6 +340,13 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 
 ## 10. Test results
 
+- Catalogue-filter integration validation on 2026-07-16 passed all 71 host
+  tests. Real package fixtures prove the exact 17 type and nine source facets,
+  LDN/type membership and the distinct Abell cluster/A66 planetary-nebula
+  namespaces. Scoped ESLint, formatting, locale JSON parsing, the 6 GB Vue
+  typecheck and production build passed. The production browser verified
+  persisted reload, invalid-state recovery and touch reachability as described
+  above.
 - Selected-target integration validation on 2026-07-16 passed all 66 host tests,
   including exact M31 ICRS-to-J2000 values, alias normalization, invalid-frame
   clearing, provenance retention and renderer-neutral action-panel wiring.

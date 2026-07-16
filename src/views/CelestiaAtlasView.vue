@@ -46,7 +46,11 @@
       default-target-name="Celestia Atlas view"
     />
     <div v-if="ready" class="celestia-atlas-controls">
-      <stellariumSettings renderer-managed />
+      <stellariumSettings
+        renderer-managed
+        :catalog-object-types="catalogFacets.objectTypes"
+        :catalogue-groups="catalogFacets.catalogueGroups"
+      />
     </div>
     <div v-if="ready" class="celestia-atlas-clock">
       <div class="flex gap-2">
@@ -123,6 +127,10 @@ import {
 } from '@/integrations/celestiaAtlas/contracts';
 import { atlasSelectionToCommandModel } from '@/integrations/celestiaAtlas/selectionModel';
 import { buildEmbeddedAtlasCatalog } from '@/integrations/celestiaAtlas/catalogLayers';
+import {
+  buildAtlasCatalogFacets,
+  normalizeAtlasFacetSelection,
+} from '@/integrations/celestiaAtlas/catalogFilters';
 import { normalizeAtlasMagnitudeLimit } from '@/integrations/celestiaAtlas/magnitudeFilters';
 import { timeSync } from '@/utils/timeSync';
 import { useHorizonStore } from '@/plugins/horizon-creator/store/horizonStore';
@@ -146,6 +154,7 @@ const landscapeErrorMessage = ref('');
 const searchQuery = ref('');
 const searchResults = ref([]);
 const selectedTarget = ref(null);
+const catalogFacets = ref({ objectTypes: [], catalogueGroups: [] });
 const mountFollow = ref(false);
 const clockPaused = ref(false);
 const clockLabel = ref('');
@@ -320,10 +329,33 @@ function updateDisplayOptions() {
       settingsStore.stellarium.deepSkyMagnitudeLimit,
       30
     ),
+    deepSkyObjectTypes: normalizeAtlasFacetSelection(
+      settingsStore.stellarium.deepSkyObjectTypes,
+      catalogFacets.value.objectTypes
+    ),
+    deepSkyCatalogueGroups: normalizeAtlasFacetSelection(
+      settingsStore.stellarium.deepSkyCatalogueGroups,
+      catalogFacets.value.catalogueGroups
+    ),
     deepSkyObjects: Boolean(settingsStore.stellarium.dsosVisible),
     horizon: Boolean(settingsStore.stellarium.landscapesVisible),
     hideBelowHorizon: settingsStore.stellarium.hideBelowHorizon !== false,
   });
+}
+
+function synchronizeCatalogFilterSettings() {
+  const mappings = [
+    ['deepSkyObjectTypes', catalogFacets.value.objectTypes],
+    ['deepSkyCatalogueGroups', catalogFacets.value.catalogueGroups],
+  ];
+
+  for (const [setting, facets] of mappings) {
+    const current = settingsStore.stellarium[setting];
+    const normalized = normalizeAtlasFacetSelection(current, facets);
+    if (JSON.stringify(current) !== JSON.stringify(normalized)) {
+      settingsStore.stellarium[setting] = normalized;
+    }
+  }
 }
 
 function updateHorizon() {
@@ -442,6 +474,8 @@ watch(
     settingsStore.stellarium.starMagnitudeLimit,
     settingsStore.stellarium.galaxyMagnitudeLimit,
     settingsStore.stellarium.deepSkyMagnitudeLimit,
+    settingsStore.stellarium.deepSkyObjectTypes,
+    settingsStore.stellarium.deepSkyCatalogueGroups,
     settingsStore.stellarium.landscapesVisible,
     settingsStore.stellarium.hideBelowHorizon,
     settingsStore.stellarium.skySurveyVisible,
@@ -480,6 +514,8 @@ onMounted(async () => {
       brightSky: brightSkyModule.default,
       hygStars: hygStarsModule.default,
     });
+    catalogFacets.value = buildAtlasCatalogFacets(catalog);
+    synchronizeCatalogFilterSettings();
     viewer = createCelestiaAtlasViewer({
       container: viewerContainer.value,
       observer: ninaObserverToAtlas(store.profileInfo.AstrometrySettings),

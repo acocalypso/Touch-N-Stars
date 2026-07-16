@@ -167,10 +167,15 @@
       <pinsSetMotorSpeedControl
         v-if="store.isPINS && focuserStore.focuserSettings?.HasMotorSpeedControl"
       />
-      <pinsSetBeepOnMove v-if="store.isPINS" />
-      <pinsSetBeepOnStartup v-if="store.isPINS" />
-      <pinsSetStallDetection v-if="store.isPINS" />
-      <pinsSetHeating v-if="store.isPINS" />
+      <template v-if="store.isPINS">
+        <PinsSettingToggle
+          v-for="setting in ['BeepOnMove', 'BeepOnStartup', 'StallDetection', 'Heating']"
+          :key="setting"
+          device="focuser"
+          :settingName="setting"
+          :labelKey="`components.focuser.settings.${setting}`"
+        />
+      </template>
       <pinsSetHeatingTemperature v-if="store.isPINS" />
       <pinsSetUSBCapacity v-if="store.isPINS" />
       <pinsSetFocuserAlias v-if="store.isPINS" />
@@ -188,10 +193,7 @@ import ProfileToggle from '@/components/helpers/settings/ProfileToggle.vue';
 import setFocuserUseFilterOffset from './settings/setFocuserUseFilterOffset.vue';
 import setFocuserMaxStep from './settings/setFocuserMaxStep.vue';
 import pinsSetMotorSpeedControl from './settingsPins/pinsSetMotorSpeedControl.vue';
-import pinsSetBeepOnMove from './settingsPins/pinsSetBeepOnMove.vue';
-import pinsSetBeepOnStartup from './settingsPins/pinsSetBeepOnStartup.vue';
-import pinsSetStallDetection from './settingsPins/pinsSetStallDetection.vue';
-import pinsSetHeating from './settingsPins/pinsSetHeating.vue';
+import PinsSettingToggle from '@/components/helpers/settings/PinsSettingToggle.vue';
 import pinsSetHeatingTemperature from './settingsPins/pinsSetHeatingTemperature.vue';
 import pinsSetUSBCapacity from './settingsPins/pinsSetUSBCapacity.vue';
 import pinsSetFocuserAlias from './settingsPins/pinsSetFocuserAlias.vue';

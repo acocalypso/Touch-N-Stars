@@ -377,15 +377,8 @@ export const apiStore = defineStore('store', {
           if (isStale()) return;
         }
 
-        // Check if mock API mode is enabled
-        const useMockApi = localStorage.getItem('USE_MOCK_API') === 'true';
-
         // Automatisch Channel WebSocket verbinden wenn Backend erreichbar ist
-        if (useMockApi) {
-          // In mock mode, skip WebSocket connection
-          console.log('[MOCK MODE] Skipping WebSocket connection');
-          this.isWebSocketConnected = true;
-        } else if (!websocketChannelService.isWebSocketConnected()) {
+        if (!websocketChannelService.isWebSocketConnected()) {
           // Setup message callback for IMAGE-PREPARED handling
           websocketChannelService.setMessageCallback((message) => {
             this.handleWebSocketMessage(message);
@@ -428,7 +421,7 @@ export const apiStore = defineStore('store', {
         }
 
         // Connect SignalR Notification Service
-        if (!useMockApi && this.isPINS && !signalRNotificationService.isSignalRConnected()) {
+        if (this.isPINS && !signalRNotificationService.isSignalRConnected()) {
           // Setup callbacks for SignalR Notifications
           signalRNotificationService.setStatusCallback((status) => {
             console.log('[API Store] SignalR Status:', status);

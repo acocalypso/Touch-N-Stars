@@ -66,6 +66,16 @@ export default defineConfig({
         codeSplitting: {
           groups: [
             {
+              name: 'celestia-catalog-supplement',
+              test: /node_modules[\/]@acocalypso[\/]celestia-atlas[\/]data[\/](?:stellarium-dso-supplement|abell-pn-catalog)\.json/,
+              priority: 54,
+            },
+            {
+              name: 'celestia-star-catalog',
+              test: /node_modules[\/]@acocalypso[\/]celestia-atlas[\/]data[\/]hyg-star-catalog\.json/,
+              priority: 53,
+            },
+            {
               name: 'celestia-catalog',
               test: /node_modules[\/]@acocalypso[\/]celestia-atlas[\/]data[\/]openngc-viewer-catalog\.json/,
               priority: 52,

@@ -52,8 +52,12 @@ The application aims to make controlling and adjusting already configured profil
 ### 💙 **Acknowledgements**  
 - Special thanks go to the entire **NINA** development team, whose excellent work enabled the creation of this web app.  
 - A special thank you to **Christian**, the developer of the **Advanced API**, for his efforts and support. His work has significantly enabled the development of this web app.
-- [Celestia Atlas](https://github.com/acocalypso/celestia_atlas), the default offline sky renderer, licensed under GPL-3.0-or-later
+- [Celestia Atlas](https://github.com/acocalypso/celestia_atlas), the default offline sky renderer, licensed under MIT
 - OpenNGC catalogue data by Mattia Verga and contributors, licensed under CC-BY-SA-4.0
+- Stellarium v26.2 deep-sky catalogue cross-index data, used for the bundled Abell/ACO, Barnard, LBN, LDN, RCW, Sharpless 2 and vdB supplement, licensed under GPL-2.0-or-later
+- HYG Database v4.1 by David Nash/Astronomy Nexus, used for the bundled HYG star layer, licensed under CC-BY-SA-4.0
+- SIMBAD A66/Abell planetary-nebula catalogue data, licensed under ODbL-1.0. This research has made use of the SIMBAD database, operated at CDS, Strasbourg, France.
+- Detailed source, transformation and redistribution notices are retained in the pinned [Celestia Atlas third-party notices](https://github.com/acocalypso/celestia_atlas/blob/8d79f5740621db9757a2b1b85b1fc1d6d005a6fe/THIRD_PARTY_NOTICES.md)
 - [Stellarium Web Engine](https://github.com/Stellarium/stellarium-web-engine) by the Stellarium Team, licensed under AGPL-3.0 (rollback-only migration path)
 
 ### 🔍 Further information

@@ -103,15 +103,23 @@ test('defers Atlas resources until first open and guards late async initializati
   assert.match(app, /const skyAtlasMounted = ref\(Boolean\(store\.showStellarium\)\)/);
   assert.match(app, /if \(visible\) skyAtlasMounted\.value = true/);
   assert.match(view, /void store\.fetchProfilInfos\(\)\.catch/);
-  assert.match(view, /Promise\.all\(\[[\s\S]*viewer-catalog-data[\s\S]*bright-sky-data/);
-  assert.match(view, /const catalog = catalogModule\.default\.objects/);
+  assert.match(
+    view,
+    /Promise\.all\(\[[\s\S]*viewer-catalog-data[\s\S]*abell-pn-data[\s\S]*stellarium-supplement-data[\s\S]*bright-sky-data[\s\S]*hyg-star-data/
+  );
+  assert.match(view, /buildEmbeddedAtlasCatalog/);
+  assert.match(view, /const \{ catalog, stars, constellations \}/);
   assert.doesNotMatch(view, /object\.ra \* 15/);
   assert.match(view, /if \(disposed\) return;[\s\S]*createCelestiaAtlasViewer/);
   assert.match(view, /onBeforeUnmount\(\(\) => \{[\s\S]*disposed = true[\s\S]*viewer\?\.destroy/);
 
+  const supplementGroup = vite.indexOf("name: 'celestia-catalog-supplement'");
+  const starCatalogGroup = vite.indexOf("name: 'celestia-star-catalog'");
   const catalogGroup = vite.indexOf("name: 'celestia-catalog'");
   const engineGroup = vite.indexOf("name: 'celestia-engine'");
   const catchAllVendor = vite.indexOf("name: 'vendor'");
+  assert.ok(supplementGroup > 0 && supplementGroup < catalogGroup);
+  assert.ok(starCatalogGroup > supplementGroup && starCatalogGroup < catalogGroup);
   assert.ok(catalogGroup > 0 && catalogGroup < catchAllVendor);
   assert.ok(engineGroup > catalogGroup && engineGroup < catchAllVendor);
 });

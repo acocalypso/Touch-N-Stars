@@ -127,6 +127,7 @@ import {
   ninaObserverToAtlas,
   toNinaJ2000Coordinates,
 } from '@/integrations/celestiaAtlas/contracts';
+import { buildEmbeddedAtlasCatalog } from '@/integrations/celestiaAtlas/catalogLayers';
 import { normalizeAtlasMagnitudeLimit } from '@/integrations/celestiaAtlas/magnitudeFilters';
 import { timeSync } from '@/utils/timeSync';
 import { degreesToDMS, degreesToHMS } from '@/utils/utils';
@@ -470,19 +471,34 @@ onMounted(async () => {
         if (!disposed) viewer?.setTime(timeSync.getServerTime());
       })
       .catch(() => {});
-    const [catalogModule, brightSkyModule] = await Promise.all([
+    const [
+      openNgcModule,
+      abellPlanetaryNebulaeModule,
+      stellariumSupplementModule,
+      brightSkyModule,
+      hygStarsModule,
+    ] = await Promise.all([
       import('@acocalypso/celestia-atlas/viewer-catalog-data'),
+      import('@acocalypso/celestia-atlas/abell-pn-data'),
+      import('@acocalypso/celestia-atlas/stellarium-supplement-data'),
       import('@acocalypso/celestia-atlas/bright-sky-data'),
+      import('@acocalypso/celestia-atlas/hyg-star-data'),
     ]);
     if (disposed) return;
-    const catalog = catalogModule.default.objects;
+    const { catalog, stars, constellations } = buildEmbeddedAtlasCatalog({
+      openNgc: openNgcModule.default,
+      abellPlanetaryNebulae: abellPlanetaryNebulaeModule.default,
+      stellariumSupplement: stellariumSupplementModule.default,
+      brightSky: brightSkyModule.default,
+      hygStars: hygStarsModule.default,
+    });
     viewer = createCelestiaAtlasViewer({
       container: viewerContainer.value,
       observer: ninaObserverToAtlas(store.profileInfo.AstrometrySettings),
       utcMs: timeSync.getServerTime(),
       catalog,
-      stars: brightSkyModule.default.stars,
-      constellations: brightSkyModule.default.constellations,
+      stars,
+      constellations,
       onSelect: (target) => {
         selectedTarget.value = target;
       },

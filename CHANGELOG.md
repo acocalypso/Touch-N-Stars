@@ -10,11 +10,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Celestia Atlas: Independent persisted limiting-magnitude controls for stars,
   galaxies and other deep-sky objects; lower values keep only brighter objects
   and Auto preserves adaptive field-of-view filtering
+- Celestia Atlas: Search and render 8,658 supplemental Abell/ACO, Barnard, LBN,
+  LDN, RCW, Sharpless 2 and vdB objects, 86 SIMBAD A66 planetary nebulae and
+  8,780 HYG stars from package-local data without requiring a network
 
 ### Changed
 - Celestia Atlas: Defer engine/catalogue loading until first open, retain one
-  paused warm viewer after that, use the compact degree-based OpenNGC payload,
-  and reduce mobile panorama, search, FOV sampling and lifecycle work
+  paused warm viewer after that, split the compact OpenNGC, supplemental DSO,
+  Abell planetary-nebula, HYG and curated bright-sky payloads into first-open
+  chunks, and reduce mobile panorama, search, FOV sampling and lifecycle work
 - Build: Pin TypeScript 6.0.3 because the current `vue-tsc` wrapper cannot load
   the TypeScript 7 compiler export; lint, typecheck and production build pass
 

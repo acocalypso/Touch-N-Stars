@@ -156,7 +156,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, onBeforeUnmount } from 'vue';
 import { ArrowPathIcon, LinkIcon, LinkSlashIcon } from '@heroicons/vue/24/outline';
 import { apiStore } from '@/store/store';
 import apiService from '@/services/apiService';
@@ -317,12 +317,11 @@ function startStatusRefresh() {
 }
 
 // Cleanup on unmount
-onMounted(() => {
-  return () => {
-    if (statusRefreshTimer.value) {
-      clearInterval(statusRefreshTimer.value);
-    }
-  };
+onBeforeUnmount(() => {
+  if (statusRefreshTimer.value) {
+    clearInterval(statusRefreshTimer.value);
+    statusRefreshTimer.value = null;
+  }
 });
 </script>
 

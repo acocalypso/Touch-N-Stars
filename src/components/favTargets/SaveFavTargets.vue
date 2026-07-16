@@ -1,6 +1,8 @@
 <template>
   <div :class="{ 'w-full': showLabel }">
     <button
+      type="button"
+      :disabled="props.disabled"
       @click="showModal = true"
       class="default-button-cyan"
       :class="{ 'w-full gap-2': showLabel }"
@@ -10,28 +12,30 @@
     </button>
 
     <!-- Modal -->
-    <div v-if="showModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
-      <div
-        class="bg-gray-800 text-gray-300 p-4 m-8 rounded-lg max-w-xl max-h-[80vh] min-h-48 min-w-72 overflow-y-auto"
-      >
-        <h3 class="text-lg font-semibold mb-4">
-          {{ t('components.fav_target.enter_name') }}
-        </h3>
-        <input v-model="nameInput" type="text" class="w-full h-10 default-input" />
-        <p v-if="isMosaic" class="text-xs text-gray-400 mt-2">
-          {{ mosaicCols * mosaicRows }} {{ t('components.framing.mosaic.panels') }}
-          {{ t('components.framing.mosaic.willBeSaved') }}
-        </p>
-        <div class="flex justify-end mt-4 space-x-2">
-          <button @click="confirmSave" class="default-button-cyan">
-            {{ t('common.confirm') }}
-          </button>
-          <button @click="showModal = false" class="default-button-red">
-            {{ t('common.cancel') }}
-          </button>
+    <Teleport to="body">
+      <div v-if="showModal" class="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
+        <div
+          class="bg-gray-800 text-gray-300 p-4 m-8 rounded-lg max-w-xl max-h-[80vh] min-h-48 min-w-72 overflow-y-auto"
+        >
+          <h3 class="text-lg font-semibold mb-4">
+            {{ t('components.fav_target.enter_name') }}
+          </h3>
+          <input v-model="nameInput" type="text" class="w-full h-10 default-input" />
+          <p v-if="isMosaic" class="text-xs text-gray-400 mt-2">
+            {{ mosaicCols * mosaicRows }} {{ t('components.framing.mosaic.panels') }}
+            {{ t('components.framing.mosaic.willBeSaved') }}
+          </p>
+          <div class="flex justify-end mt-4 space-x-2">
+            <button type="button" @click="confirmSave" class="default-button-cyan">
+              {{ t('common.confirm') }}
+            </button>
+            <button type="button" @click="showModal = false" class="default-button-red">
+              {{ t('common.cancel') }}
+            </button>
+          </div>
         </div>
       </div>
-    </div>
+    </Teleport>
   </div>
 </template>
 
@@ -58,12 +62,17 @@ const props = defineProps({
   mosaicOverlap: { type: Number, default: null },
   mosaicPreserveAlignment: { type: Boolean, default: null },
   showLabel: { type: Boolean, default: false },
+  disabled: { type: Boolean, default: false },
 });
 
 const showModal = ref(false);
 const nameInput = ref(props.name);
 
-watch(showModal, (isOpen) => {
+watch([showModal, () => props.disabled], ([isOpen, isDisabled]) => {
+  if (isDisabled) {
+    showModal.value = false;
+    return;
+  }
   if (isOpen) nameInput.value = props.name;
 });
 

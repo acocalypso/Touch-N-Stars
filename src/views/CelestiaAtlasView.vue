@@ -84,21 +84,17 @@
         </button>
       </div>
     </div>
-    <section v-if="selectedTarget" class="celestia-atlas-selection">
-      <strong>{{ t('components.stellarium.selected_object.title') }}</strong>
-      <span>{{ selectedTarget.name }}</span>
-      <span
-        >{{ t('components.stellarium.selected_object.ra') }}:
-        {{ selectedTarget.coordinates.raDeg.toFixed(5) }}°</span
-      >
-      <span
-        >{{ t('components.stellarium.selected_object.dec') }}:
-        {{ selectedTarget.coordinates.decDeg.toFixed(5) }}°</span
-      >
-      <button class="default-button-cyan" type="button" @click="sendSelectionToFraming">
-        {{ t('components.stellarium.selected_object.button_framing') }}
-      </button>
-    </section>
+    <SelectedSkyObject
+      v-if="selectedObjectCommand"
+      :selected-object="selectedObjectCommand.names"
+      :selected-object-ra="selectedObjectCommand.raString"
+      :selected-object-dec="selectedObjectCommand.decString"
+      :selected-object-ra-deg="selectedObjectCommand.raDeg"
+      :selected-object-dec-deg="selectedObjectCommand.decDeg"
+      :command-target="selectedObjectCommand.commandTarget"
+      dismissible
+      @dismiss="hideSelectedTargetDetails"
+    />
     <div v-if="errorMessage" class="celestia-atlas-error" role="alert">
       {{ errorMessage }}
     </div>
@@ -115,35 +111,33 @@
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { calculateCameraFieldOfView, createCelestiaAtlasViewer } from '@acocalypso/celestia-atlas';
 import { useI18n } from 'vue-i18n';
-import { useRouter } from 'vue-router';
 import { useOrientation } from '@/composables/useOrientation';
 import { apiStore } from '@/store/store';
 import { useFramingStore } from '@/store/framingStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import {
   atlasSearchResultToTarget,
-  atlasSelectionToFraming,
   ninaMountToAtlas,
   ninaObserverToAtlas,
   toNinaJ2000Coordinates,
 } from '@/integrations/celestiaAtlas/contracts';
+import { atlasSelectionToCommandModel } from '@/integrations/celestiaAtlas/selectionModel';
 import { buildEmbeddedAtlasCatalog } from '@/integrations/celestiaAtlas/catalogLayers';
 import { normalizeAtlasMagnitudeLimit } from '@/integrations/celestiaAtlas/magnitudeFilters';
 import { timeSync } from '@/utils/timeSync';
-import { degreesToDMS, degreesToHMS } from '@/utils/utils';
 import { useHorizonStore } from '@/plugins/horizon-creator/store/horizonStore';
 import { interpolateHorizon } from '@/plugins/horizon-creator/utils/horizon-utils';
 import { isAppBackgrounded } from '@/utils/appLifecycle';
 import { resolveLandscapeSource } from '@/store/utils/stellariumLandscapeSource';
 import StellariumFovRotation from '@/components/stellarium/StellariumFovRotation.vue';
 import stellariumSettings from '@/components/stellarium/stellariumSettings.vue';
+import SelectedSkyObject from '@/components/stellarium/SelectedObject.vue';
 
 const store = apiStore();
 const framingStore = useFramingStore();
 const settingsStore = useSettingsStore();
 const horizonStore = useHorizonStore();
 const { t } = useI18n();
-const router = useRouter();
 const { isLandscape } = useOrientation();
 const viewerContainer = ref(null);
 const ready = ref(false);
@@ -178,6 +172,7 @@ const showFovControls = computed(
     Boolean(store.cameraInfo.Connected) &&
     Boolean(store.profileInfo?.TelescopeSettings?.FocalLength)
 );
+const selectedObjectCommand = computed(() => atlasSelectionToCommandModel(selectedTarget.value));
 
 function getAtlasViewCenter() {
   const center = viewer?.getView().center;
@@ -385,15 +380,8 @@ function selectSearchResult(result) {
   viewer.select(target);
 }
 
-function sendSelectionToFraming() {
-  const target = atlasSelectionToFraming(selectedTarget.value);
-  framingStore.RAangle = target.RA;
-  framingStore.DECangle = target.Dec;
-  framingStore.RAangleString = degreesToHMS(target.RA);
-  framingStore.DECangleString = degreesToDMS(target.Dec);
-  framingStore.selectedItem = target;
-  store.mount.currentTab = 'showSlew';
-  router.push('/mount');
+function hideSelectedTargetDetails() {
+  selectedTarget.value = null;
 }
 
 function updateVisibility() {
@@ -612,20 +600,6 @@ onBeforeUnmount(() => {
 .celestia-atlas-results {
   max-height: 20rem;
   overflow-y: auto;
-}
-.celestia-atlas-selection {
-  position: absolute;
-  z-index: 3;
-  right: calc(1rem + env(safe-area-inset-right, 0px));
-  bottom: 6.5rem;
-  display: grid;
-  gap: 0.4rem;
-  width: min(22rem, calc(100% - 2rem));
-  padding: 0.8rem;
-  color: white;
-  background: rgb(17 24 39 / 92%);
-  border: 1px solid rgb(8 145 178);
-  border-radius: 0.75rem;
 }
 .celestia-atlas-controls {
   position: absolute;

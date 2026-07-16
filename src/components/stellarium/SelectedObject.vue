@@ -2,21 +2,36 @@
   <div
     v-if="selectedObject"
     :class="containerClasses"
+    :aria-busy="!buttonsEnabled"
     class="absolute bg-black/90 backdrop-blur-sm text-gray-300 p-4 rounded-lg shadow-lg border border-gray-600 z-50"
   >
     <!-- Overlay mit Spinner um eine versehntliches drücken der Button zu verhindern -->
     <div
       v-if="!buttonsEnabled"
       class="absolute inset-0 z-50 bg-black/50 flex items-center justify-center rounded-lg"
+      role="status"
     >
       <span class="spinner"></span>
+      <span class="sr-only">{{ $t('common.loading') }}</span>
     </div>
 
     <!-- Scrollable Content -->
     <div :class="contentClasses" class="overflow-y-auto">
-      <h3 class="text-lg font-semibold">
-        {{ $t('components.stellarium.selected_object.title') }}:
-      </h3>
+      <div class="flex items-start justify-between gap-3">
+        <h3 class="text-lg font-semibold">
+          {{ $t('components.stellarium.selected_object.title') }}:
+        </h3>
+        <button
+          v-if="dismissible"
+          class="flex h-11 w-11 shrink-0 items-center justify-center rounded text-gray-300 hover:bg-gray-700 hover:text-white"
+          type="button"
+          :aria-label="$t('common.close')"
+          :title="$t('common.close')"
+          @click="emit('dismiss')"
+        >
+          <XMarkIcon class="h-5 w-5" />
+        </button>
+      </div>
 
       <ul class="mt-2">
         <li v-for="(name, index) in selectedObject" :key="index" class="text-sm">
@@ -25,13 +40,16 @@
       </ul>
 
       <p class="mt-2 text-sm">
-        {{ $t('components.stellarium.selected_object.ra') }}: {{ selectedObjectRa }}
+        {{ $t('components.stellarium.selected_object.ra') }}: {{ selectedObjectRa || '—' }}
       </p>
       <p class="text-sm">
-        {{ $t('components.stellarium.selected_object.dec') }}: {{ selectedObjectDec }}
+        {{ $t('components.stellarium.selected_object.dec') }}: {{ selectedObjectDec || '—' }}
       </p>
 
-      <div class="flex flex-col gap-2 mt-2">
+      <fieldset
+        :disabled="!actionControlsEnabled"
+        class="flex min-w-0 flex-col gap-2 border-0 p-0 mt-2 disabled:opacity-50"
+      >
         <SaveFavTargets
           :name="selectedObject[0]"
           :ra="selectedObjectRaDeg"
@@ -39,6 +57,7 @@
           :ra-string="selectedObjectRa"
           :dec-string="selectedObjectDec"
           :show-label="true"
+          :disabled="!actionControlsEnabled"
         />
 
         <button class="default-button-cyan w-full" @click="openFramingModal">
@@ -63,17 +82,18 @@
           :decAngle="props.selectedObjectDecDeg"
           :disabled="!store.mountInfo.Connected || store.sequenceRunning"
         />
-      </div>
+      </fieldset>
       <div class="pb-10"></div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { apiStore } from '@/store/store';
 import { Capacitor } from '@capacitor/core';
+import { XMarkIcon } from '@heroicons/vue/24/outline';
 import ButtonSlewCenterRotate from '@/components/mount/ButtonSlewCenterRotate.vue';
 import SaveFavTargets from '@/components/favTargets/SaveFavTargets.vue';
 import ButtomSyncCoordinatesToMount from '@/components/mount/ButtomSyncCoordinatesToMount.vue';
@@ -86,44 +106,60 @@ const framingStore = useFramingStore();
 const router = useRouter();
 
 function openFramingModal() {
+  if (!hasValidCoordinates.value) return;
   framingStore.RAangle = props.selectedObjectRaDeg;
   framingStore.DECangle = props.selectedObjectDecDeg;
   framingStore.RAangleString = props.selectedObjectRa;
   framingStore.DECangleString = props.selectedObjectDec;
   framingStore.selectedItem = {
-    Name: props.selectedObject?.[0] ?? '',
+    ...(props.commandTarget ?? {}),
+    Name: props.commandTarget?.Name ?? props.selectedObject?.[0] ?? '',
     RA: props.selectedObjectRaDeg,
     Dec: props.selectedObjectDecDeg,
   };
   router.push('/framing');
 }
 const props = defineProps({
-  selectedObject: Object,
+  selectedObject: Array,
   selectedObjectRa: String,
   selectedObjectDec: String,
   selectedObjectRaDeg: Number,
   selectedObjectDecDeg: Number,
+  commandTarget: {
+    type: Object,
+    default: null,
+  },
+  dismissible: {
+    type: Boolean,
+    default: false,
+  },
 });
+const emit = defineEmits(['dismiss']);
 
 const buttonsEnabled = ref(false);
+let enableButtonsTimer = null;
+const hasValidCoordinates = computed(
+  () =>
+    Number.isFinite(props.selectedObjectRaDeg) &&
+    props.selectedObjectRaDeg >= 0 &&
+    props.selectedObjectRaDeg < 360 &&
+    Number.isFinite(props.selectedObjectDecDeg) &&
+    props.selectedObjectDecDeg >= -90 &&
+    props.selectedObjectDecDeg <= 90
+);
+const actionControlsEnabled = computed(() => buttonsEnabled.value && hasValidCoordinates.value);
 
 // Check if in landscape mode
 const { isLandscape } = useOrientation();
 
-// Container positioning classes - adjusted for left navigation
 const containerClasses = computed(() => ({
-  // Portrait mode - centered top
-  'top-28 left-1/2 transform -translate-x-1/2 min-w-[300px] max-w-[90vw]': !isLandscape.value,
-  // Landscape mode - positioned to avoid left navigation (changed from left-4 to left-28)
-  'top-4 left-28 w-80 max-w-[calc(100vw-8rem)]': isLandscape.value, // Changed from left-4 to left-28 (7rem) to avoid left navigation
+  'selected-object-portrait': !isLandscape.value,
+  'selected-object-landscape': isLandscape.value,
 }));
 
-// Content scrolling classes
 const contentClasses = computed(() => ({
-  // Portrait mode - account for status bar at bottom
-  'max-h-[calc(100vh-8rem)]': !isLandscape.value,
-  // Landscape mode - account for status bar and navigation
-  'max-h-[calc(100vh-8rem)]': isLandscape.value,
+  'selected-object-content-portrait': !isLandscape.value,
+  'selected-object-content-landscape': isLandscape.value,
 }));
 
 onMounted(() => {
@@ -133,9 +169,13 @@ onMounted(() => {
   // Use longer delay for iOS devices to ensure UI is fully rendered
   const delay = isIOS ? 800 : 500;
 
-  setTimeout(() => {
+  enableButtonsTimer = setTimeout(() => {
     buttonsEnabled.value = true;
   }, delay);
+});
+
+onBeforeUnmount(() => {
+  if (enableButtonsTimer !== null) clearTimeout(enableButtonsTimer);
 });
 </script>
 
@@ -176,26 +216,47 @@ onMounted(() => {
   background: rgba(156, 163, 175, 0.7);
 }
 
-/* Responsive adjustments */
-@media screen and (orientation: landscape) and (max-height: 600px) {
-  /* For very short landscape screens */
-  .max-h-\[calc\(100vh-6rem\)\] {
-    max-height: calc(100vh - 4rem) !important;
-  }
+.selected-object-portrait {
+  top: calc(7rem + env(safe-area-inset-top, 0px));
+  left: 50%;
+  width: min(
+    22rem,
+    calc(100% - 2rem - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px))
+  );
+  min-width: min(18.75rem, calc(100% - 2rem));
+  transform: translateX(-50%);
 }
 
-@media screen and (orientation: portrait) {
-  /* Adjust for portrait with status bar */
-  .max-h-\[calc\(100vh-8rem\)\] {
-    max-height: calc(100vh - 10rem) !important;
-  }
+.selected-object-landscape {
+  top: calc(1rem + env(safe-area-inset-top, 0px));
+  left: calc(1rem + env(safe-area-inset-left, 0px));
+  width: min(
+    20rem,
+    calc(100% - 2rem - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px))
+  );
 }
 
-/* Additional media query for left navigation avoidance */
+.selected-object-content-portrait {
+  max-height: calc(
+    100dvh - 11rem - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)
+  );
+}
+
+.selected-object-content-landscape {
+  max-height: calc(
+    100dvh - 5rem - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)
+  );
+}
+
 @media screen and (orientation: landscape) and (max-width: 1024px) {
-  /* Tablet landscape - adjust for wider navigation */
-  .left-28 {
-    left: 9rem !important; /* Account for 8rem navigation + 1rem gap */
+  .selected-object-landscape {
+    top: calc(4.5rem + env(safe-area-inset-top, 0px));
+  }
+
+  .selected-object-content-landscape {
+    max-height: calc(
+      100dvh - 8rem - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)
+    );
   }
 }
 </style>

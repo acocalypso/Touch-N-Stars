@@ -87,6 +87,7 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 - Phase 5 (partial): Io, Europa, Ganymede and Callisto now use live offline ephemerides and support rendering, search, selection and narrow-field centering.
 - Phase 5 (partial): existing default, neutral and custom order-0 HiPS/HEALPix landscapes now load through the Atlas API and render in the live observed frame; production browser validation passed and native visual validation remains open.
 - Phase 4 (partial): the existing FOV rotation and view-center action panel now reads the active Atlas center through the typed public API and converts it to the proven NINA J2000 command contract before supplying slew/center/rotate, sequence-target, and favorite-target workflows. Invalid samples clear old values and disable all actions. Its sampling loop stops while the sky view is hidden.
+- Phase 4 (partial): canvas and search selections now reuse the complete selected-object action panel. One pure adapter normalizes aliases, converts the tagged Atlas position once to NINA J2000, formats the displayed coordinates and retains source-frame provenance for framing; invalid selections clear every command value and disable the panel.
 - Phase 5: the standalone shell now instantiates the same public viewer as Touch-N-Stars. Planets, Galilean moons, comets, layered offline catalogue search/selection, reference layers, offline HEALPix landscape, time/location, lifecycle, camera FOV and mosaic overlays share the embedded renderer.
 - Phase 3: host conversion and command boundaries are implemented and tested.
   The IAU SOFA `iauH2fk5` vector validates ICRS-to-FK5/J2000 orientation,
@@ -260,6 +261,38 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
   `LDN 1235`, both Abell 39 objects and the HYG-only star `Fulu`, including
   aliases, catalogue groups, coordinate normalization and immutable inputs.
 
+### 2026-07-16 selected-target action parity
+
+- Canvas hits and offline search selections now use the same selected-object
+  panel as the rollback renderer. The Atlas path supplies aliases plus favorite,
+  Framing Assistant, sequence-target, slew/center/rotate and mount-sync actions.
+- `atlasSelectionToCommandModel` is the only selection-to-command adapter. It
+  converts explicitly tagged ICRS/J2000 positions through the proven NINA J2000
+  boundary, formats HMS/DMS labels and carries `coordinateFrame`,
+  `epochJulianYear` and `sourceCoordinateFrame` into framing state.
+- Untagged or invalid positions produce no command coordinates, and the entire
+  action fieldset remains disabled. The temporary touch guard is also reflected
+  through native disabled state and `aria-busy` instead of remaining visual only.
+- The shared card is positioned relative to the already navigation-safe viewer,
+  uses dynamic-viewport and safe-area bounds on mobile, and scrolls below the
+  search control on narrow landscape screens. The favorite editor teleports to
+  the application root so transformed/backdrop-filtered overlays cannot clip it.
+- Production-browser validation selected the ICRS Andromeda Galaxy result and
+  opened `/framing` with J2000 `RA 10.68480320593988`,
+  `Dec 41.26905701462424`, epoch 2000 and `sourceCoordinateFrame: ICRS`.
+  Aliases and all five action groups were visible; disconnected mount actions
+  remained disabled.
+- At 390x844/DPR 3 the card stayed within the viewport and its close target was
+  44x44 CSS pixels. At 844x390/DPR 3 the card began below the search field,
+  ended at y=368, and its 262-pixel content viewport scrolled to the final sync
+  action without document-edge clipping. The initial 500 ms guard exposed
+  `aria-busy=true` and a disabled fieldset, then enabled the valid actions.
+- After stopping the preview server, the already-loaded Atlas still found and
+  selected `LDN 1235`, displayed its aliases and enabled framing. Console review
+  found no Atlas/Vue exception, `ReferenceError`, coordinate/panning error or
+  unhandled exception; remaining messages were expected absent-NINA traffic and
+  pre-existing form-field issues.
+
 ## 9. Feature-parity matrix
 
 | Capability               | Existing                                        | New engine                                                                                                   | Status                                                               |
@@ -268,7 +301,7 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 | Observer and UTC         | Supported                                       | Validated setters, synchronized host time and cached EQJ/ICRS observed frame                                 | Web reference fixtures passed; native pending                        |
 | Offline catalogue search | Stellarium packaged data                        | Lazy 21,191-object layered DSO catalogue, 8,910 stars and moving objects                                      | Host and production-browser search passed; native validation pending |
 | Brightness filters       | Shared display density                          | Independent persisted star, galaxy-family and other-DSO limiting magnitudes                                  | Standalone and host web passed                                       |
-| Framing selection        | Supported                                       | Typed selection callback and explicit ICRS/J2000-to-NINA-J2000 command boundary                              | Connected; endpoint provenance and SOFA conversion tested            |
+| Framing selection        | Supported                                       | Shared selected-object actions and explicit ICRS/J2000-to-NINA-J2000 command boundary                        | Connected; full action parity, provenance and conversion tested      |
 | Mount/FOV/rotation       | Supported                                       | Profile-derived physical camera geometry, celestial-north frame, marker/follow, mosaic and rotation controls | Production web passed; native test pending                           |
 | Horizon/landscape        | Supported                                       | Default-on persisted horizon mask; seam-correct, bilinear and DPR-aware order-0 HiPS/HEALPix imagery         | Standalone and host production browsers passed; native tests pending |
 | Standalone controls      | Open control panel                              | Control panel starts closed with synchronized accessibility state                                            | Connected                                                            |
@@ -276,6 +309,14 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 
 ## 10. Test results
 
+- Selected-target integration validation on 2026-07-16 passed all 66 host tests,
+  including exact M31 ICRS-to-J2000 values, alias normalization, invalid-frame
+  clearing, provenance retention and renderer-neutral action-panel wiring.
+  Targeted ESLint, the 6 GB Vue typecheck and the production build passed.
+- The selected-target production-browser pass verified the real `/framing`
+  route and stored J2000/source-frame record, root-level favorite dialog,
+  disabled mount actions, 44-pixel close target, portrait/landscape safe bounds,
+  short-landscape scrolling, accessible startup guard and server-off LDN search.
 - Layered-catalogue host validation on 2026-07-16 passed all 63 tests. The real
   package payload test proves 21,191 DSOs, 8,910 stars, all nine catalogue
   groups, immutable inputs, HYG hour-to-degree normalization, LDN aliases and

@@ -164,3 +164,41 @@ test('routes every Atlas view-center action through the J2000 command boundary',
   assert.match(actions, /function invalidateCoordinates\(\)[\s\S]*raDeg\.value = null/);
   assert.match(actions, /<fieldset[\s\S]*:disabled="!hasValidCoordinates"/);
 });
+
+test('reuses the complete selected-target workflow at the Atlas J2000 command boundary', async () => {
+  const [view, selectedObject, selectionModel, favorites] = await Promise.all([
+    readFile(new URL('../../../views/CelestiaAtlasView.vue', import.meta.url), 'utf8'),
+    readFile(new URL('../../../components/stellarium/SelectedObject.vue', import.meta.url), 'utf8'),
+    readFile(new URL('../selectionModel.js', import.meta.url), 'utf8'),
+    readFile(new URL('../../../components/favTargets/SaveFavTargets.vue', import.meta.url), 'utf8'),
+  ]);
+
+  assert.match(view, /<SelectedSkyObject/);
+  assert.match(view, /const selectedObjectCommand = computed/);
+  assert.match(view, /atlasSelectionToCommandModel\(selectedTarget\.value\)/);
+  assert.match(view, /:command-target="selectedObjectCommand\.commandTarget"/);
+  assert.match(view, /dismissible/);
+  assert.match(view, /@dismiss="hideSelectedTargetDetails"/);
+  assert.doesNotMatch(view, /sendSelectionToFraming/);
+  assert.doesNotMatch(view, /store\.mount\.currentTab = 'showSlew'/);
+  assert.doesNotMatch(view, /router\.push\('\/mount'\)/);
+
+  assert.match(selectionModel, /const commandTarget = atlasSelectionToFraming\(target\)/);
+  assert.match(selectionModel, /raString: degreesToHMS\(commandTarget\.RA\)/);
+  assert.match(selectionModel, /decString: degreesToDMS\(commandTarget\.Dec\)/);
+
+  assert.match(selectedObject, /selectedObject: Array/);
+  assert.match(selectedObject, /commandTarget:[\s\S]*default: null/);
+  assert.match(selectedObject, /<fieldset[\s\S]*:disabled="!actionControlsEnabled"/);
+  assert.match(selectedObject, /<SaveFavTargets/);
+  assert.match(selectedObject, /@click="openFramingModal"/);
+  assert.match(selectedObject, /<setSequenceTarget/);
+  assert.match(selectedObject, /<ButtonSlewCenterRotate/);
+  assert.match(selectedObject, /<ButtomSyncCoordinatesToMount/);
+  assert.match(selectedObject, /\.\.\.\(props\.commandTarget \?\? \{\}\)/);
+  assert.match(selectedObject, /router\.push\('\/framing'\)/);
+  assert.match(selectedObject, /defineEmits\(\['dismiss'\]\)/);
+  assert.match(selectedObject, /selected-object-content-landscape/);
+  assert.match(selectedObject, /100dvh/);
+  assert.match(favorites, /<Teleport to="body">/);
+});

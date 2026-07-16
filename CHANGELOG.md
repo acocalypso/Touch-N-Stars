@@ -13,6 +13,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Celestia Atlas: Search and render 8,658 supplemental Abell/ACO, Barnard, LBN,
   LDN, RCW, Sharpless 2 and vdB objects, 86 SIMBAD A66 planetary nebulae and
   8,780 HYG stars from package-local data without requiring a network
+- Celestia Atlas: Selected catalogue targets now expose aliases and the complete
+  favorite, Framing Assistant, sequence-target, slew/center/rotate and mount-sync
+  workflow through the existing Touch-N-Stars action panel
 
 ### Changed
 - Celestia Atlas: Defer engine/catalogue loading until first open, retain one
@@ -21,6 +24,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   chunks, and reduce mobile panorama, search, FOV sampling and lifecycle work
 - Build: Pin TypeScript 6.0.3 because the current `vue-tsc` wrapper cannot load
   the TypeScript 7 compiler export; lint, typecheck and production build pass
+- Celestia Atlas: Make the shared selected-target panel safe-area aware and
+  independently scrollable on short mobile landscape screens; its favorite
+  dialog now renders at the application root instead of inside the sky overlay
 
 ### Fixed
 - Celestia Atlas: Correct J2000/ICRS-to-horizontal geometry with precession,
@@ -39,6 +45,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Celestia Atlas: Keep the embedded view explicitly horizon-aligned even when
   both coordinate-grid overlays are hidden, so landscapes stay level and
   horizontal drags follow azimuth instead of appearing to rotate the sky
+- Celestia Atlas: The selected-target framing action now opens the actual
+  Framing Assistant and retains J2000 epoch plus ICRS/J2000 source-frame
+  provenance instead of sending the user to the mount slew tab
 
 ### Fixed
 - Stellarium: Fixed the sky view flickering and mouse-wheel zoom appearing broken in Chrome by removing the frame rate cap while Stellarium is visible

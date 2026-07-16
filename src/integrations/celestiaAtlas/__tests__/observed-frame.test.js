@@ -1,9 +1,13 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { equatorialToHorizontal, horizontalToEquatorial } from '@acocalypso/celestia-atlas';
+import {
+  DEFAULT_DSS_SKY_SURVEY_SOURCE,
+  equatorialToHorizontal,
+  horizontalToEquatorial,
+} from '@acocalypso/celestia-atlas';
 
-const ATLAS_REVISION = '3706e561d31282e428120dd10c3ddcf67cacf21c';
+const ATLAS_REVISION = '8d79f5740621db9757a2b1b85b1fc1d6d005a6fe';
 const TOLERANCE_DEG = 1e-10;
 
 function angularErrorDeg(actual, expected) {
@@ -26,6 +30,11 @@ test('uses the corrected pinned J2000 observed-frame transform', () => {
   const inverse = horizontalToEquatorial(horizontal, observer, timestampUtcMs, 'J2000');
   assert.ok(angularErrorDeg(inverse.raDeg, coordinates.raDeg) < TOLERANCE_DEG);
   assert.ok(Math.abs(inverse.decDeg - coordinates.decDeg) < TOLERANCE_DEG);
+});
+
+test('pins the Atlas build that provides the default photographic survey', () => {
+  assert.equal(DEFAULT_DSS_SKY_SURVEY_SOURCE.key, 'dss2-color');
+  assert.equal(DEFAULT_DSS_SKY_SURVEY_SOURCE.frame, 'ICRS');
 });
 
 test('keeps the host package and lockfile on the same immutable HTTPS revision', async () => {

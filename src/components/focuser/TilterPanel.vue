@@ -156,10 +156,11 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue';
+import { ref, onMounted } from 'vue';
 import { ArrowPathIcon, LinkIcon, LinkSlashIcon } from '@heroicons/vue/24/outline';
 import { apiStore } from '@/store/store';
 import apiService from '@/services/apiService';
+import { usePolling } from '@/composables/usePolling';
 
 const store = apiStore();
 
@@ -171,7 +172,18 @@ const isDisconnecting = ref(false);
 const isConnected = ref(false);
 const deviceStatus = ref(null);
 const errorMessage = ref('');
-const statusRefreshTimer = ref(null);
+
+// Refresh status every 1 second while connected; started on connect,
+// stopped on disconnect and automatically on unmount
+const statusPoller = usePolling(
+  () => {
+    if (isConnected.value && selectedDevice.value) {
+      return refreshStatus();
+    }
+  },
+  1000,
+  { autoStart: false, immediate: false }
+);
 
 // Load devices on mount
 onMounted(async () => {
@@ -254,7 +266,7 @@ async function connect() {
     } else {
       isConnected.value = true;
       await refreshStatus();
-      startStatusRefresh();
+      statusPoller.start();
     }
   } catch (error) {
     console.error('Connect error:', error);
@@ -269,11 +281,7 @@ async function disconnect() {
   try {
     isDisconnecting.value = true;
     errorMessage.value = '';
-
-    if (statusRefreshTimer.value) {
-      clearInterval(statusRefreshTimer.value);
-      statusRefreshTimer.value = null;
-    }
+    statusPoller.stop();
 
     const response = await apiService.hocusfocus.disconnectTilterDevice(selectedDevice.value);
 
@@ -302,27 +310,6 @@ async function refreshStatus() {
     console.error('Status refresh error:', error);
   }
 }
-
-function startStatusRefresh() {
-  if (statusRefreshTimer.value) {
-    clearInterval(statusRefreshTimer.value);
-  }
-
-  // Refresh status every 1 second while connected
-  statusRefreshTimer.value = setInterval(() => {
-    if (isConnected.value && selectedDevice.value) {
-      refreshStatus();
-    }
-  }, 1000);
-}
-
-// Cleanup on unmount
-onBeforeUnmount(() => {
-  if (statusRefreshTimer.value) {
-    clearInterval(statusRefreshTimer.value);
-    statusRefreshTimer.value = null;
-  }
-});
 </script>
 
 <style scoped>

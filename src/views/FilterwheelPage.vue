@@ -64,7 +64,7 @@
   </div>
 </template>
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref } from 'vue';
 import changeFilter from '@/components/filterwheel/changeFilter.vue';
 import InfoFilterwheel from '@/components/filterwheel/InfoFilterwheel.vue';
 import FilterSettings from '@/components/filterwheel/settings/FilterSettings.vue';
@@ -73,21 +73,14 @@ import SubNav from '@/components/SubNav.vue';
 import { apiStore } from '@/store/store';
 import { useFilterStore } from '@/store/filterStore';
 import { useI18n } from 'vue-i18n';
+import { usePolling } from '@/composables/usePolling';
 
 const { t } = useI18n();
 const store = apiStore();
 const filterStore = useFilterStore();
 const currentTab = ref('showFilterwheel');
-let settingsInterval = null;
 
-onMounted(async () => {
-  await filterStore.readSettings();
-  settingsInterval = setInterval(() => filterStore.readSettings(), 2000);
-});
-
-onUnmounted(() => {
-  clearInterval(settingsInterval);
-});
+usePolling(() => filterStore.readSettings(), 2000);
 </script>
 
 <style scoped>

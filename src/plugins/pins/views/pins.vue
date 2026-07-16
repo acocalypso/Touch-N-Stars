@@ -282,6 +282,7 @@ import {
 import { createHotspotSettingsApi } from '../composables/hotspotSettingsApi';
 import { WifiSignal } from '@/utils/wifiSignal';
 import { PINS_PORT as PORT, DEFAULT_PINS_DAEMON_API_TOKEN as TOKEN } from '@/services/pinsConfig';
+import { usePolling } from '@/composables/usePolling';
 
 const { t } = useI18n();
 const settingsStore = useSettingsStore();
@@ -340,7 +341,16 @@ const {
 } = storeToRefs(pinsStore);
 let ws = null;
 let isComponentUnmounting = false;
-let wifiStatusTimer = null;
+// WiFi status polling while PINS is detected; stopped automatically on unmount
+const wifiStatusPoller = usePolling(
+  () => {
+    if (store.isPINS) {
+      return loadWifiStatus();
+    }
+  },
+  10000,
+  { autoStart: false, immediate: false }
+);
 
 const availableUpdatePackages = computed(() => {
   const packages = updatesCheckResult.value?.packages || [];
@@ -439,10 +449,10 @@ watch(
       loadPinsPlugins();
       loadDhcpClients();
       loadWifiStatus();
-      startWifiStatusPolling();
+      wifiStatusPoller.start();
       restoreUpgradeState();
     } else {
-      stopWifiStatusPolling();
+      wifiStatusPoller.stop();
       // Keep polling while an upgrade lifecycle is active, even if PINS detection
       // temporarily drops during service restart.
       if (!pinsStore.shouldShowUpgradeOverlay) {
@@ -1128,22 +1138,6 @@ async function loadMobileWifiSignal() {
   }
 }
 
-function startWifiStatusPolling() {
-  stopWifiStatusPolling();
-  wifiStatusTimer = window.setInterval(() => {
-    if (store.isPINS) {
-      loadWifiStatus();
-    }
-  }, 10000);
-}
-
-function stopWifiStatusPolling() {
-  if (wifiStatusTimer) {
-    window.clearInterval(wifiStatusTimer);
-    wifiStatusTimer = null;
-  }
-}
-
 async function connectWifi() {
   if (status.value === 'Running') return;
 
@@ -1493,7 +1487,6 @@ async function checkFinalStatus(id) {
 
 onUnmounted(() => {
   isComponentUnmounting = true;
-  stopWifiStatusPolling();
   stopUpgradePolling();
   if (ws) {
     ws.close();

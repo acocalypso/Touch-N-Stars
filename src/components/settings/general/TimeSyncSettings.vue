@@ -91,7 +91,8 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref } from 'vue';
+import { usePolling } from '@/composables/usePolling';
 import { useI18n } from 'vue-i18n';
 import { apiStore } from '@/store/store';
 import { usePinsStore } from '@/plugins/pins/store/pinsStore';
@@ -264,18 +265,7 @@ const manualPinsTimeSync = async () => {
   }
 };
 
-let timeInfoInterval = null;
-
-onMounted(() => {
-  if (store.isBackendReachable) {
-    loadTimeInfo();
-  }
-  timeInfoInterval = setInterval(() => {
-    if (store.isBackendReachable) loadTimeInfo();
-  }, 1000);
-});
-
-onUnmounted(() => {
-  clearInterval(timeInfoInterval);
-});
+usePolling(() => {
+  if (store.isBackendReachable) loadTimeInfo();
+}, 1000);
 </script>

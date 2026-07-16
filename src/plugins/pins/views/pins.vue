@@ -281,6 +281,7 @@ import {
 } from '../composables/indiInstallUtils';
 import { createHotspotSettingsApi } from '../composables/hotspotSettingsApi';
 import { WifiSignal } from '@/utils/wifiSignal';
+import { PINS_PORT as PORT, DEFAULT_PINS_DAEMON_API_TOKEN as TOKEN } from '@/services/pinsConfig';
 
 const { t } = useI18n();
 const settingsStore = useSettingsStore();
@@ -340,9 +341,6 @@ const {
 let ws = null;
 let isComponentUnmounting = false;
 let wifiStatusTimer = null;
-
-const PORT = 8000;
-const TOKEN = 'zZDqJ3IKeFaIZqG2JIFvsxzA5E48GC2gyGVagHFZqC0OMtgoupUDZCPhQDYKm35d';
 
 const availableUpdatePackages = computed(() => {
   const packages = updatesCheckResult.value?.packages || [];

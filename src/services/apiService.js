@@ -1,12 +1,11 @@
 import axios from 'axios';
 import { getActivePinia } from 'pinia';
 import mockApiService from './mockApiService';
+import { PINS_PORT, DEFAULT_PINS_DAEMON_API_TOKEN } from './pinsConfig';
 
 let settingsStore;
 let store;
 const DEFAULT_TIMEOUT = 10000;
-const DEFAULT_PINS_DAEMON_API_TOKEN =
-  'zZDqJ3IKeFaIZqG2JIFvsxzA5E48GC2gyGVagHFZqC0OMtgoupUDZCPhQDYKm35d';
 
 // Check if mock API should be used
 const useMockApi = () => {
@@ -50,7 +49,7 @@ const getBaseUrl = () => {
     api: `${protocol}://${host}:${port}/api/`,
     targetpic: `${protocol}://${host}:${port}/api/targetpic`,
     pluginServer: `${protocol}://${host}:${port}`,
-    pinsDaemon: `${protocol}://${host}:8000`,
+    pinsDaemon: `${protocol}://${host}:${PINS_PORT}`,
   };
 };
 

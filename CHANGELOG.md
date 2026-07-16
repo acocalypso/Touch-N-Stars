@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [App5.2.0-beta1] - 2026-07-16
 ### Added
 - TPPA (PINS): When the alignment view is opened (or after switching instances), the running state is now loaded from the backend, so an alignment already in progress is reflected correctly instead of relying on a possibly stale saved state
 

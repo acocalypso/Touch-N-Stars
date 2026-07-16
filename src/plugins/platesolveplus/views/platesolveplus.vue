@@ -963,6 +963,7 @@ import {
   onActivated,
   onDeactivated,
 } from 'vue';
+import { usePolling } from '@/composables/usePolling';
 import { useI18n } from 'vue-i18n';
 import StatusIcon from '../components/StatusIcon.vue';
 import SecondarySetupDialog from '../components/platesolveplus/SecondarySetupDialog.vue';
@@ -2016,8 +2017,23 @@ function loadConfig() {
 // =========================
 // Mount/Unmount timers
 // =========================
-let statusTimer = null;
-let previewTimer = null;
+usePolling(
+  () => {
+    if (_autoRefreshPaused.value) return;
+    return refreshStatus();
+  },
+  4000,
+  { immediate: false }
+);
+
+usePolling(
+  () => {
+    if (_autoRefreshPaused.value) return;
+    if (autoPreview.value && !status.busy) return refreshPreview(false);
+  },
+  5000,
+  { immediate: false }
+);
 
 onMounted(async () => {
   loadConfig();
@@ -2026,22 +2042,10 @@ onMounted(async () => {
   refreshPreview(true);
 
   connectWs(false);
-
-  statusTimer = setInterval(() => {
-    if (_autoRefreshPaused.value) return;
-    refreshStatus();
-  }, 4000);
-
-  previewTimer = setInterval(() => {
-    if (_autoRefreshPaused.value) return;
-    if (autoPreview.value && !status.busy) refreshPreview(false);
-  }, 5000);
 });
 
 onBeforeUnmount(() => {
   stopFakeProgress();
-  if (statusTimer) clearInterval(statusTimer);
-  if (previewTimer) clearInterval(previewTimer);
   wsCleanup();
 });
 

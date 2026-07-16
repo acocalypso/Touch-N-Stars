@@ -60,7 +60,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { EyeIcon, Cog6ToothIcon } from '@heroicons/vue/24/outline';
 import infoFocuser from '@/components/focuser/infoFocuser.vue';
@@ -70,6 +70,7 @@ import SubNav from '@/components/SubNav.vue';
 import { apiStore } from '@/store/store';
 import { useImagetStore } from '@/store/imageStore';
 import { useFocuserStore } from '@/store/focuserStore';
+import { usePolling } from '@/composables/usePolling';
 
 const { t } = useI18n();
 const store = apiStore();
@@ -78,16 +79,7 @@ const focuserStore = useFocuserStore();
 const currentTab = ref('showFocus');
 const delayShowGraph = ref(false);
 
-let settingsInterval = null;
-
-onMounted(async () => {
-  await focuserStore.readSettings();
-  settingsInterval = setInterval(() => focuserStore.readSettings(), 2000);
-});
-
-onUnmounted(() => {
-  clearInterval(settingsInterval);
-});
+usePolling(() => focuserStore.readSettings(), 2000);
 </script>
 
 <style scoped>

@@ -372,6 +372,7 @@ import { abortInFlightRequests } from '@/utils/httpLifecycle';
 import { setAppBackgrounded } from '@/utils/appLifecycle';
 import { setLocaleLanguage } from '@/i18n';
 import { useSequenceV2Store } from '@/store/sequenceV2Store';
+import { PINS_PORT, DEFAULT_PINS_DAEMON_API_TOKEN as PINS_TOKEN } from '@/services/pinsConfig';
 
 const StellariumView = defineAsyncComponent(() => import('./views/StellariumView.vue'));
 const TutorialModal = defineAsyncComponent(() => import('@/components/TutorialModal.vue'));
@@ -391,9 +392,6 @@ const route = useRoute();
 const showTimeWarningModal = ref(false);
 const timeWarningClientTime = ref('');
 const timeWarningDeviceTime = ref('');
-
-const PINS_PORT = 8000;
-const PINS_TOKEN = 'zZDqJ3IKeFaIZqG2JIFvsxzA5E48GC2gyGVagHFZqC0OMtgoupUDZCPhQDYKm35d';
 
 async function checkPinsTimeMismatch() {
   if (pinsStore.suppressTimeWarning) return;

@@ -292,6 +292,7 @@ import {
   normalizeDiagnosticsOptions,
   validateDiagnosticsConfig,
 } from '../utils/diagnosticsSupport';
+import { PINS_PORT as PORT, DEFAULT_PINS_DAEMON_API_TOKEN as TOKEN } from '@/services/pinsConfig';
 
 const logStore = useLogStore();
 const logCollectorStore = useLogCollectorStore();
@@ -309,8 +310,6 @@ const diagnosticsOptionsLoading = ref(false);
 const diagnosticsValidationErrors = ref({});
 const diagnosticsDownloadBusy = ref(false);
 const { t } = useI18n();
-const PORT = 8000;
-const TOKEN = 'zZDqJ3IKeFaIZqG2JIFvsxzA5E48GC2gyGVagHFZqC0OMtgoupUDZCPhQDYKm35d';
 
 const diagnosticsApi = createDiagnosticsApi({
   getIp,

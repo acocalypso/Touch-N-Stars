@@ -135,10 +135,6 @@ flowchart LR
 - Plugin routes are injected through a router proxy that removes stale routes and enforces stable route names to avoid duplicates.
 - Plugin navigation items are added dynamically and de-duplicated by plugin id.
 
-### 7.3 Mock-Mode Interaction
-
-- In mock mode (`localStorage.USE_MOCK_API === 'true'`), plugin loading is intentionally skipped to avoid stale/duplicated routes in offline demos.
-
 ## 8. Operational Modes
 
 ### 8.1 Standard NINA Mode
@@ -153,13 +149,6 @@ flowchart LR
 - Enables additional PINS services and overlays.
 - Uses SignalR for dialogs/message boxes.
 - Includes time mismatch warning/sync flow against PINS system API.
-
-### 8.3 Mock Mode
-
-- Enabled via localStorage flag.
-- Uses `mockApiService` with deterministic simulated state.
-- Skips WebSocket channel and plugin initialization.
-- Intended for UI development, testing, and demos.
 
 ## 9. Feature Domain Map
 

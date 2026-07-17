@@ -41,7 +41,7 @@
         :value="formattedValue"
         type="number"
         :class="[
-          'default-input rounded-none border-x-0 text-center !min-w-0 !px-1 flex-1',
+          'tns-input rounded-none border-x-0 text-center !min-w-0 !px-1 flex-1',
           statusClass,
         ]"
         :placeholder="isDefaultValue && defaultValue === null ? 'default' : placeholder"

@@ -7,7 +7,7 @@
       @change="setBinnig"
       id="binning"
       v-model="cameraStore.binningMode"
-      class="default-select ml-auto h-8 w-28"
+      class="tns-select ml-auto w-28"
     >
       <option v-for="mode in store.cameraInfo.BinningModes" :key="mode.Name" :value="mode.Name">
         {{ mode.Name }}

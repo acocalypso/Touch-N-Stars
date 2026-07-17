@@ -103,7 +103,7 @@
           {{ $t('components.settings.system.shutdownInfoMessage') }}
         </p>
         <div class="flex justify-center mt-4">
-          <button @click="showShutdownInfo = false" class="default-button-gray">
+          <button @click="showShutdownInfo = false" class="tns-btn-secondary">
             {{ $t('common.close') }}
           </button>
         </div>
@@ -125,10 +125,10 @@
         }}
       </p>
       <div class="flex justify-end gap-3">
-        <button @click="cancelConfirmation" class="default-button-gray">
+        <button @click="cancelConfirmation" class="tns-btn-secondary">
           {{ $t('common.cancel') }}
         </button>
-        <button @click="confirmActionHandler" class="default-button-cyan">
+        <button @click="confirmActionHandler" class="tns-btn-primary">
           {{ $t('common.confirm') }}
         </button>
       </div>

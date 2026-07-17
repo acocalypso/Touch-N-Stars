@@ -2,7 +2,7 @@
   <div :class="{ 'w-full': showLabel }">
     <button
       @click="showModal = true"
-      class="default-button-cyan"
+      class="tns-btn-primary"
       :class="{ 'w-full gap-2': showLabel }"
     >
       <HeartIcon class="w-7 h-7 shrink-0" />
@@ -17,16 +17,16 @@
         <h3 class="text-lg font-semibold mb-4">
           {{ t('components.fav_target.enter_name') }}
         </h3>
-        <input v-model="nameInput" type="text" class="w-full h-10 default-input" />
+        <input v-model="nameInput" type="text" class="w-full h-10 tns-input" />
         <p v-if="isMosaic" class="text-xs text-gray-400 mt-2">
           {{ mosaicCols * mosaicRows }} {{ t('components.framing.mosaic.panels') }}
           {{ t('components.framing.mosaic.willBeSaved') }}
         </p>
         <div class="flex justify-end mt-4 space-x-2">
-          <button @click="confirmSave" class="default-button-cyan">
+          <button @click="confirmSave" class="tns-btn-primary">
             {{ t('common.confirm') }}
           </button>
-          <button @click="showModal = false" class="default-button-red">
+          <button @click="showModal = false" class="tns-btn-danger">
             {{ t('common.cancel') }}
           </button>
         </div>

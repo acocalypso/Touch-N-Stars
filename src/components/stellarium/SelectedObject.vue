@@ -41,7 +41,7 @@
           :show-label="true"
         />
 
-        <button class="default-button-cyan w-full" @click="openFramingModal">
+        <button class="tns-btn-primary w-full" @click="openFramingModal">
           {{ $t('components.framing.openFraminingModal') }}
         </button>
 

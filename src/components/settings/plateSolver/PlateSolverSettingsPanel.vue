@@ -30,7 +30,7 @@
           v-model="astapLocation"
           @change="setAstapLocation"
           type="text"
-          class="default-input h-7 sm:h-8 text-xs sm:text-sm w-48"
+          class="tns-input text-xs sm:text-sm w-48"
           :class="statusClassAstapLocation"
           placeholder="C:\\Program Files\\astap\\astap.exe"
         />

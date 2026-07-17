@@ -5,7 +5,7 @@
       v-model="value"
       @change="updateSetting"
       :class="[statusClass]"
-      class="default-select w-full py-2"
+      class="tns-select w-full py-2"
     >
       <option value="">{{ $t('common.select') }}</option>
       <option v-for="option in options" :key="option" :value="option">

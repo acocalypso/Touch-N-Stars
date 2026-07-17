@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button @click="setSequenceTarget" class="default-button-cyan">
+    <button @click="setSequenceTarget" class="tns-btn-primary">
       <span>{{ $t('components.framing.setSequnceTarget') }}</span>
     </button>
   </div>

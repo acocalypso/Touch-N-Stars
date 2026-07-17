@@ -214,13 +214,13 @@
           </button>
           <template v-else>
             <button
-              class="default-button-cyan"
+              class="tns-btn-primary"
               :disabled="!newFolderName.trim()"
               @click="confirmNewFolder"
             >
               {{ $t('components.fileBrowser.create') }}
             </button>
-            <button class="default-button-gray" @click="cancelNewFolder">
+            <button class="tns-btn-secondary" @click="cancelNewFolder">
               {{ $t('common.cancel') }}
             </button>
           </template>
@@ -242,10 +242,10 @@
 
         <!-- Footer -->
         <div class="flex justify-end gap-2 px-4 py-3 border-t border-[#2e3650] shrink-0">
-          <button class="default-button-gray" @click="cancel">
+          <button class="tns-btn-secondary" @click="cancel">
             {{ $t('common.cancel') }}
           </button>
-          <button class="default-button-cyan" :disabled="!selectedPath" @click="confirm">
+          <button class="tns-btn-primary" :disabled="!selectedPath" @click="confirm">
             {{ $t('common.confirm') }}
           </button>
         </div>

@@ -11,13 +11,13 @@
           v-model="searchQuery"
           ref="searchInput"
           @input="fetchTargetSearch"
-          class="default-input h-10 w-full"
+          class="tns-input w-full"
           :placeholder="$t('components.framing.search.placeholder')"
         />
         <!-- Überprüfe, ob targetSearchResult ein Array ist und Elemente hat -->
         <ul
           v-if="Array.isArray(targetSearchResult) && targetSearchResult.length > 0"
-          class="default-select mt-1 z-10 max-h-[21.5rem] overflow-y-auto"
+          class="tns-select mt-1 z-10 max-h-[21.5rem] overflow-y-auto"
         >
           <li
             v-for="(item, index) in targetSearchResult"

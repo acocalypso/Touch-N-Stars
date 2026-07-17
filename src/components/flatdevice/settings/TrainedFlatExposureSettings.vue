@@ -31,7 +31,7 @@
         <label class="text-sm sm:text-xs mb-2 text-gray-200">
           {{ $t('components.flat.settings.trainedSettings.filter') }}
         </label>
-        <select v-model="s.Filter" @change="saveSetting(index)" class="default-select w-full py-2">
+        <select v-model="s.Filter" @change="saveSetting(index)" class="tns-select w-full py-2">
           <option :value="-1">{{ $t('components.flat.settings.trainedSettings.noFilter') }}</option>
           <option v-for="f in filters" :key="f.Position" :value="f.Position">
             {{ f.Name }}
@@ -44,11 +44,7 @@
         <label class="text-sm sm:text-xs mb-2 text-gray-200">
           {{ $t('components.flat.settings.trainedSettings.binning') }}
         </label>
-        <select
-          v-model="s.BinningName"
-          @change="saveSetting(index)"
-          class="default-select w-full py-2"
-        >
+        <select v-model="s.BinningName" @change="saveSetting(index)" class="tns-select w-full py-2">
           <option v-for="b in binningOptions" :key="b" :value="b">{{ b }}</option>
         </select>
       </div>
@@ -131,10 +127,10 @@
             {{ $t('components.flat.settings.trainedSettings.confirmMessage') }}
           </p>
           <div class="flex gap-3 justify-end">
-            <button @click="showModal = false" class="default-button-gray">
+            <button @click="showModal = false" class="tns-btn-secondary">
               {{ $t('common.cancel') }}
             </button>
-            <button @click="confirmRemoveSetting" class="default-button-red">
+            <button @click="confirmRemoveSetting" class="tns-btn-danger">
               {{ $t('common.delete') }}
             </button>
           </div>

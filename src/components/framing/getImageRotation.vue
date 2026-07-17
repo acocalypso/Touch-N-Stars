@@ -2,7 +2,7 @@
   <!-- Capture Button -->
   <div class="flex flex-col space-y-2">
     <button
-      class="default-button-cyan w-full disabled:opacity-50 disabled:cursor-not-allowed"
+      class="tns-btn-primary w-full disabled:opacity-50 disabled:cursor-not-allowed"
       @click="cameraStore.getCameraRotation(apiService, exposureTime, gain)"
       :disabled="cameraStore.loading"
     >

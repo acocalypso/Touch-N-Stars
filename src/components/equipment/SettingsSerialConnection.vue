@@ -12,7 +12,7 @@
         id="connectionMode"
         v-model="connectionMode"
         @change="setConnectionMode"
-        class="default-input h-7 md:h-8 text-xs md:text-sm w-48"
+        class="tns-input text-xs md:text-sm w-48"
         :class="statusClassConnectionMode"
       >
         <option value="CONNECTION_SERIAL">{{ $t('indi.config.serial') }}</option>
@@ -45,7 +45,7 @@
         <select
           id="devicePort"
           v-model="selectedPort"
-          class="default-input h-7 md:h-8 text-xs md:text-sm w-48"
+          class="tns-input text-xs md:text-sm w-48"
           :class="[
             statusClassDevicePort,
             autoDetect ? 'opacity-50 cursor-not-allowed bg-gray-600' : '',
@@ -76,7 +76,7 @@
           v-model.trim="devicePort"
           @change="setDevicePort"
           type="text"
-          class="default-input h-7 md:h-8 text-xs md:text-sm w-48"
+          class="tns-input text-xs md:text-sm w-48"
           :class="[
             statusClassDevicePort,
             autoDetect ? 'opacity-50 cursor-not-allowed bg-gray-600' : '',
@@ -95,7 +95,7 @@
           id="baudRate"
           v-model.number="baudRate"
           @change="setBaudRate"
-          class="default-input h-7 md:h-8 text-xs md:text-sm w-48"
+          class="tns-input text-xs md:text-sm w-48"
           :class="[
             statusClassBaudRate,
             autoDetect ? 'opacity-50 cursor-not-allowed bg-gray-600' : '',
@@ -123,7 +123,7 @@
           v-model="ipAddress"
           @change="setIPAddress"
           type="text"
-          class="default-input h-7 md:h-8 text-xs md:text-sm w-48"
+          class="tns-input text-xs md:text-sm w-48"
           :class="statusClassIPAddress"
           placeholder="localhost"
         />
@@ -139,7 +139,7 @@
           v-model="tcpPort"
           @change="setTCPPort"
           type="text"
-          class="default-input h-7 md:h-8 text-xs md:text-sm w-48"
+          class="tns-input text-xs md:text-sm w-48"
           :class="statusClassTCPPort"
           placeholder="3492"
         />
@@ -158,7 +158,7 @@
           v-model="ipAddress"
           @change="setIPAddress"
           type="text"
-          class="default-input h-7 md:h-8 text-xs md:text-sm w-48"
+          class="tns-input text-xs md:text-sm w-48"
           :class="statusClassIPAddress"
           placeholder="192.168.0.1"
         />

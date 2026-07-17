@@ -23,7 +23,7 @@
             v-for="btn in messageBoxButtons"
             :key="btn.label"
             @click="handleButtonClick(btn.result)"
-            class="default-button-cyan flex-1 px-4 py-3 rounded-lg font-medium transition-all"
+            class="tns-btn-secondary flex-1 px-4 py-3 rounded-lg font-medium transition-all"
           >
             {{ btn.label }}
           </button>

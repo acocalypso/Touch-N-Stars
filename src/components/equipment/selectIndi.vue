@@ -34,7 +34,7 @@
           id="indi-camera"
           v-model="selectedCamera"
           @change="onCameraChange"
-          class="default-select w-40 ml-auto"
+          class="tns-select w-40 ml-auto"
         >
           <option value="None">None</option>
           <option v-for="item in camera" :key="item.Name" :value="item.Name">
@@ -52,7 +52,7 @@
           id="indi-focuser"
           v-model="selectedFocuser"
           @change="onFocuserChange"
-          class="default-select w-40 ml-auto"
+          class="tns-select w-40 ml-auto"
         >
           <option value="None">None</option>
           <option v-for="item in focuser" :key="item.Name" :value="item.Name">
@@ -70,7 +70,7 @@
           id="indi-filterwheel"
           v-model="selectedFilterwheel"
           @change="onFilterwheelChange"
-          class="default-select w-40 ml-auto"
+          class="tns-select w-40 ml-auto"
         >
           <option value="None">None</option>
           <option v-for="item in filterwheel" :key="item.Name" :value="item.Name">
@@ -88,7 +88,7 @@
           id="indi-rotator"
           v-model="selectedRotator"
           @change="onRotatorChange"
-          class="default-select w-40 ml-auto"
+          class="tns-select w-40 ml-auto"
         >
           <option value="None">None</option>
           <option v-for="item in rotator" :key="item.Name" :value="item.Name">
@@ -106,7 +106,7 @@
           id="indi-telescope"
           v-model="selectedTelescope"
           @change="onTelescopeChange"
-          class="default-select w-40 ml-auto"
+          class="tns-select w-40 ml-auto"
         >
           <option value="None">None</option>
           <option v-for="item in telescope" :key="item.Name" :value="item.Name">
@@ -124,7 +124,7 @@
           id="indi-weather"
           v-model="selectedWeather"
           @change="onWeatherChange"
-          class="default-select w-40 ml-auto"
+          class="tns-select w-40 ml-auto"
         >
           <option value="None">None</option>
           <option v-for="item in weather" :key="item.Name" :value="item.Name">
@@ -142,7 +142,7 @@
           id="indi-switches"
           v-model="selectedSwitches"
           @change="onSwitchesChange"
-          class="default-select w-40 ml-auto"
+          class="tns-select w-40 ml-auto"
         >
           <option value="None">None</option>
           <option v-for="item in switches" :key="item.Name" :value="item.Name">
@@ -160,7 +160,7 @@
           id="indi-flatpanel"
           v-model="selectedFlatpanel"
           @change="onFlatpanelChange"
-          class="default-select w-40 ml-auto"
+          class="tns-select w-40 ml-auto"
         >
           <option value="None">None</option>
           <option v-for="item in flatpanel" :key="item.Name" :value="item.Name">
@@ -178,7 +178,7 @@
           id="indi-dome"
           v-model="selectedDome"
           @change="onDomeChange"
-          class="default-select w-40 ml-auto"
+          class="tns-select w-40 ml-auto"
         >
           <option value="None">None</option>
           <option v-for="item in dome" :key="item.Name" :value="item.Name">
@@ -196,7 +196,7 @@
           id="indi-safetymonitor"
           v-model="selectedSafetymonitor"
           @change="onSafetymonitorChange"
-          class="default-select w-40 ml-auto"
+          class="tns-select w-40 ml-auto"
         >
           <option value="None">None</option>
           <option v-for="item in safetymonitor" :key="item.Name" :value="item.Name">

@@ -6,9 +6,9 @@
         <div class="max-w-xl">
           <div
             v-if="!store.cameraInfo.Connected"
-            class="p-4 bg-red-500/10 border border-red-500/30 rounded-lg"
+            class="p-4 bg-status-danger/10 border border-status-danger/30 rounded-card"
           >
-            <p class="text-red-400 font-medium">{{ $t('components.camera.connect') }}</p>
+            <p class="text-status-danger font-medium">{{ $t('components.camera.connect') }}</p>
           </div>
         </div>
       </div>
@@ -47,12 +47,10 @@
             <!-- PINS: Stats Toggle Button -->
             <button
               v-if="store.isPINS"
-              @click.stop="showCaptureStats = !showCaptureStats"
+              @click.stop="toggleCaptureStats"
               :class="[
-                'w-10 h-10 rounded-lg shadow-lg flex items-center justify-center transition-colors',
-                showCaptureStats
-                  ? 'bg-cyan-600 hover:bg-cyan-500 text-white'
-                  : 'bg-gray-800/90 hover:bg-gray-700 text-white',
+                'tns-btn-ghost shadow-lg',
+                showCaptureStats ? 'bg-accent-action hover:bg-accent-action text-white' : '',
               ]"
               title="Image Statistics"
             >
@@ -60,11 +58,12 @@
             </button>
             <!-- Image Rotation Button -->
             <button
-              @click.stop="
-                settingsStore.setImageRotation((settingsStore.currentImageRotation + 90) % 360)
-              "
-              class="w-10 h-10 bg-gray-800/90 hover:bg-gray-700 text-white rounded-lg shadow-lg flex items-center justify-center transition-colors"
-              :class="{ 'bg-cyan-700 hover:bg-cyan-600': settingsStore.currentImageRotation !== 0 }"
+              @click.stop="rotateImage"
+              class="tns-btn-ghost shadow-lg"
+              :class="{
+                'bg-accent-action hover:bg-accent-action text-white':
+                  settingsStore.currentImageRotation !== 0,
+              }"
               :title="'Rotate image (' + settingsStore.currentImageRotation + '°)'"
             >
               <svg
@@ -85,8 +84,8 @@
             <!-- Center Here Button -->
             <button
               v-if="imageStore.imageData"
-              @click.stop="cameraStore.slewModal = true"
-              class="w-10 h-10 rounded-lg shadow-lg flex items-center justify-center transition-colors disabled:opacity-40 disabled:cursor-not-allowed disabled:bg-gray-800/90 bg-gray-800/90 hover:enabled:bg-gray-700 text-white"
+              @click.stop="openSlewModal"
+              class="tns-btn-ghost shadow-lg"
               title="Center Here"
               :disabled="!cameraStore.plateSolveResult || !cameraStore.plateSolveResult.Coordinates"
             >
@@ -267,12 +266,12 @@
         class="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
       >
         <div
-          class="bg-gray-900 rounded-lg p-4 overflow-y-auto max-h-[95vh] border border-gray-700 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-800/50"
+          class="bg-surface-1 rounded-card p-4 overflow-y-auto max-h-[95vh] border border-line scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-800/50"
         >
           <CenterHere />
           <button
             @click="cameraStore.slewModal = false"
-            class="fixed top-2 right-2 p-2 text-gray-400 hover:text-white bg-gray-900 rounded-full"
+            class="fixed top-2 right-2 min-h-touch min-w-touch flex items-center justify-center text-content-muted hover:text-content bg-surface-1 rounded-full"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -356,10 +355,10 @@
       <template #body>
         <div>
           <div
-            class="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-center text-sm text-gray-300 mb-2"
+            class="bg-surface-2 border border-line rounded-control px-4 py-2 text-center text-sm text-content-muted mb-2"
           >
             {{ $t('components.focuser.title') }}:
-            <span class="font-semibold text-white">{{ store.focuserInfo.Position }}</span>
+            <span class="font-semibold text-content">{{ store.focuserInfo.Position }}</span>
           </div>
           <ButtonsFastChangePositon class="pt-2" />
         </div>
@@ -431,6 +430,7 @@
 <script setup>
 import { ref, computed, watch, onMounted } from 'vue';
 import { useOrientation } from '@/composables/useOrientation';
+import { useHaptics } from '@/composables/useHaptics';
 import { apiStore } from '@/store/store';
 import { useCameraStore } from '@/store/cameraStore';
 import { useImagetStore } from '@/store/imageStore';
@@ -452,6 +452,7 @@ import { ChartBarIcon } from '@heroicons/vue/24/outline';
 import { useHistogramStore } from '@/store/histogramStore';
 import { useSettingsStore } from '@/store/settingsStore';
 
+const { tapLight } = useHaptics();
 const store = apiStore();
 const cameraStore = useCameraStore();
 const imageStore = useImagetStore();
@@ -547,6 +548,22 @@ const openModal = (modalType) => {
       }
       break;
   }
+};
+
+// Image overlay actions
+const toggleCaptureStats = () => {
+  tapLight();
+  showCaptureStats.value = !showCaptureStats.value;
+};
+
+const rotateImage = () => {
+  tapLight();
+  settingsStore.setImageRotation((settingsStore.currentImageRotation + 90) % 360);
+};
+
+const openSlewModal = () => {
+  tapLight();
+  cameraStore.slewModal = true;
 };
 
 // Event handlers

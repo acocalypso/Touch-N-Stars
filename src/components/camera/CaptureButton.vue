@@ -1,7 +1,7 @@
 <template>
   <!-- Capture & Cancel Buttons -->
   <div
-    class="fixed flex items-center justify-center z-50 bg-gray-900/50 backdrop-blur-md p-3 rounded-xl border border-gray-700 shadow-lg shadow-black transition-all duration-300"
+    class="fixed flex items-center justify-center z-50 bg-ground/70 backdrop-blur-md p-3 rounded-card border border-line shadow-lg shadow-black transition-all duration-300"
     :class="[containerClasses, gapClasses]"
     :style="containerStyle"
   >
@@ -9,18 +9,12 @@
     <div v-if="showDropdown" class="dropdown-backdrop" @click="showDropdown = false"></div>
     <!-- Capture / Cancel Combined Button -->
     <button
-      class="relative shrink-0 rounded-full flex items-center justify-center shadow-md shadow-black border border-cyan-900 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-      :class="[store.cameraInfo.IsExposing ? 'bg-red-600' : 'bg-gray-600', buttonSizeClasses]"
-      @click="
-        store.cameraInfo.IsExposing
-          ? cameraStore.abortExposure(apiService)
-          : cameraStore.capturePhoto(
-              apiService,
-              settingsStore.camera.exposureTime,
-              store.profileInfo.SnapShotControlSettings.Gain,
-              settingsStore.camera.useSolve
-            )
-      "
+      class="relative shrink-0 rounded-full flex items-center justify-center shadow-md shadow-black border border-line-strong active:scale-[0.97] disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100 transition-all duration-150 ease-out"
+      :class="[
+        store.cameraInfo.IsExposing ? 'bg-status-danger' : 'bg-surface-3',
+        buttonSizeClasses,
+      ]"
+      @click="handleCaptureClick"
       :disabled="
         (cameraStore.loading && !store.cameraInfo.IsExposing) || sequenceStore.sequenceRunning
       "
@@ -84,10 +78,12 @@
     </button>
 
     <button
-      @click="cameraStore.isLooping = !cameraStore.isLooping"
+      @click="toggleLooping"
       :class="[
-        'shrink-0 rounded-full bg-gray-600 flex items-center justify-center shadow-md shadow-black border border-cyan-900 transition-colors duration-200',
-        cameraStore.isLooping ? 'text-green-400 glow-green' : 'text-gray-300',
+        'shrink-0 rounded-full bg-surface-3 flex items-center justify-center shadow-md shadow-black border transition-colors duration-200',
+        cameraStore.isLooping
+          ? 'text-status-ok border-status-ok'
+          : 'text-content-muted border-line-strong',
         buttonSizeClasses,
       ]"
     >
@@ -119,12 +115,17 @@
         <button
           @click="showDropdown = !showDropdown"
           :class="[
-            'absolute right-0 top-0 h-full bg-gray-700 border-l border-gray-600 rounded-r-md hover:bg-gray-600 transition-colors',
+            'absolute right-0 top-0 h-full bg-surface-3 border-l border-line-strong rounded-r-control hover:bg-surface-2 transition-colors',
             dropdownButtonClasses,
           ]"
           type="button"
         >
-          <svg class="w-3 h-3 text-gray-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <svg
+            class="w-3 h-3 text-content-muted"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
             <path
               stroke-linecap="round"
               stroke-linejoin="round"
@@ -138,7 +139,7 @@
         <div
           v-if="showDropdown"
           :class="[
-            'absolute z-50 bg-gray-800 border border-gray-600 rounded-md shadow-lg max-h-48 overflow-y-auto scrollbar-hide',
+            'absolute z-50 bg-surface-2 border border-line-strong rounded-control shadow-lg max-h-48 overflow-y-auto scrollbar-hide',
             dropdownClasses,
           ]"
         >
@@ -148,7 +149,7 @@
               v-for="time in quickTimes"
               :key="'quick-' + time"
               @click="selectTime(time)"
-              class="w-full text-left px-3 py-2 text-sm text-gray-200 hover:bg-gray-700 transition-colors"
+              class="w-full text-left px-3 min-h-touch text-sm text-content hover:bg-surface-3 transition-colors"
             >
               {{ formatTime(time) }}
             </button>
@@ -158,7 +159,7 @@
               v-for="time in commonTimes"
               :key="'common-' + time"
               @click="selectTime(time)"
-              class="w-full text-left px-3 py-2 text-sm text-gray-200 hover:bg-gray-700 transition-colors"
+              class="w-full text-left px-3 min-h-touch text-sm text-content hover:bg-surface-3 transition-colors"
             >
               {{ formatTime(time) }}
             </button>
@@ -168,7 +169,7 @@
               v-for="time in longTimes"
               :key="'long-' + time"
               @click="selectTime(time)"
-              class="w-full text-left px-3 py-2 text-sm text-gray-200 hover:bg-gray-700 transition-colors"
+              class="w-full text-left px-3 min-h-touch text-sm text-content hover:bg-surface-3 transition-colors"
             >
               {{ formatTime(time) }}
             </button>
@@ -179,13 +180,13 @@
 
     <div class="shrink-0">
       <button
-        @click="openSettings = true"
+        @click="openCameraSettings"
         :class="[
-          'rounded-full bg-gray-600 flex items-center justify-center shadow-md shadow-black border border-cyan-900 transition-colors duration-200',
+          'rounded-full bg-surface-3 flex items-center justify-center shadow-md shadow-black border border-line-strong transition-colors duration-200',
           buttonSizeClasses,
         ]"
       >
-        <Cog6ToothIcon :class="smallIconSizeClasses" class="text-gray-300" />
+        <Cog6ToothIcon :class="smallIconSizeClasses" class="text-content-muted" />
       </button>
 
       <Modal :show="openSettings" @close="openSettings = false">
@@ -215,7 +216,9 @@ import Modal from '@/components/helpers/Modal.vue';
 import SettingsModal from '@/components/camera/SettingsModal.vue';
 import { Cog6ToothIcon } from '@heroicons/vue/24/outline';
 import { useOrientation } from '@/composables/useOrientation';
+import { useHaptics } from '@/composables/useHaptics';
 
+const { tapLight, tapMedium } = useHaptics();
 const cameraStore = useCameraStore();
 const settingsStore = useSettingsStore();
 const sequenceStore = useSequenceStore();
@@ -239,7 +242,34 @@ const commonTimes = [10, 15, 20, 30, 45, 60, 90, 120];
 const longTimes = [180, 240, 300, 480, 600, 900];
 
 // Functions
+const handleCaptureClick = () => {
+  if (store.cameraInfo.IsExposing) {
+    // Aborting is the destructive branch of this button.
+    tapMedium();
+    cameraStore.abortExposure(apiService);
+    return;
+  }
+  tapLight();
+  cameraStore.capturePhoto(
+    apiService,
+    settingsStore.camera.exposureTime,
+    store.profileInfo.SnapShotControlSettings.Gain,
+    settingsStore.camera.useSolve
+  );
+};
+
+const toggleLooping = () => {
+  tapLight();
+  cameraStore.isLooping = !cameraStore.isLooping;
+};
+
+const openCameraSettings = () => {
+  tapLight();
+  openSettings.value = true;
+};
+
 const selectTime = (time) => {
+  tapLight();
   settingsStore.camera.exposureTime = time;
   showDropdown.value = false;
 };
@@ -288,10 +318,10 @@ const containerStyle = computed(() => {
   return !isLandscape.value ? { bottom: baseBottom } : {};
 });
 
-// Responsive button sizes
+// Responsive button sizes — never below the 48px touch target
 const buttonSizeClasses = computed(() => {
   if (isLandscape.value) {
-    return 'w-10 h-10 md:w-12 md:h-12 lg:w-16 lg:h-16';
+    return 'w-12 h-12 lg:w-16 lg:h-16';
   }
   return 'w-12 h-12 lg:w-16 lg:h-16'; // Portrait mode
 });
@@ -307,7 +337,7 @@ const iconSizeClasses = computed(() => {
 // Progress circle size classes - proportional to button size
 const progressSizeClasses = computed(() => {
   if (isLandscape.value) {
-    return 'w-10 h-10 md:w-12 md:h-12 lg:w-16 lg:h-16'; // Same as button size
+    return 'w-12 h-12 lg:w-16 lg:h-16'; // Same as button size
   }
   return 'w-12 h-12 lg:w-16 lg:h-16'; // Portrait mode
 });
@@ -337,7 +367,7 @@ const smallIconSizeClasses = computed(() => {
 
 // Input field classes
 const inputClasses = computed(() => {
-  let baseClasses = 'default-input text-center h-10';
+  const baseClasses = 'tns-input text-center';
 
   if (isLandscape.value) {
     return `${baseClasses} pr-5 w-20 text-sm`; // All landscape devices
@@ -365,9 +395,9 @@ const dropdownClasses = computed(() => {
 // Label classes
 const labelClasses = computed(() => {
   if (isLandscape.value) {
-    return 'text-xs text-gray-300 text-center'; // All landscape
+    return 'text-xs text-content-muted text-center'; // All landscape
   }
-  return 'text-sm text-gray-300'; // Portrait
+  return 'text-sm text-content-muted'; // Portrait
 });
 </script>
 

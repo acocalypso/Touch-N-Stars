@@ -1,9 +1,9 @@
 <template>
   <div
-    class="flex flex-col gap-2 items-center justify-between w-full border border-gray-500 p-1 md:p-2 rounded-lg"
+    class="flex flex-col gap-2 items-center justify-between w-full border border-line-strong p-1 md:p-2 rounded-control"
   >
     <div class="flex flex-row items-center justify-between w-full">
-      <label for="toggle_light" class="text-xs md:text-sm text-gray-200">
+      <label for="toggle_light" class="text-xs md:text-sm text-content">
         {{ $t('components.camera.set_use_platesolve') }}
       </label>
       <div>
@@ -15,7 +15,7 @@
       </div>
     </div>
     <div class="flex flex-row items-center justify-between w-full">
-      <label for="toggle_light" class="text-xs md:text-sm text-gray-200">
+      <label for="toggle_light" class="text-xs md:text-sm text-content">
         {{ $t('components.camera.set_use_solve_sync_to_mount') }}
       </label>
       <div>

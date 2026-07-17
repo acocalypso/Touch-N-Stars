@@ -24,16 +24,14 @@
         <infoMount
           v-if="store.mount.currentTab !== 'showTppa' && store.mount.currentTab !== 'showSettings'"
           v-model="store.mountInfo.Connected"
-          class="gap-1 p-2 bg-gray-800/50 rounded-lg border border-gray-700/50"
+          class="gap-1 p-2 bg-surface-1 rounded-card border border-line"
         />
         <Transition name="slide-in" mode="out-in">
           <div
             v-if="store.mount.currentTab === 'showMount' && store.mountInfo.Connected"
             key="mount-tab"
           >
-            <div
-              class="mt-4 border border-gray-700 rounded-lg shadow-lg bg-gradient-to-br from-gray-800 to-gray-900"
-            >
+            <div class="mt-4 border border-line rounded-card shadow-lg bg-surface-1">
               <div class="container pl-5 pb-5 pr-5">
                 <div class="mt-5">
                   <controlMount />
@@ -48,9 +46,7 @@
             v-if="store.mount.currentTab === 'showSlew' && store.mountInfo.Connected"
             key="slew-tab"
           >
-            <div
-              class="mt-4 border border-gray-700 rounded-lg shadow-lg bg-gradient-to-br from-gray-800 to-gray-900"
-            >
+            <div class="mt-4 border border-line rounded-card shadow-lg bg-surface-1">
               <div class="container pl-5 pb-5 pr-5">
                 <div class="mt-5">
                   <TargetSearch class="w-full mt-2" />
@@ -64,10 +60,9 @@
           <div v-if="store.mount.currentTab === 'showTppa'" key="tppa-tab">
             <div
               :class="[
-                'mt-4 border border-gray-700 rounded-lg shadow-lg',
-                tppaStore.isRunning && imageStore.imageData
-                  ? 'bg-gradient-to-br from-gray-800/30 to-gray-900/30'
-                  : 'bg-gradient-to-br from-gray-800 to-gray-900',
+                'mt-4 border border-line rounded-card shadow-lg',
+                // Semi-transparent while TPPA runs so the live image stays readable
+                tppaStore.isRunning && imageStore.imageData ? 'bg-surface-1/30' : 'bg-surface-1',
               ]"
             >
               <div class="container pl-5 pb-5 pr-5">
@@ -81,9 +76,7 @@
 
         <Transition name="slide-in" mode="out-in">
           <div v-if="store.mount.currentTab === 'showSettings'" key="settings-tab">
-            <div
-              class="mt-4 border border-gray-700 rounded-lg shadow-lg bg-gradient-to-br from-gray-800 to-gray-900"
-            >
+            <div class="mt-4 border border-line rounded-card shadow-lg bg-surface-1">
               <div class="container pl-5 pb-5 pr-5">
                 <div class="mt-5">
                   <MeridianFlipSettings />

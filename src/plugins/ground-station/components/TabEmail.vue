@@ -7,7 +7,7 @@
             :id="inputId"
             v-model="form.SmtpFromAddress"
             type="email"
-            class="default-input w-full h-10"
+            class="tns-input w-full"
           />
         </template>
       </FieldRow>
@@ -20,18 +20,13 @@
             :id="inputId"
             v-model="form.SmtpDefaultRecipients"
             type="text"
-            class="default-input w-full h-10"
+            class="tns-input w-full"
           />
         </template>
       </FieldRow>
       <FieldRow :label="$t('plugins.groundStation.email.host')">
         <template #default="{ inputId }">
-          <input
-            :id="inputId"
-            v-model="form.SmtpHostName"
-            type="text"
-            class="default-input w-full h-10"
-          />
+          <input :id="inputId" v-model="form.SmtpHostName" type="text" class="tns-input w-full" />
         </template>
       </FieldRow>
       <FieldRow :label="$t('plugins.groundStation.email.port')">
@@ -42,7 +37,7 @@
             type="number"
             min="1"
             max="65535"
-            class="default-input w-full h-10"
+            class="tns-input w-full"
           />
         </template>
       </FieldRow>
@@ -53,7 +48,7 @@
             v-model="form.SmtpUsername"
             type="text"
             autocomplete="username"
-            class="default-input w-full h-10"
+            class="tns-input w-full"
           />
         </template>
       </FieldRow>
@@ -68,7 +63,7 @@
             type="password"
             autocomplete="new-password"
             :placeholder="$t('plugins.groundStation.common.leaveEmpty')"
-            class="default-input w-full h-10"
+            class="tns-input w-full"
           />
         </template>
       </FieldRow>
@@ -81,7 +76,7 @@
             :id="inputId"
             v-model="form.EmailFailureSubjectText"
             type="text"
-            class="default-input w-full h-10"
+            class="tns-input w-full"
           />
         </template>
       </FieldRow>
@@ -91,7 +86,7 @@
             :id="inputId"
             v-model="form.EmailFailureBodyText"
             rows="3"
-            class="default-input w-full"
+            class="tns-input w-full"
           />
         </template>
       </FieldRow>

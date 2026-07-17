@@ -257,7 +257,7 @@
                       }}</span>
                       <select
                         v-model="siderealStartProvider"
-                        class="default-select text-xs h-8 flex-1"
+                        class="tns-select text-xs flex-1"
                         @change="setOption('SiderealStartProvider', $event.target.value)"
                       >
                         <option v-for="p in SIDEREAL_START_PROVIDERS" :key="p" :value="p">
@@ -291,7 +291,7 @@
                       }}</span>
                       <select
                         v-model="siderealEndProvider"
-                        class="default-select text-xs h-8 flex-1"
+                        class="tns-select text-xs flex-1"
                         @change="setOption('SiderealEndProvider', $event.target.value)"
                       >
                         <option v-for="p in SIDEREAL_END_PROVIDERS" :key="p" :value="p">

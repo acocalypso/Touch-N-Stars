@@ -26,7 +26,7 @@
         <button
           @click="collectAndUpload"
           :disabled="busy"
-          class="default-button-green px-4 py-2 rounded disabled:opacity-50 disabled:cursor-not-allowed"
+          class="tns-btn-primary px-4 py-2 rounded disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <span v-if="busy" class="inline-flex items-center gap-2">
             <svg class="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -145,7 +145,7 @@
         <button
           @click="startDiagnosticsCollection"
           :disabled="!diagnosticsCanStart"
-          class="default-button-green px-4 py-2 rounded disabled:opacity-50 disabled:cursor-not-allowed"
+          class="tns-btn-primary px-4 py-2 rounded disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <span v-if="diagnosticsUiState.isBusy" class="inline-flex items-center gap-2">
             <svg class="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -736,10 +736,3 @@ function clearAllSubmissions() {
   }
 }
 </script>
-
-<style scoped>
-.default-button-green {
-  background: #059669;
-  color: #fff;
-}
-</style>

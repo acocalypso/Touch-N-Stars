@@ -371,10 +371,10 @@
           {{ t('plugins.sequenceCreator.confirmations.removeAction', { actionName: action.name }) }}
         </p>
         <div class="flex justify-center gap-4">
-          <button @click="cancelRemove" class="default-button-gray text-sm">
+          <button @click="cancelRemove" class="tns-btn-secondary text-sm">
             {{ t('general.cancel') }}
           </button>
-          <button @click="confirmRemove" class="default-button-red text-sm">
+          <button @click="confirmRemove" class="tns-btn-danger text-sm">
             {{ t('general.confirm') }}
           </button>
         </div>

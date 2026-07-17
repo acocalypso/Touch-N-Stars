@@ -117,7 +117,7 @@
           <div class="grid grid-cols-2 gap-3 w-full sm:min-w-[18rem]">
             <button
               type="button"
-              class="default-button-gray w-full inline-flex items-center justify-center text-center"
+              class="tns-btn-secondary w-full inline-flex items-center justify-center text-center"
               :disabled="installing"
               @click="closeModal"
             >
@@ -125,7 +125,7 @@
             </button>
             <button
               type="button"
-              class="default-button-cyan w-full inline-flex items-center justify-center text-center disabled:opacity-50"
+              class="tns-btn-primary w-full inline-flex items-center justify-center text-center disabled:opacity-50"
               :disabled="installing || !validation.isValid"
               @click="submit"
             >

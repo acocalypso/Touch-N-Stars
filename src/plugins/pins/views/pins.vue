@@ -147,10 +147,10 @@
                   {{ $t('plugins.pins.disconnectConfirmMessage') }}
                 </p>
                 <div class="flex justify-end gap-3">
-                  <button @click="showDisconnectWifiModal = false" class="default-button-gray">
+                  <button @click="showDisconnectWifiModal = false" class="tns-btn-secondary">
                     {{ $t('common.cancel') }}
                   </button>
-                  <button @click="confirmDisableWifi" class="default-button-red">
+                  <button @click="confirmDisableWifi" class="tns-btn-danger">
                     {{ $t('common.confirm') }}
                   </button>
                 </div>
@@ -220,7 +220,7 @@
                 </div>
 
                 <div class="flex justify-end">
-                  <button @click="showUpdatesModal = false" class="default-button-gray">
+                  <button @click="showUpdatesModal = false" class="tns-btn-secondary">
                     {{ $t('common.cancel') }}
                   </button>
                 </div>

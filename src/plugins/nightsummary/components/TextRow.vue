@@ -5,7 +5,7 @@
       :type="type || 'text'"
       :value="value"
       @blur="$emit('blur', $event.target.value)"
-      class="default-input w-full sm:flex-1 sm:max-w-sm"
+      class="tns-input w-full sm:flex-1 sm:max-w-sm"
     />
   </div>
 </template>

@@ -1,6 +1,41 @@
 @import 'tailwindcss';
 @config '../../tailwind.config.cjs';
 
+@theme {
+  /* Surfaces — one neutral ramp (slate-based, slightly blue like the night sky) */
+  --color-ground: #0a0f1c;
+  --color-surface-1: #111827;
+  --color-surface-2: #1a2336;
+  --color-surface-3: #243049;
+
+  /* Lines / borders */
+  --color-line: rgba(148, 163, 184, 0.16);
+  --color-line-strong: rgba(148, 163, 184, 0.32);
+
+  /* Text */
+  --color-content: #e2e8f0;
+  --color-content-muted: #8fa3bf;
+  --color-content-faint: #64748b;
+
+  /* Accent — the ONE accent of the app (replaces emerald focus, mixed cyans) */
+  --color-accent: #22d3ee; /* highlights, active states (cyan-400) */
+  --color-accent-action: #0891b2; /* primary buttons (cyan-600) */
+
+  /* Semantic status colors — same meaning everywhere:
+     ok = running/healthy, warn = attention, danger = problem/stopped */
+  --color-status-ok: #34d399;
+  --color-status-warn: #fbbf24;
+  --color-status-danger: #f87171;
+
+  /* Radii */
+  --radius-card: 14px;
+  --radius-control: 12px;
+  --radius-chip: 10px;
+
+  /* Touch */
+  --spacing-touch: 48px; /* minimum touch target size (enables min-h-touch, min-w-touch) */
+}
+
 /* Safe Area Utilities for iOS devices */
 @layer utilities {
   .safe-area-top {
@@ -206,7 +241,7 @@
    min-w-10 
    min-h-10 
    bg-gradient-to-br from-blue-800/80 to-blue-600/80 
-   hover:from-blue-700/90 hover:to-gray-500/90 
+   hover:from-blue-700/90 hover:to-blue-500/90
    border border-blue-700/50
    hover:border-blue-500/70
    rounded-md 
@@ -311,23 +346,23 @@
   }
 
   .default-input {
-    @apply text-gray-200 
-    px-3 
-    min-w-10 
-    min-h-8 
-    border border-slate-600/60 
-    rounded-lg 
-    bg-slate-700/40 
+    @apply text-gray-200
+    px-3
+    min-w-10
+    min-h-12
+    border border-slate-600/60
+    rounded-lg
+    bg-slate-700/40
     backdrop-blur-sm
     shadow-inner
     transition-all
     duration-300
     ease-out
     placeholder:text-gray-400
-    focus:outline-none 
-    focus:ring-2 
-    focus:ring-emerald-500/40
-    focus:border-emerald-500/60
+    focus:outline-none
+    focus:ring-2
+    focus:ring-cyan-500/40
+    focus:border-cyan-500/60
     focus:bg-slate-700/60
     hover:border-slate-500/70
     hover:bg-slate-700/50
@@ -337,23 +372,23 @@
   }
 
   .default-select {
-    @apply text-gray-200 
-    px-3 
-    min-w-10 
-    min-h-8 
-    border border-slate-600/60 
-    rounded-lg 
-    bg-slate-700/40 
+    @apply text-gray-200
+    px-3
+    min-w-10
+    min-h-12
+    border border-slate-600/60
+    rounded-lg
+    bg-slate-700/40
     backdrop-blur-sm
     shadow-inner
     transition-all
     duration-300
     ease-out
     cursor-pointer
-    focus:outline-none 
-    focus:ring-2 
-    focus:ring-emerald-500/40
-    focus:border-emerald-500/60
+    focus:outline-none
+    focus:ring-2
+    focus:ring-cyan-500/40
+    focus:border-cyan-500/60
     focus:bg-slate-700/60
     hover:border-slate-500/70
     hover:bg-slate-700/50
@@ -377,7 +412,7 @@
   }
 
   .default-select option:checked {
-    @apply bg-emerald-600
+    @apply bg-cyan-600
     text-white;
   }
   .btn-primary {
@@ -393,4 +428,70 @@
   .btn-danger {
     @apply px-4 py-2 rounded-md text-white bg-red-600 hover:bg-red-700 transition-colors;
   }
+}
+
+/* --- New design system components (tns-*) ---
+   Defined with @utility (not @layer components) so that the role variants below
+   can @apply the shared tns-btn / tns-input base. */
+
+@utility tns-btn {
+  @apply flex items-center justify-center gap-2
+    min-h-touch min-w-touch w-full px-4
+    rounded-control text-sm font-semibold leading-tight text-center
+    transition-all duration-150 ease-out
+    active:scale-[0.97]
+    focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/50
+    disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100;
+}
+
+/* Primary: THE one main action of a page (capture, slew, start) */
+@utility tns-btn-primary {
+  @apply tns-btn bg-accent-action text-white
+    hover:brightness-110 disabled:hover:brightness-100;
+}
+
+/* Secondary: everything else */
+@utility tns-btn-secondary {
+  @apply tns-btn bg-surface-3 border border-line-strong text-content
+    hover:bg-surface-2 disabled:hover:bg-surface-3;
+}
+
+/* Danger: destructive/stopping actions ONLY (park, stop, abort) — outlined so red stays a signal */
+@utility tns-btn-danger {
+  @apply tns-btn bg-transparent border border-status-danger/50 text-status-danger
+    hover:bg-status-danger/10 disabled:hover:bg-transparent;
+}
+
+/* Ghost: icon-only actions on top of images/overlays */
+@utility tns-btn-ghost {
+  @apply tns-btn w-auto bg-surface-1/90 text-content
+    hover:bg-surface-2;
+}
+
+/* Inputs/selects: 48px touch height, cyan focus (one accent for the whole app) */
+@utility tns-input {
+  @apply text-content px-3 min-h-touch w-full
+    border border-line-strong rounded-control bg-surface-2
+    transition-colors duration-150
+    placeholder:text-content-faint
+    focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent-action
+    disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+@utility tns-select {
+  @apply tns-input cursor-pointer;
+
+  & option {
+    @apply bg-surface-1 text-content py-2 px-3;
+  }
+}
+
+/* Card: the one standard surface for grouped content */
+@utility tns-card {
+  @apply bg-surface-1 border border-line rounded-card p-4;
+}
+
+/* Status dot for chips/rows: pair with bg-status-ok / bg-status-warn / bg-status-danger */
+@utility tns-dot {
+  @apply w-2 h-2 rounded-full shrink-0;
 }

@@ -156,7 +156,7 @@
         <div
           v-if="store.isPINS && showCaptureStats && store.lastImageStats && imageStore.imageData"
           class="absolute right-0 z-20 flex flex-col p-2 text-xs text-gray-300 bg-black/50"
-          :class="isLandscape ? 'left-32 top-0' : 'left-0 top-0'"
+          :class="isLandscape ? 'left-(--nav-width) top-0' : 'left-0 top-0'"
         >
           <div v-if="statsLoading" class="flex items-center gap-2 py-1 opacity-60">
             <svg
@@ -501,7 +501,7 @@ const histogramClasses = computed(() => ({
   // Portrait mode - bottom center
   'absolute top-36 left-4 w-2/3 min-w-72': !isLandscape.value,
   // Landscape mode - left side vertical (changed from right to left)
-  'absolute top-24 left-36 w-1/2 min-w-72': isLandscape.value,
+  'absolute top-24 left-(--nav-offset) w-1/2 min-w-72': isLandscape.value,
 }));
 
 // Modal Management - togglet das Modal oder schließt andere

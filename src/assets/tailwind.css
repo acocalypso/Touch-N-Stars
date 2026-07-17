@@ -36,6 +36,14 @@
   --spacing-touch: 48px; /* minimum touch target size (enables min-h-touch, min-w-touch) */
 }
 
+/* Landscape navigation sidebar width — single source of truth.
+   Referenced across App/StatusBar/SubNav/overlays via var(--nav-width) and
+   var(--nav-offset) (sidebar + 1rem gap). Change the width here only. */
+:root {
+  --nav-width: 6rem;
+  --nav-offset: calc(var(--nav-width) + 1rem);
+}
+
 /* Safe Area Utilities for iOS devices */
 @layer utilities {
   .safe-area-top {

@@ -364,7 +364,7 @@ checkStatusBarFeatureHighlight();
 const { isLandscape } = useOrientation();
 const guiderGraphClasses = computed(() => ({
   'fixed left-0 w-full': !isLandscape.value,
-  'fixed left-32 right-0': isLandscape.value,
+  'fixed left-(--nav-width) right-0': isLandscape.value,
 }));
 
 function handleWeatherClick(event) {

@@ -466,7 +466,7 @@ const containerStyle = computed(() => {
     return {
       position: 'fixed',
       top: '0',
-      left: '8rem', // Start after 128px sidebar
+      left: 'var(--nav-width)', // Start after the navbar sidebar
       right: '0',
       bottom: '0', // Go all the way to bottom
       width: 'auto',

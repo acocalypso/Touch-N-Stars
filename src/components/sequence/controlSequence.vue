@@ -2,7 +2,9 @@
   <div
     :class="[
       'fixed flex flex-wrap gap-2 z-10',
-      isLandscape ? 'left-36 max-w-[calc(100vw-9rem)]' : 'left-3 max-w-[calc(100vw-0.75rem)]',
+      isLandscape
+        ? 'left-(--nav-offset) max-w-[calc(100vw-var(--nav-offset))]'
+        : 'left-3 max-w-[calc(100vw-0.75rem)]',
     ]"
     style="bottom: calc(env(safe-area-inset-bottom, 0px) + 48px)"
   >

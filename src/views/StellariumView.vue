@@ -700,14 +700,14 @@ onBeforeUnmount(() => {
 /* Landscape Mode  */
 .stellarium-landscape {
   top: 0;
-  left: 8rem;
-  width: calc(100vw - 8rem);
+  left: var(--nav-width);
+  width: calc(100vw - var(--nav-width));
   height: calc(100dvh - 2rem - env(safe-area-inset-bottom, 0px));
 }
 
 @media screen and (orientation: landscape) {
   .stellarium-controls.left-2 {
-    left: 9rem !important;
+    left: var(--nav-offset) !important;
   }
 }
 

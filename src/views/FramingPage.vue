@@ -256,7 +256,7 @@ watch(
 @media (orientation: landscape) {
   .framing-page {
     top: 0;
-    left: 8rem;
+    left: var(--nav-width);
     right: 1rem;
     bottom: 4rem;
   }

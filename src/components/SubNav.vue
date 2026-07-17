@@ -60,8 +60,8 @@ const { isLandscape } = useOrientation();
 const subnavClasses = computed(() => ({
   // Portrait mode - below main navigation (left: 0, top: after nav)
   'left-0 top-20 w-full': !isLandscape.value,
-  // Landscape mode - top of screen, starting after navbar (w-32 = 8rem = 128px)
-  'left-32 top-0 w-[calc(100vw-8rem)]': isLandscape.value,
+  // Landscape mode - top of screen, starting after the navbar sidebar
+  'left-(--nav-width) top-0 w-[calc(100vw-var(--nav-width))]': isLandscape.value,
 }));
 // Background classes for consistent styling
 const backgroundClasses = computed(() => 'bg-gray-900/95 backdrop-blur-sm');
@@ -137,9 +137,9 @@ watch(
 /* Landscape mode specific styles */
 @media screen and (orientation: landscape) {
   .subnav {
-    left: 8rem !important; /* 128px - entspricht w-32 der Navbar */
+    left: var(--nav-width) !important; /* matches the navbar sidebar width */
     right: 0 !important; /* Bis zum rechten Rand */
-    width: calc(100% - 8rem) !important; /* Volle Breite minus Navbar */
+    width: calc(100% - var(--nav-width)) !important; /* Volle Breite minus Navbar */
     top: 0 !important;
     border-top: none !important;
     border-bottom: 1px solid rgba(6, 182, 212, 0.3) !important;

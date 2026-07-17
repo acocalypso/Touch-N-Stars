@@ -14,7 +14,7 @@
     <div class="fixed right-3 z-10" style="bottom: calc(env(safe-area-inset-bottom, 0px) + 48px)">
       <button
         @click="toggleEdit"
-        class="p-2 bg-gray-700 border border-cyan-600 rounded-full shadow-md"
+        class="p-2 min-h-touch min-w-touch flex items-center justify-center bg-surface-3 border border-line-strong rounded-full shadow-md"
         :class="{
           'connected-glow': sequenceStore.sequenceEdit,
           'opacity-50 cursor-not-allowed': sequenceStore.sequenceControlsLocked,
@@ -46,7 +46,7 @@
     <div class="max-w-6xl mx-auto lg:px-4">
       <div class="space-y-6 md:space-y-8">
         <!-- Added floating header effect -->
-        <div class="backdrop-blur-sm bg-gray-800/50 rounded-xl p-4 shadow-xl">
+        <div class="backdrop-blur-sm bg-surface-1/60 rounded-card p-4 shadow-xl">
           <LoadSequence />
           <transition name="slide-fade">
             <div v-show="currentTab === 'showSequenz'" class="space-y-6 md:space-y-8">

@@ -1888,6 +1888,39 @@
       "dec": "Dec",
       "pixel_scale": "Pixel Scale",
       "focal_length": "Focal Length"
+    },
+    "statusBar": {
+      "labels": {
+        "camera": "Camera",
+        "guiding": "Guiding",
+        "mount": "Mount",
+        "filter": "Filter",
+        "weather": "Weather",
+        "safety": "Safety",
+        "progress": "Progress",
+        "log": "Log",
+        "instance": "Instance"
+      },
+      "camera": {
+        "idle": "Idle"
+      },
+      "guiding": {
+        "starLost": "Star lost",
+        "idle": "Idle"
+      },
+      "mount": {
+        "tracking": "Tracking",
+        "trackingOff": "Tracking off",
+        "parked": "Parked",
+        "slewing": "Slewing"
+      },
+      "filter": {
+        "none": "No filter"
+      },
+      "safety": {
+        "safe": "Safe",
+        "unsafe": "Unsafe"
+      }
     }
   },
   "plugins": {

@@ -559,7 +559,7 @@ const navContainerClasses = computed(() => ({
 }));
 
 const mainContentClasses = computed(() => ({
-  'container mx-auto transition-all pt-[82px] pb-[calc(2.25rem+env(safe-area-inset-bottom)+0.5rem)]':
+  'container mx-auto transition-all pt-[82px] pb-[calc(3.5rem+env(safe-area-inset-bottom)+0.5rem)]':
     !isLandscape.value,
   'transition-all ml-32 mr-4 py-4 pb-16': isLandscape.value,
 }));
@@ -1372,7 +1372,7 @@ onBeforeUnmount(async () => {
 /* Safe Area Support - only for portrait bottom */
 @supports (padding-bottom: env(safe-area-inset-bottom)) {
   .app-portrait .main-content {
-    padding-bottom: calc(2.25rem + env(safe-area-inset-bottom) + 0.5rem);
+    padding-bottom: calc(3.5rem + env(safe-area-inset-bottom) + 0.5rem);
   }
 }
 

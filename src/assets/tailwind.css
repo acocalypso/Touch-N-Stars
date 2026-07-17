@@ -495,3 +495,11 @@
 @utility tns-dot {
   @apply w-2 h-2 rounded-full shrink-0;
 }
+
+/* Labelled status chip for the status bar */
+@utility tns-status-chip {
+  @apply flex items-center gap-2 shrink-0
+    bg-surface-2 border border-line-strong rounded-chip
+    px-2.5 min-h-11 cursor-pointer
+    transition-colors hover:bg-surface-3;
+}

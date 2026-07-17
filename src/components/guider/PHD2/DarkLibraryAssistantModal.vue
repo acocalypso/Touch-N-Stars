@@ -163,7 +163,7 @@
             :disabled="!isBuilding && (rangeInvalid || expTimesMs.length === 0)"
             :class="[
               'px-3 sm:px-4 py-2 sm:py-3 flex items-center justify-center gap-2',
-              isBuilding ? 'default-button-red' : 'default-button-cyan',
+              isBuilding ? 'tns-btn-danger' : 'tns-btn-primary',
             ]"
           >
             <StopIcon v-if="isBuilding" class="w-5 h-5" />
@@ -180,21 +180,21 @@
             <button
               @click="onLoad"
               :disabled="isBuilding || !info?.Exists || info?.Loaded"
-              class="default-button-gray px-2 py-2 text-sm disabled:opacity-50"
+              class="tns-btn-secondary px-2 py-2 text-sm disabled:opacity-50"
             >
               {{ $t('components.guider.phd2.darkLibrary.load') }}
             </button>
             <button
               @click="onUnload"
               :disabled="isBuilding || !info?.Loaded"
-              class="default-button-gray px-2 py-2 text-sm disabled:opacity-50"
+              class="tns-btn-secondary px-2 py-2 text-sm disabled:opacity-50"
             >
               {{ $t('components.guider.phd2.darkLibrary.unload') }}
             </button>
             <button
               @click="onDelete"
               :disabled="isBuilding || !info?.Exists"
-              :class="confirmDelete ? 'default-button-red' : 'default-button-gray'"
+              :class="confirmDelete ? 'tns-btn-danger' : 'tns-btn-secondary'"
               class="px-2 py-2 text-sm disabled:opacity-50"
             >
               {{

@@ -18,13 +18,13 @@
               v-model="newProfileName"
               type="text"
               :placeholder="$t('components.guider.phd2.profileManagement.profileNamePlaceholder')"
-              class="default-input flex-1"
+              class="tns-input flex-1"
               :disabled="operationInProgress"
               @keyup.enter="handleCreate"
             />
             <button
               @click="handleCreate"
-              class="default-button-cyan px-4 max-w-28"
+              class="tns-btn-primary px-4 max-w-28"
               :disabled="!canCreate || operationInProgress"
             >
               {{ $t('components.guider.phd2.profileManagement.create') }}
@@ -77,7 +77,7 @@
                 v-if="editingProfileName === profile"
                 v-model="renameValue"
                 type="text"
-                class="default-input flex-1"
+                class="tns-input flex-1"
                 @keyup.enter="handleRename(profile)"
                 @keyup.escape="cancelEdit"
                 ref="renameInput"
@@ -92,7 +92,7 @@
                 <button
                   v-if="editingProfileName === profile"
                   @click="handleRename(profile, index)"
-                  class="default-button-cyan w-10 h-10 flex items-center justify-center"
+                  class="tns-btn-secondary flex items-center justify-center"
                   :disabled="!canRename"
                   :title="$t('common.confirm')"
                 >
@@ -101,7 +101,7 @@
                 <button
                   v-else
                   @click="startEdit(profile)"
-                  class="default-button-cyan w-10 h-10 flex items-center justify-center"
+                  class="tns-btn-secondary flex items-center justify-center"
                   :title="$t('components.guider.phd2.profileManagement.rename')"
                 >
                   <PencilIcon class="w-5 h-5" />
@@ -111,7 +111,7 @@
                 <button
                   v-if="editingProfileName === profile"
                   @click="cancelEdit"
-                  class="default-button-gray w-10 h-10 flex items-center justify-center"
+                  class="tns-btn-secondary flex items-center justify-center"
                   :title="$t('components.guider.phd2.profileManagement.cancel')"
                 >
                   <XMarkIcon class="w-5 h-5" />
@@ -127,8 +127,8 @@
                     deleteConfirmFor === profile
                       ? 'bg-red-700 hover:bg-red-800'
                       : profiles.length <= 1
-                        ? 'default-button-gray opacity-50 cursor-not-allowed'
-                        : 'default-button-red',
+                        ? 'tns-btn-secondary opacity-50 cursor-not-allowed'
+                        : 'tns-btn-danger',
                   ]"
                 >
                   <TrashIcon v-if="deleteConfirmFor !== profile" class="w-5 h-5" />

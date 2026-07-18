@@ -214,7 +214,7 @@
           </button>
           <template v-else>
             <button
-              class="tns-btn-primary"
+              class="tns-btn-secondary"
               :disabled="!newFolderName.trim()"
               @click="confirmNewFolder"
             >

@@ -2,7 +2,7 @@
   <div :class="{ 'w-full': showLabel }">
     <button
       @click="showModal = true"
-      class="tns-btn-primary"
+      class="tns-btn-secondary"
       :class="{ 'w-full gap-2': showLabel }"
     >
       <HeartIcon class="w-7 h-7 shrink-0" />

@@ -130,7 +130,7 @@
 
       <!-- Open Framing Page Button -->
       <div v-if="framingStore.selectedItem" class="mb-4">
-        <button @click="openFraming" class="tns-btn-primary">
+        <button @click="openFraming" class="tns-btn-secondary">
           {{ $t('components.framing.openFraminingModal') }}
         </button>
       </div>

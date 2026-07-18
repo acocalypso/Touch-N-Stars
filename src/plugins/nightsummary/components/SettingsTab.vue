@@ -371,7 +371,11 @@
           </div>
         </template>
         <div class="flex flex-wrap items-center gap-3">
-          <button @click="store.testEmail()" :disabled="store.emailTesting" class="tns-btn-primary">
+          <button
+            @click="store.testEmail()"
+            :disabled="store.emailTesting"
+            class="tns-btn-secondary"
+          >
             {{ store.emailTesting ? $t('common.loading') : $t('nightsummary.settings.testEmail') }}
           </button>
           <StatusBadge
@@ -408,7 +412,7 @@
           <button
             @click="store.testPushover()"
             :disabled="store.pushoverTesting"
-            class="tns-btn-primary"
+            class="tns-btn-secondary"
           >
             {{
               store.pushoverTesting
@@ -445,7 +449,7 @@
           <button
             @click="store.testDiscord()"
             :disabled="store.discordTesting"
-            class="tns-btn-primary"
+            class="tns-btn-secondary"
           >
             {{
               store.discordTesting ? $t('common.loading') : $t('nightsummary.settings.testDiscord')

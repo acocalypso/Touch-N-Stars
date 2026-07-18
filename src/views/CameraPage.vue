@@ -45,12 +45,16 @@
 
           <template #extra-buttons>
             <!-- PINS: Stats Toggle Button -->
+            <!-- Overlay buttons match ZoomableImage's own control cluster (same
+                 size/shape) so the toolbar stays visually uniform. -->
             <button
               v-if="store.isPINS"
               @click.stop="toggleCaptureStats"
               :class="[
-                'tns-btn-ghost shadow-lg',
-                showCaptureStats ? 'bg-accent-action hover:bg-accent-action text-white' : '',
+                'w-10 h-10 rounded-lg shadow-lg flex items-center justify-center transition-colors',
+                showCaptureStats
+                  ? 'bg-accent-action hover:bg-accent-action text-white'
+                  : 'bg-gray-800/90 hover:bg-gray-700 text-white',
               ]"
               title="Image Statistics"
             >
@@ -59,11 +63,12 @@
             <!-- Image Rotation Button -->
             <button
               @click.stop="rotateImage"
-              class="tns-btn-ghost shadow-lg"
-              :class="{
-                'bg-accent-action hover:bg-accent-action text-white':
-                  settingsStore.currentImageRotation !== 0,
-              }"
+              :class="[
+                'w-10 h-10 rounded-lg shadow-lg flex items-center justify-center transition-colors',
+                settingsStore.currentImageRotation !== 0
+                  ? 'bg-accent-action hover:bg-accent-action text-white'
+                  : 'bg-gray-800/90 hover:bg-gray-700 text-white',
+              ]"
               :title="'Rotate image (' + settingsStore.currentImageRotation + '°)'"
             >
               <svg
@@ -85,7 +90,7 @@
             <button
               v-if="imageStore.imageData"
               @click.stop="openSlewModal"
-              class="tns-btn-ghost shadow-lg"
+              class="w-10 h-10 bg-gray-800/90 hover:enabled:bg-gray-700 text-white rounded-lg shadow-lg flex items-center justify-center transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
               title="Center Here"
               :disabled="!cameraStore.plateSolveResult || !cameraStore.plateSolveResult.Coordinates"
             >

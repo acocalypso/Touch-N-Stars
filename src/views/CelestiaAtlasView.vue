@@ -573,7 +573,6 @@ onBeforeUnmount(() => {
 .celestia-atlas-container {
   position: fixed;
   z-index: 1;
-  top: 0;
 }
 .celestia-atlas-viewer {
   width: 100%;
@@ -582,7 +581,7 @@ onBeforeUnmount(() => {
 }
 :deep(.celestia-atlas-survey-credit) {
   z-index: 2 !important;
-  top: calc(4.5rem + env(safe-area-inset-top, 0px)) !important;
+  top: calc(0.75rem + env(safe-area-inset-top, 0px)) !important;
   right: calc(0.75rem + env(safe-area-inset-right, 0px)) !important;
   bottom: auto !important;
   max-width: calc(
@@ -592,14 +591,16 @@ onBeforeUnmount(() => {
   white-space: normal;
 }
 .celestia-atlas-landscape {
+  top: 0;
   left: 8rem;
   width: calc(100vw - 8rem);
   height: calc(100dvh - 2rem - env(safe-area-inset-bottom, 0px));
 }
 .celestia-atlas-portrait {
+  top: 5rem;
   left: 0;
   width: 100vw;
-  height: calc(100dvh - 1.5rem - env(safe-area-inset-bottom, 0px));
+  height: calc(100dvh - 6.5rem - env(safe-area-inset-bottom, 0px));
 }
 .celestia-atlas-loading,
 .celestia-atlas-error {

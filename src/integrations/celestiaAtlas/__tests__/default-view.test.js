@@ -71,7 +71,8 @@ test('persists the default-on photographic survey without making offline Atlas u
   assert.match(settings, /sky_survey_hint/);
   assert.match(settings, /settingsStore\.stellarium\.skySurveyVisible !== false/);
   assert.match(view, /:deep\(\.celestia-atlas-survey-credit\)/);
-  assert.match(view, /top: calc\(4\.5rem \+ env\(safe-area-inset-top, 0px\)\)/);
+  assert.match(view, /\.celestia-atlas-portrait\s*{[\s\S]*top: 5rem/);
+  assert.match(view, /top: calc\(0\.75rem \+ env\(safe-area-inset-top, 0px\)\)/);
   assert.match(view, /bottom: auto !important/);
   assert.match(view, /max-width:[^;]+!important/);
 

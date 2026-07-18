@@ -56,15 +56,27 @@ test('prefers Advanced API tagged degree coordinates', () => {
   assert.equal(value.coordinates.decDeg, -55.6);
 });
 
-test('rejects JNOW until precession is explicit', () => {
-  assert.throws(
-    () =>
-      ninaMountToAtlas({
-        Connected: true,
-        Coordinates: { RADegrees: 1, Dec: 2, Epoch: 'JNOW' },
-      }),
-    /Unsupported/
+test('precesses the Advanced API JNOW mount position to J2000', () => {
+  const value = ninaMountToAtlas(
+    {
+      Connected: true,
+      EquatorialSystem: 'JNOW',
+      Coordinates: {
+        RADegrees: 256.74138915,
+        Dec: 89.79009914,
+        Epoch: 'JNOW',
+        DateTime: { UtcNow: '2026-07-18T20:34:58.297Z' },
+      },
+    },
+    123
   );
+
+  assert.equal(value.coordinates.frame, 'J2000');
+  assert.equal(value.coordinates.epochJulianYear, 2000);
+  assert.ok(Number.isFinite(value.coordinates.raDeg));
+  assert.ok(Number.isFinite(value.coordinates.decDeg));
+  assert.ok(value.coordinates.decDeg <= 90 && value.coordinates.decDeg >= -90);
+  assert.equal(value.timestampUtcMs, 123);
 });
 
 test('passes J2000 coordinates through to the NINA command boundary', () => {

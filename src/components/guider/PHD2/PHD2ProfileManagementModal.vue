@@ -92,7 +92,7 @@
                 <button
                   v-if="editingProfileName === profile"
                   @click="handleRename(profile, index)"
-                  class="tns-btn-secondary flex items-center justify-center"
+                  class="tns-btn-secondary w-12"
                   :disabled="!canRename"
                   :title="$t('common.confirm')"
                 >
@@ -101,7 +101,7 @@
                 <button
                   v-else
                   @click="startEdit(profile)"
-                  class="tns-btn-secondary flex items-center justify-center"
+                  class="tns-btn-secondary w-12"
                   :title="$t('components.guider.phd2.profileManagement.rename')"
                 >
                   <PencilIcon class="w-5 h-5" />
@@ -111,7 +111,7 @@
                 <button
                   v-if="editingProfileName === profile"
                   @click="cancelEdit"
-                  class="tns-btn-secondary flex items-center justify-center"
+                  class="tns-btn-secondary w-12"
                   :title="$t('components.guider.phd2.profileManagement.cancel')"
                 >
                   <XMarkIcon class="w-5 h-5" />

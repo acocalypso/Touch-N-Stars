@@ -1351,42 +1351,9 @@ onBeforeUnmount(async () => {
 </script>
 
 <style scoped>
-/* Tablet Landscape Adjustments */
-@media screen and (orientation: landscape) and (max-width: 1024px) {
-  .app-landscape .main-content {
-    margin-left: var(--nav-width) !important;
-    margin-right: 1rem !important;
-  }
-
-  .app-landscape .status-bar {
-    left: var(--nav-width) !important;
-    right: 0 !important;
-  }
-}
-
 /* Smooth Transitions */
 .container {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Safe Area Support - only for portrait bottom */
-@supports (padding-bottom: env(safe-area-inset-bottom)) {
-  .app-portrait .main-content {
-    padding-bottom: calc(3.5rem + env(safe-area-inset-bottom) + 0.5rem);
-  }
-}
-
-/* Responsive adjustments for very small screens */
-@media (max-width: 480px) {
-  .app-landscape .container {
-    padding-left: 12rem !important;
-    padding-right: 1rem !important;
-  }
-
-  .app-landscape .fixed.bottom-0 {
-    left: 12rem !important;
-    right: 0 !important;
-  }
 }
 
 /* Splash Screen Transition */

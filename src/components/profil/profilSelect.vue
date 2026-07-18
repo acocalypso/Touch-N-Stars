@@ -32,7 +32,7 @@
     <button
       v-if="store.isPINS"
       @click="showManagementModal = true"
-      class="tns-btn-secondary flex items-center justify-center shrink-0"
+      class="tns-btn-secondary w-12 shrink-0"
       :title="$t('components.profile.manage')"
     >
       <AdjustmentsHorizontalIcon class="w-5 h-5" />

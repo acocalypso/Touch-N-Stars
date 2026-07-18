@@ -91,7 +91,7 @@
                 <template v-if="renamingProfile && renamingProfile.Id === profile.Id">
                   <button
                     @click="handleRenameConfirm"
-                    class="tns-btn-secondary flex items-center justify-center"
+                    class="tns-btn-secondary w-12"
                     :disabled="!canRename"
                     :title="$t('common.confirm')"
                   >
@@ -99,7 +99,7 @@
                   </button>
                   <button
                     @click="cancelRename"
-                    class="tns-btn-secondary flex items-center justify-center"
+                    class="tns-btn-secondary w-12"
                     :title="$t('common.cancel')"
                   >
                     <XMarkIcon class="w-5 h-5" />
@@ -111,7 +111,7 @@
                   <!-- Rename button -->
                   <button
                     @click="startRename(profile)"
-                    class="tns-btn-secondary flex items-center justify-center"
+                    class="tns-btn-secondary w-12"
                     :disabled="operationInProgress"
                     :title="$t('components.profile.rename')"
                   >
@@ -121,7 +121,7 @@
                   <!-- Clone button -->
                   <button
                     @click="handleClone(profile)"
-                    class="tns-btn-secondary flex items-center justify-center"
+                    class="tns-btn-secondary w-12"
                     :disabled="operationInProgress"
                     :title="$t('components.profile.clone')"
                   >

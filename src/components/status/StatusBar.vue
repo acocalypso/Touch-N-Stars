@@ -96,37 +96,35 @@
         <span class="chip-value">{{ weatherValue }}</span>
       </span>
     </button>
-    <!--Progress -->
-    <button
-      v-if="store.isPINS"
-      class="tns-status-seg"
-      :class="segClass('idle', showProgress)"
-      :style="{ order: chipOrder('idle', 16) }"
-      @click.stop.prevent="handleProgressClick"
-    >
-      <span class="chip-value">{{ t('components.statusBar.labels.progress') }}</span>
-    </button>
-    <!--Log -->
-    <button
-      class="tns-status-seg"
-      :style="{ order: chipOrder('idle', 17) }"
-      @click.stop.prevent="handleLogClick"
-    >
-      <span class="chip-value">{{ t('components.statusBar.labels.log') }}</span>
-    </button>
-    <!--WS Status + Instance Switcher -->
-    <button
-      class="tns-status-seg"
-      :class="segClass(wsState, false)"
-      :style="{ order: chipOrder(wsState, 18) }"
-      @click.stop.prevent="handleInstanceClick"
-    >
-      <span class="chip-label">{{ t('components.statusBar.labels.instance') }}</span>
-      <span class="chip-value-line">
-        <span v-if="showDot(wsState)" class="tns-dot" :class="dotClass(wsState)"></span>
-        <span class="chip-value">{{ activeInstanceName }}</span>
-      </span>
-    </button>
+    <!-- System group: pinned to the right edge when there is free space,
+         degrades to a normal scroll tail when the bar overflows. -->
+    <div class="order-last ml-auto flex items-center self-stretch border-l border-line">
+      <!--Progress -->
+      <button
+        v-if="store.isPINS"
+        class="tns-status-seg"
+        :class="segClass('idle', showProgress)"
+        @click.stop.prevent="handleProgressClick"
+      >
+        <span class="chip-value">{{ t('components.statusBar.labels.progress') }}</span>
+      </button>
+      <!--Log -->
+      <button class="tns-status-seg" @click.stop.prevent="handleLogClick">
+        <span class="chip-value">{{ t('components.statusBar.labels.log') }}</span>
+      </button>
+      <!--WS Status + Instance Switcher -->
+      <button
+        class="tns-status-seg"
+        :class="segClass(wsState, false)"
+        @click.stop.prevent="handleInstanceClick"
+      >
+        <span class="chip-label">{{ t('components.statusBar.labels.instance') }}</span>
+        <span class="chip-value-line">
+          <span v-if="showDot(wsState)" class="tns-dot" :class="dotClass(wsState)"></span>
+          <span class="chip-value">{{ activeInstanceName }}</span>
+        </span>
+      </button>
+    </div>
 
     <!-- Instance Switcher Modal -->
     <InstanceSwitcherModal v-if="showInstanceSwitcher" @close="showInstanceSwitcher = false" />

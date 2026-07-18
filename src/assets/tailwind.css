@@ -172,7 +172,7 @@
 @utility tns-status-seg {
   @apply relative flex flex-col items-start justify-center gap-0.5
     self-stretch shrink-0 px-3.5 cursor-pointer
-    border-r border-line transition-colors hover:bg-surface-2;
+    border-r border-line last:border-r-0 transition-colors hover:bg-surface-2;
 
   &::before {
     content: '';

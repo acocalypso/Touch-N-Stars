@@ -1,18 +1,19 @@
 <template>
   <div
     v-if="store.isBackendReachable"
-    class="w-full transition-opacity h-(--statusbar-height) text-sm px-2 gap-2 text-content flex items-center justify-start overflow-x-auto scrollbar-hide safe-area-bottom"
+    class="w-full transition-opacity h-(--statusbar-height) text-sm text-content flex items-center justify-start overflow-x-auto scrollbar-hide safe-area-bottom"
     :class="[activeInstanceColor]"
   >
     <!-- Safety -->
     <div
       v-if="store.safetyInfo.Connected"
-      class="tns-status-chip cursor-default"
+      class="tns-status-seg cursor-default!"
+      :class="segClass(safetyState, false)"
       :style="{ order: chipOrder(safetyState, 15) }"
     >
-      <span class="tns-dot" :class="dotClass(safetyState)"></span>
-      <span class="flex flex-col items-start">
-        <span class="chip-label">{{ t('components.statusBar.labels.safety') }}</span>
+      <span class="chip-label">{{ t('components.statusBar.labels.safety') }}</span>
+      <span class="chip-value-line">
+        <span v-if="showDot(safetyState)" class="tns-dot" :class="dotClass(safetyState)"></span>
         <span class="chip-value">{{
           store.safetyInfo.IsSafe
             ? t('components.statusBar.safety.safe')
@@ -23,28 +24,28 @@
     <!--Camera-->
     <button
       v-if="store.cameraInfo.Connected"
-      class="tns-status-chip"
-      :class="{ 'border-accent': cameraStore.showCameraInfo }"
+      class="tns-status-seg"
+      :class="segClass(cameraState, cameraStore.showCameraInfo)"
       :style="{ order: chipOrder(cameraState, 10) }"
       @click="handleCameraClickWithVisit"
     >
-      <span class="tns-dot" :class="dotClass(cameraState)"></span>
-      <span class="flex flex-col items-start">
-        <span class="chip-label">{{ t('components.statusBar.labels.camera') }}</span>
+      <span class="chip-label">{{ t('components.statusBar.labels.camera') }}</span>
+      <span class="chip-value-line">
+        <span v-if="showDot(cameraState)" class="tns-dot" :class="dotClass(cameraState)"></span>
         <span class="chip-value">{{ cameraValue }}</span>
       </span>
     </button>
     <!--Filter-->
     <button
       v-if="store.filterInfo.Connected"
-      class="tns-status-chip"
-      :class="{ 'border-accent': filterStore.showFilterwheelInfo }"
+      class="tns-status-seg"
+      :class="segClass('idle', filterStore.showFilterwheelInfo)"
       :style="{ order: chipOrder('idle', 13) }"
       @click="handleFilterClickWithVisit"
     >
-      <span class="tns-dot bg-content-faint"></span>
-      <span class="flex flex-col items-start">
-        <span class="chip-label">{{ t('components.statusBar.labels.filter') }}</span>
+      <span class="chip-label">{{ t('components.statusBar.labels.filter') }}</span>
+      <span class="chip-value-line">
+        <span class="tns-dot bg-content-faint"></span>
         <span class="chip-value">{{
           store.filterInfo.SelectedFilter?.Name || t('components.statusBar.filter.none')
         }}</span>
@@ -53,62 +54,61 @@
     <!--Mount-->
     <button
       v-if="store.mountInfo.Connected"
-      class="tns-status-chip"
-      :class="{ 'border-accent': mountStore.showMountInfo }"
+      class="tns-status-seg"
+      :class="segClass(mountState, mountStore.showMountInfo)"
       :style="{ order: chipOrder(mountState, 12) }"
       @click="handleMountClickWithVisit"
     >
-      <span class="tns-dot" :class="dotClass(mountState)"></span>
-      <span class="flex flex-col items-start">
-        <span class="chip-label">{{ t('components.statusBar.labels.mount') }}</span>
+      <span class="chip-label">{{ t('components.statusBar.labels.mount') }}</span>
+      <span class="chip-value-line">
+        <span v-if="showDot(mountState)" class="tns-dot" :class="dotClass(mountState)"></span>
         <span class="chip-value">{{ mountValue }}</span>
+        <div
+          v-if="store.mountInfo.Slewing"
+          class="w-3.5 h-3.5 border-2 border-status-ok border-t-transparent border-solid rounded-full animate-spin"
+        ></div>
       </span>
-      <div
-        v-if="store.mountInfo.Slewing"
-        class="w-4 h-4 border-2 border-status-ok border-t-transparent border-solid rounded-full animate-spin"
-      ></div>
     </button>
     <!--Guider-->
     <button
       v-if="store.guiderInfo.Connected"
-      class="tns-status-chip"
-      :class="{ 'border-accent': guiderStore.showGuiderGraph }"
+      class="tns-status-seg"
+      :class="segClass(guiderState, guiderStore.showGuiderGraph)"
       :style="{ order: chipOrder(guiderState, 11) }"
       @click="handleGuiderClickWithVisit"
     >
-      <span class="tns-dot" :class="dotClass(guiderState)"></span>
-      <span class="flex flex-col items-start">
-        <span class="chip-label">{{ t('components.statusBar.labels.guiding') }}</span>
+      <span class="chip-label">{{ t('components.statusBar.labels.guiding') }}</span>
+      <span class="chip-value-line">
+        <span v-if="showDot(guiderState)" class="tns-dot" :class="dotClass(guiderState)"></span>
         <span class="chip-value">{{ guiderValue }}</span>
       </span>
     </button>
     <!-- Weather -->
     <button
       v-if="store.weatherInfo.Connected"
-      class="tns-status-chip"
+      class="tns-status-seg"
       :style="{ order: chipOrder('idle', 14) }"
       @click.stop.prevent="handleWeatherClick"
     >
-      <span class="tns-dot bg-content-faint"></span>
-      <span class="flex flex-col items-start">
-        <span class="chip-label">{{ t('components.statusBar.labels.weather') }}</span>
+      <span class="chip-label">{{ t('components.statusBar.labels.weather') }}</span>
+      <span class="chip-value-line">
+        <span class="tns-dot bg-content-faint"></span>
         <span class="chip-value">{{ weatherValue }}</span>
       </span>
     </button>
     <!--Progress -->
     <button
       v-if="store.isPINS"
-      class="tns-status-chip"
-      :class="{ 'border-accent': showProgress }"
+      class="tns-status-seg"
+      :class="segClass('idle', showProgress)"
       :style="{ order: chipOrder('idle', 16) }"
       @click.stop.prevent="handleProgressClick"
     >
-      <span class="tns-dot bg-content-faint"></span>
       <span class="chip-value">{{ t('components.statusBar.labels.progress') }}</span>
     </button>
     <!--Log -->
     <button
-      class="tns-status-chip"
+      class="tns-status-seg"
       :style="{ order: chipOrder('idle', 17) }"
       @click.stop.prevent="handleLogClick"
     >
@@ -116,13 +116,14 @@
     </button>
     <!--WS Status + Instance Switcher -->
     <button
-      class="tns-status-chip"
+      class="tns-status-seg"
+      :class="segClass(wsState, false)"
       :style="{ order: chipOrder(wsState, 18) }"
       @click.stop.prevent="handleInstanceClick"
     >
-      <span class="tns-dot" :class="dotClass(wsState)"></span>
-      <span class="flex flex-col items-start">
-        <span class="chip-label">{{ t('components.statusBar.labels.instance') }}</span>
+      <span class="chip-label">{{ t('components.statusBar.labels.instance') }}</span>
+      <span class="chip-value-line">
+        <span v-if="showDot(wsState)" class="tns-dot" :class="dotClass(wsState)"></span>
         <span class="chip-value">{{ activeInstanceName }}</span>
       </span>
     </button>
@@ -277,6 +278,22 @@ const DOT_CLASSES = {
 
 function dotClass(state) {
   return DOT_CLASSES[state] ?? DOT_CLASSES.idle;
+}
+
+// Segment modifier: exactly one of open/warn/danger. Open wins so the accent
+// edge is never overridden by a state edge while the panel is visible.
+function segClass(state, isOpen) {
+  if (isOpen) return 'tns-status-seg-open';
+  return {
+    'tns-status-seg-warn': state === 'warn',
+    'tns-status-seg-danger': state === 'danger',
+  };
+}
+
+// The dot only marks ok/idle; warn/danger are carried by the colored top edge
+// plus the tinted value text, so a second indicator would be noise.
+function showDot(state) {
+  return state === 'ok' || state === 'idle';
 }
 
 // Chips needing attention are pulled to the front of the (scrollable) bar.
@@ -436,13 +453,26 @@ function handleProgressClick() {
 <style scoped>
 @reference '../../assets/tailwind.css';
 
-/* Chip typography: small uppercase label above, prominent value below */
+/* Segment typography: micro uppercase label above, prominent value line below */
 .chip-label {
-  @apply text-[10px] uppercase leading-tight tracking-wide text-content-faint;
+  @apply text-[10px] uppercase leading-none tracking-wide text-content-faint;
+}
+
+.chip-value-line {
+  @apply flex items-center gap-1.5;
 }
 
 .chip-value {
   @apply text-xs font-semibold leading-tight tabular-nums text-content whitespace-nowrap;
+}
+
+/* Warn/danger segments tint the value text (dot is hidden there) */
+.tns-status-seg-warn .chip-value {
+  @apply text-status-warn;
+}
+
+.tns-status-seg-danger .chip-value {
+  @apply text-status-danger;
 }
 
 .safe-area-bottom {

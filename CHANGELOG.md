@@ -4,6 +4,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [App5.2.0-beta2] - unreleased
+### Changed
+- Design: App-wide visual refresh onto a single design system - one consistent set of button styles, surfaces and colors with a single cyan accent, and green/yellow/red now always carry the same meaning across the app (running / attention / problem or stopped). Buttons, inputs and other touch targets are now at least 48px for easier tapping in the field
+- Navigation: Each nav item now shows a permanent label under its icon (previously the label only appeared while touching), and the landscape sidebar is narrower so it no longer wastes empty space next to the icons
+- Status bar: Redesigned, taller status bar that shows camera, mount, guider, filter, weather and progress state - and their key values - at a glance without having to tap a chip first
+
+### Added
+- Safety: Destructive actions now ask for confirmation before running - parking the mount and clearing the whole sequence
+- Haptics: Light/medium haptic feedback on native (Android/iOS) platforms when triggering key actions such as capture, slew, park and stop
+
 ## [App5.2.0-beta1] - 2026-07-16
 ### Added
 - TPPA (PINS): When the alignment view is opened (or after switching instances), the running state is now loaded from the backend, so an alignment already in progress is reflected correctly instead of relying on a possibly stale saved state

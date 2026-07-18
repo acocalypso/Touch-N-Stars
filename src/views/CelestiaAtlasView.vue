@@ -47,7 +47,6 @@
     />
     <div v-if="ready" class="celestia-atlas-controls">
       <stellariumSettings
-        renderer-managed
         :catalog-object-types="catalogFacets.objectTypes"
         :catalogue-groups="catalogFacets.catalogueGroups"
       />

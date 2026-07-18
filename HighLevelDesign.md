@@ -174,9 +174,8 @@ only on first use, after which one warm instance is retained and paused while
 hidden. The wrapper owns observer/time synchronization, mount and framing
 adapters, physical camera FOV, landscape/horizon settings, offline search and
 independent star/galaxy/other-DSO limiting magnitudes. The renderer package is
-pinned to an immutable Git revision. Legacy Stellarium Web assets remain only
-for the explicit `VITE_STELLARIUM_ROLLBACK=true` rollback path during the
-migration window.
+pinned to an immutable Git revision. The legacy Stellarium Web runtime and
+rollback path have been removed.
 
 ## 10. Build, Packaging, and Release
 
@@ -208,8 +207,8 @@ migration window.
 - The pinned Celestia Atlas package supplies the offline engine, compact
   OpenNGC/bright-sky catalogues and Milky Way asset. Backend-served
   `stellarium-data` landscape folders remain compatible data sources.
-- `public/stellarium-js` and the remaining Stellarium Web assets are rollback-
-  only and can be removed after the migration release gate passes.
+- Backend-served `stellarium-data` remains a compatibility namespace for the
+  licensed HiPS landscape and survey data consumed by Celestia Atlas.
 - `public/whats-new.json` is generated at build time.
 - `src/locales/*.json` provide locale resources.
 

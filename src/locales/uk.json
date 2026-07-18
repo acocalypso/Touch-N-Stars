@@ -1698,7 +1698,7 @@
       }
     },
     "stellarium": {
-      "loading": "Завантаження Stellarium…",
+      "loading": "Завантаження Celestia Atlas…",
       "selected_object": {
         "title": "Обраний об'єкт",
         "ra": "RA",
@@ -4546,7 +4546,7 @@
     "monitoring": "Монітор",
     "flatWizard": "Флети",
     "framing": "Фреймінг",
-    "skyView": "Stellarium",
+    "skyView": "Celestia Atlas",
     "settings": "Налашт.",
     "about": "Про нас"
   },

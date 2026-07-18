@@ -2,15 +2,18 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import { readdir, readFile } from 'node:fs/promises';
 
-test('loads Celestia Atlas by default and keeps Stellarium behind an explicit rollback flag', async () => {
+test('loads Celestia Atlas as the only sky renderer', async () => {
   const app = await readFile(new URL('../../../App.vue', import.meta.url), 'utf8');
 
-  assert.match(app, /VITE_STELLARIUM_ROLLBACK === 'true'/);
   assert.match(
     app,
-    /VITE_STELLARIUM_ROLLBACK === 'true'[\s\S]*StellariumView\.vue[\s\S]*CelestiaAtlasView\.vue/
+    /defineAsyncComponent\(\(\) => import\('\.\/views\/CelestiaAtlasView\.vue'\)\)/
   );
+  assert.doesNotMatch(app, /VITE_STELLARIUM_ROLLBACK/);
+  assert.doesNotMatch(app, /StellariumView\.vue/);
   assert.doesNotMatch(app, /VITE_CELESTIA_ATLAS_POC/);
+  await assert.rejects(readFile(new URL('../../../views/StellariumView.vue', import.meta.url)));
+  await assert.rejects(readFile(new URL('../../../store/stellariumStore.js', import.meta.url)));
 });
 
 test('connects the existing display settings through the host-managed Atlas adapter', async () => {
@@ -25,13 +28,9 @@ test('connects the existing display settings through the host-managed Atlas adap
 
   assert.match(
     view,
-    /<stellariumSettings[\s\S]*renderer-managed[\s\S]*:catalog-object-types="catalogFacets\.objectTypes"[\s\S]*:catalogue-groups="catalogFacets\.catalogueGroups"/
+    /<stellariumSettings[\s\S]*:catalog-object-types="catalogFacets\.objectTypes"[\s\S]*:catalogue-groups="catalogFacets\.catalogueGroups"/
   );
-  assert.match(settings, /rendererManaged/);
-  assert.match(
-    settings,
-    /if \(!props\.rendererManaged\) stellariumStore\.updateStellariumCore\(\)/
-  );
+  assert.doesNotMatch(settings, /rendererManaged|useStellariumStore|refresh-stellarium/);
   assert.match(settingsStore, /hideBelowHorizon: true/);
   assert.match(settings, /settingsStore\.stellarium\.hideBelowHorizon !== false/);
   assert.match(view, /hideBelowHorizon: settingsStore\.stellarium\.hideBelowHorizon !== false/);
@@ -141,7 +140,7 @@ test('persists touch-sized brightness controls for all three Atlas categories', 
   assert.match(settingsStore, /starMagnitudeLimit: 6\.5/);
   assert.match(settingsStore, /galaxyMagnitudeLimit: 30/);
   assert.match(settingsStore, /deepSkyMagnitudeLimit: 30/);
-  assert.match(settingsView, /v-if="rendererManaged"[\s\S]*brightness_filters/);
+  assert.match(settingsView, /brightness_filters/);
   assert.match(settingsView, /v-model\.number="starMagnitudeLimit"/);
   assert.match(settingsView, /v-model\.number="galaxyMagnitudeLimit"/);
   assert.match(settingsView, /v-model\.number="deepSkyMagnitudeLimit"/);
@@ -180,7 +179,7 @@ test('persists touch-sized Atlas type and catalogue filters without limiting off
   assert.match(view, /settingsStore\.stellarium\.deepSkyObjectTypes/);
   assert.match(view, /settingsStore\.stellarium\.deepSkyCatalogueGroups/);
   assert.match(view, /searchResults\.value = viewer\?\.search\(searchQuery\.value\) \?\? \[\]/);
-  assert.match(settingsView, /<AtlasCatalogFilters[\s\S]*v-if="rendererManaged"/);
+  assert.match(settingsView, /<AtlasCatalogFilters/);
   assert.match(settingsView, /:disabled="!settingsStore\.stellarium\.dsosVisible"/);
   assert.match(filterView, /toggleAtlasFacetSelection/);
   assert.match(filterView, /settingsStore\.stellarium\[setting\] = value/);

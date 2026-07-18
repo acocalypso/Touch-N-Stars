@@ -92,9 +92,8 @@ import { XMarkIcon, ChevronUpIcon, ChevronDownIcon } from '@heroicons/vue/24/out
 import CameraFramingIcon from '@/components/icons/CameraFramingIcon.vue';
 import { apiStore } from '@/store/store';
 import { useFramingStore } from '@/store/framingStore';
-import { useStellariumStore } from '@/store/stellariumStore';
 import { useOrientation } from '@/composables/useOrientation';
-import { degreesToHMS, degreesToDMS, rad2deg } from '@/utils/utils';
+import { degreesToHMS, degreesToDMS } from '@/utils/utils';
 import { toNinaJ2000Coordinates } from '@/integrations/celestiaAtlas/contracts';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 import ButtonSlewCenterRotate from '@/components/mount/ButtonSlewCenterRotate.vue';
@@ -109,7 +108,7 @@ const props = defineProps({
   },
   defaultTargetName: {
     type: String,
-    default: 'Stellarium view',
+    default: 'Celestia Atlas view',
   },
   active: {
     type: Boolean,
@@ -119,7 +118,6 @@ const props = defineProps({
 
 const store = apiStore();
 const framingStore = useFramingStore();
-const stellariumStore = useStellariumStore();
 const { isLandscape } = useOrientation();
 
 const expanded = ref(false);
@@ -150,25 +148,15 @@ const effectiveTargetName = computed(() => {
 });
 
 function sampleView() {
-  if (props.getViewCenter) {
-    try {
-      setCommandCoordinates(props.getViewCenter());
-    } catch {
-      invalidateCoordinates();
-    }
-    return;
-  }
-  const stel = stellariumStore.stel;
-  if (!stel) {
+  if (!props.getViewCenter) {
     invalidateCoordinates();
     return;
   }
-  const icrfVec = stel.convertFrame(stel.observer, 'VIEW', 'ICRF', [0, 0, -1]);
-  const raDecRad = stel.c2s(icrfVec);
-  let ra = rad2deg(raDecRad[0]);
-  const dec = rad2deg(raDecRad[1]);
-  if (ra < 0) ra += 360;
-  setCommandCoordinates({ raDeg: ra, decDeg: dec, frame: 'ICRS' });
+  try {
+    setCommandCoordinates(props.getViewCenter());
+  } catch {
+    invalidateCoordinates();
+  }
 }
 
 function setCommandCoordinates(value) {

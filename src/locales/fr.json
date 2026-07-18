@@ -1718,7 +1718,7 @@
       }
     },
     "stellarium": {
-      "loading": "Chargement de Stellarium…",
+      "loading": "Chargement de Celestia Atlas…",
       "selected_object": {
         "title": "Objet sélectionné",
         "ra": "RA",
@@ -4641,7 +4641,7 @@
     "monitoring": "Moniteur",
     "flatWizard": "Appartements",
     "framing": "Cadrage",
-    "skyView": "Stellarium",
+    "skyView": "Celestia Atlas",
     "settings": "Réglages",
     "about": "Info"
   },

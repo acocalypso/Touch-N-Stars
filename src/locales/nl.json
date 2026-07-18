@@ -1718,7 +1718,7 @@
       }
     },
     "stellarium": {
-      "loading": "Stellarium wordt geladen…",
+      "loading": "Celestia Atlas wordt geladen…",
       "selected_object": {
         "title": "Geselecteerde object",
         "ra": "RA",
@@ -4636,7 +4636,7 @@
     "monitoring": "Monitor",
     "flatWizard": "Platte schoenen",
     "framing": "Framing",
-    "skyView": "Stellarium",
+    "skyView": "Celestia Atlas",
     "settings": "Instell.",
     "about": "Info"
   },

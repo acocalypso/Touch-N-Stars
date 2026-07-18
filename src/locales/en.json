@@ -1763,7 +1763,7 @@
       }
     },
     "stellarium": {
-      "loading": "Loading Stellarium…",
+      "loading": "Loading Celestia Atlas…",
       "selected_object": {
         "title": "Selected object",
         "ra": "RA",
@@ -4731,7 +4731,7 @@
     "monitoring": "Monitor",
     "flatWizard": "Flats",
     "framing": "Framing",
-    "skyView": "Stellarium",
+    "skyView": "Celestia Atlas",
     "settings": "Settings",
     "about": "About"
   }

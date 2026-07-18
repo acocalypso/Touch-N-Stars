@@ -118,7 +118,6 @@
       <SkyAtlasView
         v-if="settingsStore.setupCompleted && skyAtlasMounted"
         v-show="store.showStellarium"
-        :key="stellariumRefreshKey"
       />
       <div v-if="!shouldShowConnectionSplash" :class="mainContentClasses">
         <router-view v-show="!store.showStellarium" :key="routerViewKey" />
@@ -372,11 +371,7 @@ import { setLocaleLanguage } from '@/i18n';
 import { useSequenceV2Store } from '@/store/sequenceV2Store';
 import { PINS_PORT, DEFAULT_PINS_DAEMON_API_TOKEN as PINS_TOKEN } from '@/services/pinsConfig';
 
-const SkyAtlasView = defineAsyncComponent(() =>
-  import.meta.env.VITE_STELLARIUM_ROLLBACK === 'true'
-    ? import('./views/StellariumView.vue')
-    : import('./views/CelestiaAtlasView.vue')
-);
+const SkyAtlasView = defineAsyncComponent(() => import('./views/CelestiaAtlasView.vue'));
 const TutorialModal = defineAsyncComponent(() => import('@/components/TutorialModal.vue'));
 const ConsoleViewer = defineAsyncComponent(() => import('@/components/helpers/ConsoleViewer.vue'));
 const SettingsComp = defineAsyncComponent(() => import('@/components/SettingsComp.vue'));
@@ -508,7 +503,6 @@ let connectionElapsedIntervalId = null;
 let reconnectSplashGraceTimer = null;
 const tutorialSteps = computed(() => settingsStore.tutorial.steps);
 const orientation = ref(window.innerWidth > window.innerHeight ? 'landscape' : 'portrait');
-const stellariumRefreshKey = ref(null);
 const routerViewKey = ref(Date.now());
 const showUpdateModal = ref(false);
 const updateInfo = ref(null);
@@ -520,11 +514,6 @@ const checkingUpdate = ref(false);
 let initialWidth = window.innerWidth;
 let initialHeight = window.innerHeight;
 let pinsUpgradeRecoveryTimer = null;
-
-function handleSkyAtlasRefresh() {
-  console.log('Manual sky atlas refresh requested');
-  stellariumRefreshKey.value = Date.now();
-}
 
 // Orientation tracking
 const { isLandscape } = useOrientation();
@@ -1135,8 +1124,6 @@ onMounted(async () => {
     });
   }
 
-  window.addEventListener('refresh-stellarium', handleSkyAtlasRefresh);
-
   window.addEventListener('check-app-update', handleCheckAppUpdate);
 
   // Timeout for connectionCheckCompleted after 3 seconds
@@ -1322,7 +1309,6 @@ onBeforeUnmount(async () => {
   window.removeEventListener('focus', handleFocus);
   window.removeEventListener('resize', updateOrientation);
   window.removeEventListener('orientationchange', handleOrientationChange);
-  window.removeEventListener('refresh-stellarium', handleSkyAtlasRefresh);
   window.removeEventListener('check-app-update', handleCheckAppUpdate);
 
   // Remove Capacitor listeners

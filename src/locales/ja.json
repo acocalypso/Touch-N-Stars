@@ -1726,7 +1726,7 @@
       }
     },
     "stellarium": {
-      "loading": "Stellarium を読み込んでいます…",
+      "loading": "Celestia Atlas を読み込んでいます…",
       "selected_object": {
         "title": "選択された天体",
         "ra": "赤経 (RA)",
@@ -4636,7 +4636,7 @@
     "monitoring": "モニター",
     "flatWizard": "フラット",
     "framing": "フレーミング",
-    "skyView": "Stellarium",
+    "skyView": "Celestia Atlas",
     "settings": "設定",
     "about": "About"
   },

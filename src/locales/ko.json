@@ -1763,7 +1763,7 @@
       }
     },
     "stellarium": {
-      "loading": "Stellarium 로드 중…",
+      "loading": "Celestia Atlas 로드 중…",
       "selected_object": {
         "title": "선택한 천체",
         "ra": "RA",
@@ -4731,7 +4731,7 @@
     "monitoring": "모니터",
     "flatWizard": "플랫",
     "framing": "프레이밍",
-    "skyView": "Stellarium",
+    "skyView": "Celestia Atlas",
     "settings": "설정",
     "about": "정보"
   }

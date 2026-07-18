@@ -19,38 +19,46 @@ Thank you for your support! 💜
 
 ---
 
-### 🚀 **Current Status: Stable Version**  
+### 🚀 **Current Status: Stable Version**
+
 Touch’N’Stars is a stable and fully usable application designed for astronomy enthusiasts who want to conveniently control their equipment using NINA (Nighttime Imaging ‘N’ Astronomy) via touch-enabled devices.
 The app is actively maintained and continuously improved, but it is no longer in a development or experimental phase. It is ready for regular use in real imaging sessions.
 
-### 🏁 **Purpose of the WebApp**  
-The application aims to make controlling and adjusting already configured profiles easier - directly through a tablet or smartphone. This makes handling more mobile and convenient, especially when setting up equipment and starting imaging sessions.  
+### 🏁 **Purpose of the WebApp**
 
-### 🧩 **Important Notes**  
-- This web app **requires a fully configured and running installation of NINA**.  
+The application aims to make controlling and adjusting already configured profiles easier - directly through a tablet or smartphone. This makes handling more mobile and convenient, especially when setting up equipment and starting imaging sessions.
+
+### 🧩 **Important Notes**
+
+- This web app **requires a fully configured and running installation of NINA**.
 - It requires the **Advanced API** plugin in the latest version.
   The API port must be set to 1888 and V2 must be enabled.
 - For Three Point Polar Alignment, version 2.2.2.0 or newer is required.
 - It is intended as a complement to the desktop software and provides mobile support for basic functions.
 - The author assumes no liability
-  
+
 ### 🔧 **Installation**
+
 - Please take a look at the instructions in our [WIKI](https://github.com/Touch-N-Stars/Touch-N-Stars/wiki/Touch'N'Stars-Wiki#-important-notes)
 
 ### 📱 **Android App**
+
 - We have created an app for Android users.
 - You can find the app on the [Google Play Store](https://play.google.com/store/apps/details?id=com.TouchNStars.dev)
 
 ### 📱 **iOS App**
+
 - You can find the app in the [App Store](https://apps.apple.com/us/app/touch-n-stars/id6744902856)
 
-### 🧪 **What does the Version offer?**  
-- **Mobile Operation**: Easily access NINA through your smartphone or tablet.  
-- **User-Friendly Design**: Simple and intuitive interface specifically optimized for mobile devices.  
-- **Focus on Practical Features**: Support for essential steps in setting up your equipment.  
+### 🧪 **What does the Version offer?**
 
-### 💙 **Acknowledgements**  
-- Special thanks go to the entire **NINA** development team, whose excellent work enabled the creation of this web app.  
+- **Mobile Operation**: Easily access NINA through your smartphone or tablet.
+- **User-Friendly Design**: Simple and intuitive interface specifically optimized for mobile devices.
+- **Focus on Practical Features**: Support for essential steps in setting up your equipment.
+
+### 💙 **Acknowledgements**
+
+- Special thanks go to the entire **NINA** development team, whose excellent work enabled the creation of this web app.
 - A special thank you to **Christian**, the developer of the **Advanced API**, for his efforts and support. His work has significantly enabled the development of this web app.
 - [Celestia Atlas](https://github.com/acocalypso/celestia_atlas), the default offline sky renderer, licensed under MIT
 - OpenNGC catalogue data by Mattia Verga and contributors, licensed under CC-BY-SA-4.0
@@ -58,18 +66,20 @@ The application aims to make controlling and adjusting already configured profil
 - HYG Database v4.1 by David Nash/Astronomy Nexus, used for the bundled HYG star layer, licensed under CC-BY-SA-4.0
 - SIMBAD A66/Abell planetary-nebula catalogue data, licensed under ODbL-1.0. This research has made use of the SIMBAD database, operated at CDS, Strasbourg, France.
 - Detailed source, transformation and redistribution notices are retained in the pinned [Celestia Atlas third-party notices](https://github.com/acocalypso/celestia_atlas/blob/8d79f5740621db9757a2b1b85b1fc1d6d005a6fe/THIRD_PARTY_NOTICES.md)
-- [Stellarium Web Engine](https://github.com/Stellarium/stellarium-web-engine) by the Stellarium Team, licensed under AGPL-3.0 (rollback-only migration path)
 
 ### 🔍 Further information
+
 - Visit our website: https://touch-n-stars.eu
 - You can find more details about the application and how to use it in our [WIKI](https://github.com/Touch-N-Stars/Touch-N-Stars/wiki/Touch'N'Stars-Wiki).
 - Our [YouTube channel](https://www.youtube.com/watch?v=0chtlhO_cX4&list=PLAT-Qw0mxhRLn1KzFKGRuu3Pur-gjNS2C) has video instructions and further tips on how to use Touch'N'Stars
 
 ## 🤝 Contributing
+
 Contributions are **very welcome**.
 Whether you are a developer, tester, designer, translator, or simply an astronomy enthusiast with ideas or feedback — everyone is invited to participate and help improve Touch’N’Stars.
 
 You can contribute by:
+
 - Reporting bugs or issues
 - Suggesting new features or improvements
 - Improving documentation or translations
@@ -77,4 +87,3 @@ You can contribute by:
 
 Please feel free to open an issue or start a discussion before working on larger changes.  
 All contributions are appreciated and help make the project better for the entire community.
-

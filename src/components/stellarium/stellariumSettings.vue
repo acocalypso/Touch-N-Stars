@@ -131,7 +131,6 @@
         </div>
 
         <div
-          v-if="rendererManaged"
           class="flex flex-row items-center justify-between w-full border border-gray-500 p-2 rounded-lg"
         >
           <label for="hideBelowHorizon" class="text-gray-400">
@@ -149,7 +148,6 @@
         </div>
 
         <div
-          v-if="rendererManaged"
           class="flex min-h-16 w-full items-center justify-between gap-3 rounded-lg border border-gray-500 p-3 col-span-full"
         >
           <div class="min-w-0">
@@ -329,16 +327,12 @@
         </div>
 
         <AtlasCatalogFilters
-          v-if="rendererManaged"
           :object-types="catalogObjectTypes"
           :catalogue-groups="catalogueGroups"
           :disabled="!settingsStore.stellarium.dsosVisible"
         />
 
-        <div
-          v-if="rendererManaged"
-          class="w-full border border-gray-500 p-3 rounded-lg col-span-full grid gap-3"
-        >
+        <div class="w-full border border-gray-500 p-3 rounded-lg col-span-full grid gap-3">
           <div>
             <p class="text-gray-200 font-medium">
               {{ $t('components.stellarium.settings.brightness_filters') }}
@@ -402,7 +396,6 @@
 </template>
 
 <script setup>
-import { useStellariumStore } from '@/store/stellariumStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import toggleButton from '@/components/helpers/toggleButton.vue';
 import { watch, ref, computed } from 'vue';
@@ -413,11 +406,7 @@ import Modal from '@/components/helpers/Modal.vue';
 import apiService from '@/services/apiService';
 import AtlasCatalogFilters from '@/components/stellarium/AtlasCatalogFilters.vue';
 
-const props = defineProps({
-  rendererManaged: {
-    type: Boolean,
-    default: false,
-  },
+defineProps({
   catalogObjectTypes: {
     type: Array,
     default: () => [],
@@ -428,7 +417,6 @@ const props = defineProps({
   },
 });
 const { t } = useI18n();
-const stellariumStore = useStellariumStore();
 const settingsStore = useSettingsStore();
 const settingsVisible = ref(false);
 const landscapeSourceDirty = ref(false);
@@ -526,20 +514,12 @@ function toggleControls() {
   }
 }
 
-function requestStellariumRefresh() {
-  if (props.rendererManaged) return;
-  const event = new CustomEvent('refresh-stellarium');
-  window.dispatchEvent(event);
-}
-
 function saveLandscapeSourceSettings() {
-  requestStellariumRefresh();
   landscapeSourceDirty.value = false;
 }
 
 function showLandscape() {
   settingsStore.stellarium.landscapesVisible = !settingsStore.stellarium.landscapesVisible;
-  requestStellariumRefresh();
 }
 
 async function fetchAvailableLandscapes() {
@@ -604,24 +584,6 @@ function createMagnitudeModel(key, fallback, minimum, maximum) {
 const starMagnitudeLimit = createMagnitudeModel('starMagnitudeLimit', 6.5, -2, 6.5);
 const galaxyMagnitudeLimit = createMagnitudeModel('galaxyMagnitudeLimit', 30, -2, 30);
 const deepSkyMagnitudeLimit = createMagnitudeModel('deepSkyMagnitudeLimit', 30, -2, 30);
-
-watch(
-  () => [
-    settingsStore.stellarium.constellationsLinesVisible,
-    settingsStore.stellarium.azimuthalLinesVisible,
-    settingsStore.stellarium.equatorialLinesVisible,
-    settingsStore.stellarium.meridianLinesVisible,
-    settingsStore.stellarium.eclipticLinesVisible,
-    settingsStore.stellarium.atmosphereVisible,
-    settingsStore.stellarium.landscapesVisible,
-    settingsStore.stellarium.hideBelowHorizon,
-    settingsStore.stellarium.skySurveyVisible,
-    settingsStore.stellarium.dsosVisible,
-  ],
-  () => {
-    if (!props.rendererManaged) stellariumStore.updateStellariumCore();
-  }
-);
 
 watch(
   () => [

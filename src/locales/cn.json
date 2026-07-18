@@ -1718,7 +1718,7 @@
       }
     },
     "stellarium": {
-      "loading": "正在加载 Stellarium…",
+      "loading": "正在加载 Celestia Atlas…",
       "selected_object": {
         "title": "已选对象",
         "ra": "赤经",
@@ -4636,7 +4636,7 @@
     "monitoring": "监控",
     "flatWizard": "平场向导",
     "framing": "取景",
-    "skyView": "星辰",
+    "skyView": "Celestia Atlas",
     "settings": "设置",
     "about": "关于"
   },

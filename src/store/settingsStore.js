@@ -3,6 +3,15 @@ import tutorialContent from '@/assets/tutorial.json';
 import { apiStore } from '@/store/store';
 import { useSequenceStore } from './sequenceStore';
 import apiService from '@/services/apiService';
+import {
+  createDefaultCelestiaAtlasSettings,
+  migrateCelestiaAtlasSettingsStorage,
+} from '@/store/utils/celestiaAtlasSettingsMigration';
+
+// Upgrade the persisted state before Pinia's persistence plugin hydrates it.
+// Existing installations keep all Atlas preferences, while the obsolete key is
+// removed from the next serialized snapshot.
+migrateCelestiaAtlasSettingsStorage();
 
 export const useSettingsStore = defineStore('settings', {
   state: () => ({
@@ -92,26 +101,7 @@ export const useSettingsStore = defineStore('settings', {
         filterConfigs: {},
       },
     },
-    stellarium: {
-      constellationsLinesVisible: true,
-      azimuthalLinesVisible: false,
-      equatorialLinesVisible: false,
-      meridianLinesVisible: false,
-      eclipticLinesVisible: false,
-      atmosphereVisible: true,
-      landscapesVisible: true,
-      hideBelowHorizon: true,
-      skySurveyVisible: true,
-      landscapeSourceMode: 'default',
-      customLandscapeUrl: '',
-      customLandscapeKey: 'custom',
-      dsosVisible: true, // Deep Sky Objects (Messier, NGC, etc.)
-      starMagnitudeLimit: 6.5,
-      galaxyMagnitudeLimit: 30,
-      deepSkyMagnitudeLimit: 30,
-      deepSkyObjectTypes: null,
-      deepSkyCatalogueGroups: null,
-    },
+    celestiaAtlas: createDefaultCelestiaAtlasSettings(),
     guider: {
       phd2ForceCalibration: false,
       phd2ImageGamma: 0.5,

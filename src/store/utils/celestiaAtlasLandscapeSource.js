@@ -1,3 +1,5 @@
+import { canonicalizeCelestiaAtlasDataUrl } from './celestiaAtlasSettingsMigration';
+
 function normalizeBaseUrl(baseUrl) {
   const safeBaseUrl = (baseUrl || '').trim();
   if (!safeBaseUrl) return '';
@@ -14,22 +16,24 @@ function normalizeLandscapeUrl(rawUrl, baseUrl) {
   const trimmedUrl = (rawUrl || '').trim();
   if (!trimmedUrl) return '';
 
-  if (/^https?:\/\//i.test(trimmedUrl) || trimmedUrl.startsWith('/')) {
-    return trimmedUrl;
+  const canonicalUrl = canonicalizeCelestiaAtlasDataUrl(trimmedUrl);
+
+  if (/^https?:\/\//i.test(canonicalUrl) || canonicalUrl.startsWith('/')) {
+    return canonicalUrl;
   }
 
-  return buildRelativeUrl(baseUrl, trimmedUrl);
+  return buildRelativeUrl(baseUrl, canonicalUrl);
 }
 
-export function resolveLandscapeSource(stellariumSettings, baseUrl) {
-  if (!stellariumSettings?.landscapesVisible) {
+export function resolveLandscapeSource(atlasSettings, baseUrl) {
+  if (!atlasSettings?.landscapesVisible) {
     return {
       visible: false,
       source: null,
     };
   }
 
-  if (stellariumSettings.landscapeSourceMode === 'neutral') {
+  if (atlasSettings.landscapeSourceMode === 'neutral') {
     return {
       visible: true,
       source: {
@@ -39,9 +43,9 @@ export function resolveLandscapeSource(stellariumSettings, baseUrl) {
     };
   }
 
-  if (stellariumSettings.landscapeSourceMode === 'custom') {
-    const customUrl = normalizeLandscapeUrl(stellariumSettings.customLandscapeUrl, baseUrl);
-    const customKey = (stellariumSettings.customLandscapeKey || 'custom').trim() || 'custom';
+  if (atlasSettings.landscapeSourceMode === 'custom') {
+    const customUrl = normalizeLandscapeUrl(atlasSettings.customLandscapeUrl, baseUrl);
+    const customKey = (atlasSettings.customLandscapeKey || 'custom').trim() || 'custom';
 
     if (customUrl) {
       return {

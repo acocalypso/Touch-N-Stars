@@ -14,8 +14,8 @@ At minimum, your custom dataset folder must contain:
 
 Reference examples in this repository:
 
-- `public/stellarium-data/landscapes/gray`
-- `public/stellarium-data/landscapes/guereins`
+- `public/celestia-atlas-data/landscapes/gray`
+- `public/celestia-atlas-data/landscapes/guereins`
 
 ## 2. Required files and metadata
 
@@ -111,9 +111,9 @@ After conversion:
 ### Step D: Place the dataset in Touch-N-Stars
 
 1. Copy dataset folder to:
-   `public/stellarium-data/landscapes/<your-landscape-id>`
+   `public/celestia-atlas-data/landscapes/<your-landscape-id>`
 2. Example final URL root:
-   `/stellarium-data/landscapes/<your-landscape-id>`
+   `/celestia-atlas-data/landscapes/<your-landscape-id>`
 
 ### Step E: Configure in app
 
@@ -139,7 +139,7 @@ Before final use, verify:
 
 If the landscape does not appear:
 
-1. Try local hosting first under `public/stellarium-data/landscapes/...`.
+1. Try local hosting first under `public/celestia-atlas-data/landscapes/...`.
 2. Re-check `properties` spelling and values.
 3. Use Hipsgen `LINT` to detect metadata problems.
 4. Confirm the custom URL points to the dataset root, not to an individual tile.

@@ -5,19 +5,19 @@
   >
     <div>
       <p class="font-medium text-gray-200">
-        {{ t('components.stellarium.settings.catalog_filters') }}
+        {{ t('components.celestiaAtlas.settings.catalog_filters') }}
       </p>
       <p class="text-xs leading-5 text-gray-400">
-        {{ t('components.stellarium.settings.catalog_filter_hint') }}
+        {{ t('components.celestiaAtlas.settings.catalog_filter_hint') }}
       </p>
     </div>
 
     <fieldset :disabled="disabled" class="grid gap-2 disabled:opacity-50">
       <AtlasFacetGroup
         kind="object-types"
-        :title="t('components.stellarium.settings.catalog_filter_types')"
+        :title="t('components.celestiaAtlas.settings.catalog_filter_types')"
         :facets="objectTypes"
-        :selection="settingsStore.stellarium.deepSkyObjectTypes"
+        :selection="settingsStore.celestiaAtlas.deepSkyObjectTypes"
         @select-all="setSelection('deepSkyObjectTypes', null)"
         @select-none="setSelection('deepSkyObjectTypes', [])"
         @toggle="toggleSelection('deepSkyObjectTypes', objectTypes, $event)"
@@ -25,9 +25,9 @@
 
       <AtlasFacetGroup
         kind="catalogue-groups"
-        :title="t('components.stellarium.settings.catalog_filter_sources')"
+        :title="t('components.celestiaAtlas.settings.catalog_filter_sources')"
         :facets="catalogueGroups"
-        :selection="settingsStore.stellarium.deepSkyCatalogueGroups"
+        :selection="settingsStore.celestiaAtlas.deepSkyCatalogueGroups"
         @select-all="setSelection('deepSkyCatalogueGroups', null)"
         @select-none="setSelection('deepSkyCatalogueGroups', [])"
         @toggle="toggleSelection('deepSkyCatalogueGroups', catalogueGroups, $event)"
@@ -39,7 +39,7 @@
 <script setup>
 import { useSettingsStore } from '@/store/settingsStore';
 import { toggleAtlasFacetSelection } from '@/integrations/celestiaAtlas/catalogFilters';
-import AtlasFacetGroup from '@/components/stellarium/AtlasFacetGroup.vue';
+import AtlasFacetGroup from '@/components/celestiaAtlas/AtlasFacetGroup.vue';
 import { useI18n } from 'vue-i18n';
 
 defineProps({
@@ -61,12 +61,12 @@ const settingsStore = useSettingsStore();
 const { t } = useI18n();
 
 function setSelection(setting, value) {
-  settingsStore.stellarium[setting] = value;
+  settingsStore.celestiaAtlas[setting] = value;
 }
 
 function toggleSelection(setting, facets, { key, enabled }) {
-  settingsStore.stellarium[setting] = toggleAtlasFacetSelection(
-    settingsStore.stellarium[setting],
+  settingsStore.celestiaAtlas[setting] = toggleAtlasFacetSelection(
+    settingsStore.celestiaAtlas[setting],
     key,
     enabled,
     facets

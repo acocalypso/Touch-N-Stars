@@ -9,7 +9,7 @@
 
   <Modal :show="settingsVisible" @close="settingsVisible = false" zIndex="z-40">
     <template #header>
-      <h3>{{ $t('components.stellarium.settings.title') }}</h3>
+      <h3>{{ $t('components.celestiaAtlas.settings.title') }}</h3>
     </template>
     <template #body>
       <!-- Settings Container with conditional grid layout -->
@@ -18,15 +18,15 @@
           class="flex flex-row items-center justify-between w-full border border-gray-500 p-2 rounded-lg"
         >
           <label for="constellationsLinesVisible" class="text-gray-400">
-            {{ $t('components.stellarium.settings.constellations_lines_visible') }}
+            {{ $t('components.celestiaAtlas.settings.constellations_lines_visible') }}
           </label>
           <div>
             <toggleButton
               @click="
-                settingsStore.stellarium.constellationsLinesVisible =
-                  !settingsStore.stellarium.constellationsLinesVisible
+                settingsStore.celestiaAtlas.constellationsLinesVisible =
+                  !settingsStore.celestiaAtlas.constellationsLinesVisible
               "
-              :status-value="settingsStore.stellarium.constellationsLinesVisible"
+              :status-value="settingsStore.celestiaAtlas.constellationsLinesVisible"
             />
           </div>
         </div>
@@ -35,15 +35,15 @@
           class="flex flex-row items-center justify-between w-full border border-gray-500 p-2 rounded-lg"
         >
           <label for="azimuthalLinesVisible" class="text-gray-400">
-            {{ $t('components.stellarium.settings.azimuthal_lines_visible') }}
+            {{ $t('components.celestiaAtlas.settings.azimuthal_lines_visible') }}
           </label>
           <div>
             <toggleButton
               @click="
-                settingsStore.stellarium.azimuthalLinesVisible =
-                  !settingsStore.stellarium.azimuthalLinesVisible
+                settingsStore.celestiaAtlas.azimuthalLinesVisible =
+                  !settingsStore.celestiaAtlas.azimuthalLinesVisible
               "
-              :status-value="settingsStore.stellarium.azimuthalLinesVisible"
+              :status-value="settingsStore.celestiaAtlas.azimuthalLinesVisible"
             />
           </div>
         </div>
@@ -52,15 +52,15 @@
           class="flex flex-row items-center justify-between w-full border border-gray-500 p-2 rounded-lg"
         >
           <label for="equatorialLinesVisible" class="text-gray-400">
-            {{ $t('components.stellarium.settings.equatorial_lines_visible') }}
+            {{ $t('components.celestiaAtlas.settings.equatorial_lines_visible') }}
           </label>
           <div>
             <toggleButton
               @click="
-                settingsStore.stellarium.equatorialLinesVisible =
-                  !settingsStore.stellarium.equatorialLinesVisible
+                settingsStore.celestiaAtlas.equatorialLinesVisible =
+                  !settingsStore.celestiaAtlas.equatorialLinesVisible
               "
-              :status-value="settingsStore.stellarium.equatorialLinesVisible"
+              :status-value="settingsStore.celestiaAtlas.equatorialLinesVisible"
             />
           </div>
         </div>
@@ -69,15 +69,15 @@
           class="flex flex-row items-center justify-between w-full border border-gray-500 p-2 rounded-lg"
         >
           <label for="meridianLinesVisible" class="text-gray-400">
-            {{ $t('components.stellarium.settings.meridian_lines_visible') }}
+            {{ $t('components.celestiaAtlas.settings.meridian_lines_visible') }}
           </label>
           <div>
             <toggleButton
               @click="
-                settingsStore.stellarium.meridianLinesVisible =
-                  !settingsStore.stellarium.meridianLinesVisible
+                settingsStore.celestiaAtlas.meridianLinesVisible =
+                  !settingsStore.celestiaAtlas.meridianLinesVisible
               "
-              :status-value="settingsStore.stellarium.meridianLinesVisible"
+              :status-value="settingsStore.celestiaAtlas.meridianLinesVisible"
             />
           </div>
         </div>
@@ -86,15 +86,15 @@
           class="flex flex-row items-center justify-between w-full border border-gray-500 p-2 rounded-lg"
         >
           <label for="eclipticLinesVisible" class="text-gray-400">
-            {{ $t('components.stellarium.settings.ecliptic_lines_visible') }}
+            {{ $t('components.celestiaAtlas.settings.ecliptic_lines_visible') }}
           </label>
           <div>
             <toggleButton
               @click="
-                settingsStore.stellarium.eclipticLinesVisible =
-                  !settingsStore.stellarium.eclipticLinesVisible
+                settingsStore.celestiaAtlas.eclipticLinesVisible =
+                  !settingsStore.celestiaAtlas.eclipticLinesVisible
               "
-              :status-value="settingsStore.stellarium.eclipticLinesVisible"
+              :status-value="settingsStore.celestiaAtlas.eclipticLinesVisible"
             />
           </div>
         </div>
@@ -103,15 +103,15 @@
           class="flex flex-row items-center justify-between w-full border border-gray-500 p-2 rounded-lg"
         >
           <label for="atmosphereVisible" class="text-gray-400">
-            {{ $t('components.stellarium.settings.atmosphere_visible') }}
+            {{ $t('components.celestiaAtlas.settings.atmosphere_visible') }}
           </label>
           <div>
             <toggleButton
               @click="
-                settingsStore.stellarium.atmosphereVisible =
-                  !settingsStore.stellarium.atmosphereVisible
+                settingsStore.celestiaAtlas.atmosphereVisible =
+                  !settingsStore.celestiaAtlas.atmosphereVisible
               "
-              :status-value="settingsStore.stellarium.atmosphereVisible"
+              :status-value="settingsStore.celestiaAtlas.atmosphereVisible"
             />
           </div>
         </div>
@@ -120,12 +120,12 @@
           class="flex flex-row items-center justify-between w-full border border-gray-500 p-2 rounded-lg"
         >
           <label for="landscapesVisible" class="text-gray-400">
-            {{ $t('components.stellarium.settings.landscapes_visible') }}
+            {{ $t('components.celestiaAtlas.settings.landscapes_visible') }}
           </label>
           <div>
             <toggleButton
               @click="showLandscape"
-              :status-value="settingsStore.stellarium.landscapesVisible"
+              :status-value="settingsStore.celestiaAtlas.landscapesVisible"
             />
           </div>
         </div>
@@ -134,15 +134,15 @@
           class="flex flex-row items-center justify-between w-full border border-gray-500 p-2 rounded-lg"
         >
           <label for="hideBelowHorizon" class="text-gray-400">
-            {{ $t('components.stellarium.settings.hide_below_horizon') }}
+            {{ $t('components.celestiaAtlas.settings.hide_below_horizon') }}
           </label>
           <div>
             <toggleButton
               @click="
-                settingsStore.stellarium.hideBelowHorizon =
-                  settingsStore.stellarium.hideBelowHorizon === false
+                settingsStore.celestiaAtlas.hideBelowHorizon =
+                  settingsStore.celestiaAtlas.hideBelowHorizon === false
               "
-              :status-value="settingsStore.stellarium.hideBelowHorizon !== false"
+              :status-value="settingsStore.celestiaAtlas.hideBelowHorizon !== false"
             />
           </div>
         </div>
@@ -152,29 +152,29 @@
         >
           <div class="min-w-0">
             <label for="skySurveyVisible" class="text-gray-300">
-              {{ $t('components.stellarium.settings.sky_survey_visible') }}
+              {{ $t('components.celestiaAtlas.settings.sky_survey_visible') }}
             </label>
             <p class="mt-1 text-xs leading-5 text-gray-400">
-              {{ $t('components.stellarium.settings.sky_survey_hint') }}
+              {{ $t('components.celestiaAtlas.settings.sky_survey_hint') }}
             </p>
           </div>
           <div class="shrink-0">
             <toggleButton
               @click="
-                settingsStore.stellarium.skySurveyVisible =
-                  settingsStore.stellarium.skySurveyVisible === false
+                settingsStore.celestiaAtlas.skySurveyVisible =
+                  settingsStore.celestiaAtlas.skySurveyVisible === false
               "
-              :status-value="settingsStore.stellarium.skySurveyVisible !== false"
+              :status-value="settingsStore.celestiaAtlas.skySurveyVisible !== false"
             />
           </div>
         </div>
 
         <div
-          v-if="settingsStore.stellarium.landscapesVisible"
+          v-if="settingsStore.celestiaAtlas.landscapesVisible"
           class="w-full border border-gray-500 p-2 rounded-lg col-span-full"
         >
           <label for="landscapeSourceMode" class="text-gray-400 block mb-1">
-            {{ $t('components.stellarium.settings.landscape_source_mode') }}
+            {{ $t('components.celestiaAtlas.settings.landscape_source_mode') }}
           </label>
           <select
             id="landscapeSourceMode"
@@ -182,10 +182,10 @@
             class="w-full bg-gray-800 border border-gray-600 rounded px-2 py-1 text-sm text-gray-200"
           >
             <option value="default">
-              {{ $t('components.stellarium.settings.landscape_source_default') }}
+              {{ $t('components.celestiaAtlas.settings.landscape_source_default') }}
             </option>
             <option value="neutral">
-              {{ $t('components.stellarium.settings.landscape_source_neutral') }}
+              {{ $t('components.celestiaAtlas.settings.landscape_source_neutral') }}
             </option>
             <option
               v-for="landscapeOption in listedLandscapeOptions"
@@ -193,43 +193,47 @@
               :value="landscapeOption.value"
             >
               {{
-                $t('components.stellarium.settings.landscape_option_label', {
+                $t('components.celestiaAtlas.settings.landscape_option_label', {
                   title: landscapeOption.title,
                 })
               }}
             </option>
             <option value="custom">
-              {{ $t('components.stellarium.settings.landscape_source_custom') }}
+              {{ $t('components.celestiaAtlas.settings.landscape_source_custom') }}
             </option>
           </select>
 
           <div
-            v-if="settingsStore.stellarium.landscapeSourceMode === 'custom'"
+            v-if="settingsStore.celestiaAtlas.landscapeSourceMode === 'custom'"
             class="mt-2 grid gap-2"
           >
             <div>
               <label for="customLandscapeUrl" class="text-gray-400 block mb-1 text-sm">
-                {{ $t('components.stellarium.settings.custom_landscape_url') }}
+                {{ $t('components.celestiaAtlas.settings.custom_landscape_url') }}
               </label>
               <input
                 id="customLandscapeUrl"
-                v-model="settingsStore.stellarium.customLandscapeUrl"
+                v-model="settingsStore.celestiaAtlas.customLandscapeUrl"
                 type="text"
                 class="w-full bg-gray-800 border border-gray-600 rounded px-2 py-1 text-sm text-gray-200"
-                :placeholder="$t('components.stellarium.settings.custom_landscape_url_placeholder')"
+                :placeholder="
+                  $t('components.celestiaAtlas.settings.custom_landscape_url_placeholder')
+                "
               />
             </div>
 
             <div>
               <label for="customLandscapeKey" class="text-gray-400 block mb-1 text-sm">
-                {{ $t('components.stellarium.settings.custom_landscape_key') }}
+                {{ $t('components.celestiaAtlas.settings.custom_landscape_key') }}
               </label>
               <input
                 id="customLandscapeKey"
-                v-model="settingsStore.stellarium.customLandscapeKey"
+                v-model="settingsStore.celestiaAtlas.customLandscapeKey"
                 type="text"
                 class="w-full bg-gray-800 border border-gray-600 rounded px-2 py-1 text-sm text-gray-200"
-                :placeholder="$t('components.stellarium.settings.custom_landscape_key_placeholder')"
+                :placeholder="
+                  $t('components.celestiaAtlas.settings.custom_landscape_key_placeholder')
+                "
               />
             </div>
           </div>
@@ -247,7 +251,7 @@
           <div class="mt-3 border border-gray-600 rounded-lg p-2 bg-gray-800/40">
             <div class="flex items-center justify-between gap-2">
               <p class="text-gray-300 text-sm font-medium">
-                {{ $t('components.stellarium.settings.available_landscapes') }}
+                {{ $t('components.celestiaAtlas.settings.available_landscapes') }}
               </p>
               <button
                 type="button"
@@ -266,7 +270,7 @@
                 v-else-if="landscapeListLoaded && availableLandscapes.length === 0"
                 class="text-gray-400"
               >
-                {{ $t('components.stellarium.settings.no_landscapes_available') }}
+                {{ $t('components.celestiaAtlas.settings.no_landscapes_available') }}
               </p>
 
               <ul v-else class="space-y-2 max-h-52 overflow-y-auto pr-1">
@@ -280,7 +284,7 @@
                       {{
                         landscape.title ||
                         landscape.folderName ||
-                        $t('components.stellarium.settings.untitled_landscape')
+                        $t('components.celestiaAtlas.settings.untitled_landscape')
                       }}
                     </p>
                     <span
@@ -293,17 +297,17 @@
                     >
                       {{
                         landscape.hasAllsky
-                          ? $t('components.stellarium.settings.has_allsky')
-                          : $t('components.stellarium.settings.no_allsky')
+                          ? $t('components.celestiaAtlas.settings.has_allsky')
+                          : $t('components.celestiaAtlas.settings.no_allsky')
                       }}
                     </span>
                   </div>
                   <p class="text-xs text-gray-400 mt-1 break-all">
-                    {{ $t('components.stellarium.settings.folder_name_label') }}:
+                    {{ $t('components.celestiaAtlas.settings.folder_name_label') }}:
                     {{ landscape.folderName || '—' }}
                   </p>
                   <p class="text-xs text-gray-400 mt-1 break-all">
-                    {{ $t('components.stellarium.settings.service_url_label') }}:
+                    {{ $t('components.celestiaAtlas.settings.service_url_label') }}:
                     {{ landscape.serviceUrl || '—' }}
                   </p>
                 </li>
@@ -316,12 +320,14 @@
           class="flex flex-row items-center justify-between w-full border border-gray-500 p-2 rounded-lg"
         >
           <label for="dsosVisible" class="text-gray-400">
-            {{ $t('components.stellarium.settings.dsos_visible') }}
+            {{ $t('components.celestiaAtlas.settings.dsos_visible') }}
           </label>
           <div>
             <toggleButton
-              @click="settingsStore.stellarium.dsosVisible = !settingsStore.stellarium.dsosVisible"
-              :status-value="settingsStore.stellarium.dsosVisible"
+              @click="
+                settingsStore.celestiaAtlas.dsosVisible = !settingsStore.celestiaAtlas.dsosVisible
+              "
+              :status-value="settingsStore.celestiaAtlas.dsosVisible"
             />
           </div>
         </div>
@@ -329,22 +335,22 @@
         <AtlasCatalogFilters
           :object-types="catalogObjectTypes"
           :catalogue-groups="catalogueGroups"
-          :disabled="!settingsStore.stellarium.dsosVisible"
+          :disabled="!settingsStore.celestiaAtlas.dsosVisible"
         />
 
         <div class="w-full border border-gray-500 p-3 rounded-lg col-span-full grid gap-3">
           <div>
             <p class="text-gray-200 font-medium">
-              {{ $t('components.stellarium.settings.brightness_filters') }}
+              {{ $t('components.celestiaAtlas.settings.brightness_filters') }}
             </p>
             <p class="text-xs text-gray-400">
-              {{ $t('components.stellarium.settings.magnitude_limit_hint') }}
+              {{ $t('components.celestiaAtlas.settings.magnitude_limit_hint') }}
             </p>
           </div>
 
           <label class="grid gap-1" for="starMagnitudeLimit">
             <span class="flex justify-between gap-2 text-sm text-gray-300">
-              <span>{{ $t('components.stellarium.settings.star_magnitude_limit') }}</span>
+              <span>{{ $t('components.celestiaAtlas.settings.star_magnitude_limit') }}</span>
               <output>{{ formatMagnitudeLimit(starMagnitudeLimit) }}</output>
             </span>
             <input
@@ -360,7 +366,7 @@
 
           <label class="grid gap-1" for="galaxyMagnitudeLimit">
             <span class="flex justify-between gap-2 text-sm text-gray-300">
-              <span>{{ $t('components.stellarium.settings.galaxy_magnitude_limit') }}</span>
+              <span>{{ $t('components.celestiaAtlas.settings.galaxy_magnitude_limit') }}</span>
               <output>{{ formatMagnitudeLimit(galaxyMagnitudeLimit) }}</output>
             </span>
             <input
@@ -376,7 +382,7 @@
 
           <label class="grid gap-1" for="deepSkyMagnitudeLimit">
             <span class="flex justify-between gap-2 text-sm text-gray-300">
-              <span>{{ $t('components.stellarium.settings.dso_magnitude_limit') }}</span>
+              <span>{{ $t('components.celestiaAtlas.settings.dso_magnitude_limit') }}</span>
               <output>{{ formatMagnitudeLimit(deepSkyMagnitudeLimit) }}</output>
             </span>
             <input
@@ -404,7 +410,8 @@ import { Cog6ToothIcon } from '@heroicons/vue/24/outline';
 import { useOrientation } from '@/composables/useOrientation';
 import Modal from '@/components/helpers/Modal.vue';
 import apiService from '@/services/apiService';
-import AtlasCatalogFilters from '@/components/stellarium/AtlasCatalogFilters.vue';
+import AtlasCatalogFilters from '@/components/celestiaAtlas/AtlasCatalogFilters.vue';
+import { canonicalizeCelestiaAtlasDataUrl } from '@/store/utils/celestiaAtlasSettingsMigration';
 
 defineProps({
   catalogObjectTypes: {
@@ -445,7 +452,7 @@ const listedLandscapeOptions = computed(() => {
         value: `listed:${folderName}`,
         title,
         folderName,
-        serviceUrl: item.serviceUrl,
+        serviceUrl: canonicalizeCelestiaAtlasDataUrl(item.serviceUrl),
       };
     });
 });
@@ -454,21 +461,22 @@ function applyListedLandscapeSelection(folderName) {
   const selected = listedLandscapeOptions.value.find((option) => option.folderName === folderName);
   if (!selected) return;
 
-  settingsStore.stellarium.landscapeSourceMode = 'custom';
-  settingsStore.stellarium.customLandscapeUrl = selected.serviceUrl || `landscapes/${folderName}`;
-  settingsStore.stellarium.customLandscapeKey = folderName || 'custom';
+  settingsStore.celestiaAtlas.landscapeSourceMode = 'custom';
+  settingsStore.celestiaAtlas.customLandscapeUrl =
+    selected.serviceUrl || `landscapes/${folderName}`;
+  settingsStore.celestiaAtlas.customLandscapeKey = folderName || 'custom';
 }
 
 const landscapeSourceSelection = computed({
   get() {
-    const mode = settingsStore.stellarium.landscapeSourceMode;
+    const mode = settingsStore.celestiaAtlas.landscapeSourceMode;
     if (mode === 'default' || mode === 'neutral') {
       return mode;
     }
 
     if (mode === 'custom') {
-      const customUrl = normalizeLandscapePath(settingsStore.stellarium.customLandscapeUrl);
-      const customKey = String(settingsStore.stellarium.customLandscapeKey || '')
+      const customUrl = normalizeLandscapePath(settingsStore.celestiaAtlas.customLandscapeUrl);
+      const customKey = String(settingsStore.celestiaAtlas.customLandscapeKey || '')
         .trim()
         .toLowerCase();
 
@@ -495,7 +503,7 @@ const landscapeSourceSelection = computed({
   },
   set(value) {
     if (value === 'default' || value === 'neutral' || value === 'custom') {
-      settingsStore.stellarium.landscapeSourceMode = value;
+      settingsStore.celestiaAtlas.landscapeSourceMode = value;
       return;
     }
 
@@ -519,7 +527,7 @@ function saveLandscapeSourceSettings() {
 }
 
 function showLandscape() {
-  settingsStore.stellarium.landscapesVisible = !settingsStore.stellarium.landscapesVisible;
+  settingsStore.celestiaAtlas.landscapesVisible = !settingsStore.celestiaAtlas.landscapesVisible;
 }
 
 async function fetchAvailableLandscapes() {
@@ -533,20 +541,20 @@ async function fetchAvailableLandscapes() {
       availableLandscapes.value = rawItems.map((item) => ({
         folderName: item?.folderName ?? item?.FolderName ?? '',
         title: item?.title ?? item?.Title ?? '',
-        serviceUrl: item?.serviceUrl ?? item?.ServiceUrl ?? '',
+        serviceUrl: canonicalizeCelestiaAtlasDataUrl(item?.serviceUrl ?? item?.ServiceUrl ?? ''),
         hasAllsky: item?.hasAllsky ?? item?.HasAllsky ?? false,
       }));
     } else {
       availableLandscapes.value = [];
       landscapeListError.value =
-        response?.message || t('components.stellarium.settings.landscape_list_load_failed');
+        response?.message || t('components.celestiaAtlas.settings.landscape_list_load_failed');
     }
   } catch (error) {
     const responseMessage = error?.response?.data?.message || error?.response?.data?.error;
     landscapeListError.value =
       responseMessage ||
       error?.message ||
-      t('components.stellarium.settings.landscape_list_load_failed');
+      t('components.celestiaAtlas.settings.landscape_list_load_failed');
     availableLandscapes.value = [];
   } finally {
     landscapeListLoading.value = false;
@@ -566,17 +574,19 @@ const settingsContainerClasses = computed(() => ({
 }));
 
 function formatMagnitudeLimit(value) {
-  return value === 30 ? t('components.stellarium.settings.magnitude_limit_auto') : value.toFixed(1);
+  return value === 30
+    ? t('components.celestiaAtlas.settings.magnitude_limit_auto')
+    : value.toFixed(1);
 }
 
 function createMagnitudeModel(key, fallback, minimum, maximum) {
   return computed({
     get() {
-      const value = Number(settingsStore.stellarium[key]);
+      const value = Number(settingsStore.celestiaAtlas[key]);
       return Number.isFinite(value) ? Math.max(minimum, Math.min(maximum, value)) : fallback;
     },
     set(value) {
-      settingsStore.stellarium[key] = Math.max(minimum, Math.min(maximum, Number(value)));
+      settingsStore.celestiaAtlas[key] = Math.max(minimum, Math.min(maximum, Number(value)));
     },
   });
 }
@@ -587,9 +597,9 @@ const deepSkyMagnitudeLimit = createMagnitudeModel('deepSkyMagnitudeLimit', 30, 
 
 watch(
   () => [
-    settingsStore.stellarium.landscapeSourceMode,
-    settingsStore.stellarium.customLandscapeUrl,
-    settingsStore.stellarium.customLandscapeKey,
+    settingsStore.celestiaAtlas.landscapeSourceMode,
+    settingsStore.celestiaAtlas.customLandscapeUrl,
+    settingsStore.celestiaAtlas.customLandscapeKey,
   ],
   () => {
     landscapeSourceDirty.value = true;

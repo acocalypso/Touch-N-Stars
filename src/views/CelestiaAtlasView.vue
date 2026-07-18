@@ -39,14 +39,14 @@
         ↻
       </button>
     </div>
-    <StellariumFovRotation
+    <AtlasFovRotation
       v-if="showFovControls"
       :get-view-center="getAtlasViewCenter"
-      :active="store.showStellarium"
+      :active="store.showSkyAtlas"
       default-target-name="Celestia Atlas view"
     />
     <div v-if="ready" class="celestia-atlas-controls">
-      <stellariumSettings
+      <CelestiaAtlasSettings
         :catalog-object-types="catalogFacets.objectTypes"
         :catalogue-groups="catalogFacets.catalogueGroups"
       />
@@ -71,19 +71,19 @@
       </div>
       <div v-if="clockPanelVisible" class="celestia-atlas-clock-panel">
         <label>
-          {{ t('components.stellarium.datetime.date') }}
+          {{ t('components.celestiaAtlas.datetime.date') }}
           <input v-model="clockDate" class="default-input" type="date" @change="applyClockInput" />
         </label>
         <label>
-          {{ t('components.stellarium.datetime.time') }}
+          {{ t('components.celestiaAtlas.datetime.time') }}
           <input v-model="clockTime" class="default-input" type="time" @change="applyClockInput" />
         </label>
         <label>
-          {{ t('components.stellarium.datetime.speed') }}: {{ Math.pow(2, clockSpeedPower) }}×
+          {{ t('components.celestiaAtlas.datetime.speed') }}: {{ Math.pow(2, clockSpeedPower) }}×
           <input v-model.number="clockSpeedPower" type="range" min="-10" max="10" step="1" />
         </label>
         <button class="default-button-cyan" type="button" @click="resetClockToServer">
-          {{ t('components.stellarium.datetime.now') }}
+          {{ t('components.celestiaAtlas.datetime.now') }}
         </button>
       </div>
     </div>
@@ -105,7 +105,7 @@
       {{ landscapeErrorMessage }}
     </div>
     <div v-else-if="!ready" class="celestia-atlas-loading">
-      {{ t('components.stellarium.loading') }}
+      {{ t('components.celestiaAtlas.loading') }}
     </div>
   </div>
 </template>
@@ -131,14 +131,15 @@ import {
   normalizeAtlasFacetSelection,
 } from '@/integrations/celestiaAtlas/catalogFilters';
 import { normalizeAtlasMagnitudeLimit } from '@/integrations/celestiaAtlas/magnitudeFilters';
+import { PACKAGED_DSS_SKY_SURVEY_SOURCE } from '@/integrations/celestiaAtlas/offlineSkySurvey';
 import { timeSync } from '@/utils/timeSync';
 import { useHorizonStore } from '@/plugins/horizon-creator/store/horizonStore';
 import { interpolateHorizon } from '@/plugins/horizon-creator/utils/horizon-utils';
 import { isAppBackgrounded } from '@/utils/appLifecycle';
-import { resolveLandscapeSource } from '@/store/utils/stellariumLandscapeSource';
-import StellariumFovRotation from '@/components/stellarium/StellariumFovRotation.vue';
-import stellariumSettings from '@/components/stellarium/stellariumSettings.vue';
-import SelectedSkyObject from '@/components/stellarium/SelectedObject.vue';
+import { resolveLandscapeSource } from '@/store/utils/celestiaAtlasLandscapeSource';
+import AtlasFovRotation from '@/components/celestiaAtlas/AtlasFovRotation.vue';
+import CelestiaAtlasSettings from '@/components/celestiaAtlas/CelestiaAtlasSettings.vue';
+import SelectedSkyObject from '@/components/celestiaAtlas/SelectedObject.vue';
 
 const store = apiStore();
 const framingStore = useFramingStore();
@@ -307,38 +308,38 @@ function updateMount() {
 function updateDisplayOptions() {
   if (!viewer) return;
   viewer.setDisplayOptions({
-    grid: Boolean(settingsStore.stellarium.equatorialLinesVisible),
-    azimuthalGrid: Boolean(settingsStore.stellarium.azimuthalLinesVisible),
-    meridian: Boolean(settingsStore.stellarium.meridianLinesVisible),
-    ecliptic: Boolean(settingsStore.stellarium.eclipticLinesVisible),
-    atmosphere: Boolean(settingsStore.stellarium.atmosphereVisible),
+    grid: Boolean(settingsStore.celestiaAtlas.equatorialLinesVisible),
+    azimuthalGrid: Boolean(settingsStore.celestiaAtlas.azimuthalLinesVisible),
+    meridian: Boolean(settingsStore.celestiaAtlas.meridianLinesVisible),
+    ecliptic: Boolean(settingsStore.celestiaAtlas.eclipticLinesVisible),
+    atmosphere: Boolean(settingsStore.celestiaAtlas.atmosphereVisible),
     milkyWay: true,
-    skySurvey: settingsStore.stellarium.skySurveyVisible !== false,
-    constellations: Boolean(settingsStore.stellarium.constellationsLinesVisible),
+    skySurvey: settingsStore.celestiaAtlas.skySurveyVisible !== false,
+    constellations: Boolean(settingsStore.celestiaAtlas.constellationsLinesVisible),
     labels: true,
     starMagnitudeLimit: normalizeAtlasMagnitudeLimit(
-      settingsStore.stellarium.starMagnitudeLimit,
+      settingsStore.celestiaAtlas.starMagnitudeLimit,
       6.5
     ),
     galaxyMagnitudeLimit: normalizeAtlasMagnitudeLimit(
-      settingsStore.stellarium.galaxyMagnitudeLimit,
+      settingsStore.celestiaAtlas.galaxyMagnitudeLimit,
       30
     ),
     deepSkyMagnitudeLimit: normalizeAtlasMagnitudeLimit(
-      settingsStore.stellarium.deepSkyMagnitudeLimit,
+      settingsStore.celestiaAtlas.deepSkyMagnitudeLimit,
       30
     ),
     deepSkyObjectTypes: normalizeAtlasFacetSelection(
-      settingsStore.stellarium.deepSkyObjectTypes,
+      settingsStore.celestiaAtlas.deepSkyObjectTypes,
       catalogFacets.value.objectTypes
     ),
     deepSkyCatalogueGroups: normalizeAtlasFacetSelection(
-      settingsStore.stellarium.deepSkyCatalogueGroups,
+      settingsStore.celestiaAtlas.deepSkyCatalogueGroups,
       catalogFacets.value.catalogueGroups
     ),
-    deepSkyObjects: Boolean(settingsStore.stellarium.dsosVisible),
-    horizon: Boolean(settingsStore.stellarium.landscapesVisible),
-    hideBelowHorizon: settingsStore.stellarium.hideBelowHorizon !== false,
+    deepSkyObjects: Boolean(settingsStore.celestiaAtlas.dsosVisible),
+    horizon: Boolean(settingsStore.celestiaAtlas.landscapesVisible),
+    hideBelowHorizon: settingsStore.celestiaAtlas.hideBelowHorizon !== false,
   });
 }
 
@@ -349,10 +350,10 @@ function synchronizeCatalogFilterSettings() {
   ];
 
   for (const [setting, facets] of mappings) {
-    const current = settingsStore.stellarium[setting];
+    const current = settingsStore.celestiaAtlas[setting];
     const normalized = normalizeAtlasFacetSelection(current, facets);
     if (JSON.stringify(current) !== JSON.stringify(normalized)) {
-      settingsStore.stellarium[setting] = normalized;
+      settingsStore.celestiaAtlas[setting] = normalized;
     }
   }
 }
@@ -374,12 +375,8 @@ function updateHorizon() {
 function updateLandscape() {
   if (!viewer) return;
   landscapeErrorMessage.value = '';
-  const protocol = settingsStore.backendProtocol || 'http';
-  const host = settingsStore.connection.ip || window.location.hostname;
-  const port = settingsStore.connection.port || window.location.port;
-  const authority = port ? `${host}:${port}` : host;
-  const baseUrl = `${protocol}://${authority}/stellarium-data/`;
-  const config = resolveLandscapeSource(settingsStore.stellarium, baseUrl);
+  const baseUrl = '/celestia-atlas-data/';
+  const config = resolveLandscapeSource(settingsStore.celestiaAtlas, baseUrl);
   void viewer.setLandscape(config.visible ? config.source : null);
 }
 
@@ -417,7 +414,7 @@ function hideSelectedTargetDetails() {
 
 function updateVisibility() {
   if (!viewer) return;
-  if (store.showStellarium && !document.hidden && !isAppBackgrounded.value) {
+  if (store.showSkyAtlas && !document.hidden && !isAppBackgrounded.value) {
     viewer.resume();
     startClockDisplay();
   } else {
@@ -445,7 +442,7 @@ watch(
   ],
   updateFieldOfView
 );
-watch(() => store.showStellarium, updateVisibility);
+watch(() => store.showSkyAtlas, updateVisibility);
 watch(isAppBackgrounded, updateVisibility);
 watch(clockSpeedPower, (value) => {
   if (!clockPaused.value) viewer?.setTimeRate(Math.pow(2, Number(value)));
@@ -454,30 +451,30 @@ watch(() => store.mountInfo, updateMount, { deep: true });
 watch(() => horizonStore.points, updateHorizon, { deep: true });
 watch(
   () => [
-    settingsStore.stellarium.landscapesVisible,
-    settingsStore.stellarium.landscapeSourceMode,
-    settingsStore.stellarium.customLandscapeUrl,
-    settingsStore.stellarium.customLandscapeKey,
+    settingsStore.celestiaAtlas.landscapesVisible,
+    settingsStore.celestiaAtlas.landscapeSourceMode,
+    settingsStore.celestiaAtlas.customLandscapeUrl,
+    settingsStore.celestiaAtlas.customLandscapeKey,
   ],
   updateLandscape
 );
 watch(
   () => [
-    settingsStore.stellarium.equatorialLinesVisible,
-    settingsStore.stellarium.azimuthalLinesVisible,
-    settingsStore.stellarium.meridianLinesVisible,
-    settingsStore.stellarium.eclipticLinesVisible,
-    settingsStore.stellarium.atmosphereVisible,
-    settingsStore.stellarium.constellationsLinesVisible,
-    settingsStore.stellarium.dsosVisible,
-    settingsStore.stellarium.starMagnitudeLimit,
-    settingsStore.stellarium.galaxyMagnitudeLimit,
-    settingsStore.stellarium.deepSkyMagnitudeLimit,
-    settingsStore.stellarium.deepSkyObjectTypes,
-    settingsStore.stellarium.deepSkyCatalogueGroups,
-    settingsStore.stellarium.landscapesVisible,
-    settingsStore.stellarium.hideBelowHorizon,
-    settingsStore.stellarium.skySurveyVisible,
+    settingsStore.celestiaAtlas.equatorialLinesVisible,
+    settingsStore.celestiaAtlas.azimuthalLinesVisible,
+    settingsStore.celestiaAtlas.meridianLinesVisible,
+    settingsStore.celestiaAtlas.eclipticLinesVisible,
+    settingsStore.celestiaAtlas.atmosphereVisible,
+    settingsStore.celestiaAtlas.constellationsLinesVisible,
+    settingsStore.celestiaAtlas.dsosVisible,
+    settingsStore.celestiaAtlas.starMagnitudeLimit,
+    settingsStore.celestiaAtlas.galaxyMagnitudeLimit,
+    settingsStore.celestiaAtlas.deepSkyMagnitudeLimit,
+    settingsStore.celestiaAtlas.deepSkyObjectTypes,
+    settingsStore.celestiaAtlas.deepSkyCatalogueGroups,
+    settingsStore.celestiaAtlas.landscapesVisible,
+    settingsStore.celestiaAtlas.hideBelowHorizon,
+    settingsStore.celestiaAtlas.skySurveyVisible,
   ],
   updateDisplayOptions
 );
@@ -522,6 +519,7 @@ onMounted(async () => {
       catalog,
       stars,
       constellations,
+      skySurveySource: PACKAGED_DSS_SKY_SURVEY_SOURCE,
       onSelect: (target) => {
         selectedTarget.value = target;
       },
@@ -529,7 +527,7 @@ onMounted(async () => {
       onError: (error) => {
         console.warn('[Celestia Atlas] Landscape unavailable:', error.message);
         landscapeErrorMessage.value = t(
-          'components.stellarium.settings.landscape_list_load_failed'
+          'components.celestiaAtlas.settings.landscape_list_load_failed'
         );
       },
     });

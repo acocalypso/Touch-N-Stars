@@ -167,7 +167,7 @@ export const apiStore = defineStore('store', {
     showSettings: false,
     showFocuser: false,
     showMount: false,
-    showStellarium: false,
+    showSkyAtlas: false,
     minimumApiVersion: '2.2.11.0',
     minimumTnsPluginVersion: '1.2.0.0',
     currentApiVersion: null,

@@ -1717,7 +1717,7 @@
         "preConnectDelay": "Pre Connect Delay (ms)"
       }
     },
-    "stellarium": {
+    "celestiaAtlas": {
       "loading": "Načítání Stellaria…",
       "selected_object": {
         "title": "Vybraný objekt",
@@ -1743,7 +1743,7 @@
         "landscapes_visible": "Ukázat krajinu",
         "hide_below_horizon": "Skrýt objekty pod obzorem",
         "sky_survey_visible": "Fotografický průzkum oblohy",
-        "sky_survey_hint": "Online načítá skutečné snímky oblohy podle potřeby. Nedávno zobrazená pole zůstávají offline v mezipaměti; dosud nezobrazená pole použijí místní atlas.",
+        "sky_survey_hint": "Používá pouze přibalené snímky DSS offline a nikdy nestahuje dlaždice přehlídky z internetu.",
         "dsos_visible": "Deep Sky Objekty (Messier, NGC)",
         "catalog_filters": "Filtry katalogu",
         "catalog_filter_hint": "Ovládá viditelné značky objektů hlubokého nebe; offline vyhledávání nadále najde všechny katalogové objekty.",
@@ -1764,7 +1764,7 @@
         "landscape_source_neutral": "Neutral horizon (Gray)",
         "landscape_source_custom": "Custom data source",
         "custom_landscape_url": "Custom source URL",
-        "custom_landscape_url_placeholder": "e.g. /stellarium-data/landscapes/custom",
+        "custom_landscape_url_placeholder": "e.g. /celestia-atlas-data/landscapes/custom",
         "custom_landscape_key": "Custom source key",
         "custom_landscape_key_placeholder": "e.g. my-landscape",
         "available_landscapes": "Available landscapes",

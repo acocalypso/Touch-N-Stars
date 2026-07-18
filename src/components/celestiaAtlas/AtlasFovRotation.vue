@@ -21,7 +21,7 @@
           :max="360"
           :step="1"
           :decimalPlaces="1"
-          inputId="stellarium-fov-rotation"
+          inputId="atlas-fov-rotation"
           wrapperClass="w-full"
         />
         <div class="flex items-center gap-1 shrink-0">

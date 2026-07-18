@@ -435,6 +435,27 @@ Native Android/iOS interaction, package-size and memory/heap profiling remain
 explicit Phase 6 release gates; no native result is inferred from browser
 emulation.
 
+### 2026-07-18 Celestia-owned namespaces and offline survey
+
+- Static landscapes, sky cultures and survey imagery moved from
+  `public/stellarium-data` to `public/celestia-atlas-data`. Runtime and custom
+  landscape placeholders now use `/celestia-atlas-data`.
+- The host visibility flag is `showSkyAtlas`, persisted display preferences use
+  `celestiaAtlas`, and Atlas components/utilities live under Celestia-owned
+  names. A pre-hydration migration preserves the former `stellarium` settings
+  and canonicalizes local legacy landscape paths.
+- Backend landscape-list responses may retain their historical Stellarium API
+  contract, but returned local service URLs are canonicalized before storage.
+- The photographic background uses only the packaged DSS WebP HiPS orders 3–4
+  at `/celestia-atlas-data/surveys/dss`. The remote Atlas default is explicitly
+  overridden, so tile rendering has no online source or fallback.
+- Native builds retain `celestia-atlas-data`; the former data-exclusion build
+  plugin and environment flag were removed.
+- Production-browser validation loaded the Guereins landscape faces and DSS
+  orders 3–4 with HTTP 200 only from the local `celestia-atlas-data` tree.
+  Zooming activated the photographic background without any external-survey or
+  legacy-path request, and the console contained no Atlas/Vue runtime error.
+
 ## 11. Remaining blockers
 
 - Celestia Atlas code is MIT licensed. Data boundaries remain explicit in the
@@ -447,9 +468,8 @@ emulation.
 - Android and iOS runtime validation require suitable platform environments.
 - Existing listed and custom landscapes now use seam-correct spherical order-0 HEALPix projection. The standalone and Touch-N-Stars production browsers passed orientation, seam, settled-resolution, request, and Atlas console checks; Android and iOS validation remain release gates.
 - Remaining parity gates are Android/iOS lifecycle and gesture validation,
-  native package-size/heap profiling, upstream FITS/image position-angle
-  provenance, and migration of the compatibility `stellarium-data` URL namespace
-  used by Celestia Atlas landscapes and surveys.
+  native package-size/heap profiling and upstream FITS/image position-angle
+  provenance.
 - Package boundary resolved: Touch-N-Stars uses the public Git repository pinned
   over HTTPS to immutable Atlas commit
   `8d79f5740621db9757a2b1b85b1fc1d6d005a6fe`. Embedded and standalone shells
@@ -465,5 +485,5 @@ emulation.
 - [ ] Web and required native lifecycle tests pass.
 - [x] Celestia is default with a tested rollback interval.
 - [x] Stellarium runtime, WASM, globals, stores, view overlays, and rollback import are removed.
-- [ ] The Atlas-consumed `stellarium-data` compatibility namespace and native build exclusion are renamed or replaced.
+- [x] Atlas data uses the `celestia-atlas-data` namespace, existing settings are migrated, and native builds retain the offline data.
 - [ ] Final search classifies every historical reference.

@@ -1762,7 +1762,7 @@
         "preConnectDelay": "연결 전 대기 시간 (ms)"
       }
     },
-    "stellarium": {
+    "celestiaAtlas": {
       "loading": "Celestia Atlas 로드 중…",
       "selected_object": {
         "title": "선택한 천체",
@@ -1788,7 +1788,7 @@
         "landscapes_visible": "지형 표시",
         "hide_below_horizon": "지평선 아래 천체 숨기기",
         "sky_survey_visible": "사진 천구 탐사",
-        "sky_survey_hint": "온라인에서 실제 하늘 이미지를 필요할 때 불러옵니다. 최근 본 영역은 오프라인용으로 캐시되며, 보지 않은 영역은 로컬 별 지도를 사용합니다.",
+        "sky_survey_hint": "포함된 DSS 하늘 이미지만 오프라인으로 사용하며 인터넷에서 타일을 가져오지 않습니다.",
         "dsos_visible": "심원천체 (메시에, NGC)",
         "catalog_filters": "목록 필터",
         "catalog_filter_hint": "표시되는 심원천체 마커를 제어합니다. 오프라인 검색에서는 계속 모든 목록 천체를 찾을 수 있습니다.",
@@ -1809,7 +1809,7 @@
         "landscape_source_neutral": "Neutral horizon (Gray)",
         "landscape_source_custom": "Custom data source",
         "custom_landscape_url": "Custom source URL",
-        "custom_landscape_url_placeholder": "e.g. /stellarium-data/landscapes/custom",
+        "custom_landscape_url_placeholder": "e.g. /celestia-atlas-data/landscapes/custom",
         "custom_landscape_key": "Custom source key",
         "custom_landscape_key_placeholder": "e.g. my-landscape",
         "available_landscapes": "사용 가능한 풍경",

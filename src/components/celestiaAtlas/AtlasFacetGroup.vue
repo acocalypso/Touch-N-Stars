@@ -6,7 +6,7 @@
       <span>{{ title }}</span>
       <span class="shrink-0 text-xs text-cyan-300">
         {{
-          t('components.stellarium.settings.catalog_filter_selected', {
+          t('components.celestiaAtlas.settings.catalog_filter_selected', {
             selected: selectedCount,
             total: facets.length,
           })
@@ -22,7 +22,7 @@
           class="min-h-11 rounded-md border border-cyan-700 bg-cyan-950/60 px-3 text-sm text-cyan-100"
           @click="$emit('selectAll')"
         >
-          {{ t('components.stellarium.settings.catalog_filter_all') }}
+          {{ t('components.celestiaAtlas.settings.catalog_filter_all') }}
         </button>
         <button
           type="button"
@@ -30,7 +30,7 @@
           class="min-h-11 rounded-md border border-gray-600 bg-gray-800 px-3 text-sm text-gray-200"
           @click="$emit('selectNone')"
         >
-          {{ t('components.stellarium.settings.catalog_filter_none') }}
+          {{ t('components.celestiaAtlas.settings.catalog_filter_none') }}
         </button>
       </div>
 

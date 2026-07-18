@@ -1717,7 +1717,7 @@
         "preConnectDelay": "Ritardo pre-connessione (ms)"
       }
     },
-    "stellarium": {
+    "celestiaAtlas": {
       "loading": "Caricamento di Celestia Atlas…",
       "selected_object": {
         "title": "Oggetto selezionato",
@@ -1743,7 +1743,7 @@
         "landscapes_visible": "Mostra paesaggi",
         "hide_below_horizon": "Nascondi oggetti sotto l'orizzonte",
         "sky_survey_visible": "Rilievo fotografico del cielo",
-        "sky_survey_hint": "Carica online immagini reali del cielo su richiesta. I campi visti di recente restano nella cache offline; quelli mai visti usano l’atlante locale.",
+        "sky_survey_hint": "Usa solo le immagini DSS incluse offline e non scarica mai tessere della survey da Internet.",
         "dsos_visible": "Oggetti deep sky (Messier, NGC)",
         "catalog_filters": "Filtri catalogo",
         "catalog_filter_hint": "Controlla i marcatori visibili del cielo profondo; la ricerca offline trova comunque tutti gli oggetti del catalogo.",
@@ -1764,7 +1764,7 @@
         "landscape_source_neutral": "Neutral horizon (Gray)",
         "landscape_source_custom": "Custom data source",
         "custom_landscape_url": "Custom source URL",
-        "custom_landscape_url_placeholder": "e.g. /stellarium-data/landscapes/custom",
+        "custom_landscape_url_placeholder": "e.g. /celestia-atlas-data/landscapes/custom",
         "custom_landscape_key": "Custom source key",
         "custom_landscape_key_placeholder": "e.g. my-landscape",
         "available_landscapes": "Paesaggi disponibili",

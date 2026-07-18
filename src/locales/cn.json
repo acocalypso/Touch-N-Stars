@@ -1717,7 +1717,7 @@
         "preConnectDelay": "Pre Connect Delay (ms)"
       }
     },
-    "stellarium": {
+    "celestiaAtlas": {
       "loading": "正在加载 Celestia Atlas…",
       "selected_object": {
         "title": "已选对象",
@@ -1743,7 +1743,7 @@
         "landscapes_visible": "显示地平线",
         "hide_below_horizon": "隐藏地平线以下的天体",
         "sky_survey_visible": "实拍巡天图像",
-        "sky_survey_hint": "联网时按需加载真实天空图像。最近查看的天区会缓存供离线使用；未查看的天区则回退到本地星图。",
+        "sky_survey_hint": "仅离线使用随附的 DSS 天空图像，不会从互联网获取巡天图块。",
         "dsos_visible": "深空天体 (梅西耶, NGC)",
         "catalog_filters": "深空天体筛选",
         "catalog_filter_hint": "控制星图中可见的深空天体标记；离线搜索仍可找到所有星表天体。",
@@ -1764,7 +1764,7 @@
         "landscape_source_neutral": "Neutral horizon (Gray)",
         "landscape_source_custom": "Custom data source",
         "custom_landscape_url": "Custom source URL",
-        "custom_landscape_url_placeholder": "e.g. /stellarium-data/landscapes/custom",
+        "custom_landscape_url_placeholder": "e.g. /celestia-atlas-data/landscapes/custom",
         "custom_landscape_key": "Custom source key",
         "custom_landscape_key_placeholder": "e.g. my-landscape",
         "available_landscapes": "Available landscapes",

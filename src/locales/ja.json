@@ -1725,7 +1725,7 @@
         "preConnectDelay": "接続前遅延 (ミリ秒)"
       }
     },
-    "stellarium": {
+    "celestiaAtlas": {
       "loading": "Celestia Atlas を読み込んでいます…",
       "selected_object": {
         "title": "選択された天体",
@@ -1751,7 +1751,7 @@
         "landscapes_visible": "風景を表示",
         "hide_below_horizon": "地平線下の天体を非表示",
         "sky_survey_visible": "写真による全天サーベイ",
-        "sky_survey_hint": "オンライン時に実写の空画像を必要に応じて読み込みます。最近見た領域はオフライン用にキャッシュされ、未表示の領域はローカルのアトラスを使います。",
+        "sky_survey_hint": "同梱された DSS 天空画像のみをオフラインで使用し、インターネットからタイルを取得しません。",
         "dsos_visible": "ディープスカイ天体 (メシエ, NGC)",
         "catalog_filters": "カタログフィルター",
         "catalog_filter_hint": "表示する深宇宙天体マーカーを制御します。オフライン検索では引き続きすべてのカタログ天体を検索できます。",
@@ -1772,7 +1772,7 @@
         "landscape_source_neutral": "Neutral horizon (Gray)",
         "landscape_source_custom": "Custom data source",
         "custom_landscape_url": "Custom source URL",
-        "custom_landscape_url_placeholder": "e.g. /stellarium-data/landscapes/custom",
+        "custom_landscape_url_placeholder": "e.g. /celestia-atlas-data/landscapes/custom",
         "custom_landscape_key": "Custom source key",
         "custom_landscape_key_placeholder": "e.g. my-landscape",
         "available_landscapes": "利用可能な風景",

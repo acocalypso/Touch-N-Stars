@@ -205,10 +205,13 @@ rollback path have been removed.
 ## 11. Data and Assets
 
 - The pinned Celestia Atlas package supplies the offline engine, compact
-  OpenNGC/bright-sky catalogues and Milky Way asset. Backend-served
-  `stellarium-data` landscape folders remain compatible data sources.
-- Backend-served `stellarium-data` remains a compatibility namespace for the
-  licensed HiPS landscape and survey data consumed by Celestia Atlas.
+  OpenNGC/bright-sky catalogues and Milky Way asset. The application-owned
+  `public/celestia-atlas-data` tree supplies landscapes and the packaged DSS
+  HiPS background to web and native builds.
+- Sky-survey rendering is offline-only. The viewer is configured explicitly for
+  `/celestia-atlas-data/surveys/dss` orders 3–4 and has no online tile fallback.
+- Persisted Atlas preferences use `settings.celestiaAtlas`; startup migrates the
+  former `settings.stellarium` key and local `/stellarium-data` custom paths.
 - `public/whats-new.json` is generated at build time.
 - `src/locales/*.json` provide locale resources.
 

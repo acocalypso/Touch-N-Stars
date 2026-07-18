@@ -1697,7 +1697,7 @@
         "preConnectDelay": "Затримка перед підключенням (мс)"
       }
     },
-    "stellarium": {
+    "celestiaAtlas": {
       "loading": "Завантаження Celestia Atlas…",
       "selected_object": {
         "title": "Обраний об'єкт",
@@ -1723,7 +1723,7 @@
         "landscapes_visible": "Показати ландшафти",
         "hide_below_horizon": "Приховати об'єкти нижче горизонту",
         "sky_survey_visible": "Фотографічний огляд неба",
-        "sky_survey_hint": "Онлайн завантажує справжні зображення неба на вимогу. Нещодавно переглянуті ділянки кешуються для офлайну; непереглянуті використовують локальний атлас.",
+        "sky_survey_hint": "Використовує лише вбудовані зображення DSS офлайн і ніколи не завантажує тайли огляду з Інтернету.",
         "dsos_visible": "Об'єкти глибокого космосу (Messier, NGC)",
         "catalog_filters": "Фільтри каталогів",
         "catalog_filter_hint": "Керує видимими позначками об'єктів глибокого неба; офлайн-пошук і надалі знаходить усі об'єкти каталогів.",
@@ -1744,7 +1744,7 @@
         "landscape_source_neutral": "Neutral horizon (Gray)",
         "landscape_source_custom": "Custom data source",
         "custom_landscape_url": "Custom source URL",
-        "custom_landscape_url_placeholder": "e.g. /stellarium-data/landscapes/custom",
+        "custom_landscape_url_placeholder": "e.g. /celestia-atlas-data/landscapes/custom",
         "custom_landscape_key": "Custom source key",
         "custom_landscape_key_placeholder": "e.g. my-landscape",
         "available_landscapes": "Доступні пейзажі",

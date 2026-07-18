@@ -57,7 +57,7 @@ Touch-N-Stars currently includes:
 - Connection orchestration through global Pinia stores and service adapters.
 - Dynamic plugin discovery through `src/plugins/*`, generated plugin registry, plugin metadata, and plugin-local views/stores.
 - Build-time generated artifacts such as plugin registry and `public/whats-new.json` from `CHANGELOG.md`.
-- Heavy astronomy visualization/static assets under `public/stellarium-data` and `public/stellarium-js`.
+- Heavy astronomy visualization/static assets under `public/celestia-atlas-data`.
 - Native OTA update behavior through Capacitor/Capgo update flow.
 - i18n locale files under `src/locales`.
 

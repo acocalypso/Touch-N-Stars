@@ -19,7 +19,7 @@
     <div :class="contentClasses" class="overflow-y-auto">
       <div class="flex items-start justify-between gap-3">
         <h3 class="text-lg font-semibold">
-          {{ $t('components.stellarium.selected_object.title') }}:
+          {{ $t('components.celestiaAtlas.selected_object.title') }}:
         </h3>
         <button
           v-if="dismissible"
@@ -40,10 +40,10 @@
       </ul>
 
       <p class="mt-2 text-sm">
-        {{ $t('components.stellarium.selected_object.ra') }}: {{ selectedObjectRa || '—' }}
+        {{ $t('components.celestiaAtlas.selected_object.ra') }}: {{ selectedObjectRa || '—' }}
       </p>
       <p class="text-sm">
-        {{ $t('components.stellarium.selected_object.dec') }}: {{ selectedObjectDec || '—' }}
+        {{ $t('components.celestiaAtlas.selected_object.dec') }}: {{ selectedObjectDec || '—' }}
       </p>
 
       <fieldset

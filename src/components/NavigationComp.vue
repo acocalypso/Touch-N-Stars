@@ -416,8 +416,8 @@
           <router-link
             to="/"
             class="nav-button"
-            :class="{ 'active-nav-button': store.showStellarium }"
-            @click="store.showStellarium = true"
+            :class="{ 'active-nav-button': store.showSkyAtlas }"
+            @click="store.showSkyAtlas = true"
           >
             <SparklesIcon class="icon force-visible" />
           </router-link>
@@ -675,7 +675,7 @@ watch(
   () => route.path,
   (newPath) => {
     if (newPath !== '/') {
-      store.showStellarium = false;
+      store.showSkyAtlas = false;
     }
     // Force icon visibility after route change
     nextTick(() => {

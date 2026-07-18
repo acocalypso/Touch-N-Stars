@@ -117,10 +117,10 @@
            disconnected, and the viewer lifecycle pauses rendering when hidden. -->
       <SkyAtlasView
         v-if="settingsStore.setupCompleted && skyAtlasMounted"
-        v-show="store.showStellarium"
+        v-show="store.showSkyAtlas"
       />
       <div v-if="!shouldShowConnectionSplash" :class="mainContentClasses">
-        <router-view v-show="!store.showStellarium" :key="routerViewKey" />
+        <router-view v-show="!store.showSkyAtlas" :key="routerViewKey" />
       </div>
       <!-- Footer -->
       <div v-if="settingsStore.setupCompleted" :class="statusBarClasses">
@@ -385,10 +385,10 @@ const settingsStore = useSettingsStore();
 const pinsStore = usePinsStore();
 const nightSummaryStore = useNightSummaryStore();
 const route = useRoute();
-const skyAtlasMounted = ref(Boolean(store.showStellarium));
+const skyAtlasMounted = ref(Boolean(store.showSkyAtlas));
 
 watch(
-  () => store.showStellarium,
+  () => store.showSkyAtlas,
   (visible) => {
     if (visible) skyAtlasMounted.value = true;
   },

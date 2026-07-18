@@ -97,7 +97,10 @@
         :modelValue="store.profileInfo.PlateSolveSettings.ReattemptDelay"
         :max="3600"
       />
-      <setPlateSolverBlindFailover />
+      <ProfileToggle
+        labelKey="components.settings.plate_solver.BlindFailoverEnabled"
+        settingKey="PlateSolveSettings-BlindFailoverEnabled"
+      />
     </div>
   </div>
 </template>
@@ -106,7 +109,7 @@
 import { ref, onMounted } from 'vue';
 import { apiStore } from '@/store/store';
 import SettingInput from '@/components/helpers/settings/UpdatePorfileNumber.vue';
-import setPlateSolverBlindFailover from './SetPlateSolverBlindFailover.vue';
+import ProfileToggle from '@/components/helpers/settings/ProfileToggle.vue';
 import SetPlateSolverFilterPins from './SetPlateSolverFilterPins.vue';
 import SetPlateSolverAstapDatabasePins from './SetPlateSolverAstapDatabasePins.vue';
 import apiService from '@/services/apiService';

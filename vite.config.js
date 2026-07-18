@@ -122,7 +122,7 @@ export default defineConfig({
             },
             {
               name: 'interaction-vendor',
-              test: /node_modules[\\/](@daybrush|vue3-moveable|@scena|@egjs|@cfcs|overlap-area|css-styled|framework-utils|croact|@pinkcao[\\/]vue-drag-resize-rotate|@panzoom[\\/]panzoom|vue-draggable-next|vuedraggable|sortablejs)[\\/]/,
+              test: /node_modules[\\/](@daybrush|vue3-moveable|@scena|@egjs|@cfcs|overlap-area|css-styled|framework-utils|croact|@panzoom[\\/]panzoom|vuedraggable|sortablejs)[\\/]/,
               priority: 12,
             },
             {

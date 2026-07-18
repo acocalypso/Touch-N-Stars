@@ -79,19 +79,37 @@
       />
     </div>
     <setBinning v-if="store.cameraInfo.BinningModes.length > 1" />
-    <pinsSetBinAverageEnabled
+    <PinsSettingToggle
       v-if="store.isPINS && cameraStore.cameraSettings.SupportedActions?.includes('Bin Average')"
+      device="camera"
+      settingName="BinAverageEnabled"
+      labelKey="components.camera.BinAverageEnabled"
     />
     <div v-if="store.cameraInfo.ReadoutModes.length > 1" class="w-full">
       <setReadoutMode v-if="!store.isPINS" />
       <pinsSetReadoutMode v-else />
     </div>
-    <pinsSetLowNoiseMode v-if="store.isPINS && cameraStore.cameraSettings.HasLowNoiseMode" />
+    <PinsSettingToggle
+      v-if="store.isPINS && cameraStore.cameraSettings.HasLowNoiseMode"
+      device="camera"
+      settingName="LowNoiseMode"
+      labelKey="components.camera.LowNoiseMode"
+    />
     <pinsSetBadPixelCorrection
       v-if="store.isPINS && cameraStore.cameraSettings?.BadPixelCorrection !== undefined"
     />
-    <pinsSetHighFullwellMode v-if="store.isPINS && cameraStore.cameraSettings.HasHighFullwell" />
-    <pinsSetLEDLights v-if="store.isPINS && cameraStore.cameraSettings.CanSetLEDLights" />
+    <PinsSettingToggle
+      v-if="store.isPINS && cameraStore.cameraSettings.HasHighFullwell"
+      device="camera"
+      settingName="HighFullwellMode"
+      labelKey="components.camera.HighFullwellMode"
+    />
+    <PinsSettingToggle
+      v-if="store.isPINS && cameraStore.cameraSettings.CanSetLEDLights"
+      device="camera"
+      settingName="LEDLights"
+      labelKey="components.camera.LEDLights"
+    />
     <div v-if="store.cameraInfo.CanSetUSBLimit" class="w-full">
       <setCameraUsbLimit v-if="!store.isPINS" />
       <pinsSetCameraUsbLimit v-else />
@@ -110,11 +128,8 @@ import setBinning from '@/components/camera/setBinning.vue';
 import setReadoutMode from '@/components/camera/setReadoutMode.vue';
 import setCameraUsbLimit from './setCameraUsbLimit.vue';
 import pinsSetCameraUsbLimit from './settingsPins/pinsSetCameraUsbLimit.vue';
-import pinsSetLowNoiseMode from './settingsPins/pinsSetLowNoiseMode.vue';
+import PinsSettingToggle from '@/components/helpers/settings/PinsSettingToggle.vue';
 import pinsSetBadPixelCorrection from './settingsPins/pinsSetBadPixelCorrection.vue';
-import pinsSetHighFullwellMode from './settingsPins/pinsSetHighFullwellMode.vue';
-import pinsSetBinAverageEnabled from './settingsPins/pinsSetBinAverageEnabled.vue';
-import pinsSetLEDLights from './settingsPins/pinsSetLEDLights.vue';
 import pinsSetFanSpeed from './settingsPins/pinsSetFanSpeed.vue';
 import pinsSetReadoutMode from './settingsPins/pinsSetReadoutMode.vue';
 import { useCameraStore } from '@/store/cameraStore';

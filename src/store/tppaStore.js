@@ -1,4 +1,29 @@
 import { defineStore } from 'pinia';
+import apiService from '@/services/apiService';
+import { useSettingsStore } from '@/store/settingsStore';
+
+// Older versions persisted the complete store state for ALL instances under
+// this one global key; kept only as a read-once migration fallback.
+const LEGACY_STORAGE_KEY = 'tppaStore';
+
+// Only the user-editable settings are persisted, and they are scoped per
+// backend instance: filter names, gain and exposure values are only valid on
+// the instance they were chosen for. Everything else in this store is
+// backend-derived live state and is re-synced via fetchInfo() / the TPPA
+// websocket instead of being restored from disk.
+function settingsStorageKey() {
+  const connection = useSettingsStore().connection;
+  return `tppaStore.settings:${connection?.ip ?? ''}:${connection?.port ?? ''}`;
+}
+
+const defaultSettings = () => ({
+  StartFromCurrentPosition: false,
+  EastDirection: false,
+  ManualMode: false,
+  ExposureTime: null,
+  Gain: null,
+  Filter: null,
+});
 
 export const useTppaStore = defineStore('tppaStore', {
   state: () => ({
@@ -7,7 +32,6 @@ export const useTppaStore = defineStore('tppaStore', {
     isConnected: false,
     currentMessage: null,
     isRunning: false,
-    initialized: false,
     isSouthernHemisphere: false,
     showAzimuthError: '',
     showAltitudeError: '',
@@ -25,29 +49,54 @@ export const useTppaStore = defineStore('tppaStore', {
     declinationSpreadArcsec: 0,
     nearEastWest: false,
     distanceToEastWest: null,
-    settings: {
-      StartFromCurrentPosition: false,
-      EastDirection: false,
-      ManualMode: false,
-      ExposureTime: null,
-      Gain: null,
-      Filter: null,
-    },
+    settings: defaultSettings(),
   }),
 
   actions: {
     setRunning(isRunning) {
       this.isRunning = isRunning;
-      localStorage.setItem('tppaStore', JSON.stringify(this.$state));
+      this.saveSettings();
     },
-    initialize() {
-      if (!this.initialized) {
-        const savedState = localStorage.getItem('tppaStore');
-        if (savedState) {
-          this.$state = JSON.parse(savedState);
+    // Fetch the current TPPA status (running or not) from the backend.
+    async fetchInfo() {
+      try {
+        const response = await apiService.getTppaInfo();
+        if (response?.Success) {
+          this.setRunning(!!response.IsRunning);
         }
-        this.initialized = true;
+      } catch (error) {
+        console.error('Error fetching TPPA info:', error);
       }
+    },
+    saveSettings() {
+      localStorage.setItem(settingsStorageKey(), JSON.stringify(this.settings));
+    },
+    // Load the persisted settings for the currently selected instance. Safe to
+    // call repeatedly; it only reloads when the endpoint changed since the
+    // last load (e.g. after an instance switch).
+    initialize() {
+      const key = settingsStorageKey();
+      if (this._loadedSettingsKey === key) return;
+      this._loadedSettingsKey = key;
+
+      let savedSettings = null;
+      try {
+        const saved = localStorage.getItem(key);
+        if (saved) {
+          savedSettings = JSON.parse(saved);
+        } else {
+          const legacy = localStorage.getItem(LEGACY_STORAGE_KEY);
+          if (legacy) {
+            savedSettings = JSON.parse(legacy)?.settings ?? null;
+          }
+        }
+      } catch (error) {
+        console.error('Error loading TPPA settings from localStorage:', error);
+      }
+      // Start from defaults, not from the in-memory values: after a live
+      // instance switch, the previous instance's filter/gain must not carry
+      // over to an instance that has nothing persisted yet.
+      this.settings = { ...defaultSettings(), ...(savedSettings ?? {}) };
     },
   },
 });

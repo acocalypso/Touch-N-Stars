@@ -1,7 +1,6 @@
 import { defineStore } from 'pinia';
 import tutorialContent from '@/assets/tutorial.json';
 import { apiStore } from '@/store/store';
-import { useImagetStore } from './imageStore';
 import { useSequenceStore } from './sequenceStore';
 import apiService from '@/services/apiService';
 
@@ -431,14 +430,14 @@ export const useSettingsStore = defineStore('settings', {
         return;
       }
       this.selectedInstanceId = id;
-      const imageStore = useImagetStore();
       if (instance) {
         this.connection.ip = instance.ip;
         this.connection.port = instance.port;
 
-        // Tear down the old instance's session and connect to the new one
+        // Tear down the old instance's session and connect to the new one.
+        // switchBackend() also clears the image cache, so every endpoint
+        // change path (this one, setActiveConnection, updateInstance) gets it.
         void this._getApiStore().switchBackend();
-        imageStore.clearImageCache();
         console.log('[SettingsStore] Selected instance set to:', id);
       }
     },

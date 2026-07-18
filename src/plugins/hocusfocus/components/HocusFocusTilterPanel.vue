@@ -999,7 +999,8 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount, watch } from 'vue';
+import { ref, onMounted, watch } from 'vue';
+import { usePolling } from '@/composables/usePolling';
 import apiService from '@/services/apiService';
 
 const devices = ref([]);
@@ -1010,7 +1011,17 @@ const isDisconnecting = ref(false);
 const isConnected = ref(false);
 const deviceStatus = ref(null);
 const errorMessage = ref('');
-const statusRefreshTimer = ref(null);
+// Refresh status every 1 second while connected; started on connect,
+// stopped on disconnect and automatically on unmount
+const statusPoller = usePolling(
+  () => {
+    if (isConnected.value && selectedDeviceId.value) {
+      return refreshStatus();
+    }
+  },
+  1000,
+  { autoStart: false, immediate: false }
+);
 
 // Sensor configuration state
 const sensorConfig = ref({
@@ -1079,7 +1090,7 @@ onMounted(async () => {
       // Only auto-connect real devices (not manual tilter)
       isConnected.value = true;
       checkConnectionStatus();
-      startStatusRefresh();
+      statusPoller.start();
     }
 
     // Restore corner Z values for Apply Tilt Plane
@@ -1103,12 +1114,6 @@ onMounted(async () => {
     aberrationInspectorAvailable.value = !!d?.tiltCornerMeasurements?.length;
   } catch (_) {
     aberrationInspectorAvailable.value = false;
-  }
-});
-
-onBeforeUnmount(() => {
-  if (statusRefreshTimer.value) {
-    clearInterval(statusRefreshTimer.value);
   }
 });
 
@@ -1245,7 +1250,7 @@ async function connect() {
       isConnected.value = true;
       localStorage.setItem('tilterIsConnected', 'true');
       await refreshStatus();
-      startStatusRefresh();
+      statusPoller.start();
     }
   } catch (error) {
     console.error('Connect error:', error);
@@ -1261,11 +1266,7 @@ async function disconnect() {
   try {
     isDisconnecting.value = true;
     errorMessage.value = '';
-
-    if (statusRefreshTimer.value) {
-      clearInterval(statusRefreshTimer.value);
-      statusRefreshTimer.value = null;
-    }
+    statusPoller.stop();
 
     // Handle manual tilter - no actual disconnection needed
     if (isSelectedManualTilter()) {
@@ -1322,7 +1323,7 @@ async function checkConnectionStatus() {
       isConnected.value = true;
       localStorage.setItem('tilterIsConnected', 'true');
       await refreshStatus();
-      startStatusRefresh();
+      statusPoller.start();
     } else {
       isConnected.value = false;
       localStorage.setItem('tilterIsConnected', 'false');
@@ -1332,19 +1333,6 @@ async function checkConnectionStatus() {
     isConnected.value = false;
     localStorage.setItem('tilterIsConnected', 'false');
   }
-}
-
-function startStatusRefresh() {
-  if (statusRefreshTimer.value) {
-    clearInterval(statusRefreshTimer.value);
-  }
-
-  // Refresh status every 1 second while connected
-  statusRefreshTimer.value = setInterval(() => {
-    if (isConnected.value && selectedDeviceId.value) {
-      refreshStatus();
-    }
-  }, 1000);
 }
 
 async function loadSensorConfiguration() {

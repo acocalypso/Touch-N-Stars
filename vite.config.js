@@ -2,8 +2,24 @@ import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import tailwindcss from '@tailwindcss/vite';
 import { fileURLToPath, URL } from 'node:url';
+import { rm } from 'node:fs/promises';
+import { resolve } from 'node:path';
 
 const OUT_DIR = process.env.VITE_OUT_DIR || 'dist';
+const excludeCelestiaAtlasData = process.env.EXCLUDE_CELESTIA_ATLAS_DATA === 'true';
+
+function celestiaAtlasDataExclude(outDir) {
+  return {
+    name: 'celestia-atlas-data-exclude',
+    apply: 'build',
+    async closeBundle() {
+      if (!excludeCelestiaAtlasData) return;
+      const target = resolve(process.cwd(), outDir, 'celestia-atlas-data');
+      await rm(target, { recursive: true, force: true });
+      this.info?.('Removed celestia-atlas-data from the native build output');
+    },
+  };
+}
 
 function isKnownDependencyAnnotationWarning(log) {
   if (log?.code !== 'INVALID_ANNOTATION') return false;
@@ -20,7 +36,7 @@ function isBuildTimingNotice(log) {
 }
 
 export default defineConfig({
-  plugins: [tailwindcss(), vue()],
+  plugins: [tailwindcss(), vue(), celestiaAtlasDataExclude(OUT_DIR)],
   publicDir: 'public',
   resolve: {
     alias: {

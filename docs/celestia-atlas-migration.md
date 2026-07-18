@@ -215,7 +215,7 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 
 ### 2026-07-13 observed-coordinate frame
 
-- The Atlas dependency is pinned to `8d79f5740621db9757a2b1b85b1fc1d6d005a6fe`. Tagged
+- The Atlas dependency is pinned to `be71b105e4a0c43ef32e96acdd7ebf313aa3fe1e`. Tagged
   J2000 coordinates now enter Astronomy Engine's EQJ-to-HOR rotation instead
   of being treated as equatorial-of-date; tagged ICRS coordinates first receive
   the same SOFA `iauFk5hip` orientation rotation used at the host command
@@ -449,12 +449,29 @@ emulation.
 - The photographic background uses only the packaged DSS WebP HiPS orders 3–4
   at `/celestia-atlas-data/surveys/dss`. The remote Atlas default is explicitly
   overridden, so tile rendering has no online source or fallback.
-- Native builds retain `celestia-atlas-data`; the former data-exclusion build
-  plugin and environment flag were removed.
+- Web builds retain `celestia-atlas-data`. Android/iOS builds exclude the large
+  tree and resolve landscapes and DSS tiles from the selected NINA plugin, as
+  the former Stellarium integration did.
 - Production-browser validation loaded the Guereins landscape faces and DSS
   orders 3–4 with HTTP 200 only from the local `celestia-atlas-data` tree.
   Zooming activated the photographic background without any external-survey or
   legacy-path request, and the console contained no Atlas/Vue runtime error.
+
+### 2026-07-18 stable HiPS navigation and native data boundary
+
+- Celestia Atlas retains the correctly aligned interaction raster while an
+  asynchronous high-resolution refinement is running, so completed tiles no
+  longer blank and repaint the background one by one.
+- Already-started tile requests finish into the bounded decoded LRU and browser
+  Cache Storage instead of being cancelled and requested again at every view
+  boundary. Obsolete queued work is still discarded and mobile concurrency
+  remains limited to two tile decodes.
+- Settled views prefetch a 30% navigation margin at a coarse sample interval;
+  revisiting the tested field then kept the survey continuously active with
+  zero additional tile requests.
+- Web deployments serve `celestia-atlas-data` from the application origin.
+  Capacitor Android/iOS builds remove that directory and request it from
+  `http(s)://<selected-nina-host>:<plugin-port>/celestia-atlas-data`.
 
 ## 11. Remaining blockers
 
@@ -472,7 +489,7 @@ emulation.
   provenance.
 - Package boundary resolved: Touch-N-Stars uses the public Git repository pinned
   over HTTPS to immutable Atlas commit
-  `8d79f5740621db9757a2b1b85b1fc1d6d005a6fe`. Embedded and standalone shells
+  `be71b105e4a0c43ef32e96acdd7ebf313aa3fe1e`. Embedded and standalone shells
   share the same viewer and astronomy engine modules.
 
 ## 12. Removal checklist
@@ -485,5 +502,5 @@ emulation.
 - [ ] Web and required native lifecycle tests pass.
 - [x] Celestia is default with a tested rollback interval.
 - [x] Stellarium runtime, WASM, globals, stores, view overlays, and rollback import are removed.
-- [x] Atlas data uses the `celestia-atlas-data` namespace, existing settings are migrated, and native builds retain the offline data.
+- [x] Atlas data uses the `celestia-atlas-data` namespace, existing settings are migrated, and native builds load the data from the selected NINA plugin.
 - [ ] Final search classifies every historical reference.

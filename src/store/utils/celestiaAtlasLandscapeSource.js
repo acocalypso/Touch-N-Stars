@@ -18,6 +18,10 @@ function normalizeLandscapeUrl(rawUrl, baseUrl) {
 
   const canonicalUrl = canonicalizeCelestiaAtlasDataUrl(trimmedUrl);
 
+  if (canonicalUrl === '/celestia-atlas-data' || canonicalUrl.startsWith('/celestia-atlas-data/')) {
+    return buildRelativeUrl(baseUrl, canonicalUrl.slice('/celestia-atlas-data/'.length));
+  }
+
   if (/^https?:\/\//i.test(canonicalUrl) || canonicalUrl.startsWith('/')) {
     return canonicalUrl;
   }

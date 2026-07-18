@@ -207,9 +207,11 @@ rollback path have been removed.
 - The pinned Celestia Atlas package supplies the offline engine, compact
   OpenNGC/bright-sky catalogues and Milky Way asset. The application-owned
   `public/celestia-atlas-data` tree supplies landscapes and the packaged DSS
-  HiPS background to web and native builds.
+  HiPS background to web builds and the NINA plugin server.
 - Sky-survey rendering is offline-only. The viewer is configured explicitly for
-  `/celestia-atlas-data/surveys/dss` orders 3–4 and has no online tile fallback.
+  `celestia-atlas-data/surveys/dss` orders 3–4 and has no public online tile
+  fallback. Capacitor Android/iOS builds exclude this large tree and resolve it
+  against the selected NINA plugin; web builds use the same-origin tree.
 - Persisted Atlas preferences use `settings.celestiaAtlas`; startup migrates the
   former `settings.stellarium` key and local `/stellarium-data` custom paths.
 - `public/whats-new.json` is generated at build time.

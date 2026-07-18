@@ -7,7 +7,7 @@
     "serve": "npm run lint:eslint && node scripts/generate-plugin-registry.js && node scripts/generate-whats-new.js && vite",
     "build": "npm run lint:eslint && npm run build:app",
     "build:app": "node scripts/generate-plugin-registry.js && node scripts/generate-whats-new.js && vite build",
-    "build:native": "npm run lint && npm run build:app",
+    "build:native": "npm run lint && cross-env EXCLUDE_CELESTIA_ATLAS_DATA=true npm run build:app",
     "preview": "vite preview",
     "preview:smoke": "start-server-and-test \"vite preview --host 127.0.0.1 --port 4173\" http://127.0.0.1:4173 \"node -e \\\"fetch('http://127.0.0.1:4173').then((r)=>{if(!r.ok)process.exit(1);})\\\"\"",
     "ci:install": "npm ci",
@@ -33,7 +33,7 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@acocalypso/celestia-atlas": "git+https://github.com/acocalypso/celestia_atlas.git#8d79f5740621db9757a2b1b85b1fc1d6d005a6fe",
+    "@acocalypso/celestia-atlas": "git+https://github.com/acocalypso/celestia_atlas.git#be71b105e4a0c43ef32e96acdd7ebf313aa3fe1e",
     "@acovanconis/capacitor-mdns": "0.0.4",
     "@capacitor-community/keep-awake": "8.0.1",
     "@capacitor-community/media": "9.1.0",

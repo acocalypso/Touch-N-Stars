@@ -57,7 +57,8 @@ Touch-N-Stars currently includes:
 - Connection orchestration through global Pinia stores and service adapters.
 - Dynamic plugin discovery through `src/plugins/*`, generated plugin registry, plugin metadata, and plugin-local views/stores.
 - Build-time generated artifacts such as plugin registry and `public/whats-new.json` from `CHANGELOG.md`.
-- Heavy astronomy visualization/static assets under `public/celestia-atlas-data`.
+- Heavy astronomy visualization/static assets under `public/celestia-atlas-data`;
+  native builds intentionally exclude this tree and use the NINA plugin copy.
 - Native OTA update behavior through Capacitor/Capgo update flow.
 - i18n locale files under `src/locales`.
 

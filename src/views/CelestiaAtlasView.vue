@@ -113,6 +113,7 @@
 <script setup>
 import { computed, nextTick, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { calculateCameraFieldOfView, createCelestiaAtlasViewer } from '@acocalypso/celestia-atlas';
+import { Capacitor } from '@capacitor/core';
 import { useI18n } from 'vue-i18n';
 import { useOrientation } from '@/composables/useOrientation';
 import { apiStore } from '@/store/store';
@@ -131,7 +132,10 @@ import {
   normalizeAtlasFacetSelection,
 } from '@/integrations/celestiaAtlas/catalogFilters';
 import { normalizeAtlasMagnitudeLimit } from '@/integrations/celestiaAtlas/magnitudeFilters';
-import { PACKAGED_DSS_SKY_SURVEY_SOURCE } from '@/integrations/celestiaAtlas/offlineSkySurvey';
+import {
+  createDssSkySurveySource,
+  resolveCelestiaAtlasDataBaseUrl,
+} from '@/integrations/celestiaAtlas/offlineSkySurvey';
 import { timeSync } from '@/utils/timeSync';
 import { useHorizonStore } from '@/plugins/horizon-creator/store/horizonStore';
 import { interpolateHorizon } from '@/plugins/horizon-creator/utils/horizon-utils';
@@ -375,9 +379,23 @@ function updateHorizon() {
 function updateLandscape() {
   if (!viewer) return;
   landscapeErrorMessage.value = '';
-  const baseUrl = '/celestia-atlas-data/';
+  const baseUrl = atlasDataBaseUrl();
   const config = resolveLandscapeSource(settingsStore.celestiaAtlas, baseUrl);
   void viewer.setLandscape(config.visible ? config.source : null);
+}
+
+function atlasDataBaseUrl() {
+  return resolveCelestiaAtlasDataBaseUrl({
+    native: Capacitor.isNativePlatform(),
+    protocol: settingsStore.backendProtocol || 'http',
+    host: settingsStore.connection.ip,
+    port: settingsStore.connection.port,
+  });
+}
+
+function updateSkySurveySource() {
+  if (!viewer) return;
+  viewer.setSkySurvey(createDssSkySurveySource(atlasDataBaseUrl()));
 }
 
 function runSearch() {
@@ -459,6 +477,13 @@ watch(
   updateLandscape
 );
 watch(
+  () => [settingsStore.backendProtocol, settingsStore.connection.ip, settingsStore.connection.port],
+  () => {
+    updateLandscape();
+    updateSkySurveySource();
+  }
+);
+watch(
   () => [
     settingsStore.celestiaAtlas.equatorialLinesVisible,
     settingsStore.celestiaAtlas.azimuthalLinesVisible,
@@ -519,7 +544,7 @@ onMounted(async () => {
       catalog,
       stars,
       constellations,
-      skySurveySource: PACKAGED_DSS_SKY_SURVEY_SOURCE,
+      skySurveySource: createDssSkySurveySource(atlasDataBaseUrl()),
       onSelect: (target) => {
         selectedTarget.value = target;
       },

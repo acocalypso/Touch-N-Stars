@@ -58,8 +58,8 @@ test('connects the existing display settings through the host-managed Atlas adap
   );
 });
 
-test('uses the packaged photographic survey without any online tile source', async () => {
-  const [view, settings, settingsMigration, offlineSurvey] = await Promise.all([
+test('uses app-owned photographic survey data without any public online tile source', async () => {
+  const [view, settings, settingsMigration, offlineSurvey, packageJson, vite] = await Promise.all([
     readFile(new URL('../../../views/CelestiaAtlasView.vue', import.meta.url), 'utf8'),
     readFile(
       new URL('../../../components/celestiaAtlas/CelestiaAtlasSettings.vue', import.meta.url),
@@ -70,18 +70,25 @@ test('uses the packaged photographic survey without any online tile source', asy
       'utf8'
     ),
     readFile(new URL('../offlineSkySurvey.js', import.meta.url), 'utf8'),
+    readFile(new URL('../../../../package.json', import.meta.url), 'utf8'),
+    readFile(new URL('../../../../vite.config.js', import.meta.url), 'utf8'),
   ]);
 
   assert.match(settingsMigration, /skySurveyVisible: true/);
   assert.match(view, /skySurvey: settingsStore\.celestiaAtlas\.skySurveyVisible !== false/);
   assert.match(view, /settingsStore\.celestiaAtlas\.skySurveyVisible/);
-  assert.match(view, /skySurveySource: PACKAGED_DSS_SKY_SURVEY_SOURCE/);
-  assert.match(view, /const baseUrl = '\/celestia-atlas-data\/'/);
-  assert.doesNotMatch(view, /connection\.ip[\s\S]{0,200}celestia-atlas-data/);
-  assert.match(offlineSurvey, /url: '\/celestia-atlas-data\/surveys\/dss'/);
+  assert.match(view, /skySurveySource: createDssSkySurveySource\(atlasDataBaseUrl\(\)\)/);
+  assert.match(view, /native: Capacitor\.isNativePlatform\(\)/);
+  assert.match(view, /host: settingsStore\.connection\.ip/);
+  assert.match(view, /port: settingsStore\.connection\.port/);
+  assert.match(offlineSurvey, /CELESTIA_ATLAS_DATA_PATH = '\/celestia-atlas-data'/);
+  assert.match(offlineSurvey, /createDssSkySurveySource/);
   assert.match(offlineSurvey, /minOrder: 3/);
   assert.match(offlineSurvey, /maxOrder: 4/);
   assert.doesNotMatch(offlineSurvey, /url:\s*'https?:\/\//);
+  assert.match(packageJson, /EXCLUDE_CELESTIA_ATLAS_DATA=true/);
+  assert.match(vite, /celestiaAtlasDataExclude/);
+  assert.match(vite, /'celestia-atlas-data'/);
   assert.match(settings, /sky_survey_visible/);
   assert.match(settings, /sky_survey_hint/);
   assert.match(settings, /settingsStore\.celestiaAtlas\.skySurveyVisible !== false/);

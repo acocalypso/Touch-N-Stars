@@ -242,7 +242,7 @@ watch(
   top: 82px;
   left: 0;
   right: 0;
-  bottom: calc(2.25rem + env(safe-area-inset-bottom) + 0.5rem);
+  bottom: var(--above-statusbar);
   z-index: 10;
 }
 

@@ -8,7 +8,7 @@
       <FavTargets
         :showSeqTarget="false"
         class="fixed right-5 z-20"
-        style="bottom: calc(env(safe-area-inset-bottom, 0px) + 48px)"
+        style="bottom: var(--above-statusbar)"
       />
       <FitsPlateSolve
         v-if="
@@ -18,7 +18,7 @@
         :showFraming="true"
         :showSeqTarget="false"
         class="fixed right-16 z-20"
-        style="bottom: calc(env(safe-area-inset-bottom, 0px) + 48px)"
+        style="bottom: var(--above-statusbar)"
       />
       <!-- Search Input -->
       <div class="text-black mx-auto">

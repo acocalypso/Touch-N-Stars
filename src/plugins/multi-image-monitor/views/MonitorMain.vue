@@ -117,7 +117,7 @@
         :key="camera.id"
         :cameraId="camera.id"
         v-show="selectedCameraId === camera.id"
-        class="!bottom-9"
+        class="bottom-(--statusbar-height)!"
       />
 
       <!-- Empty state -->

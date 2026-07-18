@@ -6,7 +6,7 @@
         ? 'left-(--nav-offset) max-w-[calc(100vw-var(--nav-offset))]'
         : 'left-3 max-w-[calc(100vw-0.75rem)]',
     ]"
-    style="bottom: calc(env(safe-area-inset-bottom, 0px) + 48px)"
+    style="bottom: var(--above-statusbar)"
   >
     <button
       :class="[

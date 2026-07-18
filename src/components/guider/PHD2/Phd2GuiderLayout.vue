@@ -479,7 +479,7 @@ const containerStyle = computed(() => {
       top: '82px', // Start after navbar
       left: '0',
       right: '0',
-      bottom: 'calc(2.25rem + env(safe-area-inset-bottom) + 0.5rem)', // Stop before status bar
+      bottom: 'var(--above-statusbar)', // Stop before status bar
       width: 'auto',
       height: 'auto',
     };

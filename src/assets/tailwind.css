@@ -42,6 +42,12 @@
 :root {
   --nav-width: 6rem;
   --nav-offset: calc(var(--nav-width) + 1rem);
+
+  /* Status bar height — single source of truth; the bar itself and all
+     dependent offsets consume it. --above-statusbar anchors floating page
+     elements (action bars, overlays) just above the bar incl. safe area. */
+  --statusbar-height: 3.5rem;
+  --above-statusbar: calc(env(safe-area-inset-bottom, 0px) + var(--statusbar-height) + 0.75rem);
 }
 
 /* Safe Area Utilities for iOS devices */

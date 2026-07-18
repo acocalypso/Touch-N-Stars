@@ -11,7 +11,7 @@
   </div>
 
   <div v-else class="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 p-4 md:p-6">
-    <div class="fixed right-3 z-10" style="bottom: calc(env(safe-area-inset-bottom, 0px) + 48px)">
+    <div class="fixed right-3 z-10" style="bottom: var(--above-statusbar)">
       <button
         @click="toggleEdit"
         class="p-2 min-h-touch min-w-touch flex items-center justify-center bg-surface-3 border border-line-strong rounded-full shadow-md"
@@ -30,7 +30,7 @@
     <FavTargets
       :show-framning="false"
       class="fixed right-16 z-10"
-      style="bottom: calc(env(safe-area-inset-bottom, 0px) + 48px)"
+      style="bottom: var(--above-statusbar)"
     />
     <FitsPlateSolve
       v-if="
@@ -39,7 +39,7 @@
       :showFraming="false"
       :showSeqTarget="true"
       class="fixed right-28 z-10"
-      style="bottom: calc(env(safe-area-inset-bottom, 0px) + 48px)"
+      style="bottom: var(--above-statusbar)"
     />
 
     <controlSequence v-if="sequenceStore.sequenceIsLoaded" />

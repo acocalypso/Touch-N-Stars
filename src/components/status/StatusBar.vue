@@ -1,7 +1,7 @@
 <template>
   <div
     v-if="store.isBackendReachable"
-    class="w-full transition-opacity h-14 text-sm px-2 gap-2 text-content flex items-center justify-start overflow-x-auto scrollbar-hide safe-area-bottom"
+    class="w-full transition-opacity h-(--statusbar-height) text-sm px-2 gap-2 text-content flex items-center justify-start overflow-x-auto scrollbar-hide safe-area-bottom"
     :class="[activeInstanceColor]"
   >
     <!-- Safety -->
@@ -143,7 +143,7 @@
     <div
       class="bg-gray-800/95 border-t border-cyan-700"
       :class="guiderGraphClasses"
-      style="bottom: calc(env(safe-area-inset-bottom, 0px) + 56px)"
+      style="bottom: calc(env(safe-area-inset-bottom, 0px) + var(--statusbar-height))"
       v-show="guiderStore.showGuiderGraph"
     >
       <GuiderGraph />
@@ -155,7 +155,7 @@
     <div
       class="bg-gray-800/95 border-t border-cyan-700"
       :class="guiderGraphClasses"
-      style="bottom: calc(env(safe-area-inset-bottom, 0px) + 56px)"
+      style="bottom: calc(env(safe-area-inset-bottom, 0px) + var(--statusbar-height))"
       v-show="cameraStore.showCameraInfo"
     >
       <infoCamera class="p-5" />
@@ -164,7 +164,7 @@
     <div
       class="bg-gray-800/95 border-t border-cyan-700"
       :class="guiderGraphClasses"
-      style="bottom: calc(env(safe-area-inset-bottom, 0px) + 56px)"
+      style="bottom: calc(env(safe-area-inset-bottom, 0px) + var(--statusbar-height))"
       v-show="mountStore.showMountInfo"
     >
       <infoMount class="p-5" />
@@ -173,7 +173,7 @@
     <div
       class="bg-gray-800/95 border-t border-cyan-700"
       :class="guiderGraphClasses"
-      style="bottom: calc(env(safe-area-inset-bottom, 0px) + 56px)"
+      style="bottom: calc(env(safe-area-inset-bottom, 0px) + var(--statusbar-height))"
       v-show="filterStore.showFilterwheelInfo"
     >
       <InfoFilterwheel class="p-5" />
@@ -183,7 +183,7 @@
       v-if="store.isPINS"
       class="bg-gray-800/95 border-t border-cyan-700"
       :class="guiderGraphClasses"
-      style="bottom: calc(env(safe-area-inset-bottom, 0px) + 56px)"
+      style="bottom: calc(env(safe-area-inset-bottom, 0px) + var(--statusbar-height))"
       v-show="showProgress"
     >
       <infoProgress class="" />
@@ -449,7 +449,7 @@ function handleProgressClick() {
   /* Add safe area padding for iOS devices */
   padding-bottom: env(safe-area-inset-bottom);
   /* Ensure minimum height is maintained */
-  min-height: calc(3.5rem + env(safe-area-inset-bottom)); /* 56px (h-14) + safe area */
+  min-height: calc(var(--statusbar-height) + env(safe-area-inset-bottom)); /* bar + safe area */
 
   /* Ensure content is properly centered when safe area is applied */
   display: flex;
@@ -461,7 +461,7 @@ function handleProgressClick() {
 @supports not (padding-bottom: env(safe-area-inset-bottom)) {
   .safe-area-bottom {
     padding-bottom: 0.5rem; /* Add some padding for non-iOS devices */
-    min-height: calc(3.5rem + 0.5rem); /* h-14 equivalent + padding */
+    min-height: calc(var(--statusbar-height) + 0.5rem); /* bar + padding */
   }
 }
 
@@ -469,7 +469,7 @@ function handleProgressClick() {
 @media screen and (max-device-width: 428px) and (-webkit-device-pixel-ratio: 3) {
   .safe-area-bottom {
     padding-bottom: max(env(safe-area-inset-bottom), 0.75rem);
-    min-height: calc(3.5rem + max(env(safe-area-inset-bottom), 0.75rem));
+    min-height: calc(var(--statusbar-height) + max(env(safe-area-inset-bottom), 0.75rem));
   }
 }
 

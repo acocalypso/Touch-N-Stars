@@ -559,7 +559,7 @@ const navContainerClasses = computed(() => ({
 }));
 
 const mainContentClasses = computed(() => ({
-  'container mx-auto transition-all pt-[82px] pb-[calc(3.5rem+env(safe-area-inset-bottom)+0.5rem)]':
+  'container mx-auto transition-all pt-[82px] pb-[calc(var(--statusbar-height)+env(safe-area-inset-bottom)+0.5rem)]':
     !isLandscape.value,
   'transition-all ml-(--nav-width) mr-4 py-4 pb-16': isLandscape.value,
 }));

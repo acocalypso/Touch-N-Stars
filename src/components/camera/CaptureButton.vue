@@ -309,11 +309,13 @@ const gapClasses = computed(() => {
   return 'gap-4'; // Portrait mode
 });
 
-// Container dynamic styles
+// Container dynamic styles.
+// Anchored to --above-statusbar (bar height + safe area) so the action bar
+// tracks the status bar height; the guider graph adds its own panel height.
 const containerStyle = computed(() => {
   const baseBottom = guiderStore.showGuiderGraph
-    ? 'calc(18rem + env(safe-area-inset-bottom, 0px))'
-    : 'calc(2.75rem + env(safe-area-inset-bottom, 0px))';
+    ? 'calc(var(--above-statusbar) + 15.25rem)'
+    : 'var(--above-statusbar)';
 
   return !isLandscape.value ? { bottom: baseBottom } : {};
 });

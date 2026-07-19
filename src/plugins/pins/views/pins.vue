@@ -3,8 +3,8 @@
     <SubNav v-if="store.isPINS" :items="pinsNavItems" v-model:activeItem="activeTab" class="z-20" />
 
     <div
-      class="container py-4 flex items-center justify-center px-4"
-      :class="{ 'pt-24 sm:pt-28': store.isPINS }"
+      class="p-4 max-w-xl mx-auto space-y-6"
+      
     >
       <div class="container max-w-4xl p-0 sm:p-4 w-full">
         <h5

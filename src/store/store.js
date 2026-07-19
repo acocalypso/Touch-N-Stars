@@ -1171,7 +1171,7 @@ export const apiStore = defineStore('store', {
       const pinsStore = usePinsStore();
 
       if (!pinsStore.timeSyncEnabled) {
-        console.log('[Time Sync] Time sync is disabled in settings.');
+        //console.log('[Time Sync] Time sync is disabled in settings.');
         return;
       }
 

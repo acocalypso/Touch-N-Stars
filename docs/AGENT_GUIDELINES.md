@@ -500,6 +500,14 @@ When release/test deployment behavior is relevant on Windows/N.I.N.A. plugin pat
 npm run testbuild
 ```
 
+`testbuild` deliberately skips the repository-wide auto-fixing lint pass so a
+local N.I.N.A. deployment cannot stall before Vite writes the application. It
+uses the normal `build:app` generators, deploys to the fixed plugin `app`
+directory, and then verifies the Celestia view/engine chunks, the complete DSS
+orders 3 and 4 including the order-3 Allsky preview, and removal of legacy
+Stellarium data. Run `npm run lint` separately before committing; CI continues
+to enforce linting.
+
 When using scripts that can auto-modify files, re-run:
 
 ```bash

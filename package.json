@@ -15,7 +15,7 @@
     "lint:eslint": "eslint . --ext .js,.vue --fix",
     "lint:fix": "eslint . --ext .js,.vue --fix",
     "typecheck": "vue-tsc --noEmit -p jsconfig.json",
-    "testbuild": "node scripts/generate-plugin-registry.js && node scripts/generate-whats-new.js && npm run lint:eslint && cross-env VITE_OUT_DIR=\"%LOCALAPPDATA%\\NINA\\Plugins\\3.0.0\\Touch 'N' Stars\\app\" vite build",
+    "testbuild": "node scripts/testbuild.js",
     "format": "prettier --write \"src/**/*.{js,vue,json,css,md}\"",
     "format:check": "prettier --check \"src/**/*.{js,vue,json,css,md}\"",
     "test:run": "node --import ./scripts/test-loader.mjs --test \"src/**/__tests__/*.test.js\"",
@@ -33,7 +33,7 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@acocalypso/celestia-atlas": "git+https://github.com/acocalypso/celestia_atlas.git#be71b105e4a0c43ef32e96acdd7ebf313aa3fe1e",
+    "@acocalypso/celestia-atlas": "git+https://github.com/acocalypso/celestia_atlas.git#71da520db6e0e36e0bf75a7447fb266cf60363df",
     "@acovanconis/capacitor-mdns": "0.0.4",
     "@capacitor-community/keep-awake": "8.0.1",
     "@capacitor-community/media": "9.1.0",

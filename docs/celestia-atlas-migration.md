@@ -215,7 +215,7 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 
 ### 2026-07-13 observed-coordinate frame
 
-- The Atlas dependency is pinned to `be71b105e4a0c43ef32e96acdd7ebf313aa3fe1e`. Tagged
+- The Atlas dependency is pinned to `71da520db6e0e36e0bf75a7447fb266cf60363df`. Tagged
   J2000 coordinates now enter Astronomy Engine's EQJ-to-HOR rotation instead
   of being treated as equatorial-of-date; tagged ICRS coordinates first receive
   the same SOFA `iauFk5hip` orientation rotation used at the host command
@@ -469,9 +469,39 @@ emulation.
 - Settled views prefetch a 30% navigation margin at a coarse sample interval;
   revisiting the tested field then kept the survey continuously active with
   zero additional tile requests.
+- Target-order detail tiles now decode silently behind the complete preview
+  order. The renderer publishes the higher resolution only after every tile in
+  the visible field is ready, preventing the delayed tile-by-tile repaint that
+  previously appeared several seconds after a drag or mount recenter.
+- A geometrically aligned preview remains presented while the detail or
+  minute-boundary raster is generated; those coherent swaps no longer blank
+  the background between frames. Off-screen prefetch completions cannot cancel
+  or restart the visible raster job.
+- The timed 7-10 second flash at NGC 6953 was traced to the horizontal camera
+  rotation crossing a 0.1-degree raster key while the old front buffer was
+  discarded. Compatible front buffers are now retained through up to
+  0.5 degrees of live sky rotation, raster jobs read immutable tile snapshots,
+  and the order-3 Allsky mosaic supplies a complete continuity frame until an
+  exact detail field is ready. The survey service worker is cache-first and no
+  longer revalidates every viewed tile in the background.
 - Web deployments serve `celestia-atlas-data` from the application origin.
   Capacitor Android/iOS builds remove that directory and request it from
   `http(s)://<selected-nina-host>:<plugin-port>/celestia-atlas-data`.
+- The Windows `npm run testbuild` path now invokes the standard `build:app`
+  generators without the long-running auto-fixing lint gate, deploys directly
+  to the N.I.N.A. plugin application directory, and fails unless the generated
+  Celestia chunks, complete DSS orders 3 and 4, order-3 Allsky preview and local
+  service metadata are present. It also rejects stale `stellarium-data` or
+  `stellarium-js` directories, so localhost cannot silently serve a previous
+  migration build. Lint remains an explicit pre-commit and CI check.
+- The deployed NGC 6953 production build stayed survey-active for all 1,025
+  desktop samples during a drag and 16-second settled interval, with a minimum
+  of 19 decoded resources and zero tile requests. A reverse warm drag stayed
+  active for all 337 samples with zero requests. At a 390x844 touch viewport
+  under 2x CPU throttling, all 508 samples stayed active for 12 seconds with a
+  minimum of nine decoded resources and zero requests. Orders 3 and 4, Allsky,
+  and service metadata returned HTTP 200 from the local plugin; no external
+  survey request or Atlas runtime exception occurred.
 
 ## 11. Remaining blockers
 
@@ -489,7 +519,7 @@ emulation.
   provenance.
 - Package boundary resolved: Touch-N-Stars uses the public Git repository pinned
   over HTTPS to immutable Atlas commit
-  `be71b105e4a0c43ef32e96acdd7ebf313aa3fe1e`. Embedded and standalone shells
+  `71da520db6e0e36e0bf75a7447fb266cf60363df`. Embedded and standalone shells
   share the same viewer and astronomy engine modules.
 
 ## 12. Removal checklist

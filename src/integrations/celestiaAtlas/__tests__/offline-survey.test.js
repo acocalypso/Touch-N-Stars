@@ -16,8 +16,11 @@ test('the configured DSS background is completely local and matches packaged ord
   assert.equal(PACKAGED_DSS_SKY_SURVEY_SOURCE.format, 'webp');
 
   await Promise.all([
+    access(new URL('Norder3/Allsky.webp', surveyRoot)),
     access(new URL('Norder3/Dir0/Npix0.webp', surveyRoot)),
+    access(new URL('Norder3/Dir0/Npix767.webp', surveyRoot)),
     access(new URL('Norder4/Dir0/Npix0.webp', surveyRoot)),
+    access(new URL('Norder4/Dir0/Npix3071.webp', surveyRoot)),
   ]);
 
   const properties = await readFile(new URL('properties', surveyRoot), 'utf8');

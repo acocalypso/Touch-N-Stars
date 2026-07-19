@@ -32,6 +32,7 @@
           :showSolve="true"
           :loading="imageStore.isImageFetching || histogramStore.isProcessing(imageStore.imageData)"
           height="100%"
+          controlsClass="top-2 right-2 portrait:left-20 landscape:left-40"
           altText="Captured Astrophoto"
           placeholderText="No image captured yet"
           @download="handleDownload"

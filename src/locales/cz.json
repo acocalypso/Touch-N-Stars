@@ -917,7 +917,9 @@
         "slewRateINDI": "Rychlost pohybu",
         "reverse_axis": "Směr os",
         "slewRateDriverControlled": "Slew rate is controlled by the driver",
-        "slewRateUnavailable": "Connect a mount to adjust the slew rate"
+        "slewRateUnavailable": "Connect a mount to adjust the slew rate",
+        "confirmParkMessage": "Zaparkovat montáž? Tím se zastaví sledování a montáž se přesune do parkovací polohy.",
+        "confirmParkTitle": "Zaparkovat montáž"
       },
       "info": {
         "notConnected": "Připojte montáž",
@@ -1887,6 +1889,39 @@
     "safetyMonitor": {
       "indi": {
         "settings": "Safety Monitor Settings"
+      }
+    },
+    "statusBar": {
+      "camera": {
+        "idle": "Nečinná"
+      },
+      "filter": {
+        "none": "Žádný filtr"
+      },
+      "guiding": {
+        "idle": "Nečinné",
+        "starLost": "Hvězda ztracena"
+      },
+      "labels": {
+        "camera": "Kamera",
+        "filter": "Filtr",
+        "guiding": "Autoguiding",
+        "instance": "Instance",
+        "log": "Log",
+        "mount": "Montáž",
+        "progress": "Průběh",
+        "safety": "Bezpečnost",
+        "weather": "Počasí"
+      },
+      "mount": {
+        "parked": "Zaparkováno",
+        "slewing": "Přesouvání",
+        "tracking": "Sledování",
+        "trackingOff": "Sledování vypnuto"
+      },
+      "safety": {
+        "safe": "Bezpečno",
+        "unsafe": "Nebezpečno"
       }
     }
   },
@@ -3795,7 +3830,12 @@
         "credentials": "If your camera requires a username and password, include the credentials directly in the URL:",
         "credentialsNote": "The backend proxy handles authentication automatically — credentials in the URL work with both Basic and Digest authentication (e.g. Hikvision).",
         "credentialsTitle": "Password-protected cameras",
-        "exampleLabels": ["Generic IP camera", "ONVIF camera", "Axis camera", "Hikvision camera"],
+        "exampleLabels": [
+          "Generic IP camera",
+          "ONVIF camera",
+          "Axis camera",
+          "Hikvision camera"
+        ],
         "examplesTitle": "Examples",
         "proxyOptions": [
           "Proxy (default): The image is fetched by the NINA backend and forwarded to the browser. Required for local network cameras with credentials or CORS restrictions. Slightly slower when accessed over VPN.",

@@ -66,6 +66,7 @@
           :showDownload="true"
           :showFullscreen="false"
           :showHistogram="true"
+          controlsClass="top-2 right-2 portrait:top-24 portrait:left-20 landscape:left-40"
           :initialZoom="currentZoomLevel"
           height="100vh"
           :altText="imageAltText"

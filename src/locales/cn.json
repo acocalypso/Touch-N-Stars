@@ -917,7 +917,9 @@
         "slewRateINDI": "运动速度",
         "reverse_axis": "轴向方向",
         "slewRateDriverControlled": "Slew rate is controlled by the driver",
-        "slewRateUnavailable": "Connect a mount to adjust the slew rate"
+        "slewRateUnavailable": "Connect a mount to adjust the slew rate",
+        "confirmParkMessage": "停靠赤道仪？这将停止跟踪并将赤道仪移动到停靠位置。",
+        "confirmParkTitle": "停靠赤道仪"
       },
       "info": {
         "notConnected": "请连接赤道仪",
@@ -1887,6 +1889,39 @@
     "safetyMonitor": {
       "indi": {
         "settings": "Safety Monitor Settings"
+      }
+    },
+    "statusBar": {
+      "camera": {
+        "idle": "空闲"
+      },
+      "filter": {
+        "none": "无滤镜"
+      },
+      "guiding": {
+        "idle": "空闲",
+        "starLost": "丢失导星"
+      },
+      "labels": {
+        "camera": "相机",
+        "filter": "滤镜",
+        "guiding": "导星",
+        "instance": "实例",
+        "log": "日志",
+        "mount": "赤道仪",
+        "progress": "进度",
+        "safety": "安全",
+        "weather": "天气"
+      },
+      "mount": {
+        "parked": "已停靠",
+        "slewing": "转动中",
+        "tracking": "跟踪中",
+        "trackingOff": "跟踪已关闭"
+      },
+      "safety": {
+        "safe": "安全",
+        "unsafe": "不安全"
       }
     }
   },
@@ -3795,7 +3830,12 @@
         "credentials": "If your camera requires a username and password, include the credentials directly in the URL:",
         "credentialsNote": "The backend proxy handles authentication automatically — credentials in the URL work with both Basic and Digest authentication (e.g. Hikvision).",
         "credentialsTitle": "Password-protected cameras",
-        "exampleLabels": ["Generic IP camera", "ONVIF camera", "Axis camera", "Hikvision camera"],
+        "exampleLabels": [
+          "Generic IP camera",
+          "ONVIF camera",
+          "Axis camera",
+          "Hikvision camera"
+        ],
         "examplesTitle": "Examples",
         "proxyOptions": [
           "Proxy (default): The image is fetched by the NINA backend and forwarded to the browser. Required for local network cameras with credentials or CORS restrictions. Slightly slower when accessed over VPN.",

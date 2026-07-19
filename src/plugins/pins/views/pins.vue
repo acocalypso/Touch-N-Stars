@@ -2,10 +2,7 @@
   <div class="min-h-screen">
     <SubNav v-if="store.isPINS" :items="pinsNavItems" v-model:activeItem="activeTab" class="z-20" />
 
-    <div
-      class="p-4 max-w-xl mx-auto space-y-6"
-      
-    >
+    <div class="p-4 max-w-xl mx-auto space-y-6">
       <div class="container max-w-4xl p-0 sm:p-4 w-full">
         <h5
           class="text-2xl text-center font-bold text-white mb-2 flex items-center justify-center gap-3"

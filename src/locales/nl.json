@@ -917,7 +917,9 @@
         "slewRateINDI": "Bewegingssnelheid",
         "reverse_axis": "Asrichting",
         "slewRateDriverControlled": "De zwenksnelheid wordt geregeld door de bestuurder",
-        "slewRateUnavailable": "Sluit een steun aan om de zwenksnelheid aan te passen"
+        "slewRateUnavailable": "Sluit een steun aan om de zwenksnelheid aan te passen",
+        "confirmParkMessage": "Montering parkeren? Dit stopt het volgen en beweegt de montering naar de parkeerpositie.",
+        "confirmParkTitle": "Montering parkeren"
       },
       "info": {
         "notConnected": "Verbind montering",
@@ -1887,6 +1889,39 @@
     "safetyMonitor": {
       "indi": {
         "settings": "Instellingen veiligheidsmonitor"
+      }
+    },
+    "statusBar": {
+      "camera": {
+        "idle": "Inactief"
+      },
+      "filter": {
+        "none": "Geen filter"
+      },
+      "guiding": {
+        "idle": "Inactief",
+        "starLost": "Ster verloren"
+      },
+      "labels": {
+        "camera": "Camera",
+        "filter": "Filter",
+        "guiding": "Guiding",
+        "instance": "Instantie",
+        "log": "Logboek",
+        "mount": "Montering",
+        "progress": "Voortgang",
+        "safety": "Veiligheid",
+        "weather": "Weer"
+      },
+      "mount": {
+        "parked": "Geparkeerd",
+        "slewing": "Draaien",
+        "tracking": "Volgen",
+        "trackingOff": "Volgen uit"
+      },
+      "safety": {
+        "safe": "Veilig",
+        "unsafe": "Onveilig"
       }
     }
   },
@@ -3795,7 +3830,12 @@
         "credentials": "Als uw camera een gebruikersnaam en wachtwoord vereist, neemt u de inloggegevens rechtstreeks in de URL op:",
         "credentialsNote": "De backend-proxy verwerkt de authenticatie automatisch: de inloggegevens in de URL werken met zowel basis- als digest-authenticatie (bijv. Hikvision).",
         "credentialsTitle": "Met wachtwoord beveiligde camera's",
-        "exampleLabels": ["Algemene IP-camera", "ONVIF-camera", "As-camera", "Hikvision-camera"],
+        "exampleLabels": [
+          "Algemene IP-camera",
+          "ONVIF-camera",
+          "As-camera",
+          "Hikvision-camera"
+        ],
         "examplesTitle": "Voorbeelden",
         "proxyOptions": [
           "Proxy (standaard): De afbeelding wordt opgehaald door de NINA-backend en doorgestuurd naar de browser. \nVereist voor lokale netwerkcamera's met inloggegevens of CORS-beperkingen. \nIets langzamer bij toegang via VPN.",

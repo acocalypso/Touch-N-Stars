@@ -917,7 +917,9 @@
         "slewRateINDI": "Prędkość ruchu",
         "reverse_axis": "Kierunek osi",
         "slewRateDriverControlled": "Szybkość narastania jest kontrolowana przez sterownik",
-        "slewRateUnavailable": "Podłącz uchwyt, aby wyregulować prędkość narastania"
+        "slewRateUnavailable": "Podłącz uchwyt, aby wyregulować prędkość narastania",
+        "confirmParkMessage": "Zaparkować montaż? Spowoduje to zatrzymanie śledzenia i przesunięcie montażu do pozycji parkowania.",
+        "confirmParkTitle": "Zaparkuj montaż"
       },
       "info": {
         "notConnected": "Proszę podłączyć montaż",
@@ -1887,6 +1889,39 @@
     "safetyMonitor": {
       "indi": {
         "settings": "Ustawienia monitora bezpieczeństwa"
+      }
+    },
+    "statusBar": {
+      "camera": {
+        "idle": "Bezczynny"
+      },
+      "filter": {
+        "none": "Brak filtra"
+      },
+      "guiding": {
+        "idle": "Bezczynny",
+        "starLost": "Utracono gwiazdę"
+      },
+      "labels": {
+        "camera": "Kamera",
+        "filter": "Filtr",
+        "guiding": "Prowadzenie",
+        "instance": "Instancja",
+        "log": "Dziennik",
+        "mount": "Montaż",
+        "progress": "Postęp",
+        "safety": "Bezpieczeństwo",
+        "weather": "Pogoda"
+      },
+      "mount": {
+        "parked": "Zaparkowany",
+        "slewing": "Ruch",
+        "tracking": "Śledzenie",
+        "trackingOff": "Śledzenie wyłączone"
+      },
+      "safety": {
+        "safe": "Bezpiecznie",
+        "unsafe": "Niebezpiecznie"
       }
     }
   },
@@ -3795,7 +3830,12 @@
         "credentials": "Jeśli kamera wymaga nazwy użytkownika i hasła, podaj dane uwierzytelniające bezpośrednio w adresie URL:",
         "credentialsNote": "Serwer proxy zaplecza obsługuje uwierzytelnianie automatycznie — dane uwierzytelniające w adresie URL działają zarówno z uwierzytelnianiem podstawowym, jak i szyfrowanym (np. Hikvision).",
         "credentialsTitle": "Kamery chronione hasłem",
-        "exampleLabels": ["Typowa kamera IP", "Kamera ONVIF", "Kamera osiowa", "Kamera Hikvision"],
+        "exampleLabels": [
+          "Typowa kamera IP",
+          "Kamera ONVIF",
+          "Kamera osiowa",
+          "Kamera Hikvision"
+        ],
         "examplesTitle": "Przykłady",
         "proxyOptions": [
           "Proxy (domyślnie): Obraz jest pobierany przez backend NINA i przesyłany do przeglądarki. \nWymagane w przypadku kamer sieci lokalnej z poświadczeniami lub ograniczeniami CORS. \nNieco wolniejszy w przypadku dostępu przez VPN.",

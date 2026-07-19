@@ -204,3 +204,30 @@
     background: var(--color-accent);
   }
 }
+
+/* Stat tile: small card with a micro label on top and a prominent value below.
+   Same anatomy as the status bar segments, one size up. Used by the device
+   info panels (StatusString/StatusBool). */
+@utility tns-stat-tile {
+  @apply flex flex-col justify-center gap-0.5
+    bg-surface-2 rounded-chip px-3 py-2 min-h-14;
+}
+
+/* Real problems tint the whole tile, not just a dot. */
+@utility tns-stat-tile-warn {
+  @apply bg-status-warn/10 outline outline-1 outline-status-warn/40;
+}
+
+@utility tns-stat-tile-danger {
+  @apply bg-status-danger/10 outline outline-1 outline-status-danger/40;
+}
+
+@utility tns-stat-label {
+  @apply text-[10px] font-bold uppercase tracking-wider leading-none
+    text-content-faint truncate;
+}
+
+@utility tns-stat-value {
+  @apply text-[15px] font-semibold leading-tight tabular-nums text-content
+    flex items-center gap-1.5 min-w-0;
+}

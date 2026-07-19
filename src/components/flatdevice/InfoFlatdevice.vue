@@ -2,8 +2,9 @@
   <div v-if="!store.flatdeviceInfo.Connected" class="text-red-500">
     <p>{{ $t('components.flat.please_connect_flatDevice') }}</p>
   </div>
-  <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-4">
+  <div v-else class="grid grid-cols-2 landscape:grid-cols-3 gap-2">
     <StatusString
+      class="col-span-full"
       :isEnabled="store.flatdeviceInfo.Name !== undefined"
       :Name="$t('components.flat.device_name')"
       :Value="store.flatdeviceInfo.Name"

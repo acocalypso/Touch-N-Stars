@@ -2,7 +2,7 @@
   <div v-if="!store.domeInfo.Connected" class="text-red-500">
     <p>{{ $t('components.dome.please_connect_dome') }}</p>
   </div>
-  <div v-else class="gap-2">
+  <div v-else class="grid grid-cols-2 landscape:grid-cols-3 gap-2">
     <StatusString
       :isEnabled="store.domeInfo.Azimuth !== undefined && !isNaN(store.domeInfo.Azimuth)"
       :Name="$t('components.dome.azimuth')"

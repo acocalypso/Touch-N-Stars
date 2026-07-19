@@ -1,14 +1,17 @@
 <template>
-  <div class="flex items-center space-x-4 border border-gray-500 rounded-xl p-1 pl-2 min-h-7">
-    <div class="flex items-center space-x-3">
-      <div :class="isEnabled ? enabledClass : disabledClass"></div>
-      <span class="text-xs text-gray-400">{{ isEnabled ? enabledText : disabledText }}</span>
-    </div>
+  <div class="tns-stat-tile" :class="tileClass">
+    <span v-if="label" class="tns-stat-label" :title="label">{{ label }}</span>
+    <span class="tns-stat-value" :class="valueClass">
+      <span class="tns-dot" :class="dotClass"></span>
+      <span class="truncate">{{ isEnabled ? enabledText : disabledText }}</span>
+    </span>
   </div>
 </template>
 
 <script setup>
-defineProps({
+import { computed } from 'vue';
+
+const props = defineProps({
   isEnabled: {
     type: Boolean,
     default: true,
@@ -21,15 +24,49 @@ defineProps({
     type: String,
     default: 'Aus',
   },
-  enabledClass: {
+  label: {
     type: String,
+    default: '',
+  },
+  state: {
+    type: String,
+    default: null,
+    validator: (value) => value === null || ['ok', 'idle', 'warn', 'danger'].includes(value),
+  },
+});
+
+const resolvedState = computed(() => props.state ?? (props.isEnabled ? 'ok' : 'idle'));
+
+const tileClass = computed(() => {
+  if (resolvedState.value === 'warn') return 'tns-stat-tile-warn';
+  if (resolvedState.value === 'danger') return 'tns-stat-tile-danger';
+  return '';
+});
+
+const dotClass = computed(() => {
+  switch (resolvedState.value) {
+    case 'ok':
+      return 'bg-status-ok';
+    case 'warn':
+      return 'bg-status-warn';
+    case 'danger':
+      return 'bg-status-danger';
     default:
-      'w-3 h-3 min-w-3 bg-green-500/80 rounded-full shadow-[0_0_6px_2px_rgba(74,222,128,0.5)]',
-  },
-  disabledClass: {
-    type: String,
-    default: 'w-3 h-3 min-w-3 bg-red-500/65 rounded-full shadow-[0_0_6px_2px_rgba(255,0,0,0.5)]',
-  },
+      return 'bg-content-faint';
+  }
+});
+
+const valueClass = computed(() => {
+  switch (resolvedState.value) {
+    case 'warn':
+      return 'text-status-warn';
+    case 'danger':
+      return 'text-status-danger';
+    case 'idle':
+      return 'text-content-muted';
+    default:
+      return '';
+  }
 });
 </script>
 

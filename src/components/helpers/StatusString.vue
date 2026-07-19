@@ -1,12 +1,9 @@
 <template>
-  <div
-    v-if="isEnabled"
-    class="flex items-center space-x-4 border border-gray-500 rounded-xl min-h-7 pl-2 pr-2"
-  >
-    <div class="flex items-center space-x-3 text-xs">
-      <strong class="text-gray-400">{{ Name }}</strong>
-      <p>{{ Value }}</p>
-    </div>
+  <div v-if="isEnabled" class="tns-stat-tile">
+    <span class="tns-stat-label" :title="Name">{{ Name }}</span>
+    <span class="tns-stat-value">
+      <span class="truncate">{{ Value }}</span>
+    </span>
   </div>
 </template>
 

@@ -1,6 +1,7 @@
 <template>
   <div class="gap-2 grid grid-cols-2 landscape:grid-cols-3">
     <StatusString
+      class="col-span-full"
       :isEnabled="store.cameraInfo.Name !== ''"
       :Name="$t('components.camera.name')"
       :Value="store.cameraInfo.Name"

@@ -2,7 +2,7 @@
   <div v-if="!store.rotatorInfo.Connected" class="text-red-500">
     <p>{{ $t('components.rotator.please_connect_rotator') }}</p>
   </div>
-  <div v-else class="gap-2">
+  <div v-else class="grid grid-cols-2 landscape:grid-cols-3 gap-2">
     <StatusBool
       :isEnabled="store.rotatorInfo.Connected"
       :enabledText="$t('components.rotator.connected')"

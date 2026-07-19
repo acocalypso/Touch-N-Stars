@@ -2,7 +2,7 @@
   <div v-if="!store.focuserInfo.Connected" class="text-red-500">
     <p>{{ $t('components.focuser.please_connect_focuser') }}</p>
   </div>
-  <div v-else class="gap-2">
+  <div v-else class="grid grid-cols-2 landscape:grid-cols-3 gap-2">
     <StatusString
       :isEnabled="store.focuserInfo.Position !== ''"
       :Name="$t('components.focuser.current_position')"
@@ -29,6 +29,7 @@
         :isEnabled="focuserStore.focuserSettings.IsStalled"
         :enabledText="$t('components.focuser.IsStalled')"
         :disabledText="$t('components.focuser.IsStalled')"
+        :state="focuserStore.focuserSettings.IsStalled ? 'danger' : 'idle'"
       />
       <StatusString
         v-if="focuserStore.focuserSettings.HeatingPower !== undefined"

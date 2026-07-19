@@ -1,5 +1,8 @@
 <template>
-  <div class="dark min-h-screen bg-gray-900 text-white">
+  <!-- flow-root: without a BFC the stage's top/bottom margins collapse through
+       to this frame div, which then starts below the SubNav — exposing the raw
+       html background as a stripe between the bars and the stage. -->
+  <div class="dark min-h-screen flow-root text-white" :class="frameColor">
     <div :class="appLayoutClasses">
       <!-- Navigation -->
       <nav>
@@ -122,8 +125,10 @@
         v-show="store.showStellarium"
         :key="stellariumRefreshKey"
       />
-      <div v-if="!shouldShowConnectionSplash" :class="mainContentClasses">
-        <router-view v-show="!store.showStellarium" :key="routerViewKey" />
+      <div v-if="!shouldShowConnectionSplash" :class="stageClasses" :style="stageStyle">
+        <div class="container mx-auto px-3 py-4">
+          <router-view v-show="!store.showStellarium" :key="routerViewKey" />
+        </div>
       </div>
       <!-- Footer -->
       <div v-if="settingsStore.setupCompleted" :class="statusBarClasses">
@@ -553,15 +558,30 @@ const appLayoutClasses = computed(() => ({
   'app-landscape': isLandscape.value,
 }));
 
+// Fixed frame surface color, independent of the selected instance.
+const frameColor = 'bg-gray-900/95';
+
 const navContainerClasses = computed(() => ({
   'z-20 fixed top-0 w-full': !isLandscape.value,
   'z-20 fixed left-0 top-0 h-full': isLandscape.value,
 }));
 
-const mainContentClasses = computed(() => ({
-  'container mx-auto transition-all pt-[82px] pb-[calc(var(--statusbar-height)+env(safe-area-inset-bottom)+0.5rem)]':
+// Content sheet ("stage") inset inside the unified bar frame; see
+// LAYOUT-BUEHNE-UMSETZUNGSPLAN.md. It scrolls with the page (no own scroll
+// container) - its top corners intentionally slide under the navbar/statusbar
+// while scrolling.
+const stageClasses = computed(() => ({
+  'bg-ground rounded-[var(--stage-radius)] border border-line transition-all': true,
+  'mt-[calc(82px+var(--subnav-offset))] mx-[var(--stage-inset)] mb-[calc(var(--statusbar-height)+env(safe-area-inset-bottom)+var(--stage-inset))]':
     !isLandscape.value,
-  'transition-all ml-(--nav-width) mr-4 py-4 pb-16': isLandscape.value,
+  'ml-[calc(var(--nav-width)+var(--stage-inset))] mr-[var(--stage-inset)] mt-[calc(var(--stage-inset)+var(--subnav-offset))] mb-[calc(var(--statusbar-height)+var(--stage-inset))]':
+    isLandscape.value,
+}));
+
+const stageStyle = computed(() => ({
+  minHeight: isLandscape.value
+    ? 'calc(100dvh - var(--stage-inset) - var(--subnav-offset) - var(--statusbar-height) - var(--stage-inset))'
+    : 'calc(100dvh - 82px - var(--subnav-offset) - var(--statusbar-height) - env(safe-area-inset-bottom) - var(--stage-inset))',
 }));
 
 const statusBarClasses = computed(() => ({

@@ -1,6 +1,7 @@
 <template>
   <div
-    class="navigation-container shadow-md overflow-hidden"
+    ref="navContainerRef"
+    class="navigation-container overflow-hidden"
     :class="[activeInstanceColor, orientationClasses]"
   >
     <!-- Scroll Fade Indicators -->
@@ -586,7 +587,6 @@ const settingsStore = useSettingsStore();
 const pluginStore = usePluginStore();
 const cameraStore = useCameraStore();
 const route = useRoute();
-const selectedInstanceId = computed(() => settingsStore.selectedInstanceId);
 const appVersion = ref(version);
 const showAboutModal = ref(false);
 
@@ -594,9 +594,25 @@ const showAboutModal = ref(false);
 const { isLandscape } = useOrientation();
 
 // Scroll indicator states
+const navContainerRef = ref(null);
 const navContentRef = ref(null);
 const canScrollStart = ref(false);
 const canScrollEnd = ref(false);
+
+// The scroll fade gradients must match the actual nav background, which is an
+// instance color class picked at runtime. Read the computed color off the
+// container and expose it as a CSS variable the gradients build on — a
+// hardcoded gradient color produced visible seams at the SubNav/StatusBar edges.
+function updateNavFadeColor() {
+  nextTick(() => {
+    const el = navContainerRef.value;
+    if (!el) return;
+    const bg = getComputedStyle(el).backgroundColor;
+    if (bg) {
+      el.style.setProperty('--nav-fade-color', bg);
+    }
+  });
+}
 
 // Touch feedback states
 const touchedButton = ref(null);
@@ -604,10 +620,8 @@ const touchedButton = ref(null);
 // Force icons visibility after mount
 const iconsLoaded = ref(false);
 
-const activeInstanceColor = computed(() => {
-  const color = settingsStore.getInstanceColorById(selectedInstanceId.value);
-  return color;
-});
+// Fixed frame surface color, independent of the selected instance.
+const activeInstanceColor = 'bg-gray-900/95';
 
 // Orientierung-spezifische CSS-Klassen
 const orientationClasses = computed(() => ({
@@ -727,6 +741,7 @@ onMounted(() => {
 
   // Force icon visibility on mount
   forceIconVisibility();
+  updateNavFadeColor();
 
   // Additional force after a short delay for Android
   setTimeout(() => {
@@ -1218,6 +1233,13 @@ watch(
   justify-content: center;
 }
 
+/* Fade gradients build on --nav-fade-color, which updateNavFadeColor() sets to
+   the container's real computed background at runtime (instance colors vary).
+   Fallback matches the default bg-gray-900/95 nav background. */
+.scroll-fade {
+  --fade: var(--nav-fade-color, rgba(17, 24, 39, 0.95));
+}
+
 /* Portrait Mode - Horizontal Fades (Left/Right) */
 .scroll-fade-left {
   top: 0;
@@ -1226,9 +1248,9 @@ watch(
   width: 60px;
   background: linear-gradient(
     to right,
-    rgba(15, 23, 42, 1) 0%,
-    rgba(15, 23, 42, 0.8) 40%,
-    rgba(15, 23, 42, 0) 100%
+    var(--fade) 0%,
+    color-mix(in srgb, var(--fade) 80%, transparent) 40%,
+    transparent 100%
   );
 }
 
@@ -1239,9 +1261,9 @@ watch(
   width: 60px;
   background: linear-gradient(
     to left,
-    rgba(15, 23, 42, 1) 0%,
-    rgba(15, 23, 42, 0.8) 40%,
-    rgba(15, 23, 42, 0) 100%
+    var(--fade) 0%,
+    color-mix(in srgb, var(--fade) 80%, transparent) 40%,
+    transparent 100%
   );
 }
 
@@ -1253,9 +1275,9 @@ watch(
   height: 60px;
   background: linear-gradient(
     to bottom,
-    rgba(15, 23, 42, 1) 0%,
-    rgba(15, 23, 42, 0.8) 40%,
-    rgba(15, 23, 42, 0) 100%
+    var(--fade) 0%,
+    color-mix(in srgb, var(--fade) 80%, transparent) 40%,
+    transparent 100%
   );
 }
 
@@ -1266,9 +1288,9 @@ watch(
   height: 60px;
   background: linear-gradient(
     to top,
-    rgba(15, 23, 42, 1) 0%,
-    rgba(15, 23, 42, 0.8) 40%,
-    rgba(15, 23, 42, 0) 100%
+    var(--fade) 0%,
+    color-mix(in srgb, var(--fade) 80%, transparent) 40%,
+    transparent 100%
   );
 }
 

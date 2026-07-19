@@ -48,6 +48,27 @@
      elements (action bars, overlays) just above the bar incl. safe area. */
   --statusbar-height: 3.5rem;
   --above-statusbar: calc(env(safe-area-inset-bottom, 0px) + var(--statusbar-height) + 0.75rem);
+
+  /* Stage layout: the content sheet sits inset inside the bar frame. */
+  --stage-inset: 6px; /* frame rails left/right of the stage */
+  --stage-radius: 16px;
+
+  /* Height the fixed SubNav occupies below the navbar. SubNav.vue raises this
+     to 3rem while mounted so the stage (and its rounded top corners) starts
+     below the SubNav instead of being covered by it; 0 on pages without one. */
+  --subnav-offset: 0px;
+}
+
+/* Dark-only app: declare it to the browser so scrollbars and native form
+   controls render dark — without this, Windows Chrome/Edge paint light/white
+   scrollbar tracks next to every scrollable area. The html background also
+   gives the canvas behind the semi-transparent frame (95% instance colors)
+   a real dark ground instead of default white. */
+@layer base {
+  html {
+    color-scheme: dark;
+    background-color: var(--color-ground);
+  }
 }
 
 /* Safe Area Utilities for iOS devices */

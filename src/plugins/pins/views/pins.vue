@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-gray-900">
+  <div class="min-h-screen">
     <SubNav v-if="store.isPINS" :items="pinsNavItems" v-model:activeItem="activeTab" class="z-20" />
 
     <div

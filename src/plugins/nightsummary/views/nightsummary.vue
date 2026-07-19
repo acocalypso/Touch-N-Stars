@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-gray-900">
+  <div class="min-h-screen">
     <div class="container py-6 px-4 max-w-4xl mx-auto">
       <h1 class="text-3xl font-bold text-white mb-6">{{ $t('nightsummary.title') }}</h1>
 

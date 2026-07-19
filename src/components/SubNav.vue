@@ -1,6 +1,7 @@
 <template>
   <div
-    class="subnav shadow-md fixed z-10 overflow-hidden"
+    ref="subnavRef"
+    class="subnav fixed z-10 overflow-hidden"
     :class="[subnavClasses, backgroundClasses]"
   >
     <!-- Scroll fade left -->
@@ -39,7 +40,21 @@
   </div>
 </template>
 <script setup>
-import { computed, ref, onMounted, watch, nextTick } from 'vue';
+import { computed, ref, onMounted, onBeforeUnmount, watch, nextTick } from 'vue';
+
+// The stage (App.vue) must start below the fixed SubNav so its rounded top
+// corners stay visible instead of being covered by this bar. Registering via a
+// root CSS variable keeps App.vue route-agnostic. The module-level counter
+// guards against mount/unmount ordering during transitions between two pages
+// that both have a SubNav.
+let mountedSubnavCount = 0;
+
+function applyStageOffset() {
+  document.documentElement.style.setProperty(
+    '--subnav-offset',
+    mountedSubnavCount > 0 ? '3rem' : '0px'
+  );
+}
 import { useOrientation } from '@/composables/useOrientation';
 const props = defineProps({
   items: {
@@ -63,8 +78,22 @@ const subnavClasses = computed(() => ({
   // Landscape mode - top of screen, starting after the navbar sidebar
   'left-(--nav-width) top-0 w-[calc(100vw-var(--nav-width))]': isLandscape.value,
 }));
-// Background classes for consistent styling
-const backgroundClasses = computed(() => 'bg-gray-900/95 backdrop-blur-sm');
+// Fixed frame surface color, matching Navbar/StatusBar so all bars read as one surface.
+const backgroundClasses = ['bg-gray-900/95', 'backdrop-blur-sm'];
+
+// Scroll fade gradients must match the actual background, which is an instance
+// color class picked at runtime (see NavigationComp's updateNavFadeColor).
+const subnavRef = ref(null);
+function updateFadeColor() {
+  nextTick(() => {
+    const el = subnavRef.value;
+    if (!el) return;
+    const bg = getComputedStyle(el).backgroundColor;
+    if (bg) {
+      el.style.setProperty('--subnav-fade-color', bg);
+    }
+  });
+}
 
 // Scroll indicators
 const navContentRef = ref(null);
@@ -80,7 +109,15 @@ function updateScrollIndicators() {
 }
 
 onMounted(() => {
+  mountedSubnavCount++;
+  applyStageOffset();
   nextTick(() => updateScrollIndicators());
+  updateFadeColor();
+});
+
+onBeforeUnmount(() => {
+  mountedSubnavCount = Math.max(0, mountedSubnavCount - 1);
+  applyStageOffset();
 });
 
 watch(
@@ -92,7 +129,7 @@ watch(
 <style scoped>
 @reference '../assets/tailwind.css';
 .subnav {
-  @apply border-cyan-500/30 transition-all duration-300 ease-in-out;
+  @apply transition-all duration-300 ease-in-out;
 }
 .subnav-button {
   @apply shrink-0 h-auto
@@ -141,15 +178,6 @@ watch(
     right: 0 !important; /* Bis zum rechten Rand */
     width: calc(100% - var(--nav-width)) !important; /* Volle Breite minus Navbar */
     top: 0 !important;
-    border-top: none !important;
-    border-bottom: 1px solid rgba(6, 182, 212, 0.3) !important;
-  }
-}
-/* Portrait mode border */
-@media screen and (orientation: portrait) {
-  .subnav {
-    border-top: 1px solid rgba(6, 182, 212, 0.3) !important;
-    border-bottom: none !important;
   }
 }
 /* Safe Area Support for portrait only */
@@ -158,12 +186,6 @@ watch(
     .subnav {
       top: calc(5rem + env(safe-area-inset-top)) !important;
     }
-  }
-}
-/* Dark Mode Compatibility */
-@media (prefers-color-scheme: dark) {
-  .subnav {
-    @apply bg-gray-900/95;
   }
 }
 
@@ -177,14 +199,17 @@ watch(
   align-items: center;
   justify-content: center;
 }
+.scroll-fade {
+  --fade: var(--subnav-fade-color, rgba(17, 24, 39, 0.95));
+}
 .scroll-fade-left {
   left: 0;
   width: 40px;
   background: linear-gradient(
     to right,
-    rgba(17, 24, 39, 1) 0%,
-    rgba(17, 24, 39, 0.8) 50%,
-    rgba(17, 24, 39, 0) 100%
+    var(--fade) 0%,
+    color-mix(in srgb, var(--fade) 80%, transparent) 50%,
+    transparent 100%
   );
 }
 .scroll-fade-right {
@@ -192,9 +217,9 @@ watch(
   width: 40px;
   background: linear-gradient(
     to left,
-    rgba(17, 24, 39, 1) 0%,
-    rgba(17, 24, 39, 0.8) 50%,
-    rgba(17, 24, 39, 0) 100%
+    var(--fade) 0%,
+    color-mix(in srgb, var(--fade) 80%, transparent) 50%,
+    transparent 100%
   );
 }
 .scroll-arrow {

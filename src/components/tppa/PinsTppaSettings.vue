@@ -96,11 +96,7 @@
             <label for="tppa-filter" class="text-xs mb-1 text-gray-400 block">
               {{ $t('components.tppa.settings.filter') }}
             </label>
-            <select
-              id="tppa-filter"
-              v-model="tppaStore.settings.Filter"
-              class="default-select h-10 w-full"
-            >
+            <select id="tppa-filter" v-model="tppaStore.settings.Filter" class="tns-select w-full">
               <option :value="null">{{ $t('components.tppa.settings.filter_default') }}</option>
               <option
                 v-for="filter in store.filterInfo.AvailableFilters"
@@ -426,7 +422,7 @@
           />
         </div>
 
-        <button @click="reset" class="default-button-gray w-full text-xs mt-2">
+        <button @click="reset" class="tns-btn-secondary w-full text-xs mt-2">
           {{ $t('components.tppa.pins_settings.reset') }}
         </button>
       </div>

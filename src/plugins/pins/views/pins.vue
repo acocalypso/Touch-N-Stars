@@ -1,11 +1,8 @@
 <template>
-  <div class="min-h-screen bg-gray-900">
+  <div class="min-h-screen">
     <SubNav v-if="store.isPINS" :items="pinsNavItems" v-model:activeItem="activeTab" class="z-20" />
 
-    <div
-      class="container py-8 sm:py-16 flex items-center justify-center px-4"
-      :class="{ 'pt-24 sm:pt-28': store.isPINS }"
-    >
+    <div class="p-4 max-w-xl mx-auto space-y-6">
       <div class="container max-w-4xl p-0 sm:p-4 w-full">
         <h5
           class="text-2xl text-center font-bold text-white mb-2 flex items-center justify-center gap-3"
@@ -147,10 +144,10 @@
                   {{ $t('plugins.pins.disconnectConfirmMessage') }}
                 </p>
                 <div class="flex justify-end gap-3">
-                  <button @click="showDisconnectWifiModal = false" class="default-button-gray">
+                  <button @click="showDisconnectWifiModal = false" class="tns-btn-secondary">
                     {{ $t('common.cancel') }}
                   </button>
-                  <button @click="confirmDisableWifi" class="default-button-red">
+                  <button @click="confirmDisableWifi" class="tns-btn-danger">
                     {{ $t('common.confirm') }}
                   </button>
                 </div>
@@ -220,7 +217,7 @@
                 </div>
 
                 <div class="flex justify-end">
-                  <button @click="showUpdatesModal = false" class="default-button-gray">
+                  <button @click="showUpdatesModal = false" class="tns-btn-secondary">
                     {{ $t('common.cancel') }}
                   </button>
                 </div>

@@ -8,7 +8,7 @@
       <FavTargets
         :showSeqTarget="false"
         class="fixed right-5 z-20"
-        style="bottom: calc(env(safe-area-inset-bottom, 0px) + 48px)"
+        style="bottom: var(--above-statusbar)"
       />
       <FitsPlateSolve
         v-if="
@@ -18,7 +18,7 @@
         :showFraming="true"
         :showSeqTarget="false"
         class="fixed right-16 z-20"
-        style="bottom: calc(env(safe-area-inset-bottom, 0px) + 48px)"
+        style="bottom: var(--above-statusbar)"
       />
       <!-- Search Input -->
       <div class="text-black mx-auto">
@@ -27,7 +27,7 @@
             type="text"
             v-model="framingStore.searchQuery"
             @input="fetchTargetSearch"
-            class="default-input h-10 w-full"
+            class="tns-input w-full"
             :placeholder="$t('components.framing.search.placeholder')"
           />
           <SaveFavTargets
@@ -53,7 +53,7 @@
             Array.isArray(framingStore.targetSearchResult) &&
             framingStore.targetSearchResult.length > 0
           "
-          class="default-select max-h-[21.5rem] overflow-y-auto"
+          class="tns-select max-h-[21.5rem] overflow-y-auto"
         >
           <li
             v-for="(item, index) in framingStore.targetSearchResult"
@@ -76,7 +76,7 @@
         <select
           id="visibleStars"
           v-model="selectedStar"
-          class="default-select h-10 w-full"
+          class="tns-select w-full"
           @change="updateRaDec"
         >
           <option v-for="star in visibleStars" :key="star.name" :value="star.name">
@@ -130,7 +130,7 @@
 
       <!-- Open Framing Page Button -->
       <div v-if="framingStore.selectedItem" class="mb-4">
-        <button @click="openFraming" class="default-button-cyan">
+        <button @click="openFraming" class="tns-btn-secondary">
           {{ $t('components.framing.openFraminingModal') }}
         </button>
       </div>

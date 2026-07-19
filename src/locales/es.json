@@ -917,7 +917,9 @@
         "slewRateINDI": "Velocidad de desolazamiento",
         "reverse_axis": "Dirección de ejes",
         "slewRateDriverControlled": "La velocidad de giro la controla el conductor",
-        "slewRateUnavailable": "Conecte un soporte para ajustar la velocidad de giro"
+        "slewRateUnavailable": "Conecte un soporte para ajustar la velocidad de giro",
+        "confirmParkMessage": "¿Aparcar la montura? Esto detiene el seguimiento y mueve la montura a su posición de aparcamiento.",
+        "confirmParkTitle": "Aparcar montura"
       },
       "info": {
         "notConnected": "Por favor conectar montura",
@@ -1887,6 +1889,39 @@
     "safetyMonitor": {
       "indi": {
         "settings": "Configuración del monitor de seguridad"
+      }
+    },
+    "statusBar": {
+      "camera": {
+        "idle": "Inactivo"
+      },
+      "filter": {
+        "none": "Sin filtro"
+      },
+      "guiding": {
+        "idle": "Inactivo",
+        "starLost": "Estrella perdida"
+      },
+      "labels": {
+        "camera": "Cámara",
+        "filter": "Filtro",
+        "guiding": "Guiado",
+        "instance": "Instancia",
+        "log": "Registro",
+        "mount": "Montura",
+        "progress": "Progreso",
+        "safety": "Seguridad",
+        "weather": "Clima"
+      },
+      "mount": {
+        "parked": "Aparcada",
+        "slewing": "En movimiento",
+        "tracking": "Siguiendo",
+        "trackingOff": "Seguimiento desactivado"
+      },
+      "safety": {
+        "safe": "Seguro",
+        "unsafe": "Inseguro"
       }
     }
   },

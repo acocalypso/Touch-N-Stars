@@ -266,14 +266,14 @@
 
           <!-- Actions -->
           <div class="flex justify-end gap-2 pt-2 border-t border-gray-700">
-            <button class="default-button-gray" @click="onCancel">
+            <button class="tns-btn-secondary" @click="onCancel">
               {{ $t('common.cancel') }}
             </button>
-            <button class="default-button-gray" @click="solve(true)">
+            <button class="tns-btn-secondary" @click="solve(true)">
               {{ $t('components.fitsPlatesolve.blindSolve') }}
             </button>
             <button
-              class="default-button-cyan"
+              class="tns-btn-primary"
               :disabled="!form.focalLength || !form.pixelSize"
               @click="solve(false)"
             >
@@ -349,7 +349,7 @@
               :show-label="true"
             />
             <button
-              class="default-button-cyan w-full flex items-center gap-2"
+              class="tns-btn-primary w-full flex items-center gap-2"
               :title="
                 showSeqTarget
                   ? $t('components.framing.setSequnceTarget')
@@ -391,10 +391,10 @@
             {{ errorMessage }}
           </p>
           <div class="flex justify-end gap-2 pt-2 border-t border-gray-700">
-            <button class="default-button-gray" @click="onCancel">
+            <button class="tns-btn-secondary" @click="onCancel">
               {{ $t('common.close') }}
             </button>
-            <button class="default-button-cyan" @click="start">
+            <button class="tns-btn-primary" @click="start">
               {{ $t('components.fitsPlatesolve.tryAgain') }}
             </button>
           </div>

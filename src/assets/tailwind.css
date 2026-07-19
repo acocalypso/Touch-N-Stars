@@ -1,6 +1,76 @@
 @import 'tailwindcss';
 @config '../../tailwind.config.cjs';
 
+@theme {
+  /* Surfaces — one neutral ramp (slate-based, slightly blue like the night sky) */
+  --color-ground: #0a0f1c;
+  --color-surface-1: #111827;
+  --color-surface-2: #1a2336;
+  --color-surface-3: #243049;
+
+  /* Lines / borders */
+  --color-line: rgba(148, 163, 184, 0.16);
+  --color-line-strong: rgba(148, 163, 184, 0.32);
+
+  /* Text */
+  --color-content: #e2e8f0;
+  --color-content-muted: #8fa3bf;
+  --color-content-faint: #64748b;
+
+  /* Accent — the ONE accent of the app (replaces emerald focus, mixed cyans) */
+  --color-accent: #22d3ee; /* highlights, active states (cyan-400) */
+  --color-accent-action: #036682; /* primary buttons (cyan-600) */
+
+  /* Semantic status colors — same meaning everywhere:
+     ok = running/healthy, warn = attention, danger = problem/stopped */
+  --color-status-ok: #34d399;
+  --color-status-warn: #fbbf24;
+  --color-status-danger: #f87171;
+
+  /* Radii */
+  --radius-card: 14px;
+  --radius-control: 12px;
+  --radius-chip: 10px;
+
+  /* Touch */
+  --spacing-touch: 48px; /* minimum touch target size (enables min-h-touch, min-w-touch) */
+}
+
+/* Landscape navigation sidebar width — single source of truth.
+   Referenced across App/StatusBar/SubNav/overlays via var(--nav-width) and
+   var(--nav-offset) (sidebar + 1rem gap). Change the width here only. */
+:root {
+  --nav-width: 6rem;
+  --nav-offset: calc(var(--nav-width) + 1rem);
+
+  /* Status bar height — single source of truth; the bar itself and all
+     dependent offsets consume it. --above-statusbar anchors floating page
+     elements (action bars, overlays) just above the bar incl. safe area. */
+  --statusbar-height: 3.5rem;
+  --above-statusbar: calc(env(safe-area-inset-bottom, 0px) + var(--statusbar-height) + 0.75rem);
+
+  /* Stage layout: the content sheet sits inset inside the bar frame. */
+  --stage-inset: 6px; /* frame rails left/right of the stage */
+  --stage-radius: 16px;
+
+  /* Height the fixed SubNav occupies below the navbar. SubNav.vue raises this
+     to 3rem while mounted so the stage (and its rounded top corners) starts
+     below the SubNav instead of being covered by it; 0 on pages without one. */
+  --subnav-offset: 0px;
+}
+
+/* Dark-only app: declare it to the browser so scrollbars and native form
+   controls render dark — without this, Windows Chrome/Edge paint light/white
+   scrollbar tracks next to every scrollable area. The html background also
+   gives the canvas behind the semi-transparent frame (95% instance colors)
+   a real dark ground instead of default white. */
+@layer base {
+  html {
+    color-scheme: dark;
+    background-color: var(--color-ground);
+  }
+}
+
 /* Safe Area Utilities for iOS devices */
 @layer utilities {
   .safe-area-top {
@@ -50,347 +120,135 @@
   }
 }
 
-@layer components {
-  .default-button-cyan {
-    @apply flex
-   items-center
-   justify-center
-   min-w-10 
-   min-h-10 
-   bg-gradient-to-br from-cyan-800/80 to-cyan-600/80 
-   hover:from-cyan-700/90 hover:to-cyan-500/90 
-   border border-cyan-700/50
-   hover:border-cyan-500/70
-   rounded-md 
-   text-cyan-100 
-   font-medium 
-   text-xs sm:text-sm
-   text-center
-   leading-tight
-   overflow-hidden
-   line-clamp-2
-   transition-all
-   duration-300
-   ease-out
-   w-full 
-   shadow-lg
-   shadow-cyan-800/20
-   backdrop-blur-sm
-   active:scale-95
-   focus:outline-none 
-   focus:ring-2 
-   focus:ring-cyan-500/50
-   disabled:opacity-50
-   disabled:cursor-not-allowed
-   disabled:hover:from-cyan-800/80
-   disabled:hover:to-cyan-600/80
-   disabled:hover:border-cyan-700/50
-   disabled:shadow-none;
-  }
+/* --- New design system components (tns-*) ---
+   Defined with @utility (not @layer components) so that the role variants below
+   can @apply the shared tns-btn / tns-input base. */
 
-  .default-button-red {
-    @apply flex
-   items-center
-   justify-center
-   min-w-10 
-   min-h-10 
-   bg-gradient-to-br from-red-800/80 to-red-600/80 
-   hover:from-red-700/90 hover:to-red-500/90 
-   border border-red-700/50
-   hover:border-red-500/70
-   rounded-md 
-   text-red-100 
-   font-medium 
-   text-xs sm:text-sm
-   text-center
-   leading-tight
-   overflow-hidden
-   line-clamp-2
-   transition-all
-   duration-300
-   ease-out
-   w-full 
-   shadow-lg
-   shadow-red-800/20
-   backdrop-blur-sm
-   active:scale-95
-   focus:outline-none 
-   focus:ring-2 
-   focus:ring-red-500/50
-   disabled:opacity-50
-   disabled:cursor-not-allowed
-   disabled:hover:from-red-800/80
-   disabled:hover:to-red-600/80
-   disabled:hover:border-red-700/50
-   disabled:shadow-none;
-  }
+@utility tns-btn {
+  @apply flex items-center justify-center gap-2
+    min-h-touch min-w-touch w-full px-4
+    rounded-control text-sm font-semibold leading-tight text-center
+    transition-all duration-150 ease-out
+    active:scale-[0.97]
+    focus:outline-none focus-visible:ring-2 focus-visible:ring-accent/50
+    disabled:opacity-50 disabled:cursor-not-allowed disabled:active:scale-100;
+}
 
-  .default-button-orange {
-    @apply flex
-   items-center
-   justify-center
-   min-w-10 
-   min-h-10 
-   bg-gradient-to-br from-orange-800/80 to-orange-600/80 
-   hover:from-orange-700/90 hover:to-orange-500/90 
-   border border-orange-700/50
-   hover:border-orange-500/70
-   rounded-md 
-   text-orange-100 
-   font-medium 
-   text-xs sm:text-sm
-   text-center
-   leading-tight
-   overflow-hidden
-   line-clamp-2
-   transition-all
-   duration-300
-   ease-out
-   w-full 
-   shadow-lg
-   shadow-orange-800/20
-   backdrop-blur-sm
-   active:scale-95
-   focus:outline-none 
-   focus:ring-2 
-   focus:ring-orange-500/50
-   disabled:opacity-50
-   disabled:cursor-not-allowed
-   disabled:hover:from-orange-800/80
-   disabled:hover:to-orange-600/80
-   disabled:hover:border-orange-700/50
-   disabled:shadow-none;
-  }
+/* Primary: THE one main action of a page (capture, slew, start) */
+@utility tns-btn-primary {
+  @apply tns-btn bg-accent-action text-white
+    hover:brightness-110 disabled:hover:brightness-100;
+}
 
-  .default-button-gray {
-    @apply flex
-   items-center
-   justify-center
-   min-w-10 
-   min-h-10 
-   bg-gradient-to-br from-gray-800/80 to-gray-600/80 
-   hover:from-gray-700/90 hover:to-gray-500/90 
-   border border-gray-700/50
-   hover:border-gray-500/70
-   rounded-md 
-   text-gray-100 
-   font-medium 
-   text-xs sm:text-sm
-   text-center
-   leading-tight
-   overflow-hidden
-   line-clamp-2
-   transition-all
-   duration-300
-   ease-out
-   w-full 
-   shadow-lg
-   shadow-gray-800/20
-   backdrop-blur-sm
-   active:scale-95
-   focus:outline-none 
-   focus:ring-2 
-   focus:ring-gray-500/50
-   disabled:opacity-50
-   disabled:cursor-not-allowed
-   disabled:hover:from-gray-800/80
-   disabled:hover:to-gray-600/80
-   disabled:hover:border-gray-700/50
-   disabled:shadow-none;
-  }
+/* Secondary: everything else */
+@utility tns-btn-secondary {
+  @apply tns-btn bg-surface-3 border border-line-strong text-content
+    hover:bg-surface-2 disabled:hover:bg-surface-3;
+}
 
-  .default-button-blue {
-    @apply flex
-   items-center
-   justify-center
-   min-w-10 
-   min-h-10 
-   bg-gradient-to-br from-blue-800/80 to-blue-600/80 
-   hover:from-blue-700/90 hover:to-gray-500/90 
-   border border-blue-700/50
-   hover:border-blue-500/70
-   rounded-md 
-   text-blue-100 
-   font-medium 
-   text-xs sm:text-sm
-   text-center
-   leading-tight
-   overflow-hidden
-   line-clamp-2
-   transition-all
-   duration-300
-   ease-out
-   w-full 
-   shadow-lg
-   shadow-blue-800/20
-   backdrop-blur-sm
-   active:scale-95
-   focus:outline-none 
-   focus:ring-2 
-   focus:ring-blue-500/50
-   disabled:opacity-50
-   disabled:cursor-not-allowed
-   disabled:hover:from-blue-800/80
-   disabled:hover:to-blue-600/80
-   disabled:hover:border-blue-700/50
-   disabled:shadow-none;
-  }
+/* Danger: destructive/stopping actions ONLY (park, stop, abort) — outlined so red stays a signal */
+@utility tns-btn-danger {
+  @apply tns-btn bg-transparent border border-status-danger/50 text-status-danger
+    hover:bg-status-danger/10 disabled:hover:bg-transparent;
+}
 
-  .default-button-green {
-    @apply flex
-   items-center
-   justify-center
-   min-w-10 
-   min-h-10 
-   bg-gradient-to-br from-green-800/80 to-green-600/80 
-   hover:from-green-700/90 hover:to-green-500/90 
-   border border-green-700/50
-   hover:border-green-500/70
-   rounded-md 
-   text-green-100 
-   font-medium 
-   text-xs sm:text-sm
-   text-center
-   leading-tight
-   overflow-hidden
-   line-clamp-2
-   transition-all
-   duration-300
-   ease-out
-   w-full 
-   shadow-lg
-   shadow-green-800/20
-   backdrop-blur-sm
-   active:scale-95
-   focus:outline-none 
-   focus:ring-2 
-   focus:ring-green-500/50
-   disabled:opacity-50
-   disabled:cursor-not-allowed
-   disabled:hover:from-green-800/80
-   disabled:hover:to-green-600/80
-   disabled:hover:border-green-700/50
-   disabled:shadow-none;
-  }
+/* Ghost: icon-only actions on top of images/overlays */
+@utility tns-btn-ghost {
+  @apply tns-btn w-auto bg-surface-1/90 text-content
+    hover:bg-surface-2;
+}
 
-  .default-button-purple {
-    @apply flex
-   items-center
-   justify-center
-   min-w-10
-   min-h-10
-   bg-gradient-to-br from-purple-800/80 to-purple-600/80
-   hover:from-purple-700/90 hover:to-purple-500/90
-   border border-purple-700/50
-   hover:border-purple-500/70
-   rounded-md
-   text-purple-100
-   font-medium
-   text-xs sm:text-sm
-   text-center
-   leading-tight
-   overflow-hidden
-   line-clamp-2
-   transition-all
-   duration-300
-   ease-out
-   w-full
-   shadow-lg
-   shadow-purple-800/20
-   backdrop-blur-sm
-   active:scale-95
-   focus:outline-none
-   focus:ring-2
-   focus:ring-purple-500/50
-   disabled:opacity-50
-   disabled:cursor-not-allowed
-   disabled:hover:from-purple-800/80
-   disabled:hover:to-purple-600/80
-   disabled:hover:border-purple-700/50
-   disabled:shadow-none;
-  }
+/* Inputs/selects: 48px touch height, cyan focus (one accent for the whole app) */
+@utility tns-input {
+  @apply text-content px-3 min-h-touch w-full
+    border border-line-strong rounded-control bg-surface-2
+    transition-colors duration-150
+    placeholder:text-content-faint
+    focus:outline-none focus:ring-2 focus:ring-accent/50 focus:border-accent-action
+    disabled:opacity-50 disabled:cursor-not-allowed;
+}
 
-  .default-input {
-    @apply text-gray-200 
-    px-3 
-    min-w-10 
-    min-h-8 
-    border border-slate-600/60 
-    rounded-lg 
-    bg-slate-700/40 
-    backdrop-blur-sm
-    shadow-inner
-    transition-all
-    duration-300
-    ease-out
-    placeholder:text-gray-400
-    focus:outline-none 
-    focus:ring-2 
-    focus:ring-emerald-500/40
-    focus:border-emerald-500/60
-    focus:bg-slate-700/60
-    hover:border-slate-500/70
-    hover:bg-slate-700/50
-    disabled:opacity-50
-    disabled:cursor-not-allowed
-    disabled:bg-slate-800/30;
-  }
+@utility tns-select {
+  @apply tns-input cursor-pointer;
 
-  .default-select {
-    @apply text-gray-200 
-    px-3 
-    min-w-10 
-    min-h-8 
-    border border-slate-600/60 
-    rounded-lg 
-    bg-slate-700/40 
-    backdrop-blur-sm
-    shadow-inner
-    transition-all
-    duration-300
-    ease-out
-    cursor-pointer
-    focus:outline-none 
-    focus:ring-2 
-    focus:ring-emerald-500/40
-    focus:border-emerald-500/60
-    focus:bg-slate-700/60
-    hover:border-slate-500/70
-    hover:bg-slate-700/50
-    disabled:opacity-50
-    disabled:cursor-not-allowed
-    disabled:bg-slate-800/30;
+  & option {
+    @apply bg-surface-1 text-content py-2 px-3;
   }
+}
 
-  /* Dropdown-Optionen Styling */
-  .default-select option {
-    @apply bg-slate-800
-    text-gray-200
-    border-none
-    py-2
-    px-3;
-  }
+/* Card: the one standard surface for grouped content */
+@utility tns-card {
+  @apply bg-surface-1 border border-line rounded-card p-4;
+}
 
-  .default-select option:hover {
-    @apply bg-slate-700
-    text-gray-100;
-  }
+/* Status dot for chips/rows: pair with bg-status-ok / bg-status-warn / bg-status-danger */
+@utility tns-dot {
+  @apply w-2 h-2 rounded-full shrink-0;
+}
 
-  .default-select option:checked {
-    @apply bg-emerald-600
-    text-white;
-  }
-  .btn-primary {
-    @apply px-6 py-3 rounded-lg text-white font-medium transition-all duration-200;
-    @apply flex items-center justify-center min-w-[160px];
-    @apply shadow-lg hover:shadow-xl;
-  }
+/* Status bar segments (instrument cluster): full-height slices divided by
+   hairlines instead of boxed chips. State lives in a 2px edge along the top:
+   invisible when ok/idle, colored for warn/danger, accent while the segment's
+   panel is open (the component applies exactly one of these modifiers). */
+@utility tns-status-seg {
+  @apply relative flex flex-col items-start justify-center gap-0.5
+    self-stretch shrink-0 px-3.5 cursor-pointer
+    border-r border-line last:border-r-0 transition-colors hover:bg-surface-2;
 
-  .btn-secondary {
-    @apply px-4 py-2 rounded-md text-gray-300 bg-gray-700 hover:bg-gray-600 transition-colors;
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: transparent;
   }
+}
 
-  .btn-danger {
-    @apply px-4 py-2 rounded-md text-white bg-red-600 hover:bg-red-700 transition-colors;
+@utility tns-status-seg-warn {
+  &::before {
+    background: var(--color-status-warn);
   }
+}
+
+@utility tns-status-seg-danger {
+  &::before {
+    background: var(--color-status-danger);
+  }
+}
+
+@utility tns-status-seg-open {
+  @apply bg-accent/5;
+
+  &::before {
+    background: var(--color-accent);
+  }
+}
+
+/* Stat tile: small card with a micro label on top and a prominent value below.
+   Same anatomy as the status bar segments, one size up. Used by the device
+   info panels (StatusString/StatusBool). */
+@utility tns-stat-tile {
+  @apply flex flex-col justify-center gap-0.5
+    bg-surface-2 rounded-chip px-3 py-2 min-h-14;
+}
+
+/* Real problems tint the whole tile, not just a dot. */
+@utility tns-stat-tile-warn {
+  @apply bg-status-warn/10 outline outline-1 outline-status-warn/40;
+}
+
+@utility tns-stat-tile-danger {
+  @apply bg-status-danger/10 outline outline-1 outline-status-danger/40;
+}
+
+@utility tns-stat-label {
+  @apply text-[10px] font-bold uppercase tracking-wider leading-none
+    text-content-faint truncate;
+}
+
+@utility tns-stat-value {
+  @apply text-[15px] font-semibold leading-tight tabular-nums text-content
+    flex items-center gap-1.5 min-w-0;
 }

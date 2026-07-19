@@ -51,7 +51,7 @@
           <div>Dec: {{ decString || '—' }}</div>
         </div>
 
-        <input v-model="targetName" type="text" placeholder="Target name" class="default-input" />
+        <input v-model="targetName" type="text" placeholder="Target name" class="tns-input" />
 
         <ButtonSlewCenterRotate :raAngle="raDeg" :decAngle="decDeg" :disabled="!hasMount" />
 

@@ -4,7 +4,7 @@
     <select
       v-model="guiderStore.phd2SelectedCameraIndex"
       @change="onCameraChange"
-      class="default-select w-full"
+      class="tns-select w-full"
       :disabled="guiderStore.phd2CamerasLoading"
     >
       <option v-if="guiderStore.phd2CamerasLoading" value="" disabled>Loading cameras...</option>

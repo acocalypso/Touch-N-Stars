@@ -40,7 +40,8 @@
           <div v-if="currentTab === 'showFocus'" class="mt-4" key="focus">
             <infoFocuser
               v-model="store.focuserInfo.Connected"
-              class="grid grid-cols-2 landscape:grid-cols-3"
+              compact
+              class="p-3 bg-surface-1 rounded-card border border-line"
             />
             <div class="mt-4">
               <FocusMainPanel />

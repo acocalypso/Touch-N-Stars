@@ -14,7 +14,7 @@
       id="phd2-dither-mode"
       v-model="guiderStore.phd2DitherMode"
       @change="onChange"
-      class="default-select h-8 w-32 ml-auto"
+      class="tns-select w-32 ml-auto"
       :disabled="guiderStore.phd2DitherModeLoading"
     >
       <option v-for="opt in options" :key="opt.value" :value="opt.value">

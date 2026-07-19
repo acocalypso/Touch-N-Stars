@@ -21,10 +21,10 @@
           {{ $t('components.RemoveFilter.confirmMessage') }}
         </p>
         <div class="flex gap-3 justify-end">
-          <button @click="showModal = false" class="default-button-gray">
+          <button @click="showModal = false" class="tns-btn-secondary">
             {{ $t('common.cancel') }}
           </button>
-          <button @click="confirmRemoveFilter" class="default-button-red">
+          <button @click="confirmRemoveFilter" class="tns-btn-danger">
             {{ $t('common.delete') }}
           </button>
         </div>

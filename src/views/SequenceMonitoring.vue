@@ -58,7 +58,7 @@
         <button
           type="button"
           class="z-10 p-2 rounded-full bg-gray-700 focus:outline-none focus:ring-2 focus:ring-slate-500 focus:ring-offset-2 fixed right-4"
-          style="bottom: calc(env(safe-area-inset-bottom, 0px) + 48px)"
+          style="bottom: var(--above-statusbar)"
           @click="showSettingsModal = true"
           aria-label="Open settings"
         >

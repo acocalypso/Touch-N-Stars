@@ -27,7 +27,7 @@
         </div>
         <button
           @click="guiderStore.cancelPHD2DarkLibraryBuild()"
-          class="default-button-red px-3 py-1 text-xs"
+          class="tns-btn-danger px-3 py-1 text-xs"
         >
           {{ $t('components.guider.phd2.darkLibrary.cancel') }}
         </button>

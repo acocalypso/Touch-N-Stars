@@ -31,9 +31,9 @@
         <div class="border-t border-slate-600/40 mb-3"></div>
 
         <div
-          class="flex items-center justify-between mb-2 border border-gray-500 p-1 md:p-2 rounded-lg"
+          class="flex items-center justify-between mb-2 border border-line-strong p-1 md:p-2 rounded-control"
         >
-          <label for="Cooler" class="text-xs md:text-sm text-gray-200 font-medium">
+          <label for="Cooler" class="text-xs md:text-sm text-content font-medium">
             {{ $t('components.camera.camera_cooling') }}
           </label>
           <toggleButton
@@ -44,7 +44,7 @@
         </div>
         <div class="flex flex-col justify-between sm:flex-row gap-2">
           <NumberInputPicker
-            class="border border-gray-500 p-1 md:p-2 rounded-lg"
+            class="border border-line-strong p-1 md:p-2 rounded-control"
             v-model="store.profileInfo.CameraSettings.Temperature"
             :label="$t('components.camera.target_temperature')"
             labelKey="components.camera.target_temperature"
@@ -59,7 +59,7 @@
           />
 
           <NumberInputPicker
-            class="border border-gray-500 p-1 md:p-2 rounded-lg"
+            class="border border-line-strong p-1 md:p-2 rounded-control"
             v-model="store.profileInfo.CameraSettings.CoolingDuration"
             :label="$t('components.camera.cooling_time')"
             labelKey="components.camera.cooling_time"
@@ -76,9 +76,9 @@
         <div class="border-t border-slate-600/40 my-4"></div>
 
         <div
-          class="flex items-center justify-between mb-2 border border-gray-500 p-1 md:p-2 rounded-lg"
+          class="flex items-center justify-between mb-2 border border-line-strong p-1 md:p-2 rounded-control"
         >
-          <label for="Cooler" class="text-xs md:text-sm text-gray-200 font-medium">
+          <label for="Cooler" class="text-xs md:text-sm text-content font-medium">
             {{ $t('components.camera.camera_warming') }}
           </label>
           <toggleButton
@@ -89,7 +89,7 @@
         </div>
         <div class="flex flex-col justify-between sm:flex-row gap-2">
           <NumberInputPicker
-            class="border border-gray-500 p-1 md:p-2 rounded-lg"
+            class="border border-line-strong p-1 md:p-2 rounded-control"
             v-model="store.profileInfo.CameraSettings.WarmingDuration"
             :label="$t('components.camera.warm_up_time')"
             labelKey="components.camera.warm_up_time"
@@ -106,8 +106,10 @@
     </div>
     <div v-if="store.cameraInfo.HasDewHeater" class="w-full">
       <div class="flex flex-col border border-slate-600/40 p-3 rounded-lg">
-        <div class="flex items-center justify-between border border-gray-500 p-1 md:p-2 rounded-lg">
-          <label for="DewHeater" class="text-xs md:text-sm text-gray-200 font-medium">
+        <div
+          class="flex items-center justify-between border border-line-strong p-1 md:p-2 rounded-control"
+        >
+          <label for="DewHeater" class="text-xs md:text-sm text-content font-medium">
             {{ $t('components.camera.dew_heater') }}
           </label>
           <toggleButton

@@ -12,14 +12,14 @@
     <div class="mt-2 sm:mt-4 flex gap-1 sm:gap-2 items-center">
       <button
         v-if="!store.focuserAfInfo.autofocus_running"
-        class="default-button-cyan"
+        class="tns-btn-primary"
         @click="startAutofocus"
       >
         {{ $t('components.focuser.start_autofocus') }}
       </button>
       <button
         v-else
-        class="default-button-red"
+        class="tns-btn-danger"
         @click="stoppAutofocus"
         :disabled="sequenceStore.sequenceRunning"
       >
@@ -106,6 +106,8 @@ import MoveFocuser from '@/components/focuser/MoveFocuser.vue';
 import ImageModal from '@/components/helpers/imageModal.vue';
 import { PhotoIcon } from '@heroicons/vue/24/outline';
 import setFocuserReverse from './settings/setFocuserReverse.vue';
+import { useHaptics } from '@/composables/useHaptics';
+const { tapLight, tapMedium } = useHaptics();
 
 const store = apiStore();
 const imageStore = useImagetStore();
@@ -115,6 +117,7 @@ const delayShowGraph = ref(true);
 const showImageModal = ref(false);
 
 async function startAutofocus() {
+  tapLight();
   try {
     await apiService.focuserAfAction('start');
     store.afTimestampLastStart = Date.now();
@@ -125,6 +128,7 @@ async function startAutofocus() {
 }
 
 async function stoppAutofocus() {
+  tapMedium();
   try {
     await apiService.focuserAfAction('stopp');
   } catch (error) {

@@ -7,7 +7,7 @@
       <label class="text-sm sm:w-36 shrink-0">{{ $t('components.tilter.device') }}:</label>
       <div class="flex gap-2 items-center w-full">
         <select
-          class="w-full default-select min-w-0"
+          class="w-full tns-select min-w-0"
           v-model="selectedDevice"
           :disabled="isScanning || isConnecting || isDisconnecting"
         >

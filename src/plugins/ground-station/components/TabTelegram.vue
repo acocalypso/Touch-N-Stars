@@ -7,18 +7,13 @@
             :id="inputId"
             v-model="form.TelegramAccessToken"
             type="text"
-            class="default-input w-full h-10"
+            class="tns-input w-full"
           />
         </template>
       </FieldRow>
       <FieldRow :label="$t('plugins.groundStation.telegram.chatId')">
         <template #default="{ inputId }">
-          <input
-            :id="inputId"
-            v-model="form.TelegramChatId"
-            type="text"
-            class="default-input w-full h-10"
-          />
+          <input :id="inputId" v-model="form.TelegramChatId" type="text" class="tns-input w-full" />
         </template>
       </FieldRow>
     </div>
@@ -29,7 +24,7 @@
             :id="inputId"
             v-model="form.TelegramFailureBodyText"
             rows="3"
-            class="default-input w-full"
+            class="tns-input w-full"
           />
         </template>
       </FieldRow>

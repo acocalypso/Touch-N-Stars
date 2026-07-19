@@ -13,7 +13,7 @@
         v-model="selectedValue"
         @change="updateSetting"
         :class="statusClass"
-        class="default-select h-8 w-40 ml-3 shrink-0"
+        class="tns-select w-40 ml-3 shrink-0"
       >
         <option value="null">
           {{ $t('components.settings.plate_solver.FilterCurrent') }}

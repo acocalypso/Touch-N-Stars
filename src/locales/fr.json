@@ -917,7 +917,9 @@
         "slewRateINDI": "Vitesse de balayage",
         "reverse_axis": "Direction des axes",
         "slewRateDriverControlled": "Le taux de balayage est contrôlé par le pilote",
-        "slewRateUnavailable": "Connectez un support pour ajuster la vitesse de balayage"
+        "slewRateUnavailable": "Connectez un support pour ajuster la vitesse de balayage",
+        "confirmParkMessage": "Parquer la monture ? Cela arrête le suivi et déplace la monture vers sa position de repos.",
+        "confirmParkTitle": "Parquer la monture"
       },
       "info": {
         "notConnected": "Veuillez connecter la monture",
@@ -1887,6 +1889,39 @@
     "safetyMonitor": {
       "indi": {
         "settings": "Paramètres du moniteur de sécurité"
+      }
+    },
+    "statusBar": {
+      "camera": {
+        "idle": "Inactif"
+      },
+      "filter": {
+        "none": "Aucun filtre"
+      },
+      "guiding": {
+        "idle": "Inactif",
+        "starLost": "Étoile perdue"
+      },
+      "labels": {
+        "camera": "Caméra",
+        "filter": "Filtre",
+        "guiding": "Guidage",
+        "instance": "Instance",
+        "log": "Journal",
+        "mount": "Monture",
+        "progress": "Progression",
+        "safety": "Sécurité",
+        "weather": "Météo"
+      },
+      "mount": {
+        "parked": "Parquée",
+        "slewing": "En déplacement",
+        "tracking": "Suivi",
+        "trackingOff": "Suivi désactivé"
+      },
+      "safety": {
+        "safe": "Sûr",
+        "unsafe": "Dangereux"
       }
     }
   },

@@ -7,7 +7,7 @@
       ]"
       v-model:activeItem="currentTab"
     />
-    <div class="container py-16 flex items-center justify-center">
+    <div class="container py-4 flex items-center justify-center">
       <div class="container max-w-md landscape:max-w-xl">
         <h5 class="text-xl text-center font-bold text-white mb-4">
           {{ $t('components.filterwheel.title') }}
@@ -27,7 +27,10 @@
             key="filterwheel-tab"
           >
             <div>
-              <InfoFilterwheel class="grid grid-cols-2 landscape:grid-cols-3 mt-4" />
+              <InfoFilterwheel
+                compact
+                class="mt-4 p-3 bg-surface-1 rounded-card border border-line"
+              />
             </div>
 
             <div

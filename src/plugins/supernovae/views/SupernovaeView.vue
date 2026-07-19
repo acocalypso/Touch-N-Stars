@@ -91,7 +91,7 @@
           <!-- Type filter -->
           <div class="flex flex-col gap-1.5">
             <label class="text-xs text-gray-400">{{ t('plugins.supernovae.filterType') }}</label>
-            <select v-model="typeFilter" class="default-select w-full h-10">
+            <select v-model="typeFilter" class="tns-select w-full">
               <option value="">{{ t('plugins.supernovae.filterAll') }}</option>
               <option v-for="tp in availableTypes" :key="tp" :value="tp">{{ tp }}</option>
             </select>
@@ -100,7 +100,7 @@
           <!-- Year filter -->
           <div class="flex flex-col gap-1.5">
             <label class="text-xs text-gray-400">{{ t('plugins.supernovae.filterYear') }}</label>
-            <select v-model="yearFilter" class="default-select w-full h-10">
+            <select v-model="yearFilter" class="tns-select w-full">
               <option value="">{{ t('plugins.supernovae.filterAll') }}</option>
               <option v-for="y in availableYears" :key="y" :value="y">{{ y }}</option>
             </select>
@@ -111,7 +111,7 @@
             <label class="text-xs text-gray-400">{{
               t('plugins.supernovae.filterConstellation')
             }}</label>
-            <select v-model="conFilter" class="default-select w-full h-10">
+            <select v-model="conFilter" class="tns-select w-full">
               <option value="">{{ t('plugins.supernovae.filterAll') }}</option>
               <option v-for="c in availableConstellations" :key="c" :value="c">{{ c }}</option>
             </select>
@@ -123,7 +123,7 @@
           <!-- Sort -->
           <div class="flex flex-col gap-1.5">
             <label class="text-xs text-gray-400">{{ t('plugins.supernovae.sortBy') }}</label>
-            <select v-model="sortKey" class="default-select">
+            <select v-model="sortKey" class="tns-select">
               <option value="latestMag">{{ t('plugins.supernovae.sortLatestMag') }}</option>
               <option value="firstObserved">{{ t('plugins.supernovae.sortFirstObserved') }}</option>
               <option value="lastObserved">{{ t('plugins.supernovae.sortLastObserved') }}</option>

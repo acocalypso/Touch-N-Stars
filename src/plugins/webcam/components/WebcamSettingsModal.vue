@@ -113,10 +113,10 @@
 
       <!-- Footer -->
       <div class="flex justify-end gap-2 p-4 border-t border-gray-700">
-        <button @click="resetSettings" class="default-button-red">
+        <button @click="resetSettings" class="tns-btn-danger">
           {{ t('plugins.webcam.reset') }}
         </button>
-        <button @click="closeModal" class="default-button-blue">
+        <button @click="closeModal" class="tns-btn-secondary">
           {{ t('plugins.webcam.close') }}
         </button>
       </div>

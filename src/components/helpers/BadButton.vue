@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button class="default-button-gray" @click="markBad(index)">
+    <button class="tns-btn-secondary" @click="markBad(index)">
       <p><HandThumbDownIcon class="h-6" /></p>
     </button>
   </div>

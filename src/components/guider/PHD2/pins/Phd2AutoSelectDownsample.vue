@@ -14,7 +14,7 @@
       id="phd2-auto-select-downsample"
       v-model="guiderStore.phd2AutoSelectDownsample"
       @change="onChange"
-      class="default-select h-8 w-32 ml-auto"
+      class="tns-select w-32 ml-auto"
       :disabled="guiderStore.phd2AutoSelectDownsampleLoading"
     >
       <option v-for="option in options" :key="option" :value="option">

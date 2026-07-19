@@ -957,7 +957,9 @@
         "slewRateINDI": "슬루 속도",
         "reverse_axis": "축 방향",
         "slewRateDriverControlled": "슬루율은 드라이버에 의해 제어됩니다.",
-        "slewRateUnavailable": "슬루율을 조정하려면 마운트를 연결하세요."
+        "slewRateUnavailable": "슬루율을 조정하려면 마운트를 연결하세요.",
+        "confirmParkMessage": "마운트를 파킹하시겠습니까? 추적이 중지되고 마운트가 파킹 위치로 이동합니다.",
+        "confirmParkTitle": "마운트 파킹"
       },
       "info": {
         "notConnected": "마운트를 연결하세요",
@@ -1888,6 +1890,39 @@
       "dec": "Dec",
       "pixel_scale": "픽셀 스케일",
       "focal_length": "초점거리"
+    },
+    "statusBar": {
+      "camera": {
+        "idle": "대기 중"
+      },
+      "filter": {
+        "none": "필터 없음"
+      },
+      "guiding": {
+        "idle": "대기 중",
+        "starLost": "별 놓침"
+      },
+      "labels": {
+        "camera": "카메라",
+        "filter": "필터",
+        "guiding": "가이딩",
+        "instance": "인스턴스",
+        "log": "로그",
+        "mount": "마운트",
+        "progress": "진행률",
+        "safety": "안전",
+        "weather": "날씨"
+      },
+      "mount": {
+        "parked": "파킹됨",
+        "slewing": "이동 중",
+        "tracking": "추적 중",
+        "trackingOff": "추적 꺼짐"
+      },
+      "safety": {
+        "safe": "안전",
+        "unsafe": "위험"
+      }
     }
   },
   "plugins": {

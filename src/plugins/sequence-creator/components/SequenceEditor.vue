@@ -96,7 +96,7 @@
             <!-- Save Named -->
             <button
               @click="handleSaveNamed"
-              class="default-button-green p-2 lg:px-3 lg:py-2 flex items-center justify-center lg:justify-start gap-1 w-10 lg:w-auto h-10 lg:min-h-[3.5rem]"
+              class="tns-btn-secondary p-2 lg:px-3 lg:py-2 flex items-center justify-center lg:justify-start gap-1 w-10 lg:w-auto h-10 lg:min-h-[3.5rem]"
               :title="t('plugins.sequenceCreator.toolbar.saveNamed')"
             >
               <!-- Floppy disk icon -->
@@ -126,7 +126,7 @@
             <!-- Open Library -->
             <button
               @click="handleOpenLibrary"
-              class="default-button-blue p-2 lg:px-3 lg:py-2 flex items-center justify-center lg:justify-start gap-1 w-10 lg:w-auto h-10 lg:min-h-[3.5rem]"
+              class="tns-btn-secondary p-2 lg:px-3 lg:py-2 flex items-center justify-center lg:justify-start gap-1 w-10 lg:w-auto h-10 lg:min-h-[3.5rem]"
               :title="t('plugins.sequenceCreator.toolbar.openLibrary')"
             >
               <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -145,7 +145,7 @@
             <!-- Clear All -->
             <button
               @click="handleClearSequence"
-              class="default-button-red p-2 lg:px-3 lg:py-2 flex items-center justify-center lg:justify-start gap-1 w-10 lg:w-auto h-10 lg:min-h-[3.5rem]"
+              class="tns-btn-danger p-2 lg:px-3 lg:py-2 flex items-center justify-center lg:justify-start gap-1 w-10 lg:w-auto h-10 lg:min-h-[3.5rem]"
               :title="t('plugins.sequenceCreator.toolbar.clearSequence')"
             >
               <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -167,9 +167,7 @@
               :disabled="!store.sequenceIsValid || isSendingToNina"
               :class="[
                 'p-2 lg:px-3 lg:py-2 flex items-center justify-center lg:justify-start gap-1 w-10 lg:w-auto h-10 lg:min-h-[3.5rem] transition-colors',
-                isSendingToNina
-                  ? 'bg-gray-400 cursor-not-allowed text-white'
-                  : 'default-button-green',
+                isSendingToNina ? 'bg-gray-400 cursor-not-allowed text-white' : 'tns-btn-primary',
               ]"
               :title="t('plugins.sequenceCreator.toolbar.sendToNina')"
             >
@@ -348,10 +346,10 @@
             {{ t('plugins.sequenceCreator.confirmations.clearSequence') }}
           </p>
           <div class="flex justify-center gap-4">
-            <button @click="cancelClear" class="default-button-gray text-sm">
+            <button @click="cancelClear" class="tns-btn-secondary text-sm">
               {{ t('general.cancel') }}
             </button>
-            <button @click="confirmClear" class="default-button-red text-sm">
+            <button @click="confirmClear" class="tns-btn-danger text-sm">
               {{ t('general.confirm') }}
             </button>
           </div>
@@ -372,10 +370,10 @@
             {{ t('plugins.sequenceCreator.confirmations.navigateToSequence') }}
           </p>
           <div class="flex justify-center gap-4">
-            <button @click="cancelNavigate" class="default-button-gray text-sm">
+            <button @click="cancelNavigate" class="tns-btn-secondary text-sm">
               {{ t('general.cancel') }}
             </button>
-            <button @click="confirmNavigate" class="default-button-green text-sm">
+            <button @click="confirmNavigate" class="tns-btn-primary text-sm">
               {{ t('general.confirm') }}
             </button>
           </div>
@@ -403,13 +401,13 @@
             @keyup.enter="saveNamedInput.trim() && confirmSaveNamed()"
           />
           <div class="flex justify-center gap-4">
-            <button @click="cancelSaveNamed" class="default-button-gray text-sm">
+            <button @click="cancelSaveNamed" class="tns-btn-secondary text-sm">
               {{ t('general.cancel') }}
             </button>
             <button
               @click="confirmSaveNamed"
               :disabled="!saveNamedInput.trim() || isSavingNamed"
-              class="default-button-green text-sm disabled:opacity-50 disabled:cursor-not-allowed"
+              class="tns-btn-primary text-sm disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {{ t('general.confirm') }}
             </button>
@@ -477,13 +475,13 @@
               <div v-if="libraryDeleteConfirmKey === seq.key" class="flex gap-2 shrink-0">
                 <button
                   @click="libraryDeleteConfirmKey = null"
-                  class="default-button-gray text-xs px-2 py-1"
+                  class="tns-btn-secondary text-xs px-2 py-1"
                 >
                   {{ t('general.cancel') }}
                 </button>
                 <button
                   @click="confirmDeleteNamed(seq.key)"
-                  class="default-button-red text-xs px-2 py-1"
+                  class="tns-btn-danger text-xs px-2 py-1"
                 >
                   {{ t('general.confirm') }}
                 </button>
@@ -492,19 +490,19 @@
                 <button
                   v-if="store.defaultSequenceKey !== seq.key"
                   @click="handleSetAsDefault(seq.key)"
-                  class="default-button-blue text-xs px-2 py-1"
+                  class="tns-btn-secondary text-xs px-2 py-1"
                 >
                   {{ t('plugins.sequenceCreator.library.setAsDefault') }}
                 </button>
                 <button
                   @click="handleLoadNamedSequence(seq.key)"
-                  class="default-button-cyan text-xs px-2 py-1"
+                  class="tns-btn-secondary text-xs px-2 py-1"
                 >
                   {{ t('plugins.sequenceCreator.toolbar.loadNamed') }}
                 </button>
                 <button
                   @click="libraryDeleteConfirmKey = seq.key"
-                  class="default-button-red text-xs px-2 py-1"
+                  class="tns-btn-danger text-xs px-2 py-1"
                 >
                   {{ t('general.delete') }}
                 </button>
@@ -512,7 +510,7 @@
             </li>
           </ul>
           <div class="flex justify-end">
-            <button @click="closeLibrary" class="default-button-gray text-sm">
+            <button @click="closeLibrary" class="tns-btn-secondary text-sm">
               {{ t('general.close') }}
             </button>
           </div>

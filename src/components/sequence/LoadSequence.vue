@@ -15,7 +15,7 @@
               v-model="selectedSequence"
               @change="onSequenceSelected"
               :disabled="sequenceStore.sequenceRunning"
-              :class="['default-select w-full', { 'glow-green': showSuccessGlow }]"
+              :class="['tns-select flex-1', { 'glow-green': showSuccessGlow }]"
             >
               <option value="">{{ $t('components.sequence.choose_sequence') }}</option>
               <optgroup v-if="availableSequences.length > 0" label="N.I.N.A">
@@ -40,7 +40,7 @@
             <button
               @click="fetchSequences"
               :disabled="isLoading"
-              :class="['default-button-gray w-8', { 'glow-green': showRefreshSuccess }]"
+              :class="['tns-btn-secondary w-12 shrink-0', { 'glow-green': showRefreshSuccess }]"
               v-tooltip="'Refresh available sequences'"
             >
               <ArrowPathIcon :class="['h-5 w-5', isLoading ? 'animate-spin' : '']" />
@@ -61,7 +61,7 @@
           <button
             @click="fetchSequences"
             :disabled="isLoading"
-            :class="['default-button-gray w-8', { 'glow-green': showRefreshSuccess }]"
+            :class="['tns-btn-secondary w-12 shrink-0', { 'glow-green': showRefreshSuccess }]"
             v-tooltip="'Refresh available sequences'"
           >
             <ArrowPathIcon :class="['h-5 w-5', isLoading ? 'animate-spin' : '']" />

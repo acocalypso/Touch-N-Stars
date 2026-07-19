@@ -1,6 +1,6 @@
 <template>
   <div
-    class="monitor-main fixed inset-0 top-[82px] landscape:top-0 landscape:left-32 z-10 flex flex-col bg-gray-900 overflow-hidden"
+    class="monitor-main fixed inset-0 top-[82px] landscape:top-0 landscape:left-(--nav-width) z-10 flex flex-col bg-gray-900 overflow-hidden"
   >
     <!-- Tab Bar -->
     <div
@@ -117,7 +117,7 @@
         :key="camera.id"
         :cameraId="camera.id"
         v-show="selectedCameraId === camera.id"
-        class="!bottom-9"
+        class="bottom-(--statusbar-height)!"
       />
 
       <!-- Empty state -->

@@ -548,8 +548,8 @@
       "resetConfirmationTitle": "Confirm Reset",
       "resetConfirmationMessage": "Are you sure you want to reset the sequence? This action cannot be undone.",
       "clearSequence": "Clear all",
-      "clearConfirmationTitle": "Confirm Clear",
-      "clearConfirmationMessage": "Are you sure you want to clear the entire sequence? This action cannot be undone.",
+      "clearConfirmationTitle": "Clear all",
+      "clearConfirmationMessage": "Remove all items from the sequence? This action cannot be undone.",
       "load_sequence": "Load sequence from directory",
       "choose_sequence": "Choose a sequence",
       "saved_sequences": "TNS Sequence-Creator",
@@ -957,7 +957,9 @@
         },
         "setLocationSyncToMount": "Set \"Sync to telescope\"",
         "slewRateINDI": "Slewspeed",
-        "reverse_axis": "Axis direction"
+        "reverse_axis": "Axis direction",
+        "confirmParkTitle": "Park mount",
+        "confirmParkMessage": "Park the mount? This stops tracking and moves the mount to its park position."
       },
       "info": {
         "notConnected": "Please connect mount",
@@ -1888,6 +1890,39 @@
       "dec": "Dec",
       "pixel_scale": "Pixel Scale",
       "focal_length": "Focal Length"
+    },
+    "statusBar": {
+      "labels": {
+        "camera": "Camera",
+        "guiding": "Guiding",
+        "mount": "Mount",
+        "filter": "Filter",
+        "weather": "Weather",
+        "safety": "Safety",
+        "progress": "Progress",
+        "log": "Log",
+        "instance": "Instance"
+      },
+      "camera": {
+        "idle": "Idle"
+      },
+      "guiding": {
+        "starLost": "Star lost",
+        "idle": "Idle"
+      },
+      "mount": {
+        "tracking": "Tracking",
+        "trackingOff": "Tracking off",
+        "parked": "Parked",
+        "slewing": "Slewing"
+      },
+      "filter": {
+        "none": "No filter"
+      },
+      "safety": {
+        "safe": "Safe",
+        "unsafe": "Unsafe"
+      }
     }
   },
   "plugins": {

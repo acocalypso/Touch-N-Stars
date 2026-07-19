@@ -13,7 +13,7 @@
       <button
         @click="loadPackages"
         :disabled="isLoading || isInstalling"
-        class="default-button-gray h-8 px-3 text-xs"
+        class="tns-btn-secondary px-3 text-xs"
       >
         {{ isLoading ? $t('common.loading') : $t('common.refresh') }}
       </button>
@@ -22,7 +22,7 @@
     <div class="flex items-center gap-2">
       <select
         v-model="selectedDatabaseId"
-        class="default-select h-8 w-full"
+        class="tns-select w-full"
         :disabled="isLoading || isInstalling || isJobActive || !packages.length"
       >
         <option value="">
@@ -39,7 +39,7 @@
 
       <button
         @click="installSelectedDatabase"
-        class="default-button-cyan h-8 px-3 text-xs whitespace-nowrap"
+        class="tns-btn-primary px-3 text-xs whitespace-nowrap"
         :disabled="
           !selectedDatabaseId || isLoading || isInstalling || isJobActive || !packages.length
         "

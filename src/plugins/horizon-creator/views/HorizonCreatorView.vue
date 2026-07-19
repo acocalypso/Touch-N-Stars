@@ -1,5 +1,7 @@
 <template>
-  <div class="horizon-creator flex flex-col h-full bg-gray-900 text-white p-3 gap-3 overflow-auto">
+  <div
+    class="horizon-creator flex flex-col h-full text-white p-3 gap-3 overflow-auto scrollbar-hide"
+  >
     <!-- Header -->
     <div class="flex items-center justify-between">
       <h1 class="text-lg font-semibold text-cyan-400">Horizon Creator</h1>
@@ -60,7 +62,7 @@
 
         <!-- Point list -->
         <div
-          class="flex-1 overflow-y-auto rounded border border-gray-700 bg-gray-800 min-h-32 max-h-64 lg:max-h-none"
+          class="flex-1 overflow-y-auto scrollbar-hide rounded border border-gray-700 bg-gray-800 min-h-32 max-h-64 lg:max-h-none"
         >
           <div
             v-if="horizonStore.points.length === 0"

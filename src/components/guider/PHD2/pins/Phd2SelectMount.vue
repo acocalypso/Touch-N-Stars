@@ -4,7 +4,7 @@
     <select
       v-model="guiderStore.phd2SelectedMountIndex"
       @change="onMountChange"
-      class="default-select w-full"
+      class="tns-select w-full"
       :disabled="guiderStore.phd2MountsLoading"
     >
       <option v-if="guiderStore.phd2MountsLoading" value="" disabled>Loading mounts...</option>

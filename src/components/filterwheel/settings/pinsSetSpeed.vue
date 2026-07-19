@@ -1,17 +1,12 @@
 <template>
   <div
     v-if="filterStore.filterwheelSettings?.Speeds !== undefined"
-    class="flex items-center w-full justify-between border border-gray-500 p-1 md:p-2 rounded-lg"
+    class="flex items-center w-full justify-between border border-line-strong p-1 md:p-2 rounded-control"
   >
     <label for="setSpeed" class="text-xs md:text-sm text-gray-200 font-medium">
       {{ $t('components.filterwheel.settings.Speed') }}
     </label>
-    <select
-      id="setSpeed"
-      v-model="speed"
-      @change="setSpeed"
-      class="default-select h-7 md:h-8 w-24 md:w-32"
-    >
+    <select id="setSpeed" v-model="speed" @change="setSpeed" class="tns-select w-24 md:w-32">
       <option
         v-for="(label, index) in filterStore.filterwheelSettings.Speeds"
         :key="index"

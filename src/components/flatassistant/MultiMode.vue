@@ -9,7 +9,7 @@
         <label class="text-sm text-gray-300 mr-3 shrink-0">{{
           $t('components.flatassistant.mode')
         }}</label>
-        <select v-model="state.selectedMode" class="default-select h-10 ml-auto w-48">
+        <select v-model="state.selectedMode" class="tns-select ml-auto w-48">
           <option value="AutoExposure">{{ $t('components.flatassistant.auto_exposure') }}</option>
           <option value="AutoBrightness">
             {{ $t('components.flatassistant.auto_brightness') }}
@@ -128,7 +128,7 @@
             </label>
             <select
               v-model.number="state.filterConfigs[filter.Id].gain"
-              class="default-select ml-auto h-8 w-28"
+              class="tns-select ml-auto w-28"
             >
               <option v-for="value in store.cameraInfo.Gains" :key="value" :value="value">
                 {{ value }}
@@ -171,7 +171,7 @@
             </label>
             <select
               v-model="state.filterConfigs[filter.Id].binning"
-              class="default-select ml-auto h-8 w-28"
+              class="tns-select ml-auto w-28"
             >
               <option
                 v-for="mode in store.cameraInfo.BinningModes"
@@ -312,14 +312,14 @@
     <div v-show="flatsStore.status.State !== 'Running'">
       <button
         @click="startMultiMode"
-        class="default-button-cyan"
+        class="tns-btn-primary"
         :disabled="state.activeFilterIds.length === 0"
       >
         {{ $t('components.flatassistant.start_multi_mode') }}
       </button>
     </div>
     <div v-show="flatsStore.status.State === 'Running'">
-      <button @click="stopFlats" class="default-button-red">
+      <button @click="stopFlats" class="tns-btn-danger">
         {{ $t('components.flatassistant.stop') }}
       </button>
     </div>
@@ -335,6 +335,8 @@ import { useSettingsStore } from '@/store/settingsStore';
 import setDarkCount from '@/components/flatassistant/setDarkCount.vue';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 import toggleButton from '@/components/helpers/toggleButton.vue';
+import { useHaptics } from '@/composables/useHaptics';
+const { tapLight, tapMedium } = useHaptics();
 
 const store = apiStore();
 const flatsStore = useFlatassistantStore();
@@ -531,6 +533,7 @@ watch(
 // ── Start / Stop ──────────────────────────────────────────────────────────────
 
 async function startMultiMode() {
+  tapLight();
   const wheelOrder = store.filterInfo.AvailableFilters?.map((f) => f.Id) ?? [];
   const sortedIds = [...state.activeFilterIds].sort(
     (a, b) => wheelOrder.indexOf(a) - wheelOrder.indexOf(b)
@@ -703,6 +706,7 @@ async function startMultiMode() {
 }
 
 async function stopFlats() {
+  tapMedium();
   try {
     await flatsStore.stopWorkflow();
   } catch (error) {

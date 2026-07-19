@@ -917,7 +917,9 @@
         "slewRateINDI": "Velocidade de movimento",
         "reverse_axis": "Direção dos eixos",
         "slewRateDriverControlled": "A taxa de variação é controlada pelo driver",
-        "slewRateUnavailable": "Conecte uma montagem para ajustar a taxa de variação"
+        "slewRateUnavailable": "Conecte uma montagem para ajustar a taxa de variação",
+        "confirmParkMessage": "Estacionar a montagem? Isso interrompe o rastreamento e move a montagem para a posição de estacionamento.",
+        "confirmParkTitle": "Estacionar montagem"
       },
       "info": {
         "notConnected": "Conecte a montagem",
@@ -1887,6 +1889,39 @@
     "safetyMonitor": {
       "indi": {
         "settings": "Configurações do monitor de segurança"
+      }
+    },
+    "statusBar": {
+      "camera": {
+        "idle": "Inativo"
+      },
+      "filter": {
+        "none": "Sem filtro"
+      },
+      "guiding": {
+        "idle": "Inativo",
+        "starLost": "Estrela perdida"
+      },
+      "labels": {
+        "camera": "Câmera",
+        "filter": "Filtro",
+        "guiding": "Guiagem",
+        "instance": "Instância",
+        "log": "Registro",
+        "mount": "Montagem",
+        "progress": "Progresso",
+        "safety": "Segurança",
+        "weather": "Clima"
+      },
+      "mount": {
+        "parked": "Estacionada",
+        "slewing": "Em movimento",
+        "tracking": "Rastreando",
+        "trackingOff": "Rastreamento desligado"
+      },
+      "safety": {
+        "safe": "Seguro",
+        "unsafe": "Inseguro"
       }
     }
   },

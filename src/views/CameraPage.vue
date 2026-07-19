@@ -14,8 +14,15 @@
       </div>
 
       <!-- Hauptbereich, wenn Kamera verbunden -->
-      <div v-show="store.cameraInfo.Connected" class="fixed inset-0 z-10">
-        <!-- ZoomableImage Component - Full Screen -->
+      <!-- Image area fills exactly the stage window (same rect as App.vue's
+           frame mask) with its own rounded clipping, so the photo stays inside
+           the frame instead of painting over rails and corners. -->
+      <div
+        v-show="store.cameraInfo.Connected"
+        class="fixed z-10 rounded-[var(--stage-radius)] overflow-hidden bg-ground"
+        :style="stageWindowStyle"
+      >
+        <!-- ZoomableImage Component - fills the stage window -->
         <ZoomableImage
           :imageData="getStretchSettings().stretchedImageData || imageStore.imageData"
           :showControls="true"
@@ -24,7 +31,7 @@
           :showHistogram="true"
           :showSolve="true"
           :loading="imageStore.isImageFetching || histogramStore.isProcessing(imageStore.imageData)"
-          height="100vh"
+          height="100%"
           altText="Captured Astrophoto"
           placeholderText="No image captured yet"
           @download="handleDownload"
@@ -160,8 +167,7 @@
         <!-- PINS: Capture Stats Overlay -->
         <div
           v-if="store.isPINS && showCaptureStats && store.lastImageStats && imageStore.imageData"
-          class="absolute right-0 z-20 flex flex-col p-2 text-xs text-gray-300 bg-black/50"
-          :class="isLandscape ? 'left-(--nav-width) top-0' : 'left-0 top-0'"
+          class="absolute left-0 top-0 right-0 z-20 flex flex-col p-2 text-xs text-gray-300 bg-black/50"
         >
           <div v-if="statsLoading" class="flex items-center gap-2 py-1 opacity-60">
             <svg
@@ -501,12 +507,30 @@ const effectiveOffset = computed(() => {
 // Check if in landscape mode
 const { isLandscape } = useOrientation();
 
-// Container positioning classes
+// Viewport rect of the stage window — must mirror App.vue's stageFrameStyle
+// so the image area sits exactly inside the rounded frame mask.
+const stageWindowStyle = computed(() =>
+  isLandscape.value
+    ? {
+        top: 'calc(var(--stage-inset) + var(--subnav-offset))',
+        left: 'calc(var(--nav-width) + var(--stage-inset))',
+        right: 'var(--stage-inset)',
+        bottom: 'calc(var(--statusbar-height) + var(--stage-inset))',
+      }
+    : {
+        top: 'calc(82px + var(--subnav-offset))',
+        left: 'var(--stage-inset)',
+        right: 'var(--stage-inset)',
+        bottom: 'calc(var(--statusbar-height) + env(safe-area-inset-bottom) + var(--stage-inset))',
+      }
+);
+
+// Container positioning classes (relative to the stage window, not the viewport)
 const histogramClasses = computed(() => ({
-  // Portrait mode - bottom center
-  'absolute top-36 left-4 w-2/3 min-w-72': !isLandscape.value,
-  // Landscape mode - left side vertical (changed from right to left)
-  'absolute top-24 left-(--nav-offset) w-1/2 min-w-72': isLandscape.value,
+  // Portrait mode - upper area
+  'absolute top-14 left-4 w-2/3 min-w-72': !isLandscape.value,
+  // Landscape mode - left side vertical
+  'absolute top-24 left-4 w-1/2 min-w-72': isLandscape.value,
 }));
 
 // Modal Management - togglet das Modal oder schließt andere

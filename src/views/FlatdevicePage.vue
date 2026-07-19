@@ -23,7 +23,7 @@
         {{ $t('components.flat.please_connect_flatDevice') }}
       </p>
     </div>
-    <div v-else class="container flex items-center justify-center pt-10">
+    <div v-else class="container flex items-center justify-center pt-4">
       <div class="container max-w-md landscape:max-w-xl">
         <!-- Flat Tab -->
         <Transition name="slide-in" mode="out-in">

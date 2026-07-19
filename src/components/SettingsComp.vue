@@ -1,5 +1,7 @@
 <template>
-  <div class="min-h-screen bg-gray-900">
+  <!-- No own background: on the settings page the stage provides the ground,
+       in the splash settings modal the Modal component provides its surface. -->
+  <div class="min-h-screen">
     <SubNav
       v-if="store.isBackendReachable"
       :items="[

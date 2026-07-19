@@ -1,5 +1,7 @@
 <template>
-  <div class="horizon-creator flex flex-col h-full text-white p-3 gap-3 overflow-auto scrollbar-hide">
+  <div
+    class="horizon-creator flex flex-col h-full text-white p-3 gap-3 overflow-auto scrollbar-hide"
+  >
     <!-- Header -->
     <div class="flex items-center justify-between">
       <h1 class="text-lg font-semibold text-cyan-400">Horizon Creator</h1>

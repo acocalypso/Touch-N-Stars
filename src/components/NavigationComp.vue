@@ -798,8 +798,8 @@ watch(
   @apply fixed left-0 top-0 bottom-0 h-full w-(--nav-width) flex-col justify-start;
   height: 100vh !important;
   /* Clear a landscape camera cutout only on devices that actually have one;
-     collapses to a small base gap elsewhere (needs viewport-fit=cover). */
-  padding-left: max(0.5rem, env(safe-area-inset-left));
+     collapses to zero elsewhere (needs viewport-fit=cover). */
+  padding-left: env(safe-area-inset-left, 0px);
 }
 
 /* Content Area Anpassungen */
@@ -1307,11 +1307,11 @@ watch(
 
 /* Adjust for safe area in landscape — match the sidebar's left padding */
 .nav-landscape .scroll-fade-top {
-  left: max(0.5rem, env(safe-area-inset-left));
+  left: env(safe-area-inset-left, 0px);
 }
 
 .nav-landscape .scroll-fade-bottom {
-  left: max(0.5rem, env(safe-area-inset-left));
+  left: env(safe-area-inset-left, 0px);
 }
 
 /* Nav item labels – permanently visible below the icon circle.

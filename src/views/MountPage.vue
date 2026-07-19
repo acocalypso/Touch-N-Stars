@@ -18,13 +18,12 @@
     />
     <div class="container py-4 flex items-center justify-center">
       <div class="container max-w-md landscape:max-w-xl">
-        <h5 class="text-xl text-center font-bold text-white mb-4">
-          {{ $t('components.mount.title') }}
-        </h5>
+        <!-- No page heading: the SubNav already names the page. -->
         <infoMount
           v-if="store.mount.currentTab !== 'showTppa' && store.mount.currentTab !== 'showSettings'"
           v-model="store.mountInfo.Connected"
-          class="gap-1 p-2 bg-surface-1 rounded-card border border-line"
+          compact
+          class="p-3 bg-surface-1 rounded-card border border-line"
         />
         <Transition name="slide-in" mode="out-in">
           <div

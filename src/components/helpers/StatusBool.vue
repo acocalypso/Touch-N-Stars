@@ -1,7 +1,17 @@
 <template>
-  <div class="tns-stat-tile" :class="tileClass">
-    <span v-if="label" class="tns-stat-label" :title="label">{{ label }}</span>
-    <span class="tns-stat-value" :class="valueClass">
+  <!-- Default: stat tile (status bar detail panels). Compact: inline state
+       chip (dot + text) for the device pages — states are traffic lights,
+       not measurements, so they share one quiet line there. -->
+  <div :class="compact ? 'flex min-w-0 flex-none items-center' : ['tns-stat-tile', tileClass]">
+    <span v-if="label && !compact" class="tns-stat-label" :title="label">{{ label }}</span>
+    <span
+      :class="[
+        compact
+          ? 'flex min-w-0 items-center gap-1.5 text-xs font-semibold leading-tight'
+          : 'tns-stat-value',
+        valueClass,
+      ]"
+    >
       <span class="tns-dot" :class="dotClass"></span>
       <span class="truncate">{{ isEnabled ? enabledText : disabledText }}</span>
     </span>
@@ -32,6 +42,10 @@ const props = defineProps({
     type: String,
     default: null,
     validator: (value) => value === null || ['ok', 'idle', 'warn', 'danger'].includes(value),
+  },
+  compact: {
+    type: Boolean,
+    default: false,
   },
 });
 

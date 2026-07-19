@@ -27,7 +27,10 @@
             key="filterwheel-tab"
           >
             <div>
-              <InfoFilterwheel class="grid grid-cols-2 landscape:grid-cols-3 mt-4" />
+              <InfoFilterwheel
+                compact
+                class="mt-4 p-3 bg-surface-1 rounded-card border border-line"
+              />
             </div>
 
             <div

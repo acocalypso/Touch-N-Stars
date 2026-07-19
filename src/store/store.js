@@ -128,6 +128,11 @@ export const apiStore = defineStore('store', {
     connectionEpoch: 0,
     isPINS: false,
     isPinsCheckDone: false,
+    // Latches true after the PINS mode is resolved the first time and stays true
+    // across the periodic re-probe (which toggles isPinsCheckDone back to false).
+    // The UI gates its "still detecting" spinner on this so a background re-probe
+    // never tears the page down and remounts it. Reset only on clearAllStates().
+    pinsCheckResolvedOnce: false,
     pinsCheckNegativeCount: 0,
     pinsLastNegativeCheckAt: 0,
     isTimeSynced: false,
@@ -645,6 +650,7 @@ export const apiStore = defineStore('store', {
       this.lastEventHistoryFetch = 0;
       this.isPINS = false;
       this.isPinsCheckDone = false;
+      this.pinsCheckResolvedOnce = false;
       this.pinsCheckNegativeCount = 0;
       this.isTimeSynced = false;
       this.imageHistoryInfo = null;
@@ -1151,6 +1157,7 @@ export const apiStore = defineStore('store', {
         this.currentPinsVersion = pinsVersion.Response;
         this.pinsCheckNegativeCount = 0;
         this.isPinsCheckDone = true;
+        this.pinsCheckResolvedOnce = true;
         console.log('[API Store] PINS detected, version:', pinsVersion.Response);
         await this.syncSystemTime();
         return;
@@ -1162,6 +1169,7 @@ export const apiStore = defineStore('store', {
         this.isPINS = false;
         this.currentPinsVersion = null;
         this.isPinsCheckDone = true;
+        this.pinsCheckResolvedOnce = true;
         this.pinsLastNegativeCheckAt = Date.now();
         console.log('[API Store] No PINS endpoint — assuming NINA, rechecking in 15s');
       }

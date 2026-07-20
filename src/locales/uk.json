@@ -1082,6 +1082,7 @@
           "hide": "Сховати компоненти зірки"
         },
         "autoSelectStar": "Автовибір зірки гіда",
+        "resetZoom": "Скинути масштаб",
         "reviewCalibration": "Перегляд калібрації",
         "calibrationData": {
           "title": "Перегляд калібрації",

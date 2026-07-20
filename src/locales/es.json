@@ -1098,6 +1098,7 @@
           }
         },
         "autoSelectStar": "Selección automática de estrella guía",
+        "resetZoom": "Restablecer zoom",
         "calibrationData": {
           "cameraAngle": "Ángulo de la cámara:",
           "clearCalibration": "Borrar calibración",

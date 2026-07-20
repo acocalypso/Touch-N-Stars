@@ -1201,6 +1201,7 @@
           }
         },
         "autoSelectStar": "Leitstern automatisch auswählen",
+        "resetZoom": "Zoom zurücksetzen",
         "calibrationData": {
           "cameraAngle": "Kamerawinkel:",
           "clearCalibration": "Lösche Kalibrierung",

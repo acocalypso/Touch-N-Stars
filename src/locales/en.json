@@ -1208,6 +1208,7 @@
           "hide": "Hide Star Components"
         },
         "autoSelectStar": "Auto-select guide star",
+        "resetZoom": "Reset Zoom",
         "reviewCalibration": "Review Calibration",
         "calibrationData": {
           "title": "Review Calibration",

@@ -1279,9 +1279,9 @@ export const useSequenceStore = defineStore('sequence', () => {
           {
             $id: generateId(),
             $type: 'NINA.Sequencer.SequenceItem.Imaging.TakeExposure, NINA.Sequencer',
-            ExposureTime: action.parameters.exposureTime?.value || 120.0,
-            Gain: action.parameters.gain?.value || 100,
-            Offset: action.parameters.offset?.value || -1,
+            ExposureTime: action.parameters.exposureTime?.value ?? 120.0,
+            Gain: action.parameters.gain?.value ?? 100,
+            Offset: action.parameters.offset?.value ?? -1,
             Binning: {
               $id: generateId(),
               $type: 'NINA.Core.Model.Equipment.BinningMode, NINA.Core',
@@ -1486,7 +1486,7 @@ export const useSequenceStore = defineStore('sequence', () => {
         // Properties already set above
         break;
       case 'cool-camera':
-        ninaItem.Temperature = action.parameters.temperature?.value || -10.0;
+        ninaItem.Temperature = action.parameters.temperature?.value ?? -10.0;
         ninaItem.Duration = action.parameters.duration?.value || 0;
         break;
       case 'dew-heater':
@@ -1850,8 +1850,9 @@ export const useSequenceStore = defineStore('sequence', () => {
   }
 
   function getActionTemplate(type, containerType) {
-    if (!actionTemplates[containerType]) return null;
-    return actionTemplates[containerType].find((template) => template.id === type);
+    const templates = localizedActionTemplates.value || actionTemplates;
+    if (!templates[containerType]) return null;
+    return templates[containerType].find((template) => template.id === type);
   }
 
   function selectAction(action) {

@@ -11,6 +11,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 - Camera Cooler Status Revised
+- Sequence Creator: Toolbar buttons (undo/redo, save, library, clear, send to NINA) restyled to match the app-wide design system
+
+### Fixed
+- Sequence Creator: Camera offset field was limited to -100..100, now allows the full 0-10000 range
+- Sequence Creator: Cool Camera action sent -10°C to NINA instead of the configured target temperature when it was set to 0°C
+- Sequence Creator: Actions added to a sequence before a template's min/max/step was changed no longer keep showing stale bounds - they now pick up the current limits
 
 ## [App5.2.0-beta2] - 2026-07-19
 ### Changed

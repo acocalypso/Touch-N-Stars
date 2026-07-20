@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getUrls, simpleGetRequest } from './core';
+import { getUrls, simpleGetRequest, simplePostRequest } from './core';
 
 export default {
   //-------------------------------------  flatdevice ---------------------------------------
@@ -7,6 +7,11 @@ export default {
   flatdeviceAction(action) {
     const { BASE_URL } = getUrls();
     return simpleGetRequest(`${BASE_URL}/equipment/flatdevice/${action}`);
+  },
+
+  flatdeviceCancelConnect() {
+    const { BASE_URL } = getUrls();
+    return simplePostRequest(`${BASE_URL}/equipment/flatdevice/cancel-connect`);
   },
 
   async flatdeviceSetLight(on) {

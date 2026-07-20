@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getUrls, simpleGetRequest, simplePostRequest } from './core';
+import { getUrls, simpleGetRequest } from './core';
 
 export default {
   //-------------------------------------  Camera ---------------------------------------
@@ -10,7 +10,7 @@ export default {
 
   cameraCancelConnect() {
     const { BASE_URL } = getUrls();
-    return simplePostRequest(`${BASE_URL}/equipment/camera/cancel-connect`);
+    return simpleGetRequest(`${BASE_URL}/equipment/camera/cancel-connect`);
   },
 
   async getCaptureStatisticsFull() {

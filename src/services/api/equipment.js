@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { DEFAULT_TIMEOUT, getUrls, simpleGetRequest, simplePostRequest } from './core';
+import { DEFAULT_TIMEOUT, getUrls, simpleGetRequest } from './core';
 
 export default {
   //-------------------------------------  Filterwheel ---------------------------------------
@@ -10,7 +10,7 @@ export default {
 
   filterCancelConnect() {
     const { BASE_URL } = getUrls();
-    return simplePostRequest(`${BASE_URL}/equipment/filterwheel/cancel-connect`);
+    return simpleGetRequest(`${BASE_URL}/equipment/filterwheel/cancel-connect`);
   },
 
   async changeFilter(filterId) {
@@ -46,7 +46,7 @@ export default {
 
   rotatorCancelConnect() {
     const { BASE_URL } = getUrls();
-    return simplePostRequest(`${BASE_URL}/equipment/rotator/cancel-connect`);
+    return simpleGetRequest(`${BASE_URL}/equipment/rotator/cancel-connect`);
   },
 
   async moveRotator(position) {
@@ -107,7 +107,7 @@ export default {
 
   domeCancelConnect() {
     const { BASE_URL } = getUrls();
-    return simplePostRequest(`${BASE_URL}/equipment/dome/cancel-connect`);
+    return simpleGetRequest(`${BASE_URL}/equipment/dome/cancel-connect`);
   },
 
   //-------------------------------------  focuser ---------------------------------------
@@ -118,7 +118,7 @@ export default {
 
   focusCancelConnect() {
     const { BASE_URL } = getUrls();
-    return simplePostRequest(`${BASE_URL}/equipment/focuser/cancel-connect`);
+    return simpleGetRequest(`${BASE_URL}/equipment/focuser/cancel-connect`);
   },
 
   focuserAfAction(action) {
@@ -152,7 +152,7 @@ export default {
 
   switchCancelConnect() {
     const { BASE_URL } = getUrls();
-    return simplePostRequest(`${BASE_URL}/equipment/switch/cancel-connect`);
+    return simpleGetRequest(`${BASE_URL}/equipment/switch/cancel-connect`);
   },
 
   async setSwitch(id, value) {
@@ -179,7 +179,7 @@ export default {
 
   weatherCancelConnect() {
     const { BASE_URL } = getUrls();
-    return simplePostRequest(`${BASE_URL}/equipment/weather/cancel-connect`);
+    return simpleGetRequest(`${BASE_URL}/equipment/weather/cancel-connect`);
   },
 
   //------------------------------------- AlpacaDirect ----------------------------------------
@@ -209,7 +209,7 @@ export default {
 
   guiderCancelConnect() {
     const { BASE_URL } = getUrls();
-    return simplePostRequest(`${BASE_URL}/equipment/guider/cancel-connect`);
+    return simpleGetRequest(`${BASE_URL}/equipment/guider/cancel-connect`);
   },
 
   async guiderStart(calibrate) {
@@ -234,6 +234,6 @@ export default {
 
   safetyCancelConnect() {
     const { BASE_URL } = getUrls();
-    return simplePostRequest(`${BASE_URL}/equipment/safetymonitor/cancel-connect`);
+    return simpleGetRequest(`${BASE_URL}/equipment/safetymonitor/cancel-connect`);
   },
 };

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { getUrls, simpleGetRequest, simplePostRequest } from './core';
+import { getUrls, simpleGetRequest } from './core';
 
 export default {
   //-------------------------------------  Mount ---------------------------------------
@@ -10,7 +10,7 @@ export default {
 
   mountCancelConnect() {
     const { BASE_URL } = getUrls();
-    return simplePostRequest(`${BASE_URL}/equipment/mount/cancel-connect`);
+    return simpleGetRequest(`${BASE_URL}/equipment/mount/cancel-connect`);
   },
 
   async setTrackingMode(TrackingMode) {

@@ -104,15 +104,6 @@ export const simpleGetRequest = (url) => {
     });
 };
 
-export const simplePostRequest = (url) => {
-  return axios
-    .post(url)
-    .then((response) => response.data)
-    .catch((error) => {
-      throw error;
-    });
-};
-
 export const getWithParams = (url, params) => {
   return axios
     .get(url, { params })

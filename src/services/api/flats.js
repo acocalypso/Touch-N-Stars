@@ -9,6 +9,11 @@ export default {
     return simpleGetRequest(`${BASE_URL}/equipment/flatdevice/${action}`);
   },
 
+  flatdeviceCancelConnect() {
+    const { BASE_URL } = getUrls();
+    return simpleGetRequest(`${BASE_URL}/equipment/flatdevice/cancel-connect`);
+  },
+
   async flatdeviceSetLight(on) {
     try {
       const { BASE_URL } = getUrls();

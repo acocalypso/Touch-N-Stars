@@ -1110,6 +1110,7 @@
           "hide": "星のコンポーネントを非表示"
         },
         "autoSelectStar": "ガイド星を自動選択",
+        "resetZoom": "ズームをリセット",
         "reviewCalibration": "キャリブレーションを確認",
         "calibrationData": {
           "title": "キャリブレーションの確認",

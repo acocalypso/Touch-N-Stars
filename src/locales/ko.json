@@ -1152,6 +1152,7 @@
           "hide": "별 구성요소 숨기기"
         },
         "autoSelectStar": "가이드 별 자동 선택",
+        "resetZoom": "확대/축소 재설정",
         "reviewCalibration": "캘리브레이션 검토",
         "calibrationData": {
           "title": "캘리브레이션 검토",

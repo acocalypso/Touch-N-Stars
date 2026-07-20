@@ -8,6 +8,11 @@ export default {
     return simpleGetRequest(`${BASE_URL}/equipment/mount/${action}`);
   },
 
+  mountCancelConnect() {
+    const { BASE_URL } = getUrls();
+    return simpleGetRequest(`${BASE_URL}/equipment/mount/cancel-connect`);
+  },
+
   async setTrackingMode(TrackingMode) {
     try {
       const { BASE_URL } = getUrls();

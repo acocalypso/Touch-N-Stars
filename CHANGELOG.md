@@ -5,6 +5,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [App5.2.0-beta3] - unreleased
+### Added
+- Equipment (PINS): Connect button now doubles as a cancel button while a connection attempt is in progress
+- Guiding: PHD2 live image can now be zoomed and panned (pinch, mouse wheel, double-tap) like the camera image, with lock position, guiding cross and secondary star overlays tracking correctly, plus a reset-zoom button
+
 ### Changed
 - Camera Cooler Status Revised
 

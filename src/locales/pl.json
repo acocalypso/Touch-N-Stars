@@ -1098,6 +1098,7 @@
           }
         },
         "autoSelectStar": "Automatycznie wybierz gwiazdę przewodnią",
+        "resetZoom": "Resetuj powiększenie",
         "calibrationData": {
           "cameraAngle": "Kąt kamery:",
           "clearCalibration": "Wyczyść kalibrację",

@@ -1098,6 +1098,7 @@
           }
         },
         "autoSelectStar": "自动选择引导星",
+        "resetZoom": "重置缩放",
         "calibrationData": {
           "cameraAngle": "摄像角度：",
           "clearCalibration": "清晰的校准",

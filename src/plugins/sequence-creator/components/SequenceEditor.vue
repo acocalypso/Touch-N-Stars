@@ -59,15 +59,15 @@
             </p>
           </div>
 
-          <div class="flex items-center gap-2">
+          <div class="flex items-center gap-2 flex-wrap">
             <!-- Undo/Redo -->
             <button
               @click="store.undo()"
               :disabled="!store.canUndo"
-              class="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 disabled:opacity-50 disabled:cursor-not-allowed h-10 lg:min-h-[3.5rem] w-10 flex items-center justify-center"
+              class="tns-btn-secondary h-16 w-14 flex-col gap-0.5"
               :title="t('plugins.sequenceCreator.toolbar.undo')"
             >
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
                   stroke-linecap="round"
                   stroke-linejoin="round"
@@ -75,15 +75,18 @@
                   d="M3 10h10a8 8 0 018 8v2M3 10l6 6m-6-6l6-6"
                 />
               </svg>
+              <span class="text-[9px] leading-none font-medium">{{
+                t('plugins.sequenceCreator.toolbar.undo')
+              }}</span>
             </button>
 
             <button
               @click="store.redo()"
               :disabled="!store.canRedo"
-              class="p-2 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 disabled:opacity-50 disabled:cursor-not-allowed h-10 lg:min-h-[3.5rem] w-10 flex items-center justify-center"
+              class="tns-btn-secondary h-16 w-14 flex-col gap-0.5"
               :title="t('plugins.sequenceCreator.toolbar.redo')"
             >
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
                   stroke-linecap="round"
                   stroke-linejoin="round"
@@ -91,17 +94,20 @@
                   d="M21 10h-10a8 8 0 00-8 8v2m18-10l-6 6m6-6l-6-6"
                 />
               </svg>
+              <span class="text-[9px] leading-none font-medium">{{
+                t('plugins.sequenceCreator.toolbar.redo')
+              }}</span>
             </button>
 
             <!-- Save Named -->
             <button
               @click="handleSaveNamed"
-              class="tns-btn-secondary p-2 lg:px-3 lg:py-2 flex items-center justify-center lg:justify-start gap-1 w-10 lg:w-auto h-10 lg:min-h-[3.5rem]"
+              class="tns-btn-secondary h-16 w-14 flex-col gap-0.5"
               :title="t('plugins.sequenceCreator.toolbar.saveNamed')"
             >
               <!-- Floppy disk icon -->
               <svg
-                class="w-5 h-5 shrink-0"
+                class="w-6 h-6"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -118,7 +124,7 @@
                 <!-- write-protect notch line on label -->
                 <line x1="15" y1="3" x2="15" y2="9" />
               </svg>
-              <span class="hidden lg:inline text-sm leading-tight button-text-2-lines">{{
+              <span class="text-[9px] leading-none font-medium">{{
                 t('plugins.sequenceCreator.toolbar.saveNamed')
               }}</span>
             </button>
@@ -126,10 +132,10 @@
             <!-- Open Library -->
             <button
               @click="handleOpenLibrary"
-              class="tns-btn-secondary p-2 lg:px-3 lg:py-2 flex items-center justify-center lg:justify-start gap-1 w-10 lg:w-auto h-10 lg:min-h-[3.5rem]"
+              class="tns-btn-secondary h-16 w-14 flex-col gap-0.5"
               :title="t('plugins.sequenceCreator.toolbar.openLibrary')"
             >
-              <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
                   stroke-linecap="round"
                   stroke-linejoin="round"
@@ -137,7 +143,7 @@
                   d="M8 6h13M8 12h13M8 18h13M3 6h.01M3 12h.01M3 18h.01"
                 />
               </svg>
-              <span class="hidden lg:inline text-sm leading-tight button-text-2-lines">{{
+              <span class="text-[9px] leading-none font-medium">{{
                 t('plugins.sequenceCreator.toolbar.openLibrary')
               }}</span>
             </button>
@@ -145,10 +151,10 @@
             <!-- Clear All -->
             <button
               @click="handleClearSequence"
-              class="tns-btn-danger p-2 lg:px-3 lg:py-2 flex items-center justify-center lg:justify-start gap-1 w-10 lg:w-auto h-10 lg:min-h-[3.5rem]"
+              class="tns-btn-danger h-16 w-14 flex-col gap-0.5"
               :title="t('plugins.sequenceCreator.toolbar.clearSequence')"
             >
-              <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
                   stroke-linecap="round"
                   stroke-linejoin="round"
@@ -156,7 +162,7 @@
                   d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
                 />
               </svg>
-              <span class="hidden lg:inline text-sm leading-tight button-text-2-lines">{{
+              <span class="text-[9px] leading-none font-medium">{{
                 t('plugins.sequenceCreator.toolbar.clearSequence')
               }}</span>
             </button>
@@ -165,15 +171,12 @@
             <button
               @click="sendToNina"
               :disabled="!store.sequenceIsValid || isSendingToNina"
-              :class="[
-                'p-2 lg:px-3 lg:py-2 flex items-center justify-center lg:justify-start gap-1 w-10 lg:w-auto h-10 lg:min-h-[3.5rem] transition-colors',
-                isSendingToNina ? 'bg-gray-400 cursor-not-allowed text-white' : 'tns-btn-primary',
-              ]"
+              class="tns-btn-primary h-16 w-14 flex-col gap-0.5"
               :title="t('plugins.sequenceCreator.toolbar.sendToNina')"
             >
               <svg
                 v-if="isSendingToNina"
-                class="w-5 h-5 shrink-0 animate-spin"
+                class="w-6 h-6 animate-spin"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -185,13 +188,7 @@
                   d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
                 />
               </svg>
-              <svg
-                v-else
-                class="w-5 h-5 shrink-0"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
+              <svg v-else class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
                   stroke-linecap="round"
                   stroke-linejoin="round"
@@ -199,7 +196,7 @@
                   d="M5 13l4 4L19 7"
                 />
               </svg>
-              <span class="hidden lg:inline text-sm leading-tight button-text-2-lines">{{
+              <span class="text-[9px] leading-none font-medium">{{
                 isSendingToNina
                   ? t('plugins.sequenceCreator.toolbar.sending')
                   : t('plugins.sequenceCreator.toolbar.sendToNina')
@@ -784,15 +781,6 @@ onMounted(async () => {
 <style scoped>
 .sequence-editor {
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-}
-
-.button-text-2-lines {
-  display: -webkit-box;
-  -webkit-line-clamp: 2;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  max-height: 2.5em; /* Approximately 2 lines with text-sm */
 }
 
 .animate-fade-in-out {

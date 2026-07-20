@@ -317,7 +317,15 @@ const cameraValue = computed(() => {
   if (store.cameraInfo.CoolerOn) {
     const temp = formatNumber(store.cameraInfo.Temperature, 1) ?? '--';
     const power = formatNumber(store.cameraInfo.CoolerPower, 0) ?? '0';
-    return `${temp}° · ${power}%`;
+    // Direction arrow while a temperature ramp is running (real state on
+    // PINS/newer ninaAPI, heuristic otherwise - see cameraStore).
+    const arrow =
+      cameraStore.coolingState === 'cooling'
+        ? '↓'
+        : cameraStore.coolingState === 'warming'
+          ? '↑'
+          : '';
+    return `${temp}°${arrow} · ${power}%`;
   }
   const gain = formatNumber(store.cameraInfo.Gain, 0);
   return gain !== null ? `Gain ${gain}` : t('components.statusBar.camera.idle');

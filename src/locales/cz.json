@@ -1098,6 +1098,7 @@
           }
         },
         "autoSelectStar": "Automaticky vybrat vodicí hvězdu",
+        "resetZoom": "Obnovit přiblížení",
         "calibrationData": {
           "cameraAngle": "Úhel kamery:",
           "clearCalibration": "Vymazat kalibraci",

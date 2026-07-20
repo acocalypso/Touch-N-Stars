@@ -1098,6 +1098,7 @@
           }
         },
         "autoSelectStar": "Stella guida con selezione automatica",
+        "resetZoom": "Reimposta zoom",
         "calibrationData": {
           "cameraAngle": "Angolo della telecamera:",
           "clearCalibration": "Cancella calibrazione",

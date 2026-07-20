@@ -1098,6 +1098,7 @@
           }
         },
         "autoSelectStar": "Gidsster automatisch selecteren",
+        "resetZoom": "Zoom resetten",
         "calibrationData": {
           "cameraAngle": "Camerahoek:",
           "clearCalibration": "Kalibratie wissen",

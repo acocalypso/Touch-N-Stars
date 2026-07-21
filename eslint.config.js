@@ -1,11 +1,11 @@
 import { defineConfig, globalIgnores } from 'eslint/config';
 import vue from 'eslint-plugin-vue';
-import prettier from 'eslint-plugin-prettier';
 import vueParser from 'vue-eslint-parser';
 
 export default defineConfig([
   globalIgnores([
     '**/node_modules/**',
+    '**/.cache/**',
     '**/dist/**',
     '**/public/**',
     '**/.github/**',
@@ -33,12 +33,10 @@ export default defineConfig([
     },
     plugins: {
       vue,
-      prettier,
     },
     rules: {
       'no-console': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
       'no-debugger': process.env.NODE_ENV === 'production' ? 'warn' : 'off',
-      'prettier/prettier': ['error', { endOfLine: 'auto' }],
       'no-unused-vars': [
         'warn',
         {

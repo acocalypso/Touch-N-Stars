@@ -530,8 +530,18 @@ emulation.
 - Android and iOS runtime validation require suitable platform environments.
 - Existing listed and custom landscapes now use seam-correct spherical order-0 HEALPix projection. The standalone and Touch-N-Stars production browsers passed orientation, seam, settled-resolution, request, and Atlas console checks; Android and iOS validation remain release gates.
 - Remaining parity gates are Android/iOS lifecycle and gesture validation,
-  native package-size/heap profiling and upstream FITS/image position-angle
-  provenance.
+  native heap profiling and upstream FITS/image position-angle provenance.
+- Native package boundary and size profiling now run after every
+  `npm run build:native`. The verifier requires all lazy Celestia runtime and
+  catalogue chunks, rejects bundled Atlas survey data and legacy Stellarium
+  directories, rejects known public survey URLs, and enforces a 40 MiB web
+  payload budget. The 2026-07-21 baseline is 34.77 MiB across 190 files.
+- `npm run sync:native` copies the verified build into both Capacitor projects
+  and reruns the same boundary checks against their packaged web roots. Android
+  and iOS synced roots each measured 34.77 MiB across 192 files. Android
+  `assembleDebug` passed; its 79.11 MiB APK contained the six required Celestia
+  view/engine/catalogue assets and zero Atlas survey-data or legacy Stellarium
+  paths. iOS compilation still requires an Xcode/CocoaPods environment.
 - Package boundary resolved: Touch-N-Stars uses the public Git repository pinned
   over HTTPS to immutable Atlas commit
   `71da520db6e0e36e0bf75a7447fb266cf60363df`. Embedded and standalone shells

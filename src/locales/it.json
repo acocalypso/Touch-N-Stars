@@ -917,7 +917,9 @@
         "slewRateINDI": "Velocità di movimento",
         "reverse_axis": "Direzione assi",
         "slewRateDriverControlled": "La velocità di rotazione è controllata dal conducente",
-        "slewRateUnavailable": "Collegare una montatura per regolare la velocità di rotazione"
+        "slewRateUnavailable": "Collegare una montatura per regolare la velocità di rotazione",
+        "confirmParkMessage": "Parcheggiare la montatura? Questo interrompe l'inseguimento e sposta la montatura nella sua posizione di parcheggio.",
+        "confirmParkTitle": "Parcheggia montatura"
       },
       "info": {
         "notConnected": "Connetti la montatura",
@@ -1096,6 +1098,7 @@
           }
         },
         "autoSelectStar": "Stella guida con selezione automatica",
+        "resetZoom": "Reimposta zoom",
         "calibrationData": {
           "cameraAngle": "Angolo della telecamera:",
           "clearCalibration": "Cancella calibrazione",
@@ -1887,6 +1890,39 @@
     "safetyMonitor": {
       "indi": {
         "settings": "Impostazioni del monitor di sicurezza"
+      }
+    },
+    "statusBar": {
+      "camera": {
+        "idle": "Inattivo"
+      },
+      "filter": {
+        "none": "Nessun filtro"
+      },
+      "guiding": {
+        "idle": "Inattivo",
+        "starLost": "Stella persa"
+      },
+      "labels": {
+        "camera": "Fotocamera",
+        "filter": "Filtro",
+        "guiding": "Guida",
+        "instance": "Istanza",
+        "log": "Registro",
+        "mount": "Montatura",
+        "progress": "Avanzamento",
+        "safety": "Sicurezza",
+        "weather": "Meteo"
+      },
+      "mount": {
+        "parked": "Parcheggiata",
+        "slewing": "In movimento",
+        "tracking": "Inseguimento",
+        "trackingOff": "Inseguimento disattivato"
+      },
+      "safety": {
+        "safe": "Sicuro",
+        "unsafe": "Non sicuro"
       }
     }
   },

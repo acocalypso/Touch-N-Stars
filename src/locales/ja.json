@@ -925,7 +925,9 @@
         "slewRateINDI": "導入速度",
         "reverse_axis": "軸方向",
         "slewRateDriverControlled": "スルーレートはドライバーによって制御されます",
-        "slewRateUnavailable": "マウントを接続してスルーレートを調整する"
+        "slewRateUnavailable": "マウントを接続してスルーレートを調整する",
+        "confirmParkMessage": "赤道儀をパークしますか？ 追尾を停止し、赤道儀をパーク位置へ移動します。",
+        "confirmParkTitle": "赤道儀をパーク"
       },
       "info": {
         "notConnected": "赤道儀を接続してください",
@@ -1108,6 +1110,7 @@
           "hide": "星のコンポーネントを非表示"
         },
         "autoSelectStar": "ガイド星を自動選択",
+        "resetZoom": "ズームをリセット",
         "reviewCalibration": "キャリブレーションを確認",
         "calibrationData": {
           "title": "キャリブレーションの確認",
@@ -1887,6 +1890,39 @@
     "safetyMonitor": {
       "indi": {
         "settings": "セーフティモニターの設定"
+      }
+    },
+    "statusBar": {
+      "camera": {
+        "idle": "待機中"
+      },
+      "filter": {
+        "none": "フィルターなし"
+      },
+      "guiding": {
+        "idle": "待機中",
+        "starLost": "ガイド星をロスト"
+      },
+      "labels": {
+        "camera": "カメラ",
+        "filter": "フィルター",
+        "guiding": "ガイド",
+        "instance": "インスタンス",
+        "log": "ログ",
+        "mount": "赤道儀",
+        "progress": "進行状況",
+        "safety": "安全",
+        "weather": "天気"
+      },
+      "mount": {
+        "parked": "パーク済み",
+        "slewing": "スルー中",
+        "tracking": "追尾中",
+        "trackingOff": "追尾オフ"
+      },
+      "safety": {
+        "safe": "安全",
+        "unsafe": "危険"
       }
     }
   },

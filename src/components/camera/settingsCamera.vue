@@ -1,7 +1,7 @@
 <template>
   <div v-if="store.cameraInfo.Connected" class="flex flex-wrap items-center gap-2">
     <NumberInputPicker
-      class="border border-gray-500 p-1 md:p-2 rounded-lg"
+      class="border border-line-strong p-1 md:p-2 rounded-control"
       v-model="settingsStore.camera.exposureTime"
       :label="$t('components.camera.exposure_time')"
       labelKey="components.camera.exposure_time"
@@ -14,16 +14,16 @@
     />
     <div
       v-if="store.cameraInfo.Gains && store.cameraInfo.Gains.length > 0"
-      class="flex items-center justify-between min-w-28 border border-gray-500 p-1 md:p-2 rounded-lg"
+      class="flex items-center justify-between min-w-28 border border-line-strong p-1 md:p-2 rounded-control"
     >
-      <label for="gain" class="text-xs md:text-sm text-gray-200 font-medium">
+      <label for="gain" class="text-xs md:text-sm text-content font-medium">
         {{ $t('components.camera.gain_iso') }}
       </label>
       <select
         id="gain"
         v-model.number="settingsStore.camera.gain"
         @change="setGain"
-        class="default-select h-7 md:h-8 w-20 md:w-28"
+        class="tns-select w-20 md:w-28"
       >
         <option v-for="(value, key) in store.cameraInfo.Gains" :key="key" :value="value">
           {{ value }}
@@ -32,7 +32,7 @@
     </div>
     <NumberInputPicker
       v-else
-      class="border border-gray-500 p-1 md:p-2 rounded-lg"
+      class="border border-line-strong p-1 md:p-2 rounded-control"
       v-model="settingsStore.camera.gain"
       :label="$t('components.camera.gain_iso')"
       labelKey="components.camera.gain_iso"
@@ -47,16 +47,16 @@
     <div v-if="store.cameraInfo.CanSetOffset" class="w-full">
       <div
         v-if="store.cameraInfo.Offset && store.cameraInfo.Offset.length > 0"
-        class="flex items-center justify-between min-w-28 border border-gray-500 p-1 md:p-2 rounded-lg"
+        class="flex items-center justify-between min-w-28 border border-line-strong p-1 md:p-2 rounded-control"
       >
-        <label for="offset" class="text-xs md:text-sm text-gray-200 font-medium">
+        <label for="offset" class="text-xs md:text-sm text-content font-medium">
           {{ $t('components.camera.offset') }}
         </label>
         <select
           id="offset"
           v-model.number="settingsStore.camera.offset"
           @change="setOffset"
-          class="default-select h-7 md:h-8 w-20 md:w-28"
+          class="tns-select w-20 md:w-28"
         >
           <option v-for="(value, key) in store.cameraInfo.Offset" :key="key" :value="key">
             {{ value }}
@@ -65,7 +65,7 @@
       </div>
       <NumberInputPicker
         v-else
-        class="border border-gray-500 p-1 md:p-2 rounded-lg"
+        class="border border-line-strong p-1 md:p-2 rounded-control"
         v-model="settingsStore.camera.offset"
         :label="$t('components.camera.offset')"
         labelKey="components.camera.offset"

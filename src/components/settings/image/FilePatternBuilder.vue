@@ -7,7 +7,7 @@
     <button
       v-if="showLightTokens"
       @click="savePattern"
-      class="default-button-cyan w-full mt-1"
+      class="tns-btn-primary w-full mt-1"
       :class="{ 'glow-green': saveSuccess }"
       :disabled="saving"
     >
@@ -97,7 +97,7 @@
       <!-- Save button in advanced section -->
       <button
         @click="savePattern"
-        class="default-button-cyan w-full"
+        class="tns-btn-primary w-full"
         :class="{ 'glow-green': saveSuccess }"
         :disabled="saving"
       >

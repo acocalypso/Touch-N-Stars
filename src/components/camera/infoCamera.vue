@@ -1,6 +1,7 @@
 <template>
   <div class="gap-2 grid grid-cols-2 landscape:grid-cols-3">
     <StatusString
+      class="col-span-full"
       :isEnabled="store.cameraInfo.Name !== ''"
       :Name="$t('components.camera.name')"
       :Value="store.cameraInfo.Name"
@@ -30,6 +31,12 @@
       :Name="$t('components.camera.cooler_power')"
       :Value="isNaN(store.cameraInfo.CoolerPower) ? 0 : Math.round(store.cameraInfo.CoolerPower)"
     />
+    <StatusString
+      v-if="store.cameraInfo.CanSetTemperature"
+      :isEnabled="cameraStore.coolingState !== 'off'"
+      :Name="$t('components.camera.cooler_status')"
+      :Value="coolerStateText"
+    />
     <StatusBool
       :isEnabled="store.cameraInfo.IsExposing"
       :enabledText="$t('components.camera.capture_running')"
@@ -58,9 +65,11 @@
 
 <script setup>
 import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import StatusBool from '@/components/helpers/StatusBool.vue';
 import StatusString from '@/components/helpers/StatusString.vue';
 import { apiStore } from '@/store/store';
+import { useCameraStore } from '@/store/cameraStore';
 
 // Props deklarieren
 defineProps({
@@ -69,6 +78,27 @@ defineProps({
 });
 
 const store = apiStore();
+const cameraStore = useCameraStore();
+const { t } = useI18n();
+
+// Cooler state derived centrally in cameraStore (real NINA state on
+// PINS/newer ninaAPI, heuristic otherwise).
+const coolerStateText = computed(() => {
+  // Cool-down target only: while warming, TargetTemp still holds the old
+  // cool-down target, and the true warm-up destination is not exposed.
+  const target = store.cameraInfo.TargetTemp ?? store.profileInfo?.CameraSettings?.Temperature;
+  const targetText = target != null && !isNaN(target) ? ` ${Math.round(target)}°C` : '';
+  switch (cameraStore.coolingState) {
+    case 'cooling':
+      return `${t('components.camera.cooler_status_cooling')}${targetText}`;
+    case 'holding':
+      return t('components.camera.cooler_status_holding');
+    case 'warming':
+      return t('components.camera.cooler_status_warming');
+    default:
+      return t('components.camera.cooler_status_off');
+  }
+});
 
 // Computed properties für die Temperatur
 const isTemperatureEnabled = computed(() => {

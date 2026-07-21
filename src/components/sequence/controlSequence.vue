@@ -2,13 +2,15 @@
   <div
     :class="[
       'fixed flex flex-wrap gap-2 z-10',
-      isLandscape ? 'left-36 max-w-[calc(100vw-9rem)]' : 'left-3 max-w-[calc(100vw-0.75rem)]',
+      isLandscape
+        ? 'left-(--nav-offset) max-w-[calc(100vw-var(--nav-offset))]'
+        : 'left-3 max-w-[calc(100vw-0.75rem)]',
     ]"
-    style="bottom: calc(env(safe-area-inset-bottom, 0px) + 48px)"
+    style="bottom: var(--above-statusbar)"
   >
     <button
       :class="[
-        'default-button-green h-16 w-14 flex-col gap-0.5',
+        'tns-btn-primary h-16 w-14 flex-col gap-0.5',
         { 'opacity-75 cursor-not-allowed': sequenceStore.sequenceRunning },
       ]"
       @click="startSequence"
@@ -35,7 +37,7 @@
 
     <button
       v-if="sequenceStore.sequenceRunning"
-      class="default-button-cyan h-16 w-14 flex-col gap-0.5"
+      class="tns-btn-secondary h-16 w-14 flex-col gap-0.5"
       @click="stopSequence"
     >
       <PauseIcon class="h-7 w-7" />
@@ -46,7 +48,7 @@
 
     <button
       v-if="sequenceStore.sequenceRunning"
-      class="default-button-blue h-16 w-14 flex-col gap-0.5"
+      class="tns-btn-secondary h-16 w-14 flex-col gap-0.5"
       @click="skipCurrentItem"
     >
       <ForwardIcon class="h-6 w-6" />
@@ -57,7 +59,7 @@
 
     <button
       v-if="sequenceStore.sequenceRunning"
-      class="default-button-red h-16 w-14 flex-col gap-0.5"
+      class="tns-btn-danger h-16 w-14 flex-col gap-0.5"
       @click="skipToEnd"
     >
       <FlagIcon class="h-6 w-6" />
@@ -69,9 +71,7 @@
     <button
       class="h-16 w-14 flex-col gap-0.5"
       :class="
-        sequenceStore.sequenceControlsLocked
-          ? 'default-button-red'
-          : 'default-button-gray border border-cyan-500/40'
+        sequenceStore.sequenceControlsLocked ? 'tns-btn-danger' : 'tns-btn-secondary border-accent'
       "
       :title="
         sequenceStore.sequenceControlsLocked
@@ -91,7 +91,7 @@
 
     <button
       v-if="!sequenceStore.sequenceRunning"
-      class="default-button-orange h-16 w-14 flex-col gap-0.5"
+      class="tns-btn-secondary h-16 w-14 flex-col gap-0.5"
       @click="showResetConfirmation = true"
     >
       <svg
@@ -116,7 +116,7 @@
         !sequenceStore.sequenceRunning &&
         (store.isPINS || store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.2.8.0'))
       "
-      class="default-button-red h-16 w-14 flex-col gap-0.5"
+      class="tns-btn-danger h-16 w-14 flex-col gap-0.5"
       @click="clearSequence"
     >
       <TrashIcon class="h-7 w-7" />
@@ -130,7 +130,7 @@
         sequenceStore.lastSequenceFilePath &&
         (store.isPINS || store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.2.8.0'))
       "
-      class="default-button-cyan h-16 w-14 flex-col gap-0.5"
+      class="tns-btn-secondary h-16 w-14 flex-col gap-0.5"
       :disabled="saveLoading"
       @click="saveCurrentFile"
     >
@@ -148,7 +148,7 @@
       v-if="
         store.isPINS || store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.2.8.0')
       "
-      class="default-button-gray h-16 w-14 flex-col gap-0.5"
+      class="tns-btn-secondary h-16 w-14 flex-col gap-0.5"
       @click="openFileManager"
     >
       <FolderOpenIcon class="h-6 w-6" />
@@ -223,7 +223,7 @@
                 v-model="saveFileName"
                 type="text"
                 :placeholder="$t('components.sequence.sequenceFileName')"
-                class="flex-1 bg-slate-700/60 border border-slate-600 rounded px-2 py-1.5 text-sm text-gray-200 outline-none focus:border-cyan-500/50"
+                class="tns-input flex-1 text-sm"
                 @keydown.enter="saveFile"
               />
               <button
@@ -256,10 +256,10 @@
             >?
           </p>
           <div class="flex justify-end space-x-4">
-            <button class="btn-secondary" @click="showDeleteConfirmation = false">
+            <button class="tns-btn-secondary" @click="showDeleteConfirmation = false">
               {{ $t('general.cancel') }}
             </button>
-            <button class="btn-danger" @click="confirmDeleteFile">
+            <button class="tns-btn-danger" @click="confirmDeleteFile">
               {{ $t('general.confirm') }}
             </button>
           </div>
@@ -286,10 +286,10 @@
             >?
           </p>
           <div class="flex justify-end space-x-4">
-            <button class="btn-secondary" @click="showOverwriteConfirmation = false">
+            <button class="tns-btn-secondary" @click="showOverwriteConfirmation = false">
               {{ $t('general.cancel') }}
             </button>
-            <button class="btn-primary" @click="confirmOverwriteFile">
+            <button class="tns-btn-primary" @click="confirmOverwriteFile">
               {{ $t('general.confirm') }}
             </button>
           </div>
@@ -310,10 +310,10 @@
         <div class="w-full flex flex-col gap-6">
           <p>{{ $t('components.sequence.resetConfirmationMessage') }}</p>
           <div class="flex justify-end space-x-4">
-            <button class="btn-secondary" @click="showResetConfirmation = false">
+            <button class="tns-btn-secondary" @click="showResetConfirmation = false">
               {{ $t('general.cancel') }}
             </button>
-            <button class="btn-danger" @click="confirmReset">
+            <button class="tns-btn-danger" @click="confirmReset">
               {{ $t('general.confirm') }}
             </button>
           </div>
@@ -341,11 +341,13 @@ import {
   TrashIcon,
 } from '@heroicons/vue/24/outline';
 import Modal from '@/components/helpers/Modal.vue';
+import { useHaptics } from '@/composables/useHaptics';
 
 const sequenceStore = useSequenceStore();
 const store = apiStore();
 const toastStore = useToastStore();
 const { t } = useI18n();
+const { tapLight, tapMedium } = useHaptics();
 const showResetConfirmation = ref(false);
 const isLoading = computed(() => sequenceStore.sequenceRunning);
 const { isLandscape } = useOrientation();
@@ -516,6 +518,7 @@ async function saveCurrentFile() {
 }
 
 async function startSequence() {
+  tapLight();
   console.log('Starting sequence');
   sequenceStore.setSequenceRunning(true);
   try {
@@ -529,6 +532,7 @@ async function startSequence() {
 }
 
 async function stopSequence() {
+  tapLight();
   try {
     const data = await apiService.sequenceAction('stop');
     console.log('Response:', data);
@@ -566,6 +570,17 @@ async function confirmReset() {
 }
 
 async function clearSequence() {
+  tapMedium();
+
+  // Clearing removes every item from the sequence and cannot be undone.
+  const confirmed = await toastStore.showConfirmation(
+    t('components.sequence.clearConfirmationTitle'),
+    t('components.sequence.clearConfirmationMessage'),
+    t('components.sequence.clearSequence'),
+    t('general.cancel')
+  );
+  if (!confirmed) return;
+
   try {
     const response = await apiService.sequenceClear();
     if (response) {

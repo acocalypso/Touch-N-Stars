@@ -1,16 +1,16 @@
 <template>
   <div class="flex flex-col gap-2 w-full">
     <div
-      class="flex items-center justify-between flex-1 border border-gray-500 p-1 md:p-2 rounded-lg"
+      class="flex items-center justify-between flex-1 border border-line-strong p-1 md:p-2 rounded-control"
     >
-      <label for="setReadoutModeImage" class="text-xs md:text-sm text-gray-200 font-medium">
+      <label for="setReadoutModeImage" class="text-xs md:text-sm text-content font-medium">
         {{ $t('components.camera.readout_mode_image') }}
       </label>
       <select
         @change="setReadoutModeImage()"
         id="setReadoutModeImage"
         v-model="readoutModeImage"
-        class="default-select h-7 md:h-8 w-20 md:w-28"
+        class="tns-select w-20 md:w-28"
       >
         <option v-for="(mode, index) in store.cameraInfo.ReadoutModes" :key="index" :value="index">
           {{ mode }}
@@ -19,16 +19,16 @@
     </div>
 
     <div
-      class="flex items-center justify-between flex-1 border border-gray-500 p-1 md:p-2 rounded-lg"
+      class="flex items-center justify-between flex-1 border border-line-strong p-1 md:p-2 rounded-control"
     >
-      <label for="setReadoutModeSnap" class="text-xs md:text-sm text-gray-200 font-medium">
+      <label for="setReadoutModeSnap" class="text-xs md:text-sm text-content font-medium">
         {{ $t('components.camera.readout_mode_snap') }}
       </label>
       <select
         @change="setReadoutModeSnap()"
         id="setReadoutModeSnap"
         v-model="readoutModeSnap"
-        class="default-select h-7 md:h-8 w-20 md:w-28"
+        class="tns-select w-20 md:w-28"
       >
         <option v-for="(mode, index) in store.cameraInfo.ReadoutModes" :key="index" :value="index">
           {{ mode }}

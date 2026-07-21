@@ -1,6 +1,6 @@
 <template>
   <button
-    class="default-button-cyan"
+    class="tns-btn-primary"
     @click="guiderStartStop('start')"
     :disabled="
       isProcessingStart ||
@@ -44,7 +44,7 @@
     </span>
   </button>
   <button
-    class="default-button-blue"
+    class="tns-btn-secondary"
     @click="guiderStartWithCal()"
     :disabled="
       isProcessingStartWithCal ||
@@ -87,20 +87,29 @@
       </svg>
     </span>
   </button>
-  <button class="default-button-red" @click="guiderStartStop('stop')">
+  <button class="tns-btn-danger" @click="guiderStartStop('stop')">
     {{ $t('components.guider.stop') }}
   </button>
 </template>
 <script setup>
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
+import { useHaptics } from '@/composables/useHaptics';
 
 import { ref } from 'vue';
+
+const { tapLight, tapMedium } = useHaptics();
 const store = apiStore();
 const isProcessingStart = ref(false);
 const isProcessingStartWithCal = ref(false);
 
 async function guiderStartStop(befehl) {
+  // Stopping guiding is the destructive branch and gets the stronger feedback.
+  if (befehl === 'stop') {
+    tapMedium();
+  } else {
+    tapLight();
+  }
   isProcessingStart.value = true;
   try {
     await apiService.guiderAction(befehl);

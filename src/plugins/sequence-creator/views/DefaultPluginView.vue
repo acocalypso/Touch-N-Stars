@@ -1,5 +1,5 @@
 <template>
-  <div class="plugin-view h-screen bg-gray-100 dark:bg-gray-900">
+  <div class="plugin-view h-screen">
     <SequenceEditor />
   </div>
 </template>

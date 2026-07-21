@@ -1,8 +1,8 @@
 <template>
   <div class="w-full">
-    <div class="flex gap-0 border border-gray-600 rounded-lg overflow-hidden">
+    <div class="flex items-stretch gap-0 border border-line-strong rounded-control overflow-hidden">
       <button
-        @click="store.mountInfo.Slewing ? framingStore.slewStop() : slew()"
+        @click="handleMainAction"
         :disabled="
           (!store.mountInfo.Slewing &&
             (framingStore.isSlewing ||
@@ -12,8 +12,8 @@
           !store.mountInfo.Connected
         "
         :class="[
-          'px-5 flex-1 w-full rounded-none',
-          store.mountInfo.Slewing ? 'default-button-red' : 'default-button-cyan',
+          'px-5 flex-1 w-full rounded-none border-0',
+          store.mountInfo.Slewing ? 'tns-btn-danger' : 'tns-btn-primary',
         ]"
       >
         <span
@@ -48,7 +48,7 @@
           props.disabled
         "
         :class="[
-          'text-gray-300 hover:text-white transition-colors duration-200 px-3 w-10 h-10 rounded-none border-l bg-gray-700 hover:bg-gray-600 border-gray-500',
+          'text-content-muted hover:text-content transition-colors duration-200 px-3 min-w-touch flex items-center justify-center rounded-none border-l bg-surface-3 hover:bg-surface-2 border-line-strong disabled:opacity-50 disabled:cursor-not-allowed',
         ]"
         title="Settings"
       >
@@ -133,12 +133,26 @@ import toggleButton from '@/components/helpers/toggleButton.vue';
 import Modal from '@/components/helpers/Modal.vue';
 import SettingInput from '@/components/helpers/settings/UpdatePorfileNumber.vue';
 import { StopCircleIcon } from '@heroicons/vue/24/outline';
+import { useHaptics } from '@/composables/useHaptics';
 
 const store = apiStore();
 const framingStore = useFramingStore();
 const settingsStore = useSettingsStore();
 const { t } = useI18n();
+const { tapLight, tapMedium } = useHaptics();
 const showSettingsModal = ref(false);
+
+// While slewing this button turns into the stop action. Stopping a moving mount
+// stays a single tap on purpose — no confirmation in front of an emergency stop.
+function handleMainAction() {
+  if (store.mountInfo.Slewing) {
+    tapMedium();
+    framingStore.slewStop();
+    return;
+  }
+  tapLight();
+  slew();
+}
 
 function toggleUseCenter() {
   settingsStore.mount.useCenter = !settingsStore.mount.useCenter;

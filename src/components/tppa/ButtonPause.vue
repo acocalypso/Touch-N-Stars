@@ -1,5 +1,5 @@
 <template>
-  <button class="default-button-cyan p-1" @click="pausResume">
+  <button class="tns-btn-primary p-1" @click="pausResume">
     <PauseIcon class="w-full h-full" v-show="!tppaStore.isPause" />
     <PlayIcon class="w-full h-full" v-show="tppaStore.isPause" />
   </button>

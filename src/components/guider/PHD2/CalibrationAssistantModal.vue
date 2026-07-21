@@ -86,14 +86,14 @@
               <div class="flex gap-2">
                 <button
                   @click="setDirection('west')"
-                  :class="direction === 'west' ? 'default-button-cyan' : 'default-button-gray'"
+                  :class="['tns-btn-secondary', { 'border-accent': direction === 'west' }]"
                   class="flex-1 px-2 py-1 text-xs sm:text-sm"
                 >
                   {{ $t('components.guider.calibrationAssistant.west') }}
                 </button>
                 <button
                   @click="setDirection('east')"
-                  :class="direction === 'east' ? 'default-button-cyan' : 'default-button-gray'"
+                  :class="['tns-btn-secondary', { 'border-accent': direction === 'east' }]"
                   class="flex-1 px-2 py-1 text-xs sm:text-sm"
                 >
                   {{ $t('components.guider.calibrationAssistant.east') }}
@@ -215,7 +215,7 @@
             :disabled="!store.mountInfo.Slewing && (!canSlew || isSlewing || isCalibrating)"
             :class="[
               'px-3 sm:px-4 py-2 sm:py-3 flex items-center justify-center gap-2 flex-1',
-              store.mountInfo.Slewing ? 'default-button-red' : 'default-button-cyan',
+              store.mountInfo.Slewing ? 'tns-btn-danger' : 'tns-btn-secondary',
             ]"
           >
             <StopIcon v-if="store.mountInfo.Slewing" class="w-5 h-5" />
@@ -237,9 +237,7 @@
             @click="toggleCalibration"
             :disabled="!store.guiderInfo?.Connected"
             :class="
-              store.guiderInfo?.State === 'Calibrating'
-                ? 'default-button-red'
-                : 'default-button-green'
+              store.guiderInfo?.State === 'Calibrating' ? 'tns-btn-danger' : 'tns-btn-primary'
             "
             class="px-3 sm:px-4 py-2 sm:py-3 flex items-center justify-center gap-2 flex-1"
           >

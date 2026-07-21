@@ -1,5 +1,8 @@
 <template>
-  <div class="dark min-h-screen bg-gray-900 text-white">
+  <!-- flow-root: without a BFC the stage's top/bottom margins collapse through
+       to this frame div, which then starts below the SubNav — exposing the raw
+       html background as a stripe between the bars and the stage. -->
+  <div ref="frameEl" class="dark min-h-screen flow-root text-white" :class="frameColor">
     <div :class="appLayoutClasses">
       <!-- Navigation -->
       <nav>
@@ -122,9 +125,20 @@
         v-show="store.showStellarium"
         :key="stellariumRefreshKey"
       />
-      <div v-if="!shouldShowConnectionSplash" :class="mainContentClasses">
-        <router-view v-show="!store.showStellarium" :key="routerViewKey" />
+      <div v-if="!shouldShowConnectionSplash" :class="stageClasses" :style="stageStyle">
+        <div class="container mx-auto px-3 py-4">
+          <router-view v-show="!store.showStellarium" :key="routerViewKey" />
+        </div>
       </div>
+      <!-- Fixed frame mask: paints the frame with a rounded window punched out
+           (huge box-shadow), so the stage corners stay pinned to the viewport
+           while the content sheet scrolls beneath. Sits above stage content
+           (z-5) but below full-bleed views and all bars/overlays (z-10+). -->
+      <div
+        v-if="!shouldShowConnectionSplash && !store.showStellarium"
+        class="stage-frame"
+        :style="stageFrameStyle"
+      ></div>
       <!-- Footer -->
       <div v-if="settingsStore.setupCompleted" :class="statusBarClasses">
         <StatusBar />
@@ -322,7 +336,15 @@
 </template>
 
 <script setup>
-import { defineAsyncComponent, ref, onMounted, onBeforeUnmount, computed, watch } from 'vue';
+import {
+  defineAsyncComponent,
+  ref,
+  onMounted,
+  onBeforeUnmount,
+  computed,
+  watch,
+  nextTick,
+} from 'vue';
 import axios from 'axios';
 import { apiStore } from '@/store/store';
 import { useImagetStore } from './store/imageStore';
@@ -553,20 +575,70 @@ const appLayoutClasses = computed(() => ({
   'app-landscape': isLandscape.value,
 }));
 
+// Fixed frame surface color, independent of the selected instance.
+const frameColor = 'bg-gray-900/95';
+
 const navContainerClasses = computed(() => ({
   'z-20 fixed top-0 w-full': !isLandscape.value,
   'z-20 fixed left-0 top-0 h-full': isLandscape.value,
 }));
 
-const mainContentClasses = computed(() => ({
-  'container mx-auto transition-all pt-[82px] pb-[calc(2.25rem+env(safe-area-inset-bottom)+0.5rem)]':
+// Content sheet ("stage") inset inside the unified bar frame; see
+// LAYOUT-BUEHNE-UMSETZUNGSPLAN.md. It scrolls with the page (no own scroll
+// container) - its top corners intentionally slide under the navbar/statusbar
+// while scrolling.
+// The sheet itself is square — rounding and border are drawn by the fixed
+// .stage-frame mask so the corners stay pinned while the sheet scrolls.
+const stageClasses = computed(() => ({
+  'bg-ground transition-all': true,
+  'mt-[calc(82px+var(--subnav-offset))] mx-[var(--stage-inset)] mb-[calc(var(--statusbar-height)+env(safe-area-inset-bottom)+var(--stage-inset))]':
     !isLandscape.value,
-  'transition-all ml-32 mr-4 py-4 pb-16': isLandscape.value,
+  'ml-[calc(var(--nav-width)+var(--stage-inset))] mr-[var(--stage-inset)] mt-[calc(var(--stage-inset)+var(--subnav-offset))] mb-[calc(var(--statusbar-height)+var(--stage-inset))]':
+    isLandscape.value,
 }));
+
+const stageStyle = computed(() => ({
+  minHeight: isLandscape.value
+    ? 'calc(100dvh - var(--stage-inset) - var(--subnav-offset) - var(--statusbar-height) - var(--stage-inset))'
+    : 'calc(100dvh - 82px - var(--subnav-offset) - var(--statusbar-height) - env(safe-area-inset-bottom) - var(--stage-inset))',
+}));
+
+// Viewport rect of the frame mask — mirrors the stage margins exactly.
+const stageFrameStyle = computed(() =>
+  isLandscape.value
+    ? {
+        top: 'calc(var(--stage-inset) + var(--subnav-offset))',
+        left: 'calc(var(--nav-width) + var(--stage-inset))',
+        right: 'var(--stage-inset)',
+        bottom: 'calc(var(--statusbar-height) + var(--stage-inset))',
+      }
+    : {
+        top: 'calc(82px + var(--subnav-offset))',
+        left: 'var(--stage-inset)',
+        right: 'var(--stage-inset)',
+        bottom: 'calc(var(--statusbar-height) + env(safe-area-inset-bottom) + var(--stage-inset))',
+      }
+);
+
+// The frame mask paints with box-shadow, which needs a concrete color — read
+// the instance color off the frame div at runtime (same technique as the nav
+// scroll fades) and expose it as --frame-color for the mask.
+const frameEl = ref(null);
+function updateFrameColor() {
+  nextTick(() => {
+    const el = frameEl.value;
+    if (!el) return;
+    const bg = getComputedStyle(el).backgroundColor;
+    if (bg) {
+      el.style.setProperty('--frame-color', bg);
+    }
+  });
+}
+watch(frameColor, updateFrameColor);
 
 const statusBarClasses = computed(() => ({
   'fixed bottom-0 w-full z-20': !isLandscape.value,
-  'fixed bottom-0 left-32 right-0 z-20': isLandscape.value,
+  'fixed bottom-0 left-(--nav-width) right-0 z-20': isLandscape.value,
 }));
 
 const shouldShowConnectionSplash = computed(() => {
@@ -1099,6 +1171,7 @@ function handleUpdateCancel() {
 }
 
 onMounted(async () => {
+  updateFrameColor();
   window.addEventListener('resize', updateOrientation);
   window.addEventListener('orientationchange', handleOrientationChange);
   document.addEventListener('visibilitychange', handleVisibilityChange);
@@ -1351,42 +1424,22 @@ onBeforeUnmount(async () => {
 </script>
 
 <style scoped>
-/* Tablet Landscape Adjustments */
-@media screen and (orientation: landscape) and (max-width: 1024px) {
-  .app-landscape .main-content {
-    margin-left: 8rem !important;
-    margin-right: 1rem !important;
-  }
-
-  .app-landscape .status-bar {
-    left: 8rem !important;
-    right: 0 !important;
-  }
-}
-
 /* Smooth Transitions */
 .container {
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Safe Area Support - only for portrait bottom */
-@supports (padding-bottom: env(safe-area-inset-bottom)) {
-  .app-portrait .main-content {
-    padding-bottom: calc(2.25rem + env(safe-area-inset-bottom) + 0.5rem);
-  }
-}
-
-/* Responsive adjustments for very small screens */
-@media (max-width: 480px) {
-  .app-landscape .container {
-    padding-left: 12rem !important;
-    padding-right: 1rem !important;
-  }
-
-  .app-landscape .fixed.bottom-0 {
-    left: 12rem !important;
-    right: 0 !important;
-  }
+/* Fixed frame mask around the stage: the huge box-shadow paints everything
+   outside the rounded window in the frame color, pinning the corners to the
+   viewport while the content sheet scrolls beneath. */
+.stage-frame {
+  position: fixed;
+  z-index: 5;
+  pointer-events: none;
+  border-radius: var(--stage-radius);
+  border: 1px solid var(--color-line);
+  box-shadow: 0 0 0 200vmax var(--frame-color, rgba(17, 24, 39, 0.95));
+  transition: all 150ms ease;
 }
 
 /* Splash Screen Transition */

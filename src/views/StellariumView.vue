@@ -60,7 +60,7 @@
     <div
       :class="controlsClasses"
       class="fixed flex gap-2 bg-black/90 p-2 rounded-full stellarium-controls"
-      style="bottom: calc(env(safe-area-inset-bottom, 0px) + 48px)"
+      style="bottom: var(--above-statusbar)"
     >
       <stellariumCredits />
       <stellariumSettings />
@@ -700,14 +700,14 @@ onBeforeUnmount(() => {
 /* Landscape Mode  */
 .stellarium-landscape {
   top: 0;
-  left: 8rem;
-  width: calc(100vw - 8rem);
+  left: var(--nav-width);
+  width: calc(100vw - var(--nav-width));
   height: calc(100dvh - 2rem - env(safe-area-inset-bottom, 0px));
 }
 
 @media screen and (orientation: landscape) {
   .stellarium-controls.left-2 {
-    left: 9rem !important;
+    left: var(--nav-offset) !important;
   }
 }
 

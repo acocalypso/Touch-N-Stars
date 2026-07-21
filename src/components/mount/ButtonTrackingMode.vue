@@ -2,29 +2,29 @@
   <button
     v-if="store.mountInfo.CanSetTrackingEnabled"
     @click="setTrackingMode(0)"
-    class="default-button-cyan"
-    :class="{ 'glow-green': store.mountInfo.TrackingMode === 'Sidereal' }"
+    class="tns-btn-secondary"
+    :class="{ 'border-accent': store.mountInfo.TrackingMode === 'Sidereal' }"
   >
     {{ $t('components.mount.control.siderial') }}
   </button>
   <button
     @click="setTrackingMode(1)"
-    class="default-button-cyan"
-    :class="{ 'glow-green': store.mountInfo.TrackingMode === 'Lunar' }"
+    class="tns-btn-secondary"
+    :class="{ 'border-accent': store.mountInfo.TrackingMode === 'Lunar' }"
   >
     Lunar
   </button>
   <button
     @click="setTrackingMode(2)"
-    class="default-button-cyan"
-    :class="{ 'glow-green': store.mountInfo.TrackingMode === 'Solar' }"
+    class="tns-btn-secondary"
+    :class="{ 'border-accent': store.mountInfo.TrackingMode === 'Solar' }"
   >
     Solar
   </button>
   <button
     @click="setTrackingMode(3)"
-    class="default-button-cyan"
-    :class="{ 'glow-green': store.mountInfo.TrackingMode === 'King' }"
+    class="tns-btn-secondary"
+    :class="{ 'border-accent': store.mountInfo.TrackingMode === 'King' }"
   >
     King
   </button>
@@ -35,10 +35,14 @@ import apiService from '@/services/apiService';
 import { useI18n } from 'vue-i18n';
 import { apiStore } from '@/store/store';
 
+import { useHaptics } from '@/composables/useHaptics';
+
+const { tapLight } = useHaptics();
 const store = apiStore();
 const { t } = useI18n();
 
 async function setTrackingMode(mode) {
+  tapLight();
   //0=Sidereal, 1=Lunar, 2=Solar, 3=King, 5=Stopped
   try {
     const response = await apiService.setTrackingMode(mode);

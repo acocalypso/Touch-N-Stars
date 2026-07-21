@@ -204,7 +204,7 @@
 
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div
-            v-for="(param, key) in action.parameters"
+            v-for="(param, key) in displayParameters"
             :key="key"
             :class="[
               'space-y-2',
@@ -371,10 +371,10 @@
           {{ t('plugins.sequenceCreator.confirmations.removeAction', { actionName: action.name }) }}
         </p>
         <div class="flex justify-center gap-4">
-          <button @click="cancelRemove" class="default-button-gray text-sm">
+          <button @click="cancelRemove" class="tns-btn-secondary text-sm">
             {{ t('general.cancel') }}
           </button>
-          <button @click="confirmRemove" class="default-button-red text-sm">
+          <button @click="confirmRemove" class="tns-btn-danger text-sm">
             {{ t('general.confirm') }}
           </button>
         </div>
@@ -428,6 +428,25 @@ const hasParameters = computed(() => {
   return Object.keys(props.action.parameters || {}).length > 0;
 });
 
+// Actions are cloned from their template when added to the sequence, so an action
+// created before a template's min/max/step changed would otherwise keep showing the
+// stale bounds forever. Merge the live template's constraints in for display/validation
+// while keeping the stored value untouched.
+const displayParameters = computed(() => {
+  const liveTemplate = store.getActionTemplate(props.action.type, props.containerType);
+  const liveParams = liveTemplate?.parameters;
+  if (!liveParams) return props.action.parameters;
+
+  const merged = {};
+  for (const [key, param] of Object.entries(props.action.parameters || {})) {
+    const liveParam = liveParams[key];
+    merged[key] = liveParam
+      ? { ...param, min: liveParam.min, max: liveParam.max, step: liveParam.step }
+      : param;
+  }
+  return merged;
+});
+
 const canMoveDown = computed(() => {
   return props.totalActions > 0 && props.index < props.totalActions - 1;
 });
@@ -445,7 +464,7 @@ function getBooleanValue(param) {
 }
 
 function handleNumberInput(action, key, value) {
-  const param = action.parameters[key];
+  const param = displayParameters.value[key];
 
   // Allow empty string and minus sign for all number inputs
   if (value === '' || value === '-') {

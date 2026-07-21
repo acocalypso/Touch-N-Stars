@@ -18,7 +18,7 @@
     <label class="mr-2 shrink-0" for="profileDropdown">{{ $t('components.profile.label') }} </label>
     <select
       id="profileDropdown"
-      class="default-select w-full"
+      class="tns-select w-full"
       v-model="selectedProfileId"
       @change="updateProfile"
       :disabled="isLoading || anyDeviceConnected"
@@ -32,7 +32,7 @@
     <button
       v-if="store.isPINS"
       @click="showManagementModal = true"
-      class="default-button-cyan w-10 h-10 flex items-center justify-center shrink-0"
+      class="tns-btn-secondary w-12 shrink-0"
       :title="$t('components.profile.manage')"
     >
       <AdjustmentsHorizontalIcon class="w-5 h-5" />

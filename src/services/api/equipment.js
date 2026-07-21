@@ -8,6 +8,11 @@ export default {
     return simpleGetRequest(`${BASE_URL}/equipment/filterwheel/${action}`);
   },
 
+  filterCancelConnect() {
+    const { BASE_URL } = getUrls();
+    return simpleGetRequest(`${BASE_URL}/equipment/filterwheel/cancel-connect`);
+  },
+
   async changeFilter(filterId) {
     try {
       const { BASE_URL } = getUrls();
@@ -37,6 +42,11 @@ export default {
   rotatorAction(action) {
     const { BASE_URL } = getUrls();
     return simpleGetRequest(`${BASE_URL}/equipment/rotator/${action}`);
+  },
+
+  rotatorCancelConnect() {
+    const { BASE_URL } = getUrls();
+    return simpleGetRequest(`${BASE_URL}/equipment/rotator/cancel-connect`);
   },
 
   async moveRotator(position) {
@@ -95,10 +105,20 @@ export default {
     return simpleGetRequest(`${BASE_URL}/equipment/dome/${action}`);
   },
 
+  domeCancelConnect() {
+    const { BASE_URL } = getUrls();
+    return simpleGetRequest(`${BASE_URL}/equipment/dome/cancel-connect`);
+  },
+
   //-------------------------------------  focuser ---------------------------------------
   focusAction(action) {
     const { BASE_URL } = getUrls();
     return simpleGetRequest(`${BASE_URL}/equipment/focuser/${action}`);
+  },
+
+  focusCancelConnect() {
+    const { BASE_URL } = getUrls();
+    return simpleGetRequest(`${BASE_URL}/equipment/focuser/cancel-connect`);
   },
 
   focuserAfAction(action) {
@@ -130,6 +150,11 @@ export default {
     return simpleGetRequest(`${BASE_URL}/equipment/switch/${action}`);
   },
 
+  switchCancelConnect() {
+    const { BASE_URL } = getUrls();
+    return simpleGetRequest(`${BASE_URL}/equipment/switch/cancel-connect`);
+  },
+
   async setSwitch(id, value) {
     try {
       const { BASE_URL } = getUrls();
@@ -150,6 +175,11 @@ export default {
   weatherAction(action) {
     const { BASE_URL } = getUrls();
     return simpleGetRequest(`${BASE_URL}/equipment/weather/${action}`);
+  },
+
+  weatherCancelConnect() {
+    const { BASE_URL } = getUrls();
+    return simpleGetRequest(`${BASE_URL}/equipment/weather/cancel-connect`);
   },
 
   //------------------------------------- AlpacaDirect ----------------------------------------
@@ -177,6 +207,11 @@ export default {
     return simpleGetRequest(`${BASE_URL}/equipment/guider/${action}`);
   },
 
+  guiderCancelConnect() {
+    const { BASE_URL } = getUrls();
+    return simpleGetRequest(`${BASE_URL}/equipment/guider/cancel-connect`);
+  },
+
   async guiderStart(calibrate) {
     //calibrate = true or false
     try {
@@ -195,5 +230,10 @@ export default {
   safetyAction(action) {
     const { BASE_URL } = getUrls();
     return simpleGetRequest(`${BASE_URL}/equipment/safetymonitor/${action}`);
+  },
+
+  safetyCancelConnect() {
+    const { BASE_URL } = getUrls();
+    return simpleGetRequest(`${BASE_URL}/equipment/safetymonitor/cancel-connect`);
   },
 };

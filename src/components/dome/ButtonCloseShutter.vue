@@ -1,5 +1,5 @@
 <template>
-  <button @click="closeShutter" class="default-button-cyan w-full" :class="statusClass">
+  <button @click="closeShutter" class="tns-btn-secondary w-full" :class="statusClass">
     {{ $t('components.dome.control.close') }}
   </button>
 </template>

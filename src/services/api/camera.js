@@ -8,6 +8,11 @@ export default {
     return simpleGetRequest(`${BASE_URL}/equipment/camera/${action}`);
   },
 
+  cameraCancelConnect() {
+    const { BASE_URL } = getUrls();
+    return simpleGetRequest(`${BASE_URL}/equipment/camera/cancel-connect`);
+  },
+
   async getCaptureStatisticsFull() {
     const { BASE_URL } = getUrls();
     return simpleGetRequest(`${BASE_URL}/equipment/camera/capture/statistics/full`);

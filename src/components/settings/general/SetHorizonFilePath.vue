@@ -53,10 +53,10 @@
             {{ $t('components.settings.horizonFilePath.confirmMessage') }}
           </p>
           <div class="flex gap-3 justify-end">
-            <button @click="showConfirm = false" class="default-button-gray">
+            <button @click="showConfirm = false" class="tns-btn-secondary">
               {{ $t('common.cancel') }}
             </button>
-            <button @click="clearPath" class="default-button-red">
+            <button @click="clearPath" class="tns-btn-danger">
               {{ $t('common.delete') }}
             </button>
           </div>

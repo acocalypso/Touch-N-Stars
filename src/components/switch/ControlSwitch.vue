@@ -2,11 +2,15 @@
   <div v-for="(WritableSwitche, index) in store.switchInfo.WritableSwitches" :key="index">
     <div v-if="WritableSwitche.Maximum === 1.0">
       <div
-        class="flex flex-row items-center justify-between w-full border border-gray-300 p-3 rounded-xl transition-all duration-200 hover:border-cyan-500 focus-within:border-cyan-500 hover:shadow-lg md:p-4"
+        class="flex flex-row items-center justify-between gap-3 w-full bg-surface-2 rounded-chip px-3 py-2 min-h-touch"
       >
-        <div>
-          <p class="text-sm font-medium text-gray-400 md:text-base">{{ WritableSwitche.Name }}</p>
-          <p class="text-xs text-gray-700 mt-1">{{ WritableSwitche.Description }}</p>
+        <div class="min-w-0">
+          <p class="text-sm font-medium text-content truncate md:text-base">
+            {{ WritableSwitche.Name }}
+          </p>
+          <p class="text-xs text-content-faint truncate mt-0.5">
+            {{ WritableSwitche.Description }}
+          </p>
         </div>
         <toggleButton
           @click="setBool(index, WritableSwitche.Value)"
@@ -18,11 +22,15 @@
   <div v-for="(WritableSwitche, index) in store.switchInfo.WritableSwitches" :key="index">
     <div v-if="WritableSwitche.Maximum > 1.0">
       <div
-        class="flex flex-row items-center justify-between w-full border border-gray-300 p-3 rounded-xl transition-all duration-200 hover:border-cyan-500 focus-within:border-cyan-500 hover:shadow-lg md:p-4"
+        class="flex flex-row items-center justify-between gap-3 w-full bg-surface-2 rounded-chip px-3 py-2 min-h-touch"
       >
-        <div>
-          <p class="text-sm font-medium text-gray-400 md:text-base">{{ WritableSwitche.Name }}</p>
-          <p class="text-xs text-gray-700 mt-1">{{ WritableSwitche.Description }}</p>
+        <div class="min-w-0">
+          <p class="text-sm font-medium text-content truncate md:text-base">
+            {{ WritableSwitche.Name }}
+          </p>
+          <p class="text-xs text-content-faint truncate mt-0.5">
+            {{ WritableSwitche.Description }}
+          </p>
         </div>
         <SetValue
           @blur="setValue(index, $event, WritableSwitche.Minimum, WritableSwitche.Maximum)"

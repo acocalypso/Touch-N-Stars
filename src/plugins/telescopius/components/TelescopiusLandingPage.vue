@@ -90,7 +90,7 @@
             <a
               href="https://telescopius.com/users/register"
               target="_blank"
-              class="default-button-blue inline-flex items-center gap-2"
+              class="tns-btn-secondary inline-flex items-center gap-2"
             >
               {{ $t('plugins.telescopius.landing.apiSetup.step1.button') }}
             </a>
@@ -109,7 +109,7 @@
             <a
               href="https://telescopius.com/api"
               target="_blank"
-              class="default-button-blue inline-flex items-center gap-2"
+              class="tns-btn-secondary inline-flex items-center gap-2"
             >
               {{ $t('plugins.telescopius.landing.apiSetup.step2.button') }}
             </a>
@@ -169,7 +169,7 @@
             </p>
             <button
               @click="$emit('openApiKeyModal')"
-              class="default-button-blue flex items-center gap-2"
+              class="tns-btn-secondary flex items-center gap-2"
             >
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path

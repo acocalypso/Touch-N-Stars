@@ -1,9 +1,14 @@
 <template>
-  <div v-if="show && imageUrl" class="absolute inset-0 w-full h-full" style="z-index: 1">
+  <div
+    v-if="show && imageUrl"
+    ref="containerElement"
+    class="absolute inset-0 w-full h-full"
+    style="z-index: 1"
+  >
     <img
       ref="imageElement"
       :src="imageUrl"
-      class="w-full h-full object-contain object-top"
+      class="w-full h-full object-contain"
       alt="PHD2 Live Image"
       @load="onImageLoad"
     />
@@ -12,7 +17,7 @@
     <div
       v-if="lockPosition && imageElement && imageDimensions.width > 0"
       class="absolute inset-0 pointer-events-none"
-      :style="overlayStyle"
+      :style="imageBoundsStyle"
     >
       <div class="absolute border-2 border-green-500" :style="lockRectangleStyle"></div>
     </div>
@@ -21,7 +26,7 @@
     <div
       v-if="showGuidingCross && lockPosition && imageElement && imageDimensions.width > 0"
       class="absolute inset-0 pointer-events-none"
-      :style="overlayStyle"
+      :style="imageBoundsStyle"
     >
       <!-- Vertical line -->
       <div
@@ -41,7 +46,7 @@
     <div
       v-if="secondaryStars.length > 0 && imageElement && imageDimensions.width > 0"
       class="absolute inset-0 pointer-events-none"
-      :style="overlayStyle"
+      :style="imageBoundsStyle"
     >
       <div
         v-for="(star, i) in secondaryStarStyles"
@@ -50,15 +55,28 @@
         :style="star"
       ></div>
     </div>
+
+    <!-- Reset Zoom Button -->
+    <button
+      v-if="isZoomed"
+      @click.stop="resetZoom"
+      class="absolute left-4 top-1/2 -translate-y-1/2 z-20 w-10 h-10 bg-gray-800/90 hover:bg-gray-700 text-white rounded-lg shadow-lg flex items-center justify-center transition-colors"
+      :title="$t('components.guider.phd2.resetZoom')"
+    >
+      <ArrowsPointingInIcon class="w-5 h-5" />
+    </button>
   </div>
 </template>
 
 <script setup>
-import { ref, onUnmounted, watch, computed } from 'vue';
+import { ref, onMounted, onUnmounted, watch, computed, nextTick } from 'vue';
+import Panzoom from '@panzoom/panzoom';
+import { ArrowsPointingInIcon } from '@heroicons/vue/24/outline';
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useBackgroundAwarePolling } from '@/utils/appLifecycle';
+import { calculateContainedImageBounds } from '@/utils/imageGeometry';
 
 const props = defineProps({
   show: {
@@ -75,8 +93,19 @@ const imageUrl = ref(null);
 const lockPosition = ref(null);
 const secondaryStars = ref([]);
 const imageElement = ref(null);
+const containerElement = ref(null);
 const imageDimensions = ref({ width: 0, height: 0 });
+const imageBounds = ref(null);
+const zoomLevel = ref(1);
+const isZoomed = computed(() => Math.abs(zoomLevel.value - 1) > 0.05);
 let lastImageData = null;
+let panzoomInstance = null;
+const savedZoom = ref(null);
+const savedPan = ref(null);
+let boundsFrame = null;
+let resizeObserver = null;
+let lastTapTime = 0;
+const DOUBLE_TAP_DELAY = 300;
 const isShown = computed(() => props.show);
 
 const isGuiding = computed(() => store.guiderInfo?.State === 'Guiding');
@@ -119,6 +148,118 @@ const loadStarPositions = async () => {
   }
 };
 
+const updateImageBounds = () => {
+  imageBounds.value = calculateContainedImageBounds(imageElement.value, containerElement.value, 0);
+};
+
+const scheduleBoundsUpdate = () => {
+  if (boundsFrame !== null) {
+    cancelAnimationFrame(boundsFrame);
+  }
+  boundsFrame = requestAnimationFrame(() => {
+    boundsFrame = null;
+    updateImageBounds();
+  });
+};
+
+// Panzoom lifecycle (same pattern as ZoomableImage.vue, no toolbar/loupe here)
+const handlePanzoomChange = () => {
+  if (panzoomInstance) {
+    zoomLevel.value = panzoomInstance.getScale();
+  }
+  scheduleBoundsUpdate();
+};
+
+const resetZoom = () => {
+  if (!panzoomInstance) return;
+  panzoomInstance.reset();
+};
+
+const handleWheel = (event) => {
+  if (!panzoomInstance) return;
+  panzoomInstance.zoomWithWheel(event);
+};
+
+const doubleTapZoom = (touch) => {
+  if (!panzoomInstance || !imageElement.value || !containerElement.value) return;
+  const currentScale = panzoomInstance.getScale();
+
+  if (Math.abs(currentScale - 1) < 0.1) {
+    const containerRect = containerElement.value.getBoundingClientRect();
+    const fitScale = Math.min(
+      containerRect.width / imageElement.value.naturalWidth,
+      containerRect.height / imageElement.value.naturalHeight
+    );
+    const targetScale = 1 / fitScale;
+    panzoomInstance.zoomToPoint(targetScale, { clientX: touch.clientX, clientY: touch.clientY });
+  } else {
+    panzoomInstance.reset();
+  }
+};
+
+const handleTouchStart = (event) => {
+  if (event.touches.length !== 1) return;
+  const now = Date.now();
+  const diff = now - lastTapTime;
+  if (diff < DOUBLE_TAP_DELAY && diff > 0) {
+    event.preventDefault();
+    event.stopPropagation();
+    doubleTapZoom(event.touches[0]);
+    lastTapTime = 0;
+  } else {
+    lastTapTime = now;
+  }
+};
+
+const initPanzoom = () => {
+  if (panzoomInstance) {
+    savedZoom.value = panzoomInstance.getScale();
+    savedPan.value = panzoomInstance.getPan();
+    destroyPanzoom();
+  }
+
+  if (!imageElement.value || !containerElement.value) return;
+
+  try {
+    panzoomInstance = Panzoom(imageElement.value, {
+      maxScale: 40,
+      minScale: 0.8,
+      contain: 'outside',
+      step: 1.5,
+      friction: 0.15,
+      startScale: savedZoom.value || 1,
+      startX: savedPan.value?.x || 0,
+      startY: savedPan.value?.y || 0,
+    });
+
+    zoomLevel.value = panzoomInstance.getScale();
+    imageElement.value.addEventListener('panzoomchange', handlePanzoomChange);
+    containerElement.value.addEventListener('wheel', handleWheel);
+    imageElement.value.addEventListener('touchstart', handleTouchStart, { passive: false });
+    scheduleBoundsUpdate();
+  } catch (error) {
+    console.error('PHD2 Image: Error initializing Panzoom:', error);
+  }
+};
+
+const destroyPanzoom = () => {
+  if (imageElement.value) {
+    imageElement.value.removeEventListener('panzoomchange', handlePanzoomChange);
+    imageElement.value.removeEventListener('touchstart', handleTouchStart);
+  }
+  if (containerElement.value) {
+    containerElement.value.removeEventListener('wheel', handleWheel);
+  }
+  if (panzoomInstance) {
+    try {
+      panzoomInstance.destroy();
+    } catch (error) {
+      console.warn('PHD2 Image: Error destroying Panzoom:', error);
+    }
+    panzoomInstance = null;
+  }
+};
+
 const onImageLoad = () => {
   if (imageElement.value) {
     imageDimensions.value = {
@@ -126,46 +267,32 @@ const onImageLoad = () => {
       height: imageElement.value.naturalHeight,
     };
   }
+  if (resizeObserver) {
+    if (imageElement.value) resizeObserver.observe(imageElement.value);
+    if (containerElement.value) resizeObserver.observe(containerElement.value);
+  }
+  nextTick(() => {
+    initPanzoom();
+  });
 };
 
-// Computed styles for lock position overlay (for object-contain object-top)
-const overlayStyle = computed(() => {
-  if (!imageElement.value || !imageDimensions.value.width) return {};
-
-  const rect = imageElement.value.getBoundingClientRect();
-  const imageAspect = imageDimensions.value.width / imageDimensions.value.height;
-  const containerAspect = rect.width / rect.height;
-
-  let renderedWidth, renderedHeight, offsetX, offsetY;
-
-  if (containerAspect > imageAspect) {
-    // Container is wider than image - image is limited by height
-    renderedHeight = rect.height;
-    renderedWidth = renderedHeight * imageAspect;
-    offsetX = (rect.width - renderedWidth) / 2; // Horizontal centering
-    offsetY = 0; // object-top: aligned to top
-  } else {
-    // Container is taller than image - image is limited by width
-    renderedWidth = rect.width;
-    renderedHeight = renderedWidth / imageAspect;
-    offsetX = 0; // Full width
-    offsetY = 0; // object-top: aligned to top (no centering)
-  }
-
+const imageBoundsStyle = computed(() => {
+  if (!imageBounds.value) return {};
+  const b = imageBounds.value;
   return {
-    width: `${renderedWidth}px`,
-    height: `${renderedHeight}px`,
-    top: `${offsetY}px`,
-    left: `${offsetX}px`,
+    width: `${b.width}px`,
+    height: `${b.height}px`,
+    top: `${b.top}px`,
+    left: `${b.left}px`,
   };
 });
 
 const lockRectangleStyle = computed(() => {
-  if (!lockPosition.value || !imageElement.value || !imageDimensions.value.width) return {};
+  if (!lockPosition.value || !imageBounds.value) return {};
 
-  const overlay = overlayStyle.value;
-  const renderedWidth = parseFloat(overlay.width);
-  const renderedHeight = parseFloat(overlay.height);
+  const overlay = imageBounds.value;
+  const renderedWidth = overlay.width;
+  const renderedHeight = overlay.height;
 
   const scaleX = renderedWidth / imageDimensions.value.width;
   const scaleY = renderedHeight / imageDimensions.value.height;
@@ -187,11 +314,11 @@ const lockRectangleStyle = computed(() => {
 
 // Computed styles for guiding cross centered on lock position
 const guidingCrossVerticalStyle = computed(() => {
-  if (!lockPosition.value || !imageElement.value || !imageDimensions.value.width) return {};
+  if (!lockPosition.value || !imageBounds.value) return {};
 
-  const overlay = overlayStyle.value;
-  const renderedWidth = parseFloat(overlay.width);
-  const renderedHeight = parseFloat(overlay.height);
+  const overlay = imageBounds.value;
+  const renderedWidth = overlay.width;
+  const renderedHeight = overlay.height;
 
   const scaleX = renderedWidth / imageDimensions.value.width;
   const centerX = lockPosition.value.X * scaleX;
@@ -205,11 +332,10 @@ const guidingCrossVerticalStyle = computed(() => {
 });
 
 const secondaryStarStyles = computed(() => {
-  if (!secondaryStars.value.length || !imageDimensions.value.width) return [];
-  const overlay = overlayStyle.value;
-  if (!overlay.width) return [];
-  const renderedWidth = parseFloat(overlay.width);
-  const renderedHeight = parseFloat(overlay.height);
+  if (!secondaryStars.value.length || !imageBounds.value) return [];
+  const overlay = imageBounds.value;
+  const renderedWidth = overlay.width;
+  const renderedHeight = overlay.height;
   const scaleX = renderedWidth / imageDimensions.value.width;
   const scaleY = renderedHeight / imageDimensions.value.height;
   const circleSize = 20 * Math.min(scaleX, scaleY);
@@ -226,11 +352,11 @@ const secondaryStarStyles = computed(() => {
 });
 
 const guidingCrossHorizontalStyle = computed(() => {
-  if (!lockPosition.value || !imageElement.value || !imageDimensions.value.width) return {};
+  if (!lockPosition.value || !imageBounds.value) return {};
 
-  const overlay = overlayStyle.value;
-  const renderedWidth = parseFloat(overlay.width);
-  const renderedHeight = parseFloat(overlay.height);
+  const overlay = imageBounds.value;
+  const renderedWidth = overlay.width;
+  const renderedHeight = overlay.height;
 
   const scaleY = renderedHeight / imageDimensions.value.height;
   const centerY = lockPosition.value.Y * scaleY;
@@ -288,14 +414,36 @@ watch(
     if (!newShow) {
       lockPosition.value = null;
       secondaryStars.value = [];
+      destroyPanzoom();
+      imageBounds.value = null;
     }
   }
 );
+
+onMounted(() => {
+  window.addEventListener('resize', scheduleBoundsUpdate);
+  if (typeof ResizeObserver !== 'undefined') {
+    resizeObserver = new ResizeObserver(() => scheduleBoundsUpdate());
+    if (containerElement.value) {
+      resizeObserver.observe(containerElement.value);
+    }
+  }
+});
 
 onUnmounted(() => {
   // URL freigeben
   if (imageUrl.value) {
     URL.revokeObjectURL(imageUrl.value);
   }
+  destroyPanzoom();
+  if (resizeObserver) {
+    resizeObserver.disconnect();
+    resizeObserver = null;
+  }
+  if (boundsFrame !== null) {
+    cancelAnimationFrame(boundsFrame);
+    boundsFrame = null;
+  }
+  window.removeEventListener('resize', scheduleBoundsUpdate);
 });
 </script>

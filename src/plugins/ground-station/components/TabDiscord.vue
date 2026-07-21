@@ -7,7 +7,7 @@
             :id="inputId"
             v-model="form.DiscordWebhookDefaultUrl"
             type="url"
-            class="default-input w-full h-10"
+            class="tns-input w-full"
           />
         </template>
       </FieldRow>
@@ -17,7 +17,7 @@
             :id="inputId"
             v-model="form.DiscordWebhookDefaultBotName"
             type="text"
-            class="default-input w-full h-10"
+            class="tns-input w-full"
           />
         </template>
       </FieldRow>
@@ -27,7 +27,7 @@
             :id="inputId"
             v-model="form.DiscordImageWebhookUrl"
             type="url"
-            class="default-input w-full h-10"
+            class="tns-input w-full"
           />
         </template>
       </FieldRow>
@@ -37,7 +37,7 @@
             :id="inputId"
             v-model="form.DiscordFailureWebhookUrl"
             type="url"
-            class="default-input w-full h-10"
+            class="tns-input w-full"
           />
         </template>
       </FieldRow>
@@ -47,7 +47,7 @@
             :id="inputId"
             v-model="form.DiscordWebhookFailureTitle"
             type="text"
-            class="default-input w-full h-10"
+            class="tns-input w-full"
           />
         </template>
       </FieldRow>
@@ -57,7 +57,7 @@
             :id="inputId"
             v-model="form.DiscordImagePostTitle"
             type="text"
-            class="default-input w-full h-10"
+            class="tns-input w-full"
           />
         </template>
       </FieldRow>
@@ -70,7 +70,7 @@
             :id="inputId"
             v-model="form.DiscordWebhookFailureMessage"
             rows="3"
-            class="default-input w-full"
+            class="tns-input w-full"
           />
         </template>
       </FieldRow>
@@ -101,7 +101,7 @@
               :id="inputId"
               v-model="form.DiscordImageTypesSelected"
               type="text"
-              class="default-input w-full h-10"
+              class="tns-input w-full"
             />
           </template>
         </FieldRow>
@@ -112,7 +112,7 @@
               v-model.number="form.DiscordImageInterval"
               type="number"
               min="1"
-              class="default-input w-full h-10"
+              class="tns-input w-full"
             />
           </template>
         </FieldRow>

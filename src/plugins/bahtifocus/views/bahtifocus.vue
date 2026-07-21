@@ -187,7 +187,7 @@
                   type="number"
                   step="0.1"
                   min="0.1"
-                  class="default-input w-24"
+                  class="tns-input w-24"
                 />
                 <span class="text-xs text-gray-500">{{
                   t('plugins.bahtifocus.camera.exposureUnit')
@@ -308,7 +308,7 @@
                       type="number"
                       step="0.1"
                       min="0"
-                      class="default-input"
+                      class="tns-input"
                       @blur="touchField('focalLength')"
                     />
                     <p
@@ -328,7 +328,7 @@
                       type="number"
                       step="0.01"
                       min="0"
-                      class="default-input"
+                      class="tns-input"
                       @blur="touchField('pixelSize')"
                     />
                     <p
@@ -348,7 +348,7 @@
                       type="number"
                       step="0.1"
                       min="0"
-                      class="default-input"
+                      class="tns-input"
                       @blur="touchField('focalRatio')"
                     />
                     <p
@@ -368,7 +368,7 @@
                       type="number"
                       step="0.1"
                       min="0"
-                      class="default-input"
+                      class="tns-input"
                       @blur="touchField('apertureDiameter')"
                     />
                     <p
@@ -388,7 +388,7 @@
                       type="number"
                       step="0.1"
                       min="0"
-                      class="default-input"
+                      class="tns-input"
                       @blur="touchField('resizeFactor')"
                     />
                     <p
@@ -420,7 +420,7 @@
                         type="number"
                         step="1"
                         min="0"
-                        class="default-input"
+                        class="tns-input"
                         @blur="touchCropField('x')"
                       />
                       <p v-if="shouldShowCropError('x', form.crop.x)" class="text-xs text-red-400">
@@ -437,7 +437,7 @@
                         type="number"
                         step="1"
                         min="0"
-                        class="default-input"
+                        class="tns-input"
                         @blur="touchCropField('y')"
                       />
                       <p v-if="shouldShowCropError('y', form.crop.y)" class="text-xs text-red-400">
@@ -454,7 +454,7 @@
                         type="number"
                         step="1"
                         min="1"
-                        class="default-input"
+                        class="tns-input"
                         @blur="touchCropField('width')"
                       />
                       <p
@@ -474,7 +474,7 @@
                         type="number"
                         step="1"
                         min="1"
-                        class="default-input"
+                        class="tns-input"
                         @blur="touchCropField('height')"
                       />
                       <p
@@ -511,7 +511,7 @@
                         v-model="form.previousAngles[index - 1]"
                         type="number"
                         step="0.01"
-                        class="default-input"
+                        class="tns-input"
                         @blur="touchAngleField(index - 1)"
                       />
                       <p v-if="shouldShowAngleError(index - 1)" class="text-xs text-red-400">
@@ -2118,26 +2118,6 @@ function populateExampleOptions() {
 </script>
 
 <style scoped>
-.default-input {
-  border-radius: 0.5rem;
-  border: 1px solid rgb(55 65 81);
-  background-color: rgb(3 7 18 / 80%);
-  padding: 0.5rem 0.75rem;
-  font-size: 0.875rem;
-  line-height: 1.25rem;
-  color: rgb(229 231 235);
-  box-shadow: inset 0 2px 4px 0 rgb(0 0 0 / 5%);
-}
-
-.default-input:focus {
-  border-color: rgb(6 182 212);
-  outline: 2px solid transparent;
-  outline-offset: 2px;
-  box-shadow:
-    inset 0 2px 4px 0 rgb(0 0 0 / 5%),
-    0 0 0 3px rgb(6 182 212 / 30%);
-}
-
 .bahtifocus-view {
   min-height: calc(100vh - 4rem);
 }

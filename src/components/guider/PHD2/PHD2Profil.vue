@@ -7,7 +7,7 @@
       <select
         v-model="selectedProfile"
         @change="onProfileChange"
-        class="default-select h-8 w-28"
+        class="tns-select w-28"
         :class="statusClassConnect"
         :disabled="guiderStore.phd2IsConnected || isChangingProfile"
       >
@@ -44,14 +44,14 @@
     <div class="flex flex-row gap-1 ml-1">
       <button
         @click="connectEquipment"
-        class="default-button-cyan w-12"
+        class="tns-btn-primary w-12"
         v-show="!guiderStore.phd2IsConnected"
       >
         <LinkIcon class="w-7 h-7 text-gray-300" />
       </button>
       <button
         @click="disconnectEquipment"
-        class="default-button-red w-12"
+        class="tns-btn-danger w-12"
         v-show="guiderStore.phd2IsConnected"
       >
         <LinkSlashIcon class="w-full h-7 text-gray-300" />
@@ -59,7 +59,7 @@
       <button
         v-if="store.isPINS"
         @click="showManagementModal = true"
-        class="default-button-cyan w-12"
+        class="tns-btn-secondary w-12"
         :disabled="guiderStore.phd2IsConnected"
       >
         <Cog6ToothIcon class="w-7 h-7 text-gray-300" />

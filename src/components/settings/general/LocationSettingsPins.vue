@@ -164,7 +164,7 @@
       </div>
       <button
         @click="getCurrentLocation"
-        class="default-button-gray md:w-10 md:h-10 md:shrink-0 col-span-2 md:col-span-1 md:self-end"
+        class="tns-btn-secondary md:w-10 md:h-10 md:shrink-0 col-span-2 md:col-span-1 md:self-end"
         title="Get current location"
       >
         <svg
@@ -206,7 +206,7 @@
       </select>
     </div>
 
-    <button @click="saveLocation" class="default-button-cyan mt-1">
+    <button @click="saveLocation" class="tns-btn-primary mt-1">
       {{ $t('components.settings.save') }}
     </button>
   </div>

@@ -60,7 +60,7 @@
           :disabled="!actionControlsEnabled"
         />
 
-        <button class="default-button-cyan w-full" @click="openFramingModal">
+        <button class="tns-btn-primary w-full" @click="openFramingModal">
           {{ $t('components.framing.openFraminingModal') }}
         </button>
 
@@ -247,7 +247,6 @@ onBeforeUnmount(() => {
     100dvh - 5rem - env(safe-area-inset-top, 0px) - env(safe-area-inset-bottom, 0px)
   );
 }
-
 @media screen and (orientation: landscape) and (max-width: 1024px) {
   .selected-object-landscape {
     top: calc(4.5rem + env(safe-area-inset-top, 0px));

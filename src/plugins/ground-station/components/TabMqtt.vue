@@ -12,7 +12,7 @@
               :id="inputId"
               v-model="form.MqttBrokerHost"
               type="text"
-              class="default-input w-full h-10"
+              class="tns-input w-full"
             />
           </template>
         </FieldRow>
@@ -24,7 +24,7 @@
               type="number"
               min="1"
               max="65535"
-              class="default-input w-full h-10"
+              class="tns-input w-full"
             />
           </template>
         </FieldRow>
@@ -35,7 +35,7 @@
               v-model="form.MqttUsername"
               type="text"
               autocomplete="username"
-              class="default-input w-full h-10"
+              class="tns-input w-full"
             />
           </template>
         </FieldRow>
@@ -50,18 +50,13 @@
               type="password"
               autocomplete="new-password"
               :placeholder="$t('plugins.groundStation.common.leaveEmpty')"
-              class="default-input w-full h-10"
+              class="tns-input w-full"
             />
           </template>
         </FieldRow>
         <FieldRow :label="$t('plugins.groundStation.mqtt.clientId')">
           <template #default="{ inputId }">
-            <input
-              :id="inputId"
-              v-model="form.MqttClientId"
-              type="text"
-              class="default-input w-full h-10"
-            />
+            <input :id="inputId" v-model="form.MqttClientId" type="text" class="tns-input w-full" />
           </template>
         </FieldRow>
         <FieldRow :label="$t('plugins.groundStation.mqtt.maxReconnect')">
@@ -71,7 +66,7 @@
               v-model.number="form.MqttMaxReconnectAttempts"
               type="number"
               min="0"
-              class="default-input w-full h-10"
+              class="tns-input w-full"
             />
           </template>
         </FieldRow>
@@ -96,7 +91,7 @@
               :id="inputId"
               v-model="form.MqttDefaultTopic"
               type="text"
-              class="default-input w-full h-10"
+              class="tns-input w-full"
             />
           </template>
         </FieldRow>
@@ -105,7 +100,7 @@
             <select
               :id="inputId"
               v-model.number="form.MqttDefaultQoSLevel"
-              class="default-select w-full h-10"
+              class="tns-select w-full"
             >
               <option :value="0">0 — At most once</option>
               <option :value="1">1 — At least once</option>
@@ -118,7 +113,7 @@
             <select
               :id="inputId"
               v-model.number="form.MqttDefaultFailureQoSLevel"
-              class="default-select w-full h-10"
+              class="tns-select w-full"
             >
               <option :value="0">0</option>
               <option :value="1">1</option>
@@ -153,12 +148,7 @@
       </div>
       <FieldRow :label="$t('plugins.groundStation.mqtt.lwtTopic')">
         <template #default="{ inputId }">
-          <input
-            :id="inputId"
-            v-model="form.MqttLwtTopic"
-            type="text"
-            class="default-input w-full h-10"
-          />
+          <input :id="inputId" v-model="form.MqttLwtTopic" type="text" class="tns-input w-full" />
         </template>
       </FieldRow>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -168,7 +158,7 @@
               :id="inputId"
               v-model="form.MqttLwtBirthPayload"
               type="text"
-              class="default-input w-full h-10"
+              class="tns-input w-full"
             />
           </template>
         </FieldRow>
@@ -178,7 +168,7 @@
               :id="inputId"
               v-model="form.MqttLwtLastWillPayload"
               type="text"
-              class="default-input w-full h-10"
+              class="tns-input w-full"
             />
           </template>
         </FieldRow>
@@ -188,7 +178,7 @@
               :id="inputId"
               v-model="form.MqttLwtClosePayload"
               type="text"
-              class="default-input w-full h-10"
+              class="tns-input w-full"
             />
           </template>
         </FieldRow>
@@ -242,7 +232,7 @@
               :id="inputId"
               v-model="form.MqttImagePublisherImageTopic"
               type="text"
-              class="default-input w-full h-10"
+              class="tns-input w-full"
             />
           </template>
         </FieldRow>
@@ -252,7 +242,7 @@
               :id="inputId"
               v-model="form.MqttImagePublisherMetdataTopic"
               type="text"
-              class="default-input w-full h-10"
+              class="tns-input w-full"
             />
           </template>
         </FieldRow>
@@ -261,7 +251,7 @@
             <select
               :id="inputId"
               v-model.number="form.MqttImagePublisherQoSLevel"
-              class="default-select w-full h-10"
+              class="tns-select w-full"
             >
               <option :value="0">0</option>
               <option :value="1">1</option>
@@ -278,7 +268,7 @@
               :id="inputId"
               v-model="form.MqttImageTypesSelected"
               type="text"
-              class="default-input w-full h-10"
+              class="tns-input w-full"
             />
           </template>
         </FieldRow>

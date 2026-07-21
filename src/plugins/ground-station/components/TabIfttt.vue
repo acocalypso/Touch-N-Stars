@@ -2,12 +2,7 @@
   <FormShell service-id="ifttt" @save="save" @test="test">
     <FieldRow :label="$t('plugins.groundStation.ifttt.webhookKey')">
       <template #default="{ inputId }">
-        <input
-          :id="inputId"
-          v-model="form.IftttWebhookKey"
-          type="text"
-          class="default-input w-full h-10"
-        />
+        <input :id="inputId" v-model="form.IftttWebhookKey" type="text" class="tns-input w-full" />
       </template>
     </FieldRow>
 
@@ -18,7 +13,7 @@
             :id="inputId"
             v-model="form.IftttFailureValue1"
             type="text"
-            class="default-input w-full h-10"
+            class="tns-input w-full"
           />
         </template>
       </FieldRow>
@@ -28,7 +23,7 @@
             :id="inputId"
             v-model="form.IftttFailureValue2"
             type="text"
-            class="default-input w-full h-10"
+            class="tns-input w-full"
           />
         </template>
       </FieldRow>
@@ -38,7 +33,7 @@
             :id="inputId"
             v-model="form.IftttFailureValue3"
             type="text"
-            class="default-input w-full h-10"
+            class="tns-input w-full"
           />
         </template>
       </FieldRow>

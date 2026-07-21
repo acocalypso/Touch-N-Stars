@@ -21,12 +21,12 @@
       />
     </div>
     <div v-show="flatsStore.status.State != 'Running'">
-      <button @click="startAutoExposure" class="default-button-cyan">
+      <button @click="startAutoExposure" class="tns-btn-primary">
         {{ $t('components.flatassistant.start_auto_brightness') }}
       </button>
     </div>
     <div v-show="flatsStore.status.State == 'Running'">
-      <button @click="stopFlats" class="default-button-red">
+      <button @click="stopFlats" class="tns-btn-danger">
         {{ $t('components.flatassistant.stop') }}
       </button>
     </div>
@@ -51,6 +51,8 @@ import setHistogramTolerance from '@/components/flatassistant/setHistogramTolera
 import selectFilter from '@/components/flatassistant/selectFilter.vue';
 import setExposureTime from '@/components/flatassistant/setExposureTime.vue';
 import toggleButton from '@/components/helpers/toggleButton.vue';
+import { useHaptics } from '@/composables/useHaptics';
+const { tapLight, tapMedium } = useHaptics();
 
 const store = apiStore();
 const flatsStore = useFlatassistantStore();
@@ -67,6 +69,7 @@ onMounted(() => {
 });
 
 async function startAutoExposure() {
+  tapLight();
   console.log('Flats startAutoExposure: ');
   try {
     await flatsStore.runFlatWorkflow({
@@ -95,6 +98,7 @@ async function startAutoExposure() {
 }
 
 async function stopFlats() {
+  tapMedium();
   console.log('Flats stop: ');
   try {
     await flatsStore.stopWorkflow();

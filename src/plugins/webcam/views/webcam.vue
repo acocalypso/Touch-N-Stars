@@ -1,6 +1,6 @@
 <template>
   <div
-    class="fixed inset-0 top-[82px] landscape:top-0 landscape:left-32 z-10 bg-black flex flex-col md:flex-row overflow-hidden"
+    class="fixed inset-0 top-[82px] landscape:top-0 landscape:left-(--nav-width) z-10 bg-black flex flex-col md:flex-row overflow-hidden"
   >
     <!-- Main Image Area -->
     <div class="flex-1 relative flex items-center justify-center bg-black overflow-hidden">

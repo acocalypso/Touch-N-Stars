@@ -917,7 +917,9 @@
         "slewRateINDI": "Rychlost pohybu",
         "reverse_axis": "Směr os",
         "slewRateDriverControlled": "Slew rate is controlled by the driver",
-        "slewRateUnavailable": "Connect a mount to adjust the slew rate"
+        "slewRateUnavailable": "Connect a mount to adjust the slew rate",
+        "confirmParkMessage": "Zaparkovat montáž? Tím se zastaví sledování a montáž se přesune do parkovací polohy.",
+        "confirmParkTitle": "Zaparkovat montáž"
       },
       "info": {
         "notConnected": "Připojte montáž",
@@ -1096,6 +1098,7 @@
           }
         },
         "autoSelectStar": "Automaticky vybrat vodicí hvězdu",
+        "resetZoom": "Obnovit přiblížení",
         "calibrationData": {
           "cameraAngle": "Úhel kamery:",
           "clearCalibration": "Vymazat kalibraci",
@@ -1903,6 +1906,39 @@
     "safetyMonitor": {
       "indi": {
         "settings": "Safety Monitor Settings"
+      }
+    },
+    "statusBar": {
+      "camera": {
+        "idle": "Nečinná"
+      },
+      "filter": {
+        "none": "Žádný filtr"
+      },
+      "guiding": {
+        "idle": "Nečinné",
+        "starLost": "Hvězda ztracena"
+      },
+      "labels": {
+        "camera": "Kamera",
+        "filter": "Filtr",
+        "guiding": "Autoguiding",
+        "instance": "Instance",
+        "log": "Log",
+        "mount": "Montáž",
+        "progress": "Průběh",
+        "safety": "Bezpečnost",
+        "weather": "Počasí"
+      },
+      "mount": {
+        "parked": "Zaparkováno",
+        "slewing": "Přesouvání",
+        "tracking": "Sledování",
+        "trackingOff": "Sledování vypnuto"
+      },
+      "safety": {
+        "safe": "Bezpečno",
+        "unsafe": "Nebezpečno"
       }
     }
   },

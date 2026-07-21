@@ -158,7 +158,7 @@
 
                 <button
                   type="button"
-                  class="default-button-cyan w-full inline-flex items-center justify-center disabled:opacity-50"
+                  class="tns-btn-primary w-full inline-flex items-center justify-center disabled:opacity-50"
                   :disabled="isRowSaving(row) || disabled || !canSaveRow(row)"
                   @click="saveRow(row)"
                 >
@@ -245,7 +245,7 @@
                       <td class="px-3 py-3 text-right">
                         <button
                           type="button"
-                          class="default-button-cyan inline-flex min-w-[112px] items-center justify-center disabled:opacity-50"
+                          class="tns-btn-primary inline-flex min-w-[112px] items-center justify-center disabled:opacity-50"
                           :disabled="isRowSaving(row) || disabled || !canSaveRow(row)"
                           @click="saveRow(row)"
                         >
@@ -281,7 +281,7 @@
           <div class="flex justify-end">
             <button
               type="button"
-              class="default-button-gray w-full sm:w-auto"
+              class="tns-btn-secondary w-full sm:w-auto"
               :disabled="anySaving"
               @click="closeModal"
             >

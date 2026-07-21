@@ -957,7 +957,9 @@
         "slewRateINDI": "Schwenkgeschwindigkeit",
         "reverse_axis": "Achsenrichtung",
         "slewRateDriverControlled": "Die Anstiegsgeschwindigkeit wird vom Treiber gesteuert",
-        "slewRateUnavailable": "Schließen Sie eine Halterung an, um die Anstiegsgeschwindigkeit anzupassen"
+        "slewRateUnavailable": "Schließen Sie eine Halterung an, um die Anstiegsgeschwindigkeit anzupassen",
+        "confirmParkMessage": "Montierung parken? Dies stoppt die Nachführung und bewegt die Montierung in die Parkposition.",
+        "confirmParkTitle": "Montierung parken"
       },
       "info": {
         "notConnected": "Bitte Montierung verbinden",
@@ -1199,6 +1201,7 @@
           }
         },
         "autoSelectStar": "Leitstern automatisch auswählen",
+        "resetZoom": "Zoom zurücksetzen",
         "calibrationData": {
           "cameraAngle": "Kamerawinkel:",
           "clearCalibration": "Lösche Kalibrierung",
@@ -1903,6 +1906,39 @@
     "safetyMonitor": {
       "indi": {
         "settings": "Einstellungen des Sicherheitsmonitors"
+      }
+    },
+    "statusBar": {
+      "camera": {
+        "idle": "Inaktiv"
+      },
+      "filter": {
+        "none": "Kein Filter"
+      },
+      "guiding": {
+        "idle": "Inaktiv",
+        "starLost": "Stern verloren"
+      },
+      "labels": {
+        "camera": "Kamera",
+        "filter": "Filter",
+        "guiding": "Guiding",
+        "instance": "Instanz",
+        "log": "Log",
+        "mount": "Montierung",
+        "progress": "Fortschritt",
+        "safety": "Sicherheit",
+        "weather": "Wetter"
+      },
+      "mount": {
+        "parked": "Geparkt",
+        "slewing": "Schwenken",
+        "tracking": "Nachführung",
+        "trackingOff": "Nachführung aus"
+      },
+      "safety": {
+        "safe": "Sicher",
+        "unsafe": "Unsicher"
       }
     }
   },

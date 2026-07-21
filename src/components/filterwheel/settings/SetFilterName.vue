@@ -6,7 +6,7 @@
     <input
       v-model="value"
       type="text"
-      class="default-input w-full"
+      class="tns-input w-full"
       @input="sanitizeName"
       @change="updateSetting"
     />

@@ -58,7 +58,7 @@
     </div>
     <div class="flex items-center justify-between gap-2">
       <button
-        class="default-button-gray flex items-center gap-2"
+        class="tns-btn-secondary flex items-center gap-2"
         :disabled="pinsTimeActionLoading"
         @click="manualPinsTimeSync"
       >

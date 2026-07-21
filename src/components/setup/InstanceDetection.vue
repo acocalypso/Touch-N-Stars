@@ -6,11 +6,7 @@
         <h3 class="text-lg font-medium text-white">
           {{ t('components.instanceDetection.autoDetectionTitle') }}
         </h3>
-        <button
-          @click="detectInstances"
-          :disabled="isDetecting"
-          class="default-button-blue max-w-32"
-        >
+        <button @click="detectInstances" :disabled="isDetecting" class="tns-btn-primary max-w-32">
           <span v-if="isDetecting" class="loader w-4 h-4"></span>
           {{
             isDetecting

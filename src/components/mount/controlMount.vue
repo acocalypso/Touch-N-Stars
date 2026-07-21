@@ -4,12 +4,13 @@
     <ButtonUnpark />
     <ButtonHome />
     <ButtonSetAsPark />
-    <ButtonSlewStop class="w-full" />
+    <!-- Full width while stacked, compact in the row so the labelled buttons keep their space -->
+    <ButtonSlewStop class="xs:w-16" />
   </div>
   <div class="flex mt-4 justify-center items-center">
-    <div class="w-3 mr-2 h-[1px] bg-gray-700"></div>
+    <div class="w-3 mr-2 h-[1px] bg-line-strong"></div>
     <p class="text-xs">{{ $t('components.mount.control.trackingMode') }}</p>
-    <div class="grow ml-2 h-[1px] bg-gray-700"></div>
+    <div class="grow ml-2 h-[1px] bg-line-strong"></div>
   </div>
   <div class="flex gap-x-2 mt-2">
     <ButtonTrackingMode />
@@ -17,9 +18,9 @@
   </div>
 
   <div class="flex mt-4 justify-center items-center">
-    <div class="w-3 mr-2 h-[1px] bg-gray-700"></div>
+    <div class="w-3 mr-2 h-[1px] bg-line-strong"></div>
     <p class="text-xs">{{ $t('components.mount.control.reverse_axis') }}</p>
-    <div class="grow ml-2 h-[1px] bg-gray-700"></div>
+    <div class="grow ml-2 h-[1px] bg-line-strong"></div>
   </div>
   <div class="flex gap-x-2 mt-2">
     <ProfileToggle
@@ -37,9 +38,9 @@
   </div>
 
   <div class="flex mt-4 justify-center items-center">
-    <div class="w-3 mr-2 h-[1px] bg-gray-700"></div>
+    <div class="w-3 mr-2 h-[1px] bg-line-strong"></div>
     <p class="text-xs">{{ $t('components.mount.control.manuellControl') }}</p>
-    <div class="grow ml-2 h-[1px] bg-gray-700"></div>
+    <div class="grow ml-2 h-[1px] bg-line-strong"></div>
   </div>
   <div>
     <moveAxis />

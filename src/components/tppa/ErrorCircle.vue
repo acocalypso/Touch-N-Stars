@@ -4,7 +4,7 @@
     <button
       @click="isModalOpen = true"
       class="p-2 bg-gray-700 border border-cyan-600 rounded-full shadow-md z-30"
-      style="bottom: calc(env(safe-area-inset-bottom, 0px) + 48px)"
+      style="bottom: var(--above-statusbar)"
       v-if="tppaStore.isRunning"
     >
       <svg

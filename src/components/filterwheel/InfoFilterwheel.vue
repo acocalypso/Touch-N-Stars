@@ -2,13 +2,22 @@
   <div v-if="!store.filterInfo.Connected" class="text-red-500">
     <p>{{ $t('components.filterwheel.please_connect_filterwheel') }}</p>
   </div>
-  <div v-else class="gap-2 grid grid-cols-2 landscape:grid-cols-3">
+  <div
+    v-else
+    :class="
+      compact
+        ? 'flex flex-wrap items-center gap-x-5 gap-y-2'
+        : 'gap-2 grid grid-cols-2 landscape:grid-cols-3'
+    "
+  >
     <StatusString
+      :compact="compact"
       :isEnabled="store.filterInfo.SelectedFilter && store.filterInfo.SelectedFilter.Name"
       :Name="$t('components.filterwheel.currentFilter')"
       :Value="store.filterInfo.SelectedFilter ? store.filterInfo.SelectedFilter.Name : ''"
     />
     <StatusString
+      :compact="compact"
       :isEnabled="
         store.filterInfo.SelectedFilter && store.filterInfo.SelectedFilter.Position !== undefined
       "
@@ -20,6 +29,7 @@
       "
     />
     <StatusString
+      :compact="compact"
       :isEnabled="store.filterInfo.AvailableFilters && store.filterInfo.AvailableFilters.length > 0"
       :Name="$t('components.filterwheel.availableFilters')"
       :Value="store.filterInfo.AvailableFilters ? store.filterInfo.AvailableFilters.length : 0"
@@ -33,6 +43,8 @@
     >
       <StatusString
         v-if="filterStore.filterwheelSettings.BoardTemperature !== undefined"
+        :compact="compact"
+        secondary
         :isEnabled="true"
         :Name="$t('components.filterwheel.BoardTemperature')"
         :Value="filterStore.filterwheelSettings.BoardTemperature + ' °C'"
@@ -42,6 +54,8 @@
           filterStore.filterwheelSettings.States !== undefined &&
           filterStore.filterwheelSettings.State !== undefined
         "
+        :compact="compact"
+        secondary
         :isEnabled="true"
         :Name="$t('components.filterwheel.State')"
         :Value="
@@ -51,6 +65,8 @@
       />
       <StatusString
         v-if="filterStore.filterwheelSettings.Counter !== undefined"
+        :compact="compact"
+        secondary
         :isEnabled="true"
         :Name="$t('components.filterwheel.Counter')"
         :Value="filterStore.filterwheelSettings.Counter"
@@ -66,4 +82,12 @@ import { useFilterStore } from '@/store/filterStore';
 
 const store = apiStore();
 const filterStore = useFilterStore();
+
+// Dense page layout: two quiet value columns.
+const { compact } = defineProps({
+  compact: {
+    type: Boolean,
+    default: false,
+  },
+});
 </script>

@@ -4,6 +4,34 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [App5.2.0-beta3] - unreleased
+### Added
+- Equipment (PINS): Connect button now doubles as a cancel button while a connection attempt is in progress
+- Guiding: PHD2 live image can now be zoomed and panned (pinch, mouse wheel, double-tap) like the camera image, with lock position, guiding cross and secondary star overlays tracking correctly, plus a reset-zoom button
+
+### Changed
+- Camera Cooler Status Revised
+- Sequence Creator: Toolbar buttons (undo/redo, save, library, clear, send to NINA) restyled to match the app-wide design system
+
+### Fixed
+- Sequence Creator: Camera offset field was limited to -100..100, now allows the full 0-10000 range
+- Sequence Creator: Cool Camera action sent -10°C to NINA instead of the configured target temperature when it was set to 0°C
+- Sequence Creator: Actions added to a sequence before a template's min/max/step was changed no longer keep showing stale bounds - they now pick up the current limits
+
+## [App5.2.0-beta2] - 2026-07-19
+### Changed
+- Design: App-wide visual refresh onto a single design system - one consistent set of button styles, surfaces and colors with a single cyan accent, and green/yellow/red now always carry the same meaning across the app (running / attention / problem or stopped). Buttons, inputs and other touch targets are now at least 48px for easier tapping in the field
+- Navigation: Each nav item now shows a permanent label under its icon (previously the label only appeared while touching), and the landscape sidebar is narrower so it no longer wastes empty space next to the icons
+- Status bar: Redesigned, taller status bar that shows camera, mount, guider, filter, weather and progress state - and their key values - at a glance without having to tap a chip first
+- Layout: Pages now sit inside a fixed, rounded frame with corner accents while content scrolls beneath it, replacing leftover full-page backgrounds and stray top padding from the old layout
+- Info panels: Stat tiles simplified to semantic states, with a more compact two-column view on smaller pages
+- Camera: Live/captured image view is now contained within the rounded frame instead of overflowing it
+- Fixed: PINS plugin layout
+
+### Added
+- Safety: Destructive actions now ask for confirmation before running - parking the mount and clearing the whole sequence
+- Haptics: Light/medium haptic feedback on native (Android/iOS) platforms when triggering key actions such as capture, slew, park and stop
+
 ## [App5.2.0-beta1] - 2026-07-16
 ### Added
 - TPPA (PINS): When the alignment view is opened (or after switching instances), the running state is now loaded from the backend, so an alignment already in progress is reflected correctly instead of relying on a possibly stale saved state

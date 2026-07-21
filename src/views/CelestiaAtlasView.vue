@@ -4,12 +4,12 @@
     <div v-if="ready" class="celestia-atlas-search">
       <input
         v-model="searchQuery"
-        class="default-input h-10 w-full"
+        class="tns-input w-full"
         type="search"
         :placeholder="t('components.framing.search.placeholder')"
         @input="runSearch"
       />
-      <ul v-if="searchResults.length" class="celestia-atlas-results default-select">
+      <ul v-if="searchResults.length" class="celestia-atlas-results tns-select">
         <li
           v-for="result in searchResults"
           :key="result.catalogId || result.id"
@@ -72,17 +72,17 @@
       <div v-if="clockPanelVisible" class="celestia-atlas-clock-panel">
         <label>
           {{ t('components.celestiaAtlas.datetime.date') }}
-          <input v-model="clockDate" class="default-input" type="date" @change="applyClockInput" />
+          <input v-model="clockDate" class="tns-input" type="date" @change="applyClockInput" />
         </label>
         <label>
           {{ t('components.celestiaAtlas.datetime.time') }}
-          <input v-model="clockTime" class="default-input" type="time" @change="applyClockInput" />
+          <input v-model="clockTime" class="tns-input" type="time" @change="applyClockInput" />
         </label>
         <label>
           {{ t('components.celestiaAtlas.datetime.speed') }}: {{ Math.pow(2, clockSpeedPower) }}×
           <input v-model.number="clockSpeedPower" type="range" min="-10" max="10" step="1" />
         </label>
-        <button class="default-button-cyan" type="button" @click="resetClockToServer">
+        <button class="tns-btn-primary" type="button" @click="resetClockToServer">
           {{ t('components.celestiaAtlas.datetime.now') }}
         </button>
       </div>
@@ -614,8 +614,8 @@ onBeforeUnmount(() => {
 }
 .celestia-atlas-landscape {
   top: 0;
-  left: 8rem;
-  width: calc(100vw - 8rem);
+  left: var(--nav-width);
+  width: calc(100vw - var(--nav-width));
   height: calc(100dvh - 2rem - env(safe-area-inset-bottom, 0px));
 }
 .celestia-atlas-portrait {

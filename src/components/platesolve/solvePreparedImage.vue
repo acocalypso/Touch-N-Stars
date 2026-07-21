@@ -105,7 +105,7 @@
         <div class="bg-red-900/20 rounded-lg p-4 border border-red-700/50">
           <p class="text-red-400">{{ solveError }}</p>
         </div>
-        <button class="default-button-cyan w-full px-4 py-2" @click="closeModal">Close</button>
+        <button class="tns-btn-primary w-full px-4 py-2" @click="closeModal">Close</button>
       </div>
     </template>
   </Modal>

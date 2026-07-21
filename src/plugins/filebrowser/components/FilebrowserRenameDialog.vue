@@ -32,14 +32,10 @@
         </div>
 
         <div class="flex justify-end gap-2 px-4 py-3 border-t border-[#2e3650]">
-          <button class="default-button-gray" @click="$emit('close')">
+          <button class="tns-btn-secondary" @click="$emit('close')">
             {{ $t('common.cancel') }}
           </button>
-          <button
-            class="default-button-cyan"
-            :disabled="!inputValue.trim()"
-            @click="$emit('confirm')"
-          >
+          <button class="tns-btn-primary" :disabled="!inputValue.trim()" @click="$emit('confirm')">
             {{ $t('common.confirm') }}
           </button>
         </div>

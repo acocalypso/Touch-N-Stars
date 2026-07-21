@@ -11,16 +11,16 @@
         </h5>
         <div
           v-if="!store.guiderInfo.Connected"
-          class="p-4 bg-red-500/10 border border-red-500/30 rounded-lg"
+          class="p-4 bg-status-danger/10 border border-status-danger/30 rounded-card"
         >
-          <p class="text-red-400 font-medium text-center">
+          <p class="text-status-danger font-medium text-center">
             {{ $t('components.guider.notConnected') }}
           </p>
         </div>
         <div v-else>
           <!-- Original control buttons layout -->
           <div
-            class="flex flex-col md:flex-row gap-1 md:space-x-4 mt-4 border border-gray-700 rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg p-5"
+            class="flex flex-col md:flex-row gap-1 md:space-x-4 mt-4 border border-line rounded-card bg-surface-1 shadow-lg p-5"
           >
             <ControlGuider />
           </div>

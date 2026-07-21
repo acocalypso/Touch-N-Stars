@@ -21,7 +21,7 @@
           id="adIpAddress"
           v-model="ipAddress"
           type="text"
-          class="default-input h-7 md:h-8 text-xs md:text-sm w-48"
+          class="tns-input text-xs md:text-sm w-48"
           :disabled="isLoading"
         />
       </div>
@@ -36,7 +36,7 @@
           type="number"
           min="1"
           max="65535"
-          class="default-input h-7 md:h-8 text-xs md:text-sm w-48"
+          class="tns-input text-xs md:text-sm w-48"
           :disabled="isLoading"
         />
       </div>
@@ -50,7 +50,7 @@
           v-model.number="deviceNumber"
           type="number"
           min="0"
-          class="default-input h-7 md:h-8 text-xs md:text-sm w-48"
+          class="tns-input text-xs md:text-sm w-48"
           :disabled="isLoading"
         />
       </div>
@@ -62,7 +62,7 @@
         <select
           id="adServiceType"
           v-model="serviceType"
-          class="default-input h-7 md:h-8 text-xs md:text-sm w-48"
+          class="tns-input text-xs md:text-sm w-48"
           :disabled="isLoading"
         >
           <option value="Http">Http</option>
@@ -75,7 +75,7 @@
       <div class="flex justify-end gap-2 mt-2">
         <button
           v-if="!isConnected"
-          class="default-button-cyan h-8 px-4 text-xs md:text-sm"
+          class="tns-btn-primary px-4 text-xs md:text-sm"
           :class="statusClassConnect"
           :disabled="isLoading || isSaving || isConnecting || !canConnect"
           @click="connect"
@@ -84,7 +84,7 @@
         </button>
         <button
           v-else
-          class="default-button-red h-8 px-4 text-xs md:text-sm"
+          class="tns-btn-danger px-4 text-xs md:text-sm"
           :class="statusClassConnect"
           :disabled="isConnecting"
           @click="disconnect"
@@ -92,7 +92,7 @@
           {{ $t('components.alpacaDirect.disconnect') }}
         </button>
         <button
-          class="default-button-cyan h-8 px-4 text-xs md:text-sm"
+          class="tns-btn-secondary px-4 text-xs md:text-sm"
           :class="statusClassSave"
           :disabled="isLoading || isSaving"
           @click="save"

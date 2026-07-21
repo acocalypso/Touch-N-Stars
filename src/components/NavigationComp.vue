@@ -1,7 +1,8 @@
 <template>
   <div
-    class="navigation-container shadow-md overflow-hidden"
-    :class="[activeInstanceColor, orientationClasses, { 'nav-labels-visible': navTouched }]"
+    ref="navContainerRef"
+    class="navigation-container overflow-hidden"
+    :class="[activeInstanceColor, orientationClasses]"
   >
     <!-- Scroll Fade Indicators -->
     <div
@@ -41,32 +42,33 @@
       :class="contentClasses"
       @scroll="updateScrollIndicators"
     >
-      <div
-        class="nav-items-wrapper"
-        :class="wrapperClasses"
-        @touchstart.passive="handleNavTouchStart"
-        @touchend.passive="handleNavTouchEnd"
-        @touchcancel.passive="handleNavTouchEnd"
-      >
+      <div class="nav-items-wrapper" :class="wrapperClasses">
         <div
           v-if="store.isBackendReachable && !isNavItemHidden('equipment')"
           :style="{ order: getNavOrder('equipment') }"
-          :data-label="t('nav.equipment')"
+          class="nav-item"
         >
-          <router-link to="/equipment" class="nav-button" active-class="active-nav-button">
+          <router-link
+            to="/equipment"
+            class="nav-button"
+            active-class="active-nav-button"
+            @click="tapLight"
+          >
             <LinkIcon class="icon force-visible" />
+            <span class="nav-label">{{ t('nav.equipment') }}</span>
           </router-link>
         </div>
 
         <div
           v-if="store.cameraInfo.Connected && !isNavItemHidden('camera')"
           :style="{ order: getNavOrder('camera') }"
-          :data-label="t('nav.camera')"
+          class="nav-item"
         >
           <router-link
             to="/camera"
             class="nav-button camera-button"
             active-class="active-nav-button"
+            @click="tapLight"
           >
             <div class="camera-icon-wrapper">
               <!-- Progress Ring für Belichtungszeit -->
@@ -95,25 +97,37 @@
                 :class="store.cameraInfo.IsExposing ? 'text-green-500' : 'text-white'"
               />
             </div>
+            <span class="nav-label">{{ t('nav.camera') }}</span>
           </router-link>
         </div>
 
         <div
           v-if="store.focuserInfo.Connected && !isNavItemHidden('autofocus')"
           :style="{ order: getNavOrder('autofocus') }"
-          :data-label="t('nav.autofocus')"
+          class="nav-item"
         >
-          <router-link to="/autofocus" class="nav-button" active-class="active-nav-button">
+          <router-link
+            to="/autofocus"
+            class="nav-button"
+            active-class="active-nav-button"
+            @click="tapLight"
+          >
             <EyeIcon class="icon force-visible" />
+            <span class="nav-label">{{ t('nav.autofocus') }}</span>
           </router-link>
         </div>
 
         <div
           v-if="!isNavItemHidden('mount')"
           :style="{ order: getNavOrder('mount') }"
-          :data-label="t('nav.mount')"
+          class="nav-item"
         >
-          <router-link to="/mount" class="nav-button" active-class="active-nav-button">
+          <router-link
+            to="/mount"
+            class="nav-button"
+            active-class="active-nav-button"
+            @click="tapLight"
+          >
             <div class="relative">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -150,17 +164,23 @@
                 class="absolute -bottom-2 -right-2 w-4 h-4 text-red-500 bg-gray-800 rounded-full p-0.5"
               />
             </div>
+            <span class="nav-label">{{ t('nav.mount') }}</span>
           </router-link>
         </div>
 
         <div
           v-if="store.domeInfo.Connected && !isNavItemHidden('dome')"
           :style="{ order: getNavOrder('dome') }"
-          :data-label="t('nav.dome')"
+          class="nav-item"
         >
-          <router-link to="/dome" class="nav-button" active-class="active-nav-button">
+          <router-link
+            to="/dome"
+            class="nav-button"
+            active-class="active-nav-button"
+            @click="tapLight"
+          >
             <svg
-              fill="#FFFFFF"
+              fill="currentColor"
               height="24"
               width="24"
               version="1.1"
@@ -169,7 +189,7 @@
               xmlns:xlink="http://www.w3.org/1999/xlink"
               viewBox="0 0 512 512"
               xml:space="preserve"
-              class="icon force-visible"
+              class="icon force-visible text-white"
             >
               <path
                 d="M256,114.383c-22.526,0-40.851,18.325-40.851,40.851s18.325,40.851,40.851,40.851s40.851-18.325,40.851-40.851
@@ -204,15 +224,21 @@
             C166.128,363.147,162.47,359.489,157.957,359.489z"
               />
             </svg>
+            <span class="nav-label">{{ t('nav.dome') }}</span>
           </router-link>
         </div>
 
         <div
           v-if="store.flatdeviceInfo.Connected && !isNavItemHidden('flat')"
           :style="{ order: getNavOrder('flat') }"
-          :data-label="t('nav.flatDevice')"
+          class="nav-item"
         >
-          <router-link to="/flat" class="nav-button touch-target" active-class="active-nav-button">
+          <router-link
+            to="/flat"
+            class="nav-button touch-target"
+            active-class="active-nav-button"
+            @click="tapLight"
+          >
             <LightBulbIcon
               class="icon force-visible"
               :class="[
@@ -223,16 +249,23 @@
                     : 'text-white',
               ]"
             />
+            <span class="nav-label">{{ t('nav.flatDevice') }}</span>
           </router-link>
         </div>
 
         <div
           v-if="store.switchInfo.Connected && !isNavItemHidden('switch')"
           :style="{ order: getNavOrder('switch') }"
-          :data-label="t('nav.switch')"
+          class="nav-item"
         >
-          <router-link to="/switch" class="nav-button" active-class="active-nav-button">
+          <router-link
+            to="/switch"
+            class="nav-button"
+            active-class="active-nav-button"
+            @click="tapLight"
+          >
             <AdjustmentsVerticalIcon class="icon force-visible" />
+            <span class="nav-label">{{ t('nav.switch') }}</span>
           </router-link>
         </div>
 
@@ -242,9 +275,14 @@
             !isNavItemHidden('filter')
           "
           :style="{ order: getNavOrder('filter') }"
-          :data-label="t('nav.filterWheel')"
+          class="nav-item"
         >
-          <router-link to="/filterwheel" class="nav-button" active-class="active-nav-button">
+          <router-link
+            to="/filterwheel"
+            class="nav-button"
+            active-class="active-nav-button"
+            @click="tapLight"
+          >
             <div class="relative">
               <svg
                 baseProfile="full"
@@ -267,15 +305,21 @@
                 class="absolute -bottom-2 -right-2 w-4 h-4 text-red-500 bg-gray-800 rounded-full p-0.5"
               />
             </div>
+            <span class="nav-label">{{ t('nav.filterWheel') }}</span>
           </router-link>
         </div>
 
         <div
           v-if="store.rotatorInfo.Connected && !isNavItemHidden('rotator')"
           :style="{ order: getNavOrder('rotator') }"
-          :data-label="t('nav.rotator')"
+          class="nav-item"
         >
-          <router-link to="/rotator" class="nav-button" active-class="active-nav-button">
+          <router-link
+            to="/rotator"
+            class="nav-button"
+            active-class="active-nav-button"
+            @click="tapLight"
+          >
             <svg
               viewBox="0 0 16 16"
               fill="currentColor"
@@ -286,15 +330,21 @@
                 d="M6 7L7 6L4.70711 3.70711L5.19868 3.21553C5.97697 2.43724 7.03256 2 8.13323 2C11.361 2 14 4.68015 14 7.93274C14 11.2589 11.3013 14 8 14C6.46292 14 4.92913 13.4144 3.75736 12.2426L2.34315 13.6569C3.90505 15.2188 5.95417 16 8 16C12.4307 16 16 12.3385 16 7.93274C16 3.60052 12.4903 0 8.13323 0C6.50213 0 4.93783 0.647954 3.78447 1.80132L3.29289 2.29289L1 0L0 1V7H6Z"
               />
             </svg>
+            <span class="nav-label">{{ t('nav.rotator') }}</span>
           </router-link>
         </div>
 
         <div
           v-if="store.guiderInfo.Connected && !isNavItemHidden('guider')"
           :style="{ order: getNavOrder('guider') }"
-          :data-label="t('nav.guider')"
+          class="nav-item"
         >
-          <router-link to="/guider" class="nav-button" active-class="active-nav-button">
+          <router-link
+            to="/guider"
+            class="nav-button"
+            active-class="active-nav-button"
+            @click="tapLight"
+          >
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -318,6 +368,7 @@
               <path d="M21 12l-3 0" />
               <path d="M12 12l0 .01" />
             </svg>
+            <span class="nav-label">{{ t('nav.guider') }}</span>
           </router-link>
         </div>
 
@@ -325,12 +376,13 @@
         <div
           v-if="!isNavItemHidden('sequence')"
           :style="{ order: getNavOrder('sequence') }"
-          :data-label="t('nav.sequence')"
+          class="nav-item"
         >
           <router-link
             to="/sequence"
             class="nav-button touch-target"
             active-class="active-nav-button"
+            @click="tapLight"
             @touchstart.passive="handleTouchStart"
             @touchend.passive="handleTouchEnd"
           >
@@ -338,17 +390,23 @@
               class="icon force-visible"
               :class="sequenceStore.sequenceRunning ? 'text-green-500' : 'text-white'"
             />
+            <span class="nav-label">{{ t('nav.sequence') }}</span>
           </router-link>
         </div>
 
         <div
           v-if="!isNavItemHidden('monitoring')"
           :style="{ order: getNavOrder('monitoring') }"
-          :data-label="t('nav.monitoring')"
+          class="nav-item"
         >
-          <router-link to="/seq-mon" class="nav-button" active-class="active-nav-button">
+          <router-link
+            to="/seq-mon"
+            class="nav-button"
+            active-class="active-nav-button"
+            @click="tapLight"
+          >
             <svg
-              fill="#FFFFFF"
+              fill="currentColor"
               height="400px"
               width="400px"
               version="1.1"
@@ -356,7 +414,7 @@
               viewBox="-100 0 639.479 439.479"
               xmlns:xlink="http://www.w3.org/1999/xlink"
               enable-background="new 0 0 439.479 439.479"
-              class="icon force-visible"
+              class="icon force-visible text-white"
             >
               <g>
                 <path
@@ -367,6 +425,7 @@
                 />
               </g>
             </svg>
+            <span class="nav-label">{{ t('nav.monitoring') }}</span>
           </router-link>
         </div>
 
@@ -374,12 +433,13 @@
         <div
           v-if="store.cameraInfo.Connected && !isNavItemHidden('flats')"
           :style="{ order: getNavOrder('flats') }"
-          :data-label="t('nav.flatWizard')"
+          class="nav-item"
         >
           <router-link
             to="/flats"
             class="nav-button touch-target"
             active-class="active-nav-button"
+            @click="tapLight"
             @touchstart.passive="handleTouchStart"
             @touchend.passive="handleTouchEnd"
           >
@@ -388,38 +448,46 @@
               width="24"
               height="24"
               viewBox="0 0 24 24"
-              fill="#FFFFFF"
-              class="icon force-visible"
+              fill="currentColor"
+              class="icon force-visible text-white"
             >
               <path
                 d="m5,5.5v-2c0-1.93,1.57-3.5,3.5-3.5h2c.276,0,.5.224.5.5s-.224.5-.5.5h-2c-1.379,0-2.5,1.121-2.5,2.5v2c0,.276-.224.5-.5.5s-.5-.224-.5-.5Zm18.5,7.5c-.276,0-.5.224-.5.5v2c0,1.379-1.121,2.5-2.5,2.5h-2c-.276,0-.5.224-.5.5s.224.5.5.5h2c1.93,0,3.5-1.57,3.5-3.5v-2c0-.276-.224-.5-.5-.5ZM20.5,0h-2c-.276,0-.5.224-.5.5s.224.5.5.5h2c1.379,0,2.5,1.121,2.5,2.5v2c0,.276.224.5.5.5s.5-.224.5-.5v-2c0-1.93-1.57-3.5-3.5-3.5Zm-2.949,13.567l-2.199-.225-1.026,2.03c-.227.453-.691.733-1.19.733-.058,0-.115-.004-.173-.011-.562-.073-1.017-.494-1.134-1.048l-.379-1.79L.854,23.854c-.098.098-.226.146-.354.146s-.256-.049-.354-.146c-.195-.195-.195-.512,0-.707l10.579-10.579-1.739-.345c-.26-.05-.497-.177-.686-.365-.202-.202-.336-.47-.377-.754-.081-.56.202-1.111.704-1.373l2.034-1.066-.227-2.209c-.046-.565.263-1.096.769-1.33.505-.232,1.109-.125,1.503.267l1.522,1.523,2.067-.981c.508-.232,1.111-.124,1.504.268.394.392.502.994.27,1.499l-.983,2.072,1.522,1.521c.396.396.502,1.003.266,1.508-.235.506-.774.806-1.324.766Z"
               />
             </svg>
+            <span class="nav-label">{{ t('nav.flatWizard') }}</span>
           </router-link>
         </div>
 
         <div
           v-if="store.isBackendReachable && !isNavItemHidden('framing')"
           :style="{ order: getNavOrder('framing') }"
-          :data-label="t('nav.framing')"
+          class="nav-item"
         >
-          <router-link to="/framing" class="nav-button" active-class="active-nav-button">
+          <router-link
+            to="/framing"
+            class="nav-button"
+            active-class="active-nav-button"
+            @click="tapLight"
+          >
             <CameraFramingIcon class="icon force-visible" />
+            <span class="nav-label">{{ t('nav.framing') }}</span>
           </router-link>
         </div>
 
         <div
           v-if="store.isBackendReachable && !isNavItemHidden('skyview')"
           :style="{ order: getNavOrder('skyview') }"
-          :data-label="t('nav.skyView')"
+          class="nav-item"
         >
           <router-link
             to="/"
             class="nav-button"
             :class="{ 'active-nav-button': store.showSkyAtlas }"
-            @click="store.showSkyAtlas = true"
+            @click="handleSkyViewClick"
           >
             <SparklesIcon class="icon force-visible" />
+            <span class="nav-label">{{ t('nav.skyView') }}</span>
           </router-link>
         </div>
         <!-- Plugin navigation items -->
@@ -427,29 +495,33 @@
           <div
             v-if="!isNavItemHidden('plugin-' + item.pluginId)"
             :style="{ order: getNavOrder('plugin-' + item.pluginId) }"
-            :data-label="item.title"
+            class="nav-item"
           >
             <router-link
               :to="item.path"
               class="nav-button"
               active-class="active-nav-button"
               :title="item.title"
+              @click="tapLight"
             >
               <component :is="item.icon" class="icon force-visible" />
+              <span class="nav-label">{{ item.title }}</span>
             </router-link>
           </div>
         </template>
 
         <!--  Settings Link -->
-        <div :style="{ order: getNavOrder('settings') }" :data-label="t('nav.settings')">
+        <div :style="{ order: getNavOrder('settings') }" class="nav-item">
           <router-link
             to="/settings"
             class="nav-button touch-target"
             active-class="active-nav-button"
+            @click="tapLight"
             @touchstart.passive="handleTouchStart"
             @touchend.passive="handleTouchEnd"
           >
             <Cog6ToothIcon class="icon force-visible" />
+            <span class="nav-label">{{ t('nav.settings') }}</span>
           </router-link>
         </div>
 
@@ -457,16 +529,17 @@
         <div
           v-if="!isNavItemHidden('about')"
           :style="{ order: getNavOrder('about') }"
-          :data-label="t('nav.about')"
+          class="nav-item"
         >
           <button
-            @click="showAboutModal = true"
+            @click="handleAboutClick"
             @touchstart.passive="handleTouchStart"
             @touchend.passive="handleTouchEnd"
             class="nav-button touch-target"
             :class="{ 'active-nav-button': showAboutModal }"
           >
             <InformationCircleIcon class="icon force-visible" />
+            <span class="nav-label">{{ t('nav.about') }}</span>
           </button>
         </div>
       </div>
@@ -504,7 +577,9 @@ import { usePluginStore } from '@/store/pluginStore';
 import AboutModal from './status/AboutModal.vue';
 import version from '@/version';
 import { useOrientation } from '@/composables/useOrientation';
+import { useHaptics } from '@/composables/useHaptics';
 
+const { tapLight } = useHaptics();
 const { t } = useI18n();
 const store = apiStore();
 const sequenceStore = useSequenceStore();
@@ -512,7 +587,6 @@ const settingsStore = useSettingsStore();
 const pluginStore = usePluginStore();
 const cameraStore = useCameraStore();
 const route = useRoute();
-const selectedInstanceId = computed(() => settingsStore.selectedInstanceId);
 const appVersion = ref(version);
 const showAboutModal = ref(false);
 
@@ -520,23 +594,34 @@ const showAboutModal = ref(false);
 const { isLandscape } = useOrientation();
 
 // Scroll indicator states
+const navContainerRef = ref(null);
 const navContentRef = ref(null);
 const canScrollStart = ref(false);
 const canScrollEnd = ref(false);
 
+// The scroll fade gradients must match the actual nav background, which is an
+// instance color class picked at runtime. Read the computed color off the
+// container and expose it as a CSS variable the gradients build on — a
+// hardcoded gradient color produced visible seams at the SubNav/StatusBar edges.
+function updateNavFadeColor() {
+  nextTick(() => {
+    const el = navContainerRef.value;
+    if (!el) return;
+    const bg = getComputedStyle(el).backgroundColor;
+    if (bg) {
+      el.style.setProperty('--nav-fade-color', bg);
+    }
+  });
+}
+
 // Touch feedback states
 const touchedButton = ref(null);
-
-// Nav label state
-const navTouched = ref(false);
 
 // Force icons visibility after mount
 const iconsLoaded = ref(false);
 
-const activeInstanceColor = computed(() => {
-  const color = settingsStore.getInstanceColorById(selectedInstanceId.value);
-  return color;
-});
+// Fixed frame surface color, independent of the selected instance.
+const activeInstanceColor = 'bg-gray-900/95';
 
 // Orientierung-spezifische CSS-Klassen
 const orientationClasses = computed(() => ({
@@ -574,17 +659,14 @@ const filteredNavigationItems = computed(() => {
   });
 });
 
-// Nav label touch handlers
-let navLabelTimer = null;
-function handleNavTouchStart() {
-  if (navLabelTimer) clearTimeout(navLabelTimer);
-  navTouched.value = true;
+function handleSkyViewClick() {
+  store.showSkyAtlas = true;
+  tapLight();
 }
 
-function handleNavTouchEnd() {
-  navLabelTimer = setTimeout(() => {
-    navTouched.value = false;
-  }, 400);
+function handleAboutClick() {
+  showAboutModal.value = true;
+  tapLight();
 }
 
 // Touch event handlers for better compatibility
@@ -602,7 +684,9 @@ function handleTouchEnd() {
   }, 150);
 }
 
-// Force icon visibility
+// Android workaround: icons occasionally render invisible in the WebView.
+// Kept together with the .force-visible / !important CSS hacks until this can be
+// re-tested on a real Android device; removal is a separate change.
 function forceIconVisibility() {
   nextTick(() => {
     const icons = document.querySelectorAll('.icon');
@@ -657,6 +741,7 @@ onMounted(() => {
 
   // Force icon visibility on mount
   forceIconVisibility();
+  updateNavFadeColor();
 
   // Additional force after a short delay for Android
   setTimeout(() => {
@@ -725,9 +810,11 @@ watch(
 
 /* Landscape Mode - Navigation links */
 .nav-landscape {
-  @apply fixed left-0 top-0 bottom-0 h-full w-32 flex-col justify-start;
+  @apply fixed left-0 top-0 bottom-0 h-full w-(--nav-width) flex-col justify-start;
   height: 100vh !important;
-  padding-left: 3rem;
+  /* Clear a landscape camera cutout only on devices that actually have one;
+     collapses to zero elsewhere (needs viewport-fit=cover). */
+  padding-left: env(safe-area-inset-left, 0px);
 }
 
 /* Content Area Anpassungen */
@@ -792,6 +879,8 @@ watch(
   justify-content: center;
   margin: 4px;
   flex-shrink: 0;
+  /* Containing block for the absolutely positioned .nav-label */
+  position: relative;
   /* iOS touch improvements */
   -webkit-tap-highlight-color: transparent;
   -webkit-touch-callout: none;
@@ -1144,6 +1233,13 @@ watch(
   justify-content: center;
 }
 
+/* Fade gradients build on --nav-fade-color, which updateNavFadeColor() sets to
+   the container's real computed background at runtime (instance colors vary).
+   Fallback matches the default bg-gray-900/95 nav background. */
+.scroll-fade {
+  --fade: var(--nav-fade-color, rgba(17, 24, 39, 0.95));
+}
+
 /* Portrait Mode - Horizontal Fades (Left/Right) */
 .scroll-fade-left {
   top: 0;
@@ -1152,9 +1248,9 @@ watch(
   width: 60px;
   background: linear-gradient(
     to right,
-    rgba(15, 23, 42, 1) 0%,
-    rgba(15, 23, 42, 0.8) 40%,
-    rgba(15, 23, 42, 0) 100%
+    var(--fade) 0%,
+    color-mix(in srgb, var(--fade) 80%, transparent) 40%,
+    transparent 100%
   );
 }
 
@@ -1165,9 +1261,9 @@ watch(
   width: 60px;
   background: linear-gradient(
     to left,
-    rgba(15, 23, 42, 1) 0%,
-    rgba(15, 23, 42, 0.8) 40%,
-    rgba(15, 23, 42, 0) 100%
+    var(--fade) 0%,
+    color-mix(in srgb, var(--fade) 80%, transparent) 40%,
+    transparent 100%
   );
 }
 
@@ -1179,9 +1275,9 @@ watch(
   height: 60px;
   background: linear-gradient(
     to bottom,
-    rgba(15, 23, 42, 1) 0%,
-    rgba(15, 23, 42, 0.8) 40%,
-    rgba(15, 23, 42, 0) 100%
+    var(--fade) 0%,
+    color-mix(in srgb, var(--fade) 80%, transparent) 40%,
+    transparent 100%
   );
 }
 
@@ -1192,9 +1288,9 @@ watch(
   height: 60px;
   background: linear-gradient(
     to top,
-    rgba(15, 23, 42, 1) 0%,
-    rgba(15, 23, 42, 0.8) 40%,
-    rgba(15, 23, 42, 0) 100%
+    var(--fade) 0%,
+    color-mix(in srgb, var(--fade) 80%, transparent) 40%,
+    transparent 100%
   );
 }
 
@@ -1231,57 +1327,42 @@ watch(
   bottom: 4px;
 }
 
-/* Adjust for safe area in landscape */
+/* Adjust for safe area in landscape — match the sidebar's left padding */
 .nav-landscape .scroll-fade-top {
-  left: 3rem;
+  left: env(safe-area-inset-left, 0px);
 }
 
 .nav-landscape .scroll-fade-bottom {
-  left: 3rem;
+  left: env(safe-area-inset-left, 0px);
 }
 
-/* Nav item labels – overlay inside the icon circle */
-.nav-items-wrapper > div {
-  position: relative;
+/* Nav item labels – permanently visible below the icon circle.
+   The label lives inside the router-link, so it is part of the touch target.
+   It is positioned absolutely; .nav-item reserves the space via padding-bottom
+   so that neighbouring items never overlap and nothing gets clipped. */
+.nav-item {
+  padding-bottom: 14px;
 }
 
-.nav-items-wrapper > div::after {
-  content: attr(data-label);
+.nav-label {
   position: absolute;
-  top: calc(100% - 16px);
+  top: calc(100% + 1px);
   left: 50%;
   transform: translateX(-50%);
-  width: auto;
-  min-width: 50px;
   max-width: 60px;
-  height: auto;
-  max-height: 48px;
-  border-radius: 4px;
-  background: rgba(15, 23, 42, 0.4);
-  border: 1px solid rgba(100, 116, 139, 0.3);
-  color: rgba(255, 255, 255, 0.8);
-  font-size: 8.5px;
+  font-size: 10px;
   font-weight: 600;
-  display: block;
+  line-height: 1.2;
   text-align: center;
-  line-height: 1.25;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  padding: 4px;
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  pointer-events: none;
+  color: var(--color-content-faint);
+  transition: color 0.2s ease-out;
   z-index: 20;
 }
 
-.nav-labels-visible .nav-items-wrapper > div::after {
-  opacity: 1;
-}
-
-@media (hover: hover) {
-  .navigation-container:hover .nav-items-wrapper > div::after {
-    opacity: 1;
-  }
+.active-nav-button .nav-label {
+  color: var(--color-accent);
 }
 </style>

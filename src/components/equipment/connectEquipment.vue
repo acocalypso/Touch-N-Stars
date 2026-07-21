@@ -3,7 +3,7 @@
   <div class="pb-5 flex gap-2">
     <!-- Connect All Button -->
     <button
-      class="default-button-green flex-1"
+      class="tns-btn-primary flex-1"
       @click="connectAll"
       :disabled="isConnecting || allConnected"
     >
@@ -33,7 +33,7 @@
 
     <!-- Disconnect All Button -->
     <button
-      class="default-button-red flex-1"
+      class="tns-btn-danger flex-1"
       @click="disconnectAll"
       :disabled="isDisconnecting || !hasAnyConnection"
     >

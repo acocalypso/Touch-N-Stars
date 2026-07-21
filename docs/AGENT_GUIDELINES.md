@@ -478,12 +478,16 @@ npm run build
 npm run preview:smoke
 ```
 
+The full Vue typecheck can exceed Node's default heap. Set
+`NODE_OPTIONS=--max-old-space-size=6144` first (PowerShell:
+`$env:NODE_OPTIONS='--max-old-space-size=6144'`) when validating the complete
+application graph.
+
 When native/mobile behavior is relevant:
 
 ```bash
 npm run build:native
-npx cap sync android
-npx cap sync ios
+npm run sync:native
 ```
 
 When plugin behavior or generated files are relevant:
@@ -500,13 +504,13 @@ When release/test deployment behavior is relevant on Windows/N.I.N.A. plugin pat
 npm run testbuild
 ```
 
-`testbuild` deliberately skips the repository-wide auto-fixing lint pass so a
-local N.I.N.A. deployment cannot stall before Vite writes the application. It
+`testbuild` deliberately skips the source-scoped lint gate so a local N.I.N.A.
+deployment remains fast and deterministic. It
 uses the normal `build:app` generators, deploys to the fixed plugin `app`
 directory, and then verifies the Celestia view/engine chunks, the complete DSS
 orders 3 and 4 including the order-3 Allsky preview, and removal of legacy
-Stellarium data. Run `npm run lint` separately before committing; CI continues
-to enforce linting.
+Stellarium data. Run the cached `npm run lint` separately before committing; CI
+continues to enforce linting.
 
 When using scripts that can auto-modify files, re-run:
 

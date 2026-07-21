@@ -177,6 +177,10 @@ independent star/galaxy/other-DSO limiting magnitudes. The renderer package is
 pinned to an immutable Git revision. The legacy Stellarium Web runtime and
 rollback path have been removed.
 
+The current dependency update, coordinate, offline-data, mobile, and validation
+contracts are maintained in
+[`docs/celestia-atlas-integration.md`](docs/celestia-atlas-integration.md).
+
 ## 10. Build, Packaging, and Release
 
 ### 10.1 Build Pipeline

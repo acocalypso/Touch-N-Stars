@@ -65,13 +65,14 @@ The application aims to make controlling and adjusting already configured profil
 - Stellarium v26.2 deep-sky catalogue cross-index data, used for the bundled Abell/ACO, Barnard, LBN, LDN, RCW, Sharpless 2 and vdB supplement, licensed under GPL-2.0-or-later
 - HYG Database v4.1 by David Nash/Astronomy Nexus, used for the bundled HYG star layer, licensed under CC-BY-SA-4.0
 - SIMBAD A66/Abell planetary-nebula catalogue data, licensed under ODbL-1.0. This research has made use of the SIMBAD database, operated at CDS, Strasbourg, France.
-- Detailed source, transformation and redistribution notices are retained in the pinned [Celestia Atlas third-party notices](https://github.com/acocalypso/celestia_atlas/blob/8d79f5740621db9757a2b1b85b1fc1d6d005a6fe/THIRD_PARTY_NOTICES.md)
+- Detailed source, transformation and redistribution notices are retained in the pinned [Celestia Atlas third-party notices](https://github.com/acocalypso/celestia_atlas/blob/2f6b558caf538d10cdb20774e01e94d017f2b272/THIRD_PARTY_NOTICES.md)
 
 ### 🔍 Further information
 
 - Visit our website: https://touch-n-stars.eu
 - You can find more details about the application and how to use it in our [WIKI](https://github.com/Touch-N-Stars/Touch-N-Stars/wiki/Touch'N'Stars-Wiki).
 - Our [YouTube channel](https://www.youtube.com/watch?v=0chtlhO_cX4&list=PLAT-Qw0mxhRLn1KzFKGRuu3Pur-gjNS2C) has video instructions and further tips on how to use Touch'N'Stars
+- Developers can start with the [contribution guide](CONTRIBUTING.md), [high-level design](HighLevelDesign.md), and [Celestia Atlas integration guide](docs/celestia-atlas-integration.md).
 
 ## 🤝 Contributing
 

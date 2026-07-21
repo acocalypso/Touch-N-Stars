@@ -1,5 +1,20 @@
 # Celestia Atlas migration
 
+> This is the chronological migration record. For the current integration,
+> dependency-update, offline-data, mobile, and validation contract, use the
+> [Celestia Atlas integration guide](celestia-atlas-integration.md).
+
+## Current status (2026-07-21)
+
+Celestia Atlas is the only sky renderer; the Stellarium runtime and rollback
+path are removed. Web production validation and user testing on Android and iOS
+cover navigation, search, selection, mount/FOV integration, offline survey data,
+and the mobile control layout. Automated host tests, typecheck, lint, native
+package-boundary verification, Capacitor sync, and Android debug assembly have
+passed. The remaining release evidence is iOS compilation on macOS, repeatable
+native heap profiling, the formal release regression pass, and upstream FITS/
+image position-angle provenance.
+
 ## 1. Baseline repository revisions
 
 - Touch-N-Stars: branch `celestial-atlas`, revision `9bf475e3b5f1fb993dcfe7c5a172989a6a56f7e4`.
@@ -72,7 +87,6 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 - Phase 0: complete enough to begin isolated engine work; baseline lint timed out.
 - Phase 1: public API, lifecycle, pointer cancellation and initial overlays implemented; standalone renderer extraction is complete.
 - Phase 2: the lazy Vue integration connects observer, synchronized UTC, FOV, visibility and deterministic teardown.
-- Phase 7 (partial): Celestia Atlas is now the default viewer in normal builds. The legacy viewer remains available for one rollback interval only when `VITE_STELLARIUM_ROLLBACK=true` is explicitly set.
 - Phase 7: the rollback interval is complete. The conditional legacy import,
   Stellarium Web view/store/overlays, JavaScript loader and WebAssembly binaries
   are removed; Celestia Atlas is the only sky runtime.
@@ -354,16 +368,16 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 
 | Capability               | Existing                                        | New engine                                                                                                   | Status                                                               |
 | ------------------------ | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------- |
-| Explicit lifecycle       | Hidden render suppression plus host workarounds | `pause`, `resume`, `resize`, idempotent `destroy`                                                            | Web passed; native test pending                                      |
-| Observer and UTC         | Supported                                       | Validated setters, synchronized host time and cached EQJ/ICRS observed frame                                 | Web reference fixtures passed; native pending                        |
-| Offline catalogue search | Stellarium packaged data                        | Lazy 21,191-object layered DSO catalogue, 8,910 stars and moving objects                                     | Host and production-browser search passed; native validation pending |
+| Explicit lifecycle       | Hidden render suppression plus host workarounds | `pause`, `resume`, `resize`, idempotent `destroy`                                                            | Web passed; Android/iOS user validation passed                       |
+| Observer and UTC         | Supported                                       | Validated setters, synchronized host time and cached EQJ/ICRS observed frame                                 | Reference fixtures and Android/iOS user validation passed            |
+| Offline catalogue search | Stellarium packaged data                        | Lazy 21,191-object layered DSO catalogue, 8,910 stars and moving objects                                     | Host, production browser, and Android/iOS user validation passed     |
 | Brightness filters       | Shared display density                          | Independent persisted star, galaxy-family and other-DSO limiting magnitudes                                  | Standalone and host web passed                                       |
 | Catalogue marker filters | Shared display density                          | Independent persisted 17-type and nine-source allowlists with All/None and stale-state recovery              | Host and production mobile web passed                                |
 | Framing selection        | Supported                                       | Shared selected-object actions and explicit ICRS/J2000-to-NINA-J2000 command boundary                        | Connected; full action parity, provenance and conversion tested      |
-| Mount/FOV/rotation       | Supported                                       | Profile-derived physical camera geometry, celestial-north frame, marker/follow, mosaic and rotation controls | Production web passed; native test pending                           |
-| Horizon/landscape        | Supported                                       | Default-on persisted horizon mask; seam-correct, bilinear and DPR-aware order-0 HiPS/HEALPix imagery         | Standalone and host production browsers passed; native tests pending |
+| Mount/FOV/rotation       | Supported                                       | Profile-derived physical camera geometry, celestial-north frame, marker/follow, mosaic and rotation controls | Production web and Android/iOS user validation passed                |
+| Horizon/landscape        | Supported                                       | Default-on persisted horizon mask; seam-correct, bilinear and DPR-aware order-0 HiPS/HEALPix imagery         | Standalone, host, and Android/iOS user validation passed             |
 | Standalone controls      | Open control panel                              | Control panel starts closed with synchronized accessibility state                                            | Connected                                                            |
-| Mobile lifecycle         | Host workarounds                                | First-use lazy mount, warm reuse, app-background pause and deterministic pointer cancellation                | Web passed; native test pending                                      |
+| Mobile lifecycle         | Host workarounds                                | First-use lazy mount, warm reuse, app-background pause and deterministic pointer cancellation                | Web and Android/iOS user validation passed                           |
 
 ## 10. Test results
 
@@ -401,7 +415,9 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 - Default-view promotion adds a regression test proving Atlas is the normal import and Stellarium requires the explicit rollback flag.
 - Default-view promotion validation: 47 host tests passed; targeted ESLint passed; normal and `VITE_STELLARIUM_ROLLBACK=true` production builds passed. A production browser load requested the `CelestiaAtlasView` JS/CSS chunks and no `StellariumView` chunk. Console errors were limited to expected missing NINA API responses from the static-only test server; no viewer or Vue runtime errors occurred.
 - Atlas settings parity validation: 48 host tests passed; targeted ESLint and the production build passed. On a 390×844 browser viewport the settings modal opened, the azimuth-grid toggle updated host settings, and the original Atlas canvas remained mounted. Console errors were limited to expected missing NINA API and landscape-list responses from the static-only server.
-- Host `npm run lint`: timed out after 60 seconds; no pass claimed.
+- Historical baseline: host `npm run lint` timed out after 60 seconds. This was
+  resolved on 2026-07-21 by scoping ESLint to source/configuration, excluding
+  generated trees, separating Prettier, and enabling its persistent cache.
 - Candidate JavaScript syntax checks: passed before Phase 1 changes.
 - Host after coordinate contract: 44 passed, 0 failed; targeted ESLint passed.
 - Host command-boundary coverage validates J2000 pass-through, the official IAU SOFA `iauH2fk5` ICRS-to-FK5/J2000 reference vector, source-frame retention, and rejection of untagged coordinates.
@@ -542,7 +558,7 @@ emulation.
   and service metadata returned HTTP 200 from the local plugin; no external
   survey request or Atlas runtime exception occurred.
 
-## 11. Remaining blockers
+## 11. Remaining release gates
 
 - Celestia Atlas code is MIT licensed. Data boundaries remain explicit in the
   third-party notices: OpenNGC and HYG are CC BY-SA 4.0, the SIMBAD A66 layer is
@@ -550,11 +566,13 @@ emulation.
   supplement is GPL-2.0-or-later.
 - The complete pinned offline catalogue is packaged, first-open lazy and uses
   no runtime fetch after its package chunks load. Browser search/render and
-  startup-graph validation passed; native validation remains open.
-- Android and iOS runtime validation require suitable platform environments.
-- Existing listed and custom landscapes now use seam-correct spherical order-0 HEALPix projection. The standalone and Touch-N-Stars production browsers passed orientation, seam, settled-resolution, request, and Atlas console checks; Android and iOS validation remain release gates.
-- Remaining parity gates are Android/iOS lifecycle and gesture validation,
-  native heap profiling and upstream FITS/image position-angle provenance.
+  startup-graph validation passed; Android/iOS user validation passed.
+- Existing listed and custom landscapes use seam-correct spherical order-0
+  HEALPix projection. Standalone, Touch-N-Stars production browser, and
+  Android/iOS user validation passed orientation and interaction checks.
+- Remaining gates are the formal native release regression, repeatable native
+  heap profiling, iOS compilation on macOS, and upstream FITS/image
+  position-angle provenance.
 - Native package boundary and size profiling now run after every
   `npm run build:native`. The verifier requires all lazy Celestia runtime and
   catalogue chunks, rejects bundled Atlas survey data and legacy Stellarium
@@ -568,7 +586,7 @@ emulation.
   paths. iOS compilation still requires an Xcode/CocoaPods environment.
 - Package boundary resolved: Touch-N-Stars uses the public Git repository pinned
   over HTTPS to immutable Atlas commit
-  `71da520db6e0e36e0bf75a7447fb266cf60363df`. Embedded and standalone shells
+  `2f6b558caf538d10cdb20774e01e94d017f2b272`. Embedded and standalone shells
   share the same viewer and astronomy engine modules.
 
 ## 12. Removal checklist
@@ -578,8 +596,9 @@ emulation.
       horizontal geometry, projection and camera rotation; upstream image metadata
       provenance remains tracked separately.
 - [x] Full offline catalogue and notices are packaged.
-- [ ] Web and required native lifecycle tests pass.
-- [x] Celestia is default with a tested rollback interval.
+- [x] Web lifecycle tests and Android/iOS user validation pass; formal native
+      release regression and profiling remain release gates.
+- [x] Celestia is the only renderer after a completed rollback interval.
 - [x] Stellarium runtime, WASM, globals, stores, view overlays, and rollback import are removed.
 - [x] Atlas data uses the `celestia-atlas-data` namespace, existing settings are migrated, and native builds load the data from the selected NINA plugin.
 - [x] Final search classifies every historical reference.

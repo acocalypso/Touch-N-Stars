@@ -32,6 +32,8 @@ export function createDssSkySurveySource(dataBaseUrl = CELESTIA_ATLAS_DATA_PATH)
     maxOrder: 4,
     tileWidth: 512,
     format: 'webp',
+    blendStartFovDeg: 170,
+    blendFullFovDeg: 130,
     creditLabel:
       'Digitized Sky Survey — STScI/NASA; colored and HiPS-processed by CDS (CNRS/Unistra).',
     attribution:

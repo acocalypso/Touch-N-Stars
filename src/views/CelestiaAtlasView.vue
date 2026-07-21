@@ -317,10 +317,11 @@ function updateDisplayOptions() {
     meridian: Boolean(settingsStore.celestiaAtlas.meridianLinesVisible),
     ecliptic: Boolean(settingsStore.celestiaAtlas.eclipticLinesVisible),
     atmosphere: Boolean(settingsStore.celestiaAtlas.atmosphereVisible),
-    milkyWay: true,
+    milkyWay: false,
     skySurvey: settingsStore.celestiaAtlas.skySurveyVisible !== false,
     constellations: Boolean(settingsStore.celestiaAtlas.constellationsLinesVisible),
     labels: true,
+    cardinals: true,
     starMagnitudeLimit: normalizeAtlasMagnitudeLimit(
       settingsStore.celestiaAtlas.starMagnitudeLimit,
       6.5
@@ -544,6 +545,7 @@ onMounted(async () => {
       catalog,
       stars,
       constellations,
+      milkyWayPanoramaUrl: null,
       skySurveySource: createDssSkySurveySource(atlasDataBaseUrl()),
       onSelect: (target) => {
         selectedTarget.value = target;

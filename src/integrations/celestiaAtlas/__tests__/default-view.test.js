@@ -76,6 +76,9 @@ test('uses app-owned photographic survey data without any public online tile sou
 
   assert.match(settingsMigration, /skySurveyVisible: true/);
   assert.match(view, /skySurvey: settingsStore\.celestiaAtlas\.skySurveyVisible !== false/);
+  assert.match(view, /milkyWay: false/);
+  assert.match(view, /cardinals: true/);
+  assert.match(view, /milkyWayPanoramaUrl: null/);
   assert.match(view, /settingsStore\.celestiaAtlas\.skySurveyVisible/);
   assert.match(view, /skySurveySource: createDssSkySurveySource\(atlasDataBaseUrl\(\)\)/);
   assert.match(view, /native: Capacitor\.isNativePlatform\(\)/);
@@ -85,6 +88,8 @@ test('uses app-owned photographic survey data without any public online tile sou
   assert.match(offlineSurvey, /createDssSkySurveySource/);
   assert.match(offlineSurvey, /minOrder: 3/);
   assert.match(offlineSurvey, /maxOrder: 4/);
+  assert.match(offlineSurvey, /blendStartFovDeg: 170/);
+  assert.match(offlineSurvey, /blendFullFovDeg: 130/);
   assert.doesNotMatch(offlineSurvey, /url:\s*'https?:\/\//);
   assert.match(packageJson, /EXCLUDE_CELESTIA_ATLAS_DATA=true/);
   assert.match(vite, /celestiaAtlasDataExclude/);

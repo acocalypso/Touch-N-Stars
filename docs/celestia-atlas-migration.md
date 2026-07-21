@@ -86,7 +86,7 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 - Phase 5 (partial): custom horizon points are interpolated by the host and projected by the engine from geographic north/east azimuth into the live observer sky. Engine UTC advances while active and horizon projection refreshes once per minute without a continuous render loop.
 - Phase 5 (partial): the Sun, Moon, eight planets and Pluto now use live, offline Astronomy Engine ephemerides. They render, label, search, select and hand off topocentric J2000 coordinates at the viewer's observer and UTC.
 - Phase 5 (partial): 1,214 pinned IAU Minor Planet Center comet records now render and search offline using universal-variable propagation, light-time correction and observer parallax. Embedded and standalone Atlas consumers load the same engine modules.
-- Phase 5 (partial): the embedded viewer now honors the existing azimuth-grid, equatorial-grid, local-meridian, ecliptic and atmosphere settings and includes an offline Galactic-plane Milky Way layer.
+- Phase 5 (partial): the embedded viewer now honors the existing azimuth-grid, equatorial-grid, local-meridian, ecliptic and atmosphere settings and uses the packaged DSS survey as its offline wide-field sky background.
 - Phase 5 (partial): Io, Europa, Ganymede and Callisto now use live offline ephemerides and support rendering, search, selection and narrow-field centering.
 - Phase 5 (partial): existing default, neutral and custom order-0 HiPS/HEALPix landscapes now load through the Atlas API and render in the live observed frame; production browser validation passed and native visual validation remains open.
 - Phase 4 (partial): the existing FOV rotation and view-center action panel now reads the active Atlas center through the typed public API and converts it to the proven NINA J2000 command contract before supplying slew/center/rotate, sequence-target, and favorite-target workflows. Invalid samples clear old values and disable all actions. Its sampling loop stops while the sky view is hidden.
@@ -155,6 +155,17 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
   altitude changed by 0.000143 degrees and the 70-degree FOV remained fixed.
   The landscape stayed level and no Atlas or coordinate errors appeared; the
   local preview reported only expected missing-NINA API/WebSocket failures.
+
+### 2026-07-21 photographic wide-field background and cardinals
+
+- Touch-N-Stars disables the synthetic Milky Way panorama and supplies its
+  packaged DSS HiPS survey as the complete wide-field background. The engine's
+  source-specific blend thresholds keep that local imagery opaque through the
+  maximum 130-degree field of view without introducing an online dependency.
+- Native Android and iOS builds continue to request the same survey from the
+  selected NINA plugin rather than packaging the survey inside the app.
+- The host now explicitly enables cardinal labels alongside its always-on
+  labels, restoring north, east, south, and west on the local horizon.
 
 ### 2026-07-12 Milky Way orientation fix
 

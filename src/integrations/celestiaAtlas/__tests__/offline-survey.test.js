@@ -14,6 +14,8 @@ test('the configured DSS background is completely local and matches packaged ord
   assert.equal(PACKAGED_DSS_SKY_SURVEY_SOURCE.minOrder, 3);
   assert.equal(PACKAGED_DSS_SKY_SURVEY_SOURCE.maxOrder, 4);
   assert.equal(PACKAGED_DSS_SKY_SURVEY_SOURCE.format, 'webp');
+  assert.equal(PACKAGED_DSS_SKY_SURVEY_SOURCE.blendStartFovDeg, 170);
+  assert.equal(PACKAGED_DSS_SKY_SURVEY_SOURCE.blendFullFovDeg, 130);
 
   await Promise.all([
     access(new URL('Norder3/Allsky.webp', surveyRoot)),

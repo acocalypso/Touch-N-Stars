@@ -99,7 +99,9 @@ app.use(pinia).use(head).use(i18n).use(router);
   pluginStore.initializeAppAndRouter(app, router);
 
   // Load and register all available plugins
-  await pluginStore.loadAndRegisterPlugins();
+  // Always refresh bundled metadata after an upgrade. The loader preserves each
+  // plugin's enabled state while replacing stale names, descriptions and paths.
+  await pluginStore.loadAndRegisterPlugins(true);
 
   // Initialize all enabled plugins
   await pluginStore.initializeEnabledPlugins();

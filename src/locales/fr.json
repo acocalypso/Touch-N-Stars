@@ -2798,7 +2798,7 @@
         "center_solve_label": "Centrer + Solve",
         "center_solve_text": "Platesolve et centrer la cible (nécessite monture connectée + offset calibré).",
         "target_solve_label": "Cibler + Résoudre",
-        "target_solve_text": "Aller vers la cible + Centrer (nécessite monture connectée + cible définie dans Stellarium)."
+        "target_solve_text": "Aller vers la cible + Centrer (nécessite une monture connectée et une cible sélectionnée dans Celestia Atlas)."
       },
       "progress": {
         "title": "Progression Solve",

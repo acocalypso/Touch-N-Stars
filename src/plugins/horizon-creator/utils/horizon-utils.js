@@ -86,7 +86,7 @@ export function altAzToRaDec(altDeg, azDeg, latRad, lstRad) {
   return { raDeg: ra * R2D, decDeg: decRad * R2D };
 }
 
-// Build a GeoJSON FeatureCollection (LineString) for the Stellarium overlay
+// Build a GeoJSON FeatureCollection (LineString) for the sky-atlas overlay.
 export function buildHorizonGeoJSON(points, latRad, lonRad, mjd) {
   if (points.length < 2) return { type: 'FeatureCollection', features: [] };
 

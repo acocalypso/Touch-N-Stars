@@ -2798,7 +2798,7 @@
         "center_solve_label": "Centreren + oplossen",
         "center_solve_text": "Platesolve en doel centreren (montering verbonden en offset gekalibreerd vereist).",
         "target_solve_label": "Doel + oplossen",
-        "target_solve_text": "Naar doel slewen en centreren (montering verbonden en doel ingesteld in Stellarium – Framing Assistant vereist)."
+        "target_solve_text": "Naar doel slewen en centreren (vereist een verbonden montering en een doel geselecteerd in Celestia Atlas)."
       },
       "progress": {
         "title": "Oplosvoortgang",

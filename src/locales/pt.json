@@ -2798,7 +2798,7 @@
         "center_solve_label": "Centrar + Resolver",
         "center_solve_text": "Platesolve e centragem do alvo (requer montagem ligada e offset calibrado).",
         "target_solve_label": "Alvo + Resolver",
-        "target_solve_text": "Mover para o alvo e centrar (requer montagem ligada e alvo definido no Stellarium – Framing Assistant)."
+        "target_solve_text": "Mover para o alvo e centrar (requer montagem ligada e um alvo selecionado no Celestia Atlas)."
       },
       "progress": {
         "title": "Progresso da resolução",

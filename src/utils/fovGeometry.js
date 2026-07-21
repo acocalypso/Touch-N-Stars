@@ -1,4 +1,4 @@
-// Camera FOV geometry helpers for the Stellarium FOV overlay.
+// Camera FOV geometry helpers for the Celestia Atlas overlay.
 // Pure functions — no Vue / Pinia / engine dependencies.
 
 const D2R = Math.PI / 180;

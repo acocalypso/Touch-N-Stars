@@ -2874,7 +2874,7 @@
         "center_solve_label": "센터링 + 솔브",
         "center_solve_text": "플레이트 솔브 후 타깃 센터링 (마운트 연결 + 보정된 오프셋 필요).",
         "target_solve_label": "타깃 + 솔브",
-        "target_solve_text": "타깃으로 슬루 + 센터링 (마운트 연결 + 프레이밍 어시스턴트의 Stellarium에 타깃 설정 필요)."
+        "target_solve_text": "타깃으로 슬루 + 센터링 (마운트 연결 및 Celestia Atlas에서 타깃 선택 필요)."
       },
       "progress": {
         "title": "솔브 진행",

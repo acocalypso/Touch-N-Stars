@@ -2879,7 +2879,7 @@
         "center_solve_label": "Center + Solve",
         "center_solve_text": "Platesolve und Ziel zentrieren (Mount verbunden + kalibriertes Offset).",
         "target_solve_label": "Target + Solve",
-        "target_solve_text": "fahre Ziel an und zentriere (Mount verbunden + Ziel über Stellarium in Framing Assistant ausgewählt)."
+        "target_solve_text": "Fahre das Ziel an und zentriere es (erfordert ein verbundenes Mount und ein in Celestia Atlas ausgewähltes Ziel)."
       },
       "progress": {
         "title": "Solve-Fortschritt",

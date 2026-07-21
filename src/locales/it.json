@@ -2798,7 +2798,7 @@
         "center_solve_label": "Centra + Risolvi",
         "center_solve_text": "Platesolve e centraggio del target (richiede montatura connessa e offset calibrato).",
         "target_solve_label": "Target + Risolvi",
-        "target_solve_text": "Slew verso il target e centraggio (richiede montatura connessa e target impostato in Stellarium – Framing Assistant)."
+        "target_solve_text": "Slew verso il target e centraggio (richiede una montatura connessa e un target selezionato in Celestia Atlas)."
       },
       "progress": {
         "title": "Avanzamento risoluzione",

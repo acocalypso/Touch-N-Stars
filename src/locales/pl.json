@@ -2798,7 +2798,7 @@
         "center_solve_label": "Wycentruj + rozwiąż",
         "center_solve_text": "Platesolve i centrowanie celu (wymaga podłączonego montażu i skalibrowanego offsetu).",
         "target_solve_label": "Cel + rozwiąż",
-        "target_solve_text": "Najedź na cel i wycentruj (wymaga podłączonego montażu oraz ustawionego celu w Stellarium – Framing Assistant)."
+        "target_solve_text": "Najedź na cel i wycentruj (wymaga podłączonego montażu oraz celu wybranego w Celestia Atlas)."
       },
       "progress": {
         "title": "Postęp rozwiązywania",

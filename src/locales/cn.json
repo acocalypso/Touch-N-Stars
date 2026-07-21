@@ -2798,7 +2798,7 @@
         "center_solve_label": "居中 + 解析",
         "center_solve_text": "进行天文定位解析并将目标居中（需要赤道仪已连接并且偏移已校准）。",
         "target_solve_label": "目标 + 解析",
-        "target_solve_text": "转向目标并居中（需要赤道仪已连接，并在 Stellarium 的取景助手中设置目标）。"
+        "target_solve_text": "转向目标并居中（需要赤道仪已连接，并在 Celestia Atlas 中选择目标）。"
       },
       "progress": {
         "title": "解析进度",

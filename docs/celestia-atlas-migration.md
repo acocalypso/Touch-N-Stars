@@ -494,6 +494,21 @@ emulation.
   service metadata are present. It also rejects stale `stellarium-data` or
   `stellarium-js` directories, so localhost cannot silently serve a previous
   migration build. Lint remains an explicit pre-commit and CI check.
+
+### 2026-07-21 historical-reference closure
+
+- The final repository search is classified in
+  [stellarium-reference-audit.md](./stellarium-reference-audit.md). Stale
+  PlateSolvePlus target labels, horizon/FOV descriptions, privacy text, and all
+  localized target-action help now name Celestia Atlas.
+- Remaining Stellarium names are restricted to settings/data-path migration,
+  stable NINA plugin landscape API contracts, the landscape ZIP interchange
+  format, catalogue provenance, schema compatibility, removal tests, and
+  historical documentation.
+- A runtime and locale audit test rejects any new unclassified occurrence.
+- Startup now refreshes bundled plugin metadata while preserving enabled states,
+  preventing persisted pre-migration descriptions from keeping old renderer
+  labels after an upgrade.
 - The deployed NGC 6953 production build stayed survey-active for all 1,025
   desktop samples during a drag and 16-second settled interval, with a minimum
   of 19 decoded resources and zero tile requests. A reverse warm drag stayed
@@ -533,4 +548,4 @@ emulation.
 - [x] Celestia is default with a tested rollback interval.
 - [x] Stellarium runtime, WASM, globals, stores, view overlays, and rollback import are removed.
 - [x] Atlas data uses the `celestia-atlas-data` namespace, existing settings are migrated, and native builds load the data from the selected NINA plugin.
-- [ ] Final search classifies every historical reference.
+- [x] Final search classifies every historical reference.

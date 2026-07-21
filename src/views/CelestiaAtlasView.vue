@@ -22,21 +22,23 @@
     </div>
     <div v-if="ready && store.mountInfo.Connected" class="celestia-atlas-mount-controls">
       <button
-        class="p-2 bg-gray-700 border border-cyan-600 rounded-full"
+        class="celestia-atlas-icon-button bg-gray-700 border border-cyan-600 rounded-full"
         type="button"
         title="Center view on mount position"
+        aria-label="Center view on mount position"
         @click="focusMount"
       >
-        ⌖
+        <ViewfinderCircleIcon class="h-7 w-7" />
       </button>
       <button
-        class="p-2 border border-cyan-600 rounded-full"
+        class="celestia-atlas-icon-button border border-cyan-600 rounded-full"
         :class="mountFollow ? 'bg-cyan-600' : 'bg-gray-700'"
         type="button"
         title="Toggle auto-sync view with mount"
+        aria-label="Toggle auto-sync view with mount"
         @click="toggleMountFollow"
       >
-        ↻
+        <ArrowPathIcon class="h-7 w-7" />
       </button>
     </div>
     <AtlasFovRotation
@@ -46,23 +48,26 @@
       default-target-name="Celestia Atlas view"
     />
     <div v-if="ready" class="celestia-atlas-controls">
+      <CelestiaAtlasAbout />
       <CelestiaAtlasSettings
         :catalog-object-types="catalogFacets.objectTypes"
         :catalogue-groups="catalogFacets.catalogueGroups"
       />
     </div>
     <div v-if="ready" class="celestia-atlas-clock">
-      <div class="flex gap-2">
+      <div class="flex gap-1">
         <button
-          class="bg-black/80 rounded-full px-3 py-2"
+          class="celestia-atlas-icon-button bg-black/80 rounded-full"
           type="button"
           :title="clockPaused ? 'Play' : 'Pause'"
+          :aria-label="clockPaused ? 'Play' : 'Pause'"
           @click="toggleClock"
         >
-          {{ clockPaused ? '▶' : 'Ⅱ' }}
+          <PlayIcon v-if="clockPaused" class="h-7 w-7" />
+          <PauseIcon v-else class="h-7 w-7" />
         </button>
         <button
-          class="bg-black/80 rounded-full px-3 py-2 font-mono"
+          class="bg-black/80 rounded-full px-2 py-2 font-mono text-sm"
           type="button"
           @click="toggleClockPanel"
         >
@@ -143,7 +148,14 @@ import { isAppBackgrounded } from '@/utils/appLifecycle';
 import { resolveLandscapeSource } from '@/store/utils/celestiaAtlasLandscapeSource';
 import AtlasFovRotation from '@/components/celestiaAtlas/AtlasFovRotation.vue';
 import CelestiaAtlasSettings from '@/components/celestiaAtlas/CelestiaAtlasSettings.vue';
+import CelestiaAtlasAbout from '@/components/celestiaAtlas/CelestiaAtlasAbout.vue';
 import SelectedSkyObject from '@/components/celestiaAtlas/SelectedObject.vue';
+import {
+  ArrowPathIcon,
+  PauseIcon,
+  PlayIcon,
+  ViewfinderCircleIcon,
+} from '@heroicons/vue/24/outline';
 
 const store = apiStore();
 const framingStore = useFramingStore();
@@ -604,15 +616,7 @@ onBeforeUnmount(() => {
   background: #03060d;
 }
 :deep(.celestia-atlas-survey-credit) {
-  z-index: 2 !important;
-  top: calc(0.75rem + env(safe-area-inset-top, 0px)) !important;
-  right: calc(0.75rem + env(safe-area-inset-right, 0px)) !important;
-  bottom: auto !important;
-  max-width: calc(
-    100% - 1.5rem - env(safe-area-inset-left, 0px) - env(safe-area-inset-right, 0px)
-  ) !important;
-  text-align: right;
-  white-space: normal;
+  display: none !important;
 }
 .celestia-atlas-landscape {
   top: 0;
@@ -666,7 +670,7 @@ onBeforeUnmount(() => {
   position: absolute;
   z-index: 4;
   right: calc(1rem + env(safe-area-inset-right, 0px));
-  bottom: 2.5rem;
+  bottom: var(--above-statusbar);
   display: flex;
   gap: 0.5rem;
   padding: 0.4rem;
@@ -678,7 +682,7 @@ onBeforeUnmount(() => {
   position: absolute;
   z-index: 3;
   left: calc(1rem + env(safe-area-inset-left, 0px));
-  bottom: 2.5rem;
+  bottom: var(--above-statusbar);
   display: flex;
   gap: 0.5rem;
   color: white;
@@ -687,7 +691,7 @@ onBeforeUnmount(() => {
   position: absolute;
   z-index: 3;
   left: 50%;
-  bottom: 2.5rem;
+  bottom: var(--above-statusbar);
   color: white;
   transform: translateX(-50%);
 }
@@ -705,8 +709,22 @@ onBeforeUnmount(() => {
   border-radius: 0.75rem;
   transform: translateX(-50%);
 }
+:deep(.celestia-atlas-icon-button) {
+  display: inline-grid;
+  width: var(--spacing-touch);
+  height: var(--spacing-touch);
+  flex: 0 0 var(--spacing-touch);
+  place-items: center;
+  padding: 0.5rem;
+  color: white;
+}
 .celestia-atlas-clock-panel label {
   display: grid;
   gap: 0.25rem;
+}
+@media (max-width: 390px) {
+  .celestia-atlas-clock {
+    bottom: calc(var(--above-statusbar) + var(--spacing-touch) + 0.5rem);
+  }
 }
 </style>

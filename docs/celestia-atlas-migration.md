@@ -172,6 +172,13 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 - DSO footprints now derive their major and minor canvas axes at each
   catalogue position. This keeps size indicators attached to their targets
   while panning around Polaris, where celestial north changes rapidly.
+- Mobile Atlas controls now share the app's 48 px touch target and
+  `--above-statusbar` anchor. Narrow phones move the clock to a second row so
+  mount, time, About, and Settings controls cannot overlap the status bar or
+  each other.
+- Survey attribution has moved from the search overlay into a dedicated Atlas
+  About modal, and the photographic-survey setting now wraps inside an
+  expandable card without clipping localized text.
 
 ### 2026-07-12 Milky Way orientation fix
 

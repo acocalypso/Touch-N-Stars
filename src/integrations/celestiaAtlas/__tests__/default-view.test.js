@@ -76,20 +76,25 @@ test('shows selected-target images through the shared Framing Assistant cache', 
 });
 
 test('uses app-owned photographic survey data without any public online tile source', async () => {
-  const [view, settings, settingsMigration, offlineSurvey, packageJson, vite] = await Promise.all([
-    readFile(new URL('../../../views/CelestiaAtlasView.vue', import.meta.url), 'utf8'),
-    readFile(
-      new URL('../../../components/celestiaAtlas/CelestiaAtlasSettings.vue', import.meta.url),
-      'utf8'
-    ),
-    readFile(
-      new URL('../../../store/utils/celestiaAtlasSettingsMigration.js', import.meta.url),
-      'utf8'
-    ),
-    readFile(new URL('../offlineSkySurvey.js', import.meta.url), 'utf8'),
-    readFile(new URL('../../../../package.json', import.meta.url), 'utf8'),
-    readFile(new URL('../../../../vite.config.js', import.meta.url), 'utf8'),
-  ]);
+  const [view, settings, about, settingsMigration, offlineSurvey, packageJson, vite] =
+    await Promise.all([
+      readFile(new URL('../../../views/CelestiaAtlasView.vue', import.meta.url), 'utf8'),
+      readFile(
+        new URL('../../../components/celestiaAtlas/CelestiaAtlasSettings.vue', import.meta.url),
+        'utf8'
+      ),
+      readFile(
+        new URL('../../../components/celestiaAtlas/CelestiaAtlasAbout.vue', import.meta.url),
+        'utf8'
+      ),
+      readFile(
+        new URL('../../../store/utils/celestiaAtlasSettingsMigration.js', import.meta.url),
+        'utf8'
+      ),
+      readFile(new URL('../offlineSkySurvey.js', import.meta.url), 'utf8'),
+      readFile(new URL('../../../../package.json', import.meta.url), 'utf8'),
+      readFile(new URL('../../../../vite.config.js', import.meta.url), 'utf8'),
+    ]);
 
   assert.match(settingsMigration, /skySurveyVisible: true/);
   assert.match(view, /skySurvey: settingsStore\.celestiaAtlas\.skySurveyVisible !== false/);
@@ -115,10 +120,12 @@ test('uses app-owned photographic survey data without any public online tile sou
   assert.match(settings, /sky_survey_hint/);
   assert.match(settings, /settingsStore\.celestiaAtlas\.skySurveyVisible !== false/);
   assert.match(view, /:deep\(\.celestia-atlas-survey-credit\)/);
+  assert.match(view, /display: none !important/);
+  assert.match(view, /<CelestiaAtlasAbout/);
+  assert.match(about, /Photographic sky survey/);
+  assert.match(about, /STScI\/NASA/);
+  assert.match(about, /does not fetch\s+public survey tiles/);
   assert.match(view, /\.celestia-atlas-portrait\s*{[\s\S]*top: 5rem/);
-  assert.match(view, /top: calc\(0\.75rem \+ env\(safe-area-inset-top, 0px\)\)/);
-  assert.match(view, /bottom: auto !important/);
-  assert.match(view, /max-width:[^;]+!important/);
 
   const localeDirectory = new URL('../../../locales/', import.meta.url);
   const localeFiles = (await readdir(localeDirectory)).filter((name) => name.endsWith('.json'));
@@ -136,6 +143,32 @@ test('uses app-owned photographic survey data without any public online tile sou
   assert.match(hint, /DSS/i);
   assert.match(hint, /offline/i);
   assert.match(hint, /never fetches/i);
+});
+
+test('keeps mobile Atlas controls touch-sized and above the shared status bar', async () => {
+  const [view, settings] = await Promise.all([
+    readFile(new URL('../../../views/CelestiaAtlasView.vue', import.meta.url), 'utf8'),
+    readFile(
+      new URL('../../../components/celestiaAtlas/CelestiaAtlasSettings.vue', import.meta.url),
+      'utf8'
+    ),
+  ]);
+
+  assert.match(
+    view,
+    /:deep\(\.celestia-atlas-icon-button\)\s*{[\s\S]*width: var\(--spacing-touch\)/
+  );
+  assert.match(view, /\.celestia-atlas-controls\s*{[\s\S]*bottom: var\(--above-statusbar\)/);
+  assert.match(view, /\.celestia-atlas-mount-controls\s*{[\s\S]*bottom: var\(--above-statusbar\)/);
+  assert.match(view, /\.celestia-atlas-clock\s*{[\s\S]*bottom: var\(--above-statusbar\)/);
+  assert.match(view, /<PauseIcon v-else/);
+  assert.match(view, /<PlayIcon v-if="clockPaused"/);
+  assert.match(view, /<ViewfinderCircleIcon/);
+  assert.match(view, /<ArrowPathIcon/);
+  assert.match(settings, /grid-cols-\[minmax\(0,1fr\)_auto\]/);
+  assert.match(settings, /grid min-h-24/);
+  assert.match(settings, /break-words whitespace-normal/);
+  assert.match(view, /@media \(max-width: 390px\)[\s\S]*var\(--spacing-touch\)/);
 });
 
 test('defers Atlas resources until first open and guards late async initialization', async () => {

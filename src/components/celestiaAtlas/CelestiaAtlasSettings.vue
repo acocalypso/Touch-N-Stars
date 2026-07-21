@@ -1,8 +1,11 @@
 <template>
   <button
     @click="toggleControls"
-    class="p-2 bg-gray-700 border border-cyan-600 rounded-full shadow-md"
+    class="celestia-atlas-icon-button bg-gray-700 border border-cyan-600 rounded-full shadow-md"
     :class="{ 'bg-cyan-600': settingsVisible }"
+    type="button"
+    title="Atlas settings"
+    aria-label="Atlas settings"
   >
     <Cog6ToothIcon class="w-7 h-7" />
   </button>
@@ -148,13 +151,15 @@
         </div>
 
         <div
-          class="flex min-h-16 w-full items-center justify-between gap-3 rounded-lg border border-gray-500 p-3 col-span-full"
+          class="grid min-h-24 w-full grid-cols-[minmax(0,1fr)_auto] items-center gap-3 rounded-lg border border-gray-500 p-3 col-span-full"
         >
-          <div class="min-w-0">
-            <label for="skySurveyVisible" class="text-gray-300">
+          <div class="min-w-0 max-w-full">
+            <label for="skySurveyVisible" class="block break-words whitespace-normal text-gray-300">
               {{ $t('components.celestiaAtlas.settings.sky_survey_visible') }}
             </label>
-            <p class="mt-1 text-xs leading-5 text-gray-400">
+            <p
+              class="mt-1 max-w-full break-words whitespace-normal text-xs leading-5 text-gray-400"
+            >
               {{ $t('components.celestiaAtlas.settings.sky_survey_hint') }}
             </p>
           </div>

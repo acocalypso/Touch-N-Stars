@@ -46,6 +46,14 @@
         {{ $t('components.celestiaAtlas.selected_object.dec') }}: {{ selectedObjectDec || '—' }}
       </p>
 
+      <img
+        v-if="targetPreviewUrl"
+        class="mt-3 max-h-48 w-full rounded-md border border-gray-600 object-contain"
+        :src="targetPreviewUrl"
+        :alt="selectedObject?.[0] || ''"
+        @error="clearTargetPreview"
+      />
+
       <fieldset
         :disabled="!actionControlsEnabled"
         class="flex min-w-0 flex-col gap-2 border-0 p-0 mt-2 disabled:opacity-50"
@@ -89,9 +97,10 @@
 </template>
 
 <script setup>
-import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
+import { computed, onBeforeUnmount, onMounted, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 import { apiStore } from '@/store/store';
+import apiService from '@/services/apiService';
 import { Capacitor } from '@capacitor/core';
 import { XMarkIcon } from '@heroicons/vue/24/outline';
 import ButtonSlewCenterRotate from '@/components/mount/ButtonSlewCenterRotate.vue';
@@ -104,6 +113,58 @@ import { useFramingStore } from '@/store/framingStore';
 const store = apiStore();
 const framingStore = useFramingStore();
 const router = useRouter();
+const targetPreviewUrl = ref('');
+let targetPreviewRequest = 0;
+
+function clearTargetPreview() {
+  if (targetPreviewUrl.value) URL.revokeObjectURL(targetPreviewUrl.value);
+  targetPreviewUrl.value = '';
+}
+
+async function targetPreviewHasContent(url) {
+  const image = new Image();
+  image.decoding = 'async';
+  await new Promise((resolve, reject) => {
+    image.onload = resolve;
+    image.onerror = reject;
+    image.src = url;
+  });
+  const canvas = document.createElement('canvas');
+  canvas.width = 32;
+  canvas.height = 32;
+  const context = canvas.getContext('2d', { willReadFrequently: true });
+  if (!context) return false;
+  context.drawImage(image, 0, 0, canvas.width, canvas.height);
+  const pixels = context.getImageData(0, 0, canvas.width, canvas.height).data;
+  for (let index = 0; index < pixels.length; index += 4) {
+    if (pixels[index] > 4 || pixels[index + 1] > 4 || pixels[index + 2] > 4) return true;
+  }
+  return false;
+}
+
+async function loadTargetPreview() {
+  const request = ++targetPreviewRequest;
+  clearTargetPreview();
+  if (!hasValidCoordinates.value) return;
+  try {
+    const url = await apiService.searchTargetPic(
+      Number(framingStore.width) || 200,
+      Number(framingStore.height) || 200,
+      Number(framingStore.fov) || 5,
+      props.selectedObjectRaDeg,
+      props.selectedObjectDecDeg,
+      true
+    );
+    const hasContent = await targetPreviewHasContent(url);
+    if (request !== targetPreviewRequest || !hasContent) {
+      URL.revokeObjectURL(url);
+      return;
+    }
+    targetPreviewUrl.value = url;
+  } catch {
+    // A cache miss is expected for targets that have not been framed before.
+  }
+}
 
 function openFramingModal() {
   if (!hasValidCoordinates.value) return;
@@ -149,6 +210,10 @@ const hasValidCoordinates = computed(
 );
 const actionControlsEnabled = computed(() => buttonsEnabled.value && hasValidCoordinates.value);
 
+watch([() => props.selectedObjectRaDeg, () => props.selectedObjectDecDeg], loadTargetPreview, {
+  immediate: true,
+});
+
 // Check if in landscape mode
 const { isLandscape } = useOrientation();
 
@@ -175,6 +240,8 @@ onMounted(() => {
 });
 
 onBeforeUnmount(() => {
+  targetPreviewRequest++;
+  clearTargetPreview();
   if (enableButtonsTimer !== null) clearTimeout(enableButtonsTimer);
 });
 </script>

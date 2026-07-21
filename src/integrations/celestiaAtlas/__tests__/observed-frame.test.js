@@ -7,7 +7,7 @@ import {
   horizontalToEquatorial,
 } from '@acocalypso/celestia-atlas';
 
-const ATLAS_REVISION = 'b9efd3b5e3a753e50c8af3afc5aae89bac9eec74';
+const ATLAS_REVISION = '2f6b558caf538d10cdb20774e01e94d017f2b272';
 const TOLERANCE_DEG = 1e-10;
 
 function angularErrorDeg(actual, expected) {

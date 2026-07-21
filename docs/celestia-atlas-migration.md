@@ -166,6 +166,12 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
   selected NINA plugin rather than packaging the survey inside the app.
 - The host now explicitly enables cardinal labels alongside its always-on
   labels, restoring north, east, south, and west on the local horizon.
+- Selecting an Atlas target now reuses the Framing Assistant image-cache
+  request and displays the cached target image in the details card when one is
+  available. Cache misses remain silent and do not block target actions.
+- DSO footprints now derive their major and minor canvas axes at each
+  catalogue position. This keeps size indicators attached to their targets
+  while panning around Polaris, where celestial north changes rapidly.
 
 ### 2026-07-12 Milky Way orientation fix
 

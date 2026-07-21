@@ -58,6 +58,23 @@ test('connects the existing display settings through the host-managed Atlas adap
   );
 });
 
+test('shows selected-target images through the shared Framing Assistant cache', async () => {
+  const selectedObject = await readFile(
+    new URL('../../../components/celestiaAtlas/SelectedObject.vue', import.meta.url),
+    'utf8'
+  );
+
+  assert.match(selectedObject, /apiService\.searchTargetPic\(/);
+  assert.match(selectedObject, /Number\(framingStore\.width\) \|\| 200/);
+  assert.match(selectedObject, /Number\(framingStore\.height\) \|\| 200/);
+  assert.match(selectedObject, /Number\(framingStore\.fov\) \|\| 5/);
+  assert.match(selectedObject, /props\.selectedObjectDecDeg,\s*true/);
+  assert.match(selectedObject, /URL\.revokeObjectURL/);
+  assert.match(selectedObject, /targetPreviewHasContent/);
+  assert.match(selectedObject, /document\.createElement\('canvas'\)/);
+  assert.match(selectedObject, /v-if="targetPreviewUrl"/);
+});
+
 test('uses app-owned photographic survey data without any public online tile source', async () => {
   const [view, settings, settingsMigration, offlineSurvey, packageJson, vite] = await Promise.all([
     readFile(new URL('../../../views/CelestiaAtlasView.vue', import.meta.url), 'utf8'),

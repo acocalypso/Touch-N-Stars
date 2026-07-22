@@ -128,6 +128,7 @@ test('builds viewer targets only from explicitly framed search results', () => {
   const result = atlasSearchResultToTarget({
     id: 'M 31',
     name: 'Andromeda Galaxy',
+    displayName: 'M31 · Andromeda Galaxy',
     type: 'Galaxy',
     raDeg: 10.6847,
     decDeg: 41.269,
@@ -136,6 +137,7 @@ test('builds viewer targets only from explicitly framed search results', () => {
 
   assert.equal(result.id, 'M 31');
   assert.equal(result.name, 'Andromeda Galaxy');
+  assert.equal(result.displayName, 'M31 · Andromeda Galaxy');
   assert.deepEqual(result.coordinates, { raDeg: 10.6847, decDeg: 41.269, frame: 'ICRS' });
   assert.deepEqual(
     atlasSearchResultToTarget({

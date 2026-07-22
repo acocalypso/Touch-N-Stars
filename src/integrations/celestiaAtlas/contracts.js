@@ -163,6 +163,7 @@ export function atlasSearchResultToTarget(result) {
   return {
     id,
     name,
+    displayName: result.displayName,
     aliases: result.aliases,
     objectType: result.type,
     parentBody: result.parentBody,

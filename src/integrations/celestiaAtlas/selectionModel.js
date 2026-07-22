@@ -2,7 +2,11 @@ import { degreesToDMS, degreesToHMS } from '../../utils/utils.js';
 import { atlasSelectionToFraming } from './contracts.js';
 
 function uniqueNames(target) {
-  return [target?.name, ...(Array.isArray(target?.aliases) ? target.aliases : [])]
+  return [
+    target?.displayName,
+    target?.name,
+    ...(Array.isArray(target?.aliases) ? target.aliases : []),
+  ]
     .map((value) => String(value ?? '').trim())
     .filter((value, index, values) => value && values.indexOf(value) === index);
 }

@@ -3,6 +3,7 @@ import { deepSkyCatalogueGroupKeys, deepSkyObjectTypeKey } from '@acocalypso/cel
 export const ATLAS_OBJECT_TYPE_LABELS = Object.freeze({
   '*ass': 'Stellar association',
   'cl+n': 'Cluster with nebulosity',
+  doublestar: 'Double star',
   drkn: 'Dark nebula',
   emn: 'Emission nebula',
   g: 'Galaxy',
@@ -26,6 +27,7 @@ export const ATLAS_CATALOGUE_GROUP_LABELS = Object.freeze({
   barnard: 'Barnard',
   lbn: 'LBN',
   ldn: 'LDN',
+  messier: 'Messier',
   openngc: 'OpenNGC',
   rcw: 'RCW',
   sharpless: 'Sharpless 2',

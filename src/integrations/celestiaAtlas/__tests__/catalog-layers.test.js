@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import { deepSkyObjectLabel, messierDesignation } from '@acocalypso/celestia-atlas';
 import { buildEmbeddedAtlasCatalog } from '../catalogLayers.js';
 
 const fixturePayloads = () => ({
@@ -114,20 +115,39 @@ test('loads every packaged offline catalogue and keeps the two Abell namespaces 
     hygStars: hygStars.default,
   });
 
-  assert.equal(result.catalog.length, 21_191);
-  assert.equal(result.meta.objectCount, 21_191);
+  assert.equal(result.catalog.length, 21_192);
+  assert.equal(result.meta.objectCount, 21_192);
   assert.deepEqual(result.meta.catalogueGroups, [
     'abell',
     'abell-pn',
     'barnard',
     'lbn',
     'ldn',
+    'messier',
     'openngc',
     'rcw',
     'sharpless',
     'vdb',
   ]);
   assert.equal(result.stars.length, 8_910);
+
+  const messierObjects = result.catalog.filter((object) =>
+    object.catalogueGroups.includes('messier')
+  );
+  assert.equal(messierObjects.length, 110);
+  assert.deepEqual(
+    messierObjects.map(messierDesignation).sort((left, right) => {
+      return Number(left.slice(1)) - Number(right.slice(1));
+    }),
+    Array.from({ length: 110 }, (_, index) => `M${index + 1}`)
+  );
+  const m40 = result.catalog.find(({ id }) => id === 'M40');
+  const m81 = result.catalog.find(({ id }) => id === 'M81');
+  const m102 = result.catalog.find(({ id }) => id === 'M102');
+  assert.equal(m40.name, 'Winnecke 4');
+  assert.equal(m40.typeCode, 'DoubleStar');
+  assert.equal(deepSkyObjectLabel(m81), "M81 · Bode's Galaxy");
+  assert.equal(deepSkyObjectLabel(m102), 'M102 · Spindle Galaxy');
 
   const ldn = result.catalog.find(({ id }) => id === 'LDN 1235');
   assert.equal(ldn.typeCode, 'DrkN');

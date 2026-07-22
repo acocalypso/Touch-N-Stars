@@ -1,25 +1,33 @@
 # Changelog
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [App5.2.0-beta3] - unreleased
+
 ### Added
+
 - Equipment (PINS): Connect button now doubles as a cancel button while a connection attempt is in progress
 - Guiding: PHD2 live image can now be zoomed and panned (pinch, mouse wheel, double-tap) like the camera image, with lock position, guiding cross and secondary star overlays tracking correctly, plus a reset-zoom button
+- Celestia Atlas: Complete offline M1-M110 coverage, a dedicated Messier catalogue filter, and designation-plus-common-name labels such as `M81 · Bode's Galaxy`
 
 ### Changed
+
 - Camera Cooler Status Revised
 - Sequence Creator: Toolbar buttons (undo/redo, save, library, clear, send to NINA) restyled to match the app-wide design system
 
 ### Fixed
+
 - Sequence Creator: Camera offset field was limited to -100..100, now allows the full 0-10000 range
 - Sequence Creator: Cool Camera action sent -10°C to NINA instead of the configured target temperature when it was set to 0°C
 - Sequence Creator: Actions added to a sequence before a template's min/max/step was changed no longer keep showing stale bounds - they now pick up the current limits
 
 ## [App5.2.0-beta2] - 2026-07-19
+
 ### Changed
+
 - Design: App-wide visual refresh onto a single design system - one consistent set of button styles, surfaces and colors with a single cyan accent, and green/yellow/red now always carry the same meaning across the app (running / attention / problem or stopped). Buttons, inputs and other touch targets are now at least 48px for easier tapping in the field
 - Navigation: Each nav item now shows a permanent label under its icon (previously the label only appeared while touching), and the landscape sidebar is narrower so it no longer wastes empty space next to the icons
 - Status bar: Redesigned, taller status bar that shows camera, mount, guider, filter, weather and progress state - and their key values - at a glance without having to tap a chip first
@@ -29,20 +37,26 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Fixed: PINS plugin layout
 
 ### Added
+
 - Safety: Destructive actions now ask for confirmation before running - parking the mount and clearing the whole sequence
 - Haptics: Light/medium haptic feedback on native (Android/iOS) platforms when triggering key actions such as capture, slew, park and stop
 
 ## [App5.2.0-beta1] - 2026-07-16
+
 ### Added
+
 - TPPA (PINS): When the alignment view is opened (or after switching instances), the running state is now loaded from the backend, so an alignment already in progress is reflected correctly instead of relying on a possibly stale saved state
 
 ### Fixed
+
 - Multi-instance: A running snapshot loop no longer keeps capturing against the new instance after switching (or against the same instance after a brief connection loss) - it is now stopped as part of the connection teardown
 - Multi-instance: The guider graph and sequence editor no longer freeze after a connection is lost and comes back (WiFi blip, background/resume, or switching instances) while those views are open - they now resume on their own
 - Multi-instance: The last captured image is no longer left over from the previous instance when switching, and TPPA's saved filter/gain/exposure settings are now kept per instance instead of leaking between them
 
 ## [App5.1.0] - 2026-07-13
+
 ### Added
+
 - Settings: New "Local Network Binding" option (Android) to keep the app connected via Wi-Fi when the NINA instance runs on a local network without internet (e.g. PINS hotspot), while the rest of the phone keeps using mobile data
 - Celestia Atlas: Independent persisted limiting-magnitude controls for stars,
   galaxies and other deep-sky objects; lower values keep only brighter objects
@@ -58,6 +72,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   cluster and Abell planetary-nebula controls
 
 ### Changed
+
 - Celestia Atlas: Defer engine/catalogue loading until first open, retain one
   paused warm viewer after that, split the compact OpenNGC, supplemental DSO,
   Abell planetary-nebula, HYG and curated bright-sky payloads into first-open
@@ -69,6 +84,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   dialog now renders at the application root instead of inside the sky overlay
 
 ### Fixed
+
 - Celestia Atlas: Correct J2000/ICRS-to-horizontal geometry with precession,
   nutation and observed sidereal orientation, keeping landscapes, the Milky
   Way horizon mask, grids and horizontal navigation on one cached frame
@@ -90,35 +106,45 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   provenance instead of sending the user to the mount slew tab
 
 ### Fixed
+
 - Stellarium: Fixed the sky view flickering and mouse-wheel zoom appearing broken in Chrome by removing the frame rate cap while Stellarium is visible
 - Sequence: Three Point Polar Alignment item now shows the actually selected filter instead of always appearing empty
 - Guider: PHD2 exposure field no longer shows NaN when the initial exposure request fails
 
 ## [App5.0.0-beta12] - 2026-07-07
+
 ### Fixed
+
 - Stellarium: Fixed the sky view suddenly zooming and then freezing (no more pan/zoom) after a few touch gestures on iPadOS - the browser could claim the gesture and cancel the touch without the engine ever seeing it end, leaving a phantom finger "held down"
 
-## [App5.0.0-beta9 and 10] - 2026-07-03 
+## [App5.0.0-beta9 and 10] - 2026-07-03
+
 ### Added
+
 - TPPA: Filter can now be selected in the alignment settings and is passed to the start-alignment request (leave on "Default" to use NINA's defaults)
 - Mount: Telescope settle time setting in the mount settings panel
 - PINS: WiFi card now shows the current connection (SSID, IP address, interface, band) with signal strength and a short history graph - thanks to acocalypso
 
 ### Changed
+
 - Background handling: Guider stats/graph, dark library build progress, the sequence editor, PINS device list, PINS AllSky, system metrics, INDI Control Panel, log collector and framing polling now all pause while the app is in the background (via a new shared polling composable) instead of continuing to poll, and resume only if they were actually active before pausing
 
 ### Fixed
+
 - PINS: WiFi connect/disconnect buttons now reflect the actual connection state - no longer offer to "connect" to a network you're already connected to, and disconnect is styled distinctly while connected
 - PINS: Fixed a re-probe race that could double-check or miss PINS availability, plus poller start/stop races and an unsafe framing data access
 - Camera: Fixed "Center Here" always treating the connected camera as a DSLR, which broke the sensor-size fallback for cameras that do report a native sensor size
 - Guider: PHD2 calibration data button is no longer shown outside PINS mode
 
 ## [App5.0.0-beta8] - 2026-07-01
+
 ### Changed
+
 - Connection: All WebSocket connections (event channel, mount control, TPPA) now share a single reconnect engine with exponential backoff instead of a fixed 2-second retry, so a backend that is temporarily unreachable is no longer hammered every 2 seconds while still recovering promptly once it returns
 - Connection: Reworked the reconnect screen to be calmer and more useful - a brief background/foreground blip now only shows a neutral spinner, escalating to a friendlier message with "Retry now" and "Settings" actions (technical connection details tucked behind an optional "Show details") only if it's still not reachable after a few seconds; the "this may indicate a problem" warning now only appears after 15s instead of 10s, since reconnecting after being backgrounded can normally take up to ~12s on its own
 
 ### Fixed
+
 - Connection: Event subscriptions (new images, live stacking updates) are now re-established after every reconnect - previously a reconnect handled internally could silently stop delivering these events until the app was restarted
 - Connection: Detect and recover "zombie" connections where the socket looks open but no longer receives anything (e.g. after switching between WiFi and mobile data while the app stays in the foreground)
 - Connection: The mount control connection no longer keeps retrying every 2 seconds while the backend is unreachable, and now recovers on its own once it comes back without needing to leave and re-open the page
@@ -129,52 +155,68 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Connection: Disconnecting no longer leaves a stale pending connection reference behind that could cause the next reconnect attempt to wait on an already-dying connection
 - Connection: The four SignalR services (PINS notifications, progress, dialogs, message boxes) no longer run two competing reconnect mechanisms at once
 
-
 ## [App5.0.0-beta7] - 2026-07-01
+
 ### Fixed
+
 - Connection: App no longer gets stuck showing "trying to reconnect" indefinitely after returning from a locked screen if an earlier resume attempt was still in progress - the pending reconnect is now retried instead of silently dropped
 - Connection: Fixed a race between overlapping WebSocket reconnect attempts that could permanently freeze the backend status polling after resuming from background, requiring an app restart to recover
 
 ## [App5.0.0-beta6] - 2026-07-01
+
 ### Added
+
 - Settings: New $$FWHM$$ and $$ECCENTRICITY$$ tokens for the image file pattern
 
 ### Fixed
+
 - Diagnostics: Mobile diagnostic ZIP downloads now work on mobile devices
 - Connection: Mount and TPPA WebSockets no longer keep delivering events from a stale socket after a reconnect; polling loops now skip a tick instead of overlapping when a request is still in flight
 
 ## [App5.0.0-beta5] - 2026-06-29
+
 ### Added
+
 - Sequence: PHD2 calibration slew item – slew to a guider calibration position (HA offset, Dec, pointing side, optional DEC backlash clearing)
 - Guider: Prompt to reconnect the guider after toggling PHD2 auto restore calibration, since the setting only takes effect after a reconnect
 - TPPA: Alignment warnings for huge/large polar alignment errors, declination spread between measurements, and correction fields close to East/West
 - Stellarium: Loading spinner while the engine initializes
 
 ### Changed
+
 - Stellarium: Skip rendering while the view is hidden or the app is in the background instead of letting the WebGL engine render continuously, significantly reducing battery drain and device heat; the view stays loaded and resumes instantly
 
 ### Fixed
+
 - Narrowband Filter: Correct aperture and focal length limitation in the filter calculator
 - Framing: Compute visible stars once on load instead of reactively
 
 ## [App5.0.0-beta4] - 2026-06-17
+
 ### Added
+
 - Plugin: INDI Control Panel – inspect and control every property of the INDI drivers currently loaded on the server
 - Equipment: HTTP connection mode for INDI mounts (in addition to Serial and Network/TCP)
 - PINS: INDI registry edit config flow – edit Name, Label and Type of installed INDI 3rd-party registry entries via a mobile-friendly modal, patching only changed fields and preserving unsaved edits across refresh - thanks to acocalypso
 
 ## [App5.0.0-beta2] - 2026-06-11
+
 ### Added
+
 - Settings: Clear Horizon File Path via a dedicated button
 - Sequence: Ground Station plugin support – add and edit notification items (Telegram, Discord, Slack, Pushover, ntfy, IFTTT, Email, MQTT, HTTP request, UDP) and failure triggers with dedicated editors
 - Equipment: INDI camera selection
 
 ## [App5.0.0-beta1] - 2026-06-11
+
 ### Added
+
 - Sequence: Add picker now groups types into collapsible categories with item count, and the search also matches category names
 
 ## [App5.0.0] - 2026-05-20
+
 ### Added
+
 - Sequence: Set multi targets
 - GPS Sync option
 - Time Snyc option
@@ -211,11 +253,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - PINS PHD2: Guide Rate setting in guider settings – shows current sidereal rate multiplier and allows changing it; read-only display when mount does not support changing the guide rate
 
 ### Changed
+
 - Plate Solve: Use the NINA-style toolbar icon in the shared image viewer
 - PINS AllSky: Add AllSky auto-exposure tuning controls, timelapse overlay toggles for timestamp and exposure/gain, and show the active session label plus actual auto exposure/gain/mean values in live preview
 - Stellarium: sequence buttons are now always visible
 
 ### Fixed
+
 - i18n: Correct Spanish translations (close, scanning, save, message_tns_version, downgradeDescription) Thanks @Antonio
 - Total Exposuer time: filter total exposure time by LIGHT image type
 - Stellarium time fix
@@ -228,9 +272,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Filter Calculator Plugin: Fix Input field
 - Image spinner deadlock and extend image size options
 
-
 ## [App4.7.0] - 2026-03-17
+
 ### Added
+
 - NumberInputPicker: Add step up/down buttons to increment and decrement values
 - Sequence Creator: Named sequence library – save, load and delete sequences with custom names
 - Sequence Creator: Set any saved sequence as default directly from the library
@@ -249,6 +294,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Settings: Add image file type selector (TIFF, FITS, XISF)
 
 ### Changed
+
 - Settings: Moved image and meridian flip settings out of General tab into own tabs
 - Focuser: Replace focuser input with position display in quick access modal
 - Profile: Disable profile selection when any device is connected
@@ -256,6 +302,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Sequence Creator: Removed "Load Basic Sequence" toolbar button
 
 ### Fixed
+
 - Histogram: Show real 16-bit statistics (Mean, Median, Min, Max, StDev) from NINA image-history API
 - Histogram: Compute histogram bars using inverse NINA auto-stretch (MTF) to align with 16-bit ADU axis
 - Histogram: Reload statistics from API each time the histogram panel is opened
@@ -271,7 +318,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Flat Assistant: Add Multi Mode – configure and start flats for multiple filters simultaneously, with per-filter settings (gain, offset, binning, exposure, histogram) initialised from and saved back to the NINA profile (FlatWizardFilterSettings)
 
 ## [App4.6.0] - 2026-02-14
+
 ### Added
+
 - Navigation: Scroll indicators with fade effect and arrow hint when more icons are available
 - Camera: Separate Readout Mode settings for Image and Snap (API >= 2.2.14.3) - thanks to Chris
 - Camera: Add USB limit setting component for camera (API >= 2.2.14.3) - thanks to Chris
@@ -285,6 +334,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - NumberPicker: Simplified picker store by passing min/max directly instead of options array
 
 ### Changed
+
 - Camera: Unified UI design for settings components
 - Sequence Monitor: Limit image height to viewport in landscape mode to prevent scrolling
 - NumberPicker: Replaced scroll wheel picker with touch-friendly numpad input
@@ -293,24 +343,31 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - NumberPicker: Simplified picker store by passing min/max directly instead of options array
 
 ### Fixed
+
 - Fix set settletime
 - App: UI no longer reloads when returning from background
 - Camera: Spinner not updating after capture in Safari
 
 ## [App4.5.0] - 2026-10-20
+
 ### Added
+
 - PlateSolvePlus Plugin thanks to Flashy_DE (Alex)
 
 ### Fixed
+
 - Framingassistant: Rotation angle was displayed incorrectly
 - PlatesolvePlus: Fix: load on Image Preview
 - Settings: Fixed loading of coordinates
 
 ## [App4.4.0] - 2026-01-15
+
 ### Breaking Changes
+
 - IOS min version 15.0
 
 ### Added
+
 - Rotator: Settings Reverse
 - Rotator: Settings Mechanical Range
 - Mount: Reverse Primary Axis setting
@@ -318,6 +375,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Setup: Loading spinner while GPS data and astrometry settings are being loaded
 
 ### Changed
+
 - WeatherModal: All values now limited to max 2 decimal places
 - WeatherModal: Unit toggle button now shows the target unit instead of the current unit
 - Image History: Layout adjustments
@@ -332,36 +390,44 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Packages Update
 
 ### Fixed
+
 - Flat Wizard: Slew to zenith
 - Flat Wizard: Max brightness
 - Webcam Plugin: Load snapshot
 - WeatherModal: Wind speed unit now correctly displays mph for imperial units
 - GPS Coordinates: Fixed decimal places
 - Mount Control: Fixed issue where multiple movement intervals could run in parallel, causing unintended slewing and tracking mode changes when changing slew rate
-- Guider: Dec Arcsec error 
-
+- Guider: Dec Arcsec error
 
 ## [App4.3.0] - 2025-12-13
+
 ### Added
+
 - Stellarium set sequence target
 - Filtersettings
 - Platesolve last image
 - Dialog Modal minimize
 
 ### Changed
+
 - increased limits for target search
-- Change Panzoom lib 
+- Change Panzoom lib
 - Update NL
 
 ### Fixed
+
 - ZoomableImage: Preserve zoom level and pan position when loading new images
 - Settings from Slew and Center button
 - Fixed Image invalid detection
 
 ## [App4.2.0] [livestack0.6.2][bahtifocus1.0.0] - 2025-12-04
+
 ### Important information
+
 TouchNStar Plugin 1.2.3.0 is required for BahtiFocus
+
 ### Added
+
 - Equipment settings page
 - Mount: Side of pier info
 - Livestack plugin icon shows stacking status
@@ -374,16 +440,22 @@ TouchNStar Plugin 1.2.3.0 is required for BahtiFocus
 - Numberpicker
 
 ### Changed
+
 - Camera chipsettings are now in equipment settings page
 
 ### Fixed
+
 - Fix settings modal layout
 - Fix console warnings
 
 ## [App4.1.0] [ShortcutsPlugin1.0.0] [LivestackPlugin0.6.1]
+
 ### Important information
+
 - Advanced API V2.2.12.0 and Livestack 1.0.1.7 are required for Livestack.
+
 ### Added
+
 - Histogram and image stretch
 - Tracking mode selection for mount
 - More Stats for Sequence Graph
@@ -404,9 +476,11 @@ TouchNStar Plugin 1.2.3.0 is required for BahtiFocus
 - Added feature highlight
 
 ### Changed
+
 - Framing Assistant: Improved UI with FOV controls in image and optimized button layout
 
 ### Fixed
+
 - Dialog Modal no longer closes when clicking outside it
 - Focuser small steps were not always adopted
 - Load of stacked image in sync with counts
@@ -414,23 +488,30 @@ TouchNStar Plugin 1.2.3.0 is required for BahtiFocus
 - Depiction of sequence flats repairers
 
 ## [App4.0.1] [SequenceCreator1.3.1]- 2025-11-19
+
 ### Added
+
 - Device connection status tracking: Real-time monitoring of 11 device types based on event history.
 - Autofocus event tracking: Dedicated store with real-time autofocus state, points, and HFR visualization.
 
 ### Changed
+
 - AfLiveGraph: Refactored to use autofocus store instead of log parsing.
 
 ### Fixed
+
 - Fixed Camera settings layout
 - SequenceCreator Autofocus sequence fixed
 - Fixed Dialog Modal
 
 ## [Plugin1.2.1.0] [App4.0.0] [webcam-1.0.1] [LivestackPlugin0.4.1] [logfile-collector1.0.2] - 2025-11-16
+
 ### Important information
+
 - Advanced API V2.2.11.0 and Livestack 1.0.1.5 are required for Livestack.
 
 ### Added
+
 - Time Range Controls: Collapsible control panel with dual-range slider for time-based filtering.
 - Sequence Graph: Data source selector for primary and secondary graph displays.
 - Camera settings: Sync plate solve coordinates to mount.
@@ -444,11 +525,13 @@ TouchNStar Plugin 1.2.3.0 is required for BahtiFocus
 - App: An option to specify the target name when saving snapshots.
 
 ### Changed
+
 - Improved image fetch performance with proper memory management.
 - Enhanced exposure countdown watchdog with increased check interval for better accuracy.
 - Optimized performance logging threshold for image requests.
 
 ### Fixed
+
 - Reloading the image when changing instances.
 - The Mount Control button is only displayed if the function is supported.
 - Webcam Plugin: Add crossOrigin="anonymous".
@@ -466,88 +549,110 @@ TouchNStar Plugin 1.2.3.0 is required for BahtiFocus
 - Livestack: Control panel header now remains fixed while content scrolls on iOS devices.
 
 ## [App3.6.1] - 2025-11-05
+
 ### Added
+
 - Option to join the beta channel
 
 ### Fixed
+
 - Fixed error in the display of the modal settings
-- Fixed Setup for querying GPS data 
+- Fixed Setup for querying GPS data
 
 ## [1.1.6.1] [App3.6.0] - 2025-11-05
+
 ### Changed
+
 - Plugin Livestack: Button for selecting targets revised
+
 ### Fixed
+
 - Fixed Websocket connection of the Livestack plugin
 
 ## [1.1.6.0] [App3.6.0] - 2025-11-05
+
 ### Added
+
 - Option to save snapshots
 - Green glow effect for camera settings when successfully changed (Exposure Time, Gain, Offset, Target Temperature, Cooling Time, Warming Time, Pixel Size)
 - Translations for snapshot settings in all supported languages
-- Added Altitude (Alt) and Azimuth (Az)  to mountinfo
+- Added Altitude (Alt) and Azimuth (Az) to mountinfo
 - Updater
 
 ### Changed
+
 - Stellarium now displays the time from NINA when starting up.
 - Camera Gain synchronizes with the NINA Snapshot setting.
 
 ### Fixed
+
 - Fixed guider calibration assistant slew stop
 - Fixed loading images during continuous loop
 - Hid ExposureCount from sequence display
 - Fixed negative declination display in sequence target coordinates
-- Fixed display of alt/az in the framing tab 
+- Fixed display of alt/az in the framing tab
 
 ## [1.1.5.0] [App3.5.0] - 2025-10-25
+
 ### Added
-- Added a button to control the mount in TPPA Manual Mode.  
-- Added TNS Sequence MessageBox.  
+
+- Added a button to control the mount in TPPA Manual Mode.
+- Added TNS Sequence MessageBox.
 
 ### Changed
-- Updated sequence settings: more options can now be modified.  
-- Disabled the shake-to-undo functionality on iOS.  
-- iOS: Images are now saved under **Photos**.  
-- Camera cooling status is now displayed.  
+
+- Updated sequence settings: more options can now be modified.
+- Disabled the shake-to-undo functionality on iOS.
+- iOS: Images are now saved under **Photos**.
+- Camera cooling status is now displayed.
 
 ### Fixed
-- Fixed “Center Here”: target selection no longer covers the center modal.  
-- Fixed display of statistics in history images.  
-- Improved timeout handling during reconnection.  
-- Fixed exposure countdown.  
-- Fixed “Keep screen awake” function.  
-- Fixed switching between two instances.  
-- Fixed saving of setup step.  
-- Fixed message display when the API cannot be reached.  
-- Fixed total error display (secondary double quote for arcseconds).  
+
+- Fixed “Center Here”: target selection no longer covers the center modal.
+- Fixed display of statistics in history images.
+- Improved timeout handling during reconnection.
+- Fixed exposure countdown.
+- Fixed “Keep screen awake” function.
+- Fixed switching between two instances.
+- Fixed saving of setup step.
+- Fixed message display when the API cannot be reached.
+- Fixed total error display (secondary double quote for arcseconds).
 
 ## [1.1.4.0] [App3.4.0] - 2025-10-07
+
 ### Added
+
 - Three Point Polar Alignment (TPPA): Manual Mode (Advanced API V2.2.10.0 is required)
 - The current status is now displayed in the sequence and sequence dashboard
 - Livestack plugin (note: currently in beta version)
-- PHD2: more warning messages 
+- PHD2: more warning messages
 - The status of the camera, mount, and filter wheel can be opened by pressing the icons in the status bar.
 
 ### Changed
+
 - The mount page is now always visible. An icon indicates whether the mount is connected.
 - There is now a refresh button in iOS to reload Stellarium.
 - Sequence design updated
 - PHD2 connection establishment has been improved
-- Save zoom and position in the camera image 
-- Improved app loading speed by adjusting timeout periods 
+- Save zoom and position in the camera image
+- Improved app loading speed by adjusting timeout periods
 - The camera cooling and warming function has been revised.
 - The speed for connecting to NINA has been improved.
 - Sequence-Creator: Added an option to switch directly to the sequence page
 
 ### Fixed
+
 - Image statistics: Temperature limited to one decimal place
 - Sequence: Changing the values of conditions fixed
 
 ## [1.1.3.0] [App3.3.0] - 2025-09-10
+
 ### Important information
+
 - Advanced API V2.2.9.0 is required
 
 ### Added
+
 - Filterwheel page: Dedicated page with responsive grid layout and status information
 - Rotator page: Dedicated page with enhanced info display and controls
 - Camera page: Quick access buttons and modal popups for rotator controls
@@ -559,6 +664,7 @@ TouchNStar Plugin 1.2.3.0 is required for BahtiFocus
 - Websocket connection monitoring created
 
 ### Changed
+
 - Rotator: Moved from camera settings modal to dedicated quick access button
 - TPPA page: Mount info display hidden to reduce clutter during alignment process
 - Camera page: The last image taken is now always displayed. As in NINA
@@ -567,54 +673,70 @@ TouchNStar Plugin 1.2.3.0 is required for BahtiFocus
 - Removed local notification for now.
 
 ### Fixed
+
 - Fixed bug with switches when a non-writable switch is in the sequence
 - Default gain and offset are now displayed in the sequence instead of -1.
 
 ## [1.1.2.2] [App3.2.2] - 2025-08-22
+
 ### Added
-- Mountpage: Add Slew stop button 
+
+- Mountpage: Add Slew stop button
 - Info message: What's new when starting for the first time after an update
 
 ### Fixed
+
 - Sequence: Display of the filter name
 - Fix Slew stop if only slew was executed
 - Mount websocket connection fix
 
 ## [1.1.2.1] [App3.2.1] - 2025-08-22
+
 ### Changed
--  Plugin: Sequece Creator: The settings are now saved in the backend.
+
+- Plugin: Sequece Creator: The settings are now saved in the backend.
 
 ### Fixed
+
 - Android: The display turned itself off. Now this can be selected in the settings.
 - Plugin: Sequece Creator: The endcontaienr is now processed sequentially.
 
 ## [1.1.2.0] [App3.2.0] - 2025-08-20
+
 ### Added
-- Image settings: add debayer and unlinked stretch options 
+
+- Image settings: add debayer and unlinked stretch options
 - TPPA: Settings for GAIN and Exposuretime
 - Telescopius Plugin: Personal target lists from Telescopius can now be loaded. Please note: An API key from Telescopius is required.
 - Logcollector Plugin added - Submit your logs to the Touch N Stars team in case troubleshooting is required.
 
 ### Changed
+
 - Error handling and debug mode rework
 - Slew and center breaks off after one attempt at plate solving.
 
 ### Fixed
+
 - Favorites: fix save rotation
 - Android: Fix image download from Sequence page
-- TPPA: Button position from ErrorModal 
+- TPPA: Button position from ErrorModal
 - Plugin: Sequence Creator fix Meridian Flip
 
 ## [1.1.1.1] [App3.1.1] - 2025-08-07
+
 ### Added
+
 - Sequence creator: Find home option
 
 ### Fixed
+
 - fix settings button if no connection can be established
 - fix cooling settings at sequence creator
 
 ## [1.1.1.0] [App3.1.0] - 2025-08-05
+
 ### Added
+
 - PHD2 image similar to PHD2 with guide star marker
 - PHD2 Starimige with starprofiel graph
 - PHD2 callibration assitant
@@ -623,17 +745,21 @@ TouchNStar Plugin 1.2.3.0 is required for BahtiFocus
 - When you start the app for the first time, you will be automatically redirected to the equipment page.
 
 ### Changed
+
 - The settings modal is now a separate page.
 - Stellaruim search improved
 - The sequence page design has been revised.
-- The iocns of the navbar are no longer dependent on the status of the sequence. 
+- The iocns of the navbar are no longer dependent on the status of the sequence.
 - Framing assistant revised
 
 ### Fixed
+
 - Framing: The skychart and the Name is now also displayed when the coordinates come from Stellarium.
 
 ## [1.1.0.0] - 2025-07-25
+
 ### Added
+
 - PHD2 setting support. You can now set many PHD2 parameters, such as exposure time, aggression, ...
 - Display of the current `targetName` if a sequence item with status `RUNNING` exists.
 - Autoscan for iOS and Andriod. The connection settings can now be determined automatically as long as the default port 5000 is used in the plugin
@@ -641,61 +767,76 @@ TouchNStar Plugin 1.2.3.0 is required for BahtiFocus
 - Warning if the Locatoin Sync in NINA does not match TNS and the possibility to change this
 - A window to set the camera's exposure time more quickly
 - GuiderStatus component showing current guider state with visual indicators and multilingual support
-- Added sequence load to load sequences into the advanced sequence. Load a sequence from the default sequence folder 
+- Added sequence load to load sequences into the advanced sequence. Load a sequence from the default sequence folder
 
 ### Changed
+
 - the coordinates for framing are no longer set at startup. This means that it is no longer necessary to switch to the framing tab in NINA
-- design adjustments 
+- design adjustments
 - Guidegraph show px and rms error
 - Raise the API minimum version to API 2.2.5.0 !
 - Toast notification system: Non-critical toasts now appear as non-blocking notifications in top-right corner, while confirmations and critical messages remain as blocking overlays
 - Guider control buttons are now always clickable with visual feedback for inactive states
 
 ### Fixed
+
 - fixed layout error in footer for iOS
 
 ## [1.0.9.0] - 2025-06-24
+
 ### Added
+
 - Guidgraph can be displayed everywhere. It can be opened and closed from the status bar
 - Add skychart to sequenz
 - TPPA Start from current position
 
 ### Changed
-- Connection timeout increased to 2s and three attempts 
+
+- Connection timeout increased to 2s and three attempts
 
 ### Fixed
+
 - Automatic reconnect of the mount websocket connection
 
 ## [1.0.8.0] - 2025-05-27
+
 ### Added
-- Stellarium on iOS 
+
+- Stellarium on iOS
 - Stellarium: send coordinates to mount
 - SkyChart displays the custom horizon
 - Camera page: Movable modal for mount, focuser and filter
 
 ### Changed
+
 - reworked Logfile & Image download for Android/iOS
 - The communication action monitoring from TNS to NINA has been revised
-- Camera page: Design reworked 
-- Statusbar: Design reworked 
+- Camera page: Design reworked
+- Statusbar: Design reworked
 
 ### Fixed
+
 - UI rendering & touch inputs for mobile applications
 - Fix connection error with alpaca devices
 
 ## [1.0.7.0] - 2025-05-08
+
 ### Added
+
 - Favorites memory for targets added
-- debug option/window 
+- debug option/window
 
 ### Changed
+
 - The API port is now automatically detected
 - Several NINA instances can run on one PC. The port increases by 1 for each instance
 - The skychart shows the nautical and astronomical night
 - The communication action monitoring from TNS to NINA has been revised
 
 ## [1.0.6.0] - 2025-05-03
+
 ### Added
+
 - Focuser quick to use button
 - Integrated iOS app
 - Instanze Color -> There is a separate color for each instance. The navbar changes color depending on the instance
@@ -703,31 +844,35 @@ TouchNStar Plugin 1.2.3.0 is required for BahtiFocus
 - A message is now displayed if the communication does not work
 
 ### Changed
-- design rework stellarium 
+
+- design rework stellarium
 - button design adjustment
 - rewort guidegraph
 - framing tab change reworked (!!! new api is needed !!! ) -> When starting TNS, the system now also switches back to the active tab of NINA
 
 ### Fixed
+
 - repairs a connection error if the default port is not used
 - the IP address in the plugin is now displayed correctly
 
-
 ## [1.0.5.0] - 2025-04-16
+
 ### Added
+
 - Sequenceimage: Add download function
 - Dome: Add Slew and Sync
-- Add ToastModal 
-- Focuser: Add autofocus graph 
-- Camera: Add Chipsettings 
+- Add ToastModal
+- Focuser: Add autofocus graph
+- Camera: Add Chipsettings
 - Image History sorting by newest / oldest
 - Stellarium Clock & Date view
 - Altitude Chart in TargetSearch
-- Settings for stretch factor and black clipping 
+- Settings for stretch factor and black clipping
 - Add Manuell Filterwheel controll. You have to set the filter wheel of the API
 
 ### Changed
-- CaptureButton created and integrated into CameraView 
+
+- CaptureButton created and integrated into CameraView
 - CameraView is no longer locked when a sequence is running. Capturing only is not possible
 - Manual Mountcontroll is permanently visible
 - Update Eslint to 9
@@ -735,38 +880,51 @@ TouchNStar Plugin 1.2.3.0 is required for BahtiFocus
 - Sequence image is now displayed as in NINA
 
 ### Fixed
+
 - Avoid duplicate NINA connection entries
 - Eslint now fixes prettier
 - Flatpanel icon state
 
 ## [1.0.4.4] - 2025-03-20
+
 ### Fixed
+
 - fixed: add target to sequence
 
 ## [1.0.4.3] - 2025-03-29
+
 ### Fixed
+
 - error fixed when sequence loads
 
 ## Android 1.6.3
+
 ### Added
+
 - Implemented memory-safe APK updater with progress tracking
 - Enhanced lifecycle handling for robust update management
 - Integrated permission request handling for APK installation
 
 ### Fixed
+
 - Resolved memory leak issues in the update checker
 - Fixed access modifier conflict for `onDestroy()` override in `MainActivity`
 
 ### Changed
+
 - Improved user feedback during APK downloads with a progress dialog
 - Enhanced error handling for partial downloads and network failures
 
 ## [1.0.4.2] - 2025-03-28
+
 ### Fixed
+
 - Fixed NINA Update
 
 ## [1.0.4.0] - 2025-03-28
+
 ### Added
+
 - slew and Slew and Center added to stellarium
 - settings panel for stellaruim added to activate different views
 - Equipment: Device selection added
@@ -780,10 +938,12 @@ TouchNStar Plugin 1.2.3.0 is required for BahtiFocus
 - Infomodal for slew and center
 
 ### Fixed
+
 - fixes an error when the stellarium page is reloaded
-- camera cooling status 
+- camera cooling status
 
 ### Changed
+
 - rework Stellarium mount position
 - rework Stellarium selected object
 - rework slew and slewAndCenter function
@@ -794,10 +954,12 @@ TouchNStar Plugin 1.2.3.0 is required for BahtiFocus
 - Last sequence image cache
 - settings wizzard now loads the coordinates of nina
 - imagehistory now loads thumbnails so it is much faster
-- CenterHere: Rework Slwe and Centerbutton 
+- CenterHere: Rework Slwe and Centerbutton
 
 ## [1.0.3.0] - 2025-03-08
+
 ### Added
+
 - Stellarium Web Engine
 - Display current mount position in stellarium
 - Object selection in stellarium
@@ -806,47 +968,59 @@ TouchNStar Plugin 1.2.3.0 is required for BahtiFocus
 - Image History
 
 ### Changed
+
 - update cz
 - rework history image
 
 ### Fixed
+
 - Setup screen / Nina instance setup for Android only
 - Windspeed in weather modal
 
 ## [1.0.2.2] - 2025-02-23
+
 ### Added
+
 - Create a new SequenceImageHistory view that loads all the images from the history using the SequenceImage component.
 - Add this new SequenceImageHistory view as a new tab of the "Sequence Monitoring" page.
 - slew can be canceled
 - set park position
 
 ### Changed
+
 - Extract the sequence image loading logic into a new SequenceImage component. This component is in charge of displaying the image + stats + opening the modal for the full preview.
 
 ### Fixed
+
 - Plugin null exception error
 - Small UI fixes in the "Sequence Monitoring" page.
 - Added a new script to add a new entry to all locale files. Very handy when creating a new entry to avoid going to all the files individually.
 - TPPA fix display error
 
 ## [1.0.2.0] - 2025-02-21
+
 ### Added
+
 - add flat assistant
 - add manuell mount controll
 - Starsearch
 - spanish translation
 
 ### Changed
+
 - Auto prepare for the images
-- TPPA  shows more info
+- TPPA shows more info
 - DLSR chip size is loaded from the framing settings
 
 ### Fixed
+
 - Loading the autofocus graphic after a run did not always work
 - Shutdown / Restart now also works when PHD2 is running
 
 ## [1.0.1.0] - 2025-02-14
+
 ### Added
+
 - Shutdown / Restart support (NINA PC)
 - New Translation keys
 - Manuell mount controll
@@ -854,17 +1028,21 @@ TouchNStar Plugin 1.2.3.0 is required for BahtiFocus
 - image settings
 
 ### Changed
+
 - Android framework replaced with CapacitorJS (previous App needs to be removed first)
 - Android 10 is now required as min. version
 - Images are processed in the same way as in NINA
 - Camerapage layout reworked
 
 ### Fixed
+
 - ISO was not set correctly with DLSR
 - Pinia store now correctly stores Instance configurations
 
 ## [1.0.0.9] - 2025-02-07
+
 ### Added
+
 - Graphic showing the remaining exposure time
 - Binning can be set
 - Readoutmode can be set
@@ -872,6 +1050,7 @@ TouchNStar Plugin 1.2.3.0 is required for BahtiFocus
 - Klingon support
 
 ### Changed
+
 - Camera design adjustments
 - Save exposuretime gain and offset permanently
 - prevent lockscreen on Android
@@ -880,6 +1059,7 @@ TouchNStar Plugin 1.2.3.0 is required for BahtiFocus
 - Removed wshv and Autofocus watcher
 
 ### Fixed
+
 - Flatpanel icon does not change color
 - Guidergraph: Data was not always loaded
 - Error when loading the target image fixed
@@ -887,26 +1067,31 @@ TouchNStar Plugin 1.2.3.0 is required for BahtiFocus
 - Fixed custom sky survey cache path
 
 ### Known Issues
+
 - Android - Logfile Download not working
 
 ## [1.0.0.8] - 2025-02-04
+
 ### Added
+
 - Framingassistant
 - Switchpage
 - portuguese support
 - Manuell mount control
 - Guider notes
-  
+
 ### Changed
+
 - Filter wheel cannot be connected if it is manual
 - Rotator cannot be connected if it is manual
 - Camera and last sequence image is now in an Modal for zooming
 - Adaptations to API version 2.1.7.0
 - update cz, fr, it, de, en, cn
 - Sequence overview reworked
-- display of the zoom factor in the image modal 
-  
+- display of the zoom factor in the image modal
+
 ### Fixed
+
 - Camera - timeout
 - Sequence image does not always load
 - Weather modal
@@ -916,33 +1101,42 @@ TouchNStar Plugin 1.2.3.0 is required for BahtiFocus
 - Guider RA / DEC values
 
 ## [1.0.0.7] - 2025-01-27
+
 ### Added
+
 - Italian, Czech, Chinese support
 - Weather modal with additional information
 - About modal
 - Updater for Android
 - Cors description
-  
+
 ### Fixed
+
 - Input validation for Nina instances
 - FQDN working again
 - Instance selection
 - TPPA state handling
 
 ## [1.0.0.6] - 2025-01-22
+
 ### Added
+
 - Support for Advanced API 2.1.4.0
 - Setup screen & Tutorial
 - Proper guider implementation
 
 ### Fixed
+
 - Ui Elements fixed
 
 ## [1.0.0.5] - 2025-01-19
+
 ### Added
+
 - Flatpanel support
 - Sequence monitor
 
 ### Fixed
+
 - Mobile optimizations
 - Navbar

@@ -263,6 +263,7 @@ test('persists touch-sized Atlas type and catalogue filters without limiting off
   assert.match(view, /settingsStore\.celestiaAtlas\.deepSkyObjectTypes/);
   assert.match(view, /settingsStore\.celestiaAtlas\.deepSkyCatalogueGroups/);
   assert.match(view, /searchResults\.value = viewer\?\.search\(searchQuery\.value\) \?\? \[\]/);
+  assert.match(view, /result\.displayName \|\| result\.name \|\| result\.id/);
   assert.match(settingsView, /<AtlasCatalogFilters/);
   assert.match(settingsView, /:disabled="!settingsStore\.celestiaAtlas\.dsosVisible"/);
   assert.match(filterView, /toggleAtlasFacetSelection/);

@@ -45,6 +45,24 @@ The host supplies:
 - landscape, horizon, display, magnitude, type, and catalogue filters;
 - selected-target actions and Framing Assistant cache previews.
 
+## Catalogue and naming contract
+
+Touch'N'Stars composes the package's normalized base catalogue with the A66 and
+Stellarium supplement layers. The resulting offline catalogue contains 21,192
+deep-sky markers and exposes ten catalogue filters, including `messier`.
+
+- The normalized base must contain exactly one object for every designation
+  from M1 through M110. Package updates that break this invariant must fail the
+  host catalogue tests.
+- Atlas owns canonical display labels. Search results and selected-object cards
+  use `displayName` when present, so a common name cannot hide its designation:
+  for example, `M81 · Bode's Galaxy` and `M42 · Great Orion Nebula`.
+- `name` remains the command/framing name. Do not send the decorated
+  `displayName` to N.I.N.A. as the target identity.
+- M40 is represented as the SIMBAD-sourced Winnecke 4 double-star point marker.
+  M102 follows the Atlas-documented NGC 5866 convention. Attribution and the
+  historical ambiguity are maintained in the Atlas source manifest and notices.
+
 ## Coordinate and command contract
 
 - Public RA/Dec is decimal degrees tagged `ICRS` or `J2000`.

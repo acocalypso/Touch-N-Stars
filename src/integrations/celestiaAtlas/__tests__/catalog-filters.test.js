@@ -84,10 +84,11 @@ test('exposes the exact facets and membership counts from every packaged offline
   });
   const facets = buildAtlasCatalogFacets(catalog);
 
-  assert.equal(catalog.length, 21_191);
+  assert.equal(catalog.length, 21_192);
   assert.deepEqual(facets.objectTypes, [
     { key: '*ass', label: 'Stellar association', count: 64 },
     { key: 'cl+n', label: 'Cluster with nebulosity', count: 68 },
+    { key: 'doublestar', label: 'Double star', count: 1 },
     { key: 'drkn', label: 'Dark nebula', count: 1_952 },
     { key: 'emn', label: 'Emission nebula', count: 8 },
     { key: 'g', label: 'Galaxy', count: 10_528 },
@@ -110,6 +111,7 @@ test('exposes the exact facets and membership counts from every packaged offline
     { key: 'barnard', label: 'Barnard', count: 343 },
     { key: 'lbn', label: 'LBN', count: 1_118 },
     { key: 'ldn', label: 'LDN', count: 1_786 },
+    { key: 'messier', label: 'Messier', count: 110 },
     { key: 'openngc', label: 'OpenNGC', count: 12_578 },
     { key: 'rcw', label: 'RCW', count: 186 },
     { key: 'sharpless', label: 'Sharpless 2', count: 316 },

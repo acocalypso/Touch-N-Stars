@@ -346,6 +346,21 @@ Persisted settings and local data paths retain explicit migration compatibility.
   `LDN 1235`, both Abell 39 objects and the HYG-only star `Fulu`, including
   aliases, catalogue groups, coordinate normalization and immutable inputs.
 
+### 2026-07-22 complete Messier catalogue and labels
+
+- The pinned Atlas base now exposes all 110 Messier designations. M40 is the
+  separately attributed SIMBAD Winnecke 4 point marker; M102 uses the documented
+  NASA Hubble NGC 5866 convention while retaining a note about the historical
+  ambiguity.
+- The embedded composition contains 21,192 DSO markers, 18 object-type facets
+  and ten catalogue facets. `messier` contains exactly 110 members, while the
+  explicit OpenNGC membership remains 12,578 objects.
+- Map labels, search results and selected-object cards preserve both the Messier
+  designation and a distinct common name, for example `M81 · Bode's Galaxy`.
+  Command and framing payloads retain the undecorated target name.
+- Host tests enumerate M1 through M110, cover M40 and M102, and verify the new
+  Double star and Messier filters against the real pinned package payload.
+
 ### 2026-07-16 selected-target action parity
 
 - Canvas hits and offline search selections now use the same selected-object
@@ -414,9 +429,9 @@ Persisted settings and local data paths retain explicit migration compatibility.
 | ------------------------ | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------- |
 | Explicit lifecycle       | Hidden render suppression plus host workarounds | `pause`, `resume`, `resize`, idempotent `destroy`                                                            | Web passed; Android/iOS user validation passed                   |
 | Observer and UTC         | Supported                                       | Validated setters, synchronized host time and cached EQJ/ICRS observed frame                                 | Reference fixtures and Android/iOS user validation passed        |
-| Offline catalogue search | Stellarium packaged data                        | Lazy 21,191-object layered DSO catalogue, 8,910 stars and moving objects                                     | Host, production browser, and Android/iOS user validation passed |
+| Offline catalogue search | Stellarium packaged data                        | Lazy 21,192-object layered DSO catalogue, 8,910 stars and moving objects; exact M1-M110 coverage             | Host, production browser, and Android/iOS user validation passed |
 | Brightness filters       | Shared display density                          | Independent persisted star, galaxy-family and other-DSO limiting magnitudes                                  | Standalone and host web passed                                   |
-| Catalogue marker filters | Shared display density                          | Independent persisted 17-type and nine-source allowlists with All/None and stale-state recovery              | Host and production mobile web passed                            |
+| Catalogue marker filters | Shared display density                          | Independent persisted 18-type and ten-source allowlists with All/None and stale-state recovery               | Host and production mobile web passed                            |
 | Framing selection        | Supported                                       | Shared selected-object actions and explicit ICRS/J2000-to-NINA-J2000 command boundary                        | Connected; full action parity, provenance and conversion tested  |
 | Mount/FOV/rotation       | Supported                                       | Profile-derived physical camera geometry, celestial-north frame, marker/follow, mosaic and rotation controls | Production web and Android/iOS user validation passed            |
 | Horizon/landscape        | Supported                                       | Default-on persisted horizon mask; seam-correct, bilinear and DPR-aware order-0 HiPS/HEALPix imagery         | Standalone, host, and Android/iOS user validation passed         |
@@ -432,6 +447,11 @@ Persisted settings and local data paths retain explicit migration compatibility.
   typecheck and production build passed. The production browser verified
   persisted reload, invalid-state recovery and touch reachability as described
   above.
+- Messier-completion validation on 2026-07-22 passed all 133 host tests against
+  the real pinned package. It requires exactly M1 through M110, verifies the
+  M40/M102 conventions, and checks designation-plus-common-name rendering
+  together with the Double star and Messier facets. ESLint, formatting, the
+  6 GB Vue typecheck and the production build also passed.
 - Selected-target integration validation on 2026-07-16 passed all 66 host tests,
   including exact M31 ICRS-to-J2000 values, alias normalization, invalid-frame
   clearing, provenance retention and renderer-neutral action-panel wiring.
@@ -742,7 +762,7 @@ equivalent iOS capture remains a non-blocking follow-up.
   completed physical-device validation.
 - Package boundary resolved: Touch-N-Stars uses the public Git repository pinned
   over HTTPS to immutable Atlas commit
-  `2f6b558caf538d10cdb20774e01e94d017f2b272`. Embedded and standalone shells
+  `0bf664f7a6f3a9ba9c307b76bae883fdde15565d`. Embedded and standalone shells
   share the same viewer and astronomy engine modules.
 
 ## 12. Removal checklist

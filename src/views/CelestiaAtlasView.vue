@@ -16,7 +16,7 @@
           class="p-2 cursor-pointer hover:bg-blue-700"
           @click="selectSearchResult(result)"
         >
-          {{ result.name || result.id }}
+          {{ result.displayName || result.name || result.id }}
         </li>
       </ul>
     </div>

@@ -45,7 +45,7 @@ test('connects the existing display settings through the host-managed Atlas adap
   assert.match(view, /FramingAssistantSettings\?\.CameraWidth/);
   assert.match(view, /FramingAssistantSettings\?\.CameraHeight/);
   assert.match(view, /rotationDeg: Number\(framingStore\.rotationAngle \?\? 0\)/);
-  assert.match(view, /rotationConvention: 'clockwise-from-celestial-north'/);
+  assert.match(view, /rotationConvention: ATLAS_POSITION_ANGLE_CONVENTION/);
   assert.doesNotMatch(view, /computeCameraFovDeg/);
   assert.match(view, /starMagnitudeLimit: normalizeAtlasMagnitudeLimit/);
   assert.match(view, /galaxyMagnitudeLimit: normalizeAtlasMagnitudeLimit/);

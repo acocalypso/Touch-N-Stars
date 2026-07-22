@@ -15,12 +15,11 @@ sync, and Android debug assembly have passed. Successful iOS hardware testing
 also confirms that the iOS application compiled, installed, and ran. There is no
 remaining functional Stellarium-to-Celestia migration item.
 
-The three-run physical Android memory baseline is complete. Two non-blocking
-engineering evidence items remain: repeat the native memory/heap protocol on a
-physical iOS release device, and document the position-angle convention of
-every upstream FITS/image metadata source before any such value is automatically
-applied to the Atlas framing rotation. Current manual, favourite, plate-solve,
-and Framing Assistant rotation paths remain explicit and tested.
+The three-run physical Android memory baseline and the complete image-angle
+provenance audit are complete. The only remaining non-blocking engineering
+evidence item is repeating the native memory/heap protocol on a physical iOS
+release device. Current FITS, WCS, manual, favourite, plate-solve, sequence, and
+Framing Assistant rotation paths are explicit and tested.
 
 ## 1. Baseline repository revisions
 
@@ -85,9 +84,9 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 - The Atlas view-center action panel uses the same boundary before exposing coordinates to slew, center, rotate, sequence-target, and favorite-target workflows. Its shared action component accepts only validated J2000 values, clears stale coordinates after any invalid sample, and disables every command-producing control until a new valid sample exists. The rollback viewer's ICRF center follows the same explicit ICRS-to-J2000 conversion.
 - JNOW/B1950/J2050 inputs remain rejected at the NINA command boundary.
   Atmospheric refraction is deliberately absent from Atlas altitude, and live
-  IERS DUT1/polar-motion data is not ingested. Upstream FITS/image position-angle
-  provenance remains a separate validation item and cannot silently enter the
-  command boundary.
+  IERS DUT1/polar-motion data is not ingested. FITS/image angle provenance is
+  enforced by the source-specific
+  [position-angle boundary](celestia-atlas-position-angle-contract.md).
 
 ## 8. Implementation phases
 
@@ -122,9 +121,9 @@ deterministic teardown without exposing renderer internals to Vue.
 Tagged ICRS/J2000 conversion, JNOW mount precession, horizontal handedness,
 celestial-north camera rotation, and the N.I.N.A. J2000 command boundary are
 implemented and covered by SOFA, Astronomy Engine, and JPL reference fixtures.
-New FITS/image metadata sources must document their position-angle convention
-before automatic ingestion; that safeguard is follow-up evidence, not missing
-current functionality.
+Every current FITS/image angle source and its conversion are documented in the
+[position-angle contract](celestia-atlas-position-angle-contract.md). Its
+admission checklist is mandatory for future automatic metadata ingestion.
 
 ### Phase 4 — Host workflow parity: complete
 
@@ -603,6 +602,27 @@ equivalent iOS capture remains a non-blocking follow-up.
   environment, so the outstanding Instruments baseline was not inferred from
   Android, browser, synchronized iOS assets, or the prior iOS functional pass.
 
+### 2026-07-22 position-angle provenance closure
+
+- The live-camera solve, unsolved-FITS solve, and already-solved FITS WCS paths
+  are now separately identified at the host boundary. N.I.N.A.
+  `PlateSolveResult.PositionAngle` is normalized unchanged; N.I.N.A.
+  `WorldCoordinateSystem.Rotation` is converted with `(360 - Rotation) mod 360`
+  according to N.I.N.A.'s own `PositionAngle` property.
+- The audit found and fixed an existing sign mismatch for FITS files that
+  already contained WCS: the plugin returned `WorldCoordinateSystem.Rotation`
+  while the host treated it as `PositionAngle`. The plugin's
+  `SolvedFromWcs` discriminator is now retained through response normalization
+  and selects the required conversion.
+- Invalid or unproven automatic values no longer overwrite framing rotation.
+  The Atlas renderer imports the same canonical
+  `clockwise-from-celestial-north` constant used by the conversion boundary.
+- The [position-angle contract](celestia-atlas-position-angle-contract.md)
+  records applied and deliberately excluded image sources, WCS parity limits,
+  pinned primary-source revisions, and the admission checklist for future
+  metadata. Unit and source-routing tests prevent either automatic source from
+  returning to a raw assignment.
+
 ### 2026-07-18 Celestia-owned namespaces and offline survey
 
 - Static landscapes, sky cultures and survey imagery moved from
@@ -705,9 +725,9 @@ equivalent iOS capture remains a non-blocking follow-up.
   stress runs with no process restart, missing renderer, or retained native,
   Java, or graphics heap growth. The equivalent physical iOS Instruments
   baseline remains a non-blocking follow-up.
-- Non-blocking follow-up: document upstream FITS/image position-angle
-  conventions before automatically applying new metadata sources. This does
-  not block the current explicit rotation paths.
+- FITS/image position-angle provenance is complete and enforced by a
+  source-specific conversion boundary. Future metadata sources must satisfy the
+  documented admission checklist before automatic use.
 - Native package boundary and size profiling now run after every
   `npm run build:native`. The verifier requires all lazy Celestia runtime and
   catalogue chunks, rejects bundled Atlas survey data and legacy Stellarium
@@ -729,8 +749,8 @@ equivalent iOS capture remains a non-blocking follow-up.
 
 - [x] All mandatory functional parity gates pass.
 - [x] Astronomy reference fixtures and tolerances pass for Atlas coordinates,
-      horizontal geometry, projection and camera rotation; upstream image metadata
-      provenance remains tracked separately.
+      horizontal geometry, projection and camera rotation; image-angle provenance
+      is documented and enforced at the host boundary.
 - [x] Full offline catalogue and notices are packaged.
 - [x] Web lifecycle tests and physical Android/iOS hardware validation pass.
 - [x] Celestia is the only renderer after a completed rollback interval.

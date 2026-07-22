@@ -137,6 +137,7 @@ import {
   normalizeAtlasFacetSelection,
 } from '@/integrations/celestiaAtlas/catalogFilters';
 import { normalizeAtlasMagnitudeLimit } from '@/integrations/celestiaAtlas/magnitudeFilters';
+import { ATLAS_POSITION_ANGLE_CONVENTION } from '@/integrations/celestiaAtlas/positionAngle';
 import {
   createDssSkySurveySource,
   resolveCelestiaAtlasDataBaseUrl,
@@ -230,7 +231,7 @@ function updateFieldOfView() {
     widthDeg: fov.widthDeg,
     heightDeg: fov.heightDeg,
     rotationDeg: Number(framingStore.rotationAngle ?? 0),
-    rotationConvention: 'clockwise-from-celestial-north',
+    rotationConvention: ATLAS_POSITION_ANGLE_CONVENTION,
     mosaic: framingStore.isMosaicMode
       ? {
           columns: Number(framingStore.mosaicCols),

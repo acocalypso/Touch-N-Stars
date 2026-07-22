@@ -7,6 +7,7 @@ import { timeSync } from '@/utils/timeSync';
 import { useSettingsStore } from './settingsStore';
 import { useMountStore } from './mountStore';
 import apiService from '@/services/apiService';
+import { positionAngleFromNinaPlateSolve } from '@/integrations/celestiaAtlas/positionAngle';
 
 export const useCameraStore = defineStore('cameraStore', () => {
   const framingStore = useFramingStore();
@@ -307,8 +308,14 @@ export const useCameraStore = defineStore('cameraStore', () => {
         console.log('[cameraStore] plateSolveError: ', plateSolveStatusCode, plateSolveError.value);
       }
       if (plateSolveResult) {
-        framingStore.rotationAngle = plateSolveResult.PositionAngle;
-        console.log('[cameraStore] Camera position angle: ', framingStore.rotationAngle);
+        const positionAngle = positionAngleFromNinaPlateSolve(plateSolveResult.PositionAngle);
+        if (positionAngle === null) {
+          plateSolveError.value = true;
+          console.error('[cameraStore] Plate solve returned an invalid position angle');
+        } else {
+          framingStore.rotationAngle = positionAngle;
+          console.log('[cameraStore] Camera position angle: ', framingStore.rotationAngle);
+        }
       }
     } catch (error) {
       console.error('[cameraStore] Error during capture:', error.message);

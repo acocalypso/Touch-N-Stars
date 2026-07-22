@@ -144,13 +144,12 @@ The remaining work is non-blocking validation evidence:
 
 - repeat the completed three-run physical Android memory baseline on a physical
   iOS release device with Instruments, using the
-  [native memory profiling protocol](native-atlas-memory-profiling.md);
-- document the position-angle convention of any new upstream FITS/image
-  metadata source before automatically applying it to framing rotation.
+  [native memory profiling protocol](native-atlas-memory-profiling.md).
 
-Neither item represents missing renderer functionality. Current rotation paths
-remain explicit, and no external image metadata is silently interpreted by the
-Atlas integration.
+This does not represent missing renderer functionality. The current FITS, WCS,
+plate-solve, manual, favourite, and sequence rotation paths are covered by the
+[position-angle contract](celestia-atlas-position-angle-contract.md); new image
+metadata must satisfy its admission checklist before automatic use.
 
 ## Troubleshooting
 

@@ -581,6 +581,28 @@ equivalent iOS capture remains a non-blocking follow-up.
   `.cache/native-profile/` directory and are not committed. The equivalent
   three-run physical iOS Instruments baseline is still outstanding.
 
+### 2026-07-22 post-baseline validation rerun
+
+- Cached ESLint, the 6 GB Vue typecheck, all 129 host tests with coverage, and
+  source formatting passed. The combined `ci:verify` command reached the known
+  repository-wide locale audit and stopped on its pre-existing missing camera
+  keys and non-English placeholder mismatches; no new Atlas test or locale key
+  failure appeared.
+- The normal web production build passed. The native production build removed
+  `celestia-atlas-data`, retained every required lazy Atlas runtime/catalogue
+  chunk, rejected legacy/public-survey paths, and passed the 40 MiB boundary at
+  34.78 MiB. Both synchronized Capacitor platform roots passed the same check.
+- Android `assembleDebug` passed all 470 tasks. The warnings are upstream AGP
+  deprecations and flat-directory repository warnings, not compilation or
+  package-boundary failures.
+- The OnePlus 8T remained on the fully rendered Atlas after the stress runs;
+  the app process stayed alive and the app-scoped post-profile log contained no
+  Atlas, WebGL, uncaught, reference, type, or fatal exception. The installed
+  application remained 5.0.0 (version code 56).
+- A physical iOS device and macOS/Xcode are not available in this Windows test
+  environment, so the outstanding Instruments baseline was not inferred from
+  Android, browser, synchronized iOS assets, or the prior iOS functional pass.
+
 ### 2026-07-18 Celestia-owned namespaces and offline survey
 
 - Static landscapes, sky cultures and survey imagery moved from

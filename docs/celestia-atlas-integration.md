@@ -142,8 +142,8 @@ and iOS compile/install/run gates.
 
 The remaining work is non-blocking validation evidence:
 
-- record repeatable native memory/heap measurements during an extended Atlas
-  stress session using the
+- repeat the completed three-run physical Android memory baseline on a physical
+  iOS release device with Instruments, using the
   [native memory profiling protocol](native-atlas-memory-profiling.md);
 - document the position-angle convention of any new upstream FITS/image
   metadata source before automatically applying it to framing rotation.

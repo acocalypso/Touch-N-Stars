@@ -15,12 +15,12 @@ sync, and Android debug assembly have passed. Successful iOS hardware testing
 also confirms that the iOS application compiled, installed, and ran. There is no
 remaining functional Stellarium-to-Celestia migration item.
 
-Two non-blocking engineering evidence items remain: capture a repeatable native
-memory/heap profile under an extended Atlas stress session, and document the
-position-angle convention of every upstream FITS/image metadata source before
-any such value is automatically applied to the Atlas framing rotation. Current
-manual, favourite, plate-solve, and Framing Assistant rotation paths remain
-explicit and tested.
+The three-run physical Android memory baseline is complete. Two non-blocking
+engineering evidence items remain: repeat the native memory/heap protocol on a
+physical iOS release device, and document the position-angle convention of
+every upstream FITS/image metadata source before any such value is automatically
+applied to the Atlas framing rotation. Current manual, favourite, plate-solve,
+and Framing Assistant rotation paths remain explicit and tested.
 
 ## 1. Baseline repository revisions
 
@@ -147,8 +147,9 @@ First-use code splitting, bounded mobile rendering, persistent survey reuse,
 session view state, clock controls, native background/foreground handling,
 safe-area layout, touch interaction, native data exclusion, and plugin-hosted
 survey delivery are implemented. Browser, Android, and iOS hardware validation
-passed. Repeatable native heap measurement remains a non-blocking performance
-record, not a functional parity gate.
+passed, and the three-run physical Android memory baseline is recorded.
+Equivalent iOS memory measurement remains a non-blocking performance record,
+not a functional parity gate.
 
 ### Phase 7 — Cutover and legacy removal: complete
 
@@ -519,7 +520,8 @@ At the time of this browser-only slice, native Android/iOS interaction,
 package-size, and memory/heap profiling were explicit Phase 6 gates; no native
 result was inferred from browser emulation. Physical Android/iOS interaction
 validation was subsequently completed on 2026-07-22. Repeatable memory/heap
-profiling remains a non-blocking follow-up.
+profiling was subsequently completed on physical Android hardware; the
+equivalent iOS capture remains a non-blocking follow-up.
 
 ### 2026-07-22 Android memory-profiler automation
 
@@ -550,6 +552,34 @@ profiling remains a non-blocking follow-up.
   the aggregate workflow and shows no leak signature in this emulator session;
   it is not the three-run physical Android/iOS release baseline required by the
   [native profiling protocol](native-atlas-memory-profiling.md).
+
+### 2026-07-22 physical Android memory baseline
+
+- Three consecutive five-minute aggregate runs exercised the fully rendered
+  Atlas on a physical OnePlus 8T (`KB2003`, Android 14, arm64-v8a, 12 GB RAM,
+  1080 x 2400). The installed application was 5.0.0 (version code 56), updated
+  immediately before capture, and the repository was at
+  `270043f8d54b703fa99b2e87476e4cdb62be73ee`.
+- Each run sampled every five seconds, alternated horizontal/vertical pans,
+  performed four background/foreground cycles, and reserved the final 30
+  seconds for recovery. All 180 requested samples included both the Capacitor
+  host and its package-associated isolated WebView renderer. There were zero
+  collection failures, missing-renderer samples, process restarts, or visible
+  Atlas/WebGL console exceptions.
+- Settled total PSS changed 577.02 -> 513.49 MiB in run 1, 532.46 -> 495.03 MiB
+  in run 2, and 592.83 -> 595.63 MiB in run 3. Peaks were 637.47, 675.29, and
+  704.08 MiB. Settled total RSS changed 876.61 -> 779.10 MiB, 795.92 -> 740.08
+  MiB, and 836.92 -> 838.61 MiB; peaks were 903.01, 932.56, and 948.65 MiB.
+- Run 3's small settled increase was 2.80 MiB PSS and 1.69 MiB RSS. Its native
+  heap fell 0.07 MiB, Java heap fell 0.09 MiB, graphics rose 0.72 MiB, and
+  private dirty memory was flat (-0.06 MiB). Runs 1 and 2 reclaimed 63.52 and
+  37.43 MiB PSS respectively. Growth did not repeat across equivalent runs and
+  no heap category ratcheted upward, so this physical Android session has no
+  retained-memory leak signature. Absolute active-view variance is dominated by
+  Chromium private-other allocations and remains device-specific.
+- Raw JSON reports and screenshots remain under the ignored
+  `.cache/native-profile/` directory and are not committed. The equivalent
+  three-run physical iOS Instruments baseline is still outstanding.
 
 ### 2026-07-18 Celestia-owned namespaces and offline survey
 
@@ -649,9 +679,10 @@ profiling remains a non-blocking follow-up.
 - Physical Android and iOS validation completed on 2026-07-22. This closes the
   native lifecycle, gesture, layout, offline-data, visual, mount/FOV, and iOS
   compile/install/run gates.
-- Non-blocking follow-up: capture repeatable native memory/heap measurements
-  during an extended pan, zoom, search, survey, hide/show, and background/
-  foreground stress session.
+- The physical Android memory baseline completed three consecutive extended
+  stress runs with no process restart, missing renderer, or retained native,
+  Java, or graphics heap growth. The equivalent physical iOS Instruments
+  baseline remains a non-blocking follow-up.
 - Non-blocking follow-up: document upstream FITS/image position-angle
   conventions before automatically applying new metadata sources. This does
   not block the current explicit rotation paths.

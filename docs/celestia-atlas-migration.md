@@ -91,34 +91,71 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 
 ## 8. Implementation phases
 
-- Phase 0: complete enough to begin isolated engine work; baseline lint timed out.
-- Phase 1: public API, lifecycle, pointer cancellation and initial overlays implemented; standalone renderer extraction is complete.
-- Phase 2: the lazy Vue integration connects observer, synchronized UTC, FOV, visibility and deterministic teardown.
-- Phase 7: the rollback interval is complete. The conditional legacy import,
-  Stellarium Web view/store/overlays, JavaScript loader and WebAssembly binaries
-  are removed; Celestia Atlas is the only sky runtime.
-- Phase 7 (partial): the existing display and landscape settings modal is exposed on the Atlas screen in renderer-managed mode. Host settings flow through the Atlas public API watchers without legacy store mutation or viewer remount events.
-- Phase 4 (partial): offline search, focus, canvas hit selection, selected-object details, proven ICRS/J2000-to-NINA-J2000 framing handoff, J2000 mount marker, grid/display settings, and mock mount epoch are connected.
-- Phase 4 (partial): manual mount centering and view-local auto-follow are connected through public viewer methods. The FOV overlay renders framing-store mosaic columns, rows, celestial-north position angle and overlap without exposing renderer state to Vue.
-- Phase 6 (partial): app-wide native background state pauses the viewer and its clock display; view state is session-persisted with throttled writes; UTC progression can be paused/resumed through the engine clock API. App-owned Capacitor listener cleanup now removes only its own handle.
-- Phase 6 (partial): localized date, local-time, server-now, pause and time-rate controls are connected. The standalone compatibility `app.js` is now a loader for `app-v8.js`, removing the duplicated legacy standalone implementation.
-- Phase 5 (partial): spherical gnomonic projection replaces flat RA/Dec mapping; 130 curated bright stars, 8,780 HYG stars and 27 constellation line sets are generated reproducibly, packaged offline, searchable, and controlled by host display settings.
-- Phase 5 (partial): Touch-N-Stars combines the 12,578-object OpenNGC layer with 86 SIMBAD A66 planetary nebulae and the 8,658-record Stellarium-derived Abell/ACO, Barnard, LBN, LDN, RCW, Sharpless 2 and vdB supplement. Exact reciprocal NGC/IC identities may merge; ambiguous and positional-only matches remain separate.
-- Phase 5 (partial): custom horizon points are interpolated by the host and projected by the engine from geographic north/east azimuth into the live observer sky. Engine UTC advances while active and horizon projection refreshes once per minute without a continuous render loop.
-- Phase 5 (partial): the Sun, Moon, eight planets and Pluto now use live, offline Astronomy Engine ephemerides. They render, label, search, select and hand off topocentric J2000 coordinates at the viewer's observer and UTC.
-- Phase 5 (partial): 1,214 pinned IAU Minor Planet Center comet records now render and search offline using universal-variable propagation, light-time correction and observer parallax. Embedded and standalone Atlas consumers load the same engine modules.
-- Phase 5 (partial): the embedded viewer now honors the existing azimuth-grid, equatorial-grid, local-meridian, ecliptic and atmosphere settings and uses the packaged DSS survey as its offline wide-field sky background.
-- Phase 5 (partial): Io, Europa, Ganymede and Callisto now use live offline ephemerides and support rendering, search, selection and narrow-field centering.
-- Phase 5 (partial): existing default, neutral and custom order-0 HiPS/HEALPix landscapes now load through the Atlas API and render in the live observed frame. Production browser validation passed in this slice; native visual validation was completed on physical Android and iOS devices on 2026-07-22.
-- Phase 4 (partial): the existing FOV rotation and view-center action panel now reads the active Atlas center through the typed public API and converts it to the proven NINA J2000 command contract before supplying slew/center/rotate, sequence-target, and favorite-target workflows. Invalid samples clear old values and disable all actions. Its sampling loop stops while the sky view is hidden.
-- Phase 4 (partial): canvas and search selections now reuse the complete selected-object action panel. One pure adapter normalizes aliases, converts the tagged Atlas position once to NINA J2000, formats the displayed coordinates and retains source-frame provenance for framing; invalid selections clear every command value and disable the panel.
-- Phase 5: the standalone shell now instantiates the same public viewer as Touch-N-Stars. Planets, Galilean moons, comets, layered offline catalogue search/selection, reference layers, offline HEALPix landscape, time/location, lifecycle, camera FOV and mosaic overlays share the embedded renderer.
-- Phase 3: host conversion and command boundaries are implemented and tested.
-  The IAU SOFA `iauH2fk5` vector validates ICRS-to-FK5/J2000 orientation,
-  SOFA `Hd2ae`/`Ae2hd` vectors validate horizontal handedness, fixed
-  Astronomy Engine values validate the full observed frame, and topocentric
-  Mars/12P positions match independent JPL Horizons fixtures within one
-  arcminute. Upstream FITS/image position-angle provenance remains open.
+Earlier revisions appended `Phase N (partial)` entries whenever one delivery
+slice landed. Those labels described the state of that phase at that historical
+checkpoint; they were not a list of unfinished features. Later slices completed
+the same phases, but the append-only list was never consolidated. The ordered
+final status is:
+
+### Phase 0 — Baseline and inventory: complete
+
+The repositories, legacy dependencies, behavior contract, source licences, and
+initial validation state were recorded before implementation. The baseline lint
+timeout was subsequently resolved by the source-scoped cached lint workflow.
+
+### Phase 1 — Framework-neutral Atlas engine: complete
+
+The public viewer API, typed declarations, explicit lifecycle, event-driven
+rendering, pointer cancellation, camera/time/observer control, search,
+selection, mount, FOV, horizon, landscape, and display boundaries are complete.
+The standalone application uses the same renderer instead of a duplicate
+implementation.
+
+### Phase 2 — Touch-N-Stars host shell: complete
+
+The lazy Vue integration owns first-open loading, warm reuse, observer and UTC
+synchronization, physical camera geometry, visibility pause/resume, resize, and
+deterministic teardown without exposing renderer internals to Vue.
+
+### Phase 3 — Coordinate and command safety: complete
+
+Tagged ICRS/J2000 conversion, JNOW mount precession, horizontal handedness,
+celestial-north camera rotation, and the N.I.N.A. J2000 command boundary are
+implemented and covered by SOFA, Astronomy Engine, and JPL reference fixtures.
+New FITS/image metadata sources must document their position-angle convention
+before automatic ingestion; that safeguard is follow-up evidence, not missing
+current functionality.
+
+### Phase 4 — Host workflow parity: complete
+
+Offline search, focus and hit selection, selected-object details and cached
+preview images, framing handoff, view-center actions, slew/center/rotate,
+sequence and favorite actions, mount marker/locate/follow, camera and mosaic
+FOV, settings, filters, and stale-coordinate rejection are connected and tested.
+
+### Phase 5 — Rendering and offline sky content: complete
+
+Gnomonic sky projection, reference grids, horizon/cardinals, landscape,
+photographic DSS HiPS background, Milky Way, stars, constellations, layered DSO
+catalogues, Sun/Moon/planets, Galilean moons, and comets are shared by standalone
+and embedded viewers. Catalogue search and all required sky data work without a
+public internet dependency.
+
+### Phase 6 — Lifecycle, mobile, and performance hardening: complete
+
+First-use code splitting, bounded mobile rendering, persistent survey reuse,
+session view state, clock controls, native background/foreground handling,
+safe-area layout, touch interaction, native data exclusion, and plugin-hosted
+survey delivery are implemented. Browser, Android, and iOS hardware validation
+passed. Repeatable native heap measurement remains a non-blocking performance
+record, not a functional parity gate.
+
+### Phase 7 — Cutover and legacy removal: complete
+
+Celestia Atlas is the only sky runtime. The rollback interval ended and the
+conditional legacy import, Stellarium view/store/overlays, JavaScript loader,
+WebAssembly binaries, public data trees, and runtime terminology were removed.
+Persisted settings and local data paths retain explicit migration compatibility.
 
 ### 2026-07-12 controls, horizon, optics, and landscape slice
 

@@ -132,6 +132,25 @@ Then verify Android and iOS with the selected N.I.N.A. instance reachable:
 - horizon/cardinals, landscape seam, Milky Way orientation, settings, and About;
 - safe-area placement at small portrait and landscape viewports.
 
+## Completion status
+
+The Stellarium-to-Celestia functional migration is complete. Browser validation,
+native package-boundary checks, Android assembly, and physical Android/iOS
+hardware testing have passed. The hardware pass was confirmed on 2026-07-22 and
+closes the native lifecycle, gesture, layout, offline-data, visual, mount/FOV,
+and iOS compile/install/run gates.
+
+The remaining work is non-blocking validation evidence:
+
+- record repeatable native memory/heap measurements during an extended Atlas
+  stress session;
+- document the position-angle convention of any new upstream FITS/image
+  metadata source before automatically applying it to framing rotation.
+
+Neither item represents missing renderer functionality. Current rotation paths
+remain explicit, and no external image metadata is silently interpreted by the
+Atlas integration.
+
 ## Troubleshooting
 
 - **Blank survey:** verify the selected N.I.N.A. base URL, then request

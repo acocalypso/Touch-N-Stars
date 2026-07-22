@@ -4,16 +4,23 @@
 > dependency-update, offline-data, mobile, and validation contract, use the
 > [Celestia Atlas integration guide](celestia-atlas-integration.md).
 
-## Current status (2026-07-21)
+## Current status (2026-07-22)
 
 Celestia Atlas is the only sky renderer; the Stellarium runtime and rollback
 path are removed. Web production validation and user testing on Android and iOS
 cover navigation, search, selection, mount/FOV integration, offline survey data,
-and the mobile control layout. Automated host tests, typecheck, lint, native
-package-boundary verification, Capacitor sync, and Android debug assembly have
-passed. The remaining release evidence is iOS compilation on macOS, repeatable
-native heap profiling, the formal release regression pass, and upstream FITS/
-image position-angle provenance.
+the mobile control layout, lifecycle, and gestures on real hardware. Automated
+host tests, typecheck, lint, native package-boundary verification, Capacitor
+sync, and Android debug assembly have passed. Successful iOS hardware testing
+also confirms that the iOS application compiled, installed, and ran. There is no
+remaining functional Stellarium-to-Celestia migration item.
+
+Two non-blocking engineering evidence items remain: capture a repeatable native
+memory/heap profile under an extended Atlas stress session, and document the
+position-angle convention of every upstream FITS/image metadata source before
+any such value is automatically applied to the Atlas framing rotation. Current
+manual, favourite, plate-solve, and Framing Assistant rotation paths remain
+explicit and tested.
 
 ## 1. Baseline repository revisions
 
@@ -102,7 +109,7 @@ See [celestia-atlas-context7-log.md](./celestia-atlas-context7-log.md).
 - Phase 5 (partial): 1,214 pinned IAU Minor Planet Center comet records now render and search offline using universal-variable propagation, light-time correction and observer parallax. Embedded and standalone Atlas consumers load the same engine modules.
 - Phase 5 (partial): the embedded viewer now honors the existing azimuth-grid, equatorial-grid, local-meridian, ecliptic and atmosphere settings and uses the packaged DSS survey as its offline wide-field sky background.
 - Phase 5 (partial): Io, Europa, Ganymede and Callisto now use live offline ephemerides and support rendering, search, selection and narrow-field centering.
-- Phase 5 (partial): existing default, neutral and custom order-0 HiPS/HEALPix landscapes now load through the Atlas API and render in the live observed frame; production browser validation passed and native visual validation remains open.
+- Phase 5 (partial): existing default, neutral and custom order-0 HiPS/HEALPix landscapes now load through the Atlas API and render in the live observed frame. Production browser validation passed in this slice; native visual validation was completed on physical Android and iOS devices on 2026-07-22.
 - Phase 4 (partial): the existing FOV rotation and view-center action panel now reads the active Atlas center through the typed public API and converts it to the proven NINA J2000 command contract before supplying slew/center/rotate, sequence-target, and favorite-target workflows. Invalid samples clear old values and disable all actions. Its sampling loop stops while the sky view is hidden.
 - Phase 4 (partial): canvas and search selections now reuse the complete selected-object action panel. One pure adapter normalizes aliases, converts the tagged Atlas position once to NINA J2000, formats the displayed coordinates and retains source-frame provenance for framing; invalid selections clear every command value and disable the panel.
 - Phase 5: the standalone shell now instantiates the same public viewer as Touch-N-Stars. Planets, Galilean moons, comets, layered offline catalogue search/selection, reference layers, offline HEALPix landscape, time/location, lifecycle, camera FOV and mosaic overlays share the embedded renderer.
@@ -471,9 +478,11 @@ typecheck and the production build pass. The locale-key additions are complete a
 the repository-wide i18n checker still reports only its pre-existing placeholder-
 translation mismatches.
 
-Native Android/iOS interaction, package-size and memory/heap profiling remain
-explicit Phase 6 release gates; no native result is inferred from browser
-emulation.
+At the time of this browser-only slice, native Android/iOS interaction,
+package-size, and memory/heap profiling were explicit Phase 6 gates; no native
+result was inferred from browser emulation. Physical Android/iOS interaction
+validation was subsequently completed on 2026-07-22. Repeatable memory/heap
+profiling remains a non-blocking follow-up.
 
 ### 2026-07-18 Celestia-owned namespaces and offline survey
 
@@ -558,7 +567,7 @@ emulation.
   and service metadata returned HTTP 200 from the local plugin; no external
   survey request or Atlas runtime exception occurred.
 
-## 11. Remaining release gates
+## 11. Closure and follow-up evidence
 
 - Celestia Atlas code is MIT licensed. Data boundaries remain explicit in the
   third-party notices: OpenNGC and HYG are CC BY-SA 4.0, the SIMBAD A66 layer is
@@ -570,9 +579,15 @@ emulation.
 - Existing listed and custom landscapes use seam-correct spherical order-0
   HEALPix projection. Standalone, Touch-N-Stars production browser, and
   Android/iOS user validation passed orientation and interaction checks.
-- Remaining gates are the formal native release regression, repeatable native
-  heap profiling, iOS compilation on macOS, and upstream FITS/image
-  position-angle provenance.
+- Physical Android and iOS validation completed on 2026-07-22. This closes the
+  native lifecycle, gesture, layout, offline-data, visual, mount/FOV, and iOS
+  compile/install/run gates.
+- Non-blocking follow-up: capture repeatable native memory/heap measurements
+  during an extended pan, zoom, search, survey, hide/show, and background/
+  foreground stress session.
+- Non-blocking follow-up: document upstream FITS/image position-angle
+  conventions before automatically applying new metadata sources. This does
+  not block the current explicit rotation paths.
 - Native package boundary and size profiling now run after every
   `npm run build:native`. The verifier requires all lazy Celestia runtime and
   catalogue chunks, rejects bundled Atlas survey data and legacy Stellarium
@@ -583,7 +598,8 @@ emulation.
   and iOS synced roots each measured 34.77 MiB across 192 files. Android
   `assembleDebug` passed; its 79.11 MiB APK contained the six required Celestia
   view/engine/catalogue assets and zero Atlas survey-data or legacy Stellarium
-  paths. iOS compilation still requires an Xcode/CocoaPods environment.
+  paths. The iOS build subsequently compiled, installed, and ran during the
+  completed physical-device validation.
 - Package boundary resolved: Touch-N-Stars uses the public Git repository pinned
   over HTTPS to immutable Atlas commit
   `2f6b558caf538d10cdb20774e01e94d017f2b272`. Embedded and standalone shells
@@ -591,13 +607,12 @@ emulation.
 
 ## 12. Removal checklist
 
-- [ ] All mandatory parity gates pass.
+- [x] All mandatory functional parity gates pass.
 - [x] Astronomy reference fixtures and tolerances pass for Atlas coordinates,
       horizontal geometry, projection and camera rotation; upstream image metadata
       provenance remains tracked separately.
 - [x] Full offline catalogue and notices are packaged.
-- [x] Web lifecycle tests and Android/iOS user validation pass; formal native
-      release regression and profiling remain release gates.
+- [x] Web lifecycle tests and physical Android/iOS hardware validation pass.
 - [x] Celestia is the only renderer after a completed rollback interval.
 - [x] Stellarium runtime, WASM, globals, stores, view overlays, and rollback import are removed.
 - [x] Atlas data uses the `celestia-atlas-data` namespace, existing settings are migrated, and native builds load the data from the selected NINA plugin.

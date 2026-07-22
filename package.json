@@ -19,6 +19,7 @@
     "verify:native-atlas": "node scripts/verify-native-atlas-build.mjs dist",
     "verify:native-platforms": "node scripts/verify-native-atlas-build.mjs android/app/src/main/assets/public && node scripts/verify-native-atlas-build.mjs ios/App/App/public",
     "sync:native": "npx cap sync && npm run verify:native-platforms",
+    "profile:android-atlas": "node scripts/profile-android-atlas-memory.mjs",
     "format": "prettier --write \"src/**/*.{js,vue,json,css,md}\"",
     "format:check": "prettier --check \"src/**/*.{js,vue,json,css,md}\"",
     "test:run": "node --import ./scripts/test-loader.mjs --test \"src/**/__tests__/*.test.js\"",

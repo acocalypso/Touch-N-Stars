@@ -410,18 +410,18 @@ Persisted settings and local data paths retain explicit migration compatibility.
 
 ## 9. Feature-parity matrix
 
-| Capability               | Existing                                        | New engine                                                                                                   | Status                                                               |
-| ------------------------ | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------- |
-| Explicit lifecycle       | Hidden render suppression plus host workarounds | `pause`, `resume`, `resize`, idempotent `destroy`                                                            | Web passed; Android/iOS user validation passed                       |
-| Observer and UTC         | Supported                                       | Validated setters, synchronized host time and cached EQJ/ICRS observed frame                                 | Reference fixtures and Android/iOS user validation passed            |
-| Offline catalogue search | Stellarium packaged data                        | Lazy 21,191-object layered DSO catalogue, 8,910 stars and moving objects                                     | Host, production browser, and Android/iOS user validation passed     |
-| Brightness filters       | Shared display density                          | Independent persisted star, galaxy-family and other-DSO limiting magnitudes                                  | Standalone and host web passed                                       |
-| Catalogue marker filters | Shared display density                          | Independent persisted 17-type and nine-source allowlists with All/None and stale-state recovery              | Host and production mobile web passed                                |
-| Framing selection        | Supported                                       | Shared selected-object actions and explicit ICRS/J2000-to-NINA-J2000 command boundary                        | Connected; full action parity, provenance and conversion tested      |
-| Mount/FOV/rotation       | Supported                                       | Profile-derived physical camera geometry, celestial-north frame, marker/follow, mosaic and rotation controls | Production web and Android/iOS user validation passed                |
-| Horizon/landscape        | Supported                                       | Default-on persisted horizon mask; seam-correct, bilinear and DPR-aware order-0 HiPS/HEALPix imagery         | Standalone, host, and Android/iOS user validation passed             |
-| Standalone controls      | Open control panel                              | Control panel starts closed with synchronized accessibility state                                            | Connected                                                            |
-| Mobile lifecycle         | Host workarounds                                | First-use lazy mount, warm reuse, app-background pause and deterministic pointer cancellation                | Web and Android/iOS user validation passed                           |
+| Capability               | Existing                                        | New engine                                                                                                   | Status                                                           |
+| ------------------------ | ----------------------------------------------- | ------------------------------------------------------------------------------------------------------------ | ---------------------------------------------------------------- |
+| Explicit lifecycle       | Hidden render suppression plus host workarounds | `pause`, `resume`, `resize`, idempotent `destroy`                                                            | Web passed; Android/iOS user validation passed                   |
+| Observer and UTC         | Supported                                       | Validated setters, synchronized host time and cached EQJ/ICRS observed frame                                 | Reference fixtures and Android/iOS user validation passed        |
+| Offline catalogue search | Stellarium packaged data                        | Lazy 21,191-object layered DSO catalogue, 8,910 stars and moving objects                                     | Host, production browser, and Android/iOS user validation passed |
+| Brightness filters       | Shared display density                          | Independent persisted star, galaxy-family and other-DSO limiting magnitudes                                  | Standalone and host web passed                                   |
+| Catalogue marker filters | Shared display density                          | Independent persisted 17-type and nine-source allowlists with All/None and stale-state recovery              | Host and production mobile web passed                            |
+| Framing selection        | Supported                                       | Shared selected-object actions and explicit ICRS/J2000-to-NINA-J2000 command boundary                        | Connected; full action parity, provenance and conversion tested  |
+| Mount/FOV/rotation       | Supported                                       | Profile-derived physical camera geometry, celestial-north frame, marker/follow, mosaic and rotation controls | Production web and Android/iOS user validation passed            |
+| Horizon/landscape        | Supported                                       | Default-on persisted horizon mask; seam-correct, bilinear and DPR-aware order-0 HiPS/HEALPix imagery         | Standalone, host, and Android/iOS user validation passed         |
+| Standalone controls      | Open control panel                              | Control panel starts closed with synchronized accessibility state                                            | Connected                                                        |
+| Mobile lifecycle         | Host workarounds                                | First-use lazy mount, warm reuse, app-background pause and deterministic pointer cancellation                | Web and Android/iOS user validation passed                       |
 
 ## 10. Test results
 
@@ -520,6 +520,36 @@ package-size, and memory/heap profiling were explicit Phase 6 gates; no native
 result was inferred from browser emulation. Physical Android/iOS interaction
 validation was subsequently completed on 2026-07-22. Repeatable memory/heap
 profiling remains a non-blocking follow-up.
+
+### 2026-07-22 Android memory-profiler automation
+
+- `npm run profile:android-atlas` now samples Android `dumpsys meminfo` into an
+  ignored JSON report with device/app/build context, per-sample process IDs,
+  total PSS/RSS, private dirty memory, native/Java heaps, graphics memory, and
+  settled-window growth and slope summaries. It discovers and aggregates the
+  package-associated isolated Chromium WebView renderer with the Capacitor host
+  process; package-only `meminfo` omits most Atlas allocations.
+- Its default repeatable stress loop alternates horizontal/vertical Atlas pans
+  and performs a background/foreground cycle once per minute. `--no-stress`
+  retains identical sampling while an operator performs pinch, search,
+  selection, settings, mount, rotation, and lifecycle actions manually.
+- An initial host-process-only workflow proof was intentionally discarded after
+  it exposed the separate WebView process. A replacement aggregate emulator run
+  then profiled Android 15 for five minutes at five-second intervals with four
+  background/foreground cycles and a final 30-second no-input recovery window.
+  All 60 samples included both processes; there were no collection failures,
+  missing-renderer samples, or process restarts.
+- Aggregate settled total PSS moved from 677.40 MiB to 651.43 MiB (-25.97 MiB),
+  peaked at 755.83 MiB, and trended -6.35 MiB/min. Total RSS moved from 964.66
+  MiB to 937.17 MiB (-27.49 MiB) and peaked at 1,043.13 MiB. Private dirty
+  memory fell 24.48 MiB; native heap rose 0.14 MiB; Java heap fell 0.04 MiB.
+  The last four PSS samples were 652.1, 651.4, 651.4, and 651.1 MiB, confirming
+  that the recovery tail levelled off.
+- The run used the x86_64 `sdk_gphone64_x86_64` emulator, app version 5.0.0
+  (version code 56), and repository commit `a9d14ae8` at capture time. It proves
+  the aggregate workflow and shows no leak signature in this emulator session;
+  it is not the three-run physical Android/iOS release baseline required by the
+  [native profiling protocol](native-atlas-memory-profiling.md).
 
 ### 2026-07-18 Celestia-owned namespaces and offline survey
 

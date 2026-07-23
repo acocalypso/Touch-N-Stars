@@ -4719,6 +4719,9 @@
       "loading": "Loading sessions…",
       "noSessions": "No session selected. Select a session from the dropdown.",
       "resend": "Resend Report",
+      "viewReport": "Show detailed report",
+      "downloadReport": "Download report",
+      "reportTitle": "Detailed Report",
       "delete": "Delete",
       "deleteTitle": "Delete Session",
       "deleteConfirm": "Are you sure you want to delete this session? This cannot be undone."

@@ -370,11 +370,7 @@
           </div>
         </template>
         <div class="flex flex-wrap items-center gap-3">
-          <button
-            @click="runTestEmail()"
-            :disabled="store.emailTesting"
-            class="tns-btn-secondary"
-          >
+          <button @click="runTestEmail()" :disabled="store.emailTesting" class="tns-btn-secondary">
             {{ store.emailTesting ? $t('common.loading') : $t('nightsummary.settings.testEmail') }}
           </button>
           <StatusBadge

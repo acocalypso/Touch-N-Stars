@@ -3,7 +3,12 @@ import apiService from '@/services/apiService';
 
 // Write-only settings fields: the API never returns their value, only a
 // "<Field>Set" boolean. Kept in sync with the backend's SecretSettingsFields.
-const SECRET_SETTINGS_FIELDS = ['SmtpPassword', 'DiscordWebhookUrl', 'PushoverAppToken', 'PushoverUserKey'];
+const SECRET_SETTINGS_FIELDS = [
+  'SmtpPassword',
+  'DiscordWebhookUrl',
+  'PushoverAppToken',
+  'PushoverUserKey',
+];
 
 export const useNightSummaryStore = defineStore('nightsummary', {
   state: () => ({

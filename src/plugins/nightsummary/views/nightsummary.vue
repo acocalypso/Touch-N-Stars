@@ -75,25 +75,25 @@
             <button
               @click="nightSummaryStore.fetchSessions()"
               :disabled="nightSummaryStore.loadingSessions"
-              class="tns-btn-secondary"
+              :aria-label="$t('common.refresh')"
+              class="flex justify-center items-center w-10 h-10 border border-cyan-500/20 bg-gray-700 text-white rounded-lg hover:bg-gray-600 disabled:opacity-70"
             >
-              {{ $t('common.refresh') }}
+              <ArrowPathIcon
+                class="w-6 h-6"
+                :class="{
+                  'text-green-500 spin': nightSummaryStore.loadingSessions,
+                  'text-white': !nightSummaryStore.loadingSessions,
+                }"
+              />
             </button>
           </div>
 
           <!-- Session actions -->
           <div v-if="selectedSessionId" class="flex flex-wrap gap-2 mb-4">
             <button
-              @click="nightSummaryStore.fetchSessionDetail(selectedSessionId)"
-              :disabled="nightSummaryStore.loadingDetail"
-              class="tns-btn-secondary"
-            >
-              {{ nightSummaryStore.loadingDetail ? $t('common.loading') : $t('common.refresh') }}
-            </button>
-            <button
               @click="nightSummaryStore.resendSession(selectedSessionId)"
               :disabled="nightSummaryStore.resendingSession"
-              class="tns-btn-primary"
+              class="tns-btn-primary flex-1 min-w-32"
             >
               {{
                 nightSummaryStore.resendingSession
@@ -101,7 +101,30 @@
                   : $t('nightsummary.sessions.resend')
               }}
             </button>
-            <button @click="confirmDelete = true" class="tns-btn-danger">
+            <button
+              v-if="reportAvailable"
+              @click="showReport = true"
+              class="tns-btn-secondary flex-1 min-w-32"
+            >
+              {{ $t('nightsummary.sessions.viewReport') }}
+            </button>
+            <button
+              v-if="reportAvailable"
+              @click="downloadReport"
+              :disabled="reportDownloading"
+              class="tns-btn-secondary flex-1 min-w-32"
+            >
+              {{
+                reportDownloading
+                  ? $t('common.loading')
+                  : $t('nightsummary.sessions.downloadReport')
+              }}
+            </button>
+            <button
+              v-if="store.isPINS"
+              @click="confirmDelete = true"
+              class="tns-btn-danger flex-1 min-w-32"
+            >
               {{ $t('nightsummary.sessions.delete') }}
             </button>
             <StatusBadge
@@ -109,6 +132,28 @@
               :ok="nightSummaryStore.resendStatus.ok"
               :message="nightSummaryStore.resendStatus.message"
             />
+          </div>
+
+          <!-- Report overlay -->
+          <div v-if="showReport" class="fixed inset-0 bg-black/70 flex flex-col z-50 p-2 sm:p-6">
+            <div class="flex items-center justify-between mb-2 shrink-0">
+              <h3 class="text-white font-semibold">
+                {{ $t('nightsummary.sessions.reportTitle') }}
+              </h3>
+              <button
+                @click="showReport = false"
+                class="shrink-0 w-9 h-9 flex items-center justify-center rounded-lg bg-gray-700 hover:bg-gray-600 text-gray-200 transition"
+                :aria-label="$t('general.close')"
+              >
+                ✕
+              </button>
+            </div>
+            <iframe
+              :src="reportUrl"
+              class="flex-1 w-full bg-white rounded-lg border border-gray-700"
+              sandbox="allow-scripts allow-same-origin allow-popups"
+              referrerpolicy="no-referrer"
+            ></iframe>
           </div>
 
           <!-- Delete confirmation -->
@@ -362,8 +407,11 @@
 
 <script setup>
 import { ref, onMounted, computed, watch } from 'vue';
+import { ArrowPathIcon } from '@heroicons/vue/24/outline';
 import { useNightSummaryStore } from '../store/nightsummaryStore';
 import { apiStore } from '@/store/store';
+import apiService from '@/services/apiService';
+import { downloadBlob } from '@/utils/blobDownloader';
 import StatusBadge from '../components/StatusBadge.vue';
 import IqTable from '../components/IqTable.vue';
 import SettingsTab from '../components/SettingsTab.vue';
@@ -385,6 +433,36 @@ const store = apiStore();
 const activeTab = ref('sessions');
 const selectedSessionId = ref('');
 const confirmDelete = ref(false);
+const showReport = ref(false);
+
+// The backend flags whether an HTML report file exists for the selected session;
+// the "view report" button is only shown when it does, so the iframe can load the
+// report directly from the backend without any missing-file handling here.
+const reportAvailable = computed(() => nightSummaryStore.sessionDetail?.ReportAvailable === true);
+const reportUrl = computed(() =>
+  selectedSessionId.value ? apiService.nightsummary.getReportUrl(selectedSessionId.value) : ''
+);
+const reportDownloading = ref(false);
+
+async function downloadReport() {
+  if (reportDownloading.value) return;
+  reportDownloading.value = true;
+  try {
+    const blob = await apiService.nightsummary.downloadReportBlob(selectedSessionId.value);
+    const sessionDate = nightSummaryStore.sessionDetail?.Session?.SessionDate;
+    const fileLabel = sessionDate
+      ? new Date(sessionDate).toISOString().slice(0, 10)
+      : selectedSessionId.value;
+    await downloadBlob(blob, `NightSummary-${fileLabel}.html`, {
+      folderName: 'TNS-NightSummary',
+      fallbackFilename: `NightSummary-${selectedSessionId.value}.html`,
+    });
+  } catch (error) {
+    console.error('Error downloading Night Summary report:', error);
+  } finally {
+    reportDownloading.value = false;
+  }
+}
 
 const tabs = [
   { id: 'sessions', i18n: 'tabSessions' },
@@ -408,6 +486,7 @@ watch(activeTab, (tab) => {
 });
 
 function onSelectSession() {
+  showReport.value = false;
   if (selectedSessionId.value) nightSummaryStore.selectSession(selectedSessionId.value);
 }
 

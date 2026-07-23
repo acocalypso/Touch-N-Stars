@@ -1,6 +1,10 @@
 import { defineStore } from 'pinia';
 import apiService from '@/services/apiService';
 
+// Write-only settings fields: the API never returns their value, only a
+// "<Field>Set" boolean. Kept in sync with the backend's SecretSettingsFields.
+const SECRET_SETTINGS_FIELDS = ['SmtpPassword', 'DiscordWebhookUrl', 'PushoverAppToken', 'PushoverUserKey'];
+
 export const useNightSummaryStore = defineStore('nightsummary', {
   state: () => ({
     pluginInstalled: null,
@@ -102,6 +106,9 @@ export const useNightSummaryStore = defineStore('nightsummary', {
       this.settingsSaving = true;
       try {
         await apiService.nightsummary.updateSettings({ [key]: value });
+        if (SECRET_SETTINGS_FIELDS.includes(key)) {
+          this.settings[`${key}Set`] = true;
+        }
       } catch (err) {
         this.settingsError = err.message;
       } finally {

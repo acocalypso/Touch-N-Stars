@@ -24,10 +24,10 @@
 
         <!-- Bestätigungsbuttons -->
         <div v-if="toastStore.isConfirmation" class="flex gap-4 mt-6">
-          <button class="default-button-gray" @click="toastStore.cancelAction()">
+          <button class="tns-btn-secondary" @click="toastStore.cancelAction()">
             {{ toastStore.cancelText }}
           </button>
-          <button class="default-button-cyan" @click="toastStore.confirmAction()">
+          <button class="tns-btn-primary" @click="toastStore.confirmAction()">
             {{ toastStore.confirmText }}
           </button>
         </div>

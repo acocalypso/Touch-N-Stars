@@ -3,11 +3,7 @@
     <label for="Exposuretime" class="text-sm sm:text-xs mr-3 mb-1 text-gray-200">
       {{ $t('components.guider.phd2.Exposuretime') }}
     </label>
-    <select
-      v-model="exposureTime"
-      class="default-select h-8 w-28 ml-auto"
-      @change="setExposureTime"
-    >
+    <select v-model="exposureTime" class="tns-select w-28 ml-auto" @change="setExposureTime">
       <option v-for="option in exposureOptions" :key="option" :value="option">
         {{ option }} s
       </option>

@@ -20,7 +20,7 @@
           $t('components.sequence.items.switchFilter.filter')
         }}</label>
         <select
-          class="default-select ml-auto w-36 md:w-40 h-7 md:h-8"
+          class="tns-select ml-auto w-36 md:w-40"
           :value="switchFilter.ComboBoxText"
           @change="saveFilter('SelectedFilter', filterNames.indexOf($event.target.value) + 1)"
         >
@@ -88,7 +88,7 @@
           $t('components.sequence.items.takeExposure.binning')
         }}</label>
         <select
-          class="default-select ml-auto w-36 md:w-40 h-7 md:h-8"
+          class="tns-select ml-auto w-36 md:w-40"
           :value="binningValue"
           @change="saveExposure('Binning', $event.target.value)"
         >
@@ -105,7 +105,7 @@
           $t('components.sequence.items.takeExposure.imageType')
         }}</label>
         <select
-          class="default-select ml-auto w-36 md:w-40 h-7 md:h-8"
+          class="tns-select ml-auto w-36 md:w-40"
           :value="exposure.ImageType"
           @change="saveExposure('ImageType', $event.target.value)"
         >

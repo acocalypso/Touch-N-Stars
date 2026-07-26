@@ -34,6 +34,7 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted, nextTick } from 'vue';
+import { usePolling } from '@/composables/usePolling';
 import { useI18n } from 'vue-i18n';
 import { Chart, registerables } from 'chart.js';
 import apiService from '@/services/apiService';
@@ -49,7 +50,8 @@ const temperature = ref();
 const afRunData = ref(null); // extra HocusFocus AF stats (null when unavailable)
 const store = apiStore();
 let chartInstance = null;
-let fetchInterval = null;
+// Periodically reload the last autofocus run
+usePolling(() => fetchLastAf(), 15000, { immediate: false });
 
 // Funktion, um die Größe des Charts beim Fenster-Resize anzupassen
 const resizeChart = () => {
@@ -334,11 +336,6 @@ onMounted(async () => {
     },
   });
 
-  // Starte Intervall zum regelmäßigen Nachladen
-  fetchInterval = setInterval(() => {
-    fetchLastAf();
-  }, 15000); // 30 Sekunden
-
   // Daten laden nach nextTick, um sicherzustellen, dass Chart vollständig initialisiert ist
   await nextTick();
   fetchLastAf();
@@ -353,10 +350,6 @@ onUnmounted(() => {
 
   if (chartInstance) {
     chartInstance.destroy();
-  }
-  // Intervall stoppen
-  if (fetchInterval) {
-    clearInterval(fetchInterval);
   }
 });
 </script>

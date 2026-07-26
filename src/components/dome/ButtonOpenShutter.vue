@@ -1,5 +1,5 @@
 <template>
-  <button @click="openShutter" class="default-button-cyan" :class="statusClass">
+  <button @click="openShutter" class="tns-btn-secondary" :class="statusClass">
     {{ $t('components.dome.control.open') }}
   </button>
 </template>

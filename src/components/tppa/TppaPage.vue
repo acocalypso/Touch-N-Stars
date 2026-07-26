@@ -37,11 +37,7 @@
             <ErrorCircle />
           </div>
           <div class="flex gap-2">
-            <button
-              class="default-button-cyan"
-              @click="startAlignment"
-              :disabled="tppaStore.isRunning"
-            >
+            <button class="tns-btn-primary" @click="startAlignment" :disabled="tppaStore.isRunning">
               {{
                 tppaStore.isRunning
                   ? $t('components.tppa.running')
@@ -49,7 +45,7 @@
               }}
             </button>
             <ButtonPause class="w-28" v-if="tppaStore.isRunning" />
-            <button class="default-button-cyan" @click="stopAlignment">
+            <button class="tns-btn-danger" @click="stopAlignment">
               {{ $t('components.tppa.stop_alignment') }}
             </button>
           </div>
@@ -298,8 +294,10 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount, computed } from 'vue';
+import { ref, onMounted, onBeforeUnmount, computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useHaptics } from '@/composables/useHaptics';
+const { tapLight, tapMedium } = useHaptics();
 const { t } = useI18n();
 const emit = defineEmits(['close']);
 import websocketService from '@/services/websocketTppa';
@@ -460,6 +458,7 @@ function formatMessage(message) {
 }
 
 async function startAlignment() {
+  tapLight();
   tppaStore.isPause = false;
   resetErrors();
   await unparkMount();
@@ -552,6 +551,7 @@ function resetErrors() {
 }
 
 function stopAlignment() {
+  tapMedium();
   console.log("Sending 'stop-alignment' to the server");
   //websocketService.sendMessage('stop-alignment');
   websocketService.sendMessage(
@@ -579,8 +579,25 @@ async function wait(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
+// Re-sync the TPPA status from the backend whenever the connection comes back
+// (e.g. after an instance switch) while this view is open.
+watch(
+  () => store.isBackendReachable,
+  (reachable) => {
+    if (reachable) {
+      // Reloads the persisted per-instance settings if the endpoint changed.
+      tppaStore.initialize();
+      tppaStore.fetchInfo();
+    }
+  }
+);
+
 onMounted(() => {
   tppaStore.initialize();
+
+  // Load the real TPPA status from the backend on open (an alignment may have
+  // been started before mount or on another client).
+  tppaStore.fetchInfo();
 
   // Check initial states if there's already a current message
   if (tppaStore.currentMessage?.message?.Response?.Status) {

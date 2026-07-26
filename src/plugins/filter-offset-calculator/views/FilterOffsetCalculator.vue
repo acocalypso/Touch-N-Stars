@@ -306,7 +306,8 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
+import { ref, computed, onMounted } from 'vue';
+import { usePolling } from '@/composables/usePolling';
 import { useI18n } from 'vue-i18n';
 import axios from 'axios';
 import { getActivePinia } from 'pinia';
@@ -367,7 +368,10 @@ const connectionWarnings = computed(() => {
   return warns;
 });
 
-let pollTimer = null;
+const statusPoller = usePolling(() => fetchStatus(), 2000, {
+  autoStart: false,
+  immediate: false,
+});
 
 // ── Computed ────────────────────────────────────────────────────────────────
 const loopProgressPct = computed(() => {
@@ -401,11 +405,7 @@ const oldDefaultFilterName = computed(() => {
 onMounted(async () => {
   await fetchFilters();
   await fetchStatus();
-  startPolling();
-});
-
-onBeforeUnmount(() => {
-  stopPolling();
+  statusPoller.start();
 });
 
 // ── Data fetching ────────────────────────────────────────────────────────────
@@ -448,19 +448,6 @@ async function fetchResult() {
     }
   } catch (err) {
     console.error('[FilterOffset] fetchResult error:', err);
-  }
-}
-
-// ── Polling ──────────────────────────────────────────────────────────────────
-function startPolling() {
-  if (pollTimer) return;
-  pollTimer = setInterval(fetchStatus, 2000);
-}
-
-function stopPolling() {
-  if (pollTimer) {
-    clearInterval(pollTimer);
-    pollTimer = null;
   }
 }
 

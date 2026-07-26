@@ -32,10 +32,10 @@
       <div
         class="grid grid-cols-2 sm:grid-cols-[repeat(auto-fit,minmax(120px,1fr))] gap-2 w-full border border-gray-500 p-2 rounded-lg"
       >
-        <button @click="closeCover" class="default-button-cyan">
+        <button @click="closeCover" class="tns-btn-secondary">
           {{ $t('components.flat.cover.close') }}
         </button>
-        <button @click="openCover" class="default-button-cyan">
+        <button @click="openCover" class="tns-btn-secondary">
           {{ $t('components.flat.cover.open') }}
         </button>
       </div>
@@ -49,6 +49,8 @@ import { apiStore } from '@/store/store';
 import { useFlatStore } from '@/store/flatdeviceStore';
 import toggleButton from '@/components/helpers/toggleButton.vue';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
+import { useHaptics } from '@/composables/useHaptics';
+const { tapLight } = useHaptics();
 
 const store = apiStore();
 const flatStore = useFlatStore();
@@ -69,6 +71,7 @@ async function flatdeviceSetLight() {
 }
 
 async function closeCover() {
+  tapLight();
   try {
     await apiService.flatdeviceSetCover(true);
     console.log('Flat cover closed');
@@ -78,6 +81,7 @@ async function closeCover() {
 }
 
 async function openCover() {
+  tapLight();
   try {
     await apiService.flatdeviceSetCover(false);
     console.log('Flat cover open');

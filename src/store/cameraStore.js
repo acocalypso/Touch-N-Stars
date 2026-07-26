@@ -2,7 +2,7 @@ import { defineStore } from 'pinia';
 import { apiStore } from '@/store/store';
 import { useFramingStore } from '@/store/framingStore';
 import { useImagetStore } from './imageStore';
-import { ref, nextTick } from 'vue';
+import { ref, computed, watch, nextTick } from 'vue';
 import { timeSync } from '@/utils/timeSync';
 import { useSettingsStore } from './settingsStore';
 import { useMountStore } from './mountStore';
@@ -17,8 +17,6 @@ export const useCameraStore = defineStore('cameraStore', () => {
   const isLooping = ref(false);
   const isAbort = ref(false);
   const showInfo = ref(false);
-  const buttonCoolerOn = ref(false);
-  const buttonWarmingOn = ref(false);
   const plateSolveError = ref(false);
   const plateSolveResult = ref('');
   const exposureCountdown = ref(0);
@@ -50,6 +48,112 @@ export const useCameraStore = defineStore('cameraStore', () => {
     }
   }
 
+  // --- Cooler state (single source of truth) -------------------------------
+
+  // Optimistic intent right after a button press, cleared when the next
+  // poll confirms the server state or after ~3 poll cycles (2s poll).
+  const coolingPending = ref(null); // 'cooling' | 'warming' | 'cancel' | null
+  let coolingPendingTimer = null;
+  const COOLING_PENDING_MS = 6000;
+
+  function setCoolingPending(kind) {
+    coolingPending.value = kind;
+    clearTimeout(coolingPendingTimer);
+    if (kind) {
+      coolingPendingTimer = setTimeout(() => {
+        coolingPending.value = null;
+      }, COOLING_PENDING_MS);
+    }
+  }
+
+  // Latched direction of the running ramp. TargetTemp cannot be used here:
+  // it always holds the cool-down target (e.g. -10°C) even while a warm-up
+  // ramp runs towards ambient. The moving TemperatureSetPoint is the
+  // reliable signal instead - NINA steps it towards the ramp destination.
+  const rampDirection = ref(null); // 'cooling' | 'warming' | null
+
+  // Instant guess from the current setpoint position: while a ramp runs the
+  // setpoint leads the camera temperature in the ramp direction.
+  function inferRampDirection() {
+    const info = store.cameraInfo;
+    if (info.TemperatureSetPoint == null || info.Temperature == null) return null;
+    if (info.TemperatureSetPoint < info.Temperature) return 'cooling';
+    if (info.TemperatureSetPoint > info.Temperature) return 'warming';
+    return null;
+  }
+
+  // Is a temperature ramp running?
+  // PINS / newer ninaAPI report the real NINA state via TempChangeRunning.
+  // Heuristic fallback limits: a cooler manually switched on far from target
+  // reads as "running"; a slow final approach (<1°C) reads as "holding".
+  const isRampRunning = computed(() => {
+    const info = store.cameraInfo;
+    if (!info.Connected || !info.CoolerOn) return false;
+    if (typeof info.TempChangeRunning === 'boolean') return info.TempChangeRunning;
+    if (info.AtTargetTemp) return false;
+    const target = info.TargetTemp ?? info.TemperatureSetPoint;
+    if (target == null || info.Temperature == null) return false;
+    return Math.abs(info.Temperature - target) > 1; // 1°C threshold
+  });
+
+  // 'off' | 'cooling' | 'warming' | 'holding'
+  const coolingState = computed(() => {
+    const info = store.cameraInfo;
+    if (!info.Connected || !info.CanSetTemperature) return 'off';
+    if (coolingPending.value === 'cooling') return 'cooling';
+    if (coolingPending.value === 'warming') return 'warming';
+    if (!info.CoolerOn) return 'off';
+    if (coolingPending.value === 'cancel') return 'holding';
+    if (isRampRunning.value) return rampDirection.value ?? inferRampDirection() ?? 'cooling';
+    return 'holding';
+  });
+
+  // Clear the optimistic flag as soon as the poll confirms it, and manage
+  // the direction latch over the ramp lifecycle.
+  watch(isRampRunning, (running) => {
+    if (running) {
+      if (['cooling', 'warming'].includes(coolingPending.value)) setCoolingPending(null);
+      if (!rampDirection.value) rampDirection.value = inferRampDirection();
+    } else {
+      rampDirection.value = null;
+      if (coolingPending.value === 'cancel') setCoolingPending(null);
+    }
+  });
+
+  // The setpoint trend is the authoritative direction signal for ramps
+  // started outside of TNS (NINA UI, sequence): warming ramps step the
+  // setpoint up, cooling ramps step it down.
+  watch(
+    () => store.cameraInfo.TemperatureSetPoint,
+    (next, prev) => {
+      if (!isRampRunning.value || next == null || prev == null) return;
+      if (next > prev) rampDirection.value = 'warming';
+      else if (next < prev) rampDirection.value = 'cooling';
+    }
+  );
+
+  async function startCooling(temperature, minutes) {
+    await apiService.stopCameraWarming();
+    await apiService.startCameraCooling(temperature, minutes ?? 10);
+    rampDirection.value = 'cooling';
+    setCoolingPending('cooling');
+  }
+
+  async function startWarming(minutes) {
+    await apiService.stopCameraCooling();
+    await apiService.startCameraWarming(minutes ?? 10);
+    rampDirection.value = 'warming';
+    setCoolingPending('warming');
+  }
+
+  async function cancelTempChange() {
+    // cancel=true on an idle ramp is a no-op, so cancel both to stay correct
+    // even if the derived direction is momentarily wrong.
+    await apiService.stopCameraCooling();
+    await apiService.stopCameraWarming();
+    setCoolingPending('cancel');
+  }
+
   // Start capture + image fetch
   async function capturePhoto(apiService, exposureTime, gain, solve = false) {
     if (exposureTime <= 0) {
@@ -71,7 +175,11 @@ export const useCameraStore = defineStore('cameraStore', () => {
       // Phase 1: Start exposure (Server provides ExposureEndTime and IsExposing)
       await apiService.startCapture(exposureTime, gain, solve, true, save, targetName);
       isLoadingImage.value = true;
+      // This wait has no timeout, so it must honor aborts: resetCaptureState()
+      // (backend teardown) and abortExposure() set isAbort while we may be
+      // stuck here waiting for an exposure that will never report back.
       while (!imageStore.isImageFetching) {
+        if (isAbort.value) return;
         await wait(100);
         //console.log('[cameraStore] Waiting for exposure to complete...');
       }
@@ -211,6 +319,29 @@ export const useCameraStore = defineStore('cameraStore', () => {
     }
   }
 
+  // Tear down all client-driven capture activity. Called from
+  // apiStore.clearAllStates() when the backend session ends (instance switch,
+  // connection lost): without this, a running snapshot loop survives the
+  // teardown and starts commanding whatever backend connects next, and the
+  // wait loops in capturePhoto() can hang forever. Backend-derived settings
+  // (cameraSettings, binning/readout indices) are dropped too - they belong
+  // to the previous instance's camera.
+  function resetCaptureState() {
+    isLooping.value = false;
+    // Releases capturePhoto()'s wait loops; every new capture resets it.
+    isAbort.value = true;
+    stopCountdown();
+    exposureCountdown.value = 0;
+    exposureProgress.value = 0;
+    loading.value = false;
+    isLoadingImage.value = false;
+    cameraSettings.value = undefined;
+    binningMode.value = '1x1';
+    readoutMode.value = 0;
+    setCoolingPending(null);
+    rampDirection.value = null;
+  }
+
   // Stop countdown (e.g. when app is paused)
   function stopCountdown() {
     if (countdownRunning.value) {
@@ -330,8 +461,10 @@ export const useCameraStore = defineStore('cameraStore', () => {
     isLooping,
     isAbort,
     showInfo,
-    buttonCoolerOn,
-    buttonWarmingOn,
+    coolingPending,
+    rampDirection,
+    isRampRunning,
+    coolingState,
     plateSolveError,
     plateSolveResult,
     exposureCountdown,
@@ -349,6 +482,10 @@ export const useCameraStore = defineStore('cameraStore', () => {
     abortExposure,
     updateCountdown,
     stopCountdown,
+    resetCaptureState,
     readSettings,
+    startCooling,
+    startWarming,
+    cancelTempChange,
   };
 });

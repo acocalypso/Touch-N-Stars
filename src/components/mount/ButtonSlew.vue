@@ -1,5 +1,6 @@
 <template>
-  <div class="flex gap-1">
+  <!-- gap-2 keeps the destructive stop button away from the primary slew action -->
+  <div class="flex gap-2">
     <button
       @click="slew"
       :disabled="
@@ -8,15 +9,13 @@
         framingStore.isRotating ||
         props.disabled
       "
-      class="default-button-cyan px-5"
+      class="tns-btn-primary px-5"
     >
       <span v-if="framingStore.isSlewing" class="loader mr-2"></span>
       <p v-if="label">{{ label }}</p>
       <p v-else>{{ $t('components.slewAndCenter.slew') }}</p>
     </button>
-    <div class="default-button-red" v-if="store.mountInfo.Slewing">
-      <ButtonSlewStop />
-    </div>
+    <ButtonSlewStop v-if="store.mountInfo.Slewing" class="w-16" />
   </div>
 </template>
 
@@ -27,7 +26,9 @@ import { useFramingStore } from '@/store/framingStore';
 import { useI18n } from 'vue-i18n';
 import { wait } from '@/utils/utils';
 import ButtonSlewStop from '@/components/mount/ButtonSlewStop.vue';
+import { useHaptics } from '@/composables/useHaptics';
 
+const { tapLight } = useHaptics();
 const store = apiStore();
 const framingStore = useFramingStore();
 const { t } = useI18n();
@@ -54,6 +55,7 @@ async function unparkMount() {
 }
 
 async function slew() {
+  tapLight();
   await unparkMount(); // Überprüfen und Entparken, falls erforderlich
   await framingStore.slew(props.raAngle, props.decAngle);
   emit('finished'); // Emit Event nach Erfolg

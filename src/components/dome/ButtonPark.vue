@@ -1,5 +1,5 @@
 <template>
-  <button @click="parkDome" class="default-button-cyan" :class="statusClass">
+  <button @click="parkDome" class="tns-btn-secondary" :class="statusClass">
     {{ $t('components.dome.control.park') }}
   </button>
 </template>

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col h-full bg-gray-900 text-white p-4 md:p-6 overflow-y-auto">
+  <div class="flex flex-col h-full text-white p-4 md:p-6 overflow-y-auto">
     <!-- Header -->
     <div class="flex items-center justify-between mb-6">
       <h1 class="text-2xl md:text-3xl font-bold flex items-center gap-2">

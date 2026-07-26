@@ -15,9 +15,15 @@
         <setImgBlackClipping />
       </div>
       <div class="flex flex-col mt-4 gap-2">
-        <setImgDebayern />
-        <setImgDebayernHfr />
-        <setImgUnlinkedStrech />
+        <ProfileToggle
+          v-for="toggle in imageToggles"
+          :key="toggle.settingKey"
+          class="w-full"
+          :labelKey="toggle.labelKey"
+          :settingKey="toggle.settingKey"
+          labelClass="text-gray-200"
+          toggleClass="pr-5 pl-5 justify-center"
+        />
       </div>
     </div>
 
@@ -55,13 +61,26 @@ import { apiStore } from '@/store/store';
 import setImgStrechFactor from '@/components/settings/image/SetImgStrechFactor.vue';
 import setImgQuality from '@/components/settings/image/SetImgQuality.vue';
 import setImgBlackClipping from '@/components/settings/image/SetImgBlackClipping.vue';
-import setImgDebayern from '@/components/settings/image/SetImgDebayern.vue';
-import setImgDebayernHfr from '@/components/settings/image/SetImgDebayernHfr.vue';
-import setImgUnlinkedStrech from '@/components/settings/image/SetImgUnlinkedStrech.vue';
+import ProfileToggle from '@/components/helpers/settings/ProfileToggle.vue';
 import setImgMaxDimension from '@/components/settings/image/SetImgMaxDimension.vue';
 import setImgFileType from '@/components/settings/image/SetImgFileType.vue';
 import setImgFilePath from '@/components/settings/image/SetImgFilePath.vue';
 import FilePatternBuilder from '@/components/settings/image/FilePatternBuilder.vue';
 
 const store = apiStore();
+
+const imageToggles = [
+  {
+    settingKey: 'ImageSettings-DebayerImage',
+    labelKey: 'components.settings.image.debayern',
+  },
+  {
+    settingKey: 'ImageSettings-DebayeredHFR',
+    labelKey: 'components.settings.image.DebayeredHFR',
+  },
+  {
+    settingKey: 'ImageSettings-UnlinkedStretch',
+    labelKey: 'components.settings.image.UnlinkedStretch',
+  },
+];
 </script>

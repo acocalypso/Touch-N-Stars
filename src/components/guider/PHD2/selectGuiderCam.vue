@@ -7,7 +7,7 @@
     <div class="flex gap-2 items-center w-full">
       <select
         id="guiderCamSelect"
-        class="w-full default-select min-w-0"
+        class="w-full tns-select min-w-0"
         v-model="selectedCam"
         @change="setGuiderCam"
         :disabled="store.guiderInfo.Connected"

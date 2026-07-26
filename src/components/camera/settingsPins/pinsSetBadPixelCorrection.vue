@@ -1,7 +1,9 @@
 <template>
   <div v-if="hasFeature" class="w-full space-y-2">
-    <div class="flex items-center justify-between border border-gray-500 p-1 md:p-2 rounded-lg">
-      <label for="BadPixelCorrection" class="text-xs md:text-sm text-gray-200 font-medium">
+    <div
+      class="flex items-center justify-between border border-line-strong p-1 md:p-2 rounded-control"
+    >
+      <label for="BadPixelCorrection" class="text-xs md:text-sm text-content font-medium">
         {{ $t('components.camera.BadPixelCorrection') }}
       </label>
       <toggleButton
@@ -12,7 +14,7 @@
     </div>
     <NumberInputPicker
       v-if="cameraStore.cameraSettings.BadPixelCorrection"
-      class="border border-gray-500 p-1 md:p-2 rounded-lg"
+      class="border border-line-strong p-1 md:p-2 rounded-control"
       v-model="threshold"
       :label="$t('components.camera.BadPixelCorrectionThreshold')"
       labelKey="components.camera.BadPixelCorrectionThreshold"

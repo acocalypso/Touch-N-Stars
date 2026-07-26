@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-gray-900">
+  <div class="min-h-screen">
     <div class="container py-10">
       <div class="max-w-7xl mx-auto">
         <!-- Header -->

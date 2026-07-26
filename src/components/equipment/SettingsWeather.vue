@@ -15,7 +15,7 @@
           v-model="openWeatherMapApiKey"
           @change="setOpenWeatherMapApiKey"
           type="text"
-          class="default-input h-7 md:h-8 text-xs md:text-sm w-48"
+          class="tns-input text-xs md:text-sm w-48"
           :class="statusClassOwm"
           :placeholder="$t('components.weatherModal.settings.apiKeyPlaceholder')"
         />
@@ -37,7 +37,7 @@
           v-model="theWeatherCompanyApiKey"
           @change="setTheWeatherCompanyApiKey"
           type="text"
-          class="default-input h-7 md:h-8 text-xs md:text-sm w-48"
+          class="tns-input text-xs md:text-sm w-48"
           :class="statusClassTwc"
           :placeholder="$t('components.weatherModal.settings.apiKeyPlaceholder')"
         />
@@ -59,7 +59,7 @@
           v-model="weatherUndergroundApiKey"
           @change="setWeatherUndergroundApiKey"
           type="text"
-          class="default-input h-7 md:h-8 text-xs md:text-sm w-48"
+          class="tns-input text-xs md:text-sm w-48"
           :class="statusClassWuKey"
           :placeholder="$t('components.weatherModal.settings.apiKeyPlaceholder')"
         />
@@ -73,7 +73,7 @@
           v-model="weatherUndergroundStation"
           @change="setWeatherUndergroundStation"
           type="text"
-          class="default-input h-7 md:h-8 text-xs md:text-sm w-48"
+          class="tns-input text-xs md:text-sm w-48"
           :class="statusClassWuStation"
           :placeholder="$t('components.weatherModal.settings.stationIdPlaceholder')"
         />

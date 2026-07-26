@@ -1,16 +1,13 @@
 <template>
   <div class="">
-    <div class="flex flex-col bg-gray-900/90 border border-gray-500 p-1 pb-2 rounded-lg h-full">
+    <div
+      class="flex flex-col bg-gray-900/90 border border-line-strong p-1 pb-2 rounded-control h-full"
+    >
       <label for="filter" class="text-xs mb-1 text-gray-400"
         >{{ $t('components.filterwheel.filter') }}
       </label>
 
-      <select
-        id="filter"
-        v-model.number="store.filterNr"
-        @change="changeFilter"
-        class="default-select h-10"
-      >
+      <select id="filter" v-model.number="store.filterNr" @change="changeFilter" class="tns-select">
         <!-- Name anzeigen und ID speichern -->
         <template v-if="store.filterInfo?.AvailableFilters">
           <option

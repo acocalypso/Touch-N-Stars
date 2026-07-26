@@ -2,9 +2,7 @@ import axios from 'axios';
 import { useSettingsStore } from '@/store/settingsStore';
 import { apiStore } from '@/store/store';
 import { getDeviceDateTimePayload } from '@/utils/pinsTimeUtils';
-
-const PINS_PORT = 8000;
-const PINS_TOKEN = 'zZDqJ3IKeFaIZqG2JIFvsxzA5E48GC2gyGVagHFZqC0OMtgoupUDZCPhQDYKm35d';
+import { PINS_PORT, DEFAULT_PINS_DAEMON_API_TOKEN as PINS_TOKEN } from '@/services/pinsConfig';
 
 const getBaseUrl = () => {
   const settingsStore = useSettingsStore();

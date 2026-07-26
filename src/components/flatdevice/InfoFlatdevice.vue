@@ -2,23 +2,35 @@
   <div v-if="!store.flatdeviceInfo.Connected" class="text-red-500">
     <p>{{ $t('components.flat.please_connect_flatDevice') }}</p>
   </div>
-  <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-4">
+  <div
+    v-else
+    :class="
+      compact
+        ? 'flex flex-wrap items-center gap-x-5 gap-y-2'
+        : 'grid grid-cols-2 landscape:grid-cols-3 gap-2'
+    "
+  >
     <StatusString
+      :class="compact ? 'basis-full!' : 'col-span-full'"
+      :compact="compact"
       :isEnabled="store.flatdeviceInfo.Name !== undefined"
       :Name="$t('components.flat.device_name')"
       :Value="store.flatdeviceInfo.Name"
     />
     <StatusString
+      :compact="compact"
       :isEnabled="store.flatdeviceInfo.LocalizedCoverState !== undefined"
       :Name="$t('components.flat.cover_state')"
       :Value="store.flatdeviceInfo.LocalizedCoverState"
     />
     <StatusString
+      :compact="compact"
       :isEnabled="store.flatdeviceInfo.LocalizedLightOnState !== undefined"
       :Name="$t('components.flat.light_state')"
       :Value="store.flatdeviceInfo.LocalizedLightOnState"
     />
     <StatusString
+      :compact="compact"
       :isEnabled="
         store.flatdeviceInfo.Brightness !== undefined && !isNaN(store.flatdeviceInfo.Brightness)
       "
@@ -27,6 +39,7 @@
     />
     <StatusString
       v-if="isWandererCover"
+      :compact="compact"
       :isEnabled="typeof currentPosition === 'number' && !isNaN(currentPosition)"
       :Name="$t('components.flat.settings.currentPosition')"
       :Value="
@@ -45,6 +58,14 @@ import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
 
 const store = apiStore();
+
+// Dense page layout: two quiet value columns (device name spans the full row).
+const { compact } = defineProps({
+  compact: {
+    type: Boolean,
+    default: false,
+  },
+});
 const currentPosition = ref(undefined);
 
 const isWandererCover = computed(() => {

@@ -64,7 +64,7 @@
           </div>
           <button
             @click="getCurrentLocation"
-            class="default-button-gray md:w-10 md:h-10 md:shrink-0 col-span-2 md:col-span-1 md:self-end"
+            class="tns-btn-secondary md:w-10 md:h-10 md:shrink-0 col-span-2 md:col-span-1 md:self-end"
             title="Get current location"
           >
             <svg
@@ -97,7 +97,7 @@
             store.profileInfo.TelescopeSettings.TelescopeLocationSyncDirection === 'TOTELESCOPE'
           "
           @click="locationStore.saveCoordinates"
-          class="default-button-cyan mt-3"
+          class="tns-btn-primary mt-3"
         >
           {{ $t('components.settings.save') }}
         </button>
@@ -134,7 +134,7 @@
       <select
         v-model="currentLanguage"
         @change="changeLanguage($event.target.value)"
-        class="default-input w-full py-2"
+        class="tns-input w-full py-2"
       >
         <option v-for="lang in languages" :key="lang.code" :value="lang.code" class="bg-gray-700">
           {{ lang.name }}
@@ -227,7 +227,7 @@
       class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
     >
       <h3 class="font-bold text-base text-cyan-400">Tutorial</h3>
-      <button @click="showTutorial" class="default-button-gray w-full">
+      <button @click="showTutorial" class="tns-btn-secondary w-full">
         {{ $t('components.settings.showTutorial') }}
       </button>
     </div>
@@ -260,11 +260,7 @@
 
       <div class="flex justify-center gap-3">
         <!-- Restart Button -->
-        <button
-          @click="restartSystem"
-          class="default-button-red gap-2 max-w-40"
-          title="Restart System"
-        >
+        <button @click="restartSystem" class="tns-btn-danger gap-2 max-w-40" title="Restart System">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="h-5 w-5"
@@ -285,7 +281,7 @@
         <!-- Shutdown Button -->
         <button
           @click="shutdownSystem"
-          class="default-button-red gap-2 max-w-40"
+          class="tns-btn-danger gap-2 max-w-40"
           title="Shutdown System"
         >
           <svg

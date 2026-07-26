@@ -31,7 +31,7 @@
           <div class="flex gap-3 justify-end">
             <button
               @click="showReconnectConfirm = false"
-              class="default-button-gray"
+              class="tns-btn-secondary"
               :disabled="reconnecting"
               data-testid="restore-calibration-reconnect-no"
             >
@@ -39,7 +39,7 @@
             </button>
             <button
               @click="confirmReconnect"
-              class="default-button-cyan"
+              class="tns-btn-primary"
               :disabled="reconnecting"
               data-testid="restore-calibration-reconnect-yes"
             >

@@ -391,9 +391,21 @@
         "ExposureTime": "노출 시간 (s)",
         "Gain": "게인",
         "SearchRadius": "검색 반경 (°)",
-        "Threshold": "임계값",
+        "Threshold": "포인팅 허용 오차(각분)",
         "RotationTolerance": "회전 허용 오차 (°)",
         "MaxObjects": "최대 객체 수",
+        "help": {
+          "ExposureTime": "플레이트 솔버가 촬영하는 이미지에 사용되는 노출 시간(초). 노출 시간이 길수록 더 많은 별을 포착하여 어둡거나 별이 적은 영역을 해결하는 데 도움이 되지만, 각 해결 시도가 느려집니다.",
+          "Gain": "플레이트 솔빙 노출에 사용되는 카메라 게인. 비워두면 카메라의 기본 게인이 사용됩니다.",
+          "ASTAPLocation": "NINA가 실행 중인 시스템의 ASTAP 실행 파일(astap.exe) 경로입니다. ASTAP을 이용한 로컬 플레이트 솔빙에 필요합니다.",
+          "SearchRadius": "블라인드 솔브를 시도할 때 솔버가 목표 좌표 주변에서 검색하는 반경(도). 반경이 클수록 해결 시간이 늘어나지만, 마운트의 초기 위치가 부정확할 때 도움이 됩니다.",
+          "Threshold": "Slew & Center 중에 해결된 위치와 목표 사이에 허용되는 최대 편차(각분). 이 값보다 더 벗어나면 또 다른 슬루 앤 솔브 주기가 실행됩니다.",
+          "RotationTolerance": "Center & Rotate 중에 해결된 이미지 방향과 목표 방향 사이에 허용되는 최대 회전 편차(도). 초과 시 로테이터가 조정되고 프레임이 다시 해결됩니다.",
+          "MaxObjects": "플레이트 솔버가 매칭에 사용하는 최대 별 개수. 값이 낮을수록 더 빨리 해결되지만 별이 적은 영역에서는 정확도가 떨어질 수 있습니다. 값이 높을수록 속도를 희생하는 대신 신뢰성이 향상됩니다.",
+          "NumberOfAttempts": "해결에 실패했을 때 플레이트 솔버가 포기하기 전까지 재시도하는 최대 횟수입니다.",
+          "ReattemptDelay": "해결 실패 후 플레이트 솔버가 새 시도를 시작하기까지의 지연 시간(분)입니다.",
+          "BlindFailoverEnabled": "일반 플레이트 솔브가 실패하면 중단하는 대신 자동으로 블라인드 솔브(초기 좌표 불필요)로 전환합니다."
+        },
         "NumberOfAttempts": "시도 횟수",
         "ReattemptDelay": "재시도 간격 (min)",
         "BlindFailoverEnabled": "블라인드 폴백 사용",
@@ -957,7 +969,9 @@
         "slewRateINDI": "슬루 속도",
         "reverse_axis": "축 방향",
         "slewRateDriverControlled": "슬루율은 드라이버에 의해 제어됩니다.",
-        "slewRateUnavailable": "슬루율을 조정하려면 마운트를 연결하세요."
+        "slewRateUnavailable": "슬루율을 조정하려면 마운트를 연결하세요.",
+        "confirmParkMessage": "마운트를 파킹하시겠습니까? 추적이 중지되고 마운트가 파킹 위치로 이동합니다.",
+        "confirmParkTitle": "마운트 파킹"
       },
       "info": {
         "notConnected": "마운트를 연결하세요",
@@ -1150,6 +1164,7 @@
           "hide": "별 구성요소 숨기기"
         },
         "autoSelectStar": "가이드 별 자동 선택",
+        "resetZoom": "확대/축소 재설정",
         "reviewCalibration": "캘리브레이션 검토",
         "calibrationData": {
           "title": "캘리브레이션 검토",
@@ -1888,6 +1903,39 @@
       "dec": "Dec",
       "pixel_scale": "픽셀 스케일",
       "focal_length": "초점거리"
+    },
+    "statusBar": {
+      "camera": {
+        "idle": "대기 중"
+      },
+      "filter": {
+        "none": "필터 없음"
+      },
+      "guiding": {
+        "idle": "대기 중",
+        "starLost": "별 놓침"
+      },
+      "labels": {
+        "camera": "카메라",
+        "filter": "필터",
+        "guiding": "가이딩",
+        "instance": "인스턴스",
+        "log": "로그",
+        "mount": "마운트",
+        "progress": "진행률",
+        "safety": "안전",
+        "weather": "날씨"
+      },
+      "mount": {
+        "parked": "파킹됨",
+        "slewing": "이동 중",
+        "tracking": "추적 중",
+        "trackingOff": "추적 꺼짐"
+      },
+      "safety": {
+        "safe": "안전",
+        "unsafe": "위험"
+      }
     }
   },
   "plugins": {

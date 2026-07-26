@@ -23,13 +23,13 @@
         {{ $t('components.rotator.please_connect_rotator') }}
       </p>
     </div>
-    <div v-else class="container flex items-center justify-center pt-10">
+    <div v-else class="container flex items-center justify-center pt-4">
       <div class="container max-w-md landscape:max-w-xl">
         <!-- Rotator Tab -->
         <Transition name="slide-in" mode="out-in">
           <div v-if="currentTab === 'showRotator'" class="mt-4" key="rotator">
             <div>
-              <infoRotator class="grid grid-cols-2 landscape:grid-cols-3" />
+              <infoRotator compact class="p-3 bg-surface-1 rounded-card border border-line" />
             </div>
             <div
               class="mt-4 border border-gray-700 rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg p-5"

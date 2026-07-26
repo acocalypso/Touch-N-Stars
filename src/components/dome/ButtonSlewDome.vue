@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col border border-gray-500 p-1 pb-2 rounded-lg w-full">
+  <div class="flex flex-col border border-line-strong p-1 pb-2 rounded-control w-full">
     <div class="flex gap-2 items-end">
       <NumberInputPicker
         v-model="azimuth"
@@ -13,7 +13,7 @@
         inputId="azimuth"
       />
       <button
-        class="default-button-cyan h-7 md:h-8"
+        class="tns-btn-primary"
         @click="slewDome"
         :disabled="store.domeInfo.Slewing || isSlewing"
       >
@@ -23,7 +23,7 @@
           class="ml-2 w-6 h-6 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"
         ></div>
       </button>
-      <button @click="stopSlew" class="default-button-red w-16 mr-1">
+      <button @click="stopSlew" class="tns-btn-danger w-16 mr-1">
         <StopCircleIcon class="w-8 h-8" />
       </button>
     </div>
@@ -37,6 +37,8 @@ import { apiStore } from '@/store/store';
 import { useI18n } from 'vue-i18n';
 import { StopCircleIcon } from '@heroicons/vue/24/outline';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
+import { useHaptics } from '@/composables/useHaptics';
+const { tapLight, tapMedium } = useHaptics();
 
 const { t } = useI18n();
 const store = apiStore();
@@ -44,6 +46,7 @@ const azimuth = ref(0);
 const isSlewing = ref(false);
 
 async function slewDome() {
+  tapLight();
   isSlewing.value = true;
   try {
     await apiService.domeAction(`slew?waitToFinish=true&azimuth=${azimuth.value}`);
@@ -61,6 +64,7 @@ async function slewDome() {
 }
 
 async function stopSlew() {
+  tapMedium();
   try {
     const response = await apiService.domeAction('stop');
     if (!response.Success) return;

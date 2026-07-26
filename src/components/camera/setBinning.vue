@@ -1,15 +1,15 @@
 <template>
   <div
-    class="flex items-center justify-between w-full border border-gray-500 p-1 md:p-2 rounded-lg"
+    class="flex items-center justify-between w-full border border-line-strong p-1 md:p-2 rounded-control"
   >
-    <label for="binning" class="text-xs md:text-sm text-gray-200 font-medium">
+    <label for="binning" class="text-xs md:text-sm text-content font-medium">
       {{ $t('components.camera.binning_mode') }}
     </label>
     <select
       @change="setBinnig"
       id="binning"
       v-model="cameraStore.binningMode"
-      class="default-select h-7 md:h-8 w-20 md:w-28"
+      class="tns-select w-20 md:w-28"
     >
       <option v-for="mode in store.cameraInfo.BinningModes" :key="mode.Name" :value="mode.Name">
         {{ mode.Name }}

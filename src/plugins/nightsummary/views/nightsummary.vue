@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-gray-900">
+  <div class="min-h-screen">
     <div class="container py-6 px-4 max-w-4xl mx-auto">
       <h1 class="text-3xl font-bold text-white mb-6">{{ $t('nightsummary.title') }}</h1>
 
@@ -54,7 +54,7 @@
             <select
               v-model="selectedSessionId"
               @change="onSelectSession"
-              class="default-select flex-1 min-w-72"
+              class="tns-select flex-1 min-w-72"
               :disabled="nightSummaryStore.loadingSessions"
             >
               <option value="" disabled>
@@ -75,7 +75,7 @@
             <button
               @click="nightSummaryStore.fetchSessions()"
               :disabled="nightSummaryStore.loadingSessions"
-              class="default-button-gray"
+              class="tns-btn-secondary"
             >
               {{ $t('common.refresh') }}
             </button>
@@ -86,14 +86,14 @@
             <button
               @click="nightSummaryStore.fetchSessionDetail(selectedSessionId)"
               :disabled="nightSummaryStore.loadingDetail"
-              class="default-button-gray"
+              class="tns-btn-secondary"
             >
               {{ nightSummaryStore.loadingDetail ? $t('common.loading') : $t('common.refresh') }}
             </button>
             <button
               @click="nightSummaryStore.resendSession(selectedSessionId)"
               :disabled="nightSummaryStore.resendingSession"
-              class="default-button-cyan"
+              class="tns-btn-primary"
             >
               {{
                 nightSummaryStore.resendingSession
@@ -101,7 +101,7 @@
                   : $t('nightsummary.sessions.resend')
               }}
             </button>
-            <button @click="confirmDelete = true" class="default-button-red">
+            <button @click="confirmDelete = true" class="tns-btn-danger">
               {{ $t('nightsummary.sessions.delete') }}
             </button>
             <StatusBadge
@@ -124,10 +124,10 @@
                 {{ $t('nightsummary.sessions.deleteConfirm') }}
               </p>
               <div class="flex gap-3">
-                <button @click="doDelete" class="default-button-red flex-1">
+                <button @click="doDelete" class="tns-btn-danger flex-1">
                   {{ $t('general.delete') }}
                 </button>
-                <button @click="confirmDelete = false" class="default-button-gray flex-1">
+                <button @click="confirmDelete = false" class="tns-btn-secondary flex-1">
                   {{ $t('general.cancel') }}
                 </button>
               </div>

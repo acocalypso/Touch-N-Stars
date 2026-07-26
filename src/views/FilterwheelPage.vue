@@ -7,7 +7,7 @@
       ]"
       v-model:activeItem="currentTab"
     />
-    <div class="container py-16 flex items-center justify-center">
+    <div class="container py-4 flex items-center justify-center">
       <div class="container max-w-md landscape:max-w-xl">
         <h5 class="text-xl text-center font-bold text-white mb-4">
           {{ $t('components.filterwheel.title') }}
@@ -27,7 +27,10 @@
             key="filterwheel-tab"
           >
             <div>
-              <InfoFilterwheel class="grid grid-cols-2 landscape:grid-cols-3 mt-4" />
+              <InfoFilterwheel
+                compact
+                class="mt-4 p-3 bg-surface-1 rounded-card border border-line"
+              />
             </div>
 
             <div
@@ -35,7 +38,13 @@
             >
               <strong>{{ $t('components.filterwheel.filter') }}</strong>
               <changeFilter />
-              <pinsSetUnidirectional class="mt-2" />
+              <PinsSettingToggle
+                v-if="store.isPINS"
+                class="mt-2"
+                device="filter"
+                settingName="Unidirectional"
+                labelKey="components.filterwheel.Unidirectional"
+              />
             </div>
           </div>
         </Transition>
@@ -58,30 +67,23 @@
   </div>
 </template>
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue';
+import { ref } from 'vue';
 import changeFilter from '@/components/filterwheel/changeFilter.vue';
 import InfoFilterwheel from '@/components/filterwheel/InfoFilterwheel.vue';
 import FilterSettings from '@/components/filterwheel/settings/FilterSettings.vue';
-import pinsSetUnidirectional from '@/components/filterwheel/settings/pinsSetUnidirectional.vue';
+import PinsSettingToggle from '@/components/helpers/settings/PinsSettingToggle.vue';
 import SubNav from '@/components/SubNav.vue';
 import { apiStore } from '@/store/store';
 import { useFilterStore } from '@/store/filterStore';
 import { useI18n } from 'vue-i18n';
+import { usePolling } from '@/composables/usePolling';
 
 const { t } = useI18n();
 const store = apiStore();
 const filterStore = useFilterStore();
 const currentTab = ref('showFilterwheel');
-let settingsInterval = null;
 
-onMounted(async () => {
-  await filterStore.readSettings();
-  settingsInterval = setInterval(() => filterStore.readSettings(), 2000);
-});
-
-onUnmounted(() => {
-  clearInterval(settingsInterval);
-});
+usePolling(() => filterStore.readSettings(), 2000);
 </script>
 
 <style scoped>

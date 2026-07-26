@@ -40,8 +40,14 @@
         :modelValue="store.profileInfo.MeridianFlipSettings.SettleTime"
         :max="600"
       />
-      <setMeridianFlipRecenter />
-      <setMeridianFlipUseSideOfPier />
+      <ProfileToggle
+        labelKey="components.mount.settings.meridian_flip.Recenter"
+        settingKey="MeridianFlipSettings-Recenter"
+      />
+      <ProfileToggle
+        labelKey="components.mount.settings.meridian_flip.UseSideOfPier"
+        settingKey="MeridianFlipSettings-UseSideOfPier"
+      />
     </div>
 
     <!-- Post-Flip Actions Container -->
@@ -51,8 +57,14 @@
       <h3 class="font-bold text-base text-cyan-400">
         {{ $t('components.mount.settings.meridian_flip.post_flip_actions') }}
       </h3>
-      <setMeridianFlipAutoFocus />
-      <setMeridianFlipRotateImage />
+      <ProfileToggle
+        labelKey="components.mount.settings.meridian_flip.AutoFocusAfterFlip"
+        settingKey="MeridianFlipSettings-AutoFocusAfterFlip"
+      />
+      <ProfileToggle
+        labelKey="components.mount.settings.meridian_flip.RotateImageAfterFlip"
+        settingKey="MeridianFlipSettings-RotateImageAfterFlip"
+      />
     </div>
   </div>
 </template>
@@ -60,10 +72,7 @@
 <script setup>
 import { apiStore } from '@/store/store';
 import SettingInput from '@/components/helpers/settings/UpdatePorfileNumber.vue';
-import setMeridianFlipRecenter from './setMeridianFlipRecenter.vue';
-import setMeridianFlipUseSideOfPier from './setMeridianFlipUseSideOfPier.vue';
-import setMeridianFlipAutoFocus from './setMeridianFlipAutoFocus.vue';
-import setMeridianFlipRotateImage from './setMeridianFlipRotateImage.vue';
+import ProfileToggle from '@/components/helpers/settings/ProfileToggle.vue';
 
 const store = apiStore();
 </script>

@@ -25,13 +25,13 @@
     </span>
     <div
       :class="[
-        'flex items-center overflow-hidden',
+        'flex items-stretch overflow-hidden',
         labelPosition === 'top' || wrapperClass === 'w-full' ? 'w-full' : 'ml-auto w-36 md:w-40',
       ]"
     >
       <button
         type="button"
-        class="flex items-center justify-center shrink-0 w-6 h-10 rounded-l-lg bg-gray-700 hover:bg-gray-600 active:bg-gray-500 text-white text-sm font-bold border border-gray-600 select-none"
+        class="flex items-center justify-center shrink-0 w-6 rounded-l-lg bg-gray-700 hover:bg-gray-600 active:bg-gray-500 text-white text-sm font-bold border border-gray-600 select-none"
         @click="stepDown"
       >
         &minus;
@@ -41,7 +41,7 @@
         :value="formattedValue"
         type="number"
         :class="[
-          'default-input h-10 rounded-none border-x-0 text-center !min-w-0 !px-1 flex-1',
+          'tns-input rounded-none border-x-0 text-center !min-w-0 !px-1 flex-1',
           statusClass,
         ]"
         :placeholder="isDefaultValue && defaultValue === null ? 'default' : placeholder"
@@ -54,7 +54,7 @@
       />
       <button
         type="button"
-        class="flex items-center justify-center shrink-0 w-6 h-10 rounded-r-lg bg-gray-700 hover:bg-gray-600 active:bg-gray-500 text-white text-sm font-bold border border-gray-600 select-none"
+        class="flex items-center justify-center shrink-0 w-6 rounded-r-lg bg-gray-700 hover:bg-gray-600 active:bg-gray-500 text-white text-sm font-bold border border-gray-600 select-none"
         @click="stepUp"
       >
         +

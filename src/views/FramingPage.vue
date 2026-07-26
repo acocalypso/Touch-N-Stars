@@ -61,13 +61,13 @@
           <input
             v-model="searchQuery"
             type="text"
-            class="default-input h-8 w-full text-sm"
+            class="tns-input w-full text-sm"
             :placeholder="$t('components.framing.search.placeholder')"
             @input="fetchTargetSearch"
           />
           <ul
             v-if="Array.isArray(searchResults) && searchResults.length > 0"
-            class="default-select absolute left-0 right-0 top-full mt-1 max-h-64 overflow-y-auto z-10"
+            class="tns-select absolute left-0 right-0 top-full mt-1 max-h-64 overflow-y-auto z-10"
           >
             <li
               v-for="(item, index) in searchResults"
@@ -242,7 +242,7 @@ watch(
   top: 82px;
   left: 0;
   right: 0;
-  bottom: calc(2.25rem + env(safe-area-inset-bottom) + 0.5rem);
+  bottom: var(--above-statusbar);
   z-index: 10;
 }
 
@@ -256,7 +256,7 @@ watch(
 @media (orientation: landscape) {
   .framing-page {
     top: 0;
-    left: 8rem;
+    left: var(--nav-width);
     right: 1rem;
     bottom: 4rem;
   }

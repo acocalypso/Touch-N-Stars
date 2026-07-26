@@ -26,7 +26,7 @@
         <button
           @click="collectAndUpload"
           :disabled="busy"
-          class="default-button-green px-4 py-2 rounded disabled:opacity-50 disabled:cursor-not-allowed"
+          class="tns-btn-primary px-4 py-2 rounded disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <span v-if="busy" class="inline-flex items-center gap-2">
             <svg class="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -145,7 +145,7 @@
         <button
           @click="startDiagnosticsCollection"
           :disabled="!diagnosticsCanStart"
-          class="default-button-green px-4 py-2 rounded disabled:opacity-50 disabled:cursor-not-allowed"
+          class="tns-btn-primary px-4 py-2 rounded disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <span v-if="diagnosticsUiState.isBusy" class="inline-flex items-center gap-2">
             <svg class="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -292,6 +292,7 @@ import {
   normalizeDiagnosticsOptions,
   validateDiagnosticsConfig,
 } from '../utils/diagnosticsSupport';
+import { PINS_PORT as PORT, DEFAULT_PINS_DAEMON_API_TOKEN as TOKEN } from '@/services/pinsConfig';
 
 const logStore = useLogStore();
 const logCollectorStore = useLogCollectorStore();
@@ -309,8 +310,6 @@ const diagnosticsOptionsLoading = ref(false);
 const diagnosticsValidationErrors = ref({});
 const diagnosticsDownloadBusy = ref(false);
 const { t } = useI18n();
-const PORT = 8000;
-const TOKEN = 'zZDqJ3IKeFaIZqG2JIFvsxzA5E48GC2gyGVagHFZqC0OMtgoupUDZCPhQDYKm35d';
 
 const diagnosticsApi = createDiagnosticsApi({
   getIp,
@@ -737,10 +736,3 @@ function clearAllSubmissions() {
   }
 }
 </script>
-
-<style scoped>
-.default-button-green {
-  background: #059669;
-  color: #fff;
-}
-</style>

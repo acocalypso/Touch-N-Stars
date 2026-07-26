@@ -3,6 +3,7 @@ import tutorialContent from '@/assets/tutorial.json';
 import { apiStore } from '@/store/store';
 import { useSequenceStore } from './sequenceStore';
 import apiService from '@/services/apiService';
+import { serializeRigSharedSettings } from '@/services/rigSharedSettingsService';
 
 export const useSettingsStore = defineStore('settings', {
   state: () => ({
@@ -136,6 +137,9 @@ export const useSettingsStore = defineStore('settings', {
     keepAwakeEnabled: false,
     // Android: bind app process to Wi-Fi when the instance IP is in its subnet
     wifiBindingEnabled: true,
+    _sharedRigSettingsReady: false,
+    _sharedRigSettingsLoading: false,
+    _sharedRigSettingsSnapshot: '',
     // Modal Positionen
     modalPositions: {},
     // Navbar customization
@@ -178,8 +182,60 @@ export const useSettingsStore = defineStore('settings', {
         this.loadFlatsSettings(),
         this.loadGuiderSettings(),
         this.loadNavbarSettings(),
+        this.loadSharedRigUiSettings(),
         sequenceStore.loadSequenceControlsLocked(),
       ]);
+    },
+
+    async loadSharedRigUiSettings() {
+      if (this._sharedRigSettingsLoading) return;
+      const wasReady = this._sharedRigSettingsReady;
+      const localSnapshotAtStart = serializeRigSharedSettings(this);
+      this._sharedRigSettingsLoading = true;
+      if (!wasReady) this._sharedRigSettingsReady = false;
+
+      try {
+        const response = await apiService.getSetting('rig_ui_settings_v1');
+        if (wasReady && serializeRigSharedSettings(this) !== localSnapshotAtStart) {
+          return;
+        }
+
+        if (response?.Response?.Value !== undefined) {
+          const parsed = JSON.parse(response.Response.Value);
+          const settings = parsed?.data || parsed;
+          if (settings?.monitorViewSetting) {
+            Object.assign(this.monitorViewSetting, settings.monitorViewSetting);
+          }
+          if (settings?.livestack) {
+            Object.assign(this.livestack, settings.livestack);
+          }
+          if (settings?.stellarium) {
+            Object.assign(this.stellarium, settings.stellarium);
+          }
+        }
+
+        this._sharedRigSettingsSnapshot = serializeRigSharedSettings(this);
+        this._sharedRigSettingsReady = true;
+
+        if (response?.StatusCode === 404) {
+          await this.saveSharedRigUiSettings();
+        }
+      } finally {
+        this._sharedRigSettingsLoading = false;
+      }
+    },
+
+    async saveSharedRigUiSettings() {
+      if (!this._sharedRigSettingsReady) return;
+      const value = serializeRigSharedSettings(this);
+      const res = await apiService.createSetting({
+        Key: 'rig_ui_settings_v1',
+        Value: value,
+      });
+      if (res?.StatusCode === 409) {
+        await apiService.updateSetting('rig_ui_settings_v1', value);
+      }
+      this._sharedRigSettingsSnapshot = value;
     },
 
     async loadMountSettings() {
@@ -341,10 +397,14 @@ export const useSettingsStore = defineStore('settings', {
         this.setSelectedInstanceId(existingInstance.id);
       } else {
         const newInstance = {
+          ...instance,
           id: Date.now().toString(),
           name: instance.name || 'Instance',
           ip: instance.ip,
           port: instance.port,
+          candidateHosts: Array.from(
+            new Set([instance.ip, ...(instance.candidateHosts || [])].filter(Boolean))
+          ),
         };
         this.connection.instances.push(newInstance);
         this.lastCreatedInstanceId = newInstance.id;
@@ -398,6 +458,37 @@ export const useSettingsStore = defineStore('settings', {
       return this.connection.instances.find(
         (i) => i.name === name && i.ip === ip && i.port === port
       );
+    },
+
+    promoteInstanceEndpoint(id, { host, rigId }) {
+      const instance = this.getInstance(id);
+      if (!instance || !host) return false;
+
+      const candidateHosts = Array.from(
+        new Set(
+          [
+            host,
+            instance.ip,
+            instance.preferredEndpoint?.host,
+            ...(instance.candidateHosts || []),
+          ].filter(Boolean)
+        )
+      );
+
+      instance.rigId = rigId || instance.rigId || '';
+      instance.ip = host;
+      instance.candidateHosts = candidateHosts;
+      instance.preferredEndpoint = {
+        protocol: instance.preferredEndpoint?.protocol || 'http',
+        host,
+        port: instance.port,
+      };
+
+      if (this.selectedInstanceId === id) {
+        this.connection.ip = host;
+        this.connection.port = instance.port;
+      }
+      return true;
     },
 
     getInstanceColorByIndex(index) {
@@ -561,19 +652,13 @@ export const useSettingsStore = defineStore('settings', {
           'connection',
           'selectedInstanceId',
           'lastCreatedInstanceId',
-          'monitorViewSetting',
           'tutorial',
           'showPlugins',
           'keepAwakeEnabled',
           'wifiBindingEnabled',
-          'livestack',
           'useBetaFeatures',
           'touchOptimized',
           'camera',
-          'stellarium',
-          'monitorViewSetting.graphDataSource1',
-          'monitorViewSetting.graphDataSource2',
-          'livestack',
           'tutorial.histogramVisited',
           'tutorial.selectTargetVisited',
           'tutorial.statusBarButtonsVisited',

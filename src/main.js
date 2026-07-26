@@ -11,11 +11,17 @@ import { EdgeToEdge } from '@capawesome/capacitor-android-edge-to-edge-support';
 import i18n, { initializeI18n } from '@/i18n';
 import { usePluginStore } from '@/store/pluginStore';
 import { useSettingsStore } from '@/store/settingsStore';
+import { apiStore } from '@/store/store';
 import { timeSync } from '@/utils/timeSync';
 import { setupErrorHandler, setupUnhandledRejectionLogging } from '@/utils/errorHandler';
 import { ensureConsolePatched } from '@/utils/consoleCapture';
 import { markAppReady } from '@/services/updateService';
 import { initWifiBinding } from '@/services/wifiBindingService';
+import {
+  initializeRigConnectionSupervisor,
+  recoverRigConnection,
+} from '@/services/rigConnectionSupervisor';
+import { initializeRigSharedSettingsSync } from '@/services/rigSharedSettingsService';
 
 const SYSTEM_BAR_COLOR = '#1F2937';
 
@@ -113,10 +119,18 @@ app.use(pinia).use(head).use(i18n).use(router);
 
   // Keep the backend reachable on internet-less Wi-Fi (PINS hotspot) on Android
   initWifiBinding();
+  initializeRigSharedSettingsSync(settingsStore);
+  void initializeRigConnectionSupervisor({
+    settingsStore,
+    backendStore: apiStore(pinia),
+  }).catch((error) => {
+    console.warn('[RigConnectionSupervisor] initialization failed:', error?.message || error);
+  });
 
   CapacitorApp.addListener('appStateChange', async ({ isActive }) => {
     if (isActive) {
       await applyAndroidSystemBarColors();
+      void recoverRigConnection({ timeoutMs: 12000, includeFieldFallback: true }).catch(() => {});
     }
   });
 

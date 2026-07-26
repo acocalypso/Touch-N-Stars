@@ -139,6 +139,10 @@ npm run i18n:check
 npm run build
 ```
 
+For the full Vue graph, set `NODE_OPTIONS=--max-old-space-size=6144` before
+`npm run typecheck` (PowerShell:
+`$env:NODE_OPTIONS='--max-old-space-size=6144'`).
+
 Add task-specific validation when relevant:
 
 For preview/web smoke:
@@ -149,8 +153,7 @@ npm run preview:smoke
 For native/mobile behavior:
 ```bash
 npm run build:native
-npx cap sync android
-npx cap sync ios
+npm run sync:native
 ```
 
 For plugin/generator behavior:
@@ -408,8 +411,7 @@ Suggested validation:
 
 ```bash
 npm run build:native
-npx cap sync android
-npx cap sync ios
+npm run sync:native
 ```
 
 Acceptance criteria examples:

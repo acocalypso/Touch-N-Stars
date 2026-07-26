@@ -5,7 +5,7 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [App5.2.0] - 2026-07-26
-Summary of all changes since 5.1.0 (released in beta1-beta3, see below for the individual beta releases).
+Summary of all changes since 5.1.0 (released in beta1-beta4, see below for the individual beta releases).
 
 ### Added
 - Safety: Destructive actions now ask for confirmation before running - parking the mount and clearing the whole sequence
@@ -36,6 +36,10 @@ Summary of all changes since 5.1.0 (released in beta1-beta3, see below for the i
 - Multi-instance: The guider graph and sequence editor no longer freeze after a connection is lost and comes back (WiFi blip, background/resume, or switching instances) while those views are open - they now resume on their own
 - Multi-instance: The last captured image is no longer left over from the previous instance when switching, and TPPA's saved filter/gain/exposure settings are now kept per instance instead of leaking between them
 - PINS: Fixed plugin layout
+
+## [App5.2.0-beta4] - 2026-07-23
+### Fixed
+- Dialog: Minimized dialogs are now a small, draggable chip anchored above the status bar instead of a fixed 300px box that permanently covered the bottom-right corner
 
 ## [App5.2.0-beta3] - 2026-07-21
 ### Added

@@ -97,6 +97,14 @@ renderer. Keep these invariants together:
 - no remote survey fallback may be introduced;
 - survey and catalogue attribution stays available in the About UI and notices.
 
+Generated custom landscapes are plugin-managed user data, not release assets.
+Current plugins serve them from
+`/celestia-atlas-data/user-landscapes/<folder>` while storing the files outside
+their replaceable installation directory. Persisted custom URLs from the former
+`stellarium-data/landscapes` and `celestia-atlas-data/landscapes` locations are
+migrated to this route. The packaged `gray` and `guereins` landscapes remain
+under `/celestia-atlas-data/landscapes` and must not be redirected.
+
 ## UI and mobile contract
 
 - Atlas overlays must stay below the application header and above the status

@@ -50,6 +50,7 @@ Summary of all changes since 5.1.0 (released in beta1-beta4, see below for the i
 - Equipment (PINS): Connect button now doubles as a cancel button while a connection attempt is in progress
 - Guiding: PHD2 live image can now be zoomed and panned (pinch, mouse wheel, double-tap) like the camera image, with lock position, guiding cross and secondary star overlays tracking correctly, plus a reset-zoom button
 - Celestia Atlas: Complete offline M1-M110 coverage, a dedicated Messier catalogue filter, and designation-plus-common-name labels such as `M81 · Bode's Galaxy`
+- Celestia Atlas: Generated plugin landscapes now use an update-safe persistent data route instead of the replaceable application asset directory
 
 ### Changed
 

@@ -34,6 +34,21 @@ export function canonicalizeCelestiaAtlasDataUrl(value) {
   return value;
 }
 
+function migrateGeneratedLandscapeUrl(value, mode, key) {
+  const canonicalUrl = canonicalizeCelestiaAtlasDataUrl(value);
+  if (mode !== 'custom' || typeof canonicalUrl !== 'string') return canonicalUrl;
+
+  const normalizedKey = String(key || '')
+    .trim()
+    .toLowerCase();
+  if (normalizedKey === 'gray' || normalizedKey === 'guereins') return canonicalUrl;
+
+  return canonicalUrl.replace(
+    /^(\/?celestia-atlas-data)\/landscapes\/([^/]+)\/?$/,
+    '$1/user-landscapes/$2'
+  );
+}
+
 export function migratePersistedCelestiaAtlasSettings(persistedState) {
   if (!persistedState || typeof persistedState !== 'object' || Array.isArray(persistedState)) {
     return { state: persistedState, migrated: false };
@@ -57,8 +72,10 @@ export function migratePersistedCelestiaAtlasSettings(persistedState) {
     ...(legacySettings ?? {}),
     ...(currentSettings ?? {}),
   };
-  celestiaAtlas.customLandscapeUrl = canonicalizeCelestiaAtlasDataUrl(
-    celestiaAtlas.customLandscapeUrl
+  celestiaAtlas.customLandscapeUrl = migrateGeneratedLandscapeUrl(
+    celestiaAtlas.customLandscapeUrl,
+    celestiaAtlas.landscapeSourceMode,
+    celestiaAtlas.customLandscapeKey
   );
 
   const state = { ...persistedState, celestiaAtlas };

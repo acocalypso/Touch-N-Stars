@@ -11,6 +11,7 @@ test('migrates the legacy persisted Atlas key without losing user preferences', 
     stellarium: {
       azimuthalLinesVisible: true,
       skySurveyVisible: false,
+      landscapeSourceMode: 'custom',
       customLandscapeUrl: '/stellarium-data/landscapes/custom-site',
       customLandscapeKey: 'custom-site',
     },
@@ -25,7 +26,7 @@ test('migrates the legacy persisted Atlas key without losing user preferences', 
   assert.equal(state.celestiaAtlas.skySurveyVisible, false);
   assert.equal(
     state.celestiaAtlas.customLandscapeUrl,
-    '/celestia-atlas-data/landscapes/custom-site'
+    '/celestia-atlas-data/user-landscapes/custom-site'
   );
   assert.equal(state.celestiaAtlas.starMagnitudeLimit, 6.5);
 });
@@ -49,5 +50,32 @@ test('canonicalizes only local legacy data paths', () => {
   assert.equal(
     canonicalizeCelestiaAtlasDataUrl('https://example.test/stellarium-data/landscapes/site'),
     'https://example.test/stellarium-data/landscapes/site'
+  );
+});
+
+test('moves only generated custom landscapes to the update-safe user route', () => {
+  const custom = migratePersistedCelestiaAtlasSettings({
+    celestiaAtlas: {
+      landscapeSourceMode: 'custom',
+      customLandscapeUrl: '/celestia-atlas-data/landscapes/my-yard',
+      customLandscapeKey: 'my-yard',
+    },
+  });
+  assert.equal(custom.migrated, true);
+  assert.equal(
+    custom.state.celestiaAtlas.customLandscapeUrl,
+    '/celestia-atlas-data/user-landscapes/my-yard'
+  );
+
+  const shipped = migratePersistedCelestiaAtlasSettings({
+    celestiaAtlas: {
+      landscapeSourceMode: 'custom',
+      customLandscapeUrl: '/celestia-atlas-data/landscapes/guereins',
+      customLandscapeKey: 'guereins',
+    },
+  });
+  assert.equal(
+    shipped.state.celestiaAtlas.customLandscapeUrl,
+    '/celestia-atlas-data/landscapes/guereins'
   );
 });

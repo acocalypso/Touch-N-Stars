@@ -361,6 +361,19 @@ Persisted settings and local data paths retain explicit migration compatibility.
 - Host tests enumerate M1 through M110, cover M40 and M102, and verify the new
   Double star and Messier filters against the real pinned package payload.
 
+### 2026-07-26 plugin data and custom-landscape persistence
+
+- Linux and Windows N.I.N.A. plugin release workflows now reject app packages
+  that omit `celestia-atlas-data` or retain the removed `stellarium-data` tree.
+- Generated landscapes are stored in plugin-independent N.I.N.A. local data and
+  served from `/celestia-atlas-data/user-landscapes`. Plugin upgrades can replace
+  the complete app directory without deleting this user-owned data.
+- The plugins migrate existing generated landscapes from both historical app
+  locations without overwriting a persistent copy. Packaged `gray` and
+  `guereins` content stays release-managed.
+- Touch'N'Stars migrates saved custom URLs to the persistent route while leaving
+  packaged and external landscape URLs unchanged.
+
 ### 2026-07-16 selected-target action parity
 
 - Canvas hits and offline search selections now use the same selected-object

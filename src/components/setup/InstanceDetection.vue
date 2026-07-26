@@ -257,11 +257,13 @@ async function handleInstanceSelected(instance) {
   instanceIP.value = instance.ip;
   instancePort.value = instance.port;
   instanceCandidateHosts.value = Array.from(new Set([instance.ip, ...(instance.hosts || [])]));
-  try {
-    const result = await probePinsHealth({ host: instance.ip });
-    instanceRigId.value = result.health.rigId;
-  } catch (error) {
-    console.warn('PINS identity probe failed:', error?.message || error);
+  if (instance.sourceType === PINS_DAEMON_SERVICE_TYPE) {
+    try {
+      const result = await probePinsHealth({ host: instance.ip });
+      instanceRigId.value = result.health.rigId;
+    } catch (error) {
+      console.warn('PINS identity probe failed:', error?.message || error);
+    }
   }
   detectionSuccess.value = true;
   detectionMessage.value = t('components.instanceDetection.selectionSuccess', {

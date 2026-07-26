@@ -1,4 +1,4 @@
-import { reactive } from 'vue';
+import { reactive, watch } from 'vue';
 import { isAppBackgrounded } from '@/utils/appLifecycle';
 import {
   buildPinsEndpointCandidates,
@@ -26,6 +26,16 @@ let backendStoreRef = null;
 let generation = 0;
 let activeController = null;
 let onlineListenerInstalled = false;
+let stopPinsBackendWatch = null;
+let pinsInstanceId = '';
+
+function isPinsBackend() {
+  return (
+    backendStoreRef?.isPINS === true ||
+    (Boolean(settingsStoreRef?.selectedInstanceId) &&
+      settingsStoreRef.selectedInstanceId === pinsInstanceId)
+  );
+}
 
 function delay(ms, signal) {
   return new Promise((resolve, reject) => {
@@ -106,6 +116,9 @@ async function promoteEndpoint(result) {
 }
 
 export async function identifySelectedRig() {
+  if (!isPinsBackend()) {
+    throw new Error('PINS rig discovery is unavailable for this backend');
+  }
   const instance = selectedInstance();
   if (!instance) throw new Error('No PINS rig is selected');
   if (instance.rigId) return instance.rigId;
@@ -137,7 +150,7 @@ export async function recoverRigConnection({
   timeoutMs = DEFAULT_TRANSITION_TIMEOUT_MS,
   includeFieldFallback = true,
 } = {}) {
-  if (!settingsStoreRef || !backendStoreRef || !selectedInstance()) return null;
+  if (!settingsStoreRef || !isPinsBackend() || !selectedInstance()) return null;
 
   const myGeneration = ++generation;
   activeController?.abort();
@@ -212,6 +225,9 @@ export async function recoverRigConnection({
 }
 
 export function beginNetworkTransition({ requestedMode, operationId = '' }) {
+  if (!isPinsBackend()) {
+    return Promise.reject(new Error('PINS network transitions are unavailable for this backend'));
+  }
   const instance = selectedInstance();
   const transition = {
     operationId: String(operationId || ''),
@@ -237,29 +253,57 @@ export function cancelRigConnectionRecovery() {
 export async function initializeRigConnectionSupervisor({ settingsStore, backendStore }) {
   settingsStoreRef = settingsStore;
   backendStoreRef = backendStore;
+  const initialInstance = selectedInstance();
+  if (backendStore.isPINS || initialInstance?.rigId) {
+    pinsInstanceId = settingsStore.selectedInstanceId;
+  }
   if (!onlineListenerInstalled && typeof window !== 'undefined') {
     window.addEventListener('online', () => {
       recoverRigConnection({ timeoutMs: 12000, includeFieldFallback: true }).catch(() => {});
     });
     onlineListenerInstalled = true;
   }
-  const transition = readTransition();
-  if (transition) {
-    recoverRigConnection({
-      requestedMode: transition.requestedMode,
-      operationId: transition.operationId,
-      timeoutMs: Math.max(
-        5000,
-        DEFAULT_TRANSITION_TIMEOUT_MS - (Date.now() - Date.parse(transition.startedAt))
-      ),
-    }).catch(() => {});
-    return;
+
+  const startPinsRecovery = () => {
+    const transition = readTransition();
+    if (transition) {
+      recoverRigConnection({
+        requestedMode: transition.requestedMode,
+        operationId: transition.operationId,
+        timeoutMs: Math.max(
+          5000,
+          DEFAULT_TRANSITION_TIMEOUT_MS - (Date.now() - Date.parse(transition.startedAt))
+        ),
+      }).catch(() => {});
+      return;
+    }
+
+    const instance = selectedInstance();
+    if (instance?.rigId) {
+      recoverRigConnection({ timeoutMs: 12000, includeFieldFallback: true }).catch(() => {});
+    } else if (instance?.ip) {
+      recoverRigConnection({ timeoutMs: 3500, includeFieldFallback: false }).catch(() => {});
+    }
+  };
+
+  if (isPinsBackend()) {
+    startPinsRecovery();
   }
 
-  const instance = selectedInstance();
-  if (instance?.rigId) {
-    recoverRigConnection({ timeoutMs: 12000, includeFieldFallback: true }).catch(() => {});
-  } else if (instance?.ip) {
-    recoverRigConnection({ timeoutMs: 3500, includeFieldFallback: false }).catch(() => {});
-  }
+  stopPinsBackendWatch?.();
+  stopPinsBackendWatch = watch(
+    [() => backendStoreRef?.isPINS, () => settingsStoreRef?.selectedInstanceId],
+    ([isPins, selectedInstanceId]) => {
+      const instance = selectedInstance();
+      if (isPins || instance?.rigId) {
+        pinsInstanceId = selectedInstanceId;
+        startPinsRecovery();
+        return;
+      }
+      if (selectedInstanceId !== pinsInstanceId) {
+        pinsInstanceId = '';
+        cancelRigConnectionRecovery();
+      }
+    }
+  );
 }

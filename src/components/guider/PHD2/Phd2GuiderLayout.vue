@@ -1,6 +1,6 @@
 <template>
   <div class="overflow-hidden" :style="containerStyle">
-    <!-- Control Buttons at Top -->
+    <!-- Control Buttons: row at the top in landscape, column on the right in portrait -->
     <div class="relative z-30 p-4" :class="buttonContainerClass">
       <div
         v-if="!store.guiderInfo.Connected"
@@ -11,7 +11,8 @@
         </p>
       </div>
 
-      <div v-if="isLandscape" class="flex flex-col gap-1 items-end">
+      <!-- Portrait Layout: vertical button column on the right -->
+      <div v-if="!isLandscape" class="flex flex-col gap-1 items-end">
         <!-- Top row: Status + Loop Button -->
         <div class="flex items-center gap-3">
           <!-- Status Display -->
@@ -174,7 +175,7 @@
         </div>
       </div>
 
-      <!-- Portrait Layout -->
+      <!-- Landscape Layout: horizontal button row at the top -->
       <div v-else class="flex flex-col w-full items-center gap-2">
         <div class="flex items-center justify-center gap-2">
           <!-- Loop Button -->
@@ -488,24 +489,24 @@ const containerStyle = computed(() => {
 
 const buttonContainerClass = computed(() => {
   if (isLandscape.value) {
-    return 'flex justify-end items-start'; // Right alignment in landscape
+    return 'flex justify-center items-start'; // Button row centered at the top in landscape
   } else {
-    return 'flex justify-center items-center'; // Center in portrait
+    return 'flex justify-end items-start'; // Button column on the right in portrait
   }
 });
 
 const imageStyle = computed(() => {
   if (isLandscape.value) {
-    // Landscape: Image starts from top, buttons overlay on top-right
-    return {
-      top: '0',
-      height: '100%',
-    };
-  } else {
-    // Portrait: Image starts below buttons
+    // Landscape: Image starts below the button row
     return {
       top: '80px',
       height: 'calc(100% - 80px)',
+    };
+  } else {
+    // Portrait: Image fills the area, buttons overlay on the right
+    return {
+      top: '0',
+      height: '100%',
     };
   }
 });
@@ -528,6 +529,7 @@ const responsiveStarProfileStyle = computed(() => ({
 
 const portraitContainerStyle = computed(() => ({
   height: `${responsiveStarSize.value.height + 16}px`, // Höhe + Padding
+  paddingRight: '80px', // Platz für die Button-Spalte am rechten Rand
 }));
 
 const landscapeContainerStyle = computed(() => ({

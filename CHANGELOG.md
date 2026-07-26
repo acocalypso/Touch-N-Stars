@@ -4,6 +4,39 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [App5.2.0] - 2026-07-26
+Summary of all changes since 5.1.0 (released in beta1-beta4, see below for the individual beta releases).
+
+### Added
+- Safety: Destructive actions now ask for confirmation before running - parking the mount and clearing the whole sequence
+- Haptics: Light/medium haptic feedback on native (Android/iOS) platforms when triggering key actions such as capture, slew, park and stop
+- Guiding: PHD2 live image can now be zoomed and panned (pinch, mouse wheel, double-tap) like the camera image, with lock position, guiding cross and secondary star overlays tracking correctly, plus a reset-zoom button
+- Equipment (PINS): Connect button now doubles as a cancel button while a connection attempt is in progress
+- TPPA (PINS): When the alignment view is opened (or after switching instances), the running state is now loaded from the backend, so an alignment already in progress is reflected correctly instead of relying on a possibly stale saved state
+
+### Changed
+- Design: App-wide visual refresh onto a single design system - one consistent set of button styles, surfaces and colors with a single cyan accent, and green/yellow/red now always carry the same meaning across the app (running / attention / problem or stopped). Buttons, inputs and other touch targets are now at least 48px for easier tapping in the field
+- Navigation: Each nav item now shows a permanent label under its icon (previously the label only appeared while touching), and the landscape sidebar is narrower so it no longer wastes empty space next to the icons
+- Status bar: Redesigned, taller status bar that shows camera, mount, guider, filter, weather and progress state - and their key values - at a glance without having to tap a chip first
+- Layout: Pages now sit inside a fixed, rounded frame with corner accents while content scrolls beneath it, replacing leftover full-page backgrounds and stray top padding from the old layout
+- Info panels: Stat tiles simplified to semantic states, with a more compact two-column view on smaller pages
+- Camera: Live/captured image view is now contained within the rounded frame instead of overflowing it
+- Camera: Cooler status revised
+- Sequence Creator: Toolbar buttons (undo/redo, save, library, clear, send to NINA) restyled to match the app-wide design system
+
+### Fixed
+- Dialog: Minimized dialogs are now a small, draggable chip anchored above the status bar instead of a fixed 300px box that permanently covered the bottom-right corner
+- Sequence: Sequence control buttons no longer get covered when a status bar panel (progress, camera/mount/filter info, guider graph) is opened - they now shift up above it automatically
+- Sequence Creator: Camera offset field was limited to -100..100, now allows the full 0-10000 range
+- Sequence Creator: Cool Camera action sent -10°C to NINA instead of the configured target temperature when it was set to 0°C
+- Sequence Creator: Actions added to a sequence before a template's min/max/step was changed no longer keep showing stale bounds - they now pick up the current limits
+- Sequence Creator: "Wait if Sun/Moon Altitude" always showed 0.0° and never showed the expected time - now shows the actual current altitude and expected time
+- Sequence Creator: "Moon Altitude" condition was missing the current altitude display that its Sun Altitude counterpart already had
+- Multi-instance: A running snapshot loop no longer keeps capturing against the new instance after switching (or against the same instance after a brief connection loss) - it is now stopped as part of the connection teardown
+- Multi-instance: The guider graph and sequence editor no longer freeze after a connection is lost and comes back (WiFi blip, background/resume, or switching instances) while those views are open - they now resume on their own
+- Multi-instance: The last captured image is no longer left over from the previous instance when switching, and TPPA's saved filter/gain/exposure settings are now kept per instance instead of leaking between them
+- PINS: Fixed plugin layout
+
 ## [App5.2.0-beta4] - 2026-07-23
 ### Fixed
 - Dialog: Minimized dialogs are now a small, draggable chip anchored above the status bar instead of a fixed 300px box that permanently covered the bottom-right corner

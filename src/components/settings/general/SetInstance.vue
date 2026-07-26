@@ -18,7 +18,7 @@
           <input
             v-model="tempInstance.name"
             type="text"
-            class="default-input w-full py-2"
+            class="tns-input w-full py-2"
             placeholder="My NINA Instance"
           />
         </div>
@@ -28,7 +28,7 @@
           <input
             v-model="tempInstance.ip"
             type="text"
-            class="default-input w-full py-2"
+            class="tns-input w-full py-2"
             placeholder="192.168.1.100"
           />
         </div>
@@ -68,13 +68,11 @@
 
       <!-- Action Buttons -->
       <div class="flex gap-3">
-        <button @click="saveInstance" class="default-button-cyan">
+        <button @click="saveInstance" class="tns-btn-primary">
           {{ editingInstance ? $t('components.settings.update') : $t('components.settings.add') }}
         </button>
 
-        <button v-if="editingInstance" @click="cancelEdit" class="default-button-gray">
-          Cancel
-        </button>
+        <button v-if="editingInstance" @click="cancelEdit" class="tns-btn-secondary">Cancel</button>
       </div>
     </div>
 

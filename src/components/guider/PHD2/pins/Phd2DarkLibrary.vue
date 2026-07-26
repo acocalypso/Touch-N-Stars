@@ -6,7 +6,7 @@
       </span>
       <button
         type="button"
-        class="default-button-cyan px-3 py-1 text-xs"
+        class="tns-btn-secondary px-3 py-1 text-xs"
         :disabled="guiderStore.isDarkLibraryBuildActive"
         @click="showAssistant = true"
       >

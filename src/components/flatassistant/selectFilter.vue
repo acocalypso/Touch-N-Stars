@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col bg-gray-900/90 border border-gray-500 p-1 pb-2 rounded-lg">
+  <div class="flex flex-col bg-gray-900/90 border border-line-strong p-1 pb-2 rounded-control">
     <label for="flat-filter" class="text-xs mb-1 text-gray-400">
       {{ $t('components.filterwheel.filter') }}
     </label>
@@ -7,7 +7,7 @@
       id="flat-filter"
       :value="modelValue"
       @change="$emit('update:modelValue', Number($event.target.value))"
-      class="default-select h-10"
+      class="tns-select"
     >
       <option
         v-for="filter in store.filterInfo.AvailableFilters"

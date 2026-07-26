@@ -6,16 +6,23 @@
         <div class="max-w-xl">
           <div
             v-if="!store.cameraInfo.Connected"
-            class="p-4 bg-red-500/10 border border-red-500/30 rounded-lg"
+            class="p-4 bg-status-danger/10 border border-status-danger/30 rounded-card"
           >
-            <p class="text-red-400 font-medium">{{ $t('components.camera.connect') }}</p>
+            <p class="text-status-danger font-medium">{{ $t('components.camera.connect') }}</p>
           </div>
         </div>
       </div>
 
       <!-- Hauptbereich, wenn Kamera verbunden -->
-      <div v-show="store.cameraInfo.Connected" class="fixed inset-0 z-10">
-        <!-- ZoomableImage Component - Full Screen -->
+      <!-- Image area fills exactly the stage window (same rect as App.vue's
+           frame mask) with its own rounded clipping, so the photo stays inside
+           the frame instead of painting over rails and corners. -->
+      <div
+        v-show="store.cameraInfo.Connected"
+        class="fixed z-10 rounded-[var(--stage-radius)] overflow-hidden bg-ground"
+        :style="stageWindowStyle"
+      >
+        <!-- ZoomableImage Component - fills the stage window -->
         <ZoomableImage
           :imageData="getStretchSettings().stretchedImageData || imageStore.imageData"
           :showControls="true"
@@ -24,7 +31,8 @@
           :showHistogram="true"
           :showSolve="true"
           :loading="imageStore.isImageFetching || histogramStore.isProcessing(imageStore.imageData)"
-          height="100vh"
+          height="100%"
+          controlsClass="top-2 right-2 portrait:left-20 landscape:left-40"
           altText="Captured Astrophoto"
           placeholderText="No image captured yet"
           @download="handleDownload"
@@ -45,13 +53,15 @@
 
           <template #extra-buttons>
             <!-- PINS: Stats Toggle Button -->
+            <!-- Overlay buttons match ZoomableImage's own control cluster (same
+                 size/shape) so the toolbar stays visually uniform. -->
             <button
               v-if="store.isPINS"
-              @click.stop="showCaptureStats = !showCaptureStats"
+              @click.stop="toggleCaptureStats"
               :class="[
                 'w-10 h-10 rounded-lg shadow-lg flex items-center justify-center transition-colors',
                 showCaptureStats
-                  ? 'bg-cyan-600 hover:bg-cyan-500 text-white'
+                  ? 'bg-accent-action hover:bg-accent-action text-white'
                   : 'bg-gray-800/90 hover:bg-gray-700 text-white',
               ]"
               title="Image Statistics"
@@ -60,11 +70,13 @@
             </button>
             <!-- Image Rotation Button -->
             <button
-              @click.stop="
-                settingsStore.setImageRotation((settingsStore.currentImageRotation + 90) % 360)
-              "
-              class="w-10 h-10 bg-gray-800/90 hover:bg-gray-700 text-white rounded-lg shadow-lg flex items-center justify-center transition-colors"
-              :class="{ 'bg-cyan-700 hover:bg-cyan-600': settingsStore.currentImageRotation !== 0 }"
+              @click.stop="rotateImage"
+              :class="[
+                'w-10 h-10 rounded-lg shadow-lg flex items-center justify-center transition-colors',
+                settingsStore.currentImageRotation !== 0
+                  ? 'bg-accent-action hover:bg-accent-action text-white'
+                  : 'bg-gray-800/90 hover:bg-gray-700 text-white',
+              ]"
               :title="'Rotate image (' + settingsStore.currentImageRotation + '°)'"
             >
               <svg
@@ -85,8 +97,8 @@
             <!-- Center Here Button -->
             <button
               v-if="imageStore.imageData"
-              @click.stop="cameraStore.slewModal = true"
-              class="w-10 h-10 rounded-lg shadow-lg flex items-center justify-center transition-colors disabled:opacity-40 disabled:cursor-not-allowed disabled:bg-gray-800/90 bg-gray-800/90 hover:enabled:bg-gray-700 text-white"
+              @click.stop="openSlewModal"
+              class="w-10 h-10 bg-gray-800/90 hover:enabled:bg-gray-700 text-white rounded-lg shadow-lg flex items-center justify-center transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
               title="Center Here"
               :disabled="!cameraStore.plateSolveResult || !cameraStore.plateSolveResult.Coordinates"
             >
@@ -156,8 +168,7 @@
         <!-- PINS: Capture Stats Overlay -->
         <div
           v-if="store.isPINS && showCaptureStats && store.lastImageStats && imageStore.imageData"
-          class="absolute right-0 z-20 flex flex-col p-2 text-xs text-gray-300 bg-black/50"
-          :class="isLandscape ? 'left-32 top-0' : 'left-0 top-0'"
+          class="absolute left-0 top-0 right-0 z-20 flex flex-col p-2 text-xs text-gray-300 bg-black/50"
         >
           <div v-if="statsLoading" class="flex items-center gap-2 py-1 opacity-60">
             <svg
@@ -267,12 +278,12 @@
         class="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
       >
         <div
-          class="bg-gray-900 rounded-lg p-4 overflow-y-auto max-h-[95vh] border border-gray-700 scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-800/50"
+          class="bg-surface-1 rounded-card p-4 overflow-y-auto max-h-[95vh] border border-line scrollbar-thin scrollbar-thumb-gray-700 scrollbar-track-gray-800/50"
         >
           <CenterHere />
           <button
             @click="cameraStore.slewModal = false"
-            class="fixed top-2 right-2 p-2 text-gray-400 hover:text-white bg-gray-900 rounded-full"
+            class="fixed top-2 right-2 min-h-touch min-w-touch flex items-center justify-center text-content-muted hover:text-content bg-surface-1 rounded-full"
           >
             <svg
               xmlns="http://www.w3.org/2000/svg"
@@ -356,10 +367,10 @@
       <template #body>
         <div>
           <div
-            class="bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-center text-sm text-gray-300 mb-2"
+            class="bg-surface-2 border border-line rounded-control px-4 py-2 text-center text-sm text-content-muted mb-2"
           >
             {{ $t('components.focuser.title') }}:
-            <span class="font-semibold text-white">{{ store.focuserInfo.Position }}</span>
+            <span class="font-semibold text-content">{{ store.focuserInfo.Position }}</span>
           </div>
           <ButtonsFastChangePositon class="pt-2" />
         </div>
@@ -431,6 +442,7 @@
 <script setup>
 import { ref, computed, watch, onMounted } from 'vue';
 import { useOrientation } from '@/composables/useOrientation';
+import { useHaptics } from '@/composables/useHaptics';
 import { apiStore } from '@/store/store';
 import { useCameraStore } from '@/store/cameraStore';
 import { useImagetStore } from '@/store/imageStore';
@@ -452,6 +464,7 @@ import { ChartBarIcon } from '@heroicons/vue/24/outline';
 import { useHistogramStore } from '@/store/histogramStore';
 import { useSettingsStore } from '@/store/settingsStore';
 
+const { tapLight } = useHaptics();
 const store = apiStore();
 const cameraStore = useCameraStore();
 const imageStore = useImagetStore();
@@ -495,12 +508,30 @@ const effectiveOffset = computed(() => {
 // Check if in landscape mode
 const { isLandscape } = useOrientation();
 
-// Container positioning classes
+// Viewport rect of the stage window — must mirror App.vue's stageFrameStyle
+// so the image area sits exactly inside the rounded frame mask.
+const stageWindowStyle = computed(() =>
+  isLandscape.value
+    ? {
+        top: 'calc(var(--stage-inset) + var(--subnav-offset))',
+        left: 'calc(var(--nav-width) + var(--stage-inset))',
+        right: 'var(--stage-inset)',
+        bottom: 'calc(var(--statusbar-height) + var(--stage-inset))',
+      }
+    : {
+        top: 'calc(82px + var(--subnav-offset))',
+        left: 'var(--stage-inset)',
+        right: 'var(--stage-inset)',
+        bottom: 'calc(var(--statusbar-height) + env(safe-area-inset-bottom) + var(--stage-inset))',
+      }
+);
+
+// Container positioning classes (relative to the stage window, not the viewport)
 const histogramClasses = computed(() => ({
-  // Portrait mode - bottom center
-  'absolute top-36 left-4 w-2/3 min-w-72': !isLandscape.value,
-  // Landscape mode - left side vertical (changed from right to left)
-  'absolute top-24 left-36 w-1/2 min-w-72': isLandscape.value,
+  // Portrait mode - upper area
+  'absolute top-14 left-4 w-2/3 min-w-72': !isLandscape.value,
+  // Landscape mode - left side vertical
+  'absolute top-24 left-4 w-1/2 min-w-72': isLandscape.value,
 }));
 
 // Modal Management - togglet das Modal oder schließt andere
@@ -547,6 +578,22 @@ const openModal = (modalType) => {
       }
       break;
   }
+};
+
+// Image overlay actions
+const toggleCaptureStats = () => {
+  tapLight();
+  showCaptureStats.value = !showCaptureStats.value;
+};
+
+const rotateImage = () => {
+  tapLight();
+  settingsStore.setImageRotation((settingsStore.currentImageRotation + 90) % 360);
+};
+
+const openSlewModal = () => {
+  tapLight();
+  cameraStore.slewModal = true;
 };
 
 // Event handlers

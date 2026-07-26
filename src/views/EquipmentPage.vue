@@ -14,7 +14,7 @@
         >
           <button
             @click="showIndiModal = true"
-            class="default-button-gray w-full flex items-center justify-center gap-2"
+            class="tns-btn-secondary w-full flex items-center justify-center gap-2"
           >
             <Cog6ToothIcon class="w-5 h-5" />
             {{ $t('pages.equipment.indiSetup') }}

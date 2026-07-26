@@ -1,7 +1,7 @@
 <template>
-  <div class="flex flex-col w-full border border-gray-500 p-1 md:p-2 rounded-lg">
+  <div class="flex flex-col w-full border border-line-strong p-1 md:p-2 rounded-control">
     <div class="flex flex-row items-center justify-between">
-      <label for="toggle_light" class="text-xs md:text-sm text-gray-200">
+      <label for="toggle_light" class="text-xs md:text-sm text-content">
         {{ $t('components.camera.set_save_snapshot') }}
       </label>
       <div>
@@ -13,14 +13,14 @@
       </div>
     </div>
     <div class="flex flex-row items-center justify-between mt-2 md:mt-3">
-      <label for="targetName" class="text-xs md:text-sm text-gray-200 mr-2">
+      <label for="targetName" class="text-xs md:text-sm text-content mr-2">
         {{ $t('components.camera.snapshotTargetName') }}
       </label>
       <input
         id="targetName"
         v-model="settingsStore.camera.snapshotTargetName"
         type="text"
-        class="default-input h-7 md:h-8 flex-1 text-xs md:text-sm"
+        class="tns-input flex-1 text-xs md:text-sm"
         :disabled="!store.profileInfo.SnapShotControlSettings.Save"
       />
     </div>

@@ -1,7 +1,7 @@
 <template>
   <button
     @click="syncTelescope"
-    class="default-button-cyan"
+    class="tns-btn-secondary"
     :class="statusClass"
     :disabled="store.domeInfo.Slewing"
   >

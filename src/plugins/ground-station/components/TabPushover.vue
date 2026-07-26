@@ -7,18 +7,13 @@
             :id="inputId"
             v-model="form.PushoverUserKey"
             type="text"
-            class="default-input w-full h-10"
+            class="tns-input w-full"
           />
         </template>
       </FieldRow>
       <FieldRow :label="$t('plugins.groundStation.pushover.appKey')">
         <template #default="{ inputId }">
-          <input
-            :id="inputId"
-            v-model="form.PushoverAppKey"
-            type="text"
-            class="default-input w-full h-10"
-          />
+          <input :id="inputId" v-model="form.PushoverAppKey" type="text" class="tns-input w-full" />
         </template>
       </FieldRow>
       <FieldRow :label="$t('plugins.groundStation.pushover.notificationSound')">
@@ -26,7 +21,7 @@
           <select
             :id="inputId"
             v-model="form.PushoverDefaultNotificationSound"
-            class="default-select w-full h-10"
+            class="tns-select w-full"
           >
             <option v-for="opt in soundOptions" :key="opt" :value="opt">{{ opt }}</option>
           </select>
@@ -37,7 +32,7 @@
           <select
             :id="inputId"
             v-model="form.PushoverDefaultNotificationPriority"
-            class="default-select w-full h-10"
+            class="tns-select w-full"
           >
             <option v-for="opt in priorityOptions" :key="opt" :value="opt">{{ opt }}</option>
           </select>
@@ -48,7 +43,7 @@
           <select
             :id="inputId"
             v-model="form.PushoverDefaultFailureSound"
-            class="default-select w-full h-10"
+            class="tns-select w-full"
           >
             <option v-for="opt in soundOptions" :key="opt" :value="opt">{{ opt }}</option>
           </select>
@@ -59,7 +54,7 @@
           <select
             :id="inputId"
             v-model="form.PushoverDefaultFailurePriority"
-            class="default-select w-full h-10"
+            class="tns-select w-full"
           >
             <option v-for="opt in priorityOptions" :key="opt" :value="opt">{{ opt }}</option>
           </select>
@@ -76,7 +71,7 @@
             type="number"
             min="30"
             max="86400"
-            class="default-input w-full h-10"
+            class="tns-input w-full"
           />
         </template>
       </FieldRow>
@@ -91,7 +86,7 @@
             type="number"
             min="30"
             max="86400"
-            class="default-input w-full h-10"
+            class="tns-input w-full"
           />
         </template>
       </FieldRow>
@@ -104,7 +99,7 @@
             :id="inputId"
             v-model="form.PushoverFailureTitleText"
             type="text"
-            class="default-input w-full h-10"
+            class="tns-input w-full"
           />
         </template>
       </FieldRow>
@@ -114,7 +109,7 @@
             :id="inputId"
             v-model="form.PushoverFailureBodyText"
             rows="3"
-            class="default-input w-full"
+            class="tns-input w-full"
           />
         </template>
       </FieldRow>

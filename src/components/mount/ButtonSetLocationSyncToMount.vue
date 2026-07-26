@@ -1,6 +1,6 @@
 <template>
   <div class="flex gap-1">
-    <button @click="syncCoordinates" :class="['default-button-cyan', statusClass]">
+    <button @click="syncCoordinates" :class="['tns-btn-secondary', statusClass]">
       <span
         v-if="isLoading"
         class="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"
@@ -15,11 +15,15 @@ import { ref } from 'vue';
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
 
+import { useHaptics } from '@/composables/useHaptics';
+
+const { tapLight } = useHaptics();
 const store = apiStore();
 const statusClass = ref('');
 const isLoading = ref(false);
 
 async function syncCoordinates() {
+  tapLight();
   isLoading.value = true;
   try {
     const response = await apiService.profileChangeValue(

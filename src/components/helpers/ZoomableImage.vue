@@ -5,9 +5,13 @@
     :style="{ height: height }"
   >
     <!-- Action Buttons -->
+    <!-- Position comes from controlsClass: the right offsets depend on the
+         embedding context (full viewport vs. stage window vs. inline pane),
+         so hardcoding them here broke every context but one. -->
     <div
       v-if="imageData"
-      class="absolute top-2 right-2 z-30 flex flex-wrap justify-end gap-2 portrait:top-24 portrait:left-20 landscape:left-40"
+      class="absolute z-30 flex flex-wrap justify-end gap-2"
+      :class="controlsClass"
     >
       <!-- Download Button -->
       <button
@@ -163,6 +167,11 @@ const props = defineProps({
   imageData: {
     type: String,
     default: null,
+  },
+  // Positioning of the control cluster, relative to this component's box.
+  controlsClass: {
+    type: String,
+    default: 'top-2 right-2',
   },
   altText: {
     type: String,

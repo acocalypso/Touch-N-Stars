@@ -158,7 +158,7 @@
             <button
               @click="clearCalibration"
               :disabled="isClearing"
-              class="default-button-red px-4 py-2 text-sm disabled:opacity-40 self-start"
+              class="tns-btn-danger px-4 py-2 text-sm disabled:opacity-40 self-start"
             >
               <span v-if="isClearing">{{
                 $t('components.guider.phd2.calibrationData.clearing')

@@ -13,7 +13,7 @@
           <select
             :value="store.settings.ReportDetailLevel"
             @change="save('ReportDetailLevel', +$event.target.value)"
-            class="default-select w-full sm:w-auto"
+            class="tns-select w-full sm:w-auto"
           >
             <option value="0">{{ $t('nightsummary.settings.detailSnapshot') }}</option>
             <option value="1">{{ $t('nightsummary.settings.detailStandard') }}</option>
@@ -131,7 +131,7 @@
             <select
               :value="store.settings.ChartXAxisMetric"
               @change="save('ChartXAxisMetric', +$event.target.value)"
-              class="default-select w-full sm:w-auto"
+              class="tns-select w-full sm:w-auto"
             >
               <option v-for="(m, i) in xAxisMetrics" :key="i" :value="i">{{ m }}</option>
             </select>
@@ -143,7 +143,7 @@
             <select
               :value="store.settings.ChartPrimaryMetric"
               @change="save('ChartPrimaryMetric', +$event.target.value)"
-              class="default-select w-full sm:w-auto"
+              class="tns-select w-full sm:w-auto"
             >
               <option v-for="(m, i) in primaryMetrics" :key="i" :value="i">{{ m }}</option>
             </select>
@@ -155,7 +155,7 @@
             <select
               :value="store.settings.ChartSecondaryMetric"
               @change="save('ChartSecondaryMetric', +$event.target.value)"
-              class="default-select w-full sm:w-auto"
+              class="tns-select w-full sm:w-auto"
             >
               <option v-for="(m, i) in secondaryMetrics" :key="i" :value="i">{{ m }}</option>
             </select>
@@ -193,7 +193,7 @@
           <select
             :value="getFilterClass(filterName)"
             @change="setFilterClass(filterName, $event.target.value)"
-            class="default-select w-full sm:w-auto"
+            class="tns-select w-full sm:w-auto"
           >
             <option value="auto">{{ $t('nightsummary.settings.filterAuto') }}</option>
             <option value="broadband">{{ $t('nightsummary.settings.filterBroadband') }}</option>
@@ -229,7 +229,7 @@
             :value="getEquipmentOverride(item.key)"
             @blur="setEquipmentOverride(item.key, $event.target.value)"
             :placeholder="$t('nightsummary.settings.equipmentOverridePlaceholder')"
-            class="default-input flex-1 min-w-0"
+            class="tns-input flex-1 min-w-0"
           />
         </div>
       </div>
@@ -254,9 +254,9 @@
           :value="store.settings.SaveReportPath"
           @blur="save('SaveReportPath', $event.target.value)"
           :placeholder="$t('nightsummary.settings.savePathPlaceholder')"
-          class="default-input flex-1"
+          class="tns-input flex-1"
         />
-        <button @click="showPathBrowser = true" class="default-button-gray sm:w-auto">
+        <button @click="showPathBrowser = true" class="tns-btn-secondary sm:w-auto">
           {{ $t('components.fileBrowser.title') }}
         </button>
       </div>
@@ -274,7 +274,7 @@
           type="text"
           :value="store.settings.SaveReportFilePattern"
           @blur="save('SaveReportFilePattern', $event.target.value)"
-          class="default-input flex-1"
+          class="tns-input flex-1"
         />
       </div>
       <div class="flex flex-wrap gap-2 mt-2 sm:ml-52">
@@ -356,7 +356,7 @@
                 type="number"
                 :value="store.settings.SmtpPort"
                 @blur="save('SmtpPort', +$event.target.value)"
-                class="default-input w-24"
+                class="tns-input w-24"
               />
               <label class="flex items-center gap-2 cursor-pointer">
                 <input
@@ -374,7 +374,7 @@
           <button
             @click="store.testEmail()"
             :disabled="store.emailTesting"
-            class="default-button-cyan"
+            class="tns-btn-secondary"
           >
             {{ store.emailTesting ? $t('common.loading') : $t('nightsummary.settings.testEmail') }}
           </button>
@@ -412,7 +412,7 @@
           <button
             @click="store.testPushover()"
             :disabled="store.pushoverTesting"
-            class="default-button-cyan"
+            class="tns-btn-secondary"
           >
             {{
               store.pushoverTesting
@@ -449,7 +449,7 @@
           <button
             @click="store.testDiscord()"
             :disabled="store.discordTesting"
-            class="default-button-cyan"
+            class="tns-btn-secondary"
           >
             {{
               store.discordTesting ? $t('common.loading') : $t('nightsummary.settings.testDiscord')
@@ -486,7 +486,7 @@
             type="number"
             :value="store.settings.LocalServerPort"
             @blur="save('LocalServerPort', +$event.target.value)"
-            class="default-input w-28"
+            class="tns-input w-28"
             min="1024"
             max="65535"
           />

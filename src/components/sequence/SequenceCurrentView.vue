@@ -133,17 +133,19 @@
 </template>
 
 <script setup>
-import { reactive, ref, onMounted, onUnmounted } from 'vue';
+import { reactive, ref, watch, onMounted, onUnmounted } from 'vue';
 import draggable from 'vuedraggable';
 import { ChevronRightIcon } from '@heroicons/vue/24/outline';
 import { useSequenceV2Store } from '@/store/sequenceV2Store';
 import { useSequenceStore } from '@/store/sequenceStore';
+import { apiStore } from '@/store/store';
 import SequenceItem from './SequenceItem.vue';
 import AddTypeButton from './AddTypeButton.vue';
 import ControlSequence from './controlSequence.vue';
 
 const store = useSequenceV2Store();
 const sequenceStore = useSequenceStore();
+const backendStore = apiStore();
 const collapsed = reactive({});
 const activeGlobal = ref(false);
 const activeContainerMap = reactive({});
@@ -171,6 +173,16 @@ function onDragEnd(evt, siblings) {
     store.move(movedId, siblings[newIdx - 1]?.Id, true);
   }
 }
+
+// Restart polling when the backend comes back while this view is mounted:
+// instance switches AND transient connection losses both run clearAllStates(),
+// which stops the poller without this view ever unmounting.
+watch(
+  () => backendStore.isBackendReachable,
+  (reachable) => {
+    if (reachable && !store.isFetching()) store.startPolling();
+  }
+);
 
 onMounted(() => store.startPolling());
 onUnmounted(() => store.stopPolling());

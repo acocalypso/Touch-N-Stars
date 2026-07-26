@@ -4,7 +4,7 @@
     <div
       :class="controlsClasses"
       class="fixed flex gap-2 bg-black/90 p-2 rounded-full"
-      style="bottom: calc(env(safe-area-inset-bottom, 0px) + 48px)"
+      style="bottom: var(--above-statusbar)"
     >
       <button
         @click="syncViewToMount"

@@ -83,11 +83,7 @@
         <label for="tppa-filter" class="text-xs mb-1 text-gray-400 block">
           {{ $t('components.tppa.settings.filter') }}
         </label>
-        <select
-          id="tppa-filter"
-          v-model="tppaStore.settings.Filter"
-          class="default-select h-10 w-full"
-        >
+        <select id="tppa-filter" v-model="tppaStore.settings.Filter" class="tns-select w-full">
           <option :value="null">{{ $t('components.tppa.settings.filter_default') }}</option>
           <option
             v-for="filter in store.filterInfo.AvailableFilters"

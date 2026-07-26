@@ -10,7 +10,7 @@
         v-model="phd2Path"
         @change="setPhd2Path"
         type="text"
-        class="default-input h-7 md:h-8 text-xs md:text-sm w-48"
+        class="tns-input text-xs md:text-sm w-48"
         :class="statusClassPhd2Path"
         placeholder="/path/to/phd2"
       />
@@ -26,7 +26,7 @@
         v-model="phd2ServerHost"
         @change="setPhd2ServerHost"
         type="text"
-        class="default-input h-7 md:h-8 text-xs md:text-sm w-48"
+        class="tns-input text-xs md:text-sm w-48"
         :class="statusClassPhd2ServerHost"
         placeholder="localhost"
       />

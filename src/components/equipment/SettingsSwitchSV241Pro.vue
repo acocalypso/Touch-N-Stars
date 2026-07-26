@@ -10,7 +10,7 @@
         @change="setPreConnectDelay"
         type="number"
         min="0"
-        class="default-input h-7 md:h-8 text-xs md:text-sm w-48"
+        class="tns-input text-xs md:text-sm w-48"
         :class="statusClassPre"
       />
     </div>

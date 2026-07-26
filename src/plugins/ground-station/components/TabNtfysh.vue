@@ -3,12 +3,7 @@
     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
       <FieldRow :label="$t('plugins.groundStation.ntfysh.url')">
         <template #default="{ inputId }">
-          <input
-            :id="inputId"
-            v-model="form.NtfyShUrl"
-            type="url"
-            class="default-input w-full h-10"
-          />
+          <input :id="inputId" v-model="form.NtfyShUrl" type="url" class="tns-input w-full" />
         </template>
       </FieldRow>
       <FieldRow :label="$t('plugins.groundStation.ntfysh.defaultTopic')">
@@ -17,7 +12,7 @@
             :id="inputId"
             v-model="form.NtfyShDefaultTopic"
             type="text"
-            class="default-input w-full h-10"
+            class="tns-input w-full"
           />
         </template>
       </FieldRow>
@@ -27,7 +22,7 @@
             :id="inputId"
             v-model="form.NtfyShDefaultIcon"
             type="url"
-            class="default-input w-full h-10"
+            class="tns-input w-full"
           />
         </template>
       </FieldRow>
@@ -38,7 +33,7 @@
             v-model="form.NtfyShUser"
             type="text"
             autocomplete="username"
-            class="default-input w-full h-10"
+            class="tns-input w-full"
           />
         </template>
       </FieldRow>
@@ -53,7 +48,7 @@
             type="password"
             autocomplete="new-password"
             :placeholder="$t('plugins.groundStation.common.leaveEmpty')"
-            class="default-input w-full h-10"
+            class="tns-input w-full"
           />
         </template>
       </FieldRow>
@@ -68,7 +63,7 @@
             type="password"
             autocomplete="new-password"
             :placeholder="$t('plugins.groundStation.common.leaveEmpty')"
-            class="default-input w-full h-10"
+            class="tns-input w-full"
           />
         </template>
       </FieldRow>
@@ -85,7 +80,7 @@
               :id="inputId"
               v-model="form.NtfyShFailureTitle"
               type="text"
-              class="default-input w-full h-10"
+              class="tns-input w-full"
             />
           </template>
         </FieldRow>
@@ -98,17 +93,13 @@
               :id="inputId"
               v-model="form.NtfyShFailureTags"
               type="text"
-              class="default-input w-full h-10"
+              class="tns-input w-full"
             />
           </template>
         </FieldRow>
         <FieldRow :label="$t('plugins.groundStation.ntfysh.failurePriority')">
           <template #default="{ inputId }">
-            <select
-              :id="inputId"
-              v-model="form.NtfyShFailurePriority"
-              class="default-select w-full h-10"
-            >
+            <select :id="inputId" v-model="form.NtfyShFailurePriority" class="tns-select w-full">
               <option v-for="p in priorityOptions" :key="p" :value="p">{{ p }}</option>
             </select>
           </template>
@@ -120,7 +111,7 @@
             :id="inputId"
             v-model="form.NtfyShFailureMessage"
             rows="3"
-            class="default-input w-full"
+            class="tns-input w-full"
           />
         </template>
       </FieldRow>

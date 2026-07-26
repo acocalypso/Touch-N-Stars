@@ -1,19 +1,21 @@
 <template>
   <div class="flex flex-col gap-1">
     <div class="flex items-center justify-between">
-      <div class="flex flex-col">
+      <span class="flex items-center gap-1">
         <span class="text-sm font-medium text-gray-300">
           {{ $t('components.settings.plate_solver.Filter') }}
         </span>
-        <span class="text-xs text-gray-500">
-          {{ $t('components.settings.plate_solver.FilterHint') }}
-        </span>
-      </div>
+        <InfoModal
+          :title="$t('components.settings.plate_solver.Filter')"
+          :message="$t('components.settings.plate_solver.FilterHint')"
+          size="w-4 h-4"
+        />
+      </span>
       <select
         v-model="selectedValue"
         @change="updateSetting"
         :class="statusClass"
-        class="default-select h-8 w-40 ml-3 shrink-0"
+        class="tns-select w-40 ml-3 shrink-0"
       >
         <option value="null">
           {{ $t('components.settings.plate_solver.FilterCurrent') }}
@@ -33,6 +35,7 @@
 import { ref, computed, onMounted, watch } from 'vue';
 import { apiStore } from '@/store/store';
 import apiService from '@/services/apiService';
+import InfoModal from '@/components/helpers/infoModal.vue';
 
 const store = apiStore();
 const selectedValue = ref('null');

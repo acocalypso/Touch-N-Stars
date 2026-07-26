@@ -1,5 +1,5 @@
 <template>
-  <button @click="homeDome" class="default-button-cyan" :class="statusClass">
+  <button @click="homeDome" class="tns-btn-secondary" :class="statusClass">
     {{ $t('components.dome.control.home') }}
   </button>
 </template>

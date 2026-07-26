@@ -15,6 +15,7 @@ import { useProgressStore } from '@/store/progressStore';
 import { useLivestackStore } from '@/plugins/livestack/store/livestackStore';
 import { useNightSummaryStore } from '@/plugins/nightsummary/store/nightsummaryStore';
 import { useGuiderStore } from '@/store/guiderStore';
+import { useCameraStore } from '@/store/cameraStore';
 import { useSequenceStore } from '@/store/sequenceStore';
 import { useSequenceV2Store } from '@/store/sequenceV2Store';
 import { useDialogStore } from '@/store/dialogStore';
@@ -35,6 +36,87 @@ let lastWrittenInfoJson = {};
 // staying silenced for the rest of the session (see checkForPINS()).
 const PINS_RECHECK_INTERVAL_MS = 15000;
 
+// Initial profileInfo shape. Also used by switchBackend() to drop the previous
+// instance's profile (readers like capturePhoto's SnapShotControlSettings.Save
+// must not see another instance's values until the new profile is fetched).
+const defaultProfileInfo = () => ({
+  CameraSettings: {
+    MinFlatExposureTime: 0,
+    MaxFlatExposureTime: 0,
+  },
+  FlatWizardSettings: {
+    HistogramTolerance: 0,
+    HistogramMeanTarget: 0,
+    FlatCount: 0,
+    DarkFlatCount: 0,
+  },
+  TelescopeSettings: {
+    Id: 'Celestron AVX',
+  },
+  FilterWheelSettings: {
+    Id: 'ZWO EFW',
+  },
+  FocuserSettings: {
+    Id: 'ZWO EAF',
+  },
+  RotatorSettings: {
+    Id: 'Mock Rotator',
+  },
+  GuiderSettings: {
+    GuiderName: 'PHD2_Single',
+  },
+  FlatDeviceSettings: {
+    Id: 'Mock Flat Device',
+  },
+  DomeSettings: {
+    Id: 'Mock Dome',
+  },
+  SwitchSettings: {
+    Id: 'Mock Switch',
+  },
+  WeatherDataSettings: {
+    Id: 'Mock Weather',
+  },
+  SafetyMonitorSettings: {
+    Id: 'Mock Safety',
+  },
+  FramingAssistantSettings: {
+    LastSelectedImageSource: 'SKYATLAS',
+    CameraWidth: 3001,
+    CameraHeight: 1501,
+  },
+  PlateSolveSettings: {
+    Gain: 0,
+    ExposureTime: 0,
+  },
+  ImageFileSettings: {
+    FilePattern: '',
+    FilePatternDARK: '',
+    FilePatternBIAS: '',
+    FilePatternFLAT: '',
+    FileType: 'TIFF',
+  },
+  SnapShotControlSettings: {
+    Save: false,
+    Gain: 0,
+  },
+  AstrometrySettings: {
+    Latitude: 0,
+    Longitude: 0,
+    Elevation: 0,
+  },
+  MeridianFlipSettings: {
+    MinutesAfterMeridian: 0,
+    MaxMinutesAfterMeridian: 0,
+    PauseTimeBeforeMeridian: 0,
+    Recenter: false,
+    SettleTime: 0,
+    UseSideOfPier: false,
+    AutoFocusAfterFlip: false,
+    RotateImageAfterFlip: false,
+  },
+});
+
 export const apiStore = defineStore('store', {
   state: () => ({
     apiPort: null,
@@ -46,88 +128,17 @@ export const apiStore = defineStore('store', {
     connectionEpoch: 0,
     isPINS: false,
     isPinsCheckDone: false,
+    // Latches true after the PINS mode is resolved the first time and stays true
+    // across the periodic re-probe (which toggles isPinsCheckDone back to false).
+    // The UI gates its "still detecting" spinner on this so a background re-probe
+    // never tears the page down and remounts it. Reset only on clearAllStates().
+    pinsCheckResolvedOnce: false,
     pinsCheckNegativeCount: 0,
     pinsLastNegativeCheckAt: 0,
     isTimeSynced: false,
     intervalIdGraph: null,
     lastEventHistoryFetch: 0,
-    profileInfo: {
-      CameraSettings: {
-        MinFlatExposureTime: 0,
-        MaxFlatExposureTime: 0,
-      },
-      FlatWizardSettings: {
-        HistogramTolerance: 0,
-        HistogramMeanTarget: 0,
-        FlatCount: 0,
-        DarkFlatCount: 0,
-      },
-      TelescopeSettings: {
-        Id: 'Celestron AVX',
-      },
-      FilterWheelSettings: {
-        Id: 'ZWO EFW',
-      },
-      FocuserSettings: {
-        Id: 'ZWO EAF',
-      },
-      RotatorSettings: {
-        Id: 'Mock Rotator',
-      },
-      GuiderSettings: {
-        GuiderName: 'PHD2_Single',
-      },
-      FlatDeviceSettings: {
-        Id: 'Mock Flat Device',
-      },
-      DomeSettings: {
-        Id: 'Mock Dome',
-      },
-      SwitchSettings: {
-        Id: 'Mock Switch',
-      },
-      WeatherDataSettings: {
-        Id: 'Mock Weather',
-      },
-      SafetyMonitorSettings: {
-        Id: 'Mock Safety',
-      },
-      FramingAssistantSettings: {
-        LastSelectedImageSource: 'SKYATLAS',
-        CameraWidth: 3001,
-        CameraHeight: 1501,
-      },
-      PlateSolveSettings: {
-        Gain: 0,
-        ExposureTime: 0,
-      },
-      ImageFileSettings: {
-        FilePattern: '',
-        FilePatternDARK: '',
-        FilePatternBIAS: '',
-        FilePatternFLAT: '',
-        FileType: 'TIFF',
-      },
-      SnapShotControlSettings: {
-        Save: false,
-        Gain: 0,
-      },
-      AstrometrySettings: {
-        Latitude: 0,
-        Longitude: 0,
-        Elevation: 0,
-      },
-      MeridianFlipSettings: {
-        MinutesAfterMeridian: 0,
-        MaxMinutesAfterMeridian: 0,
-        PauseTimeBeforeMeridian: 0,
-        Recenter: false,
-        SettleTime: 0,
-        UseSideOfPier: false,
-        AutoFocusAfterFlip: false,
-        RotateImageAfterFlip: false,
-      },
-    },
+    profileInfo: defaultProfileInfo(),
     cameraInfo: { Connected: false, IsExposing: false, BinningModes: [], ReadoutModes: [] },
     mountInfo: { Connected: false, TrackingMode: null },
     filterInfo: { Connected: false },
@@ -371,15 +382,8 @@ export const apiStore = defineStore('store', {
           if (isStale()) return;
         }
 
-        // Check if mock API mode is enabled
-        const useMockApi = localStorage.getItem('USE_MOCK_API') === 'true';
-
         // Automatisch Channel WebSocket verbinden wenn Backend erreichbar ist
-        if (useMockApi) {
-          // In mock mode, skip WebSocket connection
-          console.log('[MOCK MODE] Skipping WebSocket connection');
-          this.isWebSocketConnected = true;
-        } else if (!websocketChannelService.isWebSocketConnected()) {
+        if (!websocketChannelService.isWebSocketConnected()) {
           // Setup message callback for IMAGE-PREPARED handling
           websocketChannelService.setMessageCallback((message) => {
             this.handleWebSocketMessage(message);
@@ -422,7 +426,7 @@ export const apiStore = defineStore('store', {
         }
 
         // Connect SignalR Notification Service
-        if (!useMockApi && this.isPINS && !signalRNotificationService.isSignalRConnected()) {
+        if (this.isPINS && !signalRNotificationService.isSignalRConnected()) {
           // Setup callbacks for SignalR Notifications
           signalRNotificationService.setStatusCallback((status) => {
             console.log('[API Store] SignalR Status:', status);
@@ -646,6 +650,7 @@ export const apiStore = defineStore('store', {
       this.lastEventHistoryFetch = 0;
       this.isPINS = false;
       this.isPinsCheckDone = false;
+      this.pinsCheckResolvedOnce = false;
       this.pinsCheckNegativeCount = 0;
       this.isTimeSynced = false;
       this.imageHistoryInfo = null;
@@ -709,6 +714,11 @@ export const apiStore = defineStore('store', {
       const autofocusStore = useAutofocusStore();
       autofocusStore.clearAutofocusData();
 
+      // Stop any client-driven capture loop/countdown: it would otherwise
+      // survive the teardown and start commanding the next backend's camera.
+      const cameraStore = useCameraStore();
+      cameraStore.resetCaptureState();
+
       // Clear guider graph data and stop polling
       const guiderStore = useGuiderStore();
       guiderStore.stopFetching();
@@ -736,8 +746,19 @@ export const apiStore = defineStore('store', {
         phd2SelectedMountName: null,
       });
 
-      // Stop sequence editor polling from the previous instance
-      useSequenceV2Store().stopPolling();
+      // Stop sequence editor polling and drop its data from the previous
+      // instance. The available* lists must be cleared too: their fetchers
+      // return early when the list is non-empty, so a stale cache from another
+      // instance (different plugins installed) would never be refreshed.
+      const sequenceV2Store = useSequenceV2Store();
+      sequenceV2Store.stopPolling();
+      sequenceV2Store.$patch({
+        data: [],
+        loaded: false,
+        availableItems: [],
+        availableTriggers: [],
+        availableConditions: [],
+      });
 
       // Clear sequence data from the previous instance
       const sequenceStore = useSequenceStore();
@@ -918,6 +939,13 @@ export const apiStore = defineStore('store', {
       this.stopFetchingInfo();
       abortInFlightRequests('instance-switch');
       this.clearAllStates();
+
+      // Instance-only resets, deliberately NOT in clearAllStates(): that also
+      // runs on transient connection losses, where the profile and the last
+      // image still belong to the current instance and should survive.
+      this.profileInfo = defaultProfileInfo();
+      this.imageSavePath = null;
+      useImagetStore().clearImageCache();
 
       // Re-arm the sockets that were live before the switch. connect() with a
       // null URL (apiPort is null right after teardown) arms the idle-recheck
@@ -1129,6 +1157,7 @@ export const apiStore = defineStore('store', {
         this.currentPinsVersion = pinsVersion.Response;
         this.pinsCheckNegativeCount = 0;
         this.isPinsCheckDone = true;
+        this.pinsCheckResolvedOnce = true;
         console.log('[API Store] PINS detected, version:', pinsVersion.Response);
         await this.syncSystemTime();
         return;
@@ -1140,6 +1169,7 @@ export const apiStore = defineStore('store', {
         this.isPINS = false;
         this.currentPinsVersion = null;
         this.isPinsCheckDone = true;
+        this.pinsCheckResolvedOnce = true;
         this.pinsLastNegativeCheckAt = Date.now();
         console.log('[API Store] No PINS endpoint — assuming NINA, rechecking in 15s');
       }
@@ -1149,7 +1179,7 @@ export const apiStore = defineStore('store', {
       const pinsStore = usePinsStore();
 
       if (!pinsStore.timeSyncEnabled) {
-        console.log('[Time Sync] Time sync is disabled in settings.');
+        //console.log('[Time Sync] Time sync is disabled in settings.');
         return;
       }
 

@@ -12,7 +12,7 @@
       <input
         v-model="telescopeName"
         type="text"
-        class="default-input h-7 md:h-8 text-xs md:text-sm w-48"
+        class="tns-input text-xs md:text-sm w-48"
         :class="nameStatusClass"
         @change="updateTelescopeName"
       />

@@ -22,7 +22,7 @@
             :id="inputId"
             v-model="form.SlackOAuthToken"
             type="text"
-            class="default-input w-full h-10"
+            class="tns-input w-full"
           />
         </template>
       </FieldRow>
@@ -33,7 +33,7 @@
             :value="slack?.WorkspaceName ?? ''"
             readonly
             type="text"
-            class="default-input w-full h-10 opacity-70"
+            class="tns-input w-full opacity-70"
           />
         </template>
       </FieldRow>
@@ -44,7 +44,7 @@
             :value="slack?.BotDisplayName ?? ''"
             readonly
             type="text"
-            class="default-input w-full h-10 opacity-70"
+            class="tns-input w-full opacity-70"
           />
         </template>
       </FieldRow>
@@ -55,7 +55,7 @@
             :value="slack?.ImageEventChannel?.Name ?? ''"
             readonly
             type="text"
-            class="default-input w-full h-10 opacity-70"
+            class="tns-input w-full opacity-70"
           />
         </template>
       </FieldRow>
@@ -68,7 +68,7 @@
             :id="inputId"
             v-model="form.SlackFailureMessage"
             rows="3"
-            class="default-input w-full"
+            class="tns-input w-full"
           />
         </template>
       </FieldRow>
@@ -99,7 +99,7 @@
               :id="inputId"
               v-model="form.SlackImageTypesSelected"
               type="text"
-              class="default-input w-full h-10"
+              class="tns-input w-full"
             />
           </template>
         </FieldRow>
@@ -110,7 +110,7 @@
               v-model.number="form.SlackImageInterval"
               type="number"
               min="1"
-              class="default-input w-full h-10"
+              class="tns-input w-full"
             />
           </template>
         </FieldRow>

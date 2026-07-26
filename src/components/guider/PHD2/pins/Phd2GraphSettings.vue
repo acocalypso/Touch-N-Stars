@@ -10,7 +10,7 @@
         v-model="guiderScale"
         @change="onGuiderScaleChange"
         :class="[guiderScaleStatusClass]"
-        class="default-select min-w-40 ml-auto"
+        class="tns-select min-w-40 ml-auto"
       >
         <option v-for="option in scaleOptions" :key="option" :value="option">
           {{ option }}
@@ -28,7 +28,7 @@
         v-model="maxY"
         @change="onMaxYChange"
         :class="[maxYStatusClass]"
-        class="default-select min-w-40 ml-auto"
+        class="tns-select min-w-40 ml-auto"
       >
         <option v-for="option in maxYOptions" :key="option" :value="option">
           {{ option }}
@@ -46,7 +46,7 @@
         v-model="historySize"
         @change="onHistorySizeChange"
         :class="[historySizeStatusClass]"
-        class="default-select min-w-40 ml-auto"
+        class="tns-select min-w-40 ml-auto"
       >
         <option v-for="option in historySizeOptions" :key="option" :value="option">
           {{ option }}

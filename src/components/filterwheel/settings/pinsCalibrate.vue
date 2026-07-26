@@ -3,7 +3,7 @@
     <button
       @click="execute"
       :disabled="loading"
-      class="default-button-cyan w-full h-8 md:h-9 text-xs md:text-sm"
+      class="tns-btn-secondary w-full text-xs md:text-sm"
     >
       {{ $t('components.filterwheel.settings.Calibrate') }}
     </button>

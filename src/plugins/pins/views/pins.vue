@@ -1,11 +1,8 @@
 <template>
-  <div class="min-h-screen bg-gray-900">
+  <div class="min-h-screen">
     <SubNav v-if="store.isPINS" :items="pinsNavItems" v-model:activeItem="activeTab" class="z-20" />
 
-    <div
-      class="container py-8 sm:py-16 flex items-center justify-center px-4"
-      :class="{ 'pt-24 sm:pt-28': store.isPINS }"
-    >
+    <div class="p-4 max-w-xl mx-auto space-y-6">
       <div class="container max-w-4xl p-0 sm:p-4 w-full">
         <h5
           class="text-2xl text-center font-bold text-white mb-2 flex items-center justify-center gap-3"
@@ -147,10 +144,10 @@
                   {{ $t('plugins.pins.disconnectConfirmMessage') }}
                 </p>
                 <div class="flex justify-end gap-3">
-                  <button @click="showDisconnectWifiModal = false" class="default-button-gray">
+                  <button @click="showDisconnectWifiModal = false" class="tns-btn-secondary">
                     {{ $t('common.cancel') }}
                   </button>
-                  <button @click="confirmDisableWifi" class="default-button-red">
+                  <button @click="confirmDisableWifi" class="tns-btn-danger">
                     {{ $t('common.confirm') }}
                   </button>
                 </div>
@@ -220,7 +217,7 @@
                 </div>
 
                 <div class="flex justify-end">
-                  <button @click="showUpdatesModal = false" class="default-button-gray">
+                  <button @click="showUpdatesModal = false" class="tns-btn-secondary">
                     {{ $t('common.cancel') }}
                   </button>
                 </div>
@@ -281,6 +278,8 @@ import {
 } from '../composables/indiInstallUtils';
 import { createHotspotSettingsApi } from '../composables/hotspotSettingsApi';
 import { WifiSignal } from '@/utils/wifiSignal';
+import { PINS_PORT as PORT, DEFAULT_PINS_DAEMON_API_TOKEN as TOKEN } from '@/services/pinsConfig';
+import { usePolling } from '@/composables/usePolling';
 
 const { t } = useI18n();
 const settingsStore = useSettingsStore();
@@ -339,10 +338,16 @@ const {
 } = storeToRefs(pinsStore);
 let ws = null;
 let isComponentUnmounting = false;
-let wifiStatusTimer = null;
-
-const PORT = 8000;
-const TOKEN = 'zZDqJ3IKeFaIZqG2JIFvsxzA5E48GC2gyGVagHFZqC0OMtgoupUDZCPhQDYKm35d';
+// WiFi status polling while PINS is detected; stopped automatically on unmount
+const wifiStatusPoller = usePolling(
+  () => {
+    if (store.isPINS) {
+      return loadWifiStatus();
+    }
+  },
+  10000,
+  { autoStart: false, immediate: false }
+);
 
 const availableUpdatePackages = computed(() => {
   const packages = updatesCheckResult.value?.packages || [];
@@ -441,10 +446,10 @@ watch(
       loadPinsPlugins();
       loadDhcpClients();
       loadWifiStatus();
-      startWifiStatusPolling();
+      wifiStatusPoller.start();
       restoreUpgradeState();
     } else {
-      stopWifiStatusPolling();
+      wifiStatusPoller.stop();
       // Keep polling while an upgrade lifecycle is active, even if PINS detection
       // temporarily drops during service restart.
       if (!pinsStore.shouldShowUpgradeOverlay) {
@@ -1130,22 +1135,6 @@ async function loadMobileWifiSignal() {
   }
 }
 
-function startWifiStatusPolling() {
-  stopWifiStatusPolling();
-  wifiStatusTimer = window.setInterval(() => {
-    if (store.isPINS) {
-      loadWifiStatus();
-    }
-  }, 10000);
-}
-
-function stopWifiStatusPolling() {
-  if (wifiStatusTimer) {
-    window.clearInterval(wifiStatusTimer);
-    wifiStatusTimer = null;
-  }
-}
-
 async function connectWifi() {
   if (status.value === 'Running') return;
 
@@ -1495,7 +1484,6 @@ async function checkFinalStatus(id) {
 
 onUnmounted(() => {
   isComponentUnmounting = true;
-  stopWifiStatusPolling();
   stopUpgradePolling();
   if (ws) {
     ws.close();

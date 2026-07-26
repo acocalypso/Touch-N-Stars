@@ -66,6 +66,7 @@
           :showDownload="true"
           :showFullscreen="false"
           :showHistogram="true"
+          controlsClass="top-2 right-2 portrait:top-24 portrait:left-20 landscape:left-40"
           :initialZoom="currentZoomLevel"
           height="100vh"
           :altText="imageAltText"
@@ -93,7 +94,7 @@
         <!-- Histogram Overlay -->
         <div
           v-if="showHistogram && livestackStore.currentImageUrl"
-          class="absolute top-60 left-4 landscape:left-36 landscape:top-24 right-4 z-70"
+          class="absolute top-60 left-4 landscape:left-(--nav-offset) landscape:top-24 right-4 z-70"
         >
           <div
             v-if="isHistogramProcessing"

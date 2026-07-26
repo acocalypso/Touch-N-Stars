@@ -1,6 +1,6 @@
 <template>
   <div class="overflow-hidden" :style="containerStyle">
-    <!-- Control Buttons at Top -->
+    <!-- Control Buttons: row at the top in landscape, column on the right in portrait -->
     <div class="relative z-30 p-4" :class="buttonContainerClass">
       <div
         v-if="!store.guiderInfo.Connected"
@@ -11,7 +11,8 @@
         </p>
       </div>
 
-      <div v-if="isLandscape" class="flex flex-col gap-1 items-end">
+      <!-- Portrait Layout: vertical button column on the right -->
+      <div v-if="!isLandscape" class="flex flex-col gap-1 items-end">
         <!-- Top row: Status + Loop Button -->
         <div class="flex items-center gap-3">
           <!-- Status Display -->
@@ -30,7 +31,7 @@
           <button
             v-if="store.guiderInfo.State !== 'Guiding' && store.guiderInfo.State !== 'Calibrating'"
             @click="startLooping"
-            class="default-button-orange w-12 h-12 px-3 py-3 rounded-lg font-medium transition-all duration-200 backdrop-blur-sm shadow-lg"
+            class="tns-btn-secondary w-12 h-12 px-3 py-3 rounded-lg font-medium transition-all duration-200 backdrop-blur-sm shadow-lg"
           >
             <span class="flex items-center justify-center">
               <ArrowPathIcon
@@ -47,7 +48,7 @@
           <button
             v-if="store.guiderInfo.State !== 'Guiding' && store.guiderInfo.State !== 'Calibrating'"
             @click="startGuiding"
-            class="default-button-cyan px-3 py-3 rounded-lg font-medium transition-all duration-200 backdrop-blur-sm shadow-lg"
+            class="tns-btn-primary px-3 py-3 rounded-lg font-medium transition-all duration-200 shadow-lg"
           >
             <span class="flex items-center justify-center">
               <template v-if="isProcessing">
@@ -76,7 +77,7 @@
           <!-- Stop Button (Always Visible) -->
           <button
             @click="stopGuiding"
-            class="default-button-red px-3 py-3 rounded-lg font-medium transition-all duration-200 backdrop-blur-sm shadow-lg"
+            class="tns-btn-danger px-3 py-3 rounded-lg font-medium transition-all duration-200 backdrop-blur-sm shadow-lg"
           >
             <span class="flex items-center justify-center">
               <StopIcon class="w-5 h-5" />
@@ -87,7 +88,7 @@
           <button
             v-if="guiderStore.phd2Connection?.IsConnected"
             @click="showStarImage = !showStarImage"
-            :class="showStarImage ? 'default-button-cyan' : 'default-button-gray'"
+            :class="['tns-btn-secondary', { 'border-accent': showStarImage }]"
             class="flex items-center justify-center px-3 py-3"
             :title="
               showStarImage
@@ -111,7 +112,7 @@
           <button
             v-if="guiderStore.phd2Connection?.IsConnected && store.guiderInfo.State === 'Looping'"
             @click="autoSelectStar"
-            :class="isAutoSelectingStar ? 'default-button-cyan' : 'default-button-gray'"
+            :class="['tns-btn-secondary', { 'border-accent': isAutoSelectingStar }]"
             :disabled="isAutoSelectingStar"
             class="flex items-center justify-center px-3 py-3"
             :title="$t('components.guider.phd2.autoSelectStar')"
@@ -136,7 +137,7 @@
           <button
             v-if="guiderStore.phd2Connection?.IsConnected && store.guiderInfo?.State !== 'Guiding'"
             @click="openCalibrationAssistant = true"
-            class="default-button-gray flex items-center justify-center px-3 py-3 text-xs font-bold"
+            class="tns-btn-secondary flex items-center justify-center px-3 py-3 text-xs font-bold"
             :title="$t('components.guider.calibrationAssistant.title')"
           >
             CAL
@@ -146,7 +147,7 @@
           <button
             v-if="guiderStore.phd2Connection?.IsConnected && store.isPINS"
             @click="openCalibrationData = true"
-            class="default-button-gray flex items-center justify-center px-3 py-3"
+            class="tns-btn-secondary flex items-center justify-center px-3 py-3"
             :title="$t('components.guider.phd2.reviewCalibration')"
           >
             <svg
@@ -167,21 +168,21 @@
           <button
             v-if="guiderStore.phd2Connection?.IsConnected"
             @click="openSettings = true"
-            class="default-button-gray flex items-center justify-center px-3 py-3"
+            class="tns-btn-secondary flex items-center justify-center px-3 py-3"
           >
             <Cog6ToothIcon class="w-5 h-5" />
           </button>
         </div>
       </div>
 
-      <!-- Portrait Layout -->
+      <!-- Landscape Layout: horizontal button row at the top -->
       <div v-else class="flex flex-col w-full items-center gap-2">
         <div class="flex items-center justify-center gap-2">
           <!-- Loop Button -->
           <button
             v-if="store.guiderInfo.State !== 'Guiding' && store.guiderInfo.State !== 'Calibrating'"
             @click="startLooping"
-            class="default-button-orange px-3 py-3 rounded-lg font-medium transition-all duration-200 backdrop-blur-sm shadow-lg"
+            class="tns-btn-secondary px-3 py-3 rounded-lg font-medium transition-all duration-200 backdrop-blur-sm shadow-lg"
           >
             <span class="flex items-center justify-center">
               <ArrowPathIcon
@@ -195,7 +196,7 @@
           <button
             v-if="store.guiderInfo.State !== 'Guiding' && store.guiderInfo.State !== 'Calibrating'"
             @click="startGuiding"
-            class="default-button-cyan px-3 py-3 rounded-lg font-medium transition-all duration-200 backdrop-blur-sm shadow-lg"
+            class="tns-btn-primary px-3 py-3 rounded-lg font-medium transition-all duration-200 shadow-lg"
           >
             <span class="flex items-center justify-center">
               <template v-if="isProcessing">
@@ -224,7 +225,7 @@
           <!-- Stop Button (Always Visible) -->
           <button
             @click="stopGuiding"
-            class="default-button-red px-3 py-3 rounded-lg font-medium transition-all duration-200 backdrop-blur-sm shadow-lg"
+            class="tns-btn-danger px-3 py-3 rounded-lg font-medium transition-all duration-200 backdrop-blur-sm shadow-lg"
           >
             <span class="flex items-center justify-center">
               <StopIcon class="w-5 h-5" />
@@ -235,7 +236,7 @@
           <button
             v-if="guiderStore.phd2Connection?.IsConnected"
             @click="showStarImage = !showStarImage"
-            :class="showStarImage ? 'default-button-cyan' : 'default-button-gray'"
+            :class="['tns-btn-secondary', { 'border-accent': showStarImage }]"
             class="flex items-center justify-center px-3 py-3"
             :title="
               showStarImage
@@ -259,7 +260,7 @@
           <button
             v-if="guiderStore.phd2Connection?.IsConnected && store.guiderInfo.State === 'Looping'"
             @click="autoSelectStar"
-            :class="isAutoSelectingStar ? 'default-button-cyan' : 'default-button-gray'"
+            :class="['tns-btn-secondary', { 'border-accent': isAutoSelectingStar }]"
             :disabled="isAutoSelectingStar"
             class="flex items-center justify-center px-3 py-3"
             :title="$t('components.guider.phd2.autoSelectStar')"
@@ -284,7 +285,7 @@
           <button
             v-if="guiderStore.phd2Connection?.IsConnected && store.guiderInfo?.State !== 'Guiding'"
             @click="openCalibrationAssistant = true"
-            class="default-button-gray h-12 flex items-center justify-center px-3 py-3 text-xs font-bold"
+            class="tns-btn-secondary h-12 flex items-center justify-center px-3 py-3 text-xs font-bold"
             :title="$t('components.guider.calibrationAssistant.title')"
           >
             CAL
@@ -294,7 +295,7 @@
           <button
             v-if="guiderStore.phd2Connection?.IsConnected && store.isPINS"
             @click="openCalibrationData = true"
-            class="default-button-gray flex items-center justify-center px-3 py-3"
+            class="tns-btn-secondary flex items-center justify-center px-3 py-3"
             :title="$t('components.guider.phd2.reviewCalibration')"
           >
             <svg
@@ -315,7 +316,7 @@
           <button
             v-if="guiderStore.phd2Connection?.IsConnected"
             @click="openSettings = true"
-            class="default-button-gray flex items-center justify-center px-3 py-3"
+            class="tns-btn-secondary flex items-center justify-center px-3 py-3"
           >
             <Cog6ToothIcon class="w-5 h-5" />
           </button>
@@ -445,7 +446,9 @@ import CalibrationDataModal from '@/components/guider/PHD2/CalibrationDataModal.
 import apiService from '@/services/apiService';
 import { useI18n } from 'vue-i18n';
 import { useOrientation } from '@/composables/useOrientation';
+import { useHaptics } from '@/composables/useHaptics';
 
+const { tapLight, tapMedium } = useHaptics();
 const store = apiStore();
 const guiderStore = useGuiderStore();
 const settingsStore = useSettingsStore();
@@ -464,7 +467,7 @@ const containerStyle = computed(() => {
     return {
       position: 'fixed',
       top: '0',
-      left: '8rem', // Start after 128px sidebar
+      left: 'var(--nav-width)', // Start after the navbar sidebar
       right: '0',
       bottom: '0', // Go all the way to bottom
       width: 'auto',
@@ -477,7 +480,7 @@ const containerStyle = computed(() => {
       top: '82px', // Start after navbar
       left: '0',
       right: '0',
-      bottom: 'calc(2.25rem + env(safe-area-inset-bottom) + 0.5rem)', // Stop before status bar
+      bottom: 'var(--above-statusbar)', // Stop before status bar
       width: 'auto',
       height: 'auto',
     };
@@ -486,24 +489,24 @@ const containerStyle = computed(() => {
 
 const buttonContainerClass = computed(() => {
   if (isLandscape.value) {
-    return 'flex justify-end items-start'; // Right alignment in landscape
+    return 'flex justify-center items-start'; // Button row centered at the top in landscape
   } else {
-    return 'flex justify-center items-center'; // Center in portrait
+    return 'flex justify-end items-start'; // Button column on the right in portrait
   }
 });
 
 const imageStyle = computed(() => {
   if (isLandscape.value) {
-    // Landscape: Image starts from top, buttons overlay on top-right
-    return {
-      top: '0',
-      height: '100%',
-    };
-  } else {
-    // Portrait: Image starts below buttons
+    // Landscape: Image starts below the button row
     return {
       top: '80px',
       height: 'calc(100% - 80px)',
+    };
+  } else {
+    // Portrait: Image fills the area, buttons overlay on the right
+    return {
+      top: '0',
+      height: '100%',
     };
   }
 });
@@ -526,6 +529,7 @@ const responsiveStarProfileStyle = computed(() => ({
 
 const portraitContainerStyle = computed(() => ({
   height: `${responsiveStarSize.value.height + 16}px`, // Höhe + Padding
+  paddingRight: '80px', // Platz für die Button-Spalte am rechten Rand
 }));
 
 const landscapeContainerStyle = computed(() => ({
@@ -579,6 +583,7 @@ const statusTextClasses = computed(() => {
 
 // Start guiding function
 async function startGuiding() {
+  tapLight();
   if (guiderStore.isDarkLibraryBuildActive) return;
   isProcessing.value = true;
   try {
@@ -598,6 +603,7 @@ async function startGuiding() {
 
 // Start guiding function
 async function startLooping() {
+  tapLight();
   if (guiderStore.isDarkLibraryBuildActive) return;
   try {
     await apiService.setPHD2StartLooping(settingsStore.guider.phd2ForceCalibration);
@@ -609,6 +615,7 @@ async function startLooping() {
 }
 
 async function stopGuiding() {
+  tapMedium();
   if (guiderStore.isDarkLibraryBuildActive) return;
   try {
     if (!store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.1.4.0')) {
@@ -626,6 +633,7 @@ async function stopGuiding() {
 }
 
 async function autoSelectStar() {
+  tapLight();
   if (guiderStore.isDarkLibraryBuildActive) return;
   isAutoSelectingStar.value = true;
   try {

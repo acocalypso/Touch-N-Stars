@@ -26,7 +26,7 @@
           <!-- Go To Framing -->
           <button
             @click="handleGoToFraming"
-            class="w-full default-button-cyan flex items-center justify-center gap-3"
+            class="w-full tns-btn-primary flex items-center justify-center gap-3"
           >
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path

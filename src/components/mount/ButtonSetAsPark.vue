@@ -2,7 +2,7 @@
   <button
     v-if="store.mountInfo.CanSetPark"
     @click="setAsPark"
-    :class="['default-button-cyan', statusClass]"
+    :class="['tns-btn-secondary', statusClass]"
   >
     {{ $t('components.mount.control.set_as_park') }}
   </button>
@@ -13,11 +13,15 @@ import { ref } from 'vue';
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
 
+import { useHaptics } from '@/composables/useHaptics';
+
+const { tapLight } = useHaptics();
 const store = apiStore();
 
 const statusClass = ref('');
 
 async function setAsPark() {
+  tapLight();
   try {
     const response = await apiService.mountAction('set-park-position');
     console.log('setAsPark', response);

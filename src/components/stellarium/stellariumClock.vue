@@ -2,7 +2,7 @@
   <div
     :class="buttonClasses"
     class="fixed flex items-center gap-2 z-10"
-    style="bottom: calc(env(safe-area-inset-bottom, 0px) + 48px)"
+    style="bottom: var(--above-statusbar)"
   >
     <button
       @click="togglePlayPause"

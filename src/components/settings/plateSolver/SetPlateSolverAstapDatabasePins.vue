@@ -1,19 +1,21 @@
 <template>
   <div class="flex flex-col gap-2 pt-1 border-t border-gray-700/60">
     <div class="flex items-center justify-between gap-3">
-      <div class="flex flex-col">
+      <span class="flex items-center gap-1">
         <span class="text-sm font-medium text-gray-300">
           {{ $t('components.settings.plate_solver.astapDatabaseTitle') }}
         </span>
-        <span class="text-xs text-gray-500">
-          {{ $t('components.settings.plate_solver.astapDatabaseDescription') }}
-        </span>
-      </div>
+        <InfoModal
+          :title="$t('components.settings.plate_solver.astapDatabaseTitle')"
+          :message="$t('components.settings.plate_solver.astapDatabaseDescription')"
+          size="w-4 h-4"
+        />
+      </span>
 
       <button
         @click="loadPackages"
         :disabled="isLoading || isInstalling"
-        class="default-button-gray h-8 px-3 text-xs"
+        class="tns-btn-secondary px-3 text-xs"
       >
         {{ isLoading ? $t('common.loading') : $t('common.refresh') }}
       </button>
@@ -22,7 +24,7 @@
     <div class="flex items-center gap-2">
       <select
         v-model="selectedDatabaseId"
-        class="default-select h-8 w-full"
+        class="tns-select w-full"
         :disabled="isLoading || isInstalling || isJobActive || !packages.length"
       >
         <option value="">
@@ -39,7 +41,7 @@
 
       <button
         @click="installSelectedDatabase"
-        class="default-button-cyan h-8 px-3 text-xs whitespace-nowrap"
+        class="tns-btn-primary px-3 text-xs whitespace-nowrap"
         :disabled="
           !selectedDatabaseId || isLoading || isInstalling || isJobActive || !packages.length
         "
@@ -75,6 +77,7 @@
 import { computed, onBeforeUnmount, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import apiPinsService from '@/services/apiPinsService';
+import InfoModal from '@/components/helpers/infoModal.vue';
 
 const { t } = useI18n();
 

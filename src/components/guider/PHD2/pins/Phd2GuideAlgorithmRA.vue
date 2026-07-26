@@ -14,7 +14,7 @@
       id="guide-algorithm-ra"
       v-model="guiderStore.phd2GuideAlgorithmRA"
       @change="onAlgorithmChange"
-      class="default-select h-8 w-32 ml-auto"
+      class="tns-select w-32 ml-auto"
       :disabled="guiderStore.phd2GuideAlgorithmRALoading || store.guiderInfo?.State !== 'Stopped'"
     >
       <option v-for="algorithm in algorithms" :key="algorithm" :value="algorithm">

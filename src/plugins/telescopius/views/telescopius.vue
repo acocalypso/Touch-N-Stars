@@ -89,7 +89,7 @@
             <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mt-6">
               <button
                 @click="showApiKeyModal = true"
-                class="default-button-blue flex items-center gap-2"
+                class="tns-btn-secondary flex items-center gap-2"
               >
                 <svg
                   class="w-5 h-5"
@@ -118,7 +118,7 @@
                 v-if="telescopiusStore.hasApiKey"
                 @click="refreshTargetLists"
                 :disabled="telescopiusStore.isLoadingLists"
-                class="default-button-orange flex items-center gap-2"
+                class="tns-btn-secondary flex items-center gap-2"
                 title="Refresh from API and update cache"
               >
                 <svg

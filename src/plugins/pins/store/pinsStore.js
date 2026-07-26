@@ -2,7 +2,6 @@ import { defineStore } from 'pinia';
 
 export const usePinsStore = defineStore('pins', {
   state: () => ({
-    savedWifiPasswords: {}, // Object map: SSID -> Password
     timeSyncEnabled: false,
     suppressTimeWarning: false,
     stationaryMode: false,
@@ -38,18 +37,6 @@ export const usePinsStore = defineStore('pins', {
     },
     setSuppressTimeWarning(value) {
       this.suppressTimeWarning = value;
-    },
-    savePassword(ssid, password) {
-      if (!ssid) return;
-      this.savedWifiPasswords[ssid] = password;
-    },
-    getPassword(ssid) {
-      if (!ssid) return '';
-      return this.savedWifiPasswords[ssid] || '';
-    },
-    removePassword(ssid) {
-      if (!ssid) return;
-      delete this.savedWifiPasswords[ssid];
     },
     clearTerminalLogs() {
       this.terminalLogs = [];
@@ -91,7 +78,7 @@ export const usePinsStore = defineStore('pins', {
       {
         key: 'pins-plugin-store',
         storage: localStorage,
-        paths: ['savedWifiPasswords', 'timeSyncEnabled', 'suppressTimeWarning'],
+        paths: ['timeSyncEnabled', 'suppressTimeWarning'],
       },
     ],
   },

@@ -19,6 +19,8 @@
               :is-scanning="isScanning"
               :wifi-list="wifiList"
               :wifi-status="wifiStatus"
+              :wifi-mode="wifiMode"
+              :connection-state="rigConnectionState"
               :mobile-wifi-signal="mobileWifiSignal"
               :selected-ssid="selectedSsid"
               :wifi-password="wifiPassword"
@@ -49,6 +51,8 @@
               @save-interfaces="saveWifiInterfaces"
               @connect-wifi="connectWifi"
               @disconnect-wifi="requestDisableWifi"
+              @set-network-mode="setNetworkMode"
+              @retry-network-recovery="retryNetworkRecovery"
               @update:selected-ssid="selectedSsid = $event"
               @update:wifi-password="wifiPassword = $event"
               @update:selected-band="selectedBand = $event"
@@ -280,6 +284,12 @@ import { createHotspotSettingsApi } from '../composables/hotspotSettingsApi';
 import { WifiSignal } from '@/utils/wifiSignal';
 import { PINS_PORT as PORT, DEFAULT_PINS_DAEMON_API_TOKEN as TOKEN } from '@/services/pinsConfig';
 import { usePolling } from '@/composables/usePolling';
+import {
+  beginNetworkTransition,
+  identifySelectedRig,
+  recoverRigConnection,
+  rigConnectionState,
+} from '@/services/rigConnectionSupervisor';
 
 const { t } = useI18n();
 const settingsStore = useSettingsStore();
@@ -316,6 +326,7 @@ const pinsPluginsBusyPackage = ref('');
 const dhcpClients = ref([]);
 const isDhcpClientsLoading = ref(false);
 const wifiStatus = ref(null);
+const wifiMode = ref(null);
 const mobileWifiSignal = ref(null);
 const selectedIndi3rdpartyAsset = ref('');
 const showIndi3rdpartyInstallModal = ref(false);
@@ -368,16 +379,9 @@ const pinsNavItems = computed(() => [
   { name: t('plugins.pins.tabs.upgrade'), value: 'upgrade' },
 ]);
 
-watch(selectedSsid, (newSsid) => {
-  if (newSsid) {
-    selectedBand.value = 'auto';
-    const savedPassword = pinsStore.getPassword(newSsid);
-    if (savedPassword) {
-      wifiPassword.value = savedPassword;
-    } else {
-      wifiPassword.value = '';
-    }
-  }
+watch(selectedSsid, () => {
+  selectedBand.value = 'auto';
+  wifiPassword.value = '';
 });
 
 function appendLog(message) {
@@ -1107,11 +1111,13 @@ async function loadWifiStatus() {
   if (!ip) return;
 
   try {
-    const [response, mobileSignal] = await Promise.all([
+    const [response, mode, mobileSignal] = await Promise.all([
       apiPinsService.getPinsWifiStatus(),
+      apiPinsService.getPinsWifiMode(),
       loadMobileWifiSignal(),
     ]);
     wifiStatus.value = response || null;
+    wifiMode.value = mode || null;
     mobileWifiSignal.value = mobileSignal;
     wifiConnected.value = Boolean(response?.connected);
   } catch (error) {
@@ -1150,12 +1156,8 @@ async function connectWifi() {
   appendLog(t('plugins.pins.logs.init', { ip }));
   appendLog(t('plugins.pins.logs.connectingToWifi', { ssid: selectedSsid.value }));
 
-  // Save password to store
-  if (selectedSsid.value && wifiPassword.value) {
-    pinsStore.savePassword(selectedSsid.value, wifiPassword.value);
-  }
-
   try {
+    await identifySelectedRig();
     const data = await apiPinsService.connectPinsWifi({
       ssid: selectedSsid.value,
       password: wifiPassword.value,
@@ -1174,9 +1176,15 @@ async function connectWifi() {
 
     if (returnedJobId) {
       jobId.value = returnedJobId;
-      wifiConnected.value = true;
       appendLog(t('plugins.pins.logs.jobCreated', { jobId: returnedJobId }));
-      connectWebSocket(ip, returnedJobId);
+      appendLog('The rig may disconnect while its Wi-Fi address changes. Looking for it again.');
+      await beginNetworkTransition({
+        requestedMode: 'client',
+        operationId: returnedJobId,
+      });
+      await loadWifiStatus();
+      wifiConnected.value = Boolean(wifiStatus.value?.connected);
+      status.value = 'Success';
     } else {
       appendLog(t('plugins.pins.logs.wifiResponse', { response: JSON.stringify(data) }));
       await loadWifiStatus();
@@ -1197,6 +1205,9 @@ async function connectWifi() {
         })
       );
     }
+  } finally {
+    // Network credentials are deliberately session-only and are discarded after submission.
+    wifiPassword.value = '';
   }
 }
 
@@ -1207,10 +1218,10 @@ function requestDisableWifi() {
 
 function confirmDisableWifi() {
   showDisconnectWifiModal.value = false;
-  disableWifi();
+  setNetworkMode('hotspot');
 }
 
-async function disableWifi() {
+async function setNetworkMode(desiredMode) {
   if (status.value === 'Running') return;
 
   const ip = getIp();
@@ -1223,33 +1234,34 @@ async function disableWifi() {
   pinsStore.setActiveOperation('wifi');
   pinsStore.clearTerminalLogs();
   appendLog(t('plugins.pins.logs.init', { ip }));
-  appendLog(t('plugins.pins.logs.wifiDisabling'));
+  appendLog(
+    desiredMode === 'hotspot'
+      ? 'Switching the rig to its field hotspot…'
+      : 'Enabling automatic Wi-Fi with hotspot fallback…'
+  );
 
   try {
-    const data = await apiPinsService.disablePinsWifi();
-    let returnedJobId;
-
-    if (data && typeof data === 'object' && data.jobId) {
-      returnedJobId = data.jobId;
-    } else if (typeof data === 'string' || typeof data === 'number') {
-      returnedJobId = data;
-    }
+    await identifySelectedRig();
+    const data = await apiPinsService.setPinsWifiMode(desiredMode);
+    const returnedJobId = data?.job?.jobId || data?.jobId || '';
 
     if (returnedJobId) {
       jobId.value = returnedJobId;
-      wifiConnected.value = false;
       appendLog(t('plugins.pins.logs.jobCreated', { jobId: returnedJobId }));
-      connectWebSocket(ip, returnedJobId);
-    } else {
-      appendLog(t('plugins.pins.logs.wifiDisabled'));
-      await loadWifiStatus();
-      status.value = 'Success';
     }
+    appendLog('The current connection may close. This screen will reconnect to the same rig.');
+    await beginNetworkTransition({
+      requestedMode: desiredMode,
+      operationId: returnedJobId,
+    });
+    await loadWifiStatus();
+    status.value = 'Success';
+    appendLog(`Rig found at ${rigConnectionState.activeHost || getIp()}.`);
   } catch (error) {
     console.error(error);
     status.value = 'Failed';
     appendLog(
-      t('plugins.pins.logs.error', { message: 'Wifi Disconnect Failed: ' + error.message })
+      t('plugins.pins.logs.error', { message: 'Network mode change failed: ' + error.message })
     );
 
     if (error.response) {
@@ -1260,6 +1272,23 @@ async function disableWifi() {
         })
       );
     }
+  }
+}
+
+async function retryNetworkRecovery() {
+  if (status.value === 'Running') return;
+  status.value = 'Running';
+  pinsStore.setActiveOperation('wifi');
+  try {
+    await recoverRigConnection({
+      requestedMode: rigConnectionState.requestedMode || wifiMode.value?.desiredMode || '',
+      operationId: rigConnectionState.operationId || '',
+    });
+    await loadWifiStatus();
+    status.value = 'Success';
+  } catch (error) {
+    status.value = 'Failed';
+    appendLog(`Rig rediscovery failed: ${error.message}`);
   }
 }
 

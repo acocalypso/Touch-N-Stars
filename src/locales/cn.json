@@ -1732,8 +1732,8 @@
         "preConnectDelay": "Pre Connect Delay (ms)"
       }
     },
-    "stellarium": {
-      "loading": "正在加载 Stellarium…",
+    "celestiaAtlas": {
+      "loading": "正在加载 Celestia Atlas…",
       "selected_object": {
         "title": "已选对象",
         "ra": "赤经",
@@ -1756,14 +1756,30 @@
         "ecliptic_lines_visible": "显示黄道",
         "atmosphere_visible": "显示大气层",
         "landscapes_visible": "显示地平线",
+        "hide_below_horizon": "隐藏地平线以下的天体",
+        "sky_survey_visible": "实拍巡天图像",
+        "sky_survey_hint": "仅离线使用随附的 DSS 天空图像，不会从互联网获取巡天图块。",
         "dsos_visible": "深空天体 (梅西耶, NGC)",
+        "catalog_filters": "深空天体筛选",
+        "catalog_filter_hint": "控制星图中可见的深空天体标记；离线搜索仍可找到所有星表天体。",
+        "catalog_filter_types": "天体类型",
+        "catalog_filter_sources": "星表来源",
+        "catalog_filter_selected": "已选 {selected}/{total}",
+        "catalog_filter_all": "全部",
+        "catalog_filter_none": "无",
+        "brightness_filters": "亮度筛选",
+        "magnitude_limit_hint": "较低数值仅显示较亮天体；较高数值也显示较暗天体。",
+        "magnitude_limit_auto": "自动",
+        "star_magnitude_limit": "恒星极限星等",
+        "galaxy_magnitude_limit": "星系极限星等",
+        "dso_magnitude_limit": "其他深空天体极限星等",
         "title": "设置",
         "landscape_source_mode": "Landscape source",
         "landscape_source_default": "Default landscape (Guereins)",
         "landscape_source_neutral": "Neutral horizon (Gray)",
         "landscape_source_custom": "Custom data source",
         "custom_landscape_url": "Custom source URL",
-        "custom_landscape_url_placeholder": "e.g. /stellarium-data/landscapes/custom",
+        "custom_landscape_url_placeholder": "e.g. /celestia-atlas-data/landscapes/custom",
         "custom_landscape_key": "Custom source key",
         "custom_landscape_key_placeholder": "e.g. my-landscape",
         "available_landscapes": "Available landscapes",
@@ -2794,7 +2810,7 @@
         "center_solve_label": "居中 + 解析",
         "center_solve_text": "进行天文定位解析并将目标居中（需要赤道仪已连接并且偏移已校准）。",
         "target_solve_label": "目标 + 解析",
-        "target_solve_text": "转向目标并居中（需要赤道仪已连接，并在 Stellarium 的取景助手中设置目标）。"
+        "target_solve_text": "转向目标并居中（需要赤道仪已连接，并在 Celestia Atlas 中选择目标）。"
       },
       "progress": {
         "title": "解析进度",
@@ -4668,7 +4684,7 @@
     "monitoring": "监控",
     "flatWizard": "平场向导",
     "framing": "取景",
-    "skyView": "星辰",
+    "skyView": "Celestia Atlas",
     "settings": "设置",
     "about": "关于"
   },

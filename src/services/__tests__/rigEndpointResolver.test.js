@@ -6,10 +6,11 @@ import {
   resolvePinsEndpoint,
 } from '@/services/rigEndpointResolver';
 
-test('endpoint candidates prefer remembered rig addresses and always include the field fallback', () => {
+test('endpoint candidates keep the active address and use a rig-specific mDNS fallback', () => {
   const candidates = buildPinsEndpointCandidates({
     instance: {
       ip: '192.168.1.44',
+      rigId: 'pins-ce29c',
       preferredEndpoint: { host: 'rig.local' },
       candidateHosts: ['192.168.1.44', '10.42.0.1'],
     },
@@ -20,11 +21,27 @@ test('endpoint candidates prefer remembered rig addresses and always include the
   assert.deepEqual(
     candidates.map(({ host, source }) => [host, source]),
     [
+      ['192.168.1.10', 'active'],
       ['rig.local', 'preferred'],
       ['192.168.1.44', 'instance'],
       ['10.42.0.1', 'remembered'],
-      ['192.168.1.10', 'page'],
+      ['pins-ce29c.local', 'rig-mdns'],
       ['pins.local', 'mdns'],
+    ]
+  );
+});
+
+test('generic pins.local is never injected when several PINS rigs can share a network', () => {
+  const candidates = buildPinsEndpointCandidates({
+    instance: { rigId: 'pins-ce29c' },
+    includeFieldFallback: true,
+  });
+
+  assert.deepEqual(
+    candidates.map(({ host, source }) => [host, source]),
+    [
+      ['pins-ce29c.local', 'rig-mdns'],
+      ['10.42.0.1', 'field-hotspot'],
     ]
   );
 });

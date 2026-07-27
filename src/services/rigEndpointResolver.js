@@ -2,7 +2,6 @@ import { Capacitor } from '@capacitor/core';
 
 export const PINS_DAEMON_PORT = 8000;
 export const PINS_HOTSPOT_HOST = '10.42.0.1';
-export const PINS_MDNS_HOST = 'pins.local';
 export const PINS_MDNS_SERVICE_TYPE = '_pinsdaemon._tcp';
 export const DEFAULT_HEALTH_TIMEOUT_MS = 2200;
 
@@ -31,6 +30,12 @@ export function normalizeCandidateHost(value) {
   return candidate;
 }
 
+export function rigMdnsHost(rigId) {
+  const normalized = normalizeCandidateHost(rigId);
+  if (!normalized || normalized.includes(':') || normalized.endsWith('.local')) return normalized;
+  return `${normalized}.local`;
+}
+
 function appendCandidate(target, seen, host, source) {
   const normalized = normalizeCandidateHost(host);
   if (!normalized || seen.has(normalized)) return;
@@ -47,18 +52,20 @@ export function buildPinsEndpointCandidates({
   const candidates = [];
   const seen = new Set();
 
+  // Never replace a healthy live endpoint just because an alias for the same
+  // Pi responds a few milliseconds faster.
+  appendCandidate(candidates, seen, currentHost, 'active');
   appendCandidate(candidates, seen, instance?.preferredEndpoint?.host, 'preferred');
   appendCandidate(candidates, seen, instance?.ip, 'instance');
   for (const host of instance?.candidateHosts || []) {
     appendCandidate(candidates, seen, host, 'remembered');
   }
-  appendCandidate(candidates, seen, currentHost, 'page');
+  appendCandidate(candidates, seen, rigMdnsHost(instance?.rigId), 'rig-mdns');
   for (const host of mdnsHosts) {
     appendCandidate(candidates, seen, host, 'mdns');
   }
 
   if (includeFieldFallback) {
-    appendCandidate(candidates, seen, PINS_MDNS_HOST, 'well-known-mdns');
     appendCandidate(candidates, seen, PINS_HOTSPOT_HOST, 'field-hotspot');
   }
 

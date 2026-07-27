@@ -3,6 +3,7 @@ import { isAppBackgrounded } from '@/utils/appLifecycle';
 import {
   buildPinsEndpointCandidates,
   discoverPinsDaemonHosts,
+  normalizeCandidateHost,
   probePinsHealth,
   resolvePinsEndpoint,
 } from '@/services/rigEndpointResolver';
@@ -110,7 +111,7 @@ async function promoteEndpoint(result) {
   });
   rigConnectionState.rigId = result.health.rigId;
   rigConnectionState.activeHost = result.host;
-  if (currentHost !== result.host) {
+  if (normalizeCandidateHost(currentHost) !== normalizeCandidateHost(result.host)) {
     await backendStoreRef.switchBackend();
   }
 }
@@ -133,13 +134,32 @@ export async function identifySelectedRig() {
 
 async function probeRound({ expectedRigId, includeFieldFallback, signal }) {
   const instance = selectedInstance();
+  const currentHost = normalizeCandidateHost(
+    settingsStoreRef.connection.ip || window.location.hostname
+  );
+  rigConnectionState.attemptedHosts = currentHost ? [currentHost] : [];
+
+  // Probe the configured endpoint by itself first. Racing aliases for the same
+  // rig made the fastest hostname win and caused unnecessary switchBackend()
+  // teardown/reconnect loops.
+  if (currentHost) {
+    try {
+      const current = await probePinsHealth({ host: currentHost, source: 'active' }, { signal });
+      if (!expectedRigId || current.health.rigId === expectedRigId) {
+        return current;
+      }
+    } catch {
+      // Discovery and field fallbacks are attempted below.
+    }
+  }
+
   const mdnsHosts = await discoverPinsDaemonHosts();
   const candidates = buildPinsEndpointCandidates({
     instance,
-    currentHost: settingsStoreRef.connection.ip || window.location.hostname,
+    currentHost,
     mdnsHosts,
     includeFieldFallback,
-  });
+  }).filter((candidate) => candidate.host !== currentHost);
   rigConnectionState.attemptedHosts = candidates.map((candidate) => candidate.host);
   return resolvePinsEndpoint({ candidates, expectedRigId, signal });
 }
@@ -279,6 +299,14 @@ export async function initializeRigConnectionSupervisor({ settingsStore, backend
     }
 
     const instance = selectedInstance();
+    if (backendStoreRef?.isPINS && backendStoreRef?.isBackendReachable) {
+      rigConnectionState.phase = 'connected';
+      rigConnectionState.rigId = instance?.rigId || rigConnectionState.rigId;
+      rigConnectionState.activeHost =
+        normalizeCandidateHost(settingsStoreRef?.connection?.ip) || rigConnectionState.activeHost;
+      return;
+    }
+
     if (instance?.rigId) {
       recoverRigConnection({ timeoutMs: 12000, includeFieldFallback: true }).catch(() => {});
     } else if (instance?.ip) {

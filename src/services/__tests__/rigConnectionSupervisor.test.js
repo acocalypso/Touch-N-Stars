@@ -41,3 +41,57 @@ test('pinsdaemon recovery is inert for a non-PINS backend', async (t) => {
   assert.equal(backendSwitches, 0);
   await assert.rejects(() => identifySelectedRig(), /unavailable for this backend/);
 });
+
+test('recovery keeps a healthy active endpoint instead of racing its aliases', async (t) => {
+  let backendSwitches = 0;
+  const probedUrls = [];
+  const originalFetch = globalThis.fetch;
+  t.after(() => {
+    globalThis.fetch = originalFetch;
+  });
+  globalThis.fetch = async (url) => {
+    probedUrls.push(String(url));
+    return {
+      ok: true,
+      json: async () => ({
+        status: 'ok',
+        service: 'pinsdaemon',
+        rigId: 'pins-ce29c',
+      }),
+    };
+  };
+
+  const instance = {
+    id: 'pins-rig',
+    ip: '192.168.178.109',
+    port: 5000,
+    rigId: 'pins-ce29c',
+    preferredEndpoint: { host: 'pins-ce29c.local' },
+    candidateHosts: ['pins.local', '10.42.0.1'],
+  };
+  const settingsStore = {
+    selectedInstanceId: instance.id,
+    connection: { ip: instance.ip, port: instance.port },
+    getInstance: () => instance,
+    promoteInstanceEndpoint(_id, { host }) {
+      instance.ip = host;
+      this.connection.ip = host;
+    },
+  };
+  const backendStore = reactive({
+    isPINS: true,
+    isBackendReachable: false,
+    async switchBackend() {
+      backendSwitches += 1;
+    },
+  });
+
+  await initializeRigConnectionSupervisor({ settingsStore, backendStore });
+  const result = await recoverRigConnection({ timeoutMs: 1000 });
+
+  assert.equal(result.host, '192.168.178.109');
+  assert.equal(settingsStore.connection.ip, '192.168.178.109');
+  assert.equal(backendSwitches, 0);
+  assert.ok(probedUrls.length >= 1);
+  assert.ok(probedUrls.every((url) => url.includes('192.168.178.109:8000/health')));
+});

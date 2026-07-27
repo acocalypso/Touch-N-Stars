@@ -1865,7 +1865,8 @@
       "manageInstances": "Gerenciar instâncias",
       "noInstances": "Nenhuma instância configurada",
       "noneOnline": "Nenhuma instância on-line",
-      "title": "Trocar instância"
+      "title": "Trocar instância",
+      "switchingTo": "Switching to {name}…"
     },
     "fitsPlatesolve": {
       "binning": "Armazenamento",

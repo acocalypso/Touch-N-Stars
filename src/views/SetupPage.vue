@@ -526,11 +526,18 @@ async function saveInstance() {
     alert(t('components.settings.errors.invalidPortRange'));
     return;
   }
-  settingsStore.addInstance({
-    name: instanceData.value.name,
-    ip: instanceData.value.ip,
-    port: instanceData.value.port,
-  });
+  settingsStore.addInstance(
+    {
+      name: instanceData.value.name,
+      ip: instanceData.value.ip,
+      port: instanceData.value.port,
+    },
+    // Onboarding must not reload: the wizard step lives in component state and
+    // saveInstance() still has work to do below (plugin probe, startFetchingInfo,
+    // loadFromAstrometrySettings, nextStep). setupCompleted is still false here,
+    // so the store would refuse anyway - this makes the exception greppable.
+    { allowReload: false }
+  );
   checkConnection.value = true;
   try {
     await wait(500);

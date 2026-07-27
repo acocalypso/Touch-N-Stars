@@ -104,7 +104,8 @@
       "noInstances": "設定済みのインスタンスがありません",
       "manageInstances": "インスタンスの管理",
       "checking": "インスタンスを確認中…",
-      "noneOnline": "オンラインのインスタンスがありません"
+      "noneOnline": "オンラインのインスタンスがありません",
+      "switchingTo": "Switching to {name}…"
     },
     "instanceDetection": {
       "autoDetectionTitle": "自動検出",

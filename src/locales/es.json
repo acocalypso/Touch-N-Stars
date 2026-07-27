@@ -1865,7 +1865,8 @@
       "manageInstances": "Administrar instancias",
       "noInstances": "No hay instancias configuradas",
       "noneOnline": "No hay instancias en línea",
-      "title": "Cambiar instancia"
+      "title": "Cambiar instancia",
+      "switchingTo": "Switching to {name}…"
     },
     "fitsPlatesolve": {
       "binning": "Binning",

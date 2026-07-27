@@ -1865,7 +1865,8 @@
       "manageInstances": "Gestisci istanze",
       "noInstances": "Nessuna istanza configurata",
       "noneOnline": "Nessuna istanza online",
-      "title": "Cambia istanza"
+      "title": "Cambia istanza",
+      "switchingTo": "Switching to {name}…"
     },
     "fitsPlatesolve": {
       "binning": "Cestinare",

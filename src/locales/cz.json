@@ -1865,7 +1865,8 @@
       "manageInstances": "Spravovat instance",
       "noInstances": "Nejsou nakonfigurovány žádné instance",
       "noneOnline": "Žádné online případy",
-      "title": "Přepnout instanci"
+      "title": "Přepnout instanci",
+      "switchingTo": "Switching to {name}…"
     },
     "fitsPlatesolve": {
       "binning": "Binning",

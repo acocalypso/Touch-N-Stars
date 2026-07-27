@@ -1865,7 +1865,8 @@
       "manageInstances": "Beheer exemplaren",
       "noInstances": "Geen exemplaren geconfigureerd",
       "noneOnline": "Geen exemplaren online",
-      "title": "Van instantie wisselen"
+      "title": "Van instantie wisselen",
+      "switchingTo": "Switching to {name}…"
     },
     "fitsPlatesolve": {
       "binning": "Binning",

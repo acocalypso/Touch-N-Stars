@@ -1845,7 +1845,8 @@
       "noInstances": "Екземпляри не налаштовані",
       "manageInstances": "Керування екземплярами",
       "checking": "Перевірка екземплярів…",
-      "noneOnline": "Жоден екземпляр не онлайн"
+      "noneOnline": "Жоден екземпляр не онлайн",
+      "switchingTo": "Switching to {name}…"
     },
     "fileBrowser": {
       "title": "Перегляд",

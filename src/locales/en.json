@@ -136,7 +136,8 @@
       "noInstances": "No instances configured",
       "manageInstances": "Manage Instances",
       "checking": "Checking instances…",
-      "noneOnline": "No instances online"
+      "noneOnline": "No instances online",
+      "switchingTo": "Switching to {name}…"
     },
     "instanceDetection": {
       "autoDetectionTitle": "Auto-Detection",

@@ -1865,7 +1865,8 @@
       "manageInstances": "管理实例",
       "noInstances": "没有配置实例",
       "noneOnline": "没有在线实例",
-      "title": "切换实例"
+      "title": "切换实例",
+      "switchingTo": "Switching to {name}…"
     },
     "fitsPlatesolve": {
       "binning": "Binning",

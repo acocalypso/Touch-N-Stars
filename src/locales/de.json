@@ -136,7 +136,8 @@
       "noInstances": "Keine Instanzen konfiguriert",
       "manageInstances": "Instanzen verwalten",
       "checking": "Instanzen werden geprüft…",
-      "noneOnline": "Keine Instanz online"
+      "noneOnline": "Keine Instanz online",
+      "switchingTo": "Wechsle zu {name}…"
     },
     "instanceDetection": {
       "autoDetectionTitle": "Automatische Erkennung",

@@ -1865,7 +1865,8 @@
       "manageInstances": "Gérer les instances",
       "noInstances": "Aucune instance configurée",
       "noneOnline": "Aucune instance en ligne",
-      "title": "Changer d'instance"
+      "title": "Changer d'instance",
+      "switchingTo": "Switching to {name}…"
     },
     "fitsPlatesolve": {
       "binning": "Regroupement",

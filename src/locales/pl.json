@@ -1865,7 +1865,8 @@
       "manageInstances": "Zarządzaj instancjami",
       "noInstances": "Nie skonfigurowano żadnych instancji",
       "noneOnline": "Brak instancji online",
-      "title": "Przełącz instancję"
+      "title": "Przełącz instancję",
+      "switchingTo": "Switching to {name}…"
     },
     "fitsPlatesolve": {
       "binning": "Binowanie",

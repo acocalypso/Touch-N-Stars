@@ -250,8 +250,8 @@ watch(
 );
 
 // Restart the graph poller when the backend comes back while this view is
-// mounted: instance switches AND transient connection losses both run
-// clearAllStates(), which stops the poller without this view ever unmounting.
+// mounted: a transient connection loss runs clearAllStates(), which stops the
+// poller without this view ever unmounting.
 watch(
   () => store.isBackendReachable,
   (reachable) => {

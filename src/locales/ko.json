@@ -136,7 +136,8 @@
       "noInstances": "구성된 인스턴스 없음",
       "manageInstances": "인스턴스 관리",
       "checking": "인스턴스 확인 중…",
-      "noneOnline": "온라인 인스턴스 없음"
+      "noneOnline": "온라인 인스턴스 없음",
+      "switchingTo": "Switching to {name}…"
     },
     "instanceDetection": {
       "autoDetectionTitle": "자동 감지",

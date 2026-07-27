@@ -157,6 +157,7 @@ async function probeRound({ expectedRigId, includeFieldFallback, signal }) {
   const candidates = buildPinsEndpointCandidates({
     instance,
     currentHost,
+    pageHost: window.location.hostname,
     mdnsHosts,
     includeFieldFallback,
   }).filter((candidate) => candidate.host !== currentHost);

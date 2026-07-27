@@ -46,6 +46,7 @@ function appendCandidate(target, seen, host, source) {
 export function buildPinsEndpointCandidates({
   instance = null,
   currentHost = '',
+  pageHost = '',
   mdnsHosts = [],
   includeFieldFallback = true,
 } = {}) {
@@ -60,6 +61,7 @@ export function buildPinsEndpointCandidates({
   for (const host of instance?.candidateHosts || []) {
     appendCandidate(candidates, seen, host, 'remembered');
   }
+  appendCandidate(candidates, seen, pageHost, 'page');
   appendCandidate(candidates, seen, rigMdnsHost(instance?.rigId), 'rig-mdns');
   for (const host of mdnsHosts) {
     appendCandidate(candidates, seen, host, 'mdns');

@@ -15,6 +15,7 @@ test('endpoint candidates keep the active address and use a rig-specific mDNS fa
       candidateHosts: ['192.168.1.44', '10.42.0.1'],
     },
     currentHost: '192.168.1.10',
+    pageHost: 'rig-page.local',
     mdnsHosts: ['192.168.1.44', 'pins.local'],
   });
 
@@ -25,6 +26,7 @@ test('endpoint candidates keep the active address and use a rig-specific mDNS fa
       ['rig.local', 'preferred'],
       ['192.168.1.44', 'instance'],
       ['10.42.0.1', 'remembered'],
+      ['rig-page.local', 'page'],
       ['pins-ce29c.local', 'rig-mdns'],
       ['pins.local', 'mdns'],
     ]

@@ -4,6 +4,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [App5.3.0-beta1] - 2026-07-27
+### Added
+- Livestack (PINS): New "RGB combination" section in the livestack settings that combines three mono stacks (e.g. LRGB or SHO) of a target into a colour image, with the filter-to-channel mapping pre-filled and editable. The result appears as the "RGB" filter next to the individual channels and can be removed again. On Windows this is unchanged and still done through the plugin's own wizard, so the section only appears on PINS
+
 ## [App5.2.0] - 2026-07-26
 Summary of all changes since 5.1.0 (released in beta1-beta4, see below for the individual beta releases).
 

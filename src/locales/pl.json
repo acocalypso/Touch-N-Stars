@@ -2978,7 +2978,18 @@
         "reset_exception": "Błąd podczas resetowania livestacku: {wiadomość}",
         "reset_failed": "Nie udało się zresetować stada życia"
       },
-      "reset": "Zresetuj stos"
+      "reset": "Zresetuj stos",
+      "rgb": {
+        "title": "RGB combination",
+        "target": "Target",
+        "red": "Red channel",
+        "green": "Green channel",
+        "blue": "Blue channel",
+        "create": "Create RGB",
+        "remove": "Remove RGB",
+        "working": "Working...",
+        "no_targets": "No stacked targets available yet"
+      }
     },
     "narrowband": {
       "title": "Kalkulator filtrów",

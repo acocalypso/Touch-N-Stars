@@ -2978,7 +2978,18 @@
         "reset_exception": "Error al restablecer la pila de vida: {message}",
         "reset_failed": "No se pudo restablecer la pila de vida"
       },
-      "reset": "Restablecer pila"
+      "reset": "Restablecer pila",
+      "rgb": {
+        "title": "RGB combination",
+        "target": "Target",
+        "red": "Red channel",
+        "green": "Green channel",
+        "blue": "Blue channel",
+        "create": "Create RGB",
+        "remove": "Remove RGB",
+        "working": "Working...",
+        "no_targets": "No stacked targets available yet"
+      }
     },
     "narrowband": {
       "title": "Calculadora de filtro",

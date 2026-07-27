@@ -3054,6 +3054,17 @@
         "loading_image": "이미지 로드 중 오류: {message}",
         "failed_to_load": "라이브스택 이미지 로드 실패",
         "api_version_required": "API 버전 {version} 이상이 필요합니다"
+      },
+      "rgb": {
+        "title": "RGB combination",
+        "target": "Target",
+        "red": "Red channel",
+        "green": "Green channel",
+        "blue": "Blue channel",
+        "create": "Create RGB",
+        "remove": "Remove RGB",
+        "working": "Working...",
+        "no_targets": "No stacked targets available yet"
       }
     },
     "narrowband": {

@@ -3059,7 +3059,18 @@
         "reset_exception": "Fehler beim Zurücksetzen des Livestacks: {message}",
         "reset_failed": "Livestack konnte nicht zurückgesetzt werden"
       },
-      "reset": "Stapel zurücksetzen"
+      "reset": "Stapel zurücksetzen",
+      "rgb": {
+        "title": "RGB-Kombination",
+        "target": "Ziel",
+        "red": "Rot-Kanal",
+        "green": "Grün-Kanal",
+        "blue": "Blau-Kanal",
+        "create": "RGB erstellen",
+        "remove": "RGB entfernen",
+        "working": "Wird verarbeitet...",
+        "no_targets": "Noch keine gestackten Ziele verfügbar"
+      }
     },
     "narrowband": {
       "title": "Filterrechner",

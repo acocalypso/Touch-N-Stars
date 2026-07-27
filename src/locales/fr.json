@@ -2978,7 +2978,18 @@
         "reset_exception": "Erreur lors de la réinitialisation du livestack : {message}",
         "reset_failed": "Échec de la réinitialisation de la pile de vie"
       },
-      "reset": "Réinitialiser la pile"
+      "reset": "Réinitialiser la pile",
+      "rgb": {
+        "title": "RGB combination",
+        "target": "Target",
+        "red": "Red channel",
+        "green": "Green channel",
+        "blue": "Blue channel",
+        "create": "Create RGB",
+        "remove": "Remove RGB",
+        "working": "Working...",
+        "no_targets": "No stacked targets available yet"
+      }
     },
     "narrowband": {
       "title": "Calculateur de filtres",

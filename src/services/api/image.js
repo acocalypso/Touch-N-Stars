@@ -211,6 +211,43 @@ export default {
     }
   },
 
+  async livestackRgbAvailable() {
+    try {
+      const { BASE_URL } = getUrls();
+      const response = await axios.get(`${BASE_URL}/livestack/rgb/available`);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching livestack rgb candidates:', error);
+      throw error;
+    }
+  },
+
+  async livestackCreateRgb(target, red, green, blue) {
+    try {
+      const { BASE_URL } = getUrls();
+      const response = await axios.get(`${BASE_URL}/livestack/rgb/create`, {
+        params: { target, red, green, blue },
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error creating livestack rgb combination:', error);
+      throw error;
+    }
+  },
+
+  async livestackDeleteRgb(target) {
+    try {
+      const { BASE_URL } = getUrls();
+      const response = await axios.get(`${BASE_URL}/livestack/rgb/delete`, {
+        params: { target },
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Error deleting livestack rgb combination:', error);
+      throw error;
+    }
+  },
+
   // ------------------------------------- FITS Plate Solve -------------------------------------
   async getFitsParameters(path) {
     const { API_URL } = getUrls();

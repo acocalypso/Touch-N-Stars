@@ -2,6 +2,7 @@
   "appId": "com.TouchNStars.dev",
   "appName": "Touch-N-Stars",
   "webDir": "dist",
+  "backgroundColor": "#0a0f1c",
   "server":{
     "cleartext": true,
     "androidScheme": "http"

@@ -327,8 +327,9 @@ export const useCameraStore = defineStore('cameraStore', () => {
   }
 
   // Tear down all client-driven capture activity. Called from
-  // apiStore.clearAllStates() when the backend session ends (instance switch,
-  // connection lost): without this, a running snapshot loop survives the
+  // apiStore.clearAllStates() when the backend session ends (connection lost,
+  // or an in-place endpoint change during onboarding): without this, a running
+  // snapshot loop survives the
   // teardown and starts commanding whatever backend connects next, and the
   // wait loops in capturePhoto() can hang forever. Backend-derived settings
   // (cameraSettings, binning/readout indices) are dropped too - they belong

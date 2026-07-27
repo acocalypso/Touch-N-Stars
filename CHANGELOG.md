@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [App5.3.0-beta1] - Unreleased
+### Changed
+- Multi-instance: Switching instances - and editing the IP/port of the active instance - now restarts the app instead of resetting parts of it in place. You stay on the page you were on. Note that a running TPPA alignment or manual mount control session is no longer carried over to the new instance
+
+### Fixed
+- Multi-instance: Data from the previously selected instance could be left over after switching (framing target, mount, flat assistant, histogram and most plugin views were never cleared)
+- Multi-instance: WebSocket and SignalR connections sometimes failed to re-establish after switching instances
+- UI: Short white flash while the app loads (on start and when switching instances) - the dark background now applies from the very first frame
+
 ## [App5.2.0] - 2026-07-26
 Summary of all changes since 5.1.0 (released in beta1-beta4, see below for the individual beta releases).
 

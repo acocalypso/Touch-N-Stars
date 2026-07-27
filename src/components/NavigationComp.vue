@@ -483,7 +483,7 @@
           <router-link
             to="/"
             class="nav-button"
-            :class="{ 'active-nav-button': store.showStellarium }"
+            :class="{ 'active-nav-button': store.showSkyAtlas }"
             @click="handleSkyViewClick"
           >
             <SparklesIcon class="icon force-visible" />
@@ -660,7 +660,7 @@ const filteredNavigationItems = computed(() => {
 });
 
 function handleSkyViewClick() {
-  store.showStellarium = true;
+  store.showSkyAtlas = true;
   tapLight();
 }
 
@@ -760,7 +760,7 @@ watch(
   () => route.path,
   (newPath) => {
     if (newPath !== '/') {
-      store.showStellarium = false;
+      store.showSkyAtlas = false;
     }
     // Force icon visibility after route change
     nextTick(() => {

@@ -1712,8 +1712,8 @@
         "preConnectDelay": "Затримка перед підключенням (мс)"
       }
     },
-    "stellarium": {
-      "loading": "Завантаження Stellarium…",
+    "celestiaAtlas": {
+      "loading": "Завантаження Celestia Atlas…",
       "selected_object": {
         "title": "Обраний об'єкт",
         "ra": "RA",
@@ -1736,14 +1736,30 @@
         "ecliptic_lines_visible": "Показати екліптику",
         "atmosphere_visible": "Показати атмосферу",
         "landscapes_visible": "Показати ландшафти",
+        "hide_below_horizon": "Приховати об'єкти нижче горизонту",
+        "sky_survey_visible": "Фотографічний огляд неба",
+        "sky_survey_hint": "Використовує лише вбудовані зображення DSS офлайн і ніколи не завантажує тайли огляду з Інтернету.",
         "dsos_visible": "Об'єкти глибокого космосу (Messier, NGC)",
+        "catalog_filters": "Фільтри каталогів",
+        "catalog_filter_hint": "Керує видимими позначками об'єктів глибокого неба; офлайн-пошук і надалі знаходить усі об'єкти каталогів.",
+        "catalog_filter_types": "Типи об’єктів",
+        "catalog_filter_sources": "Джерела каталогів",
+        "catalog_filter_selected": "{selected} з {total}",
+        "catalog_filter_all": "Усі",
+        "catalog_filter_none": "Жодного",
+        "brightness_filters": "Фільтри яскравості",
+        "magnitude_limit_hint": "Нижчі значення показують лише яскравіші об'єкти; вищі додають тьмяніші об'єкти.",
+        "magnitude_limit_auto": "Автоматично",
+        "star_magnitude_limit": "Зорі (гранична зоряна величина)",
+        "galaxy_magnitude_limit": "Галактики (гранична зоряна величина)",
+        "dso_magnitude_limit": "Інші об'єкти глибокого неба (гранична зоряна величина)",
         "title": "Налаштування",
         "landscape_source_mode": "Landscape source",
         "landscape_source_default": "Default landscape (Guereins)",
         "landscape_source_neutral": "Neutral horizon (Gray)",
         "landscape_source_custom": "Custom data source",
         "custom_landscape_url": "Custom source URL",
-        "custom_landscape_url_placeholder": "e.g. /stellarium-data/landscapes/custom",
+        "custom_landscape_url_placeholder": "e.g. /celestia-atlas-data/landscapes/custom",
         "custom_landscape_key": "Custom source key",
         "custom_landscape_key_placeholder": "e.g. my-landscape",
         "available_landscapes": "Доступні пейзажі",
@@ -2585,7 +2601,7 @@
         "center_solve_label": "Центрувати + Розв'язати",
         "center_solve_text": "platesolve та центрування цілі (потрібне підключене монтування + калібровані зміщення).",
         "target_solve_label": "Ціль + Розв'язати",
-        "target_solve_text": "Навести на ціль + Центрувати (потрібне підключене монтування + ціль у Stellarium у Framing Assistant)."
+        "target_solve_text": "Навести на ціль + Центрувати (потрібне підключене монтування та ціль, вибрана в Celestia Atlas)."
       },
       "progress": {
         "title": "Прогрес розв'язання",
@@ -4579,7 +4595,7 @@
     "monitoring": "Монітор",
     "flatWizard": "Флети",
     "framing": "Фреймінг",
-    "skyView": "Stellarium",
+    "skyView": "Celestia Atlas",
     "settings": "Налашт.",
     "about": "Про нас"
   },

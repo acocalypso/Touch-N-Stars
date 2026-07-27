@@ -4,6 +4,15 @@ import { apiStore } from '@/store/store';
 import { useSequenceStore } from './sequenceStore';
 import apiService from '@/services/apiService';
 import { reloadForInstanceSwitch } from '@/utils/instanceSwitchReload';
+import {
+  createDefaultCelestiaAtlasSettings,
+  migrateCelestiaAtlasSettingsStorage,
+} from '@/store/utils/celestiaAtlasSettingsMigration';
+
+// Upgrade the persisted state before Pinia's persistence plugin hydrates it.
+// Existing installations keep all Atlas preferences, while the obsolete key is
+// removed from the next serialized snapshot.
+migrateCelestiaAtlasSettingsStorage();
 
 export const useSettingsStore = defineStore('settings', {
   state: () => ({
@@ -93,19 +102,7 @@ export const useSettingsStore = defineStore('settings', {
         filterConfigs: {},
       },
     },
-    stellarium: {
-      constellationsLinesVisible: true,
-      azimuthalLinesVisible: false,
-      equatorialLinesVisible: false,
-      meridianLinesVisible: false,
-      eclipticLinesVisible: false,
-      atmosphereVisible: true,
-      landscapesVisible: true,
-      landscapeSourceMode: 'default',
-      customLandscapeUrl: '',
-      customLandscapeKey: 'custom',
-      dsosVisible: true, // Deep Sky Objects (Messier, NGC, etc.)
-    },
+    celestiaAtlas: createDefaultCelestiaAtlasSettings(),
     guider: {
       phd2ForceCalibration: false,
       phd2ImageGamma: 0.5,
@@ -586,37 +583,7 @@ export const useSettingsStore = defineStore('settings', {
       this.saveNavbarSettings();
     },
   },
-  persist: {
-    enabled: true,
-    strategies: [
-      {
-        key: 'settings-store',
-        storage: localStorage,
-        paths: [
-          'language',
-          'setupCompleted',
-          'connection',
-          'selectedInstanceId',
-          'lastCreatedInstanceId',
-          'monitorViewSetting',
-          'tutorial',
-          'showPlugins',
-          'keepAwakeEnabled',
-          'wifiBindingEnabled',
-          'livestack',
-          'useBetaFeatures',
-          'touchOptimized',
-          'camera',
-          'stellarium',
-          'monitorViewSetting.graphDataSource1',
-          'monitorViewSetting.graphDataSource2',
-          'livestack',
-          'tutorial.histogramVisited',
-          'tutorial.selectTargetVisited',
-          'tutorial.statusBarButtonsVisited',
-          'modalPositions',
-        ],
-      },
-    ],
-  },
+  // pinia-plugin-persistedstate 4.x uses the store id (`settings`) as the key.
+  // Keep the current whole-store behavior so existing installations hydrate without migration.
+  persist: true,
 });

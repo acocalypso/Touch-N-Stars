@@ -20,7 +20,7 @@ Die App kann auf Ihren Standort zugreifen, ausschließlich zu folgenden Zwecken:
 
     Synchronisierung mit der Moniterung (z. B. zur Steuerung oder Ausrichtung astronomischer Geräte)
 
-    Standortbestimmung in Stellarium (zur Anzeige des Himmelsausschnitts an Ihrem aktuellen Standort)
+    Standortbestimmung in Celestia Atlas (zur Anzeige des Himmelsausschnitts an Ihrem aktuellen Standort)
 
 Die Standortdaten werden nur für diese Funktionen verwendet und nicht gespeichert oder weitergegeben.
 

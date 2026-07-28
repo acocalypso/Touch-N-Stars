@@ -8,7 +8,7 @@ Touch-N-Stars is a Vue 3 + Capacitor client for remotely operating NINA-based as
 2. PINS/headless mode with additional daemon APIs and SignalR channels.
 3. Local mock mode for UI and workflow testing without a backend.
 
-This document describes the architecture as implemented in the current codebase.
+This document describes the architecture as implemented in the current codebase (branch `develop`).
 
 ## 2. System Context
 
@@ -157,7 +157,7 @@ flowchart LR
 - Equipment: camera, mount, focuser, guider, filter wheel, rotator, dome, switch, flat device, weather, safety.
 - Imaging workflows: sequence monitoring/control, image history, stats and graphs.
 - Setup and profiles: instance-based backend selection and active profile driven behavior.
-- Targeting and planning: framing, favorites, and the Celestia Atlas integration.
+- Targeting and planning: framing, favorites, Stellarium integration.
 - Alignment and utilities: TPPA, flat assistant, plugin-specific workflows.
 
 ### 9.2 Cross-Cutting UX
@@ -166,20 +166,6 @@ flowchart LR
 - Toasts/modals/dialog systems.
 - Orientation-aware layout behavior and route view refresh handling.
 - Error capture and debug console support.
-
-### 9.3 Sky Atlas
-
-Celestia Atlas is the default sky renderer. `App.vue` lazy-loads its Vue wrapper
-only on first use, after which one warm instance is retained and paused while
-hidden. The wrapper owns observer/time synchronization, mount and framing
-adapters, physical camera FOV, landscape/horizon settings, offline search and
-independent star/galaxy/other-DSO limiting magnitudes. The renderer package is
-pinned to an immutable Git revision. The legacy Stellarium Web runtime and
-rollback path have been removed.
-
-The current dependency update, coordinate, offline-data, mobile, and validation
-contracts are maintained in
-[`docs/celestia-atlas-integration.md`](docs/celestia-atlas-integration.md).
 
 ## 10. Build, Packaging, and Release
 
@@ -208,16 +194,7 @@ contracts are maintained in
 
 ## 11. Data and Assets
 
-- The pinned Celestia Atlas package supplies the offline engine, compact
-  OpenNGC/bright-sky catalogues and Milky Way asset. The application-owned
-  `public/celestia-atlas-data` tree supplies landscapes and the packaged DSS
-  HiPS background to web builds and the NINA plugin server.
-- Sky-survey rendering is offline-only. The viewer is configured explicitly for
-  `celestia-atlas-data/surveys/dss` orders 3–4 and has no public online tile
-  fallback. Capacitor Android/iOS builds exclude this large tree and resolve it
-  against the selected NINA plugin; web builds use the same-origin tree.
-- Persisted Atlas preferences use `settings.celestiaAtlas`; startup migrates the
-  former `settings.stellarium` key and local `/stellarium-data` custom paths.
+- `public/stellarium-data` and `public/stellarium-js` host heavy astronomy/visualization assets.
 - `public/whats-new.json` is generated at build time.
 - `src/locales/*.json` provide locale resources.
 
@@ -265,3 +242,4 @@ contracts are maintained in
 2. Introduce typed API contracts (for example with schema validation) at service boundaries.
 3. Consolidate transport status into a shared connection-health module used by all stores.
 4. Add architecture decision records (ADRs) for plugin routing strategy, mode switching, and update channel policy.
+

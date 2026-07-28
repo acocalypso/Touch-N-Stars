@@ -366,6 +366,10 @@
       "beta": {
         "title": "Beta Update Channel"
       },
+      "devChannel": {
+        "title": "Dev Update Channel",
+        "description": "Receives test builds from the developer's own repository instead of the official one."
+      },
       "showTutorial": "Show Tutorial",
       "plugins": {
         "title": "Plugin Management",
@@ -1778,8 +1782,8 @@
         "preConnectDelay": "Pre Connect Delay (ms)"
       }
     },
-    "celestiaAtlas": {
-      "loading": "Loading Celestia Atlas…",
+    "stellarium": {
+      "loading": "Loading Stellarium…",
       "selected_object": {
         "title": "Selected object",
         "ra": "RA",
@@ -1802,23 +1806,7 @@
         "ecliptic_lines_visible": "Show ecliptic",
         "atmosphere_visible": "Show atmosphere",
         "landscapes_visible": "Show landscapes",
-        "hide_below_horizon": "Hide objects below horizon",
-        "sky_survey_visible": "Photographic sky survey",
-        "sky_survey_hint": "Uses the packaged DSS sky images offline and never fetches survey tiles from the internet.",
         "dsos_visible": "Deep Sky Objects (Messier, NGC)",
-        "catalog_filters": "Catalogue filters",
-        "catalog_filter_hint": "Controls visible deep-sky markers; offline search still finds every catalogue object.",
-        "catalog_filter_types": "Object types",
-        "catalog_filter_sources": "Catalogue sources",
-        "catalog_filter_selected": "{selected} of {total}",
-        "catalog_filter_all": "All",
-        "catalog_filter_none": "None",
-        "brightness_filters": "Brightness filters",
-        "magnitude_limit_hint": "Lower values show only brighter objects; higher values include fainter objects.",
-        "magnitude_limit_auto": "Auto",
-        "star_magnitude_limit": "Stars (limiting magnitude)",
-        "galaxy_magnitude_limit": "Galaxies (limiting magnitude)",
-        "dso_magnitude_limit": "Other deep-sky objects (limiting magnitude)",
         "title": "Settings",
         "landscape_source_mode": "Landscape source",
         "landscape_source_default": "Default landscape (Guereins)",
@@ -1826,7 +1814,7 @@
         "landscape_source_custom": "Custom data source",
         "landscape_option_label": "Landscape: {title}",
         "custom_landscape_url": "Custom source URL",
-        "custom_landscape_url_placeholder": "e.g. /celestia-atlas-data/landscapes/custom",
+        "custom_landscape_url_placeholder": "e.g. /stellarium-data/landscapes/custom",
         "custom_landscape_key": "Custom source key",
         "custom_landscape_key_placeholder": "e.g. my-landscape",
         "available_landscapes": "Available landscapes",
@@ -2978,7 +2966,7 @@
         "center_solve_label": "Center + Solve",
         "center_solve_text": "platesolve and center the target (requires mount connected + a calibrated offset).",
         "target_solve_label": "Target + Solve",
-        "target_solve_text": "Slew to Target + Center (requires a connected mount and a target selected in Celestia Atlas)."
+        "target_solve_text": "Slew to Target + Center (reqauires mount connected + Target set in Stellarium in Framing Assistant)."
       },
       "progress": {
         "title": "Solve Progress",
@@ -4780,7 +4768,7 @@
     "monitoring": "Monitor",
     "flatWizard": "Flats",
     "framing": "Framing",
-    "skyView": "Celestia Atlas",
+    "skyView": "Stellarium",
     "settings": "Settings",
     "about": "About"
   }

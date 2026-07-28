@@ -420,7 +420,6 @@ import { degreesToHMS, degreesToDMS } from '@/utils/utils';
 import { useSequenceStore } from '@/store/sequenceStore';
 import { useToastStore } from '@/store/toastStore';
 import apiService from '@/services/apiService';
-import { positionAngleFromFitsAnalysis } from '@/integrations/celestiaAtlas/positionAngle';
 
 const { t } = useI18n();
 const framingStore = useFramingStore();
@@ -607,12 +606,7 @@ async function solve(blind) {
       decString: data.DecString ?? data.decString,
       rotation: data.Rotation ?? data.rotation,
       pixelScale: data.PixelScale ?? data.pixelScale,
-      solvedFromWcs: data.SolvedFromWcs ?? data.solvedFromWcs ?? false,
     };
-    const positionAngle = positionAngleFromFitsAnalysis(result.value);
-    if (positionAngle === null) {
-      throw new Error(t('components.fitsPlatesolve.solveFailed'));
-    }
     // Write coordinates into framingStore exactly like selectTarget() in TargetSearch.vue.
     // Use degreesToHMS/DMS so slewAndCenter.vue can parse the strings correctly —
     // the API DecString uses "41° 16' 07\"" format which dmsToDegrees cannot handle.
@@ -620,7 +614,7 @@ async function solve(blind) {
     framingStore.DECangle = result.value.dec;
     framingStore.RAangleString = degreesToHMS(result.value.ra);
     framingStore.DECangleString = degreesToDMS(result.value.dec);
-    framingStore.rotationAngle = positionAngle;
+    framingStore.rotationAngle = result.value.rotation ?? 0;
     framingStore.isMosaicMode = false;
     framingStore.selectedItem = {
       Name: 'FITS Plate Solve',

@@ -57,8 +57,7 @@ Touch-N-Stars currently includes:
 - Connection orchestration through global Pinia stores and service adapters.
 - Dynamic plugin discovery through `src/plugins/*`, generated plugin registry, plugin metadata, and plugin-local views/stores.
 - Build-time generated artifacts such as plugin registry and `public/whats-new.json` from `CHANGELOG.md`.
-- Heavy astronomy visualization/static assets under `public/celestia-atlas-data`;
-  native builds intentionally exclude this tree and use the NINA plugin copy.
+- Heavy astronomy visualization/static assets under `public/stellarium-data` and `public/stellarium-js`.
 - Native OTA update behavior through Capacitor/Capgo update flow.
 - i18n locale files under `src/locales`.
 
@@ -478,16 +477,12 @@ npm run build
 npm run preview:smoke
 ```
 
-The full Vue typecheck can exceed Node's default heap. Set
-`NODE_OPTIONS=--max-old-space-size=6144` first (PowerShell:
-`$env:NODE_OPTIONS='--max-old-space-size=6144'`) when validating the complete
-application graph.
-
 When native/mobile behavior is relevant:
 
 ```bash
 npm run build:native
-npm run sync:native
+npx cap sync android
+npx cap sync ios
 ```
 
 When plugin behavior or generated files are relevant:
@@ -503,14 +498,6 @@ When release/test deployment behavior is relevant on Windows/N.I.N.A. plugin pat
 ```bash
 npm run testbuild
 ```
-
-`testbuild` deliberately skips the source-scoped lint gate so a local N.I.N.A.
-deployment remains fast and deterministic. It
-uses the normal `build:app` generators, deploys to the fixed plugin `app`
-directory, and then verifies the Celestia view/engine chunks, the complete DSS
-orders 3 and 4 including the order-3 Allsky preview, and removal of legacy
-Stellarium data. Run the cached `npm run lint` separately before committing; CI
-continues to enforce linting.
 
 When using scripts that can auto-modify files, re-run:
 

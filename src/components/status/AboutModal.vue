@@ -54,7 +54,7 @@
             </svg>
             <span>Version</span>
           </h3>
-          <p class="text-gray-300 pl-7">Touch 'N' Stars: {{ version }}</p>
+          <p class="text-gray-300 pl-7" @click="handleVersionTap">Touch 'N' Stars: {{ version }}</p>
           <p v-if="store.isPINS" class="text-gray-300 pl-7 mt-1">
             PINS: {{ store.currentPinsVersion || 'Unknown' }}
           </p>
@@ -226,7 +226,7 @@
           </ul>
         </div>
 
-        <!-- Celestia Atlas -->
+        <!-- Neuer Eintrag: Stellarium Web Engine -->
         <div
           class="bg-gray-700/20 p-5 rounded-xl hover:bg-gray-700/30 transition-colors duration-200"
         >
@@ -243,15 +243,15 @@
                 clip-rule="evenodd"
               />
             </svg>
-            <span>Celestia Atlas</span>
+            <span>Stellarium Web Engine</span>
           </h3>
           <a
-            href="https://github.com/acocalypso/celestia_atlas"
+            href="https://github.com/Stellarium/stellarium-web-engine"
             target="_blank"
             rel="noopener noreferrer"
             class="text-blue-400 hover:text-blue-300 transition-colors duration-200 pl-7 flex items-center space-x-2"
           >
-            <span>https://github.com/acocalypso/celestia_atlas</span>
+            <span>https://github.com/Stellarium/stellarium-web-engine</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-4 w-4"
@@ -318,12 +318,41 @@
 import { ref, onMounted } from 'vue';
 import { apiStore } from '@/store/store';
 import { useSettingsStore } from '@/store/settingsStore';
+import { getPreferredUpdateChannel } from '@/services/updateService';
 
 const settingsStore = useSettingsStore();
 const store = apiStore();
 const emit = defineEmits(['close']);
 const count = ref(0);
+const devTapCount = ref(0);
 const currentYear = new Date().getFullYear();
+
+// Hidden toggle for the dev update channel: 7 taps on the version reveal the setting,
+// 3 more hide it again (and leave the dev channel, so nobody stays on it unknowingly).
+function handleVersionTap() {
+  devTapCount.value++;
+  if (devTapCount.value === 7) {
+    settingsStore.devChannelUnlocked = true;
+    alert('Dev update channel unlocked.');
+  }
+  if (devTapCount.value === 10) {
+    const wasOnDevChannel = settingsStore.useDevUpdateChannel;
+    settingsStore.devChannelUnlocked = false;
+    settingsStore.useDevUpdateChannel = false;
+    alert('Dev update channel hidden.');
+    if (wasOnDevChannel) {
+      window.dispatchEvent(
+        new CustomEvent('check-app-update', {
+          detail: {
+            resetDismissed: true,
+            syncChannel: true,
+            channel: getPreferredUpdateChannel(),
+          },
+        })
+      );
+    }
+  }
+}
 
 function startBad() {
   count.value++;

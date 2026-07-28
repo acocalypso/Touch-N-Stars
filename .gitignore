@@ -1,8 +1,6 @@
 .DS_Store
 node_modules
 /dist
-/coverage/
-/.cache/
 /server/dist
 /server/build
 /server/static

@@ -72,7 +72,12 @@
     "error": "Update failed. Please try again later.",
     "later": "Later",
     "updateNow": "Update now",
-    "working": "Working…"
+    "working": "Working…",
+    "checkNow": "Check for updates",
+    "checking": "Checking…",
+    "upToDateTitle": "No update available",
+    "upToDateMessage": "You are already running the latest version.",
+    "checkFailedTitle": "Update check failed"
   },
   "setup": {
     "welcome": "Welcome to Touch'N'Stars",

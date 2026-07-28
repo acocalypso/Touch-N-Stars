@@ -72,7 +72,12 @@
     "error": "Update fehlgeschlagen. Bitte später erneut versuchen.",
     "later": "Später",
     "updateNow": "Jetzt aktualisieren",
-    "working": "Wird ausgeführt…"
+    "working": "Wird ausgeführt…",
+    "checkNow": "Nach Updates suchen",
+    "checking": "Suche…",
+    "upToDateTitle": "Kein Update verfügbar",
+    "upToDateMessage": "Du verwendest bereits die neueste Version.",
+    "checkFailedTitle": "Update-Prüfung fehlgeschlagen"
   },
   "setup": {
     "welcome": "Willkommen bei Touch'N'Stars",

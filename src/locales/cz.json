@@ -72,7 +72,12 @@
     "error": "Aktualizace se nezdařila. Zkuste to znovu později.",
     "later": "Později",
     "updateNow": "Aktualizujte nyní",
-    "working": "Pracovní…"
+    "working": "Pracovní…",
+    "checkNow": "Zkontrolovat aktualizace",
+    "checking": "Kontrola…",
+    "upToDateTitle": "Žádná aktualizace není k dispozici",
+    "upToDateMessage": "Používáte již nejnovější verzi.",
+    "checkFailedTitle": "Kontrola aktualizací selhala"
   },
   "setup": {
     "welcome": "Vítá Vás Touch'N'Stars",

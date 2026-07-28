@@ -72,7 +72,12 @@
     "error": "アップデートに失敗しました。後でもう一度お試しください。",
     "later": "後で",
     "updateNow": "今すぐアップデート",
-    "working": "処理中…"
+    "working": "処理中…",
+    "checkNow": "アップデートを確認",
+    "checking": "確認中…",
+    "upToDateTitle": "アップデートはありません",
+    "upToDateMessage": "すでに最新バージョンを使用しています。",
+    "checkFailedTitle": "アップデートの確認に失敗しました"
   },
   "setup": {
     "welcome": "ようこそTouch'N'Stars へ",

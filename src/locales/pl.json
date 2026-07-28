@@ -72,7 +72,12 @@
     "error": "Aktualizacja nie powiodła się. Spróbuj ponownie później.",
     "later": "Później",
     "updateNow": "Aktualizuj teraz",
-    "working": "W toku…"
+    "working": "W toku…",
+    "checkNow": "Sprawdź aktualizacje",
+    "checking": "Sprawdzanie…",
+    "upToDateTitle": "Brak dostępnych aktualizacji",
+    "upToDateMessage": "Używasz już najnowszej wersji.",
+    "checkFailedTitle": "Sprawdzanie aktualizacji nie powiodło się"
   },
   "setup": {
     "welcome": "Witaj w Touch'N'Stars",

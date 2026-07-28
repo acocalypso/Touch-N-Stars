@@ -72,7 +72,12 @@
     "error": "A atualização falhou. Tente novamente mais tarde.",
     "later": "Mais tarde",
     "updateNow": "Atualizar agora",
-    "working": "A trabalhar…"
+    "working": "A trabalhar…",
+    "checkNow": "Procurar atualizações",
+    "checking": "A procurar…",
+    "upToDateTitle": "Nenhuma atualização disponível",
+    "upToDateMessage": "Já está a usar a versão mais recente.",
+    "checkFailedTitle": "Falha ao procurar atualizações"
   },
   "setup": {
     "welcome": "Bem-vindo ao Touch'N'Stars",

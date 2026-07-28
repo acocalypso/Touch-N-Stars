@@ -72,7 +72,12 @@
     "error": "Aggiornamento non riuscito. Riprova più tardi.",
     "later": "Più tardi",
     "updateNow": "Aggiorna ora",
-    "working": "In corso…"
+    "working": "In corso…",
+    "checkNow": "Cerca aggiornamenti",
+    "checking": "Ricerca…",
+    "upToDateTitle": "Nessun aggiornamento disponibile",
+    "upToDateMessage": "Stai già usando la versione più recente.",
+    "checkFailedTitle": "Controllo aggiornamenti non riuscito"
   },
   "setup": {
     "welcome": "Benvenuto in Touch'N'Stars",

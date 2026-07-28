@@ -72,7 +72,12 @@
     "error": "La mise à jour a échoué. Veuillez réessayer plus tard.",
     "later": "Plus tard",
     "updateNow": "Mettre à jour maintenant",
-    "working": "En cours…"
+    "working": "En cours…",
+    "checkNow": "Rechercher des mises à jour",
+    "checking": "Recherche…",
+    "upToDateTitle": "Aucune mise à jour disponible",
+    "upToDateMessage": "Vous utilisez déjà la dernière version.",
+    "checkFailedTitle": "Échec de la recherche de mise à jour"
   },
   "setup": {
     "welcome": "Bienvenue dans Touch'N'Stars",

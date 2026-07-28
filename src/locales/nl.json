@@ -72,7 +72,12 @@
     "error": "Update fout. Probeer later nogmaals.",
     "later": "Later",
     "updateNow": "Update nu",
-    "working": "Bezig…"
+    "working": "Bezig…",
+    "checkNow": "Controleren op updates",
+    "checking": "Bezig met controleren…",
+    "upToDateTitle": "Geen update beschikbaar",
+    "upToDateMessage": "Je gebruikt al de nieuwste versie.",
+    "checkFailedTitle": "Controle op updates mislukt"
   },
   "setup": {
     "welcome": "Welkom bij Touch'N'Stars",

@@ -353,6 +353,10 @@
       "beta": {
         "title": "Beta-Update-Kanal"
       },
+      "devChannel": {
+        "title": "Dev-Update-Kanal",
+        "description": "Erhält Testversionen aus dem eigenen Repository des Entwicklers statt aus dem offiziellen."
+      },
       "showTutorial": "Tutorial anzeigen",
       "plugins": {
         "title": "Plugin-Verwaltung",

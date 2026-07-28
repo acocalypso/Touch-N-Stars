@@ -12,6 +12,9 @@ export const useSettingsStore = defineStore('settings', {
     showDebugConsole: false,
     showSpecial: false,
     useBetaFeatures: false,
+    // Hidden dev update channel, revealed via the tap sequence in the About modal
+    devChannelUnlocked: false,
+    useDevUpdateChannel: false,
     touchOptimized: true,
     livestack: {
       showFilters: true,
@@ -605,6 +608,8 @@ export const useSettingsStore = defineStore('settings', {
           'wifiBindingEnabled',
           'livestack',
           'useBetaFeatures',
+          'devChannelUnlocked',
+          'useDevUpdateChannel',
           'touchOptimized',
           'camera',
           'stellarium',

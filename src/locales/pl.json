@@ -283,6 +283,10 @@
       "beta": {
         "title": "Kanał aktualizacji beta"
       },
+      "devChannel": {
+        "title": "Kanał aktualizacji dev",
+        "description": "Pobiera wersje testowe z własnego repozytorium dewelopera zamiast z oficjalnego."
+      },
       "showTutorial": "Pokaż samouczek",
       "plugins": {
         "title": "Zarządzanie wtyczkami",

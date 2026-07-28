@@ -366,6 +366,10 @@
       "beta": {
         "title": "Beta Update Channel"
       },
+      "devChannel": {
+        "title": "Dev Update Channel",
+        "description": "Receives test builds from the developer's own repository instead of the official one."
+      },
       "showTutorial": "Show Tutorial",
       "plugins": {
         "title": "Plugin Management",

@@ -283,6 +283,10 @@
       "beta": {
         "title": "Beta Update Kanaal"
       },
+      "devChannel": {
+        "title": "Dev Update Kanaal",
+        "description": "Ontvangt testversies uit de eigen repository van de ontwikkelaar in plaats van de officiële."
+      },
       "showTutorial": "Toon korte instructie",
       "plugins": {
         "title": "Plugin Beheer",

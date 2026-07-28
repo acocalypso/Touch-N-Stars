@@ -283,6 +283,10 @@
       "beta": {
         "title": "测试版更新通道"
       },
+      "devChannel": {
+        "title": "开发版更新通道",
+        "description": "从开发者自己的代码仓库接收测试版本，而不是官方仓库。"
+      },
       "showTutorial": "显示教程",
       "plugins": {
         "title": "插件管理",

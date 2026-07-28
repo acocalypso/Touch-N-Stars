@@ -283,6 +283,10 @@
       "beta": {
         "title": "Beta aktualizační kanál"
       },
+      "devChannel": {
+        "title": "Vývojářský aktualizační kanál",
+        "description": "Přijímá testovací sestavení z vlastního repozitáře vývojáře místo oficiálního."
+      },
       "showTutorial": "Zobrazit tutoriál",
       "plugins": {
         "title": "Správa pluginů",

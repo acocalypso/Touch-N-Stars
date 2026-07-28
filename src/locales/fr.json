@@ -283,6 +283,10 @@
       "beta": {
         "title": "Canal de mise à jour bêta"
       },
+      "devChannel": {
+        "title": "Canal de mise à jour dev",
+        "description": "Reçoit les versions de test depuis le dépôt personnel du développeur au lieu du dépôt officiel."
+      },
       "showTutorial": "Afficher le tutoriel",
       "plugins": {
         "title": "Gestion des plugins",

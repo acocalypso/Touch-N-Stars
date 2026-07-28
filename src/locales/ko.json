@@ -366,6 +366,10 @@
       "beta": {
         "title": "베타 업데이트 채널"
       },
+      "devChannel": {
+        "title": "개발 업데이트 채널",
+        "description": "공식 저장소 대신 개발자의 개인 저장소에서 테스트 빌드를 받습니다."
+      },
       "showTutorial": "튜토리얼 보기",
       "plugins": {
         "title": "플러그인 관리",

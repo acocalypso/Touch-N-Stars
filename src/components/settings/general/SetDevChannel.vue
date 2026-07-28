@@ -3,16 +3,19 @@
     <div
       class="flex flex-row items-center justify-between w-full border border-gray-500 p-2 rounded-lg"
     >
-      <label for="landscapesVisible" class="text-gray-400">
-        {{ $t('components.settings.beta.title') }}
+      <label class="text-gray-400">
+        {{ $t('components.settings.devChannel.title') }}
       </label>
       <div>
         <toggleButton
-          @update:statusValue="toggleDebug"
-          :statusValue="settingsStore.useBetaFeatures || false"
+          @update:statusValue="toggleDevChannel"
+          :statusValue="settingsStore.useDevUpdateChannel || false"
         />
       </div>
     </div>
+    <p class="text-xs text-gray-500 mt-1">
+      {{ $t('components.settings.devChannel.description') }}
+    </p>
   </div>
 </template>
 <script setup>
@@ -22,12 +25,12 @@ import { getPreferredUpdateChannel } from '@/services/updateService';
 
 const settingsStore = useSettingsStore();
 
-async function toggleDebug(value) {
-  settingsStore.useBetaFeatures = value;
+async function toggleDevChannel(value) {
+  settingsStore.useDevUpdateChannel = value;
 
   // Trigger update check in App.vue via custom event
   // Pass reset flag to clear dismissed version when switching channels
-  console.log('[Beta Settings] Update channel switched, triggering update check...');
+  console.log('[Dev Settings] Update channel switched, triggering update check...');
   window.dispatchEvent(
     new CustomEvent('check-app-update', {
       detail: {
@@ -39,8 +42,3 @@ async function toggleDebug(value) {
   );
 }
 </script>
-<style scoped>
-.glow-green {
-  box-shadow: 0 0 10px #00ff00; /* Grüner Schein */
-}
-</style>

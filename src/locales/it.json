@@ -283,6 +283,10 @@
       "beta": {
         "title": "Canale di aggiornamento beta"
       },
+      "devChannel": {
+        "title": "Canale di aggiornamento dev",
+        "description": "Riceve build di test dal repository personale dello sviluppatore invece che da quello ufficiale."
+      },
       "showTutorial": "Mostra tutorial",
       "plugins": {
         "title": "Gestione plugin",

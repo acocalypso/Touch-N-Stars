@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [App5.3.0-beta1] - Unreleased
+## [App5.3.0-beta1] - 2026-07-28
 ### Changed
 - Multi-instance: Switching instances - and editing the IP/port of the active instance - now restarts the app instead of resetting parts of it in place. You stay on the page you were on. Note that a running TPPA alignment or manual mount control session is no longer carried over to the new instance
 

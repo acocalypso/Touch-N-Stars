@@ -203,7 +203,7 @@
 </template>
 
 <script setup>
-import { watch, ref, computed } from 'vue';
+import { ref, computed } from 'vue';
 import { useSettingsStore } from '@/store/settingsStore';
 import InstanceDetection from '../../setup/InstanceDetection.vue';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
@@ -275,8 +275,4 @@ function selectInstance(instance) {
 function removeInstance(id) {
   settingsStore.removeInstance(id);
 }
-
-watch(selectedInstance, (newId) => {
-  settingsStore.setSelectedInstanceId(newId);
-});
 </script>

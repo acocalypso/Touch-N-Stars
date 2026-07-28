@@ -136,7 +136,8 @@
       "noInstances": "No instances configured",
       "manageInstances": "Manage Instances",
       "checking": "Checking instances…",
-      "noneOnline": "No instances online"
+      "noneOnline": "No instances online",
+      "switchingTo": "Switching to {name}…"
     },
     "instanceDetection": {
       "autoDetectionTitle": "Auto-Detection",
@@ -364,6 +365,10 @@
       },
       "beta": {
         "title": "Beta Update Channel"
+      },
+      "devChannel": {
+        "title": "Dev Update Channel",
+        "description": "Receives test builds from the developer's own repository instead of the official one."
       },
       "showTutorial": "Show Tutorial",
       "plugins": {

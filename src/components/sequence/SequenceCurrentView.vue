@@ -175,8 +175,8 @@ function onDragEnd(evt, siblings) {
 }
 
 // Restart polling when the backend comes back while this view is mounted:
-// instance switches AND transient connection losses both run clearAllStates(),
-// which stops the poller without this view ever unmounting.
+// a transient connection loss runs clearAllStates(), which stops the poller
+// without this view ever unmounting.
 watch(
   () => backendStore.isBackendReachable,
   (reachable) => {

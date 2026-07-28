@@ -386,6 +386,7 @@ import {
   downloadAndApplyUpdate,
   fetchChangelogWhatsNew,
   getPreferredUpdateChannel,
+  isDevUpdateChannel,
   isNativePlatform,
   syncNativeUpdateChannel,
 } from '@/services/updateService';
@@ -1066,12 +1067,22 @@ async function checkForAppUpdate(options = {}) {
 
     const result = await checkForManualUpdate(currentBundleVersion, { allowDowngrade });
 
-    if (result?.available && currentBundleVersion && result.version === currentBundleVersion) {
+    // On the dev channel the fork shares its version numbers with upstream, so identical or
+    // already dismissed versions must still be offered - otherwise a dev build could never
+    // be installed on top of a release build with the same version.
+    const devChannel = isDevUpdateChannel();
+
+    if (
+      !devChannel &&
+      result?.available &&
+      currentBundleVersion &&
+      result.version === currentBundleVersion
+    ) {
       // Extra guard in case update service fallback/version parsing returns a false positive.
       return;
     }
 
-    if (result?.available && result.version !== dismissedUpdateVersion.value) {
+    if (result?.available && (devChannel || result.version !== dismissedUpdateVersion.value)) {
       let whatsNewDetails = null;
       try {
         whatsNewDetails = await fetchChangelogWhatsNew(result);
@@ -1098,10 +1109,7 @@ async function checkForAppUpdate(options = {}) {
 
 async function handleCheckAppUpdate(event) {
   console.log('Update check requested via channel switch');
-  const useBetaFeatures =
-    typeof event?.detail?.useBetaFeatures === 'boolean'
-      ? event.detail.useBetaFeatures
-      : settingsStore.useBetaFeatures;
+  const channel = event?.detail?.channel ?? getPreferredUpdateChannel();
 
   if (event?.detail?.resetDismissed) {
     dismissedUpdateVersion.value = null;
@@ -1109,7 +1117,7 @@ async function handleCheckAppUpdate(event) {
   }
 
   if (event?.detail?.syncChannel) {
-    await syncNativeUpdateChannel(useBetaFeatures, { triggerAutoUpdate: false });
+    await syncNativeUpdateChannel(channel, { triggerAutoUpdate: false });
   }
 
   if (isNativePlatform()) {
@@ -1184,7 +1192,7 @@ onMounted(async () => {
 
   // Check for app update immediately - independent from backend status
   if (isNativePlatform()) {
-    void checkForAppUpdate({ allowDowngrade: getPreferredUpdateChannel() === 'beta' });
+    void checkForAppUpdate({ allowDowngrade: getPreferredUpdateChannel() !== 'stable' });
   }
 
   // Capacitor App Lifecycle Events for mobile platforms.

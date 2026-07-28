@@ -6,22 +6,29 @@ import { useSettingsStore } from '@/store/settingsStore';
 let SUPPORTED_PLATFORMS = new Set(['android', 'ios']);
 let UPDATE_ASSET_NAME = 'dist.zip';
 
-function getGithubApiBase() {
-  return 'https://api.github.com/repos/Touch-N-Stars/Touch-N-Stars';
-}
+const UPSTREAM_REPO = 'Touch-N-Stars/Touch-N-Stars';
+const DEV_REPO = 'JohannesWorks/Touch-N-Stars';
 
-function isBetaUpdateChannelEnabled() {
-  try {
-    const settingsStore = useSettingsStore();
-    return Boolean(settingsStore?.useBetaFeatures);
-  } catch (error) {
-    // Store not initialized yet, use stable channel by default
-    return false;
-  }
+function getGithubApiBase(channel = getPreferredUpdateChannel()) {
+  const repo = channel === 'dev' ? DEV_REPO : UPSTREAM_REPO;
+  return `https://api.github.com/repos/${repo}`;
 }
 
 export function getPreferredUpdateChannel() {
-  return isBetaUpdateChannelEnabled() ? 'beta' : 'stable';
+  try {
+    const settingsStore = useSettingsStore();
+    if (settingsStore?.devChannelUnlocked && settingsStore?.useDevUpdateChannel) {
+      return 'dev';
+    }
+    return settingsStore?.useBetaFeatures ? 'beta' : 'stable';
+  } catch (error) {
+    // Store not initialized yet, use stable channel by default
+    return 'stable';
+  }
+}
+
+export function isDevUpdateChannel() {
+  return getPreferredUpdateChannel() === 'dev';
 }
 
 const defaultHeaders = {
@@ -54,7 +61,7 @@ export function isNativePlatform() {
   return SUPPORTED_PLATFORMS.has(getPlatform());
 }
 
-export async function syncNativeUpdateChannel(useBetaChannel, options = {}) {
+export async function syncNativeUpdateChannel(channel, options = {}) {
   if (!isNativePlatform()) {
     return { skipped: true, reason: 'non-native-platform' };
   }
@@ -62,13 +69,18 @@ export async function syncNativeUpdateChannel(useBetaChannel, options = {}) {
   const triggerAutoUpdate = options.triggerAutoUpdate === true;
 
   try {
-    if (useBetaChannel) {
+    if (channel !== 'stable') {
+      // The dev channel maps onto the native beta channel; release selection happens in
+      // fetchLatestRelease() against the dev repository.
       const result = await CapacitorUpdater.setChannel({
         channel: 'beta',
         triggerAutoUpdate,
       });
-      console.info('[Updater] Native update channel set to beta:', result);
-      return { channel: 'beta', result };
+      console.info(
+        `[Updater] Native update channel set to beta (app channel: ${channel}):`,
+        result
+      );
+      return { channel, result };
     }
 
     await CapacitorUpdater.unsetChannel({ triggerAutoUpdate });
@@ -76,7 +88,7 @@ export async function syncNativeUpdateChannel(useBetaChannel, options = {}) {
     return { channel: 'stable' };
   } catch (error) {
     console.warn('[Updater] Failed to sync native update channel:', error);
-    return { channel: useBetaChannel ? 'beta' : 'stable', error };
+    return { channel, error };
   }
 }
 
@@ -176,7 +188,7 @@ async function fetchJson(url) {
   return response.json();
 }
 
-function mapReleaseToUpdateMetadata(release) {
+function mapReleaseToUpdateMetadata(release, channel = 'stable') {
   const assets = Array.isArray(release.assets) ? release.assets : [];
 
   console.info('[Updater] Release assets found:', assets.map((a) => a?.name).filter(Boolean));
@@ -196,6 +208,7 @@ function mapReleaseToUpdateMetadata(release) {
   }
 
   return {
+    channel,
     tagName: release.tag_name,
     version: normalizedVersion,
     name: release.name || release.tag_name,
@@ -208,16 +221,17 @@ function mapReleaseToUpdateMetadata(release) {
 }
 
 async function fetchLatestRelease() {
-  const useBetaChannel = isBetaUpdateChannelEnabled();
-  const channel = useBetaChannel ? 'beta' : 'stable';
+  const channel = getPreferredUpdateChannel();
+  // The dev repository publishes with the unmodified beta workflow, so it uses the beta tag rules.
+  const useBetaTagRules = channel === 'beta' || channel === 'dev';
 
   try {
-    const releases = await fetchJson(`${getGithubApiBase()}/releases?per_page=30`);
+    const releases = await fetchJson(`${getGithubApiBase(channel)}/releases?per_page=30`);
     const channelReleases = (Array.isArray(releases) ? releases : []).filter((release) => {
       if (!release || release.draft) return false;
 
       const tagName = String(release.tag_name || '').toLowerCase();
-      if (useBetaChannel) {
+      if (useBetaTagRules) {
         return Boolean(release.prerelease) && tagName.endsWith('-beta');
       }
 
@@ -231,7 +245,7 @@ async function fetchLatestRelease() {
 
     for (const release of channelReleases) {
       try {
-        const mapped = mapReleaseToUpdateMetadata(release);
+        const mapped = mapReleaseToUpdateMetadata(release, channel);
         console.info(`[Updater] Using ${channel} release:`, mapped.tagName);
         return mapped;
       } catch (error) {
@@ -458,7 +472,9 @@ export async function fetchChangelogWhatsNew(latestRelease = null) {
     }
 
     // Fetch from GitHub API at the specific release tag to avoid CORS issues
-    const apiUrl = `${getGithubApiBase()}/contents/CHANGELOG.md?ref=${release.tagName}`;
+    const apiUrl = `${getGithubApiBase(release.channel)}/contents/CHANGELOG.md?ref=${
+      release.tagName
+    }`;
     console.log('[Updater] Fetching changelog from API:', apiUrl);
 
     const response = await fetch(apiUrl, {

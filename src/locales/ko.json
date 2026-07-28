@@ -1697,6 +1697,9 @@
     },
     "flatassistant": {
       "title": "플랫 어시스턴트",
+      "set_target_name": "대상 이름 설정",
+      "target_name": "대상 이름",
+      "target_name_from_favorites": "즐겨찾기에서 이름 가져오기",
       "count": "촬영할 플랫 수",
       "darks_to_take": "촬영할 다크플랫 수",
       "exposure_time": "노출 시간",

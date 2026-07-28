@@ -1697,6 +1697,9 @@
     },
     "flatassistant": {
       "title": "Flat assistant",
+      "set_target_name": "Set target name",
+      "target_name": "Target name",
+      "target_name_from_favorites": "Take name from favorites",
       "count": "Flats to take",
       "darks_to_take": "Darkflats to take",
       "exposure_time": "Exposure time",

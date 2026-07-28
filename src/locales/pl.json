@@ -1651,6 +1651,9 @@
     },
     "flatassistant": {
       "title": "Asystent flat",
+      "set_target_name": "Ustaw nazwę celu",
+      "target_name": "Nazwa celu",
+      "target_name_from_favorites": "Pobierz nazwę z ulubionych",
       "count": "Liczba",
       "exposure_time": "Czas naświetlania",
       "min_exposure_time": "Min czas naświetlania",

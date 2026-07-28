@@ -1651,6 +1651,9 @@
     },
     "flatassistant": {
       "title": "平场助手",
+      "set_target_name": "设置目标名称",
+      "target_name": "目标名称",
+      "target_name_from_favorites": "从收藏夹获取名称",
       "count": "数量",
       "exposure_time": "曝光时间",
       "min_exposure_time": "最小曝光时间",

@@ -1660,6 +1660,9 @@
     },
     "flatassistant": {
       "title": "フラットアシスタント",
+      "set_target_name": "ターゲット名を設定",
+      "target_name": "ターゲット名",
+      "target_name_from_favorites": "お気に入りから名前を取得",
       "count": "枚数",
       "exposure_time": "露光時間",
       "min_exposure_time": "最小露光時間",

@@ -18,6 +18,12 @@
     <div class="flex flex-col items-center justify-center max-w-md p-2 mx-auto">
       <SlewToZenith />
 
+      <setTargetName
+        v-if="
+          store.isPINS || store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.2.8.0')
+        "
+      />
+
       <!-- Single Mode: sub-type selector -->
       <select
         v-if="settingsStore.flats.activeMode === 'single'"
@@ -65,6 +71,7 @@ import MultiMode from '@/components/flatassistant/MultiMode.vue';
 import getStatus from '@/components/flatassistant/getStatus.vue';
 import LastImage from '@/components/flatassistant/LastImage.vue';
 import SlewToZenith from '@/components/flatassistant/SlewToZenith.vue';
+import setTargetName from '@/components/flatassistant/setTargetName.vue';
 import SubNav from '@/components/SubNav.vue';
 import { useFlatassistantStore } from '@/store/flatassistantStore';
 import { useSettingsStore } from '@/store/settingsStore';

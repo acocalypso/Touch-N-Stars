@@ -1692,6 +1692,9 @@
     },
     "flatassistant": {
       "title": "Flat Assistant",
+      "set_target_name": "Zielname setzen",
+      "target_name": "Zielname",
+      "target_name_from_favorites": "Name aus Favoriten übernehmen",
       "count": "Flats aufnehmen",
       "darks_to_take": "Darkflats aufnehmen",
       "exposure_time": "Belichtungszeit",

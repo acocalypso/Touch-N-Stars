@@ -1732,8 +1732,8 @@
         "preConnectDelay": "Atraso de pré-conexão (ms)"
       }
     },
-    "celestiaAtlas": {
-      "loading": "A carregar o Celestia Atlas…",
+    "stellarium": {
+      "loading": "A carregar o Stellarium…",
       "selected_object": {
         "title": "Objeto selecionado",
         "ra": "AR",
@@ -1756,30 +1756,14 @@
         "ecliptic_lines_visible": "Mostrar eclíptica",
         "atmosphere_visible": "Mostrar atmosfera",
         "landscapes_visible": "Mostrar paisagens",
-        "hide_below_horizon": "Ocultar objetos abaixo do horizonte",
-        "sky_survey_visible": "Levantamento fotográfico do céu",
-        "sky_survey_hint": "Usa apenas as imagens DSS incluídas offline e nunca transfere mosaicos do levantamento da Internet.",
         "dsos_visible": "Objetos do céu profundo (Messier, NGC)",
-        "catalog_filters": "Filtros de catálogo",
-        "catalog_filter_hint": "Controla os marcadores visíveis de céu profundo; a pesquisa offline continua a encontrar todos os objetos do catálogo.",
-        "catalog_filter_types": "Tipos de objeto",
-        "catalog_filter_sources": "Fontes do catálogo",
-        "catalog_filter_selected": "{selected} de {total}",
-        "catalog_filter_all": "Todos",
-        "catalog_filter_none": "Nenhum",
-        "brightness_filters": "Filtros de brilho",
-        "magnitude_limit_hint": "Valores mais baixos mostram apenas objetos mais brilhantes; valores mais altos incluem objetos mais ténues.",
-        "magnitude_limit_auto": "Automático",
-        "star_magnitude_limit": "Estrelas (magnitude limite)",
-        "galaxy_magnitude_limit": "Galáxias (magnitude limite)",
-        "dso_magnitude_limit": "Outros objetos do céu profundo (magnitude limite)",
         "title": "Configurações",
         "landscape_source_mode": "Landscape source",
         "landscape_source_default": "Default landscape (Guereins)",
         "landscape_source_neutral": "Neutral horizon (Gray)",
         "landscape_source_custom": "Custom data source",
         "custom_landscape_url": "Custom source URL",
-        "custom_landscape_url_placeholder": "e.g. /celestia-atlas-data/landscapes/custom",
+        "custom_landscape_url_placeholder": "e.g. /stellarium-data/landscapes/custom",
         "custom_landscape_key": "Custom source key",
         "custom_landscape_key_placeholder": "e.g. my-landscape",
         "available_landscapes": "Paisagens disponíveis",
@@ -2811,7 +2795,7 @@
         "center_solve_label": "Centrar + Resolver",
         "center_solve_text": "Platesolve e centragem do alvo (requer montagem ligada e offset calibrado).",
         "target_solve_label": "Alvo + Resolver",
-        "target_solve_text": "Mover para o alvo e centrar (requer montagem ligada e um alvo selecionado no Celestia Atlas)."
+        "target_solve_text": "Mover para o alvo e centrar (requer montagem ligada e alvo definido no Stellarium – Framing Assistant)."
       },
       "progress": {
         "title": "Progresso da resolução",
@@ -4690,7 +4674,7 @@
     "monitoring": "Monitor",
     "flatWizard": "Apartamentos",
     "framing": "Enquadrar",
-    "skyView": "Celestia Atlas",
+    "skyView": "Stellarium",
     "settings": "Configurações",
     "about": "Sobre"
   },

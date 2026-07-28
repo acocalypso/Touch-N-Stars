@@ -1773,8 +1773,8 @@
         "preConnectDelay": "Pre-Connect-Verzögerung (ms)"
       }
     },
-    "celestiaAtlas": {
-      "loading": "Celestia Atlas wird geladen…",
+    "stellarium": {
+      "loading": "Stellarium wird geladen…",
       "selected_object": {
         "title": "Ausgewähltes Objekt",
         "ra": "Ra",
@@ -1797,23 +1797,7 @@
         "ecliptic_lines_visible": "Ecliptic Linie",
         "atmosphere_visible": "Atmosphäre zeigen",
         "landscapes_visible": "Landschaften",
-        "hide_below_horizon": "Objekte unter dem Horizont ausblenden",
-        "sky_survey_visible": "Fotografische Himmelsdurchmusterung",
-        "sky_survey_hint": "Verwendet ausschließlich die mitgelieferten DSS-Himmelsbilder offline und lädt keine Kacheln aus dem Internet.",
         "dsos_visible": "Deep-Sky Objekte (Messier, NGC)",
-        "catalog_filters": "Katalogfilter",
-        "catalog_filter_hint": "Steuert sichtbare Deep-Sky-Markierungen; die Offline-Suche findet weiterhin alle Katalogobjekte.",
-        "catalog_filter_types": "Objekttypen",
-        "catalog_filter_sources": "Katalogquellen",
-        "catalog_filter_selected": "{selected} von {total}",
-        "catalog_filter_all": "Alle",
-        "catalog_filter_none": "Keine",
-        "brightness_filters": "Helligkeitsfilter",
-        "magnitude_limit_hint": "Niedrigere Werte zeigen nur hellere Objekte; höhere Werte schließen schwächere Objekte ein.",
-        "magnitude_limit_auto": "Automatisch",
-        "star_magnitude_limit": "Sterne (Grenzgröße)",
-        "galaxy_magnitude_limit": "Galaxien (Grenzgröße)",
-        "dso_magnitude_limit": "Andere Deep-Sky-Objekte (Grenzgröße)",
         "title": "Einstellungen",
         "landscape_source_mode": "Landscape source",
         "landscape_source_default": "Default landscape (Guereins)",
@@ -1821,7 +1805,7 @@
         "landscape_source_custom": "Custom data source",
         "landscape_option_label": "Landschaft: {title}",
         "custom_landscape_url": "Custom source URL",
-        "custom_landscape_url_placeholder": "e.g. /celestia-atlas-data/landscapes/custom",
+        "custom_landscape_url_placeholder": "e.g. /stellarium-data/landscapes/custom",
         "custom_landscape_key": "Custom source key",
         "custom_landscape_key_placeholder": "e.g. my-landscape",
         "available_landscapes": "Verfügbare Landschaften",
@@ -2892,7 +2876,7 @@
         "center_solve_label": "Center + Solve",
         "center_solve_text": "Platesolve und Ziel zentrieren (Mount verbunden + kalibriertes Offset).",
         "target_solve_label": "Target + Solve",
-        "target_solve_text": "Fahre das Ziel an und zentriere es (erfordert ein verbundenes Mount und ein in Celestia Atlas ausgewähltes Ziel)."
+        "target_solve_text": "fahre Ziel an und zentriere (Mount verbunden + Ziel über Stellarium in Framing Assistant ausgewählt)."
       },
       "progress": {
         "title": "Solve-Fortschritt",
@@ -4690,7 +4674,7 @@
     "monitoring": "Monitor",
     "flatWizard": "Flats",
     "framing": "Framing",
-    "skyView": "Celestia Atlas",
+    "skyView": "Stellarium",
     "settings": "Einstell.",
     "about": "Info"
   },

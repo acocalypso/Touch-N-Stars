@@ -226,7 +226,7 @@
           </ul>
         </div>
 
-        <!-- Celestia Atlas -->
+        <!-- Neuer Eintrag: Stellarium Web Engine -->
         <div
           class="bg-gray-700/20 p-5 rounded-xl hover:bg-gray-700/30 transition-colors duration-200"
         >
@@ -243,15 +243,15 @@
                 clip-rule="evenodd"
               />
             </svg>
-            <span>Celestia Atlas</span>
+            <span>Stellarium Web Engine</span>
           </h3>
           <a
-            href="https://github.com/acocalypso/celestia_atlas"
+            href="https://github.com/Stellarium/stellarium-web-engine"
             target="_blank"
             rel="noopener noreferrer"
             class="text-blue-400 hover:text-blue-300 transition-colors duration-200 pl-7 flex items-center space-x-2"
           >
-            <span>https://github.com/acocalypso/celestia_atlas</span>
+            <span>https://github.com/Stellarium/stellarium-web-engine</span>
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-4 w-4"

@@ -72,7 +72,12 @@
     "error": "Aggiornamento non riuscito. Riprova più tardi.",
     "later": "Più tardi",
     "updateNow": "Aggiorna ora",
-    "working": "In corso…"
+    "working": "In corso…",
+    "checkNow": "Cerca aggiornamenti",
+    "checking": "Ricerca…",
+    "upToDateTitle": "Nessun aggiornamento disponibile",
+    "upToDateMessage": "Stai già usando la versione più recente.",
+    "checkFailedTitle": "Controllo aggiornamenti non riuscito"
   },
   "setup": {
     "welcome": "Benvenuto in Touch'N'Stars",
@@ -2986,7 +2991,18 @@
         "reset_exception": "Errore durante la reimpostazione dello stack: {message}",
         "reset_failed": "Impossibile reimpostare lo stack vitale"
       },
-      "reset": "Reimposta pila"
+      "reset": "Reimposta pila",
+      "rgb": {
+        "title": "RGB combination",
+        "target": "Target",
+        "red": "Red channel",
+        "green": "Green channel",
+        "blue": "Blue channel",
+        "create": "Create RGB",
+        "remove": "Remove RGB",
+        "working": "Working...",
+        "no_targets": "No stacked targets available yet"
+      }
     },
     "narrowband": {
       "title": "Calcolatore del filtro",

@@ -72,7 +72,12 @@
     "error": "Update fehlgeschlagen. Bitte später erneut versuchen.",
     "later": "Später",
     "updateNow": "Jetzt aktualisieren",
-    "working": "Wird ausgeführt…"
+    "working": "Wird ausgeführt…",
+    "checkNow": "Nach Updates suchen",
+    "checking": "Suche…",
+    "upToDateTitle": "Kein Update verfügbar",
+    "upToDateMessage": "Du verwendest bereits die neueste Version.",
+    "checkFailedTitle": "Update-Prüfung fehlgeschlagen"
   },
   "setup": {
     "welcome": "Willkommen bei Touch'N'Stars",
@@ -3067,7 +3072,18 @@
         "reset_exception": "Fehler beim Zurücksetzen des Livestacks: {message}",
         "reset_failed": "Livestack konnte nicht zurückgesetzt werden"
       },
-      "reset": "Stapel zurücksetzen"
+      "reset": "Stapel zurücksetzen",
+      "rgb": {
+        "title": "RGB-Kombination",
+        "target": "Ziel",
+        "red": "Rot-Kanal",
+        "green": "Grün-Kanal",
+        "blue": "Blau-Kanal",
+        "create": "RGB erstellen",
+        "remove": "RGB entfernen",
+        "working": "Wird verarbeitet...",
+        "no_targets": "Noch keine gestackten Ziele verfügbar"
+      }
     },
     "narrowband": {
       "title": "Filterrechner",

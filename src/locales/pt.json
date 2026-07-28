@@ -72,7 +72,12 @@
     "error": "A atualização falhou. Tente novamente mais tarde.",
     "later": "Mais tarde",
     "updateNow": "Atualizar agora",
-    "working": "A trabalhar…"
+    "working": "A trabalhar…",
+    "checkNow": "Procurar atualizações",
+    "checking": "A procurar…",
+    "upToDateTitle": "Nenhuma atualização disponível",
+    "upToDateMessage": "Já está a usar a versão mais recente.",
+    "checkFailedTitle": "Falha ao procurar atualizações"
   },
   "setup": {
     "welcome": "Bem-vindo ao Touch'N'Stars",
@@ -2986,7 +2991,18 @@
         "reset_exception": "Erro ao redefinir o livestack: {message}",
         "reset_failed": "Falha ao redefinir a pilha vital"
       },
-      "reset": "Redefinir pilha"
+      "reset": "Redefinir pilha",
+      "rgb": {
+        "title": "RGB combination",
+        "target": "Target",
+        "red": "Red channel",
+        "green": "Green channel",
+        "blue": "Blue channel",
+        "create": "Create RGB",
+        "remove": "Remove RGB",
+        "working": "Working...",
+        "no_targets": "No stacked targets available yet"
+      }
     },
     "narrowband": {
       "title": "Calculadora de filtros",

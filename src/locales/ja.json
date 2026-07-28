@@ -72,7 +72,12 @@
     "error": "アップデートに失敗しました。後でもう一度お試しください。",
     "later": "後で",
     "updateNow": "今すぐアップデート",
-    "working": "処理中…"
+    "working": "処理中…",
+    "checkNow": "アップデートを確認",
+    "checking": "確認中…",
+    "upToDateTitle": "アップデートはありません",
+    "upToDateMessage": "すでに最新バージョンを使用しています。",
+    "checkFailedTitle": "アップデートの確認に失敗しました"
   },
   "setup": {
     "welcome": "ようこそTouch'N'Stars へ",
@@ -3062,7 +3067,18 @@
         "reset_exception": "ライブスタックのリセット中にエラーが発生しました: {message}",
         "reset_failed": "ライブスタックのリセットに失敗しました"
       },
-      "reset": "スタックをリセット"
+      "reset": "スタックをリセット",
+      "rgb": {
+        "title": "RGB combination",
+        "target": "Target",
+        "red": "Red channel",
+        "green": "Green channel",
+        "blue": "Blue channel",
+        "create": "Create RGB",
+        "remove": "Remove RGB",
+        "working": "Working...",
+        "no_targets": "No stacked targets available yet"
+      }
     },
     "narrowband": {
       "title": "フィルター計算機",

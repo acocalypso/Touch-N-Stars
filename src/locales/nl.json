@@ -72,7 +72,12 @@
     "error": "Update fout. Probeer later nogmaals.",
     "later": "Later",
     "updateNow": "Update nu",
-    "working": "Bezig…"
+    "working": "Bezig…",
+    "checkNow": "Controleren op updates",
+    "checking": "Bezig met controleren…",
+    "upToDateTitle": "Geen update beschikbaar",
+    "upToDateMessage": "Je gebruikt al de nieuwste versie.",
+    "checkFailedTitle": "Controle op updates mislukt"
   },
   "setup": {
     "welcome": "Welkom bij Touch'N'Stars",
@@ -2986,7 +2991,18 @@
         "reset_exception": "Fout bij het opnieuw instellen van livestack: {message}",
         "reset_failed": "Kan de livestack niet resetten"
       },
-      "reset": "Stapel opnieuw instellen"
+      "reset": "Stapel opnieuw instellen",
+      "rgb": {
+        "title": "RGB combination",
+        "target": "Target",
+        "red": "Red channel",
+        "green": "Green channel",
+        "blue": "Blue channel",
+        "create": "Create RGB",
+        "remove": "Remove RGB",
+        "working": "Working...",
+        "no_targets": "No stacked targets available yet"
+      }
     },
     "narrowband": {
       "title": "Filtercalculator",

@@ -11,11 +11,17 @@ import { EdgeToEdge } from '@capawesome/capacitor-android-edge-to-edge-support';
 import i18n, { initializeI18n } from '@/i18n';
 import { usePluginStore } from '@/store/pluginStore';
 import { useSettingsStore } from '@/store/settingsStore';
+import { apiStore } from '@/store/store';
 import { timeSync } from '@/utils/timeSync';
 import { setupErrorHandler, setupUnhandledRejectionLogging } from '@/utils/errorHandler';
 import { ensureConsolePatched } from '@/utils/consoleCapture';
 import { markAppReady } from '@/services/updateService';
 import { initWifiBinding } from '@/services/wifiBindingService';
+import {
+  initializeRigConnectionSupervisor,
+  recoverRigConnection,
+} from '@/services/rigConnectionSupervisor';
+import { initializeRigSharedSettingsSync } from '@/services/rigSharedSettingsService';
 
 const SYSTEM_BAR_COLOR = '#1F2937';
 
@@ -99,7 +105,9 @@ app.use(pinia).use(head).use(i18n).use(router);
   pluginStore.initializeAppAndRouter(app, router);
 
   // Load and register all available plugins
-  await pluginStore.loadAndRegisterPlugins();
+  // Always refresh bundled metadata after an upgrade. The loader preserves each
+  // plugin's enabled state while replacing stale names, descriptions and paths.
+  await pluginStore.loadAndRegisterPlugins(true);
 
   // Initialize all enabled plugins
   await pluginStore.initializeEnabledPlugins();
@@ -113,10 +121,18 @@ app.use(pinia).use(head).use(i18n).use(router);
 
   // Keep the backend reachable on internet-less Wi-Fi (PINS hotspot) on Android
   initWifiBinding();
+  initializeRigSharedSettingsSync(settingsStore);
+  void initializeRigConnectionSupervisor({
+    settingsStore,
+    backendStore: apiStore(pinia),
+  }).catch((error) => {
+    console.warn('[RigConnectionSupervisor] initialization failed:', error?.message || error);
+  });
 
   CapacitorApp.addListener('appStateChange', async ({ isActive }) => {
     if (isActive) {
       await applyAndroidSystemBarColors();
+      void recoverRigConnection({ timeoutMs: 12000, includeFieldFallback: true }).catch(() => {});
     }
   });
 

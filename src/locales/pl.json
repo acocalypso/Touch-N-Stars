@@ -1736,8 +1736,8 @@
         "preConnectDelay": "Opóźnienie wstępnego połączenia (ms)"
       }
     },
-    "stellarium": {
-      "loading": "Ładowanie Stellarium…",
+    "celestiaAtlas": {
+      "loading": "Ładowanie Celestia Atlas…",
       "selected_object": {
         "title": "Wybrany obiekt",
         "ra": "RA",
@@ -1760,14 +1760,30 @@
         "ecliptic_lines_visible": "Pokaż ekliptykę",
         "atmosphere_visible": "Pokaż atmosferę",
         "landscapes_visible": "Pokaż krajobrazy",
+        "hide_below_horizon": "Ukryj obiekty poniżej horyzontu",
+        "sky_survey_visible": "Fotograficzny przegląd nieba",
+        "sky_survey_hint": "Używa wyłącznie dołączonych obrazów DSS offline i nigdy nie pobiera kafelków przeglądu z Internetu.",
         "dsos_visible": "Obiekty Deep Sky (Messier, NGC)",
+        "catalog_filters": "Filtry katalogu",
+        "catalog_filter_hint": "Steruje widocznymi znacznikami obiektów głębokiego nieba; wyszukiwanie offline nadal znajduje wszystkie obiekty katalogowe.",
+        "catalog_filter_types": "Typy obiektów",
+        "catalog_filter_sources": "Źródła katalogów",
+        "catalog_filter_selected": "{selected} z {total}",
+        "catalog_filter_all": "Wszystkie",
+        "catalog_filter_none": "Brak",
+        "brightness_filters": "Filtry jasności",
+        "magnitude_limit_hint": "Niższe wartości pokazują tylko jaśniejsze obiekty; wyższe obejmują także słabsze obiekty.",
+        "magnitude_limit_auto": "Automatycznie",
+        "star_magnitude_limit": "Gwiazdy (graniczna wielkość gwiazdowa)",
+        "galaxy_magnitude_limit": "Galaktyki (graniczna wielkość gwiazdowa)",
+        "dso_magnitude_limit": "Pozostałe obiekty głębokiego nieba (graniczna wielkość gwiazdowa)",
         "title": "Ustawienia",
         "landscape_source_mode": "Landscape source",
         "landscape_source_default": "Default landscape (Guereins)",
         "landscape_source_neutral": "Neutral horizon (Gray)",
         "landscape_source_custom": "Custom data source",
         "custom_landscape_url": "Custom source URL",
-        "custom_landscape_url_placeholder": "e.g. /stellarium-data/landscapes/custom",
+        "custom_landscape_url_placeholder": "e.g. /celestia-atlas-data/landscapes/custom",
         "custom_landscape_key": "Custom source key",
         "custom_landscape_key_placeholder": "e.g. my-landscape",
         "available_landscapes": "Dostępne krajobrazy",
@@ -2799,7 +2815,7 @@
         "center_solve_label": "Wycentruj + rozwiąż",
         "center_solve_text": "Platesolve i centrowanie celu (wymaga podłączonego montażu i skalibrowanego offsetu).",
         "target_solve_label": "Cel + rozwiąż",
-        "target_solve_text": "Najedź na cel i wycentruj (wymaga podłączonego montażu oraz ustawionego celu w Stellarium – Framing Assistant)."
+        "target_solve_text": "Najedź na cel i wycentruj (wymaga podłączonego montażu oraz celu wybranego w Celestia Atlas)."
       },
       "progress": {
         "title": "Postęp rozwiązywania",
@@ -4673,7 +4689,7 @@
     "monitoring": "Monitor",
     "flatWizard": "Mieszkania",
     "framing": "Kadrowanie",
-    "skyView": "Stellarium",
+    "skyView": "Celestia Atlas",
     "settings": "Ustaw.",
     "about": "Info"
   },

@@ -288,7 +288,7 @@
                       :class="btnSolidClass(canSlewTargetCenter)"
                       @click="triggerSlewTargetAndCenter()"
                       :disabled="!canSlewTargetCenter"
-                      title="Slew to Stellarium target, then center"
+                      title="Slew to Celestia Atlas target, then center"
                     >
                       {{ t('plugins.platesolveplus.buttons.target_solve') }}
                     </button>
@@ -321,21 +321,21 @@
                     </div>
                   </div>
 
-                  <!-- Target from Stellarium -->
+                  <!-- Target from Celestia Atlas -->
                   <div class="mt-3 text-xs text-gray-400 border-t border-gray-700 pt-3">
                     <div class="flex items-center justify-between gap-2">
                       <div class="text-gray-500">
                         {{
                           tOr(
                             'plugins.platesolveplus.actions_help.target_label',
-                            'Target (Stellarium)'
+                            'Target (Celestia Atlas)'
                           )
                         }}:
                       </div>
                       <div class="text-gray-200 font-mono text-right">
                         <span v-if="hasValidTarget">
                           {{
-                            stellariumTarget?.Name ||
+                            atlasTarget?.Name ||
                             tOr('plugins.platesolveplus.common.unnamed', 'Unnamed')
                           }}
                           · RA {{ Number(targetRaDeg).toFixed(6) }}° · Dec
@@ -1196,22 +1196,22 @@ const canCapture = computed(
 const canSolveSync = computed(() => canCapture.value && !!status.mountConnected);
 const canCenterSolve = computed(() => canSolveSync.value && hasOffsetSet.value);
 // -------------------------
-// Stellarium target (from Touch-N-Stars StellariumView -> framingStore)
+// Celestia Atlas target handed to the shared framing store.
 // -------------------------
-const stellariumTarget = computed(() => framingStore?.selectedItem || null);
+const atlasTarget = computed(() => framingStore?.selectedItem || null);
 const targetRaDeg = computed(() => {
-  const v = stellariumTarget.value?.RA ?? stellariumTarget.value?.ra ?? framingStore?.RAangle;
+  const v = atlasTarget.value?.RA ?? atlasTarget.value?.ra ?? framingStore?.RAangle;
   const n = Number(v);
   return Number.isFinite(n) ? n : null;
 });
 const targetDecDeg = computed(() => {
-  const v = stellariumTarget.value?.Dec ?? stellariumTarget.value?.dec ?? framingStore?.DECangle;
+  const v = atlasTarget.value?.Dec ?? atlasTarget.value?.dec ?? framingStore?.DECangle;
   const n = Number(v);
   return Number.isFinite(n) ? n : null;
 });
 const hasValidTarget = computed(() => targetRaDeg.value != null && targetDecDeg.value != null);
 
-// Button: Slew to Stellarium target, then run PlateSolvePlus centering
+// Button: slew to the Celestia Atlas target, then run PlateSolvePlus centering.
 const canSlewTargetCenter = computed(
   () =>
     hasValidTarget.value &&
@@ -1780,7 +1780,7 @@ async function triggerSlewTargetAndCenter() {
   const ra = targetRaDeg.value;
   const dec = targetDecDeg.value;
   if (ra == null || dec == null) {
-    pushLog(tOr('plugins.platesolveplus.log.no_target', 'No Stellarium target selected'));
+    pushLog(tOr('plugins.platesolveplus.log.no_target', 'No Celestia Atlas target selected'));
     return;
   }
 

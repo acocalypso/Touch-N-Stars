@@ -1745,8 +1745,8 @@
         "preConnectDelay": "接続前遅延 (ミリ秒)"
       }
     },
-    "stellarium": {
-      "loading": "Stellarium を読み込んでいます…",
+    "celestiaAtlas": {
+      "loading": "Celestia Atlas を読み込んでいます…",
       "selected_object": {
         "title": "選択された天体",
         "ra": "赤経 (RA)",
@@ -1769,14 +1769,30 @@
         "ecliptic_lines_visible": "黄道を表示",
         "atmosphere_visible": "大気を表示",
         "landscapes_visible": "風景を表示",
+        "hide_below_horizon": "地平線下の天体を非表示",
+        "sky_survey_visible": "写真による全天サーベイ",
+        "sky_survey_hint": "同梱された DSS 天空画像のみをオフラインで使用し、インターネットからタイルを取得しません。",
         "dsos_visible": "ディープスカイ天体 (メシエ, NGC)",
+        "catalog_filters": "カタログフィルター",
+        "catalog_filter_hint": "表示する深宇宙天体マーカーを制御します。オフライン検索では引き続きすべてのカタログ天体を検索できます。",
+        "catalog_filter_types": "天体タイプ",
+        "catalog_filter_sources": "カタログ出典",
+        "catalog_filter_selected": "{total} 件中 {selected} 件",
+        "catalog_filter_all": "すべて",
+        "catalog_filter_none": "なし",
+        "brightness_filters": "明るさフィルター",
+        "magnitude_limit_hint": "値を小さくすると明るい天体だけを表示し、大きくすると暗い天体も表示します。",
+        "magnitude_limit_auto": "自動",
+        "star_magnitude_limit": "恒星（限界等級）",
+        "galaxy_magnitude_limit": "銀河（限界等級）",
+        "dso_magnitude_limit": "その他の深宇宙天体（限界等級）",
         "title": "設定",
         "landscape_source_mode": "Landscape source",
         "landscape_source_default": "Default landscape (Guereins)",
         "landscape_source_neutral": "Neutral horizon (Gray)",
         "landscape_source_custom": "Custom data source",
         "custom_landscape_url": "Custom source URL",
-        "custom_landscape_url_placeholder": "e.g. /stellarium-data/landscapes/custom",
+        "custom_landscape_url_placeholder": "e.g. /celestia-atlas-data/landscapes/custom",
         "custom_landscape_key": "Custom source key",
         "custom_landscape_key_placeholder": "e.g. my-landscape",
         "available_landscapes": "利用可能な風景",
@@ -4100,7 +4116,7 @@
       "stop": "停止",
       "subtitle": "各フィルター ホイール フィルターのフォーカス オフセットを計算して保存します。",
       "title": "フィルターオフセット計算機",
-      "useRelativeOffsets": "相対オフセットを使用する"
+      "applyFailed": "オフセットを適用できませんでした"
     },
     "phd2logviewer": {
       "cal": {
@@ -4673,7 +4689,7 @@
     "monitoring": "モニター",
     "flatWizard": "フラット",
     "framing": "フレーミング",
-    "skyView": "Stellarium",
+    "skyView": "Celestia Atlas",
     "settings": "設定",
     "about": "About"
   },

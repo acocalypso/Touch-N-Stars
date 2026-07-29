@@ -52,6 +52,91 @@
     <div
       class="w-full relative z-10 border border-gray-700 rounded-lg bg-gray-900/40 p-4 flex flex-col gap-3"
     >
+      <div>
+        <h4 class="text-base font-bold text-white">Rig network mode</h4>
+        <p class="text-gray-400 text-xs">
+          Automatic uses your configured Wi-Fi when available and starts the field hotspot when it
+          is not. Field hotspot keeps the rig reachable at 10.42.0.1.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        <button
+          class="rounded-lg border px-4 py-3 text-left transition-colors disabled:opacity-50"
+          :class="
+            desiredNetworkMode === 'auto'
+              ? 'border-blue-500 bg-blue-900/30 text-white'
+              : 'border-gray-600 bg-gray-800 text-gray-300 hover:border-gray-500'
+          "
+          :disabled="disabled || networkTransitionActive"
+          @click="$emit('set-network-mode', 'auto')"
+        >
+          <span class="block font-semibold">Automatic fallback</span>
+          <span class="block text-xs text-gray-400 mt-1"
+            >Home Wi-Fi first, hotspot if unavailable</span
+          >
+        </button>
+        <button
+          class="rounded-lg border px-4 py-3 text-left transition-colors disabled:opacity-50"
+          :class="
+            desiredNetworkMode === 'hotspot'
+              ? 'border-amber-500 bg-amber-900/30 text-white'
+              : 'border-gray-600 bg-gray-800 text-gray-300 hover:border-gray-500'
+          "
+          :disabled="disabled || networkTransitionActive"
+          @click="$emit('set-network-mode', 'hotspot')"
+        >
+          <span class="block font-semibold">Field hotspot</span>
+          <span class="block text-xs text-gray-400 mt-1">Stay in AP mode at 10.42.0.1</span>
+        </button>
+      </div>
+
+      <div class="flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-400">
+        <span>Configured: {{ desiredNetworkMode }}</span>
+        <span>Active: {{ observedNetworkMode }}</span>
+        <span v-if="connectionState.activeHost">Endpoint: {{ connectionState.activeHost }}</span>
+      </div>
+
+      <p v-if="!allowConcurrentMode" class="text-xs text-amber-300">
+        This rig has one Wi-Fi radio. Switching modes briefly disconnects this screen while the app
+        finds the rig again.
+      </p>
+
+      <div
+        v-if="networkTransitionActive || connectionState.phase === 'failed'"
+        class="rounded-lg border p-3 text-sm"
+        :class="
+          connectionState.phase === 'failed'
+            ? 'border-red-700 bg-red-900/20 text-red-100'
+            : 'border-blue-700 bg-blue-900/20 text-blue-100'
+        "
+      >
+        <p class="font-semibold">
+          {{
+            connectionState.phase === 'failed'
+              ? 'The rig could not be found after the network change.'
+              : 'Network changed as expected. Looking for this rig again…'
+          }}
+        </p>
+        <p v-if="connectionState.attemptedHosts?.length" class="text-xs mt-1 break-all opacity-80">
+          Tried: {{ connectionState.attemptedHosts.join(', ') }}
+        </p>
+        <p v-if="connectionState.error" class="text-xs mt-1 opacity-80">
+          {{ connectionState.error }}
+        </p>
+        <button
+          v-if="connectionState.phase === 'failed'"
+          class="mt-3 px-3 py-2 rounded bg-blue-600 hover:bg-blue-500 text-white font-semibold"
+          @click="$emit('retry-network-recovery')"
+        >
+          Find rig again
+        </button>
+      </div>
+    </div>
+
+    <div
+      class="w-full relative z-10 border border-gray-700 rounded-lg bg-gray-900/40 p-4 flex flex-col gap-3"
+    >
       <div class="flex items-start justify-between gap-3">
         <div>
           <h4 class="text-base font-bold text-white">{{ $t('plugins.pins.wifiAdaptersTitle') }}</h4>
@@ -584,6 +669,15 @@ const props = defineProps({
     required: false,
     default: null,
   },
+  wifiMode: {
+    type: Object,
+    required: false,
+    default: null,
+  },
+  connectionState: {
+    type: Object,
+    required: true,
+  },
   mobileWifiSignal: {
     type: Object,
     required: false,
@@ -683,6 +777,8 @@ defineEmits([
   'save-interfaces',
   'connect-wifi',
   'disconnect-wifi',
+  'set-network-mode',
+  'retry-network-recovery',
   'update:selectedSsid',
   'update:wifiPassword',
   'update:selectedBand',
@@ -730,6 +826,15 @@ const canSaveHotspot = computed(() => {
 });
 
 const wifiIsConnected = computed(() => Boolean(props.wifiStatus?.connected));
+const desiredNetworkMode = computed(
+  () => props.wifiMode?.desiredMode || props.wifiStatus?.desiredMode || 'unknown'
+);
+const observedNetworkMode = computed(
+  () => props.wifiMode?.observedMode || props.wifiStatus?.observedMode || 'unknown'
+);
+const networkTransitionActive = computed(() =>
+  ['network-transition', 'probing', 'reconnecting'].includes(props.connectionState.phase)
+);
 
 const wifiStatusLabel = computed(() => {
   if (!wifiIsConnected.value) {

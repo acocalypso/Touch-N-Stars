@@ -3,6 +3,7 @@ import { useSettingsStore } from '@/store/settingsStore';
 import { apiStore } from '@/store/store';
 import { getDeviceDateTimePayload } from '@/utils/pinsTimeUtils';
 import { PINS_PORT, DEFAULT_PINS_DAEMON_API_TOKEN as PINS_TOKEN } from '@/services/pinsConfig';
+import { getPinsDaemonAuthHeaders } from '@/services/api/core';
 
 const getBaseUrl = () => {
   const settingsStore = useSettingsStore();
@@ -781,6 +782,41 @@ export default {
     });
   },
 
+  getPinsHealthAt(host, { timeout = 2200, signal } = {}) {
+    const normalizedHost = String(host || '').trim();
+    if (!normalizedHost) {
+      return Promise.reject(new Error('PINS host is required'));
+    }
+    return axios
+      .get(`http://${normalizedHost}:8000/health`, {
+        timeout,
+        signal,
+        headers: { Accept: 'application/json' },
+        withCredentials: false,
+      })
+      .then((response) => response.data);
+  },
+
+  getPinsWifiMode() {
+    const { PINSDAEMON_URL } = getUrls();
+    return this._pinsDaemonGetRequest('/wifi/mode', {
+      baseUrl: PINSDAEMON_URL,
+      timeout: 5000,
+    });
+  },
+
+  setPinsWifiMode(desiredMode) {
+    const { PINSDAEMON_URL } = getUrls();
+    return this._pinsDaemonPutRequest(
+      '/wifi/mode',
+      { desiredMode },
+      {
+        baseUrl: PINSDAEMON_URL,
+        timeout: 10000,
+      }
+    );
+  },
+
   scanPinsWifi() {
     const { PINSDAEMON_URL } = getUrls();
     return this._pinsDaemonGetRequest('/wifi/scan', {
@@ -907,9 +943,7 @@ export default {
   _pinsDaemonGetRequest(path, { baseUrl, params, timeout = 10000 } = {}) {
     return axios
       .get(`${baseUrl}${path}`, {
-        headers: {
-          Authorization: `Bearer ${PINS_TOKEN}`,
-        },
+        headers: getPinsDaemonAuthHeaders(),
         params,
         timeout,
       })
@@ -923,7 +957,22 @@ export default {
     return axios
       .post(`${baseUrl}${path}`, data, {
         headers: {
-          Authorization: `Bearer ${PINS_TOKEN}`,
+          ...getPinsDaemonAuthHeaders(),
+          'Content-Type': 'application/json',
+        },
+        timeout,
+      })
+      .then((response) => response.data)
+      .catch((error) => {
+        throw error;
+      });
+  },
+
+  _pinsDaemonPutRequest(path, data, { baseUrl, timeout = 10000 } = {}) {
+    return axios
+      .put(`${baseUrl}${path}`, data, {
+        headers: {
+          ...getPinsDaemonAuthHeaders(),
           'Content-Type': 'application/json',
         },
         timeout,

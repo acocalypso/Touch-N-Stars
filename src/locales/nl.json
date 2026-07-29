@@ -4083,7 +4083,7 @@
       "stop": "Stop",
       "subtitle": "Bereken en bewaar focus-offsets voor elk filterwielfilter",
       "title": "Filtercompensatiecalculator",
-      "useRelativeOffsets": "Gebruik relatieve offsets"
+      "applyFailed": "Kan de compensaties niet toepassen"
     },
     "filebrowser": {
       "title": "File Browser",

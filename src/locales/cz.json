@@ -4083,7 +4083,7 @@
       "stop": "Stop",
       "subtitle": "Calculate and store focus offsets for each filter wheel filter",
       "title": "Filter Offset Calculator",
-      "useRelativeOffsets": "Use Relative Offsets"
+      "applyFailed": "Could not apply the offsets"
     },
     "filebrowser": {
       "title": "File Browser",

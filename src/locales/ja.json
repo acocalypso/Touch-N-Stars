@@ -4116,7 +4116,7 @@
       "stop": "停止",
       "subtitle": "各フィルター ホイール フィルターのフォーカス オフセットを計算して保存します。",
       "title": "フィルターオフセット計算機",
-      "useRelativeOffsets": "相対オフセットを使用する"
+      "applyFailed": "オフセットを適用できませんでした"
     },
     "phd2logviewer": {
       "cal": {

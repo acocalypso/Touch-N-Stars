@@ -4106,7 +4106,6 @@
       "runningFilter": "현재 필터",
       "currentOffsets": "현재 오프셋",
       "newOffsets": "새 오프셋",
-      "useRelativeOffsets": "상대 오프셋 사용",
       "currentAutoFocusFilter": "현재 오토포커스 필터",
       "newAutoFocusFilter": "새 오토포커스 필터",
       "none": "없음",
@@ -4116,7 +4115,8 @@
       "notConnected": "{device}이(가) 연결되지 않았습니다",
       "deviceCamera": "카메라",
       "deviceFocuser": "포커서",
-      "deviceFilterWheel": "필터휠"
+      "deviceFilterWheel": "필터휠",
+      "applyFailed": "오프셋을 적용할 수 없습니다."
     },
     "phd2logviewer": {
       "title": "PHD2 로그 뷰어",

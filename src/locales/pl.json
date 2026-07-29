@@ -4083,7 +4083,7 @@
       "stop": "Zatrzymywać się",
       "subtitle": "Oblicz i zapisz przesunięcia ostrości dla każdego filtra koła filtrów",
       "title": "Kalkulator przesunięcia filtra",
-      "useRelativeOffsets": "Użyj względnych przesunięć"
+      "applyFailed": "Nie można zastosować przesunięć"
     },
     "filebrowser": {
       "title": "File Browser",

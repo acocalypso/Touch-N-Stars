@@ -4088,7 +4088,7 @@
       "stop": "Arrêt",
       "subtitle": "Calculer et stocker les décalages de mise au point pour chaque filtre de roue à filtres",
       "title": "Calculateur de décalage de filtre",
-      "useRelativeOffsets": "Utiliser des décalages relatifs"
+      "applyFailed": "Impossible d'appliquer les décalages"
     },
     "filebrowser": {
       "title": "File Browser",

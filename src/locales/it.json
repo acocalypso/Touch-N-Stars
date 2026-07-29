@@ -4088,7 +4088,7 @@
       "stop": "Fermare",
       "subtitle": "Calcola e memorizza gli offset della messa a fuoco per ciascun filtro della ruota portafiltri",
       "title": "Calcolatore dell'offset del filtro",
-      "useRelativeOffsets": "Utilizza offset relativi"
+      "applyFailed": "Impossibile applicare gli offset"
     },
     "filebrowser": {
       "title": "File Browser",

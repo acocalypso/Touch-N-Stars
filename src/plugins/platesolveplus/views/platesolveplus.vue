@@ -149,8 +149,7 @@
                           </div>
                           <pre
                             class="text-xs text-gray-200 bg-black/30 border border-gray-700 rounded-md p-2 overflow-auto max-h-28"
-                            >{{ status.lastGuiderSolveText }}</pre
-                          >
+                            >{{ status.lastGuiderSolveText }}</pre>
                         </div>
                         <div v-if="status.correctedSolveText">
                           <div class="text-gray-500 text-[11px]">
@@ -158,8 +157,7 @@
                           </div>
                           <pre
                             class="text-xs text-gray-200 bg-black/30 border border-gray-700 rounded-md p-2 overflow-auto max-h-28"
-                            >{{ status.correctedSolveText }}</pre
-                          >
+                            >{{ status.correctedSolveText }}</pre>
                         </div>
                       </div>
                     </div>
@@ -170,8 +168,7 @@
                       </div>
                       <pre
                         class="text-xs text-gray-200 bg-black/30 border border-gray-700 rounded-md p-2 overflow-auto max-h-40"
-                        >{{ status.lastSolveSummary }}</pre
-                      >
+                        >{{ status.lastSolveSummary }}</pre>
                     </div>
                   </div>
                 </div>

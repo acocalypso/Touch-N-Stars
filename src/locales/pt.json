@@ -4088,7 +4088,7 @@
       "stop": "Parar",
       "subtitle": "Calcule e armazene deslocamentos de foco para cada filtro da roda de filtros",
       "title": "Calculadora de deslocamento de filtro",
-      "useRelativeOffsets": "Use deslocamentos relativos"
+      "applyFailed": "Não foi possível aplicar as compensações"
     },
     "filebrowser": {
       "title": "File Browser",

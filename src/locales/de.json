@@ -4121,7 +4121,7 @@
       "stop": "Stoppen",
       "subtitle": "Berechnen und speichern Sie Fokus-Offsets für jeden Filterradfilter",
       "title": "Filter-Offset-Rechner",
-      "useRelativeOffsets": "Verwenden Sie relative Offsets"
+      "applyFailed": "Die Offsets konnten nicht angewendet werden"
     },
     "groundStation": {
       "title": "Ground Station",

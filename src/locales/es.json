@@ -4088,7 +4088,7 @@
       "stop": "Detener",
       "subtitle": "Calcule y almacene Offsets de enfoque para cada filtro de rueda de filtros",
       "title": "Calculadora de Offset de filtro",
-      "useRelativeOffsets": "Usar Offsets relativ0s"
+      "applyFailed": "No se pudieron aplicar las compensaciones"
     },
     "filebrowser": {
       "title": "Explorador de archivos",

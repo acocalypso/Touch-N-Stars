@@ -6,6 +6,8 @@
       :is-scanning="isScanning"
       :wifi-list="wifiList"
       :wifi-status="wifiStatus"
+      :wifi-mode="wifiMode"
+      :connection-state="connectionState"
       :mobile-wifi-signal="mobileWifiSignal"
       :selected-ssid="selectedSsid"
       :wifi-password="wifiPassword"
@@ -34,6 +36,8 @@
       @save-interfaces="$emit('save-interfaces')"
       @connect-wifi="$emit('connect-wifi')"
       @disconnect-wifi="$emit('disconnect-wifi')"
+      @set-network-mode="$emit('set-network-mode', $event)"
+      @retry-network-recovery="$emit('retry-network-recovery')"
       @update:selected-ssid="$emit('update:selected-ssid', $event)"
       @update:wifi-password="$emit('update:wifi-password', $event)"
       @update:selected-band="$emit('update:selected-band', $event)"
@@ -81,6 +85,15 @@ defineProps({
     type: Object,
     required: false,
     default: null,
+  },
+  wifiMode: {
+    type: Object,
+    required: false,
+    default: null,
+  },
+  connectionState: {
+    type: Object,
+    required: true,
   },
   mobileWifiSignal: {
     type: Object,
@@ -189,6 +202,8 @@ defineEmits([
   'save-interfaces',
   'connect-wifi',
   'disconnect-wifi',
+  'set-network-mode',
+  'retry-network-recovery',
   'update:selected-ssid',
   'update:wifi-password',
   'update:selected-band',

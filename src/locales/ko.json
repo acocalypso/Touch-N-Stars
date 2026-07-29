@@ -1790,8 +1790,8 @@
         "preConnectDelay": "연결 전 대기 시간 (ms)"
       }
     },
-    "stellarium": {
-      "loading": "Stellarium 로드 중…",
+    "celestiaAtlas": {
+      "loading": "Celestia Atlas 로드 중…",
       "selected_object": {
         "title": "선택한 천체",
         "ra": "RA",
@@ -1814,14 +1814,30 @@
         "ecliptic_lines_visible": "황도 표시",
         "atmosphere_visible": "대기 표시",
         "landscapes_visible": "지형 표시",
+        "hide_below_horizon": "지평선 아래 천체 숨기기",
+        "sky_survey_visible": "사진 천구 탐사",
+        "sky_survey_hint": "포함된 DSS 하늘 이미지만 오프라인으로 사용하며 인터넷에서 타일을 가져오지 않습니다.",
         "dsos_visible": "심원천체 (메시에, NGC)",
+        "catalog_filters": "목록 필터",
+        "catalog_filter_hint": "표시되는 심원천체 마커를 제어합니다. 오프라인 검색에서는 계속 모든 목록 천체를 찾을 수 있습니다.",
+        "catalog_filter_types": "천체 유형",
+        "catalog_filter_sources": "목록 출처",
+        "catalog_filter_selected": "{total}개 중 {selected}개",
+        "catalog_filter_all": "전체",
+        "catalog_filter_none": "없음",
+        "brightness_filters": "밝기 필터",
+        "magnitude_limit_hint": "값이 낮을수록 밝은 천체만 표시하고, 높을수록 어두운 천체도 표시합니다.",
+        "magnitude_limit_auto": "자동",
+        "star_magnitude_limit": "별 (한계 등급)",
+        "galaxy_magnitude_limit": "은하 (한계 등급)",
+        "dso_magnitude_limit": "기타 심원천체 (한계 등급)",
         "title": "설정",
         "landscape_source_mode": "Landscape source",
         "landscape_source_default": "Default landscape (Guereins)",
         "landscape_source_neutral": "Neutral horizon (Gray)",
         "landscape_source_custom": "Custom data source",
         "custom_landscape_url": "Custom source URL",
-        "custom_landscape_url_placeholder": "e.g. /stellarium-data/landscapes/custom",
+        "custom_landscape_url_placeholder": "e.g. /celestia-atlas-data/landscapes/custom",
         "custom_landscape_key": "Custom source key",
         "custom_landscape_key_placeholder": "e.g. my-landscape",
         "available_landscapes": "사용 가능한 풍경",
@@ -2883,7 +2899,7 @@
         "center_solve_label": "센터링 + 솔브",
         "center_solve_text": "플레이트 솔브 후 타깃 센터링 (마운트 연결 + 보정된 오프셋 필요).",
         "target_solve_label": "타깃 + 솔브",
-        "target_solve_text": "타깃으로 슬루 + 센터링 (마운트 연결 + 프레이밍 어시스턴트의 Stellarium에 타깃 설정 필요)."
+        "target_solve_text": "타깃으로 슬루 + 센터링 (마운트 연결 및 Celestia Atlas에서 타깃 선택 필요)."
       },
       "progress": {
         "title": "솔브 진행",
@@ -4109,7 +4125,6 @@
       "runningFilter": "현재 필터",
       "currentOffsets": "현재 오프셋",
       "newOffsets": "새 오프셋",
-      "useRelativeOffsets": "상대 오프셋 사용",
       "currentAutoFocusFilter": "현재 오토포커스 필터",
       "newAutoFocusFilter": "새 오토포커스 필터",
       "none": "없음",
@@ -4119,7 +4134,8 @@
       "notConnected": "{device}이(가) 연결되지 않았습니다",
       "deviceCamera": "카메라",
       "deviceFocuser": "포커서",
-      "deviceFilterWheel": "필터휠"
+      "deviceFilterWheel": "필터휠",
+      "applyFailed": "오프셋을 적용할 수 없습니다."
     },
     "phd2logviewer": {
       "title": "PHD2 로그 뷰어",
@@ -4787,7 +4803,7 @@
     "monitoring": "모니터",
     "flatWizard": "플랫",
     "framing": "프레이밍",
-    "skyView": "Stellarium",
+    "skyView": "Celestia Atlas",
     "settings": "설정",
     "about": "정보"
   }

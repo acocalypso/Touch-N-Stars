@@ -3,15 +3,7 @@ import tutorialContent from '@/assets/tutorial.json';
 import { apiStore } from '@/store/store';
 import { useSequenceStore } from './sequenceStore';
 import apiService from '@/services/apiService';
-import {
-  createDefaultCelestiaAtlasSettings,
-  migrateCelestiaAtlasSettingsStorage,
-} from '@/store/utils/celestiaAtlasSettingsMigration';
-
-// Upgrade the persisted state before Pinia's persistence plugin hydrates it.
-// Existing installations keep all Atlas preferences, while the obsolete key is
-// removed from the next serialized snapshot.
-migrateCelestiaAtlasSettingsStorage();
+import { reloadForInstanceSwitch } from '@/utils/instanceSwitchReload';
 
 export const useSettingsStore = defineStore('settings', {
   state: () => ({
@@ -20,6 +12,9 @@ export const useSettingsStore = defineStore('settings', {
     showDebugConsole: false,
     showSpecial: false,
     useBetaFeatures: false,
+    // Hidden dev update channel, revealed via the tap sequence in the About modal
+    devChannelUnlocked: false,
+    useDevUpdateChannel: false,
     touchOptimized: true,
     livestack: {
       showFilters: true,
@@ -101,7 +96,19 @@ export const useSettingsStore = defineStore('settings', {
         filterConfigs: {},
       },
     },
-    celestiaAtlas: createDefaultCelestiaAtlasSettings(),
+    stellarium: {
+      constellationsLinesVisible: true,
+      azimuthalLinesVisible: false,
+      equatorialLinesVisible: false,
+      meridianLinesVisible: false,
+      eclipticLinesVisible: false,
+      atmosphereVisible: true,
+      landscapesVisible: true,
+      landscapeSourceMode: 'default',
+      customLandscapeUrl: '',
+      customLandscapeKey: 'custom',
+      dsosVisible: true, // Deep Sky Objects (Messier, NGC, etc.)
+    },
     guider: {
       phd2ForceCalibration: false,
       phd2ImageGamma: 0.5,
@@ -306,6 +313,47 @@ export const useSettingsStore = defineStore('settings', {
       return apiStore();
     },
 
+    /**
+     * Single choke point for "the active backend endpoint just changed".
+     *
+     * Normal operation reloads the page: the in-place teardown had to enumerate
+     * every instance-scoped store by hand and always missed some, so the new
+     * instance inherited stale data. See utils/instanceSwitchReload.js.
+     *
+     * Onboarding is the exception - the wizard's progress lives in SetupPage
+     * component state, so there the app must stay alive and falls back to the
+     * in-place teardown.
+     */
+    _applyEndpointChange({ allowReload = true } = {}) {
+      if (allowReload && this._canReloadOnEndpointChange()) {
+        // The persistence plugin writes through a detached $subscribe watcher,
+        // i.e. only on the next Vue tick. A synchronous reload would beat it and
+        // the fresh page would hydrate the PREVIOUS endpoint. $persist() writes
+        // localStorage right now. Optional call: the unit tests build a Pinia
+        // without the persistence plugin.
+        this.$persist?.();
+        this._reloadForInstanceSwitch(this.getInstance(this.selectedInstanceId)?.name ?? '');
+        return;
+      }
+
+      // Tear down the old instance's session and connect to the new one.
+      // switchBackend() also clears the image cache.
+      void this._getApiStore().switchBackend();
+    },
+
+    _canReloadOnEndpointChange() {
+      // setupCompleted === false IS the onboarding state: the router guard makes
+      // /setup the only reachable route while it is false, and nothing outside
+      // completeSetup()/resetSetup() ever flips it.
+      if (!this.setupCompleted) return false;
+      return typeof window !== 'undefined' && typeof window.location?.reload === 'function';
+    },
+
+    // Seam for tests, same pattern as _getApiStore().
+    _reloadForInstanceSwitch(instanceName) {
+      reloadForInstanceSwitch(instanceName);
+    },
+
     completeSetup() {
       this.setupCompleted = true;
       localStorage.setItem('setupCompleted', 'true');
@@ -320,22 +368,21 @@ export const useSettingsStore = defineStore('settings', {
       return this.setupCompleted;
     },
 
-    async setConnection(connection) {
+    async setConnection(connection, options = {}) {
       this.connection.ip = connection.ip;
       this.connection.port = connection.port;
 
-      // Tear down the old backend session and reconnect to the new endpoint
-      void this._getApiStore().switchBackend();
+      this._applyEndpointChange(options);
     },
 
-    addInstance(instance) {
+    addInstance(instance, options = {}) {
       const existingInstance = this.getInstanceByNameIpPort(
         instance.name || 'Instance',
         instance.ip,
         instance.port
       );
       if (existingInstance) {
-        this.setSelectedInstanceId(existingInstance.id);
+        this.setSelectedInstanceId(existingInstance.id, options);
       } else {
         const newInstance = {
           id: Date.now().toString(),
@@ -345,7 +392,7 @@ export const useSettingsStore = defineStore('settings', {
         };
         this.connection.instances.push(newInstance);
         this.lastCreatedInstanceId = newInstance.id;
-        this.setSelectedInstanceId(newInstance.id);
+        this.setSelectedInstanceId(newInstance.id, options);
       }
     },
 
@@ -353,7 +400,7 @@ export const useSettingsStore = defineStore('settings', {
       return this.lastCreatedInstanceId === id;
     },
 
-    updateInstance(id, updatedInstance) {
+    updateInstance(id, updatedInstance, options = {}) {
       const index = this.connection.instances.findIndex((i) => i.id === id);
       if (index !== -1) {
         // Merge the existing instance with updated properties
@@ -374,7 +421,7 @@ export const useSettingsStore = defineStore('settings', {
           this.connection.port = mergedInstance.port;
 
           if (endpointChanged) {
-            void this._getApiStore().switchBackend();
+            this._applyEndpointChange(options);
           }
         }
       }
@@ -406,11 +453,10 @@ export const useSettingsStore = defineStore('settings', {
       return index !== -1 ? this.getInstanceColorByIndex(index) : 'bg-gray-900/95';
     },
 
-    setSelectedInstanceId(id) {
+    setSelectedInstanceId(id, options = {}) {
       const instance = this.getInstance(id);
-      // No-op when re-selecting the already-active instance (also absorbs the
-      // double fire from SetInstance.vue's explicit call + watcher) so tapping
-      // the current instance doesn't tear down a healthy session.
+      // No-op when re-selecting the already-active instance, so tapping the
+      // current instance doesn't tear down (or reload) a healthy session.
       if (
         id === this.selectedInstanceId &&
         instance &&
@@ -423,21 +469,18 @@ export const useSettingsStore = defineStore('settings', {
       if (instance) {
         this.connection.ip = instance.ip;
         this.connection.port = instance.port;
-
-        // Tear down the old instance's session and connect to the new one.
-        // switchBackend() also clears the image cache, so every endpoint
-        // change path (this one, setActiveConnection, updateInstance) gets it.
-        void this._getApiStore().switchBackend();
         console.log('[SettingsStore] Selected instance set to:', id);
+
+        // Must stay last: this usually reloads the page and never returns.
+        this._applyEndpointChange(options);
       }
     },
 
-    setActiveConnection(ip, port) {
+    setActiveConnection(ip, port, options = {}) {
       this.connection.ip = ip;
       this.connection.port = port;
 
-      // Tear down the old backend session and reconnect to the new endpoint
-      void this._getApiStore().switchBackend();
+      this._applyEndpointChange(options);
     },
 
     setLanguage(lang) {
@@ -546,7 +589,39 @@ export const useSettingsStore = defineStore('settings', {
       this.saveNavbarSettings();
     },
   },
-  // pinia-plugin-persistedstate 4.x uses the store id (`settings`) as the key.
-  // Keep the current whole-store behavior so existing installations hydrate without migration.
-  persist: true,
+  persist: {
+    enabled: true,
+    strategies: [
+      {
+        key: 'settings-store',
+        storage: localStorage,
+        paths: [
+          'language',
+          'setupCompleted',
+          'connection',
+          'selectedInstanceId',
+          'lastCreatedInstanceId',
+          'monitorViewSetting',
+          'tutorial',
+          'showPlugins',
+          'keepAwakeEnabled',
+          'wifiBindingEnabled',
+          'livestack',
+          'useBetaFeatures',
+          'devChannelUnlocked',
+          'useDevUpdateChannel',
+          'touchOptimized',
+          'camera',
+          'stellarium',
+          'monitorViewSetting.graphDataSource1',
+          'monitorViewSetting.graphDataSource2',
+          'livestack',
+          'tutorial.histogramVisited',
+          'tutorial.selectTargetVisited',
+          'tutorial.statusBarButtonsVisited',
+          'modalPositions',
+        ],
+      },
+    ],
+  },
 });

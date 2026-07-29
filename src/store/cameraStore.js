@@ -7,7 +7,6 @@ import { timeSync } from '@/utils/timeSync';
 import { useSettingsStore } from './settingsStore';
 import { useMountStore } from './mountStore';
 import apiService from '@/services/apiService';
-import { positionAngleFromNinaPlateSolve } from '@/integrations/celestiaAtlas/positionAngle';
 
 export const useCameraStore = defineStore('cameraStore', () => {
   const framingStore = useFramingStore();
@@ -308,14 +307,8 @@ export const useCameraStore = defineStore('cameraStore', () => {
         console.log('[cameraStore] plateSolveError: ', plateSolveStatusCode, plateSolveError.value);
       }
       if (plateSolveResult) {
-        const positionAngle = positionAngleFromNinaPlateSolve(plateSolveResult.PositionAngle);
-        if (positionAngle === null) {
-          plateSolveError.value = true;
-          console.error('[cameraStore] Plate solve returned an invalid position angle');
-        } else {
-          framingStore.rotationAngle = positionAngle;
-          console.log('[cameraStore] Camera position angle: ', framingStore.rotationAngle);
-        }
+        framingStore.rotationAngle = plateSolveResult.PositionAngle;
+        console.log('[cameraStore] Camera position angle: ', framingStore.rotationAngle);
       }
     } catch (error) {
       console.error('[cameraStore] Error during capture:', error.message);
@@ -327,8 +320,9 @@ export const useCameraStore = defineStore('cameraStore', () => {
   }
 
   // Tear down all client-driven capture activity. Called from
-  // apiStore.clearAllStates() when the backend session ends (instance switch,
-  // connection lost): without this, a running snapshot loop survives the
+  // apiStore.clearAllStates() when the backend session ends (connection lost,
+  // or an in-place endpoint change during onboarding): without this, a running
+  // snapshot loop survives the
   // teardown and starts commanding whatever backend connects next, and the
   // wait loops in capturePhoto() can hang forever. Backend-derived settings
   // (cameraSettings, binning/readout indices) are dropped too - they belong

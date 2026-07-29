@@ -283,6 +283,10 @@
       "beta": {
         "title": "Beta aktualizační kanál"
       },
+      "devChannel": {
+        "title": "Vývojářský aktualizační kanál",
+        "description": "Přijímá testovací sestavení z vlastního repozitáře vývojáře místo oficiálního."
+      },
       "showTutorial": "Zobrazit tutoriál",
       "plugins": {
         "title": "Správa pluginů",
@@ -524,7 +528,7 @@
       "saved_sequences": "TNS Sequence-Creator",
       "no_sequences_found": "Žádné sekvence nenalezeny",
       "error_loading_sequences": "Chyba při načítání sekvencí",
-      "error_loading_sequence": "Chyba při načítání sekvence: {error}",
+      "error_loading_sequence": "Chyba při načítání sekvence",
       "filter": "Filtr",
       "triggers": "Spouštěče:",
       "expandAll": "Rozbalit vše",
@@ -1395,7 +1399,7 @@
       "dew_heater": "Topný pásek",
       "dew_heater_on": "Topný pásek On",
       "dew_heater_off": "Topný pásek Off",
-      "camera_cooling": "Chlazení kamery",
+      "cool_down": "Zchladit",
       "target_temperature": "Cílová teplota (°C)",
       "warm_up_time": "Doba zahřátí (min)",
       "cooling_time": "Doba chlazení (min)",
@@ -1413,7 +1417,7 @@
       "at_target_temp": "Při cílové teplotě",
       "temperature_setpoint": "Nastavená teplota (°C)",
       "cooler_power": "Výkon chlazení (%)",
-      "camera_warming": "Zahřívání fotoaparátu",
+      "warm_up": "Zahřát",
       "cooler_status": "Stav chlazení",
       "cooler_status_off": "VYPNUTO",
       "cooler_status_cooling": "Aktivní - Chlazení na",
@@ -1668,9 +1672,9 @@
       "keep_closed": "Plochý panel mějte zavřený",
       "status_adu_live": "Poslední měření ADU: {adu}",
       "status_failed": "Nebyly zachyceny žádné byty – nelze určit platnou expozici",
-      "status_running": "Běží: {completed} / {total} byty",
-      "status_stopped": "Předčasně zastaveno – zachyceno {completed} z {total} bytů",
-      "status_success": "Hotovo – zachyceno {count} bytů",
+      "status_running": "Běží",
+      "status_stopped": "Zastaveno",
+      "status_success": "Hotovo",
       "mode": "Režim",
       "multi_mode": "Multi režim",
       "multi_mode_no_filters": "Není připojeno žádné filtrové kolo",
@@ -1732,7 +1736,7 @@
         "preConnectDelay": "Pre Connect Delay (ms)"
       }
     },
-    "celestiaAtlas": {
+    "stellarium": {
       "loading": "Načítání Stellaria…",
       "selected_object": {
         "title": "Vybraný objekt",
@@ -1756,30 +1760,14 @@
         "ecliptic_lines_visible": "Zobrazit ekliptiku",
         "atmosphere_visible": "Zobrazit atmosféru",
         "landscapes_visible": "Ukázat krajinu",
-        "hide_below_horizon": "Skrýt objekty pod obzorem",
-        "sky_survey_visible": "Fotografický průzkum oblohy",
-        "sky_survey_hint": "Používá pouze přibalené snímky DSS offline a nikdy nestahuje dlaždice přehlídky z internetu.",
         "dsos_visible": "Deep Sky Objekty (Messier, NGC)",
-        "catalog_filters": "Filtry katalogu",
-        "catalog_filter_hint": "Ovládá viditelné značky objektů hlubokého nebe; offline vyhledávání nadále najde všechny katalogové objekty.",
-        "catalog_filter_types": "Typy objektů",
-        "catalog_filter_sources": "Katalogové zdroje",
-        "catalog_filter_selected": "{selected} z {total}",
-        "catalog_filter_all": "Vše",
-        "catalog_filter_none": "Nic",
-        "brightness_filters": "Filtry jasnosti",
-        "magnitude_limit_hint": "Nižší hodnoty zobrazí jen jasnější objekty; vyšší zahrnou i slabší objekty.",
-        "magnitude_limit_auto": "Automaticky",
-        "star_magnitude_limit": "Hvězdy (mezní hvězdná velikost)",
-        "galaxy_magnitude_limit": "Galaxie (mezní hvězdná velikost)",
-        "dso_magnitude_limit": "Ostatní DSO (mezní hvězdná velikost)",
         "title": "Nastavení",
         "landscape_source_mode": "Landscape source",
         "landscape_source_default": "Default landscape (Guereins)",
         "landscape_source_neutral": "Neutral horizon (Gray)",
         "landscape_source_custom": "Custom data source",
         "custom_landscape_url": "Custom source URL",
-        "custom_landscape_url_placeholder": "e.g. /celestia-atlas-data/landscapes/custom",
+        "custom_landscape_url_placeholder": "e.g. /stellarium-data/landscapes/custom",
         "custom_landscape_key": "Custom source key",
         "custom_landscape_key_placeholder": "e.g. my-landscape",
         "available_landscapes": "Available landscapes",
@@ -1881,7 +1869,8 @@
       "manageInstances": "Spravovat instance",
       "noInstances": "Nejsou nakonfigurovány žádné instance",
       "noneOnline": "Žádné online případy",
-      "title": "Přepnout instanci"
+      "title": "Přepnout instanci",
+      "switchingTo": "Switching to {name}…"
     },
     "fitsPlatesolve": {
       "binning": "Binning",
@@ -2047,9 +2036,9 @@
         "upgradeFailed": "Upgrade se nezdařil. Výstupní kód: {exitCode}",
         "jobStatus": "Stav úlohy: {status}",
         "statusFetchFailed": "Nepodařilo se načíst konečný stav: {message}",
-        "hotspotFetched": "Stav hesla hotspotu načten (nakonfigurováno={configured}, zdroj={source}).",
+        "hotspotFetched": "Nastavení hotspotu načteno (nakonfigurováno={configured}, zdroj={source}, pásmo={band}, kanál={channel}).",
         "hotspotPasswordTooShort": "Heslo hotspotu musí mít alespoň 8 znaků.",
-        "hotspotSaved": "Heslo hotspotu bylo úspěšně aktualizováno: {message}",
+        "hotspotSaved": "Nastavení hotspotu bylo úspěšně aktualizováno: {message} (použito na aktivní hotspot: {applied}).",
         "hotspotSaving": "Aktualizace hesla hotspotu...",
         "wifiDisabling": "Odpojování Wi-Fi a aktivace hotspotu...",
         "wifiDisabled": "WiFi odpojeno a hotspot povolen.",
@@ -4684,7 +4673,7 @@
     "monitoring": "Monitor",
     "flatWizard": "Byty",
     "framing": "Framing",
-    "skyView": "Celestia Atlas",
+    "skyView": "Stellarium",
     "settings": "Nastav.",
     "about": "Info"
   },

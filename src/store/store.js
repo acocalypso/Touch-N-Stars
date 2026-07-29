@@ -120,11 +120,12 @@ const defaultProfileInfo = () => ({
 export const apiStore = defineStore('store', {
   state: () => ({
     apiPort: null,
-    // Bumped by switchBackend() on every instance switch. fetchAllInfos()
-    // cycles capture it at entry and bail after each await once it moved on,
-    // so an in-flight cycle for the OLD instance can neither write its apiPort
-    // back nor tear down the freshly built session via its error branches.
-    // Deliberately NOT reset in clearAllStates().
+    // Bumped by switchBackend(), i.e. whenever the endpoint changes in place
+    // (onboarding; post-onboarding switches reload the page instead).
+    // fetchAllInfos() cycles capture it at entry and bail after each await once
+    // it moved on, so an in-flight cycle for the OLD instance can neither write
+    // its apiPort back nor tear down the freshly built session via its error
+    // branches. Deliberately NOT reset in clearAllStates().
     connectionEpoch: 0,
     isPINS: false,
     isPinsCheckDone: false,
@@ -172,7 +173,7 @@ export const apiStore = defineStore('store', {
     showSettings: false,
     showFocuser: false,
     showMount: false,
-    showSkyAtlas: false,
+    showStellarium: false,
     minimumApiVersion: '2.2.11.0',
     minimumTnsPluginVersion: '1.2.0.0',
     currentApiVersion: null,
@@ -925,9 +926,13 @@ export const apiStore = defineStore('store', {
       }
     },
 
-    // Full teardown + fresh connect when the backend endpoint changes
-    // (instance switch, edited ip/port). Callers mutate
-    // settingsStore.connection first, then invoke this synchronously.
+    // In-place teardown + fresh connect when the backend endpoint changes.
+    // Only reached during onboarding now: once setup is complete, every endpoint
+    // change reloads the page instead, because enumerating the instance-scoped
+    // state of ~43 stores by hand never stayed complete. See
+    // settingsStore._applyEndpointChange() and utils/instanceSwitchReload.js.
+    // Callers mutate settingsStore.connection first, then invoke this
+    // synchronously.
     async switchBackend() {
       // Invalidate every in-flight fetchAllInfos cycle before the first await.
       const myEpoch = ++this.connectionEpoch;

@@ -775,14 +775,12 @@ equivalent iOS capture remains a non-blocking follow-up.
   completed physical-device validation.
 - Package boundary resolved: Touch-N-Stars uses the public Git repository pinned
   over HTTPS to immutable Atlas commit
-  `a9128ebbcb6ec8133028b701820aacb294e6c419`. Embedded and standalone shells
-  share the same viewer and astronomy engine modules. The pinned renderer keeps
-  the last sharp survey raster visible during clicks, gestures and periodic
-  mount/view updates, then atomically swaps in a completed full-resolution
-  reprojection instead of publishing a reduced interaction raster. Survey
-  resolution and HiPS order now follow the actual display resolution, and
-  parallel tile loading fills the complete viewport quickly without exposing
-  individual sharp tiles.
+  `8627431ffc077d715cbe14dd385f5f6aea098fee`. Embedded and standalone shells
+  share the same viewer and astronomy engine modules. The pinned renderer draws
+  HiPS tiles as curved WebGL meshes and keeps every target region covered by its
+  highest loaded parent until the detail tile arrives. Desktop and native hosts
+  therefore keep the photographic sky sharp during gestures and periodic
+  mount/view updates without rebuilding a viewport-sized raster.
 
 ## 12. Removal checklist
 

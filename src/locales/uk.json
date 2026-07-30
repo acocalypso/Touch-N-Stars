@@ -2808,15 +2808,15 @@
       },
       "reset": "Скинути стек",
       "rgb": {
-        "title": "RGB combination",
-        "target": "Target",
-        "red": "Red channel",
-        "green": "Green channel",
-        "blue": "Blue channel",
-        "create": "Create RGB",
-        "remove": "Remove RGB",
-        "working": "Working...",
-        "no_targets": "No stacked targets available yet"
+        "title": "RGB-комбінація",
+        "target": "Ціль",
+        "red": "Червоний канал",
+        "green": "Зелений канал",
+        "blue": "Синій канал",
+        "create": "Створити RGB",
+        "remove": "Видалити RGB",
+        "working": "Обробка...",
+        "no_targets": "Ще немає доступних стекованих цілей"
       }
     },
     "shortcuts": {

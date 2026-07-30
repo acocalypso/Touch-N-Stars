@@ -3018,15 +3018,15 @@
       },
       "reset": "Reimposta pila",
       "rgb": {
-        "title": "RGB combination",
-        "target": "Target",
-        "red": "Red channel",
-        "green": "Green channel",
-        "blue": "Blue channel",
-        "create": "Create RGB",
-        "remove": "Remove RGB",
-        "working": "Working...",
-        "no_targets": "No stacked targets available yet"
+        "title": "Combinazione RGB",
+        "target": "Bersaglio",
+        "red": "Canale rosso",
+        "green": "Canale verde",
+        "blue": "Canale blu",
+        "create": "Crea RGB",
+        "remove": "Rimuovi RGB",
+        "working": "Elaborazione...",
+        "no_targets": "Nessun bersaglio stackato ancora disponibile"
       }
     },
     "narrowband": {

@@ -3094,15 +3094,15 @@
         "api_version_required": "API 버전 {version} 이상이 필요합니다"
       },
       "rgb": {
-        "title": "RGB combination",
-        "target": "Target",
-        "red": "Red channel",
-        "green": "Green channel",
-        "blue": "Blue channel",
-        "create": "Create RGB",
-        "remove": "Remove RGB",
-        "working": "Working...",
-        "no_targets": "No stacked targets available yet"
+        "title": "RGB 합성",
+        "target": "대상",
+        "red": "빨강 채널",
+        "green": "초록 채널",
+        "blue": "파랑 채널",
+        "create": "RGB 생성",
+        "remove": "RGB 제거",
+        "working": "처리 중...",
+        "no_targets": "아직 사용 가능한 스택 대상이 없습니다"
       }
     },
     "narrowband": {

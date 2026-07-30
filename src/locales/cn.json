@@ -3018,15 +3018,15 @@
       },
       "reset": "Reset stack",
       "rgb": {
-        "title": "RGB combination",
-        "target": "Target",
-        "red": "Red channel",
-        "green": "Green channel",
-        "blue": "Blue channel",
-        "create": "Create RGB",
-        "remove": "Remove RGB",
-        "working": "Working...",
-        "no_targets": "No stacked targets available yet"
+        "title": "RGB 合成",
+        "target": "目标",
+        "red": "红色通道",
+        "green": "绿色通道",
+        "blue": "蓝色通道",
+        "create": "创建 RGB",
+        "remove": "移除 RGB",
+        "working": "处理中...",
+        "no_targets": "暂无可用的叠加目标"
       }
     },
     "narrowband": {

@@ -3018,15 +3018,15 @@
       },
       "reset": "Restablecer pila",
       "rgb": {
-        "title": "RGB combination",
-        "target": "Target",
-        "red": "Red channel",
-        "green": "Green channel",
-        "blue": "Blue channel",
-        "create": "Create RGB",
-        "remove": "Remove RGB",
-        "working": "Working...",
-        "no_targets": "No stacked targets available yet"
+        "title": "Combinación RGB",
+        "target": "Objeto",
+        "red": "Canal rojo",
+        "green": "Canal verde",
+        "blue": "Canal azul",
+        "create": "Crear RGB",
+        "remove": "Eliminar RGB",
+        "working": "Procesando...",
+        "no_targets": "Aún no hay objetos apilados disponibles"
       }
     },
     "narrowband": {

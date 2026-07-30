@@ -3094,15 +3094,15 @@
       },
       "reset": "スタックをリセット",
       "rgb": {
-        "title": "RGB combination",
-        "target": "Target",
-        "red": "Red channel",
-        "green": "Green channel",
-        "blue": "Blue channel",
-        "create": "Create RGB",
-        "remove": "Remove RGB",
-        "working": "Working...",
-        "no_targets": "No stacked targets available yet"
+        "title": "RGB合成",
+        "target": "ターゲット",
+        "red": "赤チャンネル",
+        "green": "緑チャンネル",
+        "blue": "青チャンネル",
+        "create": "RGBを作成",
+        "remove": "RGBを削除",
+        "working": "処理中...",
+        "no_targets": "スタック済みのターゲットがまだありません"
       }
     },
     "narrowband": {

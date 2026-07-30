@@ -3018,15 +3018,15 @@
       },
       "reset": "Redefinir pilha",
       "rgb": {
-        "title": "RGB combination",
-        "target": "Target",
-        "red": "Red channel",
-        "green": "Green channel",
-        "blue": "Blue channel",
-        "create": "Create RGB",
-        "remove": "Remove RGB",
-        "working": "Working...",
-        "no_targets": "No stacked targets available yet"
+        "title": "Combinação RGB",
+        "target": "Alvo",
+        "red": "Canal vermelho",
+        "green": "Canal verde",
+        "blue": "Canal azul",
+        "create": "Criar RGB",
+        "remove": "Remover RGB",
+        "working": "A processar...",
+        "no_targets": "Ainda não há alvos empilhados disponíveis"
       }
     },
     "narrowband": {

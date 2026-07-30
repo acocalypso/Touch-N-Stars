@@ -3018,15 +3018,15 @@
       },
       "reset": "Reset stack",
       "rgb": {
-        "title": "RGB combination",
-        "target": "Target",
-        "red": "Red channel",
-        "green": "Green channel",
-        "blue": "Blue channel",
-        "create": "Create RGB",
-        "remove": "Remove RGB",
-        "working": "Working...",
-        "no_targets": "No stacked targets available yet"
+        "title": "RGB kombinace",
+        "target": "Cíl",
+        "red": "Červený kanál",
+        "green": "Zelený kanál",
+        "blue": "Modrý kanál",
+        "create": "Vytvořit RGB",
+        "remove": "Odebrat RGB",
+        "working": "Zpracovávání...",
+        "no_targets": "Zatím nejsou k dispozici žádné stackované cíle"
       }
     },
     "narrowband": {

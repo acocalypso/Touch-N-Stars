@@ -190,7 +190,11 @@ async function toggleConfiguration() {
   }
 }
 
-watch(selectedCandidate, (candidate) => applySuggestion(candidate));
+watch(selectedCandidate, (candidate) => {
+  applySuggestion(candidate);
+  // Drop an error from a previous target so it does not stick to the new selection
+  store.rgbError = null;
+});
 
 async function onCreate() {
   await store.createRgbCombination({

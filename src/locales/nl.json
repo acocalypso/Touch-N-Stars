@@ -3018,15 +3018,15 @@
       },
       "reset": "Stapel opnieuw instellen",
       "rgb": {
-        "title": "RGB combination",
-        "target": "Target",
-        "red": "Red channel",
-        "green": "Green channel",
-        "blue": "Blue channel",
-        "create": "Create RGB",
-        "remove": "Remove RGB",
-        "working": "Working...",
-        "no_targets": "No stacked targets available yet"
+        "title": "RGB-combinatie",
+        "target": "Doelobject",
+        "red": "Rood kanaal",
+        "green": "Groen kanaal",
+        "blue": "Blauw kanaal",
+        "create": "RGB maken",
+        "remove": "RGB verwijderen",
+        "working": "Bezig...",
+        "no_targets": "Nog geen gestackte doelobjecten beschikbaar"
       }
     },
     "narrowband": {

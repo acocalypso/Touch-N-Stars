@@ -33,6 +33,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Celestia Atlas: Render the complete photographic survey viewport at
+  display-aware resolution and load visible HiPS tiles with higher parallelism,
+  eliminating the isolated sharp-tile appearance on web, Android and iOS
 - Celestia Atlas: Keep photographic survey imagery sharp during clicks, drags,
   pinches and periodic mount/view updates. Completed high-resolution frames are
   retained until the next reprojection is ready, eliminating the recurring

@@ -2341,8 +2341,17 @@
     "logfileCollector": {
       "title": "Collecteur de fichiers de log",
       "intro": "Collecter les derniers logs TNS (y compris le débogage) et les télécharger vers le point de terminaison configuré.",
-      "descriptionLabel": "Description (optionnel)",
+      "descriptionLabel": "Description (obligatoire)",
       "descriptionPlaceholder": "Décrire le problème à investiguer...",
+      "descriptionRequired": "Une description est requise avant l’envoi des journaux.",
+      "successDialog": {
+        "title": "Journaux envoyés avec succès",
+        "message": "Vos journaux ont été téléversés avec succès.",
+        "supportPrompt": "Pour obtenir de l’aide, créez un ticket GitHub ou contactez-nous sur Discord. Incluez le jeton généré afin que nous puissions identifier vos journaux.",
+        "tokenHint": "Incluez ce jeton dans votre demande d’assistance :",
+        "github": "Créer un ticket GitHub",
+        "discord": "Ouvrir Discord"
+      },
       "lastToken": "Token généré",
       "submissionHistory": "Historique de soumission",
       "confirmClearAll": "Êtes-vous sûr de vouloir effacer tout l'historique de soumission?",

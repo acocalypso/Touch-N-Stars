@@ -2341,8 +2341,17 @@
     "logfileCollector": {
       "title": "日志文件收集器",
       "intro": "收集最新的 TNS 日志（包括调试）并上传到配置的端点。",
-      "descriptionLabel": "描述（可选）",
+      "descriptionLabel": "描述（必填）",
       "descriptionPlaceholder": "描述要调查的问题...",
+      "descriptionRequired": "提交日志前必须填写描述。",
+      "successDialog": {
+        "title": "日志发送成功",
+        "message": "您的日志已成功上传。",
+        "supportPrompt": "如需帮助，请创建 GitHub 问题或通过 Discord 联系我们。请附上生成的令牌，以便我们找到您的日志。",
+        "tokenHint": "请在支持请求中附上此令牌：",
+        "github": "创建 GitHub 问题",
+        "discord": "打开 Discord"
+      },
       "lastToken": "生成的令牌",
       "submissionHistory": "提交历史",
       "confirmClearAll": "您确定要清除所有提交历史吗？",

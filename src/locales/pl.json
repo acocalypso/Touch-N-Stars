@@ -2341,8 +2341,17 @@
     "logfileCollector": {
       "title": "Kolektor plików dziennika",
       "intro": "Zbierz najnowsze logi TNS (w tym debug) i prześlij je do skonfigurowanego punktu końcowego.",
-      "descriptionLabel": "Opis (opcjonalnie)",
+      "descriptionLabel": "Opis (wymagany)",
       "descriptionPlaceholder": "Opisz problem do zbadania...",
+      "descriptionRequired": "Przed przesłaniem logów wymagany jest opis.",
+      "successDialog": {
+        "title": "Logi wysłane pomyślnie",
+        "message": "Twoje logi zostały pomyślnie przesłane.",
+        "supportPrompt": "Aby uzyskać pomoc, utwórz zgłoszenie na GitHubie lub skontaktuj się z nami na Discordzie. Dołącz wygenerowany token, abyśmy mogli znaleźć Twoje logi.",
+        "tokenHint": "Dołącz ten token do zgłoszenia pomocy:",
+        "github": "Utwórz zgłoszenie GitHub",
+        "discord": "Otwórz Discord"
+      },
       "lastToken": "Wygenerowany token",
       "submissionHistory": "Historia przesyłania",
       "confirmClearAll": "Czy na pewno chcesz wyczyścić całą historię przesyłania?",

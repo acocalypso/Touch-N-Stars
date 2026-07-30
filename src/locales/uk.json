@@ -263,6 +263,10 @@
       "beta": {
         "title": "Канал бета-оновлень"
       },
+      "devChannel": {
+        "title": "Канал оновлень для розробки",
+        "description": "Отримує тестові збірки з власного репозиторію розробника замість офіційного."
+      },
       "showTutorial": "Показати посібник",
       "plugins": {
         "title": "Керування плагінами",
@@ -319,7 +323,7 @@
         "astapDatabaseInstalling": "Встановлення...",
         "astapDatabaseJobStarted": "почався",
         "astapDatabaseJobStartedMessage": "Розпочато встановлення для {databaseId}.",
-        "astapDatabaseJobStatus": "Вакансія {jobId}: {статус}",
+        "astapDatabaseJobStatus": "Вакансія {jobId}: {status}",
         "astapDatabaseLastChecked": "Остання перевірка: {value}",
         "astapDatabaseLoadFailed": "Не вдалося завантажити бази даних: {detail}",
         "astapDatabaseMissingJobId": "Запит на встановлення виконано успішно, але ідентифікатор завдання не повернуто.",
@@ -1375,7 +1379,7 @@
       "dew_heater": "Обігрівач від роси",
       "dew_heater_on": "Обігрівач увімк.",
       "dew_heater_off": "Обігрівач вимк.",
-      "camera_cooling": "Охолодження камери",
+      "cool_down": "Охолодити",
       "target_temperature": "Цільова температура (°C)",
       "warm_up_time": "Час нагрівання (хв)",
       "cooling_time": "Час охолодження (хв)",
@@ -1393,7 +1397,7 @@
       "at_target_temp": "При цільовій темп.",
       "temperature_setpoint": "Уставка темп. (°C)",
       "cooler_power": "Потужність охолодження (%)",
-      "camera_warming": "Нагрівання камери",
+      "warm_up": "Нагріти",
       "cooler_status": "Статус охолодження",
       "cooler_status_off": "ВИМК",
       "cooler_status_cooling": "Активне — Охолодження до",
@@ -1712,8 +1716,8 @@
         "preConnectDelay": "Затримка перед підключенням (мс)"
       }
     },
-    "stellarium": {
-      "loading": "Завантаження Stellarium…",
+    "celestiaAtlas": {
+      "loading": "Завантаження Celestia Atlas…",
       "selected_object": {
         "title": "Обраний об'єкт",
         "ra": "RA",
@@ -1736,14 +1740,30 @@
         "ecliptic_lines_visible": "Показати екліптику",
         "atmosphere_visible": "Показати атмосферу",
         "landscapes_visible": "Показати ландшафти",
+        "hide_below_horizon": "Приховати об'єкти нижче горизонту",
+        "sky_survey_visible": "Фотографічний огляд неба",
+        "sky_survey_hint": "Використовує лише вбудовані зображення DSS офлайн і ніколи не завантажує тайли огляду з Інтернету.",
         "dsos_visible": "Об'єкти глибокого космосу (Messier, NGC)",
+        "catalog_filters": "Фільтри каталогів",
+        "catalog_filter_hint": "Керує видимими позначками об'єктів глибокого неба; офлайн-пошук і надалі знаходить усі об'єкти каталогів.",
+        "catalog_filter_types": "Типи об’єктів",
+        "catalog_filter_sources": "Джерела каталогів",
+        "catalog_filter_selected": "{selected} з {total}",
+        "catalog_filter_all": "Усі",
+        "catalog_filter_none": "Жодного",
+        "brightness_filters": "Фільтри яскравості",
+        "magnitude_limit_hint": "Нижчі значення показують лише яскравіші об'єкти; вищі додають тьмяніші об'єкти.",
+        "magnitude_limit_auto": "Автоматично",
+        "star_magnitude_limit": "Зорі (гранична зоряна величина)",
+        "galaxy_magnitude_limit": "Галактики (гранична зоряна величина)",
+        "dso_magnitude_limit": "Інші об'єкти глибокого неба (гранична зоряна величина)",
         "title": "Налаштування",
         "landscape_source_mode": "Landscape source",
         "landscape_source_default": "Default landscape (Guereins)",
         "landscape_source_neutral": "Neutral horizon (Gray)",
         "landscape_source_custom": "Custom data source",
         "custom_landscape_url": "Custom source URL",
-        "custom_landscape_url_placeholder": "e.g. /stellarium-data/landscapes/custom",
+        "custom_landscape_url_placeholder": "e.g. /celestia-atlas-data/landscapes/custom",
         "custom_landscape_key": "Custom source key",
         "custom_landscape_key_placeholder": "e.g. my-landscape",
         "available_landscapes": "Доступні пейзажі",
@@ -1845,7 +1865,8 @@
       "noInstances": "Екземпляри не налаштовані",
       "manageInstances": "Керування екземплярами",
       "checking": "Перевірка екземплярів…",
-      "noneOnline": "Жоден екземпляр не онлайн"
+      "noneOnline": "Жоден екземпляр не онлайн",
+      "switchingTo": "Switching to {name}…"
     },
     "fileBrowser": {
       "title": "Перегляд",
@@ -2077,8 +2098,17 @@
     "logfileCollector": {
       "title": "Збирач логів",
       "intro": "Збирає останні логи TNS (включаючи налагоджувальні) та завантажує їх на налаштовану кінцеву точку.",
-      "descriptionLabel": "Опис (необов'язково)",
+      "descriptionLabel": "Опис (обов’язково)",
       "descriptionPlaceholder": "Опишіть проблему для дослідження...",
+      "descriptionRequired": "Перед надсиланням логів необхідно додати опис.",
+      "successDialog": {
+        "title": "Логи успішно надіслано",
+        "message": "Ваші логи успішно завантажено.",
+        "supportPrompt": "Щоб отримати допомогу, створіть звернення на GitHub або зв’яжіться з нами в Discord. Додайте згенерований токен, щоб ми могли знайти ваші логи.",
+        "tokenHint": "Додайте цей токен до звернення в підтримку:",
+        "github": "Створити звернення GitHub",
+        "discord": "Відкрити Discord"
+      },
       "lastToken": "Згенерований токен",
       "submissionHistory": "Історія відправлень",
       "confirmClearAll": "Ви впевнені, що хочете очистити всю історію відправлень?",
@@ -2584,7 +2614,7 @@
         "center_solve_label": "Центрувати + Розв'язати",
         "center_solve_text": "platesolve та центрування цілі (потрібне підключене монтування + калібровані зміщення).",
         "target_solve_label": "Ціль + Розв'язати",
-        "target_solve_text": "Навести на ціль + Центрувати (потрібне підключене монтування + ціль у Stellarium у Framing Assistant)."
+        "target_solve_text": "Навести на ціль + Центрувати (потрібне підключене монтування та ціль, вибрана в Celestia Atlas)."
       },
       "progress": {
         "title": "Прогрес розв'язання",
@@ -2914,9 +2944,9 @@
         "wifiInterfacesLoadFailed": "Не вдалося завантажити обрані WiFi-інтерфейси: {message}",
         "wifiInterfacesSaved": "WiFi-інтерфейси збережено. Клієнт: {clientInterface}, Точка доступу: {hotspotInterface}",
         "wifiInterfacesSaveFailed": "Не вдалося зберегти WiFi-інтерфейси: {message}",
-        "hotspotFetched": "Статус пароля точки доступу завантажено (configured={configured}, source={source}).",
+        "hotspotFetched": "Налаштування точки доступу завантажено (налаштовано={configured}, джерело={source}, діапазон={band}, канал={channel}).",
         "hotspotSaving": "Оновлення пароля точки доступу...",
-        "hotspotSaved": "Пароль точки доступу успішно оновлено: {message}",
+        "hotspotSaved": "Налаштування точки доступу успішно оновлено: {message} (застосовано до активної точки доступу: {applied}).",
         "hotspotPasswordTooShort": "Пароль точки доступу повинен містити щонайменше 8 символів.",
         "jobCreated": "Завдання успішно створено. ID: {jobId}",
         "daemonCheck": "Переконайтеся, що демон PINS запущений на {ip}:{port}",
@@ -2943,7 +2973,7 @@
         "indi3rdpartyInstallStart": "Встановлення пакету INDI: {assetName}",
         "indi3rdpartyInstallSuccess": "Встановлення пакету INDI завершено: {message}",
         "indi3rdpartyInstallFailed": "Встановлення пакету INDI не вдалося: {message}",
-        "pluginActionFailed": "Не вдалося виконати дію плагіна для {packageName}. \nСтатус: {статус}",
+        "pluginActionFailed": "Не вдалося виконати дію плагіна для {packageName}. \nСтатус: {status}",
         "pluginActionSuccess": "Дія плагіна успішно завершена: {packageName}",
         "pluginInstallStart": "Встановлення плагіна: {packageName}",
         "pluginUninstallStart": "Видалення плагіна: {packageName}",
@@ -3018,13 +3048,13 @@
       "indiInstallModalSuccessStarted": "Розпочато встановлення для {label}.",
       "indiInstallModalTitle": "Встановіть драйвер INDI",
       "indiInstallModalType": "Тип",
-      "hotspotAppliedStatus": "Застосовано до активної точки доступу: {застосовано} | \nГрупа: {band} | \nКанал: {channel}",
+      "hotspotAppliedStatus": "Застосовано до активної точки доступу: {applied} | \nГрупа: {band} | \nКанал: {channel}",
       "hotspotBandAuto": "Авто / Не встановлено",
       "hotspotBandLabel": "Група Hotspot",
       "hotspotCapabilitiesUnavailable": "Список можливостей адаптера недоступний; \nдозволений ручний канал.",
       "hotspotChannelLabel": "Канал Hotspot",
       "hotspotChannelPlaceholder": "Залиште порожнім для авто",
-      "hotspotMetaLine": "Джерело: {джерело} | \nІнтерфейс: {iface} | \nГрупа: {band} | \nКанал: {channel}",
+      "hotspotMetaLine": "Джерело: {source} | \nІнтерфейс: {iface} | \nГрупа: {band} | \nКанал: {channel}",
       "indiRegistryEditConfig": "Редагувати конфігурацію",
       "indiRegistryModalActions": "Дії",
       "indiRegistryModalDescription": "Редагувати назву, мітку та тип для встановлених записів реєстру сторонніх розробників INDI.",
@@ -4086,7 +4116,7 @@
       "newOffsets": "Нові зсуви",
       "noFilters": "У профілі немає фільтрів",
       "none": "Жодного",
-      "notConnected": "{пристрій} не підключено",
+      "notConnected": "{device} не підключено",
       "offset": "Зсув",
       "position": "Позиція",
       "runningFilter": "Поточний фільтр",
@@ -4095,7 +4125,7 @@
       "stop": "СТІЙ",
       "subtitle": "Обчислюйте та зберігайте зміщення фокуса для кожного фільтра колеса фільтра",
       "title": "Калькулятор зміщення фільтра",
-      "useRelativeOffsets": "Використовуйте відносні зсуви"
+      "applyFailed": "Не вдалося застосувати зміщення"
     },
     "phd2logviewer": {
       "cal": {
@@ -4578,7 +4608,7 @@
     "monitoring": "Монітор",
     "flatWizard": "Флети",
     "framing": "Фреймінг",
-    "skyView": "Stellarium",
+    "skyView": "Celestia Atlas",
     "settings": "Налашт.",
     "about": "Про нас"
   },

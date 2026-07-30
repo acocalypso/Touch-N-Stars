@@ -230,29 +230,6 @@
           </div>
         </div>
 
-        <!-- Use Relative Offsets toggle -->
-        <div
-          class="flex items-center justify-between rounded-xl border border-gray-700/70 bg-gray-900/50 px-5 py-3"
-        >
-          <label class="text-sm text-gray-300">{{
-            $t('plugins.filterOffset.useRelativeOffsets')
-          }}</label>
-          <button
-            :class="[
-              'relative inline-flex h-6 w-11 items-center rounded-full transition-colors',
-              useRelativeOffsets ? 'bg-blue-600' : 'bg-gray-700',
-            ]"
-            @click="useRelativeOffsets = !useRelativeOffsets"
-          >
-            <span
-              :class="[
-                'inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform',
-                useRelativeOffsets ? 'translate-x-6' : 'translate-x-1',
-              ]"
-            />
-          </button>
-        </div>
-
         <!-- Old AutoFocus filter -->
         <div
           class="flex items-center gap-4 rounded-xl border border-gray-700/70 bg-gray-900/50 px-5 py-3"
@@ -277,10 +254,20 @@
             class="w-40 rounded-lg border border-gray-600 bg-gray-800 px-3 py-1.5 text-sm text-white focus:border-blue-500 focus:outline-none"
           >
             <option :value="null">{{ $t('plugins.filterOffset.none') }}</option>
-            <option v-for="o in result.NewOffsets" :key="o.Position" :value="o.Position">
-              {{ o.Name }}
+            <!-- Every filter in the profile, not just the calibrated ones: keeping an AutoFocus
+                 filter that was left out of this run is a legitimate choice. -->
+            <option v-for="f in filters" :key="f.position" :value="f.position">
+              {{ f.name }}
             </option>
           </select>
+        </div>
+
+        <!-- Apply error -->
+        <div
+          v-if="applyError"
+          class="rounded-xl border border-red-700/50 bg-red-900/30 p-4 text-sm text-red-300"
+        >
+          {{ $t('plugins.filterOffset.errorLabel') }}: {{ applyError }}
         </div>
 
         <!-- Accept / Abort buttons -->
@@ -343,8 +330,8 @@ const status = ref({
 });
 
 const result = ref(null);
-const useRelativeOffsets = ref(false);
 const newDefaultFilterPosition = ref(null);
+const applyError = ref('');
 
 const issues = ref([]);
 
@@ -384,15 +371,20 @@ const filterProgressPct = computed(() => {
   return Math.round((status.value.CurrentFilterIndex / status.value.TotalFilters) * 100);
 });
 
-/** Returns new offsets adjusted for relative mode */
+/**
+ * New offsets as they will actually be written. Mirrors the backend's anchoring exactly: the set is
+ * shifted so that one calibrated filter keeps the offset it already had, which is what keeps focuser
+ * moves to filters left out of this run correct. The anchor is the selected AutoFocus filter when it
+ * was calibrated, otherwise the base filter.
+ */
 const displayedNewOffsets = computed(() => {
-  if (!result.value) return [];
-  if (!useRelativeOffsets.value || newDefaultFilterPosition.value === null) {
-    return result.value.NewOffsets;
-  }
-  const base = result.value.NewOffsets.find((o) => o.Position === newDefaultFilterPosition.value);
-  const baseVal = base ? base.FocusOffset : 0;
-  return result.value.NewOffsets.map((o) => ({ ...o, FocusOffset: o.FocusOffset - baseVal }));
+  const offsets = result.value?.NewOffsets ?? [];
+  if (!offsets.length) return offsets;
+
+  const measured = offsets.find((o) => o.Position === newDefaultFilterPosition.value) ?? offsets[0];
+  const previous = result.value.OldOffsets?.find((o) => o.Position === measured.Position);
+  const shift = (previous ? previous.FocusOffset : 0) - measured.FocusOffset;
+  return shift === 0 ? offsets : offsets.map((o) => ({ ...o, FocusOffset: o.FocusOffset + shift }));
 });
 
 const oldDefaultFilterName = computed(() => {
@@ -445,6 +437,7 @@ async function fetchResult() {
     if (data.Success) {
       result.value = data.Response;
       newDefaultFilterPosition.value = data.Response.SuggestedDefaultFilterPosition ?? null;
+      applyError.value = '';
     }
   } catch (err) {
     console.error('[FilterOffset] fetchResult error:', err);
@@ -480,7 +473,7 @@ async function startCalculation() {
       FilterPositions: selectedPositions.value,
     });
     result.value = null;
-    useRelativeOffsets.value = false;
+    applyError.value = '';
     await fetchStatus();
   } catch (err) {
     console.error('[FilterOffset] start error:', err);
@@ -500,16 +493,24 @@ async function stopCalculation() {
 
 async function applyResult() {
   loading.value = true;
+  applyError.value = '';
   try {
-    await axios.post(`${getApiUrl()}/filter-offset/apply`, {
-      UseRelativeOffsets: useRelativeOffsets.value,
+    const { data } = await axios.post(`${getApiUrl()}/filter-offset/apply`, {
       NewDefaultFilterPosition: newDefaultFilterPosition.value,
     });
+    // The backend answers 4xx/5xx with an Error body; keep the result on screen so the user can
+    // correct the selection and retry instead of silently losing the measurement.
+    if (data?.Success === false) {
+      applyError.value = data.Error || t('plugins.filterOffset.applyFailed');
+      return;
+    }
     result.value = null;
     await fetchFilters();
     await fetchStatus();
   } catch (err) {
     console.error('[FilterOffset] apply error:', err);
+    applyError.value =
+      err?.response?.data?.Error || err?.message || t('plugins.filterOffset.applyFailed');
   } finally {
     loading.value = false;
   }
@@ -520,6 +521,7 @@ async function discardResult() {
   try {
     await axios.get(`${getApiUrl()}/filter-offset/discard`);
     result.value = null;
+    applyError.value = '';
     await fetchStatus();
   } catch (err) {
     console.error('[FilterOffset] discard error:', err);

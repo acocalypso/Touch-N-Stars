@@ -283,6 +283,10 @@
       "beta": {
         "title": "测试版更新通道"
       },
+      "devChannel": {
+        "title": "开发版更新通道",
+        "description": "从开发者自己的代码仓库接收测试版本，而不是官方仓库。"
+      },
       "showTutorial": "显示教程",
       "plugins": {
         "title": "插件管理",
@@ -1395,7 +1399,7 @@
       "dew_heater": "除露加热器",
       "dew_heater_on": "除露加热器开启",
       "dew_heater_off": "除露加热器关闭",
-      "camera_cooling": "相机冷却",
+      "cool_down": "冷却",
       "target_temperature": "目标温度 (°C)",
       "warm_up_time": "预热时间 (min)",
       "cooling_time": "冷却时间 (min)",
@@ -1413,7 +1417,7 @@
       "at_target_temp": "在目标温度下",
       "temperature_setpoint": "温度设定值 (°C)",
       "cooler_power": "冷却功率 (%)",
-      "camera_warming": "相机升温",
+      "warm_up": "预热",
       "cooler_status": "冷却器状态",
       "cooler_status_off": "关闭",
       "cooler_status_cooling": "活跃 - 冷却至",
@@ -1668,9 +1672,9 @@
       "keep_closed": "保持平板关闭",
       "status_adu_live": "最后测量的 ADU：{adu}",
       "status_failed": "未捕获任何单位 - 无法确定有效曝光",
-      "status_running": "正在运行：{completed} / {total} 平底鞋",
-      "status_stopped": "提早停止 — 占领 {total} 套公寓中的 {completed} 个",
-      "status_success": "完成 — 占领 {count} 套公寓",
+      "status_running": "运行中",
+      "status_stopped": "已停止",
+      "status_success": "成功",
       "mode": "模式",
       "multi_mode": "多模式",
       "multi_mode_no_filters": "未连接滤镜轮",
@@ -1732,8 +1736,8 @@
         "preConnectDelay": "Pre Connect Delay (ms)"
       }
     },
-    "stellarium": {
-      "loading": "正在加载 Stellarium…",
+    "celestiaAtlas": {
+      "loading": "正在加载 Celestia Atlas…",
       "selected_object": {
         "title": "已选对象",
         "ra": "赤经",
@@ -1756,14 +1760,30 @@
         "ecliptic_lines_visible": "显示黄道",
         "atmosphere_visible": "显示大气层",
         "landscapes_visible": "显示地平线",
+        "hide_below_horizon": "隐藏地平线以下的天体",
+        "sky_survey_visible": "实拍巡天图像",
+        "sky_survey_hint": "仅离线使用随附的 DSS 天空图像，不会从互联网获取巡天图块。",
         "dsos_visible": "深空天体 (梅西耶, NGC)",
+        "catalog_filters": "深空天体筛选",
+        "catalog_filter_hint": "控制星图中可见的深空天体标记；离线搜索仍可找到所有星表天体。",
+        "catalog_filter_types": "天体类型",
+        "catalog_filter_sources": "星表来源",
+        "catalog_filter_selected": "已选 {selected}/{total}",
+        "catalog_filter_all": "全部",
+        "catalog_filter_none": "无",
+        "brightness_filters": "亮度筛选",
+        "magnitude_limit_hint": "较低数值仅显示较亮天体；较高数值也显示较暗天体。",
+        "magnitude_limit_auto": "自动",
+        "star_magnitude_limit": "恒星极限星等",
+        "galaxy_magnitude_limit": "星系极限星等",
+        "dso_magnitude_limit": "其他深空天体极限星等",
         "title": "设置",
         "landscape_source_mode": "Landscape source",
         "landscape_source_default": "Default landscape (Guereins)",
         "landscape_source_neutral": "Neutral horizon (Gray)",
         "landscape_source_custom": "Custom data source",
         "custom_landscape_url": "Custom source URL",
-        "custom_landscape_url_placeholder": "e.g. /stellarium-data/landscapes/custom",
+        "custom_landscape_url_placeholder": "e.g. /celestia-atlas-data/landscapes/custom",
         "custom_landscape_key": "Custom source key",
         "custom_landscape_key_placeholder": "e.g. my-landscape",
         "available_landscapes": "Available landscapes",
@@ -1865,7 +1885,8 @@
       "manageInstances": "管理实例",
       "noInstances": "没有配置实例",
       "noneOnline": "没有在线实例",
-      "title": "切换实例"
+      "title": "切换实例",
+      "switchingTo": "Switching to {name}…"
     },
     "fitsPlatesolve": {
       "binning": "Binning",
@@ -2031,9 +2052,9 @@
         "upgradeFailed": "升级失败。退出代码：{exitCode}",
         "jobStatus": "工作状态：{status}",
         "statusFetchFailed": "无法获取最终状态：{message}",
-        "hotspotFetched": "已加载热点密码状态（已配置={configured}，源={source}）。",
+        "hotspotFetched": "已加载热点设置（已配置={configured}，来源={source}，频段={band}，信道={channel}）。",
         "hotspotPasswordTooShort": "热点密码必须至少为 8 个字符。",
-        "hotspotSaved": "热点密码更新成功：{message}",
+        "hotspotSaved": "热点设置更新成功：{message}（已应用到活动热点：{applied}）。",
         "hotspotSaving": "正在更新热点密码...",
         "wifiDisabling": "断开 WiFi 并启用热点...",
         "wifiDisabled": "WiFi 已断开且热点已启用。",
@@ -2320,8 +2341,17 @@
     "logfileCollector": {
       "title": "日志文件收集器",
       "intro": "收集最新的 TNS 日志（包括调试）并上传到配置的端点。",
-      "descriptionLabel": "描述（可选）",
+      "descriptionLabel": "描述（必填）",
       "descriptionPlaceholder": "描述要调查的问题...",
+      "descriptionRequired": "提交日志前必须填写描述。",
+      "successDialog": {
+        "title": "日志发送成功",
+        "message": "您的日志已成功上传。",
+        "supportPrompt": "如需帮助，请创建 GitHub 问题或通过 Discord 联系我们。请附上生成的令牌，以便我们找到您的日志。",
+        "tokenHint": "请在支持请求中附上此令牌：",
+        "github": "创建 GitHub 问题",
+        "discord": "打开 Discord"
+      },
       "lastToken": "生成的令牌",
       "submissionHistory": "提交历史",
       "confirmClearAll": "您确定要清除所有提交历史吗？",
@@ -2794,7 +2824,7 @@
         "center_solve_label": "居中 + 解析",
         "center_solve_text": "进行天文定位解析并将目标居中（需要赤道仪已连接并且偏移已校准）。",
         "target_solve_label": "目标 + 解析",
-        "target_solve_text": "转向目标并居中（需要赤道仪已连接，并在 Stellarium 的取景助手中设置目标）。"
+        "target_solve_text": "转向目标并居中（需要赤道仪已连接，并在 Celestia Atlas 中选择目标）。"
       },
       "progress": {
         "title": "解析进度",
@@ -4062,7 +4092,7 @@
       "stop": "Stop",
       "subtitle": "Calculate and store focus offsets for each filter wheel filter",
       "title": "Filter Offset Calculator",
-      "useRelativeOffsets": "Use Relative Offsets"
+      "applyFailed": "Could not apply the offsets"
     },
     "filebrowser": {
       "title": "File Browser",
@@ -4668,7 +4698,7 @@
     "monitoring": "监控",
     "flatWizard": "平场向导",
     "framing": "取景",
-    "skyView": "星辰",
+    "skyView": "Celestia Atlas",
     "settings": "设置",
     "about": "关于"
   },

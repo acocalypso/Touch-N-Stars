@@ -1,162 +1,146 @@
 # Contributing to Touch'N'Stars
 
-Thank you for your interest in contributing to Touch'N'Stars! This document provides guidelines and information for contributors.
+Contributions are welcome. This guide describes the current local workflow and
+the checks expected before a pull request.
 
-## Getting Started
+## Prerequisites
 
-### Prerequisites
+- Node.js 22 and npm (the CI toolchain)
+- A modern Chromium-based browser for web testing
+- Optional: N.I.N.A. with the Advanced API and Touch'N'Stars plugins for live
+  integration testing
+- Optional: Android Studio and/or Xcode for native changes
 
-- Node.js 18 or higher
-- npm
-- A running NINA installation with the following plugins (for testing):
-  - Advanced API plugin
-  - Touch'N'Stars plugin
+Never point automated or exploratory command tests at production equipment.
+Use mocks, a simulator, or a dedicated lab installation unless a live action is
+explicitly intended and supervised.
 
-### Setup
+## Setup
 
-1. Fork and clone the repository
-2. Install dependencies:
-   ```bash
-   npm install
-   ```
-3. Start the development server:
-   ```bash
-   npm run serve
-   ```
-
-## Code Style
-
-We use **ESLint** and **Prettier** to maintain consistent code quality.
-
-### Before Committing
-
-Always run the linter and formatter before committing:
 ```bash
-npm run format
-npm run lint:fix
+git clone <your-fork-url>
+cd Touch-N-Stars
+npm ci
+npm run serve
 ```
 
-### Key Rules
+`npm ci` is the reproducible install path and must agree with
+`package-lock.json`. The development server runs the source-scoped ESLint fix
+step and the required generators before starting Vite.
 
-- Use ES6+ syntax
-- Use `const` by default, `let` when reassignment is needed, avoid `var`
-- Use meaningful variable and function names
-- Keep functions small and focused
-- **No hardcoded strings** - Use i18n for all user-facing text (at least English required)
+## Project structure
 
-### Formatting
-
-Prettier handles formatting automatically. Key settings:
-- Single quotes for strings
-- Semicolons required
-- 2 spaces indentation
-
-## Project Structure
-
-```
+```text
 src/
-├── assets/         # Static assets (images, icons, etc.)
-├── components/     # Reusable Vue components
-├── composables/    # Vue composables (reusable logic)
-├── locales/        # Translation files (i18n)
-├── plugins/        # Plugin system extensions
-├── router/         # Vue Router configuration
-├── services/       # API and business logic
-├── store/          # Pinia stores
-├── utils/          # Utility functions
-└── views/          # Page components
+├── assets/          Static assets
+├── components/      Reusable Vue components
+├── composables/     Shared Vue composition logic
+├── integrations/    External renderer and protocol boundaries
+├── locales/         i18n resources
+├── plugins/         Touch'N'Stars extension system
+├── router/          Vue Router configuration
+├── services/        API clients and business services
+├── store/           Pinia stores
+├── utils/           Shared utilities
+└── views/           Routed application views
 ```
 
-## Commits
+The current Celestia Atlas boundary and its release checks are documented in
+[docs/celestia-atlas-integration.md](docs/celestia-atlas-integration.md).
 
-Use conventional commit style:
-- `feat:` New features
-- `fix:` Bug fixes
-- `docs:` Documentation changes
-- `refactor:` Code refactoring
-- `chore:` Maintenance tasks
+## Code and UI rules
 
-Example: `feat: add dark mode toggle to settings`
+- Use modern JavaScript, `const` by default, and clear names.
+- Keep components focused; put reusable protocol or coordinate work behind a
+  tested integration boundary.
+- Add every user-facing string to the locale files. English is required and
+  missing translations must be resolved before release.
+- Preserve mobile safe areas, orientation changes, and a minimum 48 px touch
+  target for primary controls.
+- Treat coordinate frames, units, timestamps, and hardware command boundaries
+  as explicit data contracts.
 
-## Pull Requests
+Prettier enforces single quotes, semicolons, and two-space indentation. ESLint
+checks `src`, Vite configuration, and its own configuration with a persistent
+cache under `.cache/eslint`; generated build and cache trees are excluded.
 
-1. Create a new branch from `develop`:
-   ```bash
-   git checkout develop
-   git pull origin develop
-   git checkout -b feat/your-feature-name
-   ```
+## Tests and validation
 
-2. Make your changes and ensure:
-   - Code passes linting (`npm run lint:fix`)
-   - The app builds successfully (`npm run testbuild`)
-   - You have tested your changes
+Choose the checks relevant to the change. The normal pre-push baseline is:
 
-3. Push your branch and create a Pull Request
+```bash
+npm run lint
+npm run typecheck
+npm run test:run
+npm run format:check
+npm run build
+```
 
-4. Provide a clear description of:
-   - What the PR does
-   - Why the change is needed
-   - How it was tested
+The repository has automated unit and integration tests. Add or update tests
+for behavior changes; manual browser testing does not replace them. Use
+`npm run test:coverage`, `npm run i18n:check`, and `npm run preview:smoke` when
+their areas are affected. `npm run ci:verify` runs the complete CI gate.
 
-## Testing
+The Vue typecheck can exceed Node's default heap. Set
+`NODE_OPTIONS=--max-old-space-size=6144` before the baseline on larger working
+trees (PowerShell: `$env:NODE_OPTIONS='--max-old-space-size=6144'`).
 
-Currently, no automated tests are set up. Please test your changes manually:
-- Verify on both mobile and desktop browsers
-- Test with a real NINA connection if possible
-- Check that existing functionality still works
+On Windows, `npm run testbuild` builds and deploys to the configured N.I.N.A.
+plugin app directory and verifies the Celestia data package. A running N.I.N.A.
+plugin serves that deployment on port 5000. The command deliberately skips lint
+so the deployment path stays fast and deterministic; run `npm run lint`
+separately.
 
-## Changelog
+For native changes:
 
-For notable changes, update `CHANGELOG.md` under `## [Unreleased]`:
-- Follow [Keep a Changelog](https://keepachangelog.com/) format
-- Use: Added, Changed, Fixed, Removed
+```bash
+npm run build:native
+npm run sync:native
+```
 
-## Translations (i18n)
+The native verifier ensures large Celestia survey data is not bundled in the
+Android or iOS application. Test relevant flows on both platforms when layout,
+lifecycle, networking, or Capacitor behavior changes.
 
-Translation files are located in `src/locales/`.
+## Generated files
 
-### Adding a New Translation Key
+Run the matching generator when changing plugin metadata or release notes:
 
-Use the helper script:
+```bash
+npm run generate-plugins
+npm run generate-whats-new
+```
+
+Review generated diffs. Do not commit `dist/`, `.cache/`, or local test-deploy
+artifacts.
+
+## Commits and pull requests
+
+Use a short conventional prefix such as `feat:`, `fix:`, `docs:`, `refactor:`,
+or `chore:`. Keep each commit coherent and avoid unrelated formatting changes.
+
+In a pull request, explain what changed, why it changed, how it was tested, and
+any remaining platform or hardware validation. For notable user-facing changes,
+update `CHANGELOG.md` under `Unreleased` using Keep a Changelog categories.
+
+## Translations and plugins
+
+Translation helpers:
+
 ```bash
 npm run locale:entry
-```
-
-Or for all languages:
-```bash
 npm run locale:entry:all
+npm run locale:find-missing-keys
 ```
 
-### Guidelines
+Keep translations concise and test them on a narrow mobile viewport. For plugin
+structure and discovery, see [src/plugins/plugins.md](src/plugins/plugins.md) or
+start with `npm run create-plugin`.
 
-- Keep translations concise (UI space is limited on mobile)
-- Use placeholders for dynamic values: `{count} images`
-- Test translations in the app to ensure they fit
+## Help
 
-## Plugins
+- Open a GitHub issue for reproducible bugs or feature proposals.
+- Join the [Touch'N'Stars Discord](https://discord.com/invite/4gZJEMWFcN).
+- Consult the [project wiki](https://github.com/Touch-N-Stars/Touch-N-Stars/wiki).
 
-Touch'N'Stars has a plugin system for extending functionality. For detailed documentation on:
-
-- Plugin structure and files
-- Creating new plugins
-- Auto-discovery system
-- Icon support
-- Guidelines
-
-See [`src/plugins/plugins.md`](src/plugins/plugins.md)
-
-**Quick start:**
-```bash
-npm run create-plugin
-```
-
-## Questions?
-
-- Open an issue for bugs or feature requests
-- Join our [Discord](https://discord.com/invite/4gZJEMWFcN) for discussions
-- Check the [Wiki](https://github.com/Touch-N-Stars/Touch-N-Stars/wiki) for documentation
-
-## License
-
-By contributing, you agree that your contributions will be licensed under the same license as the project (see LICENSE file).
+Contributions are licensed under the repository's existing licence.

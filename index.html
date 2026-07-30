@@ -9,6 +9,17 @@
     />
     <link rel="icon" href="/Logo_TouchNStars_150x150.png" />
     <title>TouchNStars</title>
+    <!-- Inline on purpose: the dark ground also lives in tailwind.css, but that
+         stylesheet only applies once it has loaded. Every full page load (app
+         start, instance switch) would paint a white frame first. Keep this value
+         in sync with --color-ground in src/assets/tailwind.css. -->
+    <style>
+      html,
+      body {
+        background-color: #0a0f1c;
+        color-scheme: dark;
+      }
+    </style>
   </head>
   <body>
     <noscript>

@@ -1,7 +1,5 @@
 <template>
-  <SequenceV2Page
-    v-if="store.isPINS"
-  />
+  <SequenceV2Page v-if="store.isPINS" />
 
   <div
     v-else-if="store.isTnsPluginConnected && !store.pinsCheckResolvedOnce"

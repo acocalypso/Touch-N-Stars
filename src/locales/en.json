@@ -4207,7 +4207,8 @@
       "notConnected": "{device} is not connected",
       "deviceCamera": "Camera",
       "deviceFocuser": "Focuser",
-      "deviceFilterWheel": "Filter Wheel"
+      "deviceFilterWheel": "Filter Wheel",
+      "tooFewIterations": "With fewer than 3 iterations a failed or inaccurate AutoFocus cannot be detected and is averaged into the offset. Use 3 or more for a reliable result."
     },
     "groundStation": {
       "title": "Ground Station",

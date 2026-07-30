@@ -4121,7 +4121,8 @@
       "stop": "Stoppen",
       "subtitle": "Berechnen und speichern Sie Fokus-Offsets für jeden Filterradfilter",
       "title": "Filter-Offset-Rechner",
-      "applyFailed": "Die Offsets konnten nicht angewendet werden"
+      "applyFailed": "Die Offsets konnten nicht angewendet werden",
+      "tooFewIterations": "Bei weniger als 3 Iterationen kann ein fehlerhafter oder ungenauer Autofokus nicht erkannt werden und wird in den Offset gemittelt. \nFür ein zuverlässiges Ergebnis verwenden Sie 3 oder mehr."
     },
     "groundStation": {
       "title": "Ground Station",

@@ -4083,7 +4083,8 @@
       "stop": "Stop",
       "subtitle": "Calculate and store focus offsets for each filter wheel filter",
       "title": "Filter Offset Calculator",
-      "applyFailed": "Could not apply the offsets"
+      "applyFailed": "Could not apply the offsets",
+      "tooFewIterations": "With fewer than 3 iterations a failed or inaccurate AutoFocus cannot be detected and is averaged into the offset. Use 3 or more for a reliable result."
     },
     "filebrowser": {
       "title": "File Browser",

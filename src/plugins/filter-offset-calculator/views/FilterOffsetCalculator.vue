@@ -12,19 +12,25 @@
       <!-- ── Setup section (visible when Idle / Error) ─────────────────────── -->
       <section v-if="status.State === 'Idle' || status.State === 'Error'" class="space-y-4">
         <!-- Iterations -->
-        <div
-          class="flex items-center gap-4 rounded-xl border border-gray-700/70 bg-gray-900/50 p-4"
-        >
-          <label class="w-40 shrink-0 text-sm text-gray-300">
-            {{ $t('plugins.filterOffset.iterations') }}
-          </label>
-          <input
-            v-model.number="loops"
-            type="number"
-            min="1"
-            max="20"
-            class="w-24 rounded-lg border border-gray-600 bg-gray-800 px-3 py-2 text-center text-white focus:border-blue-500 focus:outline-none"
-          />
+        <div class="space-y-3 rounded-xl border border-gray-700/70 bg-gray-900/50 p-4">
+          <div class="flex items-center gap-4">
+            <label class="w-40 shrink-0 text-sm text-gray-300">
+              {{ $t('plugins.filterOffset.iterations') }}
+            </label>
+            <input
+              v-model.number="loops"
+              type="number"
+              min="1"
+              max="20"
+              class="w-24 rounded-lg border border-gray-600 bg-gray-800 px-3 py-2 text-center text-white focus:border-blue-500 focus:outline-none"
+            />
+          </div>
+
+          <!-- Outlier rejection needs 3 samples before it can discard anything, so anything less
+               silently averages a bad AutoFocus into the result. -->
+          <p v-if="loops < 3" class="text-xs leading-relaxed text-amber-300/90">
+            {{ $t('plugins.filterOffset.tooFewIterations') }}
+          </p>
         </div>
 
         <!-- Filter selection table -->
@@ -371,15 +377,32 @@ const filterProgressPct = computed(() => {
   return Math.round((status.value.CurrentFilterIndex / status.value.TotalFilters) * 100);
 });
 
+/** True when this run measured every filter the profile has — see displayedNewOffsets. */
+const calibratedWholeWheel = computed(() => {
+  const offsets = result.value?.NewOffsets ?? [];
+  if (!offsets.length || !filters.value.length) return false;
+
+  const calibrated = new Set(offsets.map((o) => o.Position));
+  return filters.value.every((f) => calibrated.has(f.position));
+});
+
 /**
- * New offsets as they will actually be written. Mirrors the backend's anchoring exactly: the set is
- * shifted so that one calibrated filter keeps the offset it already had, which is what keeps focuser
- * moves to filters left out of this run correct. The anchor is the selected AutoFocus filter when it
- * was calibrated, otherwise the base filter.
+ * New offsets as they will actually be written. Mirrors the backend's apply step exactly — the two
+ * must agree, or the preview shows one set of numbers while a different set reaches the profile.
+ *
+ * A partial run gets shifted so that one calibrated filter keeps the offset it already had: filters
+ * left out of the run still carry offsets on the old zero point, so the measured block has to stay
+ * aligned with them. The anchor is the selected AutoFocus filter when it was calibrated, otherwise
+ * the base filter.
+ *
+ * A run that covered the whole wheel is shown as measured, base filter at 0. Nothing is left on the
+ * old zero point, so there is nothing to stay aligned with, and anchoring would only carry the old
+ * zero point forward — including the absolute focuser positions older builds used to write into
+ * FocusOffset, which is what made offsets show up in the thousands.
  */
 const displayedNewOffsets = computed(() => {
   const offsets = result.value?.NewOffsets ?? [];
-  if (!offsets.length) return offsets;
+  if (!offsets.length || calibratedWholeWheel.value) return offsets;
 
   const measured = offsets.find((o) => o.Position === newDefaultFilterPosition.value) ?? offsets[0];
   const previous = result.value.OldOffsets?.find((o) => o.Position === measured.Position);

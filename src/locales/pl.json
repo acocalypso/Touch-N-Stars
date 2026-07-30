@@ -4083,7 +4083,8 @@
       "stop": "Zatrzymywać się",
       "subtitle": "Oblicz i zapisz przesunięcia ostrości dla każdego filtra koła filtrów",
       "title": "Kalkulator przesunięcia filtra",
-      "applyFailed": "Nie można zastosować przesunięć"
+      "applyFailed": "Nie można zastosować przesunięć",
+      "tooFewIterations": "W przypadku mniej niż 3 iteracji nieudany lub niedokładny autofokus nie może zostać wykryty i jest uśredniany w przesunięciu. \nAby uzyskać wiarygodny wynik, użyj 3 lub więcej."
     },
     "filebrowser": {
       "title": "File Browser",

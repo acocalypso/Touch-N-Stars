@@ -4088,7 +4088,8 @@
       "stop": "Arrêt",
       "subtitle": "Calculer et stocker les décalages de mise au point pour chaque filtre de roue à filtres",
       "title": "Calculateur de décalage de filtre",
-      "applyFailed": "Impossible d'appliquer les décalages"
+      "applyFailed": "Impossible d'appliquer les décalages",
+      "tooFewIterations": "Avec moins de 3 itérations, un AutoFocus défaillant ou inexact ne peut pas être détecté et est calculé en moyenne dans le décalage. \nUtilisez-en 3 ou plus pour un résultat fiable."
     },
     "filebrowser": {
       "title": "File Browser",

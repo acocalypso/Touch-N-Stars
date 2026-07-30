@@ -5,6 +5,39 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [App6.0.0] - 2026-07-30
+
+### Breaking Changes
+
+- Sky view: The Stellarium Web sky view has been replaced by the new Celestia Atlas renderer. The old sky view is removed - Celestia Atlas is now the only sky renderer in the app
+- NINA plugin update required: Please update the Touch-N-Stars plugin in NINA to the matching version before using this release. On Android and iOS the Atlas catalogue and survey data are loaded from the NINA plugin, so with an older plugin the sky view stays empty or does not open at all
+- Settings: Saved sky-view settings are migrated automatically on first start. The migration is one-way - returning to 5.x after starting 6.0.0 will not restore the old Stellarium settings
+- Landscapes: Generated plugin landscapes now use an update-safe persistent data route instead of the replaceable application asset directory and are moved there automatically. Stellarium landscape files remain supported through the landscape creator plugin
+
+### Added
+
+- Celestia Atlas: Complete offline M1-M110 coverage, a dedicated Messier catalogue filter, and designation-plus-common-name labels such as "M81 - Bode's Galaxy"
+- Celestia Atlas: Independent persisted limiting-magnitude controls for stars, galaxies and other deep-sky objects; lower values keep only brighter objects and Auto preserves adaptive field-of-view filtering
+- Celestia Atlas: Search and render 8,658 supplemental Abell/ACO, Barnard, LBN, LDN, RCW, Sharpless 2 and vdB objects, 86 SIMBAD A66 planetary nebulae and 8,780 HYG stars from package-local data without requiring a network
+- Celestia Atlas: Selected catalogue targets now expose aliases and the complete favorite, Framing Assistant, sequence-target, slew/center/rotate and mount-sync workflow through the existing Touch-N-Stars action panel
+- Celestia Atlas: Persist independent marker filters for 17 deep-sky object types and nine offline catalogue sources, including separate Abell/ACO galaxy cluster and Abell planetary-nebula controls
+
+### Changed
+
+- Celestia Atlas: Defer engine/catalogue loading until first open, retain one paused warm viewer after that, split the compact OpenNGC, supplemental DSO, Abell planetary-nebula, HYG and curated bright-sky payloads into first-open chunks, and reduce mobile panorama, search, FOV sampling and lifecycle work
+- Celestia Atlas: Make the shared selected-target panel safe-area aware and independently scrollable on short mobile landscape screens; its favorite dialog now renders at the application root instead of inside the sky overlay
+- Logfile collector plugin: Description is now mandatory
+
+### Fixed
+
+- Celestia Atlas: Correct J2000/ICRS-to-horizontal geometry with precession, nutation and observed sidereal orientation, keeping landscapes, the Milky Way horizon mask, grids and horizontal navigation on one cached frame
+- Celestia Atlas: Keep camera and mosaic position angles anchored to projected celestial north while the embedded view follows the local horizon
+- Celestia Atlas: Route view-center slew, center, rotate, sequence and favorite actions through the proven J2000 command boundary; invalid or untagged view coordinates now disable the actions instead of reusing stale values
+- Celestia Atlas: Convert ICRS catalogue selections to the J2000 frame required by NINA framing and mount commands, while retaining source-frame provenance and rejecting untagged coordinates
+- Celestia Atlas: Correct the mirrored Galactic-longitude mapping so the Milky Way crosses the local horizon in the expected north-to-south direction
+- Celestia Atlas: Keep the embedded view explicitly horizon-aligned even when both coordinate-grid overlays are hidden, so landscapes stay level and horizontal drags follow azimuth instead of appearing to rotate the sky
+- Celestia Atlas: The selected-target framing action now opens the actual Framing Assistant and retains J2000 epoch plus ICRS/J2000 source-frame provenance instead of sending the user to the mount slew tab
+
 ## [App5.3.0-beta1] - 2026-07-28
 ### Changed
 - Multi-instance: Switching instances - and editing the IP/port of the active instance - now restarts the app instead of resetting parts of it in place. You stay on the page you were on. Note that a running TPPA alignment or manual mount control session is no longer carried over to the new instance
@@ -58,8 +91,6 @@ Summary of all changes since 5.1.0 (released in beta1-beta4, see below for the i
 
 - Equipment (PINS): Connect button now doubles as a cancel button while a connection attempt is in progress
 - Guiding: PHD2 live image can now be zoomed and panned (pinch, mouse wheel, double-tap) like the camera image, with lock position, guiding cross and secondary star overlays tracking correctly, plus a reset-zoom button
-- Celestia Atlas: Complete offline M1-M110 coverage, a dedicated Messier catalogue filter, and designation-plus-common-name labels such as `M81 · Bode's Galaxy`
-- Celestia Atlas: Generated plugin landscapes now use an update-safe persistent data route instead of the replaceable application asset directory
 
 ### Changed
 
@@ -109,52 +140,11 @@ Summary of all changes since 5.1.0 (released in beta1-beta4, see below for the i
 ### Added
 
 - Settings: New "Local Network Binding" option (Android) to keep the app connected via Wi-Fi when the NINA instance runs on a local network without internet (e.g. PINS hotspot), while the rest of the phone keeps using mobile data
-- Celestia Atlas: Independent persisted limiting-magnitude controls for stars,
-  galaxies and other deep-sky objects; lower values keep only brighter objects
-  and Auto preserves adaptive field-of-view filtering
-- Celestia Atlas: Search and render 8,658 supplemental Abell/ACO, Barnard, LBN,
-  LDN, RCW, Sharpless 2 and vdB objects, 86 SIMBAD A66 planetary nebulae and
-  8,780 HYG stars from package-local data without requiring a network
-- Celestia Atlas: Selected catalogue targets now expose aliases and the complete
-  favorite, Framing Assistant, sequence-target, slew/center/rotate and mount-sync
-  workflow through the existing Touch-N-Stars action panel
-- Celestia Atlas: Persist independent marker filters for 17 deep-sky object
-  types and nine offline catalogue sources, including separate Abell/ACO galaxy
-  cluster and Abell planetary-nebula controls
 
 ### Changed
 
-- Celestia Atlas: Defer engine/catalogue loading until first open, retain one
-  paused warm viewer after that, split the compact OpenNGC, supplemental DSO,
-  Abell planetary-nebula, HYG and curated bright-sky payloads into first-open
-  chunks, and reduce mobile panorama, search, FOV sampling and lifecycle work
 - Build: Pin TypeScript 6.0.3 because the current `vue-tsc` wrapper cannot load
   the TypeScript 7 compiler export; lint, typecheck and production build pass
-- Celestia Atlas: Make the shared selected-target panel safe-area aware and
-  independently scrollable on short mobile landscape screens; its favorite
-  dialog now renders at the application root instead of inside the sky overlay
-
-### Fixed
-
-- Celestia Atlas: Correct J2000/ICRS-to-horizontal geometry with precession,
-  nutation and observed sidereal orientation, keeping landscapes, the Milky
-  Way horizon mask, grids and horizontal navigation on one cached frame
-- Celestia Atlas: Keep camera and mosaic position angles anchored to projected
-  celestial north while the embedded view follows the local horizon
-- Celestia Atlas: Route view-center slew, center, rotate, sequence and favorite
-  actions through the proven J2000 command boundary; invalid or untagged view
-  coordinates now disable the actions instead of reusing stale values
-- Celestia Atlas: Convert ICRS catalogue selections to the J2000 frame required
-  by NINA framing and mount commands, while retaining source-frame provenance
-  and rejecting untagged coordinates
-- Celestia Atlas: Correct the mirrored Galactic-longitude mapping so the Milky
-  Way crosses the local horizon in the expected north-to-south direction
-- Celestia Atlas: Keep the embedded view explicitly horizon-aligned even when
-  both coordinate-grid overlays are hidden, so landscapes stay level and
-  horizontal drags follow azimuth instead of appearing to rotate the sky
-- Celestia Atlas: The selected-target framing action now opens the actual
-  Framing Assistant and retains J2000 epoch plus ICRS/J2000 source-frame
-  provenance instead of sending the user to the mount slew tab
 
 ### Fixed
 

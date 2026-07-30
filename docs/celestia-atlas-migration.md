@@ -775,7 +775,7 @@ equivalent iOS capture remains a non-blocking follow-up.
   completed physical-device validation.
 - Package boundary resolved: Touch-N-Stars uses the public Git repository pinned
   over HTTPS to immutable Atlas commit
-  `8627431ffc077d715cbe14dd385f5f6aea098fee`. Embedded and standalone shells
+  `c2663cd52f7803d71ac1e119de735f7da93ee2a0`. Embedded and standalone shells
   share the same viewer and astronomy engine modules. The pinned renderer draws
   HiPS tiles as curved WebGL meshes and keeps every target region covered by its
   highest loaded parent until the detail tile arrives. Desktop and native hosts

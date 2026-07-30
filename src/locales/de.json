@@ -136,7 +136,8 @@
       "noInstances": "Keine Instanzen konfiguriert",
       "manageInstances": "Instanzen verwalten",
       "checking": "Instanzen werden geprüft…",
-      "noneOnline": "Keine Instanz online"
+      "noneOnline": "Keine Instanz online",
+      "switchingTo": "Wechsle zu {name}…"
     },
     "instanceDetection": {
       "autoDetectionTitle": "Automatische Erkennung",
@@ -351,6 +352,10 @@
       },
       "beta": {
         "title": "Beta-Update-Kanal"
+      },
+      "devChannel": {
+        "title": "Dev-Update-Kanal",
+        "description": "Erhält Testversionen aus dem eigenen Repository des Entwicklers statt aus dem offiziellen."
       },
       "showTutorial": "Tutorial anzeigen",
       "plugins": {
@@ -1436,7 +1441,7 @@
       "dew_heater_on": "Taupunktregler ein",
       "dew_heater_off": "Taupunktregler aus",
       "dewHeaterStrength": "Tauheizer-Stärke",
-      "camera_cooling": "Kamerakühlung",
+      "cool_down": "Abkühlen",
       "target_temperature": "Zieltemperatur (°C)",
       "warm_up_time": "Aufwärmzeit (min)",
       "cooling_time": "Kühlzeit (min)",
@@ -1454,7 +1459,7 @@
       "at_target_temp": "Zieltemperatur erreicht",
       "temperature_setpoint": "Temp Sollwert (° C)",
       "cooler_power": "Kühlerleistung (%)",
-      "camera_warming": "Kamera aufwärmen",
+      "warm_up": "Aufwärmen",
       "cooler_status": "Kühler Status",
       "cooler_status_off": "AUS",
       "cooler_status_cooling": "Aktiv - Kühlt auf",
@@ -1548,7 +1553,7 @@
       },
       "error_modal": {},
       "tppa": "TPPA",
-      "warn_dec_spread_body": "Die gemeldete Deklination der Montierung änderte sich zwischen den Messungen um {Bogensekunden}\". Dies kann die Genauigkeit der Polausrichtung beeinträchtigen. Stellen Sie sicher, dass sich während der Messung nur die RA-Achse bewegt.",
+      "warn_dec_spread_body": "Die gemeldete Deklination der Montierung änderte sich zwischen den Messungen um {arcsec}\". Dies kann die Genauigkeit der Polausrichtung beeinträchtigen. Stellen Sie sicher, dass sich während der Messung nur die RA-Achse bewegt.",
       "warn_dec_spread_title": "Deklinationsausbreitung erkannt",
       "warn_east_west_body": "Das aktuelle Feld liegt innerhalb von 5° vom genauen Osten oder Westen. \nWenn die Live-Lösung instabil ist, schwenken Sie zu einem Feld, das weiter von Ost/West entfernt ist, und führen Sie es erneut aus.",
       "warn_east_west_title": "Korrekturfeld innerhalb von {deg}° von Ost/West",
@@ -1772,8 +1777,8 @@
         "preConnectDelay": "Pre-Connect-Verzögerung (ms)"
       }
     },
-    "stellarium": {
-      "loading": "Stellarium wird geladen…",
+    "celestiaAtlas": {
+      "loading": "Celestia Atlas wird geladen…",
       "selected_object": {
         "title": "Ausgewähltes Objekt",
         "ra": "Ra",
@@ -1796,7 +1801,23 @@
         "ecliptic_lines_visible": "Ecliptic Linie",
         "atmosphere_visible": "Atmosphäre zeigen",
         "landscapes_visible": "Landschaften",
+        "hide_below_horizon": "Objekte unter dem Horizont ausblenden",
+        "sky_survey_visible": "Fotografische Himmelsdurchmusterung",
+        "sky_survey_hint": "Verwendet ausschließlich die mitgelieferten DSS-Himmelsbilder offline und lädt keine Kacheln aus dem Internet.",
         "dsos_visible": "Deep-Sky Objekte (Messier, NGC)",
+        "catalog_filters": "Katalogfilter",
+        "catalog_filter_hint": "Steuert sichtbare Deep-Sky-Markierungen; die Offline-Suche findet weiterhin alle Katalogobjekte.",
+        "catalog_filter_types": "Objekttypen",
+        "catalog_filter_sources": "Katalogquellen",
+        "catalog_filter_selected": "{selected} von {total}",
+        "catalog_filter_all": "Alle",
+        "catalog_filter_none": "Keine",
+        "brightness_filters": "Helligkeitsfilter",
+        "magnitude_limit_hint": "Niedrigere Werte zeigen nur hellere Objekte; höhere Werte schließen schwächere Objekte ein.",
+        "magnitude_limit_auto": "Automatisch",
+        "star_magnitude_limit": "Sterne (Grenzgröße)",
+        "galaxy_magnitude_limit": "Galaxien (Grenzgröße)",
+        "dso_magnitude_limit": "Andere Deep-Sky-Objekte (Grenzgröße)",
         "title": "Einstellungen",
         "landscape_source_mode": "Landscape source",
         "landscape_source_default": "Default landscape (Guereins)",
@@ -1804,7 +1825,7 @@
         "landscape_source_custom": "Custom data source",
         "landscape_option_label": "Landschaft: {title}",
         "custom_landscape_url": "Custom source URL",
-        "custom_landscape_url_placeholder": "e.g. /stellarium-data/landscapes/custom",
+        "custom_landscape_url_placeholder": "e.g. /celestia-atlas-data/landscapes/custom",
         "custom_landscape_key": "Custom source key",
         "custom_landscape_key_placeholder": "e.g. my-landscape",
         "available_landscapes": "Verfügbare Landschaften",
@@ -2320,8 +2341,17 @@
     "logfileCollector": {
       "title": "Logfile-Sammler",
       "intro": "Sammle die neuesten TNS-Logs (inkl. Debug) und lade sie an den konfigurierten Endpunkt hoch.",
-      "descriptionLabel": "Beschreibung (optional)",
+      "descriptionLabel": "Beschreibung (erforderlich)",
       "descriptionPlaceholder": "Beschreibe das Problem zur Analyse...",
+      "descriptionRequired": "Vor dem Senden der Logs ist eine Beschreibung erforderlich.",
+      "successDialog": {
+        "title": "Logs erfolgreich gesendet",
+        "message": "Deine Logs wurden erfolgreich hochgeladen.",
+        "supportPrompt": "Erstelle ein GitHub-Issue oder kontaktiere uns auf Discord, um Hilfe zu erhalten. Gib den generierten Token an, damit wir deine Logs finden können.",
+        "tokenHint": "Gib diesen Token in deiner Support-Anfrage an:",
+        "github": "GitHub-Issue erstellen",
+        "discord": "Discord öffnen"
+      },
       "lastToken": "Generierter Token",
       "submissionHistory": "Übertragungsverlauf",
       "confirmClearAll": "Möchten Sie wirklich den gesamten Übertragungsverlauf löschen?",
@@ -2875,7 +2905,7 @@
         "center_solve_label": "Center + Solve",
         "center_solve_text": "Platesolve und Ziel zentrieren (Mount verbunden + kalibriertes Offset).",
         "target_solve_label": "Target + Solve",
-        "target_solve_text": "fahre Ziel an und zentriere (Mount verbunden + Ziel über Stellarium in Framing Assistant ausgewählt)."
+        "target_solve_text": "Fahre das Ziel an und zentriere es (erfordert ein verbundenes Mount und ein in Celestia Atlas ausgewähltes Ziel)."
       },
       "progress": {
         "title": "Solve-Fortschritt",
@@ -3095,7 +3125,7 @@
       "filterTransmission": "Filterübertragung",
       "wavelengthLabel": "Wellenlänge (nm)",
       "transmissionLabel": "Übertragung",
-      "transmissionPercent": "Übertragung: {Prozent} %",
+      "transmissionPercent": "Übertragung: {percent} %",
       "wavelengthRange": "Wellenlängenbereich",
       "flatTopRange": "Flat-Top-Reihe",
       "fRatio": "f/Ratio",
@@ -4091,7 +4121,7 @@
       "newOffsets": "Neue Offsets",
       "noFilters": "Im Profil sind keine Filter verfügbar",
       "none": "Keiner",
-      "notConnected": "{Gerät} ist nicht verbunden",
+      "notConnected": "{device} ist nicht verbunden",
       "offset": "Versatz",
       "position": "Position",
       "runningFilter": "Aktueller Filter",
@@ -4100,7 +4130,7 @@
       "stop": "Stoppen",
       "subtitle": "Berechnen und speichern Sie Fokus-Offsets für jeden Filterradfilter",
       "title": "Filter-Offset-Rechner",
-      "useRelativeOffsets": "Verwenden Sie relative Offsets"
+      "applyFailed": "Die Offsets konnten nicht angewendet werden"
     },
     "groundStation": {
       "title": "Ground Station",
@@ -4415,7 +4445,7 @@
       "toast": {
         "errorTitle": "Die Erstellung der Landschaft ist fehlgeschlagen",
         "invalidFileType": "Nicht unterstützter Dateityp. \nBitte laden Sie PNG, JPEG oder WebP hoch.",
-        "successMessage": "{Dateiname} heruntergeladen",
+        "successMessage": "{filename} heruntergeladen",
         "successMessageSaved": "{filename} wurde unter {path} gespeichert.",
         "successTitle": "Querformat ZIP-fähig",
         "validationTitle": "Validierung"
@@ -4673,7 +4703,7 @@
     "monitoring": "Monitor",
     "flatWizard": "Flats",
     "framing": "Framing",
-    "skyView": "Stellarium",
+    "skyView": "Celestia Atlas",
     "settings": "Einstell.",
     "about": "Info"
   },

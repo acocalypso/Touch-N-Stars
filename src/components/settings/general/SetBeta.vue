@@ -18,6 +18,7 @@
 <script setup>
 import { useSettingsStore } from '@/store/settingsStore';
 import toggleButton from '@/components/helpers/toggleButton.vue';
+import { getPreferredUpdateChannel } from '@/services/updateService';
 
 const settingsStore = useSettingsStore();
 
@@ -32,7 +33,7 @@ async function toggleDebug(value) {
       detail: {
         resetDismissed: true,
         syncChannel: true,
-        useBetaFeatures: value,
+        channel: getPreferredUpdateChannel(),
       },
     })
   );

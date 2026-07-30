@@ -115,19 +115,16 @@
         </div>
       </Transition>
 
-      <!-- Stellarium lives outside the splash-gated subtree and is not bound to
-           isBackendReachable: every remount creates a fresh WASM engine whose
-           requestAnimationFrame loop can never be stopped, so the previous
-           engine (including its multi-MB heap) would leak on each reconnect.
-           While disconnected, the splash (z-40) simply covers it. -->
-      <StellariumView
-        v-if="settingsStore.setupCompleted"
-        v-show="store.showStellarium"
-        :key="stellariumRefreshKey"
+      <!-- Keep the sky viewer outside the splash-gated subtree so reconnects do
+           not discard its catalogue and view state. The splash covers it while
+           disconnected, and the viewer lifecycle pauses rendering when hidden. -->
+      <SkyAtlasView
+        v-if="settingsStore.setupCompleted && skyAtlasMounted"
+        v-show="store.showSkyAtlas"
       />
       <div v-if="!shouldShowConnectionSplash" :class="stageClasses" :style="stageStyle">
         <div class="container mx-auto px-3 py-4">
-          <router-view v-show="!store.showStellarium" :key="routerViewKey" />
+          <router-view v-show="!store.showSkyAtlas" :key="routerViewKey" />
         </div>
       </div>
       <!-- Fixed frame mask: paints the frame with a rounded window punched out
@@ -135,7 +132,7 @@
            while the content sheet scrolls beneath. Sits above stage content
            (z-5) but below full-bleed views and all bars/overlays (z-10+). -->
       <div
-        v-if="!shouldShowConnectionSplash && !store.showStellarium"
+        v-if="!shouldShowConnectionSplash && !store.showSkyAtlas"
         class="stage-frame"
         :style="stageFrameStyle"
       ></div>
@@ -386,6 +383,7 @@ import {
   downloadAndApplyUpdate,
   fetchChangelogWhatsNew,
   getPreferredUpdateChannel,
+  isDevUpdateChannel,
   isNativePlatform,
   syncNativeUpdateChannel,
 } from '@/services/updateService';
@@ -396,7 +394,7 @@ import { setLocaleLanguage } from '@/i18n';
 import { useSequenceV2Store } from '@/store/sequenceV2Store';
 import { PINS_PORT, DEFAULT_PINS_DAEMON_API_TOKEN as PINS_TOKEN } from '@/services/pinsConfig';
 
-const StellariumView = defineAsyncComponent(() => import('./views/StellariumView.vue'));
+const SkyAtlasView = defineAsyncComponent(() => import('./views/CelestiaAtlasView.vue'));
 const TutorialModal = defineAsyncComponent(() => import('@/components/TutorialModal.vue'));
 const ConsoleViewer = defineAsyncComponent(() => import('@/components/helpers/ConsoleViewer.vue'));
 const SettingsComp = defineAsyncComponent(() => import('@/components/SettingsComp.vue'));
@@ -410,8 +408,18 @@ const settingsStore = useSettingsStore();
 const pinsStore = usePinsStore();
 const nightSummaryStore = useNightSummaryStore();
 const route = useRoute();
+const skyAtlasMounted = ref(Boolean(store.showSkyAtlas));
+
+watch(
+  () => store.showSkyAtlas,
+  (visible) => {
+    if (visible) skyAtlasMounted.value = true;
+  },
+  { immediate: true }
+);
 
 const showTimeWarningModal = ref(false);
+let appStateListenerHandle = null;
 const timeWarningClientTime = ref('');
 const timeWarningDeviceTime = ref('');
 
@@ -518,8 +526,6 @@ let connectionElapsedIntervalId = null;
 let reconnectSplashGraceTimer = null;
 const tutorialSteps = computed(() => settingsStore.tutorial.steps);
 const orientation = ref(window.innerWidth > window.innerHeight ? 'landscape' : 'portrait');
-const landscapeSwitch = ref(null);
-const stellariumRefreshKey = ref(null);
 const routerViewKey = ref(Date.now());
 const showUpdateModal = ref(false);
 const updateInfo = ref(null);
@@ -539,13 +545,6 @@ useHead({
   title: 'TouchNStars',
 });
 
-function checkOrientationChange() {
-  // Force re-render of StellariumView when orientation changes
-  if (store.showStellarium) {
-    landscapeSwitch.value = Date.now();
-  }
-}
-
 function updateOrientation() {
   const width = window.innerWidth;
   const height = window.innerHeight;
@@ -556,16 +555,12 @@ function updateOrientation() {
 
     if (newOrientation !== orientation.value) {
       orientation.value = newOrientation;
-      checkOrientationChange(); // Force re-render of StellariumView
       routerViewKey.value = Date.now();
       console.log('Orientation changed, re-rendering router-view:', newOrientation);
     }
 
     initialWidth = width;
     initialHeight = height;
-  } else {
-    // Also check orientation for small changes (for better responsiveness)
-    checkOrientationChange();
   }
 }
 
@@ -1066,12 +1061,22 @@ async function checkForAppUpdate(options = {}) {
 
     const result = await checkForManualUpdate(currentBundleVersion, { allowDowngrade });
 
-    if (result?.available && currentBundleVersion && result.version === currentBundleVersion) {
+    // On the dev channel the fork shares its version numbers with upstream, so identical or
+    // already dismissed versions must still be offered - otherwise a dev build could never
+    // be installed on top of a release build with the same version.
+    const devChannel = isDevUpdateChannel();
+
+    if (
+      !devChannel &&
+      result?.available &&
+      currentBundleVersion &&
+      result.version === currentBundleVersion
+    ) {
       // Extra guard in case update service fallback/version parsing returns a false positive.
       return;
     }
 
-    if (result?.available && result.version !== dismissedUpdateVersion.value) {
+    if (result?.available && (devChannel || result.version !== dismissedUpdateVersion.value)) {
       let whatsNewDetails = null;
       try {
         whatsNewDetails = await fetchChangelogWhatsNew(result);
@@ -1098,10 +1103,7 @@ async function checkForAppUpdate(options = {}) {
 
 async function handleCheckAppUpdate(event) {
   console.log('Update check requested via channel switch');
-  const useBetaFeatures =
-    typeof event?.detail?.useBetaFeatures === 'boolean'
-      ? event.detail.useBetaFeatures
-      : settingsStore.useBetaFeatures;
+  const channel = event?.detail?.channel ?? getPreferredUpdateChannel();
 
   if (event?.detail?.resetDismissed) {
     dismissedUpdateVersion.value = null;
@@ -1109,7 +1111,7 @@ async function handleCheckAppUpdate(event) {
   }
 
   if (event?.detail?.syncChannel) {
-    await syncNativeUpdateChannel(useBetaFeatures, { triggerAutoUpdate: false });
+    await syncNativeUpdateChannel(channel, { triggerAutoUpdate: false });
   }
 
   if (isNativePlatform()) {
@@ -1184,7 +1186,7 @@ onMounted(async () => {
 
   // Check for app update immediately - independent from backend status
   if (isNativePlatform()) {
-    void checkForAppUpdate({ allowDowngrade: getPreferredUpdateChannel() === 'beta' });
+    void checkForAppUpdate({ allowDowngrade: getPreferredUpdateChannel() !== 'stable' });
   }
 
   // Capacitor App Lifecycle Events for mobile platforms.
@@ -1193,7 +1195,7 @@ onMounted(async () => {
   // resumeApp is now debounced, only add noise. pauseApp/resumeApp are internally
   // guarded against duplicate triggers.
   if (['android', 'ios'].includes(Capacitor.getPlatform())) {
-    CapacitorApp.addListener('appStateChange', (state) => {
+    appStateListenerHandle = await CapacitorApp.addListener('appStateChange', (state) => {
       console.log('Capacitor App state change:', state.isActive);
       if (state.isActive) {
         resumeApp();
@@ -1202,12 +1204,6 @@ onMounted(async () => {
       }
     });
   }
-
-  // Listen for manual Stellarium refresh ONLY
-  window.addEventListener('refresh-stellarium', () => {
-    console.log('Manual Stellarium refresh requested');
-    stellariumRefreshKey.value = Date.now();
-  });
 
   window.addEventListener('check-app-update', handleCheckAppUpdate);
 
@@ -1358,23 +1354,6 @@ function dismissWhatsNew() {
   }
 }
 
-watch(
-  () => settingsStore.stellarium.landscapesVisible,
-  () => {
-    landscapeSwitch.value = Date.now();
-  }
-);
-
-// Watch for Stellarium visibility changes to force re-render
-watch(
-  () => store.showStellarium,
-  (newValue) => {
-    if (newValue) {
-      landscapeSwitch.value = Date.now();
-    }
-  }
-);
-
 onBeforeUnmount(async () => {
   console.log('App.vue unmounted, cleaning up...');
   // Cancel any pending debounced resume so it cannot fire after teardown.
@@ -1411,14 +1390,12 @@ onBeforeUnmount(async () => {
   window.removeEventListener('focus', handleFocus);
   window.removeEventListener('resize', updateOrientation);
   window.removeEventListener('orientationchange', handleOrientationChange);
-  window.removeEventListener('refresh-stellarium', () => {
-    stellariumRefreshKey.value = Date.now();
-  });
   window.removeEventListener('check-app-update', handleCheckAppUpdate);
 
   // Remove Capacitor listeners
   if (['android', 'ios'].includes(Capacitor.getPlatform())) {
-    await CapacitorApp.removeAllListeners();
+    await appStateListenerHandle?.remove();
+    appStateListenerHandle = null;
   }
 });
 </script>

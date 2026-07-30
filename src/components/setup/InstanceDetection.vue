@@ -171,8 +171,10 @@ import { ref, watch } from 'vue';
 import { Capacitor } from '@capacitor/core';
 import { mDNS } from '@acovanconis/capacitor-mdns';
 import { useI18n } from 'vue-i18n';
+import { probePinsHealth } from '@/services/rigEndpointResolver';
 
-const MDNS_SERVICE_TYPE = '_touchnstars._tcp';
+const MDNS_SERVICE_TYPES = ['_touchnstars._tcp', '_pinsdaemon._tcp'];
+const PINS_DAEMON_SERVICE_TYPE = '_pinsdaemon._tcp';
 const MDNS_INSTANCE_PREFIX = 'touchnstars_';
 const MDNS_DISCOVERY_TIMEOUT = 6000;
 
@@ -198,6 +200,8 @@ const emit = defineEmits(['update:modelValue']);
 const instanceName = ref(props.modelValue.name);
 const instanceIP = ref(props.modelValue.ip);
 const instancePort = ref(props.modelValue.port);
+const instanceRigId = ref(props.modelValue.rigId || '');
+const instanceCandidateHosts = ref(props.modelValue.candidateHosts || []);
 
 const isDetecting = ref(false);
 const detectionMessage = ref('');
@@ -213,11 +217,13 @@ const platform = Capacitor.getPlatform();
 const supportsMdnsDiscovery =
   Capacitor.isNativePlatform() && (platform === 'android' || platform === 'ios');
 
-watch([instanceName, instanceIP, instancePort], () => {
+watch([instanceName, instanceIP, instancePort, instanceRigId, instanceCandidateHosts], () => {
   emit('update:modelValue', {
     name: instanceName.value,
     ip: instanceIP.value,
     port: instancePort.value,
+    rigId: instanceRigId.value,
+    candidateHosts: instanceCandidateHosts.value,
   });
 });
 
@@ -243,13 +249,22 @@ function closeDiscoveryModal() {
   showDiscoveryModal.value = false;
 }
 
-function handleInstanceSelected(instance) {
+async function handleInstanceSelected(instance) {
   if (!instance.ip || !instance.port) {
     return;
   }
   instanceName.value = instance.label;
   instanceIP.value = instance.ip;
   instancePort.value = instance.port;
+  instanceCandidateHosts.value = Array.from(new Set([instance.ip, ...(instance.hosts || [])]));
+  if (instance.sourceType === PINS_DAEMON_SERVICE_TYPE) {
+    try {
+      const result = await probePinsHealth({ host: instance.ip });
+      instanceRigId.value = result.health.rigId;
+    } catch (error) {
+      console.warn('PINS identity probe failed:', error?.message || error);
+    }
+  }
   detectionSuccess.value = true;
   detectionMessage.value = t('components.instanceDetection.selectionSuccess', {
     label: instance.label,
@@ -299,13 +314,19 @@ async function detectInstances() {
 
 async function discoverViaMdns() {
   try {
-    const result = await mDNS.discover({
-      type: MDNS_SERVICE_TYPE,
-      timeout: MDNS_DISCOVERY_TIMEOUT,
-    });
+    const results = await Promise.all(
+      MDNS_SERVICE_TYPES.map(async (type) => ({
+        type,
+        result: await mDNS.discover({
+          type,
+          timeout: MDNS_DISCOVERY_TIMEOUT,
+        }),
+      }))
+    );
+    const successfulResults = results.filter(({ result }) => !result?.error);
 
-    if (result.error) {
-      const message = enhanceDiscoveryError(result.errorMessage);
+    if (successfulResults.length === 0) {
+      const message = enhanceDiscoveryError(results[0]?.result?.errorMessage);
       discoveryError.value = message;
       modalMessage.value = message;
       detectionMessage.value = t('components.instanceDetection.discoveryFailedStatus', {
@@ -314,7 +335,11 @@ async function discoverViaMdns() {
       return false;
     }
 
-    const normalized = dedupeServices(result.services.map(normalizeMdnsService));
+    const normalized = dedupeServices(
+      successfulResults.flatMap(({ type, result }) =>
+        (result.services || []).map((service) => normalizeMdnsService(service, type))
+      )
+    );
 
     if (normalized.length === 0) {
       discoveredInstances.value = [];
@@ -343,13 +368,16 @@ async function discoverViaMdns() {
   }
 }
 
-function normalizeMdnsService(service) {
+function normalizeMdnsService(service, sourceType) {
   const txt = service?.txt || {};
   const { baseName, suffix } = splitInstanceName(service?.name ?? '');
   const ipFromTxt = typeof txt.ip === 'string' ? txt.ip.trim() : '';
   const ipFromHosts = pickPreferredHost(service?.hosts || []);
   const ip = ipFromTxt || ipFromHosts || '';
-  const port = resolvePort(txt.port, service?.port);
+  const port =
+    sourceType === PINS_DAEMON_SERVICE_TYPE
+      ? resolvePort(txt.backendPort, 5000)
+      : resolvePort(txt.port, service?.port);
   const preferredName =
     (typeof txt.instanceName === 'string' && txt.instanceName.trim()) ||
     baseName ||
@@ -367,6 +395,7 @@ function normalizeMdnsService(service) {
     hosts: service?.hosts || [],
     txt,
     rawName,
+    sourceType,
   };
 }
 

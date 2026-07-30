@@ -1,21 +1,21 @@
 # Custom Landscape Creation Guide (Touch-N-Stars)
 
-This guide explains how to create a custom terrestrial landscape dataset for Stellarium in Touch-N-Stars, which tools to use, and how to validate the result.
+This guide explains how to create a custom terrestrial landscape dataset for Celestia Atlas in Touch-N-Stars, which tools to use, and how to validate the result.
 
 ## 1. What Touch-N-Stars expects
 
-Touch-N-Stars passes your custom landscape URL directly to Stellarium Web Engine as a HiPS data source.
+Touch-N-Stars passes your custom landscape URL to Celestia Atlas as a HiPS data source.
 
 At minimum, your custom dataset folder must contain:
 
 - `properties` at the dataset root
-- tiled files under `Norder.../Dir.../Npix...`
+- twelve order-0 tiles under `Norder0/Dir0/Npix0...Npix11`
 - usually an all-sky preview tile `Norder0/Allsky.<ext>` (recommended)
 
 Reference examples in this repository:
 
-- `public/stellarium-data/landscapes/gray`
-- `public/stellarium-data/landscapes/guereins`
+- `public/celestia-atlas-data/landscapes/gray`
+- `public/celestia-atlas-data/landscapes/guereins`
 
 ## 2. Required files and metadata
 
@@ -36,7 +36,8 @@ type = landscape
 Notes:
 
 - `type = landscape` marks the HiPS as a landscape dataset.
-- `hips_tile_format` can be `webp`, `png`, or `jpeg` in Stellarium Web Engine.
+- `hips_tile_format` can be `webp`, `png`, `jpg`, or `jpeg` in Celestia Atlas.
+- The current Atlas integration renders order 0. Higher-order tiles may be included for compatibility, but the twelve order-0 tiles are required.
 - If you use `png` or `jpeg`, keep `hips_tile_format` in sync with actual file extensions.
 
 ## 3. Recommended toolchain (researched)
@@ -110,20 +111,20 @@ After conversion:
 ### Step D: Place the dataset in Touch-N-Stars
 
 1. Copy dataset folder to:
-   `public/stellarium-data/landscapes/<your-landscape-id>`
+   `public/celestia-atlas-data/landscapes/<your-landscape-id>`
 2. Example final URL root:
-   `/stellarium-data/landscapes/<your-landscape-id>`
+   `/celestia-atlas-data/landscapes/<your-landscape-id>`
 
 ### Step E: Configure in app
 
-In Stellarium settings:
+In Celestia Atlas settings:
 
 1. Enable Landscapes
 2. Landscape source -> Custom data source
 3. Custom source URL -> `landscapes/<your-landscape-id>`
 4. Custom source key -> a unique key, for example `my-observatory`
 
-After entering or changing custom source settings, click **Save** in the Stellarium settings panel to trigger refresh.
+After entering or changing custom source settings, click **Save** in the Celestia Atlas settings panel to trigger refresh.
 
 ## 5. Quality and troubleshooting checklist
 
@@ -138,7 +139,7 @@ Before final use, verify:
 
 If the landscape does not appear:
 
-1. Try local hosting first under `public/stellarium-data/landscapes/...`.
+1. Try local hosting first under `public/celestia-atlas-data/landscapes/...`.
 2. Re-check `properties` spelling and values.
 3. Use Hipsgen `LINT` to detect metadata problems.
 4. Confirm the custom URL points to the dataset root, not to an individual tile.

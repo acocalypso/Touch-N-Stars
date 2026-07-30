@@ -220,6 +220,7 @@
         {{ $t('components.settings.beta.title') }}
       </h3>
       <SetBeta />
+      <SetDevChannel v-if="settingsStore.devChannelUnlocked" />
     </div>
 
     <!-- Tutorial Button -->
@@ -332,6 +333,7 @@ import SetDebug from '@/components/settings/general/SetDebug.vue';
 import ButtonSetLocationSyncToMount from '@/components/mount/ButtonSetLocationSyncToMount.vue';
 import ToggleButton from '@/components/helpers/toggleButton.vue';
 import SetBeta from '@/components/settings/general/SetBeta.vue';
+import SetDevChannel from '@/components/settings/general/SetDevChannel.vue';
 import SetLogLevel from '@/components/settings/general/SetLogLevel.vue';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 import LocationSettingsPins from '@/components/settings/general/LocationSettingsPins.vue';

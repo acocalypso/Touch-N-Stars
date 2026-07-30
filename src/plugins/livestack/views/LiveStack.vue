@@ -311,6 +311,12 @@ const handleWebSocketMessage = async (message) => {
       console.log('Current status:', livestackStore.status);
     } else if (Event === 'STACK-RESET') {
       livestackStore.resetStack();
+    } else if (Event === 'STACK-RGB-CREATED' || Event === 'STACK-RGB-REMOVED') {
+      // The set of available stacks changed - another client may have triggered this
+      await livestackStore.checkImageAvailability();
+      if (store.isPINS) {
+        await livestackStore.loadRgbCandidates();
+      }
     }
   }
 };
@@ -376,6 +382,8 @@ onMounted(async () => {
     websocketChannelService.subscribe('STACK-UPDATED');
     websocketChannelService.subscribe('STACK-STATUS');
     websocketChannelService.subscribe('STACK-RESET');
+    websocketChannelService.subscribe('STACK-RGB-CREATED');
+    websocketChannelService.subscribe('STACK-RGB-REMOVED');
   } catch (error) {
     console.error('Failed to connect WebSocket for livestack:', error);
   }

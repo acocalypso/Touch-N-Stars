@@ -383,7 +383,6 @@ import {
   downloadAndApplyUpdate,
   fetchChangelogWhatsNew,
   getPreferredUpdateChannel,
-  isDevUpdateChannel,
   isNativePlatform,
   syncNativeUpdateChannel,
 } from '@/services/updateService';
@@ -392,6 +391,7 @@ import { abortInFlightRequests } from '@/utils/httpLifecycle';
 import { setAppBackgrounded } from '@/utils/appLifecycle';
 import { setLocaleLanguage } from '@/i18n';
 import { useSequenceV2Store } from '@/store/sequenceV2Store';
+import { useToastStore } from '@/store/toastStore';
 import { PINS_PORT, DEFAULT_PINS_DAEMON_API_TOKEN as PINS_TOKEN } from '@/services/pinsConfig';
 
 const SkyAtlasView = defineAsyncComponent(() => import('./views/CelestiaAtlasView.vue'));
@@ -405,6 +405,7 @@ const UpdateAvailableModal = defineAsyncComponent(
 
 const store = apiStore();
 const settingsStore = useSettingsStore();
+const toastStore = useToastStore();
 const pinsStore = usePinsStore();
 const nightSummaryStore = useNightSummaryStore();
 const route = useRoute();
@@ -1037,13 +1038,21 @@ function handleFocus() {
 }
 
 async function checkForAppUpdate(options = {}) {
-  const { allowDowngrade = false } = options;
+  // force = manually triggered check: offers the latest release of the current channel even if it
+  // matches or is older than the installed one, and ignores a previously dismissed version.
+  const { allowDowngrade = false, force = false } = options;
 
   if (!isNativePlatform() || checkingUpdate.value || showUpdateModal.value) {
+    if (force) {
+      // Nothing was started, so release the manual trigger right away.
+      window.dispatchEvent(new CustomEvent('app-update-check-finished'));
+    }
     return;
   }
 
   checkingUpdate.value = true;
+  let updateOffered = false;
+  let checkFailed = false;
   try {
     // Resolve currently active OTA bundle version first to avoid re-offering the same update.
     let currentBundleVersion;
@@ -1059,15 +1068,12 @@ async function checkForAppUpdate(options = {}) {
       currentBundleVersion = undefined;
     }
 
-    const result = await checkForManualUpdate(currentBundleVersion, { allowDowngrade });
-
-    // On the dev channel the fork shares its version numbers with upstream, so identical or
-    // already dismissed versions must still be offered - otherwise a dev build could never
-    // be installed on top of a release build with the same version.
-    const devChannel = isDevUpdateChannel();
+    const result = await checkForManualUpdate(currentBundleVersion, {
+      allowDowngrade: allowDowngrade || force,
+    });
 
     if (
-      !devChannel &&
+      !force &&
       result?.available &&
       currentBundleVersion &&
       result.version === currentBundleVersion
@@ -1076,7 +1082,7 @@ async function checkForAppUpdate(options = {}) {
       return;
     }
 
-    if (result?.available && (devChannel || result.version !== dismissedUpdateVersion.value)) {
+    if (result?.available && (force || result.version !== dismissedUpdateVersion.value)) {
       let whatsNewDetails = null;
       try {
         whatsNewDetails = await fetchChangelogWhatsNew(result);
@@ -1093,11 +1099,31 @@ async function checkForAppUpdate(options = {}) {
       updateProgress.value = 0;
       updateError.value = '';
       showUpdateModal.value = true;
+      updateOffered = true;
     }
   } catch (error) {
     console.warn('Update check failed:', error);
+    checkFailed = true;
+    if (force) {
+      toastStore.showToast({
+        type: 'error',
+        title: t('updates.checkFailedTitle'),
+        message: t('updates.error'),
+      });
+    }
   } finally {
     checkingUpdate.value = false;
+    if (force) {
+      if (!updateOffered && !checkFailed) {
+        toastStore.showToast({
+          type: 'info',
+          title: t('updates.upToDateTitle'),
+          message: t('updates.upToDateMessage'),
+        });
+      }
+      // Let the manual trigger drop its busy state.
+      window.dispatchEvent(new CustomEvent('app-update-check-finished'));
+    }
   }
 }
 
@@ -1122,7 +1148,7 @@ async function handleCheckAppUpdate(event) {
     updateError.value = '';
 
     // Allow downgrades when switching channels or when beta mode is selected.
-    void checkForAppUpdate({ allowDowngrade: true });
+    void checkForAppUpdate({ allowDowngrade: true, force: event?.detail?.force === true });
   }
 }
 
@@ -1186,7 +1212,7 @@ onMounted(async () => {
 
   // Check for app update immediately - independent from backend status
   if (isNativePlatform()) {
-    void checkForAppUpdate({ allowDowngrade: getPreferredUpdateChannel() !== 'stable' });
+    void checkForAppUpdate({ allowDowngrade: getPreferredUpdateChannel() === 'beta' });
   }
 
   // Capacitor App Lifecycle Events for mobile platforms.

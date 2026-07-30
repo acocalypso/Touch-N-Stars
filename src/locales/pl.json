@@ -72,7 +72,12 @@
     "error": "Aktualizacja nie powiodła się. Spróbuj ponownie później.",
     "later": "Później",
     "updateNow": "Aktualizuj teraz",
-    "working": "W toku…"
+    "working": "W toku…",
+    "checkNow": "Sprawdź aktualizacje",
+    "checking": "Sprawdzanie…",
+    "upToDateTitle": "Brak dostępnych aktualizacji",
+    "upToDateMessage": "Używasz już najnowszej wersji.",
+    "checkFailedTitle": "Sprawdzanie aktualizacji nie powiodło się"
   },
   "setup": {
     "welcome": "Witaj w Touch'N'Stars",
@@ -1651,6 +1656,9 @@
     },
     "flatassistant": {
       "title": "Asystent flat",
+      "set_target_name": "Ustaw nazwę celu",
+      "target_name": "Nazwa celu",
+      "target_name_from_favorites": "Pobierz nazwę z ulubionych",
       "count": "Liczba",
       "exposure_time": "Czas naświetlania",
       "min_exposure_time": "Min czas naświetlania",
@@ -3008,7 +3016,18 @@
         "reset_exception": "Błąd podczas resetowania livestacku: {message}",
         "reset_failed": "Nie udało się zresetować stada życia"
       },
-      "reset": "Zresetuj stos"
+      "reset": "Zresetuj stos",
+      "rgb": {
+        "title": "Kombinacja RGB",
+        "target": "Cel",
+        "red": "Kanał czerwony",
+        "green": "Kanał zielony",
+        "blue": "Kanał niebieski",
+        "create": "Utwórz RGB",
+        "remove": "Usuń RGB",
+        "working": "Przetwarzanie...",
+        "no_targets": "Brak dostępnych stackowanych celów"
+      }
     },
     "narrowband": {
       "title": "Kalkulator filtrów",

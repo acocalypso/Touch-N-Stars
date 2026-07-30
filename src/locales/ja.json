@@ -72,7 +72,12 @@
     "error": "アップデートに失敗しました。後でもう一度お試しください。",
     "later": "後で",
     "updateNow": "今すぐアップデート",
-    "working": "処理中…"
+    "working": "処理中…",
+    "checkNow": "アップデートを確認",
+    "checking": "確認中…",
+    "upToDateTitle": "アップデートはありません",
+    "upToDateMessage": "すでに最新バージョンを使用しています。",
+    "checkFailedTitle": "アップデートの確認に失敗しました"
   },
   "setup": {
     "welcome": "ようこそTouch'N'Stars へ",
@@ -1660,6 +1665,9 @@
     },
     "flatassistant": {
       "title": "フラットアシスタント",
+      "set_target_name": "ターゲット名を設定",
+      "target_name": "ターゲット名",
+      "target_name_from_favorites": "お気に入りから名前を取得",
       "count": "枚数",
       "exposure_time": "露光時間",
       "min_exposure_time": "最小露光時間",
@@ -3084,7 +3092,18 @@
         "reset_exception": "ライブスタックのリセット中にエラーが発生しました: {message}",
         "reset_failed": "ライブスタックのリセットに失敗しました"
       },
-      "reset": "スタックをリセット"
+      "reset": "スタックをリセット",
+      "rgb": {
+        "title": "RGB合成",
+        "target": "ターゲット",
+        "red": "赤チャンネル",
+        "green": "緑チャンネル",
+        "blue": "青チャンネル",
+        "create": "RGBを作成",
+        "remove": "RGBを削除",
+        "working": "処理中...",
+        "no_targets": "スタック済みのターゲットがまだありません"
+      }
     },
     "narrowband": {
       "title": "フィルター計算機",

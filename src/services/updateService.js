@@ -27,10 +27,6 @@ export function getPreferredUpdateChannel() {
   }
 }
 
-export function isDevUpdateChannel() {
-  return getPreferredUpdateChannel() === 'dev';
-}
-
 const defaultHeaders = {
   Accept: 'application/vnd.github+json',
   'User-Agent': 'touch-n-stars-updater',

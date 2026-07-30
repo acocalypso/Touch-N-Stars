@@ -72,7 +72,12 @@
     "error": "업데이트에 실패했습니다. 나중에 다시 시도하세요.",
     "later": "나중에",
     "updateNow": "지금 업데이트",
-    "working": "작업 중…"
+    "working": "작업 중…",
+    "checkNow": "업데이트 확인",
+    "checking": "확인 중…",
+    "upToDateTitle": "사용 가능한 업데이트 없음",
+    "upToDateMessage": "이미 최신 버전을 사용 중입니다.",
+    "checkFailedTitle": "업데이트 확인 실패"
   },
   "setup": {
     "welcome": "Touch'N'Stars에 오신 것을 환영합니다",
@@ -1697,6 +1702,9 @@
     },
     "flatassistant": {
       "title": "플랫 어시스턴트",
+      "set_target_name": "대상 이름 설정",
+      "target_name": "대상 이름",
+      "target_name_from_favorites": "즐겨찾기에서 이름 가져오기",
       "count": "촬영할 플랫 수",
       "darks_to_take": "촬영할 다크플랫 수",
       "exposure_time": "노출 시간",
@@ -3084,6 +3092,17 @@
         "loading_image": "이미지 로드 중 오류: {message}",
         "failed_to_load": "라이브스택 이미지 로드 실패",
         "api_version_required": "API 버전 {version} 이상이 필요합니다"
+      },
+      "rgb": {
+        "title": "RGB 합성",
+        "target": "대상",
+        "red": "빨강 채널",
+        "green": "초록 채널",
+        "blue": "파랑 채널",
+        "create": "RGB 생성",
+        "remove": "RGB 제거",
+        "working": "처리 중...",
+        "no_targets": "아직 사용 가능한 스택 대상이 없습니다"
       }
     },
     "narrowband": {

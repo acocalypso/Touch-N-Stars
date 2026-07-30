@@ -1,6 +1,6 @@
 <template>
   <SequenceV2Page
-    v-if="store.isPINS || store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.2.8.0')"
+    v-if="store.isPINS"
   />
 
   <div

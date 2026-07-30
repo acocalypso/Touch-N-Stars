@@ -2341,8 +2341,17 @@
     "logfileCollector": {
       "title": "Coleccionista de archivos de registro",
       "intro": "Recopile los últimos registros de TNS (incluida la depuración) y cárguelos al punto final configurado.",
-      "descriptionLabel": "Descripción (opcional)",
+      "descriptionLabel": "Descripción (obligatoria)",
       "descriptionPlaceholder": "Describe el problema para investigar ...",
+      "descriptionRequired": "Se requiere una descripción antes de enviar los registros.",
+      "successDialog": {
+        "title": "Registros enviados correctamente",
+        "message": "Tus registros se cargaron correctamente.",
+        "supportPrompt": "Para obtener ayuda, crea una incidencia en GitHub o contáctanos en Discord. Incluye el token generado para que podamos identificar tus registros.",
+        "tokenHint": "Incluye este token en tu solicitud de soporte:",
+        "github": "Crear incidencia en GitHub",
+        "discord": "Abrir Discord"
+      },
       "lastToken": "Token generado",
       "submissionHistory": "Historial de sumisión",
       "confirmClearAll": "¿Estás seguro de que quieres borrar todo el historial de sumisión?",

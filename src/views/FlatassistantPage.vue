@@ -20,7 +20,7 @@
 
       <setTargetName
         v-if="
-          store.isPINS || store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.2.8.0')
+          store.isPINS || store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.3.1.0')
         "
       />
 

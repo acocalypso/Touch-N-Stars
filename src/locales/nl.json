@@ -2341,8 +2341,9 @@
     "logfileCollector": {
       "title": "Logbestandverzamelaar",
       "intro": "Verzamel laatste TNS logs (inclusief debug) en auto-upload naar Support.",
-      "descriptionLabel": "Beschrijving (optioneel)",
+      "descriptionLabel": "Beschrijving (verplicht)",
       "descriptionPlaceholder": "Beschrijf het probleem om te onderzoeken...",
+      "descriptionRequired": "Een beschrijving is vereist voordat logs kunnen worden verzonden.",
       "lastToken": "Genereer Token",
       "submissionHistory": "Verzend Historie",
       "confirmClearAll": "Weet u zeker dat u de verzend hostorie wilt verwijderen?",

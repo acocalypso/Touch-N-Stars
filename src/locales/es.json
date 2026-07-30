@@ -2341,8 +2341,9 @@
     "logfileCollector": {
       "title": "Coleccionista de archivos de registro",
       "intro": "Recopile los últimos registros de TNS (incluida la depuración) y cárguelos al punto final configurado.",
-      "descriptionLabel": "Descripción (opcional)",
+      "descriptionLabel": "Descripción (obligatoria)",
       "descriptionPlaceholder": "Describe el problema para investigar ...",
+      "descriptionRequired": "Se requiere una descripción antes de enviar los registros.",
       "lastToken": "Token generado",
       "submissionHistory": "Historial de sumisión",
       "confirmClearAll": "¿Estás seguro de que quieres borrar todo el historial de sumisión?",

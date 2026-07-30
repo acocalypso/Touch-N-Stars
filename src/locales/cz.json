@@ -2341,8 +2341,9 @@
     "logfileCollector": {
       "title": "Sběrač Souborů Logů",
       "intro": "Shromážděte nejnovější protokoly TNS (včetně ladění) a nahrajte je do nakonfigurovaného koncového bodu.",
-      "descriptionLabel": "Popis (volitelné)",
+      "descriptionLabel": "Popis (povinné)",
       "descriptionPlaceholder": "Popište problém, který chcete prozkoumat...",
+      "descriptionRequired": "Před odesláním protokolů je vyžadován popis.",
       "lastToken": "Generované Tokeny",
       "submissionHistory": "Historie Odeslání",
       "confirmClearAll": "Opravdu chcete vymazat celou historii odeslaných příspěvků?",

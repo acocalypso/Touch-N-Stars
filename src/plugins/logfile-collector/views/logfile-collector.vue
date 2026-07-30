@@ -16,16 +16,28 @@
         <textarea
           id="desc"
           v-model="description"
+          required
           rows="4"
-          class="w-full text-sm rounded-md bg-gray-900 border border-gray-700 p-2 text-gray-200 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+          :aria-invalid="descriptionTouched && !descriptionIsValid"
+          aria-describedby="description-required"
+          class="w-full text-sm rounded-md bg-gray-900 border p-2 text-gray-200 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+          :class="descriptionTouched && !descriptionIsValid ? 'border-red-500' : 'border-gray-700'"
           :placeholder="$t('plugins.logfileCollector.descriptionPlaceholder')"
+          @blur="descriptionTouched = true"
         ></textarea>
+        <p
+          v-if="descriptionTouched && !descriptionIsValid"
+          id="description-required"
+          class="text-xs text-red-400"
+        >
+          {{ $t('plugins.logfileCollector.descriptionRequired') }}
+        </p>
       </div>
 
       <div class="flex items-center gap-3">
         <button
           @click="collectAndUpload"
-          :disabled="busy"
+          :disabled="busy || !descriptionIsValid"
           class="tns-btn-primary px-4 py-2 rounded disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <span v-if="busy" class="inline-flex items-center gap-2">
@@ -302,6 +314,8 @@ const busy = ref(false);
 const resultMsg = ref('');
 const resultOk = ref(false);
 const description = ref('');
+const descriptionTouched = ref(false);
+const diagnosticsUploadDescription = ref('');
 const lastGeneratedToken = ref('');
 const diagnosticsSections = ref([]);
 const diagnosticsJournalLines = ref(DIAGNOSTICS_DEFAULTS.journalLines);
@@ -328,6 +342,7 @@ useBackgroundAwarePolling(
 );
 
 const diagnosticsUiState = computed(() => getDiagnosticsUiStatus(logCollectorStore.diagnosticsRun));
+const descriptionIsValid = computed(() => description.value.trim().length > 0);
 const diagnosticsStatusText = computed(() => {
   const status = logCollectorStore.diagnosticsRun.status;
   if (status === DIAGNOSTICS_STATUS.QUEUED)
@@ -343,13 +358,14 @@ const diagnosticsStatusText = computed(() => {
   return t('plugins.logfileCollector.diagnostics.statusIdle');
 });
 const diagnosticsCanStart = computed(() => {
-  return apiState.isPINS && !diagnosticsUiState.value.isBusy;
+  return apiState.isPINS && descriptionIsValid.value && !diagnosticsUiState.value.isBusy;
 });
 const diagnosticsCanDownload = computed(() => {
   return (
     apiState.isPINS &&
     diagnosticsUiState.value.canDownload &&
     Boolean(logCollectorStore.diagnosticsRun.archiveId) &&
+    Boolean(diagnosticsUploadDescription.value || descriptionIsValid.value) &&
     !diagnosticsDownloadBusy.value
   );
 });
@@ -402,6 +418,13 @@ async function buildZip(filesMap) {
 }
 
 async function collectAndUpload() {
+  descriptionTouched.value = true;
+  if (!descriptionIsValid.value) {
+    resultOk.value = false;
+    resultMsg.value = t('plugins.logfileCollector.descriptionRequired');
+    return;
+  }
+
   busy.value = true;
   resultMsg.value = '';
   resultOk.value = false;
@@ -452,6 +475,7 @@ async function collectAndUpload() {
 
       // Clear description after successful upload
       description.value = '';
+      descriptionTouched.value = false;
     } else {
       resultMsg.value = t('plugins.logfileCollector.result.failedWithStatus', {
         status: res.status,
@@ -515,6 +539,10 @@ async function startDiagnosticsCollection() {
   if (!apiState.isPINS) {
     return;
   }
+  descriptionTouched.value = true;
+  if (!descriptionIsValid.value) {
+    return;
+  }
 
   const validation = validateDiagnosticsConfig({
     sections: diagnosticsSections.value,
@@ -528,6 +556,7 @@ async function startDiagnosticsCollection() {
 
   stopDiagnosticsPolling();
   logCollectorStore.resetDiagnosticsRun();
+  diagnosticsUploadDescription.value = description.value.trim();
 
   try {
     const payload = buildDiagnosticsPayload({
@@ -602,6 +631,11 @@ async function downloadAndUploadDiagnosticsArchive(isAuto) {
   if (!archiveId || diagnosticsDownloadBusy.value) {
     return;
   }
+  descriptionTouched.value = true;
+  const uploadDescription = diagnosticsUploadDescription.value || description.value.trim();
+  if (!uploadDescription) {
+    return;
+  }
 
   diagnosticsDownloadBusy.value = true;
   try {
@@ -617,7 +651,7 @@ async function downloadAndUploadDiagnosticsArchive(isAuto) {
 
     const generatedToken = generateTimestampLogToken();
     lastGeneratedToken.value = generatedToken;
-    await uploadZipBlob(blob, filename, description.value, generatedToken);
+    await uploadZipBlob(blob, filename, uploadDescription, generatedToken);
     logCollectorStore.markDiagnosticsUploadedToSupport();
     logCollectorStore.setDiagnosticsLastMessage(t('plugins.logfileCollector.diagnostics.uploaded'));
   } catch (error) {
@@ -638,12 +672,15 @@ async function downloadAndUploadDiagnosticsArchive(isAuto) {
 }
 
 async function uploadZipBlob(zipBlob, zipFileName, uploadDescription, logToken) {
+  const normalizedDescription = uploadDescription?.trim();
+  if (!normalizedDescription) {
+    throw new Error(t('plugins.logfileCollector.descriptionRequired'));
+  }
+
   const form = new FormData();
   form.append('file', zipBlob, zipFileName);
   form.append('logtoken', logToken);
-  if (uploadDescription?.trim()) {
-    form.append('description', uploadDescription.trim());
-  }
+  form.append('description', normalizedDescription);
 
   const url = pluginMeta.config?.uploadUrl;
   const token = pluginMeta.config?.authToken;

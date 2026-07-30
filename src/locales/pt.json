@@ -2341,8 +2341,9 @@
     "logfileCollector": {
       "title": "Coletor de arquivos de log",
       "intro": "Coleta os logs mais recentes do TNS (incluindo debug) e os envia para o endpoint configurado.",
-      "descriptionLabel": "Descrição (opcional)",
+      "descriptionLabel": "Descrição (obrigatória)",
       "descriptionPlaceholder": "Descreva o problema a ser investigado...",
+      "descriptionRequired": "É necessária uma descrição antes de enviar os logs.",
       "lastToken": "Token gerado",
       "submissionHistory": "Histórico de envios",
       "confirmClearAll": "Tem certeza de que deseja limpar todo o histórico de envios?",

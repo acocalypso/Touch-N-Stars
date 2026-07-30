@@ -2341,8 +2341,9 @@
     "logfileCollector": {
       "title": "Collecteur de fichiers de log",
       "intro": "Collecter les derniers logs TNS (y compris le débogage) et les télécharger vers le point de terminaison configuré.",
-      "descriptionLabel": "Description (optionnel)",
+      "descriptionLabel": "Description (obligatoire)",
       "descriptionPlaceholder": "Décrire le problème à investiguer...",
+      "descriptionRequired": "Une description est requise avant l’envoi des journaux.",
       "lastToken": "Token généré",
       "submissionHistory": "Historique de soumission",
       "confirmClearAll": "Êtes-vous sûr de vouloir effacer tout l'historique de soumission?",

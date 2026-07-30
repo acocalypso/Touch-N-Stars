@@ -2341,8 +2341,9 @@
     "logfileCollector": {
       "title": "Kolektor plików dziennika",
       "intro": "Zbierz najnowsze logi TNS (w tym debug) i prześlij je do skonfigurowanego punktu końcowego.",
-      "descriptionLabel": "Opis (opcjonalnie)",
+      "descriptionLabel": "Opis (wymagany)",
       "descriptionPlaceholder": "Opisz problem do zbadania...",
+      "descriptionRequired": "Przed przesłaniem logów wymagany jest opis.",
       "lastToken": "Wygenerowany token",
       "submissionHistory": "Historia przesyłania",
       "confirmClearAll": "Czy na pewno chcesz wyczyścić całą historię przesyłania?",

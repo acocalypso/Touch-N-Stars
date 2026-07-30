@@ -2341,8 +2341,9 @@
     "logfileCollector": {
       "title": "Raccoglitore file di log",
       "intro": "Raccoglie gli ultimi log TNS (incluso debug) e li carica nell'endpoint configurato.",
-      "descriptionLabel": "Descrizione (opzionale)",
+      "descriptionLabel": "Descrizione (obbligatoria)",
       "descriptionPlaceholder": "Descrivi il problema da investigare...",
+      "descriptionRequired": "È necessaria una descrizione prima di inviare i log.",
       "lastToken": "Token generato",
       "submissionHistory": "Cronologia invii",
       "confirmClearAll": "Sei sicuro di voler cancellare tutta la cronologia degli invii?",

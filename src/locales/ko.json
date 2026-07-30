@@ -2341,8 +2341,9 @@
     "logfileCollector": {
       "title": "로그파일 수집기",
       "intro": "최신 TNS 로그(디버그 포함)를 수집해 설정된 엔드포인트로 업로드합니다.",
-      "descriptionLabel": "설명 (선택)",
+      "descriptionLabel": "설명 (필수)",
       "descriptionPlaceholder": "조사할 문제를 설명하세요...",
+      "descriptionRequired": "로그를 제출하기 전에 설명을 입력해야 합니다.",
       "lastToken": "생성된 토큰",
       "submissionHistory": "제출 기록",
       "confirmClearAll": "모든 제출 기록을 지우시겠습니까?",

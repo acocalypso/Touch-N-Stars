@@ -12,19 +12,25 @@
       <!-- ── Setup section (visible when Idle / Error) ─────────────────────── -->
       <section v-if="status.State === 'Idle' || status.State === 'Error'" class="space-y-4">
         <!-- Iterations -->
-        <div
-          class="flex items-center gap-4 rounded-xl border border-gray-700/70 bg-gray-900/50 p-4"
-        >
-          <label class="w-40 shrink-0 text-sm text-gray-300">
-            {{ $t('plugins.filterOffset.iterations') }}
-          </label>
-          <input
-            v-model.number="loops"
-            type="number"
-            min="1"
-            max="20"
-            class="w-24 rounded-lg border border-gray-600 bg-gray-800 px-3 py-2 text-center text-white focus:border-blue-500 focus:outline-none"
-          />
+        <div class="space-y-3 rounded-xl border border-gray-700/70 bg-gray-900/50 p-4">
+          <div class="flex items-center gap-4">
+            <label class="w-40 shrink-0 text-sm text-gray-300">
+              {{ $t('plugins.filterOffset.iterations') }}
+            </label>
+            <input
+              v-model.number="loops"
+              type="number"
+              min="1"
+              max="20"
+              class="w-24 rounded-lg border border-gray-600 bg-gray-800 px-3 py-2 text-center text-white focus:border-blue-500 focus:outline-none"
+            />
+          </div>
+
+          <!-- Outlier rejection needs 3 samples before it can discard anything, so anything less
+               silently averages a bad AutoFocus into the result. -->
+          <p v-if="loops < 3" class="text-xs leading-relaxed text-amber-300/90">
+            {{ $t('plugins.filterOffset.tooFewIterations') }}
+          </p>
         </div>
 
         <!-- Filter selection table -->
@@ -299,9 +305,11 @@ import { useI18n } from 'vue-i18n';
 import axios from 'axios';
 import { getActivePinia } from 'pinia';
 import { apiStore } from '@/store/store';
+import { useToastStore } from '@/store/toastStore';
 
 const { t } = useI18n();
 const store = apiStore();
+const toastStore = useToastStore();
 
 // ── API base URL ────────────────────────────────────────────────────────────
 function getApiUrl() {
@@ -372,19 +380,43 @@ const filterProgressPct = computed(() => {
 });
 
 /**
- * New offsets as they will actually be written. Mirrors the backend's anchoring exactly: the set is
- * shifted so that one calibrated filter keeps the offset it already had, which is what keeps focuser
- * moves to filters left out of this run correct. The anchor is the selected AutoFocus filter when it
- * was calibrated, otherwise the base filter.
+ * The offsets as they will actually be written — a mirror of the backend's BuildOffsetTable. The two
+ * must agree, or the preview shows one set of numbers while a different set reaches the profile.
+ *
+ * Every filter in the profile appears, stated relative to the one selected as the AutoFocus filter,
+ * which comes out at 0. Only the spacing between filters affects a focuser move, so where the set is
+ * zeroed is free — and zeroing it on the AutoFocus filter is the reading that matches the equipment,
+ * since that is the filter AutoFocus runs through.
+ *
+ * A filter that was not calibrated this run keeps its previous distance to the base filter. Only
+ * differences of the previous offsets are used, never a previous offset by itself, so a profile left
+ * holding absolute focuser positions by an older build still comes out clean.
  */
 const displayedNewOffsets = computed(() => {
-  const offsets = result.value?.NewOffsets ?? [];
-  if (!offsets.length) return offsets;
+  const measured = result.value?.NewOffsets ?? [];
+  if (!measured.length || !filters.value.length) return measured;
 
-  const measured = offsets.find((o) => o.Position === newDefaultFilterPosition.value) ?? offsets[0];
-  const previous = result.value.OldOffsets?.find((o) => o.Position === measured.Position);
-  const shift = (previous ? previous.FocusOffset : 0) - measured.FocusOffset;
-  return shift === 0 ? offsets : offsets.map((o) => ({ ...o, FocusOffset: o.FocusOffset + shift }));
+  const measuredByPosition = new Map(measured.map((o) => [o.Position, o.FocusOffset]));
+  const basePosition = measured[0].Position;
+  const baseMeasured = measured[0].FocusOffset;
+  const basePrevious =
+    result.value.OldOffsets?.find((o) => o.Position === basePosition)?.FocusOffset ?? 0;
+
+  const table = filters.value.map((f) => ({
+    Position: f.position,
+    Name: f.name,
+    FocusOffset: measuredByPosition.has(f.position)
+      ? measuredByPosition.get(f.position)
+      : baseMeasured + (f.focusOffset - basePrevious),
+  }));
+
+  const reference =
+    table.find((t) => t.Position === newDefaultFilterPosition.value) ??
+    table.find((t) => t.Position === basePosition) ??
+    table[0];
+
+  const zero = reference.FocusOffset;
+  return zero === 0 ? table : table.map((t) => ({ ...t, FocusOffset: t.FocusOffset - zero }));
 });
 
 const oldDefaultFilterName = computed(() => {
@@ -484,6 +516,16 @@ async function startCalculation() {
 }
 
 async function stopCalculation() {
+  // A run is a long series of AutoFocus passes — potentially the better part of an hour — and
+  // stopping discards every measurement taken so far, so it must not go through on a stray tap.
+  const confirmed = await toastStore.showConfirmation(
+    t('plugins.filterOffset.confirmStopTitle'),
+    t('plugins.filterOffset.confirmStopMessage'),
+    t('plugins.filterOffset.stop'),
+    t('common.cancel')
+  );
+  if (!confirmed) return;
+
   try {
     await axios.get(`${getApiUrl()}/filter-offset/stop`);
   } catch (err) {

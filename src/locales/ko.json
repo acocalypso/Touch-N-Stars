@@ -4144,7 +4144,10 @@
       "deviceCamera": "카메라",
       "deviceFocuser": "포커서",
       "deviceFilterWheel": "필터휠",
-      "applyFailed": "오프셋을 적용할 수 없습니다."
+      "applyFailed": "오프셋을 적용할 수 없습니다.",
+      "tooFewIterations": "3회 미만의 반복에서는 실패하거나 부정확한 AutoFocus를 감지할 수 없으며 평균을 오프셋으로 계산합니다. \n신뢰할 수 있는 결과를 얻으려면 3개 이상을 사용하세요.",
+      "confirmStopMessage": "지금까지 수행된 모든 측정은 삭제되고 프로필은 이전 상태로 복원됩니다.",
+      "confirmStopTitle": "계산을 중단하시겠습니까?"
     },
     "phd2logviewer": {
       "title": "PHD2 로그 뷰어",

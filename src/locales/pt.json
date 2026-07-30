@@ -4116,7 +4116,10 @@
       "stop": "Parar",
       "subtitle": "Calcule e armazene deslocamentos de foco para cada filtro da roda de filtros",
       "title": "Calculadora de deslocamento de filtro",
-      "applyFailed": "Não foi possível aplicar as compensações"
+      "applyFailed": "Não foi possível aplicar as compensações",
+      "tooFewIterations": "Com menos de 3 iterações, um AutoFocus com falha ou impreciso não pode ser detectado e a média é calculada no deslocamento. \nUse 3 ou mais para obter um resultado confiável.",
+      "confirmStopMessage": "Todas as medições realizadas até agora serão descartadas e o perfil será restaurado ao seu estado anterior.",
+      "confirmStopTitle": "Parar o cálculo?"
     },
     "filebrowser": {
       "title": "File Browser",

@@ -26,6 +26,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Celestia Atlas: Defer engine/catalogue loading until first open, retain one paused warm viewer after that, split the compact OpenNGC, supplemental DSO, Abell planetary-nebula, HYG and curated bright-sky payloads into first-open chunks, and reduce mobile panorama, search, FOV sampling and lifecycle work
 - Celestia Atlas: Make the shared selected-target panel safe-area aware and independently scrollable on short mobile landscape screens; its favorite dialog now renders at the application root instead of inside the sky overlay
+- Logfile collector plugin: Description is now mandatory
 
 ### Fixed
 

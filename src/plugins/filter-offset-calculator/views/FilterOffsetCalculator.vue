@@ -377,37 +377,44 @@ const filterProgressPct = computed(() => {
   return Math.round((status.value.CurrentFilterIndex / status.value.TotalFilters) * 100);
 });
 
-/** True when this run measured every filter the profile has — see displayedNewOffsets. */
-const calibratedWholeWheel = computed(() => {
-  const offsets = result.value?.NewOffsets ?? [];
-  if (!offsets.length || !filters.value.length) return false;
-
-  const calibrated = new Set(offsets.map((o) => o.Position));
-  return filters.value.every((f) => calibrated.has(f.position));
-});
-
 /**
- * New offsets as they will actually be written. Mirrors the backend's apply step exactly — the two
+ * The offsets as they will actually be written — a mirror of the backend's BuildOffsetTable. The two
  * must agree, or the preview shows one set of numbers while a different set reaches the profile.
  *
- * A partial run gets shifted so that one calibrated filter keeps the offset it already had: filters
- * left out of the run still carry offsets on the old zero point, so the measured block has to stay
- * aligned with them. The anchor is the selected AutoFocus filter when it was calibrated, otherwise
- * the base filter.
+ * Every filter in the profile appears, stated relative to the one selected as the AutoFocus filter,
+ * which comes out at 0. Only the spacing between filters affects a focuser move, so where the set is
+ * zeroed is free — and zeroing it on the AutoFocus filter is the reading that matches the equipment,
+ * since that is the filter AutoFocus runs through.
  *
- * A run that covered the whole wheel is shown as measured, base filter at 0. Nothing is left on the
- * old zero point, so there is nothing to stay aligned with, and anchoring would only carry the old
- * zero point forward — including the absolute focuser positions older builds used to write into
- * FocusOffset, which is what made offsets show up in the thousands.
+ * A filter that was not calibrated this run keeps its previous distance to the base filter. Only
+ * differences of the previous offsets are used, never a previous offset by itself, so a profile left
+ * holding absolute focuser positions by an older build still comes out clean.
  */
 const displayedNewOffsets = computed(() => {
-  const offsets = result.value?.NewOffsets ?? [];
-  if (!offsets.length || calibratedWholeWheel.value) return offsets;
+  const measured = result.value?.NewOffsets ?? [];
+  if (!measured.length || !filters.value.length) return measured;
 
-  const measured = offsets.find((o) => o.Position === newDefaultFilterPosition.value) ?? offsets[0];
-  const previous = result.value.OldOffsets?.find((o) => o.Position === measured.Position);
-  const shift = (previous ? previous.FocusOffset : 0) - measured.FocusOffset;
-  return shift === 0 ? offsets : offsets.map((o) => ({ ...o, FocusOffset: o.FocusOffset + shift }));
+  const measuredByPosition = new Map(measured.map((o) => [o.Position, o.FocusOffset]));
+  const basePosition = measured[0].Position;
+  const baseMeasured = measured[0].FocusOffset;
+  const basePrevious =
+    result.value.OldOffsets?.find((o) => o.Position === basePosition)?.FocusOffset ?? 0;
+
+  const table = filters.value.map((f) => ({
+    Position: f.position,
+    Name: f.name,
+    FocusOffset: measuredByPosition.has(f.position)
+      ? measuredByPosition.get(f.position)
+      : baseMeasured + (f.focusOffset - basePrevious),
+  }));
+
+  const reference =
+    table.find((t) => t.Position === newDefaultFilterPosition.value) ??
+    table.find((t) => t.Position === basePosition) ??
+    table[0];
+
+  const zero = reference.FocusOffset;
+  return zero === 0 ? table : table.map((t) => ({ ...t, FocusOffset: t.FocusOffset - zero }));
 });
 
 const oldDefaultFilterName = computed(() => {

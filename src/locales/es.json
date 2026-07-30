@@ -4089,7 +4089,9 @@
       "subtitle": "Calcule y almacene Offsets de enfoque para cada filtro de rueda de filtros",
       "title": "Calculadora de Offset de filtro",
       "applyFailed": "No se pudieron aplicar las compensaciones",
-      "tooFewIterations": "Con menos de 3 iteraciones, no se puede detectar un enfoque automático fallido o inexacto y se promedia en el desplazamiento. \nUtilice 3 o más para obtener un resultado confiable."
+      "tooFewIterations": "Con menos de 3 iteraciones, no se puede detectar un enfoque automático fallido o inexacto y se promedia en el desplazamiento. \nUtilice 3 o más para obtener un resultado confiable.",
+      "confirmStopMessage": "Todas las medidas tomadas hasta el momento se descartarán y el perfil volverá a su estado anterior.",
+      "confirmStopTitle": "¿Detener el cálculo?"
     },
     "filebrowser": {
       "title": "Explorador de archivos",

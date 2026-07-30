@@ -4208,7 +4208,9 @@
       "deviceCamera": "Camera",
       "deviceFocuser": "Focuser",
       "deviceFilterWheel": "Filter Wheel",
-      "tooFewIterations": "With fewer than 3 iterations a failed or inaccurate AutoFocus cannot be detected and is averaged into the offset. Use 3 or more for a reliable result."
+      "tooFewIterations": "With fewer than 3 iterations a failed or inaccurate AutoFocus cannot be detected and is averaged into the offset. Use 3 or more for a reliable result.",
+      "confirmStopTitle": "Stop the calculation?",
+      "confirmStopMessage": "All measurements taken so far will be discarded and the profile is restored to its previous state."
     },
     "groundStation": {
       "title": "Ground Station",

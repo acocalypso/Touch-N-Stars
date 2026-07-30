@@ -4089,7 +4089,9 @@
       "subtitle": "Calcola e memorizza gli offset della messa a fuoco per ciascun filtro della ruota portafiltri",
       "title": "Calcolatore dell'offset del filtro",
       "applyFailed": "Impossibile applicare gli offset",
-      "tooFewIterations": "Con meno di 3 iterazioni una messa a fuoco automatica non riuscita o imprecisa non può essere rilevata e viene calcolata la media nell'offset. \nUsane 3 o più per un risultato affidabile."
+      "tooFewIterations": "Con meno di 3 iterazioni una messa a fuoco automatica non riuscita o imprecisa non può essere rilevata e viene calcolata la media nell'offset. \nUsane 3 o più per un risultato affidabile.",
+      "confirmStopMessage": "Tutte le misurazioni effettuate finora verranno scartate e il profilo verrà ripristinato allo stato precedente.",
+      "confirmStopTitle": "Interrompere il calcolo?"
     },
     "filebrowser": {
       "title": "File Browser",

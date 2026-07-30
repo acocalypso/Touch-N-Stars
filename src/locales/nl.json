@@ -4084,7 +4084,9 @@
       "subtitle": "Bereken en bewaar focus-offsets voor elk filterwielfilter",
       "title": "Filtercompensatiecalculator",
       "applyFailed": "Kan de compensaties niet toepassen",
-      "tooFewIterations": "Bij minder dan 3 iteraties kan een mislukte of onnauwkeurige AutoFocus niet worden gedetecteerd en wordt het gemiddelde in de offset berekend. \nGebruik er 3 of meer voor een betrouwbaar resultaat."
+      "tooFewIterations": "Bij minder dan 3 iteraties kan een mislukte of onnauwkeurige AutoFocus niet worden gedetecteerd en wordt het gemiddelde in de offset berekend. \nGebruik er 3 of meer voor een betrouwbaar resultaat.",
+      "confirmStopMessage": "Alle tot nu toe uitgevoerde metingen worden verwijderd en het profiel wordt hersteld naar de vorige staat.",
+      "confirmStopTitle": "De berekening stopzetten?"
     },
     "filebrowser": {
       "title": "File Browser",

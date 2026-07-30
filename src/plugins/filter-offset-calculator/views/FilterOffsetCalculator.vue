@@ -305,9 +305,11 @@ import { useI18n } from 'vue-i18n';
 import axios from 'axios';
 import { getActivePinia } from 'pinia';
 import { apiStore } from '@/store/store';
+import { useToastStore } from '@/store/toastStore';
 
 const { t } = useI18n();
 const store = apiStore();
+const toastStore = useToastStore();
 
 // ── API base URL ────────────────────────────────────────────────────────────
 function getApiUrl() {
@@ -514,6 +516,16 @@ async function startCalculation() {
 }
 
 async function stopCalculation() {
+  // A run is a long series of AutoFocus passes — potentially the better part of an hour — and
+  // stopping discards every measurement taken so far, so it must not go through on a stray tap.
+  const confirmed = await toastStore.showConfirmation(
+    t('plugins.filterOffset.confirmStopTitle'),
+    t('plugins.filterOffset.confirmStopMessage'),
+    t('plugins.filterOffset.stop'),
+    t('common.cancel')
+  );
+  if (!confirmed) return;
+
   try {
     await axios.get(`${getApiUrl()}/filter-offset/stop`);
   } catch (err) {

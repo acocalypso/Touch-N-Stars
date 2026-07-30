@@ -285,12 +285,12 @@
       @close="showSuccessModal = false"
     >
       <template #header>
-        <h2 class="text-xl font-bold text-green-400">
+        <h2 class="pr-2 text-lg font-bold text-green-400 sm:text-xl">
           {{ $t('plugins.logfileCollector.successDialog.title') }}
         </h2>
       </template>
       <template #body>
-        <div class="w-full space-y-4">
+        <div class="w-full min-w-0 space-y-4">
           <p class="text-gray-200">
             {{ $t('plugins.logfileCollector.successDialog.message') }}
           </p>
@@ -298,24 +298,24 @@
             {{ $t('plugins.logfileCollector.successDialog.supportPrompt') }}
           </p>
 
-          <div class="rounded-lg border border-gray-700 bg-gray-900 p-3">
+          <div class="min-w-0 space-y-3 rounded-lg border border-gray-700 bg-gray-900 p-3">
             <p class="mb-2 text-xs text-gray-400">
               {{ $t('plugins.logfileCollector.successDialog.tokenHint') }}
             </p>
-            <div class="flex items-center justify-between gap-3">
-              <code class="min-w-0 break-all text-xs text-cyan-400">
-                {{ lastGeneratedToken }}
-              </code>
-              <button
-                class="tns-btn-secondary shrink-0 rounded px-3 py-2 text-xs"
-                @click="copyTokenToClipboard(lastGeneratedToken)"
-              >
-                {{ $t('plugins.logfileCollector.actions.copyToken') }}
-              </button>
-            </div>
+            <code
+              class="block w-full min-w-0 break-all rounded-md border border-gray-700 bg-gray-950 px-3 py-2 font-mono text-sm leading-relaxed text-cyan-400"
+            >
+              {{ lastGeneratedToken }}
+            </code>
+            <button
+              class="tns-btn-secondary rounded px-3 py-2 text-xs"
+              @click="copyTokenToClipboard(lastGeneratedToken)"
+            >
+              {{ $t('plugins.logfileCollector.actions.copyToken') }}
+            </button>
           </div>
 
-          <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+          <div class="grid min-w-0 grid-cols-1 gap-3 sm:grid-cols-2">
             <a
               class="tns-btn-primary rounded px-4 py-3 text-center"
               href="https://github.com/Touch-N-Stars/Touch-N-Stars/issues/new/choose"

@@ -2366,8 +2366,17 @@
     "logfileCollector": {
       "title": "Logfile Collector",
       "intro": "Collect latest TNS logs (including debug) and upload them to the configured endpoint.",
-      "descriptionLabel": "Description (optional)",
+      "descriptionLabel": "Description (required)",
       "descriptionPlaceholder": "Describe the problem to investigate...",
+      "descriptionRequired": "A description is required before logs can be submitted.",
+      "successDialog": {
+        "title": "Logs sent successfully",
+        "message": "Your logs were uploaded successfully.",
+        "supportPrompt": "To get help, create a GitHub issue or contact us on Discord. Include the generated token so we can identify your logs.",
+        "tokenHint": "Include this token in your support request:",
+        "github": "Create GitHub issue",
+        "discord": "Open Discord"
+      },
       "lastToken": "Generated Token",
       "submissionHistory": "Submission History",
       "confirmClearAll": "Are you sure you want to clear all submission history?",

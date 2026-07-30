@@ -2349,8 +2349,17 @@
     "logfileCollector": {
       "title": "Coletor de arquivos de log",
       "intro": "Coleta os logs mais recentes do TNS (incluindo debug) e os envia para o endpoint configurado.",
-      "descriptionLabel": "Descrição (opcional)",
+      "descriptionLabel": "Descrição (obrigatória)",
       "descriptionPlaceholder": "Descreva o problema a ser investigado...",
+      "descriptionRequired": "É necessária uma descrição antes de enviar os logs.",
+      "successDialog": {
+        "title": "Logs enviados com sucesso",
+        "message": "Os seus logs foram carregados com sucesso.",
+        "supportPrompt": "Para obter ajuda, crie uma ocorrência no GitHub ou contacte-nos no Discord. Inclua o token gerado para que possamos identificar os seus logs.",
+        "tokenHint": "Inclua este token no seu pedido de suporte:",
+        "github": "Criar ocorrência no GitHub",
+        "discord": "Abrir Discord"
+      },
       "lastToken": "Token gerado",
       "submissionHistory": "Histórico de envios",
       "confirmClearAll": "Tem certeza de que deseja limpar todo o histórico de envios?",

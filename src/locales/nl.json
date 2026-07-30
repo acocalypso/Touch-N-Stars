@@ -2349,8 +2349,17 @@
     "logfileCollector": {
       "title": "Logbestandverzamelaar",
       "intro": "Verzamel laatste TNS logs (inclusief debug) en auto-upload naar Support.",
-      "descriptionLabel": "Beschrijving (optioneel)",
+      "descriptionLabel": "Beschrijving (verplicht)",
       "descriptionPlaceholder": "Beschrijf het probleem om te onderzoeken...",
+      "descriptionRequired": "Een beschrijving is vereist voordat logs kunnen worden verzonden.",
+      "successDialog": {
+        "title": "Logs succesvol verzonden",
+        "message": "Je logs zijn succesvol geüpload.",
+        "supportPrompt": "Maak voor hulp een GitHub-issue aan of neem contact met ons op via Discord. Voeg het gegenereerde token toe zodat we je logs kunnen vinden.",
+        "tokenHint": "Vermeld dit token in je ondersteuningsverzoek:",
+        "github": "GitHub-issue aanmaken",
+        "discord": "Discord openen"
+      },
       "lastToken": "Genereer Token",
       "submissionHistory": "Verzend Historie",
       "confirmClearAll": "Weet u zeker dat u de verzend hostorie wilt verwijderen?",

@@ -2349,8 +2349,17 @@
     "logfileCollector": {
       "title": "Logfile-Sammler",
       "intro": "Sammle die neuesten TNS-Logs (inkl. Debug) und lade sie an den konfigurierten Endpunkt hoch.",
-      "descriptionLabel": "Beschreibung (optional)",
+      "descriptionLabel": "Beschreibung (erforderlich)",
       "descriptionPlaceholder": "Beschreibe das Problem zur Analyse...",
+      "descriptionRequired": "Vor dem Senden der Logs ist eine Beschreibung erforderlich.",
+      "successDialog": {
+        "title": "Logs erfolgreich gesendet",
+        "message": "Deine Logs wurden erfolgreich hochgeladen.",
+        "supportPrompt": "Erstelle ein GitHub-Issue oder kontaktiere uns auf Discord, um Hilfe zu erhalten. Gib den generierten Token an, damit wir deine Logs finden können.",
+        "tokenHint": "Gib diesen Token in deiner Support-Anfrage an:",
+        "github": "GitHub-Issue erstellen",
+        "discord": "Discord öffnen"
+      },
       "lastToken": "Generierter Token",
       "submissionHistory": "Übertragungsverlauf",
       "confirmClearAll": "Möchten Sie wirklich den gesamten Übertragungsverlauf löschen?",

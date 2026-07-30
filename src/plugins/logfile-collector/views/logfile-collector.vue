@@ -277,11 +277,78 @@
         </button>
       </div>
     </div>
+
+    <Modal
+      :show="showSuccessModal"
+      max-width="max-w-lg"
+      z-index="z-[90]"
+      @close="showSuccessModal = false"
+    >
+      <template #header>
+        <h2 class="text-xl font-bold text-green-400">
+          {{ $t('plugins.logfileCollector.successDialog.title') }}
+        </h2>
+      </template>
+      <template #body>
+        <div class="w-full space-y-4">
+          <p class="text-gray-200">
+            {{ $t('plugins.logfileCollector.successDialog.message') }}
+          </p>
+          <p class="text-gray-300">
+            {{ $t('plugins.logfileCollector.successDialog.supportPrompt') }}
+          </p>
+
+          <div class="rounded-lg border border-gray-700 bg-gray-900 p-3">
+            <p class="mb-2 text-xs text-gray-400">
+              {{ $t('plugins.logfileCollector.successDialog.tokenHint') }}
+            </p>
+            <div class="flex items-center justify-between gap-3">
+              <code class="min-w-0 break-all text-xs text-cyan-400">
+                {{ lastGeneratedToken }}
+              </code>
+              <button
+                class="tns-btn-secondary shrink-0 rounded px-3 py-2 text-xs"
+                @click="copyTokenToClipboard(lastGeneratedToken)"
+              >
+                {{ $t('plugins.logfileCollector.actions.copyToken') }}
+              </button>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+            <a
+              class="tns-btn-primary rounded px-4 py-3 text-center"
+              href="https://github.com/Touch-N-Stars/Touch-N-Stars/issues/new/choose"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {{ $t('plugins.logfileCollector.successDialog.github') }}
+            </a>
+            <a
+              class="tns-btn-secondary rounded px-4 py-3 text-center"
+              href="https://discord.com/invite/4gZJEMWFcN"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {{ $t('plugins.logfileCollector.successDialog.discord') }}
+            </a>
+          </div>
+
+          <button
+            class="w-full rounded bg-gray-700 px-4 py-3 text-white hover:bg-gray-600"
+            @click="showSuccessModal = false"
+          >
+            {{ $t('common.close') }}
+          </button>
+        </div>
+      </template>
+    </Modal>
   </div>
 </template>
 
 <script setup>
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
+import Modal from '@/components/helpers/Modal.vue';
 import { useBackgroundAwarePolling } from '@/utils/appLifecycle';
 import { useI18n } from 'vue-i18n';
 import { useLogStore } from '@/store/logStore';
@@ -316,6 +383,7 @@ const resultOk = ref(false);
 const description = ref('');
 const descriptionTouched = ref(false);
 const diagnosticsUploadDescription = ref('');
+const showSuccessModal = ref(false);
 const lastGeneratedToken = ref('');
 const diagnosticsSections = ref([]);
 const diagnosticsJournalLines = ref(DIAGNOSTICS_DEFAULTS.journalLines);
@@ -700,6 +768,7 @@ async function uploadZipBlob(zipBlob, zipFileName, uploadDescription, logToken) 
       filename: zipFileName,
       token: logToken,
     });
+    showSuccessModal.value = true;
     return res;
   }
 

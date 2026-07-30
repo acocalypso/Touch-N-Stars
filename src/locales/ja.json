@@ -2344,6 +2344,14 @@
       "descriptionLabel": "説明（必須）",
       "descriptionPlaceholder": "調査したい問題を説明してください...",
       "descriptionRequired": "ログを送信する前に説明を入力してください。",
+      "successDialog": {
+        "title": "ログを送信しました",
+        "message": "ログが正常にアップロードされました。",
+        "supportPrompt": "サポートが必要な場合は、GitHubでIssueを作成するかDiscordでお問い合わせください。ログを特定できるよう、生成されたトークンを含めてください。",
+        "tokenHint": "サポート依頼にこのトークンを含めてください：",
+        "github": "GitHub Issueを作成",
+        "discord": "Discordを開く"
+      },
       "lastToken": "生成されたトークン",
       "submissionHistory": "送信履歴",
       "confirmClearAll": "すべての送信履歴を削除してもよろしいですか？",

@@ -2344,6 +2344,14 @@
       "descriptionLabel": "Popis (povinné)",
       "descriptionPlaceholder": "Popište problém, který chcete prozkoumat...",
       "descriptionRequired": "Před odesláním protokolů je vyžadován popis.",
+      "successDialog": {
+        "title": "Protokoly byly úspěšně odeslány",
+        "message": "Vaše protokoly byly úspěšně nahrány.",
+        "supportPrompt": "Chcete-li získat pomoc, vytvořte problém na GitHubu nebo nás kontaktujte na Discordu. Uveďte vygenerovaný token, abychom mohli vaše protokoly najít.",
+        "tokenHint": "Uveďte tento token ve své žádosti o podporu:",
+        "github": "Vytvořit problém na GitHubu",
+        "discord": "Otevřít Discord"
+      },
       "lastToken": "Generované Tokeny",
       "submissionHistory": "Historie Odeslání",
       "confirmClearAll": "Opravdu chcete vymazat celou historii odeslaných příspěvků?",

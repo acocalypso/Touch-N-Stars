@@ -2344,6 +2344,14 @@
       "descriptionLabel": "Descrizione (obbligatoria)",
       "descriptionPlaceholder": "Descrivi il problema da investigare...",
       "descriptionRequired": "È necessaria una descrizione prima di inviare i log.",
+      "successDialog": {
+        "title": "Log inviati correttamente",
+        "message": "I tuoi log sono stati caricati correttamente.",
+        "supportPrompt": "Per ricevere assistenza, crea una segnalazione su GitHub o contattaci su Discord. Includi il token generato per consentirci di identificare i tuoi log.",
+        "tokenHint": "Includi questo token nella richiesta di assistenza:",
+        "github": "Crea segnalazione GitHub",
+        "discord": "Apri Discord"
+      },
       "lastToken": "Token generato",
       "submissionHistory": "Cronologia invii",
       "confirmClearAll": "Sei sicuro di voler cancellare tutta la cronologia degli invii?",

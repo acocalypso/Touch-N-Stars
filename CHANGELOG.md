@@ -33,6 +33,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Celestia Atlas: Render the complete photographic survey viewport at
+  display-aware resolution and load visible HiPS tiles with higher parallelism,
+  eliminating the isolated sharp-tile appearance on web, Android and iOS
+- Celestia Atlas: Keep photographic survey imagery sharp during clicks, drags,
+  pinches and periodic mount/view updates. Completed high-resolution frames are
+  retained until the next reprojection is ready, eliminating the recurring
+  clear-to-blurry flicker on web, Android and iOS
 - Celestia Atlas: Correct J2000/ICRS-to-horizontal geometry with precession, nutation and observed sidereal orientation, keeping landscapes, the Milky Way horizon mask, grids and horizontal navigation on one cached frame
 - Celestia Atlas: Keep camera and mosaic position angles anchored to projected celestial north while the embedded view follows the local horizon
 - Celestia Atlas: Route view-center slew, center, rotate, sequence and favorite actions through the proven J2000 command boundary; invalid or untagged view coordinates now disable the actions instead of reusing stale values

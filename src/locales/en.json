@@ -72,7 +72,12 @@
     "error": "Update failed. Please try again later.",
     "later": "Later",
     "updateNow": "Update now",
-    "working": "Working…"
+    "working": "Working…",
+    "checkNow": "Check for updates",
+    "checking": "Checking…",
+    "upToDateTitle": "No update available",
+    "upToDateMessage": "You are already running the latest version.",
+    "checkFailedTitle": "Update check failed"
   },
   "setup": {
     "welcome": "Welcome to Touch'N'Stars",
@@ -1697,6 +1702,9 @@
     },
     "flatassistant": {
       "title": "Flat assistant",
+      "set_target_name": "Set target name",
+      "target_name": "Target name",
+      "target_name_from_favorites": "Take name from favorites",
       "count": "Flats to take",
       "darks_to_take": "Darkflats to take",
       "exposure_time": "Exposure time",
@@ -3175,6 +3183,17 @@
         "loading_image": "Error loading image: {message}",
         "failed_to_load": "Failed to load livestack image",
         "api_version_required": "API version {version} or higher required"
+      },
+      "rgb": {
+        "title": "RGB combination",
+        "target": "Target",
+        "red": "Red channel",
+        "green": "Green channel",
+        "blue": "Blue channel",
+        "create": "Create RGB",
+        "remove": "Remove RGB",
+        "working": "Working...",
+        "no_targets": "No stacked targets available yet"
       }
     },
     "narrowband": {
@@ -4216,7 +4235,10 @@
       "notConnected": "{device} is not connected",
       "deviceCamera": "Camera",
       "deviceFocuser": "Focuser",
-      "deviceFilterWheel": "Filter Wheel"
+      "deviceFilterWheel": "Filter Wheel",
+      "tooFewIterations": "With fewer than 3 iterations a failed or inaccurate AutoFocus cannot be detected and is averaged into the offset. Use 3 or more for a reliable result.",
+      "confirmStopTitle": "Stop the calculation?",
+      "confirmStopMessage": "All measurements taken so far will be discarded and the profile is restored to its previous state."
     },
     "groundStation": {
       "title": "Ground Station",

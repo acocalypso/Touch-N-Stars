@@ -72,7 +72,12 @@
     "error": "Aktualizace se nezdařila. Zkuste to znovu později.",
     "later": "Později",
     "updateNow": "Aktualizujte nyní",
-    "working": "Pracovní…"
+    "working": "Pracovní…",
+    "checkNow": "Zkontrolovat aktualizace",
+    "checking": "Kontrola…",
+    "upToDateTitle": "Žádná aktualizace není k dispozici",
+    "upToDateMessage": "Používáte již nejnovější verzi.",
+    "checkFailedTitle": "Kontrola aktualizací selhala"
   },
   "setup": {
     "welcome": "Vítá Vás Touch'N'Stars",
@@ -1651,6 +1656,9 @@
     },
     "flatassistant": {
       "title": "Asistent flatu",
+      "set_target_name": "Nastavit název cíle",
+      "target_name": "Název cíle",
+      "target_name_from_favorites": "Převzít název z oblíbených",
       "count": "Počet",
       "exposure_time": "Expoziční čas",
       "min_exposure_time": "Min expozice",
@@ -3008,7 +3016,18 @@
         "reset_exception": "Error resetting livestack: {message}",
         "reset_failed": "Failed to reset livestack"
       },
-      "reset": "Reset stack"
+      "reset": "Reset stack",
+      "rgb": {
+        "title": "RGB kombinace",
+        "target": "Cíl",
+        "red": "Červený kanál",
+        "green": "Zelený kanál",
+        "blue": "Modrý kanál",
+        "create": "Vytvořit RGB",
+        "remove": "Odebrat RGB",
+        "working": "Zpracovávání...",
+        "no_targets": "Zatím nejsou k dispozici žádné stackované cíle"
+      }
     },
     "narrowband": {
       "title": "Kalkulačka filtrů",
@@ -4092,7 +4111,10 @@
       "stop": "Stop",
       "subtitle": "Calculate and store focus offsets for each filter wheel filter",
       "title": "Filter Offset Calculator",
-      "applyFailed": "Could not apply the offsets"
+      "applyFailed": "Could not apply the offsets",
+      "tooFewIterations": "With fewer than 3 iterations a failed or inaccurate AutoFocus cannot be detected and is averaged into the offset. Use 3 or more for a reliable result.",
+      "confirmStopMessage": "All measurements taken so far will be discarded and the profile is restored to its previous state.",
+      "confirmStopTitle": "Stop the calculation?"
     },
     "filebrowser": {
       "title": "File Browser",

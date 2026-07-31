@@ -15,6 +15,10 @@ export const useLivestackStore = defineStore('livestackStore', {
     lastImageUpdate: null,
     status: 'stopped',
     resetSupported: true,
+    // RGB combination (PINS only - on Windows the plugin has its own WPF wizard)
+    rgbCandidates: [],
+    rgbBusy: false,
+    rgbError: null,
   }),
   getters: {
     currentCounter: (state) => {
@@ -293,7 +297,71 @@ export const useLivestackStore = defineStore('livestackStore', {
       this.availableFilters = [];
       this.selectedFilter = null;
       this.selectedTarget = null;
+      this.rgbCandidates = [];
+      this.rgbError = null;
       this.clearCurrentImageUrl();
+    },
+
+    // ---- RGB combination -------------------------------------------------
+
+    async loadRgbCandidates() {
+      try {
+        const result = await apiService.livestackRgbAvailable();
+        this.rgbCandidates =
+          result?.Success && Array.isArray(result.Response) ? result.Response : [];
+      } catch (error) {
+        console.error('Error loading livestack rgb candidates:', error);
+        this.rgbCandidates = [];
+      }
+      return this.rgbCandidates;
+    },
+
+    async createRgbCombination({ target, red, green, blue }) {
+      this.rgbBusy = true;
+      this.rgbError = null;
+      try {
+        const result = await apiService.livestackCreateRgb(target, red, green, blue);
+        if (!result?.Success) {
+          this.rgbError = result?.Error || 'unknown';
+          return false;
+        }
+        await this.loadRgbCandidates();
+        await this.checkImageAvailability();
+        return true;
+      } catch (error) {
+        console.error('Error creating livestack rgb combination:', error);
+        this.rgbError = error?.response?.data?.Error || error.message;
+        return false;
+      } finally {
+        this.rgbBusy = false;
+      }
+    },
+
+    async deleteRgbCombination(target) {
+      this.rgbBusy = true;
+      this.rgbError = null;
+      try {
+        const result = await apiService.livestackDeleteRgb(target);
+        if (!result?.Success) {
+          this.rgbError = result?.Error || 'unknown';
+          return false;
+        }
+        // Drop the cached RGB entry right away so the selectors do not offer a dead image
+        this.availableImages = this.availableImages.filter(
+          (img) => !(img.target === target && img.filter === 'RGB')
+        );
+        this.makeAvailableTargets();
+        this.makeAvailableFilters();
+        await this.loadRgbCandidates();
+        await this.checkImageAvailability();
+        return true;
+      } catch (error) {
+        console.error('Error deleting livestack rgb combination:', error);
+        this.rgbError = error?.response?.data?.Error || error.message;
+        return false;
+      } finally {
+        this.rgbBusy = false;
+      }
     },
   },
 });

@@ -72,7 +72,12 @@
     "error": "Update fehlgeschlagen. Bitte später erneut versuchen.",
     "later": "Später",
     "updateNow": "Jetzt aktualisieren",
-    "working": "Wird ausgeführt…"
+    "working": "Wird ausgeführt…",
+    "checkNow": "Nach Updates suchen",
+    "checking": "Suche…",
+    "upToDateTitle": "Kein Update verfügbar",
+    "upToDateMessage": "Du verwendest bereits die neueste Version.",
+    "checkFailedTitle": "Update-Prüfung fehlgeschlagen"
   },
   "setup": {
     "welcome": "Willkommen bei Touch'N'Stars",
@@ -1692,6 +1697,9 @@
     },
     "flatassistant": {
       "title": "Flat Assistant",
+      "set_target_name": "Zielname setzen",
+      "target_name": "Zielname",
+      "target_name_from_favorites": "Name aus Favoriten übernehmen",
       "count": "Flats aufnehmen",
       "darks_to_take": "Darkflats aufnehmen",
       "exposure_time": "Belichtungszeit",
@@ -3089,7 +3097,18 @@
         "reset_exception": "Fehler beim Zurücksetzen des Livestacks: {message}",
         "reset_failed": "Livestack konnte nicht zurückgesetzt werden"
       },
-      "reset": "Stapel zurücksetzen"
+      "reset": "Stapel zurücksetzen",
+      "rgb": {
+        "title": "RGB-Kombination",
+        "target": "Ziel",
+        "red": "Rot-Kanal",
+        "green": "Grün-Kanal",
+        "blue": "Blau-Kanal",
+        "create": "RGB erstellen",
+        "remove": "RGB entfernen",
+        "working": "Wird verarbeitet...",
+        "no_targets": "Noch keine gestackten Ziele verfügbar"
+      }
     },
     "narrowband": {
       "title": "Filterrechner",
@@ -4130,7 +4149,10 @@
       "stop": "Stoppen",
       "subtitle": "Berechnen und speichern Sie Fokus-Offsets für jeden Filterradfilter",
       "title": "Filter-Offset-Rechner",
-      "applyFailed": "Die Offsets konnten nicht angewendet werden"
+      "applyFailed": "Die Offsets konnten nicht angewendet werden",
+      "tooFewIterations": "Bei weniger als 3 Iterationen kann ein fehlerhafter oder ungenauer Autofokus nicht erkannt werden und wird in den Offset gemittelt. \nFür ein zuverlässiges Ergebnis verwenden Sie 3 oder mehr.",
+      "confirmStopMessage": "Alle bisher durchgeführten Messungen werden verworfen und das Profil wird auf den vorherigen Zustand zurückgesetzt.",
+      "confirmStopTitle": "Berechnung stoppen?"
     },
     "groundStation": {
       "title": "Ground Station",

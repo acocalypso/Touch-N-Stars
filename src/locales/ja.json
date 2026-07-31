@@ -72,7 +72,12 @@
     "error": "アップデートに失敗しました。後でもう一度お試しください。",
     "later": "後で",
     "updateNow": "今すぐアップデート",
-    "working": "処理中…"
+    "working": "処理中…",
+    "checkNow": "アップデートを確認",
+    "checking": "確認中…",
+    "upToDateTitle": "アップデートはありません",
+    "upToDateMessage": "すでに最新バージョンを使用しています。",
+    "checkFailedTitle": "アップデートの確認に失敗しました"
   },
   "setup": {
     "welcome": "ようこそTouch'N'Stars へ",
@@ -1660,6 +1665,9 @@
     },
     "flatassistant": {
       "title": "フラットアシスタント",
+      "set_target_name": "ターゲット名を設定",
+      "target_name": "ターゲット名",
+      "target_name_from_favorites": "お気に入りから名前を取得",
       "count": "枚数",
       "exposure_time": "露光時間",
       "min_exposure_time": "最小露光時間",
@@ -3084,7 +3092,18 @@
         "reset_exception": "ライブスタックのリセット中にエラーが発生しました: {message}",
         "reset_failed": "ライブスタックのリセットに失敗しました"
       },
-      "reset": "スタックをリセット"
+      "reset": "スタックをリセット",
+      "rgb": {
+        "title": "RGB合成",
+        "target": "ターゲット",
+        "red": "赤チャンネル",
+        "green": "緑チャンネル",
+        "blue": "青チャンネル",
+        "create": "RGBを作成",
+        "remove": "RGBを削除",
+        "working": "処理中...",
+        "no_targets": "スタック済みのターゲットがまだありません"
+      }
     },
     "narrowband": {
       "title": "フィルター計算機",
@@ -4125,7 +4144,10 @@
       "stop": "停止",
       "subtitle": "各フィルター ホイール フィルターのフォーカス オフセットを計算して保存します。",
       "title": "フィルターオフセット計算機",
-      "applyFailed": "オフセットを適用できませんでした"
+      "applyFailed": "オフセットを適用できませんでした",
+      "tooFewIterations": "反復が 3 回未満の場合、失敗したオートフォーカスまたは不正確なオートフォーカスは検出できず、オフセットに平均化されます。\n信頼性の高い結果を得るには、3 つ以上を使用します。",
+      "confirmStopMessage": "それまでに行われたすべての測定値は破棄され、プロファイルは以前の状態に復元されます。",
+      "confirmStopTitle": "計算をやめますか?"
     },
     "phd2logviewer": {
       "cal": {

@@ -98,6 +98,10 @@ export const useSettingsStore = defineStore('settings', {
       brightness: 50,
       exposureTime: 2,
       keepClosed: false,
+      // Stamps ImageMetaData.Target.Name on flat frames so $$TARGETNAME$$ resolves.
+      // Opt-in: the plugin-side hook stays a no-op while this is false.
+      targetNameEnabled: false,
+      targetName: 'Flat Wizard',
       multiMode: {
         selectedMode: 'AutoExposure',
         keepClosed: false,

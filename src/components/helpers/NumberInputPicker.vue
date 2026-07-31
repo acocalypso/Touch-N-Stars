@@ -49,7 +49,8 @@
         :min="min"
         :max="max"
         :readonly="settingsStore.touchOptimized"
-        @focus="openPicker"
+        @focus="onFocus"
+        @blur="emit('blur')"
         @input="onDirectInput"
       />
       <button
@@ -130,6 +131,15 @@ const props = defineProps({
     required: false,
     default: null,
   },
+  // Many settings use -1 as a "use the inherited default" sentinel, which is why it renders as the
+  // fallback (or as an empty "default" field) instead of as the number -1. For settings where -1 is
+  // an ordinary value -- a filter's FocusOffset of -1 is one focuser step, not a sentinel -- pass
+  // false so the value is shown and stepped as-is.
+  useDefaultSentinel: {
+    type: Boolean,
+    required: false,
+    default: true,
+  },
   labelPosition: {
     type: String,
     required: false,
@@ -138,7 +148,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['update:modelValue', 'change']);
+const emit = defineEmits(['update:modelValue', 'change', 'focus', 'blur']);
 
 const { openPicker: openNumberPicker } = useNumberPicker();
 const settingsStore = useSettingsStore();
@@ -154,7 +164,10 @@ function emitWithGlow(value) {
 }
 
 const isDefaultValue = computed(() => {
-  return props.modelValue === -1 || props.modelValue === null || props.modelValue === undefined;
+  if (props.modelValue === null || props.modelValue === undefined) {
+    return true;
+  }
+  return props.useDefaultSentinel && props.modelValue === -1;
 });
 
 const formattedValue = computed(() => {
@@ -166,6 +179,11 @@ const formattedValue = computed(() => {
   }
   return props.modelValue;
 });
+
+function onFocus() {
+  emit('focus');
+  openPicker();
+}
 
 function openPicker() {
   // If touch optimization is disabled, don't open picker

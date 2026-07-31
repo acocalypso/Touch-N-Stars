@@ -15,6 +15,7 @@ const languageToBackendCode = {
   nl: 'nl-NL',
   uk: 'uk-UA',
   ko: 'ko-KR',
+  ca: 'ca-ES',
 };
 
 export function getBackendLanguageCode(frontendCode) {
@@ -36,6 +37,7 @@ const availableLanguages = [
   { code: 'nl', name: 'Nederlands' },
   { code: 'uk', name: 'Українська' },
   { code: 'ko', name: '한국어' },
+  { code: 'ca', name: 'Català' },
 ];
 
 const messages = {
@@ -56,6 +58,7 @@ const localeLoaders = {
   ja: () => import('./locales/ja.json'),
   uk: () => import('./locales/uk.json'),
   ko: () => import('./locales/ko.json'),
+  ca: () => import('./locales/ca.json'),
 };
 
 const loadedLocales = new Set(['en']);

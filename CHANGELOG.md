@@ -4,6 +4,33 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
+
+## [App6.1.2] - 2026-07-31
+
+Summary of all changes since 6.0.0 (released in beta1-beta2, see below for the individual beta releases).
+
+### Added
+
+- Language: Catalan (ca-ES) is now available as a full app language - all 4332 texts are translated, including plugins and settings. Many thanks to @albcn for the complete translation
+- Livestack (PINS): New "RGB combination" section in the livestack settings that combines three mono stacks (e.g. LRGB or SHO) of a target into a colour image, with the filter-to-channel mapping pre-filled and editable. The result appears as the "RGB" filter next to the individual channels and can be removed again. On Windows this is unchanged and still done through the plugin's own wizard, so the section only appears on PINS
+- Flat Assistant: Optional target name for flats - the name can be entered directly or taken from the favorites and is then used when saving the flats. Requires TNS plugin 1.2.8.0 or newer (always available on PINS)
+- Filter Offset Calculator: Warning when fewer than 3 iterations are configured - with fewer runs a failed or inaccurate AutoFocus cannot be detected and is averaged into the offset
+- Filter Offset Calculator: Stopping now asks for confirmation, since all measurements taken so far are discarded and the profile is restored
+
+### Changed
+
+- Celestia Atlas: The photographic survey is now drawn as curved WebGL tile meshes at display resolution instead of a viewport-sized raster, and every region keeps its best already-loaded tile visible until the sharper one arrives
+- Celestia Atlas: Landscapes (default and custom) are rendered on the same GPU mesh and now correctly hide celestial objects behind them instead of letting them shine through
+
+### Fixed
+
+- Celestia Atlas: The sky stays sharp during clicks, drags, pinches and periodic mount/view updates - no more recurring clear-to-blurry flicker, and no more isolated sharp tiles in an otherwise blurry viewport
+- Celestia Atlas: The sky view now recovers on its own when the graphics context is lost (e.g. after the app has been in the background for a long time) instead of staying black
+- Instance discovery: Searching for NINA instances scanned all mDNS service types at the same time, and because the native plugin only supports one search at a time, the searches cancelled each other - instances were found only sporadically or not at all. The service types are now scanned one after another, results from all of them are collected, and already-found instances stay visible while the search is still running
+- Filter Offset Calculator: The offset preview now shows all filters of the profile, stated relative to the selected AutoFocus filter (which is 0). Filters that were not measured in this run keep their previous spacing, and only differences of the old offsets are used - a profile that an older build left holding absolute focuser positions no longer produces offsets in the thousands
+- Filter Offset Calculator: A failed apply is now reported with an error message instead of silently doing nothing
+- Settings: Values of -1 were shown as an inherited default in every numeric profile setting. This is now limited to the settings that actually use -1 as a placeholder (plate-solve gain falls back to the camera, a filter's autofocus exposure time to the focuser). Everywhere else -1 is again an ordinary value and is no longer silently replaced, and a value being edited is no longer overwritten while typing
+
 ## [App6.1.0-beta1] - 2026-07-30
 ### Added
 - Livestack (PINS): New "RGB combination" section in the livestack settings that combines three mono stacks (e.g. LRGB or SHO) of a target into a colour image, with the filter-to-channel mapping pre-filled and editable. The result appears as the "RGB" filter next to the individual channels and can be removed again. On Windows this is unchanged and still done through the plugin's own wizard, so the section only appears on PINS

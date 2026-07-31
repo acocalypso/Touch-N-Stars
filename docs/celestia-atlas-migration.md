@@ -775,8 +775,14 @@ equivalent iOS capture remains a non-blocking follow-up.
   completed physical-device validation.
 - Package boundary resolved: Touch-N-Stars uses the public Git repository pinned
   over HTTPS to immutable Atlas commit
-  `0bf664f7a6f3a9ba9c307b76bae883fdde15565d`. Embedded and standalone shells
-  share the same viewer and astronomy engine modules.
+  `5987fab6de98047b1a7739e482239375d1e59376`. Embedded and standalone shells
+  share the same viewer and astronomy engine modules. The pinned renderer draws
+  HiPS tiles as curved WebGL meshes and keeps every target region covered by its
+  highest loaded parent until the detail tile arrives. Desktop and native hosts
+  therefore keep the photographic sky sharp during gestures and periodic
+  mount/view updates without rebuilding a viewport-sized raster. Default and
+  custom HEALPix landscapes use the same device-resolution GPU mesh and render
+  as opaque foreground occluders over celestial objects.
 
 ## 12. Removal checklist
 

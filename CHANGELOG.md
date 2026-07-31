@@ -4,7 +4,7 @@ All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
-## [App6.1.0-beta1] - unreleased
+## [App6.1.0-beta1] - 2026-07-30
 ### Added
 - Livestack (PINS): New "RGB combination" section in the livestack settings that combines three mono stacks (e.g. LRGB or SHO) of a target into a colour image, with the filter-to-channel mapping pre-filled and editable. The result appears as the "RGB" filter next to the individual channels and can be removed again. On Windows this is unchanged and still done through the plugin's own wizard, so the section only appears on PINS
 
@@ -33,6 +33,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Celestia Atlas: Render the complete photographic survey viewport at
+  display-aware resolution and load visible HiPS tiles with higher parallelism,
+  eliminating the isolated sharp-tile appearance on web, Android and iOS
+- Celestia Atlas: Keep photographic survey imagery sharp during clicks, drags,
+  pinches and periodic mount/view updates. Completed high-resolution frames are
+  retained until the next reprojection is ready, eliminating the recurring
+  clear-to-blurry flicker on web, Android and iOS
 - Celestia Atlas: Correct J2000/ICRS-to-horizontal geometry with precession, nutation and observed sidereal orientation, keeping landscapes, the Milky Way horizon mask, grids and horizontal navigation on one cached frame
 - Celestia Atlas: Keep camera and mosaic position angles anchored to projected celestial north while the embedded view follows the local horizon
 - Celestia Atlas: Route view-center slew, center, rotate, sequence and favorite actions through the proven J2000 command boundary; invalid or untagged view coordinates now disable the actions instead of reusing stale values

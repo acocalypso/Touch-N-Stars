@@ -1,5 +1,6 @@
 import { ref } from 'vue';
 import apiPinsService from '@/services/apiPinsService';
+import { resolveWifiInterfaceSelection } from './wifiInterfaceSelection';
 
 export function usePinsWifiInterfaces({ t, appendLog, getIp, status }) {
   const wifiAdapters = ref([]);
@@ -25,15 +26,13 @@ export function usePinsWifiInterfaces({ t, appendLog, getIp, status }) {
   }
 
   function reconcileSelectedWifiInterfaces() {
-    const availableIfaces = new Set(wifiAdapters.value.map((adapter) => adapter.interface));
-
-    if (selectedClientInterface.value && !availableIfaces.has(selectedClientInterface.value)) {
-      selectedClientInterface.value = '';
-    }
-
-    if (selectedHotspotInterface.value && !availableIfaces.has(selectedHotspotInterface.value)) {
-      selectedHotspotInterface.value = '';
-    }
+    const resolved = resolveWifiInterfaceSelection(
+      wifiAdapters.value,
+      selectedClientInterface.value,
+      selectedHotspotInterface.value
+    );
+    selectedClientInterface.value = resolved.clientInterface;
+    selectedHotspotInterface.value = resolved.hotspotInterface;
   }
 
   async function loadWifiAdapters() {

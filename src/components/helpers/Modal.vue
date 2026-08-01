@@ -31,7 +31,15 @@
         </div>
 
         <!-- Body -->
-        <div class="flex justify-center mb-4 max-h-[60vh] overflow-y-auto scrollbar-thin">
+        <!-- *:min-w-0 lets the slot content shrink to the dialog width. Without it the
+             flex item keeps min-width:auto, so a single <input> (whose min-content is its
+             ~257px size-attribute width) makes the whole body wider than the dialog.
+             justify-center-safe is the backstop for content that truly cannot shrink:
+             plain justify-center centres the overflow and cuts off the *left* edge,
+             which scrolling can never reach. -->
+        <div
+          class="flex justify-center-safe *:min-w-0 mb-4 max-h-[60vh] overflow-y-auto scrollbar-thin"
+        >
           <slot name="body">
             <p>Standard-Inhalt</p>
           </slot>

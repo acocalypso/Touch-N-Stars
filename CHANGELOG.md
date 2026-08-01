@@ -5,6 +5,12 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [App6.1.3-beta1] - 2026-08-01
+
+### Fixed
+
+- Dialogs: On narrow screens content that did not fit the dialog was centred, so its left edge was cut off and could not be reached by scrolling either - in the settings dialog headings and input labels appeared clipped ("onnection Settings"). Dialog content now shrinks to the dialog width, and content that genuinely cannot shrink starts at the left edge and stays scrollable
+
 ## [App6.1.2] - 2026-07-31
 
 Summary of all changes since 6.0.0 (released in beta1-beta2, see below for the individual beta releases).
@@ -32,7 +38,9 @@ Summary of all changes since 6.0.0 (released in beta1-beta2, see below for the i
 - Settings: Values of -1 were shown as an inherited default in every numeric profile setting. This is now limited to the settings that actually use -1 as a placeholder (plate-solve gain falls back to the camera, a filter's autofocus exposure time to the focuser). Everywhere else -1 is again an ordinary value and is no longer silently replaced, and a value being edited is no longer overwritten while typing
 
 ## [App6.1.0-beta1] - 2026-07-30
+
 ### Added
+
 - Livestack (PINS): New "RGB combination" section in the livestack settings that combines three mono stacks (e.g. LRGB or SHO) of a target into a colour image, with the filter-to-channel mapping pre-filled and editable. The result appears as the "RGB" filter next to the individual channels and can be removed again. On Windows this is unchanged and still done through the plugin's own wizard, so the section only appears on PINS
 
 ## [App6.0.0] - 2026-07-30
@@ -76,18 +84,23 @@ Summary of all changes since 6.0.0 (released in beta1-beta2, see below for the i
 - Celestia Atlas: The selected-target framing action now opens the actual Framing Assistant and retains J2000 epoch plus ICRS/J2000 source-frame provenance instead of sending the user to the mount slew tab
 
 ## [App5.3.0-beta1] - 2026-07-28
+
 ### Changed
+
 - Multi-instance: Switching instances - and editing the IP/port of the active instance - now restarts the app instead of resetting parts of it in place. You stay on the page you were on. Note that a running TPPA alignment or manual mount control session is no longer carried over to the new instance
 
 ### Fixed
+
 - Multi-instance: Data from the previously selected instance could be left over after switching (framing target, mount, flat assistant, histogram and most plugin views were never cleared)
 - Multi-instance: WebSocket and SignalR connections sometimes failed to re-establish after switching instances
 - UI: Short white flash while the app loads (on start and when switching instances) - the dark background now applies from the very first frame
 
 ## [App5.2.0] - 2026-07-26
+
 Summary of all changes since 5.1.0 (released in beta1-beta4, see below for the individual beta releases).
 
 ### Added
+
 - Safety: Destructive actions now ask for confirmation before running - parking the mount and clearing the whole sequence
 - Haptics: Light/medium haptic feedback on native (Android/iOS) platforms when triggering key actions such as capture, slew, park and stop
 - Guiding: PHD2 live image can now be zoomed and panned (pinch, mouse wheel, double-tap) like the camera image, with lock position, guiding cross and secondary star overlays tracking correctly, plus a reset-zoom button
@@ -95,6 +108,7 @@ Summary of all changes since 5.1.0 (released in beta1-beta4, see below for the i
 - TPPA (PINS): When the alignment view is opened (or after switching instances), the running state is now loaded from the backend, so an alignment already in progress is reflected correctly instead of relying on a possibly stale saved state
 
 ### Changed
+
 - Design: App-wide visual refresh onto a single design system - one consistent set of button styles, surfaces and colors with a single cyan accent, and green/yellow/red now always carry the same meaning across the app (running / attention / problem or stopped). Buttons, inputs and other touch targets are now at least 48px for easier tapping in the field
 - Navigation: Each nav item now shows a permanent label under its icon (previously the label only appeared while touching), and the landscape sidebar is narrower so it no longer wastes empty space next to the icons
 - Status bar: Redesigned, taller status bar that shows camera, mount, guider, filter, weather and progress state - and their key values - at a glance without having to tap a chip first
@@ -105,6 +119,7 @@ Summary of all changes since 5.1.0 (released in beta1-beta4, see below for the i
 - Sequence Creator: Toolbar buttons (undo/redo, save, library, clear, send to NINA) restyled to match the app-wide design system
 
 ### Fixed
+
 - Dialog: Minimized dialogs are now a small, draggable chip anchored above the status bar instead of a fixed 300px box that permanently covered the bottom-right corner
 - Sequence: Sequence control buttons no longer get covered when a status bar panel (progress, camera/mount/filter info, guider graph) is opened - they now shift up above it automatically
 - Sequence Creator: Camera offset field was limited to -100..100, now allows the full 0-10000 range
@@ -118,16 +133,20 @@ Summary of all changes since 5.1.0 (released in beta1-beta4, see below for the i
 - PINS: Fixed plugin layout
 
 ## [App5.2.0-beta4] - 2026-07-23
+
 ### Fixed
+
 - Dialog: Minimized dialogs are now a small, draggable chip anchored above the status bar instead of a fixed 300px box that permanently covered the bottom-right corner
 
 ## [App5.2.0-beta3] - 2026-07-21
+
 ## [App5.2.0-beta3] - unreleased
 
 ### Added
 
 - Equipment (PINS): Connect button now doubles as a cancel button while a connection attempt is in progress
 - Guiding: PHD2 live image can now be zoomed and panned (pinch, mouse wheel, double-tap) like the camera image, with lock position, guiding cross and secondary star overlays tracking correctly, plus a reset-zoom button
+- Celestia Atlas: Generated plugin landscapes now use an update-safe persistent data route instead of the replaceable application asset directory
 
 ### Changed
 
@@ -135,6 +154,7 @@ Summary of all changes since 5.1.0 (released in beta1-beta4, see below for the i
 - Sequence Creator: Toolbar buttons (undo/redo, save, library, clear, send to NINA) restyled to match the app-wide design system
 
 ### Fixed
+
 - Sequence: Sequence control buttons no longer get covered when a status bar panel (progress, camera/mount/filter info, guider graph) is opened - they now shift up above it automatically
 
 - Sequence Creator: Camera offset field was limited to -100..100, now allows the full 0-10000 range

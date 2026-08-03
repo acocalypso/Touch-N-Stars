@@ -76,8 +76,10 @@
       <p v-if="installStatus" class="text-sm text-content-muted break-words">{{ installStatus }}</p>
     </div>
 
-    <!-- Mount settings modal (same split as connectEquipment.vue) -->
-    <Modal :show="showMountSettings" @close="showMountSettings = false">
+    <!-- Mount settings modal (same split as connectEquipment.vue).
+         zIndex must clear the wizard overlay (z-70) but stay under the PINS
+         upgrade overlay (z-[80]) - all of these teleport to body. -->
+    <Modal :show="showMountSettings" zIndex="z-[75]" @close="showMountSettings = false">
       <template #header>
         <h2 class="text-2xl font-semibold">{{ $t('components.mount.indi.settings') }}</h2>
       </template>
@@ -101,11 +103,16 @@
       :selected-item="selectedDriver"
       :installing="isInstalling"
       :error-message="installError"
+      zIndex="z-[75]"
       @close="closeInstallModal"
       @confirm="installDriver"
     />
 
-    <PinsIndiRegistryEditModal :show="showRegistryModal" @close="showRegistryModal = false" />
+    <PinsIndiRegistryEditModal
+      :show="showRegistryModal"
+      zIndex="z-[75]"
+      @close="showRegistryModal = false"
+    />
   </div>
 </template>
 

@@ -4132,7 +4132,8 @@
       "spread": "Spread",
       "stepsPerLoop": "{value} steps/iteration",
       "summaryTooltip": "{measured} of {loops} iterations produced a measurement, {used} used for the offset.",
-      "summaryTooltipPending": "{measured} of {loops} iterations have produced a measurement so far."
+      "summaryTooltipPending": "{measured} of {loops} iterations have produced a measurement so far.",
+      "loopShort": "#{n}"
     },
     "filebrowser": {
       "title": "File Browser",

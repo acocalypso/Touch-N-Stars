@@ -4165,7 +4165,8 @@
       "spread": "Поширення",
       "stepsPerLoop": "{value} кроків/ітерацію",
       "summaryTooltip": "{measured} з {loops} ітерацій дали вимірювання, {used} використано для зсуву.",
-      "summaryTooltipPending": "{measured} з {loops} ітерацій наразі дали результат вимірювання."
+      "summaryTooltipPending": "{measured} з {loops} ітерацій наразі дали результат вимірювання.",
+      "loopShort": "#{n}"
     },
     "phd2logviewer": {
       "cal": {

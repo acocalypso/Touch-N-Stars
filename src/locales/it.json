@@ -4130,14 +4130,15 @@
       "measurementFailed": "La messa a fuoco automatica non ha prodotto misurazioni utilizzabili",
       "noMeasurements": "Nessuna misurazione ancora",
       "notMeasuredYet": "Non ancora misurato",
-      "rejectedTooltip": "Scartato come valore anomalo: {deviazione} passi dalla mediana di {mediana}.",
+      "rejectedTooltip": "Scartato come valore anomalo: {deviation} passi dalla mediana di {median}.",
       "rejectedTooltipNoMedian": "Scartato come valore anomalo.",
       "retriedTooltip": "Il primo tentativo di messa a fuoco automatica per questa iterazione non è riuscito ({failure}) ed è stato ripetuto.",
       "samplesUsed": "Usato",
       "spread": "Diffusione",
-      "stepsPerLoop": "{valore} passaggi/iterazione",
-      "summaryTooltip": "{measered} di {loops} iterazioni hanno prodotto una misurazione, {used} utilizzata per l'offset.",
-      "summaryTooltipPending": "Finora {misurato} di {loops} iterazioni hanno prodotto una misurazione."
+      "stepsPerLoop": "{value} passaggi/iterazione",
+      "summaryTooltip": "{measured} di {loops} iterazioni hanno prodotto una misurazione, {used} utilizzata per l'offset.",
+      "summaryTooltipPending": "Finora {measured} di {loops} iterazioni hanno prodotto una misurazione.",
+      "loopShort": "#{n}"
     },
     "filebrowser": {
       "title": "File Browser",

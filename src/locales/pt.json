@@ -4130,14 +4130,15 @@
       "measurementFailed": "O AutoFocus não produziu nenhuma medição utilizável",
       "noMeasurements": "Ainda não há medições",
       "notMeasuredYet": "Ainda não medido",
-      "rejectedTooltip": "Descartado como outlier: {desvio} passos da mediana de {mediana}.",
+      "rejectedTooltip": "Descartado como outlier: {deviation} passos da mediana de {median}.",
       "rejectedTooltipNoMedian": "Descartado como um outlier.",
       "retriedTooltip": "A primeira tentativa de AutoFocus para esta iteração falhou ({failure}) e foi repetida.",
       "samplesUsed": "Usado",
       "spread": "Espalhar",
       "stepsPerLoop": "{value} etapas/iteração",
       "summaryTooltip": "{measured} de {loops} iterações produziu uma medida, {used} usada para o deslocamento.",
-      "summaryTooltipPending": "{measured} de {loops} iterações produziram uma medição até agora."
+      "summaryTooltipPending": "{measured} de {loops} iterações produziram uma medição até agora.",
+      "loopShort": "#{n}"
     },
     "filebrowser": {
       "title": "File Browser",

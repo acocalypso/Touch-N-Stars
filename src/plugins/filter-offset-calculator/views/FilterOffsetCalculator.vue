@@ -315,11 +315,16 @@
           {{ $t('plugins.filterOffset.errorLabel') }}: {{ applyError }}
         </div>
 
-        <!-- Accept / Abort buttons -->
+        <!-- Accept / Abort buttons. Accepting an all-zero result is never what anyone wants: it does
+             not merely fail to improve the profile, it flattens the real offsets of every filter the
+             run covered, and the banner above is easy to tap past on a phone. Discard stays open. -->
         <div class="grid grid-cols-2 gap-3">
           <button
-            class="rounded-xl bg-green-700 px-6 py-3 font-semibold text-white transition hover:bg-green-600"
-            :disabled="loading"
+            class="rounded-xl bg-green-700 px-6 py-3 font-semibold text-white transition hover:bg-green-600 disabled:cursor-not-allowed disabled:opacity-40"
+            :disabled="loading || result.BaseFilterUnmeasured"
+            :title="
+              result.BaseFilterUnmeasured ? $t('plugins.filterOffset.baseFilterUnmeasured') : ''
+            "
             @click="applyResult"
           >
             {{ $t('plugins.filterOffset.accept') }}

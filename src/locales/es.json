@@ -4130,14 +4130,15 @@
       "measurementFailed": "AutoFocus no produjo ninguna medición utilizable",
       "noMeasurements": "Aún no hay medidas",
       "notMeasuredYet": "Aún no medido",
-      "rejectedTooltip": "Descartado como valor atípico: {desviación} pasos de la mediana de {mediana}.",
+      "rejectedTooltip": "Descartado como valor atípico: {deviation} pasos de la mediana de {median}.",
       "rejectedTooltipNoMedian": "Descartado como valor atípico.",
       "retriedTooltip": "El primer intento de enfoque automático para esta iteración falló ({failure}) y se repitió.",
       "samplesUsed": "Usado",
       "spread": "Desparramar",
-      "stepsPerLoop": "{valor} pasos/iteración",
-      "summaryTooltip": "{medido} de {bucles} iteraciones produjo una medida, {usado} usado para el desplazamiento.",
-      "summaryTooltipPending": "{medido} de {bucles} iteraciones han producido una medición hasta ahora."
+      "stepsPerLoop": "{value} pasos/iteración",
+      "summaryTooltip": "{measured} de {loops} iteraciones produjo una medida, {used} usado para el desplazamiento.",
+      "summaryTooltipPending": "{measured} de {loops} iteraciones han producido una medición hasta ahora.",
+      "loopShort": "#{n}"
     },
     "filebrowser": {
       "title": "Explorador de archivos",

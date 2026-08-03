@@ -4165,7 +4165,8 @@
       "spread": "広める",
       "stepsPerLoop": "{value} ステップ/反復",
       "summaryTooltip": "{loops} 回の反復のうち {measured} 回で測定値が生成され、{used} がオフセットに使用されました。",
-      "summaryTooltipPending": "これまでに、{loops} 回中 {measured} 回の反復で測定値が生成されました。"
+      "summaryTooltipPending": "これまでに、{loops} 回中 {measured} 回の反復で測定値が生成されました。",
+      "loopShort": "#{n}"
     },
     "phd2logviewer": {
       "cal": {

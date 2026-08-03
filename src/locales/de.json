@@ -4163,14 +4163,15 @@
       "measurementFailed": "AutoFocus lieferte keine brauchbare Messung",
       "noMeasurements": "Noch keine Messungen",
       "notMeasuredYet": "Noch nicht gemessen",
-      "rejectedTooltip": "Als Ausreißer verworfen: {Abweichung} Schritte vom Median von {Median}.",
+      "rejectedTooltip": "Als Ausreißer verworfen: {deviation} Schritte vom Median von {median}.",
       "rejectedTooltipNoMedian": "Als Ausreißer verworfen.",
       "retriedTooltip": "Der erste AutoFocus-Versuch für diese Iteration schlug fehl ({failure}) und wurde wiederholt.",
       "samplesUsed": "Gebraucht",
       "spread": "Verbreiten",
-      "stepsPerLoop": "{Wert} Schritte/Iteration",
+      "stepsPerLoop": "{value} Schritte/Iteration",
       "summaryTooltip": "{measured} von {loops} Iterationen ergaben eine Messung, {used} wurde für den Offset verwendet.",
-      "summaryTooltipPending": "{measured} von {loops} Iterationen haben bisher zu einer Messung geführt."
+      "summaryTooltipPending": "{measured} von {loops} Iterationen haben bisher zu einer Messung geführt.",
+      "loopShort": "#{n}"
     },
     "groundStation": {
       "title": "Ground Station",

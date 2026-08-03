@@ -4130,14 +4130,15 @@
       "measurementFailed": "AutoFocus n'a produit aucune mesure utilisable",
       "noMeasurements": "Pas encore de mesures",
       "notMeasuredYet": "Pas encore mesuré",
-      "rejectedTooltip": "Rejeté comme valeur aberrante : {écart} étapes par rapport à la médiane de {médian}.",
+      "rejectedTooltip": "Rejeté comme valeur aberrante : {deviation} étapes par rapport à la médiane de {median}.",
       "rejectedTooltipNoMedian": "Rejeté comme valeur aberrante.",
-      "retriedTooltip": "La première tentative d'AutoFocus pour cette itération a échoué ({échec}) et a été répétée.",
+      "retriedTooltip": "La première tentative d'AutoFocus pour cette itération a échoué ({failure}) et a été répétée.",
       "samplesUsed": "Utilisé",
       "spread": "Propagé",
       "stepsPerLoop": "{value} étapes/itération",
-      "summaryTooltip": "Les itérations {mesurées} de {boucles} ont produit une mesure, {utilisée} utilisée pour le décalage.",
-      "summaryTooltipPending": "Les itérations {mesurées} de {boucles} ont produit une mesure jusqu'à présent."
+      "summaryTooltip": "Les itérations {measured} de {loops} ont produit une mesure, {used} utilisée pour le décalage.",
+      "summaryTooltipPending": "Les itérations {measured} de {loops} ont produit une mesure jusqu'à présent.",
+      "loopShort": "#{n}"
     },
     "filebrowser": {
       "title": "File Browser",

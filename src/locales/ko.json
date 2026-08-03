@@ -4165,7 +4165,8 @@
       "spread": "확산",
       "stepsPerLoop": "{value} 단계/반복",
       "summaryTooltip": "{loops} 반복 중 {measured}에서 오프셋에 사용된 {used} 측정이 생성되었습니다.",
-      "summaryTooltipPending": "{loops} 반복 중 {measured}회가 지금까지 측정값을 생성했습니다."
+      "summaryTooltipPending": "{loops} 반복 중 {measured}회가 지금까지 측정값을 생성했습니다.",
+      "loopShort": "#{n}"
     },
     "phd2logviewer": {
       "title": "PHD2 로그 뷰어",

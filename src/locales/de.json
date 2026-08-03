@@ -240,6 +240,8 @@
         "wifi": "WLAN",
         "updates": "Updates",
         "mount": "Montierung",
+        "slewRate": "Schwenkgeschwindigkeit",
+        "location": "Standort",
         "camera": "Kamera",
         "done": "Fertig"
       },
@@ -298,6 +300,27 @@
         "installing": "{label} wird installiert…",
         "installSuccess": "{label} installiert. Wähle den Treiber oben in der Liste aus.",
         "installFailed": "Installation fehlgeschlagen: {message}"
+      },
+      "slewRate": {
+        "title": "Schwenkgeschwindigkeit",
+        "description": "Lege fest, wie schnell der Treiber deine Montierung fahren darf. Zu hoch verliert die Montierung Schritte, zu niedrig dauert jeder Slew ewig.",
+        "maxSlewRate": "Max. Schwenkgeschwindigkeit (°/s)",
+        "maxSlewRateHint": "Das ist die Treibergrenze, nicht die manuelle Schwenkgeschwindigkeit auf dem Montierungs-Screen — die kommt direkt aus den Fähigkeiten des Treibers.",
+        "saveFailed": "Konnte nicht gespeichert werden: {message}"
+      },
+      "location": {
+        "title": "Standort festlegen",
+        "description": "Deine Koordinaten bestimmen Zeitberechnung, Meridianflip, Horizont und Framing. Übernimm sie von deinem Gerät oder trage sie von Hand ein.",
+        "profileCoords": "Standort im Profil",
+        "mountCoords": "Standort der Montierung",
+        "latitude": "Breitengrad",
+        "longitude": "Längengrad",
+        "altitude": "Höhe",
+        "useCurrentLocation": "Aktuellen Standort verwenden",
+        "syncDirection": "Richtung des Standortabgleichs",
+        "save": "Standort speichern",
+        "saving": "Wird gespeichert…",
+        "saveFailed": "Standort konnte nicht gespeichert werden: {message}"
       },
       "camera": {
         "title": "Kamera einrichten",

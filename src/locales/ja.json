@@ -208,6 +208,8 @@
         "wifi": "Wi-Fi",
         "updates": "Updates",
         "mount": "Mount",
+        "slewRate": "Slew speed",
+        "location": "Location",
         "camera": "Camera",
         "done": "Done"
       },
@@ -266,6 +268,27 @@
         "installing": "Installing {label}…",
         "installSuccess": "{label} installed. Select it in the driver list above.",
         "installFailed": "Installation failed: {message}"
+      },
+      "slewRate": {
+        "title": "Slew speed",
+        "description": "Set how fast the driver may move your mount. Too high and the mount can lose steps, too low and every slew takes forever.",
+        "maxSlewRate": "Max slew speed (°/s)",
+        "maxSlewRateHint": "This is the driver limit, not the manual slew speed on the mount screen — that one comes straight from the driver's own capabilities.",
+        "saveFailed": "Could not save: {message}"
+      },
+      "location": {
+        "title": "Set your location",
+        "description": "Your coordinates drive time calculations, meridian flip, horizon and framing. Take them from your device or enter them by hand.",
+        "profileCoords": "Profile location",
+        "mountCoords": "Mount location",
+        "latitude": "Latitude",
+        "longitude": "Longitude",
+        "altitude": "Altitude",
+        "useCurrentLocation": "Use current location",
+        "syncDirection": "Location sync direction",
+        "save": "Save location",
+        "saving": "Saving…",
+        "saveFailed": "Could not save the location: {message}"
       },
       "camera": {
         "title": "Set up your camera",

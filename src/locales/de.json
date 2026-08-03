@@ -242,6 +242,7 @@
         "mount": "Montierung",
         "slewRate": "Schwenkgeschwindigkeit",
         "location": "Standort",
+        "telescope": "Teleskop",
         "camera": "Kamera",
         "done": "Fertig"
       },
@@ -321,6 +322,13 @@
         "save": "Standort speichern",
         "saving": "Wird gespeichert…",
         "saveFailed": "Standort konnte nicht gespeichert werden: {message}"
+      },
+      "telescope": {
+        "title": "Dein Teleskop",
+        "description": "Name und Optik deines Teleskops. Die Brennweite bestimmt zusammen mit der Pixelgröße der Kamera deine Bildskala.",
+        "namePlaceholder": "z. B. TS 80/480 APO",
+        "hint": "Brennweite in mm, Öffnungsverhältnis als reine Zahl (f/5.0 → 5.0).",
+        "saveFailed": "Konnte nicht gespeichert werden: {message}"
       },
       "camera": {
         "title": "Kamera einrichten",

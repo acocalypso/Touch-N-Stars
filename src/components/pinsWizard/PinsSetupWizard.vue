@@ -90,6 +90,11 @@
                 @completed="handleStepCompleted"
               />
 
+              <WizardTelescopeStep
+                v-else-if="currentStep.id === 'telescope'"
+                @completed="handleStepCompleted"
+              />
+
               <WizardCameraStep
                 v-else-if="currentStep.id === 'camera'"
                 @completed="handleStepCompleted"
@@ -148,6 +153,7 @@ import WizardUpdatesStep from './steps/WizardUpdatesStep.vue';
 import WizardMountStep from './steps/WizardMountStep.vue';
 import WizardSlewRateStep from './steps/WizardSlewRateStep.vue';
 import WizardLocationStep from './steps/WizardLocationStep.vue';
+import WizardTelescopeStep from './steps/WizardTelescopeStep.vue';
 import WizardCameraStep from './steps/WizardCameraStep.vue';
 
 const emit = defineEmits(['close']);
@@ -165,6 +171,9 @@ const steps = [
   { id: 'mount', labelKey: 'components.pinsWizard.steps.mount', skippable: true },
   { id: 'slewRate', labelKey: 'components.pinsWizard.steps.slewRate', skippable: true },
   { id: 'location', labelKey: 'components.pinsWizard.steps.location', skippable: true },
+  // Telescope before camera on purpose: the camera step's image-scale readout
+  // needs TelescopeSettings.FocalLength to be set.
+  { id: 'telescope', labelKey: 'components.pinsWizard.steps.telescope', skippable: true },
   { id: 'camera', labelKey: 'components.pinsWizard.steps.camera', skippable: true },
   { id: 'done', labelKey: 'components.pinsWizard.steps.done', skippable: false },
 ];

@@ -210,6 +210,7 @@
         "mount": "Mount",
         "slewRate": "Slew speed",
         "location": "Location",
+        "telescope": "Telescope",
         "camera": "Camera",
         "done": "Done"
       },
@@ -289,6 +290,13 @@
         "save": "Save location",
         "saving": "Saving…",
         "saveFailed": "Could not save the location: {message}"
+      },
+      "telescope": {
+        "title": "Your telescope",
+        "description": "Name and optics of your telescope. Focal length together with the camera's pixel size determines your image scale.",
+        "namePlaceholder": "e.g. TS 80/480 APO",
+        "hint": "Focal length in mm, focal ratio as the plain number (f/5.0 → 5.0).",
+        "saveFailed": "Could not save: {message}"
       },
       "camera": {
         "title": "Set up your camera",

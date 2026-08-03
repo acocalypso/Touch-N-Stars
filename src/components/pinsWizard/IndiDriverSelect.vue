@@ -13,10 +13,10 @@
       </option>
     </select>
     <span v-if="loading" class="text-xs text-content-faint">
-      {{ t('components.pinsWizard.mount.loadingDrivers') }}
+      {{ t('components.pinsWizard.driver.loading') }}
     </span>
     <span v-else-if="saving" class="text-xs text-content-faint">
-      {{ t('components.pinsWizard.mount.applyingDriver') }}
+      {{ t('components.pinsWizard.driver.applying') }}
     </span>
     <span v-if="errorMessage" class="text-xs text-status-danger break-words">{{
       errorMessage
@@ -78,7 +78,7 @@ async function loadDrivers() {
     selectedDriver.value = store.profileInfo?.[props.profileSection]?.IndiDriver || 'None';
   } catch (error) {
     console.error('[PinsWizard] INDI driver list failed:', error);
-    errorMessage.value = t('components.pinsWizard.mount.driverListFailed', {
+    errorMessage.value = t('components.pinsWizard.driver.listFailed', {
       message: error.message,
     });
   } finally {
@@ -97,7 +97,7 @@ async function applyDriver() {
     emit('driver-applied', selectedDriver.value);
   } catch (error) {
     console.error('[PinsWizard] INDI driver change failed:', error);
-    errorMessage.value = t('components.pinsWizard.mount.driverChangeFailed', {
+    errorMessage.value = t('components.pinsWizard.driver.changeFailed', {
       message: error.message,
     });
   } finally {

@@ -199,7 +199,14 @@
         "wifi": "Wi-Fi",
         "updates": "Updates",
         "mount": "Mount",
+        "camera": "Camera",
         "done": "Done"
+      },
+      "driver": {
+        "loading": "Loading drivers…",
+        "applying": "Applying driver…",
+        "listFailed": "Could not load drivers: {message}",
+        "changeFailed": "Could not apply the driver: {message}"
       },
       "welcome": {
         "title": "Let's set up your PINS rig",
@@ -243,22 +250,40 @@
         "title": "Set up your mount",
         "description": "Pick the INDI driver for your mount, then connect it.",
         "selectDriver": "INDI driver",
-        "loadingDrivers": "Loading drivers…",
-        "applyingDriver": "Applying driver…",
         "connectDevice": "Device",
         "connected": "Mount connected: {name}",
         "notFound": "Mount not listed?",
         "notFoundHint": "If your mount is missing, its driver may not be installed yet. Search the 3rd party INDI drivers and install the matching one.",
         "installing": "Installing {label}…",
         "installSuccess": "{label} installed. Select it in the driver list above.",
-        "installFailed": "Installation failed: {message}",
-        "driverListFailed": "Could not load drivers: {message}",
-        "driverChangeFailed": "Could not apply the driver: {message}"
+        "installFailed": "Installation failed: {message}"
+      },
+      "camera": {
+        "title": "Set up your camera",
+        "description": "Many cameras are supported natively. Pick yours from the list below — an INDI driver is only needed if it does not show up there.",
+        "connectDevice": "Device",
+        "connected": "Camera connected: {name}",
+        "notFound": "Camera not listed?",
+        "notFoundHint": "If your camera is not natively supported, select an INDI driver for it here. Afterwards it appears in the device list above.",
+        "selectDriver": "INDI driver",
+        "noThirdPartyHint": "Camera drivers cannot be installed through the PINS package management — only mounts, focusers, filter wheels, rotators, switches, flat panels and weather devices can.",
+        "sensorTitle": "Sensor parameters",
+        "chipSizeReported": "Reported by the camera: {width} × {height} px",
+        "chipSizeMatches": "Matches the profile.",
+        "chipSizeDiffers": "The profile currently holds {width} × {height} px.",
+        "chipSizeApply": "Apply to profile",
+        "chipSizeManualHint": "Your camera does not report its sensor size — typical for DSLRs. Please enter it manually.",
+        "chipWidth": "Chip width (px)",
+        "chipHeight": "Chip height (px)",
+        "pixelSize": "Pixel size (µm)",
+        "pixelSizeHint": "The pixel size is not reported by the driver. You will find it in your camera's manual.",
+        "imageScale": "Resulting image scale: {scale} arcsec/px",
+        "applyFailed": "Could not save: {message}"
       },
       "done": {
-        "title": "Mount is ready",
-        "description": "Your rig is connected, up to date, and the mount is configured.",
-        "moreDevicesHint": "Camera, focuser, filter wheel and guiding follow in a later step of this assistant."
+        "title": "Camera is ready",
+        "description": "Your rig is connected, up to date, and mount and camera are configured.",
+        "moreDevicesHint": "Focuser, filter wheel and guiding follow in a later step of this assistant."
       }
     },
     "settings": {

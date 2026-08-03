@@ -110,11 +110,12 @@
 </template>
 
 <script setup>
-import { computed, ref, watch } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { ChevronDownIcon } from '@heroicons/vue/24/outline';
 import apiPinsService from '@/services/apiPinsService';
 import { apiStore } from '@/store/store';
+import { useEquipmentStore } from '@/store/equipmentStore';
 import Modal from '@/components/helpers/Modal.vue';
 import selectDevices from '@/components/equipment/selectDevices.vue';
 import SettingsAlpacaDirect from '@/components/equipment/SettingsAlpacaDirect.vue';
@@ -133,6 +134,7 @@ import { pollJobUntilFinished } from '@/plugins/pins/composables/pinsJobPolling'
 const emit = defineEmits(['completed']);
 const { t } = useI18n();
 const store = apiStore();
+const equipmentStore = useEquipmentStore();
 
 const driverSelect = ref(null);
 const showMountSettings = ref(false);
@@ -170,6 +172,14 @@ watch(
   { immediate: true }
 );
 
+onMounted(async () => {
+  // The wizard can open over any route, so the profile may be stale or unread.
+  // Fetch it first, then reload the device list - selectDevices only resolves
+  // its preselection once defaultDeviceId is current.
+  await store.fetchProfilInfos();
+  equipmentStore.triggerReload();
+});
+
 async function loadDrivers() {
   if (isLoadingDrivers.value) return;
   isLoadingDrivers.value = true;
@@ -185,7 +195,7 @@ async function loadDrivers() {
     }
   } catch (error) {
     console.error('[PinsWizard] 3rd party driver list failed:', error);
-    installStatus.value = t('components.pinsWizard.mount.driverListFailed', {
+    installStatus.value = t('components.pinsWizard.driver.listFailed', {
       message: error.message,
     });
   } finally {

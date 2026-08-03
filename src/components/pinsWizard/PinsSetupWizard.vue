@@ -83,6 +83,11 @@
                 @completed="handleStepCompleted"
               />
 
+              <WizardCameraStep
+                v-else-if="currentStep.id === 'camera'"
+                @completed="handleStepCompleted"
+              />
+
               <!-- Done -->
               <div v-else class="flex flex-col gap-4">
                 <h2 class="text-xl font-semibold text-content">
@@ -134,6 +139,7 @@ import { usePinsStore } from '@/plugins/pins/store/pinsStore';
 import WizardWifiStep from './steps/WizardWifiStep.vue';
 import WizardUpdatesStep from './steps/WizardUpdatesStep.vue';
 import WizardMountStep from './steps/WizardMountStep.vue';
+import WizardCameraStep from './steps/WizardCameraStep.vue';
 
 const emit = defineEmits(['close']);
 
@@ -148,6 +154,7 @@ const steps = [
   { id: 'wifi', labelKey: 'components.pinsWizard.steps.wifi', skippable: true },
   { id: 'updates', labelKey: 'components.pinsWizard.steps.updates', skippable: true },
   { id: 'mount', labelKey: 'components.pinsWizard.steps.mount', skippable: true },
+  { id: 'camera', labelKey: 'components.pinsWizard.steps.camera', skippable: true },
   { id: 'done', labelKey: 'components.pinsWizard.steps.done', skippable: false },
 ];
 

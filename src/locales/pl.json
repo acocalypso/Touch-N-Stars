@@ -185,6 +185,82 @@
       "next": "Następny",
       "skip": "Pomiń samouczek"
     },
+    "pinsWizard": {
+      "title": "PINS Setup Assistant",
+      "restart": "Start PINS setup assistant",
+      "stepCounter": "Step {current} of {total}",
+      "next": "Next",
+      "back": "Back",
+      "skip": "Skip",
+      "finish": "Finish",
+      "remindLater": "Remind me later",
+      "steps": {
+        "welcome": "Welcome",
+        "wifi": "Wi-Fi",
+        "updates": "Updates",
+        "mount": "Mount",
+        "done": "Done"
+      },
+      "welcome": {
+        "title": "Let's set up your PINS rig",
+        "description": "This assistant guides you through the basic configuration of your rig, one step at a time. You can skip any step and come back later."
+      },
+      "wifi": {
+        "title": "Connect the rig to Wi-Fi",
+        "description": "Connect your rig to your home or field network so it can reach the internet and you can reach the rig.",
+        "loadingStatus": "Reading Wi-Fi status…",
+        "connectedTo": "Connected to {ssid}",
+        "notConnected": "The rig is not connected to a Wi-Fi network.",
+        "chooseOtherNetwork": "Choose a different network",
+        "scan": "Scan for networks",
+        "scanning": "Scanning…",
+        "selectNetwork": "Select network",
+        "password": "Password",
+        "passwordPlaceholder": "Network password",
+        "autoConnect": "Connect to this network automatically",
+        "connect": "Connect",
+        "connecting": "Connecting…",
+        "noNetworks": "No networks found. Move the rig closer to your router and scan again.",
+        "transitionHint": "The rig changes its address while switching networks. Looking for it again…",
+        "retryFind": "Find rig again",
+        "scanFailed": "Wi-Fi scan failed: {message}",
+        "connectFailed": "Connection failed: {message}",
+        "retryFailed": "Could not find the rig: {message}"
+      },
+      "updates": {
+        "title": "Check for updates",
+        "description": "Keep the rig software up to date before you configure your equipment.",
+        "checking": "Checking for updates…",
+        "upToDate": "The rig software is up to date.",
+        "available": "{count} update(s) available",
+        "startUpgrade": "Update now",
+        "upgradeHint": "The rig restarts services during the update. Keep the app open until it is finished.",
+        "recheck": "Check again",
+        "checkFailed": "Update check failed: {message}",
+        "upgradeFailed": "Could not start the update: {message}"
+      },
+      "mount": {
+        "title": "Set up your mount",
+        "description": "Pick the INDI driver for your mount, then connect it.",
+        "selectDriver": "INDI driver",
+        "loadingDrivers": "Loading drivers…",
+        "applyingDriver": "Applying driver…",
+        "connectDevice": "Device",
+        "connected": "Mount connected: {name}",
+        "notFound": "Mount not listed?",
+        "notFoundHint": "If your mount is missing, its driver may not be installed yet. Search the 3rd party INDI drivers and install the matching one.",
+        "installing": "Installing {label}…",
+        "installSuccess": "{label} installed. Select it in the driver list above.",
+        "installFailed": "Installation failed: {message}",
+        "driverListFailed": "Could not load drivers: {message}",
+        "driverChangeFailed": "Could not apply the driver: {message}"
+      },
+      "done": {
+        "title": "Mount is ready",
+        "description": "Your rig is connected, up to date, and the mount is configured.",
+        "moreDevicesHint": "Camera, focuser, filter wheel and guiding follow in a later step of this assistant."
+      }
+    },
     "fileBrowser": {
       "title": "Browse",
       "goUp": "Go up one level",

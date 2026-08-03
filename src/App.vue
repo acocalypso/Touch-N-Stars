@@ -173,6 +173,8 @@
     </div>
     <!-- Tutorial Modal -->
     <TutorialModal v-if="showTutorial" :steps="tutorialSteps" @close="closeTutorial" />
+    <!-- PINS Setup Wizard -->
+    <PinsSetupWizard v-if="showPinsWizard" @close="closePinsWizard" />
     <!-- Error Modal -->
     <ToastModal v-if="settingsStore.setupCompleted || store.setupCheckConnectionDone" />
     <!-- Debug Console -->
@@ -396,6 +398,9 @@ import { PINS_PORT, DEFAULT_PINS_DAEMON_API_TOKEN as PINS_TOKEN } from '@/servic
 
 const SkyAtlasView = defineAsyncComponent(() => import('./views/CelestiaAtlasView.vue'));
 const TutorialModal = defineAsyncComponent(() => import('@/components/TutorialModal.vue'));
+const PinsSetupWizard = defineAsyncComponent(
+  () => import('@/components/pinsWizard/PinsSetupWizard.vue')
+);
 const ConsoleViewer = defineAsyncComponent(() => import('@/components/helpers/ConsoleViewer.vue'));
 const SettingsComp = defineAsyncComponent(() => import('@/components/SettingsComp.vue'));
 const WhatsNewModal = defineAsyncComponent(() => import('@/components/helpers/WhatsNewModal.vue'));
@@ -506,6 +511,11 @@ const showSettingsModal = ref(false);
 const showWhatsNew = ref(false);
 const whatsNewData = ref(null);
 const whatsNewPending = ref(false);
+const showPinsWizard = ref(false);
+const pinsWizardPending = ref(false);
+// "Remind me later" must hold for this session even though isPINS can flip back
+// and forth while the backend reconnects.
+const pinsWizardDismissed = ref(false);
 const connectionCheckCompleted = ref(false);
 const { t } = useI18n();
 // Reconnecting after being backgrounded routinely takes up to ~12s on its own (Android
@@ -1300,7 +1310,7 @@ onMounted(async () => {
       const lastShownVersion = localStorage.getItem('tns.whatsnew.version');
       const shouldShow = data?.version && data.version !== lastShownVersion;
       if (shouldShow) {
-        if (!showTutorial.value) {
+        if (!showTutorial.value && !showPinsWizard.value && !pinsWizardPending.value) {
           showWhatsNew.value = true;
         } else {
           whatsNewPending.value = true;
@@ -1364,14 +1374,50 @@ watch(
   }
 );
 
-function closeTutorial() {
-  showTutorial.value = false;
-  settingsStore.completeTutorial();
+// Onboarding overlays run one at a time: tutorial -> PINS wizard -> What's New.
+function releaseWhatsNew() {
   if (whatsNewPending.value && whatsNewData.value) {
     showWhatsNew.value = true;
     whatsNewPending.value = false;
   }
 }
+
+function closeTutorial() {
+  showTutorial.value = false;
+  settingsStore.completeTutorial();
+  if (pinsWizardPending.value) {
+    pinsWizardPending.value = false;
+    showPinsWizard.value = true;
+    return;
+  }
+  releaseWhatsNew();
+}
+
+function closePinsWizard() {
+  showPinsWizard.value = false;
+  pinsWizardDismissed.value = true;
+  releaseWhatsNew();
+}
+
+watch(
+  () => [store.isPINS, settingsStore.setupCompleted, settingsStore.pinsWizard.completed],
+  ([, , completed], [, , wasCompleted] = []) => {
+    // An explicit reset (settings button) reopens the wizard even after the user
+    // dismissed it earlier in this session.
+    if (wasCompleted && !completed) {
+      pinsWizardDismissed.value = false;
+    }
+
+    const shouldOffer = store.isPINS && settingsStore.setupCompleted && !completed;
+    if (!shouldOffer || showPinsWizard.value || pinsWizardDismissed.value) return;
+
+    if (showTutorial.value) {
+      pinsWizardPending.value = true;
+    } else {
+      showPinsWizard.value = true;
+    }
+  }
+);
 
 function dismissWhatsNew() {
   showWhatsNew.value = false;

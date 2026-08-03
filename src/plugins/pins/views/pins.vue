@@ -10,6 +10,14 @@
           <span>{{ $t('plugins.pins.title') }}</span>
         </h5>
 
+        <button
+          v-if="store.isPINS"
+          class="tns-btn-secondary mb-4"
+          @click="settingsStore.resetPinsWizard()"
+        >
+          {{ $t('components.pinsWizard.restart') }}
+        </button>
+
         <!-- Control Panel -->
         <div v-if="store.isPINS" class="flex flex-col space-y-6 animate-fade-in-up">
           <template v-if="activeTab === 'network'">
@@ -281,6 +289,7 @@ import {
   parseIndiInstallJobId,
 } from '../composables/indiInstallUtils';
 import { createHotspotSettingsApi } from '../composables/hotspotSettingsApi';
+import { parseJobIdFromResponse, pollJobUntilFinished } from '../composables/pinsJobPolling';
 import { WifiSignal } from '@/utils/wifiSignal';
 import { PINS_PORT as PORT, DEFAULT_PINS_DAEMON_API_TOKEN as TOKEN } from '@/services/pinsConfig';
 import { usePolling } from '@/composables/usePolling';
@@ -633,62 +642,6 @@ async function loadPinsPlugins() {
   }
 }
 
-function parseJobIdFromResponse(data) {
-  if (data && typeof data === 'object' && data.jobId) {
-    return data.jobId;
-  }
-  if (typeof data === 'string' || typeof data === 'number') {
-    return data;
-  }
-  return null;
-}
-
-function isJobSuccess(result) {
-  const statusValue = String(result?.status || '').toLowerCase();
-  return (
-    statusValue === 'success' ||
-    statusValue === 'completed' ||
-    result?.exit_code === 0 ||
-    result?.exitCode === 0 ||
-    result?.success === true
-  );
-}
-
-function isJobFailed(result) {
-  const statusValue = String(result?.status || '').toLowerCase();
-  return (
-    statusValue === 'failed' ||
-    (typeof result?.exit_code === 'number' && result.exit_code !== 0) ||
-    (typeof result?.exitCode === 'number' && result.exitCode !== 0) ||
-    result?.success === false
-  );
-}
-
-async function pollJobUntilFinished(id, { intervalMs = 2000, maxAttempts = 120 } = {}) {
-  let lastStatus = null;
-  for (let attempt = 0; attempt < maxAttempts; attempt++) {
-    const result = (await apiPinsService.getPinsDaemonJob(id)) || {};
-    const currentStatus = String(result.status || '').toLowerCase();
-
-    if (currentStatus && currentStatus !== lastStatus) {
-      appendLog(t('plugins.pins.logs.jobStatus', { status: currentStatus }));
-      lastStatus = currentStatus;
-    }
-
-    if (isJobSuccess(result)) {
-      return { success: true, result };
-    }
-
-    if (isJobFailed(result)) {
-      return { success: false, result };
-    }
-
-    await new Promise((resolve) => setTimeout(resolve, intervalMs));
-  }
-
-  return { success: false, result: { status: 'timeout' } };
-}
-
 async function runPinsPluginAction(action, packageName) {
   if (status.value === 'Running' || pinsPluginsBusyPackage.value) return;
 
@@ -723,7 +676,10 @@ async function runPinsPluginAction(action, packageName) {
 
     appendLog(t('plugins.pins.logs.jobCreated', { jobId: returnedJobId }));
 
-    const pollResult = await pollJobUntilFinished(returnedJobId);
+    const pollResult = await pollJobUntilFinished(returnedJobId, {
+      onStatusChange: (jobStatus) =>
+        appendLog(t('plugins.pins.logs.jobStatus', { status: jobStatus })),
+    });
     if (pollResult.success) {
       status.value = 'Success';
       appendLog(t('plugins.pins.logs.pluginActionSuccess', { packageName }));

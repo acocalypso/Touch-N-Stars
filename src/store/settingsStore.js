@@ -66,6 +66,13 @@ export const useSettingsStore = defineStore('settings', {
       selectTargetVisited: false,
       statusBarButtonsVisited: false,
     },
+    // Guided PINS rig configuration (WiFi -> updates -> equipment).
+    // currentStep is persisted because a PINS upgrade restarts the daemon and
+    // reloads the app mid-wizard - it has to resume where it left off.
+    pinsWizard: {
+      completed: localStorage.getItem('pinsWizardCompleted') === 'true',
+      currentStep: 1,
+    },
     framing: {
       useNinaCache: true,
     },
@@ -591,6 +598,22 @@ export const useSettingsStore = defineStore('settings', {
     resetTutorial() {
       this.tutorial.completed = false;
       localStorage.removeItem('tutorialCompleted');
+    },
+
+    setPinsWizardStep(step) {
+      this.pinsWizard.currentStep = step;
+    },
+
+    completePinsWizard() {
+      this.pinsWizard.completed = true;
+      this.pinsWizard.currentStep = 1;
+      localStorage.setItem('pinsWizardCompleted', 'true');
+    },
+
+    resetPinsWizard() {
+      this.pinsWizard.completed = false;
+      this.pinsWizard.currentStep = 1;
+      localStorage.removeItem('pinsWizardCompleted');
     },
 
     toggleUnits() {

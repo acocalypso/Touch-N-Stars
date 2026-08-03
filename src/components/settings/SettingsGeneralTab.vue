@@ -232,6 +232,9 @@
       <button @click="showTutorial" class="tns-btn-secondary w-full">
         {{ $t('components.settings.showTutorial') }}
       </button>
+      <button v-if="store.isPINS" @click="restartPinsWizard" class="tns-btn-secondary w-full">
+        {{ $t('components.pinsWizard.restart') }}
+      </button>
     </div>
 
     <!-- Debug settings -->
@@ -411,6 +414,11 @@ const emit = defineEmits(['show-tutorial', 'restart-system', 'shutdown-system'])
 
 const showTutorial = () => {
   emit('show-tutorial');
+};
+
+// Clearing the completed flag is enough: App.vue watches it and reopens the wizard.
+const restartPinsWizard = () => {
+  settingsStore.resetPinsWizard();
 };
 
 // System actions

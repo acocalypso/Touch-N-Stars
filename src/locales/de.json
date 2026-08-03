@@ -226,6 +226,82 @@
       "next": "Weiter",
       "skip": "Tutorial überspringen"
     },
+    "pinsWizard": {
+      "title": "PINS Einrichtungsassistent",
+      "restart": "PINS Einrichtungsassistent starten",
+      "stepCounter": "Schritt {current} von {total}",
+      "next": "Weiter",
+      "back": "Zurück",
+      "skip": "Überspringen",
+      "finish": "Fertig",
+      "remindLater": "Später erinnern",
+      "steps": {
+        "welcome": "Willkommen",
+        "wifi": "WLAN",
+        "updates": "Updates",
+        "mount": "Montierung",
+        "done": "Fertig"
+      },
+      "welcome": {
+        "title": "Lass uns dein PINS-Rig einrichten",
+        "description": "Dieser Assistent führt dich Schritt für Schritt durch die Grundkonfiguration deines Rigs. Du kannst jeden Schritt überspringen und später zurückkommen."
+      },
+      "wifi": {
+        "title": "Rig mit dem WLAN verbinden",
+        "description": "Verbinde dein Rig mit deinem Heim- oder Feldnetzwerk, damit es das Internet erreicht und du das Rig erreichst.",
+        "loadingStatus": "WLAN-Status wird gelesen…",
+        "connectedTo": "Verbunden mit {ssid}",
+        "notConnected": "Das Rig ist mit keinem WLAN verbunden.",
+        "chooseOtherNetwork": "Anderes Netzwerk wählen",
+        "scan": "Netzwerke suchen",
+        "scanning": "Suche läuft…",
+        "selectNetwork": "Netzwerk auswählen",
+        "password": "Passwort",
+        "passwordPlaceholder": "Netzwerkpasswort",
+        "autoConnect": "Automatisch mit diesem Netzwerk verbinden",
+        "connect": "Verbinden",
+        "connecting": "Verbinde…",
+        "noNetworks": "Keine Netzwerke gefunden. Bringe das Rig näher an deinen Router und suche erneut.",
+        "transitionHint": "Das Rig ändert beim Netzwerkwechsel seine Adresse. Es wird erneut gesucht…",
+        "retryFind": "Rig erneut suchen",
+        "scanFailed": "WLAN-Suche fehlgeschlagen: {message}",
+        "connectFailed": "Verbindung fehlgeschlagen: {message}",
+        "retryFailed": "Rig konnte nicht gefunden werden: {message}"
+      },
+      "updates": {
+        "title": "Auf Updates prüfen",
+        "description": "Halte die Rig-Software aktuell, bevor du dein Equipment konfigurierst.",
+        "checking": "Suche nach Updates…",
+        "upToDate": "Die Rig-Software ist aktuell.",
+        "available": "{count} Update(s) verfügbar",
+        "startUpgrade": "Jetzt aktualisieren",
+        "upgradeHint": "Das Rig startet während des Updates Dienste neu. Lass die App geöffnet, bis es fertig ist.",
+        "recheck": "Erneut prüfen",
+        "checkFailed": "Update-Prüfung fehlgeschlagen: {message}",
+        "upgradeFailed": "Update konnte nicht gestartet werden: {message}"
+      },
+      "mount": {
+        "title": "Montierung einrichten",
+        "description": "Wähle den INDI-Treiber für deine Montierung und verbinde sie anschließend.",
+        "selectDriver": "INDI-Treiber",
+        "loadingDrivers": "Treiber werden geladen…",
+        "applyingDriver": "Treiber wird übernommen…",
+        "connectDevice": "Gerät",
+        "connected": "Montierung verbunden: {name}",
+        "notFound": "Montierung nicht in der Liste?",
+        "notFoundHint": "Wenn deine Montierung fehlt, ist ihr Treiber vermutlich noch nicht installiert. Durchsuche die INDI-Treiber von Drittanbietern und installiere den passenden.",
+        "installing": "{label} wird installiert…",
+        "installSuccess": "{label} installiert. Wähle den Treiber oben in der Liste aus.",
+        "installFailed": "Installation fehlgeschlagen: {message}",
+        "driverListFailed": "Treiber konnten nicht geladen werden: {message}",
+        "driverChangeFailed": "Treiber konnte nicht übernommen werden: {message}"
+      },
+      "done": {
+        "title": "Montierung ist bereit",
+        "description": "Dein Rig ist verbunden, aktuell und die Montierung ist konfiguriert.",
+        "moreDevicesHint": "Kamera, Fokussierer, Filterrad und Guiding folgen in einem späteren Schritt dieses Assistenten."
+      }
+    },
     "fileBrowser": {
       "title": "Durchsuchen",
       "goUp": "Eine Ebene höher",

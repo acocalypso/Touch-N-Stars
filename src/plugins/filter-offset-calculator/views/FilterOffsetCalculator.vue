@@ -80,6 +80,14 @@
           {{ $t('plugins.filterOffset.errorLabel') }}: {{ status.Error }}
         </div>
 
+        <!-- What the failed run managed to measure before it died — kept by the backend on error
+             precisely because that is when it is worth reading. -->
+        <MeasurementBoard
+          v-if="status.State === 'Error' && (status.Measurements ?? []).length"
+          :measurements="status.Measurements"
+          :total-loops="status.TotalLoops"
+        />
+
         <!-- Connection warnings -->
         <div v-if="connectionWarnings.length" class="space-y-1">
           <div
@@ -156,6 +164,15 @@
           </p>
         </div>
 
+        <!-- Per-iteration AutoFocus results, filling in as the run progresses. Withheld until there
+             is something in it, which also keeps a permanently empty panel off the screen when the
+             frontend is newer than the plugin and no measurements are ever sent. -->
+        <MeasurementBoard
+          v-if="(status.Measurements ?? []).length"
+          :measurements="status.Measurements"
+          :total-loops="status.TotalLoops"
+        />
+
         <!-- Stop button -->
         <button
           class="w-full rounded-xl bg-red-700 px-6 py-3 font-semibold text-white transition hover:bg-red-600"
@@ -167,6 +184,15 @@
 
       <!-- ── Result / pending dialog section ───────────────────────────────── -->
       <section v-else-if="status.State === 'PendingResult' && result" class="space-y-5">
+        <!-- Without the base filter there is nothing to state the others against, so every offset
+             below is 0 — which otherwise looks like a real result. -->
+        <div
+          v-if="result.BaseFilterUnmeasured"
+          class="rounded-xl border border-red-700/50 bg-red-900/30 p-4 text-sm leading-relaxed text-red-300"
+        >
+          {{ $t('plugins.filterOffset.baseFilterUnmeasured') }}
+        </div>
+
         <!-- Old / New offsets side by side -->
         <div class="grid grid-cols-2 gap-4">
           <!-- Old offsets -->
@@ -236,6 +262,19 @@
           </div>
         </div>
 
+        <!-- What the offsets above were computed from. The offsets are handed in rather than taken
+             from the details, so the board's last column is the same number as the table above it:
+             the details carry the run's own base-filter anchoring, which differs by a constant from
+             the anchoring the user picks in the dropdown. -->
+        <MeasurementBoard
+          v-if="(status.Measurements ?? []).length"
+          :measurements="status.Measurements"
+          :details="result.Details ?? []"
+          :offsets="displayedNewOffsets"
+          :total-loops="status.TotalLoops"
+          :temperature-drift="result.TemperatureDrift ?? 0"
+        />
+
         <!-- Old AutoFocus filter -->
         <div
           class="flex items-center gap-4 rounded-xl border border-gray-700/70 bg-gray-900/50 px-5 py-3"
@@ -276,11 +315,16 @@
           {{ $t('plugins.filterOffset.errorLabel') }}: {{ applyError }}
         </div>
 
-        <!-- Accept / Abort buttons -->
+        <!-- Accept / Abort buttons. Accepting an all-zero result is never what anyone wants: it does
+             not merely fail to improve the profile, it flattens the real offsets of every filter the
+             run covered, and the banner above is easy to tap past on a phone. Discard stays open. -->
         <div class="grid grid-cols-2 gap-3">
           <button
-            class="rounded-xl bg-green-700 px-6 py-3 font-semibold text-white transition hover:bg-green-600"
-            :disabled="loading"
+            class="rounded-xl bg-green-700 px-6 py-3 font-semibold text-white transition hover:bg-green-600 disabled:cursor-not-allowed disabled:opacity-40"
+            :disabled="loading || result.BaseFilterUnmeasured"
+            :title="
+              result.BaseFilterUnmeasured ? $t('plugins.filterOffset.baseFilterUnmeasured') : ''
+            "
             @click="applyResult"
           >
             {{ $t('plugins.filterOffset.accept') }}
@@ -306,6 +350,7 @@ import axios from 'axios';
 import { getActivePinia } from 'pinia';
 import { apiStore } from '@/store/store';
 import { useToastStore } from '@/store/toastStore';
+import MeasurementBoard from '../components/MeasurementBoard.vue';
 
 const { t } = useI18n();
 const store = apiStore();
@@ -335,6 +380,7 @@ const status = ref({
   TotalFilters: 0,
   CurrentFilterName: '',
   Error: '',
+  Measurements: [],
 });
 
 const result = ref(null);
@@ -453,6 +499,14 @@ async function fetchStatus() {
     const { data } = await axios.get(`${getApiUrl()}/filter-offset/status`);
     if (data.Success) {
       status.value = data.Response;
+
+      // A run starting means whatever result this client is still holding belongs to a previous one
+      // — another tab (or another client) accepted or discarded it and started over. Dropping it here
+      // is what makes the next PendingResult fetch the new result instead of keeping the old one,
+      // which would otherwise put one run's offsets on screen next to another run's measurements.
+      if (data.Response.State === 'Running' && result.value) {
+        result.value = null;
+      }
 
       if (data.Response.State === 'PendingResult' && !result.value) {
         await fetchResult();

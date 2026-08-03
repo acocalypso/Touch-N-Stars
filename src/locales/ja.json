@@ -4147,7 +4147,25 @@
       "applyFailed": "オフセットを適用できませんでした",
       "tooFewIterations": "反復が 3 回未満の場合、失敗したオートフォーカスまたは不正確なオートフォーカスは検出できず、オフセットに平均化されます。\n信頼性の高い結果を得るには、3 つ以上を使用します。",
       "confirmStopMessage": "それまでに行われたすべての測定値は破棄され、プロファイルは以前の状態に復元されます。",
-      "confirmStopTitle": "計算をやめますか?"
+      "confirmStopTitle": "計算をやめますか?",
+      "baseFilterUnmeasured": "実行の最初のフィルターでは使用可能な AutoFocus 測定値が生成されなかったため、他のフィルターを比較するものは何もありませんでした。以下のオフセットはすべて 0 であり、結果は使用できません。\nそれを破棄して計算を再実行します。",
+      "board": "オートフォーカス測定",
+      "boardHint": "フィルターごとに 1 行、反復ごとに 1 列で、AutoFocus が見つけたフォーカス位置を示します。\n取り消し線の値は外れ値として破棄されました。 \n* は、最初の AutoFocus が失敗し、繰り返された反復を示します。",
+      "cutoffTooltip": "サンプルが破棄されるには、{median} の中央値から {cutoff} ステップを超える必要がありました。",
+      "cutoffUnavailable": "外れ値の除去には少なくとも 3 回の測定が必要なので、何も破棄できません。",
+      "drift": "走行中のフォーカスドリフト",
+      "estimatedFocusTooltip": "実行開始時のドリフト補正されたフォーカス: {focus}。",
+      "measurementFailed": "AutoFocus は使用可能な測定値を生成しませんでした",
+      "noMeasurements": "まだ測定はありません",
+      "notMeasuredYet": "まだ測定されていません",
+      "rejectedTooltip": "外れ値として破棄されました: {deviation} は {median} の中央値から離れています。",
+      "rejectedTooltipNoMedian": "外れ値として破棄されます。",
+      "retriedTooltip": "この反復の最初の AutoFocus の試行は失敗し ({failure})、繰り返されました。",
+      "samplesUsed": "使用済み",
+      "spread": "広める",
+      "stepsPerLoop": "{value} ステップ/反復",
+      "summaryTooltip": "{loops} 回の反復のうち {measured} 回で測定値が生成され、{used} がオフセットに使用されました。",
+      "summaryTooltipPending": "これまでに、{loops} 回中 {measured} 回の反復で測定値が生成されました。"
     },
     "phd2logviewer": {
       "cal": {

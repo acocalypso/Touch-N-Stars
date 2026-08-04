@@ -9,8 +9,10 @@
       </p>
     </div>
 
-    <!-- 1. INDI driver -->
+    <!-- 1. INDI driver. PINS only: the driver list comes from the plugin's
+         indi/* routes, which a plain NINA backend does not serve. -->
     <IndiDriverSelect
+      v-if="store.isPINS"
       ref="driverSelect"
       deviceType="telescope"
       settingPath="TelescopeSettings-IndiDriver"
@@ -45,8 +47,9 @@
     </div>
 
     <!-- 3. Mount not found -> 3rd party driver. Collapsed by default so the step
-         stays focused, but everything inside opens at once. -->
-    <button class="tns-btn-secondary" @click="toggleNotFound">
+         stays focused, but everything inside opens at once. PINS only: the
+         packages come from the daemon on port 8000. -->
+    <button v-if="store.isPINS" class="tns-btn-secondary" @click="toggleNotFound">
       <ChevronDownIcon
         class="w-5 h-5 transition-transform"
         :class="{ 'rotate-180': showNotFound }"
@@ -54,7 +57,7 @@
       {{ t('components.setupWizard.mount.notFound') }}
     </button>
 
-    <div v-if="showNotFound" class="flex flex-col gap-3">
+    <div v-if="store.isPINS && showNotFound" class="flex flex-col gap-3">
       <p class="text-sm text-content-muted">
         {{ t('components.setupWizard.mount.notFoundHint') }}
       </p>

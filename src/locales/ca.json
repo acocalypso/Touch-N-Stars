@@ -429,6 +429,7 @@
       "done": {
         "title": "Your equipment is ready",
         "description": "Your rig is connected, up to date, and mount, camera, focuser, filter wheel and guiding are configured.",
+        "descriptionPlain": "Mount, camera, focuser, filter wheel and your location are configured.",
         "moreDevicesHint": "Flat panel, weather and the remaining devices are configured on their own pages.",
         "noConnectionHint": "No connection to a rig yet. You can add one under Settings → Connection at any time."
       },

@@ -34,8 +34,10 @@
       </p>
     </div>
 
-    <!-- 2. Only if the camera is not natively detected: pick an INDI driver. -->
-    <button class="tns-btn-secondary" @click="toggleNotFound">
+    <!-- 2. Only if the camera is not natively detected: pick an INDI driver.
+         PINS only - both the driver list (plugin indi/* routes) and the package
+         install (daemon on port 8000) are unavailable on a plain NINA backend. -->
+    <button v-if="store.isPINS" class="tns-btn-secondary" @click="toggleNotFound">
       <ChevronDownIcon
         class="w-5 h-5 transition-transform"
         :class="{ 'rotate-180': showNotFound }"
@@ -43,7 +45,7 @@
       {{ t('components.setupWizard.camera.notFound') }}
     </button>
 
-    <div v-if="showNotFound" class="flex flex-col gap-3">
+    <div v-if="store.isPINS && showNotFound" class="flex flex-col gap-3">
       <p class="text-sm text-content-muted">
         {{ t('components.setupWizard.camera.notFoundHint') }}
       </p>

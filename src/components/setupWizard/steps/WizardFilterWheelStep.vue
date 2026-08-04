@@ -9,8 +9,10 @@
       </p>
     </div>
 
-    <!-- 1. INDI driver -->
+    <!-- 1. INDI driver. PINS only: the driver list comes from the plugin's
+         indi/* routes, which a plain NINA backend does not serve. -->
     <IndiDriverSelect
+      v-if="store.isPINS"
       ref="driverSelect"
       deviceType="filterwheel"
       settingPath="FilterWheelSettings-IndiDriver"
@@ -55,8 +57,12 @@
       :selectedDeviceObj="slotNumDeviceObj"
     />
 
-    <!-- 4. Filter names -->
-    <div v-if="store.filterInfo?.Connected && filters.length" class="flex flex-col gap-2">
+    <!-- 4. Filter names. PINS only: on a plain NINA backend the wheel connects
+         but its filters are managed in NINA itself, not from here. -->
+    <div
+      v-if="store.isPINS && store.filterInfo?.Connected && filters.length"
+      class="flex flex-col gap-2"
+    >
       <span class="text-xs font-semibold uppercase text-content-muted">
         {{ t('components.setupWizard.filterWheel.filterNames') }}
       </span>
@@ -73,8 +79,9 @@
       />
     </div>
 
-    <!-- 5. Filter wheel not found -> 3rd party driver. -->
-    <button class="tns-btn-secondary" @click="toggleNotFound">
+    <!-- 5. Filter wheel not found -> 3rd party driver. PINS only: the packages
+         come from the daemon on port 8000. -->
+    <button v-if="store.isPINS" class="tns-btn-secondary" @click="toggleNotFound">
       <ChevronDownIcon
         class="w-5 h-5 transition-transform"
         :class="{ 'rotate-180': showNotFound }"
@@ -82,7 +89,7 @@
       {{ t('components.setupWizard.filterWheel.notFound') }}
     </button>
 
-    <div v-if="showNotFound" class="flex flex-col gap-3">
+    <div v-if="store.isPINS && showNotFound" class="flex flex-col gap-3">
       <p class="text-sm text-content-muted">
         {{ t('components.setupWizard.filterWheel.notFoundHint') }}
       </p>

@@ -103,7 +103,11 @@
                   {{ t('components.setupWizard.done.title') }}
                 </h2>
                 <p class="text-sm text-content-muted">
-                  {{ t('components.setupWizard.done.description') }}
+                  {{
+                    store.isPINS
+                      ? t('components.setupWizard.done.description')
+                      : t('components.setupWizard.done.descriptionPlain')
+                  }}
                 </p>
                 <p class="text-sm text-content-faint">
                   {{ t('components.setupWizard.done.moreDevicesHint') }}
@@ -175,31 +179,37 @@ function step(id) {
 }
 
 /**
- * The list is dynamic: the instance step only exists on mobile, and every rig
- * step depends on isPINS - which only flips once the instance step established
- * a connection. Adding a device step means one entry here plus one v-else-if
+ * The list is dynamic: the instance step only exists on mobile, and the rig-only
+ * steps depend on isPINS - which flips once the instance step established a
+ * connection. Adding a device step means one entry here plus one v-else-if
  * branch above; nothing else in the shell is step-aware.
+ *
+ * Only four steps are genuinely PINS-only. Mount, camera, focuser and filter
+ * wheel connect through the NINA Advanced API and work on any backend - they
+ * hide their own INDI blocks instead of disappearing entirely.
  */
 const steps = computed(() => [
   step('welcome'),
   step('language'),
   step('info'),
   ...(isMobile ? [step('instance')] : []),
-  ...(store.isPINS ? [step('wifi'), step('updates'), step('mount'), step('slewRate')] : []),
+  // Wi-Fi and updates talk to the PINS daemon on port 8000.
+  ...(store.isPINS ? [step('wifi'), step('updates')] : []),
+  // Mount before location: the location sync needs a connected mount.
+  step('mount'),
+  // IndiMaxSlewRateDps is an INDI driver limit and meaningless without it.
+  ...(store.isPINS ? [step('slewRate')] : []),
   step('location'),
   // Telescope before camera on purpose: the camera step's image-scale readout
   // needs TelescopeSettings.FocalLength to be set.
-  ...(store.isPINS
-    ? [
-        step('telescope'),
-        step('camera'),
-        step('focuser'),
-        step('filterWheel'),
-        // Guider last on purpose: PHD2 needs a connected mount, and the dither
-        // calculator needs the camera and telescope values from the steps above.
-        step('guider'),
-      ]
-    : []),
+  step('telescope'),
+  step('camera'),
+  step('focuser'),
+  step('filterWheel'),
+  // Guiding runs through PHD2, which is only reachable on PINS. Last on purpose:
+  // PHD2 needs a connected mount, and the dither calculator needs the camera and
+  // telescope values from the steps above.
+  ...(store.isPINS ? [step('guider')] : []),
   step('done'),
 ]);
 

@@ -134,7 +134,6 @@ import {
   rigConnectionState,
 } from '@/services/rigConnectionSupervisor';
 
-const emit = defineEmits(['completed']);
 const { t } = useI18n();
 
 const wifiStatus = ref(null);
@@ -176,9 +175,6 @@ async function loadStatus() {
   isLoadingStatus.value = true;
   try {
     wifiStatus.value = (await apiPinsService.getPinsWifiStatus()) || null;
-    if (wifiStatus.value?.connected) {
-      emit('completed');
-    }
   } catch (error) {
     console.error('[PinsWizard] WiFi status failed:', error);
     wifiStatus.value = null;

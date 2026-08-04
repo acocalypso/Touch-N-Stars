@@ -142,7 +142,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref, watch } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { ArrowPathIcon, MapPinIcon } from '@heroicons/vue/24/outline';
 import { apiStore } from '@/store/store';
@@ -161,7 +161,6 @@ import {
   formatCoord,
 } from '@/utils/location';
 
-const emit = defineEmits(['completed']);
 const { t } = useI18n();
 const store = apiStore();
 const locationStore = useLocationStore();
@@ -187,14 +186,6 @@ const coordsMismatch = computed(() => {
     ([a, b]) => a !== null && b !== null && Math.abs(Number(a) - Number(b)) > COORD_TOLERANCE
   );
 });
-
-watch(
-  () => [ninaCoords.value.latitude, ninaCoords.value.longitude],
-  ([lat, lon]) => {
-    if (lat !== null && lon !== null) emit('completed');
-  },
-  { immediate: true }
-);
 
 async function save() {
   if (isSaving.value) return;

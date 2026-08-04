@@ -232,7 +232,6 @@
       "stepCounter": "Step {current} of {total}",
       "next": "Next",
       "back": "Back",
-      "skip": "Skip",
       "finish": "Finish",
       "remindLater": "Remind me later",
       "steps": {
@@ -244,6 +243,8 @@
         "location": "Location",
         "telescope": "Telescope",
         "camera": "Camera",
+        "focuser": "Focuser",
+        "filterWheel": "Filter wheel",
         "done": "Done"
       },
       "driver": {
@@ -355,10 +356,36 @@
         "imageScale": "Resulting image scale: {scale} arcsec/px",
         "applyFailed": "Could not save: {message}"
       },
+      "focuser": {
+        "title": "Set up your focuser",
+        "description": "Pick the INDI driver for your focuser, then connect it. Autofocus parameters stay on the focus page — this step only gets the device talking.",
+        "selectDriver": "INDI driver",
+        "connectDevice": "Device",
+        "connected": "Focuser connected: {name}",
+        "notFound": "Focuser not listed?",
+        "notFoundHint": "If your focuser is missing, its driver may not be installed yet. Search the 3rd party INDI drivers and install the matching one.",
+        "installing": "Installing {label}…",
+        "installSuccess": "{label} installed. Select it in the driver list above.",
+        "installFailed": "Installation failed: {message}"
+      },
+      "filterWheel": {
+        "title": "Set up your filter wheel",
+        "description": "Pick the INDI driver for your filter wheel, connect it, and give the slots the names you use in your sequences.",
+        "selectDriver": "INDI driver",
+        "connectDevice": "Device",
+        "connected": "Filter wheel connected: {name}",
+        "filterNames": "Filter names",
+        "filterNamesHint": "The name of each slot, in the order they sit in the wheel. Letters and digits only.",
+        "notFound": "Filter wheel not listed?",
+        "notFoundHint": "If your filter wheel is missing, its driver may not be installed yet. Search the 3rd party INDI drivers and install the matching one.",
+        "installing": "Installing {label}…",
+        "installSuccess": "{label} installed. Select it in the driver list above.",
+        "installFailed": "Installation failed: {message}"
+      },
       "done": {
-        "title": "Camera is ready",
-        "description": "Your rig is connected, up to date, and mount and camera are configured.",
-        "moreDevicesHint": "Focuser, filter wheel and guiding follow in a later step of this assistant."
+        "title": "Your rig is set up",
+        "description": "Your rig is connected, up to date, and mount, camera, focuser and filter wheel are configured.",
+        "moreDevicesHint": "Guiding and the remaining devices are configured on their own pages."
       }
     },
     "fileBrowser": {

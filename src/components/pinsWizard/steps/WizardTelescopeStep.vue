@@ -62,7 +62,6 @@ import { apiStore } from '@/store/store';
 import apiService from '@/services/apiService';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 
-const emit = defineEmits(['completed']);
 const { t } = useI18n();
 const store = apiStore();
 
@@ -94,14 +93,6 @@ watch(
     }
   },
   { immediate: true, deep: true }
-);
-
-watch(
-  () => store.profileInfo?.TelescopeSettings?.FocalLength,
-  (value) => {
-    if (value > 0) emit('completed');
-  },
-  { immediate: true }
 );
 
 async function writeProfileValue(field, settingPath, value) {

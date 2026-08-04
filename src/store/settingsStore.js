@@ -71,7 +71,7 @@ export const useSettingsStore = defineStore('settings', {
     // reloads the app mid-wizard - it has to resume where it left off.
     pinsWizard: {
       completed: localStorage.getItem('pinsWizardCompleted') === 'true',
-      currentStep: 1,
+      currentStep: Number.parseInt(localStorage.getItem('pinsWizardCurrentStep'), 10) || 1,
     },
     framing: {
       useNinaCache: true,
@@ -602,18 +602,21 @@ export const useSettingsStore = defineStore('settings', {
 
     setPinsWizardStep(step) {
       this.pinsWizard.currentStep = step;
+      localStorage.setItem('pinsWizardCurrentStep', String(step));
     },
 
     completePinsWizard() {
       this.pinsWizard.completed = true;
       this.pinsWizard.currentStep = 1;
       localStorage.setItem('pinsWizardCompleted', 'true');
+      localStorage.removeItem('pinsWizardCurrentStep');
     },
 
     resetPinsWizard() {
       this.pinsWizard.completed = false;
       this.pinsWizard.currentStep = 1;
       localStorage.removeItem('pinsWizardCompleted');
+      localStorage.removeItem('pinsWizardCurrentStep');
     },
 
     toggleUnits() {

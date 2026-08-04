@@ -68,7 +68,6 @@ import { apiStore } from '@/store/store';
 import { usePinsUpgradeTracker } from '@/plugins/pins/composables/usePinsUpgradeTracker';
 import { parseJobIdFromResponse } from '@/plugins/pins/composables/pinsJobPolling';
 
-const emit = defineEmits(['completed']);
 const { t } = useI18n();
 const settingsStore = useSettingsStore();
 const pinsStore = usePinsStore();
@@ -114,9 +113,6 @@ async function checkUpdates() {
   errorMessage.value = '';
   try {
     updatesResult.value = (await apiPinsService.getPinsUpdatesCheck()) || null;
-    if (!availablePackages.value.length) {
-      emit('completed');
-    }
   } catch (error) {
     console.error('[PinsWizard] Update check failed:', error);
     errorMessage.value = t('components.pinsWizard.updates.checkFailed', { message: error.message });

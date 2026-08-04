@@ -2,88 +2,87 @@
   <div class="flex flex-col gap-4">
     <div>
       <h2 class="text-xl font-semibold text-content">
-        {{ t('components.pinsWizard.mount.title') }}
+        {{ t('components.pinsWizard.focuser.title') }}
       </h2>
       <p class="text-sm text-content-muted mt-1">
-        {{ t('components.pinsWizard.mount.description') }}
+        {{ t('components.pinsWizard.focuser.description') }}
       </p>
     </div>
 
     <!-- 1. INDI driver -->
     <IndiDriverSelect
       ref="driverSelect"
-      deviceType="telescope"
-      settingPath="TelescopeSettings-IndiDriver"
-      listAction="mountAction"
-      rescanKey="mount"
-      profileSection="TelescopeSettings"
-      :label="t('components.pinsWizard.mount.selectDriver')"
+      deviceType="focuser"
+      settingPath="FocuserSettings-IndiDriver"
+      listAction="focusAction"
+      rescanKey="focus"
+      profileSection="FocuserSettings"
+      :label="t('components.pinsWizard.focuser.selectDriver')"
     />
 
     <!-- 2. Device + connect -->
     <div class="flex flex-col gap-1">
       <span class="text-xs font-semibold uppercase text-content-muted">
-        {{ t('components.pinsWizard.mount.connectDevice') }}
+        {{ t('components.pinsWizard.focuser.connectDevice') }}
       </span>
       <selectDevices
-        apiAction="mountAction"
-        :deviceName="$t('components.connectEquipment.mount.name')"
-        :default-device-id="store.profileInfo?.TelescopeSettings?.Id"
-        :isConnected="store.mountInfo?.Connected"
-        @open-config="openMountSettings"
+        apiAction="focusAction"
+        :deviceName="$t('components.connectEquipment.focuser.name')"
+        :default-device-id="store.profileInfo?.FocuserSettings?.Id"
+        :isConnected="store.focuserInfo?.Connected"
+        @open-config="openFocuserSettings"
       />
     </div>
 
     <div
-      v-if="store.mountInfo?.Connected"
+      v-if="store.focuserInfo?.Connected"
       class="flex items-start gap-3 rounded-control border border-status-ok/40 bg-status-ok/10 p-3"
     >
       <span class="tns-dot bg-status-ok mt-1.5"></span>
       <p class="text-sm text-content">
-        {{ t('components.pinsWizard.mount.connected', { name: store.mountInfo?.Name || '' }) }}
+        {{ t('components.pinsWizard.focuser.connected', { name: store.focuserInfo?.Name || '' }) }}
       </p>
     </div>
 
-    <!-- 3. Mount not found -> 3rd party driver. Collapsed by default so the step
-         stays focused, but everything inside opens at once. -->
+    <!-- 3. Focuser not found -> 3rd party driver. -->
     <button class="tns-btn-secondary" @click="toggleNotFound">
       <ChevronDownIcon
         class="w-5 h-5 transition-transform"
         :class="{ 'rotate-180': showNotFound }"
       />
-      {{ t('components.pinsWizard.mount.notFound') }}
+      {{ t('components.pinsWizard.focuser.notFound') }}
     </button>
 
     <div v-if="showNotFound" class="flex flex-col gap-3">
       <p class="text-sm text-content-muted">
-        {{ t('components.pinsWizard.mount.notFoundHint') }}
+        {{ t('components.pinsWizard.focuser.notFoundHint') }}
       </p>
 
       <Indi3rdpartyInstallPanel
-        search-seed="mount"
-        label-prefix="components.pinsWizard.mount"
+        search-seed="focus"
+        label-prefix="components.pinsWizard.focuser"
         @installed="driverSelect?.loadDrivers()"
       />
     </div>
 
-    <!-- Mount settings modal (same split as connectEquipment.vue).
+    <!-- Focuser settings modal (same split as connectEquipment.vue).
          zIndex must clear the wizard overlay (z-70) but stay under the PINS
          upgrade overlay (z-[80]) - all of these teleport to body. -->
-    <Modal :show="showMountSettings" zIndex="z-[75]" @close="showMountSettings = false">
+    <Modal :show="showFocuserSettings" zIndex="z-[75]" @close="showFocuserSettings = false">
       <template #header>
-        <h2 class="text-2xl font-semibold">{{ $t('components.mount.indi.settings') }}</h2>
+        <h2 class="text-2xl font-semibold">{{ $t('components.focuser.indi.settings') }}</h2>
       </template>
       <template #body>
         <SettingsAlpacaDirect
-          v-if="isAlpacaDirect(selectedMountObj)"
-          deviceType="telescope"
-          :selectedDevice="selectedMountDevice"
-          :deviceId="selectedMountObj?.Id"
+          v-if="isAlpacaDirect(selectedFocuserObj)"
+          deviceType="focuser"
+          :selectedDevice="selectedFocuserDevice"
+          :deviceId="selectedFocuserObj?.Id"
         />
         <SettingsSerialConnection
           v-else
-          equipmentType="mount"
-          :selectedDevice="selectedMountDevice"
+          equipmentType="focuser"
+          :selectedDevice="selectedFocuserDevice"
         />
       </template>
     </Modal>
@@ -108,18 +107,18 @@ const store = apiStore();
 const equipmentStore = useEquipmentStore();
 
 const driverSelect = ref(null);
-const showMountSettings = ref(false);
-const selectedMountDevice = ref('');
-const selectedMountObj = ref(null);
+const showFocuserSettings = ref(false);
+const selectedFocuserDevice = ref('');
+const selectedFocuserObj = ref(null);
 
 const showNotFound = ref(false);
 
 const isAlpacaDirect = (device) => device?.Category === 'ASCOM Alpaca';
 
-function openMountSettings(payload) {
-  selectedMountDevice.value = payload?.selectedDeviceDisplayName || '';
-  selectedMountObj.value = payload?.selectedDeviceObj || null;
-  showMountSettings.value = true;
+function openFocuserSettings(payload) {
+  selectedFocuserDevice.value = payload?.selectedDeviceDisplayName || '';
+  selectedFocuserObj.value = payload?.selectedDeviceObj || null;
+  showFocuserSettings.value = true;
 }
 
 onMounted(async () => {

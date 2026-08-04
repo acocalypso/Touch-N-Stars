@@ -68,37 +68,23 @@
                 </ul>
               </div>
 
-              <WizardWifiStep
-                v-else-if="currentStep.id === 'wifi'"
-                @completed="handleStepCompleted"
-              />
+              <WizardWifiStep v-else-if="currentStep.id === 'wifi'" />
 
-              <WizardUpdatesStep
-                v-else-if="currentStep.id === 'updates'"
-                @completed="handleStepCompleted"
-              />
+              <WizardUpdatesStep v-else-if="currentStep.id === 'updates'" />
 
-              <WizardMountStep
-                v-else-if="currentStep.id === 'mount'"
-                @completed="handleStepCompleted"
-              />
+              <WizardMountStep v-else-if="currentStep.id === 'mount'" />
 
               <WizardSlewRateStep v-else-if="currentStep.id === 'slewRate'" />
 
-              <WizardLocationStep
-                v-else-if="currentStep.id === 'location'"
-                @completed="handleStepCompleted"
-              />
+              <WizardLocationStep v-else-if="currentStep.id === 'location'" />
 
-              <WizardTelescopeStep
-                v-else-if="currentStep.id === 'telescope'"
-                @completed="handleStepCompleted"
-              />
+              <WizardTelescopeStep v-else-if="currentStep.id === 'telescope'" />
 
-              <WizardCameraStep
-                v-else-if="currentStep.id === 'camera'"
-                @completed="handleStepCompleted"
-              />
+              <WizardCameraStep v-else-if="currentStep.id === 'camera'" />
+
+              <WizardFocuserStep v-else-if="currentStep.id === 'focuser'" />
+
+              <WizardFilterWheelStep v-else-if="currentStep.id === 'filterWheel'" />
 
               <!-- Done -->
               <div v-else class="flex flex-col gap-4">
@@ -127,14 +113,9 @@
             <button v-if="isLastStep" class="tns-btn-primary flex-1" @click="finish">
               {{ t('components.pinsWizard.finish') }}
             </button>
-            <template v-else>
-              <button v-if="canSkipCurrentStep" class="tns-btn-secondary flex-1" @click="nextStep">
-                {{ t('components.pinsWizard.skip') }}
-              </button>
-              <button class="tns-btn-primary flex-1" @click="nextStep">
-                {{ t('components.pinsWizard.next') }}
-              </button>
-            </template>
+            <button v-else class="tns-btn-primary flex-1" @click="nextStep">
+              {{ t('components.pinsWizard.next') }}
+            </button>
           </div>
         </div>
       </div>
@@ -155,6 +136,8 @@ import WizardSlewRateStep from './steps/WizardSlewRateStep.vue';
 import WizardLocationStep from './steps/WizardLocationStep.vue';
 import WizardTelescopeStep from './steps/WizardTelescopeStep.vue';
 import WizardCameraStep from './steps/WizardCameraStep.vue';
+import WizardFocuserStep from './steps/WizardFocuserStep.vue';
+import WizardFilterWheelStep from './steps/WizardFilterWheelStep.vue';
 
 const emit = defineEmits(['close']);
 
@@ -165,17 +148,19 @@ const pinsStore = usePinsStore();
 // Adding a device step later means inserting one entry here plus its component
 // branch above - nothing else in the shell is step-count aware.
 const steps = [
-  { id: 'welcome', labelKey: 'components.pinsWizard.steps.welcome', skippable: false },
-  { id: 'wifi', labelKey: 'components.pinsWizard.steps.wifi', skippable: true },
-  { id: 'updates', labelKey: 'components.pinsWizard.steps.updates', skippable: true },
-  { id: 'mount', labelKey: 'components.pinsWizard.steps.mount', skippable: true },
-  { id: 'slewRate', labelKey: 'components.pinsWizard.steps.slewRate', skippable: true },
-  { id: 'location', labelKey: 'components.pinsWizard.steps.location', skippable: true },
+  { id: 'welcome', labelKey: 'components.pinsWizard.steps.welcome' },
+  { id: 'wifi', labelKey: 'components.pinsWizard.steps.wifi' },
+  { id: 'updates', labelKey: 'components.pinsWizard.steps.updates' },
+  { id: 'mount', labelKey: 'components.pinsWizard.steps.mount' },
+  { id: 'slewRate', labelKey: 'components.pinsWizard.steps.slewRate' },
+  { id: 'location', labelKey: 'components.pinsWizard.steps.location' },
   // Telescope before camera on purpose: the camera step's image-scale readout
   // needs TelescopeSettings.FocalLength to be set.
-  { id: 'telescope', labelKey: 'components.pinsWizard.steps.telescope', skippable: true },
-  { id: 'camera', labelKey: 'components.pinsWizard.steps.camera', skippable: true },
-  { id: 'done', labelKey: 'components.pinsWizard.steps.done', skippable: false },
+  { id: 'telescope', labelKey: 'components.pinsWizard.steps.telescope' },
+  { id: 'camera', labelKey: 'components.pinsWizard.steps.camera' },
+  { id: 'focuser', labelKey: 'components.pinsWizard.steps.focuser' },
+  { id: 'filterWheel', labelKey: 'components.pinsWizard.steps.filterWheel' },
+  { id: 'done', labelKey: 'components.pinsWizard.steps.done' },
 ];
 
 function clampStep(step) {
@@ -189,7 +174,6 @@ const currentStepNumber = ref(clampStep(settingsStore.pinsWizard.currentStep));
 const currentStepIndex = computed(() => currentStepNumber.value - 1);
 const currentStep = computed(() => steps[currentStepIndex.value]);
 const isLastStep = computed(() => currentStepNumber.value === steps.length);
-const canSkipCurrentStep = computed(() => currentStep.value.skippable);
 
 watch(currentStepNumber, (step) => settingsStore.setPinsWizardStep(step));
 
@@ -203,13 +187,6 @@ function previousStep() {
   if (currentStepNumber.value > 1) {
     currentStepNumber.value -= 1;
   }
-}
-
-// A step reports success (WiFi connected, no updates left, mount connected).
-// Advancing is deliberate but not automatic-and-instant: the user still sees the
-// result before pressing Next, except when the step explicitly asks to move on.
-function handleStepCompleted({ advance = false } = {}) {
-  if (advance) nextStep();
 }
 
 function remindLater() {

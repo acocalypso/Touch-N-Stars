@@ -86,6 +86,8 @@
 
               <WizardFilterWheelStep v-else-if="currentStep.id === 'filterWheel'" />
 
+              <WizardGuiderStep v-else-if="currentStep.id === 'guider'" />
+
               <!-- Done -->
               <div v-else class="flex flex-col gap-4">
                 <h2 class="text-xl font-semibold text-content">
@@ -138,6 +140,7 @@ import WizardTelescopeStep from './steps/WizardTelescopeStep.vue';
 import WizardCameraStep from './steps/WizardCameraStep.vue';
 import WizardFocuserStep from './steps/WizardFocuserStep.vue';
 import WizardFilterWheelStep from './steps/WizardFilterWheelStep.vue';
+import WizardGuiderStep from './steps/WizardGuiderStep.vue';
 
 const emit = defineEmits(['close']);
 
@@ -160,6 +163,9 @@ const steps = [
   { id: 'camera', labelKey: 'components.pinsWizard.steps.camera' },
   { id: 'focuser', labelKey: 'components.pinsWizard.steps.focuser' },
   { id: 'filterWheel', labelKey: 'components.pinsWizard.steps.filterWheel' },
+  // Guider last on purpose: PHD2 needs a connected mount, and the dither
+  // calculator needs the camera and telescope values from the steps above.
+  { id: 'guider', labelKey: 'components.pinsWizard.steps.guider' },
   { id: 'done', labelKey: 'components.pinsWizard.steps.done' },
 ];
 

@@ -245,6 +245,7 @@
         "camera": "Camera",
         "focuser": "Focuser",
         "filterWheel": "Filter wheel",
+        "guider": "Guiding",
         "done": "Done"
       },
       "driver": {
@@ -382,10 +383,36 @@
         "installSuccess": "{label} installed. Select it in the driver list above.",
         "installFailed": "Installation failed: {message}"
       },
+      "guider": {
+        "title": "Set up guiding",
+        "description": "Guiding runs through PHD2. Pick the guide camera, connect the guider, and tell PHD2 about your guide scope.",
+        "guideCamera": "Guide camera",
+        "guideCameraHint": "PHD2 brings its own drivers, so there is no INDI driver to pick here. If the list is empty, use the refresh button — the camera must be powered and free, not already in use by the imaging camera.",
+        "connectDevice": "Guider",
+        "connected": "Guider connected: {name}",
+        "focalLength": "Guide scope focal length",
+        "focalLengthHint": "Focal length of the guide scope in mm. This is stored in the PHD2 profile, separate from your main telescope, and it is what lets PHD2 report guiding in arc-seconds.",
+        "ditherTitle": "Dither",
+        "ditherDescription": "NINA sets the dither in guide camera pixels, while the usual recommendations are given in pixels of your imaging camera. This converts between the two.",
+        "ditherMainPixels": "Dither (imaging pixels)",
+        "ditherMainPixelsHint": "How far each dither should move the target on your imaging sensor. 10 to 15 pixels is a good starting point.",
+        "guidePixelSize": "Guide camera pixel size (µm)",
+        "guidePixelSizeHint": "Used for this calculation only — it is not saved anywhere. PHD2 reads the pixel size from the camera itself, but only once that camera is connected; until then, take it from the guide camera's manual.",
+        "mainScale": "Imaging scale: {scale} arcsec/px",
+        "guideScale": "Guiding scale: {scale} arcsec/px (binning {binning})",
+        "scaleMismatch": "PHD2 itself reports {scale} arcsec/px. That does not match the values above, so PHD2 is working with a different focal length or pixel size — its guiding readouts in arc-seconds will be off too. Correct it in PHD2 (Brain → Camera).",
+        "ditherArcsec": "Offset on sky: {arcsec} arcsec",
+        "ditherResult": "Dither setting: {pixels} guide pixels",
+        "ditherCurrent": "Currently in the profile: {pixels} guide pixels ({mainPixels} imaging pixels).",
+        "ditherApply": "Apply to profile",
+        "ditherApplied": "Applied",
+        "ditherMissingData": "To calculate the dither, the pixel size and focal length of both the imaging and the guide setup are needed. Fill in the camera and telescope steps and set the guide scope focal length above.",
+        "applyFailed": "Could not save: {message}"
+      },
       "done": {
         "title": "Your rig is set up",
-        "description": "Your rig is connected, up to date, and mount, camera, focuser and filter wheel are configured.",
-        "moreDevicesHint": "Guiding and the remaining devices are configured on their own pages."
+        "description": "Your rig is connected, up to date, and mount, camera, focuser, filter wheel and guiding are configured.",
+        "moreDevicesHint": "Flat panel, weather and the remaining devices are configured on their own pages."
       }
     },
     "fileBrowser": {

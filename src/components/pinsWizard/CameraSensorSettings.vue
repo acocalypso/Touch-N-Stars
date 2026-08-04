@@ -98,6 +98,7 @@ import { useI18n } from 'vue-i18n';
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
+import { arcsecPerPixel } from '@/utils/imageScale';
 
 /**
  * Sensor geometry for the wizard's camera step.
@@ -137,9 +138,8 @@ const chipSizeMatchesProfile = computed(
 
 // Sanity readout so a mistyped pixel size is visible immediately.
 const imageScale = computed(() => {
-  const focalLength = Number(store.profileInfo?.TelescopeSettings?.FocalLength);
-  if (!focalLength || !pixelSize.value) return '';
-  return ((206.265 * pixelSize.value) / focalLength).toFixed(2);
+  const scale = arcsecPerPixel(pixelSize.value, store.profileInfo?.TelescopeSettings?.FocalLength);
+  return scale === null ? '' : scale.toFixed(2);
 });
 
 // settingsSensor.vue seeds from the profile in onMounted only, so it keeps showing

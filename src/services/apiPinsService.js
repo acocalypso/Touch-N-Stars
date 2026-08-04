@@ -399,6 +399,13 @@ export default {
     return this._simpleGetRequest(`${API_URL}phd2/camera/info`);
   },
 
+  // PHD2's own image scale in arcsec/px, derived from its focal length, pixel
+  // size and binning. Useful as a cross-check against a locally computed scale.
+  getPHD2PixelScale() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/pixel-scale`);
+  },
+
   getPHD2RestoreCalibration() {
     const { API_URL } = getUrls();
     return this._simpleGetRequest(`${API_URL}phd2/calibration/auto-restore`);

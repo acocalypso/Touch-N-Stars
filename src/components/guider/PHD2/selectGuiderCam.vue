@@ -1,9 +1,11 @@
 <template>
   <div
     :class="borderClass"
-    class="flex flex-col sm:flex-row border p-2 rounded-lg h-full gap-2 sm:items-center transition-all duration-300"
+    class="flex flex-col sm:flex-row border p-2 rounded-control h-full gap-2 sm:items-center transition-all duration-300"
   >
-    <label class="text-sm sm:w-36 shrink-0" for="guiderCamSelect">{{ deviceName }}:</label>
+    <label class="text-sm text-content sm:w-36 shrink-0" for="guiderCamSelect"
+      >{{ deviceName }}:</label
+    >
     <div class="flex gap-2 items-center w-full">
       <select
         id="guiderCamSelect"
@@ -28,11 +30,11 @@
         <button
           @click="loadCameras(true)"
           :disabled="isLoading || store.cameraInfo?.Connected"
-          class="flex justify-center items-center w-10 h-10 border border-cyan-500/20 bg-gray-700 text-white rounded-lg hover:bg-gray-600 disabled:opacity-70"
+          class="tns-btn-secondary flex justify-center items-center w-10 h-10 p-0"
         >
           <ArrowPathIcon
             class="w-6 h-6"
-            :class="{ 'text-green-500 spin': isLoading, 'text-white': !isLoading }"
+            :class="{ 'text-status-ok spin': isLoading, 'text-content': !isLoading }"
           />
         </button>
       </div>
@@ -60,7 +62,7 @@ const MANUAL_VNC = '__manual_vnc__';
 const cameras = ref([]);
 const selectedCam = ref('');
 const isLoading = ref(false);
-const borderClass = ref('border-gray-500');
+const borderClass = ref('border-line-strong');
 
 async function loadCameras(withRescan = false) {
   if (store.profileInfo.GuiderSettings.GuiderName !== 'PHD2_Single') {
@@ -89,7 +91,7 @@ async function loadCameras(withRescan = false) {
     }
   } catch (error) {
     console.error('Error loading guide cameras:', error);
-    borderClass.value = 'border-red-500 error-glow';
+    borderClass.value = 'border-status-danger error-glow';
   } finally {
     isLoading.value = false;
   }
@@ -99,21 +101,21 @@ function validateSelection() {
   if (selectedCam.value === MANUAL_VNC) {
     guiderStore.guidecamOk = true;
     borderClass.value = store.guiderInfo.Connected
-      ? 'border-green-500 connected-glow'
-      : 'border-gray-500';
+      ? 'border-status-ok connected-glow'
+      : 'border-line-strong';
     return;
   }
   if (
     !selectedCam.value ||
     !cameras.value.some((c) => c.driver + ':' + c.id === selectedCam.value)
   ) {
-    borderClass.value = 'border-red-500 error-glow';
+    borderClass.value = 'border-status-danger error-glow';
     guiderStore.guidecamOk = false;
   } else {
     guiderStore.guidecamOk = true;
     borderClass.value = store.guiderInfo.Connected
-      ? 'border-green-500 connected-glow'
-      : 'border-gray-500';
+      ? 'border-status-ok connected-glow'
+      : 'border-line-strong';
   }
 }
 
@@ -121,7 +123,7 @@ async function setGuiderCam() {
   if (selectedCam.value === MANUAL_VNC) {
     guiderStore.guidecamManualVnc = true;
     guiderStore.guidecamOk = true;
-    borderClass.value = 'border-green-500 connected-glow';
+    borderClass.value = 'border-status-ok connected-glow';
     return;
   }
   guiderStore.guidecamManualVnc = false;
@@ -131,11 +133,11 @@ async function setGuiderCam() {
   try {
     await apiService.profileChangeValue('GuiderSettings-PHD2Camera', cam.driver);
     await apiService.profileChangeValue('GuiderSettings-PHD2CameraId', cam.id);
-    borderClass.value = 'border-green-500 connected-glow';
+    borderClass.value = 'border-status-ok connected-glow';
     setTimeout(() => validateSelection(), 2000);
   } catch (error) {
     console.error('Error setting guide camera:', error);
-    borderClass.value = 'border-red-500 error-glow';
+    borderClass.value = 'border-status-danger error-glow';
   }
 }
 

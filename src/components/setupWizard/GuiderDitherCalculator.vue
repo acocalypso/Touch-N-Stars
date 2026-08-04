@@ -1,18 +1,18 @@
 <template>
   <div class="flex flex-col gap-3">
     <h3 class="text-sm font-semibold text-content">
-      {{ t('components.pinsWizard.guider.ditherTitle') }}
+      {{ t('components.setupWizard.guider.ditherTitle') }}
     </h3>
     <p class="text-sm text-content-muted">
-      {{ t('components.pinsWizard.guider.ditherDescription') }}
+      {{ t('components.setupWizard.guider.ditherDescription') }}
     </p>
 
     <!-- Desired dither, expressed the way the common recommendations are:
          in pixels of the imaging camera. -->
     <NumberInputPicker
       v-model="ditherMainPixels"
-      :label="t('components.pinsWizard.guider.ditherMainPixels')"
-      labelKey="components.pinsWizard.guider.ditherMainPixels"
+      :label="t('components.setupWizard.guider.ditherMainPixels')"
+      labelKey="components.setupWizard.guider.ditherMainPixels"
       :min="1"
       :max="100"
       :step="1"
@@ -20,7 +20,7 @@
       inputId="wizard-dither-main-pixels"
     />
     <p class="text-xs text-content-faint">
-      {{ t('components.pinsWizard.guider.ditherMainPixelsHint') }}
+      {{ t('components.setupWizard.guider.ditherMainPixelsHint') }}
     </p>
 
     <!-- PHD2 only reports the guide camera's pixel size once its camera is
@@ -29,8 +29,8 @@
     <template v-if="!reportedGuidePixelSize">
       <NumberInputPicker
         v-model="manualGuidePixelSize"
-        :label="t('components.pinsWizard.guider.guidePixelSize')"
-        labelKey="components.pinsWizard.guider.guidePixelSize"
+        :label="t('components.setupWizard.guider.guidePixelSize')"
+        labelKey="components.setupWizard.guider.guidePixelSize"
         :min="0.01"
         :max="50"
         :step="0.01"
@@ -38,7 +38,7 @@
         inputId="wizard-guide-pixel-size"
       />
       <p class="text-xs text-content-faint">
-        {{ t('components.pinsWizard.guider.guidePixelSizeHint') }}
+        {{ t('components.setupWizard.guider.guidePixelSizeHint') }}
       </p>
     </template>
 
@@ -46,11 +46,11 @@
          value NINA actually wants. -->
     <div v-if="ditherGuidePixels" class="flex flex-col gap-1 rounded-control bg-surface-2 p-3">
       <p class="text-xs text-content-muted">
-        {{ t('components.pinsWizard.guider.mainScale', { scale: mainScale.toFixed(2) }) }}
+        {{ t('components.setupWizard.guider.mainScale', { scale: mainScale.toFixed(2) }) }}
       </p>
       <p class="text-xs text-content-muted">
         {{
-          t('components.pinsWizard.guider.guideScale', {
+          t('components.setupWizard.guider.guideScale', {
             scale: guideScale.toFixed(2),
             binning: guideBinning,
           })
@@ -64,22 +64,22 @@
         <span class="tns-dot bg-status-warn mt-1.5 shrink-0"></span>
         <span>
           {{
-            t('components.pinsWizard.guider.scaleMismatch', {
+            t('components.setupWizard.guider.scaleMismatch', {
               scale: Number(guiderStore.phd2PixelScale).toFixed(2),
             })
           }}
         </span>
       </p>
       <p class="text-xs text-content-muted">
-        {{ t('components.pinsWizard.guider.ditherArcsec', { arcsec: ditherArcsec.toFixed(1) }) }}
+        {{ t('components.setupWizard.guider.ditherArcsec', { arcsec: ditherArcsec.toFixed(1) }) }}
       </p>
       <p class="text-sm text-content mt-1">
-        {{ t('components.pinsWizard.guider.ditherResult', { pixels: ditherGuidePixels }) }}
+        {{ t('components.setupWizard.guider.ditherResult', { pixels: ditherGuidePixels }) }}
       </p>
 
       <p v-if="profileDitherPixels !== null" class="text-xs text-content-faint">
         {{
-          t('components.pinsWizard.guider.ditherCurrent', {
+          t('components.setupWizard.guider.ditherCurrent', {
             pixels: profileDitherPixels,
             mainPixels: profileDitherAsMainPixels,
           })
@@ -93,14 +93,14 @@
       >
         {{
           alreadyApplied
-            ? t('components.pinsWizard.guider.ditherApplied')
-            : t('components.pinsWizard.guider.ditherApply')
+            ? t('components.setupWizard.guider.ditherApplied')
+            : t('components.setupWizard.guider.ditherApply')
         }}
       </button>
     </div>
 
     <p v-else class="text-sm text-content-muted">
-      {{ t('components.pinsWizard.guider.ditherMissingData') }}
+      {{ t('components.setupWizard.guider.ditherMissingData') }}
     </p>
 
     <p v-if="errorMessage" class="text-sm text-status-danger break-words">{{ errorMessage }}</p>
@@ -209,7 +209,7 @@ async function applyDitherPixels() {
     await store.fetchProfilInfos();
   } catch (error) {
     console.error('[PinsWizard] Applying dither pixels failed:', error);
-    errorMessage.value = t('components.pinsWizard.guider.applyFailed', { message: error.message });
+    errorMessage.value = t('components.setupWizard.guider.applyFailed', { message: error.message });
   } finally {
     isApplying.value = false;
   }

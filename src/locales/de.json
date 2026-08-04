@@ -226,9 +226,9 @@
       "next": "Weiter",
       "skip": "Tutorial überspringen"
     },
-    "pinsWizard": {
-      "title": "PINS Einrichtungsassistent",
-      "restart": "PINS Einrichtungsassistent starten",
+    "setupWizard": {
+      "title": "Einrichtungsassistent",
+      "restart": "Einrichtungsassistent starten",
       "stepCounter": "Schritt {current} von {total}",
       "next": "Weiter",
       "back": "Zurück",
@@ -236,6 +236,9 @@
       "remindLater": "Später erinnern",
       "steps": {
         "welcome": "Willkommen",
+        "language": "Sprache",
+        "info": "Erste Schritte",
+        "instance": "Verbindung",
         "wifi": "WLAN",
         "updates": "Updates",
         "mount": "Montierung",
@@ -255,8 +258,22 @@
         "changeFailed": "Treiber konnte nicht übernommen werden: {message}"
       },
       "welcome": {
-        "title": "Lass uns dein PINS-Rig einrichten",
-        "description": "Dieser Assistent führt dich Schritt für Schritt durch die Grundkonfiguration deines Rigs. Du kannst jeden Schritt überspringen und später zurückkommen."
+        "title": "Lass uns Touch'N'Stars einrichten",
+        "description": "Dieser Assistent führt dich Schritt für Schritt durch die Einrichtung — Sprache, die Verbindung zu deinem Rig und dessen Equipment.",
+        "cancelHint": "Du kannst jederzeit abbrechen und den Rest später in den Einstellungen erledigen."
+      },
+      "language": {
+        "description": "Die Sprache der App. Du kannst sie später in den Einstellungen ändern."
+      },
+      "info": {
+        "openWiki": "Wiki öffnen"
+      },
+      "instance": {
+        "description": "Adresse des Rechners, auf dem N.I.N.A. läuft. Im selben Netzwerk findet die App ihn meist von selbst.",
+        "connect": "Speichern und verbinden",
+        "connecting": "Verbinde…",
+        "connected": "Verbunden mit {name}",
+        "connectFailed": "Verbindung fehlgeschlagen: {message}"
       },
       "wifi": {
         "title": "Rig mit dem WLAN verbinden",
@@ -410,10 +427,12 @@
         "applyFailed": "Konnte nicht gespeichert werden: {message}"
       },
       "done": {
-        "title": "Kamera ist bereit",
-        "description": "Dein Rig ist verbunden, aktuell, und Montierung und Kamera sind konfiguriert.",
-        "moreDevicesHint": "Fokussierer, Filterrad und Guiding folgen in einem späteren Schritt dieses Assistenten."
-      }
+        "title": "Die Ausrüstung ist bereit",
+        "description": "Dein Rig ist verbunden, aktuell, und Montierung, Kamera, Fokussierer, Filterrad und Guiding sind konfiguriert.",
+        "moreDevicesHint": "Flatfield-Panel, Wetter und die übrigen Geräte richtest du auf ihren eigenen Seiten ein.",
+        "noConnectionHint": "Noch keine Verbindung zu einem Rig. Du kannst sie jederzeit unter Einstellungen → Verbindung nachtragen."
+      },
+      "cancel": "Einrichtung abbrechen"
     },
     "fileBrowser": {
       "title": "Durchsuchen",

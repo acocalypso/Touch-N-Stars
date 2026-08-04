@@ -2,10 +2,10 @@
   <div class="flex flex-col gap-4">
     <div>
       <h2 class="text-xl font-semibold text-content">
-        {{ t('components.pinsWizard.guider.title') }}
+        {{ t('components.setupWizard.guider.title') }}
       </h2>
       <p class="text-sm text-content-muted mt-1">
-        {{ t('components.pinsWizard.guider.description') }}
+        {{ t('components.setupWizard.guider.description') }}
       </p>
     </div>
 
@@ -13,11 +13,11 @@
          device step there is no INDI driver to pick here. -->
     <div class="flex flex-col gap-1">
       <span class="text-xs font-semibold uppercase text-content-muted">
-        {{ t('components.pinsWizard.guider.guideCamera') }}
+        {{ t('components.setupWizard.guider.guideCamera') }}
       </span>
       <selectGuiderCam :deviceName="$t('components.connectEquipment.guiderCam.name')" />
       <p class="text-xs text-content-faint">
-        {{ t('components.pinsWizard.guider.guideCameraHint') }}
+        {{ t('components.setupWizard.guider.guideCameraHint') }}
       </p>
     </div>
 
@@ -25,7 +25,7 @@
          guide camera is picked - same gating as connectEquipment.vue. -->
     <div class="flex flex-col gap-1">
       <span class="text-xs font-semibold uppercase text-content-muted">
-        {{ t('components.pinsWizard.guider.connectDevice') }}
+        {{ t('components.setupWizard.guider.connectDevice') }}
       </span>
       <selectDevices
         apiAction="guiderAction"
@@ -45,7 +45,7 @@
     >
       <span class="tns-dot bg-status-ok mt-1.5"></span>
       <p class="text-sm text-content">
-        {{ t('components.pinsWizard.guider.connected', { name: store.guiderInfo?.Name || '' }) }}
+        {{ t('components.setupWizard.guider.connected', { name: store.guiderInfo?.Name || '' }) }}
       </p>
     </div>
 
@@ -53,11 +53,11 @@
          NINA's - there is no GuiderSettings-FocalLength. -->
     <div class="flex flex-col gap-1">
       <span class="text-xs font-semibold uppercase text-content-muted">
-        {{ t('components.pinsWizard.guider.focalLength') }}
+        {{ t('components.setupWizard.guider.focalLength') }}
       </span>
       <Phd2FocalLength />
       <p class="text-xs text-content-faint">
-        {{ t('components.pinsWizard.guider.focalLengthHint') }}
+        {{ t('components.setupWizard.guider.focalLengthHint') }}
       </p>
     </div>
 

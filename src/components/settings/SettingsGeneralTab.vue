@@ -232,8 +232,8 @@
       <button @click="showTutorial" class="tns-btn-secondary w-full">
         {{ $t('components.settings.showTutorial') }}
       </button>
-      <button v-if="store.isPINS" @click="restartPinsWizard" class="tns-btn-secondary w-full">
-        {{ $t('components.pinsWizard.restart') }}
+      <button @click="restartSetupWizard" class="tns-btn-secondary w-full">
+        {{ $t('components.setupWizard.restart') }}
       </button>
     </div>
 
@@ -416,9 +416,10 @@ const showTutorial = () => {
   emit('show-tutorial');
 };
 
-// Clearing the completed flag is enough: App.vue watches it and reopens the wizard.
-const restartPinsWizard = () => {
-  settingsStore.resetPinsWizard();
+// resetSetupWizard() bumps openRequest, which is what App.vue watches to reopen
+// the overlay - clearing `completed` alone would not re-fire after a cancel.
+const restartSetupWizard = () => {
+  settingsStore.resetSetupWizard();
 };
 
 // System actions

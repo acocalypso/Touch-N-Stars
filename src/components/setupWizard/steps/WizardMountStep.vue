@@ -2,10 +2,10 @@
   <div class="flex flex-col gap-4">
     <div>
       <h2 class="text-xl font-semibold text-content">
-        {{ t('components.pinsWizard.mount.title') }}
+        {{ t('components.setupWizard.mount.title') }}
       </h2>
       <p class="text-sm text-content-muted mt-1">
-        {{ t('components.pinsWizard.mount.description') }}
+        {{ t('components.setupWizard.mount.description') }}
       </p>
     </div>
 
@@ -17,13 +17,13 @@
       listAction="mountAction"
       rescanKey="mount"
       profileSection="TelescopeSettings"
-      :label="t('components.pinsWizard.mount.selectDriver')"
+      :label="t('components.setupWizard.mount.selectDriver')"
     />
 
     <!-- 2. Device + connect -->
     <div class="flex flex-col gap-1">
       <span class="text-xs font-semibold uppercase text-content-muted">
-        {{ t('components.pinsWizard.mount.connectDevice') }}
+        {{ t('components.setupWizard.mount.connectDevice') }}
       </span>
       <selectDevices
         apiAction="mountAction"
@@ -40,7 +40,7 @@
     >
       <span class="tns-dot bg-status-ok mt-1.5"></span>
       <p class="text-sm text-content">
-        {{ t('components.pinsWizard.mount.connected', { name: store.mountInfo?.Name || '' }) }}
+        {{ t('components.setupWizard.mount.connected', { name: store.mountInfo?.Name || '' }) }}
       </p>
     </div>
 
@@ -51,17 +51,17 @@
         class="w-5 h-5 transition-transform"
         :class="{ 'rotate-180': showNotFound }"
       />
-      {{ t('components.pinsWizard.mount.notFound') }}
+      {{ t('components.setupWizard.mount.notFound') }}
     </button>
 
     <div v-if="showNotFound" class="flex flex-col gap-3">
       <p class="text-sm text-content-muted">
-        {{ t('components.pinsWizard.mount.notFoundHint') }}
+        {{ t('components.setupWizard.mount.notFoundHint') }}
       </p>
 
       <Indi3rdpartyInstallPanel
         search-seed="mount"
-        label-prefix="components.pinsWizard.mount"
+        label-prefix="components.setupWizard.mount"
         @installed="driverSelect?.loadDrivers()"
       />
     </div>

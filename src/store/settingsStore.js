@@ -66,16 +66,21 @@ export const useSettingsStore = defineStore('settings', {
       selectTargetVisited: false,
       statusBarButtonsVisited: false,
     },
-    // Guided PINS rig configuration (WiFi -> updates -> equipment).
-    // currentStep is persisted because a PINS upgrade restarts the daemon and
-    // reloads the app mid-wizard - it has to resume where it left off.
-    pinsWizard: {
-      completed: localStorage.getItem('pinsWizardCompleted') === 'true',
-      currentStep: Number.parseInt(localStorage.getItem('pinsWizardCurrentStep'), 10) || 1,
-      // Bumped by resetPinsWizard(). App.vue watches it as the explicit "open the
+    // Guided first-run configuration: language/instance for everyone, plus the
+    // rig steps on PINS. currentStepId is persisted because a PINS upgrade
+    // restarts the daemon and reloads the app mid-wizard.
+    setupWizard: {
+      completed: localStorage.getItem('setupWizardCompleted') === 'true',
+      // An id, not an index: the step list grows once isPINS flips, so a numeric
+      // position would point at a different step than the user was on.
+      currentStepId: localStorage.getItem('setupWizardStepId') || '',
+      // Bumped by resetSetupWizard(). App.vue watches it as the explicit "open the
       // wizard now" signal - `completed` alone cannot express it, because after
-      // "remind me later" it is already false and toggling it changes nothing.
+      // a cancel it is already false and toggling it changes nothing.
       openRequest: 0,
+      // Set by App.vue while the overlay is up. An instance change must not
+      // hard-reload the page underneath a running wizard.
+      isOpen: false,
     },
     framing: {
       useNinaCache: true,
@@ -388,9 +393,9 @@ export const useSettingsStore = defineStore('settings', {
      * every instance-scoped store by hand and always missed some, so the new
      * instance inherited stale data. See utils/instanceSwitchReload.js.
      *
-     * Onboarding is the exception - the wizard's progress lives in SetupPage
-     * component state, so there the app must stay alive and falls back to the
-     * in-place teardown.
+     * An open setup wizard is the exception - its progress lives in component
+     * state, so there the app must stay alive and falls back to the in-place
+     * teardown. See _canReloadOnEndpointChange().
      */
     _applyEndpointChange({ allowReload = true } = {}) {
       if (allowReload && this._canReloadOnEndpointChange()) {
@@ -410,10 +415,10 @@ export const useSettingsStore = defineStore('settings', {
     },
 
     _canReloadOnEndpointChange() {
-      // setupCompleted === false IS the onboarding state: the router guard makes
-      // /setup the only reachable route while it is false, and nothing outside
-      // completeSetup()/resetSetup() ever flips it.
-      if (!this.setupCompleted) return false;
+      // setupCompleted === false IS the first-run state, and an open wizard is the
+      // same situation on a second pass: both keep their progress in component
+      // state, which a page reload would throw away mid-flow.
+      if (!this.setupCompleted || this.setupWizard.isOpen) return false;
       return typeof window !== 'undefined' && typeof window.location?.reload === 'function';
     },
 
@@ -604,24 +609,31 @@ export const useSettingsStore = defineStore('settings', {
       localStorage.removeItem('tutorialCompleted');
     },
 
-    setPinsWizardStep(step) {
-      this.pinsWizard.currentStep = step;
-      localStorage.setItem('pinsWizardCurrentStep', String(step));
+    setSetupWizardStep(stepId) {
+      this.setupWizard.currentStepId = stepId;
+      localStorage.setItem('setupWizardStepId', String(stepId));
     },
 
-    completePinsWizard() {
-      this.pinsWizard.completed = true;
-      this.pinsWizard.currentStep = 1;
-      localStorage.setItem('pinsWizardCompleted', 'true');
-      localStorage.removeItem('pinsWizardCurrentStep');
+    setSetupWizardOpen(isOpen) {
+      this.setupWizard.isOpen = isOpen;
     },
 
-    resetPinsWizard() {
-      this.pinsWizard.completed = false;
-      this.pinsWizard.currentStep = 1;
-      this.pinsWizard.openRequest += 1;
-      localStorage.removeItem('pinsWizardCompleted');
-      localStorage.removeItem('pinsWizardCurrentStep');
+    // Cancelling and finishing are the same transaction: the app becomes usable
+    // and the wizard stops offering itself. Only the wording differs.
+    completeSetupWizard() {
+      this.setupWizard.completed = true;
+      this.setupWizard.currentStepId = '';
+      this.completeSetup();
+      localStorage.setItem('setupWizardCompleted', 'true');
+      localStorage.removeItem('setupWizardStepId');
+    },
+
+    resetSetupWizard() {
+      this.setupWizard.completed = false;
+      this.setupWizard.currentStepId = '';
+      this.setupWizard.openRequest += 1;
+      localStorage.removeItem('setupWizardCompleted');
+      localStorage.removeItem('setupWizardStepId');
     },
 
     toggleUnits() {

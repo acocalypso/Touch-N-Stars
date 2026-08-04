@@ -2,10 +2,10 @@
   <div class="flex flex-col gap-4">
     <div>
       <h2 class="text-xl font-semibold text-content">
-        {{ t('components.pinsWizard.telescope.title') }}
+        {{ t('components.setupWizard.telescope.title') }}
       </h2>
       <p class="text-sm text-content-muted mt-1">
-        {{ t('components.pinsWizard.telescope.description') }}
+        {{ t('components.setupWizard.telescope.description') }}
       </p>
     </div>
 
@@ -18,7 +18,7 @@
         type="text"
         class="tns-input"
         :class="nameStatusClass"
-        :placeholder="t('components.pinsWizard.telescope.namePlaceholder')"
+        :placeholder="t('components.setupWizard.telescope.namePlaceholder')"
         @change="updateTelescopeName"
       />
     </label>
@@ -48,7 +48,7 @@
     />
 
     <p class="text-xs text-content-faint">
-      {{ t('components.pinsWizard.telescope.hint') }}
+      {{ t('components.setupWizard.telescope.hint') }}
     </p>
 
     <p v-if="errorMessage" class="text-sm text-status-danger break-words">{{ errorMessage }}</p>
@@ -103,7 +103,7 @@ async function writeProfileValue(field, settingPath, value) {
     return true;
   } catch (error) {
     console.error('[PinsWizard] Telescope setting failed:', error);
-    errorMessage.value = t('components.pinsWizard.telescope.saveFailed', {
+    errorMessage.value = t('components.setupWizard.telescope.saveFailed', {
       message: error.message,
     });
     return false;

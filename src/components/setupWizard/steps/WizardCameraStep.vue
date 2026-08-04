@@ -2,10 +2,10 @@
   <div class="flex flex-col gap-4">
     <div>
       <h2 class="text-xl font-semibold text-content">
-        {{ t('components.pinsWizard.camera.title') }}
+        {{ t('components.setupWizard.camera.title') }}
       </h2>
       <p class="text-sm text-content-muted mt-1">
-        {{ t('components.pinsWizard.camera.description') }}
+        {{ t('components.setupWizard.camera.description') }}
       </p>
     </div>
 
@@ -13,7 +13,7 @@
          INDI driver, so this comes first - the reverse of the mount step. -->
     <div class="flex flex-col gap-1">
       <span class="text-xs font-semibold uppercase text-content-muted">
-        {{ t('components.pinsWizard.camera.connectDevice') }}
+        {{ t('components.setupWizard.camera.connectDevice') }}
       </span>
       <selectDevices
         apiAction="cameraAction"
@@ -30,7 +30,7 @@
     >
       <span class="tns-dot bg-status-ok mt-1.5"></span>
       <p class="text-sm text-content">
-        {{ t('components.pinsWizard.camera.connected', { name: store.cameraInfo?.Name || '' }) }}
+        {{ t('components.setupWizard.camera.connected', { name: store.cameraInfo?.Name || '' }) }}
       </p>
     </div>
 
@@ -40,12 +40,12 @@
         class="w-5 h-5 transition-transform"
         :class="{ 'rotate-180': showNotFound }"
       />
-      {{ t('components.pinsWizard.camera.notFound') }}
+      {{ t('components.setupWizard.camera.notFound') }}
     </button>
 
     <div v-if="showNotFound" class="flex flex-col gap-3">
       <p class="text-sm text-content-muted">
-        {{ t('components.pinsWizard.camera.notFoundHint') }}
+        {{ t('components.setupWizard.camera.notFoundHint') }}
       </p>
 
       <IndiDriverSelect
@@ -55,16 +55,16 @@
         listAction="cameraAction"
         rescanKey="camera"
         profileSection="CameraSettings"
-        :label="t('components.pinsWizard.camera.selectDriver')"
+        :label="t('components.setupWizard.camera.selectDriver')"
       />
 
       <p class="text-sm text-content-muted">
-        {{ t('components.pinsWizard.camera.thirdPartyHint') }}
+        {{ t('components.setupWizard.camera.thirdPartyHint') }}
       </p>
 
       <Indi3rdpartyInstallPanel
         search-seed="camera"
-        label-prefix="components.pinsWizard.camera"
+        label-prefix="components.setupWizard.camera"
         @installed="driverSelect?.loadDrivers()"
       />
     </div>

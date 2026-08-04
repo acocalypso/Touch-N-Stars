@@ -2,10 +2,10 @@
   <div class="flex flex-col gap-4">
     <div>
       <h2 class="text-xl font-semibold text-content">
-        {{ t('components.pinsWizard.location.title') }}
+        {{ t('components.setupWizard.location.title') }}
       </h2>
       <p class="text-sm text-content-muted mt-1">
-        {{ t('components.pinsWizard.location.description') }}
+        {{ t('components.setupWizard.location.description') }}
       </p>
     </div>
 
@@ -14,7 +14,7 @@
       <div class="rounded-control bg-surface-2 p-3">
         <div class="flex items-center justify-between mb-2 gap-2">
           <p class="text-xs font-medium text-content-muted">
-            {{ t('components.pinsWizard.location.profileCoords') }}
+            {{ t('components.setupWizard.location.profileCoords') }}
           </p>
           <button
             class="text-content-faint hover:text-accent transition-colors"
@@ -38,7 +38,7 @@
       <div class="rounded-control bg-surface-2 p-3">
         <div class="flex items-center justify-between mb-2 gap-2">
           <p class="text-xs font-medium text-content-muted">
-            {{ t('components.pinsWizard.location.mountCoords') }}
+            {{ t('components.setupWizard.location.mountCoords') }}
           </p>
           <button
             class="text-content-faint hover:text-accent transition-colors"
@@ -81,19 +81,19 @@
     <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
       <label class="flex flex-col gap-1">
         <span class="text-xs font-semibold uppercase text-content-muted">
-          {{ t('components.pinsWizard.location.latitude') }}
+          {{ t('components.setupWizard.location.latitude') }}
         </span>
         <input v-model="latitude" type="text" inputmode="decimal" class="tns-input" />
       </label>
       <label class="flex flex-col gap-1">
         <span class="text-xs font-semibold uppercase text-content-muted">
-          {{ t('components.pinsWizard.location.longitude') }}
+          {{ t('components.setupWizard.location.longitude') }}
         </span>
         <input v-model="longitude" type="text" inputmode="decimal" class="tns-input" />
       </label>
       <label class="flex flex-col gap-1">
         <span class="text-xs font-semibold uppercase text-content-muted">
-          {{ t('components.pinsWizard.location.altitude') }} ({{ t('setup.coordUnit') }})
+          {{ t('components.setupWizard.location.altitude') }} ({{ t('setup.coordUnit') }})
         </span>
         <input v-model="altitude" type="text" inputmode="decimal" class="tns-input" />
       </label>
@@ -101,7 +101,7 @@
 
     <button class="tns-btn-secondary" :disabled="isSaving" @click="getCurrentLocation">
       <MapPinIcon class="w-5 h-5" />
-      {{ t('components.pinsWizard.location.useCurrentLocation') }}
+      {{ t('components.setupWizard.location.useCurrentLocation') }}
     </button>
     <p v-if="gpsError" class="text-sm text-status-danger break-words">{{ gpsError }}</p>
 
@@ -109,7 +109,7 @@
     <template v-if="store.isPINS">
       <label class="flex flex-col gap-1">
         <span class="text-xs font-semibold uppercase text-content-muted">
-          {{ t('components.pinsWizard.location.syncDirection') }}
+          {{ t('components.setupWizard.location.syncDirection') }}
         </span>
         <select v-model="syncDirection" class="tns-select" :disabled="isSaving">
           <option value="NOSYNC">{{ t('setup.syncDirectionNosync') }}</option>
@@ -132,8 +132,8 @@
     <button class="tns-btn-primary" :disabled="isSaving" @click="save">
       {{
         isSaving
-          ? t('components.pinsWizard.location.saving')
-          : t('components.pinsWizard.location.save')
+          ? t('components.setupWizard.location.saving')
+          : t('components.setupWizard.location.save')
       }}
     </button>
 
@@ -199,14 +199,16 @@ async function save() {
     locationStore.loadMountCoords();
   } catch (error) {
     console.error('[PinsWizard] Saving coordinates failed:', error);
-    errorMessage.value = t('components.pinsWizard.location.saveFailed', { message: error.message });
+    errorMessage.value = t('components.setupWizard.location.saveFailed', {
+      message: error.message,
+    });
   } finally {
     isSaving.value = false;
   }
 }
 
 onMounted(async () => {
-  // The refs in utils/location.js are module singletons shared with SetupPage and
+  // The refs in utils/location.js are module singletons shared with
   // the settings panel, so never trust whatever is left in them.
   await store.fetchProfilInfos();
   await locationStore.loadFromAstrometrySettings();

@@ -2,15 +2,15 @@
   <div class="flex flex-col gap-4">
     <div>
       <h2 class="text-xl font-semibold text-content">
-        {{ t('components.pinsWizard.updates.title') }}
+        {{ t('components.setupWizard.updates.title') }}
       </h2>
       <p class="text-sm text-content-muted mt-1">
-        {{ t('components.pinsWizard.updates.description') }}
+        {{ t('components.setupWizard.updates.description') }}
       </p>
     </div>
 
     <div v-if="isChecking" class="text-sm text-content-muted">
-      {{ t('components.pinsWizard.updates.checking') }}
+      {{ t('components.setupWizard.updates.checking') }}
     </div>
 
     <template v-else-if="hasResult">
@@ -19,12 +19,12 @@
         class="flex items-start gap-3 rounded-control border border-status-ok/40 bg-status-ok/10 p-3"
       >
         <span class="tns-dot bg-status-ok mt-1.5"></span>
-        <p class="text-sm text-content">{{ t('components.pinsWizard.updates.upToDate') }}</p>
+        <p class="text-sm text-content">{{ t('components.setupWizard.updates.upToDate') }}</p>
       </div>
 
       <template v-else>
         <p class="text-sm text-content">
-          {{ t('components.pinsWizard.updates.available', { count: availablePackages.length }) }}
+          {{ t('components.setupWizard.updates.available', { count: availablePackages.length }) }}
         </p>
         <ul class="flex flex-col gap-1 max-h-48 overflow-y-auto scrollbar-thin">
           <li
@@ -39,17 +39,17 @@
           </li>
         </ul>
         <button class="tns-btn-primary" :disabled="isUpgradeBusy" @click="startUpgrade">
-          {{ t('components.pinsWizard.updates.startUpgrade') }}
+          {{ t('components.setupWizard.updates.startUpgrade') }}
         </button>
         <p class="text-xs text-content-faint">
-          {{ t('components.pinsWizard.updates.upgradeHint') }}
+          {{ t('components.setupWizard.updates.upgradeHint') }}
         </p>
       </template>
     </template>
 
     <button class="tns-btn-secondary" :disabled="isChecking || isUpgradeBusy" @click="checkUpdates">
       <ArrowPathIcon class="w-5 h-5" :class="{ 'animate-spin': isChecking }" />
-      {{ t('components.pinsWizard.updates.recheck') }}
+      {{ t('components.setupWizard.updates.recheck') }}
     </button>
 
     <p v-if="errorMessage" class="text-sm text-status-danger break-words">{{ errorMessage }}</p>
@@ -115,7 +115,9 @@ async function checkUpdates() {
     updatesResult.value = (await apiPinsService.getPinsUpdatesCheck()) || null;
   } catch (error) {
     console.error('[PinsWizard] Update check failed:', error);
-    errorMessage.value = t('components.pinsWizard.updates.checkFailed', { message: error.message });
+    errorMessage.value = t('components.setupWizard.updates.checkFailed', {
+      message: error.message,
+    });
   } finally {
     isChecking.value = false;
   }
@@ -150,7 +152,7 @@ async function startUpgrade() {
   } catch (error) {
     console.error('[PinsWizard] Upgrade start failed:', error);
     status.value = 'Failed';
-    errorMessage.value = t('components.pinsWizard.updates.upgradeFailed', {
+    errorMessage.value = t('components.setupWizard.updates.upgradeFailed', {
       message: error.message,
     });
   }

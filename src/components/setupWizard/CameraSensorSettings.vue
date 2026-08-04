@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col gap-3">
     <h3 class="text-sm font-semibold text-content">
-      {{ t('components.pinsWizard.camera.sensorTitle') }}
+      {{ t('components.setupWizard.camera.sensorTitle') }}
     </h3>
 
     <!-- Chip size: reported by the driver, or entered by hand (DSLR) -->
@@ -9,7 +9,7 @@
       <div class="flex flex-col gap-2 rounded-control bg-surface-2 p-3">
         <p class="text-sm text-content">
           {{
-            t('components.pinsWizard.camera.chipSizeReported', {
+            t('components.setupWizard.camera.chipSizeReported', {
               width: reportedWidth,
               height: reportedHeight,
             })
@@ -19,20 +19,20 @@
         <template v-if="chipSizeMatchesProfile">
           <p class="flex items-center gap-2 text-xs text-status-ok">
             <span class="tns-dot bg-status-ok"></span>
-            {{ t('components.pinsWizard.camera.chipSizeMatches') }}
+            {{ t('components.setupWizard.camera.chipSizeMatches') }}
           </p>
         </template>
         <template v-else>
           <p class="text-xs text-content-muted">
             {{
-              t('components.pinsWizard.camera.chipSizeDiffers', {
+              t('components.setupWizard.camera.chipSizeDiffers', {
                 width: profileWidth ?? '—',
                 height: profileHeight ?? '—',
               })
             }}
           </p>
           <button class="tns-btn-secondary" :disabled="isApplying" @click="applyReportedChipSize">
-            {{ t('components.pinsWizard.camera.chipSizeApply') }}
+            {{ t('components.setupWizard.camera.chipSizeApply') }}
           </button>
         </template>
       </div>
@@ -40,13 +40,13 @@
 
     <template v-else>
       <p class="text-sm text-content-muted">
-        {{ t('components.pinsWizard.camera.chipSizeManualHint') }}
+        {{ t('components.setupWizard.camera.chipSizeManualHint') }}
       </p>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
         <NumberInputPicker
           v-model="chipWidth"
-          :label="t('components.pinsWizard.camera.chipWidth')"
-          labelKey="components.pinsWizard.camera.chipWidth"
+          :label="t('components.setupWizard.camera.chipWidth')"
+          labelKey="components.setupWizard.camera.chipWidth"
           :min="100"
           :max="10000"
           :step="1"
@@ -56,8 +56,8 @@
         />
         <NumberInputPicker
           v-model="chipHeight"
-          :label="t('components.pinsWizard.camera.chipHeight')"
-          labelKey="components.pinsWizard.camera.chipHeight"
+          :label="t('components.setupWizard.camera.chipHeight')"
+          labelKey="components.setupWizard.camera.chipHeight"
           :min="100"
           :max="10000"
           :step="1"
@@ -71,8 +71,8 @@
     <!-- Pixel size: never reported by NINA, always entered by hand -->
     <NumberInputPicker
       v-model="pixelSize"
-      :label="t('components.pinsWizard.camera.pixelSize')"
-      labelKey="components.pinsWizard.camera.pixelSize"
+      :label="t('components.setupWizard.camera.pixelSize')"
+      labelKey="components.setupWizard.camera.pixelSize"
       :min="0.01"
       :max="50"
       :step="0.01"
@@ -81,11 +81,11 @@
       @change="updatePixelSize"
     />
     <p class="text-xs text-content-faint">
-      {{ t('components.pinsWizard.camera.pixelSizeHint') }}
+      {{ t('components.setupWizard.camera.pixelSizeHint') }}
     </p>
 
     <p v-if="imageScale" class="text-xs text-content-muted">
-      {{ t('components.pinsWizard.camera.imageScale', { scale: imageScale }) }}
+      {{ t('components.setupWizard.camera.imageScale', { scale: imageScale }) }}
     </p>
 
     <p v-if="errorMessage" class="text-sm text-status-danger break-words">{{ errorMessage }}</p>
@@ -168,7 +168,7 @@ async function writeProfileValue(field, settingPath, value) {
     await apiService.profileChangeValue(settingPath, value);
   } catch (error) {
     console.error('[PinsWizard] Sensor setting failed:', error);
-    errorMessage.value = t('components.pinsWizard.camera.applyFailed', { message: error.message });
+    errorMessage.value = t('components.setupWizard.camera.applyFailed', { message: error.message });
   }
 }
 
@@ -200,7 +200,7 @@ async function applyReportedChipSize() {
     await store.fetchProfilInfos();
   } catch (error) {
     console.error('[PinsWizard] Applying reported chip size failed:', error);
-    errorMessage.value = t('components.pinsWizard.camera.applyFailed', { message: error.message });
+    errorMessage.value = t('components.setupWizard.camera.applyFailed', { message: error.message });
   } finally {
     isApplying.value = false;
   }

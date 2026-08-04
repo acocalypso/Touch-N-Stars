@@ -2,16 +2,16 @@
   <div class="flex flex-col gap-4">
     <div>
       <h2 class="text-xl font-semibold text-content">
-        {{ t('components.pinsWizard.wifi.title') }}
+        {{ t('components.setupWizard.wifi.title') }}
       </h2>
       <p class="text-sm text-content-muted mt-1">
-        {{ t('components.pinsWizard.wifi.description') }}
+        {{ t('components.setupWizard.wifi.description') }}
       </p>
     </div>
 
     <!-- Current connection -->
     <div v-if="isLoadingStatus && !wifiStatus" class="text-sm text-content-muted">
-      {{ t('components.pinsWizard.wifi.loadingStatus') }}
+      {{ t('components.setupWizard.wifi.loadingStatus') }}
     </div>
 
     <div
@@ -21,7 +21,7 @@
       <span class="tns-dot bg-status-ok mt-1.5"></span>
       <div class="flex-1 min-w-0">
         <p class="text-sm font-semibold text-content">
-          {{ t('components.pinsWizard.wifi.connectedTo', { ssid: wifiStatus?.ssid || '—' }) }}
+          {{ t('components.setupWizard.wifi.connectedTo', { ssid: wifiStatus?.ssid || '—' }) }}
         </p>
         <p class="text-xs text-content-muted break-all">
           {{ connectionDetails }}
@@ -34,17 +34,17 @@
       class="flex items-start gap-3 rounded-control border border-status-warn/40 bg-status-warn/10 p-3"
     >
       <span class="tns-dot bg-status-warn mt-1.5"></span>
-      <p class="text-sm text-content">{{ t('components.pinsWizard.wifi.notConnected') }}</p>
+      <p class="text-sm text-content">{{ t('components.setupWizard.wifi.notConnected') }}</p>
     </div>
 
     <!-- Network transition feedback -->
     <div v-if="isTransitioning" class="flex flex-col gap-2 rounded-control bg-surface-2 p-3">
-      <p class="text-sm text-content">{{ t('components.pinsWizard.wifi.transitionHint') }}</p>
+      <p class="text-sm text-content">{{ t('components.setupWizard.wifi.transitionHint') }}</p>
       <p class="text-xs text-content-faint font-mono">{{ rigConnectionState.phase }}</p>
     </div>
 
     <button v-if="showRetryFind" class="tns-btn-secondary" :disabled="isBusy" @click="retryFindRig">
-      {{ t('components.pinsWizard.wifi.retryFind') }}
+      {{ t('components.setupWizard.wifi.retryFind') }}
     </button>
 
     <!-- Change network -->
@@ -54,7 +54,7 @@
       :disabled="isBusy"
       @click="openPicker"
     >
-      {{ t('components.pinsWizard.wifi.chooseOtherNetwork') }}
+      {{ t('components.setupWizard.wifi.chooseOtherNetwork') }}
     </button>
 
     <template v-if="showPicker">
@@ -62,18 +62,18 @@
         <ArrowPathIcon class="w-5 h-5" :class="{ 'animate-spin': isScanning }" />
         {{
           isScanning
-            ? t('components.pinsWizard.wifi.scanning')
-            : t('components.pinsWizard.wifi.scan')
+            ? t('components.setupWizard.wifi.scanning')
+            : t('components.setupWizard.wifi.scan')
         }}
       </button>
 
       <template v-if="networks.length">
         <label class="flex flex-col gap-1">
           <span class="text-xs font-semibold uppercase text-content-muted">
-            {{ t('components.pinsWizard.wifi.selectNetwork') }}
+            {{ t('components.setupWizard.wifi.selectNetwork') }}
           </span>
           <select v-model="selectedSsid" class="tns-select" :disabled="isBusy">
-            <option value="" disabled>{{ t('components.pinsWizard.wifi.selectNetwork') }}</option>
+            <option value="" disabled>{{ t('components.setupWizard.wifi.selectNetwork') }}</option>
             <option v-for="net in networks" :key="net.ssid" :value="net.ssid">
               {{ net.ssid }} ({{ net.quality }}) {{ net.encrypted ? '🔒' : '' }}
             </option>
@@ -82,7 +82,7 @@
 
         <label class="flex flex-col gap-1">
           <span class="text-xs font-semibold uppercase text-content-muted">
-            {{ t('components.pinsWizard.wifi.password') }}
+            {{ t('components.setupWizard.wifi.password') }}
           </span>
           <input
             v-model="password"
@@ -90,13 +90,13 @@
             autocomplete="off"
             class="tns-input"
             :disabled="isBusy"
-            :placeholder="t('components.pinsWizard.wifi.passwordPlaceholder')"
+            :placeholder="t('components.setupWizard.wifi.passwordPlaceholder')"
           />
         </label>
 
         <label class="flex items-center gap-2 text-sm text-content-muted">
           <input v-model="autoConnect" type="checkbox" class="w-5 h-5" :disabled="isBusy" />
-          {{ t('components.pinsWizard.wifi.autoConnect') }}
+          {{ t('components.setupWizard.wifi.autoConnect') }}
         </label>
 
         <button
@@ -106,14 +106,14 @@
         >
           {{
             isConnecting
-              ? t('components.pinsWizard.wifi.connecting')
-              : t('components.pinsWizard.wifi.connect')
+              ? t('components.setupWizard.wifi.connecting')
+              : t('components.setupWizard.wifi.connect')
           }}
         </button>
       </template>
 
       <p v-else-if="hasScanned && !isScanning" class="text-sm text-content-muted italic">
-        {{ t('components.pinsWizard.wifi.noNetworks') }}
+        {{ t('components.setupWizard.wifi.noNetworks') }}
       </p>
     </template>
 
@@ -208,7 +208,7 @@ async function scanNetworks() {
     hasScanned.value = true;
   } catch (error) {
     console.error('[PinsWizard] WiFi scan failed:', error);
-    errorMessage.value = t('components.pinsWizard.wifi.scanFailed', { message: error.message });
+    errorMessage.value = t('components.setupWizard.wifi.scanFailed', { message: error.message });
   } finally {
     isScanning.value = false;
   }
@@ -242,7 +242,7 @@ async function connectToNetwork() {
     }
   } catch (error) {
     console.error('[PinsWizard] WiFi connect failed:', error);
-    errorMessage.value = t('components.pinsWizard.wifi.connectFailed', { message: error.message });
+    errorMessage.value = t('components.setupWizard.wifi.connectFailed', { message: error.message });
   } finally {
     // Network credentials are session-only and are discarded after submission.
     password.value = '';
@@ -261,7 +261,7 @@ async function retryFindRig() {
     });
     await loadStatus();
   } catch (error) {
-    errorMessage.value = t('components.pinsWizard.wifi.retryFailed', { message: error.message });
+    errorMessage.value = t('components.setupWizard.wifi.retryFailed', { message: error.message });
   } finally {
     isRecovering.value = false;
   }

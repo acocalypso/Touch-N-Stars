@@ -13,9 +13,9 @@
         <button
           v-if="store.isPINS"
           class="tns-btn-secondary mb-4"
-          @click="settingsStore.resetPinsWizard()"
+          @click="settingsStore.resetSetupWizard()"
         >
-          {{ $t('components.pinsWizard.restart') }}
+          {{ $t('components.setupWizard.restart') }}
         </button>
 
         <!-- Control Panel -->

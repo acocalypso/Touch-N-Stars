@@ -2,10 +2,10 @@
   <div class="flex flex-col gap-4">
     <div>
       <h2 class="text-xl font-semibold text-content">
-        {{ t('components.pinsWizard.focuser.title') }}
+        {{ t('components.setupWizard.focuser.title') }}
       </h2>
       <p class="text-sm text-content-muted mt-1">
-        {{ t('components.pinsWizard.focuser.description') }}
+        {{ t('components.setupWizard.focuser.description') }}
       </p>
     </div>
 
@@ -17,13 +17,13 @@
       listAction="focusAction"
       rescanKey="focus"
       profileSection="FocuserSettings"
-      :label="t('components.pinsWizard.focuser.selectDriver')"
+      :label="t('components.setupWizard.focuser.selectDriver')"
     />
 
     <!-- 2. Device + connect -->
     <div class="flex flex-col gap-1">
       <span class="text-xs font-semibold uppercase text-content-muted">
-        {{ t('components.pinsWizard.focuser.connectDevice') }}
+        {{ t('components.setupWizard.focuser.connectDevice') }}
       </span>
       <selectDevices
         apiAction="focusAction"
@@ -40,7 +40,7 @@
     >
       <span class="tns-dot bg-status-ok mt-1.5"></span>
       <p class="text-sm text-content">
-        {{ t('components.pinsWizard.focuser.connected', { name: store.focuserInfo?.Name || '' }) }}
+        {{ t('components.setupWizard.focuser.connected', { name: store.focuserInfo?.Name || '' }) }}
       </p>
     </div>
 
@@ -50,17 +50,17 @@
         class="w-5 h-5 transition-transform"
         :class="{ 'rotate-180': showNotFound }"
       />
-      {{ t('components.pinsWizard.focuser.notFound') }}
+      {{ t('components.setupWizard.focuser.notFound') }}
     </button>
 
     <div v-if="showNotFound" class="flex flex-col gap-3">
       <p class="text-sm text-content-muted">
-        {{ t('components.pinsWizard.focuser.notFoundHint') }}
+        {{ t('components.setupWizard.focuser.notFoundHint') }}
       </p>
 
       <Indi3rdpartyInstallPanel
         search-seed="focus"
-        label-prefix="components.pinsWizard.focuser"
+        label-prefix="components.setupWizard.focuser"
         @installed="driverSelect?.loadDrivers()"
       />
     </div>

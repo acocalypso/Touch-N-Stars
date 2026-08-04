@@ -12,11 +12,11 @@
           <div class="flex items-start justify-between gap-3">
             <div>
               <h1 class="text-2xl font-bold text-content">
-                {{ t('components.pinsWizard.title') }}
+                {{ t('components.setupWizard.title') }}
               </h1>
               <p class="text-sm text-content-muted">
                 {{
-                  t('components.pinsWizard.stepCounter', {
+                  t('components.setupWizard.stepCounter', {
                     current: currentStepIndex + 1,
                     total: steps.length,
                   })
@@ -26,8 +26,8 @@
             </div>
             <button
               class="tns-btn-ghost shrink-0"
-              :title="t('components.pinsWizard.remindLater')"
-              @click="remindLater"
+              :title="t('components.setupWizard.cancel')"
+              @click="cancel"
             >
               <XMarkIcon class="w-6 h-6" />
             </button>
@@ -55,10 +55,10 @@
               <!-- Welcome -->
               <div v-if="currentStep.id === 'welcome'" class="flex flex-col gap-4">
                 <h2 class="text-xl font-semibold text-content">
-                  {{ t('components.pinsWizard.welcome.title') }}
+                  {{ t('components.setupWizard.welcome.title') }}
                 </h2>
                 <p class="text-sm text-content-muted">
-                  {{ t('components.pinsWizard.welcome.description') }}
+                  {{ t('components.setupWizard.welcome.description') }}
                 </p>
                 <ul class="flex flex-col gap-2 text-sm text-content-muted">
                   <li v-for="step in steps.slice(1, -1)" :key="step.id" class="flex gap-2">
@@ -66,7 +66,16 @@
                     <span>{{ t(step.labelKey) }}</span>
                   </li>
                 </ul>
+                <p class="text-xs text-content-faint">
+                  {{ t('components.setupWizard.welcome.cancelHint') }}
+                </p>
               </div>
+
+              <WizardLanguageStep v-else-if="currentStep.id === 'language'" />
+
+              <WizardInfoStep v-else-if="currentStep.id === 'info'" />
+
+              <WizardInstanceStep v-else-if="currentStep.id === 'instance'" />
 
               <WizardWifiStep v-else-if="currentStep.id === 'wifi'" />
 
@@ -91,13 +100,18 @@
               <!-- Done -->
               <div v-else class="flex flex-col gap-4">
                 <h2 class="text-xl font-semibold text-content">
-                  {{ t('components.pinsWizard.done.title') }}
+                  {{ t('components.setupWizard.done.title') }}
                 </h2>
                 <p class="text-sm text-content-muted">
-                  {{ t('components.pinsWizard.done.description') }}
+                  {{ t('components.setupWizard.done.description') }}
                 </p>
                 <p class="text-sm text-content-faint">
-                  {{ t('components.pinsWizard.done.moreDevicesHint') }}
+                  {{ t('components.setupWizard.done.moreDevicesHint') }}
+                </p>
+                <!-- Anyone who skipped the instance step lands on the connection
+                     splash afterwards; say where to fix that. -->
+                <p v-if="!store.isBackendReachable" class="text-sm text-status-warn">
+                  {{ t('components.setupWizard.done.noConnectionHint') }}
                 </p>
               </div>
             </div>
@@ -110,13 +124,13 @@
               class="tns-btn-secondary flex-1"
               @click="previousStep"
             >
-              {{ t('components.pinsWizard.back') }}
+              {{ t('components.setupWizard.back') }}
             </button>
             <button v-if="isLastStep" class="tns-btn-primary flex-1" @click="finish">
-              {{ t('components.pinsWizard.finish') }}
+              {{ t('components.setupWizard.finish') }}
             </button>
             <button v-else class="tns-btn-primary flex-1" @click="nextStep">
-              {{ t('components.pinsWizard.next') }}
+              {{ t('components.setupWizard.next') }}
             </button>
           </div>
         </div>
@@ -129,8 +143,13 @@
 import { computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { XMarkIcon } from '@heroicons/vue/24/outline';
+import { Capacitor } from '@capacitor/core';
 import { useSettingsStore } from '@/store/settingsStore';
+import { apiStore } from '@/store/store';
 import { usePinsStore } from '@/plugins/pins/store/pinsStore';
+import WizardLanguageStep from './steps/WizardLanguageStep.vue';
+import WizardInfoStep from './steps/WizardInfoStep.vue';
+import WizardInstanceStep from './steps/WizardInstanceStep.vue';
 import WizardWifiStep from './steps/WizardWifiStep.vue';
 import WizardUpdatesStep from './steps/WizardUpdatesStep.vue';
 import WizardMountStep from './steps/WizardMountStep.vue';
@@ -146,61 +165,82 @@ const emit = defineEmits(['close']);
 
 const { t } = useI18n();
 const settingsStore = useSettingsStore();
+const store = apiStore();
 const pinsStore = usePinsStore();
 
-// Adding a device step later means inserting one entry here plus its component
-// branch above - nothing else in the shell is step-count aware.
-const steps = [
-  { id: 'welcome', labelKey: 'components.pinsWizard.steps.welcome' },
-  { id: 'wifi', labelKey: 'components.pinsWizard.steps.wifi' },
-  { id: 'updates', labelKey: 'components.pinsWizard.steps.updates' },
-  { id: 'mount', labelKey: 'components.pinsWizard.steps.mount' },
-  { id: 'slewRate', labelKey: 'components.pinsWizard.steps.slewRate' },
-  { id: 'location', labelKey: 'components.pinsWizard.steps.location' },
-  // Telescope before camera on purpose: the camera step's image-scale readout
-  // needs TelescopeSettings.FocalLength to be set.
-  { id: 'telescope', labelKey: 'components.pinsWizard.steps.telescope' },
-  { id: 'camera', labelKey: 'components.pinsWizard.steps.camera' },
-  { id: 'focuser', labelKey: 'components.pinsWizard.steps.focuser' },
-  { id: 'filterWheel', labelKey: 'components.pinsWizard.steps.filterWheel' },
-  // Guider last on purpose: PHD2 needs a connected mount, and the dither
-  // calculator needs the camera and telescope values from the steps above.
-  { id: 'guider', labelKey: 'components.pinsWizard.steps.guider' },
-  { id: 'done', labelKey: 'components.pinsWizard.steps.done' },
-];
+const isMobile = ['android', 'ios'].includes(Capacitor.getPlatform());
 
-function clampStep(step) {
-  const parsed = Number.parseInt(step, 10);
-  if (!Number.isFinite(parsed)) return 1;
-  return Math.min(Math.max(parsed, 1), steps.length);
+function step(id) {
+  return { id, labelKey: `components.setupWizard.steps.${id}` };
 }
 
-// 1-based to match the persisted value in settingsStore.
-const currentStepNumber = ref(clampStep(settingsStore.pinsWizard.currentStep));
-const currentStepIndex = computed(() => currentStepNumber.value - 1);
-const currentStep = computed(() => steps[currentStepIndex.value]);
-const isLastStep = computed(() => currentStepNumber.value === steps.length);
+/**
+ * The list is dynamic: the instance step only exists on mobile, and every rig
+ * step depends on isPINS - which only flips once the instance step established
+ * a connection. Adding a device step means one entry here plus one v-else-if
+ * branch above; nothing else in the shell is step-aware.
+ */
+const steps = computed(() => [
+  step('welcome'),
+  step('language'),
+  step('info'),
+  ...(isMobile ? [step('instance')] : []),
+  ...(store.isPINS ? [step('wifi'), step('updates'), step('mount'), step('slewRate')] : []),
+  step('location'),
+  // Telescope before camera on purpose: the camera step's image-scale readout
+  // needs TelescopeSettings.FocalLength to be set.
+  ...(store.isPINS
+    ? [
+        step('telescope'),
+        step('camera'),
+        step('focuser'),
+        step('filterWheel'),
+        // Guider last on purpose: PHD2 needs a connected mount, and the dither
+        // calculator needs the camera and telescope values from the steps above.
+        step('guider'),
+      ]
+    : []),
+  step('done'),
+]);
 
-watch(currentStepNumber, (step) => settingsStore.setPinsWizardStep(step));
+// Tracked by id, not by index: the list grows underneath the user when isPINS
+// flips, and an index would then point at a different step than they were on.
+const currentStepId = ref(settingsStore.setupWizard.currentStepId || steps.value[0].id);
+
+const currentStepIndex = computed(() => {
+  const index = steps.value.findIndex((entry) => entry.id === currentStepId.value);
+  // The step disappeared (a persisted id from another mode, or isPINS went
+  // false) - fall back to the beginning rather than rendering nothing.
+  return index === -1 ? 0 : index;
+});
+const currentStep = computed(() => steps.value[currentStepIndex.value]);
+const isLastStep = computed(() => currentStepIndex.value === steps.value.length - 1);
+
+watch(currentStepId, (id) => settingsStore.setSetupWizardStep(id));
+
+function goToIndex(index) {
+  const target = steps.value[index];
+  if (target) currentStepId.value = target.id;
+}
 
 function nextStep() {
-  if (currentStepNumber.value < steps.length) {
-    currentStepNumber.value += 1;
-  }
+  goToIndex(currentStepIndex.value + 1);
 }
 
 function previousStep() {
-  if (currentStepNumber.value > 1) {
-    currentStepNumber.value -= 1;
-  }
+  goToIndex(currentStepIndex.value - 1);
 }
 
-function remindLater() {
+// Cancel and finish are the same transaction - completeSetupWizard() also marks
+// the setup itself complete, so the app is usable either way. Only the wording
+// the user saw beforehand differs.
+function cancel() {
+  settingsStore.completeSetupWizard();
   emit('close');
 }
 
 function finish() {
-  settingsStore.completePinsWizard();
+  settingsStore.completeSetupWizard();
   emit('close');
 }
 </script>

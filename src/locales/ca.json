@@ -226,9 +226,9 @@
       "next": "Següent",
       "skip": "Salta el tutorial"
     },
-    "pinsWizard": {
-      "title": "PINS Setup Assistant",
-      "restart": "Start PINS setup assistant",
+    "setupWizard": {
+      "title": "Setup Assistant",
+      "restart": "Start setup assistant",
       "stepCounter": "Step {current} of {total}",
       "next": "Next",
       "back": "Back",
@@ -236,6 +236,9 @@
       "remindLater": "Remind me later",
       "steps": {
         "welcome": "Welcome",
+        "language": "Language",
+        "info": "Getting started",
+        "instance": "Connection",
         "wifi": "Wi-Fi",
         "updates": "Updates",
         "mount": "Mount",
@@ -255,8 +258,22 @@
         "changeFailed": "Could not apply the driver: {message}"
       },
       "welcome": {
-        "title": "Let's set up your PINS rig",
-        "description": "This assistant guides you through the basic configuration of your rig, one step at a time. You can skip any step and come back later."
+        "title": "Let's set up Touch'N'Stars",
+        "description": "This assistant walks you through the setup one step at a time — language, the connection to your rig, and its equipment.",
+        "cancelHint": "You can cancel at any point and finish the rest later from the settings."
+      },
+      "language": {
+        "description": "The language of the app. You can change it later in the settings."
+      },
+      "info": {
+        "openWiki": "Open the wiki"
+      },
+      "instance": {
+        "description": "Address of the machine running N.I.N.A. On the same network the app can usually find it by itself.",
+        "connect": "Save and connect",
+        "connecting": "Connecting…",
+        "connected": "Connected to {name}",
+        "connectFailed": "Connection failed: {message}"
       },
       "wifi": {
         "title": "Connect the rig to Wi-Fi",
@@ -410,10 +427,12 @@
         "applyFailed": "Could not save: {message}"
       },
       "done": {
-        "title": "Camera is ready",
-        "description": "Your rig is connected, up to date, and mount and camera are configured.",
-        "moreDevicesHint": "Focuser, filter wheel and guiding follow in a later step of this assistant."
-      }
+        "title": "Your equipment is ready",
+        "description": "Your rig is connected, up to date, and mount, camera, focuser, filter wheel and guiding are configured.",
+        "moreDevicesHint": "Flat panel, weather and the remaining devices are configured on their own pages.",
+        "noConnectionHint": "No connection to a rig yet. You can add one under Settings → Connection at any time."
+      },
+      "cancel": "Cancel setup"
     },
     "fileBrowser": {
       "title": "Navega",

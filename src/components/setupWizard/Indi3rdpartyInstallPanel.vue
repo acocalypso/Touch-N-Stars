@@ -61,7 +61,7 @@ const props = defineProps({
   // The user can clear the search field to widen it again.
   searchSeed: { type: String, default: '' },
   // i18n prefix holding installing/installSuccess/installFailed,
-  // e.g. 'components.pinsWizard.focuser'
+  // e.g. 'components.setupWizard.focuser'
   labelPrefix: { type: String, required: true },
 });
 
@@ -98,7 +98,7 @@ async function loadDrivers() {
     }
   } catch (error) {
     console.error('[PinsWizard] 3rd party driver list failed:', error);
-    installStatus.value = t('components.pinsWizard.driver.listFailed', {
+    installStatus.value = t('components.setupWizard.driver.listFailed', {
       message: error.message,
     });
   } finally {

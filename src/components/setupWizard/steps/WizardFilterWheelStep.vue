@@ -2,10 +2,10 @@
   <div class="flex flex-col gap-4">
     <div>
       <h2 class="text-xl font-semibold text-content">
-        {{ t('components.pinsWizard.filterWheel.title') }}
+        {{ t('components.setupWizard.filterWheel.title') }}
       </h2>
       <p class="text-sm text-content-muted mt-1">
-        {{ t('components.pinsWizard.filterWheel.description') }}
+        {{ t('components.setupWizard.filterWheel.description') }}
       </p>
     </div>
 
@@ -17,13 +17,13 @@
       listAction="filterAction"
       rescanKey="filter"
       profileSection="FilterWheelSettings"
-      :label="t('components.pinsWizard.filterWheel.selectDriver')"
+      :label="t('components.setupWizard.filterWheel.selectDriver')"
     />
 
     <!-- 2. Device + connect -->
     <div class="flex flex-col gap-1">
       <span class="text-xs font-semibold uppercase text-content-muted">
-        {{ t('components.pinsWizard.filterWheel.connectDevice') }}
+        {{ t('components.setupWizard.filterWheel.connectDevice') }}
       </span>
       <selectDevices
         apiAction="filterAction"
@@ -42,7 +42,7 @@
       <span class="tns-dot bg-status-ok mt-1.5"></span>
       <p class="text-sm text-content">
         {{
-          t('components.pinsWizard.filterWheel.connected', { name: store.filterInfo?.Name || '' })
+          t('components.setupWizard.filterWheel.connected', { name: store.filterInfo?.Name || '' })
         }}
       </p>
     </div>
@@ -58,10 +58,10 @@
     <!-- 4. Filter names -->
     <div v-if="store.filterInfo?.Connected && filters.length" class="flex flex-col gap-2">
       <span class="text-xs font-semibold uppercase text-content-muted">
-        {{ t('components.pinsWizard.filterWheel.filterNames') }}
+        {{ t('components.setupWizard.filterWheel.filterNames') }}
       </span>
       <p class="text-sm text-content-muted">
-        {{ t('components.pinsWizard.filterWheel.filterNamesHint') }}
+        {{ t('components.setupWizard.filterWheel.filterNamesHint') }}
       </p>
       <!-- SetFilterName seeds its input in onMounted only, so re-key it when the
            profile delivers a different name for a slot. -->
@@ -79,17 +79,17 @@
         class="w-5 h-5 transition-transform"
         :class="{ 'rotate-180': showNotFound }"
       />
-      {{ t('components.pinsWizard.filterWheel.notFound') }}
+      {{ t('components.setupWizard.filterWheel.notFound') }}
     </button>
 
     <div v-if="showNotFound" class="flex flex-col gap-3">
       <p class="text-sm text-content-muted">
-        {{ t('components.pinsWizard.filterWheel.notFoundHint') }}
+        {{ t('components.setupWizard.filterWheel.notFoundHint') }}
       </p>
 
       <Indi3rdpartyInstallPanel
         search-seed="filter"
-        label-prefix="components.pinsWizard.filterWheel"
+        label-prefix="components.setupWizard.filterWheel"
         @installed="driverSelect?.loadDrivers()"
       />
     </div>

@@ -2,17 +2,17 @@
   <div class="flex flex-col gap-4">
     <div>
       <h2 class="text-xl font-semibold text-content">
-        {{ t('components.pinsWizard.slewRate.title') }}
+        {{ t('components.setupWizard.slewRate.title') }}
       </h2>
       <p class="text-sm text-content-muted mt-1">
-        {{ t('components.pinsWizard.slewRate.description') }}
+        {{ t('components.setupWizard.slewRate.description') }}
       </p>
     </div>
 
     <NumberInputPicker
       v-model="indiMaxSlewRateDps"
-      :label="t('components.pinsWizard.slewRate.maxSlewRate')"
-      labelKey="components.pinsWizard.slewRate.maxSlewRate"
+      :label="t('components.setupWizard.slewRate.maxSlewRate')"
+      labelKey="components.setupWizard.slewRate.maxSlewRate"
       :min="0.1"
       :max="20"
       :step="0.1"
@@ -21,7 +21,7 @@
       @change="updateMaxSlewRate"
     />
     <p class="text-xs text-content-faint">
-      {{ t('components.pinsWizard.slewRate.maxSlewRateHint') }}
+      {{ t('components.setupWizard.slewRate.maxSlewRateHint') }}
     </p>
 
     <SettingInput
@@ -73,7 +73,9 @@ async function updateMaxSlewRate() {
     );
   } catch (error) {
     console.error('[PinsWizard] Max slew rate failed:', error);
-    errorMessage.value = t('components.pinsWizard.slewRate.saveFailed', { message: error.message });
+    errorMessage.value = t('components.setupWizard.slewRate.saveFailed', {
+      message: error.message,
+    });
   }
 }
 </script>

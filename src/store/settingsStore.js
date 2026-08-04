@@ -72,6 +72,10 @@ export const useSettingsStore = defineStore('settings', {
     pinsWizard: {
       completed: localStorage.getItem('pinsWizardCompleted') === 'true',
       currentStep: Number.parseInt(localStorage.getItem('pinsWizardCurrentStep'), 10) || 1,
+      // Bumped by resetPinsWizard(). App.vue watches it as the explicit "open the
+      // wizard now" signal - `completed` alone cannot express it, because after
+      // "remind me later" it is already false and toggling it changes nothing.
+      openRequest: 0,
     },
     framing: {
       useNinaCache: true,
@@ -615,6 +619,7 @@ export const useSettingsStore = defineStore('settings', {
     resetPinsWizard() {
       this.pinsWizard.completed = false;
       this.pinsWizard.currentStep = 1;
+      this.pinsWizard.openRequest += 1;
       localStorage.removeItem('pinsWizardCompleted');
       localStorage.removeItem('pinsWizardCurrentStep');
     },

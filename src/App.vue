@@ -1400,11 +1400,17 @@ function closePinsWizard() {
 }
 
 watch(
-  () => [store.isPINS, settingsStore.setupCompleted, settingsStore.pinsWizard.completed],
-  ([, , completed], [, , wasCompleted] = []) => {
-    // An explicit reset (settings button) reopens the wizard even after the user
-    // dismissed it earlier in this session.
-    if (wasCompleted && !completed) {
+  () => [
+    store.isPINS,
+    settingsStore.setupCompleted,
+    settingsStore.pinsWizard.completed,
+    settingsStore.pinsWizard.openRequest,
+  ],
+  ([, , completed, openRequest], [, , , previousRequest] = []) => {
+    // resetPinsWizard() bumps openRequest, which is the only reliable "open it
+    // now" signal: after "remind me later" the wizard is neither completed nor
+    // open, so watching `completed` alone would never fire again.
+    if (previousRequest !== undefined && openRequest > previousRequest) {
       pinsWizardDismissed.value = false;
     }
 

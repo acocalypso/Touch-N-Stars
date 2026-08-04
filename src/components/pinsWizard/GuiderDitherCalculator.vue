@@ -186,11 +186,14 @@ const scaleMismatch = computed(() => {
 });
 
 onMounted(async () => {
-  // All three are only reachable in PINS and no-op elsewhere.
+  // All four are only reachable in PINS and no-op elsewhere. The focal length is
+  // fetched here rather than relying on a sibling component having loaded it -
+  // guideScale is useless without it, and the calculator has to stand on its own.
   await Promise.all([
     guiderStore.fetchPHD2PixelSize(),
     guiderStore.fetchPHD2CameraBinning(),
     guiderStore.fetchPHD2PixelScale(),
+    guiderStore.fetchPHD2FocalLength(),
   ]);
   if (reportedGuidePixelSize.value) {
     manualGuidePixelSize.value = reportedGuidePixelSize.value;

@@ -1,7 +1,7 @@
 <template>
-  <div v-if="isVisible" class="flex flex-col border border-gray-500 p-1 md:p-2 rounded-lg">
+  <div v-if="isVisible" class="tns-card flex flex-col">
     <div class="flex flex-row items-center justify-between w-full">
-      <label for="slotNum" class="text-xs md:text-sm text-gray-200 mr-2">
+      <label for="slotNum" class="text-xs md:text-sm text-content mr-2">
         {{ $t('components.filterwheel.settings.SlotNum') }}
       </label>
       <select

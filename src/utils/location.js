@@ -1,4 +1,5 @@
 import { ref } from 'vue';
+import { Capacitor } from '@capacitor/core';
 import { Geolocation } from '@capacitor/geolocation';
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';

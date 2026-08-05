@@ -7,8 +7,22 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [App6.1.3-beta1] - 2026-08-01
 
+### Added
+
+- Setup wizard: The first-run setup and the equipment configuration are now one guided assistant that opens automatically on first start. It covers language, the connection to your rig, and then the equipment: mount, location, telescope, camera, focuser and filter wheel. On PINS it additionally covers the rig's Wi-Fi, its software updates, the maximum slew speed and guiding. Every step writes its values straight to the profile, so nothing is lost if you leave in between
+- Setup wizard: The camera step reads the sensor size from the connected camera and offers to write it into the profile if it differs from what is stored there. Cameras that do not report a sensor size - DSLRs typically - get input fields instead. Together with the pixel size, which no driver reports and which therefore always has to be entered by hand, the resulting image scale in arcsec/px is shown directly, so a mistyped value is obvious right away
+- Setup wizard: The guiding step converts the dither distance for you. NINA stores it in guide camera pixels while the usual recommendations (10-15 px) are given in pixels of the imaging camera, and the two differ by a factor of 2-5 depending on the guide scope. The step shows both image scales, the resulting offset on sky and what is currently in the profile, and warns if PHD2 itself is working with a different focal length or pixel size
+- Setup wizard: On PINS, every device step can install a missing 3rd party INDI driver without leaving the wizard, and the camera step lists natively supported cameras first - an INDI driver is only needed if the camera does not appear there
+
+### Changed
+
+- Setup: The initial setup is no longer mandatory and can be cancelled at any point. Previously every screen redirected back to the setup page until an instance had been configured; now the app stays usable and the connection can be added later under Settings. The wizard can be reopened at any time from Settings, and on PINS also from the PINS page
+- 3rd party INDI drivers (PINS): Camera drivers can now be installed as well. The driver registry has always accepted the camera type, only the install dialog rejected it
+- Guiding: The dither distance can now be set in steps of 0.5 pixels instead of whole pixels, because converting from imaging pixels rarely lands on a round number
+
 ### Fixed
 
+- 3rd party INDI drivers (PINS): When a search returned no packages, the driver selection and the "Edit config" button disappeared along with the results, so there was no way back without reloading. Both now stay in place and the selection is simply disabled
 - Dialogs: On narrow screens content that did not fit the dialog was centred, so its left edge was cut off and could not be reached by scrolling either - in the settings dialog headings and input labels appeared clipped ("onnection Settings"). Dialog content now shrinks to the dialog width, and content that genuinely cannot shrink starts at the left edge and stays scrollable
 
 ## [App6.1.2] - 2026-07-31

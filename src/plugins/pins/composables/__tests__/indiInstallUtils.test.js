@@ -14,7 +14,14 @@ test('validateIndiInstallForm validates type and label constraints', () => {
   assert.equal(valid.normalizedType, 'focuser');
   assert.equal(valid.normalizedLabel, 'My Focuser');
 
-  const invalidType = validateIndiInstallForm({ type: 'camera', label: 'Good Label' });
+  // camera is accepted: the driver registry (PinsIndiRegistryEditModal) has always
+  // known the type, only this install filter was missing it.
+  const validCamera = validateIndiInstallForm({ type: 'camera', label: 'Main Camera' });
+  assert.equal(validCamera.isValid, true);
+  assert.equal(validCamera.normalizedType, 'camera');
+
+  // dome/safetymonitor are NINA device types the INDI 3rd-party registry does not cover.
+  const invalidType = validateIndiInstallForm({ type: 'dome', label: 'Good Label' });
   assert.equal(invalidType.isValid, false);
   assert.match(invalidType.typeError, /allowed values/i);
 

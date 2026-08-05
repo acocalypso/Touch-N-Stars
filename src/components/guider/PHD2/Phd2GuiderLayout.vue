@@ -1,19 +1,22 @@
 <template>
   <div class="overflow-hidden" :style="containerStyle">
-    <!-- Control Buttons at Top -->
-    <div class="relative z-30 p-4" :class="buttonContainerClass">
+    <!-- Control Buttons: row at the top in landscape, column on the right in portrait -->
+    <!-- The wrapper spans the full width, so it must stay transparent for pointer events -->
+    <!-- otherwise it would swallow pinch/pan gestures meant for the image below it. -->
+    <div class="relative z-30 p-4 pointer-events-none" :class="buttonContainerClass">
       <div
         v-if="!store.guiderInfo.Connected"
-        class="p-4 bg-red-500/20 border border-red-500/30 rounded-lg backdrop-blur-sm"
+        class="p-4 bg-red-500/20 border border-red-500/30 rounded-lg backdrop-blur-sm pointer-events-auto"
       >
         <p class="text-red-400 font-medium text-center">
           {{ $t('components.guider.notConnected') }}
         </p>
       </div>
 
-      <div v-if="isLandscape" class="flex flex-col gap-1 items-end">
+      <!-- Portrait Layout: vertical button column on the right -->
+      <div v-if="!isLandscape" class="flex flex-col gap-1 items-end">
         <!-- Top row: Status + Loop Button -->
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-3 pointer-events-auto">
           <!-- Status Display -->
           <div class="px-3 py-2 bg-black/30 rounded-lg backdrop-blur-sm">
             <div class="flex items-center gap-2">
@@ -42,7 +45,7 @@
         </div>
 
         <!-- Remaining buttons -->
-        <div class="flex flex-col gap-1">
+        <div class="flex flex-col gap-1 pointer-events-auto">
           <!-- Start Button -->
           <button
             v-if="store.guiderInfo.State !== 'Guiding' && store.guiderInfo.State !== 'Calibrating'"
@@ -174,9 +177,9 @@
         </div>
       </div>
 
-      <!-- Portrait Layout -->
+      <!-- Landscape Layout: horizontal button row at the top -->
       <div v-else class="flex flex-col w-full items-center gap-2">
-        <div class="flex items-center justify-center gap-2">
+        <div class="flex items-center justify-center gap-2 pointer-events-auto">
           <!-- Loop Button -->
           <button
             v-if="store.guiderInfo.State !== 'Guiding' && store.guiderInfo.State !== 'Calibrating'"
@@ -322,7 +325,7 @@
         </div>
 
         <!-- Status Display -->
-        <div class="px-3 py-2 bg-black/30 rounded-lg backdrop-blur-sm">
+        <div class="px-3 py-2 bg-black/30 rounded-lg backdrop-blur-sm pointer-events-auto">
           <div class="flex items-center gap-2">
             <div class="status-indicator" :class="statusClasses">
               <div class="status-dot"></div>
@@ -355,7 +358,8 @@
       </div>
 
       <!-- Star Components overlay (über Button ein-/ausblendbar) -->
-      <div v-if="showStarImage" class="absolute inset-0">
+      <!-- Not interactive: keep it transparent so the image below stays zoomable -->
+      <div v-if="showStarImage" class="absolute inset-0 pointer-events-none">
         <div v-if="isLandscape" class="absolute inset-0">
           <!-- Star Components oben mittig -->
           <div class="p-4 flex gap-4 justify-center relative z-10" :style="landscapeContainerStyle">
@@ -488,24 +492,24 @@ const containerStyle = computed(() => {
 
 const buttonContainerClass = computed(() => {
   if (isLandscape.value) {
-    return 'flex justify-end items-start'; // Right alignment in landscape
+    return 'flex justify-center items-start'; // Button row centered at the top in landscape
   } else {
-    return 'flex justify-center items-center'; // Center in portrait
+    return 'flex justify-end items-start'; // Button column on the right in portrait
   }
 });
 
 const imageStyle = computed(() => {
   if (isLandscape.value) {
-    // Landscape: Image starts from top, buttons overlay on top-right
-    return {
-      top: '0',
-      height: '100%',
-    };
-  } else {
-    // Portrait: Image starts below buttons
+    // Landscape: Image starts below the button row
     return {
       top: '80px',
       height: 'calc(100% - 80px)',
+    };
+  } else {
+    // Portrait: Image fills the area, buttons overlay on the right
+    return {
+      top: '0',
+      height: '100%',
     };
   }
 });
@@ -528,6 +532,7 @@ const responsiveStarProfileStyle = computed(() => ({
 
 const portraitContainerStyle = computed(() => ({
   height: `${responsiveStarSize.value.height + 16}px`, // Höhe + Padding
+  paddingRight: '80px', // Platz für die Button-Spalte am rechten Rand
 }));
 
 const landscapeContainerStyle = computed(() => ({

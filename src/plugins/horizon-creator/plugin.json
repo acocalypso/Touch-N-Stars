@@ -1,7 +1,7 @@
 {
   "id": "horizon-creator",
   "name": "Horizon Creator",
-  "description": "Build a custom horizon by slewing your mount to horizon points. Saves NINA .hrz files and overlays the horizon on the Stellarium view.",
+  "description": "Build a custom horizon by slewing your mount to horizon points. Saves NINA .hrz files and overlays the horizon on the Celestia Atlas view.",
   "version": "1.0.0",
   "author": "Florin Dumitrescu",
   "defaultEnabled": false,

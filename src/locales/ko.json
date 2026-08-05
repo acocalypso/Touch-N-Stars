@@ -72,7 +72,12 @@
     "error": "업데이트에 실패했습니다. 나중에 다시 시도하세요.",
     "later": "나중에",
     "updateNow": "지금 업데이트",
-    "working": "작업 중…"
+    "working": "작업 중…",
+    "checkNow": "업데이트 확인",
+    "checking": "확인 중…",
+    "upToDateTitle": "사용 가능한 업데이트 없음",
+    "upToDateMessage": "이미 최신 버전을 사용 중입니다.",
+    "checkFailedTitle": "업데이트 확인 실패"
   },
   "setup": {
     "welcome": "Touch'N'Stars에 오신 것을 환영합니다",
@@ -136,7 +141,8 @@
       "noInstances": "구성된 인스턴스 없음",
       "manageInstances": "인스턴스 관리",
       "checking": "인스턴스 확인 중…",
-      "noneOnline": "온라인 인스턴스 없음"
+      "noneOnline": "온라인 인스턴스 없음",
+      "switchingTo": "Switching to {name}…"
     },
     "instanceDetection": {
       "autoDetectionTitle": "자동 감지",
@@ -364,6 +370,10 @@
       },
       "beta": {
         "title": "베타 업데이트 채널"
+      },
+      "devChannel": {
+        "title": "개발 업데이트 채널",
+        "description": "공식 저장소 대신 개발자의 개인 저장소에서 테스트 빌드를 받습니다."
       },
       "showTutorial": "튜토리얼 보기",
       "plugins": {
@@ -1441,7 +1451,7 @@
       "dew_heater_on": "결로 방지 히터 켜기",
       "dew_heater_off": "결로 방지 히터 끄기",
       "dewHeaterStrength": "결로 방지 히터 세기",
-      "camera_cooling": "카메라 쿨다운",
+      "cool_down": "냉각",
       "target_temperature": "목표 온도 (°C)",
       "warm_up_time": "예열 시간 (분)",
       "cooling_time": "냉각 시간 (분)",
@@ -1459,7 +1469,7 @@
       "at_target_temp": "목표 온도 도달",
       "temperature_setpoint": "온도 설정값 (°C)",
       "cooler_power": "쿨러 출력 (%)",
-      "camera_warming": "카메라 예열",
+      "warm_up": "예열",
       "cooler_status": "쿨러 상태",
       "cooler_status_off": "꺼짐",
       "cooler_status_cooling": "작동 중 - 냉각 목표",
@@ -1692,6 +1702,9 @@
     },
     "flatassistant": {
       "title": "플랫 어시스턴트",
+      "set_target_name": "대상 이름 설정",
+      "target_name": "대상 이름",
+      "target_name_from_favorites": "즐겨찾기에서 이름 가져오기",
       "count": "촬영할 플랫 수",
       "darks_to_take": "촬영할 다크플랫 수",
       "exposure_time": "노출 시간",
@@ -1777,8 +1790,8 @@
         "preConnectDelay": "연결 전 대기 시간 (ms)"
       }
     },
-    "stellarium": {
-      "loading": "Stellarium 로드 중…",
+    "celestiaAtlas": {
+      "loading": "Celestia Atlas 로드 중…",
       "selected_object": {
         "title": "선택한 천체",
         "ra": "RA",
@@ -1801,21 +1814,37 @@
         "ecliptic_lines_visible": "황도 표시",
         "atmosphere_visible": "대기 표시",
         "landscapes_visible": "지형 표시",
+        "hide_below_horizon": "지평선 아래 천체 숨기기",
+        "sky_survey_visible": "사진 천구 탐사",
+        "sky_survey_hint": "포함된 DSS 하늘 이미지만 오프라인으로 사용하며 인터넷에서 타일을 가져오지 않습니다.",
         "dsos_visible": "심원천체 (메시에, NGC)",
+        "catalog_filters": "목록 필터",
+        "catalog_filter_hint": "표시되는 심원천체 마커를 제어합니다. 오프라인 검색에서는 계속 모든 목록 천체를 찾을 수 있습니다.",
+        "catalog_filter_types": "천체 유형",
+        "catalog_filter_sources": "목록 출처",
+        "catalog_filter_selected": "{total}개 중 {selected}개",
+        "catalog_filter_all": "전체",
+        "catalog_filter_none": "없음",
+        "brightness_filters": "밝기 필터",
+        "magnitude_limit_hint": "값이 낮을수록 밝은 천체만 표시하고, 높을수록 어두운 천체도 표시합니다.",
+        "magnitude_limit_auto": "자동",
+        "star_magnitude_limit": "별 (한계 등급)",
+        "galaxy_magnitude_limit": "은하 (한계 등급)",
+        "dso_magnitude_limit": "기타 심원천체 (한계 등급)",
         "title": "설정",
         "landscape_source_mode": "Landscape source",
         "landscape_source_default": "Default landscape (Guereins)",
         "landscape_source_neutral": "Neutral horizon (Gray)",
         "landscape_source_custom": "Custom data source",
         "custom_landscape_url": "Custom source URL",
-        "custom_landscape_url_placeholder": "e.g. /stellarium-data/landscapes/custom",
+        "custom_landscape_url_placeholder": "e.g. /celestia-atlas-data/landscapes/custom",
         "custom_landscape_key": "Custom source key",
         "custom_landscape_key_placeholder": "e.g. my-landscape",
         "available_landscapes": "사용 가능한 풍경",
         "folder_name_label": "폴더이름",
         "has_allsky": "올스키",
         "landscape_list_load_failed": "풍경을 로드하지 못했습니다.",
-        "landscape_option_label": "풍경: {제목}",
+        "landscape_option_label": "풍경: {title}",
         "no_allsky": "올스카이 없음",
         "no_landscapes_available": "사용할 수 있는 풍경이 없습니다.",
         "service_url_label": "서비스 URL",
@@ -2180,14 +2209,14 @@
       "indiRegistryModalNameDuplicate": "이름이 이미 다른 행에 존재합니다.",
       "wifiSignalMobile": "Mobile signal",
       "wifiRssiValue": "{value} dBm",
-      "wifiChannel": "채널 {채널}",
+      "wifiChannel": "채널 {channel}",
       "wifiConnectedAction": "연결됨",
       "wifiRoleClient": "가정용 WiFi",
       "wifiRoleHotspot": "핫스팟",
       "wifiSignal": "신호",
       "wifiSignalHistory": "WiFi 신호 기록",
       "wifiSignalUnavailable": "신호를 사용할 수 없음",
-      "wifiSignalValue": "{값}%",
+      "wifiSignalValue": "{value}%",
       "wifiStatusConnected": "연결됨",
       "wifiStatusDisconnected": "연결되지 않음"
     },
@@ -2320,8 +2349,17 @@
     "logfileCollector": {
       "title": "로그파일 수집기",
       "intro": "최신 TNS 로그(디버그 포함)를 수집해 설정된 엔드포인트로 업로드합니다.",
-      "descriptionLabel": "설명 (선택)",
+      "descriptionLabel": "설명 (필수)",
       "descriptionPlaceholder": "조사할 문제를 설명하세요...",
+      "descriptionRequired": "로그를 제출하기 전에 설명을 입력해야 합니다.",
+      "successDialog": {
+        "title": "로그 전송 완료",
+        "message": "로그가 성공적으로 업로드되었습니다.",
+        "supportPrompt": "도움이 필요하면 GitHub 이슈를 만들거나 Discord로 문의하세요. 로그를 찾을 수 있도록 생성된 토큰을 포함해 주세요.",
+        "tokenHint": "지원 요청에 이 토큰을 포함하세요:",
+        "github": "GitHub 이슈 만들기",
+        "discord": "Discord 열기"
+      },
       "lastToken": "생성된 토큰",
       "submissionHistory": "제출 기록",
       "confirmClearAll": "모든 제출 기록을 지우시겠습니까?",
@@ -2870,7 +2908,7 @@
         "center_solve_label": "센터링 + 솔브",
         "center_solve_text": "플레이트 솔브 후 타깃 센터링 (마운트 연결 + 보정된 오프셋 필요).",
         "target_solve_label": "타깃 + 솔브",
-        "target_solve_text": "타깃으로 슬루 + 센터링 (마운트 연결 + 프레이밍 어시스턴트의 Stellarium에 타깃 설정 필요)."
+        "target_solve_text": "타깃으로 슬루 + 센터링 (마운트 연결 및 Celestia Atlas에서 타깃 선택 필요)."
       },
       "progress": {
         "title": "솔브 진행",
@@ -3054,6 +3092,17 @@
         "loading_image": "이미지 로드 중 오류: {message}",
         "failed_to_load": "라이브스택 이미지 로드 실패",
         "api_version_required": "API 버전 {version} 이상이 필요합니다"
+      },
+      "rgb": {
+        "title": "RGB 합성",
+        "target": "대상",
+        "red": "빨강 채널",
+        "green": "초록 채널",
+        "blue": "파랑 채널",
+        "create": "RGB 생성",
+        "remove": "RGB 제거",
+        "working": "처리 중...",
+        "no_targets": "아직 사용 가능한 스택 대상이 없습니다"
       }
     },
     "narrowband": {
@@ -4085,7 +4134,6 @@
       "runningFilter": "현재 필터",
       "currentOffsets": "현재 오프셋",
       "newOffsets": "새 오프셋",
-      "useRelativeOffsets": "상대 오프셋 사용",
       "currentAutoFocusFilter": "현재 오토포커스 필터",
       "newAutoFocusFilter": "새 오토포커스 필터",
       "none": "없음",
@@ -4095,7 +4143,30 @@
       "notConnected": "{device}이(가) 연결되지 않았습니다",
       "deviceCamera": "카메라",
       "deviceFocuser": "포커서",
-      "deviceFilterWheel": "필터휠"
+      "deviceFilterWheel": "필터휠",
+      "applyFailed": "오프셋을 적용할 수 없습니다.",
+      "tooFewIterations": "3회 미만의 반복에서는 실패하거나 부정확한 AutoFocus를 감지할 수 없으며 평균을 오프셋으로 계산합니다. \n신뢰할 수 있는 결과를 얻으려면 3개 이상을 사용하세요.",
+      "confirmStopMessage": "지금까지 수행된 모든 측정은 삭제되고 프로필은 이전 상태로 복원됩니다.",
+      "confirmStopTitle": "계산을 중단하시겠습니까?",
+      "baseFilterUnmeasured": "실행의 첫 번째 필터는 사용 가능한 AutoFocus 측정을 생성하지 않았으므로 다른 필터에 대해 언급할 내용이 없었습니다. 아래의 모든 오프셋은 0이고 결과는 사용할 수 없습니다. \n이를 버리고 계산을 다시 실행하십시오.",
+      "board": "자동 초점 측정",
+      "boardHint": "필터당 행 하나, 반복당 열 하나, AutoFocus가 찾은 초점 위치를 표시합니다. \n취소선 값은 이상값으로 삭제되었습니다. \n*는 첫 번째 AutoFocus가 실패하여 반복된 반복을 표시합니다.",
+      "cutoffTooltip": "샘플을 폐기하려면 중앙값 {median}에서 {cutoff} 단계 이상 떨어져 있어야 합니다.",
+      "cutoffUnavailable": "이상치 거부에는 최소 3번의 측정이 필요하므로 아무것도 버릴 수 없습니다.",
+      "drift": "실행 중 초점 드리프트",
+      "estimatedFocusTooltip": "달리기 시작 시 드리프트 보정 초점: {focus}.",
+      "measurementFailed": "AutoFocus에서 사용할 수 있는 측정값이 생성되지 않았습니다.",
+      "noMeasurements": "아직 측정값이 없습니다.",
+      "notMeasuredYet": "아직 측정되지 않음",
+      "rejectedTooltip": "이상값으로 폐기됨: 중앙값 {median}에서 {deviation} 단계.",
+      "rejectedTooltipNoMedian": "이상값으로 폐기되었습니다.",
+      "retriedTooltip": "이 반복에 대한 첫 번째 AutoFocus 시도가 실패하여({failure}) 반복되었습니다.",
+      "samplesUsed": "사용된",
+      "spread": "확산",
+      "stepsPerLoop": "{value} 단계/반복",
+      "summaryTooltip": "{loops} 반복 중 {measured}에서 오프셋에 사용된 {used} 측정이 생성되었습니다.",
+      "summaryTooltipPending": "{loops} 반복 중 {measured}회가 지금까지 측정값을 생성했습니다.",
+      "loopShort": "#{n}"
     },
     "phd2logviewer": {
       "title": "PHD2 로그 뷰어",
@@ -4276,7 +4347,7 @@
       "toast": {
         "errorTitle": "풍경 생성 실패",
         "invalidFileType": "지원되지 않는 파일 형식입니다. \nPNG, JPEG 또는 WebP를 업로드하세요.",
-        "successMessage": "{파일 이름}을(를) 다운로드했습니다.",
+        "successMessage": "{filename}을(를) 다운로드했습니다.",
         "successTitle": "가로 방향 ZIP 지원",
         "validationTitle": "확인",
         "successMessageSaved": "{filename}을(를) {path}에 저장했습니다."
@@ -4763,7 +4834,7 @@
     "monitoring": "모니터",
     "flatWizard": "플랫",
     "framing": "프레이밍",
-    "skyView": "Stellarium",
+    "skyView": "Celestia Atlas",
     "settings": "설정",
     "about": "정보"
   }

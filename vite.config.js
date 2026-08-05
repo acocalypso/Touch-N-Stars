@@ -5,22 +5,21 @@ import { fileURLToPath, URL } from 'node:url';
 import { rm } from 'node:fs/promises';
 import { resolve } from 'node:path';
 
-const excludeStellariumData = process.env.EXCLUDE_STELLARIUM_DATA === 'true';
+const OUT_DIR = process.env.VITE_OUT_DIR || 'dist';
+const excludeCelestiaAtlasData = process.env.EXCLUDE_CELESTIA_ATLAS_DATA === 'true';
 
-function stellariumDataExclude(outDir) {
+function celestiaAtlasDataExclude(outDir) {
   return {
-    name: 'stellarium-data-exclude',
+    name: 'celestia-atlas-data-exclude',
     apply: 'build',
     async closeBundle() {
-      if (!excludeStellariumData) return;
-      const target = resolve(process.cwd(), outDir, 'stellarium-data');
+      if (!excludeCelestiaAtlasData) return;
+      const target = resolve(process.cwd(), outDir, 'celestia-atlas-data');
       await rm(target, { recursive: true, force: true });
-      this.warn?.('Removed stellarium-data from build output (EXCLUDE_STELLARIUM_DATA=true)');
+      this.info?.('Removed celestia-atlas-data from the native build output');
     },
   };
 }
-
-const OUT_DIR = process.env.VITE_OUT_DIR || 'dist';
 
 function isKnownDependencyAnnotationWarning(log) {
   if (log?.code !== 'INVALID_ANNOTATION') return false;
@@ -37,7 +36,7 @@ function isBuildTimingNotice(log) {
 }
 
 export default defineConfig({
-  plugins: [tailwindcss(), vue(), stellariumDataExclude(OUT_DIR)],
+  plugins: [tailwindcss(), vue(), celestiaAtlasDataExclude(OUT_DIR)],
   publicDir: 'public',
   resolve: {
     alias: {
@@ -65,6 +64,31 @@ export default defineConfig({
       output: {
         codeSplitting: {
           groups: [
+            {
+              name: 'celestia-catalog-supplement',
+              test: /node_modules[\/]@acocalypso[\/]celestia-atlas[\/]data[\/](?:stellarium-dso-supplement|abell-pn-catalog)\.json/,
+              priority: 54,
+            },
+            {
+              name: 'celestia-star-catalog',
+              test: /node_modules[\/]@acocalypso[\/]celestia-atlas[\/]data[\/]hyg-star-catalog\.json/,
+              priority: 53,
+            },
+            {
+              name: 'celestia-catalog',
+              test: /node_modules[\/]@acocalypso[\/]celestia-atlas[\/]data[\/]openngc-viewer-catalog\.json/,
+              priority: 52,
+            },
+            {
+              name: 'celestia-bright-sky',
+              test: /node_modules[\/]@acocalypso[\/]celestia-atlas[\/]data[\/]bright-sky\.json/,
+              priority: 51,
+            },
+            {
+              name: 'celestia-engine',
+              test: /node_modules[\/](?:@acocalypso[\/]celestia-atlas|astronomy-engine)[\/]/,
+              priority: 50,
+            },
             {
               name: 'vue-vendor',
               test: /node_modules[\\/](vue|@vue|vue-router|pinia|vue-i18n|@unhead)[\\/]/,

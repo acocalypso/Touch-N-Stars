@@ -72,7 +72,12 @@
     "error": "Update fehlgeschlagen. Bitte später erneut versuchen.",
     "later": "Später",
     "updateNow": "Jetzt aktualisieren",
-    "working": "Wird ausgeführt…"
+    "working": "Wird ausgeführt…",
+    "checkNow": "Nach Updates suchen",
+    "checking": "Suche…",
+    "upToDateTitle": "Kein Update verfügbar",
+    "upToDateMessage": "Du verwendest bereits die neueste Version.",
+    "checkFailedTitle": "Update-Prüfung fehlgeschlagen"
   },
   "setup": {
     "welcome": "Willkommen bei Touch'N'Stars",
@@ -136,7 +141,8 @@
       "noInstances": "Keine Instanzen konfiguriert",
       "manageInstances": "Instanzen verwalten",
       "checking": "Instanzen werden geprüft…",
-      "noneOnline": "Keine Instanz online"
+      "noneOnline": "Keine Instanz online",
+      "switchingTo": "Wechsle zu {name}…"
     },
     "instanceDetection": {
       "autoDetectionTitle": "Automatische Erkennung",
@@ -351,6 +357,10 @@
       },
       "beta": {
         "title": "Beta-Update-Kanal"
+      },
+      "devChannel": {
+        "title": "Dev-Update-Kanal",
+        "description": "Erhält Testversionen aus dem eigenen Repository des Entwicklers statt aus dem offiziellen."
       },
       "showTutorial": "Tutorial anzeigen",
       "plugins": {
@@ -1436,7 +1446,7 @@
       "dew_heater_on": "Taupunktregler ein",
       "dew_heater_off": "Taupunktregler aus",
       "dewHeaterStrength": "Tauheizer-Stärke",
-      "camera_cooling": "Kamerakühlung",
+      "cool_down": "Abkühlen",
       "target_temperature": "Zieltemperatur (°C)",
       "warm_up_time": "Aufwärmzeit (min)",
       "cooling_time": "Kühlzeit (min)",
@@ -1454,7 +1464,7 @@
       "at_target_temp": "Zieltemperatur erreicht",
       "temperature_setpoint": "Temp Sollwert (° C)",
       "cooler_power": "Kühlerleistung (%)",
-      "camera_warming": "Kamera aufwärmen",
+      "warm_up": "Aufwärmen",
       "cooler_status": "Kühler Status",
       "cooler_status_off": "AUS",
       "cooler_status_cooling": "Aktiv - Kühlt auf",
@@ -1548,7 +1558,7 @@
       },
       "error_modal": {},
       "tppa": "TPPA",
-      "warn_dec_spread_body": "Die gemeldete Deklination der Montierung änderte sich zwischen den Messungen um {Bogensekunden}\". Dies kann die Genauigkeit der Polausrichtung beeinträchtigen. Stellen Sie sicher, dass sich während der Messung nur die RA-Achse bewegt.",
+      "warn_dec_spread_body": "Die gemeldete Deklination der Montierung änderte sich zwischen den Messungen um {arcsec}\". Dies kann die Genauigkeit der Polausrichtung beeinträchtigen. Stellen Sie sicher, dass sich während der Messung nur die RA-Achse bewegt.",
       "warn_dec_spread_title": "Deklinationsausbreitung erkannt",
       "warn_east_west_body": "Das aktuelle Feld liegt innerhalb von 5° vom genauen Osten oder Westen. \nWenn die Live-Lösung instabil ist, schwenken Sie zu einem Feld, das weiter von Ost/West entfernt ist, und führen Sie es erneut aus.",
       "warn_east_west_title": "Korrekturfeld innerhalb von {deg}° von Ost/West",
@@ -1687,6 +1697,9 @@
     },
     "flatassistant": {
       "title": "Flat Assistant",
+      "set_target_name": "Zielname setzen",
+      "target_name": "Zielname",
+      "target_name_from_favorites": "Name aus Favoriten übernehmen",
       "count": "Flats aufnehmen",
       "darks_to_take": "Darkflats aufnehmen",
       "exposure_time": "Belichtungszeit",
@@ -1772,8 +1785,8 @@
         "preConnectDelay": "Pre-Connect-Verzögerung (ms)"
       }
     },
-    "stellarium": {
-      "loading": "Stellarium wird geladen…",
+    "celestiaAtlas": {
+      "loading": "Celestia Atlas wird geladen…",
       "selected_object": {
         "title": "Ausgewähltes Objekt",
         "ra": "Ra",
@@ -1796,7 +1809,23 @@
         "ecliptic_lines_visible": "Ecliptic Linie",
         "atmosphere_visible": "Atmosphäre zeigen",
         "landscapes_visible": "Landschaften",
+        "hide_below_horizon": "Objekte unter dem Horizont ausblenden",
+        "sky_survey_visible": "Fotografische Himmelsdurchmusterung",
+        "sky_survey_hint": "Verwendet ausschließlich die mitgelieferten DSS-Himmelsbilder offline und lädt keine Kacheln aus dem Internet.",
         "dsos_visible": "Deep-Sky Objekte (Messier, NGC)",
+        "catalog_filters": "Katalogfilter",
+        "catalog_filter_hint": "Steuert sichtbare Deep-Sky-Markierungen; die Offline-Suche findet weiterhin alle Katalogobjekte.",
+        "catalog_filter_types": "Objekttypen",
+        "catalog_filter_sources": "Katalogquellen",
+        "catalog_filter_selected": "{selected} von {total}",
+        "catalog_filter_all": "Alle",
+        "catalog_filter_none": "Keine",
+        "brightness_filters": "Helligkeitsfilter",
+        "magnitude_limit_hint": "Niedrigere Werte zeigen nur hellere Objekte; höhere Werte schließen schwächere Objekte ein.",
+        "magnitude_limit_auto": "Automatisch",
+        "star_magnitude_limit": "Sterne (Grenzgröße)",
+        "galaxy_magnitude_limit": "Galaxien (Grenzgröße)",
+        "dso_magnitude_limit": "Andere Deep-Sky-Objekte (Grenzgröße)",
         "title": "Einstellungen",
         "landscape_source_mode": "Landscape source",
         "landscape_source_default": "Default landscape (Guereins)",
@@ -1804,7 +1833,7 @@
         "landscape_source_custom": "Custom data source",
         "landscape_option_label": "Landschaft: {title}",
         "custom_landscape_url": "Custom source URL",
-        "custom_landscape_url_placeholder": "e.g. /stellarium-data/landscapes/custom",
+        "custom_landscape_url_placeholder": "e.g. /celestia-atlas-data/landscapes/custom",
         "custom_landscape_key": "Custom source key",
         "custom_landscape_key_placeholder": "e.g. my-landscape",
         "available_landscapes": "Verfügbare Landschaften",
@@ -2320,8 +2349,17 @@
     "logfileCollector": {
       "title": "Logfile-Sammler",
       "intro": "Sammle die neuesten TNS-Logs (inkl. Debug) und lade sie an den konfigurierten Endpunkt hoch.",
-      "descriptionLabel": "Beschreibung (optional)",
+      "descriptionLabel": "Beschreibung (erforderlich)",
       "descriptionPlaceholder": "Beschreibe das Problem zur Analyse...",
+      "descriptionRequired": "Vor dem Senden der Logs ist eine Beschreibung erforderlich.",
+      "successDialog": {
+        "title": "Logs erfolgreich gesendet",
+        "message": "Deine Logs wurden erfolgreich hochgeladen.",
+        "supportPrompt": "Erstelle ein GitHub-Issue oder kontaktiere uns auf Discord, um Hilfe zu erhalten. Gib den generierten Token an, damit wir deine Logs finden können.",
+        "tokenHint": "Gib diesen Token in deiner Support-Anfrage an:",
+        "github": "GitHub-Issue erstellen",
+        "discord": "Discord öffnen"
+      },
       "lastToken": "Generierter Token",
       "submissionHistory": "Übertragungsverlauf",
       "confirmClearAll": "Möchten Sie wirklich den gesamten Übertragungsverlauf löschen?",
@@ -2875,7 +2913,7 @@
         "center_solve_label": "Center + Solve",
         "center_solve_text": "Platesolve und Ziel zentrieren (Mount verbunden + kalibriertes Offset).",
         "target_solve_label": "Target + Solve",
-        "target_solve_text": "fahre Ziel an und zentriere (Mount verbunden + Ziel über Stellarium in Framing Assistant ausgewählt)."
+        "target_solve_text": "Fahre das Ziel an und zentriere es (erfordert ein verbundenes Mount und ein in Celestia Atlas ausgewähltes Ziel)."
       },
       "progress": {
         "title": "Solve-Fortschritt",
@@ -3059,7 +3097,18 @@
         "reset_exception": "Fehler beim Zurücksetzen des Livestacks: {message}",
         "reset_failed": "Livestack konnte nicht zurückgesetzt werden"
       },
-      "reset": "Stapel zurücksetzen"
+      "reset": "Stapel zurücksetzen",
+      "rgb": {
+        "title": "RGB-Kombination",
+        "target": "Ziel",
+        "red": "Rot-Kanal",
+        "green": "Grün-Kanal",
+        "blue": "Blau-Kanal",
+        "create": "RGB erstellen",
+        "remove": "RGB entfernen",
+        "working": "Wird verarbeitet...",
+        "no_targets": "Noch keine gestackten Ziele verfügbar"
+      }
     },
     "narrowband": {
       "title": "Filterrechner",
@@ -3095,7 +3144,7 @@
       "filterTransmission": "Filterübertragung",
       "wavelengthLabel": "Wellenlänge (nm)",
       "transmissionLabel": "Übertragung",
-      "transmissionPercent": "Übertragung: {Prozent} %",
+      "transmissionPercent": "Übertragung: {percent} %",
       "wavelengthRange": "Wellenlängenbereich",
       "flatTopRange": "Flat-Top-Reihe",
       "fRatio": "f/Ratio",
@@ -4091,7 +4140,7 @@
       "newOffsets": "Neue Offsets",
       "noFilters": "Im Profil sind keine Filter verfügbar",
       "none": "Keiner",
-      "notConnected": "{Gerät} ist nicht verbunden",
+      "notConnected": "{device} ist nicht verbunden",
       "offset": "Versatz",
       "position": "Position",
       "runningFilter": "Aktueller Filter",
@@ -4100,7 +4149,29 @@
       "stop": "Stoppen",
       "subtitle": "Berechnen und speichern Sie Fokus-Offsets für jeden Filterradfilter",
       "title": "Filter-Offset-Rechner",
-      "useRelativeOffsets": "Verwenden Sie relative Offsets"
+      "applyFailed": "Die Offsets konnten nicht angewendet werden",
+      "tooFewIterations": "Bei weniger als 3 Iterationen kann ein fehlerhafter oder ungenauer Autofokus nicht erkannt werden und wird in den Offset gemittelt. \nFür ein zuverlässiges Ergebnis verwenden Sie 3 oder mehr.",
+      "confirmStopMessage": "Alle bisher durchgeführten Messungen werden verworfen und das Profil wird auf den vorherigen Zustand zurückgesetzt.",
+      "confirmStopTitle": "Berechnung stoppen?",
+      "baseFilterUnmeasured": "Der erste Filter des Laufs ergab keine brauchbare Autofokus-Messung, daher gab es für die anderen Filter nichts zu beanstanden – jeder Offset darunter ist 0 und das Ergebnis ist nicht brauchbar. \nVerwerfen Sie es und führen Sie die Berechnung erneut durch.",
+      "board": "Autofokus-Messungen",
+      "boardHint": "Eine Zeile pro Filter, eine Spalte pro Iteration, die die vom AutoFocus gefundene Fokusposition anzeigt. \nDurchgestrichene Werte wurden als Ausreißer verworfen; \n* markiert eine Iteration, deren erster Autofokus fehlschlug und wiederholt wurde.",
+      "cutoffTooltip": "Eine Stichprobe musste mehr als {cutoff} Schritte vom Median von {median} entfernt sein, um verworfen zu werden.",
+      "cutoffUnavailable": "Für die Ausreißerunterdrückung sind mindestens drei Messungen erforderlich, sodass nichts verworfen werden kann.",
+      "drift": "Konzentrationsdrift während des Laufs",
+      "estimatedFocusTooltip": "Driftkorrigierter Fokus zu Beginn des Laufs: {focus}.",
+      "measurementFailed": "AutoFocus lieferte keine brauchbare Messung",
+      "noMeasurements": "Noch keine Messungen",
+      "notMeasuredYet": "Noch nicht gemessen",
+      "rejectedTooltip": "Als Ausreißer verworfen: {deviation} Schritte vom Median von {median}.",
+      "rejectedTooltipNoMedian": "Als Ausreißer verworfen.",
+      "retriedTooltip": "Der erste AutoFocus-Versuch für diese Iteration schlug fehl ({failure}) und wurde wiederholt.",
+      "samplesUsed": "Gebraucht",
+      "spread": "Verbreiten",
+      "stepsPerLoop": "{value} Schritte/Iteration",
+      "summaryTooltip": "{measured} von {loops} Iterationen ergaben eine Messung, {used} wurde für den Offset verwendet.",
+      "summaryTooltipPending": "{measured} von {loops} Iterationen haben bisher zu einer Messung geführt.",
+      "loopShort": "#{n}"
     },
     "groundStation": {
       "title": "Ground Station",
@@ -4415,7 +4486,7 @@
       "toast": {
         "errorTitle": "Die Erstellung der Landschaft ist fehlgeschlagen",
         "invalidFileType": "Nicht unterstützter Dateityp. \nBitte laden Sie PNG, JPEG oder WebP hoch.",
-        "successMessage": "{Dateiname} heruntergeladen",
+        "successMessage": "{filename} heruntergeladen",
         "successMessageSaved": "{filename} wurde unter {path} gespeichert.",
         "successTitle": "Querformat ZIP-fähig",
         "validationTitle": "Validierung"
@@ -4673,7 +4744,7 @@
     "monitoring": "Monitor",
     "flatWizard": "Flats",
     "framing": "Framing",
-    "skyView": "Stellarium",
+    "skyView": "Celestia Atlas",
     "settings": "Einstell.",
     "about": "Info"
   },

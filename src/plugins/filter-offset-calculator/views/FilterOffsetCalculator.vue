@@ -12,19 +12,25 @@
       <!-- ── Setup section (visible when Idle / Error) ─────────────────────── -->
       <section v-if="status.State === 'Idle' || status.State === 'Error'" class="space-y-4">
         <!-- Iterations -->
-        <div
-          class="flex items-center gap-4 rounded-xl border border-gray-700/70 bg-gray-900/50 p-4"
-        >
-          <label class="w-40 shrink-0 text-sm text-gray-300">
-            {{ $t('plugins.filterOffset.iterations') }}
-          </label>
-          <input
-            v-model.number="loops"
-            type="number"
-            min="1"
-            max="20"
-            class="w-24 rounded-lg border border-gray-600 bg-gray-800 px-3 py-2 text-center text-white focus:border-blue-500 focus:outline-none"
-          />
+        <div class="space-y-3 rounded-xl border border-gray-700/70 bg-gray-900/50 p-4">
+          <div class="flex items-center gap-4">
+            <label class="w-40 shrink-0 text-sm text-gray-300">
+              {{ $t('plugins.filterOffset.iterations') }}
+            </label>
+            <input
+              v-model.number="loops"
+              type="number"
+              min="1"
+              max="20"
+              class="w-24 rounded-lg border border-gray-600 bg-gray-800 px-3 py-2 text-center text-white focus:border-blue-500 focus:outline-none"
+            />
+          </div>
+
+          <!-- Outlier rejection needs 3 samples before it can discard anything, so anything less
+               silently averages a bad AutoFocus into the result. -->
+          <p v-if="loops < 3" class="text-xs leading-relaxed text-amber-300/90">
+            {{ $t('plugins.filterOffset.tooFewIterations') }}
+          </p>
         </div>
 
         <!-- Filter selection table -->
@@ -73,6 +79,14 @@
         >
           {{ $t('plugins.filterOffset.errorLabel') }}: {{ status.Error }}
         </div>
+
+        <!-- What the failed run managed to measure before it died — kept by the backend on error
+             precisely because that is when it is worth reading. -->
+        <MeasurementBoard
+          v-if="status.State === 'Error' && (status.Measurements ?? []).length"
+          :measurements="status.Measurements"
+          :total-loops="status.TotalLoops"
+        />
 
         <!-- Connection warnings -->
         <div v-if="connectionWarnings.length" class="space-y-1">
@@ -150,6 +164,15 @@
           </p>
         </div>
 
+        <!-- Per-iteration AutoFocus results, filling in as the run progresses. Withheld until there
+             is something in it, which also keeps a permanently empty panel off the screen when the
+             frontend is newer than the plugin and no measurements are ever sent. -->
+        <MeasurementBoard
+          v-if="(status.Measurements ?? []).length"
+          :measurements="status.Measurements"
+          :total-loops="status.TotalLoops"
+        />
+
         <!-- Stop button -->
         <button
           class="w-full rounded-xl bg-red-700 px-6 py-3 font-semibold text-white transition hover:bg-red-600"
@@ -161,6 +184,15 @@
 
       <!-- ── Result / pending dialog section ───────────────────────────────── -->
       <section v-else-if="status.State === 'PendingResult' && result" class="space-y-5">
+        <!-- Without the base filter there is nothing to state the others against, so every offset
+             below is 0 — which otherwise looks like a real result. -->
+        <div
+          v-if="result.BaseFilterUnmeasured"
+          class="rounded-xl border border-red-700/50 bg-red-900/30 p-4 text-sm leading-relaxed text-red-300"
+        >
+          {{ $t('plugins.filterOffset.baseFilterUnmeasured') }}
+        </div>
+
         <!-- Old / New offsets side by side -->
         <div class="grid grid-cols-2 gap-4">
           <!-- Old offsets -->
@@ -230,28 +262,18 @@
           </div>
         </div>
 
-        <!-- Use Relative Offsets toggle -->
-        <div
-          class="flex items-center justify-between rounded-xl border border-gray-700/70 bg-gray-900/50 px-5 py-3"
-        >
-          <label class="text-sm text-gray-300">{{
-            $t('plugins.filterOffset.useRelativeOffsets')
-          }}</label>
-          <button
-            :class="[
-              'relative inline-flex h-6 w-11 items-center rounded-full transition-colors',
-              useRelativeOffsets ? 'bg-blue-600' : 'bg-gray-700',
-            ]"
-            @click="useRelativeOffsets = !useRelativeOffsets"
-          >
-            <span
-              :class="[
-                'inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform',
-                useRelativeOffsets ? 'translate-x-6' : 'translate-x-1',
-              ]"
-            />
-          </button>
-        </div>
+        <!-- What the offsets above were computed from. The offsets are handed in rather than taken
+             from the details, so the board's last column is the same number as the table above it:
+             the details carry the run's own base-filter anchoring, which differs by a constant from
+             the anchoring the user picks in the dropdown. -->
+        <MeasurementBoard
+          v-if="(status.Measurements ?? []).length"
+          :measurements="status.Measurements"
+          :details="result.Details ?? []"
+          :offsets="displayedNewOffsets"
+          :total-loops="status.TotalLoops"
+          :temperature-drift="result.TemperatureDrift ?? 0"
+        />
 
         <!-- Old AutoFocus filter -->
         <div
@@ -277,17 +299,32 @@
             class="w-40 rounded-lg border border-gray-600 bg-gray-800 px-3 py-1.5 text-sm text-white focus:border-blue-500 focus:outline-none"
           >
             <option :value="null">{{ $t('plugins.filterOffset.none') }}</option>
-            <option v-for="o in result.NewOffsets" :key="o.Position" :value="o.Position">
-              {{ o.Name }}
+            <!-- Every filter in the profile, not just the calibrated ones: keeping an AutoFocus
+                 filter that was left out of this run is a legitimate choice. -->
+            <option v-for="f in filters" :key="f.position" :value="f.position">
+              {{ f.name }}
             </option>
           </select>
         </div>
 
-        <!-- Accept / Abort buttons -->
+        <!-- Apply error -->
+        <div
+          v-if="applyError"
+          class="rounded-xl border border-red-700/50 bg-red-900/30 p-4 text-sm text-red-300"
+        >
+          {{ $t('plugins.filterOffset.errorLabel') }}: {{ applyError }}
+        </div>
+
+        <!-- Accept / Abort buttons. Accepting an all-zero result is never what anyone wants: it does
+             not merely fail to improve the profile, it flattens the real offsets of every filter the
+             run covered, and the banner above is easy to tap past on a phone. Discard stays open. -->
         <div class="grid grid-cols-2 gap-3">
           <button
-            class="rounded-xl bg-green-700 px-6 py-3 font-semibold text-white transition hover:bg-green-600"
-            :disabled="loading"
+            class="rounded-xl bg-green-700 px-6 py-3 font-semibold text-white transition hover:bg-green-600 disabled:cursor-not-allowed disabled:opacity-40"
+            :disabled="loading || result.BaseFilterUnmeasured"
+            :title="
+              result.BaseFilterUnmeasured ? $t('plugins.filterOffset.baseFilterUnmeasured') : ''
+            "
             @click="applyResult"
           >
             {{ $t('plugins.filterOffset.accept') }}
@@ -312,9 +349,12 @@ import { useI18n } from 'vue-i18n';
 import axios from 'axios';
 import { getActivePinia } from 'pinia';
 import { apiStore } from '@/store/store';
+import { useToastStore } from '@/store/toastStore';
+import MeasurementBoard from '../components/MeasurementBoard.vue';
 
 const { t } = useI18n();
 const store = apiStore();
+const toastStore = useToastStore();
 
 // ── API base URL ────────────────────────────────────────────────────────────
 function getApiUrl() {
@@ -340,11 +380,12 @@ const status = ref({
   TotalFilters: 0,
   CurrentFilterName: '',
   Error: '',
+  Measurements: [],
 });
 
 const result = ref(null);
-const useRelativeOffsets = ref(false);
 const newDefaultFilterPosition = ref(null);
+const applyError = ref('');
 
 const issues = ref([]);
 
@@ -384,15 +425,44 @@ const filterProgressPct = computed(() => {
   return Math.round((status.value.CurrentFilterIndex / status.value.TotalFilters) * 100);
 });
 
-/** Returns new offsets adjusted for relative mode */
+/**
+ * The offsets as they will actually be written — a mirror of the backend's BuildOffsetTable. The two
+ * must agree, or the preview shows one set of numbers while a different set reaches the profile.
+ *
+ * Every filter in the profile appears, stated relative to the one selected as the AutoFocus filter,
+ * which comes out at 0. Only the spacing between filters affects a focuser move, so where the set is
+ * zeroed is free — and zeroing it on the AutoFocus filter is the reading that matches the equipment,
+ * since that is the filter AutoFocus runs through.
+ *
+ * A filter that was not calibrated this run keeps its previous distance to the base filter. Only
+ * differences of the previous offsets are used, never a previous offset by itself, so a profile left
+ * holding absolute focuser positions by an older build still comes out clean.
+ */
 const displayedNewOffsets = computed(() => {
-  if (!result.value) return [];
-  if (!useRelativeOffsets.value || newDefaultFilterPosition.value === null) {
-    return result.value.NewOffsets;
-  }
-  const base = result.value.NewOffsets.find((o) => o.Position === newDefaultFilterPosition.value);
-  const baseVal = base ? base.FocusOffset : 0;
-  return result.value.NewOffsets.map((o) => ({ ...o, FocusOffset: o.FocusOffset - baseVal }));
+  const measured = result.value?.NewOffsets ?? [];
+  if (!measured.length || !filters.value.length) return measured;
+
+  const measuredByPosition = new Map(measured.map((o) => [o.Position, o.FocusOffset]));
+  const basePosition = measured[0].Position;
+  const baseMeasured = measured[0].FocusOffset;
+  const basePrevious =
+    result.value.OldOffsets?.find((o) => o.Position === basePosition)?.FocusOffset ?? 0;
+
+  const table = filters.value.map((f) => ({
+    Position: f.position,
+    Name: f.name,
+    FocusOffset: measuredByPosition.has(f.position)
+      ? measuredByPosition.get(f.position)
+      : baseMeasured + (f.focusOffset - basePrevious),
+  }));
+
+  const reference =
+    table.find((t) => t.Position === newDefaultFilterPosition.value) ??
+    table.find((t) => t.Position === basePosition) ??
+    table[0];
+
+  const zero = reference.FocusOffset;
+  return zero === 0 ? table : table.map((t) => ({ ...t, FocusOffset: t.FocusOffset - zero }));
 });
 
 const oldDefaultFilterName = computed(() => {
@@ -430,6 +500,14 @@ async function fetchStatus() {
     if (data.Success) {
       status.value = data.Response;
 
+      // A run starting means whatever result this client is still holding belongs to a previous one
+      // — another tab (or another client) accepted or discarded it and started over. Dropping it here
+      // is what makes the next PendingResult fetch the new result instead of keeping the old one,
+      // which would otherwise put one run's offsets on screen next to another run's measurements.
+      if (data.Response.State === 'Running' && result.value) {
+        result.value = null;
+      }
+
       if (data.Response.State === 'PendingResult' && !result.value) {
         await fetchResult();
       }
@@ -445,6 +523,7 @@ async function fetchResult() {
     if (data.Success) {
       result.value = data.Response;
       newDefaultFilterPosition.value = data.Response.SuggestedDefaultFilterPosition ?? null;
+      applyError.value = '';
     }
   } catch (err) {
     console.error('[FilterOffset] fetchResult error:', err);
@@ -480,7 +559,7 @@ async function startCalculation() {
       FilterPositions: selectedPositions.value,
     });
     result.value = null;
-    useRelativeOffsets.value = false;
+    applyError.value = '';
     await fetchStatus();
   } catch (err) {
     console.error('[FilterOffset] start error:', err);
@@ -491,6 +570,16 @@ async function startCalculation() {
 }
 
 async function stopCalculation() {
+  // A run is a long series of AutoFocus passes — potentially the better part of an hour — and
+  // stopping discards every measurement taken so far, so it must not go through on a stray tap.
+  const confirmed = await toastStore.showConfirmation(
+    t('plugins.filterOffset.confirmStopTitle'),
+    t('plugins.filterOffset.confirmStopMessage'),
+    t('plugins.filterOffset.stop'),
+    t('common.cancel')
+  );
+  if (!confirmed) return;
+
   try {
     await axios.get(`${getApiUrl()}/filter-offset/stop`);
   } catch (err) {
@@ -500,16 +589,24 @@ async function stopCalculation() {
 
 async function applyResult() {
   loading.value = true;
+  applyError.value = '';
   try {
-    await axios.post(`${getApiUrl()}/filter-offset/apply`, {
-      UseRelativeOffsets: useRelativeOffsets.value,
+    const { data } = await axios.post(`${getApiUrl()}/filter-offset/apply`, {
       NewDefaultFilterPosition: newDefaultFilterPosition.value,
     });
+    // The backend answers 4xx/5xx with an Error body; keep the result on screen so the user can
+    // correct the selection and retry instead of silently losing the measurement.
+    if (data?.Success === false) {
+      applyError.value = data.Error || t('plugins.filterOffset.applyFailed');
+      return;
+    }
     result.value = null;
     await fetchFilters();
     await fetchStatus();
   } catch (err) {
     console.error('[FilterOffset] apply error:', err);
+    applyError.value =
+      err?.response?.data?.Error || err?.message || t('plugins.filterOffset.applyFailed');
   } finally {
     loading.value = false;
   }
@@ -520,6 +617,7 @@ async function discardResult() {
   try {
     await axios.get(`${getApiUrl()}/filter-offset/discard`);
     result.value = null;
+    applyError.value = '';
     await fetchStatus();
   } catch (err) {
     console.error('[FilterOffset] discard error:', err);

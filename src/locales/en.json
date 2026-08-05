@@ -72,7 +72,12 @@
     "error": "Update failed. Please try again later.",
     "later": "Later",
     "updateNow": "Update now",
-    "working": "Working…"
+    "working": "Working…",
+    "checkNow": "Check for updates",
+    "checking": "Checking…",
+    "upToDateTitle": "No update available",
+    "upToDateMessage": "You are already running the latest version.",
+    "checkFailedTitle": "Update check failed"
   },
   "setup": {
     "welcome": "Welcome to Touch'N'Stars",
@@ -136,7 +141,8 @@
       "noInstances": "No instances configured",
       "manageInstances": "Manage Instances",
       "checking": "Checking instances…",
-      "noneOnline": "No instances online"
+      "noneOnline": "No instances online",
+      "switchingTo": "Switching to {name}…"
     },
     "instanceDetection": {
       "autoDetectionTitle": "Auto-Detection",
@@ -364,6 +370,10 @@
       },
       "beta": {
         "title": "Beta Update Channel"
+      },
+      "devChannel": {
+        "title": "Dev Update Channel",
+        "description": "Receives test builds from the developer's own repository instead of the official one."
       },
       "showTutorial": "Show Tutorial",
       "plugins": {
@@ -1692,6 +1702,9 @@
     },
     "flatassistant": {
       "title": "Flat assistant",
+      "set_target_name": "Set target name",
+      "target_name": "Target name",
+      "target_name_from_favorites": "Take name from favorites",
       "count": "Flats to take",
       "darks_to_take": "Darkflats to take",
       "exposure_time": "Exposure time",
@@ -1777,8 +1790,8 @@
         "preConnectDelay": "Pre Connect Delay (ms)"
       }
     },
-    "stellarium": {
-      "loading": "Loading Stellarium…",
+    "celestiaAtlas": {
+      "loading": "Loading Celestia Atlas…",
       "selected_object": {
         "title": "Selected object",
         "ra": "RA",
@@ -1801,7 +1814,23 @@
         "ecliptic_lines_visible": "Show ecliptic",
         "atmosphere_visible": "Show atmosphere",
         "landscapes_visible": "Show landscapes",
+        "hide_below_horizon": "Hide objects below horizon",
+        "sky_survey_visible": "Photographic sky survey",
+        "sky_survey_hint": "Uses the packaged DSS sky images offline and never fetches survey tiles from the internet.",
         "dsos_visible": "Deep Sky Objects (Messier, NGC)",
+        "catalog_filters": "Catalogue filters",
+        "catalog_filter_hint": "Controls visible deep-sky markers; offline search still finds every catalogue object.",
+        "catalog_filter_types": "Object types",
+        "catalog_filter_sources": "Catalogue sources",
+        "catalog_filter_selected": "{selected} of {total}",
+        "catalog_filter_all": "All",
+        "catalog_filter_none": "None",
+        "brightness_filters": "Brightness filters",
+        "magnitude_limit_hint": "Lower values show only brighter objects; higher values include fainter objects.",
+        "magnitude_limit_auto": "Auto",
+        "star_magnitude_limit": "Stars (limiting magnitude)",
+        "galaxy_magnitude_limit": "Galaxies (limiting magnitude)",
+        "dso_magnitude_limit": "Other deep-sky objects (limiting magnitude)",
         "title": "Settings",
         "landscape_source_mode": "Landscape source",
         "landscape_source_default": "Default landscape (Guereins)",
@@ -1809,7 +1838,7 @@
         "landscape_source_custom": "Custom data source",
         "landscape_option_label": "Landscape: {title}",
         "custom_landscape_url": "Custom source URL",
-        "custom_landscape_url_placeholder": "e.g. /stellarium-data/landscapes/custom",
+        "custom_landscape_url_placeholder": "e.g. /celestia-atlas-data/landscapes/custom",
         "custom_landscape_key": "Custom source key",
         "custom_landscape_key_placeholder": "e.g. my-landscape",
         "available_landscapes": "Available landscapes",
@@ -2337,8 +2366,17 @@
     "logfileCollector": {
       "title": "Logfile Collector",
       "intro": "Collect latest TNS logs (including debug) and upload them to the configured endpoint.",
-      "descriptionLabel": "Description (optional)",
+      "descriptionLabel": "Description (required)",
       "descriptionPlaceholder": "Describe the problem to investigate...",
+      "descriptionRequired": "A description is required before logs can be submitted.",
+      "successDialog": {
+        "title": "Logs sent successfully",
+        "message": "Your logs were uploaded successfully.",
+        "supportPrompt": "To get help, create a GitHub issue or contact us on Discord. Include the generated token so we can identify your logs.",
+        "tokenHint": "Include this token in your support request:",
+        "github": "Create GitHub issue",
+        "discord": "Open Discord"
+      },
       "lastToken": "Generated Token",
       "submissionHistory": "Submission History",
       "confirmClearAll": "Are you sure you want to clear all submission history?",
@@ -2961,7 +2999,7 @@
         "center_solve_label": "Center + Solve",
         "center_solve_text": "platesolve and center the target (requires mount connected + a calibrated offset).",
         "target_solve_label": "Target + Solve",
-        "target_solve_text": "Slew to Target + Center (reqauires mount connected + Target set in Stellarium in Framing Assistant)."
+        "target_solve_text": "Slew to Target + Center (requires a connected mount and a target selected in Celestia Atlas)."
       },
       "progress": {
         "title": "Solve Progress",
@@ -3145,6 +3183,17 @@
         "loading_image": "Error loading image: {message}",
         "failed_to_load": "Failed to load livestack image",
         "api_version_required": "API version {version} or higher required"
+      },
+      "rgb": {
+        "title": "RGB combination",
+        "target": "Target",
+        "red": "Red channel",
+        "green": "Green channel",
+        "blue": "Blue channel",
+        "create": "Create RGB",
+        "remove": "Remove RGB",
+        "working": "Working...",
+        "no_targets": "No stacked targets available yet"
       }
     },
     "narrowband": {
@@ -4176,17 +4225,39 @@
       "runningFilter": "Current Filter",
       "currentOffsets": "Current Offsets",
       "newOffsets": "New Offsets",
-      "useRelativeOffsets": "Use Relative Offsets",
       "currentAutoFocusFilter": "Current AutoFocus Filter",
       "newAutoFocusFilter": "New AutoFocus Filter",
       "none": "None",
       "accept": "Accept",
       "abort": "Abort",
       "errorLabel": "Error",
+      "applyFailed": "Could not apply the offsets",
       "notConnected": "{device} is not connected",
       "deviceCamera": "Camera",
       "deviceFocuser": "Focuser",
-      "deviceFilterWheel": "Filter Wheel"
+      "deviceFilterWheel": "Filter Wheel",
+      "tooFewIterations": "With fewer than 3 iterations a failed or inaccurate AutoFocus cannot be detected and is averaged into the offset. Use 3 or more for a reliable result.",
+      "confirmStopTitle": "Stop the calculation?",
+      "confirmStopMessage": "All measurements taken so far will be discarded and the profile is restored to its previous state.",
+      "board": "AutoFocus Measurements",
+      "boardHint": "One row per filter, one column per iteration, showing the focus position AutoFocus found. Struck-through values were discarded as outliers; * marks an iteration whose first AutoFocus failed and was repeated.",
+      "noMeasurements": "No measurements yet",
+      "loopShort": "#{n}",
+      "samplesUsed": "Used",
+      "spread": "Spread",
+      "notMeasuredYet": "Not measured yet",
+      "measurementFailed": "AutoFocus produced no usable measurement",
+      "rejectedTooltip": "Discarded as an outlier: {deviation} steps from the median of {median}.",
+      "rejectedTooltipNoMedian": "Discarded as an outlier.",
+      "retriedTooltip": "The first AutoFocus attempt for this iteration failed ({failure}) and was repeated.",
+      "summaryTooltip": "{measured} of {loops} iterations produced a measurement, {used} used for the offset.",
+      "summaryTooltipPending": "{measured} of {loops} iterations have produced a measurement so far.",
+      "cutoffTooltip": "A sample had to be more than {cutoff} steps from the median of {median} to be discarded.",
+      "cutoffUnavailable": "Outlier rejection needs at least 3 measurements, so nothing could be discarded.",
+      "estimatedFocusTooltip": "Drift-corrected focus at the start of the run: {focus}.",
+      "drift": "Focus drift over the run",
+      "stepsPerLoop": "{value} steps/iteration",
+      "baseFilterUnmeasured": "The first filter of the run produced no usable AutoFocus measurement, so there was nothing to state the other filters against — every offset below is 0 and the result is not usable. Discard it and run the calculation again."
     },
     "groundStation": {
       "title": "Ground Station",
@@ -4769,7 +4840,7 @@
     "monitoring": "Monitor",
     "flatWizard": "Flats",
     "framing": "Framing",
-    "skyView": "Stellarium",
+    "skyView": "Celestia Atlas",
     "settings": "Settings",
     "about": "About"
   }

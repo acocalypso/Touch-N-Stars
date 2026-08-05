@@ -72,7 +72,12 @@
     "error": "Aktualizace se nezdařila. Zkuste to znovu později.",
     "later": "Později",
     "updateNow": "Aktualizujte nyní",
-    "working": "Pracovní…"
+    "working": "Pracovní…",
+    "checkNow": "Zkontrolovat aktualizace",
+    "checking": "Kontrola…",
+    "upToDateTitle": "Žádná aktualizace není k dispozici",
+    "upToDateMessage": "Používáte již nejnovější verzi.",
+    "checkFailedTitle": "Kontrola aktualizací selhala"
   },
   "setup": {
     "welcome": "Vítá Vás Touch'N'Stars",
@@ -282,6 +287,10 @@
       },
       "beta": {
         "title": "Beta aktualizační kanál"
+      },
+      "devChannel": {
+        "title": "Vývojářský aktualizační kanál",
+        "description": "Přijímá testovací sestavení z vlastního repozitáře vývojáře místo oficiálního."
       },
       "showTutorial": "Zobrazit tutoriál",
       "plugins": {
@@ -524,7 +533,7 @@
       "saved_sequences": "TNS Sequence-Creator",
       "no_sequences_found": "Žádné sekvence nenalezeny",
       "error_loading_sequences": "Chyba při načítání sekvencí",
-      "error_loading_sequence": "Chyba při načítání sekvence: {error}",
+      "error_loading_sequence": "Chyba při načítání sekvence",
       "filter": "Filtr",
       "triggers": "Spouštěče:",
       "expandAll": "Rozbalit vše",
@@ -1395,7 +1404,7 @@
       "dew_heater": "Topný pásek",
       "dew_heater_on": "Topný pásek On",
       "dew_heater_off": "Topný pásek Off",
-      "camera_cooling": "Chlazení kamery",
+      "cool_down": "Zchladit",
       "target_temperature": "Cílová teplota (°C)",
       "warm_up_time": "Doba zahřátí (min)",
       "cooling_time": "Doba chlazení (min)",
@@ -1413,7 +1422,7 @@
       "at_target_temp": "Při cílové teplotě",
       "temperature_setpoint": "Nastavená teplota (°C)",
       "cooler_power": "Výkon chlazení (%)",
-      "camera_warming": "Zahřívání fotoaparátu",
+      "warm_up": "Zahřát",
       "cooler_status": "Stav chlazení",
       "cooler_status_off": "VYPNUTO",
       "cooler_status_cooling": "Aktivní - Chlazení na",
@@ -1647,6 +1656,9 @@
     },
     "flatassistant": {
       "title": "Asistent flatu",
+      "set_target_name": "Nastavit název cíle",
+      "target_name": "Název cíle",
+      "target_name_from_favorites": "Převzít název z oblíbených",
       "count": "Počet",
       "exposure_time": "Expoziční čas",
       "min_exposure_time": "Min expozice",
@@ -1668,9 +1680,9 @@
       "keep_closed": "Plochý panel mějte zavřený",
       "status_adu_live": "Poslední měření ADU: {adu}",
       "status_failed": "Nebyly zachyceny žádné byty – nelze určit platnou expozici",
-      "status_running": "Běží: {completed} / {total} byty",
-      "status_stopped": "Předčasně zastaveno – zachyceno {completed} z {total} bytů",
-      "status_success": "Hotovo – zachyceno {count} bytů",
+      "status_running": "Běží",
+      "status_stopped": "Zastaveno",
+      "status_success": "Hotovo",
       "mode": "Režim",
       "multi_mode": "Multi režim",
       "multi_mode_no_filters": "Není připojeno žádné filtrové kolo",
@@ -1732,7 +1744,7 @@
         "preConnectDelay": "Pre Connect Delay (ms)"
       }
     },
-    "stellarium": {
+    "celestiaAtlas": {
       "loading": "Načítání Stellaria…",
       "selected_object": {
         "title": "Vybraný objekt",
@@ -1756,14 +1768,30 @@
         "ecliptic_lines_visible": "Zobrazit ekliptiku",
         "atmosphere_visible": "Zobrazit atmosféru",
         "landscapes_visible": "Ukázat krajinu",
+        "hide_below_horizon": "Skrýt objekty pod obzorem",
+        "sky_survey_visible": "Fotografický průzkum oblohy",
+        "sky_survey_hint": "Používá pouze přibalené snímky DSS offline a nikdy nestahuje dlaždice přehlídky z internetu.",
         "dsos_visible": "Deep Sky Objekty (Messier, NGC)",
+        "catalog_filters": "Filtry katalogu",
+        "catalog_filter_hint": "Ovládá viditelné značky objektů hlubokého nebe; offline vyhledávání nadále najde všechny katalogové objekty.",
+        "catalog_filter_types": "Typy objektů",
+        "catalog_filter_sources": "Katalogové zdroje",
+        "catalog_filter_selected": "{selected} z {total}",
+        "catalog_filter_all": "Vše",
+        "catalog_filter_none": "Nic",
+        "brightness_filters": "Filtry jasnosti",
+        "magnitude_limit_hint": "Nižší hodnoty zobrazí jen jasnější objekty; vyšší zahrnou i slabší objekty.",
+        "magnitude_limit_auto": "Automaticky",
+        "star_magnitude_limit": "Hvězdy (mezní hvězdná velikost)",
+        "galaxy_magnitude_limit": "Galaxie (mezní hvězdná velikost)",
+        "dso_magnitude_limit": "Ostatní DSO (mezní hvězdná velikost)",
         "title": "Nastavení",
         "landscape_source_mode": "Landscape source",
         "landscape_source_default": "Default landscape (Guereins)",
         "landscape_source_neutral": "Neutral horizon (Gray)",
         "landscape_source_custom": "Custom data source",
         "custom_landscape_url": "Custom source URL",
-        "custom_landscape_url_placeholder": "e.g. /stellarium-data/landscapes/custom",
+        "custom_landscape_url_placeholder": "e.g. /celestia-atlas-data/landscapes/custom",
         "custom_landscape_key": "Custom source key",
         "custom_landscape_key_placeholder": "e.g. my-landscape",
         "available_landscapes": "Available landscapes",
@@ -1865,7 +1893,8 @@
       "manageInstances": "Spravovat instance",
       "noInstances": "Nejsou nakonfigurovány žádné instance",
       "noneOnline": "Žádné online případy",
-      "title": "Přepnout instanci"
+      "title": "Přepnout instanci",
+      "switchingTo": "Switching to {name}…"
     },
     "fitsPlatesolve": {
       "binning": "Binning",
@@ -2031,9 +2060,9 @@
         "upgradeFailed": "Upgrade se nezdařil. Výstupní kód: {exitCode}",
         "jobStatus": "Stav úlohy: {status}",
         "statusFetchFailed": "Nepodařilo se načíst konečný stav: {message}",
-        "hotspotFetched": "Stav hesla hotspotu načten (nakonfigurováno={configured}, zdroj={source}).",
+        "hotspotFetched": "Nastavení hotspotu načteno (nakonfigurováno={configured}, zdroj={source}, pásmo={band}, kanál={channel}).",
         "hotspotPasswordTooShort": "Heslo hotspotu musí mít alespoň 8 znaků.",
-        "hotspotSaved": "Heslo hotspotu bylo úspěšně aktualizováno: {message}",
+        "hotspotSaved": "Nastavení hotspotu bylo úspěšně aktualizováno: {message} (použito na aktivní hotspot: {applied}).",
         "hotspotSaving": "Aktualizace hesla hotspotu...",
         "wifiDisabling": "Odpojování Wi-Fi a aktivace hotspotu...",
         "wifiDisabled": "WiFi odpojeno a hotspot povolen.",
@@ -2320,8 +2349,17 @@
     "logfileCollector": {
       "title": "Sběrač Souborů Logů",
       "intro": "Shromážděte nejnovější protokoly TNS (včetně ladění) a nahrajte je do nakonfigurovaného koncového bodu.",
-      "descriptionLabel": "Popis (volitelné)",
+      "descriptionLabel": "Popis (povinné)",
       "descriptionPlaceholder": "Popište problém, který chcete prozkoumat...",
+      "descriptionRequired": "Před odesláním protokolů je vyžadován popis.",
+      "successDialog": {
+        "title": "Protokoly byly úspěšně odeslány",
+        "message": "Vaše protokoly byly úspěšně nahrány.",
+        "supportPrompt": "Chcete-li získat pomoc, vytvořte problém na GitHubu nebo nás kontaktujte na Discordu. Uveďte vygenerovaný token, abychom mohli vaše protokoly najít.",
+        "tokenHint": "Uveďte tento token ve své žádosti o podporu:",
+        "github": "Vytvořit problém na GitHubu",
+        "discord": "Otevřít Discord"
+      },
       "lastToken": "Generované Tokeny",
       "submissionHistory": "Historie Odeslání",
       "confirmClearAll": "Opravdu chcete vymazat celou historii odeslaných příspěvků?",
@@ -2978,7 +3016,18 @@
         "reset_exception": "Error resetting livestack: {message}",
         "reset_failed": "Failed to reset livestack"
       },
-      "reset": "Reset stack"
+      "reset": "Reset stack",
+      "rgb": {
+        "title": "RGB kombinace",
+        "target": "Cíl",
+        "red": "Červený kanál",
+        "green": "Zelený kanál",
+        "blue": "Modrý kanál",
+        "create": "Vytvořit RGB",
+        "remove": "Odebrat RGB",
+        "working": "Zpracovávání...",
+        "no_targets": "Zatím nejsou k dispozici žádné stackované cíle"
+      }
     },
     "narrowband": {
       "title": "Kalkulačka filtrů",
@@ -4062,7 +4111,29 @@
       "stop": "Stop",
       "subtitle": "Calculate and store focus offsets for each filter wheel filter",
       "title": "Filter Offset Calculator",
-      "useRelativeOffsets": "Use Relative Offsets"
+      "applyFailed": "Could not apply the offsets",
+      "tooFewIterations": "With fewer than 3 iterations a failed or inaccurate AutoFocus cannot be detected and is averaged into the offset. Use 3 or more for a reliable result.",
+      "confirmStopMessage": "All measurements taken so far will be discarded and the profile is restored to its previous state.",
+      "confirmStopTitle": "Stop the calculation?",
+      "baseFilterUnmeasured": "The first filter of the run produced no usable AutoFocus measurement, so there was nothing to state the other filters against — every offset below is 0 and the result is not usable. Discard it and run the calculation again.",
+      "board": "AutoFocus Measurements",
+      "boardHint": "One row per filter, one column per iteration, showing the focus position AutoFocus found. Struck-through values were discarded as outliers; * marks an iteration whose first AutoFocus failed and was repeated.",
+      "cutoffTooltip": "A sample had to be more than {cutoff} steps from the median of {median} to be discarded.",
+      "cutoffUnavailable": "Outlier rejection needs at least 3 measurements, so nothing could be discarded.",
+      "drift": "Focus drift over the run",
+      "estimatedFocusTooltip": "Drift-corrected focus at the start of the run: {focus}.",
+      "measurementFailed": "AutoFocus produced no usable measurement",
+      "noMeasurements": "No measurements yet",
+      "notMeasuredYet": "Not measured yet",
+      "rejectedTooltip": "Discarded as an outlier: {deviation} steps from the median of {median}.",
+      "rejectedTooltipNoMedian": "Discarded as an outlier.",
+      "retriedTooltip": "The first AutoFocus attempt for this iteration failed ({failure}) and was repeated.",
+      "samplesUsed": "Used",
+      "spread": "Spread",
+      "stepsPerLoop": "{value} steps/iteration",
+      "summaryTooltip": "{measured} of {loops} iterations produced a measurement, {used} used for the offset.",
+      "summaryTooltipPending": "{measured} of {loops} iterations have produced a measurement so far.",
+      "loopShort": "#{n}"
     },
     "filebrowser": {
       "title": "File Browser",
@@ -4668,7 +4739,7 @@
     "monitoring": "Monitor",
     "flatWizard": "Byty",
     "framing": "Framing",
-    "skyView": "Stellarium",
+    "skyView": "Celestia Atlas",
     "settings": "Nastav.",
     "about": "Info"
   },

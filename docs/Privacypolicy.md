@@ -14,7 +14,7 @@ The app may access your location solely for the following purposes:
 
     Synchronization with monitoring systems (e.g., for controlling or aligning astronomical devices)
 
-    Determining your position in Stellarium (to display the sky section at your current location)
+    Determining your position in Celestia Atlas (to display the sky section at your current location)
 
 Location data is used only for these functions and is neither stored nor shared.
 

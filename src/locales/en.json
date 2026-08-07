@@ -726,7 +726,8 @@
           "altitude": "Sun Altitude (°)"
         },
         "timeCondition": {
-          "provider": "Provider"
+          "provider": "Provider",
+          "calculatedTime": "Calculated time"
         },
         "timeSpan": {
           "hours": "Hours",

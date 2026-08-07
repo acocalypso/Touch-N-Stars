@@ -673,7 +673,8 @@
           "altitude": "Altitude do Sol (°)"
         },
         "timeCondition": {
-          "provider": "Provedor"
+          "provider": "Provedor",
+          "calculatedTime": "Hora calculada"
         },
         "timeSpan": {
           "hours": "Horas",

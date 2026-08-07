@@ -673,7 +673,8 @@
           "altitude": "太阳海拔(°)"
         },
         "timeCondition": {
-          "provider": "提供者"
+          "provider": "提供者",
+          "calculatedTime": "计算的时间"
         },
         "timeSpan": {
           "hours": "小時",

@@ -673,7 +673,8 @@
           "altitude": "Zonhoogte (°)"
         },
         "timeCondition": {
-          "provider": "Aanbieder"
+          "provider": "Aanbieder",
+          "calculatedTime": "Berekende tijd"
         },
         "timeSpan": {
           "hours": "Uren",

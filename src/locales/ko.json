@@ -726,7 +726,8 @@
           "altitude": "태양 고도 (°)"
         },
         "timeCondition": {
-          "provider": "공급자"
+          "provider": "공급자",
+          "calculatedTime": "계산된 시간"
         },
         "timeSpan": {
           "hours": "시",

@@ -673,7 +673,8 @@
           "altitude": "Nadmořská výška Slunce"
         },
         "timeCondition": {
-          "provider": "Poskytovatel"
+          "provider": "Poskytovatel",
+          "calculatedTime": "Vypočtený čas"
         },
         "timeSpan": {
           "hours": "Hodiny",

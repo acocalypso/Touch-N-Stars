@@ -662,7 +662,8 @@
           "altitude": "Висота Сонця (°)"
         },
         "timeCondition": {
-          "provider": "Провайдер"
+          "provider": "Провайдер",
+          "calculatedTime": "Розрахований час"
         },
         "timeSpan": {
           "hours": "Години",

@@ -691,7 +691,8 @@
           "altitude": "太陽高度 (°)"
         },
         "timeCondition": {
-          "provider": "プロバイダー"
+          "provider": "プロバイダー",
+          "calculatedTime": "計算された時刻"
         },
         "timeSpan": {
           "hours": "時間",

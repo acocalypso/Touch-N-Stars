@@ -131,14 +131,14 @@ const props = defineProps({
     required: false,
     default: null,
   },
-  // Many settings use -1 as a "use the inherited default" sentinel, which is why it renders as the
-  // fallback (or as an empty "default" field) instead of as the number -1. For settings where -1 is
-  // an ordinary value -- a filter's FocusOffset of -1 is one focuser step, not a sentinel -- pass
-  // false so the value is shown and stepped as-is.
+  // Whether -1 means "use the inherited default" rather than the number -1. Leave unset to derive it
+  // from `min`: a control whose range reaches below -1 treats -1 as an ordinary value (an altitude
+  // offset of -1 deg, a cooler target of -1 C), while min === -1 marks it as the sentinel and min >= 0
+  // puts -1 out of range entirely. Pass a Boolean to override.
   useDefaultSentinel: {
     type: Boolean,
     required: false,
-    default: true,
+    default: null,
   },
   labelPosition: {
     type: String,
@@ -163,11 +163,17 @@ function emitWithGlow(value) {
   }, 1000);
 }
 
+const sentinelActive = computed(() =>
+  props.useDefaultSentinel !== null && props.useDefaultSentinel !== undefined
+    ? props.useDefaultSentinel
+    : props.min >= -1
+);
+
 const isDefaultValue = computed(() => {
   if (props.modelValue === null || props.modelValue === undefined) {
     return true;
   }
-  return props.useDefaultSentinel && props.modelValue === -1;
+  return sentinelActive.value && props.modelValue === -1;
 });
 
 const formattedValue = computed(() => {
@@ -232,7 +238,11 @@ function stepUp() {
 function onDirectInput(event) {
   const value = event.target.value;
   if (value === '' || value === null) {
-    emit('update:modelValue', -1);
+    // Clearing the field means "fall back to the default" -- only meaningful where -1 is the
+    // sentinel. Otherwise there is nothing to fall back to, so keep the last value.
+    if (sentinelActive.value) {
+      emit('update:modelValue', -1);
+    }
   } else {
     const numValue = parseFloat(value);
     if (!isNaN(numValue)) {

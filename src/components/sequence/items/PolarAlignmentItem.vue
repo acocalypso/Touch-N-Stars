@@ -43,14 +43,11 @@
         </select>
       </div>
 
-      <NumberInputPicker
+      <GainInput
         :modelValue="item.Gain"
-        :label="$t('components.sequence.items.takeExposure.gain')"
         labelKey="pa-gain"
         :min="-1"
         :max="1000"
-        :step="1"
-        :decimalPlaces="0"
         @change="save('Gain', $event)"
       />
 
@@ -168,6 +165,7 @@
 import { computed } from 'vue';
 import ItemShell from './ItemShell.vue';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
+import GainInput from '@/components/helpers/GainInput.vue';
 import ToggleButton from '@/components/helpers/toggleButton.vue';
 import { apiStore } from '@/store/store';
 

@@ -95,6 +95,7 @@ export function buildEmbeddedAtlasCatalog({
   stellariumSupplement,
   brightSky,
   hygStars,
+  westernConstellations,
 }) {
   const openNgcObjects = requireArray(openNgc, 'objects', 'OpenNGC catalogue');
   const abellObjects = requireArray(
@@ -109,12 +110,8 @@ export function buildEmbeddedAtlasCatalog({
   );
   const brightStars = requireArray(brightSky, 'stars', 'Bright-sky catalogue');
   const hygStarObjects = requireArray(hygStars, 'stars', 'HYG star catalogue');
-  if (
-    brightSky.constellations !== undefined &&
-    (!brightSky.constellations || typeof brightSky.constellations !== 'object')
-  ) {
-    throw new TypeError('Bright-sky constellations must be an object');
-  }
+  if (!westernConstellations || !Array.isArray(westernConstellations.constellations))
+    throw new TypeError('Western constellation catalogue must provide a constellations array');
 
   const withAbellPlanetaryNebulae = combineCatalogLayers(
     openNgcObjects,
@@ -132,7 +129,7 @@ export function buildEmbeddedAtlasCatalog({
   return {
     catalog: layeredCatalog.objects.map(normalizeDeepSkyObject),
     stars: [...brightStars, ...hygStarObjects].map(normalizeStar),
-    constellations: brightSky.constellations ?? {},
+    constellations: westernConstellations,
     meta: layeredCatalog.meta,
   };
 }

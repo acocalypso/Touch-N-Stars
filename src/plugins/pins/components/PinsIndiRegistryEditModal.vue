@@ -2,7 +2,8 @@
   <teleport to="body">
     <div
       v-if="show"
-      class="fixed inset-0 z-50 bg-black/60 px-3 py-4 sm:px-6 sm:py-8 flex items-start sm:items-center justify-center"
+      class="fixed inset-0 bg-black/60 px-3 py-4 sm:px-6 sm:py-8 flex items-start sm:items-center justify-center"
+      :class="zIndex"
       @click="onBackdropClick"
     >
       <div
@@ -326,6 +327,12 @@ const props = defineProps({
   disabled: {
     type: Boolean,
     default: false,
+  },
+  // Callers rendering this from inside a full-screen overlay (the PINS setup
+  // wizard sits at z-70) must raise this, or the dialog opens behind them.
+  zIndex: {
+    type: String,
+    default: 'z-50',
   },
 });
 

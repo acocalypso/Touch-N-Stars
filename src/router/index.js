@@ -9,7 +9,6 @@ const DomePage = () => import('@/views/DomePage.vue');
 const SettingsPage = () => import('@/views/SettingsPage.vue');
 const FlatdevicePage = () => import('@/views/FlatdevicePage.vue');
 const SequenceMonitoring = () => import('@/views/SequenceMonitoring.vue');
-const SetupPage = () => import('@/views/SetupPage.vue');
 const SwitchPage = () => import('@/views/SwitchPage.vue');
 const FilterwheelPage = () => import('@/views/FilterwheelPage.vue');
 const RotatorPage = () => import('@/views/RotatorPage.vue');
@@ -22,28 +21,22 @@ const routes = [
   {
     path: '/',
     component: EquipmentPage,
-    meta: { requiresSetup: true },
   },
-  {
-    path: '/setup',
-    component: SetupPage,
-    meta: { requiresSetup: false },
-  },
-  { path: '/equipment', component: EquipmentPage, meta: { requiresSetup: true } },
-  { path: '/camera', component: CameraPage, meta: { requiresSetup: true } },
-  { path: '/mount', component: MountPage, meta: { requiresSetup: true } },
-  { path: '/autofocus', component: FocusPage, meta: { requiresSetup: true } },
-  { path: '/guider', component: GuidingPage, meta: { requiresSetup: true } },
-  { path: '/dome', component: DomePage, meta: { requiresSetup: true } },
-  { path: '/settings', component: SettingsPage, meta: { requiresSetup: true } },
-  { path: '/flat', component: FlatdevicePage, meta: { requiresSetup: true } },
-  { path: '/seq-mon', component: SequenceMonitoring, meta: { requiresSetup: true } },
-  { path: '/switch', component: SwitchPage, meta: { requiresSetup: true } },
-  { path: '/filterwheel', component: FilterwheelPage, meta: { requiresSetup: true } },
-  { path: '/rotator', component: RotatorPage, meta: { requiresSetup: true } },
-  { path: '/flats', component: Flatassistant, meta: { requiresSetup: true } },
-  { path: '/sequence', component: SequencePage, meta: { requiresSetup: true } },
-  { path: '/framing', component: FramingPage, meta: { requiresSetup: true } },
+  { path: '/equipment', component: EquipmentPage },
+  { path: '/camera', component: CameraPage },
+  { path: '/mount', component: MountPage },
+  { path: '/autofocus', component: FocusPage },
+  { path: '/guider', component: GuidingPage },
+  { path: '/dome', component: DomePage },
+  { path: '/settings', component: SettingsPage },
+  { path: '/flat', component: FlatdevicePage },
+  { path: '/seq-mon', component: SequenceMonitoring },
+  { path: '/switch', component: SwitchPage },
+  { path: '/filterwheel', component: FilterwheelPage },
+  { path: '/rotator', component: RotatorPage },
+  { path: '/flats', component: Flatassistant },
+  { path: '/sequence', component: SequencePage },
+  { path: '/framing', component: FramingPage },
 ];
 
 const router = createRouter({
@@ -80,14 +73,13 @@ function getFirstVisibleRoute(settingsStore) {
   return '/settings';
 }
 
+// First-run setup no longer gates routing: the setup wizard is a cancellable
+// overlay owned by App.vue, so every route stays reachable even before an
+// instance is configured (the connection splash takes over in that case).
 router.beforeEach((to, from, next) => {
   const settingsStore = useSettingsStore();
 
-  if (to.meta.requiresSetup && !settingsStore.isSetupComplete()) {
-    next('/setup');
-  } else if (to.path === '/setup' && settingsStore.isSetupComplete()) {
-    next('/');
-  } else if (
+  if (
     (to.path === '/' || to.path === '/equipment') &&
     settingsStore.navbar?.hiddenItems?.includes('equipment')
   ) {

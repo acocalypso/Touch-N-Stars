@@ -232,6 +232,9 @@
       <button @click="showTutorial" class="tns-btn-secondary w-full">
         {{ $t('components.settings.showTutorial') }}
       </button>
+      <button @click="restartSetupWizard" class="tns-btn-secondary w-full">
+        {{ $t('components.setupWizard.restart') }}
+      </button>
     </div>
 
     <!-- Debug settings -->
@@ -411,6 +414,12 @@ const emit = defineEmits(['show-tutorial', 'restart-system', 'shutdown-system'])
 
 const showTutorial = () => {
   emit('show-tutorial');
+};
+
+// resetSetupWizard() bumps openRequest, which is what App.vue watches to reopen
+// the overlay - clearing `completed` alone would not re-fire after a cancel.
+const restartSetupWizard = () => {
+  settingsStore.resetSetupWizard();
 };
 
 // System actions

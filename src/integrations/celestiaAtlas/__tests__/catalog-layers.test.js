@@ -48,10 +48,13 @@ const fixturePayloads = () => ({
   },
   brightSky: {
     stars: [{ id: 'Bright 1', name: 'Bright 1', raDeg: 30, decDeg: 4 }],
-    constellations: { Test: [[0, 1]] },
   },
   hygStars: {
     stars: [{ id: 'HIP 1', name: 'HYG 1', ra: 3, dec: 5, alias: 'Test star' }],
+  },
+  westernConstellations: {
+    vertices: { 1: [45, 5], 2: [46, 6] },
+    constellations: [{ iau: 'Tst', name: 'Test', lines: [[1, 2]] }],
   },
 });
 
@@ -63,7 +66,7 @@ test('combines and normalizes the packaged Atlas layers without mutating their p
   assert.deepEqual(payloads, snapshots);
   assert.equal(result.catalog.length, 2);
   assert.equal(result.stars.length, 2);
-  assert.deepEqual(result.constellations, payloads.brightSky.constellations);
+  assert.deepEqual(result.constellations, payloads.westernConstellations);
 
   const merged = result.catalog.find(({ id }) => id === 'NGC 1');
   assert.ok(merged.aliases.includes('Abell PN 1'));
@@ -97,22 +100,32 @@ test('rejects incomplete catalogue payloads before viewer initialization', () =>
 });
 
 test('loads every packaged offline catalogue and keeps the two Abell namespaces distinct', async () => {
-  const [openNgc, abellPlanetaryNebulae, stellariumSupplement, brightSky, hygStars] =
-    await Promise.all([
-      import('@acocalypso/celestia-atlas/viewer-catalog-data', { with: { type: 'json' } }),
-      import('@acocalypso/celestia-atlas/abell-pn-data', { with: { type: 'json' } }),
-      import('@acocalypso/celestia-atlas/stellarium-supplement-data', {
-        with: { type: 'json' },
-      }),
-      import('@acocalypso/celestia-atlas/bright-sky-data', { with: { type: 'json' } }),
-      import('@acocalypso/celestia-atlas/hyg-star-data', { with: { type: 'json' } }),
-    ]);
+  const [
+    openNgc,
+    abellPlanetaryNebulae,
+    stellariumSupplement,
+    brightSky,
+    hygStars,
+    westernConstellations,
+  ] = await Promise.all([
+    import('@acocalypso/celestia-atlas/viewer-catalog-data', { with: { type: 'json' } }),
+    import('@acocalypso/celestia-atlas/abell-pn-data', { with: { type: 'json' } }),
+    import('@acocalypso/celestia-atlas/stellarium-supplement-data', {
+      with: { type: 'json' },
+    }),
+    import('@acocalypso/celestia-atlas/bright-sky-data', { with: { type: 'json' } }),
+    import('@acocalypso/celestia-atlas/hyg-star-data', { with: { type: 'json' } }),
+    import('@acocalypso/celestia-atlas/western-constellation-data', {
+      with: { type: 'json' },
+    }),
+  ]);
   const result = buildEmbeddedAtlasCatalog({
     openNgc: openNgc.default,
     abellPlanetaryNebulae: abellPlanetaryNebulae.default,
     stellariumSupplement: stellariumSupplement.default,
     brightSky: brightSky.default,
     hygStars: hygStars.default,
+    westernConstellations: westernConstellations.default,
   });
 
   assert.equal(result.catalog.length, 21_192);
@@ -130,6 +143,9 @@ test('loads every packaged offline catalogue and keeps the two Abell namespaces 
     'vdb',
   ]);
   assert.equal(result.stars.length, 8_910);
+  assert.equal(result.constellations.constellations.length, 88);
+  assert.equal(result.constellations.meta.segmentCount, 674);
+  assert.doesNotMatch(JSON.stringify(result.constellations.constellations), /\.webp|image/i);
 
   const messierObjects = result.catalog.filter((object) =>
     object.catalogueGroups.includes('messier')

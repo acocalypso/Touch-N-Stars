@@ -900,7 +900,8 @@
           "altitude": "太陽高度 (°)"
         },
         "timeCondition": {
-          "provider": "プロバイダー"
+          "provider": "プロバイダー",
+          "calculatedTime": "計算された時刻"
         },
         "timeSpan": {
           "hours": "時間",
@@ -1612,6 +1613,7 @@
       "capture_running": "撮影中",
       "exposure_time": "露出時間 (秒):",
       "gain_iso": "ゲイン / ISO:",
+      "gainDefault": "カメラの既定値",
       "name": "カメラ名",
       "gain": "ゲイン",
       "offset": "オフセット",

@@ -882,7 +882,8 @@
           "altitude": "Altitude do Sol (°)"
         },
         "timeCondition": {
-          "provider": "Provedor"
+          "provider": "Provedor",
+          "calculatedTime": "Hora calculada"
         },
         "timeSpan": {
           "hours": "Horas",
@@ -1603,6 +1604,7 @@
       "capture_running": "Captura em execução",
       "exposure_time": "Tempo de exposição (s):",
       "gain_iso": "Ganho / ISO:",
+      "gainDefault": "Padrão da câmara",
       "name": "Nome da câmera",
       "gain": "Ganho",
       "offset": "Desvio",

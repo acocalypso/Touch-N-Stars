@@ -882,7 +882,8 @@
           "altitude": "Nadmořská výška Slunce"
         },
         "timeCondition": {
-          "provider": "Poskytovatel"
+          "provider": "Poskytovatel",
+          "calculatedTime": "Vypočtený čas"
         },
         "timeSpan": {
           "hours": "Hodiny",
@@ -1603,6 +1604,7 @@
       "capture_running": "Snímání probíhá",
       "exposure_time": "Čas expozice (s):",
       "gain_iso": "Zisk / ISO:",
+      "gainDefault": "Výchozí nastavení kamery",
       "name": "Jméno kamery",
       "gain": "Získat",
       "offset": "Offset",

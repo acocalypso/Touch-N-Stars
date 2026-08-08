@@ -882,7 +882,8 @@
           "altitude": "太阳海拔(°)"
         },
         "timeCondition": {
-          "provider": "提供者"
+          "provider": "提供者",
+          "calculatedTime": "计算的时间"
         },
         "timeSpan": {
           "hours": "小時",
@@ -1603,6 +1604,7 @@
       "capture_running": "拍摄运行中",
       "exposure_time": "曝光时间 (s)：",
       "gain_iso": "增益 / ISO：",
+      "gainDefault": "相机默认值",
       "name": "相机名称",
       "gain": "增益",
       "offset": "偏移",

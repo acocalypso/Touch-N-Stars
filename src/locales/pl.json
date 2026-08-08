@@ -882,7 +882,8 @@
           "altitude": "Wysokość słońca (°)"
         },
         "timeCondition": {
-          "provider": "Dostawca"
+          "provider": "Dostawca",
+          "calculatedTime": "Obliczony czas"
         },
         "timeSpan": {
           "hours": "Godziny",
@@ -1603,6 +1604,7 @@
       "capture_running": "Trwa przechwytywanie",
       "exposure_time": "Czas naświetlania (s):",
       "gain_iso": "Wzmocnienie / ISO:",
+      "gainDefault": "Domyślne kamery",
       "name": "Nazwa kamery",
       "gain": "Wzmocnienie",
       "offset": "Zrównoważyć",

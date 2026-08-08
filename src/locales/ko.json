@@ -935,7 +935,8 @@
           "altitude": "태양 고도 (°)"
         },
         "timeCondition": {
-          "provider": "공급자"
+          "provider": "공급자",
+          "calculatedTime": "계산된 시간"
         },
         "timeSpan": {
           "hours": "시",
@@ -1649,6 +1650,7 @@
       "capture_running": "촬영 진행 중",
       "exposure_time": "노출 시간(s):",
       "gain_iso": "게인 / ISO:",
+      "gainDefault": "카메라 기본값",
       "name": "카메라 이름",
       "gain": "게인",
       "offset": "오프셋",

@@ -81,7 +81,7 @@ export default defineConfig({
             },
             {
               name: 'celestia-bright-sky',
-              test: /node_modules[\/]@acocalypso[\/]celestia-atlas[\/]data[\/]bright-sky\.json/,
+              test: /node_modules[\/]@acocalypso[\/]celestia-atlas[\/]data[\/](?:bright-sky|western-constellations)\.json/,
               priority: 51,
             },
             {

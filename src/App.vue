@@ -173,6 +173,8 @@
     </div>
     <!-- Tutorial Modal -->
     <TutorialModal v-if="showTutorial" :steps="tutorialSteps" @close="closeTutorial" />
+    <!-- First-run setup wizard (cancellable) -->
+    <SetupWizard v-if="showSetupWizard" @close="closeSetupWizard" />
     <!-- Error Modal -->
     <ToastModal v-if="settingsStore.setupCompleted || store.setupCheckConnectionDone" />
     <!-- Debug Console -->
@@ -396,6 +398,7 @@ import { PINS_PORT, DEFAULT_PINS_DAEMON_API_TOKEN as PINS_TOKEN } from '@/servic
 
 const SkyAtlasView = defineAsyncComponent(() => import('./views/CelestiaAtlasView.vue'));
 const TutorialModal = defineAsyncComponent(() => import('@/components/TutorialModal.vue'));
+const SetupWizard = defineAsyncComponent(() => import('@/components/setupWizard/SetupWizard.vue'));
 const ConsoleViewer = defineAsyncComponent(() => import('@/components/helpers/ConsoleViewer.vue'));
 const SettingsComp = defineAsyncComponent(() => import('@/components/SettingsComp.vue'));
 const WhatsNewModal = defineAsyncComponent(() => import('@/components/helpers/WhatsNewModal.vue'));
@@ -506,6 +509,10 @@ const showSettingsModal = ref(false);
 const showWhatsNew = ref(false);
 const whatsNewData = ref(null);
 const whatsNewPending = ref(false);
+const showSetupWizard = ref(false);
+// "Remind me later" must hold for this session even though isPINS can flip back
+// and forth while the backend reconnects.
+const setupWizardDismissed = ref(false);
 const connectionCheckCompleted = ref(false);
 const { t } = useI18n();
 // Reconnecting after being backgrounded routinely takes up to ~12s on its own (Android
@@ -640,7 +647,9 @@ const statusBarClasses = computed(() => ({
 const shouldShowConnectionSplash = computed(() => {
   return (
     (showSplashScreen.value || (showReconnectOverlay.value && route.path !== '/settings')) &&
-    route.path !== '/setup' &&
+    // The setup wizard runs before an instance even exists, so "not connected"
+    // is its normal state - the splash would just sit behind it.
+    !showSetupWizard.value &&
     !pinsStore.shouldShowUpgradeOverlay
   );
 });
@@ -1300,7 +1309,7 @@ onMounted(async () => {
       const lastShownVersion = localStorage.getItem('tns.whatsnew.version');
       const shouldShow = data?.version && data.version !== lastShownVersion;
       if (shouldShow) {
-        if (!showTutorial.value) {
+        if (!showTutorial.value && !showSetupWizard.value) {
           showWhatsNew.value = true;
         } else {
           whatsNewPending.value = true;
@@ -1364,14 +1373,52 @@ watch(
   }
 );
 
-function closeTutorial() {
-  showTutorial.value = false;
-  settingsStore.completeTutorial();
+// Onboarding overlays run one at a time: setup wizard -> tutorial -> What's New.
+// The wizard comes first because TutorialModal only renders once setupCompleted
+// is true - and that is exactly what finishing or cancelling the wizard sets.
+function releaseWhatsNew() {
   if (whatsNewPending.value && whatsNewData.value) {
     showWhatsNew.value = true;
     whatsNewPending.value = false;
   }
 }
+
+function closeTutorial() {
+  showTutorial.value = false;
+  settingsStore.completeTutorial();
+  releaseWhatsNew();
+}
+
+function closeSetupWizard() {
+  showSetupWizard.value = false;
+  setupWizardDismissed.value = true;
+  // The tutorial was already armed in onMounted but stayed invisible while
+  // setupCompleted was false; now it takes over and releases What's New itself.
+  if (showTutorial.value) return;
+  releaseWhatsNew();
+}
+
+// Mirrored into the store so settingsStore._canReloadOnEndpointChange() can see
+// it: changing the instance from inside the wizard must not reload the page.
+watch(showSetupWizard, (isOpen) => settingsStore.setSetupWizardOpen(isOpen), { immediate: true });
+
+watch(
+  () => [settingsStore.setupWizard.completed, settingsStore.setupWizard.openRequest],
+  ([completed, openRequest], [, previousRequest] = []) => {
+    // resetSetupWizard() bumps openRequest, which is the only reliable "open it
+    // now" signal: after a cancel the wizard is neither completed nor open, so
+    // watching `completed` alone would never fire again.
+    if (previousRequest !== undefined && openRequest > previousRequest) {
+      setupWizardDismissed.value = false;
+    }
+
+    // No isPINS / setupCompleted condition: this is the first-run wizard now, so
+    // it has to open before either of those can possibly be true.
+    if (completed || showSetupWizard.value || setupWizardDismissed.value) return;
+    showSetupWizard.value = true;
+  },
+  { immediate: true }
+);
 
 function dismissWhatsNew() {
   showWhatsNew.value = false;

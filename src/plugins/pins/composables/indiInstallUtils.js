@@ -34,7 +34,10 @@
  * @property {string} [message]
  */
 
+// Must stay in sync with TYPE_OPTIONS in PinsIndiRegistryEditModal.vue - the
+// registry an installed driver is written into accepts exactly these types.
 export const ALLOWED_INDI_DRIVER_TYPES = Object.freeze([
+  'camera',
   'filterwheel',
   'flatpanel',
   'focuser',
@@ -45,6 +48,7 @@ export const ALLOWED_INDI_DRIVER_TYPES = Object.freeze([
 ]);
 
 const TYPE_KEYWORDS = Object.freeze({
+  camera: ['camera', 'ccd', 'dslr'],
   filterwheel: ['filterwheel', 'filter wheel', 'efw'],
   flatpanel: ['flatpanel', 'flat panel', 'flatbox', 'light box', 'flatdevice', 'flat device'],
   focuser: ['focuser', 'focus', 'eaf'],

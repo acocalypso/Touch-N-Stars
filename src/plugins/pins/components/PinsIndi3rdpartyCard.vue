@@ -65,25 +65,27 @@
 
       <div v-if="loading" class="text-blue-400 text-sm">{{ $t('plugins.pins.scanning') }}</div>
 
-      <div v-else-if="drivers.length === 0" class="text-gray-400 italic py-2">
-        {{ $t('plugins.pins.indi3rdpartyNoDrivers') }}
-      </div>
-
-      <div v-else class="flex flex-col gap-3">
+      <!-- The picker stays mounted even with an empty result list, so a fruitless
+           search never hides the driver selection or the config editor. -->
+      <div class="flex flex-col gap-3">
         <label class="text-gray-400 text-xs uppercase font-bold">{{
           $t('plugins.pins.indi3rdpartySelect')
         }}</label>
         <select
           :value="selectedAsset"
           @change="$emit('update:selectedAsset', $event.target.value)"
-          class="bg-gray-900 border border-gray-600 rounded-lg p-3 text-white focus:border-blue-500 outline-none w-full"
-          :disabled="disabled"
+          class="bg-gray-900 border border-gray-600 rounded-lg p-3 text-white focus:border-blue-500 outline-none w-full disabled:opacity-50"
+          :disabled="disabled || drivers.length === 0"
         >
           <option value="" disabled>{{ $t('plugins.pins.indi3rdpartySelect') }}</option>
           <option v-for="pkg in drivers" :key="pkg.assetName" :value="pkg.assetName">
             {{ pkg.name }} - {{ pkg.version }} ({{ pkg.architecture }})
           </option>
         </select>
+
+        <p v-if="!loading && drivers.length === 0" class="text-gray-400 italic">
+          {{ $t('plugins.pins.indi3rdpartyNoDrivers') }}
+        </p>
 
         <button
           @click="$emit('install')"

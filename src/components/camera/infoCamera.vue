@@ -84,9 +84,9 @@ const { t } = useI18n();
 // Cooler state derived centrally in cameraStore (real NINA state on
 // PINS/newer ninaAPI, heuristic otherwise).
 const coolerStateText = computed(() => {
-  // Cool-down target only: while warming, TargetTemp still holds the old
-  // cool-down target, and the true warm-up destination is not exposed.
-  const target = store.cameraInfo.TargetTemp ?? store.profileInfo?.CameraSettings?.Temperature;
+  // Cool-down target only (see cameraStore.targetTemp): the true warm-up
+  // destination is not exposed by NINA.
+  const target = cameraStore.targetTemp;
   const targetText = target != null && !isNaN(target) ? ` ${Math.round(target)}°C` : '';
   switch (cameraStore.coolingState) {
     case 'cooling':

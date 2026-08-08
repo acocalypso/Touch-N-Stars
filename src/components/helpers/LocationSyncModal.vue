@@ -1,6 +1,8 @@
 <!-- src/components/helpers/LocationSyncModal.vue -->
 <template>
-  <Modal :show="showLocationSyncModal" @close="cancelLocationSync">
+  <!-- Blocks the mount connect until answered, so it has to sit above every other
+       surface it can be triggered from - including the PINS setup wizard (z-70). -->
+  <Modal :show="showLocationSyncModal" zIndex="z-[76]" @close="cancelLocationSync">
     <template #header>
       <h2 class="text-xl font-bold">{{ $t('components.mount.location_sync.title') }}</h2>
     </template>

@@ -534,12 +534,14 @@ onMounted(async () => {
       stellariumSupplementModule,
       brightSkyModule,
       hygStarsModule,
+      westernConstellationsModule,
     ] = await Promise.all([
       import('@acocalypso/celestia-atlas/viewer-catalog-data'),
       import('@acocalypso/celestia-atlas/abell-pn-data'),
       import('@acocalypso/celestia-atlas/stellarium-supplement-data'),
       import('@acocalypso/celestia-atlas/bright-sky-data'),
       import('@acocalypso/celestia-atlas/hyg-star-data'),
+      import('@acocalypso/celestia-atlas/western-constellation-data'),
     ]);
     if (disposed) return;
     const { catalog, stars, constellations } = buildEmbeddedAtlasCatalog({
@@ -548,6 +550,7 @@ onMounted(async () => {
       stellariumSupplement: stellariumSupplementModule.default,
       brightSky: brightSkyModule.default,
       hygStars: hygStarsModule.default,
+      westernConstellations: westernConstellationsModule.default,
     });
     catalogFacets.value = buildAtlasCatalogFacets(catalog);
     synchronizeCatalogFilterSettings();

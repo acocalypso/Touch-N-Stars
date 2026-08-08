@@ -1404,6 +1404,7 @@
       "capture_running": "撮影中",
       "exposure_time": "露出時間 (秒):",
       "gain_iso": "ゲイン / ISO:",
+      "gainDefault": "カメラの既定値",
       "name": "カメラ名",
       "gain": "ゲイン",
       "offset": "オフセット",

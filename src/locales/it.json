@@ -1395,6 +1395,7 @@
       "capture_running": "Acquisizione in corso",
       "exposure_time": "Tempo esposizione (s):",
       "gain_iso": "Guadagno / ISO:",
+      "gainDefault": "Predefinito della camera",
       "name": "Nome fotocamera",
       "gain": "Guadagno",
       "offset": "Offset",

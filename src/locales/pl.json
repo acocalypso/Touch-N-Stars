@@ -1395,6 +1395,7 @@
       "capture_running": "Trwa przechwytywanie",
       "exposure_time": "Czas naświetlania (s):",
       "gain_iso": "Wzmocnienie / ISO:",
+      "gainDefault": "Domyślne kamery",
       "name": "Nazwa kamery",
       "gain": "Wzmocnienie",
       "offset": "Zrównoważyć",

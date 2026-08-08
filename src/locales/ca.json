@@ -1441,6 +1441,7 @@
       "capture_running": "Captura en curs",
       "exposure_time": "Temps d'exposició (s):",
       "gain_iso": "Guany / ISO:",
+      "gainDefault": "Predeterminat de la càmera",
       "name": "Nom de la càmera",
       "gain": "Guany",
       "offset": "Offset",

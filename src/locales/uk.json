@@ -1375,6 +1375,7 @@
       "capture_running": "Зйомка виконується",
       "exposure_time": "Час експозиції (с):",
       "gain_iso": "Gain / ISO:",
+      "gainDefault": "Типове значення камери",
       "name": "Назва камери",
       "gain": "Gain",
       "offset": "Зміщення",

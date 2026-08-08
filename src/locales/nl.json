@@ -1395,6 +1395,7 @@
       "capture_running": "Camera actief",
       "exposure_time": "Belichting tijd (s):",
       "gain_iso": "Winst / ISO:",
+      "gainDefault": "Camerastandaard",
       "name": "Camera naam",
       "gain": "Verdienen",
       "offset": "Offset",

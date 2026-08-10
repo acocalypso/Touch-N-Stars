@@ -395,8 +395,8 @@
       },
       "cancel": "Cancel setup",
       "localization": {
-        "title": "Set the rig regional settings",
-        "description": "Set these values before Wi-Fi so hotspot location, time and remote keyboard input match where the rig is used."
+        "title": "Skonfiguruj ustawienia regionalne zestawu",
+        "description": "Ustaw te wartości przed konfiguracją Wi-Fi, aby lokalizacja hotspotu, czas i zdalny układ klawiatury odpowiadały miejscu używania zestawu."
       }
     },
     "fileBrowser": {
@@ -647,23 +647,23 @@
         "confirmMessage": "Czy na pewno chcesz wyczyścić ścieżkę pliku horyzontu?"
       },
       "localization": {
-        "title": "System regional settings",
-        "description": "These are the current settings on the PINS device, not this app. Changes apply to every phone, tablet and browser that connects to it.",
-        "systemLocale": "Locale",
-        "wifiCountry": "Wi-Fi country",
+        "title": "Ustawienia regionalne systemu",
+        "description": "Są to bieżące ustawienia urządzenia PINS, a nie tej aplikacji. Zmiany dotyczą każdego telefonu, tabletu i przeglądarki, które łączą się z urządzeniem.",
+        "systemLocale": "Ustawienia regionalne",
+        "wifiCountry": "Kraj Wi-Fi",
         "wifiCountryConfirmTitle": "Zastosować zmianę kraju Wi-Fi?",
         "wifiCountryConfirmMessage": "Zmiana kraju Wi-Fi może na krótko przerwać połączenie z tym urządzeniem PINS. Zastosować zmiany?",
-        "timezone": "Time zone",
-        "keyboardLayout": "Keyboard layout",
-        "loading": "Reading the current system settings...",
-        "loadError": "Could not read the system settings: {message}",
-        "save": "Apply changes",
-        "saving": "Applying...",
-        "saved": "System settings updated.",
-        "saveError": "Could not update the system settings: {message}",
-        "missingJob": "The PINS daemon did not return an operation ID.",
-        "refresh": "Reload current values",
-        "searchPlaceholder": "Filter available options..."
+        "timezone": "Strefa czasowa",
+        "keyboardLayout": "Układ klawiatury",
+        "loading": "Odczytywanie bieżących ustawień systemu...",
+        "loadError": "Nie udało się odczytać ustawień systemu: {message}",
+        "save": "Zastosuj zmiany",
+        "saving": "Stosowanie zmian...",
+        "saved": "Ustawienia systemu zostały zaktualizowane.",
+        "saveError": "Nie udało się zaktualizować ustawień systemu: {message}",
+        "missingJob": "Demon PINS nie zwrócił identyfikatora operacji.",
+        "refresh": "Wczytaj ponownie bieżące wartości",
+        "searchPlaceholder": "Filtruj dostępne opcje..."
       }
     },
     "alpacaDirect": {

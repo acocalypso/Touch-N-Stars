@@ -395,8 +395,8 @@
       },
       "cancel": "Cancel setup",
       "localization": {
-        "title": "Set the rig regional settings",
-        "description": "Set these values before Wi-Fi so hotspot location, time and remote keyboard input match where the rig is used."
+        "title": "Налаштувати регіональні параметри обладнання",
+        "description": "Установіть ці значення перед налаштуванням Wi-Fi, щоб розташування точки доступу, час і введення з віддаленої клавіатури відповідали місцю використання обладнання."
       }
     },
     "settings": {
@@ -627,23 +627,23 @@
         "max_slew_rate": "Макс. швидкість наведення (°/с)"
       },
       "localization": {
-        "title": "System regional settings",
-        "description": "These are the current settings on the PINS device, not this app. Changes apply to every phone, tablet and browser that connects to it.",
-        "systemLocale": "Locale",
-        "wifiCountry": "Wi-Fi country",
+        "title": "Регіональні параметри системи",
+        "description": "Це поточні параметри пристрою PINS, а не цієї програми. Зміни застосовуються до всіх телефонів, планшетів і браузерів, які підключаються до нього.",
+        "systemLocale": "Локаль",
+        "wifiCountry": "Країна Wi-Fi",
         "wifiCountryConfirmTitle": "Застосувати зміну країни Wi-Fi?",
         "wifiCountryConfirmMessage": "Зміна країни Wi-Fi може ненадовго перервати з’єднання з цим пристроєм PINS. Застосувати зміни?",
-        "timezone": "Time zone",
-        "keyboardLayout": "Keyboard layout",
-        "loading": "Reading the current system settings...",
-        "loadError": "Could not read the system settings: {message}",
-        "save": "Apply changes",
-        "saving": "Applying...",
-        "saved": "System settings updated.",
-        "saveError": "Could not update the system settings: {message}",
-        "missingJob": "The PINS daemon did not return an operation ID.",
-        "refresh": "Reload current values",
-        "searchPlaceholder": "Filter available options..."
+        "timezone": "Часовий пояс",
+        "keyboardLayout": "Розкладка клавіатури",
+        "loading": "Зчитування поточних параметрів системи...",
+        "loadError": "Не вдалося зчитати параметри системи: {message}",
+        "save": "Застосувати зміни",
+        "saving": "Застосування...",
+        "saved": "Параметри системи оновлено.",
+        "saveError": "Не вдалося оновити параметри системи: {message}",
+        "missingJob": "Демон PINS не повернув ідентифікатор операції.",
+        "refresh": "Перезавантажити поточні значення",
+        "searchPlaceholder": "Фільтрувати доступні параметри..."
       }
     },
     "alpacaDirect": {

@@ -395,8 +395,8 @@
       },
       "cancel": "Cancel setup",
       "localization": {
-        "title": "Set the rig regional settings",
-        "description": "Set these values before Wi-Fi so hotspot location, time and remote keyboard input match where the rig is used."
+        "title": "Regionale instellingen van de opstelling configureren",
+        "description": "Stel deze waarden vóór Wi-Fi in, zodat de hotspotlocatie, tijd en externe toetsenbordinvoer overeenkomen met de locatie waar de opstelling wordt gebruikt."
       }
     },
     "fileBrowser": {
@@ -647,23 +647,23 @@
         "confirmMessage": "Weet u zeker dat u het horizonbestandspad wilt wissen?"
       },
       "localization": {
-        "title": "System regional settings",
-        "description": "These are the current settings on the PINS device, not this app. Changes apply to every phone, tablet and browser that connects to it.",
-        "systemLocale": "Locale",
-        "wifiCountry": "Wi-Fi country",
+        "title": "Regionale systeeminstellingen",
+        "description": "Dit zijn de huidige instellingen van het PINS-apparaat, niet van deze app. Wijzigingen gelden voor elke telefoon, tablet en browser die ermee verbinding maakt.",
+        "systemLocale": "Landinstelling",
+        "wifiCountry": "Wi-Fi-land",
         "wifiCountryConfirmTitle": "Wijziging van Wi-Fi-land toepassen?",
         "wifiCountryConfirmMessage": "Het wijzigen van het Wi-Fi-land kan de verbinding met dit PINS-apparaat kort onderbreken. Wijzigingen toepassen?",
-        "timezone": "Time zone",
-        "keyboardLayout": "Keyboard layout",
-        "loading": "Reading the current system settings...",
-        "loadError": "Could not read the system settings: {message}",
-        "save": "Apply changes",
-        "saving": "Applying...",
-        "saved": "System settings updated.",
-        "saveError": "Could not update the system settings: {message}",
-        "missingJob": "The PINS daemon did not return an operation ID.",
-        "refresh": "Reload current values",
-        "searchPlaceholder": "Filter available options..."
+        "timezone": "Tijdzone",
+        "keyboardLayout": "Toetsenbordindeling",
+        "loading": "Huidige systeeminstellingen worden gelezen...",
+        "loadError": "De systeeminstellingen konden niet worden gelezen: {message}",
+        "save": "Wijzigingen toepassen",
+        "saving": "Bezig met toepassen...",
+        "saved": "Systeeminstellingen bijgewerkt.",
+        "saveError": "De systeeminstellingen konden niet worden bijgewerkt: {message}",
+        "missingJob": "De PINS-daemon heeft geen bewerkings-ID teruggegeven.",
+        "refresh": "Huidige waarden opnieuw laden",
+        "searchPlaceholder": "Beschikbare opties filteren..."
       }
     },
     "alpacaDirect": {

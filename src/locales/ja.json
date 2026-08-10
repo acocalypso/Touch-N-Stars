@@ -404,8 +404,8 @@
       },
       "cancel": "Cancel setup",
       "localization": {
-        "title": "Set the rig regional settings",
-        "description": "Set these values before Wi-Fi so hotspot location, time and remote keyboard input match where the rig is used."
+        "title": "機材の地域設定を行う",
+        "description": "ホットスポットの場所、時刻、リモートキーボード入力を機材の使用場所に合わせるため、Wi-Fi より先にこれらの値を設定してください。"
       }
     },
     "fileBrowser": {
@@ -656,23 +656,23 @@
         "max_slew_rate": "最大スルーレート (°/s)"
       },
       "localization": {
-        "title": "System regional settings",
-        "description": "These are the current settings on the PINS device, not this app. Changes apply to every phone, tablet and browser that connects to it.",
-        "systemLocale": "Locale",
-        "wifiCountry": "Wi-Fi country",
+        "title": "システムの地域設定",
+        "description": "これはこのアプリではなく、PINS デバイスの現在の設定です。変更は、このデバイスに接続するすべてのスマートフォン、タブレット、ブラウザーに適用されます。",
+        "systemLocale": "ロケール",
+        "wifiCountry": "Wi-Fi の国設定",
         "wifiCountryConfirmTitle": "Wi-Fi の国設定を変更しますか？",
         "wifiCountryConfirmMessage": "Wi-Fi の国設定を変更すると、この PINS デバイスとの接続が一時的に切断される場合があります。変更を適用しますか？",
-        "timezone": "Time zone",
-        "keyboardLayout": "Keyboard layout",
-        "loading": "Reading the current system settings...",
-        "loadError": "Could not read the system settings: {message}",
-        "save": "Apply changes",
-        "saving": "Applying...",
-        "saved": "System settings updated.",
-        "saveError": "Could not update the system settings: {message}",
-        "missingJob": "The PINS daemon did not return an operation ID.",
-        "refresh": "Reload current values",
-        "searchPlaceholder": "Filter available options..."
+        "timezone": "タイムゾーン",
+        "keyboardLayout": "キーボード配列",
+        "loading": "現在のシステム設定を読み込んでいます...",
+        "loadError": "システム設定を読み込めませんでした: {message}",
+        "save": "変更を適用",
+        "saving": "適用中...",
+        "saved": "システム設定を更新しました。",
+        "saveError": "システム設定を更新できませんでした: {message}",
+        "missingJob": "PINS デーモンが操作 ID を返しませんでした。",
+        "refresh": "現在の値を再読み込み",
+        "searchPlaceholder": "利用可能なオプションを絞り込む..."
       }
     },
     "alpacaDirect": {

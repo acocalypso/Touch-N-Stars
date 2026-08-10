@@ -395,8 +395,8 @@
       },
       "cancel": "Cancel setup",
       "localization": {
-        "title": "Set the rig regional settings",
-        "description": "Set these values before Wi-Fi so hotspot location, time and remote keyboard input match where the rig is used."
+        "title": "Nastavit místní nastavení sestavy",
+        "description": "Nastavte tyto hodnoty před Wi-Fi, aby umístění hotspotu, čas a vzdálené zadávání z klávesnice odpovídaly místu použití sestavy."
       }
     },
     "fileBrowser": {
@@ -647,23 +647,23 @@
         "confirmMessage": "Opravdu chcete vymazat cestu souboru horizontu?"
       },
       "localization": {
-        "title": "System regional settings",
-        "description": "These are the current settings on the PINS device, not this app. Changes apply to every phone, tablet and browser that connects to it.",
-        "systemLocale": "Locale",
-        "wifiCountry": "Wi-Fi country",
+        "title": "Místní nastavení systému",
+        "description": "Toto jsou aktuální nastavení zařízení PINS, nikoli této aplikace. Změny platí pro každý telefon, tablet a prohlížeč, který se k němu připojí.",
+        "systemLocale": "Národní prostředí",
+        "wifiCountry": "Země Wi-Fi",
         "wifiCountryConfirmTitle": "Použít změnu země Wi-Fi?",
         "wifiCountryConfirmMessage": "Změna země Wi-Fi může krátce přerušit připojení k tomuto zařízení PINS. Použít změny?",
-        "timezone": "Time zone",
-        "keyboardLayout": "Keyboard layout",
-        "loading": "Reading the current system settings...",
-        "loadError": "Could not read the system settings: {message}",
-        "save": "Apply changes",
-        "saving": "Applying...",
-        "saved": "System settings updated.",
-        "saveError": "Could not update the system settings: {message}",
-        "missingJob": "The PINS daemon did not return an operation ID.",
-        "refresh": "Reload current values",
-        "searchPlaceholder": "Filter available options..."
+        "timezone": "Časové pásmo",
+        "keyboardLayout": "Rozložení klávesnice",
+        "loading": "Načítají se aktuální systémová nastavení...",
+        "loadError": "Systémová nastavení se nepodařilo načíst: {message}",
+        "save": "Použít změny",
+        "saving": "Používání změn...",
+        "saved": "Systémová nastavení byla aktualizována.",
+        "saveError": "Systémová nastavení se nepodařilo aktualizovat: {message}",
+        "missingJob": "Démon PINS nevrátil ID operace.",
+        "refresh": "Znovu načíst aktuální hodnoty",
+        "searchPlaceholder": "Filtrovat dostupné možnosti..."
       }
     },
     "alpacaDirect": {

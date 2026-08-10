@@ -395,8 +395,8 @@
       },
       "cancel": "Cancel setup",
       "localization": {
-        "title": "Set the rig regional settings",
-        "description": "Set these values before Wi-Fi so hotspot location, time and remote keyboard input match where the rig is used."
+        "title": "设置设备的区域设置",
+        "description": "请在设置 Wi-Fi 前配置这些值，以便热点位置、时间和远程键盘输入与设备使用地点一致。"
       }
     },
     "fileBrowser": {
@@ -647,23 +647,23 @@
         "confirmMessage": "确定要清除地平线文件路径吗？"
       },
       "localization": {
-        "title": "System regional settings",
-        "description": "These are the current settings on the PINS device, not this app. Changes apply to every phone, tablet and browser that connects to it.",
-        "systemLocale": "Locale",
-        "wifiCountry": "Wi-Fi country",
+        "title": "系统区域设置",
+        "description": "这些是 PINS 设备当前的设置，而不是此应用的设置。更改会应用于连接到该设备的所有手机、平板电脑和浏览器。",
+        "systemLocale": "区域设置",
+        "wifiCountry": "Wi-Fi 国家或地区",
         "wifiCountryConfirmTitle": "应用 Wi-Fi 国家或地区更改？",
         "wifiCountryConfirmMessage": "更改 Wi-Fi 国家或地区可能会短暂中断与此 PINS 设备的连接。是否应用更改？",
-        "timezone": "Time zone",
-        "keyboardLayout": "Keyboard layout",
-        "loading": "Reading the current system settings...",
-        "loadError": "Could not read the system settings: {message}",
-        "save": "Apply changes",
-        "saving": "Applying...",
-        "saved": "System settings updated.",
-        "saveError": "Could not update the system settings: {message}",
-        "missingJob": "The PINS daemon did not return an operation ID.",
-        "refresh": "Reload current values",
-        "searchPlaceholder": "Filter available options..."
+        "timezone": "时区",
+        "keyboardLayout": "键盘布局",
+        "loading": "正在读取当前系统设置...",
+        "loadError": "无法读取系统设置：{message}",
+        "save": "应用更改",
+        "saving": "正在应用...",
+        "saved": "系统设置已更新。",
+        "saveError": "无法更新系统设置：{message}",
+        "missingJob": "PINS 守护程序未返回操作 ID。",
+        "refresh": "重新加载当前值",
+        "searchPlaceholder": "筛选可用选项..."
       }
     },
     "alpacaDirect": {

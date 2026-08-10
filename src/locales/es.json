@@ -395,8 +395,8 @@
       },
       "cancel": "Cancel setup",
       "localization": {
-        "title": "Set the rig regional settings",
-        "description": "Set these values before Wi-Fi so hotspot location, time and remote keyboard input match where the rig is used."
+        "title": "Configurar los ajustes regionales del equipo",
+        "description": "Configura estos valores antes del Wi-Fi para que la ubicación del punto de acceso, la hora y la entrada del teclado remoto coincidan con el lugar donde se utiliza el equipo."
       }
     },
     "fileBrowser": {
@@ -647,23 +647,23 @@
         "confirmMessage": "¿Desea borrar la ruta del archivo de horizonte?"
       },
       "localization": {
-        "title": "System regional settings",
-        "description": "These are the current settings on the PINS device, not this app. Changes apply to every phone, tablet and browser that connects to it.",
-        "systemLocale": "Locale",
-        "wifiCountry": "Wi-Fi country",
+        "title": "Ajustes regionales del sistema",
+        "description": "Estos son los ajustes actuales del dispositivo PINS, no los de esta aplicación. Los cambios se aplican a todos los teléfonos, tabletas y navegadores que se conecten a él.",
+        "systemLocale": "Configuración regional",
+        "wifiCountry": "País Wi-Fi",
         "wifiCountryConfirmTitle": "¿Aplicar el cambio de país Wi-Fi?",
         "wifiCountryConfirmMessage": "Cambiar el país Wi-Fi puede interrumpir brevemente la conexión con este dispositivo PINS. ¿Aplicar los cambios?",
-        "timezone": "Time zone",
-        "keyboardLayout": "Keyboard layout",
-        "loading": "Reading the current system settings...",
-        "loadError": "Could not read the system settings: {message}",
-        "save": "Apply changes",
-        "saving": "Applying...",
-        "saved": "System settings updated.",
-        "saveError": "Could not update the system settings: {message}",
-        "missingJob": "The PINS daemon did not return an operation ID.",
-        "refresh": "Reload current values",
-        "searchPlaceholder": "Filter available options..."
+        "timezone": "Zona horaria",
+        "keyboardLayout": "Distribución del teclado",
+        "loading": "Leyendo los ajustes actuales del sistema...",
+        "loadError": "No se pudieron leer los ajustes del sistema: {message}",
+        "save": "Aplicar cambios",
+        "saving": "Aplicando...",
+        "saved": "Ajustes del sistema actualizados.",
+        "saveError": "No se pudieron actualizar los ajustes del sistema: {message}",
+        "missingJob": "El servicio PINS no devolvió un ID de operación.",
+        "refresh": "Volver a cargar los valores actuales",
+        "searchPlaceholder": "Filtrar las opciones disponibles..."
       }
     },
     "alpacaDirect": {

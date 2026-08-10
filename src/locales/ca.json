@@ -436,8 +436,8 @@
       },
       "cancel": "Cancel setup",
       "localization": {
-        "title": "Set the rig regional settings",
-        "description": "Set these values before Wi-Fi so hotspot location, time and remote keyboard input match where the rig is used."
+        "title": "Configura els paràmetres regionals de l'equip",
+        "description": "Configura aquests valors abans de la Wi-Fi perquè la ubicació del punt d'accés, l'hora i l'entrada del teclat remot coincideixin amb el lloc on s'utilitza l'equip."
       }
     },
     "fileBrowser": {
@@ -688,23 +688,23 @@
         "max_slew_rate": "Velocitat màxima de desplaçament (°/s)"
       },
       "localization": {
-        "title": "System regional settings",
-        "description": "These are the current settings on the PINS device, not this app. Changes apply to every phone, tablet and browser that connects to it.",
-        "systemLocale": "Locale",
-        "wifiCountry": "Wi-Fi country",
+        "title": "Paràmetres regionals del sistema",
+        "description": "Aquests són els paràmetres actuals del dispositiu PINS, no d'aquesta aplicació. Els canvis s'apliquen a tots els telèfons, tauletes i navegadors que s'hi connectin.",
+        "systemLocale": "Configuració regional",
+        "wifiCountry": "País de la Wi-Fi",
         "wifiCountryConfirmTitle": "Voleu aplicar el canvi de país de la Wi-Fi?",
         "wifiCountryConfirmMessage": "Canviar el país de la Wi-Fi pot interrompre breument la connexió amb aquest dispositiu PINS. Voleu aplicar els canvis?",
-        "timezone": "Time zone",
-        "keyboardLayout": "Keyboard layout",
-        "loading": "Reading the current system settings...",
-        "loadError": "Could not read the system settings: {message}",
-        "save": "Apply changes",
-        "saving": "Applying...",
-        "saved": "System settings updated.",
-        "saveError": "Could not update the system settings: {message}",
-        "missingJob": "The PINS daemon did not return an operation ID.",
-        "refresh": "Reload current values",
-        "searchPlaceholder": "Filter available options..."
+        "timezone": "Zona horària",
+        "keyboardLayout": "Distribució del teclat",
+        "loading": "S'estan llegint els paràmetres actuals del sistema...",
+        "loadError": "No s'han pogut llegir els paràmetres del sistema: {message}",
+        "save": "Aplica els canvis",
+        "saving": "S'estan aplicant...",
+        "saved": "S'han actualitzat els paràmetres del sistema.",
+        "saveError": "No s'han pogut actualitzar els paràmetres del sistema: {message}",
+        "missingJob": "El dimoni PINS no ha retornat cap ID d'operació.",
+        "refresh": "Torna a carregar els valors actuals",
+        "searchPlaceholder": "Filtra les opcions disponibles..."
       }
     },
     "alpacaDirect": {

@@ -651,6 +651,8 @@
         "description": "These are the current settings on the PINS device, not this app. Changes apply to every phone, tablet and browser that connects to it.",
         "systemLocale": "Locale",
         "wifiCountry": "Wi-Fi country",
+        "wifiCountryConfirmTitle": "Applicare la modifica del paese Wi-Fi?",
+        "wifiCountryConfirmMessage": "La modifica del paese Wi-Fi può interrompere brevemente la connessione a questo dispositivo PINS. Applicare le modifiche?",
         "timezone": "Time zone",
         "keyboardLayout": "Keyboard layout",
         "loading": "Reading the current system settings...",

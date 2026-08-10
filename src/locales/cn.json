@@ -651,6 +651,8 @@
         "description": "These are the current settings on the PINS device, not this app. Changes apply to every phone, tablet and browser that connects to it.",
         "systemLocale": "Locale",
         "wifiCountry": "Wi-Fi country",
+        "wifiCountryConfirmTitle": "应用 Wi-Fi 国家或地区更改？",
+        "wifiCountryConfirmMessage": "更改 Wi-Fi 国家或地区可能会短暂中断与此 PINS 设备的连接。是否应用更改？",
         "timezone": "Time zone",
         "keyboardLayout": "Keyboard layout",
         "loading": "Reading the current system settings...",

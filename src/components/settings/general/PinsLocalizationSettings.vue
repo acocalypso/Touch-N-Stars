@@ -96,7 +96,11 @@
       </div>
 
       <div class="flex flex-wrap items-center gap-2">
-        <button class="tns-btn-primary" :disabled="saving || !isComplete || !isDirty" @click="save">
+        <button
+          class="tns-btn-primary"
+          :disabled="saving || confirming || !isComplete || !isDirty"
+          @click="save"
+        >
           {{
             saving
               ? t('components.settings.localization.saving')
@@ -123,6 +127,7 @@ import { computed, onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import apiPinsService from '@/services/apiPinsService';
 import { apiStore } from '@/store/store';
+import { useToastStore } from '@/store/toastStore';
 import {
   parseJobIdFromResponse,
   pollJobUntilFinished,
@@ -134,8 +139,10 @@ defineProps({
 
 const { t } = useI18n();
 const store = apiStore();
+const toastStore = useToastStore();
 const loading = ref(false);
 const saving = ref(false);
+const confirming = ref(false);
 const saved = ref(false);
 const errorMessage = ref('');
 const current = ref(null);
@@ -190,6 +197,9 @@ const isDirty = computed(
   () =>
     current.value &&
     Object.keys(form).some((key) => String(form[key]) !== String(current.value[key] || ''))
+);
+const isWifiCountryDirty = computed(
+  () => current.value && String(form.wifiCountry) !== String(current.value.wifiCountry || '')
 );
 
 function messageFrom(error) {
@@ -258,7 +268,25 @@ async function load() {
 }
 
 async function save() {
-  if (!store.isPINS || saving.value || !isComplete.value || !isDirty.value) return;
+  if (!store.isPINS || saving.value || confirming.value || !isComplete.value || !isDirty.value)
+    return;
+
+  if (isWifiCountryDirty.value) {
+    confirming.value = true;
+    let confirmed = false;
+    try {
+      confirmed = await toastStore.showConfirmation(
+        t('components.settings.localization.wifiCountryConfirmTitle'),
+        t('components.settings.localization.wifiCountryConfirmMessage'),
+        t('common.confirm'),
+        t('common.cancel')
+      );
+    } finally {
+      confirming.value = false;
+    }
+    if (!confirmed) return;
+  }
+
   saving.value = true;
   saved.value = false;
   errorMessage.value = '';
@@ -266,7 +294,7 @@ async function save() {
     const response = await apiPinsService.updatePinsSystemLocalization({ ...form });
     const jobId = parseJobIdFromResponse(response);
     if (!jobId) throw new Error(t('components.settings.localization.missingJob'));
-    const result = await pollJobUntilFinished(jobId);
+    const result = await pollJobUntilFinished(jobId, { maxConsecutiveErrors: 5 });
     if (!result.success) {
       throw new Error(
         result.result?.error || result.result?.stderr || result.result?.status || 'failed'

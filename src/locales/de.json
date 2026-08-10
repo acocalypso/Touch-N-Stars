@@ -692,6 +692,8 @@
         "description": "Dies sind die aktuellen Einstellungen des PINS-Geräts, nicht dieser App. Änderungen gelten für alle verbundenen Geräte.",
         "systemLocale": "Gebietsschema",
         "wifiCountry": "WLAN-Land",
+        "wifiCountryConfirmTitle": "Änderung des WLAN-Landes anwenden?",
+        "wifiCountryConfirmMessage": "Das Ändern des WLAN-Landes kann die Verbindung zu diesem PINS-Gerät kurz unterbrechen. Änderungen anwenden?",
         "timezone": "Zeitzone",
         "keyboardLayout": "Tastaturbelegung",
         "loading": "Aktuelle Systemeinstellungen werden gelesen...",

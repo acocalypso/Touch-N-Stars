@@ -2750,12 +2750,17 @@
       "settings": "Einstellungen",
       "reset": "Zurücksetzen",
       "close": "Schließen",
+      "cancel": "Abbrechen",
       "resetConfirm": "Sind Sie sicher, dass Sie alle Webcam-Einstellungen zurücksetzen möchten?",
       "liveView": "Live View",
       "noImageAvailable": "Kein Bild verfügbar",
       "configureUrl": "Snapshot-URL konfigurieren und Bild abrufen",
       "loadingImage": "Bild laden ...",
-      "errors": {}
+      "errors": {
+        "noUrl": "Keine Snapshot-URL konfiguriert",
+        "loadFailed": "Webcam-Bild konnte nicht geladen werden",
+        "nextLoadFailed": "Nächstes Webcam-Bild konnte nicht geladen werden"
+      }
     },
     "multiImageMonitor": {
       "addCamera": "Kamera",

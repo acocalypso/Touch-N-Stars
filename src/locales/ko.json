@@ -2750,12 +2750,17 @@
       "settings": "설정",
       "reset": "초기화",
       "close": "닫기",
+      "cancel": "취소",
       "resetConfirm": "모든 웹캠 설정을 초기화하시겠습니까?",
       "liveView": "라이브 보기",
       "noImageAvailable": "사용 가능한 이미지 없음",
       "configureUrl": "스냅샷 URL을 설정하고 이미지를 가져오세요",
       "loadingImage": "이미지 불러오는 중...",
-      "errors": {}
+      "errors": {
+        "noUrl": "스냅샷 URL이 설정되지 않았습니다",
+        "loadFailed": "웹캠 이미지를 불러오지 못했습니다",
+        "nextLoadFailed": "다음 웹캠 이미지를 불러오지 못했습니다"
+      }
     },
     "multiImageMonitor": {
       "addCamera": "카메라",

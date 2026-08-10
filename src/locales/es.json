@@ -2750,12 +2750,17 @@
       "settings": "Ajustes",
       "reset": "Reiniciar",
       "close": "Cerrar",
+      "cancel": "Cancelar",
       "resetConfirm": "¿Estás seguro de que quieres restablecer todas las configuraciones de cámara web?",
       "liveView": "Vista en vivo",
       "noImageAvailable": "No hay imagen disponible",
       "configureUrl": "Configurar URL de instantánea y imagen de búsqueda",
       "loadingImage": "Imagen de carga ...",
-      "errors": {}
+      "errors": {
+        "noUrl": "No hay ninguna URL de instantánea configurada",
+        "loadFailed": "No se pudo cargar la imagen de la cámara web",
+        "nextLoadFailed": "No se pudo cargar la siguiente imagen de la cámara web"
+      }
     },
     "sequenceCreator": {
       "title": "Creador de secuencias",

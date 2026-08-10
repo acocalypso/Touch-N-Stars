@@ -2750,12 +2750,17 @@
       "settings": "Nastavení",
       "reset": "Resetovat",
       "close": "Zavřít",
+      "cancel": "Zrušit",
       "resetConfirm": "Opravdu chcete resetovat všechna nastavení webové kamery?",
       "liveView": "Živý Náhled",
       "noImageAvailable": "Žádný snímek k dispozici",
       "configureUrl": "Konfigurace URL snímku a načtení obrázku",
       "loadingImage": "Načítání snímku...",
-      "errors": {}
+      "errors": {
+        "noUrl": "Není nakonfigurována žádná URL snímku",
+        "loadFailed": "Nepodařilo se načíst snímek z webkamery",
+        "nextLoadFailed": "Nepodařilo se načíst další snímek z webkamery"
+      }
     },
     "sequenceCreator": {
       "title": "Tvůrce sekvencí",

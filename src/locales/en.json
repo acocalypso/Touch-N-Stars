@@ -2841,12 +2841,17 @@
       "settings": "Settings",
       "reset": "Reset",
       "close": "Close",
+      "cancel": "Cancel",
       "resetConfirm": "Are you sure you want to reset all webcam settings?",
       "liveView": "Live View",
       "noImageAvailable": "No image available",
       "configureUrl": "Configure snapshot URL and fetch image",
       "loadingImage": "Loading image...",
-      "errors": {}
+      "errors": {
+        "noUrl": "No snapshot URL configured",
+        "loadFailed": "Failed to load webcam image",
+        "nextLoadFailed": "Failed to load next webcam image"
+      }
     },
     "multiImageMonitor": {
       "addCamera": "Camera",

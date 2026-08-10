@@ -2750,12 +2750,17 @@
       "settings": "Instellingen",
       "reset": "Opnieuw instellen",
       "close": "Sluiten",
+      "cancel": "Annuleren",
       "resetConfirm": "Weet u zeker dat u alle webcam instellingen wilt resetten?",
       "liveView": "Live beeld",
       "noImageAvailable": "Geen beeld beschikbaar",
       "configureUrl": "Configureer snapshot URL haal beeld op",
       "loadingImage": "Beeld laden...",
-      "errors": {}
+      "errors": {
+        "noUrl": "Geen snapshot-URL geconfigureerd",
+        "loadFailed": "Kan webcambeeld niet laden",
+        "nextLoadFailed": "Kan volgend webcambeeld niet laden"
+      }
     },
     "sequenceCreator": {
       "title": "Reeks Schepper",

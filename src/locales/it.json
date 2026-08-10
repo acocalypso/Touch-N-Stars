@@ -2750,12 +2750,17 @@
       "settings": "Impostazioni",
       "reset": "Reset",
       "close": "Chiudi",
+      "cancel": "Annulla",
       "resetConfirm": "Sei sicuro di voler resettare tutte le impostazioni webcam?",
       "liveView": "Vista live",
       "noImageAvailable": "Nessuna immagine disponibile",
       "configureUrl": "Configura URL snapshot e recupera immagine",
       "loadingImage": "Caricamento immagine...",
-      "errors": {}
+      "errors": {
+        "noUrl": "Nessun URL snapshot configurato",
+        "loadFailed": "Impossibile caricare l'immagine della webcam",
+        "nextLoadFailed": "Impossibile caricare l'immagine successiva della webcam"
+      }
     },
     "sequenceCreator": {
       "title": "Creatore di sequenze",

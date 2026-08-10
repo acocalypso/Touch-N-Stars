@@ -660,7 +660,8 @@
         "saved": "System settings updated.",
         "saveError": "Could not update the system settings: {message}",
         "missingJob": "The PINS daemon did not return an operation ID.",
-        "refresh": "Reload current values"
+        "refresh": "Reload current values",
+        "searchPlaceholder": "Filter available options..."
       }
     },
     "alpacaDirect": {

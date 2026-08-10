@@ -7,6 +7,10 @@ const settingsSource = readFileSync(
   new URL('../../settings/SettingsGeneralTab.vue', import.meta.url),
   'utf8'
 );
+const localizationSource = readFileSync(
+  new URL('../../settings/general/PinsLocalizationSettings.vue', import.meta.url),
+  'utf8'
+);
 
 test('PINS localization is ordered before Wi-Fi in the setup assistant', () => {
   assert.match(
@@ -17,4 +21,12 @@ test('PINS localization is ordered before Wi-Fi in the setup assistant', () => {
 
 test('system localization settings remain inside the PINS capability boundary', () => {
   assert.match(settingsSource, /<PinsLocalizationSettings v-if="store\.isPINS" \/>/);
+});
+
+test('large host option sets use searchable explicit selects instead of datalists', () => {
+  assert.doesNotMatch(localizationSource, /<datalist/);
+  assert.match(localizationSource, /v-model="form\.locale"/);
+  assert.match(localizationSource, /v-model="form\.timezone"/);
+  assert.match(localizationSource, /v-model="form\.keyboardLayout"/);
+  assert.match(localizationSource, /type="search"/);
 });

@@ -701,7 +701,8 @@
         "saved": "Systemeinstellungen wurden aktualisiert.",
         "saveError": "Systemeinstellungen konnten nicht aktualisiert werden: {message}",
         "missingJob": "Der PINS-Daemon hat keine Vorgangs-ID zurückgegeben.",
-        "refresh": "Aktuelle Werte neu laden"
+        "refresh": "Aktuelle Werte neu laden",
+        "searchPlaceholder": "Verfügbare Optionen filtern..."
       }
     },
     "alpacaDirect": {

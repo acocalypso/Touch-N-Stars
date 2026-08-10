@@ -27,15 +27,18 @@
             {{ t('components.settings.localization.systemLocale') }}
           </span>
           <input
-            v-model.trim="form.locale"
-            :list="`${listPrefix}-locales`"
+            v-model.trim="filters.locale"
+            type="search"
             class="tns-input"
             autocomplete="off"
             :disabled="saving"
+            :placeholder="t('components.settings.localization.searchPlaceholder')"
           />
-          <datalist :id="`${listPrefix}-locales`">
-            <option v-for="value in options.locales" :key="value" :value="value" />
-          </datalist>
+          <select v-model="form.locale" class="tns-select" :disabled="saving">
+            <option v-for="value in localeChoices" :key="value" :value="value">
+              {{ value }}
+            </option>
+          </select>
         </label>
 
         <label class="flex flex-col gap-1">
@@ -58,15 +61,18 @@
             {{ t('components.settings.localization.timezone') }}
           </span>
           <input
-            v-model.trim="form.timezone"
-            :list="`${listPrefix}-timezones`"
+            v-model.trim="filters.timezone"
+            type="search"
             class="tns-input"
             autocomplete="off"
             :disabled="saving"
+            :placeholder="t('components.settings.localization.searchPlaceholder')"
           />
-          <datalist :id="`${listPrefix}-timezones`">
-            <option v-for="value in options.timezones" :key="value" :value="value" />
-          </datalist>
+          <select v-model="form.timezone" class="tns-select" :disabled="saving">
+            <option v-for="value in timezoneChoices" :key="value" :value="value">
+              {{ value }}
+            </option>
+          </select>
         </label>
 
         <label class="flex flex-col gap-1">
@@ -74,15 +80,18 @@
             {{ t('components.settings.localization.keyboardLayout') }}
           </span>
           <input
-            v-model.trim="form.keyboardLayout"
-            :list="`${listPrefix}-keyboards`"
+            v-model.trim="filters.keyboardLayout"
+            type="search"
             class="tns-input"
             autocomplete="off"
             :disabled="saving"
+            :placeholder="t('components.settings.localization.searchPlaceholder')"
           />
-          <datalist :id="`${listPrefix}-keyboards`">
-            <option v-for="value in options.keyboardLayouts" :key="value" :value="value" />
-          </datalist>
+          <select v-model="form.keyboardLayout" class="tns-select" :disabled="saving">
+            <option v-for="value in keyboardChoices" :key="value" :value="value">
+              {{ value }}
+            </option>
+          </select>
         </label>
       </div>
 
@@ -110,7 +119,7 @@
 </template>
 
 <script setup>
-import { computed, onMounted, reactive, ref, useId } from 'vue';
+import { computed, onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import apiPinsService from '@/services/apiPinsService';
 import { apiStore } from '@/store/store';
@@ -125,7 +134,6 @@ defineProps({
 
 const { t } = useI18n();
 const store = apiStore();
-const listPrefix = `pins-localization-${useId().replaceAll(':', '')}`;
 const loading = ref(false);
 const saving = ref(false);
 const saved = ref(false);
@@ -143,6 +151,26 @@ const form = reactive({
   timezone: '',
   keyboardLayout: '',
 });
+const filters = reactive({
+  locale: '',
+  timezone: '',
+  keyboardLayout: '',
+});
+
+function filterOptions(values, query, selected) {
+  const needle = query.trim().toLocaleLowerCase();
+  if (!needle) return values;
+  const matches = values.filter((value) => value.toLocaleLowerCase().includes(needle));
+  return selected && !matches.includes(selected) ? [selected, ...matches] : matches;
+}
+
+const localeChoices = computed(() => filterOptions(options.locales, filters.locale, form.locale));
+const timezoneChoices = computed(() =>
+  filterOptions(options.timezones, filters.timezone, form.timezone)
+);
+const keyboardChoices = computed(() =>
+  filterOptions(options.keyboardLayouts, filters.keyboardLayout, form.keyboardLayout)
+);
 
 const isComplete = computed(() => Object.values(form).every((value) => String(value).trim()));
 const isDirty = computed(

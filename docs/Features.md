@@ -35,7 +35,7 @@ Touch-N-Stars is a mobile control client for NINA (Nighttime Imaging 'N' Astrono
 *   **Weather Monitoring**: Integration for monitoring weather conditions.
 *   **Built-in Tutorials**: Interactive tutorials to guide users through features and setup.
 *   **Favorite Targets**: Manage and quickly access your favorite astronomical targets.
-*   **Setup Wizard**: A cancellable first-run and equipment wizard covering language, rig connection, mount, location, telescope, camera, focuser, and filter wheel. PINS first reads and configures the host locale, Wi-Fi country, timezone, and keyboard layout, then adds Wi-Fi, updates, INDI slew-rate, guiding, and third-party INDI-driver installation steps. The live regional settings can also be changed later under General Settings.
+*   **Setup Wizard**: A cancellable first-run and equipment wizard covering language, rig connection, mount, location, telescope, camera, focuser, and filter wheel. PINS first reads and configures the host locale, Wi-Fi country, timezone, and keyboard layout from searchable host-supported lists, then adds Wi-Fi, updates, INDI slew-rate, guiding, and third-party INDI-driver installation steps. The live regional settings can also be changed later under General Settings.
 
 ## Prerequisites
 

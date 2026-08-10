@@ -5,8 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [App6.1.4-beta1] - 2026-08-08
+## [App6.1.4-beta2] - unreleased
+### Fixed
+- Webcam: Layout and settings dialog on iOS, and snapshots that stayed "Disconnected" in the app
 
+## [App6.1.4-beta1] - 2026-08-08
 ### Added
 - Setup wizard: The first-run setup and the equipment configuration are now one guided assistant that opens automatically on first start. It covers language, the connection to your rig, and then the equipment: mount, location, telescope, camera, focuser and filter wheel. On PINS it additionally covers the rig's Wi-Fi, its software updates, the maximum slew speed and guiding. Every step writes its values straight to the profile, so nothing is lost if you leave in between
 - Setup wizard: The camera step reads the sensor size from the connected camera and offers to write it into the profile if it differs from what is stored there. Cameras that do not report a sensor size - DSLRs typically - get input fields instead. Together with the pixel size, which no driver reports and which therefore always has to be entered by hand, the resulting image scale in arcsec/px is shown directly, so a mistyped value is obvious right away

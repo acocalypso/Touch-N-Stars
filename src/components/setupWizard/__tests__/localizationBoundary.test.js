@@ -29,4 +29,5 @@ test('large host option sets use searchable explicit selects instead of datalist
   assert.match(localizationSource, /v-model="form\.timezone"/);
   assert.match(localizationSource, /v-model="form\.keyboardLayout"/);
   assert.match(localizationSource, /type="search"/);
+  assert.match(localizationSource, /`\$\{layout\.code\} \$\{layout\.name\}`/);
 });

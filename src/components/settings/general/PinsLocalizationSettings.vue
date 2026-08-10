@@ -88,8 +88,8 @@
             :placeholder="t('components.settings.localization.searchPlaceholder')"
           />
           <select v-model="form.keyboardLayout" class="tns-select" :disabled="saving">
-            <option v-for="value in keyboardChoices" :key="value" :value="value">
-              {{ value }}
+            <option v-for="layout in keyboardChoices" :key="layout.code" :value="layout.code">
+              {{ layout.name }} ({{ layout.code }})
             </option>
           </select>
         </label>
@@ -144,6 +144,7 @@ const options = reactive({
   wifiCountries: [],
   timezones: [],
   keyboardLayouts: [],
+  keyboardLayoutOptions: [],
 });
 const form = reactive({
   locale: '',
@@ -169,8 +170,20 @@ const timezoneChoices = computed(() =>
   filterOptions(options.timezones, filters.timezone, form.timezone)
 );
 const keyboardChoices = computed(() =>
-  filterOptions(options.keyboardLayouts, filters.keyboardLayout, form.keyboardLayout)
+  filterKeyboardOptions(options.keyboardLayoutOptions, filters.keyboardLayout, form.keyboardLayout)
 );
+
+function filterKeyboardOptions(values, query, selected) {
+  const needle = query.trim().toLocaleLowerCase();
+  if (!needle) return values;
+  const matches = values.filter((layout) =>
+    `${layout.code} ${layout.name}`.toLocaleLowerCase().includes(needle)
+  );
+  const current = values.find((layout) => layout.code === selected);
+  return current && !matches.some((layout) => layout.code === selected)
+    ? [current, ...matches]
+    : matches;
+}
 
 const isComplete = computed(() => Object.values(form).every((value) => String(value).trim()));
 const isDirty = computed(
@@ -203,6 +216,15 @@ function includeCurrentOptions() {
   ) {
     options.wifiCountries.unshift({ code: form.wifiCountry, name: form.wifiCountry });
   }
+  if (
+    form.keyboardLayout &&
+    !options.keyboardLayoutOptions.some((layout) => layout.code === form.keyboardLayout)
+  ) {
+    options.keyboardLayoutOptions.unshift({
+      code: form.keyboardLayout,
+      name: form.keyboardLayout,
+    });
+  }
 }
 
 async function load() {
@@ -219,6 +241,10 @@ async function load() {
     options.wifiCountries = available?.wifiCountries || [];
     options.timezones = available?.timezones || [];
     options.keyboardLayouts = available?.keyboardLayouts || [];
+    options.keyboardLayoutOptions =
+      available?.keyboardLayoutOptions?.length > 0
+        ? available.keyboardLayoutOptions
+        : options.keyboardLayouts.map((code) => ({ code, name: code }));
     setCurrent(status || {});
     includeCurrentOptions();
   } catch (error) {

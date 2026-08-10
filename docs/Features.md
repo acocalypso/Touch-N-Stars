@@ -1,10 +1,10 @@
 # Touch-N-Stars: A Comprehensive Overview of Features
 
-Touch-N-Stars is a powerful WebApp designed for mobile control of NINA (Nighttime Imaging 'N' Astronomy) software, offering a robust set of features for astro-enthusiasts to manage their equipment and imaging sessions remotely. The application is built with a focus on mobile operability, user-friendly design, and practicality, complementing the desktop NINA software with essential mobile support.
+Touch-N-Stars is a mobile control client for NINA (Nighttime Imaging 'N' Astronomy) and PINS/headless astrophotography rigs. It offers tools for remotely configuring equipment and managing imaging sessions from browsers, tablets, and phones.
 
 ## Core Functionality & Integration
 
-*   **Mobile Control of NINA**: Seamlessly control and adjust pre-configured NINA profiles directly from a tablet or smartphone.
+*   **Mobile Rig Control**: Control and configure NINA or PINS profiles directly from a tablet or smartphone.
 *   **Celestia Atlas Integration**: Offline sky visualization and catalogue search with target selection, framing handoff, mount/FOV overlays, horizon and landscape support, independent brightness limits, and persisted deep-sky type/source marker filters.
 *   **Comprehensive Equipment Management**: Manage various astronomical equipment, including:
     *   **Camera Control**: Detailed control over camera settings and operations.
@@ -35,9 +35,9 @@ Touch-N-Stars is a powerful WebApp designed for mobile control of NINA (Nighttim
 *   **Weather Monitoring**: Integration for monitoring weather conditions.
 *   **Built-in Tutorials**: Interactive tutorials to guide users through features and setup.
 *   **Favorite Targets**: Manage and quickly access your favorite astronomical targets.
-*   **Setup Procedures**: Guided procedures for initial equipment setup.
+*   **Setup Wizard**: A cancellable first-run and equipment wizard covering language, rig connection, mount, location, telescope, camera, focuser, and filter wheel. PINS adds Wi-Fi, updates, INDI slew-rate, guiding, and third-party INDI-driver installation steps.
 
 ## Prerequisites
 
-*   Requires a fully configured and running NINA installation with the latest version of the Touch-N-Star
-*   s plugin.
+*   Standard Windows mode requires a running NINA installation with current Touch-N-Stars and Advanced API plugins; Advanced API V2 must be enabled and its port is discovered dynamically.
+*   PINS/headless mode uses the PINS backend plus Pinsdaemon for system-management features.

@@ -2,11 +2,13 @@
 
 ## 1. Purpose and Scope
 
-Touch-N-Stars is a Vue 3 + Capacitor client for remotely operating NINA-based astrophotography setups from phone and tablet devices. The app is designed as a control plane UI and does not replace NINA processing logic. It supports three runtime modes:
+Touch-N-Stars is a Vue 3 + Capacitor client for remotely operating NINA-based astrophotography setups from phone and tablet devices. The app is designed as a control plane UI and does not replace NINA processing logic. It supports two backend runtime modes:
 
 1. Normal NINA/WPF backend mode.
 2. PINS/headless mode with additional daemon APIs and SignalR channels.
-3. Local mock mode for UI and workflow testing without a backend.
+
+Automated tests use local contract fakes and browser fixtures, but the application
+does not currently expose a selectable mock runtime mode.
 
 This document describes the architecture as implemented in the current codebase.
 
@@ -39,17 +41,19 @@ flowchart LR
 ### 3.1 Frontend Core
 
 - Framework: Vue 3.5 (Composition API).
-- Router: Vue Router 5 with setup guard and nav visibility guard.
+- Router: Vue Router 5 with lazy core routes and a nav-visibility redirect. First-run
+  setup is a cancellable overlay and does not gate routing.
 - State: Pinia 3 with persisted state plugin.
 - Styling: Tailwind CSS + component-local styles.
-- i18n: vue-i18n with 12 shipped locales.
+- i18n: vue-i18n with 14 shipped locales.
 - Native shell: Capacitor 8 for Android and iOS.
 
 ### 3.2 High-Level Layering
 
 1. Presentation: `src/views` and `src/components`.
 2. Domain state: `src/store` and plugin-local stores under `src/plugins/*/store`.
-3. Integration services: `src/services` (REST, SignalR, WebSockets, updater, mock).
+3. Integration services: `src/services` (REST, SignalR, WebSockets, updater, and
+   rig discovery/recovery).
 4. Utilities and infrastructure: `src/utils`, scripts, static assets in `public`.
 
 ## 4. Startup and Lifecycle
@@ -61,17 +65,20 @@ flowchart LR
 1. Create app, Pinia, router, i18n, and head manager.
 2. Register global tooltip directive.
 3. Set global error handler and console capture.
-4. Initialize plugin store with app/router references.
-5. If mock mode is disabled, discover and initialize enabled plugins.
-6. Mount app.
-7. Notify Capacitor updater that app is ready.
-8. Initialize time sync (best-effort).
+4. Initialize i18n from persisted settings.
+5. Initialize the plugin store with app/router references, refresh bundled plugin
+   metadata, and initialize enabled plugins.
+6. Mount the app and synchronize Android system-bar colors.
+7. Initialize Android Wi-Fi binding, rig-shared settings synchronization, and the
+   PINS rig connection supervisor.
+8. Register native foreground recovery, notify the Capacitor updater that the app
+   is ready, and initialize time sync (best-effort).
 
 ### 4.2 Runtime Lifecycle
 
 `src/App.vue` orchestrates app lifecycle:
 
-- Connection splash and setup gating.
+- Connection splash and the cancellable setup-wizard overlay.
 - Background/foreground pause/resume handling (web + Capacitor events).
 - Update checks and update modal flow.
 - Dialog/messagebox signaling mode switching for PINS vs non-PINS.
@@ -117,7 +124,8 @@ flowchart LR
 ### 6.2 Persistence Strategy
 
 - Pinia persisted state is used for settings and plugin state.
-- Additional direct localStorage flags are used for setup/tutorial completion and mock mode toggles.
+- Additional direct localStorage values are used for setup/tutorial completion,
+  wizard progress, network transitions, and selected migration/feature flags.
 - On instance switch or backend loss, `apiStore.clearAllStates()` performs a broad cleanup across stores and disconnects transports.
 
 ## 7. Plugin Architecture
@@ -225,7 +233,7 @@ contracts are maintained in
 
 ### 12.1 App Ready and Backend Connect
 
-1. Boot app + initialize plugins (unless mock).
+1. Boot app, initialize i18n, refresh plugin metadata, and initialize enabled plugins.
 2. Run `fetchAllInfos` to validate backend stack and versions.
 3. Connect sockets/hubs based on mode.
 4. Begin periodic fetch loops and feature-specific background tasks.
@@ -234,8 +242,10 @@ contracts are maintained in
 
 1. User selects instance in settings.
 2. `settingsStore` updates active connection.
-3. `apiStore.clearAllStates()` resets transport/store state.
-4. Connect sequence restarts against the new backend.
+3. After initial setup, the app reloads while preserving the current route; onboarding
+   can explicitly use the in-place `apiStore.switchBackend()` path.
+4. The in-place path invalidates old requests, clears instance-scoped state and
+   transports, then restarts the handshake and poller against the new backend.
 
 ### 12.3 Native Update Flow
 
@@ -249,7 +259,8 @@ contracts are maintained in
 ### 13.1 Strengths
 
 - Clear separation between UI, stores, and service adapters.
-- Mode-aware behavior (standard, PINS, mock) is explicit.
+- Mode-aware behavior for standard NINA and PINS is explicit; contract fakes keep
+  transport tests independent of live hardware.
 - Plugin ecosystem is integrated into startup and navigation.
 - Strong recovery patterns for reconnecting sockets/hubs.
 

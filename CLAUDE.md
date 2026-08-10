@@ -103,7 +103,10 @@ Cameras have **no** `SettingsSerialConnection` fallback — only `SettingsAlpaca
 It opens before setup is complete and is ordered ahead of the tutorial and What's New.
 The common flow covers Welcome → Language → Information → Instance (native only) →
 Mount → Location → Telescope → Camera → Focuser → Filter wheel → Done. PINS adds
-Wi-Fi, Updates, INDI slew speed and Guiding. It is restartable from settings and the PINS page.
+System Localization, Wi-Fi, Updates, INDI slew speed and Guiding. Localization is
+deliberately before Wi-Fi so the regulatory country, timezone, locale and remote
+keyboard layout are correct before networking is configured. It is restartable
+from settings and the PINS page.
 
 - **Extension point:** add one entry to the computed `steps` list in `SetupWizard.vue` plus
   one `v-else-if` branch. Nothing else in the wizard shell is step-count aware. Step IDs,

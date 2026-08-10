@@ -157,6 +157,11 @@ flowchart LR
 - Enables additional PINS services and overlays.
 - Uses SignalR for dialogs/message boxes.
 - Includes time mismatch warning/sync flow against PINS system API.
+- After PINS detection, the setup wizard exposes host localization before Wi-Fi;
+  General Settings exposes the same controls later. Both read the current locale,
+  Wi-Fi country, timezone, and keyboard layout from pinsdaemon instead of
+  persisting device-local copies, so web, Android, and iOS clients see one shared
+  system state.
 
 ## 9. Feature Domain Map
 

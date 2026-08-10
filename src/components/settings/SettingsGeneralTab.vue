@@ -113,6 +113,9 @@
     <!-- Time Synchronisation -->
     <TimeSyncSettings v-if="store.isPINS" />
 
+    <!-- Raspberry Pi system locale, regulatory domain, timezone and keyboard -->
+    <PinsLocalizationSettings v-if="store.isPINS" />
+
     <!-- Connection Settings -->
     <div
       class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
@@ -343,6 +346,7 @@ import SetLogLevel from '@/components/settings/general/SetLogLevel.vue';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 import LocationSettingsPins from '@/components/settings/general/LocationSettingsPins.vue';
 import TimeSyncSettings from '@/components/settings/general/TimeSyncSettings.vue';
+import PinsLocalizationSettings from '@/components/settings/general/PinsLocalizationSettings.vue';
 import SetHorizonFilePath from '@/components/settings/general/SetHorizonFilePath.vue';
 import { useI18n } from 'vue-i18n';
 

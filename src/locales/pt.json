@@ -208,7 +208,8 @@
         "focuser": "Focuser",
         "filterWheel": "Filter wheel",
         "guider": "Guiding",
-        "done": "Done"
+        "done": "Done",
+        "localization": "Regional settings"
       },
       "driver": {
         "loading": "Loading drivers…",
@@ -392,7 +393,11 @@
         "moreDevicesHint": "Flat panel, weather and the remaining devices are configured on their own pages.",
         "noConnectionHint": "No connection to a rig yet. You can add one under Settings → Connection at any time."
       },
-      "cancel": "Cancel setup"
+      "cancel": "Cancel setup",
+      "localization": {
+        "title": "Set the rig regional settings",
+        "description": "Set these values before Wi-Fi so hotspot location, time and remote keyboard input match where the rig is used."
+      }
     },
     "fileBrowser": {
       "title": "Browse",
@@ -640,6 +645,22 @@
         "clearTitle": "Limpar caminho do ficheiro de horizonte",
         "confirmTitle": "Limpar caminho do ficheiro de horizonte",
         "confirmMessage": "Tem a certeza que deseja limpar o caminho do ficheiro de horizonte?"
+      },
+      "localization": {
+        "title": "System regional settings",
+        "description": "These are the current settings on the PINS device, not this app. Changes apply to every phone, tablet and browser that connects to it.",
+        "systemLocale": "Locale",
+        "wifiCountry": "Wi-Fi country",
+        "timezone": "Time zone",
+        "keyboardLayout": "Keyboard layout",
+        "loading": "Reading the current system settings...",
+        "loadError": "Could not read the system settings: {message}",
+        "save": "Apply changes",
+        "saving": "Applying...",
+        "saved": "System settings updated.",
+        "saveError": "Could not update the system settings: {message}",
+        "missingJob": "The PINS daemon did not return an operation ID.",
+        "refresh": "Reload current values"
       }
     },
     "alpacaDirect": {

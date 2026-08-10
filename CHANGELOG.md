@@ -6,6 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [App6.1.4-beta2] - unreleased
+### Added
+- PINS setup and settings: Configure the rig's system locale, Wi-Fi country, timezone and keyboard layout. The setup assistant reads the current Pi values and places this step before Wi-Fi; the same live settings remain available under General Settings on every client
+
 ### Fixed
 - Webcam: Layout and settings dialog on iOS, and snapshots that stayed "Disconnected" in the app
 

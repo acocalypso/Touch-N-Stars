@@ -2841,12 +2841,17 @@
       "settings": "Configuració",
       "reset": "Restableix",
       "close": "Tanca",
+      "cancel": "Cancel·la",
       "resetConfirm": "Estàs segur que vols restablir tota la configuració de la càmera web?",
       "liveView": "Vista en directe",
       "noImageAvailable": "No hi ha cap imatge disponible",
       "configureUrl": "Configura la URL d'instantània i carrega la imatge",
       "loadingImage": "Carregant imatge...",
-      "errors": {}
+      "errors": {
+        "noUrl": "No s'ha configurat cap URL d'instantània",
+        "loadFailed": "No s'ha pogut carregar la imatge de la càmera web",
+        "nextLoadFailed": "No s'ha pogut carregar la imatge següent de la càmera web"
+      }
     },
     "multiImageMonitor": {
       "addCamera": "Càmera",

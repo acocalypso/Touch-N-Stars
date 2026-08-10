@@ -2750,12 +2750,17 @@
       "settings": "Ustawienia",
       "reset": "Resetuj",
       "close": "Zamknij",
+      "cancel": "Anuluj",
       "resetConfirm": "Czy na pewno chcesz zresetować wszystkie ustawienia kamery internetowej?",
       "liveView": "Podgląd na żywo",
       "noImageAvailable": "Brak dostępnego obrazu",
       "configureUrl": "Skonfiguruj URL zrzutu i pobierz obraz",
       "loadingImage": "Ładowanie obrazu...",
-      "errors": {}
+      "errors": {
+        "noUrl": "Nie skonfigurowano adresu URL migawki",
+        "loadFailed": "Nie udało się załadować obrazu z kamery",
+        "nextLoadFailed": "Nie udało się załadować następnego obrazu z kamery"
+      }
     },
     "sequenceCreator": {
       "title": "Twórca sekwencji",

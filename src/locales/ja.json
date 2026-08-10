@@ -2750,12 +2750,17 @@
       "settings": "設定",
       "reset": "リセット",
       "close": "閉じる",
+      "cancel": "キャンセル",
       "resetConfirm": "ウェブカメラの設定をすべてリセットしてもよろしいですか？",
       "liveView": "ライブビュー",
       "noImageAvailable": "利用可能な画像なし",
       "configureUrl": "スナップショットURLを設定して画像を取得",
       "loadingImage": "画像を読み込み中...",
-      "errors": {}
+      "errors": {
+        "noUrl": "スナップショットURLが設定されていません",
+        "loadFailed": "ウェブカメラ画像の読み込みに失敗しました",
+        "nextLoadFailed": "次のウェブカメラ画像の読み込みに失敗しました"
+      }
     },
     "multiImageMonitor": {
       "addCamera": "カメラ",

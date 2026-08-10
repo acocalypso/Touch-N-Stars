@@ -57,7 +57,7 @@
 
     <!-- 3. Status -->
     <div
-      class="flex flex-row md:flex-col items-center gap-2 md:gap-3 ml-auto md:ml-0 md:mt-auto md:mb-16 shrink-0"
+      class="flex flex-row md:flex-col items-center gap-2 md:gap-3 ml-auto md:ml-0 md:mt-auto md:mb-6 shrink-0"
     >
       <div
         class="w-3 h-3 md:w-3.5 md:h-3.5 rounded-full shrink-0"

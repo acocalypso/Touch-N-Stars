@@ -2750,12 +2750,17 @@
       "settings": "Configurações",
       "reset": "Reiniciar",
       "close": "Fechar",
+      "cancel": "Cancelar",
       "resetConfirm": "Tem certeza de que deseja reiniciar todas as configurações da webcam?",
       "liveView": "Visualização ao vivo",
       "noImageAvailable": "Nenhuma imagem disponível",
       "configureUrl": "Configurar URL do snapshot e buscar imagem",
       "loadingImage": "Carregando imagem...",
-      "errors": {}
+      "errors": {
+        "noUrl": "Nenhum URL de snapshot configurado",
+        "loadFailed": "Falha ao carregar a imagem da webcam",
+        "nextLoadFailed": "Falha ao carregar a próxima imagem da webcam"
+      }
     },
     "sequenceCreator": {
       "title": "Criador de sequência",

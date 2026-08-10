@@ -2750,12 +2750,17 @@
       "settings": "Paramètres",
       "reset": "Réinitialiser",
       "close": "Fermer",
+      "cancel": "Annuler",
       "resetConfirm": "Êtes-vous sûr de vouloir réinitialiser tous les paramètres de webcam?",
       "liveView": "Vue en direct",
       "noImageAvailable": "Aucune image disponible",
       "configureUrl": "Configurer l'URL d'instantané et récupérer l'image",
       "loadingImage": "Chargement de l'image...",
-      "errors": {}
+      "errors": {
+        "noUrl": "Aucune URL d'instantané configurée",
+        "loadFailed": "Échec du chargement de l'image de la webcam",
+        "nextLoadFailed": "Échec du chargement de l'image suivante de la webcam"
+      }
     },
     "sequenceCreator": {
       "title": "Créateur de séquence",

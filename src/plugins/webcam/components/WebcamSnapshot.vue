@@ -4,7 +4,6 @@
     <ZoomableImage
       :imageData="webcamStore.currentImageUrl"
       :loading="false"
-      :showControls="true"
       :showDownload="false"
       :showFullscreen="false"
       height="100%"
@@ -83,5 +82,6 @@ onMounted(() => {
 
 onUnmounted(() => {
   webcamStore.stopAutoRefresh();
+  webcamStore.releaseImageUrls();
 });
 </script>

@@ -249,7 +249,8 @@
         "focuser": "Fokussierer",
         "filterWheel": "Filterrad",
         "guider": "Guiding",
-        "done": "Fertig"
+        "done": "Fertig",
+        "localization": "Regionale Einstellungen"
       },
       "driver": {
         "loading": "Treiber werden geladen…",
@@ -433,7 +434,11 @@
         "moreDevicesHint": "Flatfield-Panel, Wetter und die übrigen Geräte richtest du auf ihren eigenen Seiten ein.",
         "noConnectionHint": "Noch keine Verbindung zu einem Rig. Du kannst sie jederzeit unter Einstellungen → Verbindung nachtragen."
       },
-      "cancel": "Einrichtung abbrechen"
+      "cancel": "Einrichtung abbrechen",
+      "localization": {
+        "title": "Regionale Einstellungen des Systems",
+        "description": "Lege diese Werte vor dem WLAN fest, damit Hotspot-Standort, Uhrzeit und Remote-Tastatur zum Einsatzort passen."
+      }
     },
     "fileBrowser": {
       "title": "Durchsuchen",
@@ -681,6 +686,25 @@
         "loadError": "Zeitinformationen konnten nicht geladen werden.",
         "syncError": "Die Zeitsynchronisierung ist fehlgeschlagen. \nÜberprüfen Sie die Verbindung zum PINS-Gerät.",
         "syncSuccess": "Zeit erfolgreich synchronisiert."
+      },
+      "localization": {
+        "title": "Regionale Systemeinstellungen",
+        "description": "Dies sind die aktuellen Einstellungen des PINS-Geräts, nicht dieser App. Änderungen gelten für alle verbundenen Geräte.",
+        "systemLocale": "Gebietsschema",
+        "wifiCountry": "WLAN-Land",
+        "wifiCountryConfirmTitle": "Änderung des WLAN-Landes anwenden?",
+        "wifiCountryConfirmMessage": "Das Ändern des WLAN-Landes kann die Verbindung zu diesem PINS-Gerät kurz unterbrechen. Änderungen anwenden?",
+        "timezone": "Zeitzone",
+        "keyboardLayout": "Tastaturbelegung",
+        "loading": "Aktuelle Systemeinstellungen werden gelesen...",
+        "loadError": "Systemeinstellungen konnten nicht gelesen werden: {message}",
+        "save": "Änderungen anwenden",
+        "saving": "Wird angewendet...",
+        "saved": "Systemeinstellungen wurden aktualisiert.",
+        "saveError": "Systemeinstellungen konnten nicht aktualisiert werden: {message}",
+        "missingJob": "Der PINS-Daemon hat keine Vorgangs-ID zurückgegeben.",
+        "refresh": "Aktuelle Werte neu laden",
+        "searchPlaceholder": "Verfügbare Optionen filtern..."
       }
     },
     "alpacaDirect": {

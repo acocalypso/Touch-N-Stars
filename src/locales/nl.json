@@ -208,7 +208,8 @@
         "focuser": "Focuser",
         "filterWheel": "Filter wheel",
         "guider": "Guiding",
-        "done": "Done"
+        "done": "Done",
+        "localization": "Regional settings"
       },
       "driver": {
         "loading": "Loading drivers…",
@@ -392,7 +393,11 @@
         "moreDevicesHint": "Flat panel, weather and the remaining devices are configured on their own pages.",
         "noConnectionHint": "No connection to a rig yet. You can add one under Settings → Connection at any time."
       },
-      "cancel": "Cancel setup"
+      "cancel": "Cancel setup",
+      "localization": {
+        "title": "Regionale instellingen van de opstelling configureren",
+        "description": "Stel deze waarden vóór Wi-Fi in, zodat de hotspotlocatie, tijd en externe toetsenbordinvoer overeenkomen met de locatie waar de opstelling wordt gebruikt."
+      }
     },
     "fileBrowser": {
       "title": "Browse",
@@ -640,6 +645,25 @@
         "clearTitle": "Horizonbestandspad wissen",
         "confirmTitle": "Horizonbestandspad wissen",
         "confirmMessage": "Weet u zeker dat u het horizonbestandspad wilt wissen?"
+      },
+      "localization": {
+        "title": "Regionale systeeminstellingen",
+        "description": "Dit zijn de huidige instellingen van het PINS-apparaat, niet van deze app. Wijzigingen gelden voor elke telefoon, tablet en browser die ermee verbinding maakt.",
+        "systemLocale": "Landinstelling",
+        "wifiCountry": "Wi-Fi-land",
+        "wifiCountryConfirmTitle": "Wijziging van Wi-Fi-land toepassen?",
+        "wifiCountryConfirmMessage": "Het wijzigen van het Wi-Fi-land kan de verbinding met dit PINS-apparaat kort onderbreken. Wijzigingen toepassen?",
+        "timezone": "Tijdzone",
+        "keyboardLayout": "Toetsenbordindeling",
+        "loading": "Huidige systeeminstellingen worden gelezen...",
+        "loadError": "De systeeminstellingen konden niet worden gelezen: {message}",
+        "save": "Wijzigingen toepassen",
+        "saving": "Bezig met toepassen...",
+        "saved": "Systeeminstellingen bijgewerkt.",
+        "saveError": "De systeeminstellingen konden niet worden bijgewerkt: {message}",
+        "missingJob": "De PINS-daemon heeft geen bewerkings-ID teruggegeven.",
+        "refresh": "Huidige waarden opnieuw laden",
+        "searchPlaceholder": "Beschikbare opties filteren..."
       }
     },
     "alpacaDirect": {

@@ -6,8 +6,8 @@ Guidance for AI agents working in this repository.
 
 - [docs/AGENT_GUIDELINES.md](docs/AGENT_GUIDELINES.md) — the project's static agent harness:
   operating principles, product priorities, safety rules. It takes precedence over this file.
-- [HighLevelDesign.md](HighLevelDesign.md) — architecture, the three runtime modes
-  (NINA/WPF, PINS/headless, mock), transports.
+- [HighLevelDesign.md](HighLevelDesign.md) — architecture, the two backend runtime
+  modes (NINA/WPF and PINS/headless), transports, and test-fixture boundary.
 - [CONTRIBUTING.md](CONTRIBUTING.md) — contribution rules, i18n requirements.
 - [src/plugins/plugins.md](src/plugins/plugins.md) — plugin authoring.
 
@@ -59,7 +59,7 @@ Everything is written with `apiService.profileChangeValue('<Section>-<Key>', val
 ## Equipment: device mapping
 
 Every device follows the same three-step driver change (implemented generically in
-`src/components/pinsWizard/IndiDriverSelect.vue`):
+`src/components/setupWizard/IndiDriverSelect.vue`):
 
 ```
 profileChangeValue('<X>Settings-IndiDriver', name)
@@ -97,15 +97,20 @@ Device quirks: filter wheel slot count (`SettingsFilterWheelSlotNum.vue`), Switc
 Cameras have **no** `SettingsSerialConnection` fallback — only `SettingsAlpacaDirect` when
 `Category === 'ASCOM Alpaca'`, otherwise the `components.alpacaDirect.cameraNoSettings` note.
 
-## PINS setup wizard
+## Setup wizard
 
-`src/components/pinsWizard/` — a full-screen overlay guiding PINS users through
-Welcome → Wi-Fi → Updates → Mount → Slew speed → Location → Telescope → Camera → Done.
-Auto-opens from `App.vue` when `store.isPINS && setupCompleted && !pinsWizard.completed`,
-queued behind the tutorial and ahead of What's New. Restartable from settings and the PINS page.
+`src/components/setupWizard/` contains the cancellable first-run and equipment wizard.
+It opens before setup is complete and is ordered ahead of the tutorial and What's New.
+The common flow covers Welcome → Language → Information → Instance (native only) →
+Mount → Location → Telescope → Camera → Focuser → Filter wheel → Done. PINS adds
+System Localization, Wi-Fi, Updates, INDI slew speed and Guiding. Localization is
+deliberately before Wi-Fi so the regulatory country, timezone, locale and remote
+keyboard layout are correct before networking is configured. It is restartable
+from settings and the PINS page.
 
-- **Extension point:** add one entry to the `steps` array in `PinsSetupWizard.vue` plus one
-  `v-else-if` branch. Nothing else is step-count aware.
+- **Extension point:** add one entry to the computed `steps` list in `SetupWizard.vue` plus
+  one `v-else-if` branch. Nothing else in the wizard shell is step-count aware. Step IDs,
+  rather than indexes, are persisted because PINS-only steps can appear after connection.
 - **Telescope sits before camera on purpose** — the camera step's image-scale readout needs
   `TelescopeSettings.FocalLength`.
 - **The camera reverses the order** of every other device step: native device list first, INDI
@@ -119,7 +124,8 @@ queued behind the tutorial and ahead of What's New. Restartable from settings an
   from inside the wizard teleport to `body` and must be raised to `z-[75]`, otherwise they open
   invisibly behind it. `LocationSyncModal` sits at `z-[76]` because it blocks the mount connect.
 - The wizard hides itself while `pinsStore.shouldShowUpgradeOverlay` is true and persists
-  `settingsStore.pinsWizard.currentStep` — a PINS upgrade restarts services and reloads the app.
+  `settingsStore.setupWizard.currentStepId` — a PINS upgrade restarts services and can
+  temporarily interrupt the app connection.
 
 ## Location handling
 

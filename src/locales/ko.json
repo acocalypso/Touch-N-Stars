@@ -249,7 +249,8 @@
         "focuser": "Focuser",
         "filterWheel": "Filter wheel",
         "guider": "Guiding",
-        "done": "Done"
+        "done": "Done",
+        "localization": "Regional settings"
       },
       "driver": {
         "loading": "Loading drivers…",
@@ -433,7 +434,11 @@
         "moreDevicesHint": "Flat panel, weather and the remaining devices are configured on their own pages.",
         "noConnectionHint": "No connection to a rig yet. You can add one under Settings → Connection at any time."
       },
-      "cancel": "Cancel setup"
+      "cancel": "Cancel setup",
+      "localization": {
+        "title": "장비의 지역 설정 구성",
+        "description": "핫스팟 위치, 시간 및 원격 키보드 입력이 장비 사용 위치와 일치하도록 Wi-Fi보다 먼저 이 값을 설정하세요."
+      }
     },
     "fileBrowser": {
       "title": "찾아보기",
@@ -681,6 +686,25 @@
       "mount": {
         "titel": "마운트 설정",
         "max_slew_rate": "최대 슬루 속도 (°/s)"
+      },
+      "localization": {
+        "title": "시스템 지역 설정",
+        "description": "이 설정은 앱이 아닌 PINS 장치의 현재 설정입니다. 변경 사항은 이 장치에 연결되는 모든 휴대폰, 태블릿 및 브라우저에 적용됩니다.",
+        "systemLocale": "로캘",
+        "wifiCountry": "Wi-Fi 국가",
+        "wifiCountryConfirmTitle": "Wi-Fi 국가 변경을 적용하시겠습니까?",
+        "wifiCountryConfirmMessage": "Wi-Fi 국가를 변경하면 이 PINS 장치와의 연결이 잠시 중단될 수 있습니다. 변경 사항을 적용하시겠습니까?",
+        "timezone": "시간대",
+        "keyboardLayout": "키보드 배열",
+        "loading": "현재 시스템 설정을 불러오는 중...",
+        "loadError": "시스템 설정을 불러올 수 없습니다: {message}",
+        "save": "변경 사항 적용",
+        "saving": "적용 중...",
+        "saved": "시스템 설정이 업데이트되었습니다.",
+        "saveError": "시스템 설정을 업데이트할 수 없습니다: {message}",
+        "missingJob": "PINS 데몬이 작업 ID를 반환하지 않았습니다.",
+        "refresh": "현재 값 다시 불러오기",
+        "searchPlaceholder": "사용 가능한 옵션 필터링..."
       }
     },
     "alpacaDirect": {

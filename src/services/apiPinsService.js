@@ -789,6 +789,30 @@ export default {
     });
   },
 
+  getPinsSystemLocalization() {
+    const { PINSDAEMON_URL } = getUrls();
+    return this._pinsDaemonGetRequest('/system/localization', {
+      baseUrl: PINSDAEMON_URL,
+      timeout: 10000,
+    });
+  },
+
+  getPinsSystemLocalizationOptions() {
+    const { PINSDAEMON_URL } = getUrls();
+    return this._pinsDaemonGetRequest('/system/localization/options', {
+      baseUrl: PINSDAEMON_URL,
+      timeout: 15000,
+    });
+  },
+
+  updatePinsSystemLocalization(payload) {
+    const { PINSDAEMON_URL } = getUrls();
+    return this._pinsDaemonPutRequest('/system/localization', payload, {
+      baseUrl: PINSDAEMON_URL,
+      timeout: 15000,
+    });
+  },
+
   getPinsHealthAt(host, { timeout = 2200, signal } = {}) {
     const normalizedHost = String(host || '').trim();
     if (!normalizedHost) {

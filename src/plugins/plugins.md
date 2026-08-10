@@ -25,15 +25,22 @@ plugins/
   "description": "Plugin description",
   "version": "1.0.0",
   "author": "Author Name",
-  "enabled": false,
+  "defaultEnabled": false,
+  "enabled": true,
   "isPins": false
 }
 ```
+
+`enabled` controls whether the bundled plugin is exposed to the plugin store at
+all. `defaultEnabled` is the initial user-facing state; after first load, the
+persisted user choice takes precedence. `isPins` marks plugins whose feature is
+specific to the PINS runtime.
 
 ## Plugin Entry Point (index.js)
 
 ```javascript
 // Import your icon directly in your plugin
+import { markRaw } from 'vue';
 import { YourIconComponent } from '@heroicons/vue/24/outline';
 // Or create/import a custom icon component
 // import MyCustomIcon from './components/MyCustomIcon.vue';
@@ -46,22 +53,21 @@ export default {
   install(app, options) {
     const pluginStore = usePluginStore();
     const router = options.router;
+    const currentPlugin = pluginStore.plugins.find((plugin) => plugin.id === metadata.id);
+    if (!currentPlugin) return;
 
-    // Register routes
+    // pluginPath is assigned by pluginStore so enabled plugins receive stable,
+    // collision-free /pluginN routes for this registry load.
     router.addRoute({
-      path: '/my-plugin',
+      path: currentPlugin.pluginPath,
       component: MyPluginView,
       meta: { requiresSetup: true },
     });
 
-    // Register plugin metadata
-    pluginStore.registerPlugin(metadata);
-
-    // Add navigation item only if plugin is enabled
-    if (metadata.enabled) {
+    if (currentPlugin.enabled) {
       pluginStore.addPluginNavigationItem(metadata.id, {
-        path: '/my-plugin',
-        icon: YourIconComponent, // Each plugin provides its own icon
+        path: currentPlugin.pluginPath,
+        icon: markRaw(YourIconComponent),
         title: metadata.name,
       });
     }
@@ -84,7 +90,7 @@ This interactive command will:
 1. Ask you for the plugin name, description, and author
 2. Generate the necessary folder structure based on your plugin name
 3. Create a properly formatted `plugin.json` file with your metadata
-4. Generate a default `index.js` file with proper routing and registration
+4. Generate a default `index.js` file using the plugin store's assigned route
 5. Create a basic view component showing your plugin name and description
 
 After running the command, your plugin will be ready to customize and extend!
@@ -94,8 +100,8 @@ After running the command, your plugin will be ready to customize and extend!
 Alternatively, you can create a plugin manually:
 
 1. Create a new folder in the plugins directory with your plugin name (e.g., `my-plugin`)
-2. Create a `plugin.json` file with your plugin metadata
-3. Create an `index.js` file as the entry point
+2. Create a `plugin.json` file with the metadata fields described above
+3. Create an `index.js` entry point that uses the store-assigned `pluginPath`
 4. Add your components, views, and stores
 5. The plugin will be automatically discovered and listed in the settings
 
@@ -130,8 +136,8 @@ import MyCustomIcon from './components/MyCustomIcon.vue';
 
 // Then in your plugin install function:
 pluginStore.addPluginNavigationItem(metadata.id, {
-  path: '/my-plugin',
-  icon: SparklesIcon, // or MyCustomIcon
+  path: currentPlugin.pluginPath,
+  icon: markRaw(SparklesIcon), // or markRaw(MyCustomIcon)
   title: metadata.name,
 });
 ```

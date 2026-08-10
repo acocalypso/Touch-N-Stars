@@ -217,7 +217,8 @@
         "focuser": "Focuser",
         "filterWheel": "Filter wheel",
         "guider": "Guiding",
-        "done": "Done"
+        "done": "Done",
+        "localization": "Regional settings"
       },
       "driver": {
         "loading": "Loading drivers…",
@@ -401,7 +402,11 @@
         "moreDevicesHint": "Flat panel, weather and the remaining devices are configured on their own pages.",
         "noConnectionHint": "No connection to a rig yet. You can add one under Settings → Connection at any time."
       },
-      "cancel": "Cancel setup"
+      "cancel": "Cancel setup",
+      "localization": {
+        "title": "機材の地域設定を行う",
+        "description": "ホットスポットの場所、時刻、リモートキーボード入力を機材の使用場所に合わせるため、Wi-Fi より先にこれらの値を設定してください。"
+      }
     },
     "fileBrowser": {
       "title": "参照",
@@ -649,6 +654,25 @@
       "mount": {
         "titel": "赤道儀設定",
         "max_slew_rate": "最大スルーレート (°/s)"
+      },
+      "localization": {
+        "title": "システムの地域設定",
+        "description": "これはこのアプリではなく、PINS デバイスの現在の設定です。変更は、このデバイスに接続するすべてのスマートフォン、タブレット、ブラウザーに適用されます。",
+        "systemLocale": "ロケール",
+        "wifiCountry": "Wi-Fi の国設定",
+        "wifiCountryConfirmTitle": "Wi-Fi の国設定を変更しますか？",
+        "wifiCountryConfirmMessage": "Wi-Fi の国設定を変更すると、この PINS デバイスとの接続が一時的に切断される場合があります。変更を適用しますか？",
+        "timezone": "タイムゾーン",
+        "keyboardLayout": "キーボード配列",
+        "loading": "現在のシステム設定を読み込んでいます...",
+        "loadError": "システム設定を読み込めませんでした: {message}",
+        "save": "変更を適用",
+        "saving": "適用中...",
+        "saved": "システム設定を更新しました。",
+        "saveError": "システム設定を更新できませんでした: {message}",
+        "missingJob": "PINS デーモンが操作 ID を返しませんでした。",
+        "refresh": "現在の値を再読み込み",
+        "searchPlaceholder": "利用可能なオプションを絞り込む..."
       }
     },
     "alpacaDirect": {

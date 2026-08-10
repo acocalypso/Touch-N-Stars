@@ -208,7 +208,8 @@
         "focuser": "Focuser",
         "filterWheel": "Filter wheel",
         "guider": "Guiding",
-        "done": "Done"
+        "done": "Done",
+        "localization": "Regional settings"
       },
       "driver": {
         "loading": "Loading drivers…",
@@ -392,7 +393,11 @@
         "moreDevicesHint": "Flat panel, weather and the remaining devices are configured on their own pages.",
         "noConnectionHint": "No connection to a rig yet. You can add one under Settings → Connection at any time."
       },
-      "cancel": "Cancel setup"
+      "cancel": "Cancel setup",
+      "localization": {
+        "title": "Налаштувати регіональні параметри обладнання",
+        "description": "Установіть ці значення перед налаштуванням Wi-Fi, щоб розташування точки доступу, час і введення з віддаленої клавіатури відповідали місцю використання обладнання."
+      }
     },
     "settings": {
       "title": "Налаштування",
@@ -620,6 +625,25 @@
       "mount": {
         "titel": "Налаштування монтування",
         "max_slew_rate": "Макс. швидкість наведення (°/с)"
+      },
+      "localization": {
+        "title": "Регіональні параметри системи",
+        "description": "Це поточні параметри пристрою PINS, а не цієї програми. Зміни застосовуються до всіх телефонів, планшетів і браузерів, які підключаються до нього.",
+        "systemLocale": "Локаль",
+        "wifiCountry": "Країна Wi-Fi",
+        "wifiCountryConfirmTitle": "Застосувати зміну країни Wi-Fi?",
+        "wifiCountryConfirmMessage": "Зміна країни Wi-Fi може ненадовго перервати з’єднання з цим пристроєм PINS. Застосувати зміни?",
+        "timezone": "Часовий пояс",
+        "keyboardLayout": "Розкладка клавіатури",
+        "loading": "Зчитування поточних параметрів системи...",
+        "loadError": "Не вдалося зчитати параметри системи: {message}",
+        "save": "Застосувати зміни",
+        "saving": "Застосування...",
+        "saved": "Параметри системи оновлено.",
+        "saveError": "Не вдалося оновити параметри системи: {message}",
+        "missingJob": "Демон PINS не повернув ідентифікатор операції.",
+        "refresh": "Перезавантажити поточні значення",
+        "searchPlaceholder": "Фільтрувати доступні параметри..."
       }
     },
     "alpacaDirect": {

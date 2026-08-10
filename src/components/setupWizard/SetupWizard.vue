@@ -77,6 +77,8 @@
 
               <WizardInstanceStep v-else-if="currentStep.id === 'instance'" />
 
+              <WizardLocalizationStep v-else-if="currentStep.id === 'localization'" />
+
               <WizardWifiStep v-else-if="currentStep.id === 'wifi'" />
 
               <WizardUpdatesStep v-else-if="currentStep.id === 'updates'" />
@@ -154,6 +156,7 @@ import { usePinsStore } from '@/plugins/pins/store/pinsStore';
 import WizardLanguageStep from './steps/WizardLanguageStep.vue';
 import WizardInfoStep from './steps/WizardInfoStep.vue';
 import WizardInstanceStep from './steps/WizardInstanceStep.vue';
+import WizardLocalizationStep from './steps/WizardLocalizationStep.vue';
 import WizardWifiStep from './steps/WizardWifiStep.vue';
 import WizardUpdatesStep from './steps/WizardUpdatesStep.vue';
 import WizardMountStep from './steps/WizardMountStep.vue';
@@ -184,7 +187,7 @@ function step(id) {
  * connection. Adding a device step means one entry here plus one v-else-if
  * branch above; nothing else in the shell is step-aware.
  *
- * Only four steps are genuinely PINS-only. Mount, camera, focuser and filter
+ * Five steps are genuinely PINS-only. Mount, camera, focuser and filter
  * wheel connect through the NINA Advanced API and work on any backend - they
  * hide their own INDI blocks instead of disappearing entirely.
  */
@@ -193,8 +196,9 @@ const steps = computed(() => [
   step('language'),
   step('info'),
   ...(isMobile ? [step('instance')] : []),
-  // Wi-Fi and updates talk to the PINS daemon on port 8000.
-  ...(store.isPINS ? [step('wifi'), step('updates')] : []),
+  // Set the rig's regional defaults before Wi-Fi regulatory settings are used.
+  // These steps talk to the PINS daemon on port 8000.
+  ...(store.isPINS ? [step('localization'), step('wifi'), step('updates')] : []),
   // Mount before location: the location sync needs a connected mount.
   step('mount'),
   // IndiMaxSlewRateDps is an INDI driver limit and meaningless without it.

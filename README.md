@@ -26,13 +26,15 @@ The app is actively maintained and continuously improved, but it is no longer in
 
 ### 🏁 **Purpose of the WebApp**
 
-The application aims to make controlling and adjusting already configured profiles easier - directly through a tablet or smartphone. This makes handling more mobile and convenient, especially when setting up equipment and starting imaging sessions.
+The application makes controlling and configuring NINA- or PINS-based astrophotography rigs easier directly from a tablet or smartphone. This makes field setup, equipment configuration, and imaging-session control more mobile and convenient.
 
 ### 🧩 **Important Notes**
 
-- This web app **requires a fully configured and running installation of NINA**.
-- It requires the **Advanced API** plugin in the latest version.
-  The API port must be set to 1888 and V2 must be enabled.
+- Standard Windows operation requires a running NINA installation with the latest
+  **Touch-N-Stars** and **Advanced API** plugins. PINS/headless rigs are supported
+  as a separate runtime mode.
+- Advanced API V2 must be enabled. Its port is discovered dynamically through the
+  Touch-N-Stars plugin and does not need to be fixed to `1888`.
 - For Three Point Polar Alignment, version 2.2.2.0 or newer is required.
 - It is intended as a complement to the desktop software and provides mobile support for basic functions.
 - The author assumes no liability

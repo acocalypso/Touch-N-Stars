@@ -249,7 +249,8 @@
         "focuser": "Focuser",
         "filterWheel": "Filter wheel",
         "guider": "Guiding",
-        "done": "Done"
+        "done": "Done",
+        "localization": "Regional settings"
       },
       "driver": {
         "loading": "Loading drivers…",
@@ -433,7 +434,11 @@
         "moreDevicesHint": "Flat panel, weather and the remaining devices are configured on their own pages.",
         "noConnectionHint": "No connection to a rig yet. You can add one under Settings → Connection at any time."
       },
-      "cancel": "Cancel setup"
+      "cancel": "Cancel setup",
+      "localization": {
+        "title": "Configura els paràmetres regionals de l'equip",
+        "description": "Configura aquests valors abans de la Wi-Fi perquè la ubicació del punt d'accés, l'hora i l'entrada del teclat remot coincideixin amb el lloc on s'utilitza l'equip."
+      }
     },
     "fileBrowser": {
       "title": "Navega",
@@ -681,6 +686,25 @@
       "mount": {
         "titel": "Configuració de la muntura",
         "max_slew_rate": "Velocitat màxima de desplaçament (°/s)"
+      },
+      "localization": {
+        "title": "Paràmetres regionals del sistema",
+        "description": "Aquests són els paràmetres actuals del dispositiu PINS, no d'aquesta aplicació. Els canvis s'apliquen a tots els telèfons, tauletes i navegadors que s'hi connectin.",
+        "systemLocale": "Configuració regional",
+        "wifiCountry": "País de la Wi-Fi",
+        "wifiCountryConfirmTitle": "Voleu aplicar el canvi de país de la Wi-Fi?",
+        "wifiCountryConfirmMessage": "Canviar el país de la Wi-Fi pot interrompre breument la connexió amb aquest dispositiu PINS. Voleu aplicar els canvis?",
+        "timezone": "Zona horària",
+        "keyboardLayout": "Distribució del teclat",
+        "loading": "S'estan llegint els paràmetres actuals del sistema...",
+        "loadError": "No s'han pogut llegir els paràmetres del sistema: {message}",
+        "save": "Aplica els canvis",
+        "saving": "S'estan aplicant...",
+        "saved": "S'han actualitzat els paràmetres del sistema.",
+        "saveError": "No s'han pogut actualitzar els paràmetres del sistema: {message}",
+        "missingJob": "El dimoni PINS no ha retornat cap ID d'operació.",
+        "refresh": "Torna a carregar els valors actuals",
+        "searchPlaceholder": "Filtra les opcions disponibles..."
       }
     },
     "alpacaDirect": {
@@ -4234,7 +4258,7 @@
       },
       "messages": {
         "noSessionsDeleted": "No s'ha eliminat cap sessió.",
-        "deletedSessions": "S'han eliminat {count} sessió(s), s'ha alliberat {freed}, ús restant del connector {remaining}.",
+        "deletedSessions": "S'han eliminat {count} sessió{suffix}, s'ha alliberat {freed}, ús restant del connector {remaining}.",
         "deletedArtifact": "Artefacte eliminat i s'ha alliberat {freed}.",
         "deletedFrame": "Fotograma eliminat i s'ha alliberat {freed}.",
         "backendUpdateStarted": "Actualització del backend iniciada. PINS es reiniciarà quan l'instal·lació hagi acabat."

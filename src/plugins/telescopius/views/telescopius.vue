@@ -46,13 +46,14 @@
         </div>
       </div>
 
-      <!-- Landing Page - zeige wenn kein API Key gesetzt ist -->
+      <!-- Landing Page - zeige wenn weder API Key noch importierte Listen vorhanden sind -->
       <TelescopiusLandingPage
-        v-else-if="!telescopiusStore.hasApiKey"
+        v-else-if="!telescopiusStore.hasApiKey && !telescopiusStore.hasImportedLists"
         @openApiKeyModal="showApiKeyModal = true"
+        @openImportModal="showImportModal = true"
       />
 
-      <!-- Main Plugin View - zeige wenn API Key gesetzt ist -->
+      <!-- Main Plugin View -->
       <div v-else>
         <h5 class="text-2xl text-center font-bold text-white mb-4">
           {{ $t('plugins.telescopius.title') }}
@@ -69,24 +70,8 @@
           <div
             class="border border-gray-700 rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg p-5"
           >
-            <div
-              v-if="!telescopiusStore.hasApiKey"
-              class="mt-4 p-3 bg-yellow-900/30 border border-yellow-600 rounded-lg"
-            >
-              <div class="flex items-center justify-center text-yellow-400 text-sm">
-                <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
-                  <path
-                    fill-rule="evenodd"
-                    d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z"
-                    clip-rule="evenodd"
-                  />
-                </svg>
-                {{ $t('plugins.telescopius.apiKey.required') }}
-              </div>
-            </div>
-
             <!-- Actions -->
-            <div class="flex flex-col sm:flex-row justify-center items-center gap-4 mt-6">
+            <div class="flex flex-col sm:flex-row justify-center items-center gap-4">
               <button
                 @click="showApiKeyModal = true"
                 class="tns-btn-secondary flex items-center gap-2"
@@ -151,6 +136,21 @@
                 </svg>
                 {{ $t('plugins.telescopius.apiKey.loadFromTelescopius') }}
               </button>
+
+              <button
+                @click="showImportModal = true"
+                class="tns-btn-secondary flex items-center gap-2"
+              >
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    stroke-width="2"
+                    d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"
+                  ></path>
+                </svg>
+                {{ $t('plugins.telescopius.import.button') }}
+              </button>
             </div>
           </div>
 
@@ -159,7 +159,9 @@
             v-if="telescopiusStore.hasTargetLists"
             class="border border-gray-700 rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg p-6"
           >
-            <h6 class="text-lg font-semibold text-white mb-3 text-center">My Target Lists</h6>
+            <h6 class="text-lg font-semibold text-white mb-3 text-center">
+              {{ $t('plugins.telescopius.targetLists.myLists') }}
+            </h6>
 
             <!-- Cache timestamp display -->
             <div v-if="telescopiusStore.cacheTimestamp" class="text-center mb-3">
@@ -197,97 +199,43 @@
             </div>
 
             <div class="space-y-4">
-              <div
+              <TargetListCard
                 v-for="list in telescopiusStore.targetLists"
                 :key="list.id"
-                class="bg-gray-800/50 rounded-lg p-4 border border-gray-600"
-              >
-                <div class="flex items-center justify-between mb-3">
-                  <div class="flex-1">
-                    <div class="text-white font-medium">{{ list.name || 'Unnamed List' }}</div>
-                    <p class="text-gray-400 text-sm mt-1">
-                      {{ list.username }} • ID: {{ list.id }}
-                    </p>
-                  </div>
-                  <div class="text-right">
-                    <button
-                      @click="toggleListDetails(list.id)"
-                      :class="expandedLists.includes(list.id) ? 'text-yellow-400' : 'text-blue-400'"
-                      class="hover:text-blue-300 p-1 rounded transition-colors"
-                      :title="expandedLists.includes(list.id) ? 'Hide Objects' : 'Show Objects'"
-                    >
-                      <svg
-                        v-if="expandedLists.includes(list.id)"
-                        class="w-5 h-5"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M5 15l7-7 7 7"
-                        ></path>
-                      </svg>
-                      <svg
-                        v-else
-                        class="w-5 h-5"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          stroke-linecap="round"
-                          stroke-linejoin="round"
-                          stroke-width="2"
-                          d="M19 9l-7 7-7-7"
-                        ></path>
-                      </svg>
-                    </button>
-                  </div>
-                </div>
+                :list="list"
+                :expanded="expandedLists.includes(list.id)"
+                @toggle="toggleListDetails(list.id)"
+                @select="openTargetModal"
+              />
+            </div>
+          </div>
 
-                <!-- Objects List -->
-                <div v-if="expandedLists.includes(list.id) && list.objects" class="mt-4 space-y-3">
-                  <div
-                    v-for="(obj, index) in list.objects"
-                    :key="index"
-                    class="bg-gray-900/30 rounded-lg p-3 border border-gray-700 hover:border-gray-500 cursor-pointer transition-colors"
-                    @click="openTargetModal(obj)"
-                  >
-                    <div class="flex items-start justify-between">
-                      <div class="flex-1">
-                        <div class="text-white font-medium text-sm">{{ obj.name }}</div>
-                        <div class="text-gray-400 text-xs mt-1 space-y-1">
-                          <div>RA: {{ formatRA(obj.coordinates.ra) }}</div>
-                          <div>Dec: {{ formatDec(obj.coordinates.dec) }}</div>
-                          <div v-if="obj.size_deg">Size: {{ obj.size_deg.toFixed(2) }}°</div>
-                          <div v-if="obj.notes" class="text-gray-500">{{ obj.notes }}</div>
-                        </div>
-                      </div>
+          <!-- Imported CSV Lists -->
+          <div
+            v-if="telescopiusStore.hasImportedLists"
+            class="border border-gray-700 rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg p-6"
+          >
+            <h6 class="text-lg font-semibold text-white mb-4 text-center">
+              {{ $t('plugins.telescopius.import.importedLists') }}
+            </h6>
 
-                      <!-- Click indicator -->
-                      <div class="flex items-center justify-center text-gray-400">
-                        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                          <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M9 5l7 7-7 7"
-                          ></path>
-                        </svg>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <div class="space-y-4">
+              <TargetListCard
+                v-for="list in telescopiusStore.importedLists"
+                :key="list.id"
+                :list="list"
+                :expanded="expandedLists.includes(list.id)"
+                removable
+                @toggle="toggleListDetails(list.id)"
+                @select="openTargetModal"
+                @remove="removeImportedList(list)"
+              />
             </div>
           </div>
 
           <!-- No Target Lists Message -->
           <div
-            v-else-if="
+            v-if="
               telescopiusStore.hasApiKey &&
               !telescopiusStore.isLoadingLists &&
               !telescopiusStore.hasTargetLists &&
@@ -349,6 +297,13 @@
       @apiKeyDeleted="handleApiKeyDeleted"
     />
 
+    <!-- CSV Import Modal -->
+    <ImportCsvModal
+      :show="showImportModal"
+      @close="showImportModal = false"
+      @imported="handleListImported"
+    />
+
     <!-- Target Modal -->
     <TargetModal
       :show="showTargetModal"
@@ -364,6 +319,8 @@ import { ref, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import ApiKeyModal from '../components/ApiKeyModal.vue';
 import TargetModal from '../components/TargetModal.vue';
+import TargetListCard from '../components/TargetListCard.vue';
+import ImportCsvModal from '../components/ImportCsvModal.vue';
 import TelescopiusLandingPage from '../components/TelescopiusLandingPage.vue';
 import { useTelescopisStore } from '../store/telescopiusStore';
 import telescopiusApiService from '../services/telescopiusApiService';
@@ -375,6 +332,7 @@ import { useFramingStore } from '@/store/framingStore';
 
 const { t: $t } = useI18n();
 const showApiKeyModal = ref(false);
+const showImportModal = ref(false);
 const isInitializing = ref(true);
 const isPluginOutdated = ref(false);
 const telescopiusStore = useTelescopisStore();
@@ -519,11 +477,26 @@ const toggleListDetails = (listId) => {
     return;
   }
 
-  const list = telescopiusStore.targetLists.find((l) => l.id === listId);
-  console.log(`[Telescopius] Found list with ${list?.objects?.length || 0} objects`);
-
   expandedLists.value.push(listId);
   console.log(`[Telescopius] Expanded lists:`, expandedLists.value);
+};
+
+const handleListImported = (list) => {
+  console.log(`[Telescopius] Imported list "${list.name}" with ${list.objects.length} targets`);
+  // Show the freshly imported targets right away.
+  if (!expandedLists.value.includes(list.id)) {
+    expandedLists.value.push(list.id);
+  }
+};
+
+const removeImportedList = async (list) => {
+  if (!window.confirm($t('plugins.telescopius.import.removeConfirm', { name: list.name }))) {
+    return;
+  }
+
+  console.log(`[Telescopius] Removing imported list ${list.id}`);
+  expandedLists.value = expandedLists.value.filter((id) => id !== list.id);
+  await telescopiusStore.removeImportedList(list.id);
 };
 
 const formatRA = (raHours) => {
@@ -607,6 +580,9 @@ onMounted(async () => {
     if (!telescopiusStore.isLoaded) {
       await telescopiusStore.loadApiKey();
     }
+
+    // CSV imports work without an API key, so always restore them.
+    await telescopiusStore.loadImportedLists();
 
     // Try to load location from profile if not set
     if (!latitude.value && !longitude.value) {

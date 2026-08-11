@@ -10,6 +10,17 @@
       <div class="w-full max-w-md mx-auto">
         <!-- Target Information -->
         <div v-if="target" class="mb-6 text-center">
+          <div v-if="target.familiarName" class="text-sm text-gray-300 mb-1">
+            {{ target.familiarName }}
+          </div>
+          <div v-if="target.type || target.constellation" class="text-sm text-gray-400">
+            {{ [target.type, target.constellation].filter(Boolean).join(' • ') }}
+          </div>
+          <div v-if="Number.isFinite(target.magnitude)" class="text-sm text-gray-400 mb-3">
+            {{ $t('plugins.telescopius.targetLists.magnitude') }}:
+            {{ target.magnitude.toFixed(2) }}
+          </div>
+
           <div
             v-if="target.notes"
             class="bg-gray-800/50 rounded-lg p-3 border border-gray-600 mb-4"

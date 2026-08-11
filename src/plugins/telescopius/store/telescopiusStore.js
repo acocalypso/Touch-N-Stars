@@ -1,11 +1,14 @@
 import { defineStore } from 'pinia';
 import apiService from '@/services/apiService';
 
+const IMPORTED_LISTS_KEY = 'telescopius_imported_lists';
+
 export const useTelescopisStore = defineStore('telescopius', {
   state: () => ({
     apiKey: '',
     isLoaded: false,
     targetLists: [],
+    importedLists: [],
     isLoadingLists: false,
     listsError: null,
     cacheTimestamp: null,
@@ -14,6 +17,7 @@ export const useTelescopisStore = defineStore('telescopius', {
   getters: {
     hasApiKey: (state) => state.apiKey && state.apiKey.length > 0,
     hasTargetLists: (state) => state.targetLists.length > 0,
+    hasImportedLists: (state) => state.importedLists.length > 0,
   },
 
   actions: {
@@ -105,14 +109,14 @@ export const useTelescopisStore = defineStore('telescopius', {
     },
 
     async saveTargetListsToCache() {
+      const cacheData = {
+        timestamp: Date.now(),
+        lists: this.targetLists,
+      };
+
+      console.log('[TelescopiusStore] Saving target lists to cache:', cacheData);
+
       try {
-        const cacheData = {
-          timestamp: Date.now(),
-          lists: this.targetLists,
-        };
-
-        console.log('[TelescopiusStore] Saving target lists to cache:', cacheData);
-
         await apiService.createSetting({
           Key: 'telescopius_target_lists_cache',
           Value: JSON.stringify(cacheData),
@@ -139,6 +143,67 @@ export const useTelescopisStore = defineStore('telescopius', {
       } catch (error) {
         console.error('[TelescopiusStore] Error clearing target lists cache:', error);
       }
+    },
+
+    // CSV imported lists are kept under their own settings key so that a refresh from the
+    // Telescopius API (which overwrites telescopius_target_lists_cache) never loses them.
+    async loadImportedLists() {
+      try {
+        const response = await apiService.getSetting(IMPORTED_LISTS_KEY);
+        if (response && response.Response && response.Response.Value) {
+          const data = JSON.parse(response.Response.Value);
+          this.importedLists = Array.isArray(data.lists) ? data.lists : [];
+          console.log('[TelescopiusStore] Loaded', this.importedLists.length, 'imported lists');
+          return true;
+        }
+      } catch (error) {
+        // 404 is expected when nothing has been imported yet
+        if (error.response?.status !== 404 && error.status !== 404) {
+          console.error('[TelescopiusStore] Error loading imported lists:', error);
+        }
+      }
+      return false;
+    },
+
+    async saveImportedLists() {
+      const value = JSON.stringify({ lists: this.importedLists });
+
+      try {
+        await apiService.createSetting({ Key: IMPORTED_LISTS_KEY, Value: value });
+      } catch (error) {
+        if (error.response && error.response.status === 409) {
+          await apiService.updateSetting(IMPORTED_LISTS_KEY, value);
+        } else {
+          console.error('[TelescopiusStore] Error saving imported lists:', error);
+          throw error;
+        }
+      }
+    },
+
+    async addImportedList(list) {
+      const previous = this.importedLists;
+      this.importedLists = [...previous, list];
+      try {
+        await this.saveImportedLists();
+      } catch (error) {
+        // Do not keep a list in memory that could not be persisted.
+        this.importedLists = previous;
+        throw error;
+      }
+    },
+
+    async removeImportedList(listId) {
+      this.importedLists = this.importedLists.filter((list) => list.id !== listId);
+
+      if (this.importedLists.length === 0) {
+        try {
+          await apiService.deleteSetting(IMPORTED_LISTS_KEY);
+          return;
+        } catch (error) {
+          console.error('[TelescopiusStore] Error deleting imported lists setting:', error);
+        }
+      }
+      await this.saveImportedLists();
     },
   },
 });

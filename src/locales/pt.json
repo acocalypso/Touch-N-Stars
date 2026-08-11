@@ -2083,7 +2083,11 @@
       "enter_name": "Digite o nome",
       "no_fav": "Nenhum favorito salvo",
       "titel": "Favoritos",
-      "save_to_favorites": "Salvar nos alvos favoritos"
+      "save_to_favorites": "Salvar nos alvos favoritos",
+      "groups": {
+        "favorites": "Favoritos",
+        "telescopius": "Telescopius"
+      }
     },
     "helpers": {
       "imageModal": {
@@ -2753,7 +2757,47 @@
         "noListsHint": "Crie listas de alvos no telescopius.com e depois recarregue-as aqui.",
         "editOnTelescopius": "Editar listas no Telescopius",
         "dataFrom": "Dados de",
-        "connectionError": "Conexão com Telescopius falhou. O PC NINA precisa de uma conexão com internet e pelo menos uma lista de alvos deve existir no Telescopius."
+        "connectionError": "Conexão com Telescopius falhou. O PC NINA precisa de uma conexão com internet e pelo menos uma lista de alvos deve existir no Telescopius.",
+        "myLists": "Minhas listas de alvos",
+        "unnamedList": "Lista sem nome",
+        "showObjects": "Mostrar objetos",
+        "hideObjects": "Ocultar objetos",
+        "ra": "AR",
+        "dec": "DEZEMBRO",
+        "size": "Tamanho",
+        "magnitude": "Mag"
+      },
+      "import": {
+        "title": "Importar alvos de CSV",
+        "button": "Importar CSV",
+        "description": "Importe uma lista de alvos exportada do telescopius.com. Não é necessária chave de API.",
+        "landingTitle": "Sem chave de API? Importe um CSV",
+        "landingDescription": "Exporte qualquer lista de observação do telescopius.com como arquivo CSV e importe-a aqui. Os alvos importados podem ser usados para enquadramento, apontamento e como alvo de sequência, igual aos carregados pela API.",
+        "selectFile": "Selecionar arquivo CSV",
+        "listName": "Nome da lista",
+        "targetsFound": "{count} alvos",
+        "morePreview": "… e mais {count}",
+        "import": "Importar",
+        "cancel": "Cancelar",
+        "remove": "Excluir lista",
+        "removeConfirm": "Excluir a lista importada \"{name}\"?",
+        "importedLists": "Listas importadas",
+        "formatHelp": {
+          "title": "Formato CSV suportado",
+          "description": "A exportação CSV do telescopius.com é suportada diretamente. As colunas são identificadas pelos cabeçalhos, portanto a ordem não importa e colunas extras são ignoradas.",
+          "columns": "Obrigatório: Right Ascension (j2000), Declination (j2000) — Opcional: Catalogue Entry, Familiar Name, Type, Constellation, Magnitude, Size, Notes",
+          "note": "As coordenadas são lidas como J2000 no formato 21h 38' 59\" / 57° 30' 50\". Arquivos separados por vírgula e por ponto e vírgula são suportados."
+        },
+        "errors": {
+          "empty": "O arquivo não contém dados.",
+          "tooLarge": "O arquivo é grande demais (máx. 2 MB).",
+          "readFailed": "Não foi possível ler o arquivo.",
+          "missingColumns": "Faltam colunas obrigatórias: {columns}",
+          "noValidRows": "Nenhum alvo com coordenadas válidas foi encontrado no arquivo.",
+          "rowsSkipped": "{count} linhas foram ignoradas porque suas coordenadas não puderam ser lidas.",
+          "rowFailed": "Linha {line}",
+          "saveFailed": "Não foi possível salvar a lista importada."
+        }
       }
     },
     "webcam": {

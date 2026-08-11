@@ -2124,7 +2124,11 @@
       "enter_name": "Namen eingeben",
       "save_to_favorites": "Als Favorit speichern",
       "no_fav": "Keine Favoriten gespeichert",
-      "titel": "Favoriten"
+      "titel": "Favoriten",
+      "groups": {
+        "favorites": "Favoriten",
+        "telescopius": "Telescopius"
+      }
     },
     "helpers": {
       "imageModal": {
@@ -2753,7 +2757,47 @@
         "noListsHint": "Erstellen Sie Target Lists auf telescopius.com und laden Sie sie dann hier neu.",
         "editOnTelescopius": "Listen auf Telescopius bearbeiten",
         "dataFrom": "Daten vom",
-        "connectionError": "Verbindung zu Telescopius fehlgeschlagen. Der NINA PC benötigt eine Internetverbindung und mindestens eine Target List muss in Telescopius existieren."
+        "connectionError": "Verbindung zu Telescopius fehlgeschlagen. Der NINA PC benötigt eine Internetverbindung und mindestens eine Target List muss in Telescopius existieren.",
+        "myLists": "Meine Target Lists",
+        "unnamedList": "Unbenannte Liste",
+        "showObjects": "Objekte anzeigen",
+        "hideObjects": "Objekte ausblenden",
+        "ra": "RA",
+        "dec": "DEC",
+        "size": "Größe",
+        "magnitude": "Mag"
+      },
+      "import": {
+        "title": "Ziele aus CSV importieren",
+        "button": "CSV importieren",
+        "description": "Importiere eine von telescopius.com exportierte Zielliste. Dafür wird kein API-Key benötigt.",
+        "landingTitle": "Kein API-Key? CSV importieren",
+        "landingDescription": "Exportiere auf telescopius.com eine beliebige Beobachtungsliste als CSV-Datei und importiere sie hier. Die importierten Ziele lassen sich genauso für Framing, Slew und als Sequenz-Target verwenden wie über die API geladene Ziele.",
+        "selectFile": "CSV-Datei auswählen",
+        "listName": "Listenname",
+        "targetsFound": "{count} Ziele",
+        "morePreview": "… und {count} weitere",
+        "import": "Importieren",
+        "cancel": "Abbrechen",
+        "remove": "Liste löschen",
+        "removeConfirm": "Importierte Liste \"{name}\" löschen?",
+        "importedLists": "Importierte Listen",
+        "formatHelp": {
+          "title": "Unterstütztes CSV-Format",
+          "description": "Der CSV-Export von telescopius.com wird direkt unterstützt. Spalten werden anhand ihrer Überschriften erkannt, die Reihenfolge spielt also keine Rolle und zusätzliche Spalten werden ignoriert.",
+          "columns": "Erforderlich: Right Ascension (j2000), Declination (j2000) — Optional: Catalogue Entry, Familiar Name, Type, Constellation, Magnitude, Size, Notes",
+          "note": "Koordinaten werden als J2000 im Format 21h 38' 59\" / 57° 30' 50\" gelesen. Komma- und semikolongetrennte Dateien werden beide unterstützt."
+        },
+        "errors": {
+          "empty": "Die Datei enthält keine Daten.",
+          "tooLarge": "Die Datei ist zu groß (max. 2 MB).",
+          "readFailed": "Die Datei konnte nicht gelesen werden.",
+          "missingColumns": "Erforderliche Spalten fehlen: {columns}",
+          "noValidRows": "In der Datei wurde kein Ziel mit gültigen Koordinaten gefunden.",
+          "rowsSkipped": "{count} Zeilen wurden übersprungen, weil ihre Koordinaten nicht gelesen werden konnten.",
+          "rowFailed": "Zeile {line}",
+          "saveFailed": "Die importierte Liste konnte nicht gespeichert werden."
+        }
       }
     },
     "webcam": {

@@ -2063,7 +2063,11 @@
       "enter_name": "Введіть назву",
       "no_fav": "Немає збережених обраних",
       "titel": "Обране",
-      "save_to_favorites": "Зберегти до обраних цілей"
+      "save_to_favorites": "Зберегти до обраних цілей",
+      "groups": {
+        "favorites": "Обране",
+        "telescopius": "Telescopius"
+      }
     },
     "helpers": {
       "imageModal": {
@@ -2510,7 +2514,47 @@
         "noListsHint": "Створіть списки цілей на telescopius.com, а потім перезавантажте їх тут.",
         "editOnTelescopius": "Редагувати списки на Telescopius",
         "dataFrom": "Дані з",
-        "connectionError": "З'єднання з Telescopius не вдалося. ПК з NINA повинен мати з'єднання з інтернетом, і в Telescopius має існувати хоча б один список цілей."
+        "connectionError": "З'єднання з Telescopius не вдалося. ПК з NINA повинен мати з'єднання з інтернетом, і в Telescopius має існувати хоча б один список цілей.",
+        "myLists": "Мої списки цілей",
+        "unnamedList": "Список без назви",
+        "showObjects": "Показати об'єкти",
+        "hideObjects": "Сховати об'єкти",
+        "ra": "RA",
+        "dec": "DEC",
+        "size": "Розмір",
+        "magnitude": "Зор. вел."
+      },
+      "import": {
+        "title": "Імпорт цілей із CSV",
+        "button": "Імпортувати CSV",
+        "description": "Імпортуйте список цілей, експортований з telescopius.com. Ключ API для цього не потрібен.",
+        "landingTitle": "Немає ключа API? Імпортуйте CSV",
+        "landingDescription": "Експортуйте будь-який список спостережень на telescopius.com у файл CSV і імпортуйте його сюди. Імпортовані цілі можна використовувати для кадрування, наведення та як ціль послідовності так само, як завантажені через API.",
+        "selectFile": "Вибрати файл CSV",
+        "listName": "Назва списку",
+        "targetsFound": "Цілей: {count}",
+        "morePreview": "… і ще {count}",
+        "import": "Імпортувати",
+        "cancel": "Скасувати",
+        "remove": "Видалити список",
+        "removeConfirm": "Видалити імпортований список «{name}»?",
+        "importedLists": "Імпортовані списки",
+        "formatHelp": {
+          "title": "Підтримуваний формат CSV",
+          "description": "Експорт CSV з telescopius.com підтримується безпосередньо. Стовпці розпізнаються за заголовками, тому їхній порядок не має значення, а зайві стовпці ігноруються.",
+          "columns": "Обов'язково: Right Ascension (j2000), Declination (j2000) — Необов'язково: Catalogue Entry, Familiar Name, Type, Constellation, Magnitude, Size, Notes",
+          "note": "Координати читаються як J2000 у форматі 21h 38' 59\" / 57° 30' 50\". Підтримуються файли з роздільником комою та крапкою з комою."
+        },
+        "errors": {
+          "empty": "Файл не містить даних.",
+          "tooLarge": "Файл завеликий (макс. 2 МБ).",
+          "readFailed": "Не вдалося прочитати файл.",
+          "missingColumns": "Бракує обов'язкових стовпців: {columns}",
+          "noValidRows": "У файлі не знайдено жодної цілі з дійсними координатами.",
+          "rowsSkipped": "Пропущено {count} рядків, бо їхні координати не вдалося прочитати.",
+          "rowFailed": "Рядок {line}",
+          "saveFailed": "Не вдалося зберегти імпортований список."
+        }
       }
     },
     "webcam": {

@@ -157,8 +157,11 @@ export const useTelescopisStore = defineStore('telescopius', {
           return true;
         }
       } catch (error) {
-        // 404 is expected when nothing has been imported yet
-        if (error.response?.status !== 404 && error.status !== 404) {
+        // 404 is expected when nothing has been imported yet - and it is authoritative, so
+        // drop stale entries (e.g. deleted from another device). Other errors keep what we have.
+        if (error.response?.status === 404 || error.status === 404) {
+          this.importedLists = [];
+        } else {
           console.error('[TelescopiusStore] Error loading imported lists:', error);
         }
       }

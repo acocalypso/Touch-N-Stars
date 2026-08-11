@@ -2083,7 +2083,11 @@
       "enter_name": "Voer naam in",
       "no_fav": "Geen favorieten opgeslagen",
       "titel": "Favorieten",
-      "save_to_favorites": "Opslaan in favoriete doelen"
+      "save_to_favorites": "Opslaan in favoriete doelen",
+      "groups": {
+        "favorites": "Favorieten",
+        "telescopius": "Telescopius"
+      }
     },
     "helpers": {
       "imageModal": {
@@ -2753,7 +2757,47 @@
         "noListsHint": "Maak object/doellijst aan in telescopius.com laad deze hier in.",
         "editOnTelescopius": "Bewerk lijsten in Telescopius",
         "dataFrom": "Data van",
-        "connectionError": "Connectie met Telescopius mislukt. De NINA PC heeft een active internetverbinding nodig en er moet minimaal 1 lijst aangemaakt zijn in Telescopius."
+        "connectionError": "Connectie met Telescopius mislukt. De NINA PC heeft een active internetverbinding nodig en er moet minimaal 1 lijst aangemaakt zijn in Telescopius.",
+        "myLists": "Mijn doellijsten",
+        "unnamedList": "Naamloze lijst",
+        "showObjects": "Objecten tonen",
+        "hideObjects": "Objecten verbergen",
+        "ra": "RA",
+        "dec": "DEC",
+        "size": "Grootte",
+        "magnitude": "Mag"
+      },
+      "import": {
+        "title": "Doelen importeren uit CSV",
+        "button": "CSV importeren",
+        "description": "Importeer een doellijst die vanaf telescopius.com is geëxporteerd. Hiervoor is geen API-sleutel nodig.",
+        "landingTitle": "Geen API-sleutel? Importeer een CSV",
+        "landingDescription": "Exporteer een willekeurige waarneemlijst op telescopius.com als CSV-bestand en importeer die hier. De geïmporteerde doelen kun je net zo gebruiken voor framing, slew en als sequentiedoel als doelen die via de API zijn geladen.",
+        "selectFile": "CSV-bestand kiezen",
+        "listName": "Lijstnaam",
+        "targetsFound": "{count} doelen",
+        "morePreview": "… en nog {count}",
+        "import": "Importeren",
+        "cancel": "Annuleren",
+        "remove": "Lijst verwijderen",
+        "removeConfirm": "Geïmporteerde lijst \"{name}\" verwijderen?",
+        "importedLists": "Geïmporteerde lijsten",
+        "formatHelp": {
+          "title": "Ondersteund CSV-formaat",
+          "description": "De CSV-export van telescopius.com wordt direct ondersteund. Kolommen worden herkend aan hun kopregel, dus de volgorde maakt niet uit en extra kolommen worden genegeerd.",
+          "columns": "Vereist: Right Ascension (j2000), Declination (j2000) — Optioneel: Catalogue Entry, Familiar Name, Type, Constellation, Magnitude, Size, Notes",
+          "note": "Coördinaten worden gelezen als J2000 in het formaat 21h 38' 59\" / 57° 30' 50\". Zowel komma- als puntkomma-gescheiden bestanden worden ondersteund."
+        },
+        "errors": {
+          "empty": "Het bestand bevat geen gegevens.",
+          "tooLarge": "Het bestand is te groot (max. 2 MB).",
+          "readFailed": "Het bestand kon niet worden gelezen.",
+          "missingColumns": "Vereiste kolommen ontbreken: {columns}",
+          "noValidRows": "Geen doel met geldige coördinaten in het bestand gevonden.",
+          "rowsSkipped": "{count} regels zijn overgeslagen omdat hun coördinaten onleesbaar waren.",
+          "rowFailed": "Regel {line}",
+          "saveFailed": "De geïmporteerde lijst kon niet worden opgeslagen."
+        }
       }
     },
     "webcam": {

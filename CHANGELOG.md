@@ -5,12 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [App6.1.4-beta2] - unreleased
+## [App6.1.4-beta2] - 2026-08-11
 ### Added
 - PINS setup and settings: Configure the rig's system locale, Wi-Fi country, timezone and keyboard layout. The setup assistant reads the current Pi values and places this step before Wi-Fi; the same live settings remain available under General Settings on every client, with searchable lists of the values supported by the Pi
 
+### Changed
+- Sequence: Cameras that only accept a fixed set of gain values (most Canon/Nikon DSLRs) now offer those values as a list instead of a free number field, in every exposure and flat item
+
 ### Fixed
 - Webcam: Layout and settings dialog on iOS, and snapshots that stayed "Disconnected" in the app
+- Livestack: The zoom and image controls could be hidden behind the status bar at the bottom of the screen
 
 ## [App6.1.4-beta1] - 2026-08-08
 ### Added

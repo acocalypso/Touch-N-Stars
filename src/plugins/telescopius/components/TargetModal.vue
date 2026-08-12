@@ -95,6 +95,10 @@ watch(
       framingStore.DECangleString = degreesToDMS(newTarget.coordinates.dec);
       framingStore.RAangle = newTarget.coordinates.ra * 15;
       framingStore.DECangle = newTarget.coordinates.dec;
+      // Reset explicitly - without this the rotation of the previously framed target leaks in.
+      framingStore.rotationAngle = Number.isFinite(newTarget.positionAngle)
+        ? newTarget.positionAngle
+        : 0;
       framingStore.selectedItem = {
         Name: newTarget.name || '',
         RA: newTarget.coordinates.ra * 15,

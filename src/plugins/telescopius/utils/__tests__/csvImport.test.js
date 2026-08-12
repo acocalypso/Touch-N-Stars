@@ -152,6 +152,24 @@ test('parseTelescopiusCsv uses the j2000 columns, not jNow', () => {
   assertClose(ic1396.coordinates.dec, 57 + 30 / 60 + 50 / 3600);
 });
 
+test('parseTelescopiusCsv reads "Position Angle (East)" as the framing rotation', () => {
+  const { targets } = parseTelescopiusCsv(SAMPLE_CSV);
+
+  // IC 447 is the only sample row with a position angle, and it is 0 - not "missing".
+  assert.equal(targets.find((t) => t.name === 'IC 447').positionAngle, 0);
+  assert.equal(targets.find((t) => t.name === 'M 33').positionAngle, undefined);
+});
+
+test('parseTelescopiusCsv accepts a position angle with a degree sign or comma decimal', () => {
+  const header =
+    'Catalogue Entry,Right Ascension (j2000),Declination (j2000),Position Angle (East)';
+  const csv = `${header}\r\nA,01h 00' 00",10º 00' 00",90.5º\nB,02h 00' 00",20º 00' 00","33,25"\n`;
+  const { targets } = parseTelescopiusCsv(csv);
+
+  assertClose(targets[0].positionAngle, 90.5);
+  assertClose(targets[1].positionAngle, 33.25);
+});
+
 test('parseTelescopiusCsv keeps notes and omits absent optional fields', () => {
   const { targets } = parseTelescopiusCsv(SAMPLE_CSV);
   const ic447 = targets.find((t) => t.name === 'IC 447');

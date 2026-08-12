@@ -34,7 +34,8 @@ export function useTelescopiusFavorites() {
       Dec: target.coordinates.dec,
       RaString: degreesToHMS(raDegrees),
       DecString: degreesToDMS(target.coordinates.dec),
-      Rotation: null,
+      // "Position Angle (East)" from the CSV export; absent for most targets.
+      Rotation: Number.isFinite(target.positionAngle) ? target.positionAngle : null,
       source: PLUGIN_ID,
       listName: list.name,
     };

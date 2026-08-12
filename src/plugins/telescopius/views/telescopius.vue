@@ -538,6 +538,7 @@ const setFramingForTarget = (target) => {
       decString: formatDec(target.coordinates.dec), // DMS format
       ra: raDegrees, // Degrees
       dec: decDegrees, // Degrees
+      rotation: Number.isFinite(target.positionAngle) ? target.positionAngle : 0,
     };
 
     console.log('[Telescopius] Framing data:', framingData);
@@ -557,6 +558,8 @@ const setFramingCoordinates = (data) => {
   framingStore.DECangleString = data?.decString;
   framingStore.RAangle = data?.ra;
   framingStore.DECangle = data?.dec;
+  // Reset explicitly - without this the rotation of the previously framed target leaks in.
+  framingStore.rotationAngle = data?.rotation ?? 0;
   framingStore.selectedItem = {
     Name: data?.name || '',
     RA: data?.ra,

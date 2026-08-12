@@ -26,6 +26,7 @@ const COLUMNS = {
   magnitude: ['magnitude', 'mag'],
   size: ['size'],
   notes: ['notes', 'note'],
+  positionAngle: ['position angle (east)', 'position angle', 'rotation'],
 };
 
 /**
@@ -160,10 +161,15 @@ export function parseSizeDeg(value) {
   return num;
 }
 
-/** Parse a magnitude cell; empty cells are common and yield null. */
-function parseMagnitude(value) {
+/** Parse a plain decimal cell (magnitude, position angle); empty cells are common. */
+function parseDecimal(value) {
   if (!value) return null;
-  const num = Number(String(value).trim().replace(',', '.'));
+  const num = Number(
+    String(value)
+      .trim()
+      .replace(new RegExp(`[${DEGREE_CHARS}]`, 'g'), '')
+      .replace(',', '.')
+  );
   return Number.isFinite(num) ? num : null;
 }
 
@@ -280,8 +286,12 @@ export function parseTelescopiusCsv(text) {
     const constellation = cell(fields, columns.constellation);
     if (constellation) target.constellation = constellation;
 
-    const magnitude = parseMagnitude(cell(fields, columns.magnitude));
+    const magnitude = parseDecimal(cell(fields, columns.magnitude));
     if (magnitude !== null) target.magnitude = magnitude;
+
+    // Telescopius' "Position Angle (East)" is the framing rotation.
+    const positionAngle = parseDecimal(cell(fields, columns.positionAngle));
+    if (positionAngle !== null) target.positionAngle = positionAngle;
 
     result.targets.push(target);
   }

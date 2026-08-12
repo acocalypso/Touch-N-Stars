@@ -3,6 +3,7 @@ import assert from 'node:assert/strict';
 
 import {
   splitCsvLine,
+  splitCsvRecords,
   parseRaHours,
   parseDecDegrees,
   parseSizeDeg,
@@ -150,6 +151,34 @@ test('parseTelescopiusCsv uses the j2000 columns, not jNow', () => {
   // jNow would be 21h 39' 48" / 57º 38' 06"
   assertClose(ic1396.coordinates.ra, 21 + 38 / 60 + 59 / 3600);
   assertClose(ic1396.coordinates.dec, 57 + 30 / 60 + 50 / 3600);
+});
+
+test('splitCsvRecords keeps a record together when a quoted field spans lines', () => {
+  const records = splitCsvRecords('a,"line1\nline2",c\nd,e,f\n');
+
+  assert.deepEqual(records[0], ['a', 'line1\nline2', 'c']);
+  assert.deepEqual(records[1], ['d', 'e', 'f']);
+});
+
+test('parseTelescopiusCsv handles multi-line notes and a comma inside the name', () => {
+  // Verbatim from a real export: the notes field carries line breaks and the target is
+  // named after its coordinates, so the name itself contains a comma.
+  const row =
+    '"21h, 68°","21h, 68°",,Deep Sky Object,Cepheus,21h 01\' 44"",68º 03\' 34"",,1.1º,,' +
+    '15:32 hr,00:44 hr,10:07 hr,70.0194º,90,August 6,"Focal length 750mm\n' +
+    'Barlow/reducer: 0.75x\n' +
+    'ToupTek 585m",21h 02\' 03"",68º 09\' 54"","21h, 68°"';
+  const { targets, warnings, errors } = parseTelescopiusCsv(`${HEADER}\r\n${row}\n`);
+
+  assert.deepEqual(errors, []);
+  // The continuation lines must not be mistaken for broken rows.
+  assert.deepEqual(warnings, []);
+  assert.equal(targets.length, 1);
+  assert.equal(targets[0].name, '21h, 68°');
+  assert.equal(targets[0].positionAngle, 90);
+  assert.equal(targets[0].notes, 'Focal length 750mm\nBarlow/reducer: 0.75x\nToupTek 585m');
+  assertClose(targets[0].coordinates.ra, 21 + 1 / 60 + 44 / 3600);
+  assertClose(targets[0].coordinates.dec, 68 + 3 / 60 + 34 / 3600);
 });
 
 test('parseTelescopiusCsv reads "Position Angle (East)" as the framing rotation', () => {

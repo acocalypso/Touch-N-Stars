@@ -2798,6 +2798,18 @@
           "rowFailed": "Linha {line}",
           "saveFailed": "Não foi possível salvar a lista importada."
         }
+      },
+      "edit": {
+        "edit": "Editar alvo",
+        "name": "Nome",
+        "ra": "Ascensão reta",
+        "dec": "Declinação",
+        "rotation": "Rotação",
+        "rotationEmpty": "nenhuma",
+        "save": "Salvar",
+        "invalidCoordinates": "Não foi possível ler a ascensão reta ou a declinação.",
+        "invalidRotation": "A rotação deve ser um número.",
+        "saveFailed": "Não foi possível salvar a alteração."
       }
     },
     "webcam": {

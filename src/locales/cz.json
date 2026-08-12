@@ -2798,6 +2798,18 @@
           "rowFailed": "Řádek {line}",
           "saveFailed": "Importovaný seznam se nepodařilo uložit."
         }
+      },
+      "edit": {
+        "edit": "Upravit cíl",
+        "name": "Jméno",
+        "ra": "Rektascenze",
+        "dec": "Deklinace",
+        "rotation": "Rotace",
+        "rotationEmpty": "žádná",
+        "save": "Uložit",
+        "invalidCoordinates": "Rektascenzi nebo deklinaci se nepodařilo přečíst.",
+        "invalidRotation": "Rotace musí být číslo.",
+        "saveFailed": "Změnu se nepodařilo uložit."
       }
     },
     "webcam": {

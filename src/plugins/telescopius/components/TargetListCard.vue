@@ -73,7 +73,7 @@
         v-for="(obj, index) in list.objects"
         :key="index"
         class="bg-gray-900/30 rounded-lg p-3 border border-gray-700 hover:border-gray-500 cursor-pointer transition-colors"
-        @click="$emit('select', obj)"
+        @click="$emit('select', obj, index)"
       >
         <div class="flex items-start justify-between">
           <div class="flex-1">

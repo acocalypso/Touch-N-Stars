@@ -205,7 +205,7 @@
                 :list="list"
                 :expanded="expandedLists.includes(list.id)"
                 @toggle="toggleListDetails(list.id)"
-                @select="openTargetModal"
+                @select="(obj, index) => openTargetModal(obj, list, index)"
               />
             </div>
           </div>
@@ -227,7 +227,7 @@
                 :expanded="expandedLists.includes(list.id)"
                 removable
                 @toggle="toggleListDetails(list.id)"
-                @select="openTargetModal"
+                @select="(obj, index) => openTargetModal(obj, list, index)"
                 @remove="removeImportedList(list)"
               />
             </div>
@@ -308,14 +308,16 @@
     <TargetModal
       :show="showTargetModal"
       :target="selectedTarget"
+      :editable="isSelectedTargetEditable"
       @close="closeTargetModal"
       @goToFraming="setFramingForTarget"
+      @save="saveTargetEdit"
     />
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue';
+import { computed, ref, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import ApiKeyModal from '../components/ApiKeyModal.vue';
 import TargetModal from '../components/TargetModal.vue';
@@ -343,6 +345,8 @@ const framingStore = useFramingStore();
 const expandedLists = ref([]);
 const showTargetModal = ref(false);
 const selectedTarget = ref(null);
+const selectedList = ref(null);
+const selectedIndex = ref(-1);
 
 const formatCacheDate = (timestamp) => {
   if (!timestamp) return '';
@@ -509,9 +513,11 @@ const formatDec = (decDegrees) => {
   return degreesToDMS(decDegrees);
 };
 
-const openTargetModal = (target) => {
+const openTargetModal = (target, list, index) => {
   console.log('[Telescopius] Opening modal for target:', target.name);
   selectedTarget.value = target;
+  selectedList.value = list ?? null;
+  selectedIndex.value = index ?? -1;
   showTargetModal.value = true;
 };
 
@@ -519,6 +525,34 @@ const closeTargetModal = () => {
   console.log('[Telescopius] Closing target modal');
   showTargetModal.value = false;
   selectedTarget.value = null;
+  selectedList.value = null;
+  selectedIndex.value = -1;
+};
+
+// Only imported lists can be edited - API lists are overwritten on the next refresh.
+const isSelectedTargetEditable = computed(() =>
+  telescopiusStore.importedLists.some((list) => list.id === selectedList.value?.id)
+);
+
+const saveTargetEdit = async (changes) => {
+  if (!isSelectedTargetEditable.value || selectedIndex.value < 0) return;
+
+  console.log('[Telescopius] Saving edits for target:', changes.name);
+  try {
+    await telescopiusStore.updateImportedTarget(
+      selectedList.value.id,
+      selectedIndex.value,
+      changes
+    );
+    // Keep the modal in sync with the stored object.
+    selectedTarget.value =
+      telescopiusStore.importedLists.find((list) => list.id === selectedList.value.id)?.objects?.[
+        selectedIndex.value
+      ] ?? selectedTarget.value;
+  } catch (error) {
+    console.error('[Telescopius] Failed to save target edits:', error);
+    alert($t('plugins.telescopius.edit.saveFailed'));
+  }
 };
 
 const setFramingForTarget = (target) => {

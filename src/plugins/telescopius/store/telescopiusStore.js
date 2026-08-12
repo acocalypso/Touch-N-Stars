@@ -195,6 +195,26 @@ export const useTelescopisStore = defineStore('telescopius', {
       }
     },
 
+    /**
+     * Apply user edits to a single target of an imported list and persist them.
+     * Only imported lists are editable - API lists are overwritten on every refresh.
+     */
+    async updateImportedTarget(listId, targetIndex, changes) {
+      const list = this.importedLists.find((entry) => entry.id === listId);
+      const target = list?.objects?.[targetIndex];
+      if (!target) return;
+
+      const previous = { ...target };
+      Object.assign(target, changes);
+
+      try {
+        await this.saveImportedLists();
+      } catch (error) {
+        Object.assign(target, previous);
+        throw error;
+      }
+    },
+
     async removeImportedList(listId) {
       this.importedLists = this.importedLists.filter((list) => list.id !== listId);
 

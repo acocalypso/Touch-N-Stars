@@ -30,22 +30,32 @@ const COLUMNS = {
 };
 
 /**
- * Split a single CSV line into fields, honouring double quotes and `""` escapes.
+ * Split raw CSV text into records of fields in a single pass.
  *
- * @param {string} line
+ * Records must not be split on line breaks up front: a quoted field may span several physical
+ * lines. Telescopius does exactly that for multi-line notes, e.g.
+ *
+ *     ...,90,August 6,"Focal length 750mm
+ *     Barlow/reducer: 0.75x
+ *     ToupTek 585m",21h 02' 03"",...
+ *
+ * A line break is therefore only a record separator while we are outside of quotes.
+ *
+ * @param {string} text
  * @param {string} delimiter
- * @returns {string[]}
+ * @returns {string[][]}
  */
-export function splitCsvLine(line, delimiter = ',') {
-  const fields = [];
+export function splitCsvRecords(text, delimiter = ',') {
+  const records = [];
+  let fields = [];
   let current = '';
   let inQuotes = false;
 
-  for (let i = 0; i < line.length; i++) {
-    const char = line[i];
+  for (let i = 0; i < text.length; i++) {
+    const char = text[i];
 
     if (char === '"') {
-      if (inQuotes && line[i + 1] === '"') {
+      if (inQuotes && text[i + 1] === '"') {
         // Escaped quote inside a quoted field.
         current += '"';
         i++;
@@ -61,8 +71,17 @@ export function splitCsvLine(line, delimiter = ',') {
       continue;
     }
 
+    if (!inQuotes && (char === '\n' || char === '\r')) {
+      if (char === '\r' && text[i + 1] === '\n') i++;
+      fields.push(current.trim());
+      records.push(fields);
+      fields = [];
+      current = '';
+      continue;
+    }
+
     if (char === delimiter && !inQuotes) {
-      fields.push(current);
+      fields.push(current.trim());
       current = '';
       continue;
     }
@@ -70,8 +89,20 @@ export function splitCsvLine(line, delimiter = ',') {
     current += char;
   }
 
-  fields.push(current);
-  return fields.map((field) => field.trim());
+  fields.push(current.trim());
+  records.push(fields);
+  return records;
+}
+
+/**
+ * Split a single CSV line into fields, honouring double quotes and `""` escapes.
+ *
+ * @param {string} line
+ * @param {string} delimiter
+ * @returns {string[]}
+ */
+export function splitCsvLine(line, delimiter = ',') {
+  return splitCsvRecords(line, delimiter)[0];
 }
 
 /** Normalize a header cell for alias matching. */
@@ -229,18 +260,20 @@ export function parseTelescopiusCsv(text) {
     return result;
   }
 
-  const lines = text
-    .replace(BOM, '')
-    .split(/\r\n|\n|\r/)
-    .filter((line) => line.trim().length > 0);
+  const body = text.replace(BOM, '');
 
-  if (lines.length < 2) {
+  // The header itself never spans lines, so it is safe to sniff the delimiter from it first.
+  const delimiter = detectDelimiter(body.split(/\r\n|\n|\r/)[0]);
+  const records = splitCsvRecords(body, delimiter).filter((fields) =>
+    fields.some((field) => field.length > 0)
+  );
+
+  if (records.length < 2) {
     result.errors.push('empty');
     return result;
   }
 
-  const delimiter = detectDelimiter(lines[0]);
-  const columns = mapColumns(splitCsvLine(lines[0], delimiter));
+  const columns = mapColumns(records[0]);
 
   const missing = [];
   if (columns.ra === undefined) missing.push('Right Ascension (j2000)');
@@ -250,8 +283,8 @@ export function parseTelescopiusCsv(text) {
     return result;
   }
 
-  for (let i = 1; i < lines.length; i++) {
-    const fields = splitCsvLine(lines[i], delimiter);
+  for (let i = 1; i < records.length; i++) {
+    const fields = records[i];
 
     const ra = parseRaHours(cell(fields, columns.ra));
     const dec = parseDecDegrees(cell(fields, columns.dec));

@@ -2858,6 +2858,18 @@
         "size": "Size",
         "magnitude": "Mag"
       },
+      "edit": {
+        "edit": "Edit target",
+        "name": "Name",
+        "ra": "Right ascension",
+        "dec": "Declination",
+        "rotation": "Rotation",
+        "rotationEmpty": "none",
+        "save": "Save",
+        "invalidCoordinates": "Right ascension or declination could not be read.",
+        "invalidRotation": "The rotation must be a number.",
+        "saveFailed": "The change could not be saved."
+      },
       "import": {
         "title": "Import Targets from CSV",
         "button": "Import CSV",

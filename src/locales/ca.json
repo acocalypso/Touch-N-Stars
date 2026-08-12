@@ -2889,6 +2889,18 @@
           "rowFailed": "Fila {line}",
           "saveFailed": "No s'ha pogut desar la llista importada."
         }
+      },
+      "edit": {
+        "edit": "Edita l'objectiu",
+        "name": "Nom",
+        "ra": "Ascensió recta",
+        "dec": "Declinació",
+        "rotation": "Rotació",
+        "rotationEmpty": "cap",
+        "save": "Desa",
+        "invalidCoordinates": "No s'ha pogut llegir l'ascensió recta o la declinació.",
+        "invalidRotation": "La rotació ha de ser un nombre.",
+        "saveFailed": "No s'ha pogut desar el canvi."
       }
     },
     "webcam": {

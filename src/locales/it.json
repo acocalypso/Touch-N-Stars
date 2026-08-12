@@ -2798,6 +2798,18 @@
           "rowFailed": "Riga {line}",
           "saveFailed": "Impossibile salvare la lista importata."
         }
+      },
+      "edit": {
+        "edit": "Modifica target",
+        "name": "Nome",
+        "ra": "Ascensione retta",
+        "dec": "Declinazione",
+        "rotation": "Rotazione",
+        "rotationEmpty": "nessuna",
+        "save": "Salva",
+        "invalidCoordinates": "Non è stato possibile leggere l'ascensione retta o la declinazione.",
+        "invalidRotation": "La rotazione deve essere un numero.",
+        "saveFailed": "Impossibile salvare la modifica."
       }
     },
     "webcam": {

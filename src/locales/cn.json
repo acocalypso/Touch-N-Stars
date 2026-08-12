@@ -2798,6 +2798,18 @@
           "rowFailed": "第 {line} 行",
           "saveFailed": "无法保存导入的列表。"
         }
+      },
+      "edit": {
+        "edit": "编辑目标",
+        "name": "名称",
+        "ra": "赤经",
+        "dec": "赤纬",
+        "rotation": "旋转角度",
+        "rotationEmpty": "无",
+        "save": "保存",
+        "invalidCoordinates": "无法读取赤经或赤纬。",
+        "invalidRotation": "旋转角度必须是数字。",
+        "saveFailed": "无法保存更改。"
       }
     },
     "webcam": {

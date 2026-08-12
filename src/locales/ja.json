@@ -2798,6 +2798,18 @@
           "rowFailed": "{line} 行目",
           "saveFailed": "インポートしたリストを保存できませんでした。"
         }
+      },
+      "edit": {
+        "edit": "ターゲットを編集",
+        "name": "天体名",
+        "ra": "赤経",
+        "dec": "赤緯",
+        "rotation": "回転角",
+        "rotationEmpty": "なし",
+        "save": "保存",
+        "invalidCoordinates": "赤経または赤緯を読み取れませんでした。",
+        "invalidRotation": "回転角は数値で入力してください。",
+        "saveFailed": "変更を保存できませんでした。"
       }
     },
     "webcam": {

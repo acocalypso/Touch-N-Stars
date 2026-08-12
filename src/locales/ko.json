@@ -2798,6 +2798,18 @@
           "rowFailed": "{line}행",
           "saveFailed": "가져온 목록을 저장하지 못했습니다."
         }
+      },
+      "edit": {
+        "edit": "대상 편집",
+        "name": "이름",
+        "ra": "적경",
+        "dec": "적위",
+        "rotation": "회전",
+        "rotationEmpty": "없음",
+        "save": "저장",
+        "invalidCoordinates": "적경 또는 적위를 읽을 수 없습니다.",
+        "invalidRotation": "회전값은 숫자여야 합니다.",
+        "saveFailed": "변경 사항을 저장하지 못했습니다."
       }
     },
     "webcam": {

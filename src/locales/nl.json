@@ -2798,6 +2798,18 @@
           "rowFailed": "Regel {line}",
           "saveFailed": "De geïmporteerde lijst kon niet worden opgeslagen."
         }
+      },
+      "edit": {
+        "edit": "Doel bewerken",
+        "name": "Naam",
+        "ra": "Rechte klimming",
+        "dec": "Declinatie",
+        "rotation": "Rotatie",
+        "rotationEmpty": "geen",
+        "save": "Opslaan",
+        "invalidCoordinates": "De rechte klimming of declinatie kon niet worden gelezen.",
+        "invalidRotation": "De rotatie moet een getal zijn.",
+        "saveFailed": "De wijziging kon niet worden opgeslagen."
       }
     },
     "webcam": {

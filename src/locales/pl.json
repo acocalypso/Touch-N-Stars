@@ -2798,6 +2798,18 @@
           "rowFailed": "Wiersz {line}",
           "saveFailed": "Nie udało się zapisać zaimportowanej listy."
         }
+      },
+      "edit": {
+        "edit": "Edytuj cel",
+        "name": "Nazwa",
+        "ra": "Rektascensja",
+        "dec": "Deklinacja",
+        "rotation": "Obrót",
+        "rotationEmpty": "brak",
+        "save": "Zapisz",
+        "invalidCoordinates": "Nie udało się odczytać rektascensji lub deklinacji.",
+        "invalidRotation": "Obrót musi być liczbą.",
+        "saveFailed": "Nie udało się zapisać zmiany."
       }
     },
     "webcam": {

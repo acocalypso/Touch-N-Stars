@@ -2798,6 +2798,18 @@
           "rowFailed": "Zeile {line}",
           "saveFailed": "Die importierte Liste konnte nicht gespeichert werden."
         }
+      },
+      "edit": {
+        "edit": "Ziel bearbeiten",
+        "name": "Name",
+        "ra": "Rektaszension",
+        "dec": "Deklination",
+        "rotation": "Drehung",
+        "rotationEmpty": "keine",
+        "save": "Speichern",
+        "invalidCoordinates": "Rektaszension oder Deklination konnten nicht gelesen werden.",
+        "invalidRotation": "Die Drehung muss eine Zahl sein.",
+        "saveFailed": "Die Änderung konnte nicht gespeichert werden."
       }
     },
     "webcam": {

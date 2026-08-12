@@ -1105,6 +1105,16 @@
           "modePeak": "피크",
           "minimumPoints": "최소 포인트 수"
         },
+        "interruptAndRetryWhenRMSAbove": {
+          "rmsThreshold": "RMS 임계값 (\")",
+          "mode": "모드",
+          "modeRMS": "RMS",
+          "modePeak": "피크",
+          "minimumPoints": "최소 포인트 수",
+          "stableTime": "안정 유지 시간 (초)",
+          "recoveryTimeout": "복구 제한 시간 (분)",
+          "maxRetries": "최대 재시도 횟수 (0 = 무제한)"
+        },
         "changePHD2Parameters": {
           "parameter": "매개변수",
           "exposureTime": "노출 시간 (s)",

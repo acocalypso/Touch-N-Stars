@@ -1041,6 +1041,16 @@
           "modePeak": "Пікове",
           "minimumPoints": "Мінімум точок"
         },
+        "interruptAndRetryWhenRMSAbove": {
+          "rmsThreshold": "Поріг RMS (\")",
+          "mode": "Режим",
+          "modeRMS": "RMS",
+          "modePeak": "Пікове",
+          "minimumPoints": "Мінімум точок",
+          "stableTime": "Стабільно протягом (с)",
+          "recoveryTimeout": "Тайм-аут відновлення (хв)",
+          "maxRetries": "Макс. повторів (0 = без обмежень)"
+        },
         "changePHD2Parameters": {
           "parameter": "Параметр",
           "exposureTime": "Час експозиції (с)",

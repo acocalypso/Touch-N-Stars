@@ -1052,6 +1052,16 @@
           "modePeak": "Max.",
           "minimumPoints": "Minimální počet bodů"
         },
+        "interruptAndRetryWhenRMSAbove": {
+          "rmsThreshold": "Práh RMS (\")",
+          "mode": "Režim",
+          "modeRMS": "RMS",
+          "modePeak": "Max.",
+          "minimumPoints": "Minimální počet bodů",
+          "stableTime": "Stabilní po dobu (s)",
+          "recoveryTimeout": "Časový limit obnovení (min)",
+          "maxRetries": "Max. počet opakování (0 = neomezeně)"
+        },
         "changePHD2Parameters": {
           "parameter": "Parametr",
           "exposureTime": "Doba nasvícení(s):",

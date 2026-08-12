@@ -1052,6 +1052,16 @@
           "modePeak": "Okres największego zainteresowania usługą",
           "minimumPoints": "Minimalny – 0 pkt"
         },
+        "interruptAndRetryWhenRMSAbove": {
+          "rmsThreshold": "Próg RMS (\")",
+          "mode": "Tryb",
+          "modeRMS": "RMS",
+          "modePeak": "Szczyt",
+          "minimumPoints": "Minimalna liczba punktów",
+          "stableTime": "Stabilne przez (s)",
+          "recoveryTimeout": "Limit czasu odzyskiwania (min)",
+          "maxRetries": "Maks. liczba prób (0 = bez limitu)"
+        },
         "changePHD2Parameters": {
           "parameter": "Parametr",
           "exposureTime": "Czas ekspozycji(-y)",

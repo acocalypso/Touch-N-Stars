@@ -1105,6 +1105,16 @@
           "modePeak": "Peak",
           "minimumPoints": "Minimum Points"
         },
+        "interruptAndRetryWhenRMSAbove": {
+          "rmsThreshold": "RMS Threshold (\")",
+          "mode": "Mode",
+          "modeRMS": "RMS",
+          "modePeak": "Peak",
+          "minimumPoints": "Minimum Points",
+          "stableTime": "Stable For (s)",
+          "recoveryTimeout": "Recovery Timeout (min)",
+          "maxRetries": "Max Retries (0 = unlimited)"
+        },
         "changePHD2Parameters": {
           "parameter": "Parameter",
           "exposureTime": "Exposure Time (s)",

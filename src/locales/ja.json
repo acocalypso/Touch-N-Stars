@@ -1070,6 +1070,16 @@
           "modePeak": "ピーク",
           "minimumPoints": "最小ポイント数"
         },
+        "interruptAndRetryWhenRMSAbove": {
+          "rmsThreshold": "RMS しきい値 (\")",
+          "mode": "モード",
+          "modeRMS": "RMS",
+          "modePeak": "ピーク",
+          "minimumPoints": "最小ポイント数",
+          "stableTime": "安定継続時間 (秒)",
+          "recoveryTimeout": "回復タイムアウト (分)",
+          "maxRetries": "最大リトライ回数 (0 = 無制限)"
+        },
         "changePHD2Parameters": {
           "parameter": "パラメーター",
           "exposureTime": "露出時間 (秒)",

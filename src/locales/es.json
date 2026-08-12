@@ -1052,6 +1052,16 @@
           "modePeak": "Pico",
           "minimumPoints": "Puntos mínimos"
         },
+        "interruptAndRetryWhenRMSAbove": {
+          "rmsThreshold": "Umbral RMS (\")",
+          "mode": "Modalidad",
+          "modeRMS": "RMS",
+          "modePeak": "Pico",
+          "minimumPoints": "Puntos mínimos",
+          "stableTime": "Estable durante (s)",
+          "recoveryTimeout": "Tiempo de espera de recuperación (min)",
+          "maxRetries": "Reintentos máximos (0 = ilimitado)"
+        },
         "changePHD2Parameters": {
           "parameter": "Parámetro",
           "exposureTime": "Tiempo de exposición (s):",

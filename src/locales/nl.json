@@ -1052,6 +1052,16 @@
           "modePeak": "Piek",
           "minimumPoints": "Minimum te"
         },
+        "interruptAndRetryWhenRMSAbove": {
+          "rmsThreshold": "RMS-drempel (\")",
+          "mode": "Modus",
+          "modeRMS": "RMS",
+          "modePeak": "Piek",
+          "minimumPoints": "Minimum aantal punten",
+          "stableTime": "Stabiel gedurende (s)",
+          "recoveryTimeout": "Hersteltime-out (min)",
+          "maxRetries": "Max. pogingen (0 = onbeperkt)"
+        },
         "changePHD2Parameters": {
           "parameter": "Parameter",
           "exposureTime": "Belichtingstijd(en)",

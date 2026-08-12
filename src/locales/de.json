@@ -1105,6 +1105,16 @@
           "modePeak": "Peak",
           "minimumPoints": "Mindestpunkte"
         },
+        "interruptAndRetryWhenRMSAbove": {
+          "rmsThreshold": "RMS-Schwellenwert (\")",
+          "mode": "Modus",
+          "modeRMS": "RMS",
+          "modePeak": "Peak",
+          "minimumPoints": "Mindestpunkte",
+          "stableTime": "Stabil für (s)",
+          "recoveryTimeout": "Erholungs-Timeout (min)",
+          "maxRetries": "Max. Wiederholungen (0 = unbegrenzt)"
+        },
         "startGuiding": {
           "forceCalibrationLabel": "Kalibrierung erzwingen"
         },

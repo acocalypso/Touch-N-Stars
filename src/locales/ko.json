@@ -4789,7 +4789,12 @@
       "resend": "보고서 다시 보내기",
       "delete": "삭제",
       "deleteTitle": "세션 삭제",
-      "deleteConfirm": "이 세션을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다."
+      "deleteConfirm": "이 세션을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.",
+      "viewReport": "상세 보고서 보기",
+      "downloadReport": "보고서 다운로드",
+      "reportTitle": "상세 보고서",
+      "reportZoomFit": "너비에 맞춤",
+      "reportZoomActual": "100%"
     },
     "stats": {
       "totalImages": "전체 이미지",

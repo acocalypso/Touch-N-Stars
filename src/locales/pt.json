@@ -4755,10 +4755,15 @@
       "delete": "Excluir",
       "deleteConfirm": "Tem certeza de que deseja excluir esta sessão? \nIsto não pode ser desfeito.",
       "deleteTitle": "Excluir sessão",
+      "downloadReport": "Baixar relatório",
       "loading": "Carregando sessões…",
       "noSessions": "Nenhuma sessão selecionada. \nSelecione uma sessão no menu suspenso.",
       "placeholder": "Selecione uma sessão…",
-      "resend": "Reenviar relatório"
+      "reportTitle": "Relatório detalhado",
+      "reportZoomActual": "100%",
+      "reportZoomFit": "Ajustar à largura",
+      "resend": "Reenviar relatório",
+      "viewReport": "Mostrar relatório detalhado"
     },
     "settings": {
       "chartPrimary": "Métrica Primária",

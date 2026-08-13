@@ -4711,7 +4711,12 @@
       "resend": "Reenvia l'informe",
       "delete": "Elimina",
       "deleteTitle": "Elimina la sessió",
-      "deleteConfirm": "Estàs segur que vols eliminar aquesta sessió? Aquesta acció no es pot desfer."
+      "deleteConfirm": "Estàs segur que vols eliminar aquesta sessió? Aquesta acció no es pot desfer.",
+      "viewReport": "Mostra l'informe detallat",
+      "downloadReport": "Descarrega l'informe",
+      "reportTitle": "Informe detallat",
+      "reportZoomFit": "Ajusta a l'amplada",
+      "reportZoomActual": "100%"
     },
     "stats": {
       "totalImages": "Imatges totals",

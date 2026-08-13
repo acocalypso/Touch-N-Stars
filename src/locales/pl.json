@@ -4750,10 +4750,15 @@
       "delete": "Usuwać",
       "deleteConfirm": "Czy na pewno chcesz usunąć tę sesję? \nTego nie można cofnąć.",
       "deleteTitle": "Usuń sesję",
+      "downloadReport": "Pobierz raport",
       "loading": "Ładowanie sesji…",
       "noSessions": "Nie wybrano sesji. \nWybierz sesję z listy rozwijanej.",
       "placeholder": "Wybierz sesję…",
-      "resend": "Wyślij ponownie raport"
+      "reportTitle": "Szczegółowy raport",
+      "reportZoomActual": "100%",
+      "reportZoomFit": "Dopasuj do szerokości",
+      "resend": "Wyślij ponownie raport",
+      "viewReport": "Pokaż szczegółowy raport"
     },
     "settings": {
       "chartPrimary": "Podstawowa metryka",

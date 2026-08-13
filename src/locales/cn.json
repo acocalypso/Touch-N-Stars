@@ -4750,10 +4750,15 @@
       "delete": "Delete",
       "deleteConfirm": "Are you sure you want to delete this session? This cannot be undone.",
       "deleteTitle": "Delete Session",
+      "downloadReport": "下载报告",
       "loading": "Loading sessions…",
       "noSessions": "No session selected. Select a session from the dropdown.",
       "placeholder": "Select a session…",
-      "resend": "Resend Report"
+      "reportTitle": "详细报告",
+      "reportZoomActual": "100%",
+      "reportZoomFit": "适应宽度",
+      "resend": "Resend Report",
+      "viewReport": "显示详细报告"
     },
     "settings": {
       "chartPrimary": "Primary Metric",

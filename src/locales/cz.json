@@ -4750,10 +4750,15 @@
       "delete": "Delete",
       "deleteConfirm": "Are you sure you want to delete this session? This cannot be undone.",
       "deleteTitle": "Delete Session",
+      "downloadReport": "Stáhnout zprávu",
       "loading": "Loading sessions…",
       "noSessions": "No session selected. Select a session from the dropdown.",
       "placeholder": "Select a session…",
-      "resend": "Resend Report"
+      "reportTitle": "Podrobná zpráva",
+      "reportZoomActual": "100%",
+      "reportZoomFit": "Přizpůsobit šířce",
+      "resend": "Resend Report",
+      "viewReport": "Zobrazit podrobnou zprávu"
     },
     "settings": {
       "chartPrimary": "Primary Metric",

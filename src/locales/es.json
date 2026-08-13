@@ -4755,10 +4755,15 @@
       "delete": "Borrar",
       "deleteConfirm": "¿Está seguro de que desea eliminar esta sesión? \nEsto no se puede deshacer.",
       "deleteTitle": "Eliminar sesión",
+      "downloadReport": "Descargar informe",
       "loading": "Cargando sesiones…",
       "noSessions": "No se seleccionó ninguna sesión. \nSeleccione una sesión del menú desplegable.",
       "placeholder": "Seleccione una sesión…",
-      "resend": "Reenviar informe"
+      "reportTitle": "Informe detallado",
+      "reportZoomActual": "100%",
+      "reportZoomFit": "Ajustar al ancho",
+      "resend": "Reenviar informe",
+      "viewReport": "Mostrar informe detallado"
     },
     "settings": {
       "chartPrimary": "Métrica primaria",

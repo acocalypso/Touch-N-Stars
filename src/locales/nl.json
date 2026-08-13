@@ -4750,10 +4750,15 @@
       "delete": "Verwijderen",
       "deleteConfirm": "Weet u zeker dat u deze sessie wilt verwijderen? \nDit kan niet ongedaan worden gemaakt.",
       "deleteTitle": "Sessie verwijderen",
+      "downloadReport": "Rapport downloaden",
       "loading": "Sessies laden…",
       "noSessions": "Geen sessie geselecteerd. \nSelecteer een sessie in de vervolgkeuzelijst.",
       "placeholder": "Selecteer een sessie…",
-      "resend": "Rapport opnieuw verzenden"
+      "reportTitle": "Gedetailleerd rapport",
+      "reportZoomActual": "100%",
+      "reportZoomFit": "Aan breedte aanpassen",
+      "resend": "Rapport opnieuw verzenden",
+      "viewReport": "Gedetailleerd rapport tonen"
     },
     "settings": {
       "chartPrimary": "Primaire statistiek",

@@ -4755,10 +4755,15 @@
       "delete": "Eliminare",
       "deleteConfirm": "Sei sicuro di voler eliminare questa sessione? \nQuesta operazione non può essere annullata.",
       "deleteTitle": "Elimina sessione",
+      "downloadReport": "Scarica rapporto",
       "loading": "Caricamento sessioni…",
       "noSessions": "Nessuna sessione selezionata. \nSeleziona una sessione dal menu a discesa.",
       "placeholder": "Seleziona una sessione...",
-      "resend": "Invia nuovamente il rapporto"
+      "reportTitle": "Rapporto dettagliato",
+      "reportZoomActual": "100%",
+      "reportZoomFit": "Adatta alla larghezza",
+      "resend": "Invia nuovamente il rapporto",
+      "viewReport": "Mostra rapporto dettagliato"
     },
     "settings": {
       "chartPrimary": "Metrica primaria",

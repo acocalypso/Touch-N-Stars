@@ -184,7 +184,7 @@ test('defers Atlas resources until first open and guards late async initializati
   assert.match(view, /void store\.fetchProfilInfos\(\)\.catch/);
   assert.match(
     view,
-    /Promise\.all\(\[[\s\S]*viewer-catalog-data[\s\S]*abell-pn-data[\s\S]*stellarium-supplement-data[\s\S]*bright-sky-data[\s\S]*hyg-star-data/
+    /Promise\.all\(\[[\s\S]*viewer-catalog-data[\s\S]*abell-pn-data[\s\S]*stellarium-supplement-data[\s\S]*bright-sky-data[\s\S]*hyg-star-data[\s\S]*western-constellation-data/
   );
   assert.match(view, /buildEmbeddedAtlasCatalog/);
   assert.match(view, /const \{ catalog, stars, constellations \}/);

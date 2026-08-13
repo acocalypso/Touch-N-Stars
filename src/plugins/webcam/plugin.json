@@ -2,7 +2,7 @@
   "id": "webcam",
   "name": "webcam",
   "description": "Used to display an image from a webcam",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "Johannes Maier",
   "defaultEnabled": false,
   "enabled": true,

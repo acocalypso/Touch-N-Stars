@@ -30,6 +30,16 @@ let onlineListenerInstalled = false;
 let stopPinsBackendWatch = null;
 let pinsInstanceId = '';
 
+class PinsNetworkOperationError extends Error {
+  constructor(job) {
+    const code = job?.errorCode || 'UNKNOWN';
+    const detail = job?.errorMessage || `Network operation ${job?.jobId || ''} failed`;
+    super(`${code}: ${detail}`);
+    this.name = 'PinsNetworkOperationError';
+    this.code = code;
+  }
+}
+
 function isPinsBackend() {
   return (
     backendStoreRef?.isPINS === true ||
@@ -206,7 +216,7 @@ export async function recoverRigConnection({
         if (operationId) {
           const job = await apiPinsService.getPinsDaemonJob(operationId);
           if (job?.status === 'failed' || (job?.exitCode != null && job.exitCode !== 0)) {
-            throw new Error(`Network operation ${operationId} failed`);
+            throw new PinsNetworkOperationError(job);
           }
           if (job?.status !== 'success' && job?.exitCode !== 0) {
             throw new Error(
@@ -227,6 +237,12 @@ export async function recoverRigConnection({
       clearNetworkTransition();
       return result;
     } catch (error) {
+      if (error instanceof PinsNetworkOperationError) {
+        rigConnectionState.phase = 'failed';
+        rigConnectionState.error = error.message;
+        clearNetworkTransition();
+        throw error;
+      }
       rigConnectionState.phase = 'reconnecting';
       rigConnectionState.error = error?.message || String(error);
     }

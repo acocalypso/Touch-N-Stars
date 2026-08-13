@@ -44,10 +44,11 @@ Touch-N-Stars currently includes:
 
 - Vue 3.5 Composition API frontend, Vite build, Vue Router 5, Pinia 3, persisted state, Tailwind CSS, vue-i18n, and Capacitor 8 Android/iOS shell.
 - A mobile-first UI for controlling and monitoring N.I.N.A. workflows from browsers, tablets, phones, and embedded displays.
-- Three runtime modes:
+- Two backend runtime modes:
   - Standard N.I.N.A. mode using the Touch-N-Stars plugin server and N.I.N.A. Advanced API V2.
   - PINS/headless mode with additional daemon APIs, SignalR hubs, and Raspberry Pi/Linux-oriented behavior.
-  - Local mock mode for UI development, workflow demos, and selected tests without a backend.
+- Local contract fakes and browser fixtures for selected automated tests. There is
+  no selectable mock runtime mode in the current application.
 - Multiple communication paths:
   - Touch-N-Stars plugin server REST under `/api/*`.
   - Advanced API V2 REST under `/v2/api/*`.
@@ -347,7 +348,7 @@ Required rules:
 - Default tests must not move real equipment, start real sequences, run long exposures, change Wi-Fi, install packages, restart services, upload firmware, or mutate a live session.
 - Live smoke tests require simulator-backed N.I.N.A. or a dedicated lab PINS host, explicit user intent, and carefully gated commands.
 - Prefer contract mocks for backend integration tests.
-- Mock mode is not proof of real hardware correctness.
+- Contract mocks and browser fixtures are not proof of real hardware correctness.
 - UI must make dangerous operations explicit and understandable to field users.
 - Never hide safety warnings or invalid equipment state messages for cleaner UI.
 
@@ -362,7 +363,8 @@ Required rules:
 - Use plugin metadata `id`, `data-plugin-id`, stable `data-testid`, ARIA roles, or semantic selectors for tests and UI hooks.
 - Regenerate the plugin registry when plugin metadata or plugin entry points change.
 - Avoid duplicate routes, stale routes, and duplicate nav items.
-- Respect mock mode behavior, where plugin loading may intentionally be skipped.
+- Keep plugin-loading tests isolated with explicit fakes; production startup
+  refreshes bundled metadata and initializes enabled plugins.
 - Keep plugin-local state isolated unless a shared contract is explicitly required.
 
 ## UI, Mobile, And Accessibility Rules

@@ -1,4 +1,12 @@
 import { defineStore } from 'pinia';
+import apiService from '@/services/apiService';
+
+// Object URLs are only safe to revoke once no <img> still points at them.
+const revokeObjectUrl = (url) => {
+  if (url?.startsWith('blob:')) {
+    URL.revokeObjectURL(url);
+  }
+};
 
 export const useWebcamStore = defineStore('webcamStore', {
   state: () => ({
@@ -77,29 +85,48 @@ export const useWebcamStore = defineStore('webcamStore', {
       this.lastUpdate = connected ? new Date().toISOString() : null;
     },
 
-    refreshSnapshot() {
+    async refreshSnapshot() {
       if (!this.isValid) {
-        this.setConnectionStatus(false, 'No snapshot URL configured');
+        this.setConnectionStatus(false, 'errors.noUrl');
         return;
       }
 
-      // Generate new timestamp-based URL to bypass cache, routed through backend proxy
+      // Timestamp bypasses camera-side caching
       const timestamp = new Date().getTime();
       const separator = this.snapshotUrl.includes('?') ? '&' : '?';
       const timedUrl = `${this.snapshotUrl}${separator}t=${timestamp}`;
-      const proxyBase = `${window.location.protocol}//${window.location.host}/api/proxy`;
-      const newImageUrl = `${proxyBase}?url=${encodeURIComponent(timedUrl)}`;
+
+      this.isLoading = true;
+      this.errorMessage = null;
+
+      // Fetch through the NINA backend proxy. apiService resolves the backend host from
+      // the connection settings — window.location would point at the local app origin in
+      // the native iOS/Android WebView. The blob: URL also sidesteps iOS ATS, which blocks
+      // plain-HTTP image loads.
+      let newImageUrl;
+      try {
+        const blob = await apiService.proxyRequest(timedUrl);
+        newImageUrl = URL.createObjectURL(blob);
+      } catch (error) {
+        this.isLoading = false;
+        // The last frame stays on screen, but the status has to tell the truth: the proxy
+        // request failed, so the camera is not reachable right now.
+        this.setConnectionStatus(false, 'errors.loadFailed');
+        console.debug('Webcam snapshot request failed:', error);
+
+        if (this.autoRefresh) {
+          this.scheduleNextRefresh();
+        }
+        return;
+      }
 
       if (this.currentImageUrl) {
         // Preload next image for seamless transition
+        revokeObjectUrl(this.nextImageUrl);
         this.nextImageUrl = newImageUrl;
-        this.isLoading = true;
-        this.errorMessage = null;
       } else {
         // First image load
         this.currentImageUrl = newImageUrl;
-        this.isLoading = true;
-        this.errorMessage = null;
       }
     },
 
@@ -115,7 +142,7 @@ export const useWebcamStore = defineStore('webcamStore', {
 
     onCurrentImageError(error) {
       this.isLoading = false;
-      this.setConnectionStatus(false, 'Failed to load webcam image');
+      this.setConnectionStatus(false, 'errors.loadFailed');
       console.error('Webcam image load error:', error);
 
       // Even on error, if auto-refresh is on, try again after the interval
@@ -129,6 +156,7 @@ export const useWebcamStore = defineStore('webcamStore', {
       this.isTransitioning = true;
 
       setTimeout(() => {
+        revokeObjectUrl(this.currentImageUrl);
         this.currentImageUrl = this.nextImageUrl;
         this.nextImageUrl = null;
         this.isTransitioning = false;
@@ -143,11 +171,12 @@ export const useWebcamStore = defineStore('webcamStore', {
     },
 
     onNextImageError(error) {
+      revokeObjectUrl(this.nextImageUrl);
       this.nextImageUrl = null;
       this.isLoading = false;
       // Keep connection status as connected if we have a current image
       if (!this.currentImageUrl) {
-        this.setConnectionStatus(false, 'Failed to load next webcam image');
+        this.setConnectionStatus(false, 'errors.nextLoadFailed');
       }
       console.debug('Next webcam image load error (will retry on next refresh):', error);
 
@@ -215,6 +244,7 @@ export const useWebcamStore = defineStore('webcamStore', {
 
     resetSettings() {
       this.stopAutoRefresh();
+      this.releaseImageUrls();
       this.snapshotUrl = '';
       this.refreshInterval = 1000;
       this.autoRefresh = false;
@@ -238,6 +268,16 @@ export const useWebcamStore = defineStore('webcamStore', {
       this.isLoading = false;
       this.isTransitioning = false;
       this.errorMessage = null;
+      revokeObjectUrl(this.nextImageUrl);
+      this.nextImageUrl = null;
+    },
+
+    // Frees both object URLs — call when leaving the page or resetting, otherwise the
+    // refresh cycle leaks one blob per frame.
+    releaseImageUrls() {
+      revokeObjectUrl(this.currentImageUrl);
+      revokeObjectUrl(this.nextImageUrl);
+      this.currentImageUrl = null;
       this.nextImageUrl = null;
     },
   },

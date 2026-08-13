@@ -69,15 +69,12 @@
       </div>
 
       <!-- Gain from inner TakeExposure -->
-      <NumberInputPicker
+      <GainInput
         v-if="exposure"
         :modelValue="exposure.Gain"
-        :label="$t('components.sequence.items.takeExposure.gain')"
         labelKey="tfe-gain"
         :min="-1"
         :max="1000"
-        :step="1"
-        :decimalPlaces="0"
         @change="store.setProperty(exposure.Id, 'Gain', $event)"
       />
 
@@ -113,6 +110,7 @@
 import { computed } from 'vue';
 import ItemShell from './ItemShell.vue';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
+import GainInput from '@/components/helpers/GainInput.vue';
 import ToggleButton from '@/components/helpers/toggleButton.vue';
 import { useSequenceV2Store } from '@/store/sequenceV2Store';
 import { apiStore } from '@/store/store';

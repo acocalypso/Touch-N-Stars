@@ -202,16 +202,15 @@ const warmBtnDisabled = computed(
 
 const coolerStatusText = computed(() => {
   const currentTemp = Math.round(store.cameraInfo.Temperature);
-  // Cool-down target if the API provides it, otherwise the profile setting.
-  // Only valid for cooling: while warming, TargetTemp still holds the old
-  // cool-down target, and the true warm-up destination is not exposed.
-  const targetTemp = Math.round(
-    store.cameraInfo.TargetTemp ?? store.profileInfo.CameraSettings.Temperature
-  );
+  // Cool-down target from the central store (profile setting first, see
+  // cameraStore.targetTemp). Only valid for cooling: the true warm-up
+  // destination is not exposed by NINA.
+  const target = cameraStore.targetTemp;
+  const targetText = target != null && !isNaN(target) ? ` ${Math.round(target)}°C` : '';
 
   switch (coolingState.value) {
     case 'cooling':
-      return `${t('components.camera.cooler_status_cooling')} ${targetTemp}°C`;
+      return `${t('components.camera.cooler_status_cooling')}${targetText}`;
     case 'holding':
       return `${t('components.camera.cooler_status_holding')} (${currentTemp}°C)`;
     case 'warming':

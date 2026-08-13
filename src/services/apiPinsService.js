@@ -399,6 +399,13 @@ export default {
     return this._simpleGetRequest(`${API_URL}phd2/camera/info`);
   },
 
+  // PHD2's own image scale in arcsec/px, derived from its focal length, pixel
+  // size and binning. Useful as a cross-check against a locally computed scale.
+  getPHD2PixelScale() {
+    const { API_URL } = getUrls();
+    return this._simpleGetRequest(`${API_URL}phd2/pixel-scale`);
+  },
+
   getPHD2RestoreCalibration() {
     const { API_URL } = getUrls();
     return this._simpleGetRequest(`${API_URL}phd2/calibration/auto-restore`);
@@ -779,6 +786,30 @@ export default {
     return this._pinsDaemonGetRequest('/wifi/status', {
       baseUrl: PINSDAEMON_URL,
       timeout: 5000,
+    });
+  },
+
+  getPinsSystemLocalization() {
+    const { PINSDAEMON_URL } = getUrls();
+    return this._pinsDaemonGetRequest('/system/localization', {
+      baseUrl: PINSDAEMON_URL,
+      timeout: 10000,
+    });
+  },
+
+  getPinsSystemLocalizationOptions() {
+    const { PINSDAEMON_URL } = getUrls();
+    return this._pinsDaemonGetRequest('/system/localization/options', {
+      baseUrl: PINSDAEMON_URL,
+      timeout: 15000,
+    });
+  },
+
+  updatePinsSystemLocalization(payload) {
+    const { PINSDAEMON_URL } = getUrls();
+    return this._pinsDaemonPutRequest('/system/localization', payload, {
+      baseUrl: PINSDAEMON_URL,
+      timeout: 15000,
     });
   },
 

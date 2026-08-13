@@ -5,6 +5,8 @@ import { installBrowserGlobals } from '../../test-helpers/browserEnv.js';
 
 installBrowserGlobals();
 
+const { default: apiPinsService } = await import('@/services/apiPinsService');
+
 const { identifySelectedRig, initializeRigConnectionSupervisor, recoverRigConnection } =
   await import('@/services/rigConnectionSupervisor');
 
@@ -94,4 +96,45 @@ test('recovery keeps a healthy active endpoint instead of racing its aliases', a
   assert.equal(backendSwitches, 0);
   assert.ok(probedUrls.length >= 1);
   assert.ok(probedUrls.every((url) => url.includes('192.168.178.109:8000/health')));
+});
+
+test('failed PINS Wi-Fi job stops recovery immediately with its classified reason', async (t) => {
+  const originalFetch = globalThis.fetch;
+  const originalGetJob = apiPinsService.getPinsDaemonJob;
+  const originalGetStatus = apiPinsService.getPinsWifiStatus;
+  t.after(() => {
+    globalThis.fetch = originalFetch;
+    apiPinsService.getPinsDaemonJob = originalGetJob;
+    apiPinsService.getPinsWifiStatus = originalGetStatus;
+  });
+  globalThis.fetch = async () => ({
+    ok: true,
+    json: async () => ({ status: 'ok', service: 'pinsdaemon', rigId: 'pins-test' }),
+  });
+  apiPinsService.getPinsDaemonJob = async () => ({
+    jobId: 'wifi-job',
+    status: 'failed',
+    exitCode: 1,
+    errorCode: 'MISSING_CREDENTIALS',
+    errorMessage: 'Saved profile has no NetworkManager secret',
+  });
+  apiPinsService.getPinsWifiStatus = async () => {
+    throw new Error('status must not be polled after a terminal job failure');
+  };
+
+  const instance = { id: 'pins-test', ip: '192.168.1.10', port: 5000, rigId: 'pins-test' };
+  const settingsStore = {
+    selectedInstanceId: instance.id,
+    connection: { ip: instance.ip, port: instance.port },
+    getInstance: () => instance,
+    promoteInstanceEndpoint() {},
+  };
+  const backendStore = reactive({ isPINS: true, async switchBackend() {} });
+  await initializeRigConnectionSupervisor({ settingsStore, backendStore });
+
+  await assert.rejects(
+    () =>
+      recoverRigConnection({ requestedMode: 'client', operationId: 'wifi-job', timeoutMs: 1000 }),
+    /MISSING_CREDENTIALS/
+  );
 });

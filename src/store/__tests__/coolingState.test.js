@@ -10,10 +10,16 @@ const { nextTick } = await import('vue');
 const { apiStore } = await import('@/store/store');
 const { useCameraStore } = await import('@/store/cameraStore');
 
-function setup(cameraInfo = {}) {
+function setup(cameraInfo = {}, cameraSettings = null) {
   freshPinia();
   const store = apiStore();
   const cameraStore = useCameraStore();
+  if (cameraSettings) {
+    store.profileInfo = {
+      ...store.profileInfo,
+      CameraSettings: { ...store.profileInfo.CameraSettings, ...cameraSettings },
+    };
+  }
   store.cameraInfo = {
     Connected: true,
     CanSetTemperature: true,
@@ -137,6 +143,27 @@ test('heuristic: TemperatureSetPoint is the fallback when TargetTemp is missing'
     Temperature: 15,
   });
   assert.equal(cameraStore.coolingState, 'cooling');
+});
+
+// --- target temperature ------------------------------------------------------
+
+test('the profile setting wins over a stale CameraInfo.TargetTemp', () => {
+  // Regression: NINA only refreshes CameraVM.TargetTemp when the value is
+  // edited in its own UI, so after a target change from TNS it still reported
+  // the old -10 while the camera was cooling to 25.
+  const { cameraStore } = setup(
+    { CoolerOn: true, TargetTemp: -10, TemperatureSetPoint: 25, Temperature: 25 },
+    { Temperature: 25 }
+  );
+  assert.equal(cameraStore.targetTemp, 25);
+  // ...and the stale target must not fake a running ramp either.
+  assert.equal(cameraStore.isRampRunning, false);
+  assert.equal(cameraStore.coolingState, 'holding');
+});
+
+test('targetTemp falls back to TargetTemp, then to the setpoint', () => {
+  assert.equal(setup({ CoolerOn: true, TargetTemp: -10 }).cameraStore.targetTemp, -10);
+  assert.equal(setup({ CoolerOn: true, TemperatureSetPoint: -5 }).cameraStore.targetTemp, -5);
 });
 
 // --- off states --------------------------------------------------------------

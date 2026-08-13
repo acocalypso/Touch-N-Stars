@@ -91,6 +91,9 @@ export const useGuiderStore = defineStore('guiderStore', {
     // PHD2 Pixel Size State (PINS)
     phd2PixelSize: null,
 
+    // PHD2 Pixel Scale State (PINS) - arcsec/px as PHD2 itself computes it
+    phd2PixelScale: null,
+
     // PHD2 Restore Calibration State (PINS)
     phd2RestoreCalibration: false,
     phd2RestoreCalibrationLoading: false,
@@ -868,6 +871,19 @@ export const useGuiderStore = defineStore('guiderStore', {
         }
       } catch (error) {
         console.error('Error fetching PHD2 pixel size:', error);
+      }
+    },
+
+    async fetchPHD2PixelScale() {
+      const store = apiStore();
+      if (!store.isPINS) return;
+      try {
+        const response = await apiPinsService.getPHD2PixelScale();
+        if (response.Success && response.Response) {
+          this.phd2PixelScale = response.Response.PixelScale ?? null;
+        }
+      } catch (error) {
+        console.error('Error fetching PHD2 pixel scale:', error);
       }
     },
 

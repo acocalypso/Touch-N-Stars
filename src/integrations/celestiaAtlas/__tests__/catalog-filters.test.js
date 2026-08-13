@@ -65,22 +65,32 @@ test('toggles facets immutably and collapses a complete selection to all', () =>
 });
 
 test('exposes the exact facets and membership counts from every packaged offline layer', async () => {
-  const [openNgc, abellPlanetaryNebulae, stellariumSupplement, brightSky, hygStars] =
-    await Promise.all([
-      import('@acocalypso/celestia-atlas/viewer-catalog-data', { with: { type: 'json' } }),
-      import('@acocalypso/celestia-atlas/abell-pn-data', { with: { type: 'json' } }),
-      import('@acocalypso/celestia-atlas/stellarium-supplement-data', {
-        with: { type: 'json' },
-      }),
-      import('@acocalypso/celestia-atlas/bright-sky-data', { with: { type: 'json' } }),
-      import('@acocalypso/celestia-atlas/hyg-star-data', { with: { type: 'json' } }),
-    ]);
+  const [
+    openNgc,
+    abellPlanetaryNebulae,
+    stellariumSupplement,
+    brightSky,
+    hygStars,
+    westernConstellations,
+  ] = await Promise.all([
+    import('@acocalypso/celestia-atlas/viewer-catalog-data', { with: { type: 'json' } }),
+    import('@acocalypso/celestia-atlas/abell-pn-data', { with: { type: 'json' } }),
+    import('@acocalypso/celestia-atlas/stellarium-supplement-data', {
+      with: { type: 'json' },
+    }),
+    import('@acocalypso/celestia-atlas/bright-sky-data', { with: { type: 'json' } }),
+    import('@acocalypso/celestia-atlas/hyg-star-data', { with: { type: 'json' } }),
+    import('@acocalypso/celestia-atlas/western-constellation-data', {
+      with: { type: 'json' },
+    }),
+  ]);
   const { catalog } = buildEmbeddedAtlasCatalog({
     openNgc: openNgc.default,
     abellPlanetaryNebulae: abellPlanetaryNebulae.default,
     stellariumSupplement: stellariumSupplement.default,
     brightSky: brightSky.default,
     hygStars: hygStars.default,
+    westernConstellations: westernConstellations.default,
   });
   const facets = buildAtlasCatalogFacets(catalog);
 

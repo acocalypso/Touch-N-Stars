@@ -83,6 +83,22 @@ export const useCameraStore = defineStore('cameraStore', () => {
     return null;
   }
 
+  // The cool-down target the camera is actually driven to.
+  // CameraInfo.TargetTemp cannot be used: NINA initializes CameraVM.TargetTemp
+  // from the profile once at connect and only updates it when the value is
+  // edited in NINA's own UI. Changing the target from TNS writes the profile
+  // and passes the temperature to /equipment/camera/cool directly, so
+  // TargetTemp keeps reporting the old value (e.g. -10 while the camera cools
+  // to 25). Both paths do update the profile setting, which makes it the
+  // reliable source; TargetTemp/setpoint stay as fallbacks for the case where
+  // the profile has not been fetched yet.
+  const targetTemp = computed(() => {
+    const profileTemp = store.profileInfo?.CameraSettings?.Temperature;
+    if (profileTemp != null && !isNaN(profileTemp)) return profileTemp;
+    const info = store.cameraInfo;
+    return info.TargetTemp ?? info.TemperatureSetPoint ?? null;
+  });
+
   // Is a temperature ramp running?
   // PINS / newer ninaAPI report the real NINA state via TempChangeRunning.
   // Heuristic fallback limits: a cooler manually switched on far from target
@@ -92,7 +108,7 @@ export const useCameraStore = defineStore('cameraStore', () => {
     if (!info.Connected || !info.CoolerOn) return false;
     if (typeof info.TempChangeRunning === 'boolean') return info.TempChangeRunning;
     if (info.AtTargetTemp) return false;
-    const target = info.TargetTemp ?? info.TemperatureSetPoint;
+    const target = targetTemp.value;
     if (target == null || info.Temperature == null) return false;
     return Math.abs(info.Temperature - target) > 1; // 1°C threshold
   });
@@ -472,6 +488,7 @@ export const useCameraStore = defineStore('cameraStore', () => {
     coolingPending,
     rampDirection,
     isRampRunning,
+    targetTemp,
     coolingState,
     plateSolveError,
     plateSolveResult,

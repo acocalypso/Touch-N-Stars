@@ -29,10 +29,12 @@ Use Background/Delegated only for narrow, reproducible tasks with explicit accep
 Current project context:
 - Touch-N-Stars is a mobile-first Vue 3 + Capacitor control interface for N.I.N.A.-based astrophotography sessions.
 - It is a frontend control plane and orchestration layer; it does not replace N.I.N.A. sequencing, device control, imaging, guiding, plate solving, profile logic, or processing.
-- Runtime modes include standard N.I.N.A., PINS/headless, and local mock mode.
+- Backend runtime modes are standard N.I.N.A. and PINS/headless. Automated tests
+  may use explicit contract fakes and browser fixtures; there is no selectable
+  mock runtime mode in the current app.
 - Standard N.I.N.A. mode talks to the Touch-N-Stars plugin server `/api/*` and N.I.N.A. Advanced API V2 `/v2/api/*` plus WebSocket channels.
 - PINS/headless mode can add SignalR hubs and pinsdaemon system APIs, usually on port `8000`.
-- Mock mode is for UI development, demos, and selected tests only; it is not proof of real N.I.N.A., PINS, SignalR, WebSocket, pinsdaemon, or hardware behavior.
+- Contract fakes and browser fixtures are for selected tests only; they are not proof of real N.I.N.A., PINS, SignalR, WebSocket, pinsdaemon, or hardware behavior.
 - The app is hardware-adjacent and system-adjacent; correctness and safety matter more than broad refactors.
 
 Context packet:
@@ -228,7 +230,8 @@ Add these constraints:
 - Add/update i18n entries for all user-facing strings.
 - Do not rely on translated text as the primary test selector.
 - Prefer stable `data-testid`, ARIA roles, and semantic selectors.
-- Verify standard N.I.N.A., PINS, and mock mode impact if the flow is shared.
+- Verify standard N.I.N.A. and PINS impact when the flow is shared, and keep
+  contract-fake coverage aligned with the production interfaces.
 ```
 
 Suggested validation:
@@ -245,7 +248,8 @@ Acceptance criteria examples:
 ```text
 1. The UI flow works on narrow phone and tablet widths.
 2. All user-facing text uses i18n keys.
-3. Existing setup/navigation behavior still works in mock mode.
+3. Existing setup/navigation behavior remains covered by browser fixtures without
+   implying a selectable mock runtime.
 4. The change does not hide equipment state or safety warnings.
 ```
 
@@ -347,7 +351,7 @@ Add these constraints:
 - Use stable plugin IDs and metadata.
 - Regenerate plugin registry when plugin metadata or entry points change.
 - Avoid duplicate routes, stale routes, and duplicate nav entries.
-- Respect mock mode behavior where plugin loading may be skipped.
+- Keep plugin-loading tests isolated with explicit fakes; production startup refreshes metadata and initializes enabled plugins.
 ```
 
 Suggested validation:
@@ -458,7 +462,7 @@ Add these constraints:
 
 ```text
 - Prefer contract mocks for N.I.N.A., WebSocket, SignalR, PINS, and pinsdaemon behavior.
-- Do not use UI mock mode as proof of real backend behavior.
+- Do not use contract fakes or browser fixtures as proof of real backend behavior.
 - Do not touch live equipment or mutate system services in default tests.
 - Include success, invalid-state, auth/error, disconnect/reconnect, and stale-event cases when relevant.
 ```

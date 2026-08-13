@@ -17,13 +17,11 @@
         :decimalPlaces="3"
         @change="save('ExposureTime', $event)"
       />
-      <NumberInputPicker
+      <GainInput
         :modelValue="item.Gain"
-        :label="$t('components.sequence.items.takeExposure.gain')"
         labelKey="takeExposure-gain"
         :min="0"
         :max="1000"
-        :step="1"
         @change="save('Gain', $event)"
       />
       <NumberInputPicker
@@ -77,6 +75,7 @@
 import { computed } from 'vue';
 import ItemShell from './ItemShell.vue';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
+import GainInput from '@/components/helpers/GainInput.vue';
 
 const props = defineProps({
   item: { type: Object, required: true },

@@ -951,6 +951,10 @@ export const apiStore = defineStore('store', {
       this.profileInfo = defaultProfileInfo();
       this.imageSavePath = null;
       useImagetStore().clearImageCache();
+      // Thumbnails are keyed by history index, which points at different images on
+      // another instance. A transient connection loss keeps them: same instance,
+      // same indices.
+      useImagetStore().clearThumbnailCache();
 
       // Re-arm the sockets that were live before the switch. connect() with a
       // null URL (apiPort is null right after teardown) arms the idle-recheck

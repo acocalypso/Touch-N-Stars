@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [App6.1.4-beta3] - 2026-08-15
+
+### Changed
+- Image history: Thumbnails load in batches while scrolling, several at a time, and are kept when you leave the tab
+
+### Fixed
+- Image history: Filtering (e.g. to lights only) took very long on large sessions - all images were downloaded regardless of the filter, oldest first. Only the filtered images are fetched now, starting with the ones on screen
+
 ## [App6.1.4-beta2] - 2026-08-11
 ### Added
 - PINS setup and settings: Configure the rig's system locale, Wi-Fi country, timezone and keyboard layout. The setup assistant reads the current Pi values and places this step before Wi-Fi; the same live settings remain available under General Settings on every client, with searchable lists of the values supported by the Pi

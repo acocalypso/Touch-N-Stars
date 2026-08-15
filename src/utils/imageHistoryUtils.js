@@ -34,6 +34,20 @@ export function thumbnailCacheKey(typeIdx, imageType) {
 }
 
 /**
+ * Picks the visible indices that still need a download.
+ *
+ * `failed` is excluded on purpose: the watcher that drives loading re-runs on every
+ * newly saved image, so without this an index whose thumbnail never materialises
+ * would be re-queued — retry delays and all — for the rest of the session. Failures
+ * are cleared deliberately instead (filter change, or remounting the tab).
+ */
+export function selectIndicesToLoad(visibleIndices, { loaded, failed, inFlight }) {
+  return (visibleIndices ?? []).filter(
+    (index) => !loaded.has(index) && !failed.has(index) && !inFlight.has(index)
+  );
+}
+
+/**
  * Works through `items` with a bounded number of parallel workers. Items are
  * started in order, so the first entries — the ones on screen — win the race for
  * a free slot. Stops picking up new items as soon as `shouldStop()` turns true.

@@ -91,7 +91,11 @@ import { useSettingsStore } from '@/store/settingsStore';
 import { useSequenceStore } from '@/store/sequenceStore';
 import { useImagetStore } from '@/store/imageStore';
 import { useImageFilter, passesImageFilter } from '@/composables/useImageFilter';
-import { buildTypeIndexMap, runWithConcurrency } from '@/utils/imageHistoryUtils';
+import {
+  buildTypeIndexMap,
+  runWithConcurrency,
+  selectIndicesToLoad,
+} from '@/utils/imageHistoryUtils';
 
 const { t } = useI18n();
 const sequenceStore = useSequenceStore();
@@ -277,9 +281,11 @@ async function loadThumbnail(absIdx, isCurrent) {
 // A single loader driven by visibleIndices covers mount, filter change, sort change,
 // "load more" and newly arriving images alike.
 async function loadVisibleThumbnails() {
-  const todo = visibleIndices.value.filter(
-    (index) => !thumbnails.value.has(index) && !inFlight.has(index)
-  );
+  const todo = selectIndicesToLoad(visibleIndices.value, {
+    loaded: thumbnails.value,
+    failed: failed.value,
+    inFlight,
+  });
   // Bumping the generation only when there is work to do keeps an unrelated history
   // update from cancelling a batch that is still downloading.
   if (todo.length === 0) return;
@@ -303,10 +309,21 @@ watch(
   { immediate: true }
 );
 
-watch(visibleIndices, loadVisibleThumbnails, { immediate: true });
+// Changing the filter starts a new list — do not keep a window grown by earlier
+// scrolling, and take it as the cue to retry thumbnails that failed before (a network
+// blip should not leave tiles broken until the tab is reopened).
+// Registered before the loading watcher on purpose: pre-flush watchers run in creation
+// order, so this resets the window in the same tick, before anything is fetched.
+watch(
+  filter,
+  () => {
+    visibleCount.value = BATCH_SIZE;
+    failed.value.clear();
+  },
+  { deep: true }
+);
 
-// Changing the filter starts a new list — do not keep a window grown by earlier scrolling.
-watch(filter, () => (visibleCount.value = BATCH_SIZE), { deep: true });
+watch(visibleIndices, loadVisibleThumbnails, { immediate: true });
 
 // The sentinel is behind v-if="hasMore", so it comes and goes — re-observe whenever
 // the template ref changes. flush 'post' guarantees the element is in the DOM.

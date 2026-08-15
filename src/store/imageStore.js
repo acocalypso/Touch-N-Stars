@@ -3,6 +3,13 @@ import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
 import { useSettingsStore } from './settingsStore';
 import { useHistogramStore } from './histogramStore';
+import { thumbnailCacheKey } from '@/utils/imageHistoryUtils';
+
+// Deliberately a plain module-level Map instead of Pinia state: nothing renders the
+// cache itself, and keeping it out of the store avoids Vue proxying every blob entry.
+// Insertion order gives us LRU eviction for free.
+const thumbnailCache = new Map(); // `${imageType}:${typeIdx}` -> object URL
+const THUMBNAIL_CACHE_LIMIT = 300;
 
 export const useImagetStore = defineStore('imageStore', {
   state: () => ({
@@ -250,6 +257,41 @@ export const useImagetStore = defineStore('imageStore', {
         );
         return null;
       }
+    },
+
+    /**
+     * Thumbnail lookup backed by an LRU cache, so switching tabs or filters in the
+     * image history does not re-download what was already fetched.
+     */
+    async getCachedThumbnail(typeIdx, imageType = null) {
+      const key = thumbnailCacheKey(typeIdx, imageType);
+
+      const cached = thumbnailCache.get(key);
+      if (cached) {
+        // Re-insert to move the entry to the most-recently-used end.
+        thumbnailCache.delete(key);
+        thumbnailCache.set(key, cached);
+        return cached;
+      }
+
+      const imageUrl = await this.getThumbnailByIndex(typeIdx, imageType);
+      // A miss is not cached: a just-saved image may not be ready on the backend yet
+      // and has to stay retryable.
+      if (!imageUrl) return null;
+
+      thumbnailCache.set(key, imageUrl);
+      while (thumbnailCache.size > THUMBNAIL_CACHE_LIMIT) {
+        const oldestKey = thumbnailCache.keys().next().value;
+        URL.revokeObjectURL(thumbnailCache.get(oldestKey));
+        thumbnailCache.delete(oldestKey);
+      }
+
+      return imageUrl;
+    },
+
+    clearThumbnailCache() {
+      thumbnailCache.forEach((url) => URL.revokeObjectURL(url));
+      thumbnailCache.clear();
     },
 
     async validateImage(imageUrl) {

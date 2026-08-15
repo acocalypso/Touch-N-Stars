@@ -1,6 +1,11 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { buildTypeIndexMap, thumbnailCacheKey, runWithConcurrency } from '../imageHistoryUtils.js';
+import {
+  buildTypeIndexMap,
+  thumbnailCacheKey,
+  runWithConcurrency,
+  selectIndicesToLoad,
+} from '../imageHistoryUtils.js';
 
 test('buildTypeIndexMap counts per image type', () => {
   const map = buildTypeIndexMap([
@@ -44,6 +49,44 @@ test('thumbnailCacheKey separates types and falls back for missing ones', () => 
   assert.equal(thumbnailCacheKey(3, 'LIGHT'), 'LIGHT:3');
   assert.notEqual(thumbnailCacheKey(3, 'LIGHT'), thumbnailCacheKey(3, 'FLAT'));
   assert.equal(thumbnailCacheKey(0, null), 'ANY:0');
+});
+
+test('selectIndicesToLoad returns the visible indices that have nothing yet', () => {
+  const todo = selectIndicesToLoad([5, 6, 7], {
+    loaded: new Map(),
+    failed: new Set(),
+    inFlight: new Set(),
+  });
+
+  assert.deepEqual(todo, [5, 6, 7]);
+});
+
+test('selectIndicesToLoad skips loaded, in-flight and failed indices', () => {
+  const todo = selectIndicesToLoad([1, 2, 3, 4], {
+    loaded: new Map([[1, 'blob:a']]),
+    failed: new Set([2]),
+    inFlight: new Set([3]),
+  });
+
+  assert.deepEqual(todo, [4]);
+});
+
+// Regression guard: the loading watcher re-runs on every newly saved image, so a
+// permanently failing thumbnail must not be re-queued each time.
+test('selectIndicesToLoad keeps skipping a failed index on repeated calls', () => {
+  const state = { loaded: new Map(), failed: new Set([2]), inFlight: new Set() };
+
+  assert.deepEqual(selectIndicesToLoad([1, 2, 3], state), [1, 3]);
+  assert.deepEqual(selectIndicesToLoad([1, 2, 3], state), [1, 3]);
+
+  // Clearing the failures (filter change) makes it eligible again.
+  state.failed.clear();
+  assert.deepEqual(selectIndicesToLoad([1, 2, 3], state), [1, 2, 3]);
+});
+
+test('selectIndicesToLoad tolerates a missing index list', () => {
+  const state = { loaded: new Map(), failed: new Set(), inFlight: new Set() };
+  assert.deepEqual(selectIndicesToLoad(undefined, state), []);
 });
 
 test('runWithConcurrency processes every item and starts them in order', async () => {

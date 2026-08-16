@@ -1059,6 +1059,16 @@
           "modePeak": "Pico",
           "minimumPoints": "Puntos mínimos"
         },
+        "interruptAndRetryWhenRMSAbove": {
+          "rmsThreshold": "Umbral RMS (\")",
+          "mode": "Modalidad",
+          "modeRMS": "RMS",
+          "modePeak": "Pico",
+          "minimumPoints": "Puntos mínimos",
+          "stableTime": "Estable durante (s)",
+          "recoveryTimeout": "Tiempo de espera de recuperación (min)",
+          "maxRetries": "Reintentos máximos (0 = ilimitado)"
+        },
         "changePHD2Parameters": {
           "parameter": "Parámetro",
           "exposureTime": "Tiempo de exposición (s):",
@@ -5003,10 +5013,15 @@
       "delete": "Borrar",
       "deleteConfirm": "¿Está seguro de que desea eliminar esta sesión? \nEsto no se puede deshacer.",
       "deleteTitle": "Eliminar sesión",
+      "downloadReport": "Descargar informe",
       "loading": "Cargando sesiones…",
       "noSessions": "No se seleccionó ninguna sesión. \nSeleccione una sesión del menú desplegable.",
       "placeholder": "Seleccione una sesión…",
-      "resend": "Reenviar informe"
+      "reportTitle": "Informe detallado",
+      "reportZoomActual": "100%",
+      "reportZoomFit": "Ajustar al ancho",
+      "resend": "Reenviar informe",
+      "viewReport": "Mostrar informe detallado"
     },
     "settings": {
       "chartPrimary": "Métrica primaria",

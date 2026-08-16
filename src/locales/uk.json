@@ -1048,6 +1048,16 @@
           "modePeak": "Пікове",
           "minimumPoints": "Мінімум точок"
         },
+        "interruptAndRetryWhenRMSAbove": {
+          "rmsThreshold": "Поріг RMS (\")",
+          "mode": "Режим",
+          "modeRMS": "RMS",
+          "modePeak": "Пікове",
+          "minimumPoints": "Мінімум точок",
+          "stableTime": "Стабільно протягом (с)",
+          "recoveryTimeout": "Тайм-аут відновлення (хв)",
+          "maxRetries": "Макс. повторів (0 = без обмежень)"
+        },
         "changePHD2Parameters": {
           "parameter": "Параметр",
           "exposureTime": "Час експозиції (с)",
@@ -4998,10 +5008,15 @@
       "delete": "Видалити",
       "deleteConfirm": "Ви впевнені, що хочете видалити цей сеанс? \nЦе неможливо скасувати.",
       "deleteTitle": "Видалити сеанс",
+      "downloadReport": "Завантажити звіт",
       "loading": "Завантаження сеансів…",
       "noSessions": "Сеанс не вибрано. \nВиберіть сеанс зі спадного списку.",
       "placeholder": "Виберіть сеанс…",
-      "resend": "Повторно надіслати звіт"
+      "reportTitle": "Детальний звіт",
+      "reportZoomActual": "100%",
+      "reportZoomFit": "За шириною",
+      "resend": "Повторно надіслати звіт",
+      "viewReport": "Показати детальний звіт"
     },
     "settings": {
       "chartPrimary": "Первинна метрика",

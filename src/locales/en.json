@@ -1112,6 +1112,16 @@
           "modePeak": "Peak",
           "minimumPoints": "Minimum Points"
         },
+        "interruptAndRetryWhenRMSAbove": {
+          "rmsThreshold": "RMS Threshold (\")",
+          "mode": "Mode",
+          "modeRMS": "RMS",
+          "modePeak": "Peak",
+          "minimumPoints": "Minimum Points",
+          "stableTime": "Stable For (s)",
+          "recoveryTimeout": "Recovery Timeout (min)",
+          "maxRetries": "Max Retries (0 = unlimited)"
+        },
         "changePHD2Parameters": {
           "parameter": "Parameter",
           "exposureTime": "Exposure Time (s)",
@@ -5023,6 +5033,9 @@
       "discordEnabled": "Enable Discord",
       "discordWebhook": "Webhook URL",
       "testDiscord": "Send Test Message",
+      "secretSet": "•••••••• (set)",
+      "secretNotSet": "Not set",
+      "secretLeaveEmpty": "Leave empty to keep current value",
       "localDashboardTitle": "Local Dashboard",
       "localDashboardEnabled": "Enable local web server",
       "localDashboardPort": "Port",
@@ -5035,6 +5048,11 @@
       "loading": "Loading sessions…",
       "noSessions": "No session selected. Select a session from the dropdown.",
       "resend": "Resend Report",
+      "viewReport": "Show detailed report",
+      "downloadReport": "Download report",
+      "reportTitle": "Detailed Report",
+      "reportZoomFit": "Fit width",
+      "reportZoomActual": "100%",
       "delete": "Delete",
       "deleteTitle": "Delete Session",
       "deleteConfirm": "Are you sure you want to delete this session? This cannot be undone."

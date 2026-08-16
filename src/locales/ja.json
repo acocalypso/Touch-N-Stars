@@ -1077,6 +1077,16 @@
           "modePeak": "ピーク",
           "minimumPoints": "最小ポイント数"
         },
+        "interruptAndRetryWhenRMSAbove": {
+          "rmsThreshold": "RMS しきい値 (\")",
+          "mode": "モード",
+          "modeRMS": "RMS",
+          "modePeak": "ピーク",
+          "minimumPoints": "最小ポイント数",
+          "stableTime": "安定継続時間 (秒)",
+          "recoveryTimeout": "回復タイムアウト (分)",
+          "maxRetries": "最大リトライ回数 (0 = 無制限)"
+        },
         "changePHD2Parameters": {
           "parameter": "パラメーター",
           "exposureTime": "露出時間 (秒)",
@@ -4998,10 +5008,15 @@
       "delete": "消去",
       "deleteConfirm": "このセッションを削除してもよろしいですか?\nこれを元に戻すことはできません。",
       "deleteTitle": "セッションの削除",
+      "downloadReport": "レポートをダウンロード",
       "loading": "セッションを読み込み中…",
       "noSessions": "セッションが選択されていません。\nドロップダウンからセッションを選択します。",
       "placeholder": "セッションを選択してください…",
-      "resend": "レポートを再送信する"
+      "reportTitle": "詳細レポート",
+      "reportZoomActual": "100%",
+      "reportZoomFit": "幅に合わせる",
+      "resend": "レポートを再送信する",
+      "viewReport": "詳細レポートを表示"
     },
     "settings": {
       "chartPrimary": "プライマリメトリクス",

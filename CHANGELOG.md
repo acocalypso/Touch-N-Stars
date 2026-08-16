@@ -31,6 +31,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [App6.1.4-beta2] - 2026-08-11
 ### Added
+- Sequence: The PHD2 Tools trigger "Interrupt and retry when RMS above" can now be configured in the app — threshold, mode, how long the guiding has to stay calm, the recovery timeout and the maximum number of repetitions
 - PINS setup and settings: Configure the rig's system locale, Wi-Fi country, timezone and keyboard layout. The setup assistant reads the current Pi values and places this step before Wi-Fi; the same live settings remain available under General Settings on every client, with searchable lists of the values supported by the Pi
 
 ### Changed

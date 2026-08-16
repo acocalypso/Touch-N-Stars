@@ -13,7 +13,7 @@
 
       <div
         v-else-if="
-          !store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.2.8.0') && !store.isPINS
+          !store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.3.1.0') && !store.isPINS
         "
       >
         <p class="text-gray-400 text-lg">{{ $t('nightsummary.tnsPluginToOld') }}</p>
@@ -75,25 +75,25 @@
             <button
               @click="nightSummaryStore.fetchSessions()"
               :disabled="nightSummaryStore.loadingSessions"
-              class="tns-btn-secondary"
+              :aria-label="$t('common.refresh')"
+              class="flex justify-center items-center w-10 h-10 border border-cyan-500/20 bg-gray-700 text-white rounded-lg hover:bg-gray-600 disabled:opacity-70"
             >
-              {{ $t('common.refresh') }}
+              <ArrowPathIcon
+                class="w-6 h-6"
+                :class="{
+                  'text-green-500 spin': nightSummaryStore.loadingSessions,
+                  'text-white': !nightSummaryStore.loadingSessions,
+                }"
+              />
             </button>
           </div>
 
           <!-- Session actions -->
           <div v-if="selectedSessionId" class="flex flex-wrap gap-2 mb-4">
             <button
-              @click="nightSummaryStore.fetchSessionDetail(selectedSessionId)"
-              :disabled="nightSummaryStore.loadingDetail"
-              class="tns-btn-secondary"
-            >
-              {{ nightSummaryStore.loadingDetail ? $t('common.loading') : $t('common.refresh') }}
-            </button>
-            <button
               @click="nightSummaryStore.resendSession(selectedSessionId)"
               :disabled="nightSummaryStore.resendingSession"
-              class="tns-btn-primary"
+              class="tns-btn-primary flex-1 min-w-32"
             >
               {{
                 nightSummaryStore.resendingSession
@@ -101,7 +101,30 @@
                   : $t('nightsummary.sessions.resend')
               }}
             </button>
-            <button @click="confirmDelete = true" class="tns-btn-danger">
+            <button
+              v-if="reportAvailable"
+              @click="showReport = true"
+              class="tns-btn-secondary flex-1 min-w-32"
+            >
+              {{ $t('nightsummary.sessions.viewReport') }}
+            </button>
+            <button
+              v-if="reportAvailable"
+              @click="downloadReport"
+              :disabled="reportDownloading"
+              class="tns-btn-secondary flex-1 min-w-32"
+            >
+              {{
+                reportDownloading
+                  ? $t('common.loading')
+                  : $t('nightsummary.sessions.downloadReport')
+              }}
+            </button>
+            <button
+              v-if="store.isPINS"
+              @click="confirmDelete = true"
+              class="tns-btn-danger flex-1 min-w-32"
+            >
               {{ $t('nightsummary.sessions.delete') }}
             </button>
             <StatusBadge
@@ -109,6 +132,51 @@
               :ok="nightSummaryStore.resendStatus.ok"
               :message="nightSummaryStore.resendStatus.message"
             />
+          </div>
+
+          <!-- Report overlay -->
+          <div
+            v-if="showReport"
+            class="fixed inset-0 bg-black/70 flex flex-col z-50 [--report-pad:0.5rem] sm:[--report-pad:1.5rem]"
+            :style="overlayPadding"
+          >
+            <div class="flex items-center gap-2 mb-2 shrink-0">
+              <h3 class="text-white font-semibold truncate">
+                {{ $t('nightsummary.sessions.reportTitle') }}
+              </h3>
+              <button
+                v-if="reportScale < 1"
+                @click="toggleReportZoom"
+                class="ml-auto shrink-0 h-9 px-3 flex items-center justify-center rounded-lg bg-gray-700 hover:bg-gray-600 text-gray-200 text-sm transition"
+              >
+                {{
+                  reportFit
+                    ? $t('nightsummary.sessions.reportZoomActual')
+                    : $t('nightsummary.sessions.reportZoomFit')
+                }}
+              </button>
+              <button
+                @click="showReport = false"
+                class="shrink-0 w-9 h-9 flex items-center justify-center rounded-lg bg-gray-700 hover:bg-gray-600 text-gray-200 transition"
+                :class="{ 'ml-auto': reportScale >= 1 }"
+                :aria-label="$t('general.close')"
+              >
+                ✕
+              </button>
+            </div>
+            <div
+              ref="reportViewport"
+              class="flex-1 min-h-0 w-full bg-white rounded-lg border border-gray-700 overscroll-contain"
+              :class="reportFit ? 'overflow-hidden' : 'overflow-x-auto overflow-y-hidden'"
+            >
+              <iframe
+                :src="reportUrl"
+                :style="reportFrameStyle"
+                class="block border-0 bg-white"
+                sandbox="allow-scripts allow-same-origin allow-popups"
+                referrerpolicy="no-referrer"
+              ></iframe>
+            </div>
           </div>
 
           <!-- Delete confirmation -->
@@ -361,9 +429,12 @@
 </template>
 
 <script setup>
-import { ref, onMounted, computed, watch } from 'vue';
+import { ref, onMounted, onBeforeUnmount, computed, watch, nextTick } from 'vue';
+import { ArrowPathIcon } from '@heroicons/vue/24/outline';
 import { useNightSummaryStore } from '../store/nightsummaryStore';
 import { apiStore } from '@/store/store';
+import apiService from '@/services/apiService';
+import { downloadBlob } from '@/utils/blobDownloader';
 import StatusBadge from '../components/StatusBadge.vue';
 import IqTable from '../components/IqTable.vue';
 import SettingsTab from '../components/SettingsTab.vue';
@@ -385,6 +456,113 @@ const store = apiStore();
 const activeTab = ref('sessions');
 const selectedSessionId = ref('');
 const confirmDelete = ref(false);
+const showReport = ref(false);
+
+// The backend flags whether an HTML report file exists for the selected session;
+// the "view report" button is only shown when it does, so the iframe can load the
+// report directly from the backend without any missing-file handling here.
+const reportAvailable = computed(() => nightSummaryStore.sessionDetail?.ReportAvailable === true);
+const reportUrl = computed(() =>
+  selectedSessionId.value ? apiService.nightsummary.getReportUrl(selectedSessionId.value) : ''
+);
+const reportDownloading = ref(false);
+
+// The report HTML is a fixed 800px design generated by the Night Summary NINA
+// plugin (no media queries, viewport meta of width=800). A nested iframe ignores
+// that meta — it uses its own CSS box as the viewport — so on a phone the report
+// would be squeezed into a ~400px frame it was never laid out for. Render it at
+// its design width instead and CSS-scale it down to fit, the way a desktop-width
+// page is scaled when opened in a mobile browser tab.
+const REPORT_DESIGN_WIDTH = 800;
+
+const reportFit = ref(true); // true = scaled to fit width, false = 100 %
+const reportViewport = ref(null);
+const reportBox = ref({ w: 0, h: 0 });
+let reportResizeObserver = null;
+
+const reportScale = computed(() =>
+  reportBox.value.w ? Math.min(reportBox.value.w / REPORT_DESIGN_WIDTH, 1) : 1
+);
+
+const reportFrameStyle = computed(() => {
+  const scale = reportFit.value ? reportScale.value : 1;
+  // Container is wide enough for the report's design width: no scaling needed,
+  // so let the frame fill it and the report center itself as it does natively.
+  // (Checked on the scale-to-fit factor, not on `scale`, so the 100 % zoom mode
+  // on narrow screens still gets the fixed 800px frame below.)
+  if (reportScale.value >= 1) return { width: '100%', height: '100%' };
+  return {
+    width: `${REPORT_DESIGN_WIDTH}px`,
+    // Undo the scale on the height so the frame still fills the container
+    // vertically; the report scrolls inside the frame, since it is cross-origin
+    // and its content height can't be measured from here.
+    height: `${(reportBox.value.h || 0) / scale}px`,
+    transform: `scale(${scale})`,
+    transformOrigin: 'top left',
+  };
+});
+
+// index.html sets viewport-fit=cover, so the full-screen overlay has to keep its
+// content out of the notch and home indicator on top of its normal padding.
+const overlayPadding = {
+  padding: [
+    'calc(var(--report-pad) + env(safe-area-inset-top, 0px))',
+    'calc(var(--report-pad) + env(safe-area-inset-right, 0px))',
+    'calc(var(--report-pad) + env(safe-area-inset-bottom, 0px))',
+    'calc(var(--report-pad) + env(safe-area-inset-left, 0px))',
+  ].join(' '),
+};
+
+function toggleReportZoom() {
+  reportFit.value = !reportFit.value;
+  // Start at the left edge whenever the zoom level changes, otherwise a previous
+  // horizontal scroll position leaves the report looking cut off.
+  if (reportViewport.value) reportViewport.value.scrollLeft = 0;
+}
+
+function stopReportObserver() {
+  reportResizeObserver?.disconnect();
+  reportResizeObserver = null;
+}
+
+// Observing the container covers rotation, keyboard insets and collapsing
+// browser toolbars without a separate resize listener.
+watch(showReport, async (open) => {
+  stopReportObserver();
+  if (!open) return;
+  reportFit.value = true;
+  await nextTick();
+  const el = reportViewport.value;
+  if (!el) return;
+  const measure = () => {
+    reportBox.value = { w: el.offsetWidth, h: el.offsetHeight };
+  };
+  measure();
+  reportResizeObserver = new ResizeObserver(measure);
+  reportResizeObserver.observe(el);
+});
+
+onBeforeUnmount(stopReportObserver);
+
+async function downloadReport() {
+  if (reportDownloading.value) return;
+  reportDownloading.value = true;
+  try {
+    const blob = await apiService.nightsummary.downloadReportBlob(selectedSessionId.value);
+    const sessionDate = nightSummaryStore.sessionDetail?.Session?.SessionDate;
+    const fileLabel = sessionDate
+      ? new Date(sessionDate).toISOString().slice(0, 10)
+      : selectedSessionId.value;
+    await downloadBlob(blob, `NightSummary-${fileLabel}.html`, {
+      folderName: 'TNS-NightSummary',
+      fallbackFilename: `NightSummary-${selectedSessionId.value}.html`,
+    });
+  } catch (error) {
+    console.error('Error downloading Night Summary report:', error);
+  } finally {
+    reportDownloading.value = false;
+  }
+}
 
 const tabs = [
   { id: 'sessions', i18n: 'tabSessions' },
@@ -408,6 +586,7 @@ watch(activeTab, (tab) => {
 });
 
 function onSelectSession() {
+  showReport.value = false;
   if (selectedSessionId.value) nightSummaryStore.selectSession(selectedSessionId.value);
 }
 

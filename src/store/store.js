@@ -209,6 +209,12 @@ export const apiStore = defineStore('store', {
     lastImageStats: null,
   }),
 
+  getters: {
+    // Some drivers (e.g. ZWO AM5N) leave Slewing set after a park slew has
+    // finished. AtPark rules out a running slew, so AtPark wins.
+    mountIsSlewing: (state) => Boolean(state.mountInfo.Slewing) && !state.mountInfo.AtPark,
+  },
+
   actions: {
     async fetchAllInfos(t) {
       // Staleness guard: if switchBackend() bumps the epoch while this cycle

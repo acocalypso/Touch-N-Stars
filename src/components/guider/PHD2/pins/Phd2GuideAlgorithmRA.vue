@@ -15,7 +15,7 @@
       v-model="guiderStore.phd2GuideAlgorithmRA"
       @change="onAlgorithmChange"
       class="tns-select w-32 ml-auto"
-      :disabled="guiderStore.phd2GuideAlgorithmRALoading || store.guiderInfo?.State !== 'Stopped'"
+      :disabled="guiderStore.phd2GuideAlgorithmRALoading || store.guiderIsRunning"
     >
       <option v-for="algorithm in algorithms" :key="algorithm" :value="algorithm">
         {{ algorithm }}

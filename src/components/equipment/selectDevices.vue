@@ -11,7 +11,10 @@
         v-model="selectedDevice"
         :disabled="isConnected"
       >
-        <option disabled>{{ selectedDevice }}</option>
+        <!-- Placeholder for a selection that is not (yet) in the fetched list, e.g. while
+             the list is still empty after a backend restart. Hidden once the list contains
+             it, otherwise the device would show up twice. -->
+        <option v-if="!isSelectedDeviceInList" disabled>{{ selectedDevice }}</option>
         <option
           v-for="device in displayDevices"
           :key="device.DisplayName"
@@ -181,6 +184,11 @@ const displayDevices = computed(() => {
       d.DisplayName === 'MyFocuserPro2 (INDI)' ? 'Gemini / MyFocuserPro2' : d.DisplayName,
   }));
 });
+
+// Compared against the rendered option values, not the raw device objects.
+const isSelectedDeviceInList = computed(() =>
+  displayDevices.value.some((d) => String(d.DisplayName) === selectedDevice.value)
+);
 
 // API call with a dynamic `apiAction`, retrying while the backend is still starting up.
 async function getDevices(maxRetries = 3, delayMs = 2000) {

@@ -1141,6 +1141,7 @@
       "disable": "Désactiver",
       "resetStatus": "Réinitialiser le statut",
       "delete": "Supprimer",
+      "runningLocked": "Cet élément est en cours d’exécution et ne peut pas être modifié",
       "controlsLockedMessage": "Les commandes de séquence sont verrouillées pendant l’exécution de la séquence.",
       "lockControls": "Verrouillage",
       "unlockControls": "Ouvrir"

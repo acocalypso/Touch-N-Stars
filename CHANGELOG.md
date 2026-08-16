@@ -11,6 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Status bar: Entries can be reordered and hidden under Settings > General, just like the navigation bar
 
 ### Changed
+- Sequence: The item that is currently running can no longer be edited, disabled, reset, deleted or moved
 - Sequence: Loading a sequence now closes the dialog right away and shows a spinner until the sequence is loaded
 - Status bar: Entries no longer jump to the front when something needs attention, and Progress, Log and Instance are no longer pinned to the right edge
 

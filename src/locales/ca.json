@@ -1184,7 +1184,8 @@
       "enable": "Activa",
       "disable": "Desactiva",
       "resetStatus": "Restableix l'estat",
-      "delete": "Elimina"
+      "delete": "Elimina",
+      "runningLocked": "Aquest element s’està executant i no es pot modificar"
     },
     "mount": {
       "title": "Muntura",

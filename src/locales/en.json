@@ -1184,7 +1184,8 @@
       "enable": "Enable",
       "disable": "Disable",
       "resetStatus": "Reset status",
-      "delete": "Delete"
+      "delete": "Delete",
+      "runningLocked": "This item is running and cannot be changed"
     },
     "mount": {
       "title": "Mount",

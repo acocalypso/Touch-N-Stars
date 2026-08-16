@@ -1184,7 +1184,8 @@
       "enable": "사용",
       "disable": "사용 안 함",
       "resetStatus": "상태 초기화",
-      "delete": "삭제"
+      "delete": "삭제",
+      "runningLocked": "이 항목은 실행 중이어서 변경할 수 없습니다"
     },
     "mount": {
       "title": "마운트",

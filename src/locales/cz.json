@@ -1141,6 +1141,7 @@
       "disable": "Zakázat",
       "resetStatus": "Resetovat stav",
       "delete": "Smazat",
+      "runningLocked": "Tato položka právě běží a nelze ji změnit",
       "controlsLockedMessage": "Sequence controls are locked while the sequence is running.",
       "lockControls": "Lock",
       "unlockControls": "Unlock"

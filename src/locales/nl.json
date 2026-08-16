@@ -1141,6 +1141,7 @@
       "disable": "Deactiveren",
       "resetStatus": "Status herstellen",
       "delete": "Verwijderen",
+      "runningLocked": "Dit item wordt uitgevoerd en kan niet worden gewijzigd",
       "controlsLockedMessage": "De reeksbedieningen zijn vergrendeld terwijl de reeks wordt uitgevoerd.",
       "lockControls": "Slot",
       "unlockControls": "Ontgrendelen"

@@ -1141,6 +1141,7 @@
       "disable": "Wyłącz",
       "resetStatus": "Resetuj status",
       "delete": "Usuń",
+      "runningLocked": "Ten element jest wykonywany i nie można go zmienić",
       "controlsLockedMessage": "Sterowanie sekwencją jest zablokowane na czas trwania sekwencji.",
       "lockControls": "Zamek",
       "unlockControls": "Odblokować"

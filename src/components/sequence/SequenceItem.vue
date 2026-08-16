@@ -10,15 +10,19 @@
   >
     <!-- Item header row -->
     <div class="flex items-center gap-1.5 px-2 py-2 @max-[16rem]:gap-1 @max-[16rem]:px-1">
-      <!-- Drag handle -->
+      <!-- Drag handle. Sortable picks the handle up by the .drag-handle class, so dropping
+           the class is what actually stops a drag of this single row while its siblings
+           stay draggable. -->
       <span
-        class="drag-handle shrink-0 p-1 text-slate-600 transition-colors touch-none @max-[16rem]:p-0.5"
+        class="shrink-0 p-1 text-slate-600 transition-colors touch-none @max-[16rem]:p-0.5"
         :class="
-          isLocked
+          dragDisabled
             ? 'cursor-not-allowed opacity-40'
-            : 'cursor-grab active:cursor-grabbing hover:text-slate-400'
+            : 'drag-handle cursor-grab active:cursor-grabbing hover:text-slate-400'
         "
-        :title="$t('components.sequence.move')"
+        :title="
+          isRunning ? $t('components.sequence.runningLocked') : $t('components.sequence.move')
+        "
       >
         <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
           <path
@@ -61,10 +65,17 @@
             :style="moreStyle"
             @click.stop
           >
+            <p v-if="isRunning" class="px-3 py-1 text-xs text-slate-500 max-w-56">
+              {{ $t('components.sequence.runningLocked') }}
+            </p>
             <button class="menu-item" :disabled="isLocked" @click="doAction('duplicate')">
               <DocumentDuplicateIcon class="w-4 h-4" /> {{ $t('components.sequence.duplicate') }}
             </button>
-            <button class="menu-item" :disabled="isLocked" @click="doAction('toggle-enable')">
+            <button
+              class="menu-item"
+              :disabled="isLocked || isRunning"
+              @click="doAction('toggle-enable')"
+            >
               <component
                 :is="item.Status === 'DISABLED' ? PlayCircleIcon : PauseCircleIcon"
                 class="w-4 h-4"
@@ -75,13 +86,13 @@
                   : $t('components.sequence.disable')
               }}
             </button>
-            <button class="menu-item" :disabled="isLocked" @click="doAction('reset')">
+            <button class="menu-item" :disabled="isLocked || isRunning" @click="doAction('reset')">
               <ArrowPathIcon class="w-4 h-4" /> {{ $t('components.sequence.resetStatus') }}
             </button>
             <div class="border-t border-slate-700 my-1" />
             <button
               class="menu-item text-red-400 hover:text-red-300 hover:bg-red-900/20"
-              :disabled="isLocked"
+              :disabled="isLocked || isRunning"
               @click="doAction('remove')"
             >
               <TrashIcon class="w-4 h-4" /> {{ $t('components.sequence.delete') }}
@@ -279,6 +290,11 @@ const mainStore = apiStore();
 const collapsed = ref(false);
 const activeSection = ref(null);
 const isLocked = computed(() => sequenceStore.sequenceControlsLocked);
+// The sequencer is executing this node right now -- changing, resetting, disabling,
+// deleting or moving it is off limits until it is done. Children of a running
+// container stay editable; only the running node itself is protected.
+const isRunning = computed(() => props.item.Status === 'RUNNING');
+const dragDisabled = computed(() => isLocked.value || isRunning.value);
 
 function onAddSectionActive(mode, isOpen) {
   activeSection.value = isOpen ? mode : null;
@@ -363,6 +379,8 @@ const borderClass = computed(() => {
 
 async function doAction(action) {
   if (isLocked.value) return;
+  // Duplicating leaves the running item untouched, so it stays available.
+  if (isRunning.value && action !== 'duplicate') return;
 
   moreOpen.value = false;
   const id = props.item.Id;
@@ -374,27 +392,25 @@ async function doAction(action) {
 }
 
 function onChildDragEnd(evt) {
-  if (isLocked.value) return;
-  if (evt.oldIndex === evt.newIndex) return;
-  const siblings = props.item.Items;
-  const movedId = siblings[evt.newIndex].Id;
-  const newIdx = evt.newIndex;
-  if (newIdx === 0) {
-    store.move(movedId, siblings[1]?.Id, false);
-  } else {
-    store.move(movedId, siblings[newIdx - 1]?.Id, true);
-  }
+  onSiblingDragEnd(evt, props.item.Items);
 }
 
 function onSiblingDragEnd(evt, siblings) {
   if (isLocked.value) return;
   if (evt.oldIndex === evt.newIndex) return;
-  const movedId = siblings[evt.newIndex].Id;
   const newIdx = evt.newIndex;
+  const moved = siblings[newIdx];
+  // The handle of a running item carries no .drag-handle class, so this should not
+  // happen -- but vuedraggable has already reordered the local list, and a reorder of
+  // equal length is not corrected by applyStatusUpdates. Reload to undo it.
+  if (moved?.Status === 'RUNNING') {
+    store.loadCurrent();
+    return;
+  }
   if (newIdx === 0) {
-    store.move(movedId, siblings[1]?.Id, false);
+    store.move(moved.Id, siblings[1]?.Id, false);
   } else {
-    store.move(movedId, siblings[newIdx - 1]?.Id, true);
+    store.move(moved.Id, siblings[newIdx - 1]?.Id, true);
   }
 }
 
@@ -411,5 +427,6 @@ onUnmounted(() => document.removeEventListener('click', onOutsideClick));
 @reference '../../assets/tailwind.css';
 .menu-item {
   @apply flex items-center gap-2 w-full px-3 py-1.5 text-sm text-slate-300 hover:bg-slate-700/60 transition-colors;
+  @apply disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent;
 }
 </style>

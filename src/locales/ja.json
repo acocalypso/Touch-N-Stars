@@ -1150,6 +1150,7 @@
       "disable": "無効にする",
       "resetStatus": "ステータスをリセット",
       "delete": "削除",
+      "runningLocked": "この項目は実行中のため変更できません",
       "controlsLockedMessage": "シーケンスの実行中はシーケンス コントロールがロックされます。",
       "lockControls": "ロック",
       "unlockControls": "ロックを解除する"

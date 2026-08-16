@@ -49,10 +49,34 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
       }
       return search(s.data, null);
     },
+    // Unlike updateItemById this also descends into Triggers/Conditions/GlobalTriggers --
+    // they carry a RUNNING status too and must be found by the running-item guard below.
+    findById: (s) => (itemId) => {
+      function search(items) {
+        for (const item of items ?? []) {
+          if (item.Id === itemId) return item;
+          const found =
+            search(item.Items) ??
+            search(item.Triggers) ??
+            search(item.Conditions) ??
+            search(item.GlobalTriggers);
+          if (found !== undefined) return found;
+        }
+        return undefined;
+      }
+      return search(s.data);
+    },
   },
   actions: {
     _isControlsLocked() {
       return useSequenceStore().sequenceControlsLocked;
+    },
+
+    // The item the sequencer is currently executing must not be changed. The UI hides
+    // those actions already, but the status comes from a 2s poll and can lag behind a
+    // click, so every mutating action rejects it here as well.
+    _isItemRunning(id) {
+      return this.findById(id)?.Status === 'RUNNING';
     },
 
     async loadCurrent() {
@@ -169,6 +193,7 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
 
     async move(id, targetId, insertAfter) {
       if (this._isControlsLocked()) return;
+      if (this._isItemRunning(id)) return;
 
       try {
         await apiService.sequenceMove(id, targetId, insertAfter);
@@ -181,6 +206,7 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
 
     async remove(id) {
       if (this._isControlsLocked()) return;
+      if (this._isItemRunning(id)) return;
 
       try {
         await apiService.sequenceRemove(id);
@@ -205,6 +231,7 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
 
     async setProperty(id, propertyName, value) {
       if (this._isControlsLocked()) return;
+      if (this._isItemRunning(id)) return;
 
       try {
         await apiService.sequenceSetProperty(id, propertyName, value);
@@ -217,6 +244,7 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
 
     async enable(id, enabled) {
       if (this._isControlsLocked()) return;
+      if (this._isItemRunning(id)) return;
 
       try {
         await apiService.sequenceEnable(id, enabled);
@@ -229,6 +257,7 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
 
     async resetStatus(id) {
       if (this._isControlsLocked()) return;
+      if (this._isItemRunning(id)) return;
 
       try {
         await apiService.sequenceResetStatus(id);
@@ -329,6 +358,7 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
 
     async setDsoTarget(id, name, raDeg, decDeg, rotation) {
       if (this._isControlsLocked()) return;
+      if (this._isItemRunning(id)) return;
 
       const dsoContainers = [];
       const collectDso = (items) => {

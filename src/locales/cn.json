@@ -1141,6 +1141,7 @@
       "disable": "禁用",
       "resetStatus": "重置状态",
       "delete": "删除",
+      "runningLocked": "该项目正在运行，无法修改",
       "controlsLockedMessage": "Sequence controls are locked while the sequence is running.",
       "lockControls": "Lock",
       "unlockControls": "Unlock"

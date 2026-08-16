@@ -1184,7 +1184,8 @@
       "enable": "Aktivieren",
       "disable": "Deaktivieren",
       "resetStatus": "Status zurücksetzen",
-      "delete": "Löschen"
+      "delete": "Löschen",
+      "runningLocked": "Dieses Item läuft gerade und kann nicht geändert werden"
     },
     "mount": {
       "title": "Montierung",

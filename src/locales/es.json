@@ -1141,6 +1141,7 @@
       "disable": "Desactivar",
       "resetStatus": "Restablecer estado",
       "delete": "Eliminar",
+      "runningLocked": "Este elemento se está ejecutando y no se puede modificar",
       "controlsLockedMessage": "Los controles de secuencia están bloqueados mientras la secuencia se está ejecutando.",
       "lockControls": "Bloquear",
       "unlockControls": "Desbloquear"

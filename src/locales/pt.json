@@ -1141,6 +1141,7 @@
       "disable": "Desativar",
       "resetStatus": "Redefinir status",
       "delete": "Excluir",
+      "runningLocked": "Este item está em execução e não pode ser alterado",
       "controlsLockedMessage": "Os controles de sequência são bloqueados enquanto a sequência está em execução.",
       "lockControls": "Trancar",
       "unlockControls": "Desbloquear"

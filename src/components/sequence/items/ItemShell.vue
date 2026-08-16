@@ -1,5 +1,9 @@
 <template>
-  <div class="flex-1 min-w-0">
+  <!-- @container: the editor rows and the header below size themselves against the item's own
+       width, which shrinks with nesting depth, rather than against the viewport. Note that
+       container-type also makes this a containing block for position:fixed -- both popovers
+       here teleport to body, and the draggable lists live in SequenceItem, not in here. -->
+  <div class="@container flex-1 min-w-0">
     <!-- Header: left=name+summary, right=badges+edit (vertically centered) -->
     <div class="flex items-center gap-1.5">
       <!-- Left: name + summary stacked -->
@@ -11,7 +15,10 @@
             class="w-3.5 h-3.5 shrink-0"
             :class="itemIconColor"
           />
-          <span class="text-sm font-medium text-gray-200 truncate min-w-0">{{ displayName }}</span>
+          <span
+            class="text-sm font-medium text-gray-200 truncate min-w-0 @max-[18rem]:whitespace-normal @max-[18rem]:line-clamp-2"
+            >{{ displayName }}</span
+          >
           <span v-if="label" class="shrink-0 text-xs text-slate-500 font-normal">{{ label }}</span>
         </div>
         <div v-if="$slots.summary" class="flex flex-wrap items-center gap-x-2 gap-y-0.5 mt-0.5">

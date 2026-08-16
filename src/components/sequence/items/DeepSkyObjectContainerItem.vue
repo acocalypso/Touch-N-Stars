@@ -7,7 +7,7 @@
 
     <template #editor>
       <!-- Container Name -->
-      <div class="flex items-center gap-3">
+      <div class="seq-field-row">
         <label class="text-xs text-slate-400 shrink-0">{{ $t('common.name') }}</label>
         <TextInput
           :modelValue="item.Name ?? ''"
@@ -20,7 +20,7 @@
       <TargetSearch @target-selected="handleTargetSelected" />
 
       <!-- Load from favorites -->
-      <div class="flex items-center gap-3">
+      <div class="seq-field-row">
         <label class="text-xs text-slate-400 shrink-0">{{
           $t('components.sequence.items.dso.loadFromFavorites')
         }}</label>
@@ -38,7 +38,7 @@
           appStore.isPINS ||
           appStore.checkVersionNewerOrEqual(appStore.currentTnsPluginVersion, '1.2.7.0')
         "
-        class="flex items-center gap-3"
+        class="seq-field-row"
       >
         <label class="text-xs text-slate-400 shrink-0">{{
           $t('components.fitsPlatesolve.buttonTitle')
@@ -106,7 +106,7 @@
       </Modal>
 
       <!-- Target Name -->
-      <div class="flex items-center gap-3">
+      <div class="seq-field-row">
         <label class="text-xs text-slate-400 shrink-0">{{
           $t('components.sequence.items.dso.targetName')
         }}</label>
@@ -135,7 +135,7 @@
       <div class="text-xs text-slate-400 font-medium">
         {{ $t('components.sequence.items.center.ra') }}
       </div>
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-1">
+      <div class="grid grid-cols-1 @[20rem]:grid-cols-3 gap-1">
         <NumberInputPicker
           :modelValue="coords.RAHours"
           label="h"
@@ -179,7 +179,7 @@
       <div class="text-xs text-slate-400 font-medium pt-1">
         {{ $t('components.sequence.items.center.dec') }}
       </div>
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-1">
+      <div class="grid grid-cols-1 @[20rem]:grid-cols-3 gap-1">
         <NumberInputPicker
           :modelValue="decDeg"
           label="°"

@@ -1,13 +1,18 @@
 <template>
+  <!-- @container: every nesting level costs ~98px of fixed chrome (padding, drag handle,
+       chevron, more-menu), so a deeply nested item can be left with well under 100px for its
+       name and summary. Below 16rem the chrome shrinks to give that space back. Safe despite
+       the draggables below: they all set fallbackOnBody, so the Sortable ghost is appended to
+       document.body and is not affected by the containing block container-type creates. -->
   <div
-    class="rounded-lg border transition-all duration-200"
+    class="@container rounded-lg border transition-all duration-200"
     :class="[borderClass, hasChildren && depth > 0 ? depthLeftBorder : '', activeSectionRing]"
   >
     <!-- Item header row -->
-    <div class="flex items-center gap-1.5 px-2 py-2">
+    <div class="flex items-center gap-1.5 px-2 py-2 @max-[16rem]:gap-1 @max-[16rem]:px-1">
       <!-- Drag handle -->
       <span
-        class="drag-handle shrink-0 p-1 text-slate-600 transition-colors touch-none"
+        class="drag-handle shrink-0 p-1 text-slate-600 transition-colors touch-none @max-[16rem]:p-0.5"
         :class="
           isLocked
             ? 'cursor-not-allowed opacity-40'
@@ -33,7 +38,8 @@
           :class="{ 'rotate-90': !collapsed }"
         />
       </button>
-      <span v-else class="w-4 shrink-0" />
+      <!-- Aligns childless items with collapsible ones; not worth 22px when space is this tight. -->
+      <span v-else class="w-4 shrink-0 @max-[16rem]:hidden" />
 
       <!-- Type component (display + edit) -->
       <component :is="typeComponent" :item="item" class="flex-1 min-w-0" />
@@ -41,7 +47,7 @@
       <!-- More menu -->
       <div class="shrink-0" ref="moreRef">
         <button
-          class="p-1 rounded text-slate-500 hover:text-slate-300 hover:bg-slate-600/40 transition-colors"
+          class="p-1 rounded text-slate-500 hover:text-slate-300 hover:bg-slate-600/40 transition-colors @max-[16rem]:p-0.5"
           :title="$t('components.sequence.more')"
           :disabled="isLocked"
           @click.stop="toggleMore"
@@ -86,7 +92,7 @@
     </div>
 
     <!-- Children with nested draggable -->
-    <div v-if="!collapsed && hasChildren" class="px-2 pb-2">
+    <div v-if="!collapsed && hasChildren" class="px-2 pb-2 @max-[16rem]:px-1">
       <!-- Sky chart for DSO container -->
       <SkyChart
         v-if="dsoTarget && mainStore.profileInfo?.AstrometrySettings?.Latitude != null"
@@ -101,7 +107,7 @@
       <!-- Triggers -->
       <div
         v-if="item.Triggers !== undefined"
-        class="mb-1.5 rounded-lg p-1.5 space-y-1 transition-all duration-200"
+        class="mb-1.5 rounded-lg p-1.5 space-y-1 transition-all duration-200 @max-[16rem]:p-1"
         :class="
           activeSection === 'trigger'
             ? 'border border-cyan-400/80 bg-cyan-950/30 shadow-lg shadow-cyan-500/30'
@@ -145,7 +151,7 @@
       <!-- Conditions -->
       <div
         v-if="item.Conditions !== undefined"
-        class="mb-1.5 rounded-lg p-1.5 space-y-1 transition-all duration-200"
+        class="mb-1.5 rounded-lg p-1.5 space-y-1 transition-all duration-200 @max-[16rem]:p-1"
         :class="
           activeSection === 'condition'
             ? 'border border-amber-400/80 bg-amber-950/30 shadow-lg shadow-amber-500/30'

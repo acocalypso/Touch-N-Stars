@@ -1,11 +1,15 @@
 <template>
   <div
     :class="[
-      labelPosition === 'top' ? '' : 'flex flex-row w-full items-center min-w-0',
+      labelPosition === 'top'
+        ? ''
+        : 'flex flex-row w-full items-center min-w-0 @max-[18rem]:flex-col @max-[18rem]:items-stretch',
       wrapperClass,
     ]"
   >
-    <span v-if="label" class="flex items-center gap-1 mr-3 mb-1">
+    <!-- The @max-[18rem]: rules only fire inside an @container ancestor (sequence items), so
+         every other screen keeps the single-line layout unchanged. -->
+    <span v-if="label" class="flex items-center gap-1 mr-3 mb-1 @max-[18rem]:mr-0">
       <label
         :for="inputId"
         :class="
@@ -26,7 +30,9 @@
     <div
       :class="[
         'flex items-stretch overflow-hidden',
-        labelPosition === 'top' || wrapperClass === 'w-full' ? 'w-full' : 'ml-auto w-36 md:w-40',
+        labelPosition === 'top' || wrapperClass === 'w-full'
+          ? 'w-full'
+          : 'ml-auto w-36 md:w-40 @max-[18rem]:ml-0 @max-[18rem]:w-full',
       ]"
     >
       <button
@@ -41,7 +47,7 @@
         :value="formattedValue"
         type="number"
         :class="[
-          'tns-input rounded-none border-x-0 text-center !min-w-0 !px-1 flex-1',
+          'tns-input rounded-none border-x-0 text-center min-w-12! px-1! flex-1',
           statusClass,
         ]"
         :placeholder="isDefaultValue && defaultValue === null ? 'default' : placeholder"

@@ -666,9 +666,15 @@
       },
       "navbarCustomization": {
         "title": "Navbar Customization",
-        "hint": "Drag to reorder. At least one page besides Settings must remain visible.",
+        "hint": "Drag to reorder. At least one page besides Settings must remain visible."
+      },
+      "itemCustomization": {
         "alwaysVisible": "Always visible",
-        "minOneRequired": "At least one page must remain visible"
+        "minOneRequired": "At least one entry must remain visible"
+      },
+      "statusBarCustomization": {
+        "title": "Status Bar Customization",
+        "hint": "Drag to reorder. At least one entry must remain visible."
       },
       "update": "Update",
       "errors": {

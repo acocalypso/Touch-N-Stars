@@ -24,12 +24,13 @@ npm run i18n:check
 npm run test:run
 ```
 
-`npm run ci:verify` chains all of them plus `typecheck`. Two known baselines, both unrelated
-to any current change — state them rather than "fixing" them silently:
+`npm run ci:verify` chains all of them plus `typecheck`. `typecheck` can OOM, and `test:run`
+needs Node ≥ 22.15 (`registerHooks`) — below that every test file fails at module
+instantiation, which looks alarming but says nothing about the code.
 
-- `i18n:check` fails on a pre-existing `ca.json` placeholder mismatch
-  (`plugins.pinsAllSky.messages.deletedSessions` is missing `{suffix}`).
-- `typecheck` can OOM, and `test:run` needs Node ≥ 22.15 (`registerHooks`).
+`i18n:check` is expected to pass. It used to fail on a `ca.json` placeholder mismatch
+(`plugins.pinsAllSky.messages.deletedSessions` missing `{suffix}`); that is fixed, so a
+failure now belongs to the current change.
 
 ## Polling is mandatory
 

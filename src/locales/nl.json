@@ -612,10 +612,16 @@
         "syncSuccess": "Tijd succesvol gesynchroniseerd."
       },
       "navbarCustomization": {
-        "alwaysVisible": "Altijd zichtbaar",
         "hint": "Sleep om de volgorde te wijzigen. Er moet minimaal één pagina naast Instellingen zichtbaar blijven.",
-        "minOneRequired": "Er moet minimaal één pagina zichtbaar blijven",
         "title": "Aanpassing van de navigatiebalk"
+      },
+      "itemCustomization": {
+        "alwaysVisible": "Altijd zichtbaar",
+        "minOneRequired": "Er moet minimaal één item zichtbaar blijven"
+      },
+      "statusBarCustomization": {
+        "title": "Aanpassing van de statusbalk",
+        "hint": "Sleep om de volgorde te wijzigen. Er moet minimaal één item zichtbaar blijven."
       },
       "imageSavePath": {
         "create": "Creëren",

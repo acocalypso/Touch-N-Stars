@@ -634,9 +634,15 @@
       },
       "navbarCustomization": {
         "title": "ナビゲーションバーのカスタマイズ",
-        "hint": "ドラッグして並び替え。設定以外のページが少なくとも1つ表示されている必要があります。",
+        "hint": "ドラッグして並び替え。設定以外のページが少なくとも1つ表示されている必要があります。"
+      },
+      "itemCustomization": {
         "alwaysVisible": "常に表示",
-        "minOneRequired": "少なくとも1ページが表示されている必要があります"
+        "minOneRequired": "少なくとも1つの項目を表示しておく必要があります"
+      },
+      "statusBarCustomization": {
+        "title": "ステータスバーのカスタマイズ",
+        "hint": "ドラッグして並び替え。少なくとも1つの項目を表示しておく必要があります。"
       },
       "update": "アップデート",
       "errors": {

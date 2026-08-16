@@ -666,9 +666,15 @@
       },
       "navbarCustomization": {
         "title": "내비게이션 바 사용자 지정",
-        "hint": "드래그하여 순서를 바꾸세요. 설정 외에 최소 한 개의 페이지는 표시되어야 합니다.",
+        "hint": "드래그하여 순서를 바꾸세요. 설정 외에 최소 한 개의 페이지는 표시되어야 합니다."
+      },
+      "itemCustomization": {
         "alwaysVisible": "항상 표시",
-        "minOneRequired": "최소 한 개의 페이지는 표시되어야 합니다"
+        "minOneRequired": "최소 한 개의 항목은 표시되어야 합니다"
+      },
+      "statusBarCustomization": {
+        "title": "상태 표시줄 사용자 지정",
+        "hint": "드래그하여 순서를 바꾸세요. 최소 한 개의 항목은 표시되어야 합니다."
       },
       "update": "업데이트",
       "errors": {

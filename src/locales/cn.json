@@ -612,10 +612,16 @@
         "syncSuccess": "Time synchronised successfully."
       },
       "navbarCustomization": {
-        "alwaysVisible": "始终可见",
         "hint": "拖动以重新排序。除了“设置”之外，至少还有一页必须保持可见。",
-        "minOneRequired": "至少一页必须保持可见",
         "title": "导航栏定制"
+      },
+      "itemCustomization": {
+        "alwaysVisible": "始终可见",
+        "minOneRequired": "至少必须保留一个条目可见"
+      },
+      "statusBarCustomization": {
+        "title": "状态栏定制",
+        "hint": "拖动以重新排序。至少必须保留一个条目可见。"
       },
       "imageSavePath": {
         "create": "创造",

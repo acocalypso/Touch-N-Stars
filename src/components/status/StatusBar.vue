@@ -6,10 +6,10 @@
   >
     <!-- Safety -->
     <div
-      v-if="store.safetyInfo.Connected"
+      v-if="store.safetyInfo.Connected && !isStatusItemHidden('safety')"
       class="tns-status-seg cursor-default!"
       :class="segClass(safetyState, false)"
-      :style="{ order: chipOrder(safetyState, 15) }"
+      :style="{ order: getStatusOrder('safety') }"
     >
       <span class="chip-label">{{ t('components.statusBar.labels.safety') }}</span>
       <span class="chip-value-line">
@@ -23,10 +23,10 @@
     </div>
     <!--Camera-->
     <button
-      v-if="store.cameraInfo.Connected"
+      v-if="store.cameraInfo.Connected && !isStatusItemHidden('camera')"
       class="tns-status-seg"
       :class="segClass(cameraState, cameraStore.showCameraInfo)"
-      :style="{ order: chipOrder(cameraState, 10) }"
+      :style="{ order: getStatusOrder('camera') }"
       @click="handleCameraClickWithVisit"
     >
       <span class="chip-label">{{ t('components.statusBar.labels.camera') }}</span>
@@ -37,10 +37,10 @@
     </button>
     <!--Filter-->
     <button
-      v-if="store.filterInfo.Connected"
+      v-if="store.filterInfo.Connected && !isStatusItemHidden('filter')"
       class="tns-status-seg"
       :class="segClass('idle', filterStore.showFilterwheelInfo)"
-      :style="{ order: chipOrder('idle', 13) }"
+      :style="{ order: getStatusOrder('filter') }"
       @click="handleFilterClickWithVisit"
     >
       <span class="chip-label">{{ t('components.statusBar.labels.filter') }}</span>
@@ -53,10 +53,10 @@
     </button>
     <!--Mount-->
     <button
-      v-if="store.mountInfo.Connected"
+      v-if="store.mountInfo.Connected && !isStatusItemHidden('mount')"
       class="tns-status-seg"
       :class="segClass(mountState, mountStore.showMountInfo)"
-      :style="{ order: chipOrder(mountState, 12) }"
+      :style="{ order: getStatusOrder('mount') }"
       @click="handleMountClickWithVisit"
     >
       <span class="chip-label">{{ t('components.statusBar.labels.mount') }}</span>
@@ -71,10 +71,10 @@
     </button>
     <!--Guider-->
     <button
-      v-if="store.guiderInfo.Connected"
+      v-if="store.guiderInfo.Connected && !isStatusItemHidden('guider')"
       class="tns-status-seg"
       :class="segClass(guiderState, guiderStore.showGuiderGraph)"
-      :style="{ order: chipOrder(guiderState, 11) }"
+      :style="{ order: getStatusOrder('guider') }"
       @click="handleGuiderClickWithVisit"
     >
       <span class="chip-label">{{ t('components.statusBar.labels.guiding') }}</span>
@@ -85,9 +85,9 @@
     </button>
     <!-- Weather -->
     <button
-      v-if="store.weatherInfo.Connected"
+      v-if="store.weatherInfo.Connected && !isStatusItemHidden('weather')"
       class="tns-status-seg"
-      :style="{ order: chipOrder('idle', 14) }"
+      :style="{ order: getStatusOrder('weather') }"
       @click.stop.prevent="handleWeatherClick"
     >
       <span class="chip-label">{{ t('components.statusBar.labels.weather') }}</span>
@@ -96,35 +96,39 @@
         <span class="chip-value">{{ weatherValue }}</span>
       </span>
     </button>
-    <!-- System group: pinned to the right edge when there is free space,
-         degrades to a normal scroll tail when the bar overflows. -->
-    <div class="order-last ml-auto flex items-center self-stretch border-l border-line">
-      <!--Progress -->
-      <button
-        v-if="store.isPINS"
-        class="tns-status-seg"
-        :class="segClass('idle', showProgress)"
-        @click.stop.prevent="handleProgressClick"
-      >
-        <span class="chip-value">{{ t('components.statusBar.labels.progress') }}</span>
-      </button>
-      <!--Log -->
-      <button class="tns-status-seg" @click.stop.prevent="handleLogClick">
-        <span class="chip-value">{{ t('components.statusBar.labels.log') }}</span>
-      </button>
-      <!--WS Status + Instance Switcher -->
-      <button
-        class="tns-status-seg"
-        :class="segClass(wsState, false)"
-        @click.stop.prevent="handleInstanceClick"
-      >
-        <span class="chip-label">{{ t('components.statusBar.labels.instance') }}</span>
-        <span class="chip-value-line">
-          <span v-if="showDot(wsState)" class="tns-dot" :class="dotClass(wsState)"></span>
-          <span class="chip-value">{{ activeInstanceName }}</span>
-        </span>
-      </button>
-    </div>
+    <!--Progress -->
+    <button
+      v-if="store.isPINS && !isStatusItemHidden('progress')"
+      class="tns-status-seg"
+      :class="segClass('idle', showProgress)"
+      :style="{ order: getStatusOrder('progress') }"
+      @click.stop.prevent="handleProgressClick"
+    >
+      <span class="chip-value">{{ t('components.statusBar.labels.progress') }}</span>
+    </button>
+    <!--Log -->
+    <button
+      v-if="!isStatusItemHidden('log')"
+      class="tns-status-seg"
+      :style="{ order: getStatusOrder('log') }"
+      @click.stop.prevent="handleLogClick"
+    >
+      <span class="chip-value">{{ t('components.statusBar.labels.log') }}</span>
+    </button>
+    <!--WS Status + Instance Switcher -->
+    <button
+      v-if="!isStatusItemHidden('instance')"
+      class="tns-status-seg"
+      :class="segClass(wsState, false)"
+      :style="{ order: getStatusOrder('instance') }"
+      @click.stop.prevent="handleInstanceClick"
+    >
+      <span class="chip-label">{{ t('components.statusBar.labels.instance') }}</span>
+      <span class="chip-value-line">
+        <span v-if="showDot(wsState)" class="tns-dot" :class="dotClass(wsState)"></span>
+        <span class="chip-value">{{ activeInstanceName }}</span>
+      </span>
+    </button>
 
     <!-- Instance Switcher Modal -->
     <InstanceSwitcherModal v-if="showInstanceSwitcher" @close="showInstanceSwitcher = false" />
@@ -300,12 +304,17 @@ function showDot(state) {
   return state === 'ok' || state === 'idle';
 }
 
-// Chips needing attention are pulled to the front of the (scrollable) bar.
-// `base` keeps the remaining chips in a stable, predictable order.
-function chipOrder(state, base) {
-  if (state === 'danger') return 0;
-  if (state === 'warn') return 5;
-  return base;
+// Chip position and visibility are user-configurable (see
+// StatusBarCustomizationSettings.vue). Unknown ids sort to the end.
+function getStatusOrder(id) {
+  const order = settingsStore.statusbar?.itemOrder;
+  if (!order) return 99;
+  const idx = order.indexOf(id);
+  return idx === -1 ? 99 : idx;
+}
+
+function isStatusItemHidden(id) {
+  return settingsStore.statusbar?.hiddenItems?.includes(id) ?? false;
 }
 
 function formatNumber(value, digits) {

@@ -666,9 +666,15 @@
       },
       "navbarCustomization": {
         "title": "Personalització de la barra de navegació",
-        "hint": "Arrossega per reordenar. Cal que almenys una pàgina a més de Configuració sigui visible.",
+        "hint": "Arrossega per reordenar. Cal que almenys una pàgina a més de Configuració sigui visible."
+      },
+      "itemCustomization": {
         "alwaysVisible": "Sempre visible",
-        "minOneRequired": "Almenys una pàgina ha de ser visible"
+        "minOneRequired": "Almenys una entrada ha de romandre visible"
+      },
+      "statusBarCustomization": {
+        "title": "Personalització de la barra d'estat",
+        "hint": "Arrossega per reordenar. Almenys una entrada ha de romandre visible."
       },
       "update": "Actualitza",
       "errors": {

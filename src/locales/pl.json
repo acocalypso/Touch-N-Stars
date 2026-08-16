@@ -612,10 +612,16 @@
         "syncSuccess": "Czas zsynchronizowany pomyślnie."
       },
       "navbarCustomization": {
-        "alwaysVisible": "Zawsze widoczny",
         "hint": "Przeciągnij, aby zmienić kolejność. Przynajmniej jedna strona poza Ustawieniami musi pozostać widoczna.",
-        "minOneRequired": "Przynajmniej jedna strona musi pozostać widoczna",
         "title": "Dostosowywanie paska nawigacyjnego"
+      },
+      "itemCustomization": {
+        "alwaysVisible": "Zawsze widoczny",
+        "minOneRequired": "Przynajmniej jeden element musi pozostać widoczny"
+      },
+      "statusBarCustomization": {
+        "title": "Dostosowywanie paska stanu",
+        "hint": "Przeciągnij, aby zmienić kolejność. Przynajmniej jeden element musi pozostać widoczny."
       },
       "imageSavePath": {
         "create": "Tworzyć",

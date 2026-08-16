@@ -1037,16 +1037,23 @@ function handleVisibilityChange() {
   }
 }
 
-function handlePageShow() {
-  // pageshow is triggered faster than visibilitychange
-  if (!document.hidden) {
+// pageshow/focus are redundant safety nets for a missed "we're visible again"
+// transition, NOT resume triggers in their own right: performResume() drops
+// isBackendReachable and refetches every store, which visibly tears the open page
+// apart. Both therefore require that we actually paused - handleVisibilityChange
+// and the native appStateChange listener set isPaused before either can fire.
+// Without that guard any in-page focus change resumes the app; Sortable emits one
+// on every drag, so reordering the navbar/status bar triggered a full reconnect.
+function handlePageShow(event) {
+  // pageshow is triggered faster than visibilitychange. A bfcache restore froze
+  // the page without a visibilitychange, so it counts even if pauseApp() never ran.
+  if (!document.hidden && (isPaused || event?.persisted)) {
     resumeApp();
   }
 }
 
 function handleFocus() {
-  // focus event as additional trigger
-  if (!document.hidden) {
+  if (!document.hidden && isPaused) {
     resumeApp();
   }
 }

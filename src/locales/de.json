@@ -801,6 +801,7 @@
       "sequenceLoad": "Laden",
       "sequenceNoFiles": "Keine Dateien gefunden",
       "sequenceLoading": "Lade...",
+      "loadingSequence": "Sequenz wird geladen…",
       "sequenceClose": "Schließen",
       "deleteConfirmationTitle": "Datei löschen",
       "deleteConfirmationMessage": "Möchten Sie die Datei wirklich löschen?",
@@ -1111,6 +1112,16 @@
           "modePeak": "Peak",
           "minimumPoints": "Mindestpunkte"
         },
+        "interruptAndRetryWhenRMSAbove": {
+          "rmsThreshold": "RMS-Schwellenwert (\")",
+          "mode": "Modus",
+          "modeRMS": "RMS",
+          "modePeak": "Peak",
+          "minimumPoints": "Mindestpunkte",
+          "stableTime": "Stabil für (s)",
+          "recoveryTimeout": "Erholungs-Timeout (min)",
+          "maxRetries": "Max. Wiederholungen (0 = unbegrenzt)"
+        },
         "startGuiding": {
           "forceCalibrationLabel": "Kalibrierung erzwingen"
         },
@@ -1183,7 +1194,8 @@
       "enable": "Aktivieren",
       "disable": "Deaktivieren",
       "resetStatus": "Status zurücksetzen",
-      "delete": "Löschen"
+      "delete": "Löschen",
+      "runningLocked": "Dieses Item läuft gerade und kann nicht geändert werden"
     },
     "mount": {
       "title": "Montierung",
@@ -5001,10 +5013,15 @@
       "delete": "Löschen",
       "deleteConfirm": "Sind Sie sicher, dass Sie diese Sitzung löschen möchten? \nDies kann nicht rückgängig gemacht werden.",
       "deleteTitle": "Sitzung löschen",
+      "downloadReport": "Bericht herunterladen",
       "loading": "Sitzungen werden geladen…",
       "noSessions": "Keine Sitzung ausgewählt. \nWählen Sie eine Sitzung aus der Dropdown-Liste aus.",
       "placeholder": "Wählen Sie eine Sitzung aus…",
-      "resend": "Bericht erneut senden"
+      "reportTitle": "Detaillierter Bericht",
+      "reportZoomActual": "100%",
+      "reportZoomFit": "An Breite anpassen",
+      "resend": "Bericht erneut senden",
+      "viewReport": "Detaillierten Bericht anzeigen"
     },
     "settings": {
       "chartPrimary": "Primäre Metrik",

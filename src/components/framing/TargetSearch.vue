@@ -59,11 +59,22 @@
             v-for="(item, index) in framingStore.targetSearchResult"
             :key="index"
             class="p-2 hover:bg-blue-800 cursor-pointer"
+            :class="{ 'opacity-50': item.Type === 'Star' && item.altAz.alt <= 0 }"
             @click="selectTarget(item)"
           >
             {{ item.Name }}
             <span v-if="item['Common names']"> ({{ item['Common names'] }})</span>
             <span v-if="item['M']"> (M {{ item['M'] }})</span>
+            <span
+              v-if="item.Type === 'Star'"
+              class="ml-1 px-1.5 py-0.5 rounded text-xs bg-gray-700 text-gray-200 align-middle"
+            >
+              {{ $t('components.framing.search.objectTypes.Star') }}
+            </span>
+            <span v-if="item.Type === 'Star'" class="block text-xs text-gray-400">
+              Mag: {{ item.star.magnitude }} · Alt: {{ item.altAz.alt.toFixed(1) }}° · Az:
+              {{ item.altAz.az.toFixed(1) }}° ({{ item.altAz.direction }})
+            </span>
           </li>
         </ul>
       </div>
@@ -189,23 +200,65 @@ function computeVisibleStars() {
     .sort((a, b) => parseFloat(b.altAz.alt) - parseFloat(a.altAz.alt));
 }
 
+const MAX_STAR_RESULTS = 20;
+
+// Searches the local star catalogue (public/stars.csv) by name. Alt/Az is computed here
+// instead of being read from visibleStars, which is only filled once on load and goes stale.
+function searchStars(query) {
+  const term = query.trim().toLowerCase();
+  // Mirrors the short-query guard of apiService.searchNGC so a single letter does not
+  // dump half the catalogue into the result list.
+  if (term.length < 2) return [];
+
+  return stars.value
+    .filter((star) => star.name?.toLowerCase().includes(term))
+    .map((star) => {
+      const name = star.name.toLowerCase();
+      // Exact name first, then names starting with the term, then the rest.
+      const rank = name === term ? 0 : name.startsWith(term) ? 1 : 2;
+      const altAz = calculateAltAz(star.raDeg, star.decDeg);
+      return { Name: star.name, RA: star.raDeg, Dec: star.decDeg, Type: 'Star', star, altAz, rank };
+    })
+    .sort((a, b) => {
+      if (a.rank !== b.rank) return a.rank - b.rank;
+      // Stars above the horizon first, then brightest first.
+      const aVisible = a.altAz.alt > 0;
+      const bVisible = b.altAz.alt > 0;
+      if (aVisible !== bVisible) return aVisible ? -1 : 1;
+      return a.star.magnitude - b.star.magnitude;
+    })
+    .slice(0, MAX_STAR_RESULTS);
+}
+
 async function fetchTargetSearch() {
   if (framingStore.searchQuery.trim() === '') {
     framingStore.targetSearchResult = [];
     return;
   }
+  const starResults = searchStars(framingStore.searchQuery);
   try {
     const data = await apiService.searchNGC(framingStore.searchQuery, 50);
-    framingStore.targetSearchResult = Array.isArray(data) ? data : [];
+    framingStore.targetSearchResult = [...starResults, ...(Array.isArray(data) ? data : [])];
   } catch (error) {
     console.error('Error fetching search suggestions:', error);
-    framingStore.targetSearchResult = [];
+    // Keep the locally found stars even when the DSO backend call fails.
+    framingStore.targetSearchResult = starResults;
   }
 }
 
 function selectTarget(item) {
   framingStore.searchQuery = item.Name || '';
   framingStore.targetSearchResult = [];
+
+  if (item.Type === 'Star') {
+    // Mirror the selection in the dropdown below, but only if it holds a matching option.
+    if (visibleStars.value.some((s) => s.name === item.star.name)) {
+      selectedStar.value = item.star.name;
+    }
+    applyStarSelection(item.star);
+    return;
+  }
+
   framingStore.selectedItem = item;
   framingStore.RAangle = item.RA;
   framingStore.DECangle = item.Dec;
@@ -298,12 +351,9 @@ function convertDECtoDegrees(dec) {
   );
 }
 
-// When a star is selected, update the displayed values.
-// In ALT/AZ mode the values are converted using calculateAltAz.
-async function updateRaDec() {
-  const star = visibleStars.value.find((s) => s.name === selectedStar.value);
-  if (!star) return;
-
+// Applies a star as the current target — shared by the dropdown and the text search,
+// so both paths behave identically.
+async function applyStarSelection(star) {
   framingStore.RAangleString = degreesToHMS(star.raDeg);
   framingStore.DECangleString = degreesToDMS(star.decDeg);
   framingStore.RAangle = star.raDeg;
@@ -313,12 +363,31 @@ async function updateRaDec() {
     RA: star.raDeg,
     Dec: star.decDeg,
   };
+
+  const { altitude, azimuth } = raDecToAltAz(
+    star.raDeg,
+    star.decDeg,
+    appStore.profileInfo?.AstrometrySettings?.Latitude ?? 0,
+    appStore.profileInfo?.AstrometrySettings?.Longitude ?? 0
+  );
+  framingStore.ALTangle = altitude;
+  framingStore.AZangle = azimuth;
+  framingStore.ALTangleString = altitude.toFixed(3);
+  framingStore.AZangleString = azimuth.toFixed(3);
+
   try {
     await apiService.setFramingImageSource('SKYATLAS');
     await apiService.setFramingCoordinates(star.raDeg, star.decDeg);
   } catch (error) {
     console.error('Error updating sky atlas:', error);
   }
+}
+
+// When a star is selected in the dropdown, update the displayed values.
+async function updateRaDec() {
+  const star = visibleStars.value.find((s) => s.name === selectedStar.value);
+  if (!star) return;
+  await applyStarSelection(star);
 }
 
 function calculateAltAz(raDeg, decDeg) {

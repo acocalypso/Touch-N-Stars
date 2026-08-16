@@ -6,7 +6,7 @@
 
     <template #editor="{ save }">
       <!-- Parameter type select -->
-      <div class="flex items-center gap-3">
+      <div class="seq-field-row">
         <label class="text-xs text-slate-400 shrink-0">{{
           $t('components.sequence.items.changePHD2Parameters.parameter')
         }}</label>
@@ -33,7 +33,7 @@
       />
 
       <!-- Dither in RA Only -->
-      <div v-else-if="item.Phd2Parameter === 1" class="flex items-center gap-3">
+      <div v-else-if="item.Phd2Parameter === 1" class="seq-field-row">
         <label class="text-xs text-slate-400 shrink-0">{{
           $t('components.sequence.items.changePHD2Parameters.ditherRAOnly')
         }}</label>

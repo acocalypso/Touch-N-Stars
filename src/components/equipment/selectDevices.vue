@@ -11,7 +11,10 @@
         v-model="selectedDevice"
         :disabled="isConnected"
       >
-        <option disabled>{{ selectedDevice }}</option>
+        <!-- Placeholder for a selection that is not (yet) in the fetched list, e.g. while
+             the list is still empty after a backend restart. Hidden once the list contains
+             it, otherwise the device would show up twice. -->
+        <option v-if="!isSelectedDeviceInList" disabled>{{ selectedDevice }}</option>
         <option
           v-for="device in displayDevices"
           :key="device.DisplayName"
@@ -94,7 +97,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch, computed } from 'vue';
+import { ref, onMounted, onBeforeUnmount, watch, computed } from 'vue';
 import apiService from '@/services/apiService';
 import {
   ArrowPathIcon,
@@ -132,6 +135,37 @@ const isToggleCon = ref(false);
 const borderClass = ref('border-gray-500');
 const showDisableModal = ref(false);
 
+// After a backend restart App.vue remounts this page in the very tick isBackendReachable
+// flips to true, while PINS is still enumerating drivers. When the fast retry budget in
+// getDevices() is not enough, keep refetching in the background until a non-empty list
+// arrives instead of leaving the select empty until the user navigates away and back.
+const EMPTY_RETRY_DELAY_MS = 10000;
+let emptyRetryTimer = null;
+// Several triggers can overlap (mount, reloadTrigger, reachability watcher, background
+// timer, rescan button); an older chain must not overwrite a newer list.
+let fetchGeneration = 0;
+
+function cancelEmptyRetry() {
+  if (emptyRetryTimer) {
+    clearTimeout(emptyRetryTimer);
+    emptyRetryTimer = null;
+  }
+}
+
+function scheduleEmptyRetry() {
+  cancelEmptyRetry();
+  emptyRetryTimer = setTimeout(() => {
+    emptyRetryTimer = null;
+    // Do not fire into a dead backend; the reachability watcher refetches as soon as it
+    // comes back.
+    if (!store.isBackendReachable) {
+      scheduleEmptyRetry();
+      return;
+    }
+    getDevices();
+  }, EMPTY_RETRY_DELAY_MS);
+}
+
 function openDisableInfo() {
   showDisableModal.value = true;
 }
@@ -151,65 +185,79 @@ const displayDevices = computed(() => {
   }));
 });
 
-// Funktion für API-Aufruf mit dynamischem `apiAction` mit Retry bei Backend-Neustart
-async function getDevices(retryCount = 0, maxRetries = 3, delayMs = 2000) {
-  error.value = false;
+// Compared against the rendered option values, not the raw device objects.
+const isSelectedDeviceInList = computed(() =>
+  displayDevices.value.some((d) => String(d.DisplayName) === selectedDevice.value)
+);
 
-  // Prüfung ob apiAction definiert ist
+// API call with a dynamic `apiAction`, retrying while the backend is still starting up.
+async function getDevices(maxRetries = 3, delayMs = 2000) {
   if (!props.apiAction) {
     console.error('apiAction is not defined');
     return;
   }
 
   const apiName = props.apiAction.replace('Action', '');
+  const generation = ++fetchGeneration;
+  const isStale = () => generation !== fetchGeneration;
+
+  cancelEmptyRetry();
+  error.value = false;
   isScanning.value = true;
+
   try {
-    if (!apiService[props.apiAction]) {
-      throw new Error(`Invalid API method: ${props.apiAction}`);
-    }
-    const response = await apiService[props.apiAction]('list-devices');
-    if (response.Error) {
-      // Retry bei Fehler (Backend könnte noch nicht vollständig initialisiert sein)
+    for (let retryCount = 0; ; retryCount++) {
+      let reason = null;
+      let isEmptyResult = false;
+
+      try {
+        if (!apiService[props.apiAction]) {
+          throw new Error(`Invalid API method: ${props.apiAction}`);
+        }
+        const response = await apiService[props.apiAction]('list-devices');
+        if (isStale()) return;
+
+        if (response.Error) {
+          reason = `API Error: ${response.Error}`;
+        } else if (!Array.isArray(response.Response)) {
+          reason = `Faulty API response: ${JSON.stringify(response)}`;
+        } else if (response.Response.length === 0) {
+          // An empty array can mean the backend has not finished scanning yet.
+          devices.value = response.Response;
+          reason = 'Empty device list';
+          isEmptyResult = true;
+        } else {
+          devices.value = response.Response;
+          updateBorderClass();
+          return;
+        }
+      } catch (err) {
+        if (isStale()) return;
+        reason = `Error: ${err.message}`;
+      }
+
+      // Retry: the backend may not be fully initialized yet.
       if (retryCount < maxRetries) {
         console.warn(
-          `[${apiName}] API Error, retrying in ${delayMs}ms... (${retryCount + 1}/${maxRetries})`
+          `[${apiName}] ${reason}, retrying in ${delayMs}ms... (${retryCount + 1}/${maxRetries})`
         );
         await new Promise((resolve) => setTimeout(resolve, delayMs));
-        return getDevices(retryCount + 1, maxRetries, delayMs);
+        if (isStale()) return;
+        continue;
       }
-      error.value = true;
-      console.error('API Error:', response.Error);
+
+      // Fast budget exhausted: keep retrying in the background instead of leaving the
+      // list permanently empty.
+      console.warn(`[${apiName}] ${reason}, retrying in ${EMPTY_RETRY_DELAY_MS}ms...`);
+      error.value = !isEmptyResult;
+      updateBorderClass();
+      scheduleEmptyRetry();
       return;
     }
-
-    if (Array.isArray(response.Response)) {
-      // Leeres Array kann bedeuten, dass das Backend noch nicht fertig gescannt hat
-      if (response.Response.length === 0 && retryCount < maxRetries) {
-        console.warn(
-          `[${apiName}] Empty device list, retrying in ${delayMs}ms... (${retryCount + 1}/${maxRetries})`
-        );
-        await new Promise((resolve) => setTimeout(resolve, delayMs));
-        return getDevices(retryCount + 1, maxRetries, delayMs);
-      }
-      devices.value = response.Response;
-    } else {
-      error.value = true;
-      console.error('Faulty API response:', response);
-    }
-  } catch (err) {
-    // Retry bei Fehler (Backend könnte noch nicht vollständig initialisiert sein)
-    if (retryCount < maxRetries) {
-      console.warn(
-        `[${apiName}] Error, retrying in ${delayMs}ms... (${retryCount + 1}/${maxRetries})`,
-        err.message
-      );
-      await new Promise((resolve) => setTimeout(resolve, delayMs));
-      return getDevices(retryCount + 1, maxRetries, delayMs);
-    }
-    error.value = true;
-    console.error('Error:', err);
   } finally {
-    isScanning.value = false;
+    if (!isStale()) {
+      isScanning.value = false;
+    }
   }
 }
 
@@ -225,12 +273,15 @@ async function configDevice() {
 }
 
 async function rescanDevices() {
-  // Prüfung ob apiAction definiert ist
   if (!props.apiAction) {
     console.error('apiAction is not defined');
     return;
   }
 
+  const generation = ++fetchGeneration;
+  const isStale = () => generation !== fetchGeneration;
+
+  cancelEmptyRetry();
   error.value = false;
   console.log('scan');
   isScanning.value = true;
@@ -240,23 +291,36 @@ async function rescanDevices() {
     }
     const response = await apiService[props.apiAction]('rescan');
     console.log(response);
-    isScanning.value = false;
+    if (isStale()) return;
+
     if (response.Error) {
       error.value = true;
       console.error('API Error:', response.Error);
-      isScanning.value = false;
+      // A rescan right after a restart can hit a backend that is still starting up.
+      scheduleEmptyRetry();
       return;
     }
 
     if (Array.isArray(response.Response)) {
       devices.value = response.Response;
+      if (response.Response.length === 0) {
+        scheduleEmptyRetry();
+      }
     } else {
       error.value = true;
       console.error('Faulty API response:', response);
+      scheduleEmptyRetry();
     }
   } catch (err) {
+    if (isStale()) return;
     error.value = true;
     console.error('Error:', err);
+    scheduleEmptyRetry();
+  } finally {
+    if (!isStale()) {
+      isScanning.value = false;
+      updateBorderClass();
+    }
   }
 }
 
@@ -376,8 +440,24 @@ watch(
   async (newValue, oldValue) => {
     if (newValue > 0 && newValue !== oldValue) {
       await getDevices();
-      selectedDevice.value = getDeviceName(props.defaultDeviceId);
+      // Keep the current selection when the reload came back empty; the devices watcher
+      // resolves it once a background retry delivers the list.
+      const name = getDeviceName(props.defaultDeviceId);
+      if (name) {
+        selectedDevice.value = name;
+      }
       updateBorderClass();
+    }
+  }
+);
+
+// A short outage does not always unmount this page (the reconnect overlay is debounced and
+// skipped on /settings), so the list would stay stale without this.
+watch(
+  () => store.isBackendReachable,
+  (reachable) => {
+    if (reachable) {
+      getDevices();
     }
   }
 );
@@ -387,6 +467,12 @@ onMounted(async () => {
   selectedDevice.value = props.defaultDeviceId;
   selectedDevice.value = getDeviceName(selectedDevice.value);
   updateBorderClass();
+});
+
+onBeforeUnmount(() => {
+  // Invalidate any in-flight retry chain so it stops firing requests after unmount.
+  fetchGeneration++;
+  cancelEmptyRetry();
 });
 </script>
 

@@ -330,11 +330,10 @@
           :value="store.settings.SenderAddress"
           @blur="save('SenderAddress', $event)"
         />
-        <TextRow
+        <SecretRow
           :label="$t('nightsummary.settings.emailPassword')"
-          :value="store.settings.SmtpPassword"
-          @blur="save('SmtpPassword', $event)"
-          type="password"
+          :is-set="store.settings.SmtpPasswordSet"
+          @save="(v) => (smtpPasswordSave = saveSecret('SmtpPassword', v))"
         />
         <TextRow
           :label="$t('nightsummary.settings.emailRecipient')"
@@ -371,11 +370,7 @@
           </div>
         </template>
         <div class="flex flex-wrap items-center gap-3">
-          <button
-            @click="store.testEmail()"
-            :disabled="store.emailTesting"
-            class="tns-btn-secondary"
-          >
+          <button @click="runTestEmail()" :disabled="store.emailTesting" class="tns-btn-secondary">
             {{ store.emailTesting ? $t('common.loading') : $t('nightsummary.settings.testEmail') }}
           </button>
           <StatusBadge
@@ -398,19 +393,19 @@
         @update="save('PushoverEnabled', $event)"
       />
       <div class="mt-4 space-y-3">
-        <TextRow
+        <SecretRow
           :label="$t('nightsummary.settings.pushoverAppToken')"
-          :value="store.settings.PushoverAppToken"
-          @blur="save('PushoverAppToken', $event)"
+          :is-set="store.settings.PushoverAppTokenSet"
+          @save="(v) => (pushoverAppTokenSave = saveSecret('PushoverAppToken', v))"
         />
-        <TextRow
+        <SecretRow
           :label="$t('nightsummary.settings.pushoverUserKey')"
-          :value="store.settings.PushoverUserKey"
-          @blur="save('PushoverUserKey', $event)"
+          :is-set="store.settings.PushoverUserKeySet"
+          @save="(v) => (pushoverUserKeySave = saveSecret('PushoverUserKey', v))"
         />
         <div class="flex flex-wrap items-center gap-3">
           <button
-            @click="store.testPushover()"
+            @click="runTestPushover()"
             :disabled="store.pushoverTesting"
             class="tns-btn-secondary"
           >
@@ -440,14 +435,14 @@
         @update="save('DiscordEnabled', $event)"
       />
       <div class="mt-4 space-y-3">
-        <TextRow
+        <SecretRow
           :label="$t('nightsummary.settings.discordWebhook')"
-          :value="store.settings.DiscordWebhookUrl"
-          @blur="save('DiscordWebhookUrl', $event)"
+          :is-set="store.settings.DiscordWebhookUrlSet"
+          @save="(v) => (discordWebhookSave = saveSecret('DiscordWebhookUrl', v))"
         />
         <div class="flex flex-wrap items-center gap-3">
           <button
-            @click="store.testDiscord()"
+            @click="runTestDiscord()"
             :disabled="store.discordTesting"
             class="tns-btn-secondary"
           >
@@ -501,12 +496,21 @@ import { ref } from 'vue';
 import { useNightSummaryStore } from '../store/nightsummaryStore';
 import CheckRow from './CheckRow.vue';
 import TextRow from './TextRow.vue';
+import SecretRow from './SecretRow.vue';
 import StatusBadge from './StatusBadge.vue';
 import ToggleButton from '@/components/helpers/toggleButton.vue';
 import FileBrowser from '@/components/helpers/fileBrowser.vue';
 
 const store = useNightSummaryStore();
 const showPathBrowser = ref(false);
+
+// Track in-flight secret saves so the "test" buttons can wait for them to land
+// on the server before firing (secrets are write-only, so the test endpoints
+// read the freshly persisted value, not the optimistic client-side state).
+let smtpPasswordSave = Promise.resolve();
+let pushoverAppTokenSave = Promise.resolve();
+let pushoverUserKeySave = Promise.resolve();
+let discordWebhookSave = Promise.resolve();
 
 const xAxisMetrics = [
   'Time',
@@ -587,6 +591,26 @@ const patternTokens = [
 
 function save(key, value) {
   store.saveSetting(key, value);
+}
+
+function saveSecret(key, value) {
+  if (!value) return Promise.resolve();
+  return store.saveSetting(key, value);
+}
+
+async function runTestEmail() {
+  await smtpPasswordSave;
+  await store.testEmail();
+}
+
+async function runTestPushover() {
+  await Promise.all([pushoverAppTokenSave, pushoverUserKeySave]);
+  await store.testPushover();
+}
+
+async function runTestDiscord() {
+  await discordWebhookSave;
+  await store.testDiscord();
 }
 
 function getFilterClass(name) {

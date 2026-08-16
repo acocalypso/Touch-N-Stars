@@ -64,7 +64,7 @@
         <span v-if="showDot(mountState)" class="tns-dot" :class="dotClass(mountState)"></span>
         <span class="chip-value">{{ mountValue }}</span>
         <div
-          v-if="store.mountInfo.Slewing"
+          v-if="store.mountIsSlewing"
           class="w-3.5 h-3.5 border-2 border-status-ok border-t-transparent border-solid rounded-full animate-spin"
         ></div>
       </span>
@@ -337,14 +337,18 @@ const guiderValue = computed(() => {
   return formatNumber(rms.Pixel, 2) ?? t('components.statusBar.guiding.idle');
 });
 
+// Park and slew share the same precedence as mountValue below, otherwise a
+// driver that latches Slewing while parked paints a red chip labelled "Slewing".
+// A running slew is an active, healthy state - green, not the tracking-off warn.
 const mountState = computed(() => {
   if (store.mountInfo.AtPark) return 'danger';
+  if (store.mountIsSlewing) return 'ok';
   if (!store.mountInfo.TrackingEnabled) return 'warn';
   return 'ok';
 });
 
 const mountValue = computed(() => {
-  if (store.mountInfo.Slewing) return t('components.statusBar.mount.slewing');
+  if (store.mountIsSlewing) return t('components.statusBar.mount.slewing');
   if (store.mountInfo.AtPark) return t('components.statusBar.mount.parked');
   if (!store.mountInfo.TrackingEnabled) return t('components.statusBar.mount.trackingOff');
   return t('components.statusBar.mount.tracking');

@@ -5,16 +5,22 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [App6.1.4-beta4] - unreleased
+## [App6.1.4-beta4] - 2026-08-16
 
 ### Added
 - Status bar: Entries can be reordered and hidden under Settings > General, just like the navigation bar
+- Mount: The target search under Slew now also finds stars, not just DSOs
+- Nightsummary Plugin: is now also supported in NINA 
 
 ### Changed
+- Sequence: The item that is currently running can no longer be edited, disabled, reset, deleted or moved
+- Sequence: Loading a sequence now closes the dialog right away and shows a spinner until the sequence is loaded
 - Status bar: Entries no longer jump to the front when something needs attention, and Progress, Log and Instance are no longer pinned to the right edge
 
 ### Fixed
+- Guiding (PHD2): On narrow screens the guiding status covered the star image and the star profile. The status is now shown at the bottom left, and both tiles adapt their size to the available width instead of being cut off
 - Status bar: Panels opened from the status bar covered the lower edge of the page including its rounded corners
+- Mount: With drivers that keep reporting "slewing" after a park has finished (e.g. ZWO AM5N), the mount status stayed on a red "Slewing" with an endlessly turning spinner instead of "Parked", and the slew button stayed a red stop button. A parked mount is now never shown as slewing. During a real slew the status stays green with the spinner instead of turning yellow
 
 ## [App6.1.4-beta3] - 2026-08-15
 
@@ -26,6 +32,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [App6.1.4-beta2] - 2026-08-11
 ### Added
+- Sequence: The PHD2 Tools trigger "Interrupt and retry when RMS above" can now be configured in the app — threshold, mode, how long the guiding has to stay calm, the recovery timeout and the maximum number of repetitions
 - PINS setup and settings: Configure the rig's system locale, Wi-Fi country, timezone and keyboard layout. The setup assistant reads the current Pi values and places this step before Wi-Fi; the same live settings remain available under General Settings on every client, with searchable lists of the values supported by the Pi
 
 ### Changed

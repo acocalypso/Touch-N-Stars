@@ -757,6 +757,7 @@
       "sequenceLoad": "Carregar",
       "sequenceNoFiles": "Nenhum ficheiro encontrado",
       "sequenceLoading": "A carregar...",
+      "loadingSequence": "A carregar a sequência…",
       "sequenceClose": "Fechar",
       "deleteConfirmationTitle": "Eliminar ficheiro",
       "deleteConfirmationMessage": "Você realmente deseja apagar o arquivo de log.",
@@ -1058,6 +1059,16 @@
           "modePeak": "Pico",
           "minimumPoints": "Pontos Mínimos"
         },
+        "interruptAndRetryWhenRMSAbove": {
+          "rmsThreshold": "Limiar RMS (\")",
+          "mode": "Modalidade",
+          "modeRMS": "RMS",
+          "modePeak": "Pico",
+          "minimumPoints": "Pontos Mínimos",
+          "stableTime": "Estável durante (s)",
+          "recoveryTimeout": "Tempo limite de recuperação (min)",
+          "maxRetries": "Máx. de tentativas (0 = ilimitado)"
+        },
         "changePHD2Parameters": {
           "parameter": "Parâmetro",
           "exposureTime": "Tempo(s) de exposição:",
@@ -1140,6 +1151,7 @@
       "disable": "Desativar",
       "resetStatus": "Redefinir status",
       "delete": "Excluir",
+      "runningLocked": "Este item está em execução e não pode ser alterado",
       "controlsLockedMessage": "Os controles de sequência são bloqueados enquanto a sequência está em execução.",
       "lockControls": "Trancar",
       "unlockControls": "Desbloquear"
@@ -5001,10 +5013,15 @@
       "delete": "Excluir",
       "deleteConfirm": "Tem certeza de que deseja excluir esta sessão? \nIsto não pode ser desfeito.",
       "deleteTitle": "Excluir sessão",
+      "downloadReport": "Baixar relatório",
       "loading": "Carregando sessões…",
       "noSessions": "Nenhuma sessão selecionada. \nSelecione uma sessão no menu suspenso.",
       "placeholder": "Selecione uma sessão…",
-      "resend": "Reenviar relatório"
+      "reportTitle": "Relatório detalhado",
+      "reportZoomActual": "100%",
+      "reportZoomFit": "Ajustar à largura",
+      "resend": "Reenviar relatório",
+      "viewReport": "Mostrar relatório detalhado"
     },
     "settings": {
       "chartPrimary": "Métrica Primária",

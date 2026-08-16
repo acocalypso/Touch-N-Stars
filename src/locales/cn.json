@@ -757,6 +757,7 @@
       "sequenceLoad": "加载",
       "sequenceNoFiles": "未找到文件",
       "sequenceLoading": "加载中...",
+      "loadingSequence": "正在加载序列…",
       "sequenceClose": "关闭",
       "deleteConfirmationTitle": "删除文件",
       "deleteConfirmationMessage": "您确定要删除日志文件？",
@@ -1058,6 +1059,16 @@
           "modePeak": "峰",
           "minimumPoints": "最小积分"
         },
+        "interruptAndRetryWhenRMSAbove": {
+          "rmsThreshold": "RMS阈值(\")",
+          "mode": "模式",
+          "modeRMS": "均平方根",
+          "modePeak": "峰",
+          "minimumPoints": "最小积分",
+          "stableTime": "稳定持续时间 (秒)",
+          "recoveryTimeout": "恢复超时 (分钟)",
+          "maxRetries": "最大重试次数 (0 = 无限制)"
+        },
         "changePHD2Parameters": {
           "parameter": "参数项",
           "exposureTime": "曝光时间(秒):",
@@ -1140,6 +1151,7 @@
       "disable": "禁用",
       "resetStatus": "重置状态",
       "delete": "删除",
+      "runningLocked": "该项目正在运行，无法修改",
       "controlsLockedMessage": "Sequence controls are locked while the sequence is running.",
       "lockControls": "Lock",
       "unlockControls": "Unlock"
@@ -4996,10 +5008,15 @@
       "delete": "Delete",
       "deleteConfirm": "Are you sure you want to delete this session? This cannot be undone.",
       "deleteTitle": "Delete Session",
+      "downloadReport": "下载报告",
       "loading": "Loading sessions…",
       "noSessions": "No session selected. Select a session from the dropdown.",
       "placeholder": "Select a session…",
-      "resend": "Resend Report"
+      "reportTitle": "详细报告",
+      "reportZoomActual": "100%",
+      "reportZoomFit": "适应宽度",
+      "resend": "Resend Report",
+      "viewReport": "显示详细报告"
     },
     "settings": {
       "chartPrimary": "Primary Metric",

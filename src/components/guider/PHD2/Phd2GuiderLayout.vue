@@ -15,25 +15,12 @@
 
       <!-- Portrait Layout: vertical button column on the right -->
       <div v-if="!isLandscape" class="flex flex-col gap-1 items-end">
-        <!-- Top row: Status + Loop Button -->
-        <div class="flex items-center gap-3 pointer-events-auto">
-          <!-- Status Display -->
-          <div class="px-3 py-2 bg-black/30 rounded-lg backdrop-blur-sm">
-            <div class="flex items-center gap-2">
-              <div class="status-indicator" :class="statusClasses">
-                <div class="status-dot"></div>
-              </div>
-              <span class="text-xs font-medium" :class="statusTextClasses">
-                {{ statusText }}
-              </span>
-            </div>
-          </div>
-
+        <div class="flex flex-col gap-1 pointer-events-auto">
           <!-- Loop Button -->
           <button
             v-if="store.guiderInfo.State !== 'Guiding' && store.guiderInfo.State !== 'Calibrating'"
             @click="startLooping"
-            class="tns-btn-secondary w-12 h-12 px-3 py-3 rounded-lg font-medium transition-all duration-200 backdrop-blur-sm shadow-lg"
+            class="tns-btn-secondary px-3 py-3 rounded-lg font-medium transition-all duration-200 backdrop-blur-sm shadow-lg"
           >
             <span class="flex items-center justify-center">
               <ArrowPathIcon
@@ -42,10 +29,7 @@
               />
             </span>
           </button>
-        </div>
 
-        <!-- Remaining buttons -->
-        <div class="flex flex-col gap-1 pointer-events-auto">
           <!-- Start Button -->
           <button
             v-if="store.guiderInfo.State !== 'Guiding' && store.guiderInfo.State !== 'Calibrating'"
@@ -323,17 +307,20 @@
             <Cog6ToothIcon class="w-5 h-5" />
           </button>
         </div>
+      </div>
+    </div>
 
-        <!-- Status Display -->
-        <div class="px-3 py-2 bg-black/30 rounded-lg backdrop-blur-sm pointer-events-auto">
-          <div class="flex items-center gap-2">
-            <div class="status-indicator" :class="statusClasses">
-              <div class="status-dot"></div>
-            </div>
-            <span class="text-xs font-medium" :class="statusTextClasses">
-              {{ statusText }}
-            </span>
+    <!-- Status Display: bottom left in both orientations, so it never covers the -->
+    <!-- star image / star profile tiles in the top strip on narrow screens. -->
+    <div class="absolute left-4 z-30 pointer-events-none" :style="statusPositionStyle">
+      <div class="px-3 py-2 bg-black/30 rounded-lg backdrop-blur-sm">
+        <div class="flex items-center gap-2">
+          <div class="status-indicator" :class="statusClasses">
+            <div class="status-dot"></div>
           </div>
+          <span class="text-xs font-medium" :class="statusTextClasses">
+            {{ statusText }}
+          </span>
         </div>
       </div>
     </div>
@@ -366,7 +353,7 @@
             <!-- Star Image links -->
             <div
               :style="responsiveStarImageStyle"
-              class="relative bg-black/80 rounded border border-gray-600"
+              class="relative shrink-0 bg-black/80 rounded border border-gray-600"
             >
               <Phd2Guidstar :show="true" class="opacity-95" />
             </div>
@@ -374,7 +361,7 @@
             <!-- Star Profile rechts -->
             <div
               :style="responsiveStarProfileStyle"
-              class="relative bg-black/80 rounded border border-gray-600 overflow-hidden"
+              class="relative shrink-0 bg-black/80 rounded border border-gray-600 overflow-hidden"
             >
               <Phd2StarProfile
                 :containerWidth="responsiveStarSize.width"
@@ -390,7 +377,7 @@
             <!-- Star Image links -->
             <div
               :style="responsiveStarImageStyle"
-              class="relative bg-black/80 rounded border border-gray-600"
+              class="relative shrink-0 bg-black/80 rounded border border-gray-600"
             >
               <Phd2Guidstar :show="true" class="opacity-95" />
             </div>
@@ -398,7 +385,7 @@
             <!-- Star Profile rechts -->
             <div
               :style="responsiveStarProfileStyle"
-              class="relative bg-black/80 rounded border border-gray-600 overflow-hidden"
+              class="relative shrink-0 bg-black/80 rounded border border-gray-600 overflow-hidden"
             >
               <Phd2StarProfile
                 :containerWidth="responsiveStarSize.width"
@@ -455,7 +442,7 @@ const { tapLight, tapMedium } = useHaptics();
 const store = apiStore();
 const guiderStore = useGuiderStore();
 const settingsStore = useSettingsStore();
-const { isLandscape } = useOrientation();
+const { isLandscape, orientation } = useOrientation();
 const { t: $t } = useI18n();
 const openSettings = ref(false);
 const openCalibrationAssistant = ref(false);
@@ -514,10 +501,20 @@ const imageStyle = computed(() => {
   }
 });
 
-// Responsive Größen für Star Components (unabhängig von Bildschirmgröße)
+// Responsive Größen für Star Components: beide Orientierungen zeigen die Kacheln
+// horizontal nebeneinander oben, die Breite richtet sich nach dem freien Platz.
+const STAR_TILE_MAX_WIDTH = 200;
+const STAR_TILE_MIN_WIDTH = 110;
+// Breite der Button-Spalte am rechten Rand (Portrait), die freigehalten werden muss.
+const PORTRAIT_BUTTON_COLUMN_WIDTH = 80;
+
 const responsiveStarSize = computed(() => {
-  // Beide Orientierungen: Horizontal nebeneinander oben
-  return { width: 200, height: 150 };
+  const reservedRight = isLandscape.value ? 0 : PORTRAIT_BUTTON_COLUMN_WIDTH;
+  const available = orientation.value.width - 32 /* p-4 */ - 16 /* gap */ - reservedRight;
+  const width = Math.round(
+    Math.min(STAR_TILE_MAX_WIDTH, Math.max(STAR_TILE_MIN_WIDTH, available / 2))
+  );
+  return { width, height: Math.round(width * 0.75) };
 });
 
 const responsiveStarImageStyle = computed(() => ({
@@ -532,7 +529,15 @@ const responsiveStarProfileStyle = computed(() => ({
 
 const portraitContainerStyle = computed(() => ({
   height: `${responsiveStarSize.value.height + 16}px`, // Höhe + Padding
-  paddingRight: '80px', // Platz für die Button-Spalte am rechten Rand
+  paddingRight: `${PORTRAIT_BUTTON_COLUMN_WIDTH}px`, // Platz für die Button-Spalte am rechten Rand
+}));
+
+// Statusanzeige unten links. Der geöffnete Guider-Graph unten (StatusBar-Panel) wird
+// über --status-panel-height eingerechnet, damit die Anzeige nicht dahinter verschwindet.
+const statusPositionStyle = computed(() => ({
+  bottom: isLandscape.value
+    ? 'calc(var(--above-statusbar) + var(--status-panel-height) + 1rem)'
+    : 'calc(var(--status-panel-height) + 1rem)',
 }));
 
 const landscapeContainerStyle = computed(() => ({

@@ -801,6 +801,7 @@
       "sequenceLoad": "Carrega",
       "sequenceNoFiles": "No s'han trobat fitxers",
       "sequenceLoading": "Carregant...",
+      "loadingSequence": "Carregant la seqüència…",
       "sequenceClose": "Tanca",
       "deleteConfirmationTitle": "Elimina el fitxer",
       "deleteConfirmationMessage": "Estàs segur que vols eliminar el fitxer?",
@@ -1111,6 +1112,16 @@
           "modePeak": "Pic",
           "minimumPoints": "Punts mínims"
         },
+        "interruptAndRetryWhenRMSAbove": {
+          "rmsThreshold": "Llindar RMS (\")",
+          "mode": "Mode",
+          "modeRMS": "RMS",
+          "modePeak": "Pic",
+          "minimumPoints": "Punts mínims",
+          "stableTime": "Estable durant (s)",
+          "recoveryTimeout": "Temps màxim de recuperació (min)",
+          "maxRetries": "Reintents màxims (0 = il·limitat)"
+        },
         "changePHD2Parameters": {
           "parameter": "Paràmetre",
           "exposureTime": "Temps d'exposició (s)",
@@ -1183,7 +1194,8 @@
       "enable": "Activa",
       "disable": "Desactiva",
       "resetStatus": "Restableix l'estat",
-      "delete": "Elimina"
+      "delete": "Elimina",
+      "runningLocked": "Aquest element s’està executant i no es pot modificar"
     },
     "mount": {
       "title": "Muntura",
@@ -4957,7 +4969,12 @@
       "resend": "Reenvia l'informe",
       "delete": "Elimina",
       "deleteTitle": "Elimina la sessió",
-      "deleteConfirm": "Estàs segur que vols eliminar aquesta sessió? Aquesta acció no es pot desfer."
+      "deleteConfirm": "Estàs segur que vols eliminar aquesta sessió? Aquesta acció no es pot desfer.",
+      "viewReport": "Mostra l'informe detallat",
+      "downloadReport": "Descarrega l'informe",
+      "reportTitle": "Informe detallat",
+      "reportZoomFit": "Ajusta a l'amplada",
+      "reportZoomActual": "100%"
     },
     "stats": {
       "totalImages": "Imatges totals",

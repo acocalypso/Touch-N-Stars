@@ -209,6 +209,17 @@ export const apiStore = defineStore('store', {
     lastImageStats: null,
   }),
 
+  getters: {
+    // Some drivers (e.g. ZWO AM5N) leave Slewing set after a park slew has
+    // finished. AtPark rules out a running slew, so AtPark wins.
+    mountIsSlewing: (state) => Boolean(state.mountInfo.Slewing) && !state.mountInfo.AtPark,
+
+    // The guider only counts as running while it actually guides or calibrates.
+    // Every other PHD2 app state (Stopped, Looping, Selected, Paused, LostLock)
+    // still allows changing settings.
+    guiderIsRunning: (state) => ['Guiding', 'Calibrating'].includes(state.guiderInfo?.State),
+  },
+
   actions: {
     async fetchAllInfos(t) {
       // Staleness guard: if switchBackend() bumps the epoch while this cycle

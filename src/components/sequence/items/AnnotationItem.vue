@@ -5,7 +5,7 @@
     </template>
 
     <template #editor="{ save }">
-      <div class="flex items-start gap-3">
+      <div class="seq-field-row items-start">
         <label class="text-xs text-slate-400 shrink-0 mt-1">{{
           $t('components.sequence.items.annotation.text')
         }}</label>

@@ -757,6 +757,7 @@
       "sequenceLoad": "Carica",
       "sequenceNoFiles": "Nessun file trovato",
       "sequenceLoading": "Caricamento...",
+      "loadingSequence": "Caricamento della sequenza…",
       "sequenceClose": "Chiudi",
       "deleteConfirmationTitle": "Eliminare file",
       "deleteConfirmationMessage": "Sei sicuro di voler eliminare questo file?",
@@ -1058,6 +1059,16 @@
           "modePeak": "Picco",
           "minimumPoints": "Punti minimi"
         },
+        "interruptAndRetryWhenRMSAbove": {
+          "rmsThreshold": "Soglia RMS (\")",
+          "mode": "Modalità",
+          "modeRMS": "RMS",
+          "modePeak": "Picco",
+          "minimumPoints": "Punti minimi",
+          "stableTime": "Stabile per (s)",
+          "recoveryTimeout": "Timeout di recupero (min)",
+          "maxRetries": "Tentativi massimi (0 = illimitato)"
+        },
         "changePHD2Parameters": {
           "parameter": "Parametro",
           "exposureTime": "Tempo di esposizione(s):",
@@ -1140,6 +1151,7 @@
       "disable": "Disabilita",
       "resetStatus": "Reimposta stato",
       "delete": "Elimina",
+      "runningLocked": "Questo elemento è in esecuzione e non può essere modificato",
       "controlsLockedMessage": "I controlli della sequenza sono bloccati mentre la sequenza è in esecuzione.",
       "lockControls": "Serratura",
       "unlockControls": "Sbloccare"
@@ -5001,10 +5013,15 @@
       "delete": "Eliminare",
       "deleteConfirm": "Sei sicuro di voler eliminare questa sessione? \nQuesta operazione non può essere annullata.",
       "deleteTitle": "Elimina sessione",
+      "downloadReport": "Scarica rapporto",
       "loading": "Caricamento sessioni…",
       "noSessions": "Nessuna sessione selezionata. \nSeleziona una sessione dal menu a discesa.",
       "placeholder": "Seleziona una sessione...",
-      "resend": "Invia nuovamente il rapporto"
+      "reportTitle": "Rapporto dettagliato",
+      "reportZoomActual": "100%",
+      "reportZoomFit": "Adatta alla larghezza",
+      "resend": "Invia nuovamente il rapporto",
+      "viewReport": "Mostra rapporto dettagliato"
     },
     "settings": {
       "chartPrimary": "Metrica primaria",

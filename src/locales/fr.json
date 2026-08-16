@@ -757,6 +757,7 @@
       "sequenceLoad": "Charger",
       "sequenceNoFiles": "Aucun fichier trouvé",
       "sequenceLoading": "Chargement...",
+      "loadingSequence": "Chargement de la séquence…",
       "sequenceClose": "Fermer",
       "deleteConfirmationTitle": "Supprimer le fichier",
       "deleteConfirmationMessage": "Êtes-vous sûr de vouloir supprimer le fichier ?",
@@ -1058,6 +1059,16 @@
           "modePeak": "Crête",
           "minimumPoints": "Minimum de points"
         },
+        "interruptAndRetryWhenRMSAbove": {
+          "rmsThreshold": "Seuil RMS (\")",
+          "mode": "Mode",
+          "modeRMS": "RMS",
+          "modePeak": "Crête",
+          "minimumPoints": "Minimum de points",
+          "stableTime": "Stable pendant (s)",
+          "recoveryTimeout": "Délai de récupération (min)",
+          "maxRetries": "Nombre max. de tentatives (0 = illimité)"
+        },
         "changePHD2Parameters": {
           "parameter": "Paramètre",
           "exposureTime": "Temps exposition(s):",
@@ -1140,6 +1151,7 @@
       "disable": "Désactiver",
       "resetStatus": "Réinitialiser le statut",
       "delete": "Supprimer",
+      "runningLocked": "Cet élément est en cours d’exécution et ne peut pas être modifié",
       "controlsLockedMessage": "Les commandes de séquence sont verrouillées pendant l’exécution de la séquence.",
       "lockControls": "Verrouillage",
       "unlockControls": "Ouvrir"
@@ -5001,10 +5013,15 @@
       "delete": "Supprimer",
       "deleteConfirm": "Êtes-vous sûr de vouloir supprimer cette session ? \nCela ne peut pas être annulé.",
       "deleteTitle": "Supprimer la séance",
+      "downloadReport": "Télécharger le rapport",
       "loading": "Chargement des sessions…",
       "noSessions": "Aucune séance sélectionnée. \nSélectionnez une session dans la liste déroulante.",
       "placeholder": "Sélectionnez une séance…",
-      "resend": "Renvoyer le rapport"
+      "reportTitle": "Rapport détaillé",
+      "reportZoomActual": "100%",
+      "reportZoomFit": "Ajuster à la largeur",
+      "resend": "Renvoyer le rapport",
+      "viewReport": "Afficher le rapport détaillé"
     },
     "settings": {
       "chartPrimary": "Métrique principale",

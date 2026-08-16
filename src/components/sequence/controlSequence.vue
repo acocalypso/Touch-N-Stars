@@ -454,13 +454,23 @@ async function confirmOverwriteFile() {
 }
 
 async function loadFile(filePath) {
+  // Close the dialog right away and show the overlay instead — loading a sequence
+  // (load + getSequenceInfo) can take several seconds.
+  showFileManager.value = false;
+  sequenceStore.setSequenceLoading(true);
   try {
     await apiService.sequenceLoadFile(filePath);
     sequenceStore.setLastSequenceFilePath(filePath);
     await sequenceStore.getSequenceInfo();
-    showFileManager.value = false;
   } catch (e) {
     console.error('Error loading sequence file:', e);
+    toastStore.showToast({
+      type: 'error',
+      title: t('components.sequence.error_loading_sequence'),
+      message: String(e),
+    });
+  } finally {
+    sequenceStore.setSequenceLoading(false);
   }
 }
 

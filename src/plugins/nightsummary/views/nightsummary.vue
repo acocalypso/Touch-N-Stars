@@ -13,7 +13,7 @@
 
       <div
         v-else-if="
-          !store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.2.7.0') && !store.isPINS
+          !store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.3.1.0') && !store.isPINS
         "
       >
         <p class="text-gray-400 text-lg">{{ $t('nightsummary.tnsPluginToOld') }}</p>

@@ -10,6 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Status bar: Entries can be reordered and hidden under Settings > General, just like the navigation bar
 - Mount: The target search under Slew now also finds stars, not just DSOs
+- Nightsummary Plugin: is now also supported in NINA 
 
 ### Changed
 - Sequence: The item that is currently running can no longer be edited, disabled, reset, deleted or moved

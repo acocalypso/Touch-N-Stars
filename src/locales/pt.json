@@ -757,6 +757,7 @@
       "sequenceLoad": "Carregar",
       "sequenceNoFiles": "Nenhum ficheiro encontrado",
       "sequenceLoading": "A carregar...",
+      "loadingSequence": "A carregar a sequência…",
       "sequenceClose": "Fechar",
       "deleteConfirmationTitle": "Eliminar ficheiro",
       "deleteConfirmationMessage": "Você realmente deseja apagar o arquivo de log.",

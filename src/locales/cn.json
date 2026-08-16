@@ -757,6 +757,7 @@
       "sequenceLoad": "加载",
       "sequenceNoFiles": "未找到文件",
       "sequenceLoading": "加载中...",
+      "loadingSequence": "正在加载序列…",
       "sequenceClose": "关闭",
       "deleteConfirmationTitle": "删除文件",
       "deleteConfirmationMessage": "您确定要删除日志文件？",

@@ -801,6 +801,7 @@
       "sequenceLoad": "불러오기",
       "sequenceNoFiles": "파일이 없습니다",
       "sequenceLoading": "불러오는 중...",
+      "loadingSequence": "시퀀스를 불러오는 중…",
       "sequenceClose": "닫기",
       "deleteConfirmationTitle": "파일 삭제",
       "deleteConfirmationMessage": "이 파일을 삭제하시겠습니까?",

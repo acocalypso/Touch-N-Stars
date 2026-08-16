@@ -801,6 +801,7 @@
       "sequenceLoad": "Carrega",
       "sequenceNoFiles": "No s'han trobat fitxers",
       "sequenceLoading": "Carregant...",
+      "loadingSequence": "Carregant la seqüència…",
       "sequenceClose": "Tanca",
       "deleteConfirmationTitle": "Elimina el fitxer",
       "deleteConfirmationMessage": "Estàs segur que vols eliminar el fitxer?",

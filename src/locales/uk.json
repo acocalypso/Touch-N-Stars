@@ -818,6 +818,7 @@
       "sequenceLoad": "Завантажити",
       "sequenceNoFiles": "Файли не знайдено",
       "sequenceLoading": "Завантаження...",
+      "loadingSequence": "Завантаження послідовності…",
       "sequenceClose": "Закрити",
       "deleteConfirmationTitle": "Видалити файл",
       "deleteConfirmationMessage": "Ви впевнені, що хочете видалити файл?",

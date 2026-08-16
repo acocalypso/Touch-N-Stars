@@ -757,6 +757,7 @@
       "sequenceLoad": "Załaduj",
       "sequenceNoFiles": "Nie znaleziono plików",
       "sequenceLoading": "Ładowanie...",
+      "loadingSequence": "Ładowanie sekwencji…",
       "sequenceClose": "Zamknij",
       "deleteConfirmationTitle": "Usuń plik",
       "deleteConfirmationMessage": "Czy na pewno chcesz usunąć plik?",

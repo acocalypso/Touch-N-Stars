@@ -757,6 +757,7 @@
       "sequenceLoad": "Carica",
       "sequenceNoFiles": "Nessun file trovato",
       "sequenceLoading": "Caricamento...",
+      "loadingSequence": "Caricamento della sequenza…",
       "sequenceClose": "Chiudi",
       "deleteConfirmationTitle": "Eliminare file",
       "deleteConfirmationMessage": "Sei sicuro di voler eliminare questo file?",

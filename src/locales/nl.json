@@ -757,6 +757,7 @@
       "sequenceLoad": "Laden",
       "sequenceNoFiles": "Geen bestanden gevonden",
       "sequenceLoading": "Laden...",
+      "loadingSequence": "Sequentie wordt geladen…",
       "sequenceClose": "Sluiten",
       "deleteConfirmationTitle": "Bestand verwijderen",
       "deleteConfirmationMessage": "Weet u zeker dat u het bestand wilt verwijderen?",

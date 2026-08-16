@@ -9,6 +9,11 @@
   </div>
 
   <div v-else class="min-h-screen bg-gradient-to-br from-gray-900 to-gray-800 p-4 md:p-6">
+    <LoadingOverlay
+      :show="sequenceStore.sequenceLoading"
+      :message="$t('components.sequence.loadingSequence')"
+    />
+
     <div class="fixed right-3 z-10" style="bottom: var(--above-statusbar)">
       <button
         @click="toggleEdit"
@@ -66,6 +71,7 @@ import { PencilIcon } from '@heroicons/vue/24/outline';
 import FavTargets from '@/components/favTargets/FavTargets.vue';
 import FitsPlateSolve from '@/components/fitsPlatesolve/FitsPlateSolve.vue';
 import LoadSequence from '@/components/sequence/LoadSequence.vue';
+import LoadingOverlay from '@/components/helpers/LoadingOverlay.vue';
 import SequenceV2Page from '@/views/SequenceV2Page.vue';
 import { apiStore } from '@/store/store';
 import { useI18n } from 'vue-i18n';

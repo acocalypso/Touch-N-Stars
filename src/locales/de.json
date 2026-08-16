@@ -801,6 +801,7 @@
       "sequenceLoad": "Laden",
       "sequenceNoFiles": "Keine Dateien gefunden",
       "sequenceLoading": "Lade...",
+      "loadingSequence": "Sequenz wird geladen…",
       "sequenceClose": "Schließen",
       "deleteConfirmationTitle": "Datei löschen",
       "deleteConfirmationMessage": "Möchten Sie die Datei wirklich löschen?",

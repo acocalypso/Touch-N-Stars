@@ -757,6 +757,7 @@
       "sequenceLoad": "Načíst",
       "sequenceNoFiles": "Žádné soubory nenalezeny",
       "sequenceLoading": "Načítání...",
+      "loadingSequence": "Načítání sekvence…",
       "sequenceClose": "Zavřít",
       "deleteConfirmationTitle": "Smazat soubor",
       "deleteConfirmationMessage": "Jste si jistý, že chcete smazat log?",

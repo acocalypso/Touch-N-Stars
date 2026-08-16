@@ -143,55 +143,29 @@
     <!-- Log modal -->
     <LogModal v-if="showLogModal" @close="showLogModal = false" />
     <!-- Guidegraph -->
-    <div
-      ref="guiderPanelRef"
-      class="bg-gray-800/95 border-t border-cyan-700"
-      :class="guiderGraphClasses"
-      style="bottom: calc(env(safe-area-inset-bottom, 0px) + var(--statusbar-height))"
-      v-show="guiderStore.showGuiderGraph"
-    >
+    <div ref="guiderPanelRef" :class="statusPanelClasses" v-show="guiderStore.showGuiderGraph">
       <GuiderGraph />
       <div class="flex gap-2 ml-6 mb-2 overflow-x-auto scrollbar-hide">
         <GuiderStats v-if="store.guiderInfo.Connected" />
       </div>
     </div>
 
-    <div
-      ref="cameraPanelRef"
-      class="bg-gray-800/95 border-t border-cyan-700"
-      :class="guiderGraphClasses"
-      style="bottom: calc(env(safe-area-inset-bottom, 0px) + var(--statusbar-height))"
-      v-show="cameraStore.showCameraInfo"
-    >
+    <div ref="cameraPanelRef" :class="statusPanelClasses" v-show="cameraStore.showCameraInfo">
       <infoCamera class="p-5" />
     </div>
 
-    <div
-      ref="mountPanelRef"
-      class="bg-gray-800/95 border-t border-cyan-700"
-      :class="guiderGraphClasses"
-      style="bottom: calc(env(safe-area-inset-bottom, 0px) + var(--statusbar-height))"
-      v-show="mountStore.showMountInfo"
-    >
+    <div ref="mountPanelRef" :class="statusPanelClasses" v-show="mountStore.showMountInfo">
       <infoMount class="p-5" />
     </div>
 
-    <div
-      ref="filterPanelRef"
-      class="bg-gray-800/95 border-t border-cyan-700"
-      :class="guiderGraphClasses"
-      style="bottom: calc(env(safe-area-inset-bottom, 0px) + var(--statusbar-height))"
-      v-show="filterStore.showFilterwheelInfo"
-    >
+    <div ref="filterPanelRef" :class="statusPanelClasses" v-show="filterStore.showFilterwheelInfo">
       <InfoFilterwheel class="p-5" />
     </div>
 
     <div
       v-if="store.isPINS"
       ref="progressPanelRef"
-      class="bg-gray-800/95 border-t border-cyan-700"
-      :class="guiderGraphClasses"
-      style="bottom: calc(env(safe-area-inset-bottom, 0px) + var(--statusbar-height))"
+      :class="statusPanelClasses"
       v-show="showProgress"
     >
       <infoProgress class="" />
@@ -398,9 +372,12 @@ checkStatusBarFeatureHighlight();
 
 // Check if in landscape mode
 const { isLandscape } = useOrientation();
-const guiderGraphClasses = computed(() => ({
-  'fixed left-0 w-full': !isLandscape.value,
-  'fixed left-(--nav-width) right-0': isLandscape.value,
+// Panels dock onto the bar inside the stage rails (see tns-status-panel), so the
+// stage frame can end above them with its rounded corners intact.
+const statusPanelClasses = computed(() => ({
+  'tns-status-panel': true,
+  'left-(--stage-inset)': !isLandscape.value,
+  'left-[calc(var(--nav-width)+var(--stage-inset))]': isLandscape.value,
 }));
 
 // Track the height of whichever status-bar panel is currently open, so other

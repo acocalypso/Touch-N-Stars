@@ -245,6 +245,24 @@
   }
 }
 
+/* Expandable panel docked onto the status bar (guider graph, camera/mount/filter
+   info, progress). Sits inside the stage rails with rounded top corners, so the
+   .stage-frame mask can end above it - App.vue's stageFrameStyle adds
+   --status-panel-height for exactly that. `left` stays with the component
+   because it depends on the orientation-driven nav width. */
+@utility tns-status-panel {
+  position: fixed;
+  right: var(--stage-inset);
+  bottom: calc(env(safe-area-inset-bottom, 0px) + var(--statusbar-height));
+  border: 1px solid var(--color-cyan-700);
+  border-bottom: none;
+  border-radius: var(--stage-radius) var(--stage-radius) 0 0;
+  /* Clips child backgrounds at the rounded corners. */
+  overflow: hidden;
+
+  @apply bg-gray-800/95;
+}
+
 /* Stat tile: small card with a micro label on top and a prominent value below.
    Same anatomy as the status bar segments, one size up. Used by the device
    info panels (StatusString/StatusBool). */

@@ -15,6 +15,20 @@ import { serializeRigSharedSettings } from '@/services/rigSharedSettingsService'
 // removed from the next serialized snapshot.
 migrateCelestiaAtlasSettingsStorage();
 
+// Status bar chips in their factory order. Also the source of truth for which
+// chips exist, so stored orders from older versions can be topped up on load.
+const DEFAULT_STATUSBAR_ORDER = [
+  'camera',
+  'guider',
+  'mount',
+  'filter',
+  'weather',
+  'safety',
+  'progress',
+  'log',
+  'instance',
+];
+
 export const useSettingsStore = defineStore('settings', {
   state: () => ({
     language: 'en',
@@ -186,6 +200,11 @@ export const useSettingsStore = defineStore('settings', {
       ],
       hiddenItems: [],
     },
+    // Status bar customization
+    statusbar: {
+      itemOrder: [...DEFAULT_STATUSBAR_ORDER],
+      hiddenItems: [],
+    },
   }),
   getters: {
     currentImageRotation(state) {
@@ -203,6 +222,7 @@ export const useSettingsStore = defineStore('settings', {
         this.loadFlatsSettings(),
         this.loadGuiderSettings(),
         this.loadNavbarSettings(),
+        this.loadStatusBarSettings(),
         this.loadSharedRigUiSettings(),
         sequenceStore.loadSequenceControlsLocked(),
       ]);
@@ -313,6 +333,33 @@ export const useSettingsStore = defineStore('settings', {
       });
       if (res?.StatusCode === 409) {
         await apiService.updateSetting('navbar_settings', JSON.stringify(this.navbar));
+      }
+    },
+
+    async loadStatusBarSettings() {
+      const response = await apiService.getSetting('statusbar_settings');
+      if (response?.Response?.Value !== undefined) {
+        Object.assign(this.statusbar, JSON.parse(response.Response.Value));
+        // A stored order from an older version does not know about chips added
+        // since. Append them instead of leaving them at the fallback position.
+        const missing = DEFAULT_STATUSBAR_ORDER.filter(
+          (id) => !this.statusbar.itemOrder.includes(id)
+        );
+        if (missing.length) {
+          this.statusbar.itemOrder = [...this.statusbar.itemOrder, ...missing];
+        }
+      } else if (response?.StatusCode === 404) {
+        this.saveStatusBarSettings();
+      }
+    },
+
+    async saveStatusBarSettings() {
+      const res = await apiService.createSetting({
+        Key: 'statusbar_settings',
+        Value: JSON.stringify(this.statusbar),
+      });
+      if (res?.StatusCode === 409) {
+        await apiService.updateSetting('statusbar_settings', JSON.stringify(this.statusbar));
       }
     },
 
@@ -722,6 +769,21 @@ export const useSettingsStore = defineStore('settings', {
         this.navbar.hiddenItems.splice(idx, 1);
       }
       this.saveNavbarSettings();
+    },
+
+    setStatusBarOrder(order) {
+      this.statusbar.itemOrder = order;
+      this.saveStatusBarSettings();
+    },
+
+    toggleStatusBarItem(id) {
+      const idx = this.statusbar.hiddenItems.indexOf(id);
+      if (idx === -1) {
+        this.statusbar.hiddenItems.push(id);
+      } else {
+        this.statusbar.hiddenItems.splice(idx, 1);
+      }
+      this.saveStatusBarSettings();
     },
   },
   // pinia-plugin-persistedstate 4.x uses the store id (`settings`) as the key.

@@ -612,10 +612,16 @@
         "syncSuccess": "Hora sincronizada com sucesso."
       },
       "navbarCustomization": {
-        "alwaysVisible": "Sempre visível",
         "hint": "Arraste para reordenar. Pelo menos uma página além de Configurações deve permanecer visível.",
-        "minOneRequired": "Pelo menos uma página deve permanecer visível",
         "title": "Personalização da barra de navegação"
+      },
+      "itemCustomization": {
+        "alwaysVisible": "Sempre visível",
+        "minOneRequired": "Pelo menos uma entrada deve permanecer visível"
+      },
+      "statusBarCustomization": {
+        "title": "Personalização da barra de estado",
+        "hint": "Arraste para reordenar. Pelo menos uma entrada deve permanecer visível."
       },
       "imageSavePath": {
         "create": "Criar",

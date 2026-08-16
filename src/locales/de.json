@@ -653,9 +653,15 @@
       },
       "navbarCustomization": {
         "title": "Navigationsleiste anpassen",
-        "hint": "Ziehen zum Sortieren. Mindestens eine Seite außer Einstellungen muss sichtbar bleiben.",
+        "hint": "Ziehen zum Sortieren. Mindestens eine Seite außer Einstellungen muss sichtbar bleiben."
+      },
+      "itemCustomization": {
         "alwaysVisible": "Immer sichtbar",
-        "minOneRequired": "Mindestens eine Seite muss sichtbar bleiben"
+        "minOneRequired": "Mindestens ein Eintrag muss sichtbar bleiben"
+      },
+      "statusBarCustomization": {
+        "title": "Statusleiste anpassen",
+        "hint": "Ziehen zum Sortieren. Mindestens ein Eintrag muss sichtbar bleiben."
       },
       "update": "Aktualisieren",
       "errors": {

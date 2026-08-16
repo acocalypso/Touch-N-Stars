@@ -606,20 +606,25 @@ const stageStyle = computed(() => ({
     : 'calc(100dvh - 82px - var(--subnav-offset) - var(--statusbar-height) - env(safe-area-inset-bottom) - var(--stage-inset))',
 }));
 
-// Viewport rect of the frame mask — mirrors the stage margins exactly.
+// Viewport rect of the frame mask — mirrors the stage margins, plus
+// --status-panel-height so an open status-bar panel does not swallow the rounded
+// bottom corners. The panels sit above the mask (they are children of the z-20
+// bar container), so the window has to yield instead. The sheet keeps its
+// margins and simply scrolls on beneath the panel.
 const stageFrameStyle = computed(() =>
   isLandscape.value
     ? {
         top: 'calc(var(--stage-inset) + var(--subnav-offset))',
         left: 'calc(var(--nav-width) + var(--stage-inset))',
         right: 'var(--stage-inset)',
-        bottom: 'calc(var(--statusbar-height) + var(--stage-inset))',
+        bottom: 'calc(var(--statusbar-height) + var(--status-panel-height) + var(--stage-inset))',
       }
     : {
         top: 'calc(82px + var(--subnav-offset))',
         left: 'var(--stage-inset)',
         right: 'var(--stage-inset)',
-        bottom: 'calc(var(--statusbar-height) + env(safe-area-inset-bottom) + var(--stage-inset))',
+        bottom:
+          'calc(var(--statusbar-height) + env(safe-area-inset-bottom) + var(--status-panel-height) + var(--stage-inset))',
       }
 );
 

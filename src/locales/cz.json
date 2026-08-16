@@ -612,10 +612,16 @@
         "syncSuccess": "Time synchronised successfully."
       },
       "navbarCustomization": {
-        "alwaysVisible": "Vždy viditelné",
         "hint": "Přetažením změníte pořadí. Alespoň jedna stránka kromě Nastavení musí zůstat viditelná.",
-        "minOneRequired": "Alespoň jedna stránka musí zůstat viditelná",
         "title": "Přizpůsobení navigační lišty"
+      },
+      "itemCustomization": {
+        "alwaysVisible": "Vždy viditelné",
+        "minOneRequired": "Alespoň jedna položka musí zůstat viditelná"
+      },
+      "statusBarCustomization": {
+        "title": "Přizpůsobení stavového řádku",
+        "hint": "Přetažením změníte pořadí. Alespoň jedna položka musí zůstat viditelná."
       },
       "imageSavePath": {
         "create": "Vytvořit",

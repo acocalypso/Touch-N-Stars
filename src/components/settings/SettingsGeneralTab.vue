@@ -214,6 +214,8 @@
 
     <NavbarCustomizationSettings />
 
+    <StatusBarCustomizationSettings />
+
     <!-- set beta -->
     <div
       class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
@@ -322,6 +324,7 @@
 import { ref, onMounted, watchEffect } from 'vue';
 import { getAvailableLanguages, getBackendLanguageCode, setLocaleLanguage } from '@/i18n';
 import NavbarCustomizationSettings from '@/components/settings/general/NavbarCustomizationSettings.vue';
+import StatusBarCustomizationSettings from '@/components/settings/general/StatusBarCustomizationSettings.vue';
 import apiService from '@/services/apiService';
 import { useSettingsStore } from '@/store/settingsStore';
 import { apiStore } from '@/store/store';

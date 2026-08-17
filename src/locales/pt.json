@@ -1328,6 +1328,7 @@
           "MaxMove": "RA: Movimento máx",
           "predictive_weight": "RA: Peso preditivo",
           "reactive_weight": "RA: Peso reativo",
+          "period_length": "RA: Comprimento do período PEC (s)",
           "slope_weight": "RA: Peso da inclinação",
           "exp_factor": "RA: Fator de exposição"
         },
@@ -1472,6 +1473,7 @@
             "hysteresis": "Peso dado ao histórico de correções recentes em relação ao quadro atual, em porcentagem. Valores altos suavizam as correções mas reagem mais devagar a uma real mudança de direção.",
             "predictiveWeight": "Predictive PEC: peso da parte prevista (modelada) da correção. Os padrões servem para a maioria das montagens; grandes mudanças podem piorar a guiagem.",
             "reactiveWeight": "Predictive PEC: peso da parte reativa, baseada no deslocamento da estrela no último quadro. Os padrões servem para a maioria das montagens.",
+            "periodLength": "Predictive PEC: duração do período do sem-fim da montagem, em segundos. O PHD2 usa-a para modelar e pré-corrigir o erro periódico em AR. Consulte a especificação da montagem (cerca de 479 s numa EQ6) ou leia-a no pico PEC da FFT da guiagem.",
             "slopeWeight": "LowPass: quanto a tendência recente (a inclinação) do movimento da estrela influencia a correção, em porcentagem. Evita que o algoritmo fique lento demais; 0 usa apenas a mediana do histórico recente.",
             "expFactor": "ZFilter: o tempo de exposição virtual é a exposição real × este fator. Valores altos filtram mais o seeing (mais suave, porém mais lento); uma exposição virtual de ~2–4 s é um bom ponto de partida para AR."
           },

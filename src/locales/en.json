@@ -1399,6 +1399,7 @@
             "hysteresis": "Weight given to the history of recent corrections versus the latest frame, in percent. Higher values smooth the corrections but react more slowly to a genuine change of direction.",
             "predictiveWeight": "Predictive PEC: weight of the predicted (modelled) part of the correction. Defaults suit most mounts; large changes can worsen guiding.",
             "reactiveWeight": "Predictive PEC: weight of the reactive part, based on the star's displacement in the latest frame. Defaults suit most mounts.",
+            "periodLength": "Predictive PEC: length of the mount's worm period in seconds. PHD2 uses it to model and pre-correct the recurring RA error. Take it from the mount's specification (about 479 s for an EQ6) or read it off the PEC peak in the guiding FFT.",
             "slopeWeight": "LowPass: how much the recent trend (slope) of star movement influences the correction, in percent. Keeps the algorithm from being too sluggish; 0 uses only the median of recent history.",
             "expFactor": "ZFilter: the virtual exposure time equals the real exposure × this factor. Higher values filter more seeing (smoother but slower); a virtual exposure of ~2–4 s is a good starting point for RA."
           },
@@ -1435,6 +1436,7 @@
           "MaxMove": "RA: Max move",
           "predictive_weight": "RA: Predictive weight",
           "reactive_weight": "RA: Reactive weight",
+          "period_length": "RA: PEC period length (s)",
           "slope_weight": "RA: Slope weight",
           "exp_factor": "RA: Exposure factor"
         },

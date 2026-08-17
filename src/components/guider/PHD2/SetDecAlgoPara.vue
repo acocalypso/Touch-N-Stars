@@ -114,7 +114,10 @@
 <script setup>
 import apiService from '@/services/apiService';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
-import { onMounted, ref } from 'vue';
+import { useGuiderStore } from '@/store/guiderStore';
+import { onMounted, ref, watch } from 'vue';
+
+const guiderStore = useGuiderStore();
 
 const minMove = ref(null);
 const maxMove = ref(null);
@@ -221,18 +224,33 @@ function debounce(fn, delay) {
   };
 }
 
+function resetParameters() {
+  minMove.value = null;
+  maxMove.value = null;
+  aggression.value = null;
+  hysteresis.value = null;
+  predictiveWeight.value = null;
+  reactiveWeight.value = null;
+  periodLength.value = null;
+  slopeWeight.value = null;
+  expFactor.value = null;
+}
+
 async function fetchPrameter() {
-  // 1. Namen der Parameter holen
+  // 1. Get the parameter names of the currently selected algorithm
   const namesResponse = await apiService.getPhd2AlgoParaName(axis);
   const paramNames = namesResponse.Response.ParameterNames;
 
-  // 2. Für jeden Namen API-Abfrage machen
+  // Drop the parameters of the previously selected algorithm
+  resetParameters();
+
+  // 2. Query the API for each name
   for (const name of paramNames) {
     if (name === 'algorithmName') continue;
     const response = await apiService.getPhd2AlgoPara(axis, name);
     const value = response.Response.Value;
 
-    // 3. Abhängig vom Namen in die passende ref speichern
+    // 3. Store the value in the matching ref
     switch (name) {
       case 'minMove':
         minMove.value = value;
@@ -259,8 +277,8 @@ async function fetchPrameter() {
         reactiveWeight.value = Math.round(reactiveWeight.value);
         break;
       case 'periodLength':
-        periodLength.value = value * 100;
-        periodLength.value = Math.round(periodLength.value);
+        // Seconds, not a percentage — take the raw value
+        periodLength.value = Math.round(value);
         break;
       case 'slopeWeight':
         slopeWeight.value = value;
@@ -271,20 +289,16 @@ async function fetchPrameter() {
         expFactor.value = Math.round(expFactor.value * 100) / 100;
         break;
       default:
-        console.warn('Unbekannter Parameter:', name);
+        console.warn('Unknown parameter:', name);
     }
   }
-
-  console.log('Dec minMove:', minMove.value);
-  console.log('Dec maxMove:', maxMove.value);
-  console.log('Dec aggression:', aggression.value);
-  console.log('Dec hysteresis:', hysteresis.value);
-  console.log('Dec predictiveWeight:', predictiveWeight.value);
-  console.log('Dec reactiveWeight:', reactiveWeight.value);
-  console.log('Dec periodLength:', periodLength.value);
-  console.log('Dec slopeWeight:', slopeWeight.value);
-  console.log('Dec expFactor:', expFactor.value);
 }
+
+// The algorithm can be switched while the settings modal stays open
+watch(
+  () => guiderStore.phd2GuideAlgorithmDEC,
+  () => fetchPrameter()
+);
 
 onMounted(async () => {
   await fetchPrameter();

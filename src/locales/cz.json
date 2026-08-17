@@ -1328,6 +1328,7 @@
           "MaxMove": "RA: Max pohyb",
           "predictive_weight": "RA: Prediktivní váha",
           "reactive_weight": "RA: Reaktivní váha W",
+          "period_length": "RA: Délka periody PEC (s)",
           "slope_weight": "RA: Váha sklonu",
           "exp_factor": "RA: Agresivita"
         },
@@ -1472,6 +1473,7 @@
             "hysteresis": "Váha přikládaná historii nedávných korekcí vůči aktuálnímu snímku, v procentech. Vyšší hodnoty korekce vyhlazují, ale pomaleji reagují na skutečnou změnu směru.",
             "predictiveWeight": "Predictive PEC: váha předpovězené (modelované) části korekce. Výchozí hodnoty vyhovují většině montáží; velké změny mohou vedení zhoršit.",
             "reactiveWeight": "Predictive PEC: váha reaktivní části založené na posunu hvězdy v posledním snímku. Výchozí hodnoty vyhovují většině montáží.",
+            "periodLength": "Predictive PEC: délka periody šneku montáže v sekundách. PHD2 podle ní modeluje opakující se chybu v RA a předem ji koriguje. Hodnotu najdete ve specifikaci montáže (přibližně 479 s u EQ6) nebo ji odečtete z PEC píku ve FFT guidingu.",
             "slopeWeight": "LowPass: jak moc nedávný trend (sklon) pohybu hvězdy ovlivňuje korekci, v procentech. Brání tomu, aby byl algoritmus příliš pomalý; 0 používá jen medián nedávné historie.",
             "expFactor": "ZFilter: virtuální expoziční čas je skutečná expozice × tento faktor. Vyšší hodnoty více filtrují seeing (hladší, ale pomalejší); virtuální expozice ~2–4 s je dobrý výchozí bod pro RA."
           },

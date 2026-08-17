@@ -1399,6 +1399,7 @@
             "hysteresis": "Pes donat a l'historial de correccions recents respecte al fotograma actual, en percentatge. Valors alts suavitzen les correccions però reaccionen més lentament.",
             "predictiveWeight": "Predictive PEC: pes de la part predicha de la correcció. Els valors per defecte serveixen per a la majoria de muntures.",
             "reactiveWeight": "Predictive PEC: pes de la part reactiva, basada en el desplaçament de l'estrella en l'últim fotograma.",
+            "periodLength": "Predictive PEC: durada del període del cargol sense fi de la muntura, en segons. El PHD2 l'utilitza per modelar i precorregir l'error periòdic en AR. Consulta les especificacions de la muntura (uns 479 s en una EQ6) o llegeix-la al pic PEC de la FFT del guiatge.",
             "slopeWeight": "LowPass: quant influeix la tendència recent del moviment de l'estrella en la correcció, en percentatge.",
             "expFactor": "ZFilter: el temps d'exposició virtual és l'exposició real × aquest factor. Valors alts filtren més el seeing (més suau però més lent)."
           },
@@ -1435,6 +1436,7 @@
           "MaxMove": "AR: Mov. màx.",
           "predictive_weight": "AR: Pes predictiu",
           "reactive_weight": "AR: Pes reactiu",
+          "period_length": "AR: Longitud del període PEC (s)",
           "slope_weight": "AR: Pes de pendent",
           "exp_factor": "AR: Factor d'exposició"
         },

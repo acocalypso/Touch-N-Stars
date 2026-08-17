@@ -1328,6 +1328,7 @@
           "MaxMove": "赤经: 最大移动量",
           "predictive_weight": "赤经: 预测权重",
           "reactive_weight": "赤经: 反应权重",
+          "period_length": "赤经: PEC 周期长度（秒）",
           "slope_weight": "赤经: 斜率权重",
           "exp_factor": "赤经: 曝光因子"
         },
@@ -1472,6 +1473,7 @@
             "hysteresis": "近期校正历史相对当前帧所占的权重，以百分比表示。较高值使校正更平滑，但对真正的方向变化反应更慢。",
             "predictiveWeight": "Predictive PEC：校正中预测（建模）部分的权重。默认值适合大多数赤道仪；大幅改动可能使导星变差。",
             "reactiveWeight": "Predictive PEC：反应部分的权重，基于最新帧中星点的位移。默认值适合大多数赤道仪。",
+            "periodLength": "Predictive PEC：赤道仪蜗杆周期的长度（秒）。PHD2 用它来建模并提前修正赤经方向的周期误差。可从赤道仪规格中获取（EQ6 约为 479 秒），或从导星 FFT 的 PEC 峰值读出。",
             "slopeWeight": "LowPass：星点运动的近期趋势（斜率）对校正的影响程度，以百分比表示。防止算法过于迟钝；0 表示仅使用近期历史的中位数。",
             "expFactor": "ZFilter：虚拟曝光时间 = 实际曝光 × 此系数。较高值滤除更多视宁度（更平滑但更慢）；约 2–4 秒的虚拟曝光是赤经的良好起点。"
           },

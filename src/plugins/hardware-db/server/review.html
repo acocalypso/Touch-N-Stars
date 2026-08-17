@@ -270,6 +270,132 @@
         gap: 0.5rem;
         margin-top: 0.7rem;
       }
+
+      /* ---- merge view ---- */
+      .match {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.5rem 0.75rem;
+        padding: 0.5rem 0.7rem;
+        margin-bottom: 0.75rem;
+        border-radius: 4px;
+        font-size: 0.85rem;
+      }
+      .match.known {
+        background: var(--accent-soft);
+        border: 1px solid var(--accent);
+      }
+      .match.new {
+        background: var(--ok-soft);
+        border: 1px solid var(--ok);
+        color: var(--ok);
+      }
+      .match select {
+        width: auto;
+        flex: 1;
+        min-width: 12rem;
+      }
+      .diff {
+        display: grid;
+        grid-template-columns: 1fr 1fr auto;
+        gap: 0.4rem 0.6rem;
+        align-items: center;
+        padding: 0.5rem 0.6rem;
+        border: 1px solid var(--rule);
+        border-radius: 4px;
+        margin-bottom: 0.45rem;
+        background: var(--sunk);
+      }
+      @media (max-width: 44rem) {
+        .diff {
+          grid-template-columns: 1fr;
+        }
+      }
+      .diff-field {
+        grid-column: 1 / -1;
+        font-family: var(--mono);
+        font-size: 0.68rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+      }
+      .diff-side {
+        font-size: 0.88rem;
+        word-break: break-word;
+      }
+      .diff-side .tag {
+        display: block;
+        font-family: var(--mono);
+        font-size: 0.65rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+      }
+      .diff-side.old {
+        color: var(--danger);
+      }
+      .diff-side.new {
+        color: var(--ok);
+      }
+      .diff-side em {
+        color: var(--ink-faint);
+        font-style: italic;
+      }
+      .seg {
+        display: flex;
+        border: 1px solid var(--rule);
+        border-radius: 4px;
+        overflow: hidden;
+      }
+      .seg button {
+        border: 0;
+        border-radius: 0;
+        font-size: 0.78rem;
+        padding: 0.3rem 0.6rem;
+        background: var(--surface);
+        color: var(--ink-soft);
+      }
+      .seg button[aria-pressed='true'] {
+        background: var(--accent);
+        color: #fff;
+      }
+      .existing-note {
+        padding: 0.45rem 0.6rem;
+        margin-bottom: 0.35rem;
+        border-radius: 4px;
+        background: var(--sunk);
+        border-left: 2px solid var(--ink-faint);
+        font-size: 0.85rem;
+        color: var(--ink-soft);
+      }
+      .choice {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 0.4rem 0.8rem;
+        margin-top: 0.4rem;
+        font-size: 0.85rem;
+      }
+      .choice label {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.3rem;
+        margin: 0;
+        font-family: var(--sans);
+        font-size: 0.85rem;
+        letter-spacing: 0;
+        text-transform: none;
+        color: var(--ink);
+      }
+      .choice input[type='radio'] {
+        width: auto;
+      }
+      .choice select {
+        width: auto;
+        flex: 1;
+        min-width: 10rem;
+      }
       .actions {
         display: flex;
         flex-wrap: wrap;
@@ -565,6 +691,85 @@
        * name carries the bare model ("ATR585M"). Splitting on that overlap gets
        * it right for most drivers; anything odd is fixed in the form.
        */
+      /**
+       * Collapses a name to a comparable form. Must stay identical to
+       * normalizeDeviceName() in ../utils/snapshotSerializer.js — the submitting
+       * side stores names normalized this way, and a divergence here would make
+       * matching silently miss.
+       */
+      function normalizeName(value) {
+        return String(value || '')
+          .trim()
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, ' ')
+          .trim();
+      }
+
+      /**
+       * Finds the published device a submitted one refers to. Matching by slug
+       * alone is what produced the first duplicate: the reviewer corrects the
+       * model, the slug changes with it, and the match is lost.
+       */
+      function findDeviceMatch({ vendor, model, slug }) {
+        const bySlug = devices.find((d) => d.slug === slug);
+        if (bySlug) return bySlug;
+
+        const full = normalizeName(`${vendor} ${model}`);
+        const bare = normalizeName(model);
+
+        return (
+          devices.find((d) => normalizeName(`${d.vendor} ${d.model}`) === full) ||
+          devices.find((d) => normalizeName(d.model) === bare) ||
+          devices.find((d) =>
+            (Array.isArray(d.aliases) ? d.aliases : []).some((a) => {
+              const alias = normalizeName(a);
+              return alias && (alias === full || alias === bare);
+            })
+          ) ||
+          null
+        );
+      }
+
+      /**
+       * One diff row. Rendered only when the values differ; the default keeps
+       * the stored value, because the reviewer curates the database and raw
+       * incoming data must not silently displace curated content. The exception
+       * is an empty stored value, where there is nothing to protect.
+       */
+      function diffRow(key, label, oldValue, newValue) {
+        if (String(oldValue || '') === String(newValue || '')) return '';
+        const takeByDefault = !String(oldValue || '').trim();
+        return `
+          <div class="diff">
+            <span class="diff-field">${esc(label)}</span>
+            <span class="diff-side old">
+              <span class="tag">Bestand</span>${oldValue ? esc(oldValue) : '<em>leer</em>'}
+            </span>
+            <span class="diff-side new">
+              <span class="tag">Neu</span>${newValue ? esc(newValue) : '<em>leer</em>'}
+            </span>
+            <span class="seg" data-diff="${key}">
+              <button data-choice="keep" aria-pressed="${!takeByDefault}">Behalten</button>
+              <button data-choice="take" aria-pressed="${takeByDefault}">Übernehmen</button>
+            </span>
+          </div>`;
+      }
+
+      /** Segmented controls act as radio groups; state lives in aria-pressed. */
+      document.addEventListener('click', (event) => {
+        const button = event.target.closest('.seg button');
+        if (!button) return;
+        [...button.parentElement.children].forEach((child) =>
+          child.setAttribute('aria-pressed', String(child === button))
+        );
+      });
+
+      /** Reads a segmented control back; absent row means "no difference". */
+      function choice(scope, key, fallback = 'keep') {
+        const pressed = scope.querySelector(`[data-diff="${key}"] [aria-pressed="true"]`);
+        return pressed?.dataset.choice || fallback;
+      }
+
       function splitVendorModel(dev) {
         const display = stripHardwareSuffix(
           (dev.displayName || '').replace(/\s*\(\s*INDI\s*\)\s*$/i, '').trim()
@@ -582,10 +787,13 @@
 
       /* ---------- submission detail ---------- */
 
-      function selectSubmission(id) {
+      async function selectSubmission(id) {
         current = submissions.find((s) => s.id === id) || null;
         takenDevices = new Set();
         renderQueue();
+        // Matching needs the published data; the entries tab loads the same
+        // three collections, so the caches are shared.
+        if (!devices.length) await loadEntries();
         renderDetail();
       }
 
@@ -608,36 +816,7 @@
 
         // One card per device, each with its own button: a submission may mix a
         // useful camera with a simulator, and they should not share a fate.
-        const cards = list
-          .map((d, i) => {
-            const { vendor, model } = splitVendorModel(d);
-            const taken = takenDevices.has(i);
-            return `
-            <div class="block${taken ? ' done' : ''}" id="dev${i}">
-              <div class="block-head">
-                <strong>${esc(d.displayName || d.name || '(ohne Namen)')}</strong>
-                <span class="chip">${esc(d.userStatus || '?')}</span>
-              </div>
-              <div class="grid">
-                <div><label>Vendor</label><input id="vendor${i}" value="${esc(vendor)}" ${taken ? 'disabled' : ''} /></div>
-                <div><label>Model</label><input id="model${i}" value="${esc(model)}" ${taken ? 'disabled' : ''} /></div>
-                <div><label>Slug</label><input id="slug${i}" value="${esc(slugify(vendor + ' ' + model))}" ${taken ? 'disabled' : ''} /></div>
-                <div><label>Kategorie</label><select id="cat${i}" ${taken ? 'disabled' : ''}>${options(CATEGORIES, d.category)}</select></div>
-                <div><label>Treiber</label><input id="drv${i}" value="${esc(d.driverInfo || '')}" ${taken ? 'disabled' : ''} /></div>
-                <div><label>Status</label><select id="st${i}" ${taken ? 'disabled' : ''}>${options(STATUSES, d.userStatus)}</select></div>
-                <div class="full">
-                  <label>Notiz (redigiert, leer = keine)</label>
-                  <textarea id="note${i}" rows="2" ${taken ? 'disabled' : ''}>${esc(d.userNote || '')}</textarea>
-                </div>
-              </div>
-              <div class="row-actions">
-                <button class="primary small" id="take${i}" ${taken ? 'disabled' : ''}>
-                  ${taken ? '✓ übernommen' : 'Dieses Gerät übernehmen'}
-                </button>
-              </div>
-            </div>`;
-          })
-          .join('');
+        const cards = list.map((d, i) => deviceCard(d, i)).join('');
 
         $('detail').innerHTML = `
           <div class="card">
@@ -665,8 +844,169 @@
         $('btnRej').onclick = () => setStatus('rejected');
       }
 
+      /**
+       * One incoming device, merged against what is already published. Fields
+       * that are identical produce no row: the card shows differences only, so
+       * a repeat report of a known device is a handful of lines rather than a
+       * full form to re-read.
+       */
+      function deviceCard(d, i) {
+        const { vendor, model } = splitVendorModel(d);
+        const slug = slugify(`${vendor} ${model}`);
+        const driver = d.driverInfo || '';
+        const taken = takenDevices.has(i);
+        const off = taken ? 'disabled' : '';
+
+        const match = findDeviceMatch({ vendor, model, slug });
+        const entry = match
+          ? entries.find(
+              (e) => e.device === match.id && normalizeName(e.driver) === normalizeName(driver)
+            )
+          : null;
+        const deviceEntries = match ? entries.filter((e) => e.device === match.id) : [];
+        const entryNotes = entry ? notes.filter((n) => n.entry === entry.id) : [];
+
+        const head = match
+          ? `<div class="match known">
+               <span>Bereits erfasst</span>
+               <select id="link${i}" ${off}>
+                 ${devices
+                   .map(
+                     (dev) =>
+                       `<option value="${dev.id}"${dev.id === match.id ? ' selected' : ''}>${esc(
+                         [dev.vendor, dev.model].filter(Boolean).join(' ')
+                       )}</option>`
+                   )
+                   .join('')}
+                 <option value="">— Neues Gerät anlegen —</option>
+               </select>
+             </div>`
+          : `<div class="match new"><span>Neues Gerät</span></div>`;
+
+        // Only the fields the reviewer may still want to change are editable;
+        // everything else is decided through the diff rows below.
+        const form = `
+          <div class="grid">
+            <div><label>Vendor</label><input id="vendor${i}" value="${esc(vendor)}" ${off} /></div>
+            <div><label>Model</label><input id="model${i}" value="${esc(model)}" ${off} /></div>
+            <div><label>Slug</label><input id="slug${i}" value="${esc(slug)}" ${off} /></div>
+            <div><label>Kategorie</label><select id="cat${i}" ${off}>${options(CATEGORIES, d.category)}</select></div>
+            <div>
+              <label>Treiber</label>
+              <input id="drv${i}" value="${esc(driver)}" list="drivers${i}" ${off} />
+              <datalist id="drivers${i}">
+                ${deviceEntries.map((e) => `<option value="${esc(e.driver)}"></option>`).join('')}
+              </datalist>
+            </div>
+            <div><label>Status</label><select id="st${i}" ${off}>${options(STATUSES, d.userStatus)}</select></div>
+          </div>`;
+
+        const deviceDiff = match
+          ? diffRow('vendor', 'Vendor', match.vendor, vendor) +
+            diffRow('model', 'Model', match.model, model) +
+            diffRow('slug', 'Slug', match.slug, slug) +
+            diffRow('category', 'Kategorie', match.category, d.category)
+          : '';
+
+        // Recording the incoming spelling as an alias is what makes the next
+        // report of the same device match without any manual work.
+        const incomingName = stripHardwareSuffix(d.displayName || d.name || '');
+        const knownAliases = match ? (Array.isArray(match.aliases) ? match.aliases : []) : [];
+        const aliasWorthAdding =
+          match &&
+          incomingName &&
+          normalizeName(incomingName) !== normalizeName(`${match.vendor} ${match.model}`) &&
+          !knownAliases.some((a) => normalizeName(a) === normalizeName(incomingName));
+        const aliasRow = aliasWorthAdding
+          ? `<div class="diff">
+               <span class="diff-field">Alias</span>
+               <span class="diff-side old"><span class="tag">Bestand</span>${
+                 knownAliases.length ? esc(knownAliases.join(', ')) : '<em>keine</em>'
+               }</span>
+               <span class="diff-side new"><span class="tag">Ergänzen</span>${esc(incomingName)}</span>
+               <span class="seg" data-diff="alias">
+                 <button data-choice="keep" aria-pressed="false">Nein</button>
+                 <button data-choice="take" aria-pressed="true">Ergänzen</button>
+               </span>
+             </div>`
+          : '';
+
+        const entryDiff = entry
+          ? `<h3>Treiber-Eintrag</h3>
+             <p class="empty">Meldungen: ${entry.reportCount || 0} → ${(entry.reportCount || 0) + 1}</p>
+             ${diffRow('status', 'Status', entry.status, d.userStatus)}
+             ${diffRow('minPinsVersion', 'Min. PINS-Version', entry.minPinsVersion, current.payload?.backend?.pinsVersion || '')}`
+          : '';
+
+        const note = noteSection(i, d.userNote || '', entryNotes, off);
+
+        return `
+          <div class="block${taken ? ' done' : ''}" id="dev${i}">
+            <div class="block-head">
+              <strong>${esc(d.displayName || d.name || '(ohne Namen)')}</strong>
+              <span class="chip">${esc(d.userStatus || '?')}</span>
+            </div>
+            ${head}
+            ${form}
+            ${deviceDiff || aliasRow || entryDiff ? '<h3>Unterschiede</h3>' : ''}
+            ${deviceDiff}${aliasRow}${entryDiff}
+            ${note}
+            <div class="row-actions">
+              <button class="primary small" id="take${i}" ${off}>
+                ${taken ? '✓ übernommen' : 'Dieses Gerät übernehmen'}
+              </button>
+            </div>
+          </div>`;
+      }
+
+      /**
+       * The incoming note next to whatever is already on record. Discarding is
+       * preselected once notes exist — the same observation arriving again is
+       * the normal case, and appending it would grow the list with repetitions.
+       */
+      function noteSection(i, incoming, existing, off) {
+        if (!incoming && !existing.length) return '';
+
+        const list = existing
+          .map((n) => `<div class="existing-note">${esc(n.text)}</div>`)
+          .join('');
+
+        if (!incoming) {
+          return `<h3>Vorhandene Notizen</h3>${list}`;
+        }
+
+        const replaceOptions = existing
+          .map((n) => `<option value="${n.id}">${esc(n.text.slice(0, 60))}</option>`)
+          .join('');
+
+        return `
+          <h3>Notiz</h3>
+          ${list}
+          <textarea id="note${i}" rows="2" ${off}>${esc(incoming)}</textarea>
+          <div class="choice" id="noteChoice${i}">
+            <label>
+              <input type="radio" name="note${i}" value="add" ${existing.length ? '' : 'checked'} ${off} />
+              Hinzufügen
+            </label>
+            ${
+              existing.length
+                ? `<label>
+                     <input type="radio" name="note${i}" value="replace" ${off} /> Ersetzt
+                   </label>
+                   <select id="noteTarget${i}" ${off}>${replaceOptions}</select>
+                   <label>
+                     <input type="radio" name="note${i}" value="drop" checked ${off} /> Verwerfen
+                   </label>`
+                : `<label>
+                     <input type="radio" name="note${i}" value="drop" ${off} /> Verwerfen
+                   </label>`
+            }
+          </div>`;
+      }
+
       /** Publishes exactly one device of the open submission. */
       async function takeDevice(i) {
+        const card = $('dev' + i);
         const btn = $('take' + i);
         btn.disabled = true;
         toast('');
@@ -678,36 +1018,83 @@
           const category = $('cat' + i).value;
           const driver = $('drv' + i).value.trim();
           const status = $('st' + i).value;
-          const note = $('note' + i).value.trim();
 
           if (!slug || !model || !driver) {
             throw new Error('Slug, Model und Treiber dürfen nicht leer sein.');
           }
 
-          let device = await findOne('hw_devices', `slug='${q(slug)}'`);
-          if (!device) {
+          // The link select is the reviewer's override of the automatic match:
+          // an empty value forces a new device even when something looked alike.
+          const linkSelect = $('link' + i);
+          const linkedId = linkSelect ? linkSelect.value : '';
+          let device = linkedId ? devices.find((d) => d.id === linkedId) : null;
+          const done = [];
+          const now = new Date().toISOString();
+
+          if (device) {
+            const patch = {};
+            if (choice(card, 'vendor') === 'take' && vendor !== device.vendor)
+              patch.vendor = vendor;
+            if (choice(card, 'model') === 'take' && model !== device.model) patch.model = model;
+            if (choice(card, 'slug') === 'take' && slug !== device.slug) patch.slug = slug;
+            if (choice(card, 'category') === 'take' && category !== device.category) {
+              patch.category = category;
+            }
+
+            const incomingName = stripHardwareSuffix(
+              current.payload?.devices?.[i]?.displayName ||
+                current.payload?.devices?.[i]?.name ||
+                ''
+            );
+            if (choice(card, 'alias', 'keep') === 'take' && incomingName) {
+              const aliases = Array.isArray(device.aliases) ? [...device.aliases] : [];
+              if (!aliases.some((a) => normalizeName(a) === normalizeName(incomingName))) {
+                aliases.push(incomingName);
+                patch.aliases = aliases;
+                done.push('Alias ergänzt');
+              }
+            }
+
+            if (Object.keys(patch).length) {
+              device = await api(`/api/collections/hw_devices/records/${device.id}`, {
+                method: 'PATCH',
+                body: JSON.stringify(patch),
+              });
+              const changed = Object.keys(patch).filter((k) => k !== 'aliases');
+              if (changed.length) done.push(`Gerät aktualisiert: ${changed.join(', ')}`);
+            }
+          } else {
             device = await api('/api/collections/hw_devices/records', {
               method: 'POST',
               body: JSON.stringify({ slug, category, vendor, model, aliases: [] }),
             });
+            done.push(`Gerät angelegt: ${slug}`);
           }
 
           const existing = await findOne(
             'hw_entries',
             `device='${q(device.id)}' && driver='${q(driver)}'`
           );
-          const now = new Date().toISOString();
           let entryId;
-          let summary;
 
           if (existing) {
             const count = (existing.reportCount || 0) + 1;
+            const patch = { reportCount: count, lastConfirmed: now };
+            // Without an explicit decision the stored status stands: one
+            // dissenting report must not overturn a widely confirmed result.
+            if (choice(card, 'status') === 'take') patch.status = status;
+            if (choice(card, 'minPinsVersion') === 'take') {
+              patch.minPinsVersion = current.payload?.backend?.pinsVersion || '';
+            }
             await api(`/api/collections/hw_entries/records/${existing.id}`, {
               method: 'PATCH',
-              body: JSON.stringify({ reportCount: count, lastConfirmed: now, status }),
+              body: JSON.stringify(patch),
             });
             entryId = existing.id;
-            summary = `${slug} / ${driver}: jetzt ${count} Meldungen`;
+            done.push(
+              patch.status ? `Status → ${patch.status}` : 'Status behalten',
+              `jetzt ${count} Meldungen`
+            );
           } else {
             const created = await api('/api/collections/hw_entries/records', {
               method: 'POST',
@@ -721,30 +1108,58 @@
               }),
             });
             entryId = created.id;
-            summary = `Eintrag angelegt: ${slug} / ${driver}`;
+            done.push(`Eintrag angelegt: ${driver}`);
           }
 
-          if (note) {
-            await api('/api/collections/hw_notes/records', {
-              method: 'POST',
-              body: JSON.stringify({
-                entry: entryId,
-                text: note,
-                lang: current.payload?.client?.locale || 'en',
-              }),
-            });
-            summary += ' · Notiz übernommen';
-          }
+          await applyNote(i, entryId, done);
 
           takenDevices.add(i);
-          // The published list is stale now; the entries tab reloads on demand.
-          devices = [];
+          // The published data changed; reload so a second device in the same
+          // submission is matched against the new state.
+          await loadEntries();
           renderDetail();
-          toast(summary, 'ok');
+          toast(done.join(' · ') || 'Übernommen', 'ok');
         } catch (err) {
           toast('Fehlgeschlagen: ' + err.message, 'err');
           btn.disabled = false;
         }
+      }
+
+      async function applyNote(i, entryId, done) {
+        const field = $('note' + i);
+        if (!field) return;
+
+        const text = field.value.trim();
+        if (!text) return;
+
+        const selected = document.querySelector(`input[name="note${i}"]:checked`);
+        const mode = selected?.value || 'add';
+        if (mode === 'drop') {
+          done.push('Notiz verworfen');
+          return;
+        }
+
+        if (mode === 'replace') {
+          const targetId = $('noteTarget' + i)?.value;
+          if (targetId) {
+            await api(`/api/collections/hw_notes/records/${targetId}`, {
+              method: 'PATCH',
+              body: JSON.stringify({ text }),
+            });
+            done.push('Notiz ersetzt');
+            return;
+          }
+        }
+
+        await api('/api/collections/hw_notes/records', {
+          method: 'POST',
+          body: JSON.stringify({
+            entry: entryId,
+            text,
+            lang: current.payload?.client?.locale || 'en',
+          }),
+        });
+        done.push('Notiz hinzugefügt');
       }
 
       async function setStatus(status) {
@@ -838,6 +1253,7 @@
                   <textarea id="ntext_${n.id}" rows="2">${esc(n.text)}</textarea>
                   <div class="row-actions">
                     <button class="small" id="nsave_${n.id}">Notiz speichern</button>
+                    <button class="danger small" id="ndel_${n.id}">Notiz löschen</button>
                   </div>
                 </div>`
               )
@@ -855,6 +1271,7 @@
               </div>
               <div class="row-actions">
                 <button class="primary small" id="esave_${e.id}">Treiber-Eintrag speichern</button>
+                <button class="danger small" id="edel_${e.id}">Treiber-Eintrag löschen</button>
               </div>
             </div>`;
           })
@@ -875,6 +1292,7 @@
             </div>
             <div class="row-actions">
               <button class="primary small" id="dsave">Gerät speichern</button>
+              <button class="danger small" id="ddel">Gerät löschen</button>
             </div>
 
             <h3>Treiber (${deviceEntries.length})</h3>
@@ -882,14 +1300,70 @@
           </div>`;
 
         $('dsave').onclick = () => saveDevice(device.id);
+        $('ddel').onclick = () => removeDevice(device);
         deviceEntries.forEach((e) => {
           $('esave_' + e.id).onclick = () => saveEntry(e.id);
+          $('edel_' + e.id).onclick = () => removeEntry(e);
           notes
             .filter((n) => n.entry === e.id)
             .forEach((n) => {
               $('nsave_' + n.id).onclick = () => saveNote(n.id);
+              $('ndel_' + n.id).onclick = () => removeNote(n.id);
             });
         });
+      }
+
+      /* ---------- deleting published data ---------- */
+
+      async function remove(collection, id, label) {
+        try {
+          await api(`/api/collections/${collection}/records/${id}`, { method: 'DELETE' });
+          toast(`${label} gelöscht.`, 'ok');
+          await loadEntries();
+        } catch (err) {
+          toast('Löschen fehlgeschlagen: ' + err.message, 'err');
+        }
+      }
+
+      /**
+       * Both relations are cascadeDelete, so removing a device takes its whole
+       * subtree with it. The prompt names the count rather than saying
+       * "and related records" - that is what makes it a real warning.
+       */
+      function removeDevice(device) {
+        const deviceEntries = entries.filter((e) => e.device === device.id);
+        const noteCount = notes.filter((n) => deviceEntries.some((e) => e.id === n.entry)).length;
+        const name = [device.vendor, device.model].filter(Boolean).join(' ');
+
+        if (
+          !confirm(
+            `"${name}" endgültig löschen?\n\n` +
+              `Mit gelöscht werden ${deviceEntries.length} Treiber-Eintrag/-Einträge ` +
+              `und ${noteCount} Notiz(en). Das lässt sich nicht rückgängig machen.`
+          )
+        ) {
+          return;
+        }
+        currentDeviceId = '';
+        remove('hw_devices', device.id, name);
+      }
+
+      function removeEntry(entry) {
+        const noteCount = notes.filter((n) => n.entry === entry.id).length;
+        if (
+          !confirm(
+            `Treiber-Eintrag "${entry.driver}" löschen?\n\n` +
+              `Mit gelöscht werden ${noteCount} Notiz(en).`
+          )
+        ) {
+          return;
+        }
+        remove('hw_entries', entry.id, entry.driver);
+      }
+
+      function removeNote(id) {
+        if (!confirm('Diese Notiz löschen?')) return;
+        remove('hw_notes', id, 'Notiz');
       }
 
       async function saveDevice(id) {

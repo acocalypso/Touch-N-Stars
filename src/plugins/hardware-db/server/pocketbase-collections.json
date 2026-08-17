@@ -321,7 +321,7 @@
         "presentable": false,
         "hidden": false,
         "maxSelect": 1,
-        "values": ["nina", "phd2"]
+        "values": ["pins", "phd2"]
       },
       {
         "id": "nument00000005",

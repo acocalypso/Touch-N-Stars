@@ -27,16 +27,16 @@ its List and View rules.
 
 ## The `stack` field
 
-`hw_entries.stack` records which software drove the device — `nina` or `phd2`. PHD2 keeps its own
+`hw_entries.stack` records which software drove the device — `pins` or `phd2`. PHD2 keeps its own
 driver list, so a camera working under INDI says nothing about whether PHD2 can talk to it. The
 two are separate entries on the same device rather than separate devices, because "guide camera"
 describes a usage, not the hardware: the same model is a guider on one rig and an imaging camera
 on the next.
 
-Entries written before the field existed have it empty; both pages read empty as `nina`.
+Entries written before the field existed have it empty; both pages read empty as `pins`.
 
 If the schema was imported before this field was added, either re-import in merge mode or add it
-by hand to `hw_entries`: a **select** field named `stack`, values `nina` and `phd2`, not required.
+by hand to `hw_entries`: a **select** field named `stack`, values `pins` and `phd2`, not required.
 
 ## Access rules
 

@@ -512,11 +512,11 @@
       const STATUSES = ['works', 'caveat', 'broken'];
       // Which software stack drove the device. PHD2 has its own driver list, so
       // "works under INDI" says nothing about whether PHD2 can talk to it.
-      const STACKS = ['nina', 'phd2'];
+      const STACKS = ['pins', 'phd2'];
 
-      /** Records written before the stack field existed are NINA-side. */
+      /** Anything that is not PHD2 came through the PINS side of the rig. */
       function stackOf(value) {
-        return value === 'phd2' ? 'phd2' : 'nina';
+        return value === 'phd2' ? 'phd2' : 'pins';
       }
 
       let token = sessionStorage.getItem('hwReviewToken') || '';
@@ -866,7 +866,7 @@
         const off = taken ? 'disabled' : '';
 
         // The plugin already tells us which stack the device was driven by.
-        const incomingStack = stackOf(d.connectionType === 'phd2' ? 'phd2' : 'nina');
+        const incomingStack = stackOf(d.connectionType);
 
         const match = findDeviceMatch({ vendor, model, slug });
         const entry = match
@@ -1096,7 +1096,7 @@
           const existing = await findOne(
             'hw_entries',
             `device='${q(device.id)}' && driver='${q(driver)}' && ` +
-              (stack === 'nina' ? `(stack='nina' || stack='')` : `stack='${q(stack)}'`)
+              (stack === 'pins' ? `(stack='pins' || stack='')` : `stack='${q(stack)}'`)
           );
           let entryId;
 

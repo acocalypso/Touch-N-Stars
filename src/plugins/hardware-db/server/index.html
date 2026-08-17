@@ -433,13 +433,13 @@
       // Worst first: a device the user has to be warned about should sort up.
       const SEVERITY = { broken: 0, caveat: 1, works: 2 };
       // Which software drove the device. PHD2 keeps its own driver list, so
-      // "works under NINA" says nothing about whether PHD2 can talk to it —
+      // "works under PINS" says nothing about whether PHD2 can talk to it —
       // the two are separate results for the same piece of hardware.
-      const STACK_LABEL = { nina: 'NINA', phd2: 'PHD2 guiding' };
+      const STACK_LABEL = { pins: 'PINS', phd2: 'PHD2 guiding' };
 
-      /** Entries written before the stack field existed are NINA-side. */
+      /** Anything that is not PHD2 came through the PINS side of the rig. */
       function stackOf(value) {
-        return value === 'phd2' ? 'phd2' : 'nina';
+        return value === 'phd2' ? 'phd2' : 'pins';
       }
 
       let model = [];

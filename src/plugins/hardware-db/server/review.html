@@ -510,6 +510,14 @@
         'safetymonitor',
       ];
       const STATUSES = ['works', 'caveat', 'broken'];
+      // Which software stack drove the device. PHD2 has its own driver list, so
+      // "works under INDI" says nothing about whether PHD2 can talk to it.
+      const STACKS = ['nina', 'phd2'];
+
+      /** Records written before the stack field existed are NINA-side. */
+      function stackOf(value) {
+        return value === 'phd2' ? 'phd2' : 'nina';
+      }
 
       let token = sessionStorage.getItem('hwReviewToken') || '';
       let submissions = [];
@@ -857,10 +865,16 @@
         const taken = takenDevices.has(i);
         const off = taken ? 'disabled' : '';
 
+        // The plugin already tells us which stack the device was driven by.
+        const incomingStack = stackOf(d.connectionType === 'phd2' ? 'phd2' : 'nina');
+
         const match = findDeviceMatch({ vendor, model, slug });
         const entry = match
           ? entries.find(
-              (e) => e.device === match.id && normalizeName(e.driver) === normalizeName(driver)
+              (e) =>
+                e.device === match.id &&
+                normalizeName(e.driver) === normalizeName(driver) &&
+                stackOf(e.stack) === incomingStack
             )
           : null;
         const deviceEntries = match ? entries.filter((e) => e.device === match.id) : [];
@@ -899,6 +913,10 @@
               </datalist>
             </div>
             <div><label>Status</label><select id="st${i}" ${off}>${options(STATUSES, d.userStatus)}</select></div>
+            <div>
+              <label>Stack</label>
+              <select id="stack${i}" ${off}>${options(STACKS, incomingStack)}</select>
+            </div>
           </div>`;
 
         const deviceDiff = match
@@ -935,6 +953,7 @@
           ? `<h3>Treiber-Eintrag</h3>
              <p class="empty">Meldungen: ${entry.reportCount || 0} → ${(entry.reportCount || 0) + 1}</p>
              ${diffRow('status', 'Status', entry.status, d.userStatus)}
+             ${diffRow('stack', 'Stack', stackOf(entry.stack), incomingStack)}
              ${diffRow('minPinsVersion', 'Min. PINS-Version', entry.minPinsVersion, current.payload?.backend?.pinsVersion || '')}`
           : '';
 
@@ -1018,6 +1037,7 @@
           const category = $('cat' + i).value;
           const driver = $('drv' + i).value.trim();
           const status = $('st' + i).value;
+          const stack = $('stack' + i).value;
 
           if (!slug || !model || !driver) {
             throw new Error('Slug, Model und Treiber dürfen nicht leer sein.');
@@ -1071,9 +1091,12 @@
             done.push(`Gerät angelegt: ${slug}`);
           }
 
+          // Same driver under a different stack is a different entry: PHD2 has
+          // its own driver list, so the two say nothing about each other.
           const existing = await findOne(
             'hw_entries',
-            `device='${q(device.id)}' && driver='${q(driver)}'`
+            `device='${q(device.id)}' && driver='${q(driver)}' && ` +
+              (stack === 'nina' ? `(stack='nina' || stack='')` : `stack='${q(stack)}'`)
           );
           let entryId;
 
@@ -1083,6 +1106,7 @@
             // Without an explicit decision the stored status stands: one
             // dissenting report must not overturn a widely confirmed result.
             if (choice(card, 'status') === 'take') patch.status = status;
+            if (choice(card, 'stack') === 'take') patch.stack = stack;
             if (choice(card, 'minPinsVersion') === 'take') {
               patch.minPinsVersion = current.payload?.backend?.pinsVersion || '';
             }
@@ -1102,13 +1126,14 @@
                 device: device.id,
                 driver,
                 status,
+                stack,
                 reportCount: 1,
                 lastConfirmed: now,
                 minPinsVersion: current.payload?.backend?.pinsVersion || '',
               }),
             });
             entryId = created.id;
-            done.push(`Eintrag angelegt: ${driver}`);
+            done.push(`Eintrag angelegt: ${driver} (${stack})`);
           }
 
           await applyNote(i, entryId, done);
@@ -1261,10 +1286,14 @@
 
             return `
             <div class="block">
-              <div class="block-head"><strong>${esc(e.driver)}</strong></div>
+              <div class="block-head">
+                <strong>${esc(e.driver)}</strong>
+                <span class="chip">${esc(stackOf(e.stack))}</span>
+              </div>
               <div class="grid">
                 <div><label>Treiber</label><input id="edrv_${e.id}" value="${esc(e.driver)}" /></div>
                 <div><label>Status</label><select id="est_${e.id}">${options(STATUSES, e.status)}</select></div>
+                <div><label>Stack</label><select id="estk_${e.id}">${options(STACKS, stackOf(e.stack))}</select></div>
                 <div><label>Meldungen</label><input id="ecnt_${e.id}" type="number" min="0" value="${Number(e.reportCount) || 0}" /></div>
                 <div><label>Min. PINS-Version</label><input id="epv_${e.id}" value="${esc(e.minPinsVersion || '')}" /></div>
                 ${noteFields || '<p class="empty full">Keine Notizen.</p>'}
@@ -1397,6 +1426,7 @@
             body: JSON.stringify({
               driver: $('edrv_' + id).value.trim(),
               status: $('est_' + id).value,
+              stack: $('estk_' + id).value,
               reportCount: Number($('ecnt_' + id).value) || 0,
               minPinsVersion: $('epv_' + id).value.trim(),
             }),

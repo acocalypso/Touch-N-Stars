@@ -313,6 +313,17 @@
         "values": ["works", "caveat", "broken"]
       },
       {
+        "id": "selent00000010",
+        "name": "stack",
+        "type": "select",
+        "system": false,
+        "required": false,
+        "presentable": false,
+        "hidden": false,
+        "maxSelect": 1,
+        "values": ["nina", "phd2"]
+      },
+      {
         "id": "nument00000005",
         "name": "reportCount",
         "type": "number",

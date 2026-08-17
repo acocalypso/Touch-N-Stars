@@ -280,6 +280,19 @@
         color: var(--content);
         word-break: break-word;
       }
+      .stack {
+        font-family: var(--sans);
+        font-size: 0.68rem;
+        font-weight: 650;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        margin-left: 0.5rem;
+        padding: 0.1rem 0.45rem;
+        border-radius: 999px;
+        background: var(--surface-3);
+        color: var(--content-muted);
+        white-space: nowrap;
+      }
       .driver-meta {
         font-size: 0.75rem;
         color: var(--content-faint);
@@ -419,6 +432,15 @@
       };
       // Worst first: a device the user has to be warned about should sort up.
       const SEVERITY = { broken: 0, caveat: 1, works: 2 };
+      // Which software drove the device. PHD2 keeps its own driver list, so
+      // "works under NINA" says nothing about whether PHD2 can talk to it —
+      // the two are separate results for the same piece of hardware.
+      const STACK_LABEL = { nina: 'NINA', phd2: 'PHD2 guiding' };
+
+      /** Entries written before the stack field existed are NINA-side. */
+      function stackOf(value) {
+        return value === 'phd2' ? 'phd2' : 'nina';
+      }
 
       let model = [];
       let category = 'all';
@@ -610,7 +632,9 @@
                 <span class="dot"></span>${STATUS_LABEL[entry.status] || entry.status}
               </span>
             </div>
-            <div class="driver-name">${esc(entry.driver)}</div>
+            <div class="driver-name">
+              ${esc(entry.driver)}<span class="stack">${STACK_LABEL[stackOf(entry.stack)]}</span>
+            </div>
             <div class="driver-meta">${meta.join(' · ')}</div>
             ${note}
           </div>`;

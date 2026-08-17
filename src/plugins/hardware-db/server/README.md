@@ -4,10 +4,12 @@ These files do **not** ship with the app. They configure and operate the PocketB
 plugin talks to (`config.pocketbaseUrl` in `../plugin.json`). They live here so the client and its
 backend stay in one place — the collection schema and the payload the plugin sends have to match.
 
-| File                          | Purpose                                                        |
-| ----------------------------- | -------------------------------------------------------------- |
-| `pocketbase-collections.json` | Collection schema. Import via _Settings → Import collections_. |
-| `review.html`                 | Review UI for approving submissions. Deploy to `pb_public/`.   |
+| File                          | Purpose                                                                  |
+| ----------------------------- | ------------------------------------------------------------------------ |
+| `pocketbase-collections.json` | Collection schema. Import via _Settings → Import collections_.           |
+| `review.html`                 | Review UI for approving submissions. Deploy to `pb_public/`.             |
+| `index.html`                  | Public browsable database. Deploy to `pb_public/`.                       |
+| `logo.png`                    | Used by `index.html`; copy of `src/assets/Logo_TouchNStars_300x300.png`. |
 
 ## Importing the schema
 
@@ -39,14 +41,15 @@ Its create rule is `@request.body.status = 'pending' && @request.body.reviewNote
 Without it anyone could post a record that is already approved and walk straight past the review
 queue, so the client sends `status: 'pending'` explicitly (see `../utils/hardwareDbApi.js`).
 
-## Deploying the review page
+## Deploying the pages
 
 ```bash
-scp review.html root@<server>:/opt/pocketbase/pb_public/
-ssh root@<server> chown pocketbase:pocketbase /opt/pocketbase/pb_public/review.html
+scp index.html review.html logo.png root@<server>:/opt/pocketbase/pb_public/
+ssh root@<server> chown -R pocketbase:pocketbase /opt/pocketbase/pb_public
 ```
 
-Served at `https://<domain>/review.html`, no restart needed. It contains no credentials — it asks
+PocketBase serves `pb_public/` itself, so the public database lands on `https://<domain>/` and the
+review UI on `https://<domain>/review.html`. No restart, no second service, no reverse proxy. It contains no credentials — it asks
 for the superuser login and keeps the token in `sessionStorage`. The API rules remain the security
 boundary; the page is only a more convenient remote control for the same API.
 

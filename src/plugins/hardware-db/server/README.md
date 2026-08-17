@@ -10,6 +10,7 @@ backend stay in one place — the collection schema and the payload the plugin s
 | `review.html`                 | Review UI for approving submissions. Deploy to `pb_public/`.             |
 | `index.html`                  | Public browsable database. Deploy to `pb_public/`.                       |
 | `logo.png`                    | Used by `index.html`; copy of `src/assets/Logo_TouchNStars_300x300.png`. |
+| `pb_hooks/discord.pb.js`      | Optional Discord notifications. Deploy to `pb_hooks/`.                   |
 
 ## Importing the schema
 
@@ -52,6 +53,35 @@ PocketBase serves `pb_public/` itself, so the public database lands on `https://
 review UI on `https://<domain>/review.html`. No restart, no second service, no reverse proxy. It contains no credentials — it asks
 for the superuser login and keeps the token in `sessionStorage`. The API rules remain the security
 boundary; the page is only a more convenient remote control for the same API.
+
+## Discord notifications (optional)
+
+```bash
+scp -r pb_hooks root@<server>:/opt/pocketbase/
+ssh root@<server> chown -R pocketbase:pocketbase /opt/pocketbase/pb_hooks
+```
+
+Then add the webhook URLs to the service and restart it:
+
+```ini
+# /etc/systemd/system/pocketbase.service, under [Service]
+Environment=DISCORD_WEBHOOK_REVIEW=https://discord.com/api/webhooks/...
+Environment=DISCORD_WEBHOOK_PUBLIC=https://discord.com/api/webhooks/...
+```
+
+```bash
+systemctl daemon-reload && systemctl restart pocketbase
+journalctl -u pocketbase -f
+```
+
+`DISCORD_WEBHOOK_REVIEW` fires when a report arrives and belongs in a **private** channel — it
+references unreviewed content. `DISCORD_WEBHOOK_PUBLIC` fires when an entry is published and is
+safe for a public channel: it only runs after a review and carries no raw user input. Each is
+independent; leave a variable unset and that notification stays off.
+
+The URLs live in the unit file, never in the hook: anyone holding a webhook URL can post into the
+channel, and this repository is not the place for one. PocketBase watches `pb_hooks/` and reloads
+on change, so only the environment change needs the restart.
 
 ## Verifying the rules
 

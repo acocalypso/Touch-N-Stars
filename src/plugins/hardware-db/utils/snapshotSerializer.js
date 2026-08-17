@@ -54,14 +54,42 @@ export const DEVICE_FIELDS = Object.freeze([
   'driverCategory',
   'indiDriver',
   'connectionType',
+  'connected',
 ]);
+
+/** Category -> profile section holding Id and IndiDriver while disconnected. */
+export const PROFILE_SECTIONS = Object.freeze({
+  camera: 'CameraSettings',
+  mount: 'TelescopeSettings',
+  focuser: 'FocuserSettings',
+  filterwheel: 'FilterWheelSettings',
+  rotator: 'RotatorSettings',
+  guider: 'GuiderSettings',
+  flatdevice: 'FlatDeviceSettings',
+  switch: 'SwitchSettings',
+  weather: 'WeatherDataSettings',
+  dome: 'DomeSettings',
+  safetymonitor: 'SafetyMonitorSettings',
+});
 
 /**
  * Values that mean "no driver reported". NINA and the PINS backend fill the
  * field with these rather than leaving it empty, and storing them would put
- * junk driver names into the database.
+ * junk driver names into the database. `no_device` is NINA's placeholder for
+ * "nothing selected" in a profile section.
  */
-const PLACEHOLDER_VALUES = new Set(['n.a.', 'n/a', 'na', 'none', 'unknown', '-', '--', '?']);
+const PLACEHOLDER_VALUES = new Set([
+  'n.a.',
+  'n/a',
+  'na',
+  'none',
+  'unknown',
+  'no_device',
+  'no device',
+  '-',
+  '--',
+  '?',
+]);
 
 export const MAX_NOTE_LENGTH = 500;
 export const MAX_DEVICES = 40;
@@ -136,36 +164,75 @@ function stripHardwareSuffix(displayName) {
 }
 
 /**
- * Turns the raw store equipment objects into the candidate list shown in the
- * UI. Devices that are not connected are skipped: NINA only fills DriverInfo
- * and DriverVersion while a device is connected, and an entry without driver
- * identity is worthless to the knowledge base.
+ * Turns the store equipment objects into the candidate list shown in the UI.
+ *
+ * A connected device is described by NINA itself. A device that is configured
+ * but *not* connected is included as well, built from the profile — otherwise
+ * the single most valuable report would be impossible to make: "this device
+ * does not work" is precisely the case where the user cannot connect it.
+ *
+ * Such a candidate carries no DriverInfo, because NINA only fills that while a
+ * device is connected. Nothing is invented to fill the gap; the reviewer adds
+ * the driver when publishing.
+ *
+ * @param {object} deviceInfos store equipment objects, keyed like DEVICE_CATEGORIES
+ * @param {object} [options.profileInfo] active profile, source for disconnected devices
+ * @param {object} [options.deviceNames] category -> DisplayName resolved from list-devices
  */
-export function extractDeviceCandidates(deviceInfos = {}) {
+export function extractDeviceCandidates(deviceInfos = {}, { profileInfo, deviceNames } = {}) {
   const candidates = [];
+  const profile = profileInfo || {};
+  const names = deviceNames || {};
 
   for (const [storeKey, category] of Object.entries(DEVICE_CATEGORIES)) {
     const info = deviceInfos[storeKey];
-    if (!info || typeof info !== 'object' || !info.Connected) continue;
 
-    const name = firstNonEmpty(info.Name, info.DisplayName);
-    const driverInfo = cleanDriverValue(info.DriverInfo);
-    if (!name && !driverInfo) continue;
+    if (info && typeof info === 'object' && info.Connected) {
+      const name = firstNonEmpty(info.Name, info.DisplayName);
+      const driverInfo = cleanDriverValue(info.DriverInfo);
+      if (!name && !driverInfo) continue;
 
-    const driverCategory = firstNonEmpty(info.Category);
-    // Detection runs on the raw name so the "(INDI)" marker survives; only the
-    // stripped form is transmitted.
-    const displayName = firstNonEmpty(info.DisplayName);
+      const driverCategory = firstNonEmpty(info.Category);
+      // Detection runs on the raw name so the "(INDI)" marker survives; only the
+      // stripped form is transmitted.
+      const displayName = firstNonEmpty(info.DisplayName);
+      candidates.push({
+        id: category,
+        category,
+        name,
+        displayName: stripHardwareSuffix(displayName),
+        driverInfo,
+        driverVersion: cleanDriverValue(info.DriverVersion),
+        driverCategory,
+        indiDriver: '',
+        connectionType: detectConnectionType({ driverInfo, driverCategory, displayName }),
+        connected: 'yes',
+      });
+      continue;
+    }
+
+    const section = profile[PROFILE_SECTIONS[category]];
+    if (!section || typeof section !== 'object') continue;
+
+    // The profile Id is a device identifier; the display name resolved from the
+    // device list is friendlier, so prefer it when the caller supplied one.
+    const configuredId = cleanDriverValue(section.Id);
+    const resolvedName = stripHardwareSuffix(firstNonEmpty(names[category]));
+    const name = resolvedName || configuredId;
+    if (!name) continue;
+
+    const driverInfo = cleanDriverValue(section.IndiDriver);
     candidates.push({
       id: category,
       category,
       name,
-      displayName: stripHardwareSuffix(displayName),
+      displayName: resolvedName,
       driverInfo,
-      driverVersion: cleanDriverValue(info.DriverVersion),
-      driverCategory,
+      driverVersion: '',
+      driverCategory: '',
       indiDriver: '',
-      connectionType: detectConnectionType({ driverInfo, driverCategory, displayName }),
+      connectionType: detectConnectionType({ driverInfo, driverCategory: '', displayName: name }),
+      connected: 'no',
     });
   }
 

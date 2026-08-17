@@ -1,11 +1,26 @@
 <template>
   <div class="tns-card p-4 flex flex-col gap-3">
     <div class="min-w-0">
-      <p class="text-white font-semibold truncate">{{ candidate.name || candidate.driverInfo }}</p>
+      <div class="flex items-center gap-2 min-w-0">
+        <p class="text-white font-semibold truncate">
+          {{ candidate.name || candidate.driverInfo }}
+        </p>
+        <span
+          v-if="candidate.connected === 'no'"
+          class="shrink-0 text-xs px-2 py-0.5 rounded-chip border border-status-warn/40 bg-status-warn/10 text-status-warn"
+        >
+          {{ $t('plugins.hardwareDb.notConnected') }}
+        </span>
+      </div>
       <p class="text-sm text-gray-400 truncate">
         {{ $t(`plugins.hardwareDb.categories.${candidate.category}`) }}
         <span v-if="candidate.driverInfo"> · {{ candidate.driverInfo }}</span>
         <span v-if="candidate.driverVersion"> {{ candidate.driverVersion }}</span>
+      </p>
+      <!-- A disconnected device carries no driver name; say so rather than
+           leaving the user wondering what is missing. -->
+      <p v-if="candidate.connected === 'no' && !candidate.driverInfo" class="text-xs text-gray-500">
+        {{ $t('plugins.hardwareDb.driverUnknown') }}
       </p>
     </div>
 

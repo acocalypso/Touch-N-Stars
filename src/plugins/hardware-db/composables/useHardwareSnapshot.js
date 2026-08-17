@@ -4,12 +4,29 @@ import { apiStore } from '@/store/store';
 import { useSettingsStore } from '@/store/settingsStore';
 import apiPinsService from '@/services/apiPinsService';
 import appVersion from '@/version';
+import apiService from '@/services/apiService';
 import {
   DEVICE_CATEGORIES,
+  PROFILE_SECTIONS,
   enrichWithIndiPackages,
   extractArchitecture,
   extractDeviceCandidates,
 } from '../utils/snapshotSerializer';
+
+/** Category -> apiService method used to list that device type. */
+const LIST_ACTIONS = Object.freeze({
+  camera: 'cameraAction',
+  mount: 'mountAction',
+  focuser: 'focusAction',
+  filterwheel: 'filterAction',
+  rotator: 'rotatorAction',
+  guider: 'guiderAction',
+  flatdevice: 'flatdeviceAction',
+  switch: 'switchAction',
+  weather: 'weatherAction',
+  dome: 'domeAction',
+  safetymonitor: 'safetyAction',
+});
 
 /**
  * Collects everything the report needs from data the app already has.
@@ -41,6 +58,41 @@ export function useHardwareSnapshot() {
     }
   }
 
+  /**
+   * Resolves display names for devices that are configured but not connected.
+   * The profile only stores an Id, which for ASCOM is a ProgID and reads badly;
+   * the device list has the friendly name. Only the categories that actually
+   * need it are queried.
+   */
+  async function resolveConfiguredNames(store, deviceInfos) {
+    const wanted = [];
+    for (const [storeKey, category] of Object.entries(DEVICE_CATEGORIES)) {
+      if (deviceInfos[storeKey]?.Connected) continue;
+      const id = store.profileInfo?.[PROFILE_SECTIONS[category]]?.Id;
+      if (id && LIST_ACTIONS[category]) wanted.push({ category, id });
+    }
+    if (!wanted.length) return {};
+
+    const resolved = {};
+    await Promise.all(
+      wanted.map(async ({ category, id }) => {
+        try {
+          const response = await apiService[LIST_ACTIONS[category]]('list-devices');
+          const devices = Array.isArray(response?.Response) ? response.Response : [];
+          const match = devices.find((device) => String(device?.Id) === String(id));
+          if (match?.DisplayName) resolved[category] = match.DisplayName;
+        } catch (err) {
+          // Optional enrichment: without it the profile Id is used as the name.
+          console.warn(
+            `[hardware-db] Device list for ${category} unavailable:`,
+            err?.message || err
+          );
+        }
+      })
+    );
+    return resolved;
+  }
+
   async function collect() {
     loading.value = true;
     error.value = '';
@@ -53,7 +105,11 @@ export function useHardwareSnapshot() {
         deviceInfos[storeKey] = store[storeKey];
       }
 
-      let list = extractDeviceCandidates(deviceInfos);
+      const deviceNames = await resolveConfiguredNames(store, deviceInfos);
+      let list = extractDeviceCandidates(deviceInfos, {
+        profileInfo: store.profileInfo,
+        deviceNames,
+      });
 
       if (store.isPINS) {
         const packages = await collectIndiPackages();

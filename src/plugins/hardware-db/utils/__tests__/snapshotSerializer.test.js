@@ -123,16 +123,86 @@ test('unrated devices are dropped and an untouched form submits nothing', () => 
   assert.equal(buildSubmissionPayload({ candidates, ratings: {} }), null);
 });
 
-test('disconnected devices are skipped', () => {
-  const candidates = extractDeviceCandidates({
-    cameraInfo: { Connected: false, Name: 'ZWO ASI533MC Pro', DriverInfo: 'indi_asi_ccd' },
-    focuserInfo: { Connected: true, Name: 'MyFocuserPro2', DriverInfo: 'indi_myfocuserpro2_focus' },
-  });
-
-  assert.deepEqual(
-    candidates.map((c) => c.category),
-    ['focuser']
+test('a device that will not connect can still be reported', () => {
+  // The whole point of the knowledge base: "does not work" is exactly the case
+  // where the user cannot connect the device, so it must be reportable.
+  const candidates = extractDeviceCandidates(
+    { cameraInfo: { Connected: false } },
+    {
+      profileInfo: { CameraSettings: { Id: 'ZWO ASI533MC Pro', IndiDriver: 'indi_asi_ccd' } },
+    }
   );
+
+  assert.equal(candidates.length, 1);
+  assert.equal(candidates[0].name, 'ZWO ASI533MC Pro');
+  assert.equal(candidates[0].driverInfo, 'indi_asi_ccd');
+  assert.equal(candidates[0].connected, 'no');
+});
+
+test('a resolved display name beats the raw profile id', () => {
+  const [candidate] = extractDeviceCandidates(
+    { mountInfo: { Connected: false } },
+    {
+      profileInfo: { TelescopeSettings: { Id: 'ASCOM.EQMOD.Telescope' } },
+      deviceNames: { mount: 'EQMOD ASCOM HEQ5/6' },
+    }
+  );
+
+  assert.equal(candidate.name, 'EQMOD ASCOM HEQ5/6');
+});
+
+test('a disconnected device without a driver is reported anyway', () => {
+  // Native devices report no driver while disconnected. Nothing is invented -
+  // the field stays empty and the reviewer fills it in.
+  const [candidate] = extractDeviceCandidates(
+    { cameraInfo: { Connected: false } },
+    { profileInfo: { CameraSettings: { Id: 'ATR585M' } } }
+  );
+
+  assert.equal(candidate.driverInfo, '');
+  assert.equal(candidate.connected, 'no');
+
+  const payload = buildSubmissionPayload({
+    candidates: [candidate],
+    ratings: { camera: { status: USER_STATUS.BROKEN } },
+  });
+  assert.equal(payload.devices[0].name, 'ATR585M');
+  assert.equal('driverInfo' in payload.devices[0], false);
+});
+
+test('empty profile slots produce no candidates', () => {
+  const candidates = extractDeviceCandidates(
+    { cameraInfo: { Connected: false }, mountInfo: { Connected: false } },
+    {
+      profileInfo: {
+        // NINA's placeholder for "nothing selected".
+        CameraSettings: { Id: 'No_Device' },
+        TelescopeSettings: { Id: '' },
+      },
+    }
+  );
+
+  assert.deepEqual(candidates, []);
+});
+
+test('a connected device wins over its profile entry', () => {
+  const candidates = extractDeviceCandidates(
+    { cameraInfo: cameraInfoWithSecrets() },
+    { profileInfo: { CameraSettings: { Id: 'Stale Profile Name' } } }
+  );
+
+  assert.equal(candidates.length, 1);
+  assert.equal(candidates[0].name, 'ZWO ASI533MC Pro');
+  assert.equal(candidates[0].connected, 'yes');
+});
+
+test('the INDI placeholder driver is not treated as a real driver', () => {
+  const [candidate] = extractDeviceCandidates(
+    { focuserInfo: { Connected: false } },
+    { profileInfo: { FocuserSettings: { Id: 'MyFocuser', IndiDriver: 'None' } } }
+  );
+
+  assert.equal(candidate.driverInfo, '');
 });
 
 test('an invalid status is rejected rather than silently accepted', () => {

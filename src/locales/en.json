@@ -2616,6 +2616,58 @@
         "imageRequired": "Select an image before running the analysis."
       }
     },
+    "hardwareDb": {
+      "title": "Hardware Database",
+      "intro": "Share which of your devices work with which driver. Reports are reviewed before they appear in the database.",
+      "collecting": "Reading connected equipment…",
+      "noDevices": "No connected equipment found. Connect your devices first — the driver details are only reported while a device is connected.",
+      "reviewAndSend": "Review and send ({count})",
+      "selectAtLeastOne": "Rate at least one device to send a report.",
+      "noteLabel": "Anything special about it?",
+      "notePlaceholder": "e.g. needs USB bandwidth below 60, focus direction is inverted…",
+      "copy": "Copy",
+      "copied": "Copied",
+      "submitSuccess": "Report sent. Thank you!",
+      "submitSuccessHint": "Keep this token to check the review status of your report later.",
+      "submitError": "The report could not be sent.",
+      "status": {
+        "works": "Works",
+        "caveat": "Works with caveat",
+        "broken": "Does not work"
+      },
+      "categories": {
+        "camera": "Camera",
+        "mount": "Mount",
+        "focuser": "Focuser",
+        "filterwheel": "Filter wheel",
+        "rotator": "Rotator",
+        "guider": "Guider",
+        "flatdevice": "Flat device",
+        "switch": "Switch",
+        "weather": "Weather",
+        "dome": "Dome",
+        "safetymonitor": "Safety monitor"
+      },
+      "preview": {
+        "title": "This is what gets sent",
+        "intro": "The complete report is shown below. Nothing beyond this is transmitted.",
+        "privacyNote": "No IP addresses, hostnames, Wi-Fi names, coordinates or profile names are included.",
+        "send": "Send report",
+        "sending": "Sending…"
+      },
+      "history": {
+        "title": "Your reports",
+        "refreshStatus": "Check status",
+        "clear": "Clear list",
+        "deviceCount": "{count} devices",
+        "status": {
+          "pending": "In review",
+          "approved": "Published",
+          "rejected": "Rejected",
+          "duplicate": "Duplicate"
+        }
+      }
+    },
     "logfileCollector": {
       "title": "Logfile Collector",
       "intro": "Collect latest TNS logs (including debug) and upload them to the configured endpoint.",

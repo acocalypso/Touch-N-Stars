@@ -1,0 +1,275 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {
+  DEVICE_FIELDS,
+  MAX_NOTE_LENGTH,
+  SCHEMA_VERSION,
+  USER_STATUS,
+  buildSubmissionPayload,
+  deviceKey,
+  enrichWithIndiPackages,
+  extractArchitecture,
+  extractDeviceCandidates,
+  normalizeDeviceName,
+} from '@/plugins/hardware-db/utils/snapshotSerializer';
+
+/**
+ * A camera info object shaped like a real NINA response: the fields we want,
+ * plus the pile of extras NINA sends along that must never be forwarded.
+ */
+function cameraInfoWithSecrets() {
+  return {
+    Connected: true,
+    Name: 'ZWO ASI533MC Pro',
+    DisplayName: 'ZWO ASI533MC Pro',
+    DriverInfo: 'indi_asi_ccd',
+    DriverVersion: '2.0.9',
+    Category: 'INDI',
+    // Everything below is realistic NINA/driver noise and must be dropped.
+    DeviceId: 'SN-0123456789',
+    SerialNumber: 'SN-0123456789',
+    IpAddress: '10.42.0.1',
+    HostName: 'pins-rig',
+    Ssid: 'MyHomeWifi',
+    Password: 'must-not-leak',
+    ImageFilePath: 'C:\\Users\\Johannes\\Pictures\\NINA',
+    Latitude: 48.137154,
+    Longitude: 11.576124,
+    ProfileName: 'Johannes Backyard',
+    Email: 'johannes_maier@gmx.de',
+  };
+}
+
+test('extractDeviceCandidates copies only allow-listed fields', () => {
+  const [candidate] = extractDeviceCandidates({ cameraInfo: cameraInfoWithSecrets() });
+
+  const allowed = new Set([...DEVICE_FIELDS, 'id']);
+  for (const key of Object.keys(candidate)) {
+    assert.ok(allowed.has(key), `unexpected field "${key}" in candidate`);
+  }
+  assert.equal(candidate.name, 'ZWO ASI533MC Pro');
+  assert.equal(candidate.driverInfo, 'indi_asi_ccd');
+  assert.equal(candidate.connectionType, 'indi');
+});
+
+test('payload never carries secrets, paths or coordinates', () => {
+  const candidates = extractDeviceCandidates({ cameraInfo: cameraInfoWithSecrets() });
+  const payload = buildSubmissionPayload({
+    candidates,
+    ratings: { camera: { status: USER_STATUS.WORKS, note: 'Works fine' } },
+    installId: 'aaaa-bbbb',
+    versions: { pins: '1.4.0', api: '2.2.11.0', tnsPlugin: '1.2.0.0', tns: '6.1.4' },
+    mode: 'pins',
+  });
+  const serialized = JSON.stringify(payload);
+
+  for (const secret of [
+    'SN-0123456789',
+    '10.42.0.1',
+    'pins-rig',
+    'MyHomeWifi',
+    'must-not-leak',
+    'Pictures',
+    '48.137154',
+    '11.576124',
+    'Johannes Backyard',
+    'johannes_maier@gmx.de',
+  ]) {
+    assert.equal(serialized.includes(secret), false, `payload leaked "${secret}"`);
+  }
+});
+
+test('payload has the documented top-level shape', () => {
+  const payload = buildSubmissionPayload({
+    candidates: extractDeviceCandidates({ cameraInfo: cameraInfoWithSecrets() }),
+    ratings: { camera: { status: USER_STATUS.WORKS } },
+    installId: 'aaaa-bbbb',
+    versions: { pins: '1.4.0', tns: '6.1.4' },
+    architecture: 'arm64',
+    mode: 'pins',
+    platform: 'android',
+    locale: 'de',
+    submittedAt: '2026-08-17T21:04:00.000Z',
+  });
+
+  assert.deepEqual(Object.keys(payload).sort(), [
+    'backend',
+    'client',
+    'devices',
+    'installId',
+    'schemaVersion',
+    'submittedAt',
+  ]);
+  assert.equal(payload.schemaVersion, SCHEMA_VERSION);
+  assert.equal(payload.backend.arch, 'arm64');
+  assert.equal(payload.client.mode, 'pins');
+  assert.equal(payload.client.platform, 'android');
+});
+
+test('unrated devices are dropped and an untouched form submits nothing', () => {
+  const candidates = extractDeviceCandidates({
+    cameraInfo: cameraInfoWithSecrets(),
+    mountInfo: { Connected: true, Name: 'EQ6-R Pro', DriverInfo: 'indi_eqmod_telescope' },
+  });
+  assert.equal(candidates.length, 2);
+
+  const partial = buildSubmissionPayload({
+    candidates,
+    ratings: { mount: { status: USER_STATUS.BROKEN } },
+  });
+  assert.equal(partial.devices.length, 1);
+  assert.equal(partial.devices[0].category, 'mount');
+
+  assert.equal(buildSubmissionPayload({ candidates, ratings: {} }), null);
+});
+
+test('disconnected devices are skipped', () => {
+  const candidates = extractDeviceCandidates({
+    cameraInfo: { Connected: false, Name: 'ZWO ASI533MC Pro', DriverInfo: 'indi_asi_ccd' },
+    focuserInfo: { Connected: true, Name: 'MyFocuserPro2', DriverInfo: 'indi_myfocuserpro2_focus' },
+  });
+
+  assert.deepEqual(
+    candidates.map((c) => c.category),
+    ['focuser']
+  );
+});
+
+test('an invalid status is rejected rather than silently accepted', () => {
+  const candidates = extractDeviceCandidates({ cameraInfo: cameraInfoWithSecrets() });
+  assert.equal(
+    buildSubmissionPayload({ candidates, ratings: { camera: { status: 'lgtm' } } }),
+    null
+  );
+});
+
+test('notes are truncated to the documented limit', () => {
+  const candidates = extractDeviceCandidates({ cameraInfo: cameraInfoWithSecrets() });
+  const payload = buildSubmissionPayload({
+    candidates,
+    ratings: { camera: { status: USER_STATUS.CAVEAT, note: 'x'.repeat(MAX_NOTE_LENGTH + 250) } },
+  });
+
+  assert.equal(payload.devices[0].userNote.length, MAX_NOTE_LENGTH);
+});
+
+test('connection type is derived from driver name and category', () => {
+  const [alpaca] = extractDeviceCandidates({
+    cameraInfo: {
+      Connected: true,
+      Name: 'Cam',
+      DriverInfo: 'Alpaca Cam',
+      Category: 'ASCOM Alpaca',
+    },
+  });
+  assert.equal(alpaca.connectionType, 'alpaca');
+
+  const [ascom] = extractDeviceCandidates({
+    cameraInfo: { Connected: true, Name: 'Cam', DriverInfo: 'ASCOM Cam', Category: 'ASCOM' },
+  });
+  assert.equal(ascom.connectionType, 'ascom');
+
+  const [native] = extractDeviceCandidates({
+    cameraInfo: { Connected: true, Name: 'Cam', DriverInfo: 'ZWO Driver', Category: 'ZWO' },
+  });
+  assert.equal(native.connectionType, 'native');
+});
+
+test('INDI package data fills in driver version and package name', () => {
+  const candidates = extractDeviceCandidates({ cameraInfo: cameraInfoWithSecrets() });
+  const enriched = enrichWithIndiPackages(
+    [{ ...candidates[0], driverVersion: '' }],
+    [{ name: 'indi_asi_ccd', version: '2.1.0', architecture: 'arm64' }]
+  );
+
+  assert.equal(enriched[0].driverVersion, '2.1.0');
+  assert.equal(enriched[0].indiDriver, 'indi_asi_ccd');
+});
+
+test('architecture falls back to empty when no package reports one', () => {
+  assert.equal(extractArchitecture([{ name: 'x' }]), '');
+  assert.equal(extractArchitecture([{ architecture: 'arm64' }]), 'arm64');
+  assert.equal(extractArchitecture(undefined), '');
+});
+
+/*
+ * The four cases below all come from one real PINS submission (Simulator rig,
+ * 2026-08-17). They are the reason DeviceId was dropped and the placeholder
+ * filter exists — none of them were caught by the synthetic fixtures.
+ */
+
+test('DeviceId is never transmitted, because drivers put serials there', () => {
+  const payload = buildSubmissionPayload({
+    candidates: extractDeviceCandidates({ cameraInfo: cameraInfoWithSecrets() }),
+    ratings: { camera: { status: USER_STATUS.WORKS } },
+  });
+
+  assert.equal('deviceId' in payload.devices[0], false);
+  assert.equal(DEVICE_FIELDS.includes('deviceId'), false);
+});
+
+test('placeholder driver strings are dropped instead of stored', () => {
+  const [candidate] = extractDeviceCandidates({
+    filterInfo: {
+      Connected: true,
+      Name: 'Manual Filter Wheel',
+      DisplayName: 'Manual filter wheel',
+      DriverInfo: 'n.A.',
+      DriverVersion: '1.0',
+    },
+  });
+
+  assert.equal(candidate.driverInfo, '');
+  assert.equal(candidate.driverVersion, '1.0');
+});
+
+test('INDI is recognized from the display-name suffix when DriverInfo is empty', () => {
+  const [candidate] = extractDeviceCandidates({
+    mountInfo: {
+      Connected: true,
+      Name: 'Telescope Simulator',
+      DisplayName: 'Telescope Simulator (INDI)',
+    },
+  });
+
+  assert.equal(candidate.connectionType, 'indi');
+});
+
+test('a device with only a name still qualifies, one with nothing does not', () => {
+  const candidates = extractDeviceCandidates({
+    cameraInfo: { Connected: true, Name: 'Simulator Camera', DriverVersion: '3.3.0' },
+    mountInfo: { Connected: true, DriverInfo: 'n.A.' },
+  });
+
+  assert.deepEqual(
+    candidates.map((c) => c.category),
+    ['camera']
+  );
+});
+
+test('a rig-specific USB path is stripped, a descriptive suffix is kept', () => {
+  const [camera] = extractDeviceCandidates({
+    cameraInfo: {
+      Connected: true,
+      Name: 'ATR585M',
+      DisplayName: 'ToupTek ATR585M (7c-2-2-3)',
+      DriverInfo: 'ToupTek SDK',
+      DriverVersion: '59.29331.20250824',
+    },
+  });
+  assert.equal(camera.displayName, 'ToupTek ATR585M');
+  assert.equal(camera.connectionType, 'native');
+
+  const [mount] = extractDeviceCandidates({
+    mountInfo: { Connected: true, Name: 'EQ6-R', DisplayName: 'EQ6-R Pro (INDI)' },
+  });
+  assert.equal(mount.displayName, 'EQ6-R Pro (INDI)');
+});
+
+test('device names normalize across vendor spellings', () => {
+  assert.equal(normalizeDeviceName('ZWO ASI533MC-Pro'), normalizeDeviceName('zwo  asi533mc pro'));
+  assert.equal(
+    deviceKey({ name: 'ZWO ASI533MC-Pro', driverInfo: 'indi_asi_ccd' }),
+    deviceKey({ name: 'zwo asi533mc pro', driverInfo: 'INDI_ASI_CCD' })
+  );
+});

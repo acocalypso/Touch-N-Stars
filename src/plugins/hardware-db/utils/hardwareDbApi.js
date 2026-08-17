@@ -18,6 +18,7 @@ export const COLLECTIONS = Object.freeze({
   submissions: 'hw_submissions',
   submissionStatus: 'hw_submission_status',
   entries: 'hw_entries',
+  notes: 'hw_notes',
 });
 
 /** Extracts something human-readable out of a PocketBase error body. */
@@ -108,14 +109,25 @@ export function createHardwareDbApi({ baseUrl, timeout = DEFAULT_TIMEOUT } = {})
     return result?.items?.[0]?.status || null;
   }
 
-  /** Fetches the published knowledge base. */
-  async function fetchKnowledgeEntries({ signal } = {}) {
-    const result = await request(
-      `/api/collections/${COLLECTIONS.entries}/records?perPage=500&expand=device`,
-      { signal }
-    );
-    return Array.isArray(result?.items) ? result.items : [];
+  /**
+   * Fetches the published knowledge base: entries with their device, plus the
+   * approved notes. Two requests rather than one back-relation expand — the
+   * expand syntax for reverse relations varies between PocketBase versions,
+   * while two small GETs work everywhere.
+   */
+  async function fetchKnowledge({ signal } = {}) {
+    const [entryResult, noteResult] = await Promise.all([
+      request(`/api/collections/${COLLECTIONS.entries}/records?perPage=500&expand=device`, {
+        signal,
+      }),
+      request(`/api/collections/${COLLECTIONS.notes}/records?perPage=500`, { signal }),
+    ]);
+
+    return {
+      entries: Array.isArray(entryResult?.items) ? entryResult.items : [],
+      notes: Array.isArray(noteResult?.items) ? noteResult.items : [],
+    };
   }
 
-  return { submitReport, fetchSubmissionStatus, fetchKnowledgeEntries };
+  return { submitReport, fetchSubmissionStatus, fetchKnowledge };
 }

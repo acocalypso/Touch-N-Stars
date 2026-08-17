@@ -24,6 +24,33 @@
       </p>
     </div>
 
+    <!-- What the database already knows. Nothing is rendered until the lookup
+         has run, so the layout does not jump. -->
+    <div
+      v-if="knowledgeLoaded && known"
+      class="rounded-control border p-3 flex flex-col gap-1"
+      :class="knownStyle.box"
+    >
+      <p class="text-sm" :class="knownStyle.text">
+        {{
+          $t('plugins.hardwareDb.known.summary', {
+            status: $t(`plugins.hardwareDb.status.${known.status}`),
+            driver: known.driver,
+            reports: known.reportCount,
+          })
+        }}
+      </p>
+      <ul
+        v-if="known.notes.length"
+        class="text-sm text-gray-300 list-disc pl-4 flex flex-col gap-0.5"
+      >
+        <li v-for="(note, i) in known.notes" :key="i">{{ note }}</li>
+      </ul>
+    </div>
+    <p v-else-if="knowledgeLoaded" class="text-xs text-gray-500">
+      {{ $t('plugins.hardwareDb.known.none') }}
+    </p>
+
     <div class="flex flex-wrap gap-2">
       <button
         v-for="option in statusOptions"
@@ -67,6 +94,9 @@ import { MAX_NOTE_LENGTH, USER_STATUS } from '../utils/snapshotSerializer';
 const props = defineProps({
   candidate: { type: Object, required: true },
   rating: { type: Object, default: () => ({ status: null, note: '' }) },
+  /** Published entry for this device, or null when the database has none. */
+  known: { type: Object, default: null },
+  knowledgeLoaded: { type: Boolean, default: false },
 });
 
 const emit = defineEmits(['update:rating']);
@@ -90,6 +120,19 @@ const statusOptions = computed(() => [
     activeClass: 'border-red-500 bg-red-600/20 text-red-300',
   },
 ]);
+
+// Same colour language as the status chips below, so a green box and a green
+// chip mean the same thing. Deliberately no effect on the preselected rating:
+// nudging the user towards what is already recorded would let the database
+// confirm itself.
+const knownStyle = computed(() => {
+  const styles = {
+    works: { box: 'border-status-ok/40 bg-status-ok/10', text: 'text-status-ok' },
+    caveat: { box: 'border-status-warn/40 bg-status-warn/10', text: 'text-status-warn' },
+    broken: { box: 'border-status-danger/40 bg-status-danger/10', text: 'text-status-danger' },
+  };
+  return styles[props.known?.status] || styles.works;
+});
 
 // Clicking the active chip clears it again, so a misclick can be undone without
 // the row turning into something the user cannot opt out of.

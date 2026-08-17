@@ -159,8 +159,10 @@ function detectConnectionType({ driverInfo, driverCategory, displayName }) {
  * socket used and differs between two users owning the same model, which would
  * break the name-based matching. Descriptive suffixes such as "(INDI)" are kept.
  */
-function stripHardwareSuffix(displayName) {
-  return displayName.replace(/\s*\([0-9a-f]+(?:[-:._][0-9a-f]+)+\)\s*$/i, '').trim();
+export function stripHardwareSuffix(displayName) {
+  return String(displayName ?? '')
+    .replace(/\s*\([0-9a-f]+(?:[-:._][0-9a-f]+)+\)\s*$/i, '')
+    .trim();
 }
 
 /**

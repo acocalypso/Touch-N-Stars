@@ -31,6 +31,8 @@
         :key="candidate.id"
         :candidate="candidate"
         :rating="ratingFor(candidate.id)"
+        :known="knownFor(candidate)"
+        :knowledge-loaded="knowledgeLoaded"
         @update:rating="setRating(candidate.id, $event)"
       />
 
@@ -115,6 +117,7 @@ import { useHardwareDbStore } from '../store/hardwareDbStore';
 import { createHardwareDbApi } from '../utils/hardwareDbApi';
 import { generateReportToken } from '../utils/reportToken';
 import { buildSubmissionPayload } from '../utils/snapshotSerializer';
+import { buildKnowledgeIndex, lookupDevice } from '../utils/knowledgeLookup';
 import metadata from '../plugin.json';
 
 const { t } = useI18n();
@@ -130,6 +133,8 @@ const submitError = ref('');
 const lastToken = ref('');
 const copiedToken = ref('');
 const refreshingStatus = ref(false);
+const knowledgeIndex = ref(null);
+const knowledgeLoaded = ref(false);
 
 const candidates = computed(() => snapshot.candidates.value);
 const ratedCount = computed(
@@ -146,6 +151,42 @@ function setRating(id, rating) {
 
 async function refresh() {
   await snapshot.collect();
+}
+
+/**
+ * Loads what the database already knows, so the user sees it while rating.
+ *
+ * Failure is silent by design: at a PINS access point without internet the
+ * server is simply unreachable, and reporting has to keep working. A stale
+ * cache is still better than nothing, so it is only replaced on success.
+ */
+async function loadKnowledge() {
+  if (store.isKnowledgeFresh && store.knowledgeCache.entries.length) {
+    knowledgeIndex.value = buildKnowledgeIndex(
+      store.knowledgeCache.entries,
+      store.knowledgeCache.notes
+    );
+    knowledgeLoaded.value = true;
+    return;
+  }
+
+  try {
+    const fresh = await api.fetchKnowledge();
+    store.setKnowledgeCache(fresh);
+    knowledgeIndex.value = buildKnowledgeIndex(fresh.entries, fresh.notes);
+  } catch (error) {
+    console.warn('[hardware-db] Knowledge base unreachable:', error?.message || error);
+    const cached = store.knowledgeCache;
+    knowledgeIndex.value = cached.entries.length
+      ? buildKnowledgeIndex(cached.entries, cached.notes)
+      : null;
+  } finally {
+    knowledgeLoaded.value = true;
+  }
+}
+
+function knownFor(candidate) {
+  return knowledgeIndex.value ? lookupDevice(knowledgeIndex.value, candidate) : null;
 }
 
 function openPreview() {
@@ -232,5 +273,9 @@ function statusClass(status) {
   return 'text-amber-400';
 }
 
-onMounted(refresh);
+onMounted(() => {
+  refresh();
+  // Independent of the device snapshot: neither should delay the other.
+  loadKnowledge();
+});
 </script>

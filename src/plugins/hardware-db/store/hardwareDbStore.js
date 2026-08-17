@@ -7,13 +7,20 @@ const INSTALL_ID_KEY = 'hardwareDb_installId';
 const KNOWLEDGE_CACHE_KEY = 'hardwareDb_knowledgeCache';
 
 const MAX_SUBMISSIONS = 50;
+const KNOWLEDGE_TTL_MS = 24 * 60 * 60 * 1000;
 
 export const useHardwareDbStore = defineStore('hardwareDb', () => {
   const submissions = ref([]);
   const installId = ref('');
-  const knowledgeCache = ref({ fetchedAt: 0, entries: [] });
+  const knowledgeCache = ref({ fetchedAt: 0, entries: [], notes: [] });
 
   const hasSubmissions = computed(() => submissions.value.length > 0);
+
+  // The published database changes slowly; refetching once a day is plenty and
+  // keeps the plugin page instant on every later visit.
+  const isKnowledgeFresh = computed(
+    () => Date.now() - (knowledgeCache.value.fetchedAt || 0) < KNOWLEDGE_TTL_MS
+  );
 
   function readJson(key, fallback) {
     try {
@@ -90,8 +97,8 @@ export const useHardwareDbStore = defineStore('hardwareDb', () => {
     writeJson(SUBMISSIONS_KEY, submissions.value);
   }
 
-  function setKnowledgeCache(entries) {
-    knowledgeCache.value = { fetchedAt: Date.now(), entries };
+  function setKnowledgeCache({ entries = [], notes = [] } = {}) {
+    knowledgeCache.value = { fetchedAt: Date.now(), entries, notes };
     writeJson(KNOWLEDGE_CACHE_KEY, knowledgeCache.value);
   }
 
@@ -101,7 +108,8 @@ export const useHardwareDbStore = defineStore('hardwareDb', () => {
 
     const storedCache = readJson(KNOWLEDGE_CACHE_KEY, null);
     if (storedCache && Array.isArray(storedCache.entries)) {
-      knowledgeCache.value = storedCache;
+      // Notes were added later; a cache written before that has none.
+      knowledgeCache.value = { notes: [], ...storedCache };
     }
   }
 
@@ -112,6 +120,7 @@ export const useHardwareDbStore = defineStore('hardwareDb', () => {
     installId,
     knowledgeCache,
     hasSubmissions,
+    isKnowledgeFresh,
     ensureInstallId,
     addSubmission,
     setSubmissionStatus,

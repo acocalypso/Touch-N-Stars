@@ -2637,6 +2637,10 @@
         "caveat": "Works with caveat",
         "broken": "Does not work"
       },
+      "known": {
+        "summary": "Already in the database: {status} with {driver} · {reports} reports",
+        "none": "Not in the database yet — yours would be the first report."
+      },
       "categories": {
         "camera": "Camera",
         "mount": "Mount",

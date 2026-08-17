@@ -122,10 +122,14 @@ function detectConnectionType({ driverInfo, driverCategory, displayName }) {
 }
 
 /**
- * Strips a trailing hardware identifier from a display name, e.g. the USB port
- * path in "ToupTek ATR585M (7c-2-2-3)". It changes with the socket the camera
- * is plugged into, so two users with the same model would otherwise produce
- * two different strings. Descriptive suffixes such as "(INDI)" are kept.
+ * Strips a trailing hardware identifier from a display name, e.g. the
+ * "(7c-2-2-3)" in "ToupTek ATR585M (7c-2-2-3)".
+ *
+ * That suffix is a truncated fragment of the driver's DeviceId — the full value
+ * reads `ToupTek_usb-0547-157c-2-2-3`, i.e. prefix, USB vendor/product ID, and
+ * the bus/port chain the camera is plugged into. It therefore changes with the
+ * socket used and differs between two users owning the same model, which would
+ * break the name-based matching. Descriptive suffixes such as "(INDI)" are kept.
  */
 function stripHardwareSuffix(displayName) {
   return displayName.replace(/\s*\([0-9a-f]+(?:[-:._][0-9a-f]+)+\)\s*$/i, '').trim();

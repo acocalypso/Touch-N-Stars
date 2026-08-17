@@ -1,0 +1,689 @@
+<!doctype html>
+<html lang="de">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="robots" content="noindex, nofollow" />
+    <title>Hardware-DB Review</title>
+    <style>
+      :root {
+        --paper: #eef1f5;
+        --surface: #ffffff;
+        --sunk: #e4e9f0;
+        --ink: #141a23;
+        --ink-soft: #4a5566;
+        --ink-faint: #6f7c8f;
+        --rule: #d3dae4;
+        --accent: #1f5fa9;
+        --accent-soft: #e3ecf8;
+        --ok: #1c6b47;
+        --ok-soft: #dff0e6;
+        --warn: #9a6108;
+        --danger: #a3282c;
+        --danger-soft: #fae5e4;
+        --mono: ui-monospace, 'Cascadia Mono', 'SF Mono', Menlo, Consolas, monospace;
+        --sans: ui-sans-serif, system-ui, 'Segoe UI', Roboto, Arial, sans-serif;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --paper: #0d1219;
+          --surface: #151c25;
+          --sunk: #1c242f;
+          --ink: #e6ecf4;
+          --ink-soft: #a9b6c7;
+          --ink-faint: #7d8b9e;
+          --rule: #29323e;
+          --accent: #74a9e8;
+          --accent-soft: #17263a;
+          --ok: #71c79c;
+          --ok-soft: #14291f;
+          --warn: #e0ac5b;
+          --danger: #e98b8b;
+          --danger-soft: #33191b;
+        }
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: var(--sans);
+        font-size: 15px;
+        line-height: 1.55;
+      }
+      header {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem;
+        padding: 0.85rem 1.25rem;
+        background: var(--surface);
+        border-bottom: 1px solid var(--rule);
+        position: sticky;
+        top: 0;
+        z-index: 5;
+      }
+      header h1 {
+        margin: 0;
+        font-size: 1.05rem;
+        letter-spacing: -0.01em;
+      }
+      header .sub {
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+      }
+      main {
+        padding: 1.25rem;
+        max-width: 90rem;
+        margin: 0 auto;
+      }
+      .cols {
+        display: grid;
+        grid-template-columns: minmax(15rem, 20rem) 1fr;
+        gap: 1.25rem;
+        align-items: start;
+      }
+      @media (max-width: 60rem) {
+        .cols {
+          grid-template-columns: 1fr;
+        }
+      }
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--rule);
+        border-radius: 6px;
+        padding: 1rem 1.1rem;
+      }
+      h2 {
+        margin: 0 0 0.6rem;
+        font-size: 0.95rem;
+        letter-spacing: 0.02em;
+      }
+      label {
+        display: block;
+        font-family: var(--mono);
+        font-size: 0.68rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--ink-faint);
+        margin-bottom: 0.2rem;
+      }
+      input,
+      select,
+      textarea {
+        width: 100%;
+        padding: 0.45rem 0.55rem;
+        font: inherit;
+        font-size: 0.9rem;
+        color: var(--ink);
+        background: var(--paper);
+        border: 1px solid var(--rule);
+        border-radius: 4px;
+      }
+      input:focus-visible,
+      select:focus-visible,
+      textarea:focus-visible,
+      button:focus-visible {
+        outline: 2px solid var(--accent);
+        outline-offset: 1px;
+      }
+      button {
+        font: inherit;
+        font-size: 0.9rem;
+        font-weight: 600;
+        padding: 0.5rem 0.9rem;
+        border-radius: 4px;
+        border: 1px solid var(--rule);
+        background: var(--sunk);
+        color: var(--ink);
+        cursor: pointer;
+      }
+      button:hover:not(:disabled) {
+        border-color: var(--ink-faint);
+      }
+      button:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
+      }
+      button.primary {
+        background: var(--accent);
+        border-color: var(--accent);
+        color: #fff;
+      }
+      button.danger {
+        background: var(--danger-soft);
+        border-color: var(--danger);
+        color: var(--danger);
+      }
+      .queue {
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+        max-height: 70vh;
+        overflow-y: auto;
+      }
+      .queue button {
+        text-align: left;
+        font-weight: 500;
+        background: var(--surface);
+        display: flex;
+        flex-direction: column;
+        gap: 0.1rem;
+      }
+      .queue button.active {
+        background: var(--accent-soft);
+        border-color: var(--accent);
+      }
+      .queue .tok {
+        font-family: var(--mono);
+        font-size: 0.75rem;
+        color: var(--ink-faint);
+      }
+      pre {
+        margin: 0;
+        padding: 0.7rem 0.8rem;
+        background: var(--sunk);
+        border: 1px solid var(--rule);
+        border-radius: 4px;
+        font-family: var(--mono);
+        font-size: 0.75rem;
+        line-height: 1.6;
+        overflow: auto;
+        max-height: 24rem;
+      }
+      .meta {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.35rem;
+        margin-bottom: 0.8rem;
+      }
+      .chip {
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        padding: 0.15rem 0.5rem;
+        border: 1px solid var(--rule);
+        border-radius: 3px;
+        color: var(--ink-soft);
+        background: var(--sunk);
+      }
+      .dev {
+        border: 1px solid var(--rule);
+        border-radius: 5px;
+        padding: 0.85rem 0.95rem;
+        margin-bottom: 0.8rem;
+        background: var(--surface);
+      }
+      .dev.skip {
+        opacity: 0.45;
+      }
+      .dev-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.75rem;
+        margin-bottom: 0.7rem;
+      }
+      .dev-head strong {
+        font-size: 0.95rem;
+      }
+      .grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(11rem, 1fr));
+        gap: 0.6rem;
+      }
+      .full {
+        grid-column: 1 / -1;
+      }
+      .actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 1rem;
+        padding-top: 0.9rem;
+        border-top: 1px solid var(--rule);
+      }
+      .toast {
+        padding: 0.6rem 0.8rem;
+        border-radius: 4px;
+        font-size: 0.88rem;
+        margin-bottom: 0.9rem;
+        border: 1px solid var(--rule);
+      }
+      .toast.err {
+        background: var(--danger-soft);
+        border-color: var(--danger);
+        color: var(--danger);
+      }
+      .toast.ok {
+        background: var(--ok-soft);
+        border-color: var(--ok);
+        color: var(--ok);
+      }
+      .empty {
+        color: var(--ink-faint);
+        font-size: 0.9rem;
+      }
+      .login {
+        max-width: 22rem;
+        margin: 4rem auto;
+        display: flex;
+        flex-direction: column;
+        gap: 0.7rem;
+      }
+      .hide {
+        display: none !important;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <div>
+        <h1>Hardware-DB Review</h1>
+        <div class="sub" id="hdrSub">nicht angemeldet</div>
+      </div>
+      <div style="display: flex; gap: 0.5rem">
+        <button id="btnReload" class="hide">Neu laden</button>
+        <button id="btnLogout" class="hide">Abmelden</button>
+      </div>
+    </header>
+
+    <main>
+      <div id="toast"></div>
+
+      <!-- Login -->
+      <form class="login card" id="loginForm">
+        <h2>Anmelden</h2>
+        <div>
+          <label for="email">Superuser E-Mail</label>
+          <input id="email" type="email" autocomplete="username" required />
+        </div>
+        <div>
+          <label for="pass">Passwort</label>
+          <input id="pass" type="password" autocomplete="current-password" required />
+        </div>
+        <button class="primary" type="submit">Anmelden</button>
+      </form>
+
+      <!-- Review -->
+      <div class="cols hide" id="app">
+        <section class="card">
+          <h2>Offene Reports (<span id="count">0</span>)</h2>
+          <div class="queue" id="queue"></div>
+        </section>
+
+        <section id="detail">
+          <div class="card empty" id="placeholder">Links einen Report auswählen.</div>
+        </section>
+      </div>
+    </main>
+
+    <script>
+      // Same origin as the API, so no base URL and no CORS to worry about.
+      const API = '';
+      const CATEGORIES = [
+        'camera',
+        'mount',
+        'focuser',
+        'filterwheel',
+        'rotator',
+        'guider',
+        'flatdevice',
+        'switch',
+        'weather',
+        'dome',
+        'safetymonitor',
+      ];
+
+      let token = sessionStorage.getItem('hwReviewToken') || '';
+      let submissions = [];
+      let current = null;
+
+      const $ = (id) => document.getElementById(id);
+
+      function toast(msg, kind) {
+        $('toast').innerHTML = msg ? `<div class="toast ${kind || ''}">${esc(msg)}</div>` : '';
+      }
+
+      function esc(s) {
+        return String(s ?? '').replace(
+          /[&<>"']/g,
+          (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]
+        );
+      }
+
+      async function api(path, opts = {}) {
+        const res = await fetch(API + path, {
+          ...opts,
+          headers: {
+            'Content-Type': 'application/json',
+            ...(token ? { Authorization: token } : {}),
+            ...(opts.headers || {}),
+          },
+        });
+        const text = await res.text();
+        const data = text ? JSON.parse(text) : null;
+        if (!res.ok) {
+          const field = data?.data && Object.values(data.data)[0];
+          throw new Error(field?.message || data?.message || `HTTP ${res.status}`);
+        }
+        return data;
+      }
+
+      /* ---------- auth ---------- */
+
+      $('loginForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        toast('');
+        try {
+          const res = await api('/api/collections/_superusers/auth-with-password', {
+            method: 'POST',
+            body: JSON.stringify({ identity: $('email').value, password: $('pass').value }),
+          });
+          token = res.token;
+          sessionStorage.setItem('hwReviewToken', token);
+          $('hdrSub').textContent = res.record?.email || 'angemeldet';
+          showApp();
+          await loadPending();
+        } catch (err) {
+          toast('Anmeldung fehlgeschlagen: ' + err.message, 'err');
+        }
+      });
+
+      $('btnLogout').addEventListener('click', () => {
+        token = '';
+        sessionStorage.removeItem('hwReviewToken');
+        location.reload();
+      });
+
+      $('btnReload').addEventListener('click', () => loadPending());
+
+      function showApp() {
+        $('loginForm').classList.add('hide');
+        $('app').classList.remove('hide');
+        $('btnReload').classList.remove('hide');
+        $('btnLogout').classList.remove('hide');
+      }
+
+      /* ---------- queue ---------- */
+
+      async function loadPending() {
+        toast('');
+        try {
+          const res = await api(
+            '/api/collections/hw_submissions/records?perPage=200&sort=-created&filter=' +
+              encodeURIComponent("status='pending'")
+          );
+          submissions = res.items || [];
+          renderQueue();
+        } catch (err) {
+          toast('Laden fehlgeschlagen: ' + err.message, 'err');
+        }
+      }
+
+      function renderQueue() {
+        $('count').textContent = submissions.length;
+        const q = $('queue');
+        q.innerHTML = '';
+        if (!submissions.length) {
+          q.innerHTML = '<p class="empty">Keine offenen Reports.</p>';
+          $('detail').innerHTML = '<div class="card empty">Nichts zu tun.</div>';
+          return;
+        }
+        submissions.forEach((s) => {
+          const b = document.createElement('button');
+          const devs = s.payload?.devices?.length || 0;
+          b.innerHTML =
+            `<span>${devs} Gerät${devs === 1 ? '' : 'e'} · ${esc(s.payload?.client?.mode || '?')}</span>` +
+            `<span class="tok">${esc(s.reportToken)}</span>`;
+          b.onclick = () => selectSubmission(s.id);
+          if (current?.id === s.id) b.classList.add('active');
+          q.appendChild(b);
+        });
+      }
+
+      /* ---------- prefill helpers ---------- */
+
+      function slugify(s) {
+        return String(s || '')
+          .toLowerCase()
+          .replace(/[^a-z0-9]+/g, '-')
+          .replace(/^-+|-+$/g, '');
+      }
+
+      /**
+       * The vendor usually lives only in displayName ("ToupTek ATR585M"), while
+       * name carries the bare model ("ATR585M"). Splitting on that overlap gets
+       * it right for most drivers; anything odd is fixed in the form.
+       */
+      function splitVendorModel(dev) {
+        const display = (dev.displayName || '').replace(/\s*\(\s*INDI\s*\)\s*$/i, '').trim();
+        const name = (dev.name || '').trim();
+        if (display && name && display.toLowerCase().endsWith(name.toLowerCase())) {
+          const vendor = display.slice(0, display.length - name.length).trim();
+          if (vendor) return { vendor, model: name };
+        }
+        const source = display || name;
+        const parts = source.split(/\s+/);
+        if (parts.length > 1) return { vendor: parts[0], model: parts.slice(1).join(' ') };
+        return { vendor: '', model: source };
+      }
+
+      /* ---------- detail ---------- */
+
+      function selectSubmission(id) {
+        current = submissions.find((s) => s.id === id) || null;
+        renderQueue();
+        renderDetail();
+      }
+
+      function renderDetail() {
+        if (!current) return;
+        const p = current.payload || {};
+        const devices = Array.isArray(p.devices) ? p.devices : [];
+
+        const meta = [
+          p.client?.mode,
+          p.client?.platform,
+          p.client?.tnsVersion && 'TNS ' + p.client.tnsVersion,
+          p.backend?.pinsVersion && 'PINS ' + p.backend.pinsVersion,
+          p.backend?.arch,
+          new Date(current.created).toLocaleString(),
+        ]
+          .filter(Boolean)
+          .map((t) => `<span class="chip">${esc(t)}</span>`)
+          .join('');
+
+        const cards = devices
+          .map((d, i) => {
+            const { vendor, model } = splitVendorModel(d);
+            const slug = slugify(vendor + ' ' + model);
+            const cats = CATEGORIES.map(
+              (c) => `<option value="${c}"${c === d.category ? ' selected' : ''}>${c}</option>`
+            ).join('');
+            const sts = ['works', 'caveat', 'broken']
+              .map(
+                (s) => `<option value="${s}"${s === d.userStatus ? ' selected' : ''}>${s}</option>`
+              )
+              .join('');
+            return `
+            <div class="dev" id="dev${i}">
+              <div class="dev-head">
+                <strong>${esc(d.displayName || d.name || '(ohne Namen)')}</strong>
+                <label style="display:flex;align-items:center;gap:.4rem;margin:0;text-transform:none;letter-spacing:0">
+                  <input type="checkbox" id="take${i}" checked style="width:auto" /> übernehmen
+                </label>
+              </div>
+              <div class="grid">
+                <div><label>Vendor</label><input id="vendor${i}" value="${esc(vendor)}" /></div>
+                <div><label>Model</label><input id="model${i}" value="${esc(model)}" /></div>
+                <div><label>Slug</label><input id="slug${i}" value="${esc(slug)}" /></div>
+                <div><label>Kategorie</label><select id="cat${i}">${cats}</select></div>
+                <div><label>Treiber</label><input id="drv${i}" value="${esc(d.driverInfo || '')}" /></div>
+                <div><label>Status</label><select id="st${i}">${sts}</select></div>
+                <div class="full">
+                  <label>Notiz (redigiert, leer = keine)</label>
+                  <textarea id="note${i}" rows="2">${esc(d.userNote || '')}</textarea>
+                </div>
+              </div>
+            </div>`;
+          })
+          .join('');
+
+        $('detail').innerHTML = `
+          <div class="card">
+            <h2>${esc(current.reportToken)}</h2>
+            <div class="meta">${meta}</div>
+            ${devices.length ? cards : '<p class="empty">Dieser Report enthält keine Geräte.</p>'}
+            <div class="actions">
+              <button class="primary" id="btnApprove"${devices.length ? '' : ' disabled'}>Übernehmen und freigeben</button>
+              <button id="btnDup">Duplikat</button>
+              <button class="danger" id="btnRej">Ablehnen</button>
+            </div>
+            <details style="margin-top:1rem">
+              <summary style="cursor:pointer;font-size:.85rem;color:var(--ink-faint)">Roh-Payload</summary>
+              <pre style="margin-top:.5rem">${esc(JSON.stringify(p, null, 2))}</pre>
+            </details>
+          </div>`;
+
+        $('btnApprove').onclick = () => approve(devices);
+        $('btnDup').onclick = () => setStatus('duplicate');
+        $('btnRej').onclick = () => setStatus('rejected');
+      }
+
+      /* ---------- write ---------- */
+
+      async function findOne(collection, filter) {
+        const res = await api(
+          `/api/collections/${collection}/records?perPage=1&filter=` + encodeURIComponent(filter)
+        );
+        return res.items?.[0] || null;
+      }
+
+      function q(v) {
+        return String(v).replace(/'/g, "\\'");
+      }
+
+      async function approve(devices) {
+        const btn = $('btnApprove');
+        btn.disabled = true;
+        toast('');
+        const done = [];
+
+        try {
+          for (let i = 0; i < devices.length; i++) {
+            if (!$('take' + i).checked) continue;
+
+            const vendor = $('vendor' + i).value.trim();
+            const model = $('model' + i).value.trim();
+            const slug = $('slug' + i).value.trim();
+            const category = $('cat' + i).value;
+            const driver = $('drv' + i).value.trim();
+            const status = $('st' + i).value;
+            const note = $('note' + i).value.trim();
+
+            if (!slug || !model || !driver) {
+              throw new Error(`Gerät ${i + 1}: Slug, Model und Treiber dürfen nicht leer sein.`);
+            }
+
+            // Device: reuse if the slug already exists.
+            let device = await findOne('hw_devices', `slug='${q(slug)}'`);
+            if (!device) {
+              device = await api('/api/collections/hw_devices/records', {
+                method: 'POST',
+                body: JSON.stringify({ slug, category, vendor, model, aliases: [] }),
+              });
+              done.push(`Gerät angelegt: ${slug}`);
+            }
+
+            // Entry: bump the counter when this device/driver pair is known.
+            const entry = await findOne(
+              'hw_entries',
+              `device='${q(device.id)}' && driver='${q(driver)}'`
+            );
+            const now = new Date().toISOString();
+            let entryId;
+            if (entry) {
+              await api(`/api/collections/hw_entries/records/${entry.id}`, {
+                method: 'PATCH',
+                body: JSON.stringify({
+                  reportCount: (entry.reportCount || 0) + 1,
+                  lastConfirmed: now,
+                  status,
+                }),
+              });
+              entryId = entry.id;
+              done.push(`${slug} / ${driver}: jetzt ${(entry.reportCount || 0) + 1} Meldungen`);
+            } else {
+              const created = await api('/api/collections/hw_entries/records', {
+                method: 'POST',
+                body: JSON.stringify({
+                  device: device.id,
+                  driver,
+                  status,
+                  reportCount: 1,
+                  lastConfirmed: now,
+                  minPinsVersion: current.payload?.backend?.pinsVersion || '',
+                }),
+              });
+              entryId = created.id;
+              done.push(`Eintrag angelegt: ${slug} / ${driver}`);
+            }
+
+            if (note) {
+              await api('/api/collections/hw_notes/records', {
+                method: 'POST',
+                body: JSON.stringify({
+                  entry: entryId,
+                  text: note,
+                  lang: current.payload?.client?.locale || 'en',
+                }),
+              });
+              done.push('Notiz übernommen');
+            }
+          }
+
+          await setStatus('approved', done.join(' · '));
+        } catch (err) {
+          toast('Abgebrochen: ' + err.message, 'err');
+          btn.disabled = false;
+        }
+      }
+
+      async function setStatus(status, extra) {
+        try {
+          await api(`/api/collections/hw_submissions/records/${current.id}`, {
+            method: 'PATCH',
+            body: JSON.stringify({ status }),
+          });
+          const label = {
+            approved: 'freigegeben',
+            rejected: 'abgelehnt',
+            duplicate: 'als Duplikat markiert',
+          };
+          toast(`${current.reportToken} ${label[status]}${extra ? ' — ' + extra : ''}`, 'ok');
+          current = null;
+          await loadPending();
+        } catch (err) {
+          toast('Statuswechsel fehlgeschlagen: ' + err.message, 'err');
+        }
+      }
+
+      /* ---------- boot ---------- */
+
+      if (token) {
+        showApp();
+        loadPending().catch(() => {
+          token = '';
+          sessionStorage.removeItem('hwReviewToken');
+          location.reload();
+        });
+      }
+    </script>
+  </body>
+</html>

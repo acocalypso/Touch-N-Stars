@@ -317,6 +317,126 @@ test('a device with only a name still qualifies, one with nothing does not', () 
   );
 });
 
+/*
+ * The guide camera lives in no equipment store: on PINS it is chosen through
+ * PHD2 and only recorded in the profile.
+ */
+
+test('the guide camera is reportable from the profile alone', () => {
+  // The valuable case: PHD2 will not connect, so there is no readable name -
+  // but "my guide camera does not work" must still be reportable.
+  const [candidate] = extractDeviceCandidates(
+    {},
+    {
+      profileInfo: {
+        GuiderSettings: { PHD2Camera: 'ZWO ASI Camera', PHD2CameraId: 'ASI120MM Mini' },
+      },
+    }
+  );
+
+  assert.equal(candidate.id, 'guidecam');
+  assert.equal(candidate.category, 'camera');
+  assert.equal(candidate.driverInfo, 'ZWO ASI Camera');
+  assert.equal(candidate.name, 'ASI120MM Mini');
+  assert.equal(candidate.connectionType, 'phd2');
+  assert.equal(candidate.connected, 'no');
+});
+
+test('a running PHD2 supplies the readable name and connection state', () => {
+  const [candidate] = extractDeviceCandidates(
+    {},
+    {
+      profileInfo: { GuiderSettings: { PHD2Camera: 'ZWO ASI Camera', PHD2CameraId: 'opaque-id' } },
+      phd2: { equipment: { camera: { name: 'ZWO ASI120MM Mini', connected: true } } },
+    }
+  );
+
+  assert.equal(candidate.name, 'ZWO ASI120MM Mini');
+  assert.equal(candidate.connected, 'yes');
+});
+
+test('the camera id list resolves the model name the dropdown shows', () => {
+  // selectGuiderCam.vue renders "driver - name" from exactly this list, so it
+  // is the closest thing to what the user sees, and it describes the
+  // *configured* camera rather than whatever PHD2 happens to have connected.
+  const [candidate] = extractDeviceCandidates(
+    {},
+    {
+      profileInfo: { GuiderSettings: { PHD2Camera: 'ZWO ASI Camera', PHD2CameraId: '0' } },
+      phd2: {
+        equipment: { camera: { name: 'Some Other Camera', connected: true } },
+        cameraIds: {
+          'ZWO ASI Camera': [
+            { Id: '0', Name: 'ASI120MM Mini' },
+            { Id: '1', Name: 'ASI174MM' },
+          ],
+        },
+      },
+    }
+  );
+
+  assert.equal(candidate.name, 'ASI120MM Mini');
+});
+
+test('an id missing from the list falls back without inventing a name', () => {
+  const [candidate] = extractDeviceCandidates(
+    {},
+    {
+      profileInfo: { GuiderSettings: { PHD2Camera: 'ZWO ASI Camera', PHD2CameraId: '7' } },
+      phd2: { cameraIds: { 'ZWO ASI Camera': [{ Id: '0', Name: 'ASI120MM Mini' }] } },
+    }
+  );
+
+  assert.equal(candidate.name, '7');
+});
+
+test('no guide camera is invented without a driver in the profile', () => {
+  const withoutDriver = extractDeviceCandidates({}, { profileInfo: { GuiderSettings: {} } });
+  assert.deepEqual(withoutDriver, []);
+
+  const placeholder = extractDeviceCandidates(
+    {},
+    { profileInfo: { GuiderSettings: { PHD2Camera: 'None', PHD2CameraId: 'x' } } }
+  );
+  assert.deepEqual(placeholder, []);
+});
+
+test('guide camera and imaging camera coexist without sharing a rating', () => {
+  const candidates = extractDeviceCandidates(
+    { cameraInfo: cameraInfoWithSecrets() },
+    {
+      profileInfo: { GuiderSettings: { PHD2Camera: 'ZWO ASI Camera', PHD2CameraId: 'ASI120MM' } },
+    }
+  );
+
+  assert.equal(candidates.length, 2);
+  // Same database category on purpose - one device, several drivers - but
+  // distinct row ids, or both rows would share one rating.
+  assert.deepEqual(
+    candidates.map((c) => c.category),
+    ['camera', 'camera']
+  );
+  assert.deepEqual(
+    candidates.map((c) => c.id),
+    ['camera', 'guidecam']
+  );
+});
+
+test('the row-only fields id and labelKey never reach the payload', () => {
+  const candidates = extractDeviceCandidates(
+    {},
+    { profileInfo: { GuiderSettings: { PHD2Camera: 'ZWO ASI Camera', PHD2CameraId: 'ASI120MM' } } }
+  );
+  const payload = buildSubmissionPayload({
+    candidates,
+    ratings: { guidecam: { status: USER_STATUS.BROKEN } },
+  });
+
+  assert.equal('id' in payload.devices[0], false);
+  assert.equal('labelKey' in payload.devices[0], false);
+  assert.equal(payload.devices[0].connectionType, 'phd2');
+});
+
 test('a rig-specific USB path is stripped, a descriptive suffix is kept', () => {
   const [camera] = extractDeviceCandidates({
     cameraInfo: {

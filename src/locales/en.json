@@ -2617,7 +2617,7 @@
       }
     },
     "hardwareDb": {
-      "title": "Hardware Database",
+      "title": "Hardware Compatibility",
       "intro": "Share which of your devices work with which driver. Reports are reviewed before they appear in the database.",
       "collecting": "Reading connected equipment…",
       "noDevices": "No equipment found. Connect a device, or select one in your profile — then it can be reported here even if connecting fails.",
@@ -2643,6 +2643,7 @@
       },
       "categories": {
         "camera": "Camera",
+        "guidecam": "Guide camera",
         "mount": "Mount",
         "focuser": "Focuser",
         "filterwheel": "Filter wheel",

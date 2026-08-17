@@ -59,6 +59,39 @@ export function useHardwareSnapshot() {
   }
 
   /**
+   * The guide camera's readable name and connection state.
+   *
+   * Read-only on purpose: selectGuiderCam.vue forces a connectPHD2() before it
+   * lists cameras, which must not happen here — opening a reporting page may
+   * not start PHD2 as a side effect. A plain GET is enough, and it failing with
+   * "PHD2NotConnected" is the normal case, not an error. The profile still
+   * carries driver and id, so the camera stays reportable either way.
+   */
+  async function collectPhd2() {
+    const [equipment, cameraIds] = await Promise.all([
+      apiService
+        .getPhd2CurrentEquipment()
+        .then((response) => response?.Response?.CurrentEquipment || null)
+        .catch((err) => {
+          console.warn('[hardware-db] PHD2 equipment unavailable:', err?.message || err);
+          return null;
+        }),
+      // Same list the guide camera dropdown is built from: driver -> [{Id, Name}].
+      // It turns the profile's opaque camera id into the model name the user
+      // sees there. selectGuiderCam.vue calls connectPHD2() first; we do not.
+      apiPinsService
+        .getGuideCam()
+        .then((response) => (response?.Success ? response.Response || null : null))
+        .catch((err) => {
+          console.warn('[hardware-db] PHD2 camera list unavailable:', err?.message || err);
+          return null;
+        }),
+    ]);
+
+    return { equipment, cameraIds };
+  }
+
+  /**
    * Resolves display names for devices that are configured but not connected.
    * The profile only stores an Id, which for ASCOM is a ProgID and reads badly;
    * the device list has the friendly name. Only the categories that actually
@@ -105,10 +138,16 @@ export function useHardwareSnapshot() {
         deviceInfos[storeKey] = store[storeKey];
       }
 
-      const deviceNames = await resolveConfiguredNames(store, deviceInfos);
+      // PHD2 is a PINS concept; on NINA the guide camera is regular equipment.
+      const [deviceNames, phd2] = await Promise.all([
+        resolveConfiguredNames(store, deviceInfos),
+        store.isPINS ? collectPhd2() : Promise.resolve(null),
+      ]);
+
       let list = extractDeviceCandidates(deviceInfos, {
         profileInfo: store.profileInfo,
         deviceNames,
+        phd2,
       });
 
       if (store.isPINS) {

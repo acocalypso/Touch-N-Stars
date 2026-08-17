@@ -1,13 +1,13 @@
 {
   "id": "hardware-db",
-  "name": "Hardware Database",
-  "description": "Share which hardware works with which driver, and look up what other users reported",
+  "name": "Hardware Compatibility",
+  "description": "Look up which hardware works with which driver, and report your own findings",
   "version": "1.0.0",
   "author": "Johannes Maier",
   "defaultEnabled": false,
   "enabled": true,
   "config": {
-    "pocketbaseUrl": "https://db.touch-n-stars.eu"
+    "pocketbaseUrl": "https://hardware.touch-n-stars.eu"
   },
   "isPins": true
 }

@@ -150,7 +150,9 @@ function setRating(id, rating) {
 }
 
 async function refresh() {
-  await snapshot.collect();
+  // Refresh means refresh: the button bypasses the cache, otherwise a change
+  // made on the server would stay invisible for up to a day with no way out.
+  await Promise.all([snapshot.collect(), loadKnowledge({ force: true })]);
 }
 
 /**
@@ -160,8 +162,8 @@ async function refresh() {
  * server is simply unreachable, and reporting has to keep working. A stale
  * cache is still better than nothing, so it is only replaced on success.
  */
-async function loadKnowledge() {
-  if (store.isKnowledgeFresh && store.knowledgeCache.entries.length) {
+async function loadKnowledge({ force = false } = {}) {
+  if (!force && store.isKnowledgeFresh && store.knowledgeCache.entries.length) {
     knowledgeIndex.value = buildKnowledgeIndex(
       store.knowledgeCache.entries,
       store.knowledgeCache.notes
@@ -274,8 +276,9 @@ function statusClass(status) {
 }
 
 onMounted(() => {
-  refresh();
-  // Independent of the device snapshot: neither should delay the other.
+  // Independent of each other: neither should delay the other. On open the
+  // cache may serve the knowledge base; the refresh button forces a reload.
+  snapshot.collect();
   loadKnowledge();
 });
 </script>

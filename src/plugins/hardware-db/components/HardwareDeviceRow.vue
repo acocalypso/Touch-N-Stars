@@ -13,7 +13,7 @@
         </span>
       </div>
       <p class="text-sm text-gray-400 truncate">
-        {{ $t(`plugins.hardwareDb.categories.${candidate.category}`) }}
+        {{ $t(`plugins.hardwareDb.categories.${candidate.labelKey || candidate.category}`) }}
         <span v-if="candidate.driverInfo"> · {{ candidate.driverInfo }}</span>
         <span v-if="candidate.driverVersion"> {{ candidate.driverVersion }}</span>
       </p>

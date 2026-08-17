@@ -17,7 +17,7 @@
  * off. Both are optional.
  */
 
-const SITE_URL = 'https://db.touch-n-stars.eu';
+const SITE_URL = 'https://hardware.touch-n-stars.eu';
 
 /**
  * Fire-and-forget. A webhook must never take the record down with it - Discord
@@ -137,7 +137,7 @@ onRecordAfterCreateSuccess((e) => {
           color: colors[status] || 0x64748b,
           description: 'Reported to **' + (labels[status] || status) + '** with `' + driver + '`',
           fields: category ? [{ name: 'Type', value: category, inline: true }] : [],
-          footer: { text: 'Touch’N’Stars Hardware Database' },
+          footer: { text: 'Touch’N’Stars Hardware Compatibility' },
           timestamp: new Date().toISOString(),
         },
       ],

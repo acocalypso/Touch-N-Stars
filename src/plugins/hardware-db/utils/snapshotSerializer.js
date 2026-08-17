@@ -166,6 +166,57 @@ export function stripHardwareSuffix(displayName) {
 }
 
 /**
+ * The guide camera, which lives in none of the NINA equipment stores: on PINS
+ * it is picked through PHD2 and recorded in the profile by
+ * components/guider/PHD2/selectGuiderCam.vue.
+ *
+ * Deliberately reported as `category: 'camera'`. A guide camera *is* a camera —
+ * the same models get used for guiding and imaging depending on the night — and
+ * the schema already models "one device, several drivers". So the PHD2 driver
+ * becomes another entry on the same device rather than splitting it in two.
+ *
+ * @param {object} profileInfo NINA profile, holds driver and id without PHD2
+ * @param {object} [phd2.equipment] CurrentEquipment, only while PHD2 is connected
+ * @param {object} [phd2.cameraIds] driver -> [{Id, Name}] from phd2/camera/ids
+ */
+export function extractGuideCameraCandidate(profileInfo = {}, { equipment, cameraIds } = {}) {
+  const guider = profileInfo?.GuiderSettings;
+  if (!guider || typeof guider !== 'object') return null;
+
+  const driverInfo = cleanDriverValue(guider.PHD2Camera);
+  if (!driverInfo) return null;
+
+  // The profile stores driver plus an opaque id. The model name has to be
+  // resolved, in descending order of trustworthiness:
+  //   1. the id list, which is what the selection dropdown itself shows and is
+  //      tied to the *configured* camera
+  //   2. whatever PHD2 currently has connected, which may be a different one
+  //   3. the raw id, so the device stays reportable with no PHD2 at all —
+  //      exactly the case most worth reporting
+  const configuredId = String(guider.PHD2CameraId ?? '');
+  const listed = Array.isArray(cameraIds?.[driverInfo]) ? cameraIds[driverInfo] : [];
+  const matched = listed.find((entry) => String(entry?.Id ?? '') === configuredId);
+
+  const camera = equipment?.camera;
+  const name = firstNonEmpty(matched?.Name, camera?.name, configuredId);
+  if (!name) return null;
+
+  return {
+    id: 'guidecam',
+    labelKey: 'guidecam',
+    category: 'camera',
+    name: stripHardwareSuffix(name),
+    displayName: '',
+    driverInfo,
+    driverVersion: '',
+    driverCategory: '',
+    indiDriver: '',
+    connectionType: 'phd2',
+    connected: camera?.connected ? 'yes' : 'no',
+  };
+}
+
+/**
  * Turns the store equipment objects into the candidate list shown in the UI.
  *
  * A connected device is described by NINA itself. A device that is configured
@@ -177,11 +228,16 @@ export function stripHardwareSuffix(displayName) {
  * device is connected. Nothing is invented to fill the gap; the reviewer adds
  * the driver when publishing.
  *
+ * `id` identifies the row in the UI, `category` is the database value. The two
+ * were the same until the guide camera arrived, which shares the camera
+ * category but must not share the imaging camera's rating.
+ *
  * @param {object} deviceInfos store equipment objects, keyed like DEVICE_CATEGORIES
  * @param {object} [options.profileInfo] active profile, source for disconnected devices
  * @param {object} [options.deviceNames] category -> DisplayName resolved from list-devices
+ * @param {object} [options.phd2] `{ equipment, cameraIds }` for the guide camera
  */
-export function extractDeviceCandidates(deviceInfos = {}, { profileInfo, deviceNames } = {}) {
+export function extractDeviceCandidates(deviceInfos = {}, { profileInfo, deviceNames, phd2 } = {}) {
   const candidates = [];
   const profile = profileInfo || {};
   const names = deviceNames || {};
@@ -237,6 +293,9 @@ export function extractDeviceCandidates(deviceInfos = {}, { profileInfo, deviceN
       connected: 'no',
     });
   }
+
+  const guideCamera = extractGuideCameraCandidate(profile, phd2 || {});
+  if (guideCamera) candidates.push(guideCamera);
 
   return candidates.slice(0, MAX_DEVICES);
 }

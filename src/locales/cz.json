@@ -4834,6 +4834,21 @@
           "duplicate": "Duplikát"
         }
       }
+    },
+    "systemMetrics": {
+      "powerTitle": "Napájení a vstupní napětí",
+      "supplyVoltage": "Vstupní napětí",
+      "underVoltageNow": "Aktuální podpětí",
+      "underVoltageSinceBoot": "Podpětí od spuštění",
+      "firmwareFlags": "Příznaky firmwaru",
+      "underVoltageActive": "Zjištěno podpětí",
+      "underVoltageOccurred": "Dřívější podpětí",
+      "powerHealthy": "V pořádku",
+      "underVoltageActiveHelp": "Pi je aktuálně nedostatečně napájeno. Zkontrolujte napájecí zdroj, kabel a zátěž připojených zařízení.",
+      "underVoltageHistoryHelp": "Od spuštění došlo k podpětí. Pokud je systém nestabilní, zkontrolujte napájecí zdroj a kabel.",
+      "notAvailable": "Není k dispozici",
+      "detected": "Zjištěno",
+      "notDetected": "Nezjištěno"
     }
   },
   "pinsDevices": {
@@ -5143,6 +5158,9 @@
       "smtpServer": "SMTP Server",
       "smtpSsl": "Use TLS/SSL",
       "testDiscord": "Send Test Message",
+      "secretSet": "•••••••• (nastaveno)",
+      "secretNotSet": "Nenastaveno",
+      "secretLeaveEmpty": "Chcete-li zachovat aktuální hodnotu, ponechte pole prázdné",
       "testEmail": "Send Test Email",
       "testPushover": "Send Test Notification",
       "localDashboardEnabled": "Enable local web server",

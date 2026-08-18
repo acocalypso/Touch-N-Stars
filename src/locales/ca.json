@@ -4834,6 +4834,21 @@
           "duplicate": "Duplicat"
         }
       }
+    },
+    "systemMetrics": {
+      "powerTitle": "Alimentació i tensió d'entrada",
+      "supplyVoltage": "Tensió d'entrada",
+      "underVoltageNow": "Subtensió actual",
+      "underVoltageSinceBoot": "Subtensió des de l'arrencada",
+      "firmwareFlags": "Indicadors del microprogramari",
+      "underVoltageActive": "S'ha detectat subtensió",
+      "underVoltageOccurred": "Subtensió anterior",
+      "powerHealthy": "Correcte",
+      "underVoltageActiveHelp": "Actualment, el Pi no rep prou alimentació. Comproveu la font d'alimentació, el cable i la càrrega dels dispositius connectats.",
+      "underVoltageHistoryHelp": "S'ha produït una subtensió des de l'arrencada. Comproveu la font d'alimentació i el cable si el sistema és inestable.",
+      "notAvailable": "No disponible",
+      "detected": "Detectada",
+      "notDetected": "No detectada"
     }
   },
   "loading": "carregant",
@@ -5021,6 +5036,9 @@
       "discordEnabled": "Activa Discord",
       "discordWebhook": "URL del webhook",
       "testDiscord": "Envia un missatge de prova",
+      "secretSet": "•••••••• (configurat)",
+      "secretNotSet": "No configurat",
+      "secretLeaveEmpty": "Deixeu-ho buit per conservar el valor actual",
       "localDashboardTitle": "Tauler local",
       "localDashboardEnabled": "Activa el servidor web local",
       "localDashboardPort": "Port",

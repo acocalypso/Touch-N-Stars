@@ -4839,6 +4839,21 @@
           "duplicate": "Duplicado"
         }
       }
+    },
+    "systemMetrics": {
+      "powerTitle": "Alimentación y tensión de entrada",
+      "supplyVoltage": "Tensión de entrada",
+      "underVoltageNow": "Subtensión actual",
+      "underVoltageSinceBoot": "Subtensión desde el arranque",
+      "firmwareFlags": "Indicadores del firmware",
+      "underVoltageActive": "Subtensión detectada",
+      "underVoltageOccurred": "Subtensión anterior",
+      "powerHealthy": "Correcto",
+      "underVoltageActiveHelp": "El Pi no recibe suficiente alimentación. Comprueba la fuente de alimentación, el cable y la carga de los dispositivos conectados.",
+      "underVoltageHistoryHelp": "Se ha producido una subtensión desde el arranque. Comprueba la fuente de alimentación y el cable si el sistema es inestable.",
+      "notAvailable": "No disponible",
+      "detected": "Detectada",
+      "notDetected": "No detectada"
     }
   },
   "pinsDevices": {
@@ -5148,6 +5163,9 @@
       "smtpServer": "Servidor SMTP",
       "smtpSsl": "Usar TLS/SSL",
       "testDiscord": "Enviar mensaje de prueba",
+      "secretSet": "•••••••• (configurado)",
+      "secretNotSet": "Sin configurar",
+      "secretLeaveEmpty": "Déjalo vacío para conservar el valor actual",
       "testEmail": "Enviar correo electrónico de prueba",
       "testPushover": "Enviar notificación de prueba",
       "localDashboardEnabled": "Habilitar servidor web local",

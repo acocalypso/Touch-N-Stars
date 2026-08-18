@@ -390,11 +390,13 @@ import {
 } from '@/services/updateService';
 import { getDeviceDateTimePayload, parsePinsTimeToSeconds } from '@/utils/pinsTimeUtils';
 import { abortInFlightRequests } from '@/utils/httpLifecycle';
-import { setAppBackgrounded } from '@/utils/appLifecycle';
+import { setAppBackgrounded, useBackgroundAwarePolling } from '@/utils/appLifecycle';
 import { setLocaleLanguage } from '@/i18n';
 import { useSequenceV2Store } from '@/store/sequenceV2Store';
 import { useToastStore } from '@/store/toastStore';
 import { PINS_PORT, DEFAULT_PINS_DAEMON_API_TOKEN as PINS_TOKEN } from '@/services/pinsConfig';
+import apiPinsService from '@/services/apiPinsService';
+import { createUnderVoltageNotifier } from '@/plugins/systemmetrics/services/underVoltageNotifier';
 
 const SkyAtlasView = defineAsyncComponent(() => import('./views/CelestiaAtlasView.vue'));
 const TutorialModal = defineAsyncComponent(() => import('@/components/TutorialModal.vue'));
@@ -515,6 +517,36 @@ const showSetupWizard = ref(false);
 const setupWizardDismissed = ref(false);
 const connectionCheckCompleted = ref(false);
 const { t } = useI18n();
+const PINS_POWER_STATUS_INTERVAL_MS = 5 * 60 * 1000;
+const pinsPowerMonitoringActive = computed(() => store.isPINS && store.closeErrorModal);
+const notifyUnderVoltage = createUnderVoltageNotifier({
+  showToast: (toast) => toastStore.showToast(toast),
+  translate: t,
+});
+
+const checkPinsPowerStatus = async () => {
+  if (!store.isPINS) {
+    return;
+  }
+
+  const powerStatus = await apiPinsService.fetchSystemPowerStatus();
+  if (powerStatus) {
+    notifyUnderVoltage(powerStatus, true);
+  }
+};
+
+watch(pinsPowerMonitoringActive, (active) => {
+  if (!active) {
+    notifyUnderVoltage(null, false);
+  }
+});
+
+useBackgroundAwarePolling(
+  checkPinsPowerStatus,
+  PINS_POWER_STATUS_INTERVAL_MS,
+  pinsPowerMonitoringActive,
+  { immediate: true }
+);
 // Reconnecting after being backgrounded routinely takes up to ~12s on its own (Android
 // radio/network wake-up after Doze, see websocketChannelSocket reconnect timing) - that
 // is normal, not a stall. CONNECTION_STALL_HINT_SECONDS must stay comfortably above that

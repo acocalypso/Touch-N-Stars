@@ -4839,6 +4839,21 @@
           "duplicate": "Doublon"
         }
       }
+    },
+    "systemMetrics": {
+      "powerTitle": "Alimentation et tension d’entrée",
+      "supplyVoltage": "Tension d’entrée",
+      "underVoltageNow": "Sous-tension actuelle",
+      "underVoltageSinceBoot": "Sous-tension depuis le démarrage",
+      "firmwareFlags": "Indicateurs du micrologiciel",
+      "underVoltageActive": "Sous-tension détectée",
+      "underVoltageOccurred": "Sous-tension antérieure",
+      "powerHealthy": "Normal",
+      "underVoltageActiveHelp": "Le Pi est actuellement sous-alimenté. Vérifiez l’alimentation, le câble et la charge des périphériques connectés.",
+      "underVoltageHistoryHelp": "Une sous-tension s’est produite depuis le démarrage. Vérifiez l’alimentation et le câble si le système est instable.",
+      "notAvailable": "Indisponible",
+      "detected": "Détectée",
+      "notDetected": "Non détectée"
     }
   },
   "pinsDevices": {
@@ -5148,6 +5163,9 @@
       "smtpServer": "Serveur SMTP",
       "smtpSsl": "Utiliser TLS/SSL",
       "testDiscord": "Envoyer un message test",
+      "secretSet": "•••••••• (défini)",
+      "secretNotSet": "Non défini",
+      "secretLeaveEmpty": "Laissez vide pour conserver la valeur actuelle",
       "testEmail": "Envoyer un e-mail de test",
       "testPushover": "Envoyer une notification de test",
       "localDashboardEnabled": "Activer le serveur Web local",

@@ -4834,6 +4834,21 @@
           "duplicate": "Duplikat"
         }
       }
+    },
+    "systemMetrics": {
+      "powerTitle": "Zasilanie i napięcie wejściowe",
+      "supplyVoltage": "Napięcie wejściowe",
+      "underVoltageNow": "Aktualne zbyt niskie napięcie",
+      "underVoltageSinceBoot": "Zbyt niskie napięcie od uruchomienia",
+      "firmwareFlags": "Flagi oprogramowania układowego",
+      "underVoltageActive": "Wykryto zbyt niskie napięcie",
+      "underVoltageOccurred": "Poprzednie zbyt niskie napięcie",
+      "powerHealthy": "Prawidłowe",
+      "underVoltageActiveHelp": "Pi jest obecnie zasilane niewystarczająco. Sprawdź zasilacz, przewód i obciążenie podłączonych urządzeń.",
+      "underVoltageHistoryHelp": "Od uruchomienia wystąpiło zbyt niskie napięcie. Jeśli system działa niestabilnie, sprawdź zasilacz i przewód.",
+      "notAvailable": "Niedostępne",
+      "detected": "Wykryto",
+      "notDetected": "Nie wykryto"
     }
   },
   "pinsDevices": {
@@ -5143,6 +5158,9 @@
       "smtpServer": "Serwer SMTP",
       "smtpSsl": "Użyj protokołu TLS/SSL",
       "testDiscord": "Wyślij wiadomość testową",
+      "secretSet": "•••••••• (ustawiono)",
+      "secretNotSet": "Nie ustawiono",
+      "secretLeaveEmpty": "Pozostaw puste, aby zachować bieżącą wartość",
       "testEmail": "Wyślij e-mail testowy",
       "testPushover": "Wyślij powiadomienie testowe",
       "localDashboardEnabled": "Włącz lokalny serwer WWW",

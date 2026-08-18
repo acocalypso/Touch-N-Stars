@@ -4834,6 +4834,21 @@
           "duplicate": "重複"
         }
       }
+    },
+    "systemMetrics": {
+      "powerTitle": "電源と入力電圧",
+      "supplyVoltage": "入力電圧",
+      "underVoltageNow": "現在の低電圧",
+      "underVoltageSinceBoot": "起動後の低電圧",
+      "firmwareFlags": "ファームウェアフラグ",
+      "underVoltageActive": "低電圧を検出",
+      "underVoltageOccurred": "過去の低電圧",
+      "powerHealthy": "正常",
+      "underVoltageActiveHelp": "現在、Pi への電力供給が不足しています。電源、ケーブル、接続機器の負荷を確認してください。",
+      "underVoltageHistoryHelp": "起動後に低電圧が発生しました。システムが不安定な場合は、電源とケーブルを確認してください。",
+      "notAvailable": "利用不可",
+      "detected": "検出済み",
+      "notDetected": "未検出"
     }
   },
   "pinsDevices": {
@@ -5143,6 +5158,9 @@
       "smtpServer": "SMTPサーバー",
       "smtpSsl": "TLS/SSLを使用する",
       "testDiscord": "テストメッセージの送信",
+      "secretSet": "••••••••（設定済み）",
+      "secretNotSet": "未設定",
+      "secretLeaveEmpty": "現在の値を維持するには空のままにしてください",
       "testEmail": "テストメールを送信する",
       "testPushover": "テスト通知を送信する",
       "localDashboardEnabled": "ローカル Web サーバーを有効にする",

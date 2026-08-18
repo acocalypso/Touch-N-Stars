@@ -4834,6 +4834,21 @@
           "duplicate": "중복"
         }
       }
+    },
+    "systemMetrics": {
+      "powerTitle": "Power and input voltage",
+      "supplyVoltage": "Input voltage",
+      "underVoltageNow": "Undervoltage now",
+      "underVoltageSinceBoot": "Undervoltage since boot",
+      "firmwareFlags": "Firmware flags",
+      "underVoltageActive": "Undervoltage detected",
+      "underVoltageOccurred": "Previous undervoltage",
+      "powerHealthy": "Healthy",
+      "underVoltageActiveHelp": "The Pi is currently underpowered. Check the power supply, cable, and connected-device load.",
+      "underVoltageHistoryHelp": "Undervoltage has occurred since boot. Check the power supply and cable if the system is unstable.",
+      "notAvailable": "Not available",
+      "detected": "Detected",
+      "notDetected": "Not detected"
     }
   },
   "pinsDevices": {

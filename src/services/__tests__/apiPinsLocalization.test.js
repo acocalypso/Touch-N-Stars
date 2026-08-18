@@ -53,3 +53,17 @@ test('localization updates use the authenticated pinsdaemon endpoint', async (t)
   assert.match(call.config.headers.Authorization, /^Bearer /);
   assert.equal(result.jobId, 'localization-1');
 });
+
+test('power status uses the authenticated pinsdaemon endpoint', async (t) => {
+  let call;
+  t.mock.method(axios, 'get', async (url, config) => {
+    call = { url, config };
+    return { data: { supplyVoltage: 5.09, rawValue: '0x0' } };
+  });
+
+  const result = await apiPinsService.fetchSystemPowerStatus();
+
+  assert.equal(call.url, 'http://10.0.0.25:8000/system/power-status');
+  assert.match(call.config.headers.Authorization, /^Bearer /);
+  assert.equal(result.supplyVoltage, 5.09);
+});

@@ -1,4 +1,4 @@
-/// <reference path="../pb_data/types.d.ts" />
+/// <reference path="../pb_data/types.d.ts" /> // resolves only inside pb_hooks/ on the server
 
 /**
  * Discord notifications for the hardware knowledge base.

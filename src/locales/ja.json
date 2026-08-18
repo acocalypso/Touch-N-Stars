@@ -4770,6 +4770,65 @@
       "setFailed": "プロパティの設定に失敗しました。",
       "title": "INDIコントロールパネル",
       "updated": "更新されました"
+    },
+    "hardwareDb": {
+      "title": "ハードウェア互換性",
+      "intro": "どの機器がどのドライバーで動作するかを共有しましょう。報告は確認のうえデータベースに掲載されます。",
+      "collecting": "接続中の機器を読み取っています…",
+      "noDevices": "機器が見つかりません。機器を接続するか、プロファイルで選択してください。そうすれば接続に失敗した場合でもここから報告できます。",
+      "notConnected": "未接続",
+      "driverUnknown": "未接続のためドライバー名は不明です。確認時にこちらで補います。",
+      "reviewAndSend": "確認して送信（{count}）",
+      "selectAtLeastOne": "報告を送信するには、少なくとも1台の機器を評価してください。",
+      "noteLabel": "何か特筆すべき点はありますか？",
+      "notePlaceholder": "例：USB帯域を60未満にする必要がある、フォーカス方向が逆…",
+      "copy": "コピー",
+      "copied": "コピーしました",
+      "submitSuccess": "報告を送信しました。ありがとうございます！",
+      "submitSuccessHint": "後で報告の確認状況を照会できるよう、このトークンを保管してください。",
+      "submitError": "報告を送信できませんでした。",
+      "status": {
+        "works": "動作する",
+        "caveat": "制限付きで動作する",
+        "broken": "動作しない"
+      },
+      "known": {
+        "summary": "データベースに登録済み：{driver} で{status} · {reports} 件の報告",
+        "none": "まだデータベースにありません。あなたの報告が最初になります。"
+      },
+      "categories": {
+        "camera": "カメラ",
+        "guidecam": "ガイドカメラ",
+        "mount": "赤道儀",
+        "focuser": "フォーカサー",
+        "filterwheel": "フィルターホイール",
+        "rotator": "ローテーター",
+        "guider": "ガイド",
+        "flatdevice": "フラットパネル",
+        "switch": "スイッチ",
+        "weather": "気象",
+        "dome": "ドーム",
+        "safetymonitor": "セーフティモニター"
+      },
+      "preview": {
+        "title": "送信される内容",
+        "intro": "以下が報告の全文です。これ以外は一切送信されません。",
+        "privacyNote": "IPアドレス、ホスト名、Wi-Fi名、座標、プロファイル名は含まれません。",
+        "send": "報告を送信",
+        "sending": "送信中…"
+      },
+      "history": {
+        "title": "あなたの報告",
+        "refreshStatus": "状況を確認",
+        "clear": "一覧を消去",
+        "deviceCount": "{count} 台の機器",
+        "status": {
+          "pending": "確認中",
+          "approved": "公開済み",
+          "rejected": "却下",
+          "duplicate": "重複"
+        }
+      }
     }
   },
   "pinsDevices": {

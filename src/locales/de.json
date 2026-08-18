@@ -4775,6 +4775,65 @@
       "setFailed": "Die Eigenschaft konnte nicht festgelegt werden.",
       "title": "INDI-Systemsteuerung",
       "updated": "Aktualisiert"
+    },
+    "hardwareDb": {
+      "title": "Hardware-Kompatibilität",
+      "intro": "Teile mit, welche deiner Geräte mit welchem Treiber laufen. Meldungen werden geprüft, bevor sie in der Datenbank erscheinen.",
+      "collecting": "Verbundene Geräte werden gelesen…",
+      "noDevices": "Keine Geräte gefunden. Verbinde ein Gerät oder wähle eines im Profil — dann lässt es sich hier auch dann melden, wenn die Verbindung fehlschlägt.",
+      "notConnected": "nicht verbunden",
+      "driverUnknown": "Treibername ohne Verbindung unbekannt — wir tragen ihn bei der Prüfung nach.",
+      "reviewAndSend": "Prüfen und senden ({count})",
+      "selectAtLeastOne": "Bewerte mindestens ein Gerät, um eine Meldung zu senden.",
+      "noteLabel": "Gibt es Besonderheiten?",
+      "notePlaceholder": "z. B. braucht USB-Bandbreite unter 60, Fokusrichtung ist invertiert…",
+      "copy": "Kopieren",
+      "copied": "Kopiert",
+      "submitSuccess": "Meldung gesendet. Danke!",
+      "submitSuccessHint": "Bewahre diesen Token auf, um den Prüfstatus deiner Meldung später abzufragen.",
+      "submitError": "Die Meldung konnte nicht gesendet werden.",
+      "status": {
+        "works": "Funktioniert",
+        "caveat": "Funktioniert mit Einschränkung",
+        "broken": "Funktioniert nicht"
+      },
+      "known": {
+        "summary": "Bereits in der Datenbank: {status} mit {driver} · {reports} Meldungen",
+        "none": "Noch nicht in der Datenbank — deine wäre die erste Meldung."
+      },
+      "categories": {
+        "camera": "Kamera",
+        "guidecam": "Guide-Kamera",
+        "mount": "Montierung",
+        "focuser": "Fokussierer",
+        "filterwheel": "Filterrad",
+        "rotator": "Rotator",
+        "guider": "Guider",
+        "flatdevice": "Flatfield-Gerät",
+        "switch": "Schalter",
+        "weather": "Wetter",
+        "dome": "Kuppel",
+        "safetymonitor": "Sicherheitsmonitor"
+      },
+      "preview": {
+        "title": "Das wird gesendet",
+        "intro": "Unten steht die vollständige Meldung. Darüber hinaus wird nichts übertragen.",
+        "privacyNote": "Keine IP-Adressen, Hostnamen, WLAN-Namen, Koordinaten oder Profilnamen sind enthalten.",
+        "send": "Meldung senden",
+        "sending": "Wird gesendet…"
+      },
+      "history": {
+        "title": "Deine Meldungen",
+        "refreshStatus": "Status prüfen",
+        "clear": "Liste leeren",
+        "deviceCount": "{count} Geräte",
+        "status": {
+          "pending": "In Prüfung",
+          "approved": "Veröffentlicht",
+          "rejected": "Abgelehnt",
+          "duplicate": "Duplikat"
+        }
+      }
     }
   },
   "pinsDevices": {

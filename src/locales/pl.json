@@ -4770,6 +4770,65 @@
       "setFailed": "Nie udało się ustawić właściwości.",
       "title": "Panel sterowania INDI",
       "updated": "Zaktualizowano"
+    },
+    "hardwareDb": {
+      "title": "Zgodność sprzętu",
+      "intro": "Podziel się tym, które urządzenia działają z którym sterownikiem. Każde zgłoszenie jest sprawdzane, zanim trafi do bazy.",
+      "collecting": "Odczytywanie podłączonego sprzętu…",
+      "noDevices": "Nie znaleziono sprzętu. Podłącz urządzenie lub wybierz je w profilu — wtedy można je zgłosić także wtedy, gdy połączenie się nie powiedzie.",
+      "notConnected": "niepodłączone",
+      "driverUnknown": "Nazwa sterownika bez połączenia nieznana — uzupełnimy ją podczas weryfikacji.",
+      "reviewAndSend": "Sprawdź i wyślij ({count})",
+      "selectAtLeastOne": "Oceń co najmniej jedno urządzenie, aby wysłać zgłoszenie.",
+      "noteLabel": "Jakieś osobliwości?",
+      "notePlaceholder": "np. wymaga przepustowości USB poniżej 60, kierunek ostrzenia jest odwrócony…",
+      "copy": "Kopiuj",
+      "copied": "Skopiowano",
+      "submitSuccess": "Zgłoszenie wysłane. Dziękujemy!",
+      "submitSuccessHint": "Zachowaj ten token, aby później sprawdzić status weryfikacji swojego zgłoszenia.",
+      "submitError": "Nie udało się wysłać zgłoszenia.",
+      "status": {
+        "works": "Działa",
+        "caveat": "Działa z zastrzeżeniami",
+        "broken": "Nie działa"
+      },
+      "known": {
+        "summary": "Już w bazie: {status} ze sterownikiem {driver} · {reports} zgłoszeń",
+        "none": "Jeszcze nie ma w bazie — twoje byłoby pierwszym zgłoszeniem."
+      },
+      "categories": {
+        "camera": "Kamera",
+        "guidecam": "Kamera prowadząca",
+        "mount": "Montaż",
+        "focuser": "Fokuser",
+        "filterwheel": "Koło filtrowe",
+        "rotator": "Rotator",
+        "guider": "Prowadzenie",
+        "flatdevice": "Panel flat",
+        "switch": "Przełącznik",
+        "weather": "Pogoda",
+        "dome": "Kopuła",
+        "safetymonitor": "Monitor bezpieczeństwa"
+      },
+      "preview": {
+        "title": "To zostanie wysłane",
+        "intro": "Poniżej znajduje się pełne zgłoszenie. Nic poza tym nie jest przesyłane.",
+        "privacyNote": "Nie są przesyłane adresy IP, nazwy hostów, nazwy sieci Wi-Fi, współrzędne ani nazwy profili.",
+        "send": "Wyślij zgłoszenie",
+        "sending": "Wysyłanie…"
+      },
+      "history": {
+        "title": "Twoje zgłoszenia",
+        "refreshStatus": "Sprawdź status",
+        "clear": "Wyczyść listę",
+        "deviceCount": "{count} urządzeń",
+        "status": {
+          "pending": "W weryfikacji",
+          "approved": "Opublikowane",
+          "rejected": "Odrzucone",
+          "duplicate": "Duplikat"
+        }
+      }
     }
   },
   "pinsDevices": {

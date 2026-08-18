@@ -4770,6 +4770,65 @@
       "setFailed": "Failed to set the property.",
       "title": "INDI Control Panel",
       "updated": "Updated"
+    },
+    "hardwareDb": {
+      "title": "硬件兼容性",
+      "intro": "分享你的哪些设备可以配合哪个驱动使用。每份报告经审核后才会出现在数据库中。",
+      "collecting": "正在读取已连接的设备…",
+      "noDevices": "未找到设备。请连接一台设备，或在配置文件中选择一台——这样即使连接失败也能在此上报。",
+      "notConnected": "未连接",
+      "driverUnknown": "未连接时无法获知驱动名称——我们会在审核时补充。",
+      "reviewAndSend": "检查并发送（{count}）",
+      "selectAtLeastOne": "至少评价一台设备才能发送报告。",
+      "noteLabel": "有什么特别之处吗？",
+      "notePlaceholder": "例如：需要将 USB 带宽降到 60 以下、对焦方向相反…",
+      "copy": "复制",
+      "copied": "已复制",
+      "submitSuccess": "报告已发送，谢谢！",
+      "submitSuccessHint": "请保存此凭据，以便日后查询报告的审核状态。",
+      "submitError": "报告发送失败。",
+      "status": {
+        "works": "可用",
+        "caveat": "可用但有限制",
+        "broken": "不可用"
+      },
+      "known": {
+        "summary": "数据库中已有：{status}，驱动 {driver} · {reports} 份报告",
+        "none": "数据库中尚无此设备——你的将是第一份报告。"
+      },
+      "categories": {
+        "camera": "相机",
+        "guidecam": "导星相机",
+        "mount": "赤道仪",
+        "focuser": "电动调焦座",
+        "filterwheel": "滤镜轮",
+        "rotator": "旋转器",
+        "guider": "导星",
+        "flatdevice": "平场板",
+        "switch": "开关",
+        "weather": "气象",
+        "dome": "圆顶",
+        "safetymonitor": "安全监测"
+      },
+      "preview": {
+        "title": "以下内容将被发送",
+        "intro": "下面是完整的报告内容。除此之外不会传输任何信息。",
+        "privacyNote": "不包含 IP 地址、主机名、Wi-Fi 名称、坐标或配置文件名称。",
+        "send": "发送报告",
+        "sending": "正在发送…"
+      },
+      "history": {
+        "title": "你的报告",
+        "refreshStatus": "查询状态",
+        "clear": "清空列表",
+        "deviceCount": "{count} 台设备",
+        "status": {
+          "pending": "审核中",
+          "approved": "已发布",
+          "rejected": "已拒绝",
+          "duplicate": "重复"
+        }
+      }
     }
   },
   "pinsDevices": {

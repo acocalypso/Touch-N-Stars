@@ -2618,6 +2618,65 @@
         "imageRequired": "Select an image before running the analysis."
       }
     },
+    "hardwareDb": {
+      "title": "Hardware Compatibility",
+      "intro": "Share which of your devices work with which driver. Reports are reviewed before they appear in the database.",
+      "collecting": "Reading connected equipment…",
+      "noDevices": "No equipment found. Connect a device, or select one in your profile — then it can be reported here even if connecting fails.",
+      "notConnected": "not connected",
+      "driverUnknown": "Driver name unknown while disconnected — we will fill it in during review.",
+      "reviewAndSend": "Review and send ({count})",
+      "selectAtLeastOne": "Rate at least one device to send a report.",
+      "noteLabel": "Anything special about it?",
+      "notePlaceholder": "e.g. needs USB bandwidth below 60, focus direction is inverted…",
+      "copy": "Copy",
+      "copied": "Copied",
+      "submitSuccess": "Report sent. Thank you!",
+      "submitSuccessHint": "Keep this token to check the review status of your report later.",
+      "submitError": "The report could not be sent.",
+      "status": {
+        "works": "Works",
+        "caveat": "Works with caveat",
+        "broken": "Does not work"
+      },
+      "known": {
+        "summary": "Already in the database: {status} with {driver} · {reports} reports",
+        "none": "Not in the database yet — yours would be the first report."
+      },
+      "categories": {
+        "camera": "Camera",
+        "guidecam": "Guide camera",
+        "mount": "Mount",
+        "focuser": "Focuser",
+        "filterwheel": "Filter wheel",
+        "rotator": "Rotator",
+        "guider": "Guider",
+        "flatdevice": "Flat device",
+        "switch": "Switch",
+        "weather": "Weather",
+        "dome": "Dome",
+        "safetymonitor": "Safety monitor"
+      },
+      "preview": {
+        "title": "This is what gets sent",
+        "intro": "The complete report is shown below. Nothing beyond this is transmitted.",
+        "privacyNote": "No IP addresses, hostnames, Wi-Fi names, coordinates or profile names are included.",
+        "send": "Send report",
+        "sending": "Sending…"
+      },
+      "history": {
+        "title": "Your reports",
+        "refreshStatus": "Check status",
+        "clear": "Clear list",
+        "deviceCount": "{count} devices",
+        "status": {
+          "pending": "In review",
+          "approved": "Published",
+          "rejected": "Rejected",
+          "duplicate": "Duplicate"
+        }
+      }
+    },
     "logfileCollector": {
       "title": "Logfile Collector",
       "intro": "Collect latest TNS logs (including debug) and upload them to the configured endpoint.",

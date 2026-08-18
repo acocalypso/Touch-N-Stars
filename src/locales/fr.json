@@ -4775,6 +4775,65 @@
       "setFailed": "Échec de la définition de la propriété.",
       "title": "Panneau de configuration INDI",
       "updated": "Mis à jour"
+    },
+    "hardwareDb": {
+      "title": "Compatibilité matérielle",
+      "intro": "Partagez quels appareils fonctionnent avec quel pilote. Chaque rapport est vérifié avant de paraître dans la base.",
+      "collecting": "Lecture du matériel connecté…",
+      "noDevices": "Aucun matériel trouvé. Connectez un appareil ou sélectionnez-en un dans votre profil — il pourra alors être signalé ici même si la connexion échoue.",
+      "notConnected": "non connecté",
+      "driverUnknown": "Nom du pilote inconnu hors connexion — nous le compléterons lors de la vérification.",
+      "reviewAndSend": "Vérifier et envoyer ({count})",
+      "selectAtLeastOne": "Évaluez au moins un appareil pour envoyer un rapport.",
+      "noteLabel": "Une particularité à signaler ?",
+      "notePlaceholder": "p. ex. nécessite une bande passante USB inférieure à 60, sens de mise au point inversé…",
+      "copy": "Copier",
+      "copied": "Copié",
+      "submitSuccess": "Rapport envoyé. Merci !",
+      "submitSuccessHint": "Conservez ce jeton pour consulter plus tard l'état de vérification de votre rapport.",
+      "submitError": "Le rapport n'a pas pu être envoyé.",
+      "status": {
+        "works": "Fonctionne",
+        "caveat": "Fonctionne avec réserve",
+        "broken": "Ne fonctionne pas"
+      },
+      "known": {
+        "summary": "Déjà dans la base : {status} avec {driver} · {reports} rapports",
+        "none": "Pas encore dans la base — le vôtre serait le premier rapport."
+      },
+      "categories": {
+        "camera": "Caméra",
+        "guidecam": "Caméra de guidage",
+        "mount": "Monture",
+        "focuser": "Focuser",
+        "filterwheel": "Roue à filtres",
+        "rotator": "Rotateur",
+        "guider": "Autoguidage",
+        "flatdevice": "Panneau à flats",
+        "switch": "Interrupteur",
+        "weather": "Météo",
+        "dome": "Coupole",
+        "safetymonitor": "Moniteur de sécurité"
+      },
+      "preview": {
+        "title": "Voici ce qui sera envoyé",
+        "intro": "Le rapport complet est affiché ci-dessous. Rien d'autre n'est transmis.",
+        "privacyNote": "Aucune adresse IP, nom d'hôte, nom de réseau Wi-Fi, coordonnée ou nom de profil n'est inclus.",
+        "send": "Envoyer le rapport",
+        "sending": "Envoi…"
+      },
+      "history": {
+        "title": "Vos rapports",
+        "refreshStatus": "Vérifier le statut",
+        "clear": "Vider la liste",
+        "deviceCount": "{count} appareils",
+        "status": {
+          "pending": "En vérification",
+          "approved": "Publié",
+          "rejected": "Rejeté",
+          "duplicate": "Doublon"
+        }
+      }
     }
   },
   "pinsDevices": {

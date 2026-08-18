@@ -4836,19 +4836,19 @@
       }
     },
     "systemMetrics": {
-      "powerTitle": "Power and input voltage",
-      "supplyVoltage": "Input voltage",
-      "underVoltageNow": "Undervoltage now",
-      "underVoltageSinceBoot": "Undervoltage since boot",
-      "firmwareFlags": "Firmware flags",
-      "underVoltageActive": "Undervoltage detected",
-      "underVoltageOccurred": "Previous undervoltage",
-      "powerHealthy": "Healthy",
-      "underVoltageActiveHelp": "The Pi is currently underpowered. Check the power supply, cable, and connected-device load.",
-      "underVoltageHistoryHelp": "Undervoltage has occurred since boot. Check the power supply and cable if the system is unstable.",
-      "notAvailable": "Not available",
-      "detected": "Detected",
-      "notDetected": "Not detected"
+      "powerTitle": "Zasilanie i napięcie wejściowe",
+      "supplyVoltage": "Napięcie wejściowe",
+      "underVoltageNow": "Aktualne zbyt niskie napięcie",
+      "underVoltageSinceBoot": "Zbyt niskie napięcie od uruchomienia",
+      "firmwareFlags": "Flagi oprogramowania układowego",
+      "underVoltageActive": "Wykryto zbyt niskie napięcie",
+      "underVoltageOccurred": "Poprzednie zbyt niskie napięcie",
+      "powerHealthy": "Prawidłowe",
+      "underVoltageActiveHelp": "Pi jest obecnie zasilane niewystarczająco. Sprawdź zasilacz, przewód i obciążenie podłączonych urządzeń.",
+      "underVoltageHistoryHelp": "Od uruchomienia wystąpiło zbyt niskie napięcie. Jeśli system działa niestabilnie, sprawdź zasilacz i przewód.",
+      "notAvailable": "Niedostępne",
+      "detected": "Wykryto",
+      "notDetected": "Nie wykryto"
     }
   },
   "pinsDevices": {
@@ -5158,6 +5158,9 @@
       "smtpServer": "Serwer SMTP",
       "smtpSsl": "Użyj protokołu TLS/SSL",
       "testDiscord": "Wyślij wiadomość testową",
+      "secretSet": "•••••••• (ustawiono)",
+      "secretNotSet": "Nie ustawiono",
+      "secretLeaveEmpty": "Pozostaw puste, aby zachować bieżącą wartość",
       "testEmail": "Wyślij e-mail testowy",
       "testPushover": "Wyślij powiadomienie testowe",
       "localDashboardEnabled": "Włącz lokalny serwer WWW",

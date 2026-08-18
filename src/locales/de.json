@@ -4841,19 +4841,19 @@
       }
     },
     "systemMetrics": {
-      "powerTitle": "Power and input voltage",
-      "supplyVoltage": "Input voltage",
-      "underVoltageNow": "Undervoltage now",
-      "underVoltageSinceBoot": "Undervoltage since boot",
-      "firmwareFlags": "Firmware flags",
-      "underVoltageActive": "Undervoltage detected",
-      "underVoltageOccurred": "Previous undervoltage",
-      "powerHealthy": "Healthy",
-      "underVoltageActiveHelp": "The Pi is currently underpowered. Check the power supply, cable, and connected-device load.",
-      "underVoltageHistoryHelp": "Undervoltage has occurred since boot. Check the power supply and cable if the system is unstable.",
-      "notAvailable": "Not available",
-      "detected": "Detected",
-      "notDetected": "Not detected"
+      "powerTitle": "Stromversorgung und Eingangsspannung",
+      "supplyVoltage": "Eingangsspannung",
+      "underVoltageNow": "Aktuelle Unterspannung",
+      "underVoltageSinceBoot": "Unterspannung seit dem Start",
+      "firmwareFlags": "Firmware-Flags",
+      "underVoltageActive": "Unterspannung erkannt",
+      "underVoltageOccurred": "Frühere Unterspannung",
+      "powerHealthy": "In Ordnung",
+      "underVoltageActiveHelp": "Der Pi wird derzeit nicht ausreichend mit Strom versorgt. Prüfe Netzteil, Kabel und die Last der angeschlossenen Geräte.",
+      "underVoltageHistoryHelp": "Seit dem Start ist eine Unterspannung aufgetreten. Prüfe Netzteil und Kabel, wenn das System instabil ist.",
+      "notAvailable": "Nicht verfügbar",
+      "detected": "Erkannt",
+      "notDetected": "Nicht erkannt"
     }
   },
   "pinsDevices": {
@@ -5163,6 +5163,9 @@
       "smtpServer": "SMTP-Server",
       "smtpSsl": "Verwenden Sie TLS/SSL",
       "testDiscord": "Testnachricht senden",
+      "secretSet": "•••••••• (festgelegt)",
+      "secretNotSet": "Nicht festgelegt",
+      "secretLeaveEmpty": "Leer lassen, um den aktuellen Wert beizubehalten",
       "testEmail": "Test-E-Mail senden",
       "testPushover": "Testbenachrichtigung senden",
       "localDashboardEnabled": "Aktivieren Sie den lokalen Webserver",

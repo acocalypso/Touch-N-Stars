@@ -4836,19 +4836,19 @@
       }
     },
     "systemMetrics": {
-      "powerTitle": "Power and input voltage",
-      "supplyVoltage": "Input voltage",
-      "underVoltageNow": "Undervoltage now",
-      "underVoltageSinceBoot": "Undervoltage since boot",
-      "firmwareFlags": "Firmware flags",
-      "underVoltageActive": "Undervoltage detected",
-      "underVoltageOccurred": "Previous undervoltage",
-      "powerHealthy": "Healthy",
-      "underVoltageActiveHelp": "The Pi is currently underpowered. Check the power supply, cable, and connected-device load.",
-      "underVoltageHistoryHelp": "Undervoltage has occurred since boot. Check the power supply and cable if the system is unstable.",
-      "notAvailable": "Not available",
-      "detected": "Detected",
-      "notDetected": "Not detected"
+      "powerTitle": "전원 및 입력 전압",
+      "supplyVoltage": "입력 전압",
+      "underVoltageNow": "현재 저전압",
+      "underVoltageSinceBoot": "부팅 후 저전압",
+      "firmwareFlags": "펌웨어 플래그",
+      "underVoltageActive": "저전압 감지됨",
+      "underVoltageOccurred": "이전 저전압",
+      "powerHealthy": "정상",
+      "underVoltageActiveHelp": "현재 Pi에 전원이 충분히 공급되지 않고 있습니다. 전원 공급 장치, 케이블 및 연결된 장치의 부하를 확인하세요.",
+      "underVoltageHistoryHelp": "부팅 후 저전압이 발생했습니다. 시스템이 불안정하면 전원 공급 장치와 케이블을 확인하세요.",
+      "notAvailable": "사용할 수 없음",
+      "detected": "감지됨",
+      "notDetected": "감지되지 않음"
     }
   },
   "pinsDevices": {
@@ -5114,6 +5114,9 @@
       "discordEnabled": "Discord 사용",
       "discordWebhook": "웹훅 URL",
       "testDiscord": "테스트 메시지 보내기",
+      "secretSet": "•••••••• (설정됨)",
+      "secretNotSet": "설정되지 않음",
+      "secretLeaveEmpty": "현재 값을 유지하려면 비워 두세요",
       "localDashboardTitle": "로컬 대시보드",
       "localDashboardEnabled": "로컬 웹 서버 사용",
       "localDashboardPort": "포트",

@@ -4836,19 +4836,19 @@
       }
     },
     "systemMetrics": {
-      "powerTitle": "Power and input voltage",
-      "supplyVoltage": "Input voltage",
-      "underVoltageNow": "Undervoltage now",
-      "underVoltageSinceBoot": "Undervoltage since boot",
-      "firmwareFlags": "Firmware flags",
-      "underVoltageActive": "Undervoltage detected",
-      "underVoltageOccurred": "Previous undervoltage",
-      "powerHealthy": "Healthy",
-      "underVoltageActiveHelp": "The Pi is currently underpowered. Check the power supply, cable, and connected-device load.",
-      "underVoltageHistoryHelp": "Undervoltage has occurred since boot. Check the power supply and cable if the system is unstable.",
-      "notAvailable": "Not available",
-      "detected": "Detected",
-      "notDetected": "Not detected"
+      "powerTitle": "电源与输入电压",
+      "supplyVoltage": "输入电压",
+      "underVoltageNow": "当前欠压",
+      "underVoltageSinceBoot": "启动后欠压",
+      "firmwareFlags": "固件标志",
+      "underVoltageActive": "检测到欠压",
+      "underVoltageOccurred": "曾发生欠压",
+      "powerHealthy": "正常",
+      "underVoltageActiveHelp": "Pi 当前供电不足。请检查电源、线缆以及已连接设备的负载。",
+      "underVoltageHistoryHelp": "系统自启动以来曾发生欠压。如果系统不稳定，请检查电源和线缆。",
+      "notAvailable": "不可用",
+      "detected": "已检测到",
+      "notDetected": "未检测到"
     }
   },
   "pinsDevices": {
@@ -5158,6 +5158,9 @@
       "smtpServer": "SMTP Server",
       "smtpSsl": "Use TLS/SSL",
       "testDiscord": "Send Test Message",
+      "secretSet": "••••••••（已设置）",
+      "secretNotSet": "未设置",
+      "secretLeaveEmpty": "留空以保留当前值",
       "testEmail": "Send Test Email",
       "testPushover": "Send Test Notification",
       "localDashboardEnabled": "Enable local web server",

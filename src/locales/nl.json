@@ -4836,19 +4836,19 @@
       }
     },
     "systemMetrics": {
-      "powerTitle": "Power and input voltage",
-      "supplyVoltage": "Input voltage",
-      "underVoltageNow": "Undervoltage now",
-      "underVoltageSinceBoot": "Undervoltage since boot",
-      "firmwareFlags": "Firmware flags",
-      "underVoltageActive": "Undervoltage detected",
-      "underVoltageOccurred": "Previous undervoltage",
-      "powerHealthy": "Healthy",
-      "underVoltageActiveHelp": "The Pi is currently underpowered. Check the power supply, cable, and connected-device load.",
-      "underVoltageHistoryHelp": "Undervoltage has occurred since boot. Check the power supply and cable if the system is unstable.",
-      "notAvailable": "Not available",
-      "detected": "Detected",
-      "notDetected": "Not detected"
+      "powerTitle": "Voeding en ingangsspanning",
+      "supplyVoltage": "Ingangsspanning",
+      "underVoltageNow": "Huidige onderspanning",
+      "underVoltageSinceBoot": "Onderspanning sinds opstarten",
+      "firmwareFlags": "Firmwarevlaggen",
+      "underVoltageActive": "Onderspanning gedetecteerd",
+      "underVoltageOccurred": "Eerdere onderspanning",
+      "powerHealthy": "In orde",
+      "underVoltageActiveHelp": "De Pi krijgt momenteel onvoldoende stroom. Controleer de voeding, kabel en belasting door aangesloten apparaten.",
+      "underVoltageHistoryHelp": "Sinds het opstarten is onderspanning opgetreden. Controleer de voeding en kabel als het systeem instabiel is.",
+      "notAvailable": "Niet beschikbaar",
+      "detected": "Gedetecteerd",
+      "notDetected": "Niet gedetecteerd"
     }
   },
   "pinsDevices": {
@@ -5158,6 +5158,9 @@
       "smtpServer": "SMTP-server",
       "smtpSsl": "Gebruik TLS/SSL",
       "testDiscord": "Testbericht verzenden",
+      "secretSet": "•••••••• (ingesteld)",
+      "secretNotSet": "Niet ingesteld",
+      "secretLeaveEmpty": "Laat leeg om de huidige waarde te behouden",
       "testEmail": "Test-e-mail verzenden",
       "testPushover": "Testmelding verzenden",
       "localDashboardEnabled": "Schakel lokale webserver in",

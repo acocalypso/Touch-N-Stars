@@ -11,6 +11,7 @@
           class="w-full tns-select min-w-0"
           v-model="selectedDevice"
           :disabled="isConnected"
+          @change="onDeviceSelected"
         >
           <!-- Placeholder for a selection that is not (yet) in the fetched list, e.g. while
              the list is still empty after a backend restart. Hidden once the list contains
@@ -117,7 +118,7 @@ import {
 import { useEquipmentStore } from '@/store/equipmentStore';
 import { useI18n } from 'vue-i18n';
 import { checkMountConnectionPermission } from '@/utils/locationSyncUtils';
-import { INDI_DEVICE_MAP, isOfflineDevice, reloadIndiDriver } from '@/utils/indiDriverReload';
+import { isOfflineDevice, reloadIndiDriver, setProfileDevice } from '@/utils/equipmentDevices';
 import { apiStore } from '@/store/store';
 
 const equipmentStore = useEquipmentStore();
@@ -376,7 +377,7 @@ async function toggleConnection() {
       // before the hardware had power (typically a power box port) and therefore never saw
       // it. Restarting the driver is what makes it appear — until now users had to do that
       // by hand in the INDI setup dialog.
-      if (isOfflineDevice(selectedDeviceObj.value) && INDI_DEVICE_MAP[props.apiAction]) {
+      if (isOfflineDevice(selectedDeviceObj.value)) {
         isReloadingDriver.value = true;
         try {
           if (await reloadIndiDriver(props.apiAction)) {
@@ -446,6 +447,25 @@ function getDeviceName(deviceId) {
 function getDeviceId(deviceName) {
   const device = devices.value.find((d) => d.DisplayName === deviceName);
   return device ? String(device.Id) : '';
+}
+
+// Bound to the select's change event rather than a watcher on selectedDevice: that watcher
+// also fires for the programmatic resets from the profile and would write them straight
+// back. Without persisting here the pick would only live in this component and the next
+// device list refresh would overwrite it — which is what made 'No device' unselectable.
+async function onDeviceSelected() {
+  const deviceId = getDeviceId(selectedDevice.value);
+  if (!deviceId) return;
+
+  error.value = false;
+  try {
+    await setProfileDevice(props.apiAction, deviceId);
+  } catch (err) {
+    error.value = true;
+    console.error('Error selecting device: ', err);
+  } finally {
+    updateBorderClass();
+  }
 }
 
 watch(

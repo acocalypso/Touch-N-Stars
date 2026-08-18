@@ -395,7 +395,7 @@ import {
   getIndiDriver,
   isOfflineDevice,
   reloadIndiDriver,
-} from '@/utils/indiDriverReload';
+} from '@/utils/equipmentDevices';
 import { useEquipmentStore } from '@/store/equipmentStore';
 
 const { t } = useI18n();

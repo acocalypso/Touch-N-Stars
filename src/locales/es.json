@@ -4773,6 +4773,65 @@
       "setFailed": "No se pudo establecer la propiedad.",
       "title": "Panel de control INDI",
       "updated": "Actualizado"
+    },
+    "hardwareDb": {
+      "title": "Compatibilidad de hardware",
+      "intro": "Comparte qué dispositivos funcionan con qué controlador. Cada informe se revisa antes de aparecer en la base de datos.",
+      "collecting": "Leyendo el equipo conectado…",
+      "noDevices": "No se encontró equipo. Conecta un dispositivo o selecciona uno en tu perfil — así podrás informarlo aquí aunque la conexión falle.",
+      "notConnected": "no conectado",
+      "driverUnknown": "Nombre del controlador desconocido sin conexión — lo completaremos durante la revisión.",
+      "reviewAndSend": "Revisar y enviar ({count})",
+      "selectAtLeastOne": "Valora al menos un dispositivo para enviar un informe.",
+      "noteLabel": "¿Alguna particularidad?",
+      "notePlaceholder": "p. ej. necesita ancho de banda USB por debajo de 60, dirección de enfoque invertida…",
+      "copy": "Copiar",
+      "copied": "Copiado",
+      "submitSuccess": "Informe enviado. ¡Gracias!",
+      "submitSuccessHint": "Guarda este código para consultar más tarde el estado de revisión de tu informe.",
+      "submitError": "No se pudo enviar el informe.",
+      "status": {
+        "works": "Funciona",
+        "caveat": "Funciona con salvedades",
+        "broken": "No funciona"
+      },
+      "known": {
+        "summary": "Ya está en la base de datos: {status} con {driver} · {reports} informes",
+        "none": "Todavía no está en la base de datos — el tuyo sería el primer informe."
+      },
+      "categories": {
+        "camera": "Cámara",
+        "guidecam": "Cámara guía",
+        "mount": "Montura",
+        "focuser": "Enfocador",
+        "filterwheel": "Rueda de filtros",
+        "rotator": "Rotador",
+        "guider": "Guiado",
+        "flatdevice": "Panel de flats",
+        "switch": "Interruptor",
+        "weather": "Meteorología",
+        "dome": "Cúpula",
+        "safetymonitor": "Monitor de seguridad"
+      },
+      "preview": {
+        "title": "Esto es lo que se envía",
+        "intro": "Abajo se muestra el informe completo. No se transmite nada más.",
+        "privacyNote": "No se incluyen direcciones IP, nombres de host, nombres de red Wi-Fi, coordenadas ni nombres de perfil.",
+        "send": "Enviar informe",
+        "sending": "Enviando…"
+      },
+      "history": {
+        "title": "Tus informes",
+        "refreshStatus": "Comprobar estado",
+        "clear": "Vaciar lista",
+        "deviceCount": "{count} dispositivos",
+        "status": {
+          "pending": "En revisión",
+          "approved": "Publicado",
+          "rejected": "Rechazado",
+          "duplicate": "Duplicado"
+        }
+      }
     }
   },
   "pinsDevices": {

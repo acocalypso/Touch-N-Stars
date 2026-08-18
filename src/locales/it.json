@@ -4773,6 +4773,65 @@
       "setFailed": "Impossibile impostare la proprietà.",
       "title": "Pannello di controllo INDI",
       "updated": "Aggiornato"
+    },
+    "hardwareDb": {
+      "title": "Compatibilità hardware",
+      "intro": "Condividi quali dispositivi funzionano con quale driver. Ogni segnalazione viene verificata prima di comparire nel database.",
+      "collecting": "Lettura delle apparecchiature collegate…",
+      "noDevices": "Nessuna apparecchiatura trovata. Collega un dispositivo o selezionane uno nel profilo — così potrai segnalarlo anche se la connessione fallisce.",
+      "notConnected": "non collegato",
+      "driverUnknown": "Nome del driver sconosciuto senza connessione — lo completeremo durante la verifica.",
+      "reviewAndSend": "Controlla e invia ({count})",
+      "selectAtLeastOne": "Valuta almeno un dispositivo per inviare una segnalazione.",
+      "noteLabel": "Qualche particolarità?",
+      "notePlaceholder": "ad es. richiede larghezza di banda USB sotto 60, direzione di messa a fuoco invertita…",
+      "copy": "Copia",
+      "copied": "Copiato",
+      "submitSuccess": "Segnalazione inviata. Grazie!",
+      "submitSuccessHint": "Conserva questo codice per controllare in seguito lo stato di verifica della tua segnalazione.",
+      "submitError": "Non è stato possibile inviare la segnalazione.",
+      "status": {
+        "works": "Funziona",
+        "caveat": "Funziona con riserve",
+        "broken": "Non funziona"
+      },
+      "known": {
+        "summary": "Già nel database: {status} con {driver} · {reports} segnalazioni",
+        "none": "Non ancora nel database — la tua sarebbe la prima segnalazione."
+      },
+      "categories": {
+        "camera": "Camera",
+        "guidecam": "Camera di guida",
+        "mount": "Montatura",
+        "focuser": "Focheggiatore",
+        "filterwheel": "Ruota portafiltri",
+        "rotator": "Rotatore",
+        "guider": "Guida",
+        "flatdevice": "Pannello flat",
+        "switch": "Interruttore",
+        "weather": "Meteo",
+        "dome": "Cupola",
+        "safetymonitor": "Monitor di sicurezza"
+      },
+      "preview": {
+        "title": "Questo è ciò che viene inviato",
+        "intro": "Qui sotto è riportata la segnalazione completa. Non viene trasmesso nient'altro.",
+        "privacyNote": "Non sono inclusi indirizzi IP, nomi host, nomi di rete Wi-Fi, coordinate o nomi di profilo.",
+        "send": "Invia segnalazione",
+        "sending": "Invio…"
+      },
+      "history": {
+        "title": "Le tue segnalazioni",
+        "refreshStatus": "Controlla stato",
+        "clear": "Svuota elenco",
+        "deviceCount": "{count} dispositivi",
+        "status": {
+          "pending": "In verifica",
+          "approved": "Pubblicata",
+          "rejected": "Respinta",
+          "duplicate": "Duplicato"
+        }
+      }
     }
   },
   "pinsDevices": {

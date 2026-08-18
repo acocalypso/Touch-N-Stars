@@ -4768,6 +4768,65 @@
     },
     "vncRemote": {
       "debugModeWarning": "El mode de depuració està actiu — la connexió VNC no està disponible. Si us plau, desactiva el mode de depuració a la configuració."
+    },
+    "hardwareDb": {
+      "title": "Compatibilitat de maquinari",
+      "intro": "Comparteix quins dispositius funcionen amb quin controlador. Cada informe es revisa abans d’aparèixer a la base de dades.",
+      "collecting": "S'està llegint l'equip connectat…",
+      "noDevices": "No s'ha trobat cap equip. Connecta un dispositiu o selecciona'n un al perfil — així el podràs informar aquí encara que la connexió falli.",
+      "notConnected": "no connectat",
+      "driverUnknown": "Nom del controlador desconegut sense connexió — el completarem durant la revisió.",
+      "reviewAndSend": "Revisa i envia ({count})",
+      "selectAtLeastOne": "Valora com a mínim un dispositiu per enviar un informe.",
+      "noteLabel": "Alguna particularitat?",
+      "notePlaceholder": "p. ex. necessita amplada de banda USB per sota de 60, direcció d’enfocament invertida…",
+      "copy": "Copia",
+      "copied": "Copiat",
+      "submitSuccess": "Informe enviat. Gràcies!",
+      "submitSuccessHint": "Desa aquest codi per consultar més endavant l'estat de revisió del teu informe.",
+      "submitError": "No s'ha pogut enviar l'informe.",
+      "status": {
+        "works": "Funciona",
+        "caveat": "Funciona amb limitacions",
+        "broken": "No funciona"
+      },
+      "known": {
+        "summary": "Ja és a la base de dades: {status} amb {driver} · {reports} informes",
+        "none": "Encara no és a la base de dades — el teu seria el primer informe."
+      },
+      "categories": {
+        "camera": "Càmera",
+        "guidecam": "Càmera de guiatge",
+        "mount": "Muntura",
+        "focuser": "Enfocador",
+        "filterwheel": "Roda de filtres",
+        "rotator": "Rotador",
+        "guider": "Guiatge",
+        "flatdevice": "Panell de flats",
+        "switch": "Interruptor",
+        "weather": "Meteorologia",
+        "dome": "Cúpula",
+        "safetymonitor": "Monitor de seguretat"
+      },
+      "preview": {
+        "title": "Això és el que s'envia",
+        "intro": "A sota hi ha l’informe complet. No es transmet res més.",
+        "privacyNote": "No s'hi inclouen adreces IP, noms d'amfitrió, noms de xarxa Wi-Fi, coordenades ni noms de perfil.",
+        "send": "Envia l’informe",
+        "sending": "Enviant…"
+      },
+      "history": {
+        "title": "Els teus informes",
+        "refreshStatus": "Comprova l’estat",
+        "clear": "Buida la llista",
+        "deviceCount": "{count} dispositius",
+        "status": {
+          "pending": "En revisió",
+          "approved": "Publicat",
+          "rejected": "Rebutjat",
+          "duplicate": "Duplicat"
+        }
+      }
     }
   },
   "loading": "carregant",

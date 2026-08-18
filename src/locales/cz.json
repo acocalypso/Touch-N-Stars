@@ -4768,6 +4768,65 @@
       "setFailed": "Failed to set the property.",
       "title": "INDI Control Panel",
       "updated": "Updated"
+    },
+    "hardwareDb": {
+      "title": "Kompatibilita hardwaru",
+      "intro": "Sdílejte, která zařízení fungují s kterým ovladačem. Každé hlášení je ověřeno, než se objeví v databázi.",
+      "collecting": "Načítání připojeného vybavení…",
+      "noDevices": "Nebylo nalezeno žádné vybavení. Připojte zařízení nebo jej vyberte v profilu — pak jej lze nahlásit i tehdy, když se připojení nezdaří.",
+      "notConnected": "nepřipojeno",
+      "driverUnknown": "Název ovladače bez připojení neznámý — doplníme jej při ověření.",
+      "reviewAndSend": "Zkontrolovat a odeslat ({count})",
+      "selectAtLeastOne": "Ohodnoťte alespoň jedno zařízení, abyste mohli hlášení odeslat.",
+      "noteLabel": "Nějaké zvláštnosti?",
+      "notePlaceholder": "např. vyžaduje šířku pásma USB pod 60, směr ostření je obrácený…",
+      "copy": "Kopírovat",
+      "copied": "Zkopírováno",
+      "submitSuccess": "Hlášení odesláno. Děkujeme!",
+      "submitSuccessHint": "Uschovejte si tento token, abyste později zjistili stav ověření svého hlášení.",
+      "submitError": "Hlášení se nepodařilo odeslat.",
+      "status": {
+        "works": "Funguje",
+        "caveat": "Funguje s výhradami",
+        "broken": "Nefunguje"
+      },
+      "known": {
+        "summary": "Již v databázi: {status} s {driver} · {reports} hlášení",
+        "none": "Zatím není v databázi — vaše by bylo první hlášení."
+      },
+      "categories": {
+        "camera": "Kamera",
+        "guidecam": "Naváděcí kamera",
+        "mount": "Montáž",
+        "focuser": "Fokusér",
+        "filterwheel": "Filtrové kolo",
+        "rotator": "Rotátor",
+        "guider": "Navádění",
+        "flatdevice": "Flat panel",
+        "switch": "Spínač",
+        "weather": "Počasí",
+        "dome": "Kopule",
+        "safetymonitor": "Bezpečnostní monitor"
+      },
+      "preview": {
+        "title": "Toto bude odesláno",
+        "intro": "Níže je celé hlášení. Nic dalšího se nepřenáší.",
+        "privacyNote": "Nejsou zahrnuty IP adresy, názvy hostitelů, názvy sítí Wi-Fi, souřadnice ani názvy profilů.",
+        "send": "Odeslat hlášení",
+        "sending": "Odesílání…"
+      },
+      "history": {
+        "title": "Vaše hlášení",
+        "refreshStatus": "Zkontrolovat stav",
+        "clear": "Vymazat seznam",
+        "deviceCount": "{count} zařízení",
+        "status": {
+          "pending": "Ověřuje se",
+          "approved": "Zveřejněno",
+          "rejected": "Zamítnuto",
+          "duplicate": "Duplikát"
+        }
+      }
     }
   },
   "pinsDevices": {

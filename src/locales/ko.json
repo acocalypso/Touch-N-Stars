@@ -4768,6 +4768,65 @@
       "setFailed": "속성을 설정하지 못했습니다.",
       "title": "인디 제어판",
       "updated": "업데이트됨"
+    },
+    "hardwareDb": {
+      "title": "하드웨어 호환성",
+      "intro": "어떤 장비가 어떤 드라이버와 작동하는지 공유해 주세요. 모든 보고는 검토 후 데이터베이스에 등록됩니다.",
+      "collecting": "연결된 장비를 읽는 중…",
+      "noDevices": "장비를 찾을 수 없습니다. 장비를 연결하거나 프로필에서 선택하세요. 그러면 연결에 실패해도 여기서 보고할 수 있습니다.",
+      "notConnected": "연결 안 됨",
+      "driverUnknown": "연결되지 않아 드라이버 이름을 알 수 없습니다. 검토 시 채워 넣겠습니다.",
+      "reviewAndSend": "확인 후 보내기 ({count})",
+      "selectAtLeastOne": "보고를 보내려면 장비를 하나 이상 평가하세요.",
+      "noteLabel": "특이한 점이 있나요?",
+      "notePlaceholder": "예: USB 대역폭을 60 미만으로 해야 함, 초점 방향이 반대…",
+      "copy": "복사",
+      "copied": "복사됨",
+      "submitSuccess": "보고를 보냈습니다. 감사합니다!",
+      "submitSuccessHint": "나중에 보고의 검토 상태를 확인하려면 이 토큰을 보관하세요.",
+      "submitError": "보고를 보내지 못했습니다.",
+      "status": {
+        "works": "작동함",
+        "caveat": "제한적으로 작동함",
+        "broken": "작동하지 않음"
+      },
+      "known": {
+        "summary": "이미 데이터베이스에 있음: {driver}로 {status} · 보고 {reports}건",
+        "none": "아직 데이터베이스에 없습니다. 당신의 보고가 첫 번째가 됩니다."
+      },
+      "categories": {
+        "camera": "카메라",
+        "guidecam": "가이드 카메라",
+        "mount": "가대",
+        "focuser": "포커서",
+        "filterwheel": "필터휠",
+        "rotator": "로테이터",
+        "guider": "가이딩",
+        "flatdevice": "플랫 패널",
+        "switch": "스위치",
+        "weather": "기상",
+        "dome": "돔",
+        "safetymonitor": "안전 모니터"
+      },
+      "preview": {
+        "title": "전송되는 내용",
+        "intro": "아래가 보고 전문입니다. 이 밖에는 아무것도 전송되지 않습니다.",
+        "privacyNote": "IP 주소, 호스트 이름, Wi-Fi 이름, 좌표, 프로필 이름은 포함되지 않습니다.",
+        "send": "보고 보내기",
+        "sending": "보내는 중…"
+      },
+      "history": {
+        "title": "내 보고",
+        "refreshStatus": "상태 확인",
+        "clear": "목록 비우기",
+        "deviceCount": "장비 {count}대",
+        "status": {
+          "pending": "검토 중",
+          "approved": "게시됨",
+          "rejected": "거부됨",
+          "duplicate": "중복"
+        }
+      }
     }
   },
   "pinsDevices": {

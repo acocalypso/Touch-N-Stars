@@ -4768,6 +4768,65 @@
       "setFailed": "Kan de eigenschap niet instellen.",
       "title": "INDI-bedieningspaneel",
       "updated": "Bijgewerkt"
+    },
+    "hardwareDb": {
+      "title": "Hardwarecompatibiliteit",
+      "intro": "Deel welke apparaten met welke driver werken. Meldingen worden gecontroleerd voordat ze in de database verschijnen.",
+      "collecting": "Verbonden apparatuur wordt gelezen…",
+      "noDevices": "Geen apparatuur gevonden. Verbind een apparaat of kies er een in je profiel — dan kun je het hier ook melden als verbinden mislukt.",
+      "notConnected": "niet verbonden",
+      "driverUnknown": "Drivernaam onbekend zonder verbinding — wij vullen die aan bij de controle.",
+      "reviewAndSend": "Controleren en versturen ({count})",
+      "selectAtLeastOne": "Beoordeel minstens één apparaat om een melding te versturen.",
+      "noteLabel": "Zijn er bijzonderheden?",
+      "notePlaceholder": "bijv. heeft USB-bandbreedte onder 60 nodig, focusrichting is omgekeerd…",
+      "copy": "Kopiëren",
+      "copied": "Gekopieerd",
+      "submitSuccess": "Melding verstuurd. Bedankt!",
+      "submitSuccessHint": "Bewaar dit token om later de controlestatus van je melding op te vragen.",
+      "submitError": "De melding kon niet worden verstuurd.",
+      "status": {
+        "works": "Werkt",
+        "caveat": "Werkt met beperking",
+        "broken": "Werkt niet"
+      },
+      "known": {
+        "summary": "Al in de database: {status} met {driver} · {reports} meldingen",
+        "none": "Nog niet in de database — die van jou zou de eerste melding zijn."
+      },
+      "categories": {
+        "camera": "Camera",
+        "guidecam": "Guidecamera",
+        "mount": "Montering",
+        "focuser": "Focuser",
+        "filterwheel": "Filterwiel",
+        "rotator": "Rotator",
+        "guider": "Guider",
+        "flatdevice": "Flatpaneel",
+        "switch": "Schakelaar",
+        "weather": "Weer",
+        "dome": "Koepel",
+        "safetymonitor": "Veiligheidsmonitor"
+      },
+      "preview": {
+        "title": "Dit wordt verstuurd",
+        "intro": "Hieronder staat de volledige melding. Er wordt niets anders verzonden.",
+        "privacyNote": "Er worden geen IP-adressen, hostnamen, wifinamen, coördinaten of profielnamen meegestuurd.",
+        "send": "Melding versturen",
+        "sending": "Versturen…"
+      },
+      "history": {
+        "title": "Jouw meldingen",
+        "refreshStatus": "Status controleren",
+        "clear": "Lijst wissen",
+        "deviceCount": "{count} apparaten",
+        "status": {
+          "pending": "In controle",
+          "approved": "Gepubliceerd",
+          "rejected": "Afgewezen",
+          "duplicate": "Duplicaat"
+        }
+      }
     }
   },
   "pinsDevices": {

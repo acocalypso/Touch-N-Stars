@@ -4773,6 +4773,65 @@
       "setFailed": "Falha ao definir a propriedade.",
       "title": "Painel de controle INDI",
       "updated": "Atualizado"
+    },
+    "hardwareDb": {
+      "title": "Compatibilidade de hardware",
+      "intro": "Partilhe quais dos seus dispositivos funcionam com que controlador. Cada relatório é revisto antes de aparecer na base de dados.",
+      "collecting": "A ler o equipamento ligado…",
+      "noDevices": "Nenhum equipamento encontrado. Ligue um dispositivo ou selecione um no seu perfil — assim poderá reportá-lo aqui mesmo que a ligação falhe.",
+      "notConnected": "não ligado",
+      "driverUnknown": "Nome do controlador desconhecido sem ligação — iremos preenchê-lo durante a revisão.",
+      "reviewAndSend": "Rever e enviar ({count})",
+      "selectAtLeastOne": "Avalie pelo menos um dispositivo para enviar um relatório.",
+      "noteLabel": "Alguma particularidade?",
+      "notePlaceholder": "p. ex. precisa de largura de banda USB abaixo de 60, direção de focagem invertida…",
+      "copy": "Copiar",
+      "copied": "Copiado",
+      "submitSuccess": "Relatório enviado. Obrigado!",
+      "submitSuccessHint": "Guarde este código para consultar mais tarde o estado de revisão do seu relatório.",
+      "submitError": "Não foi possível enviar o relatório.",
+      "status": {
+        "works": "Funciona",
+        "caveat": "Funciona com ressalvas",
+        "broken": "Não funciona"
+      },
+      "known": {
+        "summary": "Já está na base de dados: {status} com {driver} · {reports} relatórios",
+        "none": "Ainda não está na base de dados — o seu seria o primeiro relatório."
+      },
+      "categories": {
+        "camera": "Câmara",
+        "guidecam": "Câmara de guiagem",
+        "mount": "Montagem",
+        "focuser": "Focador",
+        "filterwheel": "Roda de filtros",
+        "rotator": "Rotador",
+        "guider": "Guiagem",
+        "flatdevice": "Painel de flats",
+        "switch": "Interruptor",
+        "weather": "Meteorologia",
+        "dome": "Cúpula",
+        "safetymonitor": "Monitor de segurança"
+      },
+      "preview": {
+        "title": "Isto é o que será enviado",
+        "intro": "Abaixo está o relatório completo. Nada além disto é transmitido.",
+        "privacyNote": "Não são incluídos endereços IP, nomes de anfitrião, nomes de rede Wi-Fi, coordenadas ou nomes de perfil.",
+        "send": "Enviar relatório",
+        "sending": "A enviar…"
+      },
+      "history": {
+        "title": "Os seus relatórios",
+        "refreshStatus": "Verificar estado",
+        "clear": "Limpar lista",
+        "deviceCount": "{count} dispositivos",
+        "status": {
+          "pending": "Em revisão",
+          "approved": "Publicado",
+          "rejected": "Rejeitado",
+          "duplicate": "Duplicado"
+        }
+      }
     }
   },
   "pinsDevices": {

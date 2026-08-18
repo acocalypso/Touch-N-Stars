@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [App6.1.4-beta5] - 2026-08-18
+
+### Added
+- Hardware Compatibility plugin: Look up which hardware works with which driver, and report your own findings to a shared, crowdsourced database
+
+### Fixed
+- Equipment: INDI devices that only get power after the driver started (e.g. a rotator on a power box port) were listed as OFFLINE and could not be connected. The driver is now reloaded automatically instead of requiring a manual reselect in the INDI setup dialog
+- Equipment: A device selection now goes straight into the profile instead of being reset by the next device list refresh, so "No device" can finally be selected
+
 ## [App6.1.4-beta4] - 2026-08-16
 
 ### Added
@@ -19,8 +28,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Status bar: Entries no longer jump to the front when something needs attention, and Progress, Log and Instance are no longer pinned to the right edge
 
 ### Fixed
-- Equipment: A device selection now goes straight into the profile instead of being reset by the next device list refresh, so "No device" can finally be selected
-- Equipment: INDI devices that only get power after the driver started (e.g. a rotator on a power box port) were listed as OFFLINE and could not be connected. The driver is now reloaded automatically instead of requiring a manual reselect in the INDI setup dialog
 - Guiding (PHD2): On narrow screens the guiding status covered the star image and the star profile. The status is now shown at the bottom left, and both tiles adapt their size to the available width instead of being cut off
 - Status bar: Panels opened from the status bar covered the lower edge of the page including its rounded corners
 - Mount: With drivers that keep reporting "slewing" after a park has finished (e.g. ZWO AM5N), the mount status stayed on a red "Slewing" with an endlessly turning spinner instead of "Parked", and the slew button stayed a red stop button. A parked mount is now never shown as slewing. During a real slew the status stays green with the spinner instead of turning yellow

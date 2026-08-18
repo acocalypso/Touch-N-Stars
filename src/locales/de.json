@@ -727,6 +727,8 @@
       "cameraNoSettings": "Für diese Kamera gibt es keine Einstellungen."
     },
     "selectDevices": {
+      "deviceNotFound": "Gerät nicht gefunden",
+      "deviceNotFoundMessage": "Der INDI-Treiber wurde neu geladen, aber „{device}“ ist nicht aufgetaucht. Prüfe die Stromversorgung und wähle das Gerät neu aus.",
       "reloadingDriver": "INDI-Treiber wird neu geladen…"
     },
     "connectEquipment": {

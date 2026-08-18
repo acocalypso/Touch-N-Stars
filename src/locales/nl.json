@@ -686,6 +686,8 @@
       "cameraNoSettings": "This camera has no settings to configure."
     },
     "selectDevices": {
+      "deviceNotFound": "Apparaat niet gevonden",
+      "deviceNotFoundMessage": "Het INDI-stuurprogramma is opnieuw geladen, maar '{device}' is niet verschenen. Controleer de voeding en selecteer het apparaat opnieuw.",
       "reloadingDriver": "INDI-stuurprogramma wordt opnieuw geladen…"
     },
     "connectEquipment": {

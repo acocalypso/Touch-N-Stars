@@ -686,6 +686,8 @@
       "cameraNoSettings": "This camera has no settings to configure."
     },
     "selectDevices": {
+      "deviceNotFound": "Dispositivo non trovato",
+      "deviceNotFoundMessage": "Il driver INDI è stato ricaricato, ma «{device}» non è comparso. Controlla l'alimentazione e seleziona di nuovo il dispositivo.",
       "reloadingDriver": "Ricaricamento del driver INDI…"
     },
     "connectEquipment": {

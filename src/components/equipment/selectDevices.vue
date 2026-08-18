@@ -118,8 +118,14 @@ import {
 import { useEquipmentStore } from '@/store/equipmentStore';
 import { useI18n } from 'vue-i18n';
 import { checkMountConnectionPermission } from '@/utils/locationSyncUtils';
-import { isOfflineDevice, reloadIndiDriver, setProfileDevice } from '@/utils/equipmentDevices';
+import {
+  isOfflineDevice,
+  reloadIndiDriver,
+  resolveReloadedDevice,
+  setProfileDevice,
+} from '@/utils/equipmentDevices';
 import { apiStore } from '@/store/store';
+import { useToastStore } from '@/store/toastStore';
 
 const equipmentStore = useEquipmentStore();
 const store = apiStore();
@@ -346,8 +352,8 @@ async function toggleConnection() {
   error.value = false;
   isToggleCon.value = true;
 
-  const deviceId = getDeviceId(selectedDevice.value);
-  const encodedId = encodeURIComponent(deviceId);
+  // Not const: an OFFLINE device resolves to a different Id after its driver was reloaded.
+  let deviceId = getDeviceId(selectedDevice.value);
   console.log('props.apiAction', props.apiAction);
 
   try {
@@ -378,15 +384,34 @@ async function toggleConnection() {
       // it. Restarting the driver is what makes it appear — until now users had to do that
       // by hand in the INDI setup dialog.
       if (isOfflineDevice(selectedDeviceObj.value)) {
+        // Hold on to the placeholder: selectedDeviceObj is a computed over devices and
+        // changes as soon as the list is refetched below.
+        const offlineEntry = selectedDeviceObj.value;
         isReloadingDriver.value = true;
         try {
           if (await reloadIndiDriver(props.apiAction)) {
             await getDevices();
-            // The Id survives the reload, the DisplayName does not: the '(OFFLINE)' suffix
-            // is gone, so the selection has to be resolved through the Id.
-            const name = getDeviceName(deviceId);
-            if (name) {
-              selectedDevice.value = name;
+            const resolved = resolveReloadedDevice(offlineEntry, devices.value);
+            if (!resolved) {
+              // Connecting with the placeholder's Id would just reproduce the original
+              // failure, so stop here and say why.
+              useToastStore().showToast({
+                type: 'error',
+                title: t('components.selectDevices.deviceNotFound'),
+                message: t('components.selectDevices.deviceNotFoundMessage', {
+                  device: offlineEntry.DisplayName,
+                }),
+              });
+              error.value = true;
+              return;
+            }
+            selectedDevice.value = resolved.DisplayName;
+            if (String(resolved.Id) !== deviceId) {
+              // The restarted driver derives the Id from the INDI device name, so it can
+              // differ from what the profile stored. Write it back, otherwise connectAll -
+              // which connects without ?to= - would keep using the dead Id.
+              deviceId = String(resolved.Id);
+              await setProfileDevice(props.apiAction, deviceId);
             }
           }
         } catch (err) {
@@ -398,7 +423,9 @@ async function toggleConnection() {
       }
 
       console.log('connect to', selectedDevice.value, 'ID:', deviceId);
-      const response = await apiService[props.apiAction]('connect?to=' + encodedId);
+      const response = await apiService[props.apiAction](
+        'connect?to=' + encodeURIComponent(deviceId)
+      );
       console.log('response', response);
       if (deviceId == 'PHD2_Single') {
         await apiService.connectPHD2();

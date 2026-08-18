@@ -88,6 +88,40 @@ export function isOfflineDevice(device) {
   return typeof device.DisplayName === 'string' && device.DisplayName.endsWith('(OFFLINE)');
 }
 
+const OFFLINE_SUFFIX = /\s*\(OFFLINE\)\s*$/;
+
+/**
+ * Finds the real device that replaced an OFFLINE placeholder after a driver reload.
+ *
+ * The placeholder is synthesized by PINS from the profile, so its Id is whatever the profile
+ * happened to store — the restarted driver derives the Id from the INDI device name and may
+ * well produce a different one. Connecting with the stale Id would fail exactly like before
+ * the reload.
+ *
+ * Matches on the Id first, then on the DisplayName without the '(OFFLINE)' marker
+ * ('X (INDI) (OFFLINE)' becomes 'X (INDI)'). Deliberately does not fall back to "the only
+ * INDI device in the list": with two devices of the same type that would silently connect
+ * something the user never picked.
+ *
+ * @returns the matching device, or null when it did not come back.
+ */
+export function resolveReloadedDevice(offlineEntry, devices) {
+  if (!offlineEntry || !Array.isArray(devices)) return null;
+
+  const byId = devices.find((d) => String(d.Id) === String(offlineEntry.Id));
+  if (byId) return isOfflineDevice(byId) ? null : byId;
+
+  if (typeof offlineEntry.DisplayName !== 'string') return null;
+  const name = offlineEntry.DisplayName.replace(OFFLINE_SUFFIX, '');
+  if (!name) return null;
+
+  const byName = devices.find((d) => d.DisplayName === name);
+  // A match that is still OFFLINE means the reload changed nothing — the hardware really is
+  // missing, so this counts as unresolved rather than as something to connect to.
+  if (!byName || isOfflineDevice(byName)) return null;
+  return byName;
+}
+
 /**
  * Returns the configured INDI driver for an apiAction, or null when the device is not
  * INDI-backed (no mapping, no INDI support, no driver, or explicitly 'None').

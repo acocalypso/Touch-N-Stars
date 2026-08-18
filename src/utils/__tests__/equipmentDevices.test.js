@@ -8,8 +8,14 @@ installBrowserGlobals();
 // at module load.
 const { apiStore } = await import('@/store/store');
 const apiService = (await import('@/services/apiService')).default;
-const { apiActionForApiName, getIndiDriver, isOfflineDevice, reloadIndiDriver, setProfileDevice } =
-  await import('@/utils/equipmentDevices');
+const {
+  apiActionForApiName,
+  getIndiDriver,
+  isOfflineDevice,
+  reloadIndiDriver,
+  resolveReloadedDevice,
+  setProfileDevice,
+} = await import('@/utils/equipmentDevices');
 
 // Records every API call the reload makes, in order, and keeps the real methods out of
 // the network.
@@ -161,4 +167,50 @@ test('setProfileDevice ignores an unknown apiAction', async () => {
   }
 
   assert.deepEqual(calls, []);
+});
+
+// --- resolveReloadedDevice --------------------------------------------------
+// The OFFLINE entry is a placeholder PINS builds from the profile; the restarted driver
+// derives the Id from the INDI device name and need not reproduce it.
+
+const OFFLINE_ENTRY = {
+  Id: 'ZWO CAA CAA',
+  DisplayName: 'ZWO CAA CAA (INDI) (OFFLINE)',
+  Category: 'OFFLINE',
+};
+const ONLINE_ENTRY = {
+  Id: 'ZWO CAA CAA',
+  DisplayName: 'ZWO CAA CAA (INDI)',
+  Category: 'INDI',
+};
+
+test('resolveReloadedDevice matches on the id first', () => {
+  const other = { Id: 'other', DisplayName: 'ZWO CAA CAA (INDI)', Category: 'INDI' };
+  assert.equal(resolveReloadedDevice(OFFLINE_ENTRY, [other, ONLINE_ENTRY]), ONLINE_ENTRY);
+});
+
+test('resolveReloadedDevice falls back to the name without the OFFLINE suffix', () => {
+  // The reloaded driver handed out a different id than the profile had stored.
+  const stale = { ...OFFLINE_ENTRY, Id: 'stale-profile-id' };
+  assert.equal(resolveReloadedDevice(stale, [ONLINE_ENTRY]), ONLINE_ENTRY);
+});
+
+test('resolveReloadedDevice treats a still-offline match as unresolved', () => {
+  // Reload changed nothing: the hardware really is missing.
+  assert.equal(resolveReloadedDevice(OFFLINE_ENTRY, [OFFLINE_ENTRY]), null);
+
+  const stale = { ...OFFLINE_ENTRY, Id: 'stale-profile-id' };
+  assert.equal(resolveReloadedDevice(stale, [OFFLINE_ENTRY]), null);
+});
+
+test('resolveReloadedDevice never guesses another device', () => {
+  const unrelated = { Id: 'other', DisplayName: 'Manual rotator', Category: 'N.I.N.A.' };
+  assert.equal(resolveReloadedDevice(OFFLINE_ENTRY, [unrelated]), null);
+});
+
+test('resolveReloadedDevice tolerates empty and missing input', () => {
+  assert.equal(resolveReloadedDevice(OFFLINE_ENTRY, []), null);
+  assert.equal(resolveReloadedDevice(null, [ONLINE_ENTRY]), null);
+  assert.equal(resolveReloadedDevice(OFFLINE_ENTRY, null), null);
+  assert.equal(resolveReloadedDevice({ Id: 'x' }, [ONLINE_ENTRY]), null);
 });

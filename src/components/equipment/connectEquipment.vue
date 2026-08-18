@@ -395,6 +395,8 @@ import {
   getIndiDriver,
   isOfflineDevice,
   reloadIndiDriver,
+  resolveReloadedDevice,
+  setProfileDevice,
 } from '@/utils/equipmentDevices';
 import { useEquipmentStore } from '@/store/equipmentStore';
 
@@ -605,8 +607,24 @@ async function reloadOfflineIndiDrivers() {
       const response = await apiService[apiAction]('list-devices');
       const list = Array.isArray(response?.Response) ? response.Response : [];
       const entry = list.find((d) => String(d.Id) === String(device.id));
-      if (isOfflineDevice(entry)) {
-        reloaded = (await reloadIndiDriver(apiAction)) || reloaded;
+      if (!isOfflineDevice(entry)) continue;
+      if (!(await reloadIndiDriver(apiAction))) continue;
+      reloaded = true;
+
+      // The restarted driver derives the Id from the INDI device name, which need not match
+      // the Id the profile stored. Since connectAll() connects without ?to=, it would keep
+      // using the dead profile Id — so write the resolved one back.
+      const refreshed = await apiService[apiAction]('list-devices');
+      const resolved = resolveReloadedDevice(
+        entry,
+        Array.isArray(refreshed?.Response) ? refreshed.Response : []
+      );
+      if (!resolved) {
+        console.warn(`[Connect Equipment] ${device.apiName} did not come back after the reload`);
+        continue;
+      }
+      if (String(resolved.Id) !== String(device.id)) {
+        await setProfileDevice(apiAction, String(resolved.Id));
       }
     } catch (error) {
       // One device must not stop the others from connecting.

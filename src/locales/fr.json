@@ -686,6 +686,8 @@
       "cameraNoSettings": "This camera has no settings to configure."
     },
     "selectDevices": {
+      "deviceNotFound": "Appareil introuvable",
+      "deviceNotFoundMessage": "Le pilote INDI a été rechargé, mais « {device} » n'est pas apparu. Vérifiez l'alimentation et sélectionnez à nouveau l'appareil.",
       "reloadingDriver": "Rechargement du pilote INDI…"
     },
     "connectEquipment": {

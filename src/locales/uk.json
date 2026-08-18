@@ -666,6 +666,8 @@
       "cameraNoSettings": "This camera has no settings to configure."
     },
     "selectDevices": {
+      "deviceNotFound": "Пристрій не знайдено",
+      "deviceNotFoundMessage": "Драйвер INDI перезавантажено, але «{device}» не з’явився. Перевірте живлення та виберіть пристрій ще раз.",
       "reloadingDriver": "Перезавантаження драйвера INDI…"
     },
     "connectEquipment": {

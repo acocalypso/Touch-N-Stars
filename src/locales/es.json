@@ -685,6 +685,9 @@
       "noReconnectHint": "Los nuevos ajustes se aplicarán en la próxima conexión.",
       "cameraNoSettings": "Esta cámara no tiene ajustes para configurar."
     },
+    "selectDevices": {
+      "reloadingDriver": "Recargando el controlador INDI…"
+    },
     "connectEquipment": {
       "camera": {
         "name": "Cámara"

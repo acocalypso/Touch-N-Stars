@@ -694,6 +694,9 @@
       "noReconnectHint": "新しい設定は次回の接続時に反映されます。",
       "cameraNoSettings": "このカメラには設定項目がありません。"
     },
+    "selectDevices": {
+      "reloadingDriver": "INDI ドライバーを再読み込みしています…"
+    },
     "connectEquipment": {
       "camera": {
         "name": "カメラ"

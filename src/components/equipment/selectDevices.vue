@@ -4,77 +4,83 @@
     class="flex flex-col sm:flex-row border p-2 rounded-lg h-full gap-2 sm:items-center transition-all duration-300"
   >
     <label class="text-sm sm:w-36 shrink-0" for="deviceSelect">{{ deviceName }}:</label>
-    <div class="flex gap-2 items-center w-full">
-      <select
-        id="deviceSelect"
-        class="w-full tns-select min-w-0"
-        v-model="selectedDevice"
-        :disabled="isConnected"
-      >
-        <!-- Placeholder for a selection that is not (yet) in the fetched list, e.g. while
+    <div class="flex flex-col gap-1 w-full">
+      <div class="flex gap-2 items-center w-full">
+        <select
+          id="deviceSelect"
+          class="w-full tns-select min-w-0"
+          v-model="selectedDevice"
+          :disabled="isConnected"
+        >
+          <!-- Placeholder for a selection that is not (yet) in the fetched list, e.g. while
              the list is still empty after a backend restart. Hidden once the list contains
              it, otherwise the device would show up twice. -->
-        <option v-if="!isSelectedDeviceInList" disabled>{{ selectedDevice }}</option>
-        <option
-          v-for="device in displayDevices"
-          :key="device.DisplayName"
-          :value="String(device.DisplayName)"
-        >
-          {{ device.displayLabel }}
-        </option>
-      </select>
-      <div class="flex shrink-0 gap-1">
-        <button
-          v-if="store.isPINS"
-          @click="configDevice"
-          :disabled="
-            isScanning ||
-            isConnected ||
-            (!props.alwaysEnableConfig && !(selectedDeviceObj && selectedDeviceObj.HasSetupDialog))
-          "
-          class="flex justify-center items-center w-10 h-10 border border-cyan-500/20 bg-gray-700 text-white rounded-lg hover:bg-gray-600 disabled:opacity-70"
-        >
-          <Cog6ToothIcon
-            class="w-6 h-6"
-            :class="{
-              'text-gray-400':
-                isScanning ||
-                isConnected ||
-                (!props.alwaysEnableConfig &&
-                  !(selectedDeviceObj && selectedDeviceObj.HasSetupDialog)),
-            }"
-          />
-        </button>
-        <button
-          @click="rescanDevices"
-          :disabled="isScanning || isConnected"
-          class="flex justify-center items-center w-10 h-10 border border-cyan-500/20 bg-gray-700 text-white rounded-lg hover:bg-gray-600 disabled:opacity-70"
-        >
-          <ArrowPathIcon
-            class="w-6 h-6"
-            :class="{ 'text-green-500 spin': isScanning, 'text-white': !isScanning }"
-          />
-        </button>
-        <button
-          @click="
-            isToggleCon && store.isPINS
-              ? cancelConnect()
-              : disableConnect && disableConnectMessage
-                ? openDisableInfo()
-                : toggleConnection()
-          "
-          :disabled="isToggleCon && !store.isPINS"
-          class="flex justify-center items-center w-10 h-10 border border-cyan-500/20 bg-gray-700 text-white rounded-lg hover:bg-gray-600 disabled:opacity-30"
-        >
-          <XCircleIcon v-if="isToggleCon && store.isPINS" class="w-6 h-6 text-yellow-500" />
-          <InformationCircleIcon
-            v-else-if="disableConnect && disableConnectMessage"
-            class="w-6 h-6 text-yellow-500"
-          />
-          <LinkIcon v-else-if="!isConnected" class="w-6 h-6" />
-          <LinkSlashIcon v-else class="w-6 h-6 text-red-600" />
-        </button>
+          <option v-if="!isSelectedDeviceInList" disabled>{{ selectedDevice }}</option>
+          <option
+            v-for="device in displayDevices"
+            :key="device.DisplayName"
+            :value="String(device.DisplayName)"
+          >
+            {{ device.displayLabel }}
+          </option>
+        </select>
+        <div class="flex shrink-0 gap-1">
+          <button
+            v-if="store.isPINS"
+            @click="configDevice"
+            :disabled="
+              isScanning ||
+              isConnected ||
+              (!props.alwaysEnableConfig &&
+                !(selectedDeviceObj && selectedDeviceObj.HasSetupDialog))
+            "
+            class="flex justify-center items-center w-10 h-10 border border-cyan-500/20 bg-gray-700 text-white rounded-lg hover:bg-gray-600 disabled:opacity-70"
+          >
+            <Cog6ToothIcon
+              class="w-6 h-6"
+              :class="{
+                'text-gray-400':
+                  isScanning ||
+                  isConnected ||
+                  (!props.alwaysEnableConfig &&
+                    !(selectedDeviceObj && selectedDeviceObj.HasSetupDialog)),
+              }"
+            />
+          </button>
+          <button
+            @click="rescanDevices"
+            :disabled="isScanning || isConnected"
+            class="flex justify-center items-center w-10 h-10 border border-cyan-500/20 bg-gray-700 text-white rounded-lg hover:bg-gray-600 disabled:opacity-70"
+          >
+            <ArrowPathIcon
+              class="w-6 h-6"
+              :class="{ 'text-green-500 spin': isScanning, 'text-white': !isScanning }"
+            />
+          </button>
+          <button
+            @click="
+              isToggleCon && store.isPINS
+                ? cancelConnect()
+                : disableConnect && disableConnectMessage
+                  ? openDisableInfo()
+                  : toggleConnection()
+            "
+            :disabled="isToggleCon && !store.isPINS"
+            class="flex justify-center items-center w-10 h-10 border border-cyan-500/20 bg-gray-700 text-white rounded-lg hover:bg-gray-600 disabled:opacity-30"
+          >
+            <XCircleIcon v-if="isToggleCon && store.isPINS" class="w-6 h-6 text-yellow-500" />
+            <InformationCircleIcon
+              v-else-if="disableConnect && disableConnectMessage"
+              class="w-6 h-6 text-yellow-500"
+            />
+            <LinkIcon v-else-if="!isConnected" class="w-6 h-6" />
+            <LinkSlashIcon v-else class="w-6 h-6 text-red-600" />
+          </button>
+        </div>
       </div>
+      <span v-if="isReloadingDriver" class="text-xs text-content-faint">
+        {{ $t('components.selectDevices.reloadingDriver') }}
+      </span>
     </div>
 
     <!-- Disable Info Modal -->
@@ -111,6 +117,7 @@ import {
 import { useEquipmentStore } from '@/store/equipmentStore';
 import { useI18n } from 'vue-i18n';
 import { checkMountConnectionPermission } from '@/utils/locationSyncUtils';
+import { INDI_DEVICE_MAP, isOfflineDevice, reloadIndiDriver } from '@/utils/indiDriverReload';
 import { apiStore } from '@/store/store';
 
 const equipmentStore = useEquipmentStore();
@@ -132,6 +139,7 @@ const selectedDevice = ref('');
 const error = ref(false);
 const isScanning = ref(false);
 const isToggleCon = ref(false);
+const isReloadingDriver = ref(false);
 const borderClass = ref('border-gray-500');
 const showDisableModal = ref(false);
 
@@ -202,6 +210,15 @@ async function getDevices(maxRetries = 3, delayMs = 2000) {
   const isStale = () => generation !== fetchGeneration;
 
   cancelEmptyRetry();
+
+  // On a cold start this component mounts before the port handshake in the store has
+  // finished. Firing now would only produce ':null/v2/api/...' URLs and burn the first of
+  // the three fast retries; the apiPort watcher refetches as soon as the port is known.
+  if (!store.apiPort) {
+    scheduleEmptyRetry();
+    return;
+  }
+
   error.value = false;
   isScanning.value = true;
 
@@ -355,6 +372,30 @@ async function toggleConnection() {
           return;
         }
       }
+      // A device PINS reports as OFFLINE can never be connected: its INDI driver was started
+      // before the hardware had power (typically a power box port) and therefore never saw
+      // it. Restarting the driver is what makes it appear — until now users had to do that
+      // by hand in the INDI setup dialog.
+      if (isOfflineDevice(selectedDeviceObj.value) && INDI_DEVICE_MAP[props.apiAction]) {
+        isReloadingDriver.value = true;
+        try {
+          if (await reloadIndiDriver(props.apiAction)) {
+            await getDevices();
+            // The Id survives the reload, the DisplayName does not: the '(OFFLINE)' suffix
+            // is gone, so the selection has to be resolved through the Id.
+            const name = getDeviceName(deviceId);
+            if (name) {
+              selectedDevice.value = name;
+            }
+          }
+        } catch (err) {
+          // Fall through to the connect attempt; its error handling reports the failure.
+          console.warn('[selectDevices] INDI driver reload failed:', err);
+        } finally {
+          isReloadingDriver.value = false;
+        }
+      }
+
       console.log('connect to', selectedDevice.value, 'ID:', deviceId);
       const response = await apiService[props.apiAction]('connect?to=' + encodedId);
       console.log('response', response);
@@ -457,6 +498,17 @@ watch(
   () => store.isBackendReachable,
   (reachable) => {
     if (reachable) {
+      getDevices();
+    }
+  }
+);
+
+// The port handshake usually completes in well under a second, so waiting for the 10s
+// background retry after a skipped cold-start fetch would be needlessly slow.
+watch(
+  () => store.apiPort,
+  (port) => {
+    if (port) {
       getDevices();
     }
   }

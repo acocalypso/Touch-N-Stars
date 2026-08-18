@@ -726,6 +726,9 @@
       "noReconnectHint": "Neue Einstellungen werden erst beim nächsten Verbinden wirksam.",
       "cameraNoSettings": "Für diese Kamera gibt es keine Einstellungen."
     },
+    "selectDevices": {
+      "reloadingDriver": "INDI-Treiber wird neu geladen…"
+    },
     "connectEquipment": {
       "camera": {
         "name": "Kamera"

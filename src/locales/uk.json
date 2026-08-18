@@ -665,6 +665,9 @@
       "noReconnectHint": "New settings take effect on the next connect.",
       "cameraNoSettings": "This camera has no settings to configure."
     },
+    "selectDevices": {
+      "reloadingDriver": "Перезавантаження драйвера INDI…"
+    },
     "connectEquipment": {
       "camera": {
         "name": "Камера"

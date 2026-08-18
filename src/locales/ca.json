@@ -726,6 +726,9 @@
       "noReconnectHint": "La nova configuració s'aplica en la propera connexió.",
       "cameraNoSettings": "Aquesta càmera no té configuració a ajustar."
     },
+    "selectDevices": {
+      "reloadingDriver": "S'està tornant a carregar el controlador INDI…"
+    },
     "connectEquipment": {
       "camera": {
         "name": "Càmera"

@@ -685,6 +685,9 @@
       "noReconnectHint": "New settings take effect on the next connect.",
       "cameraNoSettings": "This camera has no settings to configure."
     },
+    "selectDevices": {
+      "reloadingDriver": "正在重新加载 INDI 驱动…"
+    },
     "connectEquipment": {
       "camera": {
         "name": "相机"

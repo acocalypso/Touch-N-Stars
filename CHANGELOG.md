@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Status bar: Entries no longer jump to the front when something needs attention, and Progress, Log and Instance are no longer pinned to the right edge
 
 ### Fixed
+- Equipment: INDI devices that only get power after the driver started (e.g. a rotator on a power box port) were listed as OFFLINE and could not be connected. The driver is now reloaded automatically instead of requiring a manual reselect in the INDI setup dialog
 - Guiding (PHD2): On narrow screens the guiding status covered the star image and the star profile. The status is now shown at the bottom left, and both tiles adapt their size to the available width instead of being cut off
 - Status bar: Panels opened from the status bar covered the lower edge of the page including its rounded corners
 - Mount: With drivers that keep reporting "slewing" after a park has finished (e.g. ZWO AM5N), the mount status stayed on a red "Slewing" with an endlessly turning spinner instead of "Parked", and the slew button stayed a red stop button. A parked mount is now never shown as slewing. During a real slew the status stays green with the spinner instead of turning yellow

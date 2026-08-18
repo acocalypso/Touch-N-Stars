@@ -1379,6 +1379,7 @@
           "MaxMove": "RA: 최대 이동",
           "predictive_weight": "RA: 예측 가중치",
           "reactive_weight": "RA: 반응 가중치",
+          "period_length": "RA: PEC 주기 길이 (초)",
           "slope_weight": "RA: 기울기 가중치",
           "exp_factor": "RA: 노출 계수"
         },
@@ -1510,6 +1511,7 @@
             "hysteresis": "Weight given to the history of recent corrections versus the latest frame, in percent. Higher values smooth the corrections but react more slowly to a genuine change of direction.",
             "predictiveWeight": "Predictive PEC: weight of the predicted (modelled) part of the correction. Defaults suit most mounts; large changes can worsen guiding.",
             "reactiveWeight": "Predictive PEC: weight of the reactive part, based on the star's displacement in the latest frame. Defaults suit most mounts.",
+            "periodLength": "Predictive PEC: 마운트 웜 주기의 길이(초). PHD2는 이 값으로 반복되는 RA 오차를 모델링해 미리 보정합니다. 마운트 사양(EQ6는 약 479초)에서 확인하거나 가이딩 FFT의 PEC 피크에서 읽으세요.",
             "slopeWeight": "LowPass: how much the recent trend (slope) of star movement influences the correction, in percent. Keeps the algorithm from being too sluggish; 0 uses only the median of recent history.",
             "expFactor": "ZFilter: the virtual exposure time equals the real exposure × this factor. Higher values filter more seeing (smoother but slower); a virtual exposure of ~2–4 s is a good starting point for RA."
           },

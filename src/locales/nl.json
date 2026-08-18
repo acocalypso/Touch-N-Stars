@@ -1328,6 +1328,7 @@
           "MaxMove": "RA: Max beweging",
           "predictive_weight": "RA: Voorspellend gewicht",
           "reactive_weight": "RA: Reactief gewicht",
+          "period_length": "RA: PEC-periodelengte (s)",
           "slope_weight": "RA: Hellinggewicht",
           "exp_factor": "RA: Blootstellingsfactor"
         },
@@ -1472,6 +1473,7 @@
             "hysteresis": "Gewicht dat aan de geschiedenis van recente correcties wordt gegeven t.o.v. het huidige frame, in procenten. Hoge waarden vereffenen de correcties maar reageren trager op een echte richtingswisseling.",
             "predictiveWeight": "Predictive PEC: gewicht van het voorspelde (gemodelleerde) deel van de correctie. Standaardwaarden voldoen voor de meeste monteringen; grote wijzigingen kunnen het guiden verslechteren.",
             "reactiveWeight": "Predictive PEC: gewicht van het reactieve deel, gebaseerd op de sterverplaatsing in het laatste frame. Standaardwaarden voldoen voor de meeste monteringen.",
+            "periodLength": "Predictive PEC: lengte van de wormperiode van de montering in seconden. PHD2 modelleert daarmee de terugkerende RA-fout en corrigeert die vooruitlopend. Neem de waarde uit de specificatie van de montering (ongeveer 479 s bij een EQ6) of lees hem af aan de PEC-piek in de guiding-FFT.",
             "slopeWeight": "LowPass: hoezeer de recente trend (de helling) van de sterbeweging de correctie beïnvloedt, in procenten. Voorkomt dat het algoritme te traag wordt; 0 gebruikt alleen de mediaan van de recente geschiedenis.",
             "expFactor": "ZFilter: de virtuele belichtingstijd is de werkelijke belichting × deze factor. Hoge waarden filteren meer seeing weg (vloeiender maar trager); een virtuele belichting van ~2–4 s is een goed startpunt voor RA."
           },

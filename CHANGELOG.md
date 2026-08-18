@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [App6.1.4-beta4] - 2026-08-16
 
 ### Added
+- Guiding (PHD2): The Predictive PEC period length can now be set
 - Status bar: Entries can be reordered and hidden under Settings > General, just like the navigation bar
 - Mount: The target search under Slew now also finds stars, not just DSOs
 - Nightsummary Plugin: is now also supported in NINA 

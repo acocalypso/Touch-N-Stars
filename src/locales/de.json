@@ -1408,6 +1408,7 @@
             "hysteresis": "Gewichtung der Historie jüngster Korrekturen gegenüber dem aktuellen Frame, in Prozent. Höhere Werte glätten die Korrekturen, reagieren aber langsamer auf einen echten Richtungswechsel.",
             "predictiveWeight": "Predictive PEC: Gewichtung des vorhergesagten (modellierten) Korrekturanteils. Standardwerte passen für die meisten Montierungen; große Änderungen können das Guiding verschlechtern.",
             "reactiveWeight": "Predictive PEC: Gewichtung des reaktiven Anteils, basierend auf der Sternverschiebung im aktuellen Frame. Standardwerte passen für die meisten Montierungen.",
+            "periodLength": "Predictive PEC: Länge der Schneckenperiode der Montierung in Sekunden. PHD2 modelliert damit den wiederkehrenden RA-Fehler und korrigiert ihn vorausschauend. Der Wert steht im Datenblatt der Montierung (bei einer EQ6 etwa 479 s) oder lässt sich am PEC-Peak in der Guiding-FFT ablesen.",
             "slopeWeight": "LowPass: wie stark der jüngste Trend (die Steigung) der Sternbewegung in die Korrektur einfließt, in Prozent. Verhindert, dass der Algorithmus zu träge wird; 0 nutzt nur den Median der jüngsten Historie.",
             "expFactor": "ZFilter: die virtuelle Belichtungszeit entspricht der realen Belichtung × diesem Faktor. Höhere Werte filtern mehr Seeing (glatter, aber langsamer); eine virtuelle Belichtung von ~2–4 s ist ein guter Startpunkt für RA."
           },
@@ -1432,6 +1433,7 @@
           "MaxMove": "RA: Max move",
           "predictive_weight": "RA: Vorhersage Gewichtung",
           "reactive_weight": "RA: Reaktive Gewichtung",
+          "period_length": "RA: PEC-Periodenlänge (s)",
           "slope_weight": "RA: Trend Gewichtung",
           "exp_factor": "RA: Belichtungsfaktor"
         },

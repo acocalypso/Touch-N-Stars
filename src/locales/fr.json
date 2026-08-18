@@ -1328,6 +1328,7 @@
           "MaxMove": "RA: Mouvement max",
           "predictive_weight": "RA: Poids prédictif",
           "reactive_weight": "RA: Poids réactif",
+          "period_length": "RA: Longueur de période PEC (s)",
           "slope_weight": "RA: Poids de pente",
           "exp_factor": "RA: Facteur d'exposition"
         },
@@ -1472,6 +1473,7 @@
             "hysteresis": "Poids donné à l’historique des corrections récentes par rapport à la trame actuelle, en pourcentage. Des valeurs élevées lissent les corrections mais réagissent plus lentement à un vrai changement de direction.",
             "predictiveWeight": "Predictive PEC : poids de la part prédite (modélisée) de la correction. Les valeurs par défaut conviennent à la plupart des montures ; de gros changements peuvent dégrader le guidage.",
             "reactiveWeight": "Predictive PEC : poids de la part réactive, basée sur le déplacement de l’étoile dans la dernière trame. Les valeurs par défaut conviennent à la plupart des montures.",
+            "periodLength": "Predictive PEC : durée de la période de la vis sans fin de la monture, en secondes. PHD2 s'en sert pour modéliser et pré-corriger l'erreur périodique en AD. Reprenez-la de la fiche technique de la monture (environ 479 s pour une EQ6) ou lisez-la sur le pic PEC de la FFT du guidage.",
             "slopeWeight": "LowPass : influence de la tendance récente (la pente) du mouvement de l’étoile sur la correction, en pourcentage. Évite que l’algorithme soit trop lent ; 0 n’utilise que la médiane de l’historique récent.",
             "expFactor": "ZFilter : la durée d’exposition virtuelle vaut l’exposition réelle × ce facteur. Des valeurs élevées filtrent davantage le seeing (plus lisse mais plus lent) ; une exposition virtuelle de ~2–4 s est un bon point de départ pour l’AD."
           },

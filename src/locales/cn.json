@@ -685,6 +685,11 @@
       "noReconnectHint": "New settings take effect on the next connect.",
       "cameraNoSettings": "This camera has no settings to configure."
     },
+    "selectDevices": {
+      "deviceNotFound": "未找到设备",
+      "deviceNotFoundMessage": "已重新加载 INDI 驱动，但未出现“{device}”。请检查供电并重新选择设备。",
+      "reloadingDriver": "正在重新加载 INDI 驱动…"
+    },
     "connectEquipment": {
       "camera": {
         "name": "相机"

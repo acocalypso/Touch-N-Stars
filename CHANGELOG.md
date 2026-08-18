@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [App6.1.4-beta5] - 2026-08-18
+
+### Added
+- Hardware Compatibility plugin: Look up which hardware works with which driver, and report your own findings to a shared, crowdsourced database
+
+### Fixed
+- Equipment: INDI devices that only get power after the driver started (e.g. a rotator on a power box port) were listed as OFFLINE and could not be connected. The driver is now reloaded automatically instead of requiring a manual reselect in the INDI setup dialog
+- Equipment: A device selection now goes straight into the profile instead of being reset by the next device list refresh, so "No device" can finally be selected
+
 ## [App6.1.4-beta4] - 2026-08-16
 
 ### Added

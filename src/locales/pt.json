@@ -685,6 +685,11 @@
       "noReconnectHint": "New settings take effect on the next connect.",
       "cameraNoSettings": "This camera has no settings to configure."
     },
+    "selectDevices": {
+      "deviceNotFound": "Dispositivo não encontrado",
+      "deviceNotFoundMessage": "O controlador INDI foi recarregado, mas '{device}' não apareceu. Verifica a alimentação e seleciona o dispositivo novamente.",
+      "reloadingDriver": "A recarregar o controlador INDI…"
+    },
     "connectEquipment": {
       "camera": {
         "name": "Câmera"

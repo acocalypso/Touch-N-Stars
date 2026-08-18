@@ -726,6 +726,11 @@
       "noReconnectHint": "New settings take effect on the next connect.",
       "cameraNoSettings": "This camera has no settings to configure."
     },
+    "selectDevices": {
+      "deviceNotFound": "Device not found",
+      "deviceNotFoundMessage": "The INDI driver was reloaded, but '{device}' did not appear. Check the power supply and select the device again.",
+      "reloadingDriver": "Reloading INDI driver…"
+    },
     "connectEquipment": {
       "camera": {
         "name": "Camera"

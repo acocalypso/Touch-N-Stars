@@ -694,6 +694,11 @@
       "noReconnectHint": "新しい設定は次回の接続時に反映されます。",
       "cameraNoSettings": "このカメラには設定項目がありません。"
     },
+    "selectDevices": {
+      "deviceNotFound": "デバイスが見つかりません",
+      "deviceNotFoundMessage": "INDI ドライバーを再読み込みしましたが、「{device}」は現れませんでした。電源を確認して、デバイスを選び直してください。",
+      "reloadingDriver": "INDI ドライバーを再読み込みしています…"
+    },
     "connectEquipment": {
       "camera": {
         "name": "カメラ"

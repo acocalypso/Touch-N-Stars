@@ -726,6 +726,11 @@
       "noReconnectHint": "La nova configuració s'aplica en la propera connexió.",
       "cameraNoSettings": "Aquesta càmera no té configuració a ajustar."
     },
+    "selectDevices": {
+      "deviceNotFound": "Dispositiu no trobat",
+      "deviceNotFoundMessage": "S'ha tornat a carregar el controlador INDI, però «{device}» no ha aparegut. Comprova l'alimentació i torna a seleccionar el dispositiu.",
+      "reloadingDriver": "S'està tornant a carregar el controlador INDI…"
+    },
     "connectEquipment": {
       "camera": {
         "name": "Càmera"

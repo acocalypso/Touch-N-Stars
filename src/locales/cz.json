@@ -685,6 +685,11 @@
       "noReconnectHint": "New settings take effect on the next connect.",
       "cameraNoSettings": "This camera has no settings to configure."
     },
+    "selectDevices": {
+      "deviceNotFound": "Zařízení nenalezeno",
+      "deviceNotFoundMessage": "Ovladač INDI byl znovu načten, ale „{device}“ se neobjevil. Zkontrolujte napájení a vyberte zařízení znovu.",
+      "reloadingDriver": "Znovu se načítá ovladač INDI…"
+    },
     "connectEquipment": {
       "camera": {
         "name": "Kamera"

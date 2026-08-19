@@ -491,6 +491,19 @@
         "title": "Udržet Obrazovku Aktivní",
         "description": "Zabraňte usnutí nebo uzamčení zařízení, když je aplikace otevřená."
       },
+      "backupRestore": {
+        "title": "Zálohování a obnovení",
+        "description": "Uloží nastavení tohoto zařízení do souboru a obnoví je na jiném zařízení.",
+        "profileWarning": "Tímto se zálohují pouze nastavení aplikace na tomto zařízení. Nastavení vybavení, kamery, montáže a další jsou uložena v profilu NINA nebo PINS - pro úplnou zálohu je zálohujte samostatně.",
+        "exportButton": "Exportovat zálohu",
+        "importButton": "Obnovit ze zálohy",
+        "exportSuccess": "Záloha uložena jako {filename} ({count} položek).",
+        "exportError": "Soubor zálohy se nepodařilo uložit.",
+        "confirmImportTitle": "Obnovit zálohu?",
+        "confirmImportMessage": "Tímto se přepíší nastavení na tomto zařízení, včetně uložených instancí. Aplikace se poté znovu načte.",
+        "importSuccess": "Obnoveno {count} položek. Načítání…",
+        "importError": "Zálohu se nepodařilo obnovit: {error}"
+      },
       "wifiBinding": {
         "title": "Vazba na místní síť",
         "description": "Udržuje aplikaci připojenou přes Wi-Fi, když instance běží v místní síti bez internetu (např. PINS hotspot), zatímco zbytek telefonu dál používá mobilní data."

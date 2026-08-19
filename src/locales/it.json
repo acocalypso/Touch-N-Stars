@@ -491,6 +491,19 @@
         "title": "Mantieni schermo acceso",
         "description": "Impedisce al dispositivo di spegnersi o bloccarsi mentre l'app è aperta."
       },
+      "backupRestore": {
+        "title": "Backup e ripristino",
+        "description": "Salva le impostazioni memorizzate su questo dispositivo in un file e ripristinale su un altro dispositivo.",
+        "profileWarning": "Questo esegue il backup solo delle impostazioni dell'app su questo dispositivo. Le impostazioni di attrezzatura, fotocamera, montatura e altre si trovano nel profilo NINA o PINS: eseguine il backup separatamente per un backup completo.",
+        "exportButton": "Esporta backup",
+        "importButton": "Ripristina da backup",
+        "exportSuccess": "Backup salvato come {filename} ({count} voci).",
+        "exportError": "Impossibile salvare il file di backup.",
+        "confirmImportTitle": "Ripristinare il backup?",
+        "confirmImportMessage": "Questo sovrascriverà le impostazioni su questo dispositivo, incluse le istanze salvate. L'app verrà quindi ricaricata.",
+        "importSuccess": "{count} voci ripristinate. Ricaricamento…",
+        "importError": "Impossibile ripristinare il backup: {error}"
+      },
       "wifiBinding": {
         "title": "Associazione alla rete locale",
         "description": "Mantiene l'app connessa tramite Wi-Fi quando l'istanza è in una rete locale senza internet (ad es. hotspot PINS), mentre il resto del telefono continua a usare i dati mobili."

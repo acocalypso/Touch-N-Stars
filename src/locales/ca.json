@@ -574,6 +574,19 @@
         "title": "Mantén la pantalla activa",
         "description": "Evita que el dispositiu s'enfosqueixi o es bloquegi mentre l'aplicació és oberta."
       },
+      "backupRestore": {
+        "title": "Còpia de seguretat i restauració",
+        "description": "Desa els ajustos emmagatzemats en aquest dispositiu en un fitxer i restaura'ls en un altre dispositiu.",
+        "profileWarning": "Això només fa còpia de seguretat dels ajustos de l'aplicació en aquest dispositiu. Els ajustos d'equip, càmera, muntura i altres es troben al perfil de NINA o PINS - fes-ne una còpia de seguretat per separat per a una còpia completa.",
+        "exportButton": "Exporta la còpia de seguretat",
+        "importButton": "Restaura des d'una còpia de seguretat",
+        "exportSuccess": "Còpia de seguretat desada com a {filename} ({count} entrades).",
+        "exportError": "No s'ha pogut desar el fitxer de còpia de seguretat.",
+        "confirmImportTitle": "Restaurar la còpia de seguretat?",
+        "confirmImportMessage": "Això sobreescriurà els ajustos d'aquest dispositiu, incloses les instàncies desades. Després l'aplicació es tornarà a carregar.",
+        "importSuccess": "{count} entrades restaurades. Recarregant…",
+        "importError": "No s'ha pogut restaurar la còpia de seguretat: {error}"
+      },
       "wifiBinding": {
         "title": "Vinculació a la xarxa local",
         "description": "Manté l'aplicació connectada per Wi-Fi quan la instància funciona en una xarxa local sense internet (p. ex., punt d'accés PINS), mentre la resta del telèfon segueix usant dades mòbils."

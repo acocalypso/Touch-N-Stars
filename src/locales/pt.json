@@ -491,6 +491,19 @@
         "title": "Manter tela ligada",
         "description": "Impede que o dispositivo escureça ou trave enquanto o aplicativo está aberto."
       },
+      "backupRestore": {
+        "title": "Backup e restauração",
+        "description": "Salva as configurações armazenadas neste dispositivo em um arquivo e as restaura em outro dispositivo.",
+        "profileWarning": "Isso faz backup apenas das configurações do app neste dispositivo. As configurações de equipamento, câmera, montagem e outras ficam no perfil do NINA ou PINS - faça o backup dele separadamente para um backup completo.",
+        "exportButton": "Exportar backup",
+        "importButton": "Restaurar do backup",
+        "exportSuccess": "Backup salvo como {filename} ({count} entradas).",
+        "exportError": "Não foi possível salvar o arquivo de backup.",
+        "confirmImportTitle": "Restaurar backup?",
+        "confirmImportMessage": "Isso substituirá as configurações neste dispositivo, incluindo as instâncias salvas. O app será recarregado em seguida.",
+        "importSuccess": "{count} entradas restauradas. Recarregando…",
+        "importError": "Não foi possível restaurar o backup: {error}"
+      },
       "wifiBinding": {
         "title": "Vinculação à rede local",
         "description": "Mantém o aplicativo conectado por Wi-Fi quando a sua instância está em uma rede local sem internet (ex.: hotspot PINS), enquanto o resto do telefone continua usando dados móveis."

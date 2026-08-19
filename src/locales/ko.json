@@ -574,6 +574,19 @@
         "title": "화면 켜짐 유지",
         "description": "앱이 열려 있는 동안 기기가 어두워지거나 잠기지 않게 합니다."
       },
+      "backupRestore": {
+        "title": "백업 및 복원",
+        "description": "이 기기에 저장된 설정을 파일로 저장하고 다른 기기에서 복원합니다.",
+        "profileWarning": "이 기능은 이 기기의 앱 설정만 백업합니다. 장비, 카메라, 마운트 등의 설정은 NINA 또는 PINS 프로필에 저장되어 있으므로, 완전한 백업을 위해서는 별도로 백업하세요.",
+        "exportButton": "백업 내보내기",
+        "importButton": "백업에서 복원",
+        "exportSuccess": "{filename}(으)로 백업이 저장되었습니다 ({count}개 항목).",
+        "exportError": "백업 파일을 저장할 수 없습니다.",
+        "confirmImportTitle": "백업을 복원하시겠습니까?",
+        "confirmImportMessage": "저장된 인스턴스를 포함하여 이 기기의 설정이 덮어써집니다. 이후 앱이 다시 로드됩니다.",
+        "importSuccess": "{count}개 항목이 복원되었습니다. 다시 로드하는 중…",
+        "importError": "백업을 복원할 수 없습니다: {error}"
+      },
       "wifiBinding": {
         "title": "로컬 네트워크 바인딩",
         "description": "인스턴스가 인터넷이 없는 로컬 네트워크(예: PINS 핫스팟)에서 실행될 때 앱이 Wi-Fi를 통해 연결을 유지하며, 휴대폰의 나머지 통신은 계속 모바일 데이터를 사용합니다."

@@ -491,6 +491,19 @@
         "title": "Mantenga la pantalla despierta",
         "description": "Evite que el dispositivo se atenúe o se bloquee mientras la aplicación está abierta."
       },
+      "backupRestore": {
+        "title": "Copia de seguridad y restauración",
+        "description": "Guarda los ajustes almacenados en este dispositivo en un archivo y restáuralos en otro dispositivo.",
+        "profileWarning": "Esto solo respalda los ajustes de la app en este dispositivo. Los ajustes de equipo, cámara, montura y otros residen en el perfil de NINA o PINS; haz una copia de seguridad de ese perfil por separado para una copia completa.",
+        "exportButton": "Exportar copia de seguridad",
+        "importButton": "Restaurar desde copia de seguridad",
+        "exportSuccess": "Copia de seguridad guardada como {filename} ({count} entradas).",
+        "exportError": "No se pudo guardar el archivo de copia de seguridad.",
+        "confirmImportTitle": "¿Restaurar copia de seguridad?",
+        "confirmImportMessage": "Esto sobrescribirá los ajustes de este dispositivo, incluidas las instancias guardadas. La app se recargará a continuación.",
+        "importSuccess": "{count} entradas restauradas. Recargando…",
+        "importError": "No se pudo restaurar la copia de seguridad: {error}"
+      },
       "wifiBinding": {
         "title": "Vinculación a la red local",
         "description": "Mantiene la aplicación conectada por Wi-Fi cuando su instancia funciona en una red local sin internet (p. ej., hotspot PINS), mientras el resto del teléfono sigue usando datos móviles."

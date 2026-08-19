@@ -491,6 +491,19 @@
         "title": "Scherm actief",
         "description": "Voorkom dat het scherm dimt of vergrendeld terwijl de App actief is."
       },
+      "backupRestore": {
+        "title": "Back-up & herstellen",
+        "description": "Slaat de instellingen die op dit apparaat zijn opgeslagen op in een bestand en herstelt ze op een ander apparaat.",
+        "profileWarning": "Dit maakt alleen een back-up van de app-instellingen op dit apparaat. Uitrusting-, camera-, montering- en andere instellingen staan in het NINA- of PINS-profiel - maak daar apart een back-up van voor een volledige back-up.",
+        "exportButton": "Back-up exporteren",
+        "importButton": "Herstellen vanuit back-up",
+        "exportSuccess": "Back-up opgeslagen als {filename} ({count} items).",
+        "exportError": "Het back-upbestand kon niet worden opgeslagen.",
+        "confirmImportTitle": "Back-up herstellen?",
+        "confirmImportMessage": "Hiermee worden de instellingen op dit apparaat overschreven, inclusief de opgeslagen instanties. De app wordt daarna opnieuw geladen.",
+        "importSuccess": "{count} items hersteld. Opnieuw laden…",
+        "importError": "De back-up kon niet worden hersteld: {error}"
+      },
       "wifiBinding": {
         "title": "Lokale netwerkbinding",
         "description": "Houdt de app via wifi verbonden wanneer je instantie op een lokaal netwerk zonder internet draait (bijv. PINS-hotspot), terwijl de rest van de telefoon mobiele data blijft gebruiken."

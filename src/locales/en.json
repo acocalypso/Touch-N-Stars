@@ -574,6 +574,19 @@
         "title": "Keep Screen Awake",
         "description": "Prevent the device from dimming or locking while the app is open."
       },
+      "backupRestore": {
+        "title": "Backup & Restore",
+        "description": "Save the settings stored on this device to a file and restore them on another device.",
+        "profileWarning": "This only backs up app settings on this device. Equipment, camera, mount and other settings live in the NINA or PINS profile - back that up separately for a complete backup.",
+        "exportButton": "Export backup",
+        "importButton": "Restore from backup",
+        "exportSuccess": "Backup saved as {filename} ({count} entries).",
+        "exportError": "Could not save the backup file.",
+        "confirmImportTitle": "Restore backup?",
+        "confirmImportMessage": "This overwrites the settings on this device, including the saved instances. The app will reload afterwards.",
+        "importSuccess": "{count} entries restored. Reloading…",
+        "importError": "Could not restore the backup: {error}"
+      },
       "wifiBinding": {
         "title": "Local Network Binding",
         "description": "Keep the app connected through Wi-Fi when your instance runs on a local network without internet (e.g. PINS hotspot), while the rest of the phone keeps using mobile data."

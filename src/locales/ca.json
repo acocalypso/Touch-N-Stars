@@ -584,7 +584,7 @@
         "exportError": "No s'ha pogut desar el fitxer de còpia de seguretat.",
         "confirmImportTitle": "Restaurar la còpia de seguretat?",
         "confirmImportMessage": "Això sobreescriurà els ajustos d'aquest dispositiu, incloses les instàncies desades. Després l'aplicació es tornarà a carregar.",
-        "importSuccess": "{count} entrades restaurades. Recarregant…",
+        "importEmpty": "El fitxer de còpia de seguretat no conté cap ajust per restaurar.",
         "importError": "No s'ha pogut restaurar la còpia de seguretat: {error}"
       },
       "wifiBinding": {

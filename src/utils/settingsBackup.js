@@ -14,6 +14,7 @@ export const BACKUP_SCHEMA_VERSION = 1;
 const DENY_EXACT = new Set([
   'tns.pins.network-transition.v1', // in-flight PINS network handover
   'hardwareDb_installId', // per-device submission identity, must stay unique
+  'hardwareDb_submissions', // report tokens tied to that identity - denied with it
   'hardwareDb_knowledgeCache', // cache, refetched on demand
   'tilterIsConnected', // live HocusFocus tilter connection state
   'tilterDevicesList', // device cache of the machine it was scanned on
@@ -27,8 +28,12 @@ const DENY_EXACT = new Set([
   'apiToken',
 ]);
 
-// PlateSolvePlus caches its secondary driver list per base URL.
-const DENY_PREFIX = ['psp.secondaryDrivers.v1:'];
+// PlateSolvePlus caches its secondary driver list per base URL. TPPA settings
+// moved to the backend key-value store (rig-shared, not per device) - the
+// instance-scoped key only still exists as a one-time migration source on
+// devices that haven't reconnected since the move, and must not be revived by
+// a restore.
+const DENY_PREFIX = ['psp.secondaryDrivers.v1:', 'tppaStore.settings:'];
 
 export function isBackupKey(key) {
   if (typeof key !== 'string' || key === '') return false;

@@ -501,7 +501,7 @@
         "exportError": "Soubor zálohy se nepodařilo uložit.",
         "confirmImportTitle": "Obnovit zálohu?",
         "confirmImportMessage": "Tímto se přepíší nastavení na tomto zařízení, včetně uložených instancí. Aplikace se poté znovu načte.",
-        "importSuccess": "Obnoveno {count} položek. Načítání…",
+        "importEmpty": "Soubor zálohy neobsahuje žádná nastavení k obnovení.",
         "importError": "Zálohu se nepodařilo obnovit: {error}"
       },
       "wifiBinding": {

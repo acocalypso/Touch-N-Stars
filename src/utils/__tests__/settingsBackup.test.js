@@ -24,7 +24,6 @@ test('collects the real persistence keys, including plugin stores', () => {
     settings: '{"language":"de"}',
     pluginStore: '{"plugins":[]}',
     shortcuts: '{"shortcuts":[{"id":1}]}',
-    'tppaStore.settings:192.168.1.5:1888': '{"Gain":100}',
     'webcam-plugin-settings': '{"url":"http://cam"}',
   });
 
@@ -34,7 +33,6 @@ test('collects the real persistence keys, including plugin stores', () => {
     'pluginStore',
     'settings',
     'shortcuts',
-    'tppaStore.settings:192.168.1.5:1888',
     'webcam-plugin-settings',
   ]);
 });
@@ -54,11 +52,13 @@ test('per-device identities, caches and token slots are never exported', () => {
   const storage = storageWith({
     settings: '{}',
     hardwareDb_installId: 'device-abc',
+    hardwareDb_submissions: '[{"reportToken":"abc"}]',
     hardwareDb_knowledgeCache: '{"cached":true}',
     tilterIsConnected: 'true',
     tilterDevicesList: '[]',
     'tns.pins.network-transition.v1': '{"from":"ap"}',
     tppaStore: '{"legacy":true}',
+    'tppaStore.settings:192.168.1.5:1888': '{"Gain":100}',
     PINS_API_TOKEN: 'secret',
     'psp.secondaryDrivers.v1:http://10.0.0.2': '[]',
   });

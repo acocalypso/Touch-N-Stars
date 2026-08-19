@@ -584,7 +584,7 @@
         "exportError": "Could not save the backup file.",
         "confirmImportTitle": "Restore backup?",
         "confirmImportMessage": "This overwrites the settings on this device, including the saved instances. The app will reload afterwards.",
-        "importSuccess": "{count} entries restored. Reloading…",
+        "importEmpty": "The backup file contains no settings to restore.",
         "importError": "Could not restore the backup: {error}"
       },
       "wifiBinding": {

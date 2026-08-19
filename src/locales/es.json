@@ -501,7 +501,7 @@
         "exportError": "No se pudo guardar el archivo de copia de seguridad.",
         "confirmImportTitle": "¿Restaurar copia de seguridad?",
         "confirmImportMessage": "Esto sobrescribirá los ajustes de este dispositivo, incluidas las instancias guardadas. La app se recargará a continuación.",
-        "importSuccess": "{count} entradas restauradas. Recargando…",
+        "importEmpty": "El archivo de copia de seguridad no contiene ajustes que restaurar.",
         "importError": "No se pudo restaurar la copia de seguridad: {error}"
       },
       "wifiBinding": {

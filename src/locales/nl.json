@@ -501,7 +501,7 @@
         "exportError": "Het back-upbestand kon niet worden opgeslagen.",
         "confirmImportTitle": "Back-up herstellen?",
         "confirmImportMessage": "Hiermee worden de instellingen op dit apparaat overschreven, inclusief de opgeslagen instanties. De app wordt daarna opnieuw geladen.",
-        "importSuccess": "{count} items hersteld. Opnieuw laden…",
+        "importEmpty": "Het back-upbestand bevat geen instellingen om te herstellen.",
         "importError": "De back-up kon niet worden hersteld: {error}"
       },
       "wifiBinding": {

@@ -501,7 +501,7 @@
         "exportError": "无法保存备份文件。",
         "confirmImportTitle": "恢复备份？",
         "confirmImportMessage": "这将覆盖此设备上的设置，包括已保存的实例。之后应用将重新加载。",
-        "importSuccess": "已恢复 {count} 项。正在重新加载…",
+        "importEmpty": "备份文件中没有可恢复的设置。",
         "importError": "无法恢复备份：{error}"
       },
       "wifiBinding": {

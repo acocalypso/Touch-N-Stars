@@ -501,7 +501,7 @@
         "exportError": "Impossible d'enregistrer le fichier de sauvegarde.",
         "confirmImportTitle": "Restaurer la sauvegarde ?",
         "confirmImportMessage": "Cela écrasera les paramètres de cet appareil, y compris les instances enregistrées. L'application sera ensuite rechargée.",
-        "importSuccess": "{count} entrées restaurées. Rechargement…",
+        "importEmpty": "Le fichier de sauvegarde ne contient aucun paramètre à restaurer.",
         "importError": "Impossible de restaurer la sauvegarde : {error}"
       },
       "wifiBinding": {

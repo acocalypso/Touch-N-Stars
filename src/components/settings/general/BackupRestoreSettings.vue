@@ -80,7 +80,9 @@ async function onFileSelected(event) {
 
   const confirmed = await toastStore.showConfirmation(
     t('components.settings.backupRestore.confirmImportTitle'),
-    t('components.settings.backupRestore.confirmImportMessage')
+    t('components.settings.backupRestore.confirmImportMessage'),
+    t('common.confirm'),
+    t('common.cancel')
   );
   if (!confirmed) return;
 
@@ -88,16 +90,30 @@ async function onFileSelected(event) {
   try {
     const text = await file.text();
     const restored = importSettingsBackup(text);
-    toastStore.showToast({
-      type: 'success',
-      title: t('components.settings.backupRestore.title'),
-      message: t('components.settings.backupRestore.importSuccess', { count: restored }),
-    });
+
+    if (restored === 0) {
+      // A structurally valid file that carried nothing. Reloading would look
+      // like the import silently did nothing, so report it instead.
+      toastStore.showToast({
+        type: 'error',
+        title: t('components.settings.backupRestore.title'),
+        message: t('components.settings.backupRestore.importEmpty'),
+        autoClose: false,
+      });
+      busy.value = false;
+      return;
+    }
+
     // The persistence plugin hydrates stores only on creation, and several
     // composables read their key once at module init - a reload is the only way
     // to make every restored value take effect. Same approach as the instance
     // switch in settingsStore._applyEndpointChange().
-    setTimeout(() => window.location.reload(), 1500);
+    //
+    // Reload synchronously: the persistence plugin writes through a detached
+    // $subscribe watcher, i.e. only on the next tick, so any store mutation in
+    // a delay here would rewrite its key from the pre-import state and undo
+    // part of the restore. No await between the import and this call.
+    window.location.reload();
   } catch (error) {
     console.error('Settings backup import failed:', error);
     toastStore.showToast({

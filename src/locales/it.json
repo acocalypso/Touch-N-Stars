@@ -501,7 +501,7 @@
         "exportError": "Impossibile salvare il file di backup.",
         "confirmImportTitle": "Ripristinare il backup?",
         "confirmImportMessage": "Questo sovrascriverà le impostazioni su questo dispositivo, incluse le istanze salvate. L'app verrà quindi ricaricata.",
-        "importSuccess": "{count} voci ripristinate. Ricaricamento…",
+        "importEmpty": "Il file di backup non contiene impostazioni da ripristinare.",
         "importError": "Impossibile ripristinare il backup: {error}"
       },
       "wifiBinding": {

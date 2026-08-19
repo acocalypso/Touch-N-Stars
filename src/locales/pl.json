@@ -501,7 +501,7 @@
         "exportError": "Nie udało się zapisać pliku kopii zapasowej.",
         "confirmImportTitle": "Przywrócić kopię zapasową?",
         "confirmImportMessage": "Spowoduje to nadpisanie ustawień na tym urządzeniu, w tym zapisanych instancji. Aplikacja zostanie następnie ponownie załadowana.",
-        "importSuccess": "Przywrócono {count} wpisów. Ponowne ładowanie…",
+        "importEmpty": "Plik kopii zapasowej nie zawiera ustawień do przywrócenia.",
         "importError": "Nie udało się przywrócić kopii zapasowej: {error}"
       },
       "wifiBinding": {

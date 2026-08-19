@@ -571,7 +571,7 @@
         "exportError": "Die Backup-Datei konnte nicht gespeichert werden.",
         "confirmImportTitle": "Backup wiederherstellen?",
         "confirmImportMessage": "Dadurch werden die Einstellungen auf diesem Gerät überschrieben, einschließlich der gespeicherten Instanzen. Die App wird anschließend neu geladen.",
-        "importSuccess": "{count} Einträge wiederhergestellt. Wird neu geladen…",
+        "importEmpty": "Die Backup-Datei enthält keine wiederherstellbaren Einstellungen.",
         "importError": "Das Backup konnte nicht wiederhergestellt werden: {error}"
       },
       "wifiBinding": {

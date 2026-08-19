@@ -552,7 +552,7 @@
         "exportError": "バックアップファイルを保存できませんでした。",
         "confirmImportTitle": "バックアップを復元しますか？",
         "confirmImportMessage": "この端末の設定（保存済みのインスタンスを含む）が上書きされます。その後アプリが再読み込みされます。",
-        "importSuccess": "{count} 件を復元しました。再読み込み中…",
+        "importEmpty": "バックアップファイルに復元できる設定がありません。",
         "importError": "バックアップを復元できませんでした: {error}"
       },
       "wifiBinding": {

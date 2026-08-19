@@ -584,7 +584,7 @@
         "exportError": "백업 파일을 저장할 수 없습니다.",
         "confirmImportTitle": "백업을 복원하시겠습니까?",
         "confirmImportMessage": "저장된 인스턴스를 포함하여 이 기기의 설정이 덮어써집니다. 이후 앱이 다시 로드됩니다.",
-        "importSuccess": "{count}개 항목이 복원되었습니다. 다시 로드하는 중…",
+        "importEmpty": "백업 파일에 복원할 설정이 없습니다.",
         "importError": "백업을 복원할 수 없습니다: {error}"
       },
       "wifiBinding": {

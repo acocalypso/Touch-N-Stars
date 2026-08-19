@@ -501,7 +501,7 @@
         "exportError": "Não foi possível salvar o arquivo de backup.",
         "confirmImportTitle": "Restaurar backup?",
         "confirmImportMessage": "Isso substituirá as configurações neste dispositivo, incluindo as instâncias salvas. O app será recarregado em seguida.",
-        "importSuccess": "{count} entradas restauradas. Recarregando…",
+        "importEmpty": "O arquivo de backup não contém configurações para restaurar.",
         "importError": "Não foi possível restaurar o backup: {error}"
       },
       "wifiBinding": {

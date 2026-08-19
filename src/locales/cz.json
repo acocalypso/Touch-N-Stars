@@ -422,6 +422,11 @@
     "settings": {
       "title": "Nastavení",
       "general": "Generál",
+      "tabs": {
+        "connection": "Připojení a poloha",
+        "interface": "Rozhraní",
+        "system": "Systém"
+      },
       "add": "přidat",
       "coordinates": "GPS souřadnice",
       "save": "Uložit",
@@ -490,6 +495,22 @@
       "keepAwake": {
         "title": "Udržet Obrazovku Aktivní",
         "description": "Zabraňte usnutí nebo uzamčení zařízení, když je aplikace otevřená."
+      },
+      "backupRestore": {
+        "title": "Zálohování a obnovení",
+        "description": "Uloží nastavení tohoto zařízení do souboru a obnoví je na jiném zařízení.",
+        "profileWarning": "Tímto se zálohují pouze nastavení aplikace na tomto zařízení. Nastavení vybavení, kamery, montáže a další jsou uložena v profilu NINA nebo PINS - pro úplnou zálohu je zálohujte samostatně.",
+        "locationAndroid": "Soubor se ukládá do Dokumenty/TouchNStars na tomto zařízení - otevřete jej pomocí aplikace správce souborů.",
+        "locationIos": "Soubor se ukládá v aplikaci Soubory v umístění Na mém iPhonu/iPadu → Touch 'N Stars → Documents.",
+        "locationBrowser": "Soubor se ukládá do výchozí složky stažených souborů vašeho prohlížeče.",
+        "exportButton": "Exportovat zálohu",
+        "importButton": "Obnovit ze zálohy",
+        "exportSuccess": "Záloha uložena jako {filename} ({count} položek).",
+        "exportError": "Soubor zálohy se nepodařilo uložit.",
+        "confirmImportTitle": "Obnovit zálohu?",
+        "confirmImportMessage": "Tímto se přepíší nastavení na tomto zařízení, včetně uložených instancí. Aplikace se poté znovu načte.",
+        "importEmpty": "Soubor zálohy neobsahuje žádná nastavení k obnovení.",
+        "importError": "Zálohu se nepodařilo obnovit: {error}"
       },
       "wifiBinding": {
         "title": "Vazba na místní síť",

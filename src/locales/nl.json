@@ -422,6 +422,11 @@
     "settings": {
       "title": "Instellingen",
       "general": "Algemeen",
+      "tabs": {
+        "connection": "Verbinding & locatie",
+        "interface": "Interface",
+        "system": "Systeem"
+      },
       "add": "toevoegen",
       "coordinates": "GPS Coordinaten",
       "save": "Opslaan",
@@ -490,6 +495,22 @@
       "keepAwake": {
         "title": "Scherm actief",
         "description": "Voorkom dat het scherm dimt of vergrendeld terwijl de App actief is."
+      },
+      "backupRestore": {
+        "title": "Back-up & herstellen",
+        "description": "Slaat de instellingen die op dit apparaat zijn opgeslagen op in een bestand en herstelt ze op een ander apparaat.",
+        "profileWarning": "Dit maakt alleen een back-up van de app-instellingen op dit apparaat. Uitrusting-, camera-, montering- en andere instellingen staan in het NINA- of PINS-profiel - maak daar apart een back-up van voor een volledige back-up.",
+        "locationAndroid": "Het bestand wordt opgeslagen in Documenten/TouchNStars op dit apparaat - open het met een bestandsbeheer-app.",
+        "locationIos": "Het bestand wordt opgeslagen in de Bestanden-app onder Op mijn iPhone/iPad → Touch 'N Stars → Documents.",
+        "locationBrowser": "Het bestand wordt opgeslagen in de standaard downloadmap van je browser.",
+        "exportButton": "Back-up exporteren",
+        "importButton": "Herstellen vanuit back-up",
+        "exportSuccess": "Back-up opgeslagen als {filename} ({count} items).",
+        "exportError": "Het back-upbestand kon niet worden opgeslagen.",
+        "confirmImportTitle": "Back-up herstellen?",
+        "confirmImportMessage": "Hiermee worden de instellingen op dit apparaat overschreven, inclusief de opgeslagen instanties. De app wordt daarna opnieuw geladen.",
+        "importEmpty": "Het back-upbestand bevat geen instellingen om te herstellen.",
+        "importError": "De back-up kon niet worden hersteld: {error}"
       },
       "wifiBinding": {
         "title": "Lokale netwerkbinding",

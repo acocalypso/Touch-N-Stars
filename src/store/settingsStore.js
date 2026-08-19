@@ -2,6 +2,7 @@ import { defineStore } from 'pinia';
 import tutorialContent from '@/assets/tutorial.json';
 import { apiStore } from '@/store/store';
 import { useSequenceStore } from './sequenceStore';
+import { useTppaStore } from './tppaStore';
 import apiService from '@/services/apiService';
 import { reloadForInstanceSwitch } from '@/utils/instanceSwitchReload';
 import {
@@ -215,6 +216,7 @@ export const useSettingsStore = defineStore('settings', {
   actions: {
     async loadAllBackendSettings() {
       const sequenceStore = useSequenceStore();
+      const tppaStore = useTppaStore();
       await Promise.all([
         this.loadMountSettings(),
         this.loadUseNinaCache(),
@@ -225,6 +227,7 @@ export const useSettingsStore = defineStore('settings', {
         this.loadStatusBarSettings(),
         this.loadSharedRigUiSettings(),
         sequenceStore.loadSequenceControlsLocked(),
+        tppaStore.loadTppaSettings(),
       ]);
     },
 

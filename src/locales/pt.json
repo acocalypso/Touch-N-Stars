@@ -422,6 +422,11 @@
     "settings": {
       "title": "Configurações",
       "general": "Em geral",
+      "tabs": {
+        "connection": "Conexão e localização",
+        "interface": "Interface",
+        "system": "Sistema"
+      },
       "add": "adicionar",
       "coordinates": "Coordenadas GPS",
       "save": "Salvar",
@@ -490,6 +495,22 @@
       "keepAwake": {
         "title": "Manter tela ligada",
         "description": "Impede que o dispositivo escureça ou trave enquanto o aplicativo está aberto."
+      },
+      "backupRestore": {
+        "title": "Backup e restauração",
+        "description": "Salva as configurações armazenadas neste dispositivo em um arquivo e as restaura em outro dispositivo.",
+        "profileWarning": "Isso faz backup apenas das configurações do app neste dispositivo. As configurações de equipamento, câmera, montagem e outras ficam no perfil do NINA ou PINS - faça o backup dele separadamente para um backup completo.",
+        "locationAndroid": "O arquivo é salvo em Documentos/TouchNStars neste dispositivo - abra com um app gerenciador de arquivos.",
+        "locationIos": "O arquivo é salvo no app Arquivos, em No meu iPhone/iPad → Touch 'N Stars → Documents.",
+        "locationBrowser": "O arquivo é salvo na pasta de downloads padrão do seu navegador.",
+        "exportButton": "Exportar backup",
+        "importButton": "Restaurar do backup",
+        "exportSuccess": "Backup salvo como {filename} ({count} entradas).",
+        "exportError": "Não foi possível salvar o arquivo de backup.",
+        "confirmImportTitle": "Restaurar backup?",
+        "confirmImportMessage": "Isso substituirá as configurações neste dispositivo, incluindo as instâncias salvas. O app será recarregado em seguida.",
+        "importEmpty": "O arquivo de backup não contém configurações para restaurar.",
+        "importError": "Não foi possível restaurar o backup: {error}"
       },
       "wifiBinding": {
         "title": "Vinculação à rede local",

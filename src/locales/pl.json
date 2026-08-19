@@ -422,6 +422,11 @@
     "settings": {
       "title": "Ustawienia",
       "general": "Ogólny",
+      "tabs": {
+        "connection": "Połączenie i lokalizacja",
+        "interface": "Interfejs",
+        "system": "System"
+      },
       "add": "dodaj",
       "coordinates": "Współrzędne GPS",
       "save": "Zapisz",
@@ -490,6 +495,22 @@
       "keepAwake": {
         "title": "Utrzymuj ekran aktywnym",
         "description": "Zapobiega przyciemnieniu lub blokowaniu urządzenia podczas otwartej aplikacji."
+      },
+      "backupRestore": {
+        "title": "Kopia zapasowa i przywracanie",
+        "description": "Zapisuje ustawienia przechowywane na tym urządzeniu do pliku i przywraca je na innym urządzeniu.",
+        "profileWarning": "To tworzy kopię zapasową wyłącznie ustawień aplikacji na tym urządzeniu. Ustawienia sprzętu, kamery, montażu i inne znajdują się w profilu NINA lub PINS - wykonaj ich kopię osobno, aby uzyskać pełną kopię zapasową.",
+        "locationAndroid": "Plik jest zapisywany w Dokumenty/TouchNStars na tym urządzeniu - otwórz go za pomocą aplikacji menedżera plików.",
+        "locationIos": "Plik jest zapisywany w aplikacji Pliki, w lokalizacji Na moim iPhonie/iPadzie → Touch 'N Stars → Documents.",
+        "locationBrowser": "Plik jest zapisywany w domyślnym folderze pobierania Twojej przeglądarki.",
+        "exportButton": "Eksportuj kopię zapasową",
+        "importButton": "Przywróć z kopii zapasowej",
+        "exportSuccess": "Kopię zapasową zapisano jako {filename} ({count} wpisów).",
+        "exportError": "Nie udało się zapisać pliku kopii zapasowej.",
+        "confirmImportTitle": "Przywrócić kopię zapasową?",
+        "confirmImportMessage": "Spowoduje to nadpisanie ustawień na tym urządzeniu, w tym zapisanych instancji. Aplikacja zostanie następnie ponownie załadowana.",
+        "importEmpty": "Plik kopii zapasowej nie zawiera ustawień do przywrócenia.",
+        "importError": "Nie udało się przywrócić kopii zapasowej: {error}"
       },
       "wifiBinding": {
         "title": "Powiązanie z siecią lokalną",

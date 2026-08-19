@@ -5,24 +5,25 @@
     <SubNav
       v-if="store.isBackendReachable"
       :items="[
-        { name: t('components.settings.general'), value: 'general' },
+        { name: t('components.settings.tabs.connection'), value: 'connection' },
+        { name: t('components.settings.tabs.interface'), value: 'interface' },
         { name: t('components.settings.image.title'), value: 'image' },
         { name: t('components.settings.equipment.title'), value: 'equipment' },
         { name: t('components.settings.plugins.title'), value: 'plugins' },
         { name: t('components.settings.plate_solver.title'), value: 'plateSolver' },
         { name: t('components.mount.settings.meridian_flip_settings'), value: 'meridianFlip' },
+        { name: t('components.settings.tabs.system'), value: 'system' },
       ]"
       v-model:activeItem="activeTab"
     />
 
     <div class="p-4 max-w-xl mx-auto space-y-6">
-      <!-- General Tab -->
-      <SettingsGeneralTab
-        v-if="activeTab === 'general'"
-        @show-tutorial="showTutorial"
-        @restart-system="restartSystem"
-        @shutdown-system="shutdownSystem"
-      />
+      <!-- Connection & Location Tab -->
+      <SettingsConnectionTab v-if="activeTab === 'connection'" />
+
+      <!-- Interface Tab -->
+      <SettingsInterfaceTab v-if="activeTab === 'interface'" />
+
       <!-- Equipment Tab -->
       <SettingsEquipmentTab v-if="activeTab === 'equipment'" />
 
@@ -37,6 +38,14 @@
 
       <!-- Meridian Flip Tab -->
       <SettingsMeridianFlipTab v-if="activeTab === 'meridianFlip'" />
+
+      <!-- System Tab -->
+      <SettingsSystemTab
+        v-if="activeTab === 'system'"
+        @show-tutorial="showTutorial"
+        @restart-system="restartSystem"
+        @shutdown-system="shutdownSystem"
+      />
     </div>
   </div>
 
@@ -146,7 +155,9 @@ import { apiStore } from '@/store/store';
 import TutorialModal from '@/components/TutorialModal.vue';
 import SubNav from '@/components/SubNav.vue';
 import apiService from '@/services/apiService';
-import SettingsGeneralTab from '@/components/settings/SettingsGeneralTab.vue';
+import SettingsConnectionTab from '@/components/settings/SettingsConnectionTab.vue';
+import SettingsInterfaceTab from '@/components/settings/SettingsInterfaceTab.vue';
+import SettingsSystemTab from '@/components/settings/SettingsSystemTab.vue';
 import SettingsPluginsTab from '@/components/settings/SettingsPluginsTab.vue';
 import SettingsPlateSolverTab from '@/components/settings/SettingsPlateSolverTab.vue';
 import SettingsEquipmentTab from '@/components/settings/SettingsEquipmentTab.vue';
@@ -160,7 +171,7 @@ const settingsStore = useSettingsStore();
 const store = apiStore();
 const pluginStore = usePluginStore();
 
-const activeTab = ref('general');
+const activeTab = ref('connection');
 const showTutorialModal = ref(false);
 const showRestartInfo = ref(false);
 const showShutdownInfo = ref(false);

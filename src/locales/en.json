@@ -463,6 +463,11 @@
     "settings": {
       "title": "Settings",
       "general": "General",
+      "tabs": {
+        "connection": "Connection & Location",
+        "interface": "Interface",
+        "system": "System"
+      },
       "add": "add",
       "coordinates": "GPS Coordinates",
       "save": "Save",
@@ -573,6 +578,22 @@
       "keepAwake": {
         "title": "Keep Screen Awake",
         "description": "Prevent the device from dimming or locking while the app is open."
+      },
+      "backupRestore": {
+        "title": "Backup & Restore",
+        "description": "Save the settings stored on this device to a file and restore them on another device.",
+        "profileWarning": "This only backs up app settings on this device. Equipment, camera, mount and other settings live in the NINA or PINS profile - back that up separately for a complete backup.",
+        "locationAndroid": "The file is saved to Documents/TouchNStars on this device - open it with a file manager app.",
+        "locationIos": "The file is saved in the Files app under On My iPhone/iPad → Touch 'N Stars → Documents.",
+        "locationBrowser": "The file is saved to your browser's default downloads folder.",
+        "exportButton": "Export backup",
+        "importButton": "Restore from backup",
+        "exportSuccess": "Backup saved as {filename} ({count} entries).",
+        "exportError": "Could not save the backup file.",
+        "confirmImportTitle": "Restore backup?",
+        "confirmImportMessage": "This overwrites the settings on this device, including the saved instances. The app will reload afterwards.",
+        "importEmpty": "The backup file contains no settings to restore.",
+        "importError": "Could not restore the backup: {error}"
       },
       "wifiBinding": {
         "title": "Local Network Binding",

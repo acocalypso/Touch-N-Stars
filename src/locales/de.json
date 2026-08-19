@@ -463,6 +463,11 @@
     "settings": {
       "title": "Einstellungen",
       "general": "Allgemein",
+      "tabs": {
+        "connection": "Verbindung & Standort",
+        "interface": "Oberfläche",
+        "system": "System"
+      },
       "add": "hinzufügen",
       "coordinates": "GPS-Koordinaten",
       "save": "Speichern",

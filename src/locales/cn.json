@@ -422,6 +422,11 @@
     "settings": {
       "title": "设置",
       "general": "一般的",
+      "tabs": {
+        "connection": "连接与位置",
+        "interface": "界面",
+        "system": "系统"
+      },
       "add": "添加",
       "coordinates": "GPS坐标",
       "save": "保存",

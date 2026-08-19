@@ -463,6 +463,11 @@
     "settings": {
       "title": "설정",
       "general": "일반",
+      "tabs": {
+        "connection": "연결 및 위치",
+        "interface": "인터페이스",
+        "system": "시스템"
+      },
       "add": "추가",
       "coordinates": "GPS 좌표",
       "save": "저장",

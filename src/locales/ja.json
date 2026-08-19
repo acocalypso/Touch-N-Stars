@@ -431,6 +431,11 @@
     "settings": {
       "title": "設定",
       "general": "全般",
+      "tabs": {
+        "connection": "接続と位置",
+        "interface": "インターフェース",
+        "system": "システム"
+      },
       "add": "追加",
       "coordinates": "GPS座標",
       "save": "保存",

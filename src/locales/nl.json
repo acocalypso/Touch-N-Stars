@@ -422,6 +422,11 @@
     "settings": {
       "title": "Instellingen",
       "general": "Algemeen",
+      "tabs": {
+        "connection": "Verbinding & locatie",
+        "interface": "Interface",
+        "system": "Systeem"
+      },
       "add": "toevoegen",
       "coordinates": "GPS Coordinaten",
       "save": "Opslaan",

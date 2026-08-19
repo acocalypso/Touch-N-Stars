@@ -422,6 +422,11 @@
     "settings": {
       "title": "Nastavení",
       "general": "Generál",
+      "tabs": {
+        "connection": "Připojení a poloha",
+        "interface": "Rozhraní",
+        "system": "Systém"
+      },
       "add": "přidat",
       "coordinates": "GPS souřadnice",
       "save": "Uložit",

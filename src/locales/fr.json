@@ -422,6 +422,11 @@
     "settings": {
       "title": "Paramètres",
       "general": "Général",
+      "tabs": {
+        "connection": "Connexion et emplacement",
+        "interface": "Interface",
+        "system": "Système"
+      },
       "add": "ajouter",
       "coordinates": "Coordonnées GPS",
       "save": "Enregistrer",

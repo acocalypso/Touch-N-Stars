@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [App6.1.4-beta7] - 2026-08-19
+
+### Added
+- Settings: The app settings stored on this device (language, saved instances, layout, plugin settings) can now be exported to a file and restored on another device. Equipment settings kept in the NINA/PINS profile are not included and need a separate backup
+
+### Changed
+- TPPA: Exposure time, gain and filter now apply to the whole rig instead of to one device - every client connected to the same instance sees the same values
+- Settings: The General tab was split into Connection & Location, Interface and System, so related settings are easier to find
+
 ## [App6.1.4-beta6] - 2026-08-19
 
 ### Added

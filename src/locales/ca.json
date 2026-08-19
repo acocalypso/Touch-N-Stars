@@ -463,6 +463,11 @@
     "settings": {
       "title": "Configuració",
       "general": "General",
+      "tabs": {
+        "connection": "Connexió i ubicació",
+        "interface": "Interfície",
+        "system": "Sistema"
+      },
       "add": "afegeix",
       "coordinates": "Coordenades GPS",
       "save": "Desa",

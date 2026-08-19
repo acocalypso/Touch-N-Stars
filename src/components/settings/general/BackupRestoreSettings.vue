@@ -15,6 +15,10 @@
       {{ $t('components.settings.backupRestore.profileWarning') }}
     </div>
 
+    <p class="text-gray-400 text-sm">
+      {{ saveLocationHint }}
+    </p>
+
     <button @click="exportBackup" :disabled="busy" class="tns-btn-secondary w-full">
       {{ $t('components.settings.backupRestore.exportButton') }}
     </button>
@@ -36,8 +40,9 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { Capacitor } from '@capacitor/core';
 import { useToastStore } from '@/store/toastStore';
 import { exportSettingsBackup, importSettingsBackup } from '@/utils/settingsBackup';
 import appVersion from '@/version';
@@ -46,6 +51,16 @@ const { t } = useI18n();
 const toastStore = useToastStore();
 const fileInput = ref(null);
 const busy = ref(false);
+
+// Mirrors the platform switch in utils/blobDownloader.js: native builds write
+// to Documents/TouchNStars via Capacitor Filesystem, the browser uses its
+// normal download.
+const saveLocationHint = computed(() => {
+  const platform = Capacitor.getPlatform();
+  if (platform === 'android') return t('components.settings.backupRestore.locationAndroid');
+  if (platform === 'ios') return t('components.settings.backupRestore.locationIos');
+  return t('components.settings.backupRestore.locationBrowser');
+});
 
 async function exportBackup() {
   busy.value = true;

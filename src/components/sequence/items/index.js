@@ -76,6 +76,7 @@ import MoveFocuserRelativeItem from './MoveFocuserRelativeItem.vue';
 import MoveFocuserByTemperatureItem from './MoveFocuserByTemperatureItem.vue';
 import StartGuidingItem from './StartGuidingItem.vue';
 import GroundStationItem from './GroundStationItem.vue';
+import SaveSequenceItem from './SaveSequenceItem.vue';
 import GenericItem from './GenericItem.vue';
 
 export const ITEM_COMPONENTS = {
@@ -170,6 +171,7 @@ export const ITEM_COMPONENTS = {
   'NINA.Sequencer.SequenceItem.Utility.WaitForSunAltitude': WaitForBodyAltitudeItem,
   'NINA.Sequencer.SequenceItem.Utility.WaitUntil': WaitUntilItem,
   'NINA.Sequencer.SequenceItem.Utility.WaitForTimeSpan': WaitForTimeSpanItem,
+  'NINA.Sequencer.SequenceItem.Utility.SaveSequence': SaveSequenceItem,
   'NINA.Sequencer.SequenceItem.Dome.CloseDomeShutter': RunAutofocusItem,
   'NINA.Sequencer.SequenceItem.Dome.DisableDomeSynchronization': RunAutofocusItem,
   'NINA.Sequencer.SequenceItem.Dome.EnableDomeSynchronization': RunAutofocusItem,

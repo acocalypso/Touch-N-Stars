@@ -33,7 +33,7 @@ import InfoModal from '@/components/helpers/infoModal.vue';
 const store = apiStore();
 const guiderStore = useGuiderStore();
 
-const algorithms = ['None', 'Hysteresis', 'Lowpass', 'Lowpass2', 'Resist Switch'];
+const algorithms = ['None', 'Hysteresis', 'Lowpass', 'Lowpass2', 'Resist Switch', 'ZFilter'];
 
 onMounted(async () => {
   await guiderStore.fetchPHD2GuideAlgorithmDEC();

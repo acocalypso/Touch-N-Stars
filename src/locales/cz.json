@@ -1033,6 +1033,10 @@
         "annotation": {
           "text": "Text"
         },
+        "saveSequence": {
+          "notSet": "Nenastaveno",
+          "applyFileName": "Použít"
+        },
         "groundstation": {
           "message": "Zpráva",
           "title": "Titulek",

@@ -1033,6 +1033,10 @@
         "annotation": {
           "text": "Texto"
         },
+        "saveSequence": {
+          "notSet": "No establecido",
+          "applyFileName": "Aplicar"
+        },
         "groundstation": {
           "message": "Mensaje",
           "title": "Título",

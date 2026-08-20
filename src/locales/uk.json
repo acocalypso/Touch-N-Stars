@@ -1022,6 +1022,10 @@
         "annotation": {
           "text": "Текст"
         },
+        "saveSequence": {
+          "notSet": "Не встановлено",
+          "applyFileName": "Застосувати"
+        },
         "groundstation": {
           "message": "Повідомлення",
           "title": "Заголовок",

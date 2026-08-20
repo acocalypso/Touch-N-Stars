@@ -1033,6 +1033,10 @@
         "annotation": {
           "text": "文本"
         },
+        "saveSequence": {
+          "notSet": "未设置",
+          "applyFileName": "应用"
+        },
         "groundstation": {
           "message": "消息",
           "title": "标题",

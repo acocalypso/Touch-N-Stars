@@ -38,6 +38,21 @@ Entries written before the field existed have it empty; both pages read empty as
 If the schema was imported before this field was added, either re-import in merge mode or add it
 by hand to `hw_entries`: a **select** field named `stack`, values `pins` and `phd2`, not required.
 
+## Unresolvable vendor names
+
+`hw_devices.vendor` is **not required**. A device name that does not split cleanly into
+vendor + model — most often a guide camera reported only by its raw PHD2 id, which has no
+vendor prefix at all — still needs to be creatable. `model` stays required; a device needs at
+least a name.
+
+## The `unknown` driver
+
+A device that will not connect reports no driver name at all — and that is exactly the report
+worth having ("my guide camera doesn't work"). Rather than blocking the submission, the review
+UI prefills the driver field with the literal string `unknown`. Both pages recognize it
+case-insensitively and render it as an absence ("driver not recorded", muted and italic) rather
+than as a driver by that name. Edit it to the real driver once you know it.
+
 ## Access rules
 
 Exactly one rule in the whole system allows public writes:

@@ -510,6 +510,10 @@
         'safetymonitor',
       ];
       const STATUSES = ['works', 'caveat', 'broken'];
+      // A device that will not connect reports no driver name, and that is the
+      // case most worth recording. Rather than forcing the reviewer to invent
+      // one, the absence is stored as a value of its own.
+      const UNKNOWN_DRIVER = 'unknown';
       // Which software stack drove the device. PHD2 has its own driver list, so
       // "works under INDI" says nothing about whether PHD2 can talk to it.
       const STACKS = ['pins', 'phd2'];
@@ -861,7 +865,7 @@
       function deviceCard(d, i) {
         const { vendor, model } = splitVendorModel(d);
         const slug = slugify(`${vendor} ${model}`);
-        const driver = d.driverInfo || '';
+        const driver = d.driverInfo || UNKNOWN_DRIVER;
         const taken = takenDevices.has(i);
         const off = taken ? 'disabled' : '';
 

@@ -193,7 +193,7 @@
         "name": "vendor",
         "type": "text",
         "system": false,
-        "required": true,
+        "required": false,
         "presentable": true,
         "hidden": false,
         "primaryKey": false,

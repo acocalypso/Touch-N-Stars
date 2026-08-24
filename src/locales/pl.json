@@ -4,17 +4,17 @@
     "cancel": "Anuluj",
     "confirm": "Potwierdź",
     "close": "Zamknij",
-    "select": "Wybierać",
+    "select": "Wybierz",
     "edit": "Edytuj",
     "delete": "Usuń",
     "enabled": "Włączony",
     "disabled": "Wyłączony",
-    "enable": "Włączać",
-    "disable": "Wyłączyć",
-    "loading": "Załadunek…",
-    "scanning": "Łów…",
-    "connecting": "Złączony…",
-    "refresh": "Odświeżać",
+    "enable": "Włącz",
+    "disable": "Wyłącz",
+    "loading": "Ładowanie…",
+    "scanning": "Skanowanie…",
+    "connecting": "Łączenie…",
+    "refresh": "Odśwież",
     "creating": "Tworzenie…",
     "help": "Pomoc",
     "expand": "Rozwiń",
@@ -26,13 +26,13 @@
     "yes": "Tak",
     "no": "Nie",
     "delete": "Usuń",
-    "edit": "Redagować",
+    "edit": "Edytuj",
     "close": "Zamknij",
-    "save": "Ratować"
+    "save": "Zapisz"
   },
   "pages": {
     "equipment": {
-      "title": "Sterowanie Sprzętem",
+      "title": "Sprzętem",
       "indiSetup": "Konfiguracja INDI"
     }
   },
@@ -89,18 +89,18 @@
     "InfoAppsTitel": "Wiki",
     "check_wki": "Szczegółowe instrukcje znajdziesz w naszej wiki",
     "coordAlt": "Alt",
-    "coordLat": "łac",
-    "coordLon": "Długi",
+    "coordLat": "SzerokośćGeog",
+    "coordLon": "DługośćGeog",
     "coordUnit": "M",
-    "coordsNotSupported": "Nieobsługiwane przez sterownik",
-    "currentMountCoords": "Lokalizacja góry",
+    "coordsNotSupported": "Nieobsługiwane współrzędne",
+    "currentMountCoords": "Lokalizacja montażu",
     "currentNinaCoords": "Lokalizacja profilu",
-    "loadingCoords": "Załadunek…",
-    "mountNotConnected": "Uchwyt nie jest podłączony",
+    "loadingCoords": "Ładowanie współrzędnych…",
+    "mountNotConnected": "Montaż nie jest podłączony",
     "syncDirection": "Kierunek synchronizacji lokalizacji",
     "syncDirectionNosync": "Brak synchronizacji",
-    "syncDirectionToApplication": "Synchronizuj z Mount do Profile",
-    "syncDirectionToTelescope": "Synchronizuj profil z uchwytem"
+    "syncDirectionToApplication": "Synchronizuj z Montażu do Profilu",
+    "syncDirectionToTelescope": "Synchronizuj profilu do montażu"
   },
   "components": {
     "instanceDetection": {
@@ -158,7 +158,7 @@
       },
       "getImageRotation": {
         "startCapture": "Określ obrót z kamery",
-        "SolveRun": "Rozwiązanie płyty",
+        "SolveRun": "Rozwiązanie obrazu",
         "SolveError": "Błąd rozwiązywania obrazu"
       },
       "moveRotator": "Obróć kamerę",
@@ -168,11 +168,11 @@
       "mosaic": {
         "title": "Tryb mozaiki",
         "columns": "Kolumny",
-        "rows": "Wydziwianie",
-        "overlap": "Zachodzić na siebie %",
+        "rows": "Wiersze",
+        "overlap": "Zachodzenie paneli na siebie %",
         "preserveAlignment": "Zachowaj wyrównanie",
         "preserveAlignmentHelp": "Zachowaj wyrównanie",
-        "preserveAlignmentHelpText": "Koryguje kąt obrotu dla każdego panelu indywidualnie. Ponieważ sfera niebieska jest zakrzywiona, panele na krawędziach dużej mozaiki mają nieco inną orientację nieba niż panel środkowy. Po włączeniu tej opcji rotator reguluje się przed każdym panelem tak, aby wszystkie panele były ustawione identycznie (np. północ w górę). Jeśli nie masz rotatora, wyłącz tę opcję — niewielkie przesunięcie w szwach paneli jest zwykle korygowane automatycznie przez oprogramowanie do układania w stosy.",
+        "preserveAlignmentHelpText": "Koryguje kąt obrotu dla każdego panelu indywidualnie. Ponieważ sfera niebieska jest zakrzywiona, panele na krawędziach dużej mozaiki mają nieco inną orientację nieba niż panel środkowy. Po włączeniu tej opcji rotator reguluje się przed każdym panelem tak, aby wszystkie panele były ustawione identycznie (np. północ w górę). Jeśli nie masz rotatora, wyłącz tę opcję — niewielkie przesunięcie w szwach paneli jest zwykle korygowane automatycznie przez oprogramowanie do stackowania.",
         "panels": "panele",
         "setMosaicTargets": "Ustaw cele mozaikowe",
         "panelsSet": "panele ustawione w kolejności",
@@ -186,46 +186,46 @@
       "skip": "Pomiń samouczek"
     },
     "setupWizard": {
-      "title": "Setup Assistant",
-      "restart": "Start setup assistant",
-      "stepCounter": "Step {current} of {total}",
-      "next": "Next",
-      "back": "Back",
-      "finish": "Finish",
-      "remindLater": "Remind me later",
+      "title": "Asystent konfiguracji",
+      "restart": "Zrestartuj asystenta konfiguracji",
+      "stepCounter": "Krok {current} z {total}",
+      "next": "Dalej",
+      "back": "Wróć",
+      "finish": "Zakończ",
+      "remindLater": "Przypomnij mi później",
       "steps": {
-        "welcome": "Welcome",
-        "language": "Language",
-        "info": "Getting started",
-        "instance": "Connection",
+        "welcome": "Witaj",
+        "language": "Język",
+        "info": "Zaczynamy",
+        "instance": "Połączenie",
         "wifi": "Wi-Fi",
-        "updates": "Updates",
-        "mount": "Mount",
-        "slewRate": "Slew speed",
-        "location": "Location",
-        "telescope": "Telescope",
-        "camera": "Camera",
+        "updates": "Aktualizacje",
+        "mount": "Montaż",
+        "slewRate": "Prędkość śledzenia",
+        "location": "Lokacja",
+        "telescope": "Teleskop",
+        "camera": "Kamera",
         "focuser": "Focuser",
-        "filterWheel": "Filter wheel",
+        "filterWheel": "Koło filtrowe",
         "guider": "Guiding",
-        "done": "Done"
+        "done": "Zrobione"
       },
       "driver": {
-        "loading": "Loading drivers…",
-        "applying": "Applying driver…",
-        "listFailed": "Could not load drivers: {message}",
-        "changeFailed": "Could not apply the driver: {message}"
+        "loading": "Ładowanie sterowników…",
+        "applying": "Ustawianie sterownika…",
+        "listFailed": "Nie mogę załadować sterownika: {message}",
+        "changeFailed": "Nie mogę załadować sterownika: {message}"
       },
       "welcome": {
-        "title": "Let's set up Touch'N'Stars",
-        "description": "This assistant walks you through the setup one step at a time — language, the connection to your rig, and its equipment.",
-        "cancelHint": "You can cancel at any point and finish the rest later from the settings."
+        "title": "Ustawmy Touch'N'Stars",
+        "description": "Ten asystent pomoże Ci przejść przez konfigurację krok po kroku - język, podłączenie i ustawienie sprzętu.",
+        "cancelHint": "Możesz przerwać w każej chwili i dokończyć później z poziomu ustawień."
       },
       "language": {
-        "description": "The language of the app. You can change it later in the settings."
+        "description": "Język aplikacji, możesz go zmienić później z poziomu ustawień."
       },
       "info": {
-        "openWiki": "Open the wiki"
+        "openWiki": "Otwórz wiki"
       },
       "instance": {
         "description": "Address of the machine running N.I.N.A. On the same network the app can usually find it by itself.",

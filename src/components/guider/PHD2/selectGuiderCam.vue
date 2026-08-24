@@ -123,6 +123,13 @@ async function setGuiderCam() {
   if (selectedCam.value === MANUAL_VNC) {
     guiderStore.guidecamManualVnc = true;
     guiderStore.guidecamOk = true;
+    try {
+      // NINA's PHD2Guider.Connect() refuses to connect when GuiderSettings-PHD2Camera
+      // is empty/"None", even though PHD2 manages its own camera in manual VNC mode.
+      await apiService.profileChangeValue('GuiderSettings-PHD2Camera', 'Manual');
+    } catch (error) {
+      console.error('Error setting guide camera to manual VNC:', error);
+    }
     borderClass.value = 'border-status-ok connected-glow';
     return;
   }

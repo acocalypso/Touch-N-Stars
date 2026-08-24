@@ -10,8 +10,10 @@ may update `framingStore.rotationAngle`.
 - Unit: decimal degrees.
 - Range: `[0, 360)` after Euclidean normalization.
 - Zero: the camera frame is aligned with celestial north.
-- Positive direction: N.I.N.A. sky `PositionAngle`, represented by the Atlas
-  public API as `clockwise-from-celestial-north`.
+- Positive direction: N.I.N.A. sky `PositionAngle`. N.I.N.A.'s Framing
+  Assistant draws its rectangle at `360 - PositionAngle`, so the unchanged
+  command value is represented by the Atlas public API as
+  `counterclockwise-from-celestial-north`.
 - Coordinate basis: the frame center is J2000 at the N.I.N.A. command boundary.
 - Invalid, absent, boolean, or non-finite values are rejected; they are never
   replaced with an invented zero-degree result.
@@ -77,6 +79,8 @@ The contract was audited on 2026-07-22 against:
   [`WorldCoordinateSystem.cs`](https://github.com/isbeorn/nina/blob/b66bb14249a63b0bc5c9813ac26727a4265ea887/NINA.Astrometry/WorldCoordinateSystem.cs)
   and
   [`FramingAssistantVM.cs`](https://github.com/isbeorn/nina/blob/b66bb14249a63b0bc5c9813ac26727a4265ea887/NINA/ViewModel/FramingAssistant/FramingAssistantVM.cs).
+  In particular, `FramingAssistantVM` assigns both solved and target camera
+  angles to the displayed rectangle as `360 - PositionAngle`.
 - Touch-N-Stars N.I.N.A. plugin revision
   [`ac51901ad2e4ff68ff05bd61a60702a7e05897b7`](https://github.com/acocalypso/N.I.N.A-Plugin-for-Touch-N-Stars/tree/ac51901ad2e4ff68ff05bd61a60702a7e05897b7),
   especially

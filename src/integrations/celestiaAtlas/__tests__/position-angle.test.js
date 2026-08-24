@@ -11,7 +11,7 @@ import {
 } from '../positionAngle.js';
 
 test('normalizes the canonical Atlas position angle to [0, 360)', () => {
-  assert.equal(ATLAS_POSITION_ANGLE_CONVENTION, 'clockwise-from-celestial-north');
+  assert.equal(ATLAS_POSITION_ANGLE_CONVENTION, 'counterclockwise-from-celestial-north');
   assert.equal(normalizePositionAngleDegrees(360), 0);
   assert.equal(normalizePositionAngleDegrees(-10), 350);
   assert.equal(normalizePositionAngleDegrees(721.5), 1.5);
@@ -21,6 +21,7 @@ test('normalizes the canonical Atlas position angle to [0, 360)', () => {
 
 test('passes NINA plate-solve PositionAngle through after range normalization', () => {
   assert.equal(positionAngleFromNinaPlateSolve(37.5), 37.5);
+  assert.ok(Math.abs(positionAngleFromNinaPlateSolve(50.2) - 50.2) < 1e-12);
   assert.equal(positionAngleFromNinaPlateSolve(-1), 359);
   assert.equal(toAtlasPositionAngle(90, POSITION_ANGLE_SOURCE.NINA_PLATE_SOLVE), 90);
 });

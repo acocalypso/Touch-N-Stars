@@ -1,4 +1,7 @@
-export const ATLAS_POSITION_ANGLE_CONVENTION = 'clockwise-from-celestial-north';
+// N.I.N.A. keeps PositionAngle as the command value, but its Framing Assistant
+// renders the camera rectangle at 360 - PositionAngle. Atlas accepts the raw
+// command value when it is declared counterclockwise from projected north.
+export const ATLAS_POSITION_ANGLE_CONVENTION = 'counterclockwise-from-celestial-north';
 
 export const POSITION_ANGLE_SOURCE = Object.freeze({
   NINA_PLATE_SOLVE: 'nina-plate-solve-position-angle',

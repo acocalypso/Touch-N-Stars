@@ -38,6 +38,22 @@ Entries written before the field existed have it empty; both pages read empty as
 If the schema was imported before this field was added, either re-import in merge mode or add it
 by hand to `hw_entries`: a **select** field named `stack`, values `pins` and `phd2`, not required.
 
+## Hersteller/Modell vom Nutzer (Schema-Version 2)
+
+Ab `schemaVersion: 2` kann jedes Gerät im Payload `userVendor` und `userModel` tragen — Freitext,
+den der Meldende selbst eingetragen hat. Grund: der Treibername identifiziert die Hardware oft
+nicht. `indi_eqmod_telescope` bedient EQ6-R, HEQ5 und ein Dutzend Fremdmontierungen,
+`indi_lx200generic` praktisch das ganze LX200-Universum. Bei solchen Treibern
+(`GENERIC_DRIVER_PATTERNS` in `../utils/snapshotSerializer.js`) verlangt die App das Modell, sonst
+lässt sie den Report nicht abschicken.
+
+`review.html` bevorzugt diese Angabe vor der eigenen Heuristik und beschriftet die Felder mit
+„vom Nutzer" bzw. „geraten". **Freitext bleibt Freitext**: Schreibweise und Plausibilität gehören
+vor dem Übernehmen geprüft, genau wie bei `userNote`.
+
+Reports mit `schemaVersion: 1` gibt es weiterhin; dort fehlen die Felder und die Heuristik greift
+wie bisher.
+
 ## Unresolvable vendor names
 
 `hw_devices.vendor` is **not required**. A device name that does not split cleanly into

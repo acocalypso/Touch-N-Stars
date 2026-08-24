@@ -2,7 +2,9 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {
   DEVICE_FIELDS,
+  MAX_MODEL_LENGTH,
   MAX_NOTE_LENGTH,
+  MAX_VENDOR_LENGTH,
   SCHEMA_VERSION,
   USER_STATUS,
   buildSubmissionPayload,
@@ -10,7 +12,9 @@ import {
   enrichWithIndiPackages,
   extractArchitecture,
   extractDeviceCandidates,
+  isGenericDriver,
   normalizeDeviceName,
+  suggestVendorModel,
 } from '@/plugins/hardware-db/utils/snapshotSerializer';
 
 /**
@@ -462,4 +466,108 @@ test('device names normalize across vendor spellings', () => {
     deviceKey({ name: 'ZWO ASI533MC-Pro', driverInfo: 'indi_asi_ccd' }),
     deviceKey({ name: 'zwo asi533mc pro', driverInfo: 'INDI_ASI_CCD' })
   );
+});
+
+test('a driver that serves many products demands a model from the user', () => {
+  // The reason the field exists at all: these drivers name a protocol, not a
+  // piece of hardware.
+  for (const driverInfo of [
+    'indi_eqmod_telescope',
+    'indi_lx200generic',
+    'indi_synscan_telescope',
+    'indi_ioptronv3_telescope',
+    'indi_telescope_simulator',
+    'indi_manual_wheel',
+  ]) {
+    assert.equal(isGenericDriver({ name: 'Mount', driverInfo }), true, driverInfo);
+  }
+
+  assert.equal(isGenericDriver({ name: 'ZWO ASI533MC Pro', driverInfo: 'indi_asi_ccd' }), false);
+  assert.equal(isGenericDriver({ name: 'ToupTek ATR585M', driverInfo: 'ToupTek SDK' }), false);
+});
+
+test('a device with no driver at all counts as unidentified', () => {
+  // Disconnected devices carry only a profile Id, and an ASCOM ProgID names the
+  // driver rather than the hardware.
+  assert.equal(isGenericDriver({ name: 'EQ6-R Pro', connected: 'no' }), true);
+  assert.equal(isGenericDriver({ name: 'ASCOM.EQMOD.Telescope', driverInfo: 'EQMOD ASCOM' }), true);
+});
+
+test('the INDI driver is checked too, not just DriverInfo', () => {
+  assert.equal(
+    isGenericDriver({
+      name: 'Mount',
+      driverInfo: 'EQMod Mount',
+      indiDriver: 'indi_eqmod_telescope',
+    }),
+    true
+  );
+});
+
+test('vendor and model are prefilled from the collected names', () => {
+  assert.deepEqual(
+    suggestVendorModel({ name: 'ATR585M', displayName: 'ToupTek ATR585M (7c-2-2-3)' }),
+    { vendor: 'ToupTek', model: 'ATR585M' }
+  );
+  assert.deepEqual(suggestVendorModel({ name: 'EQ6-R Pro (INDI)' }), {
+    vendor: 'EQ6-R',
+    model: 'Pro',
+  });
+  assert.deepEqual(suggestVendorModel({ name: 'ASI533MC' }), { vendor: '', model: 'ASI533MC' });
+  // A ProgID is a driver identifier; prefilling it would be a wrong answer
+  // dressed as a helpful one.
+  assert.deepEqual(suggestVendorModel({ name: 'ASCOM.EQMOD.Telescope' }), {
+    vendor: '',
+    model: '',
+  });
+});
+
+test('the user statement about the hardware reaches the payload', () => {
+  const candidates = extractDeviceCandidates({
+    mountInfo: { Connected: true, Name: 'EQMod Mount', DriverInfo: 'indi_eqmod_telescope' },
+  });
+
+  const payload = buildSubmissionPayload({
+    candidates,
+    ratings: {
+      mount: {
+        status: USER_STATUS.WORKS,
+        vendor: '  Sky-Watcher  ',
+        model: 'EQ6-R Pro',
+      },
+    },
+  });
+
+  assert.equal(payload.devices[0].userVendor, 'Sky-Watcher');
+  assert.equal(payload.devices[0].userModel, 'EQ6-R Pro');
+
+  // Empty input leaves the fields out rather than storing blanks.
+  const bare = buildSubmissionPayload({
+    candidates,
+    ratings: { mount: { status: USER_STATUS.WORKS, vendor: '   ', model: '' } },
+  });
+  assert.equal('userVendor' in bare.devices[0], false);
+  assert.equal('userModel' in bare.devices[0], false);
+});
+
+test('user text is capped like every other transmitted string', () => {
+  const payload = buildSubmissionPayload({
+    candidates: extractDeviceCandidates({
+      mountInfo: { Connected: true, Name: 'EQMod Mount', DriverInfo: 'indi_eqmod_telescope' },
+    }),
+    ratings: {
+      mount: {
+        status: USER_STATUS.WORKS,
+        vendor: 'v'.repeat(MAX_VENDOR_LENGTH + 50),
+        model: 'm'.repeat(MAX_MODEL_LENGTH + 50),
+      },
+    },
+  });
+
+  assert.equal(payload.devices[0].userVendor.length, MAX_VENDOR_LENGTH);
+  assert.equal(payload.devices[0].userModel.length, MAX_MODEL_LENGTH);
+});
+
+test('the schema version announces the user-named hardware', () => {
+  assert.equal(SCHEMA_VERSION, 2);
 });

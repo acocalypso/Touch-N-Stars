@@ -9,9 +9,14 @@
  * allow-list: an output field exists only because it is named here.
  *
  * Never turn this into a deny-list. A forgotten entry would leak silently.
+ *
+ * `userVendor` / `userModel` are the exception to "everything is machine-read":
+ * they are free text the user typed, because a driver name frequently does not
+ * identify the hardware (see `isGenericDriver`). Like `userNote` they are
+ * reviewed before anything based on them is published.
  */
 
-export const SCHEMA_VERSION = 1;
+export const SCHEMA_VERSION = 2;
 
 /** How the user rates a device/driver combination. */
 export const USER_STATUS = Object.freeze({
@@ -92,6 +97,8 @@ const PLACEHOLDER_VALUES = new Set([
 ]);
 
 export const MAX_NOTE_LENGTH = 500;
+export const MAX_VENDOR_LENGTH = 60;
+export const MAX_MODEL_LENGTH = 120;
 export const MAX_DEVICES = 40;
 
 function cleanString(value, maxLength = 200) {
@@ -163,6 +170,86 @@ export function stripHardwareSuffix(displayName) {
   return String(displayName ?? '')
     .replace(/\s*\([0-9a-f]+(?:[-:._][0-9a-f]+)+\)\s*$/i, '')
     .trim();
+}
+
+/**
+ * Drivers that serve many different products, so the driver name says nothing
+ * about the hardware: `indi_eqmod_telescope` drives an EQ6-R, an HEQ5 and a
+ * dozen third-party mounts alike, `indi_lx200generic` most of the LX200
+ * protocol world.
+ *
+ * A curated list, deliberately: the alternative — treating every driver as
+ * ambiguous — would put a required field on every device and make reporting a
+ * chore. Extend it whenever a report arrives that cannot be attributed.
+ */
+export const GENERIC_DRIVER_PATTERNS = Object.freeze([
+  /generic|simulator|manual|script/i,
+  /^indi_eqmod_telescope$/i,
+  /^indi_lx200/i,
+  /^indi_synscan/i,
+  /^indi_ioptron/i,
+  /^indi_celestron_gps$/i,
+  /^indi_skywatcher/i,
+  /^indi_weather_meta$/i,
+  /^indi_rolloffino$/i,
+  /^indi_gpio/i,
+  /eqmod\.telescope/i,
+]);
+
+/**
+ * Whether the user has to name the hardware because the collected strings do
+ * not identify it.
+ *
+ * Runs entirely on local data — no lookup against the published database. On a
+ * PINS access point without internet that server is unreachable, and exactly
+ * there is where reports get written.
+ */
+export function isGenericDriver(candidate = {}) {
+  const driver = cleanString(candidate.driverInfo);
+  const indiDriver = cleanString(candidate.indiDriver);
+
+  if (!driver && !indiDriver) return true; // Only a profile Id to go on.
+
+  for (const pattern of GENERIC_DRIVER_PATTERNS) {
+    if (pattern.test(driver) || pattern.test(indiDriver)) return true;
+  }
+
+  // An ASCOM ProgID as the name means the device list gave us nothing better.
+  return /^ascom\./i.test(cleanString(candidate.name));
+}
+
+/**
+ * Splits a device into vendor and model, to prefill the user's input.
+ *
+ * Same heuristic the review UI applies (`splitVendorModel` in
+ * server/review.html) — kept in sync deliberately, so what the user sees
+ * prefilled is what the reviewer would otherwise have guessed. A guess the user
+ * can correct beats a guess made weeks later by someone who does not own the
+ * device.
+ */
+export function suggestVendorModel(candidate = {}) {
+  const strip = (value) =>
+    stripHardwareSuffix(
+      cleanString(value)
+        .replace(/\s*\(\s*INDI\s*\)\s*$/i, '')
+        .trim()
+    );
+
+  const display = strip(candidate.displayName);
+  const name = strip(candidate.name);
+
+  // "ToupTek ATR585M" + "ATR585M" -> the display name carries the vendor.
+  if (display && name && display.toLowerCase().endsWith(name.toLowerCase())) {
+    const vendor = display.slice(0, display.length - name.length).trim();
+    if (vendor) return { vendor, model: name };
+  }
+
+  const source = display || name;
+  if (/^ascom\./i.test(source)) return { vendor: '', model: '' };
+
+  const parts = source.split(/\s+/).filter(Boolean);
+  if (parts.length > 1) return { vendor: parts[0], model: parts.slice(1).join(' ') };
+  return { vendor: '', model: source };
 }
 
 /**
@@ -360,13 +447,19 @@ function sanitizeDevice(candidate, rating) {
   const note = cleanString(rating?.note, MAX_NOTE_LENGTH);
   if (note) device.userNote = note;
 
+  const vendor = cleanString(rating?.vendor, MAX_VENDOR_LENGTH);
+  if (vendor) device.userVendor = vendor;
+
+  const model = cleanString(rating?.model, MAX_MODEL_LENGTH);
+  if (model) device.userModel = model;
+
   return device;
 }
 
 /**
  * Assembles the final submission. `ratings` maps a candidate id to
- * `{ status, note }`; candidates the user did not rate are dropped, so an
- * untouched form submits nothing.
+ * `{ status, note, vendor, model }`; candidates the user did not rate are
+ * dropped, so an untouched form submits nothing.
  *
  * @returns {object|null} payload, or null when nothing was rated
  */

@@ -6,8 +6,11 @@ node_modules
 /server/dist
 /server/build
 /server/static
-.claude
 CLAUDE.local.md
+
+# Claude Code: skills and shared settings are tracked, local state is not
+.claude/settings.local.json
+.claude/scheduled_tasks.lock
 
 # hrz
 *.hrz

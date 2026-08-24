@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [App6.1.4-beta8] - 2026-08-24
+
+### Added
+- Sequence editor: Items can now be saved directly from the editor
+- Guiding (PHD2): The ZFilter guide algorithm is now available for the Dec axis
+- Guiding: The PHD2 settings modal was replaced by a SubNav tab on the guider page
+
+### Fixed
+- Guiding: Manual VNC guide cameras now correctly set the PHD2Camera profile value
+- Atlas: Camera rotation now matches NINA
+
 ## [App6.1.4-beta7] - 2026-08-19
 
 ### Added

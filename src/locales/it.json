@@ -4861,9 +4861,19 @@
           "pending": "In verifica",
           "approved": "Pubblicata",
           "rejected": "Respinta",
-          "duplicate": "Duplicato"
+          "duplicate": "Duplicato",
+          "queued": "In attesa di invio"
         }
-      }
+      },
+      "vendorLabel": "Produttore",
+      "vendorPlaceholder": "es. Sky-Watcher",
+      "modelLabel": "Modello",
+      "modelPlaceholder": "es. EQ6-R Pro",
+      "modelRequiredHint": "Questo driver serve a molti modelli diversi e non può identificare l'hardware. Inserisci il modello.",
+      "modelOptionalHint": "Correggi produttore e modello se il nome rilevato è errato.",
+      "missingModel": "Inserisci il modello per {count} dispositivi prima di inviare.",
+      "queued": "Segnalazione salvata — nessuna connessione al database.",
+      "queuedHint": "Verrà inviata automaticamente la prossima volta che aprirai questa pagina con accesso a internet. La troverai tra le tue segnalazioni."
     },
     "systemMetrics": {
       "powerTitle": "Alimentazione e tensione in ingresso",

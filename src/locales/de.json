@@ -4861,9 +4861,19 @@
           "pending": "In Prüfung",
           "approved": "Veröffentlicht",
           "rejected": "Abgelehnt",
-          "duplicate": "Duplikat"
+          "duplicate": "Duplikat",
+          "queued": "Senden ausstehend"
         }
-      }
+      },
+      "vendorLabel": "Hersteller",
+      "vendorPlaceholder": "z. B. Sky-Watcher",
+      "modelLabel": "Modell",
+      "modelPlaceholder": "z. B. EQ6-R Pro",
+      "modelRequiredHint": "Dieser Treiber unterstützt viele verschiedene Modelle und kann deine Hardware nicht identifizieren. Bitte gib das Modell an.",
+      "modelOptionalHint": "Hersteller und Modell korrigieren, falls der erkannte Name falsch ist.",
+      "missingModel": "Gib das Modell für {count} Geräte an, bevor du sendest.",
+      "queued": "Meldung gespeichert — keine Verbindung zur Datenbank.",
+      "queuedHint": "Sie wird automatisch gesendet, wenn du diese Seite das nächste Mal mit Internetzugang öffnest. Du findest sie unter deinen Meldungen."
     },
     "systemMetrics": {
       "powerTitle": "Stromversorgung und Eingangsspannung",

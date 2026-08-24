@@ -4856,9 +4856,19 @@
           "pending": "確認中",
           "approved": "公開済み",
           "rejected": "却下",
-          "duplicate": "重複"
+          "duplicate": "重複",
+          "queued": "送信待ち"
         }
-      }
+      },
+      "vendorLabel": "メーカー",
+      "vendorPlaceholder": "例: Sky-Watcher",
+      "modelLabel": "モデル",
+      "modelPlaceholder": "例: EQ6-R Pro",
+      "modelRequiredHint": "このドライバーは複数のモデルに対応しているため、ハードウェアを特定できません。モデル名を入力してください。",
+      "modelOptionalHint": "検出された名称が正しくない場合は、メーカーとモデルを修正してください。",
+      "missingModel": "送信前に{count}台の機器のモデル名を入力してください。",
+      "queued": "報告を保存しました（データベースへの接続なし）",
+      "queuedHint": "次回このページをインターネット接続環境で開いた際に自動送信されます。報告一覧から確認できます。"
     },
     "systemMetrics": {
       "powerTitle": "電源と入力電圧",

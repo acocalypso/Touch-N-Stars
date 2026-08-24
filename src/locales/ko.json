@@ -4856,9 +4856,19 @@
           "pending": "검토 중",
           "approved": "게시됨",
           "rejected": "거부됨",
-          "duplicate": "중복"
+          "duplicate": "중복",
+          "queued": "전송 대기 중"
         }
-      }
+      },
+      "vendorLabel": "제조사",
+      "vendorPlaceholder": "예: Sky-Watcher",
+      "modelLabel": "모델",
+      "modelPlaceholder": "예: EQ6-R Pro",
+      "modelRequiredHint": "이 드라이버는 다양한 모델을 지원하므로 하드웨어를 식별할 수 없습니다. 모델명을 입력해 주세요.",
+      "modelOptionalHint": "감지된 이름이 틀릴 경우 제조사와 모델을 수정하세요.",
+      "missingModel": "전송 전 장비 {count}대의 모델명을 입력하세요.",
+      "queued": "보고 저장됨 — 데이터베이스 연결 없음",
+      "queuedHint": "인터넷에 연결된 상태에서 이 페이지를 다시 열면 자동으로 전송됩니다. 보고 목록에서 확인하실 수 있습니다."
     },
     "systemMetrics": {
       "powerTitle": "전원 및 입력 전압",

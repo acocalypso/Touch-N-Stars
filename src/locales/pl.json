@@ -4856,9 +4856,19 @@
           "pending": "W weryfikacji",
           "approved": "Opublikowane",
           "rejected": "Odrzucone",
-          "duplicate": "Duplikat"
+          "duplicate": "Duplikat",
+          "queued": "Oczekiwanie na wysłanie"
         }
-      }
+      },
+      "vendorLabel": "Producent",
+      "vendorPlaceholder": "np. Sky-Watcher",
+      "modelLabel": "Model",
+      "modelPlaceholder": "np. EQ6-R Pro",
+      "modelRequiredHint": "Ten sterownik obsługuje wiele różnych modeli, więc nie może zidentyfikować Twojego sprzętu. Podaj nazwę modelu.",
+      "modelOptionalHint": "Popraw producenta i model, jeśli wykryta nazwa jest błędna.",
+      "missingModel": "Podaj nazwę modelu dla {count} urządzeń przed wysłaniem.",
+      "queued": "Zgłoszenie zapisane — brak połączenia z bazą danych.",
+      "queuedHint": "Zostanie wysłane automatycznie, gdy następnym razem otworzysz tę stronę z dostępem do internetu. Znajdziesz je w swoich zgłoszeniach."
     },
     "systemMetrics": {
       "powerTitle": "Zasilanie i napięcie wejściowe",

@@ -4856,9 +4856,19 @@
           "pending": "In controle",
           "approved": "Gepubliceerd",
           "rejected": "Afgewezen",
-          "duplicate": "Duplicaat"
+          "duplicate": "Duplicaat",
+          "queued": "Wachten om te verzenden"
         }
-      }
+      },
+      "vendorLabel": "Fabrikant",
+      "vendorPlaceholder": "bijv. Sky-Watcher",
+      "modelLabel": "Model",
+      "modelPlaceholder": "bijv. EQ6-R Pro",
+      "modelRequiredHint": "Deze driver werkt met veel verschillende modellen en kan jouw hardware niet herkennen. Geef het model op.",
+      "modelOptionalHint": "Corrigeer de fabrikant en het model als de gedetecteerde naam onjuist is.",
+      "missingModel": "Geef het model op voor {count} apparaten voordat je verzendt.",
+      "queued": "Melding opgeslagen — geen verbinding met de database.",
+      "queuedHint": "Deze wordt automatisch verzonden de volgende keer dat je deze pagina opent met internettoegang. Je vindt hem onder jouw meldingen."
     },
     "systemMetrics": {
       "powerTitle": "Voeding en ingangsspanning",

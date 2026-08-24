@@ -4856,9 +4856,19 @@
           "pending": "En revisió",
           "approved": "Publicat",
           "rejected": "Rebutjat",
-          "duplicate": "Duplicat"
+          "duplicate": "Duplicat",
+          "queued": "Esperant enviar"
         }
-      }
+      },
+      "vendorLabel": "Fabricant",
+      "vendorPlaceholder": "ex. Sky-Watcher",
+      "modelLabel": "Model",
+      "modelPlaceholder": "ex. EQ6-R Pro",
+      "modelRequiredHint": "Aquest driver serveix per a molts models diferents, per tant no pot identificar el teu hardware. Indica el model, si us plau.",
+      "modelOptionalHint": "Corregeix el fabricant i el model si el nom detectat és incorrecte.",
+      "missingModel": "Indica el model per a {count} dispositius abans d'enviar.",
+      "queued": "Informe guardat — sense connexió a la base de dades.",
+      "queuedHint": "S'enviarà automàticament la pròxima vegada que obris aquesta pàgina amb accés a internet. El trobaràs a la teva secció d'informes."
     },
     "systemMetrics": {
       "powerTitle": "Alimentació i tensió d'entrada",

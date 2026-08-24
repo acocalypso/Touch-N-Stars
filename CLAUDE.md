@@ -52,6 +52,7 @@ before working in these areas — the details are not repeated in this file.
 | `api-endpoint` | plugin-server controllers, the four base URLs, the apiService facade and its surface snapshot |
 | `changelog` | CHANGELOG entries and the What's New parser contract |
 | `i18n` | locale keys, the checker's rules, translation workflow |
+| `tns-review` | three parallel review agents: functionality, UI, maintainability |
 
 ## Android networking: two confirmed non-bugs
 

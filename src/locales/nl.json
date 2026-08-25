@@ -2238,7 +2238,8 @@
         "mount": "Montering",
         "progress": "Voortgang",
         "safety": "Veiligheid",
-        "weather": "Weer"
+        "weather": "Weer",
+        "screenlock": "Slot"
       },
       "mount": {
         "parked": "Geparkeerd",
@@ -4884,6 +4885,10 @@
       "notAvailable": "Niet beschikbaar",
       "detected": "Gedetecteerd",
       "notDetected": "Niet gedetecteerd"
+    },
+    "screenLock": {
+      "unlock": "Scherm ontgrendelen",
+      "holdToUnlock": "Houd {seconds} s vast om te ontgrendelen"
     }
   },
   "pinsDevices": {

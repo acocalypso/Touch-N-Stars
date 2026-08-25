@@ -2238,7 +2238,8 @@
         "mount": "Montierung",
         "progress": "Fortschritt",
         "safety": "Sicherheit",
-        "weather": "Wetter"
+        "weather": "Wetter",
+        "screenlock": "Sperre"
       },
       "mount": {
         "parked": "Geparkt",
@@ -4889,6 +4890,10 @@
       "notAvailable": "Nicht verfügbar",
       "detected": "Erkannt",
       "notDetected": "Nicht erkannt"
+    },
+    "screenLock": {
+      "unlock": "Entsperren",
+      "holdToUnlock": "{seconds} s halten zum Entsperren"
     }
   },
   "pinsDevices": {

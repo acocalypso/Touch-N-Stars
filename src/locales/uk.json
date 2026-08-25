@@ -2238,7 +2238,8 @@
         "mount": "Монтування",
         "progress": "Прогрес",
         "safety": "Безпека",
-        "weather": "Погода"
+        "weather": "Погода",
+        "screenlock": "Блокування"
       },
       "mount": {
         "parked": "Запарковано",
@@ -4884,6 +4885,10 @@
       "notAvailable": "Недоступно",
       "detected": "Виявлено",
       "notDetected": "Не виявлено"
+    },
+    "screenLock": {
+      "unlock": "Розблокувати",
+      "holdToUnlock": "Утримуйте {seconds} с для розблокування"
     }
   },
   "dialogs": {

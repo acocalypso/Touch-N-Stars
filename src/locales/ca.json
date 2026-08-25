@@ -2228,7 +2228,8 @@
         "safety": "Seguretat",
         "progress": "Progrés",
         "log": "Registre",
-        "instance": "Instància"
+        "instance": "Instància",
+        "screenlock": "Bloqueig"
       },
       "camera": {
         "idle": "Inactiva"
@@ -4884,6 +4885,10 @@
       "notAvailable": "No disponible",
       "detected": "Detectada",
       "notDetected": "No detectada"
+    },
+    "screenLock": {
+      "unlock": "Desbloquejar",
+      "holdToUnlock": "Mantén {seconds} s per desbloquejar"
     }
   },
   "loading": "carregant",

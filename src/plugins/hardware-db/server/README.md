@@ -1,4 +1,8 @@
-# Server side of the hardware knowledge base
+# Legacy PocketBase hardware server (retired)
+
+> The plugin now uses the integrated TNS Website API configured by
+> `config.apiBaseUrl`. These files are retained only as historical migration
+> reference and must not be deployed for the current Hardware DB workflow.
 
 These files do **not** ship with the app. They configure and operate the PocketBase instance the
 plugin talks to (`config.pocketbaseUrl` in `../plugin.json`). They live here so the client and its

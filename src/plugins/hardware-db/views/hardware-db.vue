@@ -146,7 +146,7 @@ import metadata from '../plugin.json';
 const { t } = useI18n();
 const store = useHardwareDbStore();
 const snapshot = useHardwareSnapshot();
-const api = createHardwareDbApi({ baseUrl: metadata.config.pocketbaseUrl });
+const api = createHardwareDbApi({ baseUrl: metadata.config.apiBaseUrl });
 
 const ratings = ref({});
 const showPreview = ref(false);

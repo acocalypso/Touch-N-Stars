@@ -2244,7 +2244,8 @@
         "mount": "赤道儀",
         "progress": "進行状況",
         "safety": "安全",
-        "weather": "天気"
+        "weather": "天気",
+        "screenlock": "ロック"
       },
       "mount": {
         "parked": "パーク済み",
@@ -4890,6 +4891,10 @@
       "notAvailable": "利用不可",
       "detected": "検出済み",
       "notDetected": "未検出"
+    },
+    "screenLock": {
+      "unlock": "ロック解除",
+      "holdToUnlock": "{seconds}秒長押しで解除"
     }
   },
   "pinsDevices": {

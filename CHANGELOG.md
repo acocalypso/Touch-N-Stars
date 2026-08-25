@@ -5,6 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [App6.1.4-beta9] - Unreleased
+
+### Added
+- Plugin Screen lock: The app's controls can now be locked from the status bar so nothing gets changed by accident - in the dark, with the device in a pocket, or when handing it to someone else. Everything stays visible and keeps updating while locked; unlocking requires a 2 s long press
+
 ## [App6.1.4-beta8] - 2026-08-24
 
 ### Added

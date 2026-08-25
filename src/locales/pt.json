@@ -2244,7 +2244,8 @@
         "mount": "Montagem",
         "progress": "Progresso",
         "safety": "Segurança",
-        "weather": "Clima"
+        "weather": "Clima",
+        "screenlock": "Bloqueio"
       },
       "mount": {
         "parked": "Estacionada",
@@ -4895,6 +4896,10 @@
       "notAvailable": "Indisponível",
       "detected": "Detectada",
       "notDetected": "Não detectada"
+    },
+    "screenLock": {
+      "unlock": "Desbloquear tela",
+      "holdToUnlock": "Segure por {seconds} s para desbloquear"
     }
   },
   "pinsDevices": {

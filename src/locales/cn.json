@@ -2244,7 +2244,8 @@
         "mount": "赤道仪",
         "progress": "进度",
         "safety": "安全",
-        "weather": "天气"
+        "weather": "天气",
+        "screenlock": "锁定"
       },
       "mount": {
         "parked": "已停靠",
@@ -4890,6 +4891,10 @@
       "notAvailable": "不可用",
       "detected": "已检测到",
       "notDetected": "未检测到"
+    },
+    "screenLock": {
+      "unlock": "解锁屏幕",
+      "holdToUnlock": "按住{seconds}秒以解锁"
     }
   },
   "pinsDevices": {

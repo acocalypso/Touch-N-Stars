@@ -165,6 +165,12 @@
       "infoTargetImage": "Si la imagen solo se muestra en negro, el \"caché del mapa del cielo fuera de línea\" debe configurarse en Nina o la opción \"Usar Nina Cache\" debe desactivarse",
       "useCenter": "Centrar",
       "useRotate": "Girar",
+      "skyChart": {
+        "altitude": "Altitud (°)",
+        "horizonProfile": "Perfil de horizonte",
+        "twilight": "Crepúsculo",
+        "astronomicalNight": "Noche astronómica"
+      },
       "mosaic": {
         "title": "Modo mosaico",
         "columns": "columnas",
@@ -4861,9 +4867,19 @@
           "pending": "En revisión",
           "approved": "Publicado",
           "rejected": "Rechazado",
-          "duplicate": "Duplicado"
+          "duplicate": "Duplicado",
+          "queued": "Pendiente de envío"
         }
-      }
+      },
+      "vendorLabel": "Fabricante",
+      "vendorPlaceholder": "ej. Sky-Watcher",
+      "modelLabel": "Modelo",
+      "modelPlaceholder": "ej. EQ6-R Pro",
+      "modelRequiredHint": "Este driver sirve para varios modelos y no puede identificar tu hardware. Por favor, indica el modelo.",
+      "modelOptionalHint": "Corrige el fabricante y modelo si el nombre detectado es incorrecto.",
+      "missingModel": "Indica el modelo para {count} dispositivos antes de enviar.",
+      "queued": "Informe guardado — sin conexión a la base de datos.",
+      "queuedHint": "Se enviará automáticamente la próxima vez que abras esta página con internet. Lo encontrarás en tus informes."
     },
     "systemMetrics": {
       "powerTitle": "Alimentación y tensión de entrada",

@@ -165,6 +165,12 @@
       "infoTargetImage": "Pokud se snímek zobrazuje pouze černě, je nutné v NINA nastavit „Offline Mapa Oblohy“ nebo deaktivovat možnost „Použít NINA Mezipamět",
       "useCenter": "Střed",
       "useRotate": "Rotace",
+      "skyChart": {
+        "altitude": "Výška (°)",
+        "horizonProfile": "Profil horizontu",
+        "twilight": "Soumrak",
+        "astronomicalNight": "Astronomická noc"
+      },
       "mosaic": {
         "title": "Režim mozaiky",
         "columns": "Sloupce",
@@ -4856,9 +4862,19 @@
           "pending": "Ověřuje se",
           "approved": "Zveřejněno",
           "rejected": "Zamítnuto",
-          "duplicate": "Duplikát"
+          "duplicate": "Duplikát",
+          "queued": "Čeká na odeslání"
         }
-      }
+      },
+      "vendorLabel": "Výrobce",
+      "vendorPlaceholder": "např. Sky-Watcher",
+      "modelLabel": "Model",
+      "modelPlaceholder": "např. EQ6-R Pro",
+      "modelRequiredHint": "Tento ovladač slouží pro mnoho různých modelů a nemůže vaše zařízení identifikovat. Uveďte prosím model.",
+      "modelOptionalHint": "Opravte výrobce a model, pokud je detekované jméno nesprávné.",
+      "missingModel": "Uveďte model pro {count} zařízení před odesláním.",
+      "queued": "Hlášení uloženo — není spojení s databází.",
+      "queuedHint": "Bude odesláno automaticky při příštím otevření této stránky s přístupem k internetu. Najdete ho v sekci hlášení."
     },
     "systemMetrics": {
       "powerTitle": "Napájení a vstupní napětí",

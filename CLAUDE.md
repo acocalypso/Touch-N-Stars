@@ -28,10 +28,6 @@ npm run test:run
 needs Node ≥ 22.15 (`registerHooks`) — below that every test file fails at module
 instantiation, which looks alarming but says nothing about the code.
 
-`i18n:check` is expected to pass. It used to fail on a `ca.json` placeholder mismatch
-(`plugins.pinsAllSky.messages.deletedSessions` missing `{suffix}`); that is fixed, so a
-failure now belongs to the current change.
-
 ## Polling is mandatory
 
 NINA's `/v2/socket` WebSocket does **not** deliver every equipment/state change. The 2s HTTP
@@ -39,105 +35,21 @@ polling (`fetchAllInfos` in `src/store/store.js`) must not be replaced by WebSoc
 Battery/performance work has to keep the polling and optimize elsewhere: adaptive intervals,
 dropping unchanged payloads before store writes, batched backend endpoints.
 
-## Profile settings: the traps
+## Skills: the deep procedures live outside this file
 
-Everything is written with `apiService.profileChangeValue('<Section>-<Key>', value)`.
+The recurring procedures are documented as on-demand skills in `.claude/skills/` instead of
+here, so they cost no context until they are actually needed. Load the skill
+before working in these areas — the details are not repeated in this file.
 
-- Camera **chip size in pixels** lives under `FramingAssistantSettings-CameraWidth` /
-  `-CameraHeight`, **not** under `CameraSettings`.
-- Camera **pixel size** (`CameraSettings-PixelSize`) is never reported at runtime. NINA's
-  `store.cameraInfo` carries `XSize`/`YSize` but no pixel size — it is always a manual entry.
-- `XSize`/`YSize` ≤ 0 means the driver reports no sensor size. That is the de-facto **DSLR
-  detection** (see `src/components/camera/CenterHere.vue`).
-- **Two different slew rates.** `TelescopeSettings-IndiMaxSlewRateDps` is the profile-side
-  driver limit. The manual jog rate in `src/components/mount/setSlewRatePins.vue` comes from
-  `GET indi/mount/slew-rates` (driver capabilities) and is deliberately decoupled from it.
-- Several settings components seed from the profile in `onMounted` only and then keep showing
-  their defaults when the 2s poll delivers late (`settingsSensor.vue`, `settingsMount.vue`,
-  `settingsTelescope.vue`). In new components watch `store.profileInfo` instead, and guard
-  user edits with a "touched" flag.
-
-## Equipment: device mapping
-
-Every device follows the same three-step driver change (implemented generically in
-`src/components/setupWizard/IndiDriverSelect.vue`):
-
-```
-profileChangeValue('<X>Settings-IndiDriver', name)
-  → apiService.<x>Action('list-devices')
-  → equipmentStore.triggerRescan('<key>')
-  → store.fetchProfilInfos()
-```
-
-| Profile section         | API action         | Rescan key   |
-| ----------------------- | ------------------ | ------------ |
-| `CameraSettings`        | `cameraAction`     | `camera`     |
-| `TelescopeSettings`     | `mountAction`      | `mount`      |
-| `FocuserSettings`       | `focusAction`      | `focus`      |
-| `FilterWheelSettings`   | `filterAction`     | `filter`     |
-| `RotatorSettings`       | `rotatorAction`    | `rotator`    |
-| `SwitchSettings`        | `switchAction`     | `switch`     |
-| `WeatherDataSettings`   | `weatherAction`    | `weather`    |
-| `FlatDeviceSettings`    | `flatdeviceAction` | `flatdevice` |
-| `DomeSettings`          | `domeAction`       | `dome`       |
-| `SafetyMonitorSettings` | `safetyAction`     | `safety`     |
-| `GuiderSettings`        | `guiderAction`     | `guider`     |
-
-INDI device types for `getINDIDeviceList()` are named differently from the profile sections:
-`camera, focuser, filterwheel, rotator, telescope, weather, switches, flatpanel, dome,
-safetymonitor`.
-
-Connection ordering constraints (from `connectEquipment.vue:connectAll()`): switch first with a
-5s wait, mount before guider. PHD2 in PINS mode additionally requires a connected mount **and**
-`guiderStore.guidecamOk`.
-
-Device quirks: filter wheel slot count (`SettingsFilterWheelSlotNum.vue`), Switch SV241 Pro
-(`SettingsSwitchSV241Pro.vue`), weather API keys (`SettingsWeather.vue`), focuser rename
-`indi_myfocuserpro2_focus` → "Gemini / MyFocuserPro2" and the filtering of `indi_gemini_focus`.
-
-Cameras have **no** `SettingsSerialConnection` fallback — only `SettingsAlpacaDirect` when
-`Category === 'ASCOM Alpaca'`, otherwise the `components.alpacaDirect.cameraNoSettings` note.
-
-## Setup wizard
-
-`src/components/setupWizard/` contains the cancellable first-run and equipment wizard.
-It opens before setup is complete and is ordered ahead of the tutorial and What's New.
-The common flow covers Welcome → Language → Information → Instance (native only) →
-Mount → Location → Telescope → Camera → Focuser → Filter wheel → Done. PINS adds
-System Localization, Wi-Fi, Updates, INDI slew speed and Guiding. Localization is
-deliberately before Wi-Fi so the regulatory country, timezone, locale and remote
-keyboard layout are correct before networking is configured. It is restartable
-from settings and the PINS page.
-
-- **Extension point:** add one entry to the computed `steps` list in `SetupWizard.vue` plus
-  one `v-else-if` branch. Nothing else in the wizard shell is step-count aware. Step IDs,
-  rather than indexes, are persisted because PINS-only steps can appear after connection.
-- **Telescope sits before camera on purpose** — the camera step's image-scale readout needs
-  `TelescopeSettings.FocalLength`.
-- **The camera reverses the order** of every other device step: native device list first, INDI
-  driver only as a collapsible fallback, because many cameras are natively supported without
-  INDI. All other devices pick the INDI driver first.
-- 3rd-party INDI driver installs accept the types in `ALLOWED_INDI_DRIVER_TYPES`
-  (`indiInstallUtils.js`). That list must stay in sync with `TYPE_OPTIONS` in
-  `PinsIndiRegistryEditModal.vue` — the registry an installed driver is written into.
-  `dome` and `safetymonitor` are not covered by either.
-- **z-index:** the wizard overlay is `z-70`, the PINS upgrade overlay `z-[80]`. Modals opened
-  from inside the wizard teleport to `body` and must be raised to `z-[75]`, otherwise they open
-  invisibly behind it. `LocationSyncModal` sits at `z-[76]` because it blocks the mount connect.
-- The wizard hides itself while `pinsStore.shouldShowUpgradeOverlay` is true and persists
-  `settingsStore.setupWizard.currentStepId` — a PINS upgrade restarts services and can
-  temporarily interrupt the app connection.
-
-## Location handling
-
-The refs in `src/utils/location.js` are **module singletons**, shared with `SetupPage` step 5
-and `LocationSettingsPins.vue`. Always call `loadFromAstrometrySettings()` when entering a
-location UI instead of trusting what is left in them.
-
-`getCurrentLocation()` writes **strings** (`toFixed`) — use text inputs, not `NumberInputPicker`;
-`saveCoordinates()` sanitizes them including a decimal comma. With sync direction `TOTELESCOPE`,
-`saveCoordinates()` disconnects and reconnects the mount and takes PHD2 with it: several
-seconds, so a loading flag is mandatory.
+| Skill | Covers |
+| --- | --- |
+| `feature-kickoff` | new feature: interview the goal, agree acceptance criteria, write `docs/features/<slug>.md` |
+| `equipment` | device map, INDI driver changes, OFFLINE reload, connect ordering, every `<X>Settings-…` profile trap |
+| `setup-wizard` | wizard steps and their order, z-index staffing, location and coordinate handling |
+| `api-endpoint` | plugin-server controllers, the five base URLs, the apiService facade and its surface snapshot |
+| `changelog` | CHANGELOG entries and the What's New parser contract |
+| `i18n` | locale keys, the checker's rules, translation workflow |
+| `tns-review` | three parallel review agents: functionality, UI, maintainability |
 
 ## Android networking: two confirmed non-bugs
 
@@ -163,7 +75,10 @@ Drag & drop: every `<draggable>` needs `:fallbackOnBody="true"`. `backdrop-filte
 creates a containing block for `position: fixed`, which misplaces Sortable.js's ghost on Android
 Chrome. Do **not** use `forceFallback: true`.
 
-i18n: add new keys to `src/locales/en.json` first, then mirror them into the other 13 locales.
-Every user-facing string needs an entry; `i18n:check` gates it.
+i18n: add new keys to `src/locales/en.json` **only** while implementing, and ask before
+generating the other 13 locales — translations are produced in one deliberate batch right
+before the commit, never scattered through the work. Until then `i18n:check` reports
+`missing (N)` for all 13; that is the expected mid-work state. Every user-facing string
+needs an entry. Procedure, checker rules and tooling traps: `.claude/skills/i18n/SKILL.md`.
 
 Targets are Android, iOS and the browser — keep all three working.

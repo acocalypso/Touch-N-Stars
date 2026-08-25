@@ -68,40 +68,117 @@
       </button>
     </div>
 
-    <!-- The note only appears once a status is picked: an empty text field on
-         every device makes the form look like homework and suppresses replies. -->
-    <div v-if="rating.status" class="flex flex-col gap-1">
-      <label class="text-xs uppercase font-bold text-gray-400">
+    <!-- Hardware identity and the note only appear once a status is picked: an
+         empty form on every device looks like homework and suppresses replies. -->
+    <div v-if="rating.status" class="flex flex-col gap-3">
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        <div class="flex flex-col gap-1">
+          <label :for="`${fieldId}-vendor`" class="text-xs uppercase font-bold text-gray-400">
+            {{ $t('plugins.hardwareDb.vendorLabel') }}
+          </label>
+          <input
+            :id="`${fieldId}-vendor`"
+            :value="rating.vendor"
+            type="text"
+            :list="`${fieldId}-vendors`"
+            :maxlength="maxVendorLength"
+            class="tns-input min-h-touch"
+            :placeholder="$t('plugins.hardwareDb.vendorPlaceholder')"
+            @input="emitRating({ vendor: $event.target.value })"
+          />
+          <!-- Suggestions are additive only: on a PINS access point without
+               internet the list is empty and the field stays plain free text. -->
+          <datalist :id="`${fieldId}-vendors`">
+            <option v-for="vendor in suggestions.vendors" :key="vendor" :value="vendor" />
+          </datalist>
+        </div>
+
+        <div class="flex flex-col gap-1">
+          <label :for="`${fieldId}-model`" class="text-xs uppercase font-bold text-gray-400">
+            {{ $t('plugins.hardwareDb.modelLabel') }}{{ modelRequired ? ' *' : '' }}
+          </label>
+          <input
+            :id="`${fieldId}-model`"
+            :value="rating.model"
+            type="text"
+            :list="`${fieldId}-models`"
+            :maxlength="maxModelLength"
+            class="tns-input min-h-touch"
+            :class="{ 'border-red-500': modelMissing }"
+            :placeholder="$t('plugins.hardwareDb.modelPlaceholder')"
+            @input="emitRating({ model: $event.target.value })"
+          />
+          <datalist :id="`${fieldId}-models`">
+            <option v-for="model in suggestions.models" :key="model" :value="model" />
+          </datalist>
+        </div>
+      </div>
+
+      <!-- A generic driver names the protocol, not the product: without the
+           model the report cannot be attributed to any piece of hardware. -->
+      <p
+        v-if="modelRequired"
+        class="text-xs"
+        :class="modelMissing ? 'text-red-400' : 'text-gray-500'"
+      >
+        {{ $t('plugins.hardwareDb.modelRequiredHint') }}
+      </p>
+      <p v-else class="text-xs text-gray-500">
+        {{ $t('plugins.hardwareDb.modelOptionalHint') }}
+      </p>
+
+      <label :for="`${fieldId}-note`" class="text-xs uppercase font-bold text-gray-400">
         {{ $t('plugins.hardwareDb.noteLabel') }}
       </label>
       <textarea
+        :id="`${fieldId}-note`"
         :value="rating.note"
         rows="2"
         :maxlength="maxNoteLength"
         class="tns-input resize-y"
         :placeholder="$t('plugins.hardwareDb.notePlaceholder')"
-        @input="emitNote($event.target.value)"
+        @input="emitRating({ note: $event.target.value })"
       ></textarea>
-      <p class="text-xs text-gray-500 self-end">{{ rating.note.length }} / {{ maxNoteLength }}</p>
+      <p class="text-xs text-gray-500 self-end">
+        {{ (rating.note || '').length }} / {{ maxNoteLength }}
+      </p>
     </div>
   </div>
 </template>
 
 <script setup>
 import { computed } from 'vue';
-import { MAX_NOTE_LENGTH, USER_STATUS } from '../utils/snapshotSerializer';
+import {
+  MAX_MODEL_LENGTH,
+  MAX_NOTE_LENGTH,
+  MAX_VENDOR_LENGTH,
+  USER_STATUS,
+  isGenericDriver,
+} from '../utils/snapshotSerializer';
 
 const props = defineProps({
   candidate: { type: Object, required: true },
-  rating: { type: Object, default: () => ({ status: null, note: '' }) },
+  rating: { type: Object, default: () => ({ status: null, note: '', vendor: '', model: '' }) },
   /** Published entry for this device, or null when the database has none. */
   known: { type: Object, default: null },
   knowledgeLoaded: { type: Boolean, default: false },
+  /** Vendor/model names already published for this category. May be empty. */
+  suggestions: { type: Object, default: () => ({ vendors: [], models: [] }) },
 });
 
 const emit = defineEmits(['update:rating']);
 
 const maxNoteLength = MAX_NOTE_LENGTH;
+const maxVendorLength = MAX_VENDOR_LENGTH;
+const maxModelLength = MAX_MODEL_LENGTH;
+
+// Datalists live in the document, so their ids have to be unique per row.
+const fieldId = computed(() => `hw-${props.candidate.id}`);
+
+const modelRequired = computed(() => isGenericDriver(props.candidate));
+const modelMissing = computed(
+  () => modelRequired.value && !String(props.rating.model || '').trim()
+);
 
 const statusOptions = computed(() => [
   {
@@ -134,14 +211,19 @@ const knownStyle = computed(() => {
   return styles[props.known?.status] || styles.works;
 });
 
-// Clicking the active chip clears it again, so a misclick can be undone without
-// the row turning into something the user cannot opt out of.
-function toggleStatus(value) {
-  const next = props.rating.status === value ? null : value;
-  emit('update:rating', { status: next, note: next ? props.rating.note : '' });
+function emitRating(patch) {
+  emit('update:rating', { ...props.rating, ...patch });
 }
 
-function emitNote(note) {
-  emit('update:rating', { status: props.rating.status, note });
+// Clicking the active chip clears it again, so a misclick can be undone without
+// the row turning into something the user cannot opt out of. Clearing the
+// status also clears what was typed for it — the row is back to unrated.
+function toggleStatus(value) {
+  const next = props.rating.status === value ? null : value;
+  if (!next) {
+    emit('update:rating', { status: null, note: '', vendor: '', model: '' });
+    return;
+  }
+  emitRating({ status: next });
 }
 </script>

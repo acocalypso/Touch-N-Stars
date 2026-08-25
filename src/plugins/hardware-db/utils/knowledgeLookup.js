@@ -42,6 +42,8 @@ export function buildKnowledgeIndex(rawEntries = [], rawNotes = []) {
 
   const entries = [];
   const byDevice = new Map();
+  const devices = [];
+  const seenDevices = new Set();
 
   for (const raw of Array.isArray(rawEntries) ? rawEntries : []) {
     const device = raw?.expand?.device;
@@ -54,6 +56,8 @@ export function buildKnowledgeIndex(rawEntries = [], rawNotes = []) {
     // would then never match the cleaned name this app sends.
     const model = stripHardwareSuffix(device.model);
 
+    const category = String(device.category ?? '').trim();
+
     const entry = {
       id: raw.id,
       driver,
@@ -61,9 +65,18 @@ export function buildKnowledgeIndex(rawEntries = [], rawNotes = []) {
       reportCount: Number(raw.reportCount) || 1,
       vendor,
       model,
+      category,
       notes: notesByEntry.get(raw.id) || [],
     };
     entries.push(entry);
+
+    // Several entries (drivers, stacks) share one device; the suggestion list
+    // wants each piece of hardware once.
+    const deviceKey = `${category}::${normalizeDeviceName(`${vendor} ${model}`)}`;
+    if (model && !seenDevices.has(deviceKey)) {
+      seenDevices.add(deviceKey);
+      devices.push({ vendor, model, category });
+    }
 
     // A device may be known by its full name, by the bare model, or by any
     // spelling a reviewer recorded as an alias.
@@ -74,14 +87,45 @@ export function buildKnowledgeIndex(rawEntries = [], rawNotes = []) {
     }
   }
 
-  return { entries, byDevice };
+  return { entries, byDevice, devices };
+}
+
+/**
+ * Vendor and model names already published for one category, for the input
+ * suggestions while the user names their hardware.
+ *
+ * Purely additive: without a knowledge base — no internet on a PINS access
+ * point, or nothing published for this category yet — both lists come back
+ * empty and the inputs stay ordinary free text.
+ */
+export function suggestionsForCategory(index, category) {
+  const devices = Array.isArray(index?.devices) ? index.devices : [];
+  if (!devices.length) return { vendors: [], models: [] };
+
+  const wanted = String(category ?? '').trim();
+  const vendors = new Set();
+  const models = new Set();
+
+  for (const device of devices) {
+    // An entry whose device has no category recorded is offered everywhere
+    // rather than nowhere; a wrong suggestion costs nothing, a missing one does.
+    if (wanted && device.category && device.category !== wanted) continue;
+    if (device.vendor) vendors.add(device.vendor);
+    if (device.model) models.add(device.model);
+  }
+
+  const sort = (set) => [...set].sort((a, b) => a.localeCompare(b));
+  return { vendors: sort(vendors), models: sort(models) };
 }
 
 /**
  * The published record for one candidate of the local device list.
  *
- * The display name is tried first because it usually carries the vendor
- * ("ToupTek ATR585M"), while the bare name often does not ("ATR585M").
+ * What the user typed comes first: with a generic driver the collected strings
+ * name the driver, not the hardware, so the user's own vendor/model is the only
+ * thing that can find the right entry. After that the display name, because it
+ * usually carries the vendor ("ToupTek ATR585M") while the bare name often does
+ * not ("ATR585M").
  *
  * @returns {null|object} the matching entry with its notes, or null
  */
@@ -89,6 +133,8 @@ export function lookupDevice(index, candidate = {}) {
   if (!index?.byDevice) return null;
 
   const keys = [
+    normalizeDeviceName(`${candidate.userVendor ?? ''} ${candidate.userModel ?? ''}`),
+    normalizeDeviceName(candidate.userModel),
     normalizeDeviceName(stripHardwareSuffix(candidate.displayName)),
     normalizeDeviceName(stripHardwareSuffix(candidate.name)),
   ].filter(Boolean);

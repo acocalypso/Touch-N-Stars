@@ -1,6 +1,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { buildKnowledgeIndex, lookupDevice } from '@/plugins/hardware-db/utils/knowledgeLookup';
+import {
+  buildKnowledgeIndex,
+  lookupDevice,
+  suggestionsForCategory,
+} from '@/plugins/hardware-db/utils/knowledgeLookup';
 
 function record({ id, driver, vendor, model, status = 'works', reportCount = 1, aliases = [] }) {
   return {
@@ -9,6 +13,17 @@ function record({ id, driver, vendor, model, status = 'works', reportCount = 1, 
     status,
     reportCount,
     expand: { device: { slug: id, category: 'camera', vendor, model, aliases } },
+  };
+}
+
+/** A mount, i.e. a different category than the camera helper above. */
+function mountRecord({ id, driver, vendor = 'Sky-Watcher', model = 'EQ6-R Pro' }) {
+  return {
+    id,
+    driver,
+    status: 'works',
+    reportCount: 1,
+    expand: { device: { slug: id, category: 'mount', vendor, model, aliases: [] } },
   };
 }
 
@@ -130,4 +145,56 @@ test('an empty knowledge base yields an empty index, not an error', () => {
 
   assert.deepEqual(index.entries, []);
   assert.equal(lookupDevice(index, { displayName: 'ZWO ASI533MC Pro' }), null);
+});
+
+test('suggestions offer what is published for that category', () => {
+  const index = buildKnowledgeIndex(
+    [
+      record({ id: 'e1', driver: 'indi_asi_ccd', vendor: 'ZWO', model: 'ASI533MC Pro' }),
+      // Same device, second driver: the suggestion list wants it once.
+      record({ id: 'e2', driver: 'ASCOM ZWO', vendor: 'ZWO', model: 'ASI533MC Pro' }),
+      mountRecord({ id: 'e3', driver: 'indi_eqmod_telescope' }),
+    ],
+    []
+  );
+
+  const cameras = suggestionsForCategory(index, 'camera');
+  assert.deepEqual(cameras.vendors, ['ZWO']);
+  assert.deepEqual(cameras.models, ['ASI533MC Pro']);
+
+  const mounts = suggestionsForCategory(index, 'mount');
+  assert.deepEqual(mounts.vendors, ['Sky-Watcher']);
+  assert.deepEqual(mounts.models, ['EQ6-R Pro']);
+});
+
+test('without a knowledge base the suggestions are simply empty', () => {
+  // The normal case on a PINS access point without internet: the inputs stay
+  // plain free text rather than failing.
+  assert.deepEqual(suggestionsForCategory(null, 'mount'), { vendors: [], models: [] });
+  assert.deepEqual(suggestionsForCategory(buildKnowledgeIndex(), 'mount'), {
+    vendors: [],
+    models: [],
+  });
+});
+
+test('what the user typed finds the entry the driver name never could', () => {
+  // A generic driver reports itself, not the mount. Only the user's own model
+  // can reach the published entry.
+  const index = buildKnowledgeIndex(
+    [mountRecord({ id: 'e1', driver: 'indi_eqmod_telescope' })],
+    []
+  );
+
+  const candidate = { name: 'EQMod Mount', driverInfo: 'indi_eqmod_telescope' };
+  assert.equal(lookupDevice(index, candidate), null);
+
+  const named = lookupDevice(index, {
+    ...candidate,
+    userVendor: 'Sky-Watcher',
+    userModel: 'EQ6-R Pro',
+  });
+  assert.equal(named?.id, 'e1');
+
+  // The model alone is enough; not everyone fills in the vendor.
+  assert.equal(lookupDevice(index, { ...candidate, userModel: 'EQ6-R Pro' })?.id, 'e1');
 });

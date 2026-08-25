@@ -165,6 +165,12 @@
       "infoTargetImage": "如果图像仅显示为黑色，必须在NINA中设置\"离线星图缓存\"或禁用\"使用NINA缓存\"选项",
       "useCenter": "居中",
       "useRotate": "旋转",
+      "skyChart": {
+        "altitude": "高度 (°)",
+        "horizonProfile": "地平线轮廓",
+        "twilight": "晨昏",
+        "astronomicalNight": "天文夜"
+      },
       "mosaic": {
         "columns": "专栏",
         "overlap": "重叠 ％",
@@ -4856,9 +4862,19 @@
           "pending": "审核中",
           "approved": "已发布",
           "rejected": "已拒绝",
-          "duplicate": "重复"
+          "duplicate": "重复",
+          "queued": "等待发送"
         }
-      }
+      },
+      "vendorLabel": "制造商",
+      "vendorPlaceholder": "例如 Sky-Watcher",
+      "modelLabel": "型号",
+      "modelPlaceholder": "例如 EQ6-R Pro",
+      "modelRequiredHint": "此驱动支持多种型号，无法识别你的硬件。请填写型号。",
+      "modelOptionalHint": "如果检测到的名称不正确，请修正制造商和型号。",
+      "missingModel": "发送前请为 {count} 台设备填写型号。",
+      "queued": "报告已保存 —— 未连接到数据库。",
+      "queuedHint": "下次你联网打开此页面时将自动发送。你可以在你的报告中找到它。"
     },
     "systemMetrics": {
       "powerTitle": "电源与输入电压",

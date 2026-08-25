@@ -4,6 +4,16 @@
     class="w-full transition-opacity h-(--statusbar-height) text-sm text-content flex items-center justify-start overflow-x-auto scrollbar-hide safe-area-bottom"
     :class="[activeInstanceColor]"
   >
+    <!-- Screen lock (screen-lock plugin) -->
+    <button
+      v-if="isScreenLockPluginEnabled && !isStatusItemHidden('screenlock')"
+      class="tns-status-seg"
+      :style="{ order: getStatusOrder('screenlock') }"
+      @click.stop.prevent="handleScreenLockClick"
+    >
+      <LockOpenIcon class="w-4 h-4" />
+      <span class="chip-value">{{ t('components.statusBar.labels.screenlock') }}</span>
+    </button>
     <!-- Safety -->
     <div
       v-if="store.safetyInfo.Connected && !isStatusItemHidden('safety')"
@@ -194,6 +204,8 @@ import infoMount from '../mount/infoMount.vue';
 import InfoFilterwheel from '../filterwheel/InfoFilterwheel.vue';
 import infoProgress from './infoProgress.vue';
 import { useHaptics } from '@/composables/useHaptics';
+import { usePluginStore } from '@/store/pluginStore';
+import { LockOpenIcon } from '@heroicons/vue/24/outline';
 
 const { t } = useI18n();
 const { tapLight } = useHaptics();
@@ -207,6 +219,16 @@ const settingsStore = useSettingsStore();
 const cameraStore = useCameraStore();
 const mountStore = useMountStore();
 const filterStore = useFilterStore();
+const pluginStore = usePluginStore();
+const isScreenLockPluginEnabled = computed(
+  () => pluginStore.plugins.find((plugin) => plugin.id === 'screen-lock')?.enabled === true
+);
+
+function handleScreenLockClick() {
+  tapLight();
+  settingsStore.lockScreen();
+}
+
 const showStatusBarPulse = ref(false);
 const selectedInstanceId = computed(() => settingsStore.selectedInstanceId);
 

@@ -19,6 +19,7 @@ migrateCelestiaAtlasSettingsStorage();
 // Status bar chips in their factory order. Also the source of truth for which
 // chips exist, so stored orders from older versions can be topped up on load.
 const DEFAULT_STATUSBAR_ORDER = [
+  'screenlock',
   'camera',
   'guider',
   'mount',
@@ -205,6 +206,13 @@ export const useSettingsStore = defineStore('settings', {
     statusbar: {
       itemOrder: [...DEFAULT_STATUSBAR_ORDER],
       hiddenItems: [],
+    },
+    // Screen lock (screen-lock plugin): guards against accidental touches.
+    // Lives here, not in apiStore, because this store is persisted as a whole -
+    // the lock has to survive a restart and an instance switch (which reloads
+    // the page), while clearAllStates() would wipe it from apiStore.
+    screenLock: {
+      active: false,
     },
   }),
   getters: {
@@ -777,6 +785,14 @@ export const useSettingsStore = defineStore('settings', {
     setStatusBarOrder(order) {
       this.statusbar.itemOrder = order;
       this.saveStatusBarSettings();
+    },
+
+    lockScreen() {
+      this.screenLock.active = true;
+    },
+
+    unlockScreen() {
+      this.screenLock.active = false;
     },
 
     toggleStatusBarItem(id) {

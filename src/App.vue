@@ -267,6 +267,10 @@
     <!-- Picker Overlay Component -->
     <PickerOverlay />
 
+    <!-- Screen Lock Overlay (screen-lock plugin) - sits above every other
+         layer, see z-lock in tailwind.config.cjs -->
+    <ScreenLockOverlay v-if="screenLockActive" />
+
     <!-- PINS Time Warning Modal -->
     <Modal
       :show="showTimeWarningModal"
@@ -397,6 +401,7 @@ import { useToastStore } from '@/store/toastStore';
 import { PINS_PORT, DEFAULT_PINS_DAEMON_API_TOKEN as PINS_TOKEN } from '@/services/pinsConfig';
 import apiPinsService from '@/services/apiPinsService';
 import { createUnderVoltageNotifier } from '@/plugins/systemmetrics/services/underVoltageNotifier';
+import { usePluginStore } from '@/store/pluginStore';
 
 const SkyAtlasView = defineAsyncComponent(() => import('./views/CelestiaAtlasView.vue'));
 const TutorialModal = defineAsyncComponent(() => import('@/components/TutorialModal.vue'));
@@ -407,6 +412,9 @@ const WhatsNewModal = defineAsyncComponent(() => import('@/components/helpers/Wh
 const UpdateAvailableModal = defineAsyncComponent(
   () => import('@/components/helpers/UpdateAvailableModal.vue')
 );
+const ScreenLockOverlay = defineAsyncComponent(
+  () => import('@/plugins/screen-lock/components/ScreenLockOverlay.vue')
+);
 
 const store = apiStore();
 const settingsStore = useSettingsStore();
@@ -414,7 +422,21 @@ const toastStore = useToastStore();
 const pinsStore = usePinsStore();
 const nightSummaryStore = useNightSummaryStore();
 const route = useRoute();
+const pluginStore = usePluginStore();
 const skyAtlasMounted = ref(Boolean(store.showSkyAtlas));
+
+// The lock only exists while its plugin is on. Rendering on the combined
+// condition and clearing the persisted flag when the plugin is switched off
+// makes it impossible to end up in a state that locks the user out.
+const isScreenLockPluginEnabled = computed(
+  () => pluginStore.plugins.find((plugin) => plugin.id === 'screen-lock')?.enabled === true
+);
+const screenLockActive = computed(
+  () => settingsStore.screenLock.active && isScreenLockPluginEnabled.value
+);
+watch(isScreenLockPluginEnabled, (enabled) => {
+  if (!enabled) settingsStore.unlockScreen();
+});
 
 watch(
   () => store.showSkyAtlas,

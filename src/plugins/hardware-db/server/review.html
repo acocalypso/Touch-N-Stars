@@ -782,7 +782,18 @@
         return pressed?.dataset.choice || fallback;
       }
 
+      /**
+       * Since schema version 2 the reporter names the hardware themselves —
+       * necessary because a driver like indi_eqmod_telescope says nothing about
+       * the mount. That statement beats the heuristic below, which only ever
+       * guessed at strings the driver happened to expose.
+       */
       function splitVendorModel(dev) {
+        const userModel = (dev.userModel || '').trim();
+        if (userModel) {
+          return { vendor: (dev.userVendor || '').trim(), model: userModel, fromUser: true };
+        }
+
         const display = stripHardwareSuffix(
           (dev.displayName || '').replace(/\s*\(\s*INDI\s*\)\s*$/i, '').trim()
         );
@@ -863,7 +874,7 @@
        * full form to re-read.
        */
       function deviceCard(d, i) {
-        const { vendor, model } = splitVendorModel(d);
+        const { vendor, model, fromUser } = splitVendorModel(d);
         const slug = slugify(`${vendor} ${model}`);
         const driver = d.driverInfo || UNKNOWN_DRIVER;
         const taken = takenDevices.has(i);
@@ -902,11 +913,14 @@
           : `<div class="match new"><span>Neues Gerät</span></div>`;
 
         // Only the fields the reviewer may still want to change are editable;
-        // everything else is decided through the diff rows below.
+        // everything else is decided through the diff rows below. Vendor and
+        // model are marked when they come from the reporter rather than from
+        // the heuristic — the two deserve very different levels of trust.
+        const origin = fromUser ? ' (vom Nutzer)' : ' (geraten)';
         const form = `
           <div class="grid">
-            <div><label>Vendor</label><input id="vendor${i}" value="${esc(vendor)}" ${off} /></div>
-            <div><label>Model</label><input id="model${i}" value="${esc(model)}" ${off} /></div>
+            <div><label>Vendor${origin}</label><input id="vendor${i}" value="${esc(vendor)}" ${off} /></div>
+            <div><label>Model${origin}</label><input id="model${i}" value="${esc(model)}" ${off} /></div>
             <div><label>Slug</label><input id="slug${i}" value="${esc(slug)}" ${off} /></div>
             <div><label>Kategorie</label><select id="cat${i}" ${off}>${options(CATEGORIES, d.category)}</select></div>
             <div>

@@ -165,6 +165,12 @@
       "infoTargetImage": "Jeśli obraz wyświetla się tylko na czarno, należy skonfigurować \"Offline Sky Map Cache\" w NINA lub wyłączyć opcję \"użyj pamięci podręcznej NINA\"",
       "useCenter": "Centruj",
       "useRotate": "Obróć",
+      "skyChart": {
+        "altitude": "Wysokość (°)",
+        "horizonProfile": "Profil horyzontu",
+        "twilight": "Zmierzch",
+        "astronomicalNight": "Noc astronomiczna"
+      },
       "mosaic": {
         "title": "Tryb mozaiki",
         "columns": "Kolumny",
@@ -4856,9 +4862,19 @@
           "pending": "W weryfikacji",
           "approved": "Opublikowane",
           "rejected": "Odrzucone",
-          "duplicate": "Duplikat"
+          "duplicate": "Duplikat",
+          "queued": "Oczekiwanie na wysłanie"
         }
-      }
+      },
+      "vendorLabel": "Producent",
+      "vendorPlaceholder": "np. Sky-Watcher",
+      "modelLabel": "Model",
+      "modelPlaceholder": "np. EQ6-R Pro",
+      "modelRequiredHint": "Ten sterownik obsługuje wiele różnych modeli, więc nie może zidentyfikować Twojego sprzętu. Podaj nazwę modelu.",
+      "modelOptionalHint": "Popraw producenta i model, jeśli wykryta nazwa jest błędna.",
+      "missingModel": "Podaj nazwę modelu dla {count} urządzeń przed wysłaniem.",
+      "queued": "Zgłoszenie zapisane — brak połączenia z bazą danych.",
+      "queuedHint": "Zostanie wysłane automatycznie, gdy następnym razem otworzysz tę stronę z dostępem do internetu. Znajdziesz je w swoich zgłoszeniach."
     },
     "systemMetrics": {
       "powerTitle": "Zasilanie i napięcie wejściowe",

@@ -43,6 +43,7 @@ before working in these areas — the details are not repeated in this file.
 
 | Skill | Covers |
 | --- | --- |
+| `feature-kickoff` | new feature: interview the goal, agree acceptance criteria, write `docs/features/<slug>.md` |
 | `equipment` | device map, INDI driver changes, OFFLINE reload, connect ordering, every `<X>Settings-…` profile trap |
 | `setup-wizard` | wizard steps and their order, z-index staffing, location and coordinate handling |
 | `api-endpoint` | plugin-server controllers, the five base URLs, the apiService facade and its surface snapshot |

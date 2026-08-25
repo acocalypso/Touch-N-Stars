@@ -63,6 +63,15 @@ touch reaches a control. Unlocking requires a deliberate 2 s long press.
   the touches are swallowed. Because that alone reads as a frozen app, the first blocked
   tap fades in a "hold {seconds} s to unlock" hint next to the unlock button for 2 s —
   which is how the first open question below was resolved.
+- **Keyboard input is blocked too, with one exception.** On the browser target a physical
+  keyboard could otherwise tab and Enter its way through the controls underneath, which
+  would undercut criterion 1. Key events are dropped in the capture phase, so focus also
+  stays pinned. The unlock button itself keeps its key events and is focused on mount:
+  Enter/Space held for the same 2 s unlocks, so a keyboard-only desktop is never stranded.
+- **The unlock hold uses pointer capture.** Without it the first `pointerleave` — normal
+  finger drift across a 48 px target during a 2 s hold — would cancel the app's only way
+  out of the lock. A window-level `pointerup`/`pointercancel` fallback covers browsers
+  without capture support.
 - **Emergency stop stays locked** (variant a). Sequence stop and slew abort are covered by
   the overlay like everything else; intervening costs the 2 s long press. Keeping a live
   "stop" button in the overlay, or auto-releasing on an error event, would let back in

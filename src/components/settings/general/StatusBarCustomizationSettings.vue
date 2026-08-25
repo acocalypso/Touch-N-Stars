@@ -19,6 +19,7 @@ const settingsStore = useSettingsStore();
 // Ids match the chips in StatusBar.vue. Chips only appear in the bar when their
 // device is connected; they stay listed here so they can be pre-configured.
 const STATUS_BAR_ITEMS = [
+  { id: 'screenlock', labelKey: 'components.statusBar.labels.screenlock' },
   { id: 'camera', labelKey: 'components.statusBar.labels.camera' },
   { id: 'guider', labelKey: 'components.statusBar.labels.guiding' },
   { id: 'mount', labelKey: 'components.statusBar.labels.mount' },

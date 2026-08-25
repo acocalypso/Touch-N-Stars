@@ -2220,6 +2220,7 @@
     },
     "statusBar": {
       "labels": {
+        "screenlock": "Lock",
         "camera": "Camera",
         "guiding": "Guiding",
         "mount": "Mount",
@@ -4869,6 +4870,10 @@
     },
     "vncRemote": {
       "debugModeWarning": "Debug mode is active — VNC connection is not available. Please disable debug mode in settings."
+    },
+    "screenLock": {
+      "unlock": "Unlock screen",
+      "holdToUnlock": "Hold for {seconds} s to unlock"
     },
     "systemMetrics": {
       "powerTitle": "Power and input voltage",

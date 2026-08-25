@@ -28,10 +28,6 @@ npm run test:run
 needs Node ≥ 22.15 (`registerHooks`) — below that every test file fails at module
 instantiation, which looks alarming but says nothing about the code.
 
-`i18n:check` currently **fails on `develop`**: the hardware-db change (`cba0cd7e`) landed
-10 `plugins.hardwareDb.*` keys in English only. Anything beyond those 10 missing keys
-belongs to the current change.
-
 ## Polling is mandatory
 
 NINA's `/v2/socket` WebSocket does **not** deliver every equipment/state change. The 2s HTTP
@@ -49,7 +45,7 @@ before working in these areas — the details are not repeated in this file.
 | --- | --- |
 | `equipment` | device map, INDI driver changes, OFFLINE reload, connect ordering, every `<X>Settings-…` profile trap |
 | `setup-wizard` | wizard steps and their order, z-index staffing, location and coordinate handling |
-| `api-endpoint` | plugin-server controllers, the four base URLs, the apiService facade and its surface snapshot |
+| `api-endpoint` | plugin-server controllers, the five base URLs, the apiService facade and its surface snapshot |
 | `changelog` | CHANGELOG entries and the What's New parser contract |
 | `i18n` | locale keys, the checker's rules, translation workflow |
 | `tns-review` | three parallel review agents: functionality, UI, maintainability |

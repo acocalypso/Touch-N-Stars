@@ -181,6 +181,12 @@
       "confirmSetTargetMessage": "이 대상을 시퀀스 대상으로 설정하시겠습니까?",
       "useNinaCache": "대상 이미지에 NINA 캐시 사용",
       "setSequnceTarget": "시퀀스 대상으로 설정",
+      "skyChart": {
+        "altitude": "고도 (°)",
+        "horizonProfile": "호라이즌 프로파일",
+        "twilight": "박명",
+        "astronomicalNight": "천문학적 밤"
+      },
       "mosaic": {
         "title": "모자이크 모드",
         "columns": "열",

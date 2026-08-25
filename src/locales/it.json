@@ -165,6 +165,12 @@
       "infoTargetImage": "Se l'immagine viene visualizzata solo in nero, la \"cache della mappa del cielo offline\" deve essere impostata in NINA o l'opzione \"Usa cache NINA\" deve essere disattivata",
       "useCenter": "Centra",
       "useRotate": "Ruota",
+      "skyChart": {
+        "altitude": "Altitudine (°)",
+        "horizonProfile": "Profilo orizzonte",
+        "twilight": "Crepuscolo",
+        "astronomicalNight": "Notte astronomica"
+      },
       "mosaic": {
         "title": "Modalità mosaico",
         "columns": "Colonne",

@@ -181,6 +181,12 @@
       "confirmSetTargetMessage": "Are you sure you want to set this target as the sequence target?",
       "useNinaCache": "Use NINA cache for the target image",
       "setSequnceTarget": "set to sequence target",
+      "skyChart": {
+        "altitude": "Altitude (°)",
+        "horizonProfile": "Horizon profile",
+        "twilight": "Twilight",
+        "astronomicalNight": "Astronomical night"
+      },
       "mosaic": {
         "title": "Mosaic Mode",
         "columns": "Columns",

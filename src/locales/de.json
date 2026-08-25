@@ -181,6 +181,12 @@
       "confirmSetTargetMessage": "Möchten Sie dieses Ziel wirklich als Sequenzziel festlegen?",
       "useNinaCache": "NINA-Cache für das Zielbild verwenden",
       "setSequnceTarget": "als Sequenzziel festlegen",
+      "skyChart": {
+        "altitude": "Höhe (°)",
+        "horizonProfile": "Horizontprofil",
+        "twilight": "Dämmerung",
+        "astronomicalNight": "Astronomische Nacht"
+      },
       "mosaic": {
         "title": "Mosaik-Modus",
         "columns": "Spalten",

@@ -165,6 +165,12 @@
       "infoTargetImage": "Si l'image n'est affichée qu'en noir, le «cache de carte du ciel hors ligne» doit être configuré dans NINA ou l'option «Utiliser NINA Cache» doit être désactivée",
       "useCenter": "Centrer",
       "useRotate": "Tourner",
+      "skyChart": {
+        "altitude": "Altitude (°)",
+        "horizonProfile": "Profil d'horizon",
+        "twilight": "Crépuscule",
+        "astronomicalNight": "Nuit astronomique"
+      },
       "mosaic": {
         "title": "Mode mosaïque",
         "columns": "Colonnes",

@@ -165,6 +165,12 @@
       "infoTargetImage": "Indien het beeld wordt weergegeven in zwart, dan moet de “Offline Sky Map Cache“ ingesteld worden in NINA of moet de optie “gebruik NINA cache” ge-deactiveerd worden",
       "useCenter": "Centreer",
       "useRotate": "Roteer",
+      "skyChart": {
+        "altitude": "Hoogte (°)",
+        "horizonProfile": "Horizonprofiel",
+        "twilight": "Schemering",
+        "astronomicalNight": "Astronomische nacht"
+      },
       "mosaic": {
         "title": "Mozaïekmodus",
         "columns": "Kolommen",

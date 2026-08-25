@@ -165,6 +165,12 @@
       "infoTargetImage": "如果图像仅显示为黑色，必须在NINA中设置\"离线星图缓存\"或禁用\"使用NINA缓存\"选项",
       "useCenter": "居中",
       "useRotate": "旋转",
+      "skyChart": {
+        "altitude": "高度 (°)",
+        "horizonProfile": "地平线轮廓",
+        "twilight": "晨昏",
+        "astronomicalNight": "天文夜"
+      },
       "mosaic": {
         "columns": "专栏",
         "overlap": "重叠 ％",

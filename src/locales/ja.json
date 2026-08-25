@@ -149,6 +149,12 @@
       "confirmSetTargetMessage": "このターゲットをシーケンスのターゲットとして設定しますか？",
       "useNinaCache": "NINA キャッシュをターゲット画像に使用する",
       "setSequnceTarget": "シーケンスのターゲットに設定",
+      "skyChart": {
+        "altitude": "高度 (°)",
+        "horizonProfile": "地平線プロファイル",
+        "twilight": "薄明",
+        "astronomicalNight": "天文夜"
+      },
       "mosaic": {
         "title": "モザイクモード",
         "columns": "列数",

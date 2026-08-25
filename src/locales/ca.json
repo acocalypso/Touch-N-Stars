@@ -181,6 +181,12 @@
       "confirmSetTargetMessage": "Estàs segur que vols establir aquest objectiu com a objectiu de la seqüència?",
       "useNinaCache": "Usa la memòria cau de NINA per a la imatge de l'objectiu",
       "setSequnceTarget": "estableix com a objectiu de la seqüència",
+      "skyChart": {
+        "altitude": "Altitud (°)",
+        "horizonProfile": "Perfil d'horitzó",
+        "twilight": "Crepuscle",
+        "astronomicalNight": "Nit astronòmica"
+      },
       "mosaic": {
         "title": "Mode mosaic",
         "columns": "Columnes",

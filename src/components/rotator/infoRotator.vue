@@ -38,6 +38,14 @@
     />
     <StatusString
       :compact="compact"
+      :isEnabled="framingStore.hasSolvedRotation"
+      :Name="$t('components.rotator.solvedPositionAngle')"
+      :Value="
+        framingStore.hasSolvedRotation ? framingStore.solvedRotationAngle.toFixed(1) + '°' : ''
+      "
+    />
+    <StatusString
+      :compact="compact"
       :isEnabled="store.rotatorInfo.StepSize !== undefined && store.rotatorInfo.StepSize !== null"
       :Name="$t('components.rotator.stepSize')"
       :Value="
@@ -53,7 +61,11 @@
 import StatusBool from '@/components/helpers/StatusBool.vue';
 import StatusString from '@/components/helpers/StatusString.vue';
 import { apiStore } from '@/store/store';
+import { useFramingStore } from '@/store/framingStore';
 const store = apiStore();
+// Sky position angle of the last plate solve — deliberately separate from the
+// rotator's mechanical position, which is a different reference frame.
+const framingStore = useFramingStore();
 
 // Dense page layout: inline state chips + two value columns.
 const { compact } = defineProps({

@@ -8,7 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [App6.1.4-beta9] - 2026-08-26
 
 ### Added
-- Screen lock: A lockable overlay blocks accidental touches; hold the unlock button for 2 seconds to release it
+- Plugin Screen lock: The app's controls can now be locked from the status bar so nothing gets changed by accident - in the dark, with the device in a pocket, or when handing it to someone else. Everything stays visible and keeps updating while locked; unlocking requires a 2 s long press
 - Framing: The camera rotation from every plate solve is shown in the Framing Assistant and on the rotator page
 - Atlas: A second field-of-view frame shows the solved camera rotation next to the target frame
 

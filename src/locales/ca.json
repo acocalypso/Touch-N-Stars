@@ -4898,8 +4898,8 @@
       "notDetected": "No detectada"
     },
     "screenLock": {
-      "unlock": "Desbloqueja la pantalla",
-      "holdToUnlock": "Mantén premut {seconds} s per desbloquejar"
+      "unlock": "Desbloquejar",
+      "holdToUnlock": "Mantén {seconds} s per desbloquejar"
     }
   },
   "loading": "carregant",

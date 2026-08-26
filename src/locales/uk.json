@@ -4898,7 +4898,7 @@
       "notDetected": "Не виявлено"
     },
     "screenLock": {
-      "unlock": "Розблокувати екран",
+      "unlock": "Розблокувати",
       "holdToUnlock": "Утримуйте {seconds} с для розблокування"
     }
   },

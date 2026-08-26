@@ -2250,7 +2250,7 @@
         "progress": "Progression",
         "safety": "Sécurité",
         "weather": "Météo",
-        "screenlock": "Verrou"
+        "screenlock": "Verrouillage"
       },
       "mount": {
         "parked": "Parquée",
@@ -4903,7 +4903,7 @@
       "notDetected": "Non détectée"
     },
     "screenLock": {
-      "unlock": "Déverrouiller l'écran",
+      "unlock": "Déverrouiller",
       "holdToUnlock": "Maintenir {seconds} s pour déverrouiller"
     }
   },

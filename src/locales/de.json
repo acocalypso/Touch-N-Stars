@@ -4903,7 +4903,7 @@
       "notDetected": "Nicht erkannt"
     },
     "screenLock": {
-      "unlock": "Bildschirm entsperren",
+      "unlock": "Entsperren",
       "holdToUnlock": "{seconds} s halten zum Entsperren"
     }
   },

@@ -4899,7 +4899,7 @@
     },
     "screenLock": {
       "unlock": "화면 잠금 해제",
-      "holdToUnlock": "{seconds}초 길게 눌러 잠금 해제"
+      "holdToUnlock": "{seconds}초 동안 눌러 해제"
     }
   },
   "pinsDevices": {

@@ -4903,8 +4903,8 @@
       "notDetected": "No detectada"
     },
     "screenLock": {
-      "unlock": "Desbloquear pantalla",
-      "holdToUnlock": "Mantén pulsado {seconds} s para desbloquear"
+      "unlock": "Desbloquear",
+      "holdToUnlock": "Mantén {seconds} s para desbloquear"
     }
   },
   "pinsDevices": {

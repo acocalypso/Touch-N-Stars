@@ -4898,8 +4898,8 @@
       "notDetected": "未検出"
     },
     "screenLock": {
-      "unlock": "画面のロックを解除",
-      "holdToUnlock": "{seconds} 秒長押しでロック解除"
+      "unlock": "ロック解除",
+      "holdToUnlock": "{seconds}秒長押しで解除"
     }
   },
   "pinsDevices": {

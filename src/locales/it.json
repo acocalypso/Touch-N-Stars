@@ -4904,7 +4904,7 @@
     },
     "screenLock": {
       "unlock": "Sblocca schermo",
-      "holdToUnlock": "Tieni premuto {seconds} s per sbloccare"
+      "holdToUnlock": "Tieni per {seconds} s per sbloccare"
     }
   },
   "pinsDevices": {

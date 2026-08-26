@@ -4899,7 +4899,7 @@
     },
     "screenLock": {
       "unlock": "解锁屏幕",
-      "holdToUnlock": "长按 {seconds} 秒解锁"
+      "holdToUnlock": "按住{seconds}秒以解锁"
     }
   },
   "pinsDevices": {

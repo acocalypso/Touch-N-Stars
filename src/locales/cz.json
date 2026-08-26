@@ -4898,8 +4898,8 @@
       "notDetected": "Nezjištěno"
     },
     "screenLock": {
-      "unlock": "Odemknout obrazovku",
-      "holdToUnlock": "Podržte {seconds} s pro odemknutí"
+      "unlock": "Odemknout",
+      "holdToUnlock": "Držte {seconds} s pro odemknutí"
     }
   },
   "pinsDevices": {

@@ -184,7 +184,11 @@
         "panelsSet": "panneaux disposés en séquence",
         "willBeSaved": "les panneaux seront enregistrés individuellement"
       },
-      "customTarget": "Cible personnalisée"
+      "customTarget": "Cible personnalisée",
+      "solvedRotation": {
+        "short": "résolu",
+        "tooltip": "Rotation de la caméra du dernier plate solve réussi"
+      }
     },
     "tutorial": {
       "previous": "Précédent",
@@ -1908,7 +1912,8 @@
       },
       "indi": {
         "settings": "Paramètres du rotateur"
-      }
+      },
+      "solvedPositionAngle": "Angle ciel résolu"
     },
     "flat": {
       "please_connect_flatDevice": "Veuillez connecter le dispositif de flat",
@@ -2244,7 +2249,8 @@
         "mount": "Monture",
         "progress": "Progression",
         "safety": "Sécurité",
-        "weather": "Météo"
+        "weather": "Météo",
+        "screenlock": "Verrou"
       },
       "mount": {
         "parked": "Parquée",
@@ -4895,6 +4901,10 @@
       "notAvailable": "Indisponible",
       "detected": "Détectée",
       "notDetected": "Non détectée"
+    },
+    "screenLock": {
+      "unlock": "Déverrouiller l'écran",
+      "holdToUnlock": "Maintenir {seconds} s pour déverrouiller"
     }
   },
   "pinsDevices": {

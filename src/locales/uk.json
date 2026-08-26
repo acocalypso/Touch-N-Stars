@@ -184,7 +184,11 @@
         "panelsSet": "панелі встановлені в послідовності",
         "willBeSaved": "панелі будуть збережені окремо"
       },
-      "customTarget": "Спеціальна ціль"
+      "customTarget": "Спеціальна ціль",
+      "solvedRotation": {
+        "short": "розвʼязано",
+        "tooltip": "Поворот камери з останнього успішного plate solve"
+      }
     },
     "tutorial": {
       "previous": "Назад",
@@ -1888,7 +1892,8 @@
       },
       "indi": {
         "settings": "Налаштування ротатора"
-      }
+      },
+      "solvedPositionAngle": "Розвʼязаний кут на небі"
     },
     "flat": {
       "please_connect_flatDevice": "Будь ласка, підключіть пристрій для флетів",
@@ -2244,7 +2249,8 @@
         "mount": "Монтування",
         "progress": "Прогрес",
         "safety": "Безпека",
-        "weather": "Погода"
+        "weather": "Погода",
+        "screenlock": "Блокування"
       },
       "mount": {
         "parked": "Запарковано",
@@ -4890,6 +4896,10 @@
       "notAvailable": "Недоступно",
       "detected": "Виявлено",
       "notDetected": "Не виявлено"
+    },
+    "screenLock": {
+      "unlock": "Розблокувати екран",
+      "holdToUnlock": "Утримуйте {seconds} с для розблокування"
     }
   },
   "dialogs": {

@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [App6.1.4-beta9] - 2026-08-26
+
+### Added
+- Screen lock: A lockable overlay blocks accidental touches; hold the unlock button for 2 seconds to release it
+- Framing: The camera rotation from every plate solve is shown in the Framing Assistant and on the rotator page
+- Atlas: A second field-of-view frame shows the solved camera rotation next to the target frame
+
+### Fixed
+- Framing: The sky chart labels are now translated instead of always English
+
 ## [App6.1.4-beta8] - 2026-08-24
 
 ### Added

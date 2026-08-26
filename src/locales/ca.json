@@ -225,7 +225,11 @@
       "infoTargetImage": "Si la imatge només es mostra en negre, cal configurar la \"memòria cau del mapa del cel sense connexió\" a NINA o desactivar l'opció \"usa la memòria cau de NINA\"",
       "useCenter": "Centra",
       "useRotate": "Gira",
-      "customTarget": "Objectiu personalitzat"
+      "customTarget": "Objectiu personalitzat",
+      "solvedRotation": {
+        "short": "resolt",
+        "tooltip": "Rotació de la càmera de l'últim plate solve correcte"
+      }
     },
     "tutorial": {
       "previous": "Anterior",
@@ -1954,7 +1958,8 @@
       },
       "indi": {
         "settings": "Configuració del rotador"
-      }
+      },
+      "solvedPositionAngle": "Angle del cel resolt"
     },
     "flat": {
       "please_connect_flatDevice": "Connecta el dispositiu de flats",
@@ -2234,7 +2239,8 @@
         "safety": "Seguretat",
         "progress": "Progrés",
         "log": "Registre",
-        "instance": "Instància"
+        "instance": "Instància",
+        "screenlock": "Bloqueig"
       },
       "camera": {
         "idle": "Inactiva"
@@ -4890,6 +4896,10 @@
       "notAvailable": "No disponible",
       "detected": "Detectada",
       "notDetected": "No detectada"
+    },
+    "screenLock": {
+      "unlock": "Desbloqueja la pantalla",
+      "holdToUnlock": "Mantén premut {seconds} s per desbloquejar"
     }
   },
   "loading": "carregant",

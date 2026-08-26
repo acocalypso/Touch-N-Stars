@@ -184,7 +184,11 @@
         "panelsSet": "panelen op volgorde geplaatst",
         "willBeSaved": "panelen worden afzonderlijk opgeslagen"
       },
-      "customTarget": "Aangepast doel"
+      "customTarget": "Aangepast doel",
+      "solvedRotation": {
+        "short": "opgelost",
+        "tooltip": "Camerarotatie van de laatste geslaagde plate solve"
+      }
     },
     "tutorial": {
       "previous": "Vorige",
@@ -1908,7 +1912,8 @@
       },
       "indi": {
         "settings": "Rotator-instellingen"
-      }
+      },
+      "solvedPositionAngle": "Opgeloste hemelhoek"
     },
     "flat": {
       "please_connect_flatDevice": "Verbind met flat apparaat",
@@ -2244,7 +2249,8 @@
         "mount": "Montering",
         "progress": "Voortgang",
         "safety": "Veiligheid",
-        "weather": "Weer"
+        "weather": "Weer",
+        "screenlock": "Vergrendeling"
       },
       "mount": {
         "parked": "Geparkeerd",
@@ -4890,6 +4896,10 @@
       "notAvailable": "Niet beschikbaar",
       "detected": "Gedetecteerd",
       "notDetected": "Niet gedetecteerd"
+    },
+    "screenLock": {
+      "unlock": "Scherm ontgrendelen",
+      "holdToUnlock": "Houd {seconds} s vast om te ontgrendelen"
     }
   },
   "pinsDevices": {

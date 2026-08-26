@@ -7,7 +7,7 @@
   "defaultEnabled": false,
   "enabled": true,
   "config": {
-    "pocketbaseUrl": "https://hardware.touch-n-stars.eu"
+    "apiBaseUrl": "https://touch-n-stars.eu"
   },
   "isPins": true
 }

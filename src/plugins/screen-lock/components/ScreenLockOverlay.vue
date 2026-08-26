@@ -6,7 +6,7 @@
        it would create a containing block for position: fixed children. -->
   <div
     class="screen-lock-overlay fixed inset-0 z-lock select-none"
-    @pointerdown="handleBlockedTap"
+    @pointerdown="showBlockedHint"
     @contextmenu.prevent
     @wheel.prevent
   >
@@ -21,13 +21,16 @@
       </Transition>
 
       <button
+        ref="unlockButtonRef"
         type="button"
         class="unlock-button min-h-touch min-w-touch relative flex items-center justify-center rounded-full border border-line-strong bg-surface-1/90 text-content shadow-lg"
         :aria-label="t('plugins.screenLock.unlock')"
-        @pointerdown.stop="startHold"
-        @pointerup.stop="cancelHold"
-        @pointercancel.stop="cancelHold"
-        @pointerleave="cancelHold"
+        @pointerdown.stop="startPointerHold"
+        @keydown.enter.prevent="startKeyHold"
+        @keydown.space.prevent="startKeyHold"
+        @keyup.enter.prevent="endHold"
+        @keyup.space.prevent="endHold"
+        @blur="endHold"
         @contextmenu.prevent
       >
         <!-- Progress ring, same stroke-dasharray technique as the exposure ring
@@ -51,7 +54,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue';
+import { ref, nextTick, onMounted, onBeforeUnmount } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { Capacitor } from '@capacitor/core';
 import { App as CapacitorApp } from '@capacitor/app';
@@ -71,8 +74,11 @@ const { tapLight, notifySuccess } = useHaptics();
 
 const progress = ref(0);
 const showHint = ref(false);
+const unlockButtonRef = ref(null);
 let hintTimeoutId = null;
 let backButtonListenerHandle = null;
+let heldPointerId = null;
+let isHolding = false;
 
 const holdTimer = createHoldTimer({
   durationMs: UNLOCK_HOLD_SECONDS * 1000,
@@ -81,18 +87,57 @@ const holdTimer = createHoldTimer({
   },
   onComplete: () => {
     progress.value = 0;
+    endHold();
     void notifySuccess();
     settingsStore.unlockScreen();
   },
 });
 
-function startHold() {
+// Pointer capture is what makes the hold survive normal finger drift across a
+// 48 px target: without it the first pointerleave cancels the only way out of
+// the lock. Same pattern the landscaper-creator view uses for its drag handling.
+function startPointerHold(event) {
+  if (heldPointerId !== null) return;
+  heldPointerId = event.pointerId ?? null;
+  unlockButtonRef.value?.setPointerCapture?.(event.pointerId);
+  // Fallback for the (older browser) case where capture is unavailable: the
+  // release then happens outside the button and would never reach it, leaving a
+  // hold running with no finger on the screen.
+  window.addEventListener('pointerup', handlePointerEnd);
+  window.addEventListener('pointercancel', handlePointerEnd);
+  beginHold();
+}
+
+function handlePointerEnd(event) {
+  if (heldPointerId !== null && event.pointerId !== heldPointerId) return;
+  endHold();
+}
+
+// Keyboard path for the browser target: key events are blocked everywhere else
+// while locked (see handleKeyEvent), so this button has to stay operable or a
+// keyboard-only desktop would have no way out at all. Enter/Space auto-repeat
+// while held down, hence the isHolding guard.
+function startKeyHold() {
+  if (isHolding) return;
+  beginHold();
+}
+
+function beginHold() {
+  isHolding = true;
   void tapLight();
   hideHint();
   holdTimer.start();
 }
 
-function cancelHold() {
+function endHold() {
+  if (!isHolding) return;
+  isHolding = false;
+  if (heldPointerId !== null) {
+    unlockButtonRef.value?.releasePointerCapture?.(heldPointerId);
+    heldPointerId = null;
+  }
+  window.removeEventListener('pointerup', handlePointerEnd);
+  window.removeEventListener('pointercancel', handlePointerEnd);
   holdTimer.cancel();
 }
 
@@ -106,7 +151,7 @@ function hideHint() {
 
 // A tap anywhere else is swallowed on purpose. Without feedback a transparent
 // overlay reads as a frozen app, so point at the way out instead.
-function handleBlockedTap() {
+function showBlockedHint() {
   showHint.value = true;
   if (hintTimeoutId) clearTimeout(hintTimeoutId);
   hintTimeoutId = setTimeout(() => {
@@ -115,7 +160,25 @@ function handleBlockedTap() {
   }, HINT_VISIBLE_MS);
 }
 
+// The overlay swallows pointer input, but on the browser target a physical
+// keyboard could otherwise still tab and Enter its way through the controls
+// underneath. Everything outside the unlock button is dropped in the capture
+// phase, which also pins focus in place (Tab never reaches another control).
+function handleKeyEvent(event) {
+  if (unlockButtonRef.value?.contains(event.target)) return;
+  event.preventDefault();
+  event.stopPropagation();
+  showBlockedHint();
+}
+
 onMounted(async () => {
+  window.addEventListener('keydown', handleKeyEvent, true);
+  window.addEventListener('keyup', handleKeyEvent, true);
+  window.addEventListener('keypress', handleKeyEvent, true);
+  // Give the unlock button the focus so the keyboard path above has a target.
+  await nextTick();
+  unlockButtonRef.value?.focus?.({ preventScroll: true });
+
   // Registering any backButton listener suppresses Capacitor's default (history
   // back, or exiting the app on the first route). This one does nothing on
   // purpose: while locked, the hardware back button must neither navigate nor
@@ -126,8 +189,12 @@ onMounted(async () => {
 });
 
 onBeforeUnmount(async () => {
+  endHold();
   holdTimer.dispose();
   hideHint();
+  window.removeEventListener('keydown', handleKeyEvent, true);
+  window.removeEventListener('keyup', handleKeyEvent, true);
+  window.removeEventListener('keypress', handleKeyEvent, true);
   await backButtonListenerHandle?.remove();
   backButtonListenerHandle = null;
 });

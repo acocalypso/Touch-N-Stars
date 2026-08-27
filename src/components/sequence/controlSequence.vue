@@ -112,10 +112,7 @@
     </button>
 
     <button
-      v-if="
-        !sequenceStore.sequenceRunning &&
-        (store.isPINS || store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.2.8.0'))
-      "
+      v-if="!sequenceStore.sequenceRunning && store.isPINS"
       class="tns-btn-danger h-16 w-14 flex-col gap-0.5"
       @click="clearSequence"
     >
@@ -126,10 +123,7 @@
     </button>
 
     <button
-      v-if="
-        sequenceStore.lastSequenceFilePath &&
-        (store.isPINS || store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.2.8.0'))
-      "
+      v-if="sequenceStore.lastSequenceFilePath && store.isPINS"
       class="tns-btn-secondary h-16 w-14 flex-col gap-0.5"
       :disabled="saveLoading"
       @click="saveCurrentFile"
@@ -145,9 +139,7 @@
     </button>
 
     <button
-      v-if="
-        store.isPINS || store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.2.8.0')
-      "
+      v-if="store.isPINS"
       class="tns-btn-secondary h-16 w-14 flex-col gap-0.5"
       @click="openFileManager"
     >

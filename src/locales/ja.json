@@ -149,6 +149,12 @@
       "confirmSetTargetMessage": "このターゲットをシーケンスのターゲットとして設定しますか？",
       "useNinaCache": "NINA キャッシュをターゲット画像に使用する",
       "setSequnceTarget": "シーケンスのターゲットに設定",
+      "skyChart": {
+        "altitude": "高度 (°)",
+        "horizonProfile": "地平線プロファイル",
+        "twilight": "薄明",
+        "astronomicalNight": "天文夜"
+      },
       "mosaic": {
         "title": "モザイクモード",
         "columns": "列数",
@@ -217,7 +223,8 @@
         "focuser": "Focuser",
         "filterWheel": "Filter wheel",
         "guider": "Guiding",
-        "done": "Done"
+        "done": "Done",
+        "localization": "Regional settings"
       },
       "driver": {
         "loading": "Loading drivers…",
@@ -401,7 +408,11 @@
         "moreDevicesHint": "Flat panel, weather and the remaining devices are configured on their own pages.",
         "noConnectionHint": "No connection to a rig yet. You can add one under Settings → Connection at any time."
       },
-      "cancel": "Cancel setup"
+      "cancel": "Cancel setup",
+      "localization": {
+        "title": "機材の地域設定を行う",
+        "description": "ホットスポットの場所、時刻、リモートキーボード入力を機材の使用場所に合わせるため、Wi-Fi より先にこれらの値を設定してください。"
+      }
     },
     "fileBrowser": {
       "title": "参照",
@@ -426,6 +437,11 @@
     "settings": {
       "title": "設定",
       "general": "全般",
+      "tabs": {
+        "connection": "接続と位置",
+        "interface": "インターフェース",
+        "system": "システム"
+      },
       "add": "追加",
       "coordinates": "GPS座標",
       "save": "保存",
@@ -537,6 +553,22 @@
         "title": "画面をスリープしない",
         "description": "アプリが開いている間、デバイスの減光やロックを防ぎます。"
       },
+      "backupRestore": {
+        "title": "バックアップと復元",
+        "description": "この端末に保存されている設定をファイルに保存し、別の端末で復元します。",
+        "profileWarning": "これはこの端末上のアプリ設定のみをバックアップします。機材、カメラ、架台などの設定は NINA または PINS プロファイルに保存されています。完全なバックアップにはそちらも別途バックアップしてください。",
+        "locationAndroid": "ファイルはこの端末の ドキュメント/TouchNStars に保存されます。ファイル管理アプリで開いてください。",
+        "locationIos": "ファイルは「ファイル」アプリの「この iPhone/iPad 内」→「Touch 'N Stars」→「Documents」に保存されます。",
+        "locationBrowser": "ファイルはブラウザの既定のダウンロードフォルダに保存されます。",
+        "exportButton": "バックアップをエクスポート",
+        "importButton": "バックアップから復元",
+        "exportSuccess": "バックアップを {filename} として保存しました（{count} 件）。",
+        "exportError": "バックアップファイルを保存できませんでした。",
+        "confirmImportTitle": "バックアップを復元しますか？",
+        "confirmImportMessage": "この端末の設定（保存済みのインスタンスを含む）が上書きされます。その後アプリが再読み込みされます。",
+        "importEmpty": "バックアップファイルに復元できる設定がありません。",
+        "importError": "バックアップを復元できませんでした: {error}"
+      },
       "wifiBinding": {
         "title": "ローカルネットワークバインディング",
         "description": "インスタンスがインターネットのないローカルネットワーク（PINS ホットスポットなど）で動作している間もアプリを Wi-Fi 経由で接続し続け、スマートフォンのその他の通信は引き続きモバイルデータを使用します。"
@@ -629,9 +661,15 @@
       },
       "navbarCustomization": {
         "title": "ナビゲーションバーのカスタマイズ",
-        "hint": "ドラッグして並び替え。設定以外のページが少なくとも1つ表示されている必要があります。",
+        "hint": "ドラッグして並び替え。設定以外のページが少なくとも1つ表示されている必要があります。"
+      },
+      "itemCustomization": {
         "alwaysVisible": "常に表示",
-        "minOneRequired": "少なくとも1ページが表示されている必要があります"
+        "minOneRequired": "少なくとも1つの項目を表示しておく必要があります"
+      },
+      "statusBarCustomization": {
+        "title": "ステータスバーのカスタマイズ",
+        "hint": "ドラッグして並び替え。少なくとも1つの項目を表示しておく必要があります。"
       },
       "update": "アップデート",
       "errors": {
@@ -649,6 +687,25 @@
       "mount": {
         "titel": "赤道儀設定",
         "max_slew_rate": "最大スルーレート (°/s)"
+      },
+      "localization": {
+        "title": "システムの地域設定",
+        "description": "これはこのアプリではなく、PINS デバイスの現在の設定です。変更は、このデバイスに接続するすべてのスマートフォン、タブレット、ブラウザーに適用されます。",
+        "systemLocale": "ロケール",
+        "wifiCountry": "Wi-Fi の国設定",
+        "wifiCountryConfirmTitle": "Wi-Fi の国設定を変更しますか？",
+        "wifiCountryConfirmMessage": "Wi-Fi の国設定を変更すると、この PINS デバイスとの接続が一時的に切断される場合があります。変更を適用しますか？",
+        "timezone": "タイムゾーン",
+        "keyboardLayout": "キーボード配列",
+        "loading": "現在のシステム設定を読み込んでいます...",
+        "loadError": "システム設定を読み込めませんでした: {message}",
+        "save": "変更を適用",
+        "saving": "適用中...",
+        "saved": "システム設定を更新しました。",
+        "saveError": "システム設定を更新できませんでした: {message}",
+        "missingJob": "PINS デーモンが操作 ID を返しませんでした。",
+        "refresh": "現在の値を再読み込み",
+        "searchPlaceholder": "利用可能なオプションを絞り込む..."
       }
     },
     "alpacaDirect": {
@@ -663,6 +720,11 @@
       "sharedGuidWarning": "NINAではローテーターとセーフティモニターが1つのストレージスロットを共有しています。一方を変更すると他方も変更されます。",
       "noReconnectHint": "新しい設定は次回の接続時に反映されます。",
       "cameraNoSettings": "このカメラには設定項目がありません。"
+    },
+    "selectDevices": {
+      "deviceNotFound": "デバイスが見つかりません",
+      "deviceNotFoundMessage": "INDI ドライバーを再読み込みしましたが、「{device}」は現れませんでした。電源を確認して、デバイスを選び直してください。",
+      "reloadingDriver": "INDI ドライバーを再読み込みしています…"
     },
     "connectEquipment": {
       "camera": {
@@ -736,6 +798,7 @@
       "sequenceLoad": "読み込み",
       "sequenceNoFiles": "ファイルが見つかりません",
       "sequenceLoading": "読み込み中...",
+      "loadingSequence": "シーケンスを読み込み中…",
       "sequenceClose": "閉じる",
       "deleteConfirmationTitle": "ファイルの削除",
       "deleteConfirmationMessage": "このファイルを削除してもよろしいですか？",
@@ -994,6 +1057,10 @@
         "annotation": {
           "text": "テキスト"
         },
+        "saveSequence": {
+          "notSet": "未設定",
+          "applyFileName": "適用"
+        },
         "groundstation": {
           "message": "メッセージ",
           "title": "タイトル",
@@ -1045,6 +1112,16 @@
           "modeRMS": "RMS",
           "modePeak": "ピーク",
           "minimumPoints": "最小ポイント数"
+        },
+        "interruptAndRetryWhenRMSAbove": {
+          "rmsThreshold": "RMS しきい値 (\")",
+          "mode": "モード",
+          "modeRMS": "RMS",
+          "modePeak": "ピーク",
+          "minimumPoints": "最小ポイント数",
+          "stableTime": "安定継続時間 (秒)",
+          "recoveryTimeout": "回復タイムアウト (分)",
+          "maxRetries": "最大リトライ回数 (0 = 無制限)"
         },
         "changePHD2Parameters": {
           "parameter": "パラメーター",
@@ -1119,6 +1196,7 @@
       "disable": "無効にする",
       "resetStatus": "ステータスをリセット",
       "delete": "削除",
+      "runningLocked": "この項目は実行中のため変更できません",
       "controlsLockedMessage": "シーケンスの実行中はシーケンス コントロールがロックされます。",
       "lockControls": "ロック",
       "unlockControls": "ロックを解除する"
@@ -1295,6 +1373,7 @@
           "MaxMove": "赤経: 最大移動量",
           "predictive_weight": "赤経: 予測ウェイト",
           "reactive_weight": "赤経: 反応ウェイト",
+          "period_length": "赤経: PEC周期長 (秒)",
           "slope_weight": "赤経: 傾斜ウェイト",
           "exp_factor": "赤経: 露出係数"
         },
@@ -1439,6 +1518,7 @@
             "hysteresis": "現在のフレームに対して直近の補正履歴に与える重み（パーセント）。高い値は補正を滑らかにしますが、真の方向転換への反応は遅くなります。",
             "predictiveWeight": "Predictive PEC：補正の予測（モデル化）部分の重み。既定値で大半のマウントに適し、大きく変えるとガイドが悪化することがあります。",
             "reactiveWeight": "Predictive PEC：最新フレームの星の変位に基づく反応部分の重み。既定値で大半のマウントに適します。",
+            "periodLength": "Predictive PEC: 赤道儀のウォーム周期の長さ（秒）。PHD2 はこれを使って赤経方向の周期的な誤差をモデル化し、先回りして補正します。赤道儀の仕様（EQ6 なら約 479 秒）から取るか、ガイドの FFT に現れる PEC のピークから読み取ってください。",
             "slopeWeight": "LowPass：星の動きの直近の傾向（傾き）が補正に与える影響度（パーセント）。アルゴリズムが鈍くなりすぎるのを防ぎます。0 は直近履歴の中央値のみを使用します。",
             "expFactor": "ZFilter：仮想露出時間 = 実際の露出 × この係数。値が大きいほどシーイングを多く除去（滑らかだが遅い）。約 2〜4 秒の仮想露出が赤経の良い出発点です。"
           },
@@ -2164,7 +2244,8 @@
         "mount": "赤道儀",
         "progress": "進行状況",
         "safety": "安全",
-        "weather": "天気"
+        "weather": "天気",
+        "screenlock": "ロック"
       },
       "mount": {
         "parked": "パーク済み",
@@ -2750,12 +2831,17 @@
       "settings": "設定",
       "reset": "リセット",
       "close": "閉じる",
+      "cancel": "キャンセル",
       "resetConfirm": "ウェブカメラの設定をすべてリセットしてもよろしいですか？",
       "liveView": "ライブビュー",
       "noImageAvailable": "利用可能な画像なし",
       "configureUrl": "スナップショットURLを設定して画像を取得",
       "loadingImage": "画像を読み込み中...",
-      "errors": {}
+      "errors": {
+        "noUrl": "スナップショットURLが設定されていません",
+        "loadFailed": "ウェブカメラ画像の読み込みに失敗しました",
+        "nextLoadFailed": "次のウェブカメラ画像の読み込みに失敗しました"
+      }
     },
     "multiImageMonitor": {
       "addCamera": "カメラ",
@@ -4721,6 +4807,94 @@
       "setFailed": "プロパティの設定に失敗しました。",
       "title": "INDIコントロールパネル",
       "updated": "更新されました"
+    },
+    "hardwareDb": {
+      "title": "ハードウェア互換性",
+      "intro": "どの機器がどのドライバーで動作するかを共有しましょう。報告は確認のうえデータベースに掲載されます。",
+      "collecting": "接続中の機器を読み取っています…",
+      "noDevices": "機器が見つかりません。機器を接続するか、プロファイルで選択してください。そうすれば接続に失敗した場合でもここから報告できます。",
+      "notConnected": "未接続",
+      "driverUnknown": "未接続のためドライバー名は不明です。確認時にこちらで補います。",
+      "reviewAndSend": "確認して送信（{count}）",
+      "selectAtLeastOne": "報告を送信するには、少なくとも1台の機器を評価してください。",
+      "noteLabel": "何か特筆すべき点はありますか？",
+      "notePlaceholder": "例：USB帯域を60未満にする必要がある、フォーカス方向が逆…",
+      "copy": "コピー",
+      "copied": "コピーしました",
+      "submitSuccess": "報告を送信しました。ありがとうございます！",
+      "submitSuccessHint": "後で報告の確認状況を照会できるよう、このトークンを保管してください。",
+      "submitError": "報告を送信できませんでした。",
+      "status": {
+        "works": "動作する",
+        "caveat": "制限付きで動作する",
+        "broken": "動作しない"
+      },
+      "known": {
+        "summary": "データベースに登録済み：{driver} で{status} · {reports} 件の報告",
+        "none": "まだデータベースにありません。あなたの報告が最初になります。"
+      },
+      "categories": {
+        "camera": "カメラ",
+        "guidecam": "ガイドカメラ",
+        "mount": "赤道儀",
+        "focuser": "フォーカサー",
+        "filterwheel": "フィルターホイール",
+        "rotator": "ローテーター",
+        "guider": "ガイド",
+        "flatdevice": "フラットパネル",
+        "switch": "スイッチ",
+        "weather": "気象",
+        "dome": "ドーム",
+        "safetymonitor": "セーフティモニター"
+      },
+      "preview": {
+        "title": "送信される内容",
+        "intro": "以下が報告の全文です。これ以外は一切送信されません。",
+        "privacyNote": "IPアドレス、ホスト名、Wi-Fi名、座標、プロファイル名は含まれません。",
+        "send": "報告を送信",
+        "sending": "送信中…"
+      },
+      "history": {
+        "title": "あなたの報告",
+        "refreshStatus": "状況を確認",
+        "clear": "一覧を消去",
+        "deviceCount": "{count} 台の機器",
+        "status": {
+          "pending": "確認中",
+          "approved": "公開済み",
+          "rejected": "却下",
+          "duplicate": "重複",
+          "queued": "送信待ち"
+        }
+      },
+      "vendorLabel": "メーカー",
+      "vendorPlaceholder": "例: Sky-Watcher",
+      "modelLabel": "モデル",
+      "modelPlaceholder": "例: EQ6-R Pro",
+      "modelRequiredHint": "このドライバーは複数のモデルに対応しているため、ハードウェアを特定できません。モデル名を入力してください。",
+      "modelOptionalHint": "検出された名称が正しくない場合は、メーカーとモデルを修正してください。",
+      "missingModel": "送信前に{count}台の機器のモデル名を入力してください。",
+      "queued": "報告を保存しました（データベースへの接続なし）",
+      "queuedHint": "次回このページをインターネット接続環境で開いた際に自動送信されます。報告一覧から確認できます。"
+    },
+    "systemMetrics": {
+      "powerTitle": "電源と入力電圧",
+      "supplyVoltage": "入力電圧",
+      "underVoltageNow": "現在の低電圧",
+      "underVoltageSinceBoot": "起動後の低電圧",
+      "firmwareFlags": "ファームウェアフラグ",
+      "underVoltageActive": "低電圧を検出",
+      "underVoltageOccurred": "過去の低電圧",
+      "powerHealthy": "正常",
+      "underVoltageActiveHelp": "現在、Pi への電力供給が不足しています。電源、ケーブル、接続機器の負荷を確認してください。",
+      "underVoltageHistoryHelp": "起動後に低電圧が発生しました。システムが不安定な場合は、電源とケーブルを確認してください。",
+      "notAvailable": "利用不可",
+      "detected": "検出済み",
+      "notDetected": "未検出"
+    },
+    "screenLock": {
+      "unlock": "ロック解除",
+      "holdToUnlock": "{seconds}秒長押しで解除"
     }
   },
   "pinsDevices": {
@@ -4961,10 +5135,15 @@
       "delete": "消去",
       "deleteConfirm": "このセッションを削除してもよろしいですか?\nこれを元に戻すことはできません。",
       "deleteTitle": "セッションの削除",
+      "downloadReport": "レポートをダウンロード",
       "loading": "セッションを読み込み中…",
       "noSessions": "セッションが選択されていません。\nドロップダウンからセッションを選択します。",
       "placeholder": "セッションを選択してください…",
-      "resend": "レポートを再送信する"
+      "reportTitle": "詳細レポート",
+      "reportZoomActual": "100%",
+      "reportZoomFit": "幅に合わせる",
+      "resend": "レポートを再送信する",
+      "viewReport": "詳細レポートを表示"
     },
     "settings": {
       "chartPrimary": "プライマリメトリクス",
@@ -5025,6 +5204,9 @@
       "smtpServer": "SMTPサーバー",
       "smtpSsl": "TLS/SSLを使用する",
       "testDiscord": "テストメッセージの送信",
+      "secretSet": "••••••••（設定済み）",
+      "secretNotSet": "未設定",
+      "secretLeaveEmpty": "現在の値を維持するには空のままにしてください",
       "testEmail": "テストメールを送信する",
       "testPushover": "テスト通知を送信する",
       "localDashboardEnabled": "ローカル Web サーバーを有効にする",

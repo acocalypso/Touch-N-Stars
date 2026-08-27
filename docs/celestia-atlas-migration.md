@@ -502,7 +502,8 @@ Persisted settings and local data paths retain explicit migration compatibility.
 - Production-browser view-center validation focused the ICRS M31 result and opened the shared action panel. Slew and favorite actions received the same converted J2000 pair (`10.684802539`, `41.269057059`). Injecting an untagged callback result cleared both coordinate labels, made all descendant actions match `:disabled`, blocked sequence/favorite handlers, and did not replace sentinel framing-store coordinates. Restoring the valid callback re-enabled the fieldset. Full console inspection found only expected missing-backend traffic; no Atlas, Vue, `ReferenceError`, `TypeError`, or unhandled errors appeared.
 - Celestial-north camera-frame coverage passes 47 Atlas tests and locks the host
   boundary to the raw framing-store angle plus the explicit
-  `clockwise-from-celestial-north` convention.
+  `counterclockwise-from-celestial-north` convention, matching N.I.N.A.'s
+  displayed `360 - PositionAngle` rectangle rotation.
 - Host after search/selection/mount integration: 46 passed, 0 failed; targeted ESLint, typecheck and flagged production build passed.
 - Candidate Phase 1 unit tests: 3 passed, 0 failed; syntax and diff checks passed.
 - Host `npm run typecheck`: passed in 97.6 seconds.
@@ -649,7 +650,8 @@ equivalent iOS capture remains a non-blocking follow-up.
   and selects the required conversion.
 - Invalid or unproven automatic values no longer overwrite framing rotation.
   The Atlas renderer imports the same canonical
-  `clockwise-from-celestial-north` constant used by the conversion boundary.
+  `counterclockwise-from-celestial-north` constant used by the conversion
+  boundary.
 - The [position-angle contract](celestia-atlas-position-angle-contract.md)
   records applied and deliberately excluded image sources, WCS parity limits,
   pinned primary-source revisions, and the admission checklist for future

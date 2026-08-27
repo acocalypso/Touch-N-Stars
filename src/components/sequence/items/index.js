@@ -33,6 +33,7 @@ import SlewDomeAzimuthItem from './SlewDomeAzimuthItem.vue';
 import StackFlatsItem from './StackFlatsItem.vue';
 import ChangePHD2ParametersItem from './ChangePHD2ParametersItem.vue';
 import InterruptWhenRMSAboveItem from './InterruptWhenRMSAboveItem.vue';
+import InterruptAndRetryWhenRMSAboveItem from './InterruptAndRetryWhenRMSAboveItem.vue';
 import LoopConditionItem from './LoopConditionItem.vue';
 import LoopForTimeSpanItem from './LoopForTimeSpanItem.vue';
 import LoopWhileItem from './LoopWhileItem.vue';
@@ -75,6 +76,7 @@ import MoveFocuserRelativeItem from './MoveFocuserRelativeItem.vue';
 import MoveFocuserByTemperatureItem from './MoveFocuserByTemperatureItem.vue';
 import StartGuidingItem from './StartGuidingItem.vue';
 import GroundStationItem from './GroundStationItem.vue';
+import SaveSequenceItem from './SaveSequenceItem.vue';
 import GenericItem from './GenericItem.vue';
 
 export const ITEM_COMPONENTS = {
@@ -169,6 +171,7 @@ export const ITEM_COMPONENTS = {
   'NINA.Sequencer.SequenceItem.Utility.WaitForSunAltitude': WaitForBodyAltitudeItem,
   'NINA.Sequencer.SequenceItem.Utility.WaitUntil': WaitUntilItem,
   'NINA.Sequencer.SequenceItem.Utility.WaitForTimeSpan': WaitForTimeSpanItem,
+  'NINA.Sequencer.SequenceItem.Utility.SaveSequence': SaveSequenceItem,
   'NINA.Sequencer.SequenceItem.Dome.CloseDomeShutter': RunAutofocusItem,
   'NINA.Sequencer.SequenceItem.Dome.DisableDomeSynchronization': RunAutofocusItem,
   'NINA.Sequencer.SequenceItem.Dome.EnableDomeSynchronization': RunAutofocusItem,
@@ -183,6 +186,8 @@ export const ITEM_COMPONENTS = {
   'nina.plugin.phd2tools.Phd2ToolsSequenceItems.Phd2SettleInstruction': RunAutofocusItem,
   'nina.plugin.phd2tools.Phd2ToolsSequenceItems.ChangePHD2Parameters': ChangePHD2ParametersItem,
   'nina.plugin.phd2tools.Phd2ToolsSequenceItems.InterruptWhenRMSAbove': InterruptWhenRMSAboveItem,
+  'nina.plugin.phd2tools.Phd2ToolsSequenceItems.InterruptAndRetryWhenRMSAbove':
+    InterruptAndRetryWhenRMSAboveItem,
   'nina.plugin.phd2tools.Phd2ToolsSequenceItems.RestartWhenSaturated': RunAutofocusItem,
   'nina.plugin.phd2tools.Phd2ToolsSequenceItems.Phd2SettleTrigger': RunAutofocusItem,
   'Orbuculum.Instructions.AutoBalancingExposure': AutoBalancingExposureItem,

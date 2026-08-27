@@ -104,6 +104,14 @@
     min-height: 100vh;
     min-height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
   }
+
+  /* Bottom anchor for floating page elements above the StatusBar, including an
+     open status panel. Class variant of the inline style already used in
+     SequencePage.vue, controlSequence.vue and CaptureButton.vue — needed where
+     only a class name can be passed (e.g. ZoomableImage's controlsClass). */
+  .bottom-above-statusbar {
+    bottom: calc(var(--above-statusbar) + var(--status-panel-height));
+  }
 }
 
 .glow-green {
@@ -187,6 +195,38 @@
   }
 }
 
+/* Sequence editor field row. A nested sequence item has as little as ~140px of usable
+   width, where a label plus a fixed-width control cannot share one line -- the control
+   overflows the card and gets clipped. Below the threshold the row stacks and the control
+   fills the width. This is a container query against ItemShell's @container, so it reacts
+   to the item's nesting depth, not to the viewport, and stays inert everywhere else.
+   The 18rem below is the single place to retune the threshold. */
+@utility seq-field-row {
+  display: flex;
+  align-items: center;
+  gap: calc(var(--spacing) * 3);
+
+  @container (max-width: 18rem) {
+    flex-direction: column;
+    align-items: stretch;
+    gap: calc(var(--spacing) * 1);
+
+    /* Overrides the ml-auto / w-36 md:w-40 the controls carry, so the ~42 call sites
+       need no per-control change. .seq-field-row > select (0,1,1) beats .w-36 (0,1,0). */
+    & > * {
+      margin-left: 0;
+      max-width: 100%;
+    }
+
+    & > select,
+    & > input,
+    & > textarea,
+    & > button {
+      width: 100%;
+    }
+  }
+}
+
 /* Card: the one standard surface for grouped content */
 @utility tns-card {
   @apply bg-surface-1 border border-line rounded-card p-4;
@@ -235,6 +275,24 @@
   &::before {
     background: var(--color-accent);
   }
+}
+
+/* Expandable panel docked onto the status bar (guider graph, camera/mount/filter
+   info, progress). Sits inside the stage rails with rounded top corners, so the
+   .stage-frame mask can end above it - App.vue's stageFrameStyle adds
+   --status-panel-height for exactly that. `left` stays with the component
+   because it depends on the orientation-driven nav width. */
+@utility tns-status-panel {
+  position: fixed;
+  right: var(--stage-inset);
+  bottom: calc(env(safe-area-inset-bottom, 0px) + var(--statusbar-height));
+  border: 1px solid var(--color-cyan-700);
+  border-bottom: none;
+  border-radius: var(--stage-radius) var(--stage-radius) 0 0;
+  /* Clips child backgrounds at the rounded corners. */
+  overflow: hidden;
+
+  @apply bg-gray-800/95;
 }
 
 /* Stat tile: small card with a micro label on top and a prominent value below.

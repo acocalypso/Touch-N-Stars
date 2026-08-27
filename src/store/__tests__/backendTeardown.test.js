@@ -16,7 +16,6 @@ const { useSettingsStore } = await import('@/store/settingsStore');
 const { useCameraStore } = await import('@/store/cameraStore');
 const { useImagetStore } = await import('@/store/imageStore');
 const { useSequenceV2Store } = await import('@/store/sequenceV2Store');
-const { useTppaStore } = await import('@/store/tppaStore');
 const { default: tppaService } = await import('@/services/websocketTppa');
 const { default: mountService } = await import('@/services/websocketMountControl');
 
@@ -177,53 +176,5 @@ test('a capture stuck waiting for its image is released by the teardown', async 
   assert.equal(cameraStore.isLoadingImage, false);
 });
 
-// --- TPPA settings persistence (audit #3) -------------------------------------
-
-test('TPPA settings are persisted per instance and reloaded on switch', (t) => {
-  const { settingsStore } = setup(t);
-  const tppaStore = useTppaStore();
-  t.after(() => localStorage.clear());
-
-  // Instance A saves its filter.
-  tppaStore.initialize();
-  tppaStore.settings.Filter = 'Lum';
-  tppaStore.settings.Gain = 100;
-  tppaStore.saveSettings();
-  assert.ok(localStorage.getItem('tppaStore.settings:10.0.0.5:5000'), 'scoped key written');
-
-  // Switch to instance B: A's filter must not carry over.
-  settingsStore.connection.ip = '10.0.0.9';
-  tppaStore.initialize();
-  assert.equal(tppaStore.settings.Filter, null, 'defaults on an instance with nothing saved');
-  tppaStore.settings.Filter = 'Ha';
-  tppaStore.saveSettings();
-
-  // Back to instance A: its own settings return.
-  settingsStore.connection.ip = '10.0.0.5';
-  tppaStore.initialize();
-  assert.equal(tppaStore.settings.Filter, 'Lum');
-  assert.equal(tppaStore.settings.Gain, 100);
-
-  // And forward to B again.
-  settingsStore.connection.ip = '10.0.0.9';
-  tppaStore.initialize();
-  assert.equal(tppaStore.settings.Filter, 'Ha');
-});
-
-test('TPPA settings migrate once from the legacy global key', (t) => {
-  const { settingsStore } = setup(t);
-  const tppaStore = useTppaStore();
-  t.after(() => localStorage.clear());
-
-  // Pre-fix layout: the whole store state for all instances under one key.
-  localStorage.setItem(
-    'tppaStore',
-    JSON.stringify({ isRunning: true, settings: { Gain: 42, Filter: 'OIII' } })
-  );
-
-  settingsStore.connection.ip = '10.0.0.77';
-  tppaStore.initialize();
-  assert.equal(tppaStore.settings.Gain, 42, 'legacy settings imported');
-  assert.equal(tppaStore.settings.Filter, 'OIII');
-  assert.equal(tppaStore.isRunning, false, 'live state is NOT restored from disk');
-});
+// TPPA settings moved to the backend key-value store (rig-shared, not
+// per-instance-and-device) - see src/store/__tests__/tppaSettings.test.js.

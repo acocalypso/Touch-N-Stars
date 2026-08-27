@@ -12,18 +12,21 @@ export function getNightKey(dateString) {
   return `${y}-${m}-${d}`;
 }
 
-export function applyImageFilter(
-  images,
+export function passesImageFilter(
+  img,
   { selectedTarget, selectedFilter, selectedNight, selectedImageType }
 ) {
+  if (!img) return false;
+  if (selectedTarget !== null && img.TargetName !== selectedTarget) return false;
+  if (selectedFilter !== null && img.Filter !== selectedFilter) return false;
+  if (selectedNight !== null && getNightKey(img.Date) !== selectedNight) return false;
+  if (selectedImageType !== null && img.ImageType !== selectedImageType) return false;
+  return true;
+}
+
+export function applyImageFilter(images, filter) {
   if (!images) return [];
-  return images.filter((img) => {
-    if (selectedTarget !== null && img.TargetName !== selectedTarget) return false;
-    if (selectedFilter !== null && img.Filter !== selectedFilter) return false;
-    if (selectedNight !== null && getNightKey(img.Date) !== selectedNight) return false;
-    if (selectedImageType !== null && img.ImageType !== selectedImageType) return false;
-    return true;
-  });
+  return images.filter((img) => passesImageFilter(img, filter));
 }
 
 export function useImageFilter() {

@@ -92,12 +92,20 @@
             +
           </button>
         </div>
-        <!-- Rotation Anzeige -->
+        <!-- Rotation readout: the target angle and, once available, the angle
+             measured by the last plate solve -->
         <div
-          class="bg-gray-800/90 border min-w-14 border-gray-600 rounded-lg px-3 py-2 flex items-center justify-center"
+          class="bg-gray-800/90 border min-w-14 border-gray-600 rounded-lg px-3 py-2 flex flex-col items-center justify-center leading-tight"
         >
           <span class="text-xs text-gray-300 font-medium"
             >{{ Math.round(framingStore.rotationAngle) }}°</span
+          >
+          <span
+            v-if="framingStore.hasSolvedRotation"
+            class="text-[10px] text-cyan-300 font-medium whitespace-nowrap"
+            :title="$t('components.framing.solvedRotation.tooltip')"
+            >{{ $t('components.framing.solvedRotation.short') }}
+            {{ Math.round(framingStore.solvedRotationAngle) }}°</span
           >
         </div>
       </div>
@@ -146,6 +154,19 @@
           </g>
         </g>
       </svg>
+
+      <!-- Actual frame: the angle of the last plate solve. Sits concentric
+           with the target frame so that rotating the target frame makes the
+           difference visible. -->
+      <div
+        class="absolute pointer-events-none"
+        :class="
+          framingStore.hasSolvedRotation
+            ? 'tns-actual-frame'
+            : 'tns-actual-frame tns-actual-frame--unsolved'
+        "
+        :style="actualFrameStyle"
+      ></div>
 
       <!-- Moveable-->
       <Moveable
@@ -284,6 +305,29 @@ const mosaicTargetStyle = computed(() => {
     transform: `translate(${x.value}px, ${y.value}px) rotate(${rotationAngleVisu.value}deg)`,
     zIndex: 2,
     opacity: 0,
+  };
+});
+
+// ── Actual frame (last plate solve) ─────────────────────────────────────────
+// Concentric with the target frame (in mosaic mode too, where the target frame
+// is the whole bounding box), but always camera-sized and drawn at the measured
+// angle. Without a solve it falls back to the target angle; its own style is
+// what marks it as "not measured yet".
+const actualFrameStyle = computed(() => {
+  const effectiveW = framingStore.isMosaicMode ? mosaicTotalSize().w : framingStore.camWidth;
+  const effectiveH = framingStore.isMosaicMode ? mosaicTotalSize().h : framingStore.camHeight;
+  const centerX = x.value + effectiveW / 2;
+  const centerY = y.value + effectiveH / 2;
+  const angle = framingStore.hasSolvedRotation
+    ? framingStore.solvedRotationAngle
+    : framingStore.rotationAngle;
+  return {
+    width: `${framingStore.camWidth}px`,
+    height: `${framingStore.camHeight}px`,
+    left: `${centerX - framingStore.camWidth / 2}px`,
+    top: `${centerY - framingStore.camHeight / 2}px`,
+    transform: `rotate(${(360 - angle) % 360}deg)`,
+    zIndex: 4,
   };
 });
 
@@ -907,4 +951,16 @@ function pan(dx, dy) {
 }
 </script>
 
-<style scoped></style>
+<style scoped>
+/* Actual frame: dashed and clearly separated in colour from the blue Moveable
+   target frame. Without a solve only faintly dotted - "not measured yet". */
+.tns-actual-frame {
+  border: 2px dashed rgb(103 232 249);
+  box-sizing: border-box;
+}
+
+.tns-actual-frame--unsolved {
+  border-style: dotted;
+  border-color: rgba(148, 163, 184, 0.6);
+}
+</style>

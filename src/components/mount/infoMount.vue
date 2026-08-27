@@ -30,7 +30,7 @@
     />
     <StatusBool
       :compact="compact"
-      :isEnabled="store.mountInfo.Slewing"
+      :isEnabled="store.mountIsSlewing"
       :enabledText="$t('components.mount.info.slewing')"
       :disabledText="$t('components.mount.info.notSlewing')"
     />

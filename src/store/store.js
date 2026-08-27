@@ -16,6 +16,7 @@ import { useLivestackStore } from '@/plugins/livestack/store/livestackStore';
 import { useNightSummaryStore } from '@/plugins/nightsummary/store/nightsummaryStore';
 import { useGuiderStore } from '@/store/guiderStore';
 import { useCameraStore } from '@/store/cameraStore';
+import { useFramingStore } from '@/store/framingStore';
 import { useSequenceStore } from '@/store/sequenceStore';
 import { useSequenceV2Store } from '@/store/sequenceV2Store';
 import { useDialogStore } from '@/store/dialogStore';
@@ -208,6 +209,17 @@ export const apiStore = defineStore('store', {
     isSafetyConnected: false,
     lastImageStats: null,
   }),
+
+  getters: {
+    // Some drivers (e.g. ZWO AM5N) leave Slewing set after a park slew has
+    // finished. AtPark rules out a running slew, so AtPark wins.
+    mountIsSlewing: (state) => Boolean(state.mountInfo.Slewing) && !state.mountInfo.AtPark,
+
+    // The guider only counts as running while it actually guides or calibrates.
+    // Every other PHD2 app state (Stopped, Looping, Selected, Paused, LostLock)
+    // still allows changing settings.
+    guiderIsRunning: (state) => ['Guiding', 'Calibrating'].includes(state.guiderInfo?.State),
+  },
 
   actions: {
     async fetchAllInfos(t) {
@@ -715,6 +727,10 @@ export const apiStore = defineStore('store', {
       const autofocusStore = useAutofocusStore();
       autofocusStore.clearAutofocusData();
 
+      // Drop the solved camera rotation: it belongs to the previous instance
+      // and must not leak into the next one.
+      useFramingStore().resetSolvedRotation();
+
       // Stop any client-driven capture loop/countdown: it would otherwise
       // survive the teardown and start commanding the next backend's camera.
       const cameraStore = useCameraStore();
@@ -951,6 +967,10 @@ export const apiStore = defineStore('store', {
       this.profileInfo = defaultProfileInfo();
       this.imageSavePath = null;
       useImagetStore().clearImageCache();
+      // Thumbnails are keyed by history index, which points at different images on
+      // another instance. A transient connection loss keeps them: same instance,
+      // same indices.
+      useImagetStore().clearThumbnailCache();
 
       // Re-arm the sockets that were live before the switch. connect() with a
       // null URL (apiPort is null right after teardown) arms the idle-recheck

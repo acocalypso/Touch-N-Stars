@@ -580,20 +580,40 @@ async function wait(ms) {
 }
 
 // Re-sync the TPPA status from the backend whenever the connection comes back
-// (e.g. after an instance switch) while this view is open.
+// (e.g. after an instance switch) while this view is open. Settings themselves
+// are loaded centrally by settingsStore.loadAllBackendSettings() on the same
+// reachability edge - not reloaded here.
 watch(
   () => store.isBackendReachable,
   (reachable) => {
     if (reachable) {
-      // Reloads the persisted per-instance settings if the endpoint changed.
-      tppaStore.initialize();
       tppaStore.fetchInfo();
     }
   }
 );
 
+// Persist settings changes to the backend so every client connected to this
+// rig sees the same filter/gain/exposure. Debounced like the other profile
+// writers (e.g. setSlewRate.vue), and gated on settingsReady so the initial
+// load from loadTppaSettings() doesn't write straight back out.
+let saveSettingsDebounce;
+watch(
+  () => tppaStore.settings,
+  () => {
+    if (!tppaStore.settingsReady) return;
+    clearTimeout(saveSettingsDebounce);
+    saveSettingsDebounce = setTimeout(() => tppaStore.saveSettings(), 600);
+  },
+  { deep: true }
+);
+
 onMounted(() => {
-  tppaStore.initialize();
+  // Settings normally arrive with loadAllBackendSettings() when the connection
+  // comes up. If that attempt failed the store is still on its defaults and
+  // saving is disabled - retry here so opening the page recovers it.
+  if (!tppaStore.settingsReady) {
+    tppaStore.loadTppaSettings();
+  }
 
   // Load the real TPPA status from the backend on open (an alignment may have
   // been started before mount or on another client).

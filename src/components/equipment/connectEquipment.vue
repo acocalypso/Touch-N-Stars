@@ -390,10 +390,20 @@ import SettingsAlpacaDirect from '@/components/equipment/SettingsAlpacaDirect.vu
 import SettingsFilterWheelSlotNum from '@/components/equipment/SettingsFilterWheelSlotNum.vue';
 import SettingsSwitchSV241Pro from '@/components/equipment/SettingsSwitchSV241Pro.vue';
 import { checkMountConnectionPermission } from '@/utils/locationSyncUtils';
+import {
+  apiActionForApiName,
+  getIndiDriver,
+  isOfflineDevice,
+  reloadIndiDriver,
+  resolveReloadedDevice,
+  setProfileDevice,
+} from '@/utils/equipmentDevices';
+import { useEquipmentStore } from '@/store/equipmentStore';
 
 const { t } = useI18n();
 const store = apiStore();
 const guiderStore = useGuiderStore();
+const equipmentStore = useEquipmentStore();
 const isConnecting = ref(false);
 const isDisconnecting = ref(false);
 const showGuiderSettings = ref(false);
@@ -520,67 +530,42 @@ const openSafetySettings = (payload) => {
   showSafetySettings.value = true;
 };
 
-const allConnected = computed(() => {
-  return store.existingEquipmentList.every((device) => {
-    switch (device.apiName) {
-      case 'camera':
-        return store.cameraInfo.Connected;
-      case 'mount':
-        return store.mountInfo.Connected;
-      case 'filter':
-        return store.filterInfo.Connected;
-      case 'focuser':
-        return store.focuserInfo.Connected;
-      case 'rotator':
-        return store.rotatorInfo.Connected;
-      case 'guider':
-        return store.guiderInfo.Connected;
-      case 'safety':
-        return store.safetyInfo.Connected;
-      case 'flatdevice':
-        return store.flatdeviceInfo.Connected;
-      case 'dome':
-        return store.domeInfo.Connected;
-      case 'weather':
-        return store.weatherInfo.Connected;
-      case 'switch':
-        return store.switchInfo.Connected;
-      default:
-        return false;
-    }
-  });
-});
+function isDeviceConnected(apiName) {
+  switch (apiName) {
+    case 'camera':
+      return store.cameraInfo.Connected;
+    case 'mount':
+      return store.mountInfo.Connected;
+    case 'filter':
+      return store.filterInfo.Connected;
+    case 'focuser':
+      return store.focuserInfo.Connected;
+    case 'rotator':
+      return store.rotatorInfo.Connected;
+    case 'guider':
+      return store.guiderInfo.Connected;
+    case 'safety':
+      return store.safetyInfo.Connected;
+    case 'flatdevice':
+      return store.flatdeviceInfo.Connected;
+    case 'dome':
+      return store.domeInfo.Connected;
+    case 'weather':
+      return store.weatherInfo.Connected;
+    case 'switch':
+      return store.switchInfo.Connected;
+    default:
+      return false;
+  }
+}
 
-const hasAnyConnection = computed(() => {
-  return store.existingEquipmentList.some((device) => {
-    switch (device.apiName) {
-      case 'camera':
-        return store.cameraInfo.Connected;
-      case 'mount':
-        return store.mountInfo.Connected;
-      case 'filter':
-        return store.filterInfo.Connected;
-      case 'focuser':
-        return store.focuserInfo.Connected;
-      case 'rotator':
-        return store.rotatorInfo.Connected;
-      case 'guider':
-        return store.guiderInfo.Connected;
-      case 'safety':
-        return store.safetyInfo.Connected;
-      case 'flatdevice':
-        return store.flatdeviceInfo.Connected;
-      case 'dome':
-        return store.domeInfo.Connected;
-      case 'weather':
-        return store.weatherInfo.Connected;
-      case 'switch':
-        return store.switchInfo.Connected;
-      default:
-        return false;
-    }
-  });
-});
+const allConnected = computed(() =>
+  store.existingEquipmentList.every((device) => isDeviceConnected(device.apiName))
+);
+
+const hasAnyConnection = computed(() =>
+  store.existingEquipmentList.some((device) => isDeviceConnected(device.apiName))
+);
 
 function waitForMountConnected(timeoutMs = 30000) {
   if (store.mountInfo.Connected) return Promise.resolve(true);
@@ -602,6 +587,58 @@ function waitForMountConnected(timeoutMs = 30000) {
   });
 }
 
+/**
+ * Devices powered by the switch only appear on the USB bus after their port is on — too
+ * late for an INDI driver that was started earlier. PINS then lists them as OFFLINE and
+ * every connect attempt fails. Restart those drivers before the connect loop runs.
+ */
+async function reloadOfflineIndiDrivers() {
+  let reloaded = false;
+
+  for (const device of store.existingEquipmentList) {
+    const apiAction = apiActionForApiName(device.apiName);
+    // Skip everything that is not INDI-backed; native drivers re-enumerate on their own.
+    if (!apiAction || !getIndiDriver(apiAction)) continue;
+    // Reloading a driver tears down its connection — never touch the switch we just
+    // connected, or anything else that is already up.
+    if (isDeviceConnected(device.apiName)) continue;
+
+    try {
+      const response = await apiService[apiAction]('list-devices');
+      const list = Array.isArray(response?.Response) ? response.Response : [];
+      const entry = list.find((d) => String(d.Id) === String(device.id));
+      if (!isOfflineDevice(entry)) continue;
+      if (!(await reloadIndiDriver(apiAction))) continue;
+      reloaded = true;
+
+      // The restarted driver derives the Id from the INDI device name, which need not match
+      // the Id the profile stored. Since connectAll() connects without ?to=, it would keep
+      // using the dead profile Id — so write the resolved one back.
+      const refreshed = await apiService[apiAction]('list-devices');
+      const resolved = resolveReloadedDevice(
+        entry,
+        Array.isArray(refreshed?.Response) ? refreshed.Response : []
+      );
+      if (!resolved) {
+        console.warn(`[Connect Equipment] ${device.apiName} did not come back after the reload`);
+        continue;
+      }
+      if (String(resolved.Id) !== String(device.id)) {
+        await setProfileDevice(apiAction, String(resolved.Id));
+      }
+    } catch (error) {
+      // One device must not stop the others from connecting.
+      console.warn(`[Connect Equipment] INDI driver reload failed for ${device.apiName}`, error);
+    }
+  }
+
+  // Only refresh the selects when a driver actually changed; otherwise this would fire an
+  // extra list-devices per device on every connectAll.
+  if (reloaded) {
+    equipmentStore.triggerReload();
+  }
+}
+
 async function connectAll() {
   isConnecting.value = true;
   try {
@@ -610,6 +647,8 @@ async function connectAll() {
       await apiService.switchAction('connect');
       await new Promise((resolve) => setTimeout(resolve, 5000));
     }
+
+    await reloadOfflineIndiDrivers();
 
     for (const device of store.existingEquipmentList) {
       switch (device.apiName) {

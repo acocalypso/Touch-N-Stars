@@ -44,18 +44,29 @@ export function isJobFailed(result) {
  * Polls `/jobs/{id}` until the job succeeded, failed, or the attempt budget ran out.
  *
  * @param {string|number} id - job id returned by the daemon
- * @param {{ intervalMs?: number, maxAttempts?: number, onStatusChange?: (status: string) => void }} [options]
+ * @param {{ intervalMs?: number, maxAttempts?: number, maxConsecutiveErrors?: number, onStatusChange?: (status: string) => void }} [options]
  *   onStatusChange fires only when the status string actually changes, so callers
- *   can log transitions without spamming one line per poll.
+ *   can log transitions without spamming one line per poll. maxConsecutiveErrors
+ *   lets operations that may briefly interrupt the network tolerate failed polls.
  * @returns {Promise<{ success: boolean, result: object }>}
  */
 export async function pollJobUntilFinished(
   id,
-  { intervalMs = 2000, maxAttempts = 120, onStatusChange } = {}
+  { intervalMs = 2000, maxAttempts = 120, maxConsecutiveErrors = 0, onStatusChange } = {}
 ) {
   let lastStatus = null;
+  let consecutiveErrors = 0;
   for (let attempt = 0; attempt < maxAttempts; attempt++) {
-    const result = (await apiPinsService.getPinsDaemonJob(id)) || {};
+    let result;
+    try {
+      result = (await apiPinsService.getPinsDaemonJob(id)) || {};
+      consecutiveErrors = 0;
+    } catch (error) {
+      consecutiveErrors += 1;
+      if (consecutiveErrors > maxConsecutiveErrors) throw error;
+      await new Promise((resolve) => setTimeout(resolve, intervalMs));
+      continue;
+    }
     const currentStatus = String(result.status || '').toLowerCase();
 
     if (currentStatus && currentStatus !== lastStatus) {

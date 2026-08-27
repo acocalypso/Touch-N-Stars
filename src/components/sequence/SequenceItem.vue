@@ -1,19 +1,28 @@
 <template>
+  <!-- @container: every nesting level costs ~98px of fixed chrome (padding, drag handle,
+       chevron, more-menu), so a deeply nested item can be left with well under 100px for its
+       name and summary. Below 16rem the chrome shrinks to give that space back. Safe despite
+       the draggables below: they all set fallbackOnBody, so the Sortable ghost is appended to
+       document.body and is not affected by the containing block container-type creates. -->
   <div
-    class="rounded-lg border transition-all duration-200"
+    class="@container rounded-lg border transition-all duration-200"
     :class="[borderClass, hasChildren && depth > 0 ? depthLeftBorder : '', activeSectionRing]"
   >
     <!-- Item header row -->
-    <div class="flex items-center gap-1.5 px-2 py-2">
-      <!-- Drag handle -->
+    <div class="flex items-center gap-1.5 px-2 py-2 @max-[16rem]:gap-1 @max-[16rem]:px-1">
+      <!-- Drag handle. Sortable picks the handle up by the .drag-handle class, so dropping
+           the class is what actually stops a drag of this single row while its siblings
+           stay draggable. -->
       <span
-        class="drag-handle shrink-0 p-1 text-slate-600 transition-colors touch-none"
+        class="shrink-0 p-1 text-slate-600 transition-colors touch-none @max-[16rem]:p-0.5"
         :class="
-          isLocked
+          dragDisabled
             ? 'cursor-not-allowed opacity-40'
-            : 'cursor-grab active:cursor-grabbing hover:text-slate-400'
+            : 'drag-handle cursor-grab active:cursor-grabbing hover:text-slate-400'
         "
-        :title="$t('components.sequence.move')"
+        :title="
+          isRunning ? $t('components.sequence.runningLocked') : $t('components.sequence.move')
+        "
       >
         <svg class="w-4 h-4" viewBox="0 0 20 20" fill="currentColor">
           <path
@@ -33,7 +42,8 @@
           :class="{ 'rotate-90': !collapsed }"
         />
       </button>
-      <span v-else class="w-4 shrink-0" />
+      <!-- Aligns childless items with collapsible ones; not worth 22px when space is this tight. -->
+      <span v-else class="w-4 shrink-0 @max-[16rem]:hidden" />
 
       <!-- Type component (display + edit) -->
       <component :is="typeComponent" :item="item" class="flex-1 min-w-0" />
@@ -41,7 +51,7 @@
       <!-- More menu -->
       <div class="shrink-0" ref="moreRef">
         <button
-          class="p-1 rounded text-slate-500 hover:text-slate-300 hover:bg-slate-600/40 transition-colors"
+          class="p-1 rounded text-slate-500 hover:text-slate-300 hover:bg-slate-600/40 transition-colors @max-[16rem]:p-0.5"
           :title="$t('components.sequence.more')"
           :disabled="isLocked"
           @click.stop="toggleMore"
@@ -55,10 +65,17 @@
             :style="moreStyle"
             @click.stop
           >
+            <p v-if="isRunning" class="px-3 py-1 text-xs text-slate-500 max-w-56">
+              {{ $t('components.sequence.runningLocked') }}
+            </p>
             <button class="menu-item" :disabled="isLocked" @click="doAction('duplicate')">
               <DocumentDuplicateIcon class="w-4 h-4" /> {{ $t('components.sequence.duplicate') }}
             </button>
-            <button class="menu-item" :disabled="isLocked" @click="doAction('toggle-enable')">
+            <button
+              class="menu-item"
+              :disabled="isLocked || isRunning"
+              @click="doAction('toggle-enable')"
+            >
               <component
                 :is="item.Status === 'DISABLED' ? PlayCircleIcon : PauseCircleIcon"
                 class="w-4 h-4"
@@ -69,13 +86,13 @@
                   : $t('components.sequence.disable')
               }}
             </button>
-            <button class="menu-item" :disabled="isLocked" @click="doAction('reset')">
+            <button class="menu-item" :disabled="isLocked || isRunning" @click="doAction('reset')">
               <ArrowPathIcon class="w-4 h-4" /> {{ $t('components.sequence.resetStatus') }}
             </button>
             <div class="border-t border-slate-700 my-1" />
             <button
               class="menu-item text-red-400 hover:text-red-300 hover:bg-red-900/20"
-              :disabled="isLocked"
+              :disabled="isLocked || isRunning"
               @click="doAction('remove')"
             >
               <TrashIcon class="w-4 h-4" /> {{ $t('components.sequence.delete') }}
@@ -86,7 +103,7 @@
     </div>
 
     <!-- Children with nested draggable -->
-    <div v-if="!collapsed && hasChildren" class="px-2 pb-2">
+    <div v-if="!collapsed && hasChildren" class="px-2 pb-2 @max-[16rem]:px-1">
       <!-- Sky chart for DSO container -->
       <SkyChart
         v-if="dsoTarget && mainStore.profileInfo?.AstrometrySettings?.Latitude != null"
@@ -101,7 +118,7 @@
       <!-- Triggers -->
       <div
         v-if="item.Triggers !== undefined"
-        class="mb-1.5 rounded-lg p-1.5 space-y-1 transition-all duration-200"
+        class="mb-1.5 rounded-lg p-1.5 space-y-1 transition-all duration-200 @max-[16rem]:p-1"
         :class="
           activeSection === 'trigger'
             ? 'border border-cyan-400/80 bg-cyan-950/30 shadow-lg shadow-cyan-500/30'
@@ -145,7 +162,7 @@
       <!-- Conditions -->
       <div
         v-if="item.Conditions !== undefined"
-        class="mb-1.5 rounded-lg p-1.5 space-y-1 transition-all duration-200"
+        class="mb-1.5 rounded-lg p-1.5 space-y-1 transition-all duration-200 @max-[16rem]:p-1"
         :class="
           activeSection === 'condition'
             ? 'border border-amber-400/80 bg-amber-950/30 shadow-lg shadow-amber-500/30'
@@ -273,6 +290,11 @@ const mainStore = apiStore();
 const collapsed = ref(false);
 const activeSection = ref(null);
 const isLocked = computed(() => sequenceStore.sequenceControlsLocked);
+// The sequencer is executing this node right now -- changing, resetting, disabling,
+// deleting or moving it is off limits until it is done. Children of a running
+// container stay editable; only the running node itself is protected.
+const isRunning = computed(() => props.item.Status === 'RUNNING');
+const dragDisabled = computed(() => isLocked.value || isRunning.value);
 
 function onAddSectionActive(mode, isOpen) {
   activeSection.value = isOpen ? mode : null;
@@ -357,6 +379,8 @@ const borderClass = computed(() => {
 
 async function doAction(action) {
   if (isLocked.value) return;
+  // Duplicating leaves the running item untouched, so it stays available.
+  if (isRunning.value && action !== 'duplicate') return;
 
   moreOpen.value = false;
   const id = props.item.Id;
@@ -368,27 +392,25 @@ async function doAction(action) {
 }
 
 function onChildDragEnd(evt) {
-  if (isLocked.value) return;
-  if (evt.oldIndex === evt.newIndex) return;
-  const siblings = props.item.Items;
-  const movedId = siblings[evt.newIndex].Id;
-  const newIdx = evt.newIndex;
-  if (newIdx === 0) {
-    store.move(movedId, siblings[1]?.Id, false);
-  } else {
-    store.move(movedId, siblings[newIdx - 1]?.Id, true);
-  }
+  onSiblingDragEnd(evt, props.item.Items);
 }
 
 function onSiblingDragEnd(evt, siblings) {
   if (isLocked.value) return;
   if (evt.oldIndex === evt.newIndex) return;
-  const movedId = siblings[evt.newIndex].Id;
   const newIdx = evt.newIndex;
+  const moved = siblings[newIdx];
+  // The handle of a running item carries no .drag-handle class, so this should not
+  // happen -- but vuedraggable has already reordered the local list, and a reorder of
+  // equal length is not corrected by applyStatusUpdates. Reload to undo it.
+  if (moved?.Status === 'RUNNING') {
+    store.loadCurrent();
+    return;
+  }
   if (newIdx === 0) {
-    store.move(movedId, siblings[1]?.Id, false);
+    store.move(moved.Id, siblings[1]?.Id, false);
   } else {
-    store.move(movedId, siblings[newIdx - 1]?.Id, true);
+    store.move(moved.Id, siblings[newIdx - 1]?.Id, true);
   }
 }
 
@@ -405,5 +427,6 @@ onUnmounted(() => document.removeEventListener('click', onOutsideClick));
 @reference '../../assets/tailwind.css';
 .menu-item {
   @apply flex items-center gap-2 w-full px-3 py-1.5 text-sm text-slate-300 hover:bg-slate-700/60 transition-colors;
+  @apply disabled:opacity-40 disabled:cursor-not-allowed disabled:hover:bg-transparent;
 }
 </style>

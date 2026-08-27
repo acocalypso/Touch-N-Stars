@@ -1,8 +1,11 @@
 {
   "name": "touch-n-stars",
-  "version": "6.1.4",
+  "version": "6.2.0",
   "private": true,
   "type": "module",
+  "engines": {
+    "node": ">=22.15"
+  },
   "scripts": {
     "serve": "npm run lint:eslint && node scripts/generate-plugin-registry.js && node scripts/generate-whats-new.js && vite",
     "build": "npm run lint:eslint && npm run build:app",

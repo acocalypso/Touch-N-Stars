@@ -7,7 +7,7 @@
 
     <template #editor="{ save }">
       <!-- Variable name -->
-      <div class="flex items-center gap-3">
+      <div class="seq-field-row">
         <label class="text-xs text-slate-400 shrink-0">{{
           $t('components.sequence.items.expressionVariable.identifier')
         }}</label>
@@ -22,7 +22,7 @@
       <div class="text-xs text-slate-400 font-medium">
         {{ $t('components.sequence.items.expressionVariable.time') }}
       </div>
-      <div class="grid grid-cols-3 gap-1">
+      <div class="grid grid-cols-1 @[20rem]:grid-cols-3 gap-1">
         <NumberInputPicker
           :modelValue="item.Hours"
           label="h"

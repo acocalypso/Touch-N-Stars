@@ -23,6 +23,11 @@ export const useFramingStore = defineStore('FramingStore', {
     containerWidth: 500,
     containerHeight: 500,
     rotationAngle: 0,
+    // Sky position angle of the last plate solve and the timestamp of the log
+    // line it came from. rotationAngle stays the target value (the one sent to
+    // the hardware); these two are the measured value. Fed by logStore.
+    solvedRotationAngle: null,
+    solvedRotationTime: null,
     framingReloadKey: 0,
     cameraX: 0, // Kamera-Position X (absolut in Pixeln)
     cameraY: 0, // Kamera-Position Y (absolut in Pixeln)
@@ -46,7 +51,36 @@ export const useFramingStore = defineStore('FramingStore', {
     // entsprechen. Format: [{ label, ra, dec, rotation }]
     mosaicPanelCoords: [],
   }),
+  getters: {
+    // Single definition of "a solve has arrived", so the framing overlay and
+    // the rotator page can never disagree about it.
+    hasSolvedRotation: (state) =>
+      typeof state.solvedRotationAngle === 'number' && Number.isFinite(state.solvedRotationAngle),
+  },
   actions: {
+    // "Last value wins": a new solve overwrites the target angle too, so the
+    // frame shows reality. A solve that was already applied is recognised by
+    // its timestamp and never applied a second time.
+    applySolvedRotation(angle, timestamp) {
+      if (typeof angle !== 'number' || !Number.isFinite(angle)) return false;
+      const time = new Date(timestamp).getTime();
+      if (!Number.isFinite(time)) return false;
+      const knownTime = this.solvedRotationTime
+        ? new Date(this.solvedRotationTime).getTime()
+        : null;
+      if (knownTime !== null && time <= knownTime) return false;
+
+      this.solvedRotationAngle = angle;
+      this.solvedRotationTime = timestamp;
+      this.rotationAngle = angle;
+      return true;
+    },
+
+    resetSolvedRotation() {
+      this.solvedRotationAngle = null;
+      this.solvedRotationTime = null;
+    },
+
     async slew(RAangle, DECangle) {
       this.slewIsStopt = false;
       console.log('SlewAndCenter', RAangle, DECangle);

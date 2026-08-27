@@ -5,10 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [App6.1.4-beta9] - Unreleased
+## [App6.1.4-beta9] - 2026-08-26
 
 ### Added
 - Plugin Screen lock: The app's controls can now be locked from the status bar so nothing gets changed by accident - in the dark, with the device in a pocket, or when handing it to someone else. Everything stays visible and keeps updating while locked; unlocking requires a 2 s long press
+- Framing: The camera rotation from every plate solve is shown in the Framing Assistant and on the rotator page
+- Atlas: A second field-of-view frame shows the solved camera rotation next to the target frame
+
+### Fixed
+- Framing: The sky chart labels are now translated instead of always English
 
 ## [App6.1.4-beta8] - 2026-08-24
 

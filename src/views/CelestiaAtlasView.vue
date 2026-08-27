@@ -1,6 +1,7 @@
 <template>
   <div class="celestia-atlas-container" :class="containerClasses">
     <div ref="viewerContainer" class="celestia-atlas-viewer" />
+    <canvas ref="secondaryFovCanvas" class="celestia-atlas-secondary-fov" />
     <div v-if="ready" class="celestia-atlas-search">
       <input
         v-model="searchQuery"
@@ -138,6 +139,7 @@ import {
 } from '@/integrations/celestiaAtlas/catalogFilters';
 import { normalizeAtlasMagnitudeLimit } from '@/integrations/celestiaAtlas/magnitudeFilters';
 import { ATLAS_POSITION_ANGLE_CONVENTION } from '@/integrations/celestiaAtlas/positionAngle';
+import { computeSecondaryFieldOfViewFrame } from '@/integrations/celestiaAtlas/secondaryFieldOfView';
 import {
   createDssSkySurveySource,
   resolveCelestiaAtlasDataBaseUrl,
@@ -165,6 +167,7 @@ const horizonStore = useHorizonStore();
 const { t } = useI18n();
 const { isLandscape } = useOrientation();
 const viewerContainer = ref(null);
+const secondaryFovCanvas = ref(null);
 const ready = ref(false);
 const errorMessage = ref('');
 const landscapeErrorMessage = ref('');
@@ -184,6 +187,7 @@ let viewSaveTimer = null;
 let pendingViewState = null;
 let clockDisplayTimer = null;
 let searchTimer = null;
+let secondaryFovTimer = null;
 let disposed = false;
 const VIEW_STATE_KEY = 'tns.celestia-atlas.view';
 const SEARCH_DEBOUNCE_MS = 120;
@@ -240,6 +244,87 @@ function updateFieldOfView() {
         }
       : undefined,
   });
+}
+
+// Draws the "actual" frame from the last plate solve as a second, dashed
+// overlay on top of the package's own canvas, concentric with the primary
+// frame from updateFieldOfView() — the package itself only supports one FOV
+// slot (see docs/features/platesolve-camera-rotation.md, "Open questions").
+function drawSecondaryFieldOfView() {
+  const canvas = secondaryFovCanvas.value;
+  if (!canvas || !viewer) return;
+  const context = canvas.getContext('2d');
+  const width = canvas.clientWidth;
+  const height = canvas.clientHeight;
+  const dpr = Math.min(window.devicePixelRatio || 1, 2);
+  const backingWidth = Math.max(1, Math.round(width * dpr));
+  const backingHeight = Math.max(1, Math.round(height * dpr));
+  if (canvas.width !== backingWidth) canvas.width = backingWidth;
+  if (canvas.height !== backingHeight) canvas.height = backingHeight;
+  context.setTransform(dpr, 0, 0, dpr, 0, 0);
+  context.clearRect(0, 0, width, height);
+
+  const profile = store.profileInfo;
+  const apertureMm = Number(profile?.TelescopeSettings?.Aperture);
+  let fov;
+  try {
+    fov = calculateCameraFieldOfView({
+      pixelSizeMicrons: Number(profile?.CameraSettings?.PixelSize),
+      focalLengthMm: Number(profile?.TelescopeSettings?.FocalLength),
+      sensorWidthPx: Number(profile?.FramingAssistantSettings?.CameraWidth),
+      sensorHeightPx: Number(profile?.FramingAssistantSettings?.CameraHeight),
+      ...(Number.isFinite(apertureMm) && apertureMm > 0 ? { apertureMm } : {}),
+    });
+  } catch {
+    return;
+  }
+
+  const state = viewer.getState();
+  const hasSolved = framingStore.hasSolvedRotation;
+  const angleDeg = hasSolved
+    ? framingStore.solvedRotationAngle
+    : Number(framingStore.rotationAngle ?? 0);
+  const frame = computeSecondaryFieldOfViewFrame({
+    view: state.view,
+    observer: state.observer,
+    coordinateMode: state.coordinateMode,
+    utcMs: viewer.getTime(),
+    widthDeg: fov.widthDeg,
+    heightDeg: fov.heightDeg,
+    angleDeg,
+    containerWidth: width,
+  });
+  if (!frame) return;
+
+  context.save();
+  context.translate(width / 2, height / 2);
+  context.rotate((frame.screenRotationDeg * Math.PI) / 180);
+  context.lineWidth = 2;
+  if (hasSolved) {
+    context.strokeStyle = 'rgb(103, 232, 249)';
+    context.setLineDash([8, 6]);
+  } else {
+    context.strokeStyle = 'rgba(148, 163, 184, 0.6)';
+    context.setLineDash([2, 4]);
+  }
+  context.strokeRect(
+    -frame.panelWidth / 2,
+    -frame.panelHeight / 2,
+    frame.panelWidth,
+    frame.panelHeight
+  );
+  context.restore();
+}
+
+function startSecondaryFovTimer() {
+  if (secondaryFovTimer !== null) return;
+  secondaryFovTimer = setInterval(drawSecondaryFieldOfView, 1000);
+}
+
+function stopSecondaryFovTimer() {
+  if (secondaryFovTimer === null) return;
+  clearInterval(secondaryFovTimer);
+  secondaryFovTimer = null;
 }
 
 function toggleMountFollow() {
@@ -449,9 +534,11 @@ function updateVisibility() {
   if (store.showSkyAtlas && !document.hidden && !isAppBackgrounded.value) {
     viewer.resume();
     startClockDisplay();
+    startSecondaryFovTimer();
   } else {
     viewer.pause();
     stopClockDisplay();
+    stopSecondaryFovTimer();
   }
 }
 
@@ -467,12 +554,16 @@ watch(
     store.profileInfo?.FramingAssistantSettings?.CameraWidth,
     store.profileInfo?.FramingAssistantSettings?.CameraHeight,
     framingStore.rotationAngle,
+    framingStore.solvedRotationAngle,
     framingStore.isMosaicMode,
     framingStore.mosaicCols,
     framingStore.mosaicRows,
     framingStore.mosaicOverlap,
   ],
-  updateFieldOfView
+  () => {
+    updateFieldOfView();
+    drawSecondaryFieldOfView();
+  }
 );
 watch(() => store.showSkyAtlas, updateVisibility);
 watch(isAppBackgrounded, updateVisibility);
@@ -566,7 +657,10 @@ onMounted(async () => {
       onSelect: (target) => {
         selectedTarget.value = target;
       },
-      onViewChange: queueViewPersistence,
+      onViewChange: (viewState) => {
+        queueViewPersistence(viewState);
+        drawSecondaryFieldOfView();
+      },
       onError: (error) => {
         console.warn('[Celestia Atlas] Landscape unavailable:', error.message);
         landscapeErrorMessage.value = t(
@@ -585,6 +679,7 @@ onMounted(async () => {
       }
     }
     updateFieldOfView();
+    drawSecondaryFieldOfView();
     updateMount();
     updateDisplayOptions();
     updateHorizon();
@@ -602,6 +697,7 @@ onBeforeUnmount(() => {
   document.removeEventListener('visibilitychange', handleVisibilityChange);
   if (viewSaveTimer !== null) clearTimeout(viewSaveTimer);
   if (searchTimer !== null) clearTimeout(searchTimer);
+  stopSecondaryFovTimer();
   if (pendingViewState) sessionStorage.setItem(VIEW_STATE_KEY, JSON.stringify(pendingViewState));
   stopClockDisplay();
   viewer?.destroy();
@@ -618,6 +714,13 @@ onBeforeUnmount(() => {
   width: 100%;
   height: 100%;
   background: #03060d;
+}
+.celestia-atlas-secondary-fov {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
 }
 :deep(.celestia-atlas-survey-credit) {
   display: none !important;

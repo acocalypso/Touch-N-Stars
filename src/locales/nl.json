@@ -184,7 +184,11 @@
         "panelsSet": "panelen op volgorde geplaatst",
         "willBeSaved": "panelen worden afzonderlijk opgeslagen"
       },
-      "customTarget": "Aangepast doel"
+      "customTarget": "Aangepast doel",
+      "solvedRotation": {
+        "short": "opgelost",
+        "tooltip": "Camerarotatie van de laatste geslaagde plate solve"
+      }
     },
     "tutorial": {
       "previous": "Vorige",
@@ -1908,7 +1912,8 @@
       },
       "indi": {
         "settings": "Rotator-instellingen"
-      }
+      },
+      "solvedPositionAngle": "Opgeloste hemelhoek"
     },
     "flat": {
       "please_connect_flatDevice": "Verbind met flat apparaat",

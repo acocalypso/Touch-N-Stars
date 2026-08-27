@@ -184,7 +184,11 @@
         "title": "马赛克模式",
         "willBeSaved": "面板将单独保存"
       },
-      "customTarget": "Custom Target"
+      "customTarget": "Custom Target",
+      "solvedRotation": {
+        "short": "已解析",
+        "tooltip": "上次成功 Plate Solve 得到的相机旋转角"
+      }
     },
     "tutorial": {
       "previous": "上一步",
@@ -1908,7 +1912,8 @@
       },
       "indi": {
         "settings": "旋转器设置"
-      }
+      },
+      "solvedPositionAngle": "解析出的天空角"
     },
     "flat": {
       "please_connect_flatDevice": "请连接平场设备",

@@ -225,7 +225,11 @@
       "infoTargetImage": "이미지가 검게만 표시되면 NINA에서 \"오프라인 스카이맵 캐시\"를 설정하거나 \"NINA 캐시 사용\" 옵션을 꺼야 합니다",
       "useCenter": "센터링",
       "useRotate": "회전",
-      "customTarget": "사용자 지정 대상"
+      "customTarget": "사용자 지정 대상",
+      "solvedRotation": {
+        "short": "해석됨",
+        "tooltip": "마지막으로 성공한 플레이트 솔브의 카메라 회전각"
+      }
     },
     "tutorial": {
       "previous": "이전",
@@ -1954,7 +1958,8 @@
       },
       "indi": {
         "settings": "로테이터 설정"
-      }
+      },
+      "solvedPositionAngle": "해석된 하늘 각도"
     },
     "flat": {
       "please_connect_flatDevice": "플랫 장치를 연결하세요",

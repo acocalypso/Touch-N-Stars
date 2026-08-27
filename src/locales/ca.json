@@ -225,7 +225,11 @@
       "infoTargetImage": "Si la imatge només es mostra en negre, cal configurar la \"memòria cau del mapa del cel sense connexió\" a NINA o desactivar l'opció \"usa la memòria cau de NINA\"",
       "useCenter": "Centra",
       "useRotate": "Gira",
-      "customTarget": "Objectiu personalitzat"
+      "customTarget": "Objectiu personalitzat",
+      "solvedRotation": {
+        "short": "resolt",
+        "tooltip": "Rotació de la càmera de l'últim plate solve correcte"
+      }
     },
     "tutorial": {
       "previous": "Anterior",
@@ -1954,7 +1958,8 @@
       },
       "indi": {
         "settings": "Configuració del rotador"
-      }
+      },
+      "solvedPositionAngle": "Angle del cel resolt"
     },
     "flat": {
       "please_connect_flatDevice": "Connecta el dispositiu de flats",

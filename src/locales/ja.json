@@ -193,7 +193,11 @@
       "infoTargetImage": "画像が真っ黒に表示される場合は、NINAで「オフライン・スカイマップ・キャッシュ」を設定するか、「NINAキャッシュを使用する」オプションを無効にする必要があります",
       "useCenter": "中心",
       "useRotate": "回転",
-      "customTarget": "カスタムターゲット"
+      "customTarget": "カスタムターゲット",
+      "solvedRotation": {
+        "short": "解析済み",
+        "tooltip": "最後に成功したプレートソルブのカメラ回転角"
+      }
     },
     "tutorial": {
       "previous": "前へ",
@@ -1917,7 +1921,8 @@
       },
       "indi": {
         "settings": "ローテーター設定"
-      }
+      },
+      "solvedPositionAngle": "解析された天空角"
     },
     "flat": {
       "please_connect_flatDevice": "フラットデバイスを接続してください",

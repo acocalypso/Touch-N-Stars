@@ -216,6 +216,10 @@
         "rotationAngle": "Camera rotation",
         "fov": "Field of View"
       },
+      "solvedRotation": {
+        "short": "solved",
+        "tooltip": "Camera rotation from the last successful plate solve"
+      },
       "getImageRotation": {
         "startCapture": "Determine rotation from camera",
         "SolveRun": "Platesolve",
@@ -1938,6 +1942,7 @@
       "moving": "Moving",
       "stationary": "Stationary",
       "stepSize": "Step Size",
+      "solvedPositionAngle": "Solved sky angle",
       "settings": {
         "title": "Settings",
         "basic": "Basic Settings",

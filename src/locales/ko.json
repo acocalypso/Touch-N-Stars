@@ -2244,7 +2244,8 @@
         "mount": "마운트",
         "progress": "진행률",
         "safety": "안전",
-        "weather": "날씨"
+        "weather": "날씨",
+        "screenlock": "잠금"
       },
       "mount": {
         "parked": "파킹됨",
@@ -4890,6 +4891,10 @@
       "notAvailable": "사용할 수 없음",
       "detected": "감지됨",
       "notDetected": "감지되지 않음"
+    },
+    "screenLock": {
+      "unlock": "화면 잠금 해제",
+      "holdToUnlock": "{seconds}초 동안 눌러 해제"
     }
   },
   "pinsDevices": {

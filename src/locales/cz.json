@@ -2244,7 +2244,8 @@
         "mount": "Montáž",
         "progress": "Průběh",
         "safety": "Bezpečnost",
-        "weather": "Počasí"
+        "weather": "Počasí",
+        "screenlock": "Zámek"
       },
       "mount": {
         "parked": "Zaparkováno",
@@ -4890,6 +4891,10 @@
       "notAvailable": "Není k dispozici",
       "detected": "Zjištěno",
       "notDetected": "Nezjištěno"
+    },
+    "screenLock": {
+      "unlock": "Odemknout",
+      "holdToUnlock": "Držte {seconds} s pro odemknutí"
     }
   },
   "pinsDevices": {

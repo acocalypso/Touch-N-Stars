@@ -82,3 +82,6 @@ before the commit, never scattered through the work. Until then `i18n:check` rep
 needs an entry. Procedure, checker rules and tooling traps: `.claude/skills/i18n/SKILL.md`.
 
 Targets are Android, iOS and the browser — keep all three working.
+
+Code comments: always write in English, regardless of the language used in the conversation
+or commit messages.

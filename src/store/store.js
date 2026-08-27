@@ -16,6 +16,7 @@ import { useLivestackStore } from '@/plugins/livestack/store/livestackStore';
 import { useNightSummaryStore } from '@/plugins/nightsummary/store/nightsummaryStore';
 import { useGuiderStore } from '@/store/guiderStore';
 import { useCameraStore } from '@/store/cameraStore';
+import { useFramingStore } from '@/store/framingStore';
 import { useSequenceStore } from '@/store/sequenceStore';
 import { useSequenceV2Store } from '@/store/sequenceV2Store';
 import { useDialogStore } from '@/store/dialogStore';
@@ -725,6 +726,10 @@ export const apiStore = defineStore('store', {
       // Clear autofocus data from the previous instance
       const autofocusStore = useAutofocusStore();
       autofocusStore.clearAutofocusData();
+
+      // Drop the solved camera rotation: it belongs to the previous instance
+      // and must not leak into the next one.
+      useFramingStore().resetSolvedRotation();
 
       // Stop any client-driven capture loop/countdown: it would otherwise
       // survive the teardown and start commanding the next backend's camera.

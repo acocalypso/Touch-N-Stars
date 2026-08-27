@@ -1,5 +1,5 @@
 /**
- * Client for the PocketBase instance that stores the hardware knowledge base.
+ * Client for the TNS Website Hardware DB API.
  *
  * Deliberately built on `fetch` rather than axios: the global axios interceptor
  * in src/utils/errorHandler.js resolves network failures into a fake
@@ -14,18 +14,15 @@
 
 const DEFAULT_TIMEOUT = 15000;
 
-export const COLLECTIONS = Object.freeze({
-  submissions: 'hw_submissions',
-  submissionStatus: 'hw_submission_status',
-  entries: 'hw_entries',
-  notes: 'hw_notes',
-});
-
-/** Extracts something human-readable out of a PocketBase error body. */
+/** Extracts something human-readable out of an API error body. */
 export function extractErrorMessage(body, status, fallback) {
   if (body && typeof body === 'object') {
     if (typeof body.message === 'string' && body.message.trim()) return body.message;
-    // PocketBase reports per-field validation errors under `data`.
+    if (typeof body.error === 'string' && body.error.trim()) {
+      const details = Array.isArray(body.details) ? `: ${body.details.join(', ')}` : '';
+      return `${body.error}${details}`;
+    }
+    // Keep compatibility with field-oriented validation responses.
     const firstField = body.data && Object.values(body.data)[0];
     if (firstField && typeof firstField.message === 'string') return firstField.message;
   }
@@ -34,7 +31,11 @@ export function extractErrorMessage(body, status, fallback) {
   return fallback;
 }
 
-export function createHardwareDbApi({ baseUrl, timeout = DEFAULT_TIMEOUT } = {}) {
+export function createHardwareDbApi({
+  baseUrl,
+  timeout = DEFAULT_TIMEOUT,
+  fetchImpl = fetch,
+} = {}) {
   const root = String(baseUrl || '').replace(/\/+$/, '');
 
   async function request(path, { method = 'GET', body, signal } = {}) {
@@ -48,7 +49,7 @@ export function createHardwareDbApi({ baseUrl, timeout = DEFAULT_TIMEOUT } = {})
     signal?.addEventListener('abort', onAbort);
 
     try {
-      const response = await fetch(`${root}${path}`, {
+      const response = await fetchImpl(`${root}${path}`, {
         method,
         headers: body ? { 'Content-Type': 'application/json' } : undefined,
         body: body ? JSON.stringify(body) : undefined,
@@ -82,50 +83,58 @@ export function createHardwareDbApi({ baseUrl, timeout = DEFAULT_TIMEOUT } = {})
    * Creates a submission. It lands with status "pending" and stays invisible
    * until it is reviewed — the create rule is public, the read rules are not.
    *
-   * `status` is sent explicitly because the server-side create rule pins it to
-   * "pending". Without that rule anyone could post a record that is already
-   * approved and walk straight past the review queue; the client therefore has
-   * to state the only value the rule accepts.
+   * Moderation state is entirely server-owned and intentionally absent here.
    */
   async function submitReport({ reportToken, installId, payload }) {
-    return request(`/api/collections/${COLLECTIONS.submissions}/records`, {
+    return request('/api/hardware-db/submissions', {
       method: 'POST',
       body: {
         schemaVersion: payload?.schemaVersion,
         reportToken,
         installId,
         payload,
-        status: 'pending',
       },
     });
   }
 
   /** Looks up the review state of one's own submission by its token. */
   async function fetchSubmissionStatus(reportToken) {
-    const filter = encodeURIComponent(`reportToken="${reportToken}"`);
     const result = await request(
-      `/api/collections/${COLLECTIONS.submissionStatus}/records?perPage=1&filter=${filter}`
+      `/api/hardware-db/submissions/${encodeURIComponent(reportToken)}/status`
     );
-    return result?.items?.[0]?.status || null;
+    return result?.status || null;
   }
 
   /**
-   * Fetches the published knowledge base: entries with their device, plus the
-   * approved notes. Two requests rather than one back-relation expand — the
-   * expand syntax for reverse relations varies between PocketBase versions,
-   * while two small GETs work everywhere.
+   * Fetches approved devices and adapts them to the existing local knowledge
+   * index shape.
    */
   async function fetchKnowledge({ signal } = {}) {
-    const [entryResult, noteResult] = await Promise.all([
-      request(`/api/collections/${COLLECTIONS.entries}/records?perPage=500&expand=device`, {
-        signal,
-      }),
-      request(`/api/collections/${COLLECTIONS.notes}/records?perPage=500`, { signal }),
-    ]);
+    const result = await request('/api/hardware-db?pageSize=100', { signal });
+    const items = Array.isArray(result?.items) ? result.items : [];
 
     return {
-      entries: Array.isArray(entryResult?.items) ? entryResult.items : [],
-      notes: Array.isArray(noteResult?.items) ? noteResult.items : [],
+      entries: items.map((item) => ({
+        id: String(item.id),
+        driver: item.driverInfo || item.indiDriver || item.name,
+        status: item.userStatus,
+        reportCount: 1,
+        expand: {
+          device: {
+            category: item.category,
+            vendor: item.manufacturer || '',
+            model: item.model || item.displayName || item.name,
+            aliases: [item.name, item.displayName].filter(Boolean),
+          },
+        },
+      })),
+      notes: items
+        .filter((item) => item.notes)
+        .map((item) => ({
+          id: `note-${item.id}`,
+          entry: String(item.id),
+          text: item.notes,
+        })),
     };
   }
 

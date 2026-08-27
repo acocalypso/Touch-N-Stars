@@ -4,6 +4,8 @@ import { apiStore } from '@/store/store';
 import { useToastStore } from '@/store/toastStore';
 import { usePinsDeviceStore } from '@/plugins/pinsDevices/store/pinsDevicesStore';
 import { createPoller } from '@/utils/poller';
+import { useFramingStore } from '@/store/framingStore';
+import { findLatestSolvedRotation } from '@/utils/plateSolveLog';
 
 export const useLogStore = defineStore('LogStore', {
   state: () => ({
@@ -64,10 +66,26 @@ export const useLogStore = defineStore('LogStore', {
 
         // Prüfe auf neue ERROR/WARNING Meldungen
         this.checkForNewErrorWarnings(logs);
+
+        // Derive the camera rotation from every successful plate solve
+        this.updateSolvedRotation(logs);
         //console.log('Alle Logs:', this.LogsInfo);
       } catch (error) {
         console.error('Error fetching information:', error);
       }
+    },
+
+    // Every solve in NINA and PINS writes "Platesolve successful: ... Position
+    // Angle: ...". There is no socket event for it, so this log line is the only
+    // place where the app also sees the solves triggered by the sequencer.
+    updateSolvedRotation(logs) {
+      const latest = findLatestSolvedRotation(logs);
+      if (!latest) return;
+      // At app start old solves are still inside the log window; they must not
+      // overwrite the current angle.
+      if (!this.isWithinTenMinutes(latest.timestamp)) return;
+
+      useFramingStore().applySolvedRotation(latest.angle, latest.timestamp);
     },
 
     isWithinTenMinutes(timestamp) {

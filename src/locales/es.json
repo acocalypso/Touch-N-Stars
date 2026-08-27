@@ -184,7 +184,11 @@
         "panelsSet": "paneles colocados en secuencia",
         "willBeSaved": "Los paneles se guardarán individualmente."
       },
-      "customTarget": "Objetivo personalizado"
+      "customTarget": "Objetivo personalizado",
+      "solvedRotation": {
+        "short": "resuelto",
+        "tooltip": "Rotación de la cámara del último plate solve correcto"
+      }
     },
     "tutorial": {
       "previous": "Anterior",
@@ -1908,7 +1912,8 @@
       },
       "indi": {
         "settings": "Configuración del rotador"
-      }
+      },
+      "solvedPositionAngle": "Ángulo del cielo resuelto"
     },
     "flat": {
       "please_connect_flatDevice": "Por favor conectar panel de flat",

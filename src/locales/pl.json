@@ -184,7 +184,11 @@
         "panelsSet": "panele ustawione w kolejności",
         "willBeSaved": "panele zostaną zapisane indywidualnie"
       },
-      "customTarget": "Cel niestandardowy"
+      "customTarget": "Cel niestandardowy",
+      "solvedRotation": {
+        "short": "rozwiązane",
+        "tooltip": "Obrót kamery z ostatniego udanego plate solve"
+      }
     },
     "tutorial": {
       "previous": "Poprzedni",
@@ -1908,7 +1912,8 @@
       },
       "indi": {
         "settings": "Ustawienia rotatora"
-      }
+      },
+      "solvedPositionAngle": "Rozwiązany kąt na niebie"
     },
     "flat": {
       "please_connect_flatDevice": "Proszę podłączyć urządzenie flat",

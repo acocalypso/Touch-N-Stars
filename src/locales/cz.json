@@ -184,7 +184,11 @@
         "panelsSet": "panely nastavené v pořadí",
         "willBeSaved": "panely budou uloženy jednotlivě"
       },
-      "customTarget": "Custom Target"
+      "customTarget": "Custom Target",
+      "solvedRotation": {
+        "short": "vyřešeno",
+        "tooltip": "Rotace kamery z posledního úspěšného plate solve"
+      }
     },
     "tutorial": {
       "previous": "Předchozí",
@@ -1908,7 +1912,8 @@
       },
       "indi": {
         "settings": "Nastavení rotátoru"
-      }
+      },
+      "solvedPositionAngle": "Vyřešený úhel na obloze"
     },
     "flat": {
       "please_connect_flatDevice": "Připojte flat zařízení",

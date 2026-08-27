@@ -225,7 +225,11 @@
       "infoTargetImage": "Wenn das Bild nur in Schwarz angezeigt wird, muss der 'Offline Sky Map Cache' in NINA eingerichtet oder die Option 'NINA cache' deaktiviert werden",
       "useCenter": "Center",
       "useRotate": "Rotieren",
-      "customTarget": "Benutzerdefiniertes Ziel"
+      "customTarget": "Benutzerdefiniertes Ziel",
+      "solvedRotation": {
+        "short": "gelöst",
+        "tooltip": "Kamerarotation vom letzten erfolgreichen Plate Solve"
+      }
     },
     "tutorial": {
       "previous": "Zurück",
@@ -1949,7 +1953,8 @@
       },
       "indi": {
         "settings": "Rotator Settings"
-      }
+      },
+      "solvedPositionAngle": "Gelöster Himmelswinkel"
     },
     "flat": {
       "please_connect_flatDevice": "Bitte Flatpanel verbinden",

@@ -57,10 +57,15 @@ Summary of all changes since 6.1.2 (released in beta1-beta9, see below for the i
 - Dialogs: On narrow screens content that did not fit the dialog was centred, so its left edge was cut off and could not be reached by scrolling either - in the settings dialog headings and input labels appeared clipped ("onnection Settings"). Dialog content now shrinks to the dialog width, and content that genuinely cannot shrink starts at the left edge and stays scrollable
 - Celestia Atlas: Fix star constellation - Western skycultures
 
-## [App6.1.4-beta9] - Unreleased
+## [App6.1.4-beta9] - 2026-08-26
 
 ### Added
 - Plugin Screen lock: The app's controls can now be locked from the status bar so nothing gets changed by accident - in the dark, with the device in a pocket, or when handing it to someone else. Everything stays visible and keeps updating while locked; unlocking requires a 2 s long press
+- Framing: The camera rotation from every plate solve is shown in the Framing Assistant and on the rotator page
+- Atlas: A second field-of-view frame shows the solved camera rotation next to the target frame
+
+### Fixed
+- Framing: The sky chart labels are now translated instead of always English
 
 ### Fixed
 - Sequence editor: The save, clear and manage-sequences buttons no longer appear when connected to NINA - they only work with PINS

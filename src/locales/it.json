@@ -165,6 +165,12 @@
       "infoTargetImage": "Se l'immagine viene visualizzata solo in nero, la \"cache della mappa del cielo offline\" deve essere impostata in NINA o l'opzione \"Usa cache NINA\" deve essere disattivata",
       "useCenter": "Centra",
       "useRotate": "Ruota",
+      "skyChart": {
+        "altitude": "Altitudine (°)",
+        "horizonProfile": "Profilo orizzonte",
+        "twilight": "Crepuscolo",
+        "astronomicalNight": "Notte astronomica"
+      },
       "mosaic": {
         "title": "Modalità mosaico",
         "columns": "Colonne",
@@ -208,7 +214,8 @@
         "focuser": "Focuser",
         "filterWheel": "Filter wheel",
         "guider": "Guiding",
-        "done": "Done"
+        "done": "Done",
+        "localization": "Regional settings"
       },
       "driver": {
         "loading": "Loading drivers…",
@@ -392,7 +399,11 @@
         "moreDevicesHint": "Flat panel, weather and the remaining devices are configured on their own pages.",
         "noConnectionHint": "No connection to a rig yet. You can add one under Settings → Connection at any time."
       },
-      "cancel": "Cancel setup"
+      "cancel": "Cancel setup",
+      "localization": {
+        "title": "Configura le impostazioni regionali dell'attrezzatura",
+        "description": "Configura questi valori prima del Wi-Fi affinché la posizione dell'hotspot, l'ora e l'input della tastiera remota corrispondano al luogo in cui viene utilizzata l'attrezzatura."
+      }
     },
     "fileBrowser": {
       "title": "Browse",
@@ -417,6 +428,11 @@
     "settings": {
       "title": "Impostazioni",
       "general": "Generale",
+      "tabs": {
+        "connection": "Connessione e posizione",
+        "interface": "Interfaccia",
+        "system": "Sistema"
+      },
       "add": "aggiungi",
       "coordinates": "Coordinate GPS",
       "save": "Salva",
@@ -485,6 +501,22 @@
       "keepAwake": {
         "title": "Mantieni schermo acceso",
         "description": "Impedisce al dispositivo di spegnersi o bloccarsi mentre l'app è aperta."
+      },
+      "backupRestore": {
+        "title": "Backup e ripristino",
+        "description": "Salva le impostazioni memorizzate su questo dispositivo in un file e ripristinale su un altro dispositivo.",
+        "profileWarning": "Questo esegue il backup solo delle impostazioni dell'app su questo dispositivo. Le impostazioni di attrezzatura, fotocamera, montatura e altre si trovano nel profilo NINA o PINS: eseguine il backup separatamente per un backup completo.",
+        "locationAndroid": "Il file viene salvato in Documenti/TouchNStars su questo dispositivo - apri con un'app di gestione file.",
+        "locationIos": "Il file viene salvato nell'app File, in Sul mio iPhone/iPad → Touch 'N Stars → Documents.",
+        "locationBrowser": "Il file viene salvato nella cartella di download predefinita del tuo browser.",
+        "exportButton": "Esporta backup",
+        "importButton": "Ripristina da backup",
+        "exportSuccess": "Backup salvato come {filename} ({count} voci).",
+        "exportError": "Impossibile salvare il file di backup.",
+        "confirmImportTitle": "Ripristinare il backup?",
+        "confirmImportMessage": "Questo sovrascriverà le impostazioni su questo dispositivo, incluse le istanze salvate. L'app verrà quindi ricaricata.",
+        "importEmpty": "Il file di backup non contiene impostazioni da ripristinare.",
+        "importError": "Impossibile ripristinare il backup: {error}"
       },
       "wifiBinding": {
         "title": "Associazione alla rete locale",
@@ -607,10 +639,16 @@
         "syncSuccess": "Orario sincronizzato correttamente."
       },
       "navbarCustomization": {
-        "alwaysVisible": "Sempre visibile",
         "hint": "Trascina per riordinare. Almeno una pagina oltre a Impostazioni deve rimanere visibile.",
-        "minOneRequired": "Almeno una pagina deve rimanere visibile",
         "title": "Personalizzazione della barra di navigazione"
+      },
+      "itemCustomization": {
+        "alwaysVisible": "Sempre visibile",
+        "minOneRequired": "Almeno una voce deve rimanere visibile"
+      },
+      "statusBarCustomization": {
+        "title": "Personalizzazione della barra di stato",
+        "hint": "Trascina per riordinare. Almeno una voce deve rimanere visibile."
       },
       "imageSavePath": {
         "create": "Creare",
@@ -640,6 +678,25 @@
         "clearTitle": "Cancella percorso file orizzonte",
         "confirmTitle": "Cancella percorso file orizzonte",
         "confirmMessage": "Sei sicuro di voler cancellare il percorso del file orizzonte?"
+      },
+      "localization": {
+        "title": "Impostazioni regionali del sistema",
+        "description": "Queste sono le impostazioni correnti del dispositivo PINS, non dell'app. Le modifiche si applicano a tutti i telefoni, tablet e browser che si connettono al dispositivo.",
+        "systemLocale": "Impostazioni locali",
+        "wifiCountry": "Paese Wi-Fi",
+        "wifiCountryConfirmTitle": "Applicare la modifica del paese Wi-Fi?",
+        "wifiCountryConfirmMessage": "La modifica del paese Wi-Fi può interrompere brevemente la connessione a questo dispositivo PINS. Applicare le modifiche?",
+        "timezone": "Fuso orario",
+        "keyboardLayout": "Layout della tastiera",
+        "loading": "Lettura delle impostazioni correnti del sistema...",
+        "loadError": "Impossibile leggere le impostazioni del sistema: {message}",
+        "save": "Applica modifiche",
+        "saving": "Applicazione in corso...",
+        "saved": "Impostazioni del sistema aggiornate.",
+        "saveError": "Impossibile aggiornare le impostazioni del sistema: {message}",
+        "missingJob": "Il servizio PINS non ha restituito un ID operazione.",
+        "refresh": "Ricarica i valori correnti",
+        "searchPlaceholder": "Filtra le opzioni disponibili..."
       }
     },
     "alpacaDirect": {
@@ -654,6 +711,11 @@
       "sharedGuidWarning": "Rotator and safety monitor share one storage slot in NINA — changing one also changes the other.",
       "noReconnectHint": "New settings take effect on the next connect.",
       "cameraNoSettings": "This camera has no settings to configure."
+    },
+    "selectDevices": {
+      "deviceNotFound": "Dispositivo non trovato",
+      "deviceNotFoundMessage": "Il driver INDI è stato ricaricato, ma «{device}» non è comparso. Controlla l'alimentazione e seleziona di nuovo il dispositivo.",
+      "reloadingDriver": "Ricaricamento del driver INDI…"
     },
     "connectEquipment": {
       "camera": {
@@ -727,6 +789,7 @@
       "sequenceLoad": "Carica",
       "sequenceNoFiles": "Nessun file trovato",
       "sequenceLoading": "Caricamento...",
+      "loadingSequence": "Caricamento della sequenza…",
       "sequenceClose": "Chiudi",
       "deleteConfirmationTitle": "Eliminare file",
       "deleteConfirmationMessage": "Sei sicuro di voler eliminare questo file?",
@@ -976,6 +1039,10 @@
         "annotation": {
           "text": "Testo"
         },
+        "saveSequence": {
+          "notSet": "Non impostato",
+          "applyFileName": "Applica"
+        },
         "groundstation": {
           "message": "Messaggio",
           "title": "Titolo",
@@ -1027,6 +1094,16 @@
           "modeRMS": "RMS",
           "modePeak": "Picco",
           "minimumPoints": "Punti minimi"
+        },
+        "interruptAndRetryWhenRMSAbove": {
+          "rmsThreshold": "Soglia RMS (\")",
+          "mode": "Modalità",
+          "modeRMS": "RMS",
+          "modePeak": "Picco",
+          "minimumPoints": "Punti minimi",
+          "stableTime": "Stabile per (s)",
+          "recoveryTimeout": "Timeout di recupero (min)",
+          "maxRetries": "Tentativi massimi (0 = illimitato)"
         },
         "changePHD2Parameters": {
           "parameter": "Parametro",
@@ -1110,6 +1187,7 @@
       "disable": "Disabilita",
       "resetStatus": "Reimposta stato",
       "delete": "Elimina",
+      "runningLocked": "Questo elemento è in esecuzione e non può essere modificato",
       "controlsLockedMessage": "I controlli della sequenza sono bloccati mentre la sequenza è in esecuzione.",
       "lockControls": "Serratura",
       "unlockControls": "Sbloccare"
@@ -1286,6 +1364,7 @@
           "MaxMove": "RA: Movimento max",
           "predictive_weight": "RA: Peso predittivo",
           "reactive_weight": "RA: Peso reattivo",
+          "period_length": "RA: Lunghezza periodo PEC (s)",
           "slope_weight": "RA: Peso pendenza",
           "exp_factor": "RA: Fattore esposizione"
         },
@@ -1430,6 +1509,7 @@
             "hysteresis": "Peso dato allo storico delle correzioni recenti rispetto al frame attuale, in percentuale. Valori alti levigano le correzioni ma reagiscono più lentamente a un reale cambio di direzione.",
             "predictiveWeight": "Predictive PEC: peso della parte prevista (modellata) della correzione. I valori predefiniti vanno bene per la maggior parte delle montature; grandi modifiche possono peggiorare la guida.",
             "reactiveWeight": "Predictive PEC: peso della parte reattiva, basata sullo spostamento della stella nell’ultimo frame. I valori predefiniti vanno bene per la maggior parte delle montature.",
+            "periodLength": "Predictive PEC: durata del periodo della vite senza fine della montatura, in secondi. PHD2 la usa per modellare e pre-correggere l'errore periodico in AR. Prendila dalle specifiche della montatura (circa 479 s per una EQ6) oppure leggila dal picco PEC nella FFT del guiding.",
             "slopeWeight": "LowPass: quanto la tendenza recente (la pendenza) del movimento della stella influisce sulla correzione, in percentuale. Evita che l’algoritmo sia troppo lento; 0 usa solo la mediana dello storico recente.",
             "expFactor": "ZFilter: il tempo di esposizione virtuale è l’esposizione reale × questo fattore. Valori alti filtrano di più il seeing (più morbido ma più lento); un’esposizione virtuale di ~2–4 s è un buon punto di partenza per AR."
           },
@@ -2164,7 +2244,8 @@
         "mount": "Montatura",
         "progress": "Avanzamento",
         "safety": "Sicurezza",
-        "weather": "Meteo"
+        "weather": "Meteo",
+        "screenlock": "Blocco"
       },
       "mount": {
         "parked": "Parcheggiata",
@@ -2750,12 +2831,17 @@
       "settings": "Impostazioni",
       "reset": "Reset",
       "close": "Chiudi",
+      "cancel": "Annulla",
       "resetConfirm": "Sei sicuro di voler resettare tutte le impostazioni webcam?",
       "liveView": "Vista live",
       "noImageAvailable": "Nessuna immagine disponibile",
       "configureUrl": "Configura URL snapshot e recupera immagine",
       "loadingImage": "Caricamento immagine...",
-      "errors": {}
+      "errors": {
+        "noUrl": "Nessun URL snapshot configurato",
+        "loadFailed": "Impossibile caricare l'immagine della webcam",
+        "nextLoadFailed": "Impossibile caricare l'immagine successiva della webcam"
+      }
     },
     "sequenceCreator": {
       "title": "Creatore di sequenze",
@@ -4726,6 +4812,94 @@
       "setFailed": "Impossibile impostare la proprietà.",
       "title": "Pannello di controllo INDI",
       "updated": "Aggiornato"
+    },
+    "hardwareDb": {
+      "title": "Compatibilità hardware",
+      "intro": "Condividi quali dispositivi funzionano con quale driver. Ogni segnalazione viene verificata prima di comparire nel database.",
+      "collecting": "Lettura delle apparecchiature collegate…",
+      "noDevices": "Nessuna apparecchiatura trovata. Collega un dispositivo o selezionane uno nel profilo — così potrai segnalarlo anche se la connessione fallisce.",
+      "notConnected": "non collegato",
+      "driverUnknown": "Nome del driver sconosciuto senza connessione — lo completeremo durante la verifica.",
+      "reviewAndSend": "Controlla e invia ({count})",
+      "selectAtLeastOne": "Valuta almeno un dispositivo per inviare una segnalazione.",
+      "noteLabel": "Qualche particolarità?",
+      "notePlaceholder": "ad es. richiede larghezza di banda USB sotto 60, direzione di messa a fuoco invertita…",
+      "copy": "Copia",
+      "copied": "Copiato",
+      "submitSuccess": "Segnalazione inviata. Grazie!",
+      "submitSuccessHint": "Conserva questo codice per controllare in seguito lo stato di verifica della tua segnalazione.",
+      "submitError": "Non è stato possibile inviare la segnalazione.",
+      "status": {
+        "works": "Funziona",
+        "caveat": "Funziona con riserve",
+        "broken": "Non funziona"
+      },
+      "known": {
+        "summary": "Già nel database: {status} con {driver} · {reports} segnalazioni",
+        "none": "Non ancora nel database — la tua sarebbe la prima segnalazione."
+      },
+      "categories": {
+        "camera": "Camera",
+        "guidecam": "Camera di guida",
+        "mount": "Montatura",
+        "focuser": "Focheggiatore",
+        "filterwheel": "Ruota portafiltri",
+        "rotator": "Rotatore",
+        "guider": "Guida",
+        "flatdevice": "Pannello flat",
+        "switch": "Interruttore",
+        "weather": "Meteo",
+        "dome": "Cupola",
+        "safetymonitor": "Monitor di sicurezza"
+      },
+      "preview": {
+        "title": "Questo è ciò che viene inviato",
+        "intro": "Qui sotto è riportata la segnalazione completa. Non viene trasmesso nient'altro.",
+        "privacyNote": "Non sono inclusi indirizzi IP, nomi host, nomi di rete Wi-Fi, coordinate o nomi di profilo.",
+        "send": "Invia segnalazione",
+        "sending": "Invio…"
+      },
+      "history": {
+        "title": "Le tue segnalazioni",
+        "refreshStatus": "Controlla stato",
+        "clear": "Svuota elenco",
+        "deviceCount": "{count} dispositivi",
+        "status": {
+          "pending": "In verifica",
+          "approved": "Pubblicata",
+          "rejected": "Respinta",
+          "duplicate": "Duplicato",
+          "queued": "In attesa di invio"
+        }
+      },
+      "vendorLabel": "Produttore",
+      "vendorPlaceholder": "es. Sky-Watcher",
+      "modelLabel": "Modello",
+      "modelPlaceholder": "es. EQ6-R Pro",
+      "modelRequiredHint": "Questo driver serve a molti modelli diversi e non può identificare l'hardware. Inserisci il modello.",
+      "modelOptionalHint": "Correggi produttore e modello se il nome rilevato è errato.",
+      "missingModel": "Inserisci il modello per {count} dispositivi prima di inviare.",
+      "queued": "Segnalazione salvata — nessuna connessione al database.",
+      "queuedHint": "Verrà inviata automaticamente la prossima volta che aprirai questa pagina con accesso a internet. La troverai tra le tue segnalazioni."
+    },
+    "systemMetrics": {
+      "powerTitle": "Alimentazione e tensione in ingresso",
+      "supplyVoltage": "Tensione in ingresso",
+      "underVoltageNow": "Sottotensione attuale",
+      "underVoltageSinceBoot": "Sottotensione dall'avvio",
+      "firmwareFlags": "Flag del firmware",
+      "underVoltageActive": "Sottotensione rilevata",
+      "underVoltageOccurred": "Sottotensione precedente",
+      "powerHealthy": "Regolare",
+      "underVoltageActiveHelp": "Il Pi non riceve attualmente un'alimentazione sufficiente. Controlla l'alimentatore, il cavo e il carico dei dispositivi collegati.",
+      "underVoltageHistoryHelp": "Si è verificata una sottotensione dall'avvio. Se il sistema è instabile, controlla l'alimentatore e il cavo.",
+      "notAvailable": "Non disponibile",
+      "detected": "Rilevata",
+      "notDetected": "Non rilevata"
+    },
+    "screenLock": {
+      "unlock": "Sblocca schermo",
+      "holdToUnlock": "Tieni per {seconds} s per sbloccare"
     }
   },
   "pinsDevices": {
@@ -4966,10 +5140,15 @@
       "delete": "Eliminare",
       "deleteConfirm": "Sei sicuro di voler eliminare questa sessione? \nQuesta operazione non può essere annullata.",
       "deleteTitle": "Elimina sessione",
+      "downloadReport": "Scarica rapporto",
       "loading": "Caricamento sessioni…",
       "noSessions": "Nessuna sessione selezionata. \nSeleziona una sessione dal menu a discesa.",
       "placeholder": "Seleziona una sessione...",
-      "resend": "Invia nuovamente il rapporto"
+      "reportTitle": "Rapporto dettagliato",
+      "reportZoomActual": "100%",
+      "reportZoomFit": "Adatta alla larghezza",
+      "resend": "Invia nuovamente il rapporto",
+      "viewReport": "Mostra rapporto dettagliato"
     },
     "settings": {
       "chartPrimary": "Metrica primaria",
@@ -5030,6 +5209,9 @@
       "smtpServer": "ServerSMTP",
       "smtpSsl": "Utilizza TLS/SSL",
       "testDiscord": "Invia messaggio di prova",
+      "secretSet": "•••••••• (impostato)",
+      "secretNotSet": "Non impostato",
+      "secretLeaveEmpty": "Lascia vuoto per mantenere il valore attuale",
       "testEmail": "Invia e-mail di prova",
       "testPushover": "Invia notifica di prova",
       "localDashboardEnabled": "Abilita il server web locale",

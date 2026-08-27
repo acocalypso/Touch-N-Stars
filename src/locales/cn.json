@@ -165,6 +165,12 @@
       "infoTargetImage": "如果图像仅显示为黑色，必须在NINA中设置\"离线星图缓存\"或禁用\"使用NINA缓存\"选项",
       "useCenter": "居中",
       "useRotate": "旋转",
+      "skyChart": {
+        "altitude": "高度 (°)",
+        "horizonProfile": "地平线轮廓",
+        "twilight": "晨昏",
+        "astronomicalNight": "天文夜"
+      },
       "mosaic": {
         "columns": "专栏",
         "overlap": "重叠 ％",
@@ -208,7 +214,8 @@
         "focuser": "Focuser",
         "filterWheel": "Filter wheel",
         "guider": "Guiding",
-        "done": "Done"
+        "done": "Done",
+        "localization": "Regional settings"
       },
       "driver": {
         "loading": "Loading drivers…",
@@ -392,7 +399,11 @@
         "moreDevicesHint": "Flat panel, weather and the remaining devices are configured on their own pages.",
         "noConnectionHint": "No connection to a rig yet. You can add one under Settings → Connection at any time."
       },
-      "cancel": "Cancel setup"
+      "cancel": "Cancel setup",
+      "localization": {
+        "title": "设置设备的区域设置",
+        "description": "请在设置 Wi-Fi 前配置这些值，以便热点位置、时间和远程键盘输入与设备使用地点一致。"
+      }
     },
     "fileBrowser": {
       "title": "Browse",
@@ -417,6 +428,11 @@
     "settings": {
       "title": "设置",
       "general": "一般的",
+      "tabs": {
+        "connection": "连接与位置",
+        "interface": "界面",
+        "system": "系统"
+      },
       "add": "添加",
       "coordinates": "GPS坐标",
       "save": "保存",
@@ -485,6 +501,22 @@
       "keepAwake": {
         "title": "保持屏幕唤醒",
         "description": "防止应用程序打开时设备变暗或锁定。"
+      },
+      "backupRestore": {
+        "title": "备份与恢复",
+        "description": "将此设备上保存的设置导出为文件，并在其他设备上恢复。",
+        "profileWarning": "此功能仅备份此设备上的应用设置。设备、相机、赤道仪等设置保存在 NINA 或 PINS 配置文件中，如需完整备份请单独备份该配置文件。",
+        "locationAndroid": "文件保存在此设备的 文档/TouchNStars 中 - 请使用文件管理器应用打开。",
+        "locationIos": "文件保存在“文件”应用中的 我的 iPhone/iPad → Touch 'N Stars → Documents。",
+        "locationBrowser": "文件保存在浏览器的默认下载文件夹中。",
+        "exportButton": "导出备份",
+        "importButton": "从备份恢复",
+        "exportSuccess": "备份已保存为 {filename}（{count} 项）。",
+        "exportError": "无法保存备份文件。",
+        "confirmImportTitle": "恢复备份？",
+        "confirmImportMessage": "这将覆盖此设备上的设置，包括已保存的实例。之后应用将重新加载。",
+        "importEmpty": "备份文件中没有可恢复的设置。",
+        "importError": "无法恢复备份：{error}"
       },
       "wifiBinding": {
         "title": "本地网络绑定",
@@ -607,10 +639,16 @@
         "syncSuccess": "Time synchronised successfully."
       },
       "navbarCustomization": {
-        "alwaysVisible": "始终可见",
         "hint": "拖动以重新排序。除了“设置”之外，至少还有一页必须保持可见。",
-        "minOneRequired": "至少一页必须保持可见",
         "title": "导航栏定制"
+      },
+      "itemCustomization": {
+        "alwaysVisible": "始终可见",
+        "minOneRequired": "至少必须保留一个条目可见"
+      },
+      "statusBarCustomization": {
+        "title": "状态栏定制",
+        "hint": "拖动以重新排序。至少必须保留一个条目可见。"
       },
       "imageSavePath": {
         "create": "创造",
@@ -640,6 +678,25 @@
         "clearTitle": "清除地平线文件路径",
         "confirmTitle": "清除地平线文件路径",
         "confirmMessage": "确定要清除地平线文件路径吗？"
+      },
+      "localization": {
+        "title": "系统区域设置",
+        "description": "这些是 PINS 设备当前的设置，而不是此应用的设置。更改会应用于连接到该设备的所有手机、平板电脑和浏览器。",
+        "systemLocale": "区域设置",
+        "wifiCountry": "Wi-Fi 国家或地区",
+        "wifiCountryConfirmTitle": "应用 Wi-Fi 国家或地区更改？",
+        "wifiCountryConfirmMessage": "更改 Wi-Fi 国家或地区可能会短暂中断与此 PINS 设备的连接。是否应用更改？",
+        "timezone": "时区",
+        "keyboardLayout": "键盘布局",
+        "loading": "正在读取当前系统设置...",
+        "loadError": "无法读取系统设置：{message}",
+        "save": "应用更改",
+        "saving": "正在应用...",
+        "saved": "系统设置已更新。",
+        "saveError": "无法更新系统设置：{message}",
+        "missingJob": "PINS 守护程序未返回操作 ID。",
+        "refresh": "重新加载当前值",
+        "searchPlaceholder": "筛选可用选项..."
       }
     },
     "alpacaDirect": {
@@ -654,6 +711,11 @@
       "sharedGuidWarning": "Rotator and safety monitor share one storage slot in NINA — changing one also changes the other.",
       "noReconnectHint": "New settings take effect on the next connect.",
       "cameraNoSettings": "This camera has no settings to configure."
+    },
+    "selectDevices": {
+      "deviceNotFound": "未找到设备",
+      "deviceNotFoundMessage": "已重新加载 INDI 驱动，但未出现“{device}”。请检查供电并重新选择设备。",
+      "reloadingDriver": "正在重新加载 INDI 驱动…"
     },
     "connectEquipment": {
       "camera": {
@@ -727,6 +789,7 @@
       "sequenceLoad": "加载",
       "sequenceNoFiles": "未找到文件",
       "sequenceLoading": "加载中...",
+      "loadingSequence": "正在加载序列…",
       "sequenceClose": "关闭",
       "deleteConfirmationTitle": "删除文件",
       "deleteConfirmationMessage": "您确定要删除日志文件？",
@@ -976,6 +1039,10 @@
         "annotation": {
           "text": "文本"
         },
+        "saveSequence": {
+          "notSet": "未设置",
+          "applyFileName": "应用"
+        },
         "groundstation": {
           "message": "消息",
           "title": "标题",
@@ -1027,6 +1094,16 @@
           "modeRMS": "均平方根",
           "modePeak": "峰",
           "minimumPoints": "最小积分"
+        },
+        "interruptAndRetryWhenRMSAbove": {
+          "rmsThreshold": "RMS阈值(\")",
+          "mode": "模式",
+          "modeRMS": "均平方根",
+          "modePeak": "峰",
+          "minimumPoints": "最小积分",
+          "stableTime": "稳定持续时间 (秒)",
+          "recoveryTimeout": "恢复超时 (分钟)",
+          "maxRetries": "最大重试次数 (0 = 无限制)"
         },
         "changePHD2Parameters": {
           "parameter": "参数项",
@@ -1110,6 +1187,7 @@
       "disable": "禁用",
       "resetStatus": "重置状态",
       "delete": "删除",
+      "runningLocked": "该项目正在运行，无法修改",
       "controlsLockedMessage": "Sequence controls are locked while the sequence is running.",
       "lockControls": "Lock",
       "unlockControls": "Unlock"
@@ -1286,6 +1364,7 @@
           "MaxMove": "赤经: 最大移动量",
           "predictive_weight": "赤经: 预测权重",
           "reactive_weight": "赤经: 反应权重",
+          "period_length": "赤经: PEC 周期长度（秒）",
           "slope_weight": "赤经: 斜率权重",
           "exp_factor": "赤经: 曝光因子"
         },
@@ -1430,6 +1509,7 @@
             "hysteresis": "近期校正历史相对当前帧所占的权重，以百分比表示。较高值使校正更平滑，但对真正的方向变化反应更慢。",
             "predictiveWeight": "Predictive PEC：校正中预测（建模）部分的权重。默认值适合大多数赤道仪；大幅改动可能使导星变差。",
             "reactiveWeight": "Predictive PEC：反应部分的权重，基于最新帧中星点的位移。默认值适合大多数赤道仪。",
+            "periodLength": "Predictive PEC：赤道仪蜗杆周期的长度（秒）。PHD2 用它来建模并提前修正赤经方向的周期误差。可从赤道仪规格中获取（EQ6 约为 479 秒），或从导星 FFT 的 PEC 峰值读出。",
             "slopeWeight": "LowPass：星点运动的近期趋势（斜率）对校正的影响程度，以百分比表示。防止算法过于迟钝；0 表示仅使用近期历史的中位数。",
             "expFactor": "ZFilter：虚拟曝光时间 = 实际曝光 × 此系数。较高值滤除更多视宁度（更平滑但更慢）；约 2–4 秒的虚拟曝光是赤经的良好起点。"
           },
@@ -2164,7 +2244,8 @@
         "mount": "赤道仪",
         "progress": "进度",
         "safety": "安全",
-        "weather": "天气"
+        "weather": "天气",
+        "screenlock": "锁定"
       },
       "mount": {
         "parked": "已停靠",
@@ -2750,12 +2831,17 @@
       "settings": "设置",
       "reset": "重置",
       "close": "关闭",
+      "cancel": "取消",
       "resetConfirm": "您确定要重置所有网络摄像头设置吗？",
       "liveView": "实时查看",
       "noImageAvailable": "无可用图像",
       "configureUrl": "配置快照 URL 并获取图像",
       "loadingImage": "加载图像中...",
-      "errors": {}
+      "errors": {
+        "noUrl": "未配置快照 URL",
+        "loadFailed": "无法加载网络摄像头图像",
+        "nextLoadFailed": "无法加载下一张网络摄像头图像"
+      }
     },
     "sequenceCreator": {
       "title": "序列创建器",
@@ -4721,6 +4807,94 @@
       "setFailed": "Failed to set the property.",
       "title": "INDI Control Panel",
       "updated": "Updated"
+    },
+    "hardwareDb": {
+      "title": "硬件兼容性",
+      "intro": "分享你的哪些设备可以配合哪个驱动使用。每份报告经审核后才会出现在数据库中。",
+      "collecting": "正在读取已连接的设备…",
+      "noDevices": "未找到设备。请连接一台设备，或在配置文件中选择一台——这样即使连接失败也能在此上报。",
+      "notConnected": "未连接",
+      "driverUnknown": "未连接时无法获知驱动名称——我们会在审核时补充。",
+      "reviewAndSend": "检查并发送（{count}）",
+      "selectAtLeastOne": "至少评价一台设备才能发送报告。",
+      "noteLabel": "有什么特别之处吗？",
+      "notePlaceholder": "例如：需要将 USB 带宽降到 60 以下、对焦方向相反…",
+      "copy": "复制",
+      "copied": "已复制",
+      "submitSuccess": "报告已发送，谢谢！",
+      "submitSuccessHint": "请保存此凭据，以便日后查询报告的审核状态。",
+      "submitError": "报告发送失败。",
+      "status": {
+        "works": "可用",
+        "caveat": "可用但有限制",
+        "broken": "不可用"
+      },
+      "known": {
+        "summary": "数据库中已有：{status}，驱动 {driver} · {reports} 份报告",
+        "none": "数据库中尚无此设备——你的将是第一份报告。"
+      },
+      "categories": {
+        "camera": "相机",
+        "guidecam": "导星相机",
+        "mount": "赤道仪",
+        "focuser": "电动调焦座",
+        "filterwheel": "滤镜轮",
+        "rotator": "旋转器",
+        "guider": "导星",
+        "flatdevice": "平场板",
+        "switch": "开关",
+        "weather": "气象",
+        "dome": "圆顶",
+        "safetymonitor": "安全监测"
+      },
+      "preview": {
+        "title": "以下内容将被发送",
+        "intro": "下面是完整的报告内容。除此之外不会传输任何信息。",
+        "privacyNote": "不包含 IP 地址、主机名、Wi-Fi 名称、坐标或配置文件名称。",
+        "send": "发送报告",
+        "sending": "正在发送…"
+      },
+      "history": {
+        "title": "你的报告",
+        "refreshStatus": "查询状态",
+        "clear": "清空列表",
+        "deviceCount": "{count} 台设备",
+        "status": {
+          "pending": "审核中",
+          "approved": "已发布",
+          "rejected": "已拒绝",
+          "duplicate": "重复",
+          "queued": "等待发送"
+        }
+      },
+      "vendorLabel": "制造商",
+      "vendorPlaceholder": "例如 Sky-Watcher",
+      "modelLabel": "型号",
+      "modelPlaceholder": "例如 EQ6-R Pro",
+      "modelRequiredHint": "此驱动支持多种型号，无法识别你的硬件。请填写型号。",
+      "modelOptionalHint": "如果检测到的名称不正确，请修正制造商和型号。",
+      "missingModel": "发送前请为 {count} 台设备填写型号。",
+      "queued": "报告已保存 —— 未连接到数据库。",
+      "queuedHint": "下次你联网打开此页面时将自动发送。你可以在你的报告中找到它。"
+    },
+    "systemMetrics": {
+      "powerTitle": "电源与输入电压",
+      "supplyVoltage": "输入电压",
+      "underVoltageNow": "当前欠压",
+      "underVoltageSinceBoot": "启动后欠压",
+      "firmwareFlags": "固件标志",
+      "underVoltageActive": "检测到欠压",
+      "underVoltageOccurred": "曾发生欠压",
+      "powerHealthy": "正常",
+      "underVoltageActiveHelp": "Pi 当前供电不足。请检查电源、线缆以及已连接设备的负载。",
+      "underVoltageHistoryHelp": "系统自启动以来曾发生欠压。如果系统不稳定，请检查电源和线缆。",
+      "notAvailable": "不可用",
+      "detected": "已检测到",
+      "notDetected": "未检测到"
+    },
+    "screenLock": {
+      "unlock": "解锁屏幕",
+      "holdToUnlock": "按住{seconds}秒以解锁"
     }
   },
   "pinsDevices": {
@@ -4961,10 +5135,15 @@
       "delete": "Delete",
       "deleteConfirm": "Are you sure you want to delete this session? This cannot be undone.",
       "deleteTitle": "Delete Session",
+      "downloadReport": "下载报告",
       "loading": "Loading sessions…",
       "noSessions": "No session selected. Select a session from the dropdown.",
       "placeholder": "Select a session…",
-      "resend": "Resend Report"
+      "reportTitle": "详细报告",
+      "reportZoomActual": "100%",
+      "reportZoomFit": "适应宽度",
+      "resend": "Resend Report",
+      "viewReport": "显示详细报告"
     },
     "settings": {
       "chartPrimary": "Primary Metric",
@@ -5025,6 +5204,9 @@
       "smtpServer": "SMTP Server",
       "smtpSsl": "Use TLS/SSL",
       "testDiscord": "Send Test Message",
+      "secretSet": "••••••••（已设置）",
+      "secretNotSet": "未设置",
+      "secretLeaveEmpty": "留空以保留当前值",
       "testEmail": "Send Test Email",
       "testPushover": "Send Test Notification",
       "localDashboardEnabled": "Enable local web server",

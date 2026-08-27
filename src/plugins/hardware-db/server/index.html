@@ -1,0 +1,655 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Touch'N'Stars Hardware Compatibility</title>
+    <meta
+      name="description"
+      content="Which astro hardware works with which driver — reported by Touch'N'Stars and PINS users."
+    />
+    <link rel="icon" href="/logo.png" />
+    <style>
+      /* Tokens mirror src/assets/tailwind.css. Touch'N'Stars is a dark-only app,
+         so this page commits to the same single palette instead of offering a
+         light variant the app itself does not have. */
+      :root {
+        color-scheme: dark;
+
+        --ground: #0a0f1c;
+        --surface-1: #111827;
+        --surface-2: #1a2336;
+        --surface-3: #243049;
+
+        --line: rgba(148, 163, 184, 0.16);
+        --line-strong: rgba(148, 163, 184, 0.32);
+
+        --content: #e2e8f0;
+        --content-muted: #8fa3bf;
+        --content-faint: #64748b;
+
+        --accent: #22d3ee;
+        --accent-action: #036682;
+
+        --status-ok: #34d399;
+        --status-warn: #fbbf24;
+        --status-danger: #f87171;
+
+        --radius-card: 14px;
+        --radius-control: 12px;
+        --radius-chip: 10px;
+
+        --mono:
+          ui-monospace, 'Cascadia Mono', 'SF Mono', 'JetBrains Mono', Menlo, Consolas, monospace;
+        --sans: ui-sans-serif, system-ui, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+      html {
+        background: var(--ground);
+      }
+      body {
+        margin: 0;
+        background: var(--ground);
+        color: var(--content);
+        font-family: var(--sans);
+        font-size: 16px;
+        line-height: 1.6;
+        -webkit-text-size-adjust: 100%;
+      }
+      .wrap {
+        max-width: 58rem;
+        margin: 0 auto;
+        padding: clamp(1.5rem, 4vw, 3rem) clamp(1rem, 4vw, 2rem) 4rem;
+      }
+
+      /* ---- Masthead ---- */
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 0.9rem;
+      }
+      .brand img {
+        width: 56px;
+        height: 56px;
+        border-radius: var(--radius-chip);
+        flex-shrink: 0;
+      }
+      .eyebrow {
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--accent);
+      }
+      h1 {
+        margin: 0.15rem 0 0;
+        font-size: clamp(1.6rem, 1.1rem + 2vw, 2.3rem);
+        line-height: 1.12;
+        letter-spacing: -0.022em;
+        text-wrap: balance;
+      }
+      .standfirst {
+        margin: 1rem 0 0;
+        max-width: 46rem;
+        color: var(--content-muted);
+      }
+      .stats {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.4rem;
+        margin-top: 1.1rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid var(--line-strong);
+      }
+      .stat {
+        font-family: var(--mono);
+        font-size: 0.75rem;
+        padding: 0.25rem 0.65rem;
+        border: 1px solid var(--line);
+        border-radius: var(--radius-chip);
+        background: var(--surface-1);
+        color: var(--content-muted);
+        font-variant-numeric: tabular-nums;
+      }
+
+      /* ---- Controls ---- */
+      .controls {
+        display: flex;
+        flex-direction: column;
+        gap: 0.7rem;
+        margin: 1.5rem 0;
+      }
+      #search {
+        width: 100%;
+        min-height: 48px;
+        padding: 0.7rem 0.9rem;
+        font: inherit;
+        color: var(--content);
+        background: var(--surface-2);
+        border: 1px solid var(--line-strong);
+        border-radius: var(--radius-control);
+        transition: border-color 0.15s;
+      }
+      #search::placeholder {
+        color: var(--content-faint);
+      }
+      #search:focus {
+        outline: none;
+        border-color: var(--accent-action);
+        box-shadow: 0 0 0 2px rgba(34, 211, 238, 0.5);
+      }
+      .filters {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.35rem;
+      }
+      .filter {
+        font: inherit;
+        font-size: 0.83rem;
+        font-weight: 600;
+        padding: 0.35rem 0.8rem;
+        border: 1px solid var(--line-strong);
+        border-radius: 999px;
+        background: var(--surface-3);
+        color: var(--content);
+        cursor: pointer;
+        transition: all 0.15s ease-out;
+      }
+      .filter:hover {
+        background: var(--surface-2);
+      }
+      .filter:active {
+        transform: scale(0.97);
+      }
+      .filter[aria-pressed='true'] {
+        background: var(--accent-action);
+        border-color: var(--accent-action);
+        color: #fff;
+      }
+      .filter:focus-visible,
+      a:focus-visible {
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(34, 211, 238, 0.5);
+      }
+
+      /* ---- Device cards ---- */
+      .devices {
+        display: flex;
+        flex-direction: column;
+        gap: 0.85rem;
+      }
+      .device {
+        background: var(--surface-1);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-card);
+        padding: 1rem 1.1rem;
+      }
+      .device-head {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 0.5rem;
+      }
+      .device-name {
+        margin: 0;
+        font-size: 1.05rem;
+        font-weight: 650;
+        letter-spacing: -0.008em;
+      }
+      .device-cat {
+        font-family: var(--mono);
+        font-size: 0.72rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        color: var(--content-faint);
+      }
+      .drivers {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-top: 0.85rem;
+      }
+      /* Level 2 of three: device card (surface-1) > driver (surface-2) >
+         user note (ground). Each step changes the surface, so it is obvious at a
+         glance which text is a driver name and which is somebody's remark. */
+      .driver {
+        display: flex;
+        flex-direction: column;
+        gap: 0.35rem;
+        padding: 0.7rem 0.85rem;
+        border-radius: var(--radius-control);
+        background: var(--surface-2);
+        border-left: 3px solid var(--line-strong);
+      }
+      .driver.works {
+        border-left-color: var(--status-ok);
+      }
+      .driver.caveat {
+        border-left-color: var(--status-warn);
+      }
+      .driver.broken {
+        border-left-color: var(--status-danger);
+      }
+
+      .label {
+        font-family: var(--mono);
+        font-size: 0.65rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: var(--content-faint);
+      }
+      .driver-top {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 0.4rem 0.75rem;
+      }
+      .status {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-size: 0.78rem;
+        font-weight: 650;
+        white-space: nowrap;
+      }
+      .status.works {
+        color: var(--status-ok);
+      }
+      .status.caveat {
+        color: var(--status-warn);
+      }
+      .status.broken {
+        color: var(--status-danger);
+      }
+      .dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 999px;
+        flex-shrink: 0;
+        background: currentColor;
+      }
+      .driver-name {
+        font-family: var(--mono);
+        font-size: 0.95rem;
+        font-weight: 600;
+        color: var(--content);
+        word-break: break-word;
+      }
+      .driver-name.unknown {
+        font-family: var(--sans);
+        font-weight: 500;
+        font-style: italic;
+        color: var(--content-muted);
+      }
+      .stack {
+        font-family: var(--sans);
+        font-size: 0.68rem;
+        font-weight: 650;
+        letter-spacing: 0.06em;
+        text-transform: uppercase;
+        margin-left: 0.5rem;
+        padding: 0.1rem 0.45rem;
+        border-radius: 999px;
+        background: var(--surface-3);
+        color: var(--content-muted);
+        white-space: nowrap;
+      }
+      .driver-meta {
+        font-size: 0.75rem;
+        color: var(--content-faint);
+        font-variant-numeric: tabular-nums;
+      }
+
+      /* Level 3: what a user wrote, sunk into the page ground and set in the
+         body face - deliberately unlike the monospaced driver name above it. */
+      .note {
+        margin-top: 0.2rem;
+        padding: 0.55rem 0.7rem;
+        border-radius: var(--radius-chip);
+        background: var(--ground);
+        border: 1px solid var(--line);
+      }
+      .note .label {
+        display: block;
+        margin-bottom: 0.15rem;
+      }
+      .note p,
+      .note ul {
+        margin: 0;
+        font-size: 0.9rem;
+        color: var(--content-muted);
+      }
+      .note ul {
+        padding-left: 1.1rem;
+      }
+      .note li + li {
+        margin-top: 0.3rem;
+      }
+
+      /* ---- States & footer ---- */
+      .msg {
+        padding: 1.75rem 1.25rem;
+        text-align: center;
+        color: var(--content-muted);
+        background: var(--surface-1);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-card);
+      }
+      .contribute {
+        margin-top: 2.5rem;
+        padding: 1.1rem 1.3rem;
+        background: var(--surface-1);
+        border: 1px solid var(--line);
+        border-left: 3px solid var(--accent);
+        border-radius: var(--radius-card);
+      }
+      .contribute h2 {
+        margin: 0 0 0.4rem;
+        font-size: 1.05rem;
+      }
+      .contribute p {
+        margin: 0;
+        color: var(--content-muted);
+        font-size: 0.95rem;
+      }
+      footer {
+        margin-top: 2rem;
+        padding-top: 1.2rem;
+        border-top: 1px solid var(--line);
+        font-size: 0.85rem;
+        color: var(--content-faint);
+      }
+      a {
+        color: var(--accent);
+        text-underline-offset: 0.16em;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrap">
+      <header>
+        <div class="brand">
+          <img src="/logo.png" alt="Touch'N'Stars" width="56" height="56" />
+          <div>
+            <div class="eyebrow">Touch'N'Stars · PINS</div>
+            <h1>Hardware Compatibility</h1>
+          </div>
+        </div>
+        <p class="standfirst">
+          Which astro hardware works with which driver — reported by users and reviewed before it is
+          published. Meant to be looked up before you spend a night fighting a driver.
+        </p>
+        <div class="stats" id="stats"></div>
+      </header>
+
+      <div class="controls">
+        <input
+          id="search"
+          type="search"
+          placeholder="Search vendor, model or driver…"
+          autocomplete="off"
+        />
+        <div class="filters" id="filterCategory"></div>
+        <div class="filters" id="filterStatus"></div>
+      </div>
+
+      <div class="devices" id="devices">
+        <p class="msg">Loading…</p>
+      </div>
+
+      <section class="contribute">
+        <h2>Contribute</h2>
+        <p>
+          Everything here comes from the Touch'N'Stars app: enable the
+          <strong>Hardware Compatibility</strong> plugin in the settings, open its page and rate
+          your connected devices. Every report is reviewed before it shows up here.
+        </p>
+      </section>
+
+      <footer>
+        No entry is a guarantee — it is what individual users experienced with one particular
+        version. If your device is missing, it simply has not been reported yet.
+      </footer>
+    </div>
+
+    <script>
+      const STATUS_LABEL = {
+        works: 'works',
+        caveat: 'works with caveats',
+        broken: 'does not work',
+      };
+      const CATEGORY_LABEL = {
+        camera: 'Camera',
+        mount: 'Mount',
+        focuser: 'Focuser',
+        filterwheel: 'Filter wheel',
+        rotator: 'Rotator',
+        guider: 'Guider',
+        flatdevice: 'Flat device',
+        switch: 'Switch',
+        weather: 'Weather',
+        dome: 'Dome',
+        safetymonitor: 'Safety monitor',
+      };
+      // Worst first: a device the user has to be warned about should sort up.
+      const SEVERITY = { broken: 0, caveat: 1, works: 2 };
+      // Which software drove the device. PHD2 keeps its own driver list, so
+      // "works under PINS" says nothing about whether PHD2 can talk to it —
+      // the two are separate results for the same piece of hardware.
+      const STACK_LABEL = { pins: 'PINS', phd2: 'PHD2 guiding' };
+
+      /** Anything that is not PHD2 came through the PINS side of the rig. */
+      function stackOf(value) {
+        return value === 'phd2' ? 'phd2' : 'pins';
+      }
+
+      let model = [];
+      let category = 'all';
+      let status = 'all';
+
+      const $ = (id) => document.getElementById(id);
+
+      function esc(s) {
+        return String(s ?? '').replace(
+          /[&<>"']/g,
+          (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]
+        );
+      }
+
+      async function items(path) {
+        const res = await fetch(path);
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const data = await res.json();
+        return Array.isArray(data?.items) ? data.items : [];
+      }
+
+      async function load() {
+        try {
+          const [devices, entries, notes] = await Promise.all([
+            items('/api/collections/hw_devices/records?perPage=500&sort=vendor,model'),
+            items('/api/collections/hw_entries/records?perPage=500'),
+            items('/api/collections/hw_notes/records?perPage=500'),
+          ]);
+
+          model = devices
+            .map((device) => ({
+              ...device,
+              drivers: entries
+                .filter((entry) => entry.device === device.id)
+                .map((entry) => ({
+                  ...entry,
+                  notes: notes.filter((note) => note.entry === entry.id).map((note) => note.text),
+                }))
+                .sort((a, b) => SEVERITY[a.status] - SEVERITY[b.status]),
+            }))
+            .filter((device) => device.drivers.length);
+
+          renderStats();
+          renderFilters();
+          render();
+        } catch (error) {
+          $('devices').innerHTML =
+            '<p class="msg">The database cannot be reached right now. Please try again later.</p>';
+          console.warn('[hardware-db]', error);
+        }
+      }
+
+      function renderStats() {
+        const drivers = model.reduce((sum, d) => sum + d.drivers.length, 0);
+        const reports = model.reduce(
+          (sum, d) => sum + d.drivers.reduce((n, e) => n + (Number(e.reportCount) || 0), 0),
+          0
+        );
+        $('stats').innerHTML = [
+          `${model.length} ${model.length === 1 ? 'device' : 'devices'}`,
+          `${drivers} driver ${drivers === 1 ? 'combination' : 'combinations'}`,
+          `${reports} ${reports === 1 ? 'report' : 'reports'}`,
+        ]
+          .map((t) => `<span class="stat">${t}</span>`)
+          .join('');
+      }
+
+      function renderFilters() {
+        // Only offer categories that actually occur - an empty filter is noise.
+        const present = [...new Set(model.map((d) => d.category))].sort();
+
+        $('filterCategory').innerHTML = [
+          ['all', 'All devices'],
+          ...present.map((c) => [c, CATEGORY_LABEL[c] || c]),
+        ]
+          .map(
+            ([value, label]) =>
+              `<button class="filter" data-kind="category" data-value="${value}" aria-pressed="${value === category}">${esc(label)}</button>`
+          )
+          .join('');
+
+        $('filterStatus').innerHTML = [
+          ['all', 'Any status'],
+          ['works', 'Works'],
+          ['caveat', 'With caveats'],
+          ['broken', 'Does not work'],
+        ]
+          .map(
+            ([value, label]) =>
+              `<button class="filter" data-kind="status" data-value="${value}" aria-pressed="${value === status}">${label}</button>`
+          )
+          .join('');
+      }
+
+      document.addEventListener('click', (event) => {
+        const button = event.target.closest('.filter');
+        if (!button) return;
+        if (button.dataset.kind === 'category') category = button.dataset.value;
+        else status = button.dataset.value;
+        renderFilters();
+        render();
+      });
+
+      $('search').addEventListener('input', render);
+
+      function render() {
+        const needle = $('search').value.trim().toLowerCase();
+
+        const shown = model
+          .map((device) => ({
+            ...device,
+            drivers:
+              status === 'all' ? device.drivers : device.drivers.filter((e) => e.status === status),
+          }))
+          .filter((device) => {
+            if (!device.drivers.length) return false;
+            if (category !== 'all' && device.category !== category) return false;
+            if (!needle) return true;
+            const haystack = [
+              device.vendor,
+              device.model,
+              ...(device.aliases || []),
+              ...device.drivers.map((e) => e.driver),
+            ]
+              .join(' ')
+              .toLowerCase();
+            return haystack.includes(needle);
+          });
+
+        if (!model.length) {
+          $('devices').innerHTML =
+            '<p class="msg">No entries yet. The database is just filling up — check back later.</p>';
+          return;
+        }
+        if (!shown.length) {
+          $('devices').innerHTML = '<p class="msg">Nothing matches this search.</p>';
+          return;
+        }
+
+        $('devices').innerHTML = shown
+          .map(
+            (device) => `
+          <article class="device">
+            <div class="device-head">
+              <h2 class="device-name">${esc([device.vendor, device.model].filter(Boolean).join(' '))}</h2>
+              <span class="device-cat">${esc(CATEGORY_LABEL[device.category] || device.category)}</span>
+            </div>
+            <div class="drivers">
+              ${device.drivers.map(driverRow).join('')}
+            </div>
+          </article>`
+          )
+          .join('');
+      }
+
+      /** Day-month-year spelled out, so it reads the same on both sides of the Atlantic. */
+      function formatDate(value) {
+        const date = new Date(value);
+        return Number.isNaN(date.getTime())
+          ? ''
+          : date.toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+      }
+
+      function driverRow(entry) {
+        const count = Number(entry.reportCount) || 0;
+        // Reviewers record an absent driver as 'unknown'; show it as the gap
+        // it is rather than as a driver by that name.
+        const isUnknown = String(entry.driver || '').toLowerCase() === 'unknown';
+        const meta = [
+          `${count} ${count === 1 ? 'report' : 'reports'}`,
+          entry.lastConfirmed && `last confirmed ${formatDate(entry.lastConfirmed)}`,
+          entry.minPinsVersion && `PINS ${esc(entry.minPinsVersion)} or newer`,
+        ].filter(Boolean);
+
+        const body =
+          entry.notes.length === 1
+            ? `<p>${esc(entry.notes[0])}</p>`
+            : `<ul>${entry.notes.map((n) => `<li>${esc(n)}</li>`).join('')}</ul>`;
+
+        const note = entry.notes.length
+          ? `<div class="note">
+               <span class="label">${entry.notes.length === 1 ? 'Note' : 'Notes'}</span>
+               ${body}
+             </div>`
+          : '';
+
+        return `
+          <div class="driver ${esc(entry.status)}">
+            <div class="driver-top">
+              <span class="label">Driver</span>
+              <span class="status ${esc(entry.status)}">
+                <span class="dot"></span>${STATUS_LABEL[entry.status] || entry.status}
+              </span>
+            </div>
+            <div class="driver-name${isUnknown ? ' unknown' : ''}">
+              ${isUnknown ? 'driver not recorded' : esc(entry.driver)}<span class="stack">${STACK_LABEL[stackOf(entry.stack)]}</span>
+            </div>
+            <div class="driver-meta">${meta.join(' · ')}</div>
+            ${note}
+          </div>`;
+      }
+
+      load();
+    </script>
+  </body>
+</html>

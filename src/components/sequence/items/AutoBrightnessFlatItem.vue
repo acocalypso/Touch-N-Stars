@@ -71,7 +71,7 @@
       />
 
       <!-- Filter from inner SwitchFilter -->
-      <div v-if="switchFilter" class="flex items-center gap-3">
+      <div v-if="switchFilter" class="seq-field-row">
         <label class="text-xs text-slate-400 shrink-0">{{
           $t('components.sequence.items.switchFilter.filter')
         }}</label>
@@ -99,7 +99,7 @@
       </div>
 
       <!-- Binning from inner TakeExposure -->
-      <div v-if="exposure" class="flex items-center gap-3">
+      <div v-if="exposure" class="seq-field-row">
         <label class="text-xs text-slate-400 shrink-0">{{
           $t('components.sequence.items.takeExposure.binning')
         }}</label>
@@ -151,7 +151,7 @@
         @change="store.setProperty(exposure.Id, 'Offset', $event)"
       />
 
-      <div class="flex items-center gap-3">
+      <div class="seq-field-row">
         <label class="text-xs text-slate-400 shrink-0">{{
           $t('components.sequence.items.autoBrightnessFlat.keepPanelClosed')
         }}</label>

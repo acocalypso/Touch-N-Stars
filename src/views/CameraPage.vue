@@ -516,13 +516,14 @@ const stageWindowStyle = computed(() =>
         top: 'calc(var(--stage-inset) + var(--subnav-offset))',
         left: 'calc(var(--nav-width) + var(--stage-inset))',
         right: 'var(--stage-inset)',
-        bottom: 'calc(var(--statusbar-height) + var(--stage-inset))',
+        bottom: 'calc(var(--statusbar-height) + var(--status-panel-height) + var(--stage-inset))',
       }
     : {
         top: 'calc(82px + var(--subnav-offset))',
         left: 'var(--stage-inset)',
         right: 'var(--stage-inset)',
-        bottom: 'calc(var(--statusbar-height) + env(safe-area-inset-bottom) + var(--stage-inset))',
+        bottom:
+          'calc(var(--statusbar-height) + env(safe-area-inset-bottom) + var(--status-panel-height) + var(--stage-inset))',
       }
 );
 

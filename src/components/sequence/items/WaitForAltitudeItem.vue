@@ -12,7 +12,7 @@
 
     <template #editor="{ save }">
       <!-- Above/Below -->
-      <div class="flex items-center gap-3">
+      <div class="seq-field-row">
         <label class="text-xs text-slate-400 shrink-0">{{
           $t('components.sequence.items.moonAltitude.comparator')
         }}</label>
@@ -42,7 +42,7 @@
       <div class="text-xs text-slate-400 font-medium">
         {{ $t('components.sequence.items.center.ra') }}
       </div>
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-1">
+      <div class="grid grid-cols-1 @[20rem]:grid-cols-3 gap-1">
         <NumberInputPicker
           :modelValue="c.RAHours"
           label="h"
@@ -83,7 +83,7 @@
       <div class="text-xs text-slate-400 font-medium pt-1">
         {{ $t('components.sequence.items.center.dec') }}
       </div>
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-1">
+      <div class="grid grid-cols-1 @[20rem]:grid-cols-3 gap-1">
         <NumberInputPicker
           :modelValue="decDeg"
           label="°"

@@ -15,7 +15,7 @@
     </template>
 
     <template #editor="{ save }">
-      <div class="flex items-center gap-3">
+      <div class="seq-field-row">
         <label class="text-xs text-slate-400 flex-shrink-0">
           {{ $t('components.sequence.items.slewToGuiderCalibrationPosition.haOffset') }}
         </label>
@@ -27,13 +27,12 @@
           :max="90"
           :step="0.5"
           :decimalPlaces="1"
-          labelPosition="right"
           wrapperClass="ml-auto"
           @change="save('HaOffsetDegrees', $event)"
         />
       </div>
 
-      <div class="flex items-center gap-3">
+      <div class="seq-field-row">
         <label class="text-xs text-slate-400 flex-shrink-0">
           {{ $t('components.sequence.items.slewToGuiderCalibrationPosition.dec') }}
         </label>
@@ -45,13 +44,12 @@
           :max="90"
           :step="1"
           :decimalPlaces="1"
-          labelPosition="right"
           wrapperClass="ml-auto"
           @change="save('TargetDec', $event)"
         />
       </div>
 
-      <div class="flex items-center gap-3">
+      <div class="seq-field-row">
         <label class="text-xs text-slate-400 flex-shrink-0">
           {{ $t('components.sequence.items.slewToGuiderCalibrationPosition.side') }}
         </label>
@@ -72,7 +70,7 @@
         </select>
       </div>
 
-      <div class="flex items-center gap-3">
+      <div class="seq-field-row">
         <label class="text-xs text-slate-400 flex-shrink-0">
           {{ $t('components.sequence.items.slewToGuiderCalibrationPosition.clearBacklash') }}
         </label>

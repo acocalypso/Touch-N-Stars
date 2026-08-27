@@ -14,7 +14,7 @@
               id="sequence-select"
               v-model="selectedSequence"
               @change="onSequenceSelected"
-              :disabled="sequenceStore.sequenceRunning"
+              :disabled="sequenceStore.sequenceRunning || sequenceStore.sequenceLoading"
               :class="['tns-select flex-1', { 'glow-green': showSuccessGlow }]"
             >
               <option value="">{{ $t('components.sequence.choose_sequence') }}</option>
@@ -77,18 +77,19 @@ import { ref, onMounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useSequenceStore } from '@/store/sequenceStore';
 import { useSequenceStore as useSequenceCreatorStore } from '@/plugins/sequence-creator/stores/sequenceStore';
+import { useToastStore } from '@/store/toastStore';
 import apiService from '@/services/apiService';
 import { ArrowDownTrayIcon, ArrowPathIcon } from '@heroicons/vue/24/outline';
 
 const { t } = useI18n();
 const sequenceStore = useSequenceStore();
 const sequenceCreatorStore = useSequenceCreatorStore();
+const toastStore = useToastStore();
 
 const availableSequences = ref([]);
 const savedSequences = ref([]);
 const selectedSequence = ref('');
 const isLoading = ref(false);
-const isLoadingSequence = ref(false);
 const statusMessage = ref('');
 const statusType = ref('info');
 const showSuccessGlow = ref(false);
@@ -156,7 +157,7 @@ const onSequenceSelected = async () => {
 
   if (selectedSequence.value.startsWith('__saved__:')) {
     const key = selectedSequence.value.slice('__saved__:'.length);
-    isLoadingSequence.value = true;
+    sequenceStore.setSequenceLoading(true);
     try {
       await sequenceCreatorStore.loadNamedSequence(key);
       const response = await apiService.sequenceLoadJson(sequenceCreatorStore.ninaSequenceJSON);
@@ -169,8 +170,13 @@ const onSequenceSelected = async () => {
       }
     } catch (error) {
       console.error('Error loading saved sequence:', error);
+      toastStore.showToast({
+        type: 'error',
+        title: t('components.sequence.error_loading_sequence'),
+        message: String(error),
+      });
     } finally {
-      isLoadingSequence.value = false;
+      sequenceStore.setSequenceLoading(false);
       selectedSequence.value = '';
     }
   } else {
@@ -181,7 +187,7 @@ const onSequenceSelected = async () => {
 const loadSequence = async () => {
   if (!selectedSequence.value) return;
 
-  isLoadingSequence.value = true;
+  sequenceStore.setSequenceLoading(true);
   try {
     const response = await apiService.sequenceAction(
       `load?sequenceName=${encodeURIComponent(selectedSequence.value)}`
@@ -198,8 +204,13 @@ const loadSequence = async () => {
   } catch (error) {
     console.error('Error loading sequence:', error);
     showStatus(t('components.sequence.error_loading_sequence', { error: error.message }), 'error');
+    toastStore.showToast({
+      type: 'error',
+      title: t('components.sequence.error_loading_sequence'),
+      message: String(error),
+    });
   } finally {
-    isLoadingSequence.value = false;
+    sequenceStore.setSequenceLoading(false);
   }
 };
 

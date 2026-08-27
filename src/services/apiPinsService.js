@@ -97,6 +97,22 @@ export default {
     }
   },
 
+  async fetchSystemPowerStatus() {
+    const { PINS_SYSTEM_URL } = getUrls();
+    try {
+      const response = await axios.get(`${PINS_SYSTEM_URL}/system/power-status`, {
+        headers: {
+          Authorization: `Bearer ${PINS_TOKEN}`,
+        },
+        timeout: 5000,
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Failed to fetch system power status:', error);
+      return null;
+    }
+  },
+
   //-------------------INDI------------------------
   //query the list of available INDI devices for a given type
   //(focuser, filterwheel, rotator, telescope, weather switches, flatpanel.)
@@ -786,6 +802,30 @@ export default {
     return this._pinsDaemonGetRequest('/wifi/status', {
       baseUrl: PINSDAEMON_URL,
       timeout: 5000,
+    });
+  },
+
+  getPinsSystemLocalization() {
+    const { PINSDAEMON_URL } = getUrls();
+    return this._pinsDaemonGetRequest('/system/localization', {
+      baseUrl: PINSDAEMON_URL,
+      timeout: 10000,
+    });
+  },
+
+  getPinsSystemLocalizationOptions() {
+    const { PINSDAEMON_URL } = getUrls();
+    return this._pinsDaemonGetRequest('/system/localization/options', {
+      baseUrl: PINSDAEMON_URL,
+      timeout: 15000,
+    });
+  },
+
+  updatePinsSystemLocalization(payload) {
+    const { PINSDAEMON_URL } = getUrls();
+    return this._pinsDaemonPutRequest('/system/localization', payload, {
+      baseUrl: PINSDAEMON_URL,
+      timeout: 15000,
     });
   },
 

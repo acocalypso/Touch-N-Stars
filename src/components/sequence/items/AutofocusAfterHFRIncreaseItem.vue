@@ -27,7 +27,7 @@
         :step="1"
         @change="save('SampleSize', $event)"
       />
-      <div class="flex items-center gap-3">
+      <div class="seq-field-row">
         <label class="text-xs text-slate-400">{{
           $t('components.sequence.items.autofocus.trendPerFilter')
         }}</label>

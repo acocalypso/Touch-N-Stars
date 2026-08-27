@@ -62,11 +62,10 @@
         <ZoomableImage
           :imageData="getStretchSettings().stretchedImageData || livestackStore.currentImageUrl"
           :loading="isLoading || isHistogramProcessing"
-          :showControls="true"
           :showDownload="true"
           :showFullscreen="false"
           :showHistogram="true"
-          controlsClass="top-2 right-2 portrait:top-24 portrait:left-20 landscape:left-40"
+          controlsClass="right-2 bottom-above-statusbar left-2 landscape:left-(--nav-offset)"
           :initialZoom="currentZoomLevel"
           height="100vh"
           :altText="imageAltText"

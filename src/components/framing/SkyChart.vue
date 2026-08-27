@@ -6,11 +6,14 @@
 
 <script setup>
 import { onMounted, onUnmounted, ref, watch, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { Chart, registerables } from 'chart.js';
 import apiService from '@/services/apiService';
 import { timeSync } from '@/utils/timeSync';
 
 Chart.register(...registerables);
+
+const { t } = useI18n();
 
 const horizonData = ref([]);
 
@@ -163,7 +166,7 @@ function createChart() {
       labels: altitudeData.value.map((p) => p.label),
       datasets: [
         {
-          label: 'Altitude (°)',
+          label: t('components.framing.skyChart.altitude'),
           data: altitudeData.value.map((p) => p.altitude),
           borderColor: 'rgb(6, 182, 212)',
           backgroundColor: 'rgba(6, 182, 212, 0.2)',
@@ -172,7 +175,7 @@ function createChart() {
           order: -10,
         },
         {
-          label: 'Horizontprofil',
+          label: t('components.framing.skyChart.horizonProfile'),
           data: horizonAltitudes.value,
           borderColor: 'rgba(128,128,128,1)',
           backgroundColor: 'rgba(128,128,128,0.3)',
@@ -182,7 +185,7 @@ function createChart() {
           order: 1,
         },
         {
-          label: 'Daemmerung',
+          label: t('components.framing.skyChart.twilight'),
           data: getDarknessFill(-12),
           borderColor: 'rgba(100, 0, 0, 0)',
           backgroundColor: 'rgba(10, 10, 10, 0.4)',
@@ -192,7 +195,7 @@ function createChart() {
           order: -2,
         },
         {
-          label: 'Astronomische Nacht',
+          label: t('components.framing.skyChart.astronomicalNight'),
           data: getDarknessFill(-18),
           borderColor: 'rgba(100, 0, 0, 0)',
           backgroundColor: 'rgba(0, 0, 0, 0.4)',

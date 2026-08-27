@@ -35,7 +35,7 @@
       />
 
       <!-- Binning -->
-      <div class="flex items-center gap-3">
+      <div class="seq-field-row">
         <label class="text-xs text-slate-400 shrink-0">{{
           $t('components.sequence.items.takeExposure.binning')
         }}</label>
@@ -52,7 +52,7 @@
       </div>
 
       <!-- Image Type -->
-      <div class="flex items-center gap-3">
+      <div class="seq-field-row">
         <label class="text-xs text-slate-400 shrink-0">{{
           $t('components.sequence.items.takeExposure.imageType')
         }}</label>

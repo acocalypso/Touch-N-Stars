@@ -16,7 +16,7 @@
         />
 
         <!-- Boolean -->
-        <div v-else-if="f.type === 'boolean'" class="flex items-center gap-3">
+        <div v-else-if="f.type === 'boolean'" class="seq-field-row">
           <label class="text-xs text-slate-400">{{ f.key }}</label>
           <button
             class="ml-auto px-3 py-1 rounded text-xs font-medium border transition-colors"
@@ -32,7 +32,7 @@
         </div>
 
         <!-- String -->
-        <div v-else class="flex items-center gap-3">
+        <div v-else class="seq-field-row">
           <label class="text-xs text-slate-400 shrink-0">{{ f.key }}</label>
           <TextInput
             :modelValue="f.value"

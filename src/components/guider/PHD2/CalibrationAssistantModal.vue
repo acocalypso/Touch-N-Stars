@@ -211,14 +211,14 @@
         <div class="flex flex-col sm:flex-row gap-3">
           <!-- Slew/Stop Button -->
           <button
-            @click="store.mountInfo.Slewing ? stopSlew() : slewToOptimalPosition()"
-            :disabled="!store.mountInfo.Slewing && (!canSlew || isSlewing || isCalibrating)"
+            @click="store.mountIsSlewing ? stopSlew() : slewToOptimalPosition()"
+            :disabled="!store.mountIsSlewing && (!canSlew || isSlewing || isCalibrating)"
             :class="[
               'px-3 sm:px-4 py-2 sm:py-3 flex items-center justify-center gap-2 flex-1',
-              store.mountInfo.Slewing ? 'tns-btn-danger' : 'tns-btn-secondary',
+              store.mountIsSlewing ? 'tns-btn-danger' : 'tns-btn-secondary',
             ]"
           >
-            <StopIcon v-if="store.mountInfo.Slewing" class="w-5 h-5" />
+            <StopIcon v-if="store.mountIsSlewing" class="w-5 h-5" />
             <svg v-else-if="!isSlewing" class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
               <path
                 d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"
@@ -226,7 +226,7 @@
             </svg>
             <div v-else class="spinner"></div>
             {{
-              store.mountInfo.Slewing
+              store.mountIsSlewing
                 ? $t('components.guider.calibrationAssistant.stopSlew')
                 : $t('components.guider.calibrationAssistant.slewToPosition')
             }}

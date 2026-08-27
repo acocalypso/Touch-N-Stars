@@ -72,13 +72,19 @@ const systemMetricsService = {
       const { data } = await axios.get(`${apiUrl}metrics`, { timeout });
 
       if (store?.isPINS) {
-        const pinsTemperature = await apiPinsService.fetchSystemTemperature();
+        const [pinsTemperature, pinsPowerStatus] = await Promise.all([
+          apiPinsService.fetchSystemTemperature(),
+          apiPinsService.fetchSystemPowerStatus(),
+        ]);
         if (pinsTemperature) {
           data.SystemTemperature = {
             celsius: Number(pinsTemperature.celsius),
             fahrenheit: Number(pinsTemperature.fahrenheit),
             source: pinsTemperature.source || '',
           };
+        }
+        if (pinsPowerStatus) {
+          data.SystemPowerStatus = pinsPowerStatus;
         }
       }
 

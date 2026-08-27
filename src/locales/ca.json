@@ -181,6 +181,12 @@
       "confirmSetTargetMessage": "Estàs segur que vols establir aquest objectiu com a objectiu de la seqüència?",
       "useNinaCache": "Usa la memòria cau de NINA per a la imatge de l'objectiu",
       "setSequnceTarget": "estableix com a objectiu de la seqüència",
+      "skyChart": {
+        "altitude": "Altitud (°)",
+        "horizonProfile": "Perfil d'horitzó",
+        "twilight": "Crepuscle",
+        "astronomicalNight": "Nit astronòmica"
+      },
       "mosaic": {
         "title": "Mode mosaic",
         "columns": "Columnes",
@@ -249,7 +255,8 @@
         "focuser": "Focuser",
         "filterWheel": "Filter wheel",
         "guider": "Guiding",
-        "done": "Done"
+        "done": "Done",
+        "localization": "Regional settings"
       },
       "driver": {
         "loading": "Loading drivers…",
@@ -433,7 +440,11 @@
         "moreDevicesHint": "Flat panel, weather and the remaining devices are configured on their own pages.",
         "noConnectionHint": "No connection to a rig yet. You can add one under Settings → Connection at any time."
       },
-      "cancel": "Cancel setup"
+      "cancel": "Cancel setup",
+      "localization": {
+        "title": "Configura els paràmetres regionals de l'equip",
+        "description": "Configura aquests valors abans de la Wi-Fi perquè la ubicació del punt d'accés, l'hora i l'entrada del teclat remot coincideixin amb el lloc on s'utilitza l'equip."
+      }
     },
     "fileBrowser": {
       "title": "Navega",
@@ -458,6 +469,11 @@
     "settings": {
       "title": "Configuració",
       "general": "General",
+      "tabs": {
+        "connection": "Connexió i ubicació",
+        "interface": "Interfície",
+        "system": "Sistema"
+      },
       "add": "afegeix",
       "coordinates": "Coordenades GPS",
       "save": "Desa",
@@ -569,6 +585,22 @@
         "title": "Mantén la pantalla activa",
         "description": "Evita que el dispositiu s'enfosqueixi o es bloquegi mentre l'aplicació és oberta."
       },
+      "backupRestore": {
+        "title": "Còpia de seguretat i restauració",
+        "description": "Desa els ajustos emmagatzemats en aquest dispositiu en un fitxer i restaura'ls en un altre dispositiu.",
+        "profileWarning": "Això només fa còpia de seguretat dels ajustos de l'aplicació en aquest dispositiu. Els ajustos d'equip, càmera, muntura i altres es troben al perfil de NINA o PINS - fes-ne una còpia de seguretat per separat per a una còpia completa.",
+        "locationAndroid": "El fitxer es desa a Documents/TouchNStars en aquest dispositiu - obre'l amb una app de gestor de fitxers.",
+        "locationIos": "El fitxer es desa a l'app Fitxers, a Al meu iPhone/iPad → Touch 'N Stars → Documents.",
+        "locationBrowser": "El fitxer es desa a la carpeta de baixades predeterminada del teu navegador.",
+        "exportButton": "Exporta la còpia de seguretat",
+        "importButton": "Restaura des d'una còpia de seguretat",
+        "exportSuccess": "Còpia de seguretat desada com a {filename} ({count} entrades).",
+        "exportError": "No s'ha pogut desar el fitxer de còpia de seguretat.",
+        "confirmImportTitle": "Restaurar la còpia de seguretat?",
+        "confirmImportMessage": "Això sobreescriurà els ajustos d'aquest dispositiu, incloses les instàncies desades. Després l'aplicació es tornarà a carregar.",
+        "importEmpty": "El fitxer de còpia de seguretat no conté cap ajust per restaurar.",
+        "importError": "No s'ha pogut restaurar la còpia de seguretat: {error}"
+      },
       "wifiBinding": {
         "title": "Vinculació a la xarxa local",
         "description": "Manté l'aplicació connectada per Wi-Fi quan la instància funciona en una xarxa local sense internet (p. ex., punt d'accés PINS), mentre la resta del telèfon segueix usant dades mòbils."
@@ -661,9 +693,15 @@
       },
       "navbarCustomization": {
         "title": "Personalització de la barra de navegació",
-        "hint": "Arrossega per reordenar. Cal que almenys una pàgina a més de Configuració sigui visible.",
+        "hint": "Arrossega per reordenar. Cal que almenys una pàgina a més de Configuració sigui visible."
+      },
+      "itemCustomization": {
         "alwaysVisible": "Sempre visible",
-        "minOneRequired": "Almenys una pàgina ha de ser visible"
+        "minOneRequired": "Almenys una entrada ha de romandre visible"
+      },
+      "statusBarCustomization": {
+        "title": "Personalització de la barra d'estat",
+        "hint": "Arrossega per reordenar. Almenys una entrada ha de romandre visible."
       },
       "update": "Actualitza",
       "errors": {
@@ -681,6 +719,25 @@
       "mount": {
         "titel": "Configuració de la muntura",
         "max_slew_rate": "Velocitat màxima de desplaçament (°/s)"
+      },
+      "localization": {
+        "title": "Paràmetres regionals del sistema",
+        "description": "Aquests són els paràmetres actuals del dispositiu PINS, no d'aquesta aplicació. Els canvis s'apliquen a tots els telèfons, tauletes i navegadors que s'hi connectin.",
+        "systemLocale": "Configuració regional",
+        "wifiCountry": "País de la Wi-Fi",
+        "wifiCountryConfirmTitle": "Voleu aplicar el canvi de país de la Wi-Fi?",
+        "wifiCountryConfirmMessage": "Canviar el país de la Wi-Fi pot interrompre breument la connexió amb aquest dispositiu PINS. Voleu aplicar els canvis?",
+        "timezone": "Zona horària",
+        "keyboardLayout": "Distribució del teclat",
+        "loading": "S'estan llegint els paràmetres actuals del sistema...",
+        "loadError": "No s'han pogut llegir els paràmetres del sistema: {message}",
+        "save": "Aplica els canvis",
+        "saving": "S'estan aplicant...",
+        "saved": "S'han actualitzat els paràmetres del sistema.",
+        "saveError": "No s'han pogut actualitzar els paràmetres del sistema: {message}",
+        "missingJob": "El dimoni PINS no ha retornat cap ID d'operació.",
+        "refresh": "Torna a carregar els valors actuals",
+        "searchPlaceholder": "Filtra les opcions disponibles..."
       }
     },
     "alpacaDirect": {
@@ -695,6 +752,11 @@
       "sharedGuidWarning": "El rotador i el monitor de seguretat comparteixen una ranura d'emmagatzematge a NINA — canviar l'un també canvia l'altre.",
       "noReconnectHint": "La nova configuració s'aplica en la propera connexió.",
       "cameraNoSettings": "Aquesta càmera no té configuració a ajustar."
+    },
+    "selectDevices": {
+      "deviceNotFound": "Dispositiu no trobat",
+      "deviceNotFoundMessage": "S'ha tornat a carregar el controlador INDI, però «{device}» no ha aparegut. Comprova l'alimentació i torna a seleccionar el dispositiu.",
+      "reloadingDriver": "S'està tornant a carregar el controlador INDI…"
     },
     "connectEquipment": {
       "camera": {
@@ -771,6 +833,7 @@
       "sequenceLoad": "Carrega",
       "sequenceNoFiles": "No s'han trobat fitxers",
       "sequenceLoading": "Carregant...",
+      "loadingSequence": "Carregant la seqüència…",
       "sequenceClose": "Tanca",
       "deleteConfirmationTitle": "Elimina el fitxer",
       "deleteConfirmationMessage": "Estàs segur que vols eliminar el fitxer?",
@@ -1029,6 +1092,10 @@
         "annotation": {
           "text": "Text"
         },
+        "saveSequence": {
+          "notSet": "No establert",
+          "applyFileName": "Aplica"
+        },
         "groundstation": {
           "message": "Missatge",
           "title": "Títol",
@@ -1080,6 +1147,16 @@
           "modeRMS": "RMS",
           "modePeak": "Pic",
           "minimumPoints": "Punts mínims"
+        },
+        "interruptAndRetryWhenRMSAbove": {
+          "rmsThreshold": "Llindar RMS (\")",
+          "mode": "Mode",
+          "modeRMS": "RMS",
+          "modePeak": "Pic",
+          "minimumPoints": "Punts mínims",
+          "stableTime": "Estable durant (s)",
+          "recoveryTimeout": "Temps màxim de recuperació (min)",
+          "maxRetries": "Reintents màxims (0 = il·limitat)"
         },
         "changePHD2Parameters": {
           "parameter": "Paràmetre",
@@ -1153,7 +1230,8 @@
       "enable": "Activa",
       "disable": "Desactiva",
       "resetStatus": "Restableix l'estat",
-      "delete": "Elimina"
+      "delete": "Elimina",
+      "runningLocked": "Aquest element s’està executant i no es pot modificar"
     },
     "mount": {
       "title": "Muntura",
@@ -1357,6 +1435,7 @@
             "hysteresis": "Pes donat a l'historial de correccions recents respecte al fotograma actual, en percentatge. Valors alts suavitzen les correccions però reaccionen més lentament.",
             "predictiveWeight": "Predictive PEC: pes de la part predicha de la correcció. Els valors per defecte serveixen per a la majoria de muntures.",
             "reactiveWeight": "Predictive PEC: pes de la part reactiva, basada en el desplaçament de l'estrella en l'últim fotograma.",
+            "periodLength": "Predictive PEC: durada del període del cargol sense fi de la muntura, en segons. El PHD2 l'utilitza per modelar i precorregir l'error periòdic en AR. Consulta les especificacions de la muntura (uns 479 s en una EQ6) o llegeix-la al pic PEC de la FFT del guiatge.",
             "slopeWeight": "LowPass: quant influeix la tendència recent del moviment de l'estrella en la correcció, en percentatge.",
             "expFactor": "ZFilter: el temps d'exposició virtual és l'exposició real × aquest factor. Valors alts filtren més el seeing (més suau però més lent)."
           },
@@ -1393,6 +1472,7 @@
           "MaxMove": "AR: Mov. màx.",
           "predictive_weight": "AR: Pes predictiu",
           "reactive_weight": "AR: Pes reactiu",
+          "period_length": "AR: Longitud del període PEC (s)",
           "slope_weight": "AR: Pes de pendent",
           "exp_factor": "AR: Factor d'exposició"
         },
@@ -2154,7 +2234,8 @@
         "safety": "Seguretat",
         "progress": "Progrés",
         "log": "Registre",
-        "instance": "Instància"
+        "instance": "Instància",
+        "screenlock": "Bloqueig"
       },
       "camera": {
         "idle": "Inactiva"
@@ -2841,12 +2922,17 @@
       "settings": "Configuració",
       "reset": "Restableix",
       "close": "Tanca",
+      "cancel": "Cancel·la",
       "resetConfirm": "Estàs segur que vols restablir tota la configuració de la càmera web?",
       "liveView": "Vista en directe",
       "noImageAvailable": "No hi ha cap imatge disponible",
       "configureUrl": "Configura la URL d'instantània i carrega la imatge",
       "loadingImage": "Carregant imatge...",
-      "errors": {}
+      "errors": {
+        "noUrl": "No s'ha configurat cap URL d'instantània",
+        "loadFailed": "No s'ha pogut carregar la imatge de la càmera web",
+        "nextLoadFailed": "No s'ha pogut carregar la imatge següent de la càmera web"
+      }
     },
     "multiImageMonitor": {
       "addCamera": "Càmera",
@@ -4229,7 +4315,7 @@
       },
       "messages": {
         "noSessionsDeleted": "No s'ha eliminat cap sessió.",
-        "deletedSessions": "S'han eliminat {count} sessió(s), s'ha alliberat {freed}, ús restant del connector {remaining}.",
+        "deletedSessions": "S'han eliminat {count} sessió{suffix}, s'ha alliberat {freed}, ús restant del connector {remaining}.",
         "deletedArtifact": "Artefacte eliminat i s'ha alliberat {freed}.",
         "deletedFrame": "Fotograma eliminat i s'ha alliberat {freed}.",
         "backendUpdateStarted": "Actualització del backend iniciada. PINS es reiniciarà quan l'instal·lació hagi acabat."
@@ -4721,6 +4807,94 @@
     },
     "vncRemote": {
       "debugModeWarning": "El mode de depuració està actiu — la connexió VNC no està disponible. Si us plau, desactiva el mode de depuració a la configuració."
+    },
+    "hardwareDb": {
+      "title": "Compatibilitat de maquinari",
+      "intro": "Comparteix quins dispositius funcionen amb quin controlador. Cada informe es revisa abans d’aparèixer a la base de dades.",
+      "collecting": "S'està llegint l'equip connectat…",
+      "noDevices": "No s'ha trobat cap equip. Connecta un dispositiu o selecciona'n un al perfil — així el podràs informar aquí encara que la connexió falli.",
+      "notConnected": "no connectat",
+      "driverUnknown": "Nom del controlador desconegut sense connexió — el completarem durant la revisió.",
+      "reviewAndSend": "Revisa i envia ({count})",
+      "selectAtLeastOne": "Valora com a mínim un dispositiu per enviar un informe.",
+      "noteLabel": "Alguna particularitat?",
+      "notePlaceholder": "p. ex. necessita amplada de banda USB per sota de 60, direcció d’enfocament invertida…",
+      "copy": "Copia",
+      "copied": "Copiat",
+      "submitSuccess": "Informe enviat. Gràcies!",
+      "submitSuccessHint": "Desa aquest codi per consultar més endavant l'estat de revisió del teu informe.",
+      "submitError": "No s'ha pogut enviar l'informe.",
+      "status": {
+        "works": "Funciona",
+        "caveat": "Funciona amb limitacions",
+        "broken": "No funciona"
+      },
+      "known": {
+        "summary": "Ja és a la base de dades: {status} amb {driver} · {reports} informes",
+        "none": "Encara no és a la base de dades — el teu seria el primer informe."
+      },
+      "categories": {
+        "camera": "Càmera",
+        "guidecam": "Càmera de guiatge",
+        "mount": "Muntura",
+        "focuser": "Enfocador",
+        "filterwheel": "Roda de filtres",
+        "rotator": "Rotador",
+        "guider": "Guiatge",
+        "flatdevice": "Panell de flats",
+        "switch": "Interruptor",
+        "weather": "Meteorologia",
+        "dome": "Cúpula",
+        "safetymonitor": "Monitor de seguretat"
+      },
+      "preview": {
+        "title": "Això és el que s'envia",
+        "intro": "A sota hi ha l’informe complet. No es transmet res més.",
+        "privacyNote": "No s'hi inclouen adreces IP, noms d'amfitrió, noms de xarxa Wi-Fi, coordenades ni noms de perfil.",
+        "send": "Envia l’informe",
+        "sending": "Enviant…"
+      },
+      "history": {
+        "title": "Els teus informes",
+        "refreshStatus": "Comprova l’estat",
+        "clear": "Buida la llista",
+        "deviceCount": "{count} dispositius",
+        "status": {
+          "pending": "En revisió",
+          "approved": "Publicat",
+          "rejected": "Rebutjat",
+          "duplicate": "Duplicat",
+          "queued": "Esperant enviar"
+        }
+      },
+      "vendorLabel": "Fabricant",
+      "vendorPlaceholder": "ex. Sky-Watcher",
+      "modelLabel": "Model",
+      "modelPlaceholder": "ex. EQ6-R Pro",
+      "modelRequiredHint": "Aquest driver serveix per a molts models diferents, per tant no pot identificar el teu hardware. Indica el model, si us plau.",
+      "modelOptionalHint": "Corregeix el fabricant i el model si el nom detectat és incorrecte.",
+      "missingModel": "Indica el model per a {count} dispositius abans d'enviar.",
+      "queued": "Informe guardat — sense connexió a la base de dades.",
+      "queuedHint": "S'enviarà automàticament la pròxima vegada que obris aquesta pàgina amb accés a internet. El trobaràs a la teva secció d'informes."
+    },
+    "systemMetrics": {
+      "powerTitle": "Alimentació i tensió d'entrada",
+      "supplyVoltage": "Tensió d'entrada",
+      "underVoltageNow": "Subtensió actual",
+      "underVoltageSinceBoot": "Subtensió des de l'arrencada",
+      "firmwareFlags": "Indicadors del microprogramari",
+      "underVoltageActive": "S'ha detectat subtensió",
+      "underVoltageOccurred": "Subtensió anterior",
+      "powerHealthy": "Correcte",
+      "underVoltageActiveHelp": "Actualment, el Pi no rep prou alimentació. Comproveu la font d'alimentació, el cable i la càrrega dels dispositius connectats.",
+      "underVoltageHistoryHelp": "S'ha produït una subtensió des de l'arrencada. Comproveu la font d'alimentació i el cable si el sistema és inestable.",
+      "notAvailable": "No disponible",
+      "detected": "Detectada",
+      "notDetected": "No detectada"
+    },
+    "screenLock": {
+      "unlock": "Desbloquejar",
+      "holdToUnlock": "Mantén {seconds} s per desbloquejar"
     }
   },
   "loading": "carregant",
@@ -4908,6 +5082,9 @@
       "discordEnabled": "Activa Discord",
       "discordWebhook": "URL del webhook",
       "testDiscord": "Envia un missatge de prova",
+      "secretSet": "•••••••• (configurat)",
+      "secretNotSet": "No configurat",
+      "secretLeaveEmpty": "Deixeu-ho buit per conservar el valor actual",
       "localDashboardTitle": "Tauler local",
       "localDashboardEnabled": "Activa el servidor web local",
       "localDashboardPort": "Port",
@@ -4922,7 +5099,12 @@
       "resend": "Reenvia l'informe",
       "delete": "Elimina",
       "deleteTitle": "Elimina la sessió",
-      "deleteConfirm": "Estàs segur que vols eliminar aquesta sessió? Aquesta acció no es pot desfer."
+      "deleteConfirm": "Estàs segur que vols eliminar aquesta sessió? Aquesta acció no es pot desfer.",
+      "viewReport": "Mostra l'informe detallat",
+      "downloadReport": "Descarrega l'informe",
+      "reportTitle": "Informe detallat",
+      "reportZoomFit": "Ajusta a l'amplada",
+      "reportZoomActual": "100%"
     },
     "stats": {
       "totalImages": "Imatges totals",

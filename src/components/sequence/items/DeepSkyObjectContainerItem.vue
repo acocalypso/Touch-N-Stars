@@ -252,6 +252,12 @@ import CameraFramingIcon from '@/components/icons/CameraFramingIcon.vue';
 import { useRouter } from 'vue-router';
 import { useFramingStore } from '@/store/framingStore';
 import { raDecToAltAz, degreesToHMS, degreesToDMS } from '@/utils/utils';
+import {
+  parseDsoTargetString,
+  dsoContainerCoordinates,
+  dsoContainerRaString,
+  dsoContainerDecString,
+} from '@/utils/sequenceTargets';
 
 const props = defineProps({
   item: { type: Object, required: true },
@@ -289,49 +295,13 @@ watch(
   }
 );
 
-// API returns Target as a string: "RA: 00:42:44; Dec: 41° 16' 07\"; Epoch: J2000; Position Angle: 0"
-const parsedTarget = computed(() => {
-  const t = props.item.Target;
-  if (!t || typeof t !== 'string') return t ?? null; // already an object (future-proof)
-  const raMatch = t.match(/RA:\s*(\d+):(\d+):([\d.]+)/);
-  const decMatch = t.match(/Dec:\s*(-?)(\d+)°\s*(\d+)'\s*([\d.]+)"/);
-  const paMatch = t.match(/Position Angle:\s*([\d.-]+)/);
-  if (!raMatch || !decMatch) return null;
-  return {
-    RAHours: parseInt(raMatch[1]),
-    RAMinutes: parseInt(raMatch[2]),
-    RASeconds: parseFloat(raMatch[3]),
-    NegativeDec: decMatch[1] === '-',
-    DecDegrees: parseInt(decMatch[2]),
-    DecMinutes: parseInt(decMatch[3]),
-    DecSeconds: parseFloat(decMatch[4]),
-    PositionAngle: paMatch ? parseFloat(paMatch[1]) : 0,
-    TargetName: props.item.Name ?? '',
-  };
-});
+const parsedTarget = computed(() => parseDsoTargetString(props.item.Target, props.item.Name ?? ''));
 
-const coords = computed(() => {
-  const t = props.item.Target;
-  // object form (has InputCoordinates)
-  if (t && typeof t === 'object') return t.InputCoordinates ?? {};
-  // string form — use parsed values directly
-  return parsedTarget.value ?? {};
-});
+const coords = computed(() => dsoContainerCoordinates(props.item));
 
-const raStr = computed(() => {
-  const co = coords.value;
-  if (!co.RAHours && co.RAHours !== 0) return '';
-  return `${String(co.RAHours).padStart(2, '0')}:${String(co.RAMinutes).padStart(2, '0')}:${String(Math.round(co.RASeconds)).padStart(2, '0')}`;
-});
+const raStr = computed(() => dsoContainerRaString(props.item));
 
-const decStr = computed(() => {
-  const co = coords.value;
-  if (!co.DecDegrees && co.DecDegrees !== 0) return '';
-  const isNegative = co.NegativeDec || (co.DecDegrees ?? 0) < 0;
-  const sign = isNegative ? '-' : '+';
-  const absDeg = Math.abs(co.DecDegrees);
-  return `${sign}${String(absDeg).padStart(2, '0')}°${String(co.DecMinutes).padStart(2, '0')}'${String(Math.round(co.DecSeconds)).padStart(2, '0')}"`;
-});
+const decStr = computed(() => dsoContainerDecString(props.item));
 
 const decDeg = computed(() => {
   const co = coords.value;

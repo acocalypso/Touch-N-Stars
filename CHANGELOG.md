@@ -9,6 +9,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 - Sequence editor: A deep sky object container can now be loaded into the framing assistant with one tap
+- Framing assistant: "set to sequence target" now lets you pick which sequence target to overwrite, or add a new one at a chosen position
 
 ### Changed
 - Guider (Dither): Max dither pixel value increased from 100 to 1000

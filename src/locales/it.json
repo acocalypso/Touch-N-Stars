@@ -140,6 +140,16 @@
       "confirmSetTargetMessage": "Sei sicuro di voler impostare questo target come target della sequenza?",
       "useNinaCache": "Usa cache NINA per l'immagine del target",
       "setSequnceTarget": "imposta come target della sequenza",
+      "sequenceTargetPicker": {
+        "title": "Target della sequenza",
+        "hint": "Scegli quale target della sequenza caricata deve ricevere le coordinate di inquadratura.",
+        "newTarget": "Nuovo target",
+        "unnamed": "Target {index}",
+        "position": "Posizione inserimento",
+        "positionEnd": "Alla fine",
+        "positionAfter": "Dopo {name}",
+        "addFailed": "Impossibile aggiungere il nuovo target alla sequenza"
+      },
       "search": {
         "title": "Cerca",
         "placeholder": "Inserisci un termine di ricerca...",
@@ -1122,7 +1132,8 @@
         "dso": {
           "targetName": "Nome destinazione",
           "positionAngle": "Angolo di posizione (°)",
-          "loadFromFavorites": "Carica dai preferiti"
+          "loadFromFavorites": "Carica dai preferiti",
+          "loadIntoFraming": "Carica nell'Assistente Inquadratura"
         },
         "warmCamera": {
           "duration": "Durata (min)"

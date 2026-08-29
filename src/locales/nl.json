@@ -140,6 +140,16 @@
       "confirmSetTargetMessage": "Weet u zeker dat u dit Doel wilt instellen als het sequentie Doel?",
       "useNinaCache": "Gebruik NINA cache voor het Doel beeld",
       "setSequnceTarget": "gebruik als sequentie Doel",
+      "sequenceTargetPicker": {
+        "title": "Sequentiedoel",
+        "hint": "Kies welk doel van de geladen sequentie de framing-coördinaten ontvangt.",
+        "newTarget": "Nieuw doel",
+        "unnamed": "Doel {index}",
+        "position": "Invoegpositie",
+        "positionEnd": "Aan het einde",
+        "positionAfter": "Na {name}",
+        "addFailed": "Het nieuwe doel kon niet aan de sequentie worden toegevoegd"
+      },
       "search": {
         "title": "Zoeken",
         "placeholder": "Voer een zoek term in...",
@@ -1122,7 +1132,8 @@
         "dso": {
           "targetName": "Projectnaam:",
           "positionAngle": "Positiehoek",
-          "loadFromFavorites": "Laden uit favorieten"
+          "loadFromFavorites": "Laden uit favorieten",
+          "loadIntoFraming": "Laden in Framing-assistent"
         },
         "warmCamera": {
           "duration": "Duur (min)"

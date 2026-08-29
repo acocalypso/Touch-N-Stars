@@ -140,6 +140,16 @@
       "confirmSetTargetMessage": "Czy na pewno chcesz ustawić ten cel jako cel sekwencji?",
       "useNinaCache": "Użyj pamięci podręcznej NINA dla obrazu celu",
       "setSequnceTarget": "ustaw jako cel sekwencji",
+      "sequenceTargetPicker": {
+        "title": "Cel sekwencji",
+        "hint": "Wybierz cel z załadowanej sekwencji, który otrzyma współrzędne kadrowania.",
+        "newTarget": "Nowy cel",
+        "unnamed": "Cel {index}",
+        "position": "Pozycja wstawiania",
+        "positionEnd": "Na końcu",
+        "positionAfter": "Po {name}",
+        "addFailed": "Nie można dodać nowego celu do sekwencji"
+      },
       "search": {
         "title": "Szukaj",
         "placeholder": "Wprowadź szukaną frazę...",
@@ -1122,7 +1132,8 @@
         "dso": {
           "targetName": "nazwa zasobu docelowego",
           "positionAngle": "Kąt pozycyjny",
-          "loadFromFavorites": "Załaduj z ulubionych"
+          "loadFromFavorites": "Załaduj z ulubionych",
+          "loadIntoFraming": "Załaduj do Asystenta kadrowania"
         },
         "warmCamera": {
           "duration": "Czas trwania (min)"

@@ -181,6 +181,16 @@
       "confirmSetTargetMessage": "Möchten Sie dieses Ziel wirklich als Sequenzziel festlegen?",
       "useNinaCache": "NINA-Cache für das Zielbild verwenden",
       "setSequnceTarget": "als Sequenzziel festlegen",
+      "sequenceTargetPicker": {
+        "title": "Sequenzziel",
+        "hint": "Wählen Sie aus, welches Ziel der geladenen Sequenz die Framing-Koordinaten erhält.",
+        "newTarget": "Neues Ziel",
+        "unnamed": "Ziel {index}",
+        "position": "Einfügeposition",
+        "positionEnd": "Am Ende",
+        "positionAfter": "Nach {name}",
+        "addFailed": "Das neue Ziel konnte nicht zur Sequenz hinzugefügt werden"
+      },
       "skyChart": {
         "altitude": "Höhe (°)",
         "horizonProfile": "Horizontprofil",
@@ -1178,7 +1188,8 @@
         "dso": {
           "targetName": "Zielname",
           "positionAngle": "Positionswinkel (°)",
-          "loadFromFavorites": "Aus Favoriten laden"
+          "loadFromFavorites": "Aus Favoriten laden",
+          "loadIntoFraming": "In Framing-Assistent laden"
         },
         "warmCamera": {
           "duration": "Dauer (min)"

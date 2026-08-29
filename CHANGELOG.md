@@ -5,6 +5,15 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [App6.3.0-beta1] - unreleased
+
+### Added
+- Sequence editor: A deep sky object container can now be loaded into the framing assistant with one tap
+- Framing assistant: "set to sequence target" now lets you pick which sequence target to overwrite, or add a new one at a chosen position
+
+### Changed
+- Guider (Dither): Max dither pixel value increased from 100 to 1000
+
 ## [App6.2.0] - 2026-08-27
 
 Summary of all changes since 6.1.2 (released in beta1-beta9, see below for the individual beta releases).

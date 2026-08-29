@@ -1122,7 +1122,8 @@
         "dso": {
           "targetName": "Nom de la cible",
           "positionAngle": "Angle de position",
-          "loadFromFavorites": "Charger depuis les favoris"
+          "loadFromFavorites": "Charger depuis les favoris",
+          "loadIntoFraming": "Charger dans l'Assistant de Cadrage"
         },
         "warmCamera": {
           "duration": "Durée (min)"

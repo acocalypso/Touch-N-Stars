@@ -1140,7 +1140,8 @@
         "dso": {
           "targetName": "ターゲット名",
           "positionAngle": "位置角 (°)",
-          "loadFromFavorites": "お気に入りから読み込む"
+          "loadFromFavorites": "お気に入りから読み込む",
+          "loadIntoFraming": "フレーミングアシスタントに読み込む"
         },
         "warmCamera": {
           "duration": "時間 (分)"

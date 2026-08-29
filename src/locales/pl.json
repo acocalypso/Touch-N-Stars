@@ -1122,7 +1122,8 @@
         "dso": {
           "targetName": "nazwa zasobu docelowego",
           "positionAngle": "Kąt pozycyjny",
-          "loadFromFavorites": "Załaduj z ulubionych"
+          "loadFromFavorites": "Załaduj z ulubionych",
+          "loadIntoFraming": "Załaduj do Asystenta kadrowania"
         },
         "warmCamera": {
           "duration": "Czas trwania (min)"

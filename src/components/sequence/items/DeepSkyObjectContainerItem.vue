@@ -32,6 +32,20 @@
         </button>
       </div>
 
+      <!-- Load this target into the framing assistant -->
+      <div class="seq-field-row">
+        <label class="text-xs text-slate-400 shrink-0">{{
+          $t('components.sequence.items.dso.loadIntoFraming')
+        }}</label>
+        <button
+          class="ml-auto flex items-center gap-1 px-2 py-1 bg-slate-700/60 border border-slate-600 rounded text-xs text-gray-200 hover:bg-slate-600 disabled:opacity-40 disabled:cursor-not-allowed"
+          :disabled="!canLoadIntoFraming"
+          @click="loadIntoFraming"
+        >
+          <CameraFramingIcon class="w-4 h-4 text-cyan-400" />
+        </button>
+      </div>
+
       <!-- FITS Plate Solve -->
       <div
         v-if="
@@ -234,6 +248,10 @@ import { useFavTargetStore } from '@/store/favTargetsStore';
 import { apiStore } from '@/store/store';
 import { HeartIcon, CheckIcon } from '@heroicons/vue/24/outline';
 import FitsPlateSolve from '@/components/fitsPlatesolve/FitsPlateSolve.vue';
+import CameraFramingIcon from '@/components/icons/CameraFramingIcon.vue';
+import { useRouter } from 'vue-router';
+import { useFramingStore } from '@/store/framingStore';
+import { raDecToAltAz, degreesToHMS, degreesToDMS } from '@/utils/utils';
 
 const props = defineProps({
   item: { type: Object, required: true },
@@ -242,6 +260,8 @@ const props = defineProps({
 const store = useSequenceV2Store();
 const favStore = useFavTargetStore();
 const appStore = apiStore();
+const framingStore = useFramingStore();
+const router = useRouter();
 const showFavPicker = ref(false);
 
 function openFavPicker() {
@@ -361,6 +381,41 @@ function saveTargetName(name) {
 
 function savePositionAngle(rotation) {
   callSetTarget(null, null, null, rotation);
+}
+
+// Read-only direction: copy this container's target into the framing assistant.
+// Nothing is written back to the sequence and no hardware is moved.
+const canLoadIntoFraming = computed(() => parsedTarget.value !== null);
+
+function loadIntoFraming() {
+  if (!canLoadIntoFraming.value) return;
+
+  const ra = currentRaDeg.value;
+  const dec = currentDecDeg.value;
+  const name = parsedTarget.value?.TargetName || props.item.Name || '';
+
+  framingStore.RAangle = ra;
+  framingStore.DECangle = dec;
+  // degreesToHMS/DMS so slewAndCenter.vue can parse the strings back.
+  framingStore.RAangleString = degreesToHMS(ra);
+  framingStore.DECangleString = degreesToDMS(dec);
+  framingStore.rotationAngle = parsedTarget.value?.PositionAngle ?? 0;
+  framingStore.isMosaicMode = false;
+  framingStore.selectedItem = { Name: name, RA: ra, Dec: dec };
+
+  const { altitude, azimuth } = raDecToAltAz(
+    ra,
+    dec,
+    appStore.profileInfo?.AstrometrySettings?.Latitude ?? 0,
+    appStore.profileInfo?.AstrometrySettings?.Longitude ?? 0
+  );
+  framingStore.ALTangle = altitude;
+  framingStore.AZangle = azimuth;
+  framingStore.ALTangleString = altitude.toFixed(3);
+  framingStore.AZangleString = azimuth.toFixed(3);
+
+  framingStore.framingReloadKey++;
+  router.push('/framing');
 }
 
 async function handleTargetSelected(targetData) {

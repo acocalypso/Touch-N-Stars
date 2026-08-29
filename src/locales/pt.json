@@ -1122,7 +1122,8 @@
         "dso": {
           "targetName": "Nome do Destino",
           "positionAngle": "Ângulo da Posição",
-          "loadFromFavorites": "Carregar dos favoritos"
+          "loadFromFavorites": "Carregar dos favoritos",
+          "loadIntoFraming": "Carregar no Assistente de Enquadramento"
         },
         "warmCamera": {
           "duration": "Duração (min)"

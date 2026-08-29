@@ -1122,7 +1122,8 @@
         "dso": {
           "targetName": "target name\n\n目标姓名",
           "positionAngle": "位置",
-          "loadFromFavorites": "从收藏夹加载"
+          "loadFromFavorites": "从收藏夹加载",
+          "loadIntoFraming": "加载到取景助手"
         },
         "warmCamera": {
           "duration": "持续时间（分钟）"

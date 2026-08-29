@@ -1122,7 +1122,8 @@
         "dso": {
           "targetName": "Cílové jméno",
           "positionAngle": "Poziční úhel",
-          "loadFromFavorites": "Načíst z oblíbených"
+          "loadFromFavorites": "Načíst z oblíbených",
+          "loadIntoFraming": "Načíst do Framing Asistentu"
         },
         "warmCamera": {
           "duration": "Délka (min)"

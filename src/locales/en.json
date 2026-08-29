@@ -1175,7 +1175,8 @@
         "dso": {
           "targetName": "Target Name",
           "positionAngle": "Position Angle (°)",
-          "loadFromFavorites": "Load from favorites"
+          "loadFromFavorites": "Load from favorites",
+          "loadIntoFraming": "Load into framing assistant"
         },
         "warmCamera": {
           "duration": "Duration (min)"

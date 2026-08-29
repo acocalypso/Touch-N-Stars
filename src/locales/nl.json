@@ -1122,7 +1122,8 @@
         "dso": {
           "targetName": "Projectnaam:",
           "positionAngle": "Positiehoek",
-          "loadFromFavorites": "Laden uit favorieten"
+          "loadFromFavorites": "Laden uit favorieten",
+          "loadIntoFraming": "Laden in Framing-assistent"
         },
         "warmCamera": {
           "duration": "Duur (min)"

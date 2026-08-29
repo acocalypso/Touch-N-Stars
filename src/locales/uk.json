@@ -1111,7 +1111,8 @@
         "dso": {
           "targetName": "Назва цілі",
           "positionAngle": "Позиційний кут (°)",
-          "loadFromFavorites": "Завантажити з обраного"
+          "loadFromFavorites": "Завантажити з обраного",
+          "loadIntoFraming": "Завантажити в Асистент фреймінгу"
         },
         "warmCamera": {
           "duration": "Тривалість (хв)"

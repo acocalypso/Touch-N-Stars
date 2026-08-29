@@ -1178,7 +1178,8 @@
         "dso": {
           "targetName": "Zielname",
           "positionAngle": "Positionswinkel (°)",
-          "loadFromFavorites": "Aus Favoriten laden"
+          "loadFromFavorites": "Aus Favoriten laden",
+          "loadIntoFraming": "In Framing-Assistent laden"
         },
         "warmCamera": {
           "duration": "Dauer (min)"

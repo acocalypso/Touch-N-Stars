@@ -1175,7 +1175,8 @@
         "dso": {
           "targetName": "대상 이름",
           "positionAngle": "포지션 앵글 (°)",
-          "loadFromFavorites": "즐겨찾기에서 불러오기"
+          "loadFromFavorites": "즐겨찾기에서 불러오기",
+          "loadIntoFraming": "프레이밍 어시스턴트로 불러오기"
         },
         "warmCamera": {
           "duration": "지속 시간 (분)"

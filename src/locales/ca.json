@@ -1175,7 +1175,8 @@
         "dso": {
           "targetName": "Nom de l'objectiu",
           "positionAngle": "Angle de posició (°)",
-          "loadFromFavorites": "Carrega des de preferits"
+          "loadFromFavorites": "Carrega des de preferits",
+          "loadIntoFraming": "Carrega a l'Assistent d'enquadrament"
         },
         "warmCamera": {
           "duration": "Durada (min)"

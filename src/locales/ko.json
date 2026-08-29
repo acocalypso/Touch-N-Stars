@@ -181,6 +181,16 @@
       "confirmSetTargetMessage": "이 대상을 시퀀스 대상으로 설정하시겠습니까?",
       "useNinaCache": "대상 이미지에 NINA 캐시 사용",
       "setSequnceTarget": "시퀀스 대상으로 설정",
+      "sequenceTargetPicker": {
+        "title": "시퀀스 대상",
+        "hint": "불러온 시퀀스 중 프레이밍 좌표를 적용할 대상을 선택하세요.",
+        "newTarget": "새 대상",
+        "unnamed": "대상 {index}",
+        "position": "삽입 위치",
+        "positionEnd": "맨 끝에",
+        "positionAfter": "{name} 다음에",
+        "addFailed": "시퀀스에 새 대상을 추가할 수 없습니다"
+      },
       "skyChart": {
         "altitude": "고도 (°)",
         "horizonProfile": "호라이즌 프로파일",

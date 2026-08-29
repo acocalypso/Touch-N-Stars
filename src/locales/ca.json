@@ -181,6 +181,16 @@
       "confirmSetTargetMessage": "Estàs segur que vols establir aquest objectiu com a objectiu de la seqüència?",
       "useNinaCache": "Usa la memòria cau de NINA per a la imatge de l'objectiu",
       "setSequnceTarget": "estableix com a objectiu de la seqüència",
+      "sequenceTargetPicker": {
+        "title": "Objectiu de la seqüència",
+        "hint": "Escolliu quin objectiu de la seqüència carregada rebrà les coordenades d'enquadrament.",
+        "newTarget": "Nou objectiu",
+        "unnamed": "Objectiu {index}",
+        "position": "Posició d'inserció",
+        "positionEnd": "Al final",
+        "positionAfter": "Després de {name}",
+        "addFailed": "No s'ha pogut afegir el nou objectiu a la seqüència"
+      },
       "skyChart": {
         "altitude": "Altitud (°)",
         "horizonProfile": "Perfil d'horitzó",

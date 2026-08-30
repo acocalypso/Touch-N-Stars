@@ -73,7 +73,9 @@
         <span v-if="progressBytes > 0">
           <template v-if="hasDeterminateProgress">{{ progressPercent }}% · </template>
           {{ formatBytes(progressBytes) }}
-          <template v-if="progressTotalBytes > 0"> / {{ formatBytes(progressTotalBytes) }}</template>
+          <template v-if="progressTotalBytes > 0">
+            / {{ formatBytes(progressTotalBytes) }}</template
+          >
         </span>
       </div>
       <div

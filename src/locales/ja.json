@@ -642,6 +642,7 @@
         "astapDatabaseInstallFailed": "ASTAP スター データベースのインストールに失敗しました {exitCode}。",
         "astapDatabaseInstallSuccess": "ASTAP スター データベース {databaseId} が正常にインストールされました。",
         "astapDatabaseInstalling": "インストール中...",
+        "astapDatabaseProgressStalled": "30 秒間ダウンロードが進んでいません。ジョブの監視は継続しています。",
         "astapDatabaseJobStarted": "始めました",
         "astapDatabaseJobStartedMessage": "{databaseId} のインストール ジョブが開始されました。",
         "astapDatabaseJobStatus": "ジョブ {jobId}: {status}",

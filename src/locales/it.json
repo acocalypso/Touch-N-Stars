@@ -591,6 +591,7 @@
         "astapDatabaseInstallFailed": "Installazione del database stellare ASTAP non riuscita{exitCode}.",
         "astapDatabaseInstallSuccess": "Database stella ASTAP {databaseId} installato correttamente.",
         "astapDatabaseInstalling": "Installazione...",
+        "astapDatabaseProgressStalled": "Nessun avanzamento del download da 30 secondi. Il processo è ancora monitorato.",
         "astapDatabaseJobStarted": "iniziato",
         "astapDatabaseJobStartedMessage": "Processo di installazione avviato per {databaseId}.",
         "astapDatabaseJobStatus": "Lavoro {jobId}: {status}",

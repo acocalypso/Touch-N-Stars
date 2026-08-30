@@ -591,6 +591,7 @@
         "astapDatabaseInstallFailed": "ASTAP star database install failed{exitCode}.",
         "astapDatabaseInstallSuccess": "ASTAP star database {databaseId} installed successfully.",
         "astapDatabaseInstalling": "Installing...",
+        "astapDatabaseProgressStalled": "下载已 30 秒没有进展。仍在监控任务。",
         "astapDatabaseJobStarted": "started",
         "astapDatabaseJobStartedMessage": "Install job started for {databaseId}.",
         "astapDatabaseJobStatus": "Job {jobId}: {status}",

@@ -674,6 +674,7 @@
         "astapDatabaseNoInstallable": "Cap base de dades d'estrelles ASTAP disponible per instal·lar",
         "astapDatabaseInstall": "Instal·la",
         "astapDatabaseInstalling": "Instal·lant...",
+        "astapDatabaseProgressStalled": "No hi ha progrés de baixada des de fa 30 segons. La tasca continua sota supervisió.",
         "astapDatabaseStarting": "Iniciant...",
         "astapDatabaseLastChecked": "Última comprovació: {value}",
         "astapDatabaseJobStatus": "Tasca {jobId}: {status}",

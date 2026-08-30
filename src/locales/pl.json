@@ -591,6 +591,7 @@
         "astapDatabaseInstallFailed": "Instalacja bazy danych gwiazdy ASTAP nie powiodła się{exitCode}.",
         "astapDatabaseInstallSuccess": "Baza danych gwiazdek ASTAP {databaseId} została pomyślnie zainstalowana.",
         "astapDatabaseInstalling": "Instaluję...",
+        "astapDatabaseProgressStalled": "Brak postępu pobierania przez 30 sekund. Zadanie jest nadal monitorowane.",
         "astapDatabaseJobStarted": "zaczął",
         "astapDatabaseJobStartedMessage": "Rozpoczęto zadanie instalacji dla {databaseId}.",
         "astapDatabaseJobStatus": "Stanowisko {jobId}: {status}",

@@ -591,6 +591,7 @@
         "astapDatabaseInstallFailed": "Installatie van ASTAP-sterrendatabase mislukt{exitCode}.",
         "astapDatabaseInstallSuccess": "ASTAP-sterrendatabase {databaseId} is succesvol geïnstalleerd.",
         "astapDatabaseInstalling": "Installeren...",
+        "astapDatabaseProgressStalled": "Al 30 seconden geen downloadvoortgang. De taak wordt nog steeds bewaakt.",
         "astapDatabaseJobStarted": "begonnen",
         "astapDatabaseJobStartedMessage": "Installatietaak gestart voor {databaseId}.",
         "astapDatabaseJobStatus": "Taak {jobId}: {status}",

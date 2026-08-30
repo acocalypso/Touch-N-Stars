@@ -96,7 +96,7 @@ async function applyAndroidSystemBarColors() {
 
 app.use(pinia).use(head).use(i18n).use(router);
 
-// App-wide haptic feedback for every button, toggle, link and clickable row.
+// App-wide haptic feedback for every button, toggle and navigation entry.
 // Registered on the document so lazily loaded plugin views are covered too.
 installGlobalHaptics(document, useHaptics());
 

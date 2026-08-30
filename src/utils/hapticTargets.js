@@ -2,18 +2,16 @@
 // should be. Kept free of DOM APIs so it can be unit tested under `node --test`
 // (the test runner has no jsdom); `describeElement` is the only DOM adapter.
 
-// Elements that count as "a thing you press". `.cursor-pointer` picks up the
-// clickable rows and cards that are plain <div>/<li>; modal backdrops
-// (@click.self="close") deliberately do not carry it and stay silent.
+// Only controls that actually do something get a tap: buttons, the toggles and
+// checkboxes that change a setting, and the navigation entries. Clickable rows
+// and cards, labels, plain links and <select> pickers stay silent.
 export const HAPTIC_SELECTOR = [
   'button',
   '[role="button"]',
-  'a[href]',
-  'label[for]',
-  'select',
+  'input[type="checkbox"]',
+  'input[type="radio"]',
   '.nav-button',
   '[data-haptic]',
-  '.cursor-pointer',
 ].join(', ');
 
 // Design-system class for destructive/stopping actions (park, stop, abort).
@@ -21,10 +19,11 @@ export const HAPTIC_SELECTOR = [
 // tap falls out of the styling instead of a per-button list.
 const DANGER_CLASS = 'tns-btn-danger';
 
-const INTERACTIVE_TAGS = new Set(['button', 'a', 'select', 'label']);
+const CHECKABLE_TYPES = new Set(['checkbox', 'radio']);
 
 /**
- * @param {{ tag?: string, classes?: string[], dataHaptic?: string, disabled?: boolean, role?: string }} el
+ * @param {{ tag?: string, type?: string, classes?: string[], dataHaptic?: string,
+ *   disabled?: boolean, role?: string }} el
  * @returns {'light' | 'medium' | null} null means: do not vibrate.
  */
 export function pickHapticStyle(el) {
@@ -39,9 +38,10 @@ export function pickHapticStyle(el) {
   const classes = el.classes ?? [];
   if (classes.includes(DANGER_CLASS)) return 'medium';
 
-  if (INTERACTIVE_TAGS.has(el.tag)) return 'light';
+  if (el.tag === 'button') return 'light';
+  if (el.tag === 'input' && CHECKABLE_TYPES.has(el.type)) return 'light';
   if (el.role === 'button') return 'light';
-  if (classes.includes('nav-button') || classes.includes('cursor-pointer')) return 'light';
+  if (classes.includes('nav-button')) return 'light';
 
   return null;
 }
@@ -51,6 +51,7 @@ export function describeElement(el) {
   if (!el) return null;
   return {
     tag: el.tagName?.toLowerCase(),
+    type: el.type,
     classes: Array.from(el.classList ?? []),
     dataHaptic: el.dataset?.haptic,
     disabled: el.disabled === true || el.getAttribute?.('aria-disabled') === 'true',

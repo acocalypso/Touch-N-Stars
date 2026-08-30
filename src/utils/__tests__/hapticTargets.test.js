@@ -25,23 +25,31 @@ test('data-haptic overrides the class-based guess', () => {
   assert.equal(pickHapticStyle(el({ tag: 'div', dataHaptic: 'medium' })), 'medium');
 });
 
-test('clickable rows and cards are recognised by cursor-pointer', () => {
-  assert.equal(pickHapticStyle(el({ tag: 'div', classes: ['cursor-pointer'] })), 'light');
-  assert.equal(pickHapticStyle(el({ tag: 'li', classes: ['cursor-pointer'] })), 'light');
+test('checkboxes and radios change a setting and get a tap', () => {
+  assert.equal(pickHapticStyle(el({ tag: 'input', type: 'checkbox' })), 'light');
+  assert.equal(pickHapticStyle(el({ tag: 'input', type: 'radio' })), 'light');
 });
 
-test('a modal backdrop div stays silent', () => {
-  assert.equal(
-    pickHapticStyle(el({ tag: 'div', classes: ['fixed', 'inset-0', 'bg-black/70'] })),
-    null
-  );
+test('text and number inputs stay silent', () => {
+  assert.equal(pickHapticStyle(el({ tag: 'input', type: 'text' })), null);
+  assert.equal(pickHapticStyle(el({ tag: 'input', type: 'number' })), null);
 });
 
-test('links, selects, labels and role=button count as pressable', () => {
-  assert.equal(pickHapticStyle(el({ tag: 'a' })), 'light');
-  assert.equal(pickHapticStyle(el({ tag: 'select' })), 'light');
-  assert.equal(pickHapticStyle(el({ tag: 'label' })), 'light');
+test('navigation entries keep their tap', () => {
+  assert.equal(pickHapticStyle(el({ tag: 'a', classes: ['nav-button'] })), 'light');
   assert.equal(pickHapticStyle(el({ tag: 'div', role: 'button' })), 'light');
+});
+
+test('elements that only navigate or select stay silent', () => {
+  assert.equal(pickHapticStyle(el({ tag: 'select', classes: ['tns-select'] })), null);
+  assert.equal(pickHapticStyle(el({ tag: 'a' })), null);
+  assert.equal(pickHapticStyle(el({ tag: 'label' })), null);
+});
+
+test('clickable rows, cards and modal backdrops stay silent', () => {
+  assert.equal(pickHapticStyle(el({ tag: 'div', classes: ['cursor-pointer'] })), null);
+  assert.equal(pickHapticStyle(el({ tag: 'li', classes: ['cursor-pointer'] })), null);
+  assert.equal(pickHapticStyle(el({ tag: 'div', classes: ['fixed', 'inset-0'] })), null);
 });
 
 test('nothing to inspect means nothing to feel', () => {
@@ -49,7 +57,10 @@ test('nothing to inspect means nothing to feel', () => {
 });
 
 test('the selector covers every recognised kind of target', () => {
-  for (const part of ['button', '[role="button"]', 'a[href]', 'select', '.cursor-pointer']) {
+  for (const part of ['button', '[role="button"]', 'input[type="checkbox"]', '.nav-button']) {
     assert.ok(HAPTIC_SELECTOR.includes(part), `${part} missing from HAPTIC_SELECTOR`);
+  }
+  for (const part of ['select', 'a[href]', 'cursor-pointer', 'label']) {
+    assert.ok(!HAPTIC_SELECTOR.includes(part), `${part} should not be in HAPTIC_SELECTOR`);
   }
 });

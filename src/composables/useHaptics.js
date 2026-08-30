@@ -20,18 +20,10 @@ async function run(action) {
   }
 }
 
-// Android's ImpactStyle.Light is a 50 ms buzz, which reads as mushy on a button
-// press. A short one-shot at the device's default amplitude gives a crisp tick
-// instead. Tune here - this is the only place the press duration is defined.
-const ANDROID_TAP_MS = 20;
-
 // Light tap when an action starts (nav taps, status chips, primary buttons).
-// iOS keeps the impact generator: its .light taptic is already short, and
-// Haptics.vibrate() maps to the long system alert buzz there, ignoring duration.
+// This is the softest tap the plugin offers: on Android it is a 50 ms waveform at
+// amplitude 110/255, whereas Haptics.vibrate() would run at full amplitude.
 function tapLight() {
-  if (Capacitor.getPlatform() === 'android') {
-    return run(() => Haptics.vibrate({ duration: ANDROID_TAP_MS }));
-  }
   return run(() => Haptics.impact({ style: ImpactStyle.Light }));
 }
 

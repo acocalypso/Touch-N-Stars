@@ -42,6 +42,7 @@ export const useSettingsStore = defineStore('settings', {
     devChannelUnlocked: false,
     useDevUpdateChannel: false,
     touchOptimized: true,
+    hapticsEnabled: true,
     livestack: {
       showFilters: true,
     },

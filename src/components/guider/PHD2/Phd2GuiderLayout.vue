@@ -453,9 +453,7 @@ import CalibrationDataModal from '@/components/guider/PHD2/CalibrationDataModal.
 import apiService from '@/services/apiService';
 import { useI18n } from 'vue-i18n';
 import { useOrientation } from '@/composables/useOrientation';
-import { useHaptics } from '@/composables/useHaptics';
 
-const { tapLight, tapMedium } = useHaptics();
 const store = apiStore();
 const guiderStore = useGuiderStore();
 const settingsStore = useSettingsStore();
@@ -608,7 +606,6 @@ const statusTextClasses = computed(() => {
 
 // Start guiding function
 async function startGuiding() {
-  tapLight();
   if (guiderStore.isDarkLibraryBuildActive) return;
   isProcessing.value = true;
   try {
@@ -628,7 +625,6 @@ async function startGuiding() {
 
 // Start guiding function
 async function startLooping() {
-  tapLight();
   if (guiderStore.isDarkLibraryBuildActive) return;
   try {
     await apiService.setPHD2StartLooping(settingsStore.guider.phd2ForceCalibration);
@@ -640,7 +636,6 @@ async function startLooping() {
 }
 
 async function stopGuiding() {
-  tapMedium();
   if (guiderStore.isDarkLibraryBuildActive) return;
   try {
     if (!store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.1.4.0')) {
@@ -658,7 +653,6 @@ async function stopGuiding() {
 }
 
 async function autoSelectStar() {
-  tapLight();
   if (guiderStore.isDarkLibraryBuildActive) return;
   isAutoSelectingStar.value = true;
   try {

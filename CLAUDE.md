@@ -71,6 +71,13 @@ Use the `tns-*` utilities from `src/assets/tailwind.css` (`tns-card`, `tns-btn-p
 `tns-btn-secondary`, `tns-input`, `tns-select`, `min-h-touch`), not the legacy raw
 gray/cyan palette still present in older screens.
 
+Haptics: a global click listener (`src/services/globalHaptics.js`) taps every control that
+actually does something - `<button>`, `[role=button]`, checkboxes/radios and navbar entries.
+Clickable rows and cards, labels, plain links and `<select>` stay silent. Do **not** call
+`useHaptics()` in components for press feedback; `tns-btn-danger` gets the stronger tap
+automatically, and `data-haptic="light|medium|none"` overrides any of it. `useHaptics()` stays for outcome feedback (`notifySuccess`/
+`notifyError`) and non-click gestures.
+
 Drag & drop: every `<draggable>` needs `:fallbackOnBody="true"`. `backdrop-filter` on a parent
 creates a containing block for `position: fixed`, which misplaces Sortable.js's ghost on Android
 Chrome. Do **not** use `forceFallback: true`.

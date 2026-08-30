@@ -623,6 +623,10 @@
         "title": "Input Optimization",
         "touchOptimized": "Touch-optimized picker"
       },
+      "haptics": {
+        "title": "Haptic Feedback",
+        "description": "Short vibration when pressing buttons"
+      },
       "beta": {
         "title": "Beta Update Channel"
       },

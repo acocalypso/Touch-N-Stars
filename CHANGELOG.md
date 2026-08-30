@@ -12,6 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Framing assistant: "set to sequence target" now lets you pick which sequence target to overwrite, or add a new one at a chosen position
 
 ### Changed
+- Haptics: Every button, switch and navigation entry now gives haptic feedback, switchable under Settings > General
 - Guider (Dither): Max dither pixel value increased from 100 to 1000
 
 ## [App6.2.0] - 2026-08-27

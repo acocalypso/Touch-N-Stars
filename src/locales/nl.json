@@ -540,6 +540,10 @@
         "title": "Invoeroptimalisatie",
         "touchOptimized": "Touch-geoptimaliseerde kiezer"
       },
+      "haptics": {
+        "title": "Haptische feedback",
+        "description": "Korte trilling bij het indrukken van knoppen"
+      },
       "beta": {
         "title": "Beta Update Kanaal"
       },

@@ -106,8 +106,6 @@ import MoveFocuser from '@/components/focuser/MoveFocuser.vue';
 import ImageModal from '@/components/helpers/imageModal.vue';
 import { PhotoIcon } from '@heroicons/vue/24/outline';
 import setFocuserReverse from './settings/setFocuserReverse.vue';
-import { useHaptics } from '@/composables/useHaptics';
-const { tapLight, tapMedium } = useHaptics();
 
 const store = apiStore();
 const imageStore = useImagetStore();
@@ -117,7 +115,6 @@ const delayShowGraph = ref(true);
 const showImageModal = ref(false);
 
 async function startAutofocus() {
-  tapLight();
   try {
     await apiService.focuserAfAction('start');
     store.afTimestampLastStart = Date.now();
@@ -128,7 +125,6 @@ async function startAutofocus() {
 }
 
 async function stoppAutofocus() {
-  tapMedium();
   try {
     await apiService.focuserAfAction('stopp');
   } catch (error) {

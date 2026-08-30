@@ -540,6 +540,10 @@
         "title": "Optimalizace vstupu",
         "touchOptimized": "Dotykový selektor"
       },
+      "haptics": {
+        "title": "Haptická odezva",
+        "description": "Krátká vibrace při stisknutí tlačítek"
+      },
       "beta": {
         "title": "Beta aktualizační kanál"
       },

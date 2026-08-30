@@ -623,6 +623,10 @@
         "title": "입력 최적화",
         "touchOptimized": "터치 최적화 선택기"
       },
+      "haptics": {
+        "title": "햅틱 피드백",
+        "description": "버튼을 누를 때 짧게 진동"
+      },
       "beta": {
         "title": "베타 업데이트 채널"
       },

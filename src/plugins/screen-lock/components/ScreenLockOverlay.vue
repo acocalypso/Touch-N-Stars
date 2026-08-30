@@ -24,6 +24,7 @@
         ref="unlockButtonRef"
         type="button"
         class="unlock-button min-h-touch min-w-touch relative flex items-center justify-center rounded-full border border-line-strong bg-surface-1/90 text-content shadow-lg"
+        data-haptic="none"
         :aria-label="t('plugins.screenLock.unlock')"
         @pointerdown.stop="startPointerHold"
         @keydown.enter.prevent="startKeyHold"

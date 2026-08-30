@@ -203,12 +203,10 @@ import infoCamera from '../camera/infoCamera.vue';
 import infoMount from '../mount/infoMount.vue';
 import InfoFilterwheel from '../filterwheel/InfoFilterwheel.vue';
 import infoProgress from './infoProgress.vue';
-import { useHaptics } from '@/composables/useHaptics';
 import { usePluginStore } from '@/store/pluginStore';
 import { LockOpenIcon } from '@heroicons/vue/24/outline';
 
 const { t } = useI18n();
-const { tapLight } = useHaptics();
 const store = apiStore();
 const showWeatherModal = ref(false);
 const showLogModal = ref(false);
@@ -225,7 +223,6 @@ const isScreenLockPluginEnabled = computed(
 );
 
 function handleScreenLockClick() {
-  tapLight();
   settingsStore.lockScreen();
 }
 
@@ -243,31 +240,26 @@ const markStatusBarAsVisited = () => {
 };
 
 const handleCameraClickWithVisit = () => {
-  tapLight();
   handleCameraClick();
   markStatusBarAsVisited();
 };
 
 const handleFilterClickWithVisit = () => {
-  tapLight();
   handleFilterClick();
   markStatusBarAsVisited();
 };
 
 const handleMountClickWithVisit = () => {
-  tapLight();
   handleMountClick();
   markStatusBarAsVisited();
 };
 
 const handleGuiderClickWithVisit = () => {
-  tapLight();
   handleGuiderClick();
   markStatusBarAsVisited();
 };
 
 const handleInstanceClick = () => {
-  tapLight();
   showInstanceSwitcher.value = true;
 };
 
@@ -439,14 +431,12 @@ watchEffect(() => {
 });
 
 function handleWeatherClick(event) {
-  tapLight();
   showWeatherModal.value = true;
   event.stopPropagation();
   event.preventDefault();
 }
 
 function handleLogClick(event) {
-  tapLight();
   showLogModal.value = true;
   event.stopPropagation();
   event.preventDefault();
@@ -493,7 +483,6 @@ function handleFilterClick() {
 }
 
 function handleProgressClick() {
-  tapLight();
   showProgress.value = !showProgress.value;
   if (showProgress.value) {
     cameraStore.showCameraInfo = false;

@@ -335,8 +335,6 @@ import { useSettingsStore } from '@/store/settingsStore';
 import setDarkCount from '@/components/flatassistant/setDarkCount.vue';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 import toggleButton from '@/components/helpers/toggleButton.vue';
-import { useHaptics } from '@/composables/useHaptics';
-const { tapLight, tapMedium } = useHaptics();
 
 const store = apiStore();
 const flatsStore = useFlatassistantStore();
@@ -533,7 +531,6 @@ watch(
 // ── Start / Stop ──────────────────────────────────────────────────────────────
 
 async function startMultiMode() {
-  tapLight();
   const wheelOrder = store.filterInfo.AvailableFilters?.map((f) => f.Id) ?? [];
   const sortedIds = [...state.activeFilterIds].sort(
     (a, b) => wheelOrder.indexOf(a) - wheelOrder.indexOf(b)
@@ -706,7 +703,6 @@ async function startMultiMode() {
 }
 
 async function stopFlats() {
-  tapMedium();
   try {
     await flatsStore.stopWorkflow();
   } catch (error) {

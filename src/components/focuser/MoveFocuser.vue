@@ -34,15 +34,12 @@ import { StopIcon } from '@heroicons/vue/24/outline';
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
-import { useHaptics } from '@/composables/useHaptics';
-const { tapLight, tapMedium } = useHaptics();
 
 const store = apiStore();
 const position = ref(0);
 const loading = ref(false);
 
 async function moveFocuser() {
-  tapLight();
   try {
     loading.value = true;
     await apiService.moveFocuser(position.value);
@@ -54,7 +51,6 @@ async function moveFocuser() {
 }
 
 async function stopFocuser() {
-  tapMedium();
   try {
     await apiService.focusAction('stop-move');
     console.log('Focuser stopped');

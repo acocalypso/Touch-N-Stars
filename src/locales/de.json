@@ -610,6 +610,10 @@
         "title": "Eingabeoptimierung",
         "touchOptimized": "Touchscreen-optimierte Auswahl"
       },
+      "haptics": {
+        "title": "Haptisches Feedback",
+        "description": "Kurze Vibration beim Drücken von Tasten"
+      },
       "beta": {
         "title": "Beta-Update-Kanal"
       },

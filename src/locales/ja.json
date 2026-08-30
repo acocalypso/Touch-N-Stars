@@ -149,6 +149,16 @@
       "confirmSetTargetMessage": "このターゲットをシーケンスのターゲットとして設定しますか？",
       "useNinaCache": "NINA キャッシュをターゲット画像に使用する",
       "setSequnceTarget": "シーケンスのターゲットに設定",
+      "sequenceTargetPicker": {
+        "title": "シーケンスのターゲット",
+        "hint": "読み込んだシーケンスのどのターゲットにフレーミング座標を適用するか選択します。",
+        "newTarget": "新しいターゲット",
+        "unnamed": "ターゲット {index}",
+        "position": "挿入位置",
+        "positionEnd": "最後に挿入",
+        "positionAfter": "{name} の後に挿入",
+        "addFailed": "新しいターゲットをシーケンスに追加できませんでした"
+      },
       "skyChart": {
         "altitude": "高度 (°)",
         "horizonProfile": "地平線プロファイル",
@@ -1141,7 +1151,8 @@
         "dso": {
           "targetName": "ターゲット名",
           "positionAngle": "位置角 (°)",
-          "loadFromFavorites": "お気に入りから読み込む"
+          "loadFromFavorites": "お気に入りから読み込む",
+          "loadIntoFraming": "フレーミングアシスタントに読み込む"
         },
         "warmCamera": {
           "duration": "時間 (分)"

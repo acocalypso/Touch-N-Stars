@@ -140,6 +140,16 @@
       "confirmSetTargetMessage": "您确定要将此目标设置为序列目标吗？",
       "useNinaCache": "使用 NINA 缓存作为目标图像",
       "setSequnceTarget": "设置为序列目标",
+      "sequenceTargetPicker": {
+        "title": "序列目标",
+        "hint": "选择加载序列中的哪个目标接收取景坐标。",
+        "newTarget": "新目标",
+        "unnamed": "目标 {index}",
+        "position": "插入位置",
+        "positionEnd": "在末尾",
+        "positionAfter": "在 {name} 之后",
+        "addFailed": "无法将新目标添加到序列中"
+      },
       "search": {
         "title": "搜索",
         "placeholder": "输入搜索内容...",
@@ -1123,7 +1133,8 @@
         "dso": {
           "targetName": "target name\n\n目标姓名",
           "positionAngle": "位置",
-          "loadFromFavorites": "从收藏夹加载"
+          "loadFromFavorites": "从收藏夹加载",
+          "loadIntoFraming": "加载到取景助手"
         },
         "warmCamera": {
           "duration": "持续时间（分钟）"

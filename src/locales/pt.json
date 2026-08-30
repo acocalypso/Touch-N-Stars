@@ -140,6 +140,16 @@
       "confirmSetTargetMessage": "Tem certeza de que deseja definir este alvo como alvo da sequência?",
       "useNinaCache": "Usar cache do NINA para imagem do alvo",
       "setSequnceTarget": "definir como alvo da sequência",
+      "sequenceTargetPicker": {
+        "title": "Alvo da sequência",
+        "hint": "Escolha qual alvo da sequência carregada recebe as coordenadas de enquadramento.",
+        "newTarget": "Novo alvo",
+        "unnamed": "Alvo {index}",
+        "position": "Posição de inserção",
+        "positionEnd": "No fim",
+        "positionAfter": "Depois de {name}",
+        "addFailed": "Não foi possível adicionar o novo alvo à sequência"
+      },
       "search": {
         "title": "Pesquisar",
         "placeholder": "Digite um termo de pesquisa...",
@@ -1123,7 +1133,8 @@
         "dso": {
           "targetName": "Nome do Destino",
           "positionAngle": "Ângulo da Posição",
-          "loadFromFavorites": "Carregar dos favoritos"
+          "loadFromFavorites": "Carregar dos favoritos",
+          "loadIntoFraming": "Carregar no Assistente de Enquadramento"
         },
         "warmCamera": {
           "duration": "Duração (min)"

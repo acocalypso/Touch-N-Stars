@@ -140,6 +140,16 @@
       "confirmSetTargetMessage": "Jste si jisti, že chcete tento cíl nastavit jako součást sekvence?",
       "useNinaCache": "Využití mezipaměti NINA pro cílový obraz",
       "setSequnceTarget": "nastavit tento cíl jako součást sekvence",
+      "sequenceTargetPicker": {
+        "title": "Cíl sekvence",
+        "hint": "Vyberte, který cíl načtené sekvence obdrží souřadnice snímkování.",
+        "newTarget": "Nový cíl",
+        "unnamed": "Cíl {index}",
+        "position": "Pozice vložení",
+        "positionEnd": "Na konec",
+        "positionAfter": "Po {name}",
+        "addFailed": "Nový cíl nebyl přidán do sekvence"
+      },
       "search": {
         "title": "Hledat",
         "placeholder": "Zadejte hledaný výraz...",
@@ -1123,7 +1133,8 @@
         "dso": {
           "targetName": "Cílové jméno",
           "positionAngle": "Poziční úhel",
-          "loadFromFavorites": "Načíst z oblíbených"
+          "loadFromFavorites": "Načíst z oblíbených",
+          "loadIntoFraming": "Načíst do Framing Asistentu"
         },
         "warmCamera": {
           "duration": "Délka (min)"

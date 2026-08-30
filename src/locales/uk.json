@@ -140,6 +140,16 @@
       "confirmSetTargetMessage": "Ви впевнені, що хочете встановити цю ціль як ціль послідовності?",
       "useNinaCache": "Використовувати кеш NINA для зображення цілі",
       "setSequnceTarget": "встановити як ціль послідовності",
+      "sequenceTargetPicker": {
+        "title": "Ціль послідовності",
+        "hint": "Виберіть ціль із завантаженої послідовності, яка отримає координати фреймінгу.",
+        "newTarget": "Нова ціль",
+        "unnamed": "Ціль {index}",
+        "position": "Місце вставки",
+        "positionEnd": "В кінці",
+        "positionAfter": "Після {name}",
+        "addFailed": "Не вдалося додати нову ціль до послідовності"
+      },
       "search": {
         "title": "Пошук",
         "placeholder": "Введіть пошуковий запит...",
@@ -1112,7 +1122,8 @@
         "dso": {
           "targetName": "Назва цілі",
           "positionAngle": "Позиційний кут (°)",
-          "loadFromFavorites": "Завантажити з обраного"
+          "loadFromFavorites": "Завантажити з обраного",
+          "loadIntoFraming": "Завантажити в Асистент фреймінгу"
         },
         "warmCamera": {
           "duration": "Тривалість (хв)"

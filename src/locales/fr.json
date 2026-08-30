@@ -140,6 +140,16 @@
       "confirmSetTargetMessage": "Êtes-vous sûr de choisir cette nouvelle cible?",
       "useNinaCache": "Utiliser le cache NINA pour cette image de la cible",
       "setSequnceTarget": "Sélectionner cette cible pour la séquence",
+      "sequenceTargetPicker": {
+        "title": "Cible de la séquence",
+        "hint": "Choisissez la cible de la séquence chargée qui recevra les coordonnées de cadrage.",
+        "newTarget": "Nouvelle cible",
+        "unnamed": "Cible {index}",
+        "position": "Position d'insertion",
+        "positionEnd": "À la fin",
+        "positionAfter": "Après {name}",
+        "addFailed": "La nouvelle cible n'a pas pu être ajoutée à la séquence"
+      },
       "search": {
         "title": "Chercher",
         "placeholder": "Entrer un élément de recherche...",
@@ -1123,7 +1133,8 @@
         "dso": {
           "targetName": "Nom de la cible",
           "positionAngle": "Angle de position",
-          "loadFromFavorites": "Charger depuis les favoris"
+          "loadFromFavorites": "Charger depuis les favoris",
+          "loadIntoFraming": "Charger dans l'Assistant de Cadrage"
         },
         "warmCamera": {
           "duration": "Durée (min)"

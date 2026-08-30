@@ -605,6 +605,7 @@
         "astapDatabaseInstallFailed": "ASTAP star database install failed{exitCode}.",
         "astapDatabaseInstallSuccess": "ASTAP star database {databaseId} installed successfully.",
         "astapDatabaseInstalling": "Installing...",
+        "astapDatabaseProgressStalled": "Stahování se 30 sekund neposunulo. Úloha je nadále sledována.",
         "astapDatabaseJobStarted": "started",
         "astapDatabaseJobStartedMessage": "Install job started for {databaseId}.",
         "astapDatabaseJobStatus": "Job {jobId}: {status}",

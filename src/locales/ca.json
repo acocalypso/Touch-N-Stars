@@ -623,6 +623,10 @@
         "title": "Optimització d'entrada",
         "touchOptimized": "Selector optimitzat per a tàctil"
       },
+      "haptics": {
+        "title": "Retorn hàptic",
+        "description": "Vibració breu en prémer els botons"
+      },
       "beta": {
         "title": "Canal d'actualització beta"
       },

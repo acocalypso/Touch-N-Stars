@@ -333,13 +333,11 @@ import {
   TrashIcon,
 } from '@heroicons/vue/24/outline';
 import Modal from '@/components/helpers/Modal.vue';
-import { useHaptics } from '@/composables/useHaptics';
 
 const sequenceStore = useSequenceStore();
 const store = apiStore();
 const toastStore = useToastStore();
 const { t } = useI18n();
-const { tapLight, tapMedium } = useHaptics();
 const showResetConfirmation = ref(false);
 const isLoading = computed(() => sequenceStore.sequenceRunning);
 const { isLandscape } = useOrientation();
@@ -520,7 +518,6 @@ async function saveCurrentFile() {
 }
 
 async function startSequence() {
-  tapLight();
   console.log('Starting sequence');
   sequenceStore.setSequenceRunning(true);
   try {
@@ -534,7 +531,6 @@ async function startSequence() {
 }
 
 async function stopSequence() {
-  tapLight();
   try {
     const data = await apiService.sequenceAction('stop');
     console.log('Response:', data);
@@ -572,8 +568,6 @@ async function confirmReset() {
 }
 
 async function clearSequence() {
-  tapMedium();
-
   // Clearing removes every item from the sequence and cannot be undone.
   const confirmed = await toastStore.showConfirmation(
     t('components.sequence.clearConfirmationTitle'),

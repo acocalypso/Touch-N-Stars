@@ -540,6 +540,10 @@
         "title": "输入优化",
         "touchOptimized": "触摸优化选择器"
       },
+      "haptics": {
+        "title": "触觉反馈",
+        "description": "按下按钮时短暂震动"
+      },
       "beta": {
         "title": "测试版更新通道"
       },

@@ -74,6 +74,25 @@
       </div>
     </div>
 
+    <!-- Haptic Feedback (mobile only) -->
+    <div
+      class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
+      v-if="['android', 'ios'].includes(Capacitor.getPlatform())"
+    >
+      <h3 class="font-bold text-base text-cyan-400">
+        {{ $t('components.settings.haptics.title') }}
+      </h3>
+      <div class="flex items-center justify-between">
+        <p class="text-gray-300 text-sm mr-4">
+          {{ $t('components.settings.haptics.description') }}
+        </p>
+        <ToggleButton
+          :statusValue="settingsStore.hapticsEnabled"
+          @update:statusValue="settingsStore.hapticsEnabled = $event"
+        />
+      </div>
+    </div>
+
     <NavbarCustomizationSettings />
 
     <StatusBarCustomizationSettings />

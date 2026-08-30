@@ -48,12 +48,7 @@
           :style="{ order: getNavOrder('equipment') }"
           class="nav-item"
         >
-          <router-link
-            to="/equipment"
-            class="nav-button"
-            active-class="active-nav-button"
-            @click="tapLight"
-          >
+          <router-link to="/equipment" class="nav-button" active-class="active-nav-button">
             <LinkIcon class="icon force-visible" />
             <span class="nav-label">{{ t('nav.equipment') }}</span>
           </router-link>
@@ -68,7 +63,6 @@
             to="/camera"
             class="nav-button camera-button"
             active-class="active-nav-button"
-            @click="tapLight"
           >
             <div class="camera-icon-wrapper">
               <!-- Progress Ring für Belichtungszeit -->
@@ -106,12 +100,7 @@
           :style="{ order: getNavOrder('autofocus') }"
           class="nav-item"
         >
-          <router-link
-            to="/autofocus"
-            class="nav-button"
-            active-class="active-nav-button"
-            @click="tapLight"
-          >
+          <router-link to="/autofocus" class="nav-button" active-class="active-nav-button">
             <EyeIcon class="icon force-visible" />
             <span class="nav-label">{{ t('nav.autofocus') }}</span>
           </router-link>
@@ -122,12 +111,7 @@
           :style="{ order: getNavOrder('mount') }"
           class="nav-item"
         >
-          <router-link
-            to="/mount"
-            class="nav-button"
-            active-class="active-nav-button"
-            @click="tapLight"
-          >
+          <router-link to="/mount" class="nav-button" active-class="active-nav-button">
             <div class="relative">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -173,12 +157,7 @@
           :style="{ order: getNavOrder('dome') }"
           class="nav-item"
         >
-          <router-link
-            to="/dome"
-            class="nav-button"
-            active-class="active-nav-button"
-            @click="tapLight"
-          >
+          <router-link to="/dome" class="nav-button" active-class="active-nav-button">
             <svg
               fill="currentColor"
               height="24"
@@ -233,12 +212,7 @@
           :style="{ order: getNavOrder('flat') }"
           class="nav-item"
         >
-          <router-link
-            to="/flat"
-            class="nav-button touch-target"
-            active-class="active-nav-button"
-            @click="tapLight"
-          >
+          <router-link to="/flat" class="nav-button touch-target" active-class="active-nav-button">
             <LightBulbIcon
               class="icon force-visible"
               :class="[
@@ -258,12 +232,7 @@
           :style="{ order: getNavOrder('switch') }"
           class="nav-item"
         >
-          <router-link
-            to="/switch"
-            class="nav-button"
-            active-class="active-nav-button"
-            @click="tapLight"
-          >
+          <router-link to="/switch" class="nav-button" active-class="active-nav-button">
             <AdjustmentsVerticalIcon class="icon force-visible" />
             <span class="nav-label">{{ t('nav.switch') }}</span>
           </router-link>
@@ -277,12 +246,7 @@
           :style="{ order: getNavOrder('filter') }"
           class="nav-item"
         >
-          <router-link
-            to="/filterwheel"
-            class="nav-button"
-            active-class="active-nav-button"
-            @click="tapLight"
-          >
+          <router-link to="/filterwheel" class="nav-button" active-class="active-nav-button">
             <div class="relative">
               <svg
                 baseProfile="full"
@@ -314,12 +278,7 @@
           :style="{ order: getNavOrder('rotator') }"
           class="nav-item"
         >
-          <router-link
-            to="/rotator"
-            class="nav-button"
-            active-class="active-nav-button"
-            @click="tapLight"
-          >
+          <router-link to="/rotator" class="nav-button" active-class="active-nav-button">
             <svg
               viewBox="0 0 16 16"
               fill="currentColor"
@@ -339,12 +298,7 @@
           :style="{ order: getNavOrder('guider') }"
           class="nav-item"
         >
-          <router-link
-            to="/guider"
-            class="nav-button"
-            active-class="active-nav-button"
-            @click="tapLight"
-          >
+          <router-link to="/guider" class="nav-button" active-class="active-nav-button">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="24"
@@ -382,7 +336,6 @@
             to="/sequence"
             class="nav-button touch-target"
             active-class="active-nav-button"
-            @click="tapLight"
             @touchstart.passive="handleTouchStart"
             @touchend.passive="handleTouchEnd"
           >
@@ -399,12 +352,7 @@
           :style="{ order: getNavOrder('monitoring') }"
           class="nav-item"
         >
-          <router-link
-            to="/seq-mon"
-            class="nav-button"
-            active-class="active-nav-button"
-            @click="tapLight"
-          >
+          <router-link to="/seq-mon" class="nav-button" active-class="active-nav-button">
             <svg
               fill="currentColor"
               height="400px"
@@ -439,7 +387,6 @@
             to="/flats"
             class="nav-button touch-target"
             active-class="active-nav-button"
-            @click="tapLight"
             @touchstart.passive="handleTouchStart"
             @touchend.passive="handleTouchEnd"
           >
@@ -464,12 +411,7 @@
           :style="{ order: getNavOrder('framing') }"
           class="nav-item"
         >
-          <router-link
-            to="/framing"
-            class="nav-button"
-            active-class="active-nav-button"
-            @click="tapLight"
-          >
+          <router-link to="/framing" class="nav-button" active-class="active-nav-button">
             <CameraFramingIcon class="icon force-visible" />
             <span class="nav-label">{{ t('nav.framing') }}</span>
           </router-link>
@@ -502,7 +444,6 @@
               class="nav-button"
               active-class="active-nav-button"
               :title="item.title"
-              @click="tapLight"
             >
               <component :is="item.icon" class="icon force-visible" />
               <span class="nav-label">{{ item.title }}</span>
@@ -516,7 +457,6 @@
             to="/settings"
             class="nav-button touch-target"
             active-class="active-nav-button"
-            @click="tapLight"
             @touchstart.passive="handleTouchStart"
             @touchend.passive="handleTouchEnd"
           >
@@ -577,9 +517,7 @@ import { usePluginStore } from '@/store/pluginStore';
 import AboutModal from './status/AboutModal.vue';
 import version from '@/version';
 import { useOrientation } from '@/composables/useOrientation';
-import { useHaptics } from '@/composables/useHaptics';
 
-const { tapLight } = useHaptics();
 const { t } = useI18n();
 const store = apiStore();
 const sequenceStore = useSequenceStore();
@@ -661,12 +599,10 @@ const filteredNavigationItems = computed(() => {
 
 function handleSkyViewClick() {
   store.showSkyAtlas = true;
-  tapLight();
 }
 
 function handleAboutClick() {
   showAboutModal.value = true;
-  tapLight();
 }
 
 // Touch event handlers for better compatibility

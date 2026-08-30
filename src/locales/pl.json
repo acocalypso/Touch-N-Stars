@@ -540,6 +540,10 @@
         "title": "Optymalizacja wejścia",
         "touchOptimized": "Selektor zoptymalizowany dla dotyku"
       },
+      "haptics": {
+        "title": "Wibracje dotykowe",
+        "description": "Krótka wibracja przy naciśnięciu przycisków"
+      },
       "beta": {
         "title": "Kanał aktualizacji beta"
       },

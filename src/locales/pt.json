@@ -540,6 +540,10 @@
         "title": "Otimização de entrada",
         "touchOptimized": "Seletor otimizado para toque"
       },
+      "haptics": {
+        "title": "Retorno tátil",
+        "description": "Vibração breve ao pressionar botões"
+      },
       "beta": {
         "title": "Canal de atualização beta"
       },

@@ -32,14 +32,11 @@ import { StopIcon } from '@heroicons/vue/24/outline';
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
-import { useHaptics } from '@/composables/useHaptics';
-const { tapLight, tapMedium } = useHaptics();
 
 const store = apiStore();
 const rotatorPosition = ref(0);
 
 async function moveRotator() {
-  tapLight();
   try {
     await apiService.moveMechanicalRotator(rotatorPosition.value);
     console.log('Rotator rotating');
@@ -49,7 +46,6 @@ async function moveRotator() {
 }
 
 async function moveStop() {
-  tapMedium();
   try {
     await apiService.rotatorAction('stop-move');
     console.log('Rotator stopped');

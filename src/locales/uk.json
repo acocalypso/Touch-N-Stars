@@ -585,6 +585,7 @@
         "astapDatabaseInstallFailed": "Помилка встановлення бази даних ASTAP star{exitCode}.",
         "astapDatabaseInstallSuccess": "Базу даних зірки ASTAP {databaseId} успішно встановлено.",
         "astapDatabaseInstalling": "Встановлення...",
+        "astapDatabaseProgressStalled": "Завантаження не просувається протягом 30 секунд. Завдання й надалі відстежується.",
         "astapDatabaseJobStarted": "почався",
         "astapDatabaseJobStartedMessage": "Розпочато встановлення для {databaseId}.",
         "astapDatabaseJobStatus": "Вакансія {jobId}: {status}",

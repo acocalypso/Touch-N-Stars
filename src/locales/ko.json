@@ -688,6 +688,7 @@
         "astapDatabaseInstallFailed": "ASTAP 스타 데이터베이스 설치에 실패했습니다{exitCode}.",
         "astapDatabaseInstallSuccess": "ASTAP 스타 데이터베이스 {databaseId}가 성공적으로 설치되었습니다.",
         "astapDatabaseInstalling": "설치 중...",
+        "astapDatabaseProgressStalled": "30초 동안 다운로드 진행이 없습니다. 작업을 계속 모니터링하고 있습니다.",
         "astapDatabaseJobStarted": "시작했다",
         "astapDatabaseJobStartedMessage": "{databaseId}에 대한 설치 작업이 시작되었습니다.",
         "astapDatabaseJobStatus": "작업 {jobId}: {status}",

@@ -67,6 +67,34 @@
       }}
     </div>
 
+    <div v-if="isJobActive && progressPhase" class="flex flex-col gap-1" aria-live="polite">
+      <div class="flex items-center justify-between gap-2 text-xs text-gray-300">
+        <span class="capitalize">{{ progressPhase }}</span>
+        <span v-if="progressBytes > 0">
+          <template v-if="hasDeterminateProgress">{{ progressPercent }}% · </template>
+          {{ formatBytes(progressBytes) }}
+          <template v-if="progressTotalBytes > 0"> / {{ formatBytes(progressTotalBytes) }}</template>
+        </span>
+      </div>
+      <div
+        class="h-2 overflow-hidden rounded-full bg-gray-700"
+        role="progressbar"
+        :aria-label="$t('components.settings.plate_solver.astapDatabaseTitle')"
+        :aria-valuemin="0"
+        :aria-valuemax="100"
+        :aria-valuenow="hasDeterminateProgress ? progressPercent : undefined"
+      >
+        <div
+          class="h-full rounded-full bg-cyan-500 transition-[width] duration-300"
+          :class="{ 'animate-pulse': !hasDeterminateProgress }"
+          :style="{ width: progressBarWidth }"
+        ></div>
+      </div>
+      <div v-if="isProgressStalled" class="text-xs text-amber-400">
+        {{ $t('components.settings.plate_solver.astapDatabaseProgressStalled') }}
+      </div>
+    </div>
+
     <div v-if="feedbackMessage" :class="feedbackClass" class="text-xs">
       {{ feedbackMessage }}
     </div>
@@ -89,17 +117,43 @@ const isLoading = ref(false);
 const isInstalling = ref(false);
 const jobId = ref('');
 const jobStatus = ref('');
+const progressPhase = ref('');
+const progressPercent = ref(0);
+const progressBytes = ref(0);
+const progressTotalBytes = ref(0);
+const progressUpdatedAt = ref(0);
+const currentTime = ref(Date.now());
 
 const feedbackMessage = ref('');
 const feedbackTone = ref('info');
 
 let pollTimer = null;
 let isDestroyed = false;
+let lastProgressToken = '';
 
 const isJobActive = computed(() => {
   const status = normalizeStatus(jobStatus.value);
   return status === 'started' || status === 'running';
 });
+
+const hasDeterminateProgress = computed(
+  () => progressPhase.value === 'downloading' && progressTotalBytes.value > 0
+);
+
+const progressBarWidth = computed(() => {
+  if (!hasDeterminateProgress.value) {
+    return '35%';
+  }
+  return `${Math.max(1, Math.min(100, progressPercent.value))}%`;
+});
+
+const isProgressStalled = computed(
+  () =>
+    isJobActive.value &&
+    progressPhase.value === 'downloading' &&
+    progressUpdatedAt.value > 0 &&
+    currentTime.value - progressUpdatedAt.value >= 30000
+);
 
 const installButtonLabel = computed(() => {
   if (isJobActive.value) {
@@ -178,6 +232,39 @@ function formatCheckedAt(value) {
   return date.toLocaleString();
 }
 
+function formatBytes(value) {
+  const bytes = Number(value);
+  if (!Number.isFinite(bytes) || bytes <= 0) {
+    return '0 B';
+  }
+
+  const units = ['B', 'KB', 'MB', 'GB'];
+  const unitIndex = Math.min(Math.floor(Math.log(bytes) / Math.log(1024)), units.length - 1);
+  const scaled = bytes / 1024 ** unitIndex;
+  return `${scaled.toFixed(unitIndex === 0 || scaled >= 100 ? 0 : 1)} ${units[unitIndex]}`;
+}
+
+function updateProgress(response) {
+  const phase = String(response?.progressPhase || '');
+  const bytes = Number(response?.progressBytes);
+  const totalBytes = Number(response?.progressTotalBytes);
+  const percent = Number(response?.progressPercent);
+  const updatedAt = Number(response?.progressUpdatedAt);
+
+  progressPhase.value = phase;
+  progressBytes.value = Number.isFinite(bytes) && bytes >= 0 ? bytes : 0;
+  progressTotalBytes.value = Number.isFinite(totalBytes) && totalBytes >= 0 ? totalBytes : 0;
+  progressPercent.value = Number.isFinite(percent) ? Math.max(0, Math.min(100, percent)) : 0;
+  const progressToken = `${phase}:${progressBytes.value}:${progressTotalBytes.value}:${progressPercent.value}:${updatedAt}`;
+  if (phase && progressToken !== lastProgressToken) {
+    lastProgressToken = progressToken;
+    // Use the browser clock for stall detection so Pi/browser clock skew cannot
+    // produce a false warning.
+    progressUpdatedAt.value = Date.now();
+  }
+  currentTime.value = Date.now();
+}
+
 function extractJobId(data) {
   if (data && typeof data === 'object' && data.jobId) {
     return String(data.jobId);
@@ -241,6 +328,7 @@ async function pollJobStatus() {
 
     const currentStatus = normalizeStatus(response?.status);
     jobStatus.value = currentStatus || 'running';
+    updateProgress(response);
 
     if (currentStatus === 'success') {
       isInstalling.value = false;
@@ -303,6 +391,12 @@ async function installSelectedDatabase() {
   }
 
   isInstalling.value = true;
+  progressPhase.value = '';
+  progressPercent.value = 0;
+  progressBytes.value = 0;
+  progressTotalBytes.value = 0;
+  progressUpdatedAt.value = Date.now();
+  lastProgressToken = '';
   setFeedback(
     t('components.settings.plate_solver.astapDatabaseStartInstall', {
       databaseId: selectedDatabaseId.value,
@@ -326,6 +420,10 @@ async function installSelectedDatabase() {
 
     jobId.value = returnedJobId;
     jobStatus.value = normalizeStatus(data.status) || 'started';
+    updateProgress(data);
+    if (!progressUpdatedAt.value) {
+      progressUpdatedAt.value = Date.now();
+    }
     setFeedback(
       t('components.settings.plate_solver.astapDatabaseJobStartedMessage', {
         databaseId: selectedDatabaseId.value,

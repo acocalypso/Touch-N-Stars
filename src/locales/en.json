@@ -684,6 +684,7 @@
         "astapDatabaseNoInstallable": "No installable ASTAP star databases available",
         "astapDatabaseInstall": "Install",
         "astapDatabaseInstalling": "Installing...",
+        "astapDatabaseProgressStalled": "No download progress for 30 seconds. The job is still being monitored.",
         "astapDatabaseStarting": "Starting...",
         "astapDatabaseLastChecked": "Last checked: {value}",
         "astapDatabaseJobStatus": "Job {jobId}: {status}",

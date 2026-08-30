@@ -671,6 +671,7 @@
         "astapDatabaseInstallFailed": "Die Installation der ASTAP Star-Datenbank ist fehlgeschlagen{exitCode}.",
         "astapDatabaseInstallSuccess": "Die ASTAP-Sterndatenbank {databaseId} wurde erfolgreich installiert.",
         "astapDatabaseInstalling": "Installieren...",
+        "astapDatabaseProgressStalled": "Seit 30 Sekunden kein Download-Fortschritt. Der Vorgang wird weiterhin überwacht.",
         "astapDatabaseJobStarted": "begonnen",
         "astapDatabaseJobStartedMessage": "Installationsjob für {databaseId} gestartet.",
         "astapDatabaseJobStatus": "Job {jobId}: {status}",

@@ -82,6 +82,14 @@ Drag & drop: every `<draggable>` needs `:fallbackOnBody="true"`. `backdrop-filte
 creates a containing block for `position: fixed`, which misplaces Sortable.js's ghost on Android
 Chrome. Do **not** use `forceFallback: true`.
 
+Long-press / hold targets (e.g. hold-to-confirm buttons): `@contextmenu.prevent` does **not**
+stop iOS/iPadOS's native long-press callout menu (magnifier/copy). WebKit drives that callout
+through the proprietary `-webkit-touch-callout` CSS property, independently of the `contextmenu`
+DOM event and of `user-select`/`select-none`. Set `-webkit-touch-callout: none;` explicitly on the
+held element (and its overlay/wrapper if it also intercepts pointer events). Existing examples:
+`setSlewRate.vue`, `moveAxis.vue`, `NavigationComp.vue`, `ZoomableImage.vue`, `imageModal.vue`,
+`ScreenLockOverlay.vue`.
+
 i18n: add new keys to `src/locales/en.json` **only** while implementing, and ask before
 generating the other 13 locales — translations are produced in one deliberate batch right
 before the commit, never scattered through the work. Until then `i18n:check` reports

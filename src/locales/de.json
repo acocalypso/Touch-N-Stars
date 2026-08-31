@@ -5013,7 +5013,8 @@
       "tonightPicks": "Tonight Picks",
       "topForWindow": "Top-Ziele für das gewählte Zeitfenster",
       "preview": "Vorschau",
-      "framing": "Framing"
+      "framing": "Framing",
+      "topFmt": "Top {n}"
     },
     "filters": {
       "title": "Filter",
@@ -5026,7 +5027,9 @@
       "objectType": "Objekttyp",
       "azSector": "Himmelsrichtung (Azimut-Sektor)",
       "onlyAboveHorizon": "Nur >0° Höhe",
-      "limit": "Limit"
+      "limit": "Limit",
+      "countFmt": "{filtered} / {total} Ziele · angezeigt: {shown}",
+      "moonIlluminatedFmt": "{pct}% beleuchtet"
     },
     "sort": {
       "title": "Sortierung",
@@ -5075,7 +5078,10 @@
       "altitudeVsTime": "Höhe über Zeit",
       "sampleMin": "Sample (min)",
       "directionAz": "Richtung (Az)",
-      "separation": "Separation —"
+      "separation": "Separation —",
+      "separationFmt": "Separation {deg}°",
+      "pointsFmt": "{n} Punkte",
+      "visibleHoursFmt": "{h} h sichtbar"
     },
     "sectors": {
       "N_NE": "Nord → Nordost (315°–45°)",
@@ -5092,7 +5098,9 @@
       "yes": "Ja",
       "no": "Nein",
       "loading": "Laden…",
-      "all": "Alle"
+      "all": "Alle",
+      "unnamedTarget": "Unbenanntes Ziel",
+      "reset": "Zurücksetzen"
     },
     "tooltips": {
       "favorite": "Favorit",
@@ -5117,6 +5125,13 @@
     "errors": {
       "noSequenceAvailable": "Keine Sequenz verfügbar, für Übergabe notwendig",
       "sequencerFailed": "Sequencer fehlgeschlagen"
+    },
+    "score": {
+      "excellent": "🔥 Ausgezeichnet",
+      "veryGood": "⭐ Sehr gut",
+      "good": "👍 Gut",
+      "difficult": "⚠️ Schwierig",
+      "skip": "❌ Überspringen"
     }
   },
   "indi": {

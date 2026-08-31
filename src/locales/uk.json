@@ -4934,7 +4934,8 @@
       "tonightPicks": "Вибір на сьогодні",
       "topForWindow": "Найкращі цілі для обраного вікна часу",
       "preview": "Попередній перегляд",
-      "framing": "Кадрування"
+      "framing": "Кадрування",
+      "topFmt": "Топ {n}"
     },
     "filters": {
       "title": "Фільтри",
@@ -4947,7 +4948,9 @@
       "objectType": "Тип об'єкта",
       "azSector": "Напрямок неба (азимутальний сектор)",
       "onlyAboveHorizon": "Лише >0° висоти",
-      "limit": "Ліміт"
+      "limit": "Ліміт",
+      "countFmt": "{filtered} / {total} цілей · показано: {shown}",
+      "moonIlluminatedFmt": "{pct}% освітлення"
     },
     "sort": {
       "title": "Сортування",
@@ -4996,7 +4999,10 @@
       "altitudeVsTime": "Висота / Час",
       "sampleMin": "Крок (хв)",
       "directionAz": "Напрямок (Аз)",
-      "separation": "Відстань —"
+      "separation": "Відстань —",
+      "separationFmt": "Відстань {deg}°",
+      "pointsFmt": "{n} точок",
+      "visibleHoursFmt": "{h} год видимості"
     },
     "sectors": {
       "N_NE": "Північ → Північний Схід (315°–45°)",
@@ -5013,7 +5019,9 @@
       "yes": "Так",
       "no": "Ні",
       "loading": "Завантаження…",
-      "all": "Всі"
+      "all": "Всі",
+      "unnamedTarget": "Ціль без назви",
+      "reset": "Скинути"
     },
     "tooltips": {
       "favorite": "Обране",
@@ -5038,6 +5046,13 @@
     "errors": {
       "noSequenceAvailable": "Послідовність недоступна, спочатку завантажте послідовність",
       "sequencerFailed": "Помилка секвенсера"
+    },
+    "score": {
+      "excellent": "🔥 Відмінно",
+      "veryGood": "⭐ Дуже добре",
+      "good": "👍 Добре",
+      "difficult": "⚠️ Складно",
+      "skip": "❌ Пропустити"
     }
   },
   "nav": {

@@ -206,6 +206,7 @@ onBeforeUnmount(async () => {
   /* Swallows scroll, pinch zoom and drag gestures rather than passing them on. */
   touch-action: none;
   overscroll-behavior: contain;
+  -webkit-touch-callout: none;
 }
 
 /* Floats just above the status bar (incl. safe area and any open status panel),
@@ -229,6 +230,7 @@ onBeforeUnmount(async () => {
   width: var(--spacing-touch);
   height: var(--spacing-touch);
   touch-action: none;
+  -webkit-touch-callout: none;
 }
 
 .hint-enter-active,

@@ -5008,7 +5008,8 @@
       "tonightPicks": "오늘 밤 추천",
       "topForWindow": "선택한 시간대의 추천 대상",
       "preview": "미리보기",
-      "framing": "프레이밍"
+      "framing": "프레이밍",
+      "topFmt": "상위 {n}개"
     },
     "filters": {
       "title": "필터",
@@ -5021,7 +5022,9 @@
       "objectType": "대상 유형",
       "azSector": "하늘 방향 (방위각 구역)",
       "onlyAboveHorizon": "고도 >0°만",
-      "limit": "제한"
+      "limit": "제한",
+      "countFmt": "{filtered} / {total} 대상 · 표시: {shown}",
+      "moonIlluminatedFmt": "{pct}% 밝음"
     },
     "sort": {
       "title": "정렬",
@@ -5070,7 +5073,10 @@
       "altitudeVsTime": "고도 대 시간",
       "sampleMin": "샘플 (분)",
       "directionAz": "방향 (방위각)",
-      "separation": "이격 —"
+      "separation": "이격 —",
+      "separationFmt": "이격 {deg}°",
+      "pointsFmt": "{n}개 지점",
+      "visibleHoursFmt": "{h}시간 관측 가능"
     },
     "sectors": {
       "N_NE": "북 → 북동 (315°–45°)",
@@ -5087,7 +5093,9 @@
       "yes": "예",
       "no": "아니오",
       "loading": "불러오는 중…",
-      "all": "전체"
+      "all": "전체",
+      "unnamedTarget": "이름 없는 대상",
+      "reset": "초기화"
     },
     "tooltips": {
       "favorite": "즐겨찾기",
@@ -5112,6 +5120,13 @@
     "errors": {
       "noSequenceAvailable": "사용 가능한 시퀀스가 없습니다. 먼저 시퀀스를 불러오세요",
       "sequencerFailed": "시퀀서 실패"
+    },
+    "score": {
+      "excellent": "🔥 최상",
+      "veryGood": "⭐ 매우 좋음",
+      "good": "👍 좋음",
+      "difficult": "⚠️ 어려움",
+      "skip": "❌ 건너뛰기"
     }
   },
   "nightsummary": {

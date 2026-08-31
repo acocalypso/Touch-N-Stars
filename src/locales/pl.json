@@ -2160,7 +2160,11 @@
       "enter_name": "Wprowadź nazwę",
       "no_fav": "Brak zapisanych ulubionych",
       "titel": "Ulubione",
-      "save_to_favorites": "Zapisz w ulubionych celach"
+      "save_to_favorites": "Zapisz w ulubionych celach",
+      "groups": {
+        "favorites": "Ulubione",
+        "telescopius": "Telescopius"
+      }
     },
     "helpers": {
       "imageModal": {
@@ -2831,7 +2835,59 @@
         "noListsHint": "Utwórz listy celów na telescopius.com, a następnie załaduj je ponownie tutaj.",
         "editOnTelescopius": "Edytuj listy w Telescopius",
         "dataFrom": "Dane z",
-        "connectionError": "Połączenie z Telescopius nie powiodło się. Komputer z NINA wymaga połączenia internetowego i przynajmniej jedna lista celów musi istnieć w Telescopius."
+        "connectionError": "Połączenie z Telescopius nie powiodło się. Komputer z NINA wymaga połączenia internetowego i przynajmniej jedna lista celów musi istnieć w Telescopius.",
+        "myLists": "Moje listy celów",
+        "unnamedList": "Lista bez nazwy",
+        "showObjects": "Pokaż obiekty",
+        "hideObjects": "Ukryj obiekty",
+        "ra": "RA",
+        "dec": "GRUDZIEŃ",
+        "size": "Rozmiar",
+        "magnitude": "Mag"
+      },
+      "import": {
+        "title": "Importuj cele z pliku CSV",
+        "button": "Importuj CSV",
+        "description": "Zaimportuj listę celów wyeksportowaną z telescopius.com. Nie jest do tego potrzebny klucz API.",
+        "landingTitle": "Nie masz klucza API? Zaimportuj CSV",
+        "landingDescription": "Wyeksportuj dowolną listę obserwacyjną z telescopius.com jako plik CSV i zaimportuj ją tutaj. Zaimportowanych celów można używać do kadrowania, najazdu i jako celu sekwencji tak samo jak celów wczytanych przez API.",
+        "selectFile": "Wybierz plik CSV",
+        "listName": "Nazwa listy",
+        "targetsFound": "Cele: {count}",
+        "morePreview": "… i {count} więcej",
+        "import": "Importuj",
+        "cancel": "Anuluj",
+        "remove": "Usuń listę",
+        "removeConfirm": "Usunąć zaimportowaną listę „{name}”?",
+        "importedLists": "Zaimportowane listy",
+        "formatHelp": {
+          "title": "Obsługiwany format CSV",
+          "description": "Eksport CSV z telescopius.com jest obsługiwany bezpośrednio. Kolumny są rozpoznawane po nagłówkach, więc ich kolejność nie ma znaczenia, a dodatkowe kolumny są ignorowane.",
+          "columns": "Wymagane: Right Ascension (j2000), Declination (j2000) — Opcjonalne: Catalogue Entry, Familiar Name, Type, Constellation, Magnitude, Size, Notes",
+          "note": "Współrzędne są odczytywane jako J2000 w formacie 21h 38' 59\" / 57° 30' 50\". Obsługiwane są pliki rozdzielane przecinkiem i średnikiem."
+        },
+        "errors": {
+          "empty": "Plik nie zawiera żadnych danych.",
+          "tooLarge": "Plik jest za duży (maks. 2 MB).",
+          "readFailed": "Nie udało się odczytać pliku.",
+          "missingColumns": "Brakuje wymaganych kolumn: {columns}",
+          "noValidRows": "W pliku nie znaleziono celu z prawidłowymi współrzędnymi.",
+          "rowsSkipped": "Pominięto {count} wierszy, ponieważ nie udało się odczytać ich współrzędnych.",
+          "rowFailed": "Wiersz {line}",
+          "saveFailed": "Nie udało się zapisać zaimportowanej listy."
+        }
+      },
+      "edit": {
+        "edit": "Edytuj cel",
+        "name": "Nazwa",
+        "ra": "Rektascensja",
+        "dec": "Deklinacja",
+        "rotation": "Obrót",
+        "rotationEmpty": "brak",
+        "save": "Zapisz",
+        "invalidCoordinates": "Nie udało się odczytać rektascensji lub deklinacji.",
+        "invalidRotation": "Obrót musi być liczbą.",
+        "saveFailed": "Nie udało się zapisać zmiany."
       }
     },
     "webcam": {

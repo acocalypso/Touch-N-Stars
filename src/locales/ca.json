@@ -2206,7 +2206,11 @@
       "enter_name": "Introdueix el nom",
       "save_to_favorites": "Desa als objectius preferits",
       "no_fav": "Cap preferit desat",
-      "titel": "Preferits"
+      "titel": "Preferits",
+      "groups": {
+        "favorites": "Preferits",
+        "telescopius": "Telescopius"
+      }
     },
     "helpers": {
       "imageModal": {
@@ -2922,7 +2926,59 @@
         "noListsHint": "Crea llistes d'objectius a telescopius.com i torna a carregar-les aquí.",
         "editOnTelescopius": "Edita les llistes a Telescopius",
         "dataFrom": "Dades de",
-        "connectionError": "La connexió a Telescopius ha fallat. El PC amb NINA necessita connexió a Internet i cal que existeixi almenys una llista d'objectius a Telescopius."
+        "connectionError": "La connexió a Telescopius ha fallat. El PC amb NINA necessita connexió a Internet i cal que existeixi almenys una llista d'objectius a Telescopius.",
+        "myLists": "Les meves llistes d'objectius",
+        "unnamedList": "Llista sense nom",
+        "showObjects": "Mostra els objectes",
+        "hideObjects": "Amaga els objectes",
+        "ra": "AR",
+        "dec": "DEC",
+        "size": "Mida",
+        "magnitude": "Mag"
+      },
+      "import": {
+        "title": "Importa objectius des d'un CSV",
+        "button": "Importa un CSV",
+        "description": "Importa una llista d'objectius exportada de telescopius.com. No cal cap clau API.",
+        "landingTitle": "Sense clau API? Importa un CSV",
+        "landingDescription": "Exporta qualsevol llista d'observació de telescopius.com com a fitxer CSV i importa-la aquí. Els objectius importats es poden fer servir per a enquadrament, apuntament i com a objectiu de seqüència igual que els carregats mitjançant l'API.",
+        "selectFile": "Selecciona un fitxer CSV",
+        "listName": "Nom de la llista",
+        "targetsFound": "{count} objectius",
+        "morePreview": "… i {count} més",
+        "import": "Importa",
+        "cancel": "Cancel·la",
+        "remove": "Elimina la llista",
+        "removeConfirm": "Voleu eliminar la llista importada «{name}»?",
+        "importedLists": "Llistes importades",
+        "formatHelp": {
+          "title": "Format CSV admès",
+          "description": "L'exportació CSV de telescopius.com s'admet directament. Les columnes es reconeixen pel seu encapçalament, de manera que l'ordre no importa i les columnes addicionals s'ignoren.",
+          "columns": "Obligatori: Right Ascension (j2000), Declination (j2000) — Opcional: Catalogue Entry, Familiar Name, Type, Constellation, Magnitude, Size, Notes",
+          "note": "Les coordenades es llegeixen com a J2000 amb el format 21h 38' 59\" / 57° 30' 50\". S'admeten fitxers separats per comes i per punt i coma."
+        },
+        "errors": {
+          "empty": "El fitxer no conté cap dada.",
+          "tooLarge": "El fitxer és massa gran (màx. 2 MB).",
+          "readFailed": "No s'ha pogut llegir el fitxer.",
+          "missingColumns": "Falten columnes obligatòries: {columns}",
+          "noValidRows": "No s'ha trobat cap objectiu amb coordenades vàlides al fitxer.",
+          "rowsSkipped": "S'han omès {count} files perquè no se n'han pogut llegir les coordenades.",
+          "rowFailed": "Fila {line}",
+          "saveFailed": "No s'ha pogut desar la llista importada."
+        }
+      },
+      "edit": {
+        "edit": "Edita l'objectiu",
+        "name": "Nom",
+        "ra": "Ascensió recta",
+        "dec": "Declinació",
+        "rotation": "Rotació",
+        "rotationEmpty": "cap",
+        "save": "Desa",
+        "invalidCoordinates": "No s'ha pogut llegir l'ascensió recta o la declinació.",
+        "invalidRotation": "La rotació ha de ser un nombre.",
+        "saveFailed": "No s'ha pogut desar el canvi."
       }
     },
     "webcam": {

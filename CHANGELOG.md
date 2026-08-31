@@ -5,10 +5,10 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [App6.3.0-beta2] - 2026-08-31
+## [App6.3.0-beta1] - unreleased 
 
-### Changed
-- Observation planner: Redesigned target cards - name, preview, values and actions no longer overlap or get cut off on narrow screens
+### Added
+- Telescopius: Target lists can now be imported from a Telescopius CSV export, including the position angle as framing rotation, and imported targets can be edited afterwards
 
 ## [App6.3.0-beta1] - 2026-08-30
 

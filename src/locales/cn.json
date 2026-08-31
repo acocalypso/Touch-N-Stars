@@ -2160,7 +2160,11 @@
       "enter_name": "输入名称",
       "no_fav": "没有已保存的收藏",
       "titel": "收藏夹",
-      "save_to_favorites": "保存到收藏的目标"
+      "save_to_favorites": "保存到收藏的目标",
+      "groups": {
+        "favorites": "收藏夹",
+        "telescopius": "Telescopius"
+      }
     },
     "helpers": {
       "imageModal": {
@@ -2831,7 +2835,59 @@
         "noListsHint": "在 telescopius.com 上创建目标列表，然后在此处重新加载。",
         "editOnTelescopius": "在 Telescopius 上编辑列表",
         "dataFrom": "数据来自",
-        "connectionError": "与 Telescopius 的连接失败。NINA PC 需要互联网连接，并且在 Telescopius 中必须至少存在一个目标列表。"
+        "connectionError": "与 Telescopius 的连接失败。NINA PC 需要互联网连接，并且在 Telescopius 中必须至少存在一个目标列表。",
+        "myLists": "我的目标列表",
+        "unnamedList": "未命名列表",
+        "showObjects": "显示天体",
+        "hideObjects": "隐藏天体",
+        "ra": "赤经",
+        "dec": "赤纬",
+        "size": "尺寸",
+        "magnitude": "星等"
+      },
+      "import": {
+        "title": "从 CSV 导入目标",
+        "button": "导入 CSV",
+        "description": "导入从 telescopius.com 导出的目标列表。无需 API 密钥。",
+        "landingTitle": "没有 API 密钥？导入 CSV",
+        "landingDescription": "在 telescopius.com 上将任意观测列表导出为 CSV 文件，然后在此导入。导入的目标可像通过 API 加载的目标一样用于构图、指向以及作为序列目标。",
+        "selectFile": "选择 CSV 文件",
+        "listName": "列表名称",
+        "targetsFound": "{count} 个目标",
+        "morePreview": "… 还有 {count} 个",
+        "import": "导入",
+        "cancel": "取消",
+        "remove": "删除列表",
+        "removeConfirm": "删除导入的列表“{name}”？",
+        "importedLists": "已导入的列表",
+        "formatHelp": {
+          "title": "支持的 CSV 格式",
+          "description": "直接支持 telescopius.com 的 CSV 导出。列通过表头名称识别，因此列顺序无关紧要，多余的列会被忽略。",
+          "columns": "必需：Right Ascension (j2000), Declination (j2000) — 可选：Catalogue Entry, Familiar Name, Type, Constellation, Magnitude, Size, Notes",
+          "note": "坐标按 J2000 读取，格式为 21h 38' 59\" / 57° 30' 50\"。逗号分隔和分号分隔的文件均受支持。"
+        },
+        "errors": {
+          "empty": "该文件不包含任何数据。",
+          "tooLarge": "文件过大（最大 2 MB）。",
+          "readFailed": "无法读取该文件。",
+          "missingColumns": "缺少必需的列：{columns}",
+          "noValidRows": "文件中未找到坐标有效的目标。",
+          "rowsSkipped": "已跳过 {count} 行，因为无法读取其坐标。",
+          "rowFailed": "第 {line} 行",
+          "saveFailed": "无法保存导入的列表。"
+        }
+      },
+      "edit": {
+        "edit": "编辑目标",
+        "name": "名称",
+        "ra": "赤经",
+        "dec": "赤纬",
+        "rotation": "旋转角度",
+        "rotationEmpty": "无",
+        "save": "保存",
+        "invalidCoordinates": "无法读取赤经或赤纬。",
+        "invalidRotation": "旋转角度必须是数字。",
+        "saveFailed": "无法保存更改。"
       }
     },
     "webcam": {

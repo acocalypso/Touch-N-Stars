@@ -2160,7 +2160,11 @@
       "enter_name": "Zadejte jméno",
       "no_fav": "Žádné oblíbené položky nejsou uloženy",
       "titel": "Oblíbené",
-      "save_to_favorites": "Uložit do oblíbených cílů"
+      "save_to_favorites": "Uložit do oblíbených cílů",
+      "groups": {
+        "favorites": "Oblíbené",
+        "telescopius": "Telescopius"
+      }
     },
     "helpers": {
       "imageModal": {
@@ -2831,7 +2835,59 @@
         "noListsHint": "Vytvořte seznamy cílů na telescopius.com a poté je zde znovu načtěte.",
         "editOnTelescopius": "Upravit seznamy na Telescopius",
         "dataFrom": "Data z",
-        "connectionError": "Připojení k Telescopius selhalo. Počítač NINA potřebuje internetové připojení a v Telescopius musí existovat alespoň jeden seznam cílů."
+        "connectionError": "Připojení k Telescopius selhalo. Počítač NINA potřebuje internetové připojení a v Telescopius musí existovat alespoň jeden seznam cílů.",
+        "myLists": "Moje seznamy cílů",
+        "unnamedList": "Nepojmenovaný seznam",
+        "showObjects": "Zobrazit objekty",
+        "hideObjects": "Skrýt objekty",
+        "ra": "RA",
+        "dec": "DEC",
+        "size": "Velikost",
+        "magnitude": "Mag"
+      },
+      "import": {
+        "title": "Import cílů z CSV",
+        "button": "Importovat CSV",
+        "description": "Importujte seznam cílů exportovaný z telescopius.com. Není k tomu potřeba žádný API klíč.",
+        "landingTitle": "Nemáte API klíč? Importujte CSV",
+        "landingDescription": "Exportujte libovolný pozorovací seznam na telescopius.com jako soubor CSV a naimportujte jej sem. Importované cíle lze použít pro framing, najetí i jako cíl sekvence stejně jako cíle načtené přes API.",
+        "selectFile": "Vybrat soubor CSV",
+        "listName": "Název seznamu",
+        "targetsFound": "Cílů: {count}",
+        "morePreview": "… a dalších {count}",
+        "import": "Importovat",
+        "cancel": "Zrušit",
+        "remove": "Smazat seznam",
+        "removeConfirm": "Smazat importovaný seznam „{name}“?",
+        "importedLists": "Importované seznamy",
+        "formatHelp": {
+          "title": "Podporovaný formát CSV",
+          "description": "Export CSV z telescopius.com je podporován přímo. Sloupce se rozpoznávají podle záhlaví, takže na jejich pořadí nezáleží a sloupce navíc se ignorují.",
+          "columns": "Povinné: Right Ascension (j2000), Declination (j2000) — Volitelné: Catalogue Entry, Familiar Name, Type, Constellation, Magnitude, Size, Notes",
+          "note": "Souřadnice se čtou jako J2000 ve formátu 21h 38' 59\" / 57° 30' 50\". Podporovány jsou soubory oddělené čárkou i středníkem."
+        },
+        "errors": {
+          "empty": "Soubor neobsahuje žádná data.",
+          "tooLarge": "Soubor je příliš velký (max. 2 MB).",
+          "readFailed": "Soubor se nepodařilo přečíst.",
+          "missingColumns": "Chybí povinné sloupce: {columns}",
+          "noValidRows": "V souboru nebyl nalezen žádný cíl s platnými souřadnicemi.",
+          "rowsSkipped": "Přeskočeno {count} řádků, protože jejich souřadnice nešly přečíst.",
+          "rowFailed": "Řádek {line}",
+          "saveFailed": "Importovaný seznam se nepodařilo uložit."
+        }
+      },
+      "edit": {
+        "edit": "Upravit cíl",
+        "name": "Jméno",
+        "ra": "Rektascenze",
+        "dec": "Deklinace",
+        "rotation": "Rotace",
+        "rotationEmpty": "žádná",
+        "save": "Uložit",
+        "invalidCoordinates": "Rektascenzi nebo deklinaci se nepodařilo přečíst.",
+        "invalidRotation": "Rotace musí být číslo.",
+        "saveFailed": "Změnu se nepodařilo uložit."
       }
     },
     "webcam": {

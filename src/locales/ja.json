@@ -2169,7 +2169,11 @@
       "enter_name": "名前を入力",
       "save_to_favorites": "お気に入りターゲットに保存",
       "no_fav": "お気に入りが保存されていません",
-      "titel": "お気に入り"
+      "titel": "お気に入り",
+      "groups": {
+        "favorites": "お気に入り",
+        "telescopius": "Telescopius"
+      }
     },
     "helpers": {
       "imageModal": {
@@ -2831,7 +2835,59 @@
         "noListsHint": "telescopius.comでターゲットリストを作成し、ここで再読み込みしてください。",
         "editOnTelescopius": "Telescopiusでリストを編集",
         "dataFrom": "データ取得元",
-        "connectionError": "Telescopiusへの接続に失敗しました。NINAのPCにインターネット接続が必要で、Telescopiusに少なくとも1つのターゲットリストが存在する必要があります。"
+        "connectionError": "Telescopiusへの接続に失敗しました。NINAのPCにインターネット接続が必要で、Telescopiusに少なくとも1つのターゲットリストが存在する必要があります。",
+        "myLists": "マイターゲットリスト",
+        "unnamedList": "名称未設定のリスト",
+        "showObjects": "天体を表示",
+        "hideObjects": "天体を非表示",
+        "ra": "赤経",
+        "dec": "赤緯",
+        "size": "サイズ",
+        "magnitude": "等級"
+      },
+      "import": {
+        "title": "CSV からターゲットをインポート",
+        "button": "CSV をインポート",
+        "description": "telescopius.com からエクスポートしたターゲットリストをインポートします。API キーは不要です。",
+        "landingTitle": "API キーがない場合は CSV をインポート",
+        "landingDescription": "telescopius.com で任意の観測リストを CSV ファイルとしてエクスポートし、ここでインポートします。インポートしたターゲットは、API 経由で読み込んだターゲットと同じようにフレーミング、導入、シーケンスターゲットに使用できます。",
+        "selectFile": "CSV ファイルを選択",
+        "listName": "リスト名",
+        "targetsFound": "{count} 件のターゲット",
+        "morePreview": "… ほか {count} 件",
+        "import": "インポート",
+        "cancel": "キャンセル",
+        "remove": "リストを削除",
+        "removeConfirm": "インポートしたリスト「{name}」を削除しますか？",
+        "importedLists": "インポートしたリスト",
+        "formatHelp": {
+          "title": "対応する CSV 形式",
+          "description": "telescopius.com の CSV エクスポートをそのまま利用できます。列は見出し名で判別するため、列の順序は問わず、余分な列は無視されます。",
+          "columns": "必須: Right Ascension (j2000), Declination (j2000) — 任意: Catalogue Entry, Familiar Name, Type, Constellation, Magnitude, Size, Notes",
+          "note": "座標は J2000 として 21h 38' 59\" / 57° 30' 50\" の形式で読み取られます。カンマ区切りとセミコロン区切りのどちらのファイルにも対応しています。"
+        },
+        "errors": {
+          "empty": "ファイルにデータが含まれていません。",
+          "tooLarge": "ファイルが大きすぎます（最大 2 MB）。",
+          "readFailed": "ファイルを読み取れませんでした。",
+          "missingColumns": "必須の列がありません: {columns}",
+          "noValidRows": "有効な座標を持つターゲットがファイル内に見つかりませんでした。",
+          "rowsSkipped": "座標を読み取れなかったため、{count} 行をスキップしました。",
+          "rowFailed": "{line} 行目",
+          "saveFailed": "インポートしたリストを保存できませんでした。"
+        }
+      },
+      "edit": {
+        "edit": "ターゲットを編集",
+        "name": "天体名",
+        "ra": "赤経",
+        "dec": "赤緯",
+        "rotation": "回転角",
+        "rotationEmpty": "なし",
+        "save": "保存",
+        "invalidCoordinates": "赤経または赤緯を読み取れませんでした。",
+        "invalidRotation": "回転角は数値で入力してください。",
+        "saveFailed": "変更を保存できませんでした。"
       }
     },
     "webcam": {

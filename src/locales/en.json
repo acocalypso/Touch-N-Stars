@@ -2198,6 +2198,10 @@
         "remove": "Remove",
         "rotation": "Rotation"
       },
+      "groups": {
+        "favorites": "Favourites",
+        "telescopius": "Telescopius"
+      },
       "modal_sequence": {
         "titel": "Sequence"
       },
@@ -2995,7 +2999,59 @@
         "noListsHint": "Create target lists on telescopius.com and then reload them here.",
         "editOnTelescopius": "Edit lists on Telescopius",
         "dataFrom": "Data from",
-        "connectionError": "Connection to Telescopius failed. The NINA PC needs an internet connection and at least one target list must exist in Telescopius."
+        "connectionError": "Connection to Telescopius failed. The NINA PC needs an internet connection and at least one target list must exist in Telescopius.",
+        "myLists": "My Target Lists",
+        "unnamedList": "Unnamed List",
+        "showObjects": "Show Objects",
+        "hideObjects": "Hide Objects",
+        "ra": "RA",
+        "dec": "Dec",
+        "size": "Size",
+        "magnitude": "Mag"
+      },
+      "edit": {
+        "edit": "Edit target",
+        "name": "Name",
+        "ra": "Right ascension",
+        "dec": "Declination",
+        "rotation": "Rotation",
+        "rotationEmpty": "none",
+        "save": "Save",
+        "invalidCoordinates": "Right ascension or declination could not be read.",
+        "invalidRotation": "The rotation must be a number.",
+        "saveFailed": "The change could not be saved."
+      },
+      "import": {
+        "title": "Import Targets from CSV",
+        "button": "Import CSV",
+        "description": "Import a target list exported from telescopius.com. No API key is required for this.",
+        "landingTitle": "No API key? Import a CSV",
+        "landingDescription": "Export any observing list on telescopius.com as a CSV file and import it here. The imported targets can be used for framing, slewing and as a sequence target just like targets loaded via the API.",
+        "selectFile": "Select CSV file",
+        "listName": "List name",
+        "targetsFound": "{count} targets",
+        "morePreview": "… and {count} more",
+        "import": "Import",
+        "cancel": "Cancel",
+        "remove": "Delete list",
+        "removeConfirm": "Delete the imported list \"{name}\"?",
+        "importedLists": "Imported Lists",
+        "formatHelp": {
+          "title": "Supported CSV format",
+          "description": "The CSV export from telescopius.com is supported directly. Columns are matched by their header names, so the column order does not matter and extra columns are ignored.",
+          "columns": "Required: Right Ascension (j2000), Declination (j2000) — Optional: Catalogue Entry, Familiar Name, Type, Constellation, Magnitude, Size, Notes",
+          "note": "Coordinates are read as J2000 in the format 21h 38' 59\" / 57° 30' 50\". Comma and semicolon separated files are both supported."
+        },
+        "errors": {
+          "empty": "The file does not contain any data.",
+          "tooLarge": "The file is too large (max. 2 MB).",
+          "readFailed": "The file could not be read.",
+          "missingColumns": "Required columns are missing: {columns}",
+          "noValidRows": "No target with valid coordinates was found in the file.",
+          "rowsSkipped": "{count} rows were skipped because their coordinates could not be read.",
+          "rowFailed": "Row {line}",
+          "saveFailed": "The imported list could not be saved."
+        }
       }
     },
     "webcam": {

@@ -2164,7 +2164,11 @@
       "enter_name": "Entrer le nom",
       "no_fav": "Aucun favori enregistré",
       "titel": "Favoris",
-      "save_to_favorites": "Enregistrer dans les cibles favorites"
+      "save_to_favorites": "Enregistrer dans les cibles favorites",
+      "groups": {
+        "favorites": "Favoris",
+        "telescopius": "Telescopius"
+      }
     },
     "helpers": {
       "imageModal": {
@@ -2835,7 +2839,59 @@
         "noListsHint": "Créez des listes de cibles sur telescopius.com puis rechargez-les ici.",
         "editOnTelescopius": "Éditer les listes sur Telescopius",
         "dataFrom": "Données du",
-        "connectionError": "La connexion à Telescopius a échoué. Le PC NINA nécessite une connexion internet et au moins une liste de cibles doit exister dans Telescopius."
+        "connectionError": "La connexion à Telescopius a échoué. Le PC NINA nécessite une connexion internet et au moins une liste de cibles doit exister dans Telescopius.",
+        "myLists": "Mes listes de cibles",
+        "unnamedList": "Liste sans nom",
+        "showObjects": "Afficher les objets",
+        "hideObjects": "Masquer les objets",
+        "ra": "RA",
+        "dec": "DÉC",
+        "size": "Taille",
+        "magnitude": "Mag"
+      },
+      "import": {
+        "title": "Importer des cibles depuis un CSV",
+        "button": "Importer un CSV",
+        "description": "Importez une liste de cibles exportée depuis telescopius.com. Aucune clé API n'est nécessaire.",
+        "landingTitle": "Pas de clé API ? Importez un CSV",
+        "landingDescription": "Exportez n'importe quelle liste d'observation de telescopius.com au format CSV et importez-la ici. Les cibles importées peuvent servir au cadrage, au pointage et comme cible de séquence, exactement comme celles chargées via l'API.",
+        "selectFile": "Choisir un fichier CSV",
+        "listName": "Nom de la liste",
+        "targetsFound": "{count} cibles",
+        "morePreview": "… et {count} de plus",
+        "import": "Importer",
+        "cancel": "Annuler",
+        "remove": "Supprimer la liste",
+        "removeConfirm": "Supprimer la liste importée « {name} » ?",
+        "importedLists": "Listes importées",
+        "formatHelp": {
+          "title": "Format CSV pris en charge",
+          "description": "L'export CSV de telescopius.com est pris en charge directement. Les colonnes sont reconnues par leur en-tête, leur ordre n'a donc pas d'importance et les colonnes supplémentaires sont ignorées.",
+          "columns": "Obligatoire : Right Ascension (j2000), Declination (j2000) — Facultatif : Catalogue Entry, Familiar Name, Type, Constellation, Magnitude, Size, Notes",
+          "note": "Les coordonnées sont lues en J2000 au format 21h 38' 59\" / 57° 30' 50\". Les fichiers séparés par des virgules ou des points-virgules sont acceptés."
+        },
+        "errors": {
+          "empty": "Le fichier ne contient aucune donnée.",
+          "tooLarge": "Le fichier est trop volumineux (max. 2 Mo).",
+          "readFailed": "Le fichier n'a pas pu être lu.",
+          "missingColumns": "Colonnes obligatoires manquantes : {columns}",
+          "noValidRows": "Aucune cible avec des coordonnées valides trouvée dans le fichier.",
+          "rowsSkipped": "{count} lignes ont été ignorées car leurs coordonnées étaient illisibles.",
+          "rowFailed": "Ligne {line}",
+          "saveFailed": "La liste importée n'a pas pu être enregistrée."
+        }
+      },
+      "edit": {
+        "edit": "Modifier la cible",
+        "name": "Nom",
+        "ra": "Ascension droite",
+        "dec": "Déclinaison",
+        "rotation": "Rotation",
+        "rotationEmpty": "aucune",
+        "save": "Sauvegarder",
+        "invalidCoordinates": "L'ascension droite ou la déclinaison n'a pas pu être lue.",
+        "invalidRotation": "La rotation doit être un nombre.",
+        "saveFailed": "La modification n'a pas pu être enregistrée."
       }
     },
     "webcam": {

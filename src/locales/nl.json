@@ -179,7 +179,11 @@
         "altitude": "Hoogte (°)",
         "horizonProfile": "Horizonprofiel",
         "twilight": "Schemering",
-        "astronomicalNight": "Astronomische nacht"
+        "astronomicalNight": "Astronomische nacht",
+        "moon": "Maan",
+        "toggleMoon": "Maan tonen",
+        "moonIlluminationFmt": "{pct} % verlicht",
+        "moonSeparationFmt": "{deg}° van doel"
       },
       "mosaic": {
         "title": "Mozaïekmodus",

@@ -1,6 +1,37 @@
 <template>
   <div class="bg-gray-800/50 rounded-lg p-2 relative h-40">
     <canvas ref="canvasRef"></canvas>
+
+    <!-- One strip in the top right corner: the values sit next to the button
+         instead of in a second band further down over the curves. -->
+    <div class="absolute top-1 right-1 z-10 flex min-h-touch items-center gap-1">
+      <span
+        v-if="showMoon && moonInfoText"
+        class="pointer-events-none rounded-control bg-surface-1/80 px-1.5 py-0.5 text-[10px] leading-tight text-content-muted"
+      >
+        {{ moonInfoText }}
+      </span>
+
+      <button
+        type="button"
+        class="flex min-h-touch min-w-touch items-center justify-center"
+        :aria-pressed="showMoon"
+        :aria-label="t('components.framing.skyChart.toggleMoon')"
+        :title="t('components.framing.skyChart.toggleMoon')"
+        @click="showMoon = !showMoon"
+      >
+        <span
+          class="rounded-control bg-surface-1/80 p-1.5 transition-colors"
+          :class="showMoon ? 'text-amber-400' : 'text-content-muted'"
+        >
+          <svg class="h-4 w-4" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <path
+              d="M21.75 15a9.75 9.75 0 01-3.75.75A9.75 9.75 0 018.25 6c0-1.33.27-2.6.75-3.75A9.75 9.75 0 003 11.25 9.75 9.75 0 0012.75 21 9.75 9.75 0 0021.75 15z"
+            />
+          </svg>
+        </span>
+      </button>
+    </div>
   </div>
 </template>
 
@@ -10,10 +41,18 @@ import { useI18n } from 'vue-i18n';
 import { Chart, registerables } from 'chart.js';
 import apiService from '@/services/apiService';
 import { timeSync } from '@/utils/timeSync';
+import { useSettingsStore } from '@/store/settingsStore';
+import {
+  equatorialToAltAz,
+  getMoonDataForTarget,
+  getMoonEquatorial,
+  getSunAltitudeDeg,
+} from '@/utils/astronomy';
 
 Chart.register(...registerables);
 
 const { t } = useI18n();
+const settingsStore = useSettingsStore();
 
 const horizonData = ref([]);
 
@@ -32,61 +71,57 @@ const canvasRef = ref(null);
 let chartInstance = null;
 let timeUpdateInterval = null;
 
-function computeBaseTime() {
-  const now = new Date(timeSync.getServerTime());
-  return new Date(now.getTime() - 12 * 60 * 60 * 1000);
-}
+const STEP_MS = 15 * 60 * 1000;
+const STEPS = 96; // 24 h in 15 minute samples
+const MIDNIGHT_STEP = STEPS / 2;
 
-const baseTime = ref(computeBaseTime());
+const showMoon = computed({
+  get: () => settingsStore.skyChart.showMoon,
+  set: (value) => (settingsStore.skyChart.showMoon = value),
+});
 
-// UTC-basiertes Julianisches Datum
-function toJulian(date) {
-  return date.getTime() / 86400000 + 2440587.5;
-}
+const now = ref(new Date(timeSync.getServerTime()));
 
-function calculateAltitude(raDeg, decDeg, observerLat, observerLon, date) {
-  const latRad = (observerLat * Math.PI) / 180;
-  const decRad = (decDeg * Math.PI) / 180;
-  const JD = toJulian(date);
-  const GMST = 18.697374558 + 24.06570982441908 * (JD - 2451545.0);
-  let LMST = (GMST + observerLon / 15) % 24;
-  if (LMST < 0) LMST += 24;
+// The chart always shows one whole night: it starts at local noon and runs for
+// 24 h, so midnight sits exactly in the middle (sample 48). The start is a
+// calendar time, the steps are a fixed 15 minutes - that keeps every label on
+// the quarter hour. DST switches happen at night, i.e. after midnight, so they
+// only move the far end of the window to 11:00 or 13:00.
+const windowStart = computed(() => {
+  const start = new Date(now.value);
+  if (start.getHours() < 12) start.setDate(start.getDate() - 1);
+  start.setHours(12, 0, 0, 0);
+  return start;
+});
 
-  const hourAngle = LMST * 15 - raDeg;
-  const haRad = (hourAngle * Math.PI) / 180;
+const sampleTimes = computed(() => {
+  const start = windowStart.value.getTime();
+  const times = [];
 
-  const altRad = Math.asin(
-    Math.sin(decRad) * Math.sin(latRad) + Math.cos(decRad) * Math.cos(latRad) * Math.cos(haRad)
-  );
+  for (let i = 0; i <= STEPS; i++) {
+    times.push(new Date(start + i * STEP_MS));
+  }
 
-  return (altRad * 180) / Math.PI;
-}
+  return times;
+});
 
-function calculateAzimuth(raDeg, decDeg, observerLat, observerLon, date) {
-  const latRad = (observerLat * Math.PI) / 180;
-  const decRad = (decDeg * Math.PI) / 180;
-  const JD = toJulian(date);
-  const GMST = 18.697374558 + 24.06570982441908 * (JD - 2451545.0);
-  let LMST = (GMST + observerLon / 15) % 24;
-  if (LMST < 0) LMST += 24;
+const labels = computed(() =>
+  sampleTimes.value.map(
+    (time) => `${time.getHours()}:${String(time.getMinutes()).padStart(2, '0')}`
+  )
+);
 
-  const hourAngle = LMST * 15 - raDeg;
-  const haRad = (hourAngle * Math.PI) / 180;
+// Fractional sample index of the current time, or null while it is outside the
+// window: right before the 15-minute refresh catches up at noon, and on the
+// morning after a DST fall-back, when the fixed 24 h end at 11:00 local.
+const nowIndex = computed(() => {
+  const offset = now.value.getTime() - windowStart.value.getTime();
+  const index = offset / STEP_MS;
+  if (index < 0 || index > STEPS) return null;
+  return index;
+});
 
-  const altRad = Math.asin(
-    Math.sin(decRad) * Math.sin(latRad) + Math.cos(decRad) * Math.cos(latRad) * Math.cos(haRad)
-  );
-
-  const cosA =
-    (Math.sin(decRad) - Math.sin(altRad) * Math.sin(latRad)) /
-    (Math.cos(altRad) * Math.cos(latRad));
-  const sinA = (-Math.cos(decRad) * Math.sin(haRad)) / Math.cos(altRad);
-
-  let azRad = Math.atan2(sinA, cosA);
-  if (azRad < 0) azRad += 2 * Math.PI;
-
-  return (azRad * 180) / Math.PI;
-}
+const hasTarget = computed(() => props.target?.RA != null && props.target?.Dec != null);
 
 function interpolateHorizon(azimuth) {
   const sorted = [...horizonData.value].sort((a, b) => a.azimuth - b.azimuth);
@@ -112,49 +147,120 @@ function interpolateHorizon(azimuth) {
 }
 
 const altitudeData = computed(() => {
-  if (props.target?.RA == null || props.target?.Dec == null) return [];
+  if (!hasTarget.value) return [];
 
-  const points = [];
-  const steps = 96; // 24h * 4 (alle 15 Minuten)
-
-  for (let i = 0; i <= steps; i++) {
-    const time = new Date(baseTime.value.getTime() + i * 15 * 60 * 1000);
-    const alt = calculateAltitude(
-      props.target.RA,
-      props.target.Dec,
-      props.coordinates.latitude,
-      props.coordinates.longitude,
-      time
-    );
-    points.push({
-      label: `${time.getHours()}:${String(time.getMinutes()).padStart(2, '0')}`,
-      altitude: alt,
-    });
-  }
-
-  return points;
+  return sampleTimes.value.map(
+    (time) =>
+      equatorialToAltAz(
+        props.target.RA,
+        props.target.Dec,
+        time,
+        props.coordinates.latitude,
+        props.coordinates.longitude
+      ).altDeg
+  );
 });
 
 const horizonAltitudes = computed(() => {
-  if (!props.target?.RA || !props.target?.Dec || horizonData.value.length === 0) return [];
+  if (!hasTarget.value || horizonData.value.length === 0) return [];
 
-  const points = [];
-  const steps = 96;
+  return sampleTimes.value.map((time) =>
+    interpolateHorizon(
+      equatorialToAltAz(
+        props.target.RA,
+        props.target.Dec,
+        time,
+        props.coordinates.latitude,
+        props.coordinates.longitude
+      ).azDeg
+    )
+  );
+});
 
-  for (let i = 0; i <= steps; i++) {
-    const time = new Date(baseTime.value.getTime() + i * 15 * 60 * 1000);
-    const az = calculateAzimuth(
-      props.target.RA,
-      props.target.Dec,
+// Only the part above the horizon is drawn, so the ends of the curve mark
+// moonrise and moonset.
+const moonAltitudes = computed(() => {
+  if (!showMoon.value) return [];
+
+  return sampleTimes.value.map((time) => {
+    const moon = getMoonEquatorial(time);
+    const { altDeg } = equatorialToAltAz(
+      moon.raDeg,
+      moon.decDeg,
+      time,
       props.coordinates.latitude,
-      props.coordinates.longitude,
-      time
+      props.coordinates.longitude
     );
-    points.push(interpolateHorizon(az));
+    return altDeg > 0 ? altDeg : NaN;
+  });
+});
+
+// Evaluated at midnight, the middle of the window, so the numbers describe the
+// night that is on screen.
+const moonInfo = computed(() => {
+  if (!showMoon.value) return null;
+
+  return getMoonDataForTarget(
+    hasTarget.value ? props.target.RA : null,
+    hasTarget.value ? props.target.Dec : null,
+    sampleTimes.value[MIDNIGHT_STEP]
+  );
+});
+
+const moonInfoText = computed(() => {
+  const info = moonInfo.value;
+  if (!info) return '';
+
+  const parts = [];
+  if (Number.isFinite(info.illumination)) {
+    parts.push(
+      t('components.framing.skyChart.moonIlluminationFmt', {
+        pct: Math.round(info.illumination * 100),
+      })
+    );
+  }
+  if (Number.isFinite(info.separationDeg)) {
+    parts.push(
+      t('components.framing.skyChart.moonSeparationFmt', {
+        deg: Math.round(info.separationDeg),
+      })
+    );
   }
 
-  return points;
+  return parts.join(' · ');
 });
+
+function getDarknessFill(thresholdDeg = -18) {
+  return sampleTimes.value.map((time) =>
+    getSunAltitudeDeg(time, props.coordinates.latitude, props.coordinates.longitude) < thresholdDeg
+      ? 90
+      : NaN
+  );
+}
+
+// Vertical "now" line. A dataset cannot do this: it would be pinned to a sample
+// index, while the marker has to sit at the real time between two samples.
+const nowMarkerPlugin = {
+  id: 'nowMarker',
+  afterDatasetsDraw(chart, _args, options) {
+    const index = options?.index;
+    if (!Number.isFinite(index)) return;
+
+    const x = chart.scales.x?.getPixelForValue(index);
+    if (!Number.isFinite(x)) return;
+
+    const { top, bottom } = chart.chartArea;
+    const ctx = chart.ctx;
+    ctx.save();
+    ctx.beginPath();
+    ctx.lineWidth = 2;
+    ctx.strokeStyle = 'rgb(6, 182, 212)';
+    ctx.moveTo(x, top);
+    ctx.lineTo(x, bottom);
+    ctx.stroke();
+    ctx.restore();
+  },
+};
 
 function createChart() {
   if (!canvasRef.value || altitudeData.value.length === 0) return;
@@ -162,12 +268,13 @@ function createChart() {
 
   chartInstance = new Chart(canvasRef.value, {
     type: 'line',
+    plugins: [nowMarkerPlugin],
     data: {
-      labels: altitudeData.value.map((p) => p.label),
+      labels: labels.value,
       datasets: [
         {
           label: t('components.framing.skyChart.altitude'),
-          data: altitudeData.value.map((p) => p.altitude),
+          data: altitudeData.value,
           borderColor: 'rgb(6, 182, 212)',
           backgroundColor: 'rgba(6, 182, 212, 0.2)',
           pointRadius: 0,
@@ -204,16 +311,14 @@ function createChart() {
           order: -1,
         },
         {
-          type: 'bar',
-          data: altitudeData.value.map((_, i) => {
-            const mid = Math.floor(altitudeData.value.length / 2);
-            return i === mid ? 90 : 0;
-          }),
-          backgroundColor: 'rgba(6, 182, 212,1)',
-          borderWidth: 0,
-          barPercentage: 0.1,
-          categoryPercentage: 1.0,
-          order: -9,
+          label: t('components.framing.skyChart.moon'),
+          data: moonAltitudes.value,
+          borderColor: 'rgb(251, 191, 36)',
+          backgroundColor: 'rgba(251, 191, 36, 0.15)',
+          pointRadius: 0,
+          tension: 0.3,
+          spanGaps: false,
+          order: -8,
         },
       ],
     },
@@ -233,7 +338,10 @@ function createChart() {
           grid: { display: false, color: 'rgba(255,255,255,0.05)' },
         },
       },
-      plugins: { legend: { display: false } },
+      plugins: {
+        legend: { display: false },
+        nowMarker: { index: nowIndex.value },
+      },
     },
   });
 }
@@ -241,15 +349,13 @@ function createChart() {
 function updateChart() {
   if (!chartInstance || altitudeData.value.length === 0) return;
 
-  chartInstance.data.labels = altitudeData.value.map((p) => p.label);
-  chartInstance.data.datasets[0].data = altitudeData.value.map((p) => p.altitude);
+  chartInstance.data.labels = labels.value;
+  chartInstance.data.datasets[0].data = altitudeData.value;
   chartInstance.data.datasets[1].data = horizonAltitudes.value;
   chartInstance.data.datasets[2].data = getDarknessFill(-12);
   chartInstance.data.datasets[3].data = getDarknessFill(-18);
-  chartInstance.data.datasets[4].data = altitudeData.value.map((_, i) => {
-    const mid = Math.floor(altitudeData.value.length / 2);
-    return i === mid ? 90 : 0;
-  });
+  chartInstance.data.datasets[4].data = moonAltitudes.value;
+  chartInstance.options.plugins.nowMarker.index = nowIndex.value;
 
   chartInstance.update();
 }
@@ -283,68 +389,12 @@ async function loadCustomHorizont() {
   }
 }
 
-function calculateSunAltitude(observerLat, observerLon, date) {
-  const daysSinceJ2000 = toJulian(date) - 2451545.0;
-  const meanLongitude = (280.46 + 0.9856474 * daysSinceJ2000) % 360;
-  const meanAnomaly = (357.528 + 0.9856003 * daysSinceJ2000) % 360;
-
-  const eclipticLongitude =
-    meanLongitude +
-    1.915 * Math.sin((meanAnomaly * Math.PI) / 180) +
-    0.02 * Math.sin((2 * meanAnomaly * Math.PI) / 180);
-  const epsilon = 23.439 - 0.0000004 * daysSinceJ2000;
-  const ra =
-    (Math.atan2(
-      Math.cos((epsilon * Math.PI) / 180) * Math.sin((eclipticLongitude * Math.PI) / 180),
-      Math.cos((eclipticLongitude * Math.PI) / 180)
-    ) *
-      180) /
-    Math.PI;
-  const dec =
-    (Math.asin(
-      Math.sin((epsilon * Math.PI) / 180) * Math.sin((eclipticLongitude * Math.PI) / 180)
-    ) *
-      180) /
-    Math.PI;
-
-  const GMST = 18.697374558 + 24.06570982441908 * daysSinceJ2000;
-  let LMST = (GMST + observerLon / 15) % 24;
-  if (LMST < 0) LMST += 24;
-  const hourAngle = (LMST * 15 - ra + 360) % 360;
-
-  const haRad = (hourAngle * Math.PI) / 180;
-  const latRad = (observerLat * Math.PI) / 180;
-  const decRad = (dec * Math.PI) / 180;
-
-  const alt = Math.asin(
-    Math.sin(latRad) * Math.sin(decRad) + Math.cos(latRad) * Math.cos(decRad) * Math.cos(haRad)
-  );
-  return (alt * 180) / Math.PI;
-}
-
-function getDarknessFill(thresholdDeg = -18) {
-  const fill = [];
-  const steps = 96;
-
-  for (let i = 0; i <= steps; i++) {
-    const time = new Date(baseTime.value.getTime() + i * 15 * 60 * 1000);
-    const sunAlt = calculateSunAltitude(
-      props.coordinates.latitude,
-      props.coordinates.longitude,
-      time
-    );
-    fill.push(sunAlt < thresholdDeg ? 90 : NaN);
-  }
-
-  return fill;
-}
-
 onMounted(async () => {
   await loadCustomHorizont();
   createChart();
   timeUpdateInterval = setInterval(
     () => {
-      baseTime.value = computeBaseTime();
+      now.value = new Date(timeSync.getServerTime());
     },
     15 * 60 * 1000
   );
@@ -352,13 +402,15 @@ onMounted(async () => {
 
 onUnmounted(() => {
   clearInterval(timeUpdateInterval);
+  chartInstance?.destroy();
+  chartInstance = null;
 });
 
-watch([altitudeData, horizonAltitudes], () => {
+watch([altitudeData, horizonAltitudes, moonAltitudes, nowIndex], () => {
   if (chartInstance) {
     updateChart();
   } else {
-    createChart(); // Erstes Mal erstellen
+    createChart(); // first run
   }
 });
 </script>

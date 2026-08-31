@@ -179,7 +179,11 @@
         "altitude": "Altitude (°)",
         "horizonProfile": "Perfil de horizonte",
         "twilight": "Crepúsculo",
-        "astronomicalNight": "Noite astronómica"
+        "astronomicalNight": "Noite astronómica",
+        "moon": "Lua",
+        "toggleMoon": "Mostrar a Lua",
+        "moonIlluminationFmt": "{pct} % iluminada",
+        "moonSeparationFmt": "{deg}° do alvo"
       },
       "mosaic": {
         "title": "Modo Mosaico",

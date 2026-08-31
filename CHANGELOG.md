@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [App6.3.0-beta2] - 2026-08-31
 
+### Added
+- Sky chart: The time axis now always runs from midday to midday with midnight in the middle, so a whole night is visible at a glance and the "now" marker sits at its real time
+- Sky chart: A moon button shows the moon's altitude curve plus its illumination and distance to the target
+
 ### Changed
 - Observation planner: Redesigned target cards - name, preview, values and actions no longer overlap or get cut off on narrow screens
 

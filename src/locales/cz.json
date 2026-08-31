@@ -179,7 +179,11 @@
         "altitude": "Výška (°)",
         "horizonProfile": "Profil horizontu",
         "twilight": "Soumrak",
-        "astronomicalNight": "Astronomická noc"
+        "astronomicalNight": "Astronomická noc",
+        "moon": "Měsíc",
+        "toggleMoon": "Zobrazit Měsíc",
+        "moonIlluminationFmt": "{pct} % osvětlen",
+        "moonSeparationFmt": "{deg}° od cíle"
       },
       "mosaic": {
         "title": "Režim mozaiky",

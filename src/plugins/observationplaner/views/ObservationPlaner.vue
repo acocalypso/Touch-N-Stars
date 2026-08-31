@@ -491,6 +491,7 @@ import { useFramingStore } from '@/store/framingStore';
 import { useSequenceStore } from '@/store/sequenceStore';
 import { apiStore } from '@/store/store';
 import { useObservationPlanerStore } from '../store/observationPlanerStore';
+import { clampValue as clamp, equatorialToAltAz, getMoonDataForTarget } from '@/utils/astronomy';
 import {
   ArrowPathIcon,
   ArrowUpRightIcon,
@@ -1232,158 +1233,8 @@ function hashString(str) {
 }
 
 // --------------------------
-// Sun/Moon helpers
-// --------------------------
-function normalizeDeg360(deg) {
-  return ((deg % 360) + 360) % 360;
-}
-
-function daysSinceJ2000(date) {
-  return toJulianDate(date) - 2451545.0;
-}
-
-function eclipticToEquatorial(lambdaDeg, betaDeg, date) {
-  const epsDeg = 23.439291 - 0.00000036 * daysSinceJ2000(date);
-
-  const lambda = toRad(lambdaDeg);
-  const beta = toRad(betaDeg);
-  const eps = toRad(epsDeg);
-
-  const sinDec = Math.sin(beta) * Math.cos(eps) + Math.cos(beta) * Math.sin(eps) * Math.sin(lambda);
-  const dec = Math.asin(clamp(sinDec, -1, 1));
-
-  const y = Math.sin(lambda) * Math.cos(eps) - Math.tan(beta) * Math.sin(eps);
-  const x = Math.cos(lambda);
-  const ra = Math.atan2(y, x);
-
-  return {
-    raDeg: normalizeDeg360(toDeg(ra)),
-    decDeg: toDeg(dec),
-  };
-}
-
-function getSunEquatorial(date) {
-  const d = daysSinceJ2000(date);
-  const M = normalizeDeg360(357.52911 + 0.98560028 * d);
-  const L0 = normalizeDeg360(280.46646 + 0.98564736 * d);
-
-  const C =
-    1.914602 * Math.sin(toRad(M)) +
-    0.019993 * Math.sin(toRad(2 * M)) +
-    0.000289 * Math.sin(toRad(3 * M));
-
-  const lambda = normalizeDeg360(L0 + C);
-  return eclipticToEquatorial(lambda, 0, date);
-}
-
-function getMoonEquatorial(date) {
-  const d = daysSinceJ2000(date);
-
-  const L0 = normalizeDeg360(218.316 + 13.176396 * d);
-  const M_moon = normalizeDeg360(134.963 + 13.064993 * d);
-  const M_sun = normalizeDeg360(357.529 + 0.98560028 * d);
-  const D = normalizeDeg360(297.85 + 12.190749 * d);
-  const F = normalizeDeg360(93.272 + 13.22935 * d);
-
-  const lon =
-    L0 +
-    6.289 * Math.sin(toRad(M_moon)) +
-    1.274 * Math.sin(toRad(2 * D - M_moon)) +
-    0.658 * Math.sin(toRad(2 * D)) +
-    0.214 * Math.sin(toRad(2 * M_moon)) -
-    0.186 * Math.sin(toRad(M_sun)) -
-    0.059 * Math.sin(toRad(2 * D - 2 * M_moon)) -
-    0.057 * Math.sin(toRad(2 * D - M_sun - M_moon)) +
-    0.053 * Math.sin(toRad(2 * D + M_moon)) +
-    0.046 * Math.sin(toRad(2 * D - M_sun)) +
-    0.041 * Math.sin(toRad(M_sun - M_moon)) -
-    0.035 * Math.sin(toRad(D)) -
-    0.031 * Math.sin(toRad(M_sun + M_moon)) -
-    0.015 * Math.sin(toRad(2 * F - 2 * D)) +
-    0.011 * Math.sin(toRad(M_moon - 4 * D));
-
-  const lat =
-    5.128 * Math.sin(toRad(F)) +
-    0.28 * Math.sin(toRad(M_moon + F)) +
-    0.277 * Math.sin(toRad(M_moon - F)) +
-    0.173 * Math.sin(toRad(2 * D - F)) +
-    0.055 * Math.sin(toRad(2 * D + F - M_moon)) +
-    0.046 * Math.sin(toRad(2 * D - F - M_moon)) +
-    0.033 * Math.sin(toRad(2 * D + F)) +
-    0.017 * Math.sin(toRad(2 * M_moon + F));
-
-  return eclipticToEquatorial(normalizeDeg360(lon), lat, date);
-}
-
-function angularSeparationDeg(ra1Deg, dec1Deg, ra2Deg, dec2Deg) {
-  if (![ra1Deg, dec1Deg, ra2Deg, dec2Deg].every(Number.isFinite)) return null;
-
-  const ra1 = toRad(ra1Deg);
-  const dec1 = toRad(dec1Deg);
-  const ra2 = toRad(ra2Deg);
-  const dec2 = toRad(dec2Deg);
-
-  const cosSep =
-    Math.sin(dec1) * Math.sin(dec2) + Math.cos(dec1) * Math.cos(dec2) * Math.cos(ra1 - ra2);
-
-  return toDeg(Math.acos(clamp(cosSep, -1, 1)));
-}
-
-function getMoonIllumination(date) {
-  const sun = getSunEquatorial(date);
-  const moon = getMoonEquatorial(date);
-  const elongationDeg = angularSeparationDeg(sun.raDeg, sun.decDeg, moon.raDeg, moon.decDeg);
-
-  // Fraction illuminated: 0=new moon, 1=full moon
-  const illumination = elongationDeg == null ? null : (1 - Math.cos(toRad(elongationDeg))) / 2;
-
-  return {
-    illumination,
-    sun,
-    moon,
-    elongationDeg,
-  };
-}
-
-function getMoonDataForTarget(targetRaDeg, targetDecDeg, date) {
-  const { illumination, moon } = getMoonIllumination(date);
-  const separationDeg =
-    Number.isFinite(targetRaDeg) && Number.isFinite(targetDecDeg)
-      ? angularSeparationDeg(targetRaDeg, targetDecDeg, moon.raDeg, moon.decDeg)
-      : null;
-
-  return {
-    illumination,
-    separationDeg,
-    moonRaDeg: moon.raDeg,
-    moonDecDeg: moon.decDeg,
-    at: date instanceof Date ? date.toISOString() : null,
-  };
-}
-
-// --------------------------
-// RA/Dec (deg), date, lat/lon (deg) -> alt/az (deg)
-function radecToAltAz(raDeg, decDeg, date, latDeg, lonDeg) {
-  const ra = toRad(raDeg);
-  const dec = toRad(decDeg);
-  const lat = toRad(latDeg);
-
-  const lst = toRad(localSiderealTimeDeg(date, lonDeg));
-  const ha = normalizeRad(lst - ra); // hour angle
-
-  const sinAlt = Math.sin(dec) * Math.sin(lat) + Math.cos(dec) * Math.cos(lat) * Math.cos(ha);
-  const alt = Math.asin(clamp(sinAlt, -1, 1));
-
-  // azimuth (0..2pi), measured from North towards East
-  const cosAz = (Math.sin(dec) - Math.sin(alt) * Math.sin(lat)) / (Math.cos(alt) * Math.cos(lat));
-  let az = Math.acos(clamp(cosAz, -1, 1));
-  // resolve quadrant
-  if (Math.sin(ha) > 0) az = 2 * Math.PI - az;
-
-  return { altDeg: toDeg(alt), azDeg: toDeg(az) };
-}
-
 // Track over window
+// --------------------------
 function buildTrack(raDeg, decDeg, start, end, stepMin, latDeg, lonDeg) {
   const msStep = Math.max(2, stepMin) * 60 * 1000;
   const points = [];
@@ -1391,7 +1242,7 @@ function buildTrack(raDeg, decDeg, start, end, stepMin, latDeg, lonDeg) {
 
   for (let t = start.getTime(); t <= end.getTime(); t += msStep) {
     const dt = new Date(t);
-    const { altDeg, azDeg } = radecToAltAz(raDeg, decDeg, dt, latDeg, lonDeg);
+    const { altDeg, azDeg } = equatorialToAltAz(raDeg, decDeg, dt, latDeg, lonDeg);
     points.push({ time: dt, altDeg, azDeg });
     if (altDeg > best.altDeg) best = { altDeg, azDeg, time: dt };
   }
@@ -1451,32 +1302,6 @@ function fmtDec(decDeg) {
   const d = Math.floor(a);
   const m = Math.floor((a - d) * 60);
   return `${sign}${String(d).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
-}
-
-// --------------------------
-// Sidereal time (approx)
-// --------------------------
-// returns GMST deg
-function gmstDeg(date) {
-  // Meeus-ish simplified
-  const jd = toJulianDate(date);
-  const T = (jd - 2451545.0) / 36525.0;
-  let gmst =
-    280.46061837 +
-    360.98564736629 * (jd - 2451545.0) +
-    0.000387933 * T * T -
-    (T * T * T) / 38710000.0;
-  gmst = ((gmst % 360) + 360) % 360;
-  return gmst;
-}
-// LST deg = GMST + lon (east positive)
-function localSiderealTimeDeg(date, lonDeg) {
-  let lst = gmstDeg(date) + lonDeg;
-  lst = ((lst % 360) + 360) % 360;
-  return lst;
-}
-function toJulianDate(date) {
-  return date.getTime() / 86400000 + 2440587.5;
 }
 
 // --------------------------
@@ -1591,32 +1416,12 @@ function azToCardinal(azDeg) {
   return dirs[idx];
 }
 
-// --------------------------
-// Math utils
-// --------------------------
-function toRad(deg) {
-  return (deg * Math.PI) / 180;
-}
-function toDeg(rad) {
-  return (rad * 180) / Math.PI;
-}
-function clamp(v, min, max) {
-  return Math.max(min, Math.min(max, v));
-}
 const tonightPicks = computed(() =>
   targets.value
     .filter((t) => t.tonightScore > 0)
     .sort((a, b) => b.tonightScore - a.tonightScore)
     .slice(0, 10)
 );
-function normalizeRad(r) {
-  const twoPi = 2 * Math.PI;
-  r = r % twoPi;
-  if (r < -Math.PI) r += twoPi;
-  if (r > Math.PI) r -= twoPi;
-  return r;
-}
-
 // --------------------------
 // Error helper
 // --------------------------

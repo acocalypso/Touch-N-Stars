@@ -179,7 +179,11 @@
         "altitude": "Висота (°)",
         "horizonProfile": "Профіль горизонту",
         "twilight": "Сутінки",
-        "astronomicalNight": "Астрономічна ніч"
+        "astronomicalNight": "Астрономічна ніч",
+        "moon": "Місяць",
+        "toggleMoon": "Показати Місяць",
+        "moonIlluminationFmt": "{pct} % освітлення",
+        "moonSeparationFmt": "{deg}° від цілі"
       },
       "mosaic": {
         "title": "Режим мозаїки",

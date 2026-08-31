@@ -179,7 +179,11 @@
         "altitude": "高度 (°)",
         "horizonProfile": "地平线轮廓",
         "twilight": "晨昏",
-        "astronomicalNight": "天文夜"
+        "astronomicalNight": "天文夜",
+        "moon": "月亮",
+        "toggleMoon": "显示月亮",
+        "moonIlluminationFmt": "月面照明 {pct} %",
+        "moonSeparationFmt": "距目标 {deg}°"
       },
       "mosaic": {
         "columns": "专栏",

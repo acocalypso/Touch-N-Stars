@@ -195,7 +195,11 @@
         "altitude": "고도 (°)",
         "horizonProfile": "호라이즌 프로파일",
         "twilight": "박명",
-        "astronomicalNight": "천문학적 밤"
+        "astronomicalNight": "천문학적 밤",
+        "moon": "달",
+        "toggleMoon": "달 표시",
+        "moonIlluminationFmt": "{pct} % 밝음",
+        "moonSeparationFmt": "대상에서 {deg}°"
       },
       "mosaic": {
         "title": "모자이크 모드",

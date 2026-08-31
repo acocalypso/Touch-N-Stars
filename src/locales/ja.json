@@ -163,7 +163,11 @@
         "altitude": "高度 (°)",
         "horizonProfile": "地平線プロファイル",
         "twilight": "薄明",
-        "astronomicalNight": "天文夜"
+        "astronomicalNight": "天文夜",
+        "moon": "月",
+        "toggleMoon": "月を表示",
+        "moonIlluminationFmt": "輝面比 {pct} %",
+        "moonSeparationFmt": "対象から {deg}°"
       },
       "mosaic": {
         "title": "モザイクモード",

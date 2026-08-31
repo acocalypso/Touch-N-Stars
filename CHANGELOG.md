@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [App6.3.0-beta1] - unreleased 
 
 ### Added
+- Sky chart: The time axis now always runs from midday to midday with midnight in the middle, so a whole night is visible at a glance and the "now" marker sits at its real time
+- Sky chart: A moon button shows the moon's altitude curve plus its illumination and distance to the target
+
+### Changed
+- Observation planner: Redesigned target cards - name, preview, values and actions no longer overlap or get cut off on narrow screens
 - Telescopius: Target lists can now be imported from a Telescopius CSV export, including the position angle as framing rotation, and imported targets can be edited afterwards
 
 ## [App6.3.0-beta1] - 2026-08-30

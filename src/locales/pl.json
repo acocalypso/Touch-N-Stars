@@ -179,7 +179,11 @@
         "altitude": "Wysokość (°)",
         "horizonProfile": "Profil horyzontu",
         "twilight": "Zmierzch",
-        "astronomicalNight": "Noc astronomiczna"
+        "astronomicalNight": "Noc astronomiczna",
+        "moon": "Księżyc",
+        "toggleMoon": "Pokaż Księżyc",
+        "moonIlluminationFmt": "{pct} % oświetlenia",
+        "moonSeparationFmt": "{deg}° od celu"
       },
       "mosaic": {
         "title": "Tryb mozaiki",

@@ -195,7 +195,11 @@
         "altitude": "Altitud (°)",
         "horizonProfile": "Perfil d'horitzó",
         "twilight": "Crepuscle",
-        "astronomicalNight": "Nit astronòmica"
+        "astronomicalNight": "Nit astronòmica",
+        "moon": "Lluna",
+        "toggleMoon": "Mostra la Lluna",
+        "moonIlluminationFmt": "{pct} % il·luminada",
+        "moonSeparationFmt": "{deg}° de l'objectiu"
       },
       "mosaic": {
         "title": "Mode mosaic",

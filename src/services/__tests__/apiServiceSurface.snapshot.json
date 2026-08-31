@@ -227,6 +227,8 @@
   "moveRotator": "function",
   "nightsummary": [
     "deleteSession",
+    "downloadReportBlob",
+    "getReportUrl",
     "getSession",
     "getSessions",
     "getSettings",

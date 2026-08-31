@@ -71,6 +71,16 @@ export function resetSockets() {
 export class MemoryStorage {
   #map = new Map();
 
+  // Enumeration half of the Web Storage API, used by utils/settingsBackup.js
+  // to walk every stored key.
+  get length() {
+    return this.#map.size;
+  }
+
+  key(index) {
+    return [...this.#map.keys()][index] ?? null;
+  }
+
   getItem(key) {
     return this.#map.has(key) ? this.#map.get(key) : null;
   }

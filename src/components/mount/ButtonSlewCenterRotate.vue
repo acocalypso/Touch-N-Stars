@@ -4,7 +4,7 @@
       <button
         @click="handleMainAction"
         :disabled="
-          (!store.mountInfo.Slewing &&
+          (!store.mountIsSlewing &&
             (framingStore.isSlewing ||
               framingStore.isSlewingAndCentering ||
               framingStore.isRotating ||
@@ -13,7 +13,7 @@
         "
         :class="[
           'px-5 flex-1 w-full rounded-none border-0',
-          store.mountInfo.Slewing ? 'tns-btn-danger' : 'tns-btn-primary',
+          store.mountIsSlewing ? 'tns-btn-danger' : 'tns-btn-primary',
         ]"
       >
         <span
@@ -22,7 +22,7 @@
           "
           class="loader mr-2"
         ></span>
-        <StopCircleIcon v-if="store.mountInfo.Slewing" class="w-6 h-6" />
+        <StopCircleIcon v-if="store.mountIsSlewing" class="w-6 h-6" />
         <p v-else-if="label">{{ label }}</p>
         <p
           v-else-if="
@@ -133,24 +133,20 @@ import toggleButton from '@/components/helpers/toggleButton.vue';
 import Modal from '@/components/helpers/Modal.vue';
 import SettingInput from '@/components/helpers/settings/UpdatePorfileNumber.vue';
 import { StopCircleIcon } from '@heroicons/vue/24/outline';
-import { useHaptics } from '@/composables/useHaptics';
 
 const store = apiStore();
 const framingStore = useFramingStore();
 const settingsStore = useSettingsStore();
 const { t } = useI18n();
-const { tapLight, tapMedium } = useHaptics();
 const showSettingsModal = ref(false);
 
 // While slewing this button turns into the stop action. Stopping a moving mount
 // stays a single tap on purpose — no confirmation in front of an emergency stop.
 function handleMainAction() {
-  if (store.mountInfo.Slewing) {
-    tapMedium();
+  if (store.mountIsSlewing) {
     framingStore.slewStop();
     return;
   }
-  tapLight();
   slew();
 }
 

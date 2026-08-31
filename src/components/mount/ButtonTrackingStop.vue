@@ -15,14 +15,10 @@ import { useI18n } from 'vue-i18n';
 import { StopCircleIcon } from '@heroicons/vue/24/outline';
 import { apiStore } from '@/store/store';
 
-import { useHaptics } from '@/composables/useHaptics';
-
-const { tapLight } = useHaptics();
 const store = apiStore();
 const { t } = useI18n();
 
 async function setTrackingMode(mode) {
-  tapLight();
   //0=Siderial, 1=Lunar, 2=Solar, 3=King, 4=Stopped
   try {
     const response = await apiService.setTrackingMode(mode);

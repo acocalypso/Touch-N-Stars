@@ -37,8 +37,6 @@ import { apiStore } from '@/store/store';
 import { useI18n } from 'vue-i18n';
 import { StopCircleIcon } from '@heroicons/vue/24/outline';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
-import { useHaptics } from '@/composables/useHaptics';
-const { tapLight, tapMedium } = useHaptics();
 
 const { t } = useI18n();
 const store = apiStore();
@@ -46,7 +44,6 @@ const azimuth = ref(0);
 const isSlewing = ref(false);
 
 async function slewDome() {
-  tapLight();
   isSlewing.value = true;
   try {
     await apiService.domeAction(`slew?waitToFinish=true&azimuth=${azimuth.value}`);
@@ -64,7 +61,6 @@ async function slewDome() {
 }
 
 async function stopSlew() {
-  tapMedium();
   try {
     const response = await apiService.domeAction('stop');
     if (!response.Success) return;

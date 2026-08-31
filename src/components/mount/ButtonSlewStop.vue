@@ -8,15 +8,12 @@
 <script setup>
 import { useFramingStore } from '@/store/framingStore';
 import { StopCircleIcon } from '@heroicons/vue/24/outline';
-import { useHaptics } from '@/composables/useHaptics';
 
 const framingStore = useFramingStore();
-const { tapMedium } = useHaptics();
 
 // Deliberately not behind a confirmation: this is the emergency stop for a
 // moving mount and has to take effect on the first tap.
 function stopSlew() {
-  tapMedium();
   framingStore.slewStop();
 }
 </script>

@@ -140,6 +140,16 @@
       "confirmSetTargetMessage": "Czy na pewno chcesz ustawić ten cel jako cel sekwencji?",
       "useNinaCache": "Użyj pamięci podręcznej NINA dla obrazu celu",
       "setSequnceTarget": "ustaw jako cel sekwencji",
+      "sequenceTargetPicker": {
+        "title": "Cel sekwencji",
+        "hint": "Wybierz cel z załadowanej sekwencji, który otrzyma współrzędne kadrowania.",
+        "newTarget": "Nowy cel",
+        "unnamed": "Cel {index}",
+        "position": "Pozycja wstawiania",
+        "positionEnd": "Na końcu",
+        "positionAfter": "Po {name}",
+        "addFailed": "Nie można dodać nowego celu do sekwencji"
+      },
       "search": {
         "title": "Szukaj",
         "placeholder": "Wprowadź szukaną frazę...",
@@ -165,6 +175,12 @@
       "infoTargetImage": "Jeśli obraz wyświetla się tylko na czarno, należy skonfigurować \"Offline Sky Map Cache\" w NINA lub wyłączyć opcję \"użyj pamięci podręcznej NINA\"",
       "useCenter": "Centruj",
       "useRotate": "Obróć",
+      "skyChart": {
+        "altitude": "Wysokość (°)",
+        "horizonProfile": "Profil horyzontu",
+        "twilight": "Zmierzch",
+        "astronomicalNight": "Noc astronomiczna"
+      },
       "mosaic": {
         "title": "Tryb mozaiki",
         "columns": "Kolumny",
@@ -178,7 +194,11 @@
         "panelsSet": "panele ustawione w kolejności",
         "willBeSaved": "panele zostaną zapisane indywidualnie"
       },
-      "customTarget": "Cel niestandardowy"
+      "customTarget": "Cel niestandardowy",
+      "solvedRotation": {
+        "short": "rozwiązane",
+        "tooltip": "Obrót kamery z ostatniego udanego plate solve"
+      }
     },
     "tutorial": {
       "previous": "Poprzedni",
@@ -422,6 +442,11 @@
     "settings": {
       "title": "Ustawienia",
       "general": "Ogólny",
+      "tabs": {
+        "connection": "Połączenie i lokalizacja",
+        "interface": "Interfejs",
+        "system": "System"
+      },
       "add": "dodaj",
       "coordinates": "Współrzędne GPS",
       "save": "Zapisz",
@@ -491,6 +516,22 @@
         "title": "Utrzymuj ekran aktywnym",
         "description": "Zapobiega przyciemnieniu lub blokowaniu urządzenia podczas otwartej aplikacji."
       },
+      "backupRestore": {
+        "title": "Kopia zapasowa i przywracanie",
+        "description": "Zapisuje ustawienia przechowywane na tym urządzeniu do pliku i przywraca je na innym urządzeniu.",
+        "profileWarning": "To tworzy kopię zapasową wyłącznie ustawień aplikacji na tym urządzeniu. Ustawienia sprzętu, kamery, montażu i inne znajdują się w profilu NINA lub PINS - wykonaj ich kopię osobno, aby uzyskać pełną kopię zapasową.",
+        "locationAndroid": "Plik jest zapisywany w Dokumenty/TouchNStars na tym urządzeniu - otwórz go za pomocą aplikacji menedżera plików.",
+        "locationIos": "Plik jest zapisywany w aplikacji Pliki, w lokalizacji Na moim iPhonie/iPadzie → Touch 'N Stars → Documents.",
+        "locationBrowser": "Plik jest zapisywany w domyślnym folderze pobierania Twojej przeglądarki.",
+        "exportButton": "Eksportuj kopię zapasową",
+        "importButton": "Przywróć z kopii zapasowej",
+        "exportSuccess": "Kopię zapasową zapisano jako {filename} ({count} wpisów).",
+        "exportError": "Nie udało się zapisać pliku kopii zapasowej.",
+        "confirmImportTitle": "Przywrócić kopię zapasową?",
+        "confirmImportMessage": "Spowoduje to nadpisanie ustawień na tym urządzeniu, w tym zapisanych instancji. Aplikacja zostanie następnie ponownie załadowana.",
+        "importEmpty": "Plik kopii zapasowej nie zawiera ustawień do przywrócenia.",
+        "importError": "Nie udało się przywrócić kopii zapasowej: {error}"
+      },
       "wifiBinding": {
         "title": "Powiązanie z siecią lokalną",
         "description": "Utrzymuje połączenie aplikacji przez Wi-Fi, gdy instancja działa w sieci lokalnej bez internetu (np. hotspot PINS), podczas gdy reszta telefonu nadal korzysta z danych komórkowych."
@@ -498,6 +539,10 @@
       "input": {
         "title": "Optymalizacja wejścia",
         "touchOptimized": "Selektor zoptymalizowany dla dotyku"
+      },
+      "haptics": {
+        "title": "Wibracje dotykowe",
+        "description": "Krótka wibracja przy naciśnięciu przycisków"
       },
       "beta": {
         "title": "Kanał aktualizacji beta"
@@ -560,6 +605,7 @@
         "astapDatabaseInstallFailed": "Instalacja bazy danych gwiazdy ASTAP nie powiodła się{exitCode}.",
         "astapDatabaseInstallSuccess": "Baza danych gwiazdek ASTAP {databaseId} została pomyślnie zainstalowana.",
         "astapDatabaseInstalling": "Instaluję...",
+        "astapDatabaseProgressStalled": "Brak postępu pobierania przez 30 sekund. Zadanie jest nadal monitorowane.",
         "astapDatabaseJobStarted": "zaczął",
         "astapDatabaseJobStartedMessage": "Rozpoczęto zadanie instalacji dla {databaseId}.",
         "astapDatabaseJobStatus": "Stanowisko {jobId}: {status}",
@@ -612,10 +658,16 @@
         "syncSuccess": "Czas zsynchronizowany pomyślnie."
       },
       "navbarCustomization": {
-        "alwaysVisible": "Zawsze widoczny",
         "hint": "Przeciągnij, aby zmienić kolejność. Przynajmniej jedna strona poza Ustawieniami musi pozostać widoczna.",
-        "minOneRequired": "Przynajmniej jedna strona musi pozostać widoczna",
         "title": "Dostosowywanie paska nawigacyjnego"
+      },
+      "itemCustomization": {
+        "alwaysVisible": "Zawsze widoczny",
+        "minOneRequired": "Przynajmniej jeden element musi pozostać widoczny"
+      },
+      "statusBarCustomization": {
+        "title": "Dostosowywanie paska stanu",
+        "hint": "Przeciągnij, aby zmienić kolejność. Przynajmniej jeden element musi pozostać widoczny."
       },
       "imageSavePath": {
         "create": "Tworzyć",
@@ -678,6 +730,11 @@
       "sharedGuidWarning": "Rotator and safety monitor share one storage slot in NINA — changing one also changes the other.",
       "noReconnectHint": "New settings take effect on the next connect.",
       "cameraNoSettings": "This camera has no settings to configure."
+    },
+    "selectDevices": {
+      "deviceNotFound": "Nie znaleziono urządzenia",
+      "deviceNotFoundMessage": "Sterownik INDI został ponownie załadowany, ale „{device}” się nie pojawił. Sprawdź zasilanie i wybierz urządzenie ponownie.",
+      "reloadingDriver": "Ponowne ładowanie sterownika INDI…"
     },
     "connectEquipment": {
       "camera": {
@@ -751,6 +808,7 @@
       "sequenceLoad": "Załaduj",
       "sequenceNoFiles": "Nie znaleziono plików",
       "sequenceLoading": "Ładowanie...",
+      "loadingSequence": "Ładowanie sekwencji…",
       "sequenceClose": "Zamknij",
       "deleteConfirmationTitle": "Usuń plik",
       "deleteConfirmationMessage": "Czy na pewno chcesz usunąć plik?",
@@ -1000,6 +1058,10 @@
         "annotation": {
           "text": "Tekst"
         },
+        "saveSequence": {
+          "notSet": "Nie ustawiono",
+          "applyFileName": "Zastosuj"
+        },
         "groundstation": {
           "message": "Wiadomość",
           "title": "Tytuł",
@@ -1052,6 +1114,16 @@
           "modePeak": "Okres największego zainteresowania usługą",
           "minimumPoints": "Minimalny – 0 pkt"
         },
+        "interruptAndRetryWhenRMSAbove": {
+          "rmsThreshold": "Próg RMS (\")",
+          "mode": "Tryb",
+          "modeRMS": "RMS",
+          "modePeak": "Szczyt",
+          "minimumPoints": "Minimalna liczba punktów",
+          "stableTime": "Stabilne przez (s)",
+          "recoveryTimeout": "Limit czasu odzyskiwania (min)",
+          "maxRetries": "Maks. liczba prób (0 = bez limitu)"
+        },
         "changePHD2Parameters": {
           "parameter": "Parametr",
           "exposureTime": "Czas ekspozycji(-y)",
@@ -1065,7 +1137,8 @@
         "dso": {
           "targetName": "nazwa zasobu docelowego",
           "positionAngle": "Kąt pozycyjny",
-          "loadFromFavorites": "Załaduj z ulubionych"
+          "loadFromFavorites": "Załaduj z ulubionych",
+          "loadIntoFraming": "Załaduj do Asystenta kadrowania"
         },
         "warmCamera": {
           "duration": "Czas trwania (min)"
@@ -1134,6 +1207,7 @@
       "disable": "Wyłącz",
       "resetStatus": "Resetuj status",
       "delete": "Usuń",
+      "runningLocked": "Ten element jest wykonywany i nie można go zmienić",
       "controlsLockedMessage": "Sterowanie sekwencją jest zablokowane na czas trwania sekwencji.",
       "lockControls": "Zamek",
       "unlockControls": "Odblokować"
@@ -1310,6 +1384,7 @@
           "MaxMove": "RA: Max ruch",
           "predictive_weight": "RA: Waga predykcyjna",
           "reactive_weight": "RA: Waga reaktywna",
+          "period_length": "RA: Długość okresu PEC (s)",
           "slope_weight": "RA: Waga nachylenia",
           "exp_factor": "RA: Współczynnik naświetlania"
         },
@@ -1454,6 +1529,7 @@
             "hysteresis": "Waga nadawana historii ostatnich korekt względem bieżącej klatki, w procentach. Wysokie wartości wygładzają korekty, ale wolniej reagują na rzeczywistą zmianę kierunku.",
             "predictiveWeight": "Predictive PEC: waga przewidywanej (modelowanej) części korekty. Domyślne wartości pasują większości montaży; duże zmiany mogą pogorszyć prowadzenie.",
             "reactiveWeight": "Predictive PEC: waga części reaktywnej, opartej na przesunięciu gwiazdy w ostatniej klatce. Domyślne wartości pasują większości montaży.",
+            "periodLength": "Predictive PEC: długość okresu ślimaka montażu w sekundach. PHD2 modeluje na tej podstawie powtarzalny błąd w RA i koryguje go z wyprzedzeniem. Wartość znajdziesz w specyfikacji montażu (około 479 s dla EQ6) lub odczytasz z piku PEC na wykresie FFT guidingu.",
             "slopeWeight": "LowPass: jak bardzo ostatni trend (nachylenie) ruchu gwiazdy wpływa na korektę, w procentach. Zapobiega zbytniej ospałości algorytmu; 0 używa tylko mediany ostatniej historii.",
             "expFactor": "ZFilter: wirtualny czas ekspozycji to rzeczywista ekspozycja × ten współczynnik. Wyższe wartości bardziej filtrują seeing (gładziej, ale wolniej); wirtualna ekspozycja ~2–4 s to dobry punkt wyjścia dla RA."
           },
@@ -1852,7 +1928,8 @@
       },
       "indi": {
         "settings": "Ustawienia rotatora"
-      }
+      },
+      "solvedPositionAngle": "Rozwiązany kąt na niebie"
     },
     "flat": {
       "please_connect_flatDevice": "Proszę podłączyć urządzenie flat",
@@ -2192,7 +2269,8 @@
         "mount": "Montaż",
         "progress": "Postęp",
         "safety": "Bezpieczeństwo",
-        "weather": "Pogoda"
+        "weather": "Pogoda",
+        "screenlock": "Blokada"
       },
       "mount": {
         "parked": "Zaparkowany",
@@ -4806,6 +4884,94 @@
       "setFailed": "Nie udało się ustawić właściwości.",
       "title": "Panel sterowania INDI",
       "updated": "Zaktualizowano"
+    },
+    "hardwareDb": {
+      "title": "Zgodność sprzętu",
+      "intro": "Podziel się tym, które urządzenia działają z którym sterownikiem. Każde zgłoszenie jest sprawdzane, zanim trafi do bazy.",
+      "collecting": "Odczytywanie podłączonego sprzętu…",
+      "noDevices": "Nie znaleziono sprzętu. Podłącz urządzenie lub wybierz je w profilu — wtedy można je zgłosić także wtedy, gdy połączenie się nie powiedzie.",
+      "notConnected": "niepodłączone",
+      "driverUnknown": "Nazwa sterownika bez połączenia nieznana — uzupełnimy ją podczas weryfikacji.",
+      "reviewAndSend": "Sprawdź i wyślij ({count})",
+      "selectAtLeastOne": "Oceń co najmniej jedno urządzenie, aby wysłać zgłoszenie.",
+      "noteLabel": "Jakieś osobliwości?",
+      "notePlaceholder": "np. wymaga przepustowości USB poniżej 60, kierunek ostrzenia jest odwrócony…",
+      "copy": "Kopiuj",
+      "copied": "Skopiowano",
+      "submitSuccess": "Zgłoszenie wysłane. Dziękujemy!",
+      "submitSuccessHint": "Zachowaj ten token, aby później sprawdzić status weryfikacji swojego zgłoszenia.",
+      "submitError": "Nie udało się wysłać zgłoszenia.",
+      "status": {
+        "works": "Działa",
+        "caveat": "Działa z zastrzeżeniami",
+        "broken": "Nie działa"
+      },
+      "known": {
+        "summary": "Już w bazie: {status} ze sterownikiem {driver} · {reports} zgłoszeń",
+        "none": "Jeszcze nie ma w bazie — twoje byłoby pierwszym zgłoszeniem."
+      },
+      "categories": {
+        "camera": "Kamera",
+        "guidecam": "Kamera prowadząca",
+        "mount": "Montaż",
+        "focuser": "Fokuser",
+        "filterwheel": "Koło filtrowe",
+        "rotator": "Rotator",
+        "guider": "Prowadzenie",
+        "flatdevice": "Panel flat",
+        "switch": "Przełącznik",
+        "weather": "Pogoda",
+        "dome": "Kopuła",
+        "safetymonitor": "Monitor bezpieczeństwa"
+      },
+      "preview": {
+        "title": "To zostanie wysłane",
+        "intro": "Poniżej znajduje się pełne zgłoszenie. Nic poza tym nie jest przesyłane.",
+        "privacyNote": "Nie są przesyłane adresy IP, nazwy hostów, nazwy sieci Wi-Fi, współrzędne ani nazwy profili.",
+        "send": "Wyślij zgłoszenie",
+        "sending": "Wysyłanie…"
+      },
+      "history": {
+        "title": "Twoje zgłoszenia",
+        "refreshStatus": "Sprawdź status",
+        "clear": "Wyczyść listę",
+        "deviceCount": "{count} urządzeń",
+        "status": {
+          "pending": "W weryfikacji",
+          "approved": "Opublikowane",
+          "rejected": "Odrzucone",
+          "duplicate": "Duplikat",
+          "queued": "Oczekiwanie na wysłanie"
+        }
+      },
+      "vendorLabel": "Producent",
+      "vendorPlaceholder": "np. Sky-Watcher",
+      "modelLabel": "Model",
+      "modelPlaceholder": "np. EQ6-R Pro",
+      "modelRequiredHint": "Ten sterownik obsługuje wiele różnych modeli, więc nie może zidentyfikować Twojego sprzętu. Podaj nazwę modelu.",
+      "modelOptionalHint": "Popraw producenta i model, jeśli wykryta nazwa jest błędna.",
+      "missingModel": "Podaj nazwę modelu dla {count} urządzeń przed wysłaniem.",
+      "queued": "Zgłoszenie zapisane — brak połączenia z bazą danych.",
+      "queuedHint": "Zostanie wysłane automatycznie, gdy następnym razem otworzysz tę stronę z dostępem do internetu. Znajdziesz je w swoich zgłoszeniach."
+    },
+    "systemMetrics": {
+      "powerTitle": "Zasilanie i napięcie wejściowe",
+      "supplyVoltage": "Napięcie wejściowe",
+      "underVoltageNow": "Aktualne zbyt niskie napięcie",
+      "underVoltageSinceBoot": "Zbyt niskie napięcie od uruchomienia",
+      "firmwareFlags": "Flagi oprogramowania układowego",
+      "underVoltageActive": "Wykryto zbyt niskie napięcie",
+      "underVoltageOccurred": "Poprzednie zbyt niskie napięcie",
+      "powerHealthy": "Prawidłowe",
+      "underVoltageActiveHelp": "Pi jest obecnie zasilane niewystarczająco. Sprawdź zasilacz, przewód i obciążenie podłączonych urządzeń.",
+      "underVoltageHistoryHelp": "Od uruchomienia wystąpiło zbyt niskie napięcie. Jeśli system działa niestabilnie, sprawdź zasilacz i przewód.",
+      "notAvailable": "Niedostępne",
+      "detected": "Wykryto",
+      "notDetected": "Nie wykryto"
+    },
+    "screenLock": {
+      "unlock": "Odblokuj ekran",
+      "holdToUnlock": "Przytrzymaj {seconds} s, aby odblokować"
     }
   },
   "pinsDevices": {
@@ -5046,10 +5212,15 @@
       "delete": "Usuwać",
       "deleteConfirm": "Czy na pewno chcesz usunąć tę sesję? \nTego nie można cofnąć.",
       "deleteTitle": "Usuń sesję",
+      "downloadReport": "Pobierz raport",
       "loading": "Ładowanie sesji…",
       "noSessions": "Nie wybrano sesji. \nWybierz sesję z listy rozwijanej.",
       "placeholder": "Wybierz sesję…",
-      "resend": "Wyślij ponownie raport"
+      "reportTitle": "Szczegółowy raport",
+      "reportZoomActual": "100%",
+      "reportZoomFit": "Dopasuj do szerokości",
+      "resend": "Wyślij ponownie raport",
+      "viewReport": "Pokaż szczegółowy raport"
     },
     "settings": {
       "chartPrimary": "Podstawowa metryka",
@@ -5110,6 +5281,9 @@
       "smtpServer": "Serwer SMTP",
       "smtpSsl": "Użyj protokołu TLS/SSL",
       "testDiscord": "Wyślij wiadomość testową",
+      "secretSet": "•••••••• (ustawiono)",
+      "secretNotSet": "Nie ustawiono",
+      "secretLeaveEmpty": "Pozostaw puste, aby zachować bieżącą wartość",
       "testEmail": "Wyślij e-mail testowy",
       "testPushover": "Wyślij powiadomienie testowe",
       "localDashboardEnabled": "Włącz lokalny serwer WWW",

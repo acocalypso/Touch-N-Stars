@@ -23,7 +23,7 @@
       />
 
       <!-- Filter -->
-      <div class="flex items-center gap-3">
+      <div class="seq-field-row">
         <label class="text-xs text-slate-400 shrink-0">{{
           $t('components.sequence.items.switchFilter.filter')
         }}</label>
@@ -62,7 +62,7 @@
         @change="save('Offset', $event)"
       />
 
-      <div class="flex items-center gap-3">
+      <div class="seq-field-row">
         <label class="text-xs text-slate-400 shrink-0">{{
           $t('components.sequence.items.takeExposure.binning')
         }}</label>
@@ -122,7 +122,7 @@
         @change="save('TargetDistance', $event)"
       />
 
-      <div class="flex items-center gap-3">
+      <div class="seq-field-row">
         <label class="text-xs text-slate-400 shrink-0">{{
           $t('components.sequence.items.polarAlignment.eastDirection')
         }}</label>
@@ -134,7 +134,7 @@
         </div>
       </div>
 
-      <div class="flex items-center gap-3">
+      <div class="seq-field-row">
         <label class="text-xs text-slate-400 shrink-0">{{
           $t('components.sequence.items.polarAlignment.manualMode')
         }}</label>
@@ -146,7 +146,7 @@
         </div>
       </div>
 
-      <div class="flex items-center gap-3">
+      <div class="seq-field-row">
         <label class="text-xs text-slate-400 shrink-0">{{
           $t('components.sequence.items.polarAlignment.startFromCurrentPosition')
         }}</label>

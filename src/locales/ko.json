@@ -181,6 +181,22 @@
       "confirmSetTargetMessage": "이 대상을 시퀀스 대상으로 설정하시겠습니까?",
       "useNinaCache": "대상 이미지에 NINA 캐시 사용",
       "setSequnceTarget": "시퀀스 대상으로 설정",
+      "sequenceTargetPicker": {
+        "title": "시퀀스 대상",
+        "hint": "불러온 시퀀스 중 프레이밍 좌표를 적용할 대상을 선택하세요.",
+        "newTarget": "새 대상",
+        "unnamed": "대상 {index}",
+        "position": "삽입 위치",
+        "positionEnd": "맨 끝에",
+        "positionAfter": "{name} 다음에",
+        "addFailed": "시퀀스에 새 대상을 추가할 수 없습니다"
+      },
+      "skyChart": {
+        "altitude": "고도 (°)",
+        "horizonProfile": "호라이즌 프로파일",
+        "twilight": "박명",
+        "astronomicalNight": "천문학적 밤"
+      },
       "mosaic": {
         "title": "모자이크 모드",
         "columns": "열",
@@ -219,7 +235,11 @@
       "infoTargetImage": "이미지가 검게만 표시되면 NINA에서 \"오프라인 스카이맵 캐시\"를 설정하거나 \"NINA 캐시 사용\" 옵션을 꺼야 합니다",
       "useCenter": "센터링",
       "useRotate": "회전",
-      "customTarget": "사용자 지정 대상"
+      "customTarget": "사용자 지정 대상",
+      "solvedRotation": {
+        "short": "해석됨",
+        "tooltip": "마지막으로 성공한 플레이트 솔브의 카메라 회전각"
+      }
     },
     "tutorial": {
       "previous": "이전",
@@ -463,6 +483,11 @@
     "settings": {
       "title": "설정",
       "general": "일반",
+      "tabs": {
+        "connection": "연결 및 위치",
+        "interface": "인터페이스",
+        "system": "시스템"
+      },
       "add": "추가",
       "coordinates": "GPS 좌표",
       "save": "저장",
@@ -574,6 +599,22 @@
         "title": "화면 켜짐 유지",
         "description": "앱이 열려 있는 동안 기기가 어두워지거나 잠기지 않게 합니다."
       },
+      "backupRestore": {
+        "title": "백업 및 복원",
+        "description": "이 기기에 저장된 설정을 파일로 저장하고 다른 기기에서 복원합니다.",
+        "profileWarning": "이 기능은 이 기기의 앱 설정만 백업합니다. 장비, 카메라, 마운트 등의 설정은 NINA 또는 PINS 프로필에 저장되어 있으므로, 완전한 백업을 위해서는 별도로 백업하세요.",
+        "locationAndroid": "파일은 이 기기의 문서/TouchNStars에 저장됩니다 - 파일 관리자 앱으로 열어보세요.",
+        "locationIos": "파일은 파일 앱의 내 iPhone/iPad → Touch 'N Stars → Documents에 저장됩니다.",
+        "locationBrowser": "파일은 브라우저의 기본 다운로드 폴더에 저장됩니다.",
+        "exportButton": "백업 내보내기",
+        "importButton": "백업에서 복원",
+        "exportSuccess": "{filename}(으)로 백업이 저장되었습니다 ({count}개 항목).",
+        "exportError": "백업 파일을 저장할 수 없습니다.",
+        "confirmImportTitle": "백업을 복원하시겠습니까?",
+        "confirmImportMessage": "저장된 인스턴스를 포함하여 이 기기의 설정이 덮어써집니다. 이후 앱이 다시 로드됩니다.",
+        "importEmpty": "백업 파일에 복원할 설정이 없습니다.",
+        "importError": "백업을 복원할 수 없습니다: {error}"
+      },
       "wifiBinding": {
         "title": "로컬 네트워크 바인딩",
         "description": "인스턴스가 인터넷이 없는 로컬 네트워크(예: PINS 핫스팟)에서 실행될 때 앱이 Wi-Fi를 통해 연결을 유지하며, 휴대폰의 나머지 통신은 계속 모바일 데이터를 사용합니다."
@@ -581,6 +622,10 @@
       "input": {
         "title": "입력 최적화",
         "touchOptimized": "터치 최적화 선택기"
+      },
+      "haptics": {
+        "title": "햅틱 피드백",
+        "description": "버튼을 누를 때 짧게 진동"
       },
       "beta": {
         "title": "베타 업데이트 채널"
@@ -643,6 +688,7 @@
         "astapDatabaseInstallFailed": "ASTAP 스타 데이터베이스 설치에 실패했습니다{exitCode}.",
         "astapDatabaseInstallSuccess": "ASTAP 스타 데이터베이스 {databaseId}가 성공적으로 설치되었습니다.",
         "astapDatabaseInstalling": "설치 중...",
+        "astapDatabaseProgressStalled": "30초 동안 다운로드 진행이 없습니다. 작업을 계속 모니터링하고 있습니다.",
         "astapDatabaseJobStarted": "시작했다",
         "astapDatabaseJobStartedMessage": "{databaseId}에 대한 설치 작업이 시작되었습니다.",
         "astapDatabaseJobStatus": "작업 {jobId}: {status}",
@@ -666,9 +712,15 @@
       },
       "navbarCustomization": {
         "title": "내비게이션 바 사용자 지정",
-        "hint": "드래그하여 순서를 바꾸세요. 설정 외에 최소 한 개의 페이지는 표시되어야 합니다.",
+        "hint": "드래그하여 순서를 바꾸세요. 설정 외에 최소 한 개의 페이지는 표시되어야 합니다."
+      },
+      "itemCustomization": {
         "alwaysVisible": "항상 표시",
-        "minOneRequired": "최소 한 개의 페이지는 표시되어야 합니다"
+        "minOneRequired": "최소 한 개의 항목은 표시되어야 합니다"
+      },
+      "statusBarCustomization": {
+        "title": "상태 표시줄 사용자 지정",
+        "hint": "드래그하여 순서를 바꾸세요. 최소 한 개의 항목은 표시되어야 합니다."
       },
       "update": "업데이트",
       "errors": {
@@ -719,6 +771,11 @@
       "sharedGuidWarning": "로테이터와 안전 모니터는 NINA에서 하나의 저장 슬롯을 공유합니다 — 하나를 바꾸면 다른 하나도 바뀝니다.",
       "noReconnectHint": "새 설정은 다음 연결 시 적용됩니다.",
       "cameraNoSettings": "이 카메라는 설정할 항목이 없습니다."
+    },
+    "selectDevices": {
+      "deviceNotFound": "장치를 찾을 수 없음",
+      "deviceNotFoundMessage": "INDI 드라이버를 다시 불러왔지만 \"{device}\"이(가) 나타나지 않았습니다. 전원을 확인하고 장치를 다시 선택하세요.",
+      "reloadingDriver": "INDI 드라이버를 다시 불러오는 중…"
     },
     "connectEquipment": {
       "camera": {
@@ -795,6 +852,7 @@
       "sequenceLoad": "불러오기",
       "sequenceNoFiles": "파일이 없습니다",
       "sequenceLoading": "불러오는 중...",
+      "loadingSequence": "시퀀스를 불러오는 중…",
       "sequenceClose": "닫기",
       "deleteConfirmationTitle": "파일 삭제",
       "deleteConfirmationMessage": "이 파일을 삭제하시겠습니까?",
@@ -1053,6 +1111,10 @@
         "annotation": {
           "text": "텍스트"
         },
+        "saveSequence": {
+          "notSet": "설정되지 않음",
+          "applyFileName": "적용"
+        },
         "groundstation": {
           "message": "메시지",
           "title": "제목",
@@ -1105,6 +1167,16 @@
           "modePeak": "피크",
           "minimumPoints": "최소 포인트 수"
         },
+        "interruptAndRetryWhenRMSAbove": {
+          "rmsThreshold": "RMS 임계값 (\")",
+          "mode": "모드",
+          "modeRMS": "RMS",
+          "modePeak": "피크",
+          "minimumPoints": "최소 포인트 수",
+          "stableTime": "안정 유지 시간 (초)",
+          "recoveryTimeout": "복구 제한 시간 (분)",
+          "maxRetries": "최대 재시도 횟수 (0 = 무제한)"
+        },
         "changePHD2Parameters": {
           "parameter": "매개변수",
           "exposureTime": "노출 시간 (s)",
@@ -1118,7 +1190,8 @@
         "dso": {
           "targetName": "대상 이름",
           "positionAngle": "포지션 앵글 (°)",
-          "loadFromFavorites": "즐겨찾기에서 불러오기"
+          "loadFromFavorites": "즐겨찾기에서 불러오기",
+          "loadIntoFraming": "프레이밍 어시스턴트로 불러오기"
         },
         "warmCamera": {
           "duration": "지속 시간 (분)"
@@ -1177,7 +1250,8 @@
       "enable": "사용",
       "disable": "사용 안 함",
       "resetStatus": "상태 초기화",
-      "delete": "삭제"
+      "delete": "삭제",
+      "runningLocked": "이 항목은 실행 중이어서 변경할 수 없습니다"
     },
     "mount": {
       "title": "마운트",
@@ -1361,6 +1435,7 @@
           "MaxMove": "RA: 최대 이동",
           "predictive_weight": "RA: 예측 가중치",
           "reactive_weight": "RA: 반응 가중치",
+          "period_length": "RA: PEC 주기 길이 (초)",
           "slope_weight": "RA: 기울기 가중치",
           "exp_factor": "RA: 노출 계수"
         },
@@ -1492,6 +1567,7 @@
             "hysteresis": "Weight given to the history of recent corrections versus the latest frame, in percent. Higher values smooth the corrections but react more slowly to a genuine change of direction.",
             "predictiveWeight": "Predictive PEC: weight of the predicted (modelled) part of the correction. Defaults suit most mounts; large changes can worsen guiding.",
             "reactiveWeight": "Predictive PEC: weight of the reactive part, based on the star's displacement in the latest frame. Defaults suit most mounts.",
+            "periodLength": "Predictive PEC: 마운트 웜 주기의 길이(초). PHD2는 이 값으로 반복되는 RA 오차를 모델링해 미리 보정합니다. 마운트 사양(EQ6는 약 479초)에서 확인하거나 가이딩 FFT의 PEC 피크에서 읽으세요.",
             "slopeWeight": "LowPass: how much the recent trend (slope) of star movement influences the correction, in percent. Keeps the algorithm from being too sluggish; 0 uses only the median of recent history.",
             "expFactor": "ZFilter: the virtual exposure time equals the real exposure × this factor. Higher values filter more seeing (smoother but slower); a virtual exposure of ~2–4 s is a good starting point for RA."
           },
@@ -1898,7 +1974,8 @@
       },
       "indi": {
         "settings": "로테이터 설정"
-      }
+      },
+      "solvedPositionAngle": "해석된 하늘 각도"
     },
     "flat": {
       "please_connect_flatDevice": "플랫 장치를 연결하세요",
@@ -2192,7 +2269,8 @@
         "mount": "마운트",
         "progress": "진행률",
         "safety": "안전",
-        "weather": "날씨"
+        "weather": "날씨",
+        "screenlock": "잠금"
       },
       "mount": {
         "parked": "파킹됨",
@@ -4806,6 +4884,94 @@
       "setFailed": "속성을 설정하지 못했습니다.",
       "title": "인디 제어판",
       "updated": "업데이트됨"
+    },
+    "hardwareDb": {
+      "title": "하드웨어 호환성",
+      "intro": "어떤 장비가 어떤 드라이버와 작동하는지 공유해 주세요. 모든 보고는 검토 후 데이터베이스에 등록됩니다.",
+      "collecting": "연결된 장비를 읽는 중…",
+      "noDevices": "장비를 찾을 수 없습니다. 장비를 연결하거나 프로필에서 선택하세요. 그러면 연결에 실패해도 여기서 보고할 수 있습니다.",
+      "notConnected": "연결 안 됨",
+      "driverUnknown": "연결되지 않아 드라이버 이름을 알 수 없습니다. 검토 시 채워 넣겠습니다.",
+      "reviewAndSend": "확인 후 보내기 ({count})",
+      "selectAtLeastOne": "보고를 보내려면 장비를 하나 이상 평가하세요.",
+      "noteLabel": "특이한 점이 있나요?",
+      "notePlaceholder": "예: USB 대역폭을 60 미만으로 해야 함, 초점 방향이 반대…",
+      "copy": "복사",
+      "copied": "복사됨",
+      "submitSuccess": "보고를 보냈습니다. 감사합니다!",
+      "submitSuccessHint": "나중에 보고의 검토 상태를 확인하려면 이 토큰을 보관하세요.",
+      "submitError": "보고를 보내지 못했습니다.",
+      "status": {
+        "works": "작동함",
+        "caveat": "제한적으로 작동함",
+        "broken": "작동하지 않음"
+      },
+      "known": {
+        "summary": "이미 데이터베이스에 있음: {driver}로 {status} · 보고 {reports}건",
+        "none": "아직 데이터베이스에 없습니다. 당신의 보고가 첫 번째가 됩니다."
+      },
+      "categories": {
+        "camera": "카메라",
+        "guidecam": "가이드 카메라",
+        "mount": "가대",
+        "focuser": "포커서",
+        "filterwheel": "필터휠",
+        "rotator": "로테이터",
+        "guider": "가이딩",
+        "flatdevice": "플랫 패널",
+        "switch": "스위치",
+        "weather": "기상",
+        "dome": "돔",
+        "safetymonitor": "안전 모니터"
+      },
+      "preview": {
+        "title": "전송되는 내용",
+        "intro": "아래가 보고 전문입니다. 이 밖에는 아무것도 전송되지 않습니다.",
+        "privacyNote": "IP 주소, 호스트 이름, Wi-Fi 이름, 좌표, 프로필 이름은 포함되지 않습니다.",
+        "send": "보고 보내기",
+        "sending": "보내는 중…"
+      },
+      "history": {
+        "title": "내 보고",
+        "refreshStatus": "상태 확인",
+        "clear": "목록 비우기",
+        "deviceCount": "장비 {count}대",
+        "status": {
+          "pending": "검토 중",
+          "approved": "게시됨",
+          "rejected": "거부됨",
+          "duplicate": "중복",
+          "queued": "전송 대기 중"
+        }
+      },
+      "vendorLabel": "제조사",
+      "vendorPlaceholder": "예: Sky-Watcher",
+      "modelLabel": "모델",
+      "modelPlaceholder": "예: EQ6-R Pro",
+      "modelRequiredHint": "이 드라이버는 다양한 모델을 지원하므로 하드웨어를 식별할 수 없습니다. 모델명을 입력해 주세요.",
+      "modelOptionalHint": "감지된 이름이 틀릴 경우 제조사와 모델을 수정하세요.",
+      "missingModel": "전송 전 장비 {count}대의 모델명을 입력하세요.",
+      "queued": "보고 저장됨 — 데이터베이스 연결 없음",
+      "queuedHint": "인터넷에 연결된 상태에서 이 페이지를 다시 열면 자동으로 전송됩니다. 보고 목록에서 확인하실 수 있습니다."
+    },
+    "systemMetrics": {
+      "powerTitle": "전원 및 입력 전압",
+      "supplyVoltage": "입력 전압",
+      "underVoltageNow": "현재 저전압",
+      "underVoltageSinceBoot": "부팅 후 저전압",
+      "firmwareFlags": "펌웨어 플래그",
+      "underVoltageActive": "저전압 감지됨",
+      "underVoltageOccurred": "이전 저전압",
+      "powerHealthy": "정상",
+      "underVoltageActiveHelp": "현재 Pi에 전원이 충분히 공급되지 않고 있습니다. 전원 공급 장치, 케이블 및 연결된 장치의 부하를 확인하세요.",
+      "underVoltageHistoryHelp": "부팅 후 저전압이 발생했습니다. 시스템이 불안정하면 전원 공급 장치와 케이블을 확인하세요.",
+      "notAvailable": "사용할 수 없음",
+      "detected": "감지됨",
+      "notDetected": "감지되지 않음"
+    },
+    "screenLock": {
+      "unlock": "화면 잠금 해제",
+      "holdToUnlock": "{seconds}초 동안 눌러 해제"
     }
   },
   "pinsDevices": {
@@ -5071,6 +5237,9 @@
       "discordEnabled": "Discord 사용",
       "discordWebhook": "웹훅 URL",
       "testDiscord": "테스트 메시지 보내기",
+      "secretSet": "•••••••• (설정됨)",
+      "secretNotSet": "설정되지 않음",
+      "secretLeaveEmpty": "현재 값을 유지하려면 비워 두세요",
       "localDashboardTitle": "로컬 대시보드",
       "localDashboardEnabled": "로컬 웹 서버 사용",
       "localDashboardPort": "포트",
@@ -5085,7 +5254,12 @@
       "resend": "보고서 다시 보내기",
       "delete": "삭제",
       "deleteTitle": "세션 삭제",
-      "deleteConfirm": "이 세션을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다."
+      "deleteConfirm": "이 세션을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.",
+      "viewReport": "상세 보고서 보기",
+      "downloadReport": "보고서 다운로드",
+      "reportTitle": "상세 보고서",
+      "reportZoomFit": "너비에 맞춤",
+      "reportZoomActual": "100%"
     },
     "stats": {
       "totalImages": "전체 이미지",

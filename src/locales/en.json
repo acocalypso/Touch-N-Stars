@@ -181,6 +181,22 @@
       "confirmSetTargetMessage": "Are you sure you want to set this target as the sequence target?",
       "useNinaCache": "Use NINA cache for the target image",
       "setSequnceTarget": "set to sequence target",
+      "sequenceTargetPicker": {
+        "title": "Sequence target",
+        "hint": "Choose which target of the loaded sequence receives the framing coordinates.",
+        "newTarget": "New target",
+        "unnamed": "Target {index}",
+        "position": "Insert position",
+        "positionEnd": "At the end",
+        "positionAfter": "After {name}",
+        "addFailed": "The new target could not be added to the sequence"
+      },
+      "skyChart": {
+        "altitude": "Altitude (°)",
+        "horizonProfile": "Horizon profile",
+        "twilight": "Twilight",
+        "astronomicalNight": "Astronomical night"
+      },
       "mosaic": {
         "title": "Mosaic Mode",
         "columns": "Columns",
@@ -209,6 +225,10 @@
       "fovSettings": {
         "rotationAngle": "Camera rotation",
         "fov": "Field of View"
+      },
+      "solvedRotation": {
+        "short": "solved",
+        "tooltip": "Camera rotation from the last successful plate solve"
       },
       "getImageRotation": {
         "startCapture": "Determine rotation from camera",
@@ -463,6 +483,11 @@
     "settings": {
       "title": "Settings",
       "general": "General",
+      "tabs": {
+        "connection": "Connection & Location",
+        "interface": "Interface",
+        "system": "System"
+      },
       "add": "add",
       "coordinates": "GPS Coordinates",
       "save": "Save",
@@ -574,6 +599,22 @@
         "title": "Keep Screen Awake",
         "description": "Prevent the device from dimming or locking while the app is open."
       },
+      "backupRestore": {
+        "title": "Backup & Restore",
+        "description": "Save the settings stored on this device to a file and restore them on another device.",
+        "profileWarning": "This only backs up app settings on this device. Equipment, camera, mount and other settings live in the NINA or PINS profile - back that up separately for a complete backup.",
+        "locationAndroid": "The file is saved to Documents/TouchNStars on this device - open it with a file manager app.",
+        "locationIos": "The file is saved in the Files app under On My iPhone/iPad → Touch 'N Stars → Documents.",
+        "locationBrowser": "The file is saved to your browser's default downloads folder.",
+        "exportButton": "Export backup",
+        "importButton": "Restore from backup",
+        "exportSuccess": "Backup saved as {filename} ({count} entries).",
+        "exportError": "Could not save the backup file.",
+        "confirmImportTitle": "Restore backup?",
+        "confirmImportMessage": "This overwrites the settings on this device, including the saved instances. The app will reload afterwards.",
+        "importEmpty": "The backup file contains no settings to restore.",
+        "importError": "Could not restore the backup: {error}"
+      },
       "wifiBinding": {
         "title": "Local Network Binding",
         "description": "Keep the app connected through Wi-Fi when your instance runs on a local network without internet (e.g. PINS hotspot), while the rest of the phone keeps using mobile data."
@@ -581,6 +622,10 @@
       "input": {
         "title": "Input Optimization",
         "touchOptimized": "Touch-optimized picker"
+      },
+      "haptics": {
+        "title": "Haptic Feedback",
+        "description": "Short vibration when pressing buttons"
       },
       "beta": {
         "title": "Beta Update Channel"
@@ -643,6 +688,7 @@
         "astapDatabaseNoInstallable": "No installable ASTAP star databases available",
         "astapDatabaseInstall": "Install",
         "astapDatabaseInstalling": "Installing...",
+        "astapDatabaseProgressStalled": "No download progress for 30 seconds. The job is still being monitored.",
         "astapDatabaseStarting": "Starting...",
         "astapDatabaseLastChecked": "Last checked: {value}",
         "astapDatabaseJobStatus": "Job {jobId}: {status}",
@@ -666,9 +712,15 @@
       },
       "navbarCustomization": {
         "title": "Navbar Customization",
-        "hint": "Drag to reorder. At least one page besides Settings must remain visible.",
+        "hint": "Drag to reorder. At least one page besides Settings must remain visible."
+      },
+      "itemCustomization": {
         "alwaysVisible": "Always visible",
-        "minOneRequired": "At least one page must remain visible"
+        "minOneRequired": "At least one entry must remain visible"
+      },
+      "statusBarCustomization": {
+        "title": "Status Bar Customization",
+        "hint": "Drag to reorder. At least one entry must remain visible."
       },
       "update": "Update",
       "errors": {
@@ -719,6 +771,11 @@
       "sharedGuidWarning": "Rotator and safety monitor share one storage slot in NINA — changing one also changes the other.",
       "noReconnectHint": "New settings take effect on the next connect.",
       "cameraNoSettings": "This camera has no settings to configure."
+    },
+    "selectDevices": {
+      "deviceNotFound": "Device not found",
+      "deviceNotFoundMessage": "The INDI driver was reloaded, but '{device}' did not appear. Check the power supply and select the device again.",
+      "reloadingDriver": "Reloading INDI driver…"
     },
     "connectEquipment": {
       "camera": {
@@ -795,6 +852,7 @@
       "sequenceLoad": "Load",
       "sequenceNoFiles": "No files found",
       "sequenceLoading": "Loading...",
+      "loadingSequence": "Loading sequence…",
       "sequenceClose": "Close",
       "deleteConfirmationTitle": "Delete File",
       "deleteConfirmationMessage": "Are you sure you want to delete the file?",
@@ -1053,6 +1111,10 @@
         "annotation": {
           "text": "Text"
         },
+        "saveSequence": {
+          "notSet": "Not set",
+          "applyFileName": "Apply"
+        },
         "groundstation": {
           "message": "Message",
           "title": "Title",
@@ -1105,6 +1167,16 @@
           "modePeak": "Peak",
           "minimumPoints": "Minimum Points"
         },
+        "interruptAndRetryWhenRMSAbove": {
+          "rmsThreshold": "RMS Threshold (\")",
+          "mode": "Mode",
+          "modeRMS": "RMS",
+          "modePeak": "Peak",
+          "minimumPoints": "Minimum Points",
+          "stableTime": "Stable For (s)",
+          "recoveryTimeout": "Recovery Timeout (min)",
+          "maxRetries": "Max Retries (0 = unlimited)"
+        },
         "changePHD2Parameters": {
           "parameter": "Parameter",
           "exposureTime": "Exposure Time (s)",
@@ -1118,7 +1190,8 @@
         "dso": {
           "targetName": "Target Name",
           "positionAngle": "Position Angle (°)",
-          "loadFromFavorites": "Load from favorites"
+          "loadFromFavorites": "Load from favorites",
+          "loadIntoFraming": "Load into framing assistant"
         },
         "warmCamera": {
           "duration": "Duration (min)"
@@ -1177,7 +1250,8 @@
       "enable": "Enable",
       "disable": "Disable",
       "resetStatus": "Reset status",
-      "delete": "Delete"
+      "delete": "Delete",
+      "runningLocked": "This item is running and cannot be changed"
     },
     "mount": {
       "title": "Mount",
@@ -1381,6 +1455,7 @@
             "hysteresis": "Weight given to the history of recent corrections versus the latest frame, in percent. Higher values smooth the corrections but react more slowly to a genuine change of direction.",
             "predictiveWeight": "Predictive PEC: weight of the predicted (modelled) part of the correction. Defaults suit most mounts; large changes can worsen guiding.",
             "reactiveWeight": "Predictive PEC: weight of the reactive part, based on the star's displacement in the latest frame. Defaults suit most mounts.",
+            "periodLength": "Predictive PEC: length of the mount's worm period in seconds. PHD2 uses it to model and pre-correct the recurring RA error. Take it from the mount's specification (about 479 s for an EQ6) or read it off the PEC peak in the guiding FFT.",
             "slopeWeight": "LowPass: how much the recent trend (slope) of star movement influences the correction, in percent. Keeps the algorithm from being too sluggish; 0 uses only the median of recent history.",
             "expFactor": "ZFilter: the virtual exposure time equals the real exposure × this factor. Higher values filter more seeing (smoother but slower); a virtual exposure of ~2–4 s is a good starting point for RA."
           },
@@ -1417,6 +1492,7 @@
           "MaxMove": "RA: Max move",
           "predictive_weight": "RA: Predictive weight",
           "reactive_weight": "RA: Reactive weight",
+          "period_length": "RA: PEC period length (s)",
           "slope_weight": "RA: Slope weight",
           "exp_factor": "RA: Exposure factor"
         },
@@ -1882,6 +1958,7 @@
       "moving": "Moving",
       "stationary": "Stationary",
       "stepSize": "Step Size",
+      "solvedPositionAngle": "Solved sky angle",
       "settings": {
         "title": "Settings",
         "basic": "Basic Settings",
@@ -2174,6 +2251,7 @@
     },
     "statusBar": {
       "labels": {
+        "screenlock": "Lock",
         "camera": "Camera",
         "guiding": "Guiding",
         "mount": "Mount",
@@ -2600,6 +2678,75 @@
         "allAnglesRequired": "Provide all three angles or clear the fields.",
         "invalidNumber": "Enter a valid number.",
         "imageRequired": "Select an image before running the analysis."
+      }
+    },
+    "hardwareDb": {
+      "title": "Hardware Compatibility",
+      "intro": "Share which of your devices work with which driver. Reports are reviewed before they appear in the database.",
+      "collecting": "Reading connected equipment…",
+      "noDevices": "No equipment found. Connect a device, or select one in your profile — then it can be reported here even if connecting fails.",
+      "notConnected": "not connected",
+      "driverUnknown": "Driver name unknown while disconnected — we will fill it in during review.",
+      "reviewAndSend": "Review and send ({count})",
+      "selectAtLeastOne": "Rate at least one device to send a report.",
+      "noteLabel": "Anything special about it?",
+      "notePlaceholder": "e.g. needs USB bandwidth below 60, focus direction is inverted…",
+      "vendorLabel": "Manufacturer",
+      "vendorPlaceholder": "e.g. Sky-Watcher",
+      "modelLabel": "Model",
+      "modelPlaceholder": "e.g. EQ6-R Pro",
+      "modelRequiredHint": "This driver serves many different models, so it cannot identify your hardware. Please name the model.",
+      "modelOptionalHint": "Correct manufacturer and model if the detected name is wrong.",
+      "missingModel": "Name the model for {count} device(s) before sending.",
+      "copy": "Copy",
+      "copied": "Copied",
+      "submitSuccess": "Report sent. Thank you!",
+      "submitSuccessHint": "Keep this token to check the review status of your report later.",
+      "submitError": "The report could not be sent.",
+      "queued": "Report saved — no connection to the database.",
+      "queuedHint": "It will be sent automatically the next time you open this page with internet access. You can find it under your reports.",
+      "status": {
+        "works": "Works",
+        "caveat": "Works with caveat",
+        "broken": "Does not work"
+      },
+      "known": {
+        "summary": "Already in the database: {status} with {driver} · {reports} reports",
+        "none": "Not in the database yet — yours would be the first report."
+      },
+      "categories": {
+        "camera": "Camera",
+        "guidecam": "Guide camera",
+        "mount": "Mount",
+        "focuser": "Focuser",
+        "filterwheel": "Filter wheel",
+        "rotator": "Rotator",
+        "guider": "Guider",
+        "flatdevice": "Flat device",
+        "switch": "Switch",
+        "weather": "Weather",
+        "dome": "Dome",
+        "safetymonitor": "Safety monitor"
+      },
+      "preview": {
+        "title": "This is what gets sent",
+        "intro": "The complete report is shown below. Nothing beyond this is transmitted.",
+        "privacyNote": "No IP addresses, hostnames, Wi-Fi names, coordinates or profile names are included.",
+        "send": "Send report",
+        "sending": "Sending…"
+      },
+      "history": {
+        "title": "Your reports",
+        "refreshStatus": "Check status",
+        "clear": "Clear list",
+        "deviceCount": "{count} devices",
+        "status": {
+          "queued": "Waiting to send",
+          "pending": "In review",
+          "approved": "Published",
+          "rejected": "Rejected",
+          "duplicate": "Duplicate"
+        }
       }
     },
     "logfileCollector": {
@@ -4806,6 +4953,25 @@
     },
     "vncRemote": {
       "debugModeWarning": "Debug mode is active — VNC connection is not available. Please disable debug mode in settings."
+    },
+    "screenLock": {
+      "unlock": "Unlock screen",
+      "holdToUnlock": "Hold for {seconds} s to unlock"
+    },
+    "systemMetrics": {
+      "powerTitle": "Power and input voltage",
+      "supplyVoltage": "Input voltage",
+      "underVoltageNow": "Undervoltage now",
+      "underVoltageSinceBoot": "Undervoltage since boot",
+      "firmwareFlags": "Firmware flags",
+      "underVoltageActive": "Undervoltage detected",
+      "underVoltageOccurred": "Previous undervoltage",
+      "powerHealthy": "Healthy",
+      "underVoltageActiveHelp": "The Pi is currently underpowered. Check the power supply, cable, and connected-device load.",
+      "underVoltageHistoryHelp": "Undervoltage has occurred since boot. Check the power supply and cable if the system is unstable.",
+      "notAvailable": "Not available",
+      "detected": "Detected",
+      "notDetected": "Not detected"
     }
   },
   "pinsDevices": {
@@ -5071,6 +5237,9 @@
       "discordEnabled": "Enable Discord",
       "discordWebhook": "Webhook URL",
       "testDiscord": "Send Test Message",
+      "secretSet": "•••••••• (set)",
+      "secretNotSet": "Not set",
+      "secretLeaveEmpty": "Leave empty to keep current value",
       "localDashboardTitle": "Local Dashboard",
       "localDashboardEnabled": "Enable local web server",
       "localDashboardPort": "Port",
@@ -5083,6 +5252,11 @@
       "loading": "Loading sessions…",
       "noSessions": "No session selected. Select a session from the dropdown.",
       "resend": "Resend Report",
+      "viewReport": "Show detailed report",
+      "downloadReport": "Download report",
+      "reportTitle": "Detailed Report",
+      "reportZoomFit": "Fit width",
+      "reportZoomActual": "100%",
       "delete": "Delete",
       "deleteTitle": "Delete Session",
       "deleteConfirm": "Are you sure you want to delete this session? This cannot be undone."

@@ -31,11 +31,14 @@ const props = defineProps({
 const value = ref('');
 const filterName = ref(props.modelValue);
 
+// Allow harmless separators (dash, underscore, space) in filter names such as
+// "Ha 3nm" or "L-eXtreme"; everything else is stripped while typing.
 function sanitizeName(event) {
-  value.value = event.target.value.replace(/[^a-zA-Z0-9äöüÄÖÜß]/g, '');
+  value.value = event.target.value.replace(/[^a-zA-Z0-9äöüÄÖÜß _-]/g, '');
 }
 
 async function updateSetting() {
+  value.value = value.value.trim();
   try {
     await apiService.profileChangeValue(`${props.settingKey}`, value.value);
   } catch (error) {

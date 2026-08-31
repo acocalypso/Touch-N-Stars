@@ -9,6 +9,7 @@ export const useSequenceStore = defineStore('sequenceStore', {
     sequenceInfo: [],
     collapsedStates: {},
     sequenceIsLoaded: false,
+    sequenceLoading: false,
     sequenceRunning: false,
     sequenceControlsLocked: false,
     sequenceEdit: false,
@@ -28,6 +29,10 @@ export const useSequenceStore = defineStore('sequenceStore', {
       if (index === null || (Number.isInteger(index) && index >= 0)) {
         this.selectedImageIndex = index;
       }
+    },
+    // Drives the full-screen loading overlay while a sequence is being loaded into NINA.
+    setSequenceLoading(isLoading) {
+      this.sequenceLoading = !!isLoading;
     },
     setSequenceRunning(isRunning) {
       // Check if the sequence state has changed

@@ -26,9 +26,6 @@ import { useMountStore } from '@/store/mountStore';
 import { useFramingStore } from '@/store/framingStore';
 import { apiStore } from '@/store/store';
 
-import { useHaptics } from '@/composables/useHaptics';
-
-const { tapLight } = useHaptics();
 const store = apiStore();
 const mountStore = useMountStore();
 const framingStore = useFramingStore();
@@ -42,7 +39,6 @@ const props = defineProps({
 });
 
 async function syncCoordinates() {
-  tapLight();
   console.log(
     '[ButtomSyncCoordinatesToMount] Syncing coordinates to mount:',
     props.raAngle,

@@ -15,7 +15,7 @@
       <p v-if="label">{{ label }}</p>
       <p v-else>{{ $t('components.slewAndCenter.slew') }}</p>
     </button>
-    <ButtonSlewStop v-if="store.mountInfo.Slewing" class="w-16" />
+    <ButtonSlewStop v-if="store.mountIsSlewing" class="w-16" />
   </div>
 </template>
 
@@ -26,9 +26,7 @@ import { useFramingStore } from '@/store/framingStore';
 import { useI18n } from 'vue-i18n';
 import { wait } from '@/utils/utils';
 import ButtonSlewStop from '@/components/mount/ButtonSlewStop.vue';
-import { useHaptics } from '@/composables/useHaptics';
 
-const { tapLight } = useHaptics();
 const store = apiStore();
 const framingStore = useFramingStore();
 const { t } = useI18n();
@@ -55,7 +53,6 @@ async function unparkMount() {
 }
 
 async function slew() {
-  tapLight();
   await unparkMount(); // Überprüfen und Entparken, falls erforderlich
   await framingStore.slew(props.raAngle, props.decAngle);
   emit('finished'); // Emit Event nach Erfolg

@@ -1,5 +1,9 @@
 <template>
-  <div class="flex-1 min-w-0">
+  <!-- @container: the editor rows and the header below size themselves against the item's own
+       width, which shrinks with nesting depth, rather than against the viewport. Note that
+       container-type also makes this a containing block for position:fixed -- both popovers
+       here teleport to body, and the draggable lists live in SequenceItem, not in here. -->
+  <div class="@container flex-1 min-w-0">
     <!-- Header: left=name+summary, right=badges+edit (vertically centered) -->
     <div class="flex items-center gap-1.5">
       <!-- Left: name + summary stacked -->
@@ -11,7 +15,10 @@
             class="w-3.5 h-3.5 shrink-0"
             :class="itemIconColor"
           />
-          <span class="text-sm font-medium text-gray-200 truncate min-w-0">{{ displayName }}</span>
+          <span
+            class="text-sm font-medium text-gray-200 truncate min-w-0 @max-[18rem]:whitespace-normal @max-[18rem]:line-clamp-2"
+            >{{ displayName }}</span
+          >
           <span v-if="label" class="shrink-0 text-xs text-slate-500 font-normal">{{ label }}</span>
         </div>
         <div v-if="$slots.summary" class="flex flex-wrap items-center gap-x-2 gap-y-0.5 mt-0.5">
@@ -61,9 +68,16 @@
         <!-- Edit toggle -->
         <button
           v-if="hasEditor"
-          class="p-1 rounded hover:bg-slate-600/40 transition-colors"
-          :class="editing ? 'text-cyan-400' : 'text-slate-500 hover:text-slate-300'"
-          :title="$t('common.edit')"
+          class="p-1 rounded transition-colors"
+          :class="
+            isRunning
+              ? 'text-slate-700 cursor-not-allowed'
+              : editing
+                ? 'text-cyan-400 hover:bg-slate-600/40'
+                : 'text-slate-500 hover:text-slate-300 hover:bg-slate-600/40'
+          "
+          :disabled="isRunning"
+          :title="isRunning ? $t('components.sequence.runningLocked') : $t('common.edit')"
           @click.stop="editing = !editing"
         >
           <PencilSquareIcon class="w-4 h-4" />
@@ -111,7 +125,7 @@
 </template>
 
 <script setup>
-import { ref, computed, useSlots, onMounted, onUnmounted } from 'vue';
+import { ref, computed, watch, useSlots, onMounted, onUnmounted } from 'vue';
 import {
   ExclamationTriangleIcon,
   PencilSquareIcon,
@@ -180,6 +194,14 @@ onMounted(() => document.addEventListener('click', onOutsideClick));
 onUnmounted(() => document.removeEventListener('click', onOutsideClick));
 
 const hasEditor = computed(() => !!slots.editor);
+
+// An item the sequencer is executing must not be edited. This also covers the composite
+// items (SmartExposure, the flat items, TakeManyExposures), whose editors write to the
+// ids of their hidden children rather than to this item's own id.
+const isRunning = computed(() => props.item.Status === 'RUNNING');
+watch(isRunning, (running) => {
+  if (running) editing.value = false;
+});
 
 const ICON_MAP = [
   // Containers
@@ -274,6 +296,7 @@ const displayName = computed(() => {
 });
 
 async function save(key, value) {
+  if (isRunning.value) return;
   saving.value = true;
   await store.setProperty(props.item.Id, key, value);
   saving.value = false;

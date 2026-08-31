@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col items-center w-full px-4">
-    <div class="flex flex-col w-full max-w-lg items-center justify-center">
+    <div class="flex flex-col w-full max-w-lg landscape:max-w-3xl items-center justify-center">
       <h5 class="text-xl font-bold text-white mb-4">{{ $t('pages.equipment.title') }}</h5>
       <div class="flex flex-col w-full items-center justify-center">
         <div
@@ -21,7 +21,7 @@
           </button>
         </div>
         <div
-          class="mb-24 space-y-2 bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700 rounded-lg p-6 shadow-lg"
+          class="mb-24 w-full space-y-2 bg-gradient-to-br from-gray-800 to-gray-900 border border-gray-700 rounded-lg p-6 shadow-lg"
         >
           <connectEquipment />
         </div>

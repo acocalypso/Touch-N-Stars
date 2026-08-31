@@ -4,6 +4,11 @@ import { apiStore } from './store';
 import { useToastStore } from './toastStore';
 import { useSequenceStore } from './sequenceStore';
 import { createPoller } from '@/utils/poller';
+import {
+  collectDsoContainers,
+  findTargetAreaContainer,
+  DSO_CONTAINER_TYPE,
+} from '@/utils/sequenceTargets';
 
 const RUNTIME_FIELDS = [
   'ExpectedTime',
@@ -49,10 +54,34 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
       }
       return search(s.data, null);
     },
+    // Unlike updateItemById this also descends into Triggers/Conditions/GlobalTriggers --
+    // they carry a RUNNING status too and must be found by the running-item guard below.
+    findById: (s) => (itemId) => {
+      function search(items) {
+        for (const item of items ?? []) {
+          if (item.Id === itemId) return item;
+          const found =
+            search(item.Items) ??
+            search(item.Triggers) ??
+            search(item.Conditions) ??
+            search(item.GlobalTriggers);
+          if (found !== undefined) return found;
+        }
+        return undefined;
+      }
+      return search(s.data);
+    },
   },
   actions: {
     _isControlsLocked() {
       return useSequenceStore().sequenceControlsLocked;
+    },
+
+    // The item the sequencer is currently executing must not be changed. The UI hides
+    // those actions already, but the status comes from a 2s poll and can lag behind a
+    // click, so every mutating action rejects it here as well.
+    _isItemRunning(id) {
+      return this.findById(id)?.Status === 'RUNNING';
     },
 
     async loadCurrent() {
@@ -169,6 +198,7 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
 
     async move(id, targetId, insertAfter) {
       if (this._isControlsLocked()) return;
+      if (this._isItemRunning(id)) return;
 
       try {
         await apiService.sequenceMove(id, targetId, insertAfter);
@@ -181,6 +211,7 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
 
     async remove(id) {
       if (this._isControlsLocked()) return;
+      if (this._isItemRunning(id)) return;
 
       try {
         await apiService.sequenceRemove(id);
@@ -205,6 +236,7 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
 
     async setProperty(id, propertyName, value) {
       if (this._isControlsLocked()) return;
+      if (this._isItemRunning(id)) return;
 
       try {
         await apiService.sequenceSetProperty(id, propertyName, value);
@@ -217,6 +249,7 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
 
     async enable(id, enabled) {
       if (this._isControlsLocked()) return;
+      if (this._isItemRunning(id)) return;
 
       try {
         await apiService.sequenceEnable(id, enabled);
@@ -229,6 +262,7 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
 
     async resetStatus(id) {
       if (this._isControlsLocked()) return;
+      if (this._isItemRunning(id)) return;
 
       try {
         await apiService.sequenceResetStatus(id);
@@ -327,31 +361,67 @@ export const useSequenceV2Store = defineStore('sequenceV2Store', {
       await this.fetchStatusUpdate();
     },
 
+    // Returns { ok, locked, error } so callers outside the sequence editor -- the framing
+    // assistant -- can report the failure. The editor's own callers ignore the result.
     async setDsoTarget(id, name, raDeg, decDeg, rotation) {
-      if (this._isControlsLocked()) return;
+      if (this._isControlsLocked()) return { ok: false, locked: true };
+      if (this._isItemRunning(id)) return { ok: false, locked: true };
 
-      const dsoContainers = [];
-      const collectDso = (items) => {
-        for (const item of items ?? []) {
-          if (item.FullTypeName === 'NINA.Sequencer.Container.DeepSkyObjectContainer') {
-            dsoContainers.push(item);
-          } else {
-            collectDso(item.Items);
-          }
-        }
-      };
-      collectDso(this.data);
+      const dsoContainers = collectDsoContainers(this.data);
       const index = Math.max(
         0,
         dsoContainers.findIndex((c) => c.Id === id)
       );
+      let result = { ok: true };
       try {
-        await apiService.sequnceTargetSet(name ?? '', raDeg, decDeg, rotation ?? 0, index);
+        const res = await apiService.sequnceTargetSet(
+          name ?? '',
+          raDeg,
+          decDeg,
+          rotation ?? 0,
+          index
+        );
+        if (res?.Success === false) result = { ok: false, error: res.Error };
       } catch (e) {
         console.error('setDsoTarget:', e);
+        result = { ok: false, error: e?.response?.data?.Error ?? e?.response?.data?.Message };
       }
       await this.loadCurrent();
       await this.fetchStatusUpdate();
+      return result;
+    },
+
+    // Adds an empty DSO container. afterId is the DSO container to insert behind; null
+    // appends into the target area, which is the case when the sequence has no target yet.
+    // Returns { ok, locked, error, id } with the Id of the container that appeared, so the
+    // caller can fill it via setDsoTarget().
+    async addDsoTarget(afterId) {
+      if (this._isControlsLocked()) return { ok: false, locked: true };
+
+      const knownIds = new Set(collectDsoContainers(this.data).map((c) => c.Id));
+      let targetId = afterId;
+      let insertAfter = true;
+      if (!targetId) {
+        const area = findTargetAreaContainer(this.data);
+        if (!area) return { ok: false };
+        targetId = area.Id;
+        insertAfter = null;
+      }
+
+      try {
+        const res = await apiService.sequenceAddItem(targetId, DSO_CONTAINER_TYPE, insertAfter);
+        if (res?.Success === false) return { ok: false, error: res.Error };
+      } catch (e) {
+        console.error('addDsoTarget:', e);
+        return { ok: false, error: e?.response?.data?.Error ?? e?.response?.data?.Message };
+      }
+
+      await this.loadCurrent();
+      await this.fetchStatusUpdate();
+
+      const added = collectDsoContainers(this.data).find((c) => !knownIds.has(c.Id));
+      if (!added) return { ok: false };
+      return { ok: true, id: added.Id };
     },
   },
 });

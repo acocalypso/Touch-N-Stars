@@ -267,6 +267,10 @@
     <!-- Picker Overlay Component -->
     <PickerOverlay />
 
+    <!-- Screen Lock Overlay (screen-lock plugin) - sits above every other
+         layer, see z-lock in tailwind.config.cjs -->
+    <ScreenLockOverlay v-if="screenLockActive" />
+
     <!-- PINS Time Warning Modal -->
     <Modal
       :show="showTimeWarningModal"
@@ -390,11 +394,14 @@ import {
 } from '@/services/updateService';
 import { getDeviceDateTimePayload, parsePinsTimeToSeconds } from '@/utils/pinsTimeUtils';
 import { abortInFlightRequests } from '@/utils/httpLifecycle';
-import { setAppBackgrounded } from '@/utils/appLifecycle';
+import { setAppBackgrounded, useBackgroundAwarePolling } from '@/utils/appLifecycle';
 import { setLocaleLanguage } from '@/i18n';
 import { useSequenceV2Store } from '@/store/sequenceV2Store';
 import { useToastStore } from '@/store/toastStore';
 import { PINS_PORT, DEFAULT_PINS_DAEMON_API_TOKEN as PINS_TOKEN } from '@/services/pinsConfig';
+import apiPinsService from '@/services/apiPinsService';
+import { createUnderVoltageNotifier } from '@/plugins/systemmetrics/services/underVoltageNotifier';
+import { usePluginStore } from '@/store/pluginStore';
 
 const SkyAtlasView = defineAsyncComponent(() => import('./views/CelestiaAtlasView.vue'));
 const TutorialModal = defineAsyncComponent(() => import('@/components/TutorialModal.vue'));
@@ -405,6 +412,9 @@ const WhatsNewModal = defineAsyncComponent(() => import('@/components/helpers/Wh
 const UpdateAvailableModal = defineAsyncComponent(
   () => import('@/components/helpers/UpdateAvailableModal.vue')
 );
+const ScreenLockOverlay = defineAsyncComponent(
+  () => import('@/plugins/screen-lock/components/ScreenLockOverlay.vue')
+);
 
 const store = apiStore();
 const settingsStore = useSettingsStore();
@@ -412,7 +422,21 @@ const toastStore = useToastStore();
 const pinsStore = usePinsStore();
 const nightSummaryStore = useNightSummaryStore();
 const route = useRoute();
+const pluginStore = usePluginStore();
 const skyAtlasMounted = ref(Boolean(store.showSkyAtlas));
+
+// The lock only exists while its plugin is on. Rendering on the combined
+// condition and clearing the persisted flag when the plugin is switched off
+// makes it impossible to end up in a state that locks the user out.
+const isScreenLockPluginEnabled = computed(
+  () => pluginStore.plugins.find((plugin) => plugin.id === 'screen-lock')?.enabled === true
+);
+const screenLockActive = computed(
+  () => settingsStore.screenLock.active && isScreenLockPluginEnabled.value
+);
+watch(isScreenLockPluginEnabled, (enabled) => {
+  if (!enabled) settingsStore.unlockScreen();
+});
 
 watch(
   () => store.showSkyAtlas,
@@ -515,6 +539,36 @@ const showSetupWizard = ref(false);
 const setupWizardDismissed = ref(false);
 const connectionCheckCompleted = ref(false);
 const { t } = useI18n();
+const PINS_POWER_STATUS_INTERVAL_MS = 5 * 60 * 1000;
+const pinsPowerMonitoringActive = computed(() => store.isPINS && store.closeErrorModal);
+const notifyUnderVoltage = createUnderVoltageNotifier({
+  showToast: (toast) => toastStore.showToast(toast),
+  translate: t,
+});
+
+const checkPinsPowerStatus = async () => {
+  if (!store.isPINS) {
+    return;
+  }
+
+  const powerStatus = await apiPinsService.fetchSystemPowerStatus();
+  if (powerStatus) {
+    notifyUnderVoltage(powerStatus, true);
+  }
+};
+
+watch(pinsPowerMonitoringActive, (active) => {
+  if (!active) {
+    notifyUnderVoltage(null, false);
+  }
+});
+
+useBackgroundAwarePolling(
+  checkPinsPowerStatus,
+  PINS_POWER_STATUS_INTERVAL_MS,
+  pinsPowerMonitoringActive,
+  { immediate: true }
+);
 // Reconnecting after being backgrounded routinely takes up to ~12s on its own (Android
 // radio/network wake-up after Doze, see websocketChannelSocket reconnect timing) - that
 // is normal, not a stall. CONNECTION_STALL_HINT_SECONDS must stay comfortably above that
@@ -606,20 +660,25 @@ const stageStyle = computed(() => ({
     : 'calc(100dvh - 82px - var(--subnav-offset) - var(--statusbar-height) - env(safe-area-inset-bottom) - var(--stage-inset))',
 }));
 
-// Viewport rect of the frame mask — mirrors the stage margins exactly.
+// Viewport rect of the frame mask — mirrors the stage margins, plus
+// --status-panel-height so an open status-bar panel does not swallow the rounded
+// bottom corners. The panels sit above the mask (they are children of the z-20
+// bar container), so the window has to yield instead. The sheet keeps its
+// margins and simply scrolls on beneath the panel.
 const stageFrameStyle = computed(() =>
   isLandscape.value
     ? {
         top: 'calc(var(--stage-inset) + var(--subnav-offset))',
         left: 'calc(var(--nav-width) + var(--stage-inset))',
         right: 'var(--stage-inset)',
-        bottom: 'calc(var(--statusbar-height) + var(--stage-inset))',
+        bottom: 'calc(var(--statusbar-height) + var(--status-panel-height) + var(--stage-inset))',
       }
     : {
         top: 'calc(82px + var(--subnav-offset))',
         left: 'var(--stage-inset)',
         right: 'var(--stage-inset)',
-        bottom: 'calc(var(--statusbar-height) + env(safe-area-inset-bottom) + var(--stage-inset))',
+        bottom:
+          'calc(var(--statusbar-height) + env(safe-area-inset-bottom) + var(--status-panel-height) + var(--stage-inset))',
       }
 );
 
@@ -1032,16 +1091,23 @@ function handleVisibilityChange() {
   }
 }
 
-function handlePageShow() {
-  // pageshow is triggered faster than visibilitychange
-  if (!document.hidden) {
+// pageshow/focus are redundant safety nets for a missed "we're visible again"
+// transition, NOT resume triggers in their own right: performResume() drops
+// isBackendReachable and refetches every store, which visibly tears the open page
+// apart. Both therefore require that we actually paused - handleVisibilityChange
+// and the native appStateChange listener set isPaused before either can fire.
+// Without that guard any in-page focus change resumes the app; Sortable emits one
+// on every drag, so reordering the navbar/status bar triggered a full reconnect.
+function handlePageShow(event) {
+  // pageshow is triggered faster than visibilitychange. A bfcache restore froze
+  // the page without a visibilitychange, so it counts even if pauseApp() never ran.
+  if (!document.hidden && (isPaused || event?.persisted)) {
     resumeApp();
   }
 }
 
 function handleFocus() {
-  // focus event as additional trigger
-  if (!document.hidden) {
+  if (!document.hidden && isPaused) {
     resumeApp();
   }
 }

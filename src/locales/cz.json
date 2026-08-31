@@ -140,6 +140,16 @@
       "confirmSetTargetMessage": "Jste si jisti, že chcete tento cíl nastavit jako součást sekvence?",
       "useNinaCache": "Využití mezipaměti NINA pro cílový obraz",
       "setSequnceTarget": "nastavit tento cíl jako součást sekvence",
+      "sequenceTargetPicker": {
+        "title": "Cíl sekvence",
+        "hint": "Vyberte, který cíl načtené sekvence obdrží souřadnice snímkování.",
+        "newTarget": "Nový cíl",
+        "unnamed": "Cíl {index}",
+        "position": "Pozice vložení",
+        "positionEnd": "Na konec",
+        "positionAfter": "Po {name}",
+        "addFailed": "Nový cíl nebyl přidán do sekvence"
+      },
       "search": {
         "title": "Hledat",
         "placeholder": "Zadejte hledaný výraz...",
@@ -165,6 +175,12 @@
       "infoTargetImage": "Pokud se snímek zobrazuje pouze černě, je nutné v NINA nastavit „Offline Mapa Oblohy“ nebo deaktivovat možnost „Použít NINA Mezipamět",
       "useCenter": "Střed",
       "useRotate": "Rotace",
+      "skyChart": {
+        "altitude": "Výška (°)",
+        "horizonProfile": "Profil horizontu",
+        "twilight": "Soumrak",
+        "astronomicalNight": "Astronomická noc"
+      },
       "mosaic": {
         "title": "Režim mozaiky",
         "columns": "Sloupce",
@@ -178,7 +194,11 @@
         "panelsSet": "panely nastavené v pořadí",
         "willBeSaved": "panely budou uloženy jednotlivě"
       },
-      "customTarget": "Custom Target"
+      "customTarget": "Custom Target",
+      "solvedRotation": {
+        "short": "vyřešeno",
+        "tooltip": "Rotace kamery z posledního úspěšného plate solve"
+      }
     },
     "tutorial": {
       "previous": "Předchozí",
@@ -422,6 +442,11 @@
     "settings": {
       "title": "Nastavení",
       "general": "Generál",
+      "tabs": {
+        "connection": "Připojení a poloha",
+        "interface": "Rozhraní",
+        "system": "Systém"
+      },
       "add": "přidat",
       "coordinates": "GPS souřadnice",
       "save": "Uložit",
@@ -491,6 +516,22 @@
         "title": "Udržet Obrazovku Aktivní",
         "description": "Zabraňte usnutí nebo uzamčení zařízení, když je aplikace otevřená."
       },
+      "backupRestore": {
+        "title": "Zálohování a obnovení",
+        "description": "Uloží nastavení tohoto zařízení do souboru a obnoví je na jiném zařízení.",
+        "profileWarning": "Tímto se zálohují pouze nastavení aplikace na tomto zařízení. Nastavení vybavení, kamery, montáže a další jsou uložena v profilu NINA nebo PINS - pro úplnou zálohu je zálohujte samostatně.",
+        "locationAndroid": "Soubor se ukládá do Dokumenty/TouchNStars na tomto zařízení - otevřete jej pomocí aplikace správce souborů.",
+        "locationIos": "Soubor se ukládá v aplikaci Soubory v umístění Na mém iPhonu/iPadu → Touch 'N Stars → Documents.",
+        "locationBrowser": "Soubor se ukládá do výchozí složky stažených souborů vašeho prohlížeče.",
+        "exportButton": "Exportovat zálohu",
+        "importButton": "Obnovit ze zálohy",
+        "exportSuccess": "Záloha uložena jako {filename} ({count} položek).",
+        "exportError": "Soubor zálohy se nepodařilo uložit.",
+        "confirmImportTitle": "Obnovit zálohu?",
+        "confirmImportMessage": "Tímto se přepíší nastavení na tomto zařízení, včetně uložených instancí. Aplikace se poté znovu načte.",
+        "importEmpty": "Soubor zálohy neobsahuje žádná nastavení k obnovení.",
+        "importError": "Zálohu se nepodařilo obnovit: {error}"
+      },
       "wifiBinding": {
         "title": "Vazba na místní síť",
         "description": "Udržuje aplikaci připojenou přes Wi-Fi, když instance běží v místní síti bez internetu (např. PINS hotspot), zatímco zbytek telefonu dál používá mobilní data."
@@ -498,6 +539,10 @@
       "input": {
         "title": "Optimalizace vstupu",
         "touchOptimized": "Dotykový selektor"
+      },
+      "haptics": {
+        "title": "Haptická odezva",
+        "description": "Krátká vibrace při stisknutí tlačítek"
       },
       "beta": {
         "title": "Beta aktualizační kanál"
@@ -560,6 +605,7 @@
         "astapDatabaseInstallFailed": "ASTAP star database install failed{exitCode}.",
         "astapDatabaseInstallSuccess": "ASTAP star database {databaseId} installed successfully.",
         "astapDatabaseInstalling": "Installing...",
+        "astapDatabaseProgressStalled": "Stahování se 30 sekund neposunulo. Úloha je nadále sledována.",
         "astapDatabaseJobStarted": "started",
         "astapDatabaseJobStartedMessage": "Install job started for {databaseId}.",
         "astapDatabaseJobStatus": "Job {jobId}: {status}",
@@ -612,10 +658,16 @@
         "syncSuccess": "Time synchronised successfully."
       },
       "navbarCustomization": {
-        "alwaysVisible": "Vždy viditelné",
         "hint": "Přetažením změníte pořadí. Alespoň jedna stránka kromě Nastavení musí zůstat viditelná.",
-        "minOneRequired": "Alespoň jedna stránka musí zůstat viditelná",
         "title": "Přizpůsobení navigační lišty"
+      },
+      "itemCustomization": {
+        "alwaysVisible": "Vždy viditelné",
+        "minOneRequired": "Alespoň jedna položka musí zůstat viditelná"
+      },
+      "statusBarCustomization": {
+        "title": "Přizpůsobení stavového řádku",
+        "hint": "Přetažením změníte pořadí. Alespoň jedna položka musí zůstat viditelná."
       },
       "imageSavePath": {
         "create": "Vytvořit",
@@ -678,6 +730,11 @@
       "sharedGuidWarning": "Rotator and safety monitor share one storage slot in NINA — changing one also changes the other.",
       "noReconnectHint": "New settings take effect on the next connect.",
       "cameraNoSettings": "This camera has no settings to configure."
+    },
+    "selectDevices": {
+      "deviceNotFound": "Zařízení nenalezeno",
+      "deviceNotFoundMessage": "Ovladač INDI byl znovu načten, ale „{device}“ se neobjevil. Zkontrolujte napájení a vyberte zařízení znovu.",
+      "reloadingDriver": "Znovu se načítá ovladač INDI…"
     },
     "connectEquipment": {
       "camera": {
@@ -751,6 +808,7 @@
       "sequenceLoad": "Načíst",
       "sequenceNoFiles": "Žádné soubory nenalezeny",
       "sequenceLoading": "Načítání...",
+      "loadingSequence": "Načítání sekvence…",
       "sequenceClose": "Zavřít",
       "deleteConfirmationTitle": "Smazat soubor",
       "deleteConfirmationMessage": "Jste si jistý, že chcete smazat log?",
@@ -1000,6 +1058,10 @@
         "annotation": {
           "text": "Text"
         },
+        "saveSequence": {
+          "notSet": "Nenastaveno",
+          "applyFileName": "Použít"
+        },
         "groundstation": {
           "message": "Zpráva",
           "title": "Titulek",
@@ -1052,6 +1114,16 @@
           "modePeak": "Max.",
           "minimumPoints": "Minimální počet bodů"
         },
+        "interruptAndRetryWhenRMSAbove": {
+          "rmsThreshold": "Práh RMS (\")",
+          "mode": "Režim",
+          "modeRMS": "RMS",
+          "modePeak": "Max.",
+          "minimumPoints": "Minimální počet bodů",
+          "stableTime": "Stabilní po dobu (s)",
+          "recoveryTimeout": "Časový limit obnovení (min)",
+          "maxRetries": "Max. počet opakování (0 = neomezeně)"
+        },
         "changePHD2Parameters": {
           "parameter": "Parametr",
           "exposureTime": "Doba nasvícení(s):",
@@ -1065,7 +1137,8 @@
         "dso": {
           "targetName": "Cílové jméno",
           "positionAngle": "Poziční úhel",
-          "loadFromFavorites": "Načíst z oblíbených"
+          "loadFromFavorites": "Načíst z oblíbených",
+          "loadIntoFraming": "Načíst do Framing Asistentu"
         },
         "warmCamera": {
           "duration": "Délka (min)"
@@ -1134,6 +1207,7 @@
       "disable": "Zakázat",
       "resetStatus": "Resetovat stav",
       "delete": "Smazat",
+      "runningLocked": "Tato položka právě běží a nelze ji změnit",
       "controlsLockedMessage": "Sequence controls are locked while the sequence is running.",
       "lockControls": "Lock",
       "unlockControls": "Unlock"
@@ -1310,6 +1384,7 @@
           "MaxMove": "RA: Max pohyb",
           "predictive_weight": "RA: Prediktivní váha",
           "reactive_weight": "RA: Reaktivní váha W",
+          "period_length": "RA: Délka periody PEC (s)",
           "slope_weight": "RA: Váha sklonu",
           "exp_factor": "RA: Agresivita"
         },
@@ -1454,6 +1529,7 @@
             "hysteresis": "Váha přikládaná historii nedávných korekcí vůči aktuálnímu snímku, v procentech. Vyšší hodnoty korekce vyhlazují, ale pomaleji reagují na skutečnou změnu směru.",
             "predictiveWeight": "Predictive PEC: váha předpovězené (modelované) části korekce. Výchozí hodnoty vyhovují většině montáží; velké změny mohou vedení zhoršit.",
             "reactiveWeight": "Predictive PEC: váha reaktivní části založené na posunu hvězdy v posledním snímku. Výchozí hodnoty vyhovují většině montáží.",
+            "periodLength": "Predictive PEC: délka periody šneku montáže v sekundách. PHD2 podle ní modeluje opakující se chybu v RA a předem ji koriguje. Hodnotu najdete ve specifikaci montáže (přibližně 479 s u EQ6) nebo ji odečtete z PEC píku ve FFT guidingu.",
             "slopeWeight": "LowPass: jak moc nedávný trend (sklon) pohybu hvězdy ovlivňuje korekci, v procentech. Brání tomu, aby byl algoritmus příliš pomalý; 0 používá jen medián nedávné historie.",
             "expFactor": "ZFilter: virtuální expoziční čas je skutečná expozice × tento faktor. Vyšší hodnoty více filtrují seeing (hladší, ale pomalejší); virtuální expozice ~2–4 s je dobrý výchozí bod pro RA."
           },
@@ -1852,7 +1928,8 @@
       },
       "indi": {
         "settings": "Nastavení rotátoru"
-      }
+      },
+      "solvedPositionAngle": "Vyřešený úhel na obloze"
     },
     "flat": {
       "please_connect_flatDevice": "Připojte flat zařízení",
@@ -2192,7 +2269,8 @@
         "mount": "Montáž",
         "progress": "Průběh",
         "safety": "Bezpečnost",
-        "weather": "Počasí"
+        "weather": "Počasí",
+        "screenlock": "Zámek"
       },
       "mount": {
         "parked": "Zaparkováno",
@@ -4806,6 +4884,94 @@
       "setFailed": "Failed to set the property.",
       "title": "INDI Control Panel",
       "updated": "Updated"
+    },
+    "hardwareDb": {
+      "title": "Kompatibilita hardwaru",
+      "intro": "Sdílejte, která zařízení fungují s kterým ovladačem. Každé hlášení je ověřeno, než se objeví v databázi.",
+      "collecting": "Načítání připojeného vybavení…",
+      "noDevices": "Nebylo nalezeno žádné vybavení. Připojte zařízení nebo jej vyberte v profilu — pak jej lze nahlásit i tehdy, když se připojení nezdaří.",
+      "notConnected": "nepřipojeno",
+      "driverUnknown": "Název ovladače bez připojení neznámý — doplníme jej při ověření.",
+      "reviewAndSend": "Zkontrolovat a odeslat ({count})",
+      "selectAtLeastOne": "Ohodnoťte alespoň jedno zařízení, abyste mohli hlášení odeslat.",
+      "noteLabel": "Nějaké zvláštnosti?",
+      "notePlaceholder": "např. vyžaduje šířku pásma USB pod 60, směr ostření je obrácený…",
+      "copy": "Kopírovat",
+      "copied": "Zkopírováno",
+      "submitSuccess": "Hlášení odesláno. Děkujeme!",
+      "submitSuccessHint": "Uschovejte si tento token, abyste později zjistili stav ověření svého hlášení.",
+      "submitError": "Hlášení se nepodařilo odeslat.",
+      "status": {
+        "works": "Funguje",
+        "caveat": "Funguje s výhradami",
+        "broken": "Nefunguje"
+      },
+      "known": {
+        "summary": "Již v databázi: {status} s {driver} · {reports} hlášení",
+        "none": "Zatím není v databázi — vaše by bylo první hlášení."
+      },
+      "categories": {
+        "camera": "Kamera",
+        "guidecam": "Naváděcí kamera",
+        "mount": "Montáž",
+        "focuser": "Fokusér",
+        "filterwheel": "Filtrové kolo",
+        "rotator": "Rotátor",
+        "guider": "Navádění",
+        "flatdevice": "Flat panel",
+        "switch": "Spínač",
+        "weather": "Počasí",
+        "dome": "Kopule",
+        "safetymonitor": "Bezpečnostní monitor"
+      },
+      "preview": {
+        "title": "Toto bude odesláno",
+        "intro": "Níže je celé hlášení. Nic dalšího se nepřenáší.",
+        "privacyNote": "Nejsou zahrnuty IP adresy, názvy hostitelů, názvy sítí Wi-Fi, souřadnice ani názvy profilů.",
+        "send": "Odeslat hlášení",
+        "sending": "Odesílání…"
+      },
+      "history": {
+        "title": "Vaše hlášení",
+        "refreshStatus": "Zkontrolovat stav",
+        "clear": "Vymazat seznam",
+        "deviceCount": "{count} zařízení",
+        "status": {
+          "pending": "Ověřuje se",
+          "approved": "Zveřejněno",
+          "rejected": "Zamítnuto",
+          "duplicate": "Duplikát",
+          "queued": "Čeká na odeslání"
+        }
+      },
+      "vendorLabel": "Výrobce",
+      "vendorPlaceholder": "např. Sky-Watcher",
+      "modelLabel": "Model",
+      "modelPlaceholder": "např. EQ6-R Pro",
+      "modelRequiredHint": "Tento ovladač slouží pro mnoho různých modelů a nemůže vaše zařízení identifikovat. Uveďte prosím model.",
+      "modelOptionalHint": "Opravte výrobce a model, pokud je detekované jméno nesprávné.",
+      "missingModel": "Uveďte model pro {count} zařízení před odesláním.",
+      "queued": "Hlášení uloženo — není spojení s databází.",
+      "queuedHint": "Bude odesláno automaticky při příštím otevření této stránky s přístupem k internetu. Najdete ho v sekci hlášení."
+    },
+    "systemMetrics": {
+      "powerTitle": "Napájení a vstupní napětí",
+      "supplyVoltage": "Vstupní napětí",
+      "underVoltageNow": "Aktuální podpětí",
+      "underVoltageSinceBoot": "Podpětí od spuštění",
+      "firmwareFlags": "Příznaky firmwaru",
+      "underVoltageActive": "Zjištěno podpětí",
+      "underVoltageOccurred": "Dřívější podpětí",
+      "powerHealthy": "V pořádku",
+      "underVoltageActiveHelp": "Pi je aktuálně nedostatečně napájeno. Zkontrolujte napájecí zdroj, kabel a zátěž připojených zařízení.",
+      "underVoltageHistoryHelp": "Od spuštění došlo k podpětí. Pokud je systém nestabilní, zkontrolujte napájecí zdroj a kabel.",
+      "notAvailable": "Není k dispozici",
+      "detected": "Zjištěno",
+      "notDetected": "Nezjištěno"
+    },
+    "screenLock": {
+      "unlock": "Odemknout",
+      "holdToUnlock": "Držte {seconds} s pro odemknutí"
     }
   },
   "pinsDevices": {
@@ -5046,10 +5212,15 @@
       "delete": "Delete",
       "deleteConfirm": "Are you sure you want to delete this session? This cannot be undone.",
       "deleteTitle": "Delete Session",
+      "downloadReport": "Stáhnout zprávu",
       "loading": "Loading sessions…",
       "noSessions": "No session selected. Select a session from the dropdown.",
       "placeholder": "Select a session…",
-      "resend": "Resend Report"
+      "reportTitle": "Podrobná zpráva",
+      "reportZoomActual": "100%",
+      "reportZoomFit": "Přizpůsobit šířce",
+      "resend": "Resend Report",
+      "viewReport": "Zobrazit podrobnou zprávu"
     },
     "settings": {
       "chartPrimary": "Primary Metric",
@@ -5110,6 +5281,9 @@
       "smtpServer": "SMTP Server",
       "smtpSsl": "Use TLS/SSL",
       "testDiscord": "Send Test Message",
+      "secretSet": "•••••••• (nastaveno)",
+      "secretNotSet": "Nenastaveno",
+      "secretLeaveEmpty": "Chcete-li zachovat aktuální hodnotu, ponechte pole prázdné",
       "testEmail": "Send Test Email",
       "testPushover": "Send Test Notification",
       "localDashboardEnabled": "Enable local web server",

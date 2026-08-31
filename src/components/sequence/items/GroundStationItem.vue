@@ -7,7 +7,7 @@
     <template v-if="fields.length" #editor="{ save }">
       <template v-for="f in visibleFields" :key="f.key">
         <!-- Select -->
-        <div v-if="f.type === 'select'" class="flex items-center gap-3">
+        <div v-if="f.type === 'select'" class="seq-field-row">
           <label class="text-xs text-slate-400 shrink-0">{{ fieldLabel(f) }}</label>
           <select
             class="ml-auto w-36 md:w-40 bg-slate-700/60 border border-slate-600 rounded px-2 py-1 text-xs text-gray-200"
@@ -33,7 +33,7 @@
         />
 
         <!-- Boolean -->
-        <div v-else-if="f.type === 'bool'" class="flex items-center gap-3">
+        <div v-else-if="f.type === 'bool'" class="seq-field-row">
           <label class="text-xs text-slate-400">{{ fieldLabel(f) }}</label>
           <button
             class="ml-auto px-3 py-1 rounded text-xs font-medium border transition-colors"
@@ -51,7 +51,7 @@
         </div>
 
         <!-- Textarea -->
-        <div v-else-if="f.type === 'textarea'" class="flex items-start gap-3">
+        <div v-else-if="f.type === 'textarea'" class="seq-field-row items-start">
           <label class="text-xs text-slate-400 shrink-0 mt-1">{{ fieldLabel(f) }}</label>
           <TextAreaInput
             :modelValue="item[f.key] ?? ''"
@@ -62,7 +62,7 @@
         </div>
 
         <!-- Password -->
-        <div v-else-if="f.type === 'password'" class="flex items-center gap-3">
+        <div v-else-if="f.type === 'password'" class="seq-field-row">
           <label class="text-xs text-slate-400 shrink-0">{{ fieldLabel(f) }}</label>
           <input
             type="password"
@@ -73,7 +73,7 @@
         </div>
 
         <!-- Text -->
-        <div v-else class="flex items-center gap-3">
+        <div v-else class="seq-field-row">
           <label class="text-xs text-slate-400 shrink-0">{{ fieldLabel(f) }}</label>
           <TextInput
             :modelValue="item[f.key] ?? ''"

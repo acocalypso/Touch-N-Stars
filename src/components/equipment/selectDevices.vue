@@ -4,74 +4,84 @@
     class="flex flex-col sm:flex-row border p-2 rounded-lg h-full gap-2 sm:items-center transition-all duration-300"
   >
     <label class="text-sm sm:w-36 shrink-0" for="deviceSelect">{{ deviceName }}:</label>
-    <div class="flex gap-2 items-center w-full">
-      <select
-        id="deviceSelect"
-        class="w-full tns-select min-w-0"
-        v-model="selectedDevice"
-        :disabled="isConnected"
-      >
-        <option disabled>{{ selectedDevice }}</option>
-        <option
-          v-for="device in displayDevices"
-          :key="device.DisplayName"
-          :value="String(device.DisplayName)"
+    <div class="flex flex-col gap-1 w-full">
+      <div class="flex gap-2 items-center w-full">
+        <select
+          id="deviceSelect"
+          class="w-full tns-select min-w-0"
+          v-model="selectedDevice"
+          :disabled="isConnected"
+          @change="onDeviceSelected"
         >
-          {{ device.displayLabel }}
-        </option>
-      </select>
-      <div class="flex shrink-0 gap-1">
-        <button
-          v-if="store.isPINS"
-          @click="configDevice"
-          :disabled="
-            isScanning ||
-            isConnected ||
-            (!props.alwaysEnableConfig && !(selectedDeviceObj && selectedDeviceObj.HasSetupDialog))
-          "
-          class="flex justify-center items-center w-10 h-10 border border-cyan-500/20 bg-gray-700 text-white rounded-lg hover:bg-gray-600 disabled:opacity-70"
-        >
-          <Cog6ToothIcon
-            class="w-6 h-6"
-            :class="{
-              'text-gray-400':
-                isScanning ||
-                isConnected ||
-                (!props.alwaysEnableConfig &&
-                  !(selectedDeviceObj && selectedDeviceObj.HasSetupDialog)),
-            }"
-          />
-        </button>
-        <button
-          @click="rescanDevices"
-          :disabled="isScanning || isConnected"
-          class="flex justify-center items-center w-10 h-10 border border-cyan-500/20 bg-gray-700 text-white rounded-lg hover:bg-gray-600 disabled:opacity-70"
-        >
-          <ArrowPathIcon
-            class="w-6 h-6"
-            :class="{ 'text-green-500 spin': isScanning, 'text-white': !isScanning }"
-          />
-        </button>
-        <button
-          @click="
-            isToggleCon && store.isPINS
-              ? cancelConnect()
-              : disableConnect && disableConnectMessage
-                ? openDisableInfo()
-                : toggleConnection()
-          "
-          :disabled="isToggleCon && !store.isPINS"
-          class="flex justify-center items-center w-10 h-10 border border-cyan-500/20 bg-gray-700 text-white rounded-lg hover:bg-gray-600 disabled:opacity-30"
-        >
-          <XCircleIcon v-if="isToggleCon && store.isPINS" class="w-6 h-6 text-yellow-500" />
-          <InformationCircleIcon
-            v-else-if="disableConnect && disableConnectMessage"
-            class="w-6 h-6 text-yellow-500"
-          />
-          <LinkIcon v-else-if="!isConnected" class="w-6 h-6" />
-          <LinkSlashIcon v-else class="w-6 h-6 text-red-600" />
-        </button>
+          <!-- Placeholder for a selection that is not (yet) in the fetched list, e.g. while
+             the list is still empty after a backend restart. Hidden once the list contains
+             it, otherwise the device would show up twice. -->
+          <option v-if="!isSelectedDeviceInList" disabled>{{ selectedDevice }}</option>
+          <option
+            v-for="device in displayDevices"
+            :key="device.DisplayName"
+            :value="String(device.DisplayName)"
+          >
+            {{ device.displayLabel }}
+          </option>
+        </select>
+        <div class="flex shrink-0 gap-1">
+          <button
+            v-if="store.isPINS"
+            @click="configDevice"
+            :disabled="
+              isScanning ||
+              isConnected ||
+              (!props.alwaysEnableConfig &&
+                !(selectedDeviceObj && selectedDeviceObj.HasSetupDialog))
+            "
+            class="flex justify-center items-center w-10 h-10 border border-cyan-500/20 bg-gray-700 text-white rounded-lg hover:bg-gray-600 disabled:opacity-70"
+          >
+            <Cog6ToothIcon
+              class="w-6 h-6"
+              :class="{
+                'text-gray-400':
+                  isScanning ||
+                  isConnected ||
+                  (!props.alwaysEnableConfig &&
+                    !(selectedDeviceObj && selectedDeviceObj.HasSetupDialog)),
+              }"
+            />
+          </button>
+          <button
+            @click="rescanDevices"
+            :disabled="isScanning || isConnected"
+            class="flex justify-center items-center w-10 h-10 border border-cyan-500/20 bg-gray-700 text-white rounded-lg hover:bg-gray-600 disabled:opacity-70"
+          >
+            <ArrowPathIcon
+              class="w-6 h-6"
+              :class="{ 'text-green-500 spin': isScanning, 'text-white': !isScanning }"
+            />
+          </button>
+          <button
+            @click="
+              isToggleCon && store.isPINS
+                ? cancelConnect()
+                : disableConnect && disableConnectMessage
+                  ? openDisableInfo()
+                  : toggleConnection()
+            "
+            :disabled="isToggleCon && !store.isPINS"
+            class="flex justify-center items-center w-10 h-10 border border-cyan-500/20 bg-gray-700 text-white rounded-lg hover:bg-gray-600 disabled:opacity-30"
+          >
+            <XCircleIcon v-if="isToggleCon && store.isPINS" class="w-6 h-6 text-yellow-500" />
+            <InformationCircleIcon
+              v-else-if="disableConnect && disableConnectMessage"
+              class="w-6 h-6 text-yellow-500"
+            />
+            <LinkIcon v-else-if="!isConnected" class="w-6 h-6" />
+            <LinkSlashIcon v-else class="w-6 h-6 text-red-600" />
+          </button>
+        </div>
       </div>
+      <span v-if="isReloadingDriver" class="text-xs text-content-faint">
+        {{ $t('components.selectDevices.reloadingDriver') }}
+      </span>
     </div>
 
     <!-- Disable Info Modal -->
@@ -94,7 +104,7 @@
 </template>
 
 <script setup>
-import { ref, onMounted, watch, computed } from 'vue';
+import { ref, onMounted, onBeforeUnmount, watch, computed } from 'vue';
 import apiService from '@/services/apiService';
 import {
   ArrowPathIcon,
@@ -108,7 +118,14 @@ import {
 import { useEquipmentStore } from '@/store/equipmentStore';
 import { useI18n } from 'vue-i18n';
 import { checkMountConnectionPermission } from '@/utils/locationSyncUtils';
+import {
+  isOfflineDevice,
+  reloadIndiDriver,
+  resolveReloadedDevice,
+  setProfileDevice,
+} from '@/utils/equipmentDevices';
 import { apiStore } from '@/store/store';
+import { useToastStore } from '@/store/toastStore';
 
 const equipmentStore = useEquipmentStore();
 const store = apiStore();
@@ -129,8 +146,40 @@ const selectedDevice = ref('');
 const error = ref(false);
 const isScanning = ref(false);
 const isToggleCon = ref(false);
+const isReloadingDriver = ref(false);
 const borderClass = ref('border-gray-500');
 const showDisableModal = ref(false);
+
+// After a backend restart App.vue remounts this page in the very tick isBackendReachable
+// flips to true, while PINS is still enumerating drivers. When the fast retry budget in
+// getDevices() is not enough, keep refetching in the background until a non-empty list
+// arrives instead of leaving the select empty until the user navigates away and back.
+const EMPTY_RETRY_DELAY_MS = 10000;
+let emptyRetryTimer = null;
+// Several triggers can overlap (mount, reloadTrigger, reachability watcher, background
+// timer, rescan button); an older chain must not overwrite a newer list.
+let fetchGeneration = 0;
+
+function cancelEmptyRetry() {
+  if (emptyRetryTimer) {
+    clearTimeout(emptyRetryTimer);
+    emptyRetryTimer = null;
+  }
+}
+
+function scheduleEmptyRetry() {
+  cancelEmptyRetry();
+  emptyRetryTimer = setTimeout(() => {
+    emptyRetryTimer = null;
+    // Do not fire into a dead backend; the reachability watcher refetches as soon as it
+    // comes back.
+    if (!store.isBackendReachable) {
+      scheduleEmptyRetry();
+      return;
+    }
+    getDevices();
+  }, EMPTY_RETRY_DELAY_MS);
+}
 
 function openDisableInfo() {
   showDisableModal.value = true;
@@ -151,65 +200,88 @@ const displayDevices = computed(() => {
   }));
 });
 
-// Funktion für API-Aufruf mit dynamischem `apiAction` mit Retry bei Backend-Neustart
-async function getDevices(retryCount = 0, maxRetries = 3, delayMs = 2000) {
-  error.value = false;
+// Compared against the rendered option values, not the raw device objects.
+const isSelectedDeviceInList = computed(() =>
+  displayDevices.value.some((d) => String(d.DisplayName) === selectedDevice.value)
+);
 
-  // Prüfung ob apiAction definiert ist
+// API call with a dynamic `apiAction`, retrying while the backend is still starting up.
+async function getDevices(maxRetries = 3, delayMs = 2000) {
   if (!props.apiAction) {
     console.error('apiAction is not defined');
     return;
   }
 
   const apiName = props.apiAction.replace('Action', '');
+  const generation = ++fetchGeneration;
+  const isStale = () => generation !== fetchGeneration;
+
+  cancelEmptyRetry();
+
+  // On a cold start this component mounts before the port handshake in the store has
+  // finished. Firing now would only produce ':null/v2/api/...' URLs and burn the first of
+  // the three fast retries; the apiPort watcher refetches as soon as the port is known.
+  if (!store.apiPort) {
+    scheduleEmptyRetry();
+    return;
+  }
+
+  error.value = false;
   isScanning.value = true;
+
   try {
-    if (!apiService[props.apiAction]) {
-      throw new Error(`Invalid API method: ${props.apiAction}`);
-    }
-    const response = await apiService[props.apiAction]('list-devices');
-    if (response.Error) {
-      // Retry bei Fehler (Backend könnte noch nicht vollständig initialisiert sein)
+    for (let retryCount = 0; ; retryCount++) {
+      let reason = null;
+      let isEmptyResult = false;
+
+      try {
+        if (!apiService[props.apiAction]) {
+          throw new Error(`Invalid API method: ${props.apiAction}`);
+        }
+        const response = await apiService[props.apiAction]('list-devices');
+        if (isStale()) return;
+
+        if (response.Error) {
+          reason = `API Error: ${response.Error}`;
+        } else if (!Array.isArray(response.Response)) {
+          reason = `Faulty API response: ${JSON.stringify(response)}`;
+        } else if (response.Response.length === 0) {
+          // An empty array can mean the backend has not finished scanning yet.
+          devices.value = response.Response;
+          reason = 'Empty device list';
+          isEmptyResult = true;
+        } else {
+          devices.value = response.Response;
+          updateBorderClass();
+          return;
+        }
+      } catch (err) {
+        if (isStale()) return;
+        reason = `Error: ${err.message}`;
+      }
+
+      // Retry: the backend may not be fully initialized yet.
       if (retryCount < maxRetries) {
         console.warn(
-          `[${apiName}] API Error, retrying in ${delayMs}ms... (${retryCount + 1}/${maxRetries})`
+          `[${apiName}] ${reason}, retrying in ${delayMs}ms... (${retryCount + 1}/${maxRetries})`
         );
         await new Promise((resolve) => setTimeout(resolve, delayMs));
-        return getDevices(retryCount + 1, maxRetries, delayMs);
+        if (isStale()) return;
+        continue;
       }
-      error.value = true;
-      console.error('API Error:', response.Error);
+
+      // Fast budget exhausted: keep retrying in the background instead of leaving the
+      // list permanently empty.
+      console.warn(`[${apiName}] ${reason}, retrying in ${EMPTY_RETRY_DELAY_MS}ms...`);
+      error.value = !isEmptyResult;
+      updateBorderClass();
+      scheduleEmptyRetry();
       return;
     }
-
-    if (Array.isArray(response.Response)) {
-      // Leeres Array kann bedeuten, dass das Backend noch nicht fertig gescannt hat
-      if (response.Response.length === 0 && retryCount < maxRetries) {
-        console.warn(
-          `[${apiName}] Empty device list, retrying in ${delayMs}ms... (${retryCount + 1}/${maxRetries})`
-        );
-        await new Promise((resolve) => setTimeout(resolve, delayMs));
-        return getDevices(retryCount + 1, maxRetries, delayMs);
-      }
-      devices.value = response.Response;
-    } else {
-      error.value = true;
-      console.error('Faulty API response:', response);
-    }
-  } catch (err) {
-    // Retry bei Fehler (Backend könnte noch nicht vollständig initialisiert sein)
-    if (retryCount < maxRetries) {
-      console.warn(
-        `[${apiName}] Error, retrying in ${delayMs}ms... (${retryCount + 1}/${maxRetries})`,
-        err.message
-      );
-      await new Promise((resolve) => setTimeout(resolve, delayMs));
-      return getDevices(retryCount + 1, maxRetries, delayMs);
-    }
-    error.value = true;
-    console.error('Error:', err);
   } finally {
-    isScanning.value = false;
+    if (!isStale()) {
+      isScanning.value = false;
+    }
   }
 }
 
@@ -225,12 +297,15 @@ async function configDevice() {
 }
 
 async function rescanDevices() {
-  // Prüfung ob apiAction definiert ist
   if (!props.apiAction) {
     console.error('apiAction is not defined');
     return;
   }
 
+  const generation = ++fetchGeneration;
+  const isStale = () => generation !== fetchGeneration;
+
+  cancelEmptyRetry();
   error.value = false;
   console.log('scan');
   isScanning.value = true;
@@ -240,23 +315,36 @@ async function rescanDevices() {
     }
     const response = await apiService[props.apiAction]('rescan');
     console.log(response);
-    isScanning.value = false;
+    if (isStale()) return;
+
     if (response.Error) {
       error.value = true;
       console.error('API Error:', response.Error);
-      isScanning.value = false;
+      // A rescan right after a restart can hit a backend that is still starting up.
+      scheduleEmptyRetry();
       return;
     }
 
     if (Array.isArray(response.Response)) {
       devices.value = response.Response;
+      if (response.Response.length === 0) {
+        scheduleEmptyRetry();
+      }
     } else {
       error.value = true;
       console.error('Faulty API response:', response);
+      scheduleEmptyRetry();
     }
   } catch (err) {
+    if (isStale()) return;
     error.value = true;
     console.error('Error:', err);
+    scheduleEmptyRetry();
+  } finally {
+    if (!isStale()) {
+      isScanning.value = false;
+      updateBorderClass();
+    }
   }
 }
 
@@ -264,8 +352,8 @@ async function toggleConnection() {
   error.value = false;
   isToggleCon.value = true;
 
-  const deviceId = getDeviceId(selectedDevice.value);
-  const encodedId = encodeURIComponent(deviceId);
+  // Not const: an OFFLINE device resolves to a different Id after its driver was reloaded.
+  let deviceId = getDeviceId(selectedDevice.value);
   console.log('props.apiAction', props.apiAction);
 
   try {
@@ -291,8 +379,53 @@ async function toggleConnection() {
           return;
         }
       }
+      // A device PINS reports as OFFLINE can never be connected: its INDI driver was started
+      // before the hardware had power (typically a power box port) and therefore never saw
+      // it. Restarting the driver is what makes it appear — until now users had to do that
+      // by hand in the INDI setup dialog.
+      if (isOfflineDevice(selectedDeviceObj.value)) {
+        // Hold on to the placeholder: selectedDeviceObj is a computed over devices and
+        // changes as soon as the list is refetched below.
+        const offlineEntry = selectedDeviceObj.value;
+        isReloadingDriver.value = true;
+        try {
+          if (await reloadIndiDriver(props.apiAction)) {
+            await getDevices();
+            const resolved = resolveReloadedDevice(offlineEntry, devices.value);
+            if (!resolved) {
+              // Connecting with the placeholder's Id would just reproduce the original
+              // failure, so stop here and say why.
+              useToastStore().showToast({
+                type: 'error',
+                title: t('components.selectDevices.deviceNotFound'),
+                message: t('components.selectDevices.deviceNotFoundMessage', {
+                  device: offlineEntry.DisplayName,
+                }),
+              });
+              error.value = true;
+              return;
+            }
+            selectedDevice.value = resolved.DisplayName;
+            if (String(resolved.Id) !== deviceId) {
+              // The restarted driver derives the Id from the INDI device name, so it can
+              // differ from what the profile stored. Write it back, otherwise connectAll -
+              // which connects without ?to= - would keep using the dead Id.
+              deviceId = String(resolved.Id);
+              await setProfileDevice(props.apiAction, deviceId);
+            }
+          }
+        } catch (err) {
+          // Fall through to the connect attempt; its error handling reports the failure.
+          console.warn('[selectDevices] INDI driver reload failed:', err);
+        } finally {
+          isReloadingDriver.value = false;
+        }
+      }
+
       console.log('connect to', selectedDevice.value, 'ID:', deviceId);
-      const response = await apiService[props.apiAction]('connect?to=' + encodedId);
+      const response = await apiService[props.apiAction](
+        'connect?to=' + encodeURIComponent(deviceId)
+      );
       console.log('response', response);
       if (deviceId == 'PHD2_Single') {
         await apiService.connectPHD2();
@@ -343,6 +476,25 @@ function getDeviceId(deviceName) {
   return device ? String(device.Id) : '';
 }
 
+// Bound to the select's change event rather than a watcher on selectedDevice: that watcher
+// also fires for the programmatic resets from the profile and would write them straight
+// back. Without persisting here the pick would only live in this component and the next
+// device list refresh would overwrite it — which is what made 'No device' unselectable.
+async function onDeviceSelected() {
+  const deviceId = getDeviceId(selectedDevice.value);
+  if (!deviceId) return;
+
+  error.value = false;
+  try {
+    await setProfileDevice(props.apiAction, deviceId);
+  } catch (err) {
+    error.value = true;
+    console.error('Error selecting device: ', err);
+  } finally {
+    updateBorderClass();
+  }
+}
+
 watch(
   () => props.isConnected,
   () => {
@@ -376,8 +528,35 @@ watch(
   async (newValue, oldValue) => {
     if (newValue > 0 && newValue !== oldValue) {
       await getDevices();
-      selectedDevice.value = getDeviceName(props.defaultDeviceId);
+      // Keep the current selection when the reload came back empty; the devices watcher
+      // resolves it once a background retry delivers the list.
+      const name = getDeviceName(props.defaultDeviceId);
+      if (name) {
+        selectedDevice.value = name;
+      }
       updateBorderClass();
+    }
+  }
+);
+
+// A short outage does not always unmount this page (the reconnect overlay is debounced and
+// skipped on /settings), so the list would stay stale without this.
+watch(
+  () => store.isBackendReachable,
+  (reachable) => {
+    if (reachable) {
+      getDevices();
+    }
+  }
+);
+
+// The port handshake usually completes in well under a second, so waiting for the 10s
+// background retry after a skipped cold-start fetch would be needlessly slow.
+watch(
+  () => store.apiPort,
+  (port) => {
+    if (port) {
+      getDevices();
     }
   }
 );
@@ -387,6 +566,12 @@ onMounted(async () => {
   selectedDevice.value = props.defaultDeviceId;
   selectedDevice.value = getDeviceName(selectedDevice.value);
   updateBorderClass();
+});
+
+onBeforeUnmount(() => {
+  // Invalidate any in-flight retry chain so it stops firing requests after unmount.
+  fetchGeneration++;
+  cancelEmptyRetry();
 });
 </script>
 

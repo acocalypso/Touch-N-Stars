@@ -38,14 +38,10 @@ import apiService from '@/services/apiService';
 import { useI18n } from 'vue-i18n';
 import { apiStore } from '@/store/store';
 
-import { useHaptics } from '@/composables/useHaptics';
-
-const { tapLight } = useHaptics();
 const store = apiStore();
 const { t } = useI18n();
 
 async function setTrackingMode(mode) {
-  tapLight();
   //0=Sidereal, 1=Lunar, 2=Solar, 3=King, 5=Stopped
   try {
     const response = await apiService.setTrackingMode(mode);

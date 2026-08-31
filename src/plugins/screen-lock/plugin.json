@@ -1,0 +1,10 @@
+{
+  "id": "screen-lock",
+  "name": "Screen Lock",
+  "description": "Locks the app's controls against accidental touches; unlock with a 2 s long press.",
+  "version": "1.0.0",
+  "author": "Johannes Maier",
+  "defaultEnabled": false,
+  "enabled": true,
+  "isPins": false
+}

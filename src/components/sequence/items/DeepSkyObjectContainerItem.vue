@@ -7,7 +7,7 @@
 
     <template #editor>
       <!-- Container Name -->
-      <div class="flex items-center gap-3">
+      <div class="seq-field-row">
         <label class="text-xs text-slate-400 shrink-0">{{ $t('common.name') }}</label>
         <TextInput
           :modelValue="item.Name ?? ''"
@@ -20,7 +20,7 @@
       <TargetSearch @target-selected="handleTargetSelected" />
 
       <!-- Load from favorites -->
-      <div class="flex items-center gap-3">
+      <div class="seq-field-row">
         <label class="text-xs text-slate-400 shrink-0">{{
           $t('components.sequence.items.dso.loadFromFavorites')
         }}</label>
@@ -32,13 +32,27 @@
         </button>
       </div>
 
+      <!-- Load this target into the framing assistant -->
+      <div class="seq-field-row">
+        <label class="text-xs text-slate-400 shrink-0">{{
+          $t('components.sequence.items.dso.loadIntoFraming')
+        }}</label>
+        <button
+          class="ml-auto flex items-center gap-1 px-2 py-1 bg-slate-700/60 border border-slate-600 rounded text-xs text-gray-200 hover:bg-slate-600 disabled:opacity-40 disabled:cursor-not-allowed"
+          :disabled="!canLoadIntoFraming"
+          @click="loadIntoFraming"
+        >
+          <CameraFramingIcon class="w-4 h-4 text-cyan-400" />
+        </button>
+      </div>
+
       <!-- FITS Plate Solve -->
       <div
         v-if="
           appStore.isPINS ||
           appStore.checkVersionNewerOrEqual(appStore.currentTnsPluginVersion, '1.2.7.0')
         "
-        class="flex items-center gap-3"
+        class="seq-field-row"
       >
         <label class="text-xs text-slate-400 shrink-0">{{
           $t('components.fitsPlatesolve.buttonTitle')
@@ -119,7 +133,7 @@
       </Modal>
 
       <!-- Target Name -->
-      <div class="flex items-center gap-3">
+      <div class="seq-field-row">
         <label class="text-xs text-slate-400 shrink-0">{{
           $t('components.sequence.items.dso.targetName')
         }}</label>
@@ -148,7 +162,7 @@
       <div class="text-xs text-slate-400 font-medium">
         {{ $t('components.sequence.items.center.ra') }}
       </div>
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-1">
+      <div class="grid grid-cols-1 @[20rem]:grid-cols-3 gap-1">
         <NumberInputPicker
           :modelValue="coords.RAHours"
           label="h"
@@ -192,7 +206,7 @@
       <div class="text-xs text-slate-400 font-medium pt-1">
         {{ $t('components.sequence.items.center.dec') }}
       </div>
-      <div class="grid grid-cols-1 sm:grid-cols-3 gap-1">
+      <div class="grid grid-cols-1 @[20rem]:grid-cols-3 gap-1">
         <NumberInputPicker
           :modelValue="decDeg"
           label="°"
@@ -248,6 +262,16 @@ import { useTelescopiusFavorites } from '@/plugins/telescopius/composables/useTe
 import { apiStore } from '@/store/store';
 import { HeartIcon, CheckIcon } from '@heroicons/vue/24/outline';
 import FitsPlateSolve from '@/components/fitsPlatesolve/FitsPlateSolve.vue';
+import CameraFramingIcon from '@/components/icons/CameraFramingIcon.vue';
+import { useRouter } from 'vue-router';
+import { useFramingStore } from '@/store/framingStore';
+import { raDecToAltAz, degreesToHMS, degreesToDMS } from '@/utils/utils';
+import {
+  parseDsoTargetString,
+  dsoContainerCoordinates,
+  dsoContainerRaString,
+  dsoContainerDecString,
+} from '@/utils/sequenceTargets';
 
 const props = defineProps({
   item: { type: Object, required: true },
@@ -256,6 +280,8 @@ const props = defineProps({
 const store = useSequenceV2Store();
 const favStore = useFavTargetStore();
 const appStore = apiStore();
+const framingStore = useFramingStore();
+const router = useRouter();
 const showFavPicker = ref(false);
 const { loadTelescopiusFavorites, buildTargetGroups } = useTelescopiusFavorites();
 
@@ -291,49 +317,13 @@ watch(
   }
 );
 
-// API returns Target as a string: "RA: 00:42:44; Dec: 41° 16' 07\"; Epoch: J2000; Position Angle: 0"
-const parsedTarget = computed(() => {
-  const t = props.item.Target;
-  if (!t || typeof t !== 'string') return t ?? null; // already an object (future-proof)
-  const raMatch = t.match(/RA:\s*(\d+):(\d+):([\d.]+)/);
-  const decMatch = t.match(/Dec:\s*(-?)(\d+)°\s*(\d+)'\s*([\d.]+)"/);
-  const paMatch = t.match(/Position Angle:\s*([\d.-]+)/);
-  if (!raMatch || !decMatch) return null;
-  return {
-    RAHours: parseInt(raMatch[1]),
-    RAMinutes: parseInt(raMatch[2]),
-    RASeconds: parseFloat(raMatch[3]),
-    NegativeDec: decMatch[1] === '-',
-    DecDegrees: parseInt(decMatch[2]),
-    DecMinutes: parseInt(decMatch[3]),
-    DecSeconds: parseFloat(decMatch[4]),
-    PositionAngle: paMatch ? parseFloat(paMatch[1]) : 0,
-    TargetName: props.item.Name ?? '',
-  };
-});
+const parsedTarget = computed(() => parseDsoTargetString(props.item.Target, props.item.Name ?? ''));
 
-const coords = computed(() => {
-  const t = props.item.Target;
-  // object form (has InputCoordinates)
-  if (t && typeof t === 'object') return t.InputCoordinates ?? {};
-  // string form — use parsed values directly
-  return parsedTarget.value ?? {};
-});
+const coords = computed(() => dsoContainerCoordinates(props.item));
 
-const raStr = computed(() => {
-  const co = coords.value;
-  if (!co.RAHours && co.RAHours !== 0) return '';
-  return `${String(co.RAHours).padStart(2, '0')}:${String(co.RAMinutes).padStart(2, '0')}:${String(Math.round(co.RASeconds)).padStart(2, '0')}`;
-});
+const raStr = computed(() => dsoContainerRaString(props.item));
 
-const decStr = computed(() => {
-  const co = coords.value;
-  if (!co.DecDegrees && co.DecDegrees !== 0) return '';
-  const isNegative = co.NegativeDec || (co.DecDegrees ?? 0) < 0;
-  const sign = isNegative ? '-' : '+';
-  const absDeg = Math.abs(co.DecDegrees);
-  return `${sign}${String(absDeg).padStart(2, '0')}°${String(co.DecMinutes).padStart(2, '0')}'${String(Math.round(co.DecSeconds)).padStart(2, '0')}"`;
-});
+const decStr = computed(() => dsoContainerDecString(props.item));
 
 const decDeg = computed(() => {
   const co = coords.value;
@@ -383,6 +373,41 @@ function saveTargetName(name) {
 
 function savePositionAngle(rotation) {
   callSetTarget(null, null, null, rotation);
+}
+
+// Read-only direction: copy this container's target into the framing assistant.
+// Nothing is written back to the sequence and no hardware is moved.
+const canLoadIntoFraming = computed(() => parsedTarget.value !== null);
+
+function loadIntoFraming() {
+  if (!canLoadIntoFraming.value) return;
+
+  const ra = currentRaDeg.value;
+  const dec = currentDecDeg.value;
+  const name = parsedTarget.value?.TargetName || props.item.Name || '';
+
+  framingStore.RAangle = ra;
+  framingStore.DECangle = dec;
+  // degreesToHMS/DMS so slewAndCenter.vue can parse the strings back.
+  framingStore.RAangleString = degreesToHMS(ra);
+  framingStore.DECangleString = degreesToDMS(dec);
+  framingStore.rotationAngle = parsedTarget.value?.PositionAngle ?? 0;
+  framingStore.isMosaicMode = false;
+  framingStore.selectedItem = { Name: name, RA: ra, Dec: dec };
+
+  const { altitude, azimuth } = raDecToAltAz(
+    ra,
+    dec,
+    appStore.profileInfo?.AstrometrySettings?.Latitude ?? 0,
+    appStore.profileInfo?.AstrometrySettings?.Longitude ?? 0
+  );
+  framingStore.ALTangle = altitude;
+  framingStore.AZangle = azimuth;
+  framingStore.ALTangleString = altitude.toFixed(3);
+  framingStore.AZangleString = azimuth.toFixed(3);
+
+  framingStore.framingReloadKey++;
+  router.push('/framing');
 }
 
 async function handleTargetSelected(targetData) {

@@ -19,12 +19,10 @@ import { useHaptics } from '@/composables/useHaptics';
 const { t } = useI18n();
 const store = apiStore();
 const toastStore = useToastStore();
-const { tapMedium, notifySuccess, notifyError } = useHaptics();
+const { notifySuccess, notifyError } = useHaptics();
 const statusClass = ref('');
 
 async function mountPark() {
-  tapMedium();
-
   // Parking stops tracking and drives the mount away from the target, so it must
   // not be triggerable by a single stray tap in the dark.
   const confirmed = await toastStore.showConfirmation(

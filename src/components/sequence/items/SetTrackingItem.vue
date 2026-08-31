@@ -5,7 +5,7 @@
     </template>
 
     <template #editor="{ save }">
-      <div class="flex items-center gap-3">
+      <div class="seq-field-row">
         <label class="text-xs text-slate-400 shrink-0">{{
           $t('components.sequence.items.setTracking.trackingMode')
         }}</label>

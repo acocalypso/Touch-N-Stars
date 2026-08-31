@@ -13,6 +13,7 @@ module.exports = {
         top: '1000', // topmost layer
         numberPad: '9998', // number pad overlay
         toast: '9999', // toast notifications
+        lock: '10000', // screen lock overlay - above literally everything else
       },
     },
   },

@@ -155,6 +155,54 @@
               </div>
             </dl>
           </article>
+
+          <article
+            v-if="isPINS && systemPowerStatus"
+            class="rounded-xl border border-gray-700 bg-gray-900/60 p-6 shadow-lg"
+            data-testid="pins-power-status"
+          >
+            <header class="flex items-center justify-between gap-4">
+              <h2 class="text-lg font-semibold text-white">
+                {{ t('plugins.systemMetrics.powerTitle') }}
+              </h2>
+              <span
+                class="rounded-full px-2.5 py-1 text-xs font-medium"
+                :class="powerStatusToneClass"
+              >
+                {{ powerStatusLabel }}
+              </span>
+            </header>
+            <dl class="mt-4 space-y-2 text-sm text-gray-300">
+              <div class="flex justify-between">
+                <dt>{{ t('plugins.systemMetrics.supplyVoltage') }}</dt>
+                <dd>{{ formatVoltage(systemSupplyVoltage) }}</dd>
+              </div>
+              <div class="flex justify-between">
+                <dt>{{ t('plugins.systemMetrics.underVoltageNow') }}</dt>
+                <dd>{{ formatDetected(systemPowerStatus.underVoltage) }}</dd>
+              </div>
+              <div class="flex justify-between text-gray-400">
+                <dt>{{ t('plugins.systemMetrics.underVoltageSinceBoot') }}</dt>
+                <dd>{{ formatDetected(systemPowerStatus.underVoltageOccurred) }}</dd>
+              </div>
+              <div class="flex justify-between text-gray-400">
+                <dt>{{ t('plugins.systemMetrics.firmwareFlags') }}</dt>
+                <dd>{{ systemPowerStatus.rawValue }}</dd>
+              </div>
+            </dl>
+            <p
+              v-if="systemPowerStatus.underVoltage || systemPowerStatus.underVoltageOccurred"
+              class="mt-4 rounded-md border border-amber-500/50 bg-amber-500/10 p-3 text-xs text-amber-100"
+            >
+              {{
+                t(
+                  systemPowerStatus.underVoltage
+                    ? 'plugins.systemMetrics.underVoltageActiveHelp'
+                    : 'plugins.systemMetrics.underVoltageHistoryHelp'
+                )
+              }}
+            </p>
+          </article>
         </section>
 
         <section v-if="diskMetrics.length" class="space-y-4">
@@ -208,6 +256,8 @@
 
 <script setup>
 import { computed, onMounted, onUnmounted, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { apiStore } from '@/store/store';
 import { useBackgroundAwarePolling } from '@/utils/appLifecycle';
 import systemMetricsService from '../services/systemMetricsService';
 
@@ -219,6 +269,8 @@ const pending = ref(false);
 const loading = ref(false);
 const errorMessage = ref('');
 const lastPolledAt = ref(null);
+const store = apiStore();
+const { t } = useI18n();
 
 // Always active while this view is mounted, but pausing while the app is
 // backgrounded (see src/utils/appLifecycle.js).
@@ -313,6 +365,47 @@ const systemTemperatureFahrenheit = computed(() => {
   return Number.isFinite(value) ? value : null;
 });
 const systemTemperatureSource = computed(() => systemTemperature.value?.source || '');
+const isPINS = computed(() => store.isPINS);
+const systemPowerStatus = computed(() => metrics.value?.SystemPowerStatus ?? null);
+const systemSupplyVoltage = computed(() => {
+  const rawValue = systemPowerStatus.value?.supplyVoltage;
+  if (rawValue === null || rawValue === undefined || rawValue === '') {
+    return null;
+  }
+  const value = Number(rawValue);
+  return Number.isFinite(value) ? value : null;
+});
+const powerStatusLabel = computed(() => {
+  if (systemPowerStatus.value?.underVoltage) {
+    return t('plugins.systemMetrics.underVoltageActive');
+  }
+  if (systemPowerStatus.value?.underVoltageOccurred) {
+    return t('plugins.systemMetrics.underVoltageOccurred');
+  }
+  return t('plugins.systemMetrics.powerHealthy');
+});
+const powerStatusToneClass = computed(() => {
+  if (systemPowerStatus.value?.underVoltage) {
+    return 'bg-red-500/20 text-red-100';
+  }
+  if (systemPowerStatus.value?.underVoltageOccurred) {
+    return 'bg-amber-500/20 text-amber-100';
+  }
+  return 'bg-emerald-500/20 text-emerald-100';
+});
+
+const formatVoltage = (value) => {
+  if (value === null || value === undefined || value === '') {
+    return t('plugins.systemMetrics.notAvailable');
+  }
+  const numeric = Number(value);
+  return Number.isFinite(numeric)
+    ? `${numeric.toFixed(2)} V`
+    : t('plugins.systemMetrics.notAvailable');
+};
+
+const formatDetected = (value) =>
+  t(value ? 'plugins.systemMetrics.detected' : 'plugins.systemMetrics.notDetected');
 
 const isInitialLoading = computed(() => !metrics.value && pending.value);
 

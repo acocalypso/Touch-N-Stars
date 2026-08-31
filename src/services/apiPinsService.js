@@ -97,6 +97,22 @@ export default {
     }
   },
 
+  async fetchSystemPowerStatus() {
+    const { PINS_SYSTEM_URL } = getUrls();
+    try {
+      const response = await axios.get(`${PINS_SYSTEM_URL}/system/power-status`, {
+        headers: {
+          Authorization: `Bearer ${PINS_TOKEN}`,
+        },
+        timeout: 5000,
+      });
+      return response.data;
+    } catch (error) {
+      console.error('Failed to fetch system power status:', error);
+      return null;
+    }
+  },
+
   //-------------------INDI------------------------
   //query the list of available INDI devices for a given type
   //(focuser, filterwheel, rotator, telescope, weather switches, flatpanel.)

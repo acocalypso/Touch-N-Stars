@@ -13,7 +13,7 @@
     </template>
 
     <template #editor="{ save }">
-      <div class="flex items-center gap-2">
+      <div class="seq-field-row">
         <span class="text-xs text-slate-400">{{
           $t('components.sequence.items.timeCondition.provider')
         }}</span>
@@ -57,7 +57,7 @@
         />
       </template>
       <template v-else>
-        <div class="flex items-center gap-2">
+        <div class="seq-field-row">
           <span class="text-xs text-slate-400">{{
             $t('components.sequence.items.timeCondition.calculatedTime')
           }}</span>

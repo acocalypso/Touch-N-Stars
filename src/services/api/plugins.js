@@ -90,6 +90,20 @@ export default {
       }
     },
 
+    getReportUrl(sessionId) {
+      const { API_URL } = getUrls();
+      return `${API_URL}nightsummary/sessions/${encodeURIComponent(sessionId)}/report`;
+    },
+
+    async downloadReportBlob(sessionId) {
+      const { API_URL } = getUrls();
+      const response = await axios.get(
+        `${API_URL}nightsummary/sessions/${encodeURIComponent(sessionId)}/report`,
+        { responseType: 'blob' }
+      );
+      return response.data;
+    },
+
     async resendSession(sessionId) {
       try {
         const { API_URL } = getUrls();

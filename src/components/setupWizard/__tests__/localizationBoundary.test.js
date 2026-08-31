@@ -4,7 +4,7 @@ import { readFileSync } from 'node:fs';
 
 const wizardSource = readFileSync(new URL('../SetupWizard.vue', import.meta.url), 'utf8');
 const settingsSource = readFileSync(
-  new URL('../../settings/SettingsGeneralTab.vue', import.meta.url),
+  new URL('../../settings/SettingsConnectionTab.vue', import.meta.url),
   'utf8'
 );
 const localizationSource = readFileSync(

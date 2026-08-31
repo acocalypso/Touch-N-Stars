@@ -140,6 +140,16 @@
       "confirmSetTargetMessage": "Weet u zeker dat u dit Doel wilt instellen als het sequentie Doel?",
       "useNinaCache": "Gebruik NINA cache voor het Doel beeld",
       "setSequnceTarget": "gebruik als sequentie Doel",
+      "sequenceTargetPicker": {
+        "title": "Sequentiedoel",
+        "hint": "Kies welk doel van de geladen sequentie de framing-coördinaten ontvangt.",
+        "newTarget": "Nieuw doel",
+        "unnamed": "Doel {index}",
+        "position": "Invoegpositie",
+        "positionEnd": "Aan het einde",
+        "positionAfter": "Na {name}",
+        "addFailed": "Het nieuwe doel kon niet aan de sequentie worden toegevoegd"
+      },
       "search": {
         "title": "Zoeken",
         "placeholder": "Voer een zoek term in...",
@@ -165,6 +175,12 @@
       "infoTargetImage": "Indien het beeld wordt weergegeven in zwart, dan moet de “Offline Sky Map Cache“ ingesteld worden in NINA of moet de optie “gebruik NINA cache” ge-deactiveerd worden",
       "useCenter": "Centreer",
       "useRotate": "Roteer",
+      "skyChart": {
+        "altitude": "Hoogte (°)",
+        "horizonProfile": "Horizonprofiel",
+        "twilight": "Schemering",
+        "astronomicalNight": "Astronomische nacht"
+      },
       "mosaic": {
         "title": "Mozaïekmodus",
         "columns": "Kolommen",
@@ -178,7 +194,11 @@
         "panelsSet": "panelen op volgorde geplaatst",
         "willBeSaved": "panelen worden afzonderlijk opgeslagen"
       },
-      "customTarget": "Aangepast doel"
+      "customTarget": "Aangepast doel",
+      "solvedRotation": {
+        "short": "opgelost",
+        "tooltip": "Camerarotatie van de laatste geslaagde plate solve"
+      }
     },
     "tutorial": {
       "previous": "Vorige",
@@ -422,6 +442,11 @@
     "settings": {
       "title": "Instellingen",
       "general": "Algemeen",
+      "tabs": {
+        "connection": "Verbinding & locatie",
+        "interface": "Interface",
+        "system": "Systeem"
+      },
       "add": "toevoegen",
       "coordinates": "GPS Coordinaten",
       "save": "Opslaan",
@@ -491,6 +516,22 @@
         "title": "Scherm actief",
         "description": "Voorkom dat het scherm dimt of vergrendeld terwijl de App actief is."
       },
+      "backupRestore": {
+        "title": "Back-up & herstellen",
+        "description": "Slaat de instellingen die op dit apparaat zijn opgeslagen op in een bestand en herstelt ze op een ander apparaat.",
+        "profileWarning": "Dit maakt alleen een back-up van de app-instellingen op dit apparaat. Uitrusting-, camera-, montering- en andere instellingen staan in het NINA- of PINS-profiel - maak daar apart een back-up van voor een volledige back-up.",
+        "locationAndroid": "Het bestand wordt opgeslagen in Documenten/TouchNStars op dit apparaat - open het met een bestandsbeheer-app.",
+        "locationIos": "Het bestand wordt opgeslagen in de Bestanden-app onder Op mijn iPhone/iPad → Touch 'N Stars → Documents.",
+        "locationBrowser": "Het bestand wordt opgeslagen in de standaard downloadmap van je browser.",
+        "exportButton": "Back-up exporteren",
+        "importButton": "Herstellen vanuit back-up",
+        "exportSuccess": "Back-up opgeslagen als {filename} ({count} items).",
+        "exportError": "Het back-upbestand kon niet worden opgeslagen.",
+        "confirmImportTitle": "Back-up herstellen?",
+        "confirmImportMessage": "Hiermee worden de instellingen op dit apparaat overschreven, inclusief de opgeslagen instanties. De app wordt daarna opnieuw geladen.",
+        "importEmpty": "Het back-upbestand bevat geen instellingen om te herstellen.",
+        "importError": "De back-up kon niet worden hersteld: {error}"
+      },
       "wifiBinding": {
         "title": "Lokale netwerkbinding",
         "description": "Houdt de app via wifi verbonden wanneer je instantie op een lokaal netwerk zonder internet draait (bijv. PINS-hotspot), terwijl de rest van de telefoon mobiele data blijft gebruiken."
@@ -498,6 +539,10 @@
       "input": {
         "title": "Invoeroptimalisatie",
         "touchOptimized": "Touch-geoptimaliseerde kiezer"
+      },
+      "haptics": {
+        "title": "Haptische feedback",
+        "description": "Korte trilling bij het indrukken van knoppen"
       },
       "beta": {
         "title": "Beta Update Kanaal"
@@ -560,6 +605,7 @@
         "astapDatabaseInstallFailed": "Installatie van ASTAP-sterrendatabase mislukt{exitCode}.",
         "astapDatabaseInstallSuccess": "ASTAP-sterrendatabase {databaseId} is succesvol geïnstalleerd.",
         "astapDatabaseInstalling": "Installeren...",
+        "astapDatabaseProgressStalled": "Al 30 seconden geen downloadvoortgang. De taak wordt nog steeds bewaakt.",
         "astapDatabaseJobStarted": "begonnen",
         "astapDatabaseJobStartedMessage": "Installatietaak gestart voor {databaseId}.",
         "astapDatabaseJobStatus": "Taak {jobId}: {status}",
@@ -612,10 +658,16 @@
         "syncSuccess": "Tijd succesvol gesynchroniseerd."
       },
       "navbarCustomization": {
-        "alwaysVisible": "Altijd zichtbaar",
         "hint": "Sleep om de volgorde te wijzigen. Er moet minimaal één pagina naast Instellingen zichtbaar blijven.",
-        "minOneRequired": "Er moet minimaal één pagina zichtbaar blijven",
         "title": "Aanpassing van de navigatiebalk"
+      },
+      "itemCustomization": {
+        "alwaysVisible": "Altijd zichtbaar",
+        "minOneRequired": "Er moet minimaal één item zichtbaar blijven"
+      },
+      "statusBarCustomization": {
+        "title": "Aanpassing van de statusbalk",
+        "hint": "Sleep om de volgorde te wijzigen. Er moet minimaal één item zichtbaar blijven."
       },
       "imageSavePath": {
         "create": "Creëren",
@@ -678,6 +730,11 @@
       "sharedGuidWarning": "Rotator and safety monitor share one storage slot in NINA — changing one also changes the other.",
       "noReconnectHint": "New settings take effect on the next connect.",
       "cameraNoSettings": "This camera has no settings to configure."
+    },
+    "selectDevices": {
+      "deviceNotFound": "Apparaat niet gevonden",
+      "deviceNotFoundMessage": "Het INDI-stuurprogramma is opnieuw geladen, maar '{device}' is niet verschenen. Controleer de voeding en selecteer het apparaat opnieuw.",
+      "reloadingDriver": "INDI-stuurprogramma wordt opnieuw geladen…"
     },
     "connectEquipment": {
       "camera": {
@@ -751,6 +808,7 @@
       "sequenceLoad": "Laden",
       "sequenceNoFiles": "Geen bestanden gevonden",
       "sequenceLoading": "Laden...",
+      "loadingSequence": "Sequentie wordt geladen…",
       "sequenceClose": "Sluiten",
       "deleteConfirmationTitle": "Bestand verwijderen",
       "deleteConfirmationMessage": "Weet u zeker dat u het bestand wilt verwijderen?",
@@ -1000,6 +1058,10 @@
         "annotation": {
           "text": "Tekst"
         },
+        "saveSequence": {
+          "notSet": "Niet ingesteld",
+          "applyFileName": "Toepassen"
+        },
         "groundstation": {
           "message": "Bericht",
           "title": "Titel",
@@ -1052,6 +1114,16 @@
           "modePeak": "Piek",
           "minimumPoints": "Minimum te"
         },
+        "interruptAndRetryWhenRMSAbove": {
+          "rmsThreshold": "RMS-drempel (\")",
+          "mode": "Modus",
+          "modeRMS": "RMS",
+          "modePeak": "Piek",
+          "minimumPoints": "Minimum aantal punten",
+          "stableTime": "Stabiel gedurende (s)",
+          "recoveryTimeout": "Hersteltime-out (min)",
+          "maxRetries": "Max. pogingen (0 = onbeperkt)"
+        },
         "changePHD2Parameters": {
           "parameter": "Parameter",
           "exposureTime": "Belichtingstijd(en)",
@@ -1065,7 +1137,8 @@
         "dso": {
           "targetName": "Projectnaam:",
           "positionAngle": "Positiehoek",
-          "loadFromFavorites": "Laden uit favorieten"
+          "loadFromFavorites": "Laden uit favorieten",
+          "loadIntoFraming": "Laden in Framing-assistent"
         },
         "warmCamera": {
           "duration": "Duur (min)"
@@ -1134,6 +1207,7 @@
       "disable": "Deactiveren",
       "resetStatus": "Status herstellen",
       "delete": "Verwijderen",
+      "runningLocked": "Dit item wordt uitgevoerd en kan niet worden gewijzigd",
       "controlsLockedMessage": "De reeksbedieningen zijn vergrendeld terwijl de reeks wordt uitgevoerd.",
       "lockControls": "Slot",
       "unlockControls": "Ontgrendelen"
@@ -1310,6 +1384,7 @@
           "MaxMove": "RA: Max beweging",
           "predictive_weight": "RA: Voorspellend gewicht",
           "reactive_weight": "RA: Reactief gewicht",
+          "period_length": "RA: PEC-periodelengte (s)",
           "slope_weight": "RA: Hellinggewicht",
           "exp_factor": "RA: Blootstellingsfactor"
         },
@@ -1454,6 +1529,7 @@
             "hysteresis": "Gewicht dat aan de geschiedenis van recente correcties wordt gegeven t.o.v. het huidige frame, in procenten. Hoge waarden vereffenen de correcties maar reageren trager op een echte richtingswisseling.",
             "predictiveWeight": "Predictive PEC: gewicht van het voorspelde (gemodelleerde) deel van de correctie. Standaardwaarden voldoen voor de meeste monteringen; grote wijzigingen kunnen het guiden verslechteren.",
             "reactiveWeight": "Predictive PEC: gewicht van het reactieve deel, gebaseerd op de sterverplaatsing in het laatste frame. Standaardwaarden voldoen voor de meeste monteringen.",
+            "periodLength": "Predictive PEC: lengte van de wormperiode van de montering in seconden. PHD2 modelleert daarmee de terugkerende RA-fout en corrigeert die vooruitlopend. Neem de waarde uit de specificatie van de montering (ongeveer 479 s bij een EQ6) of lees hem af aan de PEC-piek in de guiding-FFT.",
             "slopeWeight": "LowPass: hoezeer de recente trend (de helling) van de sterbeweging de correctie beïnvloedt, in procenten. Voorkomt dat het algoritme te traag wordt; 0 gebruikt alleen de mediaan van de recente geschiedenis.",
             "expFactor": "ZFilter: de virtuele belichtingstijd is de werkelijke belichting × deze factor. Hoge waarden filteren meer seeing weg (vloeiender maar trager); een virtuele belichting van ~2–4 s is een goed startpunt voor RA."
           },
@@ -1852,7 +1928,8 @@
       },
       "indi": {
         "settings": "Rotator-instellingen"
-      }
+      },
+      "solvedPositionAngle": "Opgeloste hemelhoek"
     },
     "flat": {
       "please_connect_flatDevice": "Verbind met flat apparaat",
@@ -2192,7 +2269,8 @@
         "mount": "Montering",
         "progress": "Voortgang",
         "safety": "Veiligheid",
-        "weather": "Weer"
+        "weather": "Weer",
+        "screenlock": "Slot"
       },
       "mount": {
         "parked": "Geparkeerd",
@@ -4806,6 +4884,94 @@
       "setFailed": "Kan de eigenschap niet instellen.",
       "title": "INDI-bedieningspaneel",
       "updated": "Bijgewerkt"
+    },
+    "hardwareDb": {
+      "title": "Hardwarecompatibiliteit",
+      "intro": "Deel welke apparaten met welke driver werken. Meldingen worden gecontroleerd voordat ze in de database verschijnen.",
+      "collecting": "Verbonden apparatuur wordt gelezen…",
+      "noDevices": "Geen apparatuur gevonden. Verbind een apparaat of kies er een in je profiel — dan kun je het hier ook melden als verbinden mislukt.",
+      "notConnected": "niet verbonden",
+      "driverUnknown": "Drivernaam onbekend zonder verbinding — wij vullen die aan bij de controle.",
+      "reviewAndSend": "Controleren en versturen ({count})",
+      "selectAtLeastOne": "Beoordeel minstens één apparaat om een melding te versturen.",
+      "noteLabel": "Zijn er bijzonderheden?",
+      "notePlaceholder": "bijv. heeft USB-bandbreedte onder 60 nodig, focusrichting is omgekeerd…",
+      "copy": "Kopiëren",
+      "copied": "Gekopieerd",
+      "submitSuccess": "Melding verstuurd. Bedankt!",
+      "submitSuccessHint": "Bewaar dit token om later de controlestatus van je melding op te vragen.",
+      "submitError": "De melding kon niet worden verstuurd.",
+      "status": {
+        "works": "Werkt",
+        "caveat": "Werkt met beperking",
+        "broken": "Werkt niet"
+      },
+      "known": {
+        "summary": "Al in de database: {status} met {driver} · {reports} meldingen",
+        "none": "Nog niet in de database — die van jou zou de eerste melding zijn."
+      },
+      "categories": {
+        "camera": "Camera",
+        "guidecam": "Guidecamera",
+        "mount": "Montering",
+        "focuser": "Focuser",
+        "filterwheel": "Filterwiel",
+        "rotator": "Rotator",
+        "guider": "Guider",
+        "flatdevice": "Flatpaneel",
+        "switch": "Schakelaar",
+        "weather": "Weer",
+        "dome": "Koepel",
+        "safetymonitor": "Veiligheidsmonitor"
+      },
+      "preview": {
+        "title": "Dit wordt verstuurd",
+        "intro": "Hieronder staat de volledige melding. Er wordt niets anders verzonden.",
+        "privacyNote": "Er worden geen IP-adressen, hostnamen, wifinamen, coördinaten of profielnamen meegestuurd.",
+        "send": "Melding versturen",
+        "sending": "Versturen…"
+      },
+      "history": {
+        "title": "Jouw meldingen",
+        "refreshStatus": "Status controleren",
+        "clear": "Lijst wissen",
+        "deviceCount": "{count} apparaten",
+        "status": {
+          "pending": "In controle",
+          "approved": "Gepubliceerd",
+          "rejected": "Afgewezen",
+          "duplicate": "Duplicaat",
+          "queued": "Wachten om te verzenden"
+        }
+      },
+      "vendorLabel": "Fabrikant",
+      "vendorPlaceholder": "bijv. Sky-Watcher",
+      "modelLabel": "Model",
+      "modelPlaceholder": "bijv. EQ6-R Pro",
+      "modelRequiredHint": "Deze driver werkt met veel verschillende modellen en kan jouw hardware niet herkennen. Geef het model op.",
+      "modelOptionalHint": "Corrigeer de fabrikant en het model als de gedetecteerde naam onjuist is.",
+      "missingModel": "Geef het model op voor {count} apparaten voordat je verzendt.",
+      "queued": "Melding opgeslagen — geen verbinding met de database.",
+      "queuedHint": "Deze wordt automatisch verzonden de volgende keer dat je deze pagina opent met internettoegang. Je vindt hem onder jouw meldingen."
+    },
+    "systemMetrics": {
+      "powerTitle": "Voeding en ingangsspanning",
+      "supplyVoltage": "Ingangsspanning",
+      "underVoltageNow": "Huidige onderspanning",
+      "underVoltageSinceBoot": "Onderspanning sinds opstarten",
+      "firmwareFlags": "Firmwarevlaggen",
+      "underVoltageActive": "Onderspanning gedetecteerd",
+      "underVoltageOccurred": "Eerdere onderspanning",
+      "powerHealthy": "In orde",
+      "underVoltageActiveHelp": "De Pi krijgt momenteel onvoldoende stroom. Controleer de voeding, kabel en belasting door aangesloten apparaten.",
+      "underVoltageHistoryHelp": "Sinds het opstarten is onderspanning opgetreden. Controleer de voeding en kabel als het systeem instabiel is.",
+      "notAvailable": "Niet beschikbaar",
+      "detected": "Gedetecteerd",
+      "notDetected": "Niet gedetecteerd"
+    },
+    "screenLock": {
+      "unlock": "Scherm ontgrendelen",
+      "holdToUnlock": "Houd {seconds} s vast om te ontgrendelen"
     }
   },
   "pinsDevices": {
@@ -5046,10 +5212,15 @@
       "delete": "Verwijderen",
       "deleteConfirm": "Weet u zeker dat u deze sessie wilt verwijderen? \nDit kan niet ongedaan worden gemaakt.",
       "deleteTitle": "Sessie verwijderen",
+      "downloadReport": "Rapport downloaden",
       "loading": "Sessies laden…",
       "noSessions": "Geen sessie geselecteerd. \nSelecteer een sessie in de vervolgkeuzelijst.",
       "placeholder": "Selecteer een sessie…",
-      "resend": "Rapport opnieuw verzenden"
+      "reportTitle": "Gedetailleerd rapport",
+      "reportZoomActual": "100%",
+      "reportZoomFit": "Aan breedte aanpassen",
+      "resend": "Rapport opnieuw verzenden",
+      "viewReport": "Gedetailleerd rapport tonen"
     },
     "settings": {
       "chartPrimary": "Primaire statistiek",
@@ -5110,6 +5281,9 @@
       "smtpServer": "SMTP-server",
       "smtpSsl": "Gebruik TLS/SSL",
       "testDiscord": "Testbericht verzenden",
+      "secretSet": "•••••••• (ingesteld)",
+      "secretNotSet": "Niet ingesteld",
+      "secretLeaveEmpty": "Laat leeg om de huidige waarde te behouden",
       "testEmail": "Test-e-mail verzenden",
       "testPushover": "Testmelding verzenden",
       "localDashboardEnabled": "Schakel lokale webserver in",

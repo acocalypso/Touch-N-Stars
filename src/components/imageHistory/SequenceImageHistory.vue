@@ -48,15 +48,31 @@
     <div
       class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-2 md:gap-3 xl:gap-4 pt-4 pb-20"
     >
-      <div v-for="image in sortedImageHistory" v-bind:key="image.data" class="relative">
+      <div v-for="item in visibleImages" :key="item.index" class="relative">
         <SequenceImage
-          :index="image.index"
-          :image="image.data"
-          :stats="image.stats"
+          v-if="item.data"
+          :index="item.index"
+          :image="item.data"
+          :stats="item.stats"
           :showStats="settingsStore.monitorViewSetting.showHistoryImageStats"
         />
+        <div
+          v-else
+          class="flex items-center justify-center min-h-55 bg-gray-800 shadow-lg shadow-cyan-700/40 rounded-xl border border-cyan-700"
+        >
+          <!-- Once the retries are used up the tile must stop pretending to load. -->
+          <PhotoIcon v-if="item.failed" class="w-8 h-8 text-gray-600" />
+          <div
+            v-else
+            class="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin opacity-50"
+          ></div>
+        </div>
       </div>
-      <div v-if="isLoadingImages" class="flex items-center justify-center p-5 h-full min-h-[300px]">
+      <div
+        v-if="hasMore"
+        ref="sentinel"
+        class="col-span-full flex items-center justify-center p-5 min-h-20"
+      >
         <div
           class="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"
         ></div>
@@ -67,66 +83,87 @@
 
 <script setup>
 import { useI18n } from 'vue-i18n';
-import { ref, watch, onMounted, onUnmounted, computed } from 'vue';
-import { ChevronUpIcon, ChevronDownIcon, ChartBarIcon } from '@heroicons/vue/24/outline';
+import { ref, watch, onUnmounted, computed } from 'vue';
+import { ChevronUpIcon, ChevronDownIcon, ChartBarIcon, PhotoIcon } from '@heroicons/vue/24/outline';
 import SequenceImage from '@/components/imageHistory/SequenceImage.vue';
 import { apiStore } from '@/store/store';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useSequenceStore } from '@/store/sequenceStore';
 import { useImagetStore } from '@/store/imageStore';
-import { useImageFilter, getNightKey } from '@/composables/useImageFilter';
+import { useImageFilter, passesImageFilter } from '@/composables/useImageFilter';
+import {
+  buildTypeIndexMap,
+  runWithConcurrency,
+  selectIndicesToLoad,
+} from '@/utils/imageHistoryUtils';
 
 const { t } = useI18n();
 const sequenceStore = useSequenceStore();
 const imageStore = useImagetStore();
-const imageHistory = ref([]);
 const store = apiStore();
 const settingsStore = useSettingsStore();
-const isLoadingImages = ref(false);
 const { filter } = useImageFilter();
 
+// How many thumbnails are added per batch, and how many downloads run at once.
+const BATCH_SIZE = 40;
+const CONCURRENCY = 4;
+// A thumbnail of a just-saved image may not exist on the backend yet.
+const MISS_RETRIES = 2;
+const MISS_RETRY_DELAY = 3000;
+
 const sortAscending = ref(false);
+const visibleCount = ref(BATCH_SIZE);
+// Vue instruments Map operations, so a plain .set() below is picked up by visibleImages.
+const thumbnails = ref(new Map()); // absolute history index -> object URL
+const sentinel = ref(null);
+const failed = ref(new Set()); // history indices whose thumbnail never showed up
+const inFlight = new Set(); // history indices currently downloading
+
+// store.imageHistoryInfo is the source of truth for the list; the thumbnails are a
+// side lookup. That keeps filtering and sorting independent of the download progress.
+const enrichedStats = ref([]); // absolute history index -> stats incl. TargetName
+const typeIndexMap = ref([]);
+
+let loadGeneration = 0;
+
+const observer = new IntersectionObserver(
+  (entries) => {
+    if (entries.some((entry) => entry.isIntersecting) && hasMore.value) {
+      visibleCount.value += BATCH_SIZE;
+    }
+  },
+  { rootMargin: '400px' }
+);
 
 function toggleShowHistoryStats() {
   settingsStore.monitorViewSetting.showHistoryImageStats =
     !settingsStore.monitorViewSetting.showHistoryImageStats;
 }
 
-const filteredImageHistory = computed(() =>
-  imageHistory.value.filter((item) => {
-    const img = item.stats || {};
-    if (filter.value.selectedTarget !== null && img.TargetName !== filter.value.selectedTarget)
-      return false;
-    if (filter.value.selectedFilter !== null && img.Filter !== filter.value.selectedFilter)
-      return false;
-    if (filter.value.selectedNight !== null && getNightKey(img.Date) !== filter.value.selectedNight)
-      return false;
-    if (filter.value.selectedImageType !== null && img.ImageType !== filter.value.selectedImageType)
-      return false;
-    return true;
-  })
-);
-
-const sortedImageHistory = computed(() => {
-  return [...filteredImageHistory.value].sort((a, b) => {
-    const comparison = a.index - b.index;
-    return sortAscending.value ? comparison : -comparison;
-  });
-});
-
 function toggleSortOrder() {
   sortAscending.value = !sortAscending.value;
 }
 
-function addImageToHistory(imageIndex, imageData, stats) {
-  const statsWithTargetName = enrichStatsWithTargetName(stats, imageIndex);
+const sortedIndices = computed(() => {
+  const indices = [];
+  for (let i = 0; i < enrichedStats.value.length; i++) {
+    if (passesImageFilter(enrichedStats.value[i], filter.value)) indices.push(i);
+  }
+  return sortAscending.value ? indices : indices.reverse();
+});
 
-  imageHistory.value.push({
-    stats: statsWithTargetName,
-    data: imageData,
-    index: imageIndex,
-  });
-}
+const visibleIndices = computed(() => sortedIndices.value.slice(0, visibleCount.value));
+
+const hasMore = computed(() => sortedIndices.value.length > visibleCount.value);
+
+const visibleImages = computed(() =>
+  visibleIndices.value.map((index) => ({
+    index,
+    stats: enrichedStats.value[index],
+    data: thumbnails.value.get(index),
+    failed: failed.value.has(index),
+  }))
+);
 
 function enrichStatsWithTargetName(stats, imageIndex) {
   const resolvedTargetName = resolveTargetName(stats, imageIndex);
@@ -210,68 +247,99 @@ async function wait(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
 
-function getTypeInfo(absoluteIndex, historyArray) {
-  const imageType = historyArray[absoluteIndex]?.ImageType ?? null;
-  if (!imageType) return { idx: absoluteIndex, imageType: null };
-  const idx =
-    historyArray.slice(0, absoluteIndex + 1).filter((img) => img.ImageType === imageType).length -
-    1;
-  return { idx, imageType };
+async function loadThumbnail(absIdx, isCurrent) {
+  const { typeIdx, imageType } = typeIndexMap.value[absIdx] ?? {};
+  if (typeIdx === null || typeIdx === undefined) return;
+
+  inFlight.add(absIdx);
+  try {
+    for (let attempt = 0; attempt <= MISS_RETRIES; attempt++) {
+      const image = await imageStore.getCachedThumbnail(typeIdx, imageType);
+      // A finished download is kept even if the filter moved on in the meantime —
+      // the map is keyed by history index and stays valid.
+      if (image) {
+        thumbnails.value.set(absIdx, image);
+        failed.value.delete(absIdx);
+        return;
+      }
+
+      // Only a miss is worth abandoning: no point sitting out the retry delay for an
+      // image that is no longer on screen.
+      if (attempt < MISS_RETRIES && isCurrent()) {
+        await wait(MISS_RETRY_DELAY);
+      } else {
+        // Out of attempts, or given up: stop showing a spinner that will never resolve.
+        if (attempt === MISS_RETRIES) failed.value.add(absIdx);
+        return;
+      }
+    }
+  } finally {
+    inFlight.delete(absIdx);
+  }
 }
 
-async function loadAllThumbnails() {
-  imageHistory.value = [];
+// A single loader driven by visibleIndices covers mount, filter change, sort change,
+// "load more" and newly arriving images alike.
+async function loadVisibleThumbnails() {
+  const todo = selectIndicesToLoad(visibleIndices.value, {
+    loaded: thumbnails.value,
+    failed: failed.value,
+    inFlight,
+  });
+  // Bumping the generation only when there is work to do keeps an unrelated history
+  // update from cancelling a batch that is still downloading.
+  if (todo.length === 0) return;
 
-  for (const imageIndex in store.imageHistoryInfo) {
-    const absIdx = Number(imageIndex);
-    const { idx, imageType } = getTypeInfo(absIdx, store.imageHistoryInfo);
-    const image = await imageStore.getThumbnailByIndex(idx, imageType);
-    const stats = store.imageHistoryInfo[absIdx];
-    addImageToHistory(absIdx, image, stats);
-  }
+  const generation = ++loadGeneration;
+  const isCurrent = () => generation === loadGeneration;
+
+  await runWithConcurrency(todo, (absIdx) => loadThumbnail(absIdx, isCurrent), {
+    limit: CONCURRENCY,
+    shouldStop: () => !isCurrent(),
+  });
 }
 
 watch(
   () => store.imageHistoryInfo,
-  async (newVal, oldVal) => {
-    if (!newVal?.length || newVal.length <= (oldVal?.length ?? 0)) {
-      return;
-    }
-
-    const latestAbsIdx = newVal.length - 1;
-    const isImageLoaded = imageHistory.value.some((image) => image.index === latestAbsIdx);
-
-    if (!isImageLoaded) {
-      await wait(3000); // Wait 3 seconds. The image may not be available yet.
-      isLoadingImages.value = true;
-      const stats = newVal[latestAbsIdx];
-      const activeType = filter.value.selectedImageType;
-
-      let image;
-      if (activeType && stats?.ImageType === activeType) {
-        const typeIdx = newVal.filter((img) => img.ImageType === activeType).length - 1;
-        image = await imageStore.getThumbnailByIndex(typeIdx, activeType);
-      } else if (!activeType) {
-        const { idx, imageType } = getTypeInfo(latestAbsIdx, newVal);
-        image = await imageStore.getThumbnailByIndex(idx, imageType);
-      }
-
-      if (image !== undefined) addImageToHistory(latestAbsIdx, image, stats);
-      isLoadingImages.value = false;
-    }
+  (history) => {
+    const entries = history ?? [];
+    typeIndexMap.value = buildTypeIndexMap(entries);
+    enrichedStats.value = entries.map((stats, index) => enrichStatsWithTargetName(stats, index));
   },
-  { immediate: false }
+  { immediate: true }
 );
 
-onMounted(async () => {
-  await loadAllThumbnails();
-});
+// Changing the filter starts a new list — do not keep a window grown by earlier
+// scrolling, and take it as the cue to retry thumbnails that failed before (a network
+// blip should not leave tiles broken until the tab is reopened).
+// Registered before the loading watcher on purpose: pre-flush watchers run in creation
+// order, so this resets the window in the same tick, before anything is fetched.
+watch(
+  filter,
+  () => {
+    visibleCount.value = BATCH_SIZE;
+    failed.value.clear();
+  },
+  { deep: true }
+);
+
+watch(visibleIndices, loadVisibleThumbnails, { immediate: true });
+
+// The sentinel is behind v-if="hasMore", so it comes and goes — re-observe whenever
+// the template ref changes. flush 'post' guarantees the element is in the DOM.
+watch(
+  sentinel,
+  (el) => {
+    observer.disconnect();
+    if (el) observer.observe(el);
+  },
+  { immediate: true, flush: 'post' }
+);
 
 onUnmounted(() => {
-  imageHistory.value.forEach((item) => {
-    if (item.data) {
-      URL.revokeObjectURL(item.data);
-    }
-  });
+  // The object URLs are owned by the thumbnail cache in imageStore and must not be
+  // revoked here — that is what makes a tab switch free.
+  loadGeneration++;
+  observer.disconnect();
 });
 </script>

@@ -74,6 +74,28 @@
     color-scheme: dark;
     background-color: var(--color-ground);
   }
+
+  /* Kill the two native long-press menus WebKit shows inside the iOS app.
+     They come from different properties and both have to be switched off:
+     -webkit-user-select drives the text-selection callout (magnifier plus
+     "Copy / Look Up / Share"), -webkit-touch-callout the image/link preview.
+     The prefixed user-select is not redundant — Safari only understands the
+     unprefixed property from 17.0, and build.cssTarget in vite.config.js is
+     pinned so the minifier keeps the prefix. */
+  body {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    user-select: none;
+  }
+
+  /* Form fields have to opt back in: with selection off WebKit loses caret
+     placement and pasting inside them. */
+  input,
+  textarea,
+  [contenteditable='true'] {
+    -webkit-user-select: text;
+    user-select: text;
+  }
 }
 
 /* Safe Area Utilities for iOS devices */

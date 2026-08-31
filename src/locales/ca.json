@@ -5202,7 +5202,8 @@
       "tonightPicks": "Selecció d'aquesta nit",
       "topForWindow": "Millors objectius per a la finestra de temps seleccionada",
       "preview": "Previsualització",
-      "framing": "Encuadrament"
+      "framing": "Encuadrament",
+      "topFmt": "Top {n}"
     },
     "filters": {
       "title": "Filtres",
@@ -5215,7 +5216,9 @@
       "objectType": "Tipus d'objecte",
       "azSector": "Direcció del cel (sector d'azimut)",
       "onlyAboveHorizon": "Només >0° alt",
-      "limit": "Límit"
+      "limit": "Límit",
+      "countFmt": "{filtered} / {total} objectius · mostrats: {shown}",
+      "moonIlluminatedFmt": "{pct}% il·luminada"
     },
     "sort": {
       "title": "Ordenació",
@@ -5264,7 +5267,10 @@
       "altitudeVsTime": "Altitud vs. temps",
       "sampleMin": "Mostra (min)",
       "directionAz": "Direcció (Az)",
-      "separation": "Separació —"
+      "separation": "Separació —",
+      "separationFmt": "Separació {deg}°",
+      "pointsFmt": "{n} punts",
+      "visibleHoursFmt": "{h} h visible"
     },
     "sectors": {
       "N_NE": "Nord → Nord-est (315°–45°)",
@@ -5281,7 +5287,9 @@
       "yes": "Sí",
       "no": "No",
       "loading": "Carregant…",
-      "all": "Tots"
+      "all": "Tots",
+      "unnamedTarget": "Objectiu sense nom",
+      "reset": "Restableix"
     },
     "tooltips": {
       "favorite": "Favorit",
@@ -5306,6 +5314,13 @@
     "errors": {
       "noSequenceAvailable": "No hi ha cap seqüència disponible, carrega primer una seqüència",
       "sequencerFailed": "El seqüenciador ha fallat"
+    },
+    "score": {
+      "excellent": "🔥 Excel·lent",
+      "veryGood": "⭐ Molt bo",
+      "good": "👍 Bo",
+      "difficult": "⚠️ Difícil",
+      "skip": "❌ Omet"
     }
   }
 }

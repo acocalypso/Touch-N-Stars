@@ -5064,7 +5064,8 @@
       "tonightPicks": "Selectie van vanavond",
       "topForWindow": "Beste doelen voor het geselecteerde tijdvenster",
       "preview": "Voorbeeld",
-      "framing": "Kadrering"
+      "framing": "Kadrering",
+      "topFmt": "Top {n}"
     },
     "filters": {
       "title": "Filters",
@@ -5077,7 +5078,9 @@
       "objectType": "Objecttype",
       "azSector": "Hemelrichting (azimut-sector)",
       "onlyAboveHorizon": "Alleen >0° hoogte",
-      "limit": "Limiet"
+      "limit": "Limiet",
+      "countFmt": "{filtered} / {total} doelen · getoond: {shown}",
+      "moonIlluminatedFmt": "{pct}% verlicht"
     },
     "sort": {
       "title": "Sortering",
@@ -5126,7 +5129,10 @@
       "altitudeVsTime": "Hoogte vs. Tijd",
       "sampleMin": "Monster (min)",
       "directionAz": "Richting (Az)",
-      "separation": "Separatie —"
+      "separation": "Separatie —",
+      "separationFmt": "Separatie {deg}°",
+      "pointsFmt": "{n} punten",
+      "visibleHoursFmt": "{h} u zichtbaar"
     },
     "sectors": {
       "N_NE": "Noord → Noordoost (315°–45°)",
@@ -5143,7 +5149,9 @@
       "yes": "Ja",
       "no": "Nee",
       "loading": "Laden…",
-      "all": "Alle"
+      "all": "Alle",
+      "unnamedTarget": "Naamloos doel",
+      "reset": "Resetten"
     },
     "tooltips": {
       "favorite": "Favoriet",
@@ -5168,6 +5176,13 @@
     "errors": {
       "noSequenceAvailable": "Geen sequentie beschikbaar, laad eerst een sequentie",
       "sequencerFailed": "Sequencer mislukt"
+    },
+    "score": {
+      "excellent": "🔥 Uitstekend",
+      "veryGood": "⭐ Zeer goed",
+      "good": "👍 Goed",
+      "difficult": "⚠️ Moeilijk",
+      "skip": "❌ Overslaan"
     }
   },
   "indi": {

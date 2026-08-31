@@ -5069,7 +5069,8 @@
       "tonightPicks": "Sélection de ce soir",
       "topForWindow": "Meilleures cibles pour la fenêtre horaire sélectionnée",
       "preview": "Aperçu",
-      "framing": "Cadrage"
+      "framing": "Cadrage",
+      "topFmt": "Top {n}"
     },
     "filters": {
       "title": "Filtres",
@@ -5082,7 +5083,9 @@
       "objectType": "Type d'objet",
       "azSector": "Direction du ciel (secteur azimutal)",
       "onlyAboveHorizon": "Uniquement >0° d'altitude",
-      "limit": "Limite"
+      "limit": "Limite",
+      "countFmt": "{filtered} / {total} cibles · affichées : {shown}",
+      "moonIlluminatedFmt": "{pct}% éclairée"
     },
     "sort": {
       "title": "Tri",
@@ -5131,7 +5134,10 @@
       "altitudeVsTime": "Altitude vs. Temps",
       "sampleMin": "Échantillon (min)",
       "directionAz": "Direction (Az)",
-      "separation": "Séparation —"
+      "separation": "Séparation —",
+      "separationFmt": "Séparation {deg}°",
+      "pointsFmt": "{n} points",
+      "visibleHoursFmt": "{h} h visible"
     },
     "sectors": {
       "N_NE": "Nord → Nord-Est (315°–45°)",
@@ -5148,7 +5154,9 @@
       "yes": "Oui",
       "no": "Non",
       "loading": "Chargement…",
-      "all": "Tous"
+      "all": "Tous",
+      "unnamedTarget": "Cible sans nom",
+      "reset": "Réinitialiser"
     },
     "tooltips": {
       "favorite": "Favori",
@@ -5173,6 +5181,13 @@
     "errors": {
       "noSequenceAvailable": "Aucune séquence disponible, chargez d'abord une séquence",
       "sequencerFailed": "Le séquenceur a échoué"
+    },
+    "score": {
+      "excellent": "🔥 Excellent",
+      "veryGood": "⭐ Très bon",
+      "good": "👍 Bon",
+      "difficult": "⚠️ Difficile",
+      "skip": "❌ À éviter"
     }
   },
   "indi": {

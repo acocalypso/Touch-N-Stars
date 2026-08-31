@@ -5064,7 +5064,8 @@
       "tonightPicks": "Tonight Picks",
       "topForWindow": "Top targets for selected time window",
       "preview": "Preview",
-      "framing": "Framing"
+      "framing": "Framing",
+      "topFmt": "Top {n}"
     },
     "filters": {
       "title": "Filters",
@@ -5077,7 +5078,9 @@
       "objectType": "Object type",
       "azSector": "Sky direction (azimuth sector)",
       "onlyAboveHorizon": "Only >0° alt",
-      "limit": "Limit"
+      "limit": "Limit",
+      "countFmt": "{filtered} / {total} targets · shown: {shown}",
+      "moonIlluminatedFmt": "{pct}% illuminated"
     },
     "sort": {
       "title": "Sorting",
@@ -5126,7 +5129,10 @@
       "altitudeVsTime": "Altitude vs. Time",
       "sampleMin": "Sample (min)",
       "directionAz": "Direction (Az)",
-      "separation": "Separation —"
+      "separation": "Separation —",
+      "separationFmt": "Separation {deg}°",
+      "pointsFmt": "{n} points",
+      "visibleHoursFmt": "{h}h visible"
     },
     "sectors": {
       "N_NE": "North → North-East (315°–45°)",
@@ -5143,7 +5149,9 @@
       "yes": "Yes",
       "no": "No",
       "loading": "Loading…",
-      "all": "All"
+      "all": "All",
+      "unnamedTarget": "Unnamed target",
+      "reset": "Reset"
     },
     "tooltips": {
       "favorite": "Favorite",
@@ -5168,6 +5176,13 @@
     "errors": {
       "noSequenceAvailable": "No sequence available, load Sequence first",
       "sequencerFailed": "Sequencer failed"
+    },
+    "score": {
+      "excellent": "🔥 Excellent",
+      "veryGood": "⭐ Very good",
+      "good": "👍 Good",
+      "difficult": "⚠️ Difficult",
+      "skip": "❌ Skip"
     }
   },
   "nightsummary": {

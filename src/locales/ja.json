@@ -5064,7 +5064,8 @@
       "tonightPicks": "今夜のおすすめ",
       "topForWindow": "選択した時間帯のベストターゲット",
       "preview": "プレビュー",
-      "framing": "フレーミング"
+      "framing": "フレーミング",
+      "topFmt": "上位 {n} 件"
     },
     "filters": {
       "title": "フィルター",
@@ -5077,7 +5078,9 @@
       "objectType": "天体の種類",
       "azSector": "空の方向（方位角セクター）",
       "onlyAboveHorizon": "高度 >0° のみ",
-      "limit": "表示上限"
+      "limit": "表示上限",
+      "countFmt": "{filtered} / {total} 天体 · 表示: {shown}",
+      "moonIlluminatedFmt": "輝面比 {pct}%"
     },
     "sort": {
       "title": "並べ替え",
@@ -5126,7 +5129,10 @@
       "altitudeVsTime": "高度 対 時刻",
       "sampleMin": "サンプル（分）",
       "directionAz": "方向（方位角）",
-      "separation": "離角 —"
+      "separation": "離角 —",
+      "separationFmt": "離角 {deg}°",
+      "pointsFmt": "{n} ポイント",
+      "visibleHoursFmt": "可視 {h} 時間"
     },
     "sectors": {
       "N_NE": "北 → 北東 (315°–45°)",
@@ -5143,7 +5149,9 @@
       "yes": "はい",
       "no": "いいえ",
       "loading": "読み込み中…",
-      "all": "すべて"
+      "all": "すべて",
+      "unnamedTarget": "名称未設定の天体",
+      "reset": "リセット"
     },
     "tooltips": {
       "favorite": "お気に入り",
@@ -5168,6 +5176,13 @@
     "errors": {
       "noSequenceAvailable": "利用可能なシーケンスがありません。最初にシーケンスを読み込んでください",
       "sequencerFailed": "シーケンサーに失敗しました"
+    },
+    "score": {
+      "excellent": "🔥 最高",
+      "veryGood": "⭐ とても良い",
+      "good": "👍 良い",
+      "difficult": "⚠️ 難あり",
+      "skip": "❌ 見送り"
     }
   },
   "indi": {

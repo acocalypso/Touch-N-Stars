@@ -5064,7 +5064,8 @@
       "tonightPicks": "Výběr na dnešek",
       "topForWindow": "Nejlepší cíle pro zvolené časové okno",
       "preview": "Náhled",
-      "framing": "Zarámování"
+      "framing": "Zarámování",
+      "topFmt": "Top {n}"
     },
     "filters": {
       "title": "Filtry",
@@ -5077,7 +5078,9 @@
       "objectType": "Typ objektu",
       "azSector": "Směr oblohy (azimutální sektor)",
       "onlyAboveHorizon": "Pouze >0° výška",
-      "limit": "Omezit"
+      "limit": "Omezit",
+      "countFmt": "{filtered} / {total} cílů · zobrazeno: {shown}",
+      "moonIlluminatedFmt": "{pct}% osvětlen"
     },
     "sort": {
       "title": "Řazení",
@@ -5126,7 +5129,10 @@
       "altitudeVsTime": "Výška vs. čas",
       "sampleMin": "Vzorek (min)",
       "directionAz": "Směr (Az)",
-      "separation": "Separace —"
+      "separation": "Separace —",
+      "separationFmt": "Separace {deg}°",
+      "pointsFmt": "{n} bodů",
+      "visibleHoursFmt": "{h} h viditelné"
     },
     "sectors": {
       "N_NE": "Sever → Severovýchod (315°–45°)",
@@ -5143,7 +5149,9 @@
       "yes": "Ano",
       "no": "Ne",
       "loading": "Načítání…",
-      "all": "Vše"
+      "all": "Vše",
+      "unnamedTarget": "Nepojmenovaný cíl",
+      "reset": "Resetovat"
     },
     "tooltips": {
       "favorite": "Oblíbené",
@@ -5168,6 +5176,13 @@
     "errors": {
       "noSequenceAvailable": "Žádná sekvence není k dispozici, nejprve načtěte sekvenci",
       "sequencerFailed": "Sekvencer selhal"
+    },
+    "score": {
+      "excellent": "🔥 Vynikající",
+      "veryGood": "⭐ Velmi dobré",
+      "good": "👍 Dobré",
+      "difficult": "⚠️ Obtížné",
+      "skip": "❌ Přeskočit"
     }
   },
   "indi": {

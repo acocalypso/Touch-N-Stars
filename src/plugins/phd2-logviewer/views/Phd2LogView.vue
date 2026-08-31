@@ -176,7 +176,9 @@
           <line x1="18" y1="12" x2="21" y2="12" />
         </svg>
         <p class="text-gray-400">{{ t('plugins.phd2logviewer.emptyState') }}</p>
-        <p class="mt-1 font-mono text-xs text-gray-600">~/Documents/PHD2/PHD2_GuideLog_*.txt</p>
+        <p class="mt-1 font-mono text-xs text-gray-600 select-text">
+          ~/Documents/PHD2/PHD2_GuideLog_*.txt
+        </p>
       </div>
 
       <!-- Content (session or calibration loaded) -->

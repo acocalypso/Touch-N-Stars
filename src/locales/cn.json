@@ -5064,7 +5064,8 @@
       "tonightPicks": "今晚推荐",
       "topForWindow": "所选时间窗口的最佳目标",
       "preview": "预览",
-      "framing": "构图"
+      "framing": "构图",
+      "topFmt": "前 {n} 个"
     },
     "filters": {
       "title": "筛选",
@@ -5077,7 +5078,9 @@
       "objectType": "目标类型",
       "azSector": "天空方向（方位角扇区）",
       "onlyAboveHorizon": "仅 >0° 高度",
-      "limit": "限制"
+      "limit": "限制",
+      "countFmt": "{filtered} / {total} 个目标 · 显示：{shown}",
+      "moonIlluminatedFmt": "{pct}% 被照亮"
     },
     "sort": {
       "title": "排序",
@@ -5126,7 +5129,10 @@
       "altitudeVsTime": "高度 vs. 时间",
       "sampleMin": "采样（分钟）",
       "directionAz": "方向（方位角）",
-      "separation": "间距 —"
+      "separation": "间距 —",
+      "separationFmt": "间距 {deg}°",
+      "pointsFmt": "{n} 个点",
+      "visibleHoursFmt": "可见 {h} 小时"
     },
     "sectors": {
       "N_NE": "北 → 东北 (315°–45°)",
@@ -5143,7 +5149,9 @@
       "yes": "是",
       "no": "否",
       "loading": "加载中…",
-      "all": "全部"
+      "all": "全部",
+      "unnamedTarget": "未命名目标",
+      "reset": "重置"
     },
     "tooltips": {
       "favorite": "收藏",
@@ -5168,6 +5176,13 @@
     "errors": {
       "noSequenceAvailable": "无可用序列，请先加载序列",
       "sequencerFailed": "序列器失败"
+    },
+    "score": {
+      "excellent": "🔥 极佳",
+      "veryGood": "⭐ 很好",
+      "good": "👍 良好",
+      "difficult": "⚠️ 困难",
+      "skip": "❌ 跳过"
     }
   },
   "indi": {

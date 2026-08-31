@@ -51,6 +51,13 @@ export default defineConfig({
   },
   build: {
     target: 'esnext',
+    // CSS is minified by lightningcss, which strips every vendor prefix it
+    // considers unnecessary for the target. Inherited from target: 'esnext'
+    // that removed all -webkit-user-select declarations from the bundle, and
+    // Safari only supports the unprefixed property from 17.0 — so the iOS
+    // long-press selection menu came back on every older device. Pin the CSS
+    // target separately from the JS target to keep the prefixes.
+    cssTarget: ['chrome87', 'safari15', 'ios15'],
     outDir: OUT_DIR,
     assetsInlineLimit: 0,
     emptyOutDir: true,

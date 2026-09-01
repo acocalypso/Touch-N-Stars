@@ -36,6 +36,7 @@
   "fetchApiPort": "function",
   "fetchApiVersion": "function",
   "fetchApplicatioTab": "function",
+  "fetchFilesystemFileBlob": "function",
   "fetchFilesystemFileBuffer": "function",
   "fetchFilesystemFileText": "function",
   "fetchNinaTime": "function",

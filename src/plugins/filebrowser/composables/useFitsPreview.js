@@ -4,9 +4,10 @@ const PREVIEWABLE_IMAGE_EXTENSIONS = ['png', 'jpg', 'jpeg', 'gif', 'webp', 'bmp'
 const FITS_EXTENSIONS = ['fit', 'fits', 'fts'];
 const BAYER_PATTERNS = new Set(['RGGB', 'BGGR', 'GRBG', 'GBRG']);
 
-export function useFitsPreview({ apiService }) {
+export function useFitsPreview({ apiService, downloadFile }) {
   const previewVisible = ref(false);
   const previewUrl = ref('');
+  const previewEntry = ref(null);
   const previewFileName = ref('');
   const previewMode = ref('image');
   const previewLoading = ref(false);
@@ -66,6 +67,7 @@ export function useFitsPreview({ apiService }) {
     fitsImageData = null;
     previewVisible.value = false;
     previewUrl.value = '';
+    previewEntry.value = null;
     previewFileName.value = '';
     previewMode.value = 'image';
     previewLoading.value = false;
@@ -877,15 +879,15 @@ export function useFitsPreview({ apiService }) {
     }
 
     if (isFitsFile(file.name)) {
+      previewEntry.value = file;
       openFitsFile(file);
       return;
     }
 
-    const streamUrl = apiService.getFilesystemFileStreamUrl(file.path);
-
     if (isPreviewableImage(file.name)) {
+      previewEntry.value = file;
       previewFileName.value = file.name || file.path;
-      previewUrl.value = streamUrl;
+      previewUrl.value = apiService.getFilesystemFileStreamUrl(file.path);
       previewMode.value = 'image';
       previewLoading.value = false;
       previewError.value = '';
@@ -893,7 +895,9 @@ export function useFitsPreview({ apiService }) {
       return;
     }
 
-    window.open(streamUrl, '_blank', 'noopener');
+    // Anything the app cannot render goes to the device. window.open is
+    // unreliable inside the Capacitor WebView on Android and iOS.
+    downloadFile?.(file);
   }
 
   function handlePreviewError() {
@@ -901,10 +905,10 @@ export function useFitsPreview({ apiService }) {
       return;
     }
 
-    const fallbackUrl = previewUrl.value;
+    const fallbackEntry = previewEntry.value;
     closePreview();
-    if (fallbackUrl) {
-      window.open(fallbackUrl, '_blank', 'noopener');
+    if (fallbackEntry) {
+      downloadFile?.(fallbackEntry);
     }
   }
 
@@ -924,6 +928,7 @@ export function useFitsPreview({ apiService }) {
   return {
     previewVisible,
     previewUrl,
+    previewEntry,
     previewFileName,
     previewMode,
     previewLoading,

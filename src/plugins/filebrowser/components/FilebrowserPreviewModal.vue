@@ -6,29 +6,58 @@
       @click.self="$emit('close')"
     >
       <div
-        class="w-full max-w-5xl max-h-[92vh] bg-[#1a1f2e] border border-[#2e3650] rounded-lg overflow-hidden shadow-xl"
+        class="w-full max-w-5xl max-h-[92vh] bg-surface-1 border border-line rounded-card overflow-hidden shadow-xl"
       >
-        <div class="flex items-center justify-between px-4 py-3 border-b border-[#2e3650]">
-          <p class="text-sm font-semibold text-slate-200 truncate pr-4">{{ fileName }}</p>
+        <div class="flex items-center gap-2 px-3 py-2 border-b border-line">
+          <p class="text-sm font-semibold text-content truncate flex-1 min-w-0">{{ fileName }}</p>
           <button
-            class="text-slate-500 text-sm px-2 py-1 rounded hover:text-slate-200 hover:bg-[#2e3650] transition-colors"
+            type="button"
+            class="tns-btn-secondary w-auto px-3"
+            :disabled="isDownloading"
+            :title="$t('plugins.filebrowser.download.action')"
+            @click="$emit('download')"
+          >
+            <svg
+              class="w-5 h-5"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M12 3v12" />
+              <path d="M7 12l5 5 5-5" />
+              <path d="M4 21h16" />
+            </svg>
+          </button>
+          <button
+            type="button"
+            class="tns-btn-secondary w-auto px-3"
+            :title="$t('common.close')"
             @click="$emit('close')"
           >
-            ✕
+            <svg
+              class="w-5 h-5"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path d="M18 6L6 18M6 6l12 12" />
+            </svg>
           </button>
         </div>
 
-        <div class="p-3 bg-[#0f1420] max-h-[calc(92vh-56px)] overflow-auto">
+        <div class="p-3 bg-ground max-h-[calc(92vh-64px)] overflow-auto">
           <div
             v-if="loading"
-            class="min-h-[300px] flex items-center justify-center text-sm text-slate-400"
+            class="min-h-[300px] flex items-center justify-center text-sm text-content-muted"
           >
             {{ $t('plugins.filebrowser.loading') }}
           </div>
 
           <div
             v-else-if="error"
-            class="min-h-[300px] flex items-center justify-center text-sm text-red-400 text-center px-4"
+            class="min-h-[300px] flex items-center justify-center text-sm text-status-danger text-center px-4"
           >
             {{ error }}
           </div>
@@ -37,55 +66,53 @@
             v-else-if="mode === 'image'"
             :src="url"
             :alt="fileName"
-            class="mx-auto max-w-full max-h-[calc(92vh-92px)] object-contain"
+            class="mx-auto max-w-full max-h-[calc(92vh-100px)] object-contain"
             @error="$emit('image-error')"
           />
 
           <canvas
             v-else
             :ref="setCanvasRef"
-            class="mx-auto max-w-full max-h-[calc(92vh-92px)] object-contain"
+            class="mx-auto max-w-full max-h-[calc(92vh-100px)] object-contain"
             style="image-rendering: auto"
           />
 
-          <div
-            v-if="mode === 'fits' && !loading && !error && stats"
-            class="mt-3 rounded-md border border-[#2e3650] bg-[#111827] p-3 text-xs text-slate-300"
-          >
-            <div class="text-[11px] uppercase tracking-wide text-slate-400 mb-2">FITS Debug</div>
-            <div class="mb-3 rounded border border-[#2e3650] bg-[#0b1220] p-2">
-              <div class="grid grid-cols-1 md:grid-cols-[150px_1fr_auto] gap-2 items-center">
-                <label class="text-slate-400">Auto stretch</label>
-                <label class="flex items-center gap-2 text-slate-200">
-                  <input
-                    v-model="autoStretchModel"
-                    type="checkbox"
-                    class="h-4 w-4 rounded border-gray-600 bg-gray-800 text-cyan-500"
-                  />
-                  <span>{{ autoStretch ? 'enabled' : 'disabled' }}</span>
-                </label>
-                <span class="text-slate-500">stretch</span>
-              </div>
+          <template v-if="mode === 'fits' && !loading && !error && stats">
+            <!-- Render controls: this is the part users actually operate. -->
+            <div
+              class="mt-3 rounded-control border border-line bg-surface-1 p-3 flex flex-col gap-3"
+            >
+              <label
+                class="flex items-center gap-3 text-sm text-content min-h-touch cursor-pointer"
+              >
+                <input
+                  v-model="autoStretchModel"
+                  type="checkbox"
+                  class="h-5 w-5 rounded border-line-strong bg-surface-2 text-accent-action"
+                />
+                <span>{{ $t('plugins.filebrowser.fits.autoStretch') }}</span>
+              </label>
 
-              <div class="grid grid-cols-1 md:grid-cols-[150px_1fr_auto] gap-2 items-center">
-                <label class="text-slate-400">Pre-stretch</label>
-                <select
-                  v-model="stretchModeModel"
-                  :disabled="!autoStretch"
-                  class="h-8 rounded border border-gray-600 bg-gray-800 px-2 text-xs text-slate-100"
-                >
-                  <option value="linear">Linear</option>
-                  <option value="sqrt">Sqrt</option>
-                  <option value="log">Log</option>
-                  <option value="asinh">Asinh</option>
+              <div class="flex flex-col sm:flex-row sm:items-center gap-2">
+                <span class="text-sm text-content-muted sm:w-44 shrink-0">
+                  {{ $t('plugins.filebrowser.fits.preStretch') }}
+                </span>
+                <select v-model="stretchModeModel" :disabled="!autoStretch" class="tns-select">
+                  <option value="linear">{{ $t('plugins.filebrowser.fits.modeLinear') }}</option>
+                  <option value="sqrt">{{ $t('plugins.filebrowser.fits.modeSqrt') }}</option>
+                  <option value="log">{{ $t('plugins.filebrowser.fits.modeLog') }}</option>
+                  <option value="asinh">{{ $t('plugins.filebrowser.fits.modeAsinh') }}</option>
                 </select>
-                <span class="text-slate-500">mode</span>
               </div>
 
-              <div class="grid grid-cols-1 md:grid-cols-[150px_1fr_auto] gap-2 items-center mt-2">
-                <label class="text-slate-400">
-                  {{ stretchMode === 'linear' ? 'Clip strength' : 'Stretch strength' }}
-                </label>
+              <div class="flex flex-col sm:flex-row sm:items-center gap-2">
+                <span class="text-sm text-content-muted sm:w-44 shrink-0">
+                  {{
+                    stretchMode === 'linear'
+                      ? $t('plugins.filebrowser.fits.clipStrength')
+                      : $t('plugins.filebrowser.fits.stretchStrength')
+                  }}
+                </span>
                 <input
                   :value="localStretchStrength"
                   type="range"
@@ -97,120 +124,204 @@
                   @input="onStretchStrengthInput"
                   @change="commitStretchStrength"
                 />
-                <span class="text-slate-300 min-w-[40px] text-right">
+                <span class="text-sm text-content min-w-[48px] text-right tabular-nums">
                   {{ localStretchStrength.toFixed(2) }}
                 </span>
               </div>
 
-              <div class="grid grid-cols-1 md:grid-cols-[150px_1fr_auto] gap-2 items-center mt-2">
-                <label class="text-slate-400">Auto white balance</label>
-                <label class="flex items-center gap-2 text-slate-200">
-                  <input
-                    v-model="autoWhiteBalanceModel"
-                    type="checkbox"
-                    class="h-4 w-4 rounded border-gray-600 bg-gray-800 text-cyan-500"
-                  />
-                  <span>{{ autoWhiteBalance ? 'enabled' : 'disabled' }}</span>
-                </label>
-                <span class="text-slate-500">awb</span>
-              </div>
+              <label
+                class="flex items-center gap-3 text-sm text-content min-h-touch cursor-pointer"
+              >
+                <input
+                  v-model="autoWhiteBalanceModel"
+                  type="checkbox"
+                  class="h-5 w-5 rounded border-line-strong bg-surface-2 text-accent-action"
+                />
+                <span>{{ $t('plugins.filebrowser.fits.autoWhiteBalance') }}</span>
+              </label>
             </div>
 
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-2">
-              <div>
-                <span class="text-slate-500">Pattern:</span>
-                {{ stats.bayerPattern || 'none' }}
-              </div>
-              <div><span class="text-slate-500">BITPIX:</span> {{ stats.bitpix }}</div>
-              <div>
-                <span class="text-slate-500">Size:</span> {{ stats.width }} x {{ stats.height }}
-              </div>
-              <div>
-                <span class="text-slate-500">Stretch:</span> {{ stats.low.toFixed(2) }}..{{
-                  stats.high.toFixed(2)
-                }}
-              </div>
-              <div>
-                <span class="text-slate-500">Clip base:</span>
-                {{ stats.clippedLow.toFixed(2) }}..{{ stats.clippedHigh.toFixed(2) }}
-              </div>
-              <div><span class="text-slate-500">Min:</span> {{ stats.min.toFixed(2) }}</div>
-              <div><span class="text-slate-500">Max:</span> {{ stats.max.toFixed(2) }}</div>
-              <div><span class="text-slate-500">Mean:</span> {{ stats.mean.toFixed(2) }}</div>
-              <div><span class="text-slate-500">Std:</span> {{ stats.std.toFixed(2) }}</div>
-              <div><span class="text-slate-500">Mode:</span> {{ stats.stretchMode }}</div>
-              <div>
-                <span class="text-slate-500">Auto stretch:</span>
-                {{ stats.autoStretch ? 'on' : 'off' }}
-              </div>
-              <div>
-                <span class="text-slate-500">
-                  {{ stats.stretchMode === 'linear' ? 'Clip strength:' : 'Strength:' }}
-                </span>
-                {{ stats.stretchStrength.toFixed(2) }}
-              </div>
-              <div>
-                <span class="text-slate-500">Prep:</span> {{ perf.prepareMs.toFixed(1) }} ms
-              </div>
-              <div><span class="text-slate-500">Parse:</span> {{ perf.parseMs.toFixed(1) }} ms</div>
-              <div>
-                <span class="text-slate-500">Decode:</span> {{ perf.decodeMs.toFixed(1) }} ms
-              </div>
-              <div>
-                <span class="text-slate-500">Debayer:</span> {{ perf.demosaicMs.toFixed(1) }} ms
-              </div>
-              <div>
-                <span class="text-slate-500">Render:</span> {{ perf.renderMs.toFixed(1) }} ms
-              </div>
-              <div><span class="text-slate-500">Renders:</span> {{ perf.renderCount }}</div>
-              <div><span class="text-slate-500">Queued:</span> {{ perf.queueSkips }}</div>
-              <div><span class="text-slate-500">Reason:</span> {{ perf.lastReason }}</div>
-              <div>
-                <span class="text-slate-500">Auto WB:</span>
-                {{ stats.autoWhiteBalance ? 'on' : 'off' }}
-              </div>
-              <div>
-                <span class="text-slate-500">WB gains:</span>
-                R {{ stats.whiteBalanceGains.r.toFixed(2) }} G
-                {{ stats.whiteBalanceGains.g.toFixed(2) }} B
-                {{ stats.whiteBalanceGains.b.toFixed(2) }}
-              </div>
-              <div><span class="text-slate-500">Header source:</span> {{ stats.headerSource }}</div>
-              <div>
-                <span class="text-slate-500">Inferred:</span>
-                {{ formatInferredFields(stats.inferredHeaderFields) }}
-              </div>
-              <div>
-                <span class="text-slate-500">Decoded pixels:</span>
-                {{ stats.decodablePixelCount }} / {{ stats.width * stats.height }}
-              </div>
-              <div>
-                <span class="text-slate-500">Truncated:</span> {{ stats.truncated ? 'yes' : 'no' }}
-              </div>
-              <div>
-                <span class="text-slate-500">Curve 10/50/90:</span>
-                {{
-                  `${stats.curveSamples.p10.toFixed(3)}/${stats.curveSamples.p50.toFixed(3)}/${stats.curveSamples.p90.toFixed(3)}`
-                }}
-              </div>
-            </div>
-
-            <details v-if="headerEntries.length" class="mt-3">
-              <summary class="cursor-pointer text-slate-300 hover:text-white">
-                Header (top keys)
+            <!-- Diagnostics: collapsed by default, this is developer detail. -->
+            <details class="mt-3 rounded-control border border-line bg-surface-1">
+              <summary
+                class="cursor-pointer px-3 py-3 min-h-touch flex items-center text-sm text-content-muted hover:text-content"
+              >
+                {{ $t('plugins.filebrowser.fits.debugTitle') }}
               </summary>
-              <div class="mt-2 max-h-48 overflow-auto rounded border border-[#2e3650] bg-[#0b1220]">
-                <div
-                  v-for="entry in headerEntries"
-                  :key="entry.key"
-                  class="grid grid-cols-[120px_1fr] gap-2 px-2 py-1 border-b border-[#1f2937] last:border-b-0"
-                >
-                  <span class="text-slate-400">{{ entry.key }}</span>
-                  <span class="text-slate-200 break-all">{{ entry.value }}</span>
+
+              <div
+                class="grid grid-cols-2 md:grid-cols-4 gap-2 px-3 pb-3 text-xs text-content-muted"
+              >
+                <div>
+                  <span class="text-content-faint"
+                    >{{ $t('plugins.filebrowser.fits.pattern') }}:</span
+                  >
+                  {{ stats.bayerPattern || $t('plugins.filebrowser.fits.none') }}
+                </div>
+                <div><span class="text-content-faint">BITPIX:</span> {{ stats.bitpix }}</div>
+                <div>
+                  <span class="text-content-faint">{{ $t('plugins.filebrowser.fits.size') }}:</span>
+                  {{ stats.width }} x {{ stats.height }}
+                </div>
+                <div>
+                  <span class="text-content-faint">
+                    {{ $t('plugins.filebrowser.fits.stretch') }}:
+                  </span>
+                  {{ stats.low.toFixed(2) }}..{{ stats.high.toFixed(2) }}
+                </div>
+                <div>
+                  <span class="text-content-faint">
+                    {{ $t('plugins.filebrowser.fits.clipBase') }}:
+                  </span>
+                  {{ stats.clippedLow.toFixed(2) }}..{{ stats.clippedHigh.toFixed(2) }}
+                </div>
+                <div>
+                  <span class="text-content-faint">{{ $t('plugins.filebrowser.fits.min') }}:</span>
+                  {{ stats.min.toFixed(2) }}
+                </div>
+                <div>
+                  <span class="text-content-faint">{{ $t('plugins.filebrowser.fits.max') }}:</span>
+                  {{ stats.max.toFixed(2) }}
+                </div>
+                <div>
+                  <span class="text-content-faint">{{ $t('plugins.filebrowser.fits.mean') }}:</span>
+                  {{ stats.mean.toFixed(2) }}
+                </div>
+                <div>
+                  <span class="text-content-faint">{{ $t('plugins.filebrowser.fits.std') }}:</span>
+                  {{ stats.std.toFixed(2) }}
+                </div>
+                <div>
+                  <span class="text-content-faint">{{ $t('plugins.filebrowser.fits.mode') }}:</span>
+                  {{ stats.stretchMode }}
+                </div>
+                <div>
+                  <span class="text-content-faint">
+                    {{ $t('plugins.filebrowser.fits.autoStretch') }}:
+                  </span>
+                  {{ stats.autoStretch ? $t('general.yes') : $t('general.no') }}
+                </div>
+                <div>
+                  <span class="text-content-faint">
+                    {{
+                      stats.stretchMode === 'linear'
+                        ? $t('plugins.filebrowser.fits.clipStrength')
+                        : $t('plugins.filebrowser.fits.stretchStrength')
+                    }}:
+                  </span>
+                  {{ stats.stretchStrength.toFixed(2) }}
+                </div>
+                <div>
+                  <span class="text-content-faint">{{ $t('plugins.filebrowser.fits.prep') }}:</span>
+                  {{ perf.prepareMs.toFixed(1) }} ms
+                </div>
+                <div>
+                  <span class="text-content-faint"
+                    >{{ $t('plugins.filebrowser.fits.parse') }}:</span
+                  >
+                  {{ perf.parseMs.toFixed(1) }} ms
+                </div>
+                <div>
+                  <span class="text-content-faint">
+                    {{ $t('plugins.filebrowser.fits.decode') }}:
+                  </span>
+                  {{ perf.decodeMs.toFixed(1) }} ms
+                </div>
+                <div>
+                  <span class="text-content-faint">
+                    {{ $t('plugins.filebrowser.fits.debayer') }}:
+                  </span>
+                  {{ perf.demosaicMs.toFixed(1) }} ms
+                </div>
+                <div>
+                  <span class="text-content-faint">
+                    {{ $t('plugins.filebrowser.fits.render') }}:
+                  </span>
+                  {{ perf.renderMs.toFixed(1) }} ms
+                </div>
+                <div>
+                  <span class="text-content-faint">
+                    {{ $t('plugins.filebrowser.fits.renders') }}:
+                  </span>
+                  {{ perf.renderCount }}
+                </div>
+                <div>
+                  <span class="text-content-faint">
+                    {{ $t('plugins.filebrowser.fits.queued') }}:
+                  </span>
+                  {{ perf.queueSkips }}
+                </div>
+                <div>
+                  <span class="text-content-faint">
+                    {{ $t('plugins.filebrowser.fits.reason') }}:
+                  </span>
+                  {{ perf.lastReason }}
+                </div>
+                <div>
+                  <span class="text-content-faint">
+                    {{ $t('plugins.filebrowser.fits.autoWhiteBalance') }}:
+                  </span>
+                  {{ stats.autoWhiteBalance ? $t('general.yes') : $t('general.no') }}
+                </div>
+                <div>
+                  <span class="text-content-faint">
+                    {{ $t('plugins.filebrowser.fits.wbGains') }}:
+                  </span>
+                  R {{ stats.whiteBalanceGains.r.toFixed(2) }} G
+                  {{ stats.whiteBalanceGains.g.toFixed(2) }} B
+                  {{ stats.whiteBalanceGains.b.toFixed(2) }}
+                </div>
+                <div>
+                  <span class="text-content-faint">
+                    {{ $t('plugins.filebrowser.fits.headerSource') }}:
+                  </span>
+                  {{ stats.headerSource }}
+                </div>
+                <div>
+                  <span class="text-content-faint">
+                    {{ $t('plugins.filebrowser.fits.inferred') }}:
+                  </span>
+                  {{ formatInferredFields(stats.inferredHeaderFields) }}
+                </div>
+                <div>
+                  <span class="text-content-faint">
+                    {{ $t('plugins.filebrowser.fits.decodedPixels') }}:
+                  </span>
+                  {{ stats.decodablePixelCount }} / {{ stats.width * stats.height }}
+                </div>
+                <div>
+                  <span class="text-content-faint">
+                    {{ $t('plugins.filebrowser.fits.truncated') }}:
+                  </span>
+                  {{ stats.truncated ? $t('general.yes') : $t('general.no') }}
+                </div>
+                <div>
+                  <span class="text-content-faint"
+                    >{{ $t('plugins.filebrowser.fits.curve') }}:</span
+                  >
+                  {{
+                    `${stats.curveSamples.p10.toFixed(3)}/${stats.curveSamples.p50.toFixed(3)}/${stats.curveSamples.p90.toFixed(3)}`
+                  }}
+                </div>
+              </div>
+
+              <div v-if="headerEntries.length" class="px-3 pb-3">
+                <p class="text-xs text-content-faint mb-1">
+                  {{ $t('plugins.filebrowser.fits.header') }}
+                </p>
+                <div class="max-h-48 overflow-auto rounded-control border border-line bg-surface-2">
+                  <div
+                    v-for="entry in headerEntries"
+                    :key="entry.key"
+                    class="grid grid-cols-[120px_1fr] gap-2 px-2 py-1 border-b border-line last:border-b-0 text-xs"
+                  >
+                    <span class="text-content-faint">{{ entry.key }}</span>
+                    <span class="text-content break-all select-text">{{ entry.value }}</span>
+                  </div>
                 </div>
               </div>
             </details>
-          </div>
+          </template>
         </div>
       </div>
     </div>
@@ -227,6 +338,7 @@ const props = defineProps({
   mode: { type: String, default: 'image' },
   url: { type: String, default: '' },
   fileName: { type: String, default: '' },
+  isDownloading: { type: Boolean, default: false },
   stats: { type: Object, default: null },
   perf: {
     type: Object,
@@ -250,6 +362,7 @@ const props = defineProps({
 
 const emit = defineEmits([
   'close',
+  'download',
   'image-error',
   'update:autoStretch',
   'update:stretchMode',

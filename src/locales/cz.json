@@ -4577,7 +4577,8 @@
         "size": "Velikost",
         "bitDepth": "Bitová hloubka",
         "header": "Hlavička (hlavní klíče)",
-        "unsupportedFile": "Tento typ souboru nelze zobrazit v náhledu, místo toho bude uložen do zařízení."
+        "unsupportedFile": "Tento typ souboru nelze zobrazit v náhledu, místo toho bude uložen do zařízení.",
+        "previewFailed": "Náhled se nepodařilo vykreslit. Soubor uložte pomocí tlačítka ke stažení."
       }
     },
     "phd2logviewer": {

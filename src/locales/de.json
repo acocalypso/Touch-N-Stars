@@ -3036,7 +3036,8 @@
         "size": "Größe",
         "bitDepth": "Bittiefe",
         "header": "Header (wichtigste Schlüssel)",
-        "unsupportedFile": "Dieser Dateityp kann nicht als Vorschau angezeigt werden und wird stattdessen auf dem Gerät gespeichert."
+        "unsupportedFile": "Dieser Dateityp kann nicht als Vorschau angezeigt werden und wird stattdessen auf dem Gerät gespeichert.",
+        "previewFailed": "Die Vorschau konnte nicht erstellt werden. Nutze den Download-Button, um die Datei stattdessen zu speichern."
       }
     },
     "sequenceCreator": {

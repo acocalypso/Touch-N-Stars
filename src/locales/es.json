@@ -4582,7 +4582,8 @@
         "size": "Tamaño",
         "bitDepth": "Profundidad de bits",
         "header": "Cabecera (claves principales)",
-        "unsupportedFile": "Este tipo de archivo no se puede previsualizar; se guardará en el dispositivo."
+        "unsupportedFile": "Este tipo de archivo no se puede previsualizar; se guardará en el dispositivo.",
+        "previewFailed": "No se pudo generar la vista previa. Usa el botón de descarga para guardar el archivo."
       }
     },
     "supernovae": {

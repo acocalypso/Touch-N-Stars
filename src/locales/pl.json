@@ -4577,7 +4577,8 @@
         "size": "Rozmiar",
         "bitDepth": "Głębia bitowa",
         "header": "Nagłówek (główne klucze)",
-        "unsupportedFile": "Tego typu pliku nie można podejrzeć, zamiast tego zostanie zapisany na urządzeniu."
+        "unsupportedFile": "Tego typu pliku nie można podejrzeć, zamiast tego zostanie zapisany na urządzeniu.",
+        "previewFailed": "Nie udało się wygenerować podglądu. Użyj przycisku pobierania, aby zapisać plik."
       }
     },
     "phd2logviewer": {

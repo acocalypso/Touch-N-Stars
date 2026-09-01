@@ -4577,7 +4577,8 @@
         "size": "尺寸",
         "bitDepth": "位深",
         "header": "头信息（主要关键字）",
-        "unsupportedFile": "此文件类型无法预览，将改为保存到设备。"
+        "unsupportedFile": "此文件类型无法预览，将改为保存到设备。",
+        "previewFailed": "无法渲染预览。请使用下载按钮保存文件。"
       }
     },
     "phd2logviewer": {

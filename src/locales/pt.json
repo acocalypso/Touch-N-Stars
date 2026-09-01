@@ -4582,7 +4582,8 @@
         "size": "Tamanho",
         "bitDepth": "Profundidade de bits",
         "header": "Cabeçalho (chaves principais)",
-        "unsupportedFile": "Este tipo de ficheiro não pode ser pré-visualizado, será guardado no dispositivo."
+        "unsupportedFile": "Este tipo de ficheiro não pode ser pré-visualizado, será guardado no dispositivo.",
+        "previewFailed": "Não foi possível gerar a pré-visualização. Use o botão de transferência para guardar o ficheiro."
       }
     },
     "phd2logviewer": {

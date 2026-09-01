@@ -4577,7 +4577,8 @@
         "size": "Grootte",
         "bitDepth": "Bitdiepte",
         "header": "Header (belangrijkste sleutels)",
-        "unsupportedFile": "Dit bestandstype kan niet worden voorvertoond en wordt in plaats daarvan op het apparaat opgeslagen."
+        "unsupportedFile": "Dit bestandstype kan niet worden voorvertoond en wordt in plaats daarvan op het apparaat opgeslagen.",
+        "previewFailed": "De voorvertoning kon niet worden gemaakt. Gebruik de downloadknop om het bestand op te slaan."
       }
     },
     "phd2logviewer": {

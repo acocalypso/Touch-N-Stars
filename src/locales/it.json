@@ -4582,7 +4582,8 @@
         "size": "Dimensione",
         "bitDepth": "Profondità di bit",
         "header": "Header (chiavi principali)",
-        "unsupportedFile": "Questo tipo di file non può essere visualizzato in anteprima, verrà salvato sul dispositivo."
+        "unsupportedFile": "Questo tipo di file non può essere visualizzato in anteprima, verrà salvato sul dispositivo.",
+        "previewFailed": "Impossibile generare l'anteprima. Usa il pulsante di download per salvare il file."
       }
     },
     "phd2logviewer": {

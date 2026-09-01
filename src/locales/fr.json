@@ -4582,7 +4582,8 @@
         "size": "Taille",
         "bitDepth": "Profondeur de bits",
         "header": "En-tête (clés principales)",
-        "unsupportedFile": "Ce type de fichier ne peut pas être prévisualisé, il sera enregistré sur l’appareil à la place."
+        "unsupportedFile": "Ce type de fichier ne peut pas être prévisualisé, il sera enregistré sur l’appareil à la place.",
+        "previewFailed": "L’aperçu n’a pas pu être généré. Utilisez le bouton de téléchargement pour enregistrer le fichier."
       }
     },
     "phd2logviewer": {

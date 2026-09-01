@@ -3122,7 +3122,8 @@
         "size": "Mida",
         "bitDepth": "Profunditat de bits",
         "header": "Capçalera (claus principals)",
-        "unsupportedFile": "Aquest tipus de fitxer no es pot previsualitzar; es desarà al dispositiu."
+        "unsupportedFile": "Aquest tipus de fitxer no es pot previsualitzar; es desarà al dispositiu.",
+        "previewFailed": "No s'ha pogut generar la previsualització. Utilitza el botó de descàrrega per desar el fitxer."
       }
     },
     "sequenceCreator": {

@@ -3191,7 +3191,8 @@
         "size": "Size",
         "bitDepth": "Bit depth",
         "header": "Header (top keys)",
-        "unsupportedFile": "This file type cannot be previewed, saving it to the device instead."
+        "unsupportedFile": "This file type cannot be previewed, saving it to the device instead.",
+        "previewFailed": "The preview could not be rendered. Use the download button to save the file instead."
       }
     },
     "sequenceCreator": {

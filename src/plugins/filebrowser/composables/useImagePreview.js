@@ -154,12 +154,11 @@ export function useImagePreview({ apiService, downloadFile }) {
     scheduleStretchUpdate();
   });
 
+  // A failed render is not the same as an unsupported file: keep the modal open and say so,
+  // instead of silently starting a multi-megabyte download the user never asked for. The
+  // modal's own download button is still there if they want the file anyway.
   function handlePreviewError() {
-    const fallbackEntry = previewEntry.value;
-    closePreview();
-    if (fallbackEntry) {
-      downloadFile?.(fallbackEntry);
-    }
+    previewError.value = t('plugins.filebrowser.fits.previewFailed');
   }
 
   return {

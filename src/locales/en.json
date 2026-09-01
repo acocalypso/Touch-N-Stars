@@ -2310,7 +2310,7 @@
       "initializing": "Initializing...",
       "outdated": {
         "title": "Plugin Outdated",
-        "message": "The TouchNStars Plugin in NINA is outdated and needs to be updated.",
+        "message": "The TouchNStars Plugin in {host} is outdated and needs to be updated.",
         "required": "Required Version",
         "current": "Current Version"
       }

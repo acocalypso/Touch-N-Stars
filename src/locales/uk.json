@@ -2293,7 +2293,7 @@
       "initializing": "Ініціалізація...",
       "outdated": {
         "title": "Плагін застарілий",
-        "message": "Плагін TouchNStars у NINA застарілий і потребує оновлення.",
+        "message": "Плагін TouchNStars у {host} застарілий і потребує оновлення.",
         "required": "Необхідна версія",
         "current": "Поточна версія"
       }

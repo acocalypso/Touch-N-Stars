@@ -14,7 +14,9 @@
         <h3 class="text-lg font-bold text-red-400 mb-2">
           {{ $t('plugins.common.outdated.title') }}
         </h3>
-        <p class="text-content-muted mb-3">{{ $t('plugins.common.outdated.message') }}</p>
+        <p class="text-content-muted mb-3">
+          {{ $t('plugins.common.outdated.message', { host: store.isPINS ? 'PINS' : 'NINA' }) }}
+        </p>
         <p class="text-sm text-content-muted">
           {{ $t('plugins.common.outdated.required') }}: v{{ MIN_TNS_PLUGIN_VERSION }}
         </p>

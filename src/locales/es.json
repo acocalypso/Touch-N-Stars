@@ -2293,7 +2293,7 @@
       "initializing": "Inicializando...",
       "outdated": {
         "title": "Plugin Desactualizado",
-        "message": "El plugin TouchNStars en NINA está desactualizado y necesita ser actualizado.",
+        "message": "El plugin TouchNStars en {host} está desactualizado y necesita ser actualizado.",
         "required": "Versión requerida",
         "current": "Versión actual"
       }

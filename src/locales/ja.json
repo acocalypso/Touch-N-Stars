@@ -2293,7 +2293,7 @@
       "initializing": "初期化中...",
       "outdated": {
         "title": "プラグインが最新ではありません",
-        "message": "NINAのTouchNStarsプラグインが古いため、アップデートが必要です。",
+        "message": "{host}のTouchNStarsプラグインが古いため、アップデートが必要です。",
         "required": "必要なバージョン",
         "current": "現在のバージョン"
       }

@@ -2293,7 +2293,7 @@
       "initializing": "초기화 중...",
       "outdated": {
         "title": "플러그인 구버전",
-        "message": "NINA의 TouchNStars 플러그인이 구버전이라 업데이트가 필요합니다.",
+        "message": "{host}의 TouchNStars 플러그인이 구버전이라 업데이트가 필요합니다.",
         "required": "필요 버전",
         "current": "현재 버전"
       }

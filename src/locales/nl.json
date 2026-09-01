@@ -2293,7 +2293,7 @@
       "initializing": "Initialiseren...",
       "outdated": {
         "title": "Plugin Verouderd",
-        "message": "De TouchNStars Plugin in NINA is verouderd en moet worden vernieuwd.",
+        "message": "De TouchNStars Plugin in {host} is verouderd en moet worden vernieuwd.",
         "required": "Benodigde Versie",
         "current": "Huidige Versie"
       }

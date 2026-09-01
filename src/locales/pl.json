@@ -2293,7 +2293,7 @@
       "initializing": "Inicjalizacja...",
       "outdated": {
         "title": "Wtyczka przestarzała",
-        "message": "Wtyczka TouchNStars w NINA jest przestarzała i wymaga aktualizacji.",
+        "message": "Wtyczka TouchNStars w {host} jest przestarzała i wymaga aktualizacji.",
         "required": "Wymagana wersja",
         "current": "Aktualna wersja"
       }

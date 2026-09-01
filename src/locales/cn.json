@@ -2293,7 +2293,7 @@
       "initializing": "初始化中...",
       "outdated": {
         "title": "插件已过时",
-        "message": "NINA中的TouchNStars插件已过时，需要更新。",
+        "message": "{host}中的TouchNStars插件已过时，需要更新。",
         "required": "所需版本",
         "current": "当前版本"
       }

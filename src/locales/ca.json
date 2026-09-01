@@ -2310,7 +2310,7 @@
       "initializing": "Inicialitzant...",
       "outdated": {
         "title": "Connector obsolet",
-        "message": "El connector TouchNStars a NINA és obsolet i cal actualitzar-lo.",
+        "message": "El connector TouchNStars a {host} és obsolet i cal actualitzar-lo.",
         "required": "Versió requerida",
         "current": "Versió actual"
       }

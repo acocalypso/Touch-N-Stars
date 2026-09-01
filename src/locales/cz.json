@@ -2293,7 +2293,7 @@
       "initializing": "Inicializace...",
       "outdated": {
         "title": "Plugin Zastaralý",
-        "message": "Plugin TouchNStars v NINA je zastaralý a musí být aktualizován.",
+        "message": "Plugin TouchNStars v {host} je zastaralý a musí být aktualizován.",
         "required": "Požadovaná Verze",
         "current": "Aktuální Verze"
       }

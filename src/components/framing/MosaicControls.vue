@@ -27,7 +27,7 @@
         :label="$t('components.framing.mosaic.columns')"
         labelKey="components.framing.mosaic.columns"
         :min="1"
-        :max="5"
+        :max="20"
         :step="1"
       />
       <NumberInputPicker
@@ -35,7 +35,7 @@
         :label="$t('components.framing.mosaic.rows')"
         labelKey="components.framing.mosaic.rows"
         :min="1"
-        :max="5"
+        :max="20"
         :step="1"
       />
       <NumberInputPicker

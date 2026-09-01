@@ -32,6 +32,7 @@ export function useImagePreview({ apiService, downloadFile }) {
   const previewEntry = ref(null);
   const previewFileName = ref('');
   const previewLoading = ref(false);
+  const previewImageLoading = ref(false);
   const previewError = ref('');
   const previewInfo = ref(null);
   const previewHeaderEntries = ref([]);
@@ -69,6 +70,7 @@ export function useImagePreview({ apiService, downloadFile }) {
     previewEntry.value = null;
     previewFileName.value = '';
     previewLoading.value = false;
+    previewImageLoading.value = false;
     previewError.value = '';
     previewInfo.value = null;
     previewHeaderEntries.value = [];
@@ -124,6 +126,7 @@ export function useImagePreview({ apiService, downloadFile }) {
       previewInfo.value = info;
       previewHeaderEntries.value = Array.isArray(info.headers) ? info.headers : [];
       previewDebayer.value = !!info.isBayered;
+      previewImageLoading.value = true;
       previewUrl.value = buildPreviewUrl(file);
     } catch (error) {
       if (isAbortError(error)) {
@@ -142,6 +145,7 @@ export function useImagePreview({ apiService, downloadFile }) {
         // preview is consumed as <img src>, so this only rate-limits how often the src
         // changes - the browser's own request lifecycle handles cancelling the previous
         // in-flight image load, and the backend's render cache absorbs any overlap.
+        previewImageLoading.value = true;
         previewUrl.value = buildPreviewUrl(previewEntry.value);
       }
     }, DEBOUNCE_MS);
@@ -158,7 +162,12 @@ export function useImagePreview({ apiService, downloadFile }) {
   // instead of silently starting a multi-megabyte download the user never asked for. The
   // modal's own download button is still there if they want the file anyway.
   function handlePreviewError() {
+    previewImageLoading.value = false;
     previewError.value = t('plugins.filebrowser.fits.previewFailed');
+  }
+
+  function handleImageLoad() {
+    previewImageLoading.value = false;
   }
 
   return {
@@ -167,6 +176,7 @@ export function useImagePreview({ apiService, downloadFile }) {
     previewEntry,
     previewFileName,
     previewLoading,
+    previewImageLoading,
     previewError,
     previewInfo,
     previewHeaderEntries,
@@ -177,5 +187,6 @@ export function useImagePreview({ apiService, downloadFile }) {
     closePreview,
     openFile,
     handlePreviewError,
+    handleImageLoad,
   };
 }

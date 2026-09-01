@@ -187,7 +187,11 @@ service must be bounded:
   `node --import ./scripts/test-loader.mjs scripts/dump-api-surface.mjs`.
 - The stretch controls stay, they just post their values as query parameters.
 - `previewLoading` gets a real spinner state again — the delay moves from
-  "download bar" to "server is rendering".
+  "download bar" to "server is rendering". A second flag, `previewImageLoading`,
+  covers the `<img>` itself: it is set whenever the `src` changes (initial open
+  and every stretch-slider commit) and cleared on the `load`/`error` event, so
+  the rendered-JPEG transfer also shows a spinner instead of a stale or blank
+  frame while it comes over the wire.
 
 ## Risks
 

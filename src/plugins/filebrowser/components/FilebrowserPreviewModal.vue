@@ -65,13 +65,24 @@
             {{ error }}
           </div>
 
-          <img
-            v-else
-            :src="url"
-            :alt="fileName"
-            class="mx-auto max-w-full max-h-[calc(92vh-100px)] object-contain"
-            @error="$emit('image-error')"
-          />
+          <div v-else class="relative">
+            <div
+              v-if="imageLoading"
+              class="absolute inset-0 flex items-center justify-center min-h-[300px]"
+            >
+              <div
+                class="w-10 h-10 border-4 border-accent-action border-t-transparent border-solid rounded-full animate-spin"
+              />
+            </div>
+            <img
+              :src="url"
+              :alt="fileName"
+              class="mx-auto max-w-full max-h-[calc(92vh-100px)] object-contain"
+              :class="{ invisible: imageLoading }"
+              @load="$emit('image-load')"
+              @error="$emit('image-error')"
+            />
+          </div>
 
           <template v-if="!loading && !error && info">
             <!-- Render controls: this is the part users actually operate. -->
@@ -216,6 +227,7 @@ import { computed, ref, watch } from 'vue';
 const props = defineProps({
   visible: { type: Boolean, default: false },
   loading: { type: Boolean, default: false },
+  imageLoading: { type: Boolean, default: false },
   error: { type: String, default: '' },
   url: { type: String, default: '' },
   fileName: { type: String, default: '' },
@@ -231,6 +243,7 @@ const props = defineProps({
 const emit = defineEmits([
   'close',
   'download',
+  'image-load',
   'image-error',
   'update:stretchFactor',
   'update:blackClipping',

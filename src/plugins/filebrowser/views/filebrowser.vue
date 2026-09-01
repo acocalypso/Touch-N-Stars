@@ -88,6 +88,7 @@
     <FilebrowserPreviewModal
       :visible="previewVisible"
       :loading="previewLoading"
+      :image-loading="previewImageLoading"
       :error="previewError"
       :url="previewUrl"
       :file-name="previewFileName"
@@ -100,6 +101,7 @@
       :debayer="previewDebayer"
       @close="closePreview"
       @download="downloadPreviewEntry"
+      @image-load="handleImageLoad"
       @image-error="handlePreviewError"
       @update:stretch-factor="previewStretchFactor = $event"
       @update:black-clipping="previewBlackClipping = $event"
@@ -195,6 +197,7 @@ const {
   previewEntry,
   previewFileName,
   previewLoading,
+  previewImageLoading,
   previewError,
   previewInfo,
   previewHeaderEntries,
@@ -205,6 +208,7 @@ const {
   closePreview,
   openFile,
   handlePreviewError,
+  handleImageLoad,
 } = useImagePreview({ apiService, downloadFile: (file) => downloadOne(file) });
 
 const selectedEntryTypeLabel = computed(() => {

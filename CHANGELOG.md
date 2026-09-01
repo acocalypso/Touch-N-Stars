@@ -10,14 +10,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - File browser: Files can be saved to the device, lists can be sorted and searched, and several entries can be selected for downloading or deleting at once
+- File browser: The plugin is now available in NINA mode as well, not only on PINS
 - Sky chart: The time axis now always runs from midday to midday with midnight in the middle, so a whole night is visible at a glance and the "now" marker sits at its real time
 - Sky chart: A moon button shows the moon's altitude curve plus its illumination and distance to the target
 
 ### Changed
 
-- File browser: Image previews now show real image data and renaming works, because the plugin server sends files as binary instead of UTF-8 text
+- File browser: Image previews are now rendered on the server with NINA's own stretch settings, so FITS, XISF and raw files open faster and look like they do in NINA - stretch factor, black clipping, unlinked stretch and debayer can be adjusted directly in the preview. In NINA mode this needs Touch'N'Stars plugin 1.4.0.0 or newer; older versions get a notice instead of a broken preview
+- File browser: Renaming files works again, and WebP and BMP files are now counted as images by the images-only filter
 - Observation planner: Redesigned target cards - name, preview, values and actions no longer overlap or get cut off on narrow screens
 - Telescopius: Target lists can now be imported from a Telescopius CSV export, including the position angle as framing rotation, and imported targets can be edited afterwards
+
+### Fixed
+
+- File browser: A spinner is shown while a preview is loading, and files that cannot be rendered show an error message with a download option instead of silently starting a download
+- Plugins: The "plugin outdated" notice now names the host the plugin actually runs in, NINA or PINS, instead of always saying NINA
 
 ## [App6.3.0-beta1] - 2026-08-30
 

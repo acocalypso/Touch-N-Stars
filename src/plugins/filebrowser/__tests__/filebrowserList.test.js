@@ -118,3 +118,11 @@ test('recognises image and FITS extensions', () => {
   assert.equal(isImageFile('frame.txt'), false);
   assert.equal(isImageFile(''), false);
 });
+
+test('recognises XISF and raw extensions supported by the backend preview', () => {
+  assert.equal(isImageFile('frame.xisf'), true);
+  assert.equal(isImageFile('frame.cr2'), true);
+  assert.equal(isImageFile('frame.nef'), true);
+  assert.equal(isImageFile('frame.dng'), true);
+  assert.equal(isImageFile('frame.fz'), true);
+});

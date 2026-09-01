@@ -216,6 +216,37 @@ export default {
     return download ? `${url}&download=1` : url;
   },
 
+  // Server-rendered preview (Phase 2): a pure URL builder, not a fetch — bind it directly
+  // to <img src>, the same way getFilesystemFileStreamUrl() is used for plain images.
+  getFilesystemPreviewUrl(
+    path,
+    { maxWidth, quality, stretch, blackClipping, unlinked, debayer } = {}
+  ) {
+    const { API_URL } = getUrls();
+    const params = new URLSearchParams({ path: path || '' });
+    if (maxWidth != null) params.set('maxWidth', maxWidth);
+    if (quality != null) params.set('quality', quality);
+    if (stretch != null) params.set('stretch', stretch);
+    if (blackClipping != null) params.set('blackClipping', blackClipping);
+    if (unlinked != null) params.set('unlinked', unlinked ? '1' : '0');
+    if (debayer != null) params.set('debayer', debayer ? '1' : '0');
+    return `${API_URL}filesystem/preview?${params.toString()}`;
+  },
+
+  async fetchFilesystemImageInfo(path, { signal } = {}) {
+    const { API_URL } = getUrls();
+    try {
+      const response = await axios.get(`${API_URL}filesystem/imageinfo`, {
+        params: { path },
+        timeout: DEFAULT_TIMEOUT,
+        signal,
+      });
+      return response.data;
+    } catch (error) {
+      throw mapFilesystemError(error, 'Failed to read image info');
+    }
+  },
+
   async fetchFilesystemFileBuffer(path) {
     const { API_URL } = getUrls();
     try {

@@ -50,8 +50,11 @@
         <div class="p-3 bg-ground max-h-[calc(92vh-64px)] overflow-auto">
           <div
             v-if="loading"
-            class="min-h-[300px] flex items-center justify-center text-sm text-content-muted"
+            class="min-h-[300px] flex flex-col items-center justify-center gap-3 text-sm text-content-muted"
           >
+            <div
+              class="w-10 h-10 border-4 border-accent-action border-t-transparent border-solid rounded-full animate-spin"
+            />
             {{ $t('plugins.filebrowser.loading') }}
           </div>
 
@@ -63,69 +66,53 @@
           </div>
 
           <img
-            v-else-if="mode === 'image'"
+            v-else
             :src="url"
             :alt="fileName"
             class="mx-auto max-w-full max-h-[calc(92vh-100px)] object-contain"
             @error="$emit('image-error')"
           />
 
-          <canvas
-            v-else
-            :ref="setCanvasRef"
-            class="mx-auto max-w-full max-h-[calc(92vh-100px)] object-contain"
-            style="image-rendering: auto"
-          />
-
-          <template v-if="mode === 'fits' && !loading && !error && stats">
+          <template v-if="!loading && !error && info">
             <!-- Render controls: this is the part users actually operate. -->
             <div
               class="mt-3 rounded-control border border-line bg-surface-1 p-3 flex flex-col gap-3"
             >
-              <label
-                class="flex items-center gap-3 text-sm text-content min-h-touch cursor-pointer"
-              >
-                <input
-                  v-model="autoStretchModel"
-                  type="checkbox"
-                  class="h-5 w-5 rounded border-line-strong bg-surface-2 text-accent-action"
-                />
-                <span>{{ $t('plugins.filebrowser.fits.autoStretch') }}</span>
-              </label>
-
               <div class="flex flex-col sm:flex-row sm:items-center gap-2">
                 <span class="text-sm text-content-muted sm:w-44 shrink-0">
-                  {{ $t('plugins.filebrowser.fits.preStretch') }}
-                </span>
-                <select v-model="stretchModeModel" :disabled="!autoStretch" class="tns-select">
-                  <option value="linear">{{ $t('plugins.filebrowser.fits.modeLinear') }}</option>
-                  <option value="sqrt">{{ $t('plugins.filebrowser.fits.modeSqrt') }}</option>
-                  <option value="log">{{ $t('plugins.filebrowser.fits.modeLog') }}</option>
-                  <option value="asinh">{{ $t('plugins.filebrowser.fits.modeAsinh') }}</option>
-                </select>
-              </div>
-
-              <div class="flex flex-col sm:flex-row sm:items-center gap-2">
-                <span class="text-sm text-content-muted sm:w-44 shrink-0">
-                  {{
-                    stretchMode === 'linear'
-                      ? $t('plugins.filebrowser.fits.clipStrength')
-                      : $t('plugins.filebrowser.fits.stretchStrength')
-                  }}
+                  {{ $t('plugins.filebrowser.fits.stretchStrength') }}
                 </span>
                 <input
-                  :value="localStretchStrength"
+                  :value="localStretchFactor"
                   type="range"
                   min="0"
-                  max="20"
-                  step="0.1"
-                  :disabled="!autoStretch"
+                  max="2"
+                  step="0.01"
                   class="w-full"
-                  @input="onStretchStrengthInput"
-                  @change="commitStretchStrength"
+                  @input="onStretchFactorInput"
+                  @change="commitStretchFactor"
                 />
                 <span class="text-sm text-content min-w-[48px] text-right tabular-nums">
-                  {{ localStretchStrength.toFixed(2) }}
+                  {{ localStretchFactor.toFixed(2) }}
+                </span>
+              </div>
+
+              <div class="flex flex-col sm:flex-row sm:items-center gap-2">
+                <span class="text-sm text-content-muted sm:w-44 shrink-0">
+                  {{ $t('plugins.filebrowser.fits.clipStrength') }}
+                </span>
+                <input
+                  :value="localBlackClipping"
+                  type="range"
+                  min="-5"
+                  max="0"
+                  step="0.1"
+                  class="w-full"
+                  @input="onBlackClippingInput"
+                  @change="commitBlackClipping"
+                />
+                <span class="text-sm text-content min-w-[48px] text-right tabular-nums">
+                  {{ localBlackClipping.toFixed(1) }}
                 </span>
               </div>
 
@@ -133,11 +120,23 @@
                 class="flex items-center gap-3 text-sm text-content min-h-touch cursor-pointer"
               >
                 <input
-                  v-model="autoWhiteBalanceModel"
+                  v-model="unlinkedModel"
                   type="checkbox"
                   class="h-5 w-5 rounded border-line-strong bg-surface-2 text-accent-action"
                 />
-                <span>{{ $t('plugins.filebrowser.fits.autoWhiteBalance') }}</span>
+                <span>{{ $t('plugins.filebrowser.fits.unlinked') }}</span>
+              </label>
+
+              <label
+                v-if="info.isBayered"
+                class="flex items-center gap-3 text-sm text-content min-h-touch cursor-pointer"
+              >
+                <input
+                  v-model="debayerModel"
+                  type="checkbox"
+                  class="h-5 w-5 rounded border-line-strong bg-surface-2 text-accent-action"
+                />
+                <span>{{ $t('plugins.filebrowser.fits.debayer') }}</span>
               </label>
             </div>
 
@@ -156,152 +155,35 @@
                   <span class="text-content-faint"
                     >{{ $t('plugins.filebrowser.fits.pattern') }}:</span
                   >
-                  {{ stats.bayerPattern || $t('plugins.filebrowser.fits.none') }}
+                  {{ info.bayerPattern || $t('plugins.filebrowser.fits.none') }}
                 </div>
-                <div><span class="text-content-faint">BITPIX:</span> {{ stats.bitpix }}</div>
+                <div>
+                  <span class="text-content-faint"
+                    >{{ $t('plugins.filebrowser.fits.bitDepth') }}:</span
+                  >
+                  {{ info.bitDepth }}
+                </div>
                 <div>
                   <span class="text-content-faint">{{ $t('plugins.filebrowser.fits.size') }}:</span>
-                  {{ stats.width }} x {{ stats.height }}
+                  {{ info.width }} x {{ info.height }}
                 </div>
                 <div>
                   <span class="text-content-faint">
-                    {{ $t('plugins.filebrowser.fits.stretch') }}:
+                    {{ $t('plugins.filebrowser.fits.stretchStrength') }}:
                   </span>
-                  {{ stats.low.toFixed(2) }}..{{ stats.high.toFixed(2) }}
+                  {{ stretchFactor.toFixed(2) }}
                 </div>
                 <div>
                   <span class="text-content-faint">
-                    {{ $t('plugins.filebrowser.fits.clipBase') }}:
+                    {{ $t('plugins.filebrowser.fits.clipStrength') }}:
                   </span>
-                  {{ stats.clippedLow.toFixed(2) }}..{{ stats.clippedHigh.toFixed(2) }}
-                </div>
-                <div>
-                  <span class="text-content-faint">{{ $t('plugins.filebrowser.fits.min') }}:</span>
-                  {{ stats.min.toFixed(2) }}
-                </div>
-                <div>
-                  <span class="text-content-faint">{{ $t('plugins.filebrowser.fits.max') }}:</span>
-                  {{ stats.max.toFixed(2) }}
-                </div>
-                <div>
-                  <span class="text-content-faint">{{ $t('plugins.filebrowser.fits.mean') }}:</span>
-                  {{ stats.mean.toFixed(2) }}
-                </div>
-                <div>
-                  <span class="text-content-faint">{{ $t('plugins.filebrowser.fits.std') }}:</span>
-                  {{ stats.std.toFixed(2) }}
-                </div>
-                <div>
-                  <span class="text-content-faint">{{ $t('plugins.filebrowser.fits.mode') }}:</span>
-                  {{ stats.stretchMode }}
+                  {{ blackClipping.toFixed(1) }}
                 </div>
                 <div>
                   <span class="text-content-faint">
-                    {{ $t('plugins.filebrowser.fits.autoStretch') }}:
+                    {{ $t('plugins.filebrowser.fits.unlinked') }}:
                   </span>
-                  {{ stats.autoStretch ? $t('general.yes') : $t('general.no') }}
-                </div>
-                <div>
-                  <span class="text-content-faint">
-                    {{
-                      stats.stretchMode === 'linear'
-                        ? $t('plugins.filebrowser.fits.clipStrength')
-                        : $t('plugins.filebrowser.fits.stretchStrength')
-                    }}:
-                  </span>
-                  {{ stats.stretchStrength.toFixed(2) }}
-                </div>
-                <div>
-                  <span class="text-content-faint">{{ $t('plugins.filebrowser.fits.prep') }}:</span>
-                  {{ perf.prepareMs.toFixed(1) }} ms
-                </div>
-                <div>
-                  <span class="text-content-faint"
-                    >{{ $t('plugins.filebrowser.fits.parse') }}:</span
-                  >
-                  {{ perf.parseMs.toFixed(1) }} ms
-                </div>
-                <div>
-                  <span class="text-content-faint">
-                    {{ $t('plugins.filebrowser.fits.decode') }}:
-                  </span>
-                  {{ perf.decodeMs.toFixed(1) }} ms
-                </div>
-                <div>
-                  <span class="text-content-faint">
-                    {{ $t('plugins.filebrowser.fits.debayer') }}:
-                  </span>
-                  {{ perf.demosaicMs.toFixed(1) }} ms
-                </div>
-                <div>
-                  <span class="text-content-faint">
-                    {{ $t('plugins.filebrowser.fits.render') }}:
-                  </span>
-                  {{ perf.renderMs.toFixed(1) }} ms
-                </div>
-                <div>
-                  <span class="text-content-faint">
-                    {{ $t('plugins.filebrowser.fits.renders') }}:
-                  </span>
-                  {{ perf.renderCount }}
-                </div>
-                <div>
-                  <span class="text-content-faint">
-                    {{ $t('plugins.filebrowser.fits.queued') }}:
-                  </span>
-                  {{ perf.queueSkips }}
-                </div>
-                <div>
-                  <span class="text-content-faint">
-                    {{ $t('plugins.filebrowser.fits.reason') }}:
-                  </span>
-                  {{ perf.lastReason }}
-                </div>
-                <div>
-                  <span class="text-content-faint">
-                    {{ $t('plugins.filebrowser.fits.autoWhiteBalance') }}:
-                  </span>
-                  {{ stats.autoWhiteBalance ? $t('general.yes') : $t('general.no') }}
-                </div>
-                <div>
-                  <span class="text-content-faint">
-                    {{ $t('plugins.filebrowser.fits.wbGains') }}:
-                  </span>
-                  R {{ stats.whiteBalanceGains.r.toFixed(2) }} G
-                  {{ stats.whiteBalanceGains.g.toFixed(2) }} B
-                  {{ stats.whiteBalanceGains.b.toFixed(2) }}
-                </div>
-                <div>
-                  <span class="text-content-faint">
-                    {{ $t('plugins.filebrowser.fits.headerSource') }}:
-                  </span>
-                  {{ stats.headerSource }}
-                </div>
-                <div>
-                  <span class="text-content-faint">
-                    {{ $t('plugins.filebrowser.fits.inferred') }}:
-                  </span>
-                  {{ formatInferredFields(stats.inferredHeaderFields) }}
-                </div>
-                <div>
-                  <span class="text-content-faint">
-                    {{ $t('plugins.filebrowser.fits.decodedPixels') }}:
-                  </span>
-                  {{ stats.decodablePixelCount }} / {{ stats.width * stats.height }}
-                </div>
-                <div>
-                  <span class="text-content-faint">
-                    {{ $t('plugins.filebrowser.fits.truncated') }}:
-                  </span>
-                  {{ stats.truncated ? $t('general.yes') : $t('general.no') }}
-                </div>
-                <div>
-                  <span class="text-content-faint"
-                    >{{ $t('plugins.filebrowser.fits.curve') }}:</span
-                  >
-                  {{
-                    `${stats.curveSamples.p10.toFixed(3)}/${stats.curveSamples.p50.toFixed(3)}/${stats.curveSamples.p90.toFixed(3)}`
-                  }}
+                  {{ unlinked ? $t('general.yes') : $t('general.no') }}
                 </div>
               </div>
 
@@ -335,85 +217,74 @@ const props = defineProps({
   visible: { type: Boolean, default: false },
   loading: { type: Boolean, default: false },
   error: { type: String, default: '' },
-  mode: { type: String, default: 'image' },
   url: { type: String, default: '' },
   fileName: { type: String, default: '' },
   isDownloading: { type: Boolean, default: false },
-  stats: { type: Object, default: null },
-  perf: {
-    type: Object,
-    default: () => ({
-      prepareMs: 0,
-      parseMs: 0,
-      decodeMs: 0,
-      demosaicMs: 0,
-      renderMs: 0,
-      renderCount: 0,
-      queueSkips: 0,
-      lastReason: 'idle',
-    }),
-  },
+  info: { type: Object, default: null },
   headerEntries: { type: Array, default: () => [] },
-  autoStretch: { type: Boolean, default: false },
-  stretchMode: { type: String, default: 'asinh' },
-  stretchStrength: { type: Number, default: 0 },
-  autoWhiteBalance: { type: Boolean, default: true },
+  stretchFactor: { type: Number, default: 0.2 },
+  blackClipping: { type: Number, default: -2.8 },
+  unlinked: { type: Boolean, default: false },
+  debayer: { type: Boolean, default: true },
 });
 
 const emit = defineEmits([
   'close',
   'download',
   'image-error',
-  'update:autoStretch',
-  'update:stretchMode',
-  'update:stretchStrength',
-  'update:autoWhiteBalance',
-  'set-canvas-ref',
+  'update:stretchFactor',
+  'update:blackClipping',
+  'update:unlinked',
+  'update:debayer',
 ]);
 
-const autoStretchModel = computed({
-  get: () => props.autoStretch,
-  set: (value) => emit('update:autoStretch', value),
-});
-
-const stretchModeModel = computed({
-  get: () => props.stretchMode,
-  set: (value) => emit('update:stretchMode', value),
-});
-
-const localStretchStrength = ref(props.stretchStrength);
+// The slider commits on 'change' (drag-release), not every 'input' tick - each commit now
+// triggers a real network round trip via the parent's debounce, unlike the old canvas
+// re-render this replaced.
+const localStretchFactor = ref(props.stretchFactor);
+const localBlackClipping = ref(props.blackClipping);
 
 watch(
-  () => props.stretchStrength,
+  () => props.stretchFactor,
   (value) => {
     const numeric = Number(value);
-    localStretchStrength.value = Number.isFinite(numeric) ? numeric : 0;
+    localStretchFactor.value = Number.isFinite(numeric) ? numeric : 0;
   }
 );
 
-function onStretchStrengthInput(event) {
+watch(
+  () => props.blackClipping,
+  (value) => {
+    const numeric = Number(value);
+    localBlackClipping.value = Number.isFinite(numeric) ? numeric : 0;
+  }
+);
+
+function onStretchFactorInput(event) {
   const value = Number(event?.target?.value);
-  localStretchStrength.value = Number.isFinite(value) ? value : 0;
+  localStretchFactor.value = Number.isFinite(value) ? value : 0;
 }
 
-function commitStretchStrength() {
-  emit('update:stretchStrength', localStretchStrength.value);
+function commitStretchFactor() {
+  emit('update:stretchFactor', localStretchFactor.value);
 }
 
-const autoWhiteBalanceModel = computed({
-  get: () => props.autoWhiteBalance,
-  set: (value) => emit('update:autoWhiteBalance', value),
+function onBlackClippingInput(event) {
+  const value = Number(event?.target?.value);
+  localBlackClipping.value = Number.isFinite(value) ? value : 0;
+}
+
+function commitBlackClipping() {
+  emit('update:blackClipping', localBlackClipping.value);
+}
+
+const unlinkedModel = computed({
+  get: () => props.unlinked,
+  set: (value) => emit('update:unlinked', value),
 });
 
-function setCanvasRef(el) {
-  emit('set-canvas-ref', el);
-}
-
-function formatInferredFields(fields) {
-  if (!Array.isArray(fields) || !fields.length) {
-    return 'none';
-  }
-
-  return fields.join(', ');
-}
+const debayerModel = computed({
+  get: () => props.debayer,
+  set: (value) => emit('update:debayer', value),
+});
 </script>

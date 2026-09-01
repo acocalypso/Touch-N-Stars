@@ -1,17 +1,31 @@
 import { computed, ref } from 'vue';
 
+// Matches the backend's supported-for-preview set (FilesystemController.SupportedImageExtensions):
+// ordinary raster, FITS/XISF, and DSLR raw. webp/bmp are deliberately not included even though
+// browsers can display them - NINA's BaseImageData.FromFile has no case for them, so the backend
+// can't render a preview and they would 400 from /filesystem/preview.
 export const IMAGE_FILE_EXTENSIONS = [
-  'png',
-  'jpg',
-  'jpeg',
   'gif',
-  'webp',
-  'bmp',
   'tif',
   'tiff',
+  'jpg',
+  'jpeg',
+  'png',
+  'xisf',
   'fit',
   'fits',
   'fts',
+  'fz',
+  'cr2',
+  'cr3',
+  'nef',
+  'raf',
+  'raw',
+  'pef',
+  'dng',
+  'arw',
+  'orf',
+  'rw2',
 ];
 
 export const SORT_KEYS = ['name', 'modified', 'size'];

@@ -89,25 +89,22 @@
       :visible="previewVisible"
       :loading="previewLoading"
       :error="previewError"
-      :mode="previewMode"
       :url="previewUrl"
       :file-name="previewFileName"
       :is-downloading="isDownloading"
-      :stats="fitsStats"
-      :perf="fitsPerf"
-      :header-entries="fitsHeaderEntries"
-      :auto-stretch="fitsAutoStretch"
-      :stretch-mode="fitsStretchMode"
-      :stretch-strength="fitsStretchStrength"
-      :auto-white-balance="fitsAutoWhiteBalance"
+      :info="previewInfo"
+      :header-entries="previewHeaderEntries"
+      :stretch-factor="previewStretchFactor"
+      :black-clipping="previewBlackClipping"
+      :unlinked="previewUnlinked"
+      :debayer="previewDebayer"
       @close="closePreview"
       @download="downloadPreviewEntry"
       @image-error="handlePreviewError"
-      @update:auto-stretch="fitsAutoStretch = $event"
-      @update:stretch-mode="fitsStretchMode = $event"
-      @update:stretch-strength="fitsStretchStrength = $event"
-      @update:auto-white-balance="fitsAutoWhiteBalance = $event"
-      @set-canvas-ref="setFitsCanvasRef"
+      @update:stretch-factor="previewStretchFactor = $event"
+      @update:black-clipping="previewBlackClipping = $event"
+      @update:unlinked="previewUnlinked = $event"
+      @update:debayer="previewDebayer = $event"
     />
 
     <FilebrowserRenameDialog
@@ -134,7 +131,7 @@ import FilebrowserDetailsPanel from '@/plugins/filebrowser/components/Filebrowse
 import FilebrowserSelectionBar from '@/plugins/filebrowser/components/FilebrowserSelectionBar.vue';
 import FilebrowserPreviewModal from '@/plugins/filebrowser/components/FilebrowserPreviewModal.vue';
 import FilebrowserRenameDialog from '@/plugins/filebrowser/components/FilebrowserRenameDialog.vue';
-import { useFitsPreview } from '@/plugins/filebrowser/composables/useFitsPreview';
+import { useImagePreview } from '@/plugins/filebrowser/composables/useImagePreview';
 import {
   getFileExtension,
   isImageFile,
@@ -197,21 +194,18 @@ const {
   previewUrl,
   previewEntry,
   previewFileName,
-  previewMode,
   previewLoading,
   previewError,
-  fitsAutoStretch,
-  fitsStretchMode,
-  fitsStretchStrength,
-  fitsAutoWhiteBalance,
-  fitsStats,
-  fitsHeaderEntries,
-  fitsPerf,
+  previewInfo,
+  previewHeaderEntries,
+  previewStretchFactor,
+  previewBlackClipping,
+  previewUnlinked,
+  previewDebayer,
   closePreview,
   openFile,
   handlePreviewError,
-  setFitsCanvasRef,
-} = useFitsPreview({ apiService, downloadFile: (file) => downloadOne(file) });
+} = useImagePreview({ apiService, downloadFile: (file) => downloadOne(file) });
 
 const selectedEntryTypeLabel = computed(() => {
   if (singleSelection.value?.entryType === 'directory') {

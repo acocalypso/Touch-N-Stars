@@ -1,7 +1,7 @@
 import { ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useToastStore } from '@/store/toastStore';
-import { IMAGE_FILE_EXTENSIONS, getFileExtension } from './useFilebrowserList';
+import { isPreviewableFile } from './useFilebrowserList';
 
 // Matches NINA's own IImageSettings defaults (NINA.Profile/ImageSettings.cs), so a
 // freshly opened preview looks like the frame does in NINA before the user touches a slider.
@@ -45,10 +45,6 @@ export function useImagePreview({ apiService, downloadFile }) {
   const abortController = ref(null);
   let debounceTimer = null;
 
-  function isPreviewCandidate(fileName) {
-    return IMAGE_FILE_EXTENSIONS.includes(getFileExtension(fileName));
-  }
-
   function buildPreviewUrl(file) {
     return apiService.getFilesystemPreviewUrl(file.path, {
       maxWidth: computeMaxWidth(),
@@ -57,6 +53,18 @@ export function useImagePreview({ apiService, downloadFile }) {
       unlinked: previewUnlinked.value,
       debayer: previewDebayer.value,
     });
+  }
+
+  // Assigning the same src to <img> is a no-op for the browser: no request, no load event.
+  // Raising the spinner for it would leave the modal waiting forever, so bail out instead.
+  function applyPreviewUrl(file) {
+    const url = buildPreviewUrl(file);
+    if (url === previewUrl.value) {
+      return;
+    }
+
+    previewImageLoading.value = true;
+    previewUrl.value = url;
   }
 
   function closePreview() {
@@ -85,12 +93,14 @@ export function useImagePreview({ apiService, downloadFile }) {
       return;
     }
 
-    if (!isPreviewCandidate(file.name)) {
+    if (!isPreviewableFile(file.name)) {
       // Not worth a round trip for e.g. .txt/.log - go straight to download.
       downloadFile?.(file);
       return;
     }
 
+    clearTimeout(debounceTimer);
+    debounceTimer = null;
     abortController.value?.abort();
     const controller = new AbortController();
     abortController.value = controller;
@@ -113,6 +123,12 @@ export function useImagePreview({ apiService, downloadFile }) {
         signal: controller.signal,
       });
 
+      // A newer openFile() already took over the modal - its state must not be overwritten
+      // by this response, even if it arrived before the abort landed.
+      if (abortController.value !== controller) {
+        return;
+      }
+
       if (!info?.success || !info?.isSupported) {
         closePreview();
         toastStore.showToast({
@@ -126,15 +142,16 @@ export function useImagePreview({ apiService, downloadFile }) {
       previewInfo.value = info;
       previewHeaderEntries.value = Array.isArray(info.headers) ? info.headers : [];
       previewDebayer.value = !!info.isBayered;
-      previewImageLoading.value = true;
-      previewUrl.value = buildPreviewUrl(file);
+      applyPreviewUrl(file);
     } catch (error) {
-      if (isAbortError(error)) {
+      if (isAbortError(error) || abortController.value !== controller) {
         return;
       }
       previewError.value = error?.message || 'Failed to load preview';
     } finally {
-      previewLoading.value = false;
+      if (abortController.value === controller) {
+        previewLoading.value = false;
+      }
     }
   }
 
@@ -145,8 +162,7 @@ export function useImagePreview({ apiService, downloadFile }) {
         // preview is consumed as <img src>, so this only rate-limits how often the src
         // changes - the browser's own request lifecycle handles cancelling the previous
         // in-flight image load, and the backend's render cache absorbs any overlap.
-        previewImageLoading.value = true;
-        previewUrl.value = buildPreviewUrl(previewEntry.value);
+        applyPreviewUrl(previewEntry.value);
       }
     }, DEBOUNCE_MS);
   }

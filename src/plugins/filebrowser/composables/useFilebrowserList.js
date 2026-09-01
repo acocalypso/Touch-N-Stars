@@ -1,10 +1,9 @@
 import { computed, ref } from 'vue';
 
 // Matches the backend's supported-for-preview set (FilesystemController.SupportedImageExtensions):
-// ordinary raster, FITS/XISF, and DSLR raw. webp/bmp are deliberately not included even though
-// browsers can display them - NINA's BaseImageData.FromFile has no case for them, so the backend
-// can't render a preview and they would 400 from /filesystem/preview.
-export const IMAGE_FILE_EXTENSIONS = [
+// ordinary raster, FITS/XISF, and DSLR raw. Anything outside this list can still be listed and
+// downloaded, it just has no server-rendered preview.
+export const PREVIEW_FILE_EXTENSIONS = [
   'gif',
   'tif',
   'tiff',
@@ -28,6 +27,11 @@ export const IMAGE_FILE_EXTENSIONS = [
   'rw2',
 ];
 
+// What the list counts as an image for the images-only filter. Browsers display webp/bmp fine,
+// so hiding them from the listing would be wrong - NINA's BaseImageData.FromFile just has no
+// case for them, which is why they are not preview candidates.
+export const IMAGE_FILE_EXTENSIONS = [...PREVIEW_FILE_EXTENSIONS, 'webp', 'bmp'];
+
 export const SORT_KEYS = ['name', 'modified', 'size'];
 
 // numeric: true keeps M31_2 in front of M31_10, which is the normal case for a
@@ -43,6 +47,10 @@ export function getFileExtension(name) {
 
 export function isImageFile(name) {
   return IMAGE_FILE_EXTENSIONS.includes(getFileExtension(name));
+}
+
+export function isPreviewableFile(name) {
+  return PREVIEW_FILE_EXTENSIONS.includes(getFileExtension(name));
 }
 
 function toTimestamp(value) {

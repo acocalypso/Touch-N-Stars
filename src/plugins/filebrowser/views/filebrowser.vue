@@ -10,7 +10,20 @@
         </p>
       </div>
 
-      <div class="tns-card p-0 overflow-hidden">
+      <div v-if="!isPluginVersionSupported" class="tns-card p-6 text-center">
+        <h3 class="text-lg font-bold text-red-400 mb-2">
+          {{ $t('plugins.common.outdated.title') }}
+        </h3>
+        <p class="text-content-muted mb-3">{{ $t('plugins.common.outdated.message') }}</p>
+        <p class="text-sm text-content-muted">
+          {{ $t('plugins.common.outdated.required') }}: v{{ MIN_TNS_PLUGIN_VERSION }}
+        </p>
+        <p class="text-sm text-content-muted">
+          {{ $t('plugins.common.outdated.current') }}: {{ store.currentTnsPluginVersion || '-' }}
+        </p>
+      </div>
+
+      <div v-else class="tns-card p-0 overflow-hidden">
         <FilebrowserTopControls
           :show-images-only="showImagesOnly"
           :new-folder-name="newFolderName"
@@ -142,8 +155,18 @@ import {
 import { useFilebrowserSelection } from '@/plugins/filebrowser/composables/useFilebrowserSelection';
 import { useFilebrowserDownload } from '@/plugins/filebrowser/composables/useFilebrowserDownload';
 
+// The filesystem controller's imageinfo/preview/download/rename endpoints ship with plugin
+// 1.4.0.0. PINS serves them from its own daemon, so only NINA mode needs the gate.
+const MIN_TNS_PLUGIN_VERSION = '1.4.0.0';
+
 const { t } = useI18n();
 const store = apiStore();
+
+const isPluginVersionSupported = computed(
+  () =>
+    store.isPINS ||
+    store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, MIN_TNS_PLUGIN_VERSION)
+);
 const toastStore = useToastStore();
 
 const currentPath = ref('');
@@ -529,6 +552,10 @@ async function jumpToImageSavePath() {
 }
 
 onMounted(() => {
+  if (!isPluginVersionSupported.value) {
+    return;
+  }
+
   jumpToImageSavePath();
 });
 </script>

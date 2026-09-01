@@ -4,6 +4,7 @@ import {
   buildVisibleDirectories,
   buildVisibleFiles,
   isImageFile,
+  isPreviewableFile,
   sortEntries,
 } from '../composables/useFilebrowserList.js';
 
@@ -125,4 +126,12 @@ test('recognises XISF and raw extensions supported by the backend preview', () =
   assert.equal(isImageFile('frame.nef'), true);
   assert.equal(isImageFile('frame.dng'), true);
   assert.equal(isImageFile('frame.fz'), true);
+});
+
+test('lists webp/bmp as images even though the backend cannot preview them', () => {
+  assert.equal(isImageFile('frame.webp'), true);
+  assert.equal(isImageFile('frame.bmp'), true);
+  assert.equal(isPreviewableFile('frame.webp'), false);
+  assert.equal(isPreviewableFile('frame.bmp'), false);
+  assert.equal(isPreviewableFile('frame.fits'), true);
 });

@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [App6.3.0-beta3] - 2026-09-02
+
+### Changed
+
+- Framing assistant: Mosaic grids can now go up to 20x20 fields instead of 5x5
+
+### Fixed
+
+- Instances: A scanned PINS rig no longer switches itself to the address of another rig on the same network
+
 ## [App6.3.0-beta2] - 2026-08-31
 
 ### Added

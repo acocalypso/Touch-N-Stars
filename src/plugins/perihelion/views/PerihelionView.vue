@@ -1361,59 +1361,75 @@
           <div class="tns-card flex flex-col gap-3">
             <span class="tns-stat-label">{{ t('perihelion.settings.dataSection') }}</span>
 
-            <div class="grid grid-cols-2 gap-3">
-              <NumberInputPicker
-                v-model="cometMagnitudeThresholdInput"
-                :label="t('perihelion.settings.cometMagnitudeThreshold')"
-                labelKey="perihelion.settings.cometMagnitudeThreshold"
-                label-position="top"
-                wrapper-class="w-full"
-                :min="0"
-                :max="25"
-                :step="0.1"
-                :use-default-sentinel="false"
-                @change="onSaveDataSettings"
-                @blur="onSaveDataSettings"
-              />
-              <NumberInputPicker
-                v-model="maxCometsInput"
-                :label="t('perihelion.settings.maxComets')"
-                labelKey="perihelion.settings.maxComets"
-                label-position="top"
-                wrapper-class="w-full"
-                :min="1"
-                :max="200"
-                :step="1"
-                :use-default-sentinel="false"
-                @change="onSaveDataSettings"
-                @blur="onSaveDataSettings"
-              />
-              <NumberInputPicker
-                v-model="asteroidMagnitudeThresholdInput"
-                :label="t('perihelion.settings.asteroidMagnitudeThreshold')"
-                labelKey="perihelion.settings.asteroidMagnitudeThreshold"
-                label-position="top"
-                wrapper-class="w-full"
-                :min="0"
-                :max="25"
-                :step="0.1"
-                :use-default-sentinel="false"
-                @change="onSaveDataSettings"
-                @blur="onSaveDataSettings"
-              />
-              <NumberInputPicker
-                v-model="maxAsteroidsInput"
-                :label="t('perihelion.settings.maxAsteroids')"
-                labelKey="perihelion.settings.maxAsteroids"
-                label-position="top"
-                wrapper-class="w-full"
-                :min="1"
-                :max="200"
-                :use-default-sentinel="false"
-                :step="1"
-                @change="onSaveDataSettings"
-                @blur="onSaveDataSettings"
-              />
+            <div class="grid grid-cols-2 gap-3 items-end">
+              <div class="flex flex-col gap-1">
+                <span class="text-[11px] text-content-muted">{{
+                  t('perihelion.settings.cometMagnitudeThreshold')
+                }}</span>
+                <NumberInputPicker
+                  v-model="cometMagnitudeThresholdInput"
+                  :label="``"
+                  labelKey="perihelion.settings.cometMagnitudeThreshold"
+                  wrapperClass="w-full"
+                  :min="0"
+                  :max="25"
+                  :step="0.1"
+                  :useDefaultSentinel="false"
+                  @change="onSaveDataSettings"
+                  @blur="onSaveDataSettings"
+                />
+              </div>
+              <div class="flex flex-col gap-1">
+                <span class="text-[11px] text-content-muted">{{
+                  t('perihelion.settings.maxComets')
+                }}</span>
+                <NumberInputPicker
+                  v-model="maxCometsInput"
+                  :label="``"
+                  labelKey="perihelion.settings.maxComets"
+                  wrapperClass="w-full"
+                  :min="1"
+                  :max="200"
+                  :step="1"
+                  :useDefaultSentinel="false"
+                  @change="onSaveDataSettings"
+                  @blur="onSaveDataSettings"
+                />
+              </div>
+              <div class="flex flex-col gap-1">
+                <span class="text-[11px] text-content-muted">{{
+                  t('perihelion.settings.asteroidMagnitudeThreshold')
+                }}</span>
+                <NumberInputPicker
+                  v-model="asteroidMagnitudeThresholdInput"
+                  :label="``"
+                  labelKey="perihelion.settings.asteroidMagnitudeThreshold"
+                  wrapperClass="w-full"
+                  :min="0"
+                  :max="25"
+                  :step="0.1"
+                  :useDefaultSentinel="false"
+                  @change="onSaveDataSettings"
+                  @blur="onSaveDataSettings"
+                />
+              </div>
+              <div class="flex flex-col gap-1">
+                <span class="text-[11px] text-content-muted">{{
+                  t('perihelion.settings.maxAsteroids')
+                }}</span>
+                <NumberInputPicker
+                  v-model="maxAsteroidsInput"
+                  :label="``"
+                  labelKey="perihelion.settings.maxAsteroids"
+                  wrapperClass="w-full"
+                  :min="1"
+                  :max="200"
+                  :useDefaultSentinel="false"
+                  :step="1"
+                  @change="onSaveDataSettings"
+                  @blur="onSaveDataSettings"
+                />
+              </div>
             </div>
 
             <div class="flex flex-col gap-2 pt-2 border-t border-line-strong/50">

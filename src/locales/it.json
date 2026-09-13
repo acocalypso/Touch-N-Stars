@@ -5590,8 +5590,6 @@
       "noResponse": "Nessun messaggio di risposta",
       "unreachable": "Impossibile contattare Perihelion",
       "syncFailed": "Sincronizzazione fallita",
-      "sequenceLoadFailed": "Impossibile caricare la sequenza",
-      "sequenceLoaded": "Sequenza caricata — controllala e avviala nel sequencer",
       "unknownError": "errore sconosciuto"
     },
     "notDetected": "Plugin Perihelion non rilevato. Installa il plugin Perihelion per usare questa pagina.",

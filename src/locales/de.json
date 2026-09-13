@@ -5590,8 +5590,6 @@
       "noResponse": "Keine Antwortmeldung",
       "unreachable": "Perihelion nicht erreichbar",
       "syncFailed": "Synchronisierung fehlgeschlagen",
-      "sequenceLoadFailed": "Sequenz konnte nicht geladen werden",
-      "sequenceLoaded": "Sequenz geladen — im Sequenzer prüfen und starten",
       "unknownError": "unbekannter Fehler"
     },
     "notDetected": "Perihelion-Plugin nicht gefunden. Installiere das Perihelion-Plugin, um diese Seite zu nutzen.",

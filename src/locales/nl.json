@@ -5585,8 +5585,6 @@
       "noResponse": "Geen antwoordbericht",
       "unreachable": "Kon Perihelion niet bereiken",
       "syncFailed": "Synchronisatie mislukt",
-      "sequenceLoadFailed": "Kon de sequentie niet laden",
-      "sequenceLoaded": "Sequentie geladen — controleer en start hem in de sequencer",
       "unknownError": "onbekende fout"
     },
     "notDetected": "Perihelion-plugin niet gevonden. Installeer de Perihelion-plugin om deze pagina te gebruiken.",

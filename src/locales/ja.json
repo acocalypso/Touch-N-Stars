@@ -5585,8 +5585,6 @@
       "noResponse": "応答メッセージなし",
       "unreachable": "Perihelionに接続できませんでした",
       "syncFailed": "同期に失敗しました",
-      "sequenceLoadFailed": "シーケンスを読み込めませんでした",
-      "sequenceLoaded": "シーケンスを読み込みました — シーケンサーで確認して開始してください",
       "unknownError": "不明なエラー"
     },
     "notDetected": "Perihelionプラグインが検出されません。このページを使用するにはPerihelionプラグインをインストールしてください。",

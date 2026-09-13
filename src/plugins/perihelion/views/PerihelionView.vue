@@ -1794,11 +1794,19 @@ async function onSaveReapplyInterval() {
 const dataSettingsStatus = ref('');
 
 async function onSaveDataSettings() {
+  // Resolve fallbacks into the inputs themselves, not just the save payload -- otherwise a
+  // cleared field keeps showing empty/0 until the component remounts and re-fetches settings,
+  // even though the backend already has the correct default.
+  cometMagnitudeThresholdInput.value = cometMagnitudeThresholdInput.value || 16;
+  maxCometsInput.value = Math.max(1, Math.round(maxCometsInput.value) || 30);
+  asteroidMagnitudeThresholdInput.value = asteroidMagnitudeThresholdInput.value || 9;
+  maxAsteroidsInput.value = Math.max(1, Math.round(maxAsteroidsInput.value) || 30);
+
   const ok = await saveSettings({
-    cometMagnitudeThreshold: cometMagnitudeThresholdInput.value || 16,
-    maxComets: Math.max(1, Math.round(maxCometsInput.value) || 30),
-    asteroidMagnitudeThreshold: asteroidMagnitudeThresholdInput.value || 9,
-    maxAsteroids: Math.max(1, Math.round(maxAsteroidsInput.value) || 30),
+    cometMagnitudeThreshold: cometMagnitudeThresholdInput.value,
+    maxComets: maxCometsInput.value,
+    asteroidMagnitudeThreshold: asteroidMagnitudeThresholdInput.value,
+    maxAsteroids: maxAsteroidsInput.value,
   });
   dataSettingsStatus.value = ok
     ? t('perihelion.settings.saved')

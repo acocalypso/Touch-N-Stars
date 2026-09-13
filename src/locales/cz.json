@@ -2291,7 +2291,8 @@
         "progress": "Průběh",
         "safety": "Bezpečnost",
         "weather": "Počasí",
-        "screenlock": "Zámek"
+        "screenlock": "Zámek",
+        "switch": "Spínač"
       },
       "mount": {
         "parked": "Zaparkováno",
@@ -2706,7 +2707,10 @@
         "uploading": "Nahrávání…",
         "copyToken": "Kopírovat",
         "remove": "Odebrat",
-        "clearAll": "Vymazat Vše"
+        "clearAll": "Vymazat Vše",
+        "collectSave": "Sbírat a uložit",
+        "saving": "Ukládání…",
+        "hint": "Sbírat a nahrát shromáždí protokoly a odešle je přímo na podpůrný endpoint. Sbírat a uložit shromáždí stejné protokoly, ale uloží ZIP do vašeho zařízení - použijte to, když ještě nemáte internetové připojení a chcete jej nahrát později."
       },
       "submissionFields": {
         "date": "Datum",
@@ -2720,13 +2724,15 @@
         "tokenCopied": "Token zkopírován do schránky",
         "tokenCopyFailed": "Kopírování tokenu se nezdařilo",
         "submissionRemoved": "Příspěvek byl odstraněn",
-        "allSubmissionsCleared": "Všechny žádosti byly přijaty"
+        "allSubmissionsCleared": "Všechny žádosti byly přijaty",
+        "savedLocally": "Soubor protokolu uložen do vašeho zařízení ({filename}).",
+        "saveFailed": "Nepodařilo se uložit soubor protokolu lokálně."
       },
       "diagnostics": {
         "archiveId": "Archive ID",
         "dmesgLines": "dmesg lines",
         "downloadFailed": "Failed to download diagnostics archive.",
-        "intro": "Select diagnostics sections, start archive collection, and download/upload the ZIP when ready.",
+        "intro": "Systémová diagnostika (journal, dmesg, síť, ...) se shromažďuje a přidává automaticky po kliknutí na tlačítko \"Sbírat a nahrát\" výše. Pomocí expertních nastavení omezte, co se sbírá.",
         "journalLines": "Journal lines",
         "optionsLoadFailed": "Failed to load diagnostics options. Using defaults.",
         "optionsLoaded": "Diagnostics options loaded.",
@@ -2742,10 +2748,23 @@
         "statusSuccess": "Success",
         "statusTimeout": "Timed out",
         "stillPreparing": "Archive is still preparing. Please try download again shortly.",
-        "title": "Diagnostics Support (PINS)",
+        "title": "Systémová diagnostika PINS",
         "validationDmesgLines": "dmesg lines must be between 100 and 50000.",
         "validationJournalLines": "Journal lines must be between 100 and 50000.",
-        "validationSections": "Select at least one section."
+        "validationSections": "Select at least one section.",
+        "expertMode": "Expertní nastavení",
+        "ninaLogs": "Soubory protokolů NINA (posledních 10)",
+        "collecting": "Probíhá shromažďování systémové diagnostiky PINS… může to chvíli trvat."
+      },
+      "existingUpload": {
+        "intro": "Máte již uložený ZIP s protokoly - například shromážděný dříve bez internetového připojení? Nahrajte jej nyní.",
+        "button": "Vybrat soubor ZIP",
+        "invalidFile": "Vyberte prosím soubor .zip."
+      },
+      "progress": {
+        "collectingLogs": "Shromažďování protokolů Touch'N'Stars…",
+        "collectingNinaLogs": "Shromažďování nedávných souborů protokolů NINA…",
+        "buildingArchive": "Vytváření archivu ZIP…"
       }
     },
     "telescopius": {

@@ -2291,7 +2291,8 @@
         "progress": "Progression",
         "safety": "Sécurité",
         "weather": "Météo",
-        "screenlock": "Verrouillage"
+        "screenlock": "Verrouillage",
+        "switch": "Interrupteur"
       },
       "mount": {
         "parked": "Parquée",
@@ -2706,7 +2707,10 @@
         "uploading": "Téléchargement…",
         "copyToken": "Copier",
         "remove": "Supprimer",
-        "clearAll": "Tout effacer"
+        "clearAll": "Tout effacer",
+        "collectSave": "Collecter et enregistrer",
+        "saving": "Enregistrement…",
+        "hint": "Collecter et télécharger rassemble les journaux et les envoie directement au point de support. Collecter et enregistrer rassemble les mêmes journaux mais enregistre le ZIP sur votre appareil - utilisez cette option si vous n'avez pas encore de connexion internet et souhaitez l'envoyer plus tard."
       },
       "submissionFields": {
         "date": "Date",
@@ -2720,13 +2724,15 @@
         "tokenCopied": "Token copié dans le presse-papiers",
         "tokenCopyFailed": "Échec de la copie du token",
         "submissionRemoved": "Soumission supprimée",
-        "allSubmissionsCleared": "Toutes les soumissions effacées"
+        "allSubmissionsCleared": "Toutes les soumissions effacées",
+        "savedLocally": "Fichier de log enregistré sur votre appareil ({filename}).",
+        "saveFailed": "Échec de l'enregistrement local du fichier de log."
       },
       "diagnostics": {
         "archiveId": "ID d'archive",
         "dmesgLines": "lignes de message",
         "downloadFailed": "Échec du téléchargement de l'archive de diagnostics.",
-        "intro": "Sélectionnez les sections de diagnostic, démarrez la collecte des archives et téléchargez/téléchargez le ZIP lorsque vous êtes prêt.",
+        "intro": "Les diagnostics système (journal, dmesg, réseau, ...) sont collectés et inclus automatiquement lorsque vous cliquez sur « Collecter et télécharger » ci-dessus. Utilisez les paramètres experts pour limiter ce qui est collecté.",
         "journalLines": "Lignes de journal",
         "optionsLoadFailed": "Échec du chargement des options de diagnostic. \nUtilisation des valeurs par défaut.",
         "optionsLoaded": "Options de diagnostic chargées.",
@@ -2742,10 +2748,23 @@
         "statusSuccess": "Succès",
         "statusTimeout": "Délai expiré",
         "stillPreparing": "Les archives sont toujours en préparation. \nVeuillez réessayer le téléchargement sous peu.",
-        "title": "Prise en charge du diagnostic (PINS)",
+        "title": "Diagnostics système PINS",
         "validationDmesgLines": "Les lignes dmesg doivent être comprises entre 100 et 50 000.",
         "validationJournalLines": "Les lignes du journal doivent être comprises entre 100 et 50 000.",
-        "validationSections": "Sélectionnez au moins une section."
+        "validationSections": "Sélectionnez au moins une section.",
+        "expertMode": "Paramètres experts",
+        "ninaLogs": "Fichiers de log NINA (10 derniers)",
+        "collecting": "Collecte des diagnostics système PINS… cela peut prendre un moment."
+      },
+      "existingUpload": {
+        "intro": "Vous avez déjà un fichier ZIP de logs enregistré - par exemple collecté plus tôt sans connexion internet ? Téléchargez-le maintenant.",
+        "button": "Choisir un fichier ZIP",
+        "invalidFile": "Veuillez choisir un fichier .zip."
+      },
+      "progress": {
+        "collectingLogs": "Collecte des journaux Touch'N'Stars…",
+        "collectingNinaLogs": "Collecte des fichiers de log NINA récents…",
+        "buildingArchive": "Création de l'archive ZIP…"
       }
     },
     "telescopius": {

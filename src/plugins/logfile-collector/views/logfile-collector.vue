@@ -165,6 +165,10 @@
         </div>
       </div>
 
+      <p class="text-sm text-gray-400">
+        {{ $t('plugins.logfileCollector.actions.hint') }}
+      </p>
+
       <div class="flex flex-wrap items-center gap-3">
         <button
           @click="collectAndUpload"

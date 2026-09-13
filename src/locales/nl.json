@@ -2291,7 +2291,8 @@
         "progress": "Voortgang",
         "safety": "Veiligheid",
         "weather": "Weer",
-        "screenlock": "Slot"
+        "screenlock": "Slot",
+        "switch": "Schakelaar"
       },
       "mount": {
         "parked": "Geparkeerd",
@@ -2706,7 +2707,10 @@
         "uploading": "Uploaden…",
         "copyToken": "Kopieer",
         "remove": "Verwijder",
-        "clearAll": "Alles opschonen"
+        "clearAll": "Alles opschonen",
+        "collectSave": "Verzamel & Bewaar",
+        "saving": "Bewaren…",
+        "hint": "Verzamel & Upload verzamelt de logs en stuurt ze direct naar het support-endpoint. Verzamel & Bewaar verzamelt dezelfde logs, maar bewaart de ZIP op je apparaat - gebruik dit als je nog geen internetverbinding hebt en de logs later wilt uploaden."
       },
       "submissionFields": {
         "date": "Datum",
@@ -2720,13 +2724,15 @@
         "tokenCopied": "Token gekopieerd naar klembord",
         "tokenCopyFailed": "Kopieer token mislukt",
         "submissionRemoved": "Verzending verwijdert",
-        "allSubmissionsCleared": "Alle verzendingen verwijdert"
+        "allSubmissionsCleared": "Alle verzendingen verwijdert",
+        "savedLocally": "Logbestand opgeslagen op je apparaat ({filename}).",
+        "saveFailed": "Logbestand kon niet lokaal worden opgeslagen."
       },
       "diagnostics": {
         "archiveId": "Archief-ID",
         "dmesgLines": "dmesg-lijnen",
         "downloadFailed": "Kan diagnostisch archief niet downloaden.",
-        "intro": "Selecteer diagnostische secties, start het verzamelen van archief en download/upload de ZIP wanneer u klaar bent.",
+        "intro": "Systeemdiagnostiek (journal, dmesg, netwerk, ...) wordt automatisch verzameld en toegevoegd wanneer je hierboven op 'Verzamel & Upload' klikt. Gebruik Expertinstellingen om te beperken wat wordt verzameld.",
         "journalLines": "Journaalregels",
         "optionsLoadFailed": "Kan diagnostische opties niet laden. \nStandaardinstellingen gebruiken.",
         "optionsLoaded": "Diagnostische opties geladen.",
@@ -2742,10 +2748,23 @@
         "statusSuccess": "Succes",
         "statusTimeout": "Time-out",
         "stillPreparing": "Het archief is nog in voorbereiding. \nProbeer het binnenkort opnieuw te downloaden.",
-        "title": "Diagnostische ondersteuning (PINS)",
+        "title": "PINS-systeemdiagnose",
         "validationDmesgLines": "dmesg-regels moeten tussen 100 en 50000 liggen.",
         "validationJournalLines": "Journaalregels moeten tussen 100 en 50.000 liggen.",
-        "validationSections": "Selecteer ten minste één sectie."
+        "validationSections": "Selecteer ten minste één sectie.",
+        "expertMode": "Expertinstellingen",
+        "ninaLogs": "NINA-logbestanden (laatste 10)",
+        "collecting": "PINS-systeemdiagnose wordt verzameld… dit kan even duren."
+      },
+      "existingUpload": {
+        "intro": "Heb je al een opgeslagen log-ZIP - bijvoorbeeld eerder verzameld zonder internetverbinding? Upload deze nu.",
+        "button": "Kies ZIP-bestand",
+        "invalidFile": "Kies een .zip-bestand."
+      },
+      "progress": {
+        "collectingLogs": "Touch'N'Stars-logs worden verzameld…",
+        "collectingNinaLogs": "Recente NINA-logbestanden worden verzameld…",
+        "buildingArchive": "ZIP-archief wordt aangemaakt…"
       }
     },
     "telescopius": {

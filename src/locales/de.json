@@ -2291,7 +2291,8 @@
         "progress": "Fortschritt",
         "safety": "Sicherheit",
         "weather": "Wetter",
-        "screenlock": "Sperre"
+        "screenlock": "Sperre",
+        "switch": "Schalter"
       },
       "mount": {
         "parked": "Geparkt",
@@ -2702,8 +2703,8 @@
       "submissionHistory": "Übertragungsverlauf",
       "confirmClearAll": "Möchten Sie wirklich den gesamten Übertragungsverlauf löschen?",
       "diagnostics": {
-        "title": "Diagnose-Support (PINS)",
-        "intro": "Waehlen Sie Diagnosebereiche aus, starten Sie die Archivsammlung und laden Sie die ZIP herunter/hoch, sobald sie bereit ist.",
+        "title": "PINS-Systemdiagnose",
+        "intro": "Systemdiagnosen (Journal, dmesg, Netzwerk, ...) werden automatisch gesammelt und einbezogen, wenn du oben auf \"Sammeln & Hochladen\" klickst. Nutze die Experteneinstellungen, um die Auswahl einzuschränken.",
         "sectionsTitle": "Bereiche",
         "journalLines": "Journal-Zeilen",
         "dmesgLines": "dmesg-Zeilen",
@@ -2724,14 +2725,20 @@
         "downloadFailed": "Diagnosearchiv konnte nicht heruntergeladen werden.",
         "validationSections": "Waehlen Sie mindestens einen Bereich aus.",
         "validationJournalLines": "Journal-Zeilen muessen zwischen 100 und 50000 liegen.",
-        "validationDmesgLines": "dmesg-Zeilen muessen zwischen 100 und 50000 liegen."
+        "validationDmesgLines": "dmesg-Zeilen muessen zwischen 100 und 50000 liegen.",
+        "expertMode": "Experteneinstellungen",
+        "ninaLogs": "NINA-Logdateien (letzte 10)",
+        "collecting": "PINS-Systemdiagnose wird gesammelt… das kann etwas dauern."
       },
       "actions": {
         "collectUpload": "Sammeln & Hochladen",
         "uploading": "Lade hoch…",
         "copyToken": "Kopieren",
         "remove": "Entfernen",
-        "clearAll": "Alle löschen"
+        "clearAll": "Alle löschen",
+        "collectSave": "Sammeln & Speichern",
+        "saving": "Speichere…",
+        "hint": "Sammeln & Hochladen sammelt die Logs und sendet sie direkt an den Support-Endpunkt. Sammeln & Speichern sammelt dieselben Logs, speichert die ZIP-Datei aber auf deinem Gerät – nutze das, wenn du noch keine Internetverbindung hast und die Datei später hochladen möchtest."
       },
       "submissionFields": {
         "date": "Datum",
@@ -2745,7 +2752,19 @@
         "tokenCopied": "Token in Zwischenablage kopiert",
         "tokenCopyFailed": "Token konnte nicht kopiert werden",
         "submissionRemoved": "Übertragung entfernt",
-        "allSubmissionsCleared": "Alle Übertragungen gelöscht"
+        "allSubmissionsCleared": "Alle Übertragungen gelöscht",
+        "savedLocally": "Logdatei auf deinem Gerät gespeichert ({filename}).",
+        "saveFailed": "Logdatei konnte nicht lokal gespeichert werden."
+      },
+      "existingUpload": {
+        "intro": "Hast du bereits eine gespeicherte Log-ZIP – z. B. früher ohne Internetverbindung gesammelt? Lade sie jetzt hoch.",
+        "button": "ZIP-Datei auswählen",
+        "invalidFile": "Bitte wähle eine .zip-Datei aus."
+      },
+      "progress": {
+        "collectingLogs": "Sammle Touch'N'Stars-Logs…",
+        "collectingNinaLogs": "Sammle aktuelle NINA-Logdateien…",
+        "buildingArchive": "Erstelle ZIP-Archiv…"
       }
     },
     "telescopius": {

@@ -2826,6 +2826,7 @@
         "uploading": "Uploading…",
         "collectSave": "Collect & Save",
         "saving": "Saving…",
+        "hint": "Collect & Upload gathers the logs and sends them straight to the support endpoint. Collect & Save gathers the same logs but saves the ZIP to your device instead - use this when you don't have an internet connection yet and want to upload it later.",
         "copyToken": "Copy",
         "remove": "Remove",
         "clearAll": "Clear All"

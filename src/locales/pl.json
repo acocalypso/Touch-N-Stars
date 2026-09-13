@@ -2291,7 +2291,8 @@
         "progress": "Postęp",
         "safety": "Bezpieczeństwo",
         "weather": "Pogoda",
-        "screenlock": "Blokada"
+        "screenlock": "Blokada",
+        "switch": "Przełącznik"
       },
       "mount": {
         "parked": "Zaparkowany",
@@ -2706,7 +2707,10 @@
         "uploading": "Przesyłanie…",
         "copyToken": "Kopiuj",
         "remove": "Usuń",
-        "clearAll": "Wyczyść wszystko"
+        "clearAll": "Wyczyść wszystko",
+        "collectSave": "Zbierz i zapisz",
+        "saving": "Zapisywanie…",
+        "hint": "Zbierz i prześlij zbiera logi i wysyła je bezpośrednio do punktu wsparcia. Zbierz i zapisz zbiera te same logi, ale zapisuje plik ZIP na Twoim urządzeniu - użyj tego, gdy nie masz jeszcze połączenia z internetem i chcesz przesłać go później."
       },
       "submissionFields": {
         "date": "Data",
@@ -2720,13 +2724,15 @@
         "tokenCopied": "Token skopiowany do schowka",
         "tokenCopyFailed": "Nie udało się skopiować tokenu",
         "submissionRemoved": "Przesłanie usunięte",
-        "allSubmissionsCleared": "Wszystkie przesłania wyczyszczone"
+        "allSubmissionsCleared": "Wszystkie przesłania wyczyszczone",
+        "savedLocally": "Plik logu zapisany na Twoim urządzeniu ({filename}).",
+        "saveFailed": "Nie udało się zapisać pliku logu lokalnie."
       },
       "diagnostics": {
         "archiveId": "Identyfikator archiwum",
         "dmesgLines": "linie dmesg",
         "downloadFailed": "Nie udało się pobrać archiwum diagnostycznego.",
-        "intro": "Wybierz sekcje diagnostyczne, rozpocznij gromadzenie archiwum i pobierz/prześlij plik ZIP, gdy będzie gotowy.",
+        "intro": "Diagnostyka systemowa (journal, dmesg, sieć, ...) jest zbierana i dołączana automatycznie po kliknięciu powyżej \"Zbierz i prześlij\". Użyj ustawień eksperckich, aby ograniczyć zakres zbierania.",
         "journalLines": "Linie dziennika",
         "optionsLoadFailed": "Nie udało się załadować opcji diagnostycznych. \nUżywanie ustawień domyślnych.",
         "optionsLoaded": "Załadowano opcje diagnostyczne.",
@@ -2742,10 +2748,23 @@
         "statusSuccess": "Sukces",
         "statusTimeout": "Upłynął limit czasu",
         "stillPreparing": "Archiwum jest wciąż w przygotowaniu. \nSpróbuj ponownie pobrać wkrótce.",
-        "title": "Wsparcie diagnostyczne (PINS)",
+        "title": "Diagnostyka systemu PINS",
         "validationDmesgLines": "Linie dmesg muszą mieścić się w przedziale od 100 do 50000.",
         "validationJournalLines": "Wiersze dziennika muszą zawierać się w przedziale od 100 do 50 000.",
-        "validationSections": "Wybierz co najmniej jedną sekcję."
+        "validationSections": "Wybierz co najmniej jedną sekcję.",
+        "expertMode": "Ustawienia eksperckie",
+        "ninaLogs": "Pliki logów NINA (ostatnie 10)",
+        "collecting": "Zbieranie diagnostyki systemu PINS… to może chwilę potrwać."
+      },
+      "existingUpload": {
+        "intro": "Masz już zapisany ZIP z logami - np. zebrany wcześniej bez połączenia z internetem? Prześlij go teraz.",
+        "button": "Wybierz plik ZIP",
+        "invalidFile": "Wybierz plik .zip."
+      },
+      "progress": {
+        "collectingLogs": "Zbieranie logów Touch'N'Stars…",
+        "collectingNinaLogs": "Zbieranie najnowszych plików logów NINA…",
+        "buildingArchive": "Tworzenie archiwum ZIP…"
       }
     },
     "telescopius": {

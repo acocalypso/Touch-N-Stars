@@ -2291,7 +2291,8 @@
         "progress": "진행률",
         "safety": "안전",
         "weather": "날씨",
-        "screenlock": "잠금"
+        "screenlock": "잠금",
+        "switch": "스위치"
       },
       "mount": {
         "parked": "파킹됨",
@@ -2702,8 +2703,8 @@
       "submissionHistory": "제출 기록",
       "confirmClearAll": "모든 제출 기록을 지우시겠습니까?",
       "diagnostics": {
-        "title": "진단 지원 (PINS)",
-        "intro": "진단 섹션을 선택하고 아카이브 수집을 시작한 뒤, 준비되면 ZIP을 다운로드/업로드하세요.",
+        "title": "PINS 시스템 진단",
+        "intro": "시스템 진단(저널, dmesg, 네트워크 등)은 위의 '수집 및 업로드'를 클릭하면 자동으로 수집되어 포함됩니다. 수집 범위를 제한하려면 전문가 설정을 사용하세요.",
         "sectionsTitle": "섹션",
         "journalLines": "저널 줄 수",
         "dmesgLines": "dmesg 줄 수",
@@ -2724,14 +2725,20 @@
         "downloadFailed": "진단 아카이브를 다운로드하지 못했습니다.",
         "validationSections": "섹션을 하나 이상 선택하세요.",
         "validationJournalLines": "저널 줄 수는 100에서 50000 사이여야 합니다.",
-        "validationDmesgLines": "dmesg 줄 수는 100에서 50000 사이여야 합니다."
+        "validationDmesgLines": "dmesg 줄 수는 100에서 50000 사이여야 합니다.",
+        "expertMode": "전문가 설정",
+        "ninaLogs": "NINA 로그 파일 (최근 10개)",
+        "collecting": "PINS 시스템 진단을 수집하는 중… 시간이 걸릴 수 있습니다."
       },
       "actions": {
         "collectUpload": "수집 및 업로드",
         "uploading": "업로드 중…",
         "copyToken": "복사",
         "remove": "제거",
-        "clearAll": "모두 지우기"
+        "clearAll": "모두 지우기",
+        "collectSave": "수집 및 저장",
+        "saving": "저장 중…",
+        "hint": "수집 및 업로드는 로그를 모아 지원 엔드포인트로 바로 전송합니다. 수집 및 저장은 동일한 로그를 모아 기기에 ZIP으로 저장합니다 - 아직 인터넷 연결이 없어 나중에 업로드하려는 경우 사용하세요."
       },
       "submissionFields": {
         "date": "날짜",
@@ -2745,7 +2752,19 @@
         "tokenCopied": "토큰을 클립보드에 복사했습니다",
         "tokenCopyFailed": "토큰 복사 실패",
         "submissionRemoved": "제출 항목 제거됨",
-        "allSubmissionsCleared": "모든 제출 항목이 지워졌습니다"
+        "allSubmissionsCleared": "모든 제출 항목이 지워졌습니다",
+        "savedLocally": "로그 파일이 기기에 저장되었습니다 ({filename}).",
+        "saveFailed": "로그 파일을 로컬에 저장하지 못했습니다."
+      },
+      "existingUpload": {
+        "intro": "이미 저장된 로그 ZIP이 있나요? 예를 들어 인터넷 연결 없이 이전에 수집한 파일이라면 지금 업로드하세요.",
+        "button": "ZIP 파일 선택",
+        "invalidFile": ".zip 파일을 선택하세요."
+      },
+      "progress": {
+        "collectingLogs": "Touch'N'Stars 로그를 수집하는 중…",
+        "collectingNinaLogs": "최근 NINA 로그 파일을 수집하는 중…",
+        "buildingArchive": "ZIP 아카이브를 생성하는 중…"
       }
     },
     "telescopius": {

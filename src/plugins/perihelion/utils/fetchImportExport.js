@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { getUrls } from '@/services/api/core';
+import { describePerihelionResponse, describePerihelionError } from './perihelionResult';
 
 /** @returns {Promise<{ ok: boolean, message: string, count?: number }>} */
 export async function importComets(rawText) {
@@ -42,13 +43,9 @@ async function doImport(path, body, contentType) {
     const response = await axios.post(`${PERIHELION_URL}${path}`, body, {
       headers: { 'Content-Type': contentType },
     });
-    return {
-      ok: response.data.Success === true,
-      message: response.data.Message,
-      count: response.data.Count,
-    };
+    return { ...describePerihelionResponse(response.data), count: response.data.Count };
   } catch (error) {
-    return { ok: false, message: error.response?.data?.Message ?? error.message };
+    return describePerihelionError(error);
   }
 }
 
@@ -66,8 +63,8 @@ async function doClear(path) {
   const { PERIHELION_URL } = getUrls();
   try {
     const response = await axios.post(`${PERIHELION_URL}${path}`);
-    return { ok: response.data.Success === true, message: response.data.Message };
+    return describePerihelionResponse(response.data);
   } catch (error) {
-    return { ok: false, message: error.response?.data?.Message ?? error.message };
+    return describePerihelionError(error);
   }
 }

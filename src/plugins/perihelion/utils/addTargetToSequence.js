@@ -1,6 +1,6 @@
 import axios from 'axios';
-import i18n from '@/i18n';
 import { getUrls } from '@/services/api/core';
+import { describePerihelionResponse, describePerihelionError } from './perihelionResult';
 
 /**
  * "Add to Sequence" — appends one target to whatever Advanced Sequence is already loaded in
@@ -43,18 +43,8 @@ export async function addTargetToSequence(target) {
         FrameCount: target.exposure?.frameCount ?? 1,
       },
     });
-    const body = response.data;
-    return {
-      ok: !!body?.Success,
-      message: body?.Message ?? i18n.global.t('perihelion.status.noResponse'),
-    };
+    return describePerihelionResponse(response.data);
   } catch (error) {
-    return {
-      ok: false,
-      message:
-        error?.response?.data?.Message ??
-        error?.message ??
-        i18n.global.t('perihelion.status.unreachable'),
-    };
+    return describePerihelionError(error);
   }
 }

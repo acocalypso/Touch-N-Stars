@@ -1,6 +1,6 @@
 import axios from 'axios';
-import i18n from '@/i18n';
 import { getUrls } from '@/services/api/core';
+import { describePerihelionResponse, describePerihelionError } from './perihelionResult';
 
 /**
  * "Quick Track" — calls Perihelion's own standalone server directly (see
@@ -28,19 +28,9 @@ export async function startQuickTrack(target) {
       Guiding: !!target.guiding,
       AutoReapplySeconds: target.autoReapplyIntervalSeconds || null,
     });
-    const body = response.data;
-    return {
-      ok: !!body?.Success,
-      message: body?.Message ?? i18n.global.t('perihelion.status.noResponse'),
-    };
+    return describePerihelionResponse(response.data);
   } catch (error) {
-    return {
-      ok: false,
-      message:
-        error?.response?.data?.Message ??
-        error?.message ??
-        i18n.global.t('perihelion.status.unreachable'),
-    };
+    return describePerihelionError(error);
   }
 }
 
@@ -52,18 +42,8 @@ export async function stopQuickTrack() {
   const { PERIHELION_URL } = getUrls();
   try {
     const response = await axios.post(`${PERIHELION_URL}/stop`);
-    const body = response.data;
-    return {
-      ok: !!body?.Success,
-      message: body?.Message ?? i18n.global.t('perihelion.status.noResponse'),
-    };
+    return describePerihelionResponse(response.data);
   } catch (error) {
-    return {
-      ok: false,
-      message:
-        error?.response?.data?.Message ??
-        error?.message ??
-        i18n.global.t('perihelion.status.unreachable'),
-    };
+    return describePerihelionError(error);
   }
 }

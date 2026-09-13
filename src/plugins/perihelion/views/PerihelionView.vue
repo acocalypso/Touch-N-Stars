@@ -2694,6 +2694,9 @@ function buildSequenceTarget() {
     meridianFlip: meridianFlip.value,
     autofocusMinutes: autofocus.value ? autofocusMinutes.value : null,
     frameOffset: framingOffset.value,
+    // null (not just 0) when no rotator is connected -- CenterAndRotate fails validation and
+    // blocks the whole sequence without one, so this can't be sent unconditionally.
+    rotationAngle: store.rotatorInfo?.Connected ? framingStore.rotationAngle : null,
     exposure: {
       filterName: exposureFilter.value || null,
       exposureSeconds: exposureSeconds.value,

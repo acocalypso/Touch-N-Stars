@@ -5431,7 +5431,6 @@
       "cobsRefreshed": "Величини COBS оновлено",
       "cobsRefreshedAgo": "COBS оновлено {when}",
       "cobsNeverRefreshed": "COBS ніколи не оновлено",
-      "asteroidCount": "{count} астероїдів — актуальні орбітальні елементи з JPL, оновлюються автоматично.",
       "epochStaleTooltip": "Орбітальні дані цього об'єкта можуть бути менш точними, ніж зазвичай — торкніться для деталей.",
       "epochStaleLegendTitle": "Застарілі орбітальні дані",
       "epochStaleLegendExplanation": "Орбітальні елементи цього об'єкта незвично далекі від власної опорної епохи. Прогнозування позиції так далеко від цієї дати ґрунтується на простій фізиці двох тіл, яка не враховує постійні гравітаційні збурення від планет, тому реальна позиція може відрізнятися від показаної.",
@@ -5446,7 +5445,10 @@
       "observedLegendFainter": "Жовтий — помітно слабкіше, ніж передбачено",
       "observedLegendMuchFainter": "Червоний — набагато слабкіше, ніж передбачено",
       "selectedPrompt": "Selected -- ready to check its position.",
-      "goToPositionPath": "Go to Position & Path"
+      "goToPositionPath": "Go to Position & Path",
+      "datasetCounts": "{comets} comets, {asteroids} asteroids",
+      "cometCountSynced": "{count} comets · {status}",
+      "asteroidCountSynced": "{count} asteroids · {status}"
     },
     "position": {
       "step": "Перевірте позицію й складіть кадр",

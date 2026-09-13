@@ -5382,7 +5382,7 @@
       "filterComets": "Comets",
       "filterAsteroids": "Asteroids",
       "sortBy": "Sort by",
-      "sortBrightness": "Brightness",
+      "sortBrightness": "Mag",
       "sortName": "Name",
       "cometsStatus": "Comets {status}",
       "asteroidsStatus": "Asteroids {status}",
@@ -5396,7 +5396,6 @@
       "cobsRefreshed": "COBS magnitudes refreshed",
       "cobsRefreshedAgo": "COBS refreshed {when}",
       "cobsNeverRefreshed": "COBS never refreshed",
-      "asteroidCount": "{count} asteroids — live orbital elements from JPL, refreshed automatically.",
       "epochStaleTooltip": "This object's orbital data may be less accurate than usual — tap for details.",
       "epochStaleLegendTitle": "Aging Orbital Data",
       "epochStaleLegendExplanation": "This object's orbital elements are unusually far from their own reference epoch. Predicting a position this far from that anchor date relies on simple two-body physics that doesn't account for ongoing gravitational nudges from the planets, so the real position may drift from what's shown here.",
@@ -5411,7 +5410,10 @@
       "observedLegendFainter": "Amber — noticeably fainter than predicted",
       "observedLegendMuchFainter": "Red — much fainter than predicted",
       "selectedPrompt": "Selected -- ready to check its position.",
-      "goToPositionPath": "Go to Position & Path"
+      "goToPositionPath": "Go to Position & Path",
+      "datasetCounts": "{comets} comets, {asteroids} asteroids",
+      "cometCountSynced": "{count} comets · {status}",
+      "asteroidCountSynced": "{count} asteroids · {status}"
     },
     "position": {
       "step": "Review its position & compose the framing",

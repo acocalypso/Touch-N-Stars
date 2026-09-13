@@ -5431,7 +5431,6 @@
       "cobsRefreshed": "COBSの等級を更新しました",
       "cobsRefreshedAgo": "COBS更新: {when}",
       "cobsNeverRefreshed": "COBS未更新",
-      "asteroidCount": "小惑星 {count} 件 — JPLからのリアルタイム軌道要素、自動更新。",
       "epochStaleTooltip": "この天体の軌道データはいつもより精度が低い可能性があります — タップして詳細を確認。",
       "epochStaleLegendTitle": "古い軌道データ",
       "epochStaleLegendExplanation": "この天体の軌道要素は、基準となるエポックから通常より大きく離れています。そのような長い期間にわたる位置予測は単純な二体問題の物理に基づいており、惑星による継続的な重力摂動を考慮していないため、実際の位置は表示された値からずれる可能性があります。",
@@ -5446,7 +5445,10 @@
       "observedLegendFainter": "黄 — 予測よりかなり暗い",
       "observedLegendMuchFainter": "赤 — 予測よりはるかに暗い",
       "selectedPrompt": "Selected -- ready to check its position.",
-      "goToPositionPath": "Go to Position & Path"
+      "goToPositionPath": "Go to Position & Path",
+      "datasetCounts": "{comets} comets, {asteroids} asteroids",
+      "cometCountSynced": "{count} comets · {status}",
+      "asteroidCountSynced": "{count} asteroids · {status}"
     },
     "position": {
       "step": "位置を確認し構図を決める",

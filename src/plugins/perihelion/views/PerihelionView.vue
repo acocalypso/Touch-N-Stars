@@ -100,48 +100,53 @@
             </label>
           </div>
 
-          <div
-            v-if="filter !== 'Asteroid'"
-            class="flex items-center gap-2 text-[11px] text-content-faint"
-          >
+          <!-- Row 1: count + sync status for whatever's currently relevant -- combined counts
+               only (no single sync time) for All, since comets/asteroids sync independently and
+               could be different ages. -->
+          <div class="flex items-center gap-2 text-[11px] text-content-faint">
             <span v-if="filter === 'all'">
-              {{ t('perihelion.browse.cometsStatus', { status: syncStatusLabel }) }} ·
-              {{ t('perihelion.browse.asteroidsStatus', { status: asteroidSyncStatusLabel }) }}
-              {{ cobsStatusLabel }}
-            </span>
-            <span v-else
-              >{{ t('perihelion.browse.cometsStatus', { status: syncStatusLabel }) }}
-              {{ cobsStatusLabel }}</span
-            >
-            <span class="flex-1"></span>
-            <button
-              class="text-content-faint hover:text-content-muted shrink-0"
-              :aria-label="t('perihelion.browse.observedTooltip')"
-              @click="showObservedMagLegend = true"
-            >
-              <InformationCircleIcon class="w-4 h-4" />
-            </button>
-            <button
-              class="shrink-0 px-2 py-1 rounded-chip font-semibold text-content-muted border border-line hover:bg-surface-2 disabled:opacity-50 cursor-pointer"
-              :disabled="refreshingCobs"
-              @click="onRefreshCobs"
-            >
               {{
-                refreshingCobs
-                  ? t('perihelion.browse.refreshingCobs')
-                  : t('perihelion.browse.refreshCobs')
+                t('perihelion.browse.datasetCounts', {
+                  comets: cometCount,
+                  asteroids: asteroidCount,
+                })
               }}
-            </button>
-            <!-- "All" syncs both comets and asteroids together -- a single-type-only Sync Now
-                 under the combined view was confusing: clicking it while viewing "All" only
-                 ever synced comets, silently. -->
+            </span>
+            <span v-else-if="filter === 'Comet' && syncStatusLoaded">
+              {{
+                t('perihelion.browse.cometCountSynced', {
+                  count: cometCount,
+                  status: syncStatusLabel,
+                })
+              }}
+            </span>
+            <span v-else-if="filter === 'Asteroid' && syncStatusLoaded">
+              {{
+                t('perihelion.browse.asteroidCountSynced', {
+                  count: asteroidCount,
+                  status: asteroidSyncStatusLabel,
+                })
+              }}
+            </span>
+            <span class="flex-1"></span>
+            <!-- Context-aware: All syncs both together (a single-type button here used to only
+                 ever sync comets, silently, while viewing All), Comet/Asteroid sync just their
+                 own type. -->
             <button
               class="shrink-0 px-2 py-1 rounded-chip font-semibold text-accent border border-accent/30 hover:bg-accent/10 disabled:opacity-50 cursor-pointer"
-              :disabled="filter === 'all' ? syncingAll : syncing"
-              @click="filter === 'all' ? onSyncAll() : onSyncComets()"
+              :disabled="
+                filter === 'all' ? syncingAll : filter === 'Comet' ? syncing : syncingAsteroids
+              "
+              @click="
+                filter === 'all'
+                  ? onSyncAll()
+                  : filter === 'Comet'
+                    ? onSyncComets()
+                    : onSyncAsteroids()
+              "
             >
               {{
-                (filter === 'all' ? syncingAll : syncing)
+                (filter === 'all' ? syncingAll : filter === 'Comet' ? syncing : syncingAsteroids)
                   ? t('perihelion.browse.syncing')
                   : t('perihelion.browse.syncNow')
               }}
@@ -162,37 +167,45 @@
             {{ allSyncMessage.text }}
           </p>
           <p
-            v-if="filter !== 'Asteroid' && cobsRefreshMessage"
-            class="text-[11px]"
-            :class="cobsRefreshMessage.ok ? 'text-status-ok' : 'text-status-danger'"
-          >
-            {{ cobsRefreshMessage.text }}
-          </p>
-          <div
-            v-if="filter === 'Asteroid'"
-            class="flex items-center gap-2 text-[11px] text-content-faint"
-          >
-            <span
-              >{{ t('perihelion.browse.asteroidCount', { count: asteroidCount }) }} ·
-              {{ asteroidSyncStatusLabel }}</span
-            >
-            <span class="flex-1"></span>
-            <button
-              class="shrink-0 px-2 py-1 rounded-chip font-semibold text-accent border border-accent/30 hover:bg-accent/10 disabled:opacity-50 cursor-pointer"
-              :disabled="syncingAsteroids"
-              @click="onSyncAsteroids"
-            >
-              {{
-                syncingAsteroids ? t('perihelion.browse.syncing') : t('perihelion.browse.syncNow')
-              }}
-            </button>
-          </div>
-          <p
             v-if="filter === 'Asteroid' && asteroidSyncMessage"
             class="text-[11px]"
             :class="asteroidSyncMessage.ok ? 'text-status-ok' : 'text-status-danger'"
           >
             {{ asteroidSyncMessage.text }}
+          </p>
+
+          <!-- Row 2: COBS -- comet-only, so hidden entirely on the Asteroid filter. -->
+          <div
+            v-if="filter !== 'Asteroid'"
+            class="flex items-center gap-2 text-[11px] text-content-faint"
+          >
+            <span v-if="syncStatusLoaded">{{ cobsStatusLabel }}</span>
+            <span class="flex-1"></span>
+            <button
+              class="text-content-faint hover:text-content-muted shrink-0"
+              :aria-label="t('perihelion.browse.observedTooltip')"
+              @click="showObservedMagLegend = true"
+            >
+              <InformationCircleIcon class="w-4 h-4" />
+            </button>
+            <button
+              class="shrink-0 px-2 py-1 rounded-chip font-semibold text-content-muted border border-line hover:bg-surface-2 disabled:opacity-50 cursor-pointer"
+              :disabled="refreshingCobs"
+              @click="onRefreshCobs"
+            >
+              {{
+                refreshingCobs
+                  ? t('perihelion.browse.refreshingCobs')
+                  : t('perihelion.browse.refreshCobs')
+              }}
+            </button>
+          </div>
+          <p
+            v-if="filter !== 'Asteroid' && cobsRefreshMessage"
+            class="text-[11px]"
+            :class="cobsRefreshMessage.ok ? 'text-status-ok' : 'text-status-danger'"
+          >
+            {{ cobsRefreshMessage.text }}
           </p>
 
           <p v-if="objectsLoading" class="text-sm text-content-muted">
@@ -1398,7 +1411,7 @@
                 t('perihelion.settings.cometsData')
               }}</span>
               <div class="flex gap-2">
-                <button class="tns-btn flex-1" @click="cometFileInput?.click()">
+                <button class="tns-btn-primary flex-1" @click="cometFileInput?.click()">
                   {{ t('perihelion.settings.import') }}
                 </button>
                 <input
@@ -1408,13 +1421,10 @@
                   class="hidden"
                   @change="onImportComets"
                 />
-                <button class="tns-btn flex-1" @click="onExportComets">
+                <button class="tns-btn-secondary flex-1" @click="onExportComets">
                   {{ t('perihelion.settings.export') }}
                 </button>
-                <button
-                  class="tns-btn flex-1 bg-status-danger/10 text-status-danger hover:bg-status-danger/20"
-                  @click="onClearComets"
-                >
+                <button class="tns-btn-danger flex-1" @click="onClearComets">
                   {{ t('perihelion.settings.clear') }}
                 </button>
               </div>
@@ -1425,7 +1435,7 @@
                 t('perihelion.settings.asteroidsData')
               }}</span>
               <div class="flex gap-2">
-                <button class="tns-btn flex-1" @click="asteroidFileInput?.click()">
+                <button class="tns-btn-primary flex-1" @click="asteroidFileInput?.click()">
                   {{ t('perihelion.settings.import') }}
                 </button>
                 <input
@@ -1435,13 +1445,10 @@
                   class="hidden"
                   @change="onImportAsteroids"
                 />
-                <button class="tns-btn flex-1" @click="onExportAsteroids">
+                <button class="tns-btn-secondary flex-1" @click="onExportAsteroids">
                   {{ t('perihelion.settings.export') }}
                 </button>
-                <button
-                  class="tns-btn flex-1 bg-status-danger/10 text-status-danger hover:bg-status-danger/20"
-                  @click="onClearAsteroids"
-                >
+                <button class="tns-btn-danger flex-1" @click="onClearAsteroids">
                   {{ t('perihelion.settings.clear') }}
                 </button>
               </div>
@@ -1862,7 +1869,6 @@ async function loadObjects() {
   objectsError.value = null;
   try {
     objects.value = await fetchBrowseObjects();
-    if (!selectedId.value && objects.value.length) selectedId.value = objects.value[0].id;
     fillCobsInBackground();
   } catch (error) {
     objectsError.value = error?.message ?? 'Could not load objects from Perihelion';
@@ -1909,6 +1915,7 @@ async function fillCobsInBackground() {
 const cometsLastSyncedUtc = ref(null);
 const asteroidsLastSyncedUtc = ref(null);
 const cobsLastRefreshedUtc = ref(null);
+const syncStatusLoaded = ref(false);
 const syncing = ref(false);
 const syncMessage = ref(null);
 const syncingAsteroids = ref(false);
@@ -1924,6 +1931,10 @@ async function loadSyncStatus() {
     // Not worth surfacing an error just for the status line -- the Sync Now/Refresh COBS
     // buttons and any comet-fetch error elsewhere in the panel already cover the cases that
     // actually matter.
+  } finally {
+    // Without this, the pre-fetch null defaults above render as "never synced" even when
+    // there's real sync history -- a false claim, not just a blank loading state.
+    syncStatusLoaded.value = true;
   }
 }
 
@@ -2177,8 +2188,7 @@ const filteredObjects = computed(() => {
   return sortObjects(list);
 });
 
-// Computed rather than hardcoded so the "N asteroids" note below never silently goes stale if
-// the embedded list in AsteroidOrbits.cs ever changes.
+const cometCount = computed(() => objects.value.filter((o) => o.objectType === 'Comet').length);
 const asteroidCount = computed(
   () => objects.value.filter((o) => o.objectType === 'Asteroid').length
 );

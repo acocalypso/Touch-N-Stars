@@ -5431,7 +5431,6 @@
       "cobsRefreshed": "COBS 등급 새로고침 완료",
       "cobsRefreshedAgo": "COBS {when} 새로고침됨",
       "cobsNeverRefreshed": "COBS 새로고침된 적 없음",
-      "asteroidCount": "소행성 {count}개 — JPL의 실시간 궤도 요소, 자동으로 갱신됩니다.",
       "epochStaleTooltip": "이 천체의 궤도 데이터가 평소보다 정확하지 않을 수 있습니다 — 자세히 보려면 탭하세요.",
       "epochStaleLegendTitle": "오래된 궤도 데이터",
       "epochStaleLegendExplanation": "이 천체의 궤도 요소는 자체 기준 시점(epoch)에서 비정상적으로 멀리 떨어져 있습니다. 이렇게 기준일에서 멀리 떨어진 위치를 예측하는 것은 행성의 지속적인 중력 섭동을 고려하지 않는 단순한 이체 물리학에 기반하므로, 실제 위치는 표시된 값과 다를 수 있습니다.",
@@ -5446,7 +5445,10 @@
       "observedLegendFainter": "주황색 — 예측보다 눈에 띄게 어두움",
       "observedLegendMuchFainter": "빨간색 — 예측보다 훨씬 어두움",
       "selectedPrompt": "Selected -- ready to check its position.",
-      "goToPositionPath": "Go to Position & Path"
+      "goToPositionPath": "Go to Position & Path",
+      "datasetCounts": "{comets} comets, {asteroids} asteroids",
+      "cometCountSynced": "{count} comets · {status}",
+      "asteroidCountSynced": "{count} asteroids · {status}"
     },
     "position": {
       "step": "위치를 확인하고 구도를 설정하세요",

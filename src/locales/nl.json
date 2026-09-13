@@ -5431,7 +5431,6 @@
       "cobsRefreshed": "COBS-magnitudes vernieuwd",
       "cobsRefreshedAgo": "COBS vernieuwd {when}",
       "cobsNeverRefreshed": "COBS nooit vernieuwd",
-      "asteroidCount": "{count} asteroïden — actuele baanelementen van JPL, automatisch bijgewerkt.",
       "epochStaleTooltip": "De baangegevens van dit object zijn mogelijk minder nauwkeurig dan gebruikelijk — tik voor details.",
       "epochStaleLegendTitle": "Verouderde baangegevens",
       "epochStaleLegendExplanation": "De baanelementen van dit object liggen ongewoon ver van hun eigen referentie-epoche. Een positie zo ver van die referentiedatum voorspellen berust op eenvoudige tweelichamenfysica, die doorlopende zwaartekrachtsverstoringen door de planeten niet meeneemt — de werkelijke positie kan dus afwijken van wat hier wordt getoond.",
@@ -5446,7 +5445,10 @@
       "observedLegendFainter": "Geel — merkbaar zwakker dan voorspeld",
       "observedLegendMuchFainter": "Rood — veel zwakker dan voorspeld",
       "selectedPrompt": "Selected -- ready to check its position.",
-      "goToPositionPath": "Go to Position & Path"
+      "goToPositionPath": "Go to Position & Path",
+      "datasetCounts": "{comets} comets, {asteroids} asteroids",
+      "cometCountSynced": "{count} comets · {status}",
+      "asteroidCountSynced": "{count} asteroids · {status}"
     },
     "position": {
       "step": "Controleer de positie & stel het beeldveld samen",

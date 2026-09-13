@@ -5431,7 +5431,6 @@
       "cobsRefreshed": "Magnituds COBS actualitzades",
       "cobsRefreshedAgo": "COBS actualitzat {when}",
       "cobsNeverRefreshed": "COBS mai actualitzat",
-      "asteroidCount": "{count} asteroides — elements orbitals en viu del JPL, actualitzats automàticament.",
       "epochStaleTooltip": "Les dades orbitals d'aquest objecte poden ser menys precises del que és habitual — toca per a més detalls.",
       "epochStaleLegendTitle": "Dades orbitals desactualitzades",
       "epochStaleLegendExplanation": "Els elements orbitals d'aquest objecte estan inusualment allunyats de la seva pròpia època de referència. Predir una posició tan lluny d'aquesta data es basa en una física de dos cossos senzilla que no té en compte les pertorbacions gravitatòries contínues dels planetes, per la qual cosa la posició real pot divergir de la mostrada.",
@@ -5446,7 +5445,10 @@
       "observedLegendFainter": "Ambre — notablement més feble del previst",
       "observedLegendMuchFainter": "Vermell — molt més feble del previst",
       "selectedPrompt": "Selected -- ready to check its position.",
-      "goToPositionPath": "Go to Position & Path"
+      "goToPositionPath": "Go to Position & Path",
+      "datasetCounts": "{comets} comets, {asteroids} asteroids",
+      "cometCountSynced": "{count} comets · {status}",
+      "asteroidCountSynced": "{count} asteroids · {status}"
     },
     "position": {
       "step": "Revisa la posició i compon l'enquadrament",

@@ -5431,7 +5431,6 @@
       "cobsRefreshed": "Jasnosti COBS aktualizovány",
       "cobsRefreshedAgo": "COBS obnoveno {when}",
       "cobsNeverRefreshed": "COBS nikdy neobnoveno",
-      "asteroidCount": "{count} planetek — aktuální dráhové prvky z JPL, automaticky aktualizované.",
       "epochStaleTooltip": "Dráhové údaje tohoto objektu mohou být méně přesné než obvykle — klepnutím zobrazíte podrobnosti.",
       "epochStaleLegendTitle": "Zastaralé dráhové údaje",
       "epochStaleLegendExplanation": "Dráhové prvky tohoto objektu jsou neobvykle vzdálené od vlastní referenční epochy. Předpověď polohy tak daleko od tohoto data se opírá o jednoduchou fyziku dvou těles, která nezohledňuje trvalé gravitační vlivy planet — skutečná poloha se proto může od zobrazené lišit.",
@@ -5446,7 +5445,10 @@
       "observedLegendFainter": "Žlutá — znatelně slabší, než se předpokládalo",
       "observedLegendMuchFainter": "Červená — mnohem slabší, než se předpokládalo",
       "selectedPrompt": "Selected -- ready to check its position.",
-      "goToPositionPath": "Go to Position & Path"
+      "goToPositionPath": "Go to Position & Path",
+      "datasetCounts": "{comets} comets, {asteroids} asteroids",
+      "cometCountSynced": "{count} comets · {status}",
+      "asteroidCountSynced": "{count} asteroids · {status}"
     },
     "position": {
       "step": "Zkontrolujte pozici a nastavte rámování",

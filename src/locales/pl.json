@@ -5431,7 +5431,6 @@
       "cobsRefreshed": "Zaktualizowano jasności COBS",
       "cobsRefreshedAgo": "COBS odświeżono {when}",
       "cobsNeverRefreshed": "COBS nigdy nie odświeżono",
-      "asteroidCount": "{count} planetoid — aktualne elementy orbitalne z JPL, odświeżane automatycznie.",
       "epochStaleTooltip": "Dane orbitalne tego obiektu mogą być mniej dokładne niż zwykle — dotknij, aby dowiedzieć się więcej.",
       "epochStaleLegendTitle": "Nieaktualne dane orbitalne",
       "epochStaleLegendExplanation": "Elementy orbitalne tego obiektu są niezwykle odległe od własnej epoki odniesienia. Przewidywanie pozycji tak daleko od tej daty opiera się na prostej fizyce dwóch ciał, która nie uwzględnia ciągłych zaburzeń grawitacyjnych ze strony planet — rzeczywista pozycja może więc odbiegać od pokazanej.",
@@ -5446,7 +5445,10 @@
       "observedLegendFainter": "Bursztynowy — zauważalnie słabsza niż przewidywano",
       "observedLegendMuchFainter": "Czerwony — znacznie słabsza niż przewidywano",
       "selectedPrompt": "Selected -- ready to check its position.",
-      "goToPositionPath": "Go to Position & Path"
+      "goToPositionPath": "Go to Position & Path",
+      "datasetCounts": "{comets} comets, {asteroids} asteroids",
+      "cometCountSynced": "{count} comets · {status}",
+      "asteroidCountSynced": "{count} asteroids · {status}"
     },
     "position": {
       "step": "Sprawdź pozycję i skomponuj kadr",

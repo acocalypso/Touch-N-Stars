@@ -2710,7 +2710,15 @@
         "clearAll": "Vymazat Vše",
         "collectSave": "Sbírat a uložit",
         "saving": "Ukládání…",
-        "hint": "Sbírat a nahrát shromáždí protokoly a odešle je přímo na podpůrný endpoint. Sbírat a uložit shromáždí stejné protokoly, ale uloží ZIP do vašeho zařízení - použijte to, když ještě nemáte internetové připojení a chcete jej nahrát později."
+        "hint": "Sbírat a nahrát shromáždí protokoly a odešle je přímo na podpůrný endpoint. Sbírat a uložit shromáždí stejné protokoly, ale ponechá ZIP v aplikaci - použijte to, když ještě nemáte internetové připojení a chcete jej nahrát později."
+      },
+      "savedArchives": {
+        "title": "Uložené archivy",
+        "intro": "Sbírat a uložit ponechá archiv v aplikaci (max. 5, nejstarší se nahradí). Nahrajte jej, jakmile budete mít internetové připojení, nebo jej exportujte do zařízení.",
+        "empty": "Zatím žádné uložené archivy.",
+        "upload": "Nahrát",
+        "download": "Stáhnout",
+        "delete": "Smazat"
       },
       "submissionFields": {
         "date": "Datum",
@@ -2726,6 +2734,8 @@
         "submissionRemoved": "Příspěvek byl odstraněn",
         "allSubmissionsCleared": "Všechny žádosti byly přijaty",
         "savedLocally": "Soubor protokolu uložen do vašeho zařízení ({filename}).",
+        "savedInApp": "Archiv protokolů uložen v aplikaci ({filename}). Nahrajte jej ze seznamu uložených archivů, až budete online.",
+        "archiveMissing": "Uložený archiv již není k dispozici.",
         "saveFailed": "Nepodařilo se uložit soubor protokolu lokálně."
       },
       "diagnostics": {
@@ -2755,11 +2765,6 @@
         "expertMode": "Expertní nastavení",
         "ninaLogs": "Soubory protokolů NINA (posledních 10)",
         "collecting": "Probíhá shromažďování systémové diagnostiky PINS… může to chvíli trvat."
-      },
-      "existingUpload": {
-        "intro": "Máte již uložený ZIP s protokoly - například shromážděný dříve bez internetového připojení? Nahrajte jej nyní.",
-        "button": "Vybrat soubor ZIP",
-        "invalidFile": "Vyberte prosím soubor .zip."
       },
       "progress": {
         "collectingLogs": "Shromažďování protokolů Touch'N'Stars…",

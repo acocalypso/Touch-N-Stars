@@ -2738,7 +2738,15 @@
         "clearAll": "Alle löschen",
         "collectSave": "Sammeln & Speichern",
         "saving": "Speichere…",
-        "hint": "Sammeln & Hochladen sammelt die Logs und sendet sie direkt an den Support-Endpunkt. Sammeln & Speichern sammelt dieselben Logs, speichert die ZIP-Datei aber auf deinem Gerät – nutze das, wenn du noch keine Internetverbindung hast und die Datei später hochladen möchtest."
+        "hint": "Sammeln & Hochladen sammelt die Logs und sendet sie direkt an den Support-Endpunkt. Sammeln & Speichern sammelt dieselben Logs, behält die ZIP-Datei aber in der App – nutze das, wenn du noch keine Internetverbindung hast und die Datei später hochladen möchtest."
+      },
+      "savedArchives": {
+        "title": "Gespeicherte Archive",
+        "intro": "Sammeln & Speichern behält das Archiv in der App (max. 5, das älteste wird ersetzt). Lade es hoch, sobald du eine Internetverbindung hast, oder exportiere es auf dein Gerät.",
+        "empty": "Noch keine gespeicherten Archive.",
+        "upload": "Hochladen",
+        "download": "Herunterladen",
+        "delete": "Löschen"
       },
       "submissionFields": {
         "date": "Datum",
@@ -2754,12 +2762,9 @@
         "submissionRemoved": "Übertragung entfernt",
         "allSubmissionsCleared": "Alle Übertragungen gelöscht",
         "savedLocally": "Logdatei auf deinem Gerät gespeichert ({filename}).",
+        "savedInApp": "Log-Archiv in der App gespeichert ({filename}). Lade es aus der Liste der gespeicherten Archive hoch, sobald du online bist.",
+        "archiveMissing": "Das gespeicherte Archiv ist nicht mehr verfügbar.",
         "saveFailed": "Logdatei konnte nicht lokal gespeichert werden."
-      },
-      "existingUpload": {
-        "intro": "Hast du bereits eine gespeicherte Log-ZIP – z. B. früher ohne Internetverbindung gesammelt? Lade sie jetzt hoch.",
-        "button": "ZIP-Datei auswählen",
-        "invalidFile": "Bitte wähle eine .zip-Datei aus."
       },
       "progress": {
         "collectingLogs": "Sammle Touch'N'Stars-Logs…",

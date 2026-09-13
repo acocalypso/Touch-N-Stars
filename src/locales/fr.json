@@ -2710,7 +2710,15 @@
         "clearAll": "Tout effacer",
         "collectSave": "Collecter et enregistrer",
         "saving": "Enregistrement…",
-        "hint": "Collecter et télécharger rassemble les journaux et les envoie directement au point de support. Collecter et enregistrer rassemble les mêmes journaux mais enregistre le ZIP sur votre appareil - utilisez cette option si vous n'avez pas encore de connexion internet et souhaitez l'envoyer plus tard."
+        "hint": "Collecter et télécharger rassemble les journaux et les envoie directement au point de support. Collecter et enregistrer rassemble les mêmes journaux mais conserve le ZIP dans l'application - utilisez cette option si vous n'avez pas encore de connexion internet et souhaitez l'envoyer plus tard."
+      },
+      "savedArchives": {
+        "title": "Archives enregistrées",
+        "intro": "Collecter et enregistrer conserve l'archive dans l'application (5 max., la plus ancienne est remplacée). Envoyez-la dès que vous avez une connexion internet, ou exportez-la sur votre appareil.",
+        "empty": "Aucune archive enregistrée pour le moment.",
+        "upload": "Envoyer",
+        "download": "Télécharger",
+        "delete": "Supprimer"
       },
       "submissionFields": {
         "date": "Date",
@@ -2726,6 +2734,8 @@
         "submissionRemoved": "Soumission supprimée",
         "allSubmissionsCleared": "Toutes les soumissions effacées",
         "savedLocally": "Fichier de log enregistré sur votre appareil ({filename}).",
+        "savedInApp": "Archive de logs enregistrée dans l'application ({filename}). Envoyez-la depuis la liste des archives enregistrées lorsque vous êtes en ligne.",
+        "archiveMissing": "L'archive enregistrée n'est plus disponible.",
         "saveFailed": "Échec de l'enregistrement local du fichier de log."
       },
       "diagnostics": {
@@ -2755,11 +2765,6 @@
         "expertMode": "Paramètres experts",
         "ninaLogs": "Fichiers de log NINA (10 derniers)",
         "collecting": "Collecte des diagnostics système PINS… cela peut prendre un moment."
-      },
-      "existingUpload": {
-        "intro": "Vous avez déjà un fichier ZIP de logs enregistré - par exemple collecté plus tôt sans connexion internet ? Téléchargez-le maintenant.",
-        "button": "Choisir un fichier ZIP",
-        "invalidFile": "Veuillez choisir un fichier .zip."
       },
       "progress": {
         "collectingLogs": "Collecte des journaux Touch'N'Stars…",

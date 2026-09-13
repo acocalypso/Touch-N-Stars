@@ -2826,15 +2826,18 @@
         "uploading": "Uploading…",
         "collectSave": "Collect & Save",
         "saving": "Saving…",
-        "hint": "Collect & Upload gathers the logs and sends them straight to the support endpoint. Collect & Save gathers the same logs but saves the ZIP to your device instead - use this when you don't have an internet connection yet and want to upload it later.",
+        "hint": "Collect & Upload gathers the logs and sends them straight to the support endpoint. Collect & Save gathers the same logs but keeps the ZIP in the app - use this when you don't have an internet connection yet and want to upload it later.",
         "copyToken": "Copy",
         "remove": "Remove",
         "clearAll": "Clear All"
       },
-      "existingUpload": {
-        "intro": "Already have a saved log ZIP - e.g. collected earlier without an internet connection? Upload it now.",
-        "button": "Choose ZIP file",
-        "invalidFile": "Please choose a .zip file."
+      "savedArchives": {
+        "title": "Saved archives",
+        "intro": "Collect & Save keeps the archive inside the app (up to 5, the oldest is replaced). Upload it once you have an internet connection, or export it to your device.",
+        "empty": "No saved archives yet.",
+        "upload": "Upload",
+        "download": "Download",
+        "delete": "Delete"
       },
       "submissionFields": {
         "date": "Date",
@@ -2846,6 +2849,8 @@
         "failed": "Upload failed",
         "failedWithStatus": "Upload failed ({status})",
         "savedLocally": "Log file saved to your device ({filename}).",
+        "savedInApp": "Log archive saved in the app ({filename}). Upload it from the saved archives list when you are online.",
+        "archiveMissing": "The saved archive is no longer available.",
         "saveFailed": "Failed to save log file locally.",
         "tokenCopied": "Token copied to clipboard",
         "tokenCopyFailed": "Failed to copy token",

@@ -2755,7 +2755,15 @@
         "clearAll": "Esborra-ho tot",
         "collectSave": "Recull i desa",
         "saving": "Desant…",
-        "hint": "Recull i puja recull els registres i els envia directament al punt final de suport. Recull i desa recull els mateixos registres, però desa el ZIP al teu dispositiu - fes servir això quan encara no tinguis connexió a internet i vulguis pujar-lo més tard."
+        "hint": "Recull i puja recull els registres i els envia directament al punt final de suport. Recull i desa recull els mateixos registres, però conserva el ZIP a l'app - fes servir això quan encara no tinguis connexió a internet i vulguis pujar-lo més tard."
+      },
+      "savedArchives": {
+        "title": "Arxius desats",
+        "intro": "Recull i desa conserva l'arxiu a l'app (màx. 5, el més antic es reemplaça). Puja'l quan tinguis connexió a internet o exporta'l al teu dispositiu.",
+        "empty": "Encara no hi ha arxius desats.",
+        "upload": "Puja",
+        "download": "Baixa",
+        "delete": "Elimina"
       },
       "submissionFields": {
         "date": "Data",
@@ -2771,12 +2779,9 @@
         "submissionRemoved": "Enviament eliminat",
         "allSubmissionsCleared": "Tots els enviaments esborrats",
         "savedLocally": "Fitxer de registre desat al teu dispositiu ({filename}).",
+        "savedInApp": "Arxiu de registres desat a l'app ({filename}). Puja'l des de la llista d'arxius desats quan estiguis en línia.",
+        "archiveMissing": "L'arxiu desat ja no està disponible.",
         "saveFailed": "No s'ha pogut desar el fitxer de registre localment."
-      },
-      "existingUpload": {
-        "intro": "Ja tens un ZIP de registres desat - per exemple, recollit abans sense connexió a internet? Puja'l ara.",
-        "button": "Tria un fitxer ZIP",
-        "invalidFile": "Tria un fitxer .zip."
       },
       "progress": {
         "collectingLogs": "Recollint els registres de Touch'N'Stars…",

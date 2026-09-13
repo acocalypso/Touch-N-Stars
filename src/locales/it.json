@@ -2710,7 +2710,15 @@
         "clearAll": "Cancella tutto",
         "collectSave": "Raccogli e salva",
         "saving": "Salvataggio…",
-        "hint": "Raccogli e carica raccoglie i log e li invia direttamente all'endpoint di supporto. Raccogli e salva raccoglie gli stessi log ma salva lo ZIP sul tuo dispositivo - usalo quando non hai ancora una connessione internet e vuoi caricarlo più tardi."
+        "hint": "Raccogli e carica raccoglie i log e li invia direttamente all'endpoint di supporto. Raccogli e salva raccoglie gli stessi log ma conserva lo ZIP nell'app - usalo quando non hai ancora una connessione internet e vuoi caricarlo più tardi."
+      },
+      "savedArchives": {
+        "title": "Archivi salvati",
+        "intro": "Raccogli e salva conserva l'archivio nell'app (max 5, il più vecchio viene sostituito). Caricalo quando hai una connessione internet oppure esportalo sul tuo dispositivo.",
+        "empty": "Nessun archivio salvato.",
+        "upload": "Carica",
+        "download": "Scarica",
+        "delete": "Elimina"
       },
       "submissionFields": {
         "date": "Data",
@@ -2726,6 +2734,8 @@
         "submissionRemoved": "Invio rimosso",
         "allSubmissionsCleared": "Tutti gli invii cancellati",
         "savedLocally": "File di log salvato sul tuo dispositivo ({filename}).",
+        "savedInApp": "Archivio dei log salvato nell'app ({filename}). Caricalo dall'elenco degli archivi salvati quando sei online.",
+        "archiveMissing": "L'archivio salvato non è più disponibile.",
         "saveFailed": "Impossibile salvare il file di log localmente."
       },
       "diagnostics": {
@@ -2755,11 +2765,6 @@
         "expertMode": "Impostazioni avanzate",
         "ninaLogs": "File di log NINA (ultimi 10)",
         "collecting": "Raccolta della diagnostica di sistema PINS… potrebbe richiedere un po' di tempo."
-      },
-      "existingUpload": {
-        "intro": "Hai già uno ZIP di log salvato - ad esempio raccolto in precedenza senza connessione internet? Caricalo ora.",
-        "button": "Scegli file ZIP",
-        "invalidFile": "Scegli un file .zip."
       },
       "progress": {
         "collectingLogs": "Raccolta dei log di Touch'N'Stars…",

@@ -219,23 +219,85 @@
         ></div>
       </div>
 
-      <!-- Upload a previously saved ZIP (e.g. collected earlier without an internet
-           connection) - works independently of the collection flow above. -->
+      <!-- Archives kept inside the app by "Collect & Save" (e.g. collected earlier without an
+           internet connection). Only these can be uploaded - there is deliberately no free
+           file picker, so the support endpoint only ever receives app-generated archives. -->
       <div class="space-y-2 rounded border border-gray-700 bg-gray-900/40 p-3">
-        <p class="text-gray-300 text-sm">
-          {{ $t('plugins.logfileCollector.existingUpload.intro') }}
+        <h6 class="text-sm font-semibold text-gray-300">
+          {{ $t('plugins.logfileCollector.savedArchives.title') }}
+        </h6>
+        <p class="text-gray-400 text-xs">
+          {{ $t('plugins.logfileCollector.savedArchives.intro') }}
         </p>
-        <label class="tns-btn-secondary w-auto! inline-block cursor-pointer px-4 py-2 rounded">
-          {{ $t('plugins.logfileCollector.existingUpload.button') }}
-          <input
-            ref="existingZipInput"
-            type="file"
-            accept=".zip,application/zip"
-            class="hidden"
-            :disabled="busy"
-            @change="onExistingZipSelected"
-          />
-        </label>
+        <p v-if="logCollectorStore.savedArchives.length === 0" class="text-gray-500 text-sm">
+          {{ $t('plugins.logfileCollector.savedArchives.empty') }}
+        </p>
+        <div
+          v-for="archive in logCollectorStore.savedArchives"
+          :key="archive.id"
+          class="space-y-2 rounded border border-gray-600 bg-gray-800 p-3"
+        >
+          <div class="text-sm text-gray-300">
+            {{ formatDate(archive.createdAt) }} · {{ archive.filename }} ·
+            {{ formatSize(archive.size) }}
+          </div>
+          <p class="truncate text-xs text-gray-400" :title="archive.description">
+            {{ archive.description }}
+          </p>
+          <div class="flex flex-wrap gap-2">
+            <button
+              @click="uploadSavedArchive(archive)"
+              :disabled="busy"
+              class="tns-btn-primary w-auto! px-2! text-xs! disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <span
+                v-if="activeArchiveId === archive.id && activeArchiveAction === 'upload'"
+                class="inline-flex items-center gap-2"
+              >
+                <svg
+                  class="w-4 h-4 animate-spin"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                >
+                  <circle cx="12" cy="12" r="10" stroke-width="2" opacity=".25" />
+                  <path d="M4 12a8 8 0 0 1 8-8" stroke-width="2" stroke-linecap="round" />
+                </svg>
+                {{ $t('plugins.logfileCollector.actions.uploading') }}
+              </span>
+              <span v-else>{{ $t('plugins.logfileCollector.savedArchives.upload') }}</span>
+            </button>
+            <button
+              @click="downloadSavedArchive(archive)"
+              :disabled="busy"
+              class="tns-btn-secondary w-auto! px-2! text-xs! disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              <span
+                v-if="activeArchiveId === archive.id && activeArchiveAction === 'download'"
+                class="inline-flex items-center gap-2"
+              >
+                <svg
+                  class="w-4 h-4 animate-spin"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                >
+                  <circle cx="12" cy="12" r="10" stroke-width="2" opacity=".25" />
+                  <path d="M4 12a8 8 0 0 1 8-8" stroke-width="2" stroke-linecap="round" />
+                </svg>
+                {{ $t('plugins.logfileCollector.actions.saving') }}
+              </span>
+              <span v-else>{{ $t('plugins.logfileCollector.savedArchives.download') }}</span>
+            </button>
+            <button
+              @click="deleteSavedArchive(archive)"
+              :disabled="busy"
+              class="tns-btn-danger w-auto! px-2! text-xs! disabled:opacity-50 disabled:cursor-not-allowed"
+            >
+              {{ $t('plugins.logfileCollector.savedArchives.delete') }}
+            </button>
+          </div>
+        </div>
       </div>
 
       <!-- Generated Token Display -->
@@ -433,7 +495,8 @@ const diagnosticsDmesgLines = ref(DIAGNOSTICS_DEFAULTS.dmesgLines);
 const diagnosticsOptionsLoading = ref(false);
 const diagnosticsValidationErrors = ref({});
 const activeAction = ref(null); // 'upload' | 'save' | null - which action is currently busy
-const existingZipInput = ref(null);
+const activeArchiveId = ref(null);
+const activeArchiveAction = ref(null); // 'upload' | 'download' | null - per-row spinner
 const { t } = useI18n();
 
 const diagnosticsApi = createDiagnosticsApi({
@@ -476,6 +539,7 @@ const diagnosticsStatusText = computed(() => {
 });
 
 onMounted(() => {
+  logCollectorStore.loadSavedArchives();
   // Make sure we have recent logs
   try {
     logStore.fetchLogInfos?.();
@@ -710,9 +774,10 @@ async function collectAndUpload() {
   }
 }
 
-// "Download only" counterpart to collectAndUpload(): same collected content, but saved to the
-// device instead of sent to the support server - no network call, no token, works offline
+// Offline counterpart to collectAndUpload(): same collected content, but kept inside the app
+// (IndexedDB) for a later upload instead of sent right away - no network call, works offline
 // (the PINS diagnostics collection itself only talks to the local PINS daemon, not the internet).
+// The token is generated here already so the manifest inside the ZIP matches the later upload.
 async function collectAndSave() {
   descriptionTouched.value = true;
   if (!descriptionIsValid.value) {
@@ -728,24 +793,34 @@ async function collectAndSave() {
   progressMessage.value = '';
   progressPhase.value = null;
   try {
-    const filesMap = await collectLogFiles({ description: description.value, logToken: null });
+    const logToken = generateTimestampLogToken();
+    lastGeneratedToken.value = logToken;
+
+    const filesMap = await collectLogFiles({ description: description.value, logToken });
     progressMessage.value = t('plugins.logfileCollector.progress.buildingArchive');
     progressPhase.value = 'buildingArchive';
     const zipBlob = await buildZip(filesMap);
-    progressMessage.value = ''; // let the "Saving…" fallback show during the filesystem write
+    progressMessage.value = ''; // let the "Saving…" fallback show during the IndexedDB write
     progressPhase.value = 'finalAction';
     const zipFileName = `tns-logs-${Date.now()}.zip`;
 
-    const saveResult = await downloadBlob(zipBlob, zipFileName, { folderName: 'TNS-Logs' });
+    await logCollectorStore.saveArchive({
+      filename: zipFileName,
+      description: description.value,
+      token: logToken,
+      blob: zipBlob,
+    });
 
     resultOk.value = true;
-    resultMsg.value = t('plugins.logfileCollector.result.savedLocally', {
-      filename: saveResult.filename,
-    });
+    resultMsg.value = t('plugins.logfileCollector.result.savedInApp', { filename: zipFileName });
+    // The description now travels with the archive and is reused on upload.
+    description.value = '';
+    descriptionTouched.value = false;
   } catch (err) {
-    console.error('Saving log file locally failed', err);
+    console.error('Saving log archive in the app failed', err);
     resultOk.value = false;
     resultMsg.value = t('plugins.logfileCollector.result.saveFailed');
+    lastGeneratedToken.value = '';
   } finally {
     busy.value = false;
     activeAction.value = null;
@@ -754,43 +829,35 @@ async function collectAndSave() {
   }
 }
 
-// Lets the user pick a previously saved ZIP (e.g. from collectAndSave(), created earlier while
-// offline) and upload it now. Goes through the same uploadZipBlob() as the live-collection path.
-async function onExistingZipSelected(event) {
-  const file = event.target.files?.[0];
-  event.target.value = ''; // allow re-picking the same file later
-  if (!file) {
-    return;
-  }
-
-  descriptionTouched.value = true;
-  if (!descriptionIsValid.value) {
+async function loadSavedArchiveBlob(archive) {
+  const blob = await logCollectorStore.getSavedArchiveBlob(archive.id);
+  if (!blob) {
     resultOk.value = false;
-    resultMsg.value = t('plugins.logfileCollector.descriptionRequired');
-    return;
+    resultMsg.value = t('plugins.logfileCollector.result.archiveMissing');
+    await logCollectorStore.loadSavedArchives();
   }
+  return blob;
+}
 
-  if (!file.name.toLowerCase().endsWith('.zip')) {
-    resultOk.value = false;
-    resultMsg.value = t('plugins.logfileCollector.existingUpload.invalidFile');
-    return;
-  }
-
+// Uploads an archive kept by collectAndSave(); goes through the same uploadZipBlob() as the
+// live-collection path and reuses the token and description stored with the archive.
+async function uploadSavedArchive(archive) {
   busy.value = true;
-  activeAction.value = 'upload';
+  activeArchiveId.value = archive.id;
+  activeArchiveAction.value = 'upload';
   resultMsg.value = '';
   resultOk.value = false;
   try {
-    const logToken = generateTimestampLogToken();
-    lastGeneratedToken.value = logToken;
+    const blob = await loadSavedArchiveBlob(archive);
+    if (!blob) return;
 
-    const res = await uploadZipBlob(file, file.name, description.value, logToken);
+    lastGeneratedToken.value = archive.token;
+    const res = await uploadZipBlob(blob, archive.filename, archive.description, archive.token);
     resultOk.value = res.status >= 200 && res.status < 300;
 
     if (resultOk.value) {
       resultMsg.value = t('plugins.logfileCollector.result.success');
-      description.value = '';
-      descriptionTouched.value = false;
+      await logCollectorStore.removeSavedArchive(archive.id);
     } else {
       resultMsg.value = t('plugins.logfileCollector.result.failedWithStatus', {
         status: res.status,
@@ -800,11 +867,50 @@ async function onExistingZipSelected(event) {
     console.error('Log upload failed', err);
     resultOk.value = false;
     resultMsg.value = t('plugins.logfileCollector.result.failed');
-    lastGeneratedToken.value = '';
   } finally {
     busy.value = false;
-    activeAction.value = null;
+    activeArchiveId.value = null;
+    activeArchiveAction.value = null;
   }
+}
+
+async function downloadSavedArchive(archive) {
+  busy.value = true;
+  activeArchiveId.value = archive.id;
+  activeArchiveAction.value = 'download';
+  resultMsg.value = '';
+  resultOk.value = false;
+  try {
+    const blob = await loadSavedArchiveBlob(archive);
+    if (!blob) return;
+
+    const saveResult = await downloadBlob(blob, archive.filename, { folderName: 'TNS-Logs' });
+    resultOk.value = true;
+    resultMsg.value = t('plugins.logfileCollector.result.savedLocally', {
+      filename: saveResult.filename,
+    });
+  } catch (err) {
+    console.error('Exporting log archive to the device failed', err);
+    resultOk.value = false;
+    resultMsg.value = t('plugins.logfileCollector.result.saveFailed');
+  } finally {
+    busy.value = false;
+    activeArchiveId.value = null;
+    activeArchiveAction.value = null;
+  }
+}
+
+async function deleteSavedArchive(archive) {
+  try {
+    await logCollectorStore.removeSavedArchive(archive.id);
+  } catch (err) {
+    console.error('Deleting saved log archive failed', err);
+  }
+}
+
+function formatSize(bytes) {
+  if (bytes < 1024 * 1024) return `${Math.max(1, Math.round(bytes / 1024))} KB`;
+  return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
 
 function getIp() {

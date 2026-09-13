@@ -2710,7 +2710,15 @@
         "clearAll": "Alles opschonen",
         "collectSave": "Verzamel & Bewaar",
         "saving": "Bewaren…",
-        "hint": "Verzamel & Upload verzamelt de logs en stuurt ze direct naar het support-endpoint. Verzamel & Bewaar verzamelt dezelfde logs, maar bewaart de ZIP op je apparaat - gebruik dit als je nog geen internetverbinding hebt en de logs later wilt uploaden."
+        "hint": "Verzamel & Upload verzamelt de logs en stuurt ze direct naar het support-endpoint. Verzamel & Bewaar verzamelt dezelfde logs, maar houdt de ZIP in de app - gebruik dit als je nog geen internetverbinding hebt en de logs later wilt uploaden."
+      },
+      "savedArchives": {
+        "title": "Bewaarde archieven",
+        "intro": "Verzamel & Bewaar houdt het archief in de app (max. 5, het oudste wordt vervangen). Upload het zodra je een internetverbinding hebt, of exporteer het naar je apparaat.",
+        "empty": "Nog geen bewaarde archieven.",
+        "upload": "Uploaden",
+        "download": "Downloaden",
+        "delete": "Verwijderen"
       },
       "submissionFields": {
         "date": "Datum",
@@ -2726,6 +2734,8 @@
         "submissionRemoved": "Verzending verwijdert",
         "allSubmissionsCleared": "Alle verzendingen verwijdert",
         "savedLocally": "Logbestand opgeslagen op je apparaat ({filename}).",
+        "savedInApp": "Logarchief in de app bewaard ({filename}). Upload het vanuit de lijst met bewaarde archieven zodra je online bent.",
+        "archiveMissing": "Het bewaarde archief is niet meer beschikbaar.",
         "saveFailed": "Logbestand kon niet lokaal worden opgeslagen."
       },
       "diagnostics": {
@@ -2755,11 +2765,6 @@
         "expertMode": "Expertinstellingen",
         "ninaLogs": "NINA-logbestanden (laatste 10)",
         "collecting": "PINS-systeemdiagnose wordt verzameld… dit kan even duren."
-      },
-      "existingUpload": {
-        "intro": "Heb je al een opgeslagen log-ZIP - bijvoorbeeld eerder verzameld zonder internetverbinding? Upload deze nu.",
-        "button": "Kies ZIP-bestand",
-        "invalidFile": "Kies een .zip-bestand."
       },
       "progress": {
         "collectingLogs": "Touch'N'Stars-logs worden verzameld…",

@@ -2710,7 +2710,15 @@
         "clearAll": "Wyczyść wszystko",
         "collectSave": "Zbierz i zapisz",
         "saving": "Zapisywanie…",
-        "hint": "Zbierz i prześlij zbiera logi i wysyła je bezpośrednio do punktu wsparcia. Zbierz i zapisz zbiera te same logi, ale zapisuje plik ZIP na Twoim urządzeniu - użyj tego, gdy nie masz jeszcze połączenia z internetem i chcesz przesłać go później."
+        "hint": "Zbierz i prześlij zbiera logi i wysyła je bezpośrednio do punktu wsparcia. Zbierz i zapisz zbiera te same logi, ale zachowuje plik ZIP w aplikacji - użyj tego, gdy nie masz jeszcze połączenia z internetem i chcesz przesłać go później."
+      },
+      "savedArchives": {
+        "title": "Zapisane archiwa",
+        "intro": "Zbierz i zapisz zachowuje archiwum w aplikacji (maks. 5, najstarsze jest zastępowane). Prześlij je, gdy będziesz mieć połączenie z internetem, lub wyeksportuj na urządzenie.",
+        "empty": "Brak zapisanych archiwów.",
+        "upload": "Prześlij",
+        "download": "Pobierz",
+        "delete": "Usuń"
       },
       "submissionFields": {
         "date": "Data",
@@ -2726,6 +2734,8 @@
         "submissionRemoved": "Przesłanie usunięte",
         "allSubmissionsCleared": "Wszystkie przesłania wyczyszczone",
         "savedLocally": "Plik logu zapisany na Twoim urządzeniu ({filename}).",
+        "savedInApp": "Archiwum logów zapisane w aplikacji ({filename}). Prześlij je z listy zapisanych archiwów, gdy będziesz online.",
+        "archiveMissing": "Zapisane archiwum nie jest już dostępne.",
         "saveFailed": "Nie udało się zapisać pliku logu lokalnie."
       },
       "diagnostics": {
@@ -2755,11 +2765,6 @@
         "expertMode": "Ustawienia eksperckie",
         "ninaLogs": "Pliki logów NINA (ostatnie 10)",
         "collecting": "Zbieranie diagnostyki systemu PINS… to może chwilę potrwać."
-      },
-      "existingUpload": {
-        "intro": "Masz już zapisany ZIP z logami - np. zebrany wcześniej bez połączenia z internetem? Prześlij go teraz.",
-        "button": "Wybierz plik ZIP",
-        "invalidFile": "Wybierz plik .zip."
       },
       "progress": {
         "collectingLogs": "Zbieranie logów Touch'N'Stars…",

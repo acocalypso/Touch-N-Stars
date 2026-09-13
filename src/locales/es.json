@@ -2710,7 +2710,15 @@
         "clearAll": "Despejar todo",
         "collectSave": "Recolectar y guardar",
         "saving": "Guardando…",
-        "hint": "Recolectar y subir reúne los registros y los envía directamente al endpoint de soporte. Recolectar y guardar reúne los mismos registros, pero guarda el ZIP en tu dispositivo - usa esta opción cuando aún no tengas conexión a internet y quieras subirlo más tarde."
+        "hint": "Recolectar y subir reúne los registros y los envía directamente al endpoint de soporte. Recolectar y guardar reúne los mismos registros, pero conserva el ZIP en la app - usa esta opción cuando aún no tengas conexión a internet y quieras subirlo más tarde."
+      },
+      "savedArchives": {
+        "title": "Archivos guardados",
+        "intro": "Recolectar y guardar conserva el archivo en la app (máx. 5, el más antiguo se reemplaza). Súbelo cuando tengas conexión a internet o expórtalo a tu dispositivo.",
+        "empty": "Aún no hay archivos guardados.",
+        "upload": "Subir",
+        "download": "Descargar",
+        "delete": "Eliminar"
       },
       "submissionFields": {
         "date": "Fecha",
@@ -2726,6 +2734,8 @@
         "submissionRemoved": "Envío eliminado",
         "allSubmissionsCleared": "Todos los envíos se eliminaron",
         "savedLocally": "Archivo de registro guardado en tu dispositivo ({filename}).",
+        "savedInApp": "Archivo de registros guardado en la app ({filename}). Súbelo desde la lista de archivos guardados cuando estés en línea.",
+        "archiveMissing": "El archivo guardado ya no está disponible.",
         "saveFailed": "No se pudo guardar el archivo de registro localmente."
       },
       "diagnostics": {
@@ -2755,11 +2765,6 @@
         "expertMode": "Configuración avanzada",
         "ninaLogs": "Archivos de registro de NINA (últimos 10)",
         "collecting": "Recopilando diagnósticos del sistema PINS… esto puede tardar un rato."
-      },
-      "existingUpload": {
-        "intro": "¿Ya tienes un ZIP de registros guardado - por ejemplo, recopilado antes sin conexión a internet? Súbelo ahora.",
-        "button": "Elegir archivo ZIP",
-        "invalidFile": "Elige un archivo .zip."
       },
       "progress": {
         "collectingLogs": "Recopilando registros de Touch'N'Stars…",

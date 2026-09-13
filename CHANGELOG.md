@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Status bar: The filter panel now has the filter selector, so the filter can be changed from any page.
 - Status bar: The camera panel offers the cool-down and warm-up controls with the target temperature when the camera has a cooler.
 - Logfile Collector: PINS system diagnostics are now collected and included automatically, expanded log coverage, and progress is shown while the archive is being built.
-- Logfile Collector: Collect & Save writes the log archive to the device for offline use, and an already saved archive can be uploaded later once a connection is available.
+- Logfile Collector: Collect & Save now keeps the log archive inside the app (up to five) so it can be uploaded, exported to the device or deleted later from a saved-archives list.
 
 ### Fixed
 - Filter wheel: The INDI manual wheel is no longer offered and an existing selection is switched to NINA's Manual Filter Wheel on connect, so the filter change confirmation appears again in PINS.

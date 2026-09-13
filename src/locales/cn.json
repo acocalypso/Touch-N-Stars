@@ -2710,7 +2710,15 @@
         "clearAll": "全部清除",
         "collectSave": "收集并保存",
         "saving": "保存中…",
-        "hint": "收集并上传会收集日志并直接发送到支持端点。收集并保存会收集相同的日志,但将 ZIP 保存到您的设备 - 如果您暂时没有网络连接、想稍后再上传,请使用此选项。"
+        "hint": "收集并上传会收集日志并直接发送到支持端点。收集并保存会收集相同的日志,但将 ZIP 保留在应用内 - 如果您暂时没有网络连接、想稍后再上传,请使用此选项。"
+      },
+      "savedArchives": {
+        "title": "已保存的归档",
+        "intro": "收集并保存会将归档保留在应用内(最多 5 个,最旧的会被替换)。有网络连接后即可上传,或导出到您的设备。",
+        "empty": "暂无已保存的归档。",
+        "upload": "上传",
+        "download": "下载",
+        "delete": "删除"
       },
       "submissionFields": {
         "date": "日期",
@@ -2726,6 +2734,8 @@
         "submissionRemoved": "提交已移除",
         "allSubmissionsCleared": "所有提交已清除",
         "savedLocally": "日志文件已保存到您的设备({filename})。",
+        "savedInApp": "日志归档已保存在应用内({filename})。联网后请从已保存的归档列表中上传。",
+        "archiveMissing": "已保存的归档不再可用。",
         "saveFailed": "本地保存日志文件失败。"
       },
       "diagnostics": {
@@ -2755,11 +2765,6 @@
         "expertMode": "专家设置",
         "ninaLogs": "NINA 日志文件(最近 10 个)",
         "collecting": "正在收集 PINS 系统诊断信息…这可能需要一些时间。"
-      },
-      "existingUpload": {
-        "intro": "已经有保存的日志 ZIP 了吗?例如之前在没有网络连接时收集的?现在就上传。",
-        "button": "选择 ZIP 文件",
-        "invalidFile": "请选择一个 .zip 文件。"
       },
       "progress": {
         "collectingLogs": "正在收集 Touch'N'Stars 日志…",

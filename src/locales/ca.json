@@ -5444,7 +5444,9 @@
       "observedLegendBrighter": "Verd — més brillant del previst (un esclat real)",
       "observedLegendNormal": "Turquesa — coincideix aproximadament amb la predicció",
       "observedLegendFainter": "Ambre — notablement més feble del previst",
-      "observedLegendMuchFainter": "Vermell — molt més feble del previst"
+      "observedLegendMuchFainter": "Vermell — molt més feble del previst",
+      "selectedPrompt": "Selected -- ready to check its position.",
+      "goToPositionPath": "Go to Position & Path"
     },
     "position": {
       "step": "Revisa la posició i compon l'enquadrament",

@@ -5444,7 +5444,9 @@
       "observedLegendBrighter": "緑 — 予測より明るい（実際のアウトバースト）",
       "observedLegendNormal": "ティール — 予測とほぼ一致",
       "observedLegendFainter": "黄 — 予測よりかなり暗い",
-      "observedLegendMuchFainter": "赤 — 予測よりはるかに暗い"
+      "observedLegendMuchFainter": "赤 — 予測よりはるかに暗い",
+      "selectedPrompt": "Selected -- ready to check its position.",
+      "goToPositionPath": "Go to Position & Path"
     },
     "position": {
       "step": "位置を確認し構図を決める",

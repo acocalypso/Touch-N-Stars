@@ -5409,7 +5409,9 @@
       "observedLegendBrighter": "Green — brighter than predicted (a real outburst)",
       "observedLegendNormal": "Teal — roughly matches the prediction",
       "observedLegendFainter": "Amber — noticeably fainter than predicted",
-      "observedLegendMuchFainter": "Red — much fainter than predicted"
+      "observedLegendMuchFainter": "Red — much fainter than predicted",
+      "selectedPrompt": "Selected -- ready to check its position.",
+      "goToPositionPath": "Go to Position & Path"
     },
     "position": {
       "step": "Review its position & compose the framing",
@@ -5506,7 +5508,7 @@
       "working": "Working…",
       "howItWorks": "How It Works",
       "eqmodToggleTitle": "EQMOD RA Rate Correction",
-      "eqmodToggleDescription": "EQMOD — both the Windows ASCOM driver and INDI's own separate EQMod driver, confirmed independently — reads the RA tracking rate as raw arcsec/sec rather than what NINA itself sends, which makes tracking come out about 15× too slow unless corrected. Only enable this if your mount is driven through EQMOD.",
+      "eqmodToggleDescription": "EQMOD reads RA rate as raw arcsec/sec instead of what NINA sends, making tracking ~15× too slow unless corrected. Only enable if your mount uses EQMOD.",
       "eqmodDetectedHint": "{name} looks like an EQMOD driver — you probably want this enabled.",
       "reapplyIntervalTitle": "Reapply Interval",
       "reapplyIntervalDescription": "How often Quick Track recomputes and resends the tracking rate. Default 900s (15 min) suits comets and asteroids; shorten it down to a 5-second floor for an object moving unusually fast.",

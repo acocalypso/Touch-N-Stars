@@ -5449,7 +5449,9 @@
       "observedLegendBrighter": "Grün — heller als vorhergesagt (ein echter Ausbruch)",
       "observedLegendNormal": "Türkis — entspricht ungefähr der Vorhersage",
       "observedLegendFainter": "Gelb — deutlich schwächer als vorhergesagt",
-      "observedLegendMuchFainter": "Rot — viel schwächer als vorhergesagt"
+      "observedLegendMuchFainter": "Rot — viel schwächer als vorhergesagt",
+      "selectedPrompt": "Selected -- ready to check its position.",
+      "goToPositionPath": "Go to Position & Path"
     },
     "position": {
       "step": "Position prüfen & Bildausschnitt festlegen",

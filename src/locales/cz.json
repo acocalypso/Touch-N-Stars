@@ -5444,7 +5444,9 @@
       "observedLegendBrighter": "Zelená — jasnější, než se předpokládalo (skutečný výbuch aktivity)",
       "observedLegendNormal": "Tyrkysová — přibližně odpovídá předpovědi",
       "observedLegendFainter": "Žlutá — znatelně slabší, než se předpokládalo",
-      "observedLegendMuchFainter": "Červená — mnohem slabší, než se předpokládalo"
+      "observedLegendMuchFainter": "Červená — mnohem slabší, než se předpokládalo",
+      "selectedPrompt": "Selected -- ready to check its position.",
+      "goToPositionPath": "Go to Position & Path"
     },
     "position": {
       "step": "Zkontrolujte pozici a nastavte rámování",

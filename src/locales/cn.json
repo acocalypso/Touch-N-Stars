@@ -5444,7 +5444,9 @@
       "observedLegendBrighter": "绿色 — 比预测更亮（真实的爆发活动）",
       "observedLegendNormal": "青色 — 大致符合预测",
       "observedLegendFainter": "琥珀色 — 明显比预测暗",
-      "observedLegendMuchFainter": "红色 — 比预测暗得多"
+      "observedLegendMuchFainter": "红色 — 比预测暗得多",
+      "selectedPrompt": "Selected -- ready to check its position.",
+      "goToPositionPath": "Go to Position & Path"
     },
     "position": {
       "step": "查看位置并构图",

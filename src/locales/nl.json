@@ -5444,7 +5444,9 @@
       "observedLegendBrighter": "Groen — helderder dan voorspeld (een echte uitbarsting)",
       "observedLegendNormal": "Turquoise — komt ongeveer overeen met de voorspelling",
       "observedLegendFainter": "Geel — merkbaar zwakker dan voorspeld",
-      "observedLegendMuchFainter": "Rood — veel zwakker dan voorspeld"
+      "observedLegendMuchFainter": "Rood — veel zwakker dan voorspeld",
+      "selectedPrompt": "Selected -- ready to check its position.",
+      "goToPositionPath": "Go to Position & Path"
     },
     "position": {
       "step": "Controleer de positie & stel het beeldveld samen",

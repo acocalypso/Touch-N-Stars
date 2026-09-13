@@ -5444,7 +5444,9 @@
       "observedLegendBrighter": "Зелений — яскравіше, ніж передбачено (справжній спалах активності)",
       "observedLegendNormal": "Бірюзовий — приблизно відповідає передбаченню",
       "observedLegendFainter": "Жовтий — помітно слабкіше, ніж передбачено",
-      "observedLegendMuchFainter": "Червоний — набагато слабкіше, ніж передбачено"
+      "observedLegendMuchFainter": "Червоний — набагато слабкіше, ніж передбачено",
+      "selectedPrompt": "Selected -- ready to check its position.",
+      "goToPositionPath": "Go to Position & Path"
     },
     "position": {
       "step": "Перевірте позицію й складіть кадр",

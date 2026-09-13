@@ -5449,7 +5449,9 @@
       "observedLegendBrighter": "Verde — mais brilhante que o previsto (uma explosão real)",
       "observedLegendNormal": "Turquesa — corresponde aproximadamente à previsão",
       "observedLegendFainter": "Âmbar — visivelmente mais fraco que o previsto",
-      "observedLegendMuchFainter": "Vermelho — muito mais fraco que o previsto"
+      "observedLegendMuchFainter": "Vermelho — muito mais fraco que o previsto",
+      "selectedPrompt": "Selected -- ready to check its position.",
+      "goToPositionPath": "Go to Position & Path"
     },
     "position": {
       "step": "Revise a posição e componha o enquadramento",

@@ -204,60 +204,84 @@
           </p>
 
           <div class="space-y-2">
-            <button
-              v-for="o in filteredObjects"
-              :key="o.id"
-              class="tns-card w-full flex items-center gap-3 text-left cursor-pointer transition-colors"
-              :class="o.id === selectedId ? 'border-accent/40 bg-accent/5' : 'hover:bg-surface-2'"
-              @click="selectedId = o.id"
-            >
-              <div
-                class="w-9 h-9 rounded-chip flex items-center justify-center shrink-0"
-                :class="o.objectType === 'Comet' ? 'bg-violet-400/15' : 'bg-surface-3'"
+            <template v-for="o in filteredObjects" :key="o.id">
+              <button
+                class="tns-card w-full flex items-center gap-3 text-left cursor-pointer transition-colors"
+                :class="o.id === selectedId ? 'border-accent/40 bg-accent/5' : 'hover:bg-surface-2'"
+                @click="selectedId = o.id"
               >
-                <CometIcon v-if="o.objectType === 'Comet'" :id="o.id" />
-                <AsteroidIcon v-else />
-              </div>
-              <div class="flex flex-col gap-0.5 min-w-0 flex-1">
-                <span class="flex items-center gap-1 min-w-0">
-                  <span class="text-sm font-bold text-content truncate">{{ o.name }}</span>
-                  <!-- Epoch-staleness badge -- see fetchBrowseObjects.js's own isEpochStale
+                <div
+                  class="w-9 h-9 rounded-chip flex items-center justify-center shrink-0"
+                  :class="o.objectType === 'Comet' ? 'bg-violet-400/15' : 'bg-surface-3'"
+                >
+                  <CometIcon v-if="o.objectType === 'Comet'" :id="o.id" />
+                  <AsteroidIcon v-else />
+                </div>
+                <div class="flex flex-col gap-0.5 min-w-0 flex-1">
+                  <span class="flex items-center gap-1 min-w-0">
+                    <span class="text-sm font-bold text-content truncate">{{ o.name }}</span>
+                    <!-- Epoch-staleness badge -- see fetchBrowseObjects.js's own isEpochStale
                        comment. A shared modal (not per-row text) keeps a dense list from getting
                        cluttered; tap-to-open rather than a native title tooltip, same reasoning
                        as the ObservedMag legend above. A <span role="button">, not an actual
                        <button> -- this whole row is already a <button>, and nesting one inside
                        another is invalid HTML. -->
-                  <span
-                    v-if="o.isEpochStale"
-                    role="button"
-                    tabindex="0"
-                    class="text-status-warn shrink-0 cursor-pointer"
-                    :aria-label="t('perihelion.browse.epochStaleTooltip')"
-                    @click.stop="showEpochStaleLegend = true"
-                    @keydown.enter.stop="showEpochStaleLegend = true"
-                  >
-                    <ExclamationTriangleIcon class="w-3.5 h-3.5" />
+                    <span
+                      v-if="o.isEpochStale"
+                      role="button"
+                      tabindex="0"
+                      class="text-status-warn shrink-0 cursor-pointer"
+                      :aria-label="t('perihelion.browse.epochStaleTooltip')"
+                      @click.stop="showEpochStaleLegend = true"
+                      @keydown.enter.stop="showEpochStaleLegend = true"
+                    >
+                      <ExclamationTriangleIcon class="w-3.5 h-3.5" />
+                    </span>
                   </span>
-                </span>
-                <span class="text-[11px] text-content-muted">{{ o.objectType }}</span>
-              </div>
-              <div class="flex flex-col items-end gap-0.5 shrink-0">
-                <span class="text-[15px] font-bold tabular-nums text-content">
-                  {{ o.magnitude != null ? o.magnitude.toFixed(1) : '—' }}
-                </span>
-                <span class="text-[9px] font-bold uppercase tracking-wide text-content-faint">{{
-                  t('perihelion.browse.mag')
-                }}</span>
-                <span
-                  v-if="o.observedMagnitude != null"
-                  class="flex items-center gap-0.5 text-[11px] font-semibold tabular-nums px-1.5 py-0.5 rounded-full border"
-                  :class="magDiffColorClass(o.magnitude, o.observedMagnitude)"
+                  <span class="text-[11px] text-content-muted">{{ o.objectType }}</span>
+                </div>
+                <div class="flex flex-col items-end gap-0.5 shrink-0">
+                  <span class="text-[15px] font-bold tabular-nums text-content">
+                    {{ o.magnitude != null ? o.magnitude.toFixed(1) : '—' }}
+                  </span>
+                  <span class="text-[9px] font-bold uppercase tracking-wide text-content-faint">{{
+                    t('perihelion.browse.mag')
+                  }}</span>
+                  <span
+                    v-if="o.observedMagnitude != null"
+                    class="flex items-center gap-0.5 text-[11px] font-semibold tabular-nums px-1.5 py-0.5 rounded-full border"
+                    :class="magDiffColorClass(o.magnitude, o.observedMagnitude)"
+                  >
+                    <EyeIcon class="w-3 h-3" />
+                    {{ o.observedMagnitude.toFixed(1) }}
+                  </span>
+                </div>
+              </button>
+              <Transition
+                enter-active-class="transition-all duration-200 ease-out"
+                enter-from-class="opacity-0 -translate-y-1 scale-95"
+                enter-to-class="opacity-100 translate-y-0 scale-100"
+                leave-active-class="transition-all duration-150 ease-in"
+                leave-from-class="opacity-100"
+                leave-to-class="opacity-0"
+              >
+                <div
+                  v-if="o.id === selectedId"
+                  class="flex items-center gap-3 p-3 rounded-chip bg-accent/10 border border-accent/30"
                 >
-                  <EyeIcon class="w-3 h-3" />
-                  {{ o.observedMagnitude.toFixed(1) }}
-                </span>
-              </div>
-            </button>
+                  <CheckCircleIcon class="w-5 h-5 text-accent shrink-0" />
+                  <span class="flex-1 text-sm text-content-muted">{{
+                    t('perihelion.browse.selectedPrompt')
+                  }}</span>
+                  <button
+                    class="tns-btn w-auto shrink-0 px-4 bg-emerald-700 text-white hover:bg-emerald-600"
+                    @click="goToPositionFromBrowse"
+                  >
+                    {{ t('perihelion.browse.goToPositionPath') }}
+                  </button>
+                </div>
+              </Transition>
+            </template>
           </div>
         </template>
 
@@ -604,21 +628,30 @@
                 @offset="onFramingOffset"
               >
                 <template #after-actions>
-                  <div
-                    v-if="showFramingCapturedPrompt"
-                    class="flex items-center gap-3 p-3 rounded-chip bg-accent/10 border border-accent/30"
+                  <Transition
+                    enter-active-class="transition-all duration-200 ease-out"
+                    enter-from-class="opacity-0 -translate-y-1 scale-95"
+                    enter-to-class="opacity-100 translate-y-0 scale-100"
+                    leave-active-class="transition-all duration-150 ease-in"
+                    leave-from-class="opacity-100"
+                    leave-to-class="opacity-0"
                   >
-                    <CheckCircleIcon class="w-5 h-5 text-accent shrink-0" />
-                    <span class="flex-1 text-sm text-content-muted">{{
-                      t('perihelion.position.framingCapturedPrompt')
-                    }}</span>
-                    <button
-                      class="tns-btn w-auto shrink-0 px-4 bg-emerald-700 text-white hover:bg-emerald-600"
-                      @click="goToTrackFromFraming"
+                    <div
+                      v-if="showFramingCapturedPrompt"
+                      class="flex items-center gap-3 p-3 rounded-chip bg-accent/10 border border-accent/30"
                     >
-                      {{ t('perihelion.position.goToTrack') }}
-                    </button>
-                  </div>
+                      <CheckCircleIcon class="w-5 h-5 text-accent shrink-0" />
+                      <span class="flex-1 text-sm text-content-muted">{{
+                        t('perihelion.position.framingCapturedPrompt')
+                      }}</span>
+                      <button
+                        class="tns-btn w-auto shrink-0 px-4 bg-emerald-700 text-white hover:bg-emerald-600"
+                        @click="goToTrackFromFraming"
+                      >
+                        {{ t('perihelion.position.goToTrack') }}
+                      </button>
+                    </div>
+                  </Transition>
                 </template>
               </FramingOffsetView>
             </div>
@@ -2438,6 +2471,10 @@ function onFramingOffset(offset) {
 function goToTrackFromFraming() {
   showFramingCapturedPrompt.value = false;
   activeTab.value = 'track';
+}
+
+function goToPositionFromBrowse() {
+  activeTab.value = 'position';
 }
 
 // --- Track ---

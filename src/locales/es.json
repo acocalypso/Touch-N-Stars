@@ -5449,7 +5449,9 @@
       "observedLegendBrighter": "Verde — más brillante de lo previsto (un estallido real)",
       "observedLegendNormal": "Turquesa — coincide aproximadamente con la predicción",
       "observedLegendFainter": "Ámbar — notablemente más débil de lo previsto",
-      "observedLegendMuchFainter": "Rojo — mucho más débil de lo previsto"
+      "observedLegendMuchFainter": "Rojo — mucho más débil de lo previsto",
+      "selectedPrompt": "Selected -- ready to check its position.",
+      "goToPositionPath": "Go to Position & Path"
     },
     "position": {
       "step": "Revisa su posición y compón el encuadre",

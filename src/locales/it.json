@@ -5449,7 +5449,9 @@
       "observedLegendBrighter": "Verde — più luminosa del previsto (una vera esplosione di attività)",
       "observedLegendNormal": "Turchese — corrisponde più o meno alla previsione",
       "observedLegendFainter": "Ambra — notevolmente più debole del previsto",
-      "observedLegendMuchFainter": "Rosso — molto più debole del previsto"
+      "observedLegendMuchFainter": "Rosso — molto più debole del previsto",
+      "selectedPrompt": "Selected -- ready to check its position.",
+      "goToPositionPath": "Go to Position & Path"
     },
     "position": {
       "step": "Controlla la posizione e componi l'inquadratura",

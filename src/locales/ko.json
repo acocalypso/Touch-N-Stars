@@ -5444,7 +5444,9 @@
       "observedLegendBrighter": "녹색 — 예측보다 밝음(실제 폭발적 활동)",
       "observedLegendNormal": "청록색 — 예측과 대체로 일치",
       "observedLegendFainter": "주황색 — 예측보다 눈에 띄게 어두움",
-      "observedLegendMuchFainter": "빨간색 — 예측보다 훨씬 어두움"
+      "observedLegendMuchFainter": "빨간색 — 예측보다 훨씬 어두움",
+      "selectedPrompt": "Selected -- ready to check its position.",
+      "goToPositionPath": "Go to Position & Path"
     },
     "position": {
       "step": "위치를 확인하고 구도를 설정하세요",

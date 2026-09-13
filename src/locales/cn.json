@@ -5407,7 +5407,8 @@
     "tabs": {
       "browse": "浏览",
       "position": "位置与轨迹",
-      "track": "跟踪"
+      "track": "跟踪",
+      "settings": "设置"
     },
     "browse": {
       "step": "选择要跟踪的彗星或小行星",
@@ -5416,7 +5417,7 @@
       "filterComets": "彗星",
       "filterAsteroids": "小行星",
       "sortBy": "排序方式",
-      "sortBrightness": "亮度",
+      "sortBrightness": "星等",
       "sortName": "名称",
       "cometsStatus": "彗星 {status}",
       "asteroidsStatus": "小行星 {status}",
@@ -5430,7 +5431,6 @@
       "cobsRefreshed": "COBS 星等已刷新",
       "cobsRefreshedAgo": "COBS 已刷新 {when}",
       "cobsNeverRefreshed": "COBS 从未刷新",
-      "asteroidCount": "{count} 颗小行星 — 来自 JPL 的实时轨道要素，自动更新。",
       "epochStaleTooltip": "该天体的轨道数据可能不如往常精确 — 点击查看详情。",
       "epochStaleLegendTitle": "轨道数据过旧",
       "epochStaleLegendExplanation": "该天体的轨道要素与其自身的参考历元相差异常之远。在距离该基准日期如此久远的时间预测位置，依赖的是简单的二体物理模型，并未考虑行星持续的引力摄动，因此实际位置可能与此处显示的有所偏差。",
@@ -5443,7 +5443,12 @@
       "observedLegendBrighter": "绿色 — 比预测更亮（真实的爆发活动）",
       "observedLegendNormal": "青色 — 大致符合预测",
       "observedLegendFainter": "琥珀色 — 明显比预测暗",
-      "observedLegendMuchFainter": "红色 — 比预测暗得多"
+      "observedLegendMuchFainter": "红色 — 比预测暗得多",
+      "selectedPrompt": "已选择 -- 可以检查其位置了。",
+      "goToPositionPath": "前往位置与轨迹",
+      "datasetCounts": "{comets} 颗彗星，{asteroids} 颗小行星",
+      "cometCountSynced": "{count} 颗彗星 · {status}",
+      "asteroidCountSynced": "{count} 颗小行星 · {status}"
     },
     "position": {
       "step": "查看位置并构图",
@@ -5539,22 +5544,22 @@
       "quickTrack": "快速跟踪",
       "working": "处理中…",
       "howItWorks": "工作原理",
-      "reapplyIntervalSection": "重新应用间隔",
       "eqmodToggleTitle": "EQMOD 赤经速率校正",
-      "eqmodToggleDescription": "EQMOD（无论是 Windows 的 ASCOM 驱动，还是已独立确认存在同样问题的 INDI 自身的 EQMod 驱动）会将赤经跟踪速率读取为原始角秒/秒，而非 NINA 实际发送的值，若不校正，跟踪速度会慢约 15 倍。仅当您的赤道仪通过 EQMOD 驱动时才启用此项。",
+      "eqmodToggleDescription": "EQMOD 将赤经速率读取为原始角秒/秒，而不是 NINA 发送的值，若不校正会导致跟踪速度慢约 15 倍。仅当赤道仪使用 EQMOD 时才启用。",
       "eqmodDetectedHint": "{name} 看起来是 EQMOD 驱动 — 您可能需要启用此项。",
       "reapplyIntervalTitle": "重新应用间隔",
       "reapplyIntervalDescription": "Quick Track 重新计算并重新发送跟踪速率的频率。默认值 900 秒（15 分钟）适用于彗星和小行星。",
       "secondsUnit": "秒",
-      "addToSequenceDescriptionRest": "创建一个转动、跟踪与拍摄序列，并将其加载到 PINS 的序列编辑器中，供你查看并启动。",
+      "addToSequenceDescriptionRest": "会将一个「定位+跟踪+拍摄」目标追加到 PINS 序列器中已加载的序列里，供你查看并启动 -- 现有目标不受影响。",
       "downloadSequence": "下载序列",
-      "downloadSequenceDescriptionRest": "将相同的序列保存为文件，而不是加载到 PINS 中 -- 供以后查看或导入。",
+      "downloadSequenceDescriptionRest": "会将等效的完整序列保存为文件，而不是追加到已加载的序列中 -- 便于以后查看或导入。",
       "quickTrackDescriptionRest": "立即直接设置赤道仪的速率 — 供手动或目视使用，不能替代真正的拍摄序列。如果赤道仪报告已到达中天翻转极限，Quick Track 会自动停止，因为它没有序列触发器来替你执行翻转。",
       "stopSequence": "停止序列",
       "stopQuickTrack": "停止快速跟踪",
       "autoReapplyingFooterSeconds": "Auto re-applying every {seconds} sec",
       "footer": "在设备本地根据实时轨道根数计算 — 彗星和小行星都会定期同步，之后可离线工作。",
-      "dismiss": "关闭"
+      "dismiss": "关闭",
+      "guidingOnlyFallback": "赤道仪无法接受自定义速率 -- 仅通过导星偏移进行跟踪。"
     },
     "relativeTime": {
       "justNow": "刚刚",
@@ -5585,11 +5590,35 @@
       "noResponse": "没有响应消息",
       "unreachable": "无法连接到 Perihelion",
       "syncFailed": "同步失败",
-      "sequenceLoadFailed": "无法加载序列",
-      "sequenceLoaded": "序列已加载 — 请在序列编辑器中检查并启动",
-      "unknownError": "未知错误"
+      "unknownError": "未知错误",
+      "backendTooOld": "此功能需要更新版本的 Perihelion 插件 -- 请更新后重试。"
     },
     "notDetected": "未检测到 Perihelion 插件。请安装 Perihelion 插件以使用此页面。",
-    "notSupportedOnNina": "Perihelion 目前仅支持 PINS，不支持 Windows NINA。"
+    "notSupportedOnNina": "Perihelion 目前仅支持 PINS，不支持 Windows NINA。",
+    "settings": {
+      "trackingSection": "赤道仪与跟踪",
+      "dataSection": "数据",
+      "cometMagnitudeThreshold": "彗星星等上限",
+      "maxComets": "最多显示彗星数",
+      "asteroidMagnitudeThreshold": "小行星星等上限",
+      "maxAsteroids": "最多显示小行星数",
+      "cometsData": "彗星",
+      "asteroidsData": "小行星",
+      "import": "导入",
+      "export": "导出",
+      "clear": "清除",
+      "saved": "已保存。",
+      "saveFailed": "保存失败。",
+      "importedComets": "已导入 {count} 颗彗星。",
+      "importedAsteroids": "已导入 {count} 颗小行星。",
+      "nothingToExport": "没有可导出的内容 -- 尚未同步过。",
+      "confirmClearComets": "要移除所有已缓存的彗星轨道数据吗？在下次同步之前，浏览列表中的彗星将为空。",
+      "confirmClearAsteroids": "要移除所有已缓存的小行星轨道数据吗？在下次同步之前，浏览列表中的小行星将为空。",
+      "cobsData": "COBS",
+      "cobsCountSynced": "已缓存 {count} 颗彗星 · {status}",
+      "refreshedAgo": "{when}更新",
+      "neverRefreshed": "从未更新",
+      "confirmClearCobs": "要移除所有已缓存的 COBS 观测数据吗？在下次浏览标签页刷新之前，实测亮度徽章将为空。"
+    }
   }
 }

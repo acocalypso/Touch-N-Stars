@@ -40,7 +40,8 @@
       </template>
     </div>
 
-    <div v-if="ready" class="flex items-center gap-2">
+    <!-- Requires a connected rotator -- CenterAndRotate fails validation without one. -->
+    <div v-if="ready && store.rotatorInfo?.Connected" class="flex items-center gap-2">
       <span class="text-[11px] text-content-faint shrink-0">{{
         t('perihelion.framing.rotation')
       }}</span>

@@ -5412,7 +5412,8 @@
     "tabs": {
       "browse": "Sfoglia",
       "position": "Posizione e Percorso",
-      "track": "Insegui"
+      "track": "Insegui",
+      "settings": "Impostazioni"
     },
     "browse": {
       "step": "Scegli una cometa o un asteroide da inseguire",
@@ -5421,7 +5422,7 @@
       "filterComets": "Comete",
       "filterAsteroids": "Asteroidi",
       "sortBy": "Ordina per",
-      "sortBrightness": "Luminosità",
+      "sortBrightness": "Mag.",
       "sortName": "Nome",
       "cometsStatus": "Comete {status}",
       "asteroidsStatus": "Asteroidi {status}",
@@ -5435,7 +5436,6 @@
       "cobsRefreshed": "Magnitudini COBS aggiornate",
       "cobsRefreshedAgo": "COBS aggiornato {when}",
       "cobsNeverRefreshed": "COBS mai aggiornato",
-      "asteroidCount": "{count} asteroidi — elementi orbitali in tempo reale dal JPL, aggiornati automaticamente.",
       "epochStaleTooltip": "I dati orbitali di questo oggetto potrebbero essere meno precisi del solito — tocca per i dettagli.",
       "epochStaleLegendTitle": "Dati orbitali datati",
       "epochStaleLegendExplanation": "Gli elementi orbitali di questo oggetto sono insolitamente lontani dalla propria epoca di riferimento. Prevedere una posizione così lontana da quella data si basa su una semplice fisica a due corpi che non tiene conto delle perturbazioni gravitazionali continue dei pianeti, quindi la posizione reale potrebbe discostarsi da quella mostrata.",
@@ -5448,7 +5448,12 @@
       "observedLegendBrighter": "Verde — più luminosa del previsto (una vera esplosione di attività)",
       "observedLegendNormal": "Turchese — corrisponde più o meno alla previsione",
       "observedLegendFainter": "Ambra — notevolmente più debole del previsto",
-      "observedLegendMuchFainter": "Rosso — molto più debole del previsto"
+      "observedLegendMuchFainter": "Rosso — molto più debole del previsto",
+      "selectedPrompt": "Selezionato -- pronto per controllare la sua posizione.",
+      "goToPositionPath": "Vai a Posizione e Percorso",
+      "datasetCounts": "{comets} comete, {asteroids} asteroidi",
+      "cometCountSynced": "{count} comete · {status}",
+      "asteroidCountSynced": "{count} asteroidi · {status}"
     },
     "position": {
       "step": "Controlla la posizione e componi l'inquadratura",
@@ -5544,22 +5549,22 @@
       "quickTrack": "Quick Track",
       "working": "In corso…",
       "howItWorks": "Come funziona",
-      "reapplyIntervalSection": "Intervallo di riapplicazione",
       "eqmodToggleTitle": "Correzione tasso AR per EQMOD",
-      "eqmodToggleDescription": "EQMOD — sia il driver ASCOM di Windows sia il driver EQMod indipendente di INDI, confermato separatamente — legge il tasso di inseguimento in AR come arcsec/s grezzi anziché ciò che NINA invia realmente, rendendo l'inseguimento circa 15 volte più lento senza questa correzione. Attivalo solo se la montatura è pilotata tramite EQMOD.",
+      "eqmodToggleDescription": "EQMOD legge il rate AR come arcosec/sec grezzi invece di quello inviato da NINA, rendendo l'inseguimento ~15× troppo lento se non corretto. Attivare solo se la montatura usa EQMOD.",
       "eqmodDetectedHint": "{name} sembra un driver EQMOD — probabilmente vorrai attivarlo.",
       "reapplyIntervalTitle": "Intervallo di riapplicazione",
       "reapplyIntervalDescription": "Con quale frequenza Quick Track ricalcola e reinvia il tasso di inseguimento. Il valore predefinito di 900 s (15 min) è adatto a comete e asteroidi.",
       "secondsUnit": "s",
-      "addToSequenceDescriptionRest": "crea una sequenza di spostamento, inseguimento e acquisizione e la carica nel sequencer di PINS perché tu la riveda e la avvii.",
+      "addToSequenceDescriptionRest": "aggiunge un target di puntamento + inseguimento + imaging alla sequenza già caricata nel sequencer di PINS, da rivedere e avviare -- i target esistenti restano invariati.",
       "downloadSequence": "Scarica sequenza",
-      "downloadSequenceDescriptionRest": "salva la stessa sequenza come file invece di caricarla in PINS -- da rivedere o importare in seguito.",
+      "downloadSequenceDescriptionRest": "salva una sequenza completa equivalente come file invece di aggiungerla alla sequenza caricata -- per rivederla o importarla in seguito.",
       "quickTrackDescriptionRest": "imposta subito la velocità della montatura direttamente — per uso manuale o visuale, non un sostituto di una vera sequenza di acquisizione. Si arresta automaticamente se la montatura segnala di aver raggiunto il limite di ribaltamento al meridiano, poiché Quick Track non ha un trigger di sequenza che lo faccia al posto tuo.",
       "stopSequence": "Ferma sequenza",
       "stopQuickTrack": "Ferma Quick Track",
       "autoReapplyingFooterSeconds": "Auto re-applying every {seconds} sec",
       "footer": "Calcolato sul dispositivo dagli elementi orbitali in tempo reale — comete e asteroidi si sincronizzano entrambi periodicamente e poi funzionano offline.",
-      "dismiss": "Ignora"
+      "dismiss": "Ignora",
+      "guidingOnlyFallback": "La montatura non accetta un rate personalizzato -- inseguimento solo tramite shift dell'autoguida."
     },
     "relativeTime": {
       "justNow": "proprio ora",
@@ -5590,11 +5595,35 @@
       "noResponse": "Nessun messaggio di risposta",
       "unreachable": "Impossibile contattare Perihelion",
       "syncFailed": "Sincronizzazione fallita",
-      "sequenceLoadFailed": "Impossibile caricare la sequenza",
-      "sequenceLoaded": "Sequenza caricata — controllala e avviala nel sequencer",
-      "unknownError": "errore sconosciuto"
+      "unknownError": "errore sconosciuto",
+      "backendTooOld": "Questa funzione richiede una versione più recente del plugin Perihelion -- aggiornalo e riprova."
     },
     "notDetected": "Plugin Perihelion non rilevato. Installa il plugin Perihelion per usare questa pagina.",
-    "notSupportedOnNina": "Perihelion attualmente supporta solo PINS, non Windows NINA."
+    "notSupportedOnNina": "Perihelion attualmente supporta solo PINS, non Windows NINA.",
+    "settings": {
+      "trackingSection": "Montatura e Inseguimento",
+      "dataSection": "Dati",
+      "cometMagnitudeThreshold": "Limite di magnitudine comete",
+      "maxComets": "Max comete mostrate",
+      "asteroidMagnitudeThreshold": "Limite di magnitudine asteroidi",
+      "maxAsteroids": "Max asteroidi mostrati",
+      "cometsData": "Comete",
+      "asteroidsData": "Asteroidi",
+      "import": "Importa",
+      "export": "Esporta",
+      "clear": "Cancella",
+      "saved": "Salvato.",
+      "saveFailed": "Salvataggio non riuscito.",
+      "importedComets": "{count} cometa/e importata/e.",
+      "importedAsteroids": "{count} asteroide/i importato/i.",
+      "nothingToExport": "Niente da esportare -- non ancora sincronizzato.",
+      "confirmClearComets": "Rimuovere tutti gli elementi delle comete in cache? Le comete nell'elenco saranno vuote fino alla prossima sincronizzazione.",
+      "confirmClearAsteroids": "Rimuovere tutti gli elementi degli asteroidi in cache? Gli asteroidi nell'elenco saranno vuoti fino alla prossima sincronizzazione.",
+      "cobsData": "COBS",
+      "cobsCountSynced": "{count} comete in cache · {status}",
+      "refreshedAgo": "aggiornato {when}",
+      "neverRefreshed": "mai aggiornato",
+      "confirmClearCobs": "Rimuovere tutte le osservazioni COBS in cache? I badge di magnitudine osservata saranno vuoti fino al prossimo aggiornamento della scheda Sfoglia."
+    }
   }
 }

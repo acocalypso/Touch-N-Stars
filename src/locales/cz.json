@@ -5407,7 +5407,8 @@
     "tabs": {
       "browse": "Procházet",
       "position": "Pozice a Dráha",
-      "track": "Sledovat"
+      "track": "Sledovat",
+      "settings": "Nastavení"
     },
     "browse": {
       "step": "Vyberte kometu nebo planetku ke sledování",
@@ -5416,7 +5417,7 @@
       "filterComets": "Komety",
       "filterAsteroids": "Planetky",
       "sortBy": "Řadit podle",
-      "sortBrightness": "Jasnosti",
+      "sortBrightness": "Jasn.",
       "sortName": "Názvu",
       "cometsStatus": "Komety {status}",
       "asteroidsStatus": "Planetky {status}",
@@ -5430,7 +5431,6 @@
       "cobsRefreshed": "Jasnosti COBS aktualizovány",
       "cobsRefreshedAgo": "COBS obnoveno {when}",
       "cobsNeverRefreshed": "COBS nikdy neobnoveno",
-      "asteroidCount": "{count} planetek — aktuální dráhové prvky z JPL, automaticky aktualizované.",
       "epochStaleTooltip": "Dráhové údaje tohoto objektu mohou být méně přesné než obvykle — klepnutím zobrazíte podrobnosti.",
       "epochStaleLegendTitle": "Zastaralé dráhové údaje",
       "epochStaleLegendExplanation": "Dráhové prvky tohoto objektu jsou neobvykle vzdálené od vlastní referenční epochy. Předpověď polohy tak daleko od tohoto data se opírá o jednoduchou fyziku dvou těles, která nezohledňuje trvalé gravitační vlivy planet — skutečná poloha se proto může od zobrazené lišit.",
@@ -5443,7 +5443,12 @@
       "observedLegendBrighter": "Zelená — jasnější, než se předpokládalo (skutečný výbuch aktivity)",
       "observedLegendNormal": "Tyrkysová — přibližně odpovídá předpovědi",
       "observedLegendFainter": "Žlutá — znatelně slabší, než se předpokládalo",
-      "observedLegendMuchFainter": "Červená — mnohem slabší, než se předpokládalo"
+      "observedLegendMuchFainter": "Červená — mnohem slabší, než se předpokládalo",
+      "selectedPrompt": "Vybráno -- připraveno ke kontrole pozice.",
+      "goToPositionPath": "Přejít na Pozice a Dráha",
+      "datasetCounts": "{comets} komet, {asteroids} asteroidů",
+      "cometCountSynced": "{count} komet · {status}",
+      "asteroidCountSynced": "{count} asteroidů · {status}"
     },
     "position": {
       "step": "Zkontrolujte pozici a nastavte rámování",
@@ -5539,22 +5544,22 @@
       "quickTrack": "Quick Track",
       "working": "Probíhá…",
       "howItWorks": "Jak to funguje",
-      "reapplyIntervalSection": "Interval opětovného použití",
       "eqmodToggleTitle": "Korekce rychlosti RA pro EQMOD",
-      "eqmodToggleDescription": "EQMOD — jak ovladač ASCOM pro Windows, tak samostatný ovladač EQMod pro INDI, ověřeno nezávisle — čte rychlost sledování v RA jako surové arcsec/s místo hodnoty, kterou skutečně odesílá NINA, což bez korekce způsobí, že sledování je asi 15krát pomalejší. Zapněte pouze v případě, že je montáž řízena přes EQMOD.",
+      "eqmodToggleDescription": "EQMOD čte rychlost RA jako surové obloukové sekundy/s místo hodnoty odesílané NINA, což bez korekce zpomalí sledování ~15×. Zapněte pouze pokud montáž používá EQMOD.",
       "eqmodDetectedHint": "{name} vypadá jako ovladač EQMOD — pravděpodobně to budete chtít zapnout.",
       "reapplyIntervalTitle": "Interval opětovného použití",
       "reapplyIntervalDescription": "Jak často Quick Track přepočítá a znovu odešle rychlost sledování. Výchozí hodnota 900 s (15 min) vyhovuje kometyám a planetkám.",
       "secondsUnit": "s",
-      "addToSequenceDescriptionRest": "vytvoří sekvenci přejetí, sledování a snímkování a načte ji do sekvenceru PINS, abyste ji zkontrolovali a spustili.",
+      "addToSequenceDescriptionRest": "přidá cíl typu najet + sledovat + snímat do sekvence již načtené v sekvenceru PINS, ke kontrole a spuštění -- stávající cíle zůstávají beze změny.",
       "downloadSequence": "Stáhnout sekvenci",
-      "downloadSequenceDescriptionRest": "uloží stejnou sekvenci jako soubor místo jejího načtení do PINS -- pro pozdější kontrolu nebo import.",
+      "downloadSequenceDescriptionRest": "uloží odpovídající úplnou sekvenci jako soubor místo jejího přidání do načtené sekvence -- pro pozdější kontrolu nebo import.",
       "quickTrackDescriptionRest": "nastaví rychlost montáže přímo hned teď — pro ruční nebo vizuální použití, ne náhradu za skutečnou sekvenci snímkování. Automaticky se zastaví, pokud montáž oznámí dosažení limitu překlopení přes poledník, protože Quick Track nemá sekvenční spouštěč, který by to udělal za vás.",
       "stopSequence": "Zastavit Sekvenci",
       "stopQuickTrack": "Zastavit Quick Track",
       "autoReapplyingFooterSeconds": "Auto re-applying every {seconds} sec",
       "footer": "Počítáno přímo v zařízení ze živých drahových elementů — komety i planetky se pravidelně synchronizují a pak fungují offline.",
-      "dismiss": "Zavřít"
+      "dismiss": "Zavřít",
+      "guidingOnlyFallback": "Montáž nepodporuje vlastní rychlost -- sledování pouze přes posun guideru."
     },
     "relativeTime": {
       "justNow": "právě teď",
@@ -5585,11 +5590,35 @@
       "noResponse": "Žádná odpověď",
       "unreachable": "Nelze se spojit s Perihelion",
       "syncFailed": "Synchronizace selhala",
-      "sequenceLoadFailed": "Sekvenci se nepodařilo načíst",
-      "sequenceLoaded": "Sekvence načtena — zkontrolujte a spusťte ji v sekvenceru",
-      "unknownError": "neznámá chyba"
+      "unknownError": "neznámá chyba",
+      "backendTooOld": "Tato funkce vyžaduje novější verzi pluginu Perihelion -- aktualizujte jej a zkuste to znovu."
     },
     "notDetected": "Plugin Perihelion nebyl nalezen. Pro použití této stránky nainstalujte plugin Perihelion.",
-    "notSupportedOnNina": "Perihelion aktuálně podporuje pouze PINS, nikoli Windows NINA."
+    "notSupportedOnNina": "Perihelion aktuálně podporuje pouze PINS, nikoli Windows NINA.",
+    "settings": {
+      "trackingSection": "Montáž a Sledování",
+      "dataSection": "Data",
+      "cometMagnitudeThreshold": "Limit jasnosti komet",
+      "maxComets": "Max. zobrazených komet",
+      "asteroidMagnitudeThreshold": "Limit jasnosti asteroidů",
+      "maxAsteroids": "Max. zobrazených asteroidů",
+      "cometsData": "Komety",
+      "asteroidsData": "Asteroidy",
+      "import": "Importovat",
+      "export": "Exportovat",
+      "clear": "Vymazat",
+      "saved": "Uloženo.",
+      "saveFailed": "Uložení se nezdařilo.",
+      "importedComets": "Importováno komet: {count}.",
+      "importedAsteroids": "Importováno asteroidů: {count}.",
+      "nothingToExport": "Není co exportovat -- ještě nebylo synchronizováno.",
+      "confirmClearComets": "Odstranit všechny uložené prvky komet? Seznam komet bude prázdný až do další synchronizace.",
+      "confirmClearAsteroids": "Odstranit všechny uložené prvky asteroidů? Seznam asteroidů bude prázdný až do další synchronizace.",
+      "cobsData": "COBS",
+      "cobsCountSynced": "{count} komet uloženo · {status}",
+      "refreshedAgo": "obnoveno {when}",
+      "neverRefreshed": "nikdy neobnoveno",
+      "confirmClearCobs": "Odstranit všechna uložená pozorování COBS? Odznaky pozorované jasnosti budou prázdné až do dalšího obnovení karty Procházet."
+    }
   }
 }

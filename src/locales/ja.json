@@ -5407,7 +5407,8 @@
     "tabs": {
       "browse": "閲覧",
       "position": "位置と経路",
-      "track": "追尾"
+      "track": "追尾",
+      "settings": "設定"
     },
     "browse": {
       "step": "追尾する彗星または小惑星を選択",
@@ -5416,7 +5417,7 @@
       "filterComets": "彗星",
       "filterAsteroids": "小惑星",
       "sortBy": "並べ替え",
-      "sortBrightness": "明るさ",
+      "sortBrightness": "等級",
       "sortName": "名前",
       "cometsStatus": "彗星 {status}",
       "asteroidsStatus": "小惑星 {status}",
@@ -5430,7 +5431,6 @@
       "cobsRefreshed": "COBSの等級を更新しました",
       "cobsRefreshedAgo": "COBS更新: {when}",
       "cobsNeverRefreshed": "COBS未更新",
-      "asteroidCount": "小惑星 {count} 件 — JPLからのリアルタイム軌道要素、自動更新。",
       "epochStaleTooltip": "この天体の軌道データはいつもより精度が低い可能性があります — タップして詳細を確認。",
       "epochStaleLegendTitle": "古い軌道データ",
       "epochStaleLegendExplanation": "この天体の軌道要素は、基準となるエポックから通常より大きく離れています。そのような長い期間にわたる位置予測は単純な二体問題の物理に基づいており、惑星による継続的な重力摂動を考慮していないため、実際の位置は表示された値からずれる可能性があります。",
@@ -5443,7 +5443,12 @@
       "observedLegendBrighter": "緑 — 予測より明るい（実際のアウトバースト）",
       "observedLegendNormal": "ティール — 予測とほぼ一致",
       "observedLegendFainter": "黄 — 予測よりかなり暗い",
-      "observedLegendMuchFainter": "赤 — 予測よりはるかに暗い"
+      "observedLegendMuchFainter": "赤 — 予測よりはるかに暗い",
+      "selectedPrompt": "選択済み -- 位置を確認する準備ができました。",
+      "goToPositionPath": "位置と経路へ",
+      "datasetCounts": "彗星 {comets} 件、小惑星 {asteroids} 件",
+      "cometCountSynced": "彗星 {count} 件 · {status}",
+      "asteroidCountSynced": "小惑星 {count} 件 · {status}"
     },
     "position": {
       "step": "位置を確認し構図を決める",
@@ -5539,22 +5544,22 @@
       "quickTrack": "Quick Track",
       "working": "処理中…",
       "howItWorks": "使い方",
-      "reapplyIntervalSection": "再適用間隔",
       "eqmodToggleTitle": "EQMOD RAレート補正",
-      "eqmodToggleDescription": "EQMOD（WindowsのASCOMドライバーと、それとは別に確認されたINDI独自のEQModドライバーの両方）は、NINAが実際に送信する値ではなく、RA追尾レートを生のarcsec/秒として読み取るため、補正しないと追尾が約15倍遅くなります。マウントがEQMOD経由で制御されている場合のみ有効にしてください。",
+      "eqmodToggleDescription": "EQMODはNINAが送る値ではなく、赤経レートを生の秒角/秒として読み取るため、補正しないと追尾が約15倍遅くなります。マウントがEQMODを使用している場合のみ有効にしてください。",
       "eqmodDetectedHint": "{name} はEQMODドライバーのようです — おそらく有効にした方がよいでしょう。",
       "reapplyIntervalTitle": "再適用間隔",
       "reapplyIntervalDescription": "Quick Trackが追尾レートを再計算して再送信する頻度です。デフォルトの900秒（15分）は彗星や小惑星に適しています。",
       "secondsUnit": "秒",
-      "addToSequenceDescriptionRest": "導入・追尾・撮影のシーケンスを作成し、確認・開始できるようPINSのシーケンサーに読み込みます。",
+      "addToSequenceDescriptionRest": "スルー+追尾+撮影のターゲットを、PINSのシーケンサーに既に読み込まれているシーケンスに追加します。確認して開始してください -- 既存のターゲットはそのまま残ります。",
       "downloadSequence": "シーケンスをダウンロード",
-      "downloadSequenceDescriptionRest": "PINSに読み込む代わりに同じシーケンスをファイルとして保存します -- 後で確認またはインポートするため。",
+      "downloadSequenceDescriptionRest": "読み込み済みのシーケンスに追加する代わりに、同等の完全なシーケンスをファイルとして保存します -- 後で確認またはインポートするためのものです。",
       "quickTrackDescriptionRest": "今すぐマウントのレートを直接設定します — 手動・目視観測用で、本格的な撮影シーケンスの代わりにはなりません。マウントが子午線反転の限界に達したと報告すると自動的に停止します。Quick Trackにはそれを代行するシーケンストリガーがないためです。",
       "stopSequence": "シーケンスを停止",
       "stopQuickTrack": "Quick Trackを停止",
       "autoReapplyingFooterSeconds": "Auto re-applying every {seconds} sec",
       "footer": "デバイス上でリアルタイムの軌道要素から計算 — 彗星も小惑星も定期的に同期した後オフラインで動作します。",
-      "dismiss": "閉じる"
+      "dismiss": "閉じる",
+      "guidingOnlyFallback": "マウントはカスタムレートを設定できません -- ガイダーシフトのみで追尾します。"
     },
     "relativeTime": {
       "justNow": "たった今",
@@ -5585,11 +5590,35 @@
       "noResponse": "応答メッセージなし",
       "unreachable": "Perihelionに接続できませんでした",
       "syncFailed": "同期に失敗しました",
-      "sequenceLoadFailed": "シーケンスを読み込めませんでした",
-      "sequenceLoaded": "シーケンスを読み込みました — シーケンサーで確認して開始してください",
-      "unknownError": "不明なエラー"
+      "unknownError": "不明なエラー",
+      "backendTooOld": "この機能には新しいバージョンのPerihelionプラグインが必要です -- 更新してから再試行してください。"
     },
     "notDetected": "Perihelionプラグインが検出されません。このページを使用するにはPerihelionプラグインをインストールしてください。",
-    "notSupportedOnNina": "Perihelionは現在PINSのみ対応しており、Windows NINAには対応していません。"
+    "notSupportedOnNina": "Perihelionは現在PINSのみ対応しており、Windows NINAには対応していません。",
+    "settings": {
+      "trackingSection": "マウントと追尾",
+      "dataSection": "データ",
+      "cometMagnitudeThreshold": "彗星の等級上限",
+      "maxComets": "彗星の最大表示数",
+      "asteroidMagnitudeThreshold": "小惑星の等級上限",
+      "maxAsteroids": "小惑星の最大表示数",
+      "cometsData": "彗星",
+      "asteroidsData": "小惑星",
+      "import": "インポート",
+      "export": "エクスポート",
+      "clear": "クリア",
+      "saved": "保存しました。",
+      "saveFailed": "保存に失敗しました。",
+      "importedComets": "彗星を {count} 件インポートしました。",
+      "importedAsteroids": "小惑星を {count} 件インポートしました。",
+      "nothingToExport": "エクスポートするものがありません -- まだ同期されていません。",
+      "confirmClearComets": "キャッシュされた彗星の要素データをすべて削除しますか? 次の同期まで一覧の彗星は空になります。",
+      "confirmClearAsteroids": "キャッシュされた小惑星の要素データをすべて削除しますか? 次の同期まで一覧の小惑星は空になります。",
+      "cobsData": "COBS",
+      "cobsCountSynced": "{count} 件の彗星をキャッシュ済み · {status}",
+      "refreshedAgo": "{when}に更新",
+      "neverRefreshed": "未更新",
+      "confirmClearCobs": "キャッシュされたCOBS観測データをすべて削除しますか? 次に閲覧タブを更新するまで、実視等級バッジは空になります。"
+    }
   }
 }

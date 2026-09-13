@@ -5407,7 +5407,8 @@
     "tabs": {
       "browse": "Przeglądaj",
       "position": "Pozycja i Trasa",
-      "track": "Śledź"
+      "track": "Śledź",
+      "settings": "Ustawienia"
     },
     "browse": {
       "step": "Wybierz kometę lub planetoidę do śledzenia",
@@ -5416,7 +5417,7 @@
       "filterComets": "Komety",
       "filterAsteroids": "Planetoidy",
       "sortBy": "Sortuj wg",
-      "sortBrightness": "Jasność",
+      "sortBrightness": "Jasn.",
       "sortName": "Nazwa",
       "cometsStatus": "Komety {status}",
       "asteroidsStatus": "Planetoidy {status}",
@@ -5430,7 +5431,6 @@
       "cobsRefreshed": "Zaktualizowano jasności COBS",
       "cobsRefreshedAgo": "COBS odświeżono {when}",
       "cobsNeverRefreshed": "COBS nigdy nie odświeżono",
-      "asteroidCount": "{count} planetoid — aktualne elementy orbitalne z JPL, odświeżane automatycznie.",
       "epochStaleTooltip": "Dane orbitalne tego obiektu mogą być mniej dokładne niż zwykle — dotknij, aby dowiedzieć się więcej.",
       "epochStaleLegendTitle": "Nieaktualne dane orbitalne",
       "epochStaleLegendExplanation": "Elementy orbitalne tego obiektu są niezwykle odległe od własnej epoki odniesienia. Przewidywanie pozycji tak daleko od tej daty opiera się na prostej fizyce dwóch ciał, która nie uwzględnia ciągłych zaburzeń grawitacyjnych ze strony planet — rzeczywista pozycja może więc odbiegać od pokazanej.",
@@ -5443,7 +5443,12 @@
       "observedLegendBrighter": "Zielony — jaśniejsza niż przewidywano (prawdziwy wybuch aktywności)",
       "observedLegendNormal": "Turkusowy — mniej więcej zgadza się z przewidywaniem",
       "observedLegendFainter": "Bursztynowy — zauważalnie słabsza niż przewidywano",
-      "observedLegendMuchFainter": "Czerwony — znacznie słabsza niż przewidywano"
+      "observedLegendMuchFainter": "Czerwony — znacznie słabsza niż przewidywano",
+      "selectedPrompt": "Wybrano -- gotowe do sprawdzenia pozycji.",
+      "goToPositionPath": "Przejdź do Pozycja i Trasa",
+      "datasetCounts": "{comets} komet, {asteroids} planetoid",
+      "cometCountSynced": "{count} komet · {status}",
+      "asteroidCountSynced": "{count} planetoid · {status}"
     },
     "position": {
       "step": "Sprawdź pozycję i skomponuj kadr",
@@ -5539,22 +5544,22 @@
       "quickTrack": "Quick Track",
       "working": "Przetwarzanie…",
       "howItWorks": "Jak to działa",
-      "reapplyIntervalSection": "Interwał ponownego zastosowania",
       "eqmodToggleTitle": "Korekta szybkości RA dla EQMOD",
-      "eqmodToggleDescription": "EQMOD — zarówno sterownik ASCOM dla Windows, jak i niezależny sterownik EQMod dla INDI, potwierdzone osobno — odczytuje szybkość nadążania RA jako surowe arcsek/s zamiast wartości faktycznie wysyłanej przez NINA, przez co nadążanie jest około 15 razy za wolne bez tej korekty. Włącz tylko wtedy, gdy montaż jest sterowany przez EQMOD.",
+      "eqmodToggleDescription": "EQMOD odczytuje tempo RA jako surowe sekundy kątowe/s zamiast wartości wysyłanej przez NINA, co bez korekty spowalnia śledzenie ~15×. Włącz tylko, jeśli montaż używa EQMOD.",
       "eqmodDetectedHint": "{name} wygląda na sterownik EQMOD — prawdopodobnie warto to włączyć.",
       "reapplyIntervalTitle": "Interwał ponownego zastosowania",
       "reapplyIntervalDescription": "Jak często Quick Track przelicza i ponownie wysyła szybkość nadążania. Domyślna wartość 900 s (15 min) odpowiada kometom i planetoidom.",
       "secondsUnit": "s",
-      "addToSequenceDescriptionRest": "tworzy sekwencję obrotu, śledzenia i rejestracji oraz ładuje ją do sekwencera PINS, abyś mógł ją sprawdzić i uruchomić.",
+      "addToSequenceDescriptionRest": "dodaje cel typu najedź + śledź + fotografuj do sekwencji już wczytanej w sekwenserze PINS, do przejrzenia i uruchomienia -- istniejące cele pozostają nietknięte.",
       "downloadSequence": "Pobierz sekwencję",
-      "downloadSequenceDescriptionRest": "zapisuje tę samą sekwencję jako plik zamiast wczytywać ją do PINS -- do przejrzenia lub zaimportowania później.",
+      "downloadSequenceDescriptionRest": "zapisuje odpowiednik pełnej sekwencji jako plik zamiast dołączać go do wczytanej sekwencji -- do późniejszego przejrzenia lub zaimportowania.",
       "quickTrackDescriptionRest": "ustawia szybkość montażu bezpośrednio, od razu — do użytku ręcznego lub wizualnego, nie zastępuje prawdziwej sekwencji rejestracji. Zatrzymuje się automatycznie, gdy montaż zgłosi osiągnięcie limitu przerzutu przez południk, ponieważ Quick Track nie ma wyzwalacza sekwencji, który zrobiłby to za ciebie.",
       "stopSequence": "Zatrzymaj Sekwencję",
       "stopQuickTrack": "Zatrzymaj Quick Track",
       "autoReapplyingFooterSeconds": "Auto re-applying every {seconds} sec",
       "footer": "Obliczane na urządzeniu na podstawie elementów orbitalnych na żywo — komety i planetoidy synchronizują się okresowo, a potem działają offline.",
-      "dismiss": "Zamknij"
+      "dismiss": "Zamknij",
+      "guidingOnlyFallback": "Montaż nie obsługuje własnego tempa -- śledzenie tylko przez przesunięcie guidingu."
     },
     "relativeTime": {
       "justNow": "przed chwilą",
@@ -5585,11 +5590,35 @@
       "noResponse": "Brak wiadomości zwrotnej",
       "unreachable": "Nie można połączyć się z Perihelion",
       "syncFailed": "Synchronizacja nieudana",
-      "sequenceLoadFailed": "Nie można załadować sekwencji",
-      "sequenceLoaded": "Sekwencja załadowana — sprawdź i uruchom ją w sekwencerze",
-      "unknownError": "nieznany błąd"
+      "unknownError": "nieznany błąd",
+      "backendTooOld": "Ta funkcja wymaga nowszej wersji wtyczki Perihelion -- zaktualizuj ją i spróbuj ponownie."
     },
     "notDetected": "Nie wykryto wtyczki Perihelion. Zainstaluj wtyczkę Perihelion, aby korzystać z tej strony.",
-    "notSupportedOnNina": "Perihelion obecnie obsługuje tylko PINS, a nie Windows NINA."
+    "notSupportedOnNina": "Perihelion obecnie obsługuje tylko PINS, a nie Windows NINA.",
+    "settings": {
+      "trackingSection": "Montaż i Śledzenie",
+      "dataSection": "Dane",
+      "cometMagnitudeThreshold": "Limit jasności komet",
+      "maxComets": "Maks. wyświetlanych komet",
+      "asteroidMagnitudeThreshold": "Limit jasności planetoid",
+      "maxAsteroids": "Maks. wyświetlanych planetoid",
+      "cometsData": "Komety",
+      "asteroidsData": "Planetoidy",
+      "import": "Importuj",
+      "export": "Eksportuj",
+      "clear": "Wyczyść",
+      "saved": "Zapisano.",
+      "saveFailed": "Zapis nieudany.",
+      "importedComets": "Zaimportowano komet: {count}.",
+      "importedAsteroids": "Zaimportowano planetoid: {count}.",
+      "nothingToExport": "Nie ma nic do wyeksportowania -- jeszcze nie zsynchronizowano.",
+      "confirmClearComets": "Usunąć wszystkie zbuforowane dane komet? Lista komet będzie pusta do następnej synchronizacji.",
+      "confirmClearAsteroids": "Usunąć wszystkie zbuforowane dane planetoid? Lista planetoid będzie pusta do następnej synchronizacji.",
+      "cobsData": "COBS",
+      "cobsCountSynced": "{count} komet w pamięci podręcznej · {status}",
+      "refreshedAgo": "odświeżono {when}",
+      "neverRefreshed": "nigdy nieodświeżane",
+      "confirmClearCobs": "Usunąć wszystkie zbuforowane obserwacje COBS? Znaczniki obserwowanej jasności będą puste do następnego odświeżenia karty Przeglądaj."
+    }
   }
 }

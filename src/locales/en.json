@@ -2788,6 +2788,11 @@
       "lastToken": "Generated Token",
       "submissionHistory": "Submission History",
       "confirmClearAll": "Are you sure you want to clear all submission history?",
+      "progress": {
+        "collectingLogs": "Collecting Touch'N'Stars logs…",
+        "collectingNinaLogs": "Collecting recent NINA log files…",
+        "buildingArchive": "Creating ZIP archive…"
+      },
       "diagnostics": {
         "title": "PINS System Diagnostics",
         "intro": "System diagnostics (journal, dmesg, network, ...) are collected and included automatically when you click Collect & Upload above. Use Expert settings to limit what is collected.",

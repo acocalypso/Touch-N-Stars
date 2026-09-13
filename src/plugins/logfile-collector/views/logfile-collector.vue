@@ -214,6 +214,16 @@
         </span>
       </div>
 
+      <div
+        v-if="busy && progressPhase"
+        class="h-1.5 w-full overflow-hidden rounded-full bg-gray-700"
+      >
+        <div
+          class="h-full rounded-full bg-cyan-500 transition-all duration-300 ease-out"
+          :style="{ width: progressPercent + '%' }"
+        ></div>
+      </div>
+
       <!-- Upload a previously saved ZIP (e.g. collected earlier without an internet
            connection) - works independently of the collection flow above. -->
       <div class="space-y-2 rounded border border-gray-700 bg-gray-900/40 p-3">
@@ -384,10 +394,12 @@ import { generateTimestampLogToken } from '../utils/tokenGenerator';
 import pluginMeta from '../plugin.json';
 import axios from 'axios';
 import JSZip from 'jszip';
+import { Capacitor } from '@capacitor/core';
 import apiService from '@/services/apiService';
 import { ensureConsolePatched, consoleLogs } from '@/utils/consoleCapture';
 import { apiStore } from '@/store/store';
 import { useSettingsStore } from '@/store/settingsStore';
+import appVersion from '@/version';
 import { createDiagnosticsApi } from '../utils/diagnosticsApi';
 import { downloadBlob } from '@/utils/blobDownloader';
 import {
@@ -399,6 +411,7 @@ import {
   normalizeDiagnosticsOptions,
   validateDiagnosticsConfig,
 } from '../utils/diagnosticsSupport';
+import { buildLogManifest, MANIFEST_DIAGNOSTICS_VALIDATION_FAILED } from '../utils/manifestBuilder';
 import { PINS_PORT as PORT, DEFAULT_PINS_DAEMON_API_TOKEN as TOKEN } from '@/services/pinsConfig';
 
 const logStore = useLogStore();
@@ -411,6 +424,9 @@ const resultOk = ref(false);
 const description = ref('');
 const descriptionTouched = ref(false);
 const progressMessage = ref('');
+// Named phase mirroring progressMessage, used only to size the progress bar below the
+// buttons - kept separate from progressMessage so its (translated) text stays untouched.
+const progressPhase = ref(null); // 'collectingLogs' | 'collectingNinaLogs' | 'diagnostics' | 'buildingArchive' | 'finalAction' | null
 const showSuccessModal = ref(false);
 const lastGeneratedToken = ref('');
 const diagnosticsSections = ref([]);
@@ -432,6 +448,22 @@ const diagnosticsApi = createDiagnosticsApi({
 
 const diagnosticsUiState = computed(() => getDiagnosticsUiStatus(logCollectorStore.diagnosticsRun));
 const descriptionIsValid = computed(() => description.value.trim().length > 0);
+// Ordered phases for the current run, used to size the progress bar. Not persisted -
+// recomputed live from the same flags collectLogFiles() itself branches on.
+const progressStepOrder = computed(() => {
+  const steps = ['collectingLogs'];
+  if (apiState.isPINS) {
+    if (includeNinaLogs.value) steps.push('collectingNinaLogs');
+    steps.push('diagnostics');
+  }
+  steps.push('buildingArchive', 'finalAction');
+  return steps;
+});
+const progressPercent = computed(() => {
+  const stepIndex = progressStepOrder.value.indexOf(progressPhase.value);
+  if (stepIndex < 0) return 0;
+  return Math.round(((stepIndex + 1) / progressStepOrder.value.length) * 100);
+});
 const diagnosticsStatusText = computed(() => {
   const status = logCollectorStore.diagnosticsRun.status;
   if (status === DIAGNOSTICS_STATUS.QUEUED)
@@ -515,11 +547,17 @@ async function addRecentNinaLogFiles(filesMap) {
 }
 
 // Collects everything (TNS/console logs, PINS-only: recent NINA logs + system diagnostics)
-// into a single filesMap. Shared by "Collect & Upload" and "Collect & Save" so both produce
-// the exact same content and differ only in what happens to the resulting ZIP.
-async function collectLogFiles() {
+// into a single filesMap, plus a manifest.json recording app version, platform, NINA/PINS
+// mode and (PINS-only) the diagnostics configuration actually used - so support can tell
+// what a given upload contains without asking. Shared by "Collect & Upload" and
+// "Collect & Save" so both produce the exact same content and differ only in what happens
+// to the resulting ZIP.
+async function collectLogFiles({ description = '', logToken = null } = {}) {
   const dateStr = new Date().toISOString().slice(0, 10);
   const filesMap = new Map();
+
+  progressMessage.value = t('plugins.logfileCollector.progress.collectingLogs');
+  progressPhase.value = 'collectingLogs';
 
   // General logs (last 5000 entries)
   const generalLogs = await apiService.getLastLogs('5000');
@@ -544,12 +582,66 @@ async function collectLogFiles() {
   // the frontend (see PINS_NINA_LOG_PATH). Never let a failure here block collection.
   // System diagnostics are collected as part of this same action too - there is no
   // separate "start diagnostics" step, everything ends up in one ZIP.
+  let diagnosticsManifestSection = null;
   if (apiState.isPINS) {
+    const requestedDiagnosticsConfig = {
+      ...buildDiagnosticsPayload({
+        sections: diagnosticsSections.value,
+        journalLines: diagnosticsJournalLines.value,
+        dmesgLines: diagnosticsDmesgLines.value,
+      }),
+      includeNinaLogs: includeNinaLogs.value,
+    };
+
     if (includeNinaLogs.value) {
+      progressMessage.value = t('plugins.logfileCollector.progress.collectingNinaLogs');
+      progressPhase.value = 'collectingNinaLogs';
       await addRecentNinaLogFiles(filesMap);
     }
+
     await runPinsDiagnostics(filesMap);
+
+    const hasValidationErrors = Object.keys(diagnosticsValidationErrors.value).length > 0;
+    const run = logCollectorStore.diagnosticsRun;
+    diagnosticsManifestSection = {
+      requested: requestedDiagnosticsConfig,
+      outcome: hasValidationErrors
+        ? {
+            status: MANIFEST_DIAGNOSTICS_VALIDATION_FAILED,
+            archiveId: null,
+            error: null,
+            startedAt: null,
+            finishedAt: null,
+            errors: { ...diagnosticsValidationErrors.value },
+          }
+        : {
+            status: run.status,
+            archiveId: run.archiveId || null,
+            error: run.error || null,
+            startedAt: run.startedAt ? new Date(run.startedAt).toISOString() : null,
+            finishedAt: run.finishedAt ? new Date(run.finishedAt).toISOString() : null,
+          },
+    };
   }
+
+  const manifest = buildLogManifest({
+    generatedAt: new Date().toISOString(),
+    description,
+    logToken,
+    app: {
+      tnsVersion: appVersion,
+      platform: Capacitor.getPlatform(),
+      mode: apiState.isPINS ? 'pins' : 'nina',
+      locale: settingsStore.getLanguage?.() || apiState.currentLanguage || 'en',
+    },
+    versions: {
+      api: apiState.currentApiVersion || '',
+      pins: apiState.currentPinsVersion || '',
+      tnsPlugin: apiState.currentTnsPluginVersion || '',
+    },
+    diagnostics: diagnosticsManifestSection,
+  });
+  filesMap.set('manifest.json', JSON.stringify(manifest, null, 2));
 
   return filesMap;
 }
@@ -567,12 +659,17 @@ async function collectAndUpload() {
   resultMsg.value = '';
   resultOk.value = false;
   progressMessage.value = '';
+  progressPhase.value = null;
   try {
     const logToken = generateTimestampLogToken();
     lastGeneratedToken.value = logToken;
 
-    const filesMap = await collectLogFiles();
+    const filesMap = await collectLogFiles({ description: description.value, logToken });
+    progressMessage.value = t('plugins.logfileCollector.progress.buildingArchive');
+    progressPhase.value = 'buildingArchive';
     const zipBlob = await buildZip(filesMap);
+    progressMessage.value = ''; // let the "Uploading…" fallback show during the actual network call
+    progressPhase.value = 'finalAction';
     const zipFileName = `tns-logs-${Date.now()}.zip`;
     const res = await uploadZipBlob(zipBlob, zipFileName, description.value, logToken);
 
@@ -598,6 +695,7 @@ async function collectAndUpload() {
     busy.value = false;
     activeAction.value = null;
     progressMessage.value = '';
+    progressPhase.value = null;
   }
 }
 
@@ -617,9 +715,14 @@ async function collectAndSave() {
   resultMsg.value = '';
   resultOk.value = false;
   progressMessage.value = '';
+  progressPhase.value = null;
   try {
-    const filesMap = await collectLogFiles();
+    const filesMap = await collectLogFiles({ description: description.value, logToken: null });
+    progressMessage.value = t('plugins.logfileCollector.progress.buildingArchive');
+    progressPhase.value = 'buildingArchive';
     const zipBlob = await buildZip(filesMap);
+    progressMessage.value = ''; // let the "Saving…" fallback show during the filesystem write
+    progressPhase.value = 'finalAction';
     const zipFileName = `tns-logs-${Date.now()}.zip`;
 
     const saveResult = await downloadBlob(zipBlob, zipFileName, { folderName: 'TNS-Logs' });
@@ -636,6 +739,7 @@ async function collectAndSave() {
     busy.value = false;
     activeAction.value = null;
     progressMessage.value = '';
+    progressPhase.value = null;
   }
 }
 
@@ -753,6 +857,7 @@ async function runPinsDiagnostics(filesMap) {
 
   logCollectorStore.resetDiagnosticsRun();
   progressMessage.value = t('plugins.logfileCollector.diagnostics.collecting');
+  progressPhase.value = 'diagnostics';
 
   try {
     const payload = buildDiagnosticsPayload({

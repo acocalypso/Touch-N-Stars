@@ -1361,17 +1361,20 @@
                 {{ t('perihelion.track.reapplyIntervalDescription') }}
               </span>
               <div class="flex items-center gap-2 mt-1">
-                <NumberInputPicker
-                  v-model="reapplyIntervalSecondsInput"
-                  :label="``"
-                  labelKey="perihelion.track.reapplyIntervalTitle"
-                  :min="5"
-                  :max="7200"
-                  :step="1"
-                  :useDefaultSentinel="false"
-                  @change="onSaveReapplyInterval"
-                  @blur="onSaveReapplyInterval"
-                />
+                <div class="w-40">
+                  <NumberInputPicker
+                    v-model="reapplyIntervalSecondsInput"
+                    :label="``"
+                    labelKey="perihelion.track.reapplyIntervalTitle"
+                    wrapperClass="w-full"
+                    :min="5"
+                    :max="7200"
+                    :step="1"
+                    :useDefaultSentinel="false"
+                    @change="onSaveReapplyInterval"
+                    @blur="onSaveReapplyInterval"
+                  />
+                </div>
                 <span class="text-xs text-content-muted">{{
                   t('perihelion.track.secondsUnit')
                 }}</span>

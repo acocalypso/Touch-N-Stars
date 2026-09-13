@@ -9,7 +9,7 @@ import { getUrls } from '@/services/api/core';
  * AsteroidOrbits.cs's, and CometActivity.cs's own on-disk caches for the plugin-side half of
  * this).
  *
- * @returns {Promise<{ cometsLastSyncedUtc: Date | null, asteroidsLastSyncedUtc: Date | null, cobsLastRefreshedUtc: Date | null }>}
+ * @returns {Promise<{ cometsLastSyncedUtc: Date | null, asteroidsLastSyncedUtc: Date | null, cobsLastRefreshedUtc: Date | null, cometsCachedCount: number, asteroidsCachedCount: number, cobsCachedCount: number }>}
  */
 export async function fetchSyncStatus() {
   const { PERIHELION_URL } = getUrls();
@@ -24,6 +24,9 @@ export async function fetchSyncStatus() {
     cobsLastRefreshedUtc: response.data.CobsLastRefreshedUtc
       ? new Date(response.data.CobsLastRefreshedUtc)
       : null,
+    cometsCachedCount: response.data.CometsCachedCount,
+    asteroidsCachedCount: response.data.AsteroidsCachedCount,
+    cobsCachedCount: response.data.CobsCachedCount,
   };
 }
 

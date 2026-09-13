@@ -1410,6 +1410,14 @@
               <span class="text-sm font-semibold text-content">{{
                 t('perihelion.settings.cometsData')
               }}</span>
+              <span v-if="syncStatusLoaded" class="text-[11px] text-content-faint">
+                {{
+                  t('perihelion.browse.cometCountSynced', {
+                    count: cometsCachedCount,
+                    status: syncStatusLabel,
+                  })
+                }}
+              </span>
               <div class="flex gap-2">
                 <button class="tns-btn-primary flex-1" @click="cometFileInput?.click()">
                   {{ t('perihelion.settings.import') }}
@@ -1434,6 +1442,14 @@
               <span class="text-sm font-semibold text-content">{{
                 t('perihelion.settings.asteroidsData')
               }}</span>
+              <span v-if="syncStatusLoaded" class="text-[11px] text-content-faint">
+                {{
+                  t('perihelion.browse.asteroidCountSynced', {
+                    count: asteroidsCachedCount,
+                    status: asteroidSyncStatusLabel,
+                  })
+                }}
+              </span>
               <div class="flex gap-2">
                 <button class="tns-btn-primary flex-1" @click="asteroidFileInput?.click()">
                   {{ t('perihelion.settings.import') }}
@@ -1452,6 +1468,22 @@
                   {{ t('perihelion.settings.clear') }}
                 </button>
               </div>
+            </div>
+
+            <!-- Status only, no Import/Export/Clear -- COBS is a live per-comet observation
+                 cache, not a distributable elements dataset, so it doesn't fit that story. -->
+            <div class="flex flex-col gap-1 pt-2 border-t border-line-strong/50">
+              <span class="text-sm font-semibold text-content">{{
+                t('perihelion.settings.cobsData')
+              }}</span>
+              <span v-if="syncStatusLoaded" class="text-[11px] text-content-faint">
+                {{
+                  t('perihelion.settings.cobsCountSynced', {
+                    count: cobsCachedCount,
+                    status: cobsStatusShort,
+                  })
+                }}
+              </span>
             </div>
 
             <p v-if="dataSettingsStatus" class="text-xs text-content-muted">
@@ -1915,6 +1947,9 @@ async function fillCobsInBackground() {
 const cometsLastSyncedUtc = ref(null);
 const asteroidsLastSyncedUtc = ref(null);
 const cobsLastRefreshedUtc = ref(null);
+const cometsCachedCount = ref(0);
+const asteroidsCachedCount = ref(0);
+const cobsCachedCount = ref(0);
 const syncStatusLoaded = ref(false);
 const syncing = ref(false);
 const syncMessage = ref(null);
@@ -1927,6 +1962,9 @@ async function loadSyncStatus() {
     cometsLastSyncedUtc.value = status.cometsLastSyncedUtc;
     asteroidsLastSyncedUtc.value = status.asteroidsLastSyncedUtc;
     cobsLastRefreshedUtc.value = status.cobsLastRefreshedUtc;
+    cometsCachedCount.value = status.cometsCachedCount;
+    asteroidsCachedCount.value = status.asteroidsCachedCount;
+    cobsCachedCount.value = status.cobsCachedCount;
   } catch {
     // Not worth surfacing an error just for the status line -- the Sync Now/Refresh COBS
     // buttons and any comet-fetch error elsewhere in the panel already cover the cases that
@@ -1990,6 +2028,14 @@ const cobsStatusLabel = computed(() =>
   cobsLastRefreshedUtc.value
     ? t('perihelion.browse.cobsRefreshedAgo', { when: relativeTime(cobsLastRefreshedUtc.value) })
     : t('perihelion.browse.cobsNeverRefreshed')
+);
+
+// Same underlying timestamp as cobsStatusLabel, but without "COBS" baked into the string --
+// used under a "COBS" section header in Settings, where repeating the label would be redundant.
+const cobsStatusShort = computed(() =>
+  cobsLastRefreshedUtc.value
+    ? t('perihelion.settings.refreshedAgo', { when: relativeTime(cobsLastRefreshedUtc.value) })
+    : t('perihelion.settings.neverRefreshed')
 );
 
 async function onSyncComets() {

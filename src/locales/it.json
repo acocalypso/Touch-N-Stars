@@ -5618,7 +5618,11 @@
       "importedAsteroids": "Imported {count} asteroid(s).",
       "nothingToExport": "Nothing to export -- this hasn't been synced yet.",
       "confirmClearComets": "Remove all cached comet elements? The Browse list's comets will be empty until the next sync.",
-      "confirmClearAsteroids": "Remove all cached asteroid elements? The Browse list's asteroids will be empty until the next sync."
+      "confirmClearAsteroids": "Remove all cached asteroid elements? The Browse list's asteroids will be empty until the next sync.",
+      "cobsData": "COBS",
+      "cobsCountSynced": "{count} comets cached · {status}",
+      "refreshedAgo": "refreshed {when}",
+      "neverRefreshed": "never refreshed"
     }
   }
 }

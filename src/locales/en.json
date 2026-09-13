@@ -653,6 +653,8 @@
         "description": "Control system restart and shutdown",
         "info": "These actions will affect the entire system",
         "confirmation": "Confirm Action",
+        "restart": "Restart",
+        "shutdown": "Shutdown",
         "confirmShutdown": "Are you sure you want to shutdown the system?",
         "confirmRestart": "Are you sure you want to restart the system?",
         "restartInfoTitle": "System is restarting",
@@ -2284,6 +2286,7 @@
         "safety": "Safety",
         "progress": "Progress",
         "log": "Log",
+        "power": "Power",
         "instance": "Instance"
       },
       "camera": {

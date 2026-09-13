@@ -1,4 +1,5 @@
 import axios from 'axios';
+import i18n from '@/i18n';
 import { getUrls } from '@/services/api/core';
 import { describePerihelionResponse, describePerihelionError } from './perihelionResult';
 
@@ -43,6 +44,13 @@ export async function addTargetToSequence(target) {
         FrameCount: target.exposure?.frameCount ?? 1,
       },
     });
+    // A 404 here means the route itself doesn't exist -- an older Perihelion plugin than this
+    // feature needs, not a business-logic failure. The global axios interceptor resolves this
+    // rather than rejecting (see perihelionResult.js's own doc comment), so it surfaces here as
+    // a normal response, not a caught error.
+    if (response.status === 404) {
+      return { ok: false, message: i18n.global.t('perihelion.status.backendTooOld') };
+    }
     return describePerihelionResponse(response.data);
   } catch (error) {
     return describePerihelionError(error);

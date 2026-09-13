@@ -5590,7 +5590,8 @@
       "noResponse": "Geen antwoordbericht",
       "unreachable": "Kon Perihelion niet bereiken",
       "syncFailed": "Synchronisatie mislukt",
-      "unknownError": "onbekende fout"
+      "unknownError": "onbekende fout",
+      "backendTooOld": "This feature needs a newer Perihelion plugin -- update it, then try again."
     },
     "notDetected": "Perihelion-plugin niet gevonden. Installeer de Perihelion-plugin om deze pagina te gebruiken.",
     "notSupportedOnNina": "Perihelion ondersteunt momenteel alleen PINS, niet Windows NINA.",

@@ -5595,7 +5595,8 @@
       "noResponse": "Sin mensaje de respuesta",
       "unreachable": "No se pudo contactar con Perihelion",
       "syncFailed": "Fallo en la sincronización",
-      "unknownError": "error desconocido"
+      "unknownError": "error desconocido",
+      "backendTooOld": "This feature needs a newer Perihelion plugin -- update it, then try again."
     },
     "notDetected": "No se detectó el plugin Perihelion. Instala el plugin Perihelion para usar esta página.",
     "notSupportedOnNina": "Perihelion actualmente solo es compatible con PINS, no con Windows NINA.",

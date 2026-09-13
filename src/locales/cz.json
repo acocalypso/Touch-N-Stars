@@ -5590,7 +5590,8 @@
       "noResponse": "Žádná odpověď",
       "unreachable": "Nelze se spojit s Perihelion",
       "syncFailed": "Synchronizace selhala",
-      "unknownError": "neznámá chyba"
+      "unknownError": "neznámá chyba",
+      "backendTooOld": "This feature needs a newer Perihelion plugin -- update it, then try again."
     },
     "notDetected": "Plugin Perihelion nebyl nalezen. Pro použití této stránky nainstalujte plugin Perihelion.",
     "notSupportedOnNina": "Perihelion aktuálně podporuje pouze PINS, nikoli Windows NINA.",

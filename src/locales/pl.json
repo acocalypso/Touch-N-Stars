@@ -5590,7 +5590,8 @@
       "noResponse": "Brak wiadomości zwrotnej",
       "unreachable": "Nie można połączyć się z Perihelion",
       "syncFailed": "Synchronizacja nieudana",
-      "unknownError": "nieznany błąd"
+      "unknownError": "nieznany błąd",
+      "backendTooOld": "This feature needs a newer Perihelion plugin -- update it, then try again."
     },
     "notDetected": "Nie wykryto wtyczki Perihelion. Zainstaluj wtyczkę Perihelion, aby korzystać z tej strony.",
     "notSupportedOnNina": "Perihelion obecnie obsługuje tylko PINS, a nie Windows NINA.",

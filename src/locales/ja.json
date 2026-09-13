@@ -5590,7 +5590,8 @@
       "noResponse": "応答メッセージなし",
       "unreachable": "Perihelionに接続できませんでした",
       "syncFailed": "同期に失敗しました",
-      "unknownError": "不明なエラー"
+      "unknownError": "不明なエラー",
+      "backendTooOld": "This feature needs a newer Perihelion plugin -- update it, then try again."
     },
     "notDetected": "Perihelionプラグインが検出されません。このページを使用するにはPerihelionプラグインをインストールしてください。",
     "notSupportedOnNina": "Perihelionは現在PINSのみ対応しており、Windows NINAには対応していません。",

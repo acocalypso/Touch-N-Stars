@@ -1,4 +1,5 @@
 import axios from 'axios';
+import i18n from '@/i18n';
 import { getUrls } from '@/services/api/core';
 import { describePerihelionResponse, describePerihelionError } from './perihelionResult';
 
@@ -12,12 +13,12 @@ export async function importAsteroids(json) {
   return doImport('/import/asteroids', json, 'application/json');
 }
 
-/** @returns {Promise<string|null>} raw MPC text, or null if nothing's ever been synced */
+/** @returns {Promise<{ ok: boolean, text: string|null, message: string }>} text is null when nothing's ever been synced */
 export async function exportComets() {
   return doExport('/export/comets');
 }
 
-/** @returns {Promise<string|null>} raw JSON, or null if nothing's ever been synced */
+/** @returns {Promise<{ ok: boolean, text: string|null, message: string }>} text is null when nothing's ever been synced */
 export async function exportAsteroids() {
   return doExport('/export/asteroids');
 }
@@ -53,9 +54,20 @@ async function doExport(path) {
   const { PERIHELION_URL } = getUrls();
   try {
     const response = await axios.get(`${PERIHELION_URL}${path}`, { responseType: 'text' });
-    return response.data;
-  } catch {
-    return null;
+    // This route always answers 200 with a plain string (empty means never synced) -- the
+    // global axios interceptor (src/utils/errorHandler.js) replaces a failed request's real
+    // response with a synthetic {Error, Success:false, ...} object instead of rejecting, so
+    // anything that isn't a string means the request didn't actually succeed.
+    if (typeof response.data !== 'string') {
+      return {
+        ok: false,
+        text: null,
+        message: response.data?.Error ?? i18n.global.t('perihelion.status.unreachable'),
+      };
+    }
+    return { ok: true, text: response.data || null, message: '' };
+  } catch (error) {
+    return { ok: false, text: null, message: describePerihelionError(error).message };
   }
 }
 

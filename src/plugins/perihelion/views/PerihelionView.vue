@@ -1890,22 +1890,30 @@ async function onImportAsteroids(event) {
 }
 
 async function onExportComets() {
-  const text = await exportComets();
-  if (text == null) {
+  const result = await exportComets();
+  if (!result.ok) {
+    dataSettingsStatus.value = result.message;
+    return;
+  }
+  if (!result.text) {
     dataSettingsStatus.value = t('perihelion.settings.nothingToExport');
     return;
   }
-  const blob = new Blob([text], { type: 'text/plain' });
+  const blob = new Blob([result.text], { type: 'text/plain' });
   await downloadBlob(blob, 'CometEls.txt', { fallbackFilename: 'CometEls.txt' });
 }
 
 async function onExportAsteroids() {
-  const json = await exportAsteroids();
-  if (json == null) {
+  const result = await exportAsteroids();
+  if (!result.ok) {
+    dataSettingsStatus.value = result.message;
+    return;
+  }
+  if (!result.text) {
     dataSettingsStatus.value = t('perihelion.settings.nothingToExport');
     return;
   }
-  const blob = new Blob([json], { type: 'application/json' });
+  const blob = new Blob([result.text], { type: 'application/json' });
   await downloadBlob(blob, 'perihelion-asteroid-elements.json', {
     fallbackFilename: 'perihelion-asteroid-elements.json',
   });

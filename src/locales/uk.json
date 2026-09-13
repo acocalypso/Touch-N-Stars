@@ -5590,7 +5590,8 @@
       "noResponse": "Немає відповіді",
       "unreachable": "Не вдалося з'єднатися з Perihelion",
       "syncFailed": "Синхронізація не вдалася",
-      "unknownError": "невідома помилка"
+      "unknownError": "невідома помилка",
+      "backendTooOld": "This feature needs a newer Perihelion plugin -- update it, then try again."
     },
     "notDetected": "Плагін Perihelion не виявлено. Встановіть плагін Perihelion, щоб користуватися цією сторінкою.",
     "notSupportedOnNina": "Perihelion наразі підтримує лише PINS, а не Windows NINA.",

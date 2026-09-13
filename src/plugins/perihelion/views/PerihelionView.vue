@@ -2058,9 +2058,14 @@ async function onSyncComets() {
   syncMessage.value = null;
   const result = await syncComets();
   syncMessage.value = { ok: result.ok, text: result.message };
-  if (result.lastSyncedUtc) cometsLastSyncedUtc.value = result.lastSyncedUtc;
   syncing.value = false;
-  if (result.ok) await loadObjects();
+  if (result.ok) {
+    await loadObjects();
+    // loadSyncStatus() re-reads CachedCount from the backend -- the sync response itself
+    // doesn't include a count, only a timestamp, so this is the only way the Settings tab's
+    // "N comets cached" text actually reflects what just synced.
+    loadSyncStatus();
+  }
 }
 
 const asteroidSyncStatusLabel = computed(() =>
@@ -2074,9 +2079,11 @@ async function onSyncAsteroids() {
   asteroidSyncMessage.value = null;
   const result = await syncAsteroids();
   asteroidSyncMessage.value = { ok: result.ok, text: result.message };
-  if (result.lastSyncedUtc) asteroidsLastSyncedUtc.value = result.lastSyncedUtc;
   syncingAsteroids.value = false;
-  if (result.ok) await loadObjects();
+  if (result.ok) {
+    await loadObjects();
+    loadSyncStatus();
+  }
 }
 
 // "Sync Now" under the combined "All" filter -- syncs both data sources together rather than
@@ -2088,8 +2095,6 @@ async function onSyncAll() {
   syncingAll.value = true;
   allSyncMessage.value = null;
   const [cometResult, asteroidResult] = await Promise.all([syncComets(), syncAsteroids()]);
-  if (cometResult.lastSyncedUtc) cometsLastSyncedUtc.value = cometResult.lastSyncedUtc;
-  if (asteroidResult.lastSyncedUtc) asteroidsLastSyncedUtc.value = asteroidResult.lastSyncedUtc;
   const ok = cometResult.ok && asteroidResult.ok;
   allSyncMessage.value = {
     ok,
@@ -2103,7 +2108,10 @@ async function onSyncAll() {
           .join(' · '),
   };
   syncingAll.value = false;
-  if (cometResult.ok || asteroidResult.ok) await loadObjects();
+  if (cometResult.ok || asteroidResult.ok) {
+    await loadObjects();
+    loadSyncStatus();
+  }
 }
 
 // --- COBS refresh -- deliberately separate from Sync Now (comet elements), see

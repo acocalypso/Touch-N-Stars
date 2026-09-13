@@ -34,21 +34,177 @@
         </p>
       </div>
 
-      <div class="flex items-center gap-3">
+      <!-- PINS: the same "Collect & Upload" action below also collects system diagnostics
+           automatically - this panel only offers optional, advanced narrowing of what's
+           collected. There is no separate action/button for it. -->
+      <div
+        v-if="apiState.isPINS"
+        class="space-y-3 rounded border border-gray-700 bg-gray-900/40 p-3"
+      >
+        <h6 class="text-sm font-semibold text-white">
+          {{ $t('plugins.logfileCollector.diagnostics.title') }}
+        </h6>
+        <p class="text-gray-300 text-sm">{{ $t('plugins.logfileCollector.diagnostics.intro') }}</p>
+
+        <button
+          type="button"
+          class="flex w-auto! items-center gap-1 text-sm text-gray-300 hover:text-white"
+          @click="diagnosticsExpertMode = !diagnosticsExpertMode"
+        >
+          <span>{{ $t('plugins.logfileCollector.diagnostics.expertMode') }}</span>
+          <svg
+            class="w-4 h-4 transition-transform"
+            :class="{ 'rotate-180': diagnosticsExpertMode }"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+          >
+            <path
+              d="M6 9l6 6 6-6"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            />
+          </svg>
+        </button>
+
+        <div v-if="diagnosticsExpertMode" class="space-y-3">
+          <div class="space-y-2">
+            <h6 class="text-sm font-semibold text-gray-300">
+              {{ $t('plugins.logfileCollector.diagnostics.sectionsTitle') }}
+            </h6>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              <label
+                class="flex items-center gap-2 rounded border border-gray-700 bg-gray-900/40 p-2 text-sm text-gray-200"
+              >
+                <input v-model="includeNinaLogs" type="checkbox" class="accent-cyan-500" />
+                <span>{{ $t('plugins.logfileCollector.diagnostics.ninaLogs') }}</span>
+              </label>
+              <label
+                v-for="section in diagnosticsSections"
+                :key="section.key"
+                class="flex items-center gap-2 rounded border border-gray-700 bg-gray-900/40 p-2 text-sm text-gray-200"
+              >
+                <input v-model="section.enabled" type="checkbox" class="accent-cyan-500" />
+                <span>{{ section.label }}</span>
+              </label>
+            </div>
+            <p v-if="diagnosticsValidationErrors.sections" class="text-xs text-red-400">
+              {{ diagnosticsValidationErrors.sections }}
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div class="space-y-1">
+              <label class="block text-sm text-gray-300" for="journalLines">
+                {{ $t('plugins.logfileCollector.diagnostics.journalLines') }}
+              </label>
+              <input
+                id="journalLines"
+                v-model.number="diagnosticsJournalLines"
+                type="number"
+                min="100"
+                max="50000"
+                class="w-full text-sm rounded-md bg-gray-900 border border-gray-700 p-2 text-gray-200 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+              />
+              <p v-if="diagnosticsValidationErrors.journalLines" class="text-xs text-red-400">
+                {{ diagnosticsValidationErrors.journalLines }}
+              </p>
+            </div>
+
+            <div class="space-y-1">
+              <label class="block text-sm text-gray-300" for="dmesgLines">
+                {{ $t('plugins.logfileCollector.diagnostics.dmesgLines') }}
+              </label>
+              <input
+                id="dmesgLines"
+                v-model.number="diagnosticsDmesgLines"
+                type="number"
+                min="100"
+                max="50000"
+                class="w-full text-sm rounded-md bg-gray-900 border border-gray-700 p-2 text-gray-200 focus:outline-none focus:ring-2 focus:ring-cyan-500"
+              />
+              <p v-if="diagnosticsValidationErrors.dmesgLines" class="text-xs text-red-400">
+                {{ diagnosticsValidationErrors.dmesgLines }}
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div
+          v-if="diagnosticsUiState.kind !== 'idle'"
+          class="rounded border border-gray-700 bg-gray-900/60 p-3 space-y-1 text-sm"
+        >
+          <p class="text-gray-300">
+            {{ $t('plugins.logfileCollector.diagnostics.statusLabel') }}:
+            <span
+              class="font-semibold"
+              :class="
+                diagnosticsUiState.kind === 'success'
+                  ? 'text-green-400'
+                  : diagnosticsUiState.kind === 'failed'
+                    ? 'text-red-400'
+                    : diagnosticsUiState.kind === 'running'
+                      ? 'text-yellow-400'
+                      : 'text-gray-300'
+              "
+            >
+              {{ diagnosticsStatusText }}
+            </span>
+          </p>
+          <p v-if="logCollectorStore.diagnosticsRun.archiveId" class="text-gray-400">
+            {{ $t('plugins.logfileCollector.diagnostics.archiveId') }}:
+            <code class="text-cyan-400">{{ logCollectorStore.diagnosticsRun.archiveId }}</code>
+          </p>
+          <p v-if="logCollectorStore.diagnosticsRun.error" class="text-red-400">
+            {{ logCollectorStore.diagnosticsRun.error }}
+          </p>
+          <p v-if="logCollectorStore.diagnosticsRun.lastMessage" class="text-gray-400">
+            {{ logCollectorStore.diagnosticsRun.lastMessage }}
+          </p>
+          <p
+            v-if="
+              logCollectorStore.diagnosticsRun.status === 'success' &&
+              logCollectorStore.diagnosticsRun.autoDownloaded
+            "
+            class="text-green-400"
+          >
+            {{ $t('plugins.logfileCollector.diagnostics.autoDownloaded') }}
+          </p>
+        </div>
+      </div>
+
+      <div class="flex flex-wrap items-center gap-3">
         <button
           @click="collectAndUpload"
           :disabled="busy || !descriptionIsValid"
-          class="tns-btn-primary px-4 py-2 rounded disabled:opacity-50 disabled:cursor-not-allowed"
+          class="tns-btn-primary w-auto! px-4 py-2 rounded disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          <span v-if="busy" class="inline-flex items-center gap-2">
+          <span v-if="busy && activeAction === 'upload'" class="inline-flex items-center gap-2">
             <svg class="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor">
               <circle cx="12" cy="12" r="10" stroke-width="2" opacity=".25" />
               <path d="M4 12a8 8 0 0 1 8-8" stroke-width="2" stroke-linecap="round" />
             </svg>
-            {{ $t('plugins.logfileCollector.actions.uploading') }}
+            {{ progressMessage || $t('plugins.logfileCollector.actions.uploading') }}
           </span>
           <span v-else>{{ $t('plugins.logfileCollector.actions.collectUpload') }}</span>
         </button>
+
+        <button
+          @click="collectAndSave"
+          :disabled="busy || !descriptionIsValid"
+          class="tns-btn-secondary w-auto! px-4 py-2 rounded disabled:opacity-50 disabled:cursor-not-allowed"
+        >
+          <span v-if="busy && activeAction === 'save'" class="inline-flex items-center gap-2">
+            <svg class="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <circle cx="12" cy="12" r="10" stroke-width="2" opacity=".25" />
+              <path d="M4 12a8 8 0 0 1 8-8" stroke-width="2" stroke-linecap="round" />
+            </svg>
+            {{ progressMessage || $t('plugins.logfileCollector.actions.saving') }}
+          </span>
+          <span v-else>{{ $t('plugins.logfileCollector.actions.collectSave') }}</span>
+        </button>
+
         <span
           v-if="resultMsg"
           :class="resultOk ? 'text-green-400' : 'text-red-400'"
@@ -56,6 +212,25 @@
         >
           {{ resultMsg }}
         </span>
+      </div>
+
+      <!-- Upload a previously saved ZIP (e.g. collected earlier without an internet
+           connection) - works independently of the collection flow above. -->
+      <div class="space-y-2 rounded border border-gray-700 bg-gray-900/40 p-3">
+        <p class="text-gray-300 text-sm">
+          {{ $t('plugins.logfileCollector.existingUpload.intro') }}
+        </p>
+        <label class="tns-btn-secondary w-auto! inline-block cursor-pointer px-4 py-2 rounded">
+          {{ $t('plugins.logfileCollector.existingUpload.button') }}
+          <input
+            ref="existingZipInput"
+            type="file"
+            accept=".zip,application/zip"
+            class="hidden"
+            :disabled="busy"
+            @change="onExistingZipSelected"
+          />
+        </label>
       </div>
 
       <!-- Generated Token Display -->
@@ -72,153 +247,6 @@
             {{ $t('plugins.logfileCollector.actions.copyToken') }}
           </button>
         </div>
-      </div>
-    </div>
-
-    <div
-      v-if="apiState.isPINS"
-      class="border border-gray-700 rounded-lg bg-gradient-to-br from-gray-800 to-gray-900 shadow-lg p-5 space-y-4"
-    >
-      <div class="flex items-center justify-between gap-4">
-        <h6 class="text-lg font-semibold text-white">
-          {{ $t('plugins.logfileCollector.diagnostics.title') }}
-        </h6>
-        <button
-          @click="loadDiagnosticsOptions"
-          :disabled="diagnosticsOptionsLoading || diagnosticsUiState.isBusy"
-          class="px-3 py-1 text-xs bg-gray-700 hover:bg-gray-600 rounded disabled:opacity-50"
-        >
-          {{
-            diagnosticsOptionsLoading
-              ? $t('plugins.logfileCollector.diagnostics.loadingOptions')
-              : $t('plugins.logfileCollector.diagnostics.refreshOptions')
-          }}
-        </button>
-      </div>
-
-      <p class="text-gray-300 text-sm">{{ $t('plugins.logfileCollector.diagnostics.intro') }}</p>
-
-      <div class="space-y-3">
-        <h6 class="text-sm font-semibold text-gray-300">
-          {{ $t('plugins.logfileCollector.diagnostics.sectionsTitle') }}
-        </h6>
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
-          <label
-            v-for="section in diagnosticsSections"
-            :key="section.key"
-            class="flex items-center gap-2 rounded border border-gray-700 bg-gray-900/40 p-2 text-sm text-gray-200"
-          >
-            <input v-model="section.enabled" type="checkbox" class="accent-cyan-500" />
-            <span>{{ section.label }}</span>
-          </label>
-        </div>
-        <p v-if="diagnosticsValidationErrors.sections" class="text-xs text-red-400">
-          {{ diagnosticsValidationErrors.sections }}
-        </p>
-      </div>
-
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        <div class="space-y-1">
-          <label class="block text-sm text-gray-300" for="journalLines">
-            {{ $t('plugins.logfileCollector.diagnostics.journalLines') }}
-          </label>
-          <input
-            id="journalLines"
-            v-model.number="diagnosticsJournalLines"
-            type="number"
-            min="100"
-            max="50000"
-            class="w-full text-sm rounded-md bg-gray-900 border border-gray-700 p-2 text-gray-200 focus:outline-none focus:ring-2 focus:ring-cyan-500"
-          />
-          <p v-if="diagnosticsValidationErrors.journalLines" class="text-xs text-red-400">
-            {{ diagnosticsValidationErrors.journalLines }}
-          </p>
-        </div>
-
-        <div class="space-y-1">
-          <label class="block text-sm text-gray-300" for="dmesgLines">
-            {{ $t('plugins.logfileCollector.diagnostics.dmesgLines') }}
-          </label>
-          <input
-            id="dmesgLines"
-            v-model.number="diagnosticsDmesgLines"
-            type="number"
-            min="100"
-            max="50000"
-            class="w-full text-sm rounded-md bg-gray-900 border border-gray-700 p-2 text-gray-200 focus:outline-none focus:ring-2 focus:ring-cyan-500"
-          />
-          <p v-if="diagnosticsValidationErrors.dmesgLines" class="text-xs text-red-400">
-            {{ diagnosticsValidationErrors.dmesgLines }}
-          </p>
-        </div>
-      </div>
-
-      <div class="flex flex-wrap items-center gap-3">
-        <button
-          @click="startDiagnosticsCollection"
-          :disabled="!diagnosticsCanStart"
-          class="tns-btn-primary px-4 py-2 rounded disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          <span v-if="diagnosticsUiState.isBusy" class="inline-flex items-center gap-2">
-            <svg class="w-4 h-4 animate-spin" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-              <circle cx="12" cy="12" r="10" stroke-width="2" opacity=".25" />
-              <path d="M4 12a8 8 0 0 1 8-8" stroke-width="2" stroke-linecap="round" />
-            </svg>
-            {{ $t('plugins.logfileCollector.diagnostics.running') }}
-          </span>
-          <span v-else>{{ $t('plugins.logfileCollector.diagnostics.start') }}</span>
-        </button>
-
-        <button
-          @click="downloadDiagnosticsArchiveManual"
-          :disabled="!diagnosticsCanDownload"
-          class="px-4 py-2 rounded bg-cyan-700 hover:bg-cyan-600 text-white disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {{
-            diagnosticsDownloadBusy
-              ? $t('plugins.logfileCollector.diagnostics.downloadBusy')
-              : $t('plugins.logfileCollector.diagnostics.download')
-          }}
-        </button>
-      </div>
-
-      <div class="rounded border border-gray-700 bg-gray-900/40 p-3 space-y-1 text-sm">
-        <p class="text-gray-300">
-          {{ $t('plugins.logfileCollector.diagnostics.statusLabel') }}:
-          <span
-            class="font-semibold"
-            :class="
-              diagnosticsUiState.kind === 'success'
-                ? 'text-green-400'
-                : diagnosticsUiState.kind === 'failed'
-                  ? 'text-red-400'
-                  : diagnosticsUiState.kind === 'running'
-                    ? 'text-yellow-400'
-                    : 'text-gray-300'
-            "
-          >
-            {{ diagnosticsStatusText }}
-          </span>
-        </p>
-        <p v-if="logCollectorStore.diagnosticsRun.archiveId" class="text-gray-400">
-          {{ $t('plugins.logfileCollector.diagnostics.archiveId') }}:
-          <code class="text-cyan-400">{{ logCollectorStore.diagnosticsRun.archiveId }}</code>
-        </p>
-        <p v-if="logCollectorStore.diagnosticsRun.error" class="text-red-400">
-          {{ logCollectorStore.diagnosticsRun.error }}
-        </p>
-        <p v-if="logCollectorStore.diagnosticsRun.lastMessage" class="text-gray-400">
-          {{ logCollectorStore.diagnosticsRun.lastMessage }}
-        </p>
-        <p
-          v-if="
-            logCollectorStore.diagnosticsRun.status === 'success' &&
-            logCollectorStore.diagnosticsRun.autoDownloaded
-          "
-          class="text-green-400"
-        >
-          {{ $t('plugins.logfileCollector.diagnostics.autoDownloaded') }}
-        </p>
       </div>
     </div>
 
@@ -347,9 +375,8 @@
 </template>
 
 <script setup>
-import { computed, onMounted, onUnmounted, ref, watch } from 'vue';
+import { computed, onMounted, ref, watch } from 'vue';
 import Modal from '@/components/helpers/Modal.vue';
-import { useBackgroundAwarePolling } from '@/utils/appLifecycle';
 import { useI18n } from 'vue-i18n';
 import { useLogStore } from '@/store/logStore';
 import { useLogCollectorStore } from '../store/logCollectorStore';
@@ -366,6 +393,7 @@ import { downloadBlob } from '@/utils/blobDownloader';
 import {
   DIAGNOSTICS_DEFAULTS,
   DIAGNOSTICS_STATUS,
+  PINS_NINA_LOG_PATH,
   buildDiagnosticsPayload,
   getDiagnosticsUiStatus,
   normalizeDiagnosticsOptions,
@@ -382,15 +410,18 @@ const resultMsg = ref('');
 const resultOk = ref(false);
 const description = ref('');
 const descriptionTouched = ref(false);
-const diagnosticsUploadDescription = ref('');
+const progressMessage = ref('');
 const showSuccessModal = ref(false);
 const lastGeneratedToken = ref('');
 const diagnosticsSections = ref([]);
+const diagnosticsExpertMode = ref(false);
+const includeNinaLogs = ref(true);
 const diagnosticsJournalLines = ref(DIAGNOSTICS_DEFAULTS.journalLines);
 const diagnosticsDmesgLines = ref(DIAGNOSTICS_DEFAULTS.dmesgLines);
 const diagnosticsOptionsLoading = ref(false);
 const diagnosticsValidationErrors = ref({});
-const diagnosticsDownloadBusy = ref(false);
+const activeAction = ref(null); // 'upload' | 'save' | null - which action is currently busy
+const existingZipInput = ref(null);
 const { t } = useI18n();
 
 const diagnosticsApi = createDiagnosticsApi({
@@ -398,16 +429,6 @@ const diagnosticsApi = createDiagnosticsApi({
   port: PORT,
   token: TOKEN,
 });
-
-// Poll only while a diagnostics archive run is in progress - and pause
-// automatically when the app is backgrounded (see src/utils/appLifecycle.js).
-const isDiagnosticsPolling = ref(false);
-useBackgroundAwarePolling(
-  () => pollDiagnosticsStatus(),
-  DIAGNOSTICS_DEFAULTS.pollIntervalMs,
-  isDiagnosticsPolling,
-  { immediate: true }
-);
 
 const diagnosticsUiState = computed(() => getDiagnosticsUiStatus(logCollectorStore.diagnosticsRun));
 const descriptionIsValid = computed(() => description.value.trim().length > 0);
@@ -424,18 +445,6 @@ const diagnosticsStatusText = computed(() => {
   if (status === DIAGNOSTICS_STATUS.TIMEOUT)
     return t('plugins.logfileCollector.diagnostics.statusTimeout');
   return t('plugins.logfileCollector.diagnostics.statusIdle');
-});
-const diagnosticsCanStart = computed(() => {
-  return apiState.isPINS && descriptionIsValid.value && !diagnosticsUiState.value.isBusy;
-});
-const diagnosticsCanDownload = computed(() => {
-  return (
-    apiState.isPINS &&
-    diagnosticsUiState.value.canDownload &&
-    Boolean(logCollectorStore.diagnosticsRun.archiveId) &&
-    Boolean(diagnosticsUploadDescription.value || descriptionIsValid.value) &&
-    !diagnosticsDownloadBusy.value
-  );
 });
 
 onMounted(() => {
@@ -457,21 +466,18 @@ onMounted(() => {
   }
 });
 
-onUnmounted(() => {
-  stopDiagnosticsPolling();
-});
-
 watch(
   () => apiState.isPINS,
   (isPins) => {
     if (isPins && diagnosticsSections.value.length === 0) {
       loadDiagnosticsOptions();
     }
-    if (!isPins) {
-      stopDiagnosticsPolling();
-    }
   }
 );
+
+function sleep(ms) {
+  return new Promise((resolve) => setTimeout(resolve, ms));
+}
 
 async function buildZip(filesMap) {
   const zip = new JSZip();
@@ -485,6 +491,69 @@ async function buildZip(filesMap) {
   });
 }
 
+const NINA_LOG_FILE_COUNT = 10;
+
+async function addRecentNinaLogFiles(filesMap) {
+  try {
+    const listing = await apiService.browseFilesystem(PINS_NINA_LOG_PATH);
+    const files = Array.isArray(listing?.files) ? listing.files : [];
+    const recentFiles = [...files]
+      .sort((a, b) => new Date(b.lastModified) - new Date(a.lastModified))
+      .slice(0, NINA_LOG_FILE_COUNT);
+
+    for (const file of recentFiles) {
+      try {
+        const buffer = await apiService.fetchFilesystemFileBuffer(file.path);
+        filesMap.set(`nina-logs/${file.name}`, buffer);
+      } catch (fileError) {
+        console.warn(`Failed to read NINA log file "${file.path}":`, fileError);
+      }
+    }
+  } catch (error) {
+    console.warn('Failed to list NINA log files from PINS:', error);
+  }
+}
+
+// Collects everything (TNS/console logs, PINS-only: recent NINA logs + system diagnostics)
+// into a single filesMap. Shared by "Collect & Upload" and "Collect & Save" so both produce
+// the exact same content and differ only in what happens to the resulting ZIP.
+async function collectLogFiles() {
+  const dateStr = new Date().toISOString().slice(0, 10);
+  const filesMap = new Map();
+
+  // General logs (last 5000 entries)
+  const generalLogs = await apiService.getLastLogs('5000');
+  const generalText = (generalLogs || [])
+    .map((e) => `[${new Date(e.timestamp).toISOString()}] ${e.level}: ${e.message}`)
+    .join('\n');
+  filesMap.set(`tns/tns-logs-${dateStr}.log`, generalText);
+
+  // Debug logs from console capture (last 5000 entries)
+  const captured = Array.isArray(consoleLogs.value) ? consoleLogs.value : [];
+  const recentConsole = captured.slice(-5000);
+  const consoleText = recentConsole
+    .map(
+      (e) =>
+        `[${new Date(e.ts || Date.now()).toISOString()}] ${e.type?.toUpperCase?.() || 'LOG'}: ${e.message}`
+    )
+    .join('\n');
+  filesMap.set(`tns/tns-debug-${dateStr}.log`, consoleText);
+
+  // PINS-only: the log path is a stable constant there (fixed system user "pi"), unlike
+  // NINA/Windows where %LOCALAPPDATA% varies per user account and can't be resolved from
+  // the frontend (see PINS_NINA_LOG_PATH). Never let a failure here block collection.
+  // System diagnostics are collected as part of this same action too - there is no
+  // separate "start diagnostics" step, everything ends up in one ZIP.
+  if (apiState.isPINS) {
+    if (includeNinaLogs.value) {
+      await addRecentNinaLogFiles(filesMap);
+    }
+    await runPinsDiagnostics(filesMap);
+  }
+
+  return filesMap;
+}
+
 async function collectAndUpload() {
   descriptionTouched.value = true;
   if (!descriptionIsValid.value) {
@@ -494,51 +563,22 @@ async function collectAndUpload() {
   }
 
   busy.value = true;
+  activeAction.value = 'upload';
   resultMsg.value = '';
   resultOk.value = false;
+  progressMessage.value = '';
   try {
-    // 1) Generate log token
     const logToken = generateTimestampLogToken();
     lastGeneratedToken.value = logToken;
 
-    // 2) Collect logs: general and debug
-    const dateStr = new Date().toISOString().slice(0, 10);
-    const filesMap = new Map();
-
-    // General logs (last 1000 entries)
-    const generalLogs = await apiService.getLastLogs('1000');
-    const generalText = (generalLogs || [])
-      .map((e) => `[${new Date(e.timestamp).toISOString()}] ${e.level}: ${e.message}`)
-      .join('\n');
-    filesMap.set(`tns/tns-logs-${dateStr}.log`, generalText);
-
-    // Debug logs from console capture (last 1000 entries)
-    const captured = Array.isArray(consoleLogs.value) ? consoleLogs.value : [];
-    const recentConsole = captured.slice(-1000);
-    const consoleText = recentConsole
-      .map(
-        (e) =>
-          `[${new Date(e.ts || Date.now()).toISOString()}] ${e.type?.toUpperCase?.() || 'LOG'}: ${e.message}`
-      )
-      .join('\n');
-    filesMap.set(`tns/tns-debug-${dateStr}.log`, consoleText);
-
-    // 3) Build ZIP
+    const filesMap = await collectLogFiles();
     const zipBlob = await buildZip(filesMap);
-
     const zipFileName = `tns-logs-${Date.now()}.zip`;
     const res = await uploadZipBlob(zipBlob, zipFileName, description.value, logToken);
 
     resultOk.value = res.status >= 200 && res.status < 300;
 
     if (resultOk.value) {
-      // 5) Store submission information
-      logCollectorStore.addSubmission({
-        date: new Date().toISOString(),
-        filename: zipFileName,
-        token: logToken,
-      });
-
       resultMsg.value = t('plugins.logfileCollector.result.success');
 
       // Clear description after successful upload
@@ -556,6 +596,99 @@ async function collectAndUpload() {
     lastGeneratedToken.value = ''; // Clear token on failure
   } finally {
     busy.value = false;
+    activeAction.value = null;
+    progressMessage.value = '';
+  }
+}
+
+// "Download only" counterpart to collectAndUpload(): same collected content, but saved to the
+// device instead of sent to the support server - no network call, no token, works offline
+// (the PINS diagnostics collection itself only talks to the local PINS daemon, not the internet).
+async function collectAndSave() {
+  descriptionTouched.value = true;
+  if (!descriptionIsValid.value) {
+    resultOk.value = false;
+    resultMsg.value = t('plugins.logfileCollector.descriptionRequired');
+    return;
+  }
+
+  busy.value = true;
+  activeAction.value = 'save';
+  resultMsg.value = '';
+  resultOk.value = false;
+  progressMessage.value = '';
+  try {
+    const filesMap = await collectLogFiles();
+    const zipBlob = await buildZip(filesMap);
+    const zipFileName = `tns-logs-${Date.now()}.zip`;
+
+    const saveResult = await downloadBlob(zipBlob, zipFileName, { folderName: 'TNS-Logs' });
+
+    resultOk.value = true;
+    resultMsg.value = t('plugins.logfileCollector.result.savedLocally', {
+      filename: saveResult.filename,
+    });
+  } catch (err) {
+    console.error('Saving log file locally failed', err);
+    resultOk.value = false;
+    resultMsg.value = t('plugins.logfileCollector.result.saveFailed');
+  } finally {
+    busy.value = false;
+    activeAction.value = null;
+    progressMessage.value = '';
+  }
+}
+
+// Lets the user pick a previously saved ZIP (e.g. from collectAndSave(), created earlier while
+// offline) and upload it now. Goes through the same uploadZipBlob() as the live-collection path.
+async function onExistingZipSelected(event) {
+  const file = event.target.files?.[0];
+  event.target.value = ''; // allow re-picking the same file later
+  if (!file) {
+    return;
+  }
+
+  descriptionTouched.value = true;
+  if (!descriptionIsValid.value) {
+    resultOk.value = false;
+    resultMsg.value = t('plugins.logfileCollector.descriptionRequired');
+    return;
+  }
+
+  if (!file.name.toLowerCase().endsWith('.zip')) {
+    resultOk.value = false;
+    resultMsg.value = t('plugins.logfileCollector.existingUpload.invalidFile');
+    return;
+  }
+
+  busy.value = true;
+  activeAction.value = 'upload';
+  resultMsg.value = '';
+  resultOk.value = false;
+  try {
+    const logToken = generateTimestampLogToken();
+    lastGeneratedToken.value = logToken;
+
+    const res = await uploadZipBlob(file, file.name, description.value, logToken);
+    resultOk.value = res.status >= 200 && res.status < 300;
+
+    if (resultOk.value) {
+      resultMsg.value = t('plugins.logfileCollector.result.success');
+      description.value = '';
+      descriptionTouched.value = false;
+    } else {
+      resultMsg.value = t('plugins.logfileCollector.result.failedWithStatus', {
+        status: res.status,
+      });
+    }
+  } catch (err) {
+    console.error('Log upload failed', err);
+    resultOk.value = false;
+    resultMsg.value = t('plugins.logfileCollector.result.failed');
+    lastGeneratedToken.value = '';
+  } finally {
+    busy.value = false;
+    activeAction.value = null;
   }
 }
 
@@ -603,15 +736,11 @@ async function loadDiagnosticsOptions() {
   }
 }
 
-async function startDiagnosticsCollection() {
-  if (!apiState.isPINS) {
-    return;
-  }
-  descriptionTouched.value = true;
-  if (!descriptionIsValid.value) {
-    return;
-  }
-
+// Runs the PINS system-diagnostics job to completion and merges its files into filesMap,
+// so it ends up in the same upload as the basic logs - there is no separate upload step for
+// it. Never throws: any failure here is recorded on the store for display and just means the
+// diagnostics files are missing from the final ZIP, not that the whole upload is aborted.
+async function runPinsDiagnostics(filesMap) {
   const validation = validateDiagnosticsConfig({
     sections: diagnosticsSections.value,
     journalLines: diagnosticsJournalLines.value,
@@ -622,9 +751,8 @@ async function startDiagnosticsCollection() {
     return;
   }
 
-  stopDiagnosticsPolling();
   logCollectorStore.resetDiagnosticsRun();
-  diagnosticsUploadDescription.value = description.value.trim();
+  progressMessage.value = t('plugins.logfileCollector.diagnostics.collecting');
 
   try {
     const payload = buildDiagnosticsPayload({
@@ -636,106 +764,99 @@ async function startDiagnosticsCollection() {
     const startResponse = await diagnosticsApi.startDiagnosticsArchive(payload);
     logCollectorStore.beginDiagnosticsRun(startResponse);
     logCollectorStore.setDiagnosticsLastMessage(t('plugins.logfileCollector.diagnostics.started'));
-    startDiagnosticsPolling();
-  } catch (error) {
-    console.error('Failed to start diagnostics archive:', error);
-    logCollectorStore.setDiagnosticsError(
-      extractErrorMessage(error, t('plugins.logfileCollector.diagnostics.startFailed'))
-    );
-  }
-}
 
-function startDiagnosticsPolling() {
-  if (isDiagnosticsPolling.value || !logCollectorStore.diagnosticsRun.archiveId) {
-    return;
-  }
-  isDiagnosticsPolling.value = true;
-}
-
-function stopDiagnosticsPolling() {
-  isDiagnosticsPolling.value = false;
-}
-
-async function pollDiagnosticsStatus() {
-  const archiveId = logCollectorStore.diagnosticsRun.archiveId;
-  if (!archiveId) {
-    return;
-  }
-
-  try {
-    const statusResponse = await diagnosticsApi.getDiagnosticsArchiveStatus(archiveId);
-    logCollectorStore.setDiagnosticsStatusResponse(statusResponse, {
-      maxDurationMs: DIAGNOSTICS_DEFAULTS.maxPollingDurationMs,
-    });
-
-    const current = logCollectorStore.diagnosticsRun;
-    if (current.status === DIAGNOSTICS_STATUS.SUCCESS) {
-      stopDiagnosticsPolling();
-      if (!current.autoDownloaded) {
-        await downloadAndUploadDiagnosticsArchive(true);
-      }
-    } else if (
-      current.status === DIAGNOSTICS_STATUS.FAILED ||
-      current.status === DIAGNOSTICS_STATUS.TIMEOUT
-    ) {
-      stopDiagnosticsPolling();
-    }
-  } catch (error) {
-    console.error('Diagnostics status polling error:', error);
-    const message = extractErrorMessage(
-      error,
-      t('plugins.logfileCollector.diagnostics.pollFailed')
-    );
-    logCollectorStore.setDiagnosticsLastMessage(message);
-  }
-}
-
-async function downloadDiagnosticsArchiveManual() {
-  await downloadAndUploadDiagnosticsArchive(false);
-}
-
-async function downloadAndUploadDiagnosticsArchive(isAuto) {
-  const archiveId = logCollectorStore.diagnosticsRun.archiveId;
-  if (!archiveId || diagnosticsDownloadBusy.value) {
-    return;
-  }
-  descriptionTouched.value = true;
-  const uploadDescription = diagnosticsUploadDescription.value || description.value.trim();
-  if (!uploadDescription) {
-    return;
-  }
-
-  diagnosticsDownloadBusy.value = true;
-  try {
-    const { blob, filename } = await diagnosticsApi.downloadDiagnosticsArchive(archiveId);
-    await downloadBlob(blob, filename, {
-      folderName: 'TNS-Diagnostics',
-      fallbackFilename: `diagnostics-${archiveId}.zip`,
-    });
-
-    if (isAuto) {
-      logCollectorStore.markDiagnosticsAutoDownloaded();
-    }
-
-    const generatedToken = generateTimestampLogToken();
-    lastGeneratedToken.value = generatedToken;
-    await uploadZipBlob(blob, filename, uploadDescription, generatedToken);
-    logCollectorStore.markDiagnosticsUploadedToSupport();
-    logCollectorStore.setDiagnosticsLastMessage(t('plugins.logfileCollector.diagnostics.uploaded'));
-  } catch (error) {
-    if (error?.httpStatus === 409) {
-      logCollectorStore.setDiagnosticsLastMessage(
-        t('plugins.logfileCollector.diagnostics.stillPreparing')
-      );
+    const archiveId = logCollectorStore.diagnosticsRun.archiveId;
+    if (!archiveId) {
       return;
     }
 
-    console.error('Diagnostics download/upload failed:', error);
-    logCollectorStore.setDiagnosticsLastMessage(
-      extractErrorMessage(error, t('plugins.logfileCollector.diagnostics.downloadFailed'))
+    const succeeded = await pollDiagnosticsArchive(archiveId);
+    if (!succeeded) {
+      return;
+    }
+
+    const { blob, filename } = await downloadDiagnosticsZipWithRetry(archiveId);
+
+    try {
+      await downloadBlob(blob, filename, {
+        folderName: 'TNS-Diagnostics',
+        fallbackFilename: `diagnostics-${archiveId}.zip`,
+      });
+      logCollectorStore.markDiagnosticsAutoDownloaded();
+    } catch (saveError) {
+      console.warn('Failed to save diagnostics archive locally:', saveError);
+    }
+
+    const diagnosticsZip = await JSZip.loadAsync(blob);
+    const entryPromises = [];
+    diagnosticsZip.forEach((relativePath, entry) => {
+      if (entry.dir) return;
+      entryPromises.push(
+        entry.async('uint8array').then((content) => {
+          filesMap.set(`diagnostics/${relativePath}`, content);
+        })
+      );
+    });
+    await Promise.all(entryPromises);
+  } catch (error) {
+    console.error('PINS diagnostics collection failed:', error);
+    logCollectorStore.setDiagnosticsError(
+      extractErrorMessage(error, t('plugins.logfileCollector.diagnostics.startFailed'))
     );
   } finally {
-    diagnosticsDownloadBusy.value = false;
+    progressMessage.value = '';
+  }
+}
+
+// Polls until the archive job reaches a terminal state. Transient poll errors are logged but
+// don't abort the loop - only running out of time or a definitive failed/timeout status does.
+async function pollDiagnosticsArchive(archiveId) {
+  const deadline = Date.now() + DIAGNOSTICS_DEFAULTS.maxPollingDurationMs;
+  while (Date.now() < deadline) {
+    await sleep(DIAGNOSTICS_DEFAULTS.pollIntervalMs);
+    try {
+      const statusResponse = await diagnosticsApi.getDiagnosticsArchiveStatus(archiveId);
+      logCollectorStore.setDiagnosticsStatusResponse(statusResponse, {
+        maxDurationMs: DIAGNOSTICS_DEFAULTS.maxPollingDurationMs,
+      });
+    } catch (error) {
+      logCollectorStore.setDiagnosticsLastMessage(
+        extractErrorMessage(error, t('plugins.logfileCollector.diagnostics.pollFailed'))
+      );
+      continue;
+    }
+
+    const status = logCollectorStore.diagnosticsRun.status;
+    if (status === DIAGNOSTICS_STATUS.SUCCESS) {
+      return true;
+    }
+    if (status === DIAGNOSTICS_STATUS.FAILED || status === DIAGNOSTICS_STATUS.TIMEOUT) {
+      return false;
+    }
+  }
+
+  logCollectorStore.setDiagnosticsError(t('plugins.logfileCollector.diagnostics.pollFailed'));
+  return false;
+}
+
+// The backend can briefly answer 409 right after the job reports success while it finishes
+// writing the archive file - retry a few times before giving up.
+async function downloadDiagnosticsZipWithRetry(archiveId, maxAttempts = 5) {
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    try {
+      return await diagnosticsApi.downloadDiagnosticsArchive(archiveId);
+    } catch (error) {
+      if (error?.httpStatus === 409 && attempt < maxAttempts) {
+        logCollectorStore.setDiagnosticsLastMessage(
+          t('plugins.logfileCollector.diagnostics.stillPreparing')
+        );
+        await sleep(2000);
+        continue;
+      }
+      throw new Error(
+        extractErrorMessage(error, t('plugins.logfileCollector.diagnostics.downloadFailed'))
+      );
+    }
   }
 }
 

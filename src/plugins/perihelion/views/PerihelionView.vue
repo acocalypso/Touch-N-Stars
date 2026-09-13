@@ -1362,54 +1362,58 @@
             <span class="tns-stat-label">{{ t('perihelion.settings.dataSection') }}</span>
 
             <div class="grid grid-cols-2 gap-3">
-              <label class="flex flex-col gap-1">
-                <span class="text-[11px] text-content-muted">{{
-                  t('perihelion.settings.cometMagnitudeThreshold')
-                }}</span>
-                <input
-                  v-model.number="cometMagnitudeThresholdInput"
-                  @change="onSaveDataSettings"
-                  type="number"
-                  step="0.1"
-                  class="tns-input"
-                />
-              </label>
-              <label class="flex flex-col gap-1">
-                <span class="text-[11px] text-content-muted">{{
-                  t('perihelion.settings.maxComets')
-                }}</span>
-                <input
-                  v-model.number="maxCometsInput"
-                  @change="onSaveDataSettings"
-                  type="number"
-                  min="1"
-                  class="tns-input"
-                />
-              </label>
-              <label class="flex flex-col gap-1">
-                <span class="text-[11px] text-content-muted">{{
-                  t('perihelion.settings.asteroidMagnitudeThreshold')
-                }}</span>
-                <input
-                  v-model.number="asteroidMagnitudeThresholdInput"
-                  @change="onSaveDataSettings"
-                  type="number"
-                  step="0.1"
-                  class="tns-input"
-                />
-              </label>
-              <label class="flex flex-col gap-1">
-                <span class="text-[11px] text-content-muted">{{
-                  t('perihelion.settings.maxAsteroids')
-                }}</span>
-                <input
-                  v-model.number="maxAsteroidsInput"
-                  @change="onSaveDataSettings"
-                  type="number"
-                  min="1"
-                  class="tns-input"
-                />
-              </label>
+              <NumberInputPicker
+                v-model="cometMagnitudeThresholdInput"
+                :label="t('perihelion.settings.cometMagnitudeThreshold')"
+                labelKey="perihelion.settings.cometMagnitudeThreshold"
+                label-position="top"
+                wrapper-class="w-full"
+                :min="0"
+                :max="25"
+                :step="0.1"
+                :use-default-sentinel="false"
+                @change="onSaveDataSettings"
+                @blur="onSaveDataSettings"
+              />
+              <NumberInputPicker
+                v-model="maxCometsInput"
+                :label="t('perihelion.settings.maxComets')"
+                labelKey="perihelion.settings.maxComets"
+                label-position="top"
+                wrapper-class="w-full"
+                :min="1"
+                :max="200"
+                :step="1"
+                :use-default-sentinel="false"
+                @change="onSaveDataSettings"
+                @blur="onSaveDataSettings"
+              />
+              <NumberInputPicker
+                v-model="asteroidMagnitudeThresholdInput"
+                :label="t('perihelion.settings.asteroidMagnitudeThreshold')"
+                labelKey="perihelion.settings.asteroidMagnitudeThreshold"
+                label-position="top"
+                wrapper-class="w-full"
+                :min="0"
+                :max="25"
+                :step="0.1"
+                :use-default-sentinel="false"
+                @change="onSaveDataSettings"
+                @blur="onSaveDataSettings"
+              />
+              <NumberInputPicker
+                v-model="maxAsteroidsInput"
+                :label="t('perihelion.settings.maxAsteroids')"
+                labelKey="perihelion.settings.maxAsteroids"
+                label-position="top"
+                wrapper-class="w-full"
+                :min="1"
+                :max="200"
+                :use-default-sentinel="false"
+                :step="1"
+                @change="onSaveDataSettings"
+                @blur="onSaveDataSettings"
+              />
             </div>
 
             <div class="flex flex-col gap-2 pt-2 border-t border-line-strong/50">
@@ -1613,6 +1617,7 @@ import SkyChart from '@/components/framing/SkyChart.vue';
 import Modal from '@/components/helpers/Modal.vue';
 import toggleButton from '@/components/helpers/toggleButton.vue';
 import SettingInput from '@/components/helpers/settings/UpdatePorfileNumber.vue';
+import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 import {
   EyeIcon,
   InformationCircleIcon,

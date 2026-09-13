@@ -5412,7 +5412,8 @@
     "tabs": {
       "browse": "Durchsuchen",
       "position": "Position & Bahn",
-      "track": "Nachführen"
+      "track": "Nachführen",
+      "settings": "Settings"
     },
     "browse": {
       "step": "Kometen oder Asteroiden zur Nachführung auswählen",
@@ -5544,7 +5545,6 @@
       "quickTrack": "Quick Track",
       "working": "Arbeitet…",
       "howItWorks": "So funktioniert es",
-      "reapplyIntervalSection": "Wiederholungsintervall",
       "eqmodToggleTitle": "EQMOD-RA-Ratenkorrektur",
       "eqmodToggleDescription": "EQMOD — sowohl der Windows-ASCOM-Treiber als auch INDIs eigener, unabhängiger EQMod-Treiber — liest die RA-Nachführrate als reine Bogensekunden/Sekunde statt der von NINA selbst gesendeten Werte, wodurch die Nachführung ohne Korrektur etwa 15-mal zu langsam ausfällt. Nur aktivieren, wenn die Montierung über EQMOD gesteuert wird.",
       "eqmodDetectedHint": "{name} sieht nach einem EQMOD-Treiber aus — das sollte wahrscheinlich aktiviert sein.",
@@ -5595,6 +5595,26 @@
       "unknownError": "unbekannter Fehler"
     },
     "notDetected": "Perihelion-Plugin nicht gefunden. Installiere das Perihelion-Plugin, um diese Seite zu nutzen.",
-    "notSupportedOnNina": "Perihelion unterstützt derzeit nur PINS, nicht Windows NINA."
+    "notSupportedOnNina": "Perihelion unterstützt derzeit nur PINS, nicht Windows NINA.",
+    "settings": {
+      "trackingSection": "Mount & Tracking",
+      "dataSection": "Data",
+      "cometMagnitudeThreshold": "Comet Magnitude Limit",
+      "maxComets": "Max Comets Shown",
+      "asteroidMagnitudeThreshold": "Asteroid Magnitude Limit",
+      "maxAsteroids": "Max Asteroids Shown",
+      "cometsData": "Comets",
+      "asteroidsData": "Asteroids",
+      "import": "Import",
+      "export": "Export",
+      "clear": "Clear",
+      "saved": "Saved.",
+      "saveFailed": "Save failed.",
+      "importedComets": "Imported {count} comet(s).",
+      "importedAsteroids": "Imported {count} asteroid(s).",
+      "nothingToExport": "Nothing to export -- this hasn't been synced yet.",
+      "confirmClearComets": "Remove all cached comet elements? The Browse list's comets will be empty until the next sync.",
+      "confirmClearAsteroids": "Remove all cached asteroid elements? The Browse list's asteroids will be empty until the next sync."
+    }
   }
 }

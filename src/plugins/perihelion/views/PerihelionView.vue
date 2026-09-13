@@ -1803,7 +1803,10 @@ async function onImportComets(event) {
   dataSettingsStatus.value = result.ok
     ? t('perihelion.settings.importedComets', { count: result.count })
     : result.message;
-  if (result.ok) loadObjects();
+  if (result.ok) {
+    loadObjects();
+    loadSyncStatus();
+  }
 }
 
 async function onImportAsteroids(event) {
@@ -1814,7 +1817,10 @@ async function onImportAsteroids(event) {
   dataSettingsStatus.value = result.ok
     ? t('perihelion.settings.importedAsteroids', { count: result.count })
     : result.message;
-  if (result.ok) loadObjects();
+  if (result.ok) {
+    loadObjects();
+    loadSyncStatus();
+  }
 }
 
 function downloadTextFile(text, filename, mimeType) {
@@ -1849,14 +1855,20 @@ async function onClearComets() {
   if (!window.confirm(t('perihelion.settings.confirmClearComets'))) return;
   const result = await clearComets();
   dataSettingsStatus.value = result.message;
-  if (result.ok) loadObjects();
+  if (result.ok) {
+    loadObjects();
+    loadSyncStatus();
+  }
 }
 
 async function onClearAsteroids() {
   if (!window.confirm(t('perihelion.settings.confirmClearAsteroids'))) return;
   const result = await clearAsteroids();
   dataSettingsStatus.value = result.message;
-  if (result.ok) loadObjects();
+  if (result.ok) {
+    loadObjects();
+    loadSyncStatus();
+  }
 }
 
 // Perihelion's own backend is a separate standalone HTTP server, not something ninaAPI knows

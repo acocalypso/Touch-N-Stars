@@ -1,6 +1,6 @@
 # Filebrowser: binary transfers, download to device, sorting and multi-select
 
-Status: implemented (backend untested against a running plugin server)
+Status: verified against PINS plugin server 1.4.0.0 (2026-09-13)
 Date: 2026-09-01
 
 ## Goal
@@ -89,7 +89,7 @@ cmp /tmp/t.png <original>   # identical
 
 # Phase 2: render previews in NINA instead of in JavaScript
 
-Status: implemented (backend untested against a running plugin server)
+Status: verified against PINS plugin server 1.4.0.0 (2026-09-13); AC 5 (server-side cancel) not observable from outside
 Date: 2026-09-01
 
 ## Problem

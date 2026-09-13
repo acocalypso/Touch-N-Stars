@@ -1,9 +1,25 @@
 import axios from 'axios';
 import { DEFAULT_TIMEOUT, getUrls, getPinsDaemonAuthHeaders } from './core';
+import { getHttpAbortSignal } from '@/utils/httpLifecycle';
 
 // File transfers are not covered by DEFAULT_TIMEOUT (10 s): a 50 MB FITS over Wi-Fi
 // needs far longer than a status request.
 const FILE_TRANSFER_TIMEOUT = 120000;
+
+// The global axios interceptors (errorHandler.js) turn every failed request - HTTP
+// errors and cancellations alike - into a *resolved* mock response, so callers never
+// see a rejection. That suits status polling, but the filesystem controller needs the
+// real error: a cancelled blob transfer must not hand file-saver a mock object, and a
+// 409 on rename has to reach the dialog with the backend's reason instead of closing
+// it silently. This instance carries no interceptors; the app-wide resume abort signal
+// is attached by hand so stale transfers still die on resume (see httpLifecycle.js).
+const filesystemHttp = axios.create();
+filesystemHttp.interceptors.request.use((config) => {
+  if (!config.signal) {
+    config.signal = getHttpAbortSignal();
+  }
+  return config;
+});
 
 // The filesystem controller answers errors as { success: false, error } with a real
 // status code. Without this the raw axios message ("Request failed with status code
@@ -146,7 +162,7 @@ export default {
     const { API_URL } = getUrls();
     const params = path ? { path } : {};
     try {
-      const response = await axios.get(`${API_URL}filesystem/browse`, {
+      const response = await filesystemHttp.get(`${API_URL}filesystem/browse`, {
         params,
         timeout: DEFAULT_TIMEOUT,
       });
@@ -159,7 +175,7 @@ export default {
   async createFilesystemDirectory(path) {
     const { API_URL } = getUrls();
     try {
-      const response = await axios.post(
+      const response = await filesystemHttp.post(
         `${API_URL}filesystem/directory`,
         { path },
         { timeout: DEFAULT_TIMEOUT }
@@ -173,7 +189,7 @@ export default {
   async deleteFilesystemDirectory(path) {
     const { API_URL } = getUrls();
     try {
-      const response = await axios.delete(`${API_URL}filesystem/directory`, {
+      const response = await filesystemHttp.delete(`${API_URL}filesystem/directory`, {
         params: { path },
         timeout: DEFAULT_TIMEOUT,
       });
@@ -186,7 +202,7 @@ export default {
   async deleteFilesystemFile(path) {
     const { API_URL } = getUrls();
     try {
-      const response = await axios.delete(`${API_URL}filesystem/file`, {
+      const response = await filesystemHttp.delete(`${API_URL}filesystem/file`, {
         params: { path },
         timeout: DEFAULT_TIMEOUT,
       });
@@ -199,7 +215,7 @@ export default {
   async renameFilesystemEntry(sourcePath, targetPath) {
     const { API_URL } = getUrls();
     try {
-      const response = await axios.put(
+      const response = await filesystemHttp.put(
         `${API_URL}filesystem/rename`,
         { sourcePath, targetPath },
         { timeout: DEFAULT_TIMEOUT }
@@ -236,7 +252,7 @@ export default {
   async fetchFilesystemImageInfo(path, { signal } = {}) {
     const { API_URL } = getUrls();
     try {
-      const response = await axios.get(`${API_URL}filesystem/imageinfo`, {
+      const response = await filesystemHttp.get(`${API_URL}filesystem/imageinfo`, {
         params: { path },
         timeout: DEFAULT_TIMEOUT,
         signal,
@@ -250,7 +266,7 @@ export default {
   async fetchFilesystemFileBuffer(path) {
     const { API_URL } = getUrls();
     try {
-      const response = await axios.get(`${API_URL}filesystem/file`, {
+      const response = await filesystemHttp.get(`${API_URL}filesystem/file`, {
         params: { path },
         responseType: 'arraybuffer',
         timeout: FILE_TRANSFER_TIMEOUT,
@@ -266,7 +282,7 @@ export default {
   async fetchFilesystemFileBlob(path, { onDownloadProgress, signal } = {}) {
     const { API_URL } = getUrls();
     try {
-      const response = await axios.get(`${API_URL}filesystem/file`, {
+      const response = await filesystemHttp.get(`${API_URL}filesystem/file`, {
         params: { path, download: 1 },
         responseType: 'blob',
         timeout: FILE_TRANSFER_TIMEOUT,
@@ -285,7 +301,7 @@ export default {
   async fetchFilesystemFileText(path) {
     const { API_URL } = getUrls();
     try {
-      const response = await axios.get(`${API_URL}filesystem/file`, {
+      const response = await filesystemHttp.get(`${API_URL}filesystem/file`, {
         params: { path },
         responseType: 'text',
         timeout: FILE_TRANSFER_TIMEOUT,

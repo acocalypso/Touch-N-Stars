@@ -40,9 +40,7 @@
       </template>
     </div>
 
-    <!-- Only when a rotator (real or manual) is actually connected -- setting this without one
-         is misleading, since Add to Sequence falls back to plain Center and silently ignores it
-         (CenterAndRotate fails NINA's own validation with no rotator attached). -->
+    <!-- Requires a connected rotator -- CenterAndRotate fails validation without one. -->
     <div v-if="ready && store.rotatorInfo?.Connected" class="flex items-center gap-2">
       <span class="text-[11px] text-content-faint shrink-0">{{
         t('perihelion.framing.rotation')

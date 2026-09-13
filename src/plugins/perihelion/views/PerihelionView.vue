@@ -2012,8 +2012,8 @@ async function loadSyncStatus() {
     // buttons and any comet-fetch error elsewhere in the panel already cover the cases that
     // actually matter.
   } finally {
-    // Without this, the pre-fetch null defaults above render as "never synced" even when
-    // there's real sync history -- a false claim, not just a blank loading state.
+    // Without this, the pre-fetch null defaults render as "never synced" even when sync
+    // history exists.
     syncStatusLoaded.value = true;
   }
 }

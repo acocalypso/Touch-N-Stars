@@ -1593,7 +1593,7 @@ import {
   clearCobs,
 } from '../utils/fetchImportExport';
 import { fetchCometActivity } from '../utils/fetchCometActivity';
-import { sendPerihelionSequence } from '../utils/sendPerihelionSequence';
+import { addTargetToSequence } from '../utils/addTargetToSequence';
 import { buildPerihelionSequence } from '../utils/buildPerihelionSequence';
 import { startQuickTrack, stopQuickTrack } from '../utils/quickTrack';
 import { fetchQuickTrackStatus } from '../utils/fetchQuickTrackStatus';
@@ -2687,9 +2687,9 @@ const nextReapplyIn = computed(() => {
   return `${Math.max(0, Math.round((nextAtMs - now.value) / 1000))}s`;
 });
 
-// Shared by onAddToSequence (loads it live into NINA) and onDownloadSequence (saves the exact
-// same JSON as a file) -- both send the identical target shape to buildPerihelionSequence, so
-// there's exactly one place that has to stay in sync with its own param docs.
+// Shared by onAddToSequence (appends it live into NINA's loaded sequence) and
+// onDownloadSequence (saves an equivalent full-sequence JSON as a file) -- keeps both actions'
+// target shape in one place.
 function buildSequenceTarget() {
   return {
     objectType: selected.value.objectType.toLowerCase(),
@@ -2715,12 +2715,11 @@ async function onAddToSequence() {
   if (!selected.value) return;
   actionBusy.value = true;
   actionStatus.value = null;
-  const result = await sendPerihelionSequence(buildSequenceTarget());
+  const result = await addTargetToSequence(buildSequenceTarget());
   actionStatus.value = result;
   actionBusy.value = false;
-  // Deliberately stays 'idle' even on success -- Add to Sequence only loads the sequence, it
-  // doesn't start it (see sendPerihelionSequence's own doc comment), so there's nothing here
-  // for a "Stop Sequence" button to stop yet.
+  // Deliberately stays 'idle' even on success -- this appends the target, it doesn't start
+  // the sequence, so there's nothing here for a "Stop Sequence" button to stop yet.
 }
 
 // Lighter-weight alternative to Add to Sequence for someone who doesn't want it loaded straight

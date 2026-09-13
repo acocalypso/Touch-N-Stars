@@ -5590,8 +5590,6 @@
       "noResponse": "Brak wiadomości zwrotnej",
       "unreachable": "Nie można połączyć się z Perihelion",
       "syncFailed": "Synchronizacja nieudana",
-      "sequenceLoadFailed": "Nie można załadować sekwencji",
-      "sequenceLoaded": "Sekwencja załadowana — sprawdź i uruchom ją w sekwencerze",
       "unknownError": "nieznany błąd"
     },
     "notDetected": "Nie wykryto wtyczki Perihelion. Zainstaluj wtyczkę Perihelion, aby korzystać z tej strony.",

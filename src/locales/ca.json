@@ -5590,8 +5590,6 @@
       "noResponse": "Cap missatge de resposta",
       "unreachable": "No s'ha pogut contactar amb Perihelion",
       "syncFailed": "Ha fallat la sincronització",
-      "sequenceLoadFailed": "No s'ha pogut carregar la seqüència",
-      "sequenceLoaded": "Seqüència carregada — revisa-la i inicia-la al seqüenciador",
       "unknownError": "error desconegut"
     },
     "notDetected": "No s'ha detectat el connector Perihelion. Instal·la el connector Perihelion per fer servir aquesta pàgina.",

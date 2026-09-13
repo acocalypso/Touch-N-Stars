@@ -5590,8 +5590,6 @@
       "noResponse": "Žádná odpověď",
       "unreachable": "Nelze se spojit s Perihelion",
       "syncFailed": "Synchronizace selhala",
-      "sequenceLoadFailed": "Sekvenci se nepodařilo načíst",
-      "sequenceLoaded": "Sekvence načtena — zkontrolujte a spusťte ji v sekvenceru",
       "unknownError": "neznámá chyba"
     },
     "notDetected": "Plugin Perihelion nebyl nalezen. Pro použití této stránky nainstalujte plugin Perihelion.",

@@ -5590,8 +5590,6 @@
       "noResponse": "没有响应消息",
       "unreachable": "无法连接到 Perihelion",
       "syncFailed": "同步失败",
-      "sequenceLoadFailed": "无法加载序列",
-      "sequenceLoaded": "序列已加载 — 请在序列编辑器中检查并启动",
       "unknownError": "未知错误"
     },
     "notDetected": "未检测到 Perihelion 插件。请安装 Perihelion 插件以使用此页面。",

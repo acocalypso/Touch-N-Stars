@@ -7,7 +7,7 @@ import { getUrls } from '@/services/api/core';
  * PerihelionApiServer/PerihelionApiController on the plugin side), bypassing the Advanced
  * Sequencer entirely so it never disturbs whatever sequence is currently loaded there. Sets
  * the mount's (and optionally the guider's) custom tracking rate right now, for manual/visual
- * use -- not a substitute for "Add to Sequence" (see sendPerihelionSequence.js).
+ * use -- not a substitute for "Add to Sequence" (see addTargetToSequence.js).
  *
  * @param {object} target
  * @param {'comet'|'asteroid'} target.objectType

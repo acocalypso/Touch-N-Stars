@@ -5595,8 +5595,6 @@
       "noResponse": "Sin mensaje de respuesta",
       "unreachable": "No se pudo contactar con Perihelion",
       "syncFailed": "Fallo en la sincronización",
-      "sequenceLoadFailed": "No se pudo cargar la secuencia",
-      "sequenceLoaded": "Secuencia cargada — revísala e inícala en el secuenciador",
       "unknownError": "error desconocido"
     },
     "notDetected": "No se detectó el plugin Perihelion. Instala el plugin Perihelion para usar esta página.",

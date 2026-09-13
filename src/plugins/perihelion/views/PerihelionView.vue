@@ -287,7 +287,7 @@
                     t('perihelion.browse.selectedPrompt')
                   }}</span>
                   <button
-                    class="tns-btn w-auto shrink-0 px-4 bg-emerald-700 text-white hover:bg-emerald-600"
+                    class="tns-btn-primary w-auto! shrink-0 px-4"
                     @click="goToPositionFromBrowse"
                   >
                     {{ t('perihelion.browse.goToPositionPath') }}
@@ -658,7 +658,7 @@
                         t('perihelion.position.framingCapturedPrompt')
                       }}</span>
                       <button
-                        class="tns-btn w-auto shrink-0 px-4 bg-emerald-700 text-white hover:bg-emerald-600"
+                        class="tns-btn-primary w-auto! shrink-0 px-4"
                         @click="goToTrackFromFraming"
                       >
                         {{ t('perihelion.position.goToTrack') }}
@@ -1492,7 +1492,7 @@
                   })
                 }}
               </span>
-              <button class="tns-btn-danger w-auto self-start px-4" @click="onClearCobs">
+              <button class="tns-btn-danger w-auto! self-start px-4" @click="onClearCobs">
                 {{ t('perihelion.settings.clear') }}
               </button>
             </div>
@@ -1597,6 +1597,7 @@ import { addTargetToSequence } from '../utils/addTargetToSequence';
 import { buildPerihelionSequence } from '../utils/buildPerihelionSequence';
 import { startQuickTrack, stopQuickTrack } from '../utils/quickTrack';
 import { fetchQuickTrackStatus } from '../utils/fetchQuickTrackStatus';
+import { downloadBlob } from '@/utils/blobDownloader';
 import { usePerihelionStore } from '../store/perihelionStore';
 import { useFramingStore } from '@/store/framingStore';
 import { useSettingsStore } from '@/store/settingsStore';
@@ -1794,9 +1795,9 @@ const dataSettingsStatus = ref('');
 
 async function onSaveDataSettings() {
   const ok = await saveSettings({
-    cometMagnitudeThreshold: cometMagnitudeThresholdInput.value,
+    cometMagnitudeThreshold: cometMagnitudeThresholdInput.value || 16,
     maxComets: Math.max(1, Math.round(maxCometsInput.value) || 30),
-    asteroidMagnitudeThreshold: asteroidMagnitudeThresholdInput.value,
+    asteroidMagnitudeThreshold: asteroidMagnitudeThresholdInput.value || 9,
     maxAsteroids: Math.max(1, Math.round(maxAsteroidsInput.value) || 30),
   });
   dataSettingsStatus.value = ok
@@ -1835,23 +1836,14 @@ async function onImportAsteroids(event) {
   }
 }
 
-function downloadTextFile(text, filename, mimeType) {
-  const blob = new Blob([text], { type: mimeType });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = filename;
-  link.click();
-  URL.revokeObjectURL(url);
-}
-
 async function onExportComets() {
   const text = await exportComets();
   if (text == null) {
     dataSettingsStatus.value = t('perihelion.settings.nothingToExport');
     return;
   }
-  downloadTextFile(text, 'CometEls.txt', 'text/plain');
+  const blob = new Blob([text], { type: 'text/plain' });
+  await downloadBlob(blob, 'CometEls.txt', { fallbackFilename: 'CometEls.txt' });
 }
 
 async function onExportAsteroids() {
@@ -1860,7 +1852,10 @@ async function onExportAsteroids() {
     dataSettingsStatus.value = t('perihelion.settings.nothingToExport');
     return;
   }
-  downloadTextFile(json, 'perihelion-asteroid-elements.json', 'application/json');
+  const blob = new Blob([json], { type: 'application/json' });
+  await downloadBlob(blob, 'perihelion-asteroid-elements.json', {
+    fallbackFilename: 'perihelion-asteroid-elements.json',
+  });
 }
 
 async function onClearComets() {
@@ -2727,17 +2722,14 @@ async function onAddToSequence() {
 // the exact same "today's position baked in" property Add to Sequence already has, so no new
 // staleness risk versus that existing action. Comet/asteroid names can contain "/" (e.g.
 // "220P/McNaught"), which would otherwise be read as a path separator in the filename.
-function onDownloadSequence() {
+async function onDownloadSequence() {
   if (!selected.value) return;
   const root = buildPerihelionSequence(buildSequenceTarget());
   const safeName = selected.value.name.replace(/[/\\?%*:|"<>]/g, '-');
   const blob = new Blob([JSON.stringify(root, null, 2)], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = `${safeName}-sequence.json`;
-  link.click();
-  URL.revokeObjectURL(url);
+  await downloadBlob(blob, `${safeName}-sequence.json`, {
+    fallbackFilename: 'perihelion-sequence.json',
+  });
 }
 
 // Deliberately calls apiService.slewAndCenter() directly rather than framingStore's own

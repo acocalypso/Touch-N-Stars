@@ -64,6 +64,10 @@ async function doExport(path) {
 
 async function doClear(path) {
   const { PERIHELION_URL } = getUrls();
-  const response = await axios.post(`${PERIHELION_URL}${path}`);
-  return { ok: response.data.Success === true, message: response.data.Message };
+  try {
+    const response = await axios.post(`${PERIHELION_URL}${path}`);
+    return { ok: response.data.Success === true, message: response.data.Message };
+  } catch (error) {
+    return { ok: false, message: error.response?.data?.Message ?? error.message };
+  }
 }

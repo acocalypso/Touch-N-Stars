@@ -1856,7 +1856,10 @@ async function onClearComets() {
   const result = await clearComets();
   dataSettingsStatus.value = result.message;
   if (result.ok) {
-    loadObjects();
+    // Not loadObjects() -- GET /objects auto-refetches live data for whichever cache is
+    // currently empty (by design, for the normal case), which would immediately undo the
+    // clear. Remove this type's rows from the already-loaded list locally instead.
+    objects.value = objects.value.filter((o) => o.objectType !== 'Comet');
     loadSyncStatus();
   }
 }
@@ -1866,7 +1869,7 @@ async function onClearAsteroids() {
   const result = await clearAsteroids();
   dataSettingsStatus.value = result.message;
   if (result.ok) {
-    loadObjects();
+    objects.value = objects.value.filter((o) => o.objectType !== 'Asteroid');
     loadSyncStatus();
   }
 }

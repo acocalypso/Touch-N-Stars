@@ -5558,7 +5558,8 @@
       "stopQuickTrack": "Quick Trackを停止",
       "autoReapplyingFooterSeconds": "Auto re-applying every {seconds} sec",
       "footer": "デバイス上でリアルタイムの軌道要素から計算 — 彗星も小惑星も定期的に同期した後オフラインで動作します。",
-      "dismiss": "閉じる"
+      "dismiss": "閉じる",
+      "guidingOnlyFallback": "Mount can't take a custom rate -- tracking via guider shift only."
     },
     "relativeTime": {
       "justNow": "たった今",

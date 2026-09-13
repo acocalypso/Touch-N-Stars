@@ -5558,7 +5558,8 @@
       "stopQuickTrack": "Quick Track stoppen",
       "autoReapplyingFooterSeconds": "Auto re-applying every {seconds} sec",
       "footer": "Op het apparaat berekend uit live baanelementen — kometen en asteroïden synchroniseren beide periodiek en werken daarna offline.",
-      "dismiss": "Sluiten"
+      "dismiss": "Sluiten",
+      "guidingOnlyFallback": "Mount can't take a custom rate -- tracking via guider shift only."
     },
     "relativeTime": {
       "justNow": "zojuist",

@@ -772,6 +772,12 @@
                   t('perihelion.track.liveStatusSubtitle')
                 }}</span>
               </div>
+              <!-- The mount's driver can't take a custom base tracking rate at all -- Perihelion
+                   fell back to guiding-only shift tracking instead. Not an error (it's a working,
+                   deliberate fallback), so warn-colored rather than status-danger. -->
+              <p v-if="quickTrackStatus.guidingOnlyFallback" class="text-xs text-status-warn">
+                {{ t('perihelion.track.guidingOnlyFallback') }}
+              </p>
               <p
                 v-if="quickTrackStatus.lastRaArcsecPerSec != null"
                 class="text-xs text-content-muted tabular-nums"

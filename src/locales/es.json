@@ -5563,7 +5563,8 @@
       "stopQuickTrack": "Detener seguimiento rápido",
       "autoReapplyingFooterSeconds": "Auto re-applying every {seconds} sec",
       "footer": "Calculado en el dispositivo a partir de elementos orbitales en vivo — tanto los cometas como los asteroides se sincronizan periódicamente y luego funcionan sin conexión.",
-      "dismiss": "Descartar"
+      "dismiss": "Descartar",
+      "guidingOnlyFallback": "Mount can't take a custom rate -- tracking via guider shift only."
     },
     "relativeTime": {
       "justNow": "justo ahora",

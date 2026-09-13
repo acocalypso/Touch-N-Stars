@@ -5558,7 +5558,8 @@
       "stopQuickTrack": "Зупинити швидке ведення",
       "autoReapplyingFooterSeconds": "Auto re-applying every {seconds} sec",
       "footer": "Обчислюється на пристрої з живих орбітальних елементів — і комети, і астероїди періодично синхронізуються, після чого працюють без інтернету.",
-      "dismiss": "Закрити"
+      "dismiss": "Закрити",
+      "guidingOnlyFallback": "Mount can't take a custom rate -- tracking via guider shift only."
     },
     "relativeTime": {
       "justNow": "щойно",

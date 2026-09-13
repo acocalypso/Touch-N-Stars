@@ -5523,7 +5523,8 @@
       "stopQuickTrack": "Stop Quick Track",
       "autoReapplyingFooterSeconds": "Auto re-applying every {seconds} sec",
       "footer": "Computed on-device from live orbital elements — comets and asteroids both sync periodically, then work offline.",
-      "dismiss": "Dismiss"
+      "dismiss": "Dismiss",
+      "guidingOnlyFallback": "Mount can't take a custom rate -- tracking via guider shift only."
     },
     "relativeTime": {
       "justNow": "just now",

@@ -5558,7 +5558,8 @@
       "stopQuickTrack": "Quick Track 중지",
       "autoReapplyingFooterSeconds": "Auto re-applying every {seconds} sec",
       "footer": "실시간 궤도 요소로부터 기기에서 직접 계산 — 혜성과 소행성 모두 주기적으로 동기화된 후 오프라인으로 작동합니다.",
-      "dismiss": "닫기"
+      "dismiss": "닫기",
+      "guidingOnlyFallback": "Mount can't take a custom rate -- tracking via guider shift only."
     },
     "relativeTime": {
       "justNow": "방금",

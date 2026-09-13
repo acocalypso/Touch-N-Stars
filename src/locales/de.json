@@ -5563,7 +5563,8 @@
       "stopQuickTrack": "Quick Track stoppen",
       "autoReapplyingFooterSeconds": "Auto re-applying every {seconds} sec",
       "footer": "Direkt im Plugin aus aktuellen Bahnelementen berechnet — Kometen und Asteroiden synchronisieren sich beide regelmäßig und funktionieren danach offline.",
-      "dismiss": "Schließen"
+      "dismiss": "Schließen",
+      "guidingOnlyFallback": "Mount can't take a custom rate -- tracking via guider shift only."
     },
     "relativeTime": {
       "justNow": "gerade eben",

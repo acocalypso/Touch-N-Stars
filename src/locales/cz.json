@@ -5558,7 +5558,8 @@
       "stopQuickTrack": "Zastavit Quick Track",
       "autoReapplyingFooterSeconds": "Auto re-applying every {seconds} sec",
       "footer": "Počítáno přímo v zařízení ze živých drahových elementů — komety i planetky se pravidelně synchronizují a pak fungují offline.",
-      "dismiss": "Zavřít"
+      "dismiss": "Zavřít",
+      "guidingOnlyFallback": "Mount can't take a custom rate -- tracking via guider shift only."
     },
     "relativeTime": {
       "justNow": "právě teď",

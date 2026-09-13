@@ -5558,7 +5558,8 @@
       "stopQuickTrack": "Atura Quick Track",
       "autoReapplyingFooterSeconds": "Auto re-applying every {seconds} sec",
       "footer": "Calculat al dispositiu a partir d'elements orbitals en directe — els cometes i els asteroides se sincronitzen periòdicament i després funcionen sense connexió.",
-      "dismiss": "Descarta"
+      "dismiss": "Descarta",
+      "guidingOnlyFallback": "Mount can't take a custom rate -- tracking via guider shift only."
     },
     "relativeTime": {
       "justNow": "ara mateix",

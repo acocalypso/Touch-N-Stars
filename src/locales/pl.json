@@ -5558,7 +5558,8 @@
       "stopQuickTrack": "Zatrzymaj Quick Track",
       "autoReapplyingFooterSeconds": "Auto re-applying every {seconds} sec",
       "footer": "Obliczane na urządzeniu na podstawie elementów orbitalnych na żywo — komety i planetoidy synchronizują się okresowo, a potem działają offline.",
-      "dismiss": "Zamknij"
+      "dismiss": "Zamknij",
+      "guidingOnlyFallback": "Mount can't take a custom rate -- tracking via guider shift only."
     },
     "relativeTime": {
       "justNow": "przed chwilą",

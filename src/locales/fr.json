@@ -5563,7 +5563,8 @@
       "stopQuickTrack": "Arrêter le suivi rapide",
       "autoReapplyingFooterSeconds": "Auto re-applying every {seconds} sec",
       "footer": "Calculé localement à partir des éléments orbitaux en direct — comètes et astéroïdes se synchronisent tous deux périodiquement, puis fonctionnent hors ligne.",
-      "dismiss": "Ignorer"
+      "dismiss": "Ignorer",
+      "guidingOnlyFallback": "Mount can't take a custom rate -- tracking via guider shift only."
     },
     "relativeTime": {
       "justNow": "à l'instant",

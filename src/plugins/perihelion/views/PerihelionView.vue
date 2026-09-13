@@ -898,23 +898,36 @@
                   </select>
                 </label>
                 <div class="flex gap-2">
-                  <label class="flex-1">
+                  <div class="flex-1">
                     <span class="block text-[10px] text-content-faint mb-1">{{
                       t('perihelion.track.exposureLabel')
                     }}</span>
-                    <input
-                      v-model.number="exposureSeconds"
-                      type="number"
-                      min="1"
-                      class="tns-input"
+                    <NumberInputPicker
+                      v-model="exposureSeconds"
+                      :label="``"
+                      labelKey="perihelion.track.exposureLabel"
+                      wrapperClass="w-full"
+                      :min="1"
+                      :max="3600"
+                      :step="1"
+                      :useDefaultSentinel="false"
                     />
-                  </label>
-                  <label class="flex-1">
+                  </div>
+                  <div class="flex-1">
                     <span class="block text-[10px] text-content-faint mb-1">{{
                       t('perihelion.track.framesLabel')
                     }}</span>
-                    <input v-model.number="frameCount" type="number" min="1" class="tns-input" />
-                  </label>
+                    <NumberInputPicker
+                      v-model="frameCount"
+                      :label="``"
+                      labelKey="perihelion.track.framesLabel"
+                      wrapperClass="w-full"
+                      :min="1"
+                      :max="10000"
+                      :step="1"
+                      :useDefaultSentinel="false"
+                    />
+                  </div>
                 </div>
               </div>
 
@@ -1062,17 +1075,21 @@
                     ></span>
                   </span>
                 </button>
-                <label v-if="actionMode === 'sequence' && autofocus" class="block pb-1">
+                <div v-if="actionMode === 'sequence' && autofocus" class="pb-1">
                   <span class="block text-[10px] text-content-faint mb-1">{{
                     t('perihelion.track.autofocusEveryLabel')
                   }}</span>
-                  <input
-                    v-model.number="autofocusMinutes"
-                    type="number"
-                    min="1"
-                    class="tns-input"
+                  <NumberInputPicker
+                    v-model="autofocusMinutes"
+                    :label="``"
+                    labelKey="perihelion.track.autofocusEveryLabel"
+                    wrapperClass="w-full"
+                    :min="1"
+                    :max="600"
+                    :step="1"
+                    :useDefaultSentinel="false"
                   />
-                </label>
+                </div>
               </div>
 
               <div v-if="actionMode === 'sequence'" class="flex gap-2">
@@ -1344,12 +1361,16 @@
                 {{ t('perihelion.track.reapplyIntervalDescription') }}
               </span>
               <div class="flex items-center gap-2 mt-1">
-                <input
-                  v-model.number="reapplyIntervalSecondsInput"
+                <NumberInputPicker
+                  v-model="reapplyIntervalSecondsInput"
+                  :label="``"
+                  labelKey="perihelion.track.reapplyIntervalTitle"
+                  :min="5"
+                  :max="7200"
+                  :step="1"
+                  :useDefaultSentinel="false"
                   @change="onSaveReapplyInterval"
-                  type="number"
-                  min="5"
-                  class="tns-input w-24"
+                  @blur="onSaveReapplyInterval"
                 />
                 <span class="text-xs text-content-muted">{{
                   t('perihelion.track.secondsUnit')

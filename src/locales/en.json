@@ -5582,7 +5582,8 @@
       "cobsData": "COBS",
       "cobsCountSynced": "{count} comets cached · {status}",
       "refreshedAgo": "refreshed {when}",
-      "neverRefreshed": "never refreshed"
+      "neverRefreshed": "never refreshed",
+      "confirmClearCobs": "Remove all cached COBS observations? Observed-brightness badges will be empty until the next Browse-tab refresh."
     }
   },
   "indi": {

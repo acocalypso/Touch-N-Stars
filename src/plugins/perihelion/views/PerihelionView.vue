@@ -1470,9 +1470,11 @@
               </div>
             </div>
 
-            <!-- Status only, no Import/Export/Clear -- COBS is a live per-comet observation
-                 cache, not a distributable elements dataset, so it doesn't fit that story. -->
-            <div class="flex flex-col gap-1 pt-2 border-t border-line-strong/50">
+            <!-- Clear only, no Import/Export -- COBS is a live per-comet observation cache, not
+                 a distributable elements dataset, so that story doesn't fit it. Clear still
+                 covers "reset a corrupt cache" (Refresh COBS in Browse already covers the
+                 common per-comet staleness case with a live re-fetch). -->
+            <div class="flex flex-col gap-2 pt-2 border-t border-line-strong/50">
               <span class="text-sm font-semibold text-content">{{
                 t('perihelion.settings.cobsData')
               }}</span>
@@ -1484,6 +1486,9 @@
                   })
                 }}
               </span>
+              <button class="tns-btn-danger w-auto self-start px-4" @click="onClearCobs">
+                {{ t('perihelion.settings.clear') }}
+              </button>
             </div>
 
             <p v-if="dataSettingsStatus" class="text-xs text-content-muted">
@@ -1579,6 +1584,7 @@ import {
   exportAsteroids,
   clearComets,
   clearAsteroids,
+  clearCobs,
 } from '../utils/fetchImportExport';
 import { fetchCometActivity } from '../utils/fetchCometActivity';
 import { sendPerihelionSequence } from '../utils/sendPerihelionSequence';
@@ -1870,6 +1876,21 @@ async function onClearAsteroids() {
   dataSettingsStatus.value = result.message;
   if (result.ok) {
     objects.value = objects.value.filter((o) => o.objectType !== 'Asteroid');
+    loadSyncStatus();
+  }
+}
+
+async function onClearCobs() {
+  if (!window.confirm(t('perihelion.settings.confirmClearCobs'))) return;
+  const result = await clearCobs();
+  dataSettingsStatus.value = result.message;
+  if (result.ok) {
+    // Null the badges locally rather than refetching -- same reasoning as Clear
+    // Comets/Asteroids: a refetch would immediately repopulate what was just cleared.
+    for (const o of objects.value) {
+      o.observedMagnitude = null;
+      o.observedAverageMagnitude = null;
+    }
     loadSyncStatus();
   }
 }

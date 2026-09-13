@@ -31,6 +31,11 @@ export async function clearAsteroids() {
   return doClear('/clear/asteroids');
 }
 
+/** @returns {Promise<{ ok: boolean, message: string }>} */
+export async function clearCobs() {
+  return doClear('/clear/cobs');
+}
+
 async function doImport(path, body, contentType) {
   const { PERIHELION_URL } = getUrls();
   try {

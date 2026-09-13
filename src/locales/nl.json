@@ -2724,7 +2724,6 @@
       },
       "diagnostics": {
         "archiveId": "Archief-ID",
-        "autoDownloaded": "Het archief is automatisch gedownload en er is geprobeerd te uploaden.",
         "dmesgLines": "dmesg-lijnen",
         "downloadFailed": "Kan diagnostisch archief niet downloaden.",
         "intro": "Selecteer diagnostische secties, start het verzamelen van archief en download/upload de ZIP wanneer u klaar bent.",

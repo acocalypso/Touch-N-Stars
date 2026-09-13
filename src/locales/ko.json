@@ -2724,8 +2724,7 @@
         "downloadFailed": "진단 아카이브를 다운로드하지 못했습니다.",
         "validationSections": "섹션을 하나 이상 선택하세요.",
         "validationJournalLines": "저널 줄 수는 100에서 50000 사이여야 합니다.",
-        "validationDmesgLines": "dmesg 줄 수는 100에서 50000 사이여야 합니다.",
-        "autoDownloaded": "아카이브가 자동으로 다운로드되었고 업로드를 시도했습니다."
+        "validationDmesgLines": "dmesg 줄 수는 100에서 50000 사이여야 합니다."
       },
       "actions": {
         "collectUpload": "수집 및 업로드",

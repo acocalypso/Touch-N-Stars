@@ -2724,7 +2724,6 @@
       },
       "diagnostics": {
         "archiveId": "ID do arquivo",
-        "autoDownloaded": "O arquivo foi baixado automaticamente e o upload foi tentado.",
         "dmesgLines": "linhas dmesg",
         "downloadFailed": "Falha ao baixar o arquivo de diagnóstico.",
         "intro": "Selecione as seções de diagnóstico, inicie a coleta de arquivos e baixe/carregue o ZIP quando estiver pronto.",

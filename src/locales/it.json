@@ -2724,7 +2724,6 @@
       },
       "diagnostics": {
         "archiveId": "ID dell'archivio",
-        "autoDownloaded": "L'archivio è stato scaricato automaticamente ed è stato tentato il caricamento.",
         "dmesgLines": "linee dmesg",
         "downloadFailed": "Impossibile scaricare l'archivio di diagnostica.",
         "intro": "Seleziona le sezioni di diagnostica, avvia la raccolta di archivi e scarica/carica lo ZIP quando è pronto.",

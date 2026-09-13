@@ -2724,8 +2724,7 @@
         "downloadFailed": "Diagnosearchiv konnte nicht heruntergeladen werden.",
         "validationSections": "Waehlen Sie mindestens einen Bereich aus.",
         "validationJournalLines": "Journal-Zeilen muessen zwischen 100 und 50000 liegen.",
-        "validationDmesgLines": "dmesg-Zeilen muessen zwischen 100 und 50000 liegen.",
-        "autoDownloaded": "Archiv wurde automatisch heruntergeladen und Upload wurde versucht."
+        "validationDmesgLines": "dmesg-Zeilen muessen zwischen 100 und 50000 liegen."
       },
       "actions": {
         "collectUpload": "Sammeln & Hochladen",

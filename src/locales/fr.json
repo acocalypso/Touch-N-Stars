@@ -2724,7 +2724,6 @@
       },
       "diagnostics": {
         "archiveId": "ID d'archive",
-        "autoDownloaded": "L'archive a été téléchargée automatiquement et le téléchargement a été tenté.",
         "dmesgLines": "lignes de message",
         "downloadFailed": "Échec du téléchargement de l'archive de diagnostics.",
         "intro": "Sélectionnez les sections de diagnostic, démarrez la collecte des archives et téléchargez/téléchargez le ZIP lorsque vous êtes prêt.",

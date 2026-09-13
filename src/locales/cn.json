@@ -2724,7 +2724,6 @@
       },
       "diagnostics": {
         "archiveId": "Archive ID",
-        "autoDownloaded": "Archive was downloaded automatically and upload was attempted.",
         "dmesgLines": "dmesg lines",
         "downloadFailed": "Failed to download diagnostics archive.",
         "intro": "Select diagnostics sections, start archive collection, and download/upload the ZIP when ready.",

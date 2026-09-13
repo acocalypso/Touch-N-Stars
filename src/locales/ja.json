@@ -2724,7 +2724,6 @@
       },
       "diagnostics": {
         "archiveId": "アーカイブID",
-        "autoDownloaded": "アーカイブが自動的にダウンロードされ、アップロードが試行されました。",
         "dmesgLines": "dmesg 行",
         "downloadFailed": "診断アーカイブのダウンロードに失敗しました。",
         "intro": "診断セクションを選択し、アーカイブ収集を開始し、準備ができたら ZIP をダウンロード/アップロードします。",

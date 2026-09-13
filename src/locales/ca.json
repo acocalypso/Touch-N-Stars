@@ -2741,8 +2741,7 @@
         "downloadFailed": "No s'ha pogut descarregar l'arxiu de diagnòstics.",
         "validationSections": "Selecciona almenys una secció.",
         "validationJournalLines": "Les línies de diari han d'estar entre 100 i 50000.",
-        "validationDmesgLines": "Les línies de dmesg han d'estar entre 100 i 50000.",
-        "autoDownloaded": "L'arxiu s'ha descarregat automàticament i s'ha intentat pujar."
+        "validationDmesgLines": "Les línies de dmesg han d'estar entre 100 i 50000."
       },
       "actions": {
         "collectUpload": "Recull i puja",

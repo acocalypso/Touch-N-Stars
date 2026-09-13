@@ -2724,7 +2724,6 @@
       },
       "diagnostics": {
         "archiveId": "Identyfikator archiwum",
-        "autoDownloaded": "Archiwum zostało pobrane automatycznie i podjęto próbę przesłania.",
         "dmesgLines": "linie dmesg",
         "downloadFailed": "Nie udało się pobrać archiwum diagnostycznego.",
         "intro": "Wybierz sekcje diagnostyczne, rozpocznij gromadzenie archiwum i pobierz/prześlij plik ZIP, gdy będzie gotowy.",

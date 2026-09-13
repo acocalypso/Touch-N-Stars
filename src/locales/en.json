@@ -2819,8 +2819,7 @@
         "downloadFailed": "Failed to download diagnostics archive.",
         "validationSections": "Select at least one section.",
         "validationJournalLines": "Journal lines must be between 100 and 50000.",
-        "validationDmesgLines": "dmesg lines must be between 100 and 50000.",
-        "autoDownloaded": "The diagnostics archive was also saved to your device."
+        "validationDmesgLines": "dmesg lines must be between 100 and 50000."
       },
       "actions": {
         "collectUpload": "Collect & Upload",

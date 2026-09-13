@@ -162,15 +162,6 @@
           <p v-if="logCollectorStore.diagnosticsRun.lastMessage" class="text-gray-400">
             {{ logCollectorStore.diagnosticsRun.lastMessage }}
           </p>
-          <p
-            v-if="
-              logCollectorStore.diagnosticsRun.status === 'success' &&
-              logCollectorStore.diagnosticsRun.autoDownloaded
-            "
-            class="text-green-400"
-          >
-            {{ $t('plugins.logfileCollector.diagnostics.autoDownloaded') }}
-          </p>
         </div>
       </div>
 
@@ -396,6 +387,7 @@ import axios from 'axios';
 import JSZip from 'jszip';
 import { Capacitor } from '@capacitor/core';
 import apiService from '@/services/apiService';
+import apiPinsService from '@/services/apiPinsService';
 import { ensureConsolePatched, consoleLogs } from '@/utils/consoleCapture';
 import { apiStore } from '@/store/store';
 import { useSettingsStore } from '@/store/settingsStore';
@@ -582,8 +574,23 @@ async function collectLogFiles({ description = '', logToken = null } = {}) {
   // the frontend (see PINS_NINA_LOG_PATH). Never let a failure here block collection.
   // System diagnostics are collected as part of this same action too - there is no
   // separate "start diagnostics" step, everything ends up in one ZIP.
+  // apiState.currentPinsVersion is only the bare "3.3.0.1057" reported by /v2/api - the
+  // PINS daemon's own updates/check endpoint additionally carries the build/commit suffix
+  // (e.g. "3.3.0.1057-nightly+1788375849"), which support needs to pin down the exact build.
+  // Never let a failure here block collection - fall back to the bare version.
+  let pinsVersionForManifest = apiState.currentPinsVersion || '';
   let diagnosticsManifestSection = null;
   if (apiState.isPINS) {
+    try {
+      const updatesCheck = await apiPinsService.getPinsUpdatesCheck();
+      const pinsPackage = (updatesCheck?.packages || []).find((pkg) => pkg.name === 'pins');
+      if (pinsPackage?.installedVersion) {
+        pinsVersionForManifest = pinsPackage.installedVersion;
+      }
+    } catch (error) {
+      console.warn('Failed to fetch PINS build number:', error);
+    }
+
     const requestedDiagnosticsConfig = {
       ...buildDiagnosticsPayload({
         sections: diagnosticsSections.value,
@@ -636,7 +643,7 @@ async function collectLogFiles({ description = '', logToken = null } = {}) {
     },
     versions: {
       api: apiState.currentApiVersion || '',
-      pins: apiState.currentPinsVersion || '',
+      pins: pinsVersionForManifest,
       tnsPlugin: apiState.currentTnsPluginVersion || '',
     },
     diagnostics: diagnosticsManifestSection,
@@ -880,17 +887,10 @@ async function runPinsDiagnostics(filesMap) {
       return;
     }
 
-    const { blob, filename } = await downloadDiagnosticsZipWithRetry(archiveId);
-
-    try {
-      await downloadBlob(blob, filename, {
-        folderName: 'TNS-Diagnostics',
-        fallbackFilename: `diagnostics-${archiveId}.zip`,
-      });
-      logCollectorStore.markDiagnosticsAutoDownloaded();
-    } catch (saveError) {
-      console.warn('Failed to save diagnostics archive locally:', saveError);
-    }
+    // The diagnostics archive itself is not saved separately - its contents are merged
+    // straight into the outer filesMap below, so it ends up in the one ZIP produced by
+    // collectAndUpload()/collectAndSave() instead of downloading as a second file.
+    const { blob } = await downloadDiagnosticsZipWithRetry(archiveId);
 
     const diagnosticsZip = await JSZip.loadAsync(blob);
     const entryPromises = [];

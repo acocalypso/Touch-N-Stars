@@ -178,6 +178,27 @@ test('actions post to the plugin server and surface a refused start as actionErr
   assert.ok(Math.abs(store.progressFraction - 10 / 3840) < 1e-9);
 });
 
+test('deleteSurvey posts keepOrder only when given, to downgrade instead of wiping everything', async (t) => {
+  const posts = [];
+  t.mock.method(axios, 'get', async () => ({
+    status: 200,
+    data: serverStatus({ installedOrder: 5 }),
+  }));
+  t.mock.method(axios, 'post', async (url, body) => {
+    posts.push({ url, body });
+    return { status: 200, data: { success: true } };
+  });
+  const store = useCelestiaAtlasSurveyStore();
+  store.reset();
+
+  await store.deleteSurvey(4);
+  assert.equal(posts[0].url, 'http://10.0.0.5:5000/api/atlas/survey/delete');
+  assert.deepEqual(posts[0].body, { keepOrder: 4 });
+
+  await store.deleteSurvey();
+  assert.deepEqual(posts[1].body, {});
+});
+
 test('tick refreshes every time while a job runs but throttles when idle', async (t) => {
   let running = true;
   let gets = 0;

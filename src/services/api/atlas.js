@@ -40,9 +40,11 @@ export default {
     return unwrapSurveyResponse(response);
   },
 
-  async deleteDssSurvey() {
+  /** keepOrder: null/omitted deletes everything; otherwise only the orders above it. */
+  async deleteDssSurvey(keepOrder = null) {
     const { API_URL } = getUrls();
-    const response = await axios.post(`${API_URL}atlas/survey/delete`);
+    const body = keepOrder === null ? {} : { keepOrder };
+    const response = await axios.post(`${API_URL}atlas/survey/delete`, body);
     return unwrapSurveyResponse(response);
   },
 };

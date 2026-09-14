@@ -160,8 +160,9 @@ export const useCelestiaAtlasSurveyStore = defineStore('celestiaAtlasSurvey', {
       return this.runAction(() => apiService.cancelDssSurveyDownload());
     },
 
-    deleteSurvey() {
-      return this.runAction(() => apiService.deleteDssSurvey());
+    /** keepOrder: null deletes everything; otherwise only the orders above it. */
+    deleteSurvey(keepOrder = null) {
+      return this.runAction(() => apiService.deleteDssSurvey(keepOrder));
     },
 
     /** Forget everything after an instance switch; the next tick re-polls the new host. */

@@ -2293,7 +2293,8 @@
         "progress": "Voortgang",
         "safety": "Veiligheid",
         "weather": "Weer",
-        "screenlock": "Slot"
+        "screenlock": "Slot",
+        "switch": "Schakelaar"
       },
       "mount": {
         "parked": "Geparkeerd",
@@ -2708,7 +2709,18 @@
         "uploading": "Uploaden…",
         "copyToken": "Kopieer",
         "remove": "Verwijder",
-        "clearAll": "Alles opschonen"
+        "clearAll": "Alles opschonen",
+        "collectSave": "Verzamel & Bewaar",
+        "saving": "Bewaren…",
+        "hint": "Verzamel & Upload verzamelt de logs en stuurt ze direct naar het support-endpoint. Verzamel & Bewaar verzamelt dezelfde logs, maar houdt de ZIP in de app - gebruik dit als je nog geen internetverbinding hebt en de logs later wilt uploaden."
+      },
+      "savedArchives": {
+        "title": "Bewaarde archieven",
+        "intro": "Verzamel & Bewaar houdt het archief in de app (max. 5, het oudste wordt vervangen). Upload het zodra je een internetverbinding hebt, of exporteer het naar je apparaat.",
+        "empty": "Nog geen bewaarde archieven.",
+        "upload": "Uploaden",
+        "download": "Downloaden",
+        "delete": "Verwijderen"
       },
       "submissionFields": {
         "date": "Datum",
@@ -2722,25 +2734,22 @@
         "tokenCopied": "Token gekopieerd naar klembord",
         "tokenCopyFailed": "Kopieer token mislukt",
         "submissionRemoved": "Verzending verwijdert",
-        "allSubmissionsCleared": "Alle verzendingen verwijdert"
+        "allSubmissionsCleared": "Alle verzendingen verwijdert",
+        "savedLocally": "Logbestand opgeslagen op je apparaat ({filename}).",
+        "savedInApp": "Logarchief in de app bewaard ({filename}). Upload het vanuit de lijst met bewaarde archieven zodra je online bent.",
+        "archiveMissing": "Het bewaarde archief is niet meer beschikbaar.",
+        "saveFailed": "Logbestand kon niet lokaal worden opgeslagen."
       },
       "diagnostics": {
         "archiveId": "Archief-ID",
-        "autoDownloaded": "Het archief is automatisch gedownload en er is geprobeerd te uploaden.",
         "dmesgLines": "dmesg-lijnen",
-        "download": "ZIP downloaden",
-        "downloadBusy": "Downloaden...",
         "downloadFailed": "Kan diagnostisch archief niet downloaden.",
-        "intro": "Selecteer diagnostische secties, start het verzamelen van archief en download/upload de ZIP wanneer u klaar bent.",
+        "intro": "Systeemdiagnostiek (journal, dmesg, netwerk, ...) wordt automatisch verzameld en toegevoegd wanneer je hierboven op 'Verzamel & Upload' klikt. Gebruik Expertinstellingen om te beperken wat wordt verzameld.",
         "journalLines": "Journaalregels",
-        "loadingOptions": "Opties laden...",
         "optionsLoadFailed": "Kan diagnostische opties niet laden. \nStandaardinstellingen gebruiken.",
         "optionsLoaded": "Diagnostische opties geladen.",
         "pollFailed": "Kan de diagnostische status niet opvragen.",
-        "refreshOptions": "Vernieuwingsopties",
-        "running": "Verzamelen...",
         "sectionsTitle": "Secties",
-        "start": "Verzameling starten",
         "startFailed": "Kan diagnostisch archief niet starten.",
         "started": "Diagnostiekarchief gestart.",
         "statusFailed": "Mislukt",
@@ -2751,11 +2760,18 @@
         "statusSuccess": "Succes",
         "statusTimeout": "Time-out",
         "stillPreparing": "Het archief is nog in voorbereiding. \nProbeer het binnenkort opnieuw te downloaden.",
-        "title": "Diagnostische ondersteuning (PINS)",
-        "uploaded": "Diagnostische ZIP geüpload naar ondersteuningseindpunt.",
+        "title": "PINS-systeemdiagnose",
         "validationDmesgLines": "dmesg-regels moeten tussen 100 en 50000 liggen.",
         "validationJournalLines": "Journaalregels moeten tussen 100 en 50.000 liggen.",
-        "validationSections": "Selecteer ten minste één sectie."
+        "validationSections": "Selecteer ten minste één sectie.",
+        "expertMode": "Expertinstellingen",
+        "ninaLogs": "NINA-logbestanden (laatste 10)",
+        "collecting": "PINS-systeemdiagnose wordt verzameld… dit kan even duren."
+      },
+      "progress": {
+        "collectingLogs": "Touch'N'Stars-logs worden verzameld…",
+        "collectingNinaLogs": "Recente NINA-logbestanden worden verzameld…",
+        "buildingArchive": "ZIP-archief wordt aangemaakt…"
       }
     },
     "telescopius": {
@@ -5407,7 +5423,8 @@
     "tabs": {
       "browse": "Bladeren",
       "position": "Positie & Baan",
-      "track": "Navolgen"
+      "track": "Navolgen",
+      "settings": "Instellingen"
     },
     "browse": {
       "step": "Kies een komeet of asteroïde om te volgen",
@@ -5416,7 +5433,7 @@
       "filterComets": "Kometen",
       "filterAsteroids": "Asteroïden",
       "sortBy": "Sorteer op",
-      "sortBrightness": "Helderheid",
+      "sortBrightness": "Hld.",
       "sortName": "Naam",
       "cometsStatus": "Kometen {status}",
       "asteroidsStatus": "Asteroïden {status}",
@@ -5430,7 +5447,6 @@
       "cobsRefreshed": "COBS-magnitudes vernieuwd",
       "cobsRefreshedAgo": "COBS vernieuwd {when}",
       "cobsNeverRefreshed": "COBS nooit vernieuwd",
-      "asteroidCount": "{count} asteroïden — actuele baanelementen van JPL, automatisch bijgewerkt.",
       "epochStaleTooltip": "De baangegevens van dit object zijn mogelijk minder nauwkeurig dan gebruikelijk — tik voor details.",
       "epochStaleLegendTitle": "Verouderde baangegevens",
       "epochStaleLegendExplanation": "De baanelementen van dit object liggen ongewoon ver van hun eigen referentie-epoche. Een positie zo ver van die referentiedatum voorspellen berust op eenvoudige tweelichamenfysica, die doorlopende zwaartekrachtsverstoringen door de planeten niet meeneemt — de werkelijke positie kan dus afwijken van wat hier wordt getoond.",
@@ -5443,7 +5459,12 @@
       "observedLegendBrighter": "Groen — helderder dan voorspeld (een echte uitbarsting)",
       "observedLegendNormal": "Turquoise — komt ongeveer overeen met de voorspelling",
       "observedLegendFainter": "Geel — merkbaar zwakker dan voorspeld",
-      "observedLegendMuchFainter": "Rood — veel zwakker dan voorspeld"
+      "observedLegendMuchFainter": "Rood — veel zwakker dan voorspeld",
+      "selectedPrompt": "Geselecteerd -- klaar om de positie te controleren.",
+      "goToPositionPath": "Naar Positie & Baan",
+      "datasetCounts": "{comets} kometen, {asteroids} asteroïden",
+      "cometCountSynced": "{count} kometen · {status}",
+      "asteroidCountSynced": "{count} asteroïden · {status}"
     },
     "position": {
       "step": "Controleer de positie & stel het beeldveld samen",
@@ -5539,22 +5560,22 @@
       "quickTrack": "Quick Track",
       "working": "Bezig…",
       "howItWorks": "Hoe het werkt",
-      "reapplyIntervalSection": "Herhalingsinterval",
       "eqmodToggleTitle": "EQMOD RA-snelheidscorrectie",
-      "eqmodToggleDescription": "EQMOD — zowel de Windows ASCOM-driver als INDI's eigen, onafhankelijke EQMod-driver, apart bevestigd — leest de RA-volgsnelheid als ruwe boogseconden/seconde in plaats van wat NINA zelf verstuurt, waardoor het volgen ongeveer 15x te langzaam uitvalt zonder correctie. Alleen inschakelen als je montuur via EQMOD wordt aangestuurd.",
+      "eqmodToggleDescription": "EQMOD leest de RA-snelheid als ruwe boogseconden/sec in plaats van wat NINA verstuurt, waardoor het volgen ~15× te traag wordt zonder correctie. Alleen inschakelen als de montering EQMOD gebruikt.",
       "eqmodDetectedHint": "{name} lijkt een EQMOD-driver te zijn — je wilt dit waarschijnlijk inschakelen.",
       "reapplyIntervalTitle": "Herhalingsinterval",
       "reapplyIntervalDescription": "Hoe vaak Quick Track de volgsnelheid herberekent en opnieuw verstuurt. De standaardwaarde van 900 s (15 min) is geschikt voor kometen en asteroïden.",
       "secondsUnit": "sec",
-      "addToSequenceDescriptionRest": "bouwt een slew-, navolg- en opnamesequentie en laadt deze in de sequencer van PINS zodat jij hem kunt controleren en starten.",
+      "addToSequenceDescriptionRest": "voegt een doel van aansturen + volgen + opname toe aan de sequentie die al in de PINS-sequencer is geladen, zodat je die kunt controleren en starten -- je bestaande doelen blijven ongewijzigd.",
       "downloadSequence": "Sequentie downloaden",
-      "downloadSequenceDescriptionRest": "slaat dezelfde sequentie op als bestand in plaats van deze in PINS te laden -- om later te bekijken of te importeren.",
+      "downloadSequenceDescriptionRest": "slaat een gelijkwaardige volledige sequentie op als bestand in plaats van deze aan de geladen sequentie toe te voegen -- om later te bekijken of te importeren.",
       "quickTrackDescriptionRest": "stelt de snelheid van de montering direct nu in — voor handmatig of visueel gebruik, geen vervanging voor een echte opnamesequentie. Stopt zichzelf automatisch als je montering aangeeft de meridiaanflip-limiet te hebben bereikt, omdat Quick Track geen sequentie-trigger heeft om dat voor je te doen.",
       "stopSequence": "Sequentie stoppen",
       "stopQuickTrack": "Quick Track stoppen",
       "autoReapplyingFooterSeconds": "Auto re-applying every {seconds} sec",
       "footer": "Op het apparaat berekend uit live baanelementen — kometen en asteroïden synchroniseren beide periodiek en werken daarna offline.",
-      "dismiss": "Sluiten"
+      "dismiss": "Sluiten",
+      "guidingOnlyFallback": "De montering kan geen aangepaste snelheid instellen -- volgen alleen via guider-shift."
     },
     "relativeTime": {
       "justNow": "zojuist",
@@ -5585,11 +5606,35 @@
       "noResponse": "Geen antwoordbericht",
       "unreachable": "Kon Perihelion niet bereiken",
       "syncFailed": "Synchronisatie mislukt",
-      "sequenceLoadFailed": "Kon de sequentie niet laden",
-      "sequenceLoaded": "Sequentie geladen — controleer en start hem in de sequencer",
-      "unknownError": "onbekende fout"
+      "unknownError": "onbekende fout",
+      "backendTooOld": "Deze functie vereist een nieuwere versie van de Perihelion-plugin -- werk deze bij en probeer het opnieuw."
     },
     "notDetected": "Perihelion-plugin niet gevonden. Installeer de Perihelion-plugin om deze pagina te gebruiken.",
-    "notSupportedOnNina": "Perihelion ondersteunt momenteel alleen PINS, niet Windows NINA."
+    "notSupportedOnNina": "Perihelion ondersteunt momenteel alleen PINS, niet Windows NINA.",
+    "settings": {
+      "trackingSection": "Montering & Volgen",
+      "dataSection": "Gegevens",
+      "cometMagnitudeThreshold": "Helderheidslimiet kometen",
+      "maxComets": "Max. getoonde kometen",
+      "asteroidMagnitudeThreshold": "Helderheidslimiet asteroïden",
+      "maxAsteroids": "Max. getoonde asteroïden",
+      "cometsData": "Kometen",
+      "asteroidsData": "Asteroïden",
+      "import": "Importeren",
+      "export": "Exporteren",
+      "clear": "Wissen",
+      "saved": "Opgeslagen.",
+      "saveFailed": "Opslaan mislukt.",
+      "importedComets": "{count} kome(e)t(en) geïmporteerd.",
+      "importedAsteroids": "{count} asteroïde(n) geïmporteerd.",
+      "nothingToExport": "Niets om te exporteren -- nog niet gesynchroniseerd.",
+      "confirmClearComets": "Alle gecachte kometengegevens verwijderen? De kometen in de lijst zijn leeg tot de volgende synchronisatie.",
+      "confirmClearAsteroids": "Alle gecachte asteroïdegegevens verwijderen? De asteroïden in de lijst zijn leeg tot de volgende synchronisatie.",
+      "cobsData": "COBS",
+      "cobsCountSynced": "{count} kometen gecached · {status}",
+      "refreshedAgo": "vernieuwd {when}",
+      "neverRefreshed": "nooit vernieuwd",
+      "confirmClearCobs": "Alle gecachte COBS-waarnemingen verwijderen? De badges voor waargenomen helderheid zijn leeg tot de volgende vernieuwing van het tabblad Bladeren."
+    }
   }
 }

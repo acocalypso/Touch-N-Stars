@@ -2283,7 +2283,8 @@
         "progress": "Progrés",
         "log": "Registre",
         "instance": "Instància",
-        "screenlock": "Bloqueig"
+        "screenlock": "Bloqueig",
+        "switch": "Interruptor"
       },
       "camera": {
         "idle": "Inactiva"
@@ -2721,17 +2722,11 @@
       "submissionHistory": "Historial d'enviaments",
       "confirmClearAll": "Estàs segur que vols esborrar tot l'historial d'enviaments?",
       "diagnostics": {
-        "title": "Suport de diagnòstics (PINS)",
-        "intro": "Selecciona les seccions de diagnòstics, inicia la recol·lecció de l'arxiu i descarrega/puja el ZIP quan estigui llest.",
+        "title": "Diagnòstic del sistema PINS",
+        "intro": "Els diagnòstics del sistema (journal, dmesg, xarxa, ...) es recullen i s'inclouen automàticament en fer clic a \"Recull i puja\" a dalt. Utilitza la configuració avançada per limitar el que es recull.",
         "sectionsTitle": "Seccions",
         "journalLines": "Línies de diari",
         "dmesgLines": "Línies de dmesg",
-        "start": "Inicia la recol·lecció",
-        "running": "Recol·lectant...",
-        "download": "Descarrega el ZIP",
-        "downloadBusy": "Descarregant...",
-        "refreshOptions": "Actualitza les opcions",
-        "loadingOptions": "Carregant opcions...",
         "statusLabel": "Estat",
         "archiveId": "ID de l'arxiu",
         "statusIdle": "Inactiu",
@@ -2747,18 +2742,30 @@
         "pollFailed": "No s'ha pogut obtenir l'estat dels diagnòstics.",
         "stillPreparing": "L'arxiu s'està preparant. Torna a intentar la descàrrega en breu.",
         "downloadFailed": "No s'ha pogut descarregar l'arxiu de diagnòstics.",
-        "uploaded": "ZIP de diagnòstics pujat al punt final de suport.",
         "validationSections": "Selecciona almenys una secció.",
         "validationJournalLines": "Les línies de diari han d'estar entre 100 i 50000.",
         "validationDmesgLines": "Les línies de dmesg han d'estar entre 100 i 50000.",
-        "autoDownloaded": "L'arxiu s'ha descarregat automàticament i s'ha intentat pujar."
+        "expertMode": "Configuració avançada",
+        "ninaLogs": "Fitxers de registre de NINA (últims 10)",
+        "collecting": "Recollint els diagnòstics del sistema PINS… això pot trigar una mica."
       },
       "actions": {
         "collectUpload": "Recull i puja",
         "uploading": "Pujant…",
         "copyToken": "Copia",
         "remove": "Elimina",
-        "clearAll": "Esborra-ho tot"
+        "clearAll": "Esborra-ho tot",
+        "collectSave": "Recull i desa",
+        "saving": "Desant…",
+        "hint": "Recull i puja recull els registres i els envia directament al punt final de suport. Recull i desa recull els mateixos registres, però conserva el ZIP a l'app - fes servir això quan encara no tinguis connexió a internet i vulguis pujar-lo més tard."
+      },
+      "savedArchives": {
+        "title": "Arxius desats",
+        "intro": "Recull i desa conserva l'arxiu a l'app (màx. 5, el més antic es reemplaça). Puja'l quan tinguis connexió a internet o exporta'l al teu dispositiu.",
+        "empty": "Encara no hi ha arxius desats.",
+        "upload": "Puja",
+        "download": "Baixa",
+        "delete": "Elimina"
       },
       "submissionFields": {
         "date": "Data",
@@ -2772,7 +2779,16 @@
         "tokenCopied": "Testimoni copiat al porta-retalls",
         "tokenCopyFailed": "No s'ha pogut copiar el testimoni",
         "submissionRemoved": "Enviament eliminat",
-        "allSubmissionsCleared": "Tots els enviaments esborrats"
+        "allSubmissionsCleared": "Tots els enviaments esborrats",
+        "savedLocally": "Fitxer de registre desat al teu dispositiu ({filename}).",
+        "savedInApp": "Arxiu de registres desat a l'app ({filename}). Puja'l des de la llista d'arxius desats quan estiguis en línia.",
+        "archiveMissing": "L'arxiu desat ja no està disponible.",
+        "saveFailed": "No s'ha pogut desar el fitxer de registre localment."
+      },
+      "progress": {
+        "collectingLogs": "Recollint els registres de Touch'N'Stars…",
+        "collectingNinaLogs": "Recollint els fitxers de registre recents de NINA…",
+        "buildingArchive": "Creant l'arxiu ZIP…"
       }
     },
     "landscaperCreator": {
@@ -5407,7 +5423,8 @@
     "tabs": {
       "browse": "Explora",
       "position": "Posició i Trajectòria",
-      "track": "Segueix"
+      "track": "Segueix",
+      "settings": "Configuració"
     },
     "browse": {
       "step": "Tria un cometa o asteroide per seguir",
@@ -5416,7 +5433,7 @@
       "filterComets": "Cometes",
       "filterAsteroids": "Asteroides",
       "sortBy": "Ordena per",
-      "sortBrightness": "Brillantor",
+      "sortBrightness": "Mag.",
       "sortName": "Nom",
       "cometsStatus": "Cometes {status}",
       "asteroidsStatus": "Asteroides {status}",
@@ -5430,7 +5447,6 @@
       "cobsRefreshed": "Magnituds COBS actualitzades",
       "cobsRefreshedAgo": "COBS actualitzat {when}",
       "cobsNeverRefreshed": "COBS mai actualitzat",
-      "asteroidCount": "{count} asteroides — elements orbitals en viu del JPL, actualitzats automàticament.",
       "epochStaleTooltip": "Les dades orbitals d'aquest objecte poden ser menys precises del que és habitual — toca per a més detalls.",
       "epochStaleLegendTitle": "Dades orbitals desactualitzades",
       "epochStaleLegendExplanation": "Els elements orbitals d'aquest objecte estan inusualment allunyats de la seva pròpia època de referència. Predir una posició tan lluny d'aquesta data es basa en una física de dos cossos senzilla que no té en compte les pertorbacions gravitatòries contínues dels planetes, per la qual cosa la posició real pot divergir de la mostrada.",
@@ -5443,7 +5459,12 @@
       "observedLegendBrighter": "Verd — més brillant del previst (un esclat real)",
       "observedLegendNormal": "Turquesa — coincideix aproximadament amb la predicció",
       "observedLegendFainter": "Ambre — notablement més feble del previst",
-      "observedLegendMuchFainter": "Vermell — molt més feble del previst"
+      "observedLegendMuchFainter": "Vermell — molt més feble del previst",
+      "selectedPrompt": "Seleccionat -- a punt per comprovar la seva posició.",
+      "goToPositionPath": "Vés a Posició i Trajectòria",
+      "datasetCounts": "{comets} cometes, {asteroids} asteroides",
+      "cometCountSynced": "{count} cometes · {status}",
+      "asteroidCountSynced": "{count} asteroides · {status}"
     },
     "position": {
       "step": "Revisa la posició i compon l'enquadrament",
@@ -5539,22 +5560,22 @@
       "quickTrack": "Quick Track",
       "working": "Processant…",
       "howItWorks": "Com funciona",
-      "reapplyIntervalSection": "Interval de reaplicació",
       "eqmodToggleTitle": "Correcció de la taxa d'AR per a EQMOD",
-      "eqmodToggleDescription": "EQMOD — tant el controlador ASCOM de Windows com el controlador EQMod independent d'INDI, confirmat per separat — llegeix la taxa de seguiment en AR com a arcsec/s bruts en lloc del que realment envia NINA, cosa que fa que el seguiment sigui unes 15 vegades massa lent sense aquesta correcció. Activa-ho només si la teva muntura funciona mitjançant EQMOD.",
+      "eqmodToggleDescription": "EQMOD llegeix la taxa d'AR com a arcsegons/seg en brut en lloc del que envia NINA, fent que el seguiment sigui ~15× massa lent si no es corregeix. Activa-ho només si la muntura fa servir EQMOD.",
       "eqmodDetectedHint": "{name} sembla un controlador EQMOD — probablement voldràs activar-ho.",
       "reapplyIntervalTitle": "Interval de reaplicació",
       "reapplyIntervalDescription": "Amb quina freqüència Quick Track recalcula i reenvia la taxa de seguiment. El valor per defecte de 900 s (15 min) és adequat per a cometes i asteroides.",
       "secondsUnit": "s",
-      "addToSequenceDescriptionRest": "crea una seqüència de desplaçament, seguiment i captura, i la carrega al seqüenciador de PINS perquè la revisis i la iniciïs.",
+      "addToSequenceDescriptionRest": "afegeix un objectiu d'apuntar + seguir + captura a la seqüència ja carregada al seqüenciador de PINS, perquè la revisis i la iniciïs -- els teus objectius existents no es toquen.",
       "downloadSequence": "Descarrega la seqüència",
-      "downloadSequenceDescriptionRest": "desa la mateixa seqüència com a fitxer en lloc de carregar-la a PINS -- per revisar-la o importar-la més tard.",
+      "downloadSequenceDescriptionRest": "desa una seqüència completa equivalent com a fitxer en lloc d'afegir-la a la seqüència carregada -- per revisar-la o importar-la més endavant.",
       "quickTrackDescriptionRest": "estableix la velocitat de la muntura directament ara mateix — per a ús manual o visual, no un substitut d'una seqüència de captura real. S'atura automàticament si la muntura indica que ha arribat al límit de gir al meridià, ja que Quick Track no té cap disparador de seqüència que ho faci per tu.",
       "stopSequence": "Atura la Seqüència",
       "stopQuickTrack": "Atura Quick Track",
       "autoReapplyingFooterSeconds": "Auto re-applying every {seconds} sec",
       "footer": "Calculat al dispositiu a partir d'elements orbitals en directe — els cometes i els asteroides se sincronitzen periòdicament i després funcionen sense connexió.",
-      "dismiss": "Descarta"
+      "dismiss": "Descarta",
+      "guidingOnlyFallback": "La muntura no admet una taxa personalitzada -- seguiment només mitjançant el desplaçament del guiatge."
     },
     "relativeTime": {
       "justNow": "ara mateix",
@@ -5585,11 +5606,35 @@
       "noResponse": "Cap missatge de resposta",
       "unreachable": "No s'ha pogut contactar amb Perihelion",
       "syncFailed": "Ha fallat la sincronització",
-      "sequenceLoadFailed": "No s'ha pogut carregar la seqüència",
-      "sequenceLoaded": "Seqüència carregada — revisa-la i inicia-la al seqüenciador",
-      "unknownError": "error desconegut"
+      "unknownError": "error desconegut",
+      "backendTooOld": "Aquesta funció necessita una versió més recent del connector Perihelion -- actualitza'l i torna-ho a provar."
     },
     "notDetected": "No s'ha detectat el connector Perihelion. Instal·la el connector Perihelion per fer servir aquesta pàgina.",
-    "notSupportedOnNina": "Perihelion actualment només és compatible amb PINS, no amb Windows NINA."
+    "notSupportedOnNina": "Perihelion actualment només és compatible amb PINS, no amb Windows NINA.",
+    "settings": {
+      "trackingSection": "Muntura i Seguiment",
+      "dataSection": "Dades",
+      "cometMagnitudeThreshold": "Límit de magnitud de cometes",
+      "maxComets": "Màx. cometes mostrats",
+      "asteroidMagnitudeThreshold": "Límit de magnitud d'asteroides",
+      "maxAsteroids": "Màx. asteroides mostrats",
+      "cometsData": "Cometes",
+      "asteroidsData": "Asteroides",
+      "import": "Importa",
+      "export": "Exporta",
+      "clear": "Esborra",
+      "saved": "Desat.",
+      "saveFailed": "Ha fallat el desament.",
+      "importedComets": "{count} cometa/es importada/es.",
+      "importedAsteroids": "{count} asteroide/s importat/s.",
+      "nothingToExport": "Res a exportar -- encara no s'ha sincronitzat.",
+      "confirmClearComets": "Voleu eliminar tots els elements de cometes desats a la memòria cau? La llista de cometes estarà buida fins a la propera sincronització.",
+      "confirmClearAsteroids": "Voleu eliminar tots els elements d'asteroides desats a la memòria cau? La llista d'asteroides estarà buida fins a la propera sincronització.",
+      "cobsData": "COBS",
+      "cobsCountSynced": "{count} cometes a la memòria cau · {status}",
+      "refreshedAgo": "actualitzat {when}",
+      "neverRefreshed": "mai actualitzat",
+      "confirmClearCobs": "Voleu eliminar totes les observacions COBS desades a la memòria cau? Les insígnies de magnitud observada estaran buides fins a la propera actualització de la pestanya Explora."
+    }
   }
 }

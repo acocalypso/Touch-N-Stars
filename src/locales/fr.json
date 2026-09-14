@@ -2293,7 +2293,8 @@
         "progress": "Progression",
         "safety": "Sécurité",
         "weather": "Météo",
-        "screenlock": "Verrouillage"
+        "screenlock": "Verrouillage",
+        "switch": "Interrupteur"
       },
       "mount": {
         "parked": "Parquée",
@@ -2708,7 +2709,18 @@
         "uploading": "Téléchargement…",
         "copyToken": "Copier",
         "remove": "Supprimer",
-        "clearAll": "Tout effacer"
+        "clearAll": "Tout effacer",
+        "collectSave": "Collecter et enregistrer",
+        "saving": "Enregistrement…",
+        "hint": "Collecter et télécharger rassemble les journaux et les envoie directement au point de support. Collecter et enregistrer rassemble les mêmes journaux mais conserve le ZIP dans l'application - utilisez cette option si vous n'avez pas encore de connexion internet et souhaitez l'envoyer plus tard."
+      },
+      "savedArchives": {
+        "title": "Archives enregistrées",
+        "intro": "Collecter et enregistrer conserve l'archive dans l'application (5 max., la plus ancienne est remplacée). Envoyez-la dès que vous avez une connexion internet, ou exportez-la sur votre appareil.",
+        "empty": "Aucune archive enregistrée pour le moment.",
+        "upload": "Envoyer",
+        "download": "Télécharger",
+        "delete": "Supprimer"
       },
       "submissionFields": {
         "date": "Date",
@@ -2722,25 +2734,22 @@
         "tokenCopied": "Token copié dans le presse-papiers",
         "tokenCopyFailed": "Échec de la copie du token",
         "submissionRemoved": "Soumission supprimée",
-        "allSubmissionsCleared": "Toutes les soumissions effacées"
+        "allSubmissionsCleared": "Toutes les soumissions effacées",
+        "savedLocally": "Fichier de log enregistré sur votre appareil ({filename}).",
+        "savedInApp": "Archive de logs enregistrée dans l'application ({filename}). Envoyez-la depuis la liste des archives enregistrées lorsque vous êtes en ligne.",
+        "archiveMissing": "L'archive enregistrée n'est plus disponible.",
+        "saveFailed": "Échec de l'enregistrement local du fichier de log."
       },
       "diagnostics": {
         "archiveId": "ID d'archive",
-        "autoDownloaded": "L'archive a été téléchargée automatiquement et le téléchargement a été tenté.",
         "dmesgLines": "lignes de message",
-        "download": "Télécharger le fichier ZIP",
-        "downloadBusy": "Téléchargement...",
         "downloadFailed": "Échec du téléchargement de l'archive de diagnostics.",
-        "intro": "Sélectionnez les sections de diagnostic, démarrez la collecte des archives et téléchargez/téléchargez le ZIP lorsque vous êtes prêt.",
+        "intro": "Les diagnostics système (journal, dmesg, réseau, ...) sont collectés et inclus automatiquement lorsque vous cliquez sur « Collecter et télécharger » ci-dessus. Utilisez les paramètres experts pour limiter ce qui est collecté.",
         "journalLines": "Lignes de journal",
-        "loadingOptions": "Options de chargement...",
         "optionsLoadFailed": "Échec du chargement des options de diagnostic. \nUtilisation des valeurs par défaut.",
         "optionsLoaded": "Options de diagnostic chargées.",
         "pollFailed": "Échec de l'interrogation de l'état des diagnostics.",
-        "refreshOptions": "Options d'actualisation",
-        "running": "Collectionner...",
         "sectionsTitle": "Sections",
-        "start": "Commencer la collecte",
         "startFailed": "Échec du démarrage de l'archive de diagnostics.",
         "started": "L'archive de diagnostic a démarré.",
         "statusFailed": "Échoué",
@@ -2751,11 +2760,18 @@
         "statusSuccess": "Succès",
         "statusTimeout": "Délai expiré",
         "stillPreparing": "Les archives sont toujours en préparation. \nVeuillez réessayer le téléchargement sous peu.",
-        "title": "Prise en charge du diagnostic (PINS)",
-        "uploaded": "ZIP de diagnostic téléchargé pour prendre en charge le point de terminaison.",
+        "title": "Diagnostics système PINS",
         "validationDmesgLines": "Les lignes dmesg doivent être comprises entre 100 et 50 000.",
         "validationJournalLines": "Les lignes du journal doivent être comprises entre 100 et 50 000.",
-        "validationSections": "Sélectionnez au moins une section."
+        "validationSections": "Sélectionnez au moins une section.",
+        "expertMode": "Paramètres experts",
+        "ninaLogs": "Fichiers de log NINA (10 derniers)",
+        "collecting": "Collecte des diagnostics système PINS… cela peut prendre un moment."
+      },
+      "progress": {
+        "collectingLogs": "Collecte des journaux Touch'N'Stars…",
+        "collectingNinaLogs": "Collecte des fichiers de log NINA récents…",
+        "buildingArchive": "Création de l'archive ZIP…"
       }
     },
     "telescopius": {
@@ -5412,7 +5428,8 @@
     "tabs": {
       "browse": "Parcourir",
       "position": "Position & Trajectoire",
-      "track": "Suivre"
+      "track": "Suivre",
+      "settings": "Paramètres"
     },
     "browse": {
       "step": "Choisir une comète ou un astéroïde à suivre",
@@ -5421,7 +5438,7 @@
       "filterComets": "Comètes",
       "filterAsteroids": "Astéroïdes",
       "sortBy": "Trier par",
-      "sortBrightness": "Luminosité",
+      "sortBrightness": "Mag.",
       "sortName": "Nom",
       "cometsStatus": "Comètes {status}",
       "asteroidsStatus": "Astéroïdes {status}",
@@ -5435,7 +5452,6 @@
       "cobsRefreshed": "Magnitudes COBS actualisées",
       "cobsRefreshedAgo": "COBS actualisé {when}",
       "cobsNeverRefreshed": "COBS jamais actualisé",
-      "asteroidCount": "{count} astéroïdes — éléments orbitaux en direct depuis le JPL, actualisés automatiquement.",
       "epochStaleTooltip": "Les données orbitales de cet objet sont peut-être moins précises que d'habitude — appuyez pour en savoir plus.",
       "epochStaleLegendTitle": "Données orbitales anciennes",
       "epochStaleLegendExplanation": "Les éléments orbitaux de cet objet sont inhabituellement éloignés de leur propre époque de référence. Prédire une position aussi loin de cette date de référence repose sur une physique à deux corps simplifiée, qui ne tient pas compte des perturbations gravitationnelles continues des planètes — la position réelle peut donc s'écarter de celle affichée.",
@@ -5448,7 +5464,12 @@
       "observedLegendBrighter": "Vert — plus brillant que prévu (un vrai sursaut)",
       "observedLegendNormal": "Turquoise — correspond à peu près à la prévision",
       "observedLegendFainter": "Orange — nettement plus faible que prévu",
-      "observedLegendMuchFainter": "Rouge — beaucoup plus faible que prévu"
+      "observedLegendMuchFainter": "Rouge — beaucoup plus faible que prévu",
+      "selectedPrompt": "Sélectionné -- prêt à vérifier sa position.",
+      "goToPositionPath": "Aller à Position & Trajectoire",
+      "datasetCounts": "{comets} comètes, {asteroids} astéroïdes",
+      "cometCountSynced": "{count} comètes · {status}",
+      "asteroidCountSynced": "{count} astéroïdes · {status}"
     },
     "position": {
       "step": "Vérifier la position & composer le cadrage",
@@ -5544,22 +5565,22 @@
       "quickTrack": "Suivi rapide",
       "working": "En cours…",
       "howItWorks": "Comment ça marche",
-      "reapplyIntervalSection": "Intervalle de réapplication",
       "eqmodToggleTitle": "Correction du taux AD pour EQMOD",
-      "eqmodToggleDescription": "EQMOD — à la fois le pilote ASCOM Windows et le pilote EQMod distinct d'INDI, confirmé indépendamment — lit le taux de suivi en AD en arcsec/s brutes plutôt que ce que NINA envoie réellement, ce qui rend le suivi environ 15 fois trop lent sans correction. À activer uniquement si votre monture est pilotée via EQMOD.",
+      "eqmodToggleDescription": "EQMOD lit le taux d'AD en arcsec/s brut au lieu de ce que NINA envoie, ce qui rend le suivi environ 15× trop lent sans correction. À activer uniquement si la monture utilise EQMOD.",
       "eqmodDetectedHint": "{name} ressemble à un pilote EQMOD — vous voudrez probablement l'activer.",
       "reapplyIntervalTitle": "Intervalle de réapplication",
       "reapplyIntervalDescription": "Fréquence à laquelle Quick Track recalcule et renvoie le taux de suivi. La valeur par défaut de 900 s (15 min) convient aux comètes et astéroïdes.",
       "secondsUnit": "s",
-      "addToSequenceDescriptionRest": "crée une séquence de déplacement, suivi et acquisition, et la charge dans le séquenceur de PINS pour que vous la vérifiiez et la lanciez.",
+      "addToSequenceDescriptionRest": "ajoute une cible d'approche + suivi + imagerie à la séquence déjà chargée dans le séquenceur de PINS, à vérifier et démarrer -- vos cibles existantes restent intactes.",
       "downloadSequence": "Télécharger la séquence",
-      "downloadSequenceDescriptionRest": "enregistre la même séquence dans un fichier au lieu de la charger dans PINS -- pour la revoir ou l'importer plus tard.",
+      "downloadSequenceDescriptionRest": "enregistre une séquence complète équivalente sous forme de fichier au lieu de l'ajouter à la séquence chargée -- pour la consulter ou l'importer plus tard.",
       "quickTrackDescriptionRest": "règle directement la vitesse de la monture, tout de suite — pour un usage manuel ou visuel, pas un substitut à une vraie séquence d'acquisition. S'arrête automatiquement si votre monture signale avoir atteint la limite de retournement au méridien, car Quick Track n'a pas de déclencheur de séquence pour le faire à votre place.",
       "stopSequence": "Arrêter la séquence",
       "stopQuickTrack": "Arrêter le suivi rapide",
       "autoReapplyingFooterSeconds": "Auto re-applying every {seconds} sec",
       "footer": "Calculé localement à partir des éléments orbitaux en direct — comètes et astéroïdes se synchronisent tous deux périodiquement, puis fonctionnent hors ligne.",
-      "dismiss": "Ignorer"
+      "dismiss": "Ignorer",
+      "guidingOnlyFallback": "La monture ne peut pas prendre un taux personnalisé -- suivi via le décalage de l'autoguidage uniquement."
     },
     "relativeTime": {
       "justNow": "à l'instant",
@@ -5590,11 +5611,35 @@
       "noResponse": "Aucun message de réponse",
       "unreachable": "Impossible de joindre Perihelion",
       "syncFailed": "Échec de la synchronisation",
-      "sequenceLoadFailed": "Impossible de charger la séquence",
-      "sequenceLoaded": "Séquence chargée — vérifiez-la et lancez-la dans le séquenceur",
-      "unknownError": "erreur inconnue"
+      "unknownError": "erreur inconnue",
+      "backendTooOld": "Cette fonctionnalité nécessite une version plus récente du plugin Perihelion -- mettez-le à jour puis réessayez."
     },
     "notDetected": "Plugin Perihelion non détecté. Installez le plugin Perihelion pour utiliser cette page.",
-    "notSupportedOnNina": "Perihelion ne prend actuellement en charge que PINS, pas Windows NINA."
+    "notSupportedOnNina": "Perihelion ne prend actuellement en charge que PINS, pas Windows NINA.",
+    "settings": {
+      "trackingSection": "Monture & Suivi",
+      "dataSection": "Données",
+      "cometMagnitudeThreshold": "Limite de magnitude des comètes",
+      "maxComets": "Max. comètes affichées",
+      "asteroidMagnitudeThreshold": "Limite de magnitude des astéroïdes",
+      "maxAsteroids": "Max. astéroïdes affichés",
+      "cometsData": "Comètes",
+      "asteroidsData": "Astéroïdes",
+      "import": "Importer",
+      "export": "Exporter",
+      "clear": "Effacer",
+      "saved": "Enregistré.",
+      "saveFailed": "Échec de l'enregistrement.",
+      "importedComets": "{count} comète(s) importée(s).",
+      "importedAsteroids": "{count} astéroïde(s) importé(s).",
+      "nothingToExport": "Rien à exporter -- pas encore synchronisé.",
+      "confirmClearComets": "Supprimer tous les éléments de comètes en cache ? La liste des comètes sera vide jusqu'à la prochaine synchronisation.",
+      "confirmClearAsteroids": "Supprimer tous les éléments d'astéroïdes en cache ? La liste des astéroïdes sera vide jusqu'à la prochaine synchronisation.",
+      "cobsData": "COBS",
+      "cobsCountSynced": "{count} comètes en cache · {status}",
+      "refreshedAgo": "actualisé {when}",
+      "neverRefreshed": "jamais actualisé",
+      "confirmClearCobs": "Supprimer toutes les observations COBS en cache ? Les badges de luminosité observée seront vides jusqu'à la prochaine actualisation de l'onglet Parcourir."
+    }
   }
 }

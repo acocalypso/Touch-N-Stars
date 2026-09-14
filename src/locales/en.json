@@ -2793,18 +2793,20 @@
       "lastToken": "Generated Token",
       "submissionHistory": "Submission History",
       "confirmClearAll": "Are you sure you want to clear all submission history?",
+      "progress": {
+        "collectingLogs": "Collecting Touch'N'Stars logs…",
+        "collectingNinaLogs": "Collecting recent NINA log files…",
+        "buildingArchive": "Creating ZIP archive…"
+      },
       "diagnostics": {
-        "title": "Diagnostics Support (PINS)",
-        "intro": "Select diagnostics sections, start archive collection, and download/upload the ZIP when ready.",
+        "title": "PINS System Diagnostics",
+        "intro": "System diagnostics (journal, dmesg, network, ...) are collected and included automatically when you click Collect & Upload above. Use Expert settings to limit what is collected.",
+        "expertMode": "Expert settings",
         "sectionsTitle": "Sections",
+        "ninaLogs": "NINA log files (last 10)",
         "journalLines": "Journal lines",
         "dmesgLines": "dmesg lines",
-        "start": "Start Collection",
-        "running": "Collecting...",
-        "download": "Download ZIP",
-        "downloadBusy": "Downloading...",
-        "refreshOptions": "Refresh Options",
-        "loadingOptions": "Loading options...",
+        "collecting": "Collecting PINS system diagnostics… this can take a while.",
         "statusLabel": "Status",
         "archiveId": "Archive ID",
         "statusIdle": "Idle",
@@ -2818,20 +2820,29 @@
         "optionsLoadFailed": "Failed to load diagnostics options. Using defaults.",
         "startFailed": "Failed to start diagnostics archive.",
         "pollFailed": "Failed to poll diagnostics status.",
-        "stillPreparing": "Archive is still preparing. Please try download again shortly.",
+        "stillPreparing": "Archive is still preparing on the device.",
         "downloadFailed": "Failed to download diagnostics archive.",
-        "uploaded": "Diagnostics ZIP uploaded to support endpoint.",
         "validationSections": "Select at least one section.",
         "validationJournalLines": "Journal lines must be between 100 and 50000.",
-        "validationDmesgLines": "dmesg lines must be between 100 and 50000.",
-        "autoDownloaded": "Archive was downloaded automatically and upload was attempted."
+        "validationDmesgLines": "dmesg lines must be between 100 and 50000."
       },
       "actions": {
         "collectUpload": "Collect & Upload",
         "uploading": "Uploading…",
+        "collectSave": "Collect & Save",
+        "saving": "Saving…",
+        "hint": "Collect & Upload gathers the logs and sends them straight to the support endpoint. Collect & Save gathers the same logs but keeps the ZIP in the app - use this when you don't have an internet connection yet and want to upload it later.",
         "copyToken": "Copy",
         "remove": "Remove",
         "clearAll": "Clear All"
+      },
+      "savedArchives": {
+        "title": "Saved archives",
+        "intro": "Collect & Save keeps the archive inside the app (up to 5, the oldest is replaced). Upload it once you have an internet connection, or export it to your device.",
+        "empty": "No saved archives yet.",
+        "upload": "Upload",
+        "download": "Download",
+        "delete": "Delete"
       },
       "submissionFields": {
         "date": "Date",
@@ -2842,6 +2853,10 @@
         "success": "Upload successful",
         "failed": "Upload failed",
         "failedWithStatus": "Upload failed ({status})",
+        "savedLocally": "Log file saved to your device ({filename}).",
+        "savedInApp": "Log archive saved in the app ({filename}). Upload it from the saved archives list when you are online.",
+        "archiveMissing": "The saved archive is no longer available.",
+        "saveFailed": "Failed to save log file locally.",
         "tokenCopied": "Token copied to clipboard",
         "tokenCopyFailed": "Failed to copy token",
         "submissionRemoved": "Submission removed",
@@ -5376,7 +5391,8 @@
     "tabs": {
       "browse": "Browse",
       "position": "Position & Path",
-      "track": "Track"
+      "track": "Track",
+      "settings": "Settings"
     },
     "browse": {
       "step": "Pick a comet or asteroid to track",
@@ -5385,7 +5401,7 @@
       "filterComets": "Comets",
       "filterAsteroids": "Asteroids",
       "sortBy": "Sort by",
-      "sortBrightness": "Brightness",
+      "sortBrightness": "Mag",
       "sortName": "Name",
       "cometsStatus": "Comets {status}",
       "asteroidsStatus": "Asteroids {status}",
@@ -5399,7 +5415,6 @@
       "cobsRefreshed": "COBS magnitudes refreshed",
       "cobsRefreshedAgo": "COBS refreshed {when}",
       "cobsNeverRefreshed": "COBS never refreshed",
-      "asteroidCount": "{count} asteroids — live orbital elements from JPL, refreshed automatically.",
       "epochStaleTooltip": "This object's orbital data may be less accurate than usual — tap for details.",
       "epochStaleLegendTitle": "Aging Orbital Data",
       "epochStaleLegendExplanation": "This object's orbital elements are unusually far from their own reference epoch. Predicting a position this far from that anchor date relies on simple two-body physics that doesn't account for ongoing gravitational nudges from the planets, so the real position may drift from what's shown here.",
@@ -5412,7 +5427,12 @@
       "observedLegendBrighter": "Green — brighter than predicted (a real outburst)",
       "observedLegendNormal": "Teal — roughly matches the prediction",
       "observedLegendFainter": "Amber — noticeably fainter than predicted",
-      "observedLegendMuchFainter": "Red — much fainter than predicted"
+      "observedLegendMuchFainter": "Red — much fainter than predicted",
+      "selectedPrompt": "Selected -- ready to check its position.",
+      "goToPositionPath": "Go to Position & Path",
+      "datasetCounts": "{comets} comets, {asteroids} asteroids",
+      "cometCountSynced": "{count} comets · {status}",
+      "asteroidCountSynced": "{count} asteroids · {status}"
     },
     "position": {
       "step": "Review its position & compose the framing",
@@ -5508,22 +5528,22 @@
       "quickTrack": "Quick Track",
       "working": "Working…",
       "howItWorks": "How It Works",
-      "reapplyIntervalSection": "Reapply Interval",
       "eqmodToggleTitle": "EQMOD RA Rate Correction",
-      "eqmodToggleDescription": "EQMOD — both the Windows ASCOM driver and INDI's own separate EQMod driver, confirmed independently — reads the RA tracking rate as raw arcsec/sec rather than what NINA itself sends, which makes tracking come out about 15× too slow unless corrected. Only enable this if your mount is driven through EQMOD.",
+      "eqmodToggleDescription": "EQMOD reads RA rate as raw arcsec/sec instead of what NINA sends, making tracking ~15× too slow unless corrected. Only enable if your mount uses EQMOD.",
       "eqmodDetectedHint": "{name} looks like an EQMOD driver — you probably want this enabled.",
       "reapplyIntervalTitle": "Reapply Interval",
       "reapplyIntervalDescription": "How often Quick Track recomputes and resends the tracking rate. Default 900s (15 min) suits comets and asteroids; shorten it down to a 5-second floor for an object moving unusually fast.",
       "secondsUnit": "secs",
-      "addToSequenceDescriptionRest": "builds a slew + track + imaging sequence and loads it into PINS's sequencer for you to review and start.",
+      "addToSequenceDescriptionRest": "appends a slew + track + imaging target to whatever sequence is already loaded in PINS's sequencer, for you to review and start -- your existing targets are untouched.",
       "downloadSequence": "Download sequence",
-      "downloadSequenceDescriptionRest": "saves the same sequence as a file instead of loading it into PINS -- for reviewing or importing later.",
+      "downloadSequenceDescriptionRest": "saves an equivalent full sequence as a file instead of appending it to the loaded one -- for reviewing or importing later.",
       "quickTrackDescriptionRest": "sets the mount's rate directly right now — for manual or visual use, not a substitute for a real imaging sequence. Stops itself automatically if your mount reports it's reached the meridian flip limit, since Quick Track has no sequence trigger to flip it for you.",
       "stopSequence": "Stop Sequence",
       "stopQuickTrack": "Stop Quick Track",
       "autoReapplyingFooterSeconds": "Auto re-applying every {seconds} sec",
       "footer": "Computed on-device from live orbital elements — comets and asteroids both sync periodically, then work offline.",
-      "dismiss": "Dismiss"
+      "dismiss": "Dismiss",
+      "guidingOnlyFallback": "Mount can't take a custom rate -- tracking via guider shift only."
     },
     "relativeTime": {
       "justNow": "just now",
@@ -5554,12 +5574,36 @@
       "noResponse": "No response message",
       "unreachable": "Could not reach Perihelion",
       "syncFailed": "Sync failed",
-      "sequenceLoadFailed": "Could not load the sequence",
-      "sequenceLoaded": "Sequence loaded — review and start it in the sequencer",
-      "unknownError": "unknown error"
+      "unknownError": "unknown error",
+      "backendTooOld": "This feature needs a newer Perihelion plugin -- update it, then try again."
     },
     "notDetected": "Perihelion plugin not detected. Install the Perihelion plugin to use this page.",
-    "notSupportedOnNina": "Perihelion currently only supports PINS, not Windows NINA."
+    "notSupportedOnNina": "Perihelion currently only supports PINS, not Windows NINA.",
+    "settings": {
+      "trackingSection": "Mount & Tracking",
+      "dataSection": "Data",
+      "cometMagnitudeThreshold": "Comet Magnitude Limit",
+      "maxComets": "Max Comets Shown",
+      "asteroidMagnitudeThreshold": "Asteroid Magnitude Limit",
+      "maxAsteroids": "Max Asteroids Shown",
+      "cometsData": "Comets",
+      "asteroidsData": "Asteroids",
+      "import": "Import",
+      "export": "Export",
+      "clear": "Clear",
+      "saved": "Saved.",
+      "saveFailed": "Save failed.",
+      "importedComets": "Imported {count} comet(s).",
+      "importedAsteroids": "Imported {count} asteroid(s).",
+      "nothingToExport": "Nothing to export -- this hasn't been synced yet.",
+      "confirmClearComets": "Remove all cached comet elements? The Browse list's comets will be empty until the next sync.",
+      "confirmClearAsteroids": "Remove all cached asteroid elements? The Browse list's asteroids will be empty until the next sync.",
+      "cobsData": "COBS",
+      "cobsCountSynced": "{count} comets cached · {status}",
+      "refreshedAgo": "refreshed {when}",
+      "neverRefreshed": "never refreshed",
+      "confirmClearCobs": "Remove all cached COBS observations? Observed-brightness badges will be empty until the next Browse-tab refresh."
+    }
   },
   "indi": {
     "config": {

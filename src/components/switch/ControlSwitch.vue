@@ -15,9 +15,13 @@
           {{ WritableSwitche.Description }}
         </p>
       </div>
+      <!-- Show the polled hardware state (Value), not TargetValue: NINA only writes
+           TargetValue on connect and when the switch is set through NINA itself, so it
+           goes stale when another client (NINA UI, Alpaca proxy web UI) flips the port.
+           Mirrors NINA's PowerValueConverter (Value > 0). -->
       <toggleButton
         @click="setBool(index, WritableSwitche.Value)"
-        :status-value="WritableSwitche.TargetValue === 1"
+        :status-value="WritableSwitche.Value > 0"
       />
     </div>
   </template>

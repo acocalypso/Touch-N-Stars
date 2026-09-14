@@ -29,6 +29,7 @@ const DEFAULT_STATUSBAR_ORDER = [
   'safety',
   'progress',
   'log',
+  'power',
   'instance',
 ];
 

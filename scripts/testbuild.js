@@ -1,12 +1,7 @@
 import { spawn } from 'node:child_process';
-import { access, readdir, readFile } from 'node:fs/promises';
+import { access, readdir } from 'node:fs/promises';
 import { fileURLToPath } from 'node:url';
 import { join } from 'node:path';
-
-const EXPECTED_SURVEY_FILES = Object.freeze({
-  Norder3: 769,
-  Norder4: 3072,
-});
 
 function requireEnvironment(name) {
   const value = String(process.env[name] || '').trim();
@@ -58,41 +53,13 @@ async function requireFile(path, label) {
   }
 }
 
-async function countWebpFiles(directory) {
-  const entries = await readdir(directory, { recursive: true, withFileTypes: true });
-  return entries.filter((entry) => entry.isFile() && entry.name.toLowerCase().endsWith('.webp'))
-    .length;
-}
-
 async function verifyDeployment(outputDirectory) {
-  const surveyDirectory = join(outputDirectory, 'celestia-atlas-data', 'surveys', 'dss');
-  const requiredFiles = [
-    [join(outputDirectory, 'index.html'), 'application entry point'],
-    [join(surveyDirectory, 'properties'), 'DSS HiPS properties'],
-    [join(surveyDirectory, 'Norder3', 'Allsky.webp'), 'DSS order-3 Allsky preview'],
-    [join(surveyDirectory, 'Norder3', 'Dir0', 'Npix0.webp'), 'first DSS order-3 tile'],
-    [join(surveyDirectory, 'Norder3', 'Dir0', 'Npix767.webp'), 'last DSS order-3 tile'],
-    [join(surveyDirectory, 'Norder4', 'Dir0', 'Npix0.webp'), 'first DSS order-4 tile'],
-    [join(surveyDirectory, 'Norder4', 'Dir0', 'Npix3071.webp'), 'last DSS order-4 tile'],
-  ];
+  await requireFile(join(outputDirectory, 'index.html'), 'application entry point');
 
-  await Promise.all(requiredFiles.map(([path, label]) => requireFile(path, label)));
-
-  const properties = await readFile(join(surveyDirectory, 'properties'), 'utf8');
-  if (!/^hips_order\s*=\s*4$/m.test(properties)) {
-    throw new Error('Deployed DSS HiPS properties do not declare order 4');
-  }
-  if (!/^hips_service_url\s*=\s*\/celestia-atlas-data\/surveys\/dss$/m.test(properties)) {
-    throw new Error('Deployed DSS HiPS properties do not use the local Celestia data endpoint');
-  }
-
-  for (const [order, expectedCount] of Object.entries(EXPECTED_SURVEY_FILES)) {
-    const actualCount = await countWebpFiles(join(surveyDirectory, order));
-    if (actualCount !== expectedCount) {
-      throw new Error(
-        `NINA test deployment has ${actualCount} ${order} WebP files; expected ${expectedCount}`
-      );
-    }
+  // The DSS survey is no longer part of the deployment: the plugin server downloads it
+  // on request into its persistent data directory and serves it from there.
+  if (await pathExists(join(outputDirectory, 'celestia-atlas-data', 'surveys', 'dss'))) {
+    throw new Error('NINA test deployment still contains a packaged DSS survey');
   }
 
   const assetNames = await readdir(join(outputDirectory, 'assets'));

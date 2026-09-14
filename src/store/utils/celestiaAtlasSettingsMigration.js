@@ -8,6 +8,8 @@ export const createDefaultCelestiaAtlasSettings = () => ({
   landscapesVisible: true,
   hideBelowHorizon: true,
   skySurveyVisible: true,
+  // First-open offer to download the DSS survey; set once the user declines it.
+  dssSurveyOfferDismissed: false,
   landscapeSourceMode: 'default',
   customLandscapeUrl: '',
   customLandscapeKey: 'custom',

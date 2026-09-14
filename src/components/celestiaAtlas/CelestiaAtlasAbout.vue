@@ -34,9 +34,10 @@
         <section>
           <h4 class="mb-1 text-base font-semibold text-gray-100">Photographic sky survey</h4>
           <p>
-            Digitized Sky Survey — STScI/NASA; colored and HiPS-processed by CDS (CNRS/Unistra).
-            Touch-N-Stars loads the packaged survey from the selected NINA plugin and does not fetch
-            public survey tiles.
+            Digitized Sky Survey — STScI/NASA; colored and HiPS-processed by CDS (CNRS/Unistra). The
+            survey is downloaded on request to the NINA host by the Touch-N-Stars plugin and served
+            from there; the app itself does not fetch public survey tiles. Free for non-commercial
+            use with attribution.
           </p>
           <a
             class="break-all text-cyan-400 hover:underline"

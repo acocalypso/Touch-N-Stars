@@ -102,14 +102,18 @@ test('uses app-owned photographic survey data without any public online tile sou
   assert.match(view, /cardinals: true/);
   assert.match(view, /milkyWayPanoramaUrl: null/);
   assert.match(view, /settingsStore\.celestiaAtlas\.skySurveyVisible/);
-  assert.match(view, /skySurveySource: createDssSkySurveySource\(atlasDataBaseUrl\(\)\)/);
+  // The survey layer follows the order the plugin server advertises; no packaged default.
+  assert.match(view, /skySurveySource: null/);
+  assert.match(view, /loadDssSurveyOrder\(baseUrl\)/);
+  assert.match(view, /createDssSkySurveySource\(baseUrl, order\)/);
+  assert.match(view, /viewer\.setSkySurvey\(order === null \? null/);
   assert.match(view, /native: Capacitor\.isNativePlatform\(\)/);
   assert.match(view, /host: settingsStore\.connection\.ip/);
   assert.match(view, /port: settingsStore\.connection\.port/);
   assert.match(offlineSurvey, /CELESTIA_ATLAS_DATA_PATH = '\/celestia-atlas-data'/);
   assert.match(offlineSurvey, /createDssSkySurveySource/);
-  assert.match(offlineSurvey, /minOrder: 3/);
-  assert.match(offlineSurvey, /maxOrder: 4/);
+  assert.match(offlineSurvey, /minOrder: DSS_SURVEY_MIN_ORDER/);
+  assert.doesNotMatch(offlineSurvey, /maxOrder: 4/);
   assert.match(offlineSurvey, /blendStartFovDeg: 170/);
   assert.match(offlineSurvey, /blendFullFovDeg: 130/);
   assert.doesNotMatch(offlineSurvey, /url:\s*'https?:\/\//);
@@ -124,7 +128,7 @@ test('uses app-owned photographic survey data without any public online tile sou
   assert.match(view, /<CelestiaAtlasAbout/);
   assert.match(about, /Photographic sky survey/);
   assert.match(about, /STScI\/NASA/);
-  assert.match(about, /does not fetch\s+public survey tiles/);
+  assert.match(about, /does not fetch public survey tiles/);
   assert.match(view, /\.celestia-atlas-portrait\s*{[\s\S]*top: 5rem/);
 
   const localeDirectory = new URL('../../../locales/', import.meta.url);
@@ -139,10 +143,10 @@ test('uses app-owned photographic survey data without any public online tile sou
 
   const english = JSON.parse(await readFile(new URL('en.json', localeDirectory), 'utf8'));
   const hint = english.components.celestiaAtlas.settings.sky_survey_hint;
-  assert.match(hint, /packaged/i);
   assert.match(hint, /DSS/i);
   assert.match(hint, /offline/i);
   assert.match(hint, /never fetches/i);
+  assert.doesNotMatch(hint, /packaged/i);
 });
 
 test('keeps mobile Atlas controls touch-sized and above the shared status bar', async () => {

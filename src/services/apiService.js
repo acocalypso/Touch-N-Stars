@@ -17,6 +17,7 @@ import hocusfocusApi from './api/hocusfocus';
 import tppaApi from './api/tppa';
 import tenmicronApi from './api/tenmicron';
 import pluginsApi from './api/plugins';
+import atlasApi from './api/atlas';
 
 const apiService = {
   ...systemApi,
@@ -35,6 +36,7 @@ const apiService = {
   ...tppaApi,
   ...tenmicronApi,
   ...pluginsApi,
+  ...atlasApi,
 };
 
 export default apiService;

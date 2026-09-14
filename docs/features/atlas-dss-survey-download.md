@@ -1,6 +1,6 @@
 # Atlas: user-triggered DSS survey download
 
-Status: proposed
+Status: implemented (2026-09-13; app branch rework-framing-skyatlas, plugin branch atlas-dss-survey-download)
 Date: 2026-09-13
 
 ## Goal
@@ -104,9 +104,37 @@ reference for the HiPS layout (`12·4^order` tiles, `Dir<floor(npix/10000)·1000
   describe a "packaged survey"; the data-tree invariants stay for landscapes.
 - `scripts/mirror-dss-survey.mjs` stays as a developer tool (default base URL: CDS master).
 
+## Decisions taken during implementation
+
+- **Tile source.** STScI publishes an official mirror of the identical CDS HiPS
+  (same `creator_did`, same release) at
+  `https://stpubdata.s3.us-east-1.amazonaws.com/mast/skybackgrounds/DSSColor`. Measured
+  on 2026-09-13 it answered in under a second per tile while the CDS master
+  (`alasky.cds.unistra.fr`) took 20–100 s per tile for orders 5–7. The plugin server
+  therefore tries the STScI mirror first and falls back to the CDS master per tile;
+  `TNS_DSS_SURVEY_SOURCE_URL` (comma-separated) overrides the list. `properties` names
+  the first source as `hips_master_url`.
+- **Concurrency:** 4 parallel tile downloads. Measured throughput to the STScI mirror
+  from a PINS x64 VM: ~3.7 tiles/s including WebP encoding, i.e. ~17 min for the base
+  orders, ~1 h for order 5.
+- **Free-space margin:** estimate + 10 % (`FreeSpaceMargin`), checked on the server at
+  start and mirrored in the app for the disabled-button reason.
+- **Size table:** measured base ~77 MB on the VM (estimate 75 MB). Orders 5–7 are
+  extrapolated (≈0.4 GB, ≈2 GB, ≈8 GB additional) and should be re-measured after a
+  real order-5 run.
+- **First-open offer** lives in the Atlas view (banner above the bottom controls), not
+  in the setup wizard; declining sets `celestiaAtlas.dssSurveyOfferDismissed`.
+- **Tile quality:** WebP lossy, quality 90 — produces the same file sizes as the survey
+  that used to be packaged.
+- **Server API errors** for business rules (already running, not enough space) are
+  returned as HTTP 200 with `success=false` because the app's axios interceptor drops
+  the body of non-2xx responses.
+- **Endpoints:** `GET /api/atlas/survey/status`, `POST /api/atlas/survey/download`
+  (`{targetOrder}`), `POST /api/atlas/survey/cancel`, `POST /api/atlas/survey/delete`.
+- `scripts/mirror-dss-survey.mjs` mentioned above never existed in this repository; the
+  HiPS layout is implemented in `DssSurveyService` (server) and `offlineSkySurvey.js`.
+
 ## Open questions
 
-- Concurrency towards CDS: proposal 4 parallel connections — it is a community server.
-- Free-space margin on the Pi: proposal estimate + 10 %.
-- Does the first-open offer belong in the Atlas view or in the setup wizard? (Product decision.)
 - Region-based download around selected targets as a follow-up feature.
+- Whether order 7 (~10 GB, ~15 h) should stay selectable on a Raspberry Pi SD card.

@@ -11,6 +11,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Status bar: New Switch chip that shows how many ports are on and opens the switch controls from any page, so powering the equipment no longer needs a detour to the Switch tab.
 - Status bar: The filter panel now has the filter selector, so the filter can be changed from any page.
 - Status bar: The camera panel offers the cool-down and warm-up controls with the target temperature when the camera has a cooler.
+- Atlas: The photographic DSS background is now downloaded once from the Atlas settings to the NINA host (base resolution or up to order 7) instead of being shipped with the app; the Atlas offers the base download on first open and works without it.
+
+### Changed
+- Atlas: Requires the Touch'N'Stars plugin with the survey download endpoints; older plugins show an update hint in the Atlas settings.
 
 ### Fixed
 - Filter wheel: The INDI manual wheel is no longer offered and an existing selection is switched to NINA's Manual Filter Wheel on connect, so the filter change confirmation appears again in PINS.

@@ -103,10 +103,15 @@ any new coordinate source.
 ## Offline data and native delivery
 
 Web and N.I.N.A.-served builds resolve landscapes and the DSS HiPS survey under
-`/celestia-atlas-data`. The photographic survey is limited to packaged orders 3
-and 4 plus its Allsky preview and has no public online fallback. Catalogue
-search, ephemerides, the Milky Way panorama, and engine calculations are also
-local.
+`/celestia-atlas-data`. The photographic survey is not part of the repository or
+the app bundle: the user downloads it once from the Atlas settings, and the
+Touch'N'Stars plugin server fetches the tiles (orders 3–4, optionally up to 7)
+onto the N.I.N.A. host and serves them from its persistent data directory at
+`/celestia-atlas-data/surveys/dss`. The app reads `hips_order` from the served
+`properties` file (`loadDssSurveyOrder` in `offlineSkySurvey.js`) and keeps the
+layer off while nothing is installed; it has no public online fallback.
+Catalogue search, ephemerides, the Milky Way panorama, and engine calculations
+are local.
 
 Android and iOS builds deliberately exclude `celestia-atlas-data`; they obtain
 that tree from the selected Touch'N'Stars N.I.N.A. plugin server. The data-base
@@ -174,8 +179,8 @@ Then verify Android and iOS with the selected N.I.N.A. instance reachable:
 - drag follows the horizon, pinch zoom works, and polar DSO extents stay fixed;
 - search and select OpenNGC, Abell/ACO, LDN/LBN, stars, and moving objects;
 - mount marker, locate/follow, camera/mosaic FOV, and target command actions;
-- packaged survey stability while dragging and after settling, offline from the
-  public internet;
+- downloaded survey stability while dragging and after settling, offline from
+  the public internet;
 - horizon/cardinals, landscape seam, Milky Way orientation, settings, and About;
 - safe-area placement at small portrait and landscape viewports.
 
@@ -200,8 +205,10 @@ metadata must satisfy its admission checklist before automatic use.
 
 ## Troubleshooting
 
-- **Blank survey:** verify the selected N.I.N.A. base URL, then request
-  `/celestia-atlas-data/surveys/dss/properties` from the same device.
+- **Blank survey:** check the Atlas settings for an installed survey first, then
+  verify the selected N.I.N.A. base URL and request
+  `/celestia-atlas-data/surveys/dss/properties` from the same device (404 means
+  nothing is installed on that host).
 - **Tiles flicker or refetch:** inspect request URLs and response cache headers;
   confirm viewer lifecycle is pausing/resuming rather than remounting.
 - **Mount absent:** inspect epoch and finite RA/Dec validation before changing

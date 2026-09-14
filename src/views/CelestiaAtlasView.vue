@@ -98,6 +98,56 @@
         </button>
       </div>
     </div>
+    <div
+      v-if="surveyBannerMode"
+      class="celestia-atlas-survey-offer"
+      role="status"
+      data-testid="atlas-survey-offer"
+    >
+      <template v-if="surveyBannerMode === 'progress'">
+        <p class="text-sm text-gray-100">
+          {{
+            t('components.celestiaAtlas.survey.offer_progress', {
+              percent: Math.round(surveyStore.progressFraction * 100),
+            })
+          }}
+        </p>
+        <div class="celestia-atlas-survey-progress">
+          <div :style="{ width: `${surveyStore.progressFraction * 100}%` }" />
+        </div>
+      </template>
+      <template v-else>
+        <p class="text-sm text-gray-100">
+          {{
+            t('components.celestiaAtlas.survey.offer_text', {
+              size: formatSurveyBytes(
+                estimateDssSurveyBytes(DSS_SURVEY_MIN_ORDER, DSS_SURVEY_BASE_ORDER)
+              ),
+            })
+          }}
+        </p>
+        <p v-if="surveyStore.actionError" class="text-xs text-red-300">
+          {{ surveyStore.actionError }}
+        </p>
+        <div class="flex flex-wrap gap-2">
+          <button
+            class="tns-btn-primary w-auto! min-h-touch"
+            type="button"
+            :disabled="surveyStore.busy"
+            @click="acceptSurveyOffer"
+          >
+            {{ t('components.celestiaAtlas.survey.offer_accept') }}
+          </button>
+          <button
+            class="tns-btn-secondary w-auto! min-h-touch"
+            type="button"
+            @click="dismissSurveyOffer"
+          >
+            {{ t('components.celestiaAtlas.survey.offer_decline') }}
+          </button>
+        </div>
+      </template>
+    </div>
     <SelectedSkyObject
       v-if="selectedObjectCommand"
       :selected-object="selectedObjectCommand.names"
@@ -147,13 +197,19 @@ import { normalizeAtlasMagnitudeLimit } from '@/integrations/celestiaAtlas/magni
 import { ATLAS_POSITION_ANGLE_CONVENTION } from '@/integrations/celestiaAtlas/positionAngle';
 import { computeSecondaryFieldOfViewFrame } from '@/integrations/celestiaAtlas/secondaryFieldOfView';
 import {
+  DSS_SURVEY_BASE_ORDER,
+  DSS_SURVEY_MIN_ORDER,
   createDssSkySurveySource,
+  estimateDssSurveyBytes,
+  loadDssSurveyOrder,
   resolveCelestiaAtlasDataBaseUrl,
 } from '@/integrations/celestiaAtlas/offlineSkySurvey';
+import { useCelestiaAtlasSurveyStore } from '@/store/celestiaAtlasSurveyStore';
+import { formatSurveyBytes } from '@/utils/formatSurveyBytes';
 import { timeSync } from '@/utils/timeSync';
 import { useHorizonStore } from '@/plugins/horizon-creator/store/horizonStore';
 import { interpolateHorizon } from '@/plugins/horizon-creator/utils/horizon-utils';
-import { isAppBackgrounded } from '@/utils/appLifecycle';
+import { isAppBackgrounded, useBackgroundAwarePolling } from '@/utils/appLifecycle';
 import { resolveLandscapeSource } from '@/store/utils/celestiaAtlasLandscapeSource';
 import apiService from '@/services/apiService';
 import {
@@ -176,6 +232,7 @@ const store = apiStore();
 const framingStore = useFramingStore();
 const settingsStore = useSettingsStore();
 const horizonStore = useHorizonStore();
+const surveyStore = useCelestiaAtlasSurveyStore();
 const { t } = useI18n();
 const { isLandscape } = useOrientation();
 const viewerContainer = ref(null);
@@ -512,9 +569,45 @@ function atlasDataBaseUrl() {
   });
 }
 
-function updateSkySurveySource() {
+// The survey layer follows what the plugin server advertises in `properties`: the
+// installed order becomes maxOrder, no properties file means no photographic layer.
+// A token guards against a slow lookup overtaking a newer one after a host switch.
+let surveyLookupToken = 0;
+async function updateSkySurveySource() {
   if (!viewer) return;
-  viewer.setSkySurvey(createDssSkySurveySource(atlasDataBaseUrl()));
+  const token = ++surveyLookupToken;
+  const baseUrl = atlasDataBaseUrl();
+  const order = await loadDssSurveyOrder(baseUrl);
+  if (disposed || !viewer || token !== surveyLookupToken) return;
+  viewer.setSkySurvey(order === null ? null : createDssSkySurveySource(baseUrl, order));
+}
+
+const surveyPollingActive = computed(
+  () => ready.value && store.showSkyAtlas && surveyStore.supported !== false
+);
+useBackgroundAwarePolling(() => surveyStore.tick(), 2000, surveyPollingActive, {
+  immediate: true,
+});
+
+// First-open offer: shown until the user declines it or a survey is installed; while
+// the accepted download runs it turns into a progress line and disappears once the base
+// orders are served.
+const surveyBannerMode = computed(() => {
+  if (!ready.value || !surveyStore.loaded || surveyStore.supported !== true) return null;
+  if (settingsStore.celestiaAtlas.dssSurveyOfferDismissed) return null;
+  const installed = surveyStore.installedOrder;
+  if (surveyStore.isRunning) {
+    return installed !== null && installed >= DSS_SURVEY_BASE_ORDER ? null : 'progress';
+  }
+  return installed === null ? 'offer' : null;
+});
+
+function acceptSurveyOffer() {
+  void surveyStore.startDownload(DSS_SURVEY_BASE_ORDER);
+}
+
+function dismissSurveyOffer() {
+  settingsStore.celestiaAtlas.dssSurveyOfferDismissed = true;
 }
 
 function runSearch() {
@@ -621,8 +714,16 @@ watch(
 watch(
   () => [settingsStore.backendProtocol, settingsStore.connection.ip, settingsStore.connection.port],
   () => {
+    surveyStore.reset();
     updateLandscape();
-    updateSkySurveySource();
+    void updateSkySurveySource();
+  }
+);
+// A finished download or a delete changes what the server serves; re-read `properties`.
+watch(
+  () => surveyStore.installedOrder,
+  () => {
+    void updateSkySurveySource();
   }
 );
 watch(
@@ -702,7 +803,7 @@ onMounted(async () => {
       constellations,
       ...(cachedCometCatalog ? { cometElements: cachedCometCatalog.objects } : {}),
       milkyWayPanoramaUrl: null,
-      skySurveySource: createDssSkySurveySource(atlasDataBaseUrl()),
+      skySurveySource: null,
       onSelect: (target) => {
         selectedTarget.value = target;
       },
@@ -733,6 +834,7 @@ onMounted(async () => {
     updateDisplayOptions();
     updateHorizon();
     updateLandscape();
+    void updateSkySurveySource();
     updateVisibility();
     document.addEventListener('visibilitychange', handleVisibilityChange);
     ready.value = true;
@@ -810,6 +912,32 @@ onBeforeUnmount(() => {
 }
 .celestia-atlas-error {
   color: #fca5a5;
+}
+.celestia-atlas-survey-offer {
+  position: absolute;
+  left: 50%;
+  bottom: calc(var(--above-statusbar) + var(--spacing-touch) + 1rem);
+  transform: translateX(-50%);
+  display: grid;
+  gap: 0.5rem;
+  width: min(28rem, calc(100vw - 2rem));
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  background: rgb(3 7 18 / 92%);
+  border: 1px solid rgb(8 145 178);
+  color: white;
+  z-index: 5;
+}
+.celestia-atlas-survey-progress {
+  height: 0.375rem;
+  overflow: hidden;
+  border-radius: 9999px;
+  background: rgb(55 65 81);
+}
+.celestia-atlas-survey-progress > div {
+  height: 100%;
+  background: rgb(6 182 212);
+  transition: width 0.4s ease;
 }
 .celestia-atlas-search {
   position: absolute;

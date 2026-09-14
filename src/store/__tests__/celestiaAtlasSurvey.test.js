@@ -19,7 +19,13 @@ settingsStore.connection.port = 5000;
 settingsStore.connection.instances = [];
 settingsStore.selectedInstanceId = null;
 
-function serverStatus({ installedOrder = null, present = {}, freeBytes = 5e9, job = null } = {}) {
+function serverStatus({
+  installedOrder = null,
+  present = {},
+  freeBytes = 5e9,
+  job = null,
+  legacyFormat = false,
+} = {}) {
   const orders = [3, 4, 5, 6, 7].map((order) => {
     const tileCount = 12 * 4 ** order;
     const tilesPresent =
@@ -36,6 +42,7 @@ function serverStatus({ installedOrder = null, present = {}, freeBytes = 5e9, jo
     success: true,
     installedOrder,
     hasAllsky: installedOrder !== null,
+    legacyFormat,
     totalBytes: orders.reduce((sum, order) => sum + order.bytes, 0),
     freeBytes,
     orders,
@@ -99,12 +106,28 @@ test('order options estimate only what is still missing and mark installed order
     ]
   );
   assert.equal(options[0].missingBytes, 0);
-  assert.equal(options[1].missingBytes, Math.round((12288 * 33_000) / 2));
-  assert.equal(options[2].missingBytes, Math.round((12288 * 33_000) / 2) + 49152 * 41_000);
+  assert.equal(options[1].missingBytes, Math.round((12288 * 75_000) / 2));
+  assert.equal(options[2].missingBytes, Math.round((12288 * 75_000) / 2) + 49152 * 93_000);
+});
+
+test('a legacy WebP survey counts as not installed but still as data that can be deleted', async (t) => {
+  t.mock.method(axios, 'get', async () => ({
+    status: 200,
+    data: serverStatus({ legacyFormat: true }),
+  }));
+  const store = useCelestiaAtlasSurveyStore();
+  store.reset();
+  await store.refresh();
+
+  assert.equal(store.legacyFormat, true);
+  assert.equal(store.installedOrder, null);
+  assert.equal(store.hasAnyData, true);
+  assert.equal(store.hasPartialOrder, false);
+  assert.equal(store.estimateMissingBytes(4), 768 * 42_000 + 3072 * 55_000);
 });
 
 test('the free-space check applies the server margin on top of the estimate', async (t) => {
-  const baseEstimate = 768 * 14_000 + 3072 * 21_000;
+  const baseEstimate = 768 * 42_000 + 3072 * 55_000;
   t.mock.method(axios, 'get', async () => ({
     status: 200,
     data: serverStatus({ freeBytes: baseEstimate * 1.05 }),

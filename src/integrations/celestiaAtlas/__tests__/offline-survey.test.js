@@ -18,7 +18,7 @@ const SAMPLE_PROPERTIES = `creator_did          = ivo://CDS/P/DSS2/color
 #hips_release_date    = 2016-12-13T14:51Z
 hips_order           = 5
 hips_order_min       = 3
-hips_tile_format     = webp
+hips_tile_format     = jpeg
 hips_service_url     = /celestia-atlas-data/surveys/dss
 `;
 
@@ -35,7 +35,7 @@ test('the survey source points at the plugin-served route and takes its order fr
   assert.equal(source.url, '/celestia-atlas-data/surveys/dss');
   assert.equal(source.minOrder, DSS_SURVEY_MIN_ORDER);
   assert.equal(source.maxOrder, 5);
-  assert.equal(source.format, 'webp');
+  assert.equal(source.format, 'jpg');
   assert.equal(source.tileWidth, 512);
   assert.equal(source.blendStartFovDeg, 170);
   assert.equal(source.blendFullFovDeg, 130);
@@ -93,8 +93,8 @@ test('tile counts and size estimates follow the HiPS layout', () => {
   assert.equal(dssSurveyTileCount(7), 196608);
 
   const base = estimateDssSurveyBytes(DSS_SURVEY_MIN_ORDER, DSS_SURVEY_BASE_ORDER);
-  assert.equal(base, 768 * 14_000 + 3072 * 21_000);
-  assert.equal(estimateDssSurveyBytes(5, 5), 12288 * 33_000);
+  assert.equal(base, 768 * 42_000 + 3072 * 55_000);
+  assert.equal(estimateDssSurveyBytes(5, 5), 12288 * 75_000);
   assert.ok(estimateDssSurveyBytes(3, 7) > estimateDssSurveyBytes(3, 6));
   assert.throws(() => estimateDssSurveyBytes(3, 8), RangeError);
 });

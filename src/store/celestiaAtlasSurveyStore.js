@@ -32,11 +32,14 @@ export const useCelestiaAtlasSurveyStore = defineStore('celestiaAtlasSurvey', {
 
   getters: {
     installedOrder: (state) => state.status?.installedOrder ?? null,
+    /** WebP tiles left by an older plugin; not served any more, replaced by the next download. */
+    legacyFormat: (state) => state.status?.legacyFormat === true,
     job: (state) => state.status?.job ?? null,
     isRunning() {
       return this.job?.state === 'running';
     },
     hasAnyData: (state) =>
+      state.status?.legacyFormat === true ||
       Boolean(state.status?.orders?.some((order) => Number(order?.tilesPresent) > 0)),
     /** An order that was started but not finished (cancelled/failed/interrupted job). */
     hasPartialOrder: (state) =>

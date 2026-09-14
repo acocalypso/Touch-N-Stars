@@ -4,15 +4,15 @@ export const DSS_SURVEY_MIN_ORDER = 3;
 export const DSS_SURVEY_BASE_ORDER = 4;
 export const DSS_SURVEY_MAX_ORDER = 7;
 
-// Average stored WebP bytes per tile, the same table the plugin server uses for its
-// free-space check (DssSurveyService.AverageTileBytes). Orders 3-4 are measured means of
-// the survey that used to be packaged with the app, 5-7 are scaled from sample tiles.
+// Average bytes per tile, the same table the plugin server uses for its free-space check
+// (DssSurveyService.AverageTileBytes). The server stores the source JPEGs unchanged; the
+// values are means of 60 random tiles per order sampled from the STScI mirror (2026-09-14).
 export const DSS_SURVEY_AVERAGE_TILE_BYTES = Object.freeze({
-  3: 14_000,
-  4: 21_000,
-  5: 33_000,
-  6: 41_000,
-  7: 40_000,
+  3: 42_000,
+  4: 55_000,
+  5: 75_000,
+  6: 93_000,
+  7: 97_000,
 });
 
 function normalizeDataBaseUrl(value) {
@@ -117,7 +117,7 @@ export function createDssSkySurveySource(dataBaseUrl, maxOrder) {
     minOrder: DSS_SURVEY_MIN_ORDER,
     maxOrder,
     tileWidth: 512,
-    format: 'webp',
+    format: 'jpg',
     blendStartFovDeg: 170,
     blendFullFovDeg: 130,
     creditLabel:

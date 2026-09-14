@@ -119,11 +119,16 @@
       <template v-else>
         <p class="text-sm text-gray-100">
           {{
-            t('components.celestiaAtlas.survey.offer_text', {
-              size: formatSurveyBytes(
-                estimateDssSurveyBytes(DSS_SURVEY_MIN_ORDER, DSS_SURVEY_BASE_ORDER)
-              ),
-            })
+            t(
+              surveyStore.legacyFormat
+                ? 'components.celestiaAtlas.survey.offer_text_legacy'
+                : 'components.celestiaAtlas.survey.offer_text',
+              {
+                size: formatSurveyBytes(
+                  estimateDssSurveyBytes(DSS_SURVEY_MIN_ORDER, DSS_SURVEY_BASE_ORDER)
+                ),
+              }
+            )
           }}
         </p>
         <p v-if="surveyStore.actionError" class="text-xs text-red-300">
@@ -591,7 +596,8 @@ useBackgroundAwarePolling(() => surveyStore.tick(), 2000, surveyPollingActive, {
 
 // First-open offer: shown until the user declines it or a survey is installed; while
 // the accepted download runs it turns into a progress line and disappears once the base
-// orders are served.
+// orders are served. A survey in the legacy WebP format counts as not installed and gets
+// the same offer with a different text; the server replaces the old files on download.
 const surveyBannerMode = computed(() => {
   if (!ready.value || !surveyStore.loaded || surveyStore.supported !== true) return null;
   if (settingsStore.celestiaAtlas.dssSurveyOfferDismissed) return null;

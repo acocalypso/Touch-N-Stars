@@ -2202,6 +2202,8 @@
         "not_enough_space": "Not enough free disk space on the host: about {needed} needed, {free} free.",
         "download": "Download",
         "resume": "Download missing tiles",
+        "download_replace": "Replace and download",
+        "legacy_format": "The downloaded survey uses an outdated format and is no longer shown. Download it again; the old files are replaced.",
         "progress": "Order {order}: {done} / {total} tiles · {size}",
         "job_completed": "Download complete: orders up to {order} are installed.",
         "job_cancelled": "Download cancelled. Stored tiles are kept; start again to continue.",
@@ -2210,6 +2212,7 @@
         "terms": "Digitized Sky Survey © STScI/NASA, coloured and HiPS-processed by CDS (CNRS/Unistra). Free for non-commercial use with attribution; the tiles stay on your own NINA host.",
         "terms_link": "Usage terms",
         "offer_text": "Download the photographic sky background (DSS, about {size}) to the NINA host now? Without it the Atlas shows stars and catalogue objects only.",
+        "offer_text_legacy": "The downloaded sky background uses an outdated format. Download it again now (about {size})? The old files are replaced.",
         "offer_accept": "Download",
         "offer_decline": "Not now",
         "offer_progress": "Downloading the sky background… {percent} %"

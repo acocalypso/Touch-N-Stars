@@ -278,6 +278,9 @@
               <p v-if="jobOutcomeMessage" class="text-sm" :class="jobOutcomeClass">
                 {{ jobOutcomeMessage }}
               </p>
+              <p v-if="surveyStore.legacyFormat" class="text-sm text-yellow-300">
+                {{ $t('components.celestiaAtlas.survey.legacy_format') }}
+              </p>
 
               <label class="grid gap-1" for="dssSurveyTargetOrder">
                 <span class="text-sm text-gray-300">
@@ -311,13 +314,7 @@
                   :disabled="!canDownload"
                   @click="startSurveyDownload"
                 >
-                  {{
-                    $t(
-                      surveyStore.hasPartialOrder
-                        ? 'components.celestiaAtlas.survey.resume'
-                        : 'components.celestiaAtlas.survey.download'
-                    )
-                  }}
+                  {{ $t(downloadButtonKey) }}
                 </button>
                 <button
                   v-if="surveyStore.hasAnyData"
@@ -779,6 +776,13 @@ const hasEnoughSpace = computed(
 const canDownload = computed(
   () => selectedOrder.value !== null && hasEnoughSpace.value && !surveyStore.busy
 );
+
+const downloadButtonKey = computed(() => {
+  if (surveyStore.legacyFormat) return 'components.celestiaAtlas.survey.download_replace';
+  return surveyStore.hasPartialOrder
+    ? 'components.celestiaAtlas.survey.resume'
+    : 'components.celestiaAtlas.survey.download';
+});
 
 const jobOutcomeMessage = computed(() => {
   const job = surveyStore.job;

@@ -21,7 +21,7 @@ redistribution without an agreement. The 79 MB of orders 3–4 currently package
 `public/celestia-atlas-data/surveys/dss` are a partial clone of the CDS HiPS
 (`hips_status = public master clonableOnce`) and therefore leave the repository. Every
 tile is fetched by the user's plugin server from `https://alasky.cds.unistra.fr/DSS/DSSColor`
-(JPEG) and stored locally as 512 px WebP. `scripts/mirror-dss-survey.mjs` is the
+(JPEG) and stored locally unchanged. `scripts/mirror-dss-survey.mjs` is the
 reference for the HiPS layout (`12·4^order` tiles, `Dir<floor(npix/10000)·10000>`).
 
 ## Scope
@@ -75,8 +75,8 @@ reference for the HiPS layout (`12·4^order` tiles, `Dir<floor(npix/10000)·1000
 7. **Persistence and platform.** The survey lives in the persistent data directory next
    to the user landscapes, survives plugin updates and reinstalls, and uses the same path
    logic on Windows/NINA and PINS without branching on `isPINS`.
-8. **Format, attribution and terms.** The server stores the CDS JPEG tiles as 512 px WebP
-   (single survey format) and writes `properties` and `Allsky.webp` itself; the download
+8. **Format, attribution and terms.** The server stores the 512 px JPEG tiles unchanged
+   (single survey format) and writes `properties` and `Allsky.jpg` itself; the download
    dialog shows the usage notice (STScI/NASA and CDS credit, non-commercial use) and the
    About attribution stays in place.
 9. **Older plugin.** Given a plugin server without the new endpoints, when the settings
@@ -114,18 +114,29 @@ reference for the HiPS layout (`12·4^order` tiles, `Dir<floor(npix/10000)·1000
   therefore tries the STScI mirror first and falls back to the CDS master per tile;
   `TNS_DSS_SURVEY_SOURCE_URL` (comma-separated) overrides the list. `properties` names
   the first source as `hips_master_url`.
-- **Concurrency:** 4 parallel tile downloads. Measured throughput to the STScI mirror
-  from a PINS x64 VM: ~3.7 tiles/s including WebP encoding, i.e. ~17 min for the base
-  orders, ~1 h for order 5.
+- **Tile format: JPEG as delivered, no re-encoding.** The first implementation
+  re-encoded every tile to WebP q90 (~half the bytes). Measured on the PINS x64 VM
+  (order 6, 200 tiles, 2026-09-14): S3 headers ~205 ms, body ~28 ms, ImageSharp WebP
+  encode ~1200–1600 ms per tile — the encoder was ~85 % of the wall time and the host CPU
+  the bottleneck (3.7 tiles/s at 4 workers, ~17 min for the base orders, ~3.5 h for
+  order 6). Storing the source JPEG unchanged makes the download network-bound; the only
+  decode left on the server is the one-time order-3 Allsky assembly. The source is
+  original quality, so the stored tiles are better than the re-encode was.
+- **Concurrency:** 8 parallel tile downloads (network-bound now; ~3 MB/s at order 6).
+- **Legacy WebP surveys.** A survey written by the WebP version is reported as
+  `legacyFormat` in the status, counts as not installed (`properties` is removed, the Atlas
+  shows no background), and the app shows an "outdated format, download again" hint in the
+  settings and in the first-open banner. The next download deletes every `.webp` file
+  before fetching; the two formats are never mixed.
 - **Free-space margin:** estimate + 10 % (`FreeSpaceMargin`), checked on the server at
   start and mirrored in the app for the disabled-button reason.
-- **Size table:** measured base ~77 MB on the VM (estimate 75 MB). Orders 5–7 are
-  extrapolated (≈0.4 GB, ≈2 GB, ≈8 GB additional) and should be re-measured after a
-  real order-5 run.
+- **Size table:** means of 60 random source tiles per order sampled from the STScI
+  mirror on 2026-09-14: 42 / 55 / 75 / 93 / 97 kB for orders 3–7, i.e. base ≈ 200 MB,
+  +order 5 ≈ 0.9 GB, +order 6 ≈ 4.6 GB, +order 7 ≈ 19 GB. About 2.7× the WebP sizes.
 - **First-open offer** lives in the Atlas view (banner above the bottom controls), not
   in the setup wizard; declining sets `celestiaAtlas.dssSurveyOfferDismissed`.
-- **Tile quality:** WebP lossy, quality 90 — produces the same file sizes as the survey
-  that used to be packaged.
+- **Allsky:** built once from the order-3 tiles as `Allsky.jpg` (quality 85); the
+  celestia-atlas engine requests `Norder3/Allsky.<format>`, so it follows the tile format.
 - **Server API errors** for business rules (already running, not enough space) are
   returned as HTTP 200 with `success=false` because the app's axios interceptor drops
   the body of non-2xx responses.
@@ -137,4 +148,4 @@ reference for the HiPS layout (`12·4^order` tiles, `Dir<floor(npix/10000)·1000
 ## Open questions
 
 - Region-based download around selected targets as a follow-up feature.
-- Whether order 7 (~10 GB, ~15 h) should stay selectable on a Raspberry Pi SD card.
+- Whether order 7 (~19 GB) should stay selectable on a Raspberry Pi SD card.

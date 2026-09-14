@@ -2283,7 +2283,8 @@
         "progress": "Progrés",
         "log": "Registre",
         "instance": "Instància",
-        "screenlock": "Bloqueig"
+        "screenlock": "Bloqueig",
+        "switch": "Interruptor"
       },
       "camera": {
         "idle": "Inactiva"
@@ -2721,17 +2722,11 @@
       "submissionHistory": "Historial d'enviaments",
       "confirmClearAll": "Estàs segur que vols esborrar tot l'historial d'enviaments?",
       "diagnostics": {
-        "title": "Suport de diagnòstics (PINS)",
-        "intro": "Selecciona les seccions de diagnòstics, inicia la recol·lecció de l'arxiu i descarrega/puja el ZIP quan estigui llest.",
+        "title": "Diagnòstic del sistema PINS",
+        "intro": "Els diagnòstics del sistema (journal, dmesg, xarxa, ...) es recullen i s'inclouen automàticament en fer clic a \"Recull i puja\" a dalt. Utilitza la configuració avançada per limitar el que es recull.",
         "sectionsTitle": "Seccions",
         "journalLines": "Línies de diari",
         "dmesgLines": "Línies de dmesg",
-        "start": "Inicia la recol·lecció",
-        "running": "Recol·lectant...",
-        "download": "Descarrega el ZIP",
-        "downloadBusy": "Descarregant...",
-        "refreshOptions": "Actualitza les opcions",
-        "loadingOptions": "Carregant opcions...",
         "statusLabel": "Estat",
         "archiveId": "ID de l'arxiu",
         "statusIdle": "Inactiu",
@@ -2747,18 +2742,30 @@
         "pollFailed": "No s'ha pogut obtenir l'estat dels diagnòstics.",
         "stillPreparing": "L'arxiu s'està preparant. Torna a intentar la descàrrega en breu.",
         "downloadFailed": "No s'ha pogut descarregar l'arxiu de diagnòstics.",
-        "uploaded": "ZIP de diagnòstics pujat al punt final de suport.",
         "validationSections": "Selecciona almenys una secció.",
         "validationJournalLines": "Les línies de diari han d'estar entre 100 i 50000.",
         "validationDmesgLines": "Les línies de dmesg han d'estar entre 100 i 50000.",
-        "autoDownloaded": "L'arxiu s'ha descarregat automàticament i s'ha intentat pujar."
+        "expertMode": "Configuració avançada",
+        "ninaLogs": "Fitxers de registre de NINA (últims 10)",
+        "collecting": "Recollint els diagnòstics del sistema PINS… això pot trigar una mica."
       },
       "actions": {
         "collectUpload": "Recull i puja",
         "uploading": "Pujant…",
         "copyToken": "Copia",
         "remove": "Elimina",
-        "clearAll": "Esborra-ho tot"
+        "clearAll": "Esborra-ho tot",
+        "collectSave": "Recull i desa",
+        "saving": "Desant…",
+        "hint": "Recull i puja recull els registres i els envia directament al punt final de suport. Recull i desa recull els mateixos registres, però conserva el ZIP a l'app - fes servir això quan encara no tinguis connexió a internet i vulguis pujar-lo més tard."
+      },
+      "savedArchives": {
+        "title": "Arxius desats",
+        "intro": "Recull i desa conserva l'arxiu a l'app (màx. 5, el més antic es reemplaça). Puja'l quan tinguis connexió a internet o exporta'l al teu dispositiu.",
+        "empty": "Encara no hi ha arxius desats.",
+        "upload": "Puja",
+        "download": "Baixa",
+        "delete": "Elimina"
       },
       "submissionFields": {
         "date": "Data",
@@ -2772,7 +2779,16 @@
         "tokenCopied": "Testimoni copiat al porta-retalls",
         "tokenCopyFailed": "No s'ha pogut copiar el testimoni",
         "submissionRemoved": "Enviament eliminat",
-        "allSubmissionsCleared": "Tots els enviaments esborrats"
+        "allSubmissionsCleared": "Tots els enviaments esborrats",
+        "savedLocally": "Fitxer de registre desat al teu dispositiu ({filename}).",
+        "savedInApp": "Arxiu de registres desat a l'app ({filename}). Puja'l des de la llista d'arxius desats quan estiguis en línia.",
+        "archiveMissing": "L'arxiu desat ja no està disponible.",
+        "saveFailed": "No s'ha pogut desar el fitxer de registre localment."
+      },
+      "progress": {
+        "collectingLogs": "Recollint els registres de Touch'N'Stars…",
+        "collectingNinaLogs": "Recollint els fitxers de registre recents de NINA…",
+        "buildingArchive": "Creant l'arxiu ZIP…"
       }
     },
     "landscaperCreator": {

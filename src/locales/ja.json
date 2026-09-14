@@ -2293,7 +2293,8 @@
         "progress": "進行状況",
         "safety": "安全",
         "weather": "天気",
-        "screenlock": "ロック"
+        "screenlock": "ロック",
+        "switch": "スイッチ"
       },
       "mount": {
         "parked": "パーク済み",
@@ -2708,7 +2709,18 @@
         "uploading": "アップロード中…",
         "copyToken": "コピー",
         "remove": "削除",
-        "clearAll": "すべてクリア"
+        "clearAll": "すべてクリア",
+        "collectSave": "収集して保存",
+        "saving": "保存中…",
+        "hint": "「収集してアップロード」はログを収集してサポートのエンドポイントに直接送信します。「収集して保存」は同じログを収集しますが、ZIPをアプリ内に保持します。インターネット接続がまだなく、後でアップロードしたい場合に使用してください。"
+      },
+      "savedArchives": {
+        "title": "保存済みアーカイブ",
+        "intro": "「収集して保存」はアーカイブをアプリ内に保持します(最大5件、最も古いものが置き換えられます)。インターネットに接続したらアップロードするか、デバイスにエクスポートしてください。",
+        "empty": "保存済みのアーカイブはまだありません。",
+        "upload": "アップロード",
+        "download": "ダウンロード",
+        "delete": "削除"
       },
       "submissionFields": {
         "date": "日付",
@@ -2722,25 +2734,22 @@
         "tokenCopied": "トークンをクリップボードにコピーしました",
         "tokenCopyFailed": "トークンのコピーに失敗しました",
         "submissionRemoved": "送信を削除しました",
-        "allSubmissionsCleared": "すべての送信をクリアしました"
+        "allSubmissionsCleared": "すべての送信をクリアしました",
+        "savedLocally": "ログファイルをデバイスに保存しました({filename})。",
+        "savedInApp": "ログアーカイブをアプリ内に保存しました({filename})。オンラインになったら保存済みアーカイブの一覧からアップロードしてください。",
+        "archiveMissing": "保存済みのアーカイブは利用できなくなりました。",
+        "saveFailed": "ログファイルをローカルに保存できませんでした。"
       },
       "diagnostics": {
         "archiveId": "アーカイブID",
-        "autoDownloaded": "アーカイブが自動的にダウンロードされ、アップロードが試行されました。",
         "dmesgLines": "dmesg 行",
-        "download": "ZIPをダウンロード",
-        "downloadBusy": "ダウンロード中...",
         "downloadFailed": "診断アーカイブのダウンロードに失敗しました。",
-        "intro": "診断セクションを選択し、アーカイブ収集を開始し、準備ができたら ZIP をダウンロード/アップロードします。",
+        "intro": "システム診断(journal、dmesg、ネットワークなど)は、上の「収集してアップロード」をクリックすると自動的に収集され含まれます。収集内容を絞り込むには詳細設定を使用してください。",
         "journalLines": "仕訳明細行",
-        "loadingOptions": "オプションを読み込んでいます...",
         "optionsLoadFailed": "診断オプションのロードに失敗しました。\nデフォルトを使用します。",
         "optionsLoaded": "診断オプションがロードされました。",
         "pollFailed": "診断ステータスのポーリングに失敗しました。",
-        "refreshOptions": "更新オプション",
-        "running": "収集中...",
         "sectionsTitle": "セクション",
-        "start": "コレクションの開始",
         "startFailed": "診断アーカイブの開始に失敗しました。",
         "started": "診断アーカイブが開始されました。",
         "statusFailed": "失敗した",
@@ -2751,11 +2760,18 @@
         "statusSuccess": "成功",
         "statusTimeout": "タイムアウトしました",
         "stillPreparing": "アーカイブはまだ準備中です。\nしばらくしてからもう一度ダウンロードしてください。",
-        "title": "診断サポート (PINS)",
-        "uploaded": "診断 ZIP がサポート エンドポイントにアップロードされました。",
+        "title": "PINSシステム診断",
         "validationDmesgLines": "dmesg 行は 100 ～ 50000 でなければなりません。",
         "validationJournalLines": "仕訳帳行は 100 ～ 50000 である必要があります。",
-        "validationSections": "少なくとも 1 つのセクションを選択します。"
+        "validationSections": "少なくとも 1 つのセクションを選択します。",
+        "expertMode": "詳細設定",
+        "ninaLogs": "NINAログファイル(直近10件)",
+        "collecting": "PINSシステム診断を収集しています…しばらく時間がかかります。"
+      },
+      "progress": {
+        "collectingLogs": "Touch'N'Starsのログを収集しています…",
+        "collectingNinaLogs": "最近のNINAログファイルを収集しています…",
+        "buildingArchive": "ZIPアーカイブを作成しています…"
       }
     },
     "telescopius": {

@@ -2293,7 +2293,8 @@
         "progress": "Průběh",
         "safety": "Bezpečnost",
         "weather": "Počasí",
-        "screenlock": "Zámek"
+        "screenlock": "Zámek",
+        "switch": "Spínač"
       },
       "mount": {
         "parked": "Zaparkováno",
@@ -2708,7 +2709,18 @@
         "uploading": "Nahrávání…",
         "copyToken": "Kopírovat",
         "remove": "Odebrat",
-        "clearAll": "Vymazat Vše"
+        "clearAll": "Vymazat Vše",
+        "collectSave": "Sbírat a uložit",
+        "saving": "Ukládání…",
+        "hint": "Sbírat a nahrát shromáždí protokoly a odešle je přímo na podpůrný endpoint. Sbírat a uložit shromáždí stejné protokoly, ale ponechá ZIP v aplikaci - použijte to, když ještě nemáte internetové připojení a chcete jej nahrát později."
+      },
+      "savedArchives": {
+        "title": "Uložené archivy",
+        "intro": "Sbírat a uložit ponechá archiv v aplikaci (max. 5, nejstarší se nahradí). Nahrajte jej, jakmile budete mít internetové připojení, nebo jej exportujte do zařízení.",
+        "empty": "Zatím žádné uložené archivy.",
+        "upload": "Nahrát",
+        "download": "Stáhnout",
+        "delete": "Smazat"
       },
       "submissionFields": {
         "date": "Datum",
@@ -2722,25 +2734,22 @@
         "tokenCopied": "Token zkopírován do schránky",
         "tokenCopyFailed": "Kopírování tokenu se nezdařilo",
         "submissionRemoved": "Příspěvek byl odstraněn",
-        "allSubmissionsCleared": "Všechny žádosti byly přijaty"
+        "allSubmissionsCleared": "Všechny žádosti byly přijaty",
+        "savedLocally": "Soubor protokolu uložen do vašeho zařízení ({filename}).",
+        "savedInApp": "Archiv protokolů uložen v aplikaci ({filename}). Nahrajte jej ze seznamu uložených archivů, až budete online.",
+        "archiveMissing": "Uložený archiv již není k dispozici.",
+        "saveFailed": "Nepodařilo se uložit soubor protokolu lokálně."
       },
       "diagnostics": {
         "archiveId": "Archive ID",
-        "autoDownloaded": "Archive was downloaded automatically and upload was attempted.",
         "dmesgLines": "dmesg lines",
-        "download": "Download ZIP",
-        "downloadBusy": "Downloading...",
         "downloadFailed": "Failed to download diagnostics archive.",
-        "intro": "Select diagnostics sections, start archive collection, and download/upload the ZIP when ready.",
+        "intro": "Systémová diagnostika (journal, dmesg, síť, ...) se shromažďuje a přidává automaticky po kliknutí na tlačítko \"Sbírat a nahrát\" výše. Pomocí expertních nastavení omezte, co se sbírá.",
         "journalLines": "Journal lines",
-        "loadingOptions": "Loading options...",
         "optionsLoadFailed": "Failed to load diagnostics options. Using defaults.",
         "optionsLoaded": "Diagnostics options loaded.",
         "pollFailed": "Failed to poll diagnostics status.",
-        "refreshOptions": "Refresh Options",
-        "running": "Collecting...",
         "sectionsTitle": "Sections",
-        "start": "Start Collection",
         "startFailed": "Failed to start diagnostics archive.",
         "started": "Diagnostics archive started.",
         "statusFailed": "Failed",
@@ -2751,11 +2760,18 @@
         "statusSuccess": "Success",
         "statusTimeout": "Timed out",
         "stillPreparing": "Archive is still preparing. Please try download again shortly.",
-        "title": "Diagnostics Support (PINS)",
-        "uploaded": "Diagnostics ZIP uploaded to support endpoint.",
+        "title": "Systémová diagnostika PINS",
         "validationDmesgLines": "dmesg lines must be between 100 and 50000.",
         "validationJournalLines": "Journal lines must be between 100 and 50000.",
-        "validationSections": "Select at least one section."
+        "validationSections": "Select at least one section.",
+        "expertMode": "Expertní nastavení",
+        "ninaLogs": "Soubory protokolů NINA (posledních 10)",
+        "collecting": "Probíhá shromažďování systémové diagnostiky PINS… může to chvíli trvat."
+      },
+      "progress": {
+        "collectingLogs": "Shromažďování protokolů Touch'N'Stars…",
+        "collectingNinaLogs": "Shromažďování nedávných souborů protokolů NINA…",
+        "buildingArchive": "Vytváření archivu ZIP…"
       }
     },
     "telescopius": {

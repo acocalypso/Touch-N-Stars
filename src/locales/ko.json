@@ -2293,7 +2293,8 @@
         "progress": "진행률",
         "safety": "안전",
         "weather": "날씨",
-        "screenlock": "잠금"
+        "screenlock": "잠금",
+        "switch": "스위치"
       },
       "mount": {
         "parked": "파킹됨",
@@ -2704,17 +2705,11 @@
       "submissionHistory": "제출 기록",
       "confirmClearAll": "모든 제출 기록을 지우시겠습니까?",
       "diagnostics": {
-        "title": "진단 지원 (PINS)",
-        "intro": "진단 섹션을 선택하고 아카이브 수집을 시작한 뒤, 준비되면 ZIP을 다운로드/업로드하세요.",
+        "title": "PINS 시스템 진단",
+        "intro": "시스템 진단(저널, dmesg, 네트워크 등)은 위의 '수집 및 업로드'를 클릭하면 자동으로 수집되어 포함됩니다. 수집 범위를 제한하려면 전문가 설정을 사용하세요.",
         "sectionsTitle": "섹션",
         "journalLines": "저널 줄 수",
         "dmesgLines": "dmesg 줄 수",
-        "start": "수집 시작",
-        "running": "수집 중...",
-        "download": "ZIP 다운로드",
-        "downloadBusy": "다운로드 중...",
-        "refreshOptions": "옵션 새로고침",
-        "loadingOptions": "옵션 불러오는 중...",
         "statusLabel": "상태",
         "archiveId": "아카이브 ID",
         "statusIdle": "대기",
@@ -2730,18 +2725,30 @@
         "pollFailed": "진단 상태를 조회하지 못했습니다.",
         "stillPreparing": "아카이브가 아직 준비 중입니다. 잠시 후 다시 다운로드해 주세요.",
         "downloadFailed": "진단 아카이브를 다운로드하지 못했습니다.",
-        "uploaded": "진단 ZIP을 지원 엔드포인트로 업로드했습니다.",
         "validationSections": "섹션을 하나 이상 선택하세요.",
         "validationJournalLines": "저널 줄 수는 100에서 50000 사이여야 합니다.",
         "validationDmesgLines": "dmesg 줄 수는 100에서 50000 사이여야 합니다.",
-        "autoDownloaded": "아카이브가 자동으로 다운로드되었고 업로드를 시도했습니다."
+        "expertMode": "전문가 설정",
+        "ninaLogs": "NINA 로그 파일 (최근 10개)",
+        "collecting": "PINS 시스템 진단을 수집하는 중… 시간이 걸릴 수 있습니다."
       },
       "actions": {
         "collectUpload": "수집 및 업로드",
         "uploading": "업로드 중…",
         "copyToken": "복사",
         "remove": "제거",
-        "clearAll": "모두 지우기"
+        "clearAll": "모두 지우기",
+        "collectSave": "수집 및 저장",
+        "saving": "저장 중…",
+        "hint": "수집 및 업로드는 로그를 모아 지원 엔드포인트로 바로 전송합니다. 수집 및 저장은 동일한 로그를 모아 ZIP을 앱 안에 보관합니다 - 아직 인터넷 연결이 없어 나중에 업로드하려는 경우 사용하세요."
+      },
+      "savedArchives": {
+        "title": "저장된 아카이브",
+        "intro": "수집 및 저장은 아카이브를 앱 안에 보관합니다(최대 5개, 가장 오래된 항목이 교체됨). 인터넷에 연결되면 업로드하거나 기기로 내보내세요.",
+        "empty": "저장된 아카이브가 아직 없습니다.",
+        "upload": "업로드",
+        "download": "다운로드",
+        "delete": "삭제"
       },
       "submissionFields": {
         "date": "날짜",
@@ -2755,7 +2762,16 @@
         "tokenCopied": "토큰을 클립보드에 복사했습니다",
         "tokenCopyFailed": "토큰 복사 실패",
         "submissionRemoved": "제출 항목 제거됨",
-        "allSubmissionsCleared": "모든 제출 항목이 지워졌습니다"
+        "allSubmissionsCleared": "모든 제출 항목이 지워졌습니다",
+        "savedLocally": "로그 파일이 기기에 저장되었습니다 ({filename}).",
+        "savedInApp": "로그 아카이브가 앱에 저장되었습니다({filename}). 온라인 상태가 되면 저장된 아카이브 목록에서 업로드하세요.",
+        "archiveMissing": "저장된 아카이브를 더 이상 사용할 수 없습니다.",
+        "saveFailed": "로그 파일을 로컬에 저장하지 못했습니다."
+      },
+      "progress": {
+        "collectingLogs": "Touch'N'Stars 로그를 수집하는 중…",
+        "collectingNinaLogs": "최근 NINA 로그 파일을 수집하는 중…",
+        "buildingArchive": "ZIP 아카이브를 생성하는 중…"
       }
     },
     "telescopius": {

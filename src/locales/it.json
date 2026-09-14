@@ -2293,7 +2293,8 @@
         "progress": "Avanzamento",
         "safety": "Sicurezza",
         "weather": "Meteo",
-        "screenlock": "Blocco"
+        "screenlock": "Blocco",
+        "switch": "Interruttore"
       },
       "mount": {
         "parked": "Parcheggiata",
@@ -2708,7 +2709,18 @@
         "uploading": "Caricamento…",
         "copyToken": "Copia",
         "remove": "Rimuovi",
-        "clearAll": "Cancella tutto"
+        "clearAll": "Cancella tutto",
+        "collectSave": "Raccogli e salva",
+        "saving": "Salvataggio…",
+        "hint": "Raccogli e carica raccoglie i log e li invia direttamente all'endpoint di supporto. Raccogli e salva raccoglie gli stessi log ma conserva lo ZIP nell'app - usalo quando non hai ancora una connessione internet e vuoi caricarlo più tardi."
+      },
+      "savedArchives": {
+        "title": "Archivi salvati",
+        "intro": "Raccogli e salva conserva l'archivio nell'app (max 5, il più vecchio viene sostituito). Caricalo quando hai una connessione internet oppure esportalo sul tuo dispositivo.",
+        "empty": "Nessun archivio salvato.",
+        "upload": "Carica",
+        "download": "Scarica",
+        "delete": "Elimina"
       },
       "submissionFields": {
         "date": "Data",
@@ -2722,25 +2734,22 @@
         "tokenCopied": "Token copiato negli appunti",
         "tokenCopyFailed": "Copia token fallita",
         "submissionRemoved": "Invio rimosso",
-        "allSubmissionsCleared": "Tutti gli invii cancellati"
+        "allSubmissionsCleared": "Tutti gli invii cancellati",
+        "savedLocally": "File di log salvato sul tuo dispositivo ({filename}).",
+        "savedInApp": "Archivio dei log salvato nell'app ({filename}). Caricalo dall'elenco degli archivi salvati quando sei online.",
+        "archiveMissing": "L'archivio salvato non è più disponibile.",
+        "saveFailed": "Impossibile salvare il file di log localmente."
       },
       "diagnostics": {
         "archiveId": "ID dell'archivio",
-        "autoDownloaded": "L'archivio è stato scaricato automaticamente ed è stato tentato il caricamento.",
         "dmesgLines": "linee dmesg",
-        "download": "Scarica ZIP",
-        "downloadBusy": "Download in corso...",
         "downloadFailed": "Impossibile scaricare l'archivio di diagnostica.",
-        "intro": "Seleziona le sezioni di diagnostica, avvia la raccolta di archivi e scarica/carica lo ZIP quando è pronto.",
+        "intro": "La diagnostica di sistema (journal, dmesg, rete, ...) viene raccolta e inclusa automaticamente quando fai clic su \"Raccogli e carica\" qui sopra. Usa le impostazioni avanzate per limitare cosa viene raccolto.",
         "journalLines": "Righe del diario",
-        "loadingOptions": "Caricamento opzioni...",
         "optionsLoadFailed": "Impossibile caricare le opzioni di diagnostica. \nUtilizzo delle impostazioni predefinite.",
         "optionsLoaded": "Opzioni di diagnostica caricate.",
         "pollFailed": "Impossibile interrogare lo stato della diagnostica.",
-        "refreshOptions": "Aggiorna opzioni",
-        "running": "Raccolta...",
         "sectionsTitle": "Sezioni",
-        "start": "Inizia la raccolta",
         "startFailed": "Impossibile avviare l'archivio diagnostico.",
         "started": "Avviato l'archivio diagnostico.",
         "statusFailed": "Fallito",
@@ -2751,11 +2760,18 @@
         "statusSuccess": "Successo",
         "statusTimeout": "Timeout",
         "stillPreparing": "L'archivio è ancora in preparazione. \nProva a eseguire di nuovo il download a breve.",
-        "title": "Supporto diagnostico (PIN)",
-        "uploaded": "ZIP di diagnostica caricato per supportare l'endpoint.",
+        "title": "Diagnostica di sistema PINS",
         "validationDmesgLines": "le righe dmesg devono essere comprese tra 100 e 50000.",
         "validationJournalLines": "Le righe del giornale di registrazione devono essere comprese tra 100 e 50000.",
-        "validationSections": "Seleziona almeno una sezione."
+        "validationSections": "Seleziona almeno una sezione.",
+        "expertMode": "Impostazioni avanzate",
+        "ninaLogs": "File di log NINA (ultimi 10)",
+        "collecting": "Raccolta della diagnostica di sistema PINS… potrebbe richiedere un po' di tempo."
+      },
+      "progress": {
+        "collectingLogs": "Raccolta dei log di Touch'N'Stars…",
+        "collectingNinaLogs": "Raccolta dei file di log NINA recenti…",
+        "buildingArchive": "Creazione dell'archivio ZIP…"
       }
     },
     "telescopius": {

@@ -2293,7 +2293,8 @@
         "progress": "Progresso",
         "safety": "Segurança",
         "weather": "Clima",
-        "screenlock": "Bloqueio"
+        "screenlock": "Bloqueio",
+        "switch": "Interruptor"
       },
       "mount": {
         "parked": "Estacionada",
@@ -2708,7 +2709,18 @@
         "uploading": "Enviando…",
         "copyToken": "Copiar",
         "remove": "Remover",
-        "clearAll": "Limpar tudo"
+        "clearAll": "Limpar tudo",
+        "collectSave": "Coletar e guardar",
+        "saving": "Guardando…",
+        "hint": "Coletar e enviar recolhe os logs e envia-os diretamente para o endpoint de suporte. Coletar e guardar recolhe os mesmos logs, mas mantém o ZIP na app - use esta opção quando ainda não tiver ligação à internet e quiser enviá-lo mais tarde."
+      },
+      "savedArchives": {
+        "title": "Arquivos guardados",
+        "intro": "Coletar e guardar mantém o arquivo na app (máx. 5, o mais antigo é substituído). Envie-o assim que tiver ligação à internet ou exporte-o para o seu dispositivo.",
+        "empty": "Ainda não há arquivos guardados.",
+        "upload": "Enviar",
+        "download": "Transferir",
+        "delete": "Eliminar"
       },
       "submissionFields": {
         "date": "Data",
@@ -2722,25 +2734,22 @@
         "tokenCopied": "Token copiado para área de transferência",
         "tokenCopyFailed": "Falha ao copiar token",
         "submissionRemoved": "Envio removido",
-        "allSubmissionsCleared": "Todos os envios limpos"
+        "allSubmissionsCleared": "Todos os envios limpos",
+        "savedLocally": "Arquivo de log guardado no seu dispositivo ({filename}).",
+        "savedInApp": "Arquivo de logs guardado na app ({filename}). Envie-o a partir da lista de arquivos guardados quando estiver online.",
+        "archiveMissing": "O arquivo guardado já não está disponível.",
+        "saveFailed": "Falha ao guardar o arquivo de log localmente."
       },
       "diagnostics": {
         "archiveId": "ID do arquivo",
-        "autoDownloaded": "O arquivo foi baixado automaticamente e o upload foi tentado.",
         "dmesgLines": "linhas dmesg",
-        "download": "Baixar ZIP",
-        "downloadBusy": "Baixando...",
         "downloadFailed": "Falha ao baixar o arquivo de diagnóstico.",
-        "intro": "Selecione as seções de diagnóstico, inicie a coleta de arquivos e baixe/carregue o ZIP quando estiver pronto.",
+        "intro": "Os diagnósticos do sistema (journal, dmesg, rede, ...) são recolhidos e incluídos automaticamente ao clicar em \"Coletar e enviar\" acima. Use as configurações avançadas para limitar o que é recolhido.",
         "journalLines": "Linhas do diário",
-        "loadingOptions": "Carregando opções...",
         "optionsLoadFailed": "Falha ao carregar opções de diagnóstico. \nUsando padrões.",
         "optionsLoaded": "Opções de diagnóstico carregadas.",
         "pollFailed": "Falha ao pesquisar o status do diagnóstico.",
-        "refreshOptions": "Opções de atualização",
-        "running": "Coletando...",
         "sectionsTitle": "Seções",
-        "start": "Iniciar coleção",
         "startFailed": "Falha ao iniciar o arquivo de diagnóstico.",
         "started": "Arquivo de diagnóstico iniciado.",
         "statusFailed": "Fracassado",
@@ -2751,11 +2760,18 @@
         "statusSuccess": "Sucesso",
         "statusTimeout": "Tempo limite esgotado",
         "stillPreparing": "O arquivo ainda está se preparando. \nPor favor, tente baixar novamente em breve.",
-        "title": "Suporte de diagnóstico (PINS)",
-        "uploaded": "ZIP de diagnóstico carregado para o endpoint de suporte.",
+        "title": "Diagnóstico do sistema PINS",
         "validationDmesgLines": "As linhas dmesg devem estar entre 100 e 50.000.",
         "validationJournalLines": "As linhas do diário devem estar entre 100 e 50.000.",
-        "validationSections": "Selecione pelo menos uma seção."
+        "validationSections": "Selecione pelo menos uma seção.",
+        "expertMode": "Configurações avançadas",
+        "ninaLogs": "Arquivos de log do NINA (últimos 10)",
+        "collecting": "Recolhendo diagnósticos do sistema PINS… isso pode demorar um pouco."
+      },
+      "progress": {
+        "collectingLogs": "Recolhendo logs do Touch'N'Stars…",
+        "collectingNinaLogs": "Recolhendo arquivos de log recentes do NINA…",
+        "buildingArchive": "Criando arquivo ZIP…"
       }
     },
     "telescopius": {

@@ -2293,7 +2293,8 @@
         "progress": "Voortgang",
         "safety": "Veiligheid",
         "weather": "Weer",
-        "screenlock": "Slot"
+        "screenlock": "Slot",
+        "switch": "Schakelaar"
       },
       "mount": {
         "parked": "Geparkeerd",
@@ -2708,7 +2709,18 @@
         "uploading": "Uploaden…",
         "copyToken": "Kopieer",
         "remove": "Verwijder",
-        "clearAll": "Alles opschonen"
+        "clearAll": "Alles opschonen",
+        "collectSave": "Verzamel & Bewaar",
+        "saving": "Bewaren…",
+        "hint": "Verzamel & Upload verzamelt de logs en stuurt ze direct naar het support-endpoint. Verzamel & Bewaar verzamelt dezelfde logs, maar houdt de ZIP in de app - gebruik dit als je nog geen internetverbinding hebt en de logs later wilt uploaden."
+      },
+      "savedArchives": {
+        "title": "Bewaarde archieven",
+        "intro": "Verzamel & Bewaar houdt het archief in de app (max. 5, het oudste wordt vervangen). Upload het zodra je een internetverbinding hebt, of exporteer het naar je apparaat.",
+        "empty": "Nog geen bewaarde archieven.",
+        "upload": "Uploaden",
+        "download": "Downloaden",
+        "delete": "Verwijderen"
       },
       "submissionFields": {
         "date": "Datum",
@@ -2722,25 +2734,22 @@
         "tokenCopied": "Token gekopieerd naar klembord",
         "tokenCopyFailed": "Kopieer token mislukt",
         "submissionRemoved": "Verzending verwijdert",
-        "allSubmissionsCleared": "Alle verzendingen verwijdert"
+        "allSubmissionsCleared": "Alle verzendingen verwijdert",
+        "savedLocally": "Logbestand opgeslagen op je apparaat ({filename}).",
+        "savedInApp": "Logarchief in de app bewaard ({filename}). Upload het vanuit de lijst met bewaarde archieven zodra je online bent.",
+        "archiveMissing": "Het bewaarde archief is niet meer beschikbaar.",
+        "saveFailed": "Logbestand kon niet lokaal worden opgeslagen."
       },
       "diagnostics": {
         "archiveId": "Archief-ID",
-        "autoDownloaded": "Het archief is automatisch gedownload en er is geprobeerd te uploaden.",
         "dmesgLines": "dmesg-lijnen",
-        "download": "ZIP downloaden",
-        "downloadBusy": "Downloaden...",
         "downloadFailed": "Kan diagnostisch archief niet downloaden.",
-        "intro": "Selecteer diagnostische secties, start het verzamelen van archief en download/upload de ZIP wanneer u klaar bent.",
+        "intro": "Systeemdiagnostiek (journal, dmesg, netwerk, ...) wordt automatisch verzameld en toegevoegd wanneer je hierboven op 'Verzamel & Upload' klikt. Gebruik Expertinstellingen om te beperken wat wordt verzameld.",
         "journalLines": "Journaalregels",
-        "loadingOptions": "Opties laden...",
         "optionsLoadFailed": "Kan diagnostische opties niet laden. \nStandaardinstellingen gebruiken.",
         "optionsLoaded": "Diagnostische opties geladen.",
         "pollFailed": "Kan de diagnostische status niet opvragen.",
-        "refreshOptions": "Vernieuwingsopties",
-        "running": "Verzamelen...",
         "sectionsTitle": "Secties",
-        "start": "Verzameling starten",
         "startFailed": "Kan diagnostisch archief niet starten.",
         "started": "Diagnostiekarchief gestart.",
         "statusFailed": "Mislukt",
@@ -2751,11 +2760,18 @@
         "statusSuccess": "Succes",
         "statusTimeout": "Time-out",
         "stillPreparing": "Het archief is nog in voorbereiding. \nProbeer het binnenkort opnieuw te downloaden.",
-        "title": "Diagnostische ondersteuning (PINS)",
-        "uploaded": "Diagnostische ZIP geüpload naar ondersteuningseindpunt.",
+        "title": "PINS-systeemdiagnose",
         "validationDmesgLines": "dmesg-regels moeten tussen 100 en 50000 liggen.",
         "validationJournalLines": "Journaalregels moeten tussen 100 en 50.000 liggen.",
-        "validationSections": "Selecteer ten minste één sectie."
+        "validationSections": "Selecteer ten minste één sectie.",
+        "expertMode": "Expertinstellingen",
+        "ninaLogs": "NINA-logbestanden (laatste 10)",
+        "collecting": "PINS-systeemdiagnose wordt verzameld… dit kan even duren."
+      },
+      "progress": {
+        "collectingLogs": "Touch'N'Stars-logs worden verzameld…",
+        "collectingNinaLogs": "Recente NINA-logbestanden worden verzameld…",
+        "buildingArchive": "ZIP-archief wordt aangemaakt…"
       }
     },
     "telescopius": {

@@ -2293,7 +2293,8 @@
         "progress": "Fortschritt",
         "safety": "Sicherheit",
         "weather": "Wetter",
-        "screenlock": "Sperre"
+        "screenlock": "Sperre",
+        "switch": "Schalter"
       },
       "mount": {
         "parked": "Geparkt",
@@ -2704,17 +2705,11 @@
       "submissionHistory": "Übertragungsverlauf",
       "confirmClearAll": "Möchten Sie wirklich den gesamten Übertragungsverlauf löschen?",
       "diagnostics": {
-        "title": "Diagnose-Support (PINS)",
-        "intro": "Waehlen Sie Diagnosebereiche aus, starten Sie die Archivsammlung und laden Sie die ZIP herunter/hoch, sobald sie bereit ist.",
+        "title": "PINS-Systemdiagnose",
+        "intro": "Systemdiagnosen (Journal, dmesg, Netzwerk, ...) werden automatisch gesammelt und einbezogen, wenn du oben auf \"Sammeln & Hochladen\" klickst. Nutze die Experteneinstellungen, um die Auswahl einzuschränken.",
         "sectionsTitle": "Bereiche",
         "journalLines": "Journal-Zeilen",
         "dmesgLines": "dmesg-Zeilen",
-        "start": "Sammlung starten",
-        "running": "Sammle...",
-        "download": "ZIP herunterladen",
-        "downloadBusy": "Lade herunter...",
-        "refreshOptions": "Optionen aktualisieren",
-        "loadingOptions": "Optionen werden geladen...",
         "statusLabel": "Status",
         "archiveId": "Archiv-ID",
         "statusIdle": "Leerlauf",
@@ -2730,18 +2725,30 @@
         "pollFailed": "Diagnosestatus konnte nicht abgefragt werden.",
         "stillPreparing": "Archiv wird noch vorbereitet. Bitte versuchen Sie den Download gleich erneut.",
         "downloadFailed": "Diagnosearchiv konnte nicht heruntergeladen werden.",
-        "uploaded": "Diagnose-ZIP wurde an den Support-Endpunkt hochgeladen.",
         "validationSections": "Waehlen Sie mindestens einen Bereich aus.",
         "validationJournalLines": "Journal-Zeilen muessen zwischen 100 und 50000 liegen.",
         "validationDmesgLines": "dmesg-Zeilen muessen zwischen 100 und 50000 liegen.",
-        "autoDownloaded": "Archiv wurde automatisch heruntergeladen und Upload wurde versucht."
+        "expertMode": "Experteneinstellungen",
+        "ninaLogs": "NINA-Logdateien (letzte 10)",
+        "collecting": "PINS-Systemdiagnose wird gesammelt… das kann etwas dauern."
       },
       "actions": {
         "collectUpload": "Sammeln & Hochladen",
         "uploading": "Lade hoch…",
         "copyToken": "Kopieren",
         "remove": "Entfernen",
-        "clearAll": "Alle löschen"
+        "clearAll": "Alle löschen",
+        "collectSave": "Sammeln & Speichern",
+        "saving": "Speichere…",
+        "hint": "Sammeln & Hochladen sammelt die Logs und sendet sie direkt an den Support-Endpunkt. Sammeln & Speichern sammelt dieselben Logs, behält die ZIP-Datei aber in der App – nutze das, wenn du noch keine Internetverbindung hast und die Datei später hochladen möchtest."
+      },
+      "savedArchives": {
+        "title": "Gespeicherte Archive",
+        "intro": "Sammeln & Speichern behält das Archiv in der App (max. 5, das älteste wird ersetzt). Lade es hoch, sobald du eine Internetverbindung hast, oder exportiere es auf dein Gerät.",
+        "empty": "Noch keine gespeicherten Archive.",
+        "upload": "Hochladen",
+        "download": "Herunterladen",
+        "delete": "Löschen"
       },
       "submissionFields": {
         "date": "Datum",
@@ -2755,7 +2762,16 @@
         "tokenCopied": "Token in Zwischenablage kopiert",
         "tokenCopyFailed": "Token konnte nicht kopiert werden",
         "submissionRemoved": "Übertragung entfernt",
-        "allSubmissionsCleared": "Alle Übertragungen gelöscht"
+        "allSubmissionsCleared": "Alle Übertragungen gelöscht",
+        "savedLocally": "Logdatei auf deinem Gerät gespeichert ({filename}).",
+        "savedInApp": "Log-Archiv in der App gespeichert ({filename}). Lade es aus der Liste der gespeicherten Archive hoch, sobald du online bist.",
+        "archiveMissing": "Das gespeicherte Archiv ist nicht mehr verfügbar.",
+        "saveFailed": "Logdatei konnte nicht lokal gespeichert werden."
+      },
+      "progress": {
+        "collectingLogs": "Sammle Touch'N'Stars-Logs…",
+        "collectingNinaLogs": "Sammle aktuelle NINA-Logdateien…",
+        "buildingArchive": "Erstelle ZIP-Archiv…"
       }
     },
     "telescopius": {

@@ -2293,7 +2293,8 @@
         "progress": "进度",
         "safety": "安全",
         "weather": "天气",
-        "screenlock": "锁定"
+        "screenlock": "锁定",
+        "switch": "开关"
       },
       "mount": {
         "parked": "已停靠",
@@ -2708,7 +2709,18 @@
         "uploading": "上传中…",
         "copyToken": "复制",
         "remove": "移除",
-        "clearAll": "全部清除"
+        "clearAll": "全部清除",
+        "collectSave": "收集并保存",
+        "saving": "保存中…",
+        "hint": "收集并上传会收集日志并直接发送到支持端点。收集并保存会收集相同的日志,但将 ZIP 保留在应用内 - 如果您暂时没有网络连接、想稍后再上传,请使用此选项。"
+      },
+      "savedArchives": {
+        "title": "已保存的归档",
+        "intro": "收集并保存会将归档保留在应用内(最多 5 个,最旧的会被替换)。有网络连接后即可上传,或导出到您的设备。",
+        "empty": "暂无已保存的归档。",
+        "upload": "上传",
+        "download": "下载",
+        "delete": "删除"
       },
       "submissionFields": {
         "date": "日期",
@@ -2722,25 +2734,22 @@
         "tokenCopied": "令牌已复制到剪贴板",
         "tokenCopyFailed": "复制令牌失败",
         "submissionRemoved": "提交已移除",
-        "allSubmissionsCleared": "所有提交已清除"
+        "allSubmissionsCleared": "所有提交已清除",
+        "savedLocally": "日志文件已保存到您的设备({filename})。",
+        "savedInApp": "日志归档已保存在应用内({filename})。联网后请从已保存的归档列表中上传。",
+        "archiveMissing": "已保存的归档不再可用。",
+        "saveFailed": "本地保存日志文件失败。"
       },
       "diagnostics": {
         "archiveId": "Archive ID",
-        "autoDownloaded": "Archive was downloaded automatically and upload was attempted.",
         "dmesgLines": "dmesg lines",
-        "download": "Download ZIP",
-        "downloadBusy": "Downloading...",
         "downloadFailed": "Failed to download diagnostics archive.",
-        "intro": "Select diagnostics sections, start archive collection, and download/upload the ZIP when ready.",
+        "intro": "系统诊断信息(journal、dmesg、网络等)会在您点击上方的\"收集并上传\"时自动收集并包含在内。使用专家设置可以限制收集的内容。",
         "journalLines": "Journal lines",
-        "loadingOptions": "Loading options...",
         "optionsLoadFailed": "Failed to load diagnostics options. Using defaults.",
         "optionsLoaded": "Diagnostics options loaded.",
         "pollFailed": "Failed to poll diagnostics status.",
-        "refreshOptions": "Refresh Options",
-        "running": "Collecting...",
         "sectionsTitle": "Sections",
-        "start": "Start Collection",
         "startFailed": "Failed to start diagnostics archive.",
         "started": "Diagnostics archive started.",
         "statusFailed": "Failed",
@@ -2751,11 +2760,18 @@
         "statusSuccess": "Success",
         "statusTimeout": "Timed out",
         "stillPreparing": "Archive is still preparing. Please try download again shortly.",
-        "title": "Diagnostics Support (PINS)",
-        "uploaded": "Diagnostics ZIP uploaded to support endpoint.",
+        "title": "PINS 系统诊断",
         "validationDmesgLines": "dmesg lines must be between 100 and 50000.",
         "validationJournalLines": "Journal lines must be between 100 and 50000.",
-        "validationSections": "Select at least one section."
+        "validationSections": "Select at least one section.",
+        "expertMode": "专家设置",
+        "ninaLogs": "NINA 日志文件(最近 10 个)",
+        "collecting": "正在收集 PINS 系统诊断信息…这可能需要一些时间。"
+      },
+      "progress": {
+        "collectingLogs": "正在收集 Touch'N'Stars 日志…",
+        "collectingNinaLogs": "正在收集最近的 NINA 日志文件…",
+        "buildingArchive": "正在创建 ZIP 压缩包…"
       }
     },
     "telescopius": {

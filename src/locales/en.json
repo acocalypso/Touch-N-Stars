@@ -2125,6 +2125,9 @@
         "dec": "DEC",
         "button_framing": "go to framing"
       },
+      "camera_panel": {
+        "target_name_placeholder": "Target name"
+      },
       "datetime": {
         "title": "Date & Time",
         "date": "Date",

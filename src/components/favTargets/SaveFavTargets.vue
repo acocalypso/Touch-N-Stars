@@ -61,6 +61,10 @@ const props = defineProps({
   mosaicRows: { type: Number, default: null },
   mosaicOverlap: { type: Number, default: null },
   mosaicPreserveAlignment: { type: Boolean, default: null },
+  // Pre-computed panel centres ({ label, ra, dec, rotation }); when given they
+  // win over framingStore.mosaicPanelCoords, which only the framing page keeps
+  // up to date.
+  panels: { type: Array, default: null },
   showLabel: { type: Boolean, default: false },
   disabled: { type: Boolean, default: false },
 });
@@ -135,7 +139,10 @@ async function confirmSave() {
     // mit dem Overlay überein. Fallback auf lokale Berechnung, falls leer.
     const framingStore = useFramingStore();
     const panels =
-      framingStore.mosaicPanelCoords.length > 0 ? framingStore.mosaicPanelCoords : computePanels();
+      props.panels ??
+      (framingStore.mosaicPanelCoords.length > 0
+        ? framingStore.mosaicPanelCoords
+        : computePanels());
     for (const p of panels) {
       await favTargetsStore.addFavorite({
         Name: `${baseName} Panel ${p.label}`,

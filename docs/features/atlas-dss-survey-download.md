@@ -133,6 +133,10 @@ reference for the HiPS layout (`12·4^order` tiles, `Dir<floor(npix/10000)·1000
 - **Size table:** means of 60 random source tiles per order sampled from the STScI
   mirror on 2026-09-14: 42 / 55 / 75 / 93 / 97 kB for orders 3–7, i.e. base ≈ 200 MB,
   +order 5 ≈ 0.9 GB, +order 6 ≈ 4.6 GB, +order 7 ≈ 19 GB. About 2.7× the WebP sizes.
+- **Storage location:** `NINA\TnsCache\celestia-atlas-data\surveys\dss` — the same `TnsCache`
+  folder that already holds settings, favorites and PHD2 images. The `NINA\Touch-N-Stars`
+  folder introduced by plugin 1.3.0.0 for landscapes is moved into `TnsCache` once on
+  first access, so there is only one plugin folder in the NINA directory.
 - **First-open offer** lives in the Atlas view (banner above the bottom controls), not
   in the setup wizard; declining sets `celestiaAtlas.dssSurveyOfferDismissed`.
 - **Allsky:** built once from the order-3 tiles as `Allsky.jpg` (quality 85); the

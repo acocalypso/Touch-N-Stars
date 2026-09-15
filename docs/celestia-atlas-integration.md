@@ -45,6 +45,15 @@ The host supplies:
 - landscape, horizon, display, magnitude, type, and catalogue filters;
 - selected-target actions and Framing Assistant cache previews.
 
+The camera panel also hosts the framing tools (favourites list, FITS plate
+solve, mosaic controls). Mosaic panel centres saved as favourites are computed
+in `src/integrations/celestiaAtlas/mosaicPanels.js` by replaying the package's
+own FOV drawing (`projectAngularExtent`, `cameraFrameScreenRotationDeg`,
+`unprojectEquatorial`) on a synthetic view, so they always match the drawn
+rectangles. Targets loaded "into framing" elsewhere bump
+`framingStore.framingReloadKey`; the Atlas centres on
+`framingStore.RAangle/DECangle` when visible, or on its next open.
+
 The Atlas settings dialog also exposes a manual comet refresh. Touch'N'Stars downloads
 the `comets.json` asset from Atlas's rolling `comet-data-live` GitHub release
 through the selected plugin server's `/api/proxy` endpoint (avoiding browser

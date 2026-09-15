@@ -43,9 +43,12 @@
       </button>
     </div>
     <AtlasFovRotation
-      v-if="showFovControls"
+      v-if="ready"
       :get-view-center="getAtlasViewCenter"
       :active="store.showSkyAtlas"
+      :fov-available="showFovControls"
+      :camera-fov="cameraFov"
+      :missing-equipment-settings="hasMissingEquipmentSettings"
       default-target-name="Celestia Atlas view"
     />
     <div v-if="ready" class="celestia-atlas-controls">
@@ -189,6 +192,7 @@ import {
   atlasSearchResultToTarget,
   ninaMountToAtlas,
   ninaObserverToAtlas,
+  toAtlasCoordinates,
   toNinaJ2000Coordinates,
 } from '@/integrations/celestiaAtlas/contracts';
 import { atlasSelectionToCommandModel } from '@/integrations/celestiaAtlas/selectionModel';
@@ -291,13 +295,13 @@ function updateObserver() {
   viewer.setObserver(ninaObserverToAtlas(store.profileInfo.AstrometrySettings));
 }
 
-function updateFieldOfView() {
-  if (!viewer) return;
+// Camera field of view from the active NINA profile; null while the profile
+// lacks a usable pixel size / focal length / sensor size.
+const cameraFov = computed(() => {
   const profile = store.profileInfo;
   const apertureMm = Number(profile?.TelescopeSettings?.Aperture);
-  let fov;
   try {
-    fov = calculateCameraFieldOfView({
+    return calculateCameraFieldOfView({
       pixelSizeMicrons: Number(profile?.CameraSettings?.PixelSize),
       focalLengthMm: Number(profile?.TelescopeSettings?.FocalLength),
       sensorWidthPx: Number(profile?.FramingAssistantSettings?.CameraWidth),
@@ -305,6 +309,21 @@ function updateFieldOfView() {
       ...(Number.isFinite(apertureMm) && apertureMm > 0 ? { apertureMm } : {}),
     });
   } catch {
+    return null;
+  }
+});
+
+// Same check as FramingPage.vue: without these two values no FOV can be drawn.
+const hasMissingEquipmentSettings = computed(() => {
+  const focalLength = store.profileInfo?.TelescopeSettings?.FocalLength;
+  const pixelSize = store.profileInfo?.CameraSettings?.PixelSize;
+  return !focalLength || focalLength <= 0 || !pixelSize || pixelSize <= 0;
+});
+
+function updateFieldOfView() {
+  if (!viewer) return;
+  const fov = cameraFov.value;
+  if (!fov) {
     viewer.setFieldOfView(null);
     return;
   }
@@ -341,20 +360,8 @@ function drawSecondaryFieldOfView() {
   context.setTransform(dpr, 0, 0, dpr, 0, 0);
   context.clearRect(0, 0, width, height);
 
-  const profile = store.profileInfo;
-  const apertureMm = Number(profile?.TelescopeSettings?.Aperture);
-  let fov;
-  try {
-    fov = calculateCameraFieldOfView({
-      pixelSizeMicrons: Number(profile?.CameraSettings?.PixelSize),
-      focalLengthMm: Number(profile?.TelescopeSettings?.FocalLength),
-      sensorWidthPx: Number(profile?.FramingAssistantSettings?.CameraWidth),
-      sensorHeightPx: Number(profile?.FramingAssistantSettings?.CameraHeight),
-      ...(Number.isFinite(apertureMm) && apertureMm > 0 ? { apertureMm } : {}),
-    });
-  } catch {
-    return;
-  }
+  const fov = cameraFov.value;
+  if (!fov) return;
 
   const state = viewer.getState();
   const hasSolved = framingStore.hasSolvedRotation;
@@ -402,6 +409,48 @@ function stopSecondaryFovTimer() {
   if (secondaryFovTimer === null) return;
   clearInterval(secondaryFovTimer);
   secondaryFovTimer = null;
+}
+
+// Targets loaded "into framing" elsewhere (favourites list, FITS plate solve,
+// sequence container) bump framingStore.framingReloadKey. The atlas answers by
+// centring on the stored coordinates — immediately when visible, otherwise on
+// the next time it becomes visible. The store is not persisted, so a key > 0
+// on mount means a target was loaded before the atlas was first opened.
+let appliedFramingReloadKey = 0;
+let framingFocusPending = false;
+
+function focusFramingTarget() {
+  if (!viewer) return;
+  let center;
+  try {
+    center = toAtlasCoordinates({
+      raDeg: Number(framingStore.RAangle),
+      decDeg: Number(framingStore.DECangle),
+      frame: 'J2000',
+    });
+  } catch (error) {
+    console.warn('[Celestia Atlas] Ignored invalid framing target:', error.message);
+    return;
+  }
+  // An explicit target wins over auto-follow, which would otherwise pull the
+  // view back to the mount on the next poll.
+  if (mountFollow.value) {
+    mountFollow.value = false;
+    viewer.setMountFollow(false);
+  }
+  viewer.focusTarget(center);
+}
+
+function applyFramingReload() {
+  const key = framingStore.framingReloadKey;
+  if (key === appliedFramingReloadKey) return;
+  if (!ready.value || !store.showSkyAtlas) {
+    framingFocusPending = true;
+    return;
+  }
+  appliedFramingReloadKey = key;
+  framingFocusPending = false;
+  focusFramingTarget();
 }
 
 function toggleMountFollow() {
@@ -671,6 +720,7 @@ function updateVisibility() {
     viewer.resume();
     startClockDisplay();
     startSecondaryFovTimer();
+    if (framingFocusPending) applyFramingReload();
   } else {
     viewer.pause();
     stopClockDisplay();
@@ -701,6 +751,7 @@ watch(
     drawSecondaryFieldOfView();
   }
 );
+watch(() => framingStore.framingReloadKey, applyFramingReload);
 watch(() => store.showSkyAtlas, updateVisibility);
 watch(isAppBackgrounded, updateVisibility);
 watch(clockSpeedPower, (value) => {
@@ -844,6 +895,8 @@ onMounted(async () => {
     updateVisibility();
     document.addEventListener('visibilitychange', handleVisibilityChange);
     ready.value = true;
+    // After the persisted view: a target loaded before the first open wins.
+    applyFramingReload();
   } catch (error) {
     if (!disposed) errorMessage.value = error instanceof Error ? error.message : String(error);
   }

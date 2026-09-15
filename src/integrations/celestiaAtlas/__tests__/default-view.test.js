@@ -131,7 +131,7 @@ test('uses app-owned photographic survey data without any public online tile sou
   assert.match(settings, /settingsStore\.celestiaAtlas\.skySurveyVisible !== false/);
   assert.match(view, /:deep\(\.celestia-atlas-survey-credit\)/);
   assert.match(view, /display: none !important/);
-  assert.match(settings, /<CelestiaAtlasAbout \/>/);
+  assert.match(settings, /<CelestiaAtlasAbout v-else-if="activeTab === 'about'"/);
   assert.doesNotMatch(view, /<CelestiaAtlasAbout/);
   assert.doesNotMatch(about, /<Modal/);
   assert.match(about, /Photographic sky survey/);

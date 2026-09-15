@@ -4171,7 +4171,11 @@
         "scatterChart": "Model Points (Az/Alt)",
         "axisAz": "Azimuth (deg)",
         "axisAlt": "Altitude (deg)",
-        "refresh": "Refresh"
+        "refresh": "Refresh",
+        "altMin": "Altitude min",
+        "altMax": "Altitude max",
+        "azMin": "Azimuth min",
+        "azMax": "Azimuth max"
       },
       "model": {
         "alignmentInfo": "Alignment Information",
@@ -4234,7 +4238,27 @@
         "deltaTExpiration": "DeltaT Expiration",
         "localTime": "Local Time",
         "localDate": "Local Date",
-        "siderealTime": "Sidereal Time"
+        "siderealTime": "Sidereal Time",
+        "settings": "Mount Settings",
+        "on": "On",
+        "off": "Off",
+        "status": {
+          "Tracking": "Tracking",
+          "Stopped": "Stopped",
+          "SlewingToPark": "Slewing to Park",
+          "Unparking": "Unparking",
+          "SlewingToHome": "Slewing to Home",
+          "Parked": "Parked",
+          "Slewing": "Slewing",
+          "TrackingOff": "Not Tracking",
+          "MotorsInhibitedLowTemp": "Motors Inhibited by Low Temperature",
+          "TrackingOnOutsideLimits": "Tracking, but outside of mount limits",
+          "FollowingSatellite": "Following Satellite",
+          "NeedsUserIntervention": "Needs User Intervention",
+          "Unknown": "Unknown",
+          "Error": "Error",
+          "NotConnected": "Not Connected"
+        }
       }
     },
     "pinsAllSky": {

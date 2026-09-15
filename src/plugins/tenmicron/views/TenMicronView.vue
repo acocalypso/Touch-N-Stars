@@ -3,22 +3,34 @@
     <div class="container py-8 max-w-4xl mx-auto px-4">
       <!-- Header -->
       <div class="mb-6 flex flex-col gap-1">
-        <h1 class="text-3xl font-bold text-white">{{ $t('plugins.tenmicron.title') }}</h1>
-        <p class="text-gray-400 text-sm">{{ $t('plugins.tenmicron.subtitle') }}</p>
+        <h1 class="text-3xl font-bold text-content">{{ $t('plugins.tenmicron.title') }}</h1>
+        <p class="text-content-muted text-sm">{{ $t('plugins.tenmicron.subtitle') }}</p>
+      </div>
+
+      <!-- Until the first status round trip lands, neither notice below can be trusted:
+           pluginLoaded starts false, so the "not loaded" warning would flash on every cold open. -->
+      <div
+        v-if="tmStore.isLoading && !tmStore.pluginLoaded"
+        class="flex items-center justify-center gap-3 py-10 text-content-muted text-sm"
+      >
+        <span
+          class="inline-block w-4 h-4 border-2 border-accent border-t-transparent rounded-full animate-spin"
+        ></span>
+        {{ $t('common.loading') }}
       </div>
 
       <!-- Plugin not loaded notice -->
       <div
-        v-if="!tmStore.pluginLoaded && !tmStore.isLoading"
-        class="rounded-xl border border-yellow-500/40 bg-yellow-500/10 p-5 text-yellow-200 text-sm"
+        v-else-if="!tmStore.pluginLoaded"
+        class="rounded-card border border-status-warn/40 bg-status-warn/10 p-5 text-status-warn text-sm"
       >
         {{ $t('plugins.tenmicron.notLoaded') }}
       </div>
 
       <!-- Mount not connected notice (plugin loaded but no connection) -->
       <div
-        v-else-if="tmStore.pluginLoaded && !tmStore.connected && !tmStore.isLoading"
-        class="rounded-xl border border-orange-500/40 bg-orange-500/10 p-4 text-orange-200 text-sm mb-4"
+        v-else-if="!tmStore.connected"
+        class="rounded-card border border-status-warn/40 bg-status-warn/10 p-4 text-status-warn text-sm mb-4"
       >
         {{ $t('plugins.tenmicron.mountNotConnected') }}
       </div>
@@ -26,57 +38,38 @@
       <!-- Mount status bar (shown when connected) -->
       <div
         v-if="tmStore.pluginLoaded && tmStore.connected"
-        class="mb-4 flex items-center gap-4 rounded-xl border border-gray-700 bg-gray-800/60 px-4 py-2.5"
+        class="tns-card mb-4 flex flex-wrap items-center gap-x-6 gap-y-3"
       >
-        <span class="text-xs font-semibold text-gray-400 uppercase tracking-wider">
-          {{ $t('plugins.tenmicron.mountStatus') }}
-        </span>
-        <div class="flex items-center gap-4 ml-auto">
+        <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
+          <!-- shrink-0 keeps tns-stat-label's built-in truncate from eating the caption at phone
+               width; the long status texts wrap onto a second line instead. -->
+          <span class="tns-stat-label shrink-0">
+            {{ $t('plugins.tenmicron.mountStatus') }}
+          </span>
+          <span class="text-sm font-semibold text-content">{{ mountStatusText }}</span>
+        </div>
+        <div class="flex flex-wrap items-center gap-x-6 gap-y-3 ml-auto">
           <!-- Dual-Axis Tracking toggle -->
-          <div class="flex items-center gap-2">
-            <span class="text-xs text-gray-400">{{
+          <div class="flex items-center gap-3">
+            <span class="text-sm text-content-muted">{{
               $t('plugins.tenmicron.dualAxisTracking')
             }}</span>
-            <button
-              @click="toggleDualAxisTracking"
+            <toggleButton
+              :status-value="tmStore.dualAxisTrackingEnabled"
               :disabled="!tmStore.connected"
-              :class="[
-                'relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-40',
-                tmStore.dualAxisTrackingEnabled ? 'bg-cyan-500' : 'bg-gray-600',
-              ]"
-              role="switch"
-              :aria-checked="tmStore.dualAxisTrackingEnabled"
-            >
-              <span
-                :class="[
-                  'pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200',
-                  tmStore.dualAxisTrackingEnabled ? 'translate-x-4' : 'translate-x-0',
-                ]"
-              />
-            </button>
+              @update:statusValue="toggleDualAxisTracking"
+            />
           </div>
           <!-- Refraction Correction toggle -->
-          <div class="flex items-center gap-2">
-            <span class="text-xs text-gray-400">{{
+          <div class="flex items-center gap-3">
+            <span class="text-sm text-content-muted">{{
               $t('plugins.tenmicron.refractionCorrection')
             }}</span>
-            <button
-              @click="toggleRefractionCorrection"
+            <toggleButton
+              :status-value="tmStore.refractionCorrectionEnabled"
               :disabled="!tmStore.connected"
-              :class="[
-                'relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 disabled:cursor-not-allowed disabled:opacity-40',
-                tmStore.refractionCorrectionEnabled ? 'bg-cyan-500' : 'bg-gray-600',
-              ]"
-              role="switch"
-              :aria-checked="tmStore.refractionCorrectionEnabled"
-            >
-              <span
-                :class="[
-                  'pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200',
-                  tmStore.refractionCorrectionEnabled ? 'translate-x-4' : 'translate-x-0',
-                ]"
-              />
-            </button>
+              @update:statusValue="toggleRefractionCorrection"
+            />
           </div>
         </div>
       </div>
@@ -84,18 +77,18 @@
       <!-- Tab bar -->
       <div
         v-if="tmStore.pluginLoaded"
-        class="mb-4 border border-gray-700 rounded-xl bg-gray-800 overflow-hidden"
+        class="mb-4 border border-line rounded-card bg-surface-1 overflow-hidden"
       >
-        <div class="flex border-b border-gray-700 overflow-x-auto">
+        <div class="flex border-b border-line overflow-x-auto">
           <button
             v-for="tab in tabs"
             :key="tab.id"
             @click="tmStore.activeTab = tab.id"
             :class="[
-              'px-5 py-3 text-sm font-semibold transition whitespace-nowrap shrink-0',
+              'px-5 min-h-touch text-sm font-semibold transition whitespace-nowrap shrink-0',
               tmStore.activeTab === tab.id
-                ? 'border-b-2 border-cyan-400 text-white'
-                : 'text-gray-400 hover:text-white',
+                ? 'border-b-2 border-accent text-content'
+                : 'text-content-muted hover:text-content',
             ]"
           >
             {{ tab.label }}
@@ -109,21 +102,15 @@
           <!-- Build status badge -->
           <div
             v-if="tmStore.buildInProgress"
-            class="flex items-center gap-3 rounded-lg bg-cyan-500/10 border border-cyan-500/40 p-3 text-cyan-200 text-sm"
+            class="flex flex-wrap items-center gap-3 rounded-card bg-accent/10 border border-accent/40 p-3 text-accent text-sm"
           >
-            <div class="h-3 w-3 rounded-full bg-cyan-400 animate-pulse" />
+            <div class="tns-dot bg-accent animate-pulse" />
             {{ $t('plugins.tenmicron.builder.buildRunning') }}
             <div class="ml-auto flex gap-2">
-              <button
-                @click="stopBuild"
-                class="px-3 py-1 rounded-md bg-yellow-500/20 border border-yellow-500/40 text-yellow-200 hover:bg-yellow-500/30 text-xs"
-              >
+              <button @click="stopBuild" class="tns-btn-secondary w-auto px-3">
                 {{ $t('plugins.tenmicron.builder.stop') }}
               </button>
-              <button
-                @click="cancelBuild"
-                class="px-3 py-1 rounded-md bg-red-500/20 border border-red-500/40 text-red-200 hover:bg-red-500/30 text-xs"
-              >
+              <button @click="cancelBuild" class="tns-btn-danger w-auto px-3">
                 {{ $t('plugins.tenmicron.builder.cancel') }}
               </button>
             </div>
@@ -132,21 +119,21 @@
           <!-- Controls row -->
           <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <!-- Point generation -->
-            <div class="rounded-xl border border-gray-700 bg-gray-800/60 p-4 space-y-4">
-              <h3 class="text-sm font-semibold text-gray-300">
+            <div class="tns-card space-y-4">
+              <h3 class="text-sm font-semibold text-content">
                 {{ $t('plugins.tenmicron.builder.pointGeneration') }}
               </h3>
 
               <!-- Generator type selector -->
-              <div class="flex rounded-lg overflow-hidden border border-gray-600">
+              <div class="flex rounded-control overflow-hidden border border-line-strong">
                 <button
                   @click="generatorType = 'goldenSpiral'"
                   :class="
                     generatorType === 'goldenSpiral'
-                      ? 'bg-cyan-700/50 text-cyan-200'
-                      : 'bg-gray-700/30 text-gray-400 hover:bg-gray-600/30'
+                      ? 'bg-accent-action text-white'
+                      : 'bg-surface-3 text-content-muted hover:bg-surface-2'
                   "
-                  class="flex-1 px-3 py-2 text-sm transition-colors"
+                  class="flex-1 px-3 min-h-touch text-sm font-semibold transition-colors"
                 >
                   {{ $t('plugins.tenmicron.builder.goldenSpiral') }}
                 </button>
@@ -154,110 +141,96 @@
                   @click="generatorType = 'siderealPath'"
                   :class="
                     generatorType === 'siderealPath'
-                      ? 'bg-cyan-700/50 text-cyan-200'
-                      : 'bg-gray-700/30 text-gray-400 hover:bg-gray-600/30'
+                      ? 'bg-accent-action text-white'
+                      : 'bg-surface-3 text-content-muted hover:bg-surface-2'
                   "
-                  class="flex-1 px-3 py-2 text-sm transition-colors"
+                  class="flex-1 px-3 min-h-touch text-sm font-semibold transition-colors"
                 >
                   {{ $t('plugins.tenmicron.builder.siderealPath') }}
                 </button>
               </div>
 
               <!-- Golden Spiral options -->
-              <div v-if="generatorType === 'goldenSpiral'" class="flex items-center gap-2">
-                <span class="text-xs text-gray-200 flex-1">{{
-                  $t('plugins.tenmicron.builder.starCount')
-                }}</span>
-                <div class="w-28 shrink-0 tns-picker">
-                  <NumberInputPicker
-                    v-model="starCount"
-                    labelKey="plugins.tenmicron.builder.starCount"
-                    :min="3"
-                    :max="99"
-                    :step="1"
-                    :decimalPlaces="0"
-                    wrapperClass="w-full"
-                    @change="setOption('GoldenSpiralStarCount', starCount)"
-                  />
-                </div>
-              </div>
+              <NumberInputPicker
+                v-if="generatorType === 'goldenSpiral'"
+                v-model="starCount"
+                :label="$t('plugins.tenmicron.builder.starCount')"
+                labelKey="plugins.tenmicron.builder.starCount"
+                :min="3"
+                :max="99"
+                :step="1"
+                :decimalPlaces="0"
+                inputId="tm-star-count"
+                @change="setOption('GoldenSpiralStarCount', starCount)"
+              />
 
               <!-- Sidereal Path options -->
               <div v-else class="space-y-4">
                 <!-- Target coordinates -->
                 <div class="space-y-2">
-                  <div class="flex items-center justify-between">
-                    <span class="text-xs font-medium text-gray-400 uppercase tracking-wide">{{
-                      $t('plugins.tenmicron.builder.target')
-                    }}</span>
-                    <div class="flex gap-1.5">
-                      <button
-                        @click="fetchCoordsFromScope"
-                        class="px-2.5 py-1 rounded-md text-xs bg-gray-700/60 border border-gray-600/80 text-gray-300 hover:bg-gray-600/60 hover:text-white transition-colors"
-                      >
-                        {{ $t('plugins.tenmicron.builder.fromScope') }}
-                      </button>
-                      <button
-                        @click="fetchCoordsFromSequence"
-                        class="px-2.5 py-1 rounded-md text-xs bg-gray-700/60 border border-gray-600/80 text-gray-300 hover:bg-gray-600/60 hover:text-white transition-colors"
-                      >
-                        {{ $t('plugins.tenmicron.builder.fromSequence') }}
-                      </button>
-                    </div>
+                  <span class="tns-stat-label">{{ $t('plugins.tenmicron.builder.target') }}</span>
+                  <div class="flex gap-2">
+                    <button @click="fetchCoordsFromScope" class="tns-btn-secondary flex-1">
+                      {{ $t('plugins.tenmicron.builder.fromScope') }}
+                    </button>
+                    <button @click="fetchCoordsFromSequence" class="tns-btn-secondary flex-1">
+                      {{ $t('plugins.tenmicron.builder.fromSequence') }}
+                    </button>
                   </div>
                   <div class="grid grid-cols-2 gap-2">
                     <div class="flex flex-col gap-1">
-                      <label class="text-xs text-gray-400">RA (h:m:s)</label>
+                      <label class="text-xs text-content-muted" for="tm-sidereal-ra"
+                        >RA (h:m:s)</label
+                      >
                       <input
+                        id="tm-sidereal-ra"
                         v-model="siderealRaStr"
                         type="text"
                         placeholder="0:00:00.0"
-                        class="w-full rounded-lg bg-slate-700/40 border border-slate-600/60 text-gray-200 px-2 py-1.5 text-xs font-mono focus:outline-none focus:border-cyan-500/60"
+                        class="tns-input w-full font-mono"
                       />
                     </div>
                     <div class="flex flex-col gap-1">
-                      <label class="text-xs text-gray-400">Dec (°:′:″)</label>
+                      <label class="text-xs text-content-muted" for="tm-sidereal-dec"
+                        >Dec (°:′:″)</label
+                      >
                       <input
+                        id="tm-sidereal-dec"
                         v-model="siderealDecStr"
                         type="text"
                         placeholder="+00:00:00.0"
-                        class="w-full rounded-lg bg-slate-700/40 border border-slate-600/60 text-gray-200 px-2 py-1.5 text-xs font-mono focus:outline-none focus:border-cyan-500/60"
+                        class="tns-input w-full font-mono"
                       />
                     </div>
                   </div>
                 </div>
                 <!-- RA Interval -->
-                <div class="flex items-center gap-2">
-                  <span class="text-xs text-gray-200 flex-1">{{
-                    $t('plugins.tenmicron.builder.raDelta')
-                  }}</span>
-                  <div class="w-28 shrink-0 tns-picker">
-                    <NumberInputPicker
-                      v-model="siderealRaDelta"
-                      labelKey="plugins.tenmicron.builder.raDelta"
-                      :min="0.1"
-                      :max="30"
-                      :step="0.1"
-                      :decimalPlaces="1"
-                      wrapperClass="w-full"
-                      @change="setOption('SiderealRaDelta', siderealRaDelta)"
-                    />
-                  </div>
-                </div>
+                <NumberInputPicker
+                  v-model="siderealRaDelta"
+                  :label="$t('plugins.tenmicron.builder.raDelta')"
+                  labelKey="plugins.tenmicron.builder.raDelta"
+                  :min="0.1"
+                  :max="30"
+                  :step="0.1"
+                  :decimalPlaces="1"
+                  inputId="tm-sidereal-ra-delta"
+                  @change="setOption('SiderealRaDelta', siderealRaDelta)"
+                />
                 <!-- Time Window -->
                 <div class="space-y-2">
-                  <span class="text-xs font-medium text-gray-400 uppercase tracking-wide">{{
+                  <span class="tns-stat-label">{{
                     $t('plugins.tenmicron.builder.timeWindow')
                   }}</span>
                   <!-- Start time -->
-                  <div class="rounded-lg bg-gray-700/30 border border-gray-600/40 p-2.5 space-y-2">
-                    <div class="flex items-center gap-2">
-                      <span class="text-xs text-gray-200 shrink-0 w-12">{{
+                  <div class="rounded-control bg-surface-2 border border-line p-3 space-y-3">
+                    <div class="flex flex-col gap-1">
+                      <label class="text-xs text-content-muted" for="tm-sidereal-start">{{
                         $t('plugins.tenmicron.builder.startTime')
-                      }}</span>
+                      }}</label>
                       <select
+                        id="tm-sidereal-start"
                         v-model="siderealStartProvider"
-                        class="tns-select text-xs flex-1"
+                        class="tns-select"
                         @change="setOption('SiderealStartProvider', $event.target.value)"
                       >
                         <option v-for="p in SIDEREAL_START_PROVIDERS" :key="p" :value="p">
@@ -265,33 +238,28 @@
                         </option>
                       </select>
                     </div>
-                    <div class="flex items-center gap-2">
-                      <span class="text-xs text-gray-200 flex-1">{{
-                        $t('plugins.tenmicron.builder.offsetMin')
-                      }}</span>
-                      <div class="w-28 shrink-0 tns-picker">
-                        <NumberInputPicker
-                          v-model="siderealStartOffset"
-                          labelKey="plugins.tenmicron.builder.offsetMin"
-                          :min="-240"
-                          :max="240"
-                          :step="5"
-                          :decimalPlaces="0"
-                          wrapperClass="w-full"
-                          @change="setOption('SiderealStartOffset', siderealStartOffset)"
-                        />
-                      </div>
-                    </div>
+                    <NumberInputPicker
+                      v-model="siderealStartOffset"
+                      :label="$t('plugins.tenmicron.builder.offsetMin')"
+                      labelKey="plugins.tenmicron.builder.offsetMin"
+                      :min="-240"
+                      :max="240"
+                      :step="5"
+                      :decimalPlaces="0"
+                      inputId="tm-sidereal-start-offset"
+                      @change="setOption('SiderealStartOffset', siderealStartOffset)"
+                    />
                   </div>
                   <!-- End time -->
-                  <div class="rounded-lg bg-gray-700/30 border border-gray-600/40 p-2.5 space-y-2">
-                    <div class="flex items-center gap-2">
-                      <span class="text-xs text-gray-200 shrink-0 w-12">{{
+                  <div class="rounded-control bg-surface-2 border border-line p-3 space-y-3">
+                    <div class="flex flex-col gap-1">
+                      <label class="text-xs text-content-muted" for="tm-sidereal-end">{{
                         $t('plugins.tenmicron.builder.endTime')
-                      }}</span>
+                      }}</label>
                       <select
+                        id="tm-sidereal-end"
                         v-model="siderealEndProvider"
-                        class="tns-select text-xs flex-1"
+                        class="tns-select"
                         @change="setOption('SiderealEndProvider', $event.target.value)"
                       >
                         <option v-for="p in SIDEREAL_END_PROVIDERS" :key="p" :value="p">
@@ -299,23 +267,17 @@
                         </option>
                       </select>
                     </div>
-                    <div class="flex items-center gap-2">
-                      <span class="text-xs text-gray-200 flex-1">{{
-                        $t('plugins.tenmicron.builder.offsetMin')
-                      }}</span>
-                      <div class="w-28 shrink-0 tns-picker">
-                        <NumberInputPicker
-                          v-model="siderealEndOffset"
-                          labelKey="plugins.tenmicron.builder.offsetMin"
-                          :min="-240"
-                          :max="240"
-                          :step="5"
-                          :decimalPlaces="0"
-                          wrapperClass="w-full"
-                          @change="setOption('SiderealEndOffset', siderealEndOffset)"
-                        />
-                      </div>
-                    </div>
+                    <NumberInputPicker
+                      v-model="siderealEndOffset"
+                      :label="$t('plugins.tenmicron.builder.offsetMin')"
+                      labelKey="plugins.tenmicron.builder.offsetMin"
+                      :min="-240"
+                      :max="240"
+                      :step="5"
+                      :decimalPlaces="0"
+                      inputId="tm-sidereal-end-offset"
+                      @change="setOption('SiderealEndOffset', siderealEndOffset)"
+                    />
                   </div>
                 </div>
               </div>
@@ -324,7 +286,7 @@
                 <button
                   @click="generatePoints"
                   :disabled="!tmStore.connected || tmStore.buildInProgress"
-                  class="flex-1 px-3 py-2 rounded-lg bg-cyan-600/20 border border-cyan-500/40 text-cyan-200 hover:bg-cyan-600/30 text-sm disabled:opacity-40"
+                  class="tns-btn-secondary flex-1"
                 >
                   {{
                     generatorType === 'siderealPath'
@@ -339,7 +301,7 @@
                     tmStore.buildInProgress ||
                     tmStore.modelPoints.length === 0
                   "
-                  class="px-3 py-2 rounded-lg bg-gray-600/20 border border-gray-600/40 text-gray-300 hover:bg-gray-600/30 text-sm disabled:opacity-40"
+                  class="tns-btn-secondary w-auto px-3"
                 >
                   {{ $t('plugins.tenmicron.builder.clear') }}
                 </button>
@@ -347,14 +309,14 @@
             </div>
 
             <!-- Build actions -->
-            <div class="rounded-xl border border-gray-700 bg-gray-800/60 p-4 space-y-3">
-              <h3 class="text-sm font-semibold text-gray-300">
+            <div class="tns-card space-y-3">
+              <h3 class="text-sm font-semibold text-content">
                 {{ $t('plugins.tenmicron.builder.buildControl') }}
               </h3>
-              <p class="text-xs text-gray-500">
+              <p class="text-xs text-content-faint">
                 {{
                   $t('plugins.tenmicron.builder.pointCount', {
-                    valid: tmStore.modelPoints.filter((p) => p.ModelPointState === 0).length,
+                    valid: usableModelPoints.length,
                     total: tmStore.modelPoints.length,
                   })
                 }}
@@ -367,13 +329,13 @@
                   tmStore.modelPoints.length === 0 ||
                   !isCameraConnected
                 "
-                class="w-full px-3 py-2 rounded-lg bg-green-600/20 border border-green-500/40 text-green-200 hover:bg-green-600/30 text-sm font-semibold disabled:opacity-40"
+                class="tns-btn-primary"
               >
                 {{ $t('plugins.tenmicron.builder.buildModel') }}
               </button>
               <p
                 v-if="tmStore.connected && !isCameraConnected"
-                class="text-xs text-orange-400 text-center"
+                class="text-xs text-status-warn text-center"
               >
                 {{ $t('plugins.tenmicron.builder.noCameraConnected') }}
               </p>
@@ -386,401 +348,238 @@
             class="space-y-5"
           >
             <!-- Point Filters -->
-            <details class="rounded-xl border border-gray-700 bg-gray-800/60">
+            <details class="rounded-card border border-line bg-surface-1">
               <summary
-                class="px-4 py-3 text-sm font-semibold text-gray-300 cursor-pointer select-none flex items-center gap-2"
+                class="px-4 min-h-touch flex items-center gap-2 text-sm font-semibold text-content cursor-pointer select-none"
               >
                 {{ $t('plugins.tenmicron.builder.pointFilters') }}
                 <ChevronRightIcon
-                  class="summary-chevron ml-auto w-4 h-4 text-gray-400 transition-transform duration-200"
+                  class="summary-chevron ml-auto w-4 h-4 text-content-muted transition-transform duration-200"
                 />
               </summary>
-              <div class="px-4 pb-4 pt-2 space-y-1">
+              <div class="px-4 pb-4 pt-2 space-y-3">
                 <!-- Altitude range -->
-                <div class="flex items-center gap-2 py-1">
-                  <span class="text-xs text-gray-200 flex-1 shrink-0">{{
-                    $t('plugins.tenmicron.builder.altRange')
-                  }}</span>
-                  <span class="text-xs text-gray-500 shrink-0">{{
-                    $t('plugins.tenmicron.builder.min')
-                  }}</span>
-                  <div class="w-28 shrink-0 tns-picker">
-                    <NumberInputPicker
-                      v-model="optMinAlt"
-                      wrapperClass="w-full"
-                      :min="0"
-                      :max="89"
-                      :step="1"
-                      :decimalPlaces="0"
-                      @change="setOption('MinPointAltitude', optMinAlt)"
-                    />
-                  </div>
-                  <span class="text-xs text-gray-500 shrink-0">–</span>
-                  <span class="text-xs text-gray-500 shrink-0">{{
-                    $t('plugins.tenmicron.builder.max')
-                  }}</span>
-                  <div class="w-28 shrink-0 tns-picker">
-                    <NumberInputPicker
-                      v-model="optMaxAlt"
-                      wrapperClass="w-full"
-                      :min="1"
-                      :max="90"
-                      :step="1"
-                      :decimalPlaces="0"
-                      @change="setOption('MaxPointAltitude', optMaxAlt)"
-                    />
-                  </div>
-                </div>
+                <NumberInputPicker
+                  v-model="optMinAlt"
+                  :label="$t('plugins.tenmicron.builder.altMin')"
+                  labelKey="plugins.tenmicron.builder.altMin"
+                  :min="0"
+                  :max="89"
+                  :step="1"
+                  :decimalPlaces="0"
+                  inputId="tm-min-alt"
+                  @change="setOption('MinPointAltitude', optMinAlt)"
+                />
+                <NumberInputPicker
+                  v-model="optMaxAlt"
+                  :label="$t('plugins.tenmicron.builder.altMax')"
+                  labelKey="plugins.tenmicron.builder.altMax"
+                  :min="1"
+                  :max="90"
+                  :step="1"
+                  :decimalPlaces="0"
+                  inputId="tm-max-alt"
+                  @change="setOption('MaxPointAltitude', optMaxAlt)"
+                />
                 <!-- Azimuth range -->
-                <div class="flex items-center gap-2 py-1">
-                  <span class="text-xs text-gray-200 flex-1 shrink-0">{{
-                    $t('plugins.tenmicron.builder.azRange')
-                  }}</span>
-                  <span class="text-xs text-gray-500 shrink-0">{{
-                    $t('plugins.tenmicron.builder.min')
-                  }}</span>
-                  <div class="w-28 shrink-0 tns-picker">
-                    <NumberInputPicker
-                      v-model="optMinAz"
-                      wrapperClass="w-full"
-                      :min="0"
-                      :max="359"
-                      :step="0.1"
-                      :decimalPlaces="1"
-                      @change="setOption('MinPointAzimuth', optMinAz)"
-                    />
-                  </div>
-                  <span class="text-xs text-gray-500 shrink-0">–</span>
-                  <span class="text-xs text-gray-500 shrink-0">{{
-                    $t('plugins.tenmicron.builder.max')
-                  }}</span>
-                  <div class="w-28 shrink-0 tns-picker">
-                    <NumberInputPicker
-                      v-model="optMaxAz"
-                      wrapperClass="w-full"
-                      :min="1"
-                      :max="360"
-                      :step="0.1"
-                      :decimalPlaces="1"
-                      @change="setOption('MaxPointAzimuth', optMaxAz)"
-                    />
-                  </div>
-                </div>
+                <NumberInputPicker
+                  v-model="optMinAz"
+                  :label="$t('plugins.tenmicron.builder.azMin')"
+                  labelKey="plugins.tenmicron.builder.azMin"
+                  :min="0"
+                  :max="359"
+                  :step="0.1"
+                  :decimalPlaces="1"
+                  inputId="tm-min-az"
+                  @change="setOption('MinPointAzimuth', optMinAz)"
+                />
+                <NumberInputPicker
+                  v-model="optMaxAz"
+                  :label="$t('plugins.tenmicron.builder.azMax')"
+                  labelKey="plugins.tenmicron.builder.azMax"
+                  :min="1"
+                  :max="360"
+                  :step="0.1"
+                  :decimalPlaces="1"
+                  inputId="tm-max-az"
+                  @change="setOption('MaxPointAzimuth', optMaxAz)"
+                />
                 <!-- Max RMS -->
-                <div class="flex items-center gap-2 py-1">
-                  <span class="text-xs text-gray-200 flex-1">{{
-                    $t('plugins.tenmicron.builder.maxRMS')
-                  }}</span>
-                  <div class="w-28 shrink-0 tns-picker">
-                    <NumberInputPicker
-                      v-model="optMaxRMS"
-                      wrapperClass="w-full"
-                      :min="0"
-                      :max="999"
-                      :step="0.1"
-                      :decimalPlaces="1"
-                      @change="setOption('MaxPointRMS', optMaxRMS)"
-                    />
-                  </div>
-                </div>
+                <NumberInputPicker
+                  v-model="optMaxRMS"
+                  :label="$t('plugins.tenmicron.builder.maxRMS')"
+                  labelKey="plugins.tenmicron.builder.maxRMS"
+                  :min="0"
+                  :max="999"
+                  :step="0.1"
+                  :decimalPlaces="1"
+                  inputId="tm-max-rms"
+                  @change="setOption('MaxPointRMS', optMaxRMS)"
+                />
                 <!-- Retries -->
-                <div class="flex items-center gap-2 py-1">
-                  <span class="text-xs text-gray-200 flex-1">{{
-                    $t('plugins.tenmicron.builder.numRetries')
-                  }}</span>
-                  <div class="w-28 shrink-0 tns-picker">
-                    <NumberInputPicker
-                      v-model="optNumRetries"
-                      wrapperClass="w-full"
-                      :min="0"
-                      :max="10"
-                      :step="1"
-                      :decimalPlaces="0"
-                      @change="setOption('BuilderNumRetries', optNumRetries)"
-                    />
-                  </div>
-                </div>
+                <NumberInputPicker
+                  v-model="optNumRetries"
+                  :label="$t('plugins.tenmicron.builder.numRetries')"
+                  labelKey="plugins.tenmicron.builder.numRetries"
+                  :min="0"
+                  :max="10"
+                  :step="1"
+                  :decimalPlaces="0"
+                  inputId="tm-num-retries"
+                  @change="setOption('BuilderNumRetries', optNumRetries)"
+                />
                 <!-- Toggles -->
-                <div class="pt-1 border-t border-gray-700/60 space-y-0">
-                  <div class="flex items-center justify-between py-1.5">
-                    <span class="text-xs text-gray-200">{{
+                <div class="pt-2 border-t border-line space-y-3">
+                  <div class="flex items-center justify-between gap-3">
+                    <span class="text-sm text-content">{{
                       $t('plugins.tenmicron.builder.showExcluded')
                     }}</span>
-                    <button
-                      @click="toggleOption('ShowRemovedPoints', optShowRemoved)"
-                      :class="[
-                        'relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200',
-                        optShowRemoved ? 'bg-cyan-500' : 'bg-gray-600',
-                      ]"
-                      role="switch"
-                      :aria-checked="optShowRemoved"
-                    >
-                      <span
-                        :class="[
-                          'pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200',
-                          optShowRemoved ? 'translate-x-4' : 'translate-x-0',
-                        ]"
-                      />
-                    </button>
+                    <toggleButton
+                      :status-value="optShowRemoved"
+                      @update:statusValue="toggleOption('ShowRemovedPoints', optShowRemoved)"
+                    />
                   </div>
-                  <div class="flex items-center justify-between py-1.5">
-                    <span class="text-xs text-gray-200">{{
+                  <div class="flex items-center justify-between gap-3">
+                    <span class="text-sm text-content">{{
                       $t('plugins.tenmicron.builder.minimizeMeridian')
                     }}</span>
-                    <button
-                      @click="toggleOption('MinimizeMeridianFlips', optMinimizeMeridian)"
-                      :class="[
-                        'relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200',
-                        optMinimizeMeridian ? 'bg-cyan-500' : 'bg-gray-600',
-                      ]"
-                      role="switch"
-                      :aria-checked="optMinimizeMeridian"
-                    >
-                      <span
-                        :class="[
-                          'pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200',
-                          optMinimizeMeridian ? 'translate-x-4' : 'translate-x-0',
-                        ]"
-                      />
-                    </button>
+                    <toggleButton
+                      :status-value="optMinimizeMeridian"
+                      @update:statusValue="
+                        toggleOption('MinimizeMeridianFlips', optMinimizeMeridian)
+                      "
+                    />
                   </div>
-                  <div class="flex items-center justify-between py-1.5">
-                    <span class="text-xs text-gray-200">{{
+                  <div class="flex items-center justify-between gap-3">
+                    <span class="text-sm text-content">{{
                       $t('plugins.tenmicron.builder.removeHighRMS')
                     }}</span>
-                    <button
-                      @click="toggleOption('RemoveHighRMSAfterBuild', optRemoveHighRMS)"
-                      :class="[
-                        'relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200',
-                        optRemoveHighRMS ? 'bg-cyan-500' : 'bg-gray-600',
-                      ]"
-                      role="switch"
-                      :aria-checked="optRemoveHighRMS"
-                    >
-                      <span
-                        :class="[
-                          'pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200',
-                          optRemoveHighRMS ? 'translate-x-4' : 'translate-x-0',
-                        ]"
-                      />
-                    </button>
+                    <toggleButton
+                      :status-value="optRemoveHighRMS"
+                      @update:statusValue="
+                        toggleOption('RemoveHighRMSAfterBuild', optRemoveHighRMS)
+                      "
+                    />
                   </div>
                 </div>
               </div>
             </details>
 
             <!-- Build Options -->
-            <details class="rounded-xl border border-gray-700 bg-gray-800/60">
+            <details class="rounded-card border border-line bg-surface-1">
               <summary
-                class="px-4 py-3 text-sm font-semibold text-gray-300 cursor-pointer select-none flex items-center gap-2"
+                class="px-4 min-h-touch flex items-center gap-2 text-sm font-semibold text-content cursor-pointer select-none"
               >
                 {{ $t('plugins.tenmicron.builder.buildOptions') }}
                 <ChevronRightIcon
-                  class="summary-chevron ml-auto w-4 h-4 text-gray-400 transition-transform duration-200"
+                  class="summary-chevron ml-auto w-4 h-4 text-content-muted transition-transform duration-200"
                 />
               </summary>
-              <div class="px-4 pb-4 pt-2 space-y-1">
+              <div class="px-4 pb-4 pt-2 space-y-3">
                 <!-- Max Concurrency -->
-                <div class="flex items-center gap-2 py-1">
-                  <span class="text-xs text-gray-200 flex-1">{{
-                    $t('plugins.tenmicron.builder.maxConcurrency')
-                  }}</span>
-                  <div class="w-28 shrink-0 tns-picker">
-                    <NumberInputPicker
-                      v-model="optMaxConcurrency"
-                      wrapperClass="w-full"
-                      :min="1"
-                      :max="10"
-                      :step="1"
-                      :decimalPlaces="0"
-                      @change="setOption('MaxConcurrency', optMaxConcurrency)"
-                    />
-                  </div>
-                </div>
+                <NumberInputPicker
+                  v-model="optMaxConcurrency"
+                  :label="$t('plugins.tenmicron.builder.maxConcurrency')"
+                  labelKey="plugins.tenmicron.builder.maxConcurrency"
+                  :min="1"
+                  :max="10"
+                  :step="1"
+                  :decimalPlaces="0"
+                  inputId="tm-max-concurrency"
+                  @change="setOption('MaxConcurrency', optMaxConcurrency)"
+                />
                 <!-- Plate Solve Subframe -->
-                <div class="flex items-center gap-2 py-1">
-                  <span class="text-xs text-gray-200 flex-1">{{
-                    $t('plugins.tenmicron.builder.plateSolveSubframe')
-                  }}</span>
-                  <div class="w-28 shrink-0 tns-picker">
-                    <NumberInputPicker
-                      v-model="optPlateSolveSubframe"
-                      wrapperClass="w-full"
-                      :min="0.01"
-                      :max="1.0"
-                      :step="0.01"
-                      :decimalPlaces="2"
-                      @change="setOption('PlateSolveSubframe', optPlateSolveSubframe)"
-                    />
-                  </div>
-                </div>
+                <NumberInputPicker
+                  v-model="optPlateSolveSubframe"
+                  :label="$t('plugins.tenmicron.builder.plateSolveSubframe')"
+                  labelKey="plugins.tenmicron.builder.plateSolveSubframe"
+                  :min="0.01"
+                  :max="1.0"
+                  :step="0.01"
+                  :decimalPlaces="2"
+                  inputId="tm-plate-solve-subframe"
+                  @change="setOption('PlateSolveSubframe', optPlateSolveSubframe)"
+                />
                 <!-- Dec Jitter -->
-                <div class="flex items-center gap-2 py-1">
-                  <span class="text-xs text-gray-200 flex-1">{{
-                    $t('plugins.tenmicron.builder.decJitter')
-                  }}</span>
-                  <div class="w-28 shrink-0 tns-picker">
-                    <NumberInputPicker
-                      v-model="optDecJitter"
-                      wrapperClass="w-full"
-                      :min="0"
-                      :max="10"
-                      :step="0.1"
-                      :decimalPlaces="1"
-                      @change="setOption('DecJitter', optDecJitter)"
-                    />
-                  </div>
-                </div>
+                <NumberInputPicker
+                  v-model="optDecJitter"
+                  :label="$t('plugins.tenmicron.builder.decJitter')"
+                  labelKey="plugins.tenmicron.builder.decJitter"
+                  :min="0"
+                  :max="10"
+                  :step="0.1"
+                  :decimalPlaces="1"
+                  inputId="tm-dec-jitter"
+                  @change="setOption('DecJitter', optDecJitter)"
+                />
                 <!-- Boolean toggles -->
-                <div class="pt-1 border-t border-gray-700/60 space-y-0">
-                  <div class="flex items-center justify-between py-1.5">
-                    <span class="text-xs text-gray-200">{{
+                <div class="pt-2 border-t border-line space-y-3">
+                  <div class="flex items-center justify-between gap-3">
+                    <span class="text-sm text-content">{{
                       $t('plugins.tenmicron.builder.logCommands')
                     }}</span>
-                    <button
-                      @click="toggleOption('LogCommands', optLogCommands)"
-                      :class="[
-                        'relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200',
-                        optLogCommands ? 'bg-cyan-500' : 'bg-gray-600',
-                      ]"
-                      role="switch"
-                      :aria-checked="optLogCommands"
-                    >
-                      <span
-                        :class="[
-                          'pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200',
-                          optLogCommands ? 'translate-x-4' : 'translate-x-0',
-                        ]"
-                      />
-                    </button>
+                    <toggleButton
+                      :status-value="optLogCommands"
+                      @update:statusValue="toggleOption('LogCommands', optLogCommands)"
+                    />
                   </div>
-                  <div class="flex items-center justify-between py-1.5">
-                    <span class="text-xs text-gray-200">{{
+                  <div class="flex items-center justify-between gap-3">
+                    <span class="text-sm text-content">{{
                       $t('plugins.tenmicron.builder.allowBlindSolves')
                     }}</span>
-                    <button
-                      @click="toggleOption('AllowBlindSolves', optAllowBlindSolves)"
-                      :class="[
-                        'relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200',
-                        optAllowBlindSolves ? 'bg-cyan-500' : 'bg-gray-600',
-                      ]"
-                      role="switch"
-                      :aria-checked="optAllowBlindSolves"
-                    >
-                      <span
-                        :class="[
-                          'pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200',
-                          optAllowBlindSolves ? 'translate-x-4' : 'translate-x-0',
-                        ]"
-                      />
-                    </button>
+                    <toggleButton
+                      :status-value="optAllowBlindSolves"
+                      @update:statusValue="toggleOption('AllowBlindSolves', optAllowBlindSolves)"
+                    />
                   </div>
-                  <div class="flex items-center justify-between py-1.5">
-                    <span class="text-xs text-gray-200">{{
+                  <div class="flex items-center justify-between gap-3">
+                    <span class="text-sm text-content">{{
                       $t('plugins.tenmicron.builder.optimizeDome')
                     }}</span>
-                    <button
-                      @click="toggleOption('OptimizeDome', optOptimizeDome)"
-                      :class="[
-                        'relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200',
-                        optOptimizeDome ? 'bg-cyan-500' : 'bg-gray-600',
-                      ]"
-                      role="switch"
-                      :aria-checked="optOptimizeDome"
-                    >
-                      <span
-                        :class="[
-                          'pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200',
-                          optOptimizeDome ? 'translate-x-4' : 'translate-x-0',
-                        ]"
-                      />
-                    </button>
+                    <toggleButton
+                      :status-value="optOptimizeDome"
+                      @update:statusValue="toggleOption('OptimizeDome', optOptimizeDome)"
+                    />
                   </div>
-                  <div class="flex items-center justify-between py-1.5">
-                    <span class="text-xs text-gray-200">{{
+                  <div class="flex items-center justify-between gap-3">
+                    <span class="text-sm text-content">{{
                       $t('plugins.tenmicron.builder.westToEast')
                     }}</span>
-                    <button
-                      @click="toggleOption('WestToEast', optWestToEast)"
-                      :class="[
-                        'relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200',
-                        optWestToEast ? 'bg-cyan-500' : 'bg-gray-600',
-                      ]"
-                      role="switch"
-                      :aria-checked="optWestToEast"
-                    >
-                      <span
-                        :class="[
-                          'pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200',
-                          optWestToEast ? 'translate-x-4' : 'translate-x-0',
-                        ]"
-                      />
-                    </button>
+                    <toggleButton
+                      :status-value="optWestToEast"
+                      @update:statusValue="toggleOption('WestToEast', optWestToEast)"
+                    />
                   </div>
-                  <div class="flex items-center justify-between py-1.5">
-                    <span class="text-xs text-gray-200">{{
+                  <div class="flex items-center justify-between gap-3">
+                    <span class="text-sm text-content">{{
                       $t('plugins.tenmicron.builder.alternateDirection')
                     }}</span>
-                    <button
-                      @click="toggleOption('AlternateDirection', optAlternateDirection)"
-                      :class="[
-                        'relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200',
-                        optAlternateDirection ? 'bg-cyan-500' : 'bg-gray-600',
-                      ]"
-                      role="switch"
-                      :aria-checked="optAlternateDirection"
-                    >
-                      <span
-                        :class="[
-                          'pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200',
-                          optAlternateDirection ? 'translate-x-4' : 'translate-x-0',
-                        ]"
-                      />
-                    </button>
+                    <toggleButton
+                      :status-value="optAlternateDirection"
+                      @update:statusValue="
+                        toggleOption('AlternateDirection', optAlternateDirection)
+                      "
+                    />
                   </div>
-                  <div class="flex items-center justify-between py-1.5">
-                    <span class="text-xs text-gray-200">{{
+                  <div class="flex items-center justify-between gap-3">
+                    <span class="text-sm text-content">{{
                       $t('plugins.tenmicron.builder.disableRefractionCorrection')
                     }}</span>
-                    <button
-                      @click="
+                    <toggleButton
+                      :status-value="optDisableRefractionCorrection"
+                      @update:statusValue="
                         toggleOption('DisableRefractionCorrection', optDisableRefractionCorrection)
                       "
-                      :class="[
-                        'relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200',
-                        optDisableRefractionCorrection ? 'bg-cyan-500' : 'bg-gray-600',
-                      ]"
-                      role="switch"
-                      :aria-checked="optDisableRefractionCorrection"
-                    >
-                      <span
-                        :class="[
-                          'pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200',
-                          optDisableRefractionCorrection ? 'translate-x-4' : 'translate-x-0',
-                        ]"
-                      />
-                    </button>
+                    />
                   </div>
-                  <div class="flex items-center justify-between py-1.5">
-                    <span class="text-xs text-gray-200">{{
+                  <div class="flex items-center justify-between gap-3">
+                    <span class="text-sm text-content">{{
                       $t('plugins.tenmicron.builder.disableDAT')
                     }}</span>
-                    <button
-                      @click="toggleOption('DisableDAT', optDisableDAT)"
-                      :class="[
-                        'relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200',
-                        optDisableDAT ? 'bg-cyan-500' : 'bg-gray-600',
-                      ]"
-                      role="switch"
-                      :aria-checked="optDisableDAT"
-                    >
-                      <span
-                        :class="[
-                          'pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow ring-0 transition duration-200',
-                          optDisableDAT ? 'translate-x-4' : 'translate-x-0',
-                        ]"
-                      />
-                    </button>
+                    <toggleButton
+                      :status-value="optDisableDAT"
+                      @update:statusValue="toggleOption('DisableDAT', optDisableDAT)"
+                    />
                   </div>
                 </div>
               </div>
@@ -791,7 +590,7 @@
               <button
                 @click="resetBuilderOptions"
                 :disabled="!tmStore.connected"
-                class="px-4 py-2 rounded-lg bg-gray-600/20 border border-gray-500/40 text-gray-300 hover:bg-gray-600/30 text-xs disabled:opacity-40"
+                class="tns-btn-secondary w-auto px-3"
               >
                 {{ $t('plugins.tenmicron.builder.resetOptions') }}
               </button>
@@ -800,11 +599,8 @@
           <!-- end options wrapper -->
 
           <!-- Scatter plot of model points: X = Azimuth, Y = Altitude -->
-          <div
-            v-if="tmStore.modelPoints.length > 0"
-            class="rounded-xl border border-gray-700 bg-gray-800/60 p-4"
-          >
-            <h3 class="text-sm font-semibold text-gray-300 mb-3">
+          <div v-if="tmStore.modelPoints.length > 0" class="tns-card">
+            <h3 class="text-sm font-semibold text-content mb-3">
               {{ $t('plugins.tenmicron.builder.scatterChart') }}
             </h3>
             <div ref="scatterContainerRef" class="w-full">
@@ -828,8 +624,8 @@
                     y1="0"
                     :x2="scatterAzX(tick)"
                     :y2="scatterH"
-                    stroke="#374151"
-                    stroke-width="0.5"
+                    stroke="var(--color-line)"
+                    stroke-width="1"
                   />
                   <line
                     v-for="tick in altTicks"
@@ -838,8 +634,8 @@
                     :y1="scatterAltY(tick)"
                     :x2="scatterActualW"
                     :y2="scatterAltY(tick)"
-                    stroke="#374151"
-                    stroke-width="0.5"
+                    stroke="var(--color-line)"
+                    stroke-width="1"
                   />
                   <!-- Axes -->
                   <line
@@ -847,17 +643,24 @@
                     :y1="scatterH"
                     :x2="scatterActualW"
                     :y2="scatterH"
-                    stroke="#6B7280"
+                    stroke="var(--color-line-strong)"
                     stroke-width="1"
                   />
-                  <line x1="0" y1="0" x2="0" :y2="scatterH" stroke="#6B7280" stroke-width="1" />
+                  <line
+                    x1="0"
+                    y1="0"
+                    x2="0"
+                    :y2="scatterH"
+                    stroke="var(--color-line-strong)"
+                    stroke-width="1"
+                  />
                   <!-- X tick labels (Azimuth) -->
                   <text
                     v-for="tick in azTicks"
                     :key="'xl' + tick"
                     :x="scatterAzX(tick)"
                     :y="scatterH + 14"
-                    fill="#9CA3AF"
+                    fill="var(--color-content-faint)"
                     font-size="11"
                     text-anchor="middle"
                   >
@@ -869,7 +672,7 @@
                     :key="'yl' + tick"
                     :x="-6"
                     :y="scatterAltY(tick) + 3"
-                    fill="#9CA3AF"
+                    fill="var(--color-content-faint)"
                     font-size="11"
                     text-anchor="end"
                   >
@@ -879,7 +682,7 @@
                   <text
                     :x="scatterActualW / 2"
                     :y="scatterH + 28"
-                    fill="#9CA3AF"
+                    fill="var(--color-content-muted)"
                     font-size="12"
                     text-anchor="middle"
                   >
@@ -888,7 +691,7 @@
                   <text
                     :x="-scatterH / 2"
                     y="-28"
-                    fill="#9CA3AF"
+                    fill="var(--color-content-muted)"
                     font-size="12"
                     text-anchor="middle"
                     transform="rotate(-90)"
@@ -904,7 +707,7 @@
                         r="4"
                         :fill="stateColor(pt.ModelPointState)"
                         fill-opacity="0.85"
-                        stroke="#1F2937"
+                        stroke="var(--color-surface-1)"
                         stroke-width="0.5"
                       >
                         <title>
@@ -915,7 +718,7 @@
                       <text
                         :x="scatterAzX(pt.Azimuth) + 5"
                         :y="scatterAltY(pt.Altitude) - 3"
-                        fill="#D1D5DB"
+                        fill="var(--color-content-muted)"
                         font-size="9"
                         dominant-baseline="auto"
                         pointer-events="none"
@@ -929,12 +732,9 @@
               </svg>
             </div>
             <!-- Legend -->
-            <div class="flex flex-wrap gap-3 mt-3 justify-center text-xs text-gray-400">
+            <div class="flex flex-wrap gap-3 mt-3 justify-center text-xs text-content-muted">
               <span v-for="leg in stateLegend" :key="leg.label" class="flex items-center gap-1">
-                <span
-                  class="inline-block w-3 h-3 rounded-full"
-                  :style="{ backgroundColor: leg.color }"
-                />
+                <span class="tns-dot" :style="{ backgroundColor: leg.color }" />
                 {{ leg.label }}
               </span>
             </div>
@@ -943,10 +743,10 @@
           <!-- Points table (compact) -->
           <div
             v-if="usableModelPoints.length > 0"
-            class="rounded-xl border border-gray-700 bg-gray-800/60 overflow-hidden"
+            class="rounded-card border border-line bg-surface-1 overflow-x-auto"
           >
-            <table class="w-full text-xs text-gray-300">
-              <thead class="bg-gray-700/60 text-gray-400 uppercase">
+            <table class="w-full text-xs text-content">
+              <thead class="bg-surface-2 text-content-faint uppercase">
                 <tr>
                   <th class="px-3 py-2 text-left">#</th>
                   <th class="px-3 py-2 text-right">Az (°)</th>
@@ -956,28 +756,28 @@
               </thead>
               <tbody>
                 <tr
-                  v-for="(pt, i) in usableModelPoints"
-                  :key="i"
-                  class="border-t border-gray-700/50 hover:bg-gray-700/30"
+                  v-for="{ point, number } in usableModelPoints"
+                  :key="number"
+                  class="border-t border-line hover:bg-surface-2"
                 >
-                  <td class="px-3 py-1">{{ i + 1 }}</td>
-                  <td class="px-3 py-1 text-right">{{ pt.Azimuth }}</td>
-                  <td class="px-3 py-1 text-right">{{ pt.Altitude }}</td>
+                  <td class="px-3 py-1">{{ number }}</td>
+                  <td class="px-3 py-1 text-right tabular-nums">{{ point.Azimuth }}</td>
+                  <td class="px-3 py-1 text-right tabular-nums">{{ point.Altitude }}</td>
                   <td class="px-3 py-1">
                     <span
-                      class="inline-block px-2 py-0.5 rounded-full text-xs font-medium"
+                      class="inline-block px-2 py-0.5 rounded-chip text-xs font-medium"
                       :style="{
-                        backgroundColor: stateColor(pt.ModelPointState) + '33',
-                        color: stateColor(pt.ModelPointState),
+                        backgroundColor: stateColor(point.ModelPointState) + '33',
+                        color: stateColor(point.ModelPointState),
                       }"
-                      >{{ stateLabel(pt.ModelPointState) }}</span
+                      >{{ stateLabel(point.ModelPointState) }}</span
                     >
                   </td>
                 </tr>
               </tbody>
             </table>
           </div>
-          <p v-else class="text-gray-500 text-sm text-center py-4">
+          <p v-else class="text-content-faint text-sm text-center py-4">
             {{ $t('plugins.tenmicron.builder.noPoints') }}
           </p>
         </div>
@@ -991,32 +791,33 @@
             <button
               @click="loadAlignmentModel"
               :disabled="!tmStore.connected || tmStore.isRefreshing"
-              class="px-4 py-2 rounded-lg bg-cyan-600/20 border border-cyan-500/40 text-cyan-200 hover:bg-cyan-600/30 text-sm disabled:opacity-40 flex items-center gap-2"
+              class="tns-btn-secondary w-auto px-3"
             >
               <span
                 v-if="tmStore.isRefreshing"
-                class="inline-block w-3 h-3 border-2 border-cyan-400 border-t-transparent rounded-full animate-spin"
+                class="inline-block w-3 h-3 border-2 border-accent border-t-transparent rounded-full animate-spin"
               ></span>
               {{ $t('plugins.tenmicron.model.refresh') }}
             </button>
           </div>
 
-          <div v-if="!tmStore.modelLoaded" class="text-gray-500 text-sm text-center py-6">
+          <div v-if="!tmStore.modelLoaded" class="text-content-faint text-sm text-center py-6">
             {{ $t('plugins.tenmicron.model.noModel') }}
           </div>
 
           <template v-else>
             <!-- Info grid -->
-            <div class="rounded-xl border border-gray-700 bg-gray-800/60 p-4">
-              <h3 class="text-sm font-semibold text-gray-300 mb-3">
+            <div class="tns-card">
+              <h3 class="text-sm font-semibold text-content mb-3">
                 {{ $t('plugins.tenmicron.model.alignmentInfo') }}
               </h3>
-              <div class="grid grid-cols-2 sm:grid-cols-3 gap-y-3 gap-x-4 text-sm">
-                <div v-for="field in modelInfoFields" :key="field.label">
-                  <span class="text-gray-500 text-xs block">{{ field.label }}</span>
-                  <span class="text-white font-mono">{{ field.value }}</span>
-                  <span v-if="field.unit" class="text-gray-500 text-xs ml-1">{{ field.unit }}</span>
-                </div>
+              <div class="grid grid-cols-2 landscape:grid-cols-3 gap-2">
+                <StatusString
+                  v-for="field in modelInfoFields"
+                  :key="field.label"
+                  :Name="field.label"
+                  :Value="field.unit ? `${field.value} ${field.unit}` : `${field.value}`"
+                />
               </div>
             </div>
 
@@ -1029,25 +830,22 @@
                   tmStore.isRefreshing ||
                   (tmStore.alignmentModel.alignmentStarCount ?? 0) === 0
                 "
-                class="px-4 py-2 rounded-lg bg-yellow-600/20 border border-yellow-500/40 text-yellow-200 hover:bg-yellow-600/30 text-sm disabled:opacity-40"
+                class="tns-btn-secondary flex-1 min-w-32"
               >
                 {{ $t('plugins.tenmicron.model.deleteWorstStar') }}
               </button>
               <button
                 @click="confirmClearAlignment"
                 :disabled="!tmStore.connected || tmStore.isRefreshing"
-                class="px-4 py-2 rounded-lg bg-red-600/20 border border-red-500/40 text-red-200 hover:bg-red-600/30 text-sm disabled:opacity-40"
+                class="tns-btn-danger flex-1 min-w-32"
               >
                 {{ $t('plugins.tenmicron.model.clearAlignment') }}
               </button>
             </div>
 
             <!-- Polar plot of alignment stars -->
-            <div
-              v-if="tmStore.alignmentModel.alignmentStars.length > 0"
-              class="rounded-xl border border-gray-700 bg-gray-800/60 p-4"
-            >
-              <h3 class="text-sm font-semibold text-gray-300 mb-3">
+            <div v-if="tmStore.alignmentModel.alignmentStars.length > 0" class="tns-card">
+              <h3 class="text-sm font-semibold text-content mb-3">
                 {{ $t('plugins.tenmicron.model.starsChart') }}
               </h3>
               <div class="flex justify-center">
@@ -1058,7 +856,7 @@
                       :key="ring"
                       :r="altToRadius(ring)"
                       fill="none"
-                      stroke="#374151"
+                      stroke="var(--color-line)"
                       stroke-width="1"
                     />
                     <line
@@ -1068,13 +866,13 @@
                       :y1="0"
                       :x2="azToX(az, 90)"
                       :y2="azToY(az, 90)"
-                      stroke="#374151"
-                      stroke-width="0.5"
+                      stroke="var(--color-line)"
+                      stroke-width="1"
                     />
                     <text
                       :x="azToX(0, 90) * 1.08"
                       :y="azToY(0, 90) * 1.08 + 4"
-                      fill="#9CA3AF"
+                      fill="var(--color-content-muted)"
                       font-size="10"
                       text-anchor="middle"
                     >
@@ -1083,7 +881,7 @@
                     <text
                       :x="azToX(90, 90) * 1.08"
                       :y="azToY(90, 90) * 1.08 + 4"
-                      fill="#9CA3AF"
+                      fill="var(--color-content-muted)"
                       font-size="10"
                       text-anchor="middle"
                     >
@@ -1092,7 +890,7 @@
                     <text
                       :x="azToX(180, 90) * 1.08"
                       :y="azToY(180, 90) * 1.08 + 4"
-                      fill="#9CA3AF"
+                      fill="var(--color-content-muted)"
                       font-size="10"
                       text-anchor="middle"
                     >
@@ -1101,7 +899,7 @@
                     <text
                       :x="azToX(270, 90) * 1.08"
                       :y="azToY(270, 90) * 1.08 + 4"
-                      fill="#9CA3AF"
+                      fill="var(--color-content-muted)"
                       font-size="10"
                       text-anchor="middle"
                     >
@@ -1109,14 +907,14 @@
                     </text>
                     <!-- Stars sized by error -->
                     <circle
-                      v-for="star in tmStore.alignmentModel.alignmentStars"
-                      :key="`${star.Azimuth}-${star.Altitude}`"
+                      v-for="(star, i) in tmStore.alignmentModel.alignmentStars"
+                      :key="'star-' + i"
                       :cx="azToX(star.Azimuth, star.Altitude)"
                       :cy="azToY(star.Azimuth, star.Altitude)"
                       :r="Math.max(4, Math.min(12, star.ErrorPointRadius ?? 5))"
-                      fill="#60A5FA"
+                      fill="var(--color-accent)"
                       fill-opacity="0.7"
-                      stroke="#1F2937"
+                      stroke="var(--color-surface-1)"
                       stroke-width="1"
                     >
                       <title>
@@ -1130,9 +928,9 @@
             </div>
 
             <!-- Stars table -->
-            <div class="rounded-xl border border-gray-700 bg-gray-800/60 overflow-hidden">
-              <table class="w-full text-xs text-gray-300">
-                <thead class="bg-gray-700/60 text-gray-400 uppercase">
+            <div class="rounded-card border border-line bg-surface-1 overflow-x-auto">
+              <table class="w-full text-xs text-content">
+                <thead class="bg-surface-2 text-content-faint uppercase">
                   <tr>
                     <th class="px-3 py-2 text-right">#</th>
                     <th class="px-3 py-2 text-right">Az (°)</th>
@@ -1144,14 +942,14 @@
                   <tr
                     v-for="(star, i) in tmStore.alignmentModel.alignmentStars"
                     :key="i"
-                    class="border-t border-gray-700/50"
+                    class="border-t border-line"
                   >
-                    <td class="px-3 py-1 text-right">{{ i + 1 }}</td>
-                    <td class="px-3 py-1 text-right">{{ star.Azimuth }}</td>
-                    <td class="px-3 py-1 text-right">{{ star.Altitude }}</td>
+                    <td class="px-3 py-1 text-right tabular-nums">{{ i + 1 }}</td>
+                    <td class="px-3 py-1 text-right tabular-nums">{{ star.Azimuth }}</td>
+                    <td class="px-3 py-1 text-right tabular-nums">{{ star.Altitude }}</td>
                     <td
-                      class="px-3 py-1 text-right"
-                      :class="star.ErrorArcsec > 60 ? 'text-red-400' : 'text-green-400'"
+                      class="px-3 py-1 text-right tabular-nums"
+                      :class="star.ErrorArcsec > 60 ? 'text-status-danger' : 'text-status-ok'"
                     >
                       {{ star.ErrorArcsec }}
                     </td>
@@ -1166,14 +964,14 @@
         <!-- TAB: Model Library                                            -->
         <!-- ============================================================ -->
         <div v-if="tmStore.activeTab === 'library'" class="p-5 space-y-4">
-          <div class="flex justify-between items-center">
-            <h3 class="text-sm font-semibold text-gray-300">
+          <div class="flex justify-between items-center gap-3">
+            <h3 class="text-sm font-semibold text-content">
               {{ $t('plugins.tenmicron.library.savedModels') }}
             </h3>
             <button
               @click="loadModelNames"
               :disabled="!tmStore.connected || tmStore.isRefreshing"
-              class="px-3 py-1.5 rounded-lg bg-cyan-600/20 border border-cyan-500/40 text-cyan-200 hover:bg-cyan-600/30 text-xs disabled:opacity-40 flex items-center gap-1.5"
+              class="tns-btn-secondary w-auto px-3"
             >
               <svg
                 v-if="tmStore.isRefreshing"
@@ -1202,12 +1000,12 @@
               v-model="newModelName"
               type="text"
               :placeholder="$t('plugins.tenmicron.library.namePlaceholder')"
-              class="flex-1 rounded-lg bg-gray-700 border border-gray-600 text-white px-3 py-2 text-sm"
+              class="tns-input flex-1"
             />
             <button
               @click="saveModel"
               :disabled="!tmStore.connected || !newModelName.trim()"
-              class="px-4 py-2 rounded-lg bg-green-600/20 border border-green-500/40 text-green-200 hover:bg-green-600/30 text-sm disabled:opacity-40"
+              class="tns-btn-secondary w-auto px-3"
             >
               {{ $t('plugins.tenmicron.library.save') }}
             </button>
@@ -1215,7 +1013,7 @@
 
           <div
             v-if="tmStore.modelNames.length === 0"
-            class="text-gray-500 text-sm text-center py-6"
+            class="text-content-faint text-sm text-center py-6"
           >
             {{ $t('plugins.tenmicron.library.noModels') }}
           </div>
@@ -1224,20 +1022,20 @@
             <div
               v-for="name in tmStore.modelNames"
               :key="name"
-              class="flex items-center gap-3 rounded-lg border border-gray-700 bg-gray-800/60 px-4 py-2"
+              class="flex items-center gap-3 rounded-control border border-line bg-surface-2 px-4 py-2"
             >
-              <span class="flex-1 text-sm text-white font-mono">{{ name }}</span>
+              <span class="flex-1 text-sm text-content font-mono truncate">{{ name }}</span>
               <button
                 @click="loadModel(name)"
                 :disabled="!tmStore.connected || tmStore.isRefreshing"
-                class="px-3 py-1 rounded-md bg-cyan-600/20 border border-cyan-500/40 text-cyan-200 hover:bg-cyan-600/30 text-xs disabled:opacity-40"
+                class="tns-btn-secondary w-auto px-3"
               >
                 {{ $t('plugins.tenmicron.library.load') }}
               </button>
               <button
                 @click="deleteModel(name)"
                 :disabled="!tmStore.connected || tmStore.isRefreshing"
-                class="px-3 py-1 rounded-md bg-red-600/20 border border-red-500/40 text-red-200 hover:bg-red-600/30 text-xs disabled:opacity-40"
+                class="tns-btn-danger w-auto px-3"
               >
                 {{ $t('plugins.tenmicron.library.delete') }}
               </button>
@@ -1250,240 +1048,198 @@
         <!-- ============================================================ -->
         <div v-if="tmStore.activeTab === 'mount'" class="p-5 space-y-5">
           <!-- Mount Information (read-only) -->
-          <div class="rounded-xl border border-gray-700 bg-gray-800/60 p-4 space-y-3">
-            <h3 class="text-sm font-semibold text-gray-300">
+          <div class="tns-card space-y-3">
+            <h3 class="text-sm font-semibold text-content">
               {{ $t('plugins.tenmicron.mount.info') }}
             </h3>
-            <div class="grid grid-cols-2 gap-x-6 gap-y-2 text-sm">
-              <span class="text-gray-400">{{ $t('plugins.tenmicron.mount.product') }}</span>
-              <span class="text-white font-mono">{{ tmStore.mountProductName || '—' }}</span>
-              <span class="text-gray-400">{{ $t('plugins.tenmicron.mount.firmware') }}</span>
-              <span class="text-white font-mono">{{ tmStore.mountFirmwareVersion || '—' }}</span>
-              <span class="text-gray-400">{{ $t('plugins.tenmicron.mount.firmwareDate') }}</span>
-              <span class="text-white font-mono">{{ tmStore.mountFirmwareTimestamp || '—' }}</span>
-              <span class="text-gray-400">{{ $t('plugins.tenmicron.mount.ip') }}</span>
-              <span class="text-white font-mono">{{ tmStore.mountIPAddress || '—' }}</span>
-              <span class="text-gray-400">{{ $t('plugins.tenmicron.mount.mac') }}</span>
-              <span class="text-white font-mono">{{ tmStore.mountMACAddress || '—' }}</span>
+            <div class="grid grid-cols-2 landscape:grid-cols-3 gap-2">
+              <StatusString
+                :Name="$t('plugins.tenmicron.mount.product')"
+                :Value="tmStore.mountProductName || '—'"
+              />
+              <StatusString
+                :Name="$t('plugins.tenmicron.mount.firmware')"
+                :Value="tmStore.mountFirmwareVersion || '—'"
+              />
+              <StatusString
+                :Name="$t('plugins.tenmicron.mount.firmwareDate')"
+                :Value="tmStore.mountFirmwareTimestamp || '—'"
+              />
+              <StatusString
+                :Name="$t('plugins.tenmicron.mount.ip')"
+                :Value="tmStore.mountIPAddress || '—'"
+              />
+              <StatusString
+                :Name="$t('plugins.tenmicron.mount.mac')"
+                :Value="tmStore.mountMACAddress || '—'"
+              />
             </div>
           </div>
 
-          <!-- Mount Status -->
-          <div class="rounded-xl border border-gray-700 bg-gray-800/60 p-4 space-y-3">
-            <h3 class="text-sm font-semibold text-gray-300">
+          <!-- Mount Status (read-only tiles) -->
+          <div class="tns-card space-y-3">
+            <h3 class="text-sm font-semibold text-content">
               {{ $t('plugins.tenmicron.mount.statusTitle') }}
             </h3>
-            <div class="grid grid-cols-2 gap-x-6 gap-y-3 text-sm items-center">
-              <!-- Mount Status badge -->
-              <span class="text-gray-400">{{ $t('plugins.tenmicron.mount.statusTitle') }}</span>
-              <span
-                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-cyan-600/20 text-cyan-300 border border-cyan-500/30 w-fit"
-              >
-                {{ tmStore.mountStatus || '—' }}
-              </span>
+            <div class="grid grid-cols-2 landscape:grid-cols-3 gap-2">
+              <StatusString
+                :Name="$t('plugins.tenmicron.mount.statusTitle')"
+                :Value="mountStatusText"
+              />
+              <StatusBool
+                :label="$t('plugins.tenmicron.mount.gpsSync')"
+                :isEnabled="tmStore.gpsSyncState !== 'Off' && tmStore.gpsSyncState !== 'Unknown'"
+                :enabledText="tmStore.gpsSyncState"
+                :disabledText="tmStore.gpsSyncState"
+              />
+              <StatusString
+                :Name="$t('plugins.tenmicron.mount.trackingRate')"
+                :Value="`${tmStore.trackingRateArcsecPerSec.toFixed(4)} ${$t('plugins.tenmicron.mount.arcsecPerSec')}`"
+              />
+              <StatusString
+                :Name="$t('plugins.tenmicron.mount.refractionTemp')"
+                :Value="`${tmStore.refractionTemperature} ${$t('plugins.tenmicron.mount.celsius')}`"
+              />
+              <StatusString
+                :Name="$t('plugins.tenmicron.mount.refractionPressure')"
+                :Value="`${tmStore.refractionPressure} ${$t('plugins.tenmicron.mount.hPa')}`"
+              />
+              <StatusBool
+                :label="$t('plugins.tenmicron.mount.deltaTExpiration')"
+                :isEnabled="tmStore.deltaTValid"
+                :state="!tmStore.deltaTExpiration ? 'idle' : tmStore.deltaTValid ? 'ok' : 'danger'"
+                :enabledText="tmStore.deltaTExpiration || '—'"
+                :disabledText="tmStore.deltaTExpiration || '—'"
+              />
+              <StatusString
+                :Name="$t('plugins.tenmicron.mount.localTime')"
+                :Value="tmStore.mountLocalTime || '—'"
+              />
+              <StatusString
+                :Name="$t('plugins.tenmicron.mount.localDate')"
+                :Value="tmStore.mountLocalDate || '—'"
+              />
+              <StatusString
+                :Name="$t('plugins.tenmicron.mount.siderealTime')"
+                :Value="tmStore.mountSiderealTime || '—'"
+              />
+              <StatusString
+                :Name="$t('plugins.tenmicron.mount.connectionType')"
+                :Value="tmStore.connectionType || '—'"
+              />
+              <StatusBool
+                :label="$t('plugins.tenmicron.mount.unattendedFlip')"
+                :isEnabled="tmStore.unattendedFlipEnabled"
+                :enabledText="$t('plugins.tenmicron.mount.on')"
+                :disabledText="$t('plugins.tenmicron.mount.off')"
+              />
+            </div>
+          </div>
 
-              <!-- GPS Time Sync -->
-              <span class="text-gray-400">{{ $t('plugins.tenmicron.mount.gpsSync') }}</span>
-              <span
-                :class="[
-                  'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold w-fit',
-                  tmStore.gpsSyncState === 'Off' || tmStore.gpsSyncState === 'Unknown'
-                    ? 'bg-gray-600/20 text-gray-400 border border-gray-600/30'
-                    : 'bg-green-600/20 text-green-300 border border-green-500/30',
-                ]"
-              >
-                {{ tmStore.gpsSyncState }}
-              </span>
+          <!-- Mount Settings (interactive) -->
+          <div class="tns-card space-y-3">
+            <h3 class="text-sm font-semibold text-content">
+              {{ $t('plugins.tenmicron.mount.settings') }}
+            </h3>
 
-              <!-- Tracking Rate -->
-              <span class="text-gray-400">{{ $t('plugins.tenmicron.mount.trackingRate') }}</span>
-              <span class="text-white font-mono">
-                {{
-                  tmStore.trackingRateArcsecPerSec !== undefined
-                    ? tmStore.trackingRateArcsecPerSec.toFixed(4)
-                    : '—'
-                }}
-                <span class="text-gray-500 text-xs ml-1">{{
-                  $t('plugins.tenmicron.mount.arcsecPerSec')
-                }}</span>
-              </span>
-
-              <!-- Slew Settle -->
-              <span class="text-gray-400">{{ $t('plugins.tenmicron.mount.slewSettle') }}</span>
-              <div class="flex items-center gap-2">
-                <span class="text-white font-mono">
-                  {{ tmStore.slewSettleTimeSeconds }}
-                  <span class="text-gray-500 text-xs ml-0.5">{{
-                    $t('plugins.tenmicron.mount.seconds')
-                  }}</span>
-                </span>
-                <button
-                  @click="resetSlewSettle"
-                  :disabled="!tmStore.connected || tmStore.isRefreshing"
-                  class="px-2 py-0.5 rounded-md bg-gray-700 border border-gray-600 text-gray-300 hover:bg-gray-600 text-xs disabled:opacity-40"
-                >
-                  {{ $t('plugins.tenmicron.mount.reset') }}
-                </button>
-              </div>
-
-              <!-- Meridian Limit -->
-              <span class="text-gray-400">{{ $t('plugins.tenmicron.mount.meridianLimit') }}</span>
-              <div class="flex items-center gap-2">
-                <span class="text-white font-mono">
-                  {{ tmStore.meridianLimitDegrees }}
-                  <span class="text-gray-500 text-xs ml-0.5">{{
-                    $t('plugins.tenmicron.mount.degrees')
-                  }}</span>
-                </span>
-                <button
-                  @click="resetMeridianLimit"
-                  :disabled="!tmStore.connected || tmStore.isRefreshing"
-                  class="px-2 py-0.5 rounded-md bg-gray-700 border border-gray-600 text-gray-300 hover:bg-gray-600 text-xs disabled:opacity-40"
-                >
-                  {{ $t('plugins.tenmicron.mount.reset') }}
-                </button>
-              </div>
-
-              <!-- Unattended Flip -->
-              <span class="text-gray-400">{{ $t('plugins.tenmicron.mount.unattendedFlip') }}</span>
-              <div class="flex items-center gap-2">
-                <span
-                  :class="tmStore.unattendedFlipEnabled ? 'text-cyan-300' : 'text-gray-400'"
-                  class="text-xs font-semibold"
-                >
-                  {{ tmStore.unattendedFlipEnabled ? 'ON' : 'OFF' }}
-                </span>
-                <button
-                  v-if="tmStore.unattendedFlipEnabled"
-                  @click="disableUnattendedFlip"
-                  :disabled="!tmStore.connected || tmStore.isRefreshing"
-                  class="px-2 py-0.5 rounded-md bg-red-600/20 border border-red-500/40 text-red-300 hover:bg-red-600/30 text-xs disabled:opacity-40"
-                >
-                  {{ $t('plugins.tenmicron.mount.disable') }}
-                </button>
-              </div>
-
-              <!-- Refraction Temperature -->
-              <span class="text-gray-400">{{ $t('plugins.tenmicron.mount.refractionTemp') }}</span>
-              <span class="text-white font-mono">
-                {{ tmStore.refractionTemperature }}
-                <span class="text-gray-500 text-xs ml-0.5">{{
-                  $t('plugins.tenmicron.mount.celsius')
-                }}</span>
-              </span>
-
-              <!-- Refraction Pressure -->
-              <span class="text-gray-400">{{
-                $t('plugins.tenmicron.mount.refractionPressure')
+            <!-- Slew Settle -->
+            <div class="flex items-center gap-3">
+              <span class="text-sm text-content flex-1">{{
+                $t('plugins.tenmicron.mount.slewSettle')
               }}</span>
-              <span class="text-white font-mono">
-                {{ tmStore.refractionPressure }}
-                <span class="text-gray-500 text-xs ml-0.5">{{
-                  $t('plugins.tenmicron.mount.hPa')
+              <span class="text-sm text-content font-mono tabular-nums">
+                {{ tmStore.slewSettleTimeSeconds }}
+                <span class="text-content-faint text-xs">{{
+                  $t('plugins.tenmicron.mount.seconds')
                 }}</span>
               </span>
+              <button
+                @click="resetSlewSettle"
+                :disabled="!tmStore.connected || tmStore.isRefreshing"
+                class="tns-btn-secondary w-auto px-3"
+              >
+                {{ $t('plugins.tenmicron.mount.reset') }}
+              </button>
+            </div>
 
-              <!-- DeltaT Expiration -->
-              <span class="text-gray-400">{{
-                $t('plugins.tenmicron.mount.deltaTExpiration')
+            <!-- Meridian Limit -->
+            <div class="flex items-center gap-3">
+              <span class="text-sm text-content flex-1">{{
+                $t('plugins.tenmicron.mount.meridianLimit')
               }}</span>
-              <span
-                :class="[
-                  'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold w-fit',
-                  !tmStore.deltaTExpiration
-                    ? 'bg-gray-600/20 text-gray-400 border border-gray-600/30'
-                    : tmStore.deltaTValid
-                      ? 'bg-green-600/20 text-green-300 border border-green-500/30'
-                      : 'bg-red-600/20 text-red-300 border border-red-500/30',
-                ]"
-              >
-                {{ tmStore.deltaTExpiration || '—' }}
+              <span class="text-sm text-content font-mono tabular-nums">
+                {{ tmStore.meridianLimitDegrees }}
+                <span class="text-content-faint text-xs">{{
+                  $t('plugins.tenmicron.mount.degrees')
+                }}</span>
               </span>
-
-              <!-- Mount Local Time -->
-              <span class="text-gray-400">{{ $t('plugins.tenmicron.mount.localTime') }}</span>
-              <span class="text-white font-mono">{{ tmStore.mountLocalTime || '—' }}</span>
-
-              <!-- Mount Local Date -->
-              <span class="text-gray-400">{{ $t('plugins.tenmicron.mount.localDate') }}</span>
-              <span class="text-white font-mono">{{ tmStore.mountLocalDate || '—' }}</span>
-
-              <!-- Sidereal Time -->
-              <span class="text-gray-400">{{ $t('plugins.tenmicron.mount.siderealTime') }}</span>
-              <span class="text-white font-mono">{{ tmStore.mountSiderealTime || '—' }}</span>
-
-              <!-- Connection Type -->
-              <span class="text-gray-400">{{ $t('plugins.tenmicron.mount.connectionType') }}</span>
-              <span
-                :class="[
-                  'inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold w-fit',
-                  tmStore.connectionType === 'LAN' || tmStore.connectionType === 'WiFi'
-                    ? 'bg-cyan-600/20 text-cyan-300 border border-cyan-500/30'
-                    : 'bg-gray-600/20 text-gray-400 border border-gray-600/30',
-                ]"
+              <button
+                @click="resetMeridianLimit"
+                :disabled="!tmStore.connected || tmStore.isRefreshing"
+                class="tns-btn-secondary w-auto px-3"
               >
-                {{ tmStore.connectionType || '—' }}
-              </span>
+                {{ $t('plugins.tenmicron.mount.reset') }}
+              </button>
+            </div>
 
+            <!-- Unattended Flip -->
+            <div v-if="tmStore.unattendedFlipEnabled" class="flex items-center gap-3">
+              <span class="text-sm text-content flex-1">{{
+                $t('plugins.tenmicron.mount.unattendedFlip')
+              }}</span>
+              <button
+                @click="disableUnattendedFlip"
+                :disabled="!tmStore.connected || tmStore.isRefreshing"
+                class="tns-btn-danger w-auto px-3"
+              >
+                {{ $t('plugins.tenmicron.mount.disable') }}
+              </button>
+            </div>
+
+            <div
+              class="space-y-3 pt-2 border-t border-line"
+              :class="{
+                'opacity-50 pointer-events-none': !tmStore.connected || tmStore.isRefreshing,
+              }"
+            >
               <!-- Slew Rate -->
-              <span class="text-gray-400">{{ $t('plugins.tenmicron.mount.slewRate') }}</span>
-              <div
-                class="w-28 tns-picker"
-                :class="{
-                  'opacity-40 pointer-events-none': !tmStore.connected || tmStore.isRefreshing,
-                }"
-              >
-                <NumberInputPicker
-                  v-model="slewRateInput"
-                  labelKey="plugins.tenmicron.mount.slewRate"
-                  :min="tmStore.slewRateMin ?? 2"
-                  :max="tmStore.slewRateMax ?? 15"
-                  :step="1"
-                  :decimalPlaces="0"
-                  wrapperClass="w-full"
-                  @change="setSlewRate"
-                />
-              </div>
+              <NumberInputPicker
+                v-model="slewRateInput"
+                :label="$t('plugins.tenmicron.mount.slewRate')"
+                labelKey="plugins.tenmicron.mount.slewRate"
+                :min="tmStore.slewRateMin ?? 2"
+                :max="tmStore.slewRateMax ?? 15"
+                :step="1"
+                :decimalPlaces="0"
+                inputId="tm-slew-rate"
+                @change="setSlewRate"
+              />
 
               <!-- Horizon Limit High -->
-              <span class="text-gray-400">{{ $t('plugins.tenmicron.mount.horizonHigh') }}</span>
-              <div
-                class="w-28 tns-picker"
-                :class="{
-                  'opacity-40 pointer-events-none': !tmStore.connected || tmStore.isRefreshing,
-                }"
-              >
-                <NumberInputPicker
-                  v-model="horizonHighInput"
-                  labelKey="plugins.tenmicron.mount.horizonHigh"
-                  :min="0"
-                  :max="90"
-                  :step="1"
-                  :decimalPlaces="0"
-                  wrapperClass="w-full"
-                  @change="setHorizonHigh"
-                />
-              </div>
+              <NumberInputPicker
+                v-model="horizonHighInput"
+                :label="$t('plugins.tenmicron.mount.horizonHigh')"
+                labelKey="plugins.tenmicron.mount.horizonHigh"
+                :min="0"
+                :max="90"
+                :step="1"
+                :decimalPlaces="0"
+                inputId="tm-horizon-high"
+                @change="setHorizonHigh"
+              />
 
               <!-- Horizon Limit Low -->
-              <span class="text-gray-400">{{ $t('plugins.tenmicron.mount.horizonLow') }}</span>
-              <div
-                class="w-28 tns-picker"
-                :class="{
-                  'opacity-40 pointer-events-none': !tmStore.connected || tmStore.isRefreshing,
-                }"
-              >
-                <NumberInputPicker
-                  v-model="horizonLowInput"
-                  labelKey="plugins.tenmicron.mount.horizonLow"
-                  :min="-5"
-                  :max="45"
-                  :step="1"
-                  :decimalPlaces="0"
-                  wrapperClass="w-full"
-                  @change="setHorizonLow"
-                />
-              </div>
+              <NumberInputPicker
+                v-model="horizonLowInput"
+                :label="$t('plugins.tenmicron.mount.horizonLow')"
+                labelKey="plugins.tenmicron.mount.horizonLow"
+                :min="-5"
+                :max="45"
+                :step="1"
+                :decimalPlaces="0"
+                inputId="tm-horizon-low"
+                @change="setHorizonLow"
+              />
             </div>
           </div>
         </div>
@@ -1493,7 +1249,7 @@
       <!-- Error toast -->
       <div
         v-if="tmStore.lastError"
-        class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-red-800 border border-red-600 text-white px-5 py-3 rounded-xl shadow-xl text-sm max-w-sm z-50"
+        class="fixed bottom-6 left-1/2 -translate-x-1/2 bg-surface-1 border border-status-danger/50 text-status-danger px-5 py-3 rounded-card shadow-xl text-sm max-w-sm z-50"
         @click="tmStore.clearError()"
       >
         {{ tmStore.lastError }}
@@ -1505,24 +1261,18 @@
         class="fixed inset-0 bg-black/60 flex items-center justify-center z-50"
         @click.self="showClearConfirm = false"
       >
-        <div
-          class="bg-gray-800 rounded-xl border border-gray-700 p-6 max-w-sm w-full mx-4 space-y-4"
-        >
-          <h3 class="text-lg font-semibold text-white">
+        <div class="tns-card bg-surface-2 max-w-sm w-full mx-4 space-y-4">
+          <h3 class="text-lg font-semibold text-content">
             {{ $t('plugins.tenmicron.model.clearConfirmTitle') }}
           </h3>
-          <p class="text-gray-300 text-sm">{{ $t('plugins.tenmicron.model.clearConfirmMsg') }}</p>
-          <div class="flex gap-3 justify-end">
-            <button
-              @click="showClearConfirm = false"
-              class="px-4 py-2 rounded-lg bg-gray-700 text-gray-300 hover:bg-gray-600 text-sm"
-            >
+          <p class="text-content-muted text-sm">
+            {{ $t('plugins.tenmicron.model.clearConfirmMsg') }}
+          </p>
+          <div class="flex gap-3">
+            <button @click="showClearConfirm = false" class="tns-btn-secondary flex-1">
               {{ $t('plugins.tenmicron.cancel') }}
             </button>
-            <button
-              @click="clearAlignment"
-              class="px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-500 text-sm font-semibold"
-            >
+            <button @click="clearAlignment" class="tns-btn-danger flex-1">
               {{ $t('plugins.tenmicron.model.clearAlignment') }}
             </button>
           </div>
@@ -1541,9 +1291,12 @@ import { useTenMicronStore } from '../store/tenMicronStore';
 import { apiStore } from '@/store/store';
 import apiService from '@/services/apiService';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
+import toggleButton from '@/components/helpers/toggleButton.vue';
+import StatusString from '@/components/helpers/StatusString.vue';
+import StatusBool from '@/components/helpers/StatusBool.vue';
 import { ChevronRightIcon } from '@heroicons/vue/24/outline';
 
-const { t } = useI18n();
+const { t, te } = useI18n();
 const tmStore = useTenMicronStore();
 const mainStore = apiStore();
 const isCameraConnected = computed(() => Boolean(mainStore.cameraInfo?.Connected));
@@ -1627,6 +1380,17 @@ const optAlternateDirection = ref(tmStore.builderOptions.alternateDirection);
 const optDisableRefractionCorrection = ref(tmStore.builderOptions.disableRefractionCorrection);
 const optDecJitter = ref(tmStore.builderOptions.decJitter);
 const optDisableDAT = ref(tmStore.builderOptions.disableDAT);
+
+// MountInfo.Status is a MountStatusEnum and the controller sends Status.ToString(), so the raw
+// value is the member name ("TrackingOnOutsideLimits"), not something a user should read. The
+// locale keys mirror the [Description] attributes on that enum; an unmapped value falls through
+// unchanged so a firmware addition shows up as itself rather than blank.
+const mountStatusText = computed(() => {
+  const raw = tmStore.mountStatus;
+  if (!raw) return '—';
+  const key = `plugins.tenmicron.mount.status.${raw}`;
+  return te(key) ? t(key) : raw;
+});
 
 // ── tabs ──────────────────────────────────────────────────────────────────────
 const tabs = computed(() => [
@@ -1731,10 +1495,18 @@ function azToY(az, alt) {
   return r * Math.sin(rad);
 }
 
-// States that make a point unusable (excluded or failed)
-const UNUSABLE_STATES = new Set([97, 98, 99, 100, 101]);
+// Mirrors ModelBuilder.IsPointIncludedInBuild in the C# plugin: these four states are the
+// generation-time exclusions, and such points are never slewed to. Failed (97) and FailedRMS (98)
+// are runtime outcomes rather than exclusions, so those points stay listed - after a build you
+// want to see which ones failed, and the legend advertises both states.
+const EXCLUDED_STATES = new Set([99, 100, 101, 102]);
+
+// Each entry keeps the point's index in the full list, so the table numbers match the labels the
+// scatter chart draws over tmStore.modelPoints instead of counting the filtered subset again.
 const usableModelPoints = computed(() =>
-  tmStore.modelPoints.filter((p) => !UNUSABLE_STATES.has(p.ModelPointState))
+  tmStore.modelPoints
+    .map((point, index) => ({ point, number: index + 1 }))
+    .filter(({ point }) => !EXCLUDED_STATES.has(point.ModelPointState))
 );
 
 // ── point state labels & colours (mirrors ModelPointStateEnum from C# plugin) ──
@@ -1844,9 +1616,12 @@ const modelInfoFields = computed(() => {
 });
 
 // ── API calls ─────────────────────────────────────────────────────────────────
-async function fetchStatus() {
+// `full` pulls the raw-LX200 values too (slew rate, horizon limits, GPS sync, connection type,
+// DeltaT). The recurring poll leaves it off - those never change on their own, and asking for them
+// every tick put eight serial round trips per 3s on the mount.
+async function fetchStatus(full = false) {
   try {
-    const data = await apiService.tenMicronGetStatus();
+    const data = await apiService.tenMicronGetStatus(full);
     if (data?.Success) tmStore.setStatus(data);
   } catch {
     /* ignore polling errors silently */
@@ -1957,6 +1732,7 @@ async function loadAlignmentModel() {
   } catch (e) {
     tmStore.lastError = e?.message;
   } finally {
+    tmStore.alignmentModelFetched = true;
     tmStore.isRefreshing = false;
   }
 }
@@ -1969,6 +1745,7 @@ async function loadModelNames() {
   } catch (e) {
     tmStore.lastError = e?.message;
   } finally {
+    tmStore.modelNamesFetched = true;
     tmStore.isRefreshing = false;
   }
 }
@@ -2144,7 +1921,7 @@ async function disableUnattendedFlip() {
   tmStore.isRefreshing = true;
   try {
     await apiService.tenMicronDisableUnattendedFlip();
-    await fetchStatus();
+    await fetchStatus(true);
   } catch (e) {
     tmStore.lastError = e?.message;
   } finally {
@@ -2156,7 +1933,7 @@ async function resetMeridianLimit() {
   tmStore.isRefreshing = true;
   try {
     await apiService.tenMicronResetMeridianLimit();
-    await fetchStatus();
+    await fetchStatus(true);
   } catch (e) {
     tmStore.lastError = e?.message;
   } finally {
@@ -2168,7 +1945,7 @@ async function resetSlewSettle() {
   tmStore.isRefreshing = true;
   try {
     await apiService.tenMicronResetSlewSettle();
-    await fetchStatus();
+    await fetchStatus(true);
   } catch (e) {
     tmStore.lastError = e?.message;
   } finally {
@@ -2180,7 +1957,7 @@ async function setSlewRate() {
   tmStore.isRefreshing = true;
   try {
     await apiService.tenMicronSetSlewRate(Math.round(slewRateInput.value));
-    await fetchStatus();
+    await fetchStatus(true);
   } catch (e) {
     tmStore.lastError = e?.message;
   } finally {
@@ -2192,7 +1969,7 @@ async function setHorizonHigh() {
   tmStore.isRefreshing = true;
   try {
     await apiService.tenMicronSetHorizonHigh(Math.round(horizonHighInput.value));
-    await fetchStatus();
+    await fetchStatus(true);
   } catch (e) {
     tmStore.lastError = e?.message;
   } finally {
@@ -2204,7 +1981,7 @@ async function setHorizonLow() {
   tmStore.isRefreshing = true;
   try {
     await apiService.tenMicronSetHorizonLow(Math.round(horizonLowInput.value));
-    await fetchStatus();
+    await fetchStatus(true);
   } catch (e) {
     tmStore.lastError = e?.message;
   } finally {
@@ -2213,13 +1990,62 @@ async function setHorizonLow() {
 }
 
 // ── lifecycle ─────────────────────────────────────────────────────────────────
+// The alignment model and the model names are deliberately NOT loaded here: both walk the mount
+// over LX200 (one command per alignment star), and the WPF plugin only reads them on connect or on
+// an explicit refresh. They are fetched when their tab is first opened instead - see the watcher
+// below. The builder points come from the plugin's VM memory and cost no mount traffic.
 async function initialLoad() {
-  await fetchStatus();
-  await loadBuilderStatus();
-  await loadBuilderOptions();
-  await loadAlignmentModel();
-  await loadModelNames();
+  tmStore.isLoading = true;
+  try {
+    await fetchStatus(true);
+    await loadBuilderStatus();
+    await loadBuilderOptions();
+  } finally {
+    tmStore.isLoading = false;
+  }
 }
+
+// Load a tab's mount-backed data the first time it is opened, and refresh the raw-LX200 status
+// values whenever the mount tab comes up, since that is the only tab showing them.
+function loadForTab(tab) {
+  if (!tmStore.connected || tmStore.isRefreshing) return;
+  if (tab === 'model') {
+    if (!tmStore.alignmentModelFetched) loadAlignmentModel();
+  } else if (tab === 'library') {
+    if (!tmStore.modelNamesFetched) loadModelNames();
+  } else if (tab === 'mount') {
+    fetchStatus(true);
+    fetchMountTime();
+  }
+}
+
+watch(() => tmStore.activeTab, loadForTab);
+
+// The tab watcher only fires on a tab change, so a mount that connects while the page is already
+// open would otherwise show an empty model tab until the user navigates away and back. A
+// disconnect drops the flags again: whatever was read belongs to the old session.
+watch(
+  () => tmStore.connected,
+  (connected) => {
+    if (connected) {
+      loadForTab(tmStore.activeTab);
+    } else {
+      tmStore.alignmentModelFetched = false;
+      tmStore.modelNamesFetched = false;
+    }
+  }
+);
+
+// A finished build replaces the model on the mount, so let the model tab re-read it once.
+watch(
+  () => tmStore.buildInProgress,
+  (running, wasRunning) => {
+    if (wasRunning && !running) {
+      tmStore.alignmentModelFetched = false;
+      if (tmStore.activeTab === 'model') loadForTab('model');
+    }
+  }
+);
 
 // Poll builder status while build is in progress, otherwise lighter polling
 usePolling(
@@ -2236,8 +2062,10 @@ usePolling(
   { immediate: false }
 );
 
-onMounted(() => {
-  initialLoad();
+onMounted(async () => {
+  await initialLoad();
+  // Covers a remount onto a persisted tab: the watcher above only fires on a change.
+  loadForTab(tmStore.activeTab);
 });
 
 onUnmounted(() => {
@@ -2249,17 +2077,5 @@ onUnmounted(() => {
 /* Rotate chevron when a details element is open */
 details[open] > summary .summary-chevron {
   transform: rotate(90deg);
-}
-
-/* Scale NumberInputPicker controls down to h-8 / text-xs to match surrounding text */
-:deep(.tns-picker button) {
-  height: 2rem;
-  font-size: 0.75rem;
-  line-height: 1rem;
-}
-:deep(.tns-picker input[type='number']) {
-  height: 2rem;
-  font-size: 0.75rem;
-  line-height: 1rem;
 }
 </style>

@@ -172,7 +172,7 @@
             class="h-7 md:h-8"
           />
         </div>
-        <pinsSetDewHeaterStrength v-if="store.isPINS" class="mt-2" />
+        <pinsSetDewHeaterStrength v-if="hasDewHeaterStrength" class="mt-2" />
       </div>
     </div>
   </div>
@@ -201,6 +201,14 @@ const coolingState = computed(() => cameraStore.coolingState);
 const isCoolingActive = computed(() => coolingState.value === 'cooling');
 const isWarmingActive = computed(() => coolingState.value === 'warming');
 const isPendingCancel = computed(() => cameraStore.coolingPending === 'cancel');
+
+// Adjustable heater strength is a camera capability, not a runtime mode:
+// get-settings (PINS only) reports MaxDewHeaterStrength for cameras that
+// support it; on/off-only heaters and NINA leave it unset.
+const hasDewHeaterStrength = computed(() => {
+  const max = cameraStore.cameraSettings?.MaxDewHeaterStrength;
+  return Number.isFinite(max) && max > 0;
+});
 
 // The active button becomes a cancel button; the opposite one is disabled
 // while a ramp runs or a cancel is still pending.

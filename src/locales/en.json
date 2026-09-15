@@ -4087,8 +4087,17 @@
         "screwCountFour": "4 screws (one per corner)",
         "fourScrewHint": "Adjust opposing screws as a pair (loosen one, tighten the other) so the plate cannot bind",
         "fourScrewApplyUnsupported": "Applying to a device is only supported for 3-screw tilters",
+        "positiveTurnDirection": "Positive Values Mean",
+        "positiveTurnInward": "Turn screw inward",
+        "positiveTurnOutward": "Turn screw outward",
+        "positiveTurnDirectionDescription": "Which way a positive calculated value turns the screw on your adapter",
         "shiftToNonNegative": "Screws start fully seated",
-        "shiftToNonNegativeDescription": "Reports travel from bottomed-out, so every value is positive. Uncheck to show signed adjustments from the current position.",
+        "startFromSeatedDescription": "A fully seated screw can only be turned inward, so all values are shifted until one screw needs no turn and the others turn inward. This changes only backfocus, not tilt. Uncheck to show signed adjustments from the current position.",
+        "inward": "inward",
+        "outward": "outward",
+        "turnsInward": "{turns} turns inward",
+        "turnsOutward": "{turns} turns outward",
+        "noTurn": "no turn",
         "applyTiltPlane": "Apply Tilt Plane",
         "fetchFromAberrationInspector": "Fetch from Aberration Inspector",
         "calculateActuatorPositions": "Calculate Actuator Positions",
@@ -4235,6 +4244,7 @@
         "localTime": "Local Time",
         "localDate": "Local Date",
         "siderealTime": "Sidereal Time"
+        }
       }
     },
     "pinsAllSky": {

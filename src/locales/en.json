@@ -230,6 +230,10 @@
         "rotationAngle": "Camera rotation",
         "fov": "Field of View"
       },
+      "rotationRuler": {
+        "label": "Rotation angle",
+        "reset": "Reset"
+      },
       "solvedRotation": {
         "short": "solved",
         "tooltip": "Camera rotation from the last successful plate solve"

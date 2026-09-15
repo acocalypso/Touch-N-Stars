@@ -121,7 +121,8 @@
         />
       </div>
 
-      <!-- Determine Rotation (immer sichtbar) -->
+      <!-- Rotation ruler + Determine Rotation (immer sichtbar) -->
+      <RotationRuler />
       <getImageRotation />
 
       <!-- Ausklappbare Einstellungen -->
@@ -148,6 +149,7 @@ import { apiStore } from '@/store/store';
 import apiService from '@/services/apiService';
 import { raDecToAltAz, degreesToHMS, degreesToDMS } from '@/utils/utils';
 import getImageRotation from '@/components/framing/getImageRotation.vue';
+import RotationRuler from '@/components/framing/RotationRuler.vue';
 import ButtonSlewCenterRotate from '@/components/mount/ButtonSlewCenterRotate.vue';
 import setSequenceTarget from '@/components/framing/setSequenceTarget.vue';
 import MosaicControls from '@/components/framing/MosaicControls.vue';

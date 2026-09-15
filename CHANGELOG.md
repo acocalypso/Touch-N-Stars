@@ -5,21 +5,26 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleasd]
+
+### Added
+- Atlas: The photographic DSS background is now downloaded once from the Atlas settings to the NINA/PINS host (base resolution or up to order 7) instead of being shipped with the app; the Atlas offers the base download on first open and works without it.
+- Atlas: Deleting the survey now lets you pick which order to keep (downgrade) instead of only wiping everything, with a confirmation dialog and a spinner while it runs.
+- Atlas: The camera panel now has the framing tools — favourites list, FITS plate solve and mosaic settings (mosaic panels are saved as individual favourites) — and the Atlas centres on targets loaded into framing from favourites, FITS solves or the sequence.
+
+### Changed
+- Atlas: Requires the Touch'N'Stars plugin with the survey download endpoints; older plugins show an update hint in the Atlas settings.
+- Atlas: The controls are rearranged into a search bar at the top and one toolbar at the bottom (mount, time, layers, target); the selected object and the camera field now share a single target panel, the frequent display toggles have their own Layers panel, and About moved into the settings.
+
+
 ## [App6.3.1-beta5] - 2026-09-15
 
 ### Added
 - Status bar: New Switch chip that shows how many ports are on and opens the switch controls from any page, so powering the equipment no longer needs a detour to the Switch tab.
 - Status bar: The filter panel now has the filter selector, so the filter can be changed from any page.
 - Status bar: The camera panel offers the cool-down and warm-up controls with the target temperature when the camera has a cooler.
-- Atlas: The photographic DSS background is now downloaded once from the Atlas settings to the NINA/PINS host (base resolution or up to order 7) instead of being shipped with the app; the Atlas offers the base download on first open and works without it.
-- Atlas: Deleting the survey now lets you pick which order to keep (downgrade) instead of only wiping everything, with a confirmation dialog and a spinner while it runs.
-- Atlas: The camera panel now has the framing tools — favourites list, FITS plate solve and mosaic settings (mosaic panels are saved as individual favourites) — and the Atlas centres on targets loaded into framing from favourites, FITS solves or the sequence.
 - Logfile Collector: PINS system diagnostics are now collected and included automatically, expanded log coverage, and progress is shown while the archive is being built.
 - Logfile Collector: Collect & Save now keeps the log archive inside the app (up to five) so it can be uploaded, exported to the device or deleted later from a saved-archives list.
-
-### Changed
-- Atlas: Requires the Touch'N'Stars plugin with the survey download endpoints; older plugins show an update hint in the Atlas settings.
-- Atlas: The controls are rearranged into a search bar at the top and one toolbar at the bottom (mount, time, layers, target); the selected object and the camera field now share a single target panel, the frequent display toggles have their own Layers panel, and About moved into the settings.
 
 ### Fixed
 - Filter wheel: The INDI manual wheel is no longer offered and an existing selection is switched to NINA's Manual Filter Wheel on connect, so the filter change confirmation appears again in PINS.

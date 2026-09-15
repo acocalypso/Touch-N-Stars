@@ -51,17 +51,7 @@
       <h4 class="atlas-target-heading">
         {{ $t('components.celestiaAtlas.target.camera_field') }}
       </h4>
-      <NumberInputPicker
-        v-model="rotationModel"
-        :label="$t('components.framing.fovSettings.rotationAngle')"
-        labelKey="components.framing.fovSettings.rotationAngle"
-        :min="0"
-        :max="360"
-        :step="1"
-        :decimalPlaces="1"
-        inputId="atlas-fov-rotation"
-        wrapperClass="w-full"
-      />
+      <RotationRuler />
       <getImageRotation />
       <MosaicControls :show-nina-cache="false" />
     </section>
@@ -167,7 +157,6 @@ import apiService from '@/services/apiService';
 import { degreesToHMS, degreesToDMS } from '@/utils/utils';
 import { toNinaJ2000Coordinates } from '@/integrations/celestiaAtlas/contracts';
 import { computeMosaicPanelCenters } from '@/integrations/celestiaAtlas/mosaicPanels';
-import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 import ButtonSlewCenterRotate from '@/components/mount/ButtonSlewCenterRotate.vue';
 import ButtomSyncCoordinatesToMount from '@/components/mount/ButtomSyncCoordinatesToMount.vue';
 import setSequenceTarget from '@/components/framing/setSequenceTarget.vue';
@@ -175,6 +164,7 @@ import SaveFavTargets from '@/components/favTargets/SaveFavTargets.vue';
 import FavTargets from '@/components/favTargets/FavTargets.vue';
 import FitsPlateSolve from '@/components/fitsPlatesolve/FitsPlateSolve.vue';
 import getImageRotation from '@/components/framing/getImageRotation.vue';
+import RotationRuler from '@/components/framing/RotationRuler.vue';
 import MosaicControls from '@/components/framing/MosaicControls.vue';
 
 // The single target panel of the Atlas. Its target is the tapped object while one is

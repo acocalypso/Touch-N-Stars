@@ -59,20 +59,26 @@ test('connects the existing display settings through the host-managed Atlas adap
 });
 
 test('shows selected-target images through the shared Framing Assistant cache', async () => {
-  const selectedObject = await readFile(
-    new URL('../../../components/celestiaAtlas/SelectedObject.vue', import.meta.url),
-    'utf8'
-  );
+  const [view, targetPanel] = await Promise.all([
+    readFile(new URL('../../../views/CelestiaAtlasView.vue', import.meta.url), 'utf8'),
+    readFile(
+      new URL('../../../components/celestiaAtlas/AtlasTargetPanel.vue', import.meta.url),
+      'utf8'
+    ),
+  ]);
 
-  assert.match(selectedObject, /apiService\.searchTargetPic\(/);
-  assert.match(selectedObject, /Number\(framingStore\.width\) \|\| 200/);
-  assert.match(selectedObject, /Number\(framingStore\.height\) \|\| 200/);
-  assert.match(selectedObject, /Number\(framingStore\.fov\) \|\| 5/);
-  assert.match(selectedObject, /props\.selectedObjectDecDeg,\s*true/);
-  assert.match(selectedObject, /URL\.revokeObjectURL/);
-  assert.match(selectedObject, /targetPreviewHasContent/);
-  assert.match(selectedObject, /document\.createElement\('canvas'\)/);
-  assert.match(selectedObject, /v-if="targetPreviewUrl"/);
+  assert.match(targetPanel, /apiService\.searchTargetPic\(/);
+  assert.match(targetPanel, /Number\(framingStore\.width\) \|\| 200/);
+  assert.match(targetPanel, /Number\(framingStore\.height\) \|\| 200/);
+  assert.match(targetPanel, /Number\(framingStore\.fov\) \|\| 5/);
+  assert.match(targetPanel, /props\.selection\.decDeg,\s*true/);
+  assert.match(targetPanel, /URL\.revokeObjectURL/);
+  assert.match(targetPanel, /targetPreviewHasContent/);
+  assert.match(targetPanel, /document\.createElement\('canvas'\)/);
+  assert.match(targetPanel, /v-if="targetPreviewUrl"/);
+  // The preview is redundant once the Atlas draws its own photographic survey.
+  assert.match(targetPanel, /if \(!props\.showPreview \|\| !selectionValid\.value\) return;/);
+  assert.match(view, /:show-preview="surveyStore\.installedOrder === null"/);
 });
 
 test('uses app-owned photographic survey data without any public online tile source', async () => {
@@ -125,7 +131,9 @@ test('uses app-owned photographic survey data without any public online tile sou
   assert.match(settings, /settingsStore\.celestiaAtlas\.skySurveyVisible !== false/);
   assert.match(view, /:deep\(\.celestia-atlas-survey-credit\)/);
   assert.match(view, /display: none !important/);
-  assert.match(view, /<CelestiaAtlasAbout/);
+  assert.match(settings, /<CelestiaAtlasAbout \/>/);
+  assert.doesNotMatch(view, /<CelestiaAtlasAbout/);
+  assert.doesNotMatch(about, /<Modal/);
   assert.match(about, /Photographic sky survey/);
   assert.match(about, /STScI\/NASA/);
   assert.match(about, /does not fetch public survey tiles/);
@@ -150,25 +158,37 @@ test('uses app-owned photographic survey data without any public online tile sou
 });
 
 test('keeps mobile Atlas controls touch-sized and above the shared status bar', async () => {
-  const [view, settings] = await Promise.all([
+  const [view, settings, toolbar, sheet] = await Promise.all([
     readFile(new URL('../../../views/CelestiaAtlasView.vue', import.meta.url), 'utf8'),
     readFile(
       new URL('../../../components/celestiaAtlas/CelestiaAtlasSettings.vue', import.meta.url),
       'utf8'
     ),
+    readFile(
+      new URL('../../../components/celestiaAtlas/AtlasToolbar.vue', import.meta.url),
+      'utf8'
+    ),
+    readFile(new URL('../../../components/celestiaAtlas/AtlasSheet.vue', import.meta.url), 'utf8'),
   ]);
 
   assert.match(
     view,
     /:deep\(\.celestia-atlas-icon-button\)\s*{[\s\S]*width: var\(--spacing-touch\)/
   );
-  assert.match(view, /\.celestia-atlas-controls\s*{[\s\S]*bottom: var\(--above-statusbar\)/);
-  assert.match(view, /\.celestia-atlas-mount-controls\s*{[\s\S]*bottom: var\(--above-statusbar\)/);
-  assert.match(view, /\.celestia-atlas-clock\s*{[\s\S]*bottom: var\(--above-statusbar\)/);
-  assert.match(view, /<PauseIcon v-else/);
+  // One toolbar anchors every floating control; sheet and message slot clear it via one
+  // variable instead of per-element bottom offsets and viewport-width special cases.
+  assert.match(toolbar, /\.celestia-atlas-toolbar\s*{[\s\S]*bottom: var\(--above-statusbar\)/);
+  assert.match(view, /--atlas-toolbar-clearance: calc\(var\(--above-statusbar\)/);
+  assert.match(sheet, /bottom: var\(--atlas-toolbar-clearance\)/);
+  assert.match(view, /\.celestia-atlas-toast\s*{[\s\S]*bottom: var\(--atlas-toolbar-clearance\)/);
+  assert.doesNotMatch(view, /@media \(max-width: 390px\)/);
+  assert.match(toolbar, /:disabled="!mountConnected"/);
+  assert.match(toolbar, /<ViewfinderCircleIcon/);
+  assert.match(toolbar, /<ArrowPathIcon/);
+  assert.match(toolbar, /@click="\$emit\('toggle-sheet', 'clock'\)"/);
   assert.match(view, /<PlayIcon v-if="clockPaused"/);
-  assert.match(view, /<ViewfinderCircleIcon/);
-  assert.match(view, /<ArrowPathIcon/);
+  assert.match(view, /<PauseIcon v-else/);
+  assert.match(view, /<AtlasLayersPanel v-else-if="activeSheet === 'layers'"/);
   assert.match(settings, /grid-cols-\[minmax\(0,1fr\)_auto\]/);
   assert.match(settings, /grid min-h-24/);
   assert.match(settings, /break-words whitespace-normal/);
@@ -176,7 +196,6 @@ test('keeps mobile Atlas controls touch-sized and above the shared status bar', 
   assert.match(settings, /cometRefreshState === 'loading'/);
   assert.match(view, /@refresh-comets="refreshCometData"/);
   assert.doesNotMatch(view, /aria-label="Refresh comet data"/);
-  assert.match(view, /@media \(max-width: 390px\)[\s\S]*var\(--spacing-touch\)/);
 });
 
 test('localizes the contextual comet refresh settings for every supported locale', async () => {
@@ -348,7 +367,7 @@ test('routes every Atlas view-center action through the J2000 command boundary',
   const [view, actions] = await Promise.all([
     readFile(new URL('../../../views/CelestiaAtlasView.vue', import.meta.url), 'utf8'),
     readFile(
-      new URL('../../../components/celestiaAtlas/AtlasFovRotation.vue', import.meta.url),
+      new URL('../../../components/celestiaAtlas/AtlasTargetPanel.vue', import.meta.url),
       'utf8'
     ),
   ]);
@@ -358,27 +377,31 @@ test('routes every Atlas view-center action through the J2000 command boundary',
   assert.doesNotMatch(view, /result\.frame \|\| 'ICRS'/);
   assert.match(actions, /setCommandCoordinates\(props\.getViewCenter\(\)\)/);
   assert.match(actions, /toNinaJ2000Coordinates\(value \?\? \{\}\)/);
-  assert.match(actions, /function invalidateCoordinates\(\)[\s\S]*raDeg\.value = null/);
-  assert.match(actions, /<fieldset[\s\S]*:disabled="!hasValidCoordinates"/);
+  assert.match(actions, /function invalidateCoordinates\(\)[\s\S]*viewRaDeg\.value = null/);
+  assert.match(actions, /<fieldset[\s\S]*:disabled="!actionsEnabled"/);
+  assert.match(actions, /const actionsEnabled = computed\([\s\S]*hasValidCoordinates\.value/);
 });
 
 test('reuses the complete selected-target workflow at the Atlas J2000 command boundary', async () => {
-  const [view, selectedObject, selectionModel, favorites] = await Promise.all([
+  const [view, selectedObject, selectionModel, favorites, sheet] = await Promise.all([
     readFile(new URL('../../../views/CelestiaAtlasView.vue', import.meta.url), 'utf8'),
     readFile(
-      new URL('../../../components/celestiaAtlas/SelectedObject.vue', import.meta.url),
+      new URL('../../../components/celestiaAtlas/AtlasTargetPanel.vue', import.meta.url),
       'utf8'
     ),
     readFile(new URL('../selectionModel.js', import.meta.url), 'utf8'),
     readFile(new URL('../../../components/favTargets/SaveFavTargets.vue', import.meta.url), 'utf8'),
+    readFile(new URL('../../../components/celestiaAtlas/AtlasSheet.vue', import.meta.url), 'utf8'),
   ]);
 
-  assert.match(view, /<SelectedSkyObject/);
+  // One target panel serves both the tapped object and the view centre.
+  assert.match(view, /<AtlasTargetPanel[\s\S]*:selection="selectedObjectCommand"/);
   assert.match(view, /const selectedObjectCommand = computed/);
   assert.match(view, /atlasSelectionToCommandModel\(selectedTarget\.value\)/);
-  assert.match(view, /:command-target="selectedObjectCommand\.commandTarget"/);
-  assert.match(view, /dismissible/);
-  assert.match(view, /@dismiss="hideSelectedTargetDetails"/);
+  assert.match(view, /@clear-selection="hideSelectedTargetDetails"/);
+  assert.match(view, /selectedTarget\.value = target;\s*activeSheet\.value = 'target';/);
+  assert.match(view, /if \(activeSheet\.value === 'target'\) selectedTarget\.value = null;/);
+  assert.doesNotMatch(view, /AtlasFovRotation|SelectedSkyObject|CelestiaAtlasAbout/);
   assert.doesNotMatch(view, /sendSelectionToFraming/);
   assert.doesNotMatch(view, /store\.mount\.currentTab = 'showSlew'/);
   assert.doesNotMatch(view, /router\.push\('\/mount'\)/);
@@ -387,18 +410,19 @@ test('reuses the complete selected-target workflow at the Atlas J2000 command bo
   assert.match(selectionModel, /raString: degreesToHMS\(commandTarget\.RA\)/);
   assert.match(selectionModel, /decString: degreesToDMS\(commandTarget\.Dec\)/);
 
-  assert.match(selectedObject, /selectedObject: Array/);
-  assert.match(selectedObject, /commandTarget:[\s\S]*default: null/);
-  assert.match(selectedObject, /<fieldset[\s\S]*:disabled="!actionControlsEnabled"/);
+  assert.match(selectedObject, /selection:[\s\S]*type: Object,[\s\S]*default: null/);
+  assert.match(selectedObject, /<fieldset[\s\S]*:disabled="!actionsEnabled"/);
   assert.match(selectedObject, /<SaveFavTargets/);
   assert.match(selectedObject, /@click="openFramingModal"/);
   assert.match(selectedObject, /<setSequenceTarget/);
   assert.match(selectedObject, /<ButtonSlewCenterRotate/);
   assert.match(selectedObject, /<ButtomSyncCoordinatesToMount/);
-  assert.match(selectedObject, /\.\.\.\(props\.commandTarget \?\? \{\}\)/);
+  assert.match(selectedObject, /<FavTargets variant="button"/);
+  assert.match(selectedObject, /<FitsPlateSolve[\s\S]*variant="button"/);
+  assert.match(selectedObject, /\.\.\.\(props\.selection\?\.commandTarget \?\? \{\}\)/);
   assert.match(selectedObject, /router\.push\('\/framing'\)/);
-  assert.match(selectedObject, /defineEmits\(\['dismiss'\]\)/);
-  assert.match(selectedObject, /selected-object-content-landscape/);
-  assert.match(selectedObject, /100dvh/);
+  assert.match(selectedObject, /defineEmits\(\['clear-selection'\]\)/);
+  assert.match(sheet, /atlas-sheet-landscape/);
+  assert.match(sheet, /overflow-y: auto/);
   assert.match(favorites, /<Teleport to="body">/);
 });

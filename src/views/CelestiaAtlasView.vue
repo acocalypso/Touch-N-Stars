@@ -2,57 +2,27 @@
   <div class="celestia-atlas-container" :class="containerClasses">
     <div ref="viewerContainer" class="celestia-atlas-viewer" />
     <canvas ref="secondaryFovCanvas" class="celestia-atlas-secondary-fov" />
-    <div v-if="ready" class="celestia-atlas-search">
-      <input
-        v-model="searchQuery"
-        class="tns-input w-full"
-        type="search"
-        :placeholder="t('components.framing.search.placeholder')"
-        @input="runSearch"
-      />
-      <ul v-if="searchResults.length" class="celestia-atlas-results tns-select">
-        <li
-          v-for="result in searchResults"
-          :key="result.catalogId || result.id"
-          class="p-2 cursor-pointer hover:bg-blue-700"
-          @click="selectSearchResult(result)"
-        >
-          {{ result.displayName || result.name || result.id }}
-        </li>
-      </ul>
-    </div>
-    <div v-if="ready && store.mountInfo.Connected" class="celestia-atlas-mount-controls">
-      <button
-        class="celestia-atlas-icon-button bg-gray-700 border border-cyan-600 rounded-full"
-        type="button"
-        title="Center view on mount position"
-        aria-label="Center view on mount position"
-        @click="focusMount"
-      >
-        <ViewfinderCircleIcon class="h-7 w-7" />
-      </button>
-      <button
-        class="celestia-atlas-icon-button border border-cyan-600 rounded-full"
-        :class="mountFollow ? 'bg-cyan-600' : 'bg-gray-700'"
-        type="button"
-        title="Toggle auto-sync view with mount"
-        aria-label="Toggle auto-sync view with mount"
-        @click="toggleMountFollow"
-      >
-        <ArrowPathIcon class="h-7 w-7" />
-      </button>
-    </div>
-    <AtlasFovRotation
-      v-if="ready"
-      :get-view-center="getAtlasViewCenter"
-      :active="store.showSkyAtlas"
-      :fov-available="showFovControls"
-      :camera-fov="cameraFov"
-      :missing-equipment-settings="hasMissingEquipmentSettings"
-      default-target-name="Celestia Atlas view"
-    />
-    <div v-if="ready" class="celestia-atlas-controls">
-      <CelestiaAtlasAbout />
+
+    <!-- Header: search and settings. Everything else lives in the toolbar below. -->
+    <div v-if="ready" class="celestia-atlas-header">
+      <div class="celestia-atlas-search">
+        <MagnifyingGlassIcon class="celestia-atlas-search-icon" aria-hidden="true" />
+        <input
+          id="atlas-search"
+          v-model="searchQuery"
+          class="tns-input celestia-atlas-search-input"
+          type="search"
+          :placeholder="t('components.framing.search.placeholder')"
+          @input="runSearch"
+        />
+        <ul v-if="searchResults.length" class="celestia-atlas-results">
+          <li v-for="result in searchResults" :key="result.catalogId || result.id">
+            <button class="celestia-atlas-result" type="button" @click="selectSearchResult(result)">
+              {{ result.displayName || result.name || result.id }}
+            </button>
+          </li>
+        </ul>
+      </div>
       <CelestiaAtlasSettings
         :catalog-object-types="catalogFacets.objectTypes"
         :catalogue-groups="catalogFacets.catalogueGroups"
@@ -63,47 +33,11 @@
         @refresh-comets="refreshCometData"
       />
     </div>
-    <div v-if="ready" class="celestia-atlas-clock">
-      <div class="flex gap-1">
-        <button
-          class="celestia-atlas-icon-button bg-black/80 rounded-full"
-          type="button"
-          :title="clockPaused ? 'Play' : 'Pause'"
-          :aria-label="clockPaused ? 'Play' : 'Pause'"
-          @click="toggleClock"
-        >
-          <PlayIcon v-if="clockPaused" class="h-7 w-7" />
-          <PauseIcon v-else class="h-7 w-7" />
-        </button>
-        <button
-          class="bg-black/80 rounded-full px-2 py-2 font-mono text-sm"
-          type="button"
-          @click="toggleClockPanel"
-        >
-          {{ clockLabel }}
-        </button>
-      </div>
-      <div v-if="clockPanelVisible" class="celestia-atlas-clock-panel">
-        <label>
-          {{ t('components.celestiaAtlas.datetime.date') }}
-          <input v-model="clockDate" class="tns-input" type="date" @change="applyClockInput" />
-        </label>
-        <label>
-          {{ t('components.celestiaAtlas.datetime.time') }}
-          <input v-model="clockTime" class="tns-input" type="time" @change="applyClockInput" />
-        </label>
-        <label>
-          {{ t('components.celestiaAtlas.datetime.speed') }}: {{ Math.pow(2, clockSpeedPower) }}×
-          <input v-model.number="clockSpeedPower" type="range" min="-10" max="10" step="1" />
-        </label>
-        <button class="tns-btn-primary" type="button" @click="resetClockToServer">
-          {{ t('components.celestiaAtlas.datetime.now') }}
-        </button>
-      </div>
-    </div>
+
+    <!-- One message slot above the toolbar: survey offer / progress, else landscape errors -->
     <div
       v-if="surveyBannerMode"
-      class="celestia-atlas-survey-offer"
+      class="celestia-atlas-toast"
       role="status"
       data-testid="atlas-survey-offer"
     >
@@ -156,22 +90,104 @@
         </div>
       </template>
     </div>
-    <SelectedSkyObject
-      v-if="selectedObjectCommand"
-      :selected-object="selectedObjectCommand.names"
-      :selected-object-ra="selectedObjectCommand.raString"
-      :selected-object-dec="selectedObjectCommand.decString"
-      :selected-object-ra-deg="selectedObjectCommand.raDeg"
-      :selected-object-dec-deg="selectedObjectCommand.decDeg"
-      :command-target="selectedObjectCommand.commandTarget"
-      dismissible
-      @dismiss="hideSelectedTargetDetails"
+    <div
+      v-else-if="landscapeErrorMessage"
+      class="celestia-atlas-toast celestia-atlas-toast-warning"
+      role="status"
+    >
+      {{ landscapeErrorMessage }}
+    </div>
+
+    <!-- The one sheet: target, time or layers -->
+    <AtlasSheet v-if="ready" :open="activeSheet !== null" :title="sheetTitle" @close="closeSheet">
+      <AtlasTargetPanel
+        v-if="activeSheet === 'target'"
+        :selection="selectedObjectCommand"
+        :get-view-center="getAtlasViewCenter"
+        :active="store.showSkyAtlas"
+        :fov-available="showFovControls"
+        :camera-fov="cameraFov"
+        :missing-equipment-settings="hasMissingEquipmentSettings"
+        :show-preview="surveyStore.installedOrder === null"
+        default-target-name="Celestia Atlas view"
+        @clear-selection="hideSelectedTargetDetails"
+      />
+      <div v-else-if="activeSheet === 'clock'" class="grid gap-3">
+        <div class="grid grid-cols-2 gap-2">
+          <button class="tns-btn-secondary" type="button" @click="toggleClock">
+            <PlayIcon v-if="clockPaused" class="h-5 w-5 shrink-0" />
+            <PauseIcon v-else class="h-5 w-5 shrink-0" />
+            <span>
+              {{
+                t(
+                  clockPaused
+                    ? 'components.celestiaAtlas.datetime.play'
+                    : 'components.celestiaAtlas.datetime.pause'
+                )
+              }}
+            </span>
+          </button>
+          <button class="tns-btn-primary" type="button" @click="resetClockToServer">
+            {{ t('components.celestiaAtlas.datetime.now') }}
+          </button>
+        </div>
+        <label class="grid gap-1 text-sm text-content-muted" for="atlas-clock-date">
+          {{ t('components.celestiaAtlas.datetime.date') }}
+          <input
+            id="atlas-clock-date"
+            v-model="clockDate"
+            class="tns-input"
+            type="date"
+            @change="applyClockInput"
+          />
+        </label>
+        <label class="grid gap-1 text-sm text-content-muted" for="atlas-clock-time">
+          {{ t('components.celestiaAtlas.datetime.time') }}
+          <input
+            id="atlas-clock-time"
+            v-model="clockTime"
+            class="tns-input"
+            type="time"
+            @change="applyClockInput"
+          />
+        </label>
+        <label class="grid gap-1 text-sm text-content-muted" for="atlas-clock-speed">
+          <span class="flex justify-between gap-2">
+            <span>{{ t('components.celestiaAtlas.datetime.speed') }}</span>
+            <output class="font-mono tabular-nums text-content">
+              {{ Math.pow(2, clockSpeedPower) }}×
+            </output>
+          </span>
+          <input
+            id="atlas-clock-speed"
+            v-model.number="clockSpeedPower"
+            class="h-11 w-full accent-cyan-500"
+            type="range"
+            min="-10"
+            max="10"
+            step="1"
+          />
+        </label>
+      </div>
+      <AtlasLayersPanel v-else-if="activeSheet === 'layers'" />
+    </AtlasSheet>
+
+    <AtlasToolbar
+      v-if="ready"
+      :mount-connected="Boolean(store.mountInfo.Connected)"
+      :mount-follow="mountFollow"
+      :clock-paused="clockPaused"
+      :clock-label="clockLabel"
+      :clock-label-short="clockLabelShort"
+      :active-sheet="activeSheet"
+      :has-selection="selectedObjectCommand !== null"
+      @focus-mount="focusMount"
+      @toggle-follow="toggleMountFollow"
+      @toggle-sheet="toggleSheet"
     />
+
     <div v-if="errorMessage" class="celestia-atlas-error" role="alert">
       {{ errorMessage }}
-    </div>
-    <div v-else-if="landscapeErrorMessage" class="celestia-atlas-landscape-error" role="status">
-      {{ landscapeErrorMessage }}
     </div>
     <div v-else-if="!ready" class="celestia-atlas-loading">
       {{ t('components.celestiaAtlas.loading') }}
@@ -226,16 +242,12 @@ import {
   loadCachedCometCatalog,
   saveCachedCometCatalog,
 } from '@/integrations/celestiaAtlas/cometCatalog';
-import AtlasFovRotation from '@/components/celestiaAtlas/AtlasFovRotation.vue';
+import AtlasLayersPanel from '@/components/celestiaAtlas/AtlasLayersPanel.vue';
+import AtlasSheet from '@/components/celestiaAtlas/AtlasSheet.vue';
+import AtlasTargetPanel from '@/components/celestiaAtlas/AtlasTargetPanel.vue';
+import AtlasToolbar from '@/components/celestiaAtlas/AtlasToolbar.vue';
 import CelestiaAtlasSettings from '@/components/celestiaAtlas/CelestiaAtlasSettings.vue';
-import CelestiaAtlasAbout from '@/components/celestiaAtlas/CelestiaAtlasAbout.vue';
-import SelectedSkyObject from '@/components/celestiaAtlas/SelectedObject.vue';
-import {
-  ArrowPathIcon,
-  PauseIcon,
-  PlayIcon,
-  ViewfinderCircleIcon,
-} from '@heroicons/vue/24/outline';
+import { MagnifyingGlassIcon, PauseIcon, PlayIcon } from '@heroicons/vue/24/outline';
 
 const store = apiStore();
 const framingStore = useFramingStore();
@@ -256,7 +268,9 @@ const catalogFacets = ref({ objectTypes: [], catalogueGroups: [], starCatalogueG
 const mountFollow = ref(false);
 const clockPaused = ref(false);
 const clockLabel = ref('');
-const clockPanelVisible = ref(false);
+const clockLabelShort = ref('');
+// Which sheet is open: 'target' | 'clock' | 'layers' | null. Only one at a time.
+const activeSheet = ref(null);
 const clockDate = ref('');
 const clockTime = ref('');
 const clockSpeedPower = ref(0);
@@ -284,6 +298,28 @@ const showFovControls = computed(
     Boolean(store.profileInfo?.TelescopeSettings?.FocalLength)
 );
 const selectedObjectCommand = computed(() => atlasSelectionToCommandModel(selectedTarget.value));
+const sheetTitle = computed(() => {
+  if (activeSheet.value === 'target') return t('components.celestiaAtlas.target.title');
+  if (activeSheet.value === 'clock') return t('components.celestiaAtlas.datetime.title');
+  if (activeSheet.value === 'layers') return t('components.celestiaAtlas.toolbar.layers');
+  return '';
+});
+
+function toggleSheet(name) {
+  if (activeSheet.value === name) {
+    closeSheet();
+    return;
+  }
+  if (name === 'clock') updateClockInputs();
+  activeSheet.value = name;
+}
+
+// Closing the target sheet also drops the selection; the toolbar dot would otherwise
+// promise a target the user has just dismissed.
+function closeSheet() {
+  if (activeSheet.value === 'target') selectedTarget.value = null;
+  activeSheet.value = null;
+}
 
 function getAtlasViewCenter() {
   const center = viewer?.getView().center;
@@ -476,11 +512,6 @@ function updateClockInputs() {
   clockTime.value = local.toISOString().slice(11, 16);
 }
 
-function toggleClockPanel() {
-  clockPanelVisible.value = !clockPanelVisible.value;
-  if (clockPanelVisible.value) updateClockInputs();
-}
-
 function applyClockInput() {
   if (!viewer || !clockDate.value || !clockTime.value) return;
   const value = new Date(`${clockDate.value}T${clockTime.value}:00`);
@@ -497,11 +528,13 @@ async function resetClockToServer() {
 
 function updateClockLabel() {
   if (!viewer) return;
-  clockLabel.value = new Date(viewer.getTime()).toLocaleTimeString([], {
+  const time = new Date(viewer.getTime());
+  clockLabel.value = time.toLocaleTimeString([], {
     hour: '2-digit',
     minute: '2-digit',
     second: '2-digit',
   });
+  clockLabelShort.value = time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 }
 
 function startClockDisplay() {
@@ -863,6 +896,7 @@ onMounted(async () => {
       skySurveySource: null,
       onSelect: (target) => {
         selectedTarget.value = target;
+        activeSheet.value = 'target';
       },
       onViewChange: (viewState) => {
         queueViewPersistence(viewState);
@@ -919,6 +953,12 @@ onBeforeUnmount(() => {
 .celestia-atlas-container {
   position: fixed;
   z-index: 1;
+  /* Shared geometry for header, sheet and toolbar; see AtlasSheet.vue / AtlasToolbar.vue. */
+  --atlas-toolbar-height: 4rem;
+  --atlas-toolbar-clearance: calc(var(--above-statusbar) + var(--atlas-toolbar-height) + 0.5rem);
+  --atlas-header-clearance: calc(
+    0.75rem + env(safe-area-inset-top, 0px) + var(--spacing-touch) + 0.5rem
+  );
 }
 .celestia-atlas-viewer {
   width: 100%;
@@ -957,35 +997,105 @@ onBeforeUnmount(() => {
   color: white;
   background: #03060d;
 }
-.celestia-atlas-landscape-error {
-  position: absolute;
-  left: 50%;
-  bottom: 4.5rem;
-  transform: translateX(-50%);
-  max-width: min(90%, 32rem);
-  padding: 0.5rem 0.75rem;
-  border-radius: 0.5rem;
-  background: rgba(120, 53, 15, 0.9);
-  color: white;
-  z-index: 20;
-}
 .celestia-atlas-error {
   color: #fca5a5;
 }
-.celestia-atlas-survey-offer {
+
+/* Header ------------------------------------------------------------------------ */
+.celestia-atlas-header {
   position: absolute;
+  z-index: 25;
+  top: calc(0.75rem + env(safe-area-inset-top, 0px));
+  left: calc(0.75rem + env(safe-area-inset-left, 0px));
+  right: calc(0.75rem + env(safe-area-inset-right, 0px));
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  pointer-events: none;
+}
+.celestia-atlas-header > * {
+  pointer-events: auto;
+}
+.celestia-atlas-search {
+  position: relative;
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: 24rem;
+}
+.celestia-atlas-search-icon {
+  position: absolute;
+  top: 50%;
+  left: 0.75rem;
+  width: 1.25rem;
+  height: 1.25rem;
+  transform: translateY(-50%);
+  color: var(--color-content-faint);
+  pointer-events: none;
+}
+.celestia-atlas-search-input {
+  padding-left: 2.5rem;
+  background: rgb(17 24 39 / 92%);
+}
+.celestia-atlas-results {
+  position: absolute;
+  top: calc(100% + 0.25rem);
+  left: 0;
+  right: 0;
+  max-height: 20rem;
+  overflow-y: auto;
+  background: rgb(17 24 39 / 96%);
+  border: 1px solid var(--color-line-strong);
+  border-radius: var(--radius-control);
+}
+.celestia-atlas-result {
+  display: block;
+  width: 100%;
+  min-height: var(--spacing-touch);
+  padding: 0.5rem 0.75rem;
+  text-align: left;
+  color: var(--color-content);
+}
+.celestia-atlas-result:hover {
+  background: var(--color-surface-2);
+}
+:deep(.celestia-atlas-icon-button) {
+  display: inline-grid;
+  width: var(--spacing-touch);
+  height: var(--spacing-touch);
+  flex: 0 0 var(--spacing-touch);
+  place-items: center;
+  padding: 0.5rem;
+  color: white;
+}
+:deep(.celestia-atlas-header-button) {
+  color: var(--color-content);
+  background: rgb(17 24 39 / 92%);
+  border: 1px solid var(--color-line-strong);
+  border-radius: var(--radius-control);
+}
+:deep(.celestia-atlas-header-button.is-active) {
+  color: var(--color-accent);
+}
+
+/* Message slot above the toolbar ---------------------------------------------- */
+.celestia-atlas-toast {
+  position: absolute;
+  z-index: 15;
   left: 50%;
-  bottom: calc(var(--above-statusbar) + var(--spacing-touch) + 1rem);
+  bottom: var(--atlas-toolbar-clearance);
   transform: translateX(-50%);
   display: grid;
   gap: 0.5rem;
-  width: min(28rem, calc(100vw - 2rem));
+  width: min(28rem, calc(100% - 1rem));
   padding: 0.75rem 1rem;
-  border-radius: 0.75rem;
+  border-radius: var(--radius-card);
   background: rgb(3 7 18 / 92%);
   border: 1px solid rgb(8 145 178);
   color: white;
-  z-index: 5;
+}
+.celestia-atlas-toast-warning {
+  background: rgba(120, 53, 15, 0.92);
+  border-color: rgb(180 83 9);
 }
 .celestia-atlas-survey-progress {
   height: 0.375rem;
@@ -997,77 +1107,5 @@ onBeforeUnmount(() => {
   height: 100%;
   background: rgb(6 182 212);
   transition: width 0.4s ease;
-}
-.celestia-atlas-search {
-  position: absolute;
-  z-index: 3;
-  top: calc(1rem + env(safe-area-inset-top, 0px));
-  right: calc(1rem + env(safe-area-inset-right, 0px));
-  width: min(24rem, calc(100% - 2rem));
-}
-.celestia-atlas-results {
-  max-height: 20rem;
-  overflow-y: auto;
-}
-.celestia-atlas-controls {
-  position: absolute;
-  z-index: 4;
-  right: calc(1rem + env(safe-area-inset-right, 0px));
-  bottom: var(--above-statusbar);
-  display: flex;
-  gap: 0.5rem;
-  padding: 0.4rem;
-  color: white;
-  background: rgb(0 0 0 / 85%);
-  border-radius: 9999px;
-}
-.celestia-atlas-mount-controls {
-  position: absolute;
-  z-index: 3;
-  left: calc(1rem + env(safe-area-inset-left, 0px));
-  bottom: var(--above-statusbar);
-  display: flex;
-  gap: 0.5rem;
-  color: white;
-}
-.celestia-atlas-clock {
-  position: absolute;
-  z-index: 3;
-  left: 50%;
-  bottom: var(--above-statusbar);
-  color: white;
-  transform: translateX(-50%);
-}
-.celestia-atlas-clock-panel {
-  position: absolute;
-  bottom: 3.5rem;
-  left: 50%;
-  display: grid;
-  gap: 0.6rem;
-  width: min(22rem, calc(100vw - 2rem));
-  padding: 0.8rem;
-  color: white;
-  background: rgb(3 7 18 / 95%);
-  border: 1px solid rgb(8 145 178);
-  border-radius: 0.75rem;
-  transform: translateX(-50%);
-}
-:deep(.celestia-atlas-icon-button) {
-  display: inline-grid;
-  width: var(--spacing-touch);
-  height: var(--spacing-touch);
-  flex: 0 0 var(--spacing-touch);
-  place-items: center;
-  padding: 0.5rem;
-  color: white;
-}
-.celestia-atlas-clock-panel label {
-  display: grid;
-  gap: 0.25rem;
-}
-@media (max-width: 390px) {
-  .celestia-atlas-clock {
-    bottom: calc(var(--above-statusbar) + var(--spacing-touch) + 0.5rem);
-  }
 }
 </style>

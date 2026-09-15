@@ -2133,7 +2133,9 @@
         "date": "Date",
         "time": "Time",
         "now": "Now",
-        "speed": "Speed"
+        "speed": "Speed",
+        "pause": "Pause time",
+        "play": "Run time"
       },
       "mount_position": {},
       "settings": {
@@ -2186,7 +2188,12 @@
         "refresh_comet_data": "Refresh",
         "refreshing_comet_data": "Refreshing…",
         "comet_data_updated": "Updated {count} comets.",
-        "comet_data_failed": "Update failed: {message}"
+        "comet_data_failed": "Update failed: {message}",
+        "section_display": "Display",
+        "section_landscape": "Landscape",
+        "section_survey": "Photographic survey",
+        "section_catalogs": "Catalogues",
+        "section_about": "About"
       },
       "survey": {
         "title": "Photographic survey data",
@@ -2224,6 +2231,24 @@
         "offer_accept": "Download",
         "offer_decline": "Not now",
         "offer_progress": "Downloading the sky background… {percent} %"
+      },
+      "toolbar": {
+        "label": "Atlas controls",
+        "mount_center": "Centre on mount",
+        "mount_follow": "Follow mount",
+        "layers": "Layers",
+        "mount_center_short": "Show mount",
+        "mount_follow_short": "Follow mount",
+        "framing": "Framing"
+      },
+      "target": {
+        "title": "Framing",
+        "source_object": "Selected object",
+        "source_view": "View centre",
+        "clear_selection": "Back to view centre",
+        "camera_field": "Camera field",
+        "actions": "Actions",
+        "more": "More"
       }
     },
     "profile": {

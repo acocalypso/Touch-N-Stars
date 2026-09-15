@@ -222,6 +222,7 @@ import { normalizeAtlasMagnitudeLimit } from '@/integrations/celestiaAtlas/magni
 import { ATLAS_POSITION_ANGLE_CONVENTION } from '@/integrations/celestiaAtlas/positionAngle';
 import { computeSecondaryFieldOfViewFrame } from '@/integrations/celestiaAtlas/secondaryFieldOfView';
 import {
+  CELESTIA_ATLAS_DATA_PATH,
   DSS_SURVEY_BASE_ORDER,
   DSS_SURVEY_MIN_ORDER,
   createDssSkySurveySource,
@@ -229,6 +230,7 @@ import {
   loadDssSurveyOrder,
   resolveCelestiaAtlasDataBaseUrl,
 } from '@/integrations/celestiaAtlas/offlineSkySurvey';
+import { getUrls } from '@/services/api/core';
 import { useCelestiaAtlasSurveyStore } from '@/store/celestiaAtlasSurveyStore';
 import { formatSurveyBytes } from '@/utils/formatSurveyBytes';
 import { timeSync } from '@/utils/timeSync';
@@ -656,6 +658,17 @@ function atlasDataBaseUrl() {
   });
 }
 
+// The DSS survey is plugin-managed data, not a packaged asset: the Vite dev server
+// answers /celestia-atlas-data/surveys/dss with the SPA fallback (no properties, no
+// tiles). In dev the layer is therefore fetched from the plugin server, which
+// getUrls() already resolves with the 8080 -> 5000 dev port rule.
+function surveyDataBaseUrl() {
+  if (import.meta.env.DEV && !Capacitor.isNativePlatform()) {
+    return `${getUrls().PLUGINSERVER_URL}${CELESTIA_ATLAS_DATA_PATH}`;
+  }
+  return atlasDataBaseUrl();
+}
+
 // The survey layer follows what the plugin server advertises in `properties`: the
 // installed order becomes maxOrder, no properties file means no photographic layer.
 // A token guards against a slow lookup overtaking a newer one after a host switch.
@@ -663,7 +676,7 @@ let surveyLookupToken = 0;
 async function updateSkySurveySource() {
   if (!viewer) return;
   const token = ++surveyLookupToken;
-  const baseUrl = atlasDataBaseUrl();
+  const baseUrl = surveyDataBaseUrl();
   const order = await loadDssSurveyOrder(baseUrl);
   if (disposed || !viewer || token !== surveyLookupToken) return;
   viewer.setSkySurvey(order === null ? null : createDssSkySurveySource(baseUrl, order));

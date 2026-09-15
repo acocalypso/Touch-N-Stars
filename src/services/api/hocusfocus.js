@@ -419,7 +419,8 @@ export default {
       outerRadius,
       dontOffsetToZero,
       screwCount,
-      shiftToNonNegative
+      shiftToNonNegative,
+      positiveTurnIsOutward
     ) {
       try {
         const { API_URL } = getUrls();
@@ -449,6 +450,11 @@ export default {
         // Include shiftToNonNegative if provided (report travel from fully seated screws)
         if (shiftToNonNegative !== undefined && shiftToNonNegative !== null) {
           requestBody.shiftToNonNegative = shiftToNonNegative;
+        }
+
+        // Include positiveTurnIsOutward if provided (manual tilter screw direction)
+        if (positiveTurnIsOutward !== undefined && positiveTurnIsOutward !== null) {
+          requestBody.positiveTurnIsOutward = positiveTurnIsOutward;
         }
 
         const response = await axios.post(

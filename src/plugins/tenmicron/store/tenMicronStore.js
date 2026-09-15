@@ -71,6 +71,11 @@ export const useTenMicronStore = defineStore('tenMicronStore', {
     },
 
     // Alignment model
+    // Reading the alignment model costs one LX200 round trip per alignment star, and the model
+    // names cost another, so neither is fetched on page load. These flags record that the tab was
+    // opened once this session; the Refresh buttons always force a re-read regardless.
+    alignmentModelFetched: false,
+    modelNamesFetched: false,
     modelLoaded: false,
     alignmentModel: {
       alignmentStarCount: 0,

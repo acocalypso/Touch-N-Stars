@@ -56,6 +56,7 @@ function decDegToNinaFields(decDeg) {
  * @param {boolean} target.meridianFlip - add a MeridianFlipTrigger to the sequence's global triggers.
  * @param {number|null} target.autofocusMinutes - add an AutofocusAfterTimeTrigger with this interval (minutes) to the target's own triggers; omit/null to skip it entirely.
  * @param {{ raDeg: number, decDeg: number }|null} target.frameOffset - shifts only the GoTo/CenterAndRotate slew target (see FramingOffsetView.vue); null/omitted centers exactly on raHours/decDeg as usual.
+ * @param {number|null} target.rotationAngle - use CenterAndRotate at this angle; null/omitted uses plain Center instead (no rotator involved) -- pass null when no rotator is connected, since CenterAndRotate fails validation and blocks the whole sequence otherwise.
  * @param {{ filterName: string|null, exposureSeconds: number, frameCount: number }} target.exposure - filterName null/empty means "don't touch the filter wheel" (leaves whatever's currently selected); any other value must be an actual name from the connected wheel's AvailableFilters.
  * @returns {object} a full NINA SequenceRootContainer, ready for sequenceApi.sequenceLoadJson(JSON.stringify(root)).
  */
@@ -120,13 +121,29 @@ export function buildPerihelionSequence(target) {
     return leafItem('NINA.Sequencer.SequenceItem.Telescope.UnparkScope, NINA.Sequencer', parentId);
   }
 
-  function ninaCenterAndRotate(parentId, coordinates) {
+  // Inherited: false on both -- true resyncs Coordinates from the parent container's own
+  // Target the instant this item's Parent is set (Center.cs's own Execute checks Inherited
+  // and overwrites Coordinates from context), which would silently discard the
+  // offset-adjusted slew coordinates below the moment Add() attaches it.
+  function ninaCenter(parentId, coordinates) {
+    return leafItem('NINA.Sequencer.SequenceItem.Platesolving.Center, NINA.Sequencer', parentId, {
+      Inherited: false,
+      Coordinates: coordinates,
+    });
+  }
+
+  // rotationAngle null means plain Center (no rotator involved) -- CenterAndRotate fails
+  // validation ("rotator not connected") and blocks the whole sequence when no rotator is
+  // connected, so this can't be unconditional (matches PerihelionSequenceBuilder.cs's own
+  // Windows-side logic exactly).
+  function ninaCenterAndRotate(parentId, coordinates, rotationAngle) {
+    if (rotationAngle == null) return ninaCenter(parentId, coordinates);
     return leafItem(
       'NINA.Sequencer.SequenceItem.Platesolving.CenterAndRotate, NINA.Sequencer',
       parentId,
       {
-        PositionAngle: 0,
-        Inherited: true,
+        PositionAngle: rotationAngle,
+        Inherited: false,
         Coordinates: coordinates,
       }
     );
@@ -280,7 +297,7 @@ export function buildPerihelionSequence(target) {
     const slewRa = target.frameOffset ? raHoursToNinaFields(target.frameOffset.raDeg / 15) : ra;
     const slewDec = target.frameOffset ? decDegToNinaFields(target.frameOffset.decDeg) : dec;
     const items = [
-      ninaCenterAndRotate(id, coordinatesNode(slewRa, slewDec)),
+      ninaCenterAndRotate(id, coordinatesNode(slewRa, slewDec), target.rotationAngle ?? null),
       ninaSetPerihelionTrackingRate(id),
     ];
     if (target.guiding) {

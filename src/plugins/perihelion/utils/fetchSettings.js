@@ -2,12 +2,10 @@ import axios from 'axios';
 import { getUrls } from '@/services/api/core';
 
 /**
- * Perihelion's own persisted settings (EqmodRaRateCorrection, QuickTrackReapplyIntervalSeconds)
- * -- stored via PluginOptionsAccessor on the plugin side, same as Port. Unlike Port, both take
- * effect on the very next use (Quick Track start, tracking-rate application), not just on the
- * next NINA/PINS restart.
+ * Perihelion's own persisted settings -- stored via PluginOptionsAccessor on the plugin side.
+ * Take effect on next use, not just on next NINA/PINS restart.
  *
- * @returns {Promise<{ eqmodRaRateCorrection: boolean, quickTrackReapplyIntervalSeconds: number }>}
+ * @returns {Promise<{ eqmodRaRateCorrection: boolean, quickTrackReapplyIntervalSeconds: number, cometMagnitudeThreshold: number, maxComets: number, asteroidMagnitudeThreshold: number, maxAsteroids: number }>}
  */
 export async function fetchSettings() {
   const { PERIHELION_URL } = getUrls();
@@ -15,18 +13,34 @@ export async function fetchSettings() {
   return {
     eqmodRaRateCorrection: response.data.EqmodRaRateCorrection,
     quickTrackReapplyIntervalSeconds: response.data.QuickTrackReapplyIntervalSeconds,
+    cometMagnitudeThreshold: response.data.CometMagnitudeThreshold,
+    maxComets: response.data.MaxComets,
+    asteroidMagnitudeThreshold: response.data.AsteroidMagnitudeThreshold,
+    maxAsteroids: response.data.MaxAsteroids,
   };
 }
 
+const FIELD_MAP = {
+  eqmodRaRateCorrection: 'EqmodRaRateCorrection',
+  quickTrackReapplyIntervalSeconds: 'QuickTrackReapplyIntervalSeconds',
+  cometMagnitudeThreshold: 'CometMagnitudeThreshold',
+  maxComets: 'MaxComets',
+  asteroidMagnitudeThreshold: 'AsteroidMagnitudeThreshold',
+  maxAsteroids: 'MaxAsteroids',
+};
+
 /**
- * @param {{ eqmodRaRateCorrection: boolean, quickTrackReapplyIntervalSeconds: number }} settings
+ * Only sends fields actually present in `settings` -- the backend applies a partial update, so
+ * omitted fields keep their persisted value.
+ * @param {Partial<{ eqmodRaRateCorrection: boolean, quickTrackReapplyIntervalSeconds: number, cometMagnitudeThreshold: number, maxComets: number, asteroidMagnitudeThreshold: number, maxAsteroids: number }>} settings
  * @returns {Promise<boolean>} whether the save succeeded
  */
 export async function saveSettings(settings) {
   const { PERIHELION_URL } = getUrls();
-  const response = await axios.post(`${PERIHELION_URL}/settings`, {
-    EqmodRaRateCorrection: settings.eqmodRaRateCorrection,
-    QuickTrackReapplyIntervalSeconds: settings.quickTrackReapplyIntervalSeconds,
-  });
+  const body = {};
+  for (const [key, wireKey] of Object.entries(FIELD_MAP)) {
+    if (settings[key] !== undefined) body[wireKey] = settings[key];
+  }
+  const response = await axios.post(`${PERIHELION_URL}/settings`, body);
   return response.data.Success === true;
 }

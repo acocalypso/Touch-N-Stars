@@ -29,6 +29,7 @@ const STATUS_BAR_ITEMS = [
   { id: 'safety', labelKey: 'components.statusBar.labels.safety' },
   { id: 'progress', labelKey: 'components.statusBar.labels.progress' },
   { id: 'log', labelKey: 'components.statusBar.labels.log' },
+  { id: 'power', labelKey: 'components.statusBar.labels.power' },
   { id: 'instance', labelKey: 'components.statusBar.labels.instance' },
 ];
 

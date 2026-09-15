@@ -139,6 +139,17 @@
     >
       <span class="chip-value">{{ t('components.statusBar.labels.log') }}</span>
     </button>
+    <!-- Power: restart / shutdown of the PINS host. NINA on Windows is left to the
+         settings page - the bar is for the headless box that has no other UI. -->
+    <button
+      v-if="store.isPINS && !isStatusItemHidden('power')"
+      class="tns-status-seg"
+      :style="{ order: getStatusOrder('power') }"
+      @click.stop.prevent="showPowerModal = true"
+    >
+      <PowerIcon class="w-4 h-4" />
+      <span class="chip-value">{{ t('components.statusBar.labels.power') }}</span>
+    </button>
     <!--WS Status + Instance Switcher -->
     <button
       v-if="!isStatusItemHidden('instance')"
@@ -166,6 +177,9 @@
 
     <!-- Log modal -->
     <LogModal v-if="showLogModal" @close="showLogModal = false" />
+
+    <!-- Power modal -->
+    <SystemPowerModal v-if="showPowerModal" @close="showPowerModal = false" />
     <!-- Docked panels. All stay mounted (v-show): the guider graph keeps its
          chart instance, the others are cheap and switch without a flash. -->
     <div ref="panelRef" :class="statusPanelClasses" v-show="statusBarStore.activePanel">
@@ -219,6 +233,7 @@ import { useI18n } from 'vue-i18n';
 import WeatherModal from '../WeatherModal.vue';
 import LogModal from './LogModal.vue';
 import InstanceSwitcherModal from './InstanceSwitcherModal.vue';
+import SystemPowerModal from '../system/SystemPowerModal.vue';
 import GuiderGraph from '../guider/GuiderGraph.vue';
 import GuiderStats from '../guider/GuiderStats.vue';
 import { useGuiderStore } from '@/store/guiderStore';
@@ -235,13 +250,14 @@ import infoProgress from './infoProgress.vue';
 import ControlSwitch from '../switch/ControlSwitch.vue';
 import InfoSwitch from '../switch/InfoSwitch.vue';
 import { usePluginStore } from '@/store/pluginStore';
-import { LockOpenIcon } from '@heroicons/vue/24/outline';
+import { LockOpenIcon, PowerIcon } from '@heroicons/vue/24/outline';
 
 const { t } = useI18n();
 const store = apiStore();
 const showWeatherModal = ref(false);
 const showLogModal = ref(false);
 const showInstanceSwitcher = ref(false);
+const showPowerModal = ref(false);
 const guiderStore = useGuiderStore();
 const settingsStore = useSettingsStore();
 const cameraStore = useCameraStore();

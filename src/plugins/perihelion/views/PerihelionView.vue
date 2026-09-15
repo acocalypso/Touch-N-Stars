@@ -100,48 +100,53 @@
             </label>
           </div>
 
-          <div
-            v-if="filter !== 'Asteroid'"
-            class="flex items-center gap-2 text-[11px] text-content-faint"
-          >
+          <!-- Row 1: count + sync status for whatever's currently relevant -- combined counts
+               only (no single sync time) for All, since comets/asteroids sync independently and
+               could be different ages. -->
+          <div class="flex items-center gap-2 text-[11px] text-content-faint">
             <span v-if="filter === 'all'">
-              {{ t('perihelion.browse.cometsStatus', { status: syncStatusLabel }) }} ·
-              {{ t('perihelion.browse.asteroidsStatus', { status: asteroidSyncStatusLabel }) }}
-              {{ cobsStatusLabel }}
-            </span>
-            <span v-else
-              >{{ t('perihelion.browse.cometsStatus', { status: syncStatusLabel }) }}
-              {{ cobsStatusLabel }}</span
-            >
-            <span class="flex-1"></span>
-            <button
-              class="text-content-faint hover:text-content-muted shrink-0"
-              :aria-label="t('perihelion.browse.observedTooltip')"
-              @click="showObservedMagLegend = true"
-            >
-              <InformationCircleIcon class="w-4 h-4" />
-            </button>
-            <button
-              class="shrink-0 px-2 py-1 rounded-chip font-semibold text-content-muted border border-line hover:bg-surface-2 disabled:opacity-50 cursor-pointer"
-              :disabled="refreshingCobs"
-              @click="onRefreshCobs"
-            >
               {{
-                refreshingCobs
-                  ? t('perihelion.browse.refreshingCobs')
-                  : t('perihelion.browse.refreshCobs')
+                t('perihelion.browse.datasetCounts', {
+                  comets: cometCount,
+                  asteroids: asteroidCount,
+                })
               }}
-            </button>
-            <!-- "All" syncs both comets and asteroids together -- a single-type-only Sync Now
-                 under the combined view was confusing: clicking it while viewing "All" only
-                 ever synced comets, silently. -->
+            </span>
+            <span v-else-if="filter === 'Comet' && syncStatusLoaded">
+              {{
+                t('perihelion.browse.cometCountSynced', {
+                  count: cometCount,
+                  status: syncStatusLabel,
+                })
+              }}
+            </span>
+            <span v-else-if="filter === 'Asteroid' && syncStatusLoaded">
+              {{
+                t('perihelion.browse.asteroidCountSynced', {
+                  count: asteroidCount,
+                  status: asteroidSyncStatusLabel,
+                })
+              }}
+            </span>
+            <span class="flex-1"></span>
+            <!-- Context-aware: All syncs both together (a single-type button here used to only
+                 ever sync comets, silently, while viewing All), Comet/Asteroid sync just their
+                 own type. -->
             <button
               class="shrink-0 px-2 py-1 rounded-chip font-semibold text-accent border border-accent/30 hover:bg-accent/10 disabled:opacity-50 cursor-pointer"
-              :disabled="filter === 'all' ? syncingAll : syncing"
-              @click="filter === 'all' ? onSyncAll() : onSyncComets()"
+              :disabled="
+                filter === 'all' ? syncingAll : filter === 'Comet' ? syncing : syncingAsteroids
+              "
+              @click="
+                filter === 'all'
+                  ? onSyncAll()
+                  : filter === 'Comet'
+                    ? onSyncComets()
+                    : onSyncAsteroids()
+              "
             >
               {{
-                (filter === 'all' ? syncingAll : syncing)
+                (filter === 'all' ? syncingAll : filter === 'Comet' ? syncing : syncingAsteroids)
                   ? t('perihelion.browse.syncing')
                   : t('perihelion.browse.syncNow')
               }}
@@ -162,37 +167,45 @@
             {{ allSyncMessage.text }}
           </p>
           <p
-            v-if="filter !== 'Asteroid' && cobsRefreshMessage"
-            class="text-[11px]"
-            :class="cobsRefreshMessage.ok ? 'text-status-ok' : 'text-status-danger'"
-          >
-            {{ cobsRefreshMessage.text }}
-          </p>
-          <div
-            v-if="filter === 'Asteroid'"
-            class="flex items-center gap-2 text-[11px] text-content-faint"
-          >
-            <span
-              >{{ t('perihelion.browse.asteroidCount', { count: asteroidCount }) }} ·
-              {{ asteroidSyncStatusLabel }}</span
-            >
-            <span class="flex-1"></span>
-            <button
-              class="shrink-0 px-2 py-1 rounded-chip font-semibold text-accent border border-accent/30 hover:bg-accent/10 disabled:opacity-50 cursor-pointer"
-              :disabled="syncingAsteroids"
-              @click="onSyncAsteroids"
-            >
-              {{
-                syncingAsteroids ? t('perihelion.browse.syncing') : t('perihelion.browse.syncNow')
-              }}
-            </button>
-          </div>
-          <p
             v-if="filter === 'Asteroid' && asteroidSyncMessage"
             class="text-[11px]"
             :class="asteroidSyncMessage.ok ? 'text-status-ok' : 'text-status-danger'"
           >
             {{ asteroidSyncMessage.text }}
+          </p>
+
+          <!-- Row 2: COBS -- comet-only, so hidden entirely on the Asteroid filter. -->
+          <div
+            v-if="filter !== 'Asteroid'"
+            class="flex items-center gap-2 text-[11px] text-content-faint"
+          >
+            <span v-if="syncStatusLoaded">{{ cobsStatusLabel }}</span>
+            <span class="flex-1"></span>
+            <button
+              class="text-content-faint hover:text-content-muted shrink-0"
+              :aria-label="t('perihelion.browse.observedTooltip')"
+              @click="showObservedMagLegend = true"
+            >
+              <InformationCircleIcon class="w-4 h-4" />
+            </button>
+            <button
+              class="shrink-0 px-2 py-1 rounded-chip font-semibold text-content-muted border border-line hover:bg-surface-2 disabled:opacity-50 cursor-pointer"
+              :disabled="refreshingCobs"
+              @click="onRefreshCobs"
+            >
+              {{
+                refreshingCobs
+                  ? t('perihelion.browse.refreshingCobs')
+                  : t('perihelion.browse.refreshCobs')
+              }}
+            </button>
+          </div>
+          <p
+            v-if="filter !== 'Asteroid' && cobsRefreshMessage"
+            class="text-[11px]"
+            :class="cobsRefreshMessage.ok ? 'text-status-ok' : 'text-status-danger'"
+          >
+            {{ cobsRefreshMessage.text }}
           </p>
 
           <p v-if="objectsLoading" class="text-sm text-content-muted">
@@ -204,60 +217,84 @@
           </p>
 
           <div class="space-y-2">
-            <button
-              v-for="o in filteredObjects"
-              :key="o.id"
-              class="tns-card w-full flex items-center gap-3 text-left cursor-pointer transition-colors"
-              :class="o.id === selectedId ? 'border-accent/40 bg-accent/5' : 'hover:bg-surface-2'"
-              @click="selectedId = o.id"
-            >
-              <div
-                class="w-9 h-9 rounded-chip flex items-center justify-center shrink-0"
-                :class="o.objectType === 'Comet' ? 'bg-violet-400/15' : 'bg-surface-3'"
+            <template v-for="o in filteredObjects" :key="o.id">
+              <button
+                class="tns-card w-full flex items-center gap-3 text-left cursor-pointer transition-colors"
+                :class="o.id === selectedId ? 'border-accent/40 bg-accent/5' : 'hover:bg-surface-2'"
+                @click="selectedId = o.id"
               >
-                <CometIcon v-if="o.objectType === 'Comet'" :id="o.id" />
-                <AsteroidIcon v-else />
-              </div>
-              <div class="flex flex-col gap-0.5 min-w-0 flex-1">
-                <span class="flex items-center gap-1 min-w-0">
-                  <span class="text-sm font-bold text-content truncate">{{ o.name }}</span>
-                  <!-- Epoch-staleness badge -- see fetchBrowseObjects.js's own isEpochStale
+                <div
+                  class="w-9 h-9 rounded-chip flex items-center justify-center shrink-0"
+                  :class="o.objectType === 'Comet' ? 'bg-violet-400/15' : 'bg-surface-3'"
+                >
+                  <CometIcon v-if="o.objectType === 'Comet'" :id="o.id" />
+                  <AsteroidIcon v-else />
+                </div>
+                <div class="flex flex-col gap-0.5 min-w-0 flex-1">
+                  <span class="flex items-center gap-1 min-w-0">
+                    <span class="text-sm font-bold text-content truncate">{{ o.name }}</span>
+                    <!-- Epoch-staleness badge -- see fetchBrowseObjects.js's own isEpochStale
                        comment. A shared modal (not per-row text) keeps a dense list from getting
                        cluttered; tap-to-open rather than a native title tooltip, same reasoning
                        as the ObservedMag legend above. A <span role="button">, not an actual
                        <button> -- this whole row is already a <button>, and nesting one inside
                        another is invalid HTML. -->
-                  <span
-                    v-if="o.isEpochStale"
-                    role="button"
-                    tabindex="0"
-                    class="text-status-warn shrink-0 cursor-pointer"
-                    :aria-label="t('perihelion.browse.epochStaleTooltip')"
-                    @click.stop="showEpochStaleLegend = true"
-                    @keydown.enter.stop="showEpochStaleLegend = true"
-                  >
-                    <ExclamationTriangleIcon class="w-3.5 h-3.5" />
+                    <span
+                      v-if="o.isEpochStale"
+                      role="button"
+                      tabindex="0"
+                      class="text-status-warn shrink-0 cursor-pointer"
+                      :aria-label="t('perihelion.browse.epochStaleTooltip')"
+                      @click.stop="showEpochStaleLegend = true"
+                      @keydown.enter.stop="showEpochStaleLegend = true"
+                    >
+                      <ExclamationTriangleIcon class="w-3.5 h-3.5" />
+                    </span>
                   </span>
-                </span>
-                <span class="text-[11px] text-content-muted">{{ o.objectType }}</span>
-              </div>
-              <div class="flex flex-col items-end gap-0.5 shrink-0">
-                <span class="text-[15px] font-bold tabular-nums text-content">
-                  {{ o.magnitude != null ? o.magnitude.toFixed(1) : '—' }}
-                </span>
-                <span class="text-[9px] font-bold uppercase tracking-wide text-content-faint">{{
-                  t('perihelion.browse.mag')
-                }}</span>
-                <span
-                  v-if="o.observedMagnitude != null"
-                  class="flex items-center gap-0.5 text-[11px] font-semibold tabular-nums px-1.5 py-0.5 rounded-full border"
-                  :class="magDiffColorClass(o.magnitude, o.observedMagnitude)"
+                  <span class="text-[11px] text-content-muted">{{ o.objectType }}</span>
+                </div>
+                <div class="flex flex-col items-end gap-0.5 shrink-0">
+                  <span class="text-[15px] font-bold tabular-nums text-content">
+                    {{ o.magnitude != null ? o.magnitude.toFixed(1) : '—' }}
+                  </span>
+                  <span class="text-[9px] font-bold uppercase tracking-wide text-content-faint">{{
+                    t('perihelion.browse.mag')
+                  }}</span>
+                  <span
+                    v-if="o.observedMagnitude != null"
+                    class="flex items-center gap-0.5 text-[11px] font-semibold tabular-nums px-1.5 py-0.5 rounded-full border"
+                    :class="magDiffColorClass(o.magnitude, o.observedMagnitude)"
+                  >
+                    <EyeIcon class="w-3 h-3" />
+                    {{ o.observedMagnitude.toFixed(1) }}
+                  </span>
+                </div>
+              </button>
+              <Transition
+                enter-active-class="transition-all duration-200 ease-out"
+                enter-from-class="opacity-0 -translate-y-1 scale-95"
+                enter-to-class="opacity-100 translate-y-0 scale-100"
+                leave-active-class="transition-all duration-150 ease-in"
+                leave-from-class="opacity-100"
+                leave-to-class="opacity-0"
+              >
+                <div
+                  v-if="o.id === selectedId"
+                  class="flex items-center gap-3 p-3 rounded-chip bg-accent/10 border border-accent/30"
                 >
-                  <EyeIcon class="w-3 h-3" />
-                  {{ o.observedMagnitude.toFixed(1) }}
-                </span>
-              </div>
-            </button>
+                  <CheckCircleIcon class="w-5 h-5 text-accent shrink-0" />
+                  <span class="flex-1 text-sm text-content-muted">{{
+                    t('perihelion.browse.selectedPrompt')
+                  }}</span>
+                  <button
+                    class="tns-btn-primary w-auto! shrink-0 px-4"
+                    @click="goToPositionFromBrowse"
+                  >
+                    {{ t('perihelion.browse.goToPositionPath') }}
+                  </button>
+                </div>
+              </Transition>
+            </template>
           </div>
         </template>
 
@@ -604,21 +641,30 @@
                 @offset="onFramingOffset"
               >
                 <template #after-actions>
-                  <div
-                    v-if="showFramingCapturedPrompt"
-                    class="flex items-center gap-3 p-3 rounded-chip bg-accent/10 border border-accent/30"
+                  <Transition
+                    enter-active-class="transition-all duration-200 ease-out"
+                    enter-from-class="opacity-0 -translate-y-1 scale-95"
+                    enter-to-class="opacity-100 translate-y-0 scale-100"
+                    leave-active-class="transition-all duration-150 ease-in"
+                    leave-from-class="opacity-100"
+                    leave-to-class="opacity-0"
                   >
-                    <CheckCircleIcon class="w-5 h-5 text-accent shrink-0" />
-                    <span class="flex-1 text-sm text-content-muted">{{
-                      t('perihelion.position.framingCapturedPrompt')
-                    }}</span>
-                    <button
-                      class="tns-btn w-auto shrink-0 px-4 bg-emerald-700 text-white hover:bg-emerald-600"
-                      @click="goToTrackFromFraming"
+                    <div
+                      v-if="showFramingCapturedPrompt"
+                      class="flex items-center gap-3 p-3 rounded-chip bg-accent/10 border border-accent/30"
                     >
-                      {{ t('perihelion.position.goToTrack') }}
-                    </button>
-                  </div>
+                      <CheckCircleIcon class="w-5 h-5 text-accent shrink-0" />
+                      <span class="flex-1 text-sm text-content-muted">{{
+                        t('perihelion.position.framingCapturedPrompt')
+                      }}</span>
+                      <button
+                        class="tns-btn-primary w-auto! shrink-0 px-4"
+                        @click="goToTrackFromFraming"
+                      >
+                        {{ t('perihelion.position.goToTrack') }}
+                      </button>
+                    </div>
+                  </Transition>
                 </template>
               </FramingOffsetView>
             </div>
@@ -626,7 +672,7 @@
         </template>
 
         <!-- ===================== TRACK ===================== -->
-        <template v-else>
+        <template v-else-if="activeTab === 'track'">
           <p v-if="!selected" class="text-sm text-content-faint italic">
             {{ t('perihelion.track.pickFirst') }}
           </p>
@@ -726,6 +772,12 @@
                   t('perihelion.track.liveStatusSubtitle')
                 }}</span>
               </div>
+              <!-- The mount's driver can't take a custom base tracking rate at all -- Perihelion
+                   fell back to guiding-only shift tracking instead. Not an error (it's a working,
+                   deliberate fallback), so warn-colored rather than status-danger. -->
+              <p v-if="quickTrackStatus.guidingOnlyFallback" class="text-xs text-status-warn">
+                {{ t('perihelion.track.guidingOnlyFallback') }}
+              </p>
               <p
                 v-if="quickTrackStatus.lastRaArcsecPerSec != null"
                 class="text-xs text-content-muted tabular-nums"
@@ -846,23 +898,36 @@
                   </select>
                 </label>
                 <div class="flex gap-2">
-                  <label class="flex-1">
+                  <div class="flex-1">
                     <span class="block text-[10px] text-content-faint mb-1">{{
                       t('perihelion.track.exposureLabel')
                     }}</span>
-                    <input
-                      v-model.number="exposureSeconds"
-                      type="number"
-                      min="1"
-                      class="tns-input"
+                    <NumberInputPicker
+                      v-model="exposureSeconds"
+                      :label="``"
+                      labelKey="perihelion.track.exposureLabel"
+                      wrapperClass="w-full"
+                      :min="1"
+                      :max="3600"
+                      :step="1"
+                      :useDefaultSentinel="false"
                     />
-                  </label>
-                  <label class="flex-1">
+                  </div>
+                  <div class="flex-1">
                     <span class="block text-[10px] text-content-faint mb-1">{{
                       t('perihelion.track.framesLabel')
                     }}</span>
-                    <input v-model.number="frameCount" type="number" min="1" class="tns-input" />
-                  </label>
+                    <NumberInputPicker
+                      v-model="frameCount"
+                      :label="``"
+                      labelKey="perihelion.track.framesLabel"
+                      wrapperClass="w-full"
+                      :min="1"
+                      :max="10000"
+                      :step="1"
+                      :useDefaultSentinel="false"
+                    />
+                  </div>
                 </div>
               </div>
 
@@ -1010,17 +1075,21 @@
                     ></span>
                   </span>
                 </button>
-                <label v-if="actionMode === 'sequence' && autofocus" class="block pb-1">
+                <div v-if="actionMode === 'sequence' && autofocus" class="pb-1">
                   <span class="block text-[10px] text-content-faint mb-1">{{
                     t('perihelion.track.autofocusEveryLabel')
                   }}</span>
-                  <input
-                    v-model.number="autofocusMinutes"
-                    type="number"
-                    min="1"
-                    class="tns-input"
+                  <NumberInputPicker
+                    v-model="autofocusMinutes"
+                    :label="``"
+                    labelKey="perihelion.track.autofocusEveryLabel"
+                    wrapperClass="w-full"
+                    :min="1"
+                    :max="600"
+                    :step="1"
+                    :useDefaultSentinel="false"
                   />
-                </label>
+                </div>
               </div>
 
               <div v-if="actionMode === 'sequence'" class="flex gap-2">
@@ -1226,55 +1295,6 @@
                   </p>
                 </div>
               </div>
-
-              <!-- Same collapsed-by-default disclosure pattern as How This Works above -- these
-                   are set-once-and-forget preferences, not something most users need to see
-                   every visit. Not scoped to a single actionMode: the same reapply interval now
-                   governs both Quick Track's own reapply timer AND Add to Sequence's
-                   PerihelionReapplyTrigger (added to every built sequence, see
-                   buildPerihelionSequence.js), so it needs to stay visible/editable in both
-                   modes. -->
-              <div
-                class="rounded-chip bg-surface-2/60 border border-line-strong/50 overflow-hidden mt-2"
-              >
-                <button
-                  class="flex items-center gap-2 w-full px-3 py-2 text-left cursor-pointer"
-                  @click="showMountSettings = !showMountSettings"
-                >
-                  <span class="tns-stat-label flex-1">{{
-                    t('perihelion.track.reapplyIntervalSection')
-                  }}</span>
-                  <ChevronUpIcon
-                    v-if="showMountSettings"
-                    class="w-4 h-4 shrink-0 text-content-faint"
-                  />
-                  <ChevronDownIcon v-else class="w-4 h-4 shrink-0 text-content-faint" />
-                </button>
-                <div v-if="showMountSettings" class="p-3 pt-0 flex flex-col gap-3">
-                  <div class="flex items-center justify-between gap-3 py-1">
-                    <div class="flex flex-col gap-0.5 min-w-0 flex-1">
-                      <span class="text-sm font-semibold text-content">{{
-                        t('perihelion.track.reapplyIntervalTitle')
-                      }}</span>
-                      <span class="text-[11px] text-content-muted leading-tight">
-                        {{ t('perihelion.track.reapplyIntervalDescription') }}
-                      </span>
-                    </div>
-                    <div class="flex items-center gap-1.5 shrink-0">
-                      <input
-                        type="number"
-                        min="1"
-                        v-model.number="reapplyIntervalSecondsInput"
-                        @change="onSaveReapplyInterval"
-                        class="w-16 bg-surface-3 border border-line rounded-chip text-content text-sm text-right px-2 py-1 focus:outline-none focus:ring-1 focus:ring-accent/50"
-                      />
-                      <span class="text-[11px] text-content-faint">{{
-                        t('perihelion.track.secondsUnit')
-                      }}</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
             </div>
 
             <button v-else class="tns-btn-danger" :disabled="actionBusy" @click="onStop">
@@ -1291,6 +1311,240 @@
               {{ t('perihelion.track.footer') }}
             </p>
           </template>
+        </template>
+
+        <!-- ===================== SETTINGS ===================== -->
+        <template v-else-if="activeTab === 'settings'">
+          <div class="tns-card flex flex-col gap-3">
+            <span class="tns-stat-label">{{ t('perihelion.settings.trackingSection') }}</span>
+
+            <!-- Duplicated from Track's "Before You Start" -- kept visible there too since
+                 missing it mistracks RA ~15x on EQMOD mounts. -->
+            <button
+              class="flex items-center justify-between gap-3 py-2 cursor-pointer text-left"
+              @click="onToggleEqmodCorrection"
+            >
+              <div class="flex flex-col gap-0.5 min-w-0 flex-1">
+                <span class="text-sm font-semibold text-content">{{
+                  t('perihelion.track.eqmodToggleTitle')
+                }}</span>
+                <span class="text-[11px] text-content-muted leading-tight">
+                  {{ t('perihelion.track.eqmodToggleDescription') }}
+                </span>
+                <span
+                  v-if="likelyEqmodMount && !eqmodRaRateCorrection"
+                  class="text-[11px] text-status-warn leading-tight mt-0.5"
+                >
+                  {{ t('perihelion.track.eqmodDetectedHint', { name: store.mountInfo.Name }) }}
+                </span>
+              </div>
+              <span
+                class="relative inline-flex h-[22px] w-10 shrink-0 items-center rounded-full transition-colors"
+                :class="eqmodRaRateCorrection ? 'bg-accent/35' : 'bg-surface-3'"
+              >
+                <span
+                  class="inline-block h-[18px] w-[18px] transform rounded-full transition-transform"
+                  :class="
+                    eqmodRaRateCorrection
+                      ? 'translate-x-5 bg-accent'
+                      : 'translate-x-0.5 bg-content-muted'
+                  "
+                ></span>
+              </span>
+            </button>
+
+            <div class="flex flex-col gap-1 pt-2 border-t border-line-strong/50">
+              <span class="text-sm font-semibold text-content">{{
+                t('perihelion.track.reapplyIntervalTitle')
+              }}</span>
+              <span class="text-[11px] text-content-muted leading-tight">
+                {{ t('perihelion.track.reapplyIntervalDescription') }}
+              </span>
+              <div class="flex items-center gap-2 mt-1">
+                <div class="w-40">
+                  <NumberInputPicker
+                    v-model="reapplyIntervalSecondsInput"
+                    :label="``"
+                    labelKey="perihelion.track.reapplyIntervalTitle"
+                    wrapperClass="w-full"
+                    :min="5"
+                    :max="7200"
+                    :step="1"
+                    :useDefaultSentinel="false"
+                    @change="onSaveReapplyInterval"
+                    @blur="onSaveReapplyInterval"
+                  />
+                </div>
+                <span class="text-xs text-content-muted">{{
+                  t('perihelion.track.secondsUnit')
+                }}</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="tns-card flex flex-col gap-3">
+            <span class="tns-stat-label">{{ t('perihelion.settings.dataSection') }}</span>
+
+            <div class="grid grid-cols-2 gap-3 items-end">
+              <div class="flex flex-col gap-1">
+                <span class="text-[11px] text-content-muted">{{
+                  t('perihelion.settings.cometMagnitudeThreshold')
+                }}</span>
+                <NumberInputPicker
+                  v-model="cometMagnitudeThresholdInput"
+                  :label="``"
+                  labelKey="perihelion.settings.cometMagnitudeThreshold"
+                  wrapperClass="w-full"
+                  :min="0"
+                  :max="25"
+                  :step="0.1"
+                  :useDefaultSentinel="false"
+                  @change="onSaveDataSettings"
+                  @blur="onSaveDataSettings"
+                />
+              </div>
+              <div class="flex flex-col gap-1">
+                <span class="text-[11px] text-content-muted">{{
+                  t('perihelion.settings.maxComets')
+                }}</span>
+                <NumberInputPicker
+                  v-model="maxCometsInput"
+                  :label="``"
+                  labelKey="perihelion.settings.maxComets"
+                  wrapperClass="w-full"
+                  :min="1"
+                  :max="200"
+                  :step="1"
+                  :useDefaultSentinel="false"
+                  @change="onSaveDataSettings"
+                  @blur="onSaveDataSettings"
+                />
+              </div>
+              <div class="flex flex-col gap-1">
+                <span class="text-[11px] text-content-muted">{{
+                  t('perihelion.settings.asteroidMagnitudeThreshold')
+                }}</span>
+                <NumberInputPicker
+                  v-model="asteroidMagnitudeThresholdInput"
+                  :label="``"
+                  labelKey="perihelion.settings.asteroidMagnitudeThreshold"
+                  wrapperClass="w-full"
+                  :min="0"
+                  :max="25"
+                  :step="0.1"
+                  :useDefaultSentinel="false"
+                  @change="onSaveDataSettings"
+                  @blur="onSaveDataSettings"
+                />
+              </div>
+              <div class="flex flex-col gap-1">
+                <span class="text-[11px] text-content-muted">{{
+                  t('perihelion.settings.maxAsteroids')
+                }}</span>
+                <NumberInputPicker
+                  v-model="maxAsteroidsInput"
+                  :label="``"
+                  labelKey="perihelion.settings.maxAsteroids"
+                  wrapperClass="w-full"
+                  :min="1"
+                  :max="200"
+                  :useDefaultSentinel="false"
+                  :step="1"
+                  @change="onSaveDataSettings"
+                  @blur="onSaveDataSettings"
+                />
+              </div>
+            </div>
+
+            <div class="flex flex-col gap-2 pt-2 border-t border-line-strong/50">
+              <span class="text-sm font-semibold text-content">{{
+                t('perihelion.settings.cometsData')
+              }}</span>
+              <span v-if="syncStatusLoaded" class="text-[11px] text-content-faint">
+                {{
+                  t('perihelion.browse.cometCountSynced', {
+                    count: cometsCachedCount,
+                    status: syncStatusLabel,
+                  })
+                }}
+              </span>
+              <div class="flex gap-2">
+                <button class="tns-btn-primary flex-1" @click="cometFileInput?.click()">
+                  {{ t('perihelion.settings.import') }}
+                </button>
+                <input
+                  ref="cometFileInput"
+                  type="file"
+                  accept=".txt"
+                  class="hidden"
+                  @change="onImportComets"
+                />
+                <button class="tns-btn-secondary flex-1" @click="onExportComets">
+                  {{ t('perihelion.settings.export') }}
+                </button>
+                <button class="tns-btn-danger flex-1" @click="onClearComets">
+                  {{ t('perihelion.settings.clear') }}
+                </button>
+              </div>
+            </div>
+
+            <div class="flex flex-col gap-2">
+              <span class="text-sm font-semibold text-content">{{
+                t('perihelion.settings.asteroidsData')
+              }}</span>
+              <span v-if="syncStatusLoaded" class="text-[11px] text-content-faint">
+                {{
+                  t('perihelion.browse.asteroidCountSynced', {
+                    count: asteroidsCachedCount,
+                    status: asteroidSyncStatusLabel,
+                  })
+                }}
+              </span>
+              <div class="flex gap-2">
+                <button class="tns-btn-primary flex-1" @click="asteroidFileInput?.click()">
+                  {{ t('perihelion.settings.import') }}
+                </button>
+                <input
+                  ref="asteroidFileInput"
+                  type="file"
+                  accept=".json"
+                  class="hidden"
+                  @change="onImportAsteroids"
+                />
+                <button class="tns-btn-secondary flex-1" @click="onExportAsteroids">
+                  {{ t('perihelion.settings.export') }}
+                </button>
+                <button class="tns-btn-danger flex-1" @click="onClearAsteroids">
+                  {{ t('perihelion.settings.clear') }}
+                </button>
+              </div>
+            </div>
+
+            <!-- Clear only, no Import/Export -- COBS is a live per-comet observation cache, not
+                 a distributable elements dataset, so that story doesn't fit it. Clear still
+                 covers "reset a corrupt cache" (Refresh COBS in Browse already covers the
+                 common per-comet staleness case with a live re-fetch). -->
+            <div class="flex flex-col gap-2 pt-2 border-t border-line-strong/50">
+              <span class="text-sm font-semibold text-content">{{
+                t('perihelion.settings.cobsData')
+              }}</span>
+              <span v-if="syncStatusLoaded" class="text-[11px] text-content-faint">
+                {{
+                  t('perihelion.settings.cobsCountSynced', {
+                    count: cobsCachedCount,
+                    status: cobsStatusShort,
+                  })
+                }}
+              </span>
+              <button class="tns-btn-danger w-auto! self-start px-4" @click="onClearCobs">
+                {{ t('perihelion.settings.clear') }}
+              </button>
+            </div>
+
+            <p v-if="dataSettingsStatus" class="text-xs text-content-muted">
+              {{ dataSettingsStatus }}
+            </p>
+          </div>
         </template>
       </div>
 
@@ -1373,11 +1627,21 @@ import { fetchPath } from '../utils/fetchPath';
 import { fetchRate } from '../utils/fetchRate';
 import { fetchSyncStatus, syncComets, syncAsteroids } from '../utils/syncComets';
 import { fetchSettings, saveSettings } from '../utils/fetchSettings';
+import {
+  importComets,
+  importAsteroids,
+  exportComets,
+  exportAsteroids,
+  clearComets,
+  clearAsteroids,
+  clearCobs,
+} from '../utils/fetchImportExport';
 import { fetchCometActivity } from '../utils/fetchCometActivity';
-import { sendPerihelionSequence } from '../utils/sendPerihelionSequence';
+import { addTargetToSequence } from '../utils/addTargetToSequence';
 import { buildPerihelionSequence } from '../utils/buildPerihelionSequence';
 import { startQuickTrack, stopQuickTrack } from '../utils/quickTrack';
 import { fetchQuickTrackStatus } from '../utils/fetchQuickTrackStatus';
+import { downloadBlob } from '@/utils/blobDownloader';
 import { usePerihelionStore } from '../store/perihelionStore';
 import { useFramingStore } from '@/store/framingStore';
 import { useSettingsStore } from '@/store/settingsStore';
@@ -1393,6 +1657,7 @@ import SkyChart from '@/components/framing/SkyChart.vue';
 import Modal from '@/components/helpers/Modal.vue';
 import toggleButton from '@/components/helpers/toggleButton.vue';
 import SettingInput from '@/components/helpers/settings/UpdatePorfileNumber.vue';
+import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 import {
   EyeIcon,
   InformationCircleIcon,
@@ -1512,22 +1777,13 @@ const {
   pluginInstalled,
 } = storeToRefs(perihelionStore);
 
-// Mount Compatibility settings (EqmodRaRateCorrection, QuickTrackReapplyIntervalSeconds) --
-// persisted on the plugin side via PluginOptionsAccessor, same as Port, but reachable here
-// through Perihelion's own API since PINS has no settings UI of its own to expose them through
-// (see the Windows-only Options page for that platform's equivalent).
-const showMountSettings = ref(false);
+// Persisted on the plugin side via PluginOptionsAccessor, reachable here since PINS has no
+// settings UI of its own.
 const eqmodRaRateCorrection = ref(false);
 const reapplyIntervalSeconds = ref(900);
 const reapplyIntervalSecondsInput = ref(900);
 
-// Always seconds, matching the Windows Options page's own "Reapply Interval ... secs" field --
-// no minutes conversion at all, not even for round values. Math.round(230/60) showing "4 min"
-// for a fixed, user-set 230 was actively wrong, not just imprecise, and the same class of bug
-// as the one this whole seconds-conversion effort started from. English-only string (see
-// autoReapplyToggleTitleSeconds/autoReapplyingFooterSeconds in en.json) rather than touching the
-// existing whole-minute strings translated into the other 13 locales, since this is now the
-// only format ever shown, not a rare sub-minute edge case those strings could otherwise cover.
+// Always seconds -- matches the Windows Options page, no minutes conversion.
 const autoReapplyToggleTitle = computed(() =>
   t('perihelion.track.autoReapplyToggleTitleSeconds', { seconds: reapplyIntervalSeconds.value })
 );
@@ -1535,11 +1791,8 @@ const autoReapplyingFooter = computed(() =>
   t('perihelion.track.autoReapplyingFooterSeconds', { seconds: reapplyIntervalSeconds.value })
 );
 
-// EQMOD's own ASCOM driver registers itself under a name containing "EQMOD" (e.g. "EQMOD
-// ASCOM HEQ5/6") -- store.mountInfo already carries the full NINA TelescopeInfo shape (Name,
-// Description, DriverInfo all included), populated by ninaAPI's own /equipment/telescope/info
-// route, so this needs no new API call of its own. Checking all three fields rather than just
-// Name in case a particular ASCOM/INDI bridge surfaces it in Description or DriverInfo instead.
+// EQMOD's driver name contains "EQMOD" (e.g. "EQMOD ASCOM HEQ5/6") -- checked across
+// Name/Description/DriverInfo since which field carries it varies by ASCOM/INDI bridge.
 const likelyEqmodMount = computed(() => {
   const info = store.mountInfo;
   if (!info?.Connected) return false;
@@ -1547,39 +1800,161 @@ const likelyEqmodMount = computed(() => {
   return /eqmod/i.test(haystack);
 });
 
+const cometMagnitudeThresholdInput = ref(16);
+const maxCometsInput = ref(30);
+const asteroidMagnitudeThresholdInput = ref(9);
+const maxAsteroidsInput = ref(30);
+
 async function loadMountSettings() {
   try {
     const settings = await fetchSettings();
     eqmodRaRateCorrection.value = settings.eqmodRaRateCorrection;
     reapplyIntervalSeconds.value = settings.quickTrackReapplyIntervalSeconds;
     reapplyIntervalSecondsInput.value = settings.quickTrackReapplyIntervalSeconds;
+    cometMagnitudeThresholdInput.value = settings.cometMagnitudeThreshold;
+    maxCometsInput.value = settings.maxComets;
+    asteroidMagnitudeThresholdInput.value = settings.asteroidMagnitudeThreshold;
+    maxAsteroidsInput.value = settings.maxAsteroids;
   } catch {
-    // Keep the defaults (EQMOD off, 900s) -- same "don't block the rest of the panel over one
-    // failed fetch" reasoning as loadSyncStatus().
+    // Keep the defaults -- don't block the rest of the panel over one failed fetch.
   }
 }
 
 async function onToggleEqmodCorrection() {
   const next = !eqmodRaRateCorrection.value;
-  eqmodRaRateCorrection.value = next; // optimistic -- this is a plain on/off, not worth a spinner
-  const ok = await saveSettings({
-    eqmodRaRateCorrection: next,
-    quickTrackReapplyIntervalSeconds: reapplyIntervalSeconds.value,
-  });
+  eqmodRaRateCorrection.value = next; // optimistic -- plain on/off, not worth a spinner
+  const ok = await saveSettings({ eqmodRaRateCorrection: next });
   if (!ok) eqmodRaRateCorrection.value = !next; // revert on failure
 }
 
 async function onSaveReapplyInterval() {
-  // 5s floor matches PerihelionPlugin.MinReapplyIntervalSeconds on the backend -- clamping here
-  // too avoids the input briefly showing a value the backend would silently raise on save.
+  // 5s floor matches the backend's own minimum.
   const seconds = Math.max(5, Math.round(reapplyIntervalSecondsInput.value) || 900);
   reapplyIntervalSecondsInput.value = seconds;
-  const ok = await saveSettings({
-    eqmodRaRateCorrection: eqmodRaRateCorrection.value,
-    quickTrackReapplyIntervalSeconds: seconds,
-  });
+  const ok = await saveSettings({ quickTrackReapplyIntervalSeconds: seconds });
   if (ok) reapplyIntervalSeconds.value = seconds;
   else reapplyIntervalSecondsInput.value = reapplyIntervalSeconds.value; // revert on failure
+}
+
+const dataSettingsStatus = ref('');
+
+async function onSaveDataSettings() {
+  // Resolve fallbacks into the inputs themselves, not just the save payload -- otherwise a
+  // cleared field keeps showing empty/0 until the component remounts and re-fetches settings,
+  // even though the backend already has the correct default.
+  cometMagnitudeThresholdInput.value = cometMagnitudeThresholdInput.value || 16;
+  maxCometsInput.value = Math.max(1, Math.round(maxCometsInput.value) || 30);
+  asteroidMagnitudeThresholdInput.value = asteroidMagnitudeThresholdInput.value || 9;
+  maxAsteroidsInput.value = Math.max(1, Math.round(maxAsteroidsInput.value) || 30);
+
+  const ok = await saveSettings({
+    cometMagnitudeThreshold: cometMagnitudeThresholdInput.value,
+    maxComets: maxCometsInput.value,
+    asteroidMagnitudeThreshold: asteroidMagnitudeThresholdInput.value,
+    maxAsteroids: maxAsteroidsInput.value,
+  });
+  dataSettingsStatus.value = ok
+    ? t('perihelion.settings.saved')
+    : t('perihelion.settings.saveFailed');
+}
+
+const cometFileInput = ref(null);
+const asteroidFileInput = ref(null);
+
+async function onImportComets(event) {
+  const file = event.target.files?.[0];
+  event.target.value = '';
+  if (!file) return;
+  const result = await importComets(await file.text());
+  dataSettingsStatus.value = result.ok
+    ? t('perihelion.settings.importedComets', { count: result.count })
+    : result.message;
+  if (result.ok) {
+    loadObjects();
+    loadSyncStatus();
+  }
+}
+
+async function onImportAsteroids(event) {
+  const file = event.target.files?.[0];
+  event.target.value = '';
+  if (!file) return;
+  const result = await importAsteroids(await file.text());
+  dataSettingsStatus.value = result.ok
+    ? t('perihelion.settings.importedAsteroids', { count: result.count })
+    : result.message;
+  if (result.ok) {
+    loadObjects();
+    loadSyncStatus();
+  }
+}
+
+async function onExportComets() {
+  const result = await exportComets();
+  if (!result.ok) {
+    dataSettingsStatus.value = result.message;
+    return;
+  }
+  if (!result.text) {
+    dataSettingsStatus.value = t('perihelion.settings.nothingToExport');
+    return;
+  }
+  const blob = new Blob([result.text], { type: 'text/plain' });
+  await downloadBlob(blob, 'CometEls.txt', { fallbackFilename: 'CometEls.txt' });
+}
+
+async function onExportAsteroids() {
+  const result = await exportAsteroids();
+  if (!result.ok) {
+    dataSettingsStatus.value = result.message;
+    return;
+  }
+  if (!result.text) {
+    dataSettingsStatus.value = t('perihelion.settings.nothingToExport');
+    return;
+  }
+  const blob = new Blob([result.text], { type: 'application/json' });
+  await downloadBlob(blob, 'perihelion-asteroid-elements.json', {
+    fallbackFilename: 'perihelion-asteroid-elements.json',
+  });
+}
+
+async function onClearComets() {
+  if (!window.confirm(t('perihelion.settings.confirmClearComets'))) return;
+  const result = await clearComets();
+  dataSettingsStatus.value = result.message;
+  if (result.ok) {
+    // Not loadObjects() -- GET /objects auto-refetches live data for whichever cache is
+    // currently empty (by design, for the normal case), which would immediately undo the
+    // clear. Remove this type's rows from the already-loaded list locally instead.
+    objects.value = objects.value.filter((o) => o.objectType !== 'Comet');
+    loadSyncStatus();
+  }
+}
+
+async function onClearAsteroids() {
+  if (!window.confirm(t('perihelion.settings.confirmClearAsteroids'))) return;
+  const result = await clearAsteroids();
+  dataSettingsStatus.value = result.message;
+  if (result.ok) {
+    objects.value = objects.value.filter((o) => o.objectType !== 'Asteroid');
+    loadSyncStatus();
+  }
+}
+
+async function onClearCobs() {
+  if (!window.confirm(t('perihelion.settings.confirmClearCobs'))) return;
+  const result = await clearCobs();
+  dataSettingsStatus.value = result.message;
+  if (result.ok) {
+    // Null the badges locally rather than refetching -- same reasoning as Clear
+    // Comets/Asteroids: a refetch would immediately repopulate what was just cleared.
+    for (const o of objects.value) {
+      o.observedMagnitude = null;
+      o.observedAverageMagnitude = null;
+    }
+    loadSyncStatus();
+  }
 }
 
 // Perihelion's own backend is a separate standalone HTTP server, not something ninaAPI knows
@@ -1603,6 +1978,7 @@ const tabItems = computed(() => [
   { name: t('perihelion.tabs.browse'), value: 'browse' },
   { name: t('perihelion.tabs.position'), value: 'position' },
   { name: t('perihelion.tabs.track'), value: 'track' },
+  { name: t('perihelion.tabs.settings'), value: 'settings' },
 ]);
 
 // --- Browse ---
@@ -1623,7 +1999,6 @@ async function loadObjects() {
   objectsError.value = null;
   try {
     objects.value = await fetchBrowseObjects();
-    if (!selectedId.value && objects.value.length) selectedId.value = objects.value[0].id;
     fillCobsInBackground();
   } catch (error) {
     objectsError.value = error?.message ?? 'Could not load objects from Perihelion';
@@ -1670,6 +2045,10 @@ async function fillCobsInBackground() {
 const cometsLastSyncedUtc = ref(null);
 const asteroidsLastSyncedUtc = ref(null);
 const cobsLastRefreshedUtc = ref(null);
+const cometsCachedCount = ref(0);
+const asteroidsCachedCount = ref(0);
+const cobsCachedCount = ref(0);
+const syncStatusLoaded = ref(false);
 const syncing = ref(false);
 const syncMessage = ref(null);
 const syncingAsteroids = ref(false);
@@ -1681,10 +2060,17 @@ async function loadSyncStatus() {
     cometsLastSyncedUtc.value = status.cometsLastSyncedUtc;
     asteroidsLastSyncedUtc.value = status.asteroidsLastSyncedUtc;
     cobsLastRefreshedUtc.value = status.cobsLastRefreshedUtc;
+    cometsCachedCount.value = status.cometsCachedCount;
+    asteroidsCachedCount.value = status.asteroidsCachedCount;
+    cobsCachedCount.value = status.cobsCachedCount;
   } catch {
     // Not worth surfacing an error just for the status line -- the Sync Now/Refresh COBS
     // buttons and any comet-fetch error elsewhere in the panel already cover the cases that
     // actually matter.
+  } finally {
+    // Without this, the pre-fetch null defaults render as "never synced" even when sync
+    // history exists.
+    syncStatusLoaded.value = true;
   }
 }
 
@@ -1742,14 +2128,27 @@ const cobsStatusLabel = computed(() =>
     : t('perihelion.browse.cobsNeverRefreshed')
 );
 
+// Same underlying timestamp as cobsStatusLabel, but without "COBS" baked into the string --
+// used under a "COBS" section header in Settings, where repeating the label would be redundant.
+const cobsStatusShort = computed(() =>
+  cobsLastRefreshedUtc.value
+    ? t('perihelion.settings.refreshedAgo', { when: relativeTime(cobsLastRefreshedUtc.value) })
+    : t('perihelion.settings.neverRefreshed')
+);
+
 async function onSyncComets() {
   syncing.value = true;
   syncMessage.value = null;
   const result = await syncComets();
   syncMessage.value = { ok: result.ok, text: result.message };
-  if (result.lastSyncedUtc) cometsLastSyncedUtc.value = result.lastSyncedUtc;
   syncing.value = false;
-  if (result.ok) await loadObjects();
+  if (result.ok) {
+    await loadObjects();
+    // loadSyncStatus() re-reads CachedCount from the backend -- the sync response itself
+    // doesn't include a count, only a timestamp, so this is the only way the Settings tab's
+    // "N comets cached" text actually reflects what just synced.
+    loadSyncStatus();
+  }
 }
 
 const asteroidSyncStatusLabel = computed(() =>
@@ -1763,9 +2162,11 @@ async function onSyncAsteroids() {
   asteroidSyncMessage.value = null;
   const result = await syncAsteroids();
   asteroidSyncMessage.value = { ok: result.ok, text: result.message };
-  if (result.lastSyncedUtc) asteroidsLastSyncedUtc.value = result.lastSyncedUtc;
   syncingAsteroids.value = false;
-  if (result.ok) await loadObjects();
+  if (result.ok) {
+    await loadObjects();
+    loadSyncStatus();
+  }
 }
 
 // "Sync Now" under the combined "All" filter -- syncs both data sources together rather than
@@ -1777,8 +2178,6 @@ async function onSyncAll() {
   syncingAll.value = true;
   allSyncMessage.value = null;
   const [cometResult, asteroidResult] = await Promise.all([syncComets(), syncAsteroids()]);
-  if (cometResult.lastSyncedUtc) cometsLastSyncedUtc.value = cometResult.lastSyncedUtc;
-  if (asteroidResult.lastSyncedUtc) asteroidsLastSyncedUtc.value = asteroidResult.lastSyncedUtc;
   const ok = cometResult.ok && asteroidResult.ok;
   allSyncMessage.value = {
     ok,
@@ -1792,7 +2191,10 @@ async function onSyncAll() {
           .join(' · '),
   };
   syncingAll.value = false;
-  if (cometResult.ok || asteroidResult.ok) await loadObjects();
+  if (cometResult.ok || asteroidResult.ok) {
+    await loadObjects();
+    loadSyncStatus();
+  }
 }
 
 // --- COBS refresh -- deliberately separate from Sync Now (comet elements), see
@@ -1938,8 +2340,7 @@ const filteredObjects = computed(() => {
   return sortObjects(list);
 });
 
-// Computed rather than hardcoded so the "N asteroids" note below never silently goes stale if
-// the embedded list in AsteroidOrbits.cs ever changes.
+const cometCount = computed(() => objects.value.filter((o) => o.objectType === 'Comet').length);
 const asteroidCount = computed(
   () => objects.value.filter((o) => o.objectType === 'Asteroid').length
 );
@@ -2234,6 +2635,10 @@ function goToTrackFromFraming() {
   activeTab.value = 'track';
 }
 
+function goToPositionFromBrowse() {
+  activeTab.value = 'position';
+}
+
 // --- Track ---
 // trackingMode: 'idle' | 'quick' | 'sequence' -- lives in perihelionStore, see above.
 const actionBusy = ref(false);
@@ -2338,9 +2743,9 @@ const nextReapplyIn = computed(() => {
   return `${Math.max(0, Math.round((nextAtMs - now.value) / 1000))}s`;
 });
 
-// Shared by onAddToSequence (loads it live into NINA) and onDownloadSequence (saves the exact
-// same JSON as a file) -- both send the identical target shape to buildPerihelionSequence, so
-// there's exactly one place that has to stay in sync with its own param docs.
+// Shared by onAddToSequence (appends it live into NINA's loaded sequence) and
+// onDownloadSequence (saves an equivalent full-sequence JSON as a file) -- keeps both actions'
+// target shape in one place.
 function buildSequenceTarget() {
   return {
     objectType: selected.value.objectType.toLowerCase(),
@@ -2351,6 +2756,9 @@ function buildSequenceTarget() {
     meridianFlip: meridianFlip.value,
     autofocusMinutes: autofocus.value ? autofocusMinutes.value : null,
     frameOffset: framingOffset.value,
+    // null (not just 0) when no rotator is connected -- CenterAndRotate fails validation and
+    // blocks the whole sequence without one, so this can't be sent unconditionally.
+    rotationAngle: store.rotatorInfo?.Connected ? framingStore.rotationAngle : null,
     exposure: {
       filterName: exposureFilter.value || null,
       exposureSeconds: exposureSeconds.value,
@@ -2363,12 +2771,11 @@ async function onAddToSequence() {
   if (!selected.value) return;
   actionBusy.value = true;
   actionStatus.value = null;
-  const result = await sendPerihelionSequence(buildSequenceTarget());
+  const result = await addTargetToSequence(buildSequenceTarget());
   actionStatus.value = result;
   actionBusy.value = false;
-  // Deliberately stays 'idle' even on success -- Add to Sequence only loads the sequence, it
-  // doesn't start it (see sendPerihelionSequence's own doc comment), so there's nothing here
-  // for a "Stop Sequence" button to stop yet.
+  // Deliberately stays 'idle' even on success -- this appends the target, it doesn't start
+  // the sequence, so there's nothing here for a "Stop Sequence" button to stop yet.
 }
 
 // Lighter-weight alternative to Add to Sequence for someone who doesn't want it loaded straight
@@ -2376,17 +2783,14 @@ async function onAddToSequence() {
 // the exact same "today's position baked in" property Add to Sequence already has, so no new
 // staleness risk versus that existing action. Comet/asteroid names can contain "/" (e.g.
 // "220P/McNaught"), which would otherwise be read as a path separator in the filename.
-function onDownloadSequence() {
+async function onDownloadSequence() {
   if (!selected.value) return;
   const root = buildPerihelionSequence(buildSequenceTarget());
   const safeName = selected.value.name.replace(/[/\\?%*:|"<>]/g, '-');
   const blob = new Blob([JSON.stringify(root, null, 2)], { type: 'application/json' });
-  const url = URL.createObjectURL(blob);
-  const link = document.createElement('a');
-  link.href = url;
-  link.download = `${safeName}-sequence.json`;
-  link.click();
-  URL.revokeObjectURL(url);
+  await downloadBlob(blob, `${safeName}-sequence.json`, {
+    fallbackFilename: 'perihelion-sequence.json',
+  });
 }
 
 // Deliberately calls apiService.slewAndCenter() directly rather than framingStore's own

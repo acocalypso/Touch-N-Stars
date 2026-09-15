@@ -21,6 +21,7 @@ import { getUrls } from '@/services/api/core';
  *   lastError: string|null,
  *   stopReason: string|null,
  *   guidingError: string|null,
+ *   guidingOnlyFallback: boolean,
  * }>}
  */
 export async function fetchQuickTrackStatus() {
@@ -46,5 +47,9 @@ export async function fetchQuickTrackStatus() {
     // doesn't make the mount's own tracking-rate application read as failed. Null when guiding
     // is off, or its last attempt succeeded.
     guidingError: body.GuidingError ?? null,
+    // True when the mount's driver can't take a custom base tracking rate at all, so Perihelion
+    // fell back to guiding-only shift tracking (PHD2's own mechanism) instead -- the Windows
+    // panel already surfaces this, TNS previously didn't map the field at all.
+    guidingOnlyFallback: !!body.GuidingOnlyFallback,
   };
 }

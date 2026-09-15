@@ -57,7 +57,11 @@
 
       <div class="flex justify-center gap-3">
         <!-- Restart Button -->
-        <button @click="restartSystem" class="tns-btn-danger gap-2 max-w-40" title="Restart System">
+        <button
+          @click="restartSystem"
+          class="tns-btn-danger gap-2 max-w-40"
+          :title="$t('components.settings.system.restart')"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             class="h-5 w-5"
@@ -72,14 +76,14 @@
               d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
             />
           </svg>
-          Restart
+          {{ $t('components.settings.system.restart') }}
         </button>
 
         <!-- Shutdown Button -->
         <button
           @click="shutdownSystem"
           class="tns-btn-danger gap-2 max-w-40"
-          title="Shutdown System"
+          :title="$t('components.settings.system.shutdown')"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -100,7 +104,7 @@
             C142.579,112.514,147.064,117,152.579,117z"
             />
           </svg>
-          Shutdown
+          {{ $t('components.settings.system.shutdown') }}
         </button>
       </div>
     </div>

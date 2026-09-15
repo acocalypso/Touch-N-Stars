@@ -2,7 +2,7 @@
   <div
     class="flex items-center w-full justify-between border border-line-strong p-1 md:p-2 rounded-control"
   >
-    <label for="setUsbLimit" class="text-xs md:text-sm text-content font-medium">
+    <label for="setDewHeaterStrength" class="text-xs md:text-sm text-content font-medium">
       {{ $t('components.camera.dewHeaterStrength') }}
     </label>
     <select
@@ -19,24 +19,26 @@
 </template>
 
 <script setup>
-import { computed, onMounted, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import apiService from '@/services/apiService';
 import { useCameraStore } from '@/store/cameraStore';
 
 const cameraStore = useCameraStore();
-const dewHeaterStrength = ref(9);
+const dewHeaterStrength = ref(0);
 
-const dewHeaterOptions = computed(() => {
-  const max = cameraStore.cameraSettings?.MaxDewHeaterStrength;
-  if (Number.isFinite(max) && max >= 0) {
-    return Array.from({ length: max + 1 }, (_, i) => i);
-  }
-  return Array.from({ length: 11 }, (_, i) => i * 10);
-});
+// The parent only renders this component when MaxDewHeaterStrength is set.
+const dewHeaterOptions = computed(() =>
+  Array.from({ length: cameraStore.cameraSettings.MaxDewHeaterStrength + 1 }, (_, i) => i)
+);
 
-onMounted(() => {
-  dewHeaterStrength.value = cameraStore.cameraSettings.TargetDewHeaterStrength;
-});
+// Follow the backend value so changes made in NINA itself show up here too.
+watch(
+  () => cameraStore.cameraSettings?.TargetDewHeaterStrength,
+  (value) => {
+    if (Number.isFinite(value)) dewHeaterStrength.value = value;
+  },
+  { immediate: true }
+);
 
 async function setDewHeaterStrength() {
   try {

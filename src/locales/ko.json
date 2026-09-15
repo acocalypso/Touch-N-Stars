@@ -2331,7 +2331,8 @@
         "progress": "진행률",
         "safety": "안전",
         "weather": "날씨",
-        "screenlock": "잠금"
+        "screenlock": "잠금",
+        "switch": "스위치"
       },
       "mount": {
         "parked": "파킹됨",
@@ -2742,17 +2743,11 @@
       "submissionHistory": "제출 기록",
       "confirmClearAll": "모든 제출 기록을 지우시겠습니까?",
       "diagnostics": {
-        "title": "진단 지원 (PINS)",
-        "intro": "진단 섹션을 선택하고 아카이브 수집을 시작한 뒤, 준비되면 ZIP을 다운로드/업로드하세요.",
+        "title": "PINS 시스템 진단",
+        "intro": "시스템 진단(저널, dmesg, 네트워크 등)은 위의 '수집 및 업로드'를 클릭하면 자동으로 수집되어 포함됩니다. 수집 범위를 제한하려면 전문가 설정을 사용하세요.",
         "sectionsTitle": "섹션",
         "journalLines": "저널 줄 수",
         "dmesgLines": "dmesg 줄 수",
-        "start": "수집 시작",
-        "running": "수집 중...",
-        "download": "ZIP 다운로드",
-        "downloadBusy": "다운로드 중...",
-        "refreshOptions": "옵션 새로고침",
-        "loadingOptions": "옵션 불러오는 중...",
         "statusLabel": "상태",
         "archiveId": "아카이브 ID",
         "statusIdle": "대기",
@@ -2768,18 +2763,30 @@
         "pollFailed": "진단 상태를 조회하지 못했습니다.",
         "stillPreparing": "아카이브가 아직 준비 중입니다. 잠시 후 다시 다운로드해 주세요.",
         "downloadFailed": "진단 아카이브를 다운로드하지 못했습니다.",
-        "uploaded": "진단 ZIP을 지원 엔드포인트로 업로드했습니다.",
         "validationSections": "섹션을 하나 이상 선택하세요.",
         "validationJournalLines": "저널 줄 수는 100에서 50000 사이여야 합니다.",
         "validationDmesgLines": "dmesg 줄 수는 100에서 50000 사이여야 합니다.",
-        "autoDownloaded": "아카이브가 자동으로 다운로드되었고 업로드를 시도했습니다."
+        "expertMode": "전문가 설정",
+        "ninaLogs": "NINA 로그 파일 (최근 10개)",
+        "collecting": "PINS 시스템 진단을 수집하는 중… 시간이 걸릴 수 있습니다."
       },
       "actions": {
         "collectUpload": "수집 및 업로드",
         "uploading": "업로드 중…",
         "copyToken": "복사",
         "remove": "제거",
-        "clearAll": "모두 지우기"
+        "clearAll": "모두 지우기",
+        "collectSave": "수집 및 저장",
+        "saving": "저장 중…",
+        "hint": "수집 및 업로드는 로그를 모아 지원 엔드포인트로 바로 전송합니다. 수집 및 저장은 동일한 로그를 모아 ZIP을 앱 안에 보관합니다 - 아직 인터넷 연결이 없어 나중에 업로드하려는 경우 사용하세요."
+      },
+      "savedArchives": {
+        "title": "저장된 아카이브",
+        "intro": "수집 및 저장은 아카이브를 앱 안에 보관합니다(최대 5개, 가장 오래된 항목이 교체됨). 인터넷에 연결되면 업로드하거나 기기로 내보내세요.",
+        "empty": "저장된 아카이브가 아직 없습니다.",
+        "upload": "업로드",
+        "download": "다운로드",
+        "delete": "삭제"
       },
       "submissionFields": {
         "date": "날짜",
@@ -2793,7 +2800,16 @@
         "tokenCopied": "토큰을 클립보드에 복사했습니다",
         "tokenCopyFailed": "토큰 복사 실패",
         "submissionRemoved": "제출 항목 제거됨",
-        "allSubmissionsCleared": "모든 제출 항목이 지워졌습니다"
+        "allSubmissionsCleared": "모든 제출 항목이 지워졌습니다",
+        "savedLocally": "로그 파일이 기기에 저장되었습니다 ({filename}).",
+        "savedInApp": "로그 아카이브가 앱에 저장되었습니다({filename}). 온라인 상태가 되면 저장된 아카이브 목록에서 업로드하세요.",
+        "archiveMissing": "저장된 아카이브를 더 이상 사용할 수 없습니다.",
+        "saveFailed": "로그 파일을 로컬에 저장하지 못했습니다."
+      },
+      "progress": {
+        "collectingLogs": "Touch'N'Stars 로그를 수집하는 중…",
+        "collectingNinaLogs": "최근 NINA 로그 파일을 수집하는 중…",
+        "buildingArchive": "ZIP 아카이브를 생성하는 중…"
       }
     },
     "telescopius": {
@@ -5445,7 +5461,8 @@
     "tabs": {
       "browse": "탐색",
       "position": "위치 및 경로",
-      "track": "추적"
+      "track": "추적",
+      "settings": "설정"
     },
     "browse": {
       "step": "추적할 혜성 또는 소행성을 선택하세요",
@@ -5454,7 +5471,7 @@
       "filterComets": "혜성",
       "filterAsteroids": "소행성",
       "sortBy": "정렬 기준",
-      "sortBrightness": "밝기",
+      "sortBrightness": "등급",
       "sortName": "이름",
       "cometsStatus": "혜성 {status}",
       "asteroidsStatus": "소행성 {status}",
@@ -5468,7 +5485,6 @@
       "cobsRefreshed": "COBS 등급 새로고침 완료",
       "cobsRefreshedAgo": "COBS {when} 새로고침됨",
       "cobsNeverRefreshed": "COBS 새로고침된 적 없음",
-      "asteroidCount": "소행성 {count}개 — JPL의 실시간 궤도 요소, 자동으로 갱신됩니다.",
       "epochStaleTooltip": "이 천체의 궤도 데이터가 평소보다 정확하지 않을 수 있습니다 — 자세히 보려면 탭하세요.",
       "epochStaleLegendTitle": "오래된 궤도 데이터",
       "epochStaleLegendExplanation": "이 천체의 궤도 요소는 자체 기준 시점(epoch)에서 비정상적으로 멀리 떨어져 있습니다. 이렇게 기준일에서 멀리 떨어진 위치를 예측하는 것은 행성의 지속적인 중력 섭동을 고려하지 않는 단순한 이체 물리학에 기반하므로, 실제 위치는 표시된 값과 다를 수 있습니다.",
@@ -5481,7 +5497,12 @@
       "observedLegendBrighter": "녹색 — 예측보다 밝음(실제 폭발적 활동)",
       "observedLegendNormal": "청록색 — 예측과 대체로 일치",
       "observedLegendFainter": "주황색 — 예측보다 눈에 띄게 어두움",
-      "observedLegendMuchFainter": "빨간색 — 예측보다 훨씬 어두움"
+      "observedLegendMuchFainter": "빨간색 — 예측보다 훨씬 어두움",
+      "selectedPrompt": "선택됨 -- 위치를 확인할 준비가 되었습니다.",
+      "goToPositionPath": "위치 및 경로로 이동",
+      "datasetCounts": "혜성 {comets}개, 소행성 {asteroids}개",
+      "cometCountSynced": "혜성 {count}개 · {status}",
+      "asteroidCountSynced": "소행성 {count}개 · {status}"
     },
     "position": {
       "step": "위치를 확인하고 구도를 설정하세요",
@@ -5577,22 +5598,22 @@
       "quickTrack": "Quick Track",
       "working": "처리 중…",
       "howItWorks": "작동 방식",
-      "reapplyIntervalSection": "재적용 간격",
       "eqmodToggleTitle": "EQMOD RA 속도 보정",
-      "eqmodToggleDescription": "EQMOD(Windows ASCOM 드라이버와 별도로 확인된 INDI 자체의 EQMod 드라이버 모두)는 NINA가 실제로 전송하는 값이 아니라 RA 추적 속도를 원시 arcsec/초 단위로 읽어들이므로, 보정하지 않으면 추적이 약 15배 느려집니다. 마운트가 EQMOD를 통해 구동되는 경우에만 활성화하세요.",
+      "eqmodToggleDescription": "EQMOD는 NINA가 보내는 값 대신 적경 속도를 원시 초각/초 단위로 읽어들여, 보정하지 않으면 추적 속도가 약 15배 느려집니다. 마운트가 EQMOD를 사용하는 경우에만 활성화하세요.",
       "eqmodDetectedHint": "{name}은(는) EQMOD 드라이버로 보입니다 — 이 옵션을 켜는 것이 좋습니다.",
       "reapplyIntervalTitle": "재적용 간격",
       "reapplyIntervalDescription": "Quick Track이 추적 속도를 다시 계산하고 재전송하는 빈도입니다. 기본값 900초(15분)는 혜성과 소행성에 적합합니다.",
       "secondsUnit": "초",
-      "addToSequenceDescriptionRest": "슬루, 추적, 촬영 시퀀스를 만들어 검토하고 시작할 수 있도록 PINS 시퀀서에 불러옵니다.",
+      "addToSequenceDescriptionRest": "슬루 + 추적 + 촬영 대상을 PINS 시퀀서에 이미 로드된 시퀀스에 추가합니다. 검토 후 시작하세요 -- 기존 대상은 그대로 유지됩니다.",
       "downloadSequence": "시퀀스 다운로드",
-      "downloadSequenceDescriptionRest": "PINS에 불러오는 대신 동일한 시퀀스를 파일로 저장합니다 -- 나중에 검토하거나 가져오기 위함입니다.",
+      "downloadSequenceDescriptionRest": "로드된 시퀀스에 추가하는 대신 동등한 전체 시퀀스를 파일로 저장합니다 -- 나중에 검토하거나 가져오기 위한 용도입니다.",
       "quickTrackDescriptionRest": "지금 바로 마운트의 속도를 직접 설정합니다 — 수동/육안 관측용이며 실제 촬영 시퀀스를 대체하지 않습니다. Quick Track에는 이를 대신 처리할 시퀀스 트리거가 없으므로, 마운트가 자오선 반전 한계에 도달했다고 보고하면 자동으로 정지합니다.",
       "stopSequence": "시퀀스 중지",
       "stopQuickTrack": "Quick Track 중지",
       "autoReapplyingFooterSeconds": "Auto re-applying every {seconds} sec",
       "footer": "실시간 궤도 요소로부터 기기에서 직접 계산 — 혜성과 소행성 모두 주기적으로 동기화된 후 오프라인으로 작동합니다.",
-      "dismiss": "닫기"
+      "dismiss": "닫기",
+      "guidingOnlyFallback": "마운트가 사용자 지정 속도를 받을 수 없습니다 -- 가이더 시프트로만 추적합니다."
     },
     "relativeTime": {
       "justNow": "방금",
@@ -5623,11 +5644,35 @@
       "noResponse": "응답 메시지 없음",
       "unreachable": "Perihelion에 연결할 수 없음",
       "syncFailed": "동기화 실패",
-      "sequenceLoadFailed": "시퀀스를 불러올 수 없음",
-      "sequenceLoaded": "시퀀스가 로드됨 — 시퀀서에서 검토 후 시작하세요",
-      "unknownError": "알 수 없는 오류"
+      "unknownError": "알 수 없는 오류",
+      "backendTooOld": "이 기능에는 최신 버전의 Perihelion 플러그인이 필요합니다 -- 업데이트 후 다시 시도하세요."
     },
     "notDetected": "Perihelion 플러그인을 찾을 수 없습니다. 이 페이지를 사용하려면 Perihelion 플러그인을 설치하세요.",
-    "notSupportedOnNina": "Perihelion은 현재 PINS만 지원하며 Windows NINA는 지원하지 않습니다."
+    "notSupportedOnNina": "Perihelion은 현재 PINS만 지원하며 Windows NINA는 지원하지 않습니다.",
+    "settings": {
+      "trackingSection": "마운트 및 추적",
+      "dataSection": "데이터",
+      "cometMagnitudeThreshold": "혜성 등급 한계",
+      "maxComets": "표시할 최대 혜성 수",
+      "asteroidMagnitudeThreshold": "소행성 등급 한계",
+      "maxAsteroids": "표시할 최대 소행성 수",
+      "cometsData": "혜성",
+      "asteroidsData": "소행성",
+      "import": "가져오기",
+      "export": "내보내기",
+      "clear": "지우기",
+      "saved": "저장됨.",
+      "saveFailed": "저장 실패.",
+      "importedComets": "혜성 {count}개를 가져왔습니다.",
+      "importedAsteroids": "소행성 {count}개를 가져왔습니다.",
+      "nothingToExport": "내보낼 항목이 없습니다 -- 아직 동기화되지 않았습니다.",
+      "confirmClearComets": "캐시된 모든 혜성 궤도 요소를 제거하시겠습니까? 다음 동기화 전까지 목록의 혜성이 비어 있습니다.",
+      "confirmClearAsteroids": "캐시된 모든 소행성 궤도 요소를 제거하시겠습니까? 다음 동기화 전까지 목록의 소행성이 비어 있습니다.",
+      "cobsData": "COBS",
+      "cobsCountSynced": "혜성 {count}개 캐시됨 · {status}",
+      "refreshedAgo": "{when} 갱신됨",
+      "neverRefreshed": "갱신된 적 없음",
+      "confirmClearCobs": "캐시된 모든 COBS 관측 데이터를 제거하시겠습니까? 다음 탐색 탭 새로고침 전까지 관측 밝기 배지가 비어 있습니다."
+    }
   }
 }

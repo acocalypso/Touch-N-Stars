@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [Unreleased]
+## [App6.3.1-beta5] - 2026-09-15
 
 ### Added
 - Status bar: New Switch chip that shows how many ports are on and opens the switch controls from any page, so powering the equipment no longer needs a detour to the Switch tab.
@@ -14,6 +14,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Atlas: The photographic DSS background is now downloaded once from the Atlas settings to the NINA/PINS host (base resolution or up to order 7) instead of being shipped with the app; the Atlas offers the base download on first open and works without it.
 - Atlas: Deleting the survey now lets you pick which order to keep (downgrade) instead of only wiping everything, with a confirmation dialog and a spinner while it runs.
 - Atlas: The camera panel now has the framing tools — favourites list, FITS plate solve and mosaic settings (mosaic panels are saved as individual favourites) — and the Atlas centres on targets loaded into framing from favourites, FITS solves or the sequence.
+- Logfile Collector: PINS system diagnostics are now collected and included automatically, expanded log coverage, and progress is shown while the archive is being built.
+- Logfile Collector: Collect & Save now keeps the log archive inside the app (up to five) so it can be uploaded, exported to the device or deleted later from a saved-archives list.
 
 ### Changed
 - Atlas: Requires the Touch'N'Stars plugin with the survey download endpoints; older plugins show an update hint in the Atlas settings.
@@ -23,6 +25,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Filter wheel: The INDI manual wheel is no longer offered and an existing selection is switched to NINA's Manual Filter Wheel on connect, so the filter change confirmation appears again in PINS.
 - Camera: The cooler status no longer shows Warming up right after starting a cool-down and no longer flips back to Off or At target temp after starting a cool-down, warm-up or cancel; warm-ups started at the target and holds after a cancel are shown correctly on Windows NINA too.
 - Switch: The on/off toggles now follow changes made outside the app, e.g. from NINA's own switch tab or an Alpaca proxy's web UI.
+- File browser: Cancelling a multi-file download no longer reports a failed download, and a rename that hits an existing name shows the backend's reason instead of closing the dialog silently.
+- Logfile Collector: Collect & Upload no longer also downloads a duplicate diagnostics ZIP alongside the main log archive.
 
 ## [App6.3.1-beta3] - 2026-09-10 
 

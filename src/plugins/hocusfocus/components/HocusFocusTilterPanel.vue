@@ -648,6 +648,30 @@
             {{ $t('plugins.hocusfocus.tilter.tilterScrewCountDescription') }}
           </p>
         </div>
+
+        <!-- Positive Turn Direction (only for manual tilter) -->
+        <div v-if="shouldShowManualTilterUI()" class="flex flex-col gap-2">
+          <label class="text-xs text-gray-400">{{
+            $t('plugins.hocusfocus.tilter.positiveTurnDirection')
+          }}</label>
+          <div
+            v-if="!isSensorConfigEditing"
+            class="px-3 py-2 bg-gray-700/30 border border-gray-600 rounded text-white text-sm"
+          >
+            {{ positiveTurnDirectionLabel }}
+          </div>
+          <select
+            v-else
+            v-model="sensorConfig.TilterPositiveTurnIsOutward"
+            class="px-3 py-2 bg-gray-700 border border-gray-600 rounded text-white text-sm focus:border-cyan-500 focus:outline-none"
+          >
+            <option :value="false">{{ $t('plugins.hocusfocus.tilter.positiveTurnInward') }}</option>
+            <option :value="true">{{ $t('plugins.hocusfocus.tilter.positiveTurnOutward') }}</option>
+          </select>
+          <p class="text-xs text-gray-500">
+            {{ $t('plugins.hocusfocus.tilter.positiveTurnDirectionDescription') }}
+          </p>
+        </div>
       </div>
 
       <!-- Save Button (only show when editing) -->
@@ -735,7 +759,7 @@
           }}</span>
         </label>
         <p class="text-xs text-gray-500 mt-1">
-          {{ $t('plugins.hocusfocus.tilter.shiftToNonNegativeDescription') }}
+          {{ $t('plugins.hocusfocus.tilter.startFromSeatedDescription') }}
         </p>
       </div>
 
@@ -791,16 +815,18 @@
                 [calc: {{ screw.raw?.toFixed(3) }} mm]</span
               >
             </div>
-            <div
-              v-if="
-                shouldShowManualTilterUI() &&
-                typeof sensorConfig.TilterThreadPitch === 'number' &&
-                sensorConfig.TilterThreadPitch > 0
-              "
-              class="text-green-400 mt-1 font-semibold"
-            >
-              {{ (screw.position / sensorConfig.TilterThreadPitch).toFixed(2) }}
-              turns
+            <div v-if="shouldShowManualTilterUI()" class="mt-1 font-semibold">
+              <span
+                :class="
+                  screw.direction === 'inward'
+                    ? 'text-cyan-300'
+                    : screw.direction === 'outward'
+                      ? 'text-amber-300'
+                      : 'text-gray-400'
+                "
+              >
+                {{ screw.directionLabel }}
+              </span>
             </div>
           </div>
         </div>
@@ -921,6 +947,7 @@ const sensorConfig = ref({
   TilterOuterRadius: 60,
   TilterThreadPitch: 0,
   TilterScrewCount: 3,
+  TilterPositiveTurnIsOutward: false,
 });
 
 // Screw ring radius in SVG units (the visualization is drawn at a fixed scale)
@@ -957,6 +984,12 @@ const screwCountLabel = computed(() =>
   screwCount.value === 4
     ? t('plugins.hocusfocus.tilter.screwCountFour')
     : t('plugins.hocusfocus.tilter.screwCountThree')
+);
+
+const positiveTurnDirectionLabel = computed(() =>
+  sensorConfig.value.TilterPositiveTurnIsOutward === true
+    ? t('plugins.hocusfocus.tilter.positiveTurnOutward')
+    : t('plugins.hocusfocus.tilter.positiveTurnInward')
 );
 
 // Screw markers for the geometry visualization, laid out on the outer ring.
@@ -999,23 +1032,50 @@ const isCalculatingTiltPlane = ref(false);
 const isApplyingPositions = ref(false);
 const applyTiltPlaneError = ref('');
 const aberrationInspectorAvailable = ref(false);
-// Manual tilters are adjusted from fully seated screws, so travel is reported as
-// non-negative by default; unchecking reports signed adjustments instead.
+// Manual tilters are adjusted from fully seated screws, so travel is reported as inward-only
+// by default (sign depends on TilterPositiveTurnIsOutward); unchecking reports signed adjustments.
 const shiftToNonNegative = ref(true);
 const isFetchingAberration = ref(false);
+
+// Travel below this (mm) is shown as "no turn"; it rounds to 0.000 mm in the display
+const NO_TURN_THRESHOLD_MM = 0.0005;
 
 // Calculated positions flattened into per-screw rows for display
 const calculatedScrews = computed(() => {
   const result = calculatedPositions.value;
   if (!result) return [];
   const layout = SCREW_LAYOUTS[result.ScrewCount === 4 ? 4 : 3];
+  const pitch = Number(sensorConfig.value.TilterThreadPitch);
+  // Use the direction the backend calculated with, so a later config change can't relabel old values
+  const positiveIsOutward = result.PositiveTurnIsOutward === true;
   return layout.map((screw, index) => {
     const position = result[`Position${index + 1}`];
     const raw = result[`RawPosition${index + 1}`];
+    let direction = null;
+    if (typeof position === 'number' && Math.abs(position) >= NO_TURN_THRESHOLD_MM) {
+      direction = position > 0 === positiveIsOutward ? 'outward' : 'inward';
+    }
+    const turns = direction && pitch > 0 ? (Math.abs(position) / pitch).toFixed(2) : null;
+    let directionLabel;
+    if (!direction) {
+      directionLabel = t('plugins.hocusfocus.tilter.noTurn');
+    } else if (direction === 'inward') {
+      directionLabel =
+        turns !== null
+          ? t('plugins.hocusfocus.tilter.turnsInward', { turns })
+          : t('plugins.hocusfocus.tilter.inward');
+    } else {
+      directionLabel =
+        turns !== null
+          ? t('plugins.hocusfocus.tilter.turnsOutward', { turns })
+          : t('plugins.hocusfocus.tilter.outward');
+    }
     return {
       label: screw.label,
       position,
       raw,
+      direction,
+      directionLabel,
       // With the shift disabled the reported value is the raw one, so don't print it twice
       showRaw: raw !== undefined && raw !== null && Math.abs(raw - position) > 1e-9,
     };
@@ -1333,6 +1393,7 @@ async function loadSensorConfiguration() {
         TilterOuterRadius: response.TilterOuterRadius ?? 60,
         TilterThreadPitch: response.TilterThreadPitch ?? 0,
         TilterScrewCount: response.TilterScrewCount === 4 ? 4 : 3,
+        TilterPositiveTurnIsOutward: response.TilterPositiveTurnIsOutward === true,
       };
       backendSupportsScrewCount.value =
         response.TilterScrewCount !== undefined && response.TilterScrewCount !== null;
@@ -1377,6 +1438,7 @@ async function saveSensorConfiguration() {
       tilterOuterRadius: sensorConfig.value.TilterOuterRadius,
       tilterThreadPitch: sensorConfig.value.TilterThreadPitch,
       tilterScrewCount: screwCount.value,
+      tilterPositiveTurnIsOutward: sensorConfig.value.TilterPositiveTurnIsOutward === true,
     });
 
     if (response.Error) {
@@ -1530,6 +1592,9 @@ async function calculateTiltPlane() {
       outerRadius: outerRadius,
       screwCount: shouldShowManualTilterUI() ? screwCount.value : 3,
       shiftToNonNegative: shouldShowManualTilterUI() ? shiftToNonNegative.value : true,
+      positiveTurnIsOutward: shouldShowManualTilterUI()
+        ? sensorConfig.value.TilterPositiveTurnIsOutward === true
+        : false,
       cornerValues: {
         topLeftZ: applyTiltPlane.value.topLeftZ,
         topRightZ: applyTiltPlane.value.topRightZ,
@@ -1549,7 +1614,9 @@ async function calculateTiltPlane() {
       // ETA hardware is always a 3-screw plate; only manual tilters may be 4-screw
       shouldShowManualTilterUI() ? screwCount.value : 3,
       // Real hardware always needs non-negative positions
-      shouldShowManualTilterUI() ? shiftToNonNegative.value : true
+      shouldShowManualTilterUI() ? shiftToNonNegative.value : true,
+      // Only manual tilters have a screw direction; ETA positions are always non-negative
+      shouldShowManualTilterUI() ? sensorConfig.value.TilterPositiveTurnIsOutward === true : false
     );
 
     if (response.Error) {

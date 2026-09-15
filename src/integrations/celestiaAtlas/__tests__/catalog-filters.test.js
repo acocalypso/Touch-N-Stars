@@ -3,6 +3,9 @@ import assert from 'node:assert/strict';
 import { passesDeepSkyCatalogFilter } from '@acocalypso/celestia-atlas';
 import { buildEmbeddedAtlasCatalog } from '../catalogLayers.js';
 import {
+  ATLAS_EXTRA_OBJECT_TYPE_KEYS,
+  ATLAS_OBJECT_TYPE_LABELS,
+  atlasObjectTypeI18nKey,
   buildAtlasCatalogFacets,
   normalizeAtlasFacetSelection,
   toggleAtlasFacetSelection,
@@ -141,4 +144,23 @@ test('exposes the exact facets and membership counts from every packaged offline
   assert.equal(passesDeepSkyCatalogFilter(abellCluster, ['gcluster'], ['abell-pn']), false);
   assert.equal(passesDeepSkyCatalogFilter(abellPlanetary, ['pn'], ['abell-pn']), true);
   assert.equal(passesDeepSkyCatalogFilter(abellPlanetary, ['pn'], ['abell']), false);
+});
+
+test('every object type the target card can show has an English label key', async () => {
+  const { readFile } = await import('node:fs/promises');
+  const english = JSON.parse(
+    await readFile(new URL('../../../locales/en.json', import.meta.url), 'utf8')
+  );
+  const labels = english.components.celestiaAtlas.object_types;
+
+  for (const typeKey of [
+    ...Object.keys(ATLAS_OBJECT_TYPE_LABELS),
+    ...ATLAS_EXTRA_OBJECT_TYPE_KEYS,
+  ]) {
+    const key = atlasObjectTypeI18nKey(typeKey);
+    const leaf = key.replace('components.celestiaAtlas.object_types.', '');
+    assert.ok(typeof labels[leaf] === 'string' && labels[leaf].trim(), `label for ${typeKey}`);
+  }
+  assert.equal(atlasObjectTypeI18nKey('*Ass'), 'components.celestiaAtlas.object_types._ass');
+  assert.equal(atlasObjectTypeI18nKey(''), '');
 });

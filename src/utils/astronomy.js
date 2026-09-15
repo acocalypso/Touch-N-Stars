@@ -199,3 +199,53 @@ export function getMoonDataForTarget(targetRaDeg, targetDecDeg, date) {
     at: date instanceof Date ? date.toISOString() : null,
   };
 }
+
+const SIDEREAL_RATE_DEG_PER_MS = 360.98564736629 / 86400000;
+const SIDEREAL_DAY_MS = 360 / SIDEREAL_RATE_DEG_PER_MS;
+
+// Rise, transit and set of a fixed RA/Dec inside one window (default 24 h from
+// windowStart). Geometric horizon (altitude 0°, no refraction) so the times sit
+// exactly where the altitude curve crosses zero. `status` separates the two
+// "no crossing" cases: 'circumpolar' still carries the transit (the culmination
+// is what the observer wants to know), 'neverRises' carries nothing. Returns
+// null for unusable input.
+export function getRiseTransitSet(raDeg, decDeg, windowStart, latDeg, lonDeg, windowMs = 86400000) {
+  if (![raDeg, decDeg, latDeg, lonDeg].every(Number.isFinite)) return null;
+  if (!(windowStart instanceof Date) || !Number.isFinite(windowStart.getTime())) return null;
+
+  const startMs = windowStart.getTime();
+  const endMs = startMs + windowMs;
+
+  // First transit (hour angle 0) after the window start; every other event is
+  // an offset from it and gets shifted by whole sidereal days into the window.
+  const hourAngleDeg = normalizeDeg360(localSiderealTimeDeg(windowStart, lonDeg) - raDeg);
+  const firstTransitMs = startMs + ((360 - hourAngleDeg) % 360) / SIDEREAL_RATE_DEG_PER_MS;
+  const inWindow = (ms) => {
+    let time = ms;
+    while (time < startMs) time += SIDEREAL_DAY_MS;
+    while (time - SIDEREAL_DAY_MS >= startMs) time -= SIDEREAL_DAY_MS;
+    return time <= endMs ? new Date(time) : null;
+  };
+
+  const lat = toRad(latDeg);
+  const dec = toRad(decDeg);
+  const cosH0 = -(Math.sin(lat) * Math.sin(dec)) / (Math.cos(lat) * Math.cos(dec));
+  const transit = inWindow(firstTransitMs);
+
+  if (!Number.isFinite(cosH0)) {
+    // Observer at a pole: the object either never sets or never rises.
+    return Math.sin(lat) * Math.sin(dec) > 0
+      ? { status: 'circumpolar', rise: null, transit, set: null }
+      : { status: 'neverRises', rise: null, transit: null, set: null };
+  }
+  if (cosH0 < -1) return { status: 'circumpolar', rise: null, transit, set: null };
+  if (cosH0 > 1) return { status: 'neverRises', rise: null, transit: null, set: null };
+
+  const halfArcMs = toDeg(Math.acos(cosH0)) / SIDEREAL_RATE_DEG_PER_MS;
+  return {
+    status: 'normal',
+    rise: inWindow(firstTransitMs - halfArcMs),
+    transit,
+    set: inWindow(firstTransitMs + halfArcMs),
+  };
+}

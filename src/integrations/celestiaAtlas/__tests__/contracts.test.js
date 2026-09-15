@@ -147,6 +147,9 @@ test('builds viewer targets only from explicitly framed search results', () => {
     name: 'Andromeda Galaxy',
     displayName: 'M31 · Andromeda Galaxy',
     type: 'Galaxy',
+    typeCode: 'G',
+    mag: 3.44,
+    shape: { kind: 'ellipse', majorArcmin: 177.83, minorArcmin: 69.66 },
     raDeg: 10.6847,
     decDeg: 41.269,
     frame: 'ICRS',
@@ -155,6 +158,9 @@ test('builds viewer targets only from explicitly framed search results', () => {
   assert.equal(result.id, 'M 31');
   assert.equal(result.name, 'Andromeda Galaxy');
   assert.equal(result.displayName, 'M31 · Andromeda Galaxy');
+  assert.equal(result.typeCode, 'G');
+  assert.equal(result.magnitude, 3.44);
+  assert.deepEqual(result.shape, { kind: 'ellipse', majorArcmin: 177.83, minorArcmin: 69.66 });
   assert.deepEqual(result.coordinates, { raDeg: 10.6847, decDeg: 41.269, frame: 'ICRS' });
   assert.deepEqual(
     atlasSearchResultToTarget({

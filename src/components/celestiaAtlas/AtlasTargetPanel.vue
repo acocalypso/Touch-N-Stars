@@ -31,12 +31,86 @@
           {{ selectionNames.slice(1).join(' · ') }}
         </p>
       </template>
-      <dl class="grid grid-cols-[auto_minmax(0,1fr)] gap-x-3 font-mono text-sm tabular-nums">
+      <dl class="grid grid-cols-[auto_minmax(0,1fr)] gap-x-3 gap-y-0.5 text-sm tabular-nums">
         <dt class="text-content-muted">{{ $t('components.celestiaAtlas.selected_object.ra') }}</dt>
-        <dd class="text-content">{{ raString || '—' }}</dd>
+        <dd class="font-mono text-content">{{ raString || '—' }}</dd>
         <dt class="text-content-muted">{{ $t('components.celestiaAtlas.selected_object.dec') }}</dt>
-        <dd class="text-content">{{ decString || '—' }}</dd>
+        <dd class="font-mono text-content">{{ decString || '—' }}</dd>
+        <!-- Catalogue facts: only rows the catalogue actually knows -->
+        <template v-if="typeLabel">
+          <dt class="text-content-muted">
+            {{ $t('components.celestiaAtlas.selected_object.type') }}
+          </dt>
+          <dd class="text-content">{{ typeLabel }}</dd>
+        </template>
+        <template v-if="magnitudeLabel">
+          <dt class="text-content-muted">
+            {{ $t('components.celestiaAtlas.selected_object.magnitude') }}
+          </dt>
+          <dd class="text-content">{{ magnitudeLabel }}</dd>
+        </template>
+        <template v-if="sizeLabel">
+          <dt class="text-content-muted">
+            {{ $t('components.celestiaAtlas.selected_object.size') }}
+          </dt>
+          <dd class="text-content">{{ sizeLabel }}</dd>
+        </template>
+        <template v-if="constellationLabel">
+          <dt class="text-content-muted">
+            {{ $t('components.celestiaAtlas.selected_object.constellation') }}
+          </dt>
+          <dd class="text-content">{{ constellationLabel }}</dd>
+        </template>
+        <!-- Sky position at the atlas time; needs the site location -->
+        <template v-if="altAzLabel">
+          <dt class="text-content-muted">
+            {{ $t('components.celestiaAtlas.selected_object.alt_az') }}
+          </dt>
+          <dd class="font-mono text-content">{{ altAzLabel }}</dd>
+        </template>
+        <template v-if="riseTransitSet && riseTransitSet.status !== 'normal'">
+          <dt class="text-content-muted">
+            {{ $t('components.celestiaAtlas.selected_object.rise_set') }}
+          </dt>
+          <dd class="text-content">
+            {{
+              $t(
+                riseTransitSet.status === 'circumpolar'
+                  ? 'components.celestiaAtlas.selected_object.circumpolar'
+                  : 'components.celestiaAtlas.selected_object.never_rises'
+              )
+            }}
+          </dd>
+        </template>
+        <template v-if="riseTransitSet?.rise">
+          <dt class="text-content-muted">
+            {{ $t('components.celestiaAtlas.selected_object.rise') }}
+          </dt>
+          <dd class="font-mono text-content">{{ formatClock(riseTransitSet.rise) }}</dd>
+        </template>
+        <template v-if="riseTransitSet?.transit">
+          <dt class="text-content-muted">
+            {{ $t('components.celestiaAtlas.selected_object.transit') }}
+          </dt>
+          <dd class="font-mono text-content">{{ formatClock(riseTransitSet.transit) }}</dd>
+        </template>
+        <template v-if="riseTransitSet?.set">
+          <dt class="text-content-muted">
+            {{ $t('components.celestiaAtlas.selected_object.set') }}
+          </dt>
+          <dd class="font-mono text-content">{{ formatClock(riseTransitSet.set) }}</dd>
+        </template>
       </dl>
+      <p v-if="hasValidCoordinates && !hasSiteLocation" class="text-xs text-content-muted">
+        {{ $t('components.celestiaAtlas.selected_object.missing_location') }}
+      </p>
+      <SkyChart
+        v-if="chartTarget"
+        class="mt-1"
+        :target="chartTarget"
+        :coordinates="siteCoordinates"
+        :time="clockUtcMs"
+      />
       <img
         v-if="targetPreviewUrl"
         class="mt-1 max-h-48 w-full rounded-md border border-line object-contain"
@@ -143,6 +217,7 @@
 
 <script setup>
 import { computed, onBeforeUnmount, ref, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import {
   ArrowTopRightOnSquareIcon,
@@ -154,8 +229,12 @@ import {
 import { apiStore } from '@/store/store';
 import { useFramingStore } from '@/store/framingStore';
 import apiService from '@/services/apiService';
+import { timeSync } from '@/utils/timeSync';
 import { degreesToHMS, degreesToDMS } from '@/utils/utils';
+import { equatorialToAltAz, getRiseTransitSet } from '@/utils/astronomy';
+import { getConstellation, getConstellationName } from '@/utils/constellation';
 import { toNinaJ2000Coordinates } from '@/integrations/celestiaAtlas/contracts';
+import { atlasObjectTypeI18nKey } from '@/integrations/celestiaAtlas/catalogFilters';
 import { computeMosaicPanelCenters } from '@/integrations/celestiaAtlas/mosaicPanels';
 import ButtonSlewCenterRotate from '@/components/mount/ButtonSlewCenterRotate.vue';
 import ButtomSyncCoordinatesToMount from '@/components/mount/ButtomSyncCoordinatesToMount.vue';
@@ -166,6 +245,7 @@ import FitsPlateSolve from '@/components/fitsPlatesolve/FitsPlateSolve.vue';
 import getImageRotation from '@/components/framing/getImageRotation.vue';
 import RotationRuler from '@/components/framing/RotationRuler.vue';
 import MosaicControls from '@/components/framing/MosaicControls.vue';
+import SkyChart from '@/components/framing/SkyChart.vue';
 
 // The single target panel of the Atlas. Its target is the tapped object while one is
 // selected, otherwise the live view centre; every action below works on that one
@@ -209,12 +289,19 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  // Atlas clock (UTC ms) the sky-position rows and the altitude chart refer to;
+  // null falls back to server time.
+  clockUtcMs: {
+    type: Number,
+    default: null,
+  },
 });
 const emit = defineEmits(['clear-selection']);
 
 const store = apiStore();
 const framingStore = useFramingStore();
 const router = useRouter();
+const { t, te } = useI18n();
 
 const hasSelection = computed(() => props.selection !== null);
 const selectionNames = computed(() => props.selection?.names ?? []);
@@ -319,6 +406,121 @@ const effectiveTargetName = computed(() => {
   if (raString.value && decString.value) return `${raString.value} ${decString.value}`;
   return props.defaultTargetName;
 });
+
+// --- Object info and sky position ---------------------------------------------------------
+const selectionInfo = computed(() => props.selection?.info ?? null);
+
+const typeLabel = computed(() => {
+  const typeKey = selectionInfo.value?.typeKey;
+  if (!typeKey) return '';
+  const key = atlasObjectTypeI18nKey(typeKey);
+  return te(key) ? t(key) : typeKey;
+});
+
+const magnitudeLabel = computed(() => {
+  const magnitude = selectionInfo.value?.magnitude;
+  if (!Number.isFinite(magnitude)) return '';
+  return t('components.celestiaAtlas.selected_object.magnitude_fmt', {
+    value: magnitude.toFixed(1),
+  });
+});
+
+function formatArcmin(value) {
+  return value < 10 ? value.toFixed(1) : String(Math.round(value));
+}
+
+const sizeLabel = computed(() => {
+  const size = selectionInfo.value?.sizeArcmin;
+  if (!size) return '';
+  const major = `${formatArcmin(size.major)}′`;
+  return size.minor ? `${major} × ${formatArcmin(size.minor)}′` : major;
+});
+
+// Stars carry their IAU abbreviation; everything else is looked up from the
+// J2000 position, so the view centre gets a constellation too.
+const constellationLabel = computed(() => {
+  if (!hasValidCoordinates.value) return '';
+  const abbr = selectionInfo.value?.constellation ?? getConstellation(raDeg.value, decDeg.value);
+  if (!abbr || abbr === '?') return '';
+  const name = getConstellationName(abbr);
+  return name !== abbr ? `${name} (${abbr})` : abbr;
+});
+
+const siteCoordinates = computed(() => {
+  const settings = store.profileInfo?.AstrometrySettings;
+  const latitude = Number(settings?.Latitude);
+  const longitude = Number(settings?.Longitude);
+  if (!Number.isFinite(latitude) || !Number.isFinite(longitude)) return null;
+  return { latitude, longitude };
+});
+const hasSiteLocation = computed(() => siteCoordinates.value !== null);
+
+const atlasTime = computed(() =>
+  props.clockUtcMs !== null ? new Date(props.clockUtcMs) : new Date(timeSync.getServerTime())
+);
+
+const altAzLabel = computed(() => {
+  if (!hasSiteLocation.value || !hasValidCoordinates.value) return '';
+  const { altDeg, azDeg } = equatorialToAltAz(
+    raDeg.value,
+    decDeg.value,
+    atlasTime.value,
+    siteCoordinates.value.latitude,
+    siteCoordinates.value.longitude
+  );
+  const sign = altDeg >= 0 ? '+' : '−';
+  return `${sign}${Math.abs(altDeg).toFixed(1)}° / ${azDeg.toFixed(1)}°`;
+});
+
+// The chart and the rise/set rows follow the coordinates with a short delay:
+// while the view centre is being panned they would otherwise recompute one
+// whole night of samples on every 100 ms sample.
+const chartCoordinates = ref(null);
+let chartCoordinatesTimer = null;
+watch(
+  [raDeg, decDeg, hasValidCoordinates],
+  ([ra, dec, valid]) => {
+    if (chartCoordinatesTimer !== null) clearTimeout(chartCoordinatesTimer);
+    if (!valid) {
+      chartCoordinates.value = null;
+      return;
+    }
+    chartCoordinatesTimer = setTimeout(() => {
+      chartCoordinates.value = { RA: ra, Dec: dec };
+      chartCoordinatesTimer = null;
+    }, 250);
+  },
+  { immediate: true }
+);
+
+const chartTarget = computed(() =>
+  hasSiteLocation.value && chartCoordinates.value ? chartCoordinates.value : null
+);
+
+// Same night window as SkyChart: local noon before the atlas time, 24 h long.
+const nightWindowStart = computed(() => {
+  const start = new Date(atlasTime.value);
+  if (start.getHours() < 12) start.setDate(start.getDate() - 1);
+  start.setHours(12, 0, 0, 0);
+  return start;
+});
+
+// The Moon moves ~13° a day, so rise/set from a fixed RA/Dec would be off by
+// the better part of an hour; it gets no rows.
+const riseTransitSet = computed(() => {
+  if (!chartTarget.value || selectionInfo.value?.typeKey === 'natural satellite') return null;
+  return getRiseTransitSet(
+    chartTarget.value.RA,
+    chartTarget.value.Dec,
+    nightWindowStart.value,
+    siteCoordinates.value.latitude,
+    siteCoordinates.value.longitude
+  );
+});
+
+function formatClock(date) {
+  return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+}
 
 // A tap on the sky that selects an object lands where the sheet appears a moment later;
 // hold the actions back briefly so the same tap cannot fire a button.
@@ -443,6 +645,7 @@ watch(
 
 onBeforeUnmount(() => {
   stopSampling();
+  if (chartCoordinatesTimer !== null) clearTimeout(chartCoordinatesTimer);
   targetPreviewRequest++;
   clearTargetPreview();
   if (armTimer !== null) clearTimeout(armTimer);

@@ -45,6 +45,38 @@ export const ATLAS_OBJECT_TYPE_LABELS = Object.freeze({
   snr: 'Supernova remnant',
 });
 
+// Solar-system and star types the viewer reports besides the deep-sky codes.
+export const ATLAS_EXTRA_OBJECT_TYPE_KEYS = Object.freeze([
+  'star',
+  'planet',
+  'dwarf planet',
+  'natural satellite',
+  'comet',
+]);
+
+const OBJECT_TYPE_KEY_BY_LABEL = new Map(
+  Object.entries(ATLAS_OBJECT_TYPE_LABELS).map(([key, label]) => [label.toLowerCase(), key])
+);
+
+// Some payloads only carry the human label ("Galaxy") instead of the OpenNGC
+// code ("G"); map those back so one key set covers both.
+export function normalizeAtlasObjectTypeKey(typeKey) {
+  const key = String(typeKey ?? '')
+    .trim()
+    .toLowerCase();
+  return OBJECT_TYPE_KEY_BY_LABEL.get(key) ?? key;
+}
+
+// i18n key for a normalized type facet; the raw keys contain "*" and "+", which
+// are not safe inside a vue-i18n message path.
+export function atlasObjectTypeI18nKey(typeKey) {
+  const safe = String(typeKey ?? '')
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '_');
+  return safe ? `components.celestiaAtlas.object_types.${safe}` : '';
+}
+
 export const ATLAS_CATALOGUE_GROUP_LABELS = Object.freeze({
   abell: 'Abell / ACO galaxy clusters',
   'abell-pn': 'Abell planetary nebulae (A66)',

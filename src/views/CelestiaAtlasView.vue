@@ -109,6 +109,7 @@
         :camera-fov="cameraFov"
         :missing-equipment-settings="hasMissingEquipmentSettings"
         :show-preview="surveyStore.installedOrder === null"
+        :clock-utc-ms="clockMinuteUtcMs"
         default-target-name="Celestia Atlas view"
         @clear-selection="hideSelectedTargetDetails"
       />
@@ -275,6 +276,9 @@ const clockLabelShort = ref('');
 const activeSheet = ref(null);
 const clockDate = ref('');
 const clockTime = ref('');
+// Atlas time for the target card, rounded to the minute so the card's altitude
+// chart is not redrawn on every one-second tick of the clock display.
+const clockMinuteUtcMs = ref(null);
 const clockSpeedPower = ref(0);
 const cometRefreshState = ref('idle');
 const cometRefreshCount = ref(0);
@@ -531,6 +535,7 @@ async function resetClockToServer() {
 function updateClockLabel() {
   if (!viewer) return;
   const time = new Date(viewer.getTime());
+  clockMinuteUtcMs.value = Math.floor(time.getTime() / 60000) * 60000;
   clockLabel.value = time.toLocaleTimeString([], {
     hour: '2-digit',
     minute: '2-digit',

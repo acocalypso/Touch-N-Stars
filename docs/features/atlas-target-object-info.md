@@ -1,6 +1,6 @@
 # Atlas target card: object info and altitude chart
 
-Status: proposed
+Status: done
 Date: 2026-09-15
 
 ## Goal

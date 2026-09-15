@@ -82,6 +82,9 @@
               <option value="default">
                 {{ $t('components.celestiaAtlas.settings.landscape_source_default') }}
               </option>
+              <option value="guereins">
+                {{ $t('components.celestiaAtlas.settings.landscape_source_guereins') }}
+              </option>
               <option value="neutral">
                 {{ $t('components.celestiaAtlas.settings.landscape_source_neutral') }}
               </option>
@@ -562,7 +565,10 @@ import Modal from '@/components/helpers/Modal.vue';
 import apiService from '@/services/apiService';
 import AtlasCatalogFilters from '@/components/celestiaAtlas/AtlasCatalogFilters.vue';
 import CelestiaAtlasAbout from '@/components/celestiaAtlas/CelestiaAtlasAbout.vue';
-import { canonicalizeCelestiaAtlasDataUrl } from '@/store/utils/celestiaAtlasSettingsMigration';
+import {
+  BUNDLED_LANDSCAPE_KEYS,
+  canonicalizeCelestiaAtlasDataUrl,
+} from '@/store/utils/celestiaAtlasSettingsMigration';
 import { useCelestiaAtlasSurveyStore } from '@/store/celestiaAtlasSurveyStore';
 import { formatSurveyBytes } from '@/utils/formatSurveyBytes';
 
@@ -614,7 +620,7 @@ const listedLandscapeOptions = computed(() => {
   return availableLandscapes.value
     .filter((item) => {
       const folder = String(item?.folderName || '').toLowerCase();
-      return Boolean(folder) && folder !== 'gray' && folder !== 'guereins';
+      return Boolean(folder) && !BUNDLED_LANDSCAPE_KEYS.has(folder);
     })
     .map((item) => {
       const folderName = item.folderName;
@@ -641,7 +647,7 @@ function applyListedLandscapeSelection(folderName) {
 const landscapeSourceSelection = computed({
   get() {
     const mode = settingsStore.celestiaAtlas.landscapeSourceMode;
-    if (mode === 'default' || mode === 'neutral') {
+    if (mode === 'default' || mode === 'guereins' || mode === 'neutral') {
       return mode;
     }
 
@@ -673,7 +679,7 @@ const landscapeSourceSelection = computed({
     return 'default';
   },
   set(value) {
-    if (value === 'default' || value === 'neutral' || value === 'custom') {
+    if (value === 'default' || value === 'guereins' || value === 'neutral' || value === 'custom') {
       settingsStore.celestiaAtlas.landscapeSourceMode = value;
       return;
     }

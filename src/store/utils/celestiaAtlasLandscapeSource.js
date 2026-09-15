@@ -47,6 +47,16 @@ export function resolveLandscapeSource(atlasSettings, baseUrl) {
     };
   }
 
+  if (atlasSettings.landscapeSourceMode === 'guereins') {
+    return {
+      visible: true,
+      source: {
+        url: buildRelativeUrl(baseUrl, 'landscapes/guereins'),
+        key: 'guereins',
+      },
+    };
+  }
+
   if (atlasSettings.landscapeSourceMode === 'custom') {
     const customUrl = normalizeLandscapeUrl(atlasSettings.customLandscapeUrl, baseUrl);
     const customKey = (atlasSettings.customLandscapeKey || 'custom').trim() || 'custom';
@@ -65,8 +75,8 @@ export function resolveLandscapeSource(atlasSettings, baseUrl) {
   return {
     visible: true,
     source: {
-      url: buildRelativeUrl(baseUrl, 'landscapes/guereins'),
-      key: 'guereins',
+      url: buildRelativeUrl(baseUrl, 'landscapes/touchnstars'),
+      key: 'touchnstars',
     },
   };
 }

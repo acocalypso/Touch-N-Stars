@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Framing and Atlas: The camera rotation is set with a ruler slider (drag, mouse wheel, reset) instead of the drag handle or a number field alone; while the ruler is dragged the panel gets out of the way so the camera frame can be watched turning on small screens.
 
 ### Changed
+- Atlas: The default landscape is now a dark night meadow with low hills and tree lines that leaves the sky free; the Guéreins village landscape stays available under the landscape source.
 - Atlas: Requires the Touch'N'Stars plugin with the survey download endpoints; older plugins show an update hint in the Atlas settings.
 - Atlas: The controls are rearranged into a search bar at the top and one toolbar at the bottom (mount, time, layers, target); the selected object and the camera field now share a single target panel, the frequent display toggles have their own Layers panel, and About moved into the settings.
 

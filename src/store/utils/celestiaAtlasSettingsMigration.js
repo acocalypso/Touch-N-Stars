@@ -1,3 +1,6 @@
+// Landscapes shipped under public/celestia-atlas-data/landscapes/.
+export const BUNDLED_LANDSCAPE_KEYS = new Set(['gray', 'guereins', 'touchnstars']);
+
 export const createDefaultCelestiaAtlasSettings = () => ({
   constellationsLinesVisible: true,
   azimuthalLinesVisible: false,
@@ -44,7 +47,7 @@ function migrateGeneratedLandscapeUrl(value, mode, key) {
   const normalizedKey = String(key || '')
     .trim()
     .toLowerCase();
-  if (normalizedKey === 'gray' || normalizedKey === 'guereins') return canonicalUrl;
+  if (BUNDLED_LANDSCAPE_KEYS.has(normalizedKey)) return canonicalUrl;
 
   return canonicalUrl.replace(
     /^(\/?celestia-atlas-data)\/landscapes\/([^/]+)\/?$/,

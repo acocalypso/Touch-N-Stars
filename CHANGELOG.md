@@ -12,7 +12,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Atlas: Deleting the survey now lets you pick which order to keep (downgrade) instead of only wiping everything, with a confirmation dialog and a spinner while it runs.
 - Atlas: The camera panel now has the framing tools — favourites list, FITS plate solve and mosaic settings (mosaic panels are saved as individual favourites) — and the Atlas centres on targets loaded into framing from favourites, FITS solves or the sequence.
 - Atlas: The target panel now shows what the selected object is and whether it is worth imaging — type, magnitude, size, constellation, current altitude and azimuth, rise, transit and set for the night, and the altitude chart with twilight, horizon and moon; everything follows the Atlas clock.
-- Framing and Atlas: The camera rotation is set with a ruler slider (drag, mouse wheel, reset) instead of the drag handle or a number field alone.
+- Framing and Atlas: The camera rotation is set with a ruler slider (drag, mouse wheel, reset) instead of the drag handle or a number field alone; while the ruler is dragged the panel gets out of the way so the camera frame can be watched turning on small screens.
 
 ### Changed
 - Atlas: Requires the Touch'N'Stars plugin with the survey download endpoints; older plugins show an update hint in the Atlas settings.

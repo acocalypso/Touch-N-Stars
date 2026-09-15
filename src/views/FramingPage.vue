@@ -30,6 +30,7 @@
     <div
       v-show="controlsVisible"
       class="controls-overlay absolute bottom-2 left-1/2 -translate-x-1/2 flex flex-col w-[min(100%,22rem)] gap-1.5 bg-gray-900/85 border border-gray-700 rounded-lg shadow-lg p-2 backdrop-blur-sm max-h-[calc(100%-1rem)] overflow-y-auto"
+      :class="{ 'controls-peek': rulerScrubbing }"
     >
       <!-- Row 1: Icon-Leiste -->
       <div class="flex items-center gap-1.5">
@@ -122,7 +123,7 @@
       </div>
 
       <!-- Rotation ruler + Determine Rotation (immer sichtbar) -->
-      <RotationRuler />
+      <RotationRuler @scrub="rulerScrubbing = $event" />
       <getImageRotation />
 
       <!-- Ausklappbare Einstellungen -->
@@ -169,6 +170,9 @@ const FramingAssitantImg = defineAsyncComponent(
 const searchQuery = ref('');
 const searchResults = ref([]);
 const controlsVisible = ref(true);
+// While the rotation ruler is dragged only the ruler stays visible, so the
+// camera frame can be watched turning on small screens.
+const rulerScrubbing = ref(false);
 const settingsOpen = ref(false);
 const searchVisible = ref(false);
 
@@ -235,6 +239,15 @@ watch(
 </script>
 
 <style scoped>
+.controls-peek {
+  visibility: hidden;
+}
+.controls-peek :deep(.rotation-ruler) {
+  visibility: visible;
+  border-radius: 0.5rem;
+  background: rgb(17 24 39 / 85%);
+  box-shadow: 0 0 0 0.5rem rgb(17 24 39 / 85%);
+}
 .framing-page {
   /* Fullscreen: Page bricht aus dem `container mx-auto` der App aus und
      nutzt den gesamten Viewport zwischen Top-Navbar (Portrait) bzw.

@@ -3,7 +3,10 @@
     <section
       v-if="open"
       class="atlas-sheet"
-      :class="isLandscape ? 'atlas-sheet-landscape' : 'atlas-sheet-portrait'"
+      :class="[
+        isLandscape ? 'atlas-sheet-landscape' : 'atlas-sheet-portrait',
+        { 'atlas-sheet-peek': peek },
+      ]"
       role="dialog"
       :aria-label="title"
     >
@@ -36,6 +39,9 @@ import { useOrientation } from '@/composables/useOrientation';
 defineProps({
   open: { type: Boolean, default: false },
   title: { type: String, default: '' },
+  // While true only the rotation ruler stays visible, so the sky behind the
+  // sheet (and the camera frame turning on it) can be watched during the drag.
+  peek: { type: Boolean, default: false },
 });
 defineEmits(['close']);
 
@@ -66,6 +72,15 @@ const { isLandscape } = useOrientation();
   right: calc(0.75rem + env(safe-area-inset-right, 0px));
   bottom: var(--atlas-toolbar-clearance);
   width: min(22rem, calc(100% - 1.5rem));
+}
+.atlas-sheet-peek {
+  visibility: hidden;
+}
+.atlas-sheet-peek :deep(.rotation-ruler) {
+  visibility: visible;
+  border-radius: var(--radius-control);
+  background: rgb(17 24 39 / 85%);
+  box-shadow: 0 0 0 0.5rem rgb(17 24 39 / 85%);
 }
 .atlas-sheet-header {
   display: flex;

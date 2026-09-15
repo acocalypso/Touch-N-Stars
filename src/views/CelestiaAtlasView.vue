@@ -99,7 +99,13 @@
     </div>
 
     <!-- The one sheet: target, time or layers -->
-    <AtlasSheet v-if="ready" :open="activeSheet !== null" :title="sheetTitle" @close="closeSheet">
+    <AtlasSheet
+      v-if="ready"
+      :open="activeSheet !== null"
+      :title="sheetTitle"
+      :peek="rulerScrubbing"
+      @close="closeSheet"
+    >
       <AtlasTargetPanel
         v-if="activeSheet === 'target'"
         :selection="selectedObjectCommand"
@@ -112,6 +118,7 @@
         :clock-utc-ms="clockMinuteUtcMs"
         default-target-name="Celestia Atlas view"
         @clear-selection="hideSelectedTargetDetails"
+        @scrub="rulerScrubbing = $event"
       />
       <div v-else-if="activeSheet === 'clock'" class="grid gap-3">
         <div class="grid grid-cols-2 gap-2">
@@ -279,6 +286,8 @@ const clockTime = ref('');
 // Atlas time for the target card, rounded to the minute so the card's altitude
 // chart is not redrawn on every one-second tick of the clock display.
 const clockMinuteUtcMs = ref(null);
+// True while the rotation ruler in the target sheet is being dragged.
+const rulerScrubbing = ref(false);
 const clockSpeedPower = ref(0);
 const cometRefreshState = ref('idle');
 const cometRefreshCount = ref(0);

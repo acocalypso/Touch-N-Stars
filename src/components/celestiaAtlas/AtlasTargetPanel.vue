@@ -125,7 +125,7 @@
       <h4 class="atlas-target-heading">
         {{ $t('components.celestiaAtlas.target.camera_field') }}
       </h4>
-      <RotationRuler />
+      <RotationRuler @scrub="emit('scrub', $event)" />
       <getImageRotation />
       <MosaicControls :show-nina-cache="false" />
     </section>
@@ -296,7 +296,7 @@ const props = defineProps({
     default: null,
   },
 });
-const emit = defineEmits(['clear-selection']);
+const emit = defineEmits(['clear-selection', 'scrub']);
 
 const store = apiStore();
 const framingStore = useFramingStore();

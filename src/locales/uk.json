@@ -202,6 +202,10 @@
       "solvedRotation": {
         "short": "розвʼязано",
         "tooltip": "Поворот камери з останнього успішного plate solve"
+      },
+      "rotationRuler": {
+        "label": "Кут обертання",
+        "reset": "Скинути"
       }
     },
     "tutorial": {
@@ -550,6 +554,8 @@
         "description": "Керування перезапуском та вимкненням системи",
         "info": "Ці дії вплинуть на всю систему",
         "confirmation": "Підтвердження дії",
+        "restart": "Перезапустити",
+        "shutdown": "Вимкнути",
         "confirmShutdown": "Ви впевнені, що хочете вимкнути систему?",
         "confirmRestart": "Ви впевнені, що хочете перезапустити систему?",
         "restartInfoTitle": "Система перезапускається",
@@ -2057,14 +2063,29 @@
         "title": "Обраний об'єкт",
         "ra": "RA",
         "dec": "DEC",
-        "button_framing": "перейти до кадрування"
+        "button_framing": "перейти до кадрування",
+        "type": "Тип",
+        "magnitude": "Зоряна величина",
+        "magnitude_fmt": "{value} m",
+        "size": "Розмір",
+        "constellation": "Сузір'я",
+        "alt_az": "Вис. / Аз.",
+        "rise": "Схід",
+        "transit": "Кульмінація",
+        "set": "Захід",
+        "rise_set": "Схід / Захід",
+        "circumpolar": "навколополярний",
+        "never_rises": "ніколи не сходить",
+        "missing_location": "Для висоти та сходу/заходу потрібне місце спостереження з профілю NINA."
       },
       "datetime": {
         "title": "Дата та час",
         "date": "Дата",
         "time": "Час",
         "now": "Зараз",
-        "speed": "Швидкість"
+        "speed": "Швидкість",
+        "pause": "Зупинити час",
+        "play": "Запустити час"
       },
       "mount_position": {},
       "settings": {
@@ -2099,13 +2120,18 @@
         "landscape_source_default": "Default landscape (Guereins)",
         "landscape_source_neutral": "Neutral horizon (Gray)",
         "landscape_source_custom": "Custom data source",
+        "landscape_option_label": "Пейзаж: {title}",
         "custom_landscape_url": "Custom source URL",
         "custom_landscape_url_placeholder": "e.g. /celestia-atlas-data/landscapes/custom",
         "custom_landscape_key": "Custom source key",
         "custom_landscape_key_placeholder": "e.g. my-landscape",
         "available_landscapes": "Доступні пейзажі",
-        "folder_name_label": "folderName",
+        "no_landscapes_available": "Немає пейзажів.",
+        "untitled_landscape": "Пейзаж без назви",
         "has_allsky": "Альський",
+        "no_allsky": "Немає allsky",
+        "folder_name_label": "folderName",
+        "service_url_label": "serviceUrl",
         "landscape_list_load_failed": "Не вдалося завантажити пейзажі.",
         "comet_data_title": "Дані комет",
         "comet_data_hint": "Завантажує найновіші елементи орбіт із випуску Celestia Atlas.",
@@ -2113,11 +2139,11 @@
         "refreshing_comet_data": "Оновлення…",
         "comet_data_updated": "Оновлено {count} комет.",
         "comet_data_failed": "Не вдалося оновити: {message}",
-        "landscape_option_label": "Пейзаж: {title}",
-        "no_allsky": "Немає allsky",
-        "no_landscapes_available": "Немає пейзажів.",
-        "service_url_label": "serviceUrl",
-        "untitled_landscape": "Пейзаж без назви"
+        "section_display": "Відображення",
+        "section_landscape": "Ландшафт",
+        "section_survey": "Фотографічний огляд",
+        "section_catalogs": "Каталоги",
+        "section_about": "Про програму"
       },
       "survey": {
         "title": "Дані фотографічного огляду",
@@ -2155,6 +2181,52 @@
         "offer_accept": "Завантажити",
         "offer_decline": "Не зараз",
         "offer_progress": "Завантаження фону неба… {percent}%"
+      },
+      "object_types": {
+        "_ass": "Зоряна асоціація",
+        "cl_n": "Скупчення з туманністю",
+        "doublestar": "Подвійна зоря",
+        "drkn": "Темна туманність",
+        "emn": "Емісійна туманність",
+        "g": "Галактика",
+        "gcl": "Кулясте скупчення",
+        "gcluster": "Скупчення галактик",
+        "ggroup": "Група галактик",
+        "gpair": "Пара галактик",
+        "gtrpl": "Триплет галактик",
+        "hii": "Область H II",
+        "neb": "Туманність",
+        "ocl": "Розсіяне скупчення",
+        "other": "Об'єкт глибокого космосу",
+        "pn": "Планетарна туманність",
+        "rfn": "Відбивна туманність",
+        "snr": "Залишок наднової",
+        "star": "Зоря",
+        "planet": "Планета",
+        "dwarf_planet": "Карликова планета",
+        "natural_satellite": "Місяць",
+        "comet": "Комета"
+      },
+      "camera_panel": {
+        "target_name_placeholder": "Назва цілі"
+      },
+      "toolbar": {
+        "label": "Керування атласом",
+        "mount_center": "Центрувати на монтуванні",
+        "mount_follow": "Стежити за монтуванням",
+        "layers": "Шари",
+        "mount_center_short": "Показати монтування",
+        "mount_follow_short": "Стежити",
+        "framing": "Framing"
+      },
+      "target": {
+        "title": "Framing",
+        "source_object": "Вибраний об'єкт",
+        "source_view": "Центр огляду",
+        "clear_selection": "Повернутися до центру огляду",
+        "camera_field": "Поле камери",
+        "actions": "Дії",
+        "more": "Більше"
       }
     },
     "profile": {
@@ -2321,18 +2393,18 @@
         "starLost": "Зірку втрачено"
       },
       "labels": {
+        "screenlock": "Блокування",
         "camera": "Камера",
+        "guiding": "Гідування",
+        "mount": "Монтування",
         "filter": "Фільтр",
         "switch": "Перемикач",
-        "guiding": "Гідування",
-        "instance": "Екземпляр",
-        "log": "Журнал",
-        "mount": "Монтування",
-        "progress": "Прогрес",
-        "safety": "Безпека",
         "weather": "Погода",
-        "screenlock": "Блокування",
-        "switch": "Перемикач"
+        "safety": "Безпека",
+        "progress": "Прогрес",
+        "log": "Журнал",
+        "power": "Живлення",
+        "instance": "Екземпляр"
       },
       "mount": {
         "parked": "Запарковано",
@@ -3754,6 +3826,23 @@
         "manualTilterConfiguration": "Ручна конфігурація 3-точкового tilter (бета — використовуйте обережно)",
         "tilterOuterRadius": "Зовнішній радіус tilter",
         "tilterThreadPitch": "Крок різьби tilter",
+        "tilterScrewCount": "Гвинти нахилу",
+        "tilterScrewCountDescription": "3-гвинтові пластини використовують рівностороннє розташування, 4-гвинтові пластини по одному гвинту на кут датчика",
+        "screwCountThree": "3 гвинти (рівносторонні)",
+        "screwCountFour": "4 гвинти (по одному на кут)",
+        "fourScrewHint": "Відрегулюйте протилежні гвинти як пару (ослабте один, затягніть інший), щоб пластина не застрягла",
+        "fourScrewApplyUnsupported": "Застосування до пристрою підтримується лише для тілтерів із 3 гвинтами",
+        "positiveTurnDirection": "Додатні значення означають",
+        "positiveTurnInward": "Крутити гвинт усередину",
+        "positiveTurnOutward": "Крутити гвинт назовні",
+        "positiveTurnDirectionDescription": "У який бік додатне обчислене значення крутить гвинт на вашому адаптері",
+        "shiftToNonNegative": "Гвинти починають повністю закріплюватися",
+        "startFromSeatedDescription": "Повністю закручений гвинт можна крутити лише всередину, тому всі значення зсуваються так, щоб один гвинт не потребував обертання, а інші крутилися всередину. Це змінює лише бекфокус, а не нахил. Зніміть позначку, щоб бачити знакові поправки від поточного положення.",
+        "inward": "усередину",
+        "outward": "назовні",
+        "turnsInward": "{turns} обертів усередину",
+        "turnsOutward": "{turns} обертів назовні",
+        "noTurn": "без обертання",
         "applyTiltPlane": "Застосувати площину нахилу",
         "fetchFromAberrationInspector": "Отримати з інспектора аберацій",
         "calculateActuatorPositions": "Розрахувати позиції актуаторів",
@@ -3762,15 +3851,7 @@
         "actuatorVisualizationLabel": "Актуатори на радіусі {radius} мм • Поворот сенсора {rotation}° • Вигляд зверху",
         "calculatingPositions": "Розрахунок...",
         "applyingPositions": "Застосування...",
-        "savingConfiguration": "Збереження...",
-        "fourScrewHint": "Відрегулюйте протилежні гвинти як пару (ослабте один, затягніть інший), щоб пластина не застрягла",
-        "fourScrewApplyUnsupported": "Застосування до пристрою підтримується лише для тілтерів із 3 гвинтами",
-        "screwCountFour": "4 гвинти (по одному на кут)",
-        "screwCountThree": "3 гвинти (рівносторонні)",
-        "tilterScrewCount": "Гвинти нахилу",
-        "tilterScrewCountDescription": "3-гвинтові пластини використовують рівностороннє розташування, 4-гвинтові пластини по одному гвинту на кут датчика",
-        "shiftToNonNegative": "Гвинти починають повністю закріплюватися",
-        "shiftToNonNegativeDescription": "Звіти йдуть від дна, тому кожне значення є позитивним. \nЗніміть прапорець, щоб відобразити підписані коригування з поточної позиції."
+        "savingConfiguration": "Збереження..."
       },
       "common": {
         "error": "Помилка:",
@@ -3844,7 +3925,11 @@
         "scatterChart": "Точки моделі (Аз/Вис)",
         "axisAz": "Азимут (град)",
         "axisAlt": "Висота (град)",
-        "refresh": "Оновити"
+        "refresh": "Оновити",
+        "altMin": "Висота мін.",
+        "altMax": "Висота макс.",
+        "azMin": "Азимут мін.",
+        "azMax": "Азимут макс."
       },
       "model": {
         "alignmentInfo": "Інформація про вирівнювання",
@@ -3907,7 +3992,27 @@
         "deltaTExpiration": "Закінчення DeltaT",
         "localTime": "Місцевий час",
         "localDate": "Місцева дата",
-        "siderealTime": "Сидеричний час"
+        "siderealTime": "Сидеричний час",
+        "settings": "Налаштування монтування",
+        "on": "Увімк.",
+        "off": "Вимк.",
+        "status": {
+          "Tracking": "Ведення",
+          "Stopped": "Зупинено",
+          "SlewingToPark": "Рух до положення паркування",
+          "Unparking": "Вихід із паркування",
+          "SlewingToHome": "Рух до домашнього положення",
+          "Parked": "Запарковано",
+          "Slewing": "Наведення",
+          "TrackingOff": "Без ведення",
+          "MotorsInhibitedLowTemp": "Двигуни заблоковано через низьку температуру",
+          "TrackingOnOutsideLimits": "Ведення, але поза межами монтування",
+          "FollowingSatellite": "Стеження за супутником",
+          "NeedsUserIntervention": "Потрібне втручання користувача",
+          "Unknown": "Невідомо",
+          "Error": "Помилка",
+          "NotConnected": "Не підключено"
+        }
       }
     },
     "pinsAllSky": {

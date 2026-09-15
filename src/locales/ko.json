@@ -243,6 +243,10 @@
       "solvedRotation": {
         "short": "해석됨",
         "tooltip": "마지막으로 성공한 플레이트 솔브의 카메라 회전각"
+      },
+      "rotationRuler": {
+        "label": "회전 각도",
+        "reset": "초기화"
       }
     },
     "tutorial": {
@@ -653,6 +657,8 @@
         "description": "시스템 재시작 및 종료 제어",
         "info": "이 작업은 시스템 전체에 영향을 줍니다",
         "confirmation": "작업 확인",
+        "restart": "재시작",
+        "shutdown": "종료",
         "confirmShutdown": "시스템을 종료하시겠습니까?",
         "confirmRestart": "시스템을 재시작하시겠습니까?",
         "restartInfoTitle": "시스템 재시작 중",
@@ -2123,14 +2129,29 @@
         "title": "선택한 천체",
         "ra": "RA",
         "dec": "DEC",
-        "button_framing": "프레이밍으로 이동"
+        "button_framing": "프레이밍으로 이동",
+        "type": "유형",
+        "magnitude": "등급",
+        "magnitude_fmt": "{value} 등급",
+        "size": "크기",
+        "constellation": "별자리",
+        "alt_az": "고도 / 방위",
+        "rise": "뜸",
+        "transit": "남중",
+        "set": "짐",
+        "rise_set": "뜸 / 짐",
+        "circumpolar": "주극",
+        "never_rises": "뜨지 않음",
+        "missing_location": "고도와 뜸/짐 시각에는 NINA 프로필의 관측지 위치가 필요합니다."
       },
       "datetime": {
         "title": "날짜 및 시간",
         "date": "날짜",
         "time": "시간",
         "now": "지금",
-        "speed": "속도"
+        "speed": "속도",
+        "pause": "시간 일시정지",
+        "play": "시간 진행"
       },
       "mount_position": {},
       "settings": {
@@ -2165,13 +2186,18 @@
         "landscape_source_default": "Default landscape (Guereins)",
         "landscape_source_neutral": "Neutral horizon (Gray)",
         "landscape_source_custom": "Custom data source",
+        "landscape_option_label": "풍경: {title}",
         "custom_landscape_url": "Custom source URL",
         "custom_landscape_url_placeholder": "e.g. /celestia-atlas-data/landscapes/custom",
         "custom_landscape_key": "Custom source key",
         "custom_landscape_key_placeholder": "e.g. my-landscape",
         "available_landscapes": "사용 가능한 풍경",
-        "folder_name_label": "폴더이름",
+        "no_landscapes_available": "사용할 수 있는 풍경이 없습니다.",
+        "untitled_landscape": "제목 없는 풍경",
         "has_allsky": "올스키",
+        "no_allsky": "올스카이 없음",
+        "folder_name_label": "폴더이름",
+        "service_url_label": "서비스 URL",
         "landscape_list_load_failed": "풍경을 로드하지 못했습니다.",
         "comet_data_title": "혜성 데이터",
         "comet_data_hint": "Celestia Atlas 릴리스에서 최신 궤도 요소를 다운로드합니다.",
@@ -2179,11 +2205,11 @@
         "refreshing_comet_data": "새로 고치는 중…",
         "comet_data_updated": "혜성 {count}개를 업데이트했습니다.",
         "comet_data_failed": "업데이트 실패: {message}",
-        "landscape_option_label": "풍경: {title}",
-        "no_allsky": "올스카이 없음",
-        "no_landscapes_available": "사용할 수 있는 풍경이 없습니다.",
-        "service_url_label": "서비스 URL",
-        "untitled_landscape": "제목 없는 풍경"
+        "section_display": "표시",
+        "section_landscape": "지평 풍경",
+        "section_survey": "사진 탐사 자료",
+        "section_catalogs": "카탈로그",
+        "section_about": "정보"
       },
       "survey": {
         "title": "사진 서베이 데이터",
@@ -2221,6 +2247,52 @@
         "offer_accept": "다운로드",
         "offer_decline": "지금 안 함",
         "offer_progress": "하늘 배경 다운로드 중… {percent}%"
+      },
+      "object_types": {
+        "_ass": "성협",
+        "cl_n": "성운을 동반한 성단",
+        "doublestar": "이중성",
+        "drkn": "암흑 성운",
+        "emn": "발광 성운",
+        "g": "은하",
+        "gcl": "구상 성단",
+        "gcluster": "은하단",
+        "ggroup": "은하군",
+        "gpair": "은하 쌍",
+        "gtrpl": "은하 삼중",
+        "hii": "H II 영역",
+        "neb": "성운",
+        "ocl": "산개 성단",
+        "other": "심우주 천체",
+        "pn": "행성상 성운",
+        "rfn": "반사 성운",
+        "snr": "초신성 잔해",
+        "star": "항성",
+        "planet": "행성",
+        "dwarf_planet": "왜소행성",
+        "natural_satellite": "달",
+        "comet": "혜성"
+      },
+      "camera_panel": {
+        "target_name_placeholder": "대상 이름"
+      },
+      "toolbar": {
+        "label": "아틀라스 제어",
+        "mount_center": "마운트 위치로 중심 이동",
+        "mount_follow": "마운트 따라가기",
+        "layers": "레이어",
+        "mount_center_short": "마운트 표시",
+        "mount_follow_short": "마운트 추적",
+        "framing": "프레이밍"
+      },
+      "target": {
+        "title": "프레이밍",
+        "source_object": "선택한 천체",
+        "source_view": "화면 중심",
+        "clear_selection": "화면 중심으로 돌아가기",
+        "camera_field": "카메라 시야",
+        "actions": "작업",
+        "more": "더 보기"
       }
     },
     "profile": {
@@ -2321,18 +2393,18 @@
         "starLost": "별 놓침"
       },
       "labels": {
+        "screenlock": "잠금",
         "camera": "카메라",
+        "guiding": "가이딩",
+        "mount": "마운트",
         "filter": "필터",
         "switch": "스위치",
-        "guiding": "가이딩",
-        "instance": "인스턴스",
-        "log": "로그",
-        "mount": "마운트",
-        "progress": "진행률",
-        "safety": "안전",
         "weather": "날씨",
-        "screenlock": "잠금",
-        "switch": "스위치"
+        "safety": "안전",
+        "progress": "진행률",
+        "log": "로그",
+        "power": "전원",
+        "instance": "인스턴스"
       },
       "mount": {
         "parked": "파킹됨",
@@ -3956,6 +4028,23 @@
         "manualTilterConfiguration": "수동 3점 틸터 구성 (베타 - 주의해서 사용)",
         "tilterOuterRadius": "틸터 외경 반지름",
         "tilterThreadPitch": "틸터 나사 피치",
+        "tilterScrewCount": "틸터 나사",
+        "tilterScrewCountDescription": "3-나사 플레이트는 등변 레이아웃을 사용하고, 4-나사 플레이트는 센서 모서리당 1개의 나사를 사용합니다.",
+        "screwCountThree": "나사 3개(등변)",
+        "screwCountFour": "나사 4개(모서리당 1개)",
+        "fourScrewHint": "플레이트가 묶이지 않도록 반대쪽 나사를 한 쌍으로 조정(하나는 풀고 다른 하나는 조임)",
+        "fourScrewApplyUnsupported": "장치에 적용은 나사 3개 틸터에서만 지원됩니다",
+        "positiveTurnDirection": "양수 값의 의미",
+        "positiveTurnInward": "나사를 안쪽으로 돌림",
+        "positiveTurnOutward": "나사를 바깥쪽으로 돌림",
+        "positiveTurnDirectionDescription": "계산된 양수 값이 어댑터의 나사를 어느 방향으로 돌리는지",
+        "shiftToNonNegative": "나사가 완전히 장착되기 시작합니다.",
+        "startFromSeatedDescription": "완전히 조여진 나사는 안쪽으로만 돌릴 수 있으므로, 한 나사는 돌릴 필요가 없고 나머지는 안쪽으로 돌도록 모든 값을 이동합니다. 이는 백포커스만 바꾸고 틸트는 바꾸지 않습니다. 체크를 해제하면 현재 위치 기준의 부호 있는 조정량을 표시합니다.",
+        "inward": "안쪽",
+        "outward": "바깥쪽",
+        "turnsInward": "안쪽으로 {turns}회전",
+        "turnsOutward": "바깥쪽으로 {turns}회전",
+        "noTurn": "회전 없음",
         "applyTiltPlane": "틸트 평면 적용",
         "fetchFromAberrationInspector": "수차 검사기에서 가져오기",
         "calculateActuatorPositions": "액추에이터 위치 계산",
@@ -3964,15 +4053,7 @@
         "actuatorVisualizationLabel": "반지름 {radius} mm의 액추에이터 • 센서 회전 {rotation}° • 위에서 본 모습",
         "calculatingPositions": "계산 중...",
         "applyingPositions": "적용 중...",
-        "savingConfiguration": "저장 중...",
-        "fourScrewHint": "플레이트가 묶이지 않도록 반대쪽 나사를 한 쌍으로 조정(하나는 풀고 다른 하나는 조임)",
-        "fourScrewApplyUnsupported": "장치에 적용은 나사 3개 틸터에서만 지원됩니다",
-        "screwCountFour": "나사 4개(모서리당 1개)",
-        "screwCountThree": "나사 3개(등변)",
-        "shiftToNonNegative": "나사가 완전히 장착되기 시작합니다.",
-        "shiftToNonNegativeDescription": "보고서는 바닥을 기준으로 이동하므로 모든 값이 양수입니다. \n현재 위치에서 서명된 조정 사항을 표시하려면 선택을 취소합니다.",
-        "tilterScrewCount": "틸터 나사",
-        "tilterScrewCountDescription": "3-나사 플레이트는 등변 레이아웃을 사용하고, 4-나사 플레이트는 센서 모서리당 1개의 나사를 사용합니다."
+        "savingConfiguration": "저장 중..."
       },
       "common": {
         "error": "오류:",
@@ -4046,7 +4127,11 @@
         "scatterChart": "모델 포인트 (Az/Alt)",
         "axisAz": "방위각 (도)",
         "axisAlt": "고도 (도)",
-        "refresh": "새로고침"
+        "refresh": "새로고침",
+        "altMin": "고도 최소",
+        "altMax": "고도 최대",
+        "azMin": "방위 최소",
+        "azMax": "방위 최대"
       },
       "model": {
         "alignmentInfo": "정렬 정보",
@@ -4109,7 +4194,27 @@
         "deltaTExpiration": "DeltaT 만료",
         "localTime": "현지 시간",
         "localDate": "현지 날짜",
-        "siderealTime": "항성시"
+        "siderealTime": "항성시",
+        "settings": "마운트 설정",
+        "on": "켜짐",
+        "off": "꺼짐",
+        "status": {
+          "Tracking": "추적 중",
+          "Stopped": "정지됨",
+          "SlewingToPark": "파킹 위치로 이동 중",
+          "Unparking": "파킹 해제 중",
+          "SlewingToHome": "홈 위치로 이동 중",
+          "Parked": "파킹됨",
+          "Slewing": "이동 중",
+          "TrackingOff": "추적 안 함",
+          "MotorsInhibitedLowTemp": "저온으로 모터 제한됨",
+          "TrackingOnOutsideLimits": "추적 중이나 마운트 한계 밖",
+          "FollowingSatellite": "위성 추적 중",
+          "NeedsUserIntervention": "사용자 개입 필요",
+          "Unknown": "알 수 없음",
+          "Error": "오류",
+          "NotConnected": "연결 안 됨"
+        }
       }
     },
     "pinsAllSky": {

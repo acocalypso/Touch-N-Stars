@@ -421,7 +421,7 @@ test('reuses the complete selected-target workflow at the Atlas J2000 command bo
   assert.match(selectedObject, /<FitsPlateSolve[\s\S]*variant="button"/);
   assert.match(selectedObject, /\.\.\.\(props\.selection\?\.commandTarget \?\? \{\}\)/);
   assert.match(selectedObject, /router\.push\('\/framing'\)/);
-  assert.match(selectedObject, /defineEmits\(\['clear-selection'\]\)/);
+  assert.match(selectedObject, /defineEmits\(\['clear-selection', 'scrub'\]\)/);
   assert.match(sheet, /atlas-sheet-landscape/);
   assert.match(sheet, /overflow-y: auto/);
   assert.match(favorites, /<Teleport to="body">/);

@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col gap-1 select-none">
+  <div class="rotation-ruler flex flex-col gap-1 select-none">
     <div class="flex items-center justify-between text-xs text-gray-300">
       <span>{{ $t('components.framing.rotationRuler.label') }}</span>
       <span class="font-medium text-white tabular-nums">{{ displayAngle }}°</span>
@@ -44,6 +44,9 @@ import { computed, ref } from 'vue';
 import { ArrowUturnLeftIcon } from '@heroicons/vue/24/outline';
 import { useFramingStore } from '@/store/framingStore';
 
+// `scrub` is true while the ruler is being dragged, so a hosting sheet can get
+// out of the way and show the camera frame turning.
+const emit = defineEmits(['scrub']);
 const framingStore = useFramingStore();
 
 // Horizontal distance between two 1° ticks. Larger = finer control per pixel.
@@ -83,6 +86,7 @@ function setAngle(value) {
 
 function onPointerDown(e) {
   dragging.value = true;
+  emit('scrub', true);
   lastX = e.clientX;
   dragAngle = framingStore.rotationAngle;
   rulerRef.value?.setPointerCapture(e.pointerId);
@@ -100,6 +104,7 @@ function onPointerMove(e) {
 function onPointerUp(e) {
   if (!dragging.value) return;
   dragging.value = false;
+  emit('scrub', false);
   rulerRef.value?.releasePointerCapture(e.pointerId);
 }
 

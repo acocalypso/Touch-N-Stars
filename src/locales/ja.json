@@ -211,6 +211,10 @@
       "solvedRotation": {
         "short": "解析済み",
         "tooltip": "最後に成功したプレートソルブのカメラ回転角"
+      },
+      "rotationRuler": {
+        "label": "回転角",
+        "reset": "リセット"
       }
     },
     "tutorial": {
@@ -621,6 +625,8 @@
         "description": "システムの再起動とシャットダウン",
         "info": "これらの操作はシステム全体に影響します",
         "confirmation": "操作の確認",
+        "restart": "再起動",
+        "shutdown": "シャットダウン",
         "confirmShutdown": "システムを終了してもよろしいですか？",
         "confirmRestart": "システムを再起動してもよろしいですか？",
         "restartInfoTitle": "システムを再起動中",
@@ -2086,14 +2092,29 @@
         "title": "選択された天体",
         "ra": "赤経 (RA)",
         "dec": "赤緯 (Dec)",
-        "button_framing": "構図設定へ"
+        "button_framing": "構図設定へ",
+        "type": "種類",
+        "magnitude": "等級",
+        "magnitude_fmt": "{value} 等",
+        "size": "大きさ",
+        "constellation": "星座",
+        "alt_az": "高度 / 方位",
+        "rise": "出",
+        "transit": "南中",
+        "set": "入",
+        "rise_set": "出 / 入",
+        "circumpolar": "周極",
+        "never_rises": "昇らない",
+        "missing_location": "高度と出没時刻には NINA プロファイルの観測地が必要です。"
       },
       "datetime": {
         "title": "日付と時刻",
         "date": "日付",
         "time": "時刻",
         "now": "現在",
-        "speed": "速度"
+        "speed": "速度",
+        "pause": "時間を停止",
+        "play": "時間を進める"
       },
       "mount_position": {},
       "settings": {
@@ -2128,13 +2149,18 @@
         "landscape_source_default": "Default landscape (Guereins)",
         "landscape_source_neutral": "Neutral horizon (Gray)",
         "landscape_source_custom": "Custom data source",
+        "landscape_option_label": "風景: {title}",
         "custom_landscape_url": "Custom source URL",
         "custom_landscape_url_placeholder": "e.g. /celestia-atlas-data/landscapes/custom",
         "custom_landscape_key": "Custom source key",
         "custom_landscape_key_placeholder": "e.g. my-landscape",
         "available_landscapes": "利用可能な風景",
-        "folder_name_label": "フォルダ名",
+        "no_landscapes_available": "利用できる風景はありません。",
+        "untitled_landscape": "無題の風景",
         "has_allsky": "オールスカイ",
+        "no_allsky": "全空なし",
+        "folder_name_label": "フォルダ名",
+        "service_url_label": "サービスURL",
         "landscape_list_load_failed": "風景の読み込みに失敗しました。",
         "comet_data_title": "彗星データ",
         "comet_data_hint": "Celestia Atlas リリースから最新の軌道要素をダウンロードします。",
@@ -2142,11 +2168,11 @@
         "refreshing_comet_data": "更新中…",
         "comet_data_updated": "{count} 個の彗星を更新しました。",
         "comet_data_failed": "更新に失敗しました: {message}",
-        "landscape_option_label": "風景: {title}",
-        "no_allsky": "全空なし",
-        "no_landscapes_available": "利用できる風景はありません。",
-        "service_url_label": "サービスURL",
-        "untitled_landscape": "無題の風景"
+        "section_display": "表示",
+        "section_landscape": "地上風景",
+        "section_survey": "写真サーベイ",
+        "section_catalogs": "カタログ",
+        "section_about": "情報"
       },
       "survey": {
         "title": "写真サーベイデータ",
@@ -2184,6 +2210,52 @@
         "offer_accept": "ダウンロード",
         "offer_decline": "今はしない",
         "offer_progress": "空の背景をダウンロード中… {percent}%"
+      },
+      "object_types": {
+        "_ass": "アソシエーション",
+        "cl_n": "星雲を伴う星団",
+        "doublestar": "二重星",
+        "drkn": "暗黒星雲",
+        "emn": "輝線星雲",
+        "g": "銀河",
+        "gcl": "球状星団",
+        "gcluster": "銀河団",
+        "ggroup": "銀河群",
+        "gpair": "銀河ペア",
+        "gtrpl": "銀河トリオ",
+        "hii": "H II 領域",
+        "neb": "星雲",
+        "ocl": "散開星団",
+        "other": "深宇宙天体",
+        "pn": "惑星状星雲",
+        "rfn": "反射星雲",
+        "snr": "超新星残骸",
+        "star": "恒星",
+        "planet": "惑星",
+        "dwarf_planet": "準惑星",
+        "natural_satellite": "月",
+        "comet": "彗星"
+      },
+      "camera_panel": {
+        "target_name_placeholder": "ターゲット名"
+      },
+      "toolbar": {
+        "label": "アトラス操作",
+        "mount_center": "架台位置に中央揃え",
+        "mount_follow": "架台に追従",
+        "layers": "レイヤー",
+        "mount_center_short": "架台を表示",
+        "mount_follow_short": "架台に追従",
+        "framing": "フレーミング"
+      },
+      "target": {
+        "title": "フレーミング",
+        "source_object": "選択した天体",
+        "source_view": "画面中央",
+        "clear_selection": "画面中央に戻る",
+        "camera_field": "カメラ視野",
+        "actions": "操作",
+        "more": "その他"
       }
     },
     "profile": {
@@ -2321,18 +2393,18 @@
         "starLost": "ガイド星をロスト"
       },
       "labels": {
+        "screenlock": "ロック",
         "camera": "カメラ",
+        "guiding": "ガイド",
+        "mount": "赤道儀",
         "filter": "フィルター",
         "switch": "スイッチ",
-        "guiding": "ガイド",
-        "instance": "インスタンス",
-        "log": "ログ",
-        "mount": "赤道儀",
-        "progress": "進行状況",
-        "safety": "安全",
         "weather": "天気",
-        "screenlock": "ロック",
-        "switch": "スイッチ"
+        "safety": "安全",
+        "progress": "進行状況",
+        "log": "ログ",
+        "power": "電源",
+        "instance": "インスタンス"
       },
       "mount": {
         "parked": "パーク済み",
@@ -3956,6 +4028,23 @@
         "manualTilterConfiguration": "手動3点チルター設定（ベータ - 慎重に使用してください）",
         "tilterOuterRadius": "チルター外径",
         "tilterThreadPitch": "チルターネジピッチ",
+        "tilterScrewCount": "ティルターネジ",
+        "tilterScrewCountDescription": "3 ネジ プレートは等辺レイアウトを使用し、4 ネジ プレートはセンサーのコーナーごとに 1 本のネジを使用します。",
+        "screwCountThree": "ネジ3本（等辺）",
+        "screwCountFour": "ネジ 4 本 (各コーナーに 1 本)",
+        "fourScrewHint": "プレートが固着しないように、向かい合うネジを 1 組として調整します (1 つを緩め、もう 1 つを締めます)。",
+        "fourScrewApplyUnsupported": "デバイスへの適用は 3 本ネジのティルターのみ対応しています",
+        "positiveTurnDirection": "正の値の意味",
+        "positiveTurnInward": "ネジを内側に回す",
+        "positiveTurnOutward": "ネジを外側に回す",
+        "positiveTurnDirectionDescription": "計算された正の値がアダプターのネジをどちらに回すか",
+        "shiftToNonNegative": "ネジが完全に固定され始めます",
+        "startFromSeatedDescription": "完全に締め込まれたネジは内側にしか回せないため、1本のネジが回転不要になり他が内側に回るよう全ての値をずらします。これはバックフォーカスのみを変え、ティルトは変えません。チェックを外すと現在位置からの符号付き調整量を表示します。",
+        "inward": "内側",
+        "outward": "外側",
+        "turnsInward": "内側に {turns} 回転",
+        "turnsOutward": "外側に {turns} 回転",
+        "noTurn": "回転なし",
         "applyTiltPlane": "チルト面を適用",
         "fetchFromAberrationInspector": "収差インスペクターから取得",
         "calculateActuatorPositions": "アクチュエーター位置を計算",
@@ -3964,15 +4053,7 @@
         "actuatorVisualizationLabel": "アクチュエーター {radius}mm 半径 • センサー回転 {rotation}° • 上面図",
         "calculatingPositions": "計算中...",
         "applyingPositions": "適用中...",
-        "savingConfiguration": "保存中...",
-        "fourScrewHint": "プレートが固着しないように、向かい合うネジを 1 組として調整します (1 つを緩め、もう 1 つを締めます)。",
-        "fourScrewApplyUnsupported": "デバイスへの適用は 3 本ネジのティルターのみ対応しています",
-        "screwCountFour": "ネジ 4 本 (各コーナーに 1 本)",
-        "screwCountThree": "ネジ3本（等辺）",
-        "shiftToNonNegative": "ネジが完全に固定され始めます",
-        "shiftToNonNegativeDescription": "レポートは底値から移動するため、すべての値は正になります。\n現在の位置からの署名付き調整を表示するには、チェックを外します。",
-        "tilterScrewCount": "ティルターネジ",
-        "tilterScrewCountDescription": "3 ネジ プレートは等辺レイアウトを使用し、4 ネジ プレートはセンサーのコーナーごとに 1 本のネジを使用します。"
+        "savingConfiguration": "保存中..."
       },
       "common": {
         "error": "エラー：",
@@ -4046,7 +4127,11 @@
         "scatterChart": "モデルポイント（方位角/高度）",
         "axisAz": "方位角（deg）",
         "axisAlt": "高度（deg）",
-        "refresh": "更新"
+        "refresh": "更新",
+        "altMin": "高度 最小",
+        "altMax": "高度 最大",
+        "azMin": "方位 最小",
+        "azMax": "方位 最大"
       },
       "model": {
         "alignmentInfo": "アライメント情報",
@@ -4109,7 +4194,27 @@
         "deltaTExpiration": "ΔT有効期限",
         "localTime": "現地時刻",
         "localDate": "現地日付",
-        "siderealTime": "恒星時"
+        "siderealTime": "恒星時",
+        "settings": "架台設定",
+        "on": "オン",
+        "off": "オフ",
+        "status": {
+          "Tracking": "追尾中",
+          "Stopped": "停止",
+          "SlewingToPark": "パーク位置へ移動中",
+          "Unparking": "パーク解除中",
+          "SlewingToHome": "ホーム位置へ移動中",
+          "Parked": "パーク中",
+          "Slewing": "移動中",
+          "TrackingOff": "追尾停止",
+          "MotorsInhibitedLowTemp": "低温のためモーター停止",
+          "TrackingOnOutsideLimits": "追尾中（架台リミット外）",
+          "FollowingSatellite": "衛星追尾中",
+          "NeedsUserIntervention": "ユーザー操作が必要",
+          "Unknown": "不明",
+          "Error": "エラー",
+          "NotConnected": "未接続"
+        }
       }
     },
     "pinsAllSky": {

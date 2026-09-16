@@ -5210,6 +5210,22 @@
     "screenLock": {
       "unlock": "Déverrouiller",
       "holdToUnlock": "Maintenir {seconds} s pour déverrouiller"
+    },
+    "targetSchedulerViewer": {
+      "title": "Target Scheduler Viewer",
+      "subtitle": "Live projects, targets and progress from the NINA Target Scheduler plugin.",
+      "actions": {
+        "refresh": "Refresh",
+        "refreshing": "Refreshing…"
+      },
+      "labels": {
+        "apiPort": "Scheduler API port",
+        "profile": "Profile",
+        "active": "active",
+        "lastUpdated": "Last updated",
+        "loading": "Loading projects…",
+        "noProjects": "No projects found for this profile."
+      }
     }
   },
   "pinsDevices": {

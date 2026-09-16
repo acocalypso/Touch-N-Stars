@@ -10,7 +10,7 @@
       @click="toggle(layer)"
     >
       <span class="tns-dot" :class="isOn(layer) ? 'bg-accent' : 'bg-content-faint'" />
-      <span class="min-w-0 flex-1 text-left leading-tight">
+      <span class="min-w-0 flex-1 text-left leading-tight [overflow-wrap:anywhere]">
         {{ $t(`components.celestiaAtlas.settings.${layer.label}`) }}
       </span>
     </button>
@@ -53,6 +53,9 @@ function toggle(layer) {
   display: flex;
   align-items: center;
   gap: 0.5rem;
+  /* Grid items default to min-width:auto, i.e. the longest word; without this a label
+     like "Himmelsdurchmusterung" pushes the chip into the neighbouring column. */
+  min-width: 0;
   min-height: var(--spacing-touch);
   padding: 0.375rem 0.75rem;
   font-size: 0.8125rem;

@@ -305,6 +305,7 @@ const SEARCH_DEBOUNCE_MS = 120;
 const containerClasses = computed(() => ({
   'celestia-atlas-portrait': !isLandscape.value,
   'celestia-atlas-landscape': isLandscape.value,
+  'celestia-atlas-has-sheet': activeSheet.value !== null,
 }));
 const showFovControls = computed(
   () =>
@@ -986,6 +987,14 @@ onBeforeUnmount(() => {
   --atlas-header-clearance: calc(
     0.75rem + env(safe-area-inset-top, 0px) + var(--spacing-touch) + 0.5rem
   );
+  /* Landscape: the sheet is a full-height column on the right; header, toolbar and
+     toast stop at its left edge. Squeezed between header and toolbar instead, the
+     sheet body would be ~70 px tall on a 360 px phone. */
+  --atlas-sheet-width: min(22rem, 50%);
+  --atlas-side-inset: 0px;
+}
+.celestia-atlas-landscape.celestia-atlas-has-sheet {
+  --atlas-side-inset: calc(var(--atlas-sheet-width) + 0.5rem);
 }
 .celestia-atlas-viewer {
   width: 100%;
@@ -1034,7 +1043,7 @@ onBeforeUnmount(() => {
   z-index: 25;
   top: calc(0.75rem + env(safe-area-inset-top, 0px));
   left: calc(0.75rem + env(safe-area-inset-left, 0px));
-  right: calc(0.75rem + env(safe-area-inset-right, 0px));
+  right: calc(0.75rem + env(safe-area-inset-right, 0px) + var(--atlas-side-inset));
   display: flex;
   align-items: flex-start;
   gap: 0.5rem;
@@ -1108,12 +1117,12 @@ onBeforeUnmount(() => {
 .celestia-atlas-toast {
   position: absolute;
   z-index: 15;
-  left: 50%;
+  left: calc((100% - var(--atlas-side-inset)) / 2);
   bottom: var(--atlas-toolbar-clearance);
   transform: translateX(-50%);
   display: grid;
   gap: 0.5rem;
-  width: min(28rem, calc(100% - 1rem));
+  width: min(28rem, calc(100% - 1rem - var(--atlas-side-inset)));
   padding: 0.75rem 1rem;
   border-radius: var(--radius-card);
   background: rgb(3 7 18 / 92%);

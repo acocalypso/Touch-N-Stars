@@ -67,11 +67,13 @@ const { isLandscape } = useOrientation();
   bottom: var(--atlas-toolbar-clearance);
   max-height: calc(100% - var(--atlas-toolbar-clearance) - var(--atlas-header-clearance));
 }
+/* Full-height column; the view moves header and toolbar out of its way via
+   --atlas-side-inset, so no clearance is subtracted here. */
 .atlas-sheet-landscape {
-  top: var(--atlas-header-clearance);
+  top: calc(0.75rem + env(safe-area-inset-top, 0px));
   right: calc(0.75rem + env(safe-area-inset-right, 0px));
-  bottom: var(--atlas-toolbar-clearance);
-  width: min(22rem, calc(100% - 1.5rem));
+  bottom: var(--above-statusbar);
+  width: var(--atlas-sheet-width, min(22rem, 50%));
 }
 .atlas-sheet-peek {
   visibility: hidden;

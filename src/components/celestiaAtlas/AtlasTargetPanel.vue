@@ -1,5 +1,10 @@
 <template>
-  <div class="grid gap-4">
+  <!-- Nothing in the panel is tappable until the arm delay has passed (see disarmActions) -->
+  <div
+    class="grid gap-4"
+    :class="{ 'pointer-events-none': !actionsArmed }"
+    :aria-busy="!actionsArmed"
+  >
     <!-- What the actions below refer to: the tapped object, or the view centre -->
     <div class="grid gap-1.5">
       <div class="flex items-center gap-2">
@@ -219,6 +224,7 @@
 import { computed, onBeforeUnmount, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
+import { Capacitor } from '@capacitor/core';
 import {
   ArrowTopRightOnSquareIcon,
   ExclamationTriangleIcon,
@@ -523,20 +529,28 @@ function formatClock(date) {
 }
 
 // A tap on the sky that selects an object lands where the sheet appears a moment later;
-// hold the actions back briefly so the same tap cannot fire a button.
-const actionsArmed = ref(true);
+// hold the whole panel back briefly so the same tap cannot fire a button. The panel is
+// mounted in the same flush as the selection, so arming has to start on mount, not only
+// when the selection changes later. iOS delivers the synthesized click later than
+// Android/desktop, hence the longer delay there (same values the old panel used).
+const ARM_DELAY_MS = Capacitor.getPlatform() === 'ios' ? 800 : 500;
+const actionsArmed = ref(false);
 let armTimer = null;
+function disarmActions() {
+  if (armTimer !== null) clearTimeout(armTimer);
+  actionsArmed.value = false;
+  armTimer = setTimeout(() => {
+    actionsArmed.value = true;
+    armTimer = null;
+  }, ARM_DELAY_MS);
+}
 watch(
   () => props.selection,
   () => {
     targetName.value = '';
-    if (armTimer !== null) clearTimeout(armTimer);
-    actionsArmed.value = false;
-    armTimer = setTimeout(() => {
-      actionsArmed.value = true;
-      armTimer = null;
-    }, 500);
-  }
+    disarmActions();
+  },
+  { immediate: true }
 );
 const actionsEnabled = computed(() => actionsArmed.value && hasValidCoordinates.value);
 

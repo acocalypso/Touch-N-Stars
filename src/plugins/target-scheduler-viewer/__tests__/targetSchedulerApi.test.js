@@ -12,6 +12,8 @@ const {
   setStoredProfileId,
   getStoredHeaderCollapsed,
   setStoredHeaderCollapsed,
+  getStoredHasConnected,
+  setStoredHasConnected,
 } = await import('../services/targetSchedulerApi.js');
 const { useSettingsStore } = await import('@/store/settingsStore');
 
@@ -56,6 +58,17 @@ test('setStoredHeaderCollapsed/getStoredHeaderCollapsed round-trip', () => {
   assert.equal(getStoredHeaderCollapsed(), false);
 });
 
+test('getStoredHasConnected: defaults to false (first-run state)', () => {
+  setup();
+  assert.equal(getStoredHasConnected(), false);
+});
+
+test('setStoredHasConnected sticks (no way to un-set it)', () => {
+  setup();
+  setStoredHasConnected();
+  assert.equal(getStoredHasConnected(), true);
+});
+
 test('a successful request returns the parsed JSON body', async () => {
   setup();
   setStoredPort('8188');
@@ -94,18 +107,28 @@ test('a network-level failure (connection refused, DNS failure) surfaces an acti
   }
 });
 
-test('a request that times out reports the configured timeout, distinct from a plain connection failure', async () => {
+test('a request that times out reports the configured timeout, distinct from a plain connection failure', async (t) => {
   setup();
   setStoredPort('9999');
+  // The implementation drives its own setTimeout (deliberately not
+  // AbortSignal.timeout() — see raceAbort's comment for why), so a real
+  // timeout is exercised here via mocked timers rather than faking an
+  // error's .name, which the code no longer inspects.
+  t.mock.timers.enable({ apis: ['setTimeout'] });
   const originalFetch = globalThis.fetch;
-  globalThis.fetch = async () => {
-    const err = new Error('The operation was aborted');
-    err.name = 'TimeoutError';
-    throw err;
-  };
+  globalThis.fetch = (url, { signal }) =>
+    new Promise((resolve, reject) => {
+      signal.addEventListener('abort', () => {
+        const err = new Error('The operation was aborted');
+        err.name = 'AbortError';
+        reject(err);
+      });
+    });
   try {
+    const pending = targetSchedulerApi.getVersion();
+    t.mock.timers.tick(8000);
     await assert.rejects(
-      () => targetSchedulerApi.getVersion(),
+      () => pending,
       (err) => {
         assert.match(err.message, /did not respond within 8s/);
         assert.equal(err.kind, 'timeout');

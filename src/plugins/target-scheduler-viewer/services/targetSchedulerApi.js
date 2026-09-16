@@ -38,6 +38,27 @@ export function setStoredHeaderCollapsed(collapsed) {
   }
 }
 
+// Whether this browser has ever successfully connected — lets a first-run
+// connection failure show setup guidance instead of a plain error, since
+// "not configured yet" is the expected first-load state, not a fault.
+const HAS_CONNECTED_KEY = 'tsviewer.hasConnected';
+
+export function getStoredHasConnected() {
+  try {
+    return localStorage.getItem(HAS_CONNECTED_KEY) === 'true';
+  } catch {
+    return false;
+  }
+}
+
+export function setStoredHasConnected() {
+  try {
+    localStorage.setItem(HAS_CONNECTED_KEY, 'true');
+  } catch {
+    // ignore storage failures (e.g. private browsing)
+  }
+}
+
 export function getStoredProfileId() {
   try {
     return localStorage.getItem(PROFILE_STORAGE_KEY) || '';
@@ -75,20 +96,58 @@ class TargetSchedulerApiError extends Error {
   }
 }
 
+// Built from a plain AbortController rather than AbortSignal.any()/
+// AbortSignal.timeout() (Chrome 116+/Safari 17.4+) — those aren't available
+// in every webview this app runs in, and a missing method there would throw
+// before the request even starts. AbortController itself is much older
+// (Safari 12.1+) and safe to rely on everywhere.
+function raceAbort(externalSignal, timeoutMs) {
+  const controller = new AbortController();
+  let timedOut = false;
+  let cancelled = false;
+
+  const timeoutId = setTimeout(() => {
+    timedOut = true;
+    controller.abort();
+  }, timeoutMs);
+
+  const onExternalAbort = () => {
+    cancelled = true;
+    controller.abort();
+  };
+  if (externalSignal) {
+    if (externalSignal.aborted) {
+      cancelled = true;
+      controller.abort();
+    } else {
+      externalSignal.addEventListener('abort', onExternalAbort);
+    }
+  }
+
+  return {
+    signal: controller.signal,
+    isTimedOut: () => timedOut,
+    isCancelled: () => cancelled,
+    cleanup() {
+      clearTimeout(timeoutId);
+      externalSignal?.removeEventListener('abort', onExternalAbort);
+    },
+  };
+}
+
 async function getJson(path, { signal } = {}) {
   const { host, port } = hostPort();
   const url = `${baseUrl()}${path}`;
-  const timeoutSignal = AbortSignal.timeout(REQUEST_TIMEOUT_MS);
-  const requestSignal = signal ? AbortSignal.any([timeoutSignal, signal]) : timeoutSignal;
+  const race = raceAbort(signal, REQUEST_TIMEOUT_MS);
 
   let res;
   try {
-    res = await fetch(url, { signal: requestSignal });
+    res = await fetch(url, { signal: race.signal });
   } catch (e) {
-    if (signal?.aborted) {
+    if (race.isCancelled()) {
       throw new TargetSchedulerApiError('Connection attempt cancelled.', { kind: 'cancelled' });
     }
-    if (e.name === 'TimeoutError') {
+    if (race.isTimedOut()) {
       throw new TargetSchedulerApiError(
         `Target Scheduler API at ${host}:${port} did not respond within ${REQUEST_TIMEOUT_MS / 1000}s. Check the port is correct and the host is reachable.`,
         { kind: 'timeout' }
@@ -98,6 +157,8 @@ async function getJson(path, { signal } = {}) {
       `Can't reach Target Scheduler API at ${host}:${port}. Check the port is correct and the API is enabled in the Target Scheduler plugin options in NINA.`,
       { kind: 'unreachable' }
     );
+  } finally {
+    race.cleanup();
   }
 
   if (!res.ok) {

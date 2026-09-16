@@ -13,6 +13,8 @@ import {
   setStoredProfileId,
   getStoredHeaderCollapsed,
   setStoredHeaderCollapsed,
+  getStoredHasConnected,
+  setStoredHasConnected,
 } from '../services/targetSchedulerApi';
 import { THEME } from '../theme';
 import { fuzzyMatch } from '../fuzzyMatch';
@@ -45,6 +47,7 @@ const scheduleError = ref('');
 const apiVersion = ref('');
 
 const headerCollapsed = ref(getStoredHeaderCollapsed());
+const hasConnectedBefore = ref(getStoredHasConnected());
 function toggleHeader() {
   headerCollapsed.value = !headerCollapsed.value;
   setStoredHeaderCollapsed(headerCollapsed.value);
@@ -207,6 +210,8 @@ async function loadProjects(signal) {
     );
     targetsByProject.value = Object.fromEntries(entries);
     lastUpdated.value = new Date();
+    hasConnectedBefore.value = true;
+    setStoredHasConnected();
   } catch (e) {
     // A cancellation must propagate to the caller (onPortChange reverts the
     // port field on cancel) rather than being swallowed as a normal error.
@@ -474,8 +479,8 @@ onUnmounted(() => {
                   <button
                     v-if="connectingPort"
                     type="button"
-                    class="h-9 shrink-0 rounded border px-2 text-xs"
-                    :style="{ borderColor: THEME.border, color: THEME.inkSecondary }"
+                    class="h-9 shrink-0 cursor-pointer rounded border px-3 text-xs font-medium transition-colors hover:brightness-125"
+                    :style="{ borderColor: THEME.critical, color: THEME.critical }"
                     @click="cancelPortConnect"
                   >
                     {{ t('plugins.targetSchedulerViewer.actions.cancel') }}
@@ -551,7 +556,15 @@ onUnmounted(() => {
             color: THEME.critical,
           }"
         >
-          {{ scheduleError }}
+          <p>{{ scheduleError }}</p>
+          <a
+            href="https://tcpalmer.github.io/nina-scheduler/adv-topics/api.html"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="mt-1 inline-block underline"
+          >
+            {{ t('plugins.targetSchedulerViewer.labels.apiDocsLink') }}
+          </a>
         </div>
         <div
           v-else-if="scheduleLoading && !schedule"
@@ -562,8 +575,89 @@ onUnmounted(() => {
       </template>
 
       <div
-        v-if="error"
-        class="flex items-center gap-2 rounded-lg border p-3 text-sm"
+        v-if="!hasConnectedBefore"
+        class="rounded-lg border-t-2 p-4 text-sm"
+        :style="{
+          borderColor: THEME.border,
+          borderTopColor: THEME.accent,
+          backgroundColor: THEME.surface2,
+        }"
+      >
+        <p
+          class="mb-2 flex items-center gap-2 text-base font-semibold"
+          :style="{ color: THEME.inkPrimary }"
+        >
+          <svg
+            class="h-5 w-5 shrink-0"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            :style="{ color: THEME.accent }"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0Zm-9-3.75h.008v.008H12V8.25Z"
+            />
+          </svg>
+          {{ t('plugins.targetSchedulerViewer.labels.welcomeTitle') }}
+        </p>
+        <p class="mb-3" :style="{ color: THEME.inkSecondary }">
+          {{ t('plugins.targetSchedulerViewer.labels.welcomeSubtitle') }}
+        </p>
+        <p class="mb-1 font-medium" :style="{ color: THEME.inkPrimary }">
+          {{ t('plugins.targetSchedulerViewer.labels.setupTitle') }}
+        </p>
+        <ol class="ml-1 list-inside list-decimal space-y-1" :style="{ color: THEME.inkSecondary }">
+          <li>{{ t('plugins.targetSchedulerViewer.labels.setupStep1') }}</li>
+          <li>{{ t('plugins.targetSchedulerViewer.labels.setupStep2') }}</li>
+          <li>{{ t('plugins.targetSchedulerViewer.labels.setupStep3') }}</li>
+        </ol>
+        <a
+          href="https://tcpalmer.github.io/nina-scheduler/adv-topics/api.html"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="mt-3 inline-block underline"
+          :style="{ color: THEME.accent }"
+        >
+          {{ t('plugins.targetSchedulerViewer.labels.apiDocsLink') }}
+        </a>
+
+        <p
+          v-if="loading && !error"
+          class="mt-3 flex items-center gap-2 border-t pt-2 text-[11px]"
+          :style="{ borderColor: THEME.border, color: THEME.inkMuted }"
+        >
+          <svg class="h-3.5 w-3.5 shrink-0 animate-spin" viewBox="0 0 24 24" fill="none">
+            <circle
+              class="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              stroke-width="4"
+            />
+            <path
+              class="opacity-75"
+              fill="currentColor"
+              d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+            />
+          </svg>
+          {{ t('plugins.targetSchedulerViewer.labels.welcomeTrying', { port }) }}
+        </p>
+        <p
+          v-else-if="error"
+          class="mt-3 border-t pt-2 text-[11px]"
+          :style="{ borderColor: THEME.border, color: THEME.inkMuted }"
+        >
+          {{ error }}
+        </p>
+      </div>
+
+      <div
+        v-else-if="error"
+        class="flex items-start gap-2 rounded-lg border p-3 text-sm"
         :style="{
           borderColor: THEME.critical,
           backgroundColor: THEME.criticalBg,
@@ -571,7 +665,7 @@ onUnmounted(() => {
         }"
       >
         <svg
-          class="h-4 w-4 shrink-0"
+          class="mt-0.5 h-4 w-4 shrink-0"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -583,7 +677,17 @@ onUnmounted(() => {
             d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"
           />
         </svg>
-        {{ error }}
+        <div>
+          <p>{{ error }}</p>
+          <a
+            href="https://tcpalmer.github.io/nina-scheduler/adv-topics/api.html"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="mt-1 inline-block underline"
+          >
+            {{ t('plugins.targetSchedulerViewer.labels.apiDocsLink') }}
+          </a>
+        </div>
       </div>
 
       <div v-else-if="loading && !projects" class="space-y-3">

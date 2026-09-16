@@ -5274,7 +5274,15 @@
         "exportCopiedTitle": "Copied",
         "exportCopiedMessage": "Schedule progress copied to clipboard as Markdown.",
         "exportFailedTitle": "Copy failed",
-        "exportFailedMessage": "Could not copy to clipboard."
+        "exportFailedMessage": "Could not copy to clipboard.",
+        "apiDocsLink": "Target Scheduler API docs",
+        "setupTitle": "Set up the Target Scheduler API",
+        "setupStep1": "In NINA, open the Target Scheduler plugin's options and enable its API server.",
+        "setupStep2": "Note the port it shows (default 8188).",
+        "setupStep3": "Enter that port above, then it will connect automatically.",
+        "welcomeTitle": "Welcome to Target Scheduler Viewer",
+        "welcomeSubtitle": "This plugin shows your NINA Target Scheduler projects, targets and imaging progress. It just needs to know how to reach it.",
+        "welcomeTrying": "Trying port {port}…"
       }
     }
   },

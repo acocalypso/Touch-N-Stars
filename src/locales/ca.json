@@ -5274,9 +5274,7 @@
         "exportCopiedTitle": "Copied",
         "exportCopiedMessage": "Schedule progress copied to clipboard as Markdown.",
         "exportFailedTitle": "Copy failed",
-        "exportFailedMessage": "Could not copy to clipboard.",
-        "exportAllMarkdown": "Copy all (Markdown)",
-        "exportAllHint": "Copy every project and target in this profile, ignoring the current filters"
+        "exportFailedMessage": "Could not copy to clipboard."
       }
     }
   },

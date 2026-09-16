@@ -1,0 +1,177 @@
+// Pure calculation/formatting helpers extracted from the plugin's components
+// so they can be unit tested directly (component .vue files are not
+// unit-testable in this repo's node:test setup — see test-loader.mjs, which
+// stubs .vue imports to an empty module).
+
+export function formatRa(hours) {
+  const h = Math.floor(hours);
+  const mFloat = (hours - h) * 60;
+  const m = Math.floor(mFloat);
+  const s = Math.round((mFloat - m) * 60);
+  return `${h}h ${m}m ${s}s`;
+}
+
+export function formatDec(deg) {
+  const sign = deg < 0 ? '-' : '+';
+  const abs = Math.abs(deg);
+  const d = Math.floor(abs);
+  const mFloat = (abs - d) * 60;
+  const m = Math.floor(mFloat);
+  const s = Math.round((mFloat - m) * 60);
+  return `${sign}${d}° ${m}' ${s}"`;
+}
+
+// -1 = no auto-accept threshold configured for this filter; 0/1 = below-
+// threshold boolean (nullable-bool-as-int, the common .NET serialization
+// pattern — the API does not document this field, so treat as best-effort).
+export function autoAcceptStatus(value) {
+  if (value == null || value < 0) return null;
+  return value === 1;
+}
+
+export function exposureDurationsByFilter(exposurePlan) {
+  const map = new Map();
+  for (const plan of exposurePlan || []) {
+    map.set(plan.FilterName, plan.Exposure);
+  }
+  return map;
+}
+
+// Accepted/pending fill widths (%) for the exposure meter. Pending is
+// Acquired-but-not-yet-Accepted (awaiting grading); both are clamped so a
+// target that went over its Desired count after reshoots/edits never
+// renders a bar wider than 100%.
+export function computeExposureBarFill(plan) {
+  if (!plan.Desired) return { acceptedPct: 0, pendingPct: 0 };
+  const acceptedPct = Math.min(100, (plan.Accepted / plan.Desired) * 100);
+  const pending = Math.max(0, plan.Acquired - plan.Accepted);
+  const pendingPct = Math.min(100 - acceptedPct, (pending / plan.Desired) * 100);
+  return { acceptedPct, pendingPct };
+}
+
+export function formatIntegrationTime(totalSeconds) {
+  const hours = Math.floor(totalSeconds / 3600);
+  const minutes = Math.round((totalSeconds % 3600) / 60);
+  return `${hours}h ${minutes}m`;
+}
+
+// Accepted integration time for a single exposure plan row (one filter).
+export function planIntegrationSeconds(plan) {
+  return (plan?.Accepted || 0) * (plan?.Exposure || 0);
+}
+
+// Expected integration time for a single exposure plan row if it runs to
+// completion (Desired × Exposure) — the full plan, not just what's secured.
+export function planExpectedIntegrationSeconds(plan) {
+  return (plan?.Desired || 0) * (plan?.Exposure || 0);
+}
+
+// Aggregate Desired/Accepted/integration time across every filter of every
+// target in a project (or any target list) into a single rollup, clamped to
+// 100% for the same over-completion reason as computeExposureBarFill.
+// Reports both the accepted (secured so far) and expected (full plan, if
+// every Desired frame were accepted) integration time.
+export function computeRollup(targets) {
+  let desired = 0;
+  let accepted = 0;
+  let integrationSeconds = 0;
+  let expectedIntegrationSeconds = 0;
+  for (const target of targets || []) {
+    for (const plan of target.ExposurePlan || []) {
+      desired += plan.Desired;
+      accepted += plan.Accepted;
+      integrationSeconds += planIntegrationSeconds(plan);
+      expectedIntegrationSeconds += planExpectedIntegrationSeconds(plan);
+    }
+  }
+  const remainingIntegrationSeconds = Math.max(0, expectedIntegrationSeconds - integrationSeconds);
+
+  return {
+    desired,
+    accepted,
+    pct: desired > 0 ? Math.min(100, Math.round((accepted / desired) * 100)) : 0,
+    integrationSeconds,
+    integrationTime: formatIntegrationTime(integrationSeconds),
+    expectedIntegrationSeconds,
+    expectedIntegrationTime: formatIntegrationTime(expectedIntegrationSeconds),
+    remainingIntegrationSeconds,
+    remainingIntegrationTime: formatIntegrationTime(remainingIntegrationSeconds),
+  };
+}
+
+// Accepted/expected integration time for a single target, summed across its
+// filters.
+export function computeTargetIntegration(target) {
+  return computeRollup([target]);
+}
+
+// 'not-started' (nothing accepted yet), 'done' (every desired frame
+// accepted, or over-completed after reshoots/edits), 'in-progress'
+// (somewhere in between). A target with no exposure plan at all counts as
+// not-started rather than done.
+export function classifyTargetCompletion(target) {
+  const { desired, accepted } = computeRollup([target]);
+  if (desired === 0 || accepted <= 0) return 'not-started';
+  if (accepted >= desired) return 'done';
+  return 'in-progress';
+}
+
+// Profile-wide summary: active project count, total target count, overall
+// completion %, and accepted/expected integration time, summed across every
+// project's targets.
+export function computeSummary(projects, targetsByProject) {
+  if (!projects) return null;
+  const activeProjects = projects.filter((p) => p.State === 'Active').length;
+
+  const allTargets = Object.values(targetsByProject || {}).flatMap((p) => p.targets);
+  const rollup = computeRollup(allTargets);
+
+  return {
+    activeProjects,
+    targetCount: allTargets.length,
+    completionPct: rollup.pct,
+    integrationTime: rollup.integrationTime,
+    expectedIntegrationTime: rollup.expectedIntegrationTime,
+    remainingIntegrationTime: rollup.remainingIntegrationTime,
+  };
+}
+
+export function buildProjectSettingsRows(project) {
+  return [
+    ['Description', project.Description || '—'],
+    ['Minimum time', `${project.MinimumTime} min`],
+    ['Filter switch frequency', project.FilterSwitchFrequency],
+    ['Dither every', `${project.DitherEvery} exposures`],
+    ['Meridian window', `${project.MeridianWindow} min`],
+    ['Horizon', project.UseCustomHorizon ? `custom, +${project.HorizonOffset}°` : 'off'],
+    ['Altitude limits', `${project.MinimumAltitude}°–${project.MaximumAltitude}°`],
+    ['Grading', project.EnableGrader ? 'enabled' : 'disabled'],
+    ['Smart exposure order', project.SmartExposureOrder ? 'on' : 'off'],
+    ['Mosaic', project.Mosaic ? 'yes' : 'no'],
+  ];
+}
+
+export function formatSegmentDuration(startIso, endIso) {
+  const ms = new Date(endIso) - new Date(startIso);
+  const totalMin = Math.round(ms / 60000);
+  const h = Math.floor(totalMin / 60);
+  const m = totalMin % 60;
+  return h > 0 ? `${h}h ${m}m` : `${m}m`;
+}
+
+export function summarizeExposurePlan(exposurePlan) {
+  const byFilter = new Map();
+  for (const p of exposurePlan || []) {
+    byFilter.set(p.FilterName, (byFilter.get(p.FilterName) || 0) + p.Count);
+  }
+  return [...byFilter.entries()].map(([filter, count]) => `${count}× ${filter}`).join(', ');
+}
+
+// A segment is "now" when the current time falls in [StartTime, EndTime) —
+// purely a clock-position marker on the *predicted* timeline, never a claim
+// about what NINA is actually imaging (the API has no such signal).
+export function isSegmentNow(segment, nowMs = Date.now()) {
+  return (
+    nowMs >= new Date(segment.StartTime).getTime() && nowMs < new Date(segment.EndTime).getTime()
+  );
+}

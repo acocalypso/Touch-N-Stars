@@ -3,61 +3,64 @@ import { computed, ref } from 'vue';
 import TargetCard from './TargetCard.vue';
 import { THEME } from '../theme';
 import { fuzzyMatch } from '../fuzzyMatch';
+import { computeRollup, buildProjectSettingsRows, classifyTargetCompletion } from '../calculations';
 
 const props = defineProps({
   project: { type: Object, required: true },
   targets: { type: Array, default: () => [] },
   targetsError: { type: String, default: '' },
   searchQuery: { type: String, default: '' },
+  completionFilter: { type: String, default: 'all' },
 });
 
 const expanded = ref(false);
 const showSettings = ref(false);
 
-const filteredTargets = computed(() => {
-  if (!props.searchQuery) return props.targets;
-  const byName = props.targets.filter((t) => fuzzyMatch(t.Name, props.searchQuery));
-  // Empty match means the project itself matched the query (by name) — show all its targets.
-  return byName.length ? byName : props.targets;
+// Completion filter is strict — it never falls back to "show everything" the
+// way search does, since it's inherently about which targets qualify.
+const completionFilteredTargets = computed(() => {
+  if (props.completionFilter === 'all') return props.targets;
+  return props.targets.filter((t) => classifyTargetCompletion(t) === props.completionFilter);
 });
 
-const isExpanded = computed(() => expanded.value || Boolean(props.searchQuery));
+const filteredTargets = computed(() => {
+  const base = completionFilteredTargets.value;
+  if (!props.searchQuery) return base;
+  const byName = base.filter((t) => fuzzyMatch(t.Name, props.searchQuery));
+  // Empty match means the project itself matched the query (by name) — show
+  // the rest of the completion-filtered targets rather than the raw list.
+  return byName.length ? byName : base;
+});
+
+const isExpanded = computed(
+  () => expanded.value || Boolean(props.searchQuery) || props.completionFilter !== 'all'
+);
 
 const settingsRows = computed(() => [
-  ['Description', props.project.Description || '—'],
-  ['Minimum time', `${props.project.MinimumTime} min`],
-  ['Filter switch frequency', props.project.FilterSwitchFrequency],
-  ['Dither every', `${props.project.DitherEvery} exposures`],
-  ['Meridian window', `${props.project.MeridianWindow} min`],
-  ['Horizon', props.project.UseCustomHorizon ? `custom, +${props.project.HorizonOffset}°` : 'off'],
-  ['Altitude limits', `${props.project.MinimumAltitude}°–${props.project.MaximumAltitude}°`],
-  ['Grading', props.project.EnableGrader ? 'enabled' : 'disabled'],
-  ['Smart exposure order', props.project.SmartExposureOrder ? 'on' : 'off'],
-  ['Mosaic', props.project.Mosaic ? 'yes' : 'no'],
+  ['Priority', props.project.Priority],
+  ['Integration (accepted)', rollup.value.integrationTime],
+  ['Integration (expected)', rollup.value.expectedIntegrationTime],
+  ['Integration (remaining)', rollup.value.remainingIntegrationTime],
+  ...buildProjectSettingsRows(props.project),
 ]);
 
+// Maps to TNS's own semantic tokens (good/accent/warning/danger) rather than
+// inventing new hues, so state colors stay consistent with the rest of the
+// app. Any state not in this list (the API doesn't document the full set)
+// falls back to a neutral muted dot rather than guessing a color for it.
+const STATE_COLORS = {
+  Active: 'good',
+  Draft: 'accent',
+  Inactive: 'warning',
+  Closed: 'critical',
+};
+
 const stateStyle = computed(() => {
-  if (props.project.State === 'Active') {
-    return { dot: THEME.good, text: THEME.good };
-  }
-  return { dot: THEME.inkMuted, text: THEME.inkMuted };
+  const color = THEME[STATE_COLORS[props.project.State]] || THEME.inkMuted;
+  return { dot: color, text: color };
 });
 
-const rollup = computed(() => {
-  let desired = 0;
-  let accepted = 0;
-  for (const target of props.targets) {
-    for (const plan of target.ExposurePlan || []) {
-      desired += plan.Desired;
-      accepted += plan.Accepted;
-    }
-  }
-  return {
-    desired,
-    accepted,
-    pct: desired > 0 ? Math.min(100, Math.round((accepted / desired) * 100)) : 0,
-  };
-});
+const rollup = computed(() => computeRollup(props.targets));
 </script>
 
 <template>
@@ -73,7 +76,7 @@ const rollup = computed(() => {
       class="flex w-full items-center justify-between gap-3 p-3 text-left transition-colors hover:brightness-110"
       @click="expanded = !expanded"
     >
-      <div class="flex min-w-0 flex-1 items-center gap-2">
+      <div class="flex min-w-0 flex-1 flex-wrap items-center gap-x-2 gap-y-0.5">
         <span
           class="flex shrink-0 items-center gap-1.5 text-[10px] uppercase tracking-wide"
           :style="{ color: stateStyle.text }"
@@ -81,27 +84,22 @@ const rollup = computed(() => {
           <span class="h-1.5 w-1.5 rounded-full" :style="{ backgroundColor: stateStyle.dot }" />
           {{ project.State }}
         </span>
-        <span class="truncate font-semibold">{{ project.Name }}</span>
-        <span class="shrink-0 text-[11px]" :style="{ color: THEME.inkMuted }"
-          >priority {{ project.Priority }}</span
-        >
+        <span class="break-words font-semibold">{{ project.Name }}</span>
       </div>
 
-      <div class="flex shrink-0 items-center gap-3">
-        <div class="hidden items-center gap-2 sm:flex">
+      <div class="flex shrink-0 items-center gap-2">
+        <div
+          class="hidden h-1.5 w-24 overflow-hidden rounded-full sm:block"
+          :style="{ backgroundColor: THEME.track }"
+        >
           <div
-            class="h-1.5 w-24 overflow-hidden rounded-full"
-            :style="{ backgroundColor: THEME.track }"
-          >
-            <div
-              class="h-full rounded-full"
-              :style="{ width: rollup.pct + '%', backgroundColor: THEME.good }"
-            />
-          </div>
-          <span class="w-9 text-right text-[11px] tabular-nums" :style="{ color: THEME.inkMuted }"
-            >{{ rollup.pct }}%</span
-          >
+            class="h-full rounded-full"
+            :style="{ width: rollup.pct + '%', backgroundColor: THEME.good }"
+          />
         </div>
+        <span class="w-9 text-right text-[11px] tabular-nums" :style="{ color: THEME.inkMuted }"
+          >{{ rollup.pct }}%</span
+        >
         <span
           role="button"
           tabindex="0"
@@ -152,7 +150,7 @@ const rollup = computed(() => {
         >
           <div v-for="[label, value] in settingsRows" :key="label">
             <dt :style="{ color: THEME.inkMuted }">{{ label }}</dt>
-            <dd class="truncate">{{ value }}</dd>
+            <dd class="break-words">{{ value }}</dd>
           </div>
         </dl>
       </div>

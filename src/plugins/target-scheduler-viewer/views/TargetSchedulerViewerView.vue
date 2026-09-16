@@ -15,6 +15,7 @@ import {
 } from '../services/targetSchedulerApi';
 import { THEME } from '../theme';
 import { fuzzyMatch } from '../fuzzyMatch';
+import { computeSummary, classifyTargetCompletion } from '../calculations';
 
 const { t } = useI18n();
 
@@ -42,16 +43,28 @@ function toggleHeader() {
 
 const searchQuery = ref('');
 const stateFilter = ref('all');
+const completionFilter = ref('all');
 
 const availableStates = computed(() => {
   if (!projects.value) return [];
   return [...new Set(projects.value.map((p) => p.State))];
 });
 
-function projectMatchesSearch(project, query) {
-  if (fuzzyMatch(project.Name, query)) return true;
-  const targets = targetsByProject.value[project.Id]?.targets || [];
-  return targets.some((t) => fuzzyMatch(t.Name, query));
+// A target counts for a project's visibility when it satisfies both the
+// completion filter and the search query — the completion filter is
+// inherently about individual targets, so (unlike search) it never falls
+// back to "the project name matched, show everything".
+function targetMatchesFilters(target, query, completion) {
+  if (completion !== 'all' && classifyTargetCompletion(target) !== completion) return false;
+  if (query && !fuzzyMatch(target.Name, query)) return false;
+  return true;
+}
+
+function projectMatchesFilters(project, targets, query, completion) {
+  if (targets.some((t) => targetMatchesFilters(t, query, completion))) return true;
+  if (completion !== 'all') return false;
+  if (!query) return true;
+  return fuzzyMatch(project.Name, query);
 }
 
 const visibleProjects = computed(() => {
@@ -59,8 +72,8 @@ const visibleProjects = computed(() => {
   const query = searchQuery.value.trim();
   return projects.value.filter((project) => {
     if (stateFilter.value !== 'all' && project.State !== stateFilter.value) return false;
-    if (query && !projectMatchesSearch(project, query)) return false;
-    return true;
+    const targets = targetsByProject.value[project.Id]?.targets || [];
+    return projectMatchesFilters(project, targets, query, completionFilter.value);
   });
 });
 
@@ -160,34 +173,7 @@ function toggleSchedule() {
   if (showSchedule.value) loadSchedule();
 }
 
-const summary = computed(() => {
-  if (!projects.value) return null;
-  const activeProjects = projects.value.filter((p) => p.State === 'Active').length;
-
-  let targetCount = 0;
-  let desiredTotal = 0;
-  let acceptedTotal = 0;
-  let integrationSeconds = 0;
-  for (const { targets } of Object.values(targetsByProject.value)) {
-    targetCount += targets.length;
-    for (const target of targets) {
-      for (const plan of target.ExposurePlan || []) {
-        desiredTotal += plan.Desired;
-        acceptedTotal += plan.Accepted;
-        integrationSeconds += plan.Accepted * plan.Exposure;
-      }
-    }
-  }
-
-  const completionPct =
-    desiredTotal > 0 ? Math.min(100, Math.round((acceptedTotal / desiredTotal) * 100)) : 0;
-
-  const hours = Math.floor(integrationSeconds / 3600);
-  const minutes = Math.round((integrationSeconds % 3600) / 60);
-  const integrationTime = `${hours}h ${minutes}m`;
-
-  return { activeProjects, targetCount, completionPct, integrationTime };
-});
+const summary = computed(() => computeSummary(projects.value, targetsByProject.value));
 
 onMounted(() => {
   refreshAll();
@@ -278,7 +264,7 @@ onUnmounted(() => {
           </div>
         </div>
 
-        <p v-if="headerCollapsed" class="mt-2 truncate text-xs" :style="{ color: THEME.inkMuted }">
+        <p v-if="headerCollapsed" class="mt-2 text-xs" :style="{ color: THEME.inkMuted }">
           {{ profiles.find((p) => p.Id === selectedProfileId)?.Name }}
           <span v-if="summary">
             · {{ summary.completionPct }}% complete · {{ summary.targetCount }} targets</span
@@ -331,7 +317,7 @@ onUnmounted(() => {
 
             <div
               v-if="summary"
-              class="mt-4 grid grid-cols-2 gap-3 border-t pt-3 sm:grid-cols-4"
+              class="mt-4 grid grid-cols-2 gap-3 border-t pt-3 sm:grid-cols-3 lg:grid-cols-5"
               :style="{ borderColor: THEME.border }"
             >
               <StatTile
@@ -350,6 +336,10 @@ onUnmounted(() => {
               <StatTile
                 :label="t('plugins.targetSchedulerViewer.labels.integrationTime')"
                 :value="summary.integrationTime"
+              />
+              <StatTile
+                :label="t('plugins.targetSchedulerViewer.labels.remainingTime')"
+                :value="summary.remainingIntegrationTime"
               />
             </div>
 
@@ -483,7 +473,7 @@ onUnmounted(() => {
             </button>
           </div>
 
-          <div class="flex items-center gap-1.5">
+          <div class="flex flex-wrap items-center gap-1.5">
             <button
               class="rounded-full border px-2.5 py-1 text-[11px] transition-colors"
               :style="
@@ -519,16 +509,33 @@ onUnmounted(() => {
           </div>
         </div>
 
-        <p class="flex items-center gap-3 text-[11px]" :style="{ color: THEME.inkMuted }">
-          <span class="flex items-center gap-1">
-            <span class="h-2 w-2 rounded-full" :style="{ backgroundColor: THEME.good }" />
-            {{ t('plugins.targetSchedulerViewer.labels.legendAccepted') }}
-          </span>
-          <span class="flex items-center gap-1">
-            <span class="h-2 w-2 rounded-full" :style="{ backgroundColor: THEME.warning }" />
-            {{ t('plugins.targetSchedulerViewer.labels.legendPending') }}
-          </span>
-        </p>
+        <div class="flex flex-wrap items-center gap-1.5">
+          <span class="text-[11px]" :style="{ color: THEME.inkMuted }">{{
+            t('plugins.targetSchedulerViewer.labels.completionFilterLabel')
+          }}</span>
+          <button
+            v-for="opt in [
+              ['all', t('plugins.targetSchedulerViewer.labels.allStates')],
+              ['not-started', t('plugins.targetSchedulerViewer.labels.notStarted')],
+              ['in-progress', t('plugins.targetSchedulerViewer.labels.inProgress')],
+              ['done', t('plugins.targetSchedulerViewer.labels.done')],
+            ]"
+            :key="opt[0]"
+            class="rounded-full border px-2.5 py-1 text-[11px] transition-colors"
+            :style="
+              completionFilter === opt[0]
+                ? {
+                    borderColor: THEME.accent,
+                    backgroundColor: THEME.goodBg,
+                    color: THEME.inkPrimary,
+                  }
+                : { borderColor: THEME.border, color: THEME.inkMuted }
+            "
+            @click="completionFilter = opt[0]"
+          >
+            {{ opt[1] }}
+          </button>
+        </div>
 
         <div
           v-if="!visibleProjects.length"
@@ -546,9 +553,26 @@ onUnmounted(() => {
             :targets="targetsByProject[project.Id]?.targets || []"
             :targets-error="targetsByProject[project.Id]?.error || ''"
             :search-query="searchQuery.trim()"
+            :completion-filter="completionFilter"
           />
         </div>
       </template>
+
+      <div class="rounded-lg p-3" :style="{ backgroundColor: THEME.surface2 }">
+        <p class="mb-2 text-[11px] font-medium" :style="{ color: THEME.inkSecondary }">
+          {{ t('plugins.targetSchedulerViewer.labels.legendTitle') }}
+        </p>
+        <p class="flex flex-wrap items-center gap-3 text-[11px]" :style="{ color: THEME.inkMuted }">
+          <span class="flex items-center gap-1">
+            <span class="h-2 w-2 rounded-full" :style="{ backgroundColor: THEME.good }" />
+            {{ t('plugins.targetSchedulerViewer.labels.legendAccepted') }}
+          </span>
+          <span class="flex items-center gap-1">
+            <span class="h-2 w-2 rounded-full" :style="{ backgroundColor: THEME.warning }" />
+            {{ t('plugins.targetSchedulerViewer.labels.legendPending') }}
+          </span>
+        </p>
+      </div>
 
       <footer class="space-y-1 pt-2 text-[11px]" :style="{ color: THEME.inkMuted }">
         <p>{{ t('plugins.targetSchedulerViewer.labels.unofficialDisclaimer') }}</p>

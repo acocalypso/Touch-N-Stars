@@ -5241,7 +5241,13 @@
         "searchPlaceholder": "Search projects & targets…",
         "clearSearch": "Clear search",
         "allStates": "All",
-        "noResults": "No projects or targets match your search."
+        "noResults": "No projects or targets match your search.",
+        "remainingTime": "Remaining",
+        "completionFilterLabel": "Completion:",
+        "notStarted": "Not started",
+        "inProgress": "In progress",
+        "done": "Done",
+        "legendTitle": "Legend"
       }
     }
   },

@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import { THEME } from '../theme';
+import { formatSegmentDuration, summarizeExposurePlan, isSegmentNow } from '../calculations';
 
 const props = defineProps({
   segments: { type: Array, required: true },
@@ -10,23 +11,8 @@ function formatTime(iso) {
   return new Date(iso).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 }
 
-function formatDuration(startIso, endIso) {
-  const ms = new Date(endIso) - new Date(startIso);
-  const totalMin = Math.round(ms / 60000);
-  const h = Math.floor(totalMin / 60);
-  const m = totalMin % 60;
-  return h > 0 ? `${h}h ${m}m` : `${m}m`;
-}
-
-function exposureSummary(plan) {
-  const byFilter = new Map();
-  for (const p of plan) {
-    byFilter.set(p.FilterName, (byFilter.get(p.FilterName) || 0) + p.Count);
-  }
-  return [...byFilter.entries()].map(([filter, count]) => `${count}× ${filter}`).join(', ');
-}
-
-const now = Date.now();
+const formatDuration = formatSegmentDuration;
+const exposureSummary = summarizeExposurePlan;
 
 const rows = computed(() =>
   props.segments.map((s, i) => ({
@@ -36,7 +22,7 @@ const rows = computed(() =>
     start: s.StartTime,
     end: s.EndTime,
     summary: exposureSummary(s.ExposurePlan || []),
-    isNow: now >= new Date(s.StartTime).getTime() && now < new Date(s.EndTime).getTime(),
+    isNow: isSegmentNow(s),
   }))
 );
 </script>
@@ -85,16 +71,19 @@ const rows = computed(() =>
           }"
         />
         <div
-          class="flex items-center gap-3 rounded px-2 py-1.5 text-xs"
+          class="rounded px-2 py-1.5 text-xs"
           :style="{ backgroundColor: row.isNow ? THEME.goodBg : 'transparent' }"
         >
-          <span class="w-24 shrink-0 tabular-nums" :style="{ color: THEME.inkMuted }">
-            {{ formatTime(row.start) }}–{{ formatTime(row.end) }}
-          </span>
-          <span class="w-14 shrink-0 text-right tabular-nums" :style="{ color: THEME.inkMuted }">
-            {{ formatDuration(row.start, row.end) }}
-          </span>
-          <template v-if="row.isWait">
+          <div class="flex items-center gap-3">
+            <span class="tabular-nums" :style="{ color: THEME.inkMuted }">
+              {{ formatTime(row.start) }}–{{ formatTime(row.end) }}
+            </span>
+            <span class="tabular-nums" :style="{ color: THEME.inkMuted }">
+              ({{ formatDuration(row.start, row.end) }})
+            </span>
+          </div>
+
+          <div v-if="row.isWait" class="mt-1 flex items-center gap-2">
             <svg
               class="h-3.5 w-3.5 shrink-0"
               viewBox="0 0 24 24"
@@ -112,10 +101,10 @@ const rows = computed(() =>
             <span class="italic" :style="{ color: THEME.inkMuted }"
               >Waiting — target not yet visible</span
             >
-          </template>
+          </div>
           <template v-else>
-            <span class="shrink-0 font-medium">{{ row.name }}</span>
-            <span class="truncate" :style="{ color: THEME.inkSecondary }">{{ row.summary }}</span>
+            <div class="mt-1 font-medium">{{ row.name }}</div>
+            <div class="break-words" :style="{ color: THEME.inkSecondary }">{{ row.summary }}</div>
           </template>
         </div>
       </li>

@@ -3,6 +3,13 @@ import { computed, ref } from 'vue';
 import ExposureProgressBar from './ExposureProgressBar.vue';
 import { targetSchedulerApi } from '../services/targetSchedulerApi';
 import { THEME } from '../theme';
+import {
+  formatRa,
+  formatDec,
+  autoAcceptStatus,
+  exposureDurationsByFilter,
+  computeTargetIntegration,
+} from '../calculations';
 
 const props = defineProps({
   target: { type: Object, required: true },
@@ -13,39 +20,13 @@ const stats = ref(null);
 const statsLoading = ref(false);
 const statsError = ref('');
 
-function formatRa(hours) {
-  const h = Math.floor(hours);
-  const mFloat = (hours - h) * 60;
-  const m = Math.floor(mFloat);
-  const s = Math.round((mFloat - m) * 60);
-  return `${h}h ${m}m ${s}s`;
-}
+const autoAccept = autoAcceptStatus;
 
-function formatDec(deg) {
-  const sign = deg < 0 ? '-' : '+';
-  const abs = Math.abs(deg);
-  const d = Math.floor(abs);
-  const mFloat = (abs - d) * 60;
-  const m = Math.floor(mFloat);
-  const s = Math.round((mFloat - m) * 60);
-  return `${sign}${d}° ${m}' ${s}"`;
-}
+const exposureByFilter = computed(() => exposureDurationsByFilter(props.target.ExposurePlan));
 
-// -1 = no auto-accept threshold configured for this filter; 0/1 = below-
-// threshold boolean (nullable-bool-as-int, the common .NET serialization
-// pattern — the API does not document this field, so treat as best-effort).
-function autoAccept(value) {
-  if (value == null || value < 0) return null;
-  return value === 1;
-}
+const integration = computed(() => computeTargetIntegration(props.target));
 
-const exposureByFilter = computed(() => {
-  const map = new Map();
-  for (const plan of props.target.ExposurePlan || []) {
-    map.set(plan.FilterName, plan.Exposure);
-  }
-  return map;
-});
+const activeStyle = computed(() => (props.target.Active ? THEME.good : THEME.warning));
 
 async function toggleStats() {
   showStats.value = !showStats.value;
@@ -66,21 +47,15 @@ async function toggleStats() {
 <template>
   <div class="rounded-md p-3" :style="{ backgroundColor: THEME.surface1 }">
     <div class="flex items-start justify-between gap-2">
-      <div class="min-w-0">
-        <div class="flex items-center gap-2">
-          <span class="truncate font-semibold">{{ target.Name }}</span>
-          <span
-            v-if="!target.Active"
-            class="shrink-0 rounded px-1.5 py-0.5 text-[10px] uppercase"
-            :style="{ backgroundColor: THEME.track, color: THEME.inkMuted }"
-          >
-            inactive
-          </span>
-        </div>
-        <div class="text-[11px]" :style="{ color: THEME.inkMuted }">
-          RA {{ formatRa(target.RA) }} &middot; Dec {{ formatDec(target.Dec) }} &middot; rotation
-          {{ target.Rotation }}° &middot; {{ target.Epoch }} &middot; ROI {{ target.ROI }}%
-        </div>
+      <div class="flex min-w-0 flex-wrap items-center gap-2">
+        <span
+          class="flex shrink-0 items-center gap-1.5 text-[10px] uppercase tracking-wide"
+          :style="{ color: activeStyle }"
+        >
+          <span class="h-1.5 w-1.5 rounded-full" :style="{ backgroundColor: activeStyle }" />
+          {{ target.Active ? 'active' : 'inactive' }}
+        </span>
+        <span class="break-words font-semibold">{{ target.Name }}</span>
       </div>
       <button
         class="flex shrink-0 items-center gap-1 rounded px-2 py-1 text-[11px] transition-colors hover:brightness-125"
@@ -117,79 +92,95 @@ async function toggleStats() {
       class="mt-2 border-t pt-2 text-[11px]"
       :style="{ borderColor: THEME.border }"
     >
+      <div class="mb-2" :style="{ color: THEME.inkMuted }">
+        RA {{ formatRa(target.RA) }} &middot; Dec {{ formatDec(target.Dec) }} &middot; rotation
+        {{ target.Rotation }}° &middot; {{ target.Epoch }} &middot; ROI {{ target.ROI }}%
+        <span v-if="integration.integrationSeconds > 0">
+          &middot; {{ integration.integrationTime }} / {{ integration.expectedIntegrationTime }}
+          integrated
+        </span>
+        <span v-if="integration.remainingIntegrationSeconds > 0">
+          &middot; {{ integration.remainingIntegrationTime }} remaining
+        </span>
+      </div>
+
       <div v-if="statsLoading" :style="{ color: THEME.inkMuted }">Loading stats…</div>
       <div v-else-if="statsError" :style="{ color: THEME.critical }">{{ statsError }}</div>
-      <table v-else-if="stats && stats.length" class="w-full text-left">
-        <thead :style="{ color: THEME.inkMuted }">
-          <tr>
-            <th class="pr-2 font-normal">Filter</th>
-            <th class="pr-2 font-normal">Exp</th>
-            <th class="pr-2 font-normal">HFR</th>
-            <th class="pr-2 font-normal">FWHM</th>
-            <th class="font-normal">Ecc.</th>
-          </tr>
-        </thead>
-        <tbody class="tabular-nums">
-          <tr v-for="s in stats" :key="s.FilterName">
-            <td class="pr-2 py-0.5">{{ s.FilterName }}</td>
-            <td class="pr-2" :style="{ color: THEME.inkMuted }">
-              {{
-                exposureByFilter.get(s.FilterName) ? exposureByFilter.get(s.FilterName) + 's' : '—'
-              }}
-            </td>
-            <td class="pr-2">
-              {{ s.HFRMean.toFixed(2) }} ± {{ s.HFRStdDev.toFixed(2) }}
-              <span
-                v-if="autoAccept(s.HFRBelowAutoAcceptLevel) !== null"
-                class="ml-1"
-                :title="
-                  autoAccept(s.HFRBelowAutoAcceptLevel)
-                    ? 'Below auto-accept threshold (unconfirmed field semantics)'
-                    : 'Above auto-accept threshold (unconfirmed field semantics)'
-                "
-                :style="{
-                  color: autoAccept(s.HFRBelowAutoAcceptLevel) ? THEME.good : THEME.warning,
-                }"
-                >{{ autoAccept(s.HFRBelowAutoAcceptLevel) ? '✓' : '✕' }}</span
-              >
-            </td>
-            <td class="pr-2">
-              {{ s.FWHMMean.toFixed(2) }} ± {{ s.FWHMStdDev.toFixed(2) }}
-              <span
-                v-if="autoAccept(s.FWHMBelowAutoAcceptLevel) !== null"
-                class="ml-1"
-                :title="
-                  autoAccept(s.FWHMBelowAutoAcceptLevel)
-                    ? 'Below auto-accept threshold (unconfirmed field semantics)'
-                    : 'Above auto-accept threshold (unconfirmed field semantics)'
-                "
-                :style="{
-                  color: autoAccept(s.FWHMBelowAutoAcceptLevel) ? THEME.good : THEME.warning,
-                }"
-                >{{ autoAccept(s.FWHMBelowAutoAcceptLevel) ? '✓' : '✕' }}</span
-              >
-            </td>
-            <td>
-              {{ s.EccentricityMean.toFixed(2) }} ± {{ s.EccentricityStdDev.toFixed(2) }}
-              <span
-                v-if="autoAccept(s.EccentricityBelowAutoAcceptLevel) !== null"
-                class="ml-1"
-                :title="
-                  autoAccept(s.EccentricityBelowAutoAcceptLevel)
-                    ? 'Below auto-accept threshold (unconfirmed field semantics)'
-                    : 'Above auto-accept threshold (unconfirmed field semantics)'
-                "
-                :style="{
-                  color: autoAccept(s.EccentricityBelowAutoAcceptLevel)
-                    ? THEME.good
-                    : THEME.warning,
-                }"
-                >{{ autoAccept(s.EccentricityBelowAutoAcceptLevel) ? '✓' : '✕' }}</span
-              >
-            </td>
-          </tr>
-        </tbody>
-      </table>
+      <div v-else-if="stats && stats.length" class="overflow-x-auto">
+        <table class="w-full text-left">
+          <thead :style="{ color: THEME.inkMuted }">
+            <tr>
+              <th class="pr-2 font-normal">Filter</th>
+              <th class="pr-2 font-normal">Exp</th>
+              <th class="pr-2 font-normal">HFR</th>
+              <th class="pr-2 font-normal">FWHM</th>
+              <th class="font-normal">Ecc.</th>
+            </tr>
+          </thead>
+          <tbody class="tabular-nums">
+            <tr v-for="s in stats" :key="s.FilterName">
+              <td class="whitespace-nowrap pr-2 py-0.5">{{ s.FilterName }}</td>
+              <td class="pr-2" :style="{ color: THEME.inkMuted }">
+                {{
+                  exposureByFilter.get(s.FilterName)
+                    ? exposureByFilter.get(s.FilterName) + 's'
+                    : '—'
+                }}
+              </td>
+              <td class="whitespace-nowrap pr-2">
+                {{ s.HFRMean.toFixed(2) }} ± {{ s.HFRStdDev.toFixed(2) }}
+                <span
+                  v-if="autoAccept(s.HFRBelowAutoAcceptLevel) !== null"
+                  class="ml-1"
+                  :title="
+                    autoAccept(s.HFRBelowAutoAcceptLevel)
+                      ? 'Below auto-accept threshold (unconfirmed field semantics)'
+                      : 'Above auto-accept threshold (unconfirmed field semantics)'
+                  "
+                  :style="{
+                    color: autoAccept(s.HFRBelowAutoAcceptLevel) ? THEME.good : THEME.warning,
+                  }"
+                  >{{ autoAccept(s.HFRBelowAutoAcceptLevel) ? '✓' : '✕' }}</span
+                >
+              </td>
+              <td class="whitespace-nowrap pr-2">
+                {{ s.FWHMMean.toFixed(2) }} ± {{ s.FWHMStdDev.toFixed(2) }}
+                <span
+                  v-if="autoAccept(s.FWHMBelowAutoAcceptLevel) !== null"
+                  class="ml-1"
+                  :title="
+                    autoAccept(s.FWHMBelowAutoAcceptLevel)
+                      ? 'Below auto-accept threshold (unconfirmed field semantics)'
+                      : 'Above auto-accept threshold (unconfirmed field semantics)'
+                  "
+                  :style="{
+                    color: autoAccept(s.FWHMBelowAutoAcceptLevel) ? THEME.good : THEME.warning,
+                  }"
+                  >{{ autoAccept(s.FWHMBelowAutoAcceptLevel) ? '✓' : '✕' }}</span
+                >
+              </td>
+              <td class="whitespace-nowrap">
+                {{ s.EccentricityMean.toFixed(2) }} ± {{ s.EccentricityStdDev.toFixed(2) }}
+                <span
+                  v-if="autoAccept(s.EccentricityBelowAutoAcceptLevel) !== null"
+                  class="ml-1"
+                  :title="
+                    autoAccept(s.EccentricityBelowAutoAcceptLevel)
+                      ? 'Below auto-accept threshold (unconfirmed field semantics)'
+                      : 'Above auto-accept threshold (unconfirmed field semantics)'
+                  "
+                  :style="{
+                    color: autoAccept(s.EccentricityBelowAutoAcceptLevel)
+                      ? THEME.good
+                      : THEME.warning,
+                  }"
+                  >{{ autoAccept(s.EccentricityBelowAutoAcceptLevel) ? '✓' : '✕' }}</span
+                >
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
       <div v-else :style="{ color: THEME.inkMuted }">No accepted frames yet.</div>
     </div>
   </div>

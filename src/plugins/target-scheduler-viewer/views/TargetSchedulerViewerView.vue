@@ -264,11 +264,13 @@ async function connect({ isPortChange = false, isProfileChange = false } = {}) {
   try {
     if (!profiles.value.length) await loadProfiles(controller.signal);
     await loadProjects(controller.signal);
-    if (showSchedule.value) await loadSchedule();
     // A newer connect() call may have superseded this one while the above
     // awaits were in flight (it aborts this controller, but this function
     // keeps running until it next hits an await/throw) — a stale attempt
-    // must never touch state the newer attempt now owns.
+    // must never touch state the newer attempt now owns. loadSchedule()
+    // isn't itself signal-aware, so skip even starting it once stale.
+    if (portAbortController !== controller) return;
+    if (showSchedule.value) await loadSchedule();
     if (portAbortController !== controller) return;
     lastGoodPort = attemptedPort;
     lastGoodProfileId = selectedProfileId.value;
@@ -360,14 +362,18 @@ async function exportMarkdown() {
 onMounted(() => {
   refreshAll();
   pollTimer = setInterval(() => {
+    // Routed through connect() rather than calling loadProjects()/
+    // loadSchedule() directly — a poll tick that fired mid-connect (a port
+    // or profile change still in flight) would otherwise be the same
+    // uncoordinated-request race fixed elsewhere in this file.
     if (!selectedProfileId.value) return;
-    loadProjects();
-    if (showSchedule.value) loadSchedule();
+    refreshAll();
   }, POLL_MS);
 });
 
 onUnmounted(() => {
   if (pollTimer) clearInterval(pollTimer);
+  portAbortController?.abort();
 });
 </script>
 

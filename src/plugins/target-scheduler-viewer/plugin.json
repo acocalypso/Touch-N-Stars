@@ -2,7 +2,7 @@
   "id": "target-scheduler-viewer",
   "name": "Target Scheduler Viewer",
   "description": "View NINA Target Scheduler (tcpalmer) projects, targets and imaging progress",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "author": "anelissen",
   "defaultEnabled": false,
   "enabled": true,

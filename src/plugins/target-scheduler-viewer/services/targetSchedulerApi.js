@@ -178,11 +178,19 @@ async function getJson(path, { signal } = {}) {
   }
 }
 
+// IDs are GUIDs from the TS API's own responses, not user input, but
+// encoding them before building the URL is cheap defense-in-depth against a
+// malformed/unexpected value (e.g. one containing "/" or "?") altering the
+// request path instead of just producing a 404.
 export const targetSchedulerApi = {
   getVersion: (opts) => getJson('/version', opts),
   getProfiles: (opts) => getJson('/profiles', opts),
-  getProjects: (profileId, opts) => getJson(`/profiles/${profileId}/projects`, opts),
-  getTargets: (projectId, opts) => getJson(`/projects/${projectId}/targets`, opts),
-  getStatistics: (targetId, opts) => getJson(`/targets/${targetId}/statistics`, opts),
-  getPreview: (profileId, opts) => getJson(`/profiles/${profileId}/preview`, opts),
+  getProjects: (profileId, opts) =>
+    getJson(`/profiles/${encodeURIComponent(profileId)}/projects`, opts),
+  getTargets: (projectId, opts) =>
+    getJson(`/projects/${encodeURIComponent(projectId)}/targets`, opts),
+  getStatistics: (targetId, opts) =>
+    getJson(`/targets/${encodeURIComponent(targetId)}/statistics`, opts),
+  getPreview: (profileId, opts) =>
+    getJson(`/profiles/${encodeURIComponent(profileId)}/preview`, opts),
 };

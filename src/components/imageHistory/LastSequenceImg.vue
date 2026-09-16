@@ -228,7 +228,7 @@ watch(
   () => store.imageHistoryInfo,
   async (newVal, oldVal) => {
     if (!oldVal || newVal.length > oldVal.length) {
-      const latestIndex = newVal.length - 1;
+      const latestIndex = latestAvailableIndex();
       console.log('[LastSequenceImg] latestIndex: ', latestIndex);
 
       loadImage(latestIndex);
@@ -250,7 +250,7 @@ watch(
 );
 
 onMounted(() => {
-  const latestIndex = store.imageHistoryInfo.length - 1;
+  const latestIndex = latestAvailableIndex();
   loadImage(latestIndex);
   console.log('[LastSequenceImg] Mounted');
   console.log('[LastSequenceImg] latestIndex: ', latestIndex);

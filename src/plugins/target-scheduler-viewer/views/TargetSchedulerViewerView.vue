@@ -558,20 +558,56 @@ onUnmounted(() => {
         </div>
       </template>
 
-      <div class="rounded-lg p-3" :style="{ backgroundColor: THEME.surface2 }">
-        <p class="mb-2 text-[11px] font-medium" :style="{ color: THEME.inkSecondary }">
+      <div class="space-y-3 rounded-lg p-3" :style="{ backgroundColor: THEME.surface2 }">
+        <p class="text-[11px] font-medium" :style="{ color: THEME.inkSecondary }">
           {{ t('plugins.targetSchedulerViewer.labels.legendTitle') }}
         </p>
-        <p class="flex flex-wrap items-center gap-3 text-[11px]" :style="{ color: THEME.inkMuted }">
-          <span class="flex items-center gap-1">
-            <span class="h-2 w-2 rounded-full" :style="{ backgroundColor: THEME.good }" />
-            {{ t('plugins.targetSchedulerViewer.labels.legendAccepted') }}
-          </span>
-          <span class="flex items-center gap-1">
-            <span class="h-2 w-2 rounded-full" :style="{ backgroundColor: THEME.warning }" />
-            {{ t('plugins.targetSchedulerViewer.labels.legendPending') }}
-          </span>
-        </p>
+
+        <div>
+          <p class="mb-1 text-[10px] uppercase tracking-wide" :style="{ color: THEME.inkMuted }">
+            {{ t('plugins.targetSchedulerViewer.labels.legendBarsTitle') }}
+          </p>
+          <p
+            class="flex flex-wrap items-center gap-3 text-[11px]"
+            :style="{ color: THEME.inkMuted }"
+          >
+            <span class="flex items-center gap-1">
+              <span class="h-2 w-2 rounded-full" :style="{ backgroundColor: THEME.good }" />
+              {{ t('plugins.targetSchedulerViewer.labels.legendAccepted') }}
+            </span>
+            <span class="flex items-center gap-1">
+              <span class="h-2 w-2 rounded-full" :style="{ backgroundColor: THEME.warning }" />
+              {{ t('plugins.targetSchedulerViewer.labels.legendPending') }}
+            </span>
+          </p>
+        </div>
+
+        <div>
+          <p class="mb-1 text-[10px] uppercase tracking-wide" :style="{ color: THEME.inkMuted }">
+            {{ t('plugins.targetSchedulerViewer.labels.legendDotsTitle') }}
+          </p>
+          <p
+            class="flex flex-wrap items-center gap-3 text-[11px]"
+            :style="{ color: THEME.inkMuted }"
+          >
+            <span class="flex items-center gap-1">
+              <span class="h-2 w-2 rounded-full" :style="{ backgroundColor: THEME.good }" />
+              {{ t('plugins.targetSchedulerViewer.labels.legendActive') }}
+            </span>
+            <span class="flex items-center gap-1">
+              <span class="h-2 w-2 rounded-full" :style="{ backgroundColor: THEME.warning }" />
+              {{ t('plugins.targetSchedulerViewer.labels.legendInactive') }}
+            </span>
+            <span class="flex items-center gap-1">
+              <span class="h-2 w-2 rounded-full" :style="{ backgroundColor: THEME.accent }" />
+              {{ t('plugins.targetSchedulerViewer.labels.legendDraft') }}
+            </span>
+            <span class="flex items-center gap-1">
+              <span class="h-2 w-2 rounded-full" :style="{ backgroundColor: THEME.critical }" />
+              {{ t('plugins.targetSchedulerViewer.labels.legendClosed') }}
+            </span>
+          </p>
+        </div>
       </div>
 
       <footer class="space-y-1 pt-2 text-[11px]" :style="{ color: THEME.inkMuted }">

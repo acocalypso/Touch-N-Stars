@@ -55,10 +55,9 @@ const STATE_COLORS = {
   Closed: 'critical',
 };
 
-const stateStyle = computed(() => {
-  const color = THEME[STATE_COLORS[props.project.State]] || THEME.inkMuted;
-  return { dot: color, text: color };
-});
+const stateStyle = computed(() => ({
+  dot: THEME[STATE_COLORS[props.project.State]] || THEME.inkMuted,
+}));
 
 const rollup = computed(() => computeRollup(props.targets));
 </script>
@@ -78,12 +77,10 @@ const rollup = computed(() => computeRollup(props.targets));
     >
       <div class="flex min-w-0 flex-1 flex-wrap items-center gap-x-2 gap-y-0.5">
         <span
-          class="flex shrink-0 items-center gap-1.5 text-[10px] uppercase tracking-wide"
-          :style="{ color: stateStyle.text }"
-        >
-          <span class="h-1.5 w-1.5 rounded-full" :style="{ backgroundColor: stateStyle.dot }" />
-          {{ project.State }}
-        </span>
+          class="h-2 w-2 shrink-0 rounded-full"
+          :style="{ backgroundColor: stateStyle.dot }"
+          :title="project.State"
+        />
         <span class="break-words font-semibold">{{ project.Name }}</span>
       </div>
 

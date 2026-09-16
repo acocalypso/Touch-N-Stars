@@ -5247,7 +5247,13 @@
         "notStarted": "Not started",
         "inProgress": "In progress",
         "done": "Done",
-        "legendTitle": "Legend"
+        "legendTitle": "Legend",
+        "legendBarsTitle": "Progress bar colors",
+        "legendDotsTitle": "Status dot colors (projects & targets)",
+        "legendActive": "Active",
+        "legendInactive": "Inactive",
+        "legendDraft": "Draft (projects only)",
+        "legendClosed": "Closed (projects only)"
       }
     }
   },

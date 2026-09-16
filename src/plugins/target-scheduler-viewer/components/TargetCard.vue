@@ -49,12 +49,10 @@ async function toggleStats() {
     <div class="flex items-start justify-between gap-2">
       <div class="flex min-w-0 flex-wrap items-center gap-2">
         <span
-          class="flex shrink-0 items-center gap-1.5 text-[10px] uppercase tracking-wide"
-          :style="{ color: activeStyle }"
-        >
-          <span class="h-1.5 w-1.5 rounded-full" :style="{ backgroundColor: activeStyle }" />
-          {{ target.Active ? 'active' : 'inactive' }}
-        </span>
+          class="h-2 w-2 shrink-0 rounded-full"
+          :style="{ backgroundColor: activeStyle }"
+          :title="target.Active ? 'Active' : 'Inactive'"
+        />
         <span class="break-words font-semibold">{{ target.Name }}</span>
       </div>
       <button

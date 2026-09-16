@@ -5283,6 +5283,60 @@
         "welcomeTitle": "Welcome to Target Scheduler Viewer",
         "welcomeSubtitle": "This plugin shows your NINA Target Scheduler projects, targets and imaging progress. It just needs to know how to reach it.",
         "welcomeTrying": "Trying port {port}…"
+      },
+      "exposureBar": {
+        "ariaLabel": "{filter} : {accepted} sur {desired} acceptées",
+        "integrated": "{time} intégré"
+      },
+      "targetCard": {
+        "active": "Actif",
+        "inactive": "Inactif",
+        "hide": "Masquer",
+        "stats": "Stats",
+        "loadingStats": "Chargement des stats…",
+        "colFilter": "Filtre",
+        "colExp": "Exp.",
+        "colHfr": "HFR",
+        "colFwhm": "FWHM",
+        "colEcc": "Exc.",
+        "belowAutoAccept": "Sous le seuil d'acceptation auto (sémantique du champ non confirmée)",
+        "aboveAutoAccept": "Au-dessus du seuil d'acceptation auto (sémantique du champ non confirmée)",
+        "noAcceptedFrames": "Aucune image acceptée pour l'instant.",
+        "integratedOf": "{time} / {expected} intégré",
+        "remaining": "{time} restant"
+      },
+      "projectCard": {
+        "priority": "Priorité",
+        "integrationAccepted": "Intégration (acceptée)",
+        "integrationExpected": "Intégration (attendue)",
+        "integrationRemaining": "Intégration (restante)",
+        "description": "Description",
+        "minimumTime": "Durée minimale",
+        "filterSwitchFrequency": "Fréquence de changement de filtre",
+        "ditherEvery": "Dither tous les",
+        "meridianWindow": "Fenêtre méridienne",
+        "horizon": "Horizon",
+        "horizonCustom": "personnalisé, +{offset}°",
+        "altitudeLimits": "Limites d'altitude",
+        "grading": "Notation",
+        "smartExposureOrder": "Ordre d'exposition intelligent",
+        "mosaic": "Mosaïque",
+        "minutes": "{count} min",
+        "exposures": "{count} expositions",
+        "emptyValue": "—",
+        "off": "désactivé",
+        "on": "activé",
+        "enabled": "activé",
+        "disabled": "désactivé",
+        "yes": "oui",
+        "no": "non",
+        "noTargets": "Aucune cible dans ce projet."
+      },
+      "schedulePreview": {
+        "disclaimer": "Plan prévu par le Scheduler pour cette nuit, recalculé à chaque actualisation — pas un enregistrement de ce que NINA capture réellement.",
+        "learnMore": "En savoir plus",
+        "noScheduleData": "Aucune donnée de planning.",
+        "waitingNotVisible": "En attente — cible pas encore visible"
       }
     }
   },

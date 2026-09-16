@@ -1,12 +1,28 @@
 import { useSettingsStore } from '@/store/settingsStore';
 
-const PORT_STORAGE_KEY = 'tsviewer.port';
-const PROFILE_STORAGE_KEY = 'tsviewer.profileId';
 const DEFAULT_PORT = '8188';
+
+// The port, profile and "have we ever connected" state are properties of a
+// specific NINA rig, not of the browser — a user with two saved instances
+// (e.g. a home rig on TS port 8188 and a remote one on 4123) must not have
+// switching instances keep the previous rig's port applied to the new host.
+// Every such key is suffixed with `:${instanceId}`, matching the existing
+// `psp.secondaryDrivers.v1:<baseUrl>` / `tppaStore.settings:<...>` convention
+// (see src/utils/settingsBackup.js). Falls back to a fixed suffix when no
+// instance is selected yet (matches the rest of the app's single/legacy
+// pre-multi-instance behavior).
+function instanceSuffix() {
+  const settingsStore = useSettingsStore();
+  return settingsStore.selectedInstanceId || 'default';
+}
+
+function scopedKey(base) {
+  return `${base}:${instanceSuffix()}`;
+}
 
 export function getStoredPort() {
   try {
-    return localStorage.getItem(PORT_STORAGE_KEY) || DEFAULT_PORT;
+    return localStorage.getItem(scopedKey('tsviewer.port')) || DEFAULT_PORT;
   } catch {
     return DEFAULT_PORT;
   }
@@ -14,7 +30,7 @@ export function getStoredPort() {
 
 export function setStoredPort(port) {
   try {
-    localStorage.setItem(PORT_STORAGE_KEY, String(port));
+    localStorage.setItem(scopedKey('tsviewer.port'), String(port));
   } catch {
     // ignore storage failures (e.g. private browsing)
   }
@@ -38,14 +54,15 @@ export function setStoredHeaderCollapsed(collapsed) {
   }
 }
 
-// Whether this browser has ever successfully connected — lets a first-run
+// Whether this rig has ever successfully connected — lets a first-run
 // connection failure show setup guidance instead of a plain error, since
 // "not configured yet" is the expected first-load state, not a fault.
-const HAS_CONNECTED_KEY = 'tsviewer.hasConnected';
-
+// Instance-scoped: switching to a different, never-before-seen rig should
+// show the onboarding guide again rather than silently reusing another
+// rig's "already set up" state.
 export function getStoredHasConnected() {
   try {
-    return localStorage.getItem(HAS_CONNECTED_KEY) === 'true';
+    return localStorage.getItem(scopedKey('tsviewer.hasConnected')) === 'true';
   } catch {
     return false;
   }
@@ -53,7 +70,7 @@ export function getStoredHasConnected() {
 
 export function setStoredHasConnected() {
   try {
-    localStorage.setItem(HAS_CONNECTED_KEY, 'true');
+    localStorage.setItem(scopedKey('tsviewer.hasConnected'), 'true');
   } catch {
     // ignore storage failures (e.g. private browsing)
   }
@@ -61,7 +78,7 @@ export function setStoredHasConnected() {
 
 export function getStoredProfileId() {
   try {
-    return localStorage.getItem(PROFILE_STORAGE_KEY) || '';
+    return localStorage.getItem(scopedKey('tsviewer.profileId')) || '';
   } catch {
     return '';
   }
@@ -69,7 +86,7 @@ export function getStoredProfileId() {
 
 export function setStoredProfileId(profileId) {
   try {
-    localStorage.setItem(PROFILE_STORAGE_KEY, profileId);
+    localStorage.setItem(scopedKey('tsviewer.profileId'), profileId);
   } catch {
     // ignore storage failures (e.g. private browsing)
   }
@@ -83,8 +100,10 @@ function hostPort() {
 }
 
 function baseUrl() {
+  const settingsStore = useSettingsStore();
   const { host, port } = hostPort();
-  return `http://${host}:${port}/ts/v0`;
+  const protocol = settingsStore.backendProtocol || 'http';
+  return `${protocol}://${host}:${port}/ts/v0`;
 }
 
 const REQUEST_TIMEOUT_MS = 8000;

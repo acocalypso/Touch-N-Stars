@@ -5278,6 +5278,60 @@
         "welcomeTitle": "Welcome to Target Scheduler Viewer",
         "welcomeSubtitle": "This plugin shows your NINA Target Scheduler projects, targets and imaging progress. It just needs to know how to reach it.",
         "welcomeTrying": "Trying port {port}…"
+      },
+      "exposureBar": {
+        "ariaLabel": "{filter}：已接受 {accepted}/{desired}",
+        "integrated": "已积分 {time}"
+      },
+      "targetCard": {
+        "active": "活动",
+        "inactive": "未活动",
+        "hide": "隐藏",
+        "stats": "统计",
+        "loadingStats": "正在加载统计…",
+        "colFilter": "滤镜",
+        "colExp": "曝光",
+        "colHfr": "HFR",
+        "colFwhm": "FWHM",
+        "colEcc": "Ecc.",
+        "belowAutoAccept": "低于自动接受阈值（字段含义未确认）",
+        "aboveAutoAccept": "高于自动接受阈值（字段含义未确认）",
+        "noAcceptedFrames": "尚无已接受的帧。",
+        "integratedOf": "已积分 {time} / {expected}",
+        "remaining": "剩余 {time}"
+      },
+      "projectCard": {
+        "priority": "优先级",
+        "integrationAccepted": "积分（已接受）",
+        "integrationExpected": "积分（预期）",
+        "integrationRemaining": "积分（剩余）",
+        "description": "描述",
+        "minimumTime": "最短时间",
+        "filterSwitchFrequency": "滤镜切换频率",
+        "ditherEvery": "每隔多少次抖动",
+        "meridianWindow": "中天窗口",
+        "horizon": "地平线",
+        "horizonCustom": "自定义，+{offset}°",
+        "altitudeLimits": "高度限制",
+        "grading": "评分",
+        "smartExposureOrder": "智能曝光顺序",
+        "mosaic": "马赛克",
+        "minutes": "{count} 分钟",
+        "exposures": "{count} 次曝光",
+        "emptyValue": "—",
+        "off": "关",
+        "on": "开",
+        "enabled": "已启用",
+        "disabled": "已禁用",
+        "yes": "是",
+        "no": "否",
+        "noTargets": "此项目中没有目标。"
+      },
+      "schedulePreview": {
+        "disclaimer": "Scheduler 对今晚的预测计划，每次刷新都会重新计算——并非 NINA 当前实际拍摄内容的记录。",
+        "learnMore": "了解更多",
+        "noScheduleData": "暂无排程数据。",
+        "waitingNotVisible": "等待中 — 目标尚不可见"
       }
     }
   },

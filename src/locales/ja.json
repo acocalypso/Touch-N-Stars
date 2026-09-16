@@ -5278,6 +5278,60 @@
         "welcomeTitle": "Welcome to Target Scheduler Viewer",
         "welcomeSubtitle": "This plugin shows your NINA Target Scheduler projects, targets and imaging progress. It just needs to know how to reach it.",
         "welcomeTrying": "Trying port {port}…"
+      },
+      "exposureBar": {
+        "ariaLabel": "{filter}: {desired}枚中{accepted}枚承認",
+        "integrated": "{time} 積算"
+      },
+      "targetCard": {
+        "active": "アクティブ",
+        "inactive": "非アクティブ",
+        "hide": "非表示",
+        "stats": "統計",
+        "loadingStats": "統計を読み込み中…",
+        "colFilter": "フィルター",
+        "colExp": "露光",
+        "colHfr": "HFR",
+        "colFwhm": "FWHM",
+        "colEcc": "Ecc.",
+        "belowAutoAccept": "自動承認しきい値未満（フィールドの意味は未確認）",
+        "aboveAutoAccept": "自動承認しきい値以上（フィールドの意味は未確認）",
+        "noAcceptedFrames": "承認済みフレームはまだありません。",
+        "integratedOf": "{time} / {expected} 積算",
+        "remaining": "残り {time}"
+      },
+      "projectCard": {
+        "priority": "優先度",
+        "integrationAccepted": "積算（承認済み）",
+        "integrationExpected": "積算（予定）",
+        "integrationRemaining": "積算（残り）",
+        "description": "説明",
+        "minimumTime": "最小時間",
+        "filterSwitchFrequency": "フィルター切替頻度",
+        "ditherEvery": "ディザー間隔",
+        "meridianWindow": "南中ウィンドウ",
+        "horizon": "地平線",
+        "horizonCustom": "カスタム、+{offset}°",
+        "altitudeLimits": "高度制限",
+        "grading": "評価",
+        "smartExposureOrder": "スマート露光順",
+        "mosaic": "モザイク",
+        "minutes": "{count} 分",
+        "exposures": "{count} 回露光",
+        "emptyValue": "—",
+        "off": "オフ",
+        "on": "オン",
+        "enabled": "有効",
+        "disabled": "無効",
+        "yes": "はい",
+        "no": "いいえ",
+        "noTargets": "このプロジェクトにターゲットはありません。"
+      },
+      "schedulePreview": {
+        "disclaimer": "Schedulerによる今夜の予測プランです。更新のたびに再計算され、NINAが実際に撮影している内容の記録ではありません。",
+        "learnMore": "詳しく見る",
+        "noScheduleData": "スケジュールデータがありません。",
+        "waitingNotVisible": "待機中 — ターゲットはまだ見えていません"
       }
     }
   },

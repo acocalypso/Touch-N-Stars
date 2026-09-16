@@ -5278,6 +5278,60 @@
         "welcomeTitle": "Welcome to Target Scheduler Viewer",
         "welcomeSubtitle": "This plugin shows your NINA Target Scheduler projects, targets and imaging progress. It just needs to know how to reach it.",
         "welcomeTrying": "Trying port {port}…"
+      },
+      "exposureBar": {
+        "ariaLabel": "{filter}: {accepted} z {desired} zaakceptowanych",
+        "integrated": "{time} zintegrowane"
+      },
+      "targetCard": {
+        "active": "Aktywny",
+        "inactive": "Nieaktywny",
+        "hide": "Ukryj",
+        "stats": "Statystyki",
+        "loadingStats": "Ładowanie statystyk…",
+        "colFilter": "Filtr",
+        "colExp": "Eksp.",
+        "colHfr": "HFR",
+        "colFwhm": "FWHM",
+        "colEcc": "Ecc.",
+        "belowAutoAccept": "Poniżej progu auto-akceptacji (znaczenie pola niepotwierdzone)",
+        "aboveAutoAccept": "Powyżej progu auto-akceptacji (znaczenie pola niepotwierdzone)",
+        "noAcceptedFrames": "Brak zaakceptowanych klatek.",
+        "integratedOf": "{time} / {expected} zintegrowane",
+        "remaining": "{time} pozostało"
+      },
+      "projectCard": {
+        "priority": "Priorytet",
+        "integrationAccepted": "Integracja (zaakceptowana)",
+        "integrationExpected": "Integracja (oczekiwana)",
+        "integrationRemaining": "Integracja (pozostała)",
+        "description": "Opis",
+        "minimumTime": "Minimalny czas",
+        "filterSwitchFrequency": "Częstotliwość zmiany filtra",
+        "ditherEvery": "Dither co",
+        "meridianWindow": "Okno południka",
+        "horizon": "Horyzont",
+        "horizonCustom": "niestandardowy, +{offset}°",
+        "altitudeLimits": "Limity wysokości",
+        "grading": "Ocena",
+        "smartExposureOrder": "Inteligentna kolejność ekspozycji",
+        "mosaic": "Mozaika",
+        "minutes": "{count} min",
+        "exposures": "{count} ekspozycji",
+        "emptyValue": "—",
+        "off": "wył.",
+        "on": "wł.",
+        "enabled": "włączone",
+        "disabled": "wyłączone",
+        "yes": "tak",
+        "no": "nie",
+        "noTargets": "Brak celów w tym projekcie."
+      },
+      "schedulePreview": {
+        "disclaimer": "Przewidywany plan Schedulera na dzisiejszą noc, przeliczany przy każdym odświeżeniu — nie jest to zapis tego, co NINA faktycznie teraz fotografuje.",
+        "learnMore": "Dowiedz się więcej",
+        "noScheduleData": "Brak danych harmonogramu.",
+        "waitingNotVisible": "Oczekiwanie — cel jeszcze niewidoczny"
       }
     }
   },

@@ -136,18 +136,22 @@ export function computeSummary(projects, targetsByProject) {
   };
 }
 
+// Returns structured row descriptors rather than formatted display strings —
+// this module has no access to vue-i18n (it's plain logic, unit-testable
+// without mounting a component), so all label/unit/enum text is produced by
+// the caller (ProjectCard.vue) via t().
 export function buildProjectSettingsRows(project) {
   return [
-    ['Description', project.Description || '—'],
-    ['Minimum time', `${project.MinimumTime} min`],
-    ['Filter switch frequency', project.FilterSwitchFrequency],
-    ['Dither every', `${project.DitherEvery} exposures`],
-    ['Meridian window', `${project.MeridianWindow} min`],
-    ['Horizon', project.UseCustomHorizon ? `custom, +${project.HorizonOffset}°` : 'off'],
-    ['Altitude limits', `${project.MinimumAltitude}°–${project.MaximumAltitude}°`],
-    ['Grading', project.EnableGrader ? 'enabled' : 'disabled'],
-    ['Smart exposure order', project.SmartExposureOrder ? 'on' : 'off'],
-    ['Mosaic', project.Mosaic ? 'yes' : 'no'],
+    { key: 'description', text: project.Description || null },
+    { key: 'minimumTime', minutes: project.MinimumTime },
+    { key: 'filterSwitchFrequency', text: project.FilterSwitchFrequency },
+    { key: 'ditherEvery', count: project.DitherEvery },
+    { key: 'meridianWindow', minutes: project.MeridianWindow },
+    { key: 'horizon', custom: project.UseCustomHorizon, offset: project.HorizonOffset },
+    { key: 'altitudeLimits', min: project.MinimumAltitude, max: project.MaximumAltitude },
+    { key: 'grading', enabled: project.EnableGrader },
+    { key: 'smartExposureOrder', enabled: project.SmartExposureOrder },
+    { key: 'mosaic', enabled: project.Mosaic },
   ];
 }
 

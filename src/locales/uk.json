@@ -5278,6 +5278,60 @@
         "welcomeTitle": "Welcome to Target Scheduler Viewer",
         "welcomeSubtitle": "This plugin shows your NINA Target Scheduler projects, targets and imaging progress. It just needs to know how to reach it.",
         "welcomeTrying": "Trying port {port}…"
+      },
+      "exposureBar": {
+        "ariaLabel": "{filter}: прийнято {accepted} із {desired}",
+        "integrated": "{time} накопичено"
+      },
+      "targetCard": {
+        "active": "Активний",
+        "inactive": "Неактивний",
+        "hide": "Приховати",
+        "stats": "Статистика",
+        "loadingStats": "Завантаження статистики…",
+        "colFilter": "Фільтр",
+        "colExp": "Екс.",
+        "colHfr": "HFR",
+        "colFwhm": "FWHM",
+        "colEcc": "Ecc.",
+        "belowAutoAccept": "Нижче порогу автоприйняття (семантика поля не підтверджена)",
+        "aboveAutoAccept": "Вище порогу автоприйняття (семантика поля не підтверджена)",
+        "noAcceptedFrames": "Поки що немає прийнятих кадрів.",
+        "integratedOf": "{time} / {expected} накопичено",
+        "remaining": "{time} залишилось"
+      },
+      "projectCard": {
+        "priority": "Пріоритет",
+        "integrationAccepted": "Накопичення (прийнято)",
+        "integrationExpected": "Накопичення (очікувано)",
+        "integrationRemaining": "Накопичення (залишилось)",
+        "description": "Опис",
+        "minimumTime": "Мінімальний час",
+        "filterSwitchFrequency": "Частота зміни фільтра",
+        "ditherEvery": "Дізер кожні",
+        "meridianWindow": "Вікно меридіана",
+        "horizon": "Горизонт",
+        "horizonCustom": "власний, +{offset}°",
+        "altitudeLimits": "Межі висоти",
+        "grading": "Оцінювання",
+        "smartExposureOrder": "Розумний порядок експозицій",
+        "mosaic": "Мозаїка",
+        "minutes": "{count} хв",
+        "exposures": "{count} експозицій",
+        "emptyValue": "—",
+        "off": "вимкнено",
+        "on": "увімкнено",
+        "enabled": "увімкнено",
+        "disabled": "вимкнено",
+        "yes": "так",
+        "no": "ні",
+        "noTargets": "У цьому проєкті немає цілей."
+      },
+      "schedulePreview": {
+        "disclaimer": "Прогнозований план Scheduler на сьогоднішню ніч, перераховується при кожному оновленні — це не запис того, що NINA знімає зараз насправді.",
+        "learnMore": "Дізнатися більше",
+        "noScheduleData": "Немає даних розкладу.",
+        "waitingNotVisible": "Очікування — ціль ще не видима"
       }
     }
   },

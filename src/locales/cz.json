@@ -5278,6 +5278,60 @@
         "welcomeTitle": "Welcome to Target Scheduler Viewer",
         "welcomeSubtitle": "This plugin shows your NINA Target Scheduler projects, targets and imaging progress. It just needs to know how to reach it.",
         "welcomeTrying": "Trying port {port}…"
+      },
+      "exposureBar": {
+        "ariaLabel": "{filter}: {accepted} z {desired} přijato",
+        "integrated": "{time} integrováno"
+      },
+      "targetCard": {
+        "active": "Aktivní",
+        "inactive": "Neaktivní",
+        "hide": "Skrýt",
+        "stats": "Statistiky",
+        "loadingStats": "Načítání statistik…",
+        "colFilter": "Filtr",
+        "colExp": "Exp.",
+        "colHfr": "HFR",
+        "colFwhm": "FWHM",
+        "colEcc": "Ecc.",
+        "belowAutoAccept": "Pod prahem automatického přijetí (význam pole nepotvrzen)",
+        "aboveAutoAccept": "Nad prahem automatického přijetí (význam pole nepotvrzen)",
+        "noAcceptedFrames": "Zatím žádné přijaté snímky.",
+        "integratedOf": "{time} / {expected} integrováno",
+        "remaining": "{time} zbývá"
+      },
+      "projectCard": {
+        "priority": "Priorita",
+        "integrationAccepted": "Integrace (přijato)",
+        "integrationExpected": "Integrace (očekáváno)",
+        "integrationRemaining": "Integrace (zbývá)",
+        "description": "Popis",
+        "minimumTime": "Minimální čas",
+        "filterSwitchFrequency": "Frekvence přepínání filtrů",
+        "ditherEvery": "Dither každých",
+        "meridianWindow": "Okno meridiánu",
+        "horizon": "Horizont",
+        "horizonCustom": "vlastní, +{offset}°",
+        "altitudeLimits": "Limity výšky",
+        "grading": "Hodnocení",
+        "smartExposureOrder": "Chytré pořadí expozic",
+        "mosaic": "Mozaika",
+        "minutes": "{count} min",
+        "exposures": "{count} expozic",
+        "emptyValue": "—",
+        "off": "vypnuto",
+        "on": "zapnuto",
+        "enabled": "povoleno",
+        "disabled": "zakázáno",
+        "yes": "ano",
+        "no": "ne",
+        "noTargets": "V tomto projektu nejsou žádné cíle."
+      },
+      "schedulePreview": {
+        "disclaimer": "Predikovaný plán Scheduleru na dnešní noc, přepočítaný při každém obnovení — není záznamem toho, co NINA právě skutečně snímá.",
+        "learnMore": "Zjistit více",
+        "noScheduleData": "Žádná data plánu.",
+        "waitingNotVisible": "Čeká se — cíl zatím není viditelný"
       }
     }
   },

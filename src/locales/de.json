@@ -5283,6 +5283,60 @@
         "welcomeTitle": "Welcome to Target Scheduler Viewer",
         "welcomeSubtitle": "This plugin shows your NINA Target Scheduler projects, targets and imaging progress. It just needs to know how to reach it.",
         "welcomeTrying": "Trying port {port}…"
+      },
+      "exposureBar": {
+        "ariaLabel": "{filter}: {accepted} von {desired} akzeptiert",
+        "integrated": "{time} integriert"
+      },
+      "targetCard": {
+        "active": "Aktiv",
+        "inactive": "Inaktiv",
+        "hide": "Ausblenden",
+        "stats": "Statistik",
+        "loadingStats": "Statistik wird geladen…",
+        "colFilter": "Filter",
+        "colExp": "Belichtung",
+        "colHfr": "HFR",
+        "colFwhm": "FWHM",
+        "colEcc": "Ecc.",
+        "belowAutoAccept": "Unter Auto-Accept-Schwelle (Feldbedeutung unbestätigt)",
+        "aboveAutoAccept": "Über Auto-Accept-Schwelle (Feldbedeutung unbestätigt)",
+        "noAcceptedFrames": "Noch keine akzeptierten Frames.",
+        "integratedOf": "{time} / {expected} integriert",
+        "remaining": "{time} verbleibend"
+      },
+      "projectCard": {
+        "priority": "Priorität",
+        "integrationAccepted": "Integration (akzeptiert)",
+        "integrationExpected": "Integration (erwartet)",
+        "integrationRemaining": "Integration (verbleibend)",
+        "description": "Beschreibung",
+        "minimumTime": "Mindestzeit",
+        "filterSwitchFrequency": "Filterwechsel-Häufigkeit",
+        "ditherEvery": "Dither alle",
+        "meridianWindow": "Meridianfenster",
+        "horizon": "Horizont",
+        "horizonCustom": "eigener, +{offset}°",
+        "altitudeLimits": "Höhenlimits",
+        "grading": "Bewertung",
+        "smartExposureOrder": "Intelligente Belichtungsreihenfolge",
+        "mosaic": "Mosaik",
+        "minutes": "{count} Min.",
+        "exposures": "{count} Belichtungen",
+        "emptyValue": "—",
+        "off": "aus",
+        "on": "an",
+        "enabled": "aktiviert",
+        "disabled": "deaktiviert",
+        "yes": "ja",
+        "no": "nein",
+        "noTargets": "Keine Ziele in diesem Projekt."
+      },
+      "schedulePreview": {
+        "disclaimer": "Geplanter Ablauf für heute Nacht, bei jedem Refresh neu berechnet — kein Protokoll dessen, was NINA gerade tatsächlich aufnimmt.",
+        "learnMore": "Mehr erfahren",
+        "noScheduleData": "Keine Zeitplandaten.",
+        "waitingNotVisible": "Wartet — Ziel noch nicht sichtbar"
       }
     }
   },

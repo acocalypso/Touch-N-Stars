@@ -248,17 +248,19 @@ test('buildProjectSettingsRows surfaces every project setting field', () => {
     SmartExposureOrder: false,
     Mosaic: true,
   };
-  const rows = Object.fromEntries(buildProjectSettingsRows(project));
-  assert.equal(rows['Description'], 'Test project');
-  assert.equal(rows['Minimum time'], '30 min');
-  assert.equal(rows['Horizon'], 'custom, +2°');
-  assert.equal(rows['Altitude limits'], '0°–90°');
-  assert.equal(rows['Grading'], 'enabled');
-  assert.equal(rows['Smart exposure order'], 'off');
-  assert.equal(rows['Mosaic'], 'yes');
+  const rows = Object.fromEntries(buildProjectSettingsRows(project).map((r) => [r.key, r]));
+  assert.equal(rows['description'].text, 'Test project');
+  assert.equal(rows['minimumTime'].minutes, 30);
+  assert.equal(rows['horizon'].custom, true);
+  assert.equal(rows['horizon'].offset, 2);
+  assert.equal(rows['altitudeLimits'].min, 0);
+  assert.equal(rows['altitudeLimits'].max, 90);
+  assert.equal(rows['grading'].enabled, true);
+  assert.equal(rows['smartExposureOrder'].enabled, false);
+  assert.equal(rows['mosaic'].enabled, true);
 });
 
-test('buildProjectSettingsRows: no description falls back to an em dash', () => {
+test('buildProjectSettingsRows: no description falls back to null (caller renders the placeholder)', () => {
   const rows = Object.fromEntries(
     buildProjectSettingsRows({
       Description: null,
@@ -273,10 +275,10 @@ test('buildProjectSettingsRows: no description falls back to an em dash', () => 
       EnableGrader: false,
       SmartExposureOrder: false,
       Mosaic: false,
-    })
+    }).map((r) => [r.key, r])
   );
-  assert.equal(rows['Description'], '—');
-  assert.equal(rows['Horizon'], 'off');
+  assert.equal(rows['description'].text, null);
+  assert.equal(rows['horizon'].custom, false);
 });
 
 test('formatSegmentDuration formats minutes-only and hours+minutes', () => {

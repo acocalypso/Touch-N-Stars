@@ -5278,6 +5278,60 @@
         "welcomeTitle": "Welcome to Target Scheduler Viewer",
         "welcomeSubtitle": "This plugin shows your NINA Target Scheduler projects, targets and imaging progress. It just needs to know how to reach it.",
         "welcomeTrying": "Trying port {port}…"
+      },
+      "exposureBar": {
+        "ariaLabel": "{filter}: {accepted} de {desired} acceptades",
+        "integrated": "{time} integrat"
+      },
+      "targetCard": {
+        "active": "Actiu",
+        "inactive": "Inactiu",
+        "hide": "Amaga",
+        "stats": "Estad.",
+        "loadingStats": "Carregant estadístiques…",
+        "colFilter": "Filtre",
+        "colExp": "Exp.",
+        "colHfr": "HFR",
+        "colFwhm": "FWHM",
+        "colEcc": "Exc.",
+        "belowAutoAccept": "Per sota del llindar d'auto-acceptació (semàntica del camp no confirmada)",
+        "aboveAutoAccept": "Per sobre del llindar d'auto-acceptació (semàntica del camp no confirmada)",
+        "noAcceptedFrames": "Encara no hi ha fotogrames acceptats.",
+        "integratedOf": "{time} / {expected} integrat",
+        "remaining": "{time} restant"
+      },
+      "projectCard": {
+        "priority": "Prioritat",
+        "integrationAccepted": "Integració (acceptada)",
+        "integrationExpected": "Integració (esperada)",
+        "integrationRemaining": "Integració (restant)",
+        "description": "Descripció",
+        "minimumTime": "Temps mínim",
+        "filterSwitchFrequency": "Freqüència de canvi de filtre",
+        "ditherEvery": "Dither cada",
+        "meridianWindow": "Finestra de meridià",
+        "horizon": "Horitzó",
+        "horizonCustom": "personalitzat, +{offset}°",
+        "altitudeLimits": "Límits d'altitud",
+        "grading": "Qualificació",
+        "smartExposureOrder": "Ordre d'exposició intel·ligent",
+        "mosaic": "Mosaic",
+        "minutes": "{count} min",
+        "exposures": "{count} exposicions",
+        "emptyValue": "—",
+        "off": "desactivat",
+        "on": "activat",
+        "enabled": "habilitat",
+        "disabled": "deshabilitat",
+        "yes": "sí",
+        "no": "no",
+        "noTargets": "Cap objectiu en aquest projecte."
+      },
+      "schedulePreview": {
+        "disclaimer": "Pla previst de l'Scheduler per a aquesta nit, recalculat a cada actualització — no és un registre del que la NINA està capturant realment ara mateix.",
+        "learnMore": "Més informació",
+        "noScheduleData": "Sense dades de planificació.",
+        "waitingNotVisible": "Esperant — objectiu encara no visible"
       }
     }
   },

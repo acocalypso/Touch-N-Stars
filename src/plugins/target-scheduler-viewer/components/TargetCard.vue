@@ -1,8 +1,8 @@
 <script setup>
 import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
 import ExposureProgressBar from './ExposureProgressBar.vue';
 import { targetSchedulerApi } from '../services/targetSchedulerApi';
-import { THEME } from '../theme';
 import {
   formatRa,
   formatDec,
@@ -15,6 +15,8 @@ const props = defineProps({
   target: { type: Object, required: true },
 });
 
+const { t } = useI18n();
+
 const showStats = ref(false);
 const stats = ref(null);
 const statsLoading = ref(false);
@@ -26,7 +28,17 @@ const exposureByFilter = computed(() => exposureDurationsByFilter(props.target.E
 
 const integration = computed(() => computeTargetIntegration(props.target));
 
-const activeStyle = computed(() => (props.target.Active ? THEME.good : THEME.warning));
+const activeClass = computed(() => (props.target.Active ? 'bg-status-ok' : 'bg-status-warn'));
+
+function autoAcceptTitle(below) {
+  return below
+    ? t('plugins.targetSchedulerViewer.targetCard.belowAutoAccept')
+    : t('plugins.targetSchedulerViewer.targetCard.aboveAutoAccept');
+}
+
+function autoAcceptClass(below) {
+  return below ? 'text-status-ok' : 'text-status-warn';
+}
 
 async function toggleStats() {
   showStats.value = !showStats.value;
@@ -45,19 +57,22 @@ async function toggleStats() {
 </script>
 
 <template>
-  <div class="rounded-md p-3" :style="{ backgroundColor: THEME.surface1 }">
+  <div class="rounded-md bg-ground p-3">
     <div class="flex items-start justify-between gap-2">
       <div class="flex min-w-0 flex-wrap items-center gap-2">
         <span
-          class="h-2 w-2 shrink-0 rounded-full"
-          :style="{ backgroundColor: activeStyle }"
-          :title="target.Active ? 'Active' : 'Inactive'"
+          class="tns-dot"
+          :class="activeClass"
+          :title="
+            target.Active
+              ? t('plugins.targetSchedulerViewer.targetCard.active')
+              : t('plugins.targetSchedulerViewer.targetCard.inactive')
+          "
         />
         <span class="break-words font-semibold">{{ target.Name }}</span>
       </div>
       <button
-        class="flex shrink-0 items-center gap-1 rounded px-2 py-1 text-[11px] transition-colors hover:brightness-125"
-        :style="{ backgroundColor: THEME.track, color: THEME.inkSecondary }"
+        class="flex shrink-0 items-center gap-1 rounded bg-surface-3 px-2 py-1 text-[11px] text-content-muted transition-colors hover:brightness-125"
         @click="toggleStats"
       >
         <svg
@@ -73,19 +88,33 @@ async function toggleStats() {
             d="M3 3v18h18M8 17V9m4 8V5m4 12v-6"
           />
         </svg>
-        {{ showStats ? 'Hide' : 'Stats' }}
+        {{
+          showStats
+            ? t('plugins.targetSchedulerViewer.targetCard.hide')
+            : t('plugins.targetSchedulerViewer.targetCard.stats')
+        }}
       </button>
     </div>
 
-    <div class="mt-0.5 text-[11px]" :style="{ color: THEME.inkMuted }">
+    <div class="mt-0.5 text-[11px] text-content-faint">
       RA {{ formatRa(target.RA) }} &middot; Dec {{ formatDec(target.Dec) }} &middot; rotation
       {{ target.Rotation }}° &middot; {{ target.Epoch }} &middot; ROI {{ target.ROI }}%
       <span v-if="integration.integrationSeconds > 0">
-        &middot; {{ integration.integrationTime }} / {{ integration.expectedIntegrationTime }}
-        integrated
+        &middot;
+        {{
+          t('plugins.targetSchedulerViewer.targetCard.integratedOf', {
+            time: integration.integrationTime,
+            expected: integration.expectedIntegrationTime,
+          })
+        }}
       </span>
       <span v-if="integration.remainingIntegrationSeconds > 0">
-        &middot; {{ integration.remainingIntegrationTime }} remaining
+        &middot;
+        {{
+          t('plugins.targetSchedulerViewer.targetCard.remaining', {
+            time: integration.remainingIntegrationTime,
+          })
+        }}
       </span>
     </div>
 
@@ -97,28 +126,36 @@ async function toggleStats() {
       />
     </div>
 
-    <div
-      v-if="showStats"
-      class="mt-2 border-t pt-2 text-[11px]"
-      :style="{ borderColor: THEME.border }"
-    >
-      <div v-if="statsLoading" :style="{ color: THEME.inkMuted }">Loading stats…</div>
-      <div v-else-if="statsError" :style="{ color: THEME.critical }">{{ statsError }}</div>
+    <div v-if="showStats" class="mt-2 border-t border-line pt-2 text-[11px]">
+      <div v-if="statsLoading" class="text-content-faint">
+        {{ t('plugins.targetSchedulerViewer.targetCard.loadingStats') }}
+      </div>
+      <div v-else-if="statsError" class="text-status-danger">{{ statsError }}</div>
       <div v-else-if="stats && stats.length" class="overflow-x-auto">
         <table class="w-full text-left">
-          <thead :style="{ color: THEME.inkMuted }">
+          <thead class="text-content-faint">
             <tr>
-              <th class="pr-2 font-normal">Filter</th>
-              <th class="pr-2 font-normal">Exp</th>
-              <th class="pr-2 font-normal">HFR</th>
-              <th class="pr-2 font-normal">FWHM</th>
-              <th class="font-normal">Ecc.</th>
+              <th class="pr-2 font-normal">
+                {{ t('plugins.targetSchedulerViewer.targetCard.colFilter') }}
+              </th>
+              <th class="pr-2 font-normal">
+                {{ t('plugins.targetSchedulerViewer.targetCard.colExp') }}
+              </th>
+              <th class="pr-2 font-normal">
+                {{ t('plugins.targetSchedulerViewer.targetCard.colHfr') }}
+              </th>
+              <th class="pr-2 font-normal">
+                {{ t('plugins.targetSchedulerViewer.targetCard.colFwhm') }}
+              </th>
+              <th class="font-normal">
+                {{ t('plugins.targetSchedulerViewer.targetCard.colEcc') }}
+              </th>
             </tr>
           </thead>
           <tbody class="tabular-nums">
             <tr v-for="s in stats" :key="s.FilterName">
               <td class="whitespace-nowrap pr-2 py-0.5">{{ s.FilterName }}</td>
-              <td class="pr-2" :style="{ color: THEME.inkMuted }">
+              <td class="pr-2 text-content-faint">
                 {{
                   exposureByFilter.get(s.FilterName)
                     ? exposureByFilter.get(s.FilterName) + 's'
@@ -130,14 +167,8 @@ async function toggleStats() {
                 <span
                   v-if="autoAccept(s.HFRBelowAutoAcceptLevel) !== null"
                   class="ml-1"
-                  :title="
-                    autoAccept(s.HFRBelowAutoAcceptLevel)
-                      ? 'Below auto-accept threshold (unconfirmed field semantics)'
-                      : 'Above auto-accept threshold (unconfirmed field semantics)'
-                  "
-                  :style="{
-                    color: autoAccept(s.HFRBelowAutoAcceptLevel) ? THEME.good : THEME.warning,
-                  }"
+                  :class="autoAcceptClass(autoAccept(s.HFRBelowAutoAcceptLevel))"
+                  :title="autoAcceptTitle(autoAccept(s.HFRBelowAutoAcceptLevel))"
                   >{{ autoAccept(s.HFRBelowAutoAcceptLevel) ? '✓' : '✕' }}</span
                 >
               </td>
@@ -146,14 +177,8 @@ async function toggleStats() {
                 <span
                   v-if="autoAccept(s.FWHMBelowAutoAcceptLevel) !== null"
                   class="ml-1"
-                  :title="
-                    autoAccept(s.FWHMBelowAutoAcceptLevel)
-                      ? 'Below auto-accept threshold (unconfirmed field semantics)'
-                      : 'Above auto-accept threshold (unconfirmed field semantics)'
-                  "
-                  :style="{
-                    color: autoAccept(s.FWHMBelowAutoAcceptLevel) ? THEME.good : THEME.warning,
-                  }"
+                  :class="autoAcceptClass(autoAccept(s.FWHMBelowAutoAcceptLevel))"
+                  :title="autoAcceptTitle(autoAccept(s.FWHMBelowAutoAcceptLevel))"
                   >{{ autoAccept(s.FWHMBelowAutoAcceptLevel) ? '✓' : '✕' }}</span
                 >
               </td>
@@ -162,16 +187,8 @@ async function toggleStats() {
                 <span
                   v-if="autoAccept(s.EccentricityBelowAutoAcceptLevel) !== null"
                   class="ml-1"
-                  :title="
-                    autoAccept(s.EccentricityBelowAutoAcceptLevel)
-                      ? 'Below auto-accept threshold (unconfirmed field semantics)'
-                      : 'Above auto-accept threshold (unconfirmed field semantics)'
-                  "
-                  :style="{
-                    color: autoAccept(s.EccentricityBelowAutoAcceptLevel)
-                      ? THEME.good
-                      : THEME.warning,
-                  }"
+                  :class="autoAcceptClass(autoAccept(s.EccentricityBelowAutoAcceptLevel))"
+                  :title="autoAcceptTitle(autoAccept(s.EccentricityBelowAutoAcceptLevel))"
                   >{{ autoAccept(s.EccentricityBelowAutoAcceptLevel) ? '✓' : '✕' }}</span
                 >
               </td>
@@ -179,7 +196,9 @@ async function toggleStats() {
           </tbody>
         </table>
       </div>
-      <div v-else :style="{ color: THEME.inkMuted }">No accepted frames yet.</div>
+      <div v-else class="text-content-faint">
+        {{ t('plugins.targetSchedulerViewer.targetCard.noAcceptedFrames') }}
+      </div>
     </div>
   </div>
 </template>

@@ -5278,6 +5278,60 @@
         "welcomeTitle": "Welcome to Target Scheduler Viewer",
         "welcomeSubtitle": "This plugin shows your NINA Target Scheduler projects, targets and imaging progress. It just needs to know how to reach it.",
         "welcomeTrying": "Trying port {port}…"
+      },
+      "exposureBar": {
+        "ariaLabel": "{filter}: {accepted} van {desired} geaccepteerd",
+        "integrated": "{time} geïntegreerd"
+      },
+      "targetCard": {
+        "active": "Actief",
+        "inactive": "Inactief",
+        "hide": "Verbergen",
+        "stats": "Stats",
+        "loadingStats": "Statistieken laden…",
+        "colFilter": "Filter",
+        "colExp": "Exp.",
+        "colHfr": "HFR",
+        "colFwhm": "FWHM",
+        "colEcc": "Ecc.",
+        "belowAutoAccept": "Onder auto-accept-drempel (veldbetekenis onbevestigd)",
+        "aboveAutoAccept": "Boven auto-accept-drempel (veldbetekenis onbevestigd)",
+        "noAcceptedFrames": "Nog geen geaccepteerde frames.",
+        "integratedOf": "{time} / {expected} geïntegreerd",
+        "remaining": "{time} resterend"
+      },
+      "projectCard": {
+        "priority": "Prioriteit",
+        "integrationAccepted": "Integratie (geaccepteerd)",
+        "integrationExpected": "Integratie (verwacht)",
+        "integrationRemaining": "Integratie (resterend)",
+        "description": "Omschrijving",
+        "minimumTime": "Minimumtijd",
+        "filterSwitchFrequency": "Filterwisselfrequentie",
+        "ditherEvery": "Dither elke",
+        "meridianWindow": "Meridiaanvenster",
+        "horizon": "Horizon",
+        "horizonCustom": "aangepast, +{offset}°",
+        "altitudeLimits": "Hoogtelimieten",
+        "grading": "Beoordeling",
+        "smartExposureOrder": "Slimme belichtingsvolgorde",
+        "mosaic": "Mozaïek",
+        "minutes": "{count} min",
+        "exposures": "{count} belichtingen",
+        "emptyValue": "—",
+        "off": "uit",
+        "on": "aan",
+        "enabled": "ingeschakeld",
+        "disabled": "uitgeschakeld",
+        "yes": "ja",
+        "no": "nee",
+        "noTargets": "Geen doelen in dit project."
+      },
+      "schedulePreview": {
+        "disclaimer": "Voorspeld schema van de Scheduler voor vannacht, bij elke refresh herberekend — geen registratie van wat NINA op dit moment daadwerkelijk opneemt.",
+        "learnMore": "Meer info",
+        "noScheduleData": "Geen planningsgegevens.",
+        "waitingNotVisible": "Wachten — doel nog niet zichtbaar"
       }
     }
   },

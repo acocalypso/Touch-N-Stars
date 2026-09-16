@@ -112,7 +112,8 @@ defineEmits(['focus-mount', 'toggle-follow', 'toggle-sheet']);
   position: absolute;
   z-index: 20;
   left: calc(0.5rem + env(safe-area-inset-left, 0px));
-  right: calc(0.5rem + env(safe-area-inset-right, 0px));
+  /* --atlas-side-inset keeps the bar clear of the landscape sheet column. */
+  right: calc(0.5rem + env(safe-area-inset-right, 0px) + var(--atlas-side-inset, 0px));
   bottom: var(--above-statusbar);
   display: flex;
   align-items: center;
@@ -151,13 +152,20 @@ defineEmits(['focus-mount', 'toggle-follow', 'toggle-sheet']);
     background-color 0.15s ease,
     color 0.15s ease;
 }
+/* Two lines at most: "Montierung zeigen" and friends do not fit one 50-60 px line on a
+   phone, and an ellipsis would leave both mount buttons reading "Montierun…". A single
+   word longer than the button still breaks rather than clips (overflow-wrap). */
 .celestia-atlas-toolbar-label {
   max-width: 100%;
   overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
   font-size: 0.625rem;
-  line-height: 1;
-  white-space: nowrap;
-  text-overflow: ellipsis;
+  line-height: 1.1;
+  text-align: center;
+  overflow-wrap: anywhere;
 }
 .celestia-atlas-toolbar-button:hover:not(:disabled) {
   background: var(--color-surface-2);

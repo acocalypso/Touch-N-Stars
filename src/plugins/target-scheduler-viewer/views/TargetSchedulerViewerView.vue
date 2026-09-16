@@ -186,7 +186,7 @@ onUnmounted(() => {
               v-model="port"
               type="text"
               inputmode="numeric"
-              class="mt-1 w-full rounded border px-2 py-1.5"
+              class="mt-1 h-9 w-full rounded border px-2"
               :style="{ borderColor: THEME.border, backgroundColor: THEME.surface1, color: THEME.inkPrimary }"
               @change="onPortChange"
             />
@@ -196,8 +196,14 @@ onUnmounted(() => {
             {{ t('plugins.targetSchedulerViewer.labels.profile') }}
             <select
               v-model="selectedProfileId"
-              class="mt-1 w-full rounded border px-2 py-1.5"
-              :style="{ borderColor: THEME.border, backgroundColor: THEME.surface1, color: THEME.inkPrimary }"
+              class="mt-1 h-9 w-full appearance-none rounded border bg-[length:1.1em] bg-[right_0.5rem_center] bg-no-repeat px-2 pr-8"
+              :style="{
+                borderColor: THEME.border,
+                backgroundColor: THEME.surface1,
+                color: THEME.inkPrimary,
+                backgroundImage:
+                  'url(\'data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%238fa3bf%22 stroke-width=%222%22><path stroke-linecap=%22round%22 stroke-linejoin=%22round%22 d=%22M19.5 8.25l-7.5 7.5-7.5-7.5%22/></svg>\')',
+              }"
               @change="onProfileChange"
             >
               <option v-for="p in profiles" :key="p.Id" :value="p.Id">

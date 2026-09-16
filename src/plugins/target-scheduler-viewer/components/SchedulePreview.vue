@@ -54,35 +54,35 @@ const rows = computed(() =>
     <div v-if="!rows.length" class="text-sm" :style="{ color: THEME.inkMuted }">No schedule data.</div>
 
     <ol v-else class="relative space-y-1 border-l pl-4" :style="{ borderColor: THEME.border }">
-      <li
-        v-for="row in rows"
-        :key="row.key"
-        class="relative flex items-center gap-3 rounded px-2 py-1.5 text-xs"
-        :style="{ backgroundColor: row.isNow ? THEME.goodBg : 'transparent' }"
-      >
+      <li v-for="row in rows" :key="row.key" class="relative">
         <span
-          class="absolute -left-[21px] h-2.5 w-2.5 rounded-full"
+          class="absolute -left-[21px] top-1/2 h-2.5 w-2.5 -translate-y-1/2 rounded-full"
           :style="{
             backgroundColor: row.isWait ? THEME.track : row.isNow ? THEME.good : THEME.accent,
             boxShadow: `0 0 0 3px ${THEME.surface2}`,
           }"
         />
-        <span class="w-24 shrink-0 tabular-nums" :style="{ color: THEME.inkMuted }">
-          {{ formatTime(row.start) }}–{{ formatTime(row.end) }}
-        </span>
-        <span class="w-14 shrink-0 text-right tabular-nums" :style="{ color: THEME.inkMuted }">
-          {{ formatDuration(row.start, row.end) }}
-        </span>
-        <template v-if="row.isWait">
-          <svg class="h-3.5 w-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" :style="{ color: THEME.inkMuted }">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998Z" />
-          </svg>
-          <span class="italic" :style="{ color: THEME.inkMuted }">Waiting — target not yet visible</span>
-        </template>
-        <template v-else>
-          <span class="shrink-0 font-medium">{{ row.name }}</span>
-          <span class="truncate" :style="{ color: THEME.inkSecondary }">{{ row.summary }}</span>
-        </template>
+        <div
+          class="flex items-center gap-3 rounded px-2 py-1.5 text-xs"
+          :style="{ backgroundColor: row.isNow ? THEME.goodBg : 'transparent' }"
+        >
+          <span class="w-24 shrink-0 tabular-nums" :style="{ color: THEME.inkMuted }">
+            {{ formatTime(row.start) }}–{{ formatTime(row.end) }}
+          </span>
+          <span class="w-14 shrink-0 text-right tabular-nums" :style="{ color: THEME.inkMuted }">
+            {{ formatDuration(row.start, row.end) }}
+          </span>
+          <template v-if="row.isWait">
+            <svg class="h-3.5 w-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" :style="{ color: THEME.inkMuted }">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998Z" />
+            </svg>
+            <span class="italic" :style="{ color: THEME.inkMuted }">Waiting — target not yet visible</span>
+          </template>
+          <template v-else>
+            <span class="shrink-0 font-medium">{{ row.name }}</span>
+            <span class="truncate" :style="{ color: THEME.inkSecondary }">{{ row.summary }}</span>
+          </template>
+        </div>
       </li>
     </ol>
   </div>

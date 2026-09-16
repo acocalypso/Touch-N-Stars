@@ -5216,7 +5216,9 @@
       "subtitle": "Live projects, targets and progress from the NINA Target Scheduler plugin.",
       "actions": {
         "refresh": "Refresh",
-        "refreshing": "Refreshing…"
+        "refreshing": "Refreshing…",
+        "showSchedule": "Show schedule",
+        "hideSchedule": "Hide schedule"
       },
       "labels": {
         "apiPort": "Scheduler API port",

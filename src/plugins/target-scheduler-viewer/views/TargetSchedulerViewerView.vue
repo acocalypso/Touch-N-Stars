@@ -2,6 +2,7 @@
 import { ref, onMounted, onUnmounted } from 'vue';
 import { useI18n } from 'vue-i18n';
 import ProjectCard from '../components/ProjectCard.vue';
+import SchedulePreview from '../components/SchedulePreview.vue';
 import {
   targetSchedulerApi,
   getStoredPort,
@@ -17,6 +18,11 @@ const projects = ref(null);
 const loading = ref(false);
 const error = ref('');
 const lastUpdated = ref(null);
+
+const showSchedule = ref(false);
+const schedule = ref(null);
+const scheduleLoading = ref(false);
+const scheduleError = ref('');
 
 let pollTimer = null;
 const POLL_MS = 30000;
@@ -46,6 +52,7 @@ async function refreshAll() {
   try {
     if (!profiles.value.length) await loadProfiles();
     await loadProjects();
+    if (showSchedule.value) await loadSchedule();
   } catch (e) {
     error.value = e.message;
   }
@@ -60,13 +67,34 @@ function onPortChange() {
 
 function onProfileChange() {
   projects.value = null;
+  schedule.value = null;
   loadProjects();
+}
+
+async function loadSchedule() {
+  if (!selectedProfileId.value) return;
+  scheduleLoading.value = true;
+  scheduleError.value = '';
+  try {
+    schedule.value = await targetSchedulerApi.getPreview(selectedProfileId.value);
+  } catch (e) {
+    scheduleError.value = e.message;
+  } finally {
+    scheduleLoading.value = false;
+  }
+}
+
+function toggleSchedule() {
+  showSchedule.value = !showSchedule.value;
+  if (showSchedule.value) loadSchedule();
 }
 
 onMounted(() => {
   refreshAll();
   pollTimer = setInterval(() => {
-    if (selectedProfileId.value) loadProjects();
+    if (!selectedProfileId.value) return;
+    loadProjects();
+    if (showSchedule.value) loadSchedule();
   }, POLL_MS);
 });
 
@@ -90,13 +118,21 @@ onUnmounted(() => {
               {{ t('plugins.targetSchedulerViewer.subtitle') }}
             </p>
           </div>
-          <button
-            class="rounded border border-slate-600 px-3 py-1.5 text-sm text-slate-200 hover:bg-slate-700"
-            :disabled="loading"
-            @click="refreshAll"
-          >
-            {{ loading ? t('plugins.targetSchedulerViewer.actions.refreshing') : t('plugins.targetSchedulerViewer.actions.refresh') }}
-          </button>
+          <div class="flex gap-2">
+            <button
+              class="rounded border border-amber-700 px-3 py-1.5 text-sm text-amber-200 hover:bg-amber-900/30"
+              @click="toggleSchedule"
+            >
+              {{ showSchedule ? t('plugins.targetSchedulerViewer.actions.hideSchedule') : t('plugins.targetSchedulerViewer.actions.showSchedule') }}
+            </button>
+            <button
+              class="rounded border border-slate-600 px-3 py-1.5 text-sm text-slate-200 hover:bg-slate-700"
+              :disabled="loading"
+              @click="refreshAll"
+            >
+              {{ loading ? t('plugins.targetSchedulerViewer.actions.refreshing') : t('plugins.targetSchedulerViewer.actions.refresh') }}
+            </button>
+          </div>
         </div>
 
         <div class="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
@@ -129,6 +165,16 @@ onUnmounted(() => {
           {{ t('plugins.targetSchedulerViewer.labels.lastUpdated') }}: {{ lastUpdated.toLocaleTimeString() }}
         </p>
       </section>
+
+      <template v-if="showSchedule">
+        <div v-if="scheduleError" class="rounded-lg border border-red-700 bg-red-950/50 p-3 text-sm text-red-300">
+          {{ scheduleError }}
+        </div>
+        <div v-else-if="scheduleLoading && !schedule" class="text-sm text-slate-400">
+          {{ t('plugins.targetSchedulerViewer.labels.loading') }}
+        </div>
+        <SchedulePreview v-else-if="schedule" :segments="schedule" />
+      </template>
 
       <div v-if="error" class="rounded-lg border border-red-700 bg-red-950/50 p-3 text-sm text-red-300">
         {{ error }}

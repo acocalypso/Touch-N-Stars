@@ -75,14 +75,19 @@ class TargetSchedulerApiError extends Error {
   }
 }
 
-async function getJson(path) {
+async function getJson(path, { signal } = {}) {
   const { host, port } = hostPort();
   const url = `${baseUrl()}${path}`;
+  const timeoutSignal = AbortSignal.timeout(REQUEST_TIMEOUT_MS);
+  const requestSignal = signal ? AbortSignal.any([timeoutSignal, signal]) : timeoutSignal;
 
   let res;
   try {
-    res = await fetch(url, { signal: AbortSignal.timeout(REQUEST_TIMEOUT_MS) });
+    res = await fetch(url, { signal: requestSignal });
   } catch (e) {
+    if (signal?.aborted) {
+      throw new TargetSchedulerApiError('Connection attempt cancelled.', { kind: 'cancelled' });
+    }
     if (e.name === 'TimeoutError') {
       throw new TargetSchedulerApiError(
         `Target Scheduler API at ${host}:${port} did not respond within ${REQUEST_TIMEOUT_MS / 1000}s. Check the port is correct and the host is reachable.`,
@@ -113,10 +118,10 @@ async function getJson(path) {
 }
 
 export const targetSchedulerApi = {
-  getVersion: () => getJson('/version'),
-  getProfiles: () => getJson('/profiles'),
-  getProjects: (profileId) => getJson(`/profiles/${profileId}/projects`),
-  getTargets: (projectId) => getJson(`/projects/${projectId}/targets`),
-  getStatistics: (targetId) => getJson(`/targets/${targetId}/statistics`),
-  getPreview: (profileId) => getJson(`/profiles/${profileId}/preview`),
+  getVersion: (opts) => getJson('/version', opts),
+  getProfiles: (opts) => getJson('/profiles', opts),
+  getProjects: (profileId, opts) => getJson(`/profiles/${profileId}/projects`, opts),
+  getTargets: (projectId, opts) => getJson(`/projects/${projectId}/targets`, opts),
+  getStatistics: (targetId, opts) => getJson(`/targets/${targetId}/statistics`, opts),
+  getPreview: (profileId, opts) => getJson(`/profiles/${profileId}/preview`, opts),
 };

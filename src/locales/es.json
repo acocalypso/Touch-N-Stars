@@ -5220,7 +5220,8 @@
         "showSchedule": "Show schedule",
         "hideSchedule": "Hide schedule",
         "expandHeader": "Expand",
-        "collapseHeader": "Collapse"
+        "collapseHeader": "Collapse",
+        "cancel": "Cancel"
       },
       "labels": {
         "apiPort": "Scheduler API port",
@@ -5253,7 +5254,10 @@
         "legendActive": "Active",
         "legendInactive": "Inactive",
         "legendDraft": "Draft (projects only)",
-        "legendClosed": "Closed (projects only)"
+        "legendClosed": "Closed (projects only)",
+        "creditNote": "All credit for the Target Scheduler plugin and its scheduling engine goes to",
+        "filtersToggle": "Filters",
+        "stateFilterLabel": "State:"
       }
     }
   },

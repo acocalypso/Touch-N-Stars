@@ -117,6 +117,34 @@ test('a request that times out reports the configured timeout, distinct from a p
   }
 });
 
+test('an explicitly aborted signal (user cancels a port-change attempt) is rejected as cancelled, not a network error', async () => {
+  setup();
+  const controller = new AbortController();
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = async (url, { signal }) =>
+    new Promise((resolve, reject) => {
+      signal.addEventListener('abort', () => {
+        const err = new Error('This operation was aborted');
+        err.name = 'AbortError';
+        reject(err);
+      });
+    });
+  try {
+    const pending = targetSchedulerApi.getProfiles({ signal: controller.signal });
+    controller.abort();
+    await assert.rejects(
+      () => pending,
+      (err) => {
+        assert.equal(err.message, 'Connection attempt cancelled.');
+        assert.equal(err.kind, 'cancelled');
+        return true;
+      }
+    );
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+});
+
 test('a non-OK HTTP response (e.g. 404 from a wrong port hitting an unrelated server) is rejected with the status code', async () => {
   setup();
   const originalFetch = globalThis.fetch;

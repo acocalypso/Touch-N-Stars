@@ -1077,6 +1077,13 @@
           "notSet": "Non défini",
           "applyFileName": "Appliquer"
         },
+        "externalScript": {
+          "script": "Script",
+          "notSet": "Non défini",
+          "placeholder": "/chemin/vers/script.sh [arguments]",
+          "browse": "Choisir un script",
+          "hint": "S'exécute sur l'ordinateur d'acquisition, pas sur cet appareil. Le script doit y exister et être exécutable."
+        },
         "groundstation": {
           "message": "Message",
           "title": "Titre",

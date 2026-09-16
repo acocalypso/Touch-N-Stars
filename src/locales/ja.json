@@ -1095,6 +1095,13 @@
           "notSet": "未設定",
           "applyFileName": "適用"
         },
+        "externalScript": {
+          "script": "スクリプト",
+          "notSet": "未設定",
+          "placeholder": "/path/to/script.sh [引数]",
+          "browse": "スクリプトを選択",
+          "hint": "このデバイスではなく撮影用PC上で実行されます。スクリプトはそこに存在し、実行可能である必要があります。"
+        },
         "groundstation": {
           "message": "メッセージ",
           "title": "タイトル",

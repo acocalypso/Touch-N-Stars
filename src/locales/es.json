@@ -1077,6 +1077,13 @@
           "notSet": "No establecido",
           "applyFileName": "Aplicar"
         },
+        "externalScript": {
+          "script": "Script",
+          "notSet": "No establecido",
+          "placeholder": "/ruta/al/script.sh [argumentos]",
+          "browse": "Elegir script",
+          "hint": "Se ejecuta en el ordenador de captura, no en este dispositivo. El script debe existir allí y ser ejecutable."
+        },
         "groundstation": {
           "message": "Mensaje",
           "title": "Título",

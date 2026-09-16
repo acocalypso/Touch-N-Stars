@@ -1130,6 +1130,13 @@
           "notSet": "Nicht gesetzt",
           "applyFileName": "Übernehmen"
         },
+        "externalScript": {
+          "script": "Skript",
+          "notSet": "Nicht gesetzt",
+          "placeholder": "/pfad/zum/skript.sh [Argumente]",
+          "browse": "Skript wählen",
+          "hint": "Läuft auf dem Aufnahmerechner, nicht auf diesem Gerät. Das Skript muss dort vorhanden und ausführbar sein."
+        },
         "groundstation": {
           "message": "Nachricht",
           "title": "Titel",

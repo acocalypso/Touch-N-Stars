@@ -1077,6 +1077,13 @@
           "notSet": "Non impostato",
           "applyFileName": "Applica"
         },
+        "externalScript": {
+          "script": "Script",
+          "notSet": "Non impostato",
+          "placeholder": "/percorso/dello/script.sh [argomenti]",
+          "browse": "Scegli script",
+          "hint": "Viene eseguito sul computer di acquisizione, non su questo dispositivo. Lo script deve esistere lì ed essere eseguibile."
+        },
         "groundstation": {
           "message": "Messaggio",
           "title": "Titolo",

@@ -1077,6 +1077,13 @@
           "notSet": "Nenastaveno",
           "applyFileName": "Použít"
         },
+        "externalScript": {
+          "script": "Skript",
+          "notSet": "Nenastaveno",
+          "placeholder": "/cesta/ke/skriptu.sh [argumenty]",
+          "browse": "Vybrat skript",
+          "hint": "Spouští se na snímacím počítači, ne na tomto zařízení. Skript tam musí existovat a být spustitelný."
+        },
         "groundstation": {
           "message": "Zpráva",
           "title": "Titulek",

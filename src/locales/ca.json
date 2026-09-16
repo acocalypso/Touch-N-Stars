@@ -1130,6 +1130,13 @@
           "notSet": "No establert",
           "applyFileName": "Aplica"
         },
+        "externalScript": {
+          "script": "Script",
+          "notSet": "No definit",
+          "placeholder": "/camí/a/script.sh [arguments]",
+          "browse": "Tria un script",
+          "hint": "S'executa a l'ordinador de captura, no en aquest dispositiu. L'script hi ha d'existir i ser executable."
+        },
         "groundstation": {
           "message": "Missatge",
           "title": "Títol",

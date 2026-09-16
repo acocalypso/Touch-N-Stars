@@ -1077,6 +1077,13 @@
           "notSet": "未设置",
           "applyFileName": "应用"
         },
+        "externalScript": {
+          "script": "脚本",
+          "notSet": "未设置",
+          "placeholder": "/路径/脚本.sh [参数]",
+          "browse": "选择脚本",
+          "hint": "在拍摄电脑上运行，而不是在本设备上。脚本必须存在于该电脑上并具有可执行权限。"
+        },
         "groundstation": {
           "message": "消息",
           "title": "标题",

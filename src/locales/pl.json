@@ -1077,6 +1077,13 @@
           "notSet": "Nie ustawiono",
           "applyFileName": "Zastosuj"
         },
+        "externalScript": {
+          "script": "Skrypt",
+          "notSet": "Nie ustawiono",
+          "placeholder": "/ścieżka/do/skryptu.sh [argumenty]",
+          "browse": "Wybierz skrypt",
+          "hint": "Uruchamiany na komputerze rejestrującym, nie na tym urządzeniu. Skrypt musi tam istnieć i być wykonywalny."
+        },
         "groundstation": {
           "message": "Wiadomość",
           "title": "Tytuł",

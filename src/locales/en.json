@@ -1130,6 +1130,13 @@
           "notSet": "Not set",
           "applyFileName": "Apply"
         },
+        "externalScript": {
+          "script": "Script",
+          "notSet": "Not set",
+          "placeholder": "/path/to/script.sh [arguments]",
+          "browse": "Choose script",
+          "hint": "Runs on the imaging computer, not on this device. The script must exist there and be executable."
+        },
         "groundstation": {
           "message": "Message",
           "title": "Title",

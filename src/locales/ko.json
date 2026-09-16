@@ -1130,6 +1130,13 @@
           "notSet": "설정되지 않음",
           "applyFileName": "적용"
         },
+        "externalScript": {
+          "script": "스크립트",
+          "notSet": "설정되지 않음",
+          "placeholder": "/path/to/script.sh [인수]",
+          "browse": "스크립트 선택",
+          "hint": "이 기기가 아닌 촬영용 컴퓨터에서 실행됩니다. 스크립트가 그곳에 존재하고 실행 가능해야 합니다."
+        },
         "groundstation": {
           "message": "메시지",
           "title": "제목",

@@ -1077,6 +1077,13 @@
           "notSet": "Não definido",
           "applyFileName": "Aplicar"
         },
+        "externalScript": {
+          "script": "Script",
+          "notSet": "Não definido",
+          "placeholder": "/caminho/para/script.sh [argumentos]",
+          "browse": "Escolher script",
+          "hint": "Executa no computador de captura, não neste dispositivo. O script tem de existir lá e ser executável."
+        },
         "groundstation": {
           "message": "Mensagem",
           "title": "Título",

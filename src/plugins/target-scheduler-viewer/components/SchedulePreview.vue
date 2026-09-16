@@ -44,14 +44,36 @@ const rows = computed(() =>
 <template>
   <div class="rounded-lg p-3" :style="{ backgroundColor: THEME.surface2 }">
     <p class="mb-3 flex items-start gap-1.5 text-[11px]" :style="{ color: THEME.inkMuted }">
-      <svg class="mt-0.5 h-3.5 w-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path stroke-linecap="round" stroke-linejoin="round" d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0Zm-9-3.75h.008v.008H12V8.25Z" />
+      <svg
+        class="mt-0.5 h-3.5 w-3.5 shrink-0"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+      >
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          d="M11.25 11.25l.041-.02a.75.75 0 011.063.852l-.708 2.836a.75.75 0 001.063.853l.041-.021M21 12a9 9 0 11-18 0 9 9 0 0118 0Zm-9-3.75h.008v.008H12V8.25Z"
+        />
       </svg>
-      Scheduler's predicted plan for tonight, recomputed on every refresh — not a record of what
-      NINA is actually imaging right now.
+      <span>
+        Scheduler's predicted plan for tonight, recomputed on every refresh — not a record of what
+        NINA is actually imaging right now.
+        <a
+          href="https://tcpalmer.github.io/nina-scheduler/concepts/"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="underline"
+          :style="{ color: THEME.accent }"
+          >Learn more</a
+        >
+      </span>
     </p>
 
-    <div v-if="!rows.length" class="text-sm" :style="{ color: THEME.inkMuted }">No schedule data.</div>
+    <div v-if="!rows.length" class="text-sm" :style="{ color: THEME.inkMuted }">
+      No schedule data.
+    </div>
 
     <ol v-else class="relative space-y-1 border-l pl-4" :style="{ borderColor: THEME.border }">
       <li v-for="row in rows" :key="row.key" class="relative">
@@ -73,10 +95,23 @@ const rows = computed(() =>
             {{ formatDuration(row.start, row.end) }}
           </span>
           <template v-if="row.isWait">
-            <svg class="h-3.5 w-3.5 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" :style="{ color: THEME.inkMuted }">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M21.752 15.002A9.72 9.72 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998Z" />
+            <svg
+              class="h-3.5 w-3.5 shrink-0"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              :style="{ color: THEME.inkMuted }"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M21.752 15.002A9.72 9.72 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998Z"
+              />
             </svg>
-            <span class="italic" :style="{ color: THEME.inkMuted }">Waiting — target not yet visible</span>
+            <span class="italic" :style="{ color: THEME.inkMuted }"
+              >Waiting — target not yet visible</span
+            >
           </template>
           <template v-else>
             <span class="shrink-0 font-medium">{{ row.name }}</span>

@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import ExposureProgressBar from './ExposureProgressBar.vue';
 import { targetSchedulerApi } from '../services/targetSchedulerApi';
 import { THEME } from '../theme';
@@ -30,6 +30,22 @@ function formatDec(deg) {
   const s = Math.round((mFloat - m) * 60);
   return `${sign}${d}° ${m}' ${s}"`;
 }
+
+// -1 = no auto-accept threshold configured for this filter; 0/1 = below-
+// threshold boolean (nullable-bool-as-int, the common .NET serialization
+// pattern — the API does not document this field, so treat as best-effort).
+function autoAccept(value) {
+  if (value == null || value < 0) return null;
+  return value === 1;
+}
+
+const exposureByFilter = computed(() => {
+  const map = new Map();
+  for (const plan of props.target.ExposurePlan || []) {
+    map.set(plan.FilterName, plan.Exposure);
+  }
+  return map;
+});
 
 async function toggleStats() {
   showStats.value = !showStats.value;
@@ -62,7 +78,8 @@ async function toggleStats() {
           </span>
         </div>
         <div class="text-[11px]" :style="{ color: THEME.inkMuted }">
-          RA {{ formatRa(target.RA) }} &middot; Dec {{ formatDec(target.Dec) }}
+          RA {{ formatRa(target.RA) }} &middot; Dec {{ formatDec(target.Dec) }} &middot; rotation
+          {{ target.Rotation }}° &middot; {{ target.Epoch }} &middot; ROI {{ target.ROI }}%
         </div>
       </div>
       <button
@@ -70,8 +87,18 @@ async function toggleStats() {
         :style="{ backgroundColor: THEME.track, color: THEME.inkSecondary }"
         @click="toggleStats"
       >
-        <svg class="h-3.5 w-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M3 3v18h18M8 17V9m4 8V5m4 12v-6" />
+        <svg
+          class="h-3.5 w-3.5"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M3 3v18h18M8 17V9m4 8V5m4 12v-6"
+          />
         </svg>
         {{ showStats ? 'Hide' : 'Stats' }}
       </button>
@@ -85,13 +112,18 @@ async function toggleStats() {
       />
     </div>
 
-    <div v-if="showStats" class="mt-2 border-t pt-2 text-[11px]" :style="{ borderColor: THEME.border }">
+    <div
+      v-if="showStats"
+      class="mt-2 border-t pt-2 text-[11px]"
+      :style="{ borderColor: THEME.border }"
+    >
       <div v-if="statsLoading" :style="{ color: THEME.inkMuted }">Loading stats…</div>
       <div v-else-if="statsError" :style="{ color: THEME.critical }">{{ statsError }}</div>
       <table v-else-if="stats && stats.length" class="w-full text-left">
         <thead :style="{ color: THEME.inkMuted }">
           <tr>
             <th class="pr-2 font-normal">Filter</th>
+            <th class="pr-2 font-normal">Exp</th>
             <th class="pr-2 font-normal">HFR</th>
             <th class="pr-2 font-normal">FWHM</th>
             <th class="font-normal">Ecc.</th>
@@ -99,10 +131,62 @@ async function toggleStats() {
         </thead>
         <tbody class="tabular-nums">
           <tr v-for="s in stats" :key="s.FilterName">
-            <td class="pr-2">{{ s.FilterName }}</td>
-            <td class="pr-2">{{ s.HFRMean.toFixed(2) }} ± {{ s.HFRStdDev.toFixed(2) }}</td>
-            <td class="pr-2">{{ s.FWHMMean.toFixed(2) }} ± {{ s.FWHMStdDev.toFixed(2) }}</td>
-            <td>{{ s.EccentricityMean.toFixed(2) }} ± {{ s.EccentricityStdDev.toFixed(2) }}</td>
+            <td class="pr-2 py-0.5">{{ s.FilterName }}</td>
+            <td class="pr-2" :style="{ color: THEME.inkMuted }">
+              {{
+                exposureByFilter.get(s.FilterName) ? exposureByFilter.get(s.FilterName) + 's' : '—'
+              }}
+            </td>
+            <td class="pr-2">
+              {{ s.HFRMean.toFixed(2) }} ± {{ s.HFRStdDev.toFixed(2) }}
+              <span
+                v-if="autoAccept(s.HFRBelowAutoAcceptLevel) !== null"
+                class="ml-1"
+                :title="
+                  autoAccept(s.HFRBelowAutoAcceptLevel)
+                    ? 'Below auto-accept threshold (unconfirmed field semantics)'
+                    : 'Above auto-accept threshold (unconfirmed field semantics)'
+                "
+                :style="{
+                  color: autoAccept(s.HFRBelowAutoAcceptLevel) ? THEME.good : THEME.warning,
+                }"
+                >{{ autoAccept(s.HFRBelowAutoAcceptLevel) ? '✓' : '✕' }}</span
+              >
+            </td>
+            <td class="pr-2">
+              {{ s.FWHMMean.toFixed(2) }} ± {{ s.FWHMStdDev.toFixed(2) }}
+              <span
+                v-if="autoAccept(s.FWHMBelowAutoAcceptLevel) !== null"
+                class="ml-1"
+                :title="
+                  autoAccept(s.FWHMBelowAutoAcceptLevel)
+                    ? 'Below auto-accept threshold (unconfirmed field semantics)'
+                    : 'Above auto-accept threshold (unconfirmed field semantics)'
+                "
+                :style="{
+                  color: autoAccept(s.FWHMBelowAutoAcceptLevel) ? THEME.good : THEME.warning,
+                }"
+                >{{ autoAccept(s.FWHMBelowAutoAcceptLevel) ? '✓' : '✕' }}</span
+              >
+            </td>
+            <td>
+              {{ s.EccentricityMean.toFixed(2) }} ± {{ s.EccentricityStdDev.toFixed(2) }}
+              <span
+                v-if="autoAccept(s.EccentricityBelowAutoAcceptLevel) !== null"
+                class="ml-1"
+                :title="
+                  autoAccept(s.EccentricityBelowAutoAcceptLevel)
+                    ? 'Below auto-accept threshold (unconfirmed field semantics)'
+                    : 'Above auto-accept threshold (unconfirmed field semantics)'
+                "
+                :style="{
+                  color: autoAccept(s.EccentricityBelowAutoAcceptLevel)
+                    ? THEME.good
+                    : THEME.warning,
+                }"
+                >{{ autoAccept(s.EccentricityBelowAutoAcceptLevel) ? '✓' : '✕' }}</span
+              >
+            </td>
           </tr>
         </tbody>
       </table>

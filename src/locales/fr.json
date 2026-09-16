@@ -5218,7 +5218,9 @@
         "refresh": "Refresh",
         "refreshing": "Refreshing…",
         "showSchedule": "Show schedule",
-        "hideSchedule": "Hide schedule"
+        "hideSchedule": "Hide schedule",
+        "expandHeader": "Expand",
+        "collapseHeader": "Collapse"
       },
       "labels": {
         "apiPort": "Scheduler API port",
@@ -5231,7 +5233,15 @@
         "targets": "Targets",
         "completion": "Completion",
         "legendAccepted": "Accepted",
-        "legendPending": "Acquired, pending review"
+        "legendPending": "Acquired, pending review",
+        "integrationTime": "Integration time",
+        "unofficialDisclaimer": "Unofficial viewer — not affiliated with the Target Scheduler project.",
+        "dataFrom": "Data from",
+        "readOnlyNote": "read-only, nothing here changes your schedule",
+        "searchPlaceholder": "Search projects & targets…",
+        "clearSearch": "Clear search",
+        "allStates": "All",
+        "noResults": "No projects or targets match your search."
       }
     }
   },

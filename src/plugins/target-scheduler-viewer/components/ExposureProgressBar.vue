@@ -20,8 +20,9 @@ const pendingPct = computed(() => {
 
 <template>
   <div class="flex items-center gap-2 text-xs">
-    <span class="w-24 shrink-0 truncate font-medium" :style="{ color: THEME.inkSecondary }">
-      {{ plan.FilterName }}
+    <span class="w-28 shrink-0 truncate" :style="{ color: THEME.inkSecondary }">
+      <span class="font-medium">{{ plan.FilterName }}</span>
+      <span class="tabular-nums" :style="{ color: THEME.inkMuted }"> · {{ plan.Exposure }}s</span>
     </span>
     <div
       class="flex h-2 flex-1 gap-[2px] overflow-hidden rounded-full"
@@ -43,10 +44,7 @@ const pendingPct = computed(() => {
         :style="{ width: pendingPct + '%', backgroundColor: THEME.warning }"
       />
     </div>
-    <span
-      class="w-20 shrink-0 text-right tabular-nums"
-      :style="{ color: THEME.inkSecondary }"
-    >
+    <span class="w-20 shrink-0 text-right tabular-nums" :style="{ color: THEME.inkSecondary }">
       {{ plan.Accepted }}/{{ plan.Desired }}
     </span>
   </div>

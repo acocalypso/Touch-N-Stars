@@ -8,8 +8,13 @@ import {
   targetSchedulerApi,
   getStoredPort,
   setStoredPort,
+  getStoredProfileId,
+  setStoredProfileId,
+  getStoredHeaderCollapsed,
+  setStoredHeaderCollapsed,
 } from '../services/targetSchedulerApi';
 import { THEME } from '../theme';
+import { fuzzyMatch } from '../fuzzyMatch';
 
 const { t } = useI18n();
 
@@ -27,14 +32,56 @@ const schedule = ref(null);
 const scheduleLoading = ref(false);
 const scheduleError = ref('');
 
+const apiVersion = ref('');
+
+const headerCollapsed = ref(getStoredHeaderCollapsed());
+function toggleHeader() {
+  headerCollapsed.value = !headerCollapsed.value;
+  setStoredHeaderCollapsed(headerCollapsed.value);
+}
+
+const searchQuery = ref('');
+const stateFilter = ref('all');
+
+const availableStates = computed(() => {
+  if (!projects.value) return [];
+  return [...new Set(projects.value.map((p) => p.State))];
+});
+
+function projectMatchesSearch(project, query) {
+  if (fuzzyMatch(project.Name, query)) return true;
+  const targets = targetsByProject.value[project.Id]?.targets || [];
+  return targets.some((t) => fuzzyMatch(t.Name, query));
+}
+
+const visibleProjects = computed(() => {
+  if (!projects.value) return [];
+  const query = searchQuery.value.trim();
+  return projects.value.filter((project) => {
+    if (stateFilter.value !== 'all' && project.State !== stateFilter.value) return false;
+    if (query && !projectMatchesSearch(project, query)) return false;
+    return true;
+  });
+});
+
 let pollTimer = null;
 const POLL_MS = 30000;
 
 async function loadProfiles() {
   profiles.value = await targetSchedulerApi.getProfiles();
-  const active = profiles.value.find((p) => p.Active) || profiles.value[0];
-  if (active) selectedProfileId.value = active.Id;
+  const storedId = getStoredProfileId();
+  const remembered = storedId && profiles.value.find((p) => p.Id === storedId);
+  const fallback = profiles.value.find((p) => p.Active) || profiles.value[0];
+  const chosen = remembered || fallback;
+  if (chosen) selectedProfileId.value = chosen.Id;
 }
+
+targetSchedulerApi
+  .getVersion()
+  .then((v) => {
+    apiVersion.value = String(v);
+  })
+  .catch(() => {});
 
 async function loadProjects() {
   if (!selectedProfileId.value) return;
@@ -65,24 +112,30 @@ async function loadProjects() {
 
 async function refreshAll() {
   error.value = '';
+  loading.value = true;
   try {
     if (!profiles.value.length) await loadProfiles();
     await loadProjects();
     if (showSchedule.value) await loadSchedule();
   } catch (e) {
     error.value = e.message;
+  } finally {
+    loading.value = false;
   }
 }
 
 function onPortChange() {
   setStoredPort(port.value);
   profiles.value = [];
+  selectedProfileId.value = '';
   projects.value = null;
   targetsByProject.value = {};
+  lastUpdated.value = null;
   refreshAll();
 }
 
 function onProfileChange() {
+  setStoredProfileId(selectedProfileId.value);
   projects.value = null;
   targetsByProject.value = {};
   schedule.value = null;
@@ -114,12 +167,14 @@ const summary = computed(() => {
   let targetCount = 0;
   let desiredTotal = 0;
   let acceptedTotal = 0;
+  let integrationSeconds = 0;
   for (const { targets } of Object.values(targetsByProject.value)) {
     targetCount += targets.length;
     for (const target of targets) {
       for (const plan of target.ExposurePlan || []) {
         desiredTotal += plan.Desired;
         acceptedTotal += plan.Accepted;
+        integrationSeconds += plan.Accepted * plan.Exposure;
       }
     }
   }
@@ -127,7 +182,11 @@ const summary = computed(() => {
   const completionPct =
     desiredTotal > 0 ? Math.min(100, Math.round((acceptedTotal / desiredTotal) * 100)) : 0;
 
-  return { activeProjects, targetCount, completionPct };
+  const hours = Math.floor(integrationSeconds / 3600);
+  const minutes = Math.round((integrationSeconds % 3600) / 60);
+  const integrationTime = `${hours}h ${minutes}m`;
+
+  return { activeProjects, targetCount, completionPct, integrationTime };
 });
 
 onMounted(() => {
@@ -145,11 +204,18 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="min-h-screen p-3 md:p-5" :style="{ backgroundColor: THEME.surface1, color: THEME.inkPrimary }">
+  <div
+    class="min-h-screen p-3 md:p-5"
+    :style="{ backgroundColor: THEME.surface1, color: THEME.inkPrimary }"
+  >
     <div class="mx-auto max-w-5xl space-y-4 pb-24">
       <section
         class="rounded-xl border-t-2 p-4"
-        :style="{ backgroundColor: THEME.surface2, borderColor: THEME.border, borderTopColor: THEME.accent }"
+        :style="{
+          backgroundColor: THEME.surface2,
+          borderColor: THEME.border,
+          borderTopColor: THEME.accent,
+        }"
       >
         <div class="flex flex-wrap items-center justify-between gap-3">
           <div>
@@ -166,7 +232,11 @@ onUnmounted(() => {
               :style="{ borderColor: THEME.warning, color: THEME.warning }"
               @click="toggleSchedule"
             >
-              {{ showSchedule ? t('plugins.targetSchedulerViewer.actions.hideSchedule') : t('plugins.targetSchedulerViewer.actions.showSchedule') }}
+              {{
+                showSchedule
+                  ? t('plugins.targetSchedulerViewer.actions.hideSchedule')
+                  : t('plugins.targetSchedulerViewer.actions.showSchedule')
+              }}
             </button>
             <button
               class="rounded border px-3 py-1.5 text-sm transition-colors disabled:opacity-50"
@@ -174,81 +244,175 @@ onUnmounted(() => {
               :disabled="loading"
               @click="refreshAll"
             >
-              {{ loading ? t('plugins.targetSchedulerViewer.actions.refreshing') : t('plugins.targetSchedulerViewer.actions.refresh') }}
+              {{
+                loading
+                  ? t('plugins.targetSchedulerViewer.actions.refreshing')
+                  : t('plugins.targetSchedulerViewer.actions.refresh')
+              }}
+            </button>
+            <button
+              class="rounded border p-1.5 transition-colors"
+              :style="{ borderColor: THEME.border, color: THEME.inkMuted }"
+              :aria-label="
+                headerCollapsed
+                  ? t('plugins.targetSchedulerViewer.actions.expandHeader')
+                  : t('plugins.targetSchedulerViewer.actions.collapseHeader')
+              "
+              @click="toggleHeader"
+            >
+              <svg
+                class="h-4 w-4 transition-transform"
+                :class="{ 'rotate-180': headerCollapsed }"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M4.5 15.75l7.5-7.5 7.5 7.5"
+                />
+              </svg>
             </button>
           </div>
         </div>
 
-        <div class="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
-          <label class="text-xs" :style="{ color: THEME.inkMuted }">
-            {{ t('plugins.targetSchedulerViewer.labels.apiPort') }}
-            <input
-              v-model="port"
-              type="text"
-              inputmode="numeric"
-              class="mt-1 h-9 w-full rounded border px-2"
-              :style="{ borderColor: THEME.border, backgroundColor: THEME.surface1, color: THEME.inkPrimary }"
-              @change="onPortChange"
-            />
-          </label>
-
-          <label class="text-xs" :style="{ color: THEME.inkMuted }">
-            {{ t('plugins.targetSchedulerViewer.labels.profile') }}
-            <select
-              v-model="selectedProfileId"
-              class="mt-1 h-9 w-full appearance-none rounded border bg-[length:1.1em] bg-[right_0.5rem_center] bg-no-repeat px-2 pr-8"
-              :style="{
-                borderColor: THEME.border,
-                backgroundColor: THEME.surface1,
-                color: THEME.inkPrimary,
-                backgroundImage:
-                  'url(\'data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%238fa3bf%22 stroke-width=%222%22><path stroke-linecap=%22round%22 stroke-linejoin=%22round%22 d=%22M19.5 8.25l-7.5 7.5-7.5-7.5%22/></svg>\')',
-              }"
-              @change="onProfileChange"
-            >
-              <option v-for="p in profiles" :key="p.Id" :value="p.Id">
-                {{ p.Name }}{{ p.Active ? ` (${t('plugins.targetSchedulerViewer.labels.active')})` : '' }}
-              </option>
-            </select>
-          </label>
-        </div>
-
-        <div v-if="summary" class="mt-4 grid grid-cols-3 gap-3 border-t pt-3" :style="{ borderColor: THEME.border }">
-          <StatTile :label="t('plugins.targetSchedulerViewer.labels.activeProjects')" :value="summary.activeProjects" />
-          <StatTile :label="t('plugins.targetSchedulerViewer.labels.targets')" :value="summary.targetCount" />
-          <StatTile :label="t('plugins.targetSchedulerViewer.labels.completion')" :value="summary.completionPct + '%'" accent />
-        </div>
-
-        <p v-if="lastUpdated" class="mt-3 text-[11px]" :style="{ color: THEME.inkMuted }">
-          {{ t('plugins.targetSchedulerViewer.labels.lastUpdated') }}: {{ lastUpdated.toLocaleTimeString() }}
+        <p v-if="headerCollapsed" class="mt-2 truncate text-xs" :style="{ color: THEME.inkMuted }">
+          {{ profiles.find((p) => p.Id === selectedProfileId)?.Name }}
+          <span v-if="summary">
+            · {{ summary.completionPct }}% complete · {{ summary.targetCount }} targets</span
+          >
         </p>
+
+        <div
+          class="grid transition-[grid-template-rows] duration-200 ease-out"
+          :style="{ gridTemplateRows: headerCollapsed ? '0fr' : '1fr' }"
+        >
+          <div class="overflow-hidden">
+            <div class="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2">
+              <label class="text-xs" :style="{ color: THEME.inkMuted }">
+                {{ t('plugins.targetSchedulerViewer.labels.apiPort') }}
+                <input
+                  v-model="port"
+                  type="text"
+                  inputmode="numeric"
+                  class="mt-1 h-9 w-full rounded border px-2"
+                  :style="{
+                    borderColor: THEME.border,
+                    backgroundColor: THEME.surface1,
+                    color: THEME.inkPrimary,
+                  }"
+                  @change="onPortChange"
+                />
+              </label>
+
+              <label class="text-xs" :style="{ color: THEME.inkMuted }">
+                {{ t('plugins.targetSchedulerViewer.labels.profile') }}
+                <select
+                  v-model="selectedProfileId"
+                  class="mt-1 h-9 w-full appearance-none rounded border bg-[length:1.1em] bg-[right_0.5rem_center] bg-no-repeat px-2 pr-8"
+                  :style="{
+                    borderColor: THEME.border,
+                    backgroundColor: THEME.surface1,
+                    color: THEME.inkPrimary,
+                    backgroundImage:
+                      'url(\'data:image/svg+xml;utf8,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 24 24%22 fill=%22none%22 stroke=%22%238fa3bf%22 stroke-width=%222%22><path stroke-linecap=%22round%22 stroke-linejoin=%22round%22 d=%22M19.5 8.25l-7.5 7.5-7.5-7.5%22/></svg>\')',
+                  }"
+                  @change="onProfileChange"
+                >
+                  <option v-for="p in profiles" :key="p.Id" :value="p.Id">
+                    {{ p.Name
+                    }}{{ p.Active ? ` (${t('plugins.targetSchedulerViewer.labels.active')})` : '' }}
+                  </option>
+                </select>
+              </label>
+            </div>
+
+            <div
+              v-if="summary"
+              class="mt-4 grid grid-cols-2 gap-3 border-t pt-3 sm:grid-cols-4"
+              :style="{ borderColor: THEME.border }"
+            >
+              <StatTile
+                :label="t('plugins.targetSchedulerViewer.labels.activeProjects')"
+                :value="summary.activeProjects"
+              />
+              <StatTile
+                :label="t('plugins.targetSchedulerViewer.labels.targets')"
+                :value="summary.targetCount"
+              />
+              <StatTile
+                :label="t('plugins.targetSchedulerViewer.labels.completion')"
+                :value="summary.completionPct + '%'"
+                accent
+              />
+              <StatTile
+                :label="t('plugins.targetSchedulerViewer.labels.integrationTime')"
+                :value="summary.integrationTime"
+              />
+            </div>
+
+            <p v-if="lastUpdated" class="mt-3 text-[11px]" :style="{ color: THEME.inkMuted }">
+              {{ t('plugins.targetSchedulerViewer.labels.lastUpdated') }}:
+              {{ lastUpdated.toLocaleTimeString() }}
+            </p>
+          </div>
+        </div>
       </section>
 
       <template v-if="showSchedule">
         <div
           v-if="scheduleError"
           class="rounded-lg border p-3 text-sm"
-          :style="{ borderColor: THEME.critical, backgroundColor: THEME.criticalBg, color: THEME.critical }"
+          :style="{
+            borderColor: THEME.critical,
+            backgroundColor: THEME.criticalBg,
+            color: THEME.critical,
+          }"
         >
           {{ scheduleError }}
         </div>
-        <div v-else-if="scheduleLoading && !schedule" class="h-16 animate-pulse rounded-lg" :style="{ backgroundColor: THEME.surface2 }" />
+        <div
+          v-else-if="scheduleLoading && !schedule"
+          class="h-16 animate-pulse rounded-lg"
+          :style="{ backgroundColor: THEME.surface2 }"
+        />
         <SchedulePreview v-else-if="schedule" :segments="schedule" />
       </template>
 
       <div
         v-if="error"
         class="flex items-center gap-2 rounded-lg border p-3 text-sm"
-        :style="{ borderColor: THEME.critical, backgroundColor: THEME.criticalBg, color: THEME.critical }"
+        :style="{
+          borderColor: THEME.critical,
+          backgroundColor: THEME.criticalBg,
+          color: THEME.critical,
+        }"
       >
-        <svg class="h-4 w-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z" />
+        <svg
+          class="h-4 w-4 shrink-0"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M12 9v3.75m-9.303 3.376c-.866 1.5.217 3.374 1.948 3.374h14.71c1.73 0 2.813-1.874 1.948-3.374L13.949 3.378c-.866-1.5-3.032-1.5-3.898 0L2.697 16.126ZM12 15.75h.007v.008H12v-.008Z"
+          />
         </svg>
         {{ error }}
       </div>
 
       <div v-else-if="loading && !projects" class="space-y-3">
-        <div v-for="i in 3" :key="i" class="h-14 animate-pulse rounded-lg" :style="{ backgroundColor: THEME.surface2 }" />
+        <div
+          v-for="i in 3"
+          :key="i"
+          class="h-14 animate-pulse rounded-lg"
+          :style="{ backgroundColor: THEME.surface2 }"
+        />
       </div>
 
       <div
@@ -256,13 +420,105 @@ onUnmounted(() => {
         class="flex flex-col items-center gap-2 rounded-lg border border-dashed p-8 text-center text-sm"
         :style="{ borderColor: THEME.border, color: THEME.inkMuted }"
       >
-        <svg class="h-8 w-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
-          <path stroke-linecap="round" stroke-linejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
+        <svg
+          class="h-8 w-8"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5"
+          />
         </svg>
         {{ t('plugins.targetSchedulerViewer.labels.noProjects') }}
       </div>
 
       <template v-else>
+        <div class="flex flex-wrap items-center gap-2">
+          <div class="relative min-w-[220px] flex-1">
+            <svg
+              class="pointer-events-none absolute left-2.5 top-1/2 h-4 w-4 -translate-y-1/2"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              :style="{ color: THEME.inkMuted }"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607Z"
+              />
+            </svg>
+            <input
+              v-model="searchQuery"
+              type="text"
+              :placeholder="t('plugins.targetSchedulerViewer.labels.searchPlaceholder')"
+              class="h-9 w-full rounded border pl-8 pr-8 text-sm"
+              :style="{
+                borderColor: THEME.border,
+                backgroundColor: THEME.surface2,
+                color: THEME.inkPrimary,
+              }"
+            />
+            <button
+              v-if="searchQuery"
+              class="absolute right-2 top-1/2 -translate-y-1/2"
+              :style="{ color: THEME.inkMuted }"
+              :aria-label="t('plugins.targetSchedulerViewer.labels.clearSearch')"
+              @click="searchQuery = ''"
+            >
+              <svg
+                class="h-4 w-4"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+
+          <div class="flex items-center gap-1.5">
+            <button
+              class="rounded-full border px-2.5 py-1 text-[11px] transition-colors"
+              :style="
+                stateFilter === 'all'
+                  ? {
+                      borderColor: THEME.accent,
+                      backgroundColor: THEME.goodBg,
+                      color: THEME.inkPrimary,
+                    }
+                  : { borderColor: THEME.border, color: THEME.inkMuted }
+              "
+              @click="stateFilter = 'all'"
+            >
+              {{ t('plugins.targetSchedulerViewer.labels.allStates') }}
+            </button>
+            <button
+              v-for="s in availableStates"
+              :key="s"
+              class="rounded-full border px-2.5 py-1 text-[11px] transition-colors"
+              :style="
+                stateFilter === s
+                  ? {
+                      borderColor: THEME.accent,
+                      backgroundColor: THEME.goodBg,
+                      color: THEME.inkPrimary,
+                    }
+                  : { borderColor: THEME.border, color: THEME.inkMuted }
+              "
+              @click="stateFilter = s"
+            >
+              {{ s }}
+            </button>
+          </div>
+        </div>
+
         <p class="flex items-center gap-3 text-[11px]" :style="{ color: THEME.inkMuted }">
           <span class="flex items-center gap-1">
             <span class="h-2 w-2 rounded-full" :style="{ backgroundColor: THEME.good }" />
@@ -274,16 +530,42 @@ onUnmounted(() => {
           </span>
         </p>
 
-        <div class="space-y-3">
+        <div
+          v-if="!visibleProjects.length"
+          class="flex flex-col items-center gap-2 rounded-lg border border-dashed p-8 text-center text-sm"
+          :style="{ borderColor: THEME.border, color: THEME.inkMuted }"
+        >
+          {{ t('plugins.targetSchedulerViewer.labels.noResults') }}
+        </div>
+
+        <div v-else class="space-y-3">
           <ProjectCard
-            v-for="project in projects"
+            v-for="project in visibleProjects"
             :key="project.Id"
             :project="project"
             :targets="targetsByProject[project.Id]?.targets || []"
             :targets-error="targetsByProject[project.Id]?.error || ''"
+            :search-query="searchQuery.trim()"
           />
         </div>
       </template>
+
+      <footer class="space-y-1 pt-2 text-[11px]" :style="{ color: THEME.inkMuted }">
+        <p>{{ t('plugins.targetSchedulerViewer.labels.unofficialDisclaimer') }}</p>
+        <p>
+          {{ t('plugins.targetSchedulerViewer.labels.dataFrom') }}
+          <a
+            href="https://tcpalmer.github.io/nina-scheduler/"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="underline"
+            :style="{ color: THEME.accent }"
+            >Target Scheduler</a
+          >
+          <span v-if="apiVersion"> v{{ apiVersion }}</span>
+          — {{ t('plugins.targetSchedulerViewer.labels.readOnlyNote') }}
+        </p>
+      </footer>
     </div>
   </div>
 </template>

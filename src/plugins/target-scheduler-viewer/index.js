@@ -54,17 +54,25 @@ export default {
                 viewBox: '0 0 24 24',
                 'stroke-width': '1.5',
                 stroke: 'currentColor',
+                'stroke-linecap': 'round',
               },
               [
-                h('path', {
-                  'stroke-linecap': 'round',
-                  'stroke-linejoin': 'round',
-                  d: 'M9 17.25V21m6-3.75V21m-9-3.75h12M4.5 3h15a1.5 1.5 0 011.5 1.5v9a1.5 1.5 0 01-1.5 1.5h-15A1.5 1.5 0 013 13.5v-9A1.5 1.5 0 014.5 3z',
+                h('circle', {
+                  cx: '12',
+                  cy: '12',
+                  r: '9.5',
+                  'stroke-dasharray': '50 10',
+                  transform: 'rotate(-15 12 12)',
+                }),
+                h('circle', {
+                  cx: '12',
+                  cy: '12',
+                  r: '6.7',
+                  'stroke-dasharray': '34 8',
+                  transform: 'rotate(165 12 12)',
                 }),
                 h('path', {
-                  'stroke-linecap': 'round',
-                  'stroke-linejoin': 'round',
-                  d: 'M7.5 10.5l2.25 2.25 4.5-4.5',
+                  d: 'M14.7 9.6a3.5 3.5 0 10-1.3 6.24',
                 }),
               ]
             );

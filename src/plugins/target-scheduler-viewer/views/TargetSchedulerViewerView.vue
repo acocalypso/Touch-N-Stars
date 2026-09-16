@@ -223,20 +223,24 @@ async function loadProjects(signal) {
 }
 
 // Every connection attempt — the initial auto-connect on mount, a manual
-// Refresh, and a port change — goes through this single cancellable path.
-// They used to be separate code paths (refreshAll vs onPortChange), which
-// meant changing the port while the initial mount's auto-connect was still
+// Refresh, a port change, and a profile change — goes through this single
+// cancellable path. They used to be separate code paths (refreshAll,
+// onPortChange, onProfileChange each doing their own fetches), which meant
+// e.g. changing the port while the initial mount's auto-connect was still
 // in flight left two uncoordinated requests running at once — whichever
 // resolved last silently overwrote the other's result (e.g. the initial
 // attempt against the old port finishing after a port change and stomping
-// the new, correct state). Routing everything through one AbortController
-// means a new attempt always cancels whatever came before it.
+// the new, correct state). The same race existed between a port change and
+// a profile change. Routing everything through one AbortController means a
+// new attempt always cancels whatever came before it.
 const connectingPort = ref(false);
 let portAbortController = null;
 let lastGoodPort = getStoredPort();
+let lastGoodProfileId = '';
 
-async function connect({ isPortChange = false } = {}) {
+async function connect({ isPortChange = false, isProfileChange = false } = {}) {
   const attemptedPort = port.value;
+  const attemptedProfileId = selectedProfileId.value;
   portAbortController?.abort();
   const controller = new AbortController();
   portAbortController = controller;
@@ -248,9 +252,13 @@ async function connect({ isPortChange = false } = {}) {
     setStoredPort(attemptedPort);
     profiles.value = [];
     selectedProfileId.value = '';
+  }
+  if (isPortChange || isProfileChange) {
+    if (isProfileChange) setStoredProfileId(attemptedProfileId);
     projects.value = null;
     targetsByProject.value = {};
     lastUpdated.value = null;
+    schedule.value = null;
   }
 
   try {
@@ -263,11 +271,18 @@ async function connect({ isPortChange = false } = {}) {
     // must never touch state the newer attempt now owns.
     if (portAbortController !== controller) return;
     lastGoodPort = attemptedPort;
+    lastGoodProfileId = selectedProfileId.value;
   } catch (e) {
     if (portAbortController !== controller) return; // stale — ignore entirely
     if (controller.signal.aborted) {
-      port.value = lastGoodPort;
-      setStoredPort(lastGoodPort);
+      if (isPortChange) {
+        port.value = lastGoodPort;
+        setStoredPort(lastGoodPort);
+      }
+      if (isProfileChange && lastGoodProfileId) {
+        selectedProfileId.value = lastGoodProfileId;
+        setStoredProfileId(lastGoodProfileId);
+      }
     } else {
       error.value = e.message;
     }
@@ -284,20 +299,16 @@ function onPortChange() {
   connect({ isPortChange: true });
 }
 
+function onProfileChange() {
+  connect({ isProfileChange: true });
+}
+
 function cancelPortConnect() {
   portAbortController?.abort();
 }
 
 function refreshAll() {
-  connect({ isPortChange: false });
-}
-
-function onProfileChange() {
-  setStoredProfileId(selectedProfileId.value);
-  projects.value = null;
-  targetsByProject.value = {};
-  schedule.value = null;
-  loadProjects();
+  connect();
 }
 
 async function loadSchedule() {

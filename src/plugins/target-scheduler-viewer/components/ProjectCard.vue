@@ -11,29 +11,49 @@ const props = defineProps({
   targetsError: { type: String, default: '' },
   searchQuery: { type: String, default: '' },
   completionFilter: { type: String, default: 'all' },
+  filterNameFilter: { type: String, default: 'all' },
+  scheduledTargetIds: { type: Object, default: null }, // Set of target ids, or null when off
 });
 
 const expanded = ref(false);
 const showSettings = ref(false);
 
-// Completion filter is strict — it never falls back to "show everything" the
-// way search does, since it's inherently about which targets qualify.
-const completionFilteredTargets = computed(() => {
-  if (props.completionFilter === 'all') return props.targets;
-  return props.targets.filter((t) => classifyTargetCompletion(t) === props.completionFilter);
+const hasStrictFilters = computed(
+  () =>
+    props.completionFilter !== 'all' ||
+    props.filterNameFilter !== 'all' ||
+    Boolean(props.scheduledTargetIds)
+);
+
+// Completion/filter-name/scheduled-tonight are strict — they never fall
+// back to "show everything" the way search does, since they're inherently
+// about which targets qualify.
+const strictFilteredTargets = computed(() => {
+  if (!hasStrictFilters.value) return props.targets;
+  return props.targets.filter((t) => {
+    if (props.completionFilter !== 'all' && classifyTargetCompletion(t) !== props.completionFilter)
+      return false;
+    if (
+      props.filterNameFilter !== 'all' &&
+      !(t.ExposurePlan || []).some((p) => p.FilterName === props.filterNameFilter)
+    )
+      return false;
+    if (props.scheduledTargetIds && !props.scheduledTargetIds.has(t.Id)) return false;
+    return true;
+  });
 });
 
 const filteredTargets = computed(() => {
-  const base = completionFilteredTargets.value;
+  const base = strictFilteredTargets.value;
   if (!props.searchQuery) return base;
   const byName = base.filter((t) => fuzzyMatch(t.Name, props.searchQuery));
   // Empty match means the project itself matched the query (by name) — show
-  // the rest of the completion-filtered targets rather than the raw list.
+  // the rest of the filtered targets rather than the raw list.
   return byName.length ? byName : base;
 });
 
 const isExpanded = computed(
-  () => expanded.value || Boolean(props.searchQuery) || props.completionFilter !== 'all'
+  () => expanded.value || Boolean(props.searchQuery) || hasStrictFilters.value
 );
 
 const settingsRows = computed(() => [

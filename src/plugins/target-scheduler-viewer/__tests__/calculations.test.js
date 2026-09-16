@@ -11,6 +11,9 @@ import {
   computeRollup,
   computeTargetIntegration,
   classifyTargetCompletion,
+  collectFilterNames,
+  sortProjects,
+  projectsToMarkdown,
   formatIntegrationTime,
   computeSummary,
   buildProjectSettingsRows,
@@ -357,4 +360,153 @@ test('classifyTargetCompletion: multiple filters combine before classifying', ()
     ],
   };
   assert.equal(classifyTargetCompletion(target), 'in-progress');
+});
+
+test('collectFilterNames: unique, sorted, across all targets', () => {
+  const targets = [
+    { ExposurePlan: [{ FilterName: 'Ha+OIII' }, { FilterName: 'L' }] },
+    { ExposurePlan: [{ FilterName: 'SII+OIII' }, { FilterName: 'L' }] },
+  ];
+  assert.deepEqual(collectFilterNames(targets), ['Ha+OIII', 'L', 'SII+OIII']);
+});
+
+test('collectFilterNames: empty/missing inputs', () => {
+  assert.deepEqual(collectFilterNames([]), []);
+  assert.deepEqual(collectFilterNames(undefined), []);
+  assert.deepEqual(collectFilterNames([{}]), []);
+});
+
+test('sortProjects: by name, ascending', () => {
+  const projects = [
+    { Id: 'b', Name: 'Beta' },
+    { Id: 'a', Name: 'Alpha' },
+  ];
+  const sorted = sortProjects(projects, {}, 'name', 'asc');
+  assert.deepEqual(
+    sorted.map((p) => p.Name),
+    ['Alpha', 'Beta']
+  );
+});
+
+test('sortProjects: by name, descending', () => {
+  const projects = [
+    { Id: 'a', Name: 'Alpha' },
+    { Id: 'b', Name: 'Beta' },
+  ];
+  const sorted = sortProjects(projects, {}, 'name', 'desc');
+  assert.deepEqual(
+    sorted.map((p) => p.Name),
+    ['Beta', 'Alpha']
+  );
+});
+
+test('sortProjects: by priority', () => {
+  const projects = [
+    { Id: 'a', Name: 'A', Priority: 1 },
+    { Id: 'b', Name: 'B', Priority: 5 },
+    { Id: 'c', Name: 'C', Priority: 3 },
+  ];
+  const sorted = sortProjects(projects, {}, 'priority', 'asc');
+  assert.deepEqual(
+    sorted.map((p) => p.Id),
+    ['a', 'c', 'b']
+  );
+});
+
+test('sortProjects: by completion, using the supplied rollups', () => {
+  const projects = [
+    { Id: 'a', Name: 'A' },
+    { Id: 'b', Name: 'B' },
+  ];
+  const rollupsById = {
+    a: computeRollup([{ ExposurePlan: [{ Desired: 100, Accepted: 90 }] }]),
+    b: computeRollup([{ ExposurePlan: [{ Desired: 100, Accepted: 10 }] }]),
+  };
+  const sorted = sortProjects(projects, rollupsById, 'completion', 'asc');
+  assert.deepEqual(
+    sorted.map((p) => p.Id),
+    ['b', 'a']
+  );
+});
+
+test('sortProjects: by remaining time', () => {
+  const projects = [
+    { Id: 'a', Name: 'A' },
+    { Id: 'b', Name: 'B' },
+  ];
+  const rollupsById = {
+    a: computeRollup([{ ExposurePlan: [{ Desired: 100, Accepted: 0, Exposure: 60 }] }]),
+    b: computeRollup([{ ExposurePlan: [{ Desired: 10, Accepted: 0, Exposure: 60 }] }]),
+  };
+  const sorted = sortProjects(projects, rollupsById, 'remaining', 'asc');
+  assert.deepEqual(
+    sorted.map((p) => p.Id),
+    ['b', 'a']
+  );
+});
+
+test('sortProjects: missing rollup for a project defaults to zero rather than throwing', () => {
+  const projects = [{ Id: 'a', Name: 'A' }];
+  assert.deepEqual(
+    sortProjects(projects, {}, 'completion', 'asc').map((p) => p.Id),
+    ['a']
+  );
+});
+
+test('sortProjects: unknown sortKey falls back to name', () => {
+  const projects = [
+    { Id: 'b', Name: 'Beta' },
+    { Id: 'a', Name: 'Alpha' },
+  ];
+  const sorted = sortProjects(projects, {}, 'nonsense', 'asc');
+  assert.deepEqual(
+    sorted.map((p) => p.Name),
+    ['Alpha', 'Beta']
+  );
+});
+
+test('sortProjects: does not mutate the input array', () => {
+  const projects = [
+    { Id: 'b', Name: 'Beta' },
+    { Id: 'a', Name: 'Alpha' },
+  ];
+  const original = [...projects];
+  sortProjects(projects, {}, 'name', 'asc');
+  assert.deepEqual(projects, original);
+});
+
+test('projectsToMarkdown: includes project header, state, completion, and per-filter target progress', () => {
+  const projects = [{ Id: 'p1', Name: 'Emission Nebula', State: 'Active' }];
+  const targetsByProject = {
+    p1: {
+      targets: [
+        {
+          Name: 'M 8',
+          RA: 18.0696,
+          Dec: -23.7565,
+          ExposurePlan: [{ FilterName: 'Ha+OIII', Desired: 72, Accepted: 8 }],
+        },
+      ],
+    },
+  };
+  const md = projectsToMarkdown(projects, targetsByProject, {
+    profileName: 'Test Profile',
+    generatedAt: new Date('2026-01-01T00:00:00Z'),
+  });
+  assert.match(md, /# Target Scheduler Progress/);
+  assert.match(md, /Profile: Test Profile/);
+  assert.match(md, /## Emission Nebula — Active \(11%\)/);
+  assert.match(md, /\*\*M 8\*\*/);
+  assert.match(md, /Ha\+OIII: 8\/72/);
+});
+
+test('projectsToMarkdown: a project with no targets says so instead of an empty section', () => {
+  const projects = [{ Id: 'p1', Name: 'Empty Project', State: 'Draft' }];
+  const md = projectsToMarkdown(projects, {});
+  assert.match(md, /_No targets\._/);
+});
+
+test('projectsToMarkdown: omits the profile line when no profile name is given', () => {
+  const md = projectsToMarkdown([], {});
+  assert.doesNotMatch(md, /Profile:/);
 });

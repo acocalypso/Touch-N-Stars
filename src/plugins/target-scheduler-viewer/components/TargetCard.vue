@@ -77,6 +77,18 @@ async function toggleStats() {
       </button>
     </div>
 
+    <div class="mt-0.5 text-[11px]" :style="{ color: THEME.inkMuted }">
+      RA {{ formatRa(target.RA) }} &middot; Dec {{ formatDec(target.Dec) }} &middot; rotation
+      {{ target.Rotation }}° &middot; {{ target.Epoch }} &middot; ROI {{ target.ROI }}%
+      <span v-if="integration.integrationSeconds > 0">
+        &middot; {{ integration.integrationTime }} / {{ integration.expectedIntegrationTime }}
+        integrated
+      </span>
+      <span v-if="integration.remainingIntegrationSeconds > 0">
+        &middot; {{ integration.remainingIntegrationTime }} remaining
+      </span>
+    </div>
+
     <div class="mt-2 space-y-1.5">
       <ExposureProgressBar
         v-for="plan in target.ExposurePlan"
@@ -90,18 +102,6 @@ async function toggleStats() {
       class="mt-2 border-t pt-2 text-[11px]"
       :style="{ borderColor: THEME.border }"
     >
-      <div class="mb-2" :style="{ color: THEME.inkMuted }">
-        RA {{ formatRa(target.RA) }} &middot; Dec {{ formatDec(target.Dec) }} &middot; rotation
-        {{ target.Rotation }}° &middot; {{ target.Epoch }} &middot; ROI {{ target.ROI }}%
-        <span v-if="integration.integrationSeconds > 0">
-          &middot; {{ integration.integrationTime }} / {{ integration.expectedIntegrationTime }}
-          integrated
-        </span>
-        <span v-if="integration.remainingIntegrationSeconds > 0">
-          &middot; {{ integration.remainingIntegrationTime }} remaining
-        </span>
-      </div>
-
       <div v-if="statsLoading" :style="{ color: THEME.inkMuted }">Loading stats…</div>
       <div v-else-if="statsError" :style="{ color: THEME.critical }">{{ statsError }}</div>
       <div v-else-if="stats && stats.length" class="overflow-x-auto">

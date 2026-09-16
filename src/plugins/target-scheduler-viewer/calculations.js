@@ -175,3 +175,69 @@ export function isSegmentNow(segment, nowMs = Date.now()) {
     nowMs >= new Date(segment.StartTime).getTime() && nowMs < new Date(segment.EndTime).getTime()
   );
 }
+
+// Every distinct filter name in use across a set of targets, sorted.
+export function collectFilterNames(targets) {
+  const names = new Set();
+  for (const target of targets || []) {
+    for (const plan of target.ExposurePlan || []) {
+      names.add(plan.FilterName);
+    }
+  }
+  return [...names].sort();
+}
+
+const SORT_COMPARATORS = {
+  name: (a, b) => a.project.Name.localeCompare(b.project.Name),
+  priority: (a, b) => a.project.Priority - b.project.Priority,
+  completion: (a, b) => a.rollup.pct - b.rollup.pct,
+  remaining: (a, b) => a.rollup.remainingIntegrationSeconds - b.rollup.remainingIntegrationSeconds,
+};
+
+// Sorts projects by name/priority/completion/remaining time. `rollupsById`
+// maps project.Id -> computeRollup(...) result for that project's targets
+// (the caller computes these once and reuses them, since sorting needs the
+// same rollups the UI already displays). Unknown sortKey falls back to name.
+export function sortProjects(projects, rollupsById, sortKey, direction = 'asc') {
+  const comparator = SORT_COMPARATORS[sortKey] || SORT_COMPARATORS.name;
+  const sign = direction === 'desc' ? -1 : 1;
+  const decorated = projects.map((project) => ({
+    project,
+    rollup: rollupsById[project.Id] || computeRollup([]),
+  }));
+  decorated.sort((a, b) => sign * comparator(a, b));
+  return decorated.map((d) => d.project);
+}
+
+// Renders the visible projects/targets as a Markdown document, suitable for
+// pasting into a forum post or chat — one section per project, one bullet
+// per target with its per-filter progress.
+export function projectsToMarkdown(projects, targetsByProject, { profileName, generatedAt } = {}) {
+  const lines = ['# Target Scheduler Progress', ''];
+  if (profileName) lines.push(`Profile: ${profileName}`);
+  lines.push(`Generated: ${(generatedAt || new Date()).toLocaleString()}`, '');
+
+  for (const project of projects) {
+    const targets = targetsByProject[project.Id]?.targets || [];
+    const rollup = computeRollup(targets);
+    lines.push(`## ${project.Name} — ${project.State} (${rollup.pct}%)`, '');
+
+    if (!targets.length) {
+      lines.push('_No targets._', '');
+      continue;
+    }
+
+    for (const target of targets) {
+      const targetRollup = computeRollup([target]);
+      lines.push(
+        `- **${target.Name}** (RA ${formatRa(target.RA)}, Dec ${formatDec(target.Dec)}) — ${targetRollup.pct}%`
+      );
+      for (const plan of target.ExposurePlan || []) {
+        lines.push(`  - ${plan.FilterName}: ${plan.Accepted}/${plan.Desired}`);
+      }
+    }
+    lines.push('');
+  }
+
+  return lines.join('\n');
+}

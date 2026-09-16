@@ -1,6 +1,7 @@
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue';
+import { ref, computed, watch, onMounted, onUnmounted } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useToastStore } from '@/store/toastStore';
 import ProjectCard from '../components/ProjectCard.vue';
 import SchedulePreview from '../components/SchedulePreview.vue';
 import StatTile from '../components/StatTile.vue';
@@ -15,9 +16,17 @@ import {
 } from '../services/targetSchedulerApi';
 import { THEME } from '../theme';
 import { fuzzyMatch } from '../fuzzyMatch';
-import { computeSummary, classifyTargetCompletion } from '../calculations';
+import {
+  computeSummary,
+  computeRollup,
+  classifyTargetCompletion,
+  collectFilterNames,
+  sortProjects,
+  projectsToMarkdown,
+} from '../calculations';
 
 const { t } = useI18n();
+const toastStore = useToastStore();
 
 const port = ref(getStoredPort());
 const profiles = ref([]);
@@ -41,41 +50,120 @@ function toggleHeader() {
   setStoredHeaderCollapsed(headerCollapsed.value);
 }
 
+const FILTER_PREFS_KEY = 'tsviewer.filterPrefs';
+function loadFilterPrefs() {
+  try {
+    return JSON.parse(localStorage.getItem(FILTER_PREFS_KEY)) || {};
+  } catch {
+    return {};
+  }
+}
+const savedFilterPrefs = loadFilterPrefs();
+
 const searchQuery = ref('');
-const stateFilter = ref('all');
-const completionFilter = ref('all');
-const filtersExpanded = ref(false);
+const stateFilter = ref(savedFilterPrefs.stateFilter || 'all');
+const completionFilter = ref(savedFilterPrefs.completionFilter || 'all');
+const filterNameFilter = ref(savedFilterPrefs.filterNameFilter || 'all');
+const mosaicFilter = ref(savedFilterPrefs.mosaicFilter || 'all');
+const scheduledTonightOnly = ref(savedFilterPrefs.scheduledTonightOnly || false);
+const sortKey = ref(savedFilterPrefs.sortKey || 'name');
+const sortDir = ref(savedFilterPrefs.sortDir || 'asc');
+const filtersExpanded = ref(savedFilterPrefs.filtersExpanded || false);
+
+watch(
+  [
+    stateFilter,
+    completionFilter,
+    filterNameFilter,
+    mosaicFilter,
+    scheduledTonightOnly,
+    sortKey,
+    sortDir,
+    filtersExpanded,
+  ],
+  () => {
+    try {
+      localStorage.setItem(
+        FILTER_PREFS_KEY,
+        JSON.stringify({
+          stateFilter: stateFilter.value,
+          completionFilter: completionFilter.value,
+          filterNameFilter: filterNameFilter.value,
+          mosaicFilter: mosaicFilter.value,
+          scheduledTonightOnly: scheduledTonightOnly.value,
+          sortKey: sortKey.value,
+          sortDir: sortDir.value,
+          filtersExpanded: filtersExpanded.value,
+        })
+      );
+    } catch {
+      // ignore storage failures (e.g. private browsing)
+    }
+  }
+);
 
 const availableStates = computed(() => {
   if (!projects.value) return [];
   return [...new Set(projects.value.map((p) => p.State))];
 });
 
-// A target counts for a project's visibility when it satisfies both the
-// completion filter and the search query — the completion filter is
-// inherently about individual targets, so (unlike search) it never falls
-// back to "the project name matched, show everything".
-function targetMatchesFilters(target, query, completion) {
+const availableFilterNames = computed(() => {
+  const allTargets = Object.values(targetsByProject.value).flatMap((p) => p.targets);
+  return collectFilterNames(allTargets);
+});
+
+const scheduledTargetIds = computed(() => {
+  if (!schedule.value) return null;
+  return new Set(schedule.value.filter((s) => s.Id).map((s) => s.Id));
+});
+
+// A target counts for a project's visibility when it satisfies the
+// completion, filter-name, "scheduled tonight" and search criteria — these
+// are all inherently about individual targets, so (unlike search alone)
+// they never fall back to "the project name matched, show everything".
+function targetMatchesFilters(target, query, completion, filterName, tonightIds) {
   if (completion !== 'all' && classifyTargetCompletion(target) !== completion) return false;
+  if (filterName !== 'all' && !(target.ExposurePlan || []).some((p) => p.FilterName === filterName))
+    return false;
+  if (tonightIds && !tonightIds.has(target.Id)) return false;
   if (query && !fuzzyMatch(target.Name, query)) return false;
   return true;
 }
 
-function projectMatchesFilters(project, targets, query, completion) {
-  if (targets.some((t) => targetMatchesFilters(t, query, completion))) return true;
-  if (completion !== 'all') return false;
+function projectMatchesFilters(project, targets, query, completion, filterName, tonightIds) {
+  if (targets.some((t) => targetMatchesFilters(t, query, completion, filterName, tonightIds)))
+    return true;
+  if (completion !== 'all' || filterName !== 'all' || tonightIds) return false;
   if (!query) return true;
   return fuzzyMatch(project.Name, query);
 }
 
+const projectRollups = computed(() => {
+  if (!projects.value) return {};
+  return Object.fromEntries(
+    projects.value.map((p) => [p.Id, computeRollup(targetsByProject.value[p.Id]?.targets || [])])
+  );
+});
+
 const visibleProjects = computed(() => {
   if (!projects.value) return [];
   const query = searchQuery.value.trim();
-  return projects.value.filter((project) => {
+  const tonightIds = scheduledTonightOnly.value ? scheduledTargetIds.value : null;
+  const filtered = projects.value.filter((project) => {
     if (stateFilter.value !== 'all' && project.State !== stateFilter.value) return false;
+    if (mosaicFilter.value === 'mosaic' && !project.Mosaic) return false;
+    if (mosaicFilter.value === 'single' && project.Mosaic) return false;
     const targets = targetsByProject.value[project.Id]?.targets || [];
-    return projectMatchesFilters(project, targets, query, completionFilter.value);
+    return projectMatchesFilters(
+      project,
+      targets,
+      query,
+      completionFilter.value,
+      filterNameFilter.value,
+      tonightIds
+    );
   });
+  return sortProjects(filtered, projectRollups.value, sortKey.value, sortDir.value);
 });
 
 let pollTimer = null;
@@ -216,7 +304,37 @@ function toggleSchedule() {
   if (showSchedule.value) loadSchedule();
 }
 
+// "Scheduled tonight" needs the preview data regardless of whether the
+// schedule panel itself is open.
+function onScheduledTonightToggle() {
+  if (scheduledTonightOnly.value && !schedule.value) loadSchedule();
+}
+
 const summary = computed(() => computeSummary(projects.value, targetsByProject.value));
+
+async function exportMarkdown(all = false) {
+  const md = projectsToMarkdown(
+    all ? projects.value || [] : visibleProjects.value,
+    targetsByProject.value,
+    {
+      profileName: profiles.value.find((p) => p.Id === selectedProfileId.value)?.Name,
+    }
+  );
+  try {
+    await navigator.clipboard.writeText(md);
+    toastStore.showToast({
+      type: 'success',
+      title: t('plugins.targetSchedulerViewer.labels.exportCopiedTitle'),
+      message: t('plugins.targetSchedulerViewer.labels.exportCopiedMessage'),
+    });
+  } catch {
+    toastStore.showToast({
+      type: 'error',
+      title: t('plugins.targetSchedulerViewer.labels.exportFailedTitle'),
+      message: t('plugins.targetSchedulerViewer.labels.exportFailedMessage'),
+    });
+  }
+}
 
 onMounted(() => {
   refreshAll();
@@ -573,10 +691,61 @@ onUnmounted(() => {
             </svg>
             {{ t('plugins.targetSchedulerViewer.labels.filtersToggle') }}
             <span
-              v-if="stateFilter !== 'all' || completionFilter !== 'all'"
+              v-if="
+                stateFilter !== 'all' ||
+                completionFilter !== 'all' ||
+                filterNameFilter !== 'all' ||
+                mosaicFilter !== 'all' ||
+                scheduledTonightOnly
+              "
               class="h-1.5 w-1.5 rounded-full"
               :style="{ backgroundColor: THEME.accent }"
             />
+          </button>
+
+          <button
+            class="flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1.5 text-[11px] transition-colors"
+            :style="{ borderColor: THEME.border, color: THEME.inkMuted }"
+            :disabled="!visibleProjects.length"
+            @click="exportMarkdown(false)"
+          >
+            <svg
+              class="h-3.5 w-3.5"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75"
+              />
+            </svg>
+            {{ t('plugins.targetSchedulerViewer.labels.exportMarkdown') }}
+          </button>
+
+          <button
+            class="flex shrink-0 items-center gap-1.5 rounded-full border px-3 py-1.5 text-[11px] transition-colors"
+            :style="{ borderColor: THEME.border, color: THEME.inkMuted }"
+            :disabled="!projects || !projects.length"
+            :title="t('plugins.targetSchedulerViewer.labels.exportAllHint')"
+            @click="exportMarkdown(true)"
+          >
+            <svg
+              class="h-3.5 w-3.5"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M15.75 17.25v3.375c0 .621-.504 1.125-1.125 1.125h-9.75a1.125 1.125 0 01-1.125-1.125V7.875c0-.621.504-1.125 1.125-1.125H6.75a9.06 9.06 0 011.5.124m7.5 10.376h3.375c.621 0 1.125-.504 1.125-1.125V11.25c0-4.46-3.243-8.161-7.5-8.876a9.06 9.06 0 00-1.5-.124H9.375c-.621 0-1.125.504-1.125 1.125v3.5m7.5 10.375H9.375a1.125 1.125 0 01-1.125-1.125v-9.25m12 6.625v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5a3.375 3.375 0 00-3.375-3.375H9.75"
+              />
+            </svg>
+            {{ t('plugins.targetSchedulerViewer.labels.exportAllMarkdown') }}
           </button>
         </div>
 
@@ -650,6 +819,136 @@ onUnmounted(() => {
                 {{ opt[1] }}
               </button>
             </div>
+
+            <div v-if="availableFilterNames.length" class="flex flex-wrap items-center gap-1.5">
+              <span class="text-[11px]" :style="{ color: THEME.inkMuted }">{{
+                t('plugins.targetSchedulerViewer.labels.filterNameFilterLabel')
+              }}</span>
+              <button
+                class="rounded-full border px-2.5 py-1 text-[11px] transition-colors"
+                :style="
+                  filterNameFilter === 'all'
+                    ? {
+                        borderColor: THEME.accent,
+                        backgroundColor: THEME.goodBg,
+                        color: THEME.inkPrimary,
+                      }
+                    : { borderColor: THEME.border, color: THEME.inkMuted }
+                "
+                @click="filterNameFilter = 'all'"
+              >
+                {{ t('plugins.targetSchedulerViewer.labels.allStates') }}
+              </button>
+              <button
+                v-for="f in availableFilterNames"
+                :key="f"
+                class="rounded-full border px-2.5 py-1 text-[11px] transition-colors"
+                :style="
+                  filterNameFilter === f
+                    ? {
+                        borderColor: THEME.accent,
+                        backgroundColor: THEME.goodBg,
+                        color: THEME.inkPrimary,
+                      }
+                    : { borderColor: THEME.border, color: THEME.inkMuted }
+                "
+                @click="filterNameFilter = f"
+              >
+                {{ f }}
+              </button>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-1.5">
+              <span class="text-[11px]" :style="{ color: THEME.inkMuted }">{{
+                t('plugins.targetSchedulerViewer.labels.mosaicFilterLabel')
+              }}</span>
+              <button
+                v-for="opt in [
+                  ['all', t('plugins.targetSchedulerViewer.labels.allStates')],
+                  ['mosaic', t('plugins.targetSchedulerViewer.labels.mosaicOnly')],
+                  ['single', t('plugins.targetSchedulerViewer.labels.singlePanelOnly')],
+                ]"
+                :key="opt[0]"
+                class="rounded-full border px-2.5 py-1 text-[11px] transition-colors"
+                :style="
+                  mosaicFilter === opt[0]
+                    ? {
+                        borderColor: THEME.accent,
+                        backgroundColor: THEME.goodBg,
+                        color: THEME.inkPrimary,
+                      }
+                    : { borderColor: THEME.border, color: THEME.inkMuted }
+                "
+                @click="mosaicFilter = opt[0]"
+              >
+                {{ opt[1] }}
+              </button>
+
+              <label
+                class="ml-1 flex items-center gap-1.5 text-[11px]"
+                :style="{ color: THEME.inkMuted }"
+              >
+                <input
+                  v-model="scheduledTonightOnly"
+                  type="checkbox"
+                  @change="onScheduledTonightToggle"
+                />
+                {{ t('plugins.targetSchedulerViewer.labels.scheduledTonightOnly') }}
+              </label>
+            </div>
+
+            <div class="flex flex-wrap items-center gap-1.5">
+              <span class="text-[11px]" :style="{ color: THEME.inkMuted }">{{
+                t('plugins.targetSchedulerViewer.labels.sortLabel')
+              }}</span>
+              <select
+                v-model="sortKey"
+                class="h-7 rounded border px-2 text-[11px]"
+                :style="{
+                  borderColor: THEME.border,
+                  backgroundColor: THEME.surface1,
+                  color: THEME.inkPrimary,
+                }"
+              >
+                <option value="name">
+                  {{ t('plugins.targetSchedulerViewer.labels.sortName') }}
+                </option>
+                <option value="priority">
+                  {{ t('plugins.targetSchedulerViewer.labels.sortPriority') }}
+                </option>
+                <option value="completion">
+                  {{ t('plugins.targetSchedulerViewer.labels.sortCompletion') }}
+                </option>
+                <option value="remaining">
+                  {{ t('plugins.targetSchedulerViewer.labels.sortRemaining') }}
+                </option>
+              </select>
+              <button
+                class="flex h-7 items-center gap-1 rounded border px-2 text-[11px] transition-colors"
+                :style="{ borderColor: THEME.border, color: THEME.inkMuted }"
+                :aria-label="
+                  sortDir === 'asc'
+                    ? t('plugins.targetSchedulerViewer.labels.sortAscending')
+                    : t('plugins.targetSchedulerViewer.labels.sortDescending')
+                "
+                @click="sortDir = sortDir === 'asc' ? 'desc' : 'asc'"
+              >
+                <svg
+                  class="h-3.5 w-3.5 transition-transform"
+                  :class="{ 'rotate-180': sortDir === 'desc' }"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                >
+                  <path
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    d="M4.5 15.75l7.5-7.5 7.5 7.5"
+                  />
+                </svg>
+              </button>
+            </div>
           </div>
         </div>
 
@@ -670,6 +969,8 @@ onUnmounted(() => {
             :targets-error="targetsByProject[project.Id]?.error || ''"
             :search-query="searchQuery.trim()"
             :completion-filter="completionFilter"
+            :filter-name-filter="filterNameFilter"
+            :scheduled-target-ids="scheduledTonightOnly ? scheduledTargetIds : null"
           />
         </div>
       </template>

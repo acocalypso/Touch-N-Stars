@@ -1,7 +1,12 @@
 <template>
   <div :class="showBadgeLabel ? 'relative pb-3' : ''">
-    <!-- Modal Trigger -->
+    <!-- Modal Trigger: floating circle by default, or a labelled row button (variant="button") -->
+    <button v-if="variant === 'button'" type="button" class="tns-btn-secondary" @click="openModal">
+      <HeartIcon class="w-5 h-5 shrink-0" />
+      <span>{{ $t('components.fav_target.titel') }}</span>
+    </button>
     <button
+      v-else
       @click="openModal"
       class="p-2 bg-gray-700 border border-cyan-600 rounded-full shadow-md z-10"
     >
@@ -162,6 +167,11 @@ const props = defineProps({
   showFramning: {
     type: Boolean,
     default: true,
+  },
+  // 'fab' = floating cyan circle | 'button' = labelled tns-btn-secondary row button
+  variant: {
+    type: String,
+    default: 'fab',
   },
 });
 

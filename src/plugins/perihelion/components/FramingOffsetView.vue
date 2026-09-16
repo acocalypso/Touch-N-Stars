@@ -168,6 +168,7 @@ import { ninaObserverToAtlas } from '@/integrations/celestiaAtlas/contracts';
 import { ATLAS_POSITION_ANGLE_CONVENTION } from '@/integrations/celestiaAtlas/positionAngle';
 import {
   createDssSkySurveySource,
+  loadDssSurveyOrder,
   resolveCelestiaAtlasDataBaseUrl,
 } from '@/integrations/celestiaAtlas/offlineSkySurvey';
 // Reused as-is, not reimplemented -- already does exactly what's needed: reads gain/exposure
@@ -473,7 +474,9 @@ onMounted(async () => {
       container: viewerContainer.value,
       observer: ninaObserverToAtlas(settings),
       utcMs: Date.now(),
-      skySurveySource: createDssSkySurveySource(atlasDataBaseUrl()),
+      // No source until the plugin server's `properties` says which order is installed;
+      // applied below once the viewer exists. Nothing installed keeps the layer off.
+      skySurveySource: null,
       onViewChange: (viewState) => {
         currentCenter.value = {
           raHours: viewState.center.raDeg / 15,
@@ -494,6 +497,11 @@ onMounted(async () => {
     // almost certainly why 0 degrees still showed up tilted. Rotation for framing/rotator
     // purposes needs to be fixed relative to the sky, not the horizon.
     viewer.setCoordinateMode('equatorial');
+    const surveyBaseUrl = atlasDataBaseUrl();
+    void loadDssSurveyOrder(surveyBaseUrl).then((order) => {
+      if (!viewer || order === null) return;
+      viewer.setSkySurvey(createDssSkySurveySource(surveyBaseUrl, order));
+    });
     // hideBelowHorizon/horizon/atmosphere all default to the library's own "what's up right
     // now" live-sky assumptions -- wrong for this view, whose whole point is framing an object
     // for later tonight or a future night, not just the current instant. Left on, a target

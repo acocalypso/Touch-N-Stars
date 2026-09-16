@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia';
 import { toRaw } from 'vue';
 import apiService from '@/services/apiService';
-import { getConstellationFull } from '../utils/constellation.js';
+import { getConstellationFull } from '@/utils/constellation.js';
 import { saveData, loadData } from '../utils/idb-cache.js';
 
 const ROCHESTER_URL = 'https://rochesterastronomy.org/snimages/snactive.html';

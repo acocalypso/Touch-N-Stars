@@ -230,6 +230,10 @@
         "rotationAngle": "Camera rotation",
         "fov": "Field of View"
       },
+      "rotationRuler": {
+        "label": "Rotation angle",
+        "reset": "Reset"
+      },
       "solvedRotation": {
         "short": "solved",
         "tooltip": "Camera rotation from the last successful plate solve"
@@ -1125,6 +1129,13 @@
         "saveSequence": {
           "notSet": "Not set",
           "applyFileName": "Apply"
+        },
+        "externalScript": {
+          "script": "Script",
+          "notSet": "Not set",
+          "placeholder": "/path/to/script.sh [arguments]",
+          "browse": "Choose script",
+          "hint": "Runs on the imaging computer, not on this device. The script must exist there and be executable."
         },
         "groundstation": {
           "message": "Message",
@@ -2125,14 +2136,57 @@
         "title": "Selected object",
         "ra": "RA",
         "dec": "DEC",
-        "button_framing": "go to framing"
+        "button_framing": "go to framing",
+        "type": "Type",
+        "magnitude": "Magnitude",
+        "magnitude_fmt": "{value} mag",
+        "size": "Size",
+        "constellation": "Constellation",
+        "alt_az": "Alt / Az",
+        "rise": "Rise",
+        "transit": "Transit",
+        "set": "Set",
+        "rise_set": "Rise / Set",
+        "circumpolar": "circumpolar",
+        "never_rises": "never rises",
+        "missing_location": "Altitude and rise/set need the site location in the NINA profile."
+      },
+      "object_types": {
+        "_ass": "Stellar association",
+        "cl_n": "Cluster with nebulosity",
+        "doublestar": "Double star",
+        "drkn": "Dark nebula",
+        "emn": "Emission nebula",
+        "g": "Galaxy",
+        "gcl": "Globular cluster",
+        "gcluster": "Galaxy cluster",
+        "ggroup": "Galaxy group",
+        "gpair": "Galaxy pair",
+        "gtrpl": "Galaxy triplet",
+        "hii": "H II region",
+        "neb": "Nebula",
+        "ocl": "Open cluster",
+        "other": "Deep-sky object",
+        "pn": "Planetary nebula",
+        "rfn": "Reflection nebula",
+        "snr": "Supernova remnant",
+        "star": "Star",
+        "planet": "Planet",
+        "dwarf_planet": "Dwarf planet",
+        "natural_satellite": "Moon",
+        "comet": "Comet"
+      },
+      "camera_panel": {
+        "target_name_placeholder": "Target name"
       },
       "datetime": {
         "title": "Date & Time",
         "date": "Date",
         "time": "Time",
         "now": "Now",
-        "speed": "Speed"
+        "speed": "Speed",
+        "pause": "Pause time",
+        "play": "Run time"
       },
       "mount_position": {},
       "settings": {
@@ -2145,7 +2199,7 @@
         "landscapes_visible": "Show landscapes",
         "hide_below_horizon": "Hide objects below horizon",
         "sky_survey_visible": "Photographic sky survey",
-        "sky_survey_hint": "Uses the packaged DSS sky images offline and never fetches survey tiles from the internet.",
+        "sky_survey_hint": "Shows the DSS sky images downloaded to your NINA/PINS host offline; the app never fetches survey tiles from the internet.",
         "dsos_visible": "Deep Sky Objects (Messier, NGC)",
         "catalog_filters": "Catalogue filters",
         "catalog_filter_hint": "Controls visible deep-sky markers; offline search still finds every catalogue object.",
@@ -2164,7 +2218,8 @@
         "dso_magnitude_limit": "Other deep-sky objects (limiting magnitude)",
         "title": "Settings",
         "landscape_source_mode": "Landscape source",
-        "landscape_source_default": "Default landscape (Guereins)",
+        "landscape_source_default": "Default landscape (Night meadow)",
+        "landscape_source_guereins": "Guéreins (village)",
         "landscape_source_neutral": "Neutral horizon (Gray)",
         "landscape_source_custom": "Custom data source",
         "landscape_option_label": "Landscape: {title}",
@@ -2185,7 +2240,67 @@
         "refresh_comet_data": "Refresh",
         "refreshing_comet_data": "Refreshing…",
         "comet_data_updated": "Updated {count} comets.",
-        "comet_data_failed": "Update failed: {message}"
+        "comet_data_failed": "Update failed: {message}",
+        "section_display": "Display",
+        "section_landscape": "Landscape",
+        "section_survey": "Photographic survey",
+        "section_catalogs": "Catalogues",
+        "section_about": "About"
+      },
+      "survey": {
+        "title": "Photographic survey data",
+        "hint": "The DSS colour survey is downloaded once to the NINA/PINS host and served to the Atlas from there. Higher orders add detail for narrow fields.",
+        "plugin_update_required": "Please update the Touch'N'Stars plugin to download the sky survey.",
+        "installed": "Installed",
+        "free_space": "Free on host",
+        "not_installed": "Not installed",
+        "installed_order": "Up to order {order} ({size})",
+        "partial_order": "order {order} {percent} % downloaded",
+        "target_order": "Resolution to download",
+        "order_base": "Base (orders {min}–{max})",
+        "order_n": "Order {order}",
+        "option_installed": "installed",
+        "option_size": "about {size}",
+        "not_enough_space": "Not enough free disk space on the host: about {needed} needed, {free} free.",
+        "download": "Download",
+        "resume": "Download missing tiles",
+        "download_replace": "Replace and download",
+        "legacy_format": "The downloaded survey uses an outdated format and is no longer shown. Download it again; the old files are replaced.",
+        "progress": "Order {order}: {done} / {total} tiles · {size}",
+        "job_completed": "Download complete: orders up to {order} are installed.",
+        "job_cancelled": "Download cancelled. Stored tiles are kept; start again to continue.",
+        "job_failed": "Download failed: {message}",
+        "delete_target": "Delete",
+        "delete_keep_option": "Keep {name}, delete the rest",
+        "delete_all_option": "Everything",
+        "delete_confirm_title": "Delete survey data?",
+        "delete_confirm": "Delete the downloaded sky survey from the NINA/PINS host? The Atlas will show no photographic background until it is downloaded again.",
+        "delete_confirm_keep": "Delete every order above {name}? {name} stays installed and the Atlas keeps showing it.",
+        "terms": "Digitized Sky Survey © STScI/NASA, coloured and HiPS-processed by CDS (CNRS/Unistra). Free for non-commercial use with attribution; the tiles stay on your own NINA/PINS host.",
+        "terms_link": "Usage terms",
+        "offer_text": "Download the photographic sky background (DSS, about {size}) to the NINA/PINS host now? Without it the Atlas shows stars and catalogue objects only.",
+        "offer_text_legacy": "The downloaded sky background uses an outdated format. Download it again now (about {size})? The old files are replaced.",
+        "offer_accept": "Download",
+        "offer_decline": "Not now",
+        "offer_progress": "Downloading the sky background… {percent} %"
+      },
+      "toolbar": {
+        "label": "Atlas controls",
+        "mount_center": "Centre on mount",
+        "mount_follow": "Follow mount",
+        "layers": "Layers",
+        "mount_center_short": "Show mount",
+        "mount_follow_short": "Follow mount",
+        "framing": "Framing"
+      },
+      "target": {
+        "title": "Framing",
+        "source_object": "Selected object",
+        "source_view": "View centre",
+        "clear_selection": "Back to view centre",
+        "camera_field": "Camera field",
+        "actions": "Actions",
+        "more": "More"
       }
     },
     "profile": {

@@ -169,6 +169,13 @@ export function atlasSearchResultToTarget(result) {
     displayName: result.displayName,
     aliases: result.aliases,
     objectType: result.type,
+    // Catalogue facts for the target card; a tapped object carries the same fields.
+    typeCode: result.typeCode,
+    shape: result.shape,
+    angularSizeArcMin: result.angularSizeArcMin,
+    major: result.major,
+    minor: result.minor,
+    con: result.con,
     parentBody: result.parentBody,
     magnitude: result.mag ?? result.magnitude,
     catalogueSource: result.catalogSource,

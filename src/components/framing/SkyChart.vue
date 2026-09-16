@@ -65,6 +65,12 @@ const props = defineProps({
     type: Object, // { latitude, longitude }
     required: true,
   },
+  // UTC milliseconds the chart is drawn for. Null (the default) means server
+  // time, refreshed every 15 minutes; the Atlas passes its own clock instead.
+  time: {
+    type: Number,
+    default: null,
+  },
 });
 
 const canvasRef = ref(null);
@@ -80,7 +86,8 @@ const showMoon = computed({
   set: (value) => (settingsStore.skyChart.showMoon = value),
 });
 
-const now = ref(new Date(timeSync.getServerTime()));
+const serverNow = ref(new Date(timeSync.getServerTime()));
+const now = computed(() => (props.time !== null ? new Date(props.time) : serverNow.value));
 
 // The chart always shows one whole night: it starts at local noon and runs for
 // 24 h, so midnight sits exactly in the middle (sample 48). The start is a
@@ -394,7 +401,7 @@ onMounted(async () => {
   createChart();
   timeUpdateInterval = setInterval(
     () => {
-      now.value = new Date(timeSync.getServerTime());
+      serverNow.value = new Date(timeSync.getServerTime());
     },
     15 * 60 * 1000
   );

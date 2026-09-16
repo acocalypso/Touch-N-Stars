@@ -243,6 +243,10 @@
       "solvedRotation": {
         "short": "resolt",
         "tooltip": "Rotació de la càmera de l'últim plate solve correcte"
+      },
+      "rotationRuler": {
+        "label": "Angle de rotació",
+        "reset": "Restablir"
       }
     },
     "tutorial": {
@@ -653,6 +657,8 @@
         "description": "Controla el reinici i l'apagada del sistema",
         "info": "Aquestes accions afectaran tot el sistema",
         "confirmation": "Confirma l'acció",
+        "restart": "Reinicia",
+        "shutdown": "Atura",
         "confirmShutdown": "Estàs segur que vols apagar el sistema?",
         "confirmRestart": "Estàs segur que vols reiniciar el sistema?",
         "restartInfoTitle": "El sistema s'està reiniciant",
@@ -1123,6 +1129,13 @@
         "saveSequence": {
           "notSet": "No establert",
           "applyFileName": "Aplica"
+        },
+        "externalScript": {
+          "script": "Script",
+          "notSet": "No definit",
+          "placeholder": "/camí/a/script.sh [arguments]",
+          "browse": "Tria un script",
+          "hint": "S'executa a l'ordinador de captura, no en aquest dispositiu. L'script hi ha d'existir i ser executable."
         },
         "groundstation": {
           "message": "Missatge",
@@ -2123,14 +2136,29 @@
         "title": "Objecte seleccionat",
         "ra": "AR",
         "dec": "DEC",
-        "button_framing": "ves a l'enquadrament"
+        "button_framing": "ves a l'enquadrament",
+        "type": "Tipus",
+        "magnitude": "Magnitud",
+        "magnitude_fmt": "{value} mag",
+        "size": "Mida",
+        "constellation": "Constel·lació",
+        "alt_az": "Alt / Az",
+        "rise": "Sortida",
+        "transit": "Trànsit",
+        "set": "Posta",
+        "rise_set": "Sortida / Posta",
+        "circumpolar": "circumpolar",
+        "never_rises": "no surt mai",
+        "missing_location": "L'altura i la sortida/posta necessiten la ubicació del lloc al perfil de NINA."
       },
       "datetime": {
         "title": "Data i hora",
         "date": "Data",
         "time": "Hora",
         "now": "Ara",
-        "speed": "Velocitat"
+        "speed": "Velocitat",
+        "pause": "Atura el temps",
+        "play": "Executa el temps"
       },
       "mount_position": {},
       "settings": {
@@ -2162,7 +2190,8 @@
         "dso_magnitude_limit": "Altres objectes de cel profund (magnitud límit)",
         "title": "Configuració",
         "landscape_source_mode": "Font del paisatge",
-        "landscape_source_default": "Paisatge per defecte (Guereins)",
+        "landscape_source_default": "Paisatge per defecte (Prat nocturn)",
+        "landscape_source_guereins": "Guéreins (poble)",
         "landscape_source_neutral": "Horitzó neutre (Gris)",
         "landscape_source_custom": "Font de dades personalitzada",
         "landscape_option_label": "Paisatge: {title}",
@@ -2183,7 +2212,95 @@
         "refresh_comet_data": "Actualitza",
         "refreshing_comet_data": "S'està actualitzant…",
         "comet_data_updated": "S'han actualitzat {count} cometes.",
-        "comet_data_failed": "Ha fallat l'actualització: {message}"
+        "comet_data_failed": "Ha fallat l'actualització: {message}",
+        "section_display": "Visualització",
+        "section_landscape": "Paisatge",
+        "section_survey": "Imatges fotogràfiques del cel",
+        "section_catalogs": "Catàlegs",
+        "section_about": "Quant a"
+      },
+      "survey": {
+        "title": "Dades del rastreig fotogràfic",
+        "hint": "El rastreig en color DSS es descarrega una vegada a l'amfitrió NINA/PINS i es serveix a l'Atles des d'allà. Els ordres superiors afegeixen detall per a camps estrets.",
+        "plugin_update_required": "Actualitza el connector Touch'N'Stars per descarregar el rastreig del cel.",
+        "installed": "Instal·lat",
+        "free_space": "Lliure a l'amfitrió",
+        "not_installed": "No instal·lat",
+        "installed_order": "Fins a l'ordre {order} ({size})",
+        "partial_order": "ordre {order} descarregat al {percent}%",
+        "target_order": "Resolució a descarregar",
+        "order_base": "Base (ordres {min}–{max})",
+        "order_n": "Ordre {order}",
+        "option_installed": "instal·lat",
+        "option_size": "uns {size}",
+        "not_enough_space": "No hi ha prou espai lliure al disc de l'amfitrió: calen uns {needed}, hi ha {free} lliures.",
+        "download": "Descarrega",
+        "resume": "Descarrega els mosaics que falten",
+        "download_replace": "Substitueix i descarrega",
+        "legacy_format": "El rastreig descarregat fa servir un format obsolet i ja no es mostra. Torna'l a descarregar; els fitxers antics seran substituïts.",
+        "progress": "Ordre {order}: {done} / {total} mosaics · {size}",
+        "job_completed": "Descàrrega completa: els ordres fins a {order} estan instal·lats.",
+        "job_cancelled": "Descàrrega cancel·lada. Els mosaics desats es conserven; torna a començar per continuar.",
+        "job_failed": "Ha fallat la descàrrega: {message}",
+        "delete_target": "Suprimeix",
+        "delete_keep_option": "Conserva {name}, suprimeix la resta",
+        "delete_all_option": "Tot",
+        "delete_confirm_title": "Suprimir les dades del rastreig?",
+        "delete_confirm": "Suprimir el rastreig del cel descarregat de l'amfitrió NINA/PINS? L'Atles no mostrarà fons fotogràfic fins que es torni a descarregar.",
+        "delete_confirm_keep": "Suprimir tots els ordres per sobre de {name}? {name} continua instal·lat i l'Atles el segueix mostrant.",
+        "terms": "Digitized Sky Survey © STScI/NASA, acolorit i processat en HiPS pel CDS (CNRS/Unistra). Ús gratuït no comercial amb atribució; els mosaics romanen al teu propi amfitrió NINA/PINS.",
+        "terms_link": "Condicions d'ús",
+        "offer_text": "Vols descarregar ara el fons fotogràfic del cel (DSS, uns {size}) a l'amfitrió NINA/PINS? Sense això, l'Atles només mostra estrelles i objectes de catàleg.",
+        "offer_text_legacy": "El fons del cel descarregat fa servir un format obsolet. Vols tornar-lo a descarregar ara (uns {size})? Els fitxers antics seran substituïts.",
+        "offer_accept": "Descarrega",
+        "offer_decline": "Ara no",
+        "offer_progress": "S'està descarregant el fons del cel… {percent}%"
+      },
+      "object_types": {
+        "_ass": "Associació estel·lar",
+        "cl_n": "Cúmul amb nebulositat",
+        "doublestar": "Estrella doble",
+        "drkn": "Nebulosa fosca",
+        "emn": "Nebulosa d'emissió",
+        "g": "Galàxia",
+        "gcl": "Cúmul globular",
+        "gcluster": "Cúmul de galàxies",
+        "ggroup": "Grup de galàxies",
+        "gpair": "Parella de galàxies",
+        "gtrpl": "Triplet de galàxies",
+        "hii": "Regió H II",
+        "neb": "Nebulosa",
+        "ocl": "Cúmul obert",
+        "other": "Objecte de cel profund",
+        "pn": "Nebulosa planetària",
+        "rfn": "Nebulosa de reflexió",
+        "snr": "Romanent de supernova",
+        "star": "Estrella",
+        "planet": "Planeta",
+        "dwarf_planet": "Planeta nan",
+        "natural_satellite": "Lluna",
+        "comet": "Cometa"
+      },
+      "camera_panel": {
+        "target_name_placeholder": "Nom de l'objectiu"
+      },
+      "toolbar": {
+        "label": "Controls de l'atles",
+        "mount_center": "Centra en la muntura",
+        "mount_follow": "Segueix la muntura",
+        "layers": "Capes",
+        "mount_center_short": "Mostra muntura",
+        "mount_follow_short": "Segueix muntura",
+        "framing": "Framing"
+      },
+      "target": {
+        "title": "Framing",
+        "source_object": "Objecte seleccionat",
+        "source_view": "Centre de la vista",
+        "clear_selection": "Torna al centre de la vista",
+        "camera_field": "Camp de la càmera",
+        "actions": "Accions",
+        "more": "Més"
       }
     },
     "profile": {
@@ -2274,17 +2391,18 @@
     },
     "statusBar": {
       "labels": {
+        "screenlock": "Bloqueig",
         "camera": "Càmera",
         "guiding": "Guia",
         "mount": "Muntura",
         "filter": "Filtre",
+        "switch": "Interruptor",
         "weather": "Meteorologia",
         "safety": "Seguretat",
         "progress": "Progrés",
         "log": "Registre",
-        "instance": "Instància",
-        "screenlock": "Bloqueig",
-        "switch": "Interruptor"
+        "power": "Energia",
+        "instance": "Instància"
       },
       "camera": {
         "idle": "Inactiva"
@@ -4009,6 +4127,23 @@
         "manualTilterConfiguration": "Configuració manual de l'inclinador de 3 punts (beta - utilitza amb precaució)",
         "tilterOuterRadius": "Radi exterior de l'inclinador",
         "tilterThreadPitch": "Pas de rosca de l'inclinador",
+        "tilterScrewCount": "Cargols d'inclinació",
+        "tilterScrewCountDescription": "Les plaques de 3 cargols utilitzen un disseny equilàter, les plaques de 4 cargols un cargol per cantonada del sensor",
+        "screwCountThree": "3 cargols (equilàters)",
+        "screwCountFour": "4 cargols (un per cantonada)",
+        "fourScrewHint": "Ajusteu els cargols oposats com a parell (afluixeu-ne un, apreteu l'altre) perquè la placa no s'enganxi",
+        "fourScrewApplyUnsupported": "Aplicar-ho a un dispositiu només s'admet per a inclinadors de 3 cargols",
+        "positiveTurnDirection": "Els valors positius signifiquen",
+        "positiveTurnInward": "Girar el cargol cap a dins",
+        "positiveTurnOutward": "Girar el cargol cap a fora",
+        "positiveTurnDirectionDescription": "En quin sentit un valor calculat positiu gira el cargol del teu adaptador",
+        "shiftToNonNegative": "Els cargols comencen completament asseguts",
+        "startFromSeatedDescription": "Un cargol totalment assentat només es pot girar cap a dins, per això tots els valors es desplacen fins que un cargol no necessita gir i els altres giren cap a dins. Això només canvia el backfocus, no la inclinació. Desmarca-ho per veure ajustos amb signe des de la posició actual.",
+        "inward": "cap a dins",
+        "outward": "cap a fora",
+        "turnsInward": "{turns} voltes cap a dins",
+        "turnsOutward": "{turns} voltes cap a fora",
+        "noTurn": "sense gir",
         "applyTiltPlane": "Aplica el pla d'inclinació",
         "fetchFromAberrationInspector": "Obté de l'inspector d'aberracions",
         "calculateActuatorPositions": "Calcula les posicions dels actuadors",
@@ -4017,15 +4152,7 @@
         "actuatorVisualizationLabel": "Actuadors a {radius} mm de radi • Rotació del sensor {rotation}° • Vista superior",
         "calculatingPositions": "Calculant...",
         "applyingPositions": "Aplicant...",
-        "savingConfiguration": "Desant...",
-        "fourScrewHint": "Ajusteu els cargols oposats com a parell (afluixeu-ne un, apreteu l'altre) perquè la placa no s'enganxi",
-        "fourScrewApplyUnsupported": "Aplicar-ho a un dispositiu només s'admet per a inclinadors de 3 cargols",
-        "screwCountFour": "4 cargols (un per cantonada)",
-        "screwCountThree": "3 cargols (equilàters)",
-        "shiftToNonNegative": "Els cargols comencen completament asseguts",
-        "shiftToNonNegativeDescription": "Els informes viatgen des del fons, de manera que tots els valors són positius. \nDesmarqueu per mostrar els ajustos signats de la posició actual.",
-        "tilterScrewCount": "Cargols d'inclinació",
-        "tilterScrewCountDescription": "Les plaques de 3 cargols utilitzen un disseny equilàter, les plaques de 4 cargols un cargol per cantonada del sensor"
+        "savingConfiguration": "Desant..."
       },
       "common": {
         "error": "Error:",
@@ -4099,7 +4226,11 @@
         "scatterChart": "Punts del model (Az/Alt)",
         "axisAz": "Azimut (graus)",
         "axisAlt": "Altitud (graus)",
-        "refresh": "Actualitza"
+        "refresh": "Actualitza",
+        "altMin": "Altitud mín.",
+        "altMax": "Altitud màx.",
+        "azMin": "Azimut mín.",
+        "azMax": "Azimut màx."
       },
       "model": {
         "alignmentInfo": "Informació d'alineació",
@@ -4162,7 +4293,27 @@
         "deltaTExpiration": "Expiració de DeltaT",
         "localTime": "Hora local",
         "localDate": "Data local",
-        "siderealTime": "Temps sideri"
+        "siderealTime": "Temps sideri",
+        "settings": "Configuració de la muntura",
+        "on": "Activat",
+        "off": "Desactivat",
+        "status": {
+          "Tracking": "Seguiment",
+          "Stopped": "Aturada",
+          "SlewingToPark": "Movent-se a aparcament",
+          "Unparking": "Desaparcant",
+          "SlewingToHome": "Movent-se a la posició inicial",
+          "Parked": "Aparcada",
+          "Slewing": "Movent-se",
+          "TrackingOff": "Sense seguiment",
+          "MotorsInhibitedLowTemp": "Motors bloquejats per baixa temperatura",
+          "TrackingOnOutsideLimits": "Seguiment, però fora dels límits de la muntura",
+          "FollowingSatellite": "Seguint un satèl·lit",
+          "NeedsUserIntervention": "Cal intervenció de l'usuari",
+          "Unknown": "Desconegut",
+          "Error": "Error",
+          "NotConnected": "No connectada"
+        }
       }
     },
     "pinsAllSky": {

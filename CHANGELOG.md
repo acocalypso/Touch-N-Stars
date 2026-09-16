@@ -5,9 +5,27 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- Atlas: The photographic DSS background is now downloaded once from the Atlas settings to the NINA/PINS host (base resolution or up to order 7) instead of being shipped with the app; the Atlas offers the base download on first open and works without it.
+- Atlas: Deleting the survey now lets you pick which order to keep (downgrade) instead of only wiping everything, with a confirmation dialog and a spinner while it runs.
+- Atlas: The camera panel now has the framing tools — favourites list, FITS plate solve and mosaic settings (mosaic panels are saved as individual favourites) — and the Atlas centres on targets loaded into framing from favourites, FITS solves or the sequence.
+- Atlas: The target panel now shows what the selected object is and whether it is worth imaging — type, magnitude, size, constellation, current altitude and azimuth, rise, transit and set for the night, and the altitude chart with twilight, horizon and moon; everything follows the Atlas clock.
+- Sequence editor (PINS): The External Script instruction can now be added and edited; the script is picked with the file browser or typed with arguments.
+- Framing and Atlas: The camera rotation is set with a ruler slider (drag, mouse wheel, reset) instead of the drag handle or a number field alone; while the ruler is dragged the panel gets out of the way so the camera frame can be watched turning on small screens.
+
+### Changed
+
+- Atlas: The default landscape is now a dark night meadow with low hills and tree lines that leaves the sky free; the Guéreins village landscape stays available under the landscape source.
+- Atlas: Requires the Touch'N'Stars plugin with the survey download endpoints; older plugins show an update hint in the Atlas settings.
+- Atlas: The controls are rearranged into a search bar at the top and one toolbar at the bottom (mount, time, layers, target); the selected object and the camera field now share a single target panel, the frequent display toggles have their own Layers panel, and About moved into the settings.
+
 ## [App6.3.1-beta5] - 2026-09-15
 
 ### Added
+
 - Status bar: New Switch chip that shows how many ports are on and opens the switch controls from any page, so powering the equipment no longer needs a detour to the Switch tab.
 - Status bar: The filter panel now has the filter selector, so the filter can be changed from any page.
 - Status bar: The camera panel offers the cool-down and warm-up controls with the target temperature when the camera has a cooler.
@@ -15,28 +33,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Logfile Collector: Collect & Save now keeps the log archive inside the app (up to five) so it can be uploaded, exported to the device or deleted later from a saved-archives list.
 
 ### Fixed
+
 - Filter wheel: The INDI manual wheel is no longer offered and an existing selection is switched to NINA's Manual Filter Wheel on connect, so the filter change confirmation appears again in PINS.
 - Camera: The cooler status no longer shows Warming up right after starting a cool-down and no longer flips back to Off or At target temp after starting a cool-down, warm-up or cancel; warm-ups started at the target and holds after a cancel are shown correctly on Windows NINA too.
 - Switch: The on/off toggles now follow changes made outside the app, e.g. from NINA's own switch tab or an Alpaca proxy's web UI.
 - File browser: Cancelling a multi-file download no longer reports a failed download, and a rename that hits an existing name shows the backend's reason instead of closing the dialog silently.
 - Logfile Collector: Collect & Upload no longer also downloads a duplicate diagnostics ZIP alongside the main log archive.
 
-## [App6.3.1-beta3] - 2026-09-10 
+## [App6.3.1-beta3] - 2026-09-10
 
 ### Added
+
 - Sequence: New Settings tab on the sequence page, with an option to lock the sequence controls automatically when a sequence starts. Unlocking stays manual.
 - Guiding (PINS): Button in the guider graph to clear the guide step history.
 
 ### Changed
+
 - Mount: Tracking mode and manual control are locked while the mount is parked, with an unpark button in the hint.
 
 ### Fixed
+
 - Mount: Manual slew works right after connecting on PINS mounts that need the slew rate to be sent explicitly (e.g. ZWO AM3/AM5).
 
 ## [App6.3.1-beta2] - 2026-09-10
 
 ### Changed
-- Update Perihelion plugin. Thanks @OryxAstro 
+
+- Update Perihelion plugin. Thanks @OryxAstro
 
 ## [App6.3.1-beta1] - 2026-09-08
 
@@ -44,13 +67,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Celestia Atlas settings can refresh comet orbital elements from Atlas's rolling live-data release, validate and cache the downloaded catalogue, and reuse the last valid data offline.
 
-
 ## [App6.3.0-beta4] - 2026-09-07
 
 ### Added
+
 - Perihelion plugin: comet/asteroid non-sidereal tracking, computed live from real orbital elements. Asteroid orbits are stable enough to ship as a fixed list needing no internet at all; comet elements are fetched from MPC and refreshed automatically (or on demand via Sync Now), then cached to disk so tracking keeps working offline between syncs. Browse tab searches comets and asteroids by brightness; Position & Path shows tonight's altitude, a 10-night motion path with a real angular scale bar and drift readout, and a live framing view centered on the object's real position with the camera's actual field of view overlaid; Track offers Quick Track for immediate manual tracking (optionally re-applying the rate every 15 minutes so a long session stays accurate as the object's true rate drifts) and Add to Sequence to build a full Advanced Sequencer container (unpark, center, track, guide, imaging loop, optional meridian-flip and autofocus triggers). Predicted magnitude is cross-checked against real observer-reported brightness (COBS) where available.
 
 ### Fixed
+
 - Perihelion: the framing view's path/"Tonight" overlay rendered in the wrong place because its canvas element defaulted to the browser's 300x150 fallback size instead of filling its container — a CSS quirk specific to `<canvas>`/`<img>`/`<video>` elements, where `position: absolute; inset: 0` alone doesn't stretch them the way it does a normal element. Also fixed a related white-screen-on-pinch-zoom issue on mobile (same root cause).
 - Perihelion: the 10-night path chart's start/end date labels could overflow the card at either edge; also added a real angular scale bar and a total/per-night drift readout so the chart carries more than a bare line between two dates.
 

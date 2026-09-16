@@ -156,6 +156,7 @@ import {
   QueueListIcon,
   ViewColumnsIcon,
   BellAlertIcon,
+  CommandLineIcon,
 } from '@heroicons/vue/24/outline';
 import { useSequenceV2Store } from '@/store/sequenceV2Store';
 
@@ -245,6 +246,7 @@ const ICON_MAP = [
   // Utility – Annotation / MessageBox
   ['Utility.Annotation', ChatBubbleLeftIcon, 'text-slate-400'],
   ['Utility.MessageBox', ChatBubbleLeftIcon, 'text-slate-400'],
+  ['Utility.ExternalScript', CommandLineIcon, 'text-slate-400'],
   // Expressions / Variables
   ['Expressions', CodeBracketIcon, 'text-pink-400'],
   // Conditions

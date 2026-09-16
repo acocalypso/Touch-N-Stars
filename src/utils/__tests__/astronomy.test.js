@@ -8,6 +8,7 @@ const {
   getMoonDataForTarget,
   getMoonEquatorial,
   getMoonIllumination,
+  getRiseTransitSet,
   getSunAltitudeDeg,
   getSunEquatorial,
   localSiderealTimeDeg,
@@ -140,4 +141,50 @@ test('moon data omits the separation when the target has no coordinates', () => 
   const withoutTarget = getMoonDataForTarget(null, null, date);
   assert.equal(withoutTarget.separationDeg, null);
   assert.ok(Number.isFinite(withoutTarget.illumination));
+});
+
+test('rise, transit and set sit where the altitude curve crosses the horizon', () => {
+  // Betelgeuse from Berlin, window starts at local noon.
+  const ra = 88.7929;
+  const dec = 7.407;
+  const lat = 52.52;
+  const lon = 13.405;
+  const start = new Date('2026-01-15T11:00:00Z');
+
+  const events = getRiseTransitSet(ra, dec, start, lat, lon);
+  assert.equal(events.status, 'normal');
+  for (const key of ['rise', 'transit', 'set']) {
+    assert.ok(events[key] instanceof Date, `${key} is a date`);
+    assert.ok(events[key] >= start && events[key] <= new Date(start.getTime() + 86400000));
+  }
+  assertClose(
+    equatorialToAltAz(ra, dec, events.rise, lat, lon).altDeg,
+    0,
+    0.01,
+    'altitude at rise'
+  );
+  assertClose(equatorialToAltAz(ra, dec, events.set, lat, lon).altDeg, 0, 0.01, 'altitude at set');
+  assertClose(
+    ((localSiderealTimeDeg(events.transit, lon) - ra + 540) % 360) - 180,
+    0,
+    0.01,
+    'hour angle at transit'
+  );
+  assert.ok(events.transit > events.rise, 'transit follows the rise');
+  assert.ok(events.set > events.transit, 'set follows the transit');
+});
+
+test('rise/transit/set reports circumpolar and never-rising objects explicitly', () => {
+  const start = new Date('2026-06-01T10:00:00Z');
+  const polaris = getRiseTransitSet(37.95, 89.26, start, 52.52, 13.405);
+  assert.equal(polaris.status, 'circumpolar');
+  assert.equal(polaris.rise, null);
+  assert.equal(polaris.set, null);
+  assert.ok(polaris.transit instanceof Date, 'circumpolar objects still culminate');
+
+  const canopus = getRiseTransitSet(95.99, -52.7, start, 52.52, 13.405);
+  assert.deepEqual(canopus, { status: 'neverRises', rise: null, transit: null, set: null });
+
+  assert.equal(getRiseTransitSet(NaN, 0, start, 50, 10), null);
+  assert.equal(getRiseTransitSet(10, 0, 'not a date', 50, 10), null);
 });

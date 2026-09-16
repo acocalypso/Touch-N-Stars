@@ -105,29 +105,26 @@ const settingsRows = computed(() => [
 // inventing new hues, so state colors stay consistent with the rest of the
 // app. Any state not in this list (the API doesn't document the full set)
 // falls back to a neutral muted dot rather than guessing a color for it.
-const STATE_COLOR_CLASSES = {
-  Active: { bg: 'bg-status-ok', border: 'border-l-status-ok' },
-  Draft: { bg: 'bg-accent', border: 'border-l-accent' },
-  Inactive: { bg: 'bg-status-warn', border: 'border-l-status-warn' },
-  Closed: { bg: 'bg-status-danger', border: 'border-l-status-danger' },
+const STATE_DOT_CLASSES = {
+  Active: 'bg-status-ok',
+  Draft: 'bg-accent',
+  Inactive: 'bg-status-warn',
+  Closed: 'bg-status-danger',
 };
-const DEFAULT_STATE_COLOR_CLASSES = { bg: 'bg-content-faint', border: 'border-l-content-faint' };
 
-const stateColorClasses = computed(
-  () => STATE_COLOR_CLASSES[props.project.State] || DEFAULT_STATE_COLOR_CLASSES
-);
+const stateDotClass = computed(() => STATE_DOT_CLASSES[props.project.State] || 'bg-content-faint');
 
 const rollup = computed(() => computeRollup(props.targets));
 </script>
 
 <template>
-  <div class="overflow-hidden rounded-lg border-l-2 bg-surface-1" :class="stateColorClasses.border">
+  <div class="overflow-hidden rounded-lg border border-line bg-surface-1">
     <button
       class="flex w-full items-center justify-between gap-3 p-3 text-left transition-colors hover:brightness-110"
       @click="expanded = !expanded"
     >
       <div class="flex min-w-0 flex-1 flex-wrap items-center gap-x-2 gap-y-0.5">
-        <span class="tns-dot" :class="stateColorClasses.bg" :title="project.State" />
+        <span class="tns-dot" :class="stateDotClass" :title="project.State" />
         <span class="break-words font-semibold">{{ project.Name }}</span>
       </div>
 

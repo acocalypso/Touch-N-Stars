@@ -5255,6 +5255,7 @@
         "stateFilterLabel": "State:",
         "filterNameFilterLabel": "Filter:",
         "mosaicFilterLabel": "Type:",
+        "scheduledFilterLabel": "Planificació:",
         "mosaicOnly": "Mosaic",
         "singlePanelOnly": "Single panel",
         "scheduledTonightOnly": "Scheduled tonight",

@@ -374,9 +374,9 @@ onUnmounted(() => {
 </script>
 
 <template>
-  <div class="min-h-screen p-3 md:p-5 bg-ground text-content">
-    <div class="mx-auto max-w-5xl space-y-4 pb-24">
-      <section class="tns-card border-t-2 border-t-accent">
+  <div class="p-3 md:p-5 bg-ground text-content">
+    <div class="mx-auto max-w-5xl space-y-4">
+      <section class="tns-card">
         <div class="flex flex-wrap items-center justify-between gap-3">
           <div>
             <h1 class="text-xl font-bold md:text-2xl">
@@ -898,15 +898,35 @@ onUnmounted(() => {
               >
                 {{ opt[1] }}
               </button>
+            </div>
 
-              <label class="ml-1 flex items-center gap-1.5 text-[11px] text-content-faint">
-                <input
-                  v-model="scheduledTonightOnly"
-                  type="checkbox"
-                  @change="onScheduledTonightToggle"
-                />
-                {{ t('plugins.targetSchedulerViewer.labels.scheduledTonightOnly') }}
-              </label>
+            <div class="flex flex-wrap items-center gap-1.5">
+              <span class="text-[11px] text-content-faint">{{
+                t('plugins.targetSchedulerViewer.labels.scheduledFilterLabel')
+              }}</span>
+              <button
+                v-for="opt in [
+                  [false, t('plugins.targetSchedulerViewer.labels.allStates')],
+                  [true, t('plugins.targetSchedulerViewer.labels.scheduledTonightOnly')],
+                ]"
+                :key="opt[0]"
+                class="rounded-full border px-2.5 py-1 text-[11px] transition-colors"
+                :style="
+                  scheduledTonightOnly === opt[0]
+                    ? {
+                        borderColor: THEME.accent,
+                        backgroundColor: THEME.goodBg,
+                        color: THEME.inkPrimary,
+                      }
+                    : { borderColor: THEME.border, color: THEME.inkMuted }
+                "
+                @click="
+                  scheduledTonightOnly = opt[0];
+                  onScheduledTonightToggle();
+                "
+              >
+                {{ opt[1] }}
+              </button>
             </div>
 
             <div class="flex flex-wrap items-center gap-1.5">

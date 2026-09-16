@@ -5255,6 +5255,7 @@
         "stateFilterLabel": "State:",
         "filterNameFilterLabel": "Filter:",
         "mosaicFilterLabel": "Type:",
+        "scheduledFilterLabel": "일정:",
         "mosaicOnly": "Mosaic",
         "singlePanelOnly": "Single panel",
         "scheduledTonightOnly": "Scheduled tonight",

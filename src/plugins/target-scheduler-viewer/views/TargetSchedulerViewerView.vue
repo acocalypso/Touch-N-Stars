@@ -222,49 +222,49 @@ async function loadProjects(signal) {
   }
 }
 
-async function refreshAll() {
-  error.value = '';
-  loading.value = true;
-  try {
-    if (!profiles.value.length) await loadProfiles();
-    await loadProjects();
-    if (showSchedule.value) await loadSchedule();
-  } catch (e) {
-    error.value = e.message;
-  } finally {
-    loading.value = false;
-  }
-}
-
-// Changing the port re-connects from scratch (new profiles, new projects).
-// That connection can hang for up to the request timeout against a wrong or
-// unreachable port, so it's cancellable and the port field is locked while
-// it's in flight — editing it again mid-attempt would race two connections
-// against each other.
+// Every connection attempt — the initial auto-connect on mount, a manual
+// Refresh, and a port change — goes through this single cancellable path.
+// They used to be separate code paths (refreshAll vs onPortChange), which
+// meant changing the port while the initial mount's auto-connect was still
+// in flight left two uncoordinated requests running at once — whichever
+// resolved last silently overwrote the other's result (e.g. the initial
+// attempt against the old port finishing after a port change and stomping
+// the new, correct state). Routing everything through one AbortController
+// means a new attempt always cancels whatever came before it.
 const connectingPort = ref(false);
 let portAbortController = null;
 let lastGoodPort = getStoredPort();
 
-async function onPortChange() {
+async function connect({ isPortChange = false } = {}) {
   const attemptedPort = port.value;
   portAbortController?.abort();
   const controller = new AbortController();
   portAbortController = controller;
 
   connectingPort.value = true;
+  loading.value = true;
   error.value = '';
-  setStoredPort(attemptedPort);
-  profiles.value = [];
-  selectedProfileId.value = '';
-  projects.value = null;
-  targetsByProject.value = {};
-  lastUpdated.value = null;
+  if (isPortChange) {
+    setStoredPort(attemptedPort);
+    profiles.value = [];
+    selectedProfileId.value = '';
+    projects.value = null;
+    targetsByProject.value = {};
+    lastUpdated.value = null;
+  }
 
   try {
-    await loadProfiles(controller.signal);
+    if (!profiles.value.length) await loadProfiles(controller.signal);
     await loadProjects(controller.signal);
+    if (showSchedule.value) await loadSchedule();
+    // A newer connect() call may have superseded this one while the above
+    // awaits were in flight (it aborts this controller, but this function
+    // keeps running until it next hits an await/throw) — a stale attempt
+    // must never touch state the newer attempt now owns.
+    if (portAbortController !== controller) return;
     lastGoodPort = attemptedPort;
   } catch (e) {
+    if (portAbortController !== controller) return; // stale — ignore entirely
     if (controller.signal.aborted) {
       port.value = lastGoodPort;
       setStoredPort(lastGoodPort);
@@ -273,14 +273,23 @@ async function onPortChange() {
     }
   } finally {
     if (portAbortController === controller) {
+      loading.value = false;
       connectingPort.value = false;
       portAbortController = null;
     }
   }
 }
 
+function onPortChange() {
+  connect({ isPortChange: true });
+}
+
 function cancelPortConnect() {
   portAbortController?.abort();
+}
+
+function refreshAll() {
+  connect({ isPortChange: false });
 }
 
 function onProfileChange() {
@@ -446,8 +455,7 @@ onUnmounted(() => {
                     v-model="port"
                     type="text"
                     inputmode="numeric"
-                    class="h-9 w-full rounded border px-2 disabled:opacity-60"
-                    :disabled="connectingPort"
+                    class="h-9 w-full rounded border px-2"
                     :style="{
                       borderColor: THEME.border,
                       backgroundColor: THEME.surface1,

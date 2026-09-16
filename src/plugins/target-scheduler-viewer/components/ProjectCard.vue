@@ -1,63 +1,92 @@
 <script setup>
-import { ref } from 'vue';
+import { computed, ref } from 'vue';
 import TargetCard from './TargetCard.vue';
-import { targetSchedulerApi } from '../services/targetSchedulerApi';
+import { THEME } from '../theme';
 
 const props = defineProps({
   project: { type: Object, required: true },
+  targets: { type: Array, default: () => [] },
+  targetsError: { type: String, default: '' },
 });
 
 const expanded = ref(false);
-const targets = ref(null);
-const loading = ref(false);
-const error = ref('');
 
-async function toggle() {
-  expanded.value = !expanded.value;
-  if (expanded.value && !targets.value) {
-    loading.value = true;
-    error.value = '';
-    try {
-      targets.value = await targetSchedulerApi.getTargets(props.project.Id);
-    } catch (e) {
-      error.value = e.message;
-    } finally {
-      loading.value = false;
+const stateStyle = computed(() => {
+  if (props.project.State === 'Active') {
+    return { dot: THEME.good, text: THEME.good };
+  }
+  return { dot: THEME.inkMuted, text: THEME.inkMuted };
+});
+
+const rollup = computed(() => {
+  let desired = 0;
+  let accepted = 0;
+  for (const target of props.targets) {
+    for (const plan of target.ExposurePlan || []) {
+      desired += plan.Desired;
+      accepted += plan.Accepted;
     }
   }
-}
-
-const stateColor = {
-  Active: 'bg-green-600',
-  Inactive: 'bg-gray-600',
-  Completed: 'bg-blue-600',
-};
+  return {
+    desired,
+    accepted,
+    pct: desired > 0 ? Math.min(100, Math.round((accepted / desired) * 100)) : 0,
+  };
+});
 </script>
 
 <template>
-  <div class="rounded-lg border border-gray-700 bg-gray-900">
+  <div
+    class="overflow-hidden rounded-lg border-l-2"
+    :style="{ backgroundColor: THEME.surface2, borderColor: THEME.border, borderLeftColor: stateStyle.dot }"
+  >
     <button
-      class="flex w-full items-center justify-between gap-2 p-3 text-left"
-      @click="toggle"
+      class="flex w-full items-center justify-between gap-3 p-3 text-left transition-colors hover:brightness-110"
+      @click="expanded = !expanded"
     >
-      <div class="flex items-center gap-2">
-        <span
-          class="rounded px-1.5 py-0.5 text-[10px] uppercase text-white"
-          :class="stateColor[project.State] || 'bg-gray-600'"
-        >
+      <div class="flex min-w-0 flex-1 items-center gap-2">
+        <span class="flex shrink-0 items-center gap-1.5 text-[10px] uppercase tracking-wide" :style="{ color: stateStyle.text }">
+          <span class="h-1.5 w-1.5 rounded-full" :style="{ backgroundColor: stateStyle.dot }" />
           {{ project.State }}
         </span>
-        <span class="font-semibold">{{ project.Name }}</span>
-        <span class="text-[11px] text-gray-400">priority {{ project.Priority }}</span>
+        <span class="truncate font-semibold">{{ project.Name }}</span>
+        <span class="shrink-0 text-[11px]" :style="{ color: THEME.inkMuted }">priority {{ project.Priority }}</span>
       </div>
-      <span class="text-gray-400">{{ expanded ? '▲' : '▼' }}</span>
+
+      <div class="flex shrink-0 items-center gap-3">
+        <div class="hidden items-center gap-2 sm:flex">
+          <div class="h-1.5 w-24 overflow-hidden rounded-full" :style="{ backgroundColor: THEME.track }">
+            <div class="h-full rounded-full" :style="{ width: rollup.pct + '%', backgroundColor: THEME.good }" />
+          </div>
+          <span class="w-9 text-right text-[11px] tabular-nums" :style="{ color: THEME.inkMuted }">{{ rollup.pct }}%</span>
+        </div>
+        <svg
+          class="h-4 w-4 shrink-0 transition-transform"
+          :class="{ 'rotate-180': expanded }"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          :style="{ color: THEME.inkMuted }"
+        >
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 8.25l-7.5 7.5-7.5-7.5" />
+        </svg>
+      </div>
     </button>
 
-    <div v-if="expanded" class="space-y-2 border-t border-gray-700 p-3">
-      <div v-if="loading" class="text-sm text-gray-400">Loading targets…</div>
-      <div v-else-if="error" class="text-sm text-red-400">{{ error }}</div>
-      <div v-else-if="!targets.length" class="text-sm text-gray-500">No targets in this project.</div>
-      <TargetCard v-for="target in targets" :key="target.Id" :target="target" />
+    <div
+      class="grid transition-[grid-template-rows] duration-200 ease-out"
+      :style="{ gridTemplateRows: expanded ? '1fr' : '0fr' }"
+    >
+      <div class="overflow-hidden">
+        <div class="space-y-2 border-t p-3" :style="{ borderColor: THEME.border }">
+          <div v-if="targetsError" class="text-sm" :style="{ color: THEME.critical }">{{ targetsError }}</div>
+          <div v-else-if="!targets.length" class="text-sm" :style="{ color: THEME.inkMuted }">
+            No targets in this project.
+          </div>
+          <TargetCard v-for="target in targets" :key="target.Id" :target="target" />
+        </div>
+      </div>
     </div>
   </div>
 </template>

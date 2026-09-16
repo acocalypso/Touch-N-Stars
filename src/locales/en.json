@@ -5226,7 +5226,12 @@
         "active": "active",
         "lastUpdated": "Last updated",
         "loading": "Loading projects…",
-        "noProjects": "No projects found for this profile."
+        "noProjects": "No projects found for this profile.",
+        "activeProjects": "Active projects",
+        "targets": "Targets",
+        "completion": "Completion",
+        "legendAccepted": "Accepted",
+        "legendPending": "Acquired, pending review"
       }
     }
   },

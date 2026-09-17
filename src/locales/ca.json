@@ -5618,7 +5618,10 @@
       "cobsCountSynced": "{count} cometes a la memòria cau · {status}",
       "refreshedAgo": "actualitzat {when}",
       "neverRefreshed": "mai actualitzat",
-      "confirmClearCobs": "Voleu eliminar totes les observacions COBS desades a la memòria cau? Les insígnies de magnitud observada estaran buides fins a la propera actualització de la pestanya Explora."
+      "confirmClearCobs": "Voleu eliminar totes les observacions COBS desades a la memòria cau? Les insígnies de magnitud observada estaran buides fins a la propera actualització de la pestanya Explora.",
+      "connectionSection": "Connexió",
+      "apiTokenHint": "S'omple automàticament la primera vegada que obres aquest panell. Només cal introduir-lo manualment per a un segon dispositiu -- copia'l des d'aquest camp al primer dispositiu, o des de la pàgina d'Opcions del connector a Windows NINA.",
+      "apiTokenRequired": "Aquesta instal·lació de Perihelion necessita un testimoni d'API. Introdueix-lo a Configuració per continuar."
     }
   }
 }

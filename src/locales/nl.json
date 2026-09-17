@@ -5618,7 +5618,10 @@
       "cobsCountSynced": "{count} kometen gecached · {status}",
       "refreshedAgo": "vernieuwd {when}",
       "neverRefreshed": "nooit vernieuwd",
-      "confirmClearCobs": "Alle gecachte COBS-waarnemingen verwijderen? De badges voor waargenomen helderheid zijn leeg tot de volgende vernieuwing van het tabblad Bladeren."
+      "confirmClearCobs": "Alle gecachte COBS-waarnemingen verwijderen? De badges voor waargenomen helderheid zijn leeg tot de volgende vernieuwing van het tabblad Bladeren.",
+      "connectionSection": "Verbinding",
+      "apiTokenHint": "Wordt automatisch ingevuld de eerste keer dat je dit paneel opent. Alleen handmatig nodig voor een tweede apparaat -- kopieer het uit dit veld op je eerste apparaat, of van de Opties-pagina van de plugin in Windows NINA.",
+      "apiTokenRequired": "Deze Perihelion-installatie heeft een API-token nodig. Vul dit in bij Instellingen om door te gaan."
     }
   }
 }

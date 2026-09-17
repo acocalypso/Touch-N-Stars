@@ -5618,7 +5618,10 @@
       "cobsCountSynced": "已缓存 {count} 颗彗星 · {status}",
       "refreshedAgo": "{when}更新",
       "neverRefreshed": "从未更新",
-      "confirmClearCobs": "要移除所有已缓存的 COBS 观测数据吗？在下次浏览标签页刷新之前，实测亮度徽章将为空。"
+      "confirmClearCobs": "要移除所有已缓存的 COBS 观测数据吗？在下次浏览标签页刷新之前，实测亮度徽章将为空。",
+      "connectionSection": "连接",
+      "apiTokenHint": "首次打开此面板时会自动填写。仅在第二台设备上需要手动输入 -- 可从第一台设备的此字段复制，或从 Windows NINA 插件的选项页面获取。",
+      "apiTokenRequired": "此 Perihelion 安装需要 API 令牌。请在设置中输入以继续。"
     }
   }
 }

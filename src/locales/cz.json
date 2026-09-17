@@ -5618,7 +5618,10 @@
       "cobsCountSynced": "{count} komet uloženo · {status}",
       "refreshedAgo": "obnoveno {when}",
       "neverRefreshed": "nikdy neobnoveno",
-      "confirmClearCobs": "Odstranit všechna uložená pozorování COBS? Odznaky pozorované jasnosti budou prázdné až do dalšího obnovení karty Procházet."
+      "confirmClearCobs": "Odstranit všechna uložená pozorování COBS? Odznaky pozorované jasnosti budou prázdné až do dalšího obnovení karty Procházet.",
+      "connectionSection": "Připojení",
+      "apiTokenHint": "Vyplní se automaticky při prvním otevření tohoto panelu. Ručně je potřeba pouze pro druhé zařízení -- zkopírujte jej z tohoto pole na prvním zařízení, nebo ze stránky Možnosti pluginu ve Windows NINA.",
+      "apiTokenRequired": "Tato instalace Perihelionu vyžaduje API token. Zadejte jej v Nastavení pro pokračování."
     }
   }
 }

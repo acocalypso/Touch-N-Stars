@@ -5914,7 +5914,10 @@
       "cobsCountSynced": "{count} komet w pamięci podręcznej · {status}",
       "refreshedAgo": "odświeżono {when}",
       "neverRefreshed": "nigdy nieodświeżane",
-      "confirmClearCobs": "Usunąć wszystkie zbuforowane obserwacje COBS? Znaczniki obserwowanej jasności będą puste do następnego odświeżenia karty Przeglądaj."
+      "confirmClearCobs": "Usunąć wszystkie zbuforowane obserwacje COBS? Znaczniki obserwowanej jasności będą puste do następnego odświeżenia karty Przeglądaj.",
+      "connectionSection": "Połączenie",
+      "apiTokenHint": "Wypełniane automatycznie przy pierwszym otwarciu tego panelu. Ręczne wprowadzenie potrzebne tylko dla drugiego urządzenia -- skopiuj je z tego pola na pierwszym urządzeniu albo ze strony Opcji wtyczki w Windows NINA.",
+      "apiTokenRequired": "Ta instalacja Perihelion wymaga tokena API. Wprowadź go w Ustawieniach, aby kontynuować."
     }
   }
 }

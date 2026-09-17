@@ -5919,7 +5919,10 @@
       "cobsCountSynced": "{count} comètes en cache · {status}",
       "refreshedAgo": "actualisé {when}",
       "neverRefreshed": "jamais actualisé",
-      "confirmClearCobs": "Supprimer toutes les observations COBS en cache ? Les badges de luminosité observée seront vides jusqu'à la prochaine actualisation de l'onglet Parcourir."
+      "confirmClearCobs": "Supprimer toutes les observations COBS en cache ? Les badges de luminosité observée seront vides jusqu'à la prochaine actualisation de l'onglet Parcourir.",
+      "connectionSection": "Connexion",
+      "apiTokenHint": "Rempli automatiquement la première fois que vous ouvrez ce panneau. À saisir manuellement uniquement pour un second appareil -- copiez-le depuis ce champ sur votre premier appareil, ou depuis la page Options du plugin sous Windows NINA.",
+      "apiTokenRequired": "Cette installation de Perihelion nécessite un jeton API. Saisissez-le dans les Paramètres pour continuer."
     }
   }
 }

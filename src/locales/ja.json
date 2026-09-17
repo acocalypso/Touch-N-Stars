@@ -5914,7 +5914,10 @@
       "cobsCountSynced": "{count} 件の彗星をキャッシュ済み · {status}",
       "refreshedAgo": "{when}に更新",
       "neverRefreshed": "未更新",
-      "confirmClearCobs": "キャッシュされたCOBS観測データをすべて削除しますか? 次に閲覧タブを更新するまで、実視等級バッジは空になります。"
+      "confirmClearCobs": "キャッシュされたCOBS観測データをすべて削除しますか? 次に閲覧タブを更新するまで、実視等級バッジは空になります。",
+      "connectionSection": "接続",
+      "apiTokenHint": "このパネルを初めて開いたときに自動的に入力されます。2台目の端末でのみ手動入力が必要です -- 1台目の端末のこの項目からコピーするか、Windows NINAのプラグインのオプションページから取得してください。",
+      "apiTokenRequired": "このPerihelionのインストールにはAPIトークンが必要です。続行するには設定で入力してください。"
     }
   }
 }

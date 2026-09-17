@@ -5919,7 +5919,10 @@
       "cobsCountSynced": "{count} cometas em cache · {status}",
       "refreshedAgo": "atualizado {when}",
       "neverRefreshed": "nunca atualizado",
-      "confirmClearCobs": "Remover todas as observações COBS em cache? Os selos de magnitude observada ficarão vazios até a próxima atualização da aba Explorar."
+      "confirmClearCobs": "Remover todas as observações COBS em cache? Os selos de magnitude observada ficarão vazios até a próxima atualização da aba Explorar.",
+      "connectionSection": "Ligação",
+      "apiTokenHint": "Preenchido automaticamente na primeira vez que abres este painel. Só é preciso inserir manualmente num segundo dispositivo -- copia-o deste campo no teu primeiro dispositivo, ou da página de Opções do plugin no Windows NINA.",
+      "apiTokenRequired": "Esta instalação do Perihelion precisa de um token de API. Introduz-o em Definições para continuar."
     }
   }
 }

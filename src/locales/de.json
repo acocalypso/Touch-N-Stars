@@ -5919,7 +5919,10 @@
       "cobsCountSynced": "{count} Kometen zwischengespeichert · {status}",
       "refreshedAgo": "aktualisiert {when}",
       "neverRefreshed": "nie aktualisiert",
-      "confirmClearCobs": "Alle zwischengespeicherten COBS-Beobachtungen entfernen? Die Badges für beobachtete Helligkeit sind bis zur nächsten Aktualisierung im Browse-Tab leer."
+      "confirmClearCobs": "Alle zwischengespeicherten COBS-Beobachtungen entfernen? Die Badges für beobachtete Helligkeit sind bis zur nächsten Aktualisierung im Browse-Tab leer.",
+      "connectionSection": "Verbindung",
+      "apiTokenHint": "Wird beim ersten Öffnen dieses Panels automatisch ausgefüllt. Manuelle Eingabe nur für ein zweites Gerät nötig -- aus diesem Feld auf dem ersten Gerät kopieren, oder von der Options-Seite des Plugins unter Windows NINA.",
+      "apiTokenRequired": "Diese Perihelion-Installation benötigt ein API-Token. Zum Fortfahren in den Einstellungen eingeben."
     }
   }
 }

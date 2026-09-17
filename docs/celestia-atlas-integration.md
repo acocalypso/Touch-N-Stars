@@ -119,8 +119,12 @@ onto the N.I.N.A. host and serves them from its persistent data directory at
 `/celestia-atlas-data/surveys/dss`. The app reads `hips_order` from the served
 `properties` file (`loadDssSurveyOrder` in `offlineSkySurvey.js`) and keeps the
 layer off while nothing is installed; it has no public online fallback.
-Catalogue search, ephemerides, the Milky Way panorama, and engine calculations
-are local.
+Catalogue search, ephemerides, and engine calculations are local: star and
+deep-sky catalogues are bundled through the `@acocalypso/celestia-atlas` data
+modules, not served as files. `public/celestia-atlas-data` therefore holds only
+the two shipped landscapes (`gray`, `guereins`); the former Stellarium-era HiPS
+folders (`dso`, `stars`, `surveys/milkyway`, `surveys/sso`) and orbital element
+files were removed and nothing loads them.
 
 Android and iOS builds deliberately exclude `celestia-atlas-data`; they obtain
 that tree from the selected Touch'N'Stars N.I.N.A. plugin server. The data-base

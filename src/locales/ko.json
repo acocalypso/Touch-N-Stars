@@ -3973,10 +3973,6 @@
         "finalFocusDataSummary": "최종 포커스 데이터 요약",
         "backfocusError": "백포커스 오차:",
         "hfrDifference": "HFR 차이:",
-        "innerHFR": "내측 HFR:",
-        "outerHFR": "외측 HFR:",
-        "moveSensor": "(센서 이동",
-        "flattener": "플래트너)",
         "tiltCornerMeasurements": "틸트 코너 측정값",
         "sensorSide": "센서 측면",
         "focuserPosition": "포커서 위치",
@@ -3986,16 +3982,31 @@
         "unitMicrons": "µm",
         "unitSteps": "steps"
       },
+      "sensorModel": {
+        "pixelSize": "픽셀 크기"
+      },
+      "eccentricity": {
+        "stars": "별"
+      },
+      "optimizer": {
+        "source": "소스",
+        "mode": "모드",
+        "filter": "필터",
+        "gain": "게인",
+        "stars": "별",
+        "cancel": "취소",
+        "close": "닫기",
+        "yes": "예",
+        "no": "아니오"
+      },
       "aberrationInspectorOptions": {
         "loading": "수차 검사기 옵션을 불러오는 중...",
-        "noOptions": "아직 사용할 수 있는 수차 검사기 옵션이 없습니다.",
         "error": "오류:",
-        "inspectorSettings": "검사기 설정",
         "micronsPerFocuserStep": "포커서 스텝당 마이크론",
         "retry": "다시 시도",
         "resetToDefaults": "기본값으로 초기화",
         "resetting": "초기화 중...",
-        "autoPlaceholder": "자동",
+        "cancel": "취소",
         "centerFocuserBeforeRun": "달리기 전 센터 포커서",
         "detailedAnalysisExposureSeconds": "상세 분석 노출 시간(초)",
         "framesPerPoint": "포인트당 프레임",
@@ -4012,11 +4023,9 @@
         "error": "오류:",
         "retry": "다시 시도",
         "basicSettings": "기본 설정",
-        "hfrValidation": "HFR 검증"
-      },
-      "directoryBrowser": {
-        "browse": "찾아보기...",
-        "error": "디렉터리 선택 창을 열지 못했습니다"
+        "hfrValidation": "HFR 검증",
+        "cancel": "취소",
+        "save": "저장"
       },
       "starDetection": {
         "loading": "별 검출 옵션을 불러오는 중...",
@@ -4031,7 +4040,9 @@
         "noiseReducedStarMeasurement": "노이즈 감소 별 측정",
         "debugMode": "디버그 모드",
         "simpleModeSettings": "간단 모드 설정",
+        "cancel": "취소",
         "noiseLevel": "노이즈 레벨",
+        "pixelScale": "픽셀 스케일",
         "useOptimizedSettings": "최적화된 설정 사용"
       },
       "tilter": {
@@ -4047,7 +4058,6 @@
         "idle": "대기 중",
         "currentPositions": "현재 위치",
         "noDeviceSelected": "먼저 장치를 선택하세요",
-        "deviceNotConnected": "컨트롤을 보려면 장치에 연결하세요",
         "configuration": "구성",
         "sensorWidth": "센서 폭",
         "sensorHeight": "센서 높이",
@@ -4078,14 +4088,7 @@
         "calculateActuatorPositions": "액추에이터 위치 계산",
         "calculatedPositions": "계산된 위치",
         "applyThesePositionsToDevice": "이 위치를 장치에 적용",
-        "actuatorVisualizationLabel": "반지름 {radius} mm의 액추에이터 • 센서 회전 {rotation}° • 위에서 본 모습",
-        "calculatingPositions": "계산 중...",
-        "applyingPositions": "적용 중...",
-        "savingConfiguration": "저장 중..."
-      },
-      "common": {
-        "error": "오류:",
-        "loading": "불러오는 중..."
+        "actuatorVisualizationLabel": "반지름 {radius} mm의 액추에이터 • 센서 회전 {rotation}° • 위에서 본 모습"
       }
     },
     "tenmicron": {

@@ -3978,10 +3978,6 @@
         "finalFocusDataSummary": "Zusammenfassung der endgültigen Fokussdaten",
         "backfocusError": "Rückfokus-Fehler:",
         "hfrDifference": "HFR-Unterschied:",
-        "innerHFR": "Inneres HFR:",
-        "outerHFR": "Äußeres HFR:",
-        "moveSensor": "(Sensor verschieben",
-        "flattener": "Flächner)",
         "tiltCornerMeasurements": "Neigung-Eckenmessungen",
         "sensorSide": "Sensor-Seite",
         "focuserPosition": "Fokussierer-Position",
@@ -3991,16 +3987,30 @@
         "unitMicrons": "µm",
         "unitSteps": "Schritte"
       },
+      "sensorModel": {
+        "pixelSize": "Pixelgröße"
+      },
+      "eccentricity": {
+        "eccentricity": "Exzentrizität",
+        "stars": "Sterne"
+      },
+      "optimizer": {
+        "source": "Quelle",
+        "mode": "Modus",
+        "stars": "Sterne",
+        "cancel": "Abbrechen",
+        "close": "Schließen",
+        "yes": "Ja",
+        "no": "Nein"
+      },
       "aberrationInspectorOptions": {
         "loading": "Lade Optionen des Aberrationsprüfers...",
-        "noOptions": "Noch keine Optionen des Aberrationsprüfers verfügbar.",
         "error": "Fehler:",
-        "inspectorSettings": "Prüfer-Einstellungen",
         "micronsPerFocuserStep": "Mikronen pro Fokussierschritt",
         "retry": "Wiederholen",
         "resetToDefaults": "Auf Standardwerte zurücksetzen",
         "resetting": "Wird zurückgesetzt...",
-        "autoPlaceholder": "Auto",
+        "cancel": "Abbrechen",
         "centerFocuserBeforeRun": "Fokussierer vor dem Lauf zentrieren",
         "detailedAnalysisExposureSeconds": "Detaillierte Analyse-Belichtungszeit (Sekunden)",
         "framesPerPoint": "Frames pro Punkt",
@@ -4017,11 +4027,9 @@
         "error": "Fehler:",
         "retry": "Wiederholen",
         "basicSettings": "Grundeinstellungen",
-        "hfrValidation": "HFR-Validierung"
-      },
-      "directoryBrowser": {
-        "browse": "Durchsuchen...",
-        "error": "Fehler beim Öffnen der Verzeichnisauswahl"
+        "hfrValidation": "HFR-Validierung",
+        "cancel": "Abbrechen",
+        "save": "Speichern"
       },
       "starDetection": {
         "loading": "Lade Star Detection-Optionen...",
@@ -4036,7 +4044,9 @@
         "noiseReducedStarMeasurement": "Rausch-reduzierte Sternmessung",
         "debugMode": "Debug-Modus",
         "simpleModeSettings": "Einfacher Modus-Einstellungen",
+        "cancel": "Abbrechen",
         "noiseLevel": "Rauschpegel",
+        "pixelScale": "Pixel Maßstab",
         "useOptimizedSettings": "Verwenden Sie optimierte Einstellungen"
       },
       "tilter": {
@@ -4052,7 +4062,6 @@
         "idle": "Idle",
         "currentPositions": "Current Positions",
         "noDeviceSelected": "Please select a device first",
-        "deviceNotConnected": "Connect to a device to view controls",
         "configuration": "Configuration",
         "sensorWidth": "Sensor Width",
         "sensorHeight": "Sensor Height",
@@ -4083,14 +4092,7 @@
         "calculateActuatorPositions": "Calculate Actuator Positions",
         "calculatedPositions": "Calculated Positions",
         "applyThesePositionsToDevice": "Apply These Positions to Device",
-        "actuatorVisualizationLabel": "Actuators at {radius} mm radius • Sensor rotation {rotation}° • Top view",
-        "calculatingPositions": "Calculating...",
-        "applyingPositions": "Applying...",
-        "savingConfiguration": "Saving..."
-      },
-      "common": {
-        "error": "Fehler:",
-        "loading": "Wird geladen..."
+        "actuatorVisualizationLabel": "Actuators at {radius} mm radius • Sensor rotation {rotation}° • Top view"
       }
     },
     "tenmicron": {

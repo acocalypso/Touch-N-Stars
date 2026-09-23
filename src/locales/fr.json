@@ -3862,10 +3862,6 @@
         "finalFocusDataSummary": "Résumé des Données de Mise au Point Finale",
         "backfocusError": "Erreur de Mise au Point Arrière:",
         "hfrDifference": "Différence HFR:",
-        "innerHFR": "HFR Intérieur:",
-        "outerHFR": "HFR Extérieur:",
-        "moveSensor": "(Déplacer le capteur",
-        "flattener": "aplatisseur)",
         "tiltCornerMeasurements": "Mesures de Coins d'Inclinaison",
         "sensorSide": "Côté Capteur",
         "focuserPosition": "Position du Focaliseur",
@@ -3875,16 +3871,28 @@
         "unitMicrons": "µm",
         "unitSteps": "étapes"
       },
+      "sensorModel": {
+        "pixelSize": "Taille pixel"
+      },
+      "eccentricity": {
+        "stars": "Étoiles"
+      },
+      "optimizer": {
+        "filter": "Filtre",
+        "stars": "Étoiles",
+        "cancel": "Annuler",
+        "close": "Fermer",
+        "yes": "Oui",
+        "no": "Non"
+      },
       "aberrationInspectorOptions": {
         "loading": "Chargement des options de l'Inspecteur d'Aberration...",
-        "noOptions": "Aucune option de l'Inspecteur d'Aberration disponible pour le moment.",
         "error": "Erreur:",
-        "inspectorSettings": "Paramètres de l'Inspecteur",
         "micronsPerFocuserStep": "Microns par Étape du Focaliseur",
         "retry": "Réessayer",
         "resetToDefaults": "Réinitialiser aux Valeurs par Défaut",
         "resetting": "Réinitialisation...",
-        "autoPlaceholder": "auto",
+        "cancel": "Annuler",
         "centerFocuserBeforeRun": "Centre de mise au point avant l'exécution",
         "detailedAnalysisExposureSeconds": "Temps d'exposition de l'analyse détaillée (secondes)",
         "framesPerPoint": "Images par point",
@@ -3901,11 +3909,9 @@
         "error": "Erreur:",
         "retry": "Réessayer",
         "basicSettings": "Paramètres de Base",
-        "hfrValidation": "Validation HFR"
-      },
-      "directoryBrowser": {
-        "browse": "Parcourir...",
-        "error": "Échec de l'ouverture du sélecteur de répertoires"
+        "hfrValidation": "Validation HFR",
+        "cancel": "Annuler",
+        "save": "Enregistrer"
       },
       "starDetection": {
         "loading": "Chargement des options de Détection d'Étoiles...",
@@ -3920,7 +3926,9 @@
         "noiseReducedStarMeasurement": "Mesure d'Étoiles à Bruit Réduit",
         "debugMode": "Mode Débogage",
         "simpleModeSettings": "Paramètres du Mode Simple",
+        "cancel": "Annuler",
         "noiseLevel": "Niveau de Bruit",
+        "pixelScale": "Échelle Pixel",
         "useOptimizedSettings": "Utiliser les paramètres optimisés"
       },
       "tilter": {
@@ -3936,7 +3944,6 @@
         "idle": "Inactif",
         "currentPositions": "Postes actuels",
         "noDeviceSelected": "Veuillez d'abord sélectionner un appareil",
-        "deviceNotConnected": "Connectez-vous à un appareil pour afficher les commandes",
         "configuration": "Configuration",
         "sensorWidth": "Largeur du capteur",
         "sensorHeight": "Hauteur du capteur",
@@ -3967,14 +3974,7 @@
         "calculateActuatorPositions": "Calculer les positions des actionneurs",
         "calculatedPositions": "Positions calculées",
         "applyThesePositionsToDevice": "Appliquer ces positions à l'appareil",
-        "actuatorVisualizationLabel": "Actionneurs avec rayon {radius} mm • Rotation du capteur {rotation}° • Vue de dessus",
-        "calculatingPositions": "Calculateur...",
-        "applyingPositions": "Candidature...",
-        "savingConfiguration": "Économie..."
-      },
-      "common": {
-        "error": "Erreur:",
-        "loading": "Chargement..."
+        "actuatorVisualizationLabel": "Actionneurs avec rayon {radius} mm • Rotation du capteur {rotation}° • Vue de dessus"
       }
     },
     "tenmicron": {

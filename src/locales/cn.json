@@ -3862,10 +3862,6 @@
         "finalFocusDataSummary": "最终焦点数据摘要",
         "backfocusError": "后焦点误差:",
         "hfrDifference": "HFR 差异:",
-        "innerHFR": "内部HFR:",
-        "outerHFR": "外部HFR:",
-        "moveSensor": "(移动传感器",
-        "flattener": "扁平器)",
         "tiltCornerMeasurements": "倾斜角测量",
         "sensorSide": "传感器侧",
         "focuserPosition": "对焦器位置",
@@ -3875,16 +3871,31 @@
         "unitMicrons": "微米",
         "unitSteps": "步数"
       },
+      "sensorModel": {
+        "pixelSize": "像素大小"
+      },
+      "eccentricity": {
+        "stars": "星点数"
+      },
+      "optimizer": {
+        "source": "来源",
+        "mode": "模式",
+        "filter": "滤镜",
+        "gain": "增益",
+        "stars": "星点数",
+        "cancel": "取消",
+        "close": "关闭",
+        "yes": "是",
+        "no": "否"
+      },
       "aberrationInspectorOptions": {
         "loading": "正在加载像差检查器选项...",
-        "noOptions": "还没有可用的像差检查器选项。",
         "error": "错误:",
-        "inspectorSettings": "检查器设置",
         "micronsPerFocuserStep": "每个对焦器步骤的微米数",
         "retry": "重试",
         "resetToDefaults": "重置为默认值",
         "resetting": "正在重置...",
-        "autoPlaceholder": "auto",
+        "cancel": "取消",
         "centerFocuserBeforeRun": "Center Focuser Before Run",
         "detailedAnalysisExposureSeconds": "Detailed Analysis Exposure Time (seconds)",
         "framesPerPoint": "Frames Per Point",
@@ -3901,11 +3912,9 @@
         "error": "错误:",
         "retry": "重试",
         "basicSettings": "基本设置",
-        "hfrValidation": "HFR验证"
-      },
-      "directoryBrowser": {
-        "browse": "浏览...",
-        "error": "无法打开目录选择器"
+        "hfrValidation": "HFR验证",
+        "cancel": "取消",
+        "save": "保存"
       },
       "starDetection": {
         "loading": "正在加载星星检测选项...",
@@ -3920,7 +3929,9 @@
         "noiseReducedStarMeasurement": "降噪星测量",
         "debugMode": "调试模式",
         "simpleModeSettings": "简单模式设置",
+        "cancel": "取消",
         "noiseLevel": "噪声级别",
+        "pixelScale": "像素比例",
         "useOptimizedSettings": "Use Optimized Settings"
       },
       "tilter": {
@@ -3936,7 +3947,6 @@
         "idle": "闲置的",
         "currentPositions": "目前职位",
         "noDeviceSelected": "请先选择设备",
-        "deviceNotConnected": "连接到设备以查看控件",
         "configuration": "配置",
         "sensorWidth": "传感器宽度",
         "sensorHeight": "传感器高度",
@@ -3967,14 +3977,7 @@
         "calculateActuatorPositions": "计算执行器位置",
         "calculatedPositions": "计算位置",
         "applyThesePositionsToDevice": "将这些位置应用到设备",
-        "actuatorVisualizationLabel": "执行器半径为 {radius} mm • 传感器旋转 {rotation}° • 顶视图",
-        "calculatingPositions": "正在计算...",
-        "applyingPositions": "正在申请...",
-        "savingConfiguration": "保存..."
-      },
-      "common": {
-        "error": "错误:",
-        "loading": "正在加载..."
+        "actuatorVisualizationLabel": "执行器半径为 {radius} mm • 传感器旋转 {rotation}° • 顶视图"
       }
     },
     "tenmicron": {

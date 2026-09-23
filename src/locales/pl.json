@@ -3862,10 +3862,6 @@
         "finalFocusDataSummary": "Podsumowanie ostatecznych danych ostrości",
         "backfocusError": "Błąd ostrości wstecznej:",
         "hfrDifference": "Różnica HFR:",
-        "innerHFR": "Wewnętrzne HFR:",
-        "outerHFR": "Zewnętrzne HFR:",
-        "moveSensor": "(Przesuń czujnik",
-        "flattener": "spłaszczacz)",
         "tiltCornerMeasurements": "Pomiary kątów nachylenia",
         "sensorSide": "Strona czujnika",
         "focuserPosition": "Pozycja fokusera",
@@ -3875,16 +3871,30 @@
         "unitMicrons": "µm",
         "unitSteps": "kroki"
       },
+      "sensorModel": {
+        "pixelSize": "Rozmiar piksela"
+      },
+      "eccentricity": {
+        "stars": "Gwiazdy"
+      },
+      "optimizer": {
+        "source": "Źródło",
+        "mode": "Tryb",
+        "filter": "Filtr",
+        "stars": "Gwiazdy",
+        "cancel": "Anuluj",
+        "close": "Zamknij",
+        "yes": "Tak",
+        "no": "Nie"
+      },
       "aberrationInspectorOptions": {
         "loading": "Ładowanie opcji inspektora aberracji...",
-        "noOptions": "Brak dostępnych opcji inspektora aberracji.",
         "error": "Błąd:",
-        "inspectorSettings": "Ustawienia inspektora",
         "micronsPerFocuserStep": "Mikrony na krok fokusera",
         "retry": "Ponów",
         "resetToDefaults": "Przywróć ustawienia domyślne",
         "resetting": "Przywracanie...",
-        "autoPlaceholder": "automatyczny",
+        "cancel": "Anuluj",
         "centerFocuserBeforeRun": "Centralny wyciąg okularowy przed biegiem",
         "detailedAnalysisExposureSeconds": "Szczegółowa analiza Czas ekspozycji (sekundy)",
         "framesPerPoint": "Klatki na punkt",
@@ -3901,11 +3911,9 @@
         "error": "Błąd:",
         "retry": "Ponów",
         "basicSettings": "Ustawienia podstawowe",
-        "hfrValidation": "Weryfikacja HFR"
-      },
-      "directoryBrowser": {
-        "browse": "Przeglądaj...",
-        "error": "Nie udało się otworzyć selektora katalogów"
+        "hfrValidation": "Weryfikacja HFR",
+        "cancel": "Anuluj",
+        "save": "Zapisz"
       },
       "starDetection": {
         "loading": "Ładowanie opcji wykrywania gwiazd...",
@@ -3920,7 +3928,9 @@
         "noiseReducedStarMeasurement": "Pomiar gwiazd ze zmniejszonym szumem",
         "debugMode": "Tryb debugowania",
         "simpleModeSettings": "Ustawienia trybu prostego",
+        "cancel": "Anuluj",
         "noiseLevel": "Poziom szumu",
+        "pixelScale": "Rozmiar piksela",
         "useOptimizedSettings": "Użyj zoptymalizowanych ustawień"
       },
       "tilter": {
@@ -3936,7 +3946,6 @@
         "idle": "Bezczynny",
         "currentPositions": "Aktualne pozycje",
         "noDeviceSelected": "Najpierw wybierz urządzenie",
-        "deviceNotConnected": "Połącz się z urządzeniem, aby wyświetlić elementy sterujące",
         "configuration": "Konfiguracja",
         "sensorWidth": "Szerokość czujnika",
         "sensorHeight": "Wysokość czujnika",
@@ -3967,14 +3976,7 @@
         "calculateActuatorPositions": "Oblicz pozycje siłowników",
         "calculatedPositions": "Obliczone pozycje",
         "applyThesePositionsToDevice": "Zastosuj te pozycje do urządzenia",
-        "actuatorVisualizationLabel": "Siłowniki o promieniu {radius} mm • Obrót czujnika {rotation}° • Widok z góry",
-        "calculatingPositions": "Obliczenie...",
-        "applyingPositions": "Stosowanie...",
-        "savingConfiguration": "Oszczędność..."
-      },
-      "common": {
-        "error": "Błąd:",
-        "loading": "Ładowanie..."
+        "actuatorVisualizationLabel": "Siłowniki o promieniu {radius} mm • Obrót czujnika {rotation}° • Widok z góry"
       }
     },
     "tenmicron": {

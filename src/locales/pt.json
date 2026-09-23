@@ -3862,10 +3862,6 @@
         "finalFocusDataSummary": "Resumo dos Dados de Foco Final",
         "backfocusError": "Erro de Foco Posterior:",
         "hfrDifference": "Diferença HFR:",
-        "innerHFR": "HFR Interior:",
-        "outerHFR": "HFR Exterior:",
-        "moveSensor": "(Mover sensor",
-        "flattener": "achatador)",
         "tiltCornerMeasurements": "Medições de Canto de Inclinação",
         "sensorSide": "Lado do Sensor",
         "focuserPosition": "Posição do Focalizador",
@@ -3875,16 +3871,30 @@
         "unitMicrons": "µm",
         "unitSteps": "etapas"
       },
+      "sensorModel": {
+        "pixelSize": "Tamanho do Pixel"
+      },
+      "eccentricity": {
+        "stars": "Estrelas"
+      },
+      "optimizer": {
+        "source": "Origem",
+        "mode": "Modo",
+        "filter": "Filtro",
+        "stars": "Estrelas",
+        "cancel": "Cancelar",
+        "close": "Fechar",
+        "yes": "Sim",
+        "no": "Não"
+      },
       "aberrationInspectorOptions": {
         "loading": "Carregando opções do Inspetor de Aberrações...",
-        "noOptions": "Nenhuma opção do Inspetor de Aberrações disponível ainda.",
         "error": "Erro:",
-        "inspectorSettings": "Configurações do Inspetor",
         "micronsPerFocuserStep": "Microns por Etapa do Focalizador",
         "retry": "Tentar novamente",
         "resetToDefaults": "Redefinir para Padrões",
         "resetting": "Redefinindo...",
-        "autoPlaceholder": "auto",
+        "cancel": "Cancelar",
         "centerFocuserBeforeRun": "Centralizar o foco antes da execução",
         "detailedAnalysisExposureSeconds": "Tempo de exposição de análise detalhada (segundos)",
         "framesPerPoint": "Quadros por ponto",
@@ -3901,11 +3911,9 @@
         "error": "Erro:",
         "retry": "Tentar novamente",
         "basicSettings": "Configurações Básicas",
-        "hfrValidation": "Validação HFR"
-      },
-      "directoryBrowser": {
-        "browse": "Procurar...",
-        "error": "Falha ao abrir seletor de diretório"
+        "hfrValidation": "Validação HFR",
+        "cancel": "Cancelar",
+        "save": "Guardar"
       },
       "starDetection": {
         "loading": "Carregando opções de Detecção de Estrelas...",
@@ -3920,7 +3928,9 @@
         "noiseReducedStarMeasurement": "Medição de Estrelas com Ruído Reduzido",
         "debugMode": "Modo de Depuração",
         "simpleModeSettings": "Configurações do Modo Simples",
+        "cancel": "Cancelar",
         "noiseLevel": "Nível de Ruído",
+        "pixelScale": "Escala de Pixel",
         "useOptimizedSettings": "Use configurações otimizadas"
       },
       "tilter": {
@@ -3936,7 +3946,6 @@
         "idle": "Parado",
         "currentPositions": "Posições Atuais",
         "noDeviceSelected": "Selecione um dispositivo primeiro",
-        "deviceNotConnected": "Conecte-se a um dispositivo para visualizar os controles",
         "configuration": "Configuração",
         "sensorWidth": "Largura do Sensor",
         "sensorHeight": "Altura do sensor",
@@ -3967,14 +3976,7 @@
         "calculateActuatorPositions": "Calcular posições do atuador",
         "calculatedPositions": "Posições calculadas",
         "applyThesePositionsToDevice": "Aplique essas posições ao dispositivo",
-        "actuatorVisualizationLabel": "Atuadores com raio de {radius} mm • Rotação do sensor {rotation}° • Vista superior",
-        "calculatingPositions": "Calculando...",
-        "applyingPositions": "Aplicando...",
-        "savingConfiguration": "Salvando..."
-      },
-      "common": {
-        "error": "Erro:",
-        "loading": "Carregando..."
+        "actuatorVisualizationLabel": "Atuadores com raio de {radius} mm • Rotação do sensor {rotation}° • Vista superior"
       }
     },
     "tenmicron": {

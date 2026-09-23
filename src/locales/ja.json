@@ -1651,16 +1651,11 @@
         "value": "値",
         "invalidDate": "無効な日付"
       },
-      "hfr": "HFR",
-      "focuser_position": "位置",
       "IsStalled": "ストール",
       "HeatingPower": "ヒーター出力：",
       "BoardTemperature": "ボード温度：",
       "DcPower": "DC電源",
       "StepSize": "ステップサイズ",
-      "duration_seconds": "時間",
-      "filter": "フィルター",
-      "estimated": "推定",
       "settings": {
         "AutoFocusInitialOffsetSteps": "初期オフセットステップ数",
         "AutoFocusStepSize": "ステップサイズ",
@@ -3973,10 +3968,6 @@
         "finalFocusDataSummary": "最終フォーカスデータのサマリー",
         "backfocusError": "バックフォーカス誤差：",
         "hfrDifference": "HFR差：",
-        "innerHFR": "内側HFR：",
-        "outerHFR": "外側HFR：",
-        "moveSensor": "（センサーを移動",
-        "flattener": "フラットナー）",
         "tiltCornerMeasurements": "チルトコーナー測定",
         "sensorSide": "センサー側",
         "focuserPosition": "フォーカサー位置",
@@ -3986,16 +3977,31 @@
         "unitMicrons": "µm",
         "unitSteps": "ステップ"
       },
+      "sensorModel": {
+        "pixelSize": "ピクセルサイズ"
+      },
+      "eccentricity": {
+        "stars": "星"
+      },
+      "optimizer": {
+        "source": "ソース",
+        "mode": "モード",
+        "filter": "フィルター",
+        "gain": "ゲイン",
+        "stars": "星",
+        "cancel": "キャンセル",
+        "close": "クローズ",
+        "yes": "はい",
+        "no": "いいえ"
+      },
       "aberrationInspectorOptions": {
         "loading": "収差インスペクターオプションを読み込み中...",
-        "noOptions": "収差インスペクターオプションはまだ利用できません。",
         "error": "エラー：",
-        "inspectorSettings": "インスペクター設定",
         "micronsPerFocuserStep": "フォーカサーステップあたりのマイクロン数",
         "retry": "再試行",
         "resetToDefaults": "デフォルトにリセット",
         "resetting": "リセット中...",
-        "autoPlaceholder": "自動",
+        "cancel": "キャンセル",
         "centerFocuserBeforeRun": "実行前のセンターフォーカサー",
         "detailedAnalysisExposureSeconds": "詳細分析露光時間（秒）",
         "framesPerPoint": "ポイントあたりのフレーム数",
@@ -4012,11 +4018,9 @@
         "error": "エラー：",
         "retry": "再試行",
         "basicSettings": "基本設定",
-        "hfrValidation": "HFR検証"
-      },
-      "directoryBrowser": {
-        "browse": "参照...",
-        "error": "ディレクトリピッカーを開けませんでした"
+        "hfrValidation": "HFR検証",
+        "cancel": "キャンセル",
+        "save": "保存"
       },
       "starDetection": {
         "loading": "星検出オプションを読み込み中...",
@@ -4031,7 +4035,9 @@
         "noiseReducedStarMeasurement": "ノイズ低減星測定",
         "debugMode": "デバッグモード",
         "simpleModeSettings": "シンプルモード設定",
+        "cancel": "キャンセル",
         "noiseLevel": "ノイズレベル",
+        "pixelScale": "ピクセルスケール",
         "useOptimizedSettings": "最適化された設定を使用する"
       },
       "tilter": {
@@ -4047,7 +4053,6 @@
         "idle": "アイドル",
         "currentPositions": "現在の位置",
         "noDeviceSelected": "最初にデバイスを選択してください",
-        "deviceNotConnected": "コントロールを表示するにはデバイスに接続してください",
         "configuration": "設定",
         "sensorWidth": "センサー幅",
         "sensorHeight": "センサー高さ",
@@ -4078,14 +4083,7 @@
         "calculateActuatorPositions": "アクチュエーター位置を計算",
         "calculatedPositions": "計算済み位置",
         "applyThesePositionsToDevice": "これらの位置をデバイスに適用",
-        "actuatorVisualizationLabel": "アクチュエーター {radius}mm 半径 • センサー回転 {rotation}° • 上面図",
-        "calculatingPositions": "計算中...",
-        "applyingPositions": "適用中...",
-        "savingConfiguration": "保存中..."
-      },
-      "common": {
-        "error": "エラー：",
-        "loading": "読み込み中..."
+        "actuatorVisualizationLabel": "アクチュエーター {radius}mm 半径 • センサー回転 {rotation}° • 上面図"
       }
     },
     "tenmicron": {

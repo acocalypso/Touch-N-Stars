@@ -1694,11 +1694,6 @@
       "indi": {
         "settings": "Focuser-instellingen"
       },
-      "duration_seconds": "Duur",
-      "estimated": "est.",
-      "filter": "Filter",
-      "focuser_position": "Positie",
-      "hfr": "HFR",
       "BoardTemperature": "Raadstemperatuur:",
       "DcPower": "Gelijkstroomvoeding",
       "HeatingPower": "Verwarmingsvermogen:",
@@ -3862,10 +3857,6 @@
         "finalFocusDataSummary": "Samenvatting Eindige Focusgegevens",
         "backfocusError": "Achterfocusfout:",
         "hfrDifference": "HFR-verschil:",
-        "innerHFR": "Binnenste HFR:",
-        "outerHFR": "Buitenste HFR:",
-        "moveSensor": "(Beweeg sensor",
-        "flattener": "vlakmaker)",
         "tiltCornerMeasurements": "Kantelhoek-metingen",
         "sensorSide": "Sensorzijde",
         "focuserPosition": "Focusserpositie",
@@ -3875,16 +3866,25 @@
         "unitMicrons": "µm",
         "unitSteps": "stappen"
       },
+      "sensorModel": {
+        "pixelSize": "Pixelgrootte"
+      },
+      "optimizer": {
+        "source": "Bron",
+        "mode": "Modus",
+        "cancel": "Annuleer",
+        "close": "Sluiten",
+        "yes": "Ja",
+        "no": "Nee"
+      },
       "aberrationInspectorOptions": {
         "loading": "Opties Aberratie-inspecteur laden...",
-        "noOptions": "Nog geen opties voor Aberratie-inspecteur beschikbaar.",
         "error": "Fout:",
-        "inspectorSettings": "Inspecteurinstellingen",
         "micronsPerFocuserStep": "Micronen per Focusserstap",
         "retry": "Opnieuw proberen",
         "resetToDefaults": "Standaardwaarden herstellen",
         "resetting": "Resetten...",
-        "autoPlaceholder": "auto",
+        "cancel": "Annuleer",
         "centerFocuserBeforeRun": "Centerfocuser vóór het rennen",
         "detailedAnalysisExposureSeconds": "Gedetailleerde analyse Belichtingstijd (seconden)",
         "framesPerPoint": "Frames per punt",
@@ -3901,11 +3901,9 @@
         "error": "Fout:",
         "retry": "Opnieuw proberen",
         "basicSettings": "Basisinstellingen",
-        "hfrValidation": "HFR-validatie"
-      },
-      "directoryBrowser": {
-        "browse": "Bladeren...",
-        "error": "Fout bij het openen van directoryelector"
+        "hfrValidation": "HFR-validatie",
+        "cancel": "Annuleer",
+        "save": "Opslaan"
       },
       "starDetection": {
         "loading": "Opties voor Sterre detectie laden...",
@@ -3920,7 +3918,9 @@
         "noiseReducedStarMeasurement": "Ster-meting met ruisvermindering",
         "debugMode": "Foutopsporingmodus",
         "simpleModeSettings": "Eenvoudige modusinstellingen",
+        "cancel": "Annuleer",
         "noiseLevel": "Geluidsniveau",
+        "pixelScale": "Pixelschaal",
         "useOptimizedSettings": "Gebruik geoptimaliseerde instellingen"
       },
       "tilter": {
@@ -3936,7 +3936,6 @@
         "idle": "Inactief",
         "currentPositions": "Huidige posities",
         "noDeviceSelected": "Selecteer eerst een apparaat",
-        "deviceNotConnected": "Maak verbinding met een apparaat om de bedieningselementen te bekijken",
         "configuration": "Configuratie",
         "sensorWidth": "Sensorbreedte",
         "sensorHeight": "Sensorhoogte",
@@ -3967,14 +3966,7 @@
         "calculateActuatorPositions": "Bereken actuatorposities",
         "calculatedPositions": "Berekende posities",
         "applyThesePositionsToDevice": "Pas deze posities toe op het apparaat",
-        "actuatorVisualizationLabel": "Actuators met een straal van {radius} mm • Rotatie van de sensor {rotation}° • Bovenaanzicht",
-        "calculatingPositions": "Berekenen...",
-        "applyingPositions": "Toepassen...",
-        "savingConfiguration": "Besparing..."
-      },
-      "common": {
-        "error": "Fout:",
-        "loading": "Laden..."
+        "actuatorVisualizationLabel": "Actuators met een straal van {radius} mm • Rotatie van de sensor {rotation}° • Bovenaanzicht"
       }
     },
     "tenmicron": {

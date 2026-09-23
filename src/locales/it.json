@@ -1694,11 +1694,6 @@
       "indi": {
         "settings": "Impostazioni del focheggiatore"
       },
-      "duration_seconds": "Durata",
-      "estimated": "est.",
-      "filter": "Filtro",
-      "focuser_position": "Posizione",
-      "hfr": "HFR",
       "BoardTemperature": "Temperatura della scheda:",
       "DcPower": "Alimentazione CC",
       "HeatingPower": "Potenza di riscaldamento:",
@@ -3862,10 +3857,6 @@
         "finalFocusDataSummary": "Riepilogo Dati Messa a Fuoco Finale",
         "backfocusError": "Errore Fuoco Posteriore:",
         "hfrDifference": "Differenza HFR:",
-        "innerHFR": "HFR Interno:",
-        "outerHFR": "HFR Esterno:",
-        "moveSensor": "(Sposta sensore",
-        "flattener": "appiattitore)",
         "tiltCornerMeasurements": "Misurazioni Angoli Inclinazione",
         "sensorSide": "Lato Sensore",
         "focuserPosition": "Posizione Focusser",
@@ -3875,16 +3866,31 @@
         "unitMicrons": "µm",
         "unitSteps": "passaggi"
       },
+      "sensorModel": {
+        "pixelSize": "Dimension Pixel"
+      },
+      "eccentricity": {
+        "stars": "Stelle"
+      },
+      "optimizer": {
+        "source": "Sorgente",
+        "mode": "Modo",
+        "filter": "Filtro",
+        "gain": "Guadagno",
+        "stars": "Stelle",
+        "cancel": "Annulla",
+        "close": "Chiudi",
+        "yes": "Si",
+        "no": "N°"
+      },
       "aberrationInspectorOptions": {
         "loading": "Caricamento opzioni Ispettore Aberrazioni...",
-        "noOptions": "Nessuna opzione di Ispettore Aberrazioni disponibile ancora.",
         "error": "Errore:",
-        "inspectorSettings": "Impostazioni Ispettore",
         "micronsPerFocuserStep": "Micron per Passaggio Focusser",
         "retry": "Riprova",
         "resetToDefaults": "Reimposta Valori Predefiniti",
         "resetting": "Reimpostazione...",
-        "autoPlaceholder": "auto",
+        "cancel": "Annulla",
         "centerFocuserBeforeRun": "Focheggiatore centrale prima della corsa",
         "detailedAnalysisExposureSeconds": "Analisi dettagliata Tempo di esposizione (secondi)",
         "framesPerPoint": "Fotogrammi per punto",
@@ -3901,11 +3907,9 @@
         "error": "Errore:",
         "retry": "Riprova",
         "basicSettings": "Impostazioni di Base",
-        "hfrValidation": "Convalida HFR"
-      },
-      "directoryBrowser": {
-        "browse": "Sfoglia...",
-        "error": "Impossibile aprire il selettore di directory"
+        "hfrValidation": "Convalida HFR",
+        "cancel": "Annulla",
+        "save": "Salva"
       },
       "starDetection": {
         "loading": "Caricamento opzioni Rilevamento Stelle...",
@@ -3920,7 +3924,9 @@
         "noiseReducedStarMeasurement": "Misurazione Stelle con Rumore Ridotto",
         "debugMode": "Modalità Debug",
         "simpleModeSettings": "Impostazioni Modalità Semplice",
+        "cancel": "Annulla",
         "noiseLevel": "Livello di Rumore",
+        "pixelScale": "Scala Pixel",
         "useOptimizedSettings": "Utilizza impostazioni ottimizzate"
       },
       "tilter": {
@@ -3936,7 +3942,6 @@
         "idle": "Oziare",
         "currentPositions": "Posizioni attuali",
         "noDeviceSelected": "Seleziona prima un dispositivo",
-        "deviceNotConnected": "Connettiti a un dispositivo per visualizzare i controlli",
         "configuration": "Configurazione",
         "sensorWidth": "Larghezza del sensore",
         "sensorHeight": "Altezza del sensore",
@@ -3967,14 +3972,7 @@
         "calculateActuatorPositions": "Calcolare le posizioni degli attuatori",
         "calculatedPositions": "Posizioni calcolate",
         "applyThesePositionsToDevice": "Applica queste posizioni al dispositivo",
-        "actuatorVisualizationLabel": "Attuatori con raggio {radius} mm • Rotazione sensore {rotation}° • Vista dall'alto",
-        "calculatingPositions": "Calcolo...",
-        "applyingPositions": "Applicazione...",
-        "savingConfiguration": "Risparmio..."
-      },
-      "common": {
-        "error": "Errore:",
-        "loading": "Caricamento..."
+        "actuatorVisualizationLabel": "Attuatori con raggio {radius} mm • Rotazione sensore {rotation}° • Vista dall'alto"
       }
     },
     "tenmicron": {

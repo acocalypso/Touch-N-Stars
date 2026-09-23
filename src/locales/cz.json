@@ -1694,11 +1694,6 @@
       "indi": {
         "settings": "Nastavení zaostřovače"
       },
-      "duration_seconds": "Trvání",
-      "estimated": "odhad",
-      "filter": "Filtr",
-      "focuser_position": "Pozice",
-      "hfr": "HFR",
       "BoardTemperature": "Teplota desky:",
       "DcPower": "DC napájení",
       "HeatingPower": "Topný výkon:",
@@ -3862,10 +3857,6 @@
         "finalFocusDataSummary": "Shrnutí údajů o konečném zaostření",
         "backfocusError": "Chyba zpětného zaostření:",
         "hfrDifference": "Rozdíl HFR:",
-        "innerHFR": "Vnitřní HFR:",
-        "outerHFR": "Vnější HFR:",
-        "moveSensor": "(Posunout senzor",
-        "flattener": "plochý)",
         "tiltCornerMeasurements": "Měření koutů sklonu",
         "sensorSide": "Strana senzoru",
         "focuserPosition": "Poloha fokusáru",
@@ -3875,16 +3866,32 @@
         "unitMicrons": "um",
         "unitSteps": "kroky"
       },
+      "sensorModel": {
+        "pixelSize": "Velikost Pixelu"
+      },
+      "eccentricity": {
+        "eccentricity": "Excentricita",
+        "stars": "Hvězdy"
+      },
+      "optimizer": {
+        "source": "Zdroj",
+        "mode": "Režim",
+        "filter": "Filtr",
+        "gain": "Zisk",
+        "stars": "Hvězdy",
+        "cancel": "Zrušit",
+        "close": "Zavřít",
+        "yes": "Ano",
+        "no": "Ne"
+      },
       "aberrationInspectorOptions": {
         "loading": "Načítání možností inspektoru aberací...",
-        "noOptions": "Zatím nejsou k dispozici žádné možnosti inspektoru aberací.",
         "error": "Chyba:",
-        "inspectorSettings": "Nastavení inspektoru",
         "micronsPerFocuserStep": "Mikrony na krok fokusáru",
         "retry": "Zkusit znovu",
         "resetToDefaults": "Obnovit výchozí hodnoty",
         "resetting": "Obnovování...",
-        "autoPlaceholder": "auto",
+        "cancel": "Zrušit",
         "centerFocuserBeforeRun": "Center Focuser Before Run",
         "detailedAnalysisExposureSeconds": "Detailed Analysis Exposure Time (seconds)",
         "framesPerPoint": "Frames Per Point",
@@ -3901,11 +3908,9 @@
         "error": "Chyba:",
         "retry": "Zkusit znovu",
         "basicSettings": "Základní nastavení",
-        "hfrValidation": "Ověření HFR"
-      },
-      "directoryBrowser": {
-        "browse": "Procházet...",
-        "error": "Nepodařilo se otevřít výběr adresáře"
+        "hfrValidation": "Ověření HFR",
+        "cancel": "Zrušit",
+        "save": "Uložit"
       },
       "starDetection": {
         "loading": "Načítání možností detekce hvězd...",
@@ -3920,7 +3925,9 @@
         "noiseReducedStarMeasurement": "Měření hvězd se sníženým šumem",
         "debugMode": "Režim ladění",
         "simpleModeSettings": "Nastavení jednoduchého režimu",
+        "cancel": "Zrušit",
         "noiseLevel": "Úroveň hluku",
+        "pixelScale": "Měřítko Pixelu",
         "useOptimizedSettings": "Use Optimized Settings"
       },
       "tilter": {
@@ -3936,7 +3943,6 @@
         "idle": "Líný",
         "currentPositions": "Aktuální pozice",
         "noDeviceSelected": "Nejprve prosím vyberte zařízení",
-        "deviceNotConnected": "Chcete-li zobrazit ovládací prvky, připojte se k zařízení",
         "configuration": "Konfigurace",
         "sensorWidth": "Šířka snímače",
         "sensorHeight": "Výška snímače",
@@ -3967,14 +3973,7 @@
         "calculateActuatorPositions": "Vypočítat polohy ovladače",
         "calculatedPositions": "Vypočítané pozice",
         "applyThesePositionsToDevice": "Použijte tyto pozice na zařízení",
-        "actuatorVisualizationLabel": "Akční členy s poloměrem {radius} mm • Rotace snímače {rotation}° • Pohled shora",
-        "calculatingPositions": "Počítání...",
-        "applyingPositions": "Aplikace...",
-        "savingConfiguration": "Ukládání..."
-      },
-      "common": {
-        "error": "Chyba:",
-        "loading": "Načítání..."
+        "actuatorVisualizationLabel": "Akční členy s poloměrem {radius} mm • Rotace snímače {rotation}° • Pohled shora"
       }
     },
     "tenmicron": {

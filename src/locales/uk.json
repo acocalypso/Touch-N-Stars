@@ -1671,16 +1671,11 @@
         "FocuserAlias": "Псевдонім фокусера",
         "deviceSpecific": "Налаштування пристрою"
       },
-      "hfr": "HFR",
-      "focuser_position": "Позиція",
       "IsStalled": "Заблоковано",
       "HeatingPower": "Потужність нагріву:",
       "BoardTemperature": "Температура плати:",
       "DcPower": "Живлення DC",
       "StepSize": "Розмір кроку",
-      "duration_seconds": "Тривалість",
-      "filter": "Фільтр",
-      "estimated": "оцін.",
       "indi": {
         "settings": "Налаштування фокусера"
       }
@@ -3771,10 +3766,6 @@
         "finalFocusDataSummary": "Підсумок фінальних даних фокусу",
         "backfocusError": "Похибка бекфокусу:",
         "hfrDifference": "Різниця HFR:",
-        "innerHFR": "Внутрішній HFR:",
-        "outerHFR": "Зовнішній HFR:",
-        "moveSensor": "(Перемістити сенсор",
-        "flattener": "флетенер)",
         "tiltCornerMeasurements": "Вимірювання нахилу по кутах",
         "sensorSide": "Сторона сенсора",
         "focuserPosition": "Позиція фокусера",
@@ -3784,16 +3775,20 @@
         "unitMicrons": "мкм",
         "unitSteps": "кроків"
       },
+      "optimizer": {
+        "filter": "Фільтр",
+        "gain": "Підсилення (Gain)",
+        "cancel": "Скасувати",
+        "close": "Закрити"
+      },
       "aberrationInspectorOptions": {
         "loading": "Завантаження параметрів інспектора аберацій...",
-        "noOptions": "Параметри інспектора аберацій ще недоступні.",
         "error": "Помилка:",
-        "inspectorSettings": "Налаштування інспектора",
         "micronsPerFocuserStep": "Мікрони на крок фокусера",
         "retry": "Повторити",
         "resetToDefaults": "Скинути до значень за замовчуванням",
         "resetting": "Скидання...",
-        "autoPlaceholder": "авто",
+        "cancel": "Скасувати",
         "centerFocuserBeforeRun": "Центральний фокус перед запуском",
         "framesPerPoint": "Кількість кадрів на точку",
         "detailedAnalysisExposureSeconds": "Час експозиції детального аналізу (секунди)",
@@ -3810,11 +3805,8 @@
         "error": "Помилка:",
         "retry": "Повторити",
         "basicSettings": "Основні налаштування",
-        "hfrValidation": "Валідація HFR"
-      },
-      "directoryBrowser": {
-        "browse": "Огляд...",
-        "error": "Не вдалося відкрити вибір директорії"
+        "hfrValidation": "Валідація HFR",
+        "cancel": "Скасувати"
       },
       "starDetection": {
         "loading": "Завантаження параметрів виявлення зірок...",
@@ -3829,6 +3821,7 @@
         "noiseReducedStarMeasurement": "Вимірювання зірок зі зниженим шумом",
         "debugMode": "Режим налагодження",
         "simpleModeSettings": "Налаштування простого режиму",
+        "cancel": "Скасувати",
         "noiseLevel": "Рівень шуму",
         "useOptimizedSettings": "Використовуйте оптимізовані налаштування"
       },
@@ -3845,7 +3838,6 @@
         "idle": "Очікування",
         "currentPositions": "Поточні позиції",
         "noDeviceSelected": "Спочатку оберіть пристрій",
-        "deviceNotConnected": "Підключіться до пристрою для перегляду елементів керування",
         "configuration": "Конфігурація",
         "sensorWidth": "Ширина сенсора",
         "sensorHeight": "Висота сенсора",
@@ -3876,14 +3868,7 @@
         "calculateActuatorPositions": "Розрахувати позиції актуаторів",
         "calculatedPositions": "Розраховані позиції",
         "applyThesePositionsToDevice": "Застосувати ці позиції до пристрою",
-        "actuatorVisualizationLabel": "Актуатори на радіусі {radius} мм • Поворот сенсора {rotation}° • Вигляд зверху",
-        "calculatingPositions": "Розрахунок...",
-        "applyingPositions": "Застосування...",
-        "savingConfiguration": "Збереження..."
-      },
-      "common": {
-        "error": "Помилка:",
-        "loading": "Завантаження..."
+        "actuatorVisualizationLabel": "Актуатори на радіусі {radius} мм • Поворот сенсора {rotation}° • Вигляд зверху"
       }
     },
     "tenmicron": {

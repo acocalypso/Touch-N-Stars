@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Sequence monitor: Changes to the exposure settings of a Smart Exposure are now saved; rejected changes now show an error message.
 - Framing and Atlas: The camera rotation from plate solves (e.g. TPPA) is now also applied on PINS while its clock is still wrong after a restart.
+- Location settings (NINA): The mount location is shown again instead of "Mount not connected", and syncing from mount to profile works.
 
 ## [App6.3.1-beta7] - 2026-09-25
 

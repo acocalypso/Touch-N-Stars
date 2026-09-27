@@ -89,6 +89,30 @@ export function useLocationStore() {
     return null;
   }
 
+  // Right after a save the store's polled mountInfo still predates the mount
+  // reconnect, so read the mount info directly and use the store only as fallback.
+  async function fetchMountInfo() {
+    try {
+      const response = await apiService.mountAction('info');
+      if (response?.Success && response.Response) return response.Response;
+    } catch (e) {
+      console.warn('Could not fetch mount info, using polled state:', e);
+    }
+    return store.mountInfo;
+  }
+
+  function mountCoordsFromMountInfo(mountInfo) {
+    const info = mountInfo ?? {};
+    const connected = Boolean(info.Connected);
+    return {
+      connected,
+      siteLocationSupported: connected && info.SiteLatitude != null,
+      latitude: info.SiteLatitude ?? null,
+      longitude: info.SiteLongitude ?? null,
+      elevation: info.SiteElevation ?? null,
+    };
+  }
+
   return {
     /** Populate edit fields and syncDirection from the current NINA profile */
     async loadFromAstrometrySettings() {
@@ -110,16 +134,25 @@ export function useLocationStore() {
       syncDirection.value = raw && raw !== 'PROMPT' ? raw : 'NOSYNC';
     },
 
-    /** Fetch the live mount coordinates from the TNS plugin endpoint */
+    /**
+     * Fetch the live mount coordinates. The TNS plugin serves /api/location only on
+     * PINS; on NINA (and as fallback) they come from the polled Advanced API mount info.
+     */
     async loadMountCoords() {
       mountCoordsLoading.value = true;
       try {
-        const response = await apiService.getTnsLocation();
-        if (response?.mount) {
-          mountCoords.value = response.mount;
+        if (store.isPINS) {
+          try {
+            const response = await apiService.getTnsLocation();
+            if (response?.mount) {
+              mountCoords.value = response.mount;
+              return;
+            }
+          } catch (e) {
+            console.warn('Could not fetch mount location, using mount info:', e);
+          }
         }
-      } catch (e) {
-        console.warn('Could not fetch mount location:', e);
+        mountCoords.value = mountCoordsFromMountInfo(await fetchMountInfo());
       } finally {
         mountCoordsLoading.value = false;
       }

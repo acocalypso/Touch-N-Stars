@@ -904,6 +904,7 @@
       "no_sequences_found": "Nenhuma sequência encontrada",
       "error_loading_sequences": "Erro ao carregar sequências",
       "error_loading_sequence": "Erro ao carregar sequência",
+      "editFailed": "O NINA não aceitou a alteração",
       "filter": "Filtro",
       "triggers": "Gatilhos",
       "expandAll": "Expandir tudo",

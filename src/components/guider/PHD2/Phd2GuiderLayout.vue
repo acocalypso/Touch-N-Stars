@@ -459,7 +459,8 @@ const guiderStore = useGuiderStore();
 const settingsStore = useSettingsStore();
 const { isLandscape, orientation } = useOrientation();
 const { t: $t } = useI18n();
-const currentTab = ref('showGuiding');
+// Exposed to the page so it can hide the guider graph panel on the settings tab
+const currentTab = defineModel('tab', { type: String, default: 'showGuiding' });
 const openCalibrationAssistant = ref(false);
 const openCalibrationData = ref(false);
 const isProcessing = ref(false);

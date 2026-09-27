@@ -949,6 +949,7 @@
       "no_sequences_found": "No sequence found",
       "error_loading_sequences": "Error loading sequences",
       "error_loading_sequence": "Error loading sequence",
+      "editFailed": "NINA did not accept the change",
       "filter": "Filter",
       "triggers": "Triggers",
       "expandAll": "Expand All",

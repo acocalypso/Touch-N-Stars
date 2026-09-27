@@ -5,6 +5,18 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [unreleased] 
+
+### Changed
+
+- Guiding (PHD2): The guider graph is hidden on the settings tab and shown again when returning to guiding.
+
+### Fixed
+
+- Sequence monitor: Changes to the exposure settings of a Smart Exposure are now saved; rejected changes now show an error message.
+- Framing and Atlas: The camera rotation from plate solves (e.g. TPPA) is now also applied on PINS while its clock is still wrong after a restart.
+- Location settings (NINA): The mount location is shown again instead of "Mount not connected", and syncing from mount to profile works.
+
 ## [App6.3.1-beta7] - 2026-09-25
 
 ### Added

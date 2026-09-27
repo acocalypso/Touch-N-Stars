@@ -948,6 +948,7 @@
       "no_sequences_found": "No s'ha trobat cap seqüència",
       "error_loading_sequences": "Error en carregar les seqüències",
       "error_loading_sequence": "Error en carregar la seqüència",
+      "editFailed": "NINA no ha acceptat el canvi",
       "filter": "Filtre",
       "triggers": "Activadors",
       "expandAll": "Expandeix-ho tot",

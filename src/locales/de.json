@@ -948,6 +948,7 @@
       "no_sequences_found": "Keine Sequenzen gefunden",
       "error_loading_sequences": "Fehler beim Laden der Sequenzen",
       "error_loading_sequence": "Fehler beim Laden der Sequenz",
+      "editFailed": "NINA hat die Änderung nicht übernommen",
       "filter": "Filter",
       "triggers": "Trigger",
       "expandAll": "Alle erweitern",

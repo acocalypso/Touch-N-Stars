@@ -865,6 +865,7 @@
       "no_sequences_found": "Послідовність не знайдена",
       "error_loading_sequences": "Помилка завантаження послідовностей",
       "error_loading_sequence": "Помилка завантаження послідовності",
+      "editFailed": "NINA не прийняла зміну",
       "filter": "Фільтр",
       "triggers": "Тригери",
       "expandAll": "Розгорнути все",

@@ -5,7 +5,9 @@ import { useToastStore } from '@/store/toastStore';
 import { usePinsDeviceStore } from '@/plugins/pinsDevices/store/pinsDevicesStore';
 import { createPoller } from '@/utils/poller';
 import { useFramingStore } from '@/store/framingStore';
-import { findLatestSolvedRotation } from '@/utils/plateSolveLog';
+import { findLatestSolvedRotation, newestLogTime } from '@/utils/plateSolveLog';
+
+const SOLVE_MAX_AGE_MS = 10 * 60 * 1000;
 
 export const useLogStore = defineStore('LogStore', {
   state: () => ({
@@ -82,8 +84,11 @@ export const useLogStore = defineStore('LogStore', {
       const latest = findLatestSolvedRotation(logs);
       if (!latest) return;
       // At app start old solves are still inside the log window; they must not
-      // overwrite the current angle.
-      if (!this.isWithinTenMinutes(latest.timestamp)) return;
+      // overwrite the current angle. The age is measured against the newest
+      // log line, not the phone clock: a PINS host boots with a stale clock and
+      // may run in another time zone, which made every solve look outdated.
+      const reference = newestLogTime(logs);
+      if (new Date(latest.timestamp).getTime() < reference - SOLVE_MAX_AGE_MS) return;
 
       useFramingStore().applySolvedRotation(latest.angle, latest.timestamp);
     },

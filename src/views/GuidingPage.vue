@@ -1,7 +1,7 @@
 <template>
   <div>
     <!-- PHD2 Mode: New layout with image background -->
-    <Phd2GuiderLayout v-if="store.guiderInfo.DeviceId === 'PHD2_Single'" />
+    <Phd2GuiderLayout v-if="store.guiderInfo.DeviceId === 'PHD2_Single'" v-model:tab="phd2Tab" />
 
     <!-- Non-PHD2 Mode: Original layout -->
     <template v-else>
@@ -36,7 +36,7 @@
 </template>
 
 <script setup>
-import { onMounted, onUnmounted, watch } from 'vue';
+import { ref, onMounted, onUnmounted, watch } from 'vue';
 import { apiStore } from '@/store/store';
 import { useStatusBarStore } from '@/store/statusBarStore';
 import Phd2GuiderLayout from '@/components/guider/PHD2/Phd2GuiderLayout.vue';
@@ -50,18 +50,41 @@ const { t: $t } = useI18n();
 
 // Open the guider graph panel while on this page. Leaving restores the panel
 // that was open before - unless the user switched panels in the meantime, then
-// their choice stays.
+// their choice stays. Panel changes made by the page itself are not user choices.
 let panelToRestore = null;
+let settingPanelFromPage = false;
+
+function setPanelFromPage(id) {
+  settingPanelFromPage = true;
+  statusBarStore.activePanel = id;
+  settingPanelFromPage = false;
+}
+
+// The PHD2 settings tab needs the room, so the guider graph is hidden there and
+// shown again when returning to the guiding tab.
+const phd2Tab = ref('showGuiding');
+let graphHiddenForSettings = false;
+
+watch(phd2Tab, (tab) => {
+  if (tab === 'showSettings') {
+    graphHiddenForSettings = statusBarStore.activePanel === 'guider';
+    if (graphHiddenForSettings) setPanelFromPage(null);
+  } else if (graphHiddenForSettings) {
+    graphHiddenForSettings = false;
+    if (statusBarStore.activePanel === null) setPanelFromPage('guider');
+  }
+});
 
 onMounted(() => {
   panelToRestore = statusBarStore.activePanel;
-  statusBarStore.openPanel('guider');
+  setPanelFromPage('guider');
 
   watch(
     () => statusBarStore.activePanel,
     (panel) => {
-      panelToRestore = panel;
-    }
+      if (!settingPanelFromPage) panelToRestore = panel;
+    },
+    { flush: 'sync' }
   );
 });
 

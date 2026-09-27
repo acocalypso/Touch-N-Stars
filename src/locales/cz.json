@@ -904,6 +904,7 @@
       "no_sequences_found": "Žádné sekvence nenalezeny",
       "error_loading_sequences": "Chyba při načítání sekvencí",
       "error_loading_sequence": "Chyba při načítání sekvence",
+      "editFailed": "NINA změnu nepřijala",
       "filter": "Filtr",
       "triggers": "Spouštěče:",
       "expandAll": "Rozbalit vše",

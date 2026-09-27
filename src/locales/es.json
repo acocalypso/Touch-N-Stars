@@ -904,6 +904,7 @@
       "no_sequences_found": "No se encontraron secuencias",
       "error_loading_sequences": "Error al cargar las secuencias",
       "error_loading_sequence": "Error al cargar la secuencia",
+      "editFailed": "NINA no ha aceptado el cambio",
       "filter": "Filtro",
       "triggers": "Desencadenantes",
       "expandAll": "Expandir todo",

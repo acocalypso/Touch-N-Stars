@@ -781,7 +781,7 @@
                     class="w-full bg-slate-700/50 border border-slate-600/50 rounded px-2 py-1 text-slate-200 text-sm focus:border-blue-400 focus:ring-1 focus:ring-blue-400/20 transition-colors"
                     type="number"
                     v-model="item[key]"
-                    @change="updateValue($event, item._path, item[key], key)"
+                    @change="sendEdit($event, sequenceEditPath(item, key), item[key])"
                   />
                 </template>
 
@@ -986,6 +986,8 @@ import { watch } from 'vue';
 import apiService from '@/services/apiService';
 import { useSequenceStore } from '@/store/sequenceStore';
 import { apiStore } from '@/store/store';
+import { useToastStore } from '@/store/toastStore';
+import { useI18n } from 'vue-i18n';
 import { PowerIcon } from '@heroicons/vue/24/outline';
 import RecursiveItemState from '@/components/sequence/RecursiveItemState.vue';
 import RecursiveItemJson from '@/components/sequence/RecursiveItemJson.vue';
@@ -999,6 +1001,7 @@ import {
   formatDateTime,
   formatRA,
   formatDec,
+  sequenceEditPath,
 } from '@/utils/sequenceUtils.js';
 import { excludedKeys, excludedKeysConditions, updateKeys } from '@/utils/sequenceConfig.js';
 
@@ -1023,6 +1026,8 @@ const props = defineProps({
 
 const store = apiStore();
 const sequenceStore = useSequenceStore();
+const toastStore = useToastStore();
+const { t } = useI18n();
 
 // Helper functions
 function formatKey(key) {
@@ -1188,29 +1193,37 @@ function getDisplayFieldsConditions(item) {
   );
 }
 
-async function updateValue(event, path, newValue, typ) {
-  console.log(path, typ, newValue);
-  const action = `edit?path=${encodeURIComponent(path + '-' + typ)}&value=${encodeURIComponent(newValue)}`;
-  console.log('action:', action);
+function updateValue(event, path, newValue, typ) {
+  return sendEdit(event, `${path}-${typ}`, newValue);
+}
+
+async function sendEdit(event, fullPath, newValue) {
+  const action = `edit?path=${encodeURIComponent(fullPath)}&value=${encodeURIComponent(newValue)}`;
   const inputElement = event.target;
+  let errorMessage = null;
   try {
     const response = await apiService.sequenceAction(action);
-    if (response.StatusCode === 200) {
-      sequenceStore.getSequenceInfo();
-      inputElement.classList.add('glow-green');
-      setTimeout(() => {
-        inputElement.classList.remove('glow-green');
-      }, 1000);
-      console.log('Antwort:', response);
-    } else {
-      inputElement.classList.add('glow-red');
-      setTimeout(() => {
-        inputElement.classList.remove('glow-red');
-      }, 1000);
-    }
+    if (response.StatusCode !== 200) errorMessage = response.Error;
   } catch (error) {
-    console.log('Error:', error);
+    errorMessage = error.response?.data?.Error || error.message;
   }
+
+  const glow = errorMessage === null ? 'glow-green' : 'glow-red';
+  inputElement.classList.add(glow);
+  setTimeout(() => {
+    inputElement.classList.remove(glow);
+  }, 1000);
+
+  if (errorMessage !== null) {
+    toastStore.showToast({
+      type: 'error',
+      title: t('components.sequence.editFailed'),
+      message: errorMessage || '',
+    });
+  }
+  // Also on failure: the input is bound with v-model and would otherwise keep showing the
+  // rejected value until the next reload.
+  sequenceStore.getSequenceInfo();
 }
 
 async function updateOnOffValue(path, newValue) {

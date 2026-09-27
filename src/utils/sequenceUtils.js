@@ -96,6 +96,25 @@ export function formatDec(coords) {
     : `DEC: ${target.DecDegrees ?? 0}° ${target.DecMinutes ?? 0}' ${target.DecSeconds ?? 0}" ${sign}`;
 }
 
+// ninaAPI's /sequence/json flattens Smart Exposure and Take Many Exposures: the exposure
+// settings of their hidden Take Exposure child are reported on the container itself. The
+// /sequence/edit endpoint resolves paths against the real object tree, so those settings
+// must be addressed on the child. NINA creates Smart Exposure as [SwitchFilter, TakeExposure]
+// and Take Many Exposures as [TakeExposure]. Detection uses the reported keys because the
+// item Name is localized by NINA.
+const TAKE_EXPOSURE_KEYS = new Set(['ExposureTime', 'Gain', 'Offset']);
+
+function takeExposureChildIndex(item) {
+  if (item.DitherTargetExposures !== undefined) return 1;
+  if (item.ExposureTime !== undefined && item.Iterations !== undefined && !item.Items) return 0;
+  return null;
+}
+
+export function sequenceEditPath(item, key) {
+  const childIndex = TAKE_EXPOSURE_KEYS.has(key) ? takeExposureChildIndex(item) : null;
+  return childIndex === null ? `${item._path}-${key}` : `${item._path}-Items-${childIndex}-${key}`;
+}
+
 export function hasRunningChildren(item) {
   return item.Items?.some((child) => child.Status === 'RUNNING' || hasRunningChildren(child));
 }

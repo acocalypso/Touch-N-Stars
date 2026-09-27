@@ -948,6 +948,7 @@
       "no_sequences_found": "시퀀스를 찾을 수 없습니다",
       "error_loading_sequences": "시퀀스 불러오기 오류",
       "error_loading_sequence": "시퀀스 불러오기 오류",
+      "editFailed": "NINA가 변경 사항을 적용하지 않았습니다",
       "filter": "필터",
       "triggers": "트리거",
       "expandAll": "모두 펼치기",

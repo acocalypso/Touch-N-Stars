@@ -913,6 +913,7 @@
       "no_sequences_found": "シーケンスが見つかりません",
       "error_loading_sequences": "シーケンスの読み込み中にエラーが発生しました",
       "error_loading_sequence": "シーケンスの読み込み中にエラーが発生しました",
+      "editFailed": "NINA が変更を受け付けませんでした",
       "filter": "フィルター",
       "triggers": "トリガー",
       "expandAll": "すべて展開",

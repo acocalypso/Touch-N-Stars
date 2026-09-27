@@ -904,6 +904,7 @@
       "no_sequences_found": "Geen sequentie gevonden",
       "error_loading_sequences": "Fout tijdens laden sequenties",
       "error_loading_sequence": "Fout tijdens laden sequentie",
+      "editFailed": "NINA heeft de wijziging niet overgenomen",
       "filter": "Filter",
       "triggers": "Triggers",
       "expandAll": "Alles uitvouwen",

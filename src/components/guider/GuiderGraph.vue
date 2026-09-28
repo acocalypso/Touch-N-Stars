@@ -51,6 +51,28 @@ const showSettings = ref(false);
 const isClearing = ref(false);
 let chart = null;
 
+// Width of the trash + settings buttons overlaid on the top-right corner (PINS only).
+const LEGEND_BUTTON_GAP = 60;
+
+// Wrap the legend rows as if the legend were LEGEND_BUTTON_GAP narrower on
+// both sides. The centered rows then keep that gap free on the right, so on
+// narrow screens the labels move to a new row instead of under the buttons.
+const legendButtonGapPlugin = {
+  id: 'legendButtonGap',
+  afterInit(chart) {
+    const legend = chart.legend;
+    if (!legend) return;
+    const originalFit = legend.fit.bind(legend);
+    legend.fit = function () {
+      const fullWidth = this.maxWidth;
+      this.maxWidth = Math.max(fullWidth - 2 * LEGEND_BUTTON_GAP, 0);
+      originalFit();
+      this.maxWidth = fullWidth;
+      if (this.isHorizontal()) this.width = fullWidth;
+    };
+  },
+};
+
 async function clearGraph() {
   const confirmed = await toastStore.showConfirmation(
     t('components.guider.clearGraph'),
@@ -80,6 +102,7 @@ const initGraph = () => {
 
   chart = new Chart(ctx, {
     type: 'bar',
+    plugins: store.isPINS ? [legendButtonGapPlugin] : [],
     data: {
       labels: Array(size).fill(''),
       datasets: [

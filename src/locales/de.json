@@ -4999,7 +4999,7 @@
       "cal": {
         "angle": "Winkel (°)",
         "axis": "Achse",
-        "backlash": "Gegenreaktion",
+        "backlash": "Umkehrspiel",
         "dist": "Dist (px)",
         "noData": "Keine Kalibrierungsdaten für diese Sitzung.",
         "noSummary": "Keine zusammenfassenden Daten (Kalibrierung wurde möglicherweise unterbrochen)",
@@ -5008,9 +5008,9 @@
         "rate": "Rate (px/s)",
         "steps": "Schritte"
       },
-      "clear": "Klar",
+      "clear": "Leeren",
       "emptyState": "Wählen Sie aus der Dropdown-Liste oben ein PHD2-Guide-Protokoll aus.",
-      "excludeDither": "Automatisches Ausschließen der Dither-Beruhigung",
+      "excludeDither": "Dither-Beruhigung automatisch ausschließen",
       "fft": {
         "dominantPeriod": "Dominante Periode",
         "subtitle": "Identifiziert periodische Fehlerharmonische in der RA-Führung.",
@@ -5021,15 +5021,15 @@
         "duration": "Dauer",
         "ended": "Beendet",
         "focalLength": "Brennweite",
-        "mount": "Montieren",
+        "mount": "Montierung",
         "pixelScale": "Pixelskala",
         "profile": "Profil",
         "started": "Sitzung gestartet",
         "totalFrames": "Gesamtzahl der Frames"
       },
       "legend": {
-        "dec": "Dez",
-        "dither": "Zittern",
+        "dec": "Dek",
+        "dither": "Dither",
         "ra": "RA",
         "raRaw": "RA (roh)"
       },
@@ -5048,13 +5048,13 @@
       "statistics": "Statistiken",
       "stats": {
         "combined": "kombiniert",
-        "decRms": "Dezember RMS",
+        "decRms": "Dek RMS",
         "declination": "Deklination",
-        "frames": "Rahmen",
+        "frames": "Frames",
         "maxError": "maximaler Fehler",
         "of": "von {total}",
-        "peakDec": "Spitzenwert im Dezember",
-        "peakRa": "Spitzen-RA",
+        "peakDec": "Spitze Dek",
+        "peakRa": "Spitze RA",
         "raRms": "RA RMS",
         "rightAscension": "Rektaszension",
         "totalRms": "Gesamt-RMS"
@@ -5062,7 +5062,7 @@
       "subtitle": "Wählen Sie ein PHD2-Guide-Protokoll aus, um die Guiding-Leistung und -Statistiken zu visualisieren.",
       "tabs": {
         "calibration": "Kalibrierung",
-        "guide": "Leitfadendiagramm"
+        "guide": "Guiding-Diagramm"
       },
       "title": "PHD2-Protokollanzeige"
     },

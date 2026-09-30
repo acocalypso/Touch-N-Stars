@@ -4863,18 +4863,18 @@
       "cal": {
         "angle": "Angle (°)",
         "axis": "Axe",
-        "backlash": "Contrecoup",
+        "backlash": "Jeu mécanique",
         "dist": "Distance (px)",
         "noData": "Aucune donnée d'étalonnage pour cette session.",
         "noSummary": "Aucune donnée récapitulative (le calibrage peut avoir été interrompu)",
         "over": "sur",
         "parity": "Parité",
-        "rate": "Débit (px/s)",
-        "steps": "Mesures"
+        "rate": "Vitesse (px/s)",
+        "steps": "pas"
       },
-      "clear": "Clair",
+      "clear": "Effacer",
       "emptyState": "Sélectionnez un journal de guide PHD2 dans la liste déroulante ci-dessus.",
-      "excludeDither": "Règlement du tramage avec exclusion automatique",
+      "excludeDither": "Exclure automatiquement la stabilisation après dithering",
       "fft": {
         "dominantPeriod": "Période dominante",
         "subtitle": "Identifie les harmoniques d’erreur périodiques dans le guidage RA.",
@@ -4885,15 +4885,15 @@
         "duration": "Durée",
         "ended": "Terminé",
         "focalLength": "Distance focale",
-        "mount": "Monter",
+        "mount": "Monture",
         "pixelScale": "Échelle de pixels",
         "profile": "Profil",
-        "started": "Séance démarrée",
+        "started": "Session démarrée",
         "totalFrames": "Nombre total d'images"
       },
       "legend": {
         "dec": "Déc",
-        "dither": "Tremblement",
+        "dither": "Dithering",
         "ra": "RA",
         "raRaw": "RA (brut)"
       },
@@ -4912,14 +4912,14 @@
       "statistics": "Statistiques",
       "stats": {
         "combined": "combiné",
-        "decRms": "Décembre RMS",
+        "decRms": "RMS Déc",
         "declination": "déclinaison",
-        "frames": "Cadres",
+        "frames": "Images",
         "maxError": "erreur maximale",
         "of": "de {total}",
-        "peakDec": "Pic décembre",
-        "peakRa": "RA maximale",
-        "raRms": "RA RMS",
+        "peakDec": "Pic Déc",
+        "peakRa": "Pic RA",
+        "raRms": "RMS RA",
         "rightAscension": "ascension droite",
         "totalRms": "RMS total"
       },

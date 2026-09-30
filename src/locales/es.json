@@ -4910,18 +4910,18 @@
       "cal": {
         "angle": "Ángulo (°)",
         "axis": "Eje",
-        "backlash": "Reacción",
+        "backlash": "Holgura",
         "dist": "Dist (px)",
         "noData": "No hay datos de calibración para esta sesión.",
         "noSummary": "No hay datos resumidos (es posible que se haya interrumpido la calibración)",
-        "over": "encima",
+        "over": "en",
         "parity": "Paridad",
         "rate": "Velocidad (px/s)",
         "steps": "Pasos"
       },
-      "clear": "Claro",
+      "clear": "Limpiar",
       "emptyState": "Seleccione un registro de guía PHD2 del menú desplegable de arriba.",
-      "excludeDither": "Excluir automáticamente la resolución de tramado",
+      "excludeDither": "Excluir automáticamente el asentamiento del dithering",
       "fft": {
         "dominantPeriod": "Periodo dominante",
         "subtitle": "Identifica armónicos de error periódico en el guiado RA.",
@@ -4932,17 +4932,17 @@
         "duration": "Duración",
         "ended": "Terminado",
         "focalLength": "Longitud focal",
-        "mount": "Montar",
+        "mount": "Montura",
         "pixelScale": "Escala de píxeles",
         "profile": "Perfil",
         "started": "Sesión iniciada",
-        "totalFrames": "Cuadros totales"
+        "totalFrames": "Fotogramas totales"
       },
       "legend": {
-        "dec": "Dic",
-        "dither": "Vacilar",
-        "ra": "REAL ACADEMIA DE BELLAS ARTES",
-        "raRaw": "RA (cruda)"
+        "dec": "Dec",
+        "dither": "Dithering",
+        "ra": "AR",
+        "raRaw": "AR (cruda)"
       },
       "loading": "Cargando…",
       "noLogs": "No se encontraron registros",
@@ -4956,19 +4956,19 @@
         "saveError": "No se pudo guardar la ruta",
         "title": "Directorio de registros"
       },
-      "statistics": "Estadística",
+      "statistics": "Estadísticas",
       "stats": {
         "combined": "conjunto",
-        "decRms": "RMS de diciembre",
+        "decRms": "RMS Dec",
         "declination": "declinación",
-        "frames": "Marcos",
+        "frames": "Fotogramas",
         "maxError": "error máximo",
         "of": "de {total}",
-        "peakDec": "Pico diciembre",
-        "peakRa": "RA máxima",
-        "raRms": "RA RMS",
+        "peakDec": "Pico Dec",
+        "peakRa": "Pico AR",
+        "raRms": "RMS AR",
         "rightAscension": "ascensión recta",
-        "totalRms": "RMS totales"
+        "totalRms": "RMS total"
       },
       "subtitle": "Seleccione un registro de guía PHD2 para visualizar el rendimiento y las estadísticas de la guía.",
       "tabs": {

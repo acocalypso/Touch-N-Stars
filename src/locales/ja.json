@@ -4874,13 +4874,13 @@
       "emptyState": "上のドロップダウンから PHD2 ガイド ログを選択します。",
       "excludeDither": "ディザリングの自動除外",
       "fft": {
-        "dominantPeriod": "優勢期",
+        "dominantPeriod": "支配的周期",
         "subtitle": "赤経ガイドの周期的誤差高調波を特定します。",
         "title": "赤経周波数分析"
       },
       "info": {
         "camera": "カメラ",
-        "duration": "間隔",
+        "duration": "継続時間",
         "ended": "終了しました",
         "focalLength": "焦点距離",
         "mount": "マウント",
@@ -4923,7 +4923,7 @@
       },
       "subtitle": "PHD2 ガイド ログを選択して、ガイドのパフォーマンスと統計を視覚化します。",
       "tabs": {
-        "calibration": "較正",
+        "calibration": "キャリブレーション",
         "guide": "ガイドグラフ"
       },
       "title": "PHD2ログビューア"

@@ -4860,18 +4860,18 @@
       "cal": {
         "angle": "Kąt (°)",
         "axis": "Oś",
-        "backlash": "Reakcja",
+        "backlash": "Luz",
         "dist": "Odległość (px)",
         "noData": "Brak danych kalibracyjnych dla tej sesji.",
         "noSummary": "Brak danych zbiorczych (mogła zostać przerwana kalibracja)",
-        "over": "nad",
-        "parity": "Parytet",
+        "over": "w",
+        "parity": "Parzystość",
         "rate": "Szybkość (px/s)",
         "steps": "Kroki"
       },
-      "clear": "Jasne",
+      "clear": "Wyczyść",
       "emptyState": "Wybierz dziennik przewodnika PHD2 z listy rozwijanej powyżej.",
-      "excludeDither": "Automatyczne wykluczanie roztrząsania",
+      "excludeDither": "Automatycznie wykluczaj stabilizację po ditheringu",
       "fft": {
         "dominantPeriod": "Okres dominujący",
         "subtitle": "Identyfikuje harmoniczne błędów okresowych w prowadzeniu RA.",
@@ -4882,19 +4882,19 @@
         "duration": "Czas trwania",
         "ended": "Zakończone",
         "focalLength": "Ogniskowa",
-        "mount": "Uchwyt",
+        "mount": "Montaż",
         "pixelScale": "Skala pikseli",
         "profile": "Profil",
         "started": "Sesja rozpoczęta",
         "totalFrames": "Całkowita liczba klatek"
       },
       "legend": {
-        "dec": "grudzień",
-        "dither": "Dygotać",
+        "dec": "Dec",
+        "dither": "Dithering",
         "ra": "RA",
         "raRaw": "RA (surowe)"
       },
-      "loading": "Załadunek…",
+      "loading": "Ładowanie…",
       "noLogs": "Nie znaleziono dzienników",
       "rawRa": "Surowe, nieskorygowane RA",
       "refresh": "Odśwież listę logów",
@@ -4909,21 +4909,21 @@
       "statistics": "Statystyka",
       "stats": {
         "combined": "łączny",
-        "decRms": "grudzień RMS",
+        "decRms": "RMS Dec",
         "declination": "deklinacja",
-        "frames": "Ramki",
+        "frames": "Klatki",
         "maxError": "maksymalny błąd",
         "of": "z {total}",
-        "peakDec": "Szczyt grudzień",
+        "peakDec": "Szczyt Dec",
         "peakRa": "Szczyt RA",
-        "raRms": "RA RMS",
+        "raRms": "RMS RA",
         "rightAscension": "rektascensja",
-        "totalRms": "Całkowita wartość skuteczna"
+        "totalRms": "RMS całkowite"
       },
       "subtitle": "Wybierz dziennik prowadzenia PHD2, aby wizualizować wydajność i statystyki prowadzenia.",
       "tabs": {
-        "calibration": "Kalibrowanie",
-        "guide": "Wykres przewodnika"
+        "calibration": "Kalibracja",
+        "guide": "Wykres prowadzenia"
       },
       "title": "Przeglądarka logów PHD2"
     },

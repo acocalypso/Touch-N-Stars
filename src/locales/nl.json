@@ -4855,16 +4855,16 @@
       "cal": {
         "angle": "Hoek (°)",
         "axis": "As",
-        "backlash": "Verzet",
+        "backlash": "Speling",
         "dist": "Afstand (px)",
         "noData": "Geen kalibratiegegevens voor deze sessie.",
         "noSummary": "Geen samenvattende gegevens (kalibratie is mogelijk onderbroken)",
         "over": "over",
         "parity": "Pariteit",
-        "rate": "Tarief (px/s)",
+        "rate": "Snelheid (px/s)",
         "steps": "Stappen"
       },
-      "clear": "Duidelijk",
+      "clear": "Wissen",
       "emptyState": "Selecteer een PHD2-gidslogboek in de vervolgkeuzelijst hierboven.",
       "excludeDither": "Dither-afwikkeling automatisch uitsluiten",
       "fft": {
@@ -4877,15 +4877,15 @@
         "duration": "Duur",
         "ended": "Beëindigd",
         "focalLength": "Brandpuntsafstand",
-        "mount": "Monteren",
+        "mount": "Montering",
         "pixelScale": "Pixelschaal",
         "profile": "Profiel",
         "started": "Sessie begonnen",
-        "totalFrames": "Totaal kaders"
+        "totalFrames": "Totaal frames"
       },
       "legend": {
-        "dec": "dec",
-        "dither": "Ditheren",
+        "dec": "Dec",
+        "dither": "Dither",
         "ra": "RA",
         "raRaw": "RA (rauw)"
       },
@@ -4904,12 +4904,12 @@
       "statistics": "Statistieken",
       "stats": {
         "combined": "gecombineerd",
-        "decRms": "december RMS",
+        "decRms": "Dec RMS",
         "declination": "declinatie",
-        "frames": "Lijsten",
+        "frames": "Frames",
         "maxError": "maximale fout",
         "of": "van {total}",
-        "peakDec": "Piek december",
+        "peakDec": "Piek Dec",
         "peakRa": "Piek RA",
         "raRms": "RA RMS",
         "rightAscension": "rechte klimming",
@@ -4918,7 +4918,7 @@
       "subtitle": "Selecteer een PHD2-gidslogboek om de prestaties en statistieken van de begeleiding te visualiseren.",
       "tabs": {
         "calibration": "Kalibratie",
-        "guide": "Gidsgrafiek"
+        "guide": "Guidinggrafiek"
       },
       "title": "PHD2 Logviewer"
     },

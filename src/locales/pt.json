@@ -4865,7 +4865,7 @@
       "cal": {
         "angle": "Ângulo (°)",
         "axis": "Eixo",
-        "backlash": "Retaliação",
+        "backlash": "Folga",
         "dist": "Dist (px)",
         "noData": "Não há dados de calibração para esta sessão.",
         "noSummary": "Nenhum dado de resumo (a calibração pode ter sido interrompida)",
@@ -4874,9 +4874,9 @@
         "rate": "Taxa (px/s)",
         "steps": "Passos"
       },
-      "clear": "Claro",
+      "clear": "Limpar",
       "emptyState": "Selecione um registro de guia PHD2 no menu suspenso acima.",
-      "excludeDither": "Excluir automaticamente a resolução de pontilhamento",
+      "excludeDither": "Excluir automaticamente a estabilização do dithering",
       "fft": {
         "dominantPeriod": "Período dominante",
         "subtitle": "Identifica harmônicos de erro periódicos na orientação de RA.",
@@ -4885,17 +4885,17 @@
       "info": {
         "camera": "Câmera",
         "duration": "Duração",
-        "ended": "Terminou",
+        "ended": "Encerrada",
         "focalLength": "Distância focal",
-        "mount": "Montar",
+        "mount": "Montagem",
         "pixelScale": "Escala de pixels",
         "profile": "Perfil",
         "started": "Sessão iniciada",
         "totalFrames": "Quadros totais"
       },
       "legend": {
-        "dec": "dezembro",
-        "dither": "Pontilhar",
+        "dec": "Dec",
+        "dither": "Dithering",
         "ra": "RA",
         "raRaw": "RA (cru)"
       },
@@ -4914,14 +4914,14 @@
       "statistics": "Estatísticas",
       "stats": {
         "combined": "combinado",
-        "decRms": "Dezembro RMS",
+        "decRms": "RMS Dec",
         "declination": "declinação",
-        "frames": "Molduras",
+        "frames": "Quadros",
         "maxError": "erro máximo",
         "of": "de {total}",
-        "peakDec": "Pico de dezembro",
+        "peakDec": "Pico Dec",
         "peakRa": "Pico de RA",
-        "raRms": "RARMS",
+        "raRms": "RMS RA",
         "rightAscension": "ascensão reta",
         "totalRms": "RMS total"
       },

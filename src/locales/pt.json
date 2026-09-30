@@ -1086,7 +1086,7 @@
         },
         "center": {
           "ra": "RA",
-          "dec": "Dez",
+          "dec": "Dec",
           "inherited": "Coordenadas herdadas do alvo"
         },
         "coolCamera": {
@@ -1291,7 +1291,7 @@
         },
         "slewToGuiderCalibrationPosition": {
           "clearBacklash": "Limpar reação DEC",
-          "dec": "dezembro",
+          "dec": "Dec",
           "haOffset": "Deslocamento de alta disponibilidade",
           "side": "Lado apontador",
           "sideEast": "Leste",
@@ -1548,8 +1548,8 @@
           "cameraAngle": "Ângulo da câmera:",
           "clearCalibration": "Limpar calibração",
           "clearing": "Limpando...",
-          "decParity": "Paridade de dezembro:",
-          "decRate": "Taxa de dezembro:",
+          "decParity": "Paridade Dec:",
+          "decRate": "Velocidade Dec:",
           "declination": "Declinação:",
           "declinationAxis": "Declinação",
           "estimated": "(Husa)",
@@ -1557,7 +1557,7 @@
           "notCalibrated": "Não calibrado",
           "orthogonalityError": "Erro de ortogonalidade:",
           "raParity": "Paridade RA:",
-          "raRate": "Taxa de AR:",
+          "raRate": "Velocidade AR:",
           "rightAscension": "Ascensão Reta",
           "title": "Revise a calibração"
         },
@@ -1986,9 +1986,9 @@
       "title": "Mover e centralizar",
       "LastSelectedImageSource_wrong": "Selecione o mapa estelar offline como fonte de imagem no NINA / Framing",
       "ra": "AR:",
-      "dec": "Dezembro:",
+      "dec": "Dec:",
       "ra_placeholder": "AR 03:47:28.2",
-      "dec_placeholder": "Dez +24:06:19",
+      "dec_placeholder": "Dec +24:06:19",
       "slew": "Mover",
       "slew_and_center": "Mover e centralizar",
       "errors": {
@@ -2206,7 +2206,7 @@
       "selected_object": {
         "title": "Objeto selecionado",
         "ra": "AR",
-        "dec": "DEZEMBRO",
+        "dec": "DEC",
         "button_framing": "ir para enquadramento",
         "type": "Tipo",
         "magnitude": "Magnitude",
@@ -2401,7 +2401,7 @@
       "table": {
         "name": "Nome",
         "ra": "AR",
-        "dec": "DEZEMBRO",
+        "dec": "DEC",
         "load": "Carregar",
         "remove": "Remover",
         "rotation": "Rotação"
@@ -2457,7 +2457,7 @@
       "orientation": "Orientação",
       "flipped": "Invertido",
       "ra": "AR",
-      "dec": "dezembro",
+      "dec": "Dec",
       "pixel_scale": "Escala de pixel",
       "focal_length": "Distância focal"
     },
@@ -2476,7 +2476,7 @@
       "browserTitle": "Selecione o arquivo FITS para resolução de placa",
       "buttonTitle": "Solução de placa FITS",
       "coordinatesHint": "Dica de coordenada (deixe em branco para resolução cega)",
-      "dec": "dezembro",
+      "dec": "Dec",
       "decPlaceholder": "DD:MM:SS",
       "error": "Falha na resolução da placa",
       "errorLoadParams": "Falha ao ler os parâmetros FITS",
@@ -3116,7 +3116,7 @@
         "showObjects": "Mostrar objetos",
         "hideObjects": "Ocultar objetos",
         "ra": "AR",
-        "dec": "DEZEMBRO",
+        "dec": "Dec",
         "size": "Tamanho",
         "magnitude": "Mag"
       },
@@ -4530,7 +4530,7 @@
         "siderealPath": "Caminho Sideral",
         "target": "Alvo",
         "raHours": "AR (h)",
-        "decDegrees": "Dez (°)",
+        "decDegrees": "Dec (°)",
         "raDelta": "Intervalo RA (°)",
         "startTime": "Hora de início",
         "endTime": "Hora de término",
@@ -5043,7 +5043,7 @@
         "close": "Fechar",
         "copy": "Cópia",
         "copySuffix": "cópia",
-        "dec": "DEZEMBRO",
+        "dec": "DEC",
         "deg": "graus",
         "edit": "Editar",
         "meters": "eu",
@@ -5319,6 +5319,10 @@
         "backlash": "Folga",
         "dist": "Dist (px)",
         "noData": "Não há dados de calibração para esta sessão.",
+        "stepSize": "Duração do passo",
+        "calDistance": "Distância de cal.",
+        "raRate": "Velocidade RA",
+        "decRate": "Velocidade Dec",
         "noSummary": "Nenhum dado de resumo (a calibração pode ter sido interrompida)",
         "over": "sobre",
         "parity": "Paridade",
@@ -5328,6 +5332,7 @@
       "clear": "Limpar",
       "emptyState": "Selecione um registro de guia PHD2 no menu suspenso acima.",
       "excludeDither": "Excluir automaticamente a estabilização do dithering",
+      "ditherFrames": "({count} quadros)",
       "fft": {
         "dominantPeriod": "Período dominante",
         "subtitle": "Identifica harmônicos de erro periódicos na orientação de RA.",
@@ -5349,6 +5354,12 @@
         "dither": "Dithering",
         "ra": "RA",
         "raRaw": "RA (cru)"
+      },
+      "graph": {
+        "arcsec": "segundos de arco ({scale}\"/px)",
+        "pixels": "pixels",
+        "frames": "{count} quadros",
+        "zoomView": "vista {percent}%"
       },
       "loading": "Carregando…",
       "noLogs": "Nenhum registro encontrado",
@@ -5375,6 +5386,11 @@
         "raRms": "RMS RA",
         "rightAscension": "ascensão reta",
         "totalRms": "RMS total"
+      },
+      "summary": {
+        "framesUsed": "{used} / {total} quadros usados",
+        "excluded": "{count} excluídos",
+        "pixelScale": "escala {scale}\" /px"
       },
       "subtitle": "Selecione um registro de guia PHD2 para visualizar o desempenho e as estatísticas do guia.",
       "tabs": {

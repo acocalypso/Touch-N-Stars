@@ -1086,7 +1086,7 @@
         },
         "center": {
           "ra": "AR",
-          "dec": "Dic",
+          "dec": "Dec",
           "inherited": "Coordinate ereditate dal target"
         },
         "coolCamera": {
@@ -1291,7 +1291,7 @@
         },
         "slewToGuiderCalibrationPosition": {
           "clearBacklash": "Elimina il gioco DEC",
-          "dec": "dicembre",
+          "dec": "Dec",
           "haOffset": "Compensazione HA",
           "side": "Lato di puntamento",
           "sideEast": "Est",
@@ -1371,7 +1371,7 @@
         "slewing": "Montatura in movimento",
         "notSlewing": "Montatura ferma",
         "timeToMeridianFlip": "Tempo per il lancio del meridiano",
-        "declination": "dicembre",
+        "declination": "Dec",
         "rightAscension": "Ra",
         "Alt": "Alt",
         "Az": "L'Az",
@@ -1548,8 +1548,8 @@
           "cameraAngle": "Angolo della telecamera:",
           "clearCalibration": "Cancella calibrazione",
           "clearing": "Cancellazione...",
-          "decParity": "Parità di dicembre:",
-          "decRate": "Tasso di dicembre:",
+          "decParity": "Parità Dec:",
+          "decRate": "Velocità Dec:",
           "declination": "Declinazione:",
           "declinationAxis": "Declinazione",
           "estimated": "(est)",
@@ -1557,7 +1557,7 @@
           "notCalibrated": "Non calibrato",
           "orthogonalityError": "Errore di ortogonalità:",
           "raParity": "Parità RA:",
-          "raRate": "Tasso RA:",
+          "raRate": "Velocità RA:",
           "rightAscension": "Ascensione retta",
           "title": "Rivedere la calibrazione"
         },
@@ -1986,9 +1986,9 @@
       "title": "Sposta e centra",
       "LastSelectedImageSource_wrong": "Seleziona la mappa stellare offline come sorgente immagine in NINA / Framing",
       "ra": "AR:",
-      "dec": "Dic:",
+      "dec": "Dec:",
       "ra_placeholder": "AR 03:47:28.2",
-      "dec_placeholder": "Dic +24:06:19",
+      "dec_placeholder": "Dec +24:06:19",
       "slew": "Sposta",
       "slew_and_center": "Sposta e centra",
       "errors": {
@@ -2206,7 +2206,7 @@
       "selected_object": {
         "title": "Oggetto selezionato",
         "ra": "AR",
-        "dec": "DIC",
+        "dec": "DEC",
         "button_framing": "vai all'inquadratura",
         "type": "Tipo",
         "magnitude": "Magnitudine",
@@ -2401,7 +2401,7 @@
       "table": {
         "name": "Nome",
         "ra": "AR",
-        "dec": "DIC",
+        "dec": "DEC",
         "load": "Carica",
         "remove": "Rimuovi",
         "rotation": "Rotazione"
@@ -2457,7 +2457,7 @@
       "orientation": "Orientamento",
       "flipped": "Invertito",
       "ra": "AR",
-      "dec": "dicembre",
+      "dec": "Dec",
       "pixel_scale": "Scala dei pixel",
       "focal_length": "Lunghezza focale"
     },
@@ -2476,7 +2476,7 @@
       "browserTitle": "Selezionare il file FITS per la risoluzione della piastra",
       "buttonTitle": "MISURA Piastra Solve",
       "coordinatesHint": "Suggerimento per le coordinate (lasciare vuoto per la risoluzione cieca)",
-      "dec": "dicembre",
+      "dec": "Dec",
       "decPlaceholder": "GG:MM:SS",
       "error": "Risoluzione della piastra non riuscita",
       "errorLoadParams": "Impossibile leggere i parametri FITS",
@@ -3116,7 +3116,7 @@
         "showObjects": "Mostra oggetti",
         "hideObjects": "Nascondi oggetti",
         "ra": "AR",
-        "dec": "DIC",
+        "dec": "Dec",
         "size": "Dimensione",
         "magnitude": "Mag"
       },
@@ -4530,7 +4530,7 @@
         "siderealPath": "Sentiero siderale",
         "target": "Bersaglio",
         "raHours": "AR(h)",
-        "decDegrees": "Dicembre (°)",
+        "decDegrees": "Dec (°)",
         "raDelta": "Intervallo RA (°)",
         "startTime": "Ora di inizio",
         "endTime": "Ora di fine",
@@ -5043,7 +5043,7 @@
         "close": "Vicino",
         "copy": "Copia",
         "copySuffix": "copia",
-        "dec": "DIC",
+        "dec": "DEC",
         "deg": "grado",
         "edit": "Modificare",
         "meters": "M",
@@ -5319,6 +5319,10 @@
         "backlash": "Gioco",
         "dist": "Distanza (px)",
         "noData": "Nessun dato di calibrazione per questa sessione.",
+        "stepSize": "Durata passo",
+        "calDistance": "Distanza cal.",
+        "raRate": "Velocità RA",
+        "decRate": "Velocità Dec",
         "noSummary": "Nessun dato riepilogativo (la calibrazione potrebbe essere stata interrotta)",
         "over": "su",
         "parity": "Parità",
@@ -5328,6 +5332,7 @@
       "clear": "Cancella",
       "emptyState": "Seleziona un registro della guida PHD2 dal menu a discesa in alto.",
       "excludeDither": "Escludi automaticamente l'assestamento del dithering",
+      "ditherFrames": "({count} fotogrammi)",
       "fft": {
         "dominantPeriod": "Periodo dominante",
         "subtitle": "Identifica le armoniche dell'errore periodico nella guida AR.",
@@ -5349,6 +5354,12 @@
         "dither": "Dither",
         "ra": "RA",
         "raRaw": "RA (grezzo)"
+      },
+      "graph": {
+        "arcsec": "secondi d'arco ({scale}\"/px)",
+        "pixels": "pixel",
+        "frames": "{count} fotogrammi",
+        "zoomView": "vista {percent}%"
       },
       "loading": "Caricamento…",
       "noLogs": "Nessun registro trovato",
@@ -5375,6 +5386,11 @@
         "raRms": "RMS RA",
         "rightAscension": "ascensione retta",
         "totalRms": "RMS totale"
+      },
+      "summary": {
+        "framesUsed": "{used} / {total} fotogrammi usati",
+        "excluded": "{count} esclusi",
+        "pixelScale": "scala {scale}\" /px"
       },
       "subtitle": "Seleziona un registro guida PHD2 per visualizzare le prestazioni e le statistiche della guida.",
       "tabs": {

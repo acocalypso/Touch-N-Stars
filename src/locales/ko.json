@@ -1344,7 +1344,7 @@
         },
         "slewToGuiderCalibrationPosition": {
           "clearBacklash": "DEC 백래시 지우기",
-          "dec": "12월",
+          "dec": "Dec",
           "haOffset": "HA 오프셋",
           "side": "가리키는 쪽",
           "sideEast": "동쪽",
@@ -5317,6 +5317,7 @@
       "clear": "지우기",
       "session": "세션:",
       "excludeDither": "디더 정착 자동 제외",
+      "ditherFrames": "({count} 프레임)",
       "rawRa": "원본 RA(보정 안 됨)",
       "emptyState": "위의 드롭다운에서 PHD2 가이드 로그를 선택하세요.",
       "tabs": {
@@ -5328,6 +5329,12 @@
         "raRaw": "RA (원본)",
         "dec": "Dec",
         "dither": "디더"
+      },
+      "graph": {
+        "arcsec": "각초 ({scale}\"/px)",
+        "pixels": "픽셀",
+        "frames": "{count} 프레임",
+        "zoomView": "{percent}% 보기"
       },
       "info": {
         "started": "세션 시작",
@@ -5354,6 +5361,11 @@
         "maxError": "최대 오차",
         "of": "/ {total}"
       },
+      "summary": {
+        "framesUsed": "{used} / {total} 프레임 사용",
+        "excluded": "{count}개 제외",
+        "pixelScale": "스케일 {scale}\" /px"
+      },
       "fft": {
         "title": "RA 주파수 분석",
         "subtitle": "RA 가이딩의 주기 오차 고조파를 식별합니다.",
@@ -5369,7 +5381,11 @@
         "backlash": "백래시",
         "over": "기간",
         "noSummary": "요약 데이터 없음 (캘리브레이션이 중단되었을 수 있음)",
-        "noData": "이 세션에 대한 캘리브레이션 데이터가 없습니다."
+        "noData": "이 세션에 대한 캘리브레이션 데이터가 없습니다.",
+        "stepSize": "스텝 크기",
+        "calDistance": "캘리브레이션 거리",
+        "raRate": "RA 속도",
+        "decRate": "Dec 속도"
       },
       "settings": {
         "title": "로그 디렉터리",

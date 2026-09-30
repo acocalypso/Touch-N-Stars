@@ -1086,7 +1086,7 @@
         },
         "center": {
           "ra": "RA",
-          "dec": "十二月",
+          "dec": "赤纬",
           "inherited": "从目标继承的坐标"
         },
         "coolCamera": {
@@ -1371,7 +1371,7 @@
         "slewing": "赤道仪正在转动",
         "notSlewing": "赤道仪未转动",
         "timeToMeridianFlip": "距离子午线翻转的时间",
-        "declination": "十二月",
+        "declination": "赤纬",
         "rightAscension": "拉",
         "Alt": "高度 (Alt)",
         "Az": "方位角 (Az)",
@@ -1548,7 +1548,7 @@
           "cameraAngle": "摄像角度：",
           "clearCalibration": "清晰的校准",
           "clearing": "清算...",
-          "decParity": "十二月奇偶校验：",
+          "decParity": "赤纬奇偶性：",
           "decRate": "减速率：",
           "declination": "赤纬：",
           "declinationAxis": "赤纬",
@@ -4530,7 +4530,7 @@
         "siderealPath": "恒星路径",
         "target": "目标",
         "raHours": "RA（小时）",
-        "decDegrees": "十二月 (°)",
+        "decDegrees": "赤纬 (°)",
         "raDelta": "RA 间隔 (°)",
         "startTime": "开始时间",
         "endTime": "结束时间",
@@ -5314,6 +5314,10 @@
         "backlash": "Backlash",
         "dist": "Dist (px)",
         "noData": "No calibration data for this session.",
+        "stepSize": "步长",
+        "calDistance": "校准距离",
+        "raRate": "赤经速率",
+        "decRate": "赤纬速率",
         "noSummary": "No summary data (calibration may have been interrupted)",
         "over": "over",
         "parity": "Parity",
@@ -5323,6 +5327,7 @@
       "clear": "Clear",
       "emptyState": "Select a PHD2 guide log from the dropdown above.",
       "excludeDither": "Auto-exclude dither settling",
+      "ditherFrames": "（{count} 帧）",
       "fft": {
         "dominantPeriod": "Dominant period",
         "subtitle": "Identifies periodic error harmonics in RA guiding.",
@@ -5344,6 +5349,12 @@
         "dither": "Dither",
         "ra": "RA",
         "raRaw": "RA (raw)"
+      },
+      "graph": {
+        "arcsec": "角秒（{scale}\"/px）",
+        "pixels": "像素",
+        "frames": "{count} 帧",
+        "zoomView": "{percent}% 视图"
       },
       "loading": "Loading…",
       "noLogs": "No logs found",
@@ -5370,6 +5381,11 @@
         "raRms": "RA RMS",
         "rightAscension": "right ascension",
         "totalRms": "Total RMS"
+      },
+      "summary": {
+        "framesUsed": "已使用 {used} / {total} 帧",
+        "excluded": "已排除 {count}",
+        "pixelScale": "比例尺 {scale}\" /px"
       },
       "subtitle": "Select a PHD2 guide log to visualize guiding performance and statistics.",
       "tabs": {

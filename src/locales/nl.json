@@ -1085,7 +1085,7 @@
           "afterExposures": "Na blootstelling"
         },
         "center": {
-          "ra": "RA\"",
+          "ra": "RA",
           "dec": "dec",
           "inherited": "Coördinaten geërfd van target"
         },
@@ -1548,8 +1548,8 @@
           "cameraAngle": "Camerahoek:",
           "clearCalibration": "Kalibratie wissen",
           "clearing": "Wissen...",
-          "decParity": "Pariteit december:",
-          "decRate": "December tarief:",
+          "decParity": "Dec-pariteit:",
+          "decRate": "Dec-snelheid:",
           "declination": "Declinatie:",
           "declinationAxis": "Declinatie",
           "estimated": "(est)",
@@ -1557,7 +1557,7 @@
           "notCalibrated": "Niet gekalibreerd",
           "orthogonalityError": "Orthogonaliteitsfout:",
           "raParity": "RA-pariteit:",
-          "raRate": "RA-tarief:",
+          "raRate": "RA-snelheid:",
           "rightAscension": "Rechte Hemelvaart",
           "title": "Controleer kalibratie"
         },
@@ -1986,9 +1986,9 @@
       "title": "Slew en Centreer",
       "LastSelectedImageSource_wrong": "Selecteer offline sky map als beeldbron in NINA / Framing",
       "ra": "RA:",
-      "dec": "december:",
+      "dec": "Dec:",
       "ra_placeholder": "RA 03:47:28.2",
-      "dec_placeholder": "december +24:06:19",
+      "dec_placeholder": "Dec +24:06:19",
       "slew": "Dood",
       "slew_and_center": "Slew en Centreer",
       "errors": {
@@ -4530,7 +4530,7 @@
         "siderealPath": "Siderisch pad",
         "target": "Doel",
         "raHours": "RA (u)",
-        "decDegrees": "december (°)",
+        "decDegrees": "Dec (°)",
         "raDelta": "RA-interval (°)",
         "startTime": "Begintijd",
         "endTime": "Eindtijd",
@@ -5314,6 +5314,10 @@
         "backlash": "Speling",
         "dist": "Afstand (px)",
         "noData": "Geen kalibratiegegevens voor deze sessie.",
+        "stepSize": "Stapduur",
+        "calDistance": "Kalibratieafstand",
+        "raRate": "RA-snelheid",
+        "decRate": "Dec-snelheid",
         "noSummary": "Geen samenvattende gegevens (kalibratie is mogelijk onderbroken)",
         "over": "over",
         "parity": "Pariteit",
@@ -5323,6 +5327,7 @@
       "clear": "Wissen",
       "emptyState": "Selecteer een PHD2-gidslogboek in de vervolgkeuzelijst hierboven.",
       "excludeDither": "Dither-afwikkeling automatisch uitsluiten",
+      "ditherFrames": "({count} frames)",
       "fft": {
         "dominantPeriod": "Dominante periode",
         "subtitle": "Identificeert periodieke foutharmonischen in RA-geleiding.",
@@ -5344,6 +5349,12 @@
         "dither": "Dither",
         "ra": "RA",
         "raRaw": "RA (rauw)"
+      },
+      "graph": {
+        "arcsec": "boogseconden ({scale}\"/px)",
+        "pixels": "pixels",
+        "frames": "{count} frames",
+        "zoomView": "{percent}% weergave"
       },
       "loading": "Laden…",
       "noLogs": "Geen logboeken gevonden",
@@ -5370,6 +5381,11 @@
         "raRms": "RA RMS",
         "rightAscension": "rechte klimming",
         "totalRms": "Totaal RMS"
+      },
+      "summary": {
+        "framesUsed": "{used} / {total} frames gebruikt",
+        "excluded": "{count} uitgesloten",
+        "pixelScale": "schaal {scale}\" /px"
       },
       "subtitle": "Selecteer een PHD2-gidslogboek om de prestaties en statistieken van de begeleiding te visualiseren.",
       "tabs": {

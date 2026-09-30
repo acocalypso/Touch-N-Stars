@@ -5542,6 +5542,7 @@
       "clear": "Esborra",
       "session": "Sessió:",
       "excludeDither": "Exclou automàticament l'estabilització del dithering",
+      "ditherFrames": "({count} fotogrames)",
       "rawRa": "AR bruta, sense corregir",
       "emptyState": "Selecciona un registre de guiatge PHD2 del desplegable de dalt.",
       "tabs": {
@@ -5553,6 +5554,12 @@
         "raRaw": "AR (bruta)",
         "dec": "Dec",
         "dither": "Dithering"
+      },
+      "graph": {
+        "arcsec": "segons d'arc ({scale}\"/px)",
+        "pixels": "píxels",
+        "frames": "{count} fotogrames",
+        "zoomView": "vista {percent}%"
       },
       "info": {
         "started": "Sessió iniciada",
@@ -5579,6 +5586,11 @@
         "maxError": "error màxim",
         "of": "de {total}"
       },
+      "summary": {
+        "framesUsed": "{used} / {total} fotogrames utilitzats",
+        "excluded": "{count} exclosos",
+        "pixelScale": "escala {scale}\" /px"
+      },
       "fft": {
         "title": "Anàlisi de freqüència de l'AR",
         "subtitle": "Identifica els harmònics d'error periòdic en el guiatge d'AR.",
@@ -5594,7 +5606,11 @@
         "backlash": "Joc mecànic",
         "over": "al llarg de",
         "noSummary": "Sense dades de resum (la calibració pot haver-se interromput)",
-        "noData": "No hi ha dades de calibració per a aquesta sessió."
+        "noData": "No hi ha dades de calibració per a aquesta sessió.",
+        "stepSize": "Durada del pas",
+        "calDistance": "Distància de cal.",
+        "raRate": "Taxa AR",
+        "decRate": "Taxa Dec"
       },
       "settings": {
         "title": "Directori de registres",

@@ -1291,7 +1291,7 @@
         },
         "slewToGuiderCalibrationPosition": {
           "clearBacklash": "Borrar reacción DEC",
-          "dec": "Dic",
+          "dec": "Dec",
           "haOffset": "Compensación HA",
           "side": "Lado señalador",
           "sideEast": "Este",
@@ -1557,7 +1557,7 @@
           "notCalibrated": "No calibrado",
           "orthogonalityError": "Error de ortogonalidad:",
           "raParity": "Paridad RA:",
-          "raRate": "Tasa de AR:",
+          "raRate": "Velocidad AR:",
           "rightAscension": "Ascensión Recta",
           "title": "Revisar la calibración"
         },
@@ -5363,6 +5363,10 @@
         "backlash": "Holgura",
         "dist": "Dist (px)",
         "noData": "No hay datos de calibración para esta sesión.",
+        "stepSize": "Duración del paso",
+        "calDistance": "Distancia de cal.",
+        "raRate": "Velocidad AR",
+        "decRate": "Velocidad Dec",
         "noSummary": "No hay datos resumidos (es posible que se haya interrumpido la calibración)",
         "over": "en",
         "parity": "Paridad",
@@ -5372,6 +5376,7 @@
       "clear": "Limpiar",
       "emptyState": "Seleccione un registro de guía PHD2 del menú desplegable de arriba.",
       "excludeDither": "Excluir automáticamente el asentamiento del dithering",
+      "ditherFrames": "({count} fotogramas)",
       "fft": {
         "dominantPeriod": "Periodo dominante",
         "subtitle": "Identifica armónicos de error periódico en el guiado RA.",
@@ -5393,6 +5398,12 @@
         "dither": "Dithering",
         "ra": "AR",
         "raRaw": "AR (cruda)"
+      },
+      "graph": {
+        "arcsec": "segundos de arco ({scale}\"/px)",
+        "pixels": "píxeles",
+        "frames": "{count} fotogramas",
+        "zoomView": "vista {percent}%"
       },
       "loading": "Cargando…",
       "noLogs": "No se encontraron registros",
@@ -5419,6 +5430,11 @@
         "raRms": "RMS AR",
         "rightAscension": "ascensión recta",
         "totalRms": "RMS total"
+      },
+      "summary": {
+        "framesUsed": "{used} / {total} fotogramas usados",
+        "excluded": "{count} excluidos",
+        "pixelScale": "escala {scale}\" /px"
       },
       "subtitle": "Seleccione un registro de guía PHD2 para visualizar el rendimiento y las estadísticas de la guía.",
       "tabs": {

@@ -1309,7 +1309,7 @@
         },
         "slewToGuiderCalibrationPosition": {
           "clearBacklash": "DEC バックラッシュをクリア",
-          "dec": "12月",
+          "dec": "赤緯",
           "haOffset": "HA オフセット",
           "side": "ポインティングサイド",
           "sideEast": "東",
@@ -5314,6 +5314,10 @@
         "backlash": "バックラッシュ",
         "dist": "距離 (ピクセル)",
         "noData": "このセッションにはキャリブレーション データがありません。",
+        "stepSize": "ステップ時間",
+        "calDistance": "キャリブレーション距離",
+        "raRate": "赤経レート",
+        "decRate": "赤緯レート",
         "noSummary": "概要データなし (校正が中断された可能性があります)",
         "over": "以上",
         "parity": "パリティ",
@@ -5323,6 +5327,7 @@
       "clear": "クリア",
       "emptyState": "上のドロップダウンから PHD2 ガイド ログを選択します。",
       "excludeDither": "ディザリングの自動除外",
+      "ditherFrames": "（{count} フレーム）",
       "fft": {
         "dominantPeriod": "支配的周期",
         "subtitle": "赤経ガイドの周期的誤差高調波を特定します。",
@@ -5344,6 +5349,12 @@
         "dither": "ディザリング",
         "ra": "赤経",
         "raRaw": "赤経（生）"
+      },
+      "graph": {
+        "arcsec": "秒角（{scale}\"/px）",
+        "pixels": "ピクセル",
+        "frames": "{count} フレーム",
+        "zoomView": "{percent}% 表示"
       },
       "loading": "読み込み中…",
       "noLogs": "ログが見つかりません",
@@ -5370,6 +5381,11 @@
         "raRms": "赤経RMS",
         "rightAscension": "赤経",
         "totalRms": "合計RMS"
+      },
+      "summary": {
+        "framesUsed": "{used} / {total} フレーム使用",
+        "excluded": "{count} 件除外",
+        "pixelScale": "スケール {scale}\" /px"
       },
       "subtitle": "PHD2 ガイド ログを選択して、ガイドのパフォーマンスと統計を視覚化します。",
       "tabs": {

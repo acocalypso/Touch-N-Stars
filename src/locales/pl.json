@@ -1086,7 +1086,7 @@
         },
         "center": {
           "ra": "RA",
-          "dec": "Gru",
+          "dec": "Dec",
           "inherited": "Współrzędne odziedziczone z celu"
         },
         "coolCamera": {
@@ -1291,7 +1291,7 @@
         },
         "slewToGuiderCalibrationPosition": {
           "clearBacklash": "Wyczyść luz DEC",
-          "dec": "grudzień",
+          "dec": "Dec",
           "haOffset": "Przesunięcie HA",
           "side": "Wskazująca strona",
           "sideEast": "Wschód",
@@ -1371,7 +1371,7 @@
         "slewing": "Montaż się obraca",
         "notSlewing": "Brak obrotu",
         "timeToMeridianFlip": "Czas do przerzutu przez meridian",
-        "declination": "grudzień",
+        "declination": "Dec",
         "rightAscension": "Ra",
         "Alt": "Alt",
         "Az": "Az",
@@ -1548,16 +1548,16 @@
           "cameraAngle": "Kąt kamery:",
           "clearCalibration": "Wyczyść kalibrację",
           "clearing": "Clearing...",
-          "decParity": "Parytet grudniowy:",
-          "decRate": "Kurs grudniowy:",
+          "decParity": "Parzystość Dec:",
+          "decRate": "Prędkość Dec:",
           "declination": "Deklinacja:",
           "declinationAxis": "Deklinacja",
           "estimated": "(szac.)",
           "lastMountCalibration": "Ostatnia kalibracja mocowania",
           "notCalibrated": "Nie skalibrowany",
           "orthogonalityError": "Błąd ortogonalności:",
-          "raParity": "Parytet RA:",
-          "raRate": "Wskaźnik RA:",
+          "raParity": "Parzystość RA:",
+          "raRate": "Prędkość RA:",
           "rightAscension": "Rektascensja",
           "title": "Przejrzyj kalibrację"
         },
@@ -1986,9 +1986,9 @@
       "title": "Obróć i wyśrodkuj",
       "LastSelectedImageSource_wrong": "Proszę wybrać offline sky map jako źródło obrazu w NINA / Framing",
       "ra": "RA:",
-      "dec": "grudzień:",
+      "dec": "Dec:",
       "ra_placeholder": "RA 03:47:28.2",
-      "dec_placeholder": "Grudzień +24:06:19",
+      "dec_placeholder": "Dec +24:06:19",
       "slew": "Obróć",
       "slew_and_center": "Obróć i wyśrodkuj",
       "errors": {
@@ -2206,7 +2206,7 @@
       "selected_object": {
         "title": "Wybrany obiekt",
         "ra": "RA",
-        "dec": "GRUDZIEŃ",
+        "dec": "DEC",
         "button_framing": "przejdź do kadrowania",
         "type": "Typ",
         "magnitude": "Jasność",
@@ -2401,7 +2401,7 @@
       "table": {
         "name": "Nazwa",
         "ra": "RA",
-        "dec": "GRUDZIEŃ",
+        "dec": "DEC",
         "load": "Załaduj",
         "remove": "Usuń",
         "rotation": "Obrót"
@@ -2457,7 +2457,7 @@
       "orientation": "Orientacja",
       "flipped": "Odwrócony",
       "ra": "RA",
-      "dec": "grudzień",
+      "dec": "Dec",
       "pixel_scale": "Skala pikseli",
       "focal_length": "Ogniskowa"
     },
@@ -2476,7 +2476,7 @@
       "browserTitle": "Wybierz plik FITS do rozwiązania płyty",
       "buttonTitle": "Pasuje do rozwiązania płyty",
       "coordinatesHint": "Wskazówka dotycząca współrzędnych (pozostaw puste, aby rozwiązać na ślepo)",
-      "dec": "grudzień",
+      "dec": "Dec",
       "decPlaceholder": "DD:MM:SS",
       "error": "Rozwiązanie płyty nie powiodło się",
       "errorLoadParams": "Nie udało się odczytać parametrów FITS",
@@ -3116,7 +3116,7 @@
         "showObjects": "Pokaż obiekty",
         "hideObjects": "Ukryj obiekty",
         "ra": "RA",
-        "dec": "GRUDZIEŃ",
+        "dec": "Dec",
         "size": "Rozmiar",
         "magnitude": "Mag"
       },
@@ -4521,7 +4521,7 @@
         "plateSolveSubframe": "Płyta Solve Rama pomocnicza",
         "alternateDirection": "Kierunek alternatywny",
         "disableRefractionCorrection": "Wyłącz korekcję refrakcji",
-        "decJitter": "Jitter grudniowy (σ°)",
+        "decJitter": "Jitter Dec (σ°)",
         "disableDAT": "Wyłącz DAT podczas modelowania",
         "resetOptions": "Przywróć ustawienia domyślne",
         "noCameraConnected": "Brak podłączonej kamery — do zbudowania modelu wymagana jest kamera.",
@@ -4530,7 +4530,7 @@
         "siderealPath": "Ścieżka gwiazdowa",
         "target": "Cel",
         "raHours": "RA (godz.)",
-        "decDegrees": "Grudzień (°)",
+        "decDegrees": "Dec (°)",
         "raDelta": "RA Odstęp (°)",
         "startTime": "Czas rozpoczęcia",
         "endTime": "Czas zakończenia",
@@ -5038,7 +5038,7 @@
         "close": "Zamknąć",
         "copy": "Kopia",
         "copySuffix": "kopia",
-        "dec": "GRUDZIEŃ",
+        "dec": "DEC",
         "deg": "st",
         "edit": "Redagować",
         "meters": "M",
@@ -5314,6 +5314,10 @@
         "backlash": "Luz",
         "dist": "Odległość (px)",
         "noData": "Brak danych kalibracyjnych dla tej sesji.",
+        "stepSize": "Czas kroku",
+        "calDistance": "Dystans kalibracji",
+        "raRate": "Prędkość RA",
+        "decRate": "Prędkość Dec",
         "noSummary": "Brak danych zbiorczych (mogła zostać przerwana kalibracja)",
         "over": "w",
         "parity": "Parzystość",
@@ -5323,6 +5327,7 @@
       "clear": "Wyczyść",
       "emptyState": "Wybierz dziennik przewodnika PHD2 z listy rozwijanej powyżej.",
       "excludeDither": "Automatycznie wykluczaj stabilizację po ditheringu",
+      "ditherFrames": "({count} klatek)",
       "fft": {
         "dominantPeriod": "Okres dominujący",
         "subtitle": "Identyfikuje harmoniczne błędów okresowych w prowadzeniu RA.",
@@ -5344,6 +5349,12 @@
         "dither": "Dithering",
         "ra": "RA",
         "raRaw": "RA (surowe)"
+      },
+      "graph": {
+        "arcsec": "sekundy łuku ({scale}\"/px)",
+        "pixels": "piksele",
+        "frames": "{count} klatek",
+        "zoomView": "widok {percent}%"
       },
       "loading": "Ładowanie…",
       "noLogs": "Nie znaleziono dzienników",
@@ -5370,6 +5381,11 @@
         "raRms": "RMS RA",
         "rightAscension": "rektascensja",
         "totalRms": "RMS całkowite"
+      },
+      "summary": {
+        "framesUsed": "użyto {used} / {total} klatek",
+        "excluded": "wykluczono {count}",
+        "pixelScale": "skala {scale}\" /px"
       },
       "subtitle": "Wybierz dziennik prowadzenia PHD2, aby wizualizować wydajność i statystyki prowadzenia.",
       "tabs": {

@@ -1344,7 +1344,7 @@
         },
         "slewToGuiderCalibrationPosition": {
           "clearBacklash": "DEC-Spiel löschen",
-          "dec": "Dez",
+          "dec": "Dek",
           "haOffset": "HA-Offset",
           "side": "Zeigende Seite",
           "sideEast": "Ost",
@@ -1412,8 +1412,8 @@
         "slewing": "Montierung schwenkt",
         "notSlewing": "Schwenken nicht aktiv",
         "timeToMeridianFlip": "Zeit bis Meridian Flip",
-        "declination": "Dez",
-        "rightAscension": "Ra",
+        "declination": "Dek",
+        "rightAscension": "RA",
         "Alt": "Alt",
         "Az": "Az",
         "SideOfPier": "Seite des Piers"
@@ -1653,8 +1653,8 @@
           "cameraAngle": "Kamerawinkel:",
           "clearCalibration": "Lösche Kalibrierung",
           "clearing": "Löschen...",
-          "decParity": "Dez.-Parität:",
-          "decRate": "Dez.-Rate:",
+          "decParity": "Dek-Parität:",
+          "decRate": "Dek-Rate:",
           "declination": "Deklination:",
           "declinationAxis": "Deklination",
           "estimated": "(est)",
@@ -2247,7 +2247,7 @@
       "selected_object": {
         "title": "Ausgewähltes Objekt",
         "ra": "Ra",
-        "dec": "Dez",
+        "dec": "Dek",
         "button_framing": "in Framing übernehmen",
         "type": "Typ",
         "magnitude": "Helligkeit",
@@ -4637,7 +4637,7 @@
         "plateSolveSubframe": "Plattenlösender Hilfsrahmen",
         "alternateDirection": "Alternative Richtung",
         "disableRefractionCorrection": "Brechungskorrektur deaktivieren",
-        "decJitter": "Dez.-Jitter (σ°)",
+        "decJitter": "Dek-Jitter (σ°)",
         "disableDAT": "Deaktivieren Sie DAT während der Modellierung",
         "resetOptions": "Auf Standardeinstellungen zurücksetzen",
         "noCameraConnected": "Keine Kamera angeschlossen – zum Erstellen eines Modells ist eine Kamera erforderlich.",
@@ -4646,7 +4646,7 @@
         "siderealPath": "Sternpfad",
         "target": "Ziel",
         "raHours": "RA (h)",
-        "decDegrees": "Dez (°)",
+        "decDegrees": "Dek (°)",
         "raDelta": "RA-Intervall (°)",
         "startTime": "Startzeit",
         "endTime": "Endzeit",
@@ -5453,6 +5453,10 @@
         "backlash": "Umkehrspiel",
         "dist": "Dist (px)",
         "noData": "Keine Kalibrierungsdaten für diese Sitzung.",
+        "stepSize": "Schrittdauer",
+        "calDistance": "Kal.-Distanz",
+        "raRate": "RA-Rate",
+        "decRate": "Dek-Rate",
         "noSummary": "Keine zusammenfassenden Daten (Kalibrierung wurde möglicherweise unterbrochen)",
         "over": "über",
         "parity": "Parität",
@@ -5462,6 +5466,7 @@
       "clear": "Leeren",
       "emptyState": "Wählen Sie aus der Dropdown-Liste oben ein PHD2-Guide-Protokoll aus.",
       "excludeDither": "Dither-Beruhigung automatisch ausschließen",
+      "ditherFrames": "({count} Frames)",
       "fft": {
         "dominantPeriod": "Dominante Periode",
         "subtitle": "Identifiziert periodische Fehlerharmonische in der RA-Führung.",
@@ -5483,6 +5488,12 @@
         "dither": "Dither",
         "ra": "RA",
         "raRaw": "RA (roh)"
+      },
+      "graph": {
+        "arcsec": "Bogensekunden ({scale}\"/px)",
+        "pixels": "Pixel",
+        "frames": "{count} Frames",
+        "zoomView": "{percent}% Ansicht"
       },
       "loading": "Laden…",
       "noLogs": "Keine Protokolle gefunden",
@@ -5509,6 +5520,11 @@
         "raRms": "RA RMS",
         "rightAscension": "Rektaszension",
         "totalRms": "Gesamt-RMS"
+      },
+      "summary": {
+        "framesUsed": "{used} / {total} Frames verwendet",
+        "excluded": "{count} ausgeschlossen",
+        "pixelScale": "{scale}\" /px Abbildungsmaßstab"
       },
       "subtitle": "Wählen Sie ein PHD2-Guide-Protokoll aus, um die Guiding-Leistung und -Statistiken zu visualisieren.",
       "tabs": {

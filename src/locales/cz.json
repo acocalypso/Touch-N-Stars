@@ -1085,8 +1085,8 @@
           "afterExposures": "Po expozicích"
         },
         "center": {
-          "ra": "Atrofická artritida",
-          "dec": "Pro",
+          "ra": "RA",
+          "dec": "Dec",
           "inherited": "Souřadnice zděděné od cíle"
         },
         "coolCamera": {
@@ -1371,7 +1371,7 @@
         "slewing": "Montáž přejíždí",
         "notSlewing": "Nepřejíždí",
         "timeToMeridianFlip": "Čas na Překlopení Poledník",
-        "declination": "prosinec",
+        "declination": "Dec",
         "rightAscension": "Ra",
         "Alt": "Alt",
         "Az": "Az",
@@ -1548,8 +1548,8 @@
           "cameraAngle": "Úhel kamery:",
           "clearCalibration": "Vymazat kalibraci",
           "clearing": "Vymazání...",
-          "decParity": "Parita prosince:",
-          "decRate": "Prosincová sazba:",
+          "decParity": "Parita Dec:",
+          "decRate": "Rychlost Dec:",
           "declination": "Deklinace:",
           "declinationAxis": "Deklinace",
           "estimated": "(odhad)",
@@ -1557,7 +1557,7 @@
           "notCalibrated": "Nekalibrováno",
           "orthogonalityError": "Chyba ortogonality:",
           "raParity": "RA parita:",
-          "raRate": "sazba RA:",
+          "raRate": "Rychlost RA:",
           "rightAscension": "Rektascenze",
           "title": "Zkontrolujte kalibraci"
         },
@@ -1986,9 +1986,9 @@
       "title": "Přejet a Vycentrovat",
       "LastSelectedImageSource_wrong": "Vyberte offline mapu oblohy jako zdroj obrázku v NINA / Snímkování",
       "ra": "RA:",
-      "dec": "prosince:",
+      "dec": "Dec:",
       "ra_placeholder": "RA 03:47:28.2",
-      "dec_placeholder": "prosinec +24:06:19",
+      "dec_placeholder": "Dec +24:06:19",
       "slew": "Přejet",
       "slew_and_center": "Přejet a Vycentrovat",
       "errors": {
@@ -2457,7 +2457,7 @@
       "orientation": "Orientace",
       "flipped": "Převráceno",
       "ra": "RA",
-      "dec": "prosinec",
+      "dec": "Dec",
       "pixel_scale": "Měřítko pixelů",
       "focal_length": "Ohnisková vzdálenost"
     },
@@ -4530,7 +4530,7 @@
         "siderealPath": "Hvězdná cesta",
         "target": "Cíl",
         "raHours": "RA (h)",
-        "decDegrees": "prosinec (°)",
+        "decDegrees": "Dec (°)",
         "raDelta": "RA interval (°)",
         "startTime": "Čas zahájení",
         "endTime": "Čas ukončení",
@@ -5314,6 +5314,10 @@
         "backlash": "Backlash",
         "dist": "Dist (px)",
         "noData": "No calibration data for this session.",
+        "stepSize": "Délka kroku",
+        "calDistance": "Kalibrační vzdálenost",
+        "raRate": "Rychlost RA",
+        "decRate": "Rychlost Dec",
         "noSummary": "No summary data (calibration may have been interrupted)",
         "over": "over",
         "parity": "Parity",
@@ -5323,6 +5327,7 @@
       "clear": "Clear",
       "emptyState": "Select a PHD2 guide log from the dropdown above.",
       "excludeDither": "Auto-exclude dither settling",
+      "ditherFrames": "({count} snímků)",
       "fft": {
         "dominantPeriod": "Dominant period",
         "subtitle": "Identifies periodic error harmonics in RA guiding.",
@@ -5344,6 +5349,12 @@
         "dither": "Dither",
         "ra": "RA",
         "raRaw": "RA (raw)"
+      },
+      "graph": {
+        "arcsec": "úhl. vteřiny ({scale}\"/px)",
+        "pixels": "pixely",
+        "frames": "{count} snímků",
+        "zoomView": "zobrazení {percent} %"
       },
       "loading": "Loading…",
       "noLogs": "No logs found",
@@ -5370,6 +5381,11 @@
         "raRms": "RA RMS",
         "rightAscension": "right ascension",
         "totalRms": "Total RMS"
+      },
+      "summary": {
+        "framesUsed": "použito {used} / {total} snímků",
+        "excluded": "vyloučeno {count}",
+        "pixelScale": "měřítko {scale}\" /px"
       },
       "subtitle": "Select a PHD2 guide log to visualize guiding performance and statistics.",
       "tabs": {

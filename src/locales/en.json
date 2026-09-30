@@ -5611,6 +5611,7 @@
       "clear": "Clear",
       "session": "Session:",
       "excludeDither": "Auto-exclude dither settling",
+      "ditherFrames": "({count} frames)",
       "rawRa": "Raw, uncorrected RA",
       "emptyState": "Select a PHD2 guide log from the dropdown above.",
       "tabs": {
@@ -5622,6 +5623,12 @@
         "raRaw": "RA (raw)",
         "dec": "Dec",
         "dither": "Dither"
+      },
+      "graph": {
+        "arcsec": "arcsec ({scale}\"/px)",
+        "pixels": "pixels",
+        "frames": "{count} frames",
+        "zoomView": "{percent}% view"
       },
       "info": {
         "started": "Session started",
@@ -5648,6 +5655,11 @@
         "maxError": "max error",
         "of": "of {total}"
       },
+      "summary": {
+        "framesUsed": "{used} / {total} frames used",
+        "excluded": "{count} excluded",
+        "pixelScale": "{scale}\" /px scale"
+      },
       "fft": {
         "title": "RA Frequency Analysis",
         "subtitle": "Identifies periodic error harmonics in RA guiding.",
@@ -5663,7 +5675,11 @@
         "backlash": "Backlash",
         "over": "over",
         "noSummary": "No summary data (calibration may have been interrupted)",
-        "noData": "No calibration data for this session."
+        "noData": "No calibration data for this session.",
+        "stepSize": "Step size",
+        "calDistance": "Cal distance",
+        "raRate": "RA rate",
+        "decRate": "Dec rate"
       },
       "settings": {
         "title": "Log Directory",

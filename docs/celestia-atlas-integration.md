@@ -75,6 +75,12 @@ persist in settings, and support overlapping group membership. The magnitude
 slider reaches 20; unknown-magnitude stars appear only when selected from search.
 Search remains unfiltered, and only catalogue-backed photographic stars are clickable.
 
+The host also passes the package's compact GCVS 5.1 asset to `variableStars`.
+Its 63,291 positioned named-variable entries are searchable offline by
+designation, GCVS number, and matched familiar names such as Mira. They are
+search-only targets, so they do not duplicate plotted stars or imply a
+time-dependent brightness prediction.
+
 The search-to-selection adapter must retain `uid`, `searchOnly` and
 `crossIdSources`. The renderer supports the adapter's nested `coordinates`
 payload for search-only markers. Regression targets are Sirius / SAO151881,

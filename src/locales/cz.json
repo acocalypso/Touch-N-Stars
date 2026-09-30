@@ -2810,7 +2810,6 @@
         "selectFile": "Vyberte obrázek",
         "loadingCapture": "Načítání záznamu…",
         "useLatestCapture": "Použijte nejnovější záznam",
-        "examplePlaceholder": "Načíst ukázkový obrázek…",
         "clearSelection": "Zrušit výběr",
         "source": "Zdroj",
         "size": "Velikost souboru",
@@ -2822,7 +2821,6 @@
         "previewUnavailable": "Náhled není k dispozici. Analýza tento formát stále podporuje.",
         "capturedName": "Nejnovější zachycení",
         "sourceCaptured": "Aktuální zachycení",
-        "sourceExample": "Příklad obrázku",
         "sourceUpload": "Nahraný obrázek",
         "resizedTitle": "Optimalizace obrazu",
         "resizedMessage": "Velikost změněna na {width}×{height} (asi {size}). Původní velikost byla {originalSize}."
@@ -2905,7 +2903,6 @@
         "title": "Bahtinovova analýza",
         "readFile": "Vybraný soubor nelze přečíst.",
         "captureLoad": "Nepodařilo se načíst nejnovější záběr z N.I.N.A.",
-        "exampleLoad": "Nepodařilo se načíst ukázkový obrázek.",
         "analysisFailed": "Požadavek na analýzu se nezdařil.",
         "badRequest": "Server požadavek odmítl. Prosím ověřte parametry.",
         "mockMode": "Bahtinova analýza není k dispozici, když je povoleno simulované API.",

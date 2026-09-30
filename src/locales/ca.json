@@ -2827,7 +2827,6 @@
         "selectFile": "Selecciona la imatge",
         "loadingCapture": "Carregant la captura…",
         "useLatestCapture": "Usa l'última captura",
-        "examplePlaceholder": "Carrega una imatge d'exemple…",
         "clearSelection": "Esborra la selecció",
         "source": "Font",
         "size": "Mida del fitxer",
@@ -2839,7 +2838,6 @@
         "previewUnavailable": "Vista prèvia no disponible. L'anàlisi segueix suportant aquest format.",
         "capturedName": "Última captura",
         "sourceCaptured": "Captura actual",
-        "sourceExample": "Imatge d'exemple",
         "sourceUpload": "Imatge pujada",
         "resizedTitle": "Imatge optimitzada",
         "resizedMessage": "Redimensionada a {width}×{height} (aproximadament {size}). La mida original era {originalSize}."
@@ -2922,7 +2920,6 @@
         "title": "Anàlisi de Bahtinov",
         "readFile": "No s'ha pogut llegir el fitxer seleccionat.",
         "captureLoad": "No s'ha pogut carregar l'última captura de N.I.N.A.",
-        "exampleLoad": "No s'ha pogut carregar la imatge d'exemple.",
         "analysisFailed": "La sol·licitud d'anàlisi ha fallat.",
         "badRequest": "El servidor ha rebutjat la sol·licitud. Verifica els paràmetres.",
         "mockMode": "L'anàlisi de Bahtinov no està disponible amb l'API simulada activada.",

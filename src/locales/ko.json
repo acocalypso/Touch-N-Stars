@@ -2810,7 +2810,6 @@
         "selectFile": "이미지 선택",
         "loadingCapture": "촬영 불러오는 중…",
         "useLatestCapture": "최근 촬영 사용",
-        "examplePlaceholder": "예시 이미지 불러오기…",
         "clearSelection": "선택 해제",
         "source": "소스",
         "size": "파일 크기",
@@ -2822,7 +2821,6 @@
         "previewUnavailable": "미리보기를 사용할 수 없습니다. 분석은 이 포맷을 지원합니다.",
         "capturedName": "최근 촬영",
         "sourceCaptured": "현재 촬영",
-        "sourceExample": "예시 이미지",
         "sourceUpload": "업로드한 이미지",
         "resizedTitle": "이미지 최적화됨",
         "resizedMessage": "{width}×{height} (약 {size})로 크기 조정됨. 원본 크기는 {originalSize}였습니다."
@@ -2905,7 +2903,6 @@
         "title": "바티노프 분석",
         "readFile": "선택한 파일을 읽을 수 없습니다.",
         "captureLoad": "N.I.N.A.에서 최신 촬영본을 불러오지 못했습니다.",
-        "exampleLoad": "예제 이미지를 불러올 수 없습니다.",
         "analysisFailed": "분석 요청에 실패했습니다.",
         "badRequest": "서버가 요청을 거부했습니다. 매개변수를 확인하세요.",
         "mockMode": "모의 API가 활성화된 동안에는 바티노프 분석을 사용할 수 없습니다.",

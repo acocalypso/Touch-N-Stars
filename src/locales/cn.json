@@ -2810,7 +2810,6 @@
         "selectFile": "选择图片",
         "loadingCapture": "正在加载捕获...",
         "useLatestCapture": "使用最新的捕获",
-        "examplePlaceholder": "加载示例图像...",
         "clearSelection": "清除选择",
         "source": "来源",
         "size": "文件大小",
@@ -2822,7 +2821,6 @@
         "previewUnavailable": "预览不可用。分析仍然支持这种格式。",
         "capturedName": "最新捕捉",
         "sourceCaptured": "当前捕获",
-        "sourceExample": "示例图像",
         "sourceUpload": "上传的图片",
         "resizedTitle": "图像优化",
         "resizedMessage": "调整大小为{width}×{height}（大约{size}）。原始尺寸为 {originalSize}。"
@@ -2905,7 +2903,6 @@
         "title": "巴季诺夫分析",
         "readFile": "无法读取所选文件。",
         "captureLoad": "无法加载 N.I.N.A. 的最新捕获。",
-        "exampleLoad": "无法加载示例图像。",
         "analysisFailed": "分析请求失败。",
         "badRequest": "服务器拒绝了该请求。请确认参数。",
         "mockMode": "启用模拟 API 时，Bahtinov 分析不可用。",

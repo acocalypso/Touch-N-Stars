@@ -2810,7 +2810,6 @@
         "selectFile": "Select image",
         "loadingCapture": "Loading capture…",
         "useLatestCapture": "Use latest capture",
-        "examplePlaceholder": "Load example image…",
         "clearSelection": "Clear selection",
         "source": "Source",
         "size": "File size",
@@ -2822,7 +2821,6 @@
         "previewUnavailable": "Preview not available. The analysis still supports this format.",
         "capturedName": "Latest capture",
         "sourceCaptured": "Current capture",
-        "sourceExample": "Example image",
         "sourceUpload": "Uploaded image",
         "resizedTitle": "Image optimized",
         "resizedMessage": "Resized to {width}×{height} (about {size}). Original size was {originalSize}."
@@ -2905,7 +2903,6 @@
         "title": "Bahtinov analysis",
         "readFile": "Unable to read the selected file.",
         "captureLoad": "Failed to load the latest capture from N.I.N.A.",
-        "exampleLoad": "Could not load the example image.",
         "analysisFailed": "Analysis request failed.",
         "badRequest": "The server rejected the request. Please verify the parameters.",
         "mockMode": "Bahtinov analysis is not available while the mock API is enabled.",

@@ -2810,7 +2810,6 @@
         "selectFile": "画像を選択",
         "loadingCapture": "撮影画像を読み込み中…",
         "useLatestCapture": "最新の撮影画像を使用",
-        "examplePlaceholder": "サンプル画像を読み込む…",
         "clearSelection": "選択を解除",
         "source": "ソース",
         "size": "ファイルサイズ",
@@ -2822,7 +2821,6 @@
         "previewUnavailable": "プレビュー不可ですが、解析は可能です。",
         "capturedName": "最新の撮影",
         "sourceCaptured": "現在の撮影",
-        "sourceExample": "サンプル画像",
         "sourceUpload": "アップロード画像",
         "resizedTitle": "画像を最適化しました",
         "resizedMessage": "{width}×{height} (約 {size}) にリサイズしました。元のサイズは {originalSize} です。"
@@ -2905,7 +2903,6 @@
         "title": "バーティノフ解析",
         "readFile": "ファイルの読み込みに失敗しました。",
         "captureLoad": "N.I.N.A.からの最新画像の取得に失敗しました。",
-        "exampleLoad": "サンプル画像の読み込みに失敗しました。",
         "analysisFailed": "解析リクエストに失敗しました。",
         "badRequest": "サーバーがリクエストを拒否しました。パラメータを確認してください。",
         "mockMode": "mock API有効時は解析機能を利用できません。",

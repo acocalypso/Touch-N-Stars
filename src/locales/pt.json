@@ -2810,7 +2810,6 @@
         "selectFile": "Selecione a imagem",
         "loadingCapture": "Carregando captura…",
         "useLatestCapture": "Usar a captura mais recente",
-        "examplePlaceholder": "Carregar imagem de exemplo…",
         "clearSelection": "Limpar seleção",
         "source": "Fonte",
         "size": "Tamanho do arquivo",
@@ -2822,7 +2821,6 @@
         "previewUnavailable": "Pré-visualização não disponível. A análise ainda suporta este formato.",
         "capturedName": "Última captura",
         "sourceCaptured": "Captura atual",
-        "sourceExample": "Imagem de exemplo",
         "sourceUpload": "Imagem enviada",
         "resizedTitle": "Imagem otimizada",
         "resizedMessage": "Redimensionado para {width}×{height} (cerca de {size}). O tamanho original era {originalSize}."
@@ -2905,7 +2903,6 @@
         "title": "Análise de Bahtinov",
         "readFile": "Não é possível ler o arquivo selecionado.",
         "captureLoad": "Falha ao carregar a captura mais recente do N.I.N.A.",
-        "exampleLoad": "Não foi possível carregar a imagem de exemplo.",
         "analysisFailed": "Falha na solicitação de análise.",
         "badRequest": "O servidor rejeitou a solicitação. Por favor, verifique os parâmetros.",
         "mockMode": "A análise de Bahtinov não está disponível enquanto a API simulada está habilitada.",

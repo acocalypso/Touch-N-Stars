@@ -2810,7 +2810,6 @@
         "selectFile": "Wybierz obraz",
         "loadingCapture": "Ładowanie przechwytywania…",
         "useLatestCapture": "Użyj najnowszego przechwytywania",
-        "examplePlaceholder": "Załaduj przykładowy obraz…",
         "clearSelection": "Wyczyść wybór",
         "source": "Źródło",
         "size": "Rozmiar pliku",
@@ -2822,7 +2821,6 @@
         "previewUnavailable": "Podgląd niedostępny. Analiza nadal obsługuje ten format.",
         "capturedName": "Najnowsze ujęcie",
         "sourceCaptured": "Bieżące ujęcie",
-        "sourceExample": "Przykładowy obraz",
         "sourceUpload": "Przesłany obraz",
         "resizedTitle": "Zoptymalizowany obraz",
         "resizedMessage": "Rozmiar zmieniono na {width}×{height} (około {size}). Oryginalny rozmiar to {originalSize}."
@@ -2905,7 +2903,6 @@
         "title": "Analiza Bahtinowa",
         "readFile": "Nie można odczytać wybranego pliku.",
         "captureLoad": "Nie udało się załadować najnowszego nagrania z N.I.N.A.",
-        "exampleLoad": "Nie można załadować przykładowego obrazu.",
         "analysisFailed": "Żądanie analizy nie powiodło się.",
         "badRequest": "Serwer odrzucił żądanie. Proszę sprawdzić parametry.",
         "mockMode": "Analiza Bahtinova nie jest dostępna, gdy włączony jest próbny interfejs API.",

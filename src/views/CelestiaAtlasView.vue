@@ -923,6 +923,7 @@ onMounted(async () => {
       westernConstellationsModule,
       saoCrossIdsModule,
       wrStarsModule,
+      variableStarsModule,
     ] = await Promise.all([
       import('@acocalypso/celestia-atlas/viewer-catalog-data'),
       import('@acocalypso/celestia-atlas/abell-pn-data'),
@@ -932,6 +933,7 @@ onMounted(async () => {
       import('@acocalypso/celestia-atlas/western-constellation-data'),
       import('@acocalypso/celestia-atlas/sao-star-crossids'),
       import('@acocalypso/celestia-atlas/wr-star-data'),
+      import('@acocalypso/celestia-atlas/variable-star-data'),
     ]);
     if (disposed) return;
     const { catalog, stars, constellations } = buildEmbeddedAtlasCatalog({
@@ -945,7 +947,7 @@ onMounted(async () => {
       wrStars: wrStarsModule.default,
     });
     catalogFacets.value = {
-      ...buildAtlasCatalogFacets(catalog),
+      ...buildAtlasCatalogFacets(catalog, variableStarsModule.default),
       starCatalogueGroups: buildAtlasStarFacets(stars),
     };
     synchronizeCatalogFilterSettings();
@@ -956,6 +958,7 @@ onMounted(async () => {
       utcMs: timeSync.getServerTime(),
       catalog,
       stars,
+      variableStars: variableStarsModule.default,
       constellations,
       ...(cachedCometCatalog ? { cometElements: cachedCometCatalog.objects } : {}),
       milkyWayPanoramaUrl: null,

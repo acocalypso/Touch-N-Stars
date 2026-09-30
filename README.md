@@ -66,8 +66,9 @@ The application makes controlling and configuring NINA- or PINS-based astrophoto
 - OpenNGC catalogue data by Mattia Verga and contributors, licensed under CC-BY-SA-4.0
 - Stellarium v26.2 deep-sky catalogue cross-index data, used for the bundled Abell/ACO, Barnard, LBN, LDN, RCW, Sharpless 2 and vdB supplement, licensed under GPL-2.0-or-later
 - HYG Database v4.1 by David Nash/Astronomy Nexus, used for the bundled HYG star layer, licensed under CC-BY-SA-4.0
+- General Catalogue of Variable Stars 5.1 by the GCVS team, used for 63,291 offline searchable named-variable entries; see the pinned Atlas notice for attribution and source terms.
 - SIMBAD A66/Abell planetary-nebula catalogue data, licensed under ODbL-1.0. This research has made use of the SIMBAD database, operated at CDS, Strasbourg, France.
-- Detailed source, transformation and redistribution notices are retained in the pinned [Celestia Atlas third-party notices](https://github.com/acocalypso/celestia_atlas/blob/27bf2634ad834fb9e027ccc1baa4d0d1d50631f6/THIRD_PARTY_NOTICES.md)
+- Detailed source, transformation and redistribution notices are retained in the pinned [Celestia Atlas third-party notices](https://github.com/acocalypso/celestia_atlas/blob/777b2a6b9a23de04d4a4c4effc8384eff1cb7566/THIRD_PARTY_NOTICES.md)
 
 ### 🔍 Further information
 

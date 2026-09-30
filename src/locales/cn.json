@@ -1,6 +1,6 @@
 {
   "common": {
-    "name": "姓名",
+    "name": "名称",
     "cancel": "取消",
     "confirm": "确认",
     "close": "关闭",
@@ -8,14 +8,14 @@
     "edit": "编辑",
     "delete": "删除",
     "enabled": "启用",
-    "disabled": "残疾人",
-    "enable": "使能够",
+    "disabled": "已禁用",
+    "enable": "启用",
     "disable": "禁用",
     "loading": "加载中…",
     "scanning": "扫描…",
     "connecting": "正在连接…",
     "refresh": "刷新",
-    "creating": "创造……",
+    "creating": "正在创建…",
     "help": "帮助",
     "expand": "展开",
     "collapse": "收起"
@@ -28,7 +28,7 @@
     "delete": "删除",
     "edit": "编辑",
     "close": "关闭",
-    "save": "节省"
+    "save": "保存"
   },
   "pages": {
     "equipment": {
@@ -37,7 +37,7 @@
     }
   },
   "app": {
-    "title": "触摸星星",
+    "title": "Touch'N'Stars",
     "connection_error_toast": {
       "title": "连接错误",
       "message_api": "API 插件不可用。请检查 NINA 中的设置",
@@ -88,19 +88,19 @@
     "instanceConfiguration": "N.I.N.A 连接详情",
     "InfoAppsTitel": "维基",
     "check_wki": "您可以在我们的维基中找到详细说明",
-    "coordAlt": "替代",
+    "coordAlt": "海拔",
     "coordLat": "纬度",
-    "coordLon": "长的",
+    "coordLon": "经度",
     "coordUnit": "米",
     "coordsNotSupported": "驱动程序不支持",
-    "currentMountCoords": "安装位置",
+    "currentMountCoords": "赤道仪位置",
     "currentNinaCoords": "个人资料位置",
     "loadingCoords": "加载中…",
-    "mountNotConnected": "安装未连接",
+    "mountNotConnected": "赤道仪未连接",
     "syncDirection": "位置同步方向",
     "syncDirectionNosync": "无同步",
-    "syncDirectionToApplication": "从安装同步到配置文件",
-    "syncDirectionToTelescope": "从配置文件同步到安装"
+    "syncDirectionToApplication": "从赤道仪同步到配置文件",
+    "syncDirectionToTelescope": "从配置文件同步到赤道仪"
   },
   "components": {
     "instanceDetection": {
@@ -168,7 +168,7 @@
       },
       "getImageRotation": {
         "startCapture": "从相机确定旋转角度",
-        "SolveRun": "板解析",
+        "SolveRun": "天文定位",
         "SolveError": "解析图像错误"
       },
       "moveRotator": "旋转相机",
@@ -186,7 +186,7 @@
         "moonSeparationFmt": "距目标 {deg}°"
       },
       "mosaic": {
-        "columns": "专栏",
+        "columns": "列数",
         "overlap": "重叠 ％",
         "panels": "面板",
         "panelsSet": "面板按顺序设置",
@@ -504,10 +504,10 @@
           "other": "其他"
         },
         "advancedSettings": "高级设置",
-        "darks": "深色",
-        "flats": "公寓",
-        "bias": "偏见",
-        "useLightPattern": "与灯相同"
+        "darks": "暗场",
+        "flats": "平场",
+        "bias": "偏置",
+        "useLightPattern": "与亮场相同"
       },
       "debug": {
         "title": "调试",
@@ -519,7 +519,7 @@
         "title": "通知",
         "enable": "启用",
         "sequence": "序列",
-        "phd2": "博士2"
+        "phd2": "PHD2"
       },
       "keepAwake": {
         "title": "保持屏幕唤醒",
@@ -585,12 +585,12 @@
         "shutdownInfoMessage": "系统正在关机，此页面将无法再访问。"
       },
       "plate_solver": {
-        "title": "平板解算器",
+        "title": "天文定位解算器",
         "basic": "基本设置",
         "search": "搜索设置",
         "retry": "重试设置",
         "ExposureTime": "曝光时间（秒）",
-        "Gain": "获得",
+        "Gain": "增益",
         "SearchRadius": "搜索半径（°）",
         "Threshold": "指向公差（角分）",
         "RotationTolerance": "旋转公差(°)",
@@ -656,16 +656,16 @@
         "focal_ratio": "焦比"
       },
       "mount": {
-        "titel": "安装设置",
-        "max_slew_rate": "最大转换速率 (°/s)"
+        "titel": "赤道仪设置",
+        "max_slew_rate": "最大转动速率 (°/s)"
       },
-      "coordsMismatchWarning": "轮廓和安装坐标不同。",
+      "coordsMismatchWarning": "配置文件和赤道仪坐标不同。",
       "timeSync": {
         "backendTime": "服务器时间",
-        "mountNotConnected": "安装未连接",
+        "mountNotConnected": "赤道仪未连接",
         "mountTime": "赤道仪时间",
         "notSupported": "驱动程序不支持",
-        "syncLabel": "同步挂载时间",
+        "syncLabel": "同步时间到赤道仪",
         "syncLabelInfo": "启用后，点击「立即同步」将短暂断开并重新连接赤道仪，以便 NINA 将当前时间传输给它。",
         "title": "时间同步",
         "loadError": "Could not load time information.",
@@ -685,17 +685,17 @@
         "hint": "拖动以重新排序。至少必须保留一个条目可见。"
       },
       "imageSavePath": {
-        "create": "创造",
+        "create": "创建",
         "dblClickHint": "双击打开",
         "dirLoadError": "无法加载目录。",
         "errorMsg": "保存路径时出错。",
         "folderPlaceholder": "文件夹名称...",
         "loading": "加载中...",
         "loadingDirs": "正在加载目录...",
-        "newFolder": "New Folder",
-        "noSubfolders": "No subfolders available",
+        "newFolder": "+ 新建文件夹",
+        "noSubfolders": "无可见文件夹（路径为空或无法访问）",
         "placeholder": "未选择路径",
-        "save": "节省",
+        "save": "保存",
         "savedMsg": "保存路径：",
         "saving": "...",
         "selectTitle": "选择存储位置",
@@ -777,7 +777,7 @@
         "guideCamRequired": "必须选择一个有效的导星相机。"
       },
       "guiderCam": {
-        "name": "引导相机",
+        "name": "导星相机",
         "manualVnc": "通过VNC手动"
       },
       "safety": {
@@ -880,7 +880,7 @@
       "pauseSequence": "暂停",
       "resetSequence": "重置序列",
       "skipToEnd": "跳到结尾",
-      "skipCurrentItem": "当前文章",
+      "skipCurrentItem": "跳过当前项目",
       "manageSequences": "加载/保存序列",
       "saveSequenceAs": "将当前序列另存为",
       "sequenceFileName": "文件名",
@@ -891,7 +891,7 @@
       "loadingSequence": "正在加载序列…",
       "sequenceClose": "关闭",
       "deleteConfirmationTitle": "删除文件",
-      "deleteConfirmationMessage": "您确定要删除日志文件？",
+      "deleteConfirmationMessage": "您确定要删除该文件吗？",
       "overwriteConfirmationTitle": "覆盖文件",
       "overwriteConfirmationMessage": "您确定要覆盖该文件吗？",
       "resetConfirmationTitle": "确认重置",
@@ -922,7 +922,7 @@
         "condition": "条件"
       },
       "details": {},
-      "hfr": "高频率响应",
+      "hfr": "HFR",
       "mean": "平均值",
       "median": "中位数",
       "stDev": "标准差",
@@ -1009,8 +1009,8 @@
           "exposureTime": "曝光时间(秒):",
           "gain": "增益",
           "offset": "偏移",
-          "binning": "装箱",
-          "imageType": "圖片類型"
+          "binning": "像素合并",
+          "imageType": "图像类型"
         },
         "takeManyExposures": {
           "iterations": "曝光次数"
@@ -1019,21 +1019,21 @@
           "ditherAfter": "（曝光后）抖动"
         },
         "takeSubframeExposure": {
-          "roiPct": "投资回报率(%)"
+          "roiPct": "ROI (%)"
         },
         "switchFilter": {
-          "filter": "籂選",
+          "filter": "滤镜",
           "noFilter": "No Filter"
         },
         "switchProfile": {
-          "profile": "個人檔案",
+          "profile": "配置文件",
           "reconnect": "重新连接"
         },
         "loopCondition": {
-          "iterations": "复述"
+          "iterations": "循环次数"
         },
         "moonIllumination": {
-          "illumination": "光之心"
+          "illumination": "月光照度 (%)"
         },
         "reconnect": {
           "device": "设备"
@@ -1055,15 +1055,15 @@
         "meridianFlip": {
           "minutesAfter": "子午线后几分钟",
           "maxMinutesAfter": "子午线后最大分钟数",
-          "pauseBefore": "经络前暂停（分钟）",
-          "useSideOfPier": "使用码头一侧"
+          "pauseBefore": "子午线前暂停（分钟）",
+          "useSideOfPier": "使用支架侧"
         },
         "altitudeCondition": {
-          "altitude": "海拔高度",
-          "horizonOffset": "水平线偏移(°)"
+          "altitude": "高度 (°)",
+          "horizonOffset": "地平线偏移 (°)"
         },
         "sunAltitudeCondition": {
-          "altitude": "太阳海拔(°)"
+          "altitude": "太阳高度 (°)"
         },
         "timeCondition": {
           "provider": "提供者",
@@ -1090,7 +1090,7 @@
           "inherited": "从目标继承的坐标"
         },
         "coolCamera": {
-          "temperature": "溫度 （°C）",
+          "temperature": "温度 (°C)",
           "duration": "持续时间（分钟）"
         },
         "dewHeater": {
@@ -1127,17 +1127,17 @@
         "skyFlat": {
           "shouldDither": "抖动",
           "ditherPixels": "抖动像素",
-          "ditherSettleTime": "抖动结算时间"
+          "ditherSettleTime": "抖动稳定时间 (s)"
         },
         "moveRotatorMechanical": {
           "mechanicalPosition": "机械位置(°)"
         },
         "solveAndRotate": {
-          "positionAngle": "位置"
+          "positionAngle": "位置角 (°)"
         },
         "setSwitchValue": {
           "switch": "开关",
-          "value": "内容"
+          "value": "值"
         },
         "setTracking": {
           "trackingMode": "跟踪模式",
@@ -1149,13 +1149,13 @@
           "stopped": "Stopped"
         },
         "expressionVariable": {
-          "identifier": "姓名",
-          "expression": "内容",
-          "value": "内容",
-          "initially": "起初，本来",
+          "identifier": "名称",
+          "expression": "值",
+          "value": "值",
+          "initially": "初始值",
           "newValue": "新值",
           "time": "时间",
-          "minutesOffset": "偏移（最小值）"
+          "minutesOffset": "偏移（分钟）"
         },
         "annotation": {
           "text": "文本"
@@ -1214,21 +1214,21 @@
           "azimuth": "方位角 (°)"
         },
         "stackFlats": {
-          "waitForStack": "等待堆栈"
+          "waitForStack": "等待叠加"
         },
         "interruptWhenRMSAbove": {
           "rmsThreshold": "RMS阈值(\")",
           "mode": "模式",
           "modeRMS": "均平方根",
           "modePeak": "峰",
-          "minimumPoints": "最小积分"
+          "minimumPoints": "最少点数"
         },
         "interruptAndRetryWhenRMSAbove": {
           "rmsThreshold": "RMS阈值(\")",
           "mode": "模式",
           "modeRMS": "均平方根",
           "modePeak": "峰",
-          "minimumPoints": "最小积分",
+          "minimumPoints": "最少点数",
           "stableTime": "稳定持续时间 (秒)",
           "recoveryTimeout": "恢复超时 (分钟)",
           "maxRetries": "最大重试次数 (0 = 无限制)"
@@ -1238,14 +1238,14 @@
           "exposureTime": "曝光时间(秒):",
           "ditherPixels": "抖动（像素）",
           "ditherRAOnly": "仅抖动RA",
-          "settlePixels": "结算（像素）",
-          "settleTime": "结算时间",
-          "settleTimeout": "结算超时",
-          "roiPct": "投资回报率(%)"
+          "settlePixels": "稳定（像素）",
+          "settleTime": "稳定时间",
+          "settleTimeout": "稳定超时",
+          "roiPct": "ROI (%)"
         },
         "dso": {
-          "targetName": "target name\n\n目标姓名",
-          "positionAngle": "位置",
+          "targetName": "目标名称",
+          "positionAngle": "位置角 (°)",
           "loadFromFavorites": "从收藏夹加载",
           "loadIntoFraming": "加载到取景助手"
         },
@@ -1307,8 +1307,8 @@
         "allTargets": "所有目标",
         "reset": "重置过滤器"
       },
-      "gain": "获得",
-      "offset": "抵消",
+      "gain": "增益",
+      "offset": "偏移",
       "move": "移动",
       "more": "更多",
       "duplicate": "复制",
@@ -1372,24 +1372,24 @@
         "notSlewing": "赤道仪未转动",
         "timeToMeridianFlip": "距离子午线翻转的时间",
         "declination": "赤纬",
-        "rightAscension": "拉",
+        "rightAscension": "赤经",
         "Alt": "高度 (Alt)",
         "Az": "方位角 (Az)",
-        "SideOfPier": "镜面选择"
+        "SideOfPier": "支架侧 (Side of Pier)"
       },
       "settings": {
-        "meridian_flip_settings": "经络翻转",
-        "telescope_settle_time": "转换后的稳定时间 (s)",
+        "meridian_flip_settings": "中天翻转",
+        "telescope_settle_time": "转动后的稳定时间 (s)",
         "meridian_flip": {
           "basic": "基本设置",
           "behavior": "行为",
           "post_flip_actions": "翻转后动作",
           "MinutesAfterMeridian": "子午线过后几分钟",
           "MaxMinutesAfterMeridian": "子午线后最大分钟数",
-          "PauseTimeBeforeMeridian": "经络前停顿时间",
+          "PauseTimeBeforeMeridian": "子午线前暂停时间",
           "SettleTime": "稳定时间(秒)",
-          "Recenter": "近期中心",
-          "UseSideOfPier": "使用镜面选择",
+          "Recenter": "重新居中",
+          "UseSideOfPier": "使用支架侧",
           "AutoFocusAfterFlip": "翻转后自动对焦",
           "RotateImageAfterFlip": "翻转后旋转图像"
         },
@@ -1418,12 +1418,12 @@
       "phd2ServerPort": "PHD2服务器端口",
       "ditherPixels": "抖动像素 (px)",
       "ditherRAOnly": "仅在 RA 中抖动",
-      "settlePixels": "解决像素容差 (px)",
+      "settlePixels": "稳定像素容差 (px)",
       "settleTime": "最短稳定时间（秒）",
-      "settleTimeout": "解决超时（秒）",
+      "settleTimeout": "稳定超时（秒）",
       "guidingStartRetry": "引导开始重试",
       "guidingStartTimeout": "引导启动超时（秒）",
-      "roiPercentage": "寻找引导之星的投资回报率 (%)",
+      "roiPercentage": "寻找导星的 ROI 百分比 (%)",
       "status": {
         "looping": "拍摄中",
         "lostLock": "丢失导星",
@@ -1494,7 +1494,7 @@
         "historySize": "历史大小",
         "ra": {
           "aggression": "赤经: 修正积极性",
-          "hysteresis": "赤经: 回差补偿",
+          "hysteresis": "赤经: 滞后",
           "MinMove": "赤经: 最小移动量",
           "MaxMove": "赤经: 最大移动量",
           "predictive_weight": "赤经: 预测权重",
@@ -1505,7 +1505,7 @@
         },
         "dec": {
           "aggression": "赤纬: 修正积极性",
-          "hysteresis": "赤纬: 回差补偿",
+          "hysteresis": "赤纬: 滞后",
           "MinMove": "赤纬: 最小移动量",
           "MaxMove": "赤纬: 最大移动量",
           "predictive_weight": "赤纬: 预测权重",
@@ -1546,17 +1546,17 @@
         "resetZoom": "重置缩放",
         "calibrationData": {
           "cameraAngle": "摄像角度：",
-          "clearCalibration": "清晰的校准",
-          "clearing": "清算...",
+          "clearCalibration": "清除校准",
+          "clearing": "正在清除...",
           "decParity": "赤纬奇偶性：",
-          "decRate": "减速率：",
+          "decRate": "赤纬速率：",
           "declination": "赤纬：",
           "declinationAxis": "赤纬",
           "estimated": "（预计）",
-          "lastMountCalibration": "最后安装校准",
+          "lastMountCalibration": "上次赤道仪校准",
           "notCalibrated": "未校准",
           "orthogonalityError": "正交性误差：",
-          "raParity": "RA 平价：",
+          "raParity": "RA 奇偶性：",
           "raRate": "RA率：",
           "rightAscension": "赤经",
           "title": "检查校准"
@@ -1685,7 +1685,7 @@
     },
     "focuser": {
       "title": "调焦器",
-      "focus": "重点",
+      "focus": "对焦",
       "new_position": "新位置：",
       "move": "移动",
       "start_autofocus": "启动自动对焦",
@@ -1715,11 +1715,11 @@
         "FocuserSettleTime": "聚焦器稳定时间",
         "AutoFocusTotalNumberOfAttempts": "尝试总数",
         "AutoFocusNumberOfFramesPerPoint": "每点的帧数",
-        "AutoFocusInnerCropRatio": "内部作物比例",
-        "AutoFocusOuterCropRatio": "外层作物比例",
+        "AutoFocusInnerCropRatio": "内部裁剪比例",
+        "AutoFocusOuterCropRatio": "外层裁剪比例",
         "AutoFocusUseBrightestStars": "使用最亮的星星",
-        "BacklashIn": "反弹",
-        "BacklashOut": "反冲消除",
+        "BacklashIn": "内向间隙",
+        "BacklashOut": "外向间隙",
         "AutoFocusBinning": "自动对焦合并",
         "AutoFocusTimeoutSeconds": "自动对焦超时（秒）",
         "RSquaredThreshold": "R 平方阈值",
@@ -1736,14 +1736,14 @@
         "title": "设置",
         "general": "常规设置",
         "autofocus": "自动对焦设置",
-        "crop_and_stars": "Crop",
+        "crop_and_stars": "裁剪与星点",
         "backlash": "间隙",
-        "advanced": "先进的",
+        "advanced": "高级",
         "Reverse": "反向",
         "UseFilterWheelOffsets": "使用滤镜轮偏移",
         "MaxStep": "最大步数",
         "AutoFocusFilter": "自动对焦滤镜",
-        "AutoFocusFilterNone": "没有任何",
+        "AutoFocusFilterNone": "无",
         "AutoFocusExposureTime": "默认曝光时间",
         "BeepOnMove": "移动时发出蜂鸣声",
         "BeepOnStartup": "启动时发出蜂鸣声",
@@ -1867,7 +1867,7 @@
       "binning_mode": "像素合并",
       "readout_mode": "读出模式",
       "usb_limit": "USB限制",
-      "set_use_platesolve": "使用板解析",
+      "set_use_platesolve": "使用天文定位",
       "chip_settings": {
         "title": "相机芯片设置",
         "pixel_size": "像素尺寸 (μm)",
@@ -1892,7 +1892,7 @@
       "BinAverageEnabled": "合并平均像素",
       "FanSpeed": "风扇速度",
       "HighFullwellMode": "高满井模式",
-      "LEDLights": "引领",
+      "LEDLights": "LED",
       "LowNoiseMode": "超级模式",
       "BadPixelCorrection": "坏点校正",
       "BadPixelCorrectionThreshold": "坏点阈值",
@@ -1900,17 +1900,17 @@
       "tab_camera": "相机",
       "tab_cooler": "冷却",
       "tab_filter": "滤镜",
-      "tab_snapshot": "保存并解决"
+      "tab_snapshot": "保存并解析"
     },
     "tppa": {
       "title": "三点极轴对准",
       "camera_mount_required": "必须连接相机",
       "start_alignment": "开始对准",
       "stop_alignment": "停止对准",
-      "altitude_error": "高度错误：",
-      "azimuth_error": "方位错误：",
-      "total_error": "总错误：",
-      "error_values_missing": "缺少错误值",
+      "altitude_error": "高度误差：",
+      "azimuth_error": "方位误差：",
+      "total_error": "总误差：",
+      "error_values_missing": "缺少误差值",
       "unknown_response_format": "未知的响应格式",
       "east": "东",
       "west": "西",
@@ -1918,9 +1918,9 @@
       "up": "上",
       "not_available": "不可用",
       "running": "运行中",
-      "plate_solve_start": "开始板解析",
-      "plate_solve_ok": "板解析成功",
-      "plate_solve_error": "板解析错误",
+      "plate_solve_start": "天文定位开始",
+      "plate_solve_ok": "天文定位成功",
+      "plate_solve_error": "天文定位错误",
       "slewing_first_position": "转向第一个位置",
       "slewing_next_position": "转向下一个位置",
       "capture_running": "曝光运行中",
@@ -1939,7 +1939,7 @@
         "ManualMode": "手动模式"
       },
       "pins_settings": {
-        "title": "引脚 TPPA 设置",
+        "title": "PINS TPPA 设置",
         "movement": "移动",
         "offsets": "偏移量",
         "behavior": "行为",
@@ -2038,7 +2038,7 @@
       },
       "Unidirectional": "滤光轮单向",
       "BoardTemperature": "电路板温度",
-      "Counter": "柜台",
+      "Counter": "计数器",
       "State": "状态"
     },
     "RemoveFilter": {
@@ -2063,7 +2063,7 @@
         "QUARTER": "四分之一 (90°)",
         "HALF": "一半 (180°)",
         "FULL": "完整 (360°)",
-        "RangeType": "范围类型",
+        "RangeType": "机械范围",
         "RangeStartMechanicalPosition": "机械起始位置 (°)",
         "Overshoot": "超调",
         "OvershootDirection": "超调方向",
@@ -2095,20 +2095,20 @@
         "closedPosition": "关闭位置 (°)",
         "currentPosition": "当前位置",
         "trainedSettings": {
-          "title": "经过训练的平坦曝光设置",
-          "filter": "筛选",
+          "title": "已训练的平场曝光设置",
+          "filter": "滤镜",
           "noFilter": "无过滤器",
-          "binning": "分档",
-          "gain": "获得",
-          "offset": "抵消",
+          "binning": "像素合并",
+          "gain": "增益",
+          "offset": "偏移",
           "brightness": "亮度",
           "time": "时间（秒）",
           "confirmTitle": "删除设置",
-          "confirmMessage": "您确定要删除这个经过训练的平坦曝光设置吗？"
+          "confirmMessage": "您确定要删除这个已训练的平场曝光设置吗？"
         }
       },
       "indi": {
-        "settings": "平板设备设置"
+        "settings": "平场设备设置"
       }
     },
     "flatassistant": {
@@ -2136,7 +2136,7 @@
       "button_slew_to_zenith": "转向天顶",
       "keep_closed": "保持平板关闭",
       "status_adu_live": "最后测量的 ADU：{adu}",
-      "status_failed": "未捕获任何单位 - 无法确定有效曝光",
+      "status_failed": "失败",
       "status_running": "运行中",
       "status_stopped": "已停止",
       "status_success": "成功",
@@ -2152,7 +2152,7 @@
       "darks_to_take": "要拍摄的 Darkflats",
       "operation_failed": "Operation failed",
       "status_failed_darks": "No darks captured - could not determine valid exposure",
-      "status_failed_flats": "No flats captured - could not determine valid exposure",
+      "status_failed_flats": "无法确定有效曝光",
       "status_running_darks": "Running: {completed} / {total} darks",
       "status_running_flats": "Running: {completed} / {total} flats",
       "status_stopped_darks": "Stopped early - {completed} of {total} darks captured",
@@ -2229,7 +2229,7 @@
         "now": "现在",
         "speed": "速度",
         "pause": "暂停时间",
-        "play": "运行时间"
+        "play": "播放时间"
       },
       "mount_position": {},
       "settings": {
@@ -2383,7 +2383,7 @@
       "rename": "重命名",
       "clone": "克隆",
       "cloneOf": "复制",
-      "remove": "消除",
+      "remove": "删除",
       "namePlaceholder": "个人资料名称",
       "nameExists": "名称已存在",
       "cannotSwitchConnected": "无法在设备连接时切换配置文件",
@@ -2432,13 +2432,13 @@
         "blackPoint": "黑点",
         "whitePoint": "白点",
         "gamma": "伽玛",
-        "mean": "意思是",
+        "mean": "平均值",
         "median": "中位数",
         "stdDev": "标准差",
         "min": "最小",
-        "max": "最大限度",
+        "max": "最大值",
         "stars": "星星",
-        "hfr": "高频率响应",
+        "hfr": "HFR",
         "reset": "重置",
         "noSaveHint": "仅针对保存的图像计算统计数据",
         "enableSave": "启用保存"
@@ -2462,7 +2462,7 @@
       "focal_length": "焦距"
     },
     "instanceSwitcher": {
-      "active": "积极的",
+      "active": "当前",
       "checking": "检查实例...",
       "manageInstances": "管理实例",
       "noInstances": "没有配置实例",
@@ -2555,7 +2555,7 @@
       }
     },
     "pins": {
-      "title": "密码管理",
+      "title": "PINS 管理",
       "notAvailable": "未检测到 PINS 环境。此插件已禁用。",
       "dryRun": "模拟模式",
       "sambaTitle": "Samba 共享",
@@ -2569,7 +2569,7 @@
       "noNetworks": "未找到网络",
       "wifiSelect": "选择网络",
       "wifiBand": "无线网络频段",
-      "bandAuto": "汽车",
+      "bandAuto": "自动",
       "band24": "2.4GHz",
       "band5": "5GHz",
       "rescan": "重新扫描 WiFi 网络",
@@ -2668,7 +2668,7 @@
       "hotspotConfigured": "已配置自定义热点密码。",
       "hotspotNewPassword": "新热点密码",
       "hotspotNotConfigured": "当前正在使用默认热点密码。",
-      "hotspotPasswordHint": "最少 8 个字符。",
+      "hotspotPasswordHint": "每个会话需输入一次，或在更改密码时需要。请使用 8-63 个字符。",
       "hotspotPasswordTitle": "热点密码",
       "hotspotRefresh": "刷新热点密码状态",
       "hotspotSave": "保存热点密码",
@@ -2682,7 +2682,7 @@
       "checkUpdates": "再次检查",
       "checkingUpdates": "检查...",
       "noUpdatesAvailable": "无可用更新",
-      "updatesPackage": "包裹",
+      "updatesPackage": "软件包",
       "updatesInstalled": "已安装",
       "updatesLatest": "最新的",
       "indi3rdpartyTitle": "INDI 第三方驱动程序",
@@ -2821,7 +2821,7 @@
         "transportLegacy": "旧版 JSON 回退",
         "previewUnavailable": "预览不可用。分析仍然支持这种格式。",
         "capturedName": "最新捕捉",
-        "sourceCaptured": "电流捕获",
+        "sourceCaptured": "当前捕获",
         "sourceExample": "示例图像",
         "sourceUpload": "上传的图片",
         "resizedTitle": "图像优化",
@@ -2835,11 +2835,11 @@
         "resizeFactor": "调整大小因子"
       },
       "crop": {
-        "enable": "农作物加工区",
-        "x": "作物 X",
-        "y": "作物Y",
-        "width": "作物宽度",
-        "height": "作物高度"
+        "enable": "裁剪处理区域",
+        "x": "裁剪 X",
+        "y": "裁剪 Y",
+        "width": "裁剪宽度",
+        "height": "裁剪高度"
       },
       "previousAngles": {
         "label": "以前的角度",
@@ -2883,20 +2883,20 @@
         "criticalFocusThreshold": "临界焦点阈值（毫米）",
         "isWithinCriticalFocus": "关键焦点状态",
         "focusOk": "在关键焦点内",
-        "focusNotOk": "外部关键焦点",
-        "maskAngle": "面罩角度(°)",
+        "focusNotOk": "超出临界焦点",
+        "maskAngle": "掩模角度(°)",
         "effectiveResizeFactor": "有效调整大小因子",
         "lineAngles": "掩模线角度",
         "updatedAngles": "更新角度",
-        "cropApplied": "加工作物",
-        "noCrop": "不施作物",
+        "cropApplied": "处理后的裁剪",
+        "noCrop": "未应用裁剪",
         "failure": "分析失败。检查后端响应以获取详细信息。",
         "placeholder": "运行分析器以在此处查看焦点指标。",
         "successTitle": "分析完毕",
         "successMessage": "Bahtinov 指标已成功更新。"
       },
       "tips": {
-        "title": "尖端",
+        "title": "提示",
         "tip1": "使用目标附近的明亮恒星来生成清晰的衍射图案。",
         "tip2": "在捕获图像之前确保 Bahtinov 掩模对齐。",
         "tip3": "重复使用建议的角度来稳定后续测量。"
@@ -2919,7 +2919,7 @@
         "ratioOrAperture": "提供焦比或孔径直径。",
         "invalidNonNegative": "输入一个非负值。",
         "allAnglesRequired": "提供所有三个角度或清除字段。",
-        "invalidNumber": "输入有效号码。",
+        "invalidNumber": "输入有效数字。",
         "imageRequired": "在运行分析之前选择图像。"
       }
     },
@@ -2995,7 +2995,7 @@
         "statusRunning": "Running",
         "statusSuccess": "Success",
         "statusTimeout": "Timed out",
-        "stillPreparing": "Archive is still preparing. Please try download again shortly.",
+        "stillPreparing": "归档仍在设备上准备中。",
         "title": "PINS 系统诊断",
         "validationDmesgLines": "dmesg lines must be between 100 and 50000.",
         "validationJournalLines": "Journal lines must be between 100 and 50000.",
@@ -3011,7 +3011,7 @@
       }
     },
     "telescopius": {
-      "title": "望远镜",
+      "title": "Telescopius",
       "offlineInfo": "从 telescopius.com 加载个人目标列表并将其存储在本地以供离线使用。",
       "landing": {
         "title": "Telescopius 插件",
@@ -3458,7 +3458,7 @@
         "validation": "验证",
         "raw_solve": "原始解析（导星相机）",
         "corrected_coordinates": "修正后的坐标（含偏移）",
-        "last_solve_summary": "最后解决总结"
+        "last_solve_summary": "最近一次解析摘要"
       },
       "preview": {
         "preview_title": "预览图像",
@@ -3593,8 +3593,8 @@
       },
       "common": {
         "empty": "—",
-        "true": "真的",
-        "false": "错误的"
+        "true": "真",
+        "false": "假"
       },
       "log": {
         "preview_refreshed": "预览已刷新",
@@ -3679,7 +3679,7 @@
       }
     },
     "narrowband": {
-      "title": "过滤器计算器",
+      "title": "滤镜计算器",
       "subtitle": "计算窄带滤波器传输特性",
       "sections": {
         "optical": "光学参数",
@@ -3695,30 +3695,30 @@
       "bandpassCenter": "带通中心（纳米）",
       "fwhm": "半高宽（纳米）",
       "flatTop": "平顶（纳米）",
-      "populerFilters": "热门筛选条件",
+      "populerFilters": "热门滤镜",
       "selectManufacturer": "选择制造商...",
       "clearSelection": "清除选择",
-      "customCurve": "Custom Bandpass Curve (CSV)",
+      "customCurve": "自定义带通曲线",
       "csvInfo": {
         "title": "预期的文件格式",
         "description": "纯文本文件，每行有两个空格分隔的列：波长 (nm) 和透射率 (%)。无法解析为两个数字的行将被静默跳过（将它们用于注释或标题）。",
         "example": "# 波长传输\n500.0 0.10\n656.3 98.50\n672.4 99.00\n700.0 0.05",
         "note": "透射率值必须在 0 – 100（百分比）范围内。不支持逗号分隔的文件。"
       },
-      "clearCurve": "清晰的曲线",
+      "clearCurve": "清除曲线",
       "loaded": "已加载：",
       "dataPoints": "数据点",
       "targetWavelength": "目标波长（nm）",
-      "filterTransmission": "过滤传输",
+      "filterTransmission": "滤镜透射率",
       "wavelengthLabel": "波长（纳米）",
-      "transmissionLabel": "传播",
+      "transmissionLabel": "透射率",
       "transmissionPercent": "透射率：{percent}%",
       "wavelengthRange": "波长范围",
-      "flatTopRange": "平顶系列",
+      "flatTopRange": "平顶范围",
       "fRatio": "f/比率",
       "resetDefaults": "重置为默认值",
       "status": {
-        "success": "✓ Transmission calculated successfully",
+        "success": "透射率计算成功",
         "invalidCsv": "在 CSV 中找不到有效的波长/传输数据",
         "csvError": "解析 CSV 时出错：{error}"
       }
@@ -3732,7 +3732,7 @@
         "powerPortsDescription": "配置和管理电源端口输出",
         "usbPorts": "USB端口",
         "usbPortsDescription": "配置和管理 USB 端口连接",
-        "dewPorts": "露点",
+        "dewPorts": "露水端口",
         "dewPortsDescription": "配置和管理露水加热器端口",
         "adjustablePower": "可调节电源端口",
         "adjustablePowerDescription": "配置和管理可调电源端口",
@@ -3747,7 +3747,7 @@
         "placeholders": {
           "networkName": "网络名称",
           "password": "密码",
-          "passwordHint": "分钟。 8 个字符"
+          "passwordHint": "至少 8 个字符"
         },
         "validation": {
           "passwordRequired": "密码必须至少为 8 个字符"
@@ -3794,7 +3794,7 @@
         "ports": "可用端口",
         "powerPorts": "电源端口",
         "usbPorts": "USB端口",
-        "dewPorts": "露点",
+        "dewPorts": "露水端口",
         "adjPorts": "可调节电源端口",
         "powerStatus": "电源状态",
         "meteoStation": "气象站",
@@ -3808,7 +3808,7 @@
         "notConnected": "未连接"
       },
       "ports": {
-        "status": "地位",
+        "status": "状态",
         "current": "当前的",
         "maxCurrent": "最大电流",
         "overcurrent": "过流",
@@ -3826,7 +3826,7 @@
         "scanNetworks": "扫描网络",
         "scanning": "正在扫描 WiFi 网络...",
         "noNetworksFound": "未找到 WiFi 网络",
-        "channel": "渠道",
+        "channel": "信道",
         "connect": "连接",
         "connectTo": "连接到",
         "connectToNetwork": "连接至 WiFi 网络",
@@ -3843,7 +3843,7 @@
       },
       "weather": {
         "deviceInfo": "设备信息",
-        "name": "姓名",
+        "name": "名称",
         "id": "设备ID",
         "firmware": "固件",
         "uptime": "正常运行时间",
@@ -3860,10 +3860,10 @@
         "conditions": "天气评估",
         "cloudAssessment": "云覆盖",
         "temperatureStatus": "温度状态",
-        "dewSpread": "露水传播 (T-Td)"
+        "dewSpread": "露点差 (T-Td)"
       },
       "meteoStation": "PINS.气象站",
-      "powerBox": "PIN.PowerBox",
+      "powerBox": "PINS.PowerBox",
       "wifiTab": "无线上网",
       "lensControl": {
         "aperture": "Aperture",
@@ -4491,26 +4491,26 @@
     },
     "tenmicron": {
       "builder": {
-        "pointGeneration": "积分生成",
+        "pointGeneration": "点位生成",
         "buildControl": "构建控制",
         "starCount": "星星数",
         "generatePoints": "生成黄金螺旋",
         "generateSidereal": "生成恒星路径",
-        "clear": "清除积分",
+        "clear": "清除点位",
         "buildModel": "搭建模型",
         "stop": "停止",
         "cancel": "取消",
         "buildRunning": "模型构建正在进行中……",
-        "pointCount": "积分：{valid} 可用 / {total} 总计",
+        "pointCount": "点数：{valid} 可用 / {total} 总计",
         "pointFilters": "点过滤器",
-        "altRange": "海拔范围",
+        "altRange": "高度范围",
         "azRange": "方位角范围",
         "min": "最小",
-        "max": "最大限度",
+        "max": "最大",
         "maxRMS": "最大 RMS（0 = 关闭）",
         "numRetries": "每个点的重试次数",
         "showExcluded": "显示排除点",
-        "minimizeMeridian": "尽量减少经络翻转",
+        "minimizeMeridian": "尽量减少中天翻转",
         "removeHighRMS": "构建后移除高 RMS",
         "buildOptions": "构建选项",
         "logCommands": "记录命令",
@@ -4518,14 +4518,14 @@
         "allowBlindSolves": "允许盲解",
         "optimizeDome": "优化圆顶",
         "westToEast": "由西向东",
-        "plateSolveSubframe": "板求解子框架",
-        "alternateDirection": "替代方向",
-        "disableRefractionCorrection": "禁用屈光校正",
-        "decJitter": "十进制抖动 (σ°)",
+        "plateSolveSubframe": "天文定位解析子帧",
+        "alternateDirection": "交替方向",
+        "disableRefractionCorrection": "禁用大气折射校正",
+        "decJitter": "赤纬抖动 (σ°)",
         "disableDAT": "在建模期间禁用 DAT",
         "resetOptions": "重置为默认值",
         "noCameraConnected": "未连接相机 - 需要相机来构建模型。",
-        "generatorType": "发电机",
+        "generatorType": "生成器",
         "goldenSpiral": "黄金螺旋",
         "siderealPath": "恒星路径",
         "target": "目标",
@@ -4535,13 +4535,13 @@
         "startTime": "开始时间",
         "endTime": "结束时间",
         "offsetMin": "偏移（分钟）",
-        "fromScope": "从范围来看",
+        "fromScope": "来自望远镜",
         "fromSequence": "从序列",
         "timeWindow": "时间窗口",
         "noPoints": "没有模型点。生成点以开始。",
         "scatterChart": "模型点（Az/Alt）",
         "axisAz": "方位角（度）",
-        "axisAlt": "海拔高度（度）",
+        "axisAlt": "高度（度）",
         "refresh": "刷新",
         "altMin": "最低高度",
         "altMax": "最高高度",
@@ -4553,27 +4553,27 @@
       "library": {
         "delete": "删除",
         "load": "加载",
-        "namePlaceholder": "新型号名称...",
+        "namePlaceholder": "新模型名称…",
         "noModels": "未找到已保存的模型。",
         "refresh": "刷新",
-        "save": "节省",
+        "save": "保存",
         "savedModels": "已保存的模型"
       },
       "model": {
         "alignmentInfo": "对齐信息",
-        "altTurns": "替代调整转弯",
-        "azTurns": "阿兹调整。转弯",
-        "clearAlignment": "清晰的对齐方式",
-        "clearConfirmMsg": "这将从安装中永久删除当前的对齐模型。你确定吗？",
-        "clearConfirmTitle": "清晰的对齐模型？",
+        "altTurns": "高度调整圈数",
+        "azTurns": "方位调整圈数",
+        "clearAlignment": "清除对准",
+        "clearConfirmMsg": "这将从赤道仪中永久删除当前的对准模型。您确定吗？",
+        "clearConfirmTitle": "清除对准模型？",
         "coneError": "锥体误差",
         "deleteWorstStar": "删除最差的星星",
-        "modelTerms": "示范条款",
+        "modelTerms": "模型项",
         "noModel": "未加载对齐模型。",
-        "paAltError": "PA 替代错误",
+        "paAltError": "PA 高度误差",
         "paAngle": "PA误差角",
-        "paAzError": "PA AZ 错误",
-        "polarAlt": "极地海拔高度",
+        "paAzError": "PA 方位误差",
+        "polarAlt": "极轴高度",
         "polarAz": "极方位角",
         "polarError": "极轴对准误差",
         "refresh": "刷新",
@@ -4582,35 +4582,35 @@
         "starsChart": "对准星星（极地视图）"
       },
       "mount": {
-        "info": "安装信息",
-        "product": "山",
+        "info": "赤道仪信息",
+        "product": "赤道仪",
         "firmware": "固件",
         "firmwareDate": "固件日期",
         "ip": "IP地址",
         "mac": "MAC地址",
-        "statusTitle": "安装状态",
+        "statusTitle": "赤道仪状态",
         "gpsSync": "GPS时间同步",
         "trackingRate": "追踪率",
         "slewSettle": "回转稳定",
-        "meridianLimit": "经络极限",
+        "meridianLimit": "中天限位",
         "unattendedFlip": "无人值守翻转",
         "disable": "禁用",
         "refractionTemp": "折射温度",
         "refractionPressure": "折射压力",
         "reset": "重置",
-        "set": "放",
+        "set": "设置",
         "arcsecPerSec": "弧秒/秒",
         "seconds": "s",
         "degrees": "°",
         "celsius": "℃",
         "hPa": "百帕",
-        "slewRate": "转换率",
+        "slewRate": "转动速率",
         "horizonHigh": "地平线上限",
         "horizonLow": "地平线下限",
         "connectionType": "连接类型",
         "deltaTExpiration": "DeltaT 到期",
         "localTime": "当地时间",
-        "localDate": "当地时间",
+        "localDate": "当地日期",
         "siderealTime": "恒星时",
         "settings": "赤道仪设置",
         "on": "开",
@@ -4633,18 +4633,18 @@
           "NotConnected": "未连接"
         }
       },
-      "mountNotConnected": "安装未连接。",
-      "mountStatus": "安装状态",
+      "mountNotConnected": "赤道仪未连接。",
+      "mountStatus": "赤道仪状态",
       "notLoaded": "TenMicron 插件未加载。请安装并启用 NINA.Joko.Plugin.TenMicron 插件。",
-      "refractionCorrection": "屈光矫正",
-      "subtitle": "为您的 10 微米安装座构建和管理指向模型",
+      "refractionCorrection": "大气折射校正",
+      "subtitle": "为您的 10micron 赤道仪构建和管理指向模型",
       "tabs": {
         "builder": "模型生成器",
         "library": "模型库",
         "model": "对准模型",
-        "mount": "安装信息"
+        "mount": "赤道仪信息"
       },
-      "title": "10微米模型生成器"
+      "title": "10micron 模型生成器"
     },
     "pinsAllSky": {
       "title": "全天捕捉",
@@ -4655,7 +4655,7 @@
         "and": "和",
         "download": "下载",
         "saving": "保存…",
-        "auto": "汽车",
+        "auto": "自动",
         "unlimited": "无限",
         "notGenerated": "未生成",
         "notAvailable": "—"
@@ -4673,19 +4673,19 @@
         "stopAndRender": "停止并渲染",
         "refreshPreview": "刷新预览",
         "refreshingPreview": "刷新预览...",
-        "regenerate": "再生",
+        "regenerate": "重新生成",
         "files": "文件",
         "showStoredFiles": "显示存储的文件",
         "hideStoredFiles": "隐藏存储的文件",
         "refreshFiles": "刷新文件",
-        "deleteAllSessions": "删除所有存储的会话、框架和生成的产品",
+        "deleteAllSessions": "删除所有存储的会话、帧和生成的产品",
         "deleteSession": "删除此会话",
         "downloadTimelapse": "下载延时拍摄",
         "deleteTimelapse": "删除延时摄影",
         "downloadKeogram": "下载keogram",
         "deleteKeogram": "删除keogram",
-        "downloadStartrails": "下载startrails",
-        "deleteStartrails": "删除起始轨道",
+        "downloadStartrails": "下载星轨",
+        "deleteStartrails": "删除星轨",
         "downloadItem": "下载{name}",
         "deleteItem": "删除 {name}"
       },
@@ -4703,26 +4703,26 @@
       "sections": {
         "sessionControl": "会话控制",
         "sessionEstimate": "会话预估",
-        "recentSessions": "最近的会议",
+        "recentSessions": "最近的会话",
         "recentSessionsDescription": "生成的产品直接从后端提供并在新选项卡中打开。",
         "livePreview": "实时预览",
         "storedFrames": "存储的帧"
       },
       "preview": {
         "noFrameYet": "尚无可用的捕获帧。启动会话或等待下一次自动捕获。",
-        "session": "会议",
+        "session": "会话",
         "noActiveSession": "没有活动会话",
         "lastCapture": "最后捕获：",
         "frameCount": "帧数：",
         "captureInterval": "捕捉间隔：",
-        "exposure": "接触：",
-        "gain": "获得：",
+        "exposure": "曝光：",
+        "gain": "增益：",
         "mean": "Mean:"
       },
       "statusRows": {
         "backend": "后端",
-        "session": "会议",
-        "sequence": "顺序",
+        "session": "会话",
+        "sequence": "序列",
         "capture": "捕获",
         "rendering": "渲染",
         "piUsed": "使用 Pi",
@@ -4732,19 +4732,19 @@
         "pluginAvailable": "可用插件",
         "online": "在线的",
         "offline": "离线",
-        "running": "跑步",
+        "running": "运行中",
         "idle": "闲置的",
-        "active": "积极的",
+        "active": "活动",
         "stopped": "已停止",
         "inProgress": "进行中",
         "available": "可用的",
         "missing": "丢失的"
       },
       "dependencies": {
-        "rpiCamStill": "rpicam-仍然",
+        "rpiCamStill": "rpicam-still",
         "ffmpeg": "ffmpeg",
-        "keogram": "全天网络图",
-        "startrails": "AllSky 启动轨道"
+        "keogram": "AllSky keogram",
+        "startrails": "AllSky 星轨"
       },
       "estimate": {
         "sessionLabelTitle": "下一次手动捕获的会话标签。默认为 {label}。",
@@ -4777,7 +4777,7 @@
           "sequencePollIntervalSeconds": "序列轮询间隔（秒）",
           "sequencePollIntervalHelp": "仅轮询序列状态。它不会改变相机帧节奏。",
           "advancedApiHost": "高级API主机",
-          "port": "港口",
+          "port": "端口",
           "timeoutSeconds": "超时（秒）",
           "advancedApiBasePath": "高级 API 基本路径",
           "maxPluginStorageGb": "最大插件存储 (GB)",
@@ -4798,9 +4798,9 @@
           "jpegQuality": "JPEG 质量",
           "warmupMilliseconds": "预热（毫秒）",
           "metering": "测光",
-          "awb": "航空运单",
+          "awb": "自动白平衡 (AWB)",
           "denoise": "去噪",
-          "evCompensation": "电动势补偿",
+          "evCompensation": "EV 补偿",
           "rotation": "旋转",
           "brightness": "亮度",
           "contrast": "对比",
@@ -4839,15 +4839,15 @@
             "centre": "中心",
             "spot": "点",
             "average": "平均的",
-            "custom": "风俗",
-            "auto": "汽车",
+            "custom": "自定义",
+            "auto": "自动",
             "incandescent": "白炽灯",
             "tungsten": "钨",
             "fluorescent": "荧光",
             "indoor": "室内的",
             "daylight": "日光",
             "cloudy": "多云",
-            "off": "离开",
+            "off": "关闭",
             "cdnOff": "CDN 关闭",
             "cdnFast": "CDN 快速",
             "cdnHq": "CDN 高质量"
@@ -4872,7 +4872,7 @@
         "outputs": {
           "keepSourceFrames": "保留源帧",
           "retainOriginalCaptures": "保留原始捕获",
-          "timelapse": "游戏中时光倒流",
+          "timelapse": "延时摄影",
           "fps": "FPS",
           "bitrateKbps": "比特率（kbps）",
           "width": "宽度",
@@ -4881,8 +4881,8 @@
           "pixelFormat": "像素格式",
           "ffmpegLogLevel": "FFmpeg 日志级别",
           "extraFfmpegArguments": "额外的 ffmpeg 参数",
-          "keogram": "克格拉姆",
-          "expandToFrameWidth": "扩展到框架宽度",
+          "keogram": "Keogram",
+          "expandToFrameWidth": "扩展到帧宽度",
           "stretchOutput": "拉伸输出",
           "showLabels": "显示标签",
           "drawCaptions": "绘制字幕",
@@ -4894,7 +4894,7 @@
           "fontSize": "字体大小",
           "lineThickness": "线粗细",
           "extraKeogramArguments": "额外的 keogram 参数",
-          "startrails": "启动轨道",
+          "startrails": "星轨",
           "brightnessThreshold": "亮度阈值",
           "extraStartrailsArguments": "额外的 startrails 参数",
           "fpsTooltip": "组装延时视频时使用的播放帧速率。",
@@ -4923,27 +4923,27 @@
       },
       "recentSessions": {
         "noSessions": "尚未记录任何已完成的会话。",
-        "expanded": "扩展",
-        "collapsed": "倒塌",
+        "expanded": "已展开",
+        "collapsed": "已折叠",
         "storageWithinLimit": "存储在限制范围内。",
         "storageLimitExceeded": "超出存储限制。",
         "pluginAvailable": "可用插件：",
-        "piAvailable": "可用圆周率：",
+        "piAvailable": "Pi 可用：",
         "started": "开始 {date}",
         "stopped": "已停止 {date}",
         "framesReason": "帧：{count} • 原因：{reason}",
         "storage": "存储：{size}",
-        "timelapse": "游戏中时光倒流",
-        "keogram": "克格拉姆",
-        "startrails": "启动轨道",
-        "retainedFrames": "{count} 保留框架",
+        "timelapse": "延时摄影",
+        "keogram": "Keogram",
+        "startrails": "星轨",
+        "retainedFrames": "{count} 个保留帧",
         "loadingStoredFiles": "正在加载存储的文件...",
         "noStoredFrames": "此会话没有可用的存储帧。",
         "reasons": {
           "manualStart": "手动启动",
           "manualStop": "手动停止",
-          "sequenceStart": "顺序启动",
-          "sequenceStop": "顺序停止",
+          "sequenceStart": "序列启动",
+          "sequenceStop": "序列停止",
           "unknown": "未知"
         }
       },
@@ -5010,7 +5010,7 @@
       "intervalMin": "Minimum: 1 second",
       "loadingImage": "Loading image…",
       "noCameras": "No cameras configured",
-      "noCamerasHint": "Click '  Camera' in the tab bar.",
+      "noCamerasHint": "点击标签栏中的“+ 相机”。",
       "noUrlConfigured": "Please configure a snapshot URL in the settings.",
       "refreshInterval": "Refresh Interval",
       "refreshNow": "Refresh now",
@@ -5072,8 +5072,8 @@
         "addExposure": "Add exposure",
         "binning": "Binning",
         "count": "Count",
-        "decLabel": "DEC (deg or  /-DD:MM:SS)",
-        "decPlaceholder": "41:16:07",
+        "decLabel": "DEC（度或 +/-DD:MM:SS）",
+        "decPlaceholder": "+41:16:07",
         "duration": "Duration",
         "editTarget": "Edit target",
         "exposurePlan": "Exposure plan",
@@ -5172,7 +5172,7 @@
         "title": "Unscheduled remainder"
       },
       "warnings": {
-        "sequenceVersionRequired": "Sequence insertion requires TNS plugin 1.2.8.0  (or PINS mode)."
+        "sequenceVersionRequired": "序列插入需要 TNS 插件 1.2.8.0 及以上版本（或 PINS 模式）。"
       },
       "sessionModes": {
         "moonRise": "Moon rise",
@@ -5886,7 +5886,7 @@
   },
   "pinsDevices": {
     "title": "PINS设备",
-    "powerBox": "PIN.PowerBox",
+    "powerBox": "PINS.PowerBox",
     "meteoStation": "PINS.气象站",
     "configurationTab": "配置",
     "generalTab": "常规",
@@ -5930,19 +5930,19 @@
       "probeTemperature": "探针温度",
       "current": "电流",
       "maxCurrent": "最大电流",
-      "currentPower": "当前电源",
+      "currentPower": "当前功率",
       "autoThreshold": "自动阈值",
       "autoThresholdDisplay": "自动阈值",
       "autoThresholdDescription": "当温度接近露点时自动加热露水加热器",
       "powerLevel": "功率等级"
     },
     "power": {
-      "buckConverter": "降压变压器",
+      "buckConverter": "降压转换器",
       "pwmOutput": "PWM输出"
     },
     "general": {
-      "rail12v": "12V导轨",
-      "rail5v": "5V导轨",
+      "rail12v": "12V 电源轨",
+      "rail5v": "5V 电源轨",
       "averageAmps": "平均安培数",
       "ampsPerHour": "安培每小时",
       "wattsPerHour": "瓦特每小时"
@@ -6102,7 +6102,7 @@
       "network": "网络",
       "devicePort": "设备端口",
       "baudRate": "波特率",
-      "autoDetect": "Auto Detect",
+      "autoDetect": "自动搜索",
       "ipAddress": "IP 地址",
       "tcpPort": "TCP端口",
       "selectPort": "-- 选择端口 --",
@@ -6121,7 +6121,7 @@
     "switch": "开关",
     "filterWheel": "滤镜轮",
     "rotator": "旋转仪",
-    "guider": "导游",
+    "guider": "导星",
     "sequence": "序列",
     "monitoring": "监控",
     "flatWizard": "平场向导",

@@ -479,7 +479,7 @@
         "mountNotConnected": "赤道儀が接続されていません",
         "notSupported": "ドライバーが非対応です",
         "loadError": "時間情報を読み込めませんでした。",
-        "syncError": "時刻同期に失敗しました。 \nPINS デバイスへの接続を確認してください。",
+        "syncError": "時刻同期に失敗しました。 PINS デバイスへの接続を確認してください。",
         "syncSuccess": "時刻が正常に同期されました。"
       },
       "connection": "接続設定",
@@ -683,10 +683,10 @@
         "astapDatabaseStartFailed": "インストールを開始できませんでした: {detail}",
         "astapDatabaseStartInstall": "{databaseId} のインストールを開始しています...",
         "astapDatabaseStarting": "起動...",
-        "astapDatabaseStatusCheckFailedRetrying": "ステータスチェックに失敗しました: {detail}。\n再試行中...",
+        "astapDatabaseStatusCheckFailedRetrying": "ステータスチェックに失敗しました: {detail}。 再試行中...",
         "astapDatabaseTitle": "ASTAP星系データベース(PINS)",
         "astapDatabaseUnauthorizedStart": "ASTAP スター データベースのインストールの開始中に権限がありません。",
-        "astapDatabaseUnauthorizedStatus": "インストール状況の確認中に不正です。",
+        "astapDatabaseUnauthorizedStatus": "インストール状況の確認中に権限がありません。",
         "astapDatabaseUnknownError": "不明なエラー"
       },
       "equipment": {
@@ -720,7 +720,7 @@
       },
       "mount": {
         "titel": "赤道儀設定",
-        "max_slew_rate": "最大スルーレート (°/s)"
+        "max_slew_rate": "最大導入速度 (°/s)"
       },
       "localization": {
         "title": "システムの地域設定",
@@ -1305,7 +1305,7 @@
           "absolute": "絶対"
         },
         "startGuiding": {
-          "forceCalibrationLabel": "力の校正"
+          "forceCalibrationLabel": "強制キャリブレーション"
         },
         "slewToGuiderCalibrationPosition": {
           "clearBacklash": "DEC バックラッシュをクリア",
@@ -1313,7 +1313,7 @@
           "haOffset": "HA オフセット",
           "side": "ポインティングサイド",
           "sideEast": "東",
-          "sideStay": "滞在する",
+          "sideStay": "現状維持",
           "sideWest": "西"
         }
       },
@@ -1363,8 +1363,8 @@
         "setLocationSyncToMount": "「望遠鏡に同期」に設定",
         "slewRateINDI": "導入速度",
         "reverse_axis": "軸方向",
-        "slewRateDriverControlled": "スルーレートはドライバーによって制御されます",
-        "slewRateUnavailable": "マウントを接続してスルーレートを調整する",
+        "slewRateDriverControlled": "導入速度はドライバーによって制御されます",
+        "slewRateUnavailable": "赤道儀を接続して導入速度を調整する",
         "parkedNotice": "赤道儀はパーク中です — 追尾モードを変更するにはアンパークしてください",
         "parkedShort": "赤道儀はパーク中です",
         "parkedHint": "手動で動かすにはアンパークしてください",
@@ -1819,7 +1819,7 @@
       "following": "追従",
       "following_stopped": "追従停止",
       "at_home": "ホーム位置",
-      "not_at_home": "非ホーム以外",
+      "not_at_home": "ホーム位置ではない",
       "park": "パーク",
       "unpark": "アンパーク",
       "shutter_close": "シャッター閉",
@@ -1829,7 +1829,7 @@
         "close": "シャッターを閉じる",
         "stop": "動作停止",
         "errors": {
-          "open": "シャッター開扉らエラー",
+          "open": "シャッター開扉エラー",
           "close": "シャッター閉扉エラー",
           "stop": "停止エラー",
           "park": "パークエラー",
@@ -1984,11 +1984,11 @@
       "tppa": "極軸合わせ (TPPA)",
       "warn_dec_spread_body": "マウントの報告された偏角は、測定間で {arcsec}\" だけ変化しました。これは極軸合わせの精度に影響を与える可能性があります。測定中は赤経軸のみが移動するようにしてください。",
       "warn_dec_spread_title": "赤緯広がりが検出されました",
-      "warn_east_west_body": "現在のフィールドは正確な東または西から 5° 以内にあります。\nライブ ソリューションが不安定な場合は、東/西から離れたフィールドに移動して再実行してください。",
+      "warn_east_west_body": "現在のフィールドは正確な東または西から 5° 以内にあります。 ライブ ソリューションが不安定な場合は、東/西から離れたフィールドに移動して再実行してください。",
       "warn_east_west_title": "東/西の {deg}° 以内の補正フィールド",
-      "warn_huge_body": "マウントの位置が大きくずれているか、計算で結果を判断できませんでした。\n現場の位置を確認し、マウントがおおよそポールを指していること、および 3 つの測定点間で RA 軸のみが移動されていることを確認します。",
+      "warn_huge_body": "マウントの位置が大きくずれているか、計算で結果を判断できませんでした。 現場の位置を確認し、マウントがおおよそポールを指していること、および 3 つの測定点間で RA 軸のみが移動されていることを確認します。",
       "warn_huge_title": "計算誤差が大きい",
-      "warn_large_body": "修正フェーズの信頼性は低くなります。\nマウントを極軸に近づけ、TPPA を再度実行して確認します。",
+      "warn_large_body": "修正フェーズの信頼性は低くなります。 マウントを極軸に近づけ、TPPA を再度実行して確認します。",
       "warn_large_title": "初期極軸誤差が大きい"
     },
     "slewAndCenter": {
@@ -2156,11 +2156,11 @@
       "multi_mode_no_filters": "フィルターホイールが接続されていません",
       "status_filter_progress": "フィルター：{completed} / {total}",
       "cover_scope_confirm": "わかりました",
-      "cover_scope_message": "今すぐスコープをカバーし、OK を押して暗闇の撮影を開始します。",
-      "cover_scope_title": "今すぐ範囲をカバーしましょう",
+      "cover_scope_message": "今すぐ望遠鏡をカバーし、OK を押してダークの撮影を開始します。",
+      "cover_scope_title": "今すぐ望遠鏡をカバーしましょう",
       "darks_to_take": "撮影するDarkflats",
       "operation_failed": "操作が失敗しました",
-      "status_failed_darks": "暗い部分がキャプチャされていません - 有効な露出を判断できませんでした",
+      "status_failed_darks": "ダークが撮影されていません - 有効な露出を判断できませんでした",
       "status_failed_flats": "フラットはキャプチャされませんでした - 有効な露出を決定できませんでした",
       "status_running_darks": "実行中: {completed} / {total} ダーク",
       "status_running_flats": "実行中: {completed} / {total} フラット",
@@ -2477,7 +2477,7 @@
       "buttonTitle": "FITS プレートソルブ",
       "coordinatesHint": "座標のヒント (ブラインド解決の場合は空白のままにします)",
       "dec": "赤緯",
-      "decPlaceholder": "日:月:SS",
+      "decPlaceholder": "+DD:MM:SS",
       "error": "プレートの解決に失敗しました",
       "errorLoadParams": "FITSパラメータの読み取りに失敗しました",
       "file": "ファイル",
@@ -2534,7 +2534,7 @@
       },
       "mount": {
         "parked": "パーク済み",
-        "slewing": "スルー中",
+        "slewing": "導入中",
         "tracking": "追尾中",
         "trackingOff": "追尾オフ"
       },
@@ -2582,7 +2582,7 @@
       "hotspotNotConfigured": "現在デフォルトのホットスポットパスワードが使用されています。",
       "hotspotRefresh": "ホットスポットパスワードの状態を更新",
       "hotspotNewPassword": "新しいホットスポットパスワード",
-      "hotspotPasswordHint": "最低8文字。",
+      "hotspotPasswordHint": "セッションごとに1回、またはパスワード変更時に必要です。8～63文字で入力してください。",
       "hotspotSave": "ホットスポットパスワードを保存",
       "hotspotSaving": "ホットスポットパスワードを保存中...",
       "systemTime": "システム時刻",
@@ -2659,8 +2659,8 @@
         "wifiAdaptersLoadFailed": "WiFi アダプターのロードに失敗しました: {message}",
         "wifiInterfacesLoadFailed": "選択した WiFi インターフェイスの読み込みに失敗しました: {message}",
         "wifiInterfacesSaveFailed": "WiFi インターフェースを保存できませんでした: {message}",
-        "wifiInterfacesSaved": "保存された WiFi インターフェイス。\nクライアント: {clientInterface}、ホットスポット: {hotspotInterface}",
-        "pluginActionFailed": "{packageName} のプラグイン アクションが失敗しました。\nステータス: {status}",
+        "wifiInterfacesSaved": "保存された WiFi インターフェイス。 クライアント: {clientInterface}、ホットスポット: {hotspotInterface}",
+        "pluginActionFailed": "{packageName} のプラグイン アクションが失敗しました。 ステータス: {status}",
         "pluginActionSuccess": "プラグインアクションが正常に終了しました: {packageName}",
         "pluginInstallStart": "プラグインをインストールしています: {packageName}",
         "pluginUninstallStart": "プラグインをアンインストールしています: {packageName}",
@@ -2720,14 +2720,14 @@
       "wifiNoAdapters": "WiFi アダプターが見つかりません。",
       "upgradeOverlay": {
         "jobId": "ジョブ ID: {jobId}",
-        "keepOpen": "このアプリを開いたままにしてください。\n状態の不整合を防ぐために、コントロールは一時的にブロックされます。",
-        "running": "Raspberry Pi パッケージを更新しています。\n処理が完了するまでお待ちください。",
+        "keepOpen": "このアプリを開いたままにしてください。 状態の不整合を防ぐために、コントロールは一時的にブロックされます。",
+        "running": "Raspberry Pi パッケージを更新しています。 処理が完了するまでお待ちください。",
         "title": "システムアップデート中",
-        "waitingForApi": "アップデートが完了しました。 \nNINA API が再びアクセス可能になるのを待っています...",
+        "waitingForApi": "アップデートが完了しました。 NINA API が再びアクセス可能になるのを待っています...",
         "close": "閉じる"
       },
       "pluginsAction": "アクション",
-      "pluginsCheckedAt": "チェックイン先",
+      "pluginsCheckedAt": "確認日時",
       "pluginsDescription": "オプションの PINS プラグインを管理します (インストールまたはアンインストール)。",
       "pluginsEmpty": "利用可能なプラグインはありません。",
       "pluginsInstall": "インストール",
@@ -2750,13 +2750,13 @@
       "indiInstallModalSuccessStarted": "{label} のインストールが開始されました。",
       "indiInstallModalTitle": "INDIドライバーをインストールする",
       "indiInstallModalType": "タイプ",
-      "hotspotAppliedStatus": "アクティブなホットスポットに適用: {applied} |\nバンド: {band} |\nチャンネル: {channel}",
+      "hotspotAppliedStatus": "アクティブなホットスポットに適用: {applied} | バンド: {band} | チャンネル: {channel}",
       "hotspotBandAuto": "自動 / 未設定",
       "hotspotBandLabel": "ホットスポットバンド",
-      "hotspotCapabilitiesUnavailable": "アダプタ機能リストは利用できません。\n手動チャンネルは許可されています。",
+      "hotspotCapabilitiesUnavailable": "アダプタ機能リストは利用できません。 手動チャンネルは許可されています。",
       "hotspotChannelLabel": "ホットスポットチャンネル",
       "hotspotChannelPlaceholder": "自動の場合は空のままにします",
-      "hotspotMetaLine": "出典: {source} |\nインターフェース: {iface} |\nバンド: {band} |\nチャンネル: {channel}",
+      "hotspotMetaLine": "出典: {source} | インターフェース: {iface} | バンド: {band} | チャンネル: {channel}",
       "indiRegistryEditConfig": "構成の編集",
       "indiRegistryModalActions": "アクション",
       "indiRegistryModalDescription": "インストールされている INDI サードパーティ レジストリ エントリの名前、ラベル、タイプを編集します。",
@@ -2776,7 +2776,7 @@
       "indiRegistryModalNoChanges": "保存する変更はありません。",
       "indiRegistryModalReload": "リロード",
       "indiRegistryModalSave": "保存",
-      "indiRegistryModalSaved": "エントリが保存されました。\nレジストリがバックエンドからリロードされました。",
+      "indiRegistryModalSaved": "エントリが保存されました。 レジストリがバックエンドからリロードされました。",
       "indiRegistryModalSaving": "保存中...",
       "indiRegistryModalTitle": "INDI レジストリの編集",
       "indiRegistryModalTotalEntries": "エントリー",
@@ -2981,8 +2981,8 @@
         "dmesgLines": "dmesg 行",
         "downloadFailed": "診断アーカイブのダウンロードに失敗しました。",
         "intro": "システム診断(journal、dmesg、ネットワークなど)は、上の「収集してアップロード」をクリックすると自動的に収集され含まれます。収集内容を絞り込むには詳細設定を使用してください。",
-        "journalLines": "仕訳明細行",
-        "optionsLoadFailed": "診断オプションのロードに失敗しました。\nデフォルトを使用します。",
+        "journalLines": "ジャーナル行数",
+        "optionsLoadFailed": "診断オプションのロードに失敗しました。 デフォルトを使用します。",
         "optionsLoaded": "診断オプションがロードされました。",
         "pollFailed": "診断ステータスのポーリングに失敗しました。",
         "sectionsTitle": "セクション",
@@ -2992,13 +2992,13 @@
         "statusIdle": "アイドル状態",
         "statusLabel": "状態",
         "statusQueued": "キューに入れられました",
-        "statusRunning": "ランニング",
+        "statusRunning": "実行中",
         "statusSuccess": "成功",
         "statusTimeout": "タイムアウトしました",
-        "stillPreparing": "アーカイブはまだ準備中です。\nしばらくしてからもう一度ダウンロードしてください。",
+        "stillPreparing": "アーカイブはまだ準備中です。 しばらくしてからもう一度ダウンロードしてください。",
         "title": "PINSシステム診断",
         "validationDmesgLines": "dmesg 行は 100 ～ 50000 でなければなりません。",
-        "validationJournalLines": "仕訳帳行は 100 ～ 50000 である必要があります。",
+        "validationJournalLines": "ジャーナル行数は 100 ～ 50000 でなければなりません。",
         "validationSections": "少なくとも 1 つのセクションを選択します。",
         "expertMode": "詳細設定",
         "ninaLogs": "NINAログファイル(直近10件)",
@@ -3225,7 +3225,7 @@
         "title": "スナップショットURLのヘルプ",
         "what": "スナップショットURLは、IPカメラの単一画像への直接リンクです。このURLはJPEGまたはPNG画像を直接返す必要があります（HTMLページやビデオストリームは不可）。",
         "examplesTitle": "例",
-        "exampleLabels": ["汎用IPカメラ", "ONVIFカメラ", "軸カメラ", "ハイクビジョンカメラ"],
+        "exampleLabels": ["汎用IPカメラ", "ONVIFカメラ", "Axisカメラ", "ハイクビジョンカメラ"],
         "credentialsTitle": "パスワード保護されたカメラ",
         "credentials": "カメラにユーザー名とパスワードが必要な場合は、URLに認証情報を直接含めてください：",
         "credentialsNote": "バックエンドプロキシが認証を自動的に処理します。URLの認証情報はBasic認証とDigest認証（例：Hikvision）の両方で動作します。",
@@ -3428,7 +3428,7 @@
           "name": "ガイドを開始",
           "description": "オートガイドシステムを開始",
           "forceCalibrationLabel": "強制キャリブレーション",
-          "forceCalibrationTooltip": "ガイダーのを強制再キャリブレーション"
+          "forceCalibrationTooltip": "ガイダーのキャリブレーションを強制的にやり直す"
         },
         "smartExposure": {
           "name": "スマート露出（撮影）",
@@ -3592,7 +3592,7 @@
         "center_solve_label": "センタリング + ソルブ",
         "center_solve_text": "プレートソルブしてターゲットをセンタリングします（マウントの接続とキャリブレーション済みオフセットが必要）。",
         "target_solve_label": "ターゲット + ソルブ",
-        "target_solve_text": "ターゲットにスルーしてセンタリングします（マウントの接続と、StellrariumのフレーミングアシスタントでのターゲットのA設定が必要）。"
+        "target_solve_text": "ターゲットにスルーしてセンタリングします（マウントの接続と、Celestia Atlasで選択したターゲットが必要）。"
       },
       "progress": {
         "title": "ソルブの進行状況",
@@ -3658,7 +3658,7 @@
         "offset_mode": "オフセット・モード",
         "dra_arcsec": "Δ赤経 (角秒)：",
         "ddec_arcsec": "Δ赤緯 (角秒)：",
-        "rotation_quat": "回転（クォート）："
+        "rotation_quat": "回転（クォータニオン）："
       },
       "settings": {
         "camera": "カメラ",
@@ -5095,15 +5095,15 @@
         "addFromFavorites": "お気に入りから追加",
         "addScheduleToSequence": "スケジュールをシーケンスに追加する",
         "addTarget": "ターゲットの追加",
-        "applying": "申請中...",
+        "applying": "適用中...",
         "clearAll": "すべてクリア",
-        "computing": "コンピューティング中...",
-        "recomputeSchedule": "再計算スケジュール"
+        "computing": "計算中...",
+        "recomputeSchedule": "スケジュールを再計算"
       },
       "common": {
         "add": "追加",
         "cancel": "キャンセル",
-        "close": "近い",
+        "close": "閉じる",
         "copy": "コピー",
         "copySuffix": "コピー",
         "dec": "赤緯",
@@ -5116,10 +5116,10 @@
         "seconds": "s"
       },
       "constraints": {
-        "hideAdvanced": "高度な非表示",
+        "hideAdvanced": "詳細を非表示",
         "maxAltitude": "最大高度",
         "minAltitude": "最小高度",
-        "minMoonSeparation": "最小月間隔",
+        "minMoonSeparation": "月との最小離角",
         "showAdvanced": "詳細を表示",
         "targetEnabled": "ターゲットが有効になっています",
         "timeWindowEnd": "タイムウィンドウの終了",
@@ -5140,9 +5140,9 @@
         "addExposure": "露出を追加する",
         "binning": "ビニング",
         "count": "カウント",
-        "decLabel": "DEC (度または /-DD:MM:SS)",
-        "decPlaceholder": "41:16:07",
-        "duration": "間隔",
+        "decLabel": "DEC (度または +/-DD:MM:SS)",
+        "decPlaceholder": "+41:16:07",
+        "duration": "継続時間",
         "editTarget": "ターゲットの編集",
         "exposurePlan": "露出計画",
         "exposureRow": "露出 {index}",
@@ -5162,14 +5162,14 @@
         "offset": "オフセット",
         "presets": {
           "lrgb": "LRGB",
-          "sho": "ショウ",
+          "sho": "SHO",
           "singleL": "シングルL"
         },
         "priority": "優先度",
         "raLabel": "赤経 (度または HH:MM:SS)",
         "raPlaceholder": "00:42:44",
         "rotation": "回転",
-        "saveTarget": "保存対象"
+        "saveTarget": "ターゲットを保存"
       },
       "errors": {
         "computeFailed": "スケジュールの計算に失敗しました",
@@ -5199,11 +5199,11 @@
         "scheduled": "予定されている",
         "sessionEnd": "セッション終了",
         "sessionStart": "セッション開始",
-        "siteAlt": "代替",
+        "siteAlt": "標高",
         "siteLat": "サイトの緯度",
-        "siteLon": "ロン",
+        "siteLon": "経度",
         "maxChunkInfo": "スケジューラが別のターゲットに切り替える前に、ターゲットごとの最大連続スケジュール ブロックを制限します。",
-        "samplingStepInfo": "計算間隔を分単位で定義します。\n値を低くすると精度は向上しますが、より多くのタイムライン ポイントを評価します。"
+        "samplingStepInfo": "計算間隔を分単位で定義します。 値を低くすると精度は向上しますが、より多くのタイムライン ポイントを評価します。"
       },
       "subtitle": "ターゲットの可視性、制約、シーケンス挿入のためのモバイルファーストのプランニング。",
       "targetCard": {
@@ -5214,7 +5214,7 @@
       },
       "targetList": {
         "dragToReorder": "ドラッグして並べ替えます",
-        "empty": "まだ目標はありません。\n手動で追加するか、お気に入りからインポートします。",
+        "empty": "まだ目標はありません。 手動で追加するか、お気に入りからインポートします。",
         "title": "ターゲット",
         "total": "合計 {count}"
       },
@@ -5223,7 +5223,7 @@
         "idleSegmentTitle": "アイドル: {start} - {end}",
         "invalidSessionRange": "スケジュールをプレビューする有効なセッション範囲を設定します。",
         "minutesShort": "{value}分",
-        "noSegments": "スケジュールセグメントはまだありません。\nターゲットの制約とサイトの座標を確認します。",
+        "noSegments": "スケジュールセグメントはまだありません。 ターゲットの制約とサイトの座標を確認します。",
         "range": "{start}から{end}まで",
         "segmentTitle": "{name}: {start} - {end}",
         "title": "セッションのタイムライン"
@@ -5248,10 +5248,10 @@
         "sunRise": "日の出",
         "sunSet": "日没",
         "time": "時間",
-        "twilightEndAstronomical": "トワイライトエンドの天文学的",
-        "twilightEndNautical": "トワイライトエンド航海",
-        "twilightStartAstronomical": "天文学的なトワイライトスタート",
-        "twilightStartNautical": "トワイライトスタート航海",
+        "twilightEndAstronomical": "天文薄明終了",
+        "twilightEndNautical": "航海薄明終了",
+        "twilightStartAstronomical": "天文薄明開始",
+        "twilightStartNautical": "航海薄明開始",
         "now": "今"
       }
     },
@@ -5277,22 +5277,22 @@
       "notConnected": "{device} が接続されていません",
       "offset": "オフセット",
       "position": "位置",
-      "runningFilter": "電流フィルター",
+      "runningFilter": "現在のフィルター",
       "selectFilters": "フィルターの選択",
       "start": "計算を開始する",
       "stop": "停止",
       "subtitle": "各フィルター ホイール フィルターのフォーカス オフセットを計算して保存します。",
       "title": "フィルターオフセット計算機",
       "applyFailed": "オフセットを適用できませんでした",
-      "tooFewIterations": "反復が 3 回未満の場合、失敗したオートフォーカスまたは不正確なオートフォーカスは検出できず、オフセットに平均化されます。\n信頼性の高い結果を得るには、3 つ以上を使用します。",
+      "tooFewIterations": "反復が 3 回未満の場合、失敗したオートフォーカスまたは不正確なオートフォーカスは検出できず、オフセットに平均化されます。 信頼性の高い結果を得るには、3 つ以上を使用します。",
       "confirmStopMessage": "それまでに行われたすべての測定値は破棄され、プロファイルは以前の状態に復元されます。",
       "confirmStopTitle": "計算をやめますか?",
-      "baseFilterUnmeasured": "実行の最初のフィルターでは使用可能な AutoFocus 測定値が生成されなかったため、他のフィルターを比較するものは何もありませんでした。以下のオフセットはすべて 0 であり、結果は使用できません。\nそれを破棄して計算を再実行します。",
+      "baseFilterUnmeasured": "実行の最初のフィルターでは使用可能な AutoFocus 測定値が生成されなかったため、他のフィルターを比較するものは何もありませんでした。以下のオフセットはすべて 0 であり、結果は使用できません。 それを破棄して計算を再実行します。",
       "board": "オートフォーカス測定",
-      "boardHint": "フィルターごとに 1 行、反復ごとに 1 列で、AutoFocus が見つけたフォーカス位置を示します。\n取り消し線の値は外れ値として破棄されました。 \n* は、最初の AutoFocus が失敗し、繰り返された反復を示します。",
+      "boardHint": "フィルターごとに 1 行、反復ごとに 1 列で、AutoFocus が見つけたフォーカス位置を示します。 取り消し線の値は外れ値として破棄されました。 * は、最初の AutoFocus が失敗し、繰り返された反復を示します。",
       "cutoffTooltip": "サンプルが破棄されるには、{median} の中央値から {cutoff} ステップを超える必要がありました。",
       "cutoffUnavailable": "外れ値の除去には少なくとも 3 回の測定が必要なので、何も破棄できません。",
-      "drift": "走行中のフォーカスドリフト",
+      "drift": "測定中のフォーカスドリフト",
       "estimatedFocusTooltip": "実行開始時のドリフト補正されたフォーカス: {focus}。",
       "measurementFailed": "AutoFocus は使用可能な測定値を生成しませんでした",
       "noMeasurements": "まだ測定はありません",
@@ -5301,7 +5301,7 @@
       "rejectedTooltipNoMedian": "外れ値として破棄されます。",
       "retriedTooltip": "この反復の最初の AutoFocus の試行は失敗し ({failure})、繰り返されました。",
       "samplesUsed": "使用済み",
-      "spread": "広める",
+      "spread": "ばらつき",
       "stepsPerLoop": "{value} ステップ/反復",
       "summaryTooltip": "{loops} 回の反復のうち {measured} 回で測定値が生成され、{used} がオフセットに使用されました。",
       "summaryTooltipPending": "これまでに、{loops} 回中 {measured} 回の反復で測定値が生成されました。",
@@ -5451,7 +5451,7 @@
       },
       "errors": {
         "imageLoadFailed": "画像を読み込めませんでした。",
-        "requestFailed": "横向き ZIP の生成に失敗しました。"
+        "requestFailed": "風景 ZIP の生成に失敗しました。"
       },
       "fields": {
         "altitude": "高度",
@@ -5462,14 +5462,14 @@
         "latitude": "緯度",
         "longitude": "経度",
         "name": "風景名",
-        "namePlaceholder": "例えば\n私の天文台ホライゾン"
+        "namePlaceholder": "例えば 私の天文台ホライゾン"
       },
       "folder": {
         "autoHint": "フォルダー名は、小文字、アンダースコア/ハイフンで安全な形式にサニタイズされます。"
       },
       "image": {
         "aspectRatio": "アスペクト比",
-        "aspectWarning": "アップロードされた画像のアスペクト比は {ratio} です。 \n360 度のパノラマは 2:1 に近いはずです。",
+        "aspectWarning": "アップロードされた画像のアスペクト比は {ratio} です。 360 度のパノラマは 2:1 に近いはずです。",
         "dimensions": "寸法",
         "fileName": "ファイル名",
         "fileSize": "ファイルサイズ",
@@ -5501,9 +5501,9 @@
       "title": "ステラリウム ランドスケープ クリエーター",
       "toast": {
         "errorTitle": "ランドスケープの生成に失敗しました",
-        "invalidFileType": "サポートされていないファイル形式です。 \nPNG、JPEG、または WebP をアップロードしてください。",
+        "invalidFileType": "サポートされていないファイル形式です。 PNG、JPEG、または WebP をアップロードしてください。",
         "successMessage": "ダウンロードされた {filename}",
-        "successTitle": "横向きZIP対応",
+        "successTitle": "風景ZIPの準備完了",
         "validationTitle": "検証",
         "successMessageSaved": "{filename} を {path} に保存しました。"
       },
@@ -5542,7 +5542,7 @@
         "imageWebhook": "画像 Webhook URL"
       },
       "email": {
-        "failureBody": "失敗本体",
+        "failureBody": "失敗時の本文",
         "failureSubject": "失敗の件名",
         "fromAddress": "送信元アドレス",
         "host": "SMTPホスト",
@@ -5575,7 +5575,7 @@
         "imageTypes": "画像の種類",
         "lwt": "最後の意志",
         "lwtBirth": "誕生ペイロード",
-        "lwtClose": "ペイロードを閉じる",
+        "lwtClose": "終了ペイロード",
         "lwtEnabled": "LWTを有効にする",
         "lwtLastWill": "遺言ペイロード",
         "lwtTopic": "LWT トピック",
@@ -5587,7 +5587,7 @@
         "useTls": "TLS を使用します (ポートを 8883 に切り替えます)",
         "username": "ユーザー名"
       },
-      "notLoaded": "Ground Station プラグインが NINA にインストールされていないか、ロードされていません。\nこれらの設定を使用するには、NINA に「Ground Station」プラグインをインストールします。",
+      "notLoaded": "Ground Station プラグインが NINA にインストールされていないか、ロードされていません。 これらの設定を使用するには、NINA に「Ground Station」プラグインをインストールします。",
       "ntfysh": {
         "defaultIcon": "デフォルトのアイコンの URL",
         "defaultTopic": "デフォルトのトピック",
@@ -5608,7 +5608,7 @@
         "emergExpireHint": "30～86400秒",
         "emergRetry": "緊急再試行間隔 (秒)",
         "emergRetryHint": "30～86400秒",
-        "failureBody": "失敗本体",
+        "failureBody": "失敗時の本文",
         "failurePriority": "障害の優先順位",
         "failureSound": "失敗音",
         "failureTitle": "失敗タイトル",
@@ -5628,24 +5628,24 @@
         "members": "メンバー",
         "oauthToken": "ボットOAuthトークン",
         "refreshChannels": "チャンネルを更新する",
-        "refreshing": "爽やか…",
+        "refreshing": "更新中…",
         "workspace": "ワークスペース"
       },
       "subtitle": "NINA Ground Station 通知サービスを構成する",
       "tabs": {
-        "discord": "不和",
+        "discord": "Discord",
         "email": "電子メール",
-        "ifttt": "イフト",
+        "ifttt": "IFTTT",
         "mqtt": "MQTT",
         "ntfysh": "ntfy.sh",
-        "pushover": "プッシュオーバー",
-        "slack": "スラック",
-        "telegram": "電報"
+        "pushover": "Pushover",
+        "slack": "Slack",
+        "telegram": "Telegram"
       },
       "telegram": {
         "accessToken": "ボットアクセストークン",
         "chatId": "チャットID",
-        "failureBody": "失敗本体"
+        "failureBody": "失敗時の本文"
       },
       "title": "地上局"
     },
@@ -5656,7 +5656,7 @@
       "loadFailed": "INDI プロパティのロードに失敗しました。",
       "log": "INDIメッセージ",
       "logDisabled": "メッセージログは無効になっています。",
-      "noDevices": "現在アクティブな INDI デバイスはありません。\n最初に機器を接続してからリフレッシュしてください。",
+      "noDevices": "現在アクティブな INDI デバイスはありません。 最初に機器を接続してからリフレッシュしてください。",
       "noMessages": "まだメッセージはありません。",
       "readonly": "読み取り専用",
       "refresh": "リフレッシュ",
@@ -6131,15 +6131,15 @@
     "about": "About"
   },
   "nightsummary": {
-    "notAvailable": "Night Summary プラグインが検出されません。\nこのページを使用するには、Night Summary NINA プラグインをインストールしてください。",
+    "notAvailable": "Night Summary プラグインが検出されません。 このページを使用するには、Night Summary NINA プラグインをインストールしてください。",
     "tnsPluginToOld": "Touch N Stars プラグインが古すぎてこの機能を使用できません。バージョン 1.2.8.0 以降に更新してください。",
     "sessions": {
       "delete": "消去",
-      "deleteConfirm": "このセッションを削除してもよろしいですか?\nこれを元に戻すことはできません。",
+      "deleteConfirm": "このセッションを削除してもよろしいですか? これを元に戻すことはできません。",
       "deleteTitle": "セッションの削除",
       "downloadReport": "レポートをダウンロード",
       "loading": "セッションを読み込み中…",
-      "noSessions": "セッションが選択されていません。\nドロップダウンからセッションを選択します。",
+      "noSessions": "セッションが選択されていません。 ドロップダウンからセッションを選択します。",
       "placeholder": "セッションを選択してください…",
       "reportTitle": "詳細レポート",
       "reportZoomActual": "100%",
@@ -6151,7 +6151,7 @@
       "chartPrimary": "プライマリメトリクス",
       "chartSecondary": "二次メトリック",
       "chartXAxis": "X軸",
-      "detailFull": "満杯",
+      "detailFull": "フル",
       "detailLevel": "詳細レベル",
       "detailSnapshot": "スナップショット",
       "detailStandard": "標準",
@@ -6166,24 +6166,24 @@
       "emailTitle": "電子メールレポート設定",
       "equipmentHint": "各デバイスの可視性を切り替え、自動検出された名前を上書きします。",
       "equipmentOverridePlaceholder": "上書き名 (オプション)",
-      "equipmentProfile": "設備概要",
+      "equipmentProfile": "機材プロファイル",
       "expandSectionsDefault": "デフォルトでセクションを展開する",
       "fileNaming": "レポートファイルの命名",
       "filePattern": "ファイル名のパターン",
-      "filePatternHint": "すべての配信チャネルに適用されます。 \n\\ を使用してローカル保存用のサブディレクトリを作成します。",
+      "filePatternHint": "すべての配信チャネルに適用されます。 \\ を使用してローカル保存用のサブディレクトリを作成します。",
       "filterAuto": "自動",
       "filterBroadband": "ブロードバンド",
       "filterClassifications": "フィルターの分類",
-      "filterClassificationsHint": "NINA プロフィールからフィルターします。\n自動では、最初の文字の一致が使用されます (L、R、G、B = 広帯域、H、S、O = 狭帯域)。",
+      "filterClassificationsHint": "NINA プロフィールからフィルターします。 自動では、最初の文字の一致が使用されます (L、R、G、B = 広帯域、H、S、O = 狭帯域)。",
       "filterExclude": "除外する",
       "filterNarrowband": "ナローバンド",
       "lightModeReport": "ライトモードレポート",
       "pushoverAppToken": "アプリトークン",
-      "pushoverEnabled": "プッシュオーバーを有効にする",
-      "pushoverTitle": "プッシュオーバー通知",
+      "pushoverEnabled": "Pushoverを有効にする",
+      "pushoverTitle": "Pushover通知",
       "pushoverUserKey": "ユーザーキー",
       "reportContent": "報告内容",
-      "savePath": "パスの保存",
+      "savePath": "保存パス",
       "savePathPlaceholder": "デフォルトの場所の場合は空白のままにします",
       "saveReportLocally": "レポートをローカルに保存",
       "showAltitudeChart": "高度グラフを表示",
@@ -6212,7 +6212,7 @@
       "testEmail": "テストメールを送信する",
       "testPushover": "テスト通知を送信する",
       "localDashboardEnabled": "ローカル Web サーバーを有効にする",
-      "localDashboardHint": "ネットワーク上のどのブラウザからでもアクセスできるローカル Web サーバーからセッション履歴を提供します。\nリモート アクセスには VPN を使用します。",
+      "localDashboardHint": "ネットワーク上のどのブラウザからでもアクセスできるローカル Web サーバーからセッション履歴を提供します。 リモート アクセスには VPN を使用します。",
       "localDashboardPort": "ポート",
       "localDashboardTitle": "ローカルダッシュボード",
       "showChartFilterChips": "フィルターチップ行を表示",
@@ -6222,7 +6222,7 @@
       "accepted": "承認されました",
       "avgHfr": "平均HFR",
       "byTarget": "ターゲット別",
-      "exposure": "暴露",
+      "exposure": "露出",
       "images": "画像",
       "target": "ターゲット",
       "targets": "ターゲット",

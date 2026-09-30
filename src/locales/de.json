@@ -40,10 +40,10 @@
     "title": "Touch'N'Stars",
     "connection_error_toast": {
       "title": "Verbindungsfehler",
-      "message_api": "Das API-Plugin ist nicht erreichbar. \nBitte überprüfen Sie die Einstellungen in Nina",
-      "message_api_version": "Das API-Plugin ist zu alt. \nBitte führen Sie ein Update durch",
-      "message_tns": "Das Touch'N'Stars -Plugin ist nicht verfügbar. \nBitte überprüfen Sie die Einstellungen in N.I.N.A",
-      "message_tns_version": "Das Touch N Stars Plugin ist zu alt. \nBitte führen Sie ein Update durch"
+      "message_api": "Das API-Plugin ist nicht erreichbar. Bitte überprüfen Sie die Einstellungen in Nina",
+      "message_api_version": "Das API-Plugin ist zu alt. Bitte führen Sie ein Update durch",
+      "message_tns": "Das Touch'N'Stars -Plugin ist nicht verfügbar. Bitte überprüfen Sie die Einstellungen in N.I.N.A",
+      "message_tns_version": "Das Touch N Stars Plugin ist zu alt. Bitte führen Sie ein Update durch"
     },
     "connection_splash": {
       "connecting": "Verbinde…",
@@ -679,7 +679,7 @@
         },
         "NumberOfAttempts": "Anzahl der Versuche",
         "ReattemptDelay": "Verzögerung (min) bei erneutem Versuch",
-        "BlindFailoverEnabled": "Blind Solver aktiviert",
+        "BlindFailoverEnabled": "Bei Fehlschlag Blind-Solve verwenden",
         "ASTAPLocation": "ASTAP-Speicherort",
         "Filter": "Plate-Solving-Filter",
         "FilterCurrent": "Aktuell",
@@ -702,9 +702,9 @@
         "astapDatabaseStartFailed": "Installation konnte nicht gestartet werden: {detail}",
         "astapDatabaseStartInstall": "Installation für {databaseId} wird gestartet...",
         "astapDatabaseStarting": "Beginnt...",
-        "astapDatabaseStatusCheckFailedRetrying": "Statusprüfung fehlgeschlagen: {detail}. \nErneuter Versuch...",
+        "astapDatabaseStatusCheckFailedRetrying": "Statusprüfung fehlgeschlagen: {detail}. Erneuter Versuch...",
         "astapDatabaseTitle": "ASTAP Star-Datenbank (PINS)",
-        "astapDatabaseUnauthorizedStart": "Beim Starten der ASTAP Star-Datenbankinstallation wurde keine Autorisierung durchgeführt.",
+        "astapDatabaseUnauthorizedStart": "Nicht autorisiert beim Starten der ASTAP-Sterndatenbank-Installation.",
         "astapDatabaseUnauthorizedStatus": "Nicht autorisiert, während der Installationsstatus überprüft wird.",
         "astapDatabaseUnknownError": "Unbekannter Fehler"
       },
@@ -751,7 +751,7 @@
         "syncLabelInfo": "Wenn aktiviert, wird beim Klick auf \"Jetzt synchronisieren\" die Montierung kurz getrennt und neu verbunden, damit NINA die aktuelle Zeit übertragen kann.",
         "title": "Zeitsynchronisation",
         "loadError": "Zeitinformationen konnten nicht geladen werden.",
-        "syncError": "Die Zeitsynchronisierung ist fehlgeschlagen. \nÜberprüfen Sie die Verbindung zum PINS-Gerät.",
+        "syncError": "Die Zeitsynchronisierung ist fehlgeschlagen. Überprüfen Sie die Verbindung zum PINS-Gerät.",
         "syncSuccess": "Zeit erfolgreich synchronisiert."
       },
       "localization": {
@@ -838,7 +838,7 @@
       },
       "info": {
         "title": "Info",
-        "message": "Das manuelle Filterrad und der manuelle Rotator können derzeit nur über N.I.N.A gesteuert werden. \nVerwenden Sie das \"Networked Filter Wheel\" der API für das Filterrad"
+        "message": "Das manuelle Filterrad und der manuelle Rotator können derzeit nur über N.I.N.A gesteuert werden. Verwenden Sie das \"Networked Filter Wheel\" der API für das Filterrad"
       }
     },
     "lastLogs": {
@@ -1395,8 +1395,8 @@
         "setLocationSyncToMount": "Setze \"Sync to telescope\"",
         "slewRateINDI": "Schwenkgeschwindigkeit",
         "reverse_axis": "Achsenrichtung",
-        "slewRateDriverControlled": "Die Anstiegsgeschwindigkeit wird vom Treiber gesteuert",
-        "slewRateUnavailable": "Schließen Sie eine Halterung an, um die Anstiegsgeschwindigkeit anzupassen",
+        "slewRateDriverControlled": "Die Schwenkgeschwindigkeit wird vom Treiber gesteuert",
+        "slewRateUnavailable": "Verbinden Sie eine Montierung, um die Schwenkgeschwindigkeit anzupassen",
         "parkedNotice": "Montierung ist geparkt — zum Ändern der Nachführung ausparken",
         "parkedShort": "Montierung ist geparkt",
         "parkedHint": "Zum manuellen Bewegen die Montierung ausparken",
@@ -1593,7 +1593,7 @@
         },
         "mountSettings": "Montierung",
         "guideRate": "Guide Rate",
-        "guideRateReadOnly": "Nur lesen",
+        "guideRateReadOnly": "Schreibgeschützt",
         "guiderScale": "Guider-Skala",
         "maxY": "Max Y",
         "historySize": "Verlaufsgröße",
@@ -1777,7 +1777,7 @@
         "title": "Einstellungen",
         "general": "Allgemeine Einstellungen",
         "autofocus": "Autofokus-Einstellungen",
-        "crop_and_stars": "Crop",
+        "crop_and_stars": "Crop & Sterne",
         "backlash": "Backlash",
         "advanced": "Advanced",
         "Reverse": "Umkehren",
@@ -1788,13 +1788,13 @@
         "AutoFocusExposureTime": "Default Exposure Time",
         "BeepOnMove": "Signalton bei Bewegung",
         "BeepOnStartup": "Piepton beim Start",
-        "ClearStall": "Klarer Stall",
+        "ClearStall": "Blockierung zurücksetzen",
         "FocuserAlias": "Fokussierer-Alias",
         "Heating": "Heizung",
         "HeatingTemperature": "Heiztemperatur",
         "MotorSpeedControl": "Motorgeschwindigkeitsregelung",
         "ResetPosition": "Position auf Null setzen",
-        "StallDetection": "Stall-Erkennung",
+        "StallDetection": "Blockiererkennung",
         "USBCapacity": "USB-Kapazität",
         "commandFailed": "Befehl wird von diesem Gerät nicht unterstützt",
         "deviceSpecific": "Geräteeinstellungen"
@@ -1805,7 +1805,7 @@
       "BoardTemperature": "Platinentemperatur:",
       "DcPower": "Gleichstrom",
       "HeatingPower": "Heizleistung:",
-      "IsStalled": "Ins Stocken geraten",
+      "IsStalled": "Blockiert",
       "StepSize": "Schrittgröße",
       "hf": {
         "chart": {
@@ -1854,8 +1854,8 @@
       "not_at_home": "Nicht in Home-Position",
       "park": "Parken",
       "unpark": "Ausparken",
-      "shutter_close": "Dach schließen",
-      "shutter_open": "Dach öffnen",
+      "shutter_close": "Dach geschlossen",
+      "shutter_open": "Dach geöffnet",
       "control": {
         "open": "Dach öffnen",
         "close": "Dach schließen",
@@ -1868,7 +1868,7 @@
           "sync": "Fehler beim synchronisieren",
           "stop_slew": "Fehler beim stoppen",
           "home": "Fehler beim Heimkehren",
-          "follow": "Fehler"
+          "follow": "Fehler beim Folgen des Teleskops"
         },
         "slew": "Schwenken",
         "slew_label": "Schwenke zu Grad",
@@ -1879,7 +1879,7 @@
       },
       "please_connect_dome": "Bitte verbinden Sie die Kuppel",
       "is_sync": "Synchronisation",
-      "not_sync": "Nicht synchronisieren",
+      "not_sync": "Nicht synchron",
       "indi": {
         "settings": "Dome-Einstellungen"
       }
@@ -1898,9 +1898,9 @@
       "standby": "Standby",
       "cooler_on": "Kühlung ein",
       "cooler_off": "Kühlung aus",
-      "dew_heater": "Taupunktregler",
-      "dew_heater_on": "Taupunktregler ein",
-      "dew_heater_off": "Taupunktregler aus",
+      "dew_heater": "Tauheizer",
+      "dew_heater_on": "Tauheizer ein",
+      "dew_heater_off": "Tauheizer aus",
       "dewHeaterStrength": "Tauheizer-Stärke",
       "cool_down": "Abkühlen",
       "target_temperature": "Zieltemperatur (°C)",
@@ -2016,11 +2016,11 @@
       "tppa": "TPPA",
       "warn_dec_spread_body": "Die gemeldete Deklination der Montierung änderte sich zwischen den Messungen um {arcsec}\". Dies kann die Genauigkeit der Polausrichtung beeinträchtigen. Stellen Sie sicher, dass sich während der Messung nur die RA-Achse bewegt.",
       "warn_dec_spread_title": "Deklinationsausbreitung erkannt",
-      "warn_east_west_body": "Das aktuelle Feld liegt innerhalb von 5° vom genauen Osten oder Westen. \nWenn die Live-Lösung instabil ist, schwenken Sie zu einem Feld, das weiter von Ost/West entfernt ist, und führen Sie es erneut aus.",
+      "warn_east_west_body": "Das aktuelle Feld liegt innerhalb von 5° vom genauen Osten oder Westen. Wenn die Live-Lösung instabil ist, schwenken Sie zu einem Feld, das weiter von Ost/West entfernt ist, und führen Sie es erneut aus.",
       "warn_east_west_title": "Korrekturfeld innerhalb von {deg}° von Ost/West",
-      "warn_huge_body": "Entweder ist die Halterung weit von der Ausrichtung entfernt oder die Berechnung konnte das Ergebnis nicht ermitteln. \nÜberprüfen Sie den Standort des Standorts, stellen Sie sicher, dass die Halterung ungefähr auf den Mast zeigt und dass nur die RA-Achse zwischen den drei Messpunkten bewegt wurde.",
+      "warn_huge_body": "Entweder ist die Halterung weit von der Ausrichtung entfernt oder die Berechnung konnte das Ergebnis nicht ermitteln. Überprüfen Sie den Standort des Standorts, stellen Sie sicher, dass die Halterung ungefähr auf den Mast zeigt und dass nur die RA-Achse zwischen den drei Messpunkten bewegt wurde.",
       "warn_huge_title": "Der berechnete Fehler ist riesig",
-      "warn_large_body": "Die Korrekturphase wird weniger zuverlässig sein. \nBringen Sie die Montierung näher an die Polarausrichtung und führen Sie zur Überprüfung erneut TPPA aus.",
+      "warn_large_body": "Die Korrekturphase wird weniger zuverlässig sein. Bringen Sie die Montierung näher an die Polarausrichtung und führen Sie zur Überprüfung erneut TPPA aus.",
       "warn_large_title": "Der anfängliche Polausrichtungsfehler ist groß"
     },
     "slewAndCenter": {
@@ -2079,7 +2079,7 @@
       },
       "Unidirectional": "Filterrad: eine Richtung",
       "BoardTemperature": "Platinentemperatur",
-      "Counter": "Schalter",
+      "Counter": "Zähler",
       "State": "Zustand"
     },
     "RemoveFilter": {
@@ -2236,7 +2236,7 @@
       "gauges": "Messwerte",
       "switch": "Schalter",
       "indi": {
-        "settings": "Einstellungen wechseln"
+        "settings": "Schalter-Einstellungen"
       },
       "sv241pro": {
         "preConnectDelay": "Pre-Connect-Verzögerung (ms)"
@@ -2264,7 +2264,7 @@
         "missing_location": "Höhe und Auf-/Untergang brauchen den Standort aus dem NINA-Profil."
       },
       "datetime": {
-        "title": "Datum",
+        "title": "Datum & Zeit",
         "date": "Datum",
         "time": "Zeit",
         "now": "Jetzt",
@@ -2274,7 +2274,7 @@
       },
       "mount_position": {},
       "settings": {
-        "constellations_lines_visible": "Sternzeichen",
+        "constellations_lines_visible": "Sternbilder anzeigen",
         "azimuthal_lines_visible": "Azimuthal Gitter ",
         "compass_visible": "Kompass anzeigen",
         "equatorial_lines_visible": "Äquatoriale Gitter",
@@ -2606,7 +2606,7 @@
       "scanning": "Scannen...",
       "systemTime": "Systemzeit",
       "deviceTime": "Gerätezeit",
-      "loadingTime": "Ladezeit...",
+      "loadingTime": "Uhrzeit wird geladen...",
       "autoSync": "Automatische Synchronisierung",
       "syncNow": "Jetzt synchronisieren",
       "timeWarning": {
@@ -2637,7 +2637,7 @@
         "failed": "Fehlgeschlagen"
       },
       "logs": {
-        "syncingTime": "Zeitunterschied erkannt: {diff}s. \nSynchronisierungszeit...",
+        "syncingTime": "Zeitunterschied erkannt: {diff}s. Zeit wird synchronisiert...",
         "forcingSync": "Zeit manuell synchronisieren...",
         "timeInSync": "Die Zeit ist synchron (Diff: {diff}s).",
         "timeSynced": "Systemzeit erfolgreich synchronisiert.",
@@ -2673,7 +2673,7 @@
         "verifyingStatus": "Endgültiger Auftragsstatus wird überprüft...",
         "jobReport": "Jobbericht: {report}",
         "upgradeSuccess": "Upgrade erfolgreich abgeschlossen.",
-        "upgradeFailed": "Das Upgrade ist fehlgeschlagen. \nExit-Code: {exitCode}",
+        "upgradeFailed": "Das Upgrade ist fehlgeschlagen. Exit-Code: {exitCode}",
         "jobStatus": "Jobstatus: {status}",
         "statusFetchFailed": "Der endgültige Status konnte nicht abgerufen werden: {message}",
         "hotspotFetched": "Hotspot-Einstellungen geladen (konfiguriert={configured}, Quelle={source}, Band={band}, Kanal={channel}).",
@@ -2789,12 +2789,12 @@
       "pluginsUninstalling": "Deinstalliere...",
       "dhcpClientsDescription": "Geräte mit einer aktiven DHCP-Lease für den Hotspot.",
       "dhcpClientsEmpty": "Keine aktiven DHCP-Clients gefunden.",
-      "dhcpClientsExpires": "Mietvertrag läuft ab",
+      "dhcpClientsExpires": "Lease läuft ab",
       "dhcpClientsHostname": "Hostname",
       "dhcpClientsIp": "IP-Adresse",
-      "dhcpClientsLoading": "Kunden werden geladen...",
+      "dhcpClientsLoading": "Clients werden geladen...",
       "dhcpClientsMac": "MAC-Adresse",
-      "dhcpClientsRefresh": "Kundenliste aktualisieren",
+      "dhcpClientsRefresh": "Client-Liste aktualisieren",
       "dhcpClientsTitle": "Verbundene Clients"
     },
     "bahtifocus": {
@@ -3337,7 +3337,7 @@
       "library": {
         "isDefault": "Default",
         "setAsDefault": "Als Default festlegen",
-        "setAsDefaultSuccess": "Als Standardsequenz festlegen!"
+        "setAsDefaultSuccess": "Als Standardsequenz festgelegt!"
       },
       "confirmations": {
         "title": "Bestätigung",
@@ -3754,7 +3754,7 @@
       }
     },
     "livestack": {
-      "not_available": "Livestack wurde nicht gefunden. \nBitte installieren Sie das Livestack-Plugin zuerst in Nina.",
+      "not_available": "Livestack wurde nicht gefunden. Bitte installieren Sie das Livestack-Plugin zuerst in Nina.",
       "beta_note": "Dieses Plugin befindet sich noch in der Entwicklung und kann einige Fehler enthalten!",
       "target": "Ziel",
       "available_filters": "Verfügbare Filter",
@@ -3821,7 +3821,7 @@
         "example": "# wavelength  transmission\n500.0   0.10\n656.3  98.50\n672.4  99.00\n700.0   0.05",
         "note": "Transmission values must be in the range 0 – 100 (percent). Comma-separated files are not supported."
       },
-      "clearCurve": "Klare Kurve",
+      "clearCurve": "Kurve löschen",
       "loaded": "Geladen:",
       "dataPoints": "Datenpunkte",
       "targetWavelength": "Zielwellenlänge (nm)",
@@ -3830,7 +3830,7 @@
       "transmissionLabel": "Übertragung",
       "transmissionPercent": "Übertragung: {percent} %",
       "wavelengthRange": "Wellenlängenbereich",
-      "flatTopRange": "Flat-Top-Reihe",
+      "flatTopRange": "Flat-Top-Bereich",
       "fRatio": "f/Ratio",
       "resetDefaults": "Auf Standardeinstellungen zurücksetzen",
       "status": {
@@ -3855,7 +3855,7 @@
         "configuration": "Konfiguration",
         "configurationDescription": "Konfigurieren Sie Geräteeinstellungen und Sensorkalibrierung",
         "ports": "PowerBox",
-        "wifi": "W-lan",
+        "wifi": "WLAN",
         "weather": "MeteoStation",
         "temperature": "Temperatur",
         "humidity": "Luftfeuchtigkeit",
@@ -3863,7 +3863,7 @@
         "placeholders": {
           "networkName": "Netzwerkname",
           "password": "Passwort",
-          "passwordHint": "min. \n8 Zeichen"
+          "passwordHint": "min. 8 Zeichen"
         },
         "validation": {
           "passwordRequired": "Das Passwort muss mindestens 8 Zeichen lang sein"
@@ -3882,7 +3882,7 @@
         "updateRateDesc": "Aktualisierungsintervall für Gerätestatusaktualisierungen",
         "factoryReset": "Werksreset",
         "factoryResetDesc": "Setzen Sie das PINS-Gerät auf die Werkseinstellungen zurück",
-        "factoryResetConfirm": "Sind Sie sicher, dass Sie einen Werksreset durchführen möchten? \nDadurch werden alle Einstellungen auf ihre Standardwerte zurückgesetzt.",
+        "factoryResetConfirm": "Sind Sie sicher, dass Sie einen Werksreset durchführen möchten? Dadurch werden alle Einstellungen auf ihre Standardwerte zurückgesetzt.",
         "notifications": {
           "beepLength": "Dauer des Signaltons",
           "beepLengthDesc": "Dauer jedes Piepstons in Millisekunden (100–10.000)",
@@ -3917,7 +3917,7 @@
         "averageAmps": "Durchschnittliche Ampere",
         "rail12v": "12V-Schiene",
         "rail5v": "5V-Schiene",
-        "totalAmps": "Gesamtstärke",
+        "totalAmps": "Gesamtstrom",
         "totalWatts": "Gesamtwatt"
       },
       "status": {
@@ -3976,11 +3976,11 @@
         "conditions": "Wetterbewertung",
         "cloudAssessment": "Wolkenabdeckung",
         "temperatureStatus": "Temperaturstatus",
-        "dewSpread": "Tauausbreitung (T-Td)"
+        "dewSpread": "Taupunktabstand (T-Td)"
       },
       "meteoStation": "PINS.MeteoStation",
       "powerBox": "PINS.PowerBox",
-      "wifiTab": "W-lan",
+      "wifiTab": "WLAN",
       "lensControl": {
         "aperture": "Öffnung",
         "calibrate": "Kalibrieren",
@@ -3992,10 +3992,10 @@
         "focalLength": "Brennweite",
         "lens": "Linse",
         "position": "Fokusposition",
-        "range": "Reichweite",
+        "range": "Bereich",
         "restart": "Gerät neu starten",
         "restarting": "Neustart...",
-        "set": "Satz"
+        "set": "Setzen"
       }
     },
     "shortcuts": {
@@ -4004,10 +4004,10 @@
       "addNew": "Neuer Shortcut",
       "newShortcut": "Neue Verknüpfung",
       "createFirst": "Erste Verknüpfung erstellen",
-      "menu": "Speisekarte",
+      "menu": "Menü",
       "edit": "Bearbeiten",
       "editShortcut": "Shortcut bearbeiten",
-      "deleteShortcut": "Shortcutlöschen",
+      "deleteShortcut": "Shortcut löschen",
       "noShortcuts": "Es wurden noch keine Verknüpfungen erstellt",
       "noShortcutsDescription": "Erstellen Sie Shortcuts, um Ihre Lieblingssequenzen schnell zu laden",
       "phrase": "Shortcutname",
@@ -4032,16 +4032,16 @@
       "refreshSequences": "Liste aktualisieren",
       "loadingSequences": "Sequenzen werden geladen...",
       "noSequencesAvailable": "Keine Sequenzen verfügbar",
-      "confirmDelete": "Shortcutlöschen?",
-      "confirmDeleteMessage": "Sind Sie sicher, dass Sie „{phrase}“ löschen möchten? \nDiese Aktion kann nicht rückgängig gemacht werden.",
+      "confirmDelete": "Shortcut löschen?",
+      "confirmDeleteMessage": "Sind Sie sicher, dass Sie „{phrase}“ löschen möchten? Diese Aktion kann nicht rückgängig gemacht werden.",
       "confirmDeleteTitle": "Verknüpfung löschen",
       "errors": {
         "nameRequired": "Der Name des Shortcuts ist erforderlich",
         "sequenceRequired": "Bitte wählen Sie eine Sequenz aus",
         "loadFailed": "Shortcut konnten nicht geladen werden",
         "saveFailed": "Shortcut konnte nicht gespeichert werden",
-        "deleteFailed": "Shortcutkonnte nicht gelöscht werden",
-        "executeFailed": "Shortcutkonnte nicht ausgeführt werden",
+        "deleteFailed": "Shortcut konnte nicht gelöscht werden",
+        "executeFailed": "Shortcut konnte nicht ausgeführt werden",
         "sequenceLoadFailed": "Die Sequenzen konnten nicht geladen werden"
       },
       "success": {
@@ -4612,7 +4612,7 @@
         "starCount": "Sternenanzahl",
         "generatePoints": "Erzeuge eine Goldene Spirale",
         "generateSidereal": "Sternpfad generieren",
-        "clear": "Klare Punkte",
+        "clear": "Punkte löschen",
         "buildModel": "Modell erstellen",
         "stop": "Stoppen",
         "cancel": "Stornieren",
@@ -4629,13 +4629,13 @@
         "minimizeMeridian": "Meridianüberschläge minimieren",
         "removeHighRMS": "High-RMS nach dem Build entfernen",
         "buildOptions": "Build-Optionen",
-        "logCommands": "Protokollbefehle",
+        "logCommands": "Befehle protokollieren",
         "maxConcurrency": "Maximale Parallelität",
         "allowBlindSolves": "Erlaube Blindlösungen",
         "optimizeDome": "Dome optimieren",
         "westToEast": "Von Westen nach Osten",
-        "plateSolveSubframe": "Plattenlösender Hilfsrahmen",
-        "alternateDirection": "Alternative Richtung",
+        "plateSolveSubframe": "Plate-Solve-Teilbild",
+        "alternateDirection": "Richtung abwechseln",
         "disableRefractionCorrection": "Brechungskorrektur deaktivieren",
         "decJitter": "Dek-Jitter (σ°)",
         "disableDAT": "Deaktivieren Sie DAT während der Modellierung",
@@ -4654,7 +4654,7 @@
         "fromScope": "Von Scope",
         "fromSequence": "Aus der Sequenz",
         "timeWindow": "Zeitfenster",
-        "noPoints": "Keine Modellpunkte. \nGenerieren Sie Punkte, um zu beginnen.",
+        "noPoints": "Keine Modellpunkte. Generieren Sie Punkte, um zu beginnen.",
         "scatterChart": "Modellpunkte (Az/Alt)",
         "axisAz": "Azimut (Grad)",
         "axisAlt": "Höhe (Grad)",
@@ -4677,14 +4677,14 @@
       },
       "model": {
         "alignmentInfo": "Ausrichtungsinformationen",
-        "altTurns": "Alt Adj. \nWendet sich",
-        "azTurns": "Az Adj. \nWendet sich",
-        "clearAlignment": "Klare Ausrichtung",
-        "clearConfirmMsg": "Dadurch wird das aktuelle Ausrichtungsmodell dauerhaft von der Halterung gelöscht. \nBist du sicher?",
-        "clearConfirmTitle": "Klares Ausrichtungsmodell?",
+        "altTurns": "Alt-Justierumdrehungen",
+        "azTurns": "Az-Justierumdrehungen",
+        "clearAlignment": "Ausrichtung löschen",
+        "clearConfirmMsg": "Dadurch wird das aktuelle Ausrichtungsmodell dauerhaft von der Halterung gelöscht. Bist du sicher?",
+        "clearConfirmTitle": "Ausrichtungsmodell löschen?",
         "coneError": "Kegelfehler",
-        "deleteWorstStar": "Worst Star löschen",
-        "modelTerms": "Modellbedingungen",
+        "deleteWorstStar": "Schlechtesten Stern löschen",
+        "modelTerms": "Modellterme",
         "noModel": "Es ist kein Ausrichtungsmodell geladen.",
         "paAltError": "PA-Alt-Fehler",
         "paAngle": "PA-Fehlerwinkel",
@@ -4699,7 +4699,7 @@
       },
       "mount": {
         "info": "Mount-Informationen",
-        "product": "Montieren",
+        "product": "Montierung",
         "firmware": "Firmware",
         "firmwareDate": "Firmware-Datum",
         "ip": "IP-Adresse",
@@ -4707,20 +4707,20 @@
         "statusTitle": "Mount-Status",
         "gpsSync": "GPS-Zeitsynchronisierung",
         "trackingRate": "Tracking-Rate",
-        "slewSettle": "Setz dich nieder",
+        "slewSettle": "Slew-Beruhigung",
         "meridianLimit": "Meridiangrenze",
         "unattendedFlip": "Unbeaufsichtigter Flip",
         "disable": "Deaktivieren",
         "refractionTemp": "Brechungstemperatur",
         "refractionPressure": "Brechungsdruck",
         "reset": "Zurücksetzen",
-        "set": "Satz",
+        "set": "Setzen",
         "arcsecPerSec": "Bogensekunden/Sek",
         "seconds": "S",
         "degrees": "°",
         "celsius": "°C",
         "hPa": "hPa",
-        "slewRate": "Anstiegsgeschwindigkeit",
+        "slewRate": "Slew-Geschwindigkeit",
         "horizonHigh": "Horizont-Obergrenze",
         "horizonLow": "Unterer Horizontgrenzwert",
         "connectionType": "Verbindungstyp",
@@ -4751,7 +4751,7 @@
       },
       "mountNotConnected": "Halterung ist nicht angeschlossen.",
       "mountStatus": "Mount-Status",
-      "notLoaded": "Das TenMicron-Plugin ist nicht geladen. \nBitte installieren und aktivieren Sie das Plugin NINA.Joko.Plugin.TenMicron.",
+      "notLoaded": "Das TenMicron-Plugin ist nicht geladen. Bitte installieren und aktivieren Sie das Plugin NINA.Joko.Plugin.TenMicron.",
       "refractionCorrection": "Refraktionskorrektur",
       "subtitle": "Erstellen und verwalten Sie Ausrichtungsmodelle für Ihre 10-Mikron-Montierung",
       "tabs": {
@@ -5097,7 +5097,7 @@
     },
     "targetScheduler": {
       "title": "Target Scheduler",
-      "subtitle": "Sessione Planner.",
+      "subtitle": "Mobile-first-Planung für Zielsichtbarkeit, Einschränkungen und Einfügen in Sequenzen.",
       "common": {
         "add": "Hinzufügen",
         "edit": "Bearbeiten",
@@ -5289,15 +5289,15 @@
       "subtitle": "Berechnen und speichern Sie Fokus-Offsets für jeden Filterradfilter",
       "title": "Filter-Offset-Rechner",
       "applyFailed": "Die Offsets konnten nicht angewendet werden",
-      "tooFewIterations": "Bei weniger als 3 Iterationen kann ein fehlerhafter oder ungenauer Autofokus nicht erkannt werden und wird in den Offset gemittelt. \nFür ein zuverlässiges Ergebnis verwenden Sie 3 oder mehr.",
+      "tooFewIterations": "Bei weniger als 3 Iterationen kann ein fehlerhafter oder ungenauer Autofokus nicht erkannt werden und wird in den Offset gemittelt. Für ein zuverlässiges Ergebnis verwenden Sie 3 oder mehr.",
       "confirmStopMessage": "Alle bisher durchgeführten Messungen werden verworfen und das Profil wird auf den vorherigen Zustand zurückgesetzt.",
       "confirmStopTitle": "Berechnung stoppen?",
-      "baseFilterUnmeasured": "Der erste Filter des Laufs ergab keine brauchbare Autofokus-Messung, daher gab es für die anderen Filter nichts zu beanstanden – jeder Offset darunter ist 0 und das Ergebnis ist nicht brauchbar. \nVerwerfen Sie es und führen Sie die Berechnung erneut durch.",
+      "baseFilterUnmeasured": "Der erste Filter des Laufs ergab keine brauchbare Autofokus-Messung, daher gab es für die anderen Filter nichts zu beanstanden – jeder Offset darunter ist 0 und das Ergebnis ist nicht brauchbar. Verwerfen Sie es und führen Sie die Berechnung erneut durch.",
       "board": "Autofokus-Messungen",
-      "boardHint": "Eine Zeile pro Filter, eine Spalte pro Iteration, die die vom AutoFocus gefundene Fokusposition anzeigt. \nDurchgestrichene Werte wurden als Ausreißer verworfen; \n* markiert eine Iteration, deren erster Autofokus fehlschlug und wiederholt wurde.",
+      "boardHint": "Eine Zeile pro Filter, eine Spalte pro Iteration, die die vom AutoFocus gefundene Fokusposition anzeigt. Durchgestrichene Werte wurden als Ausreißer verworfen; * markiert eine Iteration, deren erster Autofokus fehlschlug und wiederholt wurde.",
       "cutoffTooltip": "Eine Stichprobe musste mehr als {cutoff} Schritte vom Median von {median} entfernt sein, um verworfen zu werden.",
       "cutoffUnavailable": "Für die Ausreißerunterdrückung sind mindestens drei Messungen erforderlich, sodass nichts verworfen werden kann.",
-      "drift": "Konzentrationsdrift während des Laufs",
+      "drift": "Fokusdrift während des Laufs",
       "estimatedFocusTooltip": "Driftkorrigierter Fokus zu Beginn des Laufs: {focus}.",
       "measurementFailed": "AutoFocus lieferte keine brauchbare Messung",
       "noMeasurements": "Noch keine Messungen",
@@ -5305,8 +5305,8 @@
       "rejectedTooltip": "Als Ausreißer verworfen: {deviation} Schritte vom Median von {median}.",
       "rejectedTooltipNoMedian": "Als Ausreißer verworfen.",
       "retriedTooltip": "Der erste AutoFocus-Versuch für diese Iteration schlug fehl ({failure}) und wurde wiederholt.",
-      "samplesUsed": "Gebraucht",
-      "spread": "Verbreiten",
+      "samplesUsed": "Verwendet",
+      "spread": "Streuung",
       "stepsPerLoop": "{value} Schritte/Iteration",
       "summaryTooltip": "{measured} von {loops} Iterationen ergaben eine Messung, {used} wurde für den Offset verwendet.",
       "summaryTooltipPending": "{measured} von {loops} Iterationen haben bisher zu einer Messung geführt.",
@@ -5392,7 +5392,7 @@
         "imageTypes": "Bildtypen",
         "imageInterval": "Alle N Bilder posten",
         "refreshChannels": "Kanäle aktualisieren",
-        "refreshing": "Aktualisiert…",
+        "refreshing": "Aktualisiere…",
         "channels": "Kanäle",
         "members": "Mitglieder"
       },
@@ -5601,14 +5601,14 @@
         "latitude": "Breite",
         "longitude": "Länge",
         "name": "Landschaftsname",
-        "namePlaceholder": "z.B. \nMein Observatoriumshorizont"
+        "namePlaceholder": "z.B. Mein Observatoriumshorizont"
       },
       "folder": {
         "autoHint": "Ordnernamen werden in ein sicheres Format mit Kleinbuchstaben und Unterstrichen/Bindestrichen bereinigt."
       },
       "image": {
         "aspectRatio": "Seitenverhältnis",
-        "aspectWarning": "Das Seitenverhältnis des hochgeladenen Bildes ist {ratio}. \nEin 360°-Panorama sollte etwa 2:1 betragen.",
+        "aspectWarning": "Das Seitenverhältnis des hochgeladenen Bildes ist {ratio}. Ein 360°-Panorama sollte etwa 2:1 betragen.",
         "dimensions": "Abmessungen",
         "fileName": "Dateiname",
         "fileSize": "Dateigröße",
@@ -5623,7 +5623,7 @@
         "line2": "Halten Sie bei Landschaften, die nur am Horizont liegen, den Himmel nach Möglichkeit transparent.",
         "line3": "Klicken oder ziehen Sie in der Vorschau an die Stelle, an der der geografische Norden liegen soll.",
         "line4": "Laden Sie die ZIP-Datei herunter und extrahieren Sie sie in Ihren Stellarium Web Landscapes-Ordner.",
-        "title": "So bereiten Sie Ihren Beitrag vor"
+        "title": "So bereiten Sie Ihre Eingabedaten vor"
       },
       "preview": {
         "currentNorth": "NorthOffsetDeg:",
@@ -5640,10 +5640,10 @@
       "title": "Stellarium-Landschaftsersteller",
       "toast": {
         "errorTitle": "Die Erstellung der Landschaft ist fehlgeschlagen",
-        "invalidFileType": "Nicht unterstützter Dateityp. \nBitte laden Sie PNG, JPEG oder WebP hoch.",
+        "invalidFileType": "Nicht unterstützter Dateityp. Bitte laden Sie PNG, JPEG oder WebP hoch.",
         "successMessage": "{filename} heruntergeladen",
         "successMessageSaved": "{filename} wurde unter {path} gespeichert.",
-        "successTitle": "Querformat ZIP-fähig",
+        "successTitle": "Landschafts-ZIP bereit",
         "validationTitle": "Validierung"
       },
       "validation": {
@@ -5661,12 +5661,12 @@
       "loadFailed": "INDI-Eigenschaften konnten nicht geladen werden.",
       "log": "INDI-Nachrichten",
       "logDisabled": "Das Nachrichtenprotokoll ist deaktiviert.",
-      "noDevices": "Derzeit sind keine INDI-Geräte aktiv. \nSchließen Sie zuerst die Geräte an und aktualisieren Sie sie dann.",
+      "noDevices": "Derzeit sind keine INDI-Geräte aktiv. Schließen Sie zuerst die Geräte an und aktualisieren Sie sie dann.",
       "noMessages": "Noch keine Nachrichten.",
       "readonly": "schreibgeschützt",
       "refresh": "Aktualisieren",
       "scrollToLatest": "Scrollen Sie zum Neuesten",
-      "set": "Satz",
+      "set": "Setzen",
       "setFailed": "Die Eigenschaft konnte nicht festgelegt werden.",
       "title": "INDI-Systemsteuerung",
       "updated": "Aktualisiert"
@@ -6089,7 +6089,7 @@
       "sequencerTargetSet": "Sequencer-Ziel gesetzt"
     },
     "errors": {
-      "noSequenceAvailable": "Keine Sequenz verfügbar, für Übergabe notwendig",
+      "noSequenceAvailable": "Keine Sequenz verfügbar, bitte zuerst eine Sequenz laden",
       "sequencerFailed": "Sequencer fehlgeschlagen"
     },
     "score": {
@@ -6136,15 +6136,15 @@
     "about": "Info"
   },
   "nightsummary": {
-    "notAvailable": "Nachtzusammenfassungs-Plugin nicht erkannt. \nInstallieren Sie das NINA-Plugin „Night Summary”, um diese Seite nutzen zu können.",
+    "notAvailable": "Nachtzusammenfassungs-Plugin nicht erkannt. Installieren Sie das NINA-Plugin „Night Summary”, um diese Seite nutzen zu können.",
     "tnsPluginToOld": "Das Touch N Stars Plugin ist zu alt für diese Funktion. Bitte aktualisieren Sie auf Version 1.2.8.0 oder neuer.",
     "sessions": {
       "delete": "Löschen",
-      "deleteConfirm": "Sind Sie sicher, dass Sie diese Sitzung löschen möchten? \nDies kann nicht rückgängig gemacht werden.",
+      "deleteConfirm": "Sind Sie sicher, dass Sie diese Sitzung löschen möchten? Dies kann nicht rückgängig gemacht werden.",
       "deleteTitle": "Sitzung löschen",
       "downloadReport": "Bericht herunterladen",
       "loading": "Sitzungen werden geladen…",
-      "noSessions": "Keine Sitzung ausgewählt. \nWählen Sie eine Sitzung aus der Dropdown-Liste aus.",
+      "noSessions": "Keine Sitzung ausgewählt. Wählen Sie eine Sitzung aus der Dropdown-Liste aus.",
       "placeholder": "Wählen Sie eine Sitzung aus…",
       "reportTitle": "Detaillierter Bericht",
       "reportZoomActual": "100%",
@@ -6175,11 +6175,11 @@
       "expandSectionsDefault": "Erweitern Sie Abschnitte standardmäßig",
       "fileNaming": "Benennung der Berichtsdatei",
       "filePattern": "Dateinamenmuster",
-      "filePatternHint": "Gilt für alle Lieferkanäle. \nVerwenden Sie \\, um Unterverzeichnisse für lokale Speicherungen zu erstellen.",
+      "filePatternHint": "Gilt für alle Lieferkanäle. Verwenden Sie \\, um Unterverzeichnisse für lokale Speicherungen zu erstellen.",
       "filterAuto": "Auto",
       "filterBroadband": "Breitband",
       "filterClassifications": "Filterklassifizierungen",
-      "filterClassificationsHint": "Filter aus Ihrem NINA-Profil. \nAuto verwendet den Anfangsbuchstabenabgleich (L,R,G,B = Breitband; H,S,O = Schmalband).",
+      "filterClassificationsHint": "Filter aus Ihrem NINA-Profil. Auto verwendet den Anfangsbuchstabenabgleich (L,R,G,B = Breitband; H,S,O = Schmalband).",
       "filterExclude": "Ausschließen",
       "filterNarrowband": "Schmalband",
       "lightModeReport": "Bericht zum Lichtmodus",
@@ -6187,8 +6187,8 @@
       "pushoverEnabled": "Aktivieren Sie Pushover",
       "pushoverTitle": "Pushover-Benachrichtigungen",
       "pushoverUserKey": "Benutzerschlüssel",
-      "reportContent": "Inhalt melden",
-      "savePath": "Pfad speichern",
+      "reportContent": "Berichtsinhalt",
+      "savePath": "Speicherpfad",
       "savePathPlaceholder": "Für den Standardspeicherort leer lassen",
       "saveReportLocally": "Bericht lokal speichern",
       "showAltitudeChart": "Höhendiagramm anzeigen",
@@ -6201,11 +6201,11 @@
       "showMinAltitude": "Mindesthöhe anzeigen",
       "showMoonCurve": "Mondkurve anzeigen",
       "showNextNightPreview": "Vorschau heute Abend anzeigen",
-      "showOverheadBreakdown": "Gemeinkostenaufschlüsselung anzeigen",
+      "showOverheadBreakdown": "Overhead-Aufschlüsselung anzeigen",
       "showPerTargetIQ": "Bildqualität pro Ziel anzeigen",
       "showSessionHistory": "Sitzungsverlauf anzeigen",
       "showSkyThumbnails": "Himmelsminiaturansichten anzeigen",
-      "showStarCountCV": "Star Count-Lebenslauf anzeigen",
+      "showStarCountCV": "Variationskoeffizient der Sternanzahl anzeigen",
       "showTsProgressBars": "TS-Fortschrittsbalken anzeigen",
       "smtpPort": "smtp Port",
       "smtpServer": "SMTP-Server",
@@ -6217,8 +6217,8 @@
       "testEmail": "Test-E-Mail senden",
       "testPushover": "Testbenachrichtigung senden",
       "localDashboardEnabled": "Aktivieren Sie den lokalen Webserver",
-      "localDashboardHint": "Stellt Ihren Sitzungsverlauf von einem lokalen Webserver bereit, auf den Sie über jeden Browser in Ihrem Netzwerk zugreifen können. \nVerwenden Sie ein VPN für den Fernzugriff.",
-      "localDashboardPort": "Hafen",
+      "localDashboardHint": "Stellt Ihren Sitzungsverlauf von einem lokalen Webserver bereit, auf den Sie über jeden Browser in Ihrem Netzwerk zugreifen können. Verwenden Sie ein VPN für den Fernzugriff.",
+      "localDashboardPort": "Port",
       "localDashboardTitle": "Lokales Dashboard",
       "showChartFilterChips": "Filterchipreihe anzeigen",
       "showChartTargetChips": "Zielchipreihe anzeigen"

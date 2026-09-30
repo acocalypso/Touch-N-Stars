@@ -12,7 +12,7 @@
     "enable": "Umožnit",
     "disable": "Zakázat",
     "loading": "Načítání…",
-    "scanning": "Snímání…",
+    "scanning": "Vyhledávání…",
     "connecting": "Spojovací…",
     "refresh": "Obnovit",
     "creating": "Vytváření…",
@@ -72,7 +72,7 @@
     "error": "Aktualizace se nezdařila. Zkuste to znovu později.",
     "later": "Později",
     "updateNow": "Aktualizujte nyní",
-    "working": "Pracovní…",
+    "working": "Pracuji…",
     "checkNow": "Zkontrolovat aktualizace",
     "checking": "Kontrola…",
     "upToDateTitle": "Žádná aktualizace není k dispozici",
@@ -84,13 +84,13 @@
     "description": "Začněme rychlým nastavením",
     "selectLanguage": "Vyberte jazyk",
     "gpsConfiguration": "Konfigurace GPS",
-    "completeSetup": "Kompletní Nastavení",
+    "completeSetup": "Dokončit nastavení",
     "instanceConfiguration": "Podrobnosti o připojení N.I.N.A",
     "InfoAppsTitel": "Wiki",
     "check_wki": "Podrobné pokyny najdete na naší wiki",
     "coordAlt": "Alt",
     "coordLat": "lat",
-    "coordLon": "Dlouho",
+    "coordLon": "Dél.",
     "coordUnit": "m",
     "coordsNotSupported": "Není podporováno ovladačem",
     "currentMountCoords": "Umístění montáže",
@@ -100,7 +100,7 @@
     "syncDirection": "Směr synchronizace polohy",
     "syncDirectionNosync": "Žádná synchronizace",
     "syncDirectionToApplication": "Synchronizace z Mount do profilu",
-    "syncDirectionToTelescope": "Synchronizace z profilu do připojení"
+    "syncDirectionToTelescope": "Synchronizace z profilu do montáže"
   },
   "components": {
     "instanceDetection": {
@@ -158,7 +158,7 @@
           "Comet": "Kometa",
           "StellariumObject": "Objekt",
           "Star": "Hvězda",
-          "Moon": "Mesíc"
+          "Moon": "Měsíc"
         }
       },
       "openFraminingModal": "Spustť ve Snímkování",
@@ -450,7 +450,7 @@
     },
     "settings": {
       "title": "Nastavení",
-      "general": "Generál",
+      "general": "Obecné",
       "tabs": {
         "connection": "Připojení a poloha",
         "interface": "Rozhraní",
@@ -504,10 +504,10 @@
           "other": "Ostatní"
         },
         "advancedSettings": "Pokročilá nastavení",
-        "darks": "Tmavé",
-        "flats": "Byty",
-        "bias": "Zaujatost",
-        "useLightPattern": "Stejné jako Světla"
+        "darks": "Darky",
+        "flats": "Flaty",
+        "bias": "Bias",
+        "useLightPattern": "Stejné jako Lighty"
       },
       "debug": {
         "title": "Ladit",
@@ -517,7 +517,7 @@
       },
       "notifications": {
         "title": "Oznámení",
-        "enable": "Activate",
+        "enable": "Povolit",
         "sequence": "sekvence",
         "phd2": "PHD2"
       },
@@ -585,12 +585,12 @@
         "shutdownInfoMessage": "Systém se vypíná. Tato stránka již nebude dostupná."
       },
       "plate_solver": {
-        "title": "Řešitel talířů",
+        "title": "Plate Solver",
         "basic": "Základní nastavení",
         "search": "Nastavení vyhledávání",
-        "retry": "Zkuste nastavení znovu",
+        "retry": "Nastavení opakování",
         "ExposureTime": "Doba expozice (s)",
-        "Gain": "Získat",
+        "Gain": "Zesílení",
         "SearchRadius": "Poloměr vyhledávání (°)",
         "Threshold": "Tolerance zaměření (obloukové minuty)",
         "RotationTolerance": "Tolerance otáčení (°)",
@@ -642,13 +642,13 @@
         "title": "Vybavení",
         "description": "Spravovat nastavení vybavení"
       },
-      "update": "TODO: přeložit [Aktualizace]",
+      "update": "Aktualizace",
       "errors": {
-        "instanceNameRequired": "TODO: přeložit [Je vyžadován název instance]",
-        "invalidIPFormat": "TODO: přeložit [Neplatný formát IP adresy]",
-        "invalidPortRange": "TODO: přeložit [Neplatný rozsah portů]",
-        "invalidInstance": "TODO: přeložit [Neplatná instance]",
-        "emptyFields": "TODO: přeložit [Prázdná pole]"
+        "instanceNameRequired": "Je vyžadován název instance",
+        "invalidIPFormat": "Neplatný formát IP adresy",
+        "invalidPortRange": "Neplatný rozsah portů",
+        "invalidInstance": "Neplatná instance",
+        "emptyFields": "Prázdná pole"
       },
       "telescope": {
         "titel": "Nastavení dalekohledu",
@@ -665,7 +665,7 @@
         "mountNotConnected": "Montáž není připojena",
         "mountTime": "Čas montáže",
         "notSupported": "Není podporováno ovladačem",
-        "syncLabel": "Synchronizujte čas pro připojení",
+        "syncLabel": "Synchronizovat čas do montáže",
         "syncLabelInfo": "Pokud je tato možnost povolena, kliknutím na \"Synchronizovat nyní\" se montáž krátce odpojí a znovu připojí, aby NINA mohla přenést aktuální čas.",
         "title": "Synchronizace času",
         "loadError": "Could not load time information.",
@@ -692,8 +692,8 @@
         "folderPlaceholder": "Název složky...",
         "loading": "Načítání...",
         "loadingDirs": "Načítání adresářů...",
-        "newFolder": "New Folder",
-        "noSubfolders": "No subfolders available",
+        "newFolder": "+ Nová složka",
+        "noSubfolders": "Žádné viditelné složky (prázdná nebo nepřístupná cesta)",
         "placeholder": "Nebyla vybrána žádná cesta",
         "save": "Uložit",
         "savedMsg": "Cesta uložena:",
@@ -777,7 +777,7 @@
         "guideCamRequired": "Musí být vybrána platná guide kamera."
       },
       "guiderCam": {
-        "name": "Průvodce fotoaparátem",
+        "name": "Guide kamera",
         "manualVnc": "Ručně přes VNC"
       },
       "safety": {
@@ -891,7 +891,7 @@
       "loadingSequence": "Načítání sekvence…",
       "sequenceClose": "Zavřít",
       "deleteConfirmationTitle": "Smazat soubor",
-      "deleteConfirmationMessage": "Jste si jistý, že chcete smazat log?",
+      "deleteConfirmationMessage": "Jste si jistý, že chcete smazat soubor?",
       "overwriteConfirmationTitle": "Přepsat soubor",
       "overwriteConfirmationMessage": "Jste si jistý, že chcete přepsat soubor?",
       "resetConfirmationTitle": "Potvrzení resetu",
@@ -924,8 +924,8 @@
       "details": {},
       "hfr": "HFR",
       "mean": "Průměr",
-      "median": "Střední",
-      "stDev": "Sv. Dev.",
+      "median": "Medián",
+      "stDev": "Sm. odch.",
       "rmsText": "RMS",
       "monitor": {
         "settings": {
@@ -1007,7 +1007,7 @@
         "off": "Vypnuto",
         "takeExposure": {
           "exposureTime": "Doba nasvícení(s):",
-          "gain": "Reflektivita",
+          "gain": "Zesílení",
           "offset": "Odchylka",
           "binning": "Binning",
           "imageType": "Obraz Typ"
@@ -1016,10 +1016,10 @@
           "iterations": "Počet expozic"
         },
         "smartExposure": {
-          "ditherAfter": "Váhat po (expozice)"
+          "ditherAfter": "Dither po (expozicích)"
         },
         "takeSubframeExposure": {
-          "roiPct": "Návratnost investic (v %)"
+          "roiPct": "ROI (%)"
         },
         "switchFilter": {
           "filter": "Filtr",
@@ -1033,20 +1033,20 @@
           "iterations": "Iterace"
         },
         "moonIllumination": {
-          "illumination": "Osvětlení"
+          "illumination": "Osvětlení (%)"
         },
         "reconnect": {
           "device": "Zařízení"
         },
         "autofocus": {
           "afterExposures": "Po expozicích",
-          "afterExposuresCount": "s historickými údaji).",
+          "afterExposuresCount": "Expozice",
           "everyN": "Každých {n}",
           "hfrIncrease": "Zvýšení HFR (%)",
           "sampleSize": "Velikost vzorku",
           "samples": "{n} Vzorky",
           "trendPerFilter": "Trend na filtr",
-          "deltaT": "teploty",
+          "deltaT": "Změna teploty (°)",
           "minutes": "Minuty"
         },
         "centerAfterDrift": {
@@ -1056,14 +1056,14 @@
           "minutesAfter": "Minuty po poledníku",
           "maxMinutesAfter": "Max. minut po poledníku",
           "pauseBefore": "Pauza před poledníkem (min)",
-          "useSideOfPier": "Strana dal"
+          "useSideOfPier": "Použít stranu mola"
         },
         "altitudeCondition": {
-          "altitude": "Nadmořská výška ",
+          "altitude": "Výška (°)",
           "horizonOffset": "Posun horizontu (°)"
         },
         "sunAltitudeCondition": {
-          "altitude": "Nadmořská výška Slunce"
+          "altitude": "Výška Slunce (°)"
         },
         "timeCondition": {
           "provider": "Poskytovatel",
@@ -1079,7 +1079,7 @@
           "comparator": "Komparátor",
           "below": "Pod ",
           "above": "Nad",
-          "altitude": "Nadmořská výška Měsíce"
+          "altitude": "Výška Měsíce (°)"
         },
         "dither": {
           "afterExposures": "Po expozicích"
@@ -1107,9 +1107,9 @@
           "maxExposure": "Max. expozice"
         },
         "autoBrightnessFlat": {
-          "minBrightness": "Reputace: 0",
+          "minBrightness": "Min. jas",
           "maxBrightness": "Max. jas",
-          "histogramTarget": "Střední Histogram Cíle",
+          "histogramTarget": "Cílový histogram (%)",
           "histogramTolerance": "Tolerance histogramu (%)",
           "iterations": "Počet",
           "keepPanelClosed": "Ponechat panel zavřený"
@@ -1125,7 +1125,7 @@
           "manual": "Manual"
         },
         "skyFlat": {
-          "shouldDither": "Váhat",
+          "shouldDither": "Dither",
           "ditherPixels": "Rozptylovací pixely",
           "ditherSettleTime": "Vyrovnávací čas rozptylu (s)"
         },
@@ -1205,7 +1205,7 @@
           "lineTermination": "Konec řádku"
         },
         "waitUntil": {
-          "predicate": "Stav"
+          "predicate": "Podmínka"
         },
         "waitForTimeSpan": {
           "time": "Trvání ( s)"
@@ -1214,12 +1214,12 @@
           "azimuth": "Azimut"
         },
         "stackFlats": {
-          "waitForStack": "Počkejte na zásobník"
+          "waitForStack": "Počkat na stackování"
         },
         "interruptWhenRMSAbove": {
           "rmsThreshold": "Práh RMS (\")",
           "mode": "Režim",
-          "modeRMS": "Členský stát zpravodaj",
+          "modeRMS": "RMS",
           "modePeak": "Max.",
           "minimumPoints": "Minimální počet bodů"
         },
@@ -1239,9 +1239,9 @@
           "ditherPixels": "Rozptyl (px)",
           "ditherRAOnly": "Pouze Dither RA",
           "settlePixels": "Vyrovnání (px)",
-          "settleTime": "Vypořádat čas (y)",
-          "settleTimeout": "Vyrovnat časový limit (y)",
-          "roiPct": "Návratnost investic (v %)"
+          "settleTime": "Doba ustálení (s)",
+          "settleTimeout": "Časový limit ustálení (s)",
+          "roiPct": "ROI (%)"
         },
         "dso": {
           "targetName": "Cílové jméno",
@@ -1307,7 +1307,7 @@
         "allTargets": "Všechny cíle",
         "reset": "Resetovat filtr"
       },
-      "gain": "Získat",
+      "gain": "Zesílení",
       "offset": "Offset",
       "move": "Přesunout",
       "more": "Více",
@@ -1349,7 +1349,7 @@
         "sync_coordinates_to_mount": "Synchronizace souřadnic s montáží",
         "errors": {
           "unpark": "Chyba při odparkování montáže",
-          "tracking": "Chyba při nastavování režimu sledován"
+          "tracking": "Chyba při nastavování režimu sledování"
         },
         "setLocationSyncToMount": "Nastavit 'Synchronizovat s dalekohledem'",
         "slewRateINDI": "Rychlost pohybu",
@@ -1379,7 +1379,7 @@
       },
       "settings": {
         "meridian_flip_settings": "Meridian Flip",
-        "telescope_settle_time": "Upravit čas po přebití (s)",
+        "telescope_settle_time": "Doba ustálení po přejezdu (s)",
         "meridian_flip": {
           "basic": "Základní nastavení",
           "behavior": "Chování",
@@ -1391,7 +1391,7 @@
           "Recenter": "Recenter",
           "UseSideOfPier": "Použít stranu mola",
           "AutoFocusAfterFlip": "Automatické ostření po převrácení",
-          "RotateImageAfterFlip": "Otočit snímek po otočení"
+          "RotateImageAfterFlip": "Otočit snímek po převrácení"
         },
         "reverse_primary_axis": "Obrátit primární osu",
         "reverse_secondary_axis": "Obrátit sekundární osu"
@@ -1409,7 +1409,7 @@
       "title": "Navádění",
       "running": "PROBÍHÁ",
       "statusLabel": "Stav",
-      "settings": "Nastavení průvodce",
+      "settings": "Nastavení guideru",
       "clearGraph": "Vymazat graf",
       "clearGraphConfirm": "Vymazat historii kroků pointace? Graf začne prázdný a pointace poběží dál.",
       "clearGraphError": "Graf se nepodařilo vymazat.",
@@ -1419,11 +1419,11 @@
       "ditherPixels": "Dither Pixels (px)",
       "ditherRAOnly": "Dither pouze v RA",
       "settlePixels": "Vyrovnat toleranci pixelů (px)",
-      "settleTime": "Minimální doba vyřízení (s)",
+      "settleTime": "Minimální doba ustálení (s)",
       "settleTimeout": "Vyrovnat časový limit (s)",
       "guidingStartRetry": "Navádění Start Opakovat",
-      "guidingStartTimeout": "Časový limit spuštění průvodce (s)",
-      "roiPercentage": "Procento návratnosti investic k nalezení vodicí hvězdy (%)",
+      "guidingStartTimeout": "Časový limit spuštění guidingu (s)",
+      "roiPercentage": "Procento ROI pro nalezení vodicí hvězdy (%)",
       "status": {
         "looping": "Smyčka",
         "lostLock": "Ztracená hvězda",
@@ -1501,7 +1501,7 @@
           "reactive_weight": "RA: Reaktivní váha W",
           "period_length": "RA: Délka periody PEC (s)",
           "slope_weight": "RA: Váha sklonu",
-          "exp_factor": "RA: Agresivita"
+          "exp_factor": "RA: Faktor expozice"
         },
         "dec": {
           "aggression": "DEC: Agresivita",
@@ -1685,7 +1685,7 @@
     },
     "focuser": {
       "title": "Ostření",
-      "focus": "Soustředit",
+      "focus": "Zaostřit",
       "new_position": "Nová pozice:",
       "move": "Pohyb",
       "start_autofocus": "Spustit AutoOstření",
@@ -1715,11 +1715,11 @@
         "FocuserSettleTime": "Doba usazení zaostřovače",
         "AutoFocusTotalNumberOfAttempts": "Celkový počet pokusů",
         "AutoFocusNumberOfFramesPerPoint": "Počet snímků na bod",
-        "AutoFocusInnerCropRatio": "Vnitřní poměr obilí",
-        "AutoFocusOuterCropRatio": "Vnější poměr obilí",
+        "AutoFocusInnerCropRatio": "Vnitřní poměr ořezu",
+        "AutoFocusOuterCropRatio": "Vnější poměr ořezu",
         "AutoFocusUseBrightestStars": "Použijte nejjasnější hvězdy",
-        "BacklashIn": "Zpětná reakce",
-        "BacklashOut": "Zpětný ráz ven",
+        "BacklashIn": "Vůle dovnitř",
+        "BacklashOut": "Vůle ven",
         "AutoFocusBinning": "Binning automatického ostření",
         "AutoFocusTimeoutSeconds": "Časový limit autofokusu (v sekundách)",
         "RSquaredThreshold": "R-squared Threshold",
@@ -1738,7 +1738,7 @@
         "autofocus": "Nastavení autofokusu",
         "crop_and_stars": "Crop",
         "backlash": "Vůle",
-        "advanced": "Moderní",
+        "advanced": "Pokročilé",
         "Reverse": "Obrátit",
         "UseFilterWheelOffsets": "Použít offsety filtrovacího kola",
         "MaxStep": "Maximální počet kroků",
@@ -1748,7 +1748,7 @@
         "BeepOnMove": "Pípnutí při pohybu",
         "BeepOnStartup": "Pípnutí při spuštění",
         "ClearStall": "Clear Stall",
-        "FocuserAlias": "Zaměřovač Alias",
+        "FocuserAlias": "Alias zaostřovače",
         "Heating": "Topení",
         "HeatingTemperature": "Teplota ohřevu",
         "MotorSpeedControl": "Ovládání otáček motoru",
@@ -1764,7 +1764,7 @@
       "BoardTemperature": "Teplota desky:",
       "DcPower": "DC napájení",
       "HeatingPower": "Topný výkon:",
-      "IsStalled": "Zastaveno",
+      "IsStalled": "Zablokováno",
       "StepSize": "Velikost kroku",
       "hf": {
         "chart": {
@@ -1810,7 +1810,7 @@
       "following": "sledování",
       "following_stopped": "sledování zastaveno",
       "at_home": "Domů",
-      "not_at_home": "není na místě",
+      "not_at_home": "Není v domovské poloze",
       "park": "parkovat",
       "unpark": "odparkovat",
       "shutter_close": "štěrbina zavřená",
@@ -1821,17 +1821,17 @@
         "stop": "Zastavit pohyb štěrbiny",
         "errors": {
           "open": "Chyba při otevření štěrbiny",
-          "close": "Chybné při zavření štěrbiny",
+          "close": "Chyba při zavření štěrbiny",
           "stop": "Chyba v zastavení štěrbiny",
           "park": "Chyba Park",
           "sync": "Chyba synch.",
           "stop_slew": "Chyba zastavení přejezdu",
           "home": "Chyba home",
-          "follow": "Sledování chyb Dalekohledu"
+          "follow": "Chyba sledování dalekohledu"
         },
         "slew": "Přejezd",
-        "slew_label": "Převod na stupně",
-        "follow": "Dalekohled s kopulí",
+        "slew_label": "Přejet na stupně",
+        "follow": "Kopule sleduje dalekohled",
         "sync": "Synchronizace s dalekohledem",
         "park": "Park",
         "home": "Domov"
@@ -1848,10 +1848,10 @@
       "settings": "Nastavení",
       "capture_running": "Snímání probíhá",
       "exposure_time": "Čas expozice (s):",
-      "gain_iso": "Zisk / ISO:",
+      "gain_iso": "Gain / ISO:",
       "gainDefault": "Výchozí nastavení kamery",
       "name": "Jméno kamery",
-      "gain": "Získat",
+      "gain": "Zesílení",
       "offset": "Offset",
       "temperature": "Teplota (°C)",
       "standby": "Pohotovostní režim",
@@ -1886,7 +1886,7 @@
       "cooler_status_warming": "Aktivní - Ohřev na",
       "set_save_snapshot": "Uložit snímky",
       "snapshotTargetName": "Název cíle",
-      "set_use_solve_sync_to_mount": "Synchronizujte s připojením",
+      "set_use_solve_sync_to_mount": "Synchronizovat s montáží",
       "readout_mode_image": "Režim čtení Sekvence",
       "readout_mode_snap": "Režim čtení Snímek",
       "BinAverageEnabled": "Binning zprůměruje pixely",
@@ -1907,7 +1907,7 @@
       "camera_mount_required": "Kamera musí být připojena",
       "start_alignment": "Spustit Zarovnání",
       "stop_alignment": "Zastavit Zarovnánít",
-      "altitude_error": "Chyba v Nad. výšce:",
+      "altitude_error": "Chyba ve výšce:",
       "azimuth_error": "Chyba v Azimutu:",
       "total_error": "Celková Chyba:",
       "error_values_missing": "Chybějící hodnoty chyby",
@@ -1932,14 +1932,14 @@
         "camera_settings": "Nastavení Kamery",
         "camera_settings_hint": "Nechte prázdné pro výchozí nastavení NINA",
         "exposure_time": "Doba Expozice (s)",
-        "gain": "Získat",
+        "gain": "Zesílení",
         "filter": "Filtr",
         "filter_default": "Výchozí",
         "nina_default": "NINA Výchozí",
         "ManualMode": "Manuální režim"
       },
       "pins_settings": {
-        "title": "PINY Nastavení TPPA",
+        "title": "PINS Nastavení TPPA",
         "movement": "Pohyb",
         "offsets": "Posuny",
         "behavior": "Chování",
@@ -2038,8 +2038,8 @@
       },
       "Unidirectional": "Filtrové kolo jednosměrné",
       "BoardTemperature": "Teplota desky",
-      "Counter": "Čelit",
-      "State": "Stát"
+      "Counter": "Počítadlo",
+      "State": "Stav"
     },
     "RemoveFilter": {
       "confirmTitle": "Odstranit Filtr",
@@ -2068,7 +2068,7 @@
         "Overshoot": "Přestřelit",
         "OvershootDirection": "Směr přestřelení",
         "OvershootAngle": "Úhel překmitu",
-        "Backlash": "Hystereze",
+        "Backlash": "Vůle",
         "ResetPosition": "Resetujte nulovou polohu"
       },
       "indi": {
@@ -2084,8 +2084,8 @@
       "brightness": "Jas:",
       "toggle_light": "Světlo:",
       "cover": {
-        "close": "kryt zavřen",
-        "open": "kryt otevřen"
+        "close": "zavřít kryt",
+        "open": "otevřít kryt"
       },
       "title": "Flat box",
       "settings": {
@@ -2095,11 +2095,11 @@
         "closedPosition": "Poloha zavření (°)",
         "currentPosition": "Aktuální poloha",
         "trainedSettings": {
-          "title": "Vyškolená nastavení ploché expozice",
+          "title": "Naučená nastavení expozice flatů",
           "filter": "Filtr",
           "noFilter": "Žádný filtr",
           "binning": "Binning",
-          "gain": "Získat",
+          "gain": "Zesílení",
           "offset": "Offset",
           "brightness": "Jas",
           "time": "čas (s)",
@@ -2124,7 +2124,7 @@
       "min_brightness": "Min jas",
       "max_brightness": "Max jas",
       "histogram_mean_target": "Cílový průměr histogramu",
-      "mean_tolerance": "Střední tolerance",
+      "mean_tolerance": "Tolerance průměru",
       "completed_recordings": "Ukončené záznamy:",
       "start_auto_exposure": "Spustit auto expozici",
       "start_auto_brightness": "Spustit auto jas",
@@ -2134,9 +2134,9 @@
       "auto_brightness": "Automatický jas",
       "skyflat": "FlatOblohy",
       "button_slew_to_zenith": "Přejet na zenit",
-      "keep_closed": "Plochý panel mějte zavřený",
+      "keep_closed": "Ponechat flat panel zavřený",
       "status_adu_live": "Poslední měření ADU: {adu}",
-      "status_failed": "Nebyly zachyceny žádné byty – nelze určit platnou expozici",
+      "status_failed": "Selhalo",
       "status_running": "Běží",
       "status_stopped": "Zastaveno",
       "status_success": "Hotovo",
@@ -2152,7 +2152,7 @@
       "darks_to_take": "Darkflats k pořízení",
       "operation_failed": "Operation failed",
       "status_failed_darks": "No darks captured - could not determine valid exposure",
-      "status_failed_flats": "No flats captured - could not determine valid exposure",
+      "status_failed_flats": "Nepodařilo se určit platnou expozici",
       "status_running_darks": "Running: {completed} / {total} darks",
       "status_running_flats": "Running: {completed} / {total} flats",
       "status_stopped_darks": "Stopped early - {completed} of {total} darks captured",
@@ -2202,7 +2202,7 @@
       }
     },
     "celestiaAtlas": {
-      "loading": "Načítání Stellaria…",
+      "loading": "Načítání Celestia Atlas…",
       "selected_object": {
         "title": "Vybraný objekt",
         "ra": "RA",
@@ -2223,7 +2223,7 @@
         "missing_location": "Výška a východ/západ vyžadují polohu stanoviště v profilu NINA."
       },
       "datetime": {
-        "title": "Název",
+        "title": "Datum a čas",
         "date": "Datum",
         "time": "Čas",
         "now": "Nyní",
@@ -2410,7 +2410,7 @@
         "titel": "Sekvence"
       },
       "modal_sequence_ok": {
-        "message": "Cílová sada"
+        "message": "Cíl nastaven"
       },
       "modal_sequence_error": {
         "message": "Není načtena žádná sekvence"
@@ -2432,7 +2432,7 @@
         "blackPoint": "Černý bod",
         "whitePoint": "Bílý bod",
         "gamma": "Gamma",
-        "mean": "Střední",
+        "mean": "Průměr",
         "median": "Medián",
         "stdDev": "Std Dev",
         "min": "Min",
@@ -2463,10 +2463,10 @@
     },
     "instanceSwitcher": {
       "active": "Aktivní",
-      "checking": "Kontrola případů…",
+      "checking": "Kontrola instancí…",
       "manageInstances": "Spravovat instance",
       "noInstances": "Nejsou nakonfigurovány žádné instance",
-      "noneOnline": "Žádné online případy",
+      "noneOnline": "Žádné instance online",
       "title": "Přepnout instanci",
       "switchingTo": "Switching to {name}…"
     },
@@ -2555,7 +2555,7 @@
       }
     },
     "pins": {
-      "title": "Správa PINů",
+      "title": "Správa PINS",
       "notAvailable": "Prostředí PINS nebylo detekováno. Tento plugin je zakázán.",
       "dryRun": "Simulační režim",
       "sambaTitle": "Sdílení Samba",
@@ -2576,7 +2576,7 @@
       "wifiPassword": "Heslo",
       "autoConnect": "Automatické připojení k vybrané wifi po spuštění",
       "wifiConnect": "Připojit",
-      "scanning": "Snímání...",
+      "scanning": "Vyhledávání...",
       "systemTime": "Systémový čas",
       "deviceTime": "Čas zařízení",
       "loadingTime": "Doba načítání...",
@@ -2602,7 +2602,7 @@
         "failed": "Selhání"
       },
       "logs": {
-        "syncingTime": "Zjištěný časový rozdíl: {diff}s. Čas synchronizace...",
+        "syncingTime": "Zjištěný časový rozdíl: {diff}s. Synchronizuji čas...",
         "forcingSync": "Manuální synchronizace času...",
         "timeInSync": "Čas je synchronizován (rozdíl: {diff}s).",
         "timeSynced": "Systémový čas byl úspěšně synchronizován.",
@@ -2668,7 +2668,7 @@
       "hotspotConfigured": "Je nakonfigurováno vlastní heslo hotspotu.",
       "hotspotNewPassword": "Nové heslo hotspotu",
       "hotspotNotConfigured": "Aktuálně se používá výchozí heslo pro hotspot.",
-      "hotspotPasswordHint": "Minimálně 8 znaků.",
+      "hotspotPasswordHint": "Vyžadováno jednou za relaci nebo při změně hesla. Použijte 8–63 znaků.",
       "hotspotPasswordTitle": "Heslo hotspotu",
       "hotspotRefresh": "Obnovit stav hesla hotspotu",
       "hotspotSave": "Uložit heslo hotspotu",
@@ -2811,7 +2811,7 @@
         "loadingCapture": "Načítání záznamu…",
         "useLatestCapture": "Použijte nejnovější záznam",
         "examplePlaceholder": "Načíst ukázkový obrázek…",
-        "clearSelection": "Jasný výběr",
+        "clearSelection": "Zrušit výběr",
         "source": "Zdroj",
         "size": "Velikost souboru",
         "originalSize": "původní {size}",
@@ -2835,11 +2835,11 @@
         "resizeFactor": "Faktor změny velikosti"
       },
       "crop": {
-        "enable": "Oblast zpracování plodin",
+        "enable": "Oříznout zpracovanou oblast",
         "x": "Oříznout X",
         "y": "Oříznout Y",
         "width": "Šířka oříznutí",
-        "height": "Výška plodiny"
+        "height": "Výška oříznutí"
       },
       "previousAngles": {
         "label": "Předchozí úhly",
@@ -2881,15 +2881,15 @@
         "focusErrorPixels": "Chyba ostření (px)",
         "absoluteFocusError": "Chyba ostření (mm)",
         "criticalFocusThreshold": "Práh kritického zaostření (mm)",
-        "isWithinCriticalFocus": "Kritický stav zaměření",
-        "focusOk": "V rámci kritického zaměření",
-        "focusNotOk": "Mimo kritické zaměření",
+        "isWithinCriticalFocus": "Stav kritického zaostření",
+        "focusOk": "V rámci kritického zaostření",
+        "focusNotOk": "Mimo kritické zaostření",
         "maskAngle": "Úhel masky (°)",
         "effectiveResizeFactor": "Faktor efektivní změny velikosti",
         "lineAngles": "Úhly maskovací čáry",
         "updatedAngles": "Aktualizované úhly",
-        "cropApplied": "Zpracovaná plodina",
-        "noCrop": "Nebyla použita žádná plodina",
+        "cropApplied": "Použité oříznutí",
+        "noCrop": "Nebylo použito žádné oříznutí",
         "failure": "Analýza se nezdařila. Podrobnosti najdete v odpovědi backendu.",
         "placeholder": "Spusťte analyzátor, abyste zde viděli metriky zaměření.",
         "successTitle": "Analýza dokončena",
@@ -2937,11 +2937,11 @@
         "github": "Vytvořit problém na GitHubu",
         "discord": "Otevřít Discord"
       },
-      "lastToken": "Generované Tokeny",
+      "lastToken": "Vygenerovaný token",
       "submissionHistory": "Historie Odeslání",
       "confirmClearAll": "Opravdu chcete vymazat celou historii odeslaných příspěvků?",
       "actions": {
-        "collectUpload": "Sbírat",
+        "collectUpload": "Sbírat a nahrát",
         "uploading": "Nahrávání…",
         "copyToken": "Kopírovat",
         "remove": "Odebrat",
@@ -2961,7 +2961,7 @@
       "submissionFields": {
         "date": "Datum",
         "filename": "Název souboru",
-        "token": "Žeton"
+        "token": "Token"
       },
       "result": {
         "success": "Nahrání úspěšné",
@@ -2970,7 +2970,7 @@
         "tokenCopied": "Token zkopírován do schránky",
         "tokenCopyFailed": "Kopírování tokenu se nezdařilo",
         "submissionRemoved": "Příspěvek byl odstraněn",
-        "allSubmissionsCleared": "Všechny žádosti byly přijaty",
+        "allSubmissionsCleared": "Všechna odeslání byla vymazána",
         "savedLocally": "Soubor protokolu uložen do vašeho zařízení ({filename}).",
         "savedInApp": "Archiv protokolů uložen v aplikaci ({filename}). Nahrajte jej ze seznamu uložených archivů, až budete online.",
         "archiveMissing": "Uložený archiv již není k dispozici.",
@@ -2995,7 +2995,7 @@
         "statusRunning": "Running",
         "statusSuccess": "Success",
         "statusTimeout": "Timed out",
-        "stillPreparing": "Archive is still preparing. Please try download again shortly.",
+        "stillPreparing": "Archiv se na zařízení stále připravuje.",
         "title": "Systémová diagnostika PINS",
         "validationDmesgLines": "dmesg lines must be between 100 and 50000.",
         "validationJournalLines": "Journal lines must be between 100 and 50000.",
@@ -3011,7 +3011,7 @@
       }
     },
     "telescopius": {
-      "title": "Dalekohled",
+      "title": "Telescopius",
       "offlineInfo": "Načítá osobní seznamy cílů z telescopius.com a ukládá je lokálně pro offline dostupnost.",
       "landing": {
         "title": "Zásuvný modul Telescopius",
@@ -3170,9 +3170,9 @@
       "snapshotUrl": "Snímek URL",
       "snapshotUrlDescription": "URL snímku je přímý odkaz na jeden obrázek z vaší webové kamery/IP kamery. Tato URL by měla vrátit přímo obrázek ve formátu JPEG/PNG, nikoli HTML stránku nebo stream.",
       "snapshotUrlExamples": "Příklady:",
-      "refreshInterval": "Obnovit Intervall",
+      "refreshInterval": "Interval obnovení",
       "displayOptions": "Možnosti zobrazení",
-      "autoRefresh": "Auto Obnovení Refresh",
+      "autoRefresh": "Automatické obnovení",
       "status": "Stav",
       "connected": "Připojeno",
       "disconnected": "Odpojeno",
@@ -3208,7 +3208,7 @@
         "sendToNina": "Převzít sekvenci",
         "sending": "Odesílání...",
         "sent": "Odesláno!",
-        "sendErrorTitle": "Chyba při odesílání do",
+        "sendErrorTitle": "Chyba při odesílání do N.I.N.A",
         "sendSuccessMessage": "Sekvence úspěšně odeslána do N.I.N.A!",
         "validSequence": "Sekvence je platná a lze ji převzít.",
         "invalidSequence": "Přidejte nastavení cíle a inteligentní expozici, abyste vytvořili platnou sekvenci.",
@@ -3228,7 +3228,7 @@
         "clearSequence": "Opravdu chcete vymazat celou sekvenci? Tuto akci nelze vrátit zpět.",
         "saveAsDefault": "Opravdu chcete uložit aktuální sekvenci jako výchozí? Tím se přepíše předchozí výchozí sekvence.",
         "loadBasicSequence": "Jste si jisti, že chcete načíst základní sekvenci? Tím se přepíše aktuální sekvence.",
-        "removeAction": "Odstranit akci „{actionName}",
+        "removeAction": "Odstranit akci „{actionName}“?",
         "navigateToSequence": "Chcete nyní přejít na stránku Sekvence?",
         "saveNamed": "Zadejte název sekvence:",
         "saveNamedPlaceholder": "Název sekvence...",
@@ -3273,7 +3273,7 @@
         "min": "min:",
         "max": "Max:",
         "yes": "Ano",
-        "no": "Žádný",
+        "no": "Ne",
         "notSet": "Není nastaveno",
         "noConfigurableParameters": "Tato akce nemá žádné konfigurovatelné parametry.",
         "actionId": "ID Akce",
@@ -3284,10 +3284,10 @@
           "description": "Unpark montáže dalekohledu"
         },
         "coolCamera": {
-          "name": "Kamera Vychlazena",
+          "name": "Vychladit kameru",
           "description": "Ochlazení kamery na stanovenou teplotu",
           "temperatureLabel": "Teplota (°C)",
-          "temperatureTooltip": "Cílová teplota pro chlazení kameryg",
+          "temperatureTooltip": "Cílová teplota pro chlazení kamery",
           "durationLabel": "Doba chlazení (minuty)",
           "durationTooltip": "Čas pro aktivní chlazení kamery (0 = chlazení až do dosažení teploty)"
         },
@@ -3316,7 +3316,7 @@
         "startGuiding": {
           "name": "Spustit Navádění",
           "description": "Spustit automatické navádění",
-          "forceCalibrationLabel": "Síla Kalibrace",
+          "forceCalibrationLabel": "Vynutit kalibraci",
           "forceCalibrationTooltip": "Vynutit novou kalibraci navádění"
         },
         "smartExposure": {
@@ -3324,7 +3324,7 @@
           "description": "Inteligentní expoziční sekvence s ditheringem a spouštěči",
           "exposureTimeLabel": "Expoziční doba (s)",
           "exposureTimeTooltip": "Délka trvání každé expozice",
-          "gainLabel": "Získat",
+          "gainLabel": "Gain",
           "gainTooltip": "Nastavení gain kamery",
           "offsetLabel": "Offset",
           "offsetTooltip": "Nastavení offset kamery",
@@ -3336,7 +3336,7 @@
           "imageTypeTooltip": "Typ expozice pro snímání",
           "countLabel": "Počet snímků",
           "countTooltip": "Počet expozic",
-          "ditherAfterLabel": "Dither po N expozicíchs",
+          "ditherAfterLabel": "Dither po N expozicích",
           "ditherAfterTooltip": "Frekvence ditheringu"
         },
         "stopGuiding": {
@@ -3344,7 +3344,7 @@
           "description": "Zastavit Autonavádění"
         },
         "warmCamera": {
-          "name": "Zahřátá Kamera",
+          "name": "Zahřát kameru",
           "description": "Zahřát kameru",
           "durationLabel": "Čas zahřívání (minuty)",
           "durationTooltip": "Čas na aktivní zahřátí kamery (0 = zahřátí na okolní teplotu)"
@@ -3572,12 +3572,12 @@
       },
       "config": {
         "host": "Hostitel",
-        "port": "Přístav",
+        "port": "Port",
         "base_path": "Základní cesta",
         "base_path_default": "Výchozí: /api/platesolveplus",
         "use_token_optional": "Použít token (volitelné)",
-        "token": "Žeton",
-        "token_placeholder": "žeton…",
+        "token": "Token",
+        "token_placeholder": "token…",
         "token_hint": "Odesílá se v hlavičce X-PSP-Token (musí odpovídat hostiteli PlateSolvePlus API).",
         "active_url": "Aktivní URL:"
       },
@@ -3589,12 +3589,12 @@
         "text": "Kalibrace vytvoří nebo aktualizuje model posunu mezi vodicí a hlavní kamerou. Reset odstraní všechny posuny."
       },
       "footer": {
-        "rest": "ODPOČINEK:"
+        "rest": "REST:"
       },
       "common": {
         "empty": "—",
-        "true": "věrný",
-        "false": "falešný"
+        "true": "pravda",
+        "false": "nepravda"
       },
       "log": {
         "preview_refreshed": "Náhled obnoven",
@@ -3698,18 +3698,18 @@
       "populerFilters": "Oblíbené filtry",
       "selectManufacturer": "Vyberte výrobce...",
       "clearSelection": "Vymazat výběr",
-      "customCurve": "Custom Bandpass Curve (CSV)",
+      "customCurve": "Vlastní křivka pásma (CSV)",
       "csvInfo": {
         "title": "Očekávaný formát souboru",
         "description": "Soubor ve formátu prostého textu se dvěma sloupci na řádku oddělenými mezerami: vlnová délka (nm) a přenos (%). Řádky, které nelze analyzovat jako dvě čísla, se tiše přeskakují (použijte je pro komentáře nebo záhlaví).",
         "example": "# přenos vlnové délky\n500,0 0,10\n656,3 98,50\n672,4 99,00\n700,0 0,05",
         "note": "Hodnoty přenosu musí být v rozsahu 0 – 100 (procent). Soubory oddělené čárkami nejsou podporovány."
       },
-      "clearCurve": "Jasná křivka",
+      "clearCurve": "Vymazat křivku",
       "loaded": "Načteno:",
       "dataPoints": "datové body",
       "targetWavelength": "Cílová vlnová délka (nm)",
-      "filterTransmission": "Převodovka filtru",
+      "filterTransmission": "Propustnost filtru",
       "wavelengthLabel": "Vlnová délka (nm)",
       "transmissionLabel": "Přenos",
       "transmissionPercent": "Přenos: {percent}%",
@@ -3718,7 +3718,7 @@
       "fRatio": "f/poměr",
       "resetDefaults": "Obnovit výchozí",
       "status": {
-        "success": "✓ Transmission calculated successfully",
+        "success": "✓ Přenos byl úspěšně vypočítán",
         "invalidCsv": "V CSV nebyla nalezena žádná platná data o vlnové délce/přenosu",
         "csvError": "Chyba při analýze CSV: {error}"
       }
@@ -3726,7 +3726,7 @@
     "pinsDevices": {
       "title": "Zařízení PI'N'Stars",
       "settings": {
-        "general": "Generál",
+        "general": "Obecné",
         "generalDescription": "Obecná nastavení zařízení a informace",
         "powerPorts": "Napájecí porty",
         "powerPortsDescription": "Konfigurace a správa výstupů napájecího portu",
@@ -3808,7 +3808,7 @@
         "notConnected": "Nepřipojeno"
       },
       "ports": {
-        "status": "Postavení",
+        "status": "Stav",
         "current": "Proud",
         "maxCurrent": "Maximální proud",
         "overcurrent": "Nadproud",
@@ -3858,7 +3858,7 @@
         "skyTemp": "Teplota oblohy",
         "noData": "Nejsou k dispozici žádné údaje o počasí",
         "conditions": "Hodnocení počasí",
-        "cloudAssessment": "Cloudové pokrytí",
+        "cloudAssessment": "Oblačnost",
         "temperatureStatus": "Stav teploty",
         "dewSpread": "Dew Spread (T-Td)"
       },
@@ -3887,11 +3887,11 @@
       "description": "Rychlý přístup k načtení a spuštění sekvencí N.I.N.A.",
       "addNew": "Nová zkratka",
       "newShortcut": "Nová zkratka",
-      "createFirst": "Vytvořte první zástupce",
+      "createFirst": "Vytvořit první zkratku",
       "menu": "Menu",
       "edit": "Upravit",
       "editShortcut": "Upravit zkratku",
-      "deleteShortcut": "Smazat zástupce",
+      "deleteShortcut": "Smazat zkratku",
       "noShortcuts": "Zatím nebyly vytvořeny žádné zkratky",
       "noShortcutsDescription": "Vytvořte zkratky pro rychlé načtení oblíbených sekvencí",
       "phrase": "Název zkratky",
@@ -3922,14 +3922,14 @@
       "errors": {
         "nameRequired": "Je vyžadován název zkratky",
         "sequenceRequired": "Vyberte sekvenci",
-        "loadFailed": "Nepodařilo se načíst klávesové zkratky",
+        "loadFailed": "Nepodařilo se načíst zkratky",
         "saveFailed": "Nepodařilo se uložit zkratku",
         "deleteFailed": "Nepodařilo se odstranit zkratku",
-        "executeFailed": "Nepodařilo se provést zkratkut",
+        "executeFailed": "Nepodařilo se provést zkratku",
         "sequenceLoadFailed": "Nepodařilo se načíst sekvence"
       },
       "success": {
-        "created": "Zkratka byla úspěšně vytvořenay",
+        "created": "Zkratka byla úspěšně vytvořena",
         "updated": "Zkratka byla úspěšně aktualizována",
         "deleted": "Zkratka byla úspěšně odstraněna"
       }
@@ -4492,18 +4492,18 @@
     "tenmicron": {
       "builder": {
         "pointGeneration": "Generování bodů",
-        "buildControl": "Kontrola sestavení",
+        "buildControl": "Ovládání sestavení",
         "starCount": "Počet hvězd",
         "generatePoints": "Vytvořte Zlatou spirálu",
         "generateSidereal": "Generovat hvězdnou cestu",
         "clear": "Vymazat body",
         "buildModel": "Sestavit model",
-        "stop": "Zastávka",
+        "stop": "Zastavit",
         "cancel": "Zrušit",
         "buildRunning": "Stavba modelu probíhá…",
         "pointCount": "Body: {valid} využitelných / {total} celkem",
         "pointFilters": "Bodové filtry",
-        "altRange": "Rozsah nadmořské výšky",
+        "altRange": "Rozsah výšky",
         "azRange": "Rozsah azimutu",
         "min": "Min",
         "max": "Max",
@@ -4518,7 +4518,7 @@
         "allowBlindSolves": "Povolit slepá řešení",
         "optimizeDome": "Optimalizovat Dome",
         "westToEast": "Západ na východ",
-        "plateSolveSubframe": "Talířové řešení pomocného rámu",
+        "plateSolveSubframe": "Platesolve podsnímku",
         "alternateDirection": "Alternativní směr",
         "disableRefractionCorrection": "Zakázat korekci lomu",
         "decJitter": "Dec Jitter (σ°)",
@@ -4535,13 +4535,13 @@
         "startTime": "Čas zahájení",
         "endTime": "Čas ukončení",
         "offsetMin": "Offset (min)",
-        "fromScope": "Z Rozsahu",
+        "fromScope": "Z dalekohledu",
         "fromSequence": "Ze sekvence",
         "timeWindow": "Časové okno",
         "noPoints": "Žádné modelové body. Pro začátek vygenerujte body.",
         "scatterChart": "Modelové body (Az/Alt)",
         "axisAz": "Azimut (stupně)",
-        "axisAlt": "nadmořská výška (stupně)",
+        "axisAlt": "Výška (stupně)",
         "refresh": "Obnovit",
         "altMin": "Výška min.",
         "altMax": "Výška max.",
@@ -4552,7 +4552,7 @@
       "dualAxisTracking": "Dvouosé sledování",
       "library": {
         "delete": "Vymazat",
-        "load": "Zatížení",
+        "load": "Načíst",
         "namePlaceholder": "Nový název modelu…",
         "noModels": "Nebyly nalezeny žádné uložené modely.",
         "refresh": "Obnovit",
@@ -4561,10 +4561,10 @@
       },
       "model": {
         "alignmentInfo": "Informace o vyrovnání",
-        "altTurns": "Alt Adj Zatáčky",
-        "azTurns": "Az Adj. Zatáčky",
+        "altTurns": "Alt Adj. otáčky",
+        "azTurns": "Az Adj. otáčky",
         "clearAlignment": "Vymazat zarovnání",
-        "clearConfirmMsg": "Tím trvale odstraníte aktuální model zarovnání z držáku. jsi si jistý?",
+        "clearConfirmMsg": "Tím trvale odstraníte aktuální model zarovnání z montáže. Opravdu chcete pokračovat?",
         "clearConfirmTitle": "Vymazat model zarovnání?",
         "coneError": "Chyba kužele",
         "deleteWorstStar": "Smazat nejhorší hvězdu",
@@ -4573,7 +4573,7 @@
         "paAltError": "Chyba PA Alt",
         "paAngle": "Úhel chyby PA",
         "paAzError": "Chyba PA Az",
-        "polarAlt": "Polární nadmořská výška",
+        "polarAlt": "Polární výška",
         "polarAz": "Polární azimut",
         "polarError": "Chyba polárního zarovnání",
         "refresh": "Obnovit",
@@ -4588,9 +4588,9 @@
         "firmwareDate": "Datum firmwaru",
         "ip": "IP adresa",
         "mac": "MAC adresa",
-        "statusTitle": "Stav připojení",
+        "statusTitle": "Stav montáže",
         "gpsSync": "GPS synchronizace času",
-        "trackingRate": "Sledovací sazba",
+        "trackingRate": "Rychlost sledování",
         "slewSettle": "Slew Settle",
         "meridianLimit": "Meridian Limit",
         "unattendedFlip": "Flip bez dozoru",
@@ -4598,13 +4598,13 @@
         "refractionTemp": "Refrakce Temp",
         "refractionPressure": "Refrakční tlak",
         "reset": "Resetovat",
-        "set": "Soubor",
+        "set": "Nastavit",
         "arcsecPerSec": "arcsec/sec",
         "seconds": "s",
         "degrees": "°",
         "celsius": "°C",
         "hPa": "hPa",
-        "slewRate": "Rychlost přeběhu",
+        "slewRate": "Rychlost přejíždění",
         "horizonHigh": "Horizont High Limit",
         "horizonLow": "Horizont Low Limit",
         "connectionType": "Typ připojení",
@@ -4633,11 +4633,11 @@
           "NotConnected": "Nepřipojeno"
         }
       },
-      "mountNotConnected": "Držák není připojen.",
-      "mountStatus": "Stav připojení",
+      "mountNotConnected": "Montáž není připojena.",
+      "mountStatus": "Stav montáže",
       "notLoaded": "Plugin TenMicron není načten. Nainstalujte a povolte plugin NINA.Joko.Plugin.TenMicron.",
       "refractionCorrection": "Korekce lomu",
-      "subtitle": "Vytvářejte a spravujte polohovací modely pro svůj 10mikronový držák",
+      "subtitle": "Vytvářejte a spravujte polohovací modely pro svou montáž 10micron",
       "tabs": {
         "builder": "Tvůrce modelů",
         "library": "Knihovna modelů",
@@ -4651,7 +4651,7 @@
       "common": {
         "ok": "OK",
         "cancel": "Zrušit",
-        "close": "Blízko",
+        "close": "Zavřít",
         "and": "a",
         "download": "stáhnout",
         "saving": "Ukládání…",
@@ -4667,7 +4667,7 @@
         "showStatus": "Zobrazit stav",
         "updateBackend": "Aktualizovat backend",
         "startingUpdate": "Spouštění aktualizace…",
-        "startCapture": "Spusťte Capture",
+        "startCapture": "Spustit snímání",
         "renderProgress": "Průběh vykreslování",
         "renderingProgress": "Průběh vykreslování…",
         "stopAndRender": "Zastavit a vykreslit",
@@ -4685,7 +4685,7 @@
         "downloadKeogram": "Keogram ke stažení",
         "deleteKeogram": "Smazat keogram",
         "downloadStartrails": "Stáhnout startrails",
-        "deleteStartrails": "Smazat starttrails",
+        "deleteStartrails": "Smazat startrails",
         "downloadItem": "Stáhnout {name}",
         "deleteItem": "Smazat {name}"
       },
@@ -4706,24 +4706,24 @@
         "recentSessions": "Nedávné relace",
         "recentSessionsDescription": "Vygenerované produkty jsou poskytovány přímo z backendu a otevírají se na nové kartě.",
         "livePreview": "Živý náhled",
-        "storedFrames": "Uložené rámečky"
+        "storedFrames": "Uložené snímky"
       },
       "preview": {
         "noFrameYet": "Zatím není k dispozici žádný zachycený snímek. Spusťte relaci nebo počkejte na další automatické zachycení.",
-        "session": "Zasedání",
+        "session": "Relace",
         "noActiveSession": "Žádná aktivní relace",
         "lastCapture": "Poslední zachycení:",
         "frameCount": "Počet snímků:",
         "captureInterval": "Interval snímání:",
-        "exposure": "Vystavení:",
-        "gain": "Získat:",
+        "exposure": "Expozice:",
+        "gain": "Gain:",
         "mean": "Mean:"
       },
       "statusRows": {
         "backend": "Backend",
-        "session": "Zasedání",
+        "session": "Relace",
         "sequence": "Sekvence",
-        "capture": "Zachyťte",
+        "capture": "Snímání",
         "rendering": "Vykreslování",
         "piUsed": "Pi Použité",
         "piAvailable": "Pi k dispozici",
@@ -4733,7 +4733,7 @@
         "online": "Online",
         "offline": "Offline",
         "running": "Běh",
-        "idle": "Líný",
+        "idle": "Nečinné",
         "active": "Aktivní",
         "stopped": "Zastaveno",
         "inProgress": "Probíhá",
@@ -4741,7 +4741,7 @@
         "missing": "Chybějící"
       },
       "dependencies": {
-        "rpiCamStill": "rpicam-stále",
+        "rpiCamStill": "rpicam-still",
         "ffmpeg": "ffmpeg",
         "keogram": "AllSky keogram",
         "startrails": "Startrails AllSky"
@@ -4766,7 +4766,7 @@
       "modals": {
         "closeDialog": "Zavřít dialogové okno {title}",
         "automationInfo": "Je-li povoleno, AllSky zahájí relaci snímání, jakmile rozhraní PINS Advanced API ohlásí aktivní sekvenci, poté zastaví snímání a automaticky vykreslí produkty, když sekvence skončí.",
-        "cameraRotationInfo": "rotace rpicamu je omezena na 0 nebo 180 stupňů.",
+        "cameraRotationInfo": "Rotace rpicam-still je omezena na 0 nebo 180 stupňů.",
         "startrailMountInfo": "Na rovníkové montáži může kamera sledovat oblohu, takže výstup startrail může být stále generován, ale nemusí vykazovat efekt klasické kruhové stopy.",
         "automation": {
           "autoStartWithSequence": "Auto-start se sekvencí",
@@ -4774,10 +4774,10 @@
           "advancedApiEnabled": "Pokročilé API povoleno",
           "backendMonitoring": "Backend monitoring",
           "protocol": "Protokol",
-          "sequencePollIntervalSeconds": "Interval průzkumu sekvence (y)",
-          "sequencePollIntervalHelp": "Pouze stav sekvence dotazů. Nemění kadenci snímku kamery.",
+          "sequencePollIntervalSeconds": "Interval dotazování sekvence (s)",
+          "sequencePollIntervalHelp": "Dotazuje se pouze na stav sekvence. Nemění kadenci snímků kamery.",
           "advancedApiHost": "Pokročilý hostitel API",
-          "port": "Přístav",
+          "port": "Port",
           "timeoutSeconds": "Časový limit (s)",
           "advancedApiBasePath": "Pokročilá základní cesta API",
           "maxPluginStorageGb": "Maximální úložiště pluginu (GB)",
@@ -4791,7 +4791,7 @@
           "maxPluginStorageTooltip": "Maximální úložné PINy, které může AllSky použít ve svém adresáři s daty zásuvných modulů. Nastavte na 0 bez omezení. Když je limit překročen, backend ořízne nejstarší dokončené relace."
         },
         "camera": {
-          "intervalSeconds": "Interval (y)",
+          "intervalSeconds": "Interval (s)",
           "timeoutSeconds": "Časový limit (s)",
           "width": "Šířka",
           "height": "Výška",
@@ -4799,7 +4799,7 @@
           "warmupMilliseconds": "Zahřívání (ms)",
           "metering": "Měření",
           "awb": "AWB",
-          "denoise": "Odhlučnit",
+          "denoise": "Redukce šumu",
           "evCompensation": "EV kompenzace",
           "rotation": "Otáčení",
           "brightness": "Jas",
@@ -4816,16 +4816,16 @@
           "mirrorOnXAxis": "Zrcadlo na ose X",
           "verticalFlip": "Vertikální překlopení",
           "mirrorOnYAxis": "Zrcadlo na ose Y",
-          "extraArguments": "Extra rpicam-stále Argumenty",
+          "extraArguments": "Extra argumenty rpicam-still",
           "intervalTooltip": "Čas mezi zachycením začíná v sekundách. Toto je skutečná kadence snímků AllSky.",
-          "timeoutTooltip": "Maximální čas povolený pro jedno zachycení statického obrazu rpicam, než bude považováno za neúspěšné.",
+          "timeoutTooltip": "Maximální čas povolený pro jedno snímání rpicam-still, než bude považováno za neúspěšné.",
           "widthTooltip": "Výstupní šířka obrazu v pixelech pro každý zachycený snímek.",
           "heightTooltip": "Výstupní výška obrazu v pixelech pro každý zachycený snímek.",
           "jpegQualityTooltip": "Kvalita JPEG použitá pro zachycené snímky. Vyšší hodnoty zachovávají více detailů při větší velikosti souborů.",
-          "warmupTooltip": "Před zapsáním každého snímku uplynula doba zahřívání rpicamu.",
+          "warmupTooltip": "Doba zahřívání předaná rpicam-still před zapsáním každého snímku.",
           "meteringTooltip": "Strategie měření expozice používaná rpicam-still.",
           "awbTooltip": "Režim automatického vyvážení bílé používaný rpicam-still.",
-          "denoiseTooltip": "Režim redukce šumu používaný rpicam-static pro každý zachycený snímek.",
+          "denoiseTooltip": "Režim redukce šumu používaný rpicam-still pro každý zachycený snímek.",
           "evCompensationTooltip": "Kompenzace hodnoty expozice použitá nad vybraným expozičním režimem.",
           "rotationTooltip": "Otočení obrázku ve stupních. Kamera Pi zde podporuje pouze 0 nebo 180.",
           "brightnessTooltip": "Úprava jasu použitá rpicam-still.",
@@ -4837,14 +4837,14 @@
           "extraArgumentsTooltip": "Po nastavení spravované kamery byly přidány další nezpracované argumenty rpicam-still.",
           "options": {
             "centre": "Centrum",
-            "spot": "Místo",
+            "spot": "Bodové",
             "average": "Průměrný",
-            "custom": "Zvyk",
+            "custom": "Vlastní",
             "auto": "Auto",
             "incandescent": "Žárovka",
             "tungsten": "Wolfram",
             "fluorescent": "Fluorescenční",
-            "indoor": "Krytý",
+            "indoor": "Interiér",
             "daylight": "Denní světlo",
             "cloudy": "Zataženo",
             "off": "Vypnuto",
@@ -4894,7 +4894,7 @@
           "fontSize": "Velikost písma",
           "lineThickness": "Tloušťka čáry",
           "extraKeogramArguments": "Argumenty navíc keogram",
-          "startrails": "Starttrails",
+          "startrails": "Startrails",
           "brightnessThreshold": "Práh jasu",
           "extraStartrailsArguments": "Extra startrails Argumenty",
           "fpsTooltip": "Snímková frekvence přehrávání použitá při sestavování časosběrného videa.",
@@ -4923,19 +4923,19 @@
       },
       "recentSessions": {
         "noSessions": "Dosud nebyly zaznamenány žádné dokončené relace.",
-        "expanded": "Rozšířený",
-        "collapsed": "Zhroucený",
+        "expanded": "Rozbaleno",
+        "collapsed": "Sbaleno",
         "storageWithinLimit": "Skladování v limitu.",
         "storageLimitExceeded": "Překročen limit úložiště.",
         "pluginAvailable": "Plugin k dispozici:",
         "piAvailable": "Pi k dispozici:",
         "started": "Zahájeno {date}",
         "stopped": "Zastaveno {date}",
-        "framesReason": "Rámce: {count} • Důvod: {reason}",
+        "framesReason": "Snímky: {count} • Důvod: {reason}",
         "storage": "Úložiště: {size}",
         "timelapse": "Timelapse",
         "keogram": "Keogram",
-        "startrails": "Starttrails",
+        "startrails": "Startrails",
         "retainedFrames": "{count} zachované snímky",
         "loadingStoredFiles": "Načítání uložených souborů…",
         "noStoredFrames": "Pro tuto relaci nejsou k dispozici žádné uložené snímky.",
@@ -4957,8 +4957,8 @@
         "noSessionsDeleted": "Nebyly smazány žádné relace.",
         "deletedSessions": "Smazáno {count} session{suffix}, uvolněno {freed}, zbývající využití pluginu {remaining}.",
         "deletedArtifact": "Smazán artefakt a uvolněn {freed}.",
-        "deletedFrame": "Smazán rám a uvolněno {freed}.",
-        "backendUpdateStarted": "Aktualizace backendu byla zahájena. Po dokončení instalace se kódy PIN restartují."
+        "deletedFrame": "Smazán snímek a uvolněno {freed}.",
+        "backendUpdateStarted": "Aktualizace backendu byla zahájena. Po dokončení instalace se PINS restartuje."
       },
       "errors": {
         "loadStatus": "Stav backendu nelze načíst.",
@@ -5010,7 +5010,7 @@
       "intervalMin": "Minimum: 1 second",
       "loadingImage": "Loading image…",
       "noCameras": "No cameras configured",
-      "noCamerasHint": "Click '  Camera' in the tab bar.",
+      "noCamerasHint": "Klikněte na „+ Kamera“ v liště karet.",
       "noUrlConfigured": "Please configure a snapshot URL in the settings.",
       "refreshInterval": "Refresh Interval",
       "refreshNow": "Refresh now",
@@ -5072,8 +5072,8 @@
         "addExposure": "Add exposure",
         "binning": "Binning",
         "count": "Count",
-        "decLabel": "DEC (deg or  /-DD:MM:SS)",
-        "decPlaceholder": "41:16:07",
+        "decLabel": "DEC (stupně nebo +/-DD:MM:SS)",
+        "decPlaceholder": "+41:16:07",
         "duration": "Duration",
         "editTarget": "Edit target",
         "exposurePlan": "Exposure plan",
@@ -5172,7 +5172,7 @@
         "title": "Unscheduled remainder"
       },
       "warnings": {
-        "sequenceVersionRequired": "Sequence insertion requires TNS plugin 1.2.8.0  (or PINS mode)."
+        "sequenceVersionRequired": "Vkládání sekvence vyžaduje plugin TNS 1.2.8.0+ (nebo režim PINS)."
       },
       "sessionModes": {
         "moonRise": "Moon rise",
@@ -6098,7 +6098,7 @@
   "indi": {
     "config": {
       "connectionMode": "Režim připojení",
-      "serial": "Seriál",
+      "serial": "Sériový",
       "network": "Síť",
       "devicePort": "Port zařízení",
       "baudRate": "Přenosová rychlost",
@@ -6117,14 +6117,14 @@
     "autofocus": "Zaostř.",
     "mount": "Montáž",
     "dome": "Kopule",
-    "flatDevice": "Byt",
+    "flatDevice": "Flat",
     "switch": "Přepínač",
     "filterWheel": "Filtr",
     "rotator": "Rotat.",
-    "guider": "Průvodce",
+    "guider": "Guider",
     "sequence": "Sekv.",
     "monitoring": "Monitor",
-    "flatWizard": "Byty",
+    "flatWizard": "Flaty",
     "framing": "Framing",
     "skyView": "Celestia Atlas",
     "settings": "Nastav.",

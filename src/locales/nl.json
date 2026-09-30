@@ -8,7 +8,7 @@
     "edit": "Bewerken",
     "delete": "Verwijderen",
     "enabled": "Ingeschakeld",
-    "disabled": "Gehandicapt",
+    "disabled": "Uitgeschakeld",
     "enable": "Inschakelen",
     "disable": "Uitzetten",
     "loading": "Laden...",
@@ -28,7 +28,7 @@
     "delete": "Verwijder",
     "edit": "Bewerking",
     "close": "Sluiten",
-    "save": "Redden"
+    "save": "Opslaan"
   },
   "pages": {
     "equipment": {
@@ -90,17 +90,17 @@
     "check_wki": "Gedetailleerde instructies vind je in de wiki",
     "coordAlt": "Alt",
     "coordLat": "Lat",
-    "coordLon": "Lang",
+    "coordLon": "Lengte",
     "coordUnit": "M",
     "coordsNotSupported": "Niet ondersteund door stuurprogramma",
-    "currentMountCoords": "Locatie monteren",
+    "currentMountCoords": "Locatie montering",
     "currentNinaCoords": "Profiel Locatie",
     "loadingCoords": "Laden…",
     "mountNotConnected": "Mount niet aangesloten",
     "syncDirection": "Locatiesynchronisatierichting",
     "syncDirectionNosync": "Geen synchronisatie",
-    "syncDirectionToApplication": "Synchroniseer van koppeling naar profiel",
-    "syncDirectionToTelescope": "Synchroniseer van profiel naar koppeling"
+    "syncDirectionToApplication": "Synchroniseer van montering naar profiel",
+    "syncDirectionToTelescope": "Synchroniseer van profiel naar montering"
   },
   "components": {
     "instanceDetection": {
@@ -114,7 +114,7 @@
       "instanceNamePlaceholder": "Mijn Installatie",
       "ipLabel": "IP-adres/FQDN",
       "ipPlaceholder": "192.168.xx",
-      "portLabel": "Haven",
+      "portLabel": "Poort",
       "portPlaceholder": "5000",
       "modalTitle": "Gevonden Installaties",
       "modalSubtitle": "Selecteer een Touch-N-Stars instantie uit de lijst.",
@@ -459,7 +459,7 @@
       "add": "toevoegen",
       "coordinates": "GPS Coordinaten",
       "save": "Opslaan",
-      "infoSetLocationSync": "Stel eerst de monteringslocatie in",
+      "infoSetLocationSync": "Stel eerst locatiesynchronisatie naar montering in",
       "connection": "Connectie instellingen",
       "language": "Taal",
       "image": {
@@ -499,15 +499,15 @@
           "dateTime": "Datum / Tijd",
           "image": "Afbeelding",
           "camera": "Camera",
-          "guiding": "Begeleiden",
+          "guiding": "Guiding",
           "equipment": "Apparatuur",
           "other": "Overig"
         },
         "advancedSettings": "Geavanceerde instellingen",
-        "darks": "Donker",
-        "flats": "Platte schoenen",
-        "bias": "Vooroordeel",
-        "useLightPattern": "Hetzelfde als Lichten"
+        "darks": "Darks",
+        "flats": "Flats",
+        "bias": "Bias",
+        "useLightPattern": "Hetzelfde als Lights"
       },
       "debug": {
         "title": "Foutopsporing",
@@ -588,9 +588,9 @@
         "title": "Plaatoplosser",
         "basic": "Basisinstellingen",
         "search": "Zoekinstellingen",
-        "retry": "Probeer de instellingen opnieuw",
-        "ExposureTime": "Belichtingstijd(en)",
-        "Gain": "Verdienen",
+        "retry": "Instellingen voor opnieuw proberen",
+        "ExposureTime": "Belichtingstijd (s)",
+        "Gain": "Gain",
         "SearchRadius": "Zoekradius (°)",
         "Threshold": "Wijstolerantie (boogminuten)",
         "RotationTolerance": "Rotatietolerantie (°)",
@@ -632,7 +632,7 @@
         "astapDatabaseStartFailed": "Kan de installatie niet starten: {detail}",
         "astapDatabaseStartInstall": "Installatie starten voor {databaseId}...",
         "astapDatabaseStarting": "Beginnen...",
-        "astapDatabaseStatusCheckFailedRetrying": "Statuscontrole mislukt: {detail}. \nOpnieuw proberen...",
+        "astapDatabaseStatusCheckFailedRetrying": "Statuscontrole mislukt: {detail}. Opnieuw proberen...",
         "astapDatabaseTitle": "ASTAP Star-database (PINS)",
         "astapDatabaseUnauthorizedStart": "Ongeautoriseerd tijdens het starten van de installatie van de ASTAP-sterrendatabase.",
         "astapDatabaseUnauthorizedStatus": "Ongeautoriseerd tijdens het controleren van de installatiestatus.",
@@ -656,7 +656,7 @@
         "focal_ratio": "Brandpuntsverhouding"
       },
       "mount": {
-        "titel": "Instellingen monteren",
+        "titel": "Montering instellingen",
         "max_slew_rate": "Maximale zwenksnelheid (°/s)"
       },
       "coordsMismatchWarning": "Profiel- en montagecoördinaten verschillen.",
@@ -665,11 +665,11 @@
         "mountNotConnected": "Mount niet aangesloten",
         "mountTime": "Montagetijd",
         "notSupported": "Niet ondersteund door stuurprogramma",
-        "syncLabel": "Synchroniseer de tijd om te mounten",
+        "syncLabel": "Tijd synchroniseren met montering",
         "syncLabelInfo": "Indien ingeschakeld wordt bij het klikken op \"Nu synchroniseren\" de montuur kort verbroken en opnieuw verbonden zodat NINA de huidige tijd kan overdragen.",
         "title": "Tijdsynchronisatie",
         "loadError": "Kan tijdinformatie niet laden.",
-        "syncError": "Tijdsynchronisatie mislukt. \nControleer de verbinding met het PINS-apparaat.",
+        "syncError": "Tijdsynchronisatie mislukt. Controleer de verbinding met het PINS-apparaat.",
         "syncSuccess": "Tijd succesvol gesynchroniseerd."
       },
       "navbarCustomization": {
@@ -695,7 +695,7 @@
         "newFolder": "Nieuwe map",
         "noSubfolders": "Geen submappen beschikbaar",
         "placeholder": "Geen pad geselecteerd",
-        "save": "Redden",
+        "save": "Opslaan",
         "savedMsg": "Pad opgeslagen:",
         "saving": "...",
         "selectTitle": "Selecteer opslaglocatie",
@@ -772,19 +772,19 @@
         "name": "Rotator"
       },
       "guider": {
-        "name": "Gids",
+        "name": "Guider",
         "mountRequired": "De montage moet verbonden zijn voordat de guider verbonden kan worden.",
         "guideCamRequired": "Er moet een geldige guidecamera geselecteerd zijn."
       },
       "guiderCam": {
-        "name": "Gidscamera",
+        "name": "Guidecamera",
         "manualVnc": "Handmatig via VNC"
       },
       "safety": {
         "name": "Veiligheidsmonitor"
       },
       "flat": {
-        "name": "Plat apparaat"
+        "name": "Flatdevice"
       },
       "dome": {
         "name": "Koepel"
@@ -880,7 +880,7 @@
       "pauseSequence": "Pauze",
       "resetSequence": "Reset sequentie",
       "skipToEnd": "Doorgaan naar einde",
-      "skipCurrentItem": "Huidige item",
+      "skipCurrentItem": "Huidig item overslaan",
       "manageSequences": "Sequenties laden / opslaan",
       "saveSequenceAs": "Huidige sequentie opslaan als",
       "sequenceFileName": "Bestandsnaam",
@@ -923,7 +923,7 @@
       },
       "details": {},
       "hfr": "HFR",
-      "mean": "Gemeen",
+      "mean": "Gemiddelde",
       "median": "Mediaan",
       "stDev": "St. Dev.",
       "rmsText": "RMS",
@@ -1006,10 +1006,10 @@
         "on": "Aan",
         "off": "Uit",
         "takeExposure": {
-          "exposureTime": "Belichtingstijd(en)",
+          "exposureTime": "Belichtingstijd (s)",
           "gain": "Versterking",
           "offset": "Offset",
-          "binning": "opslaan in flessenrekken",
+          "binning": "Binning",
           "imageType": "Afbeeldingstype"
         },
         "takeManyExposures": {
@@ -1019,7 +1019,7 @@
           "ditherAfter": "Dither na (opnamen)"
         },
         "takeSubframeExposure": {
-          "roiPct": "Rendement van investeringen (%)"
+          "roiPct": "ROI (%)"
         },
         "switchFilter": {
           "filter": "Filter",
@@ -1039,14 +1039,14 @@
           "device": "Toestel"
         },
         "autofocus": {
-          "afterExposures": "Na blootstelling",
-          "afterExposuresCount": "risico's",
+          "afterExposures": "Na belichtingen",
+          "afterExposuresCount": "Belichtingen",
           "everyN": "Elke {n}",
           "hfrIncrease": "HFR-verhoging (%)",
           "sampleSize": "Monsteromvang",
           "samples": "{n} Monsters",
           "trendPerFilter": "Trend per filter",
-          "deltaT": "Temperatuur wijzigen.",
+          "deltaT": "Temperatuurverandering (°)",
           "minutes": "Minuten"
         },
         "centerAfterDrift": {
@@ -1056,7 +1056,7 @@
           "minutesAfter": "Minuten na meridiaan",
           "maxMinutesAfter": "Max minuten na meridiaan",
           "pauseBefore": "Pauzeren voor meridiaan (min)",
-          "useSideOfPier": "Gebruikskant van de pier"
+          "useSideOfPier": "Pierzijde gebruiken"
         },
         "altitudeCondition": {
           "altitude": "Hoogte",
@@ -1082,7 +1082,7 @@
           "altitude": "Maanhoogte (°)"
         },
         "dither": {
-          "afterExposures": "Na blootstelling"
+          "afterExposures": "Na belichtingen"
         },
         "center": {
           "ra": "RA",
@@ -1103,15 +1103,15 @@
           "brightness": "Helderheid"
         },
         "autoExposureFlat": {
-          "minExposure": "Min. blootstelling (en)",
-          "maxExposure": "Max. Blootstelling (en)"
+          "minExposure": "Min. belichting (s)",
+          "maxExposure": "Max. belichting (s)"
         },
         "autoBrightnessFlat": {
           "minBrightness": "Min. helderheid",
           "maxBrightness": "Max Helderheid",
           "histogramTarget": "Histogramdoel (%)",
           "histogramTolerance": "Histogramtolerantie (%)",
-          "iterations": "Rekenen",
+          "iterations": "Aantal",
           "keepPanelClosed": "Paneel gesloten houden"
         },
         "polarAlignment": {
@@ -1119,7 +1119,7 @@
           "alignmentTolerance": "Uitlijntolerantie (arcsec)",
           "moveRate": "Verplaatsingssnelheid (°/s)",
           "targetDistance": "Afstand doel",
-          "eastDirection": "Rijrichting OOST:",
+          "eastDirection": "Richting oost",
           "manualMode": "Handmatige modus",
           "startFromCurrentPosition": "Start vanaf huidige positie",
           "manual": "Manual"
@@ -1127,7 +1127,7 @@
         "skyFlat": {
           "shouldDither": "Ditheren",
           "ditherPixels": "Dither-pixels",
-          "ditherSettleTime": "Dither Settle-tijd(en)"
+          "ditherSettleTime": "Dither-settletijd (s)"
         },
         "moveRotatorMechanical": {
           "mechanicalPosition": "Mechanische positie (°)"
@@ -1221,7 +1221,7 @@
           "mode": "Modus",
           "modeRMS": "RMS",
           "modePeak": "Piek",
-          "minimumPoints": "Minimum te"
+          "minimumPoints": "Minimum aantal punten"
         },
         "interruptAndRetryWhenRMSAbove": {
           "rmsThreshold": "RMS-drempel (\")",
@@ -1235,16 +1235,16 @@
         },
         "changePHD2Parameters": {
           "parameter": "Parameter",
-          "exposureTime": "Belichtingstijd(en)",
+          "exposureTime": "Belichtingstijd (s)",
           "ditherPixels": "Ditheren (px)",
           "ditherRAOnly": "Alleen Dither RA",
-          "settlePixels": "Afrekenen (px)",
+          "settlePixels": "Settle (px)",
           "settleTime": "Afwikkeltijd (s)",
-          "settleTimeout": "Time-out (s) afrekenen",
-          "roiPct": "Rendement van investeringen (%)"
+          "settleTimeout": "Settle-time-out (s)",
+          "roiPct": "ROI (%)"
         },
         "dso": {
-          "targetName": "Projectnaam:",
+          "targetName": "Doelnaam",
           "positionAngle": "Positiehoek",
           "loadFromFavorites": "Laden uit favorieten",
           "loadIntoFraming": "Laden in Framing-assistent"
@@ -1290,12 +1290,12 @@
           "forceCalibrationLabel": "Kalibratie forceren"
         },
         "slewToGuiderCalibrationPosition": {
-          "clearBacklash": "Duidelijke DEC-reactie",
+          "clearBacklash": "DEC-backlash wissen",
           "dec": "dec",
           "haOffset": "HA-compensatie",
           "side": "Wijzende kant",
           "sideEast": "Oosten",
-          "sideStay": "Verblijf",
+          "sideStay": "Blijven",
           "sideWest": "Westen"
         }
       },
@@ -1307,7 +1307,7 @@
         "allTargets": "Alle doelen",
         "reset": "Filter opnieuw instellen"
       },
-      "gain": "Verdienen",
+      "gain": "Gain",
       "offset": "Offset",
       "move": "Verplaatsen",
       "more": "Meer",
@@ -1318,12 +1318,12 @@
       "delete": "Verwijderen",
       "runningLocked": "Dit item wordt uitgevoerd en kan niet worden gewijzigd",
       "controlsLockedMessage": "De reeksbedieningen zijn vergrendeld terwijl de reeks wordt uitgevoerd.",
-      "lockControls": "Slot",
+      "lockControls": "Vergrendelen",
       "unlockControls": "Ontgrendelen"
     },
     "mount": {
       "title": "Montering",
-      "slew": "Dood",
+      "slew": "Slew",
       "location_sync": {
         "title": "Locatie sync instellingen",
         "confirmationMessage": "Als 'Locatie Sync' in NINA is ingesteld op 'Prompt', dan kan een bevestigingsscherm worden getoond voordat de coordinaten naar de telescoop worden gestuurd. Om dit te voorkomen moet u TNS toestaan om automatisch de coordinaten in te stellen, we adviseren om de instellingen te wijzigen naar 'Sync naar Telescoop'",
@@ -1340,7 +1340,7 @@
       "control": {
         "park": "Park",
         "unpark": "Uitparkeren",
-        "home": "Thuis",
+        "home": "Home",
         "set_as_park": "Stel in als park",
         "trackingMode": "Volgmodus",
         "manuellControl": "Manuele controle",
@@ -1354,8 +1354,8 @@
         "setLocationSyncToMount": "Stel in \"Sync naar Telescoop\"",
         "slewRateINDI": "Bewegingssnelheid",
         "reverse_axis": "Asrichting",
-        "slewRateDriverControlled": "De zwenksnelheid wordt geregeld door de bestuurder",
-        "slewRateUnavailable": "Sluit een steun aan om de zwenksnelheid aan te passen",
+        "slewRateDriverControlled": "De slew-snelheid wordt geregeld door het stuurprogramma",
+        "slewRateUnavailable": "Sluit een montering aan om de slew-snelheid aan te passen",
         "parkedNotice": "Montering is geparkeerd — uitparkeren om de volgmodus te wijzigen",
         "parkedShort": "Montering is geparkeerd",
         "parkedHint": "Parkeer de montering uit om handmatig te bewegen",
@@ -1379,7 +1379,7 @@
       },
       "settings": {
         "meridian_flip_settings": "Meridiaan Flip",
-        "telescope_settle_time": "Settle tijd na slew(s)",
+        "telescope_settle_time": "Settletijd na slew (s)",
         "meridian_flip": {
           "basic": "Basisinstellingen",
           "behavior": "Gedrag",
@@ -1387,7 +1387,7 @@
           "MinutesAfterMeridian": "Minuten na de meridiaan",
           "MaxMinutesAfterMeridian": "Max minuten na meridiaan",
           "PauseTimeBeforeMeridian": "Pauzeer de tijd vóór de meridiaan",
-          "SettleTime": "Afrekeningstijd(en)",
+          "SettleTime": "Settletijd (s)",
           "Recenter": "Recenter",
           "UseSideOfPier": "Gebruik de kant van de pier",
           "AutoFocusAfterFlip": "Autofocus na omdraaien",
@@ -1406,7 +1406,7 @@
       "startWithCal": "Start met calibratie",
       "stop": "Stop",
       "rms_error": "RMS Fout",
-      "title": "Gids",
+      "title": "Guider",
       "running": "IN WERKING",
       "statusLabel": "Status",
       "settings": "Guider Instellingen",
@@ -1426,8 +1426,8 @@
       "roiPercentage": "ROI percentage voor zoeken Guide Ster (%)",
       "status": {
         "looping": "Looping",
-        "lostLock": "Fix verloren",
-        "guiding": "Begeleiden",
+        "lostLock": "Lock verloren",
+        "guiding": "Guiding",
         "stopped": "Gestopt",
         "calibrating": "Calibreren",
         "unknown": "Onbekend"
@@ -1448,7 +1448,7 @@
         "slewing": "Beweeg naar doel...",
         "slewComplete": "Slew compleet",
         "slewError": "Fout tijdens slew",
-        "stopSlew": "Stop met doden",
+        "stopSlew": "Slew stoppen",
         "slewStopped": "Slew gestopt",
         "calibrating": "Calibreren actief...",
         "calibrationComplete": "Calibratie afgerond",
@@ -1558,7 +1558,7 @@
           "orthogonalityError": "Orthogonaliteitsfout:",
           "raParity": "RA-pariteit:",
           "raRate": "RA-snelheid:",
-          "rightAscension": "Rechte Hemelvaart",
+          "rightAscension": "Rechte klimming",
           "title": "Controleer kalibratie"
         },
         "darkLibrary": {
@@ -1718,8 +1718,8 @@
         "AutoFocusInnerCropRatio": "Binnenste crop ratio",
         "AutoFocusOuterCropRatio": "Buitenste crop ratio",
         "AutoFocusUseBrightestStars": "Gebruik helderste sterren",
-        "BacklashIn": "Tegenslag binnen",
-        "BacklashOut": "Terugslag uit",
+        "BacklashIn": "Backlash in",
+        "BacklashOut": "Backlash uit",
         "AutoFocusBinning": "Autofocus-binning",
         "AutoFocusTimeoutSeconds": "Autofocus timeout (seconden)",
         "RSquaredThreshold": "R-Squared drempelwaarde",
@@ -1736,8 +1736,8 @@
         "title": "Instellingen",
         "general": "Algemene instellingen",
         "autofocus": "Autofocus-instellingen",
-        "crop_and_stars": "Crop",
-        "backlash": "Verzet",
+        "crop_and_stars": "Crop & sterren",
+        "backlash": "Backlash",
         "advanced": "Geavanceerd",
         "Reverse": "Omkeren",
         "UseFilterWheelOffsets": "Filterwiel offsets gebruiken",
@@ -1747,7 +1747,7 @@
         "AutoFocusExposureTime": "Standaard belichtingstijd",
         "BeepOnMove": "Piep bij beweging",
         "BeepOnStartup": "Pieptoon bij opstarten",
-        "ClearStall": "Duidelijke stal",
+        "ClearStall": "Stall wissen",
         "FocuserAlias": "Focuseralias",
         "Heating": "Verwarming",
         "HeatingTemperature": "Verwarmingstemperatuur",
@@ -1761,7 +1761,7 @@
       "indi": {
         "settings": "Focuser-instellingen"
       },
-      "BoardTemperature": "Raadstemperatuur:",
+      "BoardTemperature": "Printplaattemperatuur:",
       "DcPower": "Gelijkstroomvoeding",
       "HeatingPower": "Verwarmingsvermogen:",
       "IsStalled": "Vastgelopen",
@@ -1809,7 +1809,7 @@
       "slewing_stopped": "Slewing gestopt",
       "following": "Volgen",
       "following_stopped": "Volgen gestopt",
-      "at_home": "Thuis",
+      "at_home": "Home",
       "not_at_home": "Niet op home",
       "park": "Park",
       "unpark": "Uitparkeren",
@@ -1829,12 +1829,12 @@
           "home": "Fout home",
           "follow": "Fout bij volgen Telescoop"
         },
-        "slew": "Dood",
+        "slew": "Slew",
         "slew_label": "Slew naar graden",
         "follow": "Dome volgt telescoop",
         "sync": "Sync met telescoop",
         "park": "Park",
-        "home": "Thuis"
+        "home": "Home"
       },
       "please_connect_dome": "Maak verbinding met dome",
       "is_sync": "Synchroniseren",
@@ -1848,10 +1848,10 @@
       "settings": "Instellingen",
       "capture_running": "Camera actief",
       "exposure_time": "Belichting tijd (s):",
-      "gain_iso": "Winst / ISO:",
+      "gain_iso": "Gain / ISO:",
       "gainDefault": "Camerastandaard",
       "name": "Camera naam",
-      "gain": "Verdienen",
+      "gain": "Gain",
       "offset": "Offset",
       "temperature": "Temperatuur (°C)",
       "standby": "Stand-by",
@@ -1889,7 +1889,7 @@
       "set_use_solve_sync_to_mount": "Sync naar Montering",
       "readout_mode_image": "Uitleesmodus Sequentie",
       "readout_mode_snap": "Uitleesmodus Momentopname",
-      "BinAverageEnabled": "Bij het weggooien worden de pixels gemiddeld",
+      "BinAverageEnabled": "Binning middelt pixels",
       "FanSpeed": "Ventilatorsnelheid",
       "HighFullwellMode": "Hoge Fullwell-modus",
       "LEDLights": "LED",
@@ -1932,14 +1932,14 @@
         "camera_settings": "Camera Instellingen",
         "camera_settings_hint": "Laat leeg voor NINA standaard waardes",
         "exposure_time": "Belichtingstijd (s)",
-        "gain": "Verdienen",
+        "gain": "Gain",
         "filter": "Filter",
         "filter_default": "Standaard",
         "nina_default": "NINA standaard",
         "ManualMode": "Manuele mode"
       },
       "pins_settings": {
-        "title": "PINNEN TPPA-instellingen",
+        "title": "PINS TPPA-instellingen",
         "movement": "Beweging",
         "offsets": "Compensaties",
         "behavior": "Gedrag",
@@ -1975,11 +1975,11 @@
       "tppa": "TPPA",
       "warn_dec_spread_body": "De gerapporteerde declinatie van de montering is tussen metingen met {arcsec}\" veranderd. Dit kan de nauwkeurigheid van de polaire uitlijning beïnvloeden - zorg ervoor dat alleen de RA-as beweegt tijdens de meting.",
       "warn_dec_spread_title": "Declinatiespreiding gedetecteerd",
-      "warn_east_west_body": "Het huidige veld bevindt zich binnen 5° van het exacte oosten of westen. \nAls de live-oplossing onstabiel is, zwenk dan naar een veld verder van Oost/West en voer het spel opnieuw uit.",
+      "warn_east_west_body": "Het huidige veld bevindt zich binnen 5° van het exacte oosten of westen. Als de live-oplossing onstabiel is, zwenk dan naar een veld verder van Oost/West en voer het spel opnieuw uit.",
       "warn_east_west_title": "Correctieveld binnen {deg}° van Oost/West",
-      "warn_huge_body": "Ofwel de steun is ver verwijderd van de uitlijning, ofwel de berekening kon het resultaat niet bepalen. \nControleer de locatie van de locatie, bevestig dat de houder ruwweg naar de paal wijst en dat alleen de RA-as tussen de drie meetpunten is verplaatst.",
+      "warn_huge_body": "Ofwel de steun is ver verwijderd van de uitlijning, ofwel de berekening kon het resultaat niet bepalen. Controleer de locatie van de locatie, bevestig dat de houder ruwweg naar de paal wijst en dat alleen de RA-as tussen de drie meetpunten is verplaatst.",
       "warn_huge_title": "De berekende fout is enorm",
-      "warn_large_body": "De correctiefase zal minder betrouwbaar zijn. \nBreng de houder dichter bij de polaire uitlijning en voer TPPA opnieuw uit om dit te verifiëren.",
+      "warn_large_body": "De correctiefase zal minder betrouwbaar zijn. Breng de houder dichter bij de polaire uitlijning en voer TPPA opnieuw uit om dit te verifiëren.",
       "warn_large_title": "De initiële polaire uitlijningsfout is groot"
     },
     "slewAndCenter": {
@@ -1989,13 +1989,13 @@
       "dec": "Dec:",
       "ra_placeholder": "RA 03:47:28.2",
       "dec_placeholder": "Dec +24:06:19",
-      "slew": "Dood",
+      "slew": "Slew",
       "slew_and_center": "Slew en Centreer",
       "errors": {
         "invalidRAInput": "Ongeldige RA input.",
         "invalidDECInput": "Ongeldige DEC input.",
         "apiResponseError": "Fout in API antwoord:",
-        "mountInfoError": "Fout bij ophalen Monteringspositie:",
+        "mountInfoError": "Fout bij ophalen monteringsinformatie:",
         "invalidAltInput": "Ongeldige alt input.",
         "invalidAzInput": "Ongeldige az input."
       },
@@ -2037,9 +2037,9 @@
         "settings": "Filterwielinstellingen"
       },
       "Unidirectional": "Unidirectioneel filterwiel",
-      "BoardTemperature": "Bordtemperatuur",
-      "Counter": "Balie",
-      "State": "Staat"
+      "BoardTemperature": "Printplaattemperatuur",
+      "Counter": "Teller",
+      "State": "Status"
     },
     "RemoveFilter": {
       "confirmTitle": "Filter verwijderen",
@@ -2063,7 +2063,7 @@
         "QUARTER": "Kwart (90°)",
         "HALF": "Half (180°)",
         "FULL": "Volledig (360°)",
-        "RangeType": "Bereiktype",
+        "RangeType": "Mechanisch bereik",
         "RangeStartMechanicalPosition": "Mechanische startpositie (°)",
         "Overshoot": "Overschrijding",
         "OvershootDirection": "Overschrijdingsrichting",
@@ -2095,20 +2095,20 @@
         "closedPosition": "Gesloten positie (°)",
         "currentPosition": "Huidige positie",
         "trainedSettings": {
-          "title": "Getrainde vlakke belichtingsinstellingen",
+          "title": "Getrainde flat-belichtingsinstellingen",
           "filter": "Filter",
           "noFilter": "Geen filter",
           "binning": "Binning",
-          "gain": "Verdienen",
+          "gain": "Gain",
           "offset": "Offset",
           "brightness": "Helderheid",
-          "time": "Tijd(en)",
+          "time": "Tijd (s)",
           "confirmTitle": "Instelling verwijderen",
-          "confirmMessage": "Weet u zeker dat u deze instelling voor getrainde vlakke belichting wilt verwijderen?"
+          "confirmMessage": "Weet u zeker dat u deze instelling voor getrainde flat-belichting wilt verwijderen?"
         }
       },
       "indi": {
-        "settings": "Platte apparaatinstellingen"
+        "settings": "Flatdevice-instellingen"
       }
     },
     "flatassistant": {
@@ -2132,11 +2132,11 @@
       "stop": "Stop",
       "auto_exposure": "Auto belichting",
       "auto_brightness": "Auto helderheid",
-      "skyflat": "Hemelvlak",
+      "skyflat": "Skyflat",
       "button_slew_to_zenith": "Slew naar zenith",
       "keep_closed": "Houd het flatpanel gesloten",
       "status_adu_live": "Laatst gemeten ADU: {adu}",
-      "status_failed": "Geen flats vastgelegd - kon geen geldige blootstelling bepalen",
+      "status_failed": "mislukt",
       "status_running": "Actief",
       "status_stopped": "Gestopt",
       "status_success": "Voltooid",
@@ -2145,27 +2145,27 @@
       "multi_mode_no_filters": "Geen filterwiel aangesloten",
       "single_mode": "Enkele modus",
       "start_multi_mode": "Start Multi-modus",
-      "status_filter_progress": "Filteren: {completed} / {total}",
+      "status_filter_progress": "Filter: {completed} / {total}",
       "cover_scope_confirm": "OK",
-      "cover_scope_message": "Bedek nu uw bereik en druk op OK om te beginnen met het nemen van de duisternis.",
-      "cover_scope_title": "Bestrijk nu uw bereik",
+      "cover_scope_message": "Dek nu uw telescoop af en druk op OK om te beginnen met het maken van de darks.",
+      "cover_scope_title": "Dek nu uw telescoop af",
       "darks_to_take": "Darkflats om te maken",
       "operation_failed": "Operatie mislukt",
       "status_failed_darks": "Geen donkere beelden vastgelegd - kon geen geldige belichting bepalen",
-      "status_failed_flats": "Geen flats vastgelegd - kon geen geldige blootstelling bepalen",
-      "status_running_darks": "Hardlopen: {completed} / {total} donker",
-      "status_running_flats": "Hardlopen: {completed} / {total} flats",
-      "status_stopped_darks": "Vroeg gestopt - {completed} van {total} duisternis vastgelegd",
-      "status_stopped_flats": "Vroeg gestopt - {completed} van {total} flats veroverd",
+      "status_failed_flats": "Kon geen geldige belichting bepalen",
+      "status_running_darks": "Bezig: {completed} / {total} darks",
+      "status_running_flats": "Bezig: {completed} / {total} flats",
+      "status_stopped_darks": "Vroeg gestopt - {completed} van {total} darks vastgelegd",
+      "status_stopped_flats": "Vroeg gestopt - {completed} van {total} flats vastgelegd",
       "status_success_darks": "Klaar - {count} darks vastgelegd",
-      "status_success_flats": "Klaar - {count} flats veroverd",
+      "status_success_flats": "Klaar - {count} flats vastgelegd",
       "filter_label": "Filter",
       "result_bright": "te helder",
       "result_dim": "te zwak",
       "status_completed_flats": "Voltooid",
       "status_failed_flats_multi": "Alle filters konden geen geldige blootstelling vaststellen",
       "status_partial_flats_multi": "Mislukte filters: {filters}",
-      "status_running_unknown": "Bepalend…",
+      "status_running_unknown": "Bepalen…",
       "target": "Doel"
     },
     "weatherModal": {
@@ -2177,8 +2177,8 @@
       "wind": "Wind",
       "humidity": "Vochtigheid",
       "pressure": "Luchtdruk",
-      "skyTemperature": "Luchttemperatuur",
-      "skyQuality": "Luchtkwaliteit",
+      "skyTemperature": "Hemeltemperatuur",
+      "skyQuality": "Hemelkwaliteit",
       "rainRate": "Neerslag",
       "dewPoint": "Dauwpunt",
       "indi": {
@@ -2274,8 +2274,8 @@
         "available_landscapes": "Beschikbare landschappen",
         "no_landscapes_available": "Geen landschappen beschikbaar.",
         "untitled_landscape": "Zonder titel landschap",
-        "has_allsky": "Allski",
-        "no_allsky": "Geen allski",
+        "has_allsky": "Allsky",
+        "no_allsky": "Geen allsky",
         "folder_name_label": "mapnaam",
         "service_url_label": "serviceUrl",
         "landscape_list_load_failed": "Kan landschappen niet laden.",
@@ -2432,9 +2432,9 @@
         "blackPoint": "Zwart punt",
         "whitePoint": "Wit punt",
         "gamma": "Gamma",
-        "mean": "Gemeen",
+        "mean": "Gemiddelde",
         "median": "Mediaan",
-        "stdDev": "Std ontwikkelaar",
+        "stdDev": "Std afw.",
         "min": "Min",
         "max": "Max",
         "stars": "Sterren",
@@ -2474,7 +2474,7 @@
       "binning": "Binning",
       "blindSolve": "Blind oplossen",
       "browserTitle": "Selecteer FITS-bestand voor Plate Solve",
-      "buttonTitle": "PAST Plaat Oplossen",
+      "buttonTitle": "FITS Plate Solve",
       "coordinatesHint": "Coördinatiehint (leeg laten voor blinde oplossing)",
       "dec": "dec",
       "decPlaceholder": "DD:MM:SS",
@@ -2555,7 +2555,7 @@
       }
     },
     "pins": {
-      "title": "PIN-beheer",
+      "title": "PINS-beheer",
       "notAvailable": "PINS-omgeving niet gedetecteerd. Deze plugin is uitgeschakeld.",
       "dryRun": "Simulatiemodus",
       "sambaTitle": "Samba-share",
@@ -2602,7 +2602,7 @@
         "failed": "Mislukt"
       },
       "logs": {
-        "syncingTime": "Tijdsverschil gedetecteerd: {diff}s. \nTijd synchroniseren...",
+        "syncingTime": "Tijdsverschil gedetecteerd: {diff}s. Tijd synchroniseren...",
         "forcingSync": "Tijd handmatig synchroniseren...",
         "timeInSync": "De tijd loopt synchroon (diff: {diff}s).",
         "timeSynced": "Systeemtijd succesvol gesynchroniseerd.",
@@ -2634,7 +2634,7 @@
         "verifyingStatus": "De definitieve taakstatus verifiëren...",
         "jobReport": "Taakrapport: {report}",
         "upgradeSuccess": "Upgrade succesvol voltooid.",
-        "upgradeFailed": "Upgrade mislukt. \nExitcode: {exitCode}",
+        "upgradeFailed": "Upgrade mislukt. Exitcode: {exitCode}",
         "jobStatus": "Taakstatus: {status}",
         "statusFetchFailed": "Kan de uiteindelijke status niet ophalen: {message}",
         "hotspotFetched": "Hotspot-instellingen geladen (geconfigureerd={configured}, bron={source}, band={band}, kanaal={channel}).",
@@ -2651,8 +2651,8 @@
         "wifiAdaptersLoadFailed": "Kan WiFi-adapters niet laden: {message}",
         "wifiInterfacesLoadFailed": "Kan geselecteerde WiFi-interfaces niet laden: {message}",
         "wifiInterfacesSaveFailed": "Kan WiFi-interfaces niet opslaan: {message}",
-        "wifiInterfacesSaved": "Opgeslagen WiFi-interfaces. \nKlant: {clientInterface}, Hotspot: {hotspotInterface}",
-        "pluginActionFailed": "Plug-inactie mislukt voor {packageName}. \nStatus: {status}",
+        "wifiInterfacesSaved": "Opgeslagen WiFi-interfaces. Client: {clientInterface}, Hotspot: {hotspotInterface}",
+        "pluginActionFailed": "Plug-inactie mislukt voor {packageName}. Status: {status}",
         "pluginActionSuccess": "Plug-inactie succesvol voltooid: {packageName}",
         "pluginInstallStart": "Plug-in installeren: {packageName}",
         "pluginUninstallStart": "Plug-in verwijderen: {packageName}",
@@ -2668,7 +2668,7 @@
       "hotspotConfigured": "Er is een aangepast hotspotwachtwoord geconfigureerd.",
       "hotspotNewPassword": "Nieuw hotspot-wachtwoord",
       "hotspotNotConfigured": "Het standaard hotspotwachtwoord is momenteel in gebruik.",
-      "hotspotPasswordHint": "Minimaal 8 tekens.",
+      "hotspotPasswordHint": "Eenmaal per sessie vereist of bij het wijzigen van het wachtwoord. Gebruik 8-63 tekens.",
       "hotspotPasswordTitle": "Hotspot-wachtwoord",
       "hotspotRefresh": "Vernieuw de status van het hotspot-wachtwoord",
       "hotspotSave": "Hotspot-wachtwoord opslaan",
@@ -2688,7 +2688,7 @@
       "indi3rdpartyTitle": "INDI stuurprogramma's van derden",
       "indi3rdpartyDescription": "Installeer extra INDI-stuurprogramma's die momenteel niet zijn geïnstalleerd.",
       "indi3rdpartySearch": "Zoekopdracht",
-      "indi3rdpartySearchPlaceholder": "Zoekstuurprogramma's (bijvoorbeeld asi)",
+      "indi3rdpartySearchPlaceholder": "Stuurprogramma's zoeken (bijvoorbeeld asi)",
       "indi3rdpartyRefresh": "Lijst vernieuwen",
       "indi3rdpartySelect": "Selecteer driverpakket",
       "indi3rdpartyInstall": "Stuurprogramma installeren",
@@ -2696,13 +2696,13 @@
       "indi3rdpartyNoDrivers": "Geen niet-geïnstalleerde stuurprogramma's gevonden.",
       "dhcpClientsDescription": "Apparaten met een actieve DHCP-lease op de hotspot.",
       "dhcpClientsEmpty": "Geen actieve DHCP-clients gevonden.",
-      "dhcpClientsExpires": "Huurovereenkomst loopt af",
+      "dhcpClientsExpires": "Lease verloopt",
       "dhcpClientsHostname": "Hostnaam",
       "dhcpClientsIp": "IP-adres",
-      "dhcpClientsLoading": "Klanten laden...",
+      "dhcpClientsLoading": "Clients laden...",
       "dhcpClientsMac": "MAC-adres",
-      "dhcpClientsRefresh": "Vernieuw de klantenlijst",
-      "dhcpClientsTitle": "Verbonden klanten",
+      "dhcpClientsRefresh": "Clientlijst vernieuwen",
+      "dhcpClientsTitle": "Verbonden clients",
       "tabs": {
         "network": "Netwerk",
         "services": "Diensten",
@@ -2720,10 +2720,10 @@
       "wifiNoAdapters": "Geen WiFi-adapters gevonden.",
       "upgradeOverlay": {
         "jobId": "Taak-ID: {jobId}",
-        "keepOpen": "Houd deze app open. \nControles zijn tijdelijk geblokkeerd om een ​​inconsistente status te voorkomen.",
-        "running": "Raspberry Pi-pakketten bijwerken. \nWacht tot het proces is voltooid.",
+        "keepOpen": "Houd deze app open. Controles zijn tijdelijk geblokkeerd om een ​​inconsistente status te voorkomen.",
+        "running": "Raspberry Pi-pakketten bijwerken. Wacht tot het proces is voltooid.",
         "title": "Systeemupdate wordt uitgevoerd",
-        "waitingForApi": "Update voltooid. \nWachten tot de NINA API weer bereikbaar is...",
+        "waitingForApi": "Update voltooid. Wachten tot de NINA API weer bereikbaar is...",
         "close": "Sluiten"
       },
       "pluginsAction": "Actie",
@@ -2742,7 +2742,7 @@
       "pluginsUninstalling": "Verwijderen...",
       "pluginsVersion": "Versie",
       "indiInstallModalAssetName": "Naam van item",
-      "indiInstallModalDriverPackage": "Bestuurder/pakket",
+      "indiInstallModalDriverPackage": "Stuurprogramma/pakket",
       "indiInstallModalInstall": "Installeren",
       "indiInstallModalInstalling": "Installeren...",
       "indiInstallModalLabel": "Label",
@@ -2750,13 +2750,13 @@
       "indiInstallModalSuccessStarted": "Installatie gestart voor {label}.",
       "indiInstallModalTitle": "Installeer het INDI-stuurprogramma",
       "indiInstallModalType": "Type",
-      "hotspotAppliedStatus": "Toegepast op actieve hotspot: {applied} | \nBand: {band} | \nKanaal: {channel}",
-      "hotspotBandAuto": "Automatisch / Uitgeschakeld",
+      "hotspotAppliedStatus": "Toegepast op actieve hotspot: {applied} | Band: {band} | Kanaal: {channel}",
+      "hotspotBandAuto": "Automatisch / Niet ingesteld",
       "hotspotBandLabel": "Hotspotband",
-      "hotspotCapabilitiesUnavailable": "Lijst met adaptermogelijkheden niet beschikbaar; \nhandmatig kanaal toegestaan.",
+      "hotspotCapabilitiesUnavailable": "Lijst met adaptermogelijkheden niet beschikbaar; handmatig kanaal toegestaan.",
       "hotspotChannelLabel": "Hotspot-kanaal",
       "hotspotChannelPlaceholder": "Laat leeg voor automatisch",
-      "hotspotMetaLine": "Bron: {source} | \nInterface: {iface} | \nBand: {band} | \nKanaal: {channel}",
+      "hotspotMetaLine": "Bron: {source} | Interface: {iface} | Band: {band} | Kanaal: {channel}",
       "indiRegistryEditConfig": "Configuratie bewerken",
       "indiRegistryModalActions": "Acties",
       "indiRegistryModalDescription": "Bewerk naam, label en type voor geïnstalleerde INDI-registervermeldingen van derden.",
@@ -2775,11 +2775,11 @@
       "indiRegistryModalNameRequired": "Naam is vereist.",
       "indiRegistryModalNoChanges": "Geen wijzigingen om op te slaan.",
       "indiRegistryModalReload": "Herladen",
-      "indiRegistryModalSave": "Redden",
-      "indiRegistryModalSaved": "Invoer opgeslagen. \nRegister opnieuw geladen vanuit de backend.",
-      "indiRegistryModalSaving": "Besparing...",
+      "indiRegistryModalSave": "Opslaan",
+      "indiRegistryModalSaved": "Invoer opgeslagen. Register opnieuw geladen vanuit de backend.",
+      "indiRegistryModalSaving": "Opslaan...",
       "indiRegistryModalTitle": "INDI-register bewerken",
-      "indiRegistryModalTotalEntries": "Inzendingen",
+      "indiRegistryModalTotalEntries": "Vermeldingen",
       "indiRegistryModalType": "Type",
       "indiRegistryModalTypeInvalid": "Type moet een van de toegestane waarden zijn.",
       "indiRegistryModalUpdatedAt": "Bijgewerkt",
@@ -2937,7 +2937,7 @@
         "github": "GitHub-issue aanmaken",
         "discord": "Discord openen"
       },
-      "lastToken": "Genereer Token",
+      "lastToken": "Gegenereerd token",
       "submissionHistory": "Verzend Historie",
       "confirmClearAll": "Weet u zeker dat u de verzend hostorie wilt verwijderen?",
       "actions": {
@@ -2982,7 +2982,7 @@
         "downloadFailed": "Kan diagnostisch archief niet downloaden.",
         "intro": "Systeemdiagnostiek (journal, dmesg, netwerk, ...) wordt automatisch verzameld en toegevoegd wanneer je hierboven op 'Verzamel & Upload' klikt. Gebruik Expertinstellingen om te beperken wat wordt verzameld.",
         "journalLines": "Journaalregels",
-        "optionsLoadFailed": "Kan diagnostische opties niet laden. \nStandaardinstellingen gebruiken.",
+        "optionsLoadFailed": "Kan diagnostische opties niet laden. Standaardinstellingen gebruiken.",
         "optionsLoaded": "Diagnostische opties geladen.",
         "pollFailed": "Kan de diagnostische status niet opvragen.",
         "sectionsTitle": "Secties",
@@ -2992,10 +2992,10 @@
         "statusIdle": "Inactief",
         "statusLabel": "Status",
         "statusQueued": "In de wachtrij",
-        "statusRunning": "Rennen",
+        "statusRunning": "Actief",
         "statusSuccess": "Succes",
         "statusTimeout": "Time-out",
-        "stillPreparing": "Het archief is nog in voorbereiding. \nProbeer het binnenkort opnieuw te downloaden.",
+        "stillPreparing": "Het archief is nog in voorbereiding. Probeer het binnenkort opnieuw te downloaden.",
         "title": "PINS-systeemdiagnose",
         "validationDmesgLines": "dmesg-regels moeten tussen 100 en 50000 liggen.",
         "validationJournalLines": "Journaalregels moeten tussen 100 en 50.000 liggen.",
@@ -3011,7 +3011,7 @@
       }
     },
     "telescopius": {
-      "title": "Telescoop",
+      "title": "Telescopius",
       "offlineInfo": "Laad persoonlijke objectenlijst vanuit telescopius.com en bewaar deze lokaal zodat deze offline beschikbaar zijn.",
       "landing": {
         "title": "Telescopius-plug-in",
@@ -3296,7 +3296,7 @@
           "description": "Definieer doelobject coordinaten en instellingen",
           "targetNameLabel": "Doelobject naam",
           "targetNameTooltip": "Naam van het Doelobject",
-          "raLabel": "Rechte Hemelvaart",
+          "raLabel": "Rechte klimming",
           "raTooltip": "RA in HH:MM:SS formaat",
           "decLabel": "Declinatie",
           "decTooltip": "Dec in DD:MM:SS formaat",
@@ -3324,7 +3324,7 @@
           "description": "Intelligente opname sequentie met dithering en triggers",
           "exposureTimeLabel": "Belichtingstijd (s)",
           "exposureTimeTooltip": "Belichtingstijd van elke opname",
-          "gainLabel": "Verdienen",
+          "gainLabel": "Gain",
           "gainTooltip": "Camera gain instelling",
           "offsetLabel": "Offset",
           "offsetTooltip": "Camera offset instelling",
@@ -3555,7 +3555,7 @@
         "platesolve": "Plaatoplossen",
         "exposure": "Belichting:",
         "gain": "Versterking:",
-        "binning": "Binden:",
+        "binning": "Binning:",
         "focal_length": "Brandpuntsafstand:",
         "focal_scale": "Brandpuntschaal:",
         "pixel_size": "Pixelgrootte:",
@@ -3571,13 +3571,13 @@
         "empty": "—"
       },
       "config": {
-        "host": "Gastheer",
+        "host": "Host",
         "port": "Poort",
         "base_path": "Basispad",
         "base_path_default": "Standaard: /api/platesolveplus",
         "use_token_optional": "Token gebruiken (optioneel)",
         "token": "Token",
-        "token_placeholder": "teken…",
+        "token_placeholder": "token…",
         "token_hint": "Verzonden als header X-PSP-Token (moet overeenkomen met de PlateSolvePlus API-host).",
         "active_url": "Actieve URL:"
       },
@@ -3611,11 +3611,11 @@
           "active": "Actief"
         },
         "driver": {
-          "title": "Bestuurder",
+          "title": "Driver",
           "description": "Selecteer de ASCOM-driver om als secundaire camera te gebruiken.",
-          "label": "Bestuurder",
+          "label": "Driver",
           "select_placeholder": "— selecteer —",
-          "fallback_name": "Bestuurder",
+          "fallback_name": "Driver",
           "selected": "Geselecteerd"
         },
         "buttons": {
@@ -3705,13 +3705,13 @@
         "example": "# golflengtetransmissie\n500,0 0,10\n656,3 98,50\n672,4 99,00\n700,0 0,05",
         "note": "Overdrachtswaarden moeten in het bereik 0 – 100 (procent) liggen. Door komma's gescheiden bestanden worden niet ondersteund."
       },
-      "clearCurve": "Duidelijke curve",
+      "clearCurve": "Curve wissen",
       "loaded": "Geladen:",
       "dataPoints": "gegevenspunten",
       "targetWavelength": "Doelgolflengte (nm)",
       "filterTransmission": "Filtertransmissie",
       "wavelengthLabel": "Golflengte (nm)",
-      "transmissionLabel": "Overdragen",
+      "transmissionLabel": "Transmissie",
       "transmissionPercent": "Transmissie: {percent}%",
       "wavelengthRange": "Golflengtebereik",
       "flatTopRange": "Flat Top-bereik",
@@ -3747,7 +3747,7 @@
         "placeholders": {
           "networkName": "Netwerknaam",
           "password": "Wachtwoord",
-          "passwordHint": "min. \n8 karakters"
+          "passwordHint": "min. 8 karakters"
         },
         "validation": {
           "passwordRequired": "Wachtwoord moet minimaal 8 tekens lang zijn"
@@ -3766,7 +3766,7 @@
         "updateRateDesc": "Vernieuwingsinterval voor updates van de apparaatstatus",
         "factoryReset": "Fabrieksreset",
         "factoryResetDesc": "Reset het PINS-apparaat naar de fabrieksinstellingen",
-        "factoryResetConfirm": "Weet u zeker dat u een fabrieksreset wilt uitvoeren? \nHierdoor worden alle instellingen teruggezet naar hun standaardwaarden.",
+        "factoryResetConfirm": "Weet u zeker dat u een fabrieksreset wilt uitvoeren? Hierdoor worden alle instellingen teruggezet naar hun standaardwaarden.",
         "notifications": {
           "beepLength": "Piepduur",
           "beepLengthDesc": "Duur van elke piep in milliseconden (100–10.000)",
@@ -3798,7 +3798,7 @@
         "adjPorts": "Verstelbare stroompoorten",
         "powerStatus": "Stroomstatus",
         "meteoStation": "Meteostation",
-        "averageAmps": "Gemiddelde versterkers",
+        "averageAmps": "Gemiddelde ampère",
         "rail12v": "12V-rail",
         "rail5v": "5V-rail",
         "totalAmps": "Totaal ampère",
@@ -3835,7 +3835,7 @@
         "enterPassword": "Voer het WiFi-wachtwoord in",
         "min8chars": "minimaal 8 tekens",
         "passwordTooShort": "Wachtwoord moet minimaal 8 tekens lang zijn",
-        "connectAsClient": "Sluit aan als klant",
+        "connectAsClient": "Verbinden als client",
         "createHotspot": "Maak een hotspot",
         "hotspotName": "Hotspot-naam",
         "hotspotPassword": "Hotspot-wachtwoord",
@@ -3855,7 +3855,7 @@
         "cloudCover": "Bewolking",
         "skyQuality": "Hemelkwaliteit",
         "skyBrightness": "Helderheid van de hemel",
-        "skyTemp": "Luchttemperatuur",
+        "skyTemp": "Hemeltemperatuur",
         "noData": "Geen weergegevens beschikbaar",
         "conditions": "Weerbeoordeling",
         "cloudAssessment": "Wolkendekking",
@@ -4496,7 +4496,7 @@
         "starCount": "Aantal sterren",
         "generatePoints": "Genereer een gouden spiraal",
         "generateSidereal": "Genereer een siderisch pad",
-        "clear": "Duidelijke punten",
+        "clear": "Punten wissen",
         "buildModel": "Model bouwen",
         "stop": "Stop",
         "cancel": "Annuleren",
@@ -4535,10 +4535,10 @@
         "startTime": "Begintijd",
         "endTime": "Eindtijd",
         "offsetMin": "Offset (min)",
-        "fromScope": "Van Bereik",
+        "fromScope": "Van telescoop",
         "fromSequence": "Van reeks",
         "timeWindow": "Tijdvenster",
-        "noPoints": "Geen modelpunten. \nGenereer punten om te beginnen.",
+        "noPoints": "Geen modelpunten. Genereer punten om te beginnen.",
         "scatterChart": "Modelpunten (Az/Alt)",
         "axisAz": "Azimut (graden)",
         "axisAlt": "Hoogte (graden)",
@@ -4556,16 +4556,16 @@
         "namePlaceholder": "Nieuwe modelnaam…",
         "noModels": "Geen opgeslagen modellen gevonden.",
         "refresh": "Vernieuwen",
-        "save": "Redden",
+        "save": "Opslaan",
         "savedModels": "Opgeslagen modellen"
       },
       "model": {
         "alignmentInfo": "Uitlijningsinformatie",
-        "altTurns": "Alt Aanpassing \nBochten",
-        "azTurns": "Az Aanpassing \nBochten",
-        "clearAlignment": "Duidelijke uitlijning",
-        "clearConfirmMsg": "Hierdoor wordt het huidige uitlijningsmodel definitief van de houder verwijderd. \nWeet je het zeker?",
-        "clearConfirmTitle": "Duidelijk uitlijningsmodel?",
+        "altTurns": "Alt-aanpassing (omwentelingen)",
+        "azTurns": "Az-aanpassing (omwentelingen)",
+        "clearAlignment": "Uitlijning wissen",
+        "clearConfirmMsg": "Hierdoor wordt het huidige uitlijningsmodel definitief van de montering verwijderd. Weet je het zeker?",
+        "clearConfirmTitle": "Uitlijningsmodel wissen?",
         "coneError": "Kegel fout",
         "deleteWorstStar": "Verwijder de slechtste ster",
         "modelTerms": "Modelvoorwaarden",
@@ -4583,7 +4583,7 @@
       },
       "mount": {
         "info": "Mount-informatie",
-        "product": "Monteren",
+        "product": "Montering",
         "firmware": "Firmware",
         "firmwareDate": "Firmware-datum",
         "ip": "IP-adres",
@@ -4591,7 +4591,7 @@
         "statusTitle": "Mount-status",
         "gpsSync": "GPS-tijdsynchronisatie",
         "trackingRate": "Trackingsnelheid",
-        "slewSettle": "Dood Settle",
+        "slewSettle": "Slew-settle",
         "meridianLimit": "Meridiaangrens",
         "unattendedFlip": "Onbeheerde flip",
         "disable": "Uitzetten",
@@ -4633,11 +4633,11 @@
           "NotConnected": "Niet verbonden"
         }
       },
-      "mountNotConnected": "De houder is niet aangesloten.",
+      "mountNotConnected": "De montering is niet aangesloten.",
       "mountStatus": "Mount-status",
-      "notLoaded": "TenMicron-plug-in is niet geladen. \nInstalleer en activeer de plug-in NINA.Joko.Plugin.TenMicron.",
+      "notLoaded": "TenMicron-plug-in is niet geladen. Installeer en activeer de plug-in NINA.Joko.Plugin.TenMicron.",
       "refractionCorrection": "Brekingscorrectie",
-      "subtitle": "Bouw en beheer aanwijsmodellen voor uw 10micron-vatting",
+      "subtitle": "Bouw en beheer aanwijsmodellen voor uw 10micron-montering",
       "tabs": {
         "builder": "Modelbouwer",
         "library": "Modelbibliotheek",
@@ -4651,10 +4651,10 @@
       "common": {
         "ok": "OK",
         "cancel": "Annuleren",
-        "close": "Dichtbij",
+        "close": "Sluiten",
         "and": "En",
         "download": "downloaden",
-        "saving": "Besparing…",
+        "saving": "Opslaan…",
         "auto": "Auto",
         "unlimited": "Onbeperkt",
         "notGenerated": "Niet gegenereerd",
@@ -4668,8 +4668,8 @@
         "updateBackend": "Backend bijwerken",
         "startingUpdate": "Update starten…",
         "startCapture": "Start vastleggen",
-        "renderProgress": "Geef vooruitgang weer",
-        "renderingProgress": "Vooruitgang boeken…",
+        "renderProgress": "Voortgang renderen",
+        "renderingProgress": "Voortgang renderen…",
         "stopAndRender": "Stoppen en renderen",
         "refreshPreview": "Voorbeeld vernieuwen",
         "refreshingPreview": "Vernieuwend voorbeeld…",
@@ -4706,7 +4706,7 @@
         "recentSessions": "Recente sessies",
         "recentSessionsDescription": "Gegenereerde producten worden rechtstreeks vanuit de backend geserveerd en in een nieuw tabblad geopend.",
         "livePreview": "Live voorbeeld",
-        "storedFrames": "Opgeslagen kaders"
+        "storedFrames": "Opgeslagen frames"
       },
       "preview": {
         "noFrameYet": "Er is nog geen vastgelegd frame beschikbaar. Start een sessie of wacht op de volgende automatische opname.",
@@ -4715,12 +4715,12 @@
         "lastCapture": "Laatste opname:",
         "frameCount": "Aantal frames:",
         "captureInterval": "Vastleginterval:",
-        "exposure": "Blootstelling:",
-        "gain": "Verdienen:",
+        "exposure": "Belichting:",
+        "gain": "Gain:",
         "mean": "Mean:"
       },
       "statusRows": {
-        "backend": "Achterkant",
+        "backend": "Backend",
         "session": "Sessie",
         "sequence": "Reeks",
         "capture": "Vastlegging",
@@ -4732,7 +4732,7 @@
         "pluginAvailable": "Plug-in beschikbaar",
         "online": "Online",
         "offline": "Offline",
-        "running": "Rennen",
+        "running": "Actief",
         "idle": "Inactief",
         "active": "Actief",
         "stopped": "Gestopt",
@@ -4741,7 +4741,7 @@
         "missing": "Ontbreekt"
       },
       "dependencies": {
-        "rpiCamStill": "rpicam-stil",
+        "rpiCamStill": "rpicam-still",
         "ffmpeg": "ffmpeg",
         "keogram": "AllSky-keogram",
         "startrails": "AllSky startrails"
@@ -4752,7 +4752,7 @@
         "start": "Begin",
         "end": "Einde",
         "expectedDuration": "Verwachte duur",
-        "expectedFrames": "Verwachte kaders",
+        "expectedFrames": "Verwachte frames",
         "expectedStorage": "Verwachte opslag",
         "startTooltip": "Geplande starttijd voor vastleggen die wordt gebruikt voor de schatting van de opslag. Standaard ingesteld op de huidige lokale tijd.",
         "endTooltip": "Geplande opnamestoptijd gebruikt voor de opslagschatting. Standaard ingesteld op morgen om 08:00 lokale tijd.",
@@ -4766,7 +4766,7 @@
       "modals": {
         "closeDialog": "Sluit het {title} dialoogvenster",
         "automationInfo": "Indien ingeschakeld, start AllSky een opnamesessie zodra de PINS Advanced API een actieve reeks meldt, stopt vervolgens met vastleggen en geeft producten automatisch weer wanneer de reeks eindigt.",
-        "cameraRotationInfo": "rpicam-stilstaande rotatie is beperkt tot 0 of 180 graden.",
+        "cameraRotationInfo": "De rotatie van rpicam-still is beperkt tot 0 of 180 graden.",
         "startrailMountInfo": "Op een equatoriale montering kan de camera de lucht volgen, zodat de startrail-uitvoer nog steeds kan worden gegenereerd, maar mogelijk niet het klassieke cirkelvormige spooreffect vertoont.",
         "automation": {
           "autoStartWithSequence": "Automatische start met volgorde",
@@ -4775,9 +4775,9 @@
           "backendMonitoring": "Backend-monitoring",
           "protocol": "Protocol",
           "sequencePollIntervalSeconds": "Sequentie Poll-interval (s)",
-          "sequencePollIntervalHelp": "Alleen de status van de peilingreeks. Het verandert de cadans van het cameraframe niet.",
+          "sequencePollIntervalHelp": "Peilt alleen de sequentiestatus. Dit verandert de framecadans van de camera niet.",
           "advancedApiHost": "Geavanceerde API-host",
-          "port": "Haven",
+          "port": "Poort",
           "timeoutSeconds": "Time-out(s)",
           "advancedApiBasePath": "Geavanceerd API-basispad",
           "maxPluginStorageGb": "Maximale opslag van plug-ins (GB)",
@@ -4791,7 +4791,7 @@
           "maxPluginStorageTooltip": "Maximale opslagpincodes die AllSky mag gebruiken onder de plug-ingegevensmap. Stel in op 0 voor geen limiet. Wanneer de limiet wordt overschreden, snoeit de backend de oudste voltooide sessies."
         },
         "camera": {
-          "intervalSeconds": "Interval(len)",
+          "intervalSeconds": "Interval (s)",
           "timeoutSeconds": "Time-out(s)",
           "width": "Breedte",
           "height": "Hoogte",
@@ -4809,20 +4809,20 @@
           "manualExposure": "Handmatige belichting",
           "shutterMicroseconds": "Sluiter (µs)",
           "manualExposureHelp": "When disabled, PINS AllSky uses the AllSky mean-based controller. If Target Mean is 0, rpicam-still exposure stays automatic instead.",
-          "manualGain": "Handmatige winst",
-          "analogGain": "Analoge winst",
+          "manualGain": "Handmatige gain",
+          "analogGain": "Analoge gain",
           "manualGainHelp": "When disabled, PINS AllSky uses the AllSky mean-based controller. If Target Mean is 0, rpicam-still gain stays automatic instead.",
           "horizontalFlip": "Horizontale spiegeling",
           "mirrorOnXAxis": "Spiegel op X-as",
           "verticalFlip": "Verticale draai",
           "mirrorOnYAxis": "Spiegel op Y-as",
           "extraArguments": "Extra rpicam-still-argumenten",
-          "intervalTooltip": "De tijd tussen het vastleggen begint in seconden. Dit is de werkelijke AllSky-framecadans.",
-          "timeoutTooltip": "Maximale toegestane tijd voor het vastleggen van een enkele rpicam-stilstaand beeld voordat deze als mislukt wordt beschouwd.",
-          "widthTooltip": "Voer de afbeeldingsbreedte uit in pixels voor elk vastgelegd frame.",
-          "heightTooltip": "Voer de beeldhoogte in pixels uit voor elk vastgelegd frame.",
+          "intervalTooltip": "Tijd tussen de starts van opnames in seconden. Dit is de werkelijke AllSky-framecadans.",
+          "timeoutTooltip": "Maximaal toegestane tijd voor één rpicam-still-opname voordat deze als mislukt wordt beschouwd.",
+          "widthTooltip": "Breedte van de uitvoerafbeelding in pixels voor elk vastgelegd frame.",
+          "heightTooltip": "Hoogte van de uitvoerafbeelding in pixels voor elk vastgelegd frame.",
           "jpegQualityTooltip": "JPEG-kwaliteit gebruikt voor vastgelegde frames. Bij hogere waarden blijven meer details behouden bij grotere bestandsgroottes.",
-          "warmupTooltip": "Opwarmtijd verstrijkt naar rpicam-still voordat elk frame wordt geschreven.",
+          "warmupTooltip": "Opwarmtijd die aan rpicam-still wordt doorgegeven voordat elk frame wordt geschreven.",
           "meteringTooltip": "Belichtingsmeetstrategie gebruikt door rpicam-still.",
           "awbTooltip": "Automatische witbalansmodus gebruikt door rpicam-still.",
           "denoiseTooltip": "Ruisonderdrukkingsmodus gebruikt door rpicam-still voor elk vastgelegd frame.",
@@ -4923,7 +4923,7 @@
       },
       "recentSessions": {
         "noSessions": "Er zijn nog geen voltooide sessies opgenomen.",
-        "expanded": "Uitgebreid",
+        "expanded": "Uitgeklapt",
         "collapsed": "Samengevouwen",
         "storageWithinLimit": "Opslag binnen limiet.",
         "storageLimitExceeded": "Opslaglimiet overschreden.",
@@ -4986,41 +4986,41 @@
       "autoRefresh": "Automatisch vernieuwen",
       "autoRefreshHint": "Afbeelding automatisch vernieuwen",
       "cameraName": "Cameranaam",
-      "cameraNamePlaceholder": "bijv. \nSouth Sky, Allski...",
+      "cameraNamePlaceholder": "bijv. South Sky, Allski...",
       "cancel": "Annuleren",
       "delete": "Verwijderen",
       "deleteConfirm": "Wilt u de camera \"{name}\" echt verwijderen?",
       "editCameraTitle": "Camera bewerken",
       "help": {
-        "close": "Dichtbij",
+        "close": "Sluiten",
         "credentials": "Als uw camera een gebruikersnaam en wachtwoord vereist, neemt u de inloggegevens rechtstreeks in de URL op:",
         "credentialsNote": "De backend-proxy verwerkt de authenticatie automatisch: de inloggegevens in de URL werken met zowel basis- als digest-authenticatie (bijv. Hikvision).",
         "credentialsTitle": "Met wachtwoord beveiligde camera's",
-        "exampleLabels": ["Algemene IP-camera", "ONVIF-camera", "As-camera", "Hikvision-camera"],
+        "exampleLabels": ["Algemene IP-camera", "ONVIF-camera", "Axis-camera", "Hikvision-camera"],
         "examplesTitle": "Voorbeelden",
         "proxyOptions": [
-          "Proxy (standaard): De afbeelding wordt opgehaald door de NINA-backend en doorgestuurd naar de browser. \nVereist voor lokale netwerkcamera's met inloggegevens of CORS-beperkingen. \nIets langzamer bij toegang via VPN.",
-          "Direct: De browser haalt de afbeelding rechtstreeks op. \nSneller voor openbare internetcamera's (bijvoorbeeld openbare allsky-cams). \nOndersteunt geen inloggegevens in de URL in Chrome/Edge."
+          "Proxy (standaard): De afbeelding wordt opgehaald door de NINA-backend en doorgestuurd naar de browser. Vereist voor lokale netwerkcamera's met inloggegevens of CORS-beperkingen. Iets langzamer bij toegang via VPN.",
+          "Direct: De browser haalt de afbeelding rechtstreeks op. Sneller voor openbare internetcamera's (bijvoorbeeld openbare allsky-cams). Ondersteunt geen inloggegevens in de URL in Chrome/Edge."
         ],
         "proxyText": "Elke camera kan op twee manieren worden opgehaald:",
         "proxyTitle": "Proxy versus direct",
         "title": "Hulp voor momentopname-URL",
-        "what": "Een snapshot-URL is een directe link naar één afbeelding van uw IP-camera. \nDe URL moet rechtstreeks een JPEG- of PNG-afbeelding retourneren, geen HTML-pagina of een videostream."
+        "what": "Een snapshot-URL is een directe link naar één afbeelding van uw IP-camera. De URL moet rechtstreeks een JPEG- of PNG-afbeelding retourneren, geen HTML-pagina of een videostream."
       },
       "intervalMin": "Minimaal: 1 seconde",
       "loadingImage": "Afbeelding laden…",
       "noCameras": "Geen camera's geconfigureerd",
-      "noCamerasHint": "Klik op 'Camera' in de tabbladbalk.",
+      "noCamerasHint": "Klik op '+ Camera' in de tabbladbalk.",
       "noUrlConfigured": "Configureer een momentopname-URL in de instellingen.",
       "refreshInterval": "Vernieuwingsinterval",
       "refreshNow": "Vernieuw nu",
-      "save": "Redden",
+      "save": "Opslaan",
       "seconds": "Seconden",
       "settings": "Instellingen",
       "snapshotUrl": "Momentopname-URL",
       "unknownCamera": "Onbekende camera",
       "useProxy": "Gebruik proxy",
-      "useProxyHint": "Leid de afbeelding door de NINA-backend. \nVereist voor camera's met inloggegevens of CORS-beperkingen. \nUitschakelen voor directe internetcamera's."
+      "useProxyHint": "Leid de afbeelding door de NINA-backend. Vereist voor camera's met inloggegevens of CORS-beperkingen. Uitschakelen voor directe internetcamera's."
     },
     "targetScheduler": {
       "actions": {
@@ -5029,18 +5029,18 @@
         "addTarget": "Doel toevoegen",
         "applying": "Toepassen...",
         "clearAll": "Alles wissen",
-        "computing": "Computergebruik...",
+        "computing": "Berekenen...",
         "recomputeSchedule": "Herbereken het schema"
       },
       "common": {
         "add": "Toevoegen",
         "cancel": "Annuleren",
-        "close": "Dichtbij",
+        "close": "Sluiten",
         "copy": "Kopiëren",
         "copySuffix": "kopiëren",
         "dec": "DEC",
         "deg": "gr",
-        "edit": "Bewerking",
+        "edit": "Bewerken",
         "meters": "M",
         "minutes": "min",
         "ra": "RA",
@@ -5069,23 +5069,23 @@
       },
       "editor": {
         "addAtLeastOneExposure": "Voeg ten minste één belichtingsrij toe.",
-        "addExposure": "Voeg blootstelling toe",
+        "addExposure": "Belichting toevoegen",
         "binning": "Binning",
-        "count": "Graaf",
-        "decLabel": "DEC (graden of /-DD:MM:SS)",
-        "decPlaceholder": "41:16:07",
+        "count": "Aantal",
+        "decLabel": "DEC (graden of +/-DD:MM:SS)",
+        "decPlaceholder": "+41:16:07",
         "duration": "Duur",
         "editTarget": "Doel bewerken",
-        "exposurePlan": "Blootstellingsplan",
-        "exposureRow": "Blootstelling {index}",
+        "exposurePlan": "Belichtingsplan",
+        "exposureRow": "Belichting {index}",
         "filter": "Filter",
-        "gain": "Verdienen",
+        "gain": "Gain",
         "imageType": "Afbeeldingstype",
         "imageTypes": {
-          "bias": "VOOROORDEEL",
-          "dark": "DONKER",
-          "flat": "VLAK",
-          "light": "LICHT"
+          "bias": "BIAS",
+          "dark": "DARK",
+          "flat": "FLAT",
+          "light": "LIGHT"
         },
         "linkedToFavorite": "Gekoppeld aan favoriet",
         "name": "Naam",
@@ -5133,20 +5133,20 @@
         "sessionStart": "Sessie begint",
         "siteAlt": "alt",
         "siteLat": "Site lat",
-        "siteLon": "lang",
+        "siteLon": "lon",
         "maxChunkInfo": "Beperkt het maximale aaneengesloten geplande blok per doel voordat de planner naar een ander doel kan overschakelen.",
-        "samplingStepInfo": "Definieert het berekeningsinterval in minuten. \nLagere waarden verhogen de nauwkeurigheid, maar evalueren meer tijdlijnpunten."
+        "samplingStepInfo": "Definieert het berekeningsinterval in minuten. Lagere waarden verhogen de nauwkeurigheid, maar evalueren meer tijdlijnpunten."
       },
       "subtitle": "Mobile-first planning voor zichtbaarheid van doelen, beperkingen en het invoegen van reeksen.",
       "targetCard": {
-        "exposures": "{count} blootstellingen",
+        "exposures": "{count} belichtingen",
         "favoriteLinked": "favoriet gekoppeld",
         "priorityShort": "P{value}",
         "scheduledVsRequested": "{scheduled} / {requested} min"
       },
       "targetList": {
         "dragToReorder": "Sleep om de volgorde te wijzigen",
-        "empty": "Nog geen doelstellingen. \nVoeg er handmatig een toe of importeer uit favorieten.",
+        "empty": "Nog geen doelstellingen. Voeg er handmatig een toe of importeer uit favorieten.",
         "title": "Doelstellingen",
         "total": "{count} totaal"
       },
@@ -5155,7 +5155,7 @@
         "idleSegmentTitle": "Inactief: {start} - {end}",
         "invalidSessionRange": "Stel een geldig sessiebereik in om het schema te bekijken.",
         "minutesShort": "{value} min",
-        "noSegments": "Nog geen planningssegmenten. \nControleer de doelbeperkingen en locatiecoördinaten.",
+        "noSegments": "Nog geen planningssegmenten. Controleer de doelbeperkingen en locatiecoördinaten.",
         "range": "{start} tot {end}",
         "segmentTitle": "{name}: {start} - {end}",
         "title": "Sessie tijdlijn"
@@ -5172,12 +5172,12 @@
         "title": "Ongeplande rest"
       },
       "warnings": {
-        "sequenceVersionRequired": "Voor het invoegen van sequenties is TNS-plug-in 1.2.8.0 (of PINS-modus) vereist."
+        "sequenceVersionRequired": "Voor het invoegen van sequenties is TNS-plug-in 1.2.8.0 of hoger (of PINS-modus) vereist."
       },
       "sessionModes": {
         "moonRise": "Maan opkomst",
-        "moonSet": "Maan ingesteld",
-        "sunRise": "Zon opkomen",
+        "moonSet": "Maanondergang",
+        "sunRise": "Zonsopkomst",
         "sunSet": "Zonsondergang",
         "time": "Tijd",
         "twilightEndAstronomical": "Het einde van de schemering is astronomisch",
@@ -5216,15 +5216,15 @@
       "subtitle": "Bereken en bewaar focus-offsets voor elk filterwielfilter",
       "title": "Filtercompensatiecalculator",
       "applyFailed": "Kan de compensaties niet toepassen",
-      "tooFewIterations": "Bij minder dan 3 iteraties kan een mislukte of onnauwkeurige AutoFocus niet worden gedetecteerd en wordt het gemiddelde in de offset berekend. \nGebruik er 3 of meer voor een betrouwbaar resultaat.",
+      "tooFewIterations": "Bij minder dan 3 iteraties kan een mislukte of onnauwkeurige AutoFocus niet worden gedetecteerd en wordt het gemiddelde in de offset berekend. Gebruik er 3 of meer voor een betrouwbaar resultaat.",
       "confirmStopMessage": "Alle tot nu toe uitgevoerde metingen worden verwijderd en het profiel wordt hersteld naar de vorige staat.",
       "confirmStopTitle": "De berekening stopzetten?",
-      "baseFilterUnmeasured": "Het eerste filter van de run leverde geen bruikbare AutoFocus-meting op, dus er was niets om de andere filters tegen te zeggen: elke offset daaronder is 0 en het resultaat is niet bruikbaar. \nGooi het weg en voer de berekening opnieuw uit.",
+      "baseFilterUnmeasured": "Het eerste filter van de run leverde geen bruikbare AutoFocus-meting op, dus er was niets om de andere filters tegen te zeggen: elke offset daaronder is 0 en het resultaat is niet bruikbaar. Gooi het weg en voer de berekening opnieuw uit.",
       "board": "Autofocus-metingen",
-      "boardHint": "Eén rij per filter, één kolom per iteratie, die de gevonden focuspositie weergeeft die AutoFocus heeft gevonden. \nDoorgestreepte waarden werden als uitschieters weggegooid; \n* markeert een iteratie waarvan de eerste AutoFocus mislukte en werd herhaald.",
+      "boardHint": "Eén rij per filter, één kolom per iteratie, die de gevonden focuspositie weergeeft die AutoFocus heeft gevonden. Doorgestreepte waarden werden als uitschieters weggegooid; * markeert een iteratie waarvan de eerste AutoFocus mislukte en werd herhaald.",
       "cutoffTooltip": "Een monster moest meer dan {cutoff} stappen verwijderd zijn van de mediaan van {median} om te worden weggegooid.",
       "cutoffUnavailable": "Voor het afwijzen van uitschieters zijn ten minste drie metingen nodig, zodat er niets kan worden weggegooid.",
-      "drift": "Focus dwaalt af tijdens het rennen",
+      "drift": "Focusdrift tijdens de run",
       "estimatedFocusTooltip": "Voor drift gecorrigeerde focus aan het begin van de run: {focus}.",
       "measurementFailed": "AutoFocus leverde geen bruikbare meting op",
       "noMeasurements": "Nog geen metingen",
@@ -5451,7 +5451,7 @@
       },
       "errors": {
         "imageLoadFailed": "De afbeelding kon niet worden geladen.",
-        "requestFailed": "Kan de liggende ZIP niet genereren."
+        "requestFailed": "Kan de landschaps-ZIP niet genereren."
       },
       "fields": {
         "altitude": "Hoogte",
@@ -5462,14 +5462,14 @@
         "latitude": "Breedte",
         "longitude": "Lengte",
         "name": "Landschapsnaam",
-        "namePlaceholder": "bijv. \nMijn observatiehorizon"
+        "namePlaceholder": "bijv. Mijn observatiehorizon"
       },
       "folder": {
         "autoHint": "Mapnamen worden opgeschoond naar een veilig formaat met kleine letters en onderstrepingstekens/afbreekstreepjes."
       },
       "image": {
         "aspectRatio": "Beeldverhouding",
-        "aspectWarning": "De beeldverhouding van de geüploade afbeelding is {ratio}. \nEen 360-panorama moet bijna 2:1 zijn.",
+        "aspectWarning": "De beeldverhouding van de geüploade afbeelding is {ratio}. Een 360-panorama moet bijna 2:1 zijn.",
         "dimensions": "Afmetingen",
         "fileName": "Bestandsnaam",
         "fileSize": "Bestandsgrootte",
@@ -5484,10 +5484,10 @@
         "line2": "Houd voor landschappen met alleen horizon de lucht waar mogelijk transparant.",
         "line3": "Klik of sleep op het voorbeeld waar het geografische noorden zou moeten zijn.",
         "line4": "Download de ZIP en pak deze uit in de map Stellarium Web Landscapes.",
-        "title": "Hoe u uw inbreng voorbereidt"
+        "title": "Zo bereidt u uw invoer voor"
       },
       "preview": {
-        "currentNorth": "noordOffsetDeg:",
+        "currentNorth": "northOffsetDeg:",
         "empty": "Upload een panoramaafbeelding om voorbeeld in te schakelen.",
         "help": "Klik of sleep horizontaal op het panorama om in te stellen waar het geografische noorden zich bevindt.",
         "imageAlt": "Panoramavoorbeeld geüpload",
@@ -5501,9 +5501,9 @@
       "title": "Stellarium Landschapsmaker",
       "toast": {
         "errorTitle": "Het genereren van landschappen is mislukt",
-        "invalidFileType": "Niet-ondersteund bestandstype. \nUpload PNG, JPEG of WebP.",
+        "invalidFileType": "Niet-ondersteund bestandstype. Upload PNG, JPEG of WebP.",
         "successMessage": "{filename} gedownload",
-        "successTitle": "Liggend ZIP klaar",
+        "successTitle": "Landschaps-ZIP klaar",
         "validationTitle": "Geldigmaking",
         "successMessageSaved": "{filename} opgeslagen in {path}."
       },
@@ -5520,8 +5520,8 @@
         "leaveEmpty": "(ongewijzigd)",
         "loading": "Laden…",
         "passwordUnchanged": "Laat leeg om de huidige waarde te behouden",
-        "save": "Redden",
-        "saving": "Besparing…",
+        "save": "Opslaan",
+        "saving": "Opslaan…",
         "test": "Test verzenden",
         "testFailed": "Test mislukt",
         "testSuccess": "Test succesvol verzonden",
@@ -5538,11 +5538,11 @@
         "imageInterval": "Plaats elke N afbeeldingen",
         "imagePostTitle": "Titel afbeeldingsbericht",
         "imageTypes": "Afbeeldingstypen",
-        "imageTypesHint": "Door komma's gescheiden (bijv. LICHT, FLAT, DONKER)",
+        "imageTypesHint": "Door komma's gescheiden (bijv. LIGHT,FLAT,DARK)",
         "imageWebhook": "Webhook-URL voor afbeelding"
       },
       "email": {
-        "failureBody": "Mislukking lichaam",
+        "failureBody": "Inhoud van de foutmelding",
         "failureSubject": "Onderwerp van mislukking",
         "fromAddress": "Van adres",
         "host": "SMTP-host",
@@ -5559,14 +5559,14 @@
         "webhookKey": "Webhook-sleutel"
       },
       "mqtt": {
-        "broker": "Makelaar",
-        "clientId": "Klant-ID",
+        "broker": "Broker",
+        "clientId": "Client-ID",
         "defaultQos": "Standaard QoS",
         "defaultRetain": "Standaard behouden",
         "defaultTopic": "Standaardonderwerp",
         "defaults": "Standaardinstellingen publiceren",
         "failureQos": "Fout QoS",
-        "host": "Gastheer",
+        "host": "Host",
         "imagePublisher": "Uitgever van afbeeldingen",
         "imagePublisherEnabled": "Ingeschakeld",
         "imageQos": "Afbeelding QoS",
@@ -5574,8 +5574,8 @@
         "imageTopic": "Afbeeldingsonderwerp",
         "imageTypes": "Afbeeldingstypen",
         "lwt": "Laatste testament",
-        "lwtBirth": "Geboortelading",
-        "lwtClose": "Sluit de lading",
+        "lwtBirth": "Birth-payload",
+        "lwtClose": "Close-payload",
         "lwtEnabled": "Schakel LWT in",
         "lwtLastWill": "Laatste wil Payload",
         "lwtTopic": "LWT-onderwerp",
@@ -5583,11 +5583,11 @@
         "metadataOnly": "Alleen metadata",
         "metadataTopic": "Metagegevensonderwerp",
         "password": "Wachtwoord",
-        "port": "Haven",
+        "port": "Poort",
         "useTls": "Gebruik TLS (schakelt poort naar 8883)",
         "username": "Gebruikersnaam"
       },
-      "notLoaded": "De Ground Station plugin is niet geïnstalleerd of geladen in NINA. \nInstalleer de plugin 'Ground Station' in NINA om deze instellingen te gebruiken.",
+      "notLoaded": "De Ground Station plugin is niet geïnstalleerd of geladen in NINA. Installeer de plugin 'Ground Station' in NINA om deze instellingen te gebruiken.",
       "ntfysh": {
         "defaultIcon": "Standaard pictogram-URL",
         "defaultTopic": "Standaardonderwerp",
@@ -5595,7 +5595,7 @@
         "failureNotification": "Foutmelding",
         "failurePriority": "Mislukkingsprioriteit",
         "failureTags": "Mislukkingstags",
-        "failureTagsHint": "Door komma's gescheiden (bijv. waarschuwing, roterend_licht)",
+        "failureTagsHint": "Door komma's gescheiden (bijv. warning,rotating_light)",
         "failureTitle": "Titel van de mislukking",
         "password": "Wachtwoord",
         "token": "Toegangstoken",
@@ -5608,7 +5608,7 @@
         "emergExpireHint": "30 – 86400 seconden",
         "emergRetry": "Noodpogingsinterval(s)",
         "emergRetryHint": "30 – 86400 seconden",
-        "failureBody": "Mislukking lichaam",
+        "failureBody": "Inhoud van de foutmelding",
         "failurePriority": "Mislukkingsprioriteit",
         "failureSound": "Mislukkingsgeluid",
         "failureTitle": "Titel van de mislukking",
@@ -5628,35 +5628,35 @@
         "members": "leden",
         "oauthToken": "Bot OAuth-token",
         "refreshChannels": "Kanalen vernieuwen",
-        "refreshing": "Verfrissend…",
+        "refreshing": "Vernieuwen…",
         "workspace": "Werkruimte"
       },
       "subtitle": "Configureer NINA Ground Station-meldingsservices",
       "tabs": {
-        "discord": "Meningsverschil",
+        "discord": "Discord",
         "email": "E-mail",
         "ifttt": "IFTTT",
         "mqtt": "MQTT",
         "ntfysh": "ntfy.sh",
-        "pushover": "Overvaller",
-        "slack": "Slank",
+        "pushover": "Pushover",
+        "slack": "Slack",
         "telegram": "Telegram"
       },
       "telegram": {
         "accessToken": "Bot-toegangstoken",
         "chatId": "Chat-ID",
-        "failureBody": "Mislukking lichaam"
+        "failureBody": "Inhoud van de foutmelding"
       },
       "title": "Grondstation"
     },
     "indiControlPanel": {
-      "description": "Inspecteer en controleer alle eigendommen van de INDI-stuurprogramma's die momenteel op de server zijn geladen.",
+      "description": "Inspecteer en bedien alle eigenschappen van de INDI-stuurprogramma's die momenteel op de server zijn geladen.",
       "enableLog": "Inschakelen",
       "invalidNumber": "Ongeldig nummer voor {element}.",
       "loadFailed": "Kan INDI-eigenschappen niet laden.",
       "log": "INDI-berichten",
       "logDisabled": "Berichtenlogboek is uitgeschakeld.",
-      "noDevices": "Er zijn momenteel geen INDI-apparaten actief. \nSluit eerst de apparatuur aan en vernieuw vervolgens.",
+      "noDevices": "Er zijn momenteel geen INDI-apparaten actief. Sluit eerst de apparatuur aan en vernieuw vervolgens.",
       "noMessages": "Nog geen berichten.",
       "readonly": "alleen-lezen",
       "refresh": "Vernieuwen",
@@ -5962,7 +5962,7 @@
     "plateSolving": {
       "time": "Tijd",
       "status": "Status",
-      "error": "Foute afstand",
+      "error": "Foutafstand",
       "rotation": "Rotatie"
     }
   },
@@ -6015,14 +6015,14 @@
     "buttons": {
       "refresh": "Vernieuwen",
       "reload": "Herladen",
-      "slew": "Dood",
+      "slew": "Slew",
       "center": "Centreren",
       "slewNoCenter": "Slew (zonder centrering)",
       "slewCenter": "Slew + Centreren",
       "slewCenterPlatesolve": "Slew + Centreren (platesolve)",
       "sendToSequencer": "Naar sequencer sturen",
       "openFraming": "Kadreringsassistent openen",
-      "seqShort": "Volg"
+      "seqShort": "Seq"
     },
     "preview": {
       "noImage": "Geen afbeelding geladen",
@@ -6112,34 +6112,34 @@
     }
   },
   "nav": {
-    "equipment": "Uitrusten.",
+    "equipment": "Uitr.",
     "camera": "Camera",
     "autofocus": "Focus",
-    "mount": "Statief",
+    "mount": "Montering",
     "dome": "Koepel",
-    "flatDevice": "Vlak",
+    "flatDevice": "Flat",
     "switch": "Schakelaar",
     "filterWheel": "Filter",
     "rotator": "Rotat.",
-    "guider": "Gids",
-    "sequence": "Volg.",
+    "guider": "Guider",
+    "sequence": "Seq.",
     "monitoring": "Monitor",
-    "flatWizard": "Platte schoenen",
+    "flatWizard": "Flats",
     "framing": "Framing",
     "skyView": "Celestia Atlas",
     "settings": "Instell.",
     "about": "Info"
   },
   "nightsummary": {
-    "notAvailable": "Nachtoverzicht-plug-in niet gedetecteerd. \nInstalleer de Nachtoverzicht NINA plugin om deze pagina te gebruiken.",
+    "notAvailable": "Nachtoverzicht-plug-in niet gedetecteerd. Installeer de Nachtoverzicht NINA plugin om deze pagina te gebruiken.",
     "tnsPluginToOld": "De Touch N Stars plugin is te oud voor deze functie. Werk bij naar versie 1.2.8.0 of nieuwer.",
     "sessions": {
       "delete": "Verwijderen",
-      "deleteConfirm": "Weet u zeker dat u deze sessie wilt verwijderen? \nDit kan niet ongedaan worden gemaakt.",
+      "deleteConfirm": "Weet u zeker dat u deze sessie wilt verwijderen? Dit kan niet ongedaan worden gemaakt.",
       "deleteTitle": "Sessie verwijderen",
       "downloadReport": "Rapport downloaden",
       "loading": "Sessies laden…",
-      "noSessions": "Geen sessie geselecteerd. \nSelecteer een sessie in de vervolgkeuzelijst.",
+      "noSessions": "Geen sessie geselecteerd. Selecteer een sessie in de vervolgkeuzelijst.",
       "placeholder": "Selecteer een sessie…",
       "reportTitle": "Gedetailleerd rapport",
       "reportZoomActual": "100%",
@@ -6155,8 +6155,8 @@
       "detailLevel": "Detailniveau",
       "detailSnapshot": "Momentopname",
       "detailStandard": "Standaard",
-      "discordEnabled": "Schakel onenigheid in",
-      "discordTitle": "Onenigheidsmeldingen",
+      "discordEnabled": "Discord inschakelen",
+      "discordTitle": "Discord-meldingen",
       "discordWebhook": "Webhook-URL",
       "emailEnabled": "Schakel e-mailrapporten in",
       "emailOtherProvider": "Andere aanbieder",
@@ -6170,19 +6170,19 @@
       "expandSectionsDefault": "Vouw secties standaard uit",
       "fileNaming": "Naamgeving van rapportbestanden",
       "filePattern": "Patroon van bestandsnaam",
-      "filePatternHint": "Geldt voor alle leveringskanalen. \nGebruik \\ om submappen te maken voor lokale opslag.",
+      "filePatternHint": "Geldt voor alle leveringskanalen. Gebruik \\ om submappen te maken voor lokale opslag.",
       "filterAuto": "Auto",
       "filterBroadband": "Breedband",
       "filterClassifications": "Classificaties filteren",
-      "filterClassificationsHint": "Filters uit je NINA-profiel. \nAutomatisch maakt gebruik van eerste-letter-matching (L,R,G,B = breedband; H,S,O = smalband).",
+      "filterClassificationsHint": "Filters uit je NINA-profiel. Automatisch maakt gebruik van eerste-letter-matching (L,R,G,B = breedband; H,S,O = smalband).",
       "filterExclude": "Uitsluiten",
       "filterNarrowband": "Smalband",
       "lightModeReport": "Lichtmodusrapport",
       "pushoverAppToken": "App-token",
-      "pushoverEnabled": "Push-over inschakelen",
+      "pushoverEnabled": "Pushover inschakelen",
       "pushoverTitle": "Pushover-meldingen",
       "pushoverUserKey": "Gebruikerssleutel",
-      "reportContent": "Rapporteer inhoud",
+      "reportContent": "Rapportinhoud",
       "savePath": "Pad opslaan",
       "savePathPlaceholder": "Laat dit leeg voor de standaardlocatie",
       "saveReportLocally": "Rapport lokaal opslaan",
@@ -6202,7 +6202,7 @@
       "showSkyThumbnails": "Toon Sky-miniaturen",
       "showStarCountCV": "CV met sterrentelling weergeven",
       "showTsProgressBars": "Toon TS-voortgangsbalken",
-      "smtpPort": "Haven",
+      "smtpPort": "Poort",
       "smtpServer": "SMTP-server",
       "smtpSsl": "Gebruik TLS/SSL",
       "testDiscord": "Testbericht verzenden",
@@ -6212,8 +6212,8 @@
       "testEmail": "Test-e-mail verzenden",
       "testPushover": "Testmelding verzenden",
       "localDashboardEnabled": "Schakel lokale webserver in",
-      "localDashboardHint": "Serveert uw sessiegeschiedenis vanaf een lokale webserver die toegankelijk is vanuit elke browser in uw netwerk. \nGebruik een VPN voor externe toegang.",
-      "localDashboardPort": "Haven",
+      "localDashboardHint": "Serveert uw sessiegeschiedenis vanaf een lokale webserver die toegankelijk is vanuit elke browser in uw netwerk. Gebruik een VPN voor externe toegang.",
+      "localDashboardPort": "Poort",
       "localDashboardTitle": "Lokaal dashboard",
       "showChartFilterChips": "Toon filterchiprij",
       "showChartTargetChips": "Toon doelchiprij"
@@ -6222,7 +6222,7 @@
       "accepted": "Geaccepteerd",
       "avgHfr": "Gem. HFR",
       "byTarget": "Per doel",
-      "exposure": "Blootstelling",
+      "exposure": "Belichting",
       "images": "Afbeeldingen",
       "target": "Doel",
       "targets": "Doelstellingen",

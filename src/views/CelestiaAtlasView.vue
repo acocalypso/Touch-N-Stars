@@ -947,7 +947,7 @@ onMounted(async () => {
       wrStars: wrStarsModule.default,
     });
     catalogFacets.value = {
-      ...buildAtlasCatalogFacets(catalog),
+      ...buildAtlasCatalogFacets(catalog, variableStarsModule.default),
       starCatalogueGroups: buildAtlasStarFacets(stars),
     };
     synchronizeCatalogFilterSettings();

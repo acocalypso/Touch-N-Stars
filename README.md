@@ -68,7 +68,7 @@ The application makes controlling and configuring NINA- or PINS-based astrophoto
 - HYG Database v4.1 by David Nash/Astronomy Nexus, used for the bundled HYG star layer, licensed under CC-BY-SA-4.0
 - General Catalogue of Variable Stars 5.1 by the GCVS team, used for 63,291 offline searchable named-variable entries; see the pinned Atlas notice for attribution and source terms.
 - SIMBAD A66/Abell planetary-nebula catalogue data, licensed under ODbL-1.0. This research has made use of the SIMBAD database, operated at CDS, Strasbourg, France.
-- Detailed source, transformation and redistribution notices are retained in the pinned [Celestia Atlas third-party notices](https://github.com/acocalypso/celestia_atlas/blob/d50d78b9f195680a2023f5dbeb72c4e177295617/THIRD_PARTY_NOTICES.md)
+- Detailed source, transformation and redistribution notices are retained in the pinned [Celestia Atlas third-party notices](https://github.com/acocalypso/celestia_atlas/blob/777b2a6b9a23de04d4a4c4effc8384eff1cb7566/THIRD_PARTY_NOTICES.md)
 
 ### 🔍 Further information
 

@@ -16,9 +16,9 @@ PODS:
   - CapacitorFilesystem (8.1.2):
     - Capacitor
     - IONFilesystemLib (~> 1.1.1)
-  - CapacitorGeolocation (8.2.0):
+  - CapacitorGeolocation (8.2.3):
     - Capacitor
-    - IONGeolocationLib (= 2.1.0)
+    - IONGeolocationLib (= 3.0.0)
   - CapacitorGetlocalip (0.0.3):
     - Capacitor
   - CapacitorHaptics (8.0.2):
@@ -36,7 +36,7 @@ PODS:
     - Version (= 0.8.0)
     - ZIPFoundation (~> 0.9)
   - IONFilesystemLib (1.1.1)
-  - IONGeolocationLib (2.1.0)
+  - IONGeolocationLib (3.0.0)
   - SDWebImage (5.21.6):
     - SDWebImage/Core (= 5.21.6)
   - SDWebImage/Core (5.21.6)
@@ -109,7 +109,7 @@ SPEC CHECKSUMS:
   CapacitorCommunityMedia: 862ba42957f75b74e403fc3a35bb1b286bfe9410
   CapacitorCordova: 71d81f350e6c30bf2a846593b5c480fbd68e9bac
   CapacitorFilesystem: 2db285a1ac6e475cc27cae2e1bea999000f9e2be
-  CapacitorGeolocation: b36f6287bfc9f2eefa04dc900496f2c8ae666136
+  CapacitorGeolocation: f598b972a7f9087848ab550708a0a366a1c1d5a3
   CapacitorGetlocalip: 68104b167700b03de85505120695433d733ba679
   CapacitorHaptics: 296f771ecd89c7a1bd92a7b6826a7d268e2e70f5
   CapacitorKeyboard: 31c8285d92c9d1410071d52449f16d2c6673b6f4
@@ -117,7 +117,7 @@ SPEC CHECKSUMS:
   CapawesomeCapacitorFilePicker: eb29fb54c59614fede51e0e0fe25070dda9d024c
   CapgoCapacitorUpdater: c2a36674cfee2840bbc110daccad3f4505b382db
   IONFilesystemLib: dfa8706539ac9ab77ccfd6e5b3830ce9b5e57f6c
-  IONGeolocationLib: 6a7b6f76063fb1b01cfb14fae7d0f526e3c9b271
+  IONGeolocationLib: a125d4f91ea353652026e5da6e5bee0414a57d37
   SDWebImage: 1bb6a1b84b6fe87b972a102bdc77dd589df33477
   Version: de5907f2c5d0f3cf21708db7801d1d5401139486
   ZIPFoundation: dfd3d681c4053ff7e2f7350bc4e53b5dba3f5351

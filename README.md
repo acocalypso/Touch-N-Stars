@@ -52,6 +52,29 @@ The application makes controlling and configuring NINA- or PINS-based astrophoto
 
 - You can find the app in the [App Store](https://apps.apple.com/us/app/touch-n-stars/id6744902856)
 
+#### Building locally on macOS
+
+With Xcode and CocoaPods installed, run from the repository root:
+
+```sh
+npm ci
+npm run ionic:build
+cd ios/App
+pod update CapacitorGeolocation IONGeolocationLib --repo-update
+cd ../..
+npx cap sync ios
+npx cap open ios
+```
+
+Build the **App** scheme in `App.xcworkspace`. After updating native plugins,
+use Xcode's **Product → Clean Build Folder** before rebuilding. Geolocation
+is pinned to `8.2.3` with `IONGeolocationLib 3.0.0`. If Xcode reports missing
+`trueHeading`, `magneticHeading`, or `headingAccuracy` in
+`IONGLOCPositionModel+JSONTransformer`, refresh the native pods with the command
+above; `cap copy` alone does not update native dependencies. If that error
+persists, run `pod cache clean IONGeolocationLib --all` inside `ios/App`, repeat
+the pod update, and clean the Xcode build folder again.
+
 ### 🧪 **What does the Version offer?**
 
 - **Mobile Operation**: Easily access NINA through your smartphone or tablet.

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { DEFAULT_TIMEOUT, getUrls, simpleGetRequest } from './core';
+import { DEFAULT_TIMEOUT, getUrls, getWithParams, simpleGetRequest } from './core';
 
 export default {
   //-------------------------------------  Filterwheel ---------------------------------------
@@ -200,7 +200,8 @@ export default {
   /* commands:
       - info
       - clear-calibration
-      - graph                 */
+      - graph
+      - graph/clear           */
 
   guiderAction(action) {
     const { BASE_URL } = getUrls();
@@ -210,6 +211,19 @@ export default {
   guiderCancelConnect() {
     const { BASE_URL } = getUrls();
     return simpleGetRequest(`${BASE_URL}/equipment/guider/cancel-connect`);
+  },
+
+  // PINS only. Every guide step since the API started; `after` is the Id of the last known step.
+  guiderHistory(after = null) {
+    const { BASE_URL } = getUrls();
+    const url = `${BASE_URL}/equipment/guider/history`;
+    return after ? getWithParams(url, { after }) : simpleGetRequest(url);
+  },
+
+  // PINS only: not available in the official ninaAPI build.
+  guiderClearGraph() {
+    const { BASE_URL } = getUrls();
+    return simpleGetRequest(`${BASE_URL}/equipment/guider/graph/clear`);
   },
 
   async guiderStart(calibrate) {

@@ -15,15 +15,11 @@ import { ref } from 'vue';
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
 
-import { useHaptics } from '@/composables/useHaptics';
-
-const { tapLight } = useHaptics();
 const store = apiStore();
 const statusClass = ref('');
 const isLoading = ref(false);
 
 async function syncCoordinates() {
-  tapLight();
   isLoading.value = true;
   try {
     const response = await apiService.profileChangeValue(

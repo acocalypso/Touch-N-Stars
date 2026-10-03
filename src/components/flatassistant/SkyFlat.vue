@@ -47,8 +47,6 @@ import setHistogramMeanTarget from '@/components/flatassistant/setHistogramMeanT
 import setHistogramTolerance from '@/components/flatassistant/setHistogramTolerance.vue';
 import selectFilter from '@/components/flatassistant/selectFilter.vue';
 import toggleButton from '@/components/helpers/toggleButton.vue';
-import { useHaptics } from '@/composables/useHaptics';
-const { tapLight, tapMedium } = useHaptics();
 
 const store = apiStore();
 const flatsStore = useFlatassistantStore();
@@ -65,7 +63,6 @@ onMounted(() => {
 });
 
 async function startAutoExposure() {
-  tapLight();
   console.log('Flats startAutoExposure: ');
   try {
     await flatsStore.runFlatWorkflow({
@@ -92,7 +89,6 @@ async function startAutoExposure() {
 }
 
 async function stopFlats() {
-  tapMedium();
   console.log('Flats stop: ');
   try {
     await flatsStore.stopWorkflow();

@@ -28,6 +28,20 @@ npm run test:run
 needs Node ≥ 22.15 (`registerHooks`) — below that every test file fails at module
 instantiation, which looks alarming but says nothing about the code.
 
+## PINS is NINA, forked to Linux
+
+Not a separate headless backend. The same NINA runs there, so **everything the NINA
+side offers exists in PINS mode too** - the Advanced API on `/v2/api`, the Touch'N'Stars
+plugin server, equipment devices, the whole `/v2/api/equipment/*` surface. The PINS
+daemon on port 8000 is *additional*, and only for host/system concerns (Wi-Fi, timezone,
+keyboard layout, updates).
+
+The HLD's phrase "PINS/headless mode with additional daemon APIs" is easy to misread as
+"PINS has no NINA". It does. Never design a PINS fallback around the assumption that
+`/v2/api` is unavailable there - the correct question is almost always whether a *device*
+is connected, not which runtime mode is active (see the feature-detect rule in
+`.claude/skills/api-endpoint/SKILL.md`).
+
 ## Polling is mandatory
 
 NINA's `/v2/socket` WebSocket does **not** deliver every equipment/state change. The 2s HTTP
@@ -71,9 +85,45 @@ Use the `tns-*` utilities from `src/assets/tailwind.css` (`tns-card`, `tns-btn-p
 `tns-btn-secondary`, `tns-input`, `tns-select`, `min-h-touch`), not the legacy raw
 gray/cyan palette still present in older screens.
 
+The `tns-btn` base carries **`w-full`** (only `tns-btn-ghost` opts out with `w-auto`). That is
+right for a button that owns its row, but a `tns-btn-*` dropped into a flex row next to other
+content claims the whole width and refuses to shrink — the neighbouring text gets squeezed into
+a one-word-per-line column instead. Reusing an existing button component in a new layout is the
+usual way to hit this. Fix at the call site with **`w-auto!`**; the `!` is required because
+Tailwind sorts `w-full` after `w-auto`, so the base would otherwise win. `shrink-0` does not
+help — it makes it worse. Same trap for the base `px-4`/`text-sm` when a button has to fit a
+cramped row: override with `px-2! text-xs!` (see `ButtonTrackingMode.vue`).
+
+Haptics: a global click listener (`src/services/globalHaptics.js`) taps every control that
+actually does something - `<button>`, `[role=button]`, checkboxes/radios and navbar entries.
+Clickable rows and cards, labels, plain links and `<select>` stay silent. Do **not** call
+`useHaptics()` in components for press feedback; `tns-btn-danger` gets the stronger tap
+automatically, and `data-haptic="light|medium|none"` overrides any of it. `useHaptics()` stays for outcome feedback (`notifySuccess`/
+`notifyError`) and non-click gestures.
+
 Drag & drop: every `<draggable>` needs `:fallbackOnBody="true"`. `backdrop-filter` on a parent
 creates a containing block for `position: fixed`, which misplaces Sortable.js's ghost on Android
 Chrome. Do **not** use `forceFallback: true`.
+
+Long-press on iOS: WebKit has **two** different native menus and they are driven by two
+different properties. "Copy / Look Up / Share" with the magnifier is the *text selection*
+callout — that one is `-webkit-user-select`. The image/link preview popup is
+`-webkit-touch-callout`. `@contextmenu.prevent` stops neither. Both are now switched off
+app-wide on `body` in `src/assets/tailwind.css`, with `input`/`textarea`/`[contenteditable]`
+opted back into selection (without that, WebKit loses caret placement and paste inside form
+fields). Output the user wants to mark and copy carries Tailwind's plain `select-text`
+(`PinsTerminalOutput.vue`, `JsonPreviewModal.vue`, `Phd2LogView.vue`) — an element's own
+`user-select` beats the inherited `body` value, so no custom utility is needed. Components normally do **not** need to
+set either property themselves any more; the older per-component blocks in `moveAxis.vue`,
+`NavigationComp.vue`, `ZoomableImage.vue` etc. are redundant leftovers.
+
+The build trap behind it: CSS is minified by lightningcss, which drops every vendor prefix it
+thinks the target does not need. With `build.cssTarget` inherited from `build.target:
+'esnext'`, **every `-webkit-user-select` was stripped from the bundle** — verifiable with
+`grep -c webkit-user-select dist/assets/*.css`. Safari only supports the unprefixed property
+from 17.0, so the rules silently did nothing on iOS 16 and older. `vite.config.js` therefore
+pins `cssTarget: ['chrome87', 'safari15', 'ios15']` separately from the JS target. Keep both
+the prefixed and unprefixed declaration when writing such a rule.
 
 i18n: add new keys to `src/locales/en.json` **only** while implementing, and ask before
 generating the other 13 locales — translations are produced in one deliberate batch right

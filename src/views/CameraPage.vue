@@ -442,7 +442,6 @@
 <script setup>
 import { ref, computed, watch, onMounted } from 'vue';
 import { useOrientation } from '@/composables/useOrientation';
-import { useHaptics } from '@/composables/useHaptics';
 import { apiStore } from '@/store/store';
 import { useCameraStore } from '@/store/cameraStore';
 import { useImagetStore } from '@/store/imageStore';
@@ -464,7 +463,6 @@ import { ChartBarIcon } from '@heroicons/vue/24/outline';
 import { useHistogramStore } from '@/store/histogramStore';
 import { useSettingsStore } from '@/store/settingsStore';
 
-const { tapLight } = useHaptics();
 const store = apiStore();
 const cameraStore = useCameraStore();
 const imageStore = useImagetStore();
@@ -583,17 +581,14 @@ const openModal = (modalType) => {
 
 // Image overlay actions
 const toggleCaptureStats = () => {
-  tapLight();
   showCaptureStats.value = !showCaptureStats.value;
 };
 
 const rotateImage = () => {
-  tapLight();
   settingsStore.setImageRotation((settingsStore.currentImageRotation + 90) % 360);
 };
 
 const openSlewModal = () => {
-  tapLight();
   cameraStore.slewModal = true;
 };
 

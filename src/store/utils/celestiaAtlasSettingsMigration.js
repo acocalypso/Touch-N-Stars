@@ -1,3 +1,6 @@
+// Landscapes shipped under public/celestia-atlas-data/landscapes/.
+export const BUNDLED_LANDSCAPE_KEYS = new Set(['gray', 'guereins', 'touchnstars']);
+
 export const createDefaultCelestiaAtlasSettings = () => ({
   constellationsLinesVisible: true,
   azimuthalLinesVisible: false,
@@ -5,14 +8,18 @@ export const createDefaultCelestiaAtlasSettings = () => ({
   meridianLinesVisible: false,
   eclipticLinesVisible: false,
   atmosphereVisible: true,
+  compassVisible: true,
   landscapesVisible: true,
   hideBelowHorizon: true,
   skySurveyVisible: true,
+  // First-open offer to download the DSS survey; set once the user declines it.
+  dssSurveyOfferDismissed: false,
   landscapeSourceMode: 'default',
   customLandscapeUrl: '',
   customLandscapeKey: 'custom',
   dsosVisible: true,
   starMagnitudeLimit: 6.5,
+  starCatalogueGroups: null,
   galaxyMagnitudeLimit: 30,
   deepSkyMagnitudeLimit: 30,
   deepSkyObjectTypes: null,
@@ -41,7 +48,7 @@ function migrateGeneratedLandscapeUrl(value, mode, key) {
   const normalizedKey = String(key || '')
     .trim()
     .toLowerCase();
-  if (normalizedKey === 'gray' || normalizedKey === 'guereins') return canonicalUrl;
+  if (BUNDLED_LANDSCAPE_KEYS.has(normalizedKey)) return canonicalUrl;
 
   return canonicalUrl.replace(
     /^(\/?celestia-atlas-data)\/landscapes\/([^/]+)\/?$/,

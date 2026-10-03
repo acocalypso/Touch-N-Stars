@@ -406,17 +406,13 @@
       </div>
     </div>
 
-    <!-- Settings Tab -->
+    <!-- Settings Tab: normal page flow, the App stage already offsets navbar and SubNav -->
     <div
       v-if="currentTab === 'showSettings'"
       class="container py-4 flex items-center justify-center"
-      :style="{
-        paddingTop: isLandscape ? 'var(--subnav-offset)' : 'calc(82px + var(--subnav-offset))',
-        paddingLeft: isLandscape ? 'var(--nav-width)' : undefined,
-      }"
     >
       <div class="container max-w-md landscape:max-w-xl">
-        <div class="mt-4 border border-line rounded-card shadow-lg bg-surface-1">
+        <div class="border border-line rounded-card shadow-lg bg-surface-1">
           <div class="container pl-5 pb-5 pr-5">
             <div class="mt-5">
               <Phd2Settings />
@@ -453,15 +449,14 @@ import CalibrationDataModal from '@/components/guider/PHD2/CalibrationDataModal.
 import apiService from '@/services/apiService';
 import { useI18n } from 'vue-i18n';
 import { useOrientation } from '@/composables/useOrientation';
-import { useHaptics } from '@/composables/useHaptics';
 
-const { tapLight, tapMedium } = useHaptics();
 const store = apiStore();
 const guiderStore = useGuiderStore();
 const settingsStore = useSettingsStore();
 const { isLandscape, orientation } = useOrientation();
 const { t: $t } = useI18n();
-const currentTab = ref('showGuiding');
+// Exposed to the page so it can hide the guider graph panel on the settings tab
+const currentTab = defineModel('tab', { type: String, default: 'showGuiding' });
 const openCalibrationAssistant = ref(false);
 const openCalibrationData = ref(false);
 const isProcessing = ref(false);
@@ -608,7 +603,6 @@ const statusTextClasses = computed(() => {
 
 // Start guiding function
 async function startGuiding() {
-  tapLight();
   if (guiderStore.isDarkLibraryBuildActive) return;
   isProcessing.value = true;
   try {
@@ -628,7 +622,6 @@ async function startGuiding() {
 
 // Start guiding function
 async function startLooping() {
-  tapLight();
   if (guiderStore.isDarkLibraryBuildActive) return;
   try {
     await apiService.setPHD2StartLooping(settingsStore.guider.phd2ForceCalibration);
@@ -640,7 +633,6 @@ async function startLooping() {
 }
 
 async function stopGuiding() {
-  tapMedium();
   if (guiderStore.isDarkLibraryBuildActive) return;
   try {
     if (!store.checkVersionNewerOrEqual(store.currentTnsPluginVersion, '1.1.4.0')) {
@@ -658,7 +650,6 @@ async function stopGuiding() {
 }
 
 async function autoSelectStar() {
-  tapLight();
   if (guiderStore.isDarkLibraryBuildActive) return;
   isAutoSelectingStar.value = true;
   try {

@@ -25,7 +25,7 @@
     </div>
     <div
       ref="terminalRef"
-      class="flex-1 overflow-y-auto p-4 font-mono text-xs sm:text-sm space-y-1 scroll-smooth bg-black"
+      class="flex-1 overflow-y-auto p-4 font-mono text-xs sm:text-sm space-y-1 scroll-smooth bg-black select-text"
     >
       <div v-if="logs.length === 0" class="text-gray-600 italic select-none opacity-50">
         {{ $t('plugins.pins.waiting') }}

@@ -296,8 +296,6 @@
 <script setup>
 import { ref, onMounted, onBeforeUnmount, computed, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useHaptics } from '@/composables/useHaptics';
-const { tapLight, tapMedium } = useHaptics();
 const { t } = useI18n();
 const emit = defineEmits(['close']);
 import websocketService from '@/services/websocketTppa';
@@ -458,7 +456,6 @@ function formatMessage(message) {
 }
 
 async function startAlignment() {
-  tapLight();
   tppaStore.isPause = false;
   resetErrors();
   await unparkMount();
@@ -551,7 +548,6 @@ function resetErrors() {
 }
 
 function stopAlignment() {
-  tapMedium();
   console.log("Sending 'stop-alignment' to the server");
   //websocketService.sendMessage('stop-alignment');
   websocketService.sendMessage(

@@ -133,24 +133,20 @@ import toggleButton from '@/components/helpers/toggleButton.vue';
 import Modal from '@/components/helpers/Modal.vue';
 import SettingInput from '@/components/helpers/settings/UpdatePorfileNumber.vue';
 import { StopCircleIcon } from '@heroicons/vue/24/outline';
-import { useHaptics } from '@/composables/useHaptics';
 
 const store = apiStore();
 const framingStore = useFramingStore();
 const settingsStore = useSettingsStore();
 const { t } = useI18n();
-const { tapLight, tapMedium } = useHaptics();
 const showSettingsModal = ref(false);
 
 // While slewing this button turns into the stop action. Stopping a moving mount
 // stays a single tap on purpose — no confirmation in front of an emergency stop.
 function handleMainAction() {
   if (store.mountIsSlewing) {
-    tapMedium();
     framingStore.slewStop();
     return;
   }
-  tapLight();
   slew();
 }
 

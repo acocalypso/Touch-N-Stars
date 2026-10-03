@@ -13,14 +13,10 @@ import { ref } from 'vue';
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
 
-import { useHaptics } from '@/composables/useHaptics';
-
-const { tapLight } = useHaptics();
 const store = apiStore();
 const statusClass = ref('');
 
 async function mountHome() {
-  tapLight();
   try {
     const response = await apiService.mountAction('home');
     console.log('mountHome', response);

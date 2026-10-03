@@ -4,7 +4,7 @@
     @click.self="handleOutsideClick"
   >
     <div
-      class="bg-gray-800/95 rounded-xl p-4 pt-2 max-w-2xl w-full m-4 relative shadow-2xl transform transition-all duration-300 ease-out"
+      class="bg-gray-800/95 rounded-xl p-4 pt-2 max-w-2xl w-full m-4 relative overflow-hidden shadow-2xl transform transition-all duration-300 ease-out"
       :class="{ 'scale-95 opacity-0': !isMounted, 'scale-100 opacity-100': isMounted }"
       @click.stop
     >
@@ -58,19 +58,19 @@
         </button>
       </div>
       <!-- Tabelle anzeigen, wenn Daten verfügbar sind -->
-      <div class="w-full max-h-[50vh] overflow-y-auto overflow-x-auto relative scrollbar-thin">
+      <div class="w-full max-h-[50vh] overflow-y-auto relative scrollbar-thin">
         <table
           class="w-full table-fixed border-collapse border border-gray-800 text-gray-300 text-sm"
         >
           <thead class="sticky top-0 bg-gray-800 z-10">
             <tr class="bg-gray-800">
-              <th class="border border-gray-300 px-4 py-2 text-left w-1/10">
+              <th class="border border-gray-300 px-2 py-2 text-left w-[30%]">
                 {{ $t('components.lastLogs.timestamp') }}
               </th>
-              <th class="border border-gray-300 px-4 py-2 text-left w-1/10">
+              <th class="border border-gray-300 px-2 py-2 text-left w-[18%]">
                 {{ $t('components.lastLogs.level') }}
               </th>
-              <th class="border border-gray-300 px-4 py-2 text-left w-2/5">
+              <th class="border border-gray-300 px-2 py-2 text-left w-[52%]">
                 {{ $t('components.lastLogs.message') }}
               </th>
             </tr>
@@ -81,11 +81,11 @@
               :key="index"
               class="odd:bg-gray-900 even:bg-gray-600"
             >
-              <td class="border border-gray-300 px-4 py-2">
+              <td class="border border-gray-300 px-2 py-2 align-top">
                 {{ formatTimestamp(entry.timestamp) }}
               </td>
               <td
-                class="border border-gray-300 px-4 py-2"
+                class="border border-gray-300 px-2 py-2 align-top whitespace-nowrap"
                 :class="{
                   'text-green-600': entry.level === 'INFO',
                   'text-red-600': entry.level === 'ERROR',
@@ -94,7 +94,9 @@
               >
                 {{ entry.level }}
               </td>
-              <td class="border border-gray-300 px-4 py-2">{{ entry.message }}</td>
+              <td class="border border-gray-300 px-2 py-2 align-top break-words">
+                {{ entry.message }}
+              </td>
             </tr>
           </tbody>
         </table>

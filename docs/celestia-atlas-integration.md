@@ -26,6 +26,10 @@ documentation before the host pin moves.
 
 ## Runtime boundary
 
+The existing compass also toggles native device sky pointing. See
+[sky pointing](sky-pointing.md) for sensor conventions, permissions, lifecycle,
+local builds, and the physical validation checklist.
+
 `src/views/CelestiaAtlasView.vue` creates the viewer only after first use. The
 warm instance remains mounted, is paused while hidden or while the native app is
 backgrounded, and is resized/resumed when visible. Permanent unmount destroys
@@ -45,11 +49,49 @@ The host supplies:
 - landscape, horizon, display, magnitude, type, and catalogue filters;
 - selected-target actions and Framing Assistant cache previews.
 
+The camera panel also hosts the framing tools (favourites list, FITS plate
+solve, mosaic controls). Mosaic panel centres saved as favourites are computed
+in `src/integrations/celestiaAtlas/mosaicPanels.js` by replaying the package's
+own FOV drawing (`projectAngularExtent`, `cameraFrameScreenRotationDeg`,
+`unprojectEquatorial`) on a synthetic view, so they always match the drawn
+rectangles. Targets loaded "into framing" elsewhere bump
+`framingStore.framingReloadKey`; the Atlas centres on
+`framingStore.RAangle/DECangle` when visible, or on its next open.
+
+The Atlas settings dialog also exposes a manual comet refresh. Touch'N'Stars downloads
+the `comets.json` asset from Atlas's rolling `comet-data-live` GitHub release
+through the selected plugin server's `/api/proxy` endpoint (avoiding browser
+CORS restrictions), validates the release envelope, replaces the viewer's
+runtime orbital elements, and caches the last valid payload for offline reuse.
+
 ## Catalogue and naming contract
 
 Touch'N'Stars composes the package's normalized base catalogue with the A66 and
 Stellarium supplement layers. The resulting offline catalogue contains 21,192
-deep-sky markers and exposes ten catalogue filters, including `messier`.
+deep-sky markers and exposes ten deep-sky source filters, including `messier`.
+
+Stellar layers use the public `composeStarCatalog` helper with HYG curated
+cross-identifiers/search-only entries, SAO cross-identifiers and WR data. This
+matches the standalone atlas's 9,437 searchable stars without duplicating
+cross-matched identities. HD and SAO are identifiers for bundled stars, not full
+HD/SAO surveys. Star-group filters are independent of the DSO visibility switch,
+persist in settings, and support overlapping group membership. The magnitude
+slider reaches 20; unknown-magnitude stars appear only when selected from search.
+Search remains unfiltered, and only catalogue-backed photographic stars are clickable.
+
+The host also passes the package's compact GCVS 5.1 asset to `variableStars`.
+Its 63,291 positioned named-variable entries are searchable offline by
+designation, GCVS number, and matched familiar names such as Mira. They are
+search-only targets, so they do not duplicate plotted stars or imply a
+time-dependent brightness prediction. GCVS appears as the eleventh **Catalogue
+sources** option; disabling it excludes GCVS results from search while leaving
+ordinary stars searchable.
+
+The search-to-selection adapter must retain `uid`, `searchOnly` and
+`crossIdSources`. The renderer supports the adapter's nested `coordinates`
+payload for search-only markers. Regression targets are Sirius / SAO151881,
+WR104 (measured magnitude) and WR99 (unknown magnitude), including reopening
+the details card by clicking the centred marker after dismissing it.
 
 - The normalized base must contain exactly one object for every designation
   from M1 through M110. Package updates that break this invariant must fail the
@@ -82,10 +124,19 @@ any new coordinate source.
 ## Offline data and native delivery
 
 Web and N.I.N.A.-served builds resolve landscapes and the DSS HiPS survey under
-`/celestia-atlas-data`. The photographic survey is limited to packaged orders 3
-and 4 plus its Allsky preview and has no public online fallback. Catalogue
-search, ephemerides, the Milky Way panorama, and engine calculations are also
-local.
+`/celestia-atlas-data`. The photographic survey is not part of the repository or
+the app bundle: the user downloads it once from the Atlas settings, and the
+Touch'N'Stars plugin server fetches the tiles (orders 3–4, optionally up to 7)
+onto the N.I.N.A. host and serves them from its persistent data directory at
+`/celestia-atlas-data/surveys/dss`. The app reads `hips_order` from the served
+`properties` file (`loadDssSurveyOrder` in `offlineSkySurvey.js`) and keeps the
+layer off while nothing is installed; it has no public online fallback.
+Catalogue search, ephemerides, and engine calculations are local: star and
+deep-sky catalogues are bundled through the `@acocalypso/celestia-atlas` data
+modules, not served as files. `public/celestia-atlas-data` therefore holds only
+the two shipped landscapes (`gray`, `guereins`); the former Stellarium-era HiPS
+folders (`dso`, `stars`, `surveys/milkyway`, `surveys/sso`) and orbital element
+files were removed and nothing loads them.
 
 Android and iOS builds deliberately exclude `celestia-atlas-data`; they obtain
 that tree from the selected Touch'N'Stars N.I.N.A. plugin server. The data-base
@@ -102,7 +153,8 @@ Current plugins serve them from
 `/celestia-atlas-data/user-landscapes/<folder>` while storing the files outside
 their replaceable installation directory. Persisted custom URLs from the former
 `stellarium-data/landscapes` and `celestia-atlas-data/landscapes` locations are
-migrated to this route. The packaged `gray` and `guereins` landscapes remain
+migrated to this route. The packaged `touchnstars` (default, generated by
+`scripts/generate-tns-landscape.py`), `gray` and `guereins` landscapes remain
 under `/celestia-atlas-data/landscapes` and must not be redirected.
 
 ## UI and mobile contract
@@ -153,8 +205,8 @@ Then verify Android and iOS with the selected N.I.N.A. instance reachable:
 - drag follows the horizon, pinch zoom works, and polar DSO extents stay fixed;
 - search and select OpenNGC, Abell/ACO, LDN/LBN, stars, and moving objects;
 - mount marker, locate/follow, camera/mosaic FOV, and target command actions;
-- packaged survey stability while dragging and after settling, offline from the
-  public internet;
+- downloaded survey stability while dragging and after settling, offline from
+  the public internet;
 - horizon/cardinals, landscape seam, Milky Way orientation, settings, and About;
 - safe-area placement at small portrait and landscape viewports.
 
@@ -179,8 +231,10 @@ metadata must satisfy its admission checklist before automatic use.
 
 ## Troubleshooting
 
-- **Blank survey:** verify the selected N.I.N.A. base URL, then request
-  `/celestia-atlas-data/surveys/dss/properties` from the same device.
+- **Blank survey:** check the Atlas settings for an installed survey first, then
+  verify the selected N.I.N.A. base URL and request
+  `/celestia-atlas-data/surveys/dss/properties` from the same device (404 means
+  nothing is installed on that host).
 - **Tiles flicker or refetch:** inspect request URLs and response cache headers;
   confirm viewer lifecycle is pausing/resuming rather than remounting.
 - **Mount absent:** inspect epoch and finite RA/Dec validation before changing

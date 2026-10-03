@@ -1,11 +1,21 @@
 import { defineStore } from 'pinia';
 import { ref, computed } from 'vue';
 import { DIAGNOSTICS_STATUS, applyArchiveStatusTransition } from '../utils/diagnosticsSupport';
+import {
+  MAX_SAVED_ARCHIVES,
+  archivesToEvict,
+  deleteArchive,
+  getArchive,
+  listArchives,
+  putArchive,
+} from '../utils/savedArchivesDb';
 
 export const useLogCollectorStore = defineStore('logCollector', () => {
   // State
   const submissions = ref([]);
   const diagnosticsRun = ref(createInitialDiagnosticsRun());
+  // Metadata mirror of the archives kept in IndexedDB (the blobs stay there).
+  const savedArchives = ref([]);
 
   // Getters
   const getAllSubmissions = computed(() => submissions.value);
@@ -134,12 +144,47 @@ export const useLogCollectorStore = defineStore('logCollector', () => {
     };
   }
 
+  async function loadSavedArchives() {
+    try {
+      savedArchives.value = await listArchives();
+    } catch (error) {
+      console.error('Failed to load saved log archives:', error);
+      savedArchives.value = [];
+    }
+  }
+
+  async function saveArchive({ filename, description, token, blob }) {
+    await putArchive({
+      id: token,
+      filename,
+      createdAt: new Date().toISOString(),
+      size: blob.size,
+      description,
+      token,
+      blob,
+    });
+    for (const id of archivesToEvict(await listArchives(), MAX_SAVED_ARCHIVES)) {
+      await deleteArchive(id);
+    }
+    await loadSavedArchives();
+  }
+
+  async function removeSavedArchive(id) {
+    await deleteArchive(id);
+    await loadSavedArchives();
+  }
+
+  async function getSavedArchiveBlob(id) {
+    return (await getArchive(id))?.blob ?? null;
+  }
+
   // Load data on store initialization
   loadFromStorage();
 
   return {
     // State
     submissions,
+    savedArchives,
 
     // Getters
     getAllSubmissions,
@@ -151,6 +196,10 @@ export const useLogCollectorStore = defineStore('logCollector', () => {
     removeSubmission,
     clearAllSubmissions,
     loadFromStorage,
+    loadSavedArchives,
+    saveArchive,
+    removeSavedArchive,
+    getSavedArchiveBlob,
     resetDiagnosticsRun,
     beginDiagnosticsRun,
     setDiagnosticsStatusResponse,

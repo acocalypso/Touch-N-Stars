@@ -7,7 +7,7 @@
         :label="$t('components.guider.ditherPixels')"
         labelKey="components.guider.ditherPixels"
         :min="0"
-        :max="100"
+        :max="1000"
         :step="0.5"
         :decimalPlaces="1"
         placeholder="3.0"

@@ -5,11 +5,230 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [App6.4.0] - 2026-10-03
+
+Summary of all changes since 6.2.0 (released in 6.3.0-beta1 to 6.3.1-beta8, see below for the individual beta releases).
+
+### Added
+
+- Atlas: Sky pointing in the Android and iOS app - tap the compass and aim the device at the sky to see what is in front of you.
+- Atlas: The photographic DSS background is downloaded once from the Atlas settings to the NINA/PINS host instead of being shipped with the app; the download can later be reduced to a lower resolution or removed.
+- Atlas: The target panel shows what the selected object is and whether it is worth imaging - type, magnitude, size, constellation, current altitude, rise, transit and set, and the altitude chart with twilight, horizon and moon.
+- Atlas: The camera panel has the framing tools - favourites, FITS plate solve and mosaic settings - and the Atlas centres on targets loaded into framing.
+- Atlas: Comet orbital elements can be refreshed from the Atlas settings and are kept for offline use.
+- Atlas: Compact, responsive view compass with a saved display toggle.
+- Perihelion plugin: Non-sidereal tracking of comets and asteroids computed from real orbital elements, with brightness search, tonight's altitude and motion path, a framing view with the camera field, Quick Track and a ready-made sequence container. Thanks @OryxAstro
+- Target Scheduler Viewer: New plugin that shows the progress and predicted schedule of NINA's Target Scheduler. Thanks @ArnaudNe
+- Autofocus: Support for Hocus Focus V4 with the autofocus wizard.
+- Sequence monitor (PINS): New session timeline on the Stats tab showing mount, guiding, plate solve, focus and capture events of the night with a zoomable statistics graph. Thanks @aduffeck
+- Sequence: New Settings tab with an option to lock the sequence controls automatically when a sequence starts.
+- Sequence editor: A deep sky object container can be loaded into the framing assistant with one tap.
+- Sequence editor (PINS): The External Script instruction can be added and edited, with the script picked from the file browser.
+- Framing assistant: "Set to sequence target" lets you pick which sequence target to overwrite, or add a new one at a chosen position.
+- Framing and Atlas: The camera rotation is set with a ruler slider (drag, mouse wheel, reset).
+- Status bar: New Switch chip that shows how many ports are on and opens the switch controls from any page.
+- Status bar: The filter panel can change the filter, and the camera panel offers cool-down and warm-up with the target temperature.
+- Image history (PINS): Images can be deleted individually or several at once from the image history, the image viewer and the last-image panel.
+- File browser: Now also available in NINA mode. Files can be saved to the device, lists can be sorted and searched, and several entries can be selected for downloading or deleting at once.
+- Sky chart: The time axis runs from midday to midday with midnight in the middle, and a moon button shows the moon's altitude, illumination and distance to the target.
+- Logfile Collector: PINS system diagnostics are included automatically, progress is shown while collecting, and up to five archives are kept in the app to upload, export or delete later.
+- Guiding (PINS): Button in the guider graph to clear the guide step history.
+
+### Changed
+
+- Atlas: Search bar at the top and one toolbar at the bottom; the selected object and the camera field share one target panel, display toggles have their own Layers panel.
+- Atlas: New default landscape - a dark night meadow that leaves the sky free; the Guéreins village stays available.
+- Atlas: Updated the embedded Celestia Atlas to the latest release, including the constellation and horizon fixes.
+- Atlas: Requires a current Touch'N'Stars plugin; older plugins show an update hint in the Atlas settings.
+- Setup wizard (PINS): Opens automatically for a new profile; the guide camera is set up before the imaging camera and the dither calculator has its own step at the end.
+- File browser: Image previews are rendered on the server with NINA's stretch settings, so FITS, XISF and raw files open faster and the stretch can be adjusted in the preview. In NINA mode this needs Touch'N'Stars plugin 1.4.0.0 or newer.
+- Haptics: Every button, switch and navigation entry gives haptic feedback, switchable under Settings > General.
+- Mount: Tracking mode and manual control are locked while the mount is parked, with an unpark button in the hint.
+- Guiding (PHD2): The guider graph is hidden on the settings tab.
+- Guider (Dither): Maximum dither pixel value increased from 100 to 1000.
+- Framing assistant: Mosaic grids can go up to 20x20 fields instead of 5x5.
+- Observation planner: Redesigned target cards that no longer overlap or get cut off on narrow screens.
+- Telescopius: Target lists can be imported from a Telescopius CSV export, including the position angle, and edited afterwards.
+- Tilter: Reworked layout, consistent with the rest of the app.
+
+### Security
+
+- Perihelion: Every request requires an API token; a fresh install pairs automatically on first contact. Thanks @OryxAstro
+
+### Fixed
+
+- Sequence monitor: Changes to the exposure settings of a Smart Exposure are saved, and rejected changes show an error message.
+- Location settings (NINA): The mount location is shown again instead of "Mount not connected", and syncing from mount to profile works.
+- Framing and Atlas: The camera rotation from plate solves is also applied on PINS while its clock is still wrong after a restart.
+- Mount: Manual slew works right after connecting on PINS mounts that need the slew rate to be sent explicitly (e.g. ZWO AM3/AM5).
+- Camera: The cooler status no longer shows Warming up right after starting a cool-down or flips back after starting a cool-down, warm-up or cancel.
+- Filter wheel: The INDI manual wheel is replaced by NINA's Manual Filter Wheel on connect, so the filter change confirmation appears again in PINS.
+- Switch: The on/off toggles follow changes made outside the app, e.g. from NINA's switch tab or an Alpaca web UI.
+- File browser: Renaming works again, a failed rename shows the reason, cancelling a download no longer reports an error, previews show a spinner and an error message with a download option when they cannot be rendered.
+- Logfile Collector: Collect & Upload no longer downloads a duplicate diagnostics ZIP.
+- Instances: A scanned PINS rig no longer switches itself to the address of another rig on the same network.
+- Wi-Fi setup: Works in the browser when the app is opened directly from the PINS rig.
+- Plugins: The "plugin outdated" notice names the host the plugin actually runs in, NINA or PINS.
+
+## [App6.3.1-beta8] - 2026-09-30
+
+### Changed
+
+- Guiding (PHD2): The guider graph is hidden on the settings tab and shown again when returning to guiding.
+
+### Fixed
+
+- Sequence monitor: Changes to the exposure settings of a Smart Exposure are now saved; rejected changes now show an error message.
+- Framing and Atlas: The camera rotation from plate solves (e.g. TPPA) is now also applied on PINS while its clock is still wrong after a restart.
+- Location settings (NINA): The mount location is shown again instead of "Mount not connected", and syncing from mount to profile works.
+
+## [App6.3.1-beta7] - 2026-09-25
+
+### Added
+
+- Autofocus: Support for Hocus Focus V4 with the autofocus wizard.
+- Sequence monitor (PINS): New session timeline on the Stats tab showing mount, guiding, plate solve, focus and capture events of the night with a zoomable statistics graph. Thanks @aduffeck
+- Image history (PINS): Images can be deleted individually or several at once from the image history, the image viewer and the last-image panel.
+- Target Scheduler Viewer: New plugin that shows the progress and predicted schedule of NINA's Target Scheduler. Thanks @ArnaudNe
+- Atlas: Compact, responsive view compass with a saved display toggle.
+
+### Changed
+
+- Setup wizard (PINS): Opens automatically for a new profile, e.g. after flashing a fresh image or adding a profile.
+- Setup wizard (PINS): The guide camera is now set up before the imaging camera so it can still be scanned; the dither calculator moved to its own step at the end.
+- Atlas: Updated the embedded Celestia Atlas to v9, including the constellation and horizon fixes.
+- Tilter: Reworked layout, consistent with the rest of the app.
+
+### Security
+
+- Perihelion: Every request now requires an API token; a fresh install pairs automatically on first contact. Thanks @OryxAstro
+
+### Fixed
+
+- Wi-Fi setup: Works in the browser when the app is opened directly from the PINS rig.
+
+## [App6.3.1-beta6] - 2026-09-16
+
+### Added
+
+- Atlas: The photographic DSS background is now downloaded once from the Atlas settings to the NINA/PINS host (base resolution or up to order 7) instead of being shipped with the app; the Atlas offers the base download on first open and works without it.
+- Atlas: Deleting the survey now lets you pick which order to keep (downgrade) instead of only wiping everything, with a confirmation dialog and a spinner while it runs.
+- Atlas: The camera panel now has the framing tools — favourites list, FITS plate solve and mosaic settings (mosaic panels are saved as individual favourites) — and the Atlas centres on targets loaded into framing from favourites, FITS solves or the sequence.
+- Atlas: The target panel now shows what the selected object is and whether it is worth imaging — type, magnitude, size, constellation, current altitude and azimuth, rise, transit and set for the night, and the altitude chart with twilight, horizon and moon; everything follows the Atlas clock.
+- Sequence editor (PINS): The External Script instruction can now be added and edited; the script is picked with the file browser or typed with arguments.
+- Framing and Atlas: The camera rotation is set with a ruler slider (drag, mouse wheel, reset) instead of the drag handle or a number field alone; while the ruler is dragged the panel gets out of the way so the camera frame can be watched turning on small screens.
+
+### Changed
+
+- Atlas: The default landscape is now a dark night meadow with low hills and tree lines that leaves the sky free; the Guéreins village landscape stays available under the landscape source.
+- Atlas: Requires the Touch'N'Stars plugin with the survey download endpoints; older plugins show an update hint in the Atlas settings.
+- Atlas: The controls are rearranged into a search bar at the top and one toolbar at the bottom (mount, time, layers, target); the selected object and the camera field now share a single target panel, the frequent display toggles have their own Layers panel, and About moved into the settings.
+
+## [App6.3.1-beta5] - 2026-09-15
+
+### Added
+
+- Status bar: New Switch chip that shows how many ports are on and opens the switch controls from any page, so powering the equipment no longer needs a detour to the Switch tab.
+- Status bar: The filter panel now has the filter selector, so the filter can be changed from any page.
+- Status bar: The camera panel offers the cool-down and warm-up controls with the target temperature when the camera has a cooler.
+- Logfile Collector: PINS system diagnostics are now collected and included automatically, expanded log coverage, and progress is shown while the archive is being built.
+- Logfile Collector: Collect & Save now keeps the log archive inside the app (up to five) so it can be uploaded, exported to the device or deleted later from a saved-archives list.
+
+### Fixed
+
+- Filter wheel: The INDI manual wheel is no longer offered and an existing selection is switched to NINA's Manual Filter Wheel on connect, so the filter change confirmation appears again in PINS.
+- Camera: The cooler status no longer shows Warming up right after starting a cool-down and no longer flips back to Off or At target temp after starting a cool-down, warm-up or cancel; warm-ups started at the target and holds after a cancel are shown correctly on Windows NINA too.
+- Switch: The on/off toggles now follow changes made outside the app, e.g. from NINA's own switch tab or an Alpaca proxy's web UI.
+- File browser: Cancelling a multi-file download no longer reports a failed download, and a rename that hits an existing name shows the backend's reason instead of closing the dialog silently.
+- Logfile Collector: Collect & Upload no longer also downloads a duplicate diagnostics ZIP alongside the main log archive.
+
+## [App6.3.1-beta3] - 2026-09-10
+
+### Added
+
+- Sequence: New Settings tab on the sequence page, with an option to lock the sequence controls automatically when a sequence starts. Unlocking stays manual.
+- Guiding (PINS): Button in the guider graph to clear the guide step history.
+
+### Changed
+
+- Mount: Tracking mode and manual control are locked while the mount is parked, with an unpark button in the hint.
+
+### Fixed
+
+- Mount: Manual slew works right after connecting on PINS mounts that need the slew rate to be sent explicitly (e.g. ZWO AM3/AM5).
+
+## [App6.3.1-beta2] - 2026-09-10
+
+### Changed
+
+- Update Perihelion plugin. Thanks @OryxAstro
+
+## [App6.3.1-beta1] - 2026-09-08
+
+### Added
+
+- Celestia Atlas settings can refresh comet orbital elements from Atlas's rolling live-data release, validate and cache the downloaded catalogue, and reuse the last valid data offline.
+
+## [App6.3.0-beta4] - 2026-09-07
+
+### Added
+
+- Perihelion plugin: comet/asteroid non-sidereal tracking, computed live from real orbital elements. Asteroid orbits are stable enough to ship as a fixed list needing no internet at all; comet elements are fetched from MPC and refreshed automatically (or on demand via Sync Now), then cached to disk so tracking keeps working offline between syncs. Browse tab searches comets and asteroids by brightness; Position & Path shows tonight's altitude, a 10-night motion path with a real angular scale bar and drift readout, and a live framing view centered on the object's real position with the camera's actual field of view overlaid; Track offers Quick Track for immediate manual tracking (optionally re-applying the rate every 15 minutes so a long session stays accurate as the object's true rate drifts) and Add to Sequence to build a full Advanced Sequencer container (unpark, center, track, guide, imaging loop, optional meridian-flip and autofocus triggers). Predicted magnitude is cross-checked against real observer-reported brightness (COBS) where available.
+
+### Fixed
+
+- Perihelion: the framing view's path/"Tonight" overlay rendered in the wrong place because its canvas element defaulted to the browser's 300x150 fallback size instead of filling its container — a CSS quirk specific to `<canvas>`/`<img>`/`<video>` elements, where `position: absolute; inset: 0` alone doesn't stretch them the way it does a normal element. Also fixed a related white-screen-on-pinch-zoom issue on mobile (same root cause).
+- Perihelion: the 10-night path chart's start/end date labels could overflow the card at either edge; also added a real angular scale bar and a total/per-night drift readout so the chart carries more than a bare line between two dates.
+
+## [App6.3.0-beta3] - 2026-09-02
+
+### Changed
+
+- Framing assistant: Mosaic grids can now go up to 20x20 fields instead of 5x5
+
+### Fixed
+
+- Instances: A scanned PINS rig no longer switches itself to the address of another rig on the same network
+
+## [App6.3.0-beta2] - 2026-08-31
+
+### Added
+
+- File browser: Files can be saved to the device, lists can be sorted and searched, and several entries can be selected for downloading or deleting at once
+- File browser: The plugin is now available in NINA mode as well, not only on PINS
+- Sky chart: The time axis now always runs from midday to midday with midnight in the middle, so a whole night is visible at a glance and the "now" marker sits at its real time
+- Sky chart: A moon button shows the moon's altitude curve plus its illumination and distance to the target
+
+### Changed
+
+- File browser: Image previews are now rendered on the server with NINA's own stretch settings, so FITS, XISF and raw files open faster and look like they do in NINA - stretch factor, black clipping, unlinked stretch and debayer can be adjusted directly in the preview. In NINA mode this needs Touch'N'Stars plugin 1.4.0.0 or newer; older versions get a notice instead of a broken preview
+- File browser: Renaming files works again, and WebP and BMP files are now counted as images by the images-only filter
+- Observation planner: Redesigned target cards - name, preview, values and actions no longer overlap or get cut off on narrow screens
+- Telescopius: Target lists can now be imported from a Telescopius CSV export, including the position angle as framing rotation, and imported targets can be edited afterwards
+
+### Fixed
+
+- File browser: A spinner is shown while a preview is loading, and files that cannot be rendered show an error message with a download option instead of silently starting a download
+- Plugins: The "plugin outdated" notice now names the host the plugin actually runs in, NINA or PINS, instead of always saying NINA
+
+## [App6.3.0-beta1] - 2026-08-30
+
+### Added
+
+- Sequence editor: A deep sky object container can now be loaded into the framing assistant with one tap
+- Framing assistant: "set to sequence target" now lets you pick which sequence target to overwrite, or add a new one at a chosen position
+
+### Changed
+
+- Haptics: Every button, switch and navigation entry now gives haptic feedback, switchable under Settings > General
+- Guider (Dither): Max dither pixel value increased from 100 to 1000
+
 ## [App6.2.0] - 2026-08-27
 
 Summary of all changes since 6.1.2 (released in beta1-beta9, see below for the individual beta releases).
 
 ### Added
+
 - Plugin Screen lock: The app's controls can now be locked from the status bar so nothing gets changed by accident - in the dark, with the device in a pocket, or when handing it to someone else. Everything stays visible and keeps updating while locked; unlocking requires a 2 s long press
 - Sequence editor: Items can now be saved directly from the editor
 - Guiding (PHD2): The ZFilter guide algorithm is now available for the Dec axis
@@ -29,6 +248,7 @@ Summary of all changes since 6.1.2 (released in beta1-beta9, see below for the i
 - Setup wizard: On PINS, every device step can install a missing 3rd party INDI driver without leaving the wizard, and the camera step lists natively supported cameras first - an INDI driver is only needed if the camera does not appear there
 
 ### Changed
+
 - TPPA: Exposure time, gain and filter now apply to the whole rig instead of to one device - every client connected to the same instance sees the same values
 - Settings: The General tab was split into Connection & Location, Interface and System, so related settings are easier to find
 - Sequence: The item that is currently running can no longer be edited, disabled, reset, deleted or moved
@@ -42,6 +262,7 @@ Summary of all changes since 6.1.2 (released in beta1-beta9, see below for the i
 - Pinsdaemon: Rework of Wifi handling
 
 ### Fixed
+
 - Sequence editor: The save, clear and manage-sequences buttons no longer appear when connected to NINA - they only work with PINS
 - Guiding: Manual VNC guide cameras now correctly set the PHD2Camera profile value
 - Atlas: Camera rotation now matches NINA
@@ -57,62 +278,80 @@ Summary of all changes since 6.1.2 (released in beta1-beta9, see below for the i
 - Dialogs: On narrow screens content that did not fit the dialog was centred, so its left edge was cut off and could not be reached by scrolling either - in the settings dialog headings and input labels appeared clipped ("onnection Settings"). Dialog content now shrinks to the dialog width, and content that genuinely cannot shrink starts at the left edge and stays scrollable
 - Celestia Atlas: Fix star constellation - Western skycultures
 
-## [App6.1.4-beta9] - Unreleased
+## [App6.1.4-beta9] - 2026-08-26
 
 ### Added
+
 - Plugin Screen lock: The app's controls can now be locked from the status bar so nothing gets changed by accident - in the dark, with the device in a pocket, or when handing it to someone else. Everything stays visible and keeps updating while locked; unlocking requires a 2 s long press
+- Framing: The camera rotation from every plate solve is shown in the Framing Assistant and on the rotator page
+- Atlas: A second field-of-view frame shows the solved camera rotation next to the target frame
 
 ### Fixed
+
+- Framing: The sky chart labels are now translated instead of always English
+
+### Fixed
+
 - Sequence editor: The save, clear and manage-sequences buttons no longer appear when connected to NINA - they only work with PINS
 
 ## [App6.1.4-beta8] - 2026-08-24
 
 ### Added
+
 - Sequence editor: Items can now be saved directly from the editor
 - Guiding (PHD2): The ZFilter guide algorithm is now available for the Dec axis
 - Guiding: The PHD2 settings modal was replaced by a SubNav tab on the guider page
 
 ### Fixed
+
 - Guiding: Manual VNC guide cameras now correctly set the PHD2Camera profile value
 - Atlas: Camera rotation now matches NINA
 
 ## [App6.1.4-beta7] - 2026-08-19
 
 ### Added
+
 - Settings: The app settings stored on this device (language, saved instances, layout, plugin settings) can now be exported to a file and restored on another device. Equipment settings kept in the NINA/PINS profile are not included and need a separate backup
 
 ### Changed
+
 - TPPA: Exposure time, gain and filter now apply to the whole rig instead of to one device - every client connected to the same instance sees the same values
 - Settings: The General tab was split into Connection & Location, Interface and System, so related settings are easier to find
 
 ## [App6.1.4-beta6] - 2026-08-19
 
 ### Added
-- PINS: Voltage Status & Undervoltage notification 
+
+- PINS: Voltage Status & Undervoltage notification
 
 ## [App6.1.4-beta5] - 2026-08-18
 
 ### Added
+
 - Hardware Compatibility plugin: Look up which hardware works with which driver, and report your own findings to a shared, crowdsourced database
 
 ### Fixed
+
 - Equipment: INDI devices that only get power after the driver started (e.g. a rotator on a power box port) were listed as OFFLINE and could not be connected. The driver is now reloaded automatically instead of requiring a manual reselect in the INDI setup dialog
 - Equipment: A device selection now goes straight into the profile instead of being reset by the next device list refresh, so "No device" can finally be selected
 
 ## [App6.1.4-beta4] - 2026-08-16
 
 ### Added
+
 - Guiding (PHD2): The Predictive PEC period length can now be set
 - Status bar: Entries can be reordered and hidden under Settings > General, just like the navigation bar
 - Mount: The target search under Slew now also finds stars, not just DSOs
-- Nightsummary Plugin: is now also supported in NINA 
+- Nightsummary Plugin: is now also supported in NINA
 
 ### Changed
+
 - Sequence: The item that is currently running can no longer be edited, disabled, reset, deleted or moved
 - Sequence: Loading a sequence now closes the dialog right away and shows a spinner until the sequence is loaded
 - Status bar: Entries no longer jump to the front when something needs attention, and Progress, Log and Instance are no longer pinned to the right edge
 
 ### Fixed
+
 - Guiding (PHD2): On narrow screens the guiding status covered the star image and the star profile. The status is now shown at the bottom left, and both tiles adapt their size to the available width instead of being cut off
 - Status bar: Panels opened from the status bar covered the lower edge of the page including its rounded corners
 - Mount: With drivers that keep reporting "slewing" after a park has finished (e.g. ZWO AM5N), the mount status stayed on a red "Slewing" with an endlessly turning spinner instead of "Parked", and the slew button stayed a red stop button. A parked mount is now never shown as slewing. During a real slew the status stays green with the spinner instead of turning yellow
@@ -120,41 +359,50 @@ Summary of all changes since 6.1.2 (released in beta1-beta9, see below for the i
 ## [App6.1.4-beta3] - 2026-08-15
 
 ### Changed
+
 - Image history: Thumbnails load in batches while scrolling, several at a time, and are kept when you leave the tab
 
 ### Fixed
+
 - Image history: Filtering (e.g. to lights only) took very long on large sessions - all images were downloaded regardless of the filter, oldest first. Only the filtered images are fetched now, starting with the ones on screen
 
 ## [App6.1.4-beta2] - 2026-08-11
+
 ### Added
+
 - Sequence: The PHD2 Tools trigger "Interrupt and retry when RMS above" can now be configured in the app — threshold, mode, how long the guiding has to stay calm, the recovery timeout and the maximum number of repetitions
 - PINS setup and settings: Configure the rig's system locale, Wi-Fi country, timezone and keyboard layout. The setup assistant reads the current Pi values and places this step before Wi-Fi; the same live settings remain available under General Settings on every client, with searchable lists of the values supported by the Pi
 
 ### Changed
+
 - Sequence: Cameras that only accept a fixed set of gain values (most Canon/Nikon DSLRs) now offer those values as a list instead of a free number field, in every exposure and flat item
 
 ### Fixed
+
 - Webcam: Layout and settings dialog on iOS, and snapshots that stayed "Disconnected" in the app
 - Livestack: The zoom and image controls could be hidden behind the status bar at the bottom of the screen
 
 ## [App6.1.4-beta1] - 2026-08-08
+
 ### Added
+
 - Setup wizard: The first-run setup and the equipment configuration are now one guided assistant that opens automatically on first start. It covers language, the connection to your rig, and then the equipment: mount, location, telescope, camera, focuser and filter wheel. On PINS it additionally covers the rig's Wi-Fi, its software updates, the maximum slew speed and guiding. Every step writes its values straight to the profile, so nothing is lost if you leave in between
 - Setup wizard: The camera step reads the sensor size from the connected camera and offers to write it into the profile if it differs from what is stored there. Cameras that do not report a sensor size - DSLRs typically - get input fields instead. Together with the pixel size, which no driver reports and which therefore always has to be entered by hand, the resulting image scale in arcsec/px is shown directly, so a mistyped value is obvious right away
 - Setup wizard: The guiding step converts the dither distance for you. NINA stores it in guide camera pixels while the usual recommendations (10-15 px) are given in pixels of the imaging camera, and the two differ by a factor of 2-5 depending on the guide scope. The step shows both image scales, the resulting offset on sky and what is currently in the profile, and warns if PHD2 itself is working with a different focal length or pixel size
 - Setup wizard: On PINS, every device step can install a missing 3rd party INDI driver without leaving the wizard, and the camera step lists natively supported cameras first - an INDI driver is only needed if the camera does not appear there
 
 ### Changed
+
 - Setup: The initial setup is no longer mandatory and can be cancelled at any point. Previously every screen redirected back to the setup page until an instance had been configured; now the app stays usable and the connection can be added later under Settings. The wizard can be reopened at any time from Settings, and on PINS also from the PINS page
 - 3rd party INDI drivers (PINS): Camera drivers can now be installed as well. The driver registry has always accepted the camera type, only the install dialog rejected it
 - Guiding: The dither distance can now be set in steps of 0.5 pixels instead of whole pixels, because converting from imaging pixels rarely lands on a round number
 - Pinsdaemon: Rework of Wifi handling
 
 ### Fixed
+
 - 3rd party INDI drivers (PINS): When a search returned no packages, the driver selection and the "Edit config" button disappeared along with the results, so there was no way back without reloading. Both now stay in place and the selection is simply disabled
 - Dialogs: On narrow screens content that did not fit the dialog was centred, so its left edge was cut off and could not be reached by scrolling either - in the settings dialog headings and input labels appeared clipped ("onnection Settings"). Dialog content now shrinks to the dialog width, and content that genuinely cannot shrink starts at the left edge and stays scrollable
 - Celestia Atlas: Fix star constellation - Western skycultures
-
 
 ## [App6.1.2] - 2026-07-31
 

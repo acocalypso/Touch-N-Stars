@@ -124,12 +124,32 @@ test('converts every tagged selection to the proven J2000 framing contract', () 
   );
 });
 
+test('preserves stellar identity and search-only marker metadata at the viewer boundary', () => {
+  const result = atlasSearchResultToTarget({
+    id: 'WR 99',
+    uid: 'simbad-wr:2412127',
+    name: 'WR 99',
+    searchOnly: true,
+    raDeg: 264.82612891646994,
+    decDeg: -28.25234379719,
+    frame: 'ICRS',
+    crossIdSources: ['SIMBAD WR'],
+  });
+  assert.equal(result.uid, 'simbad-wr:2412127');
+  assert.equal(result.searchOnly, true);
+  assert.equal(result.magnitude, undefined);
+  assert.deepEqual(result.crossIdSources, ['SIMBAD WR']);
+});
+
 test('builds viewer targets only from explicitly framed search results', () => {
   const result = atlasSearchResultToTarget({
     id: 'M 31',
     name: 'Andromeda Galaxy',
     displayName: 'M31 · Andromeda Galaxy',
     type: 'Galaxy',
+    typeCode: 'G',
+    mag: 3.44,
+    shape: { kind: 'ellipse', majorArcmin: 177.83, minorArcmin: 69.66 },
     raDeg: 10.6847,
     decDeg: 41.269,
     frame: 'ICRS',
@@ -138,6 +158,9 @@ test('builds viewer targets only from explicitly framed search results', () => {
   assert.equal(result.id, 'M 31');
   assert.equal(result.name, 'Andromeda Galaxy');
   assert.equal(result.displayName, 'M31 · Andromeda Galaxy');
+  assert.equal(result.typeCode, 'G');
+  assert.equal(result.magnitude, 3.44);
+  assert.deepEqual(result.shape, { kind: 'ellipse', majorArcmin: 177.83, minorArcmin: 69.66 });
   assert.deepEqual(result.coordinates, { raDeg: 10.6847, decDeg: 41.269, frame: 'ICRS' });
   assert.deepEqual(
     atlasSearchResultToTarget({

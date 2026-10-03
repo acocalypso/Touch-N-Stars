@@ -9,6 +9,16 @@
       <canvas ref="rmsGraph"></canvas>
       <button
         v-if="store.isPINS"
+        @click="clearGraph"
+        :disabled="isClearing"
+        :title="$t('components.guider.clearGraph')"
+        :aria-label="$t('components.guider.clearGraph')"
+        class="absolute top-0 right-7 p-1 text-gray-400 hover:text-white disabled:opacity-50"
+      >
+        <TrashIcon class="w-5 h-5" />
+      </button>
+      <button
+        v-if="store.isPINS"
         @click="showSettings = !showSettings"
         class="absolute top-0 right-0 p-1 text-gray-400 hover:text-white"
       >
@@ -29,7 +39,7 @@ import { useI18n } from 'vue-i18n';
 import { useToastStore } from '@/store/toastStore';
 import { apiStore } from '@/store/store';
 import Phd2GraphSettings from './PHD2/pins/Phd2GraphSettings.vue';
-import { Cog6ToothIcon } from '@heroicons/vue/24/outline';
+import { Cog6ToothIcon, TrashIcon } from '@heroicons/vue/24/outline';
 
 const { t } = useI18n();
 const guiderStore = useGuiderStore();
@@ -38,7 +48,60 @@ const store = apiStore();
 const isLoading = ref(true);
 const rmsGraph = ref(null);
 const showSettings = ref(false);
+const isClearing = ref(false);
 let chart = null;
+
+// Width of the trash + settings buttons overlaid on the top-right corner (PINS only).
+const LEGEND_BUTTON_GAP = 60;
+
+// Wrap the legend rows as if the legend were LEGEND_BUTTON_GAP narrower on
+// both sides. The centered rows then keep that gap free on the right, so on
+// narrow screens the labels move to a new row instead of under the buttons.
+// The plugin is always registered and reads store.isPINS on every layout,
+// because PINS detection usually finishes after this chart is created.
+// Relies on Chart.js Legend internals (fit/maxWidth/width), verified against 4.5.1.
+const legendButtonGapPlugin = {
+  id: 'legendButtonGap',
+  afterInit(chart) {
+    const legend = chart.legend;
+    if (!legend) return;
+    const originalFit = legend.fit.bind(legend);
+    legend.fit = function () {
+      if (!store.isPINS) {
+        originalFit();
+        return;
+      }
+      const fullWidth = this.maxWidth;
+      this.maxWidth = Math.max(fullWidth - 2 * LEGEND_BUTTON_GAP, 0);
+      originalFit();
+      this.maxWidth = fullWidth;
+      if (this.isHorizontal()) this.width = fullWidth;
+    };
+  },
+};
+
+async function clearGraph() {
+  const confirmed = await toastStore.showConfirmation(
+    t('components.guider.clearGraph'),
+    t('components.guider.clearGraphConfirm'),
+    t('components.guider.clearGraph'),
+    t('common.cancel')
+  );
+  if (!confirmed) return;
+
+  isClearing.value = true;
+  try {
+    await guiderStore.clearGraph();
+  } catch {
+    toastStore.showToast({
+      type: 'error',
+      title: t('components.guider.clearGraph'),
+      message: t('components.guider.clearGraphError'),
+    });
+  } finally {
+    isClearing.value = false;
+  }
+}
 
 const initGraph = () => {
   const size = guiderStore.chartInfo.HistorySize;
@@ -46,6 +109,7 @@ const initGraph = () => {
 
   chart = new Chart(ctx, {
     type: 'bar',
+    plugins: [legendButtonGapPlugin],
     data: {
       labels: Array(size).fill(''),
       datasets: [
@@ -235,6 +299,13 @@ watch(
       }, 1500);
     }
   }
+);
+
+// The overlay buttons appear/disappear with PINS detection; re-layout the
+// legend right away instead of waiting for the next guide step.
+watch(
+  () => store.isPINS,
+  () => chart?.update()
 );
 
 // The poller skips the graph fetch while the flyout is closed (the component

@@ -1,3 +1,9 @@
+// PINS always runs as the fixed system user "pi", so this path is a stable constant across
+// every PINS installation. The equivalent NINA/Windows path (%LOCALAPPDATA%\NINA\Logs) varies
+// per Windows user account and cannot be resolved from the frontend without backend support,
+// so the "last 10 NINA logs" feature is intentionally PINS-only for now.
+export const PINS_NINA_LOG_PATH = '/home/pi/.local/share/NINA/Logs';
+
 export const DIAGNOSTICS_STATUS = {
   IDLE: 'idle',
   QUEUED: 'queued',

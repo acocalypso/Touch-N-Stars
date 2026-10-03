@@ -15,6 +15,7 @@
         buttonSizeClasses,
       ]"
       @click="handleCaptureClick"
+      :data-haptic="store.cameraInfo.IsExposing ? 'medium' : 'light'"
       :disabled="
         (cameraStore.loading && !store.cameraInfo.IsExposing) || sequenceStore.sequenceRunning
       "
@@ -215,9 +216,7 @@ import Modal from '@/components/helpers/Modal.vue';
 import SettingsModal from '@/components/camera/SettingsModal.vue';
 import { Cog6ToothIcon } from '@heroicons/vue/24/outline';
 import { useOrientation } from '@/composables/useOrientation';
-import { useHaptics } from '@/composables/useHaptics';
 
-const { tapLight, tapMedium } = useHaptics();
 const cameraStore = useCameraStore();
 const settingsStore = useSettingsStore();
 const sequenceStore = useSequenceStore();
@@ -242,12 +241,9 @@ const longTimes = [180, 240, 300, 480, 600, 900];
 // Functions
 const handleCaptureClick = () => {
   if (store.cameraInfo.IsExposing) {
-    // Aborting is the destructive branch of this button.
-    tapMedium();
     cameraStore.abortExposure(apiService);
     return;
   }
-  tapLight();
   cameraStore.capturePhoto(
     apiService,
     settingsStore.camera.exposureTime,
@@ -257,17 +253,14 @@ const handleCaptureClick = () => {
 };
 
 const toggleLooping = () => {
-  tapLight();
   cameraStore.isLooping = !cameraStore.isLooping;
 };
 
 const openCameraSettings = () => {
-  tapLight();
   openSettings.value = true;
 };
 
 const selectTime = (time) => {
-  tapLight();
   settingsStore.camera.exposureTime = time;
   showDropdown.value = false;
 };

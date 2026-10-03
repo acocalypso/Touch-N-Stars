@@ -47,3 +47,25 @@ export function findLatestSolvedRotation(logs) {
   if (!latest) return null;
   return { angle: latest.angle, timestamp: latest.timestamp };
 }
+
+/**
+ * Returns the newest timestamp in a log array in milliseconds, or null.
+ *
+ * Log timestamps come from the backend host's clock and carry no time zone.
+ * On PINS that clock can be far off right after boot (no RTC, NTP corrects it
+ * minutes later) or run in another zone than the phone, so the age of a log
+ * line has to be judged against the host's own clock. Every poll contains the
+ * app's own fresh hub connects and requests, which makes the newest line a
+ * good stand-in for "now" on the host.
+ */
+export function newestLogTime(logs) {
+  if (!Array.isArray(logs)) return null;
+  let newest = null;
+  for (const log of logs) {
+    if (!log) continue;
+    const time = new Date(log.timestamp).getTime();
+    if (!Number.isFinite(time)) continue;
+    if (newest === null || time > newest) newest = time;
+  }
+  return newest;
+}

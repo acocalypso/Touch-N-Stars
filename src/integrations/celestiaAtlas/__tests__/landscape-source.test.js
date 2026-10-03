@@ -7,7 +7,7 @@ test('native plugin data base is applied to default and migrated local landscape
   const defaultSource = resolveLandscapeSource({ landscapesVisible: true }, baseUrl);
   assert.equal(
     defaultSource.source.url,
-    'http://192.168.1.42:5000/celestia-atlas-data/landscapes/guereins'
+    'http://192.168.1.42:5000/celestia-atlas-data/landscapes/touchnstars'
   );
 
   const customSource = resolveLandscapeSource(
@@ -34,4 +34,18 @@ test('external custom landscapes remain external', () => {
     '/celestia-atlas-data'
   );
   assert.equal(source.source.url, 'https://example.test/landscape');
+});
+
+test('the Stellarium Guéreins landscape stays selectable', () => {
+  const source = resolveLandscapeSource(
+    { landscapesVisible: true, landscapeSourceMode: 'guereins' },
+    'http://192.168.1.42:5000/celestia-atlas-data'
+  );
+  assert.deepEqual(source, {
+    visible: true,
+    source: {
+      url: 'http://192.168.1.42:5000/celestia-atlas-data/landscapes/guereins',
+      key: 'guereins',
+    },
+  });
 });

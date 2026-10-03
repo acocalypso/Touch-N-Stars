@@ -80,8 +80,8 @@ works while the WPF dialog is open.
 5. Given a solve fails (`Platesolve failed`), the last good angle stays
    unchanged, with no message and no error state.
 6. Given the app starts while an old solve is still in the log, that solve is
-   not applied; only a solve within `logStore.isWithinTenMinutes`
-   (`src/store/logStore.js:73`) is adopted on the first poll.
+   not applied; only a solve at most 10 minutes older than the newest log line
+   of the same poll is adopted on the first poll.
 7. Given a rotator is connected, the rotator page shows the last solved sky
    position angle next to `MechanicalPosition`, labelled so the two cannot be
    confused.
@@ -114,6 +114,14 @@ works while the WPF dialog is open.
   `src/integrations/celestiaAtlas/__tests__/position-angle.test.js`. The raw
   `PositionAngle` is never assigned directly.
 
+- **Age is measured on the host clock, not the phone clock.** Log timestamps
+  carry the backend host's local time without a zone. A PINS Pi has no RTC and
+  boots with a stale clock that NTP corrects only minutes later (observed: 8 min
+  at `2026-09-25 17:34` before jumping a day ahead), which is exactly when TPPA
+  runs. Comparing against `new Date()` discarded every solve then, and on any
+  host in another time zone. The newest log line of the poll (the app's own hub
+  connect is always among them) serves as "now" on the host instead.
+
 ## Dimensions considered
 
 | Dimension        | Applies | Note                                                                                                                                                                                         |
@@ -142,3 +150,6 @@ works while the WPF dialog is open.
   optional `center` — `project(coords)`, `cameraFrameScreenRotationDeg` —
   already exist in the package (`src/public-api.js:2726-2779`). Whether to
   extend the package is a separate effort; Johannes decides.
+- **Error/warning toasts share the clock issue.** `logStore.isWithinTenMinutes`
+  still compares log timestamps with the phone clock for the toasts, so they can
+  be suppressed while a PINS clock is off. Not changed here.

@@ -1,6 +1,10 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { findLatestSolvedRotation, parseSolvedPositionAngle } from '../plateSolveLog.js';
+import {
+  findLatestSolvedRotation,
+  newestLogTime,
+  parseSolvedPositionAngle,
+} from '../plateSolveLog.js';
 
 const INVARIANT_LINE =
   'Platesolve successful: Coordinates: RA: 05:35:17; Dec: -05° 23\' 28"; Epoch: J2000 - Position Angle: 123.45';
@@ -58,4 +62,21 @@ test('returns null for empty, malformed or missing log arrays', () => {
     ]),
     null
   );
+});
+
+test('newestLogTime picks the newest valid timestamp regardless of order', () => {
+  const logs = [
+    { timestamp: '2026-09-25T17:40:00.0000', message: 'a' },
+    { timestamp: 'not-a-date', message: 'b' },
+    null,
+    { timestamp: '2026-09-26T21:00:37.0021', message: 'c' },
+    { timestamp: '2026-09-26T20:59:00.0000', message: 'd' },
+  ];
+  assert.equal(newestLogTime(logs), new Date('2026-09-26T21:00:37.0021').getTime());
+});
+
+test('newestLogTime returns null without usable timestamps', () => {
+  assert.equal(newestLogTime([]), null);
+  assert.equal(newestLogTime(null), null);
+  assert.equal(newestLogTime([{ timestamp: 'x' }]), null);
 });

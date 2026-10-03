@@ -5,6 +5,7 @@ import { useSequenceStore } from './sequenceStore';
 import { useTppaStore } from './tppaStore';
 import apiService from '@/services/apiService';
 import { reloadForInstanceSwitch } from '@/utils/instanceSwitchReload';
+import { markProfileSeen } from '@/utils/setupWizardProfile';
 import {
   createDefaultCelestiaAtlasSettings,
   migrateCelestiaAtlasSettingsStorage,
@@ -24,10 +25,12 @@ const DEFAULT_STATUSBAR_ORDER = [
   'guider',
   'mount',
   'filter',
+  'switch',
   'weather',
   'safety',
   'progress',
   'log',
+  'power',
   'instance',
 ];
 
@@ -42,6 +45,7 @@ export const useSettingsStore = defineStore('settings', {
     devChannelUnlocked: false,
     useDevUpdateChannel: false,
     touchOptimized: true,
+    hapticsEnabled: true,
     livestack: {
       showFilters: true,
     },
@@ -67,6 +71,8 @@ export const useSettingsStore = defineStore('settings', {
       },
       graphDataSource1: 'HFR', // Erste Datenquelle für Graph
       graphDataSource2: 'Stars', // Zweite Datenquelle für Graph
+      timelineLatest: false, // session timeline: follow the last hour
+      timelineSeries: ['HFR', 'RA', 'DEC', 'RMS'], // session timeline: shown statistics
       imageFilter: {
         selectedTarget: null,
         selectedFilter: null,
@@ -100,6 +106,12 @@ export const useSettingsStore = defineStore('settings', {
     },
     framing: {
       useNinaCache: true,
+    },
+    // Sky chart moon overlay: kept here, not in apiStore, because this store is
+    // persisted as a whole - the toggle has to survive a restart and an instance
+    // switch, while clearAllStates() would wipe it from apiStore.
+    skyChart: {
+      showMoon: false,
     },
     mount: {
       slewRate: 9,
@@ -235,6 +247,7 @@ export const useSettingsStore = defineStore('settings', {
         this.loadStatusBarSettings(),
         this.loadSharedRigUiSettings(),
         sequenceStore.loadSequenceControlsLocked(),
+        sequenceStore.loadAutoLockControlsOnStart(),
         tppaStore.loadTppaSettings(),
       ]);
     },
@@ -678,7 +691,8 @@ export const useSettingsStore = defineStore('settings', {
 
     // Cancelling and finishing are the same transaction: the app becomes usable
     // and the wizard stops offering itself. Only the wording differs.
-    completeSetupWizard() {
+    completeSetupWizard(profileId) {
+      markProfileSeen(profileId);
       this.setupWizard.completed = true;
       this.setupWizard.currentStepId = '';
       this.completeSetup();
@@ -692,6 +706,15 @@ export const useSettingsStore = defineStore('settings', {
       this.setupWizard.openRequest += 1;
       localStorage.removeItem('setupWizardCompleted');
       localStorage.removeItem('setupWizardStepId');
+    },
+
+    // A new PINS profile (see utils/setupWizardProfile.js). Marked as seen right
+    // away so a killed app cannot loop; the persisted step still resumes it.
+    // Language and instance are already set, so it starts at the rig steps.
+    openSetupWizardForNewProfile(profileId) {
+      markProfileSeen(profileId);
+      this.resetSetupWizard();
+      this.setSetupWizardStep('localization');
     },
 
     toggleUnits() {

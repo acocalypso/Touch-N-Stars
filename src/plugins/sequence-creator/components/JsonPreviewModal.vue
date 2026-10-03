@@ -70,7 +70,7 @@
         <div class="flex-1 min-h-0">
           <div class="bg-gray-50 dark:bg-gray-900 rounded-lg p-4 h-full overflow-auto">
             <pre
-              class="text-sm text-gray-800 dark:text-gray-200 whitespace-pre-wrap font-mono leading-relaxed"
+              class="text-sm text-gray-800 dark:text-gray-200 whitespace-pre-wrap font-mono leading-relaxed select-text"
               >{{ formattedJson }}</pre>
           </div>
         </div>
@@ -118,6 +118,7 @@
 <script setup>
 import { ref, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { copyText } from '@/utils/clipboard';
 
 const { t } = useI18n();
 
@@ -212,7 +213,7 @@ const sequenceStats = computed(() => {
 async function copyToClipboard() {
   try {
     copyStatus.value = 'copying';
-    await navigator.clipboard.writeText(formattedJson.value);
+    await copyText(formattedJson.value);
     copyStatus.value = 'copied';
     setTimeout(() => {
       copyStatus.value = 'idle';
@@ -220,17 +221,6 @@ async function copyToClipboard() {
   } catch (error) {
     console.error('Failed to copy to clipboard:', error);
     copyStatus.value = 'idle';
-    // Fallback for older browsers
-    const textArea = document.createElement('textarea');
-    textArea.value = formattedJson.value;
-    document.body.appendChild(textArea);
-    textArea.select();
-    document.execCommand('copy');
-    document.body.removeChild(textArea);
-    copyStatus.value = 'copied';
-    setTimeout(() => {
-      copyStatus.value = 'idle';
-    }, 2000);
   }
 }
 

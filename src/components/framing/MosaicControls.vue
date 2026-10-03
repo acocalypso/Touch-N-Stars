@@ -4,7 +4,7 @@
   >
     <!-- Header with toggle -->
     <!-- NINA Cache -->
-    <div class="flex items-center justify-between">
+    <div v-if="showNinaCache" class="flex items-center justify-between">
       <span class="text-sm font-normal text-gray-300">{{
         $t('components.framing.useNinaCache')
       }}</span>
@@ -27,7 +27,7 @@
         :label="$t('components.framing.mosaic.columns')"
         labelKey="components.framing.mosaic.columns"
         :min="1"
-        :max="5"
+        :max="20"
         :step="1"
       />
       <NumberInputPicker
@@ -35,7 +35,7 @@
         :label="$t('components.framing.mosaic.rows')"
         labelKey="components.framing.mosaic.rows"
         :min="1"
-        :max="5"
+        :max="20"
         :step="1"
       />
       <NumberInputPicker
@@ -78,6 +78,12 @@ import { useFramingStore } from '@/store/framingStore';
 import toggleButton from '@/components/helpers/toggleButton.vue';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 import controlUseNinaCache from '@/components/framing/controlUseNinaCache.vue';
+
+// The atlas reuses these controls but draws its own DSS background, so the
+// NINA cache toggle is opt-out there.
+defineProps({
+  showNinaCache: { type: Boolean, default: true },
+});
 
 const framingStore = useFramingStore();
 </script>

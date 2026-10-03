@@ -1,4 +1,28 @@
-import { deepSkyCatalogueGroupKeys, deepSkyObjectTypeKey } from '@acocalypso/celestia-atlas';
+import {
+  deepSkyCatalogueGroupKeys,
+  deepSkyObjectTypeKey,
+  starCatalogueMask,
+  STAR_CATALOGUE_BITS,
+} from '@acocalypso/celestia-atlas';
+
+const STAR_CATALOGUE_LABELS = {
+  curated: 'Named stars',
+  hyg: 'HYG / HIP',
+  hd: 'Henry Draper (HD)',
+  sao: 'SAO',
+  wr: 'Wolf-Rayet (WR)',
+};
+
+export function buildAtlasStarFacets(stars) {
+  const counts = new Map(Object.keys(STAR_CATALOGUE_BITS).map((key) => [key, 0]));
+  for (const star of stars) {
+    const mask = starCatalogueMask(star);
+    for (const [key, bit] of Object.entries(STAR_CATALOGUE_BITS)) {
+      if (mask & bit) counts.set(key, counts.get(key) + 1);
+    }
+  }
+  return facetEntries(counts, STAR_CATALOGUE_LABELS);
+}
 
 export const ATLAS_OBJECT_TYPE_LABELS = Object.freeze({
   '*ass': 'Stellar association',
@@ -21,9 +45,42 @@ export const ATLAS_OBJECT_TYPE_LABELS = Object.freeze({
   snr: 'Supernova remnant',
 });
 
+// Solar-system and star types the viewer reports besides the deep-sky codes.
+export const ATLAS_EXTRA_OBJECT_TYPE_KEYS = Object.freeze([
+  'star',
+  'planet',
+  'dwarf planet',
+  'natural satellite',
+  'comet',
+]);
+
+const OBJECT_TYPE_KEY_BY_LABEL = new Map(
+  Object.entries(ATLAS_OBJECT_TYPE_LABELS).map(([key, label]) => [label.toLowerCase(), key])
+);
+
+// Some payloads only carry the human label ("Galaxy") instead of the OpenNGC
+// code ("G"); map those back so one key set covers both.
+export function normalizeAtlasObjectTypeKey(typeKey) {
+  const key = String(typeKey ?? '')
+    .trim()
+    .toLowerCase();
+  return OBJECT_TYPE_KEY_BY_LABEL.get(key) ?? key;
+}
+
+// i18n key for a normalized type facet; the raw keys contain "*" and "+", which
+// are not safe inside a vue-i18n message path.
+export function atlasObjectTypeI18nKey(typeKey) {
+  const safe = String(typeKey ?? '')
+    .trim()
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '_');
+  return safe ? `components.celestiaAtlas.object_types.${safe}` : '';
+}
+
 export const ATLAS_CATALOGUE_GROUP_LABELS = Object.freeze({
   abell: 'Abell / ACO galaxy clusters',
   'abell-pn': 'Abell planetary nebulae (A66)',
+  gcvs: 'GCVS variable stars',
   barnard: 'Barnard',
   lbn: 'LBN',
   ldn: 'LDN',
@@ -70,7 +127,7 @@ function availableFacetKeys(availableFacets) {
  * Derives renderer filter facets from the exact catalogue supplied to Atlas.
  * Keys use the same normalized representation as the public Atlas helpers.
  */
-export function buildAtlasCatalogFacets(catalog) {
+export function buildAtlasCatalogFacets(catalog, variableStars = null) {
   if (!Array.isArray(catalog)) throw new TypeError('Atlas catalogue must be an array');
 
   const objectTypeCounts = new Map();
@@ -85,6 +142,10 @@ export function buildAtlasCatalogFacets(catalog) {
     for (const catalogueGroup of deepSkyCatalogueGroupKeys(object)) {
       catalogueGroupCounts.set(catalogueGroup, (catalogueGroupCounts.get(catalogueGroup) ?? 0) + 1);
     }
+  }
+
+  if (variableStars?.rows?.length) {
+    catalogueGroupCounts.set('gcvs', variableStars.rows.length);
   }
 
   return Object.freeze({

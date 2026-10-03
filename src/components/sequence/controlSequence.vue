@@ -319,6 +319,7 @@
 import { ref, computed } from 'vue';
 import apiService from '@/services/apiService';
 import { useSequenceStore } from '@/store/sequenceStore';
+import { useSequenceV2Store } from '@/store/sequenceV2Store';
 import { useOrientation } from '@/composables/useOrientation';
 import { apiStore } from '@/store/store';
 import { useToastStore } from '@/store/toastStore';
@@ -333,13 +334,12 @@ import {
   TrashIcon,
 } from '@heroicons/vue/24/outline';
 import Modal from '@/components/helpers/Modal.vue';
-import { useHaptics } from '@/composables/useHaptics';
 
 const sequenceStore = useSequenceStore();
+const sequenceV2Store = useSequenceV2Store();
 const store = apiStore();
 const toastStore = useToastStore();
 const { t } = useI18n();
-const { tapLight, tapMedium } = useHaptics();
 const showResetConfirmation = ref(false);
 const isLoading = computed(() => sequenceStore.sequenceRunning);
 const { isLandscape } = useOrientation();
@@ -520,7 +520,6 @@ async function saveCurrentFile() {
 }
 
 async function startSequence() {
-  tapLight();
   console.log('Starting sequence');
   sequenceStore.setSequenceRunning(true);
   try {
@@ -534,7 +533,6 @@ async function startSequence() {
 }
 
 async function stopSequence() {
-  tapLight();
   try {
     const data = await apiService.sequenceAction('stop');
     console.log('Response:', data);
@@ -560,6 +558,9 @@ async function confirmReset() {
 
     if (success) {
       await sequenceStore.getSequenceInfo();
+      // The V2 poll only reloads the tree on a Status change. Items that were already
+      // CREATED keep their status, so their reset loop counters would stay stale.
+      if (sequenceV2Store.loaded) await sequenceV2Store.loadCurrent();
       isLoading.value = false;
     } else {
       console.error('Failed to reset sequence');
@@ -572,8 +573,6 @@ async function confirmReset() {
 }
 
 async function clearSequence() {
-  tapMedium();
-
   // Clearing removes every item from the sequence and cannot be undone.
   const confirmed = await toastStore.showConfirmation(
     t('components.sequence.clearConfirmationTitle'),

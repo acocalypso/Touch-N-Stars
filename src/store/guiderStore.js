@@ -3,6 +3,7 @@ import apiService from '@/services/apiService';
 import apiPinsService from '@/services/apiPinsService';
 import { apiStore } from '@/store/store';
 import { createPoller } from '@/utils/poller';
+import { useStatusBarStore } from '@/store/statusBarStore';
 
 export const useGuiderStore = defineStore('guiderStore', {
   state: () => ({
@@ -13,7 +14,6 @@ export const useGuiderStore = defineStore('guiderStore', {
     raDuration: [],
     decDuration: [],
     chartInfo: [],
-    showGuiderGraph: false,
 
     phd2Connection: [],
     phd2Status: [],
@@ -149,6 +149,11 @@ export const useGuiderStore = defineStore('guiderStore', {
     isDarkLibraryBuildActive(state) {
       return state.phd2DarkLibraryBuildStatus?.Active === true;
     },
+    // The graph flyout is one of the status bar panels; keep the old name so
+    // the poller and the graph components need not know about the status bar.
+    showGuiderGraph() {
+      return useStatusBarStore().isPanelOpen('guider');
+    },
   },
   actions: {
     async fetchGraphInfos() {
@@ -171,6 +176,20 @@ export const useGuiderStore = defineStore('guiderStore', {
       }
       if (store.guiderInfo?.DeviceId === 'PHD2_Single' && store.isBackendReachable) {
         this.fetchPhd2Infos();
+      }
+    },
+
+    // PINS only: the official ninaAPI build has no graph/clear route.
+    async clearGraph() {
+      const store = apiStore();
+      if (!store.isPINS) return;
+      try {
+        await apiService.guiderClearGraph();
+        // Refresh immediately so the chart empties without waiting for the 1s poll tick.
+        await this.fetchGraphInfos();
+      } catch (error) {
+        console.error('Error clearing the guider graph:', error);
+        throw error;
       }
     },
 

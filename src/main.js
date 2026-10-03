@@ -17,6 +17,8 @@ import { setupErrorHandler, setupUnhandledRejectionLogging } from '@/utils/error
 import { ensureConsolePatched } from '@/utils/consoleCapture';
 import { markAppReady } from '@/services/updateService';
 import { initWifiBinding } from '@/services/wifiBindingService';
+import { installGlobalHaptics } from '@/services/globalHaptics';
+import { useHaptics } from '@/composables/useHaptics';
 import {
   initializeRigConnectionSupervisor,
   recoverRigConnection,
@@ -93,6 +95,10 @@ async function applyAndroidSystemBarColors() {
 }
 
 app.use(pinia).use(head).use(i18n).use(router);
+
+// App-wide haptic feedback for every button, toggle and navigation entry.
+// Registered on the document so lazily loaded plugin views are covered too.
+installGlobalHaptics(document, useHaptics());
 
 // Initialize plugin system
 (async () => {

@@ -1,7 +1,7 @@
 <template>
   <!-- Trigger Button — v-bind="$attrs" forwards positioning classes (fixed, right-*, z-*) from parent -->
   <div
-    v-if="variant !== 'inline'"
+    v-if="variant === 'fab'"
     v-bind="$attrs"
     :class="props.showBadgeLabel ? 'relative pb-3' : ''"
   >
@@ -34,6 +34,16 @@
       Solve
     </span>
   </div>
+  <button
+    v-else-if="variant === 'button'"
+    v-bind="$attrs"
+    type="button"
+    class="tns-btn-secondary"
+    @click="start"
+  >
+    <DocumentMagnifyingGlassIcon class="w-5 h-5 shrink-0" />
+    <span>{{ $t('components.fitsPlatesolve.buttonTitle') }}</span>
+  </button>
   <button
     v-else
     v-bind="$attrs"
@@ -414,6 +424,7 @@ import { useI18n } from 'vue-i18n';
 import FileBrowser from '@/components/helpers/fileBrowser.vue';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 import Modal from '@/components/helpers/Modal.vue';
+import { DocumentMagnifyingGlassIcon } from '@heroicons/vue/24/outline';
 import SaveFavTargets from '@/components/favTargets/SaveFavTargets.vue';
 import { useFramingStore } from '@/store/framingStore';
 import { degreesToHMS, degreesToDMS } from '@/utils/utils';
@@ -431,7 +442,7 @@ const props = defineProps({
   showFraming: { type: Boolean, default: true },
   showSeqTarget: { type: Boolean, default: false },
   showBadgeLabel: { type: Boolean, default: false },
-  variant: { type: String, default: 'fab' }, // 'fab' = floating cyan circle | 'inline' = slate row button
+  variant: { type: String, default: 'fab' }, // 'fab' = floating cyan circle | 'inline' = slate row button | 'button' = labelled tns-btn-secondary
 });
 
 const emit = defineEmits(['solved']);

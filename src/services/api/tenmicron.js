@@ -2,10 +2,16 @@ import axios from 'axios';
 import { DEFAULT_TIMEOUT, getUrls } from './core';
 
 export default {
-  async tenMicronGetStatus(timeout = DEFAULT_TIMEOUT) {
+  // `full` adds the values the backend can only get through a raw LX200 round trip (slew rate,
+  // horizon limits, GPS sync, connection type, DeltaT). Those are static or user-set, so the
+  // recurring poll leaves it off and only an explicit refresh asks for them.
+  async tenMicronGetStatus(full = false, timeout = DEFAULT_TIMEOUT) {
     try {
       const { API_URL } = getUrls();
-      const response = await axios.get(`${API_URL}tenmicron/status`, { timeout });
+      const response = await axios.get(`${API_URL}tenmicron/status`, {
+        timeout,
+        params: full ? { full: true } : undefined,
+      });
       return response.data;
     } catch (error) {
       console.error('Error getting TenMicron status:', error);

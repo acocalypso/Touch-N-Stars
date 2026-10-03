@@ -24,10 +24,12 @@ const STATUS_BAR_ITEMS = [
   { id: 'guider', labelKey: 'components.statusBar.labels.guiding' },
   { id: 'mount', labelKey: 'components.statusBar.labels.mount' },
   { id: 'filter', labelKey: 'components.statusBar.labels.filter' },
+  { id: 'switch', labelKey: 'components.statusBar.labels.switch' },
   { id: 'weather', labelKey: 'components.statusBar.labels.weather' },
   { id: 'safety', labelKey: 'components.statusBar.labels.safety' },
   { id: 'progress', labelKey: 'components.statusBar.labels.progress' },
   { id: 'log', labelKey: 'components.statusBar.labels.log' },
+  { id: 'power', labelKey: 'components.statusBar.labels.power' },
   { id: 'instance', labelKey: 'components.statusBar.labels.instance' },
 ];
 

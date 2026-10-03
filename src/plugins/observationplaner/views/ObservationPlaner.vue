@@ -3,65 +3,55 @@
     <div class="p-4 md:p-6 space-y-4">
       <!-- Header -->
       <div class="flex items-start justify-between gap-4">
-        <div>
-          <h2 class="text-xl font-semibold text-gray-100">{{ tp('title') }}</h2>
-          <p class="text-sm text-gray-400">
+        <div class="min-w-0">
+          <h2 class="text-xl font-semibold text-content">{{ tp('title') }}</h2>
+          <p class="text-sm text-content-muted">
             {{ tp('subtitle') }}
           </p>
         </div>
 
-        <div class="flex items-center gap-2">
-          <button
-            class="px-3 py-2 rounded-lg bg-gray-800 hover:bg-gray-700 border border-gray-700 text-gray-100 text-sm"
-            @click="refreshAll"
-            :disabled="busy"
-            :title="tp('tooltips.refreshFavorites')"
-          >
-            Refresh
-          </button>
-        </div>
+        <button
+          class="tns-btn-secondary w-auto! px-3 shrink-0"
+          @click="refreshAll"
+          :disabled="busy"
+          :title="tp('tooltips.refreshFavorites')"
+        >
+          {{ tp('buttons.refresh') }}
+        </button>
       </div>
 
       <!-- Location + global settings -->
       <div class="grid grid-cols-1 lg:grid-cols-3 gap-3">
-        <div class="rounded-xl border border-gray-700 bg-black/30 p-3">
-          <div class="text-xs text-gray-400 mb-1">{{ tp('location.title') }}</div>
+        <div class="tns-card">
+          <div class="tns-stat-label mb-1">{{ tp('location.title') }}</div>
 
-          <div v-if="hasSite" class="text-sm text-gray-100">
+          <div v-if="hasSite" class="text-sm text-content">
             {{ fmtCoord(siteLat) }}, {{ fmtCoord(siteLon) }}
-            <span v-if="siteAlt != null" class="text-gray-400">· {{ fmtAlt(siteAlt) }} m</span>
+            <span v-if="siteAlt != null" class="text-content-muted">· {{ fmtAlt(siteAlt) }} m</span>
           </div>
 
-          <div v-else class="text-sm text-gray-400">{{ tp('location.notAvailable') }}</div>
+          <div v-else class="text-sm text-content-muted">{{ tp('location.notAvailable') }}</div>
         </div>
 
-        <div class="rounded-xl border border-gray-700 bg-black/30 p-3">
-          <div class="text-xs text-gray-400 mb-2">{{ tp('filters.timeWindow') }}</div>
+        <div class="tns-card">
+          <div class="tns-stat-label mb-2">{{ tp('filters.timeWindow') }}</div>
 
           <div class="grid grid-cols-2 gap-2">
-            <label class="text-xs text-gray-300">
-              Start (local)
-              <input
-                class="mt-1 w-full px-2 py-1 rounded bg-gray-900 border border-gray-700 text-gray-100"
-                type="datetime-local"
-                v-model="windowStartLocal"
-              />
+            <label class="text-xs text-content-muted">
+              {{ tp('filters.startLocal') }}
+              <input class="tns-input mt-1" type="datetime-local" v-model="windowStartLocal" />
             </label>
-            <label class="text-xs text-gray-300">
-              End (local)
-              <input
-                class="mt-1 w-full px-2 py-1 rounded bg-gray-900 border border-gray-700 text-gray-100"
-                type="datetime-local"
-                v-model="windowEndLocal"
-              />
+            <label class="text-xs text-content-muted">
+              {{ tp('filters.endLocal') }}
+              <input class="tns-input mt-1" type="datetime-local" v-model="windowEndLocal" />
             </label>
           </div>
 
           <div class="mt-2 flex items-center justify-between gap-2">
-            <label class="text-xs text-gray-300 flex items-center gap-2">
-              Sample (min)
+            <label class="text-xs text-content-muted flex items-center gap-2">
+              {{ tp('chart.sampleMin') }}
               <input
-                class="w-20 px-2 py-1 rounded bg-gray-900 border border-gray-700 text-gray-100"
+                class="tns-input w-20!"
                 type="number"
                 min="2"
                 max="60"
@@ -70,18 +60,20 @@
               />
             </label>
 
-            <div class="text-xs text-gray-500">{{ sampleCount }} points</div>
+            <div class="text-xs text-content-faint">
+              {{ tp('chart.pointsFmt', { n: sampleCount }) }}
+            </div>
           </div>
         </div>
 
-        <div class="rounded-xl border border-gray-700 bg-black/30 p-3">
-          <div class="text-xs text-gray-400 mb-2">{{ tp('performance.title') }}</div>
+        <div class="tns-card">
+          <div class="tns-stat-label mb-2">{{ tp('performance.title') }}</div>
 
           <div class="flex items-center justify-between gap-2">
-            <label class="text-xs text-gray-300">
-              Limit
+            <label class="text-xs text-content-muted">
+              {{ tp('filters.limit') }}
               <input
-                class="mt-1 w-24 px-2 py-1 rounded bg-gray-900 border border-gray-700 text-gray-100"
+                class="tns-input w-24!"
                 type="number"
                 min="5"
                 max="200"
@@ -90,18 +82,18 @@
               />
             </label>
 
-            <label class="text-xs text-gray-300 flex items-center gap-2">
+            <label class="text-xs text-content-muted flex items-center gap-2">
               <span>{{ tp('cache.useNinaCache') }}</span>
               <toggleButton
                 :status-value="useNinaCache"
                 @click="useNinaCache = !useNinaCache"
-                title="Gibt useCache an targetpic weiter"
+                :title="tp('tooltips.useCacheHint')"
               />
             </label>
           </div>
 
           <div class="mt-3 flex items-center justify-between gap-2">
-            <label class="text-xs text-gray-300 flex items-center gap-2">
+            <label class="text-xs text-content-muted flex items-center gap-2">
               <span>{{ tp('performance.lazyPreviews') }}</span>
               <toggleButton
                 :status-value="lazyPreviews"
@@ -110,76 +102,80 @@
               />
             </label>
 
-            <label class="text-xs text-gray-300 flex items-center gap-2">
+            <label class="text-xs text-content-muted flex items-center gap-2">
               <span>{{ tp('filters.onlyAboveHorizon') }}</span>
               <toggleButton
                 :status-value="onlyAboveHorizon"
                 @click="onlyAboveHorizon = !onlyAboveHorizon"
-                title="filter targets with maxAlt <= 0° raus"
+                :title="tp('tooltips.filterNoBelowHorizon')"
               />
             </label>
           </div>
 
-          <div class="mt-3 pt-3 border-t border-gray-800">
-            <div class="text-xs text-gray-400 mb-1">{{ tp('filters.moon') }}</div>
-            <div class="text-sm text-gray-100">
-              <span v-if="moonIllumPct != null">{{ moonIllumPct }}% illuminated</span>
-              <span v-else class="text-gray-500">—</span>
-              <span class="text-gray-400"> · </span>
-              <span v-if="currentMoonData?.separationDeg != null"
-                >Separation {{ fmtNum(currentMoonData.separationDeg, 0) }}°</span
-              >
-              <span v-else class="text-gray-500">{{ tp('chart.separation') }}</span>
+          <div class="mt-3 pt-3 border-t border-line">
+            <div class="tns-stat-label mb-1">{{ tp('filters.moon') }}</div>
+            <div class="text-sm text-content">
+              <span v-if="moonIllumPct != null">{{
+                tp('filters.moonIlluminatedFmt', { pct: moonIllumPct })
+              }}</span>
+              <span v-else class="text-content-faint">—</span>
+              <span class="text-content-muted"> · </span>
+              <span v-if="currentMoonData?.separationDeg != null">{{
+                tp('chart.separationFmt', { deg: fmtNum(currentMoonData.separationDeg, 0) })
+              }}</span>
+              <span v-else class="text-content-faint">{{ tp('chart.separation') }}</span>
             </div>
           </div>
         </div>
       </div>
 
       <!-- Filters -->
-      <div class="rounded-xl border border-gray-700 bg-black/30 p-4 space-y-3">
+      <div class="tns-card space-y-3">
         <div class="flex items-center justify-between gap-3">
-          <div class="text-sm font-medium text-gray-100">{{ tp('filters.title') }}</div>
+          <div class="text-sm font-medium text-content">{{ tp('filters.title') }}</div>
           <div class="flex items-center gap-3">
-            <div class="text-xs text-gray-400">
-              {{ filteredTargets.length }} / {{ targets.length }} targets · display:
-              {{ displayedTargets.length }}
+            <div class="text-xs text-content-muted">
+              {{
+                tp('filters.countFmt', {
+                  filtered: filteredTargets.length,
+                  total: targets.length,
+                  shown: displayedTargets.length,
+                })
+              }}
             </div>
             <button
-              class="px-2 py-1 rounded bg-gray-800 hover:bg-gray-700 border border-gray-700 text-gray-200 text-xs"
+              class="tns-btn-secondary w-auto! px-3 shrink-0"
               @click="planerStore.resetFilters()"
             >
-              Reset
+              {{ tp('common.reset') }}
             </button>
           </div>
         </div>
 
         <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
-          <label class="text-xs text-gray-300">
-            Search by name
+          <label class="text-xs text-content-muted">
+            {{ tp('filters.search') }}
             <input
-              class="mt-1 w-full px-3 py-2 rounded bg-gray-900 border border-gray-700 text-gray-100"
+              class="tns-input mt-1"
               v-model="q"
-              placeholder="M42, Andromeda, NGC..."
+              :placeholder="tp('filters.search_placeholder')"
             />
           </label>
 
-          <label class="text-xs text-gray-300">
-            Objekt-Typ
-            <select
-              class="mt-1 w-full px-3 py-2 rounded bg-gray-900 border border-gray-700 text-gray-100"
-              v-model="typeFilter"
-            >
+          <label class="text-xs text-content-muted">
+            {{ tp('filters.objectType') }}
+            <select class="tns-select mt-1" v-model="typeFilter">
               <option value="">{{ tp('common.all') }}</option>
               <option v-for="t in typeOptions" :key="t" :value="t">{{ t }}</option>
             </select>
           </label>
 
-          <label class="text-xs text-gray-300">
-            direction (Azimut-Sector)
+          <label class="text-xs text-content-muted">
+            {{ tp('filters.azSector') }}
             <select
-              class="mt-1 w-full px-3 py-2 rounded bg-gray-900 border border-gray-700 text-gray-100"
+              class="tns-select mt-1"
               v-model="sectorFilter"
-              title="Filters by bestAzDeg (azimuth at the highest altitude in the window)"
+              :title="tp('tooltips.filterAzSector')"
             >
               <option value="">{{ tp('common.all') }}</option>
               <option v-for="s in sectorOptions" :key="s.value" :value="s.value">
@@ -188,12 +184,9 @@
             </select>
           </label>
 
-          <label class="text-xs text-gray-300">
-            Sort order
-            <select
-              class="mt-1 w-full px-3 py-2 rounded bg-gray-900 border border-gray-700 text-gray-100"
-              v-model="sortMode"
-            >
+          <label class="text-xs text-content-muted">
+            {{ tp('sort.title') }}
+            <select class="tns-select mt-1" v-model="sortMode">
               <option value="maxAltDesc">{{ tp('sort.maxAltDesc') }}</option>
               <option value="bestTimeAsc">{{ tp('sort.bestTimeAsc') }}</option>
               <option value="nameAsc">{{ tp('sort.nameAZ') }}</option>
@@ -201,35 +194,46 @@
           </label>
         </div>
 
-        <div v-if="!hasSite" class="text-xs text-amber-300">
-          Note: Altitude/Direction filters and charts cannot be calculated without a location.
+        <div v-if="!hasSite" class="text-xs text-status-warn">
+          {{ tp('location.hintNoLocation') }}
         </div>
       </div>
 
       <!-- {{ tp('sections.tonightPicks') }} (top 10 by Tonight-Score) -->
-      <div v-if="tonightPicks.length" class="rounded-xl border border-gray-700 bg-black/30 p-3">
+      <div v-if="tonightPicks.length" class="tns-card">
         <div class="flex items-center justify-between gap-3">
-          <div>
-            <div class="text-xs text-gray-400">{{ tp('sections.tonightPicks') }}</div>
-            <div class="text-sm text-gray-100">{{ tp('sections.topForWindow') }}</div>
+          <div class="min-w-0">
+            <div class="tns-stat-label">{{ tp('sections.tonightPicks') }}</div>
+            <div class="mt-0.5 text-sm text-content">{{ tp('sections.topForWindow') }}</div>
           </div>
-          <div class="text-xs text-gray-500">Top {{ tonightPicks.length }}</div>
+          <div class="shrink-0 text-xs text-content-faint">
+            {{ tp('sections.topFmt', { n: tonightPicks.length }) }}
+          </div>
         </div>
 
         <div class="mt-3 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2">
           <button
             v-for="p in tonightPicks"
             :key="p._id"
-            class="text-left px-3 py-2 rounded-lg bg-gray-900/50 hover:bg-gray-900 border border-gray-700 text-gray-100"
+            class="min-w-0 text-left px-3 py-2 rounded-control bg-surface-2 hover:bg-surface-3 border border-line text-content"
             @click="openInFramingAssistant(p)"
-            :title="`open Framing · ${fmtRa(p.raDeg)} / ${fmtDec(p.decDeg)} · MaxAlt ${fmtNum(p.maxAltDeg, 1)}°`"
+            :title="
+              tp('tooltips.openFramingFmt', {
+                ra: fmtRa(p.raDeg),
+                dec: fmtDec(p.decDeg),
+                maxAlt: fmtNum(p.maxAltDeg, 1),
+              })
+            "
           >
-            <div class="flex items-center justify-between gap-2">
-              <div class="truncate font-semibold">{{ p.name }}</div>
-              <div class="text-[11px] text-gray-300">{{ tonightLabel(p.tonightScore) }}</div>
+            <div class="flex items-center justify-between gap-2 min-w-0">
+              <div class="min-w-0 flex-1 truncate font-semibold">{{ p.name }}</div>
+              <div class="shrink-0 text-[11px] text-content-muted">
+                {{ tonightLabel(p.tonightScore) }}
+              </div>
             </div>
-            <div class="mt-1 text-[11px] text-gray-400">
-              MaxAlt {{ fmtNum(p.maxAltDeg, 1) }}° · {{ fmtNum(p.visibleHours, 1) }}h vidible
+            <div class="mt-1 truncate text-[11px] text-content-muted">
+              {{ tp('sort.maxAltWindow') }} {{ fmtNum(p.maxAltDeg, 1) }}° ·
+              {{ tp('chart.visibleHoursFmt', { h: fmtNum(p.visibleHours, 1) }) }}
             </div>
           </button>
         </div>
@@ -238,243 +242,237 @@
       <!-- Cards list -->
       <div class="space-y-3">
         <div
-          v-for="(t, i) in displayedTargets"
+          v-for="t in displayedTargets"
           :key="t._id"
-          :class="[
-            'rounded-xl border bg-black/30 p-4',
-            isSelected(t) ? 'border-blue-500' : 'border-gray-700',
-          ]"
+          :class="['tns-card space-y-3', isSelected(t) ? 'outline-2 outline-accent' : '']"
         >
-          <div class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-            <!-- Left: title + meta -->
-            <div class="space-y-2">
-              <div class="flex items-start justify-between gap-2">
-                <div>
-                  <div class="text-base font-semibold text-gray-100 flex items-center gap-2">
-                    <span
-                      v-if="(t.tonightScore ?? 0) > 0"
-                      class="inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-semibold border border-gray-700 bg-gray-900 text-gray-100"
-                      :title="`Tonight score: ${fmtNum(t.tonightScore, 2)} · MaxAlt ${fmtNum(t.maxAltDeg, 1)}° · ${fmtNum(t.visibleHours, 1)}h`"
-                    >
-                      {{ tonightLabel(t.tonightScore) }}
-                    </span>
-                    <span
-                      v-if="t.source === 'favorite'"
-                      class="inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-semibold border border-gray-700 bg-gray-900 text-gray-100"
-                      title="Favorite"
-                      >❤️</span
-                    >
-                    <span class="truncate">
-                      {{ t.name || 'Unnamed target' }}
-                    </span>
-                  </div>
-                  <div class="text-xs text-gray-400">
-                    <span v-if="t.type">{{ t.type }}</span>
-                    <span v-if="t.type && (t.raDeg != null || t.decDeg != null)"> · </span>
-                    <span v-if="t.raDeg != null && t.decDeg != null"
-                      >RA {{ fmtRa(t.raDeg) }} · DEC {{ fmtDec(t.decDeg) }}</span
-                    >
-                  </div>
-                </div>
+          <!-- Band 1: header, full card width. min-w-0 on the row AND the title is
+               what keeps a long name from pushing the row past its grid track. -->
+          <div class="min-w-0">
+            <div class="flex items-center gap-2 min-w-0">
+              <span
+                v-if="(t.tonightScore ?? 0) > 0"
+                :class="[
+                  'shrink-0 inline-flex items-center rounded-full px-2 py-0.5 text-[11px] font-semibold',
+                  tonightChipClass(t.tonightScore),
+                ]"
+                :title="
+                  tp('tooltips.tonightScoreFmt', {
+                    score: fmtNum(t.tonightScore, 2),
+                    maxAlt: fmtNum(t.maxAltDeg, 1),
+                    hours: fmtNum(t.visibleHours, 1),
+                  })
+                "
+              >
+                {{ tonightLabel(t.tonightScore) }}
+              </span>
+              <span v-if="t.source === 'favorite'" class="shrink-0" :title="tp('tooltips.favorite')"
+                >❤️</span
+              >
+              <h3 class="min-w-0 flex-1 truncate text-base font-semibold text-content">
+                {{ t.name || tp('common.unnamedTarget') }}
+              </h3>
+            </div>
 
-                <button
-                  class="px-2 py-1 rounded bg-gray-800 hover:bg-gray-700 border border-gray-700 text-gray-200 text-xs"
-                  @click="reloadPreview(t)"
-                  :disabled="busyPreview[t._id]"
-                  title="reload Preview"
-                >
-                  Reload
-                </button>
+            <div class="mt-0.5 truncate text-xs text-content-muted">
+              <span v-if="t.type">{{ t.type }}</span>
+              <span v-if="t.type && (t.raDeg != null || t.decDeg != null)"> · </span>
+              <span v-if="t.raDeg != null && t.decDeg != null"
+                >RA {{ fmtRa(t.raDeg) }} · DEC {{ fmtDec(t.decDeg) }}</span
+              >
+            </div>
+          </div>
+
+          <!-- Band 2: preview in a fixed track, stats + chart take the rest -->
+          <div class="grid grid-cols-1 md:grid-cols-[200px_minmax(0,1fr)] gap-3">
+            <div
+              class="relative w-full max-w-[280px] md:max-w-none mx-auto md:mx-0 aspect-square rounded-card overflow-hidden border border-line bg-surface-2"
+            >
+              <img
+                v-if="t.previewUrl"
+                :src="t.previewUrl"
+                class="w-full h-full object-cover"
+                @error="onPreviewError(t)"
+              />
+
+              <div
+                v-if="!t.previewUrl && !t.previewError"
+                class="absolute inset-0 flex items-center justify-center"
+              >
+                <div
+                  class="w-8 h-8 border-4 border-accent border-t-transparent rounded-full animate-spin"
+                />
               </div>
 
-              <div class="grid grid-cols-2 gap-2">
-                <div class="rounded-lg bg-gray-900/60 border border-gray-700 p-2">
-                  <div class="text-[11px] text-gray-400">{{ tp('sort.maxAltWindow') }}</div>
-                  <div class="text-sm text-gray-100">
+              <div
+                v-else-if="t.previewError"
+                class="absolute inset-0 flex items-center justify-center text-xs text-content-muted"
+              >
+                <div class="text-center px-4">
+                  <div class="font-medium">{{ tp('preview.unavailable') }}</div>
+                  <div class="text-content-faint mt-1">{{ t.previewError }}</div>
+                </div>
+              </div>
+
+              <!-- w-12!/px-0! turn the tns-btn base (w-full px-4) into a round icon
+                   button; the 48px height comes from its own min-h-touch. -->
+              <button
+                class="tns-btn-ghost absolute top-2 right-2 w-12! px-0! rounded-full"
+                @click="reloadPreview(t)"
+                :disabled="busyPreview[t._id]"
+                :title="tp('preview.reload')"
+                :aria-label="tp('preview.reload')"
+              >
+                <ArrowPathIcon class="w-5 h-5" :class="{ 'animate-spin': busyPreview[t._id] }" />
+              </button>
+
+              <button
+                class="tns-btn-ghost absolute bottom-2 right-2 w-12! px-0! rounded-full"
+                :title="tp('preview.info')"
+                :aria-label="tp('preview.info')"
+                @click="t._showHint = !t._showHint"
+              >
+                ?
+              </button>
+            </div>
+
+            <div class="min-w-0 space-y-2">
+              <div class="grid grid-cols-2 xl:grid-cols-4 gap-2">
+                <div class="tns-stat-tile">
+                  <div class="tns-stat-label">{{ tp('sort.maxAltWindow') }}</div>
+                  <div class="tns-stat-value">
                     <span v-if="t.maxAltDeg != null">{{ fmtNum(t.maxAltDeg, 1) }}°</span>
-                    <span v-else class="text-gray-500">—</span>
+                    <span v-else class="text-content-faint">—</span>
                   </div>
                 </div>
 
-                <div class="rounded-lg bg-gray-900/60 border border-gray-700 p-2">
-                  <div class="text-[11px] text-gray-400">{{ tp('sort.bestTime') }}</div>
-                  <div class="text-sm text-gray-100">
+                <div class="tns-stat-tile">
+                  <div class="tns-stat-label">{{ tp('sort.bestTime') }}</div>
+                  <div class="tns-stat-value">
                     <span v-if="t.bestTime">{{ fmtTime(t.bestTime) }}</span>
-                    <span v-else class="text-gray-500">—</span>
+                    <span v-else class="text-content-faint">—</span>
                   </div>
                 </div>
 
-                <div class="rounded-lg bg-gray-900/60 border border-gray-700 p-2">
-                  <div class="text-[11px] text-gray-400">{{ tp('chart.directionAz') }}</div>
-                  <div class="text-sm text-gray-100">
-                    <span v-if="t.bestAzDeg != null"
+                <div class="tns-stat-tile">
+                  <div class="tns-stat-label">{{ tp('chart.directionAz') }}</div>
+                  <div class="tns-stat-value">
+                    <span v-if="t.bestAzDeg != null" class="truncate"
                       >{{ fmtNum(t.bestAzDeg, 0) }}° ({{ azToCardinal(t.bestAzDeg) }})</span
                     >
-                    <span v-else class="text-gray-500">—</span>
+                    <span v-else class="text-content-faint">—</span>
                   </div>
                 </div>
 
-                <div class="rounded-lg bg-gray-900/60 border border-gray-700 p-2">
-                  <div class="text-[11px] text-gray-400">{{ tp('sort.visible') }}</div>
-                  <div class="text-sm text-gray-100">
+                <div class="tns-stat-tile">
+                  <div class="tns-stat-label">{{ tp('sort.visible') }}</div>
+                  <div class="tns-stat-value">
                     <span v-if="t.maxAltDeg != null">
-                      <span v-if="t.maxAltDeg > 0" class="text-emerald-300">{{
+                      <span v-if="t.maxAltDeg > 0" class="text-status-ok">{{
                         tp('common.yes')
                       }}</span>
-                      <span v-else class="text-red-300">{{ tp('common.no') }}</span>
+                      <span v-else class="text-status-danger">{{ tp('common.no') }}</span>
                     </span>
-                    <span v-else class="text-gray-500">—</span>
+                    <span v-else class="text-content-faint">—</span>
                   </div>
                 </div>
               </div>
 
-              <div v-if="t._error" class="text-xs text-red-400 break-words">
-                {{ t._error }}
-              </div>
-            </div>
+              <div>
+                <div class="tns-stat-label mb-1">{{ tp('chart.altitudeVsTime') }}</div>
 
-            <!-- Middle: Preview image -->
-            <div class="space-y-2">
-              <div class="text-xs text-gray-400">Preview</div>
-
-              <div
-                class="relative aspect-square max-w-[240px] rounded-xl overflow-hidden border border-gray-700 bg-gray-900"
-              >
-                <img
-                  v-if="t.previewUrl"
-                  :src="t.previewUrl"
-                  class="w-full h-full object-cover"
-                  @error="onPreviewError(t)"
+                <SkyChart
+                  v-if="hasSite && t.raDeg != null && t.decDeg != null"
+                  :target="{ RA: t.raDeg, Dec: t.decDeg }"
+                  :coordinates="{ latitude: siteLat, longitude: siteLon }"
                 />
-
                 <div
-                  v-if="!t.previewUrl && !t.previewError"
-                  class="absolute inset-0 flex items-center justify-center"
+                  v-else
+                  class="rounded-card border border-line bg-surface-2 p-2 h-40 flex items-center justify-center text-xs text-content-faint"
                 >
-                  <div
-                    class="w-8 h-8 border-4 border-blue-500 border-t-transparent rounded-full animate-spin"
-                  />
+                  {{ tp('location.notAvailable') }}
                 </div>
-
-                <div
-                  v-else-if="t.previewError"
-                  class="absolute inset-0 flex items-center justify-center text-xs text-gray-300"
-                >
-                  <div class="text-center px-4">
-                    <div class="font-medium">{{ tp('preview.unavailable') }}</div>
-                    <div class="text-gray-500 mt-1">{{ t.previewError }}</div>
-                  </div>
-                </div>
-
-                <button
-                  class="absolute right-3 bottom-3 w-9 h-9 rounded-full bg-gray-800/80 hover:bg-gray-700 border border-gray-600 text-gray-100 flex items-center justify-center"
-                  title="Preview info"
-                  @click="t._showHint = !t._showHint"
-                >
-                  ?
-                </button>
-
-                <div
-                  v-if="t._showHint"
-                  class="absolute left-3 right-3 bottom-3 translate-y-12 lg:translate-y-0 lg:bottom-14 rounded-lg bg-black/80 border border-gray-700 p-2 text-[11px] text-gray-200"
-                >
-                  Load DSS/TargetPic via TNS WebAPI. Cache Toggle control useCache.
-                </div>
-              </div>
-            </div>
-
-            <!-- Right: Altitude chart + actions -->
-            <div class="space-y-2">
-              <div class="text-xs text-gray-400">{{ tp('chart.altitudeVsTime') }}</div>
-
-              <SkyChart
-                v-if="hasSite && t.raDeg != null && t.decDeg != null"
-                :target="{ RA: t.raDeg, Dec: t.decDeg }"
-                :coordinates="{ latitude: siteLat, longitude: siteLon }"
-              />
-              <div
-                v-else
-                class="rounded-xl border border-gray-700 bg-gray-900/40 p-2 h-40 flex items-center justify-center text-xs text-gray-500"
-              >
-                {{ tp('location.notAvailable') }}
-              </div>
-
-              <div class="grid grid-cols-4 gap-2 pt-1">
-                <!-- Slew -->
-                <button
-                  class="action-icon-btn bg-cyan-700 hover:bg-cyan-600 border-cyan-500 text-white"
-                  @click="slewOnly(t)"
-                  :disabled="!canSlewWithMountSync(t) || isSelected(t)"
-                  title="Slew only"
-                  aria-label="Slew only"
-                >
-                  <ArrowUpRightIcon class="w-5 h-5" />
-                  <span class="text-[10px] md:text-xs font-semibold leading-tight">{{
-                    tp('buttons.slew')
-                  }}</span>
-                </button>
-
-                <!-- Slew + Center -->
-                <button
-                  class="action-icon-btn bg-emerald-700 hover:bg-emerald-600 border-emerald-500 text-white"
-                  @click="slewAndCenter(t)"
-                  :disabled="!canSlewWithMountSync(t) || isSelected(t)"
-                  title="Slew + Center (Platesolve)"
-                  aria-label="Slew + Center"
-                >
-                  <ViewfinderCircleIcon class="w-5 h-5" />
-                  <span class="text-[10px] md:text-xs font-semibold leading-tight">{{
-                    tp('buttons.center')
-                  }}</span>
-                </button>
-
-                <!-- Framing -->
-                <button
-                  class="action-icon-btn bg-gray-800 hover:bg-gray-700 border-gray-700 text-gray-100"
-                  @click="openInFramingAssistant(t)"
-                  :disabled="!canOpenFraming(t)"
-                  title="Framing Assistant öffnen"
-                  aria-label="open Framing Assistant"
-                >
-                  <RectangleGroupIcon class="w-5 h-5" />
-                  <span class="text-[10px] md:text-xs font-semibold leading-tight">{{
-                    tp('sections.framing')
-                  }}</span>
-                </button>
-
-                <!-- Sequencer -->
-                <button
-                  class="action-icon-btn bg-indigo-700 hover:bg-indigo-600 border-indigo-500 text-white"
-                  @click="sendToSequencer(t)"
-                  :disabled="
-                    !(
-                      Array.isArray(sequenceStore.sequenceInfo) &&
-                      sequenceStore.sequenceInfo.length > 0
-                    )
-                  "
-                  title="to Sequencer"
-                  aria-label="send to Sequencer"
-                >
-                  <QueueListIcon class="w-5 h-5" />
-                  <span class="text-[10px] md:text-xs font-semibold leading-tight">{{
-                    tp('buttons.seqShort')
-                  }}</span>
-                </button>
-              </div>
-
-              <div v-if="mountMsg[t._id]" class="text-xs text-gray-300 break-words">
-                {{ mountMsg[t._id] }}
-              </div>
-              <div v-if="mountErr[t._id]" class="text-xs text-red-400 break-words">
-                {{ mountErr[t._id] }}
               </div>
             </div>
           </div>
+
+          <!-- Outside the preview frame: inside it the hint was clipped by overflow-hidden -->
+          <div
+            v-if="t._showHint"
+            class="rounded-chip bg-surface-2 border border-line p-2 text-[11px] text-content-muted"
+          >
+            {{ tp('cache.hint') }}
+          </div>
+
+          <div v-if="t._error" class="text-xs text-status-danger break-words">
+            {{ t._error }}
+          </div>
+
+          <!-- Band 3: actions, full card width. Only the icon carries the color code -
+               four saturated fills per card compete with the content. -->
+          <div class="grid grid-cols-2 xs:grid-cols-4 gap-2">
+            <button
+              class="tns-btn-secondary"
+              @click="slewOnly(t)"
+              :disabled="!canSlewWithMountSync(t) || isSelected(t)"
+              :title="tp('buttons.slewNoCenter')"
+              :aria-label="tp('buttons.slewNoCenter')"
+            >
+              <ArrowUpRightIcon class="w-5 h-5 shrink-0 text-accent" />
+              <span>{{ tp('buttons.slew') }}</span>
+            </button>
+
+            <button
+              class="tns-btn-secondary"
+              @click="slewAndCenter(t)"
+              :disabled="!canSlewWithMountSync(t) || isSelected(t)"
+              :title="tp('buttons.slewCenterPlatesolve')"
+              :aria-label="tp('buttons.slewCenterPlatesolve')"
+            >
+              <ViewfinderCircleIcon class="w-5 h-5 shrink-0 text-status-ok" />
+              <span>{{ tp('buttons.center') }}</span>
+            </button>
+
+            <button
+              class="tns-btn-secondary"
+              @click="openInFramingAssistant(t)"
+              :disabled="!canOpenFraming(t)"
+              :title="tp('buttons.openFraming')"
+              :aria-label="tp('buttons.openFraming')"
+            >
+              <RectangleGroupIcon class="w-5 h-5 shrink-0 text-content-muted" />
+              <span>{{ tp('sections.framing') }}</span>
+            </button>
+
+            <button
+              class="tns-btn-secondary"
+              @click="sendToSequencer(t)"
+              :disabled="
+                !(
+                  Array.isArray(sequenceStore.sequenceInfo) && sequenceStore.sequenceInfo.length > 0
+                )
+              "
+              :title="tp('buttons.sendToSequencer')"
+              :aria-label="tp('buttons.sendToSequencer')"
+            >
+              <QueueListIcon class="w-5 h-5 shrink-0 text-accent" />
+              <span>{{ tp('buttons.seqShort') }}</span>
+            </button>
+          </div>
+
+          <div v-if="mountMsg[t._id]" class="text-xs text-content-muted break-words">
+            {{ mountMsg[t._id] }}
+          </div>
+          <div v-if="mountErr[t._id]" class="text-xs text-status-danger break-words">
+            {{ mountErr[t._id] }}
+          </div>
         </div>
 
-        <div v-if="!targets.length && !busy" class="text-sm text-gray-400">no favorites found.</div>
+        <div v-if="!targets.length && !busy" class="text-sm text-content-muted">
+          {{ tp('empty.noFavorites') }}
+        </div>
 
-        <div v-if="busy" class="text-sm text-gray-400">{{ tp('common.loading') }}</div>
+        <div v-if="busy" class="text-sm text-content-muted">{{ tp('common.loading') }}</div>
       </div>
     </div>
   </div>
@@ -493,7 +491,9 @@ import { useFramingStore } from '@/store/framingStore';
 import { useSequenceStore } from '@/store/sequenceStore';
 import { apiStore } from '@/store/store';
 import { useObservationPlanerStore } from '../store/observationPlanerStore';
+import { clampValue as clamp, equatorialToAltAz, getMoonDataForTarget } from '@/utils/astronomy';
 import {
+  ArrowPathIcon,
   ArrowUpRightIcon,
   ViewfinderCircleIcon,
   RectangleGroupIcon,
@@ -1233,158 +1233,8 @@ function hashString(str) {
 }
 
 // --------------------------
-// Sun/Moon helpers
-// --------------------------
-function normalizeDeg360(deg) {
-  return ((deg % 360) + 360) % 360;
-}
-
-function daysSinceJ2000(date) {
-  return toJulianDate(date) - 2451545.0;
-}
-
-function eclipticToEquatorial(lambdaDeg, betaDeg, date) {
-  const epsDeg = 23.439291 - 0.00000036 * daysSinceJ2000(date);
-
-  const lambda = toRad(lambdaDeg);
-  const beta = toRad(betaDeg);
-  const eps = toRad(epsDeg);
-
-  const sinDec = Math.sin(beta) * Math.cos(eps) + Math.cos(beta) * Math.sin(eps) * Math.sin(lambda);
-  const dec = Math.asin(clamp(sinDec, -1, 1));
-
-  const y = Math.sin(lambda) * Math.cos(eps) - Math.tan(beta) * Math.sin(eps);
-  const x = Math.cos(lambda);
-  const ra = Math.atan2(y, x);
-
-  return {
-    raDeg: normalizeDeg360(toDeg(ra)),
-    decDeg: toDeg(dec),
-  };
-}
-
-function getSunEquatorial(date) {
-  const d = daysSinceJ2000(date);
-  const M = normalizeDeg360(357.52911 + 0.98560028 * d);
-  const L0 = normalizeDeg360(280.46646 + 0.98564736 * d);
-
-  const C =
-    1.914602 * Math.sin(toRad(M)) +
-    0.019993 * Math.sin(toRad(2 * M)) +
-    0.000289 * Math.sin(toRad(3 * M));
-
-  const lambda = normalizeDeg360(L0 + C);
-  return eclipticToEquatorial(lambda, 0, date);
-}
-
-function getMoonEquatorial(date) {
-  const d = daysSinceJ2000(date);
-
-  const L0 = normalizeDeg360(218.316 + 13.176396 * d);
-  const M_moon = normalizeDeg360(134.963 + 13.064993 * d);
-  const M_sun = normalizeDeg360(357.529 + 0.98560028 * d);
-  const D = normalizeDeg360(297.85 + 12.190749 * d);
-  const F = normalizeDeg360(93.272 + 13.22935 * d);
-
-  const lon =
-    L0 +
-    6.289 * Math.sin(toRad(M_moon)) +
-    1.274 * Math.sin(toRad(2 * D - M_moon)) +
-    0.658 * Math.sin(toRad(2 * D)) +
-    0.214 * Math.sin(toRad(2 * M_moon)) -
-    0.186 * Math.sin(toRad(M_sun)) -
-    0.059 * Math.sin(toRad(2 * D - 2 * M_moon)) -
-    0.057 * Math.sin(toRad(2 * D - M_sun - M_moon)) +
-    0.053 * Math.sin(toRad(2 * D + M_moon)) +
-    0.046 * Math.sin(toRad(2 * D - M_sun)) +
-    0.041 * Math.sin(toRad(M_sun - M_moon)) -
-    0.035 * Math.sin(toRad(D)) -
-    0.031 * Math.sin(toRad(M_sun + M_moon)) -
-    0.015 * Math.sin(toRad(2 * F - 2 * D)) +
-    0.011 * Math.sin(toRad(M_moon - 4 * D));
-
-  const lat =
-    5.128 * Math.sin(toRad(F)) +
-    0.28 * Math.sin(toRad(M_moon + F)) +
-    0.277 * Math.sin(toRad(M_moon - F)) +
-    0.173 * Math.sin(toRad(2 * D - F)) +
-    0.055 * Math.sin(toRad(2 * D + F - M_moon)) +
-    0.046 * Math.sin(toRad(2 * D - F - M_moon)) +
-    0.033 * Math.sin(toRad(2 * D + F)) +
-    0.017 * Math.sin(toRad(2 * M_moon + F));
-
-  return eclipticToEquatorial(normalizeDeg360(lon), lat, date);
-}
-
-function angularSeparationDeg(ra1Deg, dec1Deg, ra2Deg, dec2Deg) {
-  if (![ra1Deg, dec1Deg, ra2Deg, dec2Deg].every(Number.isFinite)) return null;
-
-  const ra1 = toRad(ra1Deg);
-  const dec1 = toRad(dec1Deg);
-  const ra2 = toRad(ra2Deg);
-  const dec2 = toRad(dec2Deg);
-
-  const cosSep =
-    Math.sin(dec1) * Math.sin(dec2) + Math.cos(dec1) * Math.cos(dec2) * Math.cos(ra1 - ra2);
-
-  return toDeg(Math.acos(clamp(cosSep, -1, 1)));
-}
-
-function getMoonIllumination(date) {
-  const sun = getSunEquatorial(date);
-  const moon = getMoonEquatorial(date);
-  const elongationDeg = angularSeparationDeg(sun.raDeg, sun.decDeg, moon.raDeg, moon.decDeg);
-
-  // Fraction illuminated: 0=new moon, 1=full moon
-  const illumination = elongationDeg == null ? null : (1 - Math.cos(toRad(elongationDeg))) / 2;
-
-  return {
-    illumination,
-    sun,
-    moon,
-    elongationDeg,
-  };
-}
-
-function getMoonDataForTarget(targetRaDeg, targetDecDeg, date) {
-  const { illumination, moon } = getMoonIllumination(date);
-  const separationDeg =
-    Number.isFinite(targetRaDeg) && Number.isFinite(targetDecDeg)
-      ? angularSeparationDeg(targetRaDeg, targetDecDeg, moon.raDeg, moon.decDeg)
-      : null;
-
-  return {
-    illumination,
-    separationDeg,
-    moonRaDeg: moon.raDeg,
-    moonDecDeg: moon.decDeg,
-    at: date instanceof Date ? date.toISOString() : null,
-  };
-}
-
-// --------------------------
-// RA/Dec (deg), date, lat/lon (deg) -> alt/az (deg)
-function radecToAltAz(raDeg, decDeg, date, latDeg, lonDeg) {
-  const ra = toRad(raDeg);
-  const dec = toRad(decDeg);
-  const lat = toRad(latDeg);
-
-  const lst = toRad(localSiderealTimeDeg(date, lonDeg));
-  const ha = normalizeRad(lst - ra); // hour angle
-
-  const sinAlt = Math.sin(dec) * Math.sin(lat) + Math.cos(dec) * Math.cos(lat) * Math.cos(ha);
-  const alt = Math.asin(clamp(sinAlt, -1, 1));
-
-  // azimuth (0..2pi), measured from North towards East
-  const cosAz = (Math.sin(dec) - Math.sin(alt) * Math.sin(lat)) / (Math.cos(alt) * Math.cos(lat));
-  let az = Math.acos(clamp(cosAz, -1, 1));
-  // resolve quadrant
-  if (Math.sin(ha) > 0) az = 2 * Math.PI - az;
-
-  return { altDeg: toDeg(alt), azDeg: toDeg(az) };
-}
-
 // Track over window
+// --------------------------
 function buildTrack(raDeg, decDeg, start, end, stepMin, latDeg, lonDeg) {
   const msStep = Math.max(2, stepMin) * 60 * 1000;
   const points = [];
@@ -1392,7 +1242,7 @@ function buildTrack(raDeg, decDeg, start, end, stepMin, latDeg, lonDeg) {
 
   for (let t = start.getTime(); t <= end.getTime(); t += msStep) {
     const dt = new Date(t);
-    const { altDeg, azDeg } = radecToAltAz(raDeg, decDeg, dt, latDeg, lonDeg);
+    const { altDeg, azDeg } = equatorialToAltAz(raDeg, decDeg, dt, latDeg, lonDeg);
     points.push({ time: dt, altDeg, azDeg });
     if (altDeg > best.altDeg) best = { altDeg, azDeg, time: dt };
   }
@@ -1452,32 +1302,6 @@ function fmtDec(decDeg) {
   const d = Math.floor(a);
   const m = Math.floor((a - d) * 60);
   return `${sign}${String(d).padStart(2, '0')}:${String(m).padStart(2, '0')}`;
-}
-
-// --------------------------
-// Sidereal time (approx)
-// --------------------------
-// returns GMST deg
-function gmstDeg(date) {
-  // Meeus-ish simplified
-  const jd = toJulianDate(date);
-  const T = (jd - 2451545.0) / 36525.0;
-  let gmst =
-    280.46061837 +
-    360.98564736629 * (jd - 2451545.0) +
-    0.000387933 * T * T -
-    (T * T * T) / 38710000.0;
-  gmst = ((gmst % 360) + 360) % 360;
-  return gmst;
-}
-// LST deg = GMST + lon (east positive)
-function localSiderealTimeDeg(date, lonDeg) {
-  let lst = gmstDeg(date) + lonDeg;
-  lst = ((lst % 360) + 360) % 360;
-  return lst;
-}
-function toJulianDate(date) {
-  return date.getTime() / 86400000 + 2440587.5;
 }
 
 // --------------------------
@@ -1592,32 +1416,12 @@ function azToCardinal(azDeg) {
   return dirs[idx];
 }
 
-// --------------------------
-// Math utils
-// --------------------------
-function toRad(deg) {
-  return (deg * Math.PI) / 180;
-}
-function toDeg(rad) {
-  return (rad * 180) / Math.PI;
-}
-function clamp(v, min, max) {
-  return Math.max(min, Math.min(max, v));
-}
 const tonightPicks = computed(() =>
   targets.value
     .filter((t) => t.tonightScore > 0)
     .sort((a, b) => b.tonightScore - a.tonightScore)
     .slice(0, 10)
 );
-function normalizeRad(r) {
-  const twoPi = 2 * Math.PI;
-  r = r % twoPi;
-  if (r < -Math.PI) r += twoPi;
-  if (r > Math.PI) r -= twoPi;
-  return r;
-}
-
 // --------------------------
 // Error helper
 // --------------------------
@@ -1682,12 +1486,32 @@ function calculateTonightScore(target, moon) {
   return Math.max(0, score);
 }
 
+function tonightKey(score) {
+  if (score >= 3.0) return 'excellent';
+  if (score >= 2.0) return 'veryGood';
+  if (score >= 1.0) return 'good';
+  if (score >= 0.5) return 'difficult';
+  return 'skip';
+}
+
 function tonightLabel(score) {
-  if (score >= 3.0) return '🔥 Excellent';
-  if (score >= 2.0) return '⭐ Very good';
-  if (score >= 1.0) return '👍 Good';
-  if (score >= 0.5) return '⚠️ Difficult';
-  return '❌ Skip';
+  return tp(`score.${tonightKey(score)}`);
+}
+
+// Chip tint per score bucket, so the badge reads at a glance without four
+// saturated fills competing in every card.
+function tonightChipClass(score) {
+  switch (tonightKey(score)) {
+    case 'excellent':
+    case 'veryGood':
+      return 'bg-status-ok/15 text-status-ok';
+    case 'good':
+      return 'bg-accent/15 text-accent';
+    case 'difficult':
+      return 'bg-status-warn/15 text-status-warn';
+    default:
+      return 'bg-surface-3 text-content-faint';
+  }
 }
 function isSameTarget(a, b, tolDeg = 0.05) {
   if (a?.raDeg == null || a?.decDeg == null) return false;
@@ -1696,15 +1520,3 @@ function isSameTarget(a, b, tolDeg = 0.05) {
   return Math.abs(a.raDeg - b.raDeg) <= tolDeg && Math.abs(a.decDeg - b.decDeg) <= tolDeg;
 }
 </script>
-
-<style scoped>
-canvas {
-  display: block;
-}
-</style>
-<style scoped>
-@reference '../../../assets/tailwind.css';
-.action-icon-btn {
-  @apply inline-flex flex-col md:flex-row items-center justify-center gap-0.5 md:gap-2 w-full h-14 md:h-10 rounded-lg border text-sm transition disabled:opacity-50 disabled:cursor-not-allowed;
-}
-</style>

@@ -3,6 +3,9 @@ import assert from 'node:assert/strict';
 import { passesDeepSkyCatalogFilter } from '@acocalypso/celestia-atlas';
 import { buildEmbeddedAtlasCatalog } from '../catalogLayers.js';
 import {
+  ATLAS_EXTRA_OBJECT_TYPE_KEYS,
+  ATLAS_OBJECT_TYPE_LABELS,
+  atlasObjectTypeI18nKey,
   buildAtlasCatalogFacets,
   normalizeAtlasFacetSelection,
   toggleAtlasFacetSelection,
@@ -26,6 +29,17 @@ test('derives normalized type and source facets without merging Abell namespaces
     { key: 'simbad a66', label: 'simbad a66', count: 1 },
   ]);
   assert.notEqual(facets.catalogueGroups[0].key, facets.catalogueGroups[1].key);
+});
+
+test('includes the loaded GCVS search layer in catalogue source controls', () => {
+  const facets = buildAtlasCatalogFacets([{ typeCode: 'G', catalogueGroups: ['openngc'] }], {
+    rows: [['000001'], ['000002']],
+  });
+  assert.deepEqual(facets.catalogueGroups, [
+    { key: 'gcvs', label: 'GCVS variable stars', count: 2 },
+    { key: 'openngc', label: 'OpenNGC', count: 1 },
+  ]);
+  assert.deepEqual(normalizeAtlasFacetSelection(['openngc'], facets.catalogueGroups), ['openngc']);
 });
 
 test('sanitizes persisted selections while preserving all and none semantics', () => {
@@ -141,4 +155,23 @@ test('exposes the exact facets and membership counts from every packaged offline
   assert.equal(passesDeepSkyCatalogFilter(abellCluster, ['gcluster'], ['abell-pn']), false);
   assert.equal(passesDeepSkyCatalogFilter(abellPlanetary, ['pn'], ['abell-pn']), true);
   assert.equal(passesDeepSkyCatalogFilter(abellPlanetary, ['pn'], ['abell']), false);
+});
+
+test('every object type the target card can show has an English label key', async () => {
+  const { readFile } = await import('node:fs/promises');
+  const english = JSON.parse(
+    await readFile(new URL('../../../locales/en.json', import.meta.url), 'utf8')
+  );
+  const labels = english.components.celestiaAtlas.object_types;
+
+  for (const typeKey of [
+    ...Object.keys(ATLAS_OBJECT_TYPE_LABELS),
+    ...ATLAS_EXTRA_OBJECT_TYPE_KEYS,
+  ]) {
+    const key = atlasObjectTypeI18nKey(typeKey);
+    const leaf = key.replace('components.celestiaAtlas.object_types.', '');
+    assert.ok(typeof labels[leaf] === 'string' && labels[leaf].trim(), `label for ${typeKey}`);
+  }
+  assert.equal(atlasObjectTypeI18nKey('*Ass'), 'components.celestiaAtlas.object_types._ass');
+  assert.equal(atlasObjectTypeI18nKey(''), '');
 });

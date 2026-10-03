@@ -58,12 +58,30 @@ With Xcode and CocoaPods installed, run from the repository root:
 
 ```sh
 npm ci
-npm run ionic:build
+npm run ios:run
+```
+
+`ios:run` uses the Ionic CLI to build the web app and sync native plugins, then
+Xcode to compile, sign, install, and launch the **App** scheme on the connected
+iPhone. Unlock the phone and enable Developer Mode. If multiple devices are
+connected, select one with `npm run ios:run -- "iPhone name"` or its UDID.
+This also handles devices visible to Xcode/CoreDevice but missing from Ionic's
+`native-run` device list. Build products are kept in `ios/DerivedData`.
+
+To open the workspace manually instead:
+
+```sh
+npx ionic capacitor build ios --no-open
+npx cap open ios
+```
+
+If the geolocation dependency needs refreshing:
+
+```sh
 cd ios/App
 pod update CapacitorGeolocation IONGeolocationLib --repo-update
 cd ../..
 npx cap sync ios
-npx cap open ios
 ```
 
 Build the **App** scheme in `App.xcworkspace`. After updating native plugins,

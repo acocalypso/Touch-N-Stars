@@ -40,7 +40,7 @@
     "prepare": "husky"
   },
   "dependencies": {
-    "@acocalypso/celestia-atlas": "git+https://github.com/acocalypso/celestia_atlas.git#777b2a6b9a23de04d4a4c4effc8384eff1cb7566",
+    "@acocalypso/celestia-atlas": "git+https://github.com/acocalypso/celestia_atlas.git#4a3d728936832b37dcd920f9854e2a7552ffb1d6",
     "@acovanconis/capacitor-mdns": "0.0.4",
     "@capacitor-community/keep-awake": "8.0.1",
     "@capacitor-community/media": "9.1.0",
@@ -67,6 +67,7 @@
     "chart.js": "4.5.1",
     "date-fns": "4.4.0",
     "file-saver": "^2.0.5",
+    "geomagnetism": "0.2.0",
     "jszip": "^3.10.1",
     "papaparse": "5.5.4",
     "pinia": "3.0.4",

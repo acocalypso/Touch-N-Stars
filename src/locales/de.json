@@ -2243,6 +2243,15 @@
       }
     },
     "celestiaAtlas": {
+      "orientation": {
+        "toggle": "Himmelsausrichtung umschalten",
+        "hint": "Himmelsausrichtung aktiv. Ziele durch die Rückseite des Bildschirms. Ziehen beendet die Ausrichtung; Zoomen bleibt möglich.",
+        "low_accuracy": "Die Kompassgenauigkeit ist gering. Halte Abstand zu Metall und Magneten und kalibriere den Kompass mit einer Achterbewegung.",
+        "unavailable": "Sensoren für die Himmelsausrichtung sind nicht verfügbar. Verwende die native App auf einem Gerät mit unterstützten Sensoren oder navigiere manuell.",
+        "permission_denied": "Der Zugriff auf Bewegungssensoren wurde verweigert. Erlaube ihn in den Systemeinstellungen oder navigiere manuell.",
+        "location_required": "Die Himmelsausrichtung benötigt einen Beobachtungsort. Lege deinen Standort fest oder erlaube den Standortzugriff.",
+        "sensor_error": "Die Himmelsausrichtung wurde wegen fehlender Sensordaten beendet. Versuche es erneut oder navigiere manuell."
+      },
       "loading": "Celestia Atlas wird geladen…",
       "selected_object": {
         "title": "Ausgewähltes Objekt",

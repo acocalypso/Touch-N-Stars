@@ -32,10 +32,9 @@ test('derives normalized type and source facets without merging Abell namespaces
 });
 
 test('includes the loaded GCVS search layer in catalogue source controls', () => {
-  const facets = buildAtlasCatalogFacets(
-    [{ typeCode: 'G', catalogueGroups: ['openngc'] }],
-    { rows: [['000001'], ['000002']] }
-  );
+  const facets = buildAtlasCatalogFacets([{ typeCode: 'G', catalogueGroups: ['openngc'] }], {
+    rows: [['000001'], ['000002']],
+  });
   assert.deepEqual(facets.catalogueGroups, [
     { key: 'gcvs', label: 'GCVS variable stars', count: 2 },
     { key: 'openngc', label: 'OpenNGC', count: 1 },

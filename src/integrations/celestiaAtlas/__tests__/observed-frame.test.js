@@ -12,7 +12,7 @@ import {
 import { atlasSearchResultToTarget } from '../contracts.js';
 import { atlasSelectionToCommandModel } from '../selectionModel.js';
 
-const ATLAS_REVISION = '777b2a6b9a23de04d4a4c4effc8384eff1cb7566';
+const ATLAS_REVISION = '4a3d728936832b37dcd920f9854e2a7552ffb1d6';
 const TOLERANCE_DEG = 1e-10;
 
 function angularErrorDeg(actual, expected) {
@@ -43,7 +43,10 @@ test('pins the Atlas build that provides the default photographic survey', () =>
 });
 
 test('the embedded Atlas can search and select bundled variable stars', async () => {
-  const source = await readFile(new URL(import.meta.resolve('@acocalypso/celestia-atlas/variable-star-data')), 'utf8');
+  const source = await readFile(
+    new URL(import.meta.resolve('@acocalypso/celestia-atlas/variable-star-data')),
+    'utf8'
+  );
   const data = JSON.parse(source);
   const stars = decodeVariableStars(data);
   assert.equal(stars.length, 63291);

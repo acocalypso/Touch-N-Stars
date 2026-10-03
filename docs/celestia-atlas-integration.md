@@ -26,6 +26,10 @@ documentation before the host pin moves.
 
 ## Runtime boundary
 
+The existing compass also toggles native device sky pointing. See
+[sky pointing](sky-pointing.md) for sensor conventions, permissions, lifecycle,
+local builds, and the physical validation checklist.
+
 `src/views/CelestiaAtlasView.vue` creates the viewer only after first use. The
 warm instance remains mounted, is paused while hidden or while the native app is
 backgrounded, and is resized/resumed when visible. Permanent unmount destroys

@@ -43,7 +43,10 @@ test('pins the Atlas build that provides the default photographic survey', () =>
 });
 
 test('the embedded Atlas can search and select bundled variable stars', async () => {
-  const source = await readFile(new URL(import.meta.resolve('@acocalypso/celestia-atlas/variable-star-data')), 'utf8');
+  const source = await readFile(
+    new URL(import.meta.resolve('@acocalypso/celestia-atlas/variable-star-data')),
+    'utf8'
+  );
   const data = JSON.parse(source);
   const stars = decodeVariableStars(data);
   assert.equal(stars.length, 63291);

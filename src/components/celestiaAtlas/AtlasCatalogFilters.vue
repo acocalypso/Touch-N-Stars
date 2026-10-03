@@ -31,7 +31,6 @@
         @select-none="setSelection('deepSkyObjectTypes', [])"
         @toggle="toggleSelection('deepSkyObjectTypes', objectTypes, $event)"
       />
-
     </fieldset>
     <AtlasFacetGroup
       kind="catalogue-groups"

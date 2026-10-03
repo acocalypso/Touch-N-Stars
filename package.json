@@ -67,6 +67,7 @@
     "chart.js": "4.5.1",
     "date-fns": "4.4.0",
     "file-saver": "^2.0.5",
+    "geomagnetism": "0.2.0",
     "jszip": "^3.10.1",
     "papaparse": "5.5.4",
     "pinia": "3.0.4",

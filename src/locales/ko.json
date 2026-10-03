@@ -2248,6 +2248,15 @@
       }
     },
     "celestiaAtlas": {
+      "orientation": {
+        "toggle": "Toggle sky pointing",
+        "hint": "Sky pointing active. Aim through the back of your screen. Drag to stop; pinch to zoom.",
+        "low_accuracy": "Compass accuracy is low. Move away from metal and magnets and calibrate your compass with a figure-eight motion.",
+        "unavailable": "Sky pointing requires a supported native app and a north-referenced motion sensor. Manual browsing is available.",
+        "permission_denied": "Motion access was denied. Allow motion access in system settings or browse manually.",
+        "location_required": "Sky pointing requires an observer location. Set your observing site or allow location access.",
+        "sensor_error": "Sky pointing stopped because sensor data is unavailable. Try again or browse manually."
+      },
       "loading": "Celestia Atlas 로드 중…",
       "selected_object": {
         "title": "선택한 천체",

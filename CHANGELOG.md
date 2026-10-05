@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Added
+
+- Guider (PINS): New page for the PINS native guider with the live guide frame, guide graph, target plot, statistics, calibration, event log, settings and dark library; the guide camera is set up in equipment connect and the setup wizard. Critical guiding alerts are shown on every page. Thanks @aduffeck
+- Guider (PINS): Guiding Coach that measures the guide camera, the seeing and the mount, tries better settings and recommends what to change, with live hints while guiding. Thanks @aduffeck
+- Guider (PINS): Incidents tab with a replay of the frames and telemetry around the moments guiding went wrong, a likely cause, downloads and a Mark button to save a moment. Thanks @aduffeck
+
 ## [App6.3.1-beta7] - 2026-09-25
 
 ### Added

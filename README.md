@@ -132,3 +132,33 @@ You can contribute by:
 
 Please feel free to open an issue or start a discussion before working on larger changes.  
 All contributions are appreciated and help make the project better for the entire community.
+
+### PHD2 AI guiding
+
+Requires a PHD2 build with native AI RPC support and an updated Touch-N-Stars
+plugin, on Windows NINA or PINS. Connect PHD2, then open **Guider → Settings**:
+**General** contains ordinary settings; **AI guiding** contains the setup assistant
+and the current mount profile's model library.
+
+1. Connect the guide camera/mount, calibrate and start ordinary guiding with a
+   nonpredictive RA algorithm such as Hysteresis. Keep optics, binning and exposure
+   unchanged throughout training.
+2. Set the worm period (0 for automatic estimation) and recording duration.
+   Cover at least two complete cycles, preferably six; for a 300-second worm,
+   use 1800 seconds. Start training and follow the progress and time remaining.
+   Model fitting follows recording; its remaining time is not estimated.
+3. Review the model, residual/holdout RMS and equipment warnings. Start Shadow
+   to observe predictions without AI corrections, then explicitly enable Active
+   at gain 0.10 when ready. Compare RA RMS over equal intervals; Disable AI stops
+   assistance immediately. DEC continues using its ordinary algorithm.
+
+Training continues inside PHD2 when you leave the page; reopen the AI tab to
+resume its overview. Model selection and PHD2 restart leave AI disabled.
+**Models and recordings** shows the PHD2 host's paths. Import/export paths refer
+to that host; fitting a CSV also requires its adjacent `.csv.json` metadata.
+Fit quality and simulator tests do not establish improved guiding on a real mount.
+
+For SkySimulator, enable its internal Alpaca mount and use PHD2's native
+**Alpaca Camera** (guide camera) and **Alpaca Mount** with the simulator's actual
+address and device numbers. Calibrate near Dec 0 before adding periodic error.
+The plugin's existing `PHD2_API_README.md` documents remote AI control.

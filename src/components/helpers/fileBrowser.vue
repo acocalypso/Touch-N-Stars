@@ -245,7 +245,7 @@
           <button class="tns-btn-secondary" @click="cancel">
             {{ $t('common.cancel') }}
           </button>
-          <button class="tns-btn-primary" :disabled="!selectedPath" @click="confirm">
+          <button class="tns-btn-primary" :disabled="!canConfirm" @click="confirm">
             {{ $t('common.confirm') }}
           </button>
         </div>
@@ -306,6 +306,14 @@ const filteredFiles = computed(() => {
     const ext = f.name.split('.').pop()?.toLowerCase();
     return props.fileExtensions.includes(ext);
   });
+});
+
+const canConfirm = computed(() => {
+  if (!selectedPath.value || listLoading.value || listError.value) return false;
+  return props.mode === 'file'
+    ? filteredFiles.value.some((file) => file.path === selectedPath.value)
+    : selectedPath.value === currentPath.value ||
+        directories.value.some((directory) => directory.path === selectedPath.value);
 });
 
 const creatingFolder = ref(false);
@@ -506,6 +514,7 @@ function formatDate(iso) {
 
 // Dialog Actions
 function confirm() {
+  if (!canConfirm.value) return;
   emit('select', selectedPath.value);
   emit('update:modelValue', false);
 }

@@ -28,6 +28,7 @@ export default {
   status: () => aiRequest('get', 'status'),
   validate: () => aiRequest('get', 'validate'),
   models: () => aiRequest('get', 'models'),
+  directory: (path) => aiRequest('put', 'directory', { path }),
   mode: (mode) => aiRequest('put', 'mode', { mode }),
   gain: (gain) => aiRequest('put', 'gain', { gain }),
   select: (path) => aiRequest('post', 'models/select', { path }),

@@ -154,8 +154,13 @@ and the current mount profile's model library.
 
 Training continues inside PHD2 when you leave the page; reopen the AI tab to
 resume its overview. Model selection and PHD2 restart leave AI disabled.
-**Models and recordings** shows the PHD2 host's paths. Import/export paths refer
-to that host; fitting a CSV also requires its adjacent `.csv.json` metadata.
+**Models and recordings** defaults to the PHD2 user's `Documents/PHD2` folder
+(`/home/pi/Documents/PHD2` on PINS), with separate instance/profile subfolders.
+Choose another storage folder with the existing Touch-N-Stars file browser;
+the choice is saved per mount profile. Imports and CSV training select existing
+files through that browser; exports and recordings get generated filenames.
+Fitting a CSV also requires its adjacent `.csv.json` metadata. The browser uses
+the plugin host's filesystem, so PHD2 must run on the same host for this flow.
 Fit quality and simulator tests do not establish improved guiding on a real mount.
 
 For SkySimulator, enable its internal Alpaca mount and use PHD2's native

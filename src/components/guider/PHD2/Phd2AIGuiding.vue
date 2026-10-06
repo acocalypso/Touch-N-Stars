@@ -5,7 +5,7 @@
     <div class="flex items-center justify-between gap-2">
       <h3 class="font-bold text-base text-cyan-400">{{ t('title') }}</h3>
       <button
-        class="tns-btn-secondary px-3 py-1 text-sm"
+        class="tns-btn-secondary w-auto! px-3 py-1 text-sm"
         :disabled="ai.busy || ai.refreshing"
         @click="ai.refresh()"
       >
@@ -190,29 +190,37 @@
         <summary class="cursor-pointer text-cyan-300">{{ t('files') }}</summary>
         <div class="flex flex-col gap-2 mt-2">
           <p class="text-xs text-gray-400">{{ t('filesHelp') }}</p>
-          <label class="flex flex-col gap-1"
-            >{{ t('path') }}
-            <input v-model.trim="path" class="tns-input w-full" :disabled="locked" />
-          </label>
+          <div v-if="ai.status.storage_directory" class="flex flex-col gap-2">
+            <p class="text-xs break-all">
+              {{ t('storageFolder') }}: {{ ai.status.storage_directory }}
+            </p>
+            <button
+              class="tns-btn-secondary px-3 py-2"
+              :disabled="locked"
+              @click="openBrowser('directory')"
+            >
+              {{ t('chooseFolder') }}
+            </button>
+          </div>
           <div class="flex flex-wrap gap-2">
             <button
               class="tns-btn-secondary px-3 py-2"
-              :disabled="locked || !path"
-              @click="ai.run('import', path)"
+              :disabled="locked"
+              @click="openBrowser('import')"
             >
               {{ t('import') }}
             </button>
             <button
               class="tns-btn-secondary px-3 py-2"
-              :disabled="locked || !path || !ai.status.model_loaded"
-              @click="ai.run('export', path)"
+              :disabled="locked || !ai.status.model_loaded"
+              @click="ai.run('export', outputPath('export'))"
             >
               {{ t('export') }}
             </button>
             <button
               class="tns-btn-secondary px-3 py-2"
-              :disabled="locked || !path || !validPeriod"
-              @click="ai.run('fit', path, period)"
+              :disabled="locked || !validPeriod"
+              @click="openBrowser('fit')"
             >
               {{ t('trainFile') }}
             </button>
@@ -227,8 +235,8 @@
           </dl>
           <button
             class="tns-btn-secondary px-3 py-2 self-start"
-            :disabled="locked || !guiding || !validTraining || !path"
-            @click="ai.run('record', duration, path)"
+            :disabled="locked || !guiding || !validTraining"
+            @click="ai.run('record', duration, outputPath('recording'))"
           >
             {{ t('startRecording') }}
           </button>
@@ -242,6 +250,24 @@
           </button>
         </div>
       </details>
+      <FileBrowser
+        v-model="showBrowser"
+        :initial-path="
+          browserAction === 'directory' ? ai.status.storage_directory : ai.status.model_directory
+        "
+        :mode="browserAction === 'directory' ? 'directory' : 'file'"
+        :file-extensions="browserAction === 'import' ? ['json'] : ['csv']"
+        :title="
+          t(
+            browserAction === 'directory'
+              ? 'chooseFolder'
+              : browserAction === 'import'
+                ? 'import'
+                : 'trainFile'
+          )
+        "
+        @select="selectBrowserPath"
+      />
     </template>
   </section>
 </template>
@@ -253,6 +279,8 @@ import { usePhd2AIStore, aiConnectionKey } from '@/store/phd2AIStore';
 import { useGuiderStore } from '@/store/guiderStore';
 import { createPoller } from '@/utils/poller';
 import Phd2AISetupAssistant from './Phd2AISetupAssistant.vue';
+import FileBrowser from '@/components/helpers/fileBrowser.vue';
+import { aiOutputPath } from '@/utils/phd2AIPaths';
 
 defineEmits(['general', 'guiding']);
 
@@ -265,7 +293,10 @@ const mode = ref('disabled');
 const gain = ref(0.1);
 const duration = ref(1800);
 const period = ref(0);
-const path = ref('');
+const showBrowser = ref(false);
+const browserAction = ref('directory');
+let browserContext = '';
+let outputSequence = 0;
 const locked = computed(
   () => ai.busy || ai.training.running || ai.status?.characterization?.active
 );
@@ -287,7 +318,7 @@ const validTraining = computed(
 
 watch([() => ai.status?.profile_id, () => ai.status?.model_path], () => {
   selected.value = ai.status?.model_path || '';
-  path.value = '';
+  showBrowser.value = false;
 });
 watch(
   () => ai.status?.mode,
@@ -302,6 +333,7 @@ watch(
   }
 );
 watch(aiConnectionKey, () => {
+  showBrowser.value = false;
   ai.reset();
   ai.refresh();
 });
@@ -319,5 +351,20 @@ async function apply() {
 
 async function startActive() {
   if (await ai.run('gain', 0.1)) await ai.run('mode', 'active');
+}
+
+const fileContext = () => aiConnectionKey() + ':' + ai.status?.profile_id;
+function openBrowser(action) {
+  browserAction.value = action;
+  browserContext = fileContext();
+  showBrowser.value = true;
+}
+async function selectBrowserPath(selectedPath) {
+  if (browserContext !== fileContext() || locked.value) return;
+  if (browserAction.value === 'fit') await ai.run('fit', selectedPath, period.value);
+  else await ai.run(browserAction.value, selectedPath);
+}
+function outputPath(kind) {
+  return aiOutputPath(ai.status.model_directory, kind, Date.now() + '-' + ++outputSequence);
 }
 </script>

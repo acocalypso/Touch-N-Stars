@@ -1785,7 +1785,7 @@
           "fit": "Restfehler RMS",
           "holdout": "Prüfdaten RMS",
           "files": "Modelle und Aufnahmen",
-          "filesHelp": "Pfade beziehen sich auf das PHD2-Gerät, nicht auf dieses Handy/Tablet. CSV-Training benötigt die zugehörige .csv.json-Datei. Export überschreibt keine Dateien.",
+          "filesHelp": "Modelle und Aufzeichnungen liegen im Speicherordner auf dem PHD2-Gerät. Dateien über den bestehenden Touch-N-Stars-Dateibrowser auswählen. Export und Aufzeichnung erhalten automatisch neue Dateinamen im Profilordner. PHD2 und Touch-N-Stars müssen dafür auf demselben Gerät laufen.",
           "path": "Pfad auf dem PHD2-Gerät",
           "import": "Modell importieren und laden",
           "export": "Ausgewähltes Modell exportieren",
@@ -1793,7 +1793,7 @@
           "directory": "Modellverzeichnis",
           "stopRecording": "Aufnahme stoppen",
           "startRecording": "Aufzeichnung starten",
-          "recordingHelp": "Zeichnet normales Guiding f?r die angegebene Dauer als CSV mit Metadaten auf. Gib einen neuen CSV-Pfad auf dem Pi an; trainiere danach aus dieser Datei.",
+          "recordingHelp": "Zeichnet normales Guiding für die gewählte Dauer als CSV mit Metadaten im Profilordner auf. Anschließend die CSV über den Dateibrowser zum Training auswählen.",
           "settingsTabs": "PHD2-Einstellungen",
           "generalSettings": "Allgemein",
           "connectFirst": "PHD2 verbinden, um das KI-Guiding zu öffnen.",
@@ -1823,7 +1823,9 @@
           "startShadow": "Shadow-Test starten",
           "startActive": "Active mit 0,10 aktivieren",
           "testRequirements": "Zum Testen müssen normales Guiding laufen und das Modell zu den aktuellen Geräten passen.",
-          "minutes": "{count} Min."
+          "minutes": "{count} Min.",
+          "storageFolder": "Speicherordner",
+          "chooseFolder": "Speicherordner auswählen"
         }
       }
     },

@@ -22,11 +22,15 @@ test('AI methods use the selected plugin host, bounded timeout and RPC field nam
   await api.start(720, 120);
   await api.fit('/home/pi/baseline.csv', 120);
   await api.mode('shadow');
+  await api.directory('/home/pi/Documents/PHD2');
   assert.equal(calls[0].url, 'http://192.168.178.109:5000/api/phd2/ai/training/start');
   assert.equal(calls[0].timeout, 10000);
   assert.deepEqual(calls[0].data, { duration_sec: 720, period_sec: 120 });
   assert.deepEqual(calls[1].data, { recording_path: '/home/pi/baseline.csv', period_sec: 120 });
   assert.deepEqual(calls[2].data, { mode: 'shadow' });
+  assert.equal(calls[3].url, 'http://192.168.178.109:5000/api/phd2/ai/directory');
+  assert.equal(calls[3].method, 'put');
+  assert.deepEqual(calls[3].data, { path: '/home/pi/Documents/PHD2' });
 });
 
 test('HTTP success with a failed API envelope still rejects mutations', async (t) => {

@@ -1785,7 +1785,7 @@
           "fit": "Residual RMS",
           "holdout": "Holdout RMS",
           "files": "Models and recordings",
-          "filesHelp": "Paths refer to files on the PHD2 device, not this phone/tablet. CSV training requires its companion .csv.json metadata. Export refuses existing destinations.",
+          "filesHelp": "Models and recordings live in the storage folder on the PHD2 host. Select files with the existing Touch-N-Stars file browser. Exports and recordings get generated filenames in the profile folder. PHD2 and Touch-N-Stars must run on the same host to use this browser.",
           "path": "Path on PHD2 device",
           "import": "Import and select model",
           "export": "Export selected model",
@@ -1793,7 +1793,7 @@
           "directory": "Model directory",
           "stopRecording": "Stop recording",
           "startRecording": "Start recording",
-          "recordingHelp": "Records ordinary guiding as CSV with metadata for the chosen duration. Enter a new CSV path on the Pi; train from this file afterwards.",
+          "recordingHelp": "Records ordinary guiding as CSV with metadata in the profile folder for the chosen duration. Afterwards, select its CSV with the file browser to train from it.",
           "settingsTabs": "PHD2 settings",
           "generalSettings": "General",
           "connectFirst": "Connect PHD2 to open AI guiding.",
@@ -1823,7 +1823,9 @@
           "startShadow": "Start Shadow testing",
           "startActive": "Enable Active at 0.10",
           "testRequirements": "Testing requires ordinary guiding and a model matching the current equipment.",
-          "minutes": "{count} min"
+          "minutes": "{count} min",
+          "storageFolder": "Storage folder",
+          "chooseFolder": "Choose storage folder"
         }
       }
     },

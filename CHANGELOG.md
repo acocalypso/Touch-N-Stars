@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Guiding (PHD2): Store AI models and recordings under Documents/PHD2, select folders and input files with the existing file browser, and generate export/recording filenames automatically.
+
 - Guiding (PHD2): Separate General and AI guiding settings tabs, with a setup assistant showing training progress, time remaining and explicit next steps for Shadow and Active testing.
 
 - Guiding (PHD2): Train and select AI models per mount profile, control Disabled/Shadow/Active and prediction gain, and manage recordings/models from the settings page on NINA and PINS.

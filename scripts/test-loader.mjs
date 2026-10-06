@@ -14,6 +14,7 @@ import path from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const SRC_DIR = fileURLToPath(new URL('../src/', import.meta.url));
+const SRC_URL = new URL('../src/', import.meta.url).href;
 const SIGNALR_FAKE_URL = pathToFileURL(path.join(SRC_DIR, 'test-helpers', 'fakeSignalR.js')).href;
 const STUB_EXTENSIONS = /\.(vue|css|png|jpe?g|svg|gif|webp|woff2?)$/i;
 
@@ -62,7 +63,7 @@ registerHooks({
       return { format: 'module', source: 'export default {};', shortCircuit: true };
     }
 
-    const isSrcFile = url.startsWith('file:') && url.includes('/src/');
+    const isSrcFile = url.startsWith(SRC_URL);
     if (isSrcFile && url.endsWith('.json')) {
       const text = fs.readFileSync(fileURLToPath(url), 'utf8');
       return { format: 'module', source: `export default ${text};`, shortCircuit: true };

@@ -46,6 +46,7 @@
     </div>
 
     <template v-if="guiderStore.phd2IsConnected">
+      <Phd2AIGuiding />
       <!-- Calibration Settings -->
       <div
         class="p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50"
@@ -297,6 +298,7 @@
 </template>
 
 <script setup>
+import Phd2AIGuiding from '@/components/guider/PHD2/Phd2AIGuiding.vue';
 import { useGuiderStore } from '@/store/guiderStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import SetExposure from '@/components/guider/PHD2/SetExposure.vue';

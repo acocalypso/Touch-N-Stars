@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Guiding (PHD2): Separate General and AI guiding settings tabs, with a setup assistant showing training progress, time remaining and explicit next steps for Shadow and Active testing.
+
 - Guiding (PHD2): Train and select AI models per mount profile, control Disabled/Shadow/Active and prediction gain, and manage recordings/models from the settings page on NINA and PINS.
 - PINS settings: Configure the disk-backed swap file to 2 GB (image default), 4 GB, or 8 GB (recommended). Changes apply after reboot and require an updated pinsdaemon.
 

@@ -23,6 +23,20 @@
     </p>
 
     <template v-if="ai.status">
+      <Phd2AISetupAssistant
+        :status="ai.status"
+        :guiding="guiding"
+        :busy="ai.busy"
+        :duration="duration"
+        :can-start="!locked && validTraining && guiding"
+        @general="$emit('general')"
+        @guiding="$emit('guiding')"
+        @start="ai.run('start', duration, period)"
+        @cancel="ai.run('cancel')"
+        @shadow="ai.run('mode', 'shadow')"
+        @active="startActive"
+        @disable="ai.run('mode', 'disabled')"
+      />
       <div class="grid grid-cols-2 gap-2 text-sm">
         <span>{{ t('profile') }}: {{ ai.status.profile_id }}</span>
         <span>{{ t('confidence') }}: {{ (ai.status.ra_confidence * 100).toFixed(0) }}%</span>
@@ -238,6 +252,9 @@ import { useI18n } from 'vue-i18n';
 import { usePhd2AIStore, aiConnectionKey } from '@/store/phd2AIStore';
 import { useGuiderStore } from '@/store/guiderStore';
 import { createPoller } from '@/utils/poller';
+import Phd2AISetupAssistant from './Phd2AISetupAssistant.vue';
+
+defineEmits(['general', 'guiding']);
 
 const { t: translate } = useI18n();
 const t = (key) => translate('components.guider.phd2.ai.' + key);
@@ -298,5 +315,9 @@ onUnmounted(() => poller.stop());
 async function apply() {
   const requestedMode = mode.value;
   if (await ai.run('gain', gain.value)) await ai.run('mode', requestedMode);
+}
+
+async function startActive() {
+  if (await ai.run('gain', 0.1)) await ai.run('mode', 'active');
 }
 </script>

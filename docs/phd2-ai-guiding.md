@@ -6,6 +6,8 @@ It feature-detects AI RPC support instead of assuming all PHD2 versions have it.
 The plugin needs the changes documented in its `PHD2_AI_API.md`, and PHD2 needs
 the native AI build. No training terminal or Python process is required.
 
+The settings page has separate **General** and **AI guiding** tabs. The AI setup assistant follows preparation, training, model review, Shadow testing and Active monitoring. It shows recording progress, frame count and estimated recording time remaining from PHD2; fitting time is reported as unknown. Leaving the tab does not cancel training. The assistant enables Active only after an explicit click, with prediction gain 0.10. Shadow observation and model RMS do not automatically certify an improvement.
+
 The panel shows the current PHD2 profile, selected model, fingerprint warnings,
 confidence and native training status. Its model dropdown uses that profile's
 library. It provides training/start/cancel, gain and Disabled/Shadow/Active,
@@ -60,3 +62,14 @@ On a 4 GB Pi, use `NODE_OPTIONS=--max-old-space-size=3072` for typecheck. Linux
 test loading is scoped to the actual application `src` directory, so dependency
 JSON remains readable even if the repository itself lives under a `src` folder.
 The atlas dependency lock uses HTTPS and the same pinned commit as the manifest.
+
+## Settings assistant validation (2026-10-06)
+
+Windows and Raspberry Pi production builds passed, with 612 frontend tests.
+Browser checks on the installed Pi covered General/AI tab separation, keyboard
+navigation, a 390-pixel mobile viewport, live training countdown/frame count,
+and the native Shadow/Active phases. The isolated built-in PHD2 simulator
+trained on 79 frames, produced 20 Shadow frames with zero AI correction and
+36 Active frames with bounded RA correction (maximum 0.0508 px), with zero DEC
+AI contribution. The main SkySimulator profile was restored, stopped and with
+AI disabled; its calibration and guiding were not changed by this test.

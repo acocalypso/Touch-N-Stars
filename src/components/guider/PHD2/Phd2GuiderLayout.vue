@@ -415,7 +415,7 @@
         <div class="border border-line rounded-card shadow-lg bg-surface-1">
           <div class="container pl-5 pb-5 pr-5">
             <div class="mt-5">
-              <Phd2Settings />
+              <Phd2Settings @show-guiding="currentTab = 'showGuiding'" />
             </div>
           </div>
         </div>

@@ -734,9 +734,9 @@
       },
       "swap": {
         "title": "Raspberry Pi swap",
-        "description": "Choose the disk-backed swap file size. Changes take effect after you reboot the Pi. Zram settings stay unchanged. Larger files use more storage; swap is slower than RAM.",
+        "description": "Choose traditional disk swap capacity. Saving switches from compressed zram to disk swap after you reboot the Pi. Larger sizes use more storage; disk swap is slower than RAM.",
         "loading": "Reading swap configuration…",
-        "current": "Current file size: {size} GB",
+        "current": "Active system swap: {size} GB",
         "size": "Configured swap size",
         "choose": "Choose a size",
         "defaultSize": "2 GB (image default)",

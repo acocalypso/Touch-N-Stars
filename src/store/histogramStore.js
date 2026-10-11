@@ -24,6 +24,7 @@ const useWorker =
   typeof createImageBitmap === 'function';
 
 const WORKER_TIMEOUT_MS = 30_000;
+const MAX_PREVIEW_DIM = 2048;
 
 class WorkerEngine {
   constructor() {
@@ -247,7 +248,12 @@ export const useHistogramStore = defineStore('histogramStore', {
       controllers.set(imageUrl, controller);
 
       const settingsStore = useSettingsStore();
-      const maxDim = settingsStore.camera.maxDimension || 2048;
+      // The preview planes are 2 bytes per pixel and channel and stay in memory for the stretch,
+      // so they are capped independently of the JPEG size setting (which can be "unlimited").
+      const maxDim = Math.min(
+        settingsStore.camera.maxDimension || MAX_PREVIEW_DIM,
+        MAX_PREVIEW_DIM
+      );
 
       try {
         const buffer = await fetchRaw(source, maxDim, controller.signal);

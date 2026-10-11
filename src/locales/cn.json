@@ -778,6 +778,9 @@
       "camera": {
         "name": "相机"
       },
+      "guideCamera": {
+        "name": "导星相机"
+      },
       "connectAll": "全部连接",
       "disconnectAll": "全部断开",
       "connectAllError": "连接所有设备时出错",
@@ -1751,6 +1754,7 @@
       "native": {
         "notConnected": "PINS 自动导星仪未连接",
         "notConnectedHint": "请在设备页面连接 PINS 自动导星仪。设置项目前仍可编辑。",
+        "pageLoadFailed": "无法加载导星页面。请检查与设备的连接，然后重新打开页面。",
         "states": {
           "Stopped": "已停止",
           "Looping": "循环中",
@@ -2313,6 +2317,17 @@
           "legendRaBack": "赤经 回程",
           "legendBacklash": "回差",
           "legendDecOut": "赤纬 去程",
+          "progressDirection": "方向",
+          "progressDx": "Δx",
+          "progressDy": "Δy",
+          "progressDistance": "距离",
+          "progressReason": "原因",
+          "directions": {
+            "North": "北",
+            "South": "南",
+            "East": "东",
+            "West": "西"
+          },
           "legendDecBack": "赤纬 回程"
         },
         "settings": {
@@ -2349,6 +2364,8 @@
             "Safety": "安全",
             "Incidents": "异常事件"
           },
+          "confirmReconnectTitle": "重新连接导星？",
+          "confirmReconnect": "导星将断开并重新连接。在此期间导星会停止，正在进行的曝光将不再受导星控制。",
           "reconnectNeeded": "重新连接导星器以使用新的相机设置。",
           "reconnectNow": "立即重新连接",
           "reconnecting": "正在重新连接…",
@@ -2743,6 +2760,7 @@
             "running": "Guiding Coach：{step} · {percent} %",
             "open": "打开"
           },
+          "confirmStartTitle": "在导星时启动教练？",
           "confirmInterruptTitle": "中断 Guiding Coach？",
           "confirmInterrupt": "Coach 会话正在运行。此命令将取消该会话；临时设置将被恢复。",
           "values": {
@@ -3265,6 +3283,21 @@
           "unknown": "?"
         }
       }
+    },
+    "guideCamera": {
+      "title": "导星相机",
+      "sensor": "传感器",
+      "temperature": "温度",
+      "gain": "增益",
+      "offset": "偏置",
+      "binning": "像素合并",
+      "targetTemperature": "目标 °C",
+      "cool": "制冷",
+      "warm": "升温",
+      "exposure": "曝光 (秒)",
+      "capture": "拍摄",
+      "capturing": "正在拍摄…",
+      "failed": "导星相机没有响应"
     },
     "focuser": {
       "title": "调焦器",
@@ -7565,7 +7598,36 @@
         "lastError": "上次测得误差",
         "autoPilot": "Auto-Pilot",
         "iteration": "第 {n} 次迭代",
-        "running": "运行中"
+        "running": "运行中",
+        "totalError": "总计 {arcsec}″",
+        "lastCorrection": "上次校正",
+        "correctionSteps": "Az {az} · Alt {alt} 步"
+      },
+      "assist": {
+        "title": "自动极轴校准",
+        "hint": "点击一次即启动 TPPA（如果尚未运行），然后启动 Auto-Pilot，它会持续校正直到误差在容差范围内。Auto-Pilot 结束时 TPPA 会自动停止。必须在 N.I.N.A. 的 TPPA 设置中启用 \"Log polar alignment error adjustments\"。运行期间请保持此页面打开。",
+        "start": "开始极轴校准",
+        "running": "运行中…",
+        "stop": "停止",
+        "tppaSettings": "TPPA 设置",
+        "tnsPluginRequired": "TPPA 需要 N.I.N.A. 中的 Touch'N'Stars 插件；该插件无法访问。",
+        "phaseLabel": "状态",
+        "azError": "方位角误差",
+        "altError": "高度角误差",
+        "phase": {
+          "idle": "空闲",
+          "startingTppa": "正在启动 TPPA…",
+          "startingAutoPilot": "正在启动 Auto-Pilot…",
+          "running": "Auto-Pilot 运行中"
+        },
+        "errors": {
+          "tppaUnavailable": "无法打开 TPPA 连接。",
+          "tppaNoResponse": "TPPA 未响应启动请求。",
+          "tppaError": "TPPA 报告了错误。请检查相机、赤道仪和 plate solver。",
+          "tppaSilent": "TPPA 已有两分钟未发送任何数据。TPPA 和 Auto-Pilot 已停止。",
+          "autoPilotNotStarted": "Auto-Pilot 未启动。请检查 AAPA 日志；如果 TPPA 是在此处启动的，它已被停止。",
+          "connectionLost": "与 AAPA 插件的连接已中断。TPPA 和 Auto-Pilot 可能仍在运行 - 如有需要请使用停止。"
+        }
       },
       "manual": {
         "title": "手动控制",
@@ -7576,7 +7638,13 @@
         "altPlus": "Alt +",
         "home": "回到原点",
         "setHome": "设置原点",
-        "setHomeConfirm": "将当前位置设为两个轴的新原点?"
+        "setHomeConfirm": "将当前位置设为两个轴的新原点?",
+        "homeAz": "Home Az",
+        "homeAlt": "Home Alt",
+        "setHomeAz": "设置 Home Az",
+        "setHomeAlt": "设置 Home Alt",
+        "setHomeAxisConfirm": "将当前 {axis} 位置设为新的 Home 位置？",
+        "stopAll": "全部停止"
       },
       "calibration": {
         "title": "传动比校准",
@@ -7584,7 +7652,8 @@
         "steps": "校准步数",
         "azimuth": "校准 Az",
         "altitude": "校准 Alt",
-        "running": "校准中…"
+        "running": "校准中…",
+        "cancel": "取消校准"
       },
       "settings": {
         "groups": {

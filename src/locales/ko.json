@@ -819,6 +819,9 @@
       "camera": {
         "name": "카메라"
       },
+      "guideCamera": {
+        "name": "가이드 카메라"
+      },
       "connectAll": "모두 연결",
       "disconnectAll": "모두 연결 해제",
       "connectAllError": "모든 장치 연결 오류",
@@ -1792,6 +1795,7 @@
       "native": {
         "notConnected": "PINS 네이티브 가이더가 연결되지 않았습니다",
         "notConnectedHint": "장비 페이지에서 PINS 네이티브 가이더를 연결하세요. 설정은 연결 전에도 편집할 수 있습니다.",
+        "pageLoadFailed": "가이더 페이지를 불러올 수 없습니다. 장비와의 연결을 확인한 후 페이지를 다시 여세요.",
         "states": {
           "Stopped": "정지됨",
           "Looping": "루프 중",
@@ -2354,6 +2358,17 @@
           "legendRaBack": "RA 복귀",
           "legendBacklash": "백래시",
           "legendDecOut": "Dec 이동",
+          "progressDirection": "방향",
+          "progressDx": "Δx",
+          "progressDy": "Δy",
+          "progressDistance": "거리",
+          "progressReason": "이유",
+          "directions": {
+            "North": "북",
+            "South": "남",
+            "East": "동",
+            "West": "서"
+          },
           "legendDecBack": "Dec 복귀"
         },
         "settings": {
@@ -2390,6 +2405,8 @@
             "Safety": "안전",
             "Incidents": "인시던트"
           },
+          "confirmReconnectTitle": "가이더를 다시 연결할까요?",
+          "confirmReconnect": "가이더가 연결을 끊었다가 다시 연결합니다. 그동안 가이딩이 멈추므로 진행 중인 노출은 더 이상 가이드되지 않습니다.",
           "reconnectNeeded": "새 카메라 설정을 사용하려면 가이더를 다시 연결하세요.",
           "reconnectNow": "지금 다시 연결",
           "reconnecting": "다시 연결 중…",
@@ -2784,6 +2801,7 @@
             "running": "Guiding Coach: {step} · {percent} %",
             "open": "열기"
           },
+          "confirmStartTitle": "가이딩 중에 코치를 시작할까요?",
           "confirmInterruptTitle": "Guiding Coach를 중단할까요?",
           "confirmInterrupt": "코치 세션이 실행 중입니다. 이 명령은 세션을 취소하며, 임시 설정은 복원됩니다.",
           "values": {
@@ -3306,6 +3324,21 @@
           "unknown": "?"
         }
       }
+    },
+    "guideCamera": {
+      "title": "가이드 카메라",
+      "sensor": "센서",
+      "temperature": "온도",
+      "gain": "게인",
+      "offset": "오프셋",
+      "binning": "비닝",
+      "targetTemperature": "목표 °C",
+      "cool": "냉각",
+      "warm": "워밍",
+      "exposure": "노출 (초)",
+      "capture": "촬영",
+      "capturing": "촬영 중…",
+      "failed": "가이드 카메라가 응답하지 않았습니다"
     },
     "focuser": {
       "title": "포커서",
@@ -7565,7 +7598,36 @@
         "lastError": "마지막 측정 오차",
         "autoPilot": "Auto-Pilot",
         "iteration": "반복 {n}",
-        "running": "실행 중"
+        "running": "실행 중",
+        "totalError": "합계 {arcsec}″",
+        "lastCorrection": "마지막 보정",
+        "correctionSteps": "Az {az} · Alt {alt} 스텝"
+      },
+      "assist": {
+        "title": "자동 극축 정렬",
+        "hint": "한 번 탭하면 TPPA가 시작되고(이미 실행 중이 아닌 경우) 이어서 Auto-Pilot이 오차가 허용 범위 안에 들어올 때까지 보정합니다. Auto-Pilot이 끝나면 TPPA는 자동으로 멈춥니다. N.I.N.A.의 TPPA 설정에서 \"Log polar alignment error adjustments\"가 활성화되어 있어야 합니다. 실행 중에는 이 페이지를 열어 두세요.",
+        "start": "극축 정렬 시작",
+        "running": "실행 중…",
+        "stop": "정지",
+        "tppaSettings": "TPPA 설정",
+        "tnsPluginRequired": "TPPA에는 N.I.N.A.의 Touch'N'Stars 플러그인이 필요하지만 연결할 수 없습니다.",
+        "phaseLabel": "상태",
+        "azError": "방위각 오차",
+        "altError": "고도 오차",
+        "phase": {
+          "idle": "대기",
+          "startingTppa": "TPPA 시작 중…",
+          "startingAutoPilot": "Auto-Pilot 시작 중…",
+          "running": "Auto-Pilot 실행 중"
+        },
+        "errors": {
+          "tppaUnavailable": "TPPA 연결을 열 수 없습니다.",
+          "tppaNoResponse": "TPPA가 시작 요청에 응답하지 않았습니다.",
+          "tppaError": "TPPA가 오류를 보고했습니다. 카메라, 마운트, plate solver를 확인하세요.",
+          "tppaSilent": "TPPA가 2분 동안 아무것도 보내지 않았습니다. TPPA와 Auto-Pilot을 정지했습니다.",
+          "autoPilotNotStarted": "Auto-Pilot이 시작되지 않았습니다. AAPA 로그를 확인하세요. 여기서 시작한 TPPA는 정지되었습니다.",
+          "connectionLost": "AAPA 플러그인과의 연결이 끊어졌습니다. TPPA와 Auto-Pilot이 아직 실행 중일 수 있습니다 - 필요하면 정지를 사용하세요."
+        }
       },
       "manual": {
         "title": "수동 제어",
@@ -7576,7 +7638,13 @@
         "altPlus": "Alt +",
         "home": "홈으로 이동",
         "setHome": "홈 설정",
-        "setHomeConfirm": "현재 위치를 두 축의 새 홈 위치로 설정할까요?"
+        "setHomeConfirm": "현재 위치를 두 축의 새 홈 위치로 설정할까요?",
+        "homeAz": "Home Az",
+        "homeAlt": "Home Alt",
+        "setHomeAz": "Home Az 설정",
+        "setHomeAlt": "Home Alt 설정",
+        "setHomeAxisConfirm": "현재 {axis} 위치를 새 홈 위치로 설정할까요?",
+        "stopAll": "모두 정지"
       },
       "calibration": {
         "title": "기어비 보정",
@@ -7584,7 +7652,8 @@
         "steps": "보정 스텝",
         "azimuth": "Az 보정",
         "altitude": "Alt 보정",
-        "running": "보정 중…"
+        "running": "보정 중…",
+        "cancel": "캘리브레이션 취소"
       },
       "settings": {
         "groups": {

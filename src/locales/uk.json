@@ -758,6 +758,9 @@
       "camera": {
         "name": "Камера"
       },
+      "guideCamera": {
+        "name": "Гід-камера"
+      },
       "connectAll": "Підключити все",
       "disconnectAll": "Відключити все",
       "connectAllError": "Помилка підключення всіх пристроїв",
@@ -1731,6 +1734,7 @@
       "native": {
         "notConnected": "PINS Native Guider не підключено",
         "notConnectedHint": "Підключіть PINS Native Guider на сторінці обладнання. Налаштування вже можна редагувати.",
+        "pageLoadFailed": "Не вдалося завантажити сторінку гідера. Перевір з’єднання з обладнанням і відкрий сторінку знову.",
         "states": {
           "Stopped": "Зупинено",
           "Looping": "Циклічно",
@@ -2293,6 +2297,17 @@
           "legendRaBack": "RA назад",
           "legendBacklash": "Люфт",
           "legendDecOut": "Dec туди",
+          "progressDirection": "Напрямок",
+          "progressDx": "Δx",
+          "progressDy": "Δy",
+          "progressDistance": "Відстань",
+          "progressReason": "Причина",
+          "directions": {
+            "North": "Північ",
+            "South": "Південь",
+            "East": "Схід",
+            "West": "Захід"
+          },
           "legendDecBack": "Dec назад"
         },
         "settings": {
@@ -2329,6 +2344,8 @@
             "Safety": "Безпека",
             "Incidents": "Інциденти"
           },
+          "confirmReconnectTitle": "Перепідключити гідер?",
+          "confirmReconnect": "Гідер від’єднається і підключиться знову. Тим часом гідування зупиняється, тож поточна експозиція більше не гідується.",
           "reconnectNeeded": "Повторно підключіть гід, щоб застосувати нові налаштування камери.",
           "reconnectNow": "Підключити повторно",
           "reconnecting": "Повторне підключення…",
@@ -2723,6 +2740,7 @@
             "running": "Guiding Coach: {step} · {percent} %",
             "open": "Відкрити"
           },
+          "confirmStartTitle": "Запустити коуча під час гідування?",
           "confirmInterruptTitle": "Перервати Guiding Coach?",
           "confirmInterrupt": "Виконується сеанс Coach. Ця команда скасує його; тимчасові налаштування буде відновлено.",
           "values": {
@@ -3245,6 +3263,21 @@
           "unknown": "?"
         }
       }
+    },
+    "guideCamera": {
+      "title": "Гід-камера",
+      "sensor": "Сенсор",
+      "temperature": "Температура",
+      "gain": "Gain",
+      "offset": "Offset",
+      "binning": "Binning",
+      "targetTemperature": "Ціль °C",
+      "cool": "Охолодити",
+      "warm": "Прогріти",
+      "exposure": "Експозиція (с)",
+      "capture": "Зйомка",
+      "capturing": "Знімаю…",
+      "failed": "Гід-камера не відповіла"
     },
     "focuser": {
       "title": "Фокусер",
@@ -7565,7 +7598,36 @@
         "lastError": "Остання виміряна похибка",
         "autoPilot": "Auto-Pilot",
         "iteration": "Ітерація {n}",
-        "running": "Працює"
+        "running": "Працює",
+        "totalError": "загалом {arcsec}″",
+        "lastCorrection": "Остання корекція",
+        "correctionSteps": "Az {az} · Alt {alt} кроків"
+      },
+      "assist": {
+        "title": "Автоматичне полярне вирівнювання",
+        "hint": "Один дотик запускає TPPA (якщо він ще не працює), а потім Auto-Pilot, який коригує, доки похибка не потрапить у допуск. TPPA зупиняється автоматично, коли Auto-Pilot завершує роботу. У налаштуваннях TPPA в N.I.N.A. має бути увімкнено \"Log polar alignment error adjustments\". Тримай цю сторінку відкритою під час роботи.",
+        "start": "Почати полярне вирівнювання",
+        "running": "Виконується…",
+        "stop": "Зупинити",
+        "tppaSettings": "Налаштування TPPA",
+        "tnsPluginRequired": "TPPA потребує плагіна Touch'N'Stars у N.I.N.A.; він недоступний.",
+        "phaseLabel": "Статус",
+        "azError": "Похибка азимута",
+        "altError": "Похибка висоти",
+        "phase": {
+          "idle": "Очікування",
+          "startingTppa": "Запуск TPPA…",
+          "startingAutoPilot": "Запуск Auto-Pilot…",
+          "running": "Auto-Pilot працює"
+        },
+        "errors": {
+          "tppaUnavailable": "Не вдалося відкрити з’єднання з TPPA.",
+          "tppaNoResponse": "TPPA не відповів на запит запуску.",
+          "tppaError": "TPPA повідомив про помилку. Перевір камеру, монтування та plate solver.",
+          "tppaSilent": "TPPA нічого не надсилав дві хвилини. TPPA і Auto-Pilot зупинено.",
+          "autoPilotNotStarted": "Auto-Pilot не запустився. Перевір журнал AAPA; TPPA зупинено, якщо його було запущено тут.",
+          "connectionLost": "З’єднання з плагіном AAPA перервано. TPPA і Auto-Pilot, можливо, ще працюють - за потреби натисни Зупинити."
+        }
       },
       "manual": {
         "title": "Ручне керування",
@@ -7576,7 +7638,13 @@
         "altPlus": "Alt +",
         "home": "До home",
         "setHome": "Задати home",
-        "setHomeConfirm": "Зробити поточну позицію новою позицією home для обох осей?"
+        "setHomeConfirm": "Зробити поточну позицію новою позицією home для обох осей?",
+        "homeAz": "Home Az",
+        "homeAlt": "Home Alt",
+        "setHomeAz": "Задати Home Az",
+        "setHomeAlt": "Задати Home Alt",
+        "setHomeAxisConfirm": "Зробити поточну позицію {axis} новою позицією home?",
+        "stopAll": "Зупинити все"
       },
       "calibration": {
         "title": "Калібрування передавального числа",
@@ -7584,7 +7652,8 @@
         "steps": "Кроки калібрування",
         "azimuth": "Калібрувати Az",
         "altitude": "Калібрувати Alt",
-        "running": "Калібрування…"
+        "running": "Калібрування…",
+        "cancel": "Скасувати калібрування"
       },
       "settings": {
         "groups": {

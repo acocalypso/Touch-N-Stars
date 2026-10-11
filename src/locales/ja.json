@@ -787,6 +787,9 @@
       "camera": {
         "name": "カメラ"
       },
+      "guideCamera": {
+        "name": "ガイドカメラ"
+      },
       "connectAll": "一括接続",
       "disconnectAll": "一括切断",
       "connectAllError": "一括接続中にエラーが発生しました",
@@ -1760,6 +1763,7 @@
       "native": {
         "notConnected": "PINS ネイティブガイダーが接続されていません",
         "notConnectedHint": "機材ページで PINS ネイティブガイダーを接続してください。設定は接続前でも編集できます。",
+        "pageLoadFailed": "ガイダーページを読み込めませんでした。機材との接続を確認して、ページを開き直してください。",
         "states": {
           "Stopped": "停止",
           "Looping": "ループ中",
@@ -2322,6 +2326,17 @@
           "legendRaBack": "RA 復路",
           "legendBacklash": "バックラッシュ",
           "legendDecOut": "Dec 往路",
+          "progressDirection": "方向",
+          "progressDx": "Δx",
+          "progressDy": "Δy",
+          "progressDistance": "距離",
+          "progressReason": "理由",
+          "directions": {
+            "North": "北",
+            "South": "南",
+            "East": "東",
+            "West": "西"
+          },
           "legendDecBack": "Dec 復路"
         },
         "settings": {
@@ -2358,6 +2373,8 @@
             "Safety": "安全",
             "Incidents": "インシデント"
           },
+          "confirmReconnectTitle": "ガイダーを再接続しますか？",
+          "confirmReconnect": "ガイダーが切断されて再接続されます。その間ガイドは停止するため、実行中の露出はガイドされません。",
           "reconnectNeeded": "新しいカメラ設定を使うにはガイダーを再接続してください。",
           "reconnectNow": "今すぐ再接続",
           "reconnecting": "再接続中…",
@@ -2752,6 +2769,7 @@
             "running": "Guiding Coach: {step} · {percent} %",
             "open": "開く"
           },
+          "confirmStartTitle": "ガイド中にコーチを開始しますか？",
           "confirmInterruptTitle": "Guiding Coach を中断しますか？",
           "confirmInterrupt": "コーチセッションが実行中です。この操作でセッションはキャンセルされ、一時的な設定は元に戻されます。",
           "values": {
@@ -3274,6 +3292,21 @@
           "unknown": "?"
         }
       }
+    },
+    "guideCamera": {
+      "title": "ガイドカメラ",
+      "sensor": "センサー",
+      "temperature": "温度",
+      "gain": "ゲイン",
+      "offset": "オフセット",
+      "binning": "ビニング",
+      "targetTemperature": "目標 °C",
+      "cool": "冷却",
+      "warm": "ウォームアップ",
+      "exposure": "露出 (秒)",
+      "capture": "撮影",
+      "capturing": "撮影中…",
+      "failed": "ガイドカメラが応答しませんでした"
     },
     "focuser": {
       "title": "フォーカサー",
@@ -7565,7 +7598,36 @@
         "lastError": "最後に測定された誤差",
         "autoPilot": "Auto-Pilot",
         "iteration": "反復 {n}",
-        "running": "実行中"
+        "running": "実行中",
+        "totalError": "合計 {arcsec}″",
+        "lastCorrection": "最後の補正",
+        "correctionSteps": "Az {az} · Alt {alt} ステップ"
+      },
+      "assist": {
+        "title": "自動極軸合わせ",
+        "hint": "1回タップすると TPPA が起動し（すでに実行中でない場合）、続いて Auto-Pilot が誤差が許容範囲内に収まるまで補正します。Auto-Pilot が終了すると TPPA は自動的に停止します。N.I.N.A. の TPPA 設定で「Log polar alignment error adjustments」を有効にしておく必要があります。実行中はこのページを開いたままにしてください。",
+        "start": "極軸合わせを開始",
+        "running": "実行中…",
+        "stop": "停止",
+        "tppaSettings": "TPPA 設定",
+        "tnsPluginRequired": "TPPA には N.I.N.A. の Touch'N'Stars プラグインが必要ですが、接続できません。",
+        "phaseLabel": "ステータス",
+        "azError": "方位誤差",
+        "altError": "高度誤差",
+        "phase": {
+          "idle": "待機中",
+          "startingTppa": "TPPA を起動中…",
+          "startingAutoPilot": "Auto-Pilot を起動中…",
+          "running": "Auto-Pilot 実行中"
+        },
+        "errors": {
+          "tppaUnavailable": "TPPA への接続を開けませんでした。",
+          "tppaNoResponse": "TPPA が開始要求に応答しませんでした。",
+          "tppaError": "TPPA がエラーを報告しました。カメラ、架台、plate solver を確認してください。",
+          "tppaSilent": "TPPA から2分間何も送信されていません。TPPA と Auto-Pilot を停止しました。",
+          "autoPilotNotStarted": "Auto-Pilot が起動しませんでした。AAPA のログを確認してください。ここで起動した TPPA は停止しました。",
+          "connectionLost": "AAPA プラグインとの接続が切断されました。TPPA と Auto-Pilot はまだ動作している可能性があります - 必要に応じて停止を使用してください。"
+        }
       },
       "manual": {
         "title": "手動操作",
@@ -7576,7 +7638,13 @@
         "altPlus": "Alt +",
         "home": "原点へ移動",
         "setHome": "原点を設定",
-        "setHomeConfirm": "現在位置を両軸の新しい原点に設定しますか?"
+        "setHomeConfirm": "現在位置を両軸の新しい原点に設定しますか?",
+        "homeAz": "Home Az",
+        "homeAlt": "Home Alt",
+        "setHomeAz": "Home Az を設定",
+        "setHomeAlt": "Home Alt を設定",
+        "setHomeAxisConfirm": "現在の {axis} 位置を新しいホーム位置にしますか？",
+        "stopAll": "すべて停止"
       },
       "calibration": {
         "title": "ギア比キャリブレーション",
@@ -7584,7 +7652,8 @@
         "steps": "キャリブレーションステップ数",
         "azimuth": "Az をキャリブレーション",
         "altitude": "Alt をキャリブレーション",
-        "running": "キャリブレーション中…"
+        "running": "キャリブレーション中…",
+        "cancel": "キャリブレーションをキャンセル"
       },
       "settings": {
         "groups": {

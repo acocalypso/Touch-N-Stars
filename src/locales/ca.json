@@ -819,6 +819,9 @@
       "camera": {
         "name": "Càmera"
       },
+      "guideCamera": {
+        "name": "Càmera de guiatge"
+      },
       "connectAll": "Connecta-ho tot",
       "disconnectAll": "Desconnecta-ho tot",
       "connectAllError": "Error en connectar tots els dispositius",
@@ -1792,6 +1795,7 @@
       "native": {
         "notConnected": "El Guiador Natiu de PINS no està connectat",
         "notConnectedHint": "Connecteu el Guiador Natiu de PINS a la pàgina d'equipament. Els ajustos ja es poden editar.",
+        "pageLoadFailed": "No s'ha pogut carregar la pàgina del guiador. Comprova la connexió amb l'equip i torna a obrir la pàgina.",
         "states": {
           "Stopped": "Aturat",
           "Looping": "En bucle",
@@ -2354,6 +2358,17 @@
           "legendRaBack": "AR tornada",
           "legendBacklash": "Joc (backlash)",
           "legendDecOut": "Dec anada",
+          "progressDirection": "Direcció",
+          "progressDx": "Δx",
+          "progressDy": "Δy",
+          "progressDistance": "Distància",
+          "progressReason": "Motiu",
+          "directions": {
+            "North": "Nord",
+            "South": "Sud",
+            "East": "Est",
+            "West": "Oest"
+          },
           "legendDecBack": "Dec tornada"
         },
         "settings": {
@@ -2390,6 +2405,8 @@
             "Safety": "Seguretat",
             "Incidents": "Incidències"
           },
+          "confirmReconnectTitle": "Tornar a connectar el guiador?",
+          "confirmReconnect": "El guiador es desconnecta i es torna a connectar. Mentrestant el guiatge s'atura, així que una exposició en curs deixa d'estar guiada.",
           "reconnectNeeded": "Torna a connectar el guiatge per fer servir la nova configuració de càmera.",
           "reconnectNow": "Torna a connectar ara",
           "reconnecting": "S'està tornant a connectar…",
@@ -2784,6 +2801,7 @@
             "running": "Guiding Coach: {step} · {percent} %",
             "open": "Obre"
           },
+          "confirmStartTitle": "Iniciar el coach durant el guiatge?",
           "confirmInterruptTitle": "Interrompre el Guiding Coach?",
           "confirmInterrupt": "Hi ha una sessió del Coach en curs. Aquesta ordre la cancel·la; es desfan els ajustos temporals.",
           "values": {
@@ -3306,6 +3324,21 @@
           "unknown": "?"
         }
       }
+    },
+    "guideCamera": {
+      "title": "Càmera de guiatge",
+      "sensor": "Sensor",
+      "temperature": "Temperatura",
+      "gain": "Guany",
+      "offset": "Offset",
+      "binning": "Binning",
+      "targetTemperature": "Objectiu °C",
+      "cool": "Refredar",
+      "warm": "Escalfar",
+      "exposure": "Exposició (s)",
+      "capture": "Capturar",
+      "capturing": "Capturant…",
+      "failed": "La càmera de guiatge no ha respost"
     },
     "focuser": {
       "title": "Enfocador",
@@ -7565,7 +7598,36 @@
         "lastError": "Últim error mesurat",
         "autoPilot": "Auto-Pilot",
         "iteration": "Iteració {n}",
-        "running": "En execució"
+        "running": "En execució",
+        "totalError": "total {arcsec}″",
+        "lastCorrection": "Última correcció",
+        "correctionSteps": "Az {az} · Alt {alt} passos"
+      },
+      "assist": {
+        "title": "Alineació polar automàtica",
+        "hint": "Un toc inicia TPPA (si no està ja en marxa) i després l'Auto-Pilot, que corregeix fins que l'error és dins la tolerància. TPPA s'atura automàticament quan acaba l'Auto-Pilot. A la configuració de TPPA a N.I.N.A. cal activar \"Log polar alignment error adjustments\". Mantén aquesta pàgina oberta mentre s'executa.",
+        "start": "Iniciar alineació polar",
+        "running": "En marxa…",
+        "stop": "Atura",
+        "tppaSettings": "Configuració de TPPA",
+        "tnsPluginRequired": "TPPA necessita el plugin Touch'N'Stars a N.I.N.A.; no és accessible.",
+        "phaseLabel": "Estat",
+        "azError": "Error d'azimut",
+        "altError": "Error d'altitud",
+        "phase": {
+          "idle": "Inactiu",
+          "startingTppa": "Iniciant TPPA…",
+          "startingAutoPilot": "Iniciant Auto-Pilot…",
+          "running": "Auto-Pilot en marxa"
+        },
+        "errors": {
+          "tppaUnavailable": "No s'ha pogut obrir la connexió amb TPPA.",
+          "tppaNoResponse": "TPPA no ha respost a la sol·licitud d'inici.",
+          "tppaError": "TPPA ha informat d'un error. Comprova la càmera, la muntura i el plate solver.",
+          "tppaSilent": "TPPA no ha enviat res en dos minuts. S'han aturat TPPA i l'Auto-Pilot.",
+          "autoPilotNotStarted": "L'Auto-Pilot no s'ha iniciat. Revisa el registre d'AAPA; TPPA s'ha aturat si s'havia iniciat aquí.",
+          "connectionLost": "S'ha interromput la connexió amb el plugin AAPA. És possible que TPPA i l'Auto-Pilot encara estiguin en marxa - fes servir Atura si cal."
+        }
       },
       "manual": {
         "title": "Control manual",
@@ -7576,7 +7638,13 @@
         "altPlus": "Alt +",
         "home": "Vés a l'origen",
         "setHome": "Defineix l'origen",
-        "setHomeConfirm": "Establir la posició actual com a nou origen per als dos eixos?"
+        "setHomeConfirm": "Establir la posició actual com a nou origen per als dos eixos?",
+        "homeAz": "Home Az",
+        "homeAlt": "Home Alt",
+        "setHomeAz": "Fixa Home Az",
+        "setHomeAlt": "Fixa Home Alt",
+        "setHomeAxisConfirm": "Fer servir la posició actual de {axis} com a nova posició home?",
+        "stopAll": "Atura-ho tot"
       },
       "calibration": {
         "title": "Calibratge de la relació d'engranatge",
@@ -7584,7 +7652,8 @@
         "steps": "Passos de calibratge",
         "azimuth": "Calibra Az",
         "altitude": "Calibra Alt",
-        "running": "Calibrant…"
+        "running": "Calibrant…",
+        "cancel": "Cancel·la el calibratge"
       },
       "settings": {
         "groups": {

@@ -4,6 +4,7 @@ import { apiStore } from '@/store/store';
 import { useToastStore } from '@/store/toastStore';
 import i18n from '@/i18n';
 import { createPoller } from '@/utils/poller';
+import { flatMaxADU } from '@/utils/flatAdu';
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -38,6 +39,9 @@ export const useFlatassistantStore = defineStore('flatassistantStore', {
     lastRun: null,
     // ADU (Mean) of the most recently captured image during the current run
     currentADU: null,
+    // Bit depth of the image currentADU was measured on, when the backend reports it
+    // (BitDepth in /flats/status). RAW frames can be below the camera info's BitDepth.
+    currentADUBitDepth: null,
     // Last human-readable status message received from NINA/PINS via SignalR progress hub.
     signalRStatus: null,
     // Locked outcome set once when a run completes — stays until the next run starts.
@@ -51,6 +55,12 @@ export const useFlatassistantStore = defineStore('flatassistantStore', {
     // Name of the filter currently being processed in multi-mode, null otherwise.
     currentFilterName: null,
   }),
+  getters: {
+    // Full-scale ADU that currentADU is measured against (see flatMaxADU).
+    maxADU(state) {
+      return flatMaxADU(state.currentADUBitDepth, apiStore().cameraInfo?.BitDepth);
+    },
+  },
   actions: {
     async fetchFlatsInfos() {
       try {
@@ -92,6 +102,7 @@ export const useFlatassistantStore = defineStore('flatassistantStore', {
         if (prevState !== 'Running' && next.State === 'Running') {
           this.lastRun = null;
           this.currentADU = null;
+          this.currentADUBitDepth = null;
           this.lastRunOutcome = null;
         }
 
@@ -99,6 +110,7 @@ export const useFlatassistantStore = defineStore('flatassistantStore', {
         // Once waitForCompletion sets lastRun, freeze currentADU at that value.
         if (this.lastRun === null && next.CurrentADU !== null && next.CurrentADU !== undefined) {
           this.currentADU = Math.round(next.CurrentADU);
+          this.currentADUBitDepth = next.BitDepth ?? null;
         }
 
         this.status = next;
@@ -121,6 +133,7 @@ export const useFlatassistantStore = defineStore('flatassistantStore', {
       this.workflowStopRequested = false;
       this.lastRun = null;
       this.currentADU = null;
+      this.currentADUBitDepth = null;
       this.signalRStatus = null;
       this.lastRunOutcome = null;
     },
@@ -250,6 +263,7 @@ export const useFlatassistantStore = defineStore('flatassistantStore', {
 
           if (status.CurrentADU !== null && status.CurrentADU !== undefined) {
             this.currentADU = Math.round(status.CurrentADU);
+            this.currentADUBitDepth = status.BitDepth ?? null;
           }
 
           if (status.State === 'Running') {

@@ -778,6 +778,9 @@
       "camera": {
         "name": "Kamera"
       },
+      "guideCamera": {
+        "name": "Pointační kamera"
+      },
       "connectAll": "Připojit Vše",
       "disconnectAll": "Odpojit Vše",
       "connectAllError": "Chyba při připojování všech zařízení",
@@ -1751,6 +1754,7 @@
       "native": {
         "notConnected": "PINS Native Guider není připojen",
         "notConnectedHint": "Připojte PINS Native Guider na stránce vybavení. Nastavení lze upravovat už teď.",
+        "pageLoadFailed": "Stránku guideru se nepodařilo načíst. Zkontroluj připojení k sestavě a otevři stránku znovu.",
         "states": {
           "Stopped": "Zastaveno",
           "Looping": "Smyčka",
@@ -2313,6 +2317,17 @@
           "legendRaBack": "RA zpět",
           "legendBacklash": "Vůle",
           "legendDecOut": "Dec tam",
+          "progressDirection": "Směr",
+          "progressDx": "Δx",
+          "progressDy": "Δy",
+          "progressDistance": "Vzdálenost",
+          "progressReason": "Důvod",
+          "directions": {
+            "North": "Sever",
+            "South": "Jih",
+            "East": "Východ",
+            "West": "Západ"
+          },
           "legendDecBack": "Dec zpět"
         },
         "settings": {
@@ -2349,6 +2364,8 @@
             "Safety": "Bezpečnost",
             "Incidents": "Incidenty"
           },
+          "confirmReconnectTitle": "Znovu připojit guider?",
+          "confirmReconnect": "Guider se odpojí a znovu připojí. Pointace se mezitím zastaví, takže probíhající expozice už není pointována.",
           "reconnectNeeded": "Znovu připojte pointer, aby se použilo nové nastavení kamery.",
           "reconnectNow": "Znovu připojit",
           "reconnecting": "Znovu se připojuje…",
@@ -2743,6 +2760,7 @@
             "running": "Guiding Coach: {step} · {percent} %",
             "open": "Otevřít"
           },
+          "confirmStartTitle": "Spustit kouče během pointace?",
           "confirmInterruptTitle": "Přerušit Guiding Coach?",
           "confirmInterrupt": "Běží relace Guiding Coach. Tento příkaz ji zruší; dočasná nastavení se vrátí zpět.",
           "values": {
@@ -3265,6 +3283,21 @@
           "unknown": "?"
         }
       }
+    },
+    "guideCamera": {
+      "title": "Pointační kamera",
+      "sensor": "Senzor",
+      "temperature": "Teplota",
+      "gain": "Gain",
+      "offset": "Offset",
+      "binning": "Binning",
+      "targetTemperature": "Cíl °C",
+      "cool": "Chladit",
+      "warm": "Ohřát",
+      "exposure": "Expozice (s)",
+      "capture": "Snímat",
+      "capturing": "Snímám…",
+      "failed": "Pointační kamera neodpověděla"
     },
     "focuser": {
       "title": "Ostření",
@@ -7565,7 +7598,36 @@
         "lastError": "Poslední naměřená chyba",
         "autoPilot": "Auto-Pilot",
         "iteration": "Iterace {n}",
-        "running": "Běží"
+        "running": "Běží",
+        "totalError": "celkem {arcsec}″",
+        "lastCorrection": "Poslední korekce",
+        "correctionSteps": "Az {az} · Alt {alt} kroků"
+      },
+      "assist": {
+        "title": "Automatické polární ustavení",
+        "hint": "Jedno klepnutí spustí TPPA (pokud už neběží) a poté Auto-Pilot, který koriguje, dokud chyba není v toleranci. TPPA se automaticky zastaví, když Auto-Pilot skončí. V nastavení TPPA v N.I.N.A. musí být zapnuto \"Log polar alignment error adjustments\". Nech tuto stránku během běhu otevřenou.",
+        "start": "Spustit polární ustavení",
+        "running": "Běží…",
+        "stop": "Zastavit",
+        "tppaSettings": "Nastavení TPPA",
+        "tnsPluginRequired": "TPPA potřebuje plugin Touch'N'Stars v N.I.N.A.; není dostupný.",
+        "phaseLabel": "Stav",
+        "azError": "Chyba azimutu",
+        "altError": "Chyba výšky",
+        "phase": {
+          "idle": "Nečinný",
+          "startingTppa": "Spouštím TPPA…",
+          "startingAutoPilot": "Spouštím Auto-Pilot…",
+          "running": "Auto-Pilot běží"
+        },
+        "errors": {
+          "tppaUnavailable": "Spojení s TPPA se nepodařilo otevřít.",
+          "tppaNoResponse": "TPPA neodpovědělo na požadavek ke spuštění.",
+          "tppaError": "TPPA ohlásilo chybu. Zkontroluj kameru, montáž a plate solver.",
+          "tppaSilent": "TPPA už dvě minuty nic neposlalo. TPPA a Auto-Pilot byly zastaveny.",
+          "autoPilotNotStarted": "Auto-Pilot se nespustil. Zkontroluj log AAPA; TPPA bylo zastaveno, pokud bylo spuštěno zde.",
+          "connectionLost": "Spojení s pluginem AAPA bylo přerušeno. TPPA a Auto-Pilot možná stále běží - v případě potřeby použij Zastavit."
+        }
       },
       "manual": {
         "title": "Ruční ovládání",
@@ -7576,7 +7638,13 @@
         "altPlus": "Alt +",
         "home": "Najet do home",
         "setHome": "Nastavit home",
-        "setHomeConfirm": "Nastavit aktuální polohu jako novou polohu home pro obě osy?"
+        "setHomeConfirm": "Nastavit aktuální polohu jako novou polohu home pro obě osy?",
+        "homeAz": "Home Az",
+        "homeAlt": "Home Alt",
+        "setHomeAz": "Nastavit Home Az",
+        "setHomeAlt": "Nastavit Home Alt",
+        "setHomeAxisConfirm": "Nastavit aktuální pozici {axis} jako novou pozici home?",
+        "stopAll": "Zastavit vše"
       },
       "calibration": {
         "title": "Kalibrace převodového poměru",
@@ -7584,7 +7652,8 @@
         "steps": "Kroky kalibrace",
         "azimuth": "Kalibrovat Az",
         "altitude": "Kalibrovat Alt",
-        "running": "Kalibrace…"
+        "running": "Kalibrace…",
+        "cancel": "Zrušit kalibraci"
       },
       "settings": {
         "groups": {

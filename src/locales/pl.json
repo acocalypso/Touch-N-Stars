@@ -778,6 +778,9 @@
       "camera": {
         "name": "Kamera"
       },
+      "guideCamera": {
+        "name": "Kamera guidingowa"
+      },
       "connectAll": "Połącz wszystko",
       "disconnectAll": "Rozłącz wszystko",
       "connectAllError": "Błąd podczas łączenia wszystkich urządzeń",
@@ -1751,6 +1754,7 @@
       "native": {
         "notConnected": "PINS Native Guider nie jest podłączony",
         "notConnectedHint": "Podłącz PINS Native Guider na stronie sprzętu. Ustawienia można już edytować.",
+        "pageLoadFailed": "Nie udało się załadować strony guidera. Sprawdź połączenie z zestawem i otwórz stronę ponownie.",
         "states": {
           "Stopped": "Zatrzymano",
           "Looping": "Pętla",
@@ -2313,6 +2317,17 @@
           "legendRaBack": "RA z powrotem",
           "legendBacklash": "Luz",
           "legendDecOut": "Dec tam",
+          "progressDirection": "Kierunek",
+          "progressDx": "Δx",
+          "progressDy": "Δy",
+          "progressDistance": "Odległość",
+          "progressReason": "Powód",
+          "directions": {
+            "North": "Północ",
+            "South": "Południe",
+            "East": "Wschód",
+            "West": "Zachód"
+          },
           "legendDecBack": "Dec z powrotem"
         },
         "settings": {
@@ -2349,6 +2364,8 @@
             "Safety": "Bezpieczeństwo",
             "Incidents": "Incydenty"
           },
+          "confirmReconnectTitle": "Połączyć ponownie guider?",
+          "confirmReconnect": "Guider rozłączy się i połączy ponownie. W tym czasie guiding jest zatrzymany, więc trwająca ekspozycja nie jest już prowadzona.",
           "reconnectNeeded": "Połącz ponownie guider, aby użyć nowych ustawień kamery.",
           "reconnectNow": "Połącz ponownie teraz",
           "reconnecting": "Ponowne łączenie…",
@@ -2743,6 +2760,7 @@
             "running": "Guiding Coach: {step} · {percent} %",
             "open": "Otwórz"
           },
+          "confirmStartTitle": "Uruchomić coacha podczas guidingu?",
           "confirmInterruptTitle": "Przerwać Guiding Coach?",
           "confirmInterrupt": "Trwa sesja Guiding Coach. To polecenie ją anuluje; tymczasowe ustawienia zostaną przywrócone.",
           "values": {
@@ -3265,6 +3283,21 @@
           "unknown": "?"
         }
       }
+    },
+    "guideCamera": {
+      "title": "Kamera guidingowa",
+      "sensor": "Sensor",
+      "temperature": "Temperatura",
+      "gain": "Gain",
+      "offset": "Offset",
+      "binning": "Binning",
+      "targetTemperature": "Cel °C",
+      "cool": "Chłodź",
+      "warm": "Ogrzej",
+      "exposure": "Ekspozycja (s)",
+      "capture": "Zrób zdjęcie",
+      "capturing": "Wykonywanie…",
+      "failed": "Kamera guidingowa nie odpowiedziała"
     },
     "focuser": {
       "title": "Fokuser",
@@ -7565,7 +7598,36 @@
         "lastError": "Ostatni zmierzony błąd",
         "autoPilot": "Auto-Pilot",
         "iteration": "Iteracja {n}",
-        "running": "Działa"
+        "running": "Działa",
+        "totalError": "łącznie {arcsec}″",
+        "lastCorrection": "Ostatnia korekta",
+        "correctionSteps": "Az {az} · Alt {alt} kroków"
+      },
+      "assist": {
+        "title": "Automatyczne ustawienie na biegun",
+        "hint": "Jedno dotknięcie uruchamia TPPA (jeśli jeszcze nie działa), a następnie Auto-Pilota, który koryguje, aż błąd znajdzie się w tolerancji. TPPA zatrzymuje się automatycznie po zakończeniu pracy Auto-Pilota. W ustawieniach TPPA w N.I.N.A. musi być włączona opcja \"Log polar alignment error adjustments\". Pozostaw tę stronę otwartą w trakcie działania.",
+        "start": "Rozpocznij ustawienie na biegun",
+        "running": "W toku…",
+        "stop": "Zatrzymaj",
+        "tppaSettings": "Ustawienia TPPA",
+        "tnsPluginRequired": "TPPA wymaga wtyczki Touch'N'Stars w N.I.N.A.; jest ona nieosiągalna.",
+        "phaseLabel": "Status",
+        "azError": "Błąd azymutu",
+        "altError": "Błąd wysokości",
+        "phase": {
+          "idle": "Bezczynny",
+          "startingTppa": "Uruchamianie TPPA…",
+          "startingAutoPilot": "Uruchamianie Auto-Pilota…",
+          "running": "Auto-Pilot działa"
+        },
+        "errors": {
+          "tppaUnavailable": "Nie udało się otworzyć połączenia z TPPA.",
+          "tppaNoResponse": "TPPA nie odpowiedziało na żądanie startu.",
+          "tppaError": "TPPA zgłosiło błąd. Sprawdź kamerę, montaż i plate solver.",
+          "tppaSilent": "TPPA nic nie wysłało od dwóch minut. TPPA i Auto-Pilot zostały zatrzymane.",
+          "autoPilotNotStarted": "Auto-Pilot nie uruchomił się. Sprawdź log AAPA; TPPA zostało zatrzymane, jeśli zostało uruchomione tutaj.",
+          "connectionLost": "Połączenie z wtyczką AAPA zostało przerwane. TPPA i Auto-Pilot mogą nadal działać - w razie potrzeby użyj Zatrzymaj."
+        }
       },
       "manual": {
         "title": "Sterowanie ręczne",
@@ -7576,7 +7638,13 @@
         "altPlus": "Alt +",
         "home": "Jedź do home",
         "setHome": "Ustaw home",
-        "setHomeConfirm": "Ustawić bieżącą pozycję jako nową pozycję home dla obu osi?"
+        "setHomeConfirm": "Ustawić bieżącą pozycję jako nową pozycję home dla obu osi?",
+        "homeAz": "Home Az",
+        "homeAlt": "Home Alt",
+        "setHomeAz": "Ustaw Home Az",
+        "setHomeAlt": "Ustaw Home Alt",
+        "setHomeAxisConfirm": "Ustawić bieżącą pozycję {axis} jako nową pozycję home?",
+        "stopAll": "Zatrzymaj wszystko"
       },
       "calibration": {
         "title": "Kalibracja przełożenia",
@@ -7584,7 +7652,8 @@
         "steps": "Kroki kalibracji",
         "azimuth": "Kalibruj Az",
         "altitude": "Kalibruj Alt",
-        "running": "Kalibracja…"
+        "running": "Kalibracja…",
+        "cancel": "Anuluj kalibrację"
       },
       "settings": {
         "groups": {

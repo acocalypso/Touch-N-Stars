@@ -778,6 +778,9 @@
       "camera": {
         "name": "Camera"
       },
+      "guideCamera": {
+        "name": "Guidecamera"
+      },
       "connectAll": "Verbind met alle apparaten",
       "disconnectAll": "Verbreek alle connecties",
       "connectAllError": "Fout tijdens alle apparaten connecteren",
@@ -1751,6 +1754,7 @@
       "native": {
         "notConnected": "PINS Native Guider is niet verbonden",
         "notConnectedHint": "Verbind de PINS Native Guider op de apparatuurpagina. De instellingen kun je al bewerken.",
+        "pageLoadFailed": "De guiderpagina kon niet worden geladen. Controleer de verbinding met de opstelling en open de pagina opnieuw.",
         "states": {
           "Stopped": "Gestopt",
           "Looping": "Loopt",
@@ -2313,6 +2317,17 @@
           "legendRaBack": "RA terug",
           "legendBacklash": "Speling",
           "legendDecOut": "Dec heen",
+          "progressDirection": "Richting",
+          "progressDx": "Δx",
+          "progressDy": "Δy",
+          "progressDistance": "Afstand",
+          "progressReason": "Reden",
+          "directions": {
+            "North": "Noord",
+            "South": "Zuid",
+            "East": "Oost",
+            "West": "West"
+          },
           "legendDecBack": "Dec terug"
         },
         "settings": {
@@ -2349,6 +2364,8 @@
             "Safety": "Veiligheid",
             "Incidents": "Incidenten"
           },
+          "confirmReconnectTitle": "Guider opnieuw verbinden?",
+          "confirmReconnect": "De guider verbreekt de verbinding en maakt opnieuw verbinding. Guiding stopt intussen, dus een lopende opname wordt niet meer gestuurd.",
           "reconnectNeeded": "Verbind de guider opnieuw om de nieuwe camera-instellingen te gebruiken.",
           "reconnectNow": "Nu opnieuw verbinden",
           "reconnecting": "Opnieuw verbinden…",
@@ -2743,6 +2760,7 @@
             "running": "Guiding Coach: {step} · {percent} %",
             "open": "Openen"
           },
+          "confirmStartTitle": "Coach starten tijdens het guiden?",
           "confirmInterruptTitle": "Guiding Coach onderbreken?",
           "confirmInterrupt": "Er loopt een coachsessie. Dit commando annuleert die; tijdelijke instellingen worden hersteld.",
           "values": {
@@ -3265,6 +3283,21 @@
           "unknown": "?"
         }
       }
+    },
+    "guideCamera": {
+      "title": "Guidecamera",
+      "sensor": "Sensor",
+      "temperature": "Temperatuur",
+      "gain": "Gain",
+      "offset": "Offset",
+      "binning": "Binning",
+      "targetTemperature": "Doel °C",
+      "cool": "Koelen",
+      "warm": "Opwarmen",
+      "exposure": "Belichting (s)",
+      "capture": "Opnemen",
+      "capturing": "Bezig met opnemen…",
+      "failed": "De guidecamera reageerde niet"
     },
     "focuser": {
       "title": "Focuser",
@@ -7565,7 +7598,36 @@
         "lastError": "Laatst gemeten fout",
         "autoPilot": "Auto-Pilot",
         "iteration": "Iteratie {n}",
-        "running": "Actief"
+        "running": "Actief",
+        "totalError": "totaal {arcsec}″",
+        "lastCorrection": "Laatste correctie",
+        "correctionSteps": "Az {az} · Alt {alt} stappen"
+      },
+      "assist": {
+        "title": "Automatische pooluitlijning",
+        "hint": "Eén tik start TPPA (als het nog niet draait) en daarna de Auto-Pilot, die corrigeert tot de fout binnen de tolerantie ligt. TPPA stopt automatisch wanneer de Auto-Pilot eindigt. In de TPPA-instellingen in N.I.N.A. moet \"Log polar alignment error adjustments\" ingeschakeld zijn. Houd deze pagina open zolang het loopt.",
+        "start": "Pooluitlijning starten",
+        "running": "Bezig…",
+        "stop": "Stoppen",
+        "tppaSettings": "TPPA-instellingen",
+        "tnsPluginRequired": "TPPA heeft de Touch'N'Stars-plugin in N.I.N.A. nodig; deze is niet bereikbaar.",
+        "phaseLabel": "Status",
+        "azError": "Azimutfout",
+        "altError": "Hoogtefout",
+        "phase": {
+          "idle": "Inactief",
+          "startingTppa": "TPPA starten…",
+          "startingAutoPilot": "Auto-Pilot starten…",
+          "running": "Auto-Pilot actief"
+        },
+        "errors": {
+          "tppaUnavailable": "De TPPA-verbinding kon niet worden geopend.",
+          "tppaNoResponse": "TPPA reageerde niet op het startverzoek.",
+          "tppaError": "TPPA meldde een fout. Controleer camera, montering en plate solver.",
+          "tppaSilent": "TPPA heeft al twee minuten niets verzonden. TPPA en de Auto-Pilot zijn gestopt.",
+          "autoPilotNotStarted": "De Auto-Pilot is niet gestart. Controleer het AAPA-logboek; TPPA is gestopt als het hier was gestart.",
+          "connectionLost": "De verbinding met de AAPA-plugin is onderbroken. TPPA en de Auto-Pilot draaien mogelijk nog - gebruik zo nodig Stoppen."
+        }
       },
       "manual": {
         "title": "Handmatige besturing",
@@ -7576,7 +7638,13 @@
         "altPlus": "Alt +",
         "home": "Naar home",
         "setHome": "Home instellen",
-        "setHomeConfirm": "Huidige positie instellen als nieuwe homepositie voor beide assen?"
+        "setHomeConfirm": "Huidige positie instellen als nieuwe homepositie voor beide assen?",
+        "homeAz": "Home Az",
+        "homeAlt": "Home Alt",
+        "setHomeAz": "Home Az instellen",
+        "setHomeAlt": "Home Alt instellen",
+        "setHomeAxisConfirm": "Huidige {axis}-positie als nieuwe home-positie gebruiken?",
+        "stopAll": "Alles stoppen"
       },
       "calibration": {
         "title": "Kalibratie van de overbrengingsverhouding",
@@ -7584,7 +7652,8 @@
         "steps": "Kalibratiestappen",
         "azimuth": "Az kalibreren",
         "altitude": "Alt kalibreren",
-        "running": "Kalibreren…"
+        "running": "Kalibreren…",
+        "cancel": "Kalibratie annuleren"
       },
       "settings": {
         "groups": {

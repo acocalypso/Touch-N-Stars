@@ -1863,12 +1863,27 @@
               "text": "Estrelles usades per al guiatge i estrelles trobades al fotograma. Amb el guiatge multiestrella la posició es fa la mitjana de les estrelles usades, cosa que redueix el soroll del seeing; com més, millor. Les estrelles massa febles, saturades o a prop de la vora no s'usen."
             },
             "processing": {
-              "title": "Proc. – temps de processament",
-              "text": "Quant ha trigat el guiador a analitzar l'últim fotograma (detecció d'estrelles, posicions, correcció). Ha de quedar molt per sota del temps d'exposició; es torna taronja per sobre de la meitat: un ordinador lent o un fotograma de guiatge molt gran (el binning ajuda)."
+              "title": "Proc. – temps de processament i freqüència de fotogrames",
+              "text": "Quant ha trigat el guiador a analitzar l'últim fotograma (detecció d'estrelles, posicions, correcció). Ha de quedar molt per sota del temps d'exposició; es torna taronja per sobre de la meitat: un ordinador lent o un fotograma de guiatge molt gran (el binning ajuda).\n\nA sota, la freqüència de fotogrames del bucle de guiatge, en fotogrames per segon. A més de l'exposició, cada fotograma necessita la lectura i la transferència de la càmera, el processament i els polsos de guiatge, de manera que és més baixa del que permetria només el temps d'exposició."
             },
             "rmsImage": {
               "title": "RMS / imatge – error en píxels d'imatge"
             }
+          },
+          "timing": {
+            "fps": "Freqüència de fotogrames",
+            "median": "Mediana",
+            "last": "Últim",
+            "rows": {
+              "frameToPulse": "Fotograma → primer pols",
+              "cycle": "Cicle sencer",
+              "exposure": "Exposició",
+              "camera": "Lectura i transferència",
+              "processing": "Processament",
+              "pulse": "Polsos de guiatge",
+              "rest": "Resta"
+            },
+            "note": "Medianes dels últims {count} cicles, cada part per separat, de manera que les parts només sumen aproximadament el cicle sencer. Un cicle va de l'inici d'una exposició a l'inici de la següent. Lectura i transferència és el temps que la càmera necessita a més de l'exposició. Fotograma → primer pols va de l'arribada del fotograma al primer pols de guiatge lliurat a la muntura, processament inclòs; els polsos de guiatge compten fins que la muntura els dona per acabats. Sense polsos de guiatge (per exemple, en bucle) tots dos mostren –. Resta inclou el registre i la comprovació de la muntura abans de la següent exposició."
           },
           "periodicErrorChip": "Aprenent l'error periòdic {percent} %",
           "periodicErrorChipHint": "L'algorisme Predictive està aprenent l'error periòdic del vis sens fi d'AR: troba el període del vis després d'unes cinc voltes (es van sumant encara que el guiatge s'aturi i es reprengui; després d'un desplaçament, una sincronització o un gir de meridià es comença de nou), o de seguida a partir de l'ajust de dents de la corona, i comprova que la corba es mantingui igual d'una volta a l'altra (dues voltes amb les dents ajustades). Mentrestant continua guiant.",
@@ -2239,6 +2254,10 @@
           "empty": "Encara no hi ha estadístiques. Apareixen quan el guiatge s'executa.",
           "window": "Finestra",
           "windowFrames": "{count} fotogrames",
+          "windowHelp": {
+            "title": "Finestra – els últims 100 fotogrames de guiatge",
+            "text": "Les estadístiques dels últims 100 fotogrames de guiatge, per això mostren com va el guiatge ara mateix: cada fotograma nou en fa sortir el més antic, i just després d'iniciar el guiatge la finestra encara s'està omplint. Els fotogrames presos durant l'estabilització (per exemple, després d'un dither) es queden a la finestra però no compten en els valors, de manera que el recompte sota l'encapçalament i a la fila Fotogrames pot ser inferior a 100. Només l'índex d'oscil·lació fa servir tots els fotogrames. Estrella perduda i Temps transcorregut compten tota la sessió a les dues columnes.\n\nSessió cobreix tot des de l'últim inici del guiatge."
+          },
           "session": "Sessió",
           "rmsTotal": "RMS total",
           "rmsRa": "RMS RA",

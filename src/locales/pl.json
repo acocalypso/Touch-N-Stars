@@ -1822,12 +1822,27 @@
               "text": "Gwiazdy użyte do prowadzenia i gwiazdy znalezione w klatce. Przy prowadzeniu wielogwiazdkowym pozycja jest uśredniana po użytych gwiazdach, co zmniejsza szum seeingu; im więcej, tym lepiej. Zbyt słabe, nasycone lub zbyt bliskie krawędzi gwiazdy nie są używane."
             },
             "processing": {
-              "title": "Przetw. – czas przetwarzania",
-              "text": "Ile czasu prowadzenie potrzebowało na analizę ostatniej klatki (wykrywanie gwiazd, pozycje, korekta). Powinien pozostać wyraźnie poniżej czasu ekspozycji; powyżej połowy robi się pomarańczowy – wolny komputer lub bardzo duża klatka prowadzenia (pomaga binning)."
+              "title": "Przetw. – czas przetwarzania i liczba klatek na sekundę",
+              "text": "Ile czasu prowadzenie potrzebowało na analizę ostatniej klatki (wykrywanie gwiazd, pozycje, korekta). Powinien pozostać wyraźnie poniżej czasu ekspozycji; powyżej połowy robi się pomarańczowy – wolny komputer lub bardzo duża klatka prowadzenia (pomaga binning).\n\nPod nim liczba klatek na sekundę pętli prowadzenia. Oprócz ekspozycji każda klatka wymaga odczytu i transferu z kamery, przetwarzania i impulsów prowadzenia, więc jest niższa, niż pozwalałby sam czas ekspozycji."
             },
             "rmsImage": {
               "title": "RMS / obraz – błąd w pikselach kamery głównej"
             }
+          },
+          "timing": {
+            "fps": "Klatki na sekundę",
+            "median": "Mediana",
+            "last": "Ostatni",
+            "rows": {
+              "frameToPulse": "Klatka → pierwszy impuls",
+              "cycle": "Cały cykl",
+              "exposure": "Ekspozycja",
+              "camera": "Odczyt i transfer",
+              "processing": "Przetwarzanie",
+              "pulse": "Impulsy prowadzenia",
+              "rest": "Reszta"
+            },
+            "note": "Mediany z ostatnich {count} cykli, każda część osobno, więc części sumują się do całego cyklu tylko w przybliżeniu. Cykl trwa od początku jednej ekspozycji do początku następnej. Odczyt i transfer to czas, którego kamera potrzebuje ponad ekspozycję. Klatka → pierwszy impuls to czas od nadejścia klatki do pierwszego impulsu prowadzenia przekazanego do montażu, łącznie z przetwarzaniem; impulsy prowadzenia liczą się, dopóki montaż nie zgłosi ich zakończenia. Bez impulsów prowadzenia (np. w pętli) obie wartości pokazują –. Reszta obejmuje logowanie i sprawdzenie montażu przed następną ekspozycją."
           },
           "periodicErrorChip": "Uczy się błędu okresowego {percent} %",
           "periodicErrorChipHint": "Algorytm Predictive uczy się błędu okresowego ślimaka RA: ustala okres ślimaka po około pięciu obrotach ślimaka (sumują się, nawet gdy prowadzenie zatrzymuje się i rusza ponownie; po przemieszczeniu montażu, synchronizacji lub flipie południkowym liczenie zaczyna się od nowa) albo od razu z ustawienia liczby zębów ślimacznicy i sprawdza, czy krzywa pozostaje taka sama z obrotu na obrót (dwa obroty przy ustawionej liczbie zębów). Przez cały czas prowadzi dalej.",
@@ -2198,6 +2213,10 @@
           "empty": "Brak jeszcze statystyk. Pojawią się, gdy rozpocznie się prowadzenie.",
           "window": "Okno",
           "windowFrames": "{count} klatek",
+          "windowHelp": {
+            "title": "Okno – ostatnie 100 klatek prowadzenia",
+            "text": "Statystyki ostatnich 100 klatek prowadzenia, więc pokazują, jak prowadzenie idzie w tej chwili: każda nowa klatka wypycha najstarszą, a tuż po starcie prowadzenia okno dopiero się zapełnia. Klatki wykonane podczas stabilizacji (np. po ditheringu) zostają w oknie, ale nie wchodzą do wartości, więc liczba pod nagłówkiem i w wierszu Klatki może być mniejsza niż 100. Tylko wskaźnik oscylacji używa każdej klatki. Utracono gwiazdę i Upłynęło liczą w obu kolumnach całą sesję.\n\nSesja obejmuje wszystko od ostatniego startu prowadzenia."
+          },
           "session": "Sesja",
           "rmsTotal": "RMS łącznie",
           "rmsRa": "RMS RA",

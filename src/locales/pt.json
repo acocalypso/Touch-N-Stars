@@ -1822,12 +1822,27 @@
               "text": "Estrelas usadas para a guiagem e estrelas encontradas na imagem. Com a guiagem multiestrela a posição é a média das estrelas usadas, o que reduz o ruído do seeing; quantas mais, melhor. Estrelas demasiado ténues, saturadas ou perto da margem não são usadas."
             },
             "processing": {
-              "title": "Proc. – tempo de processamento",
-              "text": "Quanto tempo o guiador levou a analisar a última imagem (deteção de estrelas, posições, correção). Deve ficar bem abaixo do tempo de exposição; fica laranja acima de metade – um computador lento ou uma imagem de guiagem muito grande (o binning ajuda)."
+              "title": "Proc. – tempo de processamento e taxa de imagens",
+              "text": "Quanto tempo o guiador levou a analisar a última imagem (deteção de estrelas, posições, correção). Deve ficar bem abaixo do tempo de exposição; fica laranja acima de metade – um computador lento ou uma imagem de guiagem muito grande (o binning ajuda).\n\nPor baixo, a taxa do ciclo de guiagem em imagens por segundo. Além da exposição, cada imagem precisa da leitura e transferência da câmara, do processamento e dos impulsos de guiagem, por isso é mais baixa do que só o tempo de exposição permitiria."
             },
             "rmsImage": {
               "title": "RMS / imagem – erro em píxeis de imagem"
             }
+          },
+          "timing": {
+            "fps": "Taxa de imagens",
+            "median": "Mediana",
+            "last": "Último",
+            "rows": {
+              "frameToPulse": "Imagem → 1.º impulso",
+              "cycle": "Ciclo completo",
+              "exposure": "Exposição",
+              "camera": "Leitura e transferência",
+              "processing": "Processamento",
+              "pulse": "Impulsos de guiagem",
+              "rest": "Resto"
+            },
+            "note": "Medianas dos últimos {count} ciclos, cada parte por si, por isso as partes somam o ciclo completo apenas aproximadamente. Um ciclo vai do início de uma exposição ao início da seguinte. Leitura e transferência é o tempo de que a câmara precisa além da exposição. Imagem → 1.º impulso vai da chegada da imagem ao primeiro impulso de guiagem entregue à montagem, processamento incluído; os impulsos de guiagem contam até a montagem os dar como concluídos. Sem impulsos de guiagem (por exemplo, em loop) ambos mostram –. Resto abrange o registo e a verificação da montagem antes da exposição seguinte."
           },
           "periodicErrorChip": "A aprender erro periódico {percent} %",
           "periodicErrorChipHint": "O algoritmo Predictive está a aprender o erro periódico do sem-fim de AR: encontra o período do sem-fim após cerca de cinco voltas (vão-se somando mesmo que a guiagem pare e recomece; após uma deslocação, uma sincronização ou um flip de meridiano recomeça do zero), ou de imediato a partir da definição de dentes da coroa, e verifica se a curva se mantém igual de volta para volta (duas voltas com os dentes definidos). Continua a guiar durante todo o tempo.",
@@ -2198,6 +2213,10 @@
           "empty": "Ainda sem estatísticas. Aparecem quando a guiagem estiver ativa.",
           "window": "Janela",
           "windowFrames": "{count} imagens",
+          "windowHelp": {
+            "title": "Janela – as últimas 100 imagens de guiagem",
+            "text": "As estatísticas das últimas 100 imagens de guiagem, por isso mostram como a guiagem está a correr neste momento: cada nova imagem empurra para fora a mais antiga, e logo após o início da guiagem a janela ainda está a encher. As imagens tiradas durante a estabilização (por exemplo, após um dither) ficam na janela mas não entram nos valores, por isso o número sob o cabeçalho e na linha Imagens pode ser inferior a 100. Só o índice de oscilação usa todas as imagens. Estrela perdida e Decorrido contam a sessão inteira em ambas as colunas.\n\nSessão abrange tudo desde o último início da guiagem."
+          },
           "session": "Sessão",
           "rmsTotal": "RMS total",
           "rmsRa": "RMS RA",

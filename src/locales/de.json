@@ -1863,12 +1863,27 @@
               "text": "Zum Guiding verwendete und im Frame gefundene Sterne. Beim Multi-Star-Guiding wird die Position über die verwendeten Sterne gemittelt, was das Seeing-Rauschen senkt; mehr ist besser. Zu schwache, gesättigte oder zu randnahe Sterne werden nicht verwendet."
             },
             "processing": {
-              "title": "Verarb. – Verarbeitungszeit",
-              "text": "Wie lange der Guider für die Auswertung des letzten Frames brauchte (Sternsuche, Positionen, Korrektur). Sie sollte deutlich unter der Belichtungszeit bleiben; über der Hälfte wird sie orange – ein langsamer Rechner oder ein sehr großer Guiding-Frame (Binning hilft)."
+              "title": "Verarb. – Verarbeitungszeit und Bildrate",
+              "text": "Wie lange der Guider für die Auswertung des letzten Frames brauchte (Sternsuche, Positionen, Korrektur). Sie sollte deutlich unter der Belichtungszeit bleiben; über der Hälfte wird sie orange – ein langsamer Rechner oder ein sehr großer Guiding-Frame (Binning hilft).\n\nDarunter die Bildrate der Guiding-Schleife in Frames pro Sekunde. Neben der Belichtung braucht jeder Frame das Auslesen und Übertragen der Kamera, die Verarbeitung und die Guiding-Pulse, daher liegt sie unter dem, was die Belichtungszeit allein erlauben würde."
             },
             "rmsImage": {
               "title": "RMS / Bild – Fehler in Aufnahmepixeln"
             }
+          },
+          "timing": {
+            "fps": "Bildrate",
+            "median": "Median",
+            "last": "Letzter",
+            "rows": {
+              "frameToPulse": "Frame → erster Puls",
+              "cycle": "Ganzer Zyklus",
+              "exposure": "Belichtung",
+              "camera": "Auslesen & Übertragen",
+              "processing": "Verarbeitung",
+              "pulse": "Guiding-Pulse",
+              "rest": "Rest"
+            },
+            "note": "Mediane der letzten {count} Zyklen, jeder Teil für sich, daher ergeben die Teile zusammen nur ungefähr den ganzen Zyklus. Ein Zyklus läuft vom Start einer Belichtung bis zum Start der nächsten. Auslesen & Übertragen ist die Zeit, die die Kamera über die Belichtung hinaus braucht. Frame → erster Puls läuft vom Eintreffen des Frames bis zum ersten Guiding-Puls, der an die Montierung geht, Verarbeitung eingeschlossen; die Guiding-Pulse zählen, bis die Montierung sie als erledigt meldet. Ohne Guiding-Pulse (etwa im Loop) zeigen beide –. Rest umfasst das Logging und die Prüfung der Montierung vor der nächsten Belichtung."
           },
           "periodicErrorChip": "Lernt periodischen Fehler {percent} %",
           "periodicErrorChipHint": "Prädiktives Guiding lernt den periodischen Fehler deiner RA-Schnecke: Es bestimmt die Schneckenperiode nach etwa fünf Schneckenumdrehungen (sie zählen weiter, wenn das Guiding anhält und neu startet; ein Schwenk, ein Sync oder ein Meridian-Flip beginnt von vorn) oder sofort aus der Einstellung der Schneckenradzähne und prüft, ob die Kurve von Umdrehung zu Umdrehung gleich bleibt (mit eingestellten Zähnen über zwei Umdrehungen). Es guidet währenddessen weiter.",
@@ -2239,6 +2254,10 @@
           "empty": "Noch keine Statistik. Sie erscheint, sobald das Guiding läuft.",
           "window": "Fenster",
           "windowFrames": "{count} Frames",
+          "windowHelp": {
+            "title": "Fenster – die letzten 100 Guiding-Frames",
+            "text": "Die Statistik der letzten 100 Guiding-Frames, sie zeigt also, wie das Guiding gerade läuft: Jeder neue Frame verdrängt den ältesten, und direkt nach dem Start des Guidings füllt sich das Fenster erst noch. Frames aus dem Settling (etwa nach einem Dither) bleiben im Fenster, zählen aber nicht in die Werte, daher können die Zahl unter der Überschrift und die Zeile Frames unter 100 liegen. Nur der Oszillationsindex nutzt jeden Frame. Stern verloren und Dauer zählen in beiden Spalten die ganze Sitzung.\n\nSitzung umfasst alles seit dem letzten Start des Guidings."
+          },
           "session": "Sitzung",
           "rmsTotal": "RMS gesamt",
           "rmsRa": "RMS RA",

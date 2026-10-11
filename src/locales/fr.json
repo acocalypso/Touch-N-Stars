@@ -1822,12 +1822,27 @@
               "text": "Les étoiles utilisées pour le guidage et celles trouvées dans l'image. En guidage multi-étoiles, la position est moyennée sur les étoiles utilisées, ce qui réduit le bruit du seeing ; plus il y en a, mieux c'est. Les étoiles trop faibles, saturées ou trop près du bord ne sont pas utilisées."
             },
             "processing": {
-              "title": "Trait. – temps de traitement",
-              "text": "Le temps qu'a mis le guideur pour analyser la dernière image (détection des étoiles, positions, correction). Il doit rester bien inférieur au temps de pose ; il passe en orange au-delà de la moitié – ordinateur lent ou image de guidage très grande (le binning aide)."
+              "title": "Trait. – temps de traitement et cadence d'images",
+              "text": "Le temps qu'a mis le guideur pour analyser la dernière image (détection des étoiles, positions, correction). Il doit rester bien inférieur au temps de pose ; il passe en orange au-delà de la moitié – ordinateur lent ou image de guidage très grande (le binning aide).\n\nEn dessous, la cadence de la boucle de guidage en images par seconde. En plus de la pose, chaque image demande la lecture et le transfert de la caméra, le traitement et les impulsions de guidage ; elle est donc plus basse que ce que le seul temps de pose permettrait."
             },
             "rmsImage": {
               "title": "RMS / image – erreur en pixels d'imagerie"
             }
+          },
+          "timing": {
+            "fps": "Cadence d'images",
+            "median": "Médiane",
+            "last": "Dernier",
+            "rows": {
+              "frameToPulse": "Image → 1re impulsion",
+              "cycle": "Cycle complet",
+              "exposure": "Pose",
+              "camera": "Lecture et transfert",
+              "processing": "Traitement",
+              "pulse": "Impulsions de guidage",
+              "rest": "Reste"
+            },
+            "note": "Médianes des {count} derniers cycles, chaque partie séparément ; les parties ne donnent donc qu'approximativement le cycle complet. Un cycle va du début d'une pose au début de la suivante. Lecture et transfert est le temps dont la caméra a besoin en plus de la pose. Image → 1re impulsion va de l'arrivée de l'image à la première impulsion de guidage transmise à la monture, traitement compris ; les impulsions de guidage comptent jusqu'à ce que la monture les signale terminées. Sans impulsion de guidage (en boucle, par exemple), les deux affichent –. Reste couvre la journalisation et la vérification de la monture avant la pose suivante."
           },
           "periodicErrorChip": "Apprend l'erreur périodique {percent} %",
           "periodicErrorChipHint": "L'algorithme Predictive apprend l'erreur périodique de la vis sans fin AD : il trouve la période de la vis après environ cinq tours (ils s'additionnent même si le guidage s'arrête et reprend ; un pointage, une synchronisation ou un retournement au méridien fait tout recommencer), ou tout de suite grâce au réglage du nombre de dents de la roue, et vérifie que la courbe reste la même d'un tour à l'autre (sur deux tours avec le nombre de dents réglé). Il guide pendant tout ce temps.",
@@ -2198,6 +2213,10 @@
           "empty": "Aucune statistique. Elles apparaissent une fois le guidage lancé.",
           "window": "Fenêtre",
           "windowFrames": "{count} images",
+          "windowHelp": {
+            "title": "Fenêtre – les 100 dernières images de guidage",
+            "text": "Les statistiques des 100 dernières images de guidage ; elles montrent donc comment se passe le guidage en ce moment : chaque nouvelle image chasse la plus ancienne, et juste après le démarrage du guidage la fenêtre se remplit encore. Les images prises pendant la stabilisation (après un dithering, par exemple) restent dans la fenêtre mais ne comptent pas dans les valeurs ; le nombre sous l'en-tête et la ligne Images peuvent donc être inférieurs à 100. Seul l'indice d'oscillation utilise toutes les images. Étoile perdue et Écoulé comptent toute la session dans les deux colonnes.\n\nSession couvre tout depuis le dernier démarrage du guidage."
+          },
           "session": "Session",
           "rmsTotal": "RMS total",
           "rmsRa": "RMS RA",

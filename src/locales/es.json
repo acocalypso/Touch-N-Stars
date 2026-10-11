@@ -1822,12 +1822,27 @@
               "text": "Estrellas usadas para el guiado y estrellas encontradas en el cuadro. Con el guiado multiestrella la posición se promedia sobre las estrellas usadas, lo que reduce el ruido del seeing; cuantas más, mejor. Las estrellas demasiado débiles, saturadas o cerca del borde no se usan."
             },
             "processing": {
-              "title": "Proc. – tiempo de procesado",
-              "text": "Lo que tardó el guiador en analizar el último cuadro (detección de estrellas, posiciones, corrección). Debe quedar muy por debajo del tiempo de exposición; se vuelve naranja por encima de la mitad: un ordenador lento o un cuadro de guiado muy grande (el binning ayuda)."
+              "title": "Proc. – tiempo de procesado y frecuencia de cuadros",
+              "text": "Lo que tardó el guiador en analizar el último cuadro (detección de estrellas, posiciones, corrección). Debe quedar muy por debajo del tiempo de exposición; se vuelve naranja por encima de la mitad: un ordenador lento o un cuadro de guiado muy grande (el binning ayuda).\n\nDebajo, la frecuencia de cuadros del bucle de guiado, en cuadros por segundo. Además de la exposición, cada cuadro necesita la lectura y transferencia de la cámara, el procesado y los pulsos de guiado, por lo que es menor de lo que permitiría solo el tiempo de exposición."
             },
             "rmsImage": {
               "title": "RMS / imagen – error en píxeles de imagen"
             }
+          },
+          "timing": {
+            "fps": "Frecuencia de cuadros",
+            "median": "Mediana",
+            "last": "Último",
+            "rows": {
+              "frameToPulse": "Cuadro → primer pulso",
+              "cycle": "Ciclo completo",
+              "exposure": "Exposición",
+              "camera": "Lectura y transferencia",
+              "processing": "Procesado",
+              "pulse": "Pulsos de guiado",
+              "rest": "Resto"
+            },
+            "note": "Medianas de los últimos {count} ciclos, cada parte por separado, así que las partes suman el ciclo completo solo de forma aproximada. Un ciclo va del inicio de una exposición al inicio de la siguiente. Lectura y transferencia es el tiempo que la cámara necesita además de la exposición. Cuadro → primer pulso va desde la llegada del cuadro hasta el primer pulso de guiado entregado a la montura, procesado incluido; los pulsos de guiado cuentan hasta que la montura los da por terminados. Sin pulsos de guiado (por ejemplo, en bucle) ambos muestran –. Resto incluye el registro y la comprobación de la montura antes de la siguiente exposición."
           },
           "periodicErrorChip": "Aprendiendo error periódico {percent} %",
           "periodicErrorChipHint": "El algoritmo Predictive está aprendiendo el error periódico del tornillo sin fin de AR: encuentra el período del tornillo tras unas cinco vueltas (se van sumando aunque el guiado se detenga y se reanude; tras un desplazamiento, una sincronización o un giro de meridiano se empieza de cero), o al instante con el ajuste de dientes de la corona, y comprueba que la curva se mantiene igual de una vuelta a otra (dos vueltas con los dientes ajustados). Mientras tanto sigue guiando.",
@@ -2198,6 +2213,10 @@
           "empty": "Aún no hay estadísticas. Aparecen cuando el guiado se ejecuta.",
           "window": "Ventana",
           "windowFrames": "{count} cuadros",
+          "windowHelp": {
+            "title": "Ventana – los últimos 100 cuadros de guiado",
+            "text": "Las estadísticas de los últimos 100 cuadros de guiado, por eso muestran cómo va el guiado ahora mismo: cada cuadro nuevo desplaza al más antiguo, y justo después de iniciar el guiado la ventana todavía se está llenando. Los cuadros tomados durante la estabilización (por ejemplo, tras un dither) siguen en la ventana pero no cuentan en los valores, así que el número bajo el encabezado y en la fila Cuadros puede ser menor que 100. Solo el índice de oscilación usa todos los cuadros. Estrella perdida y Transcurrido cuentan toda la sesión en ambas columnas.\n\nSesión abarca todo desde el último inicio del guiado."
+          },
           "session": "Sesión",
           "rmsTotal": "RMS total",
           "rmsRa": "RMS RA",

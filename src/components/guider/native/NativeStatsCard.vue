@@ -12,7 +12,15 @@
       <!-- Header row -->
       <div></div>
       <div class="col-head">
-        {{ t('components.guider.native.stats.window') }}
+        <!-- Which frames the window holds is not obvious from its name -->
+        <div class="flex items-center justify-end gap-1.5">
+          <span class="truncate">{{ t('components.guider.native.stats.window') }}</span>
+          <NativeHelpTip
+            :title="t('components.guider.native.stats.windowHelp.title')"
+            :text="t('components.guider.native.stats.windowHelp.text')"
+            data-testid="native-guider-stats-window-help"
+          />
+        </div>
         <span v-if="windowFrames" class="col-sub" data-testid="native-guider-stats-window-frames">{{
           t('components.guider.native.stats.windowFrames', { count: windowFrames })
         }}</span>

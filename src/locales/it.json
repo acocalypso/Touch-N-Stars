@@ -1822,12 +1822,27 @@
               "text": "Le stelle usate per la guida e quelle trovate nel frame. Con la guida multistella la posizione è mediata sulle stelle usate, il che riduce il rumore del seeing; più sono, meglio è. Le stelle troppo deboli, sature o vicine al bordo non vengono usate."
             },
             "processing": {
-              "title": "Elab. – tempo di elaborazione",
-              "text": "Quanto ha impiegato la guida ad analizzare l'ultimo frame (ricerca delle stelle, posizioni, correzione). Deve restare ben sotto il tempo di esposizione; diventa arancione oltre la metà: un computer lento o un frame di guida molto grande (il binning aiuta)."
+              "title": "Elab. – tempo di elaborazione e frequenza dei frame",
+              "text": "Quanto ha impiegato la guida ad analizzare l'ultimo frame (ricerca delle stelle, posizioni, correzione). Deve restare ben sotto il tempo di esposizione; diventa arancione oltre la metà: un computer lento o un frame di guida molto grande (il binning aiuta).\n\nSotto, la frequenza del ciclo di guida in frame al secondo. Oltre all'esposizione, ogni frame richiede la lettura e il trasferimento della camera, l'elaborazione e gli impulsi di guida, quindi è più bassa di quanto consentirebbe il solo tempo di esposizione."
             },
             "rmsImage": {
               "title": "RMS / immagine – errore in pixel di ripresa"
             }
+          },
+          "timing": {
+            "fps": "Frequenza dei frame",
+            "median": "Mediana",
+            "last": "Ultimo",
+            "rows": {
+              "frameToPulse": "Frame → primo impulso",
+              "cycle": "Ciclo intero",
+              "exposure": "Esposizione",
+              "camera": "Lettura e trasferimento",
+              "processing": "Elaborazione",
+              "pulse": "Impulsi di guida",
+              "rest": "Resto"
+            },
+            "note": "Mediane degli ultimi {count} cicli, ogni parte per conto suo, quindi le parti sommano il ciclo intero solo in modo approssimativo. Un ciclo va dall'inizio di un'esposizione all'inizio della successiva. Lettura e trasferimento è il tempo che la camera richiede oltre all'esposizione. Frame → primo impulso va dall'arrivo del frame al primo impulso di guida passato alla montatura, elaborazione inclusa; gli impulsi di guida contano finché la montatura non li segnala conclusi. Senza impulsi di guida (ad esempio in loop) entrambi mostrano –. Resto comprende il logging e il controllo della montatura prima dell'esposizione successiva."
           },
           "periodicErrorChip": "Apprende errore periodico {percent} %",
           "periodicErrorChipHint": "L'algoritmo Predictive sta imparando l'errore periodico della vite senza fine in AR: trova il periodo della vite dopo circa cinque giri (si sommano anche se la guida si ferma e riparte; uno slew, una sincronizzazione o un meridian flip fa ricominciare da capo), o subito dall'impostazione dei denti della corona, e verifica che la curva resti uguale da un giro all'altro (due giri con i denti impostati). Nel frattempo continua a guidare.",
@@ -2198,6 +2213,10 @@
           "empty": "Nessuna statistica ancora. Appariranno all'avvio della guida.",
           "window": "Finestra",
           "windowFrames": "{count} frame",
+          "windowHelp": {
+            "title": "Finestra – gli ultimi 100 frame di guida",
+            "text": "Le statistiche degli ultimi 100 frame di guida, quindi mostrano come va la guida in questo momento: ogni nuovo frame spinge fuori il più vecchio, e subito dopo l'avvio della guida la finestra si sta ancora riempiendo. I frame ripresi durante l'assestamento (ad esempio dopo un dither) restano nella finestra ma non entrano nei valori, quindi il numero sotto l'intestazione e nella riga Frame può essere inferiore a 100. Solo l'indice di oscillazione usa tutti i frame. Stella persa e Trascorso contano l'intera sessione in entrambe le colonne.\n\nSessione comprende tutto dall'ultimo avvio della guida."
+          },
           "session": "Sessione",
           "rmsTotal": "RMS totale",
           "rmsRa": "RMS RA",

@@ -2,7 +2,7 @@
   <!-- With content (e.g. a stat tile): the whole content is the button, so the touch target is
        the tile and its label keeps the full width. Without: a small ⓘ next to a label whose
        hit area is enlarged to the 48 px touch size. Hover titles don't work on touch screens,
-       so both open a short explanation. -->
+       so both open a short explanation; the optional `details` slot adds content below it. -->
   <button
     v-if="$slots.default"
     v-bind="$attrs"
@@ -33,7 +33,11 @@
       <h2 class="text-lg font-bold">{{ title }}</h2>
     </template>
     <template #body>
-      <p class="text-sm leading-relaxed whitespace-pre-line">{{ text }}</p>
+      <!-- One child: the modal body lays its children out side by side -->
+      <div class="w-full">
+        <p class="text-sm leading-relaxed whitespace-pre-line">{{ text }}</p>
+        <slot name="details" />
+      </div>
     </template>
   </Modal>
 </template>

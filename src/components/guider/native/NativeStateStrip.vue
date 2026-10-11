@@ -197,6 +197,7 @@
             : t('components.guider.native.strip.imageScaleUnknown')
         }}</span>
       </NativeHelpTip>
+      <!-- Processing time, the guide loop's frame rate below it; the ⓘ shows the whole cycle -->
       <NativeHelpTip
         v-bind="help('processing')"
         class="tns-stat-tile min-h-12! px-2! pr-4! min-w-0"
@@ -205,8 +206,15 @@
         <span class="tns-stat-label whitespace-normal! line-clamp-2">{{
           t('components.guider.native.strip.processing')
         }}</span>
-        <span class="tns-stat-value">{{ processingMs === null ? '–' : fmt(processingMs, 0) }}</span>
-        <span class="text-[10px] text-content-faint">ms</span>
+        <span class="tns-stat-value">{{ formatMs(processingMs) }}</span>
+        <span
+          class="text-[10px] text-content-faint tabular-nums truncate"
+          data-testid="native-guider-fps"
+          >{{ formatFps(timing?.fps) }} fps</span
+        >
+        <template #details>
+          <NativeTimingBreakdown v-if="timing" :timing="timing" class="mt-3" />
+        </template>
       </NativeHelpTip>
     </div>
 
@@ -233,6 +241,7 @@ import Modal from '@/components/helpers/Modal.vue';
 import NativeAlertDetail from './NativeAlertDetail.vue';
 import NativeHelpTip from './NativeHelpTip.vue';
 import NativeHintChip from './coach/NativeHintChip.vue';
+import NativeTimingBreakdown from './NativeTimingBreakdown.vue';
 import { apiStore } from '@/store/store';
 import { useNativeGuiderStore } from '@/store/nativeGuiderStore';
 import {
@@ -242,6 +251,10 @@ import {
   alertText,
   decDirection,
   fmt,
+  formatFps,
+  formatMs,
+  guideTiming,
+  LOOP_STATES,
   learningBadge,
   periodicErrorBadge,
   severityTone,
@@ -361,6 +374,12 @@ const processingMs = computed(() => {
   const guiding = ['Guiding', 'Paused', 'LostLock', 'Reacquiring'].includes(store.state);
   return guiding && Number.isFinite(ms) && ms > 0 ? ms : null;
 });
+
+// The guide loop's timing while it takes frames (also looping and calibrating); once it stops
+// the backend keeps the last values, which would no longer describe anything running.
+const timing = computed(() =>
+  LOOP_STATES.includes(store.state) ? guideTiming(status.value) : null
+);
 
 const processingTileClass = computed(() => {
   const ms = processingMs.value;

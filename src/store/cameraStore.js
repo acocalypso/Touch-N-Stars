@@ -9,6 +9,19 @@ import { useMountStore } from './mountStore';
 import apiService from '@/services/apiService';
 import { positionAngleFromNinaPlateSolve } from '@/integrations/celestiaAtlas/positionAngle';
 
+// Safety net for the wait between "exposure started" and "image download started" in
+// capturePhoto(). That download is normally triggered by the IMAGE-PREPARED event; when the
+// event is lost or the frame is skipped as unchanged, the capture button would spin forever.
+// After the exposure, NINA is asked whether the capture is done; two consecutive "done"
+// answers without a download (the second one leaves the event time to arrive) load the
+// image directly. The hard limit ends the wait even when NINA never reports the capture as
+// done; it counts from the end of the exposure and leaves room for slow hosts (a Pi needs
+// about 45 s to prepare and analyse a 26 MP frame).
+const CAPTURE_DONE_POLL_MS = 1000;
+const CAPTURE_DONE_CONFIRMATIONS = 2;
+const CAPTURE_HARD_LIMIT_MS = 90 * 1000;
+const CAPTURE_IN_PROGRESS = 'Capture already in progress';
+
 export const useCameraStore = defineStore('cameraStore', () => {
   const framingStore = useFramingStore();
   const store = apiStore();
@@ -362,18 +375,16 @@ export const useCameraStore = defineStore('cameraStore', () => {
     const mountSotre = useMountStore();
     const targetName = settingsStore.camera.snapshotTargetName;
 
+    // Taken before the exposure: the fallback in phase 1 may already have replaced it.
+    const previousImage = imageStore.imageData;
+
     try {
       // Phase 1: Start exposure (Server provides ExposureEndTime and IsExposing)
       await apiService.startCapture(exposureTime, gain, solve, true, save, targetName);
       isLoadingImage.value = true;
-      // This wait has no timeout, so it must honor aborts: resetCaptureState()
-      // (backend teardown) and abortExposure() set isAbort while we may be
-      // stuck here waiting for an exposure that will never report back.
-      while (!imageStore.isImageFetching) {
-        if (isAbort.value) return;
-        await wait(100);
-        //console.log('[cameraStore] Waiting for exposure to complete...');
-      }
+      // Must honor aborts: resetCaptureState() (backend teardown) and abortExposure() set
+      // isAbort while we may be waiting for an exposure that will never report back.
+      if (!(await waitForImageFetch(apiService, imageStore, exposureTime))) return;
 
       // Phase 2: Load image with timeout
       if (!isAbort.value) {
@@ -382,7 +393,6 @@ export const useCameraStore = defineStore('cameraStore', () => {
         // Wait for image or timeout
         let attempts = 0;
         const maxAttempts = 60;
-        const previousImage = imageStore.imageData;
 
         while (attempts < maxAttempts && !isAbort.value) {
           try {
@@ -448,6 +458,42 @@ export const useCameraStore = defineStore('cameraStore', () => {
         console.log('[cameraStore] save value in loop: ', save);
       }
     }
+  }
+
+  /**
+   * Waits until the image download of the capture has started (see CAPTURE_DONE_POLL_MS).
+   * Returns false when the wait ended without an image: aborted or hard limit reached.
+   */
+  async function waitForImageFetch(apiService, imageStore, exposureTime) {
+    const startedAt = Date.now();
+    const exposureMs = exposureTime * 1000;
+    let lastCheck = 0;
+    let doneAnswers = 0;
+
+    while (!imageStore.isImageFetching) {
+      if (isAbort.value) return false;
+      const elapsed = Date.now() - startedAt;
+      if (elapsed > exposureMs + CAPTURE_HARD_LIMIT_MS) {
+        console.error('[cameraStore] No image arrived for the capture, giving up the wait');
+        // A loop would only start the next capture into the same silence.
+        isLooping.value = false;
+        return false;
+      }
+
+      if (elapsed >= exposureMs && Date.now() - lastCheck >= CAPTURE_DONE_POLL_MS) {
+        lastCheck = Date.now();
+        const result = await apiService.getImageData().catch(() => null);
+        const done = result?.Success === true && result.Response !== CAPTURE_IN_PROGRESS;
+        doneAnswers = done ? doneAnswers + 1 : 0;
+        if (doneAnswers >= CAPTURE_DONE_CONFIRMATIONS && !imageStore.isImageFetching) {
+          console.warn('[cameraStore] Capture done without IMAGE-PREPARED, loading the image');
+          await imageStore.getImage();
+          return true;
+        }
+      }
+      await wait(100);
+    }
+    return true;
   }
 
   /**

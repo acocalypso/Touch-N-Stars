@@ -7,6 +7,10 @@ import { createPoller } from '@/utils/poller';
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
+// The poller ticks every second, but with no run active the status only has to
+// notice a run started elsewhere (NINA UI, sequence), so idle ticks are thinned out.
+const IDLE_STATUS_INTERVAL_MS = 5000;
+
 export const useFlatassistantStore = defineStore('flatassistantStore', {
   state: () => ({
     count: 20,
@@ -58,6 +62,13 @@ export const useFlatassistantStore = defineStore('flatassistantStore', {
         }
 
         const prevState = this.status.State;
+
+        const isIdle =
+          prevState !== 'Running' &&
+          !(this.currentRunType === 'flats-multi' && this.lastRun === null);
+        const now = Date.now();
+        if (isIdle && now - (this._lastIdleStatusFetch ?? 0) < IDLE_STATUS_INTERVAL_MS) return;
+        this._lastIdleStatusFetch = now;
 
         // Check both TNS (multimode) and ninaAPI status in parallel.
         // TNS takes precedence when its task is running.

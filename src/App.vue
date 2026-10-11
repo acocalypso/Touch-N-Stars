@@ -1089,7 +1089,7 @@ async function performResume() {
     // killed by the OS in background would otherwise leave isImageFetching stuck true.
     imageStore.isImageFetching = false;
     imageStore.isSequenceImageFetching = false;
-    imageStore.getImage();
+    imageStore.refreshImageIfChanged();
     if (!sequenceStore.sequenceEdit) {
       sequenceStore.startFetching();
     }

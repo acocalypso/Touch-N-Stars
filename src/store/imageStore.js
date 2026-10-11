@@ -11,6 +11,23 @@ import { historyEntryKey, thumbnailCacheKey } from '@/utils/imageHistoryUtils';
 const thumbnailCache = new Map(); // `${imageType}:${typeIdx}` -> object URL
 const THUMBNAIL_CACHE_LIMIT = 300;
 
+// Identity of the image NINA currently holds as prepared image, plus the request
+// parameters it was loaded with. The statistics describe whatever was prepared last
+// (snapshot or sequence frame), and their float values differ for every frame, so an
+// unchanged fingerprint means re-downloading would return the very same picture.
+// Returns null when the backend cannot tell, which makes callers load as before.
+async function fetchPreparedImageFingerprint(quality, scale) {
+  try {
+    const response = await apiService.getPreparedImageStatistics();
+    const stats = response?.Success ? response.Response : null;
+    if (!stats || stats.Mean === undefined || stats.StDev === undefined) return null;
+    const { Mean, StDev, Median, MedianAbsoluteDeviation, Min, Max } = stats;
+    return [Mean, StDev, Median, MedianAbsoluteDeviation, Min, Max, quality, scale].join('|');
+  } catch {
+    return null;
+  }
+}
+
 export const useImagetStore = defineStore('imageStore', {
   state: () => ({
     imageData: null,
@@ -18,6 +35,9 @@ export const useImagetStore = defineStore('imageStore', {
     isImageFetching: false,
     isSequenceImageFetching: false,
     pendingFetch: false,
+    // Fingerprint of the prepared image currently shown in imageData, see
+    // fetchPreparedImageFingerprint(). null = unknown, always reload.
+    preparedImageFingerprint: null,
     // History entries deleted from disk in this session, keyed by historyEntryKey().
     // The 2 s poll keeps delivering them until the backend flags them, so the list
     // view needs this to hide them immediately and permanently.
@@ -79,6 +99,10 @@ export const useImagetStore = defineStore('imageStore', {
         console.log(
           `[ImageStore] ImageStore.getImage: Fetching image with quality: ${quality}, resize: ${resize}, scale: ${scale}`
         );
+        // Taken before the download: if a newer frame lands in between, the stored
+        // fingerprint is the older one and the next comparison reloads - never the
+        // other way round.
+        const fingerprint = await fetchPreparedImageFingerprint(quality, scale);
         const imageResponse = await apiService.getImagePrepared(quality, resize, scale);
 
         console.log('[ImageStore] Image fetched from API', imageResponse.data);
@@ -100,6 +124,7 @@ export const useImagetStore = defineStore('imageStore', {
           }
           const newImageUrl = URL.createObjectURL(imageResponse.data);
           this.imageData = newImageUrl;
+          this.preparedImageFingerprint = fingerprint;
           const store = apiStore();
           if (store.isPINS) {
             store.fetchLastImageStats();
@@ -114,6 +139,7 @@ export const useImagetStore = defineStore('imageStore', {
             histogramStore.clearImageCache(newImageUrl);
             if (this.imageData === newImageUrl) {
               this.imageData = null;
+              this.preparedImageFingerprint = null;
             }
           }
         } else {
@@ -137,6 +163,24 @@ export const useImagetStore = defineStore('imageStore', {
           this.getImage();
         }
       }
+    },
+
+    // Resume path: the channel socket was down while backgrounded, so IMAGE-PREPARED
+    // events may have been missed. Asks the backend for the prepared image's
+    // fingerprint first and only downloads when it differs from the shown one.
+    async refreshImageIfChanged() {
+      if (this.imageData && this.preparedImageFingerprint && !this.isImageFetching) {
+        const settingsStore = useSettingsStore();
+        const fingerprint = await fetchPreparedImageFingerprint(
+          settingsStore.camera.imageQuality,
+          this.calcScale()
+        );
+        if (fingerprint && fingerprint === this.preparedImageFingerprint) {
+          console.log('[ImageStore] refreshImageIfChanged: prepared image unchanged, skipping');
+          return;
+        }
+      }
+      return this.getImage();
     },
 
     async getImageByIndex(index, retryCount = 0) {
@@ -399,6 +443,7 @@ export const useImagetStore = defineStore('imageStore', {
         histogramStore.clearImageCache(this.imageData);
       }
       this.imageData = null;
+      this.preparedImageFingerprint = null;
       this.isImageFetching = false;
       this.isSequenceImageFetching = false;
       this.pendingFetch = false;

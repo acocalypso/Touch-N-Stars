@@ -182,6 +182,7 @@ async function fetchRaw(source, maxDim, signal) {
 // Maps a failed request to what the panel shows. A missing route means the plugin predates
 // this feature; the plugin's own errors carry a `code` in their JSON body.
 function errorCode(error) {
+  if (error?.rawImageCode) return error.rawImageCode;
   const status = error?.response?.status;
   let code = null;
   const data = error?.response?.data;

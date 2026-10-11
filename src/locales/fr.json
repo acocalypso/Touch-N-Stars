@@ -2206,13 +2206,15 @@
           "dec": "Dec",
           "rms": "RMS",
           "scale": "Anneau extérieur {value}",
-          "empty": "Aucune étape de guidage."
+          "empty": "Aucune étape de guidage.",
+          "starView": "Vue étoile : l'étoile guide derrière les points, à la même échelle",
+          "starLost": "Étoile perdue",
+          "saturated": "Saturée"
         },
         "stats": {
           "title": "Statistiques",
           "empty": "Aucune statistique. Elles apparaissent une fois le guidage lancé.",
           "window": "Fenêtre",
-          "windowFrames": "{count} images",
           "windowHelp": {
             "title": "Fenêtre – les 100 dernières images de guidage",
             "text": "Les statistiques des 100 dernières images de guidage ; elles montrent donc comment se passe le guidage en ce moment : chaque nouvelle image chasse la plus ancienne, et juste après le démarrage du guidage la fenêtre se remplit encore. Les images prises pendant la stabilisation (après un dithering, par exemple) restent dans la fenêtre mais ne comptent pas dans les valeurs ; le nombre sous l'en-tête et la ligne Images peuvent donc être inférieurs à 100. Seul l'indice d'oscillation utilise toutes les images. Étoile perdue et Écoulé comptent toute la session dans les deux colonnes.\n\nSession couvre tout depuis le dernier démarrage du guidage."

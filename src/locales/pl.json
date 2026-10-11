@@ -2206,13 +2206,15 @@
           "dec": "Dec",
           "rms": "RMS",
           "scale": "Zewn. pierścień {value}",
-          "empty": "Brak jeszcze kroków prowadzenia."
+          "empty": "Brak jeszcze kroków prowadzenia.",
+          "starView": "Widok gwiazdy: gwiazda prowadząca za punktami, w tej samej skali",
+          "starLost": "Utracono gwiazdę",
+          "saturated": "Przesycenie"
         },
         "stats": {
           "title": "Statystyki",
           "empty": "Brak jeszcze statystyk. Pojawią się, gdy rozpocznie się prowadzenie.",
           "window": "Okno",
-          "windowFrames": "{count} klatek",
           "windowHelp": {
             "title": "Okno – ostatnie 100 klatek prowadzenia",
             "text": "Statystyki ostatnich 100 klatek prowadzenia, więc pokazują, jak prowadzenie idzie w tej chwili: każda nowa klatka wypycha najstarszą, a tuż po starcie prowadzenia okno dopiero się zapełnia. Klatki wykonane podczas stabilizacji (np. po ditheringu) zostają w oknie, ale nie wchodzą do wartości, więc liczba pod nagłówkiem i w wierszu Klatki może być mniejsza niż 100. Tylko wskaźnik oscylacji używa każdej klatki. Utracono gwiazdę i Upłynęło liczą w obu kolumnach całą sesję.\n\nSesja obejmuje wszystko od ostatniego startu prowadzenia."

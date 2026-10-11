@@ -2206,13 +2206,15 @@
           "dec": "Dec",
           "rms": "RMS",
           "scale": "Anello esterno {value}",
-          "empty": "Nessun passo di guida ancora."
+          "empty": "Nessun passo di guida ancora.",
+          "starView": "Vista stella: la stella guida dietro i punti, alla stessa scala",
+          "starLost": "Stella persa",
+          "saturated": "Satura"
         },
         "stats": {
           "title": "Statistiche",
           "empty": "Nessuna statistica ancora. Appariranno all'avvio della guida.",
           "window": "Finestra",
-          "windowFrames": "{count} frame",
           "windowHelp": {
             "title": "Finestra – gli ultimi 100 frame di guida",
             "text": "Le statistiche degli ultimi 100 frame di guida, quindi mostrano come va la guida in questo momento: ogni nuovo frame spinge fuori il più vecchio, e subito dopo l'avvio della guida la finestra si sta ancora riempiendo. I frame ripresi durante l'assestamento (ad esempio dopo un dither) restano nella finestra ma non entrano nei valori, quindi il numero sotto l'intestazione e nella riga Frame può essere inferiore a 100. Solo l'indice di oscillazione usa tutti i frame. Stella persa e Trascorso contano l'intera sessione in entrambe le colonne.\n\nSessione comprende tutto dall'ultimo avvio della guida."

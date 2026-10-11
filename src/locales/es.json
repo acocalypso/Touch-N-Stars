@@ -2206,13 +2206,15 @@
           "dec": "Dec",
           "rms": "RMS",
           "scale": "Anillo exterior {value}",
-          "empty": "Aún no hay pasos de guiado."
+          "empty": "Aún no hay pasos de guiado.",
+          "starView": "Vista de estrella: la estrella guía detrás de los puntos, a la misma escala",
+          "starLost": "Estrella perdida",
+          "saturated": "Saturada"
         },
         "stats": {
           "title": "Estadísticas",
           "empty": "Aún no hay estadísticas. Aparecen cuando el guiado se ejecuta.",
           "window": "Ventana",
-          "windowFrames": "{count} cuadros",
           "windowHelp": {
             "title": "Ventana – los últimos 100 cuadros de guiado",
             "text": "Las estadísticas de los últimos 100 cuadros de guiado, por eso muestran cómo va el guiado ahora mismo: cada cuadro nuevo desplaza al más antiguo, y justo después de iniciar el guiado la ventana todavía se está llenando. Los cuadros tomados durante la estabilización (por ejemplo, tras un dither) siguen en la ventana pero no cuentan en los valores, así que el número bajo el encabezado y en la fila Cuadros puede ser menor que 100. Solo el índice de oscilación usa todos los cuadros. Estrella perdida y Transcurrido cuentan toda la sesión en ambas columnas.\n\nSesión abarca todo desde el último inicio del guiado."

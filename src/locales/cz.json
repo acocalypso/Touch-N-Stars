@@ -2206,13 +2206,15 @@
           "dec": "Dec",
           "rms": "RMS",
           "scale": "Vnější kruh {value}",
-          "empty": "Zatím žádné kroky navádění."
+          "empty": "Zatím žádné kroky navádění.",
+          "starView": "Zobrazení hvězdy: naváděcí hvězda za body ve stejném měřítku",
+          "starLost": "Hvězda ztracena",
+          "saturated": "Přesyceno"
         },
         "stats": {
           "title": "Statistika",
           "empty": "Zatím žádná statistika. Objeví se po spuštění navádění.",
           "window": "Okno",
-          "windowFrames": "{count} snímků",
           "windowHelp": {
             "title": "Okno – posledních 100 naváděcích snímků",
             "text": "Statistika posledních 100 naváděcích snímků, takže ukazuje, jak navádění jde právě teď: každý nový snímek vytlačí nejstarší a hned po startu navádění se okno teprve plní. Snímky pořízené během ustalování (např. po ditheru) v okně zůstávají, ale do hodnot se nepočítají, takže počet pod nadpisem a v řádku Snímky může být nižší než 100. Jen index oscilace používá každý snímek. Hvězda ztracena a Uplynulo počítají v obou sloupcích celou relaci.\n\nRelace zahrnuje vše od posledního spuštění navádění."

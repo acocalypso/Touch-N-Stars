@@ -311,6 +311,70 @@ export function starTileImage(crop, bitDepth) {
   return { width, height, rgba, saturated };
 }
 
+/** Brightest grey of the star view (0..1): the star never outshines the points drawn on it. */
+export const STAR_VIEW_PEAK_LEVEL = 0.55;
+
+// Catmull-Rom spline through p0..p3, at t in [0, 1] between p1 and p2.
+function catmullRom(p0, p1, p2, p3, t) {
+  return (
+    p1 + 0.5 * t * (p2 - p0 + t * (2 * p0 - 5 * p1 + 4 * p2 - p3 + t * (3 * (p1 - p2) + p3 - p0)))
+  );
+}
+
+/**
+ * RGBA pixels (size × size) of the star view: the raw crop { x0, y0, width, height, pixels }
+ * resampled bicubically over the square of ±radiusPx around the lock position (lockX, lockY,
+ * frame px with pixel centres at integers), so the lock is the image centre. Stretched like
+ * starTileImage (black at the crop's median, square root up to its peak), but only up to `peak`
+ * grey and without red saturated pixels: `saturated` reports a peak at the saturation level
+ * instead. Outside the crop is black.
+ */
+export function starViewImage(
+  crop,
+  { lockX, lockY, radiusPx, size = 256, bitDepth = 16, peak = STAR_VIEW_PEAK_LEVEL } = {}
+) {
+  if (!crop || !crop.width || !crop.height || !Array.isArray(crop.pixels)) return null;
+  const { x0, y0, width, height, pixels } = crop;
+  if (pixels.length < width * height || !(radiusPx > 0) || !(size > 0)) return null;
+  if (!Number.isFinite(lockX) || !Number.isFinite(lockY)) return null;
+  const sorted = Float64Array.from(pixels).sort();
+  const background = sorted[Math.floor(sorted.length / 2)];
+  const max = sorted[sorted.length - 1];
+  const range = Math.max(1, max - background);
+  const top = 255 * Math.min(1, Math.max(0, peak));
+  const at = (col, row) =>
+    pixels[Math.min(height - 1, Math.max(0, row)) * width + Math.min(width - 1, Math.max(0, col))];
+  const sample = (x, y) => {
+    const ix = Math.floor(x);
+    const iy = Math.floor(y);
+    const tx = x - ix;
+    const ty = y - iy;
+    const row = (r) => catmullRom(at(ix - 1, r), at(ix, r), at(ix + 1, r), at(ix + 2, r), tx);
+    return catmullRom(row(iy - 1), row(iy), row(iy + 1), row(iy + 2), ty);
+  };
+
+  const rgba = new Uint8ClampedArray(size * size * 4);
+  const pitch = (2 * radiusPx) / size;
+  for (let j = 0; j < size; j++) {
+    // Crop coordinates of the output pixel's centre
+    const y = lockY - radiusPx + (j + 0.5) * pitch - y0;
+    for (let i = 0; i < size; i++) {
+      const x = lockX - radiusPx + (i + 0.5) * pitch - x0;
+      let level = 0;
+      if (x >= -0.5 && x <= width - 0.5 && y >= -0.5 && y <= height - 0.5) {
+        const norm = (sample(x, y) - background) / range;
+        level = top * Math.sqrt(Math.min(1, Math.max(0, norm)));
+      }
+      const o = (j * size + i) * 4;
+      rgba[o] = level;
+      rgba[o + 1] = level;
+      rgba[o + 2] = level;
+      rgba[o + 3] = 255;
+    }
+  }
+  return { size, rgba, saturated: max >= saturationLevel(bitDepth) };
+}
+
 /** Preferred display order of setting groups; unknown groups follow alphabetically. */
 export const SETTING_GROUP_ORDER = [
   'Camera',

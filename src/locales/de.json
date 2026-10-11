@@ -2247,13 +2247,15 @@
           "dec": "Dec",
           "rms": "RMS",
           "scale": "Äußerer Ring {value}",
-          "empty": "Noch keine Guide-Schritte."
+          "empty": "Noch keine Guide-Schritte.",
+          "starView": "Sternansicht: der Guide-Stern hinter den Punkten, im selben Maßstab",
+          "starLost": "Stern verloren",
+          "saturated": "Übersättigt"
         },
         "stats": {
           "title": "Statistik",
           "empty": "Noch keine Statistik. Sie erscheint, sobald das Guiding läuft.",
           "window": "Fenster",
-          "windowFrames": "{count} Frames",
           "windowHelp": {
             "title": "Fenster – die letzten 100 Guiding-Frames",
             "text": "Die Statistik der letzten 100 Guiding-Frames, sie zeigt also, wie das Guiding gerade läuft: Jeder neue Frame verdrängt den ältesten, und direkt nach dem Start des Guidings füllt sich das Fenster erst noch. Frames aus dem Settling (etwa nach einem Dither) bleiben im Fenster, zählen aber nicht in die Werte, daher können die Zahl unter der Überschrift und die Zeile Frames unter 100 liegen. Nur der Oszillationsindex nutzt jeden Frame. Stern verloren und Dauer zählen in beiden Spalten die ganze Sitzung.\n\nSitzung umfasst alles seit dem letzten Start des Guidings."

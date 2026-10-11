@@ -2206,13 +2206,15 @@
           "dec": "Dec",
           "rms": "RMS",
           "scale": "Buitenring {value}",
-          "empty": "Nog geen guide-stappen."
+          "empty": "Nog geen guide-stappen.",
+          "starView": "Sterweergave: de guide-ster achter de punten, op dezelfde schaal",
+          "starLost": "Ster kwijt",
+          "saturated": "Verzadigd"
         },
         "stats": {
           "title": "Statistieken",
           "empty": "Nog geen statistieken. Ze verschijnen zodra guiding draait.",
           "window": "Venster",
-          "windowFrames": "{count} beelden",
           "windowHelp": {
             "title": "Venster – de laatste 100 guidebeelden",
             "text": "De statistieken van de laatste 100 guidebeelden, dus ze tonen hoe het guiden nu gaat: elk nieuw beeld duwt het oudste eruit, en vlak na de start van het guiden loopt het venster nog vol. Beelden die tijdens het stabiliseren zijn genomen (bijvoorbeeld na een dither) blijven in het venster, maar tellen niet mee in de waarden, dus het aantal onder de kop en in de rij Beelden kan lager zijn dan 100. Alleen de oscillatie-index gebruikt elk beeld. Ster kwijt en Verstreken tellen in beide kolommen de hele sessie.\n\nSessie omvat alles sinds het guiden voor het laatst is gestart."

@@ -1432,13 +1432,6 @@ watch(
       }, 200); // delay
     }
 
-    // Re-initialize dialog and messagebox SignalR after an instance switch
-    // (clearAllStates disconnects them; they don't auto-reconnect on their own)
-    if (isReachable && store.isPINS) {
-      await dialogStore.initializeDialogSignalR();
-      await messageboxStore.initializeMessageboxSignalR();
-    }
-
     // Re-initialize night summary plugin after an instance switch so it
     // fetches its status, settings, and sessions from the new backend.
     if (isReachable && store.isPINS) {
@@ -1447,6 +1440,30 @@ watch(
 
     if (isReachable) {
       finalizePinsUpgradeRecoveryIfReady();
+    }
+  }
+);
+
+// Dialog transport follows the backend mode: SignalR on PINS, polling on WPF NINA.
+// The mount and resume paths decide once, right after their first fetchAllInfos(); if
+// PINS detection had not finished by then (backend still coming up, or PINS found by a
+// later re-probe), they fell back to polling and never switched, leaving PINS with
+// dialog polling on top of SignalR. Re-deciding on every change of either input fixes
+// that, and also re-arms SignalR after an instance switch (clearAllStates disconnects
+// it and it does not reconnect on its own).
+watch(
+  () => [store.isBackendReachable, store.isPINS],
+  async ([isReachable, isPINS]) => {
+    // pauseApp() stopped everything; performResume() restarts it.
+    if (!isReachable || isPaused) return;
+    if (isPINS) {
+      dialogStore.stopPolling();
+      flatsStore.startFetchingFlats();
+      await dialogStore.initializeDialogSignalR();
+      await messageboxStore.initializeMessageboxSignalR();
+    } else {
+      flatsStore.stopFetchingFlats();
+      dialogStore.startPolling();
     }
   }
 );

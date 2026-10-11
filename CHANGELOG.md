@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ##  unreleased
 
+### Changed
+
+- Atlas: Wide views use the Allsky preview when it meets display resolution, reducing detail downloads. WebGL tiles decode directly as ImageBitmaps, and the shared survey cache grows to 4096 resources.
+
 ### Added
 
 - Mount (PINS): With the native OnStepX driver connected, a new OnStepX tab sets the altitude and meridian limits, the preferred pier side and the home position stored in the mount controller.

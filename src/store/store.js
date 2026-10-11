@@ -1320,7 +1320,15 @@ export const apiStore = defineStore('store', {
         if (imageStore.isImageFetching) {
           return;
         }
-        await imageStore.refreshImageIfChanged();
+        // A capture this app started always loads: capturePhoto() waits for the fetch to start,
+        // and a frame identical to the shown one (e.g. a simulator replaying its file) would
+        // otherwise be skipped as "unchanged" and leave that wait hanging forever. The skip is
+        // meant for events the backend re-sends after a reconnect or resume.
+        if (useCameraStore().isLoadingImage) {
+          await imageStore.getImage();
+        } else {
+          await imageStore.refreshImageIfChanged();
+        }
       }
 
       if (message.Response && message.Response.Event === 'IMAGE-SAVE') {

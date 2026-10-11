@@ -4082,21 +4082,38 @@
     },
     "helpers": {
       "imageModal": {
-        "no_image": "Cap dada d'imatge disponible"
+        "no_image": "Cap dada d'imatge disponible",
+        "histogram": "Mostra l'histograma"
       },
       "histogram": {
         "blackPoint": "Punt negre",
+        "midtones": "Tons mitjans",
         "whitePoint": "Punt blanc",
-        "gamma": "Gamma",
         "mean": "Mitjana",
         "median": "Mediana",
-        "stdDev": "Desv. Est.",
+        "mad": "MAD",
         "min": "Mín",
         "max": "Màx",
+        "clipped": "Retallat",
+        "pixelCount": "{count} píxels tenen aquest valor",
         "stars": "Estrelles",
         "hfr": "HFR",
+        "auto": "Auto",
+        "linear": "Lineal",
         "reset": "Restableix",
-        "noSaveHint": "Les estadístiques només es calculen per a imatges desades",
+        "linked": "Enllaçat",
+        "linkedHint": "Estira tots els canals de color junts, amb els fons igualats a gris neutre",
+        "log": "Log",
+        "fullRange": "Escala completa",
+        "sourceInfo": "Dades en brut {width} × {height} px, {bitDepth} bits",
+        "loading": "Carregant les dades en brut de la imatge…",
+        "unsupported": "L'histograma de les dades en brut necessita un connector Touch'N'Stars més recent.",
+        "noImage": "Encara no hi ha cap imatge.",
+        "fileNotFound": "El fitxer d'imatge ja no està disponible.",
+        "livestackSaveDisabled": "Activa \"Save stacked lights\" al connector Livestack per veure l'histograma de l'apilament.",
+        "livestackRgbUnsupported": "Les dades en brut només estan disponibles per a apilaments en color d'una càmera OSC.",
+        "error": "No s'han pogut carregar les dades en brut de la imatge.",
+        "noSaveHint": "Les estrelles i l'HFR només es calculen per a imatges desades",
         "enableSave": "Activa el desament"
       },
       "zoomableImage": {

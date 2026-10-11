@@ -1,5 +1,20 @@
 import axios from 'axios';
-import { DEFAULT_TIMEOUT, getUrls, simpleGetRequest } from './core';
+import { DEFAULT_TIMEOUT, getUrls, rawHttp, simpleGetRequest } from './core';
+
+// rawHttp, not the global axios: its interceptor turns every failure into a mock success and
+// drops the body, but the caller needs the status and the plugin's JSON error code to tell an
+// older plugin (route unknown) from a real error. Rejects in both cases.
+async function getRawImage(url, params, signal) {
+  const response = await rawHttp.get(url, { params, responseType: 'arraybuffer', signal });
+  // A backend that answers unknown paths with a page instead of a 404 is just as unsupported.
+  const contentType = String(response.headers?.['content-type'] ?? '');
+  if (!contentType.includes('application/octet-stream')) {
+    const error = new Error(`Raw image endpoint not available (${contentType || 'no type'})`);
+    error.rawImageCode = 'unsupported';
+    throw error;
+  }
+  return response.data;
+}
 
 export default {
   //-------------------------------------  Image History ---------------------------------------
@@ -111,6 +126,29 @@ export default {
       // console.error('Error read Image :', error);
       throw error;
     }
+  },
+
+  //-------------------------------------  Raw image data (plugin server) ----------------------
+  // Real 16-bit sensor data for the histogram and the client-side stretch. The body is the
+  // binary container parsed by src/utils/rawImage/parseRawImage.js.
+  getRawPreparedImage(maxDim, signal) {
+    const { API_URL } = getUrls();
+    return getRawImage(`${API_URL}raw-image/prepared`, { maxDim }, signal);
+  },
+
+  /**
+   * A history entry is addressed by its file name where the backend reports one (PINS fork),
+   * otherwise by its index plus mean/median, which the plugin checks against the saved frame.
+   */
+  getRawHistoryImage({ filename, index, mean, median }, maxDim, signal) {
+    const { API_URL } = getUrls();
+    const params = filename ? { filename, maxDim } : { index, mean, median, maxDim };
+    return getRawImage(`${API_URL}raw-image/history`, params, signal);
+  },
+
+  getRawLivestackImage(target, filter, maxDim, signal) {
+    const { API_URL } = getUrls();
+    return getRawImage(`${API_URL}raw-image/livestack`, { target, filter, maxDim }, signal);
   },
 
   async imageAction(index, action) {

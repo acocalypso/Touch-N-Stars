@@ -2206,7 +2206,10 @@
           "dec": "Dec",
           "rms": "RMS",
           "scale": "Anillo exterior {value}",
-          "empty": "Aún no hay pasos de guiado."
+          "empty": "Aún no hay pasos de guiado.",
+          "starView": "Vista de estrella: la estrella guía detrás de los puntos, a la misma escala",
+          "starLost": "Estrella perdida",
+          "saturated": "Saturada"
         },
         "stats": {
           "title": "Estadísticas",

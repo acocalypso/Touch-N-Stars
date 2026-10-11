@@ -173,6 +173,17 @@ export function markersInRange(markers, x0, x1) {
   return markers.filter((m) => m && Number.isFinite(m.t) && m.t >= x0 && m.t <= x1);
 }
 
+/** Opacity from `floor` (oldest point) to 1 (newest). */
+function fadeByAge(points, floor) {
+  const n = points.length;
+  return points.map((p, i) => ({
+    ...p,
+    opacity: n <= 1 ? 1 : floor + (1 - floor) * (i / (n - 1)),
+  }));
+}
+
+const isSettlingStep = (step) => step.isSettling === true || step.isRecenterMove === true;
+
 /**
  * Points of the target plot (RA x, Dec y) with an opacity that grows towards the newest point.
  * `settling` marks the steps the RMS leaves out too: settling after a dither and dither recenter moves.
@@ -183,14 +194,118 @@ export function targetPoints(steps, { window = 100, unit = 'arcsec' } = {}) {
   for (const step of selected) {
     const error = stepError(step, unit);
     if (!Number.isFinite(error.ra) || !Number.isFinite(error.dec)) continue;
-    points.push({
-      x: error.ra,
-      y: error.dec,
-      settling: step.isSettling === true || step.isRecenterMove === true,
-    });
+    points.push({ x: error.ra, y: error.dec, settling: isSettlingStep(step) });
   }
-  const n = points.length;
-  return points.map((p, i) => ({ ...p, opacity: n <= 1 ? 1 : 0.15 + 0.85 * (i / (n - 1)) }));
+  return fadeByAge(points, 0.15);
+}
+
+// --- Star view: the target plot over the guide star, at the same scale ----------------------------
+
+/** Radius of the star view in HFDs of the guide star: the whole star and a little sky. */
+export const STAR_VIEW_HFD_RADIUS = 1.5;
+
+// On a grey star the plot's faintest points (0.15) would vanish.
+const STAR_VIEW_FADE_FLOOR = 0.4;
+
+/**
+ * Points of the star view: each step's star offset from the lock position (dx, dy) in camera
+ * axes, x right and y down as on the guide frame, in camera px × pxToUnit. Settling flags as in
+ * targetPoints, with a higher fade floor.
+ */
+export function starViewPoints(steps, { window = 100, pxToUnit = 1 } = {}) {
+  const selected = (Array.isArray(steps) ? steps : []).slice(-Math.max(1, window));
+  const points = [];
+  for (const step of selected) {
+    if (!step || !Number.isFinite(step.dx) || !Number.isFinite(step.dy)) continue;
+    points.push({ x: step.dx * pxToUnit, y: step.dy * pxToUnit, settling: isSettlingStep(step) });
+  }
+  return fadeByAge(points, STAR_VIEW_FADE_FLOOR);
+}
+
+/** Median HFD (px) of the guiding steps (settling left out), null when none reports one. */
+export function medianHfd(steps) {
+  const values = (Array.isArray(steps) ? steps : [])
+    .filter((s) => s && !isSettlingStep(s) && Number.isFinite(s.hfd) && s.hfd > 0)
+    .map((s) => s.hfd)
+    .sort((a, b) => a - b);
+  if (!values.length) return null;
+  const mid = Math.floor(values.length / 2);
+  return values.length % 2 ? values[mid] : (values[mid - 1] + values[mid]) / 2;
+}
+
+/**
+ * Outer radius of the star view: the whole guide star (STAR_VIEW_HFD_RADIUS × its HFD, in the
+ * plot's unit), but never smaller than the target plot's own radius, so no guiding point is
+ * pushed to the edge. Without an HFD it is the target plot's radius.
+ */
+export function starViewRadius(points, rmsTotal, hfd, minRadius = 1) {
+  const plotRadius = targetRadius(points, rmsTotal, minRadius);
+  if (!Number.isFinite(hfd) || hfd <= 0) return plotRadius;
+  return Math.max(plotRadius, niceCeil(hfd * STAR_VIEW_HFD_RADIUS));
+}
+
+/**
+ * Edge length (odd, px) of the frame-info crop for a star view of radius radiusPx. The crop is
+ * centred on the star, the view on the lock position, so it leaves room for half a radius of
+ * offset between the two; beyond that the view shows black sky.
+ */
+export function starViewCropSize(radiusPx) {
+  if (!Number.isFinite(radiusPx) || radiusPx <= 0) return 31;
+  return Math.min(127, Math.max(15, 2 * Math.ceil(radiusPx * 1.5 + 2) + 1));
+}
+
+const STAR_LOST_STATES = ['LostLock', 'Reacquiring'];
+const isNumber = (v) => typeof v === 'number' && Number.isFinite(v);
+
+/**
+ * The star the star view shows for a frame-info answer: { crop, lockX, lockY, bitDepth,
+ * frameNumber, lost }, or null for none. None while calibrating (the star moves away from the
+ * lock on purpose) or without a lock position. While the star is lost the previous star stays,
+ * marked lost (crop null when there was none).
+ */
+export function starViewFrame(info, state, previous = null) {
+  if (!info || state === 'Calibrating' || !isNumber(info.lockX) || !isNumber(info.lockY)) {
+    return null;
+  }
+  const crop = info.primaryCrop;
+  if (!STAR_LOST_STATES.includes(state) && crop && crop.width > 0 && crop.height > 0) {
+    return {
+      crop,
+      lockX: info.lockX,
+      lockY: info.lockY,
+      bitDepth: info.bitDepth || 16,
+      frameNumber: info.frameNumber,
+      lost: false,
+    };
+  }
+  return previous?.crop ? { ...previous, lost: true } : { crop: null, lost: true };
+}
+
+/**
+ * Steps of the star view up to the frame of the shown star, so the newest point is the step of
+ * that frame (steps arrive before their image). All steps when none is that old (a new session).
+ */
+export function stepsUpToFrame(steps, frameNumber) {
+  const list = Array.isArray(steps) ? steps : [];
+  if (!Number.isFinite(frameNumber)) return list;
+  let end = list.length;
+  while (end > 0 && list[end - 1]?.frame > frameNumber) end--;
+  return end > 0 ? list.slice(0, end) : list;
+}
+
+/**
+ * RA and Dec arrows of the star view from the calibration angles (PHD2 camera angles,
+ * atan2(dy, dx) in image coordinates): [{ id: 'ra' | 'dec', angle }] in degrees. Empty without a
+ * calibration; RA only for an RA-only calibration.
+ */
+export function starViewArrows(calibration, isCalibrated) {
+  if (!isCalibrated || !calibration) return [];
+  const arrows = [];
+  if (isNumber(calibration.raAngleDeg)) arrows.push({ id: 'ra', angle: calibration.raAngleDeg });
+  if (isNumber(calibration.decAngleDeg) && calibration.decRatePxPerSec !== 0) {
+    arrows.push({ id: 'dec', angle: calibration.decAngleDeg });
+  }
+  return arrows;
 }
 
 /**

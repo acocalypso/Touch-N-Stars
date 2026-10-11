@@ -2215,7 +2215,10 @@
           "dec": "Dec",
           "rms": "RMS",
           "scale": "外周円 {value}",
-          "empty": "ガイドステップはまだありません。"
+          "empty": "ガイドステップはまだありません。",
+          "starView": "星ビュー：ガイド星を点の背後に同じ縮尺で表示",
+          "starLost": "星をロスト",
+          "saturated": "飽和"
         },
         "stats": {
           "title": "統計",

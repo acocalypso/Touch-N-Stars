@@ -2206,7 +2206,10 @@
           "dec": "Dec",
           "rms": "RMS",
           "scale": "Zewn. pierścień {value}",
-          "empty": "Brak jeszcze kroków prowadzenia."
+          "empty": "Brak jeszcze kroków prowadzenia.",
+          "starView": "Widok gwiazdy: gwiazda prowadząca za punktami, w tej samej skali",
+          "starLost": "Utracono gwiazdę",
+          "saturated": "Przesycenie"
         },
         "stats": {
           "title": "Statystyki",

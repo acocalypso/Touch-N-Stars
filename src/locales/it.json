@@ -2206,7 +2206,10 @@
           "dec": "Dec",
           "rms": "RMS",
           "scale": "Anello esterno {value}",
-          "empty": "Nessun passo di guida ancora."
+          "empty": "Nessun passo di guida ancora.",
+          "starView": "Vista stella: la stella guida dietro i punti, alla stessa scala",
+          "starLost": "Stella persa",
+          "saturated": "Satura"
         },
         "stats": {
           "title": "Statistiche",

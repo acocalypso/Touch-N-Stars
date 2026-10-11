@@ -2206,7 +2206,10 @@
           "dec": "Dec",
           "rms": "RMS",
           "scale": "Vnější kruh {value}",
-          "empty": "Zatím žádné kroky navádění."
+          "empty": "Zatím žádné kroky navádění.",
+          "starView": "Zobrazení hvězdy: naváděcí hvězda za body ve stejném měřítku",
+          "starLost": "Hvězda ztracena",
+          "saturated": "Přesyceno"
         },
         "stats": {
           "title": "Statistika",

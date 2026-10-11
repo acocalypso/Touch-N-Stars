@@ -2206,7 +2206,10 @@
           "dec": "Dec",
           "rms": "RMS",
           "scale": "Buitenring {value}",
-          "empty": "Nog geen guide-stappen."
+          "empty": "Nog geen guide-stappen.",
+          "starView": "Sterweergave: de guide-ster achter de punten, op dezelfde schaal",
+          "starLost": "Ster kwijt",
+          "saturated": "Verzadigd"
         },
         "stats": {
           "title": "Statistieken",

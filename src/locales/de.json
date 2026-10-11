@@ -2247,7 +2247,10 @@
           "dec": "Dec",
           "rms": "RMS",
           "scale": "Äußerer Ring {value}",
-          "empty": "Noch keine Guide-Schritte."
+          "empty": "Noch keine Guide-Schritte.",
+          "starView": "Sternansicht: der Guide-Stern hinter den Punkten, im selben Maßstab",
+          "starLost": "Stern verloren",
+          "saturated": "Übersättigt"
         },
         "stats": {
           "title": "Statistik",

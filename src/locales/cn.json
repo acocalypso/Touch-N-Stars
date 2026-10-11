@@ -2206,7 +2206,10 @@
           "dec": "Dec",
           "rms": "RMS",
           "scale": "外圈 {value}",
-          "empty": "暂无导星步骤。"
+          "empty": "暂无导星步骤。",
+          "starView": "星点视图：导星星点以相同比例显示在点的后方",
+          "starLost": "丢失导星",
+          "saturated": "饱和"
         },
         "stats": {
           "title": "统计信息",

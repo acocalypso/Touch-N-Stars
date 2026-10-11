@@ -7,11 +7,19 @@ import {
   graphAriaLabel,
   lastSteps,
   markersInRange,
+  medianHfd,
   niceCeil,
   pulseRange,
   RMS_ROLLING_STEPS,
   rollingRms,
   settlingSpans,
+  STAR_VIEW_HFD_RADIUS,
+  starViewArrows,
+  starViewCropSize,
+  starViewFrame,
+  starViewPoints,
+  starViewRadius,
+  stepsUpToFrame,
   symmetricRange,
   targetPoints,
   targetRadius,
@@ -206,4 +214,124 @@ test('graphAriaLabel names the graph and the RMS it shows', () => {
   );
   assert.equal(graphAriaLabel(labels, { total: null, ra: null, dec: null }), 'Guide graph');
   assert.equal(formatRms(null), '–');
+});
+
+test('starViewPoints plots the camera offset from the lock, y down, in the unit', () => {
+  const points = starViewPoints(
+    [step(1, { dx: 0.5, dy: -0.25 }), step(2, { dx: null, dy: 1 }), step(3, { dx: -1, dy: 2 })],
+    { window: 10, pxToUnit: 3 }
+  );
+  assert.deepEqual(
+    points.map((p) => [p.x, p.y]),
+    [
+      [1.5, -0.75],
+      [-3, 6],
+    ]
+  );
+  // a higher fade floor than the target plot: old points stay visible on the star
+  assert.equal(points[0].opacity, 0.4);
+  assert.equal(points[1].opacity, 1);
+});
+
+test('starViewPoints marks settling steps and keeps only the window', () => {
+  const steps = [1, 2, 3, 4].map((f) => step(f, { dx: f, dy: 0, isRecenterMove: f === 3 }));
+  const points = starViewPoints(steps, { window: 2 });
+  assert.deepEqual(
+    points.map((p) => [p.x, p.settling]),
+    [
+      [3, true],
+      [4, false],
+    ]
+  );
+});
+
+test('medianHfd takes the median of the guiding steps', () => {
+  assert.equal(medianHfd([step(1, { hfd: 3 }), step(2, { hfd: 1 }), step(3, { hfd: 2 })]), 2);
+  assert.equal(medianHfd([step(1, { hfd: 3 }), step(2, { hfd: 1 })]), 2);
+  // settling steps, missing and zero HFDs don't count
+  assert.equal(
+    medianHfd([
+      step(1, { hfd: 9, isSettling: true }),
+      step(2, { hfd: 0 }),
+      step(3, { hfd: null }),
+      step(4, { hfd: 2.5 }),
+    ]),
+    2.5
+  );
+  assert.equal(medianHfd([step(1)]), null);
+  assert.equal(medianHfd(null), null);
+});
+
+test('starViewRadius fits the whole star and every guiding point', () => {
+  assert.equal(STAR_VIEW_HFD_RADIUS, 1.5);
+  // 1.5 x 2.2 = 3.3, rounded up to a nice 4
+  assert.equal(starViewRadius([{ x: 0.3, y: 0.2 }], 0.2, 2.2), 4);
+  // a guiding point beyond the star widens it like the target plot
+  assert.equal(starViewRadius([{ x: 7, y: 0 }], 0.5, 2), 8);
+  // settling points still don't
+  assert.equal(starViewRadius([{ x: 20, y: 0, settling: true }], 0.5, 2), 3);
+  // no HFD: the target plot's radius
+  assert.equal(starViewRadius([{ x: 2.4, y: 0 }], 0.5, null), 3);
+});
+
+test('starViewCropSize covers the view plus half a radius of star offset', () => {
+  assert.equal(starViewCropSize(4), 2 * Math.ceil(4 * 1.5 + 2) + 1);
+  assert.equal(starViewCropSize(4) % 2, 1);
+  assert.equal(starViewCropSize(0.5), 15);
+  assert.equal(starViewCropSize(200), 127);
+  assert.equal(starViewCropSize(NaN), 31);
+});
+
+const crop = { x0: 10, y0: 20, width: 15, height: 15, pixels: new Array(225).fill(100) };
+const info = { frameNumber: 7, lockX: 17.2, lockY: 27.4, bitDepth: 12, primaryCrop: crop };
+
+test('starViewFrame shows the primary crop around the lock position', () => {
+  assert.deepEqual(starViewFrame(info, 'Guiding'), {
+    crop,
+    lockX: 17.2,
+    lockY: 27.4,
+    bitDepth: 12,
+    frameNumber: 7,
+    lost: false,
+  });
+  assert.equal(starViewFrame(info, 'Looping').lost, false);
+});
+
+test('starViewFrame shows no star while calibrating or without a lock position', () => {
+  assert.equal(starViewFrame(info, 'Calibrating'), null);
+  assert.equal(starViewFrame({ ...info, lockX: null }, 'Looping'), null);
+  assert.equal(starViewFrame(null, 'Guiding'), null);
+});
+
+test('starViewFrame keeps the previous star, marked lost, while the star is lost', () => {
+  const previous = starViewFrame(info, 'Guiding');
+  const missing = { ...info, frameNumber: 8, primaryCrop: null };
+  assert.deepEqual(starViewFrame(missing, 'Guiding', previous), { ...previous, lost: true });
+  // a lost lock counts even when the frame has a crop at the estimated position
+  assert.equal(starViewFrame({ ...info, frameNumber: 8 }, 'LostLock', previous).frameNumber, 7);
+  assert.deepEqual(starViewFrame(missing, 'Reacquiring'), { crop: null, lost: true });
+});
+
+test('stepsUpToFrame ends at the frame of the shown star', () => {
+  const steps = [1, 2, 3, 4].map((f) => step(f));
+  assert.deepEqual(
+    stepsUpToFrame(steps, 3).map((s) => s.frame),
+    [1, 2, 3]
+  );
+  assert.equal(stepsUpToFrame(steps, null).length, 4);
+  // nothing that old (a new guider session): all steps
+  assert.equal(stepsUpToFrame(steps, 0).length, 4);
+});
+
+test('starViewArrows come from the calibration angles', () => {
+  const calibration = { raAngleDeg: 12.5, decAngleDeg: 101, decRatePxPerSec: 4.2 };
+  assert.deepEqual(starViewArrows(calibration, true), [
+    { id: 'ra', angle: 12.5 },
+    { id: 'dec', angle: 101 },
+  ]);
+  assert.deepEqual(starViewArrows({ ...calibration, decRatePxPerSec: 0 }, true), [
+    { id: 'ra', angle: 12.5 },
+  ]);
+  assert.deepEqual(starViewArrows(calibration, false), []);
+  assert.deepEqual(starViewArrows(null, true), []);
 });

@@ -2247,7 +2247,10 @@
           "dec": "Dec",
           "rms": "RMS",
           "scale": "Anell exterior {value}",
-          "empty": "Encara no hi ha passos de guiatge."
+          "empty": "Encara no hi ha passos de guiatge.",
+          "starView": "Vista d'estrella: l'estrella de guiatge darrere dels punts, a la mateixa escala",
+          "starLost": "Estrella perduda",
+          "saturated": "Saturada"
         },
         "stats": {
           "title": "Estadístiques",

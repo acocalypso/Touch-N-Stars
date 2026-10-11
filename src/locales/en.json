@@ -2251,7 +2251,10 @@
           "dec": "Dec",
           "rms": "RMS",
           "scale": "Outer ring {value}",
-          "empty": "No guide steps yet."
+          "empty": "No guide steps yet.",
+          "starView": "Star view: the guide star behind the points, at the same scale",
+          "starLost": "Star lost",
+          "saturated": "Saturated"
         },
         "stats": {
           "title": "Statistics",

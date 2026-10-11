@@ -2206,7 +2206,10 @@
           "dec": "Dec",
           "rms": "RMS",
           "scale": "Anneau extérieur {value}",
-          "empty": "Aucune étape de guidage."
+          "empty": "Aucune étape de guidage.",
+          "starView": "Vue étoile : l'étoile guide derrière les points, à la même échelle",
+          "starLost": "Étoile perdue",
+          "saturated": "Saturée"
         },
         "stats": {
           "title": "Statistiques",

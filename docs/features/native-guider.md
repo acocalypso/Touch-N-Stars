@@ -30,7 +30,7 @@ The guider itself, including the Guiding Coach and the flight recorder, was deve
   `/ws/internal-guider` feed (plugin port). They serve PINS' `IAdvancedGuider` contract
   (`NINA.Equipment`); the Coach and the flight recorder are optional parts of it.
 - State owner: `nativeGuiderStore` (live, not persisted). View preferences (settings
-  view, graph and frame options, Coach options, incident filter, last seen incident)
+  view, graph, target and frame options, Coach options, incident filter, last seen incident)
   stay in `localStorage` under `nativeGuider.*`.
 
 ## Non-goals
@@ -94,6 +94,16 @@ The guider itself, including the Guiding Coach and the flight recorder, was deve
   matched on both words (`isNativeGuiderSelected`).
 - **Dec guide mode Drift** is reported as one `status.decDrift` object (direction, drift,
   safety valve), `null` outside that mode.
+- **The target plot's star view draws the points on the guide star at true scale.** The
+  guide star (often 5-9″) is far larger than the plot's usual scale, so the star view zooms
+  out to 1.5 × the median HFD (never less than the points need), and the comparison it
+  shows is guiding error against star size. It needs no backend support: the
+  `frame-info` primary crop, resampled around the lock position, and the steps' camera
+  offsets `dx`/`dy` share the frame's pixel coordinates, so the view keeps the camera's
+  axes (as the frame view) and shows RA/Dec as arrows from the calibration angles. Points
+  are drawn in lime with a dark outline and the star peaks at 55 % grey, so they stay
+  visible on its core; the newest point is the step of the frame shown. Off by default,
+  per viewer (`nativeGuider.target.starView`); no star while calibrating.
 
 ## Dimensions considered
 

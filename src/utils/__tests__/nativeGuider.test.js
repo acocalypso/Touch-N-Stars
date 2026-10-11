@@ -33,7 +33,9 @@ import {
   signedPulse,
   snrTone,
   starProfiles,
+  STAR_VIEW_PEAK_LEVEL,
   starTileImage,
+  starViewImage,
   stateTone,
   validateSettingValue,
   windowRms,
@@ -200,6 +202,54 @@ test('starTileImage stretches from the background to the peak and marks saturate
   assert.deepEqual([...clipped.rgba.slice(4, 8)], [248, 113, 113, 255]);
   assert.equal(clipped.saturated, 1);
   assert.equal(starTileImage(null, 16), null);
+});
+
+test('starViewImage centres the lock and caps the star below white', () => {
+  // 9 x 9 crop at (10, 20), one bright pixel at frame (14, 24), the crop's centre
+  const pixels = new Array(81).fill(100);
+  pixels[4 * 9 + 4] = 2100;
+  const crop = { x0: 10, y0: 20, width: 9, height: 9, pixels };
+  const brightest = (image) => {
+    let best = 0;
+    for (let i = 1; i < image.size * image.size; i++) {
+      if (image.rgba[i * 4] > image.rgba[best * 4]) best = i;
+    }
+    return { x: best % image.size, y: Math.floor(best / image.size), level: image.rgba[best * 4] };
+  };
+
+  const centred = starViewImage(crop, { lockX: 14, lockY: 24, radiusPx: 2, size: 40 });
+  const peak = brightest(centred);
+  assert.ok(Math.abs(peak.x - 19.5) <= 0.5 && Math.abs(peak.y - 19.5) <= 0.5);
+  assert.ok(peak.level <= Math.round(255 * STAR_VIEW_PEAK_LEVEL));
+  assert.ok(peak.level >= Math.round(255 * STAR_VIEW_PEAK_LEVEL) - 2);
+  // grey only, opaque
+  for (let i = 0; i < centred.size * centred.size; i++) {
+    const o = i * 4;
+    assert.equal(centred.rgba[o], centred.rgba[o + 1]);
+    assert.equal(centred.rgba[o], centred.rgba[o + 2]);
+    assert.equal(centred.rgba[o + 3], 255);
+  }
+  assert.equal(centred.saturated, false);
+
+  // the lock 1 px left of the star: the star is 1 px (10 output px) right of the centre
+  const offset = brightest(starViewImage(crop, { lockX: 13, lockY: 24, radiusPx: 2, size: 40 }));
+  assert.ok(Math.abs(offset.x - 29.5) <= 0.5 && Math.abs(offset.y - 19.5) <= 0.5);
+});
+
+test('starViewImage is black outside the crop and flags a saturated peak', () => {
+  const pixels = new Array(9).fill(100);
+  pixels[4] = 65000;
+  const crop = { x0: 0, y0: 0, width: 3, height: 3, pixels };
+  const image = starViewImage(crop, { lockX: 1, lockY: 1, radiusPx: 6, size: 12 });
+  assert.equal(image.saturated, true);
+  // the corner output pixel lies 5.5 px from the lock, outside the 3 x 3 crop
+  assert.deepEqual([...image.rgba.slice(0, 4)], [0, 0, 0, 255]);
+  // no red marking: the brightest pixel is grey
+  const o = (6 * 12 + 6) * 4;
+  assert.equal(image.rgba[o], image.rgba[o + 1]);
+  assert.equal(starViewImage(null, { lockX: 1, lockY: 1, radiusPx: 2 }), null);
+  assert.equal(starViewImage(crop, { lockX: null, lockY: 1, radiusPx: 2 }), null);
+  assert.equal(starViewImage(crop, { lockX: 1, lockY: 1, radiusPx: 0 }), null);
 });
 
 test('saturationLevel is 97 % of the full scale of the bit depth', () => {

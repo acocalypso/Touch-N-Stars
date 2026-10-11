@@ -41,7 +41,7 @@
         <NativeFrameView v-if="currentTab === 'frame'" :active="pageVisible" />
         <template v-else-if="currentTab === 'graph'">
           <NativeGuideGraph v-model:window="graphWindow" v-model:unit="graphUnit" />
-          <NativeTargetPlot :window="graphWindow" :unit="graphUnit" />
+          <NativeTargetPlot :window="graphWindow" :unit="graphUnit" :active="pageVisible" />
         </template>
         <NativeStatsCard v-else-if="currentTab === 'stats'" />
         <NativeCalibrationCard v-else-if="currentTab === 'calibration'" />
@@ -58,7 +58,7 @@
             <NativeFrameView :active="pageVisible" max-height="58vh" />
           </div>
           <div class="col-span-5 min-w-0 flex flex-col gap-3">
-            <NativeTargetPlot :window="graphWindow" :unit="graphUnit" />
+            <NativeTargetPlot :window="graphWindow" :unit="graphUnit" :active="pageVisible" />
             <NativeStatsCard />
           </div>
           <div class="col-span-12 min-w-0">

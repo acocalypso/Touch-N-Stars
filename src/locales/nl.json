@@ -1822,12 +1822,27 @@
               "text": "Sterren die voor het guiden worden gebruikt en sterren die in het beeld zijn gevonden. Bij multi-star guiding wordt de positie over de gebruikte sterren gemiddeld, wat de seeingruis verlaagt; meer is beter. Te zwakke, verzadigde of te dicht bij de rand staande sterren worden niet gebruikt."
             },
             "processing": {
-              "title": "Verw. – verwerkingstijd",
-              "text": "Hoe lang de guider nodig had om het laatste beeld te analyseren (sterren zoeken, posities, correctie). Dat moet ruim onder de belichtingstijd blijven; boven de helft wordt het oranje – een trage computer of een heel groot guidebeeld (binning helpt)."
+              "title": "Verw. – verwerkingstijd en beeldsnelheid",
+              "text": "Hoe lang de guider nodig had om het laatste beeld te analyseren (sterren zoeken, posities, correctie). Dat moet ruim onder de belichtingstijd blijven; boven de helft wordt het oranje – een trage computer of een heel groot guidebeeld (binning helpt).\n\nDaaronder de beeldsnelheid van de guidelus in beelden per seconde. Naast de belichting kost elk beeld het uitlezen en overdragen door de camera, de verwerking en de guidepulsen, dus ligt die lager dan de belichtingstijd alleen zou toelaten."
             },
             "rmsImage": {
               "title": "RMS / beeld – fout in opnamepixels"
             }
+          },
+          "timing": {
+            "fps": "Beeldsnelheid",
+            "median": "Mediaan",
+            "last": "Laatste",
+            "rows": {
+              "frameToPulse": "Beeld → eerste puls",
+              "cycle": "Hele cyclus",
+              "exposure": "Belichting",
+              "camera": "Uitlezen & overdracht",
+              "processing": "Verwerking",
+              "pulse": "Guidepulsen",
+              "rest": "Rest"
+            },
+            "note": "Medianen van de laatste {count} cycli, elk deel apart, dus de delen tellen maar ongeveer op tot de hele cyclus. Een cyclus loopt van de start van een belichting tot de start van de volgende. Uitlezen & overdracht is de tijd die de camera naast de belichting nodig heeft. Beeld → eerste puls loopt van de aankomst van het beeld tot de eerste guidepuls die aan de montering wordt doorgegeven, verwerking inbegrepen; de guidepulsen tellen tot de montering ze als klaar meldt. Zonder guidepulsen (bijvoorbeeld tijdens het loopen) tonen beide –. Rest omvat het loggen en de controle van de montering vóór de volgende belichting."
           },
           "periodicErrorChip": "Leert periodieke fout {percent} %",
           "periodicErrorChipHint": "Het Predictive-algoritme leert de periodieke fout van je RA-worm: het bepaalt de wormperiode na ongeveer vijf wormomwentelingen (die tellen op als de guiding stopt en weer start; na een zwenk, een sync of een meridiaanflip begint het opnieuw), of meteen uit de instelling voor het aantal tanden van het wormwiel, en controleert of de curve van omwenteling tot omwenteling gelijk blijft (twee omwentelingen met ingesteld aantal tanden). Het blijft ondertussen guiden.",
@@ -2198,6 +2213,10 @@
           "empty": "Nog geen statistieken. Ze verschijnen zodra guiding draait.",
           "window": "Venster",
           "windowFrames": "{count} beelden",
+          "windowHelp": {
+            "title": "Venster – de laatste 100 guidebeelden",
+            "text": "De statistieken van de laatste 100 guidebeelden, dus ze tonen hoe het guiden nu gaat: elk nieuw beeld duwt het oudste eruit, en vlak na de start van het guiden loopt het venster nog vol. Beelden die tijdens het stabiliseren zijn genomen (bijvoorbeeld na een dither) blijven in het venster, maar tellen niet mee in de waarden, dus het aantal onder de kop en in de rij Beelden kan lager zijn dan 100. Alleen de oscillatie-index gebruikt elk beeld. Ster kwijt en Verstreken tellen in beide kolommen de hele sessie.\n\nSessie omvat alles sinds het guiden voor het laatst is gestart."
+          },
           "session": "Sessie",
           "rmsTotal": "RMS totaal",
           "rmsRa": "RMS RA",

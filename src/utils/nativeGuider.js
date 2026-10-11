@@ -556,6 +556,82 @@ export function decDirection(status) {
   };
 }
 
+/** Guider states in which the guide loop takes frames, so its timing is current. */
+export const LOOP_STATES = [
+  'Looping',
+  'Selected',
+  'Calibrating',
+  'Guiding',
+  'Paused',
+  'LostLock',
+  'Reacquiring',
+];
+
+/**
+ * The guide loop's timing (AdvancedGuiderStatus.timing): null before the first cycle (or from a
+ * backend without it), else `{ fps, cycles, median, last }`. median (over the last `cycles`
+ * cycles) and last (the last cycle) are `{ cycleMs, exposureMs, cameraMs, processingMs,
+ * frameToPulseMs, pulseMs, otherMs }`, null where unknown: the last cycle's exposure, and
+ * frameToPulseMs and pulseMs without pulses (the backend reports pulseMs 0 then).
+ */
+export function guideTiming(status) {
+  const timing = status?.timing;
+  if (!timing || typeof timing !== 'object') return null;
+  const num = (value) =>
+    value === null || value === undefined || !Number.isFinite(Number(value)) ? null : Number(value);
+  const cycles = num(timing.cycles);
+  if (!(cycles > 0)) return null;
+  const part = (cycle, exposure, camera, processing, frameToPulse, pulse, other) => {
+    const toPulse = num(frameToPulse);
+    return {
+      cycleMs: num(cycle),
+      exposureMs: num(exposure),
+      cameraMs: num(camera),
+      processingMs: num(processing),
+      frameToPulseMs: toPulse,
+      pulseMs: toPulse === null ? null : num(pulse),
+      otherMs: num(other),
+    };
+  };
+  const fps = num(timing.fps);
+  return {
+    fps: fps > 0 ? fps : null,
+    cycles,
+    median: part(
+      timing.cycleMs,
+      timing.exposureMs,
+      timing.cameraMs,
+      timing.processingMs,
+      timing.frameToPulseMs,
+      timing.pulseMs,
+      timing.otherMs
+    ),
+    last: part(
+      timing.lastCycleMs,
+      null,
+      timing.lastCameraMs,
+      timing.lastProcessingMs,
+      timing.lastFrameToPulseMs,
+      timing.lastPulseMs,
+      timing.lastOtherMs
+    ),
+  };
+}
+
+/** A duration given in ms: '1.25 s' from a second on, '12 ms', '3.4 ms' below 10 ms; '–' when missing. */
+export function formatMs(ms) {
+  if (ms === null || ms === undefined || !Number.isFinite(Number(ms))) return '–';
+  const value = Number(ms);
+  if (value >= 1000) return `${fmt(value / 1000, 2)} s`;
+  return `${fmt(value, value < 10 ? 1 : 0)} ms`;
+}
+
+/** Frames per second: two decimals below 10 fps, else one; '–' when missing. */
+export function formatFps(fps) {
+  if (fps === null || fps === undefined || !Number.isFinite(Number(fps))) return '–';
+  return fmt(fps, Number(fps) < 10 ? 2 : 1);
+}
+
 const SETTINGS_TEXT_BASE = 'components.guider.native.settings';
 const ALERTS_TEXT_BASE = 'components.guider.native.alerts';
 

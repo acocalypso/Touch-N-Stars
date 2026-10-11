@@ -1822,12 +1822,27 @@
               "text": "Hvězdy použité k navádění a hvězdy nalezené na snímku. Při navádění více hvězdami se poloha průměruje přes použité hvězdy, což snižuje šum seeingu; čím víc, tím lépe. Příliš slabé, saturované nebo příliš blízko okraje hvězdy se nepoužívají."
             },
             "processing": {
-              "title": "Zprac. – doba zpracování",
-              "text": "Jak dlouho naváděč analyzoval poslední snímek (hledání hvězd, polohy, korekce). Má zůstat hluboko pod dobou expozice; nad polovinou zoranžoví – pomalý počítač nebo velmi velký naváděcí snímek (pomůže binning)."
+              "title": "Zprac. – doba zpracování a snímková frekvence",
+              "text": "Jak dlouho naváděč analyzoval poslední snímek (hledání hvězd, polohy, korekce). Má zůstat hluboko pod dobou expozice; nad polovinou zoranžoví – pomalý počítač nebo velmi velký naváděcí snímek (pomůže binning).\n\nPod ní snímková frekvence naváděcí smyčky ve snímcích za sekundu. Kromě expozice zabere každý snímek vyčtení a přenos z kamery, zpracování a naváděcí pulzy, proto je nižší, než by umožnila samotná doba expozice."
             },
             "rmsImage": {
               "title": "RMS / snímek – chyba v pixelech snímací kamery"
             }
+          },
+          "timing": {
+            "fps": "Snímková frekvence",
+            "median": "Medián",
+            "last": "Poslední",
+            "rows": {
+              "frameToPulse": "Snímek → první pulz",
+              "cycle": "Celý cyklus",
+              "exposure": "Expozice",
+              "camera": "Vyčtení a přenos",
+              "processing": "Zpracování",
+              "pulse": "Naváděcí pulzy",
+              "rest": "Zbytek"
+            },
+            "note": "Mediány posledních {count} cyklů, každá část zvlášť, takže části dávají dohromady celý cyklus jen přibližně. Cyklus trvá od začátku jedné expozice do začátku další. Vyčtení a přenos je čas, který kamera potřebuje navíc k expozici. Snímek → první pulz běží od příchodu snímku k prvnímu naváděcímu pulzu předanému montáži, včetně zpracování; naváděcí pulzy se počítají, dokud je montáž nenahlásí jako dokončené. Bez naváděcích pulzů (např. ve smyčce) ukazují obě hodnoty –. Zbytek zahrnuje logování a kontrolu montáže před další expozicí."
           },
           "periodicErrorChip": "Učí se periodickou chybu {percent} %",
           "periodicErrorChipHint": "Algoritmus Predictive se učí periodickou chybu šneku v RA: zjistí periodu šneku asi po pěti otáčkách šneku (sčítají se, i když se navádění zastaví a znovu spustí; po přesunu, synchronizaci nebo flipu přes poledník se začíná znovu), nebo hned z nastavení počtu zubů šnekového kola, a ověří, že křivka zůstává stejná od otáčky k otáčce (při nastavených zubech dvě otáčky). Mezitím stále navádí.",
@@ -2198,6 +2213,10 @@
           "empty": "Zatím žádná statistika. Objeví se po spuštění navádění.",
           "window": "Okno",
           "windowFrames": "{count} snímků",
+          "windowHelp": {
+            "title": "Okno – posledních 100 naváděcích snímků",
+            "text": "Statistika posledních 100 naváděcích snímků, takže ukazuje, jak navádění jde právě teď: každý nový snímek vytlačí nejstarší a hned po startu navádění se okno teprve plní. Snímky pořízené během ustalování (např. po ditheru) v okně zůstávají, ale do hodnot se nepočítají, takže počet pod nadpisem a v řádku Snímky může být nižší než 100. Jen index oscilace používá každý snímek. Hvězda ztracena a Uplynulo počítají v obou sloupcích celou relaci.\n\nRelace zahrnuje vše od posledního spuštění navádění."
+          },
           "session": "Relace",
           "rmsTotal": "RMS celkem",
           "rmsRa": "RMS RA",

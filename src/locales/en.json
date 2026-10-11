@@ -1867,12 +1867,27 @@
               "text": "Stars used for guiding and stars found in the frame. With multi-star guiding the position is averaged over the used stars, which reduces the seeing noise; more is better. Stars that are too faint, saturated or too close to the edge are not used."
             },
             "processing": {
-              "title": "Proc. – processing time",
-              "text": "How long the guider took to analyse the last frame (star detection, positions, correction). It should stay well below the exposure time; it turns orange above half of it – a slow computer or a very large guide frame (binning helps)."
+              "title": "Proc. – processing time and frame rate",
+              "text": "How long the guider took to analyse the last frame (star detection, positions, correction). It should stay well below the exposure time; it turns orange above half of it – a slow computer or a very large guide frame (binning helps).\n\nBelow it, the frame rate of the guide loop in frames per second. Besides the exposure, each frame takes the camera's readout and transfer, the processing and the guide pulses, so it is lower than the exposure time alone allows."
             },
             "rmsImage": {
               "title": "RMS / image – error in imaging pixels"
             }
+          },
+          "timing": {
+            "fps": "Frame rate",
+            "median": "Median",
+            "last": "Last",
+            "rows": {
+              "frameToPulse": "Frame → first pulse",
+              "cycle": "Whole cycle",
+              "exposure": "Exposure",
+              "camera": "Readout & transfer",
+              "processing": "Processing",
+              "pulse": "Guide pulses",
+              "rest": "Rest"
+            },
+            "note": "Medians of the last {count} cycles, each part on its own, so the parts add up to the whole cycle only roughly. A cycle runs from the start of one exposure to the start of the next. Readout & transfer is the time the camera needs beyond the exposure. Frame → first pulse runs from the arrival of the frame to the first guide pulse handed to the mount, processing included; the guide pulses count until the mount reports them done. Without guide pulses (while looping, for example) both show –. Rest covers logging and the mount check before the next exposure."
           },
           "periodicErrorChip": "Learning periodic error {percent} %",
           "periodicErrorChipHint": "Predictive guiding is learning the periodic error of your RA worm: it finds the worm period after about five worm turns (they add up while guiding stops and starts; a slew, sync or meridian flip starts over), or at once from the worm wheel teeth setting, and checks that the curve stays the same from turn to turn (over two turns with the teeth set). It guides all the while.",
@@ -2243,6 +2258,10 @@
           "empty": "No statistics yet. They appear once guiding runs.",
           "window": "Window",
           "windowFrames": "{count} frames",
+          "windowHelp": {
+            "title": "Window – the last 100 guide frames",
+            "text": "The statistics of the last 100 guide frames, so they show how guiding goes right now: each new frame pushes out the oldest one, and right after guiding starts the window is still filling up. Frames taken while settling (after a dither, for example) stay in the window but are left out of the values, so the count under the heading and in the Frames row can be lower than 100. Only the oscillation index uses every frame. Star lost and Elapsed count the whole session in both columns.\n\nSession covers everything since guiding last started."
+          },
           "session": "Session",
           "rmsTotal": "RMS total",
           "rmsRa": "RMS RA",

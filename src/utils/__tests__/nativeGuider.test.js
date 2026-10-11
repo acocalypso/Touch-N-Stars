@@ -12,6 +12,9 @@ import {
   appendSteps,
   canPerform,
   decDirection,
+  formatFps,
+  formatMs,
+  guideTiming,
   groupSettings,
   alertText,
   framePointFromTap,
@@ -433,6 +436,67 @@ test('decDirection reports the Dec direction of the Drift mode only', () => {
     }).tone,
     'warn'
   );
+});
+
+test('guideTiming reads the guide loop timing of the status', () => {
+  assert.equal(guideTiming(null), null);
+  assert.equal(guideTiming({ timing: null }), null, 'before the first cycle');
+  assert.equal(guideTiming({}), null, 'backend without timing');
+  assert.equal(guideTiming({ timing: { fps: 0.4, cycles: 0 } }), null, 'no cycle yet');
+
+  const timing = guideTiming({
+    timing: {
+      fps: 0.42,
+      cycles: 20,
+      cycleMs: 2380,
+      exposureMs: 2000,
+      cameraMs: 310,
+      processingMs: 12.4,
+      frameToPulseMs: 14.1,
+      pulseMs: 35,
+      otherMs: 5,
+      lastCycleMs: 2400,
+      lastCameraMs: 320,
+      lastProcessingMs: 13,
+      lastFrameToPulseMs: null,
+      lastPulseMs: 0,
+      lastOtherMs: 6,
+    },
+  });
+  assert.equal(timing.fps, 0.42);
+  assert.equal(timing.cycles, 20);
+  assert.deepEqual(timing.median, {
+    cycleMs: 2380,
+    exposureMs: 2000,
+    cameraMs: 310,
+    processingMs: 12.4,
+    frameToPulseMs: 14.1,
+    pulseMs: 35,
+    otherMs: 5,
+  });
+  // The last cycle sent no pulse: its pulse time is unknown, not 0 ms; its exposure isn't reported.
+  assert.deepEqual(timing.last, {
+    cycleMs: 2400,
+    exposureMs: null,
+    cameraMs: 320,
+    processingMs: 13,
+    frameToPulseMs: null,
+    pulseMs: null,
+    otherMs: 6,
+  });
+
+  assert.equal(guideTiming({ timing: { fps: 0, cycles: 1, cycleMs: 0 } }).fps, null);
+});
+
+test('formatMs and formatFps keep short durations and low rates readable', () => {
+  assert.equal(formatMs(null), '–');
+  assert.equal(formatMs(3.44), '3.4 ms');
+  assert.equal(formatMs(14.1), '14 ms');
+  assert.equal(formatMs(999), '999 ms');
+  assert.equal(formatMs(2380), '2.38 s');
+  assert.equal(formatFps(undefined), '–');
+  assert.equal(formatFps(0.4202), '0.42');
+  assert.equal(formatFps(12.34), '12.3');
 });
 
 test('settingOptionLabel translates known options and keeps the others', () => {

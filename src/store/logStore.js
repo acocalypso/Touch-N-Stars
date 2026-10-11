@@ -8,6 +8,16 @@ import { useFramingStore } from '@/store/framingStore';
 import { findLatestSolvedRotation, newestLogTime } from '@/utils/plateSolveLog';
 
 const SOLVE_MAX_AGE_MS = 10 * 60 * 1000;
+const LOG_POLL_INTERVAL_MS = 2000;
+
+// Cheap identity of a log window: the backend returns the newest N entries, so
+// an unchanged window has the same length and the same entries at both ends.
+function logWindowSignature(logs) {
+  if (!Array.isArray(logs) || logs.length === 0) return '';
+  const first = logs[0];
+  const last = logs[logs.length - 1];
+  return `${logs.length}|${first?.timestamp}|${first?.message}|${last?.timestamp}|${last?.message}`;
+}
 
 export const useLogStore = defineStore('LogStore', {
   state: () => ({
@@ -64,6 +74,12 @@ export const useLogStore = defineStore('LogStore', {
 
         // Logs vom Backend holen (z.B. die letzten 500)
         const logs = await apiService.getLastLogs('500');
+        // Most polls return the same window; skipping it spares the reactive
+        // array swap (and every watcher on it) plus the scans below. Compared
+        // against the stored window, not a cached value, so a reset of LogsInfo
+        // (clearAllStates) always lets the next poll through.
+        const signature = logWindowSignature(logs);
+        if (signature && signature === logWindowSignature(this.LogsInfo.logs)) return;
         this.LogsInfo.logs = logs;
 
         // Prüfe auf neue ERROR/WARNING Meldungen
@@ -207,7 +223,7 @@ export const useLogStore = defineStore('LogStore', {
 
     startFetchingLog() {
       if (!this._logPoller) {
-        this._logPoller = createPoller(() => this.fetchLogInfos(), 1000);
+        this._logPoller = createPoller(() => this.fetchLogInfos(), LOG_POLL_INTERVAL_MS);
       }
       this._logPoller.start();
     },

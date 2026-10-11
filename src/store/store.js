@@ -27,6 +27,7 @@ import websocketTppaService from '@/services/websocketTppa';
 import { getDeviceDateTimePayload, parsePinsTimeToSeconds } from '@/utils/pinsTimeUtils';
 import { createPoller } from '@/utils/poller';
 import { abortInFlightRequests } from '@/utils/httpLifecycle';
+import { takeProfileStale } from '@/services/api/profileStaleness';
 
 // Serialized snapshots of the last payload written per state key (module-level,
 // deliberately non-reactive). Used by setInfoIfChanged() so the 2s poll only
@@ -42,6 +43,12 @@ const PINS_RECHECK_INTERVAL_MS = 15000;
 // NINA restart and therefore a reconnect (clearAllStates) - so a negative probe is only
 // repeated rarely, as a safety net for a transient wrong answer.
 const SEQUENCE_EDITOR_RECHECK_INTERVAL_MS = 60000;
+
+// The active profile is ~20 kB and was the largest payload of the 2s poll while
+// rarely changing. Writes from the app mark it stale (profileStaleness.js), so
+// this interval only bounds how long a change made elsewhere (NINA UI, another
+// client) takes to show up.
+const PROFILE_REFRESH_INTERVAL_MS = 10000;
 
 // Initial profileInfo shape. Also used by switchBackend() to drop the previous
 // instance's profile (readers like capturePhoto's SnapShotControlSettings.Save
@@ -169,6 +176,7 @@ export const apiStore = defineStore('store', {
     isTimeSynced: false,
     intervalIdGraph: null,
     lastEventHistoryFetch: 0,
+    lastProfileFetch: 0,
     profileInfo: defaultProfileInfo(),
     cameraInfo: { Connected: false, IsExposing: false, BinningModes: [], ReadoutModes: [] },
     // PINS' guide camera slot (/equipment/guidecamera). Stays disconnected against official NINA.
@@ -619,8 +627,10 @@ export const apiStore = defineStore('store', {
         console.error('Error fetching information:', error);
       }
       if (isStale()) return;
-      await this.fetchProfilInfos();
-      if (isStale()) return;
+      if (takeProfileStale() || Date.now() - this.lastProfileFetch >= PROFILE_REFRESH_INTERVAL_MS) {
+        await this.fetchProfilInfos();
+        if (isStale()) return;
+      }
       //when the backend is accessible again close modal
       if (this.isBackendReachable && !this.closeErrorModal) {
         this.closeErrorModal = true;
@@ -655,6 +665,7 @@ export const apiStore = defineStore('store', {
       this.apiPort = null;
       this.attemptsToConnect = 0;
       this.lastEventHistoryFetch = 0;
+      this.lastProfileFetch = 0;
       this.isPINS = false;
       this.isPinsCheckDone = false;
       this.pinsCheckResolvedOnce = false;
@@ -1034,6 +1045,7 @@ export const apiStore = defineStore('store', {
         const profileInfoResponse = await apiService.profileAction('show?active=true');
 
         if (profileInfoResponse && profileInfoResponse.Response) {
+          this.lastProfileFetch = Date.now();
           // imageSavePath and existingEquipmentList are derived purely from the
           // profile, so they only need recomputing when the profile changed.
           if (this.setInfoIfChanged('profileInfo', profileInfoResponse.Response)) {

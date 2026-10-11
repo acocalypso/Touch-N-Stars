@@ -113,6 +113,44 @@ export default {
     }
   },
 
+  //-------------------------------------  Raw image data (plugin server) ----------------------
+  // Real 16-bit sensor data for the histogram and the client-side stretch. The body is the
+  // binary container parsed by src/utils/rawImage/parseRawImage.js.
+  async getRawPreparedImage(maxDim, signal) {
+    const { API_URL } = getUrls();
+    const response = await axios.get(`${API_URL}raw-image/prepared`, {
+      params: { maxDim },
+      responseType: 'arraybuffer',
+      signal,
+    });
+    return response.data;
+  },
+
+  /**
+   * A history entry is addressed by its file name where the backend reports one (PINS fork),
+   * otherwise by its index plus mean/median, which the plugin checks against the saved frame.
+   */
+  async getRawHistoryImage({ filename, index, mean, median }, maxDim, signal) {
+    const { API_URL } = getUrls();
+    const params = filename ? { filename, maxDim } : { index, mean, median, maxDim };
+    const response = await axios.get(`${API_URL}raw-image/history`, {
+      params,
+      responseType: 'arraybuffer',
+      signal,
+    });
+    return response.data;
+  },
+
+  async getRawLivestackImage(target, filter, maxDim, signal) {
+    const { API_URL } = getUrls();
+    const response = await axios.get(`${API_URL}raw-image/livestack`, {
+      params: { target, filter, maxDim },
+      responseType: 'arraybuffer',
+      signal,
+    });
+    return response.data;
+  },
+
   async imageAction(index, action) {
     const { BASE_URL } = getUrls();
     return simpleGetRequest(`${BASE_URL}/image/${index}/${action}`);

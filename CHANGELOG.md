@@ -5,10 +5,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-##  unreleased
+## unreleased
 
 ### Changed
 
+- Camera, image history, Livestack and flat assistant: Histogram and stretch now work on the real 16-bit raw data, with exact statistics and separate RGB channels (needs the updated Touch'N'Stars plugin).
 - Atlas: Wide views use the Allsky preview when it meets display resolution, reducing detail downloads. WebGL tiles decode directly as ImageBitmaps, and the shared survey cache grows to 4096 resources.
 - Native Guider (PINS): An info button next to the Window column of the statistics explains which guide frames it covers.
 
@@ -24,7 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Flat assistant (PINS): With a DSLR or mirrorless camera saving native RAW (e.g. a 14-bit NEF), the histogram bar and its tolerance colour showed the measured brightness four times too low, because they scaled against the camera's 16-bit profile setting. They now use the bit depth of the measured image when PINS reports it, otherwise the camera's. Multi mode's too dim and too bright results now follow the same scale instead of always assuming 16 bit.
 
-## [App6.5.0 - beta 1] -  2026-10-09
+## [App6.5.0 - beta 1] - 2026-10-09
 
 ### Added
 

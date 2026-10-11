@@ -23,16 +23,11 @@
 <script setup>
 import { ref, computed, watch, onMounted, onBeforeUnmount } from 'vue';
 import { useFlatassistantStore } from '@/store/flatassistantStore';
-import { apiStore } from '@/store/store';
 
 const flatsStore = useFlatassistantStore();
-const store = apiStore();
 const canvasEl = ref(null);
 
-const MAX_ADU = computed(() => {
-  const bits = store.cameraInfo?.BitDepth;
-  return bits > 0 ? (1 << bits) - 1 : 65535;
-});
+const MAX_ADU = computed(() => flatsStore.maxADU);
 const PADDING = 10;
 
 const inTolerance = computed(() => {

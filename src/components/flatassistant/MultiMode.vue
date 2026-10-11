@@ -652,7 +652,7 @@ async function startMultiMode() {
     } else {
       // Try to infer dim vs bright from last ADU vs per-filter target
       const lastADU = flatsStore.currentADU;
-      const MAX_ADU = 65535;
+      const MAX_ADU = flatsStore.maxADU;
       const targetADU = (cfg.histogramMean / 100) * MAX_ADU;
       const toleranceADU = (cfg.meanTolerance / 100) * MAX_ADU;
       if (lastADU !== null && lastADU < targetADU - toleranceADU) {

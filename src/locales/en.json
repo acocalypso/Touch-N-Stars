@@ -2260,7 +2260,6 @@
           "title": "Statistics",
           "empty": "No statistics yet. They appear once guiding runs.",
           "window": "Window",
-          "windowFrames": "{count} frames",
           "windowHelp": {
             "title": "Window – the last 100 guide frames",
             "text": "The statistics of the last 100 guide frames, so they show how guiding goes right now: each new frame pushes out the oldest one, and right after guiding starts the window is still filling up. Frames taken while settling (after a dither, for example) stay in the window but are left out of the values, so the count under the heading and in the Frames row can be lower than 100. Only the oscillation index uses every frame. Star lost and Elapsed count the whole session in both columns.\n\nSession covers everything since guiding last started."

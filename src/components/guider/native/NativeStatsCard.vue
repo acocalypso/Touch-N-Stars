@@ -1,29 +1,27 @@
 <template>
   <div class="tns-card flex flex-col gap-2 min-w-0">
-    <h3 class="text-sm font-semibold text-content">
-      {{ t('components.guider.native.stats.title') }}
-    </h3>
-
-    <div v-if="!windowStats && !sessionStats" class="py-4 text-center text-xs text-content-muted">
-      {{ t('components.guider.native.stats.empty') }}
-    </div>
+    <template v-if="!windowStats && !sessionStats">
+      <h3 class="text-sm font-semibold text-content">
+        {{ t('components.guider.native.stats.title') }}
+      </h3>
+      <div class="py-4 text-center text-xs text-content-muted">
+        {{ t('components.guider.native.stats.empty') }}
+      </div>
+    </template>
 
     <div v-else class="stats-grid text-xs">
-      <!-- Header row -->
-      <div></div>
-      <div class="col-head">
+      <!-- Header row: the title shares its line with the column heads (frame counts: Frames row) -->
+      <h3 class="text-sm font-semibold text-content truncate">
+        {{ t('components.guider.native.stats.title') }}
+      </h3>
+      <div class="col-head flex items-center justify-end gap-1.5">
         <!-- Which frames the window holds is not obvious from its name -->
-        <div class="flex items-center justify-end gap-1.5">
-          <span class="truncate">{{ t('components.guider.native.stats.window') }}</span>
-          <NativeHelpTip
-            :title="t('components.guider.native.stats.windowHelp.title')"
-            :text="t('components.guider.native.stats.windowHelp.text')"
-            data-testid="native-guider-stats-window-help"
-          />
-        </div>
-        <span v-if="windowFrames" class="col-sub" data-testid="native-guider-stats-window-frames">{{
-          t('components.guider.native.stats.windowFrames', { count: windowFrames })
-        }}</span>
+        <span class="truncate">{{ t('components.guider.native.stats.window') }}</span>
+        <NativeHelpTip
+          :title="t('components.guider.native.stats.windowHelp.title')"
+          :text="t('components.guider.native.stats.windowHelp.text')"
+          data-testid="native-guider-stats-window-help"
+        />
       </div>
       <div class="col-head">{{ t('components.guider.native.stats.session') }}</div>
 
@@ -200,11 +198,6 @@ const predictiveHelp = computed(() =>
 
 const windowStats = computed(() => store.windowStats);
 const sessionStats = computed(() => store.sessionStats);
-// Frames the rolling window covers (up to the configured window size).
-const windowFrames = computed(() => {
-  const n = windowStats.value?.frames;
-  return missing(n) || Number(n) <= 0 ? null : Number(n);
-});
 const learning = computed(() => learningAxes(store.status));
 
 // Only while guiding: the direction belongs to the running session.
@@ -382,10 +375,6 @@ const rows = [
 
 .col-head {
   @apply text-right text-[10px] font-bold uppercase tracking-wider text-content-faint truncate;
-}
-
-.col-sub {
-  @apply block truncate font-normal normal-case tracking-normal;
 }
 
 .row-label {

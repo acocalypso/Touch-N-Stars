@@ -2256,7 +2256,6 @@
           "title": "Estadístiques",
           "empty": "Encara no hi ha estadístiques. Apareixen quan el guiatge s'executa.",
           "window": "Finestra",
-          "windowFrames": "{count} fotogrames",
           "windowHelp": {
             "title": "Finestra – els últims 100 fotogrames de guiatge",
             "text": "Les estadístiques dels últims 100 fotogrames de guiatge, per això mostren com va el guiatge ara mateix: cada fotograma nou en fa sortir el més antic, i just després d'iniciar el guiatge la finestra encara s'està omplint. Els fotogrames presos durant l'estabilització (per exemple, després d'un dither) es queden a la finestra però no compten en els valors, de manera que el recompte sota l'encapçalament i a la fila Fotogrames pot ser inferior a 100. Només l'índex d'oscil·lació fa servir tots els fotogrames. Estrella perduda i Temps transcorregut compten tota la sessió a les dues columnes.\n\nSessió cobreix tot des de l'últim inici del guiatge."

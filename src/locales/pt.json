@@ -2215,7 +2215,6 @@
           "title": "Estatísticas",
           "empty": "Ainda sem estatísticas. Aparecem quando a guiagem estiver ativa.",
           "window": "Janela",
-          "windowFrames": "{count} imagens",
           "windowHelp": {
             "title": "Janela – as últimas 100 imagens de guiagem",
             "text": "As estatísticas das últimas 100 imagens de guiagem, por isso mostram como a guiagem está a correr neste momento: cada nova imagem empurra para fora a mais antiga, e logo após o início da guiagem a janela ainda está a encher. As imagens tiradas durante a estabilização (por exemplo, após um dither) ficam na janela mas não entram nos valores, por isso o número sob o cabeçalho e na linha Imagens pode ser inferior a 100. Só o índice de oscilação usa todas as imagens. Estrela perdida e Decorrido contam a sessão inteira em ambas as colunas.\n\nSessão abrange tudo desde o último início da guiagem."

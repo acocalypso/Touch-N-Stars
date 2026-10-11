@@ -3456,7 +3456,11 @@
         "pixel_size": "Rozmiar piksela (μm)",
         "width": "Szerokość (px)",
         "height": "Wysokość (px)",
-        "focal_length": "Ogniskowa (mm)"
+        "focal_length": "Ogniskowa (mm)",
+        "bit_depth": "Głębia bitowa",
+        "bit_depth_help": "Głębia bitowa, którą N.I.N.A. przyjmuje dla danych z kamery. Ma znaczenie dla kamer, które same jej nie zgłaszają, np. lustrzanek, i wpływa na statystyki, rozciąganie i nasycenie. Nie zmienia plików RAW zapisywanych przez aparat.",
+        "bit_scaling": "Skalowanie bitowe",
+        "bit_scaling_help": "Skaluje dane z kamery do 16 bitów, aby obrazy z kamer o mniejszej głębi bitowej wykorzystywały pełny zakres wartości."
       },
       "at_target_temp": "Przy temperaturze docelowej",
       "temperature_setpoint": "Zadana temperatura (°C)",
@@ -4032,21 +4036,38 @@
     },
     "helpers": {
       "imageModal": {
-        "no_image": "Brak dostępnych danych obrazu"
+        "no_image": "Brak dostępnych danych obrazu",
+        "histogram": "Pokaż histogram"
       },
       "histogram": {
         "blackPoint": "Czarny punkt",
+        "midtones": "Półcienie",
         "whitePoint": "Biały punkt",
-        "gamma": "Gamma",
         "mean": "Średnia",
         "median": "Mediana",
-        "stdDev": "Odchylenie standardowe",
+        "mad": "MAD",
         "min": "Min",
         "max": "Maks",
+        "clipped": "Obcięte",
+        "pixelCount": "{count} pikseli ma tę wartość",
         "stars": "Gwiazdy",
         "hfr": "HFR",
+        "auto": "Auto",
+        "linear": "Liniowo",
         "reset": "Resetuj",
-        "noSaveHint": "Statystyki są obliczane tylko dla zapisanych obrazów",
+        "linked": "Połączone",
+        "linkedHint": "Rozciągaj wszystkie kanały kolorów razem, z tłem wyrównanym do neutralnej szarości",
+        "log": "Log",
+        "fullRange": "Pełny zakres",
+        "sourceInfo": "Surowe dane {width} × {height} px, {bitDepth} bit",
+        "loading": "Wczytywanie surowych danych obrazu…",
+        "unsupported": "Histogram surowych danych wymaga nowszej wtyczki Touch'N'Stars.",
+        "noImage": "Brak obrazu.",
+        "fileNotFound": "Plik obrazu nie jest już dostępny.",
+        "livestackSaveDisabled": "Włącz \"Save stacked lights\" we wtyczce Livestack, aby zobaczyć histogram stosu.",
+        "livestackRgbUnsupported": "Surowe dane są dostępne tylko dla kolorowych stosów z kamery OSC.",
+        "error": "Nie udało się wczytać surowych danych obrazu.",
+        "noSaveHint": "Gwiazdy i HFR są obliczane tylko dla zapisanych obrazów",
         "enableSave": "Włącz zapisywanie"
       },
       "zoomableImage": {

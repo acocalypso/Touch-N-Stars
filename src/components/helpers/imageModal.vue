@@ -34,13 +34,13 @@
           <TrashIcon class="h-6" />
         </button>
 
-        <!-- Histogram Toggle Button -->
+        <!-- Histogram Toggle Button (only where raw data exists for the image) -->
         <button
-          v-if="imageData"
+          v-if="imageData && rawSource"
           @click="showHistogram = !showHistogram"
           class="w-10 h-10 bg-gray-800/90 hover:bg-gray-700 text-white rounded-lg shadow-lg flex items-center justify-center transition-colors backdrop-blur-sm"
           :class="{ 'bg-cyan-700 hover:bg-cyan-600': showHistogram }"
-          title="Histogram anzeigen"
+          :title="$t('components.helpers.imageModal.histogram')"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -111,7 +111,7 @@
           }"
         >
           <img
-            :src="getStretchSettings().stretchedImageData || imageData"
+            :src="displayUrl"
             ref="image"
             @load="onImageLoad"
             class="w-full h-full object-contain cursor-move"
@@ -122,20 +122,10 @@
 
       <!-- Histogram Overlay -->
       <div
-        v-if="showHistogram && imageData"
-        class="absolute bottom-4 left-4 right-4 z-70 bg-gray-900/80 rounded-lg p-3 backdrop-blur-sm"
+        v-if="showHistogram && imageData && rawSource"
+        class="absolute bottom-4 left-4 right-4 z-70 max-h-[60%] overflow-y-auto"
       >
-        <HistogramChart
-          :data="getHistogram()"
-          height="100px"
-          :showStats="false"
-          :blackPoint="getStretchSettings().blackPoint"
-          :midPoint="getStretchSettings().midPoint"
-          :whitePoint="getStretchSettings().whitePoint"
-          :statistics="statistics"
-          @levels-changed="onLevelsChanged"
-          @levels-reset="onLevelsReset"
-        />
+        <HistogramChart :imageUrl="imageData" height="100px" :extraStats="statistics" />
       </div>
     </div>
   </div>
@@ -150,6 +140,7 @@ import BadButton from './BadButton.vue';
 import HistogramChart from '@/components/helpers/HistogramChart.vue';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useHistogramStore } from '@/store/histogramStore';
+import { useRawStretch } from '@/composables/useRawStretch';
 
 const settingsStore = useSettingsStore();
 const histogramStore = useHistogramStore();
@@ -183,6 +174,11 @@ const props = defineProps({
   deletable: {
     type: Boolean,
     default: false,
+  },
+  // Raw-data source for histogram and stretch (see histogramStore); null hides the histogram.
+  rawSource: {
+    type: Object,
+    default: null,
   },
 });
 
@@ -256,52 +252,27 @@ const onImageLoad = () => {
   });
 };
 
+const { displayUrl } = useRawStretch(
+  () => props.imageData,
+  () => props.rawSource,
+  showHistogram,
+  { releaseOnChange: true, releaseOnUnmount: true }
+);
+
 watch(
   () => props.showModal,
   (newVal) => {
     if (!newVal) {
       destroyPanzoom();
+      // Closing drops the stretch and the raw data; reopening starts from the original.
+      histogramStore.clearImageCache(props.imageData);
+      showHistogram.value = false;
     }
   }
 );
 
-watch([() => props.imageData, showHistogram], ([imageData, panelOpen]) => {
-  if (imageData && panelOpen) {
-    histogramStore.requestHistogram(imageData);
-  }
-});
-
-const getHistogram = () => {
-  if (!props.imageData) return null;
-  return histogramStore.getHistogram(props.imageData);
-};
-
-const getStretchSettings = () => {
-  if (!props.imageData) {
-    return {
-      blackPoint: 0,
-      whitePoint: 255,
-      midPoint: 127,
-      stretchedImageData: null,
-    };
-  }
-  return histogramStore.getStretchSettings(props.imageData);
-};
-
-const onLevelsChanged = async (event) => {
-  if (!props.imageData) return;
-  const { blackPoint, whitePoint, midPoint } = event;
-  await histogramStore.applyStretch(props.imageData, blackPoint, whitePoint, midPoint);
-};
-
-const onLevelsReset = () => {
-  if (!props.imageData) return;
-  histogramStore.resetStretch(props.imageData);
-};
-
 onBeforeUnmount(() => {
   destroyPanzoom();
-  histogramStore.resetStretch(props.imageData);
 });
 </script>
 

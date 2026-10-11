@@ -3503,7 +3503,11 @@
         "pixel_size": "Mida del píxel (μm)",
         "width": "Amplada (px)",
         "height": "Alçada (px)",
-        "focal_length": "Longitud focal (mm)"
+        "focal_length": "Longitud focal (mm)",
+        "bit_depth": "Profunditat de bits",
+        "bit_depth_help": "La profunditat de bits que N.I.N.A. suposa per a les dades de la càmera. És important per a càmeres que no la informen, com les rèflex, i afecta les estadístiques, l'estirament i la saturació. No modifica els fitxers RAW que desa la càmera.",
+        "bit_scaling": "Escalat de bits",
+        "bit_scaling_help": "Escala les dades de la càmera a 16 bits perquè les imatges de càmeres amb menys profunditat de bits facin servir tot el rang de valors."
       },
       "at_target_temp": "A la temperatura objectiu",
       "temperature_setpoint": "Temperatura configurada (°C)",
@@ -4078,21 +4082,38 @@
     },
     "helpers": {
       "imageModal": {
-        "no_image": "Cap dada d'imatge disponible"
+        "no_image": "Cap dada d'imatge disponible",
+        "histogram": "Mostra l'histograma"
       },
       "histogram": {
         "blackPoint": "Punt negre",
+        "midtones": "Tons mitjans",
         "whitePoint": "Punt blanc",
-        "gamma": "Gamma",
         "mean": "Mitjana",
         "median": "Mediana",
-        "stdDev": "Desv. Est.",
+        "mad": "MAD",
         "min": "Mín",
         "max": "Màx",
+        "clipped": "Retallat",
+        "pixelCount": "{count} píxels tenen aquest valor",
         "stars": "Estrelles",
         "hfr": "HFR",
+        "auto": "Auto",
+        "linear": "Lineal",
         "reset": "Restableix",
-        "noSaveHint": "Les estadístiques només es calculen per a imatges desades",
+        "linked": "Enllaçat",
+        "linkedHint": "Estira tots els canals de color junts, amb els fons igualats a gris neutre",
+        "log": "Log",
+        "fullRange": "Escala completa",
+        "sourceInfo": "Dades en brut {width} × {height} px, {bitDepth} bits",
+        "loading": "Carregant les dades en brut de la imatge…",
+        "unsupported": "L'histograma de les dades en brut necessita un connector Touch'N'Stars més recent.",
+        "noImage": "Encara no hi ha cap imatge.",
+        "fileNotFound": "El fitxer d'imatge ja no està disponible.",
+        "livestackSaveDisabled": "Activa \"Save stacked lights\" al connector Livestack per veure l'histograma de l'apilament.",
+        "livestackRgbUnsupported": "Les dades en brut només estan disponibles per a apilaments en color d'una càmera OSC.",
+        "error": "No s'han pogut carregar les dades en brut de la imatge.",
+        "noSaveHint": "Les estrelles i l'HFR només es calculen per a imatges desades",
         "enableSave": "Activa el desament"
       },
       "zoomableImage": {

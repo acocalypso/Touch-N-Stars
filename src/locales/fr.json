@@ -3456,7 +3456,11 @@
         "pixel_size": "Taille de pixel (μm)",
         "width": "Largeur (px)",
         "height": "Hauteur (px)",
-        "focal_length": "Longueur focale (mm)"
+        "focal_length": "Longueur focale (mm)",
+        "bit_depth": "Profondeur de bits",
+        "bit_depth_help": "La profondeur de bits que N.I.N.A. suppose pour les données de la caméra. Elle compte pour les caméras qui ne la signalent pas elles-mêmes, comme les reflex, et influence les statistiques, l'étirement et la saturation. Elle ne modifie pas les fichiers RAW enregistrés par la caméra.",
+        "bit_scaling": "Mise à l'échelle des bits",
+        "bit_scaling_help": "Met les données de la caméra à l'échelle 16 bits afin que les images des caméras de profondeur inférieure utilisent toute la plage de valeurs."
       },
       "at_target_temp": "À la température cible",
       "temperature_setpoint": "Point de consigne de température (°C)",
@@ -4032,21 +4036,38 @@
     },
     "helpers": {
       "imageModal": {
-        "no_image": "Aucune donnée d'image disponible"
+        "no_image": "Aucune donnée d'image disponible",
+        "histogram": "Afficher l'histogramme"
       },
       "histogram": {
         "blackPoint": "Point noir",
+        "midtones": "Tons moyens",
         "whitePoint": "Point blanc",
-        "gamma": "Gamma",
         "mean": "Moyenne",
         "median": "Médian",
-        "stdDev": "Écart-type",
+        "mad": "MAD",
         "min": "Min.",
         "max": "Max.",
+        "clipped": "Écrêté",
+        "pixelCount": "{count} pixels ont cette valeur",
         "stars": "Étoiles",
         "hfr": "HFR",
+        "auto": "Auto",
+        "linear": "Linéaire",
         "reset": "Réinitialiser",
-        "noSaveHint": "Les statistiques ne sont calculées que pour les images enregistrées",
+        "linked": "Lié",
+        "linkedHint": "Étirer tous les canaux de couleur ensemble, fonds alignés sur un gris neutre",
+        "log": "Log",
+        "fullRange": "Plage complète",
+        "sourceInfo": "Données brutes {width} × {height} px, {bitDepth} bits",
+        "loading": "Chargement des données brutes de l'image…",
+        "unsupported": "L'histogramme des données brutes nécessite un plugin Touch'N'Stars plus récent.",
+        "noImage": "Aucune image pour l'instant.",
+        "fileNotFound": "Le fichier image n'est plus disponible.",
+        "livestackSaveDisabled": "Activez \"Save stacked lights\" dans le plugin Livestack pour voir l'histogramme de l'empilement.",
+        "livestackRgbUnsupported": "Les données brutes ne sont disponibles que pour les empilements couleur d'une caméra OSC.",
+        "error": "Les données brutes de l'image n'ont pas pu être chargées.",
+        "noSaveHint": "Les étoiles et la HFR ne sont calculées que pour les images enregistrées",
         "enableSave": "Activer l'enregistrement"
       },
       "zoomableImage": {

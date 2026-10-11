@@ -153,6 +153,7 @@
       :index="index"
       :statistics="stats"
       :deletable="deletable"
+      :rawSource="rawSource"
       @close="closeModal"
       @delete="onModalDelete"
     />
@@ -356,6 +357,17 @@ function closeModal() {
 function isValidNumber(value) {
   return typeof value === 'number' && !isNaN(value);
 }
+
+// Raw data for histogram and stretch. The PINS fork names the file; the official Advanced
+// API only has the position, which the plugin confirms against the entry's mean and median.
+const rawSource = computed(() => {
+  const stats = props.stats;
+  if (stats?.Filename) return { kind: 'history', filename: stats.Filename };
+  if (isValidNumber(stats?.Mean) && isValidNumber(stats?.Median)) {
+    return { kind: 'history', index: props.index, mean: stats.Mean, median: stats.Median };
+  }
+  return null;
+});
 
 function formatDate(dateStr) {
   const dateObject = new Date(dateStr);

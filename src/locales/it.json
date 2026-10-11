@@ -3456,7 +3456,11 @@
         "pixel_size": "Dimensione pixel (μm)",
         "width": "Larghezza (px)",
         "height": "Altezza (px)",
-        "focal_length": "Lunghezza focale (mm)"
+        "focal_length": "Lunghezza focale (mm)",
+        "bit_depth": "Profondità di bit",
+        "bit_depth_help": "La profondità di bit che N.I.N.A. assume per i dati della camera. È importante per le camere che non la comunicano, come le reflex, e influisce su statistiche, stretch e saturazione. Non modifica i file RAW salvati dalla camera.",
+        "bit_scaling": "Scalatura dei bit",
+        "bit_scaling_help": "Scala i dati della camera a 16 bit, così le immagini di camere con profondità di bit inferiore usano l'intero intervallo di valori."
       },
       "at_target_temp": "A temperatura target",
       "temperature_setpoint": "Setpoint temperatura (°C)",
@@ -4032,21 +4036,38 @@
     },
     "helpers": {
       "imageModal": {
-        "no_image": "Nessun dati sull'immagine disponibile"
+        "no_image": "Nessun dati sull'immagine disponibile",
+        "histogram": "Mostra istogramma"
       },
       "histogram": {
         "blackPoint": "Punto nero",
+        "midtones": "Mezzitoni",
         "whitePoint": "Punto bianco",
-        "gamma": "Gamma",
         "mean": "Media",
         "median": "Mediana",
-        "stdDev": "Dev. std.",
+        "mad": "MAD",
         "min": "minimo",
         "max": "Massimo",
+        "clipped": "Tagliati",
+        "pixelCount": "{count} pixel hanno questo valore",
         "stars": "Stelle",
         "hfr": "HFR",
+        "auto": "Auto",
+        "linear": "Lineare",
         "reset": "Reset",
-        "noSaveHint": "Le statistiche vengono calcolate solo per le immagini salvate",
+        "linked": "Collegati",
+        "linkedHint": "Stira tutti i canali colore insieme, con gli sfondi allineati su un grigio neutro",
+        "log": "Log",
+        "fullRange": "Scala completa",
+        "sourceInfo": "Dati grezzi {width} × {height} px, {bitDepth} bit",
+        "loading": "Caricamento dei dati grezzi dell'immagine…",
+        "unsupported": "L'istogramma dei dati grezzi richiede un plugin Touch'N'Stars più recente.",
+        "noImage": "Ancora nessuna immagine.",
+        "fileNotFound": "Il file dell'immagine non è più disponibile.",
+        "livestackSaveDisabled": "Attiva \"Save stacked lights\" nel plugin Livestack per vedere l'istogramma dello stack.",
+        "livestackRgbUnsupported": "I dati grezzi sono disponibili solo per gli stack a colori di una camera OSC.",
+        "error": "Impossibile caricare i dati grezzi dell'immagine.",
+        "noSaveHint": "Stelle e HFR vengono calcolati solo per le immagini salvate",
         "enableSave": "Abilita il salvataggio"
       },
       "zoomableImage": {

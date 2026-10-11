@@ -42,21 +42,45 @@
         inputId="chip-width"
         @change="updateChipWidth"
       />
+
+      <NumberInputPicker
+        v-model="bitDepth"
+        :label="$t('components.camera.chip_settings.bit_depth')"
+        labelKey="components.camera.chip_settings.bit_depth"
+        :helpMessage="$t('components.camera.chip_settings.bit_depth_help')"
+        :min="8"
+        :max="16"
+        :step="1"
+        :decimalPlaces="0"
+        :useDefaultSentinel="false"
+        inputId="camera-bit-depth"
+        @change="updateBitDepth"
+      />
     </div>
+
+    <ProfileToggle
+      settingKey="CameraSettings-BitScaling"
+      labelKey="components.camera.chip_settings.bit_scaling"
+      helpKey="components.camera.chip_settings.bit_scaling_help"
+    />
   </div>
 </template>
 
 <script setup>
-import { onMounted, ref } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { apiStore } from '@/store/store';
 import apiService from '@/services/apiService';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
+import ProfileToggle from '@/components/helpers/settings/ProfileToggle.vue';
 
 const store = apiStore();
 
 const pixelSize = ref(0);
 const chipHigh = ref(0);
 const chipWidth = ref(0);
+const bitDepth = ref(16);
+// Set once the user edits the field, so a late profile poll does not overwrite the input.
+let bitDepthTouched = false;
 
 async function updatePixelSize() {
   try {
@@ -81,6 +105,23 @@ async function updateChipWidth() {
     console.error('Error updating ChipWidth:', error);
   }
 }
+
+async function updateBitDepth() {
+  bitDepthTouched = true;
+  try {
+    await apiService.profileChangeValue('CameraSettings-BitDepth', bitDepth.value);
+  } catch (error) {
+    console.error('Error updating BitDepth:', error);
+  }
+}
+
+watch(
+  () => store.profileInfo?.CameraSettings?.BitDepth,
+  (value) => {
+    if (!bitDepthTouched && value) bitDepth.value = value;
+  },
+  { immediate: true }
+);
 
 onMounted(() => {
   const profile = store.profileInfo;

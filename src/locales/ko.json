@@ -3503,7 +3503,11 @@
         "pixel_size": "픽셀 크기 (μm)",
         "width": "너비 (px)",
         "height": "높이 (px)",
-        "focal_length": "초점 거리 (mm)"
+        "focal_length": "초점 거리 (mm)",
+        "bit_depth": "비트 심도",
+        "bit_depth_help": "N.I.N.A.가 카메라 데이터에 가정하는 비트 심도입니다. DSLR처럼 비트 심도를 스스로 보고하지 않는 카메라에서 중요하며 통계, 스트레치, 포화 판정에 영향을 줍니다. 카메라가 저장하는 RAW 파일은 바꾸지 않습니다.",
+        "bit_scaling": "비트 스케일링",
+        "bit_scaling_help": "카메라 데이터를 16비트로 스케일링하여 비트 심도가 낮은 카메라의 이미지도 전체 값 범위를 사용하게 합니다."
       },
       "at_target_temp": "목표 온도 도달",
       "temperature_setpoint": "온도 설정값 (°C)",
@@ -4078,21 +4082,38 @@
     },
     "helpers": {
       "imageModal": {
-        "no_image": "이미지 데이터가 없습니다"
+        "no_image": "이미지 데이터가 없습니다",
+        "histogram": "히스토그램 표시"
       },
       "histogram": {
         "blackPoint": "블랙 포인트",
+        "midtones": "중간톤",
         "whitePoint": "화이트 포인트",
-        "gamma": "감마",
         "mean": "평균",
         "median": "중앙값",
-        "stdDev": "표준편차",
+        "mad": "MAD",
         "min": "최소",
         "max": "최대",
+        "clipped": "클리핑",
+        "pixelCount": "{count}개 픽셀이 이 값을 가집니다",
         "stars": "별",
         "hfr": "HFR",
+        "auto": "자동",
+        "linear": "선형",
         "reset": "초기화",
-        "noSaveHint": "통계는 저장된 이미지에만 계산됩니다",
+        "linked": "연결",
+        "linkedHint": "모든 색상 채널을 함께 스트레치하고 배경을 중립 회색으로 맞춥니다",
+        "log": "로그",
+        "fullRange": "전체 범위",
+        "sourceInfo": "원본 데이터 {width} × {height} px, {bitDepth}비트",
+        "loading": "원본 이미지 데이터를 불러오는 중…",
+        "unsupported": "원본 데이터 히스토그램에는 최신 Touch'N'Stars 플러그인이 필요합니다.",
+        "noImage": "아직 이미지가 없습니다.",
+        "fileNotFound": "이미지 파일이 더 이상 없습니다.",
+        "livestackSaveDisabled": "스택의 히스토그램을 보려면 Livestack 플러그인에서 \"Save stacked lights\"를 켜세요.",
+        "livestackRgbUnsupported": "원본 데이터는 OSC 카메라의 컬러 스택에서만 사용할 수 있습니다.",
+        "error": "원본 이미지 데이터를 불러올 수 없습니다.",
+        "noSaveHint": "별과 HFR은 저장된 이미지에 대해서만 계산됩니다",
         "enableSave": "저장 활성화"
       },
       "zoomableImage": {

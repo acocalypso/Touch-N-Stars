@@ -3498,7 +3498,11 @@
         "pixel_size": "Pixelgröße (μm)",
         "width": "Breite (PX)",
         "height": "Höhe (PX)",
-        "focal_length": "Brennweite (mm)"
+        "focal_length": "Brennweite (mm)",
+        "bit_depth": "Bit-Tiefe",
+        "bit_depth_help": "Die Bit-Tiefe, die N.I.N.A. für die Kameradaten annimmt. Wichtig für Kameras, die ihre Bit-Tiefe nicht selbst melden, z. B. DSLRs; sie wirkt sich auf Statistiken, Strecken und Sättigung aus. Die von der Kamera gespeicherten RAW-Dateien ändert sie nicht.",
+        "bit_scaling": "Bit-Skalierung",
+        "bit_scaling_help": "Skaliert die Kameradaten auf 16 Bit, damit Bilder von Kameras mit geringerer Bit-Tiefe den vollen Wertebereich nutzen."
       },
       "at_target_temp": "Zieltemperatur erreicht",
       "temperature_setpoint": "Temp Sollwert (° C)",
@@ -4073,21 +4077,38 @@
     },
     "helpers": {
       "imageModal": {
-        "no_image": "Keine Bilddaten verfügbar"
+        "no_image": "Keine Bilddaten verfügbar",
+        "histogram": "Histogramm anzeigen"
       },
       "histogram": {
         "blackPoint": "Schwarzpunkt",
+        "midtones": "Mitteltöne",
         "whitePoint": "Weißpunkt",
-        "gamma": "Gamma",
         "mean": "Mittelwert",
         "median": "Median",
-        "stdDev": "Std Abw",
+        "mad": "MAD",
         "min": "Min",
         "max": "Max",
+        "clipped": "Abgeschnitten",
+        "pixelCount": "{count} Pixel haben diesen Wert",
         "stars": "Sterne",
         "hfr": "HFR",
+        "auto": "Auto",
+        "linear": "Linear",
         "reset": "Zurücksetzen",
-        "noSaveHint": "Statistiken werden nur für gespeicherte Bilder berechnet",
+        "linked": "Verknüpft",
+        "linkedHint": "Alle Farbkanäle gemeinsam strecken, Hintergründe auf neutrales Grau abgeglichen",
+        "log": "Log",
+        "fullRange": "Volle Skala",
+        "sourceInfo": "Rohdaten {width} × {height} px, {bitDepth} Bit",
+        "loading": "Rohbilddaten werden geladen…",
+        "unsupported": "Das Histogramm der Rohdaten braucht ein neueres Touch'N'Stars-Plugin.",
+        "noImage": "Noch kein Bild vorhanden.",
+        "fileNotFound": "Die Bilddatei ist nicht mehr vorhanden.",
+        "livestackSaveDisabled": "Schalte im Livestack-Plugin \"Save stacked lights\" ein, um das Histogramm des Stacks zu sehen.",
+        "livestackRgbUnsupported": "Rohdaten gibt es nur für Farb-Stacks einer OSC-Kamera.",
+        "error": "Die Rohbilddaten konnten nicht geladen werden.",
+        "noSaveHint": "Sterne und HFR werden nur für gespeicherte Bilder berechnet",
         "enableSave": "Speichern aktivieren"
       },
       "zoomableImage": {

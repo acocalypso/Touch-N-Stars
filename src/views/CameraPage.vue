@@ -24,13 +24,13 @@
       >
         <!-- ZoomableImage Component - fills the stage window -->
         <ZoomableImage
-          :imageData="getStretchSettings().stretchedImageData || imageStore.imageData"
+          :imageData="stretchedImageUrl"
           :showControls="true"
           :showDownload="true"
           :showFullscreen="false"
           :showHistogram="true"
           :showSolve="true"
-          :loading="imageStore.isImageFetching || histogramStore.isProcessing(imageStore.imageData)"
+          :loading="imageStore.isImageFetching || stretchRendering"
           height="100%"
           controlsClass="top-2 right-2 portrait:left-20 landscape:left-40"
           altText="Captured Astrophoto"
@@ -144,16 +144,10 @@
             </svg>
           </div>
           <HistogramChart
-            :data="getHistogram()"
+            :imageUrl="imageStore.imageData"
             height="120px"
-            :showStats="true"
-            :blackPoint="getStretchSettings().blackPoint"
-            :midPoint="getStretchSettings().midPoint"
-            :whitePoint="getStretchSettings().whitePoint"
-            :statistics="isSaveEnabled || store.isPINS ? captureStats : null"
+            :extraStats="isSaveEnabled || store.isPINS ? captureStats : null"
             :saveEnabled="isSaveEnabled || store.isPINS"
-            @levels-changed="onLevelsChanged"
-            @levels-reset="onLevelsReset"
             @toggle-save="onToggleSave"
           />
         </div>
@@ -460,13 +454,12 @@ import apiService from '@/services/apiService';
 import { ChartBarIcon } from '@heroicons/vue/24/outline';
 
 // Stores
-import { useHistogramStore } from '@/store/histogramStore';
+import { useRawStretch } from '@/composables/useRawStretch';
 import { useSettingsStore } from '@/store/settingsStore';
 
 const store = apiStore();
 const cameraStore = useCameraStore();
 const imageStore = useImagetStore();
-const histogramStore = useHistogramStore();
 const settingsStore = useSettingsStore();
 
 const isSaveEnabled = computed(() => store.profileInfo?.SnapShotControlSettings?.Save !== false);
@@ -477,6 +470,12 @@ const showFocuser = ref(false);
 const showFilter = ref(false);
 const showRotator = ref(false);
 const showHistogram = ref(false);
+// imageStore releases the entry whenever it replaces imageData.
+const { displayUrl: stretchedImageUrl, rendering: stretchRendering } = useRawStretch(
+  () => imageStore.imageData,
+  () => ({ kind: 'prepared' }),
+  showHistogram
+);
 const showCaptureStats = ref(false);
 const statsLoading = ref(false);
 
@@ -600,34 +599,6 @@ const handleDownload = async (data) => {
   });
 };
 
-const getHistogram = () => {
-  if (!imageStore.imageData) return null;
-  return histogramStore.getHistogram(imageStore.imageData);
-};
-
-const getStretchSettings = () => {
-  if (!imageStore.imageData) {
-    return {
-      blackPoint: 0,
-      whitePoint: 255,
-      midPoint: 127,
-      stretchedImageData: null,
-    };
-  }
-  return histogramStore.getStretchSettings(imageStore.imageData);
-};
-
-const onLevelsChanged = async (event) => {
-  if (!imageStore.imageData) return;
-  const { blackPoint, whitePoint, midPoint } = event;
-  await histogramStore.applyStretch(imageStore.imageData, blackPoint, whitePoint, midPoint);
-};
-
-const onLevelsReset = async () => {
-  if (!imageStore.imageData) return;
-  histogramStore.resetStretch(imageStore.imageData);
-};
-
 const onToggleSave = async () => {
   await apiService.profileChangeValue('SnapShotControlSettings-Save', true);
 };
@@ -664,25 +635,6 @@ watch(
     const hasChanged = newVal?.Timestamp !== oldVal?.Timestamp;
     if (!hasChanged) return;
     setStatsLoading(false);
-  }
-);
-
-watch([showHistogram, () => imageStore.imageData], ([panelOpen, imageData]) => {
-  if (!panelOpen || !imageData) return;
-  histogramStore.requestHistogram(imageData).then(() => {
-    if (store.isPINS && store.lastImageStats?.Histogram) {
-      histogramStore.injectApiHistogram(imageData, store.lastImageStats.Histogram);
-    }
-  });
-});
-
-watch(
-  () => store.lastImageStats,
-  (newVal) => {
-    if (!store.isPINS || !showHistogram.value || !imageStore.imageData) return;
-    if (newVal?.Histogram) {
-      histogramStore.injectApiHistogram(imageStore.imageData, newVal.Histogram);
-    }
   }
 );
 

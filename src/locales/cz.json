@@ -3456,7 +3456,11 @@
         "pixel_size": "Velikost pixelů (μm)",
         "width": "Šířka (px)",
         "height": "Výška (px)",
-        "focal_length": "Ohnisková vzdálenost (mm)"
+        "focal_length": "Ohnisková vzdálenost (mm)",
+        "bit_depth": "Bitová hloubka",
+        "bit_depth_help": "Bitová hloubka, kterou N.I.N.A. předpokládá pro data z kamery. Je důležitá pro kamery, které ji samy nehlásí, např. zrcadlovky, a ovlivňuje statistiky, roztažení a saturaci. Nemění soubory RAW uložené fotoaparátem.",
+        "bit_scaling": "Bitové škálování",
+        "bit_scaling_help": "Škáluje data z kamery na 16 bitů, aby snímky z kamer s nižší bitovou hloubkou využily celý rozsah hodnot."
       },
       "at_target_temp": "Při cílové teplotě",
       "temperature_setpoint": "Nastavená teplota (°C)",
@@ -4032,21 +4036,38 @@
     },
     "helpers": {
       "imageModal": {
-        "no_image": "Nejsou k dispozici žádná obrazová data"
+        "no_image": "Nejsou k dispozici žádná obrazová data",
+        "histogram": "Zobrazit histogram"
       },
       "histogram": {
         "blackPoint": "Černý bod",
+        "midtones": "Středy",
         "whitePoint": "Bílý bod",
-        "gamma": "Gamma",
         "mean": "Průměr",
         "median": "Medián",
-        "stdDev": "Std Dev",
+        "mad": "MAD",
         "min": "Min",
         "max": "Max",
+        "clipped": "Oříznuto",
+        "pixelCount": "{count} pixelů má tuto hodnotu",
         "stars": "hvězdy",
         "hfr": "HFR",
+        "auto": "Auto",
+        "linear": "Lineární",
         "reset": "Resetovat",
-        "noSaveHint": "Statistiky se počítají pouze pro uložené snímky",
+        "linked": "Propojeno",
+        "linkedHint": "Roztáhnout všechny barevné kanály společně, pozadí vyrovnané na neutrální šedou",
+        "log": "Log",
+        "fullRange": "Celý rozsah",
+        "sourceInfo": "Surová data {width} × {height} px, {bitDepth} bit",
+        "loading": "Načítání surových dat snímku…",
+        "unsupported": "Histogram surových dat vyžaduje novější plugin Touch'N'Stars.",
+        "noImage": "Zatím není k dispozici žádný snímek.",
+        "fileNotFound": "Soubor snímku již není k dispozici.",
+        "livestackSaveDisabled": "Zapněte v pluginu Livestack \"Save stacked lights\", abyste viděli histogram stacku.",
+        "livestackRgbUnsupported": "Surová data jsou k dispozici jen pro barevné stacky z OSC kamery.",
+        "error": "Surová data snímku se nepodařilo načíst.",
+        "noSaveHint": "Hvězdy a HFR se počítají pouze pro uložené snímky",
         "enableSave": "Povolit ukládání"
       },
       "zoomableImage": {

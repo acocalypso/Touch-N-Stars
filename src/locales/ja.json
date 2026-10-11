@@ -3466,7 +3466,11 @@
         "pixel_size": "ピクセルサイズ (μm)",
         "width": "幅 (px)",
         "height": "高さ (px)",
-        "focal_length": "焦点距離 (mm)"
+        "focal_length": "焦点距離 (mm)",
+        "bit_depth": "ビット深度",
+        "bit_depth_help": "N.I.N.A. がカメラデータに想定するビット深度です。デジタル一眼などビット深度を報告しないカメラで重要で、統計、ストレッチ、飽和判定に影響します。カメラが保存する RAW ファイルは変更しません。",
+        "bit_scaling": "ビットスケーリング",
+        "bit_scaling_help": "カメラデータを 16 ビットにスケーリングし、ビット深度の低いカメラの画像でも値の範囲全体を使えるようにします。"
       },
       "at_target_temp": "目標温度に到達",
       "temperature_setpoint": "設定温度 (°C)",
@@ -4041,21 +4045,38 @@
     },
     "helpers": {
       "imageModal": {
-        "no_image": "画像データがありません"
+        "no_image": "画像データがありません",
+        "histogram": "ヒストグラムを表示"
       },
       "histogram": {
         "blackPoint": "ブラックポイント",
+        "midtones": "中間調",
         "whitePoint": "ホワイトポイント",
-        "gamma": "ガンマ",
         "mean": "平均値",
         "median": "中央値",
-        "stdDev": "標準偏差",
+        "mad": "MAD",
         "min": "最小値",
         "max": "最大値",
+        "clipped": "クリップ",
+        "pixelCount": "{count} ピクセルがこの値です",
         "stars": "星数",
         "hfr": "HFR",
+        "auto": "自動",
+        "linear": "リニア",
         "reset": "リセット",
-        "noSaveHint": "統計は保存された画像に対してのみ計算されます",
+        "linked": "リンク",
+        "linkedHint": "すべてのカラーチャンネルをまとめてストレッチし、背景をニュートラルグレーに揃えます",
+        "log": "対数",
+        "fullRange": "全範囲",
+        "sourceInfo": "RAWデータ {width} × {height} px、{bitDepth} ビット",
+        "loading": "RAW画像データを読み込み中…",
+        "unsupported": "RAWデータのヒストグラムには新しいTouch'N'Starsプラグインが必要です。",
+        "noImage": "まだ画像がありません。",
+        "fileNotFound": "画像ファイルはもう存在しません。",
+        "livestackSaveDisabled": "スタックのヒストグラムを表示するには、Livestackプラグインで \"Save stacked lights\" を有効にしてください。",
+        "livestackRgbUnsupported": "RAWデータはOSCカメラのカラースタックでのみ利用できます。",
+        "error": "RAW画像データを読み込めませんでした。",
+        "noSaveHint": "星数とHFRは保存された画像に対してのみ計算されます",
         "enableSave": "保存を有効にする"
       },
       "zoomableImage": {

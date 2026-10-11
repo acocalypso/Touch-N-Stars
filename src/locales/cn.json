@@ -3456,7 +3456,11 @@
         "pixel_size": "像素尺寸 (μm)",
         "width": "宽度 (px)",
         "height": "高度 (px)",
-        "focal_length": "焦距 (mm)"
+        "focal_length": "焦距 (mm)",
+        "bit_depth": "位深度",
+        "bit_depth_help": "N.I.N.A. 为相机数据假定的位深度。对不自行报告位深度的相机（如单反）很重要，会影响统计、拉伸和饱和判断。不会更改相机保存的 RAW 文件。",
+        "bit_scaling": "位缩放",
+        "bit_scaling_help": "将相机数据缩放到 16 位，使位深度较低的相机图像也能使用完整的数值范围。"
       },
       "at_target_temp": "在目标温度下",
       "temperature_setpoint": "温度设定值 (°C)",
@@ -4032,21 +4036,38 @@
     },
     "helpers": {
       "imageModal": {
-        "no_image": "暂无图像数据"
+        "no_image": "暂无图像数据",
+        "histogram": "显示直方图"
       },
       "histogram": {
         "blackPoint": "黑点",
+        "midtones": "中间调",
         "whitePoint": "白点",
-        "gamma": "伽玛",
         "mean": "平均值",
         "median": "中位数",
-        "stdDev": "标准差",
+        "mad": "MAD",
         "min": "最小",
         "max": "最大值",
+        "clipped": "截断",
+        "pixelCount": "{count} 个像素具有此值",
         "stars": "星星",
         "hfr": "HFR",
+        "auto": "自动",
+        "linear": "线性",
         "reset": "重置",
-        "noSaveHint": "仅针对保存的图像计算统计数据",
+        "linked": "联动",
+        "linkedHint": "所有颜色通道一起拉伸，背景校准为中性灰",
+        "log": "对数",
+        "fullRange": "完整范围",
+        "sourceInfo": "原始数据 {width} × {height} 像素，{bitDepth} 位",
+        "loading": "正在加载原始图像数据…",
+        "unsupported": "原始数据直方图需要更新版本的 Touch'N'Stars 插件。",
+        "noImage": "尚无图像。",
+        "fileNotFound": "图像文件已不存在。",
+        "livestackSaveDisabled": "请在 Livestack 插件中启用 \"Save stacked lights\" 以查看叠加图像的直方图。",
+        "livestackRgbUnsupported": "原始数据仅适用于 OSC 相机的彩色叠加。",
+        "error": "无法加载原始图像数据。",
+        "noSaveHint": "星点数和 HFR 仅针对保存的图像计算",
         "enableSave": "启用保存"
       },
       "zoomableImage": {

@@ -3536,7 +3536,11 @@
         "pixel_size": "Pixel size (μm)",
         "width": "Width (px)",
         "height": "Height (px)",
-        "focal_length": "Focal length (mm)"
+        "focal_length": "Focal length (mm)",
+        "bit_depth": "Bit depth",
+        "bit_depth_help": "The bit depth N.I.N.A. assumes for the camera data. It matters for cameras that do not report their bit depth themselves, such as DSLRs, and affects statistics, stretching and saturation. It does not change the RAW files the camera saves.",
+        "bit_scaling": "Bit scaling",
+        "bit_scaling_help": "Scales the camera data up to 16 bit so that images from cameras with a lower bit depth use the full value range."
       },
       "at_target_temp": "At target temp",
       "temperature_setpoint": "Temp setpoint (°C)",
@@ -4111,21 +4115,38 @@
     },
     "helpers": {
       "imageModal": {
-        "no_image": "No image data available"
+        "no_image": "No image data available",
+        "histogram": "Show histogram"
       },
       "histogram": {
         "blackPoint": "Black point",
+        "midtones": "Midtones",
         "whitePoint": "White point",
-        "gamma": "Gamma",
         "mean": "Mean",
         "median": "Median",
-        "stdDev": "Std Dev",
+        "mad": "MAD",
         "min": "Min",
         "max": "Max",
+        "clipped": "Clipped",
+        "pixelCount": "{count} pixels have this value",
         "stars": "Stars",
         "hfr": "HFR",
+        "auto": "Auto",
+        "linear": "Linear",
         "reset": "Reset",
-        "noSaveHint": "Statistics are only calculated for saved images",
+        "linked": "Linked",
+        "linkedHint": "Stretch all colour channels together, with their backgrounds aligned to neutral grey",
+        "log": "Log",
+        "fullRange": "Full range",
+        "sourceInfo": "Raw data {width} × {height} px, {bitDepth} bit",
+        "loading": "Loading raw image data…",
+        "unsupported": "The histogram of the raw data needs a newer Touch'N'Stars plugin.",
+        "noImage": "No image available yet.",
+        "fileNotFound": "The image file is no longer available.",
+        "livestackSaveDisabled": "Enable \"Save stacked lights\" in the Livestack plugin to see the histogram of the stack.",
+        "livestackRgbUnsupported": "Raw data is only available for colour stacks of an OSC camera.",
+        "error": "The raw image data could not be loaded.",
+        "noSaveHint": "Stars and HFR are only calculated for saved images",
         "enableSave": "Enable saving"
       },
       "zoomableImage": {

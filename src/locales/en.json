@@ -4128,6 +4128,7 @@
         "min": "Min",
         "max": "Max",
         "clipped": "Clipped",
+        "pixelCount": "{count} pixels have this value",
         "stars": "Stars",
         "hfr": "HFR",
         "auto": "Auto",

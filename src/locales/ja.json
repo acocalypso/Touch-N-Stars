@@ -4045,21 +4045,38 @@
     },
     "helpers": {
       "imageModal": {
-        "no_image": "画像データがありません"
+        "no_image": "画像データがありません",
+        "histogram": "ヒストグラムを表示"
       },
       "histogram": {
         "blackPoint": "ブラックポイント",
+        "midtones": "中間調",
         "whitePoint": "ホワイトポイント",
-        "gamma": "ガンマ",
         "mean": "平均値",
         "median": "中央値",
-        "stdDev": "標準偏差",
+        "mad": "MAD",
         "min": "最小値",
         "max": "最大値",
+        "clipped": "クリップ",
+        "pixelCount": "{count} ピクセルがこの値です",
         "stars": "星数",
         "hfr": "HFR",
+        "auto": "自動",
+        "linear": "リニア",
         "reset": "リセット",
-        "noSaveHint": "統計は保存された画像に対してのみ計算されます",
+        "linked": "リンク",
+        "linkedHint": "すべてのカラーチャンネルをまとめてストレッチし、背景をニュートラルグレーに揃えます",
+        "log": "対数",
+        "fullRange": "全範囲",
+        "sourceInfo": "RAWデータ {width} × {height} px、{bitDepth} ビット",
+        "loading": "RAW画像データを読み込み中…",
+        "unsupported": "RAWデータのヒストグラムには新しいTouch'N'Starsプラグインが必要です。",
+        "noImage": "まだ画像がありません。",
+        "fileNotFound": "画像ファイルはもう存在しません。",
+        "livestackSaveDisabled": "スタックのヒストグラムを表示するには、Livestackプラグインで \"Save stacked lights\" を有効にしてください。",
+        "livestackRgbUnsupported": "RAWデータはOSCカメラのカラースタックでのみ利用できます。",
+        "error": "RAW画像データを読み込めませんでした。",
+        "noSaveHint": "星数とHFRは保存された画像に対してのみ計算されます",
         "enableSave": "保存を有効にする"
       },
       "zoomableImage": {

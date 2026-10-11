@@ -4036,21 +4036,38 @@
     },
     "helpers": {
       "imageModal": {
-        "no_image": "Sem dados de imagem disponíveis"
+        "no_image": "Sem dados de imagem disponíveis",
+        "histogram": "Mostrar histograma"
       },
       "histogram": {
         "blackPoint": "Ponto preto",
+        "midtones": "Meios-tons",
         "whitePoint": "Ponto branco",
-        "gamma": "Gama",
         "mean": "Média",
         "median": "Mediana",
-        "stdDev": "Desvio padrão",
+        "mad": "MAD",
         "min": "Mínimo",
         "max": "Máx.",
+        "clipped": "Cortado",
+        "pixelCount": "{count} pixels têm este valor",
         "stars": "Estrelas",
         "hfr": "HFR",
+        "auto": "Auto",
+        "linear": "Linear",
         "reset": "Reiniciar",
-        "noSaveHint": "As estatísticas são calculadas apenas para imagens salvas",
+        "linked": "Ligado",
+        "linkedHint": "Esticar todos os canais de cor juntos, com os fundos igualados a cinza neutro",
+        "log": "Log",
+        "fullRange": "Escala completa",
+        "sourceInfo": "Dados brutos {width} × {height} px, {bitDepth} bits",
+        "loading": "Carregando os dados brutos da imagem…",
+        "unsupported": "O histograma dos dados brutos requer um plugin Touch'N'Stars mais recente.",
+        "noImage": "Ainda não há imagem.",
+        "fileNotFound": "O arquivo de imagem não está mais disponível.",
+        "livestackSaveDisabled": "Ative \"Save stacked lights\" no plugin Livestack para ver o histograma do empilhamento.",
+        "livestackRgbUnsupported": "Os dados brutos só estão disponíveis para empilhamentos coloridos de uma câmera OSC.",
+        "error": "Não foi possível carregar os dados brutos da imagem.",
+        "noSaveHint": "Estrelas e HFR são calculados apenas para imagens salvas",
         "enableSave": "Ativar salvamento"
       },
       "zoomableImage": {

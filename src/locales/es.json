@@ -4036,21 +4036,38 @@
     },
     "helpers": {
       "imageModal": {
-        "no_image": "No hay datos de imagen disponibles"
+        "no_image": "No hay datos de imagen disponibles",
+        "histogram": "Mostrar histograma"
       },
       "histogram": {
         "blackPoint": "punto negro",
+        "midtones": "Medios tonos",
         "whitePoint": "punto blanco",
-        "gamma": "Gama",
         "mean": "Media",
         "median": "Mediana",
-        "stdDev": "Desviación estándar",
+        "mad": "MAD",
         "min": "Mín.",
         "max": "Máx.",
+        "clipped": "Recortado",
+        "pixelCount": "{count} píxeles tienen este valor",
         "stars": "Estrellas",
         "hfr": "HFR",
+        "auto": "Auto",
+        "linear": "Lineal",
         "reset": "Reiniciar",
-        "noSaveHint": "Las estadísticas solo se calculan para las imágenes guardadas.",
+        "linked": "Enlazado",
+        "linkedHint": "Estirar todos los canales de color juntos, con los fondos igualados a gris neutro",
+        "log": "Log",
+        "fullRange": "Escala completa",
+        "sourceInfo": "Datos en bruto {width} × {height} px, {bitDepth} bits",
+        "loading": "Cargando los datos en bruto de la imagen…",
+        "unsupported": "El histograma de los datos en bruto necesita un plugin Touch'N'Stars más reciente.",
+        "noImage": "Todavía no hay ninguna imagen.",
+        "fileNotFound": "El archivo de imagen ya no está disponible.",
+        "livestackSaveDisabled": "Activa \"Save stacked lights\" en el plugin Livestack para ver el histograma del apilado.",
+        "livestackRgbUnsupported": "Los datos en bruto solo están disponibles para apilados en color de una cámara OSC.",
+        "error": "No se pudieron cargar los datos en bruto de la imagen.",
+        "noSaveHint": "Las estrellas y el HFR solo se calculan para las imágenes guardadas",
         "enableSave": "Habilitar guardar"
       },
       "zoomableImage": {

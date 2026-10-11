@@ -4036,21 +4036,38 @@
     },
     "helpers": {
       "imageModal": {
-        "no_image": "Geen beeld data beschikbaar"
+        "no_image": "Geen beeld data beschikbaar",
+        "histogram": "Histogram tonen"
       },
       "histogram": {
         "blackPoint": "Zwart punt",
+        "midtones": "Middentonen",
         "whitePoint": "Wit punt",
-        "gamma": "Gamma",
         "mean": "Gemiddelde",
         "median": "Mediaan",
-        "stdDev": "Std afw.",
+        "mad": "MAD",
         "min": "Min",
         "max": "Max",
+        "clipped": "Afgekapt",
+        "pixelCount": "{count} pixels hebben deze waarde",
         "stars": "Sterren",
         "hfr": "HFR",
+        "auto": "Auto",
+        "linear": "Lineair",
         "reset": "Opnieuw instellen",
-        "noSaveHint": "Statistieken worden alleen berekend voor opgeslagen afbeeldingen",
+        "linked": "Gekoppeld",
+        "linkedHint": "Alle kleurkanalen samen uitrekken, met de achtergronden gelijkgetrokken naar neutraal grijs",
+        "log": "Log",
+        "fullRange": "Volledig bereik",
+        "sourceInfo": "Ruwe data {width} × {height} px, {bitDepth} bit",
+        "loading": "Ruwe beelddata laden…",
+        "unsupported": "Het histogram van de ruwe data vereist een nieuwere Touch'N'Stars-plugin.",
+        "noImage": "Nog geen afbeelding beschikbaar.",
+        "fileNotFound": "Het afbeeldingsbestand is niet meer beschikbaar.",
+        "livestackSaveDisabled": "Schakel \"Save stacked lights\" in de Livestack-plugin in om het histogram van de stack te zien.",
+        "livestackRgbUnsupported": "Ruwe data is alleen beschikbaar voor kleurstacks van een OSC-camera.",
+        "error": "De ruwe beelddata konden niet worden geladen.",
+        "noSaveHint": "Sterren en HFR worden alleen berekend voor opgeslagen afbeeldingen",
         "enableSave": "Schakel opslaan in"
       },
       "zoomableImage": {

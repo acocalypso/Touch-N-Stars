@@ -150,8 +150,20 @@
             <td class="pr-2">{{ s.mean.toFixed(1) }}</td>
             <td class="pr-2">{{ s.median }}</td>
             <td class="pr-2">{{ s.mad }}</td>
-            <td class="pr-2">{{ s.min }}</td>
-            <td class="pr-2">{{ s.max }}</td>
+            <td
+              class="pr-2 whitespace-nowrap"
+              :title="t('components.helpers.histogram.pixelCount', { count: countAt(c, s.min) })"
+            >
+              {{ s.min }}
+              <span class="text-content-faint">×{{ formatCount(countAt(c, s.min)) }}</span>
+            </td>
+            <td
+              class="pr-2 whitespace-nowrap"
+              :title="t('components.helpers.histogram.pixelCount', { count: countAt(c, s.max) })"
+            >
+              {{ s.max }}
+              <span class="text-content-faint">×{{ formatCount(countAt(c, s.max)) }}</span>
+            </td>
             <td class="whitespace-nowrap">{{ percent(s.clipLow) }} / {{ percent(s.clipHigh) }}</td>
           </tr>
         </tbody>
@@ -281,6 +293,15 @@ const view = computed(() => {
 
 const toAdu = (normalised) => Math.round(normalised * maxAdu(bitDepth.value));
 const fromAdu = (adu) => adu / maxAdu(bitDepth.value);
+// Pixels of one channel that hold exactly this ADU value, from the full-resolution histogram.
+const countAt = (channel, adu) => entry.value?.histograms?.[channel]?.[adu] ?? 0;
+// Compact form for the table; the exact number is in the cell's tooltip.
+const formatCount = (count) =>
+  count >= 1e6
+    ? `${(count / 1e6).toFixed(1)}M`
+    : count >= 1e4
+      ? `${Math.round(count / 1e3)}k`
+      : String(count);
 const percent = (fraction) =>
   `${(fraction * 100).toFixed(fraction > 0 && fraction < 0.001 ? 3 : 2)}%`;
 

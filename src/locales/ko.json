@@ -3503,7 +3503,11 @@
         "pixel_size": "픽셀 크기 (μm)",
         "width": "너비 (px)",
         "height": "높이 (px)",
-        "focal_length": "초점 거리 (mm)"
+        "focal_length": "초점 거리 (mm)",
+        "bit_depth": "비트 심도",
+        "bit_depth_help": "N.I.N.A.가 카메라 데이터에 가정하는 비트 심도입니다. DSLR처럼 비트 심도를 스스로 보고하지 않는 카메라에서 중요하며 통계, 스트레치, 포화 판정에 영향을 줍니다. 카메라가 저장하는 RAW 파일은 바꾸지 않습니다.",
+        "bit_scaling": "비트 스케일링",
+        "bit_scaling_help": "카메라 데이터를 16비트로 스케일링하여 비트 심도가 낮은 카메라의 이미지도 전체 값 범위를 사용하게 합니다."
       },
       "at_target_temp": "목표 온도 도달",
       "temperature_setpoint": "온도 설정값 (°C)",

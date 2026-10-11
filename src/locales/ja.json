@@ -3466,7 +3466,11 @@
         "pixel_size": "ピクセルサイズ (μm)",
         "width": "幅 (px)",
         "height": "高さ (px)",
-        "focal_length": "焦点距離 (mm)"
+        "focal_length": "焦点距離 (mm)",
+        "bit_depth": "ビット深度",
+        "bit_depth_help": "N.I.N.A. がカメラデータに想定するビット深度です。デジタル一眼などビット深度を報告しないカメラで重要で、統計、ストレッチ、飽和判定に影響します。カメラが保存する RAW ファイルは変更しません。",
+        "bit_scaling": "ビットスケーリング",
+        "bit_scaling_help": "カメラデータを 16 ビットにスケーリングし、ビット深度の低いカメラの画像でも値の範囲全体を使えるようにします。"
       },
       "at_target_temp": "目標温度に到達",
       "temperature_setpoint": "設定温度 (°C)",

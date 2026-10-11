@@ -3456,7 +3456,11 @@
         "pixel_size": "Tamanho do pixel (μm)",
         "width": "Largura (px)",
         "height": "Altura (px)",
-        "focal_length": "Distância focal (mm)"
+        "focal_length": "Distância focal (mm)",
+        "bit_depth": "Profundidade de bits",
+        "bit_depth_help": "A profundidade de bits que o N.I.N.A. assume para os dados da câmara. É relevante para câmaras que não a reportam, como as DSLR, e afeta estatísticas, stretch e saturação. Não altera os ficheiros RAW gravados pela câmara.",
+        "bit_scaling": "Escalonamento de bits",
+        "bit_scaling_help": "Escala os dados da câmara para 16 bits, para que as imagens de câmaras com menor profundidade de bits usem toda a gama de valores."
       },
       "at_target_temp": "Na temperatura alvo",
       "temperature_setpoint": "Ponto de ajuste de temperatura (°C)",

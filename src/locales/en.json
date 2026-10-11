@@ -3536,7 +3536,11 @@
         "pixel_size": "Pixel size (μm)",
         "width": "Width (px)",
         "height": "Height (px)",
-        "focal_length": "Focal length (mm)"
+        "focal_length": "Focal length (mm)",
+        "bit_depth": "Bit depth",
+        "bit_depth_help": "The bit depth N.I.N.A. assumes for the camera data. It matters for cameras that do not report their bit depth themselves, such as DSLRs, and affects statistics, stretching and saturation. It does not change the RAW files the camera saves.",
+        "bit_scaling": "Bit scaling",
+        "bit_scaling_help": "Scales the camera data up to 16 bit so that images from cameras with a lower bit depth use the full value range."
       },
       "at_target_temp": "At target temp",
       "temperature_setpoint": "Temp setpoint (°C)",

@@ -3456,7 +3456,11 @@
         "pixel_size": "像素尺寸 (μm)",
         "width": "宽度 (px)",
         "height": "高度 (px)",
-        "focal_length": "焦距 (mm)"
+        "focal_length": "焦距 (mm)",
+        "bit_depth": "位深度",
+        "bit_depth_help": "N.I.N.A. 为相机数据假定的位深度。对不自行报告位深度的相机（如单反）很重要，会影响统计、拉伸和饱和判断。不会更改相机保存的 RAW 文件。",
+        "bit_scaling": "位缩放",
+        "bit_scaling_help": "将相机数据缩放到 16 位，使位深度较低的相机图像也能使用完整的数值范围。"
       },
       "at_target_temp": "在目标温度下",
       "temperature_setpoint": "温度设定值 (°C)",

@@ -3503,7 +3503,11 @@
         "pixel_size": "Mida del píxel (μm)",
         "width": "Amplada (px)",
         "height": "Alçada (px)",
-        "focal_length": "Longitud focal (mm)"
+        "focal_length": "Longitud focal (mm)",
+        "bit_depth": "Profunditat de bits",
+        "bit_depth_help": "La profunditat de bits que N.I.N.A. suposa per a les dades de la càmera. És important per a càmeres que no la informen, com les rèflex, i afecta les estadístiques, l'estirament i la saturació. No modifica els fitxers RAW que desa la càmera.",
+        "bit_scaling": "Escalat de bits",
+        "bit_scaling_help": "Escala les dades de la càmera a 16 bits perquè les imatges de càmeres amb menys profunditat de bits facin servir tot el rang de valors."
       },
       "at_target_temp": "A la temperatura objectiu",
       "temperature_setpoint": "Temperatura configurada (°C)",

@@ -3456,7 +3456,11 @@
         "pixel_size": "Rozmiar piksela (μm)",
         "width": "Szerokość (px)",
         "height": "Wysokość (px)",
-        "focal_length": "Ogniskowa (mm)"
+        "focal_length": "Ogniskowa (mm)",
+        "bit_depth": "Głębia bitowa",
+        "bit_depth_help": "Głębia bitowa, którą N.I.N.A. przyjmuje dla danych z kamery. Ma znaczenie dla kamer, które same jej nie zgłaszają, np. lustrzanek, i wpływa na statystyki, rozciąganie i nasycenie. Nie zmienia plików RAW zapisywanych przez aparat.",
+        "bit_scaling": "Skalowanie bitowe",
+        "bit_scaling_help": "Skaluje dane z kamery do 16 bitów, aby obrazy z kamer o mniejszej głębi bitowej wykorzystywały pełny zakres wartości."
       },
       "at_target_temp": "Przy temperaturze docelowej",
       "temperature_setpoint": "Zadana temperatura (°C)",

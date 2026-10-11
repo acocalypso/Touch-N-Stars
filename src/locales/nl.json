@@ -3456,7 +3456,11 @@
         "pixel_size": "Pixel grootte (μm)",
         "width": "Breedte (px)",
         "height": "Hoogte (px)",
-        "focal_length": "Focale lengte (mm)"
+        "focal_length": "Focale lengte (mm)",
+        "bit_depth": "Bitdiepte",
+        "bit_depth_help": "De bitdiepte die N.I.N.A. aanneemt voor de cameradata. Belangrijk voor camera's die hun bitdiepte niet zelf melden, zoals DSLR's; beïnvloedt statistieken, stretchen en verzadiging. De RAW-bestanden die de camera opslaat, veranderen niet.",
+        "bit_scaling": "Bitschaling",
+        "bit_scaling_help": "Schaalt de cameradata op naar 16 bit, zodat beelden van camera's met een lagere bitdiepte het volledige waardebereik gebruiken."
       },
       "at_target_temp": "Op doel temperatuur",
       "temperature_setpoint": "Instelpunt temperatuur (°C)",

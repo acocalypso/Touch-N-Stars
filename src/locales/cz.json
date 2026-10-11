@@ -3456,7 +3456,11 @@
         "pixel_size": "Velikost pixelů (μm)",
         "width": "Šířka (px)",
         "height": "Výška (px)",
-        "focal_length": "Ohnisková vzdálenost (mm)"
+        "focal_length": "Ohnisková vzdálenost (mm)",
+        "bit_depth": "Bitová hloubka",
+        "bit_depth_help": "Bitová hloubka, kterou N.I.N.A. předpokládá pro data z kamery. Je důležitá pro kamery, které ji samy nehlásí, např. zrcadlovky, a ovlivňuje statistiky, roztažení a saturaci. Nemění soubory RAW uložené fotoaparátem.",
+        "bit_scaling": "Bitové škálování",
+        "bit_scaling_help": "Škáluje data z kamery na 16 bitů, aby snímky z kamer s nižší bitovou hloubkou využily celý rozsah hodnot."
       },
       "at_target_temp": "Při cílové teplotě",
       "temperature_setpoint": "Nastavená teplota (°C)",

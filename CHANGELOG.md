@@ -14,6 +14,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
+- Settings: The camera chip card now sets the camera's bit depth and bit scaling.
 - Mount (PINS): With the native OnStepX driver connected, a new OnStepX tab sets the altitude and meridian limits, the preferred pier side and the home position stored in the mount controller.
 - Native Guider (PINS): Choose the guide star yourself. While looping, tap a star in the guide frame (or any star, also one without a marker) and press Guide on this star; the secondary stars are found around it. Until now only the automatic selection could pick a star, although several hints asked to choose another one.
 - Native Guider (PINS): The Proc. tile also shows the guide loop's frame rate, and its explanation shows live where the time of a guide cycle goes: exposure, camera readout and transfer, processing, guide pulses and the time from the arrival of a frame to the first guide pulse, as medians of the recent cycles and for the last one. This needs a PINS version that reports the guide loop's timing.

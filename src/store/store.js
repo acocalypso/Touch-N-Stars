@@ -1320,7 +1320,7 @@ export const apiStore = defineStore('store', {
         if (imageStore.isImageFetching) {
           return;
         }
-        await imageStore.getImage();
+        await imageStore.refreshImageIfChanged();
       }
 
       if (message.Response && message.Response.Event === 'IMAGE-SAVE') {

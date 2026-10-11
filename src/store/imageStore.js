@@ -113,16 +113,20 @@ export const useImagetStore = defineStore('imageStore', {
           imageResponse?.data?.size
         );
 
-        const responseType = imageResponse?.data?.type ?? '';
+        const imageBlob = imageResponse?.data;
+        const responseType = imageBlob?.type ?? '';
         const isJsonResponse = responseType.startsWith('application/json');
-        if (imageResponse && !isJsonResponse) {
+        // A request aborted by pauseApp() resolves without a Blob. The old image must
+        // only be released once a new one exists, otherwise imageData keeps pointing
+        // at a revoked URL and the camera page stays blank.
+        if (imageBlob instanceof Blob && !isJsonResponse) {
+          const newImageUrl = URL.createObjectURL(imageBlob);
           if (this.imageData) {
             URL.revokeObjectURL(this.imageData);
             // Clean up old image from histogram store
             const histogramStore = useHistogramStore();
             histogramStore.clearImageCache(this.imageData);
           }
-          const newImageUrl = URL.createObjectURL(imageResponse.data);
           this.imageData = newImageUrl;
           this.preparedImageFingerprint = fingerprint;
           const store = apiStore();
@@ -144,7 +148,7 @@ export const useImagetStore = defineStore('imageStore', {
           }
         } else {
           console.log(
-            '[ImageStore] getImage: response is JSON (no image yet on backend), imageData unchanged'
+            '[ImageStore] getImage: no image in response (JSON or aborted), imageData unchanged'
           );
         }
       } catch (error) {
@@ -165,9 +169,10 @@ export const useImagetStore = defineStore('imageStore', {
       }
     },
 
-    // Resume path: the channel socket was down while backgrounded, so IMAGE-PREPARED
-    // events may have been missed. Asks the backend for the prepared image's
-    // fingerprint first and only downloads when it differs from the shown one.
+    // Asks the backend for the prepared image's fingerprint first and only downloads
+    // when it differs from the shown one. Used on resume (IMAGE-PREPARED events may
+    // have been missed while backgrounded) and for IMAGE-PREPARED itself, which the
+    // backend also sends again after every channel reconnect.
     async refreshImageIfChanged() {
       if (this.imageData && this.preparedImageFingerprint && !this.isImageFetching) {
         const settingsStore = useSettingsStore();

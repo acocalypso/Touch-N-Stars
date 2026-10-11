@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## unreleased
+## [App6.5.0 - beta 2] - 2026-10-11
 
 ### Changed
 
@@ -16,6 +16,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 
 - Settings: The camera chip card now sets the camera's bit depth and bit scaling.
+- Histogram: The statistics table shows how many pixels sit at the minimum and maximum value.
 - Mount (PINS): With the native OnStepX driver connected, a new OnStepX tab sets the altitude and meridian limits, the preferred pier side and the home position stored in the mount controller.
 - Native Guider (PINS): Choose the guide star yourself. While looping, tap a star in the guide frame (or any star, also one without a marker) and press Guide on this star; the secondary stars are found around it. Until now only the automatic selection could pick a star, although several hints asked to choose another one.
 - Native Guider (PINS): The Proc. tile also shows the guide loop's frame rate, and its explanation shows live where the time of a guide cycle goes: exposure, camera readout and transfer, processing, guide pulses and the time from the arrival of a frame to the first guide pulse, as medians of the recent cycles and for the last one. This needs a PINS version that reports the guide loop's timing.
@@ -23,6 +24,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
+- Flat assistant: Slew to zenith now honours the selected pier side; the mount stops 5° from the zenith so the flat panel can still rest on the telescope.
+- Flat assistant: Multi mode limits the panel brightness to the range of the connected flat device.
+- Camera: A capture no longer keeps spinning forever when the image event is lost or the frame is identical to the previous one.
 - Flat assistant (PINS): With a DSLR or mirrorless camera saving native RAW (e.g. a 14-bit NEF), the histogram bar and its tolerance colour showed the measured brightness four times too low, because they scaled against the camera's 16-bit profile setting. They now use the bit depth of the measured image when PINS reports it, otherwise the camera's. Multi mode's too dim and too bright results now follow the same scale instead of always assuming 16 bit.
 
 ## [App6.5.0 - beta 1] - 2026-10-09

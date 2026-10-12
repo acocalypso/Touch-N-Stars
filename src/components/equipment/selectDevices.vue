@@ -29,24 +29,10 @@
           <button
             v-if="store.isPINS && !props.hideConfig"
             @click="configDevice"
-            :disabled="
-              isScanning ||
-              isConnected ||
-              (!props.alwaysEnableConfig &&
-                !(selectedDeviceObj && selectedDeviceObj.HasSetupDialog))
-            "
+            :disabled="configDisabled"
             class="flex justify-center items-center w-10 h-10 border border-cyan-500/20 bg-gray-700 text-white rounded-lg hover:bg-gray-600 disabled:opacity-70"
           >
-            <Cog6ToothIcon
-              class="w-6 h-6"
-              :class="{
-                'text-gray-400':
-                  isScanning ||
-                  isConnected ||
-                  (!props.alwaysEnableConfig &&
-                    !(selectedDeviceObj && selectedDeviceObj.HasSetupDialog)),
-              }"
-            />
+            <Cog6ToothIcon class="w-6 h-6" :class="{ 'text-gray-400': configDisabled }" />
           </button>
           <button
             @click="rescanDevices"
@@ -143,6 +129,9 @@ const props = defineProps({
   // For a device without a setup dialog of its own (e.g. PINS' guide camera slot, which the
   // Alpaca settings cannot address): no cog that would do nothing or configure another device.
   hideConfig: { type: Boolean, default: false },
+  // Device ids whose settings live in Touch'N'Stars itself, so the cog is enabled for them even
+  // when the driver has no setup dialog (e.g. pins' native OnStepX driver)
+  configDeviceIds: { type: Array, default: () => [] },
 });
 
 const devices = ref([]);
@@ -191,6 +180,17 @@ function openDisableInfo() {
 
 const selectedDeviceObj = computed(() =>
   devices.value.find((d) => d.DisplayName === selectedDevice.value)
+);
+
+const configDisabled = computed(
+  () =>
+    isScanning.value ||
+    props.isConnected ||
+    !(
+      props.alwaysEnableConfig ||
+      selectedDeviceObj.value?.HasSetupDialog ||
+      props.configDeviceIds.includes(selectedDeviceObj.value?.Id)
+    )
 );
 
 const displayDevices = computed(() => {

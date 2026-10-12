@@ -30,29 +30,36 @@ const props = defineProps({
   device: {
     type: String,
     required: true,
-    validator: (value) => ['focuser', 'camera', 'filter'].includes(value),
+    validator: (value) => ['focuser', 'camera', 'guideCamera', 'filter'].includes(value),
   },
 });
 
 const devices = {
-  focuser: { store: useFocuserStore(), settingsKey: 'focuserSettings', action: 'focusAction' },
-  camera: { store: useCameraStore(), settingsKey: 'cameraSettings', action: 'cameraAction' },
-  filter: { store: useFilterStore(), settingsKey: 'filterwheelSettings', action: 'filterAction' },
+  focuser: { store: useFocuserStore, settingsKey: 'focuserSettings', action: 'focusAction' },
+  camera: { store: useCameraStore, settingsKey: 'cameraSettings', action: 'cameraAction' },
+  guideCamera: {
+    store: useCameraStore,
+    settingsKey: 'guideCameraSettings',
+    action: 'guideCameraAction',
+    read: 'readGuideCameraSettings',
+  },
+  filter: { store: useFilterStore, settingsKey: 'filterwheelSettings', action: 'filterAction' },
 };
 
-const deviceStore = devices[props.device].store;
-const settings = computed(() => deviceStore[devices[props.device].settingsKey]);
+const device = devices[props.device];
+const deviceStore = device.store();
+const settings = computed(() => deviceStore[device.settingsKey]);
 
 async function toggleMode() {
   const newValue = !settings.value[props.settingName];
   try {
-    await apiService[devices[props.device].action](
+    await apiService[device.action](
       `set-setting?settingName=${props.settingName}&newValue=${newValue}`
     );
   } catch (error) {
     console.error(`[PinsSettingToggle] Error setting ${props.settingName}:`, error);
   }
   // Re-read the device settings so the toggle reflects the value the device reports
-  await deviceStore.readSettings();
+  await deviceStore[device.read ?? 'readSettings']();
 }
 </script>

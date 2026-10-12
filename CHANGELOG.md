@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [App6.5.0 - beta 4] - 2026-10-12
+
+### Added
+
+- Native Guider (PINS): The camera group of the settings tab now also sets the guide camera's readout mode, USB limit and, depending on the camera, fan speed, ultra mode, high fullwell, binning average and LED. Gain, offset and binning stay the guider's own settings there.
+- Guiding: The guide camera card also sets the guide camera's readout mode, USB limit and camera options next to gain, offset and binning.
+
+### Changed
+
+- Native Guider (PINS): Gain, offset and pixel size at "default" show the value that applies, e.g. "Default (120)", taken from the guide camera.
+
+### Fixed
+
+- Guide camera: For cameras with a list of named gains, the chosen gain itself is stored instead of its position in the list.
+
 ## [App6.5.0 - beta 3] - 2026-10-12
 
 ### Changed

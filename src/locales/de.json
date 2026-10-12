@@ -3454,7 +3454,10 @@
       "exposure": "Belichtung (s)",
       "capture": "Aufnehmen",
       "capturing": "Nehme auf…",
-      "failed": "Die Guide-Kamera hat nicht geantwortet"
+      "failed": "Die Guide-Kamera hat nicht geantwortet",
+      "readoutMode": "Readout Mode",
+      "usbLimit": "USB Limit",
+      "connectForMore": "Verbinde die Guide-Kamera, um Ausleseart, USB-Limit und ihre eigenen Optionen einzustellen."
     },
     "focuser": {
       "title": "Fokussierer",

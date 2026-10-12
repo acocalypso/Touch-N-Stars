@@ -3413,7 +3413,10 @@
       "exposure": "Expozice (s)",
       "capture": "Snímat",
       "capturing": "Snímám…",
-      "failed": "Pointační kamera neodpověděla"
+      "failed": "Pointační kamera neodpověděla",
+      "readoutMode": "Režim Čtení",
+      "usbLimit": "USB limit",
+      "connectForMore": "Připoj pointační kameru a nastav režim vyčítání, USB limit a její vlastní volby."
     },
     "focuser": {
       "title": "Ostření",

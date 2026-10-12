@@ -794,6 +794,27 @@ export function defaultSentinel(setting) {
     : null;
 }
 
+/**
+ * The value a sentinel setting stands for right now, or null when it is not known: Gain and
+ * Offset take the guide camera's profile value, and while that is at its default (-1) the
+ * connected camera's current one; PixelSizeUm takes the connected camera's pixel size.
+ */
+export function sentinelEffectiveValue(name, guideCameraProfile, guideCameraInfo) {
+  const connected = Boolean(guideCameraInfo?.Connected);
+  const known = (value) => value !== null && value !== undefined && Number.isFinite(Number(value));
+  if (name === 'Gain' || name === 'Offset') {
+    const profileValue = guideCameraProfile?.[name];
+    if (known(profileValue) && Number(profileValue) >= 0) return Number(profileValue);
+    const cameraValue = guideCameraInfo?.[name];
+    return connected && known(cameraValue) && Number(cameraValue) >= 0 ? Number(cameraValue) : null;
+  }
+  if (name === 'PixelSizeUm') {
+    const pixelSize = guideCameraInfo?.PixelSize;
+    return connected && known(pixelSize) && Number(pixelSize) > 0 ? Number(pixelSize) : null;
+  }
+  return null;
+}
+
 /** Identity of an alert (the guider sends no id): code, time and title. */
 export function alertKey(alert) {
   return `${alert?.code ?? ''}|${alert?.timestamp ?? ''}|${alert?.title ?? ''}`;

@@ -3413,7 +3413,10 @@
       "exposure": "Exposição (s)",
       "capture": "Capturar",
       "capturing": "A capturar…",
-      "failed": "A câmara de guiagem não respondeu"
+      "failed": "A câmara de guiagem não respondeu",
+      "readoutMode": "Modo de leitura",
+      "usbLimit": "Limite USB",
+      "connectForMore": "Conecta a câmara de guiagem para definir o modo de leitura, o limite USB e as suas opções próprias."
     },
     "focuser": {
       "title": "Focalizador",

@@ -42,6 +42,8 @@ export const useCameraStore = defineStore('cameraStore', () => {
   const slewModal = ref(false);
   let countdownSessionId = 0; // Unique ID for each countdown session
   const cameraSettings = ref();
+  // Device settings of PINS' guide camera slot, same shape as cameraSettings.
+  const guideCameraSettings = ref();
 
   // Helper function to wait briefly
   function wait(ms) {
@@ -58,6 +60,17 @@ export const useCameraStore = defineStore('cameraStore', () => {
       console.log('[Camerastore] Camera settings: ', response.Response);
     } catch (error) {
       console.error(' [cameraStore]Error fetching camera settings:', error.message);
+    }
+  }
+
+  // Read the device settings of the guide camera slot (PINS only)
+  async function readGuideCameraSettings() {
+    if (!store.guideCameraInfo.Connected) return;
+    try {
+      const response = await apiService.guideCameraAction('get-settings');
+      if (response?.Success) guideCameraSettings.value = response.Response;
+    } catch (error) {
+      console.error('[cameraStore] Error fetching guide camera settings:', error.message);
     }
   }
 
@@ -720,6 +733,7 @@ export const useCameraStore = defineStore('cameraStore', () => {
     containerSize,
     slewModal,
     cameraSettings,
+    guideCameraSettings,
 
     // Actions
     capturePhoto,
@@ -729,6 +743,7 @@ export const useCameraStore = defineStore('cameraStore', () => {
     stopCountdown,
     resetCaptureState,
     readSettings,
+    readGuideCameraSettings,
     startCooling,
     startWarming,
     cancelTempChange,

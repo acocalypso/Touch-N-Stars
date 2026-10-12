@@ -142,6 +142,13 @@
             :setting="setting"
             :compact="compact"
           />
+          <!-- The guide camera's device options belong to the camera group. Gain, offset and
+               binning are left out: the guider has them as settings of its own above. -->
+          <GuideCameraSettings
+            v-if="group.group === 'Camera' && hasGuideCameraSlot"
+            :showExposure="false"
+            class="py-3"
+          />
         </div>
       </section>
 
@@ -167,6 +174,8 @@ import { textOr, groupSettings, settingApplies } from '@/utils/nativeGuider';
 import { readStored, writeStored } from '@/utils/safeStorage';
 import NativeSettingField from '@/components/guider/native/NativeSettingField.vue';
 import NativeDarkLibrary from '@/components/guider/native/NativeDarkLibrary.vue';
+import GuideCameraSettings from '@/components/guider/GuideCameraSettings.vue';
+import { apiStore } from '@/store/store';
 
 const props = defineProps({
   /** Render only these settings, in this order, as a flat list (wizard / connect dialog). */
@@ -189,6 +198,9 @@ async function reconnect() {
 }
 
 const ADVANCED_KEY = 'nativeGuider.settings.advanced';
+// PINS' guide camera slot (official NINA's profile has no GuideCameraSettings).
+const mainStore = apiStore();
+const hasGuideCameraSlot = computed(() => Boolean(mainStore.profileInfo?.GuideCameraSettings));
 
 const advanced = ref(readStored(ADVANCED_KEY, 'false') === 'true');
 const collapsed = reactive({});

@@ -3454,7 +3454,10 @@
       "exposure": "Exposició (s)",
       "capture": "Capturar",
       "capturing": "Capturant…",
-      "failed": "La càmera de guiatge no ha respost"
+      "failed": "La càmera de guiatge no ha respost",
+      "readoutMode": "Mode de lectura",
+      "usbLimit": "Límit USB",
+      "connectForMore": "Connecta la càmera de guiatge per ajustar el mode de lectura, el límit USB i les seves opcions pròpies."
     },
     "focuser": {
       "title": "Enfocador",

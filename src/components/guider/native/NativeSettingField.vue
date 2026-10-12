@@ -143,6 +143,7 @@
         :step="pickerSpec.step"
         :decimalPlaces="pickerSpec.decimals"
         :useDefaultSentinel="sentinel !== null"
+        :defaultValue="effectiveDefault"
         :inputId="inputId"
         wrapperClass="w-full"
         class="min-w-0 flex-1"
@@ -201,9 +202,11 @@ import toggleButton from '@/components/helpers/toggleButton.vue';
 import InfoModal from '@/components/helpers/infoModal.vue';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 import { useNativeGuiderStore } from '@/store/nativeGuiderStore';
+import { apiStore } from '@/store/store';
 import {
   defaultSentinel,
   numericPickerSpec,
+  sentinelEffectiveValue,
   settingDescription,
   settingFormValue,
   settingLabel,
@@ -243,6 +246,17 @@ const pickerTitleKey = computed(() => {
 const draft = ref(settingFormValue(props.setting));
 // Value that means "default" (Gain/Offset -1: guide camera settings, PixelSizeUm 0: driver), else null
 const sentinel = computed(() => defaultSentinel(props.setting));
+// What the sentinel currently stands for, shown greyed in the empty field ("Default (120)").
+const mainStore = apiStore();
+const effectiveDefault = computed(() =>
+  sentinel.value === null
+    ? null
+    : sentinelEffectiveValue(
+        props.setting.name,
+        mainStore.profileInfo?.GuideCameraSettings,
+        mainStore.guideCameraInfo
+      )
+);
 // The picker works on numbers; the draft stays the form value validateSettingValue() expects.
 // The picker knows only -1 as its "default", so the setting's own sentinel is mapped onto it.
 const numberDraft = computed({

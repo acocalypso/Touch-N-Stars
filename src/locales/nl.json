@@ -3413,7 +3413,10 @@
       "exposure": "Belichting (s)",
       "capture": "Opnemen",
       "capturing": "Bezig met opnemen…",
-      "failed": "De guidecamera reageerde niet"
+      "failed": "De guidecamera reageerde niet",
+      "readoutMode": "Uitleesmodus",
+      "usbLimit": "USB-limiet",
+      "connectForMore": "Verbind de guidecamera om uitleesmodus, USB-limiet en de eigen opties in te stellen."
     },
     "focuser": {
       "title": "Focuser",

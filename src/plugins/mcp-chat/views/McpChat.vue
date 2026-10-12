@@ -144,11 +144,6 @@
       </section>
 
       <form class="tns-card space-y-3 p-4" @submit.prevent="send">
-        <label class="block text-sm" for="mcp-scope">{{ t('scope') }}</label>
-        <select id="mcp-scope" v-model="scope" class="tns-select w-full" :disabled="busy">
-          <option value="">{{ t('scopeDefault') }}</option>
-          <option v-for="tool in tools" :key="tool.name" :value="tool.name">{{ tool.name }}</option>
-        </select>
         <label class="sr-only" for="mcp-message">{{ t('message') }}</label>
         <textarea
           id="mcp-message"
@@ -339,7 +334,6 @@ const model = ref({});
 const tools = ref([]);
 const messages = ref([]);
 const draft = ref('');
-const scope = ref('');
 const manualTool = ref('');
 const manualArgs = ref('{}');
 const diagnostics = ref(null);
@@ -431,24 +425,22 @@ async function send() {
       .filter((m) => m.text && (!m.response || m.response.kind === 'text'))
       .slice(-7)
       .map(({ role, text: content }) => ({ role, content }));
-    const selected = scope.value
-      ? [scope.value]
-      : ['get_status', 'connect_device', 'get_job'].filter((name) =>
-          tools.value.some((tool) => tool.name === name)
-        );
     const response = await client.chat({
       messages: history,
       locale: locale.value,
-      toolNames: selected,
     });
     if (generation !== epoch) return;
     add('assistant', response.kind === 'text' ? response.rawText : '', response);
   });
 }
 function statusShortcut() {
-  scope.value = 'get_status';
-  draft.value = t('statusPrompt');
-  void send();
+  if (!connected.value || busy.value) return;
+  add('user', t('statusPrompt'));
+  void perform(async (generation) => {
+    const response = await client.tool('get_status', {});
+    if (generation !== epoch) return;
+    add('assistant', '', response);
+  });
 }
 async function runManual() {
   await perform(async (generation) => {

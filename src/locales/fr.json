@@ -7852,8 +7852,6 @@
       "toolResult": "Voir le r?sultat de l?outil",
       "modelOutput": "Sortie du mod?le et dur?e",
       "working": "Traitement local?",
-      "scope": "S?lection d?outils",
-      "scopeDefault": "?tat, connexion et ?tat des t?ches",
       "message": "Message",
       "placeholder": "Posez une question dans votre langue?",
       "send": "Envoyer",

@@ -7852,8 +7852,6 @@
       "toolResult": "Toolresultaat bekijken",
       "modelOutput": "Modeluitvoer en tijdsduur",
       "working": "Lokaal verwerken?",
-      "scope": "Toolselectie",
-      "scopeDefault": "Status, verbinding en taakstatus",
       "message": "Bericht",
       "placeholder": "Vraag in je eigen taal?",
       "send": "Verzenden",

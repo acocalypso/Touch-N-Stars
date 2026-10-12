@@ -7852,8 +7852,6 @@
       "toolResult": "View tool result",
       "modelOutput": "Model output and timing",
       "working": "Working locally?",
-      "scope": "Tool scope",
-      "scopeDefault": "Status, connection and job status",
       "message": "Message",
       "placeholder": "Ask in your language?",
       "send": "Send",

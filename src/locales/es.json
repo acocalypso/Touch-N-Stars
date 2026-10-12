@@ -7852,8 +7852,6 @@
       "toolResult": "Ver resultado de la herramienta",
       "modelOutput": "Salida del modelo y tiempos",
       "working": "Procesando localmente?",
-      "scope": "Selecci?n de herramientas",
-      "scopeDefault": "Estado, conexi?n y estado de tareas",
       "message": "Mensaje",
       "placeholder": "Pregunta en tu idioma?",
       "send": "Enviar",

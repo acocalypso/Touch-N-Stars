@@ -7857,8 +7857,6 @@
       "toolResult": "Werkzeugergebnis anzeigen",
       "modelOutput": "Modellausgabe und Laufzeit",
       "working": "Wird lokal verarbeitet?",
-      "scope": "Werkzeugauswahl",
-      "scopeDefault": "Status, Verbindung und Auftragsstatus",
       "message": "Nachricht",
       "placeholder": "Frage in deiner Sprache?",
       "send": "Senden",

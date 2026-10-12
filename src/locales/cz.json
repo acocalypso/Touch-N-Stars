@@ -7822,6 +7822,7 @@
       }
     },
     "mcpChat": {
+      "thinking": "Model přemýšlí…",
       "start": "Spustit",
       "experimentalTitle": "Experimentální AI chat",
       "experimentalWarning": "Tato funkce je velmi experimentální a vyžaduje mnoho testování. Odpovědi AI a argumenty nástrojů mohou být chybné. Pečlivě zkontrolujte operace zařízení. Opravdu chcete pokračovat?",

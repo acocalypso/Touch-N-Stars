@@ -7822,6 +7822,7 @@
       }
     },
     "mcpChat": {
+      "thinking": "Het model denkt na…",
       "start": "Starten",
       "experimentalTitle": "Experimentele AI-chat",
       "experimentalWarning": "Deze functie is zeer experimenteel en moet nog uitgebreid worden getest. AI-antwoorden en toolargumenten kunnen onjuist zijn. Controleer apparaatbewerkingen zorgvuldig. Weet je zeker dat je wilt doorgaan?",

@@ -1,14 +1,26 @@
 <template>
-  <main :inert="showStartWarning" class="mx-auto flex max-w-4xl flex-col gap-4 p-4 pb-24">
-    <header class="flex flex-wrap items-center justify-between gap-3">
+  <main
+    :inert="showStartWarning"
+    :class="{ 'chat-connected': connected }"
+    class="mx-auto flex max-w-4xl flex-col gap-3 p-4"
+  >
+    <header class="chat-heading flex shrink-0 flex-wrap items-center justify-between gap-3">
       <div>
         <h1 class="text-2xl font-semibold">{{ t('title') }}</h1>
         <p class="text-sm text-[var(--color-content-muted)]">{{ t('subtitle') }}</p>
       </div>
-      <label class="flex min-h-touch cursor-pointer items-center gap-2 text-sm">
+      <label v-if="!connected" class="flex min-h-touch cursor-pointer items-center gap-2 text-sm">
         <input v-model="debug" type="checkbox" /> {{ t('debug') }}
       </label>
     </header>
+
+    <p
+      v-if="error && !connected"
+      role="alert"
+      class="tns-card border border-red-400/50 max-h-24 shrink-0 overflow-y-auto p-3 text-sm"
+    >
+      {{ error }}
+    </p>
 
     <section v-if="!connected" class="tns-card space-y-3 p-4">
       <template v-if="debug">
@@ -41,118 +53,195 @@
     </section>
 
     <template v-else>
-      <section class="tns-card flex flex-wrap items-center justify-between gap-3 p-4">
+      <section
+        class="chat-model tns-card flex shrink-0 flex-wrap items-center justify-between gap-3 p-3"
+      >
         <div class="min-w-0">
           <span class="text-sm font-medium">{{ t('local') }} · {{ model.state }}</span>
-          <p class="break-all text-xs text-[var(--color-content-muted)]">{{ model.modelId }}</p>
-          <p v-if="model.modelId?.includes('diagnostic')" class="mt-1 text-xs">
+          <p class="chat-model-detail break-all text-xs text-[var(--color-content-muted)]">
+            {{ model.modelId }}
+          </p>
+          <p v-if="model.modelId?.includes('diagnostic')" class="chat-model-detail mt-1 text-xs">
             {{ t('diagnosticModel') }}
           </p>
         </div>
-        <button class="tns-btn-secondary w-auto! min-h-touch" @click="disconnect">
-          {{ t('disconnect') }}
-        </button>
-      </section>
-
-      <section
-        class="tns-card flex min-h-64 flex-col gap-4 p-4"
-        role="log"
-        aria-live="polite"
-        :aria-label="t('conversation')"
-      >
-        <div v-if="!messages.length" class="my-auto space-y-3 text-center">
-          <ChatBubbleLeftRightIcon class="mx-auto h-10 w-10 opacity-60" />
-          <p>{{ t('welcome') }}</p>
-          <button class="tns-btn-secondary min-h-touch" :disabled="busy" @click="statusShortcut">
-            {{ t('statusPrompt') }}
+        <div class="flex items-center gap-3">
+          <label class="flex min-h-touch cursor-pointer items-center gap-2 text-sm">
+            <input v-model="debug" type="checkbox" /> {{ t('debug') }}
+          </label>
+          <button class="tns-btn-secondary w-auto! min-h-touch" @click="disconnect">
+            {{ t('disconnect') }}
           </button>
         </div>
-        <article
-          v-for="message in messages"
-          :key="message.id"
-          class="min-w-0 space-y-2 rounded-xl border border-[var(--color-line)] p-3"
-          :class="message.role === 'user' ? 'ml-6' : 'mr-6'"
-        >
-          <div
-            class="flex items-center justify-between gap-2 text-xs text-[var(--color-content-muted)]"
-          >
-            <span>{{ message.role === 'user' ? t('you') : t('assistant') }}</span>
-            <span v-if="message.response?.kind === 'text'">{{ t('unverified') }}</span>
-          </div>
-          <p v-if="message.text" class="select-text whitespace-pre-wrap break-words text-sm">
-            {{ message.text }}
-          </p>
-          <div v-if="message.response?.kind === 'approval'" class="space-y-3">
-            <p class="font-medium">{{ t('reviewAction') }}</p>
-            <p class="text-sm">{{ t('approvalHelp') }}</p>
-            <pre class="max-h-48 overflow-auto rounded-lg bg-black/20 p-3 text-xs select-text">{{
-              format({
-                tool: message.response.preview.tool,
-                arguments: message.response.preview.arguments,
-              })
-            }}</pre>
-            <p class="text-xs">
-              {{ t('expires') }}
-              {{ new Date(message.response.preview.expires).toLocaleTimeString() }}
-            </p>
-            <div v-if="!message.decided" class="flex flex-wrap gap-2">
-              <button
-                class="tns-btn-primary w-auto! min-h-touch"
-                :disabled="busy || expired(message)"
-                @click="approve(message)"
-              >
-                {{ t('approve') }}
-              </button>
-              <button
-                class="tns-btn-secondary w-auto! min-h-touch"
-                :disabled="busy"
-                @click="reject(message)"
-              >
-                {{ t('reject') }}
-              </button>
-            </div>
-            <p v-else class="text-sm">{{ t('decisionRecorded') }}</p>
-          </div>
-          <div v-if="message.response?.kind === 'result'" class="space-y-2">
-            <div class="flex flex-wrap items-center gap-2 text-sm">
-              <span class="font-mono">{{ message.response.name }}</span>
-              <span :class="message.response.result.isError ? 'text-red-400' : ''">{{
-                outcome(message.response.result)
-              }}</span>
-            </div>
-            <p v-if="message.response.result.job" class="text-xs font-mono">
-              {{ message.response.result.job.id }}
-            </p>
-            <details class="text-sm">
-              <summary class="min-h-touch cursor-pointer">{{ t('toolResult') }}</summary>
-              <pre class="max-h-64 overflow-auto rounded-lg bg-black/20 p-3 text-xs select-text">{{
-                format(message.response.result)
-              }}</pre>
-            </details>
-          </div>
-          <details v-if="debug && message.response?.generation" class="text-xs">
-            <summary class="min-h-touch cursor-pointer">{{ t('modelOutput') }}</summary>
-            <pre class="max-h-48 overflow-auto whitespace-pre-wrap select-text">{{
-              format(message.response.generation)
-            }}</pre>
-          </details>
-        </article>
-        <p v-if="busy" role="status" class="flex items-center gap-2 text-sm">
-          <span class="h-3 w-3 animate-pulse rounded-full bg-current"></span>{{ t('working') }}
-        </p>
-        <div ref="bottom"></div>
       </section>
 
-      <form class="tns-card space-y-3 p-4" @submit.prevent="send">
+      <div ref="conversation" class="min-h-0 flex-1 space-y-3 overflow-y-auto overscroll-contain">
+        <section
+          class="tns-card flex flex-col gap-4 p-3"
+          role="log"
+          aria-live="polite"
+          :aria-label="t('conversation')"
+        >
+          <div v-if="!messages.length" class="my-auto space-y-3 text-center">
+            <ChatBubbleLeftRightIcon class="mx-auto h-10 w-10 opacity-60" />
+            <p>{{ t('welcome') }}</p>
+            <button class="tns-btn-secondary min-h-touch" :disabled="busy" @click="statusShortcut">
+              {{ t('statusPrompt') }}
+            </button>
+          </div>
+          <article
+            v-for="message in messages"
+            :key="message.id"
+            class="min-w-0 space-y-2 rounded-xl border border-[var(--color-line)] p-3"
+            :class="message.role === 'user' ? 'ml-6' : 'mr-6'"
+          >
+            <div
+              class="flex items-center justify-between gap-2 text-xs text-[var(--color-content-muted)]"
+            >
+              <span>{{ message.role === 'user' ? t('you') : t('assistant') }}</span>
+              <span v-if="message.response?.kind === 'text'">{{ t('unverified') }}</span>
+            </div>
+            <p v-if="message.text" class="select-text whitespace-pre-wrap break-words text-sm">
+              {{ message.text }}
+            </p>
+            <div v-if="message.response?.kind === 'approval'" class="space-y-3">
+              <p class="font-medium">{{ t('reviewAction') }}</p>
+              <p class="text-sm">{{ t('approvalHelp') }}</p>
+              <pre class="max-h-48 overflow-auto rounded-lg bg-black/20 p-3 text-xs select-text">{{
+                format({
+                  tool: message.response.preview.tool,
+                  arguments: message.response.preview.arguments,
+                })
+              }}</pre>
+              <p class="text-xs">
+                {{ t('expires') }}
+                {{ new Date(message.response.preview.expires).toLocaleTimeString() }}
+              </p>
+              <div v-if="!message.decided" class="flex flex-wrap gap-2">
+                <button
+                  class="tns-btn-primary w-auto! min-h-touch"
+                  :disabled="busy || expired(message)"
+                  @click="approve(message)"
+                >
+                  {{ t('approve') }}
+                </button>
+                <button
+                  class="tns-btn-secondary w-auto! min-h-touch"
+                  :disabled="busy"
+                  @click="reject(message)"
+                >
+                  {{ t('reject') }}
+                </button>
+              </div>
+              <p v-else class="text-sm">{{ t('decisionRecorded') }}</p>
+            </div>
+            <div v-if="message.response?.kind === 'result'" class="space-y-2">
+              <div class="flex flex-wrap items-center gap-2 text-sm">
+                <span class="font-mono">{{ message.response.name }}</span>
+                <span :class="message.response.result.isError ? 'text-red-400' : ''">{{
+                  outcome(message.response.result)
+                }}</span>
+              </div>
+              <p v-if="message.response.result.job" class="text-xs font-mono">
+                {{ message.response.result.job.id }}
+              </p>
+              <details class="text-sm">
+                <summary class="min-h-touch cursor-pointer">{{ t('toolResult') }}</summary>
+                <pre
+                  class="max-h-64 overflow-auto rounded-lg bg-black/20 p-3 text-xs select-text"
+                  >{{ format(message.response.result) }}</pre>
+              </details>
+            </div>
+            <details v-if="debug && message.response?.generation" class="text-xs">
+              <summary class="min-h-touch cursor-pointer">{{ t('modelOutput') }}</summary>
+              <pre class="max-h-48 overflow-auto whitespace-pre-wrap select-text">{{
+                format(message.response.generation)
+              }}</pre>
+            </details>
+          </article>
+          <p v-if="error" role="alert" class="max-h-24 overflow-y-auto text-sm text-red-400">
+            {{ error }}
+          </p>
+          <div ref="bottom"></div>
+        </section>
+
+        <details class="tns-card space-y-3 p-4">
+          <summary class="min-h-touch cursor-pointer font-medium">{{ t('toolBrowser') }}</summary>
+          <p class="text-sm">{{ t('toolHelp') }}</p>
+          <label class="sr-only" for="mcp-tool">{{ t('tool') }}</label>
+          <select id="mcp-tool" v-model="manualTool" class="tns-select w-full" :disabled="busy">
+            <option value="">{{ t('chooseTool') }}</option>
+            <option v-for="tool in tools" :key="tool.name" :value="tool.name">
+              {{ tool.name }}
+            </option>
+          </select>
+          <p class="text-sm">{{ selectedTool?.description }}</p>
+          <details v-if="selectedTool" class="text-sm">
+            <summary class="min-h-touch cursor-pointer">{{ t('schema') }}</summary>
+            <pre class="max-h-48 overflow-auto text-xs select-text">{{
+              format(selectedTool.inputSchema)
+            }}</pre>
+          </details>
+          <label class="block text-sm" for="mcp-arguments">{{ t('arguments') }}</label>
+          <textarea
+            id="mcp-arguments"
+            v-model="manualArgs"
+            rows="4"
+            maxlength="8000"
+            class="tns-input w-full font-mono text-sm"
+            :disabled="busy"
+          ></textarea>
+          <button
+            class="tns-btn-secondary min-h-touch"
+            :disabled="busy || !manualTool"
+            @click="runManual"
+          >
+            {{ t('reviewRequest') }}
+          </button>
+        </details>
+        <section v-if="debug" class="tns-card space-y-3 p-4">
+          <h2 class="font-medium">{{ t('debug') }}</h2>
+          <p class="text-xs">{{ t('debugHelp') }}</p>
+          <div class="flex flex-wrap gap-2">
+            <button
+              class="tns-btn-secondary w-auto! min-h-touch"
+              :disabled="!connected || busy"
+              @click="refreshDebug"
+            >
+              {{ t('refresh') }}
+            </button>
+            <button
+              class="tns-btn-secondary w-auto! min-h-touch"
+              :disabled="!diagnostics"
+              @click="exportDebug"
+            >
+              {{ t('export') }}
+            </button>
+          </div>
+          <pre
+            v-if="diagnostics"
+            class="max-h-72 overflow-auto whitespace-pre-wrap break-all text-xs select-text"
+            >{{ format(diagnostics) }}</pre>
+        </section>
+      </div>
+
+      <form class="chat-composer tns-card shrink-0 space-y-3 p-3" @submit.prevent="send">
+        <p v-if="thinking" role="status" aria-live="polite" class="flex items-center gap-2 text-sm">
+          <span
+            aria-hidden="true"
+            class="h-4 w-4 animate-spin rounded-full border-2 border-current border-r-transparent motion-reduce:animate-none"
+          ></span>
+          {{ t('thinking') }}
+        </p>
+        <p v-else-if="busy" role="status" class="text-sm">{{ t('working') }}</p>
         <label class="sr-only" for="mcp-message">{{ t('message') }}</label>
         <textarea
           id="mcp-message"
           v-model="draft"
-          rows="3"
+          rows="2"
           maxlength="2000"
-          class="tns-input w-full resize-y"
+          class="tns-input w-full resize-none"
           :placeholder="t('placeholder')"
-          :disabled="busy"
           @keydown.ctrl.enter.prevent="send"
         ></textarea>
         <div class="flex gap-2">
@@ -176,68 +265,8 @@
           </button>
         </div>
       </form>
-
-      <details class="tns-card space-y-3 p-4">
-        <summary class="min-h-touch cursor-pointer font-medium">{{ t('toolBrowser') }}</summary>
-        <p class="text-sm">{{ t('toolHelp') }}</p>
-        <label class="sr-only" for="mcp-tool">{{ t('tool') }}</label>
-        <select id="mcp-tool" v-model="manualTool" class="tns-select w-full" :disabled="busy">
-          <option value="">{{ t('chooseTool') }}</option>
-          <option v-for="tool in tools" :key="tool.name" :value="tool.name">{{ tool.name }}</option>
-        </select>
-        <p class="text-sm">{{ selectedTool?.description }}</p>
-        <details v-if="selectedTool" class="text-sm">
-          <summary class="min-h-touch cursor-pointer">{{ t('schema') }}</summary>
-          <pre class="max-h-48 overflow-auto text-xs select-text">{{
-            format(selectedTool.inputSchema)
-          }}</pre>
-        </details>
-        <label class="block text-sm" for="mcp-arguments">{{ t('arguments') }}</label>
-        <textarea
-          id="mcp-arguments"
-          v-model="manualArgs"
-          rows="4"
-          maxlength="8000"
-          class="tns-input w-full font-mono text-sm"
-          :disabled="busy"
-        ></textarea>
-        <button
-          class="tns-btn-secondary min-h-touch"
-          :disabled="busy || !manualTool"
-          @click="runManual"
-        >
-          {{ t('reviewRequest') }}
-        </button>
-      </details>
     </template>
 
-    <p v-if="error" role="alert" class="tns-card border border-red-400/50 p-4 text-sm">
-      {{ error }}
-    </p>
-    <section v-if="debug" class="tns-card space-y-3 p-4">
-      <h2 class="font-medium">{{ t('debug') }}</h2>
-      <p class="text-xs">{{ t('debugHelp') }}</p>
-      <div class="flex flex-wrap gap-2">
-        <button
-          class="tns-btn-secondary w-auto! min-h-touch"
-          :disabled="!connected || busy"
-          @click="refreshDebug"
-        >
-          {{ t('refresh') }}
-        </button>
-        <button
-          class="tns-btn-secondary w-auto! min-h-touch"
-          :disabled="!diagnostics"
-          @click="exportDebug"
-        >
-          {{ t('export') }}
-        </button>
-      </div>
-      <pre
-        v-if="diagnostics"
-        class="max-h-72 overflow-auto whitespace-pre-wrap break-all text-xs select-text"
-        >{{ format(diagnostics) }}</pre>
-    </section>
     <Modal :show="showStartWarning" :disable-close="true" max-width="max-w-lg" @close="cancelStart">
       <template #header>
         <h2 id="mcp-start-title" class="text-lg font-semibold">{{ t('experimentalTitle') }}</h2>
@@ -338,6 +367,8 @@ const manualTool = ref('');
 const manualArgs = ref('{}');
 const diagnostics = ref(null);
 const bottom = ref(null);
+const conversation = ref(null);
+const thinking = ref(false);
 let client;
 let epoch = 0;
 let sequence = 0;
@@ -359,6 +390,7 @@ async function perform(operation) {
   const generation = epoch;
   busy.value = true;
   error.value = '';
+  thinking.value = false;
   try {
     // Finish an in-flight job query before sending a single-use approval.
     if (polling) await polling;
@@ -373,13 +405,26 @@ async function perform(operation) {
     if (generation === epoch) {
       busy.value = false;
       await nextTick();
-      bottom.value?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      scrollConversation();
     }
   }
+}
+function scrollConversation() {
+  const panel = conversation.value;
+  const anchor = bottom.value;
+  if (!panel || !anchor) return;
+  panel.scrollTo({
+    top: Math.max(
+      0,
+      panel.scrollTop + anchor.getBoundingClientRect().bottom - panel.getBoundingClientRect().bottom
+    ),
+    behavior: 'smooth',
+  });
 }
 function add(role, text, response) {
   messages.value.push({ id: ++sequence, role, text, response });
   if (messages.value.length > 24) messages.value.splice(0, messages.value.length - 24);
+  void nextTick(scrollConversation);
 }
 async function connect() {
   await perform(async (generation) => {
@@ -413,6 +458,7 @@ function disconnect() {
   model.value = {};
   diagnostics.value = null;
   error.value = '';
+  thinking.value = false;
   void old?.close().catch(() => {});
 }
 async function send() {
@@ -425,10 +471,13 @@ async function send() {
       .filter((m) => m.text && (!m.response || m.response.kind === 'text'))
       .slice(-7)
       .map(({ role, text: content }) => ({ role, content }));
-    const response = await client.chat({
-      messages: history,
-      locale: locale.value,
-    });
+    thinking.value = true;
+    let response;
+    try {
+      response = await client.chat({ messages: history, locale: locale.value });
+    } finally {
+      if (generation === epoch) thinking.value = false;
+    }
     if (generation !== epoch) return;
     add('assistant', response.kind === 'text' ? response.rawText : '', response);
   });
@@ -564,3 +613,39 @@ watch(manualTool, () => {
 });
 onUnmounted(disconnect);
 </script>
+
+<style scoped>
+.chat-connected {
+  height: calc(
+    100dvh - 82px - var(--subnav-offset, 0px) - var(--statusbar-height, 48px) -
+      env(safe-area-inset-bottom, 0px) - var(--stage-inset, 8px) - 32px
+  );
+}
+@media (orientation: landscape) {
+  .chat-connected {
+    height: calc(
+      100dvh - var(--subnav-offset, 0px) - var(--statusbar-height, 48px) - 2 *
+        var(--stage-inset, 8px) - 32px
+    );
+  }
+}
+@media (max-height: 600px) {
+  .chat-connected {
+    gap: 0.5rem;
+    padding: 0.5rem;
+  }
+  .chat-connected .chat-heading {
+    display: none;
+  }
+  .chat-model-detail {
+    display: none;
+  }
+  .chat-model,
+  .chat-composer {
+    padding: 0.5rem;
+  }
+  .chat-composer textarea {
+    height: 48px;
+  }
+}
+</style>

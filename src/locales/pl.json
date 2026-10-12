@@ -7822,6 +7822,7 @@
       }
     },
     "mcpChat": {
+      "thinking": "Model myśli…",
       "start": "Uruchom",
       "experimentalTitle": "Eksperymentalny czat AI",
       "experimentalWarning": "Ta funkcja jest bardzo eksperymentalna i wymaga wielu testów. Odpowiedzi AI i argumenty narzędzi mogą być błędne. Dokładnie sprawdzaj operacje urządzeń. Czy na pewno chcesz kontynuować?",

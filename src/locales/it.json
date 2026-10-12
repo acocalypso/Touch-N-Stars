@@ -7827,6 +7827,7 @@
       }
     },
     "mcpChat": {
+      "thinking": "Il modello sta pensando…",
       "start": "Avvia",
       "experimentalTitle": "Chat IA sperimentale",
       "experimentalWarning": "Questa funzione è molto sperimentale e richiede molti test. Le risposte dell’IA e gli argomenti degli strumenti possono essere errati. Controlla attentamente le operazioni sui dispositivi. Vuoi davvero continuare?",

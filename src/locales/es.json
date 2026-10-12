@@ -7822,6 +7822,7 @@
       }
     },
     "mcpChat": {
+      "thinking": "El modelo está pensando…",
       "start": "Iniciar",
       "experimentalTitle": "Chat de IA experimental",
       "experimentalWarning": "Esta función es muy experimental y necesita muchas pruebas. Las respuestas de la IA y los argumentos de las herramientas pueden ser incorrectos. Revisa cuidadosamente las acciones del equipo. ¿Seguro que quieres continuar?",

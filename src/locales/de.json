@@ -7827,6 +7827,7 @@
       }
     },
     "mcpChat": {
+      "thinking": "Das Modell denkt nach…",
       "start": "Starten",
       "experimentalTitle": "Experimenteller KI-Chat",
       "experimentalWarning": "Diese Funktion ist sehr experimentell und muss noch viel getestet werden. KI-Antworten und Werkzeugargumente können falsch sein. Prüfe Geräteaktionen sorgfältig. Möchtest du wirklich fortfahren?",

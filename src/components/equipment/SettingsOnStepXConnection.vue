@@ -56,10 +56,6 @@
         <option v-for="rate in baudOptions" :key="rate" :value="rate">{{ rate }}</option>
       </select>
     </div>
-
-    <p class="text-xs text-content-faint mt-2 md:mt-3">
-      {{ $t('components.mount.onstepx.connection.hint') }}
-    </p>
   </div>
 </template>
 
@@ -109,7 +105,8 @@ const selectedPort = computed({
 
 // A saved port that is not among the detected ones is a manual entry (e.g. /dev/onstep)
 watch([port, availablePorts], ([current, ports]) => {
-  if (!current || ports.length === 0) {
+  // Also with no detected ports at all, so a saved path never hides behind an empty dropdown
+  if (!current) {
     return;
   }
   if (!ports.some((p) => !p.separator && p.Port === current)) {

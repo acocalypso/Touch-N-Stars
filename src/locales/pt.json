@@ -1466,6 +1466,79 @@
           "vendorFirmware": "Firmware do fabricante",
           "serialPort": "Porta série",
           "guideRate": "Velocidade de guiagem por pulsos"
+        },
+        "proxisky": {
+          "title": "Proxisky",
+          "refresh": "Ler novamente",
+          "loadFailed": "Não foi possível ler as definições Proxisky",
+          "info": {
+            "StatusLed": "Liga ou desliga a luz de estado da montagem, p. ex. desligada num local escuro. A luz pisca enquanto a montagem faz seguimento e fica acesa quando o seguimento está parado ou durante um goto; verde no modo equatorial, azul no modo Alt-Az. A montagem aplica a nova definição após ser reiniciada (desligar e ligar).",
+            "PowerLossMemory": "A montagem grava continuamente a sua posição na memória (FRAM), por isso após uma falha de energia ainda sabe para onde aponta e onde está o home.",
+            "AsiairHoming": "Permite que um ASIAIR inicie a procura do home, com os ajustes da Proxisky para o ASIAIR. Só é necessário quando um ASIAIR controla a montagem.",
+            "SupervisedHome": "Uma das funções de segurança da Proxisky, baseada na posição que a montagem guarda na memória (FRAM). Algumas versões de firmware não permitem alterá-la.",
+            "DecSecondHome": "Usa o segundo sensor de home do eixo Dec: no home a sela fica perpendicular ao eixo RA, virada a este e oeste, para configurações duplas em paralelo. No modo Alt-Az a montagem muda para ele sozinha. Só pode ser alterado numa UMi17X.",
+            "AutoTracking": "A montagem inicia o seguimento sozinha ao ser ligada. A montagem aplica a nova definição após ser reiniciada (desligar e ligar).",
+            "raLimits": "Limite RA supervisionado: o encoder do motor RA mede quanto o RA rodou desde que o home foi definido (At Home), e a montagem para o seguimento e os movimentos no limite. Com o valor predefinido de 95°, o RA para 5° depois do meridiano, antes de o equipamento bater no tripé ou na coluna. Requer uma posição home correta. Esquerda e direita são termos da Proxisky e não correspondem a este ou oeste; experimente a direção de cada limite sem nada montado que possa colidir.",
+            "decLimits": "Impede que o Dec rode demasiado longe da posição home ativa, para que os cabos dentro da montagem não fiquem presos. Quando o Dec atinge um limite, o seguimento para; mova o Dec de volta com N ou S. Sentido anti-horário e horário, em graus. Só pode ser alterado numa UMi17X.",
+            "acs": "O sistema anticolisão vigia a montagem durante movimentos e seguimento para detetar uma colisão da carga com o tripé ou a coluna. Numa colisão ambos os eixos recuam 5° e o seguimento para; leve a montagem ao home antes de continuar, para que as coordenadas voltem a coincidir. Valores de sensibilidade mais altos tornam-na menos sensível: aumente-os de 50 em 50, só no eixo que disparou. Os contadores mostram as colisões detetadas.",
+            "supervisedGoto": "Um goto cujo alvo está mais longe do que a tolerância é recusado em vez de executado. A tolerância é em graus.",
+            "pid": "Os ganhos de controlo dos servomotores: Kp e Ki do controlo de posição (ângulo) e de velocidade. Valores errados podem impedir o seguimento, por isso anote primeiro os valores antigos. A escrita reinicia o eixo, por isso a montagem tem de estar parada e sem seguimento; aplica os novos ganhos após ser reiniciada (desligar e ligar)."
+          },
+          "restartPending": "Tem efeito após reiniciar a montagem",
+          "restartNote": "Aplica-se após um reinício",
+          "switches": {
+            "StatusLed": "LED de estado",
+            "PowerLossMemory": "Memória de falha de energia",
+            "AsiairHoming": "Homing ASIAIR",
+            "SupervisedHome": "Home supervisionado",
+            "DecSecondHome": "Segundo home Dec",
+            "AutoTracking": "Seguimento ao ligar",
+            "RaLimits": "Limites RA ativos",
+            "DecLimits": "Limites Dec ativos",
+            "AntiCollision": "Anticolisão ativa",
+            "SupervisedGoto": "Goto supervisionado ativo"
+          },
+          "umi17xOnly": "Só pode ser alterado numa UMi17X.",
+          "raLimits": {
+            "title": "Limites de curso RA",
+            "left": "Esquerda (°)",
+            "right": "Direita (°)",
+            "hint": "Graus inteiros, de 1 a 180, nos lados esquerdo e direito do fabricante."
+          },
+          "decLimits": {
+            "title": "Limites de curso Dec",
+            "ccw": "Anti-horário (°)",
+            "cw": "Horário (°)",
+            "hint": "Graus inteiros, de 90 a 200, sentido anti-horário e horário."
+          },
+          "acs": {
+            "title": "Anticolisão (ACS)",
+            "thresholdRa": "Sensibilidade RA",
+            "thresholdDec": "Sensibilidade Dec",
+            "hint": "RA de 10 a 59999, Dec de 100 a 59999.",
+            "collisions": "Colisões RA / Dec",
+            "clear": "Repor contadores",
+            "clearConfirmTitle": "Repor os contadores de colisões?",
+            "clearConfirm": "Põe ambos os contadores de colisões a 0."
+          },
+          "supervisedGoto": {
+            "title": "Goto supervisionado",
+            "tolerance": "Tolerância (°)",
+            "hint": "Graus inteiros, de 5 a 30."
+          },
+          "pid": {
+            "title": "PID dos servos",
+            "ra": "RA / Azimute",
+            "dec": "Dec / Altitude",
+            "angleKp": "Ângulo Kp",
+            "angleKi": "Ângulo Ki",
+            "speedKp": "Velocidade Kp",
+            "speedKi": "Velocidade Ki",
+            "hint": "De 11 a 1999, velocidade Ki de 11 a 80. A escrita reinicia o eixo, por isso a montagem tem de estar parada e sem seguimento. Os novos ganhos têm efeito após reiniciar a montagem.",
+            "readOnly": "Só pode ser alterado numa UMi20S ou UMi17X.",
+            "confirmTitle": "Escrever ganhos PID?",
+            "confirm": "A escrita reinicia o eixo {axis}. Ganhos errados podem impedir o seguimento. Os novos ganhos têm efeito após um reinício."
+          }
         }
       }
     },
@@ -2345,6 +2418,7 @@
           "on": "ligado",
           "off": "desligado",
           "resetToDefault": "Repor para {value}",
+          "defaultValue": "padrão",
           "saveFailed": "Não foi possível guardar a definição.",
           "errors": {
             "required": "Introduza um valor.",
@@ -2374,6 +2448,10 @@
           "actionCancel": "Cancelar",
           "actionOptionConfirm": "Executar “{option}”?",
           "optionLabels": {
+            "GuideSource": {
+              "GuideCamera": "Câmara de guiagem",
+              "Simulator": "Simulador"
+            },
             "DecGuideMode": {
               "Auto": "Auto – ambas as direções",
               "North": "Só Norte",
@@ -2383,6 +2461,7 @@
             }
           },
           "labels": {
+            "GuideSource": "Imagens de guiagem de",
             "ExposureSeconds": "Exposição",
             "Gain": "Ganho",
             "Offset": "Desvio",
@@ -2407,6 +2486,7 @@
             "RaHysteresis": "Histerese RA",
             "RaLowpass2Aggressiveness": "Agressividade Lowpass2 RA",
             "RaMinMove": "Movimento mín. RA",
+            "RaCorrectionPace": "Ritmo de correção RA",
             "PeriodicErrorPrediction": "Previsão do erro periódico",
             "WormTeeth": "Dentes da coroa RA",
             "ForgetPeriodicError": "Esquecer erro periódico",
@@ -2416,12 +2496,15 @@
             "DecLowpass2Aggressiveness": "Agressividade Lowpass2 Dec",
             "DecFastSwitch": "Inversão rápida Dec",
             "DecMinMove": "Movimento mín. Dec",
+            "DecCorrectionPace": "Ritmo de correção Dec",
             "DecGuideMode": "Modo de guiagem Dec",
             "MaxRaDurationMs": "Pulso RA máx.",
             "MaxDecDurationMs": "Pulso Dec máx.",
             "MinPulseMs": "Pulso mín.",
+            "SimultaneousPulses": "Pulsos RA e Dec simultâneos",
             "BacklashCompensation": "Compensação de folga em Dec",
             "BacklashPulseMs": "Pulso de folga em Dec",
+            "PulseModel": "Modelo de pulsos",
             "CalibrationStepMs": "Passo de calibração",
             "ReuseCalibration": "Reutilizar calibração",
             "AssumeOrthogonal": "Assumir Dec ortogonal",
@@ -2442,27 +2525,60 @@
             "SimulateFault": "Simular uma falha"
           },
           "descriptions": {
+            "GuideSource": "De onde vêm as imagens de guiagem. Câmara de guiagem: a câmara na posição de câmara de guiagem do equipamento. Simulador: uma simulação integrada de montagem, céu e câmara, para experimentar a guiagem sem hardware ou de dia.",
+            "ExposureSeconds": "Tempo de exposição de cada imagem de guiagem. 1–4 s fazem a média da maior parte do seeing; exposições mais curtas reagem mais depressa mas perseguem o seeing, as mais longas reagem devagar ao vento e aos erros da montagem.",
             "Gain": "-1 mantém o ganho atual do driver. (O ganho do PHD2 é uma percentagem, por isso não é transferido.)",
             "Offset": "-1 mantém o desvio atual do driver.",
+            "Binning": "Binning por hardware das imagens de guiagem. 2×2 torna a câmara mais sensível e a transferência mais rápida, à custa da resolução; útil com píxeis pequenos ou uma focal de guiagem longa. Calibre de novo após uma alteração.",
             "FocalLengthMm": "Distância focal do telescópio guia (ou do telescópio principal com um OAG). Necessária para os valores em segundos de arco e para o passo de calibração.",
             "PixelSizeUm": "0 usa o tamanho de píxel do driver da câmara.",
+            "NoiseReduction": "Suaviza cada imagem de guiagem antes de medir as estrelas. Mean 2×2 faz a média dos píxeis vizinhos, Median 3×3 remove também píxeis quentes isolados. Ajuda com imagens muito ruidosas, p. ex. de câmaras não arrefecidas; em imagens limpas, None dá as posições de estrela mais precisas.",
             "UseDarkLibrary": "Subtrai darks: a biblioteca nativa, se tiver sido criada; caso contrário, a biblioteca de darks do PHD2 para as dimensões desta câmara.",
             "PulseOutput": "Mount: guiagem por pulsos através do driver da montagem ligada. CameraST4: através da porta ST4 da câmara guia.",
+            "MultiStar": "Mede várias estrelas ao mesmo tempo e guia pela posição combinada delas em vez de uma só estrela. Isto faz a média de grande parte do seeing e mantém a guiagem quando uma estrela enfraquece. Melhor deixar ativado.",
+            "MaxStars": "Número máximo de estrelas para a guiagem multiestrela. Mais estrelas fazem a média de mais seeing; com poucas estrelas utilizáveis no campo, a guiagem usa as que encontra. 1 guia por uma só estrela.",
+            "MinSnr": "Relação sinal/ruído que uma estrela precisa para ser escolhida como estrela guia. Um valor demasiado alto faz com que nenhuma estrela seja encontrada; em vez de o baixar, experimente uma exposição mais longa, mais ganho ou uma biblioteca de darks nova.",
+            "SearchRegion": "Metade do tamanho, em píxeis, da caixa onde a guiagem procura a estrela na imagem seguinte: 15 significa uma caixa de 30×30. Aumente se a estrela salta muitas vezes para fora da caixa (seguimento fraco, vento); uma caixa demasiado grande pode apanhar uma estrela vizinha.",
+            "MinHfd": "Tamanho mínimo (diâmetro de meio fluxo, em píxeis) que uma estrela tem de ter para ser usada. Evita que a guiagem se prenda a grupos de píxeis quentes; 1,5 serve para a maioria dos setups. Aumente se forem escolhidos píxeis quentes, baixe se estrelas reais muito nítidas forem rejeitadas.",
+            "MaxHfd": "Tamanho máximo (diâmetro de meio fluxo, em píxeis) de uma estrela guia. Manchas inchadas ou desfocadas acima disso são ignoradas na seleção de estrelas.",
+            "MassChangeEnabled": "Vigia o brilho (massa) da estrela guia e trata uma mudança súbita como estrela perdida, para que a guiagem não salte para uma estrela vizinha nem guie por um píxel quente quando passam nuvens.",
+            "MassChangeThreshold": "Quanto a massa da estrela pode mudar antes de a estrela ser considerada perdida: 0,5 permite uma mudança de metade face às imagens recentes. Aumente se surgirem alarmes de estrela perdida embora a estrela esteja bem visível, p. ex. com transparência variável.",
             "PrimaryDropoutFallback": "Quando a estrela principal falha numa imagem, estima a sua posição a partir de ≥3 estrelas secundárias concordantes.",
             "SaturationAdu": "0 = detetar a saturação a partir do perfil da estrela.",
             "RaAlgorithm": "Predictive (experimental) aprende o seeing e o movimento próprio da montagem a partir das imagens de guiagem e corrige o erro que prevê para a imagem seguinte, pelo que a agressividade, a histerese e o movimento mínimo não se lhe aplicam.",
             "RaAggression": "Fração do erro corrigida em cada imagem (0..1).",
+            "RaHysteresis": "Peso da correção RA anterior face ao último erro: 0,1 mistura 10 % da última correção. Valores mais altos suavizam as correções mas reagem mais devagar a uma mudança real de direção.",
+            "RaLowpass2Aggressiveness": "O Lowpass2 ajusta uma reta aos últimos erros RA e corrige essa tendência em vez de imagens isoladas. É a parte da tendência corrigida por imagem, em percentagem; baixe se as correções ultrapassarem.",
             "RaMinMove": "0 = automático a partir da escala de imagem.",
+            "RaCorrectionPace": "Parte do erro restante que o algoritmo Predictive corrige por imagem: 0,5 elimina um desvio em 2–3 imagens sem passar do zero, 1 corrige tudo de uma vez. A deriva e o erro periódico são sempre corrigidos por completo.",
             "PeriodicErrorPrediction": "Aprende o erro periódico do sem-fim de RA e corrige-o antes que se note. A curva aprendida é guardada por perfil e montagem.",
             "WormTeeth": "Dentes da coroa de RA (ex.: 180 numa EQ6-R, 135 numa HEQ5); dá o período exato do sem-fim. 0 = detetar o período a partir das imagens de guiagem.",
             "ForgetPeriodicError": "Esquece o erro periódico aprendido para esta montagem (ex.: depois de ajustar o sem-fim); depois volta a ser aprendido.",
             "DecAlgorithm": "Predictive (experimental) aprende o seeing e o movimento próprio da montagem a partir das imagens de guiagem e corrige o erro que prevê para a imagem seguinte, pelo que a agressividade, a histerese e o movimento mínimo não se lhe aplicam.",
+            "DecAggression": "Parte do erro Dec medido corrigida em cada imagem: 1,0 corrige tudo. Baixe se Dec ultrapassar.",
+            "DecHysteresis": "Peso da correção Dec anterior face ao último erro: 0,1 mistura 10 % da última correção. Valores mais altos suavizam as correções mas reagem mais devagar a uma mudança real de direção.",
+            "DecLowpass2Aggressiveness": "O Lowpass2 ajusta uma reta aos últimos erros Dec e corrige essa tendência em vez de imagens isoladas. É a parte da tendência corrigida por imagem, em percentagem; baixe se as correções ultrapassarem.",
+            "DecFastSwitch": "Com ResistSwitch: deixa Dec inverter a direção de imediato quando o erro é grande (mais de 3 × min move), em vez de esperar que várias imagens concordem. Recupera depressa um erro Dec grande.",
             "DecMinMove": "0 = automático a partir da escala de imagem.",
+            "DecCorrectionPace": "Parte do erro restante que o algoritmo Predictive corrige por imagem: 0,5 elimina um desvio em 2–3 imagens sem passar do zero, 1 corrige tudo de uma vez. A deriva e o erro periódico são sempre corrigidos por completo.",
             "DecGuideMode": "Auto guia Dec em ambas as direções; Só Norte ou Só Sul, numa só; Desligado, em nenhuma. Drift segue a deriva: mede a deriva em Dec enquanto guia e só guia contra ela, por isso as engrenagens de Dec nunca invertem e a folga deixa de importar; muda de direção quando a deriva se inverte e guia em ambas as direções até a deriva ser conhecida, durante a estabilização e para recuperar um erro grande.",
+            "MaxRaDurationMs": "Pulso de guiagem RA individual mais longo. Limita uma correção quando uma medição está muito errada (estrela errada, rajada de vento), para que a montagem não seja atirada para longe. Aumente apenas se erros grandes levarem muitas imagens a corrigir.",
+            "MaxDecDurationMs": "Pulso de guiagem Dec individual mais longo. Limita uma correção quando uma medição está muito errada (estrela errada, rajada de vento), para que a montagem não seja atirada para longe. Aumente apenas se erros grandes levarem muitas imagens a corrigir.",
             "MinPulseMs": "Pulsos de guiagem mais curtos são arredondados para 0 ou para esta duração: algumas montagens lidam mal com pulsos muito curtos. 0 = qualquer duração.",
+            "SimultaneousPulses": "Envia os pulsos RA e Dec de uma imagem ao mesmo tempo em vez de um após o outro, o que encurta o ciclo de guiagem. Apenas com montagens que temporizam os dois eixos em separado (o driver OnStepX nativo do pins); as outras montagens continuam um após o outro.",
+            "BacklashCompensation": "Acrescenta um pulso extra quando Dec inverte a direção, para absorver a folga das engrenagens Dec. Útil com backlash Dec notório; deixe desativado se Dec guiar bem. O modo de guiagem Dec Drift evita totalmente as inversões.",
+            "BacklashPulseMs": "Duração do pulso extra numa inversão de Dec. A partir daí, a guiagem ajusta o pulso automaticamente entre 20 ms e 1,5 × este valor, conforme a resposta da estrela.",
+            "PulseModel": "Aprende com os dithers quanto um pulso de guiagem move realmente a estrela em cada eixo e dimensiona os pulsos de acordo, para que uma calibração imprecisa já não faça a guiagem corrigir demais ou de menos. Começa com os valores da calibração, muda apenas o que os dithers mostram claramente e guarda o que aprendeu por perfil e montagem até à próxima calibração.",
             "CalibrationStepMs": "0 = automático a partir da ótica, da taxa de guiagem e da declinação.",
             "ReuseCalibration": "Mantém a calibração entre sessões e ajusta-a à declinação e ao lado do pilar.",
+            "AssumeOrthogonal": "A calibração mede normalmente as direções RA e Dec de forma independente. Isto força Dec a ser exatamente perpendicular a RA, o que ajuda quando um grande erro periódico, o backlash Dec ou um mau seeing distorcem a calibração Dec.",
+            "DecCompensation": "Adapta as correções RA à declinação atual, para que uma calibração feita numa declinação continue a funcionar noutra. A montagem ligada tem de indicar a sua posição; deixe ativado. Não é o mesmo que a compensação do backlash Dec.",
             "DecFlipRequired": "Definição por montagem; corrigida automaticamente pela autoverificação de Dec após flip.",
+            "VerifyDecAfterFlip": "Após um flip de meridiano, verifica as primeiras correções Dec: se afastarem a estrela em vez de a trazer de volta, a guiagem inverte Dec sozinha e corrige «Inverter Dec após flip de meridiano» para esta montagem.",
+            "DitherMode": "Como cada dither é escolhido. Random: distância e direção aleatórias. Spiral: passos ao longo de uma espiral em torno da posição inicial, útil contra o ruído de padrão fixo da câmara de imagem.",
+            "DitherScale": "Multiplica a distância de dither pedida pelo software de captura: 2 faz o dither duas vezes mais longe, 0,5 metade.",
+            "FastRecenter": "Após um dither, leva a estrela para a nova posição de bloqueio com grandes pulsos diretos em vez de passos de guiagem normais, para que o dither estabilize mais cedo. Melhor deixar ativado.",
+            "ReacquireTimeoutSec": "Quanto tempo a guiagem procura uma estrela perdida antes de dar o alarme. Depois continua a procurar e retoma a guiagem assim que a estrela volta.",
             "MaxPulseDutyPercent": "A guiagem para quando um eixo recebe pulsos durante mais do que esta fração de um minuto (proteção contra guiagem descontrolada).",
             "PauseWhenSlewing": "Pausa as correções enquanto a montagem indicar que se está a deslocar ou que está estacionada. Desligue apenas se o driver da montagem indicar “a deslocar-se” permanentemente.",
             "PauseWhenTrackingOff": "Pausa as correções enquanto a montagem indicar que o seguimento está desligado. Desligue se o driver da montagem não conseguir indicar o estado do seguimento.",
@@ -4068,6 +4184,10 @@
       }
     },
     "helpers": {
+      "numberInput": {
+        "default": "Padrão",
+        "defaultWithValue": "Padrão ({value})"
+      },
       "imageModal": {
         "no_image": "Sem dados de imagem disponíveis",
         "histogram": "Mostrar histograma"
@@ -4092,6 +4212,7 @@
         "linkedHint": "Esticar todos os canais de cor juntos, com os fundos igualados a cinza neutro",
         "log": "Log",
         "fullRange": "Escala completa",
+        "statistics": "Estat.",
         "sourceInfo": "Dados brutos {width} × {height} px, {bitDepth} bits",
         "loading": "Carregando os dados brutos da imagem…",
         "unsupported": "O histograma dos dados brutos requer um plugin Touch'N'Stars mais recente.",

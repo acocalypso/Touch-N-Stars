@@ -1466,6 +1466,79 @@
           "vendorFirmware": "Firmware del fabricante",
           "serialPort": "Puerto serie",
           "guideRate": "Velocidad de guiado por pulsos"
+        },
+        "proxisky": {
+          "title": "Proxisky",
+          "refresh": "Volver a leer",
+          "loadFailed": "No se pudieron leer los ajustes de Proxisky",
+          "info": {
+            "StatusLed": "Enciende o apaga la luz de estado de la montura, p. ej. apagada en un lugar oscuro. La luz parpadea mientras la montura hace seguimiento y queda fija cuando el seguimiento está detenido o durante un goto; verde en modo ecuatorial, azul en modo Alt-Az. La montura aplica el nuevo ajuste tras reiniciarla (apagar y encender).",
+            "PowerLossMemory": "La montura guarda continuamente su posición en su memoria (FRAM), así que tras un corte de corriente sigue sabiendo hacia dónde apunta y dónde está el home.",
+            "AsiairHoming": "Permite que un ASIAIR inicie la búsqueda del home, con los ajustes de Proxisky para el ASIAIR. Solo es necesario si un ASIAIR controla la montura.",
+            "SupervisedHome": "Una de las funciones de seguridad de Proxisky, basada en la posición que la montura guarda en su memoria (FRAM). Algunas versiones de firmware no permiten cambiarla.",
+            "DecSecondHome": "Usa el segundo sensor de home del eje Dec: en home la silla queda perpendicular al eje RA, orientada al este y al oeste, para montajes dobles en paralelo. En modo Alt-Az la montura lo usa por sí misma. Solo se puede cambiar en una UMi17X.",
+            "AutoTracking": "La montura inicia el seguimiento por sí misma al encenderse. La montura aplica el nuevo ajuste tras reiniciarla (apagar y encender).",
+            "raLimits": "Límite RA supervisado: el encoder del motor RA mide cuánto ha girado RA desde que se fijó el home (At Home), y la montura detiene seguimiento y movimientos en el límite. Con el valor predeterminado de 95°, RA se detiene 5° pasado el meridiano, antes de que el equipo choque con el trípode o la columna. Requiere una posición home correcta. Izquierda y derecha son términos de Proxisky y no equivalen a este u oeste; comprueba hacia dónde actúa cada límite sin nada montado que pueda chocar.",
+            "decLimits": "Evita que Dec gire demasiado lejos de la posición home activa, para que los cables dentro de la montura no se enganchen. Cuando Dec alcanza un límite, el seguimiento se detiene; mueve Dec de vuelta con N o S. Sentido antihorario y horario, en grados. Solo se puede cambiar en una UMi17X.",
+            "acs": "El sistema anticolisión vigila la montura durante movimientos y seguimiento por si la carga choca con el trípode o la columna. Ante una colisión ambos ejes retroceden 5° y el seguimiento se detiene; lleva la montura al home antes de continuar, para que sus coordenadas vuelvan a coincidir. Valores de sensibilidad más altos la hacen menos sensible: súbelos de 50 en 50, solo en el eje que se activó. Los contadores muestran las colisiones detectadas.",
+            "supervisedGoto": "Un goto cuyo objetivo está más lejos que la tolerancia se rechaza en lugar de ejecutarse. La tolerancia está en grados.",
+            "pid": "Las ganancias de control de los servomotores: Kp y Ki del control de posición (ángulo) y de velocidad. Valores erróneos pueden impedir el seguimiento, así que anota antes los valores anteriores. Escribir reinicia el eje, por lo que la montura debe estar parada y sin seguimiento; aplica las nuevas ganancias tras reiniciarla (apagar y encender)."
+          },
+          "restartPending": "Surte efecto tras reiniciar la montura",
+          "restartNote": "Se aplica tras un reinicio",
+          "switches": {
+            "StatusLed": "LED de estado",
+            "PowerLossMemory": "Memoria ante corte de corriente",
+            "AsiairHoming": "Homing ASIAIR",
+            "SupervisedHome": "Home supervisado",
+            "DecSecondHome": "Segundo home Dec",
+            "AutoTracking": "Seguimiento al encender",
+            "RaLimits": "Límites RA activos",
+            "DecLimits": "Límites Dec activos",
+            "AntiCollision": "Anticolisión activa",
+            "SupervisedGoto": "Goto supervisado activo"
+          },
+          "umi17xOnly": "Solo se puede cambiar en una UMi17X.",
+          "raLimits": {
+            "title": "Límites de recorrido RA",
+            "left": "Izquierda (°)",
+            "right": "Derecha (°)",
+            "hint": "Grados enteros, de 1 a 180, en los lados izquierdo y derecho del fabricante."
+          },
+          "decLimits": {
+            "title": "Límites de recorrido Dec",
+            "ccw": "Antihorario (°)",
+            "cw": "Horario (°)",
+            "hint": "Grados enteros, de 90 a 200, en sentido antihorario y horario."
+          },
+          "acs": {
+            "title": "Anticolisión (ACS)",
+            "thresholdRa": "Sensibilidad RA",
+            "thresholdDec": "Sensibilidad Dec",
+            "hint": "RA de 10 a 59999, Dec de 100 a 59999.",
+            "collisions": "Colisiones RA / Dec",
+            "clear": "Poner contadores a cero",
+            "clearConfirmTitle": "¿Poner a cero los contadores de colisiones?",
+            "clearConfirm": "Pone ambos contadores de colisiones a 0."
+          },
+          "supervisedGoto": {
+            "title": "Goto supervisado",
+            "tolerance": "Tolerancia (°)",
+            "hint": "Grados enteros, de 5 a 30."
+          },
+          "pid": {
+            "title": "PID de servos",
+            "ra": "RA / Acimut",
+            "dec": "Dec / Altitud",
+            "angleKp": "Ángulo Kp",
+            "angleKi": "Ángulo Ki",
+            "speedKp": "Velocidad Kp",
+            "speedKi": "Velocidad Ki",
+            "hint": "De 11 a 1999, velocidad Ki de 11 a 80. Escribir reinicia el eje, por lo que la montura debe estar parada y sin seguimiento. Las nuevas ganancias surten efecto tras reiniciar la montura.",
+            "readOnly": "Solo se puede cambiar en una UMi20S o UMi17X.",
+            "confirmTitle": "¿Escribir ganancias PID?",
+            "confirm": "Escribir reinicia el eje {axis}. Ganancias erróneas pueden impedir el seguimiento. Las nuevas ganancias surten efecto tras un reinicio."
+          }
         }
       }
     },
@@ -2345,6 +2418,7 @@
           "on": "on",
           "off": "off",
           "resetToDefault": "Restablecer a {value}",
+          "defaultValue": "predeterminado",
           "saveFailed": "No se pudo guardar el ajuste.",
           "errors": {
             "required": "Introduce un valor.",
@@ -2374,6 +2448,10 @@
           "actionCancel": "Cancelar",
           "actionOptionConfirm": "¿Ejecutar «{option}»?",
           "optionLabels": {
+            "GuideSource": {
+              "GuideCamera": "Cámara de guiado",
+              "Simulator": "Simulador"
+            },
             "DecGuideMode": {
               "Auto": "Auto – ambas direcciones",
               "North": "Solo Norte",
@@ -2383,6 +2461,7 @@
             }
           },
           "labels": {
+            "GuideSource": "Imágenes de guiado desde",
             "ExposureSeconds": "Exposición",
             "Gain": "Ganancia",
             "Offset": "Offset",
@@ -2407,6 +2486,7 @@
             "RaHysteresis": "Histéresis RA",
             "RaLowpass2Aggressiveness": "Agresividad Lowpass2 RA",
             "RaMinMove": "Movimiento mín. RA",
+            "RaCorrectionPace": "Ritmo de corrección RA",
             "PeriodicErrorPrediction": "Predicción del error periódico",
             "WormTeeth": "Dientes de la corona RA",
             "ForgetPeriodicError": "Olvidar error periódico",
@@ -2416,12 +2496,15 @@
             "DecLowpass2Aggressiveness": "Agresividad Lowpass2 Dec",
             "DecFastSwitch": "Cambio rápido Dec",
             "DecMinMove": "Movimiento mín. Dec",
+            "DecCorrectionPace": "Ritmo de corrección Dec",
             "DecGuideMode": "Modo de guiado de Dec",
             "MaxRaDurationMs": "Pulso RA máx.",
             "MaxDecDurationMs": "Pulso Dec máx.",
             "MinPulseMs": "Pulso mín.",
+            "SimultaneousPulses": "Pulsos RA y Dec simultáneos",
             "BacklashCompensation": "Compensación de holgura en Dec",
             "BacklashPulseMs": "Pulso de holgura en Dec",
+            "PulseModel": "Modelo de pulsos",
             "CalibrationStepMs": "Paso de calibración",
             "ReuseCalibration": "Reutilizar calibración",
             "AssumeOrthogonal": "Suponer Dec ortogonal",
@@ -2442,27 +2525,60 @@
             "SimulateFault": "Simular un fallo"
           },
           "descriptions": {
+            "GuideSource": "De dónde vienen las imágenes de guiado. Cámara de guiado: la cámara de la ranura de cámara de guiado del equipo. Simulador: una simulación integrada de montura, cielo y cámara, para probar el guiado sin hardware o de día.",
+            "ExposureSeconds": "Tiempo de exposición de cada imagen de guiado. 1–4 s promedian la mayor parte del seeing; exposiciones más cortas reaccionan más rápido pero persiguen el seeing, las más largas reaccionan despacio al viento y a los errores de la montura.",
             "Gain": "-1 mantiene la ganancia actual del controlador. (La ganancia de PHD2 es un porcentaje, por eso no se traslada.)",
             "Offset": "-1 mantiene el offset actual del controlador.",
+            "Binning": "Binning por hardware de las imágenes de guiado. 2×2 hace la cámara más sensible y la transferencia más rápida, a costa de resolución; útil con píxeles pequeños o una focal de guiado larga. Vuelve a calibrar tras un cambio.",
             "FocalLengthMm": "Distancia focal del telescopio guía (o del telescopio principal con un OAG). Necesaria para los valores en segundos de arco y el paso de calibración.",
             "PixelSizeUm": "0 usa el tamaño de píxel del controlador de la cámara.",
+            "NoiseReduction": "Suaviza cada imagen de guiado antes de medir las estrellas. Mean 2×2 promedia píxeles vecinos, Median 3×3 elimina además píxeles calientes sueltos. Ayuda con imágenes muy ruidosas, p. ej. de cámaras sin refrigeración; en imágenes limpias, None da las posiciones de estrella más precisas.",
             "UseDarkLibrary": "Resta darks: la biblioteca nativa si se ha creado; si no, la biblioteca de darks de PHD2 para las dimensiones de esta cámara.",
             "PulseOutput": "Mount: guiado por pulsos a través del controlador de la montura conectada. CameraST4: a través del puerto ST4 de la cámara guía.",
+            "MultiStar": "Mide varias estrellas a la vez y guía sobre su posición combinada en lugar de sobre una sola estrella. Así se promedia gran parte del seeing y el guiado continúa cuando una estrella se debilita. Mejor dejarlo activado.",
+            "MaxStars": "Número máximo de estrellas para el guiado multiestrella. Más estrellas promedian más seeing; con pocas estrellas útiles en el campo, el guiado usa las que encuentra. 1 guía sobre una sola estrella.",
+            "MinSnr": "Relación señal/ruido que necesita una estrella para ser elegida como estrella guía. Un valor demasiado alto hace que no se encuentre ninguna; en vez de bajarlo, prueba una exposición más larga, más ganancia o una biblioteca de darks nueva.",
+            "SearchRegion": "Mitad del tamaño, en píxeles, del recuadro donde el guiado busca la estrella en la siguiente imagen: 15 significa un recuadro de 30×30. Súbelo si la estrella salta a menudo fuera del recuadro (mal seguimiento, viento); un recuadro demasiado grande puede captar una estrella vecina.",
+            "MinHfd": "Tamaño mínimo (diámetro de medio flujo, en píxeles) que debe tener una estrella para usarse. Evita que el guiado se enganche a grupos de píxeles calientes; 1,5 sirve para la mayoría de equipos. Súbelo si se eligen píxeles calientes, bájalo si se rechazan estrellas reales muy nítidas.",
+            "MaxHfd": "Tamaño máximo (diámetro de medio flujo, en píxeles) de una estrella guía. Las manchas hinchadas o desenfocadas por encima se ignoran al seleccionar estrellas.",
+            "MassChangeEnabled": "Vigila el brillo (masa) de la estrella guía y trata un cambio brusco como estrella perdida, para que el guiado no salte a una estrella vecina ni guíe sobre un píxel caliente cuando pasan nubes.",
+            "MassChangeThreshold": "Cuánto puede cambiar la masa de la estrella antes de que se considere perdida: 0,5 permite un cambio de la mitad respecto a las imágenes recientes. Súbelo si aparecen alarmas de estrella perdida aunque la estrella se vea claramente, p. ej. con transparencia cambiante.",
             "PrimaryDropoutFallback": "Cuando la estrella principal falta en un cuadro, estima su posición a partir de ≥3 estrellas secundarias concordantes.",
             "SaturationAdu": "0 = detectar la saturación a partir del perfil de la estrella.",
             "RaAlgorithm": "Predictive (experimental) aprende el seeing y el movimiento propio de la montura a partir de los cuadros de guiado y corrige el error que predice para el siguiente cuadro, por lo que la agresividad, la histéresis y el movimiento mínimo no se le aplican.",
             "RaAggression": "Fracción del error que se corrige en cada cuadro (0..1).",
+            "RaHysteresis": "Peso de la corrección RA anterior frente al último error: 0,1 mezcla un 10 % de la última corrección. Valores más altos suavizan las correcciones pero reaccionan más despacio a un cambio real de dirección.",
+            "RaLowpass2Aggressiveness": "Lowpass2 ajusta una recta a los últimos errores RA y corrige esa tendencia en lugar de imágenes sueltas. Es la parte de la tendencia corregida por imagen, en porcentaje; bájalo si las correcciones se pasan.",
             "RaMinMove": "0 = automático según la escala de imagen.",
+            "RaCorrectionPace": "Parte del error restante que el algoritmo Predictive corrige por imagen: 0,5 elimina un desplazamiento en 2–3 imágenes sin pasarse de cero, 1 lo corrige todo de una vez. La deriva y el error periódico se corrigen siempre por completo.",
             "PeriodicErrorPrediction": "Aprende el error periódico del tornillo sin fin de RA y lo corrige antes de que se note. La curva aprendida se guarda por perfil y montura.",
             "WormTeeth": "Dientes de la corona de RA (p. ej. 180 en una EQ6-R, 135 en una HEQ5); da el periodo exacto del tornillo sin fin. 0 = detectar el periodo a partir de los cuadros de guiado.",
             "ForgetPeriodicError": "Olvida el error periódico aprendido para esta montura, p. ej. después de ajustar el tornillo sin fin; luego se aprende de nuevo.",
             "DecAlgorithm": "Predictive (experimental) aprende el seeing y el movimiento propio de la montura a partir de los cuadros de guiado y corrige el error que predice para el siguiente cuadro, por lo que la agresividad, la histéresis y el movimiento mínimo no se le aplican.",
+            "DecAggression": "Parte del error Dec medido que se corrige en cada imagen: 1,0 lo corrige todo. Bájalo si Dec se pasa.",
+            "DecHysteresis": "Peso de la corrección Dec anterior frente al último error: 0,1 mezcla un 10 % de la última corrección. Valores más altos suavizan las correcciones pero reaccionan más despacio a un cambio real de dirección.",
+            "DecLowpass2Aggressiveness": "Lowpass2 ajusta una recta a los últimos errores Dec y corrige esa tendencia en lugar de imágenes sueltas. Es la parte de la tendencia corregida por imagen, en porcentaje; bájalo si las correcciones se pasan.",
+            "DecFastSwitch": "Con ResistSwitch: deja que Dec invierta su dirección enseguida cuando el error es grande (más de 3 × min move), en lugar de esperar a que varias imágenes coincidan. Recupera rápido un error Dec grande.",
             "DecMinMove": "0 = automático según la escala de imagen.",
+            "DecCorrectionPace": "Parte del error restante que el algoritmo Predictive corrige por imagen: 0,5 elimina un desplazamiento en 2–3 imágenes sin pasarse de cero, 1 lo corrige todo de una vez. La deriva y el error periódico se corrigen siempre por completo.",
             "DecGuideMode": "Auto guía Dec en ambas direcciones; Solo Norte o Solo Sur, en una sola; Desactivado, en ninguna. Drift sigue la deriva: mide la deriva en Dec mientras guía y solo guía en su contra, así que los engranajes de Dec nunca invierten y la holgura deja de importar; cambia de dirección cuando la deriva se invierte y guía en ambas direcciones hasta conocer la deriva, durante el asentamiento y para recuperar un error grande.",
+            "MaxRaDurationMs": "Pulso de guiado RA individual más largo. Limita una corrección cuando una medida está muy desviada (estrella equivocada, ráfaga de viento), para que la montura no salga despedida lejos. Súbelo solo si los errores grandes tardan muchas imágenes en corregirse.",
+            "MaxDecDurationMs": "Pulso de guiado Dec individual más largo. Limita una corrección cuando una medida está muy desviada (estrella equivocada, ráfaga de viento), para que la montura no salga despedida lejos. Súbelo solo si los errores grandes tardan muchas imágenes en corregirse.",
             "MinPulseMs": "Los pulsos de guiado más cortos se redondean a 0 o a esta duración: algunas monturas gestionan mal los pulsos muy cortos. 0 = cualquier duración.",
+            "SimultaneousPulses": "Envía los pulsos RA y Dec de una imagen a la vez en lugar de uno tras otro, lo que acorta el ciclo de guiado. Solo con monturas que temporizan ambos ejes por separado (el driver OnStepX nativo de pins); las demás monturas siguen pulsando uno tras otro.",
+            "BacklashCompensation": "Añade un pulso extra cuando Dec invierte su dirección, para absorber la holgura de los engranajes Dec. Útil con backlash Dec apreciable; déjalo desactivado si Dec guía bien. El modo de guiado Dec Drift evita las inversiones por completo.",
+            "BacklashPulseMs": "Duración del pulso extra en una inversión de Dec. A partir de ella, el guiado ajusta el pulso automáticamente entre 20 ms y 1,5 × este valor, según cómo responda la estrella.",
+            "PulseModel": "Aprende de los dithers cuánto mueve realmente un pulso la estrella en cada eje y dimensiona los pulsos según eso, para que una calibración inexacta ya no haga que el guiado corrija de más o de menos. Empieza con los valores de calibración, cambia solo lo que los dithers muestran con claridad y conserva lo aprendido por perfil y montura hasta la próxima calibración.",
             "CalibrationStepMs": "0 = automático según la óptica, la velocidad de guiado y la declinación.",
             "ReuseCalibration": "Conserva la calibración entre sesiones y la ajusta según la declinación y el lado del pilar.",
+            "AssumeOrthogonal": "La calibración normalmente mide las direcciones RA y Dec por separado. Esto fuerza a que Dec sea exactamente perpendicular a RA, lo que ayuda cuando un gran error periódico, el backlash Dec o un mal seeing distorsionan la calibración Dec.",
+            "DecCompensation": "Adapta las correcciones RA a la declinación actual, para que una calibración hecha en una declinación siga sirviendo en otra. La montura conectada debe informar su posición; déjalo activado. No es lo mismo que la compensación de backlash Dec.",
             "DecFlipRequired": "Ajuste por montura; lo corrige automáticamente la autocomprobación de Dec tras el giro.",
+            "VerifyDecAfterFlip": "Tras un giro de meridiano, comprueba las primeras correcciones Dec: si alejan la estrella en lugar de acercarla, el guiado invierte Dec por sí mismo y corrige «Invertir Dec tras el giro de meridiano» para esta montura.",
+            "DitherMode": "Cómo se elige cada dither. Random: una distancia y dirección aleatorias. Spiral: pasos a lo largo de una espiral alrededor de la posición inicial, útil contra el ruido de patrón fijo de la cámara de captura.",
+            "DitherScale": "Multiplica la distancia de dither que pide el software de captura: 2 hace el dither el doble de lejos, 0,5 la mitad.",
+            "FastRecenter": "Tras un dither, lleva la estrella a la nueva posición de bloqueo con grandes pulsos directos en lugar de pasos de guiado normales, para que el dither se asiente antes. Mejor dejarlo activado.",
+            "ReacquireTimeoutSec": "Cuánto tiempo busca el guiado una estrella perdida antes de dar la alarma. Después sigue buscando y reanuda el guiado en cuanto la estrella vuelve.",
             "MaxPulseDutyPercent": "El guiado se detiene cuando un eje recibe pulsos durante más de esta fracción de un minuto (protección contra el guiado descontrolado).",
             "PauseWhenSlewing": "Pausa las correcciones mientras la montura indica que se está desplazando o que está aparcada. Desactívalo solo si el controlador de la montura indica «desplazándose» de forma permanente.",
             "PauseWhenTrackingOff": "Pausa las correcciones mientras la montura indica que el seguimiento está desactivado. Desactívalo si el controlador de la montura no puede informar de su estado de seguimiento.",
@@ -4068,6 +4184,10 @@
       }
     },
     "helpers": {
+      "numberInput": {
+        "default": "Predeterminado",
+        "defaultWithValue": "Predeterminado ({value})"
+      },
       "imageModal": {
         "no_image": "No hay datos de imagen disponibles",
         "histogram": "Mostrar histograma"
@@ -4092,6 +4212,7 @@
         "linkedHint": "Estirar todos los canales de color juntos, con los fondos igualados a gris neutro",
         "log": "Log",
         "fullRange": "Escala completa",
+        "statistics": "Estad.",
         "sourceInfo": "Datos en bruto {width} × {height} px, {bitDepth} bits",
         "loading": "Cargando los datos en bruto de la imagen…",
         "unsupported": "El histograma de los datos en bruto necesita un plugin Touch'N'Stars más reciente.",

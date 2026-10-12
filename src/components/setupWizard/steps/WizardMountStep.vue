@@ -32,6 +32,7 @@
         :deviceName="$t('components.connectEquipment.mount.name')"
         :default-device-id="store.profileInfo?.TelescopeSettings?.Id"
         :isConnected="store.mountInfo?.Connected"
+        :configDeviceIds="['OnStepX']"
         @open-config="openMountSettings"
       />
     </div>

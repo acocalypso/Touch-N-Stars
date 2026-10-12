@@ -1,103 +1,137 @@
 <template>
-  <div class="tns-card p-3 text-content">
-    <!-- Toolbar -->
-    <div class="flex flex-wrap items-center gap-1.5 mb-2">
-      <button type="button" :class="btnClass(false)" :disabled="!ready" @click="onAuto">
-        {{ t('components.helpers.histogram.auto') }}
-      </button>
-      <button type="button" :class="btnClass(false)" :disabled="!ready" @click="onLinear">
-        {{ t('components.helpers.histogram.linear') }}
-      </button>
-      <button type="button" :class="btnClass(false)" :disabled="!ready" @click="onReset">
-        {{ t('components.helpers.histogram.reset') }}
-      </button>
-
-      <template v-if="isColor">
-        <span class="w-px h-6 bg-line-strong mx-0.5" aria-hidden="true"></span>
-        <button
-          type="button"
-          :class="btnClass(entry.linked)"
-          :disabled="!ready"
-          :title="t('components.helpers.histogram.linkedHint')"
-          @click="toggleLinked"
-        >
-          {{ t('components.helpers.histogram.linked') }}
-        </button>
-        <template v-if="!entry.linked">
-          <button
-            v-for="(label, c) in CHANNEL_LABELS"
-            :key="label"
-            type="button"
-            :class="[btnClass(activeChannel === c), CHANNEL_TEXT[c]]"
-            @click="activeChannel = c"
-          >
-            {{ label }}
-          </button>
-        </template>
-      </template>
-
-      <span class="flex-1"></span>
-      <button type="button" :class="btnClass(logScale)" @click="logScale = !logScale">
-        {{ t('components.helpers.histogram.log') }}
-      </button>
-      <button type="button" :class="btnClass(fullRange)" @click="fullRange = !fullRange">
-        {{ t('components.helpers.histogram.fullRange') }}
-      </button>
-    </div>
-
-    <!-- Chart with draggable black / midtone / white points -->
-    <div
-      ref="wrapperElement"
-      class="relative rounded border border-line-strong bg-surface-1 overflow-hidden touch-none select-none"
-      :style="{ height }"
-      @pointerdown="onPointerDown"
-      @pointermove="onPointerMove"
-      @pointerup="onPointerUp"
-      @pointercancel="onPointerUp"
-    >
-      <canvas ref="canvasElement" class="absolute inset-0 w-full h-full"></canvas>
-
-      <template v-if="ready">
-        <div
-          v-for="thumb in thumbs"
-          :key="thumb.key"
-          class="absolute top-0 h-full pointer-events-none"
-          :style="{ left: `${thumb.pct}%` }"
-        >
-          <div
-            class="absolute top-0 h-full -translate-x-1/2 border-l-2"
-            :class="[thumb.border, thumb.outside ? 'border-dashed opacity-60' : '']"
-          ></div>
-          <span
-            class="absolute top-0.5 -translate-x-1/2 text-[10px] font-bold leading-none px-0.5 rounded bg-surface-1/80"
-            :class="thumb.text"
-            >{{ thumb.label }}</span
-          >
-        </div>
-      </template>
-
+  <div
+    class="tns-card text-content"
+    :class="toolbarInChart ? 'p-2! flex flex-col min-h-full' : 'p-3'"
+  >
+    <!-- Toolbar + chart. With toolbarInChart the toolbar floats over the top of the
+         chart (which then fills the card's height) instead of taking its own row. -->
+    <div :class="toolbarInChart ? 'relative flex flex-col flex-1' : ''">
+      <!-- Toolbar: one row when wide; on narrow panels each group gets its own row
+         of equal-width buttons instead of wrapping at random. -->
       <div
-        v-if="!ready"
-        class="absolute inset-0 flex items-center justify-center px-4 text-center text-xs text-content-faint"
+        ref="toolbarElement"
+        :class="
+          toolbarInChart
+            ? 'absolute top-1 left-1 right-1 z-10 pointer-events-none'
+            : '@container mb-2'
+        "
       >
-        <svg
-          v-if="status === 'loading'"
-          class="w-5 h-5 mr-2 animate-spin text-accent"
-          xmlns="http://www.w3.org/2000/svg"
-          fill="none"
-          viewBox="0 0 24 24"
+        <div class="flex flex-wrap items-center" :class="toolbarInChart ? 'gap-1' : 'gap-1.5'">
+          <div :class="groupClass">
+            <button type="button" :class="btnClass(false)" :disabled="!ready" @click="onAuto">
+              {{ t('components.helpers.histogram.auto') }}
+            </button>
+            <button type="button" :class="btnClass(false)" :disabled="!ready" @click="onLinear">
+              {{ t('components.helpers.histogram.linear') }}
+            </button>
+            <button type="button" :class="btnClass(false)" :disabled="!ready" @click="onReset">
+              {{ t('components.helpers.histogram.reset') }}
+            </button>
+            <template v-if="isColor">
+              <span
+                :class="[inlineOnlyClass, 'w-px h-6 bg-line-strong mx-0.5']"
+                aria-hidden="true"
+              ></span>
+              <button
+                type="button"
+                :class="btnClass(entry.linked)"
+                :disabled="!ready"
+                :title="t('components.helpers.histogram.linkedHint')"
+                @click="toggleLinked"
+              >
+                {{ t('components.helpers.histogram.linked') }}
+              </button>
+            </template>
+          </div>
+
+          <div v-if="isColor && !entry.linked" :class="groupClass">
+            <button
+              v-for="(label, c) in CHANNEL_LABELS"
+              :key="label"
+              type="button"
+              :class="[btnClass(activeChannel === c), CHANNEL_TEXT[c]]"
+              @click="activeChannel = c"
+            >
+              {{ label }}
+            </button>
+          </div>
+
+          <span :class="[inlineOnlyClass, 'flex-1']"></span>
+          <div :class="groupClass">
+            <button type="button" :class="btnClass(logScale)" @click="logScale = !logScale">
+              {{ t('components.helpers.histogram.log') }}
+            </button>
+            <button type="button" :class="btnClass(fullRange)" @click="fullRange = !fullRange">
+              {{ t('components.helpers.histogram.fullRange') }}
+            </button>
+            <button
+              v-if="collapsibleStats"
+              type="button"
+              :class="btnClass(statsOpen)"
+              :disabled="!ready"
+              @click="toggleStats"
+            >
+              {{ t('components.helpers.histogram.statistics') }}
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chart with draggable black / midtone / white points -->
+      <div
+        ref="wrapperElement"
+        class="relative rounded border border-line-strong bg-surface-1 overflow-hidden touch-none select-none"
+        :class="toolbarInChart ? 'flex-1' : ''"
+        :style="toolbarInChart ? { minHeight: height } : { height }"
+        @pointerdown="onPointerDown"
+        @pointermove="onPointerMove"
+        @pointerup="onPointerUp"
+        @pointercancel="onPointerUp"
+      >
+        <canvas ref="canvasElement" class="absolute inset-0 w-full h-full"></canvas>
+
+        <template v-if="ready">
+          <div
+            v-for="thumb in thumbs"
+            :key="thumb.key"
+            class="absolute top-0 h-full pointer-events-none"
+            :style="{ left: `${thumb.pct}%` }"
+          >
+            <div
+              class="absolute top-0 h-full -translate-x-1/2 border-l-2"
+              :class="[thumb.border, thumb.outside ? 'border-dashed opacity-60' : '']"
+            ></div>
+            <span
+              class="absolute -translate-x-1/2 text-[10px] font-bold leading-none px-0.5 rounded bg-surface-1/80"
+              :class="[thumb.text, toolbarInChart ? 'bottom-0.5' : 'top-0.5']"
+              >{{ thumb.label }}</span
+            >
+          </div>
+        </template>
+
+        <div
+          v-if="!ready"
+          class="absolute inset-0 flex items-center justify-center px-4 text-center text-xs text-content-faint"
         >
-          <circle
-            class="opacity-25"
-            cx="12"
-            cy="12"
-            r="10"
-            stroke="currentColor"
-            stroke-width="4"
-          />
-          <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
-        </svg>
-        <span>{{ statusText }}</span>
+          <svg
+            v-if="status === 'loading'"
+            class="w-5 h-5 mr-2 animate-spin text-accent"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+          >
+            <circle
+              class="opacity-25"
+              cx="12"
+              cy="12"
+              r="10"
+              stroke="currentColor"
+              stroke-width="4"
+            />
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8v8z" />
+          </svg>
+          <span>{{ statusText }}</span>
+        </div>
       </div>
     </div>
 
@@ -129,7 +163,7 @@
     </div>
 
     <!-- Exact statistics of the full-resolution raw data -->
-    <div v-if="ready" class="mt-2 overflow-x-auto">
+    <div v-if="ready && showStats" class="mt-2 overflow-x-auto">
       <table class="w-full text-xs font-mono tabular-nums">
         <thead>
           <tr class="text-content-faint text-left">
@@ -180,27 +214,29 @@
     </div>
 
     <!-- Star analysis comes from NINA and needs a saved image -->
-    <div
-      v-if="extraStats?.Stars || extraStats?.HFR"
-      class="mt-1 flex gap-3 text-xs font-mono text-content-faint"
-    >
-      <span v-if="extraStats.Stars">
-        {{ t('components.helpers.histogram.stars') }}
-        <span class="text-content">{{ extraStats.Stars }}</span>
-      </span>
-      <span v-if="extraStats.HFR">
-        {{ t('components.helpers.histogram.hfr') }}
-        <span class="text-content">{{ Number(extraStats.HFR).toFixed(2) }}</span>
-      </span>
-    </div>
-    <div v-else-if="!saveEnabled" class="mt-2 flex items-center justify-between gap-2">
-      <span class="text-xs text-content-faint italic">
-        {{ t('components.helpers.histogram.noSaveHint') }}
-      </span>
-      <button type="button" :class="btnClass(false)" @click="emit('toggle-save')">
-        {{ t('components.helpers.histogram.enableSave') }}
-      </button>
-    </div>
+    <template v-if="showStats">
+      <div
+        v-if="extraStats?.Stars || extraStats?.HFR"
+        class="mt-1 flex gap-3 text-xs font-mono text-content-faint"
+      >
+        <span v-if="extraStats.Stars">
+          {{ t('components.helpers.histogram.stars') }}
+          <span class="text-content">{{ extraStats.Stars }}</span>
+        </span>
+        <span v-if="extraStats.HFR">
+          {{ t('components.helpers.histogram.hfr') }}
+          <span class="text-content">{{ Number(extraStats.HFR).toFixed(2) }}</span>
+        </span>
+      </div>
+      <div v-else-if="!saveEnabled" class="mt-2 flex items-center justify-between gap-2">
+        <span class="text-xs text-content-faint italic">
+          {{ t('components.helpers.histogram.noSaveHint') }}
+        </span>
+        <button type="button" :class="[btnClass(false), 'flex-none!']" @click="emit('toggle-save')">
+          {{ t('components.helpers.histogram.enableSave') }}
+        </button>
+      </div>
+    </template>
   </div>
 </template>
 
@@ -234,6 +270,17 @@ const props = defineProps({
     type: Boolean,
     default: true,
   },
+  // Hide the statistics table behind a toolbar toggle, for compact docked layouts.
+  collapsibleStats: {
+    type: Boolean,
+    default: false,
+  },
+  // Float a compact toolbar over the chart and let the chart fill the card's
+  // height, for short docked panels (camera page in landscape).
+  toolbarInChart: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['toggle-save']);
@@ -246,10 +293,23 @@ const HIT_RADIUS_PX = 24;
 
 const canvasElement = ref(null);
 const wrapperElement = ref(null);
+const toolbarElement = ref(null);
 const logScale = ref(true);
 const fullRange = ref(false);
 const activeChannel = ref(0);
 const dragging = ref(null); // 'black' | 'mid' | 'white'
+
+const STATS_OPEN_KEY = 'tns.histogram.statsOpen';
+const readStatsOpen = () => {
+  try {
+    return localStorage.getItem(STATS_OPEN_KEY) === '1';
+  } catch {
+    return false;
+  }
+};
+const statsOpen = ref(readStatsOpen());
+// Statistics table plus NINA's star analysis; always shown unless made collapsible.
+const showStats = computed(() => !props.collapsibleStats || statsOpen.value);
 
 const entry = computed(() => histogramStore.getEntry(props.imageUrl));
 const status = computed(() => entry.value?.status ?? 'loading');
@@ -326,9 +386,23 @@ const thumbs = computed(() => {
   ];
 });
 
+// Narrow: a full-width row whose buttons share the width. Wide: inline, natural size.
+// In-chart toolbar: always one inline row of small, see-through buttons.
+const groupClass = computed(() =>
+  props.toolbarInChart ? 'flex items-center gap-1' : 'flex w-full items-center gap-1.5 @lg:w-auto'
+);
+// Separator and spacer only make sense when the groups sit inline.
+const inlineOnlyClass = computed(() => (props.toolbarInChart ? 'block' : 'hidden @lg:block'));
 const btnClass = (active) => [
-  'tns-btn-secondary w-auto! min-w-0! min-h-9! px-2.5! text-xs!',
-  active ? 'bg-accent-action! text-white! border-transparent!' : '',
+  'tns-btn-secondary w-auto! min-w-0!',
+  props.toolbarInChart
+    ? 'min-h-7! px-2! text-[11px]! flex-none pointer-events-auto'
+    : 'min-h-9! px-2.5! text-xs! flex-1 @lg:flex-none',
+  active
+    ? 'bg-accent-action! text-white! border-transparent!'
+    : props.toolbarInChart
+      ? 'bg-surface-1/70! backdrop-blur-sm'
+      : '',
 ];
 
 // ----------------------------------------------------------------- drawing
@@ -348,7 +422,10 @@ const draw = () => {
 
   const width = canvas.width;
   const height = canvas.height;
-  const top = 14 * dpr; // room for the thumb labels
+  // Room above the curve: the thumb labels, or the floating toolbar (top-1 offset + gap).
+  const top =
+    (props.toolbarInChart && toolbarElement.value ? toolbarElement.value.offsetHeight + 8 : 14) *
+    dpr;
   const plotHeight = height - top;
   const { lo, hi } = view.value;
   const cums = entry.value.cums;
@@ -405,9 +482,13 @@ const scheduleDraw = () => {
   });
 };
 
-watch([entry, () => entry.value?.levels, view, logScale, editIndex], scheduleDraw, {
-  deep: true,
-});
+watch(
+  [entry, () => entry.value?.levels, view, logScale, editIndex, () => props.toolbarInChart],
+  scheduleDraw,
+  {
+    deep: true,
+  }
+);
 
 let resizeObserver = null;
 onMounted(() => {
@@ -415,6 +496,8 @@ onMounted(() => {
   if (typeof ResizeObserver !== 'undefined' && wrapperElement.value) {
     resizeObserver = new ResizeObserver(scheduleDraw);
     resizeObserver.observe(wrapperElement.value);
+    // A wrapping in-chart toolbar (e.g. R/G/B appearing) moves the curve down.
+    if (toolbarElement.value) resizeObserver.observe(toolbarElement.value);
   }
 });
 
@@ -486,6 +569,14 @@ const onPointerUp = (event) => {
 const onAuto = () => histogramStore.autoStretch(props.imageUrl);
 const onLinear = () => histogramStore.linearStretch(props.imageUrl);
 const onReset = () => histogramStore.resetStretch(props.imageUrl);
+const toggleStats = () => {
+  statsOpen.value = !statsOpen.value;
+  try {
+    localStorage.setItem(STATS_OPEN_KEY, statsOpen.value ? '1' : '0');
+  } catch {
+    // Storage unavailable: the choice just isn't remembered.
+  }
+};
 const toggleLinked = () => {
   activeChannel.value = 0;
   histogramStore.setLinked(props.imageUrl, !entry.value.linked);

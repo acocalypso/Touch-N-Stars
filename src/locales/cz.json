@@ -1466,6 +1466,79 @@
           "vendorFirmware": "Firmware výrobce",
           "serialPort": "Sériový port",
           "guideRate": "Rychlost pulzního navádění"
+        },
+        "proxisky": {
+          "title": "Proxisky",
+          "refresh": "Načíst znovu",
+          "loadFailed": "Nastavení Proxisky se nepodařilo načíst",
+          "info": {
+            "StatusLed": "Zapne nebo vypne stavové světlo montáže, např. vypnuté na tmavé lokalitě. Světlo bliká, když montáž sleduje, a svítí trvale, když je sledování zastaveno nebo během goto; zeleně v ekvatoriálním, modře v Alt-Az režimu. Montáž použije nové nastavení po restartu (vypnutí a zapnutí napájení).",
+            "PowerLossMemory": "Montáž průběžně zapisuje svou polohu do paměti (FRAM), takže po výpadku napájení stále ví, kam míří a kde je home.",
+            "AsiairHoming": "Umožní ASIAIR spustit hledání home, s úpravami Proxisky pro ASIAIR. Potřeba jen tehdy, když montáž ovládá ASIAIR.",
+            "SupervisedHome": "Jedna z bezpečnostních funkcí Proxisky, založená na poloze, kterou si montáž drží v paměti (FRAM). Některé verze firmwaru ji nedovolí změnit.",
+            "DecSecondHome": "Používá druhý home senzor na ose Dec: v home stojí sedlo kolmo k ose RA a míří na východ a západ, pro paralelní duální sestavy. V režimu Alt-Az na něj montáž přepne sama. Lze změnit pouze na UMi17X.",
+            "AutoTracking": "Montáž po zapnutí sama začne sledovat. Montáž použije nové nastavení po restartu (vypnutí a zapnutí napájení).",
+            "raLimits": "Hlídaný limit RA: enkodér v motoru RA měří, o kolik se osa RA otočila od nastavení home (At Home), a montáž na limitu zastaví sledování i přejezdy. Při výchozích 95° se RA zastaví 5° za poledníkem, dřív než sestava narazí do stativu nebo sloupu. Vyžaduje správnou polohu home. Vlevo a vpravo jsou pojmy Proxisky a neodpovídají východu ani západu; vyzkoušej, kterým směrem každý limit působí, bez ničeho namontovaného, co by mohlo narazit.",
+            "decLimits": "Brání ose Dec otočit se příliš daleko od aktivní polohy home, aby se kabely uvnitř montáže nezachytily. Když Dec dosáhne limitu, sledování se zastaví; vrať Dec pomocí N nebo S. Proti směru a po směru hodinových ručiček, ve stupních. Lze změnit pouze na UMi17X.",
+            "acs": "Antikolizní systém hlídá montáž během přejezdů a sledování, zda náklad nenarazí do stativu nebo sloupu. Při kolizi obě osy couvnou o 5° a sledování se zastaví; před pokračováním najeď montáží na home, aby souřadnice opět seděly. Vyšší hodnoty citlivosti ji činí méně citlivou: zvyšuj je po 50, jen na ose, která zareagovala. Počítadla ukazují zjištěné kolize.",
+            "supervisedGoto": "Goto, jehož cíl je dál než tolerance, je odmítnuto místo provedení. Tolerance je ve stupních.",
+            "pid": "Regulační zisky servomotorů: Kp a Ki regulace polohy (úhlu) a rychlosti. Špatné hodnoty mohou znemožnit sledování, proto si nejdřív poznamenej staré hodnoty. Zápis restartuje osu, montáž proto musí stát a nesledovat; nové zisky použije po restartu (vypnutí a zapnutí napájení)."
+          },
+          "restartPending": "Projeví se po restartu montáže",
+          "restartNote": "Platí po restartu",
+          "switches": {
+            "StatusLed": "Stavová LED",
+            "PowerLossMemory": "Paměť při výpadku napájení",
+            "AsiairHoming": "ASIAIR homing",
+            "SupervisedHome": "Hlídaný home",
+            "DecSecondHome": "Druhý home Dec",
+            "AutoTracking": "Sledovat po zapnutí",
+            "RaLimits": "Limity RA aktivní",
+            "DecLimits": "Limity Dec aktivní",
+            "AntiCollision": "Antikolize aktivní",
+            "SupervisedGoto": "Hlídané goto aktivní"
+          },
+          "umi17xOnly": "Lze změnit pouze na UMi17X.",
+          "raLimits": {
+            "title": "Limity pohybu RA",
+            "left": "Vlevo (°)",
+            "right": "Vpravo (°)",
+            "hint": "Celé stupně, 1 až 180, na levé a pravé straně podle výrobce."
+          },
+          "decLimits": {
+            "title": "Limity pohybu Dec",
+            "ccw": "Proti směru (°)",
+            "cw": "Po směru (°)",
+            "hint": "Celé stupně, 90 až 200, proti směru a po směru hodinových ručiček."
+          },
+          "acs": {
+            "title": "Antikolize (ACS)",
+            "thresholdRa": "Citlivost RA",
+            "thresholdDec": "Citlivost Dec",
+            "hint": "RA 10 až 59999, Dec 100 až 59999.",
+            "collisions": "Kolize RA / Dec",
+            "clear": "Vynulovat počítadla",
+            "clearConfirmTitle": "Vynulovat počítadla kolizí?",
+            "clearConfirm": "Nastaví obě počítadla kolizí na 0."
+          },
+          "supervisedGoto": {
+            "title": "Hlídané goto",
+            "tolerance": "Tolerance (°)",
+            "hint": "Celé stupně, 5 až 30."
+          },
+          "pid": {
+            "title": "Servo PID",
+            "ra": "RA / Azimut",
+            "dec": "Dec / Výška",
+            "angleKp": "Úhel Kp",
+            "angleKi": "Úhel Ki",
+            "speedKp": "Rychlost Kp",
+            "speedKi": "Rychlost Ki",
+            "hint": "11 až 1999, rychlost Ki 11 až 80. Zápis restartuje osu, montáž proto musí stát a nesledovat. Nové zisky se projeví po restartu montáže.",
+            "readOnly": "Lze změnit pouze na UMi20S nebo UMi17X.",
+            "confirmTitle": "Zapsat PID zisky?",
+            "confirm": "Zápis restartuje osu {axis}. Špatné zisky mohou znemožnit sledování. Nové zisky se projeví po restartu."
+          }
         }
       }
     },
@@ -2345,6 +2418,7 @@
           "on": "zap.",
           "off": "vyp.",
           "resetToDefault": "Obnovit na {value}",
+          "defaultValue": "výchozí",
           "saveFailed": "Nastavení se nepodařilo uložit.",
           "errors": {
             "required": "Zadejte hodnotu.",
@@ -2374,6 +2448,10 @@
           "actionCancel": "Zrušit",
           "actionOptionConfirm": "Spustit „{option}“?",
           "optionLabels": {
+            "GuideSource": {
+              "GuideCamera": "Pointační kamera",
+              "Simulator": "Simulátor"
+            },
             "DecGuideMode": {
               "Auto": "Auto – oba směry",
               "North": "Jen sever",
@@ -2383,6 +2461,7 @@
             }
           },
           "labels": {
+            "GuideSource": "Pointační snímky z",
             "ExposureSeconds": "Expozice",
             "Gain": "Zesílení",
             "Offset": "Offset",
@@ -2407,6 +2486,7 @@
             "RaHysteresis": "Hystereze RA",
             "RaLowpass2Aggressiveness": "Agresivita Lowpass2 RA",
             "RaMinMove": "Min. pohyb RA",
+            "RaCorrectionPace": "Tempo korekce RA",
             "PeriodicErrorPrediction": "Předpověď periodické chyby",
             "WormTeeth": "Počet zubů šnekového kola RA",
             "ForgetPeriodicError": "Zapomenout periodickou chybu",
@@ -2416,12 +2496,15 @@
             "DecLowpass2Aggressiveness": "Agresivita Lowpass2 Dec",
             "DecFastSwitch": "Rychlé přepnutí Dec",
             "DecMinMove": "Min. pohyb Dec",
+            "DecCorrectionPace": "Tempo korekce Dec",
             "DecGuideMode": "Režim navádění Dec",
             "MaxRaDurationMs": "Max. pulz RA",
             "MaxDecDurationMs": "Max. pulz Dec",
             "MinPulseMs": "Min. pulz",
+            "SimultaneousPulses": "Současné pulzy RA a Dec",
             "BacklashCompensation": "Kompenzace vůle v Dec",
             "BacklashPulseMs": "Pulz kompenzace vůle v Dec",
+            "PulseModel": "Model pulzů",
             "CalibrationStepMs": "Krok kalibrace",
             "ReuseCalibration": "Znovu použít kalibraci",
             "AssumeOrthogonal": "Předpokládat kolmost Dec",
@@ -2442,27 +2525,60 @@
             "SimulateFault": "Simulovat poruchu"
           },
           "descriptions": {
+            "GuideSource": "Odkud pocházejí pointační snímky. Pointační kamera: kamera ve slotu pointační kamery ve vybavení. Simulátor: vestavěná simulace montáže, oblohy a kamery, pro vyzkoušení pointace bez hardwaru nebo za denního světla.",
+            "ExposureSeconds": "Expoziční čas každého pointačního snímku. 1–4 s vyprůměrují většinu seeingu; kratší expozice reagují rychleji, ale honí seeing, delší reagují pomalu na vítr a chyby montáže.",
             "Gain": "-1 ponechá aktuální zesílení nastavené v ovladači. (Zesílení v PHD2 je v procentech, proto se nepřebírá.)",
             "Offset": "-1 ponechá aktuální offset nastavený v ovladači.",
+            "Binning": "Hardwarový binning pointačních snímků. 2×2 zvýší citlivost kamery a zrychlí přenos snímků za cenu rozlišení; užitečné s malými pixely nebo dlouhou ohniskovou vzdáleností pointace. Po změně znovu kalibrujte.",
             "FocalLengthMm": "Ohnisková vzdálenost naváděcího dalekohledu (nebo hlavního dalekohledu při OAG). Potřebná pro hodnoty v obloukových vteřinách a pro krok kalibrace.",
             "PixelSizeUm": "0 použije velikost pixelu z ovladače kamery.",
+            "NoiseReduction": "Vyhladí každý pointační snímek před měřením hvězd. Mean 2×2 průměruje sousední pixely, Median 3×3 navíc odstraní jednotlivé horké pixely. Pomáhá u velmi zašuměných snímků, např. z nechlazených kamer; u čistých snímků dává None nejpřesnější polohy hvězd.",
             "UseDarkLibrary": "Odečítá darky: z nativní knihovny, pokud je vytvořená, jinak z knihovny darků PHD2 pro tuto velikost čipu.",
             "PulseOutput": "Mount: pulzní navádění přes připojený ovladač montáže. CameraST4: přes port ST4 naváděcí kamery.",
+            "MultiStar": "Měří několik hvězd najednou a pointuje na jejich společnou polohu místo na jedinou hvězdu. Tím vyprůměruje velkou část seeingu a udrží pointaci, když jedna hvězda zeslábne. Nejlépe nechat zapnuté.",
+            "MaxStars": "Nejvyšší počet hvězd pro vícehvězdnou pointaci. Více hvězd vyprůměruje více seeingu; s malým počtem použitelných hvězd v poli použije pointace ty, které najde. 1 pointuje na jedinou hvězdu.",
+            "MinSnr": "Poměr signálu k šumu, který hvězda potřebuje, aby byla vybrána jako pointační. Příliš vysoká hodnota znamená, že se žádná hvězda nenajde; místo snížení zkuste delší expozici, vyšší gain nebo novou knihovnu darků.",
+            "SearchRegion": "Poloviční velikost, v pixelech, oblasti, ve které pointace hledá hvězdu v dalším snímku: 15 znamená oblast 30×30. Zvyšte, pokud hvězda často vyskočí z oblasti (špatné sledování, vítr); příliš velká oblast může zachytit sousední hvězdu.",
+            "MinHfd": "Nejmenší velikost (průměr polovičního toku, v pixelech), kterou hvězda musí mít, aby byla použita. Brání pointaci zachytit se shluků horkých pixelů; 1,5 vyhovuje většině sestav. Zvyšte, pokud se vybírají horké pixely, snižte, pokud jsou odmítány skutečné, velmi ostré hvězdy.",
+            "MaxHfd": "Největší velikost (průměr polovičního toku, v pixelech), kterou může pointační hvězda mít. Nafouklé nebo rozostřené skvrny nad ní se při výběru hvězd ignorují.",
+            "MassChangeEnabled": "Sleduje jas (hmotu) pointační hvězdy a náhlou změnu bere jako ztrátu hvězdy, aby pointace při přechodu mraků nepřeskočila na sousední hvězdu nebo nepointovala na horký pixel.",
+            "MassChangeThreshold": "Jak moc se smí hmota hvězdy změnit, než se hvězda považuje za ztracenou: 0,5 povoluje změnu o polovinu oproti posledním snímkům. Zvyšte, pokud přicházejí alarmy ztráty hvězdy, i když je hvězda jasně viditelná, např. při proměnlivé průzračnosti.",
             "PrimaryDropoutFallback": "Když hlavní hvězda v jednom snímku vypadne, odhadne se její poloha z ≥3 shodujících se vedlejších hvězd.",
             "SaturationAdu": "0 = rozpoznat přesycení z profilu hvězdy.",
             "RaAlgorithm": "Predictive (experimentální) se z naváděcích snímků učí seeing a vlastní pohyb montáže a koriguje chybu, kterou předpovídá pro další snímek; agresivita, hystereze a min. pohyb se na něj proto nevztahují.",
             "RaAggression": "Podíl chyby korigovaný v každém snímku (0..1).",
+            "RaHysteresis": "Váha předchozí korekce RA vůči nejnovější chybě: 0,1 přimíchá 10 % poslední korekce. Vyšší hodnoty korekce vyhlazují, ale reagují pomaleji na skutečnou změnu směru.",
+            "RaLowpass2Aggressiveness": "Lowpass2 proloží přímku posledními chybami RA a koriguje tento trend místo jednotlivých snímků. Je to podíl trendu korigovaný za snímek, v procentech; snižte, pokud korekce přestřelují.",
             "RaMinMove": "0 = automaticky z měřítka snímku.",
+            "RaCorrectionPace": "Podíl zbývající chyby, který algoritmus Predictive koriguje za snímek: 0,5 odstraní posun během 2–3 snímků bez překmitnutí přes nulu, 1 koriguje vše najednou. Drift a periodická chyba se vždy korigují celé.",
             "PeriodicErrorPrediction": "Učí se periodickou chybu šneku v RA a koriguje ji dřív, než se projeví. Naučená křivka se ukládá pro profil a montáž.",
             "WormTeeth": "Počet zubů šnekového kola RA (např. 180 u EQ6-R, 135 u HEQ5); dává přesnou periodu šneku. 0 = zjistit periodu z naváděcích snímků.",
             "ForgetPeriodicError": "Zapomene periodickou chybu naučenou pro tuto montáž, např. po seřízení šneku; poté se naučí znovu.",
             "DecAlgorithm": "Predictive (experimentální) se z naváděcích snímků učí seeing a vlastní pohyb montáže a koriguje chybu, kterou předpovídá pro další snímek; agresivita, hystereze a min. pohyb se na něj proto nevztahují.",
+            "DecAggression": "Podíl změřené chyby Dec korigovaný v každém snímku: 1,0 koriguje vše. Snižte, pokud Dec přestřeluje.",
+            "DecHysteresis": "Váha předchozí korekce Dec vůči nejnovější chybě: 0,1 přimíchá 10 % poslední korekce. Vyšší hodnoty korekce vyhlazují, ale reagují pomaleji na skutečnou změnu směru.",
+            "DecLowpass2Aggressiveness": "Lowpass2 proloží přímku posledními chybami Dec a koriguje tento trend místo jednotlivých snímků. Je to podíl trendu korigovaný za snímek, v procentech; snižte, pokud korekce přestřelují.",
+            "DecFastSwitch": "S ResistSwitch: umožní Dec okamžitě obrátit směr, když je chyba velká (více než 3 × min move), místo čekání, až se shodne několik snímků. Rychle vrátí velkou chybu Dec.",
             "DecMinMove": "0 = automaticky z měřítka snímku.",
+            "DecCorrectionPace": "Podíl zbývající chyby, který algoritmus Predictive koriguje za snímek: 0,5 odstraní posun během 2–3 snímků bez překmitnutí přes nulu, 1 koriguje vše najednou. Drift a periodická chyba se vždy korigují celé.",
             "DecGuideMode": "Auto navádí Dec oběma směry, Jen sever a Jen jih jedním směrem, Vypnuto vůbec. Drift sleduje drift: během navádění měří drift v Dec a navádí jen proti němu, takže se převody Dec nikdy neobrátí a na vůli přestane záležet; když se drift obrátí, přepne směr, a oběma směry navádí, dokud drift není znám, během ustálení a k vrácení velké chyby.",
+            "MaxRaDurationMs": "Nejdelší jednotlivý pointační pulz RA. Omezuje korekci, když je měření daleko mimo (špatná hvězda, poryv větru), aby montáž nebyla odhozena daleko. Zvyšte jen tehdy, když korekce velkých chyb trvá mnoho snímků.",
+            "MaxDecDurationMs": "Nejdelší jednotlivý pointační pulz Dec. Omezuje korekci, když je měření daleko mimo (špatná hvězda, poryv větru), aby montáž nebyla odhozena daleko. Zvyšte jen tehdy, když korekce velkých chyb trvá mnoho snímků.",
             "MinPulseMs": "Kratší naváděcí pulzy se zaokrouhlí na 0 nebo na tuto délku: některé montáže velmi krátké pulzy nezpracují správně. 0 = libovolná délka.",
+            "SimultaneousPulses": "Posílá pulzy RA a Dec jednoho snímku současně místo za sebou, což zkracuje pointační cyklus. Jen u montáží, které časují obě osy odděleně (nativní ovladač OnStepX v pins); ostatní montáže dál pulzují postupně.",
+            "BacklashCompensation": "Přidá další pulz, když Dec obrací směr, aby vymezil vůli v převodech Dec. Užitečné při znatelné vůli Dec; nechte vypnuté, pokud Dec pointuje čistě. Režim pointace Dec Drift se obratům zcela vyhýbá.",
+            "BacklashPulseMs": "Délka dalšího pulzu při obratu Dec. Z ní vychází pointace a sama upravuje pulz mezi 20 ms a 1,5 × touto hodnotou podle reakce hvězdy.",
+            "PulseModel": "Učí se z ditherů, jak daleko pointační pulz skutečně posune hvězdu v každé ose, a podle toho dimenzuje pulzy, takže nepřesná kalibrace už nezpůsobuje pře- ani podkorekci. Začíná s kalibrací, mění jen to, co dithery jasně ukážou, a naučené si drží pro profil a montáž až do další kalibrace.",
             "CalibrationStepMs": "0 = automaticky z optiky, rychlosti navádění a deklinace.",
             "ReuseCalibration": "Zachová kalibraci mezi relacemi a přizpůsobí ji deklinaci a straně sloupu.",
+            "AssumeOrthogonal": "Kalibrace běžně měří směry RA a Dec nezávisle. Tato volba vynutí, aby Dec byla přesně kolmá na RA, což pomáhá, když velká periodická chyba, vůle Dec nebo špatný seeing zkreslí kalibraci Dec.",
+            "DecCompensation": "Přizpůsobí korekce RA aktuální deklinaci, takže kalibrace provedená na jedné deklinaci funguje i na jiné. Připojená montáž musí hlásit svou polohu; nechte zapnuté. Není totéž co kompenzace vůle Dec.",
             "DecFlipRequired": "Nastavení pro každou montáž zvlášť; automaticky ho opraví samokontrola Dec po flipu.",
+            "VerifyDecAfterFlip": "Po flipu přes poledník zkontroluje první korekce Dec: pokud hvězdu odtlačují dál místo zpět, pointace sama obrátí Dec a opraví „Otočit Dec po flipu přes poledník“ pro tuto montáž.",
+            "DitherMode": "Jak se volí každý dither. Random: náhodná vzdálenost a směr. Spiral: kroky po spirále kolem výchozí polohy, užitečné proti šumu s pevným vzorem snímací kamery.",
+            "DitherScale": "Násobí vzdálenost ditheru, kterou žádá snímací software: 2 dituje dvakrát dál, 0,5 o polovinu blíž.",
+            "FastRecenter": "Po ditheru přesune hvězdu do nové zamčené polohy velkými přímými pulzy místo běžných pointačních kroků, takže se dither ustálí dříve. Nejlépe nechat zapnuté.",
+            "ReacquireTimeoutSec": "Jak dlouho pointace hledá ztracenou hvězdu, než vyhlásí alarm. Potom hledá dál a obnoví pointaci, jakmile se hvězda vrátí.",
             "MaxPulseDutyPercent": "Navádění se zastaví, když osa dostává pulzy déle než tento podíl minuty (ochrana proti útěku).",
             "PauseWhenSlewing": "Pozastaví korekce, dokud montáž hlásí přesun/zaparkování. Vypněte jen tehdy, když ovladač montáže trvale hlásí 'přesouvá se'.",
             "PauseWhenTrackingOff": "Pozastaví korekce, dokud montáž hlásí vypnuté sledování. Vypněte, pokud ovladač montáže neumí hlásit stav sledování.",
@@ -4068,6 +4184,10 @@
       }
     },
     "helpers": {
+      "numberInput": {
+        "default": "Výchozí",
+        "defaultWithValue": "Výchozí ({value})"
+      },
       "imageModal": {
         "no_image": "Nejsou k dispozici žádná obrazová data",
         "histogram": "Zobrazit histogram"
@@ -4092,6 +4212,7 @@
         "linkedHint": "Roztáhnout všechny barevné kanály společně, pozadí vyrovnané na neutrální šedou",
         "log": "Log",
         "fullRange": "Celý rozsah",
+        "statistics": "Statistika",
         "sourceInfo": "Surová data {width} × {height} px, {bitDepth} bit",
         "loading": "Načítání surových dat snímku…",
         "unsupported": "Histogram surových dat vyžaduje novější plugin Touch'N'Stars.",

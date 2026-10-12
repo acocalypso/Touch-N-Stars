@@ -1466,6 +1466,79 @@
           "vendorFirmware": "厂商固件",
           "serialPort": "串口",
           "guideRate": "脉冲导星速率"
+        },
+        "proxisky": {
+          "title": "Proxisky",
+          "refresh": "重新读取",
+          "loadFailed": "无法读取 Proxisky 设置",
+          "info": {
+            "StatusLed": "打开或关闭赤道仪的状态灯，例如在暗夜观测点关闭。跟踪时灯闪烁，跟踪停止或执行 goto 时常亮；赤道模式为绿色，Alt-Az 模式为蓝色。赤道仪断电重启后才会使用新设置。",
+            "PowerLossMemory": "赤道仪持续将其位置写入存储器（FRAM），因此断电后仍知道自己指向何处以及 home 位置在哪里。",
+            "AsiairHoming": "允许 ASIAIR 启动 home 搜索，并使用 Proxisky 针对 ASIAIR 的调整。仅在 ASIAIR 控制赤道仪时需要。",
+            "SupervisedHome": "Proxisky 的安全功能之一，基于赤道仪保存在存储器（FRAM）中的位置。部分固件版本不允许更改。",
+            "DecSecondHome": "使用 Dec 轴上的第二个 home 传感器：在 home 位置时鞍座垂直于 RA 轴，指向东西方向，适用于并联双机配置。在 Alt-Az 模式下赤道仪会自动切换到它。仅 UMi17X 可更改。",
+            "AutoTracking": "赤道仪通电后自动开始跟踪。赤道仪断电重启后才会使用新设置。",
+            "raLimits": "受监控的 RA 限位：RA 电机中的编码器测量自设置 home（At Home）以来 RA 转动的角度，到达限位时赤道仪停止跟踪和转动。默认值 95° 时，RA 在越过子午线 5° 处停止，避免设备撞到三脚架或立柱。需要正确的 home 位置。左和右是 Proxisky 的术语，并不对应东或西；请在未安装可能碰撞的设备时测试每个限位的方向。",
+            "decLimits": "防止 Dec 从当前 home 位置转得太远，以免赤道仪内部线缆缠绕。Dec 到达限位时跟踪停止；用 N 或 S 将 Dec 移回。逆时针和顺时针，单位为度。仅 UMi17X 可更改。",
+            "acs": "防撞系统在转动和跟踪时监控负载是否撞到三脚架或立柱。发生碰撞时两轴回退 5° 并停止跟踪；继续之前请让赤道仪回到 home，使坐标重新对应。灵敏度数值越高越不灵敏：每次增加 50，且只调整触发的那个轴。计数器显示检测到的碰撞次数。",
+            "supervisedGoto": "目标距离超出容差的 goto 将被拒绝而不执行。容差单位为度。",
+            "pid": "伺服电机的控制增益：位置（角度）控制和速度控制的 Kp 与 Ki。错误的数值可能导致赤道仪无法跟踪，请先记下原有数值。写入会重启该轴，因此赤道仪必须静止且未跟踪；断电重启后才会使用新增益。"
+          },
+          "restartPending": "赤道仪断电重启后生效",
+          "restartNote": "重启后生效",
+          "switches": {
+            "StatusLed": "状态指示灯",
+            "PowerLossMemory": "断电记忆",
+            "AsiairHoming": "ASIAIR 归位",
+            "SupervisedHome": "受监控 home",
+            "DecSecondHome": "Dec 第二 home",
+            "AutoTracking": "通电自动跟踪",
+            "RaLimits": "启用 RA 限位",
+            "DecLimits": "启用 Dec 限位",
+            "AntiCollision": "启用防撞",
+            "SupervisedGoto": "启用受监控 goto"
+          },
+          "umi17xOnly": "仅 UMi17X 可更改。",
+          "raLimits": {
+            "title": "RA 行程限位",
+            "left": "左 (°)",
+            "right": "右 (°)",
+            "hint": "整数度，1 到 180，按厂商定义的左侧和右侧。"
+          },
+          "decLimits": {
+            "title": "Dec 行程限位",
+            "ccw": "逆时针 (°)",
+            "cw": "顺时针 (°)",
+            "hint": "整数度，90 到 200，逆时针和顺时针。"
+          },
+          "acs": {
+            "title": "防撞 (ACS)",
+            "thresholdRa": "RA 灵敏度",
+            "thresholdDec": "Dec 灵敏度",
+            "hint": "RA 10 到 59999，Dec 100 到 59999。",
+            "collisions": "碰撞 RA / Dec",
+            "clear": "清零计数器",
+            "clearConfirmTitle": "清零碰撞计数器？",
+            "clearConfirm": "将两个碰撞计数器都设为 0。"
+          },
+          "supervisedGoto": {
+            "title": "受监控 goto",
+            "tolerance": "容差 (°)",
+            "hint": "整数度，5 到 30。"
+          },
+          "pid": {
+            "title": "伺服 PID",
+            "ra": "RA / 方位",
+            "dec": "Dec / 高度",
+            "angleKp": "角度 Kp",
+            "angleKi": "角度 Ki",
+            "speedKp": "速度 Kp",
+            "speedKi": "速度 Ki",
+            "hint": "11 到 1999，速度 Ki 为 11 到 80。写入会重启该轴，因此赤道仪必须静止且未跟踪。新增益在赤道仪断电重启后生效。",
+            "readOnly": "仅 UMi20S 或 UMi17X 可更改。",
+            "confirmTitle": "写入 PID 增益？",
+            "confirm": "写入会重启 {axis} 轴。错误的增益可能导致无法跟踪。新增益在重启后生效。"
+          }
         }
       }
     },
@@ -2345,6 +2418,7 @@
           "on": "开",
           "off": "关",
           "resetToDefault": "重置为 {value}",
+          "defaultValue": "默认",
           "saveFailed": "无法保存该设置。",
           "errors": {
             "required": "请输入一个值。",
@@ -2374,6 +2448,10 @@
           "actionCancel": "取消",
           "actionOptionConfirm": "执行“{option}”？",
           "optionLabels": {
+            "GuideSource": {
+              "GuideCamera": "导星相机",
+              "Simulator": "模拟器"
+            },
             "DecGuideMode": {
               "Auto": "Auto – 双向",
               "North": "仅北",
@@ -2383,6 +2461,7 @@
             }
           },
           "labels": {
+            "GuideSource": "导星帧来源",
             "ExposureSeconds": "曝光",
             "Gain": "增益",
             "Offset": "偏移",
@@ -2407,6 +2486,7 @@
             "RaHysteresis": "RA 滞后",
             "RaLowpass2Aggressiveness": "RA Lowpass2 激进度",
             "RaMinMove": "RA 最小移动量",
+            "RaCorrectionPace": "RA 校正节奏",
             "PeriodicErrorPrediction": "周期误差预测",
             "WormTeeth": "RA 蜗轮齿数",
             "ForgetPeriodicError": "忘记周期误差",
@@ -2416,12 +2496,15 @@
             "DecLowpass2Aggressiveness": "Dec Lowpass2 激进度",
             "DecFastSwitch": "Dec 快速切换",
             "DecMinMove": "Dec 最小移动量",
+            "DecCorrectionPace": "Dec 校正节奏",
             "DecGuideMode": "Dec 导星模式",
             "MaxRaDurationMs": "最大 RA 脉冲",
             "MaxDecDurationMs": "最大 Dec 脉冲",
             "MinPulseMs": "最小脉冲",
+            "SimultaneousPulses": "RA 和 Dec 脉冲同时发送",
             "BacklashCompensation": "Dec 回差补偿",
             "BacklashPulseMs": "Dec 回差脉冲",
+            "PulseModel": "脉冲模型",
             "CalibrationStepMs": "校准步长",
             "ReuseCalibration": "重用校准",
             "AssumeOrthogonal": "假定 Dec 正交",
@@ -2442,27 +2525,60 @@
             "SimulateFault": "模拟故障"
           },
           "descriptions": {
+            "GuideSource": "导星帧的来源。导星相机：设备中导星相机槽位里的相机。模拟器：内置的赤道仪、天空和相机模拟，可在没有硬件或白天时试用导星。",
+            "ExposureSeconds": "每个导星帧的曝光时间。1–4 秒可平均掉大部分视宁度；更短的曝光反应更快，但会追逐视宁度，更长的曝光对风和赤道仪误差反应较慢。",
             "Gain": "-1 保持驱动当前的增益。（PHD2 的增益是百分比，因此不会沿用。）",
             "Offset": "-1 保持驱动当前的偏移。",
+            "Binning": "导星帧的硬件合并。2×2 让相机更灵敏、帧传输更快，但会降低分辨率；适合小像素或长导星焦距。更改后请重新校准。",
             "FocalLengthMm": "导星镜的焦距（使用 OAG 时为主镜焦距）。角秒数值和校准步长需要用到。",
             "PixelSizeUm": "0 表示使用相机驱动报告的像素尺寸。",
+            "NoiseReduction": "在测量星点前平滑每个导星帧。Mean 2×2 对相邻像素取平均，Median 3×3 还会去除单个热像素。对噪声很大的帧有帮助，例如来自非制冷相机的帧；对干净的帧，None 给出最精确的星点位置。",
             "UseDarkLibrary": "减去暗场：若已构建原生暗场库则使用它，否则使用 PHD2 针对此相机尺寸的暗场库。",
             "PulseOutput": "Mount：通过已连接的赤道仪驱动进行脉冲导星。CameraST4：通过导星相机的 ST4 接口导星。",
+            "MultiStar": "同时测量多颗星，并按它们的综合位置导星，而不是只用一颗星。这能平均掉大部分视宁度，并在某颗星变暗时保持导星。建议保持开启。",
+            "MaxStars": "多星导星使用的最多星数。星越多，平均掉的视宁度越多；视场中可用星较少时，导星使用找到的星。1 表示只用一颗星导星。",
+            "MinSnr": "星点被选为导星星所需的信噪比。数值过高会找不到星；与其降低它，不如尝试更长的曝光、更高的增益或重新建立暗场库。",
+            "SearchRegion": "导星在下一帧中搜索星点的方框的一半尺寸（像素）：15 表示 30×30 的方框。若星点经常跳出方框（跟踪差、有风）就调大；方框过大可能会抓到邻近的星。",
+            "MinHfd": "星点被使用所需的最小尺寸（半通量直径，像素）。防止导星锁定在热像素团上；1.5 适合大多数设备。若选中了热像素就调大，若真实的锐利星点被拒绝就调小。",
+            "MaxHfd": "导星星允许的最大尺寸（半通量直径，像素）。超过此值的膨胀或失焦光斑在选星时会被忽略。",
+            "MassChangeEnabled": "监视导星星的亮度（质量），并把突然的变化视为丢星，以免云层经过时导星跳到邻近的星上或在热像素上导星。",
+            "MassChangeThreshold": "星点质量在被视为丢失前允许变化的幅度：0.5 允许相对最近几帧变化一半。若星点清晰可见却出现丢星警报（例如透明度变化时），就调大。",
             "PrimaryDropoutFallback": "主星在某一帧中丢失时，根据 ≥3 颗结果一致的副星估算其位置。",
             "SaturationAdu": "0 = 根据星点轮廓检测饱和。",
             "RaAlgorithm": "Predictive（实验性）从导星帧中学习视宁度和赤道仪自身的运动，并校正其预测的下一帧误差，因此激进度、滞后和最小移动量对它不适用。",
             "RaAggression": "每帧校正的误差比例（0..1）。",
+            "RaHysteresis": "上一次 RA 校正相对于最新误差的权重：0.1 混入上一次校正的 10%。数值越高，校正越平滑，但对真实的方向变化反应越慢。",
+            "RaLowpass2Aggressiveness": "Lowpass2 对最近的 RA 误差拟合一条直线，并校正这一趋势而非单帧。这是每帧校正的趋势比例（百分比）；若校正过冲就调小。",
             "RaMinMove": "0 = 根据像素比例自动设定。",
+            "RaCorrectionPace": "Predictive 算法每帧校正的剩余误差比例：0.5 在 2–3 帧内消除偏移且不越过零点，1 一次全部校正。漂移和周期误差始终完全校正。",
             "PeriodicErrorPrediction": "学习 RA 蜗杆的周期误差，并在其显现之前加以校正。学得的曲线按配置文件和赤道仪保存。",
             "WormTeeth": "RA 蜗轮的齿数（例如 EQ6-R 为 180，HEQ5 为 135），可得出精确的蜗杆周期。0 = 从导星帧中检测周期。",
             "ForgetPeriodicError": "忘记为此赤道仪学得的周期误差，例如在调整蜗杆之后；之后会重新学习。",
             "DecAlgorithm": "Predictive（实验性）从导星帧中学习视宁度和赤道仪自身的运动，并校正其预测的下一帧误差，因此激进度、滞后和最小移动量对它不适用。",
+            "DecAggression": "每帧校正的已测 Dec 误差比例：1.0 全部校正。若 Dec 过冲就调小。",
+            "DecHysteresis": "上一次 Dec 校正相对于最新误差的权重：0.1 混入上一次校正的 10%。数值越高，校正越平滑，但对真实的方向变化反应越慢。",
+            "DecLowpass2Aggressiveness": "Lowpass2 对最近的 Dec 误差拟合一条直线，并校正这一趋势而非单帧。这是每帧校正的趋势比例（百分比）；若校正过冲就调小。",
+            "DecFastSwitch": "配合 ResistSwitch：误差较大（超过 3 × 最小移动量）时让 Dec 立即反向，而不是等待多帧一致。可快速拉回较大的 Dec 误差。",
             "DecMinMove": "0 = 根据像素比例自动设定。",
+            "DecCorrectionPace": "Predictive 算法每帧校正的剩余误差比例：0.5 在 2–3 帧内消除偏移且不越过零点，1 一次全部校正。漂移和周期误差始终完全校正。",
             "DecGuideMode": "Auto 双向导星 Dec，仅北或仅南只朝一个方向，关闭则完全不导星。Drift 跟随漂移：它在导星时测量 Dec 漂移，只朝与之相反的方向导星，因此赤纬齿轮从不反转，回差便不再有影响；漂移反向时它会切换方向，在漂移确定之前、稳定过程中以及需要拉回较大误差时会双向导星。",
+            "MaxRaDurationMs": "单个 RA 导星脉冲的最长时长。当测量严重偏离时（错误的星、阵风）它会限制校正，以免赤道仪被推得很远。仅当大误差需要很多帧才能校正时才调大。",
+            "MaxDecDurationMs": "单个 Dec 导星脉冲的最长时长。当测量严重偏离时（错误的星、阵风）它会限制校正，以免赤道仪被推得很远。仅当大误差需要很多帧才能校正时才调大。",
             "MinPulseMs": "更短的导星脉冲会被舍入为 0 或此长度：有些赤道仪无法正确处理极短的脉冲。0 = 不限长度。",
+            "SimultaneousPulses": "同时发送一帧的 RA 和 Dec 脉冲，而不是先后发送，从而缩短导星周期。仅适用于能分别为两个轴计时的赤道仪（pins 的原生 OnStepX 驱动）；其他赤道仪仍按先后顺序发送脉冲。",
+            "BacklashCompensation": "在 Dec 反向时额外发送一个脉冲，以消除 Dec 齿轮的间隙。Dec 回差明显时有帮助；若 Dec 导星平稳就保持关闭。Dec 导星模式 Drift 可完全避免反向。",
+            "BacklashPulseMs": "Dec 反向时额外脉冲的长度。导星以此为起点，根据星点的响应在 20 毫秒和该值的 1.5 倍之间自动调整脉冲。",
+            "PulseModel": "从抖动中学习导星脉冲在每个轴上实际移动星点的距离，并据此确定脉冲大小，使偏差的校准不再导致过度或不足校正。它从校准值开始，只改变抖动明确显示的部分，并按配置文件和赤道仪保存所学内容，直到下一次校准。",
             "CalibrationStepMs": "0 = 根据光学参数、导星速率和赤纬自动设定。",
             "ReuseCalibration": "跨会话保留校准，并根据赤纬和子午侧进行调整。",
+            "AssumeOrthogonal": "校准通常独立测量 RA 和 Dec 方向。此选项强制 Dec 与 RA 严格垂直，在较大的周期误差、Dec 回差或较差的视宁度扭曲 Dec 校准时有帮助。",
+            "DecCompensation": "根据当前赤纬调整 RA 校正，使在某一赤纬做的校准在其他赤纬也能使用。需要已连接的赤道仪报告其位置；请保持开启。与 Dec 回差补偿不是一回事。",
             "DecFlipRequired": "每台赤道仪单独设置；由“翻转后 Dec 自检”自动纠正。",
+            "VerifyDecAfterFlip": "中天翻转后检查最初的 Dec 校正：若它们把星推得更远而不是拉回，导星会自行反转 Dec，并为该赤道仪更正“中天翻转后反转 Dec”。",
+            "DitherMode": "每次抖动的选取方式。Random：随机的距离和方向。Spiral：沿起始位置周围的螺旋逐步移动，有助于对抗主相机的固定模式噪声。",
+            "DitherScale": "放大拍摄软件请求的抖动距离：2 表示抖动两倍远，0.5 表示一半远。",
+            "FastRecenter": "抖动后用较大的直接脉冲而非普通导星步骤把星移到新的锁定位置，使抖动更快稳定。建议保持开启。",
+            "ReacquireTimeoutSec": "导星在发出警报前搜索丢失星点的时间。之后它会继续搜索，并在星点重新出现后立即恢复导星。",
             "MaxPulseDutyPercent": "某一轴在一分钟内的脉冲时间超过此比例时停止导星（失控保护）。",
             "PauseWhenSlewing": "赤道仪报告转动中/已停放时暂停修正。仅当赤道仪驱动一直报告“转动中”时才关闭此项。",
             "PauseWhenTrackingOff": "赤道仪报告跟踪关闭时暂停修正。若赤道仪驱动无法报告跟踪状态，请关闭此项。",
@@ -4068,6 +4184,10 @@
       }
     },
     "helpers": {
+      "numberInput": {
+        "default": "默认",
+        "defaultWithValue": "默认（{value}）"
+      },
       "imageModal": {
         "no_image": "暂无图像数据",
         "histogram": "显示直方图"
@@ -4092,6 +4212,7 @@
         "linkedHint": "所有颜色通道一起拉伸，背景校准为中性灰",
         "log": "对数",
         "fullRange": "完整范围",
+        "statistics": "统计",
         "sourceInfo": "原始数据 {width} × {height} 像素，{bitDepth} 位",
         "loading": "正在加载原始图像数据…",
         "unsupported": "原始数据直方图需要更新版本的 Touch'N'Stars 插件。",

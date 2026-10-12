@@ -5,6 +5,16 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [App6.5.0 - beta 3] - 2026-10-12
+
+### Changed
+
+- Native Guider (PINS): Every guider setting has an info button that explains what it does and when to change it, as in the PHD2 settings. The explanations no longer fill the list below the fields, and they are also available in the setup wizard and the connect dialog.
+
+### Fixed
+
+- Native Guider (PINS): Gain, offset and pixel size show "default" when they use the value of the guide camera's settings or of the camera driver, instead of a bare -1 or 0. Clearing the field sets them back to it.
+
 ## [App6.5.0 - beta 2] - 2026-10-11
 
 ### Changed
@@ -12,12 +22,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Camera, image history, Livestack and flat assistant: Histogram and stretch now work on the real 16-bit raw data, with exact statistics and separate RGB channels (needs the updated Touch'N'Stars plugin).
 - Atlas: Wide views use the Allsky preview when it meets display resolution, reducing detail downloads. WebGL tiles decode directly as ImageBitmaps, and the shared survey cache grows to 4096 resources.
 - Native Guider (PINS): An info button next to the Window column of the statistics explains which guide frames it covers.
+- Camera: The histogram is docked beside the image instead of covering it.
 
 ### Added
 
 - Settings: The camera chip card now sets the camera's bit depth and bit scaling.
 - Histogram: The statistics table shows how many pixels sit at the minimum and maximum value.
 - Mount (PINS): With the native OnStepX driver connected, a new OnStepX tab sets the altitude and meridian limits, the preferred pier side and the home position stored in the mount controller.
+- Mount (PINS): With a Proxisky UMi on the native OnStepX driver, the OnStepX tab also shows the mount's own settings: status LED, power-loss memory, ASIAIR homing, tracking at power-up, RA and Dec travel limits, the anti-collision system with its sensitivity and collision counters, supervised goto and the servo PID gains. Which of them can be changed depends on the UMi model.
+- Equipment (PINS): The settings of the native OnStepX driver, in the equipment page and in the setup wizard, choose the serial port (also a manually entered path such as a udev link) and the baud rate used at the next connect.
 - Native Guider (PINS): Choose the guide star yourself. While looping, tap a star in the guide frame (or any star, also one without a marker) and press Guide on this star; the secondary stars are found around it. Until now only the automatic selection could pick a star, although several hints asked to choose another one.
 - Native Guider (PINS): The Proc. tile also shows the guide loop's frame rate, and its explanation shows live where the time of a guide cycle goes: exposure, camera readout and transfer, processing, guide pulses and the time from the arrival of a frame to the first guide pulse, as medians of the recent cycles and for the last one. This needs a PINS version that reports the guide loop's timing.
 - Native Guider (PINS): The star button of the target plot switches to a star view: the plot zooms out to the size of the guide star and draws the guide points on the live star at the same scale, so you see at a glance how small the guiding error is compared with the star itself. The view keeps the orientation of the guide frame, arrows show where RA and Dec point, and it marks a lost or saturated star. Off by default, remembered per device.

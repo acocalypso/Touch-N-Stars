@@ -5,16 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [unreleased]
+
 ## [App6.5.0 - beta 4] - 2026-10-12
 
 ### Added
 
 - Native Guider (PINS): The camera group of the settings tab now also sets the guide camera's readout mode, USB limit and, depending on the camera, fan speed, ultra mode, high fullwell, binning average and LED. Gain, offset and binning stay the guider's own settings there.
 - Guiding: The guide camera card also sets the guide camera's readout mode, USB limit and camera options next to gain, offset and binning.
+- Equipment (PINS): The guide camera has its own Alpaca Direct settings again, on the equipment page and in the setup wizard. Two Alpaca cameras without discovery can now be used as imaging and guide camera at the same time. Developed by @nitr57.
 
 ### Changed
 
 - Native Guider (PINS): Gain, offset and pixel size at "default" show the value that applies, e.g. "Default (120)", taken from the guide camera.
+- PINS: The switch between automatic fallback and field hotspot is a segmented control like elsewhere in the app. The unselected mode no longer looks disabled, and a hint below explains the selected mode.
 
 ### Fixed
 

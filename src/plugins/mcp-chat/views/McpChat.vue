@@ -473,10 +473,13 @@ async function reject(message) {
   });
 }
 async function cancel() {
+  const activeClient = client;
+  const generation = epoch;
+  if (!activeClient) return;
   try {
-    await client.cancel();
+    await activeClient.cancel();
   } catch (failure) {
-    error.value = client.redact(failure.message);
+    if (generation === epoch) error.value = activeClient.redact(failure.message);
   }
 }
 async function clear() {

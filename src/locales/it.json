@@ -1853,6 +1853,7 @@
           "incidents": "Anomalie"
         },
         "strip": {
+          "dismissError": "Nascondi questo errore",
           "settling": "Assestamento",
           "live": "Live",
           "poll": "Polling",
@@ -1979,7 +1980,24 @@
           "starCount": "{count} stelle",
           "age": "{seconds} s fa",
           "weight": "Peso",
-          "rejected": "Non usata",
+          "reasons": {
+            "NotGuiding": "Le altre stelle contano solo durante la guida. Fino ad allora viene misurata solo la stella primaria.",
+            "Settling": "Le altre stelle non contano mentre la guida si assesta dopo l'avvio o un dithering.",
+            "Stabilizing": "La guida è appena iniziata, oppure la stella primaria si è mossa più del solito. Le altre stelle tornano a contare quando resta stabile per alcuni frame.",
+            "GuideStarLost": "La stella primaria è stata persa in questo frame, quindi nemmeno le altre stelle sono state misurate.",
+            "Subframe": "Con i subframe viene letta solo la stella primaria.",
+            "MultiStarOff": "La guida multistella è disattivata, quindi viene usata solo la stella primaria.",
+            "BeyondMaxStars": "Più stelle di quante ne consenta «Max stelle guida». In ogni frame ne vengono misurate solo tante.",
+            "Miss": "Si è mossa molto più della stella primaria in questo frame, quindi è stata scartata come valore anomalo.",
+            "ReferenceReset": "Scartata come anomala troppe volte di fila. La sua posizione di riferimento è stata reimpostata a quella attuale.",
+            "Lost": "Non trovata nella sua area di ricerca in questo frame: troppo debole, nuvole o si è spostata.",
+            "DroppedZero": "Non si è mossa affatto per diversi frame, probabilmente un pixel caldo. È stata scartata.",
+            "Resnapped": "La sua posizione di riferimento è stata aggiornata dopo lo spostamento della posizione di lock. Torna a contare dal frame successivo.",
+            "FallbackRejected": "La stella primaria è stata persa. La stima della sua posizione da questa stella non concordava con le altre.",
+            "PrimaryLost": "La stella primaria non è stata trovata in questo frame.",
+            "NotMeasured": "Non misurata in questo frame.",
+            "unknown": "Non usata ({reason})."
+          },
           "legendPrimary": "Stella primaria",
           "legendSecondary": "Stella secondaria",
           "legendRejected": "Non usata",

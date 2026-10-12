@@ -1853,6 +1853,7 @@
           "incidents": "Incidenty"
         },
         "strip": {
+          "dismissError": "Skrýt tuto chybu",
           "settling": "Ustálení",
           "live": "Živě",
           "poll": "Dotazování",
@@ -1979,7 +1980,24 @@
           "starCount": "{count} hvězd",
           "age": "před {seconds} s",
           "weight": "Váha",
-          "rejected": "Nepoužita",
+          "reasons": {
+            "NotGuiding": "Ostatní hvězdy se počítají jen při navádění. Do té doby se měří jen hlavní hvězda.",
+            "Settling": "Ostatní hvězdy se nepočítají, dokud se navádění po spuštění nebo ditheru neustálí.",
+            "Stabilizing": "Navádění právě začalo, nebo se hlavní hvězda pohnula víc než obvykle. Ostatní hvězdy se znovu počítají, jakmile je několik snímků v klidu.",
+            "GuideStarLost": "Hlavní hvězda se v tomto snímku ztratila, takže ani ostatní hvězdy nebyly změřeny.",
+            "Subframe": "S výřezy se čte jen hlavní hvězda.",
+            "MultiStarOff": "Navádění na více hvězd je vypnuté, takže se používá jen hlavní hvězda.",
+            "BeyondMaxStars": "Více hvězd, než dovoluje „Max. naváděcích hvězd“. V každém snímku se jich měří jen tolik.",
+            "Miss": "V tomto snímku se pohnula mnohem víc než hlavní hvězda, a proto byla vynechána jako odlehlá hodnota.",
+            "ReferenceReset": "Příliš často za sebou vynechána jako odlehlá. Její referenční poloha byla nastavena na současnou.",
+            "Lost": "V tomto snímku nebyla nalezena ve své oblasti hledání: příliš slabá, mraky, nebo se posunula.",
+            "DroppedZero": "Několik snímků se vůbec nepohnula, nejspíš horký pixel. Byla vyřazena.",
+            "Resnapped": "Její referenční poloha byla aktualizována po posunu zamčené pozice. Od dalšího snímku se znovu počítá.",
+            "FallbackRejected": "Hlavní hvězda se ztratila. Odhad její polohy z této hvězdy nesouhlasil s ostatními.",
+            "PrimaryLost": "Hlavní hvězda nebyla v tomto snímku nalezena.",
+            "NotMeasured": "V tomto snímku neměřena.",
+            "unknown": "Nepoužita ({reason})."
+          },
           "legendPrimary": "Hlavní hvězda",
           "legendSecondary": "Vedlejší hvězda",
           "legendRejected": "Nepoužita",

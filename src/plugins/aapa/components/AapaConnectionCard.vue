@@ -33,7 +33,10 @@
         <input
           v-model.trim="ip"
           type="text"
-          inputmode="decimal"
+          inputmode="url"
+          autocapitalize="off"
+          autocomplete="off"
+          spellcheck="false"
           class="tns-input"
           placeholder="192.168.1.100"
           @focus="editingIp = true"

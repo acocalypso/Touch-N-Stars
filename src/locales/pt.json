@@ -7822,6 +7822,10 @@
       }
     },
     "mcpChat": {
+      "start": "Iniciar",
+      "experimentalTitle": "Chat de IA experimental",
+      "experimentalWarning": "Esta funcionalidade é muito experimental e precisa de muitos testes. As respostas da IA e os argumentos das ferramentas podem estar errados. Revê cuidadosamente as ações dos equipamentos. Tens a certeza de que queres continuar?",
+      "continue": "Continuar",
       "title": "Chat IA PINS",
       "subtitle": "Assist?ncia local, ferramentas em tempo real e a??es sob o seu controlo",
       "debug": "Depura??o",

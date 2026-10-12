@@ -7827,6 +7827,10 @@
       }
     },
     "mcpChat": {
+      "start": "Starten",
+      "experimentalTitle": "Experimenteller KI-Chat",
+      "experimentalWarning": "Diese Funktion ist sehr experimentell und muss noch viel getestet werden. KI-Antworten und Werkzeugargumente können falsch sein. Prüfe Geräteaktionen sorgfältig. Möchtest du wirklich fortfahren?",
+      "continue": "Fortfahren",
       "title": "PINS KI-Chat",
       "subtitle": "Lokale Hilfe, Live-Werkzeuge und Aktionen unter deiner Kontrolle",
       "debug": "Debug",

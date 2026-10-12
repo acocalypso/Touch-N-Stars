@@ -1,5 +1,5 @@
 <template>
-  <main class="mx-auto flex max-w-4xl flex-col gap-4 p-4 pb-24">
+  <main :inert="showStartWarning" class="mx-auto flex max-w-4xl flex-col gap-4 p-4 pb-24">
     <header class="flex flex-wrap items-center justify-between gap-3">
       <div>
         <h1 class="text-2xl font-semibold">{{ t('title') }}</h1>
@@ -11,32 +11,32 @@
     </header>
 
     <section v-if="!connected" class="tns-card space-y-3 p-4">
-      <h2 class="font-medium">{{ t('connection') }}</h2>
-      <p class="text-sm">{{ t('local') }}</p>
-      <label class="block text-sm" for="mcp-gateway">{{ t('gateway') }}</label>
-      <input
-        id="mcp-gateway"
-        v-model="endpoint"
-        type="url"
-        class="tns-input w-full"
-        :disabled="busy"
-      />
-      <label v-if="debug" class="block text-sm" for="mcp-token">{{ t('token') }}</label>
-      <input
-        v-if="debug"
-        id="mcp-token"
-        v-model="token"
-        type="password"
-        autocomplete="off"
-        class="tns-input w-full"
-        :disabled="busy"
-      />
+      <template v-if="debug">
+        <label class="block text-sm" for="mcp-gateway">{{ t('gateway') }}</label>
+        <input
+          id="mcp-gateway"
+          v-model="endpoint"
+          type="url"
+          class="tns-input w-full"
+          :disabled="busy"
+        />
+        <label class="block text-sm" for="mcp-token">{{ t('token') }}</label>
+        <input
+          id="mcp-token"
+          v-model="token"
+          type="password"
+          autocomplete="off"
+          class="tns-input w-full"
+          :disabled="busy"
+        />
+      </template>
       <button
+        ref="startButton"
         class="tns-btn-primary min-h-touch"
-        :disabled="busy || (token.length > 0 && token.length < 32)"
-        @click="connect"
+        :disabled="busy"
+        @click="showStartWarning = true"
       >
-        {{ t('connect') }}
+        {{ busy ? t('working') : t('start') }}
       </button>
     </section>
 
@@ -243,10 +243,38 @@
         class="max-h-72 overflow-auto whitespace-pre-wrap break-all text-xs select-text"
         >{{ format(diagnostics) }}</pre>
     </section>
+    <Modal :show="showStartWarning" :disable-close="true" max-width="max-w-lg" @close="cancelStart">
+      <template #header>
+        <h2 id="mcp-start-title" class="text-lg font-semibold">{{ t('experimentalTitle') }}</h2>
+      </template>
+      <template #body>
+        <div
+          ref="warningDialog"
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="mcp-start-title"
+          aria-describedby="mcp-start-description"
+          tabindex="-1"
+          class="w-full space-y-4"
+          @keydown="warningKeydown"
+        >
+          <p id="mcp-start-description">{{ t('experimentalWarning') }}</p>
+          <div class="flex flex-wrap justify-end gap-3">
+            <button class="tns-btn-secondary w-auto! min-h-touch" @click="cancelStart">
+              {{ translate('common.cancel') }}
+            </button>
+            <button class="tns-btn-primary w-auto! min-h-touch" @click="acceptStart">
+              {{ t('continue') }}
+            </button>
+          </div>
+        </div>
+      </template>
+    </Modal>
   </main>
 </template>
 
 <script setup>
+import Modal from '@/components/helpers/Modal.vue';
 import { computed, nextTick, onUnmounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { ChatBubbleLeftRightIcon } from '@heroicons/vue/24/outline';
@@ -263,6 +291,46 @@ const rig = computed(
 );
 const endpoint = ref(`${rig.value}:4784`);
 const token = ref('');
+const showStartWarning = ref(false);
+const warningDialog = ref(null);
+const startButton = ref(null);
+watch(showStartWarning, async (visible) => {
+  await nextTick();
+  if (visible) warningDialog.value?.focus();
+  else startButton.value?.focus();
+});
+function warningKeydown(event) {
+  if (event.key === 'Escape') {
+    event.preventDefault();
+    cancelStart();
+    return;
+  }
+  if (event.key !== 'Tab') return;
+  const buttons = warningDialog.value?.querySelectorAll('button:not(:disabled)');
+  if (!buttons?.length) return;
+  const first = buttons[0];
+  const last = buttons[buttons.length - 1];
+  if (
+    event.shiftKey &&
+    (document.activeElement === first || document.activeElement === warningDialog.value)
+  ) {
+    event.preventDefault();
+    last.focus();
+  } else if (
+    !event.shiftKey &&
+    (document.activeElement === last || document.activeElement === warningDialog.value)
+  ) {
+    event.preventDefault();
+    first.focus();
+  }
+}
+function cancelStart() {
+  showStartWarning.value = false;
+}
+async function acceptStart() {
+  showStartWarning.value = false;
+  await connect();
+}
 const connected = ref(false);
 const busy = ref(false);
 const debug = ref(false);
@@ -338,6 +406,7 @@ async function connect() {
   });
 }
 function disconnect() {
+  showStartWarning.value = false;
   epoch++;
   const old = client;
   client = undefined;

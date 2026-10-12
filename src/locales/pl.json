@@ -7822,6 +7822,10 @@
       }
     },
     "mcpChat": {
+      "start": "Uruchom",
+      "experimentalTitle": "Eksperymentalny czat AI",
+      "experimentalWarning": "Ta funkcja jest bardzo eksperymentalna i wymaga wielu testów. Odpowiedzi AI i argumenty narzędzi mogą być błędne. Dokładnie sprawdzaj operacje urządzeń. Czy na pewno chcesz kontynuować?",
+      "continue": "Kontynuuj",
       "title": "Czat AI PINS",
       "subtitle": "Lokalna pomoc, narz?dzia na ?ywo i dzia?ania pod Twoj? kontrol?",
       "debug": "Debugowanie",

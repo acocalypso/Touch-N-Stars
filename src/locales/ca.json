@@ -7822,6 +7822,10 @@
       }
     },
     "mcpChat": {
+      "start": "Inicia",
+      "experimentalTitle": "Xat d’IA experimental",
+      "experimentalWarning": "Aquesta funció és molt experimental i necessita moltes proves. Les respostes de la IA i els arguments de les eines poden ser incorrectes. Revisa les accions dels dispositius amb cura. Segur que vols continuar?",
+      "continue": "Continua",
       "title": "Xat IA PINS",
       "subtitle": "Ajuda local, eines en directe i accions sota el teu control",
       "debug": "Depuraci?",

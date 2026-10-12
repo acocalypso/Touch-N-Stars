@@ -7822,6 +7822,10 @@
       }
     },
     "mcpChat": {
+      "start": "开始",
+      "experimentalTitle": "实验性 AI 聊天",
+      "experimentalWarning": "此功能仍处于高度实验阶段，需要大量测试。AI 的回复和工具参数可能有误。请仔细检查设备操作。确定要继续吗？",
+      "continue": "继续",
       "title": "PINS AI ??",
       "subtitle": "????????????????",
       "debug": "??",

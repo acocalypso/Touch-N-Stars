@@ -7822,6 +7822,10 @@
       }
     },
     "mcpChat": {
+      "start": "Start",
+      "experimentalTitle": "Experimental AI chat",
+      "experimentalWarning": "This feature is very experimental and needs a lot of testing. AI responses and tool arguments can be wrong. Review equipment actions carefully. Are you sure you want to continue?",
+      "continue": "Continue",
       "title": "PINS AI Chat",
       "subtitle": "Local assistance, live tools, actions under your control",
       "debug": "Debug",

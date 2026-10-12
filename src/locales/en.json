@@ -3457,7 +3457,7 @@
       "failed": "The guide camera did not respond",
       "readoutMode": "Readout Mode",
       "usbLimit": "USB Limit",
-      "connectForMore": "Connect the guide camera for binning, readout mode, USB limit and the camera's own options."
+      "connectForMore": "Connect the guide camera to set its readout mode, USB limit and its own options."
     },
     "focuser": {
       "title": "Focuser",

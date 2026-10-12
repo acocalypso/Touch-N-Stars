@@ -43,6 +43,7 @@ import {
   isNativeGuiderInUse,
   numericPickerSpec,
   defaultSentinel,
+  sentinelEffectiveValue,
   alertRows,
   usesGuideCameraSlot,
 } from '../nativeGuider.js';
@@ -749,4 +750,20 @@ test('gain, offset and pixel size show their sentinel default as default', () =>
   assert.equal(defaultSentinel({ name: 'PixelSizeUm', defaultValue: '0', value: '0' }), 0);
   assert.equal(defaultSentinel({ name: 'PixelSizeUm', defaultValue: null }), null);
   assert.equal(defaultSentinel({ name: 'MinHfd', defaultValue: '1.5' }), null);
+});
+
+test('a sentinel setting shows the guide camera value it stands for', () => {
+  const camera = { Connected: true, Gain: 100, Offset: 30, PixelSize: 2.9 };
+  // The guide camera's profile value wins over the camera's current one.
+  assert.equal(sentinelEffectiveValue('Gain', { Gain: 120 }, camera), 120);
+  assert.equal(sentinelEffectiveValue('Offset', { Offset: 0 }, camera), 0);
+  // Profile at its default: the connected camera's current value.
+  assert.equal(sentinelEffectiveValue('Gain', { Gain: -1 }, camera), 100);
+  assert.equal(sentinelEffectiveValue('Offset', {}, camera), 30);
+  assert.equal(sentinelEffectiveValue('PixelSizeUm', {}, camera), 2.9);
+  // Nothing connected and nothing in the profile: unknown.
+  assert.equal(sentinelEffectiveValue('Gain', { Gain: -1 }, { ...camera, Connected: false }), null);
+  assert.equal(sentinelEffectiveValue('PixelSizeUm', {}, { Connected: false }), null);
+  assert.equal(sentinelEffectiveValue('PixelSizeUm', {}, { Connected: true, PixelSize: 0 }), null);
+  assert.equal(sentinelEffectiveValue('MinHfd', { Gain: 120 }, camera), null);
 });

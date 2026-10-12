@@ -3416,7 +3416,7 @@
       "failed": "La caméra de guidage n'a pas répondu",
       "readoutMode": "Mode de lecture",
       "usbLimit": "Limite USB",
-      "connectForMore": "Connecte la caméra de guidage pour le binning, le mode de lecture, la limite USB et les options propres à la caméra."
+      "connectForMore": "Connecte la caméra de guidage pour régler le mode de lecture, la limite USB et ses options propres."
     },
     "focuser": {
       "title": "Focaliseur",

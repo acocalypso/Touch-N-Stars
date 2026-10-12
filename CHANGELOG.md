@@ -9,7 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Added
 
-- Native Guider (PINS): The settings tab has a Guide Camera section for the guide camera's own defaults: gain, offset, binning, readout mode, USB limit and, depending on the camera, fan speed, ultra mode, high fullwell, binning average and LED. The guider's gain and offset use these values while they are left at "default". Without a connected guide camera, gain and offset can still be set.
+- Native Guider (PINS): The camera group of the settings tab now also sets the guide camera's readout mode, USB limit and, depending on the camera, fan speed, ultra mode, high fullwell, binning average and LED. Gain, offset and binning stay the guider's own settings there.
+- Guiding: The guide camera card also sets the guide camera's readout mode, USB limit and camera options next to gain, offset and binning.
 
 ### Changed
 
@@ -17,7 +18,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 
-- Native Guider (PINS): Gain, offset and pixel size show "default" when they use the value of the guide camera's settings or of the camera driver, instead of a bare -1 or 0. Clearing the field sets them back to it.
+- Native Guider (PINS): Gain, offset and pixel size show "default" when they use the value of the guide camera's settings or of the camera driver, instead of a bare -1 or 0, together with the value that applies, e.g. "Default (120)". Clearing the field sets them back to it.
+- Guide camera: For cameras with a list of named gains, the chosen gain itself is stored instead of its position in the list.
 
 ## [App6.5.0 - beta 2] - 2026-10-11
 

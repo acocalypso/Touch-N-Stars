@@ -3416,7 +3416,7 @@
       "failed": "Kamera guidingowa nie odpowiedziała",
       "readoutMode": "Tryb odczytu",
       "usbLimit": "Limit USB",
-      "connectForMore": "Podłącz kamerę guidingową, aby ustawić binning, tryb odczytu, limit USB i własne opcje kamery."
+      "connectForMore": "Podłącz kamerę guidingową, aby ustawić tryb odczytu, limit USB i jej własne opcje."
     },
     "focuser": {
       "title": "Fokuser",

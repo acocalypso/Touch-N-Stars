@@ -3416,7 +3416,7 @@
       "failed": "Pointační kamera neodpověděla",
       "readoutMode": "Režim Čtení",
       "usbLimit": "USB limit",
-      "connectForMore": "Připoj pointační kameru pro binning, režim vyčítání, USB limit a vlastní volby kamery."
+      "connectForMore": "Připoj pointační kameru a nastav režim vyčítání, USB limit a její vlastní volby."
     },
     "focuser": {
       "title": "Ostření",

@@ -1,7 +1,7 @@
 <template>
   <div class="flex flex-col gap-3" data-testid="guide-camera-settings">
     <!-- Gain: the camera's named gains as a list, otherwise a number; -1 keeps the driver default -->
-    <div v-if="gainList.length" class="flex items-center gap-2">
+    <div v-if="showExposure && gainList.length" class="flex items-center gap-2">
       <label for="guide-camera-gain" class="text-xs md:text-sm text-content mr-3">
         {{ $t('components.guideCamera.gain') }}
       </label>
@@ -12,11 +12,12 @@
         @change="saveGain"
       >
         <option :value="-1">{{ $t('components.helpers.numberInput.default') }}</option>
-        <option v-for="(g, index) in gainList" :key="g" :value="index">{{ g }}</option>
+        <!-- NINA stores the gain itself, not its position in the list -->
+        <option v-for="g in gainList" :key="g" :value="g">{{ g }}</option>
       </select>
     </div>
     <NumberInputPicker
-      v-else-if="canSetGain"
+      v-else-if="showExposure && canSetGain"
       v-model="gain"
       :label="$t('components.guideCamera.gain')"
       labelKey="components.guideCamera.gain"
@@ -24,13 +25,13 @@
       :max="info.GainMax ?? 10000"
       :step="1"
       :decimalPlaces="0"
-      :defaultValue="info.DefaultGain ?? null"
+      :defaultValue="connected ? (info.Gain ?? null) : null"
       inputId="guide-camera-gain"
       @change="saveGain"
     />
 
     <NumberInputPicker
-      v-if="canSetOffset"
+      v-if="showExposure && canSetOffset"
       v-model="offset"
       :label="$t('components.guideCamera.offset')"
       labelKey="components.guideCamera.offset"
@@ -38,13 +39,13 @@
       :max="info.OffsetMax ?? 10000"
       :step="1"
       :decimalPlaces="0"
-      :defaultValue="info.DefaultOffset ?? null"
+      :defaultValue="connected ? (info.Offset ?? null) : null"
       inputId="guide-camera-offset"
       @change="saveOffset"
     />
 
     <template v-if="connected">
-      <div v-if="info.BinningModes?.length > 1" class="flex items-center gap-2">
+      <div v-if="showExposure && info.BinningModes?.length > 1" class="flex items-center gap-2">
         <label for="guide-camera-binning" class="text-xs md:text-sm text-content mr-3">
           {{ $t('components.guideCamera.binning') }}
         </label>
@@ -140,13 +141,20 @@
 </template>
 
 <script setup>
-import { computed, ref, watch } from 'vue';
+import { computed, ref, toRefs, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { apiStore } from '@/store/store';
 import { useCameraStore } from '@/store/cameraStore';
 import apiService from '@/services/apiService';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 import PinsSettingToggle from '@/components/helpers/settings/PinsSettingToggle.vue';
+
+const props = defineProps({
+  // Gain, offset and binning. The native guider has these as settings of its own, which win
+  // over the camera's defaults, so its settings sheet shows only the camera's device options.
+  showExposure: { type: Boolean, default: true },
+});
+const { showExposure } = toRefs(props);
 
 const store = apiStore();
 const cameraStore = useCameraStore();

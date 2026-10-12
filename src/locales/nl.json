@@ -3416,7 +3416,7 @@
       "failed": "De guidecamera reageerde niet",
       "readoutMode": "Uitleesmodus",
       "usbLimit": "USB-limiet",
-      "connectForMore": "Verbind de guidecamera voor binning, uitleesmodus, USB-limiet en de eigen opties van de camera."
+      "connectForMore": "Verbind de guidecamera om uitleesmodus, USB-limiet en de eigen opties in te stellen."
     },
     "focuser": {
       "title": "Focuser",

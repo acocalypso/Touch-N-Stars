@@ -113,28 +113,6 @@
 
     <!-- Grouped sheet -->
     <template v-else>
-      <!-- Profile defaults and device options of the guide camera slot; the guider's own Gain
-           and Offset fall back to these while they are left at their default -->
-      <section v-if="hasGuideCameraSlot" class="rounded-card border border-line bg-surface-1">
-        <button
-          type="button"
-          class="flex min-h-touch w-full items-center justify-between gap-2 px-4 text-left"
-          :aria-expanded="!collapsed[GUIDE_CAMERA_GROUP]"
-          @click="toggleGroup(GUIDE_CAMERA_GROUP)"
-        >
-          <span class="text-sm font-semibold uppercase tracking-wide text-content">
-            {{ t('components.guideCamera.title') }}
-          </span>
-          <ChevronDownIcon
-            class="h-5 w-5 shrink-0 text-content-muted transition-transform"
-            :class="{ '-rotate-90': collapsed[GUIDE_CAMERA_GROUP] }"
-          />
-        </button>
-        <div v-show="!collapsed[GUIDE_CAMERA_GROUP]" class="px-4 pb-3">
-          <GuideCameraSettings />
-        </div>
-      </section>
-
       <section
         v-for="group in groups"
         :key="group.group"
@@ -163,6 +141,13 @@
             :key="setting.name"
             :setting="setting"
             :compact="compact"
+          />
+          <!-- The guide camera's device options belong to the camera group. Gain, offset and
+               binning are left out: the guider has them as settings of its own above. -->
+          <GuideCameraSettings
+            v-if="group.group === 'Camera' && hasGuideCameraSlot"
+            :showExposure="false"
+            class="py-3"
           />
         </div>
       </section>
@@ -213,9 +198,6 @@ async function reconnect() {
 }
 
 const ADVANCED_KEY = 'nativeGuider.settings.advanced';
-// Collapse key of the guide camera section; guider groups come from the backend in another form.
-const GUIDE_CAMERA_GROUP = '__guideCamera';
-
 // PINS' guide camera slot (official NINA's profile has no GuideCameraSettings).
 const mainStore = apiStore();
 const hasGuideCameraSlot = computed(() => Boolean(mainStore.profileInfo?.GuideCameraSettings));

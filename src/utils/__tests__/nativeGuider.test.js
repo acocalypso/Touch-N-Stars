@@ -42,7 +42,7 @@ import {
   equipmentInUse,
   isNativeGuiderInUse,
   numericPickerSpec,
-  driverDefaultSentinel,
+  defaultSentinel,
   alertRows,
   usesGuideCameraSlot,
 } from '../nativeGuider.js';
@@ -566,7 +566,7 @@ test('setting labels and descriptions are translated by name, else the backend t
   const exposure = { name: 'ExposureSeconds', label: 'Exposure (backend)', description: '' };
   assert.equal(settingLabel(english, exposure), 'Exposure');
   const gain = { name: 'Gain', label: 'Gain', description: 'backend text' };
-  assert.match(settingDescription(english, gain), /^-1 keeps the driver's current gain/);
+  assert.match(settingDescription(english, gain), /guide camera's settings/);
   const future = { name: 'FutureSetting', label: 'Future setting', description: 'Does X.' };
   assert.equal(settingLabel(english, future), 'Future setting');
   assert.equal(settingDescription(english, future), 'Does X.');
@@ -743,10 +743,10 @@ test('alert rows keep their key when newer alerts arrive', () => {
   assert.notEqual(twins[0].key, twins[1].key, 'identical alerts still get distinct keys');
 });
 
-test('gain, offset and pixel size fall back to the driver at their default value', () => {
-  assert.equal(driverDefaultSentinel({ name: 'Gain', defaultValue: '-1', value: '120' }), -1);
-  assert.equal(driverDefaultSentinel({ name: 'Offset', defaultValue: -1, value: -1 }), -1);
-  assert.equal(driverDefaultSentinel({ name: 'PixelSizeUm', defaultValue: '0', value: '0' }), 0);
-  assert.equal(driverDefaultSentinel({ name: 'PixelSizeUm', defaultValue: null }), null);
-  assert.equal(driverDefaultSentinel({ name: 'MinHfd', defaultValue: '1.5' }), null);
+test('gain, offset and pixel size show their sentinel default as default', () => {
+  assert.equal(defaultSentinel({ name: 'Gain', defaultValue: '-1', value: '120' }), -1);
+  assert.equal(defaultSentinel({ name: 'Offset', defaultValue: -1, value: -1 }), -1);
+  assert.equal(defaultSentinel({ name: 'PixelSizeUm', defaultValue: '0', value: '0' }), 0);
+  assert.equal(defaultSentinel({ name: 'PixelSizeUm', defaultValue: null }), null);
+  assert.equal(defaultSentinel({ name: 'MinHfd', defaultValue: '1.5' }), null);
 });

@@ -5,8 +5,9 @@
       <!-- action with options: one button per option (the option is the value that runs it),
            after a second tap to confirm -->
       <div v-if="type === 'action' && optionList.length" class="flex min-w-0 flex-col gap-1.5">
-        <span class="text-sm font-medium text-content break-words">
-          {{ label }}
+        <span class="flex items-center gap-1">
+          <span class="text-sm font-medium text-content break-words">{{ label }}</span>
+          <InfoModal v-if="description" :title="label" :message="description" size="w-4 h-4" />
         </span>
         <div
           v-if="confirmingOption === null"
@@ -60,6 +61,12 @@
         >
           {{ label }}
         </button>
+        <InfoModal
+          v-if="description && !confirming"
+          :title="label"
+          :message="description"
+          size="w-4 h-4"
+        />
         <template v-else>
           <span class="text-xs text-status-warn">
             {{ t('components.guider.native.settings.actionConfirm') }}
@@ -76,9 +83,12 @@
           </button>
         </template>
       </div>
-      <label v-else :for="inputId" class="flex min-w-0 flex-col">
-        <span class="text-sm font-medium text-content break-words">
-          {{ label }}
+      <div v-else class="flex min-w-0 flex-col">
+        <span class="flex items-center gap-1">
+          <label :for="inputId" class="text-sm font-medium text-content break-words">
+            {{ label }}
+          </label>
+          <InfoModal v-if="description" :title="label" :message="description" size="w-4 h-4" />
         </span>
         <span
           v-if="setting.requiresReconnect"
@@ -86,7 +96,7 @@
         >
           {{ t('components.guider.native.settings.requiresReconnect') }}
         </span>
-      </label>
+      </div>
 
       <!-- Save state -->
       <span class="flex h-6 w-6 shrink-0 items-center justify-center" aria-live="polite">
@@ -175,9 +185,6 @@
         {{ t('components.guider.native.settings.resetToDefault', { value: defaultLabel }) }}
       </button>
     </div>
-    <p v-if="description && !compact" class="text-xs text-content-muted break-words leading-snug">
-      {{ description }}
-    </p>
   </div>
 </template>
 
@@ -191,10 +198,11 @@ import {
   ExclamationTriangleIcon,
 } from '@heroicons/vue/24/outline';
 import toggleButton from '@/components/helpers/toggleButton.vue';
+import InfoModal from '@/components/helpers/infoModal.vue';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 import { useNativeGuiderStore } from '@/store/nativeGuiderStore';
 import {
-  driverDefaultSentinel,
+  defaultSentinel,
   numericPickerSpec,
   settingDescription,
   settingFormValue,
@@ -233,8 +241,8 @@ const pickerTitleKey = computed(() => {
 });
 
 const draft = ref(settingFormValue(props.setting));
-// Value that means "the camera driver's value" (Gain/Offset -1, PixelSizeUm 0), null otherwise
-const sentinel = computed(() => driverDefaultSentinel(props.setting));
+// Value that means "default" (Gain/Offset -1: guide camera settings, PixelSizeUm 0: driver), else null
+const sentinel = computed(() => defaultSentinel(props.setting));
 // The picker works on numbers; the draft stays the form value validateSettingValue() expects.
 // The picker knows only -1 as its "default", so the setting's own sentinel is mapped onto it.
 const numberDraft = computed({
@@ -283,7 +291,7 @@ const defaultLabel = computed(() => {
       ? t('components.guider.native.settings.on')
       : t('components.guider.native.settings.off');
   }
-  if (sentinel.value !== null) return t('components.guider.native.settings.driverDefault');
+  if (sentinel.value !== null) return t('components.guider.native.settings.defaultValue');
   return props.setting.unit ? `${value} ${props.setting.unit}` : String(value);
 });
 

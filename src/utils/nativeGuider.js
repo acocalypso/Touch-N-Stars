@@ -777,17 +777,17 @@ export function numericPickerSpec(setting) {
   };
 }
 
-// Settings whose default value is a sentinel for "use the camera driver's value" rather than a
-// number of its own: Gain and Offset use -1, PixelSizeUm uses 0.
-const DRIVER_DEFAULT_SETTINGS = ['Gain', 'Offset', 'PixelSizeUm'];
+// Settings whose default value is a sentinel rather than a number of its own: Gain and Offset use
+// -1 for the value of the guide camera's settings, PixelSizeUm uses 0 for the camera driver's.
+const SENTINEL_DEFAULT_SETTINGS = ['Gain', 'Offset', 'PixelSizeUm'];
 
 /**
- * The sentinel value of a setting that falls back to the camera driver's value (its default
+ * The sentinel value of a setting whose default means "take it from elsewhere" (its default
  * value), or null for an ordinary setting. The form shows it as "default" like the other
  * number fields of the app instead of the raw -1 or 0.
  */
-export function driverDefaultSentinel(setting) {
-  if (!DRIVER_DEFAULT_SETTINGS.includes(setting?.name)) return null;
+export function defaultSentinel(setting) {
+  if (!SENTINEL_DEFAULT_SETTINGS.includes(setting?.name)) return null;
   const value = Number(String(setting.defaultValue ?? '').replace(',', '.'));
   return setting.defaultValue !== null && setting.defaultValue !== '' && Number.isFinite(value)
     ? value

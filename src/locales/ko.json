@@ -1508,9 +1508,6 @@
           "serialPort": "시리얼 포트",
           "guideRate": "펄스 가이드 속도"
         },
-        "connection": {
-          "hint": "다음 연결 시 사용됩니다. 펌웨어가 다른 속도로 빌드되지 않았다면 OnStepX는 9600 보드로 통신합니다."
-        },
         "proxisky": {
           "title": "Proxisky",
           "refresh": "다시 읽기",

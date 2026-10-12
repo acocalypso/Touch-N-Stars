@@ -1508,9 +1508,6 @@
           "serialPort": "Serieller Port",
           "guideRate": "Pulse-Guide-Rate"
         },
-        "connection": {
-          "hint": "Wird beim nächsten Verbinden verwendet. OnStepX spricht mit 9600 Baud, sofern die Firmware nicht mit einer anderen Rate gebaut wurde."
-        },
         "proxisky": {
           "title": "Proxisky",
           "refresh": "Neu lesen",

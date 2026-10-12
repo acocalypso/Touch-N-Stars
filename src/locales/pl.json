@@ -1467,9 +1467,6 @@
           "serialPort": "Port szeregowy",
           "guideRate": "Prędkość guidingu impulsowego"
         },
-        "connection": {
-          "hint": "Używane przy następnym połączeniu. OnStepX komunikuje się z prędkością 9600 bodów, chyba że firmware zbudowano z inną prędkością."
-        },
         "proxisky": {
           "title": "Proxisky",
           "refresh": "Odczytaj ponownie",

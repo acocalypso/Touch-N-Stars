@@ -1467,9 +1467,6 @@
           "serialPort": "Sériový port",
           "guideRate": "Rychlost pulzního navádění"
         },
-        "connection": {
-          "hint": "Použije se při příštím připojení. OnStepX komunikuje rychlostí 9600 baudů, pokud firmware nebyl sestaven s jinou rychlostí."
-        },
         "proxisky": {
           "title": "Proxisky",
           "refresh": "Načíst znovu",

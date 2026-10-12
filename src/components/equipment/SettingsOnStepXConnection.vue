@@ -56,10 +56,6 @@
         <option v-for="rate in baudOptions" :key="rate" :value="rate">{{ rate }}</option>
       </select>
     </div>
-
-    <p class="text-xs text-content-faint mt-2 md:mt-3">
-      {{ $t('components.mount.onstepx.connection.hint') }}
-    </p>
   </div>
 </template>
 

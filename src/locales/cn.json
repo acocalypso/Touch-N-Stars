@@ -1467,9 +1467,6 @@
           "serialPort": "串口",
           "guideRate": "脉冲导星速率"
         },
-        "connection": {
-          "hint": "下次连接时生效。OnStepX 默认以 9600 波特率通信，除非固件以其他速率编译。"
-        },
         "proxisky": {
           "title": "Proxisky",
           "refresh": "重新读取",

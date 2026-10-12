@@ -1467,9 +1467,6 @@
           "serialPort": "Porta seriale",
           "guideRate": "Velocità di guida a impulsi"
         },
-        "connection": {
-          "hint": "Usato alla prossima connessione. OnStepX comunica a 9600 baud, a meno che il firmware non sia stato compilato con un'altra velocità."
-        },
         "proxisky": {
           "title": "Proxisky",
           "refresh": "Rileggi",

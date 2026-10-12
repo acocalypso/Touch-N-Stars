@@ -1476,9 +1476,6 @@
           "serialPort": "シリアルポート",
           "guideRate": "パルスガイド速度"
         },
-        "connection": {
-          "hint": "次回の接続時に使用されます。ファームウェアが別のレートでビルドされていない限り、OnStepX は 9600 ボーで通信します。"
-        },
         "proxisky": {
           "title": "Proxisky",
           "refresh": "再読み込み",

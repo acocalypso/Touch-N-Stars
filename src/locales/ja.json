@@ -1862,6 +1862,7 @@
           "incidents": "インシデント"
         },
         "strip": {
+          "dismissError": "このエラーを非表示",
           "settling": "整定中",
           "live": "ライブ",
           "poll": "ポーリング",

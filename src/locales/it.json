@@ -1853,6 +1853,7 @@
           "incidents": "Anomalie"
         },
         "strip": {
+          "dismissError": "Nascondi questo errore",
           "settling": "Assestamento",
           "live": "Live",
           "poll": "Polling",

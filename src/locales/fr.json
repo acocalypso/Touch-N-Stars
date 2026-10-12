@@ -1853,6 +1853,7 @@
           "incidents": "Incidents"
         },
         "strip": {
+          "dismissError": "Masquer cette erreur",
           "settling": "Stabil.",
           "live": "Direct",
           "poll": "Sondage",

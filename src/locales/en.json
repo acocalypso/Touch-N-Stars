@@ -1894,6 +1894,7 @@
           "incidents": "Incidents"
         },
         "strip": {
+          "dismissError": "Dismiss this error",
           "settling": "Settling",
           "live": "Live",
           "poll": "Polling",

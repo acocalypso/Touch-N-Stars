@@ -1894,6 +1894,7 @@
           "incidents": "Incidències"
         },
         "strip": {
+          "dismissError": "Amaga aquest error",
           "settling": "Assentant",
           "live": "En viu",
           "poll": "Sondeig",

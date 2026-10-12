@@ -1853,6 +1853,7 @@
           "incidents": "异常"
         },
         "strip": {
+          "dismissError": "隐藏此错误",
           "settling": "稳定中",
           "live": "实时",
           "poll": "轮询",

@@ -1894,6 +1894,7 @@
           "incidents": "인시던트"
         },
         "strip": {
+          "dismissError": "이 오류 숨기기",
           "settling": "안정화 중",
           "live": "실시간",
           "poll": "폴링",

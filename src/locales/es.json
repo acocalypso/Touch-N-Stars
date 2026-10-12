@@ -1853,6 +1853,7 @@
           "incidents": "Incidencias"
         },
         "strip": {
+          "dismissError": "Ocultar este error",
           "settling": "Asentando",
           "live": "Vivo",
           "poll": "Sondeo",

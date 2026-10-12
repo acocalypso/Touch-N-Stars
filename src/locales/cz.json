@@ -1853,6 +1853,7 @@
           "incidents": "Incidenty"
         },
         "strip": {
+          "dismissError": "Skrýt tuto chybu",
           "settling": "Ustálení",
           "live": "Živě",
           "poll": "Dotazování",

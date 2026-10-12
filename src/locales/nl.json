@@ -1853,6 +1853,7 @@
           "incidents": "Incidenten"
         },
         "strip": {
+          "dismissError": "Deze fout verbergen",
           "settling": "Stabiliseert",
           "live": "Live",
           "poll": "Polling",

@@ -3,6 +3,14 @@ node_modules
 /dist
 /coverage/
 /.cache/
+
+# Generated Playwright state and test artifacts
+/.playwright-cli/
+/playwright-report/
+/blob-report/
+/test-results/
+/playwright/.cache/
+/playwright/.auth/
 /server/dist
 /server/build
 /server/static

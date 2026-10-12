@@ -1466,6 +1466,82 @@
           "vendorFirmware": "Firmware do fabricante",
           "serialPort": "Porta série",
           "guideRate": "Velocidade de guiagem por pulsos"
+        },
+        "connection": {
+          "hint": "Usado na próxima ligação. O OnStepX comunica a 9600 baud, a menos que o firmware tenha sido compilado com outra taxa."
+        },
+        "proxisky": {
+          "title": "Proxisky",
+          "refresh": "Ler novamente",
+          "loadFailed": "Não foi possível ler as definições Proxisky",
+          "info": {
+            "StatusLed": "Liga ou desliga a luz de estado da montagem, p. ex. desligada num local escuro. A luz pisca enquanto a montagem faz seguimento e fica acesa quando o seguimento está parado ou durante um goto; verde no modo equatorial, azul no modo Alt-Az. A montagem aplica a nova definição após ser reiniciada (desligar e ligar).",
+            "PowerLossMemory": "A montagem grava continuamente a sua posição na memória (FRAM), por isso após uma falha de energia ainda sabe para onde aponta e onde está o home.",
+            "AsiairHoming": "Permite que um ASIAIR inicie a procura do home, com os ajustes da Proxisky para o ASIAIR. Só é necessário quando um ASIAIR controla a montagem.",
+            "SupervisedHome": "Uma das funções de segurança da Proxisky, baseada na posição que a montagem guarda na memória (FRAM). Algumas versões de firmware não permitem alterá-la.",
+            "DecSecondHome": "Usa o segundo sensor de home do eixo Dec: no home a sela fica perpendicular ao eixo RA, virada a este e oeste, para configurações duplas em paralelo. No modo Alt-Az a montagem muda para ele sozinha. Só pode ser alterado numa UMi17X.",
+            "AutoTracking": "A montagem inicia o seguimento sozinha ao ser ligada. A montagem aplica a nova definição após ser reiniciada (desligar e ligar).",
+            "raLimits": "Limite RA supervisionado: o encoder do motor RA mede quanto o RA rodou desde que o home foi definido (At Home), e a montagem para o seguimento e os movimentos no limite. Com o valor predefinido de 95°, o RA para 5° depois do meridiano, antes de o equipamento bater no tripé ou na coluna. Requer uma posição home correta. Esquerda e direita são termos da Proxisky e não correspondem a este ou oeste; experimente a direção de cada limite sem nada montado que possa colidir.",
+            "decLimits": "Impede que o Dec rode demasiado longe da posição home ativa, para que os cabos dentro da montagem não fiquem presos. Quando o Dec atinge um limite, o seguimento para; mova o Dec de volta com N ou S. Sentido anti-horário e horário, em graus. Só pode ser alterado numa UMi17X.",
+            "acs": "O sistema anticolisão vigia a montagem durante movimentos e seguimento para detetar uma colisão da carga com o tripé ou a coluna. Numa colisão ambos os eixos recuam 5° e o seguimento para; leve a montagem ao home antes de continuar, para que as coordenadas voltem a coincidir. Valores de sensibilidade mais altos tornam-na menos sensível: aumente-os de 50 em 50, só no eixo que disparou. Os contadores mostram as colisões detetadas.",
+            "supervisedGoto": "Um goto cujo alvo está mais longe do que a tolerância é recusado em vez de executado. A tolerância é em graus.",
+            "pid": "Os ganhos de controlo dos servomotores: Kp e Ki do controlo de posição (ângulo) e de velocidade. Valores errados podem impedir o seguimento, por isso anote primeiro os valores antigos. A escrita reinicia o eixo, por isso a montagem tem de estar parada e sem seguimento; aplica os novos ganhos após ser reiniciada (desligar e ligar)."
+          },
+          "restartPending": "Tem efeito após reiniciar a montagem",
+          "restartNote": "Aplica-se após um reinício",
+          "switches": {
+            "StatusLed": "LED de estado",
+            "PowerLossMemory": "Memória de falha de energia",
+            "AsiairHoming": "Homing ASIAIR",
+            "SupervisedHome": "Home supervisionado",
+            "DecSecondHome": "Segundo home Dec",
+            "AutoTracking": "Seguimento ao ligar",
+            "RaLimits": "Limites RA ativos",
+            "DecLimits": "Limites Dec ativos",
+            "AntiCollision": "Anticolisão ativa",
+            "SupervisedGoto": "Goto supervisionado ativo"
+          },
+          "umi17xOnly": "Só pode ser alterado numa UMi17X.",
+          "raLimits": {
+            "title": "Limites de curso RA",
+            "left": "Esquerda (°)",
+            "right": "Direita (°)",
+            "hint": "Graus inteiros, de 1 a 180, nos lados esquerdo e direito do fabricante."
+          },
+          "decLimits": {
+            "title": "Limites de curso Dec",
+            "ccw": "Anti-horário (°)",
+            "cw": "Horário (°)",
+            "hint": "Graus inteiros, de 90 a 200, sentido anti-horário e horário."
+          },
+          "acs": {
+            "title": "Anticolisão (ACS)",
+            "thresholdRa": "Sensibilidade RA",
+            "thresholdDec": "Sensibilidade Dec",
+            "hint": "RA de 10 a 59999, Dec de 100 a 59999.",
+            "collisions": "Colisões RA / Dec",
+            "clear": "Repor contadores",
+            "clearConfirmTitle": "Repor os contadores de colisões?",
+            "clearConfirm": "Põe ambos os contadores de colisões a 0."
+          },
+          "supervisedGoto": {
+            "title": "Goto supervisionado",
+            "tolerance": "Tolerância (°)",
+            "hint": "Graus inteiros, de 5 a 30."
+          },
+          "pid": {
+            "title": "PID dos servos",
+            "ra": "RA / Azimute",
+            "dec": "Dec / Altitude",
+            "angleKp": "Ângulo Kp",
+            "angleKi": "Ângulo Ki",
+            "speedKp": "Velocidade Kp",
+            "speedKi": "Velocidade Ki",
+            "hint": "De 11 a 1999, velocidade Ki de 11 a 80. A escrita reinicia o eixo, por isso a montagem tem de estar parada e sem seguimento. Os novos ganhos têm efeito após reiniciar a montagem.",
+            "readOnly": "Só pode ser alterado numa UMi20S ou UMi17X.",
+            "confirmTitle": "Escrever ganhos PID?",
+            "confirm": "A escrita reinicia o eixo {axis}. Ganhos errados podem impedir o seguimento. Os novos ganhos têm efeito após um reinício."
+          }
         }
       }
     },
@@ -4092,6 +4168,7 @@
         "linkedHint": "Esticar todos os canais de cor juntos, com os fundos igualados a cinza neutro",
         "log": "Log",
         "fullRange": "Escala completa",
+        "statistics": "Estat.",
         "sourceInfo": "Dados brutos {width} × {height} px, {bitDepth} bits",
         "loading": "Carregando os dados brutos da imagem…",
         "unsupported": "O histograma dos dados brutos requer um plugin Touch'N'Stars mais recente.",

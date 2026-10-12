@@ -1507,6 +1507,82 @@
           "vendorFirmware": "Hersteller-Firmware",
           "serialPort": "Serieller Port",
           "guideRate": "Pulse-Guide-Rate"
+        },
+        "connection": {
+          "hint": "Wird beim nächsten Verbinden verwendet. OnStepX spricht mit 9600 Baud, sofern die Firmware nicht mit einer anderen Rate gebaut wurde."
+        },
+        "proxisky": {
+          "title": "Proxisky",
+          "refresh": "Neu lesen",
+          "loadFailed": "Proxisky-Einstellungen konnten nicht gelesen werden",
+          "info": {
+            "StatusLed": "Schaltet die Status-Leuchte der Montierung ein oder aus, z. B. aus an einem dunklen Standort. Die Leuchte blinkt, während die Montierung nachführt, und leuchtet dauerhaft, wenn die Nachführung gestoppt ist oder ein Goto läuft; grün im äquatorialen, blau im Alt-Az-Modus. Die Montierung übernimmt die neue Einstellung nach einem Neustart (Strom aus und wieder an).",
+            "PowerLossMemory": "Die Montierung schreibt ihre Position laufend in ihren Speicher (FRAM), sodass sie nach einem Stromausfall noch weiß, wohin sie zeigt und wo Home ist.",
+            "AsiairHoming": "Erlaubt einem ASIAIR, die Home-Suche zu starten, mit Proxiskys Anpassungen für das ASIAIR. Nur nötig, wenn ein ASIAIR die Montierung steuert.",
+            "SupervisedHome": "Eine der Sicherheitsfunktionen von Proxisky, basierend auf der Position, die die Montierung in ihrem Speicher (FRAM) hält. Manche Firmware-Versionen lassen keine Änderung zu.",
+            "DecSecondHome": "Nutzt den zweiten Home-Sensor der Dec-Achse: In Home-Position steht der Sattel senkrecht zur RA-Achse und zeigt nach Osten und Westen, für parallele Dual-Setups. Im Alt-Az-Modus wechselt die Montierung selbst darauf. Nur bei einer UMi17X änderbar.",
+            "AutoTracking": "Die Montierung startet die Nachführung selbst, sobald sie eingeschaltet wird. Die Montierung übernimmt die neue Einstellung nach einem Neustart (Strom aus und wieder an).",
+            "raLimits": "Überwachte RA-Grenze: Der Encoder im RA-Motor misst, wie weit sich RA seit dem Setzen von Home (At Home) gedreht hat, und die Montierung stoppt Nachführung und Schwenks an der Grenze. Mit dem Standardwert 95° stoppt RA 5° nach dem Meridian, bevor das Setup an Stativ oder Säule stoßen kann. Setzt eine korrekte Home-Position voraus. Links und rechts sind Proxiskys Begriffe und entsprechen nicht Osten oder Westen; probiere ohne kollisionsgefährdeten Aufbau aus, in welche Richtung jede Grenze wirkt.",
+            "decLimits": "Verhindert, dass sich Dec zu weit von der aktiven Home-Position dreht, damit sich die Kabel in der Montierung nicht verfangen. Erreicht Dec eine Grenze, stoppt die Nachführung; bewege Dec mit N oder S zurück. Gegen und im Uhrzeigersinn, in Grad. Nur bei einer UMi17X änderbar.",
+            "acs": "Das Antikollisionssystem überwacht die Montierung bei Schwenks und Nachführung auf eine Kollision der Last mit Stativ oder Säule. Bei einer Kollision fahren beide Achsen 5° zurück und die Nachführung stoppt; fahre die Montierung auf Home, bevor du weitermachst, damit ihre Koordinaten wieder stimmen. Höhere Empfindlichkeitswerte machen sie unempfindlicher: erhöhe sie in Schritten von 50, nur auf der Achse, die ausgelöst hat. Die Zähler zeigen die erkannten Kollisionen.",
+            "supervisedGoto": "Ein Goto, dessen Ziel weiter entfernt ist als die Toleranz, wird abgelehnt statt ausgeführt. Die Toleranz ist in Grad.",
+            "pid": "Die Regelparameter der Servomotoren: Kp und Ki der Positions- (Winkel-) und der Geschwindigkeitsregelung. Falsche Werte können die Nachführung verhindern, notiere dir also vorher die alten Werte. Das Schreiben startet die Achse neu, daher muss die Montierung stillstehen und darf nicht nachführen; sie übernimmt die neuen Werte nach einem Neustart (Strom aus und wieder an)."
+          },
+          "restartPending": "Wirkt nach einem Neustart der Montierung (Strom aus und wieder an)",
+          "restartNote": "Gilt nach einem Neustart",
+          "switches": {
+            "StatusLed": "Status-LED",
+            "PowerLossMemory": "Stromausfall-Speicher",
+            "AsiairHoming": "ASIAIR-Homing",
+            "SupervisedHome": "Überwachtes Home",
+            "DecSecondHome": "Zweites Dec-Home",
+            "AutoTracking": "Nachführen beim Einschalten",
+            "RaLimits": "RA-Grenzen aktiv",
+            "DecLimits": "Dec-Grenzen aktiv",
+            "AntiCollision": "Antikollision aktiv",
+            "SupervisedGoto": "Überwachtes Goto aktiv"
+          },
+          "umi17xOnly": "Nur bei einer UMi17X änderbar.",
+          "raLimits": {
+            "title": "RA-Verfahrgrenzen",
+            "left": "Links (°)",
+            "right": "Rechts (°)",
+            "hint": "Ganze Grad, 1 bis 180, auf der linken und rechten Seite laut Hersteller."
+          },
+          "decLimits": {
+            "title": "Dec-Verfahrgrenzen",
+            "ccw": "Gegen UZS (°)",
+            "cw": "Im UZS (°)",
+            "hint": "Ganze Grad, 90 bis 200, gegen und im Uhrzeigersinn."
+          },
+          "acs": {
+            "title": "Antikollision (ACS)",
+            "thresholdRa": "RA-Empfindlichkeit",
+            "thresholdDec": "Dec-Empfindlichkeit",
+            "hint": "RA 10 bis 59999, Dec 100 bis 59999.",
+            "collisions": "Kollisionen RA / Dec",
+            "clear": "Zähler zurücksetzen",
+            "clearConfirmTitle": "Kollisionszähler zurücksetzen?",
+            "clearConfirm": "Setzt beide Kollisionszähler auf 0."
+          },
+          "supervisedGoto": {
+            "title": "Überwachtes Goto",
+            "tolerance": "Toleranz (°)",
+            "hint": "Ganze Grad, 5 bis 30."
+          },
+          "pid": {
+            "title": "Servo-PID",
+            "ra": "RA / Azimut",
+            "dec": "Dec / Höhe",
+            "angleKp": "Winkel Kp",
+            "angleKi": "Winkel Ki",
+            "speedKp": "Geschw. Kp",
+            "speedKi": "Geschw. Ki",
+            "hint": "11 bis 1999, Geschw. Ki 11 bis 80. Das Schreiben startet die Achse neu, daher muss die Montierung stillstehen und darf nicht nachführen. Die neuen Werte wirken nach einem Neustart der Montierung.",
+            "readOnly": "Nur bei einer UMi20S oder UMi17X änderbar.",
+            "confirmTitle": "PID-Werte schreiben?",
+            "confirm": "Das Schreiben startet die Achse {axis} neu. Falsche Werte können die Nachführung verhindern. Die neuen Werte wirken nach einem Neustart."
+          }
         }
       }
     },
@@ -4133,6 +4209,7 @@
         "linkedHint": "Alle Farbkanäle gemeinsam strecken, Hintergründe auf neutrales Grau abgeglichen",
         "log": "Log",
         "fullRange": "Volle Skala",
+        "statistics": "Statistik",
         "sourceInfo": "Rohdaten {width} × {height} px, {bitDepth} Bit",
         "loading": "Rohbilddaten werden geladen…",
         "unsupported": "Das Histogramm der Rohdaten braucht ein neueres Touch'N'Stars-Plugin.",

@@ -1466,6 +1466,82 @@
           "vendorFirmware": "Firmware du fabricant",
           "serialPort": "Port série",
           "guideRate": "Vitesse de guidage par impulsions"
+        },
+        "connection": {
+          "hint": "Utilisé à la prochaine connexion. OnStepX communique à 9600 bauds, sauf si son firmware a été compilé avec un autre débit."
+        },
+        "proxisky": {
+          "title": "Proxisky",
+          "refresh": "Relire",
+          "loadFailed": "Impossible de lire les réglages Proxisky",
+          "info": {
+            "StatusLed": "Allume ou éteint le voyant d'état de la monture, par ex. éteint sur un site sombre. Le voyant clignote pendant le suivi et reste allumé quand le suivi est arrêté ou pendant un goto ; vert en mode équatorial, bleu en mode Alt-Az. La monture applique le nouveau réglage après un redémarrage (coupure d'alimentation).",
+            "PowerLossMemory": "La monture enregistre en continu sa position dans sa mémoire (FRAM) ; après une coupure de courant, elle sait encore où elle pointe et où se trouve la position home.",
+            "AsiairHoming": "Permet à un ASIAIR de lancer la recherche de home, avec les adaptations de Proxisky pour l'ASIAIR. Nécessaire uniquement si un ASIAIR pilote la monture.",
+            "SupervisedHome": "L'une des fonctions de sécurité de Proxisky, basée sur la position que la monture conserve dans sa mémoire (FRAM). Certaines versions de firmware refusent de la modifier.",
+            "DecSecondHome": "Utilise le second capteur home de l'axe Dec : en position home, la selle est perpendiculaire à l'axe RA, orientée est-ouest, pour les montages doubles en parallèle. En mode Alt-Az, la monture l'utilise d'elle-même. Modifiable uniquement sur une UMi17X.",
+            "AutoTracking": "La monture démarre le suivi d'elle-même à la mise sous tension. La monture applique le nouveau réglage après un redémarrage (coupure d'alimentation).",
+            "raLimits": "Limite RA surveillée : l'encodeur du moteur RA mesure la rotation de RA depuis la définition du home (At Home), et la monture arrête suivi et déplacements à la limite. Avec la valeur par défaut de 95°, RA s'arrête 5° après le méridien, avant que l'équipement ne heurte le trépied ou la colonne. Nécessite une position home correcte. Gauche et droite sont les termes de Proxisky et ne correspondent pas à est ou ouest ; vérifiez la direction de chaque limite sans rien d'installé qui puisse entrer en collision.",
+            "decLimits": "Empêche Dec de tourner trop loin de la position home active, pour que les câbles internes de la monture ne s'accrochent pas. Quand Dec atteint une limite, le suivi s'arrête ; ramenez Dec avec N ou S. Sens antihoraire et horaire, en degrés. Modifiable uniquement sur une UMi17X.",
+            "acs": "Le système anticollision surveille la monture pendant les déplacements et le suivi pour détecter une collision de la charge avec le trépied ou la colonne. En cas de collision, les deux axes reculent de 5° et le suivi s'arrête ; ramenez la monture au home avant de continuer, pour que ses coordonnées correspondent à nouveau. Des valeurs de sensibilité plus élevées la rendent moins sensible : augmentez-les par pas de 50, uniquement sur l'axe qui a déclenché. Les compteurs indiquent les collisions détectées.",
+            "supervisedGoto": "Un goto dont la cible est plus éloignée que la tolérance est refusé au lieu d'être exécuté. La tolérance est en degrés.",
+            "pid": "Les gains de régulation des servomoteurs : Kp et Ki de la régulation de position (angle) et de vitesse. De mauvaises valeurs peuvent empêcher le suivi, notez donc d'abord les anciennes valeurs. L'écriture redémarre l'axe : la monture doit être immobile et sans suivi ; elle applique les nouveaux gains après un redémarrage (coupure d'alimentation)."
+          },
+          "restartPending": "Effectif après un redémarrage de la monture",
+          "restartNote": "S'applique après un redémarrage",
+          "switches": {
+            "StatusLed": "LED d'état",
+            "PowerLossMemory": "Mémoire coupure de courant",
+            "AsiairHoming": "Homing ASIAIR",
+            "SupervisedHome": "Home surveillé",
+            "DecSecondHome": "Second home Dec",
+            "AutoTracking": "Suivi à la mise sous tension",
+            "RaLimits": "Limites RA actives",
+            "DecLimits": "Limites Dec actives",
+            "AntiCollision": "Anticollision active",
+            "SupervisedGoto": "Goto surveillé actif"
+          },
+          "umi17xOnly": "Modifiable uniquement sur une UMi17X.",
+          "raLimits": {
+            "title": "Limites de course RA",
+            "left": "Gauche (°)",
+            "right": "Droite (°)",
+            "hint": "Degrés entiers, 1 à 180, côtés gauche et droit selon le fabricant."
+          },
+          "decLimits": {
+            "title": "Limites de course Dec",
+            "ccw": "Antihoraire (°)",
+            "cw": "Horaire (°)",
+            "hint": "Degrés entiers, 90 à 200, sens antihoraire et horaire."
+          },
+          "acs": {
+            "title": "Anticollision (ACS)",
+            "thresholdRa": "Sensibilité RA",
+            "thresholdDec": "Sensibilité Dec",
+            "hint": "RA 10 à 59999, Dec 100 à 59999.",
+            "collisions": "Collisions RA / Dec",
+            "clear": "Remettre les compteurs à zéro",
+            "clearConfirmTitle": "Remettre les compteurs de collisions à zéro ?",
+            "clearConfirm": "Remet les deux compteurs de collisions à 0."
+          },
+          "supervisedGoto": {
+            "title": "Goto surveillé",
+            "tolerance": "Tolérance (°)",
+            "hint": "Degrés entiers, 5 à 30."
+          },
+          "pid": {
+            "title": "PID des servos",
+            "ra": "RA / Azimut",
+            "dec": "Dec / Altitude",
+            "angleKp": "Angle Kp",
+            "angleKi": "Angle Ki",
+            "speedKp": "Vitesse Kp",
+            "speedKi": "Vitesse Ki",
+            "hint": "11 à 1999, vitesse Ki 11 à 80. L'écriture redémarre l'axe : la monture doit être immobile et sans suivi. Les nouveaux gains prennent effet après un redémarrage de la monture.",
+            "readOnly": "Modifiable uniquement sur une UMi20S ou UMi17X.",
+            "confirmTitle": "Écrire les gains PID ?",
+            "confirm": "L'écriture redémarre l'axe {axis}. De mauvais gains peuvent empêcher le suivi. Les nouveaux gains prennent effet après un redémarrage."
+          }
         }
       }
     },
@@ -4092,6 +4168,7 @@
         "linkedHint": "Étirer tous les canaux de couleur ensemble, fonds alignés sur un gris neutre",
         "log": "Log",
         "fullRange": "Plage complète",
+        "statistics": "Stats",
         "sourceInfo": "Données brutes {width} × {height} px, {bitDepth} bits",
         "loading": "Chargement des données brutes de l'image…",
         "unsupported": "L'histogramme des données brutes nécessite un plugin Touch'N'Stars plus récent.",

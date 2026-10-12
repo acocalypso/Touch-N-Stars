@@ -1466,6 +1466,82 @@
           "vendorFirmware": "Fabrikantfirmware",
           "serialPort": "Seriële poort",
           "guideRate": "Pulse-guide-snelheid"
+        },
+        "connection": {
+          "hint": "Wordt bij de volgende verbinding gebruikt. OnStepX communiceert op 9600 baud, tenzij de firmware met een andere snelheid is gebouwd."
+        },
+        "proxisky": {
+          "title": "Proxisky",
+          "refresh": "Opnieuw lezen",
+          "loadFailed": "Kon de Proxisky-instellingen niet lezen",
+          "info": {
+            "StatusLed": "Zet het statuslampje van de montering aan of uit, bijv. uit op een donkere locatie. Het lampje knippert tijdens het volgen en brandt continu als het volgen is gestopt of tijdens een goto; groen in equatoriale, blauw in Alt-Az-modus. De montering gebruikt de nieuwe instelling na een herstart (stroom uit en weer aan).",
+            "PowerLossMemory": "De montering schrijft haar positie doorlopend naar haar geheugen (FRAM), zodat ze na een stroomonderbreking nog weet waar ze naartoe wijst en waar home is.",
+            "AsiairHoming": "Laat een ASIAIR het zoeken naar home starten, met de aanpassingen van Proxisky voor de ASIAIR. Alleen nodig als een ASIAIR de montering aanstuurt.",
+            "SupervisedHome": "Een van de veiligheidsfuncties van Proxisky, gebaseerd op de positie die de montering in haar geheugen (FRAM) bewaart. Sommige firmwareversies weigeren dit te wijzigen.",
+            "DecSecondHome": "Gebruikt de tweede home-sensor op de Dec-as: in home staat het zadel loodrecht op de RA-as, gericht naar oost en west, voor parallelle duo-opstellingen. In Alt-Az-modus schakelt de montering er zelf naar over. Alleen te wijzigen op een UMi17X.",
+            "AutoTracking": "De montering begint zelf te volgen zodra ze wordt ingeschakeld. De montering gebruikt de nieuwe instelling na een herstart (stroom uit en weer aan).",
+            "raLimits": "Bewaakte RA-grens: de encoder in de RA-motor meet hoe ver RA is gedraaid sinds home is ingesteld (At Home), en de montering stopt volgen en zwenken bij de grens. Met de standaardwaarde van 95° stopt RA 5° voorbij de meridiaan, voordat de opstelling het statief of de pier kan raken. Vereist een correcte home-positie. Links en rechts zijn termen van Proxisky en komen niet overeen met oost of west; probeer uit welke kant elke grens op werkt zonder iets gemonteerd dat kan botsen.",
+            "decLimits": "Voorkomt dat Dec te ver van de actieve home-positie draait, zodat de kabels in de montering niet vast komen te zitten. Bereikt Dec een grens, dan stopt het volgen; beweeg Dec terug met N of S. Tegen de klok in en met de klok mee, in graden. Alleen te wijzigen op een UMi17X.",
+            "acs": "Het anti-botsingssysteem bewaakt de montering tijdens zwenken en volgen op een botsing van de lading met statief of pier. Bij een botsing draaien beide assen 5° terug en stopt het volgen; breng de montering naar home voordat je verdergaat, zodat haar coördinaten weer kloppen. Hogere gevoeligheidswaarden maken het minder gevoelig: verhoog ze in stappen van 50, alleen op de as die reageerde. De tellers tonen de gedetecteerde botsingen.",
+            "supervisedGoto": "Een goto waarvan het doel verder weg ligt dan de tolerantie wordt geweigerd in plaats van uitgevoerd. De tolerantie is in graden.",
+            "pid": "De regelparameters van de servomotoren: Kp en Ki van de positie- (hoek-) en de snelheidsregeling. Verkeerde waarden kunnen het volgen verhinderen, noteer dus eerst de oude waarden. Schrijven herstart de as, dus de montering moet stilstaan en niet volgen; ze gebruikt de nieuwe waarden na een herstart (stroom uit en weer aan)."
+          },
+          "restartPending": "Actief na een herstart van de montering",
+          "restartNote": "Geldt na een herstart",
+          "switches": {
+            "StatusLed": "Status-LED",
+            "PowerLossMemory": "Geheugen bij stroomuitval",
+            "AsiairHoming": "ASIAIR-homing",
+            "SupervisedHome": "Bewaakte home",
+            "DecSecondHome": "Tweede Dec-home",
+            "AutoTracking": "Volgen bij inschakelen",
+            "RaLimits": "RA-grenzen actief",
+            "DecLimits": "Dec-grenzen actief",
+            "AntiCollision": "Anti-botsing actief",
+            "SupervisedGoto": "Bewaakte goto actief"
+          },
+          "umi17xOnly": "Alleen te wijzigen op een UMi17X.",
+          "raLimits": {
+            "title": "RA-bewegingsgrenzen",
+            "left": "Links (°)",
+            "right": "Rechts (°)",
+            "hint": "Hele graden, 1 tot 180, aan de linker- en rechterkant volgens de fabrikant."
+          },
+          "decLimits": {
+            "title": "Dec-bewegingsgrenzen",
+            "ccw": "Tegen de klok (°)",
+            "cw": "Met de klok (°)",
+            "hint": "Hele graden, 90 tot 200, tegen de klok in en met de klok mee."
+          },
+          "acs": {
+            "title": "Anti-botsing (ACS)",
+            "thresholdRa": "RA-gevoeligheid",
+            "thresholdDec": "Dec-gevoeligheid",
+            "hint": "RA 10 tot 59999, Dec 100 tot 59999.",
+            "collisions": "Botsingen RA / Dec",
+            "clear": "Tellers wissen",
+            "clearConfirmTitle": "Botsingstellers wissen?",
+            "clearConfirm": "Zet beide botsingstellers op 0."
+          },
+          "supervisedGoto": {
+            "title": "Bewaakte goto",
+            "tolerance": "Tolerantie (°)",
+            "hint": "Hele graden, 5 tot 30."
+          },
+          "pid": {
+            "title": "Servo-PID",
+            "ra": "RA / Azimut",
+            "dec": "Dec / Hoogte",
+            "angleKp": "Hoek Kp",
+            "angleKi": "Hoek Ki",
+            "speedKp": "Snelheid Kp",
+            "speedKi": "Snelheid Ki",
+            "hint": "11 tot 1999, snelheid Ki 11 tot 80. Schrijven herstart de as, dus de montering moet stilstaan en niet volgen. De nieuwe waarden werken na een herstart van de montering.",
+            "readOnly": "Alleen te wijzigen op een UMi20S of UMi17X.",
+            "confirmTitle": "PID-waarden schrijven?",
+            "confirm": "Schrijven herstart de {axis}-as. Verkeerde waarden kunnen het volgen verhinderen. De nieuwe waarden werken na een herstart."
+          }
         }
       }
     },
@@ -4092,6 +4168,7 @@
         "linkedHint": "Alle kleurkanalen samen uitrekken, met de achtergronden gelijkgetrokken naar neutraal grijs",
         "log": "Log",
         "fullRange": "Volledig bereik",
+        "statistics": "Stats",
         "sourceInfo": "Ruwe data {width} × {height} px, {bitDepth} bit",
         "loading": "Ruwe beelddata laden…",
         "unsupported": "Het histogram van de ruwe data vereist een nieuwere Touch'N'Stars-plugin.",

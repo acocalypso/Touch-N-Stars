@@ -1507,6 +1507,82 @@
           "vendorFirmware": "Firmware del fabricant",
           "serialPort": "Port sèrie",
           "guideRate": "Velocitat de guiatge per polsos"
+        },
+        "connection": {
+          "hint": "S'utilitza a la propera connexió. OnStepX es comunica a 9600 bauds, tret que el firmware s'hagi compilat amb una altra velocitat."
+        },
+        "proxisky": {
+          "title": "Proxisky",
+          "refresh": "Torna a llegir",
+          "loadFailed": "No s'han pogut llegir els ajustos de Proxisky",
+          "info": {
+            "StatusLed": "Encén o apaga el llum d'estat de la muntura, p. ex. apagat en un lloc fosc. El llum parpelleja mentre la muntura fa seguiment i queda fix quan el seguiment està aturat o durant un goto; verd en mode equatorial, blau en mode Alt-Az. La muntura aplica el nou ajust després de reiniciar-la (apagar i encendre).",
+            "PowerLossMemory": "La muntura desa contínuament la seva posició a la memòria (FRAM), així que després d'un tall de corrent encara sap cap on apunta i on és el home.",
+            "AsiairHoming": "Permet que un ASIAIR iniciï la cerca del home, amb els ajustos de Proxisky per a l'ASIAIR. Només cal si un ASIAIR controla la muntura.",
+            "SupervisedHome": "Una de les funcions de seguretat de Proxisky, basada en la posició que la muntura guarda a la memòria (FRAM). Algunes versions de firmware no permeten canviar-la.",
+            "DecSecondHome": "Fa servir el segon sensor de home de l'eix Dec: al home la sella queda perpendicular a l'eix RA, orientada a est i oest, per a muntatges dobles en paral·lel. En mode Alt-Az la muntura hi canvia sola. Només es pot canviar en una UMi17X.",
+            "AutoTracking": "La muntura inicia el seguiment sola quan s'encén. La muntura aplica el nou ajust després de reiniciar-la (apagar i encendre).",
+            "raLimits": "Límit RA supervisat: l'encoder del motor RA mesura quant ha girat RA des que es va fixar el home (At Home), i la muntura atura el seguiment i els moviments al límit. Amb el valor per defecte de 95°, RA s'atura 5° passat el meridià, abans que l'equip piqui amb el trípode o la columna. Cal una posició home correcta. Esquerra i dreta són termes de Proxisky i no corresponen a est o oest; comprova cap on actua cada límit sense res muntat que pugui xocar.",
+            "decLimits": "Evita que Dec giri massa lluny de la posició home activa, perquè els cables de dins la muntura no s'enganxin. Quan Dec arriba a un límit, el seguiment s'atura; torna a moure Dec amb N o S. Sentit antihorari i horari, en graus. Només es pot canviar en una UMi17X.",
+            "acs": "El sistema anticol·lisió vigila la muntura durant els moviments i el seguiment per detectar un xoc de la càrrega amb el trípode o la columna. En una col·lisió els dos eixos retrocedeixen 5° i el seguiment s'atura; porta la muntura al home abans de continuar, perquè les coordenades tornin a coincidir. Valors de sensibilitat més alts la fan menys sensible: puja'ls de 50 en 50, només a l'eix que s'ha activat. Els comptadors mostren les col·lisions detectades.",
+            "supervisedGoto": "Un goto amb un objectiu més lluny que la tolerància es rebutja en lloc d'executar-se. La tolerància és en graus.",
+            "pid": "Els guanys de control dels servomotors: Kp i Ki del control de posició (angle) i de velocitat. Valors erronis poden impedir el seguiment, així que anota abans els valors antics. Escriure reinicia l'eix, per tant la muntura ha d'estar aturada i sense seguiment; aplica els nous guanys després de reiniciar-la (apagar i encendre)."
+          },
+          "restartPending": "Té efecte després de reiniciar la muntura",
+          "restartNote": "S'aplica després d'un reinici",
+          "switches": {
+            "StatusLed": "LED d'estat",
+            "PowerLossMemory": "Memòria de tall de corrent",
+            "AsiairHoming": "Homing ASIAIR",
+            "SupervisedHome": "Home supervisat",
+            "DecSecondHome": "Segon home Dec",
+            "AutoTracking": "Seguiment en encendre",
+            "RaLimits": "Límits RA actius",
+            "DecLimits": "Límits Dec actius",
+            "AntiCollision": "Anticol·lisió activa",
+            "SupervisedGoto": "Goto supervisat actiu"
+          },
+          "umi17xOnly": "Només es pot canviar en una UMi17X.",
+          "raLimits": {
+            "title": "Límits de recorregut RA",
+            "left": "Esquerra (°)",
+            "right": "Dreta (°)",
+            "hint": "Graus sencers, d'1 a 180, als costats esquerre i dret del fabricant."
+          },
+          "decLimits": {
+            "title": "Límits de recorregut Dec",
+            "ccw": "Antihorari (°)",
+            "cw": "Horari (°)",
+            "hint": "Graus sencers, de 90 a 200, en sentit antihorari i horari."
+          },
+          "acs": {
+            "title": "Anticol·lisió (ACS)",
+            "thresholdRa": "Sensibilitat RA",
+            "thresholdDec": "Sensibilitat Dec",
+            "hint": "RA de 10 a 59999, Dec de 100 a 59999.",
+            "collisions": "Col·lisions RA / Dec",
+            "clear": "Posa els comptadors a zero",
+            "clearConfirmTitle": "Posar a zero els comptadors de col·lisions?",
+            "clearConfirm": "Posa els dos comptadors de col·lisions a 0."
+          },
+          "supervisedGoto": {
+            "title": "Goto supervisat",
+            "tolerance": "Tolerància (°)",
+            "hint": "Graus sencers, de 5 a 30."
+          },
+          "pid": {
+            "title": "PID dels servos",
+            "ra": "RA / Azimut",
+            "dec": "Dec / Altitud",
+            "angleKp": "Angle Kp",
+            "angleKi": "Angle Ki",
+            "speedKp": "Velocitat Kp",
+            "speedKi": "Velocitat Ki",
+            "hint": "D'11 a 1999, velocitat Ki d'11 a 80. Escriure reinicia l'eix, per tant la muntura ha d'estar aturada i sense seguiment. Els nous guanys tenen efecte després de reiniciar la muntura.",
+            "readOnly": "Només es pot canviar en una UMi20S o UMi17X.",
+            "confirmTitle": "Escriure els guanys PID?",
+            "confirm": "Escriure reinicia l'eix {axis}. Guanys erronis poden impedir el seguiment. Els nous guanys tenen efecte després d'un reinici."
+          }
         }
       }
     },
@@ -4138,6 +4214,7 @@
         "linkedHint": "Estira tots els canals de color junts, amb els fons igualats a gris neutre",
         "log": "Log",
         "fullRange": "Escala completa",
+        "statistics": "Estad.",
         "sourceInfo": "Dades en brut {width} × {height} px, {bitDepth} bits",
         "loading": "Carregant les dades en brut de la imatge…",
         "unsupported": "L'histograma de les dades en brut necessita un connector Touch'N'Stars més recent.",

@@ -1466,6 +1466,82 @@
           "vendorFirmware": "Firmware výrobce",
           "serialPort": "Sériový port",
           "guideRate": "Rychlost pulzního navádění"
+        },
+        "connection": {
+          "hint": "Použije se při příštím připojení. OnStepX komunikuje rychlostí 9600 baudů, pokud firmware nebyl sestaven s jinou rychlostí."
+        },
+        "proxisky": {
+          "title": "Proxisky",
+          "refresh": "Načíst znovu",
+          "loadFailed": "Nastavení Proxisky se nepodařilo načíst",
+          "info": {
+            "StatusLed": "Zapne nebo vypne stavové světlo montáže, např. vypnuté na tmavé lokalitě. Světlo bliká, když montáž sleduje, a svítí trvale, když je sledování zastaveno nebo během goto; zeleně v ekvatoriálním, modře v Alt-Az režimu. Montáž použije nové nastavení po restartu (vypnutí a zapnutí napájení).",
+            "PowerLossMemory": "Montáž průběžně zapisuje svou polohu do paměti (FRAM), takže po výpadku napájení stále ví, kam míří a kde je home.",
+            "AsiairHoming": "Umožní ASIAIR spustit hledání home, s úpravami Proxisky pro ASIAIR. Potřeba jen tehdy, když montáž ovládá ASIAIR.",
+            "SupervisedHome": "Jedna z bezpečnostních funkcí Proxisky, založená na poloze, kterou si montáž drží v paměti (FRAM). Některé verze firmwaru ji nedovolí změnit.",
+            "DecSecondHome": "Používá druhý home senzor na ose Dec: v home stojí sedlo kolmo k ose RA a míří na východ a západ, pro paralelní duální sestavy. V režimu Alt-Az na něj montáž přepne sama. Lze změnit pouze na UMi17X.",
+            "AutoTracking": "Montáž po zapnutí sama začne sledovat. Montáž použije nové nastavení po restartu (vypnutí a zapnutí napájení).",
+            "raLimits": "Hlídaný limit RA: enkodér v motoru RA měří, o kolik se osa RA otočila od nastavení home (At Home), a montáž na limitu zastaví sledování i přejezdy. Při výchozích 95° se RA zastaví 5° za poledníkem, dřív než sestava narazí do stativu nebo sloupu. Vyžaduje správnou polohu home. Vlevo a vpravo jsou pojmy Proxisky a neodpovídají východu ani západu; vyzkoušej, kterým směrem každý limit působí, bez ničeho namontovaného, co by mohlo narazit.",
+            "decLimits": "Brání ose Dec otočit se příliš daleko od aktivní polohy home, aby se kabely uvnitř montáže nezachytily. Když Dec dosáhne limitu, sledování se zastaví; vrať Dec pomocí N nebo S. Proti směru a po směru hodinových ručiček, ve stupních. Lze změnit pouze na UMi17X.",
+            "acs": "Antikolizní systém hlídá montáž během přejezdů a sledování, zda náklad nenarazí do stativu nebo sloupu. Při kolizi obě osy couvnou o 5° a sledování se zastaví; před pokračováním najeď montáží na home, aby souřadnice opět seděly. Vyšší hodnoty citlivosti ji činí méně citlivou: zvyšuj je po 50, jen na ose, která zareagovala. Počítadla ukazují zjištěné kolize.",
+            "supervisedGoto": "Goto, jehož cíl je dál než tolerance, je odmítnuto místo provedení. Tolerance je ve stupních.",
+            "pid": "Regulační zisky servomotorů: Kp a Ki regulace polohy (úhlu) a rychlosti. Špatné hodnoty mohou znemožnit sledování, proto si nejdřív poznamenej staré hodnoty. Zápis restartuje osu, montáž proto musí stát a nesledovat; nové zisky použije po restartu (vypnutí a zapnutí napájení)."
+          },
+          "restartPending": "Projeví se po restartu montáže",
+          "restartNote": "Platí po restartu",
+          "switches": {
+            "StatusLed": "Stavová LED",
+            "PowerLossMemory": "Paměť při výpadku napájení",
+            "AsiairHoming": "ASIAIR homing",
+            "SupervisedHome": "Hlídaný home",
+            "DecSecondHome": "Druhý home Dec",
+            "AutoTracking": "Sledovat po zapnutí",
+            "RaLimits": "Limity RA aktivní",
+            "DecLimits": "Limity Dec aktivní",
+            "AntiCollision": "Antikolize aktivní",
+            "SupervisedGoto": "Hlídané goto aktivní"
+          },
+          "umi17xOnly": "Lze změnit pouze na UMi17X.",
+          "raLimits": {
+            "title": "Limity pohybu RA",
+            "left": "Vlevo (°)",
+            "right": "Vpravo (°)",
+            "hint": "Celé stupně, 1 až 180, na levé a pravé straně podle výrobce."
+          },
+          "decLimits": {
+            "title": "Limity pohybu Dec",
+            "ccw": "Proti směru (°)",
+            "cw": "Po směru (°)",
+            "hint": "Celé stupně, 90 až 200, proti směru a po směru hodinových ručiček."
+          },
+          "acs": {
+            "title": "Antikolize (ACS)",
+            "thresholdRa": "Citlivost RA",
+            "thresholdDec": "Citlivost Dec",
+            "hint": "RA 10 až 59999, Dec 100 až 59999.",
+            "collisions": "Kolize RA / Dec",
+            "clear": "Vynulovat počítadla",
+            "clearConfirmTitle": "Vynulovat počítadla kolizí?",
+            "clearConfirm": "Nastaví obě počítadla kolizí na 0."
+          },
+          "supervisedGoto": {
+            "title": "Hlídané goto",
+            "tolerance": "Tolerance (°)",
+            "hint": "Celé stupně, 5 až 30."
+          },
+          "pid": {
+            "title": "Servo PID",
+            "ra": "RA / Azimut",
+            "dec": "Dec / Výška",
+            "angleKp": "Úhel Kp",
+            "angleKi": "Úhel Ki",
+            "speedKp": "Rychlost Kp",
+            "speedKi": "Rychlost Ki",
+            "hint": "11 až 1999, rychlost Ki 11 až 80. Zápis restartuje osu, montáž proto musí stát a nesledovat. Nové zisky se projeví po restartu montáže.",
+            "readOnly": "Lze změnit pouze na UMi20S nebo UMi17X.",
+            "confirmTitle": "Zapsat PID zisky?",
+            "confirm": "Zápis restartuje osu {axis}. Špatné zisky mohou znemožnit sledování. Nové zisky se projeví po restartu."
+          }
         }
       }
     },
@@ -4092,6 +4168,7 @@
         "linkedHint": "Roztáhnout všechny barevné kanály společně, pozadí vyrovnané na neutrální šedou",
         "log": "Log",
         "fullRange": "Celý rozsah",
+        "statistics": "Statistika",
         "sourceInfo": "Surová data {width} × {height} px, {bitDepth} bit",
         "loading": "Načítání surových dat snímku…",
         "unsupported": "Histogram surových dat vyžaduje novější plugin Touch'N'Stars.",

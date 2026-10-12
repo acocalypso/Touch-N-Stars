@@ -1466,6 +1466,82 @@
           "vendorFirmware": "厂商固件",
           "serialPort": "串口",
           "guideRate": "脉冲导星速率"
+        },
+        "connection": {
+          "hint": "下次连接时生效。OnStepX 默认以 9600 波特率通信，除非固件以其他速率编译。"
+        },
+        "proxisky": {
+          "title": "Proxisky",
+          "refresh": "重新读取",
+          "loadFailed": "无法读取 Proxisky 设置",
+          "info": {
+            "StatusLed": "打开或关闭赤道仪的状态灯，例如在暗夜观测点关闭。跟踪时灯闪烁，跟踪停止或执行 goto 时常亮；赤道模式为绿色，Alt-Az 模式为蓝色。赤道仪断电重启后才会使用新设置。",
+            "PowerLossMemory": "赤道仪持续将其位置写入存储器（FRAM），因此断电后仍知道自己指向何处以及 home 位置在哪里。",
+            "AsiairHoming": "允许 ASIAIR 启动 home 搜索，并使用 Proxisky 针对 ASIAIR 的调整。仅在 ASIAIR 控制赤道仪时需要。",
+            "SupervisedHome": "Proxisky 的安全功能之一，基于赤道仪保存在存储器（FRAM）中的位置。部分固件版本不允许更改。",
+            "DecSecondHome": "使用 Dec 轴上的第二个 home 传感器：在 home 位置时鞍座垂直于 RA 轴，指向东西方向，适用于并联双机配置。在 Alt-Az 模式下赤道仪会自动切换到它。仅 UMi17X 可更改。",
+            "AutoTracking": "赤道仪通电后自动开始跟踪。赤道仪断电重启后才会使用新设置。",
+            "raLimits": "受监控的 RA 限位：RA 电机中的编码器测量自设置 home（At Home）以来 RA 转动的角度，到达限位时赤道仪停止跟踪和转动。默认值 95° 时，RA 在越过子午线 5° 处停止，避免设备撞到三脚架或立柱。需要正确的 home 位置。左和右是 Proxisky 的术语，并不对应东或西；请在未安装可能碰撞的设备时测试每个限位的方向。",
+            "decLimits": "防止 Dec 从当前 home 位置转得太远，以免赤道仪内部线缆缠绕。Dec 到达限位时跟踪停止；用 N 或 S 将 Dec 移回。逆时针和顺时针，单位为度。仅 UMi17X 可更改。",
+            "acs": "防撞系统在转动和跟踪时监控负载是否撞到三脚架或立柱。发生碰撞时两轴回退 5° 并停止跟踪；继续之前请让赤道仪回到 home，使坐标重新对应。灵敏度数值越高越不灵敏：每次增加 50，且只调整触发的那个轴。计数器显示检测到的碰撞次数。",
+            "supervisedGoto": "目标距离超出容差的 goto 将被拒绝而不执行。容差单位为度。",
+            "pid": "伺服电机的控制增益：位置（角度）控制和速度控制的 Kp 与 Ki。错误的数值可能导致赤道仪无法跟踪，请先记下原有数值。写入会重启该轴，因此赤道仪必须静止且未跟踪；断电重启后才会使用新增益。"
+          },
+          "restartPending": "赤道仪断电重启后生效",
+          "restartNote": "重启后生效",
+          "switches": {
+            "StatusLed": "状态指示灯",
+            "PowerLossMemory": "断电记忆",
+            "AsiairHoming": "ASIAIR 归位",
+            "SupervisedHome": "受监控 home",
+            "DecSecondHome": "Dec 第二 home",
+            "AutoTracking": "通电自动跟踪",
+            "RaLimits": "启用 RA 限位",
+            "DecLimits": "启用 Dec 限位",
+            "AntiCollision": "启用防撞",
+            "SupervisedGoto": "启用受监控 goto"
+          },
+          "umi17xOnly": "仅 UMi17X 可更改。",
+          "raLimits": {
+            "title": "RA 行程限位",
+            "left": "左 (°)",
+            "right": "右 (°)",
+            "hint": "整数度，1 到 180，按厂商定义的左侧和右侧。"
+          },
+          "decLimits": {
+            "title": "Dec 行程限位",
+            "ccw": "逆时针 (°)",
+            "cw": "顺时针 (°)",
+            "hint": "整数度，90 到 200，逆时针和顺时针。"
+          },
+          "acs": {
+            "title": "防撞 (ACS)",
+            "thresholdRa": "RA 灵敏度",
+            "thresholdDec": "Dec 灵敏度",
+            "hint": "RA 10 到 59999，Dec 100 到 59999。",
+            "collisions": "碰撞 RA / Dec",
+            "clear": "清零计数器",
+            "clearConfirmTitle": "清零碰撞计数器？",
+            "clearConfirm": "将两个碰撞计数器都设为 0。"
+          },
+          "supervisedGoto": {
+            "title": "受监控 goto",
+            "tolerance": "容差 (°)",
+            "hint": "整数度，5 到 30。"
+          },
+          "pid": {
+            "title": "伺服 PID",
+            "ra": "RA / 方位",
+            "dec": "Dec / 高度",
+            "angleKp": "角度 Kp",
+            "angleKi": "角度 Ki",
+            "speedKp": "速度 Kp",
+            "speedKi": "速度 Ki",
+            "hint": "11 到 1999，速度 Ki 为 11 到 80。写入会重启该轴，因此赤道仪必须静止且未跟踪。新增益在赤道仪断电重启后生效。",
+            "readOnly": "仅 UMi20S 或 UMi17X 可更改。",
+            "confirmTitle": "写入 PID 增益？",
+            "confirm": "写入会重启 {axis} 轴。错误的增益可能导致无法跟踪。新增益在重启后生效。"
+          }
         }
       }
     },
@@ -4092,6 +4168,7 @@
         "linkedHint": "所有颜色通道一起拉伸，背景校准为中性灰",
         "log": "对数",
         "fullRange": "完整范围",
+        "statistics": "统计",
         "sourceInfo": "原始数据 {width} × {height} 像素，{bitDepth} 位",
         "loading": "正在加载原始图像数据…",
         "unsupported": "原始数据直方图需要更新版本的 Touch'N'Stars 插件。",

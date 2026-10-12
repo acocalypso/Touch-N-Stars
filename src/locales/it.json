@@ -1466,6 +1466,82 @@
           "vendorFirmware": "Firmware del produttore",
           "serialPort": "Porta seriale",
           "guideRate": "Velocità di guida a impulsi"
+        },
+        "connection": {
+          "hint": "Usato alla prossima connessione. OnStepX comunica a 9600 baud, a meno che il firmware non sia stato compilato con un'altra velocità."
+        },
+        "proxisky": {
+          "title": "Proxisky",
+          "refresh": "Rileggi",
+          "loadFailed": "Impossibile leggere le impostazioni Proxisky",
+          "info": {
+            "StatusLed": "Accende o spegne la luce di stato della montatura, ad es. spenta in un sito buio. La luce lampeggia durante l'inseguimento e resta accesa quando l'inseguimento è fermo o durante un goto; verde in modalità equatoriale, blu in Alt-Az. La montatura applica la nuova impostazione dopo un riavvio (spegnimento e riaccensione).",
+            "PowerLossMemory": "La montatura scrive continuamente la propria posizione nella memoria (FRAM), così dopo un'interruzione di corrente sa ancora dove punta e dov'è la home.",
+            "AsiairHoming": "Permette a un ASIAIR di avviare la ricerca della home, con gli adattamenti di Proxisky per l'ASIAIR. Serve solo se un ASIAIR comanda la montatura.",
+            "SupervisedHome": "Una delle funzioni di sicurezza di Proxisky, basata sulla posizione che la montatura conserva in memoria (FRAM). Alcune versioni del firmware non permettono di modificarla.",
+            "DecSecondHome": "Usa il secondo sensore di home dell'asse Dec: in home la sella è perpendicolare all'asse RA, rivolta a est e ovest, per configurazioni doppie in parallelo. In modalità Alt-Az la montatura lo usa da sola. Modificabile solo su una UMi17X.",
+            "AutoTracking": "La montatura avvia l'inseguimento da sola all'accensione. La montatura applica la nuova impostazione dopo un riavvio (spegnimento e riaccensione).",
+            "raLimits": "Limite RA supervisionato: l'encoder del motore RA misura di quanto è ruotata RA da quando è stata impostata la home (At Home), e la montatura ferma inseguimento e movimenti al limite. Con il valore predefinito di 95°, RA si ferma 5° oltre il meridiano, prima che l'attrezzatura urti il treppiede o la colonna. Richiede una posizione home corretta. Sinistra e destra sono termini di Proxisky e non corrispondono a est o ovest; verifica la direzione di ogni limite senza nulla montato che possa urtare.",
+            "decLimits": "Impedisce a Dec di ruotare troppo lontano dalla posizione home attiva, così i cavi interni della montatura non si impigliano. Quando Dec raggiunge un limite, l'inseguimento si ferma; riporta Dec indietro con N o S. Senso antiorario e orario, in gradi. Modificabile solo su una UMi17X.",
+            "acs": "Il sistema anticollisione sorveglia la montatura durante movimenti e inseguimento per rilevare un urto del carico contro treppiede o colonna. In caso di collisione entrambi gli assi arretrano di 5° e l'inseguimento si ferma; porta la montatura in home prima di continuare, così le coordinate tornano a coincidere. Valori di sensibilità più alti la rendono meno sensibile: aumentali di 50 alla volta, solo sull'asse che è intervenuto. I contatori mostrano le collisioni rilevate.",
+            "supervisedGoto": "Un goto con un obiettivo più lontano della tolleranza viene rifiutato invece di essere eseguito. La tolleranza è in gradi.",
+            "pid": "I guadagni di controllo dei servomotori: Kp e Ki del controllo di posizione (angolo) e di velocità. Valori errati possono impedire l'inseguimento, quindi annota prima i valori precedenti. La scrittura riavvia l'asse: la montatura deve essere ferma e non inseguire; applica i nuovi guadagni dopo un riavvio (spegnimento e riaccensione)."
+          },
+          "restartPending": "Attivo dopo il riavvio della montatura",
+          "restartNote": "Si applica dopo un riavvio",
+          "switches": {
+            "StatusLed": "LED di stato",
+            "PowerLossMemory": "Memoria interruzione corrente",
+            "AsiairHoming": "Homing ASIAIR",
+            "SupervisedHome": "Home supervisionata",
+            "DecSecondHome": "Seconda home Dec",
+            "AutoTracking": "Inseguimento all'accensione",
+            "RaLimits": "Limiti RA attivi",
+            "DecLimits": "Limiti Dec attivi",
+            "AntiCollision": "Anticollisione attiva",
+            "SupervisedGoto": "Goto supervisionato attivo"
+          },
+          "umi17xOnly": "Modificabile solo su una UMi17X.",
+          "raLimits": {
+            "title": "Limiti di corsa RA",
+            "left": "Sinistra (°)",
+            "right": "Destra (°)",
+            "hint": "Gradi interi, da 1 a 180, sui lati sinistro e destro del produttore."
+          },
+          "decLimits": {
+            "title": "Limiti di corsa Dec",
+            "ccw": "Antiorario (°)",
+            "cw": "Orario (°)",
+            "hint": "Gradi interi, da 90 a 200, in senso antiorario e orario."
+          },
+          "acs": {
+            "title": "Anticollisione (ACS)",
+            "thresholdRa": "Sensibilità RA",
+            "thresholdDec": "Sensibilità Dec",
+            "hint": "RA da 10 a 59999, Dec da 100 a 59999.",
+            "collisions": "Collisioni RA / Dec",
+            "clear": "Azzera contatori",
+            "clearConfirmTitle": "Azzerare i contatori di collisione?",
+            "clearConfirm": "Imposta entrambi i contatori di collisione a 0."
+          },
+          "supervisedGoto": {
+            "title": "Goto supervisionato",
+            "tolerance": "Tolleranza (°)",
+            "hint": "Gradi interi, da 5 a 30."
+          },
+          "pid": {
+            "title": "PID servo",
+            "ra": "RA / Azimut",
+            "dec": "Dec / Altitudine",
+            "angleKp": "Angolo Kp",
+            "angleKi": "Angolo Ki",
+            "speedKp": "Velocità Kp",
+            "speedKi": "Velocità Ki",
+            "hint": "Da 11 a 1999, velocità Ki da 11 a 80. La scrittura riavvia l'asse: la montatura deve essere ferma e non inseguire. I nuovi guadagni sono attivi dopo il riavvio della montatura.",
+            "readOnly": "Modificabile solo su una UMi20S o UMi17X.",
+            "confirmTitle": "Scrivere i guadagni PID?",
+            "confirm": "La scrittura riavvia l'asse {axis}. Guadagni errati possono impedire l'inseguimento. I nuovi guadagni sono attivi dopo un riavvio."
+          }
         }
       }
     },
@@ -4092,6 +4168,7 @@
         "linkedHint": "Stira tutti i canali colore insieme, con gli sfondi allineati su un grigio neutro",
         "log": "Log",
         "fullRange": "Scala completa",
+        "statistics": "Stat.",
         "sourceInfo": "Dati grezzi {width} × {height} px, {bitDepth} bit",
         "loading": "Caricamento dei dati grezzi dell'immagine…",
         "unsupported": "L'istogramma dei dati grezzi richiede un plugin Touch'N'Stars più recente.",

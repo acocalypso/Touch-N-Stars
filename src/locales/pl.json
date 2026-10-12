@@ -1466,6 +1466,82 @@
           "vendorFirmware": "Firmware producenta",
           "serialPort": "Port szeregowy",
           "guideRate": "Prędkość guidingu impulsowego"
+        },
+        "connection": {
+          "hint": "Używane przy następnym połączeniu. OnStepX komunikuje się z prędkością 9600 bodów, chyba że firmware zbudowano z inną prędkością."
+        },
+        "proxisky": {
+          "title": "Proxisky",
+          "refresh": "Odczytaj ponownie",
+          "loadFailed": "Nie udało się odczytać ustawień Proxisky",
+          "info": {
+            "StatusLed": "Włącza lub wyłącza lampkę stanu montażu, np. wyłączoną w ciemnym miejscu. Lampka miga podczas prowadzenia i świeci ciągle, gdy prowadzenie jest zatrzymane lub podczas goto; zielona w trybie paralaktycznym, niebieska w trybie Alt-Az. Montaż stosuje nowe ustawienie po ponownym uruchomieniu (wyłączeniu i włączeniu zasilania).",
+            "PowerLossMemory": "Montaż stale zapisuje swoją pozycję w pamięci (FRAM), więc po zaniku zasilania nadal wie, gdzie jest skierowany i gdzie jest pozycja home.",
+            "AsiairHoming": "Pozwala ASIAIR uruchomić wyszukiwanie pozycji home, z dostosowaniami Proxisky dla ASIAIR. Potrzebne tylko, gdy montażem steruje ASIAIR.",
+            "SupervisedHome": "Jedna z funkcji bezpieczeństwa Proxisky, oparta na pozycji, którą montaż przechowuje w pamięci (FRAM). Niektóre wersje firmware nie pozwalają jej zmienić.",
+            "DecSecondHome": "Używa drugiego czujnika home na osi Dec: w pozycji home siodło stoi prostopadle do osi RA, skierowane na wschód i zachód, dla równoległych zestawów podwójnych. W trybie Alt-Az montaż sam się na niego przełącza. Można zmienić tylko w UMi17X.",
+            "AutoTracking": "Montaż sam rozpoczyna prowadzenie po włączeniu. Montaż stosuje nowe ustawienie po ponownym uruchomieniu (wyłączeniu i włączeniu zasilania).",
+            "raLimits": "Nadzorowany limit RA: enkoder w silniku RA mierzy, o ile obróciła się oś RA od ustawienia home (At Home), a montaż zatrzymuje prowadzenie i ruchy na limicie. Przy domyślnej wartości 95° RA zatrzymuje się 5° za południkiem, zanim sprzęt uderzy w statyw lub kolumnę. Wymaga poprawnej pozycji home. Lewo i prawo to terminy Proxisky i nie odpowiadają wschodowi ani zachodowi; sprawdź kierunek każdego limitu bez zamontowanego sprzętu, który mógłby kolidować.",
+            "decLimits": "Nie pozwala osi Dec obrócić się zbyt daleko od aktywnej pozycji home, aby kable wewnątrz montażu się nie zaczepiły. Gdy Dec osiągnie limit, prowadzenie się zatrzymuje; cofnij Dec przyciskiem N lub S. Przeciwnie i zgodnie z ruchem wskazówek zegara, w stopniach. Można zmienić tylko w UMi17X.",
+            "acs": "System antykolizyjny nadzoruje montaż podczas ruchów i prowadzenia pod kątem kolizji ładunku ze statywem lub kolumną. Przy kolizji obie osie cofają się o 5° i prowadzenie się zatrzymuje; przed kontynuowaniem sprowadź montaż do home, aby współrzędne znów się zgadzały. Wyższe wartości czułości czynią system mniej czułym: zwiększaj je o 50, tylko na osi, która zadziałała. Liczniki pokazują wykryte kolizje.",
+            "supervisedGoto": "Goto, którego cel jest dalej niż tolerancja, zostaje odrzucone zamiast wykonane. Tolerancja jest w stopniach.",
+            "pid": "Wzmocnienia regulacji serwomotorów: Kp i Ki regulacji pozycji (kąta) i prędkości. Błędne wartości mogą uniemożliwić prowadzenie, więc najpierw zanotuj stare wartości. Zapis restartuje oś, dlatego montaż musi stać i nie prowadzić; nowe wzmocnienia stosuje po ponownym uruchomieniu (wyłączeniu i włączeniu zasilania)."
+          },
+          "restartPending": "Działa po ponownym uruchomieniu montażu",
+          "restartNote": "Obowiązuje po ponownym uruchomieniu",
+          "switches": {
+            "StatusLed": "Dioda stanu",
+            "PowerLossMemory": "Pamięć przy zaniku zasilania",
+            "AsiairHoming": "Homing ASIAIR",
+            "SupervisedHome": "Nadzorowany home",
+            "DecSecondHome": "Drugi home Dec",
+            "AutoTracking": "Prowadzenie po włączeniu",
+            "RaLimits": "Limity RA aktywne",
+            "DecLimits": "Limity Dec aktywne",
+            "AntiCollision": "Antykolizja aktywna",
+            "SupervisedGoto": "Nadzorowane goto aktywne"
+          },
+          "umi17xOnly": "Można zmienić tylko w UMi17X.",
+          "raLimits": {
+            "title": "Limity ruchu RA",
+            "left": "Lewo (°)",
+            "right": "Prawo (°)",
+            "hint": "Pełne stopnie, od 1 do 180, po lewej i prawej stronie według producenta."
+          },
+          "decLimits": {
+            "title": "Limity ruchu Dec",
+            "ccw": "Przeciwnie (°)",
+            "cw": "Zgodnie (°)",
+            "hint": "Pełne stopnie, od 90 do 200, przeciwnie i zgodnie z ruchem wskazówek zegara."
+          },
+          "acs": {
+            "title": "Antykolizja (ACS)",
+            "thresholdRa": "Czułość RA",
+            "thresholdDec": "Czułość Dec",
+            "hint": "RA od 10 do 59999, Dec od 100 do 59999.",
+            "collisions": "Kolizje RA / Dec",
+            "clear": "Wyzeruj liczniki",
+            "clearConfirmTitle": "Wyzerować liczniki kolizji?",
+            "clearConfirm": "Ustawia oba liczniki kolizji na 0."
+          },
+          "supervisedGoto": {
+            "title": "Nadzorowane goto",
+            "tolerance": "Tolerancja (°)",
+            "hint": "Pełne stopnie, od 5 do 30."
+          },
+          "pid": {
+            "title": "PID serwa",
+            "ra": "RA / Azymut",
+            "dec": "Dec / Wysokość",
+            "angleKp": "Kąt Kp",
+            "angleKi": "Kąt Ki",
+            "speedKp": "Prędkość Kp",
+            "speedKi": "Prędkość Ki",
+            "hint": "Od 11 do 1999, prędkość Ki od 11 do 80. Zapis restartuje oś, dlatego montaż musi stać i nie prowadzić. Nowe wzmocnienia działają po ponownym uruchomieniu montażu.",
+            "readOnly": "Można zmienić tylko w UMi20S lub UMi17X.",
+            "confirmTitle": "Zapisać wzmocnienia PID?",
+            "confirm": "Zapis restartuje oś {axis}. Błędne wzmocnienia mogą uniemożliwić prowadzenie. Nowe wzmocnienia działają po ponownym uruchomieniu."
+          }
         }
       }
     },
@@ -4092,6 +4168,7 @@
         "linkedHint": "Rozciągaj wszystkie kanały kolorów razem, z tłem wyrównanym do neutralnej szarości",
         "log": "Log",
         "fullRange": "Pełny zakres",
+        "statistics": "Statyst.",
         "sourceInfo": "Surowe dane {width} × {height} px, {bitDepth} bit",
         "loading": "Wczytywanie surowych danych obrazu…",
         "unsupported": "Histogram surowych danych wymaga nowszej wtyczki Touch'N'Stars.",

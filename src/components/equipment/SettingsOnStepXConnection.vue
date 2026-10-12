@@ -109,7 +109,8 @@ const selectedPort = computed({
 
 // A saved port that is not among the detected ones is a manual entry (e.g. /dev/onstep)
 watch([port, availablePorts], ([current, ports]) => {
-  if (!current || ports.length === 0) {
+  // Also with no detected ports at all, so a saved path never hides behind an empty dropdown
+  if (!current) {
     return;
   }
   if (!ports.some((p) => !p.separator && p.Port === current)) {

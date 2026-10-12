@@ -73,3 +73,16 @@ test('gateway refuses embedded credentials and invalid session responses', async
   await assert.rejects(client.connect(), /Invalid operator session/);
   await client.close();
 });
+
+test('device-local connection omits bearer credential while retaining operator session', async () => {
+  const calls = [];
+  const client = createMcpChatClient('http://fixture.local:4784', '', async (url, options) => {
+    calls.push(options);
+    return json({ sessionId: session, tools: [] });
+  });
+  await client.connect();
+  await client.tool('get_status', {});
+  assert.equal(calls[0].headers.Authorization, undefined);
+  assert.equal(calls[1].headers['X-PINS-Chat-Session'], session);
+  await client.close();
+});

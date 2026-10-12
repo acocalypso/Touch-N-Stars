@@ -12,7 +12,7 @@
 
     <section v-if="!connected" class="tns-card space-y-3 p-4">
       <h2 class="font-medium">{{ t('connection') }}</h2>
-      <p class="text-sm">{{ t('connectHelp') }}</p>
+      <p class="text-sm">{{ t('local') }}</p>
       <label class="block text-sm" for="mcp-gateway">{{ t('gateway') }}</label>
       <input
         id="mcp-gateway"
@@ -21,8 +21,9 @@
         class="tns-input w-full"
         :disabled="busy"
       />
-      <label class="block text-sm" for="mcp-token">{{ t('token') }}</label>
+      <label v-if="debug" class="block text-sm" for="mcp-token">{{ t('token') }}</label>
       <input
+        v-if="debug"
         id="mcp-token"
         v-model="token"
         type="password"
@@ -32,7 +33,7 @@
       />
       <button
         class="tns-btn-primary min-h-touch"
-        :disabled="busy || token.length < 32"
+        :disabled="busy || (token.length > 0 && token.length < 32)"
         @click="connect"
       >
         {{ t('connect') }}

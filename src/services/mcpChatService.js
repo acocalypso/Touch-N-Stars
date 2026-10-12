@@ -29,7 +29,7 @@ export function createMcpChatClient(baseUrl, token, fetcher = globalThis.fetch) 
     base.hash
   )
     throw new Error('Invalid gateway URL');
-  if (token.length < 32) throw new Error('Invalid gateway token');
+  if (token && token.length < 32) throw new Error('Invalid gateway token');
   let session = '';
   let closed = false;
   const pending = new Set();
@@ -42,7 +42,7 @@ export function createMcpChatClient(baseUrl, token, fetcher = globalThis.fetch) 
       const response = await fetcher(new URL(path, base.origin), {
         method,
         headers: {
-          Authorization: `Bearer ${token}`,
+          ...(token ? { Authorization: `Bearer ${token}` } : {}),
           'Content-Type': 'application/json',
           ...(session ? { 'X-PINS-Chat-Session': session } : {}),
         },

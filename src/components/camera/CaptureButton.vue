@@ -217,6 +217,15 @@ import SettingsModal from '@/components/camera/SettingsModal.vue';
 import { Cog6ToothIcon } from '@heroicons/vue/24/outline';
 import { useOrientation } from '@/composables/useOrientation';
 
+const props = defineProps({
+  // Height in px of a panel docked at the bottom of the stage; in portrait the
+  // button moves clear of it.
+  dockOffset: {
+    type: Number,
+    default: 0,
+  },
+});
+
 const cameraStore = useCameraStore();
 const settingsStore = useSettingsStore();
 const sequenceStore = useSequenceStore();
@@ -289,7 +298,7 @@ const containerClasses = computed(() => ({
   // Portrait mode - bottom center
   'right-1/2 translate-x-1/2 flex-row': !isLandscape.value,
   // Landscape mode - left side vertical (changed from right to left)
-  'right-2 top-1/2 -translate-y-1/2 flex-col': isLandscape.value,
+  'top-1/2 -translate-y-1/2 flex-col': isLandscape.value,
 }));
 
 // Gap classes for different orientations
@@ -304,10 +313,13 @@ const gapClasses = computed(() => {
 // Anchored to --above-statusbar (bar height + safe area); --status-panel-height
 // adds the height of whichever status bar panel (progress, camera/mount/filter
 // info, guider graph) is currently open, so the action bar never gets covered.
+// A panel docked at the stage bottom pushes the bar up past it in portrait. In
+// landscape the bar stays put; the docked panel ends left of it instead.
 const containerStyle = computed(() => {
-  return !isLandscape.value
-    ? { bottom: 'calc(var(--above-statusbar) + var(--status-panel-height))' }
-    : {};
+  if (isLandscape.value) return { right: '0.5rem' };
+  const offset = props.dockOffset;
+  const dock = offset > 0 ? ` + var(--stage-inset) + ${offset}px + 0.5rem` : '';
+  return { bottom: `calc(var(--above-statusbar) + var(--status-panel-height)${dock})` };
 });
 
 // Responsive button sizes — never below the 48px touch target

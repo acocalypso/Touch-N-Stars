@@ -4138,6 +4138,7 @@
         "linkedHint": "Stretch all colour channels together, with their backgrounds aligned to neutral grey",
         "log": "Log",
         "fullRange": "Full range",
+        "statistics": "Stats",
         "sourceInfo": "Raw data {width} × {height} px, {bitDepth} bit",
         "loading": "Loading raw image data…",
         "unsupported": "The histogram of the raw data needs a newer Touch'N'Stars plugin.",

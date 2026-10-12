@@ -1507,6 +1507,82 @@
           "vendorFirmware": "Vendor firmware",
           "serialPort": "Serial port",
           "guideRate": "Pulse guide rate"
+        },
+        "connection": {
+          "hint": "Used at the next connect. OnStepX talks at 9600 baud unless its firmware was built with another rate."
+        },
+        "proxisky": {
+          "title": "Proxisky",
+          "refresh": "Read again",
+          "loadFailed": "Could not read the Proxisky settings",
+          "info": {
+            "StatusLed": "Turns the mount's status light on or off, e.g. off at a dark site. The light flashes while the mount tracks and stays on when tracking stopped or during a goto; green in equatorial, blue in Alt-Az mode. The mount uses the new setting after it is power cycled.",
+            "PowerLossMemory": "The mount keeps writing its position to its memory (FRAM), so after a power cut it still knows where it points and where home is.",
+            "AsiairHoming": "Lets an ASIAIR start the home search, with Proxisky's adjustments for the ASIAIR. Only needed when an ASIAIR drives the mount.",
+            "SupervisedHome": "One of Proxisky's safety features based on the position the mount keeps in its memory (FRAM). Some firmware versions refuse to change it.",
+            "DecSecondHome": "Uses the second home sensor on the Dec axis: at home the saddle stands perpendicular to the RA axis, pointing east and west, for parallel dual setups. In Alt-Az mode the mount switches to it by itself. Can be changed on a UMi17X only.",
+            "AutoTracking": "The mount starts tracking by itself when it is switched on. The mount uses the new setting after it is power cycled.",
+            "raLimits": "Supervised RA limit: the encoder in the RA motor measures how far RA has turned since home was set (At Home), and the mount stops tracking and slewing at the limit. With the default of 95° RA stops 5° past the meridian, before the rig can hit the tripod or pier. Needs a correct home position. Left and right are Proxisky's terms and do not map to east or west; try out which way each limit points with nothing attached that could collide.",
+            "decLimits": "Keeps Dec from turning too far from the active home position, so the cables inside the mount cannot snag. When Dec reaches a limit, tracking stops; move Dec back with N or S. Counter-clockwise and clockwise, in degrees. Can be changed on a UMi17X only.",
+            "acs": "The anti-collision system watches the mount during slews and tracking for a collision of the payload with the tripod or pier. On a collision both axes slew back 5° and tracking stops; home the mount before you go on, so its coordinates match again. Higher sensitivity values make it less sensitive: raise them by 50 at a time, only on the axis that triggered. The counters show the collisions detected.",
+            "supervisedGoto": "A goto whose target is further away than the tolerance is refused instead of carried out. The tolerance is in degrees.",
+            "pid": "The control gains of the servo motors: Kp and Ki of the position (angle) and of the speed control. Wrong values can keep the mount from tracking, so note the old values first. Writing restarts the axis, so the mount must stand still and not track; it uses the new gains after it is power cycled."
+          },
+          "restartPending": "Takes effect after the mount is power cycled",
+          "restartNote": "Applies after a power cycle",
+          "switches": {
+            "StatusLed": "Status LED",
+            "PowerLossMemory": "Power-loss memory",
+            "AsiairHoming": "ASIAIR homing",
+            "SupervisedHome": "Supervised home",
+            "DecSecondHome": "Dec second home",
+            "AutoTracking": "Track at power-up",
+            "RaLimits": "RA limits active",
+            "DecLimits": "Dec limits active",
+            "AntiCollision": "Anti-collision active",
+            "SupervisedGoto": "Supervised goto active"
+          },
+          "umi17xOnly": "Can be changed on a UMi17X only.",
+          "raLimits": {
+            "title": "RA travel limits",
+            "left": "Left (°)",
+            "right": "Right (°)",
+            "hint": "Whole degrees, 1 to 180, on the manufacturer's left and right side."
+          },
+          "decLimits": {
+            "title": "Dec travel limits",
+            "ccw": "CCW (°)",
+            "cw": "CW (°)",
+            "hint": "Whole degrees, 90 to 200, counter-clockwise and clockwise."
+          },
+          "acs": {
+            "title": "Anti-collision (ACS)",
+            "thresholdRa": "RA sensitivity",
+            "thresholdDec": "Dec sensitivity",
+            "hint": "RA 10 to 59999, Dec 100 to 59999.",
+            "collisions": "Collisions RA / Dec",
+            "clear": "Clear counters",
+            "clearConfirmTitle": "Clear collision counters?",
+            "clearConfirm": "Sets both collision counters to 0."
+          },
+          "supervisedGoto": {
+            "title": "Supervised goto",
+            "tolerance": "Tolerance (°)",
+            "hint": "Whole degrees, 5 to 30."
+          },
+          "pid": {
+            "title": "Servo PID",
+            "ra": "RA / Azimuth",
+            "dec": "Dec / Altitude",
+            "angleKp": "Angle Kp",
+            "angleKi": "Angle Ki",
+            "speedKp": "Speed Kp",
+            "speedKi": "Speed Ki",
+            "hint": "11 to 1999, speed Ki 11 to 80. Writing restarts the axis, so the mount must stand still and not track. The new gains take effect after the mount is power cycled.",
+            "readOnly": "Can be changed on a UMi20S or UMi17X only.",
+            "confirmTitle": "Write PID gains?",
+            "confirm": "Writing restarts the {axis} axis. Wrong gains can keep the mount from tracking. The new gains take effect after a power cycle."
+          }
         }
       }
     },

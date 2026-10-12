@@ -189,3 +189,34 @@ test('native OnStepX settings go to the plugin server, writes carry their body',
     [`${base}/set-home`, undefined],
   ]);
 });
+
+test('Proxisky UMi settings go to the plugin server, writes carry their body', async (t) => {
+  seedInstance({ ip: '10.0.0.5', port: 5000, apiPort: 1888 });
+  const gets = recordGets(t);
+  const posts = [];
+  t.mock.method(axios, 'post', async (url, data) => {
+    posts.push([url, data]);
+    return { status: 200, data: { Success: true } };
+  });
+
+  await apiService.getProxiskySettings();
+  await apiService.setProxiskySwitch('StatusLed', false);
+  await apiService.setProxiskyRaLimits(95, 90);
+  await apiService.setProxiskyDecLimits(120, 130);
+  await apiService.setProxiskyAcsThresholds(1000, 2000);
+  await apiService.clearProxiskyCollisionCounters();
+  await apiService.setProxiskySupervisedGotoTolerance(10);
+  await apiService.setProxiskyPid('Ra', { angleKp: 300, angleKi: 200, speedKp: 200, speedKi: 50 });
+
+  const base = 'http://10.0.0.5:5000/api/onstepx/proxisky';
+  assert.equal(gets[0].url, base);
+  assert.deepEqual(posts, [
+    [`${base}/switch`, { setting: 'StatusLed', enabled: false }],
+    [`${base}/ra-limits`, { left: 95, right: 90 }],
+    [`${base}/dec-limits`, { ccw: 120, cw: 130 }],
+    [`${base}/acs-thresholds`, { ra: 1000, dec: 2000 }],
+    [`${base}/acs-clear`, undefined],
+    [`${base}/supervised-goto-tolerance`, { degrees: 10 }],
+    [`${base}/pid`, { axis: 'Ra', angleKp: 300, angleKi: 200, speedKp: 200, speedKi: 50 }],
+  ]);
+});

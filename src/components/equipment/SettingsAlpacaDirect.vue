@@ -119,6 +119,7 @@ const store = apiStore();
 
 const DEVICE_TYPE_TO_API_ACTION = {
   camera: 'cameraAction',
+  guidecamera: 'guideCameraAction',
   telescope: 'mountAction',
   focuser: 'focusAction',
   filterwheel: 'filterAction',
@@ -132,6 +133,7 @@ const DEVICE_TYPE_TO_API_ACTION = {
 
 const DEVICE_TYPE_TO_INFO_KEY = {
   camera: 'cameraInfo',
+  guidecamera: 'guideCameraInfo',
   telescope: 'mountInfo',
   focuser: 'focuserInfo',
   filterwheel: 'filterInfo',

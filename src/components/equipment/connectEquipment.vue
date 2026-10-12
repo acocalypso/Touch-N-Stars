@@ -96,7 +96,7 @@
       :deviceName="$t('components.connectEquipment.guideCamera.name')"
       :default-device-id="store.profileInfo?.GuideCameraSettings?.Id"
       :isConnected="store.guideCameraInfo.Connected"
-      hideConfig
+      @open-config="openGuideCameraSettings"
     />
     <selectGuiderCam
       v-else-if="store.isPINS && !isNativeGuiderChoice"
@@ -197,6 +197,26 @@
         deviceType="camera"
         :selectedDevice="selectedCameraDevice"
         :deviceId="selectedCameraObj?.Id"
+      />
+      <p v-else class="text-sm text-gray-300">
+        {{ $t('components.alpacaDirect.cameraNoSettings') }}
+      </p>
+    </template>
+  </Modal>
+
+  <!-- Guide Camera Settings Modal: PINS' guide camera slot keeps its own Alpaca static IP -->
+  <Modal :show="showGuideCameraSettings" @close="showGuideCameraSettings = false">
+    <template #header>
+      <h2 class="text-2xl font-semibold">
+        {{ $t('components.alpacaDirect.title') }}
+      </h2>
+    </template>
+    <template #body>
+      <SettingsAlpacaDirect
+        v-if="isAlpacaDirect(selectedGuideCameraObj)"
+        deviceType="guidecamera"
+        :selectedDevice="selectedGuideCameraDevice"
+        :deviceId="selectedGuideCameraObj?.Id"
       />
       <p v-else class="text-sm text-gray-300">
         {{ $t('components.alpacaDirect.cameraNoSettings') }}
@@ -428,6 +448,9 @@ const selectedGuiderDevice = ref('');
 const showCameraSettings = ref(false);
 const selectedCameraDevice = ref('');
 const selectedCameraObj = ref(null);
+const showGuideCameraSettings = ref(false);
+const selectedGuideCameraDevice = ref('');
+const selectedGuideCameraObj = ref(null);
 const showMountSettings = ref(false);
 const selectedMountDevice = ref('');
 const selectedMountObj = ref(null);
@@ -493,6 +516,12 @@ const openCameraSettings = (payload) => {
   selectedCameraDevice.value = payload?.selectedDeviceDisplayName || '';
   selectedCameraObj.value = payload?.selectedDeviceObj || null;
   showCameraSettings.value = true;
+};
+
+const openGuideCameraSettings = (payload) => {
+  selectedGuideCameraDevice.value = payload?.selectedDeviceDisplayName || '';
+  selectedGuideCameraObj.value = payload?.selectedDeviceObj || null;
+  showGuideCameraSettings.value = true;
 };
 
 const openMountSettings = (payload) => {

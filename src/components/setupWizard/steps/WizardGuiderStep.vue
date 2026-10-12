@@ -10,8 +10,8 @@
     </div>
 
     <!-- 1. Guide camera. The PINS native guider uses PINS' guide camera slot, with
-         device and INDI driver picked like the imaging camera's. The slot has no setup
-         dialog of its own, so no cog. -->
+         device and INDI driver picked like the imaging camera's. Its cog sets the slot's
+         own Alpaca static IP. -->
     <div v-if="guideCameraSlot" class="flex flex-col gap-3">
       <div class="flex flex-col gap-1">
         <span class="text-xs font-semibold uppercase text-content-muted">
@@ -22,7 +22,7 @@
           :deviceName="$t('components.connectEquipment.guideCamera.name')"
           :default-device-id="store.profileInfo?.GuideCameraSettings?.Id"
           :isConnected="store.guideCameraInfo?.Connected"
-          hideConfig
+          @open-config="openGuideCameraSettings"
         />
       </div>
       <IndiDriverSelect
@@ -97,6 +97,24 @@
         {{ t('components.setupWizard.guider.focalLengthHint') }}
       </p>
     </div>
+
+    <!-- zIndex must clear the wizard overlay (z-70), as in WizardCameraStep. -->
+    <Modal :show="showGuideCameraSettings" zIndex="z-[75]" @close="showGuideCameraSettings = false">
+      <template #header>
+        <h2 class="text-2xl font-semibold">{{ $t('components.alpacaDirect.title') }}</h2>
+      </template>
+      <template #body>
+        <SettingsAlpacaDirect
+          v-if="isAlpacaDirect(selectedGuideCameraObj)"
+          deviceType="guidecamera"
+          :selectedDevice="selectedGuideCameraDevice"
+          :deviceId="selectedGuideCameraObj?.Id"
+        />
+        <p v-else class="text-sm text-gray-300">
+          {{ $t('components.alpacaDirect.cameraNoSettings') }}
+        </p>
+      </template>
+    </Modal>
   </div>
 </template>
 
@@ -107,6 +125,8 @@ import { apiStore } from '@/store/store';
 import { useGuiderStore } from '@/store/guiderStore';
 import { useEquipmentStore } from '@/store/equipmentStore';
 import selectDevices from '@/components/equipment/selectDevices.vue';
+import Modal from '@/components/helpers/Modal.vue';
+import SettingsAlpacaDirect from '@/components/equipment/SettingsAlpacaDirect.vue';
 import selectGuiderCam from '@/components/guider/PHD2/selectGuiderCam.vue';
 import Phd2FocalLength from '@/components/guider/PHD2/pins/Phd2FocalLength.vue';
 import IndiDriverSelect from '../IndiDriverSelect.vue';
@@ -129,6 +149,17 @@ const guiderStore = useGuiderStore();
 const equipmentStore = useEquipmentStore();
 
 const selectedGuiderDevice = ref('');
+const showGuideCameraSettings = ref(false);
+const selectedGuideCameraDevice = ref('');
+const selectedGuideCameraObj = ref(null);
+
+const isAlpacaDirect = (device) => device?.Category === 'ASCOM Alpaca';
+
+function openGuideCameraSettings(payload) {
+  selectedGuideCameraDevice.value = payload?.selectedDeviceDisplayName || '';
+  selectedGuideCameraObj.value = payload?.selectedDeviceObj || null;
+  showGuideCameraSettings.value = true;
+}
 
 // The PINS native guider needs neither the PHD2 guide camera nor the PHD2 profile.
 const isNativeGuider = computed(() => isNativeGuiderInUse(store, selectedGuiderDevice.value));

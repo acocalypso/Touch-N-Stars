@@ -83,6 +83,7 @@
           :selectedDevice="selectedMountDevice"
           :deviceId="selectedMountObj?.Id"
         />
+        <SettingsOnStepXConnection v-else-if="selectedMountObj?.Id === 'OnStepX'" />
         <SettingsSerialConnection
           v-else
           equipmentType="mount"
@@ -103,6 +104,7 @@ import Modal from '@/components/helpers/Modal.vue';
 import selectDevices from '@/components/equipment/selectDevices.vue';
 import SettingsAlpacaDirect from '@/components/equipment/SettingsAlpacaDirect.vue';
 import SettingsSerialConnection from '@/components/equipment/SettingsSerialConnection.vue';
+import SettingsOnStepXConnection from '@/components/equipment/SettingsOnStepXConnection.vue';
 import IndiDriverSelect from '../IndiDriverSelect.vue';
 import Indi3rdpartyInstallPanel from '../Indi3rdpartyInstallPanel.vue';
 

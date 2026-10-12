@@ -42,6 +42,7 @@ import {
   equipmentInUse,
   isNativeGuiderInUse,
   numericPickerSpec,
+  driverDefaultSentinel,
   alertRows,
   usesGuideCameraSlot,
 } from '../nativeGuider.js';
@@ -740,4 +741,12 @@ test('alert rows keep their key when newer alerts arrive', () => {
 
   const twins = alertRows([a, a]);
   assert.notEqual(twins[0].key, twins[1].key, 'identical alerts still get distinct keys');
+});
+
+test('gain, offset and pixel size fall back to the driver at their default value', () => {
+  assert.equal(driverDefaultSentinel({ name: 'Gain', defaultValue: '-1', value: '120' }), -1);
+  assert.equal(driverDefaultSentinel({ name: 'Offset', defaultValue: -1, value: -1 }), -1);
+  assert.equal(driverDefaultSentinel({ name: 'PixelSizeUm', defaultValue: '0', value: '0' }), 0);
+  assert.equal(driverDefaultSentinel({ name: 'PixelSizeUm', defaultValue: null }), null);
+  assert.equal(driverDefaultSentinel({ name: 'MinHfd', defaultValue: '1.5' }), null);
 });

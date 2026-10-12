@@ -132,11 +132,12 @@
         :max="pickerSpec.max"
         :step="pickerSpec.step"
         :decimalPlaces="pickerSpec.decimals"
-        :useDefaultSentinel="false"
+        :useDefaultSentinel="sentinel !== null"
         :inputId="inputId"
         wrapperClass="w-full"
         class="min-w-0 flex-1"
         @change="commit"
+        @blur="commit"
       />
       <span v-if="setting.unit" class="shrink-0 text-xs text-content-muted">
         {{ setting.unit }}
@@ -193,6 +194,7 @@ import toggleButton from '@/components/helpers/toggleButton.vue';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 import { useNativeGuiderStore } from '@/store/nativeGuiderStore';
 import {
+  driverDefaultSentinel,
   numericPickerSpec,
   settingDescription,
   settingFormValue,
@@ -231,14 +233,18 @@ const pickerTitleKey = computed(() => {
 });
 
 const draft = ref(settingFormValue(props.setting));
+// Value that means "the camera driver's value" (Gain/Offset -1, PixelSizeUm 0), null otherwise
+const sentinel = computed(() => driverDefaultSentinel(props.setting));
 // The picker works on numbers; the draft stays the form value validateSettingValue() expects.
+// The picker knows only -1 as its "default", so the setting's own sentinel is mapped onto it.
 const numberDraft = computed({
   get: () => {
     const value = Number(String(draft.value ?? '').replace(',', '.'));
-    return Number.isFinite(value) ? value : 0;
+    if (!Number.isFinite(value)) return 0;
+    return sentinel.value !== null && value === sentinel.value ? -1 : value;
   },
   set: (value) => {
-    draft.value = String(value);
+    draft.value = String(sentinel.value !== null && value === -1 ? sentinel.value : value);
   },
 });
 const saving = ref(false);
@@ -277,6 +283,7 @@ const defaultLabel = computed(() => {
       ? t('components.guider.native.settings.on')
       : t('components.guider.native.settings.off');
   }
+  if (sentinel.value !== null) return t('components.guider.native.settings.driverDefault');
   return props.setting.unit ? `${value} ${props.setting.unit}` : String(value);
 });
 

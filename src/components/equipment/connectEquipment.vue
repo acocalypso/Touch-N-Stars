@@ -215,6 +215,7 @@
         :selectedDevice="selectedMountDevice"
         :deviceId="selectedMountObj?.Id"
       />
+      <SettingsOnStepXConnection v-else-if="selectedMountObj?.Id === 'OnStepX'" />
       <SettingsSerialConnection
         v-else
         equipmentType="mount"
@@ -396,6 +397,7 @@ import selectGuiderCam from '@/components/guider/PHD2/selectGuiderCam.vue';
 import Modal from '@/components/helpers/Modal.vue';
 import settingsGuiderConnect from '@/components/guider/settingsGuiderConnect.vue';
 import SettingsSerialConnection from '@/components/equipment/SettingsSerialConnection.vue';
+import SettingsOnStepXConnection from '@/components/equipment/SettingsOnStepXConnection.vue';
 import SettingsWeather from '@/components/equipment/SettingsWeather.vue';
 import SettingsAlpacaDirect from '@/components/equipment/SettingsAlpacaDirect.vue';
 import SettingsFilterWheelSlotNum from '@/components/equipment/SettingsFilterWheelSlotNum.vue';

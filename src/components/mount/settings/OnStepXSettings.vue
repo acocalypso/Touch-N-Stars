@@ -120,12 +120,15 @@
         </button>
       </section>
 
+      <!-- Proxisky UMi vendor settings: only a UMi reports a vendor firmware -->
+      <ProxiskySettings v-if="settings.VendorFirmware != null" />
+
       <!-- Controller info -->
       <section class="tns-card p-3! flex flex-col gap-2">
         <h3 class="text-sm font-semibold uppercase tracking-wide text-content-muted">
           {{ t('components.mount.onstepx.info.title') }}
         </h3>
-        <dl class="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 text-xs">
+        <dl class="grid grid-cols-[auto_1fr] gap-x-3 gap-y-1 text-sm">
           <template v-for="row in infoRows" :key="row.label">
             <dt class="text-content-muted">{{ row.label }}</dt>
             <dd class="text-right text-content break-all select-text">{{ row.value }}</dd>
@@ -144,6 +147,7 @@ import { apiStore } from '@/store/store';
 import { useToastStore } from '@/store/toastStore';
 import AsyncLoadState from '@/components/helpers/AsyncLoadState.vue';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
+import ProxiskySettings from '@/components/mount/settings/ProxiskySettings.vue';
 
 // Ranges the OnStepXController accepts (it answers 400 outside them)
 const ALT_MIN_RANGE = [-30, 30];

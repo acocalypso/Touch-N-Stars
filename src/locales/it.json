@@ -3413,7 +3413,10 @@
       "exposure": "Esposizione (s)",
       "capture": "Acquisisci",
       "capturing": "Acquisizione…",
-      "failed": "La camera di guida non ha risposto"
+      "failed": "La camera di guida non ha risposto",
+      "readoutMode": "Modalità lettura",
+      "usbLimit": "Limite USB",
+      "connectForMore": "Collega la camera di guida per binning, modalità di lettura, limite USB e le opzioni proprie della camera."
     },
     "focuser": {
       "title": "Focheggiatore",

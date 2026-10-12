@@ -3413,7 +3413,10 @@
       "exposure": "曝光 (秒)",
       "capture": "拍摄",
       "capturing": "正在拍摄…",
-      "failed": "导星相机没有响应"
+      "failed": "导星相机没有响应",
+      "readoutMode": "读出模式",
+      "usbLimit": "USB限制",
+      "connectForMore": "连接导星相机后可设置像素合并、读出模式、USB 限制及相机自身选项。"
     },
     "focuser": {
       "title": "调焦器",

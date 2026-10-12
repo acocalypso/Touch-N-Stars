@@ -17,61 +17,7 @@
       </template>
     </div>
 
-    <!-- Gain: the camera's named gains as a list, otherwise a number like the camera page -->
-    <div v-if="info.CanSetGain && info.Gains?.length" class="flex items-center gap-2">
-      <label for="guide-camera-gain" class="text-xs md:text-sm text-gray-200 mr-3">
-        {{ $t('components.guideCamera.gain') }}
-      </label>
-      <select
-        id="guide-camera-gain"
-        v-model.number="gain"
-        class="tns-select ml-auto w-36 md:w-40"
-        @change="saveGain"
-      >
-        <option v-for="(g, index) in info.Gains" :key="g" :value="index">{{ g }}</option>
-      </select>
-    </div>
-    <NumberInputPicker
-      v-else-if="info.CanSetGain"
-      v-model="gain"
-      :label="$t('components.guideCamera.gain')"
-      labelKey="components.guideCamera.gain"
-      :min="info.GainMin ?? 0"
-      :max="info.GainMax ?? 1000"
-      :step="1"
-      :decimalPlaces="0"
-      inputId="guide-camera-gain"
-      @change="saveGain"
-    />
-
-    <NumberInputPicker
-      v-if="info.CanSetOffset"
-      v-model="offset"
-      :label="$t('components.guideCamera.offset')"
-      labelKey="components.guideCamera.offset"
-      :min="info.OffsetMin ?? 0"
-      :max="info.OffsetMax ?? 1000"
-      :step="1"
-      :decimalPlaces="0"
-      inputId="guide-camera-offset"
-      @change="saveOffset"
-    />
-
-    <div v-if="info.BinningModes?.length" class="flex items-center gap-2">
-      <label for="guide-camera-binning" class="text-xs md:text-sm text-gray-200 mr-3">
-        {{ $t('components.guideCamera.binning') }}
-      </label>
-      <select
-        id="guide-camera-binning"
-        :value="binning"
-        class="tns-select ml-auto w-36 md:w-40"
-        @change="setBinning($event.target.value)"
-      >
-        <option v-for="mode in info.BinningModes" :key="mode.Name" :value="mode.Name">
-          {{ mode.Name }}
-        </option>
-      </select>
-    </div>
+    <GuideCameraSettings />
 
     <template v-if="info.CanSetTemperature">
       <NumberInputPicker
@@ -133,6 +79,7 @@ import { useI18n } from 'vue-i18n';
 import { apiStore } from '@/store/store';
 import apiService from '@/services/apiService';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
+import GuideCameraSettings from '@/components/guider/GuideCameraSettings.vue';
 
 const store = apiStore();
 const { t } = useI18n();
@@ -141,25 +88,20 @@ const info = computed(() => store.guideCameraInfo);
 const settings = computed(() => store.profileInfo?.GuideCameraSettings ?? {});
 
 const hasTemperature = computed(() => Number.isFinite(info.value.Temperature));
-const binning = computed(() => `${info.value.BinX ?? 1}x${info.value.BinY ?? 1}`);
+// The profile's gain, or the camera's current one while the profile keeps the default (-1).
+const gain = computed(() => (settings.value.Gain >= 0 ? settings.value.Gain : info.value.Gain));
 
 const exposure = ref(1);
-const gain = ref(0);
-const offset = ref(0);
 const targetTemperature = ref(-10);
 const isCapturing = ref(false);
 const errorMessage = ref('');
 const imageSrc = ref('');
 
 // Seed from the profile whenever it arrives, but never overwrite what the user changed.
-let gainTouched = false;
-let offsetTouched = false;
 const targetTouched = ref(false);
 watch(
-  [settings, info],
-  ([s, i]) => {
-    if (!gainTouched) gain.value = s.Gain >= 0 ? s.Gain : (i.Gain ?? 0);
-    if (!offsetTouched) offset.value = s.Offset >= 0 ? s.Offset : (i.Offset ?? 0);
+  settings,
+  (s) => {
     if (!targetTouched.value && Number.isFinite(s.Temperature)) {
       targetTemperature.value = s.Temperature;
     }
@@ -177,32 +119,6 @@ function succeeded(response) {
     return false;
   }
   return true;
-}
-
-async function saveProfile(key, value) {
-  return succeeded(await apiService.profileChangeValue(key, value));
-}
-
-async function saveGain() {
-  gainTouched = true;
-  errorMessage.value = '';
-  await saveProfile('GuideCameraSettings-Gain', gain.value);
-}
-
-async function saveOffset() {
-  offsetTouched = true;
-  errorMessage.value = '';
-  await saveProfile('GuideCameraSettings-Offset', offset.value);
-}
-
-async function setBinning(mode) {
-  errorMessage.value = '';
-  // Only a binning the camera accepted is stored in the profile.
-  if (!succeeded(await apiService.guideCameraSetBinning(mode))) return;
-  const [binX, binY] = mode.split('x').map(Number);
-  if (await saveProfile('GuideCameraSettings-BinningX', binX)) {
-    await saveProfile('GuideCameraSettings-BinningY', binY);
-  }
 }
 
 async function cool() {

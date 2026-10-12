@@ -3413,7 +3413,10 @@
       "exposure": "Exposición (s)",
       "capture": "Capturar",
       "capturing": "Capturando…",
-      "failed": "La cámara guía no respondió"
+      "failed": "La cámara guía no respondió",
+      "readoutMode": "Modo de lectura",
+      "usbLimit": "Límite USB",
+      "connectForMore": "Conecta la cámara de guiado para el binning, el modo de lectura, el límite USB y las opciones propias de la cámara."
     },
     "focuser": {
       "title": "Enfocador",

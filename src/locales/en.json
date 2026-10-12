@@ -3454,7 +3454,10 @@
       "exposure": "Exposure (s)",
       "capture": "Capture",
       "capturing": "Capturing…",
-      "failed": "The guide camera did not respond"
+      "failed": "The guide camera did not respond",
+      "readoutMode": "Readout Mode",
+      "usbLimit": "USB Limit",
+      "connectForMore": "Connect the guide camera for binning, readout mode, USB limit and the camera's own options."
     },
     "focuser": {
       "title": "Focuser",

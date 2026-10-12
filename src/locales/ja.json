@@ -3422,7 +3422,10 @@
       "exposure": "露出 (秒)",
       "capture": "撮影",
       "capturing": "撮影中…",
-      "failed": "ガイドカメラが応答しませんでした"
+      "failed": "ガイドカメラが応答しませんでした",
+      "readoutMode": "読み出しモード",
+      "usbLimit": "USBリミット",
+      "connectForMore": "ビニング、読み出しモード、USB制限、カメラ固有のオプションを設定するには、ガイドカメラを接続してください。"
     },
     "focuser": {
       "title": "フォーカサー",

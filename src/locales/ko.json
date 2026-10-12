@@ -3454,7 +3454,10 @@
       "exposure": "노출 (초)",
       "capture": "촬영",
       "capturing": "촬영 중…",
-      "failed": "가이드 카메라가 응답하지 않았습니다"
+      "failed": "가이드 카메라가 응답하지 않았습니다",
+      "readoutMode": "리드아웃 모드",
+      "usbLimit": "USB 제한",
+      "connectForMore": "비닝, 판독 모드, USB 제한 및 카메라 자체 옵션을 설정하려면 가이드 카메라를 연결하세요."
     },
     "focuser": {
       "title": "포커서",

@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [App6.5.0 - beta 3] - 2026-10-12
 
+### Added
+
+- Native Guider (PINS): The settings tab has a Guide Camera section for the guide camera's own defaults: gain, offset, binning, readout mode, USB limit and, depending on the camera, fan speed, ultra mode, high fullwell, binning average and LED. The guider's gain and offset use these values while they are left at "default". Without a connected guide camera, gain and offset can still be set.
+
 ### Changed
 
 - Native Guider (PINS): Every guider setting has an info button that explains what it does and when to change it, as in the PHD2 settings. The explanations no longer fill the list below the fields, and they are also available in the setup wizard and the connect dialog.

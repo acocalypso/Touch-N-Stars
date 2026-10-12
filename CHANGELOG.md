@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [App6.5.0 - beta 3] - 2026-10-12
+## [App6.5.0 - beta 4] - 2026-10-12
 
 ### Added
 
@@ -14,12 +14,21 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Native Guider (PINS): Gain, offset and pixel size at "default" show the value that applies, e.g. "Default (120)", taken from the guide camera.
+
+### Fixed
+
+- Guide camera: For cameras with a list of named gains, the chosen gain itself is stored instead of its position in the list.
+
+## [App6.5.0 - beta 3] - 2026-10-12
+
+### Changed
+
 - Native Guider (PINS): Every guider setting has an info button that explains what it does and when to change it, as in the PHD2 settings. The explanations no longer fill the list below the fields, and they are also available in the setup wizard and the connect dialog.
 
 ### Fixed
 
-- Native Guider (PINS): Gain, offset and pixel size show "default" when they use the value of the guide camera's settings or of the camera driver, instead of a bare -1 or 0, together with the value that applies, e.g. "Default (120)". Clearing the field sets them back to it.
-- Guide camera: For cameras with a list of named gains, the chosen gain itself is stored instead of its position in the list.
+- Native Guider (PINS): Gain, offset and pixel size show "default" when they use the value of the guide camera's settings or of the camera driver, instead of a bare -1 or 0. Clearing the field sets them back to it.
 
 ## [App6.5.0 - beta 2] - 2026-10-11
 

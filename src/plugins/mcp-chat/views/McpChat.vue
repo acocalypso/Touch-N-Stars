@@ -395,6 +395,7 @@ async function connect() {
     try {
       result = await candidate.connect();
     } catch (failure) {
+      if (failure.message.includes('HTTP 401')) debug.value = true;
       await candidate.close().catch(() => {});
       throw failure;
     }

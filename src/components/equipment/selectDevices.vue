@@ -126,8 +126,8 @@ const props = defineProps({
   disableConnect: { type: Boolean, default: false },
   disableConnectMessage: { type: String, default: '' },
   alwaysEnableConfig: { type: Boolean, default: false },
-  // For a device without a setup dialog of its own (e.g. PINS' guide camera slot, which the
-  // Alpaca settings cannot address): no cog that would do nothing or configure another device.
+  // For a device without a setup dialog of its own: no cog that would do nothing or configure
+  // another device.
   hideConfig: { type: Boolean, default: false },
   // Device ids whose settings live in Touch'N'Stars itself, so the cog is enabled for them even
   // when the driver has no setup dialog (e.g. pins' native OnStepX driver)

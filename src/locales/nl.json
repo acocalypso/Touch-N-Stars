@@ -7843,7 +7843,7 @@
       "statusPrompt": "Toon de huidige apparaatstatus",
       "you": "Jij",
       "assistant": "PINS-assistent",
-      "unverified": "Modelantwoord ? niet geverifieerd",
+      "unverified": "Modelantwoord — niet geverifieerd",
       "reviewAction": "Apparaatactie controleren",
       "approvalHelp": "Controleer de exacte tool en argumenten. Goedkeuring verstuurt deze actie eenmaal naar je apparatuur.",
       "expires": "Goedkeuring verloopt om",
@@ -7852,9 +7852,9 @@
       "decisionRecorded": "Beslissing vastgelegd",
       "toolResult": "Toolresultaat bekijken",
       "modelOutput": "Modeluitvoer en tijdsduur",
-      "working": "Lokaal verwerken?",
+      "working": "Lokaal verwerken…",
       "message": "Bericht",
-      "placeholder": "Vraag in je eigen taal?",
+      "placeholder": "Vraag in je eigen taal…",
       "send": "Verzenden",
       "cancelInference": "AI annuleren",
       "clear": "Chat wissen",
@@ -7870,7 +7870,8 @@
       "export": "Debugrapport exporteren",
       "failed": "Mislukt",
       "queryComplete": "Query voltooid",
-      "invalidArguments": "Argumenten moeten een JSON-object zijn"
+      "invalidArguments": "Argumenten moeten een JSON-object zijn",
+      "planStopped": "De voltooide actie blijft behouden. De rest van het plan is gestopt; stuur een nieuw verzoek."
     }
   },
   "pinsDevices": {

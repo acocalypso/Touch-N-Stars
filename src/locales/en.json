@@ -7843,7 +7843,7 @@
       "statusPrompt": "Show the current equipment status",
       "you": "You",
       "assistant": "PINS assistant",
-      "unverified": "Model response ? unverified",
+      "unverified": "Model response — unverified",
       "reviewAction": "Review equipment action",
       "approvalHelp": "Check the exact tool and arguments. Approving sends this operation to your equipment once.",
       "expires": "Approval expires at",
@@ -7852,9 +7852,9 @@
       "decisionRecorded": "Decision recorded",
       "toolResult": "View tool result",
       "modelOutput": "Model output and timing",
-      "working": "Working locally?",
+      "working": "Working locally…",
       "message": "Message",
-      "placeholder": "Ask in your language?",
+      "placeholder": "Ask in your language…",
       "send": "Send",
       "cancelInference": "Cancel AI",
       "clear": "Clear chat",
@@ -7870,7 +7870,8 @@
       "export": "Export debug report",
       "failed": "Failed",
       "queryComplete": "Query complete",
-      "invalidArguments": "Arguments must be a JSON object"
+      "invalidArguments": "Arguments must be a JSON object",
+      "planStopped": "The completed action is preserved. The remaining plan stopped; submit a new request."
     }
   },
   "pinsDevices": {

@@ -111,6 +111,7 @@
                 format({
                   tool: message.response.preview.tool,
                   arguments: message.response.preview.arguments,
+                  remainingActions: message.response.remainingActions,
                 })
               }}</pre>
               <p class="text-xs">
@@ -133,7 +134,7 @@
                   {{ t('reject') }}
                 </button>
               </div>
-              <p v-else class="text-sm">{{ t('decisionRecorded') }}</p>
+              <p v-else-if="!message.invalidated" class="text-sm">{{ t('decisionRecorded') }}</p>
             </div>
             <div v-if="message.response?.kind === 'result'" class="space-y-2">
               <div class="flex flex-wrap items-center gap-2 text-sm">
@@ -145,6 +146,10 @@
               <p v-if="message.response.result.job" class="text-xs font-mono">
                 {{ message.response.result.job.id }}
               </p>
+              <McpDeviceStatus
+                v-if="message.response.name === 'get_status'"
+                :result="message.response.result"
+              />
               <details class="text-sm">
                 <summary class="min-h-touch cursor-pointer">{{ t('toolResult') }}</summary>
                 <pre
@@ -152,6 +157,13 @@
                   >{{ format(message.response.result) }}</pre>
               </details>
             </div>
+            <p
+              v-if="message.response?.continuationError"
+              role="alert"
+              class="text-sm text-amber-400"
+            >
+              {{ t('planStopped') }}
+            </p>
             <details v-if="debug && message.response?.generation" class="text-xs">
               <summary class="min-h-touch cursor-pointer">{{ t('modelOutput') }}</summary>
               <pre class="max-h-48 overflow-auto whitespace-pre-wrap select-text">{{
@@ -298,6 +310,8 @@
 </template>
 
 <script setup>
+import McpDeviceStatus from '../components/McpDeviceStatus.vue';
+import { appendChatReply, invalidateChatApprovals } from '@/utils/mcpChatReplies';
 import Modal from '@/components/helpers/Modal.vue';
 import { computed, nextTick, onUnmounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -422,8 +436,7 @@ function scrollConversation() {
   });
 }
 function add(role, text, response) {
-  messages.value.push({ id: ++sequence, role, text, response });
-  if (messages.value.length > 24) messages.value.splice(0, messages.value.length - 24);
+  appendChatReply(messages.value, { id: ++sequence, role, text, response }, () => ++sequence);
   void nextTick(scrollConversation);
 }
 async function connect() {
@@ -461,10 +474,14 @@ function disconnect() {
   thinking.value = false;
   void old?.close().catch(() => {});
 }
+function invalidateApprovals() {
+  invalidateChatApprovals(messages.value);
+}
 async function send() {
   if (!draft.value.trim() || !connected.value || busy.value) return;
   const text = draft.value.trim();
   draft.value = '';
+  invalidateApprovals();
   add('user', text);
   await perform(async (generation) => {
     const history = messages.value
@@ -496,6 +513,7 @@ async function runManual() {
     const args = JSON.parse(manualArgs.value);
     if (!args || Array.isArray(args) || typeof args !== 'object')
       throw new Error(t('invalidArguments'));
+    if (selectedTool.value?.annotations?.readOnlyHint !== true) invalidateApprovals();
     const response = await client.tool(manualTool.value, args);
     if (generation === epoch) add('assistant', '', response);
   });
@@ -519,6 +537,7 @@ async function cancel() {
   if (!activeClient) return;
   try {
     await activeClient.cancel();
+    if (generation === epoch) invalidateApprovals();
   } catch (failure) {
     if (generation === epoch) error.value = activeClient.redact(failure.message);
   }
@@ -562,7 +581,10 @@ useBackgroundAwarePolling(
             job_id: message.response.result.job.id,
             wait_seconds: 0,
           });
-          if (generation === epoch) message.response = { ...response, name: message.response.name };
+          if (generation === epoch) {
+            message.response = { ...response, name: message.response.name };
+            if (response.nextApproval) add('assistant', '', response.nextApproval);
+          }
         } catch (failure) {
           if (generation === epoch) error.value = client.redact(failure.message);
           break;

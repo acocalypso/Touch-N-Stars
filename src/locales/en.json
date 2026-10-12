@@ -4230,6 +4230,10 @@
       "titel": "Favourites"
     },
     "helpers": {
+      "numberInput": {
+        "default": "Default",
+        "defaultWithValue": "Default ({value})"
+      },
       "imageModal": {
         "no_image": "No image data available",
         "histogram": "Show histogram"

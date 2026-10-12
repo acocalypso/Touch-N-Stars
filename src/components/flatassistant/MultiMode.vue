@@ -144,7 +144,6 @@
             :max="9999"
             :step="1"
             :decimalPlaces="0"
-            :defaultValue="-1"
             :inputId="`gain-${filter.Id}`"
           />
 
@@ -157,7 +156,6 @@
             :max="9999"
             :step="1"
             :decimalPlaces="0"
-            :defaultValue="-1"
             :inputId="`offset-${filter.Id}`"
           />
 

@@ -635,8 +635,9 @@ export const LOOP_STATES = [
  * The guide loop's timing (AdvancedGuiderStatus.timing): null before the first cycle (or from a
  * backend without it), else `{ fps, cycles, median, last }`. median (over the last `cycles`
  * cycles) and last (the last cycle) are `{ cycleMs, exposureMs, cameraMs, processingMs,
- * frameToPulseMs, pulseMs, otherMs }`, null where unknown: the last cycle's exposure, and
- * frameToPulseMs and pulseMs without pulses (the backend reports pulseMs 0 then).
+ * frameToPulseMs, pulseMs, otherMs }`, null where unknown: frameToPulseMs and pulseMs without
+ * pulses (the backend reports pulseMs 0 then). The backend has no last exposure; the exposure is
+ * the one asked for, so the last cycle's is the exposure setting (status.exposureSeconds).
  */
 export function guideTiming(status) {
   const timing = status?.timing;
@@ -658,6 +659,7 @@ export function guideTiming(status) {
     };
   };
   const fps = num(timing.fps);
+  const exposureSeconds = num(status.exposureSeconds);
   return {
     fps: fps > 0 ? fps : null,
     cycles,
@@ -672,7 +674,7 @@ export function guideTiming(status) {
     ),
     last: part(
       timing.lastCycleMs,
-      null,
+      exposureSeconds > 0 ? exposureSeconds * 1000 : null,
       timing.lastCameraMs,
       timing.lastProcessingMs,
       timing.lastFrameToPulseMs,

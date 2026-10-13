@@ -19,6 +19,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Guide camera: For cameras with a list of named gains, the chosen gain itself is stored instead of its position in the list.
+- Native Guider (PINS): The guide cycle timing in the Proc. tile's explanation shows the exposure for the last cycle too, instead of –.
 
 ## [App6.5.0 - beta 3] - 2026-10-12
 

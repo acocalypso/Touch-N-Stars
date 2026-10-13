@@ -141,10 +141,10 @@
     </div>
   </div>
 
-  <!-- Teleported: the history grid wraps each tile in an isolated stacking
-       context, which would otherwise trap the fullscreen modal below the
-       fixed SubNav and the following tiles. -->
-  <Teleport to="body">
+  <!-- Teleported, so no stacking context around the tile can trap the fullscreen
+       modal below the fixed SubNav. Browsable tiles (the history grid) leave the
+       full-size view to the parent. -->
+  <Teleport v-if="!browsable" to="body">
     <ImageModal
       :showModal="showModal"
       :imageData="fullResImage"
@@ -164,6 +164,7 @@
 import { ref, computed, watch, onBeforeUnmount } from 'vue';
 import { TrashIcon, CheckIcon } from '@heroicons/vue/24/outline';
 import { createHoldTimer } from '@/utils/holdTimer';
+import { historyRawSource } from '@/utils/imageHistoryUtils';
 import ImageModal from '@/components/helpers/imageModal.vue';
 import { useSequenceStore } from '@/store/sequenceStore';
 import { useImagetStore } from '@/store/imageStore';
@@ -220,9 +221,16 @@ const props = defineProps({
     required: false,
     default: false,
   },
+  // The parent shows the full-size view so it can browse between tiles; a tap only
+  // emits `open`.
+  browsable: {
+    type: Boolean,
+    required: false,
+    default: false,
+  },
 });
 
-const emit = defineEmits(['delete', 'toggle-select', 'hold']);
+const emit = defineEmits(['delete', 'toggle-select', 'hold', 'open']);
 
 // --- long press -----------------------------------------------------------
 // A completed hold must not also count as a tap, so the click that follows the
@@ -262,6 +270,10 @@ function onTileClick() {
   }
   if (props.selectable) {
     emit('toggle-select');
+    return;
+  }
+  if (props.browsable) {
+    emit('open');
     return;
   }
   openModal();
@@ -358,16 +370,8 @@ function isValidNumber(value) {
   return typeof value === 'number' && !isNaN(value);
 }
 
-// Raw data for histogram and stretch. The PINS fork names the file; the official Advanced
-// API only has the position, which the plugin confirms against the entry's mean and median.
-const rawSource = computed(() => {
-  const stats = props.stats;
-  if (stats?.Filename) return { kind: 'history', filename: stats.Filename };
-  if (isValidNumber(stats?.Mean) && isValidNumber(stats?.Median)) {
-    return { kind: 'history', index: props.index, mean: stats.Mean, median: stats.Median };
-  }
-  return null;
-});
+// Raw data for histogram and stretch.
+const rawSource = computed(() => historyRawSource(props.index, props.stats));
 
 function formatDate(dateStr) {
   const dateObject = new Date(dateStr);

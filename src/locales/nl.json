@@ -4212,7 +4212,9 @@
       },
       "imageModal": {
         "no_image": "Geen beeld data beschikbaar",
-        "histogram": "Histogram tonen"
+        "histogram": "Histogram tonen",
+        "previous": "Vorige afbeelding",
+        "next": "Volgende afbeelding"
       },
       "histogram": {
         "blackPoint": "Zwart punt",

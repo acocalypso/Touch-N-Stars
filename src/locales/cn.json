@@ -4212,7 +4212,9 @@
       },
       "imageModal": {
         "no_image": "暂无图像数据",
-        "histogram": "显示直方图"
+        "histogram": "显示直方图",
+        "previous": "上一张图像",
+        "next": "下一张图像"
       },
       "histogram": {
         "blackPoint": "黑点",

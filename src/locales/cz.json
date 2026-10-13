@@ -4212,7 +4212,9 @@
       },
       "imageModal": {
         "no_image": "Nejsou k dispozici žádná obrazová data",
-        "histogram": "Zobrazit histogram"
+        "histogram": "Zobrazit histogram",
+        "previous": "Předchozí snímek",
+        "next": "Další snímek"
       },
       "histogram": {
         "blackPoint": "Černý bod",

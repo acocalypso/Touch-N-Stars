@@ -4258,7 +4258,9 @@
       },
       "imageModal": {
         "no_image": "Cap dada d'imatge disponible",
-        "histogram": "Mostra l'histograma"
+        "histogram": "Mostra l'histograma",
+        "previous": "Imatge anterior",
+        "next": "Imatge següent"
       },
       "histogram": {
         "blackPoint": "Punt negre",

@@ -4258,7 +4258,9 @@
       },
       "imageModal": {
         "no_image": "이미지 데이터가 없습니다",
-        "histogram": "히스토그램 표시"
+        "histogram": "히스토그램 표시",
+        "previous": "이전 이미지",
+        "next": "다음 이미지"
       },
       "histogram": {
         "blackPoint": "블랙 포인트",

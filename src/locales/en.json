@@ -4258,7 +4258,9 @@
       },
       "imageModal": {
         "no_image": "No image data available",
-        "histogram": "Show histogram"
+        "histogram": "Show histogram",
+        "previous": "Previous image",
+        "next": "Next image"
       },
       "histogram": {
         "blackPoint": "Black point",

@@ -77,16 +77,30 @@
         </span>
       </span>
 
-      <button
-        v-if="lastError"
-        type="button"
-        class="ml-auto flex min-h-touch items-center gap-1.5 rounded-chip px-2.5 py-1 text-xs font-semibold border max-w-full min-w-0"
+      <!-- Last error: opens its details; the cross hides it until another error comes -->
+      <div
+        v-if="visibleError"
+        class="ml-auto flex min-h-touch items-center rounded-chip text-xs font-semibold border max-w-full min-w-0"
         :class="errorChipClasses"
-        @click="showError = true"
       >
-        <ExclamationTriangleIcon class="w-4 h-4 shrink-0" />
-        <span class="truncate">{{ lastErrorTitle }}</span>
-      </button>
+        <button
+          type="button"
+          class="flex min-h-touch items-center gap-1.5 pl-2.5 pr-1 py-1 min-w-0"
+          @click="showError = true"
+        >
+          <ExclamationTriangleIcon class="w-4 h-4 shrink-0" />
+          <span class="truncate">{{ lastErrorTitle }}</span>
+        </button>
+        <button
+          type="button"
+          class="flex min-h-touch min-w-touch items-center justify-center pr-1.5 pl-1 opacity-70 hover:opacity-100"
+          :title="t('components.guider.native.strip.dismissError')"
+          :aria-label="t('components.guider.native.strip.dismissError')"
+          @click="dismissError"
+        >
+          <XMarkIcon class="w-4 h-4" />
+        </button>
+      </div>
     </div>
 
     <!-- Live coaching hint (one at a time) -->
@@ -236,7 +250,12 @@
 <script setup>
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { AcademicCapIcon, CogIcon, ExclamationTriangleIcon } from '@heroicons/vue/24/outline';
+import {
+  AcademicCapIcon,
+  CogIcon,
+  ExclamationTriangleIcon,
+  XMarkIcon,
+} from '@heroicons/vue/24/outline';
 import Modal from '@/components/helpers/Modal.vue';
 import NativeAlertDetail from './NativeAlertDetail.vue';
 import NativeHelpTip from './NativeHelpTip.vue';
@@ -244,10 +263,12 @@ import NativeHintChip from './coach/NativeHintChip.vue';
 import NativeTimingBreakdown from './NativeTimingBreakdown.vue';
 import { apiStore } from '@/store/store';
 import { useNativeGuiderStore } from '@/store/nativeGuiderStore';
+import { readStored, writeStored } from '@/utils/safeStorage';
 import {
   textOr,
   TONE_BG,
   TONE_TEXT,
+  alertKey,
   alertText,
   decDirection,
   fmt,
@@ -428,6 +449,16 @@ const periodicLearning = computed(() =>
 );
 
 const lastError = computed(() => store.status?.lastError || null);
+/** The last error dismissed on this device (its alert key); a newer error shows again. */
+const DISMISSED_ERROR_KEY = 'nativeGuider.dismissedError';
+const dismissedError = ref(readStored(DISMISSED_ERROR_KEY, ''));
+const visibleError = computed(
+  () => lastError.value && alertKey(lastError.value) !== dismissedError.value
+);
+function dismissError() {
+  dismissedError.value = alertKey(lastError.value);
+  writeStored(DISMISSED_ERROR_KEY, dismissedError.value);
+}
 const lastErrorTitle = computed(() =>
   lastError.value ? alertText({ t, te }, lastError.value).title : ''
 );

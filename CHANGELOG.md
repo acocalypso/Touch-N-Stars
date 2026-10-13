@@ -18,11 +18,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Native Guider (PINS): Gain, offset and pixel size at "default" show the value that applies, e.g. "Default (120)", taken from the guide camera.
+- Native Guider (PINS): When the Dec backlash compensation adjusted its pulse while guiding, the backlash pulse setting shows the pulse in use below the field, e.g. "In use: 260 ms, adjusted while guiding." This needs a PINS version that reports the pulse in use.
 - PINS: The switch between automatic fallback and field hotspot is a segmented control like elsewhere in the app. The unselected mode no longer looks disabled, and a hint below explains the selected mode.
 
 ### Fixed
 
 - Guide camera: For cameras with a list of named gains, the chosen gain itself is stored instead of its position in the list.
+- Native Guider (PINS): The guide cycle timing in the Proc. tile's explanation shows the exposure for the last cycle too, instead of –.
 
 ## [App6.5.0 - beta 3] - 2026-10-12
 

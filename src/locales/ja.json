@@ -2439,6 +2439,7 @@
           "empty": "利用可能な設定がありません。",
           "notConnectedHint": "ネイティブガイダーが接続されていません。変更はプロファイルに保存され、カメラの変更は次回接続時に反映されます。",
           "requiresReconnect": "再接続後に適用",
+          "valueInUse": "使用中: {value} {unit}（ガイド中に調整）。",
           "range": "{min} ～ {max}",
           "rangeMin": "最小 {min}",
           "rangeMax": "最大 {max}",

@@ -44,6 +44,7 @@ import {
   numericPickerSpec,
   defaultSentinel,
   sentinelEffectiveValue,
+  settingValueInUse,
   alertRows,
   usesGuideCameraSlot,
 } from '../nativeGuider.js';
@@ -772,4 +773,16 @@ test('a sentinel setting shows the guide camera value it stands for', () => {
   assert.equal(sentinelEffectiveValue('PixelSizeUm', {}, { Connected: false }), null);
   assert.equal(sentinelEffectiveValue('PixelSizeUm', {}, { Connected: true, PixelSize: 0 }), null);
   assert.equal(sentinelEffectiveValue('MinHfd', { Gain: 120 }, camera), null);
+});
+
+test('the learned Dec backlash pulse is shown when it differs from the setting', () => {
+  const setting = { name: 'BacklashPulseMs', value: '200' };
+  assert.equal(settingValueInUse(setting, { decBacklashPulseMs: 260 }), 260);
+  assert.equal(settingValueInUse(setting, { decBacklashPulseMs: 200 }), null);
+  assert.equal(settingValueInUse(setting, { decBacklashPulseMs: null }), null, 'compensation off');
+  assert.equal(settingValueInUse(setting, null), null);
+  assert.equal(
+    settingValueInUse({ name: 'MinHfd', value: '1.5' }, { decBacklashPulseMs: 260 }),
+    null
+  );
 });

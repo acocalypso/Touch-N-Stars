@@ -2471,6 +2471,7 @@
           "empty": "No hi ha ajustos disponibles.",
           "notConnectedHint": "El guiador natiu no està connectat. Els canvis es desen al perfil; els canvis de càmera tenen efecte a la propera connexió.",
           "requiresReconnect": "S'aplica després de reconnectar",
+          "valueInUse": "En ús: {value} {unit}, ajustat durant el guiatge.",
           "range": "{min} – {max}",
           "rangeMin": "mín. {min}",
           "rangeMax": "màx. {max}",

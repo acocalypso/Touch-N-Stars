@@ -2430,6 +2430,7 @@
           "empty": "Aucun réglage disponible.",
           "notConnectedHint": "L'autoguideur natif n'est pas connecté. Les modifications sont enregistrées dans le profil ; les changements de caméra prennent effet à la prochaine connexion.",
           "requiresReconnect": "S'applique après reconnexion",
+          "valueInUse": "Utilisé : {value} {unit}, ajusté pendant le guidage.",
           "range": "{min} – {max}",
           "rangeMin": "min {min}",
           "rangeMax": "max {max}",

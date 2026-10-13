@@ -2430,6 +2430,7 @@
           "empty": "暂无可用设置。",
           "notConnectedHint": "原生导星仪未连接。更改将保存到配置文件；相机更改将在下次连接时生效。",
           "requiresReconnect": "重新连接后生效",
+          "valueInUse": "当前使用：{value} {unit}，导星时已调整。",
           "range": "{min} – {max}",
           "rangeMin": "最小 {min}",
           "rangeMax": "最大 {max}",

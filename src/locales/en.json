@@ -2471,6 +2471,7 @@
           "empty": "No settings available.",
           "notConnectedHint": "The native guider is not connected. Changes are saved to the profile; camera changes take effect on the next connect.",
           "requiresReconnect": "Applies after reconnect",
+          "valueInUse": "In use: {value} {unit}, adjusted while guiding.",
           "range": "{min} – {max}",
           "rangeMin": "min {min}",
           "rangeMax": "max {max}",

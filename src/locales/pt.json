@@ -2430,6 +2430,7 @@
           "empty": "Sem definições disponíveis.",
           "notConnectedHint": "O guiador nativo não está ligado. As alterações são guardadas no perfil; as alterações da câmara têm efeito na próxima ligação.",
           "requiresReconnect": "Aplica-se após reconectar",
+          "valueInUse": "Em uso: {value} {unit}, ajustado durante a guiagem.",
           "range": "{min} – {max}",
           "rangeMin": "mín. {min}",
           "rangeMax": "máx. {max}",

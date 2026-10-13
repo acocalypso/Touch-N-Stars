@@ -11,7 +11,7 @@
         <button
           type="button"
           class="tns-btn-secondary w-auto! px-3! text-sm!"
-          :disabled="!latest && !zoom"
+          :disabled="!latest && !zoomedView"
           :title="$t('components.sequence.timeline.fullNightHint')"
           @click="showFullNight"
         >
@@ -155,7 +155,7 @@
 </template>
 
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, watch, onBeforeUnmount } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { apiStore } from '@/store/store';
 import { useImagetStore } from '@/store/imageStore';
@@ -178,7 +178,7 @@ import {
   imageSeries,
   sessionStart,
 } from '@/utils/sessionTimelineUtils';
-import { clampView, isFullView } from '@/utils/timeWindow';
+import { endsAtLiveEdge, isFullView, restoreView } from '@/utils/timeWindow';
 import TimelineRows from './TimelineRows.vue';
 import SessionStatsGraph from './SessionStatsGraph.vue';
 
@@ -223,9 +223,34 @@ const filterLegend = computed(() =>
 // `session` is everything since the application start; `view` is what both
 // plots show: the last hour following the live edge (Latest), a zoomed range,
 // or the session.
+//
+// The zoomed range is remembered as absolute times (settingsStore.sessionTimelineZoom),
+// so it is still there after leaving the page or reloading. A range that reaches the
+// live edge is kept open (`end: null`) and grows with the session, so new data still
+// shows up when only its start was moved. Dragging updates the range many times a
+// second, so the store - persisted as a whole - only gets it once it settles.
+
+const ZOOM_SAVE_DELAY_MS = 500;
 
 const latest = computed(() => monitor.timelineLatest === true);
-const zoom = ref(null);
+const zoom = ref(settingsStore.sessionTimelineZoom ?? null);
+
+let zoomSaveTimer = null;
+
+function saveZoom() {
+  clearTimeout(zoomSaveTimer);
+  zoomSaveTimer = null;
+  settingsStore.sessionTimelineZoom = zoom.value ? { ...zoom.value } : null;
+}
+
+watch(zoom, () => {
+  clearTimeout(zoomSaveTimer);
+  zoomSaveTimer = setTimeout(saveZoom, ZOOM_SAVE_DELAY_MS);
+});
+
+onBeforeUnmount(() => {
+  if (zoomSaveTimer) saveZoom();
+});
 
 const session = computed(() =>
   displayWindow({
@@ -240,9 +265,17 @@ const session = computed(() =>
   })
 );
 
+// Null while the remembered range lies outside the session: when it is from an earlier
+// night, and right after a reload until the first poll has filled the session. Kept
+// rather than cleared, for that second case.
+const zoomedView = computed(() => {
+  const restored = zoom.value ? restoreView(zoom.value, session.value) : null;
+  return restored && !isFullView(restored, session.value) ? restored : null;
+});
+
 const view = computed(() => {
   if (latest.value) return displayWindow({ latest: true, nowMs: timeline.nowMs });
-  return zoom.value ? clampView(zoom.value, session.value) : session.value;
+  return zoomedView.value ?? session.value;
 });
 
 const viewLabel = computed(() => {
@@ -252,7 +285,11 @@ const viewLabel = computed(() => {
 
 function setView(next) {
   monitor.timelineLatest = false;
-  zoom.value = isFullView(next, session.value) ? null : next;
+  if (isFullView(next, session.value)) {
+    zoom.value = null;
+    return;
+  }
+  zoom.value = { start: next.start, end: endsAtLiveEdge(next, session.value) ? null : next.end };
 }
 
 function showFullNight() {

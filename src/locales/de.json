@@ -1894,6 +1894,7 @@
           "incidents": "Vorfälle"
         },
         "strip": {
+          "dismissError": "Diesen Fehler ausblenden",
           "settling": "Settling",
           "live": "Live",
           "poll": "Polling",
@@ -2020,7 +2021,24 @@
           "starCount": "{count} Sterne",
           "age": "vor {seconds} s",
           "weight": "Gewicht",
-          "rejected": "Nicht genutzt",
+          "reasons": {
+            "NotGuiding": "Weitere Sterne zählen erst beim Guiden. Bis dahin wird nur der Guide-Stern gemessen.",
+            "Settling": "Während der Guider nach dem Start oder einem Dither einschwingt, zählen weitere Sterne nicht.",
+            "Stabilizing": "Das Guiding hat gerade begonnen, oder der Guide-Stern hat sich stärker als üblich bewegt. Die anderen Sterne zählen wieder, sobald er einige Frames lang ruhig ist.",
+            "GuideStarLost": "Der Guide-Stern ging in diesem Frame verloren, daher wurden auch die anderen Sterne nicht gemessen.",
+            "Subframe": "Mit Subframes wird nur der Guide-Stern ausgelesen.",
+            "MultiStarOff": "Multi-Star-Guiding ist aus, daher wird nur der Guide-Stern verwendet.",
+            "BeyondMaxStars": "Mehr Sterne, als „Max. Guide-Sterne“ erlaubt. Pro Frame werden nur so viele gemessen.",
+            "Miss": "Hat sich in diesem Frame viel stärker bewegt als der Guide-Stern und wurde als Ausreißer weggelassen.",
+            "ReferenceReset": "Zu oft hintereinander als Ausreißer weggelassen. Seine Referenzposition wurde auf die aktuelle Position gesetzt.",
+            "Lost": "In diesem Frame nicht in seinem Suchfenster gefunden: zu schwach, Wolken oder weggewandert.",
+            "DroppedZero": "Hat sich mehrere Frames lang gar nicht bewegt, vermutlich ein Hotpixel. Er wurde entfernt.",
+            "Resnapped": "Seine Referenzposition wurde nach dem Verschieben der Lock-Position aktualisiert. Ab dem nächsten Frame zählt er wieder.",
+            "FallbackRejected": "Der Guide-Stern ging verloren. Die Schätzung seiner Position aus diesem Stern wich von den anderen Sternen ab.",
+            "PrimaryLost": "Der Guide-Stern wurde in diesem Frame nicht gefunden.",
+            "NotMeasured": "In diesem Frame nicht gemessen.",
+            "unknown": "Nicht genutzt ({reason})."
+          },
           "legendPrimary": "Primärer Stern",
           "legendSecondary": "Sekundärer Stern",
           "legendRejected": "Nicht genutzt",
@@ -2453,6 +2471,7 @@
           "empty": "Keine Einstellungen verfügbar.",
           "notConnectedHint": "Der native Guider ist nicht verbunden. Änderungen werden im Profil gespeichert; Kameraänderungen wirken erst bei der nächsten Verbindung.",
           "requiresReconnect": "Wirkt nach erneutem Verbinden",
+          "valueInUse": "Aktuell: {value} {unit}, beim Guiden angepasst.",
           "range": "{min} – {max}",
           "rangeMin": "min {min}",
           "rangeMax": "max {max}",
@@ -4234,7 +4253,9 @@
       },
       "imageModal": {
         "no_image": "Keine Bilddaten verfügbar",
-        "histogram": "Histogramm anzeigen"
+        "histogram": "Histogramm anzeigen",
+        "previous": "Vorheriges Bild",
+        "next": "Nächstes Bild"
       },
       "histogram": {
         "blackPoint": "Schwarzpunkt",

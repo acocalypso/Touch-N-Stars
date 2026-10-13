@@ -1894,6 +1894,7 @@
           "incidents": "Incidències"
         },
         "strip": {
+          "dismissError": "Amaga aquest error",
           "settling": "Assentant",
           "live": "En viu",
           "poll": "Sondeig",
@@ -2020,7 +2021,24 @@
           "starCount": "{count} estrelles",
           "age": "fa {seconds} s",
           "weight": "Pes",
-          "rejected": "No usada",
+          "reasons": {
+            "NotGuiding": "Les altres estrelles només compten durant el guiatge. Fins aleshores només es mesura l'estrella primària.",
+            "Settling": "Les altres estrelles no compten mentre el guiatge s'estabilitza després de l'inici o d'un dithering.",
+            "Stabilizing": "El guiatge tot just ha començat, o l'estrella primària s'ha mogut més del normal. Les altres estrelles tornen a comptar quan es manté estable uns quants fotogrames.",
+            "GuideStarLost": "L'estrella primària s'ha perdut en aquest fotograma, així que les altres estrelles tampoc s'han mesurat.",
+            "Subframe": "Amb subfotogrames només es llegeix l'estrella primària.",
+            "MultiStarOff": "El guiatge multiestrella està desactivat, així que només s'usa l'estrella primària.",
+            "BeyondMaxStars": "Més estrelles de les que permet «Màx. estrelles de guiatge». Només se'n mesuren aquestes a cada fotograma.",
+            "Miss": "S'ha mogut molt més que l'estrella primària en aquest fotograma, així que s'ha descartat com a valor atípic.",
+            "ReferenceReset": "Descartada com a atípica massa vegades seguides. La seva posició de referència s'ha restablert a l'actual.",
+            "Lost": "No s'ha trobat a la seva zona de cerca en aquest fotograma: massa feble, núvols o s'ha desplaçat.",
+            "DroppedZero": "No s'ha mogut gens durant diversos fotogrames, probablement un píxel calent. S'ha descartat.",
+            "Resnapped": "La seva posició de referència s'ha actualitzat després de moure la posició de bloqueig. Torna a comptar des del fotograma següent.",
+            "FallbackRejected": "L'estrella primària s'ha perdut. L'estimació de la seva posició a partir d'aquesta estrella no coincidia amb les altres.",
+            "PrimaryLost": "L'estrella primària no s'ha trobat en aquest fotograma.",
+            "NotMeasured": "No mesurada en aquest fotograma.",
+            "unknown": "No usada ({reason})."
+          },
           "legendPrimary": "Estrella primària",
           "legendSecondary": "Estrella secundària",
           "legendRejected": "No usada",
@@ -2453,6 +2471,7 @@
           "empty": "No hi ha ajustos disponibles.",
           "notConnectedHint": "El guiador natiu no està connectat. Els canvis es desen al perfil; els canvis de càmera tenen efecte a la propera connexió.",
           "requiresReconnect": "S'aplica després de reconnectar",
+          "valueInUse": "En ús: {value} {unit}, ajustat durant el guiatge.",
           "range": "{min} – {max}",
           "rangeMin": "mín. {min}",
           "rangeMax": "màx. {max}",
@@ -4239,7 +4258,9 @@
       },
       "imageModal": {
         "no_image": "Cap dada d'imatge disponible",
-        "histogram": "Mostra l'histograma"
+        "histogram": "Mostra l'histograma",
+        "previous": "Imatge anterior",
+        "next": "Imatge següent"
       },
       "histogram": {
         "blackPoint": "Punt negre",

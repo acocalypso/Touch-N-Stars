@@ -113,8 +113,12 @@
         <p v-if="!selected.isPrimary && selected.used" class="tabular-nums text-content-muted">
           {{ t('components.guider.native.frame.weight') }} {{ fmt(selected.weight, 2) }}
         </p>
-        <p v-if="selected.rejectReason" class="text-status-warn">
-          {{ t('components.guider.native.frame.rejected') }}: {{ selected.rejectReason }}
+        <p
+          v-if="selected.rejectReason"
+          class="mt-0.5 whitespace-normal"
+          :class="isStarProblem(selected.rejectReason) ? 'text-status-warn' : 'text-content-muted'"
+        >
+          {{ reasonText(selected.rejectReason) }}
         </p>
       </div>
 
@@ -211,6 +215,10 @@
       <span class="ml-auto text-content-faint">{{
         t('components.guider.native.frame.tapHint')
       }}</span>
+      <!-- When no other star counts for the same reason, say so once instead of per star -->
+      <p v-if="frameReason" class="basis-full text-content-muted">
+        {{ reasonText(frameReason) }}
+      </p>
     </div>
 
     <!-- One row: up to three star tiles, then the profile of the primary in the rest of the row
@@ -254,6 +262,7 @@ import {
 import NativeFrameOverlay from './NativeFrameOverlay.vue';
 import NativeStarPeeper from './NativeStarPeeper.vue';
 import NativeStarProfile from './NativeStarProfile.vue';
+import { frameWideReason, isStarProblem, reasonKey } from './starReasons.js';
 import { readStored, writeStored } from '@/utils/safeStorage';
 import {
   DEFAULT_STRETCH_ID,
@@ -340,6 +349,14 @@ const fitScale = computed(() => {
 });
 
 const stars = computed(() => displayed.value.info?.stars || []);
+const frameReason = computed(() => frameWideReason(stars.value));
+/** Why a star was not used, as a sentence (an unknown reason from a newer guider by its name). */
+function reasonText(reason) {
+  const key = reasonKey(reason);
+  return key
+    ? t(`components.guider.native.frame.reasons.${key}`)
+    : t('components.guider.native.frame.reasons.unknown', { reason });
+}
 const primaryStar = computed(() => stars.value.find((s) => s.isPrimary) || null);
 const showLabels = computed(() => stars.value.length <= 30 || zoom.value > 1.5);
 const lock = computed(() => {

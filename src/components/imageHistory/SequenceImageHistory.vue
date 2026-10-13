@@ -82,9 +82,11 @@
           :selectable="selectionMode"
           :selected="selectedIndices.has(item.index)"
           :hold-to-select="del.canDelete.value"
+          browsable
           @delete="del.request({ index: item.index, stats: item.stats })"
           @toggle-select="toggleSelected(item.index)"
           @hold="enterSelectionMode(item.index)"
+          @open="viewerIndex = item.index"
         />
         <div
           v-else
@@ -165,6 +167,15 @@
       </div>
     </transition>
 
+    <!-- One full-size view for the whole grid, so it can browse from tile to tile. -->
+    <HistoryImageViewer
+      v-model="viewerIndex"
+      :order="sortedIndices"
+      :entries="enrichedStats"
+      :deletable="del.canDelete.value"
+      @delete="onViewerDelete"
+    />
+
     <!-- One confirmation dialog for the whole grid instead of one per tile. -->
     <ImageDeleteConfirm
       :pending="del.pending.value"
@@ -188,6 +199,7 @@ import {
 } from '@heroicons/vue/24/outline';
 import SequenceImage from '@/components/imageHistory/SequenceImage.vue';
 import ImageDeleteConfirm from '@/components/imageHistory/ImageDeleteConfirm.vue';
+import HistoryImageViewer from '@/components/imageHistory/HistoryImageViewer.vue';
 import { apiStore } from '@/store/store';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useSequenceStore } from '@/store/sequenceStore';
@@ -303,6 +315,16 @@ function deleteSelected() {
     .filter((index) => selectedIndices.value.has(index))
     .map((index) => ({ index, stats: enrichedStats.value[index] }));
   del.request(items);
+}
+
+// --- full-size view ---------------------------------------------------------
+const viewerIndex = ref(null); // absolute history index shown full size, null = closed
+
+function onViewerDelete(index) {
+  // The confirmation belongs to the grid; close the full-size view first so the dialog
+  // is not shown over an image that is about to disappear.
+  viewerIndex.value = null;
+  del.request({ index, stats: enrichedStats.value[index] });
 }
 
 async function confirmDelete() {

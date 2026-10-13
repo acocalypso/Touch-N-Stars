@@ -12,14 +12,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - PINS AI Chat: Local multilingual chat with MCP tools, explicit equipment-action approval, live job results and redacted troubleshooting reports.
 - Native Guider (PINS): The camera group of the settings tab now also sets the guide camera's readout mode, USB limit and, depending on the camera, fan speed, ultra mode, high fullwell, binning average and LED. Gain, offset and binning stay the guider's own settings there.
 - Guiding: The guide camera card also sets the guide camera's readout mode, USB limit and camera options next to gain, offset and binning.
+- Image history: The image viewer has arrows to the previous and next image, in the order and filter of the history. The arrow keys and a sideways swipe do the same; zoomed in, a swipe still moves the image.
 
 ### Changed
 
 - Native Guider (PINS): Gain, offset and pixel size at "default" show the value that applies, e.g. "Default (120)", taken from the guide camera.
+- Native Guider (PINS): When the Dec backlash compensation adjusted its pulse while guiding, the backlash pulse setting shows the pulse in use below the field, e.g. "In use: 260 ms, adjusted while guiding." This needs a PINS version that reports the pulse in use.
 
 ### Fixed
 
 - Guide camera: For cameras with a list of named gains, the chosen gain itself is stored instead of its position in the list.
+- Native Guider (PINS): The guide cycle timing in the Proc. tile's explanation shows the exposure for the last cycle too, instead of –.
 
 ## [App6.5.0 - beta 3] - 2026-10-12
 

@@ -497,6 +497,7 @@ test('guideTiming reads the guide loop timing of the status', () => {
   assert.equal(guideTiming({ timing: { fps: 0.4, cycles: 0 } }), null, 'no cycle yet');
 
   const timing = guideTiming({
+    exposureSeconds: 2,
     timing: {
       fps: 0.42,
       cycles: 20,
@@ -526,10 +527,10 @@ test('guideTiming reads the guide loop timing of the status', () => {
     pulseMs: 35,
     otherMs: 5,
   });
-  // The last cycle sent no pulse: its pulse time is unknown, not 0 ms; its exposure isn't reported.
+  // The last cycle sent no pulse: its pulse time is unknown, not 0 ms. Its exposure is the setting.
   assert.deepEqual(timing.last, {
     cycleMs: 2400,
-    exposureMs: null,
+    exposureMs: 2000,
     cameraMs: 320,
     processingMs: 13,
     frameToPulseMs: null,
@@ -538,6 +539,11 @@ test('guideTiming reads the guide loop timing of the status', () => {
   });
 
   assert.equal(guideTiming({ timing: { fps: 0, cycles: 1, cycleMs: 0 } }).fps, null);
+  assert.equal(
+    guideTiming({ timing: { cycles: 1 } }).last.exposureMs,
+    null,
+    'no exposure setting in the status'
+  );
 });
 
 test('formatMs and formatFps keep short durations and low rates readable', () => {

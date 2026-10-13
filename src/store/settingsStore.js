@@ -219,6 +219,10 @@ export const useSettingsStore = defineStore('settings', {
       itemOrder: [...DEFAULT_STATUSBAR_ORDER],
       hiddenItems: [],
     },
+    // Zoomed range of the Monitor's session timeline ({ start, end } in ms, end null =
+    // up to now; null = the whole session). Per device on purpose: monitorViewSetting is shared with every
+    // client of the rig, and zooming on one device must not move the view on the others.
+    sessionTimelineZoom: null,
     // Screen lock (screen-lock plugin): guards against accidental touches.
     // Lives here, not in apiStore, because this store is persisted as a whole -
     // the lock has to survive a restart and an instance switch (which reloads

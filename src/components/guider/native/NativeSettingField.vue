@@ -170,6 +170,13 @@
 
     <!-- Hints / errors -->
     <p v-if="error" class="text-xs text-status-danger break-words">{{ error }}</p>
+    <p
+      v-if="warning"
+      class="flex items-start gap-1.5 rounded-control border border-status-warn/40 bg-status-warn/10 px-2 py-1.5 text-xs text-status-warn"
+    >
+      <ExclamationTriangleIcon class="mt-px h-4 w-4 shrink-0" />
+      <span>{{ t(`components.guider.native.settings.warnings.${warning}`) }}</span>
+    </p>
     <p v-if="valueInUse !== null" class="text-xs text-content-muted tabular-nums">
       {{
         t('components.guider.native.settings.valueInUse', {
@@ -220,6 +227,7 @@ import {
   settingLabel,
   settingOptionLabel,
   settingValueInUse,
+  settingWarning,
   validateSettingValue,
 } from '@/utils/nativeGuider';
 
@@ -297,6 +305,8 @@ watch(
 const currentValue = computed(() => settingFormValue(props.setting));
 // The value the guider uses when it adjusted the setting itself (the learned Dec backlash pulse).
 const valueInUse = computed(() => settingValueInUse(props.setting, store.status));
+// A combination with other settings that doesn't work as chosen (play model without Predictive).
+const warning = computed(() => settingWarning(props.setting, store.settings));
 
 const rangeHint = computed(() => {
   if (!isNumeric.value) return '';

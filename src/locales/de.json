@@ -1969,6 +1969,13 @@
             "Both": "beide",
             "North": "nur N",
             "South": "nur S"
+          },
+          "backlashChip": "Spiel {play}",
+          "backlashGear": {
+            "North": "Zahnrad N",
+            "South": "Zahnrad S",
+            "Floating": "Zahnrad schwebt",
+            "Unknown": "Zahnrad ?"
           }
         },
         "controls": {
@@ -2518,6 +2525,10 @@
               "South": "nur Süd",
               "Off": "Aus – nur RA",
               "Drift": "Drift – folgt der Drift (eine Richtung)"
+            },
+            "BacklashModel": {
+              "Fixed": "Fest (wie PHD2)",
+              "PlayModel": "Spielmodell"
             }
           },
           "labels": {
@@ -2582,7 +2593,8 @@
             "IncidentRecorder": "Vorfälle aufzeichnen",
             "IncidentBudgetMb": "Speicherbudget für Vorfälle",
             "SimulatorScenario": "Simulator-Szenario",
-            "SimulateFault": "Fehler simulieren"
+            "SimulateFault": "Fehler simulieren",
+            "BacklashModel": "Dec-Backlash-Modell"
           },
           "descriptions": {
             "GuideSource": "Woher die Guide-Frames kommen. Guide-Kamera: die Kamera im Guide-Kamera-Slot der Ausrüstung. Simulator: eine eingebaute Simulation von Montierung, Himmel und Kamera, um den Guider ohne Hardware oder bei Tageslicht auszuprobieren.",
@@ -2627,7 +2639,7 @@
             "MinPulseMs": "Kürzere Guide-Pulse werden auf 0 oder auf diese Länge gerundet: Manche Montierungen verarbeiten sehr kurze Pulse falsch. 0 = beliebige Länge.",
             "SimultaneousPulses": "Sendet die RA- und Dec-Pulse eines Frames gleichzeitig statt nacheinander, was den Guide-Zyklus verkürzt. Nur bei Montierungen, die beide Achsen getrennt takten (der native OnStepX-Treiber von pins); andere Montierungen pulsen weiter nacheinander.",
             "BacklashCompensation": "Fügt einen zusätzlichen Puls hinzu, wenn Dec die Richtung wechselt, um das Spiel im Dec-Getriebe aufzunehmen. Hilfreich bei spürbarem Dec-Backlash; ausgeschaltet lassen, wenn Dec sauber guidet. Der Dec-Guide-Modus Drift vermeidet Richtungswechsel ganz.",
-            "BacklashPulseMs": "Länge des zusätzlichen Pulses bei einem Dec-Richtungswechsel. Ausgehend davon passt der Guider den Puls anhand der Reaktion des Sterns automatisch zwischen 20 ms und dem 1,5-Fachen dieses Werts an.",
+            "BacklashPulseMs": "Länge des zusätzlichen Pulses bei einem Dec-Richtungswechsel. Ausgehend davon passt der Guider den Puls anhand der Reaktion des Sterns automatisch zwischen 20 ms und dem 1,5-Fachen dieses Werts an. Mit dem Spielmodell ist der Wert nur die erste Schätzung des Spiels, die das Modell dann selbst lernt.",
             "PulseModel": "Lernt aus den Dithers, wie weit ein Guide-Puls den Stern auf jeder Achse wirklich bewegt, und bemisst die Pulse danach, sodass eine ungenaue Kalibrierung nicht mehr zu Über- oder Unterkorrektur führt. Es startet mit den Kalibrierwerten, ändert nur, was die Dithers eindeutig zeigen, und behält das Gelernte pro Profil und Montierung bis zur nächsten Kalibrierung.",
             "CalibrationStepMs": "0 = automatisch aus Optik, Guide-Rate und Deklination.",
             "ReuseCalibration": "Kalibrierung über Sitzungen hinweg behalten und an Deklination und Pier-Seite anpassen.",
@@ -2646,7 +2658,11 @@
             "IncidentRecorder": "Hält die letzten Minuten an Guide-Frames im Speicher und speichert sie rund um Sternverluste, davonlaufendes Guiding, Probleme mit Montierung und Kamera sowie Fehlerspitzen – zur Wiedergabe und zum Download.",
             "IncidentBudgetMb": "Speicherplatz für aufgezeichnete Vorfälle; die ältesten nicht behaltenen werden zuerst gelöscht. Simulator-Vorfälle haben eigene 200 MB.",
             "SimulatorScenario": "Montierung, Himmel und Kamera, die der integrierte Simulator simuliert.",
-            "SimulateFault": "Speist einen Fehler in den laufenden Simulator ein: Wolken (110 s), ein Stoß gegen die Montierung, eine Montierung, die nicht mehr reagiert (60 s), 3 fehlgeschlagene Belichtungen oder Dec-Korrekturen in die falsche Richtung (120 s)."
+            "SimulateFault": "Speist einen Fehler in den laufenden Simulator ein: Wolken (110 s), ein Stoß gegen die Montierung, eine Montierung, die nicht mehr reagiert (60 s), 3 fehlgeschlagene Belichtungen oder Dec-Korrekturen in die falsche Richtung (120 s).",
+            "BacklashModel": "Fest gibt bei jeder Dec-Umkehr den Zusatzpuls und führt ihn langsam nach. Das Spielmodell verfolgt das Dec-Zahnrad im Spiel, hält Korrekturen zurück, die bei Seeing-Rauschen nur Spiel aufnehmen würden, und lernt das Spiel aus Kalibrierung und Betrieb. Nur mit dem Dec-Algorithmus Predictive."
+          },
+          "warnings": {
+            "backlashModelNeedsPredictive": "Das Spielmodell wirkt nur mit dem Dec-Algorithmus Predictive; aktuell wird der feste Puls verwendet."
           }
         },
         "darks": {
@@ -3457,6 +3473,37 @@
             }
           },
           "unknown": "?"
+        },
+        "backlash": {
+          "title": "Dec-Backlash – Spielmodell",
+          "help": "Das Spielmodell verfolgt, wo das Dec-Zahnrad im Getriebespiel steht, und lernt Größe und Form des Spiels aus Kalibrierung und Guiding. Es hält Korrekturen zurück, die bei reinem Seeing-Rauschen nur Spiel aufnehmen würden, und verlängert eine nötige Korrektur um das restliche Spiel. Es wirkt nur mit dem Dec-Algorithmus Predictive.",
+          "fullReversal": "Gelerntes Spiel (volle Umkehr)",
+          "shape": "Form des Spiels",
+          "fromCalibration": "aus Kalibrierung gemessen",
+          "play": "Zahnrad im Spiel",
+          "northShort": "N",
+          "southShort": "S",
+          "slackNorth": "Nord: noch {value}",
+          "slackSouth": "Süd: noch {value}",
+          "positionUnknown": "Die Lage des Zahnrads im Spiel ist noch unbekannt.",
+          "gears": {
+            "North": "liegt an der Nordseite an",
+            "South": "liegt an der Südseite an",
+            "Floating": "schwebt im Spiel",
+            "Unknown": "unbekannt"
+          },
+          "shapes": {
+            "None": "kein Spiel",
+            "Hard": "hart",
+            "Medium": "mittel",
+            "Soft": "weich",
+            "Calibrated": "wie kalibriert"
+          },
+          "reversals": "Umkehrungen",
+          "heldCorrections": "Zurückgehaltene Korrekturen",
+          "learnedTakeUps": "Gelernte Spielaufnahmen",
+          "lastCompensation": "Letzter Zuschlag",
+          "heldExplanation": "Zurückgehaltene Korrekturen hätten nur das Spiel durchfahren, solange der Fehler Rauschen war. Die Zähler laufen seit dem Verbinden des Guiders."
         }
       }
     },

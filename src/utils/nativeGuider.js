@@ -620,6 +620,65 @@ export function decDirection(status) {
   };
 }
 
+const BACKLASH_GEARS = ['North', 'South', 'Floating', 'Unknown'];
+const BACKLASH_SHAPES = ['None', 'Hard', 'Medium', 'Soft', 'Calibrated'];
+const BACKLASH_GEAR_TONE = { North: 'ok', South: 'ok', Floating: 'info', Unknown: 'idle' };
+
+/**
+ * The Dec backlash play model (AdvancedGuiderStatus.decBacklash; null while the model is not
+ * active, missing on older backends): null without it, else `{ fullReversalMs, slackNorthMs,
+ * slackSouthMs, gear, shape, shapeFromCalibration, reversals, heldCorrections, learnedTakeUps,
+ * lastCompensationMs, gearPosition, tone }`. Durations and counts are null when missing or
+ * invalid, an unknown gear counts as 'Unknown', an unknown shape is null. gearPosition is where the
+ * gear sits in the play, 0 (against the North side) to 1 (against the South side), null while
+ * the remaining play is unknown.
+ */
+export function decBacklash(status) {
+  const b = status?.decBacklash;
+  if (!b || typeof b !== 'object') return null;
+  const nonNegative = (value) => {
+    if (value === null || value === undefined || value === '') return null;
+    const n = Number(value);
+    return Number.isFinite(n) && n >= 0 ? n : null;
+  };
+  const gear = BACKLASH_GEARS.includes(b.gear) ? b.gear : 'Unknown';
+  const slackNorthMs = nonNegative(b.slackNorthMs);
+  const slackSouthMs = nonNegative(b.slackSouthMs);
+  const slackTotal = (slackNorthMs ?? 0) + (slackSouthMs ?? 0);
+  return {
+    fullReversalMs: nonNegative(b.fullReversalMs),
+    slackNorthMs,
+    slackSouthMs,
+    gear,
+    shape: BACKLASH_SHAPES.includes(b.shape) ? b.shape : null,
+    shapeFromCalibration: b.shapeFromCalibration === true,
+    reversals: nonNegative(b.reversals),
+    heldCorrections: nonNegative(b.heldCorrections),
+    learnedTakeUps: nonNegative(b.learnedTakeUps),
+    lastCompensationMs: nonNegative(b.lastCompensationMs),
+    gearPosition:
+      slackNorthMs !== null && slackSouthMs !== null && slackTotal > 0
+        ? slackNorthMs / slackTotal
+        : null,
+    tone: BACKLASH_GEAR_TONE[gear],
+  };
+}
+
+/**
+ * A warning about a setting's value with the other settings (an i18n key suffix under
+ * components.guider.native.settings.warnings), or null: the Dec backlash play model works only
+ * with the Predictive Dec algorithm, otherwise the guider keeps the fixed pulse.
+ */
+export function settingWarning(setting, allSettings = []) {
+  if (setting?.name !== 'BacklashModel') return null;
+  if (String(setting.value ?? '').toLowerCase() !== 'playmodel') return null;
+  const algorithm = (allSettings || []).find((s) => s.name === 'DecAlgorithm');
+  if (!algorithm) return null;
+  return String(algorithm.value ?? '').toLowerCase() === 'predictive'
+    ? null
+    : 'backlashModelNeedsPredictive';
+}
+
 /** Guider states in which the guide loop takes frames, so its timing is current. */
 export const LOOP_STATES = [
   'Looping',

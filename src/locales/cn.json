@@ -1928,6 +1928,13 @@
             "Both": "双向",
             "North": "仅北",
             "South": "仅南"
+          },
+          "backlashChip": "回差 {play}",
+          "backlashGear": {
+            "North": "齿轮 北",
+            "South": "齿轮 南",
+            "Floating": "齿轮 悬空",
+            "Unknown": "齿轮 ?"
           }
         },
         "controls": {
@@ -2477,6 +2484,10 @@
               "South": "仅南",
               "Off": "关闭 – 仅 RA",
               "Drift": "Drift – 跟随漂移（单向）"
+            },
+            "BacklashModel": {
+              "Fixed": "固定（同 PHD2）",
+              "PlayModel": "间隙模型"
             }
           },
           "labels": {
@@ -2541,7 +2552,8 @@
             "IncidentRecorder": "记录异常事件",
             "IncidentBudgetMb": "异常事件磁盘配额",
             "SimulatorScenario": "模拟器场景",
-            "SimulateFault": "模拟故障"
+            "SimulateFault": "模拟故障",
+            "BacklashModel": "Dec 回差模型"
           },
           "descriptions": {
             "GuideSource": "导星帧的来源。导星相机：设备中导星相机槽位里的相机。模拟器：内置的赤道仪、天空和相机模拟，可在没有硬件或白天时试用导星。",
@@ -2586,7 +2598,7 @@
             "MinPulseMs": "更短的导星脉冲会被舍入为 0 或此长度：有些赤道仪无法正确处理极短的脉冲。0 = 不限长度。",
             "SimultaneousPulses": "同时发送一帧的 RA 和 Dec 脉冲，而不是先后发送，从而缩短导星周期。仅适用于能分别为两个轴计时的赤道仪（pins 的原生 OnStepX 驱动）；其他赤道仪仍按先后顺序发送脉冲。",
             "BacklashCompensation": "在 Dec 反向时额外发送一个脉冲，以消除 Dec 齿轮的间隙。Dec 回差明显时有帮助；若 Dec 导星平稳就保持关闭。Dec 导星模式 Drift 可完全避免反向。",
-            "BacklashPulseMs": "Dec 反向时额外脉冲的长度。导星以此为起点，根据星点的响应在 20 毫秒和该值的 1.5 倍之间自动调整脉冲。",
+            "BacklashPulseMs": "Dec 反向时额外脉冲的长度。导星以此为起点，根据星点的响应在 20 毫秒和该值的 1.5 倍之间自动调整脉冲。使用间隙模型时，该值只是对间隙的初始估计，之后由模型自行学习。",
             "PulseModel": "从抖动中学习导星脉冲在每个轴上实际移动星点的距离，并据此确定脉冲大小，使偏差的校准不再导致过度或不足校正。它从校准值开始，只改变抖动明确显示的部分，并按配置文件和赤道仪保存所学内容，直到下一次校准。",
             "CalibrationStepMs": "0 = 根据光学参数、导星速率和赤纬自动设定。",
             "ReuseCalibration": "跨会话保留校准，并根据赤纬和子午侧进行调整。",
@@ -2605,7 +2617,11 @@
             "IncidentRecorder": "在内存中保留最近几分钟的导星画面，并在丢失导星、导星失控、赤道仪和相机问题以及误差尖峰前后保存这些画面，供回放和下载。",
             "IncidentBudgetMb": "已记录异常事件可用的磁盘空间；最早的未保留异常事件会被优先删除。模拟器异常事件另有独立的 200 MB。",
             "SimulatorScenario": "内置模拟器所模拟的赤道仪、天空和相机。",
-            "SimulateFault": "向运行中的模拟器注入故障：云层（110 秒）、赤道仪受到碰撞、赤道仪停止响应（60 秒）、3 次曝光失败，或 Dec 修正方向错误（120 秒）。"
+            "SimulateFault": "向运行中的模拟器注入故障：云层（110 秒）、赤道仪受到碰撞、赤道仪停止响应（60 秒）、3 次曝光失败，或 Dec 修正方向错误（120 秒）。",
+            "BacklashModel": "固定：每次 Dec 反向时加上额外脉冲，并缓慢调整。间隙模型：跟踪 Dec 齿轮在间隙中的位置，扣留在视宁度噪声下只会消耗间隙的修正，并从校准和导星中学习间隙。仅适用于 Dec 算法 Predictive。"
+          },
+          "warnings": {
+            "backlashModelNeedsPredictive": "间隙模型仅适用于 Dec 算法 Predictive；目前使用固定脉冲。"
           }
         },
         "darks": {
@@ -3416,6 +3432,37 @@
             }
           },
           "unknown": "?"
+        },
+        "backlash": {
+          "title": "Dec 回差 – 间隙模型",
+          "help": "间隙模型跟踪 Dec 齿轮在齿轮间隙中的位置，并从校准和导星中学习间隙的大小和形态。当误差只是视宁度噪声时，它会扣留只会消耗间隙的修正；需要修正时，则把剩余的间隙加到修正上。仅适用于 Dec 算法 Predictive。",
+          "fullReversal": "已学习的间隙（完全反向）",
+          "shape": "间隙形态",
+          "fromCalibration": "由校准测得",
+          "play": "齿轮在间隙中",
+          "northShort": "北",
+          "southShort": "南",
+          "slackNorth": "北：剩余 {value}",
+          "slackSouth": "南：剩余 {value}",
+          "positionUnknown": "齿轮在间隙中的位置尚未知。",
+          "gears": {
+            "North": "贴靠北侧",
+            "South": "贴靠南侧",
+            "Floating": "悬空于间隙中",
+            "Unknown": "未知"
+          },
+          "shapes": {
+            "None": "无间隙",
+            "Hard": "硬",
+            "Medium": "中",
+            "Soft": "软",
+            "Calibrated": "同校准"
+          },
+          "reversals": "反向次数",
+          "heldCorrections": "扣留的修正",
+          "learnedTakeUps": "已学习的间隙消耗",
+          "lastCompensation": "上次补偿",
+          "heldExplanation": "扣留的修正在误差只是噪声时只会穿过间隙。计数自导星连接起累计。"
         }
       }
     },

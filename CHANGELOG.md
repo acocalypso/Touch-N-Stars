@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased]
 
+### Added
+
+- Native Guider (PINS): New Dec backlash model setting with the choice between the fixed pulse as in PHD2 and the new play model. The play model tracks where the Dec gear sits in the play, learns the size and shape of the play from calibration and guiding, holds back corrections that would only take up play on seeing noise and lengthens a needed correction by the play still left. It works with the Predictive Dec algorithm only; with another Dec algorithm the setting shows a warning and the fixed pulse is used. While the play model is active, a chip in the status bar shows the learned play and the gear side, and a tap opens the details: shape of the play, a bar with the play left towards North and South, reversals, held corrections and the last compensation. This needs a PINS version with the play model.
+
 ## [App6.5.0 - beta 4] - 2026-10-12
 
 ### Added

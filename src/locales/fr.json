@@ -1928,6 +1928,13 @@
             "Both": "deux sens",
             "North": "N seul",
             "South": "S seul"
+          },
+          "backlashChip": "Jeu {play}",
+          "backlashGear": {
+            "North": "engrenage N",
+            "South": "engrenage S",
+            "Floating": "engrenage flottant",
+            "Unknown": "engrenage ?"
           }
         },
         "controls": {
@@ -2477,6 +2484,10 @@
               "South": "Sud seulement",
               "Off": "Désactivé – RA seulement",
               "Drift": "Drift – suit la dérive (un seul sens)"
+            },
+            "BacklashModel": {
+              "Fixed": "Fixe (comme PHD2)",
+              "PlayModel": "Modèle de jeu"
             }
           },
           "labels": {
@@ -2541,7 +2552,8 @@
             "IncidentRecorder": "Enregistrer les incidents",
             "IncidentBudgetMb": "Espace disque des incidents",
             "SimulatorScenario": "Scénario du simulateur",
-            "SimulateFault": "Simuler une panne"
+            "SimulateFault": "Simuler une panne",
+            "BacklashModel": "Modèle du jeu Dec"
           },
           "descriptions": {
             "GuideSource": "D'où viennent les images de guidage. Caméra de guidage : la caméra de l'emplacement caméra de guidage de l'équipement. Simulateur : une simulation intégrée de la monture, du ciel et de la caméra, pour essayer le guidage sans matériel ou en plein jour.",
@@ -2586,7 +2598,7 @@
             "MinPulseMs": "Les impulsions de guidage plus courtes sont arrondies à 0 ou à cette durée : certaines montures gèrent mal les impulsions très courtes. 0 = toute durée.",
             "SimultaneousPulses": "Envoie les impulsions RA et Dec d'une image en même temps plutôt que l'une après l'autre, ce qui raccourcit le cycle de guidage. Uniquement avec les montures qui cadencent les deux axes séparément (le pilote OnStepX natif de pins) ; les autres montures continuent l'une après l'autre.",
             "BacklashCompensation": "Ajoute une impulsion supplémentaire quand Dec inverse sa direction, pour rattraper le jeu des engrenages Dec. Utile avec un backlash Dec notable ; à laisser désactivé si Dec guide proprement. Le mode de guidage Dec Drift évite complètement les inversions.",
-            "BacklashPulseMs": "Durée de l'impulsion supplémentaire lors d'une inversion Dec. À partir de là, le guidage ajuste l'impulsion automatiquement entre 20 ms et 1,5 × cette valeur, selon la réponse de l'étoile.",
+            "BacklashPulseMs": "Durée de l'impulsion supplémentaire lors d'une inversion Dec. À partir de là, le guidage ajuste l'impulsion automatiquement entre 20 ms et 1,5 × cette valeur, selon la réponse de l'étoile. Avec le modèle de jeu, la valeur n'est que la première estimation du jeu, que le modèle apprend ensuite.",
             "PulseModel": "Apprend des dithers de combien une impulsion déplace réellement l'étoile sur chaque axe et dimensionne les impulsions en conséquence, pour qu'une calibration imprécise ne fasse plus sur- ou sous-corriger le guidage. Il démarre avec les valeurs de calibration, ne change que ce que les dithers montrent clairement et conserve ce qu'il a appris par profil et monture jusqu'à la prochaine calibration.",
             "CalibrationStepMs": "0 = automatique selon l'optique, la vitesse de guidage et la déclinaison.",
             "ReuseCalibration": "Conserver la calibration d'une session à l'autre et l'adapter à la déclinaison et au côté du pilier.",
@@ -2605,7 +2617,11 @@
             "IncidentRecorder": "Garde en mémoire les dernières minutes d'images de guidage et les enregistre autour des pertes d'étoile, emballements, problèmes de monture et de caméra et pics d'erreur, pour les revoir et les télécharger.",
             "IncidentBudgetMb": "Espace disque pour les incidents enregistrés ; les plus anciens non conservés sont supprimés en premier. Les incidents du simulateur disposent de leurs propres 200 Mo.",
             "SimulatorScenario": "Monture, ciel et caméra simulés par le simulateur intégré.",
-            "SimulateFault": "Injecte une panne dans le simulateur en cours : nuages (110 s), un choc sur la monture, une monture qui ne répond plus (60 s), 3 poses en échec ou des corrections Dec dans le mauvais sens (120 s)."
+            "SimulateFault": "Injecte une panne dans le simulateur en cours : nuages (110 s), un choc sur la monture, une monture qui ne répond plus (60 s), 3 poses en échec ou des corrections Dec dans le mauvais sens (120 s).",
+            "BacklashModel": "Fixe ajoute l'impulsion supplémentaire à chaque inversion Dec et l'ajuste lentement. Le modèle de jeu suit l'engrenage Dec dans le jeu, retient les corrections qui, sur du bruit de seeing, ne feraient que rattraper le jeu, et apprend le jeu à partir de la calibration et du guidage. Uniquement avec l'algorithme Dec Predictive."
+          },
+          "warnings": {
+            "backlashModelNeedsPredictive": "Le modèle de jeu ne fonctionne qu'avec l'algorithme Dec Predictive ; l'impulsion fixe est utilisée pour l'instant."
           }
         },
         "darks": {
@@ -3416,6 +3432,37 @@
             }
           },
           "unknown": "?"
+        },
+        "backlash": {
+          "title": "Jeu Dec – modèle de jeu",
+          "help": "Le modèle de jeu suit la position de l'engrenage Dec dans le jeu des engrenages et apprend la taille et la forme de ce jeu à partir de la calibration et du guidage. Il retient les corrections qui ne feraient que rattraper le jeu tant que l'erreur n'est que du bruit de seeing, et allonge une correction nécessaire du jeu restant. Il ne fonctionne qu'avec l'algorithme Dec Predictive.",
+          "fullReversal": "Jeu appris (inversion complète)",
+          "shape": "Forme du jeu",
+          "fromCalibration": "mesurée à la calibration",
+          "play": "Engrenage dans le jeu",
+          "northShort": "N",
+          "southShort": "S",
+          "slackNorth": "Nord : reste {value}",
+          "slackSouth": "Sud : reste {value}",
+          "positionUnknown": "La position de l'engrenage dans le jeu n'est pas encore connue.",
+          "gears": {
+            "North": "en appui côté nord",
+            "South": "en appui côté sud",
+            "Floating": "flottant dans le jeu",
+            "Unknown": "inconnue"
+          },
+          "shapes": {
+            "None": "pas de jeu",
+            "Hard": "dur",
+            "Medium": "moyen",
+            "Soft": "souple",
+            "Calibrated": "comme calibré"
+          },
+          "reversals": "Inversions",
+          "heldCorrections": "Corrections retenues",
+          "learnedTakeUps": "Rattrapages appris",
+          "lastCompensation": "Dernière compensation",
+          "heldExplanation": "Les corrections retenues n'auraient fait que traverser le jeu tant que l'erreur était du bruit. Les compteurs courent depuis la connexion du guidage."
         }
       }
     },

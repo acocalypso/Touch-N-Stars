@@ -1928,6 +1928,13 @@
             "Both": "oba",
             "North": "jen S",
             "South": "jen J"
+          },
+          "backlashChip": "Vůle {play}",
+          "backlashGear": {
+            "North": "kolo S",
+            "South": "kolo J",
+            "Floating": "kolo volně",
+            "Unknown": "kolo ?"
           }
         },
         "controls": {
@@ -2477,6 +2484,10 @@
               "South": "Jen jih",
               "Off": "Vypnuto – jen RA",
               "Drift": "Drift – sleduje drift (jeden směr)"
+            },
+            "BacklashModel": {
+              "Fixed": "Pevný (jako PHD2)",
+              "PlayModel": "Model vůle"
             }
           },
           "labels": {
@@ -2541,7 +2552,8 @@
             "IncidentRecorder": "Zaznamenávat incidenty",
             "IncidentBudgetMb": "Místo na disku pro incidenty",
             "SimulatorScenario": "Scénář simulátoru",
-            "SimulateFault": "Simulovat poruchu"
+            "SimulateFault": "Simulovat poruchu",
+            "BacklashModel": "Model vůle v Dec"
           },
           "descriptions": {
             "GuideSource": "Odkud pocházejí pointační snímky. Pointační kamera: kamera ve slotu pointační kamery ve vybavení. Simulátor: vestavěná simulace montáže, oblohy a kamery, pro vyzkoušení pointace bez hardwaru nebo za denního světla.",
@@ -2586,7 +2598,7 @@
             "MinPulseMs": "Kratší naváděcí pulzy se zaokrouhlí na 0 nebo na tuto délku: některé montáže velmi krátké pulzy nezpracují správně. 0 = libovolná délka.",
             "SimultaneousPulses": "Posílá pulzy RA a Dec jednoho snímku současně místo za sebou, což zkracuje pointační cyklus. Jen u montáží, které časují obě osy odděleně (nativní ovladač OnStepX v pins); ostatní montáže dál pulzují postupně.",
             "BacklashCompensation": "Přidá další pulz, když Dec obrací směr, aby vymezil vůli v převodech Dec. Užitečné při znatelné vůli Dec; nechte vypnuté, pokud Dec pointuje čistě. Režim pointace Dec Drift se obratům zcela vyhýbá.",
-            "BacklashPulseMs": "Délka dalšího pulzu při obratu Dec. Z ní vychází pointace a sama upravuje pulz mezi 20 ms a 1,5 × touto hodnotou podle reakce hvězdy.",
+            "BacklashPulseMs": "Délka dalšího pulzu při obratu Dec. Z ní vychází pointace a sama upravuje pulz mezi 20 ms a 1,5 × touto hodnotou podle reakce hvězdy. S modelem vůle je hodnota jen prvním odhadem vůle, kterou se model pak sám učí.",
             "PulseModel": "Učí se z ditherů, jak daleko pointační pulz skutečně posune hvězdu v každé ose, a podle toho dimenzuje pulzy, takže nepřesná kalibrace už nezpůsobuje pře- ani podkorekci. Začíná s kalibrací, mění jen to, co dithery jasně ukážou, a naučené si drží pro profil a montáž až do další kalibrace.",
             "CalibrationStepMs": "0 = automaticky z optiky, rychlosti navádění a deklinace.",
             "ReuseCalibration": "Zachová kalibraci mezi relacemi a přizpůsobí ji deklinaci a straně sloupu.",
@@ -2605,7 +2617,11 @@
             "IncidentRecorder": "Drží v paměti naváděcí snímky z posledních minut a ukládá je kolem ztráty hvězdy, útěků, problémů s montáží a kamerou a skoků chyby, pro přehrání a stažení.",
             "IncidentBudgetMb": "Místo na disku pro zaznamenané incidenty; nejdřív se mažou nejstarší neponechané. Incidenty simulátoru mají vlastních 200 MB.",
             "SimulatorScenario": "Montáž, obloha a kamera, které vestavěný simulátor simuluje.",
-            "SimulateFault": "Vnese poruchu do běžícího simulátoru: mraky (110 s), náraz do montáže, montáž, která přestane reagovat (60 s), 3 neúspěšné expozice nebo korekce Dec špatným směrem (120 s)."
+            "SimulateFault": "Vnese poruchu do běžícího simulátoru: mraky (110 s), náraz do montáže, montáž, která přestane reagovat (60 s), 3 neúspěšné expozice nebo korekce Dec špatným směrem (120 s).",
+            "BacklashModel": "Pevný přidá při každém obratu Dec další pulz a pomalu ho upravuje. Model vůle sleduje ozubené kolo Dec ve vůli, zadržuje korekce, které by při šumu seeingu jen vybraly vůli, a učí se vůli z kalibrace a pointace. Jen s algoritmem Dec Predictive."
+          },
+          "warnings": {
+            "backlashModelNeedsPredictive": "Model vůle funguje jen s algoritmem Dec Predictive; nyní se používá pevný pulz."
           }
         },
         "darks": {
@@ -3416,6 +3432,37 @@
             }
           },
           "unknown": "?"
+        },
+        "backlash": {
+          "title": "Vůle v Dec – model vůle",
+          "help": "Model vůle sleduje, kde se ozubené kolo Dec nachází ve vůli převodu, a učí se velikost a tvar této vůle z kalibrace a pointace. Zadržuje korekce, které by jen vybraly vůli, dokud je chyba pouhým šumem seeingu, a nutnou korekci prodlouží o zbývající vůli. Funguje jen s algoritmem Dec Predictive.",
+          "fullReversal": "Naučená vůle (plný obrat)",
+          "shape": "Tvar vůle",
+          "fromCalibration": "změřeno při kalibraci",
+          "play": "Kolo ve vůli",
+          "northShort": "S",
+          "southShort": "J",
+          "slackNorth": "Sever: zbývá {value}",
+          "slackSouth": "Jih: zbývá {value}",
+          "positionUnknown": "Poloha kola ve vůli zatím není známa.",
+          "gears": {
+            "North": "opřeno o severní stranu",
+            "South": "opřeno o jižní stranu",
+            "Floating": "volně ve vůli",
+            "Unknown": "neznámá"
+          },
+          "shapes": {
+            "None": "bez vůle",
+            "Hard": "tvrdá",
+            "Medium": "střední",
+            "Soft": "měkká",
+            "Calibrated": "podle kalibrace"
+          },
+          "reversals": "Obraty",
+          "heldCorrections": "Zadržené korekce",
+          "learnedTakeUps": "Naučená vybrání vůle",
+          "lastCompensation": "Poslední přídavek",
+          "heldExplanation": "Zadržené korekce by jen projely vůli, dokud byla chyba šumem. Počítadla běží od připojení pointace."
         }
       }
     },

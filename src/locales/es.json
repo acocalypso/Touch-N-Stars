@@ -1928,6 +1928,13 @@
             "Both": "ambas",
             "North": "solo N",
             "South": "solo S"
+          },
+          "backlashChip": "Holgura {play}",
+          "backlashGear": {
+            "North": "engranaje N",
+            "South": "engranaje S",
+            "Floating": "engranaje flotante",
+            "Unknown": "engranaje ?"
           }
         },
         "controls": {
@@ -2477,6 +2484,10 @@
               "South": "Solo Sur",
               "Off": "Desactivado – solo RA",
               "Drift": "Drift – sigue la deriva (una dirección)"
+            },
+            "BacklashModel": {
+              "Fixed": "Fijo (como PHD2)",
+              "PlayModel": "Modelo de holgura"
             }
           },
           "labels": {
@@ -2541,7 +2552,8 @@
             "IncidentRecorder": "Registrar incidencias",
             "IncidentBudgetMb": "Cupo de disco para incidencias",
             "SimulatorScenario": "Escenario del simulador",
-            "SimulateFault": "Simular un fallo"
+            "SimulateFault": "Simular un fallo",
+            "BacklashModel": "Modelo de holgura en Dec"
           },
           "descriptions": {
             "GuideSource": "De dónde vienen las imágenes de guiado. Cámara de guiado: la cámara de la ranura de cámara de guiado del equipo. Simulador: una simulación integrada de montura, cielo y cámara, para probar el guiado sin hardware o de día.",
@@ -2586,7 +2598,7 @@
             "MinPulseMs": "Los pulsos de guiado más cortos se redondean a 0 o a esta duración: algunas monturas gestionan mal los pulsos muy cortos. 0 = cualquier duración.",
             "SimultaneousPulses": "Envía los pulsos RA y Dec de una imagen a la vez en lugar de uno tras otro, lo que acorta el ciclo de guiado. Solo con monturas que temporizan ambos ejes por separado (el driver OnStepX nativo de pins); las demás monturas siguen pulsando uno tras otro.",
             "BacklashCompensation": "Añade un pulso extra cuando Dec invierte su dirección, para absorber la holgura de los engranajes Dec. Útil con backlash Dec apreciable; déjalo desactivado si Dec guía bien. El modo de guiado Dec Drift evita las inversiones por completo.",
-            "BacklashPulseMs": "Duración del pulso extra en una inversión de Dec. A partir de ella, el guiado ajusta el pulso automáticamente entre 20 ms y 1,5 × este valor, según cómo responda la estrella.",
+            "BacklashPulseMs": "Duración del pulso extra en una inversión de Dec. A partir de ella, el guiado ajusta el pulso automáticamente entre 20 ms y 1,5 × este valor, según cómo responda la estrella. Con el modelo de holgura, el valor es solo la primera estimación de la holgura, que luego aprende el modelo.",
             "PulseModel": "Aprende de los dithers cuánto mueve realmente un pulso la estrella en cada eje y dimensiona los pulsos según eso, para que una calibración inexacta ya no haga que el guiado corrija de más o de menos. Empieza con los valores de calibración, cambia solo lo que los dithers muestran con claridad y conserva lo aprendido por perfil y montura hasta la próxima calibración.",
             "CalibrationStepMs": "0 = automático según la óptica, la velocidad de guiado y la declinación.",
             "ReuseCalibration": "Conserva la calibración entre sesiones y la ajusta según la declinación y el lado del pilar.",
@@ -2605,7 +2617,11 @@
             "IncidentRecorder": "Mantiene en memoria los cuadros de guiado de los últimos minutos y los guarda en torno a pérdidas de estrella, guiado descontrolado, problemas de montura y cámara y picos de error, para verlos de nuevo y descargarlos.",
             "IncidentBudgetMb": "Espacio en disco para las incidencias registradas; primero se borran las más antiguas no conservadas. Las incidencias del simulador tienen sus propios 200 MB.",
             "SimulatorScenario": "Montura, cielo y cámara que simula el simulador integrado.",
-            "SimulateFault": "Introduce un fallo en el simulador en marcha: nubes (110 s), un golpe a la montura, una montura que deja de responder (60 s), 3 exposiciones fallidas o correcciones de Dec en la dirección equivocada (120 s)."
+            "SimulateFault": "Introduce un fallo en el simulador en marcha: nubes (110 s), un golpe a la montura, una montura que deja de responder (60 s), 3 exposiciones fallidas o correcciones de Dec en la dirección equivocada (120 s).",
+            "BacklashModel": "Fijo añade el pulso extra en cada inversión de Dec y lo ajusta lentamente. El modelo de holgura sigue el engranaje de Dec dentro de la holgura, retiene las correcciones que con ruido de seeing solo recorrerían la holgura y aprende la holgura de la calibración y del guiado. Solo con el algoritmo Dec Predictive."
+          },
+          "warnings": {
+            "backlashModelNeedsPredictive": "El modelo de holgura solo funciona con el algoritmo Dec Predictive; por ahora se usa el pulso fijo."
           }
         },
         "darks": {
@@ -3416,6 +3432,37 @@
             }
           },
           "unknown": "?"
+        },
+        "backlash": {
+          "title": "Holgura en Dec – modelo de holgura",
+          "help": "El modelo de holgura sigue dónde está el engranaje de Dec dentro de la holgura de los engranajes y aprende el tamaño y la forma de esa holgura a partir de la calibración y del guiado. Retiene las correcciones que solo recorrerían la holgura mientras el error es solo ruido de seeing, y alarga una corrección necesaria con la holgura que aún queda. Solo funciona con el algoritmo Dec Predictive.",
+          "fullReversal": "Holgura aprendida (inversión completa)",
+          "shape": "Forma de la holgura",
+          "fromCalibration": "medida en la calibración",
+          "play": "Engranaje en la holgura",
+          "northShort": "N",
+          "southShort": "S",
+          "slackNorth": "Norte: quedan {value}",
+          "slackSouth": "Sur: quedan {value}",
+          "positionUnknown": "La posición del engranaje en la holgura aún no se conoce.",
+          "gears": {
+            "North": "apoyado en el lado norte",
+            "South": "apoyado en el lado sur",
+            "Floating": "flotando en la holgura",
+            "Unknown": "desconocida"
+          },
+          "shapes": {
+            "None": "sin holgura",
+            "Hard": "dura",
+            "Medium": "media",
+            "Soft": "suave",
+            "Calibrated": "como en la calibración"
+          },
+          "reversals": "Inversiones",
+          "heldCorrections": "Correcciones retenidas",
+          "learnedTakeUps": "Recorridos aprendidos",
+          "lastCompensation": "Última compensación",
+          "heldExplanation": "Las correcciones retenidas solo habrían recorrido la holgura mientras el error era ruido. Los contadores corren desde que se conectó el guiado."
         }
       }
     },

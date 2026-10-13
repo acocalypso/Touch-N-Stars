@@ -1969,6 +1969,13 @@
             "Both": "ambdós",
             "North": "només N",
             "South": "només S"
+          },
+          "backlashChip": "Joc {play}",
+          "backlashGear": {
+            "North": "engranatge N",
+            "South": "engranatge S",
+            "Floating": "engranatge flotant",
+            "Unknown": "engranatge ?"
           }
         },
         "controls": {
@@ -2518,6 +2525,10 @@
               "South": "Només Sud",
               "Off": "Desactivat – només RA",
               "Drift": "Drift – segueix la deriva (una direcció)"
+            },
+            "BacklashModel": {
+              "Fixed": "Fix (com a PHD2)",
+              "PlayModel": "Model de joc"
             }
           },
           "labels": {
@@ -2582,7 +2593,8 @@
             "IncidentRecorder": "Enregistra les incidències",
             "IncidentBudgetMb": "Quota de disc per a incidències",
             "SimulatorScenario": "Escenari del simulador",
-            "SimulateFault": "Simula una fallada"
+            "SimulateFault": "Simula una fallada",
+            "BacklashModel": "Model del joc en Dec"
           },
           "descriptions": {
             "GuideSource": "D'on vénen les imatges de guiatge. Càmera de guiatge: la càmera de la ranura de càmera de guiatge de l'equip. Simulador: una simulació integrada de muntura, cel i càmera, per provar el guiatge sense maquinari o de dia.",
@@ -2627,7 +2639,7 @@
             "MinPulseMs": "Els polsos de guiatge més curts s'arrodoneixen a 0 o a aquesta durada: algunes muntures gestionen malament els polsos molt curts. 0 = qualsevol durada.",
             "SimultaneousPulses": "Envia els polsos RA i Dec d'una imatge alhora en lloc d'un després de l'altre, cosa que escurça el cicle de guiatge. Només amb muntures que temporitzen els dos eixos per separat (el controlador OnStepX natiu de pins); les altres muntures continuen un després de l'altre.",
             "BacklashCompensation": "Afegeix un pols extra quan Dec inverteix la direcció, per absorbir el joc dels engranatges Dec. Útil amb backlash Dec apreciable; deixa-ho desactivat si Dec guia bé. El mode de guiatge Dec Drift evita del tot les inversions.",
-            "BacklashPulseMs": "Durada del pols extra en una inversió de Dec. A partir d'aquí, el guiatge ajusta el pols automàticament entre 20 ms i 1,5 × aquest valor, segons com respon l'estrella.",
+            "BacklashPulseMs": "Durada del pols extra en una inversió de Dec. A partir d'aquí, el guiatge ajusta el pols automàticament entre 20 ms i 1,5 × aquest valor, segons com respon l'estrella. Amb el model de joc, el valor només és la primera estimació del joc, que després el model aprèn.",
             "PulseModel": "Aprèn dels dithers quant mou realment un pols l'estrella en cada eix i dimensiona els polsos en conseqüència, perquè una calibració inexacta ja no faci que el guiatge corregeixi de més o de menys. Comença amb els valors de calibració, només canvia el que els dithers mostren clarament i conserva el que ha après per perfil i muntura fins a la propera calibració.",
             "CalibrationStepMs": "0 = automàtic segons l'òptica, la velocitat de guiatge i la declinació.",
             "ReuseCalibration": "Conserva el calibratge entre sessions i l'ajusta segons la declinació i el costat del pilar.",
@@ -2646,7 +2658,11 @@
             "IncidentRecorder": "Conserva a la memòria els fotogrames de guiatge dels últims minuts i els desa al voltant de pèrdues d'estrella, guiatge descontrolat, problemes de muntura i càmera i pics d'error, per tornar-los a veure i descarregar-los.",
             "IncidentBudgetMb": "Espai de disc per a les incidències enregistrades; primer s'esborren les més antigues que no s'han conservat. Les incidències del simulador tenen els seus propis 200 MB.",
             "SimulatorScenario": "Muntura, cel i càmera que simula el simulador integrat.",
-            "SimulateFault": "Injecta una fallada al simulador en marxa: núvols (110 s), un cop a la muntura, una muntura que deixa de respondre (60 s), 3 exposicions fallides o correccions de Dec en la direcció equivocada (120 s)."
+            "SimulateFault": "Injecta una fallada al simulador en marxa: núvols (110 s), un cop a la muntura, una muntura que deixa de respondre (60 s), 3 exposicions fallides o correccions de Dec en la direcció equivocada (120 s).",
+            "BacklashModel": "Fix afegeix el pols extra a cada inversió de Dec i l'ajusta lentament. El model de joc segueix l'engranatge de Dec dins del joc, reté les correccions que amb soroll de seeing només recorrerien el joc i aprèn el joc a partir del calibratge i del guiatge. Només amb l'algorisme Dec Predictive."
+          },
+          "warnings": {
+            "backlashModelNeedsPredictive": "El model de joc només funciona amb l'algorisme Dec Predictive; ara s'utilitza el pols fix."
           }
         },
         "darks": {
@@ -3457,6 +3473,37 @@
             }
           },
           "unknown": "?"
+        },
+        "backlash": {
+          "title": "Joc en Dec – model de joc",
+          "help": "El model de joc segueix on es troba l'engranatge de Dec dins del joc dels engranatges i aprèn la mida i la forma d'aquest joc a partir del calibratge i del guiatge. Reté les correccions que només recorrerien el joc mentre l'error és només soroll de seeing, i allarga una correcció necessària amb el joc que encara queda. Només funciona amb l'algorisme Dec Predictive.",
+          "fullReversal": "Joc après (inversió completa)",
+          "shape": "Forma del joc",
+          "fromCalibration": "mesurat en el calibratge",
+          "play": "Engranatge dins del joc",
+          "northShort": "N",
+          "southShort": "S",
+          "slackNorth": "Nord: queden {value}",
+          "slackSouth": "Sud: queden {value}",
+          "positionUnknown": "La posició de l'engranatge dins del joc encara no es coneix.",
+          "gears": {
+            "North": "recolzat al costat nord",
+            "South": "recolzat al costat sud",
+            "Floating": "flotant dins del joc",
+            "Unknown": "desconeguda"
+          },
+          "shapes": {
+            "None": "sense joc",
+            "Hard": "dur",
+            "Medium": "mitjà",
+            "Soft": "suau",
+            "Calibrated": "com al calibratge"
+          },
+          "reversals": "Inversions",
+          "heldCorrections": "Correccions retingudes",
+          "learnedTakeUps": "Recorreguts apresos",
+          "lastCompensation": "Última compensació",
+          "heldExplanation": "Les correccions retingudes només haurien recorregut el joc mentre l'error era soroll. Els comptadors corren des que el guiatge es va connectar."
         }
       }
     },

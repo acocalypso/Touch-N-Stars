@@ -1928,6 +1928,13 @@
             "Both": "oba",
             "North": "tylko N",
             "South": "tylko S"
+          },
+          "backlashChip": "Luz {play}",
+          "backlashGear": {
+            "North": "koło N",
+            "South": "koło S",
+            "Floating": "koło swobodne",
+            "Unknown": "koło ?"
           }
         },
         "controls": {
@@ -2477,6 +2484,10 @@
               "South": "Tylko Południe",
               "Off": "Wyłączony – tylko RA",
               "Drift": "Drift – podąża za dryfem (jeden kierunek)"
+            },
+            "BacklashModel": {
+              "Fixed": "Stały (jak w PHD2)",
+              "PlayModel": "Model luzu"
             }
           },
           "labels": {
@@ -2541,7 +2552,8 @@
             "IncidentRecorder": "Rejestruj incydenty",
             "IncidentBudgetMb": "Limit miejsca na incydenty",
             "SimulatorScenario": "Scenariusz symulatora",
-            "SimulateFault": "Symuluj usterkę"
+            "SimulateFault": "Symuluj usterkę",
+            "BacklashModel": "Model luzu Dec"
           },
           "descriptions": {
             "GuideSource": "Skąd pochodzą klatki guidingu. Kamera guidingowa: kamera w gnieździe kamery guidingowej sprzętu. Symulator: wbudowana symulacja montażu, nieba i kamery, aby wypróbować guider bez sprzętu lub w dzień.",
@@ -2586,7 +2598,7 @@
             "MinPulseMs": "Krótsze impulsy prowadzenia są zaokrąglane do 0 lub do tej długości: niektóre montaże źle obsługują bardzo krótkie impulsy. 0 = dowolna długość.",
             "SimultaneousPulses": "Wysyła impulsy RA i Dec jednej klatki jednocześnie zamiast po kolei, co skraca cykl guidingu. Tylko z montażami, które taktują obie osie osobno (natywny sterownik OnStepX w pins); inne montaże nadal pulsują po kolei.",
             "BacklashCompensation": "Dodaje dodatkowy impuls, gdy Dec zmienia kierunek, aby wybrać luz w przekładni Dec. Pomocne przy wyraźnym luzie Dec; zostaw wyłączone, jeśli Dec prowadzi czysto. Tryb guidingu Dec Drift całkowicie unika zmian kierunku.",
-            "BacklashPulseMs": "Długość dodatkowego impulsu przy zmianie kierunku Dec. Wychodząc od niej, guider sam dostosowuje impuls między 20 ms a 1,5 × tej wartości, na podstawie reakcji gwiazdy.",
+            "BacklashPulseMs": "Długość dodatkowego impulsu przy zmianie kierunku Dec. Wychodząc od niej, guider sam dostosowuje impuls między 20 ms a 1,5 × tej wartości, na podstawie reakcji gwiazdy. Z modelem luzu wartość jest tylko pierwszym oszacowaniem luzu, którego model potem sam się uczy.",
             "PulseModel": "Uczy się z ditherów, jak daleko impuls guidingu naprawdę przesuwa gwiazdę na każdej osi, i dobiera według tego impulsy, aby niedokładna kalibracja nie powodowała już nad- ani niedokorekty. Zaczyna od kalibracji, zmienia tylko to, co dithery wyraźnie pokazują, i zachowuje wyuczone wartości dla profilu i montażu do następnej kalibracji.",
             "CalibrationStepMs": "0 = automatycznie na podstawie optyki, prędkości prowadzenia i deklinacji.",
             "ReuseCalibration": "Zachowuje kalibrację między sesjami i dostosowuje ją do deklinacji i strony kolumny.",
@@ -2605,7 +2617,11 @@
             "IncidentRecorder": "Trzyma w pamięci klatki prowadzenia z ostatnich minut i zapisuje je w chwilach utraty gwiazdy, ucieczek, problemów z montażem i kamerą oraz skoków błędu, do odtworzenia i pobrania.",
             "IncidentBudgetMb": "Miejsce na dysku na zapisane incydenty; najpierw usuwane są najstarsze niezachowane. Incydenty symulatora mają własne 200 MB.",
             "SimulatorScenario": "Montaż, niebo i kamera symulowane przez wbudowany symulator.",
-            "SimulateFault": "Wprowadza usterkę do działającego symulatora: chmury (110 s), potrącenie montażu, montaż, który przestaje odpowiadać (60 s), 3 nieudane ekspozycje lub korekty Dec w złą stronę (120 s)."
+            "SimulateFault": "Wprowadza usterkę do działającego symulatora: chmury (110 s), potrącenie montażu, montaż, który przestaje odpowiadać (60 s), 3 nieudane ekspozycje lub korekty Dec w złą stronę (120 s).",
+            "BacklashModel": "Stały dodaje dodatkowy impuls przy każdej zmianie kierunku Dec i powoli go dostosowuje. Model luzu śledzi koło zębate Dec w luzie, wstrzymuje korekty, które przy szumie seeingu tylko kasowałyby luz, i uczy się luzu z kalibracji i guidingu. Tylko z algorytmem Dec Predictive."
+          },
+          "warnings": {
+            "backlashModelNeedsPredictive": "Model luzu działa tylko z algorytmem Dec Predictive; obecnie używany jest stały impuls."
           }
         },
         "darks": {
@@ -3416,6 +3432,37 @@
             }
           },
           "unknown": "?"
+        },
+        "backlash": {
+          "title": "Luz Dec – model luzu",
+          "help": "Model luzu śledzi, gdzie koło zębate Dec znajduje się w luzie przekładni, i uczy się wielkości oraz kształtu tego luzu z kalibracji i guidingu. Wstrzymuje korekty, które tylko kasowałyby luz, dopóki błąd jest jedynie szumem seeingu, a potrzebną korektę wydłuża o pozostały luz. Działa tylko z algorytmem Dec Predictive.",
+          "fullReversal": "Wyuczony luz (pełna zmiana kierunku)",
+          "shape": "Kształt luzu",
+          "fromCalibration": "zmierzony podczas kalibracji",
+          "play": "Koło w luzie",
+          "northShort": "N",
+          "southShort": "S",
+          "slackNorth": "Północ: zostało {value}",
+          "slackSouth": "Południe: zostało {value}",
+          "positionUnknown": "Położenie koła w luzie nie jest jeszcze znane.",
+          "gears": {
+            "North": "oparte o stronę północną",
+            "South": "oparte o stronę południową",
+            "Floating": "swobodne w luzie",
+            "Unknown": "nieznane"
+          },
+          "shapes": {
+            "None": "brak luzu",
+            "Hard": "twardy",
+            "Medium": "średni",
+            "Soft": "miękki",
+            "Calibrated": "jak w kalibracji"
+          },
+          "reversals": "Zmiany kierunku",
+          "heldCorrections": "Wstrzymane korekty",
+          "learnedTakeUps": "Wyuczone kasowania luzu",
+          "lastCompensation": "Ostatni dodatek",
+          "heldExplanation": "Wstrzymane korekty tylko przejechałyby przez luz, dopóki błąd był szumem. Liczniki działają od połączenia guidera."
         }
       }
     },

@@ -1928,6 +1928,13 @@
             "Both": "ambas",
             "North": "só N",
             "South": "só S"
+          },
+          "backlashChip": "Folga {play}",
+          "backlashGear": {
+            "North": "engrenagem N",
+            "South": "engrenagem S",
+            "Floating": "engrenagem a flutuar",
+            "Unknown": "engrenagem ?"
           }
         },
         "controls": {
@@ -2477,6 +2484,10 @@
               "South": "Só Sul",
               "Off": "Desligado – só RA",
               "Drift": "Drift – segue a deriva (uma direção)"
+            },
+            "BacklashModel": {
+              "Fixed": "Fixo (como no PHD2)",
+              "PlayModel": "Modelo de folga"
             }
           },
           "labels": {
@@ -2541,7 +2552,8 @@
             "IncidentRecorder": "Registar incidentes",
             "IncidentBudgetMb": "Espaço em disco para incidentes",
             "SimulatorScenario": "Cenário do simulador",
-            "SimulateFault": "Simular uma falha"
+            "SimulateFault": "Simular uma falha",
+            "BacklashModel": "Modelo de folga em Dec"
           },
           "descriptions": {
             "GuideSource": "De onde vêm as imagens de guiagem. Câmara de guiagem: a câmara na posição de câmara de guiagem do equipamento. Simulador: uma simulação integrada de montagem, céu e câmara, para experimentar a guiagem sem hardware ou de dia.",
@@ -2586,7 +2598,7 @@
             "MinPulseMs": "Pulsos de guiagem mais curtos são arredondados para 0 ou para esta duração: algumas montagens lidam mal com pulsos muito curtos. 0 = qualquer duração.",
             "SimultaneousPulses": "Envia os pulsos RA e Dec de uma imagem ao mesmo tempo em vez de um após o outro, o que encurta o ciclo de guiagem. Apenas com montagens que temporizam os dois eixos em separado (o driver OnStepX nativo do pins); as outras montagens continuam um após o outro.",
             "BacklashCompensation": "Acrescenta um pulso extra quando Dec inverte a direção, para absorver a folga das engrenagens Dec. Útil com backlash Dec notório; deixe desativado se Dec guiar bem. O modo de guiagem Dec Drift evita totalmente as inversões.",
-            "BacklashPulseMs": "Duração do pulso extra numa inversão de Dec. A partir daí, a guiagem ajusta o pulso automaticamente entre 20 ms e 1,5 × este valor, conforme a resposta da estrela.",
+            "BacklashPulseMs": "Duração do pulso extra numa inversão de Dec. A partir daí, a guiagem ajusta o pulso automaticamente entre 20 ms e 1,5 × este valor, conforme a resposta da estrela. Com o modelo de folga, o valor é apenas a primeira estimativa da folga, que o modelo depois aprende.",
             "PulseModel": "Aprende com os dithers quanto um pulso de guiagem move realmente a estrela em cada eixo e dimensiona os pulsos de acordo, para que uma calibração imprecisa já não faça a guiagem corrigir demais ou de menos. Começa com os valores da calibração, muda apenas o que os dithers mostram claramente e guarda o que aprendeu por perfil e montagem até à próxima calibração.",
             "CalibrationStepMs": "0 = automático a partir da ótica, da taxa de guiagem e da declinação.",
             "ReuseCalibration": "Mantém a calibração entre sessões e ajusta-a à declinação e ao lado do pilar.",
@@ -2605,7 +2617,11 @@
             "IncidentRecorder": "Mantém em memória as imagens de guiagem dos últimos minutos e guarda-as à volta de perdas de estrela, guiagem descontrolada, problemas da montagem e da câmara e picos de erro, para reprodução e transferência.",
             "IncidentBudgetMb": "Espaço em disco para os incidentes registados; os mais antigos que não estejam mantidos são eliminados primeiro. Os incidentes do simulador têm os seus próprios 200 MB.",
             "SimulatorScenario": "Montagem, céu e câmara que o simulador integrado simula.",
-            "SimulateFault": "Injeta uma falha no simulador em execução: nuvens (110 s), um toque na montagem, uma montagem que deixa de responder (60 s), 3 exposições falhadas ou correções de Dec no sentido errado (120 s)."
+            "SimulateFault": "Injeta uma falha no simulador em execução: nuvens (110 s), um toque na montagem, uma montagem que deixa de responder (60 s), 3 exposições falhadas ou correções de Dec no sentido errado (120 s).",
+            "BacklashModel": "Fixo acrescenta o pulso extra em cada inversão de Dec e ajusta-o lentamente. O modelo de folga segue a engrenagem de Dec dentro da folga, retém as correções que, com ruído de seeing, apenas percorreriam a folga, e aprende a folga a partir da calibração e da guiagem. Só com o algoritmo Dec Predictive."
+          },
+          "warnings": {
+            "backlashModelNeedsPredictive": "O modelo de folga só funciona com o algoritmo Dec Predictive; por agora é usado o pulso fixo."
           }
         },
         "darks": {
@@ -3416,6 +3432,37 @@
             }
           },
           "unknown": "?"
+        },
+        "backlash": {
+          "title": "Folga em Dec – modelo de folga",
+          "help": "O modelo de folga segue onde está a engrenagem de Dec dentro da folga das engrenagens e aprende o tamanho e a forma dessa folga a partir da calibração e da guiagem. Retém as correções que apenas percorreriam a folga enquanto o erro é só ruído de seeing, e prolonga uma correção necessária com a folga que ainda resta. Só funciona com o algoritmo Dec Predictive.",
+          "fullReversal": "Folga aprendida (inversão completa)",
+          "shape": "Forma da folga",
+          "fromCalibration": "medida na calibração",
+          "play": "Engrenagem na folga",
+          "northShort": "N",
+          "southShort": "S",
+          "slackNorth": "Norte: restam {value}",
+          "slackSouth": "Sul: restam {value}",
+          "positionUnknown": "A posição da engrenagem na folga ainda não é conhecida.",
+          "gears": {
+            "North": "encostada ao lado norte",
+            "South": "encostada ao lado sul",
+            "Floating": "a flutuar na folga",
+            "Unknown": "desconhecida"
+          },
+          "shapes": {
+            "None": "sem folga",
+            "Hard": "dura",
+            "Medium": "média",
+            "Soft": "suave",
+            "Calibrated": "como calibrada"
+          },
+          "reversals": "Inversões",
+          "heldCorrections": "Correções retidas",
+          "learnedTakeUps": "Percursos aprendidos",
+          "lastCompensation": "Última compensação",
+          "heldExplanation": "As correções retidas apenas teriam percorrido a folga enquanto o erro era ruído. Os contadores contam desde que a guiagem foi ligada."
         }
       }
     },

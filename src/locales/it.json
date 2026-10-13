@@ -1928,6 +1928,13 @@
             "Both": "entrambe",
             "North": "solo N",
             "South": "solo S"
+          },
+          "backlashChip": "Gioco {play}",
+          "backlashGear": {
+            "North": "ingranaggio N",
+            "South": "ingranaggio S",
+            "Floating": "ingranaggio flottante",
+            "Unknown": "ingranaggio ?"
           }
         },
         "controls": {
@@ -2477,6 +2484,10 @@
               "South": "Solo Sud",
               "Off": "Spento – solo RA",
               "Drift": "Drift – segue la deriva (una direzione)"
+            },
+            "BacklashModel": {
+              "Fixed": "Fisso (come PHD2)",
+              "PlayModel": "Modello del gioco"
             }
           },
           "labels": {
@@ -2541,7 +2552,8 @@
             "IncidentRecorder": "Registra anomalie",
             "IncidentBudgetMb": "Spazio disco anomalie",
             "SimulatorScenario": "Scenario simulatore",
-            "SimulateFault": "Simula un guasto"
+            "SimulateFault": "Simula un guasto",
+            "BacklashModel": "Modello backlash Dec"
           },
           "descriptions": {
             "GuideSource": "Da dove arrivano i frame di guida. Camera di guida: la camera nello slot camera di guida dell'attrezzatura. Simulatore: una simulazione integrata di montatura, cielo e camera, per provare la guida senza hardware o di giorno.",
@@ -2586,7 +2598,7 @@
             "MinPulseMs": "Gli impulsi di guida più brevi vengono arrotondati a 0 o a questa durata: alcune montature gestiscono male gli impulsi molto brevi. 0 = qualsiasi durata.",
             "SimultaneousPulses": "Invia gli impulsi RA e Dec di un frame contemporaneamente invece che uno dopo l'altro, accorciando il ciclo di guida. Solo con montature che temporizzano i due assi separatamente (il driver OnStepX nativo di pins); le altre montature continuano uno dopo l'altro.",
             "BacklashCompensation": "Aggiunge un impulso extra quando Dec inverte la direzione, per recuperare il gioco degli ingranaggi Dec. Utile con un backlash Dec evidente; lascialo disattivato se Dec guida pulita. La modalità di guida Dec Drift evita del tutto le inversioni.",
-            "BacklashPulseMs": "Durata dell'impulso extra a un'inversione di Dec. Partendo da questo valore, la guida regola automaticamente l'impulso tra 20 ms e 1,5 × questo valore, in base a come risponde la stella.",
+            "BacklashPulseMs": "Durata dell'impulso extra a un'inversione di Dec. Partendo da questo valore, la guida regola automaticamente l'impulso tra 20 ms e 1,5 × questo valore, in base a come risponde la stella. Con il modello del gioco, il valore è solo la prima stima del gioco, che poi il modello impara.",
             "PulseModel": "Impara dai dither quanto un impulso di guida sposta davvero la stella su ciascun asse e dimensiona gli impulsi di conseguenza, così una calibrazione imprecisa non fa più correggere la guida troppo o troppo poco. Parte dai valori di calibrazione, cambia solo ciò che i dither mostrano chiaramente e conserva quanto appreso per profilo e montatura fino alla calibrazione successiva.",
             "CalibrationStepMs": "0 = automatico da ottica, velocità di guida e declinazione.",
             "ReuseCalibration": "Mantiene la calibrazione tra una sessione e l'altra e la adatta a declinazione e lato piedistallo.",
@@ -2605,7 +2617,11 @@
             "IncidentRecorder": "Tiene in memoria gli ultimi minuti di frame di guida e li salva attorno a perdite della stella, guida fuori controllo, problemi di montatura e camera e picchi di errore, per rivederli e scaricarli.",
             "IncidentBudgetMb": "Spazio su disco per le anomalie registrate; le più vecchie non conservate vengono eliminate per prime. Le anomalie del simulatore hanno 200 MB propri.",
             "SimulatorScenario": "Montatura, cielo e camera simulati dal simulatore integrato.",
-            "SimulateFault": "Inserisce un guasto nel simulatore in esecuzione: nuvole (110 s), un urto alla montatura, una montatura che non risponde più (60 s), 3 esposizioni fallite o correzioni Dec nella direzione sbagliata (120 s)."
+            "SimulateFault": "Inserisce un guasto nel simulatore in esecuzione: nuvole (110 s), un urto alla montatura, una montatura che non risponde più (60 s), 3 esposizioni fallite o correzioni Dec nella direzione sbagliata (120 s).",
+            "BacklashModel": "Fisso aggiunge l'impulso extra a ogni inversione di Dec e lo regola lentamente. Il modello del gioco segue l'ingranaggio Dec nel gioco, trattiene le correzioni che con il rumore del seeing recupererebbero solo il gioco e impara il gioco da calibrazione e guida. Solo con l'algoritmo Dec Predictive."
+          },
+          "warnings": {
+            "backlashModelNeedsPredictive": "Il modello del gioco funziona solo con l'algoritmo Dec Predictive; per ora viene usato l'impulso fisso."
           }
         },
         "darks": {
@@ -3416,6 +3432,37 @@
             }
           },
           "unknown": "?"
+        },
+        "backlash": {
+          "title": "Backlash Dec – modello del gioco",
+          "help": "Il modello del gioco segue dove si trova l'ingranaggio Dec nel gioco degli ingranaggi e impara dimensione e forma di questo gioco da calibrazione e guida. Trattiene le correzioni che recupererebbero solo il gioco finché l'errore è solo rumore del seeing, e allunga una correzione necessaria del gioco rimanente. Funziona solo con l'algoritmo Dec Predictive.",
+          "fullReversal": "Gioco appreso (inversione completa)",
+          "shape": "Forma del gioco",
+          "fromCalibration": "misurata in calibrazione",
+          "play": "Ingranaggio nel gioco",
+          "northShort": "N",
+          "southShort": "S",
+          "slackNorth": "Nord: restano {value}",
+          "slackSouth": "Sud: restano {value}",
+          "positionUnknown": "La posizione dell'ingranaggio nel gioco non è ancora nota.",
+          "gears": {
+            "North": "in appoggio sul lato nord",
+            "South": "in appoggio sul lato sud",
+            "Floating": "flottante nel gioco",
+            "Unknown": "sconosciuta"
+          },
+          "shapes": {
+            "None": "nessun gioco",
+            "Hard": "duro",
+            "Medium": "medio",
+            "Soft": "morbido",
+            "Calibrated": "come in calibrazione"
+          },
+          "reversals": "Inversioni",
+          "heldCorrections": "Correzioni trattenute",
+          "learnedTakeUps": "Recuperi appresi",
+          "lastCompensation": "Ultima compensazione",
+          "heldExplanation": "Le correzioni trattenute avrebbero solo attraversato il gioco finché l'errore era rumore. I contatori partono dalla connessione della guida."
         }
       }
     },

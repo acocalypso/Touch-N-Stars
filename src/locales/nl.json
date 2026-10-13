@@ -1928,6 +1928,13 @@
             "Both": "beide",
             "North": "alleen N",
             "South": "alleen Z"
+          },
+          "backlashChip": "Speling {play}",
+          "backlashGear": {
+            "North": "tandwiel N",
+            "South": "tandwiel Z",
+            "Floating": "tandwiel zwevend",
+            "Unknown": "tandwiel ?"
           }
         },
         "controls": {
@@ -2477,6 +2484,10 @@
               "South": "Alleen Zuid",
               "Off": "Uit – alleen RA",
               "Drift": "Drift – volgt de drift (één richting)"
+            },
+            "BacklashModel": {
+              "Fixed": "Vast (zoals PHD2)",
+              "PlayModel": "Spelingsmodel"
             }
           },
           "labels": {
@@ -2541,7 +2552,8 @@
             "IncidentRecorder": "Incidenten opnemen",
             "IncidentBudgetMb": "Schijfbudget incidenten",
             "SimulatorScenario": "Simulatorscenario",
-            "SimulateFault": "Storing simuleren"
+            "SimulateFault": "Storing simuleren",
+            "BacklashModel": "Dec-spelingsmodel"
           },
           "descriptions": {
             "GuideSource": "Waar de guideframes vandaan komen. Guidecamera: de camera in het guidecameraslot van de apparatuur. Simulator: een ingebouwde simulatie van montering, hemel en camera, om de guider zonder hardware of bij daglicht te proberen.",
@@ -2586,7 +2598,7 @@
             "MinPulseMs": "Kortere guidepulsen worden afgerond op 0 of op deze lengte: sommige monteringen gaan slecht om met heel korte pulsen. 0 = elke lengte.",
             "SimultaneousPulses": "Stuurt de RA- en Dec-pulsen van een frame tegelijk in plaats van na elkaar, wat de guidecyclus verkort. Alleen bij monteringen die beide assen apart aansturen (de native OnStepX-driver van pins); andere monteringen blijven na elkaar pulsen.",
             "BacklashCompensation": "Voegt een extra puls toe wanneer Dec van richting wisselt, om de speling in de Dec-tandwielen op te vangen. Nuttig bij merkbare Dec-backlash; laat het uit als Dec netjes guidet. De Dec-guidemodus Drift vermijdt omkeringen helemaal.",
-            "BacklashPulseMs": "Lengte van de extra puls bij een Dec-omkering. Vanaf deze waarde past de guider de puls automatisch aan tussen 20 ms en 1,5 × deze waarde, op basis van hoe de ster reageert.",
+            "BacklashPulseMs": "Lengte van de extra puls bij een Dec-omkering. Vanaf deze waarde past de guider de puls automatisch aan tussen 20 ms en 1,5 × deze waarde, op basis van hoe de ster reageert. Met het spelingsmodel is de waarde alleen de eerste schatting van de speling, die het model daarna zelf leert.",
             "PulseModel": "Leert uit de dithers hoe ver een guidepuls de ster op elke as echt verplaatst, en stemt de pulsen daarop af, zodat een afwijkende kalibratie niet meer tot over- of ondercorrectie leidt. Het begint met de kalibratie, verandert alleen wat de dithers duidelijk laten zien, en bewaart wat het geleerd heeft per profiel en montering tot de volgende kalibratie.",
             "CalibrationStepMs": "0 = automatisch uit optiek, guidesnelheid en declinatie.",
             "ReuseCalibration": "Bewaart de kalibratie tussen sessies en past haar aan voor declinatie en zijde van de montering.",
@@ -2605,7 +2617,11 @@
             "IncidentRecorder": "Houdt de guidebeelden van de laatste minuten in het geheugen en slaat ze op rond sterverlies, weglopen, problemen met montering en camera en foutpieken, om af te spelen en te downloaden.",
             "IncidentBudgetMb": "Schijfruimte voor opgenomen incidenten; de oudste niet-bewaarde worden het eerst verwijderd. Simulatorincidenten hebben hun eigen 200 MB.",
             "SimulatorScenario": "Montering, hemel en camera die de ingebouwde simulator nabootst.",
-            "SimulateFault": "Brengt een storing aan in de lopende simulator: wolken (110 s), een stoot tegen de montering, een montering die niet meer reageert (60 s), 3 mislukte belichtingen of Dec-correcties in de verkeerde richting (120 s)."
+            "SimulateFault": "Brengt een storing aan in de lopende simulator: wolken (110 s), een stoot tegen de montering, een montering die niet meer reageert (60 s), 3 mislukte belichtingen of Dec-correcties in de verkeerde richting (120 s).",
+            "BacklashModel": "Vast voegt bij elke Dec-omkering de extra puls toe en past die langzaam aan. Het spelingsmodel volgt het Dec-tandwiel binnen de speling, houdt correcties tegen die bij seeingruis alleen speling zouden opnemen, en leert de speling uit kalibratie en guiding. Alleen met het Dec-algoritme Predictive."
+          },
+          "warnings": {
+            "backlashModelNeedsPredictive": "Het spelingsmodel werkt alleen met het Dec-algoritme Predictive; nu wordt de vaste puls gebruikt."
           }
         },
         "darks": {
@@ -3416,6 +3432,37 @@
             }
           },
           "unknown": "?"
+        },
+        "backlash": {
+          "title": "Dec-speling – spelingsmodel",
+          "help": "Het spelingsmodel volgt waar het Dec-tandwiel zich in de speling van de tandwielen bevindt en leert de grootte en vorm van die speling uit kalibratie en guiding. Het houdt correcties tegen die alleen speling zouden opnemen zolang de fout louter seeingruis is, en verlengt een nodige correctie met de resterende speling. Het werkt alleen met het Dec-algoritme Predictive.",
+          "fullReversal": "Geleerde speling (volledige omkering)",
+          "shape": "Vorm van de speling",
+          "fromCalibration": "gemeten bij de kalibratie",
+          "play": "Tandwiel in de speling",
+          "northShort": "N",
+          "southShort": "Z",
+          "slackNorth": "Noord: nog {value}",
+          "slackSouth": "Zuid: nog {value}",
+          "positionUnknown": "De positie van het tandwiel in de speling is nog onbekend.",
+          "gears": {
+            "North": "ligt aan de noordkant aan",
+            "South": "ligt aan de zuidkant aan",
+            "Floating": "zweeft in de speling",
+            "Unknown": "onbekend"
+          },
+          "shapes": {
+            "None": "geen speling",
+            "Hard": "hard",
+            "Medium": "gemiddeld",
+            "Soft": "zacht",
+            "Calibrated": "zoals gekalibreerd"
+          },
+          "reversals": "Omkeringen",
+          "heldCorrections": "Tegengehouden correcties",
+          "learnedTakeUps": "Geleerde spelingsopnames",
+          "lastCompensation": "Laatste toeslag",
+          "heldExplanation": "Tegengehouden correcties zouden alleen door de speling zijn gegaan zolang de fout ruis was. De tellers lopen sinds de guider verbonden is."
         }
       }
     },

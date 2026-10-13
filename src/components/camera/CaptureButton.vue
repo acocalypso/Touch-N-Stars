@@ -1,10 +1,11 @@
 <template>
-  <!-- Capture & Cancel Buttons -->
   <div
     class="fixed flex items-center justify-center z-50 bg-ground/70 backdrop-blur-md p-3 rounded-card border border-line shadow-lg shadow-black transition-all duration-300"
     :class="[containerClasses, gapClasses]"
     :style="containerStyle"
   >
+    <!-- Capture & Cancel Buttons. Kept inside the root: a comment before it turns the
+         component into a fragment in dev, and CameraPage measures its $el. -->
     <!-- Close dropdown when clicking outside -->
     <div v-if="showDropdown" class="dropdown-backdrop" @click="showDropdown = false"></div>
     <!-- Capture / Cancel Combined Button -->

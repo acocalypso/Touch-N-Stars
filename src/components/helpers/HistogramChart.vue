@@ -508,8 +508,10 @@ onBeforeUnmount(() => {
 
 // ----------------------------------------------------------------- dragging
 
-const pointerToNormalised = (clientX) => {
-  const rect = wrapperElement.value.getBoundingClientRect();
+// The handlers sit on the wrapper itself, so event.currentTarget is used instead of the
+// template ref, which can briefly be null while the component is re-mounted.
+const pointerToNormalised = (element, clientX) => {
+  const rect = element.getBoundingClientRect();
   const fraction = Math.min(1, Math.max(0, (clientX - rect.left) / rect.width));
   const { lo, hi } = view.value;
   return fromAdu(lo + fraction * (hi - lo));
@@ -517,7 +519,7 @@ const pointerToNormalised = (clientX) => {
 
 const onPointerDown = (event) => {
   if (!ready.value || (event.pointerType === 'mouse' && event.button !== 0)) return;
-  const rect = wrapperElement.value.getBoundingClientRect();
+  const rect = event.currentTarget.getBoundingClientRect();
   const x = event.clientX - rect.left;
   let best = null;
   let bestDistance = HIT_RADIUS_PX;
@@ -535,13 +537,13 @@ const onPointerDown = (event) => {
     });
   if (!best) return;
   dragging.value = best;
-  wrapperElement.value.setPointerCapture?.(event.pointerId);
+  event.currentTarget.setPointerCapture?.(event.pointerId);
   event.preventDefault();
 };
 
 const onPointerMove = (event) => {
   if (!dragging.value) return;
-  const value = pointerToNormalised(event.clientX);
+  const value = pointerToNormalised(event.currentTarget, event.clientX);
   const current = { ...editLevels.value };
   const minGap = 1 / maxAdu(bitDepth.value);
 
@@ -561,7 +563,7 @@ const onPointerMove = (event) => {
 const onPointerUp = (event) => {
   if (!dragging.value) return;
   dragging.value = null;
-  wrapperElement.value?.releasePointerCapture?.(event.pointerId);
+  event.currentTarget.releasePointerCapture?.(event.pointerId);
 };
 
 // ----------------------------------------------------------------- actions

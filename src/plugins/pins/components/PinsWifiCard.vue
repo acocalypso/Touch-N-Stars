@@ -60,36 +60,30 @@
         </p>
       </div>
 
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      <!-- Same segmented control as the other mode/tab switches in the app (AapaView,
+           TenMicronView): the selected segment is filled with the accent color. -->
+      <div
+        class="grid grid-cols-2 gap-1 rounded-control bg-surface-1 border border-line p-1"
+        role="radiogroup"
+      >
         <button
-          class="rounded-lg border px-4 py-3 text-left transition-colors disabled:opacity-50"
+          v-for="mode in networkModeOptions"
+          :key="mode.value"
+          role="radio"
+          :aria-checked="desiredNetworkMode === mode.value"
+          class="min-h-touch rounded-chip px-2 text-sm font-semibold transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           :class="
-            desiredNetworkMode === 'auto'
-              ? 'border-blue-500 bg-blue-900/30 text-white'
-              : 'border-gray-600 bg-gray-800 text-gray-300 hover:border-gray-500'
+            desiredNetworkMode === mode.value
+              ? 'bg-accent-action text-white'
+              : 'text-content-muted hover:bg-surface-2'
           "
           :disabled="disabled || networkTransitionActive"
-          @click="$emit('set-network-mode', 'auto')"
+          @click="$emit('set-network-mode', mode.value)"
         >
-          <span class="block font-semibold">Automatic fallback</span>
-          <span class="block text-xs text-gray-400 mt-1"
-            >Home Wi-Fi first, hotspot if unavailable</span
-          >
-        </button>
-        <button
-          class="rounded-lg border px-4 py-3 text-left transition-colors disabled:opacity-50"
-          :class="
-            desiredNetworkMode === 'hotspot'
-              ? 'border-amber-500 bg-amber-900/30 text-white'
-              : 'border-gray-600 bg-gray-800 text-gray-300 hover:border-gray-500'
-          "
-          :disabled="disabled || networkTransitionActive"
-          @click="$emit('set-network-mode', 'hotspot')"
-        >
-          <span class="block font-semibold">Field hotspot</span>
-          <span class="block text-xs text-gray-400 mt-1">Stay in AP mode at 10.42.0.1</span>
+          {{ mode.label }}
         </button>
       </div>
+      <p class="text-xs text-content-muted">{{ selectedNetworkModeHint }}</p>
 
       <div class="flex flex-wrap gap-x-4 gap-y-1 text-xs text-gray-400">
         <span>Configured: {{ desiredNetworkMode }}</span>
@@ -831,6 +825,17 @@ const desiredNetworkMode = computed(
 );
 const observedNetworkMode = computed(
   () => props.wifiMode?.observedMode || props.wifiStatus?.observedMode || 'unknown'
+);
+const networkModeOptions = [
+  {
+    value: 'auto',
+    label: 'Automatic fallback',
+    hint: 'Home Wi-Fi first, hotspot if unavailable.',
+  },
+  { value: 'hotspot', label: 'Field hotspot', hint: 'Stay in AP mode at 10.42.0.1.' },
+];
+const selectedNetworkModeHint = computed(
+  () => networkModeOptions.find((mode) => mode.value === desiredNetworkMode.value)?.hint || ''
 );
 const networkTransitionActive = computed(() =>
   ['network-transition', 'probing', 'reconnecting'].includes(props.connectionState.phase)

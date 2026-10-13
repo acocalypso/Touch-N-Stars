@@ -70,8 +70,11 @@ class WorkerEngine {
   }
 
   async init(planes, width, height, bitDepth) {
-    // Classic (non-module) worker - better WKWebView/iOS Safari compatibility.
-    this.worker = new Worker(new URL('@/utils/rawImageWorker.js', import.meta.url));
+    // Classic (non-module) worker - better WKWebView/iOS Safari compatibility. The dev
+    // server serves the worker unbundled with its ES imports, so it needs a module worker.
+    this.worker = import.meta.env.DEV
+      ? new Worker(new URL('@/utils/rawImageWorker.js', import.meta.url), { type: 'module' })
+      : new Worker(new URL('@/utils/rawImageWorker.js', import.meta.url));
     const onError = (e) => {
       const message = e?.message || e?.error?.message || 'Worker load/runtime error';
       console.error('[HistogramStore] worker error:', message, e);

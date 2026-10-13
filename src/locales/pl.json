@@ -2430,6 +2430,7 @@
           "empty": "Brak dostępnych ustawień.",
           "notConnectedHint": "Natywny guider nie jest podłączony. Zmiany są zapisywane w profilu; zmiany kamery obowiązują po następnym połączeniu.",
           "requiresReconnect": "Obowiązuje po ponownym połączeniu",
+          "valueInUse": "W użyciu: {value} {unit}, dostosowane podczas prowadzenia.",
           "range": "{min} – {max}",
           "rangeMin": "min {min}",
           "rangeMax": "maks {max}",

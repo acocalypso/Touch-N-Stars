@@ -2430,6 +2430,7 @@
           "empty": "Geen instellingen beschikbaar.",
           "notConnectedHint": "De native guider is niet verbonden. Wijzigingen worden opgeslagen in het profiel; camerawijzigingen gaan in bij de volgende verbinding.",
           "requiresReconnect": "Geldt na opnieuw verbinden",
+          "valueInUse": "In gebruik: {value} {unit}, aangepast tijdens het guiden.",
           "range": "{min} – {max}",
           "rangeMin": "min {min}",
           "rangeMax": "max {max}",

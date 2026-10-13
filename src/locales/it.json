@@ -2430,6 +2430,7 @@
           "empty": "Nessuna impostazione disponibile.",
           "notConnectedHint": "Il native guider non è connesso. Le modifiche vengono salvate nel profilo; le modifiche alla camera avranno effetto alla prossima connessione.",
           "requiresReconnect": "Applicato dopo la riconnessione",
+          "valueInUse": "In uso: {value} {unit}, regolato durante la guida.",
           "range": "{min} – {max}",
           "rangeMin": "min {min}",
           "rangeMax": "max {max}",

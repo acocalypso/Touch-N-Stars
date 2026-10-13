@@ -15,6 +15,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Changed
 
 - Native Guider (PINS): Gain, offset and pixel size at "default" show the value that applies, e.g. "Default (120)", taken from the guide camera.
+- Native Guider (PINS): When the Dec backlash compensation adjusted its pulse while guiding, the backlash pulse setting shows the pulse in use below the field, e.g. "In use: 260 ms, adjusted while guiding." This needs a PINS version that reports the pulse in use.
 
 ### Fixed
 

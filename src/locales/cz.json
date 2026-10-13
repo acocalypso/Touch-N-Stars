@@ -2430,6 +2430,7 @@
           "empty": "Žádná dostupná nastavení.",
           "notConnectedHint": "Nativní guider není připojen. Změny se ukládají do profilu; změny kamery se projeví při dalším připojení.",
           "requiresReconnect": "Platí po opětovném připojení",
+          "valueInUse": "Používá se: {value} {unit}, upraveno během navádění.",
           "range": "{min} – {max}",
           "rangeMin": "min {min}",
           "rangeMax": "max {max}",

@@ -170,6 +170,14 @@
 
     <!-- Hints / errors -->
     <p v-if="error" class="text-xs text-status-danger break-words">{{ error }}</p>
+    <p v-if="valueInUse !== null" class="text-xs text-content-muted tabular-nums">
+      {{
+        t('components.guider.native.settings.valueInUse', {
+          value: valueInUse,
+          unit: setting.unit || '',
+        })
+      }}
+    </p>
     <div
       v-if="rangeHint || showReset"
       class="flex flex-wrap items-center justify-between gap-x-3 gap-y-1"
@@ -211,6 +219,7 @@ import {
   settingFormValue,
   settingLabel,
   settingOptionLabel,
+  settingValueInUse,
   validateSettingValue,
 } from '@/utils/nativeGuider';
 
@@ -286,6 +295,8 @@ watch(
 );
 
 const currentValue = computed(() => settingFormValue(props.setting));
+// The value the guider uses when it adjusted the setting itself (the learned Dec backlash pulse).
+const valueInUse = computed(() => settingValueInUse(props.setting, store.status));
 
 const rangeHint = computed(() => {
   if (!isNumeric.value) return '';

@@ -817,6 +817,17 @@ export function sentinelEffectiveValue(name, guideCameraProfile, guideCameraInfo
   return null;
 }
 
+/**
+ * What the guider currently uses for a setting when that differs from the saved value, or null:
+ * the Dec backlash pulse the adaptive compensation adjusted to while guiding.
+ */
+export function settingValueInUse(setting, status) {
+  if (setting?.name !== 'BacklashPulseMs') return null;
+  const inUse = status?.decBacklashPulseMs;
+  if (inUse === null || inUse === undefined || !Number.isFinite(Number(inUse))) return null;
+  return Number(inUse) === Number(setting.value) ? null : Number(inUse);
+}
+
 /** Identity of an alert (the guider sends no id): code, time and title. */
 export function alertKey(alert) {
   return `${alert?.code ?? ''}|${alert?.timestamp ?? ''}|${alert?.title ?? ''}`;

@@ -4221,7 +4221,9 @@
       },
       "imageModal": {
         "no_image": "画像データがありません",
-        "histogram": "ヒストグラムを表示"
+        "histogram": "ヒストグラムを表示",
+        "previous": "前の画像",
+        "next": "次の画像"
       },
       "histogram": {
         "blackPoint": "ブラックポイント",

@@ -4212,7 +4212,9 @@
       },
       "imageModal": {
         "no_image": "Nessun dati sull'immagine disponibile",
-        "histogram": "Mostra istogramma"
+        "histogram": "Mostra istogramma",
+        "previous": "Immagine precedente",
+        "next": "Immagine successiva"
       },
       "histogram": {
         "blackPoint": "Punto nero",

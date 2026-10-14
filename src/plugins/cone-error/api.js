@@ -97,8 +97,12 @@ export default {
     return request('post', 'manual/capture');
   },
 
-  manualPlanMove(side) {
-    return request('post', 'manual/plan-move', { data: { side }, timeout: 30000 });
+  /** overrideSunPath overrides a refusal for the Sun near the path alone, for this one move. */
+  manualPlanMove(side, overrideSunPath = false) {
+    return request('post', 'manual/plan-move', {
+      data: { side, overrideSunPath },
+      timeout: 30000,
+    });
   },
 
   manualMove(planId) {

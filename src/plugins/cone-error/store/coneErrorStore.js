@@ -135,9 +135,9 @@ export const useConeErrorStore = defineStore('coneError', {
       this.status = await this.run(() => api.manualCapture());
     },
 
-    async manualPlanMove(side) {
+    async manualPlanMove(side, overrideSunPath = false) {
       this.movePlan = null;
-      this.movePlan = await this.run(() => api.manualPlanMove(side));
+      this.movePlan = await this.run(() => api.manualPlanMove(side, overrideSunPath));
       return this.movePlan;
     },
 

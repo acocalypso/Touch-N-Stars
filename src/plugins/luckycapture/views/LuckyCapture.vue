@@ -568,6 +568,13 @@ onUnmounted(() => {
                 {{ text('roi') }}</label
               >
               <p id="lc-roi-help" class="field-help full-width">{{ text('helpRoi') }}</p>
+              <p
+                v-if="useRoi && store.status.roiMode === 'software'"
+                role="status"
+                class="field-help full-width"
+              >
+                {{ text('roiSoftware') }}
+              </p>
               <div v-if="useRoi" class="roi-fields full-width">
                 <label v-for="key in ['x', 'y', 'width', 'height']" :key="key"
                   >{{ text(`roi${key}`)

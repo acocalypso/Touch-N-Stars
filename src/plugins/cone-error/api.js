@@ -57,8 +57,9 @@ export default {
     return request('get', 'settings');
   },
 
-  saveSettings(settings) {
-    return request('put', 'settings', { data: settings });
+  /** Only the fields sent change; the rest stays as stored. */
+  saveSettings(changes) {
+    return request('put', 'settings', { data: changes });
   },
 
   getResults() {
@@ -67,7 +68,13 @@ export default {
 
   planAuto({ dovetailMm, repetitions, declination, exposureSeconds }) {
     return request('post', 'auto/plan', {
-      data: { dovetailMm, repetitions, declination, exposureSeconds },
+      data: {
+        dovetailMm,
+        repetitions,
+        declination,
+        exposureSeconds,
+        clientTimeUtc: new Date().toISOString(),
+      },
       timeout: 30000,
     });
   },
@@ -90,7 +97,12 @@ export default {
   },
 
   manualBegin() {
-    return request('post', 'manual/begin');
+    return request('post', 'manual/begin', { data: { clientTimeUtc: new Date().toISOString() } });
+  },
+
+  /** The one-time counterweight check of the daytime check, on the east pier side. */
+  manualPierLabels(counterweightWest) {
+    return request('post', 'manual/pier-labels', { data: { counterweightWest } });
   },
 
   manualCapture() {

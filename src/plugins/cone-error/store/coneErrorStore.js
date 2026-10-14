@@ -1,5 +1,37 @@
 import { defineStore } from 'pinia';
+import { watch } from 'vue';
+import { createPoller } from '@/utils/poller';
+import { isAppBackgrounded } from '@/utils/appLifecycle';
 import api from '../api';
+
+// The status poll lives here, not in the view: while a session runs it must go on when the user
+// opens the camera or mount page (the backend stops a daytime move after 20 s without polls). It
+// runs while the panel is open or a session is active, and pauses while the app is backgrounded.
+let poller = null;
+let openViews = 0;
+let polls = 0;
+
+function wantPolling(store) {
+  return !isAppBackgrounded.value && (openViews > 0 || store.active);
+}
+
+function ensurePoller(store) {
+  if (!poller) {
+    poller = createPoller(async () => {
+      await store.loadStatus();
+      polls++;
+      if (openViews > 0 && !store.active && polls % 5 === 0) {
+        await store.loadPreconditions();
+      }
+      if (!wantPolling(store)) poller.stop();
+    }, 2000);
+    watch(isAppBackgrounded, () => {
+      if (wantPolling(store)) poller.start();
+      else poller.stop();
+    });
+  }
+  if (wantPolling(store)) poller.start();
+}
 
 const FINISHED = ['Complete', 'Failed', 'Aborted'];
 
@@ -40,6 +72,16 @@ export const useConeErrorStore = defineStore('coneError', {
       } finally {
         this.pending = false;
       }
+    },
+
+    /** The panel was opened: poll (and keep polling while a session runs after it is closed). */
+    attachView() {
+      openViews++;
+      ensurePoller(this);
+    },
+
+    detachView() {
+      openViews = Math.max(0, openViews - 1);
     },
 
     async loadStatus() {
@@ -87,13 +129,16 @@ export const useConeErrorStore = defineStore('coneError', {
       }
     },
 
-    async saveSettings(settings) {
-      this.settings = await this.run(() => api.saveSettings(settings));
+    /** Sends only the changed fields. */
+    async saveSettings(changes) {
+      this.settings = await this.run(() => api.saveSettings(changes));
     },
 
     async planAuto(request) {
       this.autoPlan = null;
-      this.autoPlan = await this.run(() => api.planAuto(request));
+      const plan = await this.run(() => api.planAuto(request));
+      // the countdown runs from the moment the plan arrived, not on the phone's clock vs the Pi's
+      this.autoPlan = plan ? { ...plan, receivedAt: Date.now() } : null;
       return this.autoPlan;
     },
 
@@ -101,6 +146,7 @@ export const useConeErrorStore = defineStore('coneError', {
       const planId = this.autoPlan?.planId;
       this.autoPlan = null;
       this.status = await this.run(() => api.startAuto(planId, acknowledgePointingModel));
+      ensurePoller(this);
     },
 
     async answer(id, yes) {
@@ -127,6 +173,7 @@ export const useConeErrorStore = defineStore('coneError', {
       this.estimate = null;
       this.movePlan = null;
       this.status = await this.run(() => api.manualBegin());
+      ensurePoller(this);
     },
 
     async manualCapture() {
@@ -137,8 +184,13 @@ export const useConeErrorStore = defineStore('coneError', {
 
     async manualPlanMove(side, overrideSunPath = false) {
       this.movePlan = null;
-      this.movePlan = await this.run(() => api.manualPlanMove(side, overrideSunPath));
+      const plan = await this.run(() => api.manualPlanMove(side, overrideSunPath));
+      this.movePlan = plan ? { ...plan, receivedAt: Date.now() } : null;
       return this.movePlan;
+    },
+
+    async manualPierLabels(counterweightWest) {
+      this.status = await this.run(() => api.manualPierLabels(counterweightWest));
     },
 
     async manualMove() {

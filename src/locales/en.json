@@ -4391,6 +4391,7 @@
         "altitude": "Altitude",
         "pastMeridian": "Past meridian",
         "sun": "Sun",
+        "sunSet": "set",
         "kind": {
           "slew": "Slew",
           "flip": "Pier flip"
@@ -4496,6 +4497,8 @@
         "sunPath": "Sun along the way",
         "caps": "The finder and the guide scope are capped, nobody looks through the eyepiece, and I stay at the mount.",
         "confirmMove": "Move now",
+        "pierLabelsQuestion": "The mount reports the EAST pier side. Is the counterweight bar on the WEST side of the mount right now (the tube on the east side)? Needed once per mount, so that the shim advice cannot point at the wrong end.",
+        "pierLabelsMoveEast": "Check once where the counterweight is: move to the east pier side, then answer here.",
         "overrideSun": "Override the sun check for this move",
         "overrideConfirmTitle": "Move past the Sun?",
         "overrideConfirmMessage": "On its way the tube may pass {sep}° from the Sun (the limit is {radius}°). The end of the move stays outside the limit. Only continue if every optic is capped and nobody looks through the eyepiece or the finder. This applies to this one move only.",

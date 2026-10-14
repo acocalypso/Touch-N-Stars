@@ -604,8 +604,10 @@ onUnmounted(() => {
           <label
             >{{ text('format')
             }}<select v-model="recording.format" aria-describedby="lc-format-help">
-              <option value="ser">SER Â· raw</option>
-              <option value="avi" :disabled="!store.capabilities.avi">AVI Â· FFV1</option>
+              <option value="ser">{{ text('formatSer') }}</option>
+              <option value="avi" :disabled="!store.capabilities.avi">
+                {{ text('formatAvi') }}
+              </option>
             </select></label
           >
           <p id="lc-format-help" class="field-help full-width">{{ text('helpFormat') }}</p>

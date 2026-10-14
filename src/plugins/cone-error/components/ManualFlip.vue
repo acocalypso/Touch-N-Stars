@@ -66,13 +66,22 @@
       </div>
       <p class="text-sm text-content">{{ status.message }}</p>
 
+      <!-- Not during a move: the stop bar lives on this page -->
       <div class="grid grid-cols-2 gap-2">
-        <router-link to="/camera" class="tns-btn-secondary min-h-touch">
+        <button
+          class="tns-btn-secondary min-h-touch"
+          :disabled="store.moving"
+          @click="router.push('/camera')"
+        >
           {{ $t('plugins.coneError.manual.liveView') }}
-        </router-link>
-        <router-link to="/mount" class="tns-btn-secondary min-h-touch">
+        </button>
+        <button
+          class="tns-btn-secondary min-h-touch"
+          :disabled="store.moving"
+          @click="router.push('/mount')"
+        >
           {{ $t('plugins.coneError.manual.mountPad') }}
-        </router-link>
+        </button>
       </div>
 
       <button
@@ -177,7 +186,13 @@
           {{ movePlan.check.pastMeridianLimitDegrees.toFixed(1) }}°)
         </dd>
         <dt>{{ $t('plugins.coneError.manual.sunEndpoint') }}</dt>
-        <dd class="text-content">{{ movePlan.check.sunSeparationDegrees.toFixed(0) }}°</dd>
+        <dd class="text-content">
+          {{
+            movePlan.check.sunBelowHorizon
+              ? $t('plugins.coneError.auto.sunSet')
+              : `${movePlan.check.sunSeparationDegrees.toFixed(0)}°`
+          }}
+        </dd>
         <dt>{{ $t('plugins.coneError.manual.sunPath') }}</dt>
         <dd class="text-content">
           {{ movePlan.check.pathSunSeparationDegrees?.toFixed(0) ?? '—' }}°
@@ -195,16 +210,51 @@
         <input v-model="capsConfirmed" type="checkbox" class="w-5 h-5 mt-0.5" />
         <span>{{ $t('plugins.coneError.manual.caps') }}</span>
       </label>
+      <p v-if="movePlan.ok" class="text-xs text-content-faint">
+        {{ $t('plugins.coneError.auto.expires', { seconds: moveSecondsLeft }) }}
+      </p>
       <div class="grid grid-cols-2 gap-2">
         <button class="tns-btn-secondary min-h-touch" @click="store.movePlan = null">
           {{ $t('common.cancel') }}
         </button>
         <button
           class="tns-btn-primary min-h-touch"
-          :disabled="!movePlan.ok || !capsConfirmed || store.pending"
+          :disabled="!movePlan.ok || !capsConfirmed || moveSecondsLeft <= 0 || store.pending"
           @click="move"
         >
           {{ $t('plugins.coneError.manual.confirmMove') }}
+        </button>
+      </div>
+    </section>
+
+    <!-- The one-time counterweight check (also asked by the night measurement), on the east side -->
+    <section
+      v-if="manual.capturedHourAngle != null && !manual.pierLabelsVerified"
+      class="tns-card space-y-3"
+    >
+      <h3 class="font-semibold text-content">{{ $t('plugins.coneError.question.title') }}</h3>
+      <PierSideSketch />
+      <p class="text-sm text-content">
+        {{
+          manual.currentSide === 'East'
+            ? $t('plugins.coneError.manual.pierLabelsQuestion')
+            : $t('plugins.coneError.manual.pierLabelsMoveEast')
+        }}
+      </p>
+      <div class="grid grid-cols-2 gap-2">
+        <button
+          class="tns-btn-primary min-h-touch"
+          :disabled="manual.currentSide !== 'East' || store.pending || store.moving"
+          @click="pierLabels(true)"
+        >
+          {{ $t('plugins.coneError.question.yes') }}
+        </button>
+        <button
+          class="tns-btn-secondary min-h-touch"
+          :disabled="manual.currentSide !== 'East' || store.pending || store.moving"
+          @click="pierLabels(false)"
+        >
+          {{ $t('plugins.coneError.question.no') }}
         </button>
       </div>
     </section>
@@ -266,16 +316,19 @@
 </template>
 
 <script setup>
-import { computed, ref, watch } from 'vue';
+import { computed, onUnmounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 import apiPinsService from '@/services/apiPinsService';
 import { useToastStore } from '@/store/toastStore';
 import { useConeErrorStore } from '../store/coneErrorStore';
 import ConeChecks from './ConeChecks.vue';
+import PierSideSketch from './PierSideSketch.vue';
 import ConeResult from './ConeResult.vue';
 
 const { t } = useI18n();
+const router = useRouter();
 const store = useConeErrorStore();
 const toast = useToastStore();
 
@@ -291,6 +344,19 @@ const landmarkKm = ref(5);
 const settingTime = ref(false);
 
 watch(movePlan, () => (capsConfirmed.value = false));
+
+// A planned move is valid for 60 s on the backend, counted from when it arrived here.
+const now = ref(Date.now());
+const timer = setInterval(() => (now.value = Date.now()), 1000);
+onUnmounted(() => clearInterval(timer));
+const moveSecondsLeft = computed(() =>
+  movePlan.value?.expiresInSeconds
+    ? Math.max(
+        0,
+        Math.round(movePlan.value.expiresInSeconds - (now.value - movePlan.value.receivedAt) / 1000)
+      )
+    : 0
+);
 
 const timeSkew = computed(() => {
   const time = store.preconditions?.time;
@@ -372,6 +438,10 @@ async function overrideSunPath() {
 
 async function move() {
   await guarded(() => store.manualMove());
+}
+
+async function pierLabels(counterweightWest) {
+  await guarded(() => store.manualPierLabels(counterweightWest));
 }
 
 async function recentred() {

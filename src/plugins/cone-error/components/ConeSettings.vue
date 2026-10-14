@@ -91,7 +91,7 @@ watch(
 async function save() {
   saved.value = false;
   try {
-    await store.saveSettings({ ...store.settings, ...form });
+    await store.saveSettings({ ...form });
     saved.value = true;
   } catch {
     // shown through store.error

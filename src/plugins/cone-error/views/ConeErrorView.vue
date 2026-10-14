@@ -24,7 +24,7 @@
             ? 'bg-accent-action text-white'
             : 'text-content-muted hover:bg-surface-2'
         "
-        :disabled="store.active && tab !== activeTab && tab !== 'history'"
+        :disabled="tabLocked(tab)"
         @click="activeTab = tab"
       >
         {{ $t(`plugins.coneError.tabs.${tab}`) }}
@@ -55,9 +55,8 @@
 </template>
 
 <script setup>
-import { onMounted, ref, watch } from 'vue';
+import { onMounted, onUnmounted, ref, watch } from 'vue';
 import { ArrowPathIcon } from '@heroicons/vue/24/outline';
-import { useBackgroundAwarePolling } from '@/utils/appLifecycle';
 import { useConeErrorStore } from '../store/coneErrorStore';
 import AutoWizard from '../components/AutoWizard.vue';
 import ManualFlip from '../components/ManualFlip.vue';
@@ -70,23 +69,23 @@ const TABS = ['auto', 'manual', 'history', 'settings'];
 const store = useConeErrorStore();
 const activeTab = ref('auto');
 
-// The status is polled every 2 s while the page is open (the daytime check's deadman on the
-// backend stops a move when these polls stop); preconditions are cheap enough to refresh with it
-// while nothing runs.
-let polls = 0;
-async function poll() {
-  await store.loadStatus();
-  polls++;
-  if (!store.active && polls % 5 === 0) {
-    await store.loadPreconditions();
-  }
+// A running session locks only the other mode's tab; history and settings stay reachable.
+function tabLocked(tab) {
+  if (tab === 'auto') return store.manualActive;
+  if (tab === 'manual') return store.autoRunning;
+  return false;
 }
-useBackgroundAwarePolling(poll, 2000, ref(true));
 
+// The store polls the status every 2 s while the panel is open and, during a session, also after
+// it is closed (the daytime check's deadman on the backend stops a move when the polls stop).
 onMounted(async () => {
+  store.attachView();
   await store.loadAll();
   if (store.manualActive) activeTab.value = 'manual';
+  if (store.autoRunning) activeTab.value = 'auto';
 });
+
+onUnmounted(() => store.detachView());
 
 // A session that just finished: refresh preconditions and history.
 watch(

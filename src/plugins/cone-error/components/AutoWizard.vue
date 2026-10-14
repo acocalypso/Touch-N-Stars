@@ -175,7 +175,13 @@
               <td>{{ step.side }}</td>
               <td class="text-right">{{ step.check.altitude.toFixed(0) }}°</td>
               <td class="text-right">{{ step.check.pastMeridianDegrees.toFixed(1) }}°</td>
-              <td class="text-right">{{ step.check.sunSeparationDegrees.toFixed(0) }}°</td>
+              <td class="text-right">
+                {{
+                  step.check.sunBelowHorizon
+                    ? $t('plugins.coneError.auto.sunSet')
+                    : `${step.check.sunSeparationDegrees.toFixed(0)}°`
+                }}
+              </td>
             </tr>
           </tbody>
         </table>
@@ -242,12 +248,26 @@ const declination = ref(0);
 const acknowledgeModel = ref(false);
 const dismissedResult = ref(null);
 
+// Settings and the profile arrive after the component is set up; take them over until the user
+// edits a field.
+const exposureEdited = ref(false);
+watch(exposure, (value, old) => {
+  if (old !== undefined && value !== defaultExposure()) exposureEdited.value = true;
+});
+function defaultExposure() {
+  return (
+    store.settings?.exposureSeconds ?? store.preconditions?.profile?.plateSolveExposureSeconds ?? 5
+  );
+}
 watch(
-  () => store.settings,
-  (settings) => {
+  () => [store.settings, store.preconditions?.profile?.plateSolveExposureSeconds],
+  () => {
+    const settings = store.settings;
     if (settings?.dovetailMm) dovetailMm.value = settings.dovetailMm;
     if (settings?.repetitions) repetitions.value = settings.repetitions;
-  }
+    if (!exposureEdited.value) exposure.value = defaultExposure();
+  },
+  { immediate: true }
 );
 
 const canPlan = computed(
@@ -275,18 +295,23 @@ const outcome = computed(() =>
     : null
 );
 
-// The plan expires on the backend after 60 s: the sky moves on.
+// The plan expires on the backend after 60 s: the sky moves on. Counted from when it arrived, so
+// that a phone clock off the Pi's does not matter.
 const now = ref(Date.now());
 const timer = setInterval(() => (now.value = Date.now()), 1000);
 onUnmounted(() => clearInterval(timer));
 const secondsLeft = computed(() =>
-  plan.value ? Math.max(0, Math.round((Date.parse(plan.value.expiresUtc) - now.value) / 1000)) : 0
+  plan.value
+    ? Math.max(
+        0,
+        Math.round(plan.value.expiresInSeconds - (now.value - plan.value.receivedAt) / 1000)
+      )
+    : 0
 );
 
 async function makePlan() {
   try {
     await store.saveSettings({
-      ...store.settings,
       dovetailMm: dovetailMm.value,
       repetitions: repetitions.value,
       exposureSeconds: exposure.value,

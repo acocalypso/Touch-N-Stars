@@ -233,30 +233,38 @@
       class="tns-card space-y-3"
     >
       <h3 class="font-semibold text-content">{{ $t('plugins.coneError.question.title') }}</h3>
-      <PierSideSketch />
-      <p class="text-sm text-content">
-        {{
-          manual.currentSide === 'East'
-            ? $t('plugins.coneError.manual.pierLabelsQuestion')
-            : $t('plugins.coneError.manual.pierLabelsMoveEast')
-        }}
+      <p
+        v-if="manual.pierLabelsInverted"
+        class="rounded-control border border-status-danger/50 bg-status-danger/10 p-3 text-sm text-status-danger"
+      >
+        {{ $t('plugins.coneError.manual.pierLabelsInvertedNote') }}
       </p>
-      <div class="grid grid-cols-2 gap-2">
-        <button
-          class="tns-btn-primary min-h-touch"
-          :disabled="manual.currentSide !== 'East' || store.pending || store.moving"
-          @click="pierLabels(true)"
-        >
-          {{ $t('plugins.coneError.question.yes') }}
-        </button>
-        <button
-          class="tns-btn-secondary min-h-touch"
-          :disabled="manual.currentSide !== 'East' || store.pending || store.moving"
-          @click="pierLabels(false)"
-        >
-          {{ $t('plugins.coneError.question.no') }}
-        </button>
-      </div>
+      <template v-else>
+        <PierSideSketch />
+        <p class="text-sm text-content">
+          {{
+            manual.currentSide === 'East'
+              ? $t('plugins.coneError.manual.pierLabelsQuestion')
+              : $t('plugins.coneError.manual.pierLabelsMoveEast')
+          }}
+        </p>
+        <div class="grid grid-cols-2 gap-2">
+          <button
+            class="tns-btn-primary min-h-touch"
+            :disabled="manual.currentSide !== 'East' || store.pending || store.moving"
+            @click="pierLabels(true)"
+          >
+            {{ $t('plugins.coneError.question.yes') }}
+          </button>
+          <button
+            class="tns-btn-secondary min-h-touch"
+            :disabled="manual.currentSide !== 'East' || store.pending || store.moving"
+            @click="pierLabels(false)"
+          >
+            {{ $t('plugins.coneError.question.no') }}
+          </button>
+        </div>
+      </template>
     </section>
 
     <!-- Optional daytime estimate after re-centring the landmark -->

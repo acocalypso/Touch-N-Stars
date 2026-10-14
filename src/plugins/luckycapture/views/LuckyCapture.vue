@@ -2,6 +2,7 @@
 import { computed, nextTick, onMounted, onUnmounted, reactive, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import CameraControl from '../components/CameraControl.vue';
+import IntensityHistogram from '../components/IntensityHistogram.vue';
 import { readLimit, selectionToRoi } from '../utils/captureUi';
 import { useLuckyCaptureStore } from '../store/luckycaptureStore';
 const store = useLuckyCaptureStore();
@@ -54,9 +55,16 @@ const canStart = computed(
 const panel = ref('preview');
 const pageRoot = ref(null);
 const compact = ref(window.innerWidth <= 900);
+let resizeFrame = 0;
 const resizeObserver = new ResizeObserver(([entry]) => {
-  compact.value =
+  const shouldCompact =
     (entry.borderBoxSize?.[0]?.inlineSize ?? entry.target.getBoundingClientRect().width) <= 960;
+  cancelAnimationFrame(resizeFrame);
+  if (shouldCompact !== compact.value) {
+    resizeFrame = requestAnimationFrame(() => {
+      compact.value = shouldCompact;
+    });
+  }
 });
 const selecting = ref(false);
 const cameraForm = ref(null);
@@ -80,7 +88,7 @@ async function tabKey(event, current) {
   if (event.key === 'ArrowRight') next = items[(index + 1) % items.length];
   if (event.key === 'ArrowLeft') next = items[(index + items.length - 1) % items.length];
   if (event.key === 'Home') next = items[0];
-  if (event.key === 'End') next = items.at(-1);
+  if (event.key === 'End') next = items[items.length - 1];
   if (!next) return;
   event.preventDefault();
   selectPanel(next);
@@ -106,11 +114,6 @@ const supportedControls = computed(() =>
   )
 );
 const controlKey = (id) => (id === 'exposure' ? 'exposureSeconds' : id);
-const graph = computed(() => {
-  const bins = store.histogram?.bins || [];
-  const max = Math.max(1, ...bins);
-  return bins.map((n, i) => `${i},${80 - (n / max) * 78}`).join(' ');
-});
 const number = (value, digits = 1) => (Number.isFinite(value) ? value.toFixed(digits) : '\u2014');
 async function invoke(action) {
   if (working.value) return;
@@ -299,6 +302,7 @@ onMounted(() => {
 });
 onUnmounted(() => {
   resizeObserver.disconnect();
+  cancelAnimationFrame(resizeFrame);
   store.close();
 });
 </script>
@@ -460,20 +464,10 @@ onUnmounted(() => {
         <p v-if="store.status.lastError || store.status.sidecarError" class="error" role="alert">
           {{ store.status.lastError || store.status.sidecarError }}
         </p>
+        <IntensityHistogram :histogram="store.histogram" />
         <details class="card capture-details">
           <summary>{{ text('captureDetails') }}</summary>
-          <svg class="histogram" viewBox="0 0 255 82" role="img" :aria-label="text('histogram')">
-            <polyline :points="graph" fill="none" stroke="currentColor" stroke-width="1" />
-          </svg>
-          <dl v-if="store.histogram" class="stats">
-            <div v-for="key in ['min', 'max', 'mean', 'median', 'p95']" :key="key">
-              <dt>{{ text(key) }}</dt>
-              <dd>
-                {{ number(store.histogram[key], ['min', 'max', 'p95'].includes(key) ? 0 : 1) }}
-              </dd>
-            </div>
-          </dl>
-          <dl class="stats">
+          <dl class="stats compact-counters">
             <div v-for="key in detailMetrics" :key="key">
               <dt>{{ text(key) }}</dt>
               <dd>
@@ -657,6 +651,22 @@ onUnmounted(() => {
 </template>
 
 <style scoped>
+.stats.compact-counters {
+  gap: 0.35rem 0.75rem;
+}
+.compact-counters > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  align-items: baseline;
+}
+.compact-counters dt {
+  font-size: 0.8rem;
+}
+.compact-counters dd {
+  font-size: 0.9rem;
+  white-space: nowrap;
+}
 .field-help {
   color: var(--lc-muted);
   font-size: 0.875rem;
@@ -977,12 +987,7 @@ details[open] > summary::before {
 details > div {
   margin-top: 0.5rem;
 }
-.histogram {
-  width: 100%;
-  height: 72px;
-  background: #080b10;
-  color: #67d3ad;
-}
+
 .error,
 .notice {
   overflow-wrap: anywhere;

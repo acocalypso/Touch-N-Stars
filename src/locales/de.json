@@ -8556,7 +8556,7 @@
     "advancedCamera": "Stream- und USB-Optionen",
     "recordingHelp": "Ein Bild- oder Zeitlimit setzen. Bleiben beide Felder leer, die Aufnahme manuell stoppen.",
     "invalidLimit": "Eine positive Bildanzahl oder Dauer eingeben. Die Bildanzahl muss eine ganze Zahl sein.",
-    "captureDetails": "Histogramm und Aufnahmedetails",
+    "captureDetails": "Aufnahmedetails",
     "acceptedFrames": "Bilder zum Speichern eingereiht",
     "streamTapDroppedFrames": "Beim Stream-Empfang verworfene Bilder",
     "recordingProgress": "Aufnahmefortschritt",
@@ -8593,6 +8593,19 @@
     "helprelativeDirectory": "Optionaler Unterordner im LuckyCapture-Aufnahmeverzeichnis. Absolute Pfade und Verweise auf übergeordnete Ordner sind nicht erlaubt.",
     "helpfilenameTemplate": "Platzhalter in geschweiften Klammern: date, time, camera, target, filter, format und sequence. Ein eindeutiger Zusatz verhindert das Überschreiben vorhandener Aufnahmen.",
     "formatSer": "SER - Rohdaten",
-    "formatAvi": "AVI - FFV1"
+    "formatAvi": "AVI - FFV1",
+    "histTitle": "Histogramm",
+    "histFull": "Gesamt",
+    "histFullHelp": "Zwischen vollem Sensorbereich und belegtem Signalbereich wechseln",
+    "histLog": "Log",
+    "histLogHelp": "Logarithmische Stichprobenzahlen ein- oder ausschalten, um schwache Ausläufer sichtbar zu machen",
+    "histSamples": "Stichproben",
+    "histPeak": "Spitze",
+    "histEmpty": "Vorschau starten, um die Helligkeitsverteilung zu sehen",
+    "histInspect": "Histogrammklassen untersuchen",
+    "histInspectHelp": "Antippen oder mit den Pfeiltasten Helligkeitsklassen untersuchen",
+    "histFullCaption": "Helligkeit: voller Sensorbereich (%)",
+    "histSignalCaption": "Helligkeit: Signalbereich (%)",
+    "histLogCaption": "logarithmische Anzahl"
   }
 }

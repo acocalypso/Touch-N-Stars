@@ -8556,7 +8556,7 @@
     "advancedCamera": "Stream and USB options",
     "recordingHelp": "Set a frame or time limit, or leave both blank and stop manually.",
     "invalidLimit": "Enter a positive frame count or duration. Frames must be a whole number.",
-    "captureDetails": "Histogram and capture details",
+    "captureDetails": "Capture details",
     "acceptedFrames": "Queued frames",
     "streamTapDroppedFrames": "Stream receiver drops",
     "recordingProgress": "Recording progress",
@@ -8593,6 +8593,19 @@
     "helprelativeDirectory": "Optional subfolder beneath the LuckyCapture recording directory. Absolute paths and parent-directory traversal are not allowed.",
     "helpfilenameTemplate": "Use tokens in braces: date, time, camera, target, filter, format and sequence. A unique suffix prevents overwriting an existing recording.",
     "formatSer": "SER - dati grezzi",
-    "formatAvi": "AVI - FFV1"
+    "formatAvi": "AVI - FFV1",
+    "histTitle": "Histogram",
+    "histFull": "Full range",
+    "histFullHelp": "Toggle between the full sensor range and the occupied signal range",
+    "histLog": "Log",
+    "histLogHelp": "Toggle logarithmic sample counts to reveal faint distribution tails",
+    "histSamples": "samples",
+    "histPeak": "Peak",
+    "histEmpty": "Start preview to see the intensity distribution",
+    "histInspect": "Inspect histogram bins",
+    "histInspectHelp": "Tap or use arrow keys to inspect intensity bins",
+    "histFullCaption": "Intensity: full sensor range (%)",
+    "histSignalCaption": "Intensity: signal range (%)",
+    "histLogCaption": "log counts"
   }
 }

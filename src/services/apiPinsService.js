@@ -923,6 +923,42 @@ export default {
     });
   },
 
+  getPinsSavedWifiNetworks() {
+    const { PINSDAEMON_URL } = getUrls();
+    return this._pinsDaemonGetRequest('/wifi/networks', {
+      baseUrl: PINSDAEMON_URL,
+      timeout: 30000,
+    });
+  },
+
+  updatePinsSavedWifiNetwork(uuid, payload) {
+    const { PINSDAEMON_URL } = getUrls();
+    return this._pinsDaemonPutRequest(`/wifi/networks/${encodeURIComponent(uuid)}`, payload, {
+      baseUrl: PINSDAEMON_URL,
+      timeout: 15000,
+    });
+  },
+
+  forgetPinsSavedWifiNetwork(uuid) {
+    const { PINSDAEMON_URL } = getUrls();
+    return this._pinsDaemonDeleteRequest(`/wifi/networks/${encodeURIComponent(uuid)}`, {
+      baseUrl: PINSDAEMON_URL,
+      timeout: 15000,
+    });
+  },
+
+  connectPinsSavedWifiNetwork(uuid) {
+    const { PINSDAEMON_URL } = getUrls();
+    return this._pinsDaemonPostRequest(
+      `/wifi/networks/${encodeURIComponent(uuid)}/connect`,
+      {},
+      {
+        baseUrl: PINSDAEMON_URL,
+        timeout: 30000,
+      }
+    );
+  },
+
   disablePinsWifi() {
     const { PINSDAEMON_URL } = getUrls();
     return this._pinsDaemonPostRequest('/wifi/disable', null, {
@@ -1041,6 +1077,12 @@ export default {
       .catch((error) => {
         throw error;
       });
+  },
+
+  _pinsDaemonDeleteRequest(path, { baseUrl, timeout = 10000 } = {}) {
+    return axios
+      .delete(`${baseUrl}${path}`, { headers: getPinsDaemonAuthHeaders(), timeout })
+      .then((response) => response.data);
   },
 
   _pinsDaemonPostRequest(path, data, { baseUrl, timeout = 10000 } = {}) {

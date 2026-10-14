@@ -243,7 +243,7 @@
         <PierSideSketch />
         <p class="text-sm text-content">
           {{
-            manual.currentSide === 'East'
+            canAnswerPierLabels
               ? $t('plugins.coneError.manual.pierLabelsQuestion')
               : $t('plugins.coneError.manual.pierLabelsMoveEast')
           }}
@@ -251,14 +251,14 @@
         <div class="grid grid-cols-2 gap-2">
           <button
             class="tns-btn-primary min-h-touch"
-            :disabled="manual.currentSide !== 'East' || store.pending || store.moving"
+            :disabled="!canAnswerPierLabels || store.pending || store.moving"
             @click="pierLabels(true)"
           >
             {{ $t('plugins.coneError.question.yes') }}
           </button>
           <button
             class="tns-btn-secondary min-h-touch"
-            :disabled="manual.currentSide !== 'East' || store.pending || store.moving"
+            :disabled="!canAnswerPierLabels || store.pending || store.moving"
             @click="pierLabels(false)"
           >
             {{ $t('plugins.coneError.question.no') }}
@@ -344,6 +344,14 @@ const status = computed(() => store.status ?? {});
 const manual = computed(() => status.value.manual ?? {});
 const movePlan = computed(() => store.movePlan);
 const sunRadius = computed(() => store.settings?.sunExclusionDegrees ?? 30);
+
+// "counterweight on the west" only holds on the east side within a few hours of the meridian
+const canAnswerPierLabels = computed(
+  () =>
+    manual.value.currentSide === 'East' &&
+    typeof manual.value.currentHourAngle === 'number' &&
+    Math.abs(manual.value.currentHourAngle) <= 4
+);
 
 const directionConfirmed = ref(false);
 const capsConfirmed = ref(false);

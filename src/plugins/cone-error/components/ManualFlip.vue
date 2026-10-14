@@ -146,6 +146,25 @@
           }}
         </span>
       </p>
+      <!-- Only a refusal for the Sun near the path alone can be overridden, and only for this move -->
+      <button
+        v-if="!movePlan.ok && movePlan.sunPathOverridable"
+        class="tns-btn-danger min-h-touch"
+        :disabled="store.pending"
+        @click="overrideSunPath"
+      >
+        {{ $t('plugins.coneError.manual.overrideSun') }}
+      </button>
+      <p
+        v-if="movePlan.ok && movePlan.sunPathOverridden"
+        class="rounded-control border border-status-danger bg-status-danger/15 p-3 text-sm font-semibold text-status-danger"
+      >
+        {{
+          $t('plugins.coneError.manual.overridden', {
+            sep: movePlan.check.pathSunSeparationDegrees.toFixed(0),
+          })
+        }}
+      </p>
       <dl v-if="movePlan.check" class="grid grid-cols-2 gap-x-3 gap-y-1 text-xs text-content-muted">
         <dt>{{ $t('plugins.coneError.auto.altitude') }}</dt>
         <dd class="text-content">
@@ -165,7 +184,12 @@
         </dd>
       </dl>
       <ul v-if="movePlan.ok" class="space-y-1 text-sm text-status-warn">
-        <li v-for="warning in movePlan.warnings" :key="warning">{{ warning }}</li>
+        <li
+          v-for="warning in movePlan.warnings.filter((w) => !w.startsWith('Sun check overridden'))"
+          :key="warning"
+        >
+          {{ warning }}
+        </li>
       </ul>
       <label v-if="movePlan.ok" class="flex items-start gap-3 text-sm text-content">
         <input v-model="capsConfirmed" type="checkbox" class="w-5 h-5 mt-0.5" />
@@ -329,6 +353,21 @@ async function capture() {
 
 async function planMove(side) {
   await guarded(() => store.manualPlanMove(side));
+}
+
+// A deliberate, per-move decision: the backend still refuses the endpoint and every limit.
+async function overrideSunPath() {
+  const plan = movePlan.value;
+  const yes = await toast.showConfirmation(
+    t('plugins.coneError.manual.overrideConfirmTitle'),
+    t('plugins.coneError.manual.overrideConfirmMessage', {
+      sep: plan.check.pathSunSeparationDegrees.toFixed(0),
+      radius: sunRadius.value,
+    }),
+    t('plugins.coneError.manual.overrideSun'),
+    t('common.cancel')
+  );
+  if (yes) await guarded(() => store.manualPlanMove(plan.toSide, true));
 }
 
 async function move() {

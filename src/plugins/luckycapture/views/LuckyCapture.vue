@@ -1,6 +1,8 @@
 <script setup>
-import { computed, onMounted, onUnmounted, reactive, ref } from 'vue';
+import { computed, nextTick, onMounted, onUnmounted, reactive, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
+import CameraControl from '../components/CameraControl.vue';
+import { readLimit, selectionToRoi } from '../utils/captureUi';
 import { useLuckyCaptureStore } from '../store/luckycaptureStore';
 const store = useLuckyCaptureStore();
 const { t } = useI18n();
@@ -29,7 +31,75 @@ const recording = reactive({
   relativeDirectory: '',
   filenameTemplate: '{date}_{time}_{target}_{camera}_{sequence}',
 });
-const lock = computed(() => store.active || store.pending);
+const working = ref(false);
+const busy = computed(() => working.value || store.pending);
+const lock = computed(() => store.active || busy.value);
+const finishing = computed(() =>
+  ['STARTING', 'STOPPING', 'FINALIZING'].includes(store.status.state)
+);
+const recordingActive = computed(() =>
+  ['RECORDING', 'STOPPING', 'FINALIZING'].includes(store.status.state)
+);
+const previewOnly = computed(
+  () => form.acquisitionMode === 'preview' && store.capabilities?.stream?.previewOnly
+);
+const canStart = computed(
+  () =>
+    store.available &&
+    store.camera?.connected &&
+    !busy.value &&
+    !finishing.value &&
+    !recordingActive.value
+);
+const panel = ref('preview');
+const pageRoot = ref(null);
+const compact = ref(window.innerWidth <= 900);
+const resizeObserver = new ResizeObserver(([entry]) => {
+  compact.value =
+    (entry.borderBoxSize?.[0]?.inlineSize ?? entry.target.getBoundingClientRect().width) <= 960;
+});
+const selecting = ref(false);
+const cameraForm = ref(null);
+const roiHint = computed(() => (selecting.value ? text('roiSelecting') : text('roiHint')));
+const stateText = computed(() => text(`state${store.status.state || 'LOADING'}`));
+const primaryMetrics = ['currentAcquisitionFps', 'writtenFrames', 'elapsedSeconds'];
+const detailMetrics = [
+  'acquiredFrames',
+  'acceptedFrames',
+  'pluginDroppedFrames',
+  'streamTapDroppedFrames',
+  'previewSkippedFrames',
+  'averageAcquisitionFps',
+  'writtenFps',
+  'queueDepth',
+];
+async function tabKey(event, current) {
+  const items = compact.value ? ['preview', 'camera', 'recording'] : ['camera', 'recording'];
+  const index = items.indexOf(current);
+  let next;
+  if (event.key === 'ArrowRight') next = items[(index + 1) % items.length];
+  if (event.key === 'ArrowLeft') next = items[(index + items.length - 1) % items.length];
+  if (event.key === 'Home') next = items[0];
+  if (event.key === 'End') next = items.at(-1);
+  if (!next) return;
+  event.preventDefault();
+  selectPanel(next);
+  await nextTick();
+  document.getElementById(`lc-tab-${next}`)?.focus();
+}
+const selectPanel = (value) => {
+  selecting.value = false;
+  panel.value = value;
+};
+watch(
+  () => store.active,
+  (active) => {
+    if (active) {
+      selecting.value = false;
+      drag.value = null;
+    }
+  }
+);
 const supportedControls = computed(() =>
   store.controls.filter((c) =>
     ['exposure', 'gain', 'offset', 'usbLimit', 'bitDepth', 'binning'].includes(c.id)
@@ -41,12 +111,19 @@ const graph = computed(() => {
   const max = Math.max(1, ...bins);
   return bins.map((n, i) => `${i},${80 - (n / max) * 78}`).join(' ');
 });
-const number = (value, digits = 1) => (Number.isFinite(value) ? value.toFixed(digits) : '—');
+const number = (value, digits = 1) => (Number.isFinite(value) ? value.toFixed(digits) : '\u2014');
 async function invoke(action) {
+  if (working.value) return;
+  working.value = true;
   try {
     await action();
   } catch {
     /* store displays structured error */
+  } finally {
+    working.value = false;
+    await nextTick();
+    if (invalidControl.value)
+      cameraForm.value?.querySelector(`[data-control="${invalidControl.value}"]`)?.focus();
   }
 }
 async function load() {
@@ -60,7 +137,43 @@ async function load() {
   useRoi.value = !!store.settings.roi;
   if (store.settings.roi) Object.assign(roi, store.settings.roi);
 }
+const invalidControl = ref(null);
+async function validateCamera() {
+  invalidControl.value = null;
+  for (const control of store.controls) {
+    if (control.readOnly || control.type === 'enum' || control.id === 'binning') continue;
+    const value = form[controlKey(control.id)];
+    if (value == null && control.id !== 'exposure') continue;
+    const numeric = Number(value);
+    if (
+      value === '' ||
+      !Number.isFinite(numeric) ||
+      (control.min != null && numeric < control.min) ||
+      (control.max != null && numeric > control.max)
+    ) {
+      invalidControl.value = control.id;
+      panel.value = 'camera';
+      store.error = text('invalidCameraSettings');
+      throw new Error('Invalid camera settings');
+    }
+  }
+  if (
+    useRoi.value &&
+    (Object.values(roi).some((n) => !Number.isSafeInteger(n)) ||
+      roi.x < 0 ||
+      roi.y < 0 ||
+      roi.width < 2 ||
+      roi.height < 2 ||
+      roi.x + roi.width > store.camera.width ||
+      roi.y + roi.height > store.camera.height)
+  ) {
+    panel.value = 'camera';
+    store.error = text('invalidRoi');
+    throw new Error('Invalid ROI');
+  }
+}
 async function apply() {
+  await validateCamera();
   const usb = store.controls.find((c) => c.id === 'usbLimit');
   if (usb && form.usbLimit != null && Number(form.usbLimit) !== usb.currentValue) {
     await store.command('controls/usbLimit', { value: Number(form.usbLimit) }, 'PUT');
@@ -88,6 +201,17 @@ async function apply() {
   );
 }
 async function start(record) {
+  if (record) {
+    try {
+      recording.frameLimit = readLimit(recording.frameLimit, true);
+      recording.durationSeconds = readLimit(recording.durationSeconds);
+    } catch {
+      panel.value = 'recording';
+      store.error = text('invalidLimit');
+      return;
+    }
+  }
+  await validateCamera();
   if (store.status.state === 'PREVIEWING') await store.command('preview/stop', {});
   await apply();
   if (record)
@@ -97,6 +221,30 @@ async function start(record) {
       durationSeconds: recording.durationSeconds ? Number(recording.durationSeconds) : null,
     });
   else await store.command('preview/start', { previewFps: 8 });
+}
+async function togglePreview() {
+  if (store.status.state === 'PREVIEWING') await store.command('preview/stop', {});
+  else {
+    selecting.value = false;
+    await start(false);
+  }
+}
+async function toggleRecord() {
+  if (recordingActive.value) await store.command('recording/stop', {});
+  else {
+    selecting.value = false;
+    await start(true);
+  }
+}
+async function toggleSelection() {
+  if (selecting.value) {
+    selecting.value = false;
+    drag.value = null;
+    return;
+  }
+  if (store.status.state === 'PREVIEWING') await store.command('preview/stop', {});
+  selecting.value = true;
+  selection.value = null;
 }
 const drag = ref(null);
 const selection = ref(null);
@@ -108,7 +256,14 @@ function point(event) {
   };
 }
 function selectStart(event) {
-  if (lock.value || !store.camera?.roiSupported) return;
+  if (
+    !selecting.value ||
+    lock.value ||
+    !store.camera?.roiSupported ||
+    !event.isPrimary ||
+    (event.pointerType === 'mouse' && event.button !== 0)
+  )
+    return;
   event.currentTarget.setPointerCapture(event.pointerId);
   drag.value = point(event);
   selection.value = null;
@@ -127,240 +282,372 @@ function selectEnd(event) {
   selectMove(event);
   drag.value = null;
   if (!selection.value || selection.value.width < 0.01 || selection.value.height < 0.01) return;
-  const source = store.settings.roi || {
+  const source = store.previewRoi || {
     x: 0,
     y: 0,
     width: store.camera.width,
     height: store.camera.height,
   };
-  const s = selection.value;
-  roi.x = Math.floor((source.x + source.width * s.x) / 2) * 2;
-  roi.y = Math.floor((source.y + source.height * s.y) / 2) * 2;
-  roi.width = Math.max(2, Math.floor((source.width * s.width) / 2) * 2);
-  roi.height = Math.max(2, Math.floor((source.height * s.height) / 2) * 2);
+  Object.assign(roi, selectionToRoi(source, selection.value));
+  selecting.value = false;
+  panel.value = 'camera';
   useRoi.value = true;
 }
-onMounted(load);
-onUnmounted(() => store.close());
+onMounted(() => {
+  resizeObserver.observe(pageRoot.value);
+  invoke(load);
+});
+onUnmounted(() => {
+  resizeObserver.disconnect();
+  store.close();
+});
 </script>
 
 <template>
-  <main class="lc">
-    <header>
-      <div>
+  <main ref="pageRoot" class="lc" :class="{ compact }">
+    <header class="page-header">
+      <div class="heading">
         <h1>LuckyCapture</h1>
-        <p>{{ store.camera?.name || text('noCamera') }} · {{ store.status.state || '—' }}</p>
+        <p>{{ store.camera?.name || text('noCamera') }}</p>
       </div>
-      <button :disabled="store.pending" @click="invoke(load)">{{ text('refresh') }}</button>
+      <button :disabled="busy" @click="invoke(load)">{{ text('refresh') }}</button>
     </header>
+    <div class="capture-toolbar" :aria-label="text('captureActions')">
+      <div class="session-state" role="status" :class="{ running: store.active }">
+        <span class="state-dot" />{{ stateText }}
+      </div>
+      <div class="primary-actions">
+        <button
+          class="preview-action"
+          :disabled="
+            busy ||
+            finishing ||
+            recordingActive ||
+            (!canStart && store.status.state !== 'PREVIEWING')
+          "
+          @click="invoke(togglePreview)"
+        >
+          {{ store.status.state === 'PREVIEWING' ? text('pausePreview') : text('preview') }}
+        </button>
+        <button
+          class="record-action"
+          :disabled="busy || finishing || previewOnly || (!canStart && !recordingActive)"
+          @click="invoke(toggleRecord)"
+        >
+          {{ finishing ? text('finishing') : recordingActive ? text('stop') : text('record') }}
+        </button>
+      </div>
+    </div>
     <p v-if="store.error" class="error" role="alert">{{ store.error }}</p>
-    <p v-if="!store.available" class="notice">{{ text('unavailable') }}</p>
-    <p v-else-if="!store.camera?.connected" class="notice">{{ text('connectEquipment') }}</p>
-    <p v-if="store.available && !store.streamConnected" class="notice">
+    <p v-if="!store.available && !busy" class="notice">{{ text('unavailable') }}</p>
+    <p v-else-if="!store.camera?.connected && !busy" class="notice">
+      {{ text('connectEquipment') }}
+    </p>
+    <p v-if="store.available && !store.streamConnected" class="notice" role="status">
       {{ text('reconnecting') }}
     </p>
+    <p v-if="previewOnly" class="notice">{{ text('previewOnlyNotice') }}</p>
     <div class="layout">
-      <section class="visual">
-        <div
-          class="preview"
-          @pointerdown="selectStart"
-          @pointermove="selectMove"
-          @pointerup="selectEnd"
-          @pointercancel="drag = null"
+      <nav class="section-tabs" role="tablist" :aria-label="text('captureSections')">
+        <button
+          v-if="compact"
+          id="lc-tab-preview"
+          role="tab"
+          aria-controls="lc-preview"
+          :aria-selected="panel === 'preview'"
+          :tabindex="panel === 'preview' ? 0 : -1"
+          @keydown="tabKey($event, 'preview')"
+          @click="selectPanel('preview')"
         >
-          <img
+          {{ text('preview') }}
+        </button>
+        <button
+          id="lc-tab-camera"
+          role="tab"
+          aria-controls="lc-camera"
+          :aria-selected="panel === 'camera' || (!compact && panel === 'preview')"
+          :tabindex="panel === 'camera' || (!compact && panel === 'preview') ? 0 : -1"
+          @keydown="tabKey($event, 'camera')"
+          @click="selectPanel('camera')"
+        >
+          {{ text('cameraTab') }}
+        </button>
+        <button
+          id="lc-tab-recording"
+          role="tab"
+          aria-controls="lc-recording"
+          :aria-selected="panel === 'recording'"
+          :tabindex="panel === 'recording' ? 0 : -1"
+          @keydown="tabKey($event, 'recording')"
+          @click="selectPanel('recording')"
+        >
+          {{ text('recording') }}
+        </button>
+      </nav>
+      <section
+        v-show="!compact || panel === 'preview'"
+        id="lc-preview"
+        class="visual"
+        :role="compact ? 'tabpanel' : undefined"
+        :aria-labelledby="compact ? 'lc-tab-preview' : undefined"
+      >
+        <div class="preview" :class="{ selecting }">
+          <div
             v-if="store.previewUrl"
-            :src="store.previewUrl"
-            :alt="text('preview')"
-            draggable="false"
-          />
-          <p v-else>{{ text('startPreview') }}</p>
-          <div
-            v-if="selection"
-            class="selection"
-            :style="{
-              left: selection.x * 100 + '%',
-              top: selection.y * 100 + '%',
-              width: selection.width * 100 + '%',
-              height: selection.height * 100 + '%',
-            }"
-          />
-        </div>
-        <p class="hint">{{ text('roiHint') }}</p>
-        <svg class="histogram" viewBox="0 0 255 82" role="img" :aria-label="text('histogram')">
-          <polyline :points="graph" fill="none" stroke="currentColor" stroke-width="1" />
-        </svg>
-        <dl v-if="store.histogram" class="stats">
-          <div
-            v-for="key in ['min', 'max', 'mean', 'median', 'p95', 'saturationPercentage']"
-            :key="key"
+            class="preview-frame"
+            @pointerdown="selectStart"
+            @pointermove="selectMove"
+            @pointerup="selectEnd"
+            @pointercancel="drag = null"
+            @lostpointercapture="drag = null"
           >
-            <dt>{{ text(key) }}</dt>
-            <dd>{{ number(store.histogram[key]) }}</dd>
+            <img :src="store.previewUrl" :alt="text('preview')" draggable="false" />
+            <div
+              v-if="selection"
+              class="selection"
+              :style="{
+                left: selection.x * 100 + '%',
+                top: selection.y * 100 + '%',
+                width: selection.width * 100 + '%',
+                height: selection.height * 100 + '%',
+              }"
+            />
           </div>
-        </dl>
-        <dl class="stats">
-          <div
-            v-for="key in [
-              'acquiredFrames',
-              'writtenFrames',
-              'pluginDroppedFrames',
-              'previewSkippedFrames',
-              'currentAcquisitionFps',
-              'averageAcquisitionFps',
-              'writtenFps',
-              'elapsedSeconds',
-              'queueDepth',
-            ]"
-            :key="key"
+          <div v-else class="empty-preview">
+            <p>{{ text('startPreview') }}</p>
+            <p class="hint">{{ text('previewHelp') }}</p>
+          </div>
+        </div>
+        <div class="preview-tools">
+          <button
+            v-if="store.camera?.roiSupported"
+            :disabled="busy || recordingActive || finishing || !store.previewUrl"
+            :aria-pressed="selecting"
+            @click="invoke(toggleSelection)"
           >
+            {{ selecting ? text('cancelSelection') : text('selectRoi') }}
+          </button>
+          <button
+            :disabled="busy || !store.previewUrl"
+            @click="invoke(() => store.command('snapshot', recording))"
+          >
+            {{ text('snapshotShort') }}
+          </button>
+        </div>
+        <p class="hint" :class="{ selectingHint: selecting }">{{ roiHint }}</p>
+        <dl class="stats primary-stats">
+          <div v-for="key in primaryMetrics" :key="key">
             <dt>{{ text(key) }}</dt>
-            <dd>{{ number(store.status[key]) }}</dd>
+            <dd>
+              {{
+                number(store.status[key], key.endsWith('Frames') || key === 'queueDepth' ? 0 : 1)
+              }}
+            </dd>
           </div>
           <div>
-            <dt>{{ text('disk') }}</dt>
-            <dd>{{ number(store.status.freeDiskBytes / 1073741824) }} GiB</dd>
+            <dt>{{ text('saturationPercentage') }}</dt>
+            <dd>{{ number(store.histogram?.saturationPercentage) }}</dd>
           </div>
         </dl>
         <progress
           v-if="store.status.targetFrames || store.status.targetDurationSeconds"
+          :aria-label="text('recordingProgress')"
           :value="store.status.frameProgress ?? store.status.timeProgress ?? 0"
           max="1"
         />
-        <p v-if="store.status.outputFilename" class="filename">{{ store.status.outputPath }}</p>
-        <p v-if="store.status.stopReason">
-          {{ text('stopReason') }}: {{ store.status.stopReason }}
-        </p>
-        <p v-if="store.status.lastError || store.status.sidecarError" class="error">
+        <p v-if="store.status.outputFilename" class="filename">{{ store.status.outputFilename }}</p>
+        <p v-if="store.snapshotPath" class="filename">{{ store.snapshotPath }}</p>
+        <p v-if="store.status.lastError || store.status.sidecarError" class="error" role="alert">
           {{ store.status.lastError || store.status.sidecarError }}
         </p>
-      </section>
-      <section class="controls">
-        <fieldset :disabled="lock || !store.camera?.connected">
-          <legend>{{ text('cameraControls') }}</legend>
-          <label
-            >{{ text('acquisitionMode') }}
-            <select v-model="form.acquisitionMode">
-              <option value="auto">{{ text('automaticStream') }}</option>
-              <option value="exposures">{{ text('repeatedExposures') }}</option>
-              <option v-if="store.capabilities?.stream?.previewOnly" value="preview">
-                {{ text('cameraPreview') }}
-              </option>
-            </select>
-          </label>
-          <template
-            v-if="
-              store.capabilities?.stream?.available && !store.capabilities.stream.hardwareValidated
-            "
-          >
-            <label
-              ><input v-model="form.allowExperimentalStreaming" type="checkbox" />{{
-                text('experimentalStream')
-              }}</label
-            >
-            <label v-if="store.capabilities.stream.requiresDriverReconnect"
-              ><input v-model="form.allowDriverReconnect" type="checkbox" />{{
-                text('driverReconnect')
-              }}</label
-            >
-            <label v-if="store.capabilities.stream.backend === 'INDI'"
-              ><input v-model="form.allowStreamDepthReduction" type="checkbox" />{{
-                text('streamDepthReduction')
-              }}</label
-            >
-          </template>
-          <label v-for="c in supportedControls" :key="c.id"
-            >{{ text(c.id) }} <span v-if="c.unit">({{ c.unit }})</span>
-            <output v-if="c.readOnly">{{ c.currentValue }}</output>
-            <select
-              v-else-if="c.type === 'enum' || c.options?.length"
-              v-model="form[controlKey(c.id)]"
-            >
-              <option v-for="option in c.options" :key="option" :value="option">
-                {{ option }}
-              </option>
-            </select>
-            <input
-              v-else
-              v-model.number="form[controlKey(c.id)]"
-              type="number"
-              :min="c.min"
-              :max="c.max"
-              :step="c.step || 'any'"
-            />
-          </label>
-          <template v-if="store.camera?.roiSupported"
-            ><label class="check"
-              ><input v-model="useRoi" type="checkbox" /> {{ text('roi') }}</label
-            >
-            <div v-if="useRoi" class="roi-fields">
-              <label v-for="key in ['x', 'y', 'width', 'height']" :key="key"
-                >{{ key
-                }}<input
-                  v-model.number="roi[key]"
-                  type="number"
-                  :min="key === 'width' || key === 'height' ? 2 : 0"
-                  step="2"
-              /></label>
+        <details class="card capture-details">
+          <summary>{{ text('captureDetails') }}</summary>
+          <svg class="histogram" viewBox="0 0 255 82" role="img" :aria-label="text('histogram')">
+            <polyline :points="graph" fill="none" stroke="currentColor" stroke-width="1" />
+          </svg>
+          <dl v-if="store.histogram" class="stats">
+            <div v-for="key in ['min', 'max', 'mean', 'median', 'p95']" :key="key">
+              <dt>{{ text(key) }}</dt>
+              <dd>
+                {{ number(store.histogram[key], ['min', 'max', 'p95'].includes(key) ? 0 : 1) }}
+              </dd>
             </div>
-          </template>
-          <button @click="invoke(apply)">{{ text('apply') }}</button>
-        </fieldset>
-        <fieldset :disabled="lock">
+          </dl>
+          <dl class="stats">
+            <div v-for="key in detailMetrics" :key="key">
+              <dt>{{ text(key) }}</dt>
+              <dd>
+                {{
+                  number(store.status[key], key.endsWith('Frames') || key === 'queueDepth' ? 0 : 1)
+                }}
+              </dd>
+            </div>
+            <div>
+              <dt>{{ text('disk') }}</dt>
+              <dd>{{ number(store.status.freeDiskBytes / 1073741824) }} GiB</dd>
+            </div>
+          </dl>
+          <p v-if="store.status.stopReason">
+            {{ text('stopReason') }}: {{ store.status.stopReason }}
+          </p>
+          <p v-if="store.status.outputPath" class="filename">{{ store.status.outputPath }}</p>
+        </details>
+      </section>
+      <section
+        v-show="panel === 'camera' || (!compact && panel === 'preview')"
+        id="lc-camera"
+        class="controls"
+        role="tabpanel"
+        aria-labelledby="lc-tab-camera"
+      >
+        <div v-if="store.status.state === 'PREVIEWING'" class="notice">
+          <p>{{ text('pauseToAdjust') }}</p>
+          <button :disabled="busy" @click="invoke(togglePreview)">
+            {{ text('pausePreview') }}
+          </button>
+        </div>
+        <p v-else-if="recordingActive || finishing" class="notice">{{ text('recordingLocked') }}</p>
+        <form ref="cameraForm" @submit.prevent="invoke(apply)">
+          <fieldset class="settings-grid" :disabled="lock || !store.camera?.connected">
+            <legend>{{ text('cameraControls') }}</legend>
+            <CameraControl
+              v-for="c in supportedControls.filter((c) => c.id !== 'usbLimit')"
+              :key="c.id"
+              :control="c"
+              v-model="form[controlKey(c.id)]"
+              :invalid="invalidControl === c.id"
+            />
+            <details class="full-width advanced-settings">
+              <summary>{{ text('advancedCamera') }}</summary>
+              <div class="settings-grid">
+                <label class="full-width"
+                  >{{ text('acquisitionMode') }}
+                  <select v-model="form.acquisitionMode" aria-describedby="lc-mode-help">
+                    <option value="auto">{{ text('automaticStream') }}</option>
+                    <option value="exposures">{{ text('repeatedExposures') }}</option>
+                    <option v-if="store.capabilities?.stream?.previewOnly" value="preview">
+                      {{ text('cameraPreview') }}
+                    </option>
+                  </select>
+                </label>
+                <p id="lc-mode-help" class="field-help full-width">
+                  {{ text('helpAcquisitionMode') }}
+                </p>
+                <template
+                  v-if="
+                    store.capabilities?.stream?.available &&
+                    !store.capabilities.stream.hardwareValidated
+                  "
+                >
+                  <label class="check full-width"
+                    ><input v-model="form.allowExperimentalStreaming" type="checkbox" />{{
+                      text('experimentalStream')
+                    }}</label
+                  >
+                  <label
+                    class="check full-width"
+                    v-if="store.capabilities.stream.requiresDriverReconnect"
+                    ><input v-model="form.allowDriverReconnect" type="checkbox" />{{
+                      text('driverReconnect')
+                    }}</label
+                  >
+                  <label
+                    class="check full-width"
+                    v-if="store.capabilities.stream.backend === 'INDI'"
+                    ><input v-model="form.allowStreamDepthReduction" type="checkbox" />{{
+                      text('streamDepthReduction')
+                    }}</label
+                  >
+                </template>
+                <CameraControl
+                  v-for="c in supportedControls.filter((c) => c.id === 'usbLimit')"
+                  :key="c.id"
+                  :control="c"
+                  v-model="form[controlKey(c.id)]"
+                  :invalid="invalidControl === c.id"
+                />
+              </div>
+            </details>
+            <template v-if="store.camera?.roiSupported"
+              ><label class="check full-width"
+                ><input v-model="useRoi" type="checkbox" aria-describedby="lc-roi-help" />
+                {{ text('roi') }}</label
+              >
+              <p id="lc-roi-help" class="field-help full-width">{{ text('helpRoi') }}</p>
+              <div v-if="useRoi" class="roi-fields full-width">
+                <label v-for="key in ['x', 'y', 'width', 'height']" :key="key"
+                  >{{ text(`roi${key}`)
+                  }}<input
+                    v-model.number="roi[key]"
+                    type="number"
+                    inputmode="numeric"
+                    required
+                    :min="key === 'width' || key === 'height' ? 2 : 0"
+                    step="2"
+                /></label>
+              </div>
+            </template>
+            <button class="full-width" type="submit">{{ text('apply') }}</button>
+          </fieldset>
+        </form>
+      </section>
+      <section
+        v-show="panel === 'recording'"
+        id="lc-recording"
+        class="controls"
+        role="tabpanel"
+        aria-labelledby="lc-tab-recording"
+      >
+        <p class="hint">{{ text('recordingHelp') }}</p>
+        <fieldset class="settings-grid" :disabled="busy || recordingActive || finishing">
           <legend>{{ text('recording') }}</legend>
           <label
             >{{ text('format')
-            }}<select v-model="recording.format">
-              <option value="ser">SER · raw</option>
-              <option value="avi" :disabled="!store.capabilities.avi">AVI · FFV1</option>
+            }}<select v-model="recording.format" aria-describedby="lc-format-help">
+              <option value="ser">SER Â· raw</option>
+              <option value="avi" :disabled="!store.capabilities.avi">AVI Â· FFV1</option>
             </select></label
           >
-          <label
-            v-for="key in ['target', 'filter', 'relativeDirectory', 'filenameTemplate']"
+          <p id="lc-format-help" class="field-help full-width">{{ text('helpFormat') }}</p>
+          <div
+            v-for="key in ['frameLimit', 'durationSeconds', 'playbackFps']"
             :key="key"
-            >{{ text(key) }}<input v-model="recording[key]" type="text"
-          /></label>
-          <label v-for="key in ['frameLimit', 'durationSeconds', 'playbackFps']" :key="key"
-            >{{ text(key)
-            }}<input
+            v-show="key !== 'playbackFps' || recording.format === 'avi'"
+            class="field"
+          >
+            <label :for="`lc-record-${key}`">{{ text(key) }}</label>
+            <input
+              :id="`lc-record-${key}`"
+              :aria-describedby="`lc-help-${key}`"
               v-model.number="recording[key]"
               type="number"
-              min="1"
+              :inputmode="key === 'frameLimit' ? 'numeric' : 'decimal'"
+              :min="key === 'durationSeconds' ? 0.01 : 1"
               :step="key === 'durationSeconds' ? 'any' : 1"
-          /></label>
+            />
+            <p :id="`lc-help-${key}`" class="field-help">{{ text(`help${key}`) }}</p>
+          </div>
+          <details class="full-width recording-details">
+            <summary>{{ text('fileSettings') }}</summary>
+            <div class="settings-grid">
+              <div
+                v-for="key in ['target', 'filter', 'relativeDirectory', 'filenameTemplate']"
+                :key="key"
+                class="field"
+              >
+                <label :for="`lc-file-${key}`">{{ text(key) }}</label>
+                <input
+                  :id="`lc-file-${key}`"
+                  :aria-describedby="`lc-help-${key}`"
+                  v-model="recording[key]"
+                  type="text"
+                  autocomplete="off"
+                />
+                <p :id="`lc-help-${key}`" class="field-help">{{ text(`help${key}`) }}</p>
+              </div>
+            </div>
+          </details>
         </fieldset>
-        <div class="actions">
-          <button
-            v-if="!store.active"
-            :disabled="store.pending || !store.camera?.connected || !store.available"
-            @click="invoke(() => start(false))"
-          >
-            {{ text('preview') }}
-          </button>
-          <button
-            v-if="!store.active || store.status.state === 'PREVIEWING'"
-            class="record"
-            :disabled="store.pending || !store.camera?.connected || !store.available"
-            @click="invoke(() => start(true))"
-          >
-            {{ text('record') }}
-          </button>
-          <button
-            v-if="store.active"
-            class="record"
-            :disabled="store.pending"
-            @click="invoke(() => store.command('recording/stop', {}))"
-          >
-            {{ text('stop') }}
-          </button>
-        </div>
-        <button
-          :disabled="store.pending || !store.previewUrl"
-          @click="invoke(() => store.command('snapshot', recording))"
-        >
-          {{ text('snapshot') }}
-        </button>
-        <p v-if="store.snapshotPath" class="filename">{{ store.snapshotPath }}</p>
         <p class="hint">{{ text('rawNote') }}</p>
       </section>
     </div>
@@ -368,40 +655,206 @@ onUnmounted(() => store.close());
 </template>
 
 <style scoped>
+.field-help {
+  color: var(--lc-muted);
+  font-size: 0.875rem;
+  line-height: 1.5;
+  margin: 0.35rem 0 0;
+  overflow-wrap: anywhere;
+}
+.field {
+  min-width: 0;
+}
 .lc {
+  --lc-border: #69758a;
+  --lc-muted: #b8c5d8;
   max-width: 1200px;
   margin: auto;
   padding: 1rem;
-  color: var(--color-text, inherit);
+  color: var(--color-content, #e2e8f0);
 }
-header {
+.lc *,
+.lc *::before,
+.lc *::after {
+  box-sizing: border-box;
+}
+.page-header {
   display: flex;
-  justify-content: space-between;
   align-items: center;
-  gap: 1rem;
-  margin-bottom: 1rem;
+  justify-content: space-between;
+  gap: 0.75rem;
+  margin-bottom: 0.75rem;
+}
+.heading {
+  min-width: 0;
 }
 h1 {
-  font-size: 1.6rem;
+  font-size: 1.4rem;
+  font-weight: 700;
+}
+.heading p {
+  color: var(--lc-muted);
+  overflow-wrap: anywhere;
+}
+button,
+input:not([type='checkbox']),
+select,
+output {
+  min-height: 48px;
+  border: 1px solid var(--lc-border);
+  border-radius: var(--radius-control, 12px);
+  padding: 0.6rem 0.75rem;
+  font: inherit;
+  font-size: 1rem;
+  color: inherit;
+}
+button {
+  cursor: pointer;
+  background: var(--color-surface-2, #1a2336);
+  line-height: 1.35;
+  min-width: 48px;
+  touch-action: manipulation;
+  overflow-wrap: anywhere;
+}
+button:disabled {
+  cursor: default;
+  opacity: 0.5;
+}
+button:not(:disabled):hover {
+  filter: brightness(1.15);
+}
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+summary:focus-visible {
+  outline: 3px solid var(--color-accent, #22d3ee);
+  outline-offset: 3px;
+}
+.capture-toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem;
+  border: 1px solid var(--lc-border);
+  border-radius: var(--radius-card, 14px);
+  background: var(--color-ground, #0a0f1c);
+  box-shadow: 0 3px 12px #0005;
+  margin-bottom: 0.75rem;
+}
+.session-state {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex: 1;
   font-weight: 600;
+  font-size: 0.9rem;
+}
+.state-dot {
+  width: 0.65rem;
+  height: 0.65rem;
+  background: #94a3b8;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.running .state-dot {
+  background: #34d399;
+}
+:global(.app-portrait .capture-toolbar) {
+  top: calc(82px + var(--subnav-offset, 0px) + var(--stage-inset, 6px));
+}
+:global(.app-landscape .capture-toolbar) {
+  top: calc(var(--subnav-offset, 0px) + var(--stage-inset, 6px));
+}
+.primary-actions {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.6rem;
+}
+.primary-actions button {
+  min-width: 150px;
+  font-weight: 700;
+}
+.preview-action {
+  background: #036682;
+  border-color: #22d3ee;
+  color: #fff;
+}
+.record-action {
+  background: #a3342b;
+  border-color: #fb938a;
+  color: #fff;
 }
 .layout {
   display: grid;
-  grid-template-columns: minmax(0, 1.7fr) minmax(260px, 1fr);
-  gap: 1.25rem;
+  grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  gap: 0.75rem 1rem;
+  align-items: start;
+}
+.visual {
+  grid-column: 1;
+  grid-row: 1 / span 2;
+  min-width: 0;
+}
+.controls {
+  grid-column: 2;
+  min-width: 0;
+}
+.section-tabs {
+  grid-column: 2;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.35rem;
+}
+.section-tabs button {
+  border-color: transparent;
+  background: var(--color-surface-1, #111827);
+  font-weight: 600;
+  padding: 0.6rem 0.25rem;
+}
+.section-tabs button[aria-selected='true'] {
+  border-color: #22d3ee;
+  color: #22d3ee;
+  background: #123047;
 }
 .preview {
+  --preview-height: clamp(200px, 40vh, 360px);
   position: relative;
+  height: var(--preview-height);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
   background: #080b10;
-  min-height: 180px;
-  display: grid;
-  place-items: center;
-  touch-action: none;
+  border: 1px solid var(--lc-border);
+  border-radius: var(--radius-card, 14px);
+}
+.preview-frame {
+  position: relative;
+  max-width: 100%;
+  line-height: 0;
   user-select: none;
+  touch-action: pan-y pinch-zoom;
+}
+.selecting .preview-frame {
+  touch-action: none;
+  cursor: crosshair;
+}
+.selecting {
+  border-color: #22d3ee;
 }
 .preview img {
-  width: 100%;
+  width: auto;
+  height: auto;
+  max-width: 100%;
+  max-height: var(--preview-height);
   display: block;
+}
+.empty-preview {
+  padding: 1rem;
+  text-align: center;
 }
 .selection {
   position: absolute;
@@ -409,110 +862,225 @@ h1 {
   background: #ffb85022;
   pointer-events: none;
 }
-.histogram {
-  width: 100%;
-  height: 100px;
-  background: #080b10;
-  color: #67d3ad;
-  margin-top: 1rem;
+.preview-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.6rem;
+}
+.preview-tools button {
+  flex: 1;
+}
+.hint,
+dt {
+  color: var(--lc-muted);
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+.hint {
+  margin: 0.5rem 0;
+}
+.selectingHint {
+  color: #22d3ee;
 }
 .stats {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 0.75rem;
-  margin: 1rem 0;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.7rem;
+  margin: 0.75rem 0;
   font-variant-numeric: tabular-nums;
 }
-dt,
-.hint {
-  font-size: 0.8rem;
-  opacity: 0.75;
+.stats div {
+  min-width: 0;
+}
+dt {
+  overflow-wrap: anywhere;
 }
 dd {
   font-size: 1.1rem;
+  font-weight: 600;
+  margin: 0;
 }
+.primary-stats {
+  padding: 0.75rem;
+  border-radius: var(--radius-card, 14px);
+  background: var(--color-surface-1, #111827);
+}
+.card,
 fieldset {
-  border: 1px solid #7775;
-  border-radius: 0.5rem;
+  min-width: 0;
+  border: 1px solid var(--lc-border);
+  border-radius: var(--radius-card, 14px);
   padding: 0.8rem;
-  margin-bottom: 1rem;
 }
 legend {
-  padding: 0 0.4rem;
-  font-weight: 600;
+  padding: 0 0.3rem;
+  font-weight: 700;
 }
 label {
   display: block;
-  margin-bottom: 0.65rem;
-  font-size: 0.85rem;
+  font-size: 0.9rem;
+  line-height: 1.45;
 }
 input:not([type='checkbox']),
 select,
 output {
   display: block;
   width: 100%;
-  min-height: 40px;
-  padding: 0.45rem;
-  background: #7771;
-  border: 1px solid #7776;
-  border-radius: 0.3rem;
-  color: inherit;
+  margin-top: 0.25rem;
+  background: var(--color-surface-1, #111827);
+}
+input[type='checkbox'] {
+  width: 24px;
+  height: 24px;
+  flex: 0 0 24px;
+  accent-color: #22d3ee;
 }
 select option {
-  background: #161b22;
-  color: #eee;
+  background: #111827;
+  color: #e2e8f0;
 }
 .check {
   display: flex;
-  gap: 0.5rem;
+  gap: 0.7rem;
   align-items: center;
+  min-height: 48px;
+  padding: 0.4rem 0;
 }
+.settings-grid,
 .roi-fields {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 0.6rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.75rem;
 }
-button {
-  border: 1px solid #7776;
-  border-radius: 0.4rem;
-  padding: 0.6rem 1rem;
-  min-height: 44px;
+.full-width {
+  grid-column: 1 / -1;
 }
-button:disabled {
-  opacity: 0.45;
-}
-.actions {
+summary {
+  cursor: pointer;
+  min-height: 48px;
   display: flex;
-  gap: 0.7rem;
+  align-items: center;
+  gap: 0.6rem;
+  font-weight: 600;
+  list-style: none;
 }
-.record {
-  background: #b34132;
-  color: white;
+summary::before {
+  content: '\203A';
+  font-size: 1.4rem;
+}
+details[open] > summary::before {
+  transform: rotate(90deg);
+}
+details > div {
+  margin-top: 0.5rem;
+}
+.histogram {
+  width: 100%;
+  height: 72px;
+  background: #080b10;
+  color: #67d3ad;
+}
+.error,
+.notice {
+  overflow-wrap: anywhere;
+  padding: 0.75rem;
+  margin-bottom: 0.75rem;
+  border-radius: 0.5rem;
 }
 .error {
-  color: #ff978a;
-  padding: 0.6rem;
-  border: 1px solid #ff978a55;
-  margin-bottom: 1rem;
+  color: #ffb5ae;
+  border: 1px solid #ff978a;
+  background: #381a22;
 }
 .notice {
-  padding: 0.7rem;
-  background: #7772;
-  margin-bottom: 1rem;
+  background: #1a2336;
+  color: #d4ddeb;
+}
+.notice button {
+  margin-top: 0.6rem;
 }
 progress {
+  display: block;
   width: 100%;
+  margin: 0.75rem 0;
+  accent-color: #22d3ee;
 }
 .filename {
   overflow-wrap: anywhere;
-  font-size: 0.8rem;
+  font-size: 0.875rem;
+  margin: 0.5rem 0;
 }
-@media (max-width: 760px) {
-  .layout {
-    grid-template-columns: 1fr;
+.compact {
+  & {
+    padding: 0.65rem;
+    padding-bottom: calc(0.65rem + env(safe-area-inset-bottom, 0px));
   }
-  .stats {
-    grid-template-columns: repeat(2, 1fr);
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .visual,
+  .controls,
+  .section-tabs {
+    grid-column: 1;
+    grid-row: auto;
+  }
+  .section-tabs {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+  .capture-toolbar {
+    display: block;
+    padding: 0.5rem;
+  }
+  .session-state {
+    margin: 0 0 0.45rem 0.2rem;
+  }
+  .primary-actions button {
+    min-width: 0;
+    width: 100%;
+  }
+  .primary-actions {
+    width: 100%;
+  }
+  .preview {
+    --preview-height: clamp(180px, 34vh, 300px);
+  }
+}
+@supports (height: 1dvh) {
+  .preview {
+    --preview-height: clamp(200px, 40dvh, 360px);
+  }
+  .compact .preview {
+    --preview-height: clamp(180px, 34dvh, 300px);
+  }
+}
+@media (max-width: 360px) {
+  .settings-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .roi-fields {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .page-header {
+    gap: 0.4rem;
+  }
+  h1 {
+    font-size: 1.2rem;
+  }
+}
+@media (max-height: 500px) and (orientation: landscape) {
+  .preview {
+    --preview-height: 180px;
+  }
+  .capture-toolbar {
+    display: flex;
+  }
+  .session-state {
+    margin: 0;
+  }
+  .primary-actions {
+    flex: 2;
+    width: auto;
   }
 }
 </style>

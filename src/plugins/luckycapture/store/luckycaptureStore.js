@@ -16,6 +16,7 @@ export const useLuckyCaptureStore = defineStore('luckycapture', {
     status: {},
     histogram: null,
     previewUrl: '',
+    previewRoi: null,
     snapshotPath: '',
     error: '',
     pending: false,
@@ -36,6 +37,8 @@ export const useLuckyCaptureStore = defineStore('luckycapture', {
       try {
         const result = await luckyCaptureRequest(path, data, method, controller?.signal);
         if (result?.state) this.status = result;
+        if (path === 'preview/start' || path === 'recording/start')
+          this.previewRoi = this.settings.roi ? { ...this.settings.roi } : null;
         if (path === 'snapshot') this.snapshotPath = result.outputPath;
         return result;
       } catch (error) {
@@ -62,6 +65,7 @@ export const useLuckyCaptureStore = defineStore('luckycapture', {
         );
         if (current !== generation) return;
         Object.assign(this, { status, settings, capabilities });
+        this.previewRoi = settings.roi ? { ...settings.roi } : null;
         events = new EventSource(luckyCaptureUrl('events'));
         events.onopen = () => {
           if (current === generation) this.streamConnected = true;

@@ -58,6 +58,8 @@
               @refresh-interfaces="loadWifiInterfaceConfig"
               @save-interfaces="saveWifiInterfaces"
               @connect-wifi="connectWifi"
+              @connect-saved-network="connectWifi"
+              @saved-network-busy="status = $event ? 'Running' : 'Success'"
               @disconnect-wifi="requestDisableWifi"
               @set-network-mode="setNetworkMode"
               @retry-network-recovery="retryNetworkRecovery"
@@ -1120,7 +1122,7 @@ async function loadMobileWifiSignal() {
   }
 }
 
-async function connectWifi() {
+async function connectWifi(savedNetwork = null) {
   if (status.value === 'Running') return;
 
   const ip = getIp();
@@ -1133,18 +1135,22 @@ async function connectWifi() {
   pinsStore.setActiveOperation('wifi');
   pinsStore.clearTerminalLogs();
   appendLog(t('plugins.pins.logs.init', { ip }));
-  appendLog(t('plugins.pins.logs.connectingToWifi', { ssid: selectedSsid.value }));
+  appendLog(
+    t('plugins.pins.logs.connectingToWifi', { ssid: savedNetwork?.ssid || selectedSsid.value })
+  );
 
   try {
     await identifySelectedRig();
-    const data = await apiPinsService.connectPinsWifi({
-      ssid: selectedSsid.value,
-      password: wifiPassword.value,
-      auto_connect: autoConnect.value,
-      band: selectedBand.value === 'auto' ? null : selectedBand.value,
-      client_interface: selectedClientInterface.value || null,
-      hotspot_interface: selectedHotspotInterface.value || null,
-    });
+    const data = savedNetwork?.uuid
+      ? await apiPinsService.connectPinsSavedWifiNetwork(savedNetwork.uuid)
+      : await apiPinsService.connectPinsWifi({
+          ssid: selectedSsid.value,
+          password: wifiPassword.value,
+          auto_connect: autoConnect.value,
+          band: selectedBand.value === 'auto' ? null : selectedBand.value,
+          client_interface: selectedClientInterface.value || null,
+          hotspot_interface: selectedHotspotInterface.value || null,
+        });
     let returnedJobId;
 
     if (data && typeof data === 'object' && data.jobId) {

@@ -15,9 +15,13 @@
     <div v-else class="relative w-full h-full bg-gray-900 z-60 flex items-center justify-center">
       <!-- Zoom Overlay -->
       <div
-        class="absolute top-4 left-4 shadow-lg shadow-black bg-gray-800 text-white text-sm px-3 py-1 rounded-lg z-top pointer-events-none"
+        class="absolute top-4 left-4 flex items-center gap-2 shadow-lg shadow-black bg-gray-800 text-white text-sm px-3 py-1 rounded-lg z-top pointer-events-none"
       >
         Zoom: {{ zoomLevel.toFixed(2) }}x
+        <span
+          v-if="isSwitching"
+          class="w-3.5 h-3.5 border-2 border-blue-400 border-t-transparent rounded-full animate-spin"
+        ></span>
       </div>
 
       <!-- Control Buttons Container -->
@@ -94,9 +98,35 @@
         :index="index"
       />
 
+      <!-- Browse arrows (image history only). While the next image loads the current one
+           stays up, dimmed, so a quick tap sequence does not flicker through spinners. -->
+      <button
+        v-if="hasPrevious"
+        type="button"
+        class="absolute left-2 top-1/2 -translate-y-1/2 z-70 w-12 h-12 bg-gray-800/90 hover:bg-gray-700 text-white rounded-lg shadow-lg flex items-center justify-center transition-colors backdrop-blur-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
+        :aria-label="$t('components.helpers.imageModal.previous')"
+        :title="$t('components.helpers.imageModal.previous')"
+        data-testid="image-modal-previous"
+        @click="emits('previous')"
+      >
+        <ChevronLeftIcon class="w-7 h-7" />
+      </button>
+      <button
+        v-if="hasNext"
+        type="button"
+        class="absolute right-2 top-1/2 -translate-y-1/2 z-70 w-12 h-12 bg-gray-800/90 hover:bg-gray-700 text-white rounded-lg shadow-lg flex items-center justify-center transition-colors backdrop-blur-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-cyan-400"
+        :aria-label="$t('components.helpers.imageModal.next')"
+        :title="$t('components.helpers.imageModal.next')"
+        data-testid="image-modal-next"
+        @click="emits('next')"
+      >
+        <ChevronRightIcon class="w-7 h-7" />
+      </button>
+
       <div
         ref="imageContainer"
         class="w-full h-full overflow-hidden relative flex items-center justify-center shadow-md shadow-cyan-900"
+        @pointerdown.capture="onSwipeStart"
       >
         <div v-if="!imageData" class="text-white text-center">
           <p class="text-2xl mb-4">{{ $t('components.helpers.imageModal.no_image') }}</p>
@@ -114,7 +144,8 @@
             :src="displayUrl"
             ref="image"
             @load="onImageLoad"
-            class="w-full h-full object-contain cursor-move"
+            class="w-full h-full object-contain cursor-move transition-opacity"
+            :class="{ 'opacity-60': isSwitching }"
             alt="Vergrößertes Bild"
           />
         </div>
@@ -134,13 +165,19 @@
 <script setup>
 import { ref, watch, nextTick, onBeforeUnmount } from 'vue';
 import Panzoom from '@panzoom/panzoom';
-import { ArrowDownTrayIcon, TrashIcon } from '@heroicons/vue/24/outline';
+import {
+  ArrowDownTrayIcon,
+  TrashIcon,
+  ChevronLeftIcon,
+  ChevronRightIcon,
+} from '@heroicons/vue/24/outline';
 import { downloadImage as downloadImageHelper } from '@/utils/imageDownloader';
 import BadButton from './BadButton.vue';
 import HistogramChart from '@/components/helpers/HistogramChart.vue';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useHistogramStore } from '@/store/histogramStore';
 import { useRawStretch } from '@/composables/useRawStretch';
+import { swipeStep } from '@/utils/swipeGesture';
 
 const settingsStore = useSettingsStore();
 const histogramStore = useHistogramStore();
@@ -180,12 +217,28 @@ const props = defineProps({
     type: Object,
     default: null,
   },
+  // Browsing: arrows, the arrow keys and a swipe emit previous/next; the parent picks
+  // the image and swaps imageData. Off by default, so only the image history browses.
+  hasPrevious: {
+    type: Boolean,
+    default: false,
+  },
+  hasNext: {
+    type: Boolean,
+    default: false,
+  },
+  // The parent is loading the image browsed to; the current one stays up until then.
+  isSwitching: {
+    type: Boolean,
+    default: false,
+  },
 });
 
-const emits = defineEmits(['close', 'delete']);
+const emits = defineEmits(['close', 'delete', 'previous', 'next']);
 const image = ref(null);
 const imageContainer = ref(null);
 let panzoomInstance = null;
+let wheelContainer = null; // where the wheel listener of panzoomInstance is bound
 const zoomLevel = ref(1);
 const showHistogram = ref(false);
 
@@ -195,9 +248,7 @@ function closeModal() {
 
 const initializePanzoom = () => {
   // Destroy old instance if exists
-  if (panzoomInstance) {
-    panzoomInstance.destroy();
-  }
+  destroyPanzoom();
 
   if (!image.value || !imageContainer.value) return;
 
@@ -211,6 +262,8 @@ const initializePanzoom = () => {
       friction: 0.15, // Drag deceleration (lower = slower/more resistance)
     });
 
+    zoomLevel.value = 1;
+
     // Listen to zoom changes
     image.value.addEventListener('panzoomchange', () => {
       if (panzoomInstance) {
@@ -218,8 +271,10 @@ const initializePanzoom = () => {
       }
     });
 
-    // Add mousewheel support
-    imageContainer.value.addEventListener('wheel', panzoomInstance.zoomWithWheel);
+    // Add mousewheel support. Removed again in destroyPanzoom: every image load
+    // creates a new instance, and a stale listener would zoom a second time.
+    wheelContainer = imageContainer.value;
+    wheelContainer.addEventListener('wheel', panzoomInstance.zoomWithWheel);
   } catch (error) {
     console.error('Error initializing Panzoom:', error);
   }
@@ -227,6 +282,8 @@ const initializePanzoom = () => {
 
 const destroyPanzoom = () => {
   if (panzoomInstance) {
+    wheelContainer?.removeEventListener('wheel', panzoomInstance.zoomWithWheel);
+    wheelContainer = null;
     try {
       panzoomInstance.destroy();
     } catch (error) {
@@ -252,6 +309,60 @@ const onImageLoad = () => {
   });
 };
 
+function browse(step) {
+  if (step < 0 && props.hasPrevious) emits('previous');
+  else if (step > 0 && props.hasNext) emits('next');
+}
+
+function onKeydown(event) {
+  if (event.defaultPrevented || event.altKey || event.ctrlKey || event.metaKey) return;
+  if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+  event.preventDefault();
+  browse(event.key === 'ArrowLeft' ? -1 : 1);
+}
+
+// Swipe to browse, only unzoomed: zoomed in, a drag pans the image. Panzoom stops
+// pointerdown from bubbling, hence the capture listener on the container; up and
+// cancel are watched on the window so a release outside the image is not lost.
+const activePointers = new Set();
+let swipeStart = null;
+
+function onSwipeStart(event) {
+  if (!props.hasPrevious && !props.hasNext) return;
+  activePointers.add(event.pointerId);
+  // A second finger makes it a pinch, which never browses.
+  swipeStart =
+    activePointers.size === 1 && zoomLevel.value <= 1.05
+      ? { x: event.clientX, y: event.clientY }
+      : null;
+}
+
+function onSwipeEnd(event) {
+  if (!activePointers.delete(event.pointerId)) return;
+  if (activePointers.size > 0 || !swipeStart) return;
+  const start = swipeStart;
+  swipeStart = null;
+  if (event.type !== 'pointerup') return;
+  browse(swipeStep(event.clientX - start.x, event.clientY - start.y));
+}
+
+function bindBrowseListeners(bind) {
+  const method = bind ? 'addEventListener' : 'removeEventListener';
+  window[method]('keydown', onKeydown);
+  window[method]('pointerup', onSwipeEnd);
+  window[method]('pointercancel', onSwipeEnd);
+  if (!bind) {
+    activePointers.clear();
+    swipeStart = null;
+  }
+}
+
+watch(
+  () => props.showModal && (props.hasPrevious || props.hasNext),
+  (browsing) => bindBrowseListeners(browsing),
+  { immediate: true }
+);
+
 const { displayUrl } = useRawStretch(
   () => props.imageData,
   () => props.rawSource,
@@ -272,6 +383,7 @@ watch(
 );
 
 onBeforeUnmount(() => {
+  bindBrowseListeners(false);
   destroyPanzoom();
 });
 </script>

@@ -1,5 +1,5 @@
 import { useI18n } from 'vue-i18n';
-import { settingLabel } from '@/utils/nativeGuider';
+import { settingLabel, settingOptionLabel } from '@/utils/nativeGuider';
 import {
   describeChange,
   findingText,
@@ -39,6 +39,7 @@ export function useCoachText() {
       on: t('components.guider.native.settings.on'),
       off: t('components.guider.native.settings.off'),
       label: (setting) => settingLabel({ t, te }, setting),
+      option: (name, value) => settingOptionLabel({ t, te }, name, value),
     });
   }
 

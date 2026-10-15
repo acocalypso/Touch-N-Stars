@@ -2988,6 +2988,10 @@
               "disconnect": "a device disconnected",
               "unknown": "another command interrupted it"
             },
+            "playReason": {
+              "soft": "varies with the preceding move",
+              "large": "is large"
+            },
             "bool": {
               "true": "yes",
               "false": "no"
@@ -3090,7 +3094,11 @@
                 "title": "Dec backlash: {ms} ({arcsec})",
                 "why": "When Dec reverses, the gears first have to take up their play. Corrections do nothing during that time, then the star overshoots and Dec oscillates.",
                 "fix_good": "Nothing to do.",
-                "fix": "Use backlash compensation with the measured pulse, reduce the play mechanically, or unbalance Dec slightly. Guiding Dec in one direction avoids it altogether."
+                "fix": "Use backlash compensation (with the Predictive Dec algorithm preferably the play model, otherwise the measured pulse), reduce the play mechanically, or unbalance Dec slightly. Guiding Dec in one direction avoids it altogether.",
+                "notes": {
+                  "playModel": "The Dec backlash {playReason}, so a fixed pulse does not fit it well. The play model tracks where the gear sits in the play, learns its size from calibration and guiding, and compensates only the play that is left.",
+                  "playModelNeedsPredictive": "The play model would fit this backlash better than a fixed pulse, but it works only with the Predictive Dec algorithm. Switch the Dec algorithm to Predictive to use it."
+                }
               },
               "minPulse": {
                 "title": "{axis}: pulses under {ms} do not move the mount",

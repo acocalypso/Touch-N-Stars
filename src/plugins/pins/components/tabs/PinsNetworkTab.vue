@@ -51,6 +51,14 @@
       @save-hotspot="$emit('save-hotspot')"
     />
 
+    <PinsSavedNetworksCard
+      :disabled="disabled"
+      :wifi-status="wifiStatus"
+      @connect="$emit('connect-saved-network', $event)"
+      @retry="$emit('set-network-mode', 'auto')"
+      @busy="$emit('saved-network-busy', $event)"
+    />
+
     <PinsDhcpClientsCard
       v-if="!stationaryMode || allowConcurrentMode"
       :clients="dhcpClients"
@@ -63,6 +71,7 @@
 <script setup>
 import PinsWifiCard from '../PinsWifiCard.vue';
 import PinsDhcpClientsCard from '../PinsDhcpClientsCard.vue';
+import PinsSavedNetworksCard from '../PinsSavedNetworksCard.vue';
 
 defineProps({
   stationaryMode: {
@@ -196,6 +205,8 @@ defineProps({
 });
 
 defineEmits([
+  'connect-saved-network',
+  'saved-network-busy',
   'toggle-stationary',
   'scan-wifi',
   'refresh-interfaces',

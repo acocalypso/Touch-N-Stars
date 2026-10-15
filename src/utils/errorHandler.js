@@ -121,12 +121,15 @@ export function setupErrorHandler() {
 
         // Show toast for HTTP errors or API StatusCode errors (but not for HTTP 200 + StatusCode 200)
         // Skip toasts for HTTP 200 + StatusCode 200 (successful responses) and all 404s
+        // Callers probing a backend in the background (e.g. "is PHD2 running?") opt out
+        // of the toast via `suppressErrorToast` in the axios config; the log stays.
         if (
           (response.status >= 400 || statusCode >= 400) &&
           statusCode !== 404 &&
           statusCode !== 409 &&
           statusCode !== 500 &&
-          !isSuppressedUrl
+          !isSuppressedUrl &&
+          !response.config?.suppressErrorToast
         ) {
           showToast({
             type: isRealError ? 'error' : 'info',

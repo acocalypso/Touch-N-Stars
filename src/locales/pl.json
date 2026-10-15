@@ -4259,7 +4259,9 @@
       },
       "imageModal": {
         "no_image": "Brak dostępnych danych obrazu",
-        "histogram": "Pokaż histogram"
+        "histogram": "Pokaż histogram",
+        "previous": "Poprzedni obraz",
+        "next": "Następny obraz"
       },
       "histogram": {
         "blackPoint": "Czarny punkt",
@@ -4440,6 +4442,20 @@
       "band5": "5 GHz",
       "rescan": "Przeskanuj ponownie sieci Wi-Fi",
       "wifiPassword": "Hasło",
+      "savedWifi": {
+        "title": "Saved Wi-Fi networks",
+        "description": "Connect and enable auto-connect to save a network. Higher priorities are tried first; equal priorities prefer the most recently used network.",
+        "retryHint": "Saved networks are retried every two minutes. With one adapter, background retries wait until no devices are connected to the PINS hotspot. Manual retries can interrupt hotspot access.",
+        "retry": "Retry saved networks",
+        "empty": "No saved networks. Connect to a Wi-Fi network above to add one.",
+        "priority": "Priority",
+        "forget": "Forget",
+        "forgetConfirm": "Forget {ssid} and its saved credentials?",
+        "otherAdapter": "Adapter: {interface}",
+        "loadFailed": "Could not load saved networks. Check the connection and update pinsdaemon if needed.",
+        "operationFailed": "The saved network operation failed. Refresh the list and try again.",
+        "invalidPriority": "Priority must be a whole number between -999 and 999."
+      },
       "autoConnect": "Po uruchomieniu automatycznie połącz się z wybranym Wi-Fi",
       "wifiConnect": "Połącz",
       "scanning": "Skanowanie...",

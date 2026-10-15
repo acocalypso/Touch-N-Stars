@@ -4305,7 +4305,9 @@
       },
       "imageModal": {
         "no_image": "이미지 데이터가 없습니다",
-        "histogram": "히스토그램 표시"
+        "histogram": "히스토그램 표시",
+        "previous": "이전 이미지",
+        "next": "다음 이미지"
       },
       "histogram": {
         "blackPoint": "블랙 포인트",
@@ -4455,6 +4457,20 @@
       "band5": "5 GHz",
       "rescan": "WiFi 네트워크 재검색",
       "wifiPassword": "비밀번호",
+      "savedWifi": {
+        "title": "Saved Wi-Fi networks",
+        "description": "Connect and enable auto-connect to save a network. Higher priorities are tried first; equal priorities prefer the most recently used network.",
+        "retryHint": "Saved networks are retried every two minutes. With one adapter, background retries wait until no devices are connected to the PINS hotspot. Manual retries can interrupt hotspot access.",
+        "retry": "Retry saved networks",
+        "empty": "No saved networks. Connect to a Wi-Fi network above to add one.",
+        "priority": "Priority",
+        "forget": "Forget",
+        "forgetConfirm": "Forget {ssid} and its saved credentials?",
+        "otherAdapter": "Adapter: {interface}",
+        "loadFailed": "Could not load saved networks. Check the connection and update pinsdaemon if needed.",
+        "operationFailed": "The saved network operation failed. Refresh the list and try again.",
+        "invalidPriority": "Priority must be a whole number between -999 and 999."
+      },
       "autoConnect": "부팅 후 선택한 WiFi에 자동 연결",
       "wifiConnect": "연결",
       "scanning": "검색 중...",

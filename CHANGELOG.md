@@ -5,7 +5,25 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [unreleased]
+## [App6.5.0 - beta 5] - 2026-10-13
+
+### Added
+
+- Equipment (PINS): The guide camera has its own Alpaca Direct settings again, on the equipment page and in the setup wizard. Two Alpaca cameras without discovery can now be used as imaging and guide camera at the same time. Developed by @nitr57.
+- Image history: The image viewer has arrows to the previous and next image, in the order and filter of the history. The arrow keys and a sideways swipe do the same; zoomed in, a swipe still moves the image.
+- Sequence monitor: The session timeline remembers the chosen start and end on this device, also after leaving the page or reloading. A range that reaches the current time keeps growing, so new data still shows up when only the start was moved. A range from an earlier night is not carried over to the next one.
+- Native Guider (PINS): The last error in the status bar can be dismissed with its cross; it stays hidden on this device until another error comes.
+
+### Changed
+
+- PINS: The switch between automatic fallback and field hotspot is a segmented control like elsewhere in the app. The unselected mode no longer looks disabled, and a hint below explains the selected mode.
+- Native Guider (PINS): When the Dec backlash compensation adjusted its pulse while guiding, the backlash pulse setting shows the pulse in use below the field, e.g. "In use: 260 ms, adjusted while guiding." This needs a PINS version that reports the pulse in use.
+- Native Guider (PINS): A star of the guide frame that is not used now says why in a sentence instead of the bare reason name. A reason that holds for all other stars, e.g. while settling, is shown once below the frame.
+- Equipment (INDI): The serial port list also offers the by-path links of the ports in their own group, and the links show a description.
+
+### Fixed
+
+- Native Guider (PINS): The guide cycle timing in the Proc. tile's explanation shows the exposure for the last cycle too, instead of –.
 
 ### Added
 
@@ -17,18 +35,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Native Guider (PINS): The camera group of the settings tab now also sets the guide camera's readout mode, USB limit and, depending on the camera, fan speed, ultra mode, high fullwell, binning average and LED. Gain, offset and binning stay the guider's own settings there.
 - Guiding: The guide camera card also sets the guide camera's readout mode, USB limit and camera options next to gain, offset and binning.
-- Equipment (PINS): The guide camera has its own Alpaca Direct settings again, on the equipment page and in the setup wizard. Two Alpaca cameras without discovery can now be used as imaging and guide camera at the same time. Developed by @nitr57.
 
 ### Changed
 
 - Native Guider (PINS): Gain, offset and pixel size at "default" show the value that applies, e.g. "Default (120)", taken from the guide camera.
-- Native Guider (PINS): When the Dec backlash compensation adjusted its pulse while guiding, the backlash pulse setting shows the pulse in use below the field, e.g. "In use: 260 ms, adjusted while guiding." This needs a PINS version that reports the pulse in use.
-- PINS: The switch between automatic fallback and field hotspot is a segmented control like elsewhere in the app. The unselected mode no longer looks disabled, and a hint below explains the selected mode.
 
 ### Fixed
 
 - Guide camera: For cameras with a list of named gains, the chosen gain itself is stored instead of its position in the list.
-- Native Guider (PINS): The guide cycle timing in the Proc. tile's explanation shows the exposure for the last cycle too, instead of –.
 
 ## [App6.5.0 - beta 3] - 2026-10-12
 

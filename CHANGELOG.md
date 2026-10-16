@@ -5,10 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [App6.5.0 - beta 6] - 2026-10-16
+## [App6.5.0 - beta 7] - 2026-10-16
 
 ### Added
+
 - AAPA Controller (plugin): Control the Astrophilos Automated Polar Alignment through the AAPA Controller NINA plugin, including one-button polar alignment together with TPPA.
+
+## [App6.5.0 - beta 6] - 2026-10-14
+
+### Added
+
+- PINS: The network tab lists the saved Wi-Fi networks. Each one has a priority and can be connected, switched to auto-connect or forgotten; higher priorities are tried first, and equal ones prefer the most recently used network. A button retries the saved networks right away. This needs an updated pinsdaemon. Developed by @acocalypso.
+
+### Fixed
+
+- Guiding (PHD2): Opening the guider no longer shows error messages when PHD2 is not running yet. The guide camera list is still loaded quietly in the background, and errors are shown only after an action of your own.
 
 ## [App6.5.0 - beta 5] - 2026-10-13
 

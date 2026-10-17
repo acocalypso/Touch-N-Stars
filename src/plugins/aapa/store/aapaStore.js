@@ -226,6 +226,8 @@ export const useAapaStore = defineStore('aapaStore', {
       this.command('StopAutoPilot');
       this.stopTppa();
       this.finishAssist();
+      // An explicit stop resolves whatever was reported, e.g. the connectionLost hint.
+      this.assistError = null;
     },
 
     /**

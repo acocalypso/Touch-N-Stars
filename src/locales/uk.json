@@ -7863,7 +7863,6 @@
       },
       "settings": {
         "groups": {
-          "autopilot": "Auto-Pilot",
           "geometry": "Геометрія двигуна",
           "motor": "Швидкість і прискорення",
           "limits": "Обмеження висоти"

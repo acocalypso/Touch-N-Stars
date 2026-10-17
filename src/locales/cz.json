@@ -7863,7 +7863,6 @@
       },
       "settings": {
         "groups": {
-          "autopilot": "Auto-Pilot",
           "geometry": "Geometrie motoru",
           "motor": "Rychlost a zrychlení",
           "limits": "Výškové limity"

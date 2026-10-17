@@ -7863,7 +7863,6 @@
       },
       "settings": {
         "groups": {
-          "autopilot": "Auto-Pilot",
           "geometry": "Motorgeometrie",
           "motor": "Snelheid en versnelling",
           "limits": "Hoogtelimieten"

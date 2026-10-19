@@ -7,9 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [unreleased] 
 
+### Added
+
+- Native Guider (PINS): New Dec backlash model setting with the choice between the fixed pulse as in PHD2 and the new play model. The play model tracks where the Dec gear sits in the play, learns the size and shape of the play from calibration and guiding, holds back corrections that would only take up play on seeing noise and lengthens a needed correction by the play still left. It works with the Predictive Dec algorithm only; with another Dec algorithm the setting shows a warning that says how to switch, and the fixed pulse is used. A second setting decides after how large a slew or a pier flip the play is measured again before guiding starts. While the play model is active, a chip in the status bar shows the learned play and the gear side, and a tap opens the details: shape of the play, a bar with the play left towards North and South, reversals, learned take-ups, held corrections and the last compensation. Every value has its own explanation behind its info button or a tap on its tile. The Guiding Coach suggests the play model when the measured Dec backlash is soft or large, and says when it would need the Predictive Dec algorithm; its suggested changes now show option names such as "Play model" instead of the internal values. This needs a PINS version with the play model.
+
 ### Fixed
 
-fix(aapa): require a camera before starting polar alignment and clear the error on stop
+- AAPA Controller (plugin): The automatic polar alignment can only be started with a connected camera, and a hint says so while none is connected. Stopping the alignment clears the last error message, e.g. a lost connection.
+- Native Guider (PINS): The guide graph remembers the chosen y-scale on this device, also after closing and reopening the guider.
 
 ## [App6.5.0 - beta 7] - 2026-10-16
 
@@ -46,10 +51,6 @@ fix(aapa): require a camera before starting polar alignment and clear the error 
 ### Fixed
 
 - Native Guider (PINS): The guide cycle timing in the Proc. tile's explanation shows the exposure for the last cycle too, instead of –.
-
-### Added
-
-- Native Guider (PINS): New Dec backlash model setting with the choice between the fixed pulse as in PHD2 and the new play model. The play model tracks where the Dec gear sits in the play, learns the size and shape of the play from calibration and guiding, holds back corrections that would only take up play on seeing noise and lengthens a needed correction by the play still left. It works with the Predictive Dec algorithm only; with another Dec algorithm the setting shows a warning and the fixed pulse is used. While the play model is active, a chip in the status bar shows the learned play and the gear side, and a tap opens the details: shape of the play, a bar with the play left towards North and South, reversals, held corrections and the last compensation. The Guiding Coach suggests the play model when the measured Dec backlash is soft or large, and says when it would need the Predictive Dec algorithm; its suggested changes now show option names such as "Play model" instead of the internal values. This needs a PINS version with the play model.
 
 ## [App6.5.0 - beta 4] - 2026-10-12
 

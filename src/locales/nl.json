@@ -2553,7 +2553,8 @@
             "IncidentBudgetMb": "Schijfbudget incidenten",
             "SimulatorScenario": "Simulatorscenario",
             "SimulateFault": "Storing simuleren",
-            "BacklashModel": "Dec-spelingsmodel"
+            "BacklashModel": "Dec-spelingsmodel",
+            "BacklashRemeasureAfterSlewDeg": "Dec-speling opnieuw meten na een zwenk van"
           },
           "descriptions": {
             "GuideSource": "Waar de guideframes vandaan komen. Guidecamera: de camera in het guidecameraslot van de apparatuur. Simulator: een ingebouwde simulatie van montering, hemel en camera, om de guider zonder hardware of bij daglicht te proberen.",
@@ -2618,10 +2619,11 @@
             "IncidentBudgetMb": "Schijfruimte voor opgenomen incidenten; de oudste niet-bewaarde worden het eerst verwijderd. Simulatorincidenten hebben hun eigen 200 MB.",
             "SimulatorScenario": "Montering, hemel en camera die de ingebouwde simulator nabootst.",
             "SimulateFault": "Brengt een storing aan in de lopende simulator: wolken (110 s), een stoot tegen de montering, een montering die niet meer reageert (60 s), 3 mislukte belichtingen of Dec-correcties in de verkeerde richting (120 s).",
-            "BacklashModel": "Vast voegt bij elke Dec-omkering de extra puls toe en past die langzaam aan. Het spelingsmodel volgt het Dec-tandwiel binnen de speling, houdt correcties tegen die bij seeingruis alleen speling zouden opnemen, en leert de speling uit kalibratie en guiding. Alleen met het Dec-algoritme Predictive."
+            "BacklashModel": "Vast voegt bij elke Dec-omkering de extra puls toe en past die langzaam aan. Het spelingsmodel volgt het Dec-tandwiel binnen de speling, houdt correcties tegen die bij seeingruis alleen speling zouden opnemen, en leert de speling uit kalibratie en guiding. Alleen met het Dec-algoritme Predictive. Bij twijfel: kies met het Dec-algoritme Predictive het spelingsmodel, anders blijf bij Vast. De Guiding Coach stelt het spelingsmodel voor als de gemeten speling erbij past.",
+            "BacklashRemeasureAfterSlewDeg": "Start de guiding nadat de montering verder dan deze waarde is gezwenkt of van pierzijde is gewisseld, dan meet het spelingsmodel eerst de speling opnieuw: Dec pulst naar het noorden tot de ster volgt en daarna naar het zuiden terug naar het begin. Het tandwiel ligt dan tegen een bekende kant en het model kent de speling bij het nieuwe doel. Duurt ongeveer 10 tot 20 guideframes. 0 = nooit."
           },
           "warnings": {
-            "backlashModelNeedsPredictive": "Het spelingsmodel werkt alleen met het Dec-algoritme Predictive; nu wordt de vaste puls gebruikt."
+            "backlashModelNeedsPredictive": "Het spelingsmodel werkt alleen met het Dec-algoritme Predictive; nu wordt de vaste puls gebruikt. Zet hiervoor in deze instellingen ‘Dec-algoritme’ op Predictive."
           }
         },
         "darks": {
@@ -2950,6 +2952,10 @@
             "bool": {
               "true": "ja",
               "false": "nee"
+            },
+            "playReason": {
+              "soft": "varieert met de vorige beweging",
+              "large": "is groot"
             }
           },
           "codes": {
@@ -3049,7 +3055,11 @@
                 "title": "Dec-speling: {ms} ({arcsec})",
                 "why": "Als Dec van richting wisselt, moeten de tandwielen eerst hun speling opnemen. Correcties doen in die tijd niets, daarna schiet de ster door en oscilleert Dec.",
                 "fix_good": "Niets te doen.",
-                "fix": "Gebruik spelingscompensatie met de gemeten puls, verminder de speling mechanisch of breng Dec licht uit balans. Dec in één richting guiden vermijdt het helemaal."
+                "fix": "Gebruik spelingscompensatie (met het Dec-algoritme Predictive bij voorkeur het spelingsmodel, anders de gemeten puls), verminder de speling mechanisch of breng Dec licht uit balans. Dec in één richting guiden vermijdt het helemaal.",
+                "notes": {
+                  "playModel": "De Dec-speling {playReason}, dus een vaste puls past er slecht bij. Het spelingsmodel volgt waar het tandwiel in de speling staat, leert de grootte uit kalibratie en guiding, en compenseert alleen de resterende speling.",
+                  "playModelNeedsPredictive": "Het spelingsmodel zou deze speling beter compenseren dan een vaste puls, maar werkt alleen met het Dec-algoritme Predictive. Zet het Dec-algoritme op Predictive om het te gebruiken."
+                }
               },
               "minPulse": {
                 "title": "{axis}: pulsen onder {ms} bewegen de montering niet",
@@ -3435,7 +3445,7 @@
         },
         "backlash": {
           "title": "Dec-speling – spelingsmodel",
-          "help": "Het spelingsmodel volgt waar het Dec-tandwiel zich in de speling van de tandwielen bevindt en leert de grootte en vorm van die speling uit kalibratie en guiding. Het houdt correcties tegen die alleen speling zouden opnemen zolang de fout louter seeingruis is, en verlengt een nodige correctie met de resterende speling. Het werkt alleen met het Dec-algoritme Predictive.",
+          "help": "Het spelingsmodel volgt waar het Dec-tandwiel zich in de speling van de tandwielen bevindt en leert de grootte en vorm van die speling uit kalibratie en guiding. Het houdt correcties tegen die alleen speling zouden opnemen zolang de fout louter seeingruis is, en verlengt een nodige correctie met de resterende speling. Het werkt alleen met het Dec-algoritme Predictive.\n\nHier valt niets in te stellen: het model leert zelf en bewaart wat het leerde per profiel en montering voor de volgende nacht. De chip toont de geleerde speling en de kant waartegen het tandwiel ligt.",
           "fullReversal": "Geleerde speling (volledige omkering)",
           "shape": "Vorm van de speling",
           "fromCalibration": "gemeten bij de kalibratie",
@@ -3444,7 +3454,7 @@
           "southShort": "Z",
           "slackNorth": "Noord: nog {value}",
           "slackSouth": "Zuid: nog {value}",
-          "positionUnknown": "De positie van het tandwiel in de speling is nog onbekend.",
+          "positionUnknown": "De positie van het tandwiel in de speling is nog onbekend; die wordt bekend bij de eerste Dec-correctie of een kalibratie.",
           "gears": {
             "North": "ligt aan de noordkant aan",
             "South": "ligt aan de zuidkant aan",
@@ -3462,7 +3472,16 @@
           "heldCorrections": "Tegengehouden correcties",
           "learnedTakeUps": "Geleerde spelingsopnames",
           "lastCompensation": "Laatste toeslag",
-          "heldExplanation": "Tegengehouden correcties zouden alleen door de speling zijn gegaan zolang de fout ruis was. De tellers lopen sinds de guider verbonden is."
+          "heldExplanation": "Correcties die het model heeft tegengehouden, omdat ze alleen door de speling zouden zijn gegaan terwijl de fout louter seeingruis was. Een stijgende teller is normaal: het model voorkomt zo dat de montering de seeing najaagt. Telt sinds de guider verbonden is.",
+          "tapHint": "Tik op ⓘ of een tegel voor uitleg.",
+          "info": {
+            "fullReversal": "Hoe lang de montering Dec na een omkering op guidesnelheid moet aandrijven voordat de ster überhaupt beweegt – de grootte van de speling. Het model begint bij de ingestelde Dec-spelingspuls en corrigeert die uit de kalibratie en elke omkering, ook als de speling in de loop van de nacht verandert.\n\nOf de waarde een probleem is, hangt af van guidesnelheid en beeldschaal. De Guiding Coach meet de Dec-speling en zegt het je als die stoort. Grote speling verminder je het best mechanisch of door Dec licht uit balans te brengen; de Dec-guidemodus Drift vermijdt omkeringen helemaal.",
+            "shape": "Hoe de speling bij een Dec-omkering wordt opgenomen:\n\n• Hard: de ster beweegt eerst helemaal niet en volgt dan meteen – een schone opening.\n• Middel: de ster begint halverwege de speling te bewegen.\n• Zacht: de ster kruipt geleidelijk mee tot het tandwiel volledig grijpt.\n• Geen speling: Dec keert netjes om.\n• Zoals gekalibreerd: de vorm die bij de kalibratie is gemeten past het best.\n\nDe vorm is de meest waarschijnlijke op basis van wat de ster deed en kan in de eerste omkeringen nog veranderen.",
+            "play": "De balk toont waar het Dec-tandwiel in zijn speling staat: links tegen de noordkant, rechts tegen de zuidkant.\n\nTegen een kant beweegt een puls in die richting de ster meteen, terwijl een puls de andere kant op eerst de hele speling moet doorlopen. ‘Zweeft’ betekent dat het tandwiel na kleine correcties ergens daartussen staat – dat is normaal. De waarden onder de balk tonen hoeveel speling er nog is voordat een puls naar noord of zuid de ster beweegt.",
+            "reversals": "Hoe vaak Dec sinds het verbinden van de guider van richting is veranderd. Elke omkering moet eerst de speling doorlopen. Veel omkeringen bij een kleine fout betekenen meestal dat Dec de seeing najaagt.",
+            "learnedTakeUps": "Op hoeveel doorgangen door de speling de geleerde waarden berusten. Oudere tellen minder, zo volgt het model een speling die in de loop van de nacht verandert. Hoe hoger het getal, hoe betrouwbaarder de geleerde speling.",
+            "lastCompensation": "Hoeveel het model de laatste Dec-correctie heeft verlengd om de speling te doorlopen die aan die kant nog over was. 0 ms betekent dat het tandwiel al tegen de juiste kant lag."
+          }
         }
       }
     },
@@ -7816,6 +7835,7 @@
         "running": "Bezig…",
         "stop": "Stoppen",
         "tppaSettings": "TPPA-instellingen",
+        "autoPilotSettings": "Auto-Pilot-instellingen",
         "tnsPluginRequired": "TPPA heeft de Touch'N'Stars-plugin in N.I.N.A. nodig; deze is niet bereikbaar.",
         "phaseLabel": "Status",
         "azError": "Azimutfout",

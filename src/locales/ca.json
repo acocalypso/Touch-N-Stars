@@ -2594,7 +2594,8 @@
             "IncidentBudgetMb": "Quota de disc per a incidències",
             "SimulatorScenario": "Escenari del simulador",
             "SimulateFault": "Simula una fallada",
-            "BacklashModel": "Model del joc en Dec"
+            "BacklashModel": "Model del joc en Dec",
+            "BacklashRemeasureAfterSlewDeg": "Tornar a mesurar el joc en Dec després d'un gir de"
           },
           "descriptions": {
             "GuideSource": "D'on vénen les imatges de guiatge. Càmera de guiatge: la càmera de la ranura de càmera de guiatge de l'equip. Simulador: una simulació integrada de muntura, cel i càmera, per provar el guiatge sense maquinari o de dia.",
@@ -2659,10 +2660,11 @@
             "IncidentBudgetMb": "Espai de disc per a les incidències enregistrades; primer s'esborren les més antigues que no s'han conservat. Les incidències del simulador tenen els seus propis 200 MB.",
             "SimulatorScenario": "Muntura, cel i càmera que simula el simulador integrat.",
             "SimulateFault": "Injecta una fallada al simulador en marxa: núvols (110 s), un cop a la muntura, una muntura que deixa de respondre (60 s), 3 exposicions fallides o correccions de Dec en la direcció equivocada (120 s).",
-            "BacklashModel": "Fix afegeix el pols extra a cada inversió de Dec i l'ajusta lentament. El model de joc segueix l'engranatge de Dec dins del joc, reté les correccions que amb soroll de seeing només recorrerien el joc i aprèn el joc a partir del calibratge i del guiatge. Només amb l'algorisme Dec Predictive."
+            "BacklashModel": "Fix afegeix el pols extra a cada inversió de Dec i l'ajusta lentament. El model de joc segueix l'engranatge de Dec dins del joc, reté les correccions que amb soroll de seeing només recorrerien el joc i aprèn el joc a partir del calibratge i del guiatge. Només amb l'algorisme Dec Predictive. En cas de dubte: amb l'algorisme Dec Predictive trieu el model de joc, si no, mantingueu Fix. El Guiding Coach suggereix el model de joc quan el joc mesurat s'hi ajusta.",
+            "BacklashRemeasureAfterSlewDeg": "Quan el guiatge comença després que la muntura s'hagi mogut més d'aquest valor o hagi canviat de costat del pilar, el model de joc torna a mesurar primer el joc: Dec fa polsos cap al nord fins que l'estrella segueix, i després cap al sud fins al punt d'inici. L'engranatge queda llavors contra un costat conegut i el model coneix el joc al nou objectiu. Triga uns 10 a 20 fotogrames de guiatge. 0 = mai."
           },
           "warnings": {
-            "backlashModelNeedsPredictive": "El model de joc només funciona amb l'algorisme Dec Predictive; ara s'utilitza el pols fix."
+            "backlashModelNeedsPredictive": "El model de joc només funciona amb l'algorisme Dec Predictive; ara s'utilitza el pols fix. Per utilitzar-lo, poseu «Algorisme Dec» a Predictive en aquesta configuració."
           }
         },
         "darks": {
@@ -2991,6 +2993,10 @@
             "bool": {
               "true": "sí",
               "false": "no"
+            },
+            "playReason": {
+              "soft": "varia segons el moviment anterior",
+              "large": "és gran"
             }
           },
           "codes": {
@@ -3090,7 +3096,11 @@
                 "title": "Joc en Dec: {ms} ({arcsec})",
                 "why": "Quan Dec inverteix el sentit, els engranatges primer han d'absorbir el joc. Durant aquest temps les correccions no fan res; després l'estrella se'n passa i Dec oscil·la.",
                 "fix_good": "No cal fer res.",
-                "fix": "Useu la compensació de joc amb el puls mesurat, reduïu el joc mecànicament o desequilibreu lleugerament Dec. Guiar Dec en una sola direcció l'evita del tot."
+                "fix": "Useu la compensació de joc (amb l'algorisme Dec Predictive preferiblement el model de joc, si no, el pols mesurat), reduïu el joc mecànicament o desequilibreu lleugerament Dec. Guiar Dec en una sola direcció l'evita del tot.",
+                "notes": {
+                  "playModel": "El joc en Dec {playReason}, de manera que un pols fix no s'hi ajusta bé. El model de joc segueix on es troba l'engranatge dins del joc, n'aprèn la mida del calibratge i del guiatge i només compensa el joc que queda.",
+                  "playModelNeedsPredictive": "El model de joc compensaria aquest joc millor que un pols fix, però només funciona amb l'algorisme Dec Predictive. Canvieu l'algorisme Dec a Predictive per utilitzar-lo."
+                }
               },
               "minPulse": {
                 "title": "{axis}: els polsos de menys de {ms} no mouen la muntura",
@@ -3476,7 +3486,7 @@
         },
         "backlash": {
           "title": "Joc en Dec – model de joc",
-          "help": "El model de joc segueix on es troba l'engranatge de Dec dins del joc dels engranatges i aprèn la mida i la forma d'aquest joc a partir del calibratge i del guiatge. Reté les correccions que només recorrerien el joc mentre l'error és només soroll de seeing, i allarga una correcció necessària amb el joc que encara queda. Només funciona amb l'algorisme Dec Predictive.",
+          "help": "El model de joc segueix on es troba l'engranatge de Dec dins del joc dels engranatges i aprèn la mida i la forma d'aquest joc a partir del calibratge i del guiatge. Reté les correccions que només recorrerien el joc mentre l'error és només soroll de seeing, i allarga una correcció necessària amb el joc que encara queda. Només funciona amb l'algorisme Dec Predictive.\n\nAquí no cal configurar res: el model aprèn sol i guarda el que ha après per perfil i muntura per a la nit següent. La pastilla mostra el joc après i el costat contra el qual es troba l'engranatge.",
           "fullReversal": "Joc après (inversió completa)",
           "shape": "Forma del joc",
           "fromCalibration": "mesurat en el calibratge",
@@ -3485,7 +3495,7 @@
           "southShort": "S",
           "slackNorth": "Nord: queden {value}",
           "slackSouth": "Sud: queden {value}",
-          "positionUnknown": "La posició de l'engranatge dins del joc encara no es coneix.",
+          "positionUnknown": "La posició de l'engranatge dins del joc encara no es coneix; es coneixerà amb la primera correcció de Dec o un calibratge.",
           "gears": {
             "North": "recolzat al costat nord",
             "South": "recolzat al costat sud",
@@ -3503,7 +3513,16 @@
           "heldCorrections": "Correccions retingudes",
           "learnedTakeUps": "Recorreguts apresos",
           "lastCompensation": "Última compensació",
-          "heldExplanation": "Les correccions retingudes només haurien recorregut el joc mentre l'error era soroll. Els comptadors corren des que el guiatge es va connectar."
+          "heldExplanation": "Correccions que el model ha retingut perquè només haurien recorregut el joc mentre l'error era només soroll de seeing. És normal que el comptador pugi: vol dir que el model evita que la muntura persegueixi el seeing. Compta des que el guiatge es va connectar.",
+          "tapHint": "Toqueu ⓘ o una rajola per veure una explicació.",
+          "info": {
+            "fullReversal": "Quant de temps ha de moure la muntura Dec a la velocitat de guiatge després d'una inversió abans que l'estrella es mogui – la mida del joc. El model parteix del pols de joc en Dec configurat i el corregeix amb el calibratge i cada inversió, també quan el joc canvia durant la nit.\n\nSi el valor és un problema depèn de la velocitat de guiatge i de l'escala de la imatge. El Guiding Coach mesura el joc en Dec i us avisa quan molesta. Un joc gran es redueix millor mecànicament o desequilibrant lleugerament Dec; el mode de guiatge Dec Drift evita del tot les inversions.",
+            "shape": "Com es recorre el joc quan Dec s'inverteix:\n\n• Dur: l'estrella no es mou gens i després segueix de cop – un buit net.\n• Mitjà: l'estrella comença a moure's a mig joc.\n• Tou: l'estrella avança a poc a poc fins que l'engranatge engrana del tot.\n• Sense joc: Dec s'inverteix netament.\n• Com al calibratge: la forma mesurada al calibratge és la que encaixa millor.\n\nLa forma és la més probable segons el que ha fet l'estrella, i encara pot canviar durant les primeres inversions.",
+            "play": "La barra mostra on es troba l'engranatge de Dec dins del joc: a l'esquerra contra el costat nord, a la dreta contra el costat sud.\n\nContra un costat, un pols en aquesta direcció mou l'estrella de seguida, mentre que un pols en l'altra primer ha de recórrer tot el joc. «Flotant» vol dir que l'engranatge és en algun punt entremig després de correccions petites – és normal. Els valors sota la barra mostren quant joc queda abans que un pols cap al nord o cap al sud mogui l'estrella.",
+            "reversals": "Quantes vegades Dec ha canviat de direcció des que el guiatge es va connectar. Cada inversió primer ha de recórrer el joc. Moltes inversions amb un error petit solen voler dir que Dec persegueix el seeing.",
+            "learnedTakeUps": "En quants recorreguts del joc es basen els valors apresos. Els més antics compten menys, de manera que el model segueix un joc que canvia durant la nit. Com més alt és el nombre, més fiable és el joc après.",
+            "lastCompensation": "Quant ha allargat el model l'última correcció de Dec per recórrer el joc que encara quedava en aquest costat. 0 ms vol dir que l'engranatge ja era contra el costat correcte."
+          }
         }
       }
     },
@@ -7816,6 +7835,7 @@
         "running": "En marxa…",
         "stop": "Atura",
         "tppaSettings": "Configuració de TPPA",
+        "autoPilotSettings": "Configuració de l'Auto-Pilot",
         "tnsPluginRequired": "TPPA necessita el plugin Touch'N'Stars a N.I.N.A.; no és accessible.",
         "phaseLabel": "Estat",
         "azError": "Error d'azimut",

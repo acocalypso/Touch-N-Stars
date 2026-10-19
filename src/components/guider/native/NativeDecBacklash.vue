@@ -1,15 +1,26 @@
 <template>
-  <!-- Dec backlash play model: what it learned and where the Dec gear sits in the play -->
+  <!-- Dec backlash play model: what it learned and where the Dec gear sits in the play.
+       Every value has its own help modal, so the terms are explained where they appear. -->
   <div class="flex flex-col gap-3 text-xs" data-testid="native-guider-dec-backlash">
     <div class="flex flex-col gap-0.5">
       <div class="flex items-baseline gap-2 min-w-0">
         <span class="shrink-0 text-content-muted">{{ t(`${base}.fullReversal`) }}</span>
+        <NativeHelpTip
+          class="self-center"
+          :title="t(`${base}.fullReversal`)"
+          :text="t(`${base}.info.fullReversal`)"
+        />
         <span class="ml-auto shrink-0 font-semibold text-content tabular-nums">{{
           formatMs(backlash.fullReversalMs)
         }}</span>
       </div>
       <div class="flex items-baseline gap-2 min-w-0">
         <span class="shrink-0 text-content-muted">{{ t(`${base}.shape`) }}</span>
+        <NativeHelpTip
+          class="self-center"
+          :title="t(`${base}.shape`)"
+          :text="t(`${base}.info.shape`)"
+        />
         <span class="ml-auto truncate font-semibold text-content">{{ shapeLabel }}</span>
       </div>
       <div
@@ -23,9 +34,14 @@
 
     <!-- The play as a bar: North side left, South side right, the gear's position marked -->
     <div class="flex flex-col gap-1">
-      <div class="flex items-baseline justify-between gap-2">
-        <span class="text-content-muted">{{ t(`${base}.play`) }}</span>
-        <span class="truncate font-semibold" :class="TONE_TEXT[backlash.tone]">{{
+      <div class="flex items-baseline gap-2">
+        <span class="shrink-0 text-content-muted">{{ t(`${base}.play`) }}</span>
+        <NativeHelpTip
+          class="self-center"
+          :title="t(`${base}.play`)"
+          :text="t(`${base}.info.play`)"
+        />
+        <span class="ml-auto truncate font-semibold" :class="TONE_TEXT[backlash.tone]">{{
           t(`${base}.gears.${backlash.gear}`)
         }}</span>
       </div>
@@ -61,22 +77,30 @@
       </div>
     </div>
 
+    <!-- Counters: the whole tile opens its explanation, like the stat tiles of the state strip -->
     <div class="grid grid-cols-2 gap-1.5">
-      <div v-for="tile in tiles" :key="tile.key" class="tns-stat-tile min-w-0">
+      <NativeHelpTip
+        v-for="tile in tiles"
+        :key="tile.key"
+        :title="t(`${base}.${tile.key}`)"
+        :text="tile.help"
+        class="tns-stat-tile min-w-0 pr-4!"
+      >
         <span class="tns-stat-label whitespace-normal! line-clamp-2">{{
           t(`${base}.${tile.key}`)
         }}</span>
         <span class="tns-stat-value">{{ tile.value }}</span>
-      </div>
+      </NativeHelpTip>
     </div>
 
-    <p class="text-content-muted leading-relaxed">{{ t(`${base}.heldExplanation`) }}</p>
+    <p class="text-content-faint leading-relaxed">{{ t(`${base}.tapHint`) }}</p>
   </div>
 </template>
 
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import NativeHelpTip from './NativeHelpTip.vue';
 import { TONE_BG, TONE_TEXT, fmt, formatMs } from '@/utils/nativeGuider';
 
 const props = defineProps({
@@ -102,9 +126,25 @@ const barLabel = computed(() =>
 const count = (value) => (value === null ? '–' : String(Math.round(value)));
 
 const tiles = computed(() => [
-  { key: 'reversals', value: count(props.backlash.reversals) },
-  { key: 'heldCorrections', value: count(props.backlash.heldCorrections) },
-  { key: 'learnedTakeUps', value: fmt(props.backlash.learnedTakeUps, 1) },
-  { key: 'lastCompensation', value: formatMs(props.backlash.lastCompensationMs) },
+  {
+    key: 'reversals',
+    value: count(props.backlash.reversals),
+    help: t(`${base}.info.reversals`),
+  },
+  {
+    key: 'heldCorrections',
+    value: count(props.backlash.heldCorrections),
+    help: t(`${base}.heldExplanation`),
+  },
+  {
+    key: 'learnedTakeUps',
+    value: fmt(props.backlash.learnedTakeUps, 1),
+    help: t(`${base}.info.learnedTakeUps`),
+  },
+  {
+    key: 'lastCompensation',
+    value: formatMs(props.backlash.lastCompensationMs),
+    help: t(`${base}.info.lastCompensation`),
+  },
 ]);
 </script>

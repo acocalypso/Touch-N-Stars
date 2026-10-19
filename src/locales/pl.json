@@ -2553,7 +2553,8 @@
             "IncidentBudgetMb": "Limit miejsca na incydenty",
             "SimulatorScenario": "Scenariusz symulatora",
             "SimulateFault": "Symuluj usterkę",
-            "BacklashModel": "Model luzu Dec"
+            "BacklashModel": "Model luzu Dec",
+            "BacklashRemeasureAfterSlewDeg": "Zmierz ponownie luz Dec po obrocie o"
           },
           "descriptions": {
             "GuideSource": "Skąd pochodzą klatki guidingu. Kamera guidingowa: kamera w gnieździe kamery guidingowej sprzętu. Symulator: wbudowana symulacja montażu, nieba i kamery, aby wypróbować guider bez sprzętu lub w dzień.",
@@ -2618,10 +2619,11 @@
             "IncidentBudgetMb": "Miejsce na dysku na zapisane incydenty; najpierw usuwane są najstarsze niezachowane. Incydenty symulatora mają własne 200 MB.",
             "SimulatorScenario": "Montaż, niebo i kamera symulowane przez wbudowany symulator.",
             "SimulateFault": "Wprowadza usterkę do działającego symulatora: chmury (110 s), potrącenie montażu, montaż, który przestaje odpowiadać (60 s), 3 nieudane ekspozycje lub korekty Dec w złą stronę (120 s).",
-            "BacklashModel": "Stały dodaje dodatkowy impuls przy każdej zmianie kierunku Dec i powoli go dostosowuje. Model luzu śledzi koło zębate Dec w luzie, wstrzymuje korekty, które przy szumie seeingu tylko kasowałyby luz, i uczy się luzu z kalibracji i guidingu. Tylko z algorytmem Dec Predictive."
+            "BacklashModel": "Stały dodaje dodatkowy impuls przy każdej zmianie kierunku Dec i powoli go dostosowuje. Model luzu śledzi koło zębate Dec w luzie, wstrzymuje korekty, które przy szumie seeingu tylko kasowałyby luz, i uczy się luzu z kalibracji i guidingu. Tylko z algorytmem Dec Predictive. W razie wątpliwości: z algorytmem Dec Predictive wybierz model luzu, w przeciwnym razie zostaw Stały. Guiding Coach proponuje model luzu, gdy zmierzony luz do niego pasuje.",
+            "BacklashRemeasureAfterSlewDeg": "Gdy guiding startuje po tym, jak montaż przesunął się dalej niż ta wartość lub zmienił stronę słupa, model luzu najpierw ponownie mierzy luz: Dec wysyła impulsy na północ, aż gwiazda zacznie podążać, a potem na południe z powrotem do startu. Koło opiera się wtedy o znaną stronę, a model zna luz przy nowym celu. Trwa to około 10–20 klatek guidingu. 0 = nigdy."
           },
           "warnings": {
-            "backlashModelNeedsPredictive": "Model luzu działa tylko z algorytmem Dec Predictive; obecnie używany jest stały impuls."
+            "backlashModelNeedsPredictive": "Model luzu działa tylko z algorytmem Dec Predictive; obecnie używany jest stały impuls. Aby go użyć, ustaw w tych ustawieniach „Algorytm Dec” na Predictive."
           }
         },
         "darks": {
@@ -2950,6 +2952,10 @@
             "bool": {
               "true": "tak",
               "false": "nie"
+            },
+            "playReason": {
+              "soft": "zmienia się zależnie od poprzedniego ruchu",
+              "large": "jest duży"
             }
           },
           "codes": {
@@ -3049,7 +3055,11 @@
                 "title": "Luz Dec: {ms} ({arcsec})",
                 "why": "Gdy Dec zmienia kierunek, przekładnia najpierw musi wybrać luz. W tym czasie korekty nic nie dają, potem gwiazda przestrzeliwuje i Dec oscyluje.",
                 "fix_good": "Nic nie trzeba robić.",
-                "fix": "Użyj kompensacji luzu ze zmierzonym impulsem, zmniejsz luz mechanicznie lub wprowadź lekkie niewyważenie w Dec. Prowadzenie Dec w jednym kierunku całkowicie go omija."
+                "fix": "Użyj kompensacji luzu (z algorytmem Dec Predictive najlepiej modelu luzu, w przeciwnym razie zmierzonego impulsu), zmniejsz luz mechanicznie lub wprowadź lekkie niewyważenie w Dec. Prowadzenie Dec w jednym kierunku całkowicie go omija.",
+                "notes": {
+                  "playModel": "Luz Dec {playReason}, więc stały impuls słabo do niego pasuje. Model luzu śledzi, gdzie koło znajduje się w luzie, uczy się jego wielkości z kalibracji i guidingu i kompensuje tylko pozostały luz.",
+                  "playModelNeedsPredictive": "Model luzu skompensowałby ten luz lepiej niż stały impuls, ale działa tylko z algorytmem Dec Predictive. Aby go użyć, przełącz algorytm Dec na Predictive."
+                }
               },
               "minPulse": {
                 "title": "{axis}: impulsy poniżej {ms} nie poruszają montażu",
@@ -3435,7 +3445,7 @@
         },
         "backlash": {
           "title": "Luz Dec – model luzu",
-          "help": "Model luzu śledzi, gdzie koło zębate Dec znajduje się w luzie przekładni, i uczy się wielkości oraz kształtu tego luzu z kalibracji i guidingu. Wstrzymuje korekty, które tylko kasowałyby luz, dopóki błąd jest jedynie szumem seeingu, a potrzebną korektę wydłuża o pozostały luz. Działa tylko z algorytmem Dec Predictive.",
+          "help": "Model luzu śledzi, gdzie koło zębate Dec znajduje się w luzie przekładni, i uczy się wielkości oraz kształtu tego luzu z kalibracji i guidingu. Wstrzymuje korekty, które tylko kasowałyby luz, dopóki błąd jest jedynie szumem seeingu, a potrzebną korektę wydłuża o pozostały luz. Działa tylko z algorytmem Dec Predictive.\n\nTu nie trzeba nic ustawiać: model uczy się sam i zapamiętuje wyuczone wartości dla każdego profilu i montażu na następną noc. Etykieta pokazuje wyuczony luz i stronę, o którą opiera się koło.",
           "fullReversal": "Wyuczony luz (pełna zmiana kierunku)",
           "shape": "Kształt luzu",
           "fromCalibration": "zmierzony podczas kalibracji",
@@ -3444,7 +3454,7 @@
           "southShort": "S",
           "slackNorth": "Północ: zostało {value}",
           "slackSouth": "Południe: zostało {value}",
-          "positionUnknown": "Położenie koła w luzie nie jest jeszcze znane.",
+          "positionUnknown": "Położenie koła w luzie nie jest jeszcze znane; będzie znane po pierwszej korekcie Dec lub kalibracji.",
           "gears": {
             "North": "oparte o stronę północną",
             "South": "oparte o stronę południową",
@@ -3462,7 +3472,16 @@
           "heldCorrections": "Wstrzymane korekty",
           "learnedTakeUps": "Wyuczone kasowania luzu",
           "lastCompensation": "Ostatni dodatek",
-          "heldExplanation": "Wstrzymane korekty tylko przejechałyby przez luz, dopóki błąd był szumem. Liczniki działają od połączenia guidera."
+          "heldExplanation": "Korekty, które model wstrzymał, bo tylko przeszłyby przez luz, gdy błąd był jedynie szumem seeingu. Rosnący licznik jest normalny: model nie pozwala montażowi gonić seeingu. Liczy od połączenia guidera.",
+          "tapHint": "Dotknij ⓘ lub kafelka, aby zobaczyć wyjaśnienie.",
+          "info": {
+            "fullReversal": "Jak długo montaż musi napędzać Dec z prędkością guidingu po zmianie kierunku, zanim gwiazda w ogóle się poruszy – wielkość luzu. Model zaczyna od ustawionego impulsu kompensacji luzu Dec i koryguje go na podstawie kalibracji i każdej zmiany kierunku, także gdy luz zmienia się w ciągu nocy.\n\nTo, czy wartość jest problemem, zależy od prędkości guidingu i skali obrazu. Guiding Coach mierzy luz Dec i informuje, gdy przeszkadza. Duży luz najlepiej zmniejszyć mechanicznie lub lekko rozważając Dec; tryb prowadzenia Dec Drift całkowicie unika zmian kierunku.",
+            "shape": "Jak luz jest kasowany przy zmianie kierunku Dec:\n\n• Twardy: gwiazda najpierw w ogóle się nie rusza, a potem od razu podąża – czysta przerwa.\n• Średni: gwiazda zaczyna się ruszać w połowie luzu.\n• Miękki: gwiazda stopniowo pełznie, aż koło w pełni zazębi się.\n• Brak luzu: Dec zmienia kierunek czysto.\n• Jak w kalibracji: najlepiej pasuje kształt zmierzony podczas kalibracji.\n\nKształt to najbardziej prawdopodobny wariant na podstawie zachowania gwiazdy i może się jeszcze zmienić podczas pierwszych zmian kierunku.",
+            "play": "Pasek pokazuje, gdzie koło zębate Dec znajduje się w swoim luzie: po lewej oparte o stronę północną, po prawej o południową.\n\nGdy opiera się o jedną stronę, impuls w tym kierunku od razu przesuwa gwiazdę, a impuls w drugą stronę musi najpierw przejść cały luz. „Swobodne” oznacza, że po małych korektach koło jest gdzieś pomiędzy – to normalne. Wartości pod paskiem pokazują, ile luzu zostało, zanim impuls na północ lub południe przesunie gwiazdę.",
+            "reversals": "Ile razy Dec zmieniła kierunek od połączenia guidera. Każda zmiana kierunku musi najpierw przejść luz. Wiele zmian przy małym błędzie zwykle oznacza, że Dec goni seeing.",
+            "learnedTakeUps": "Na ilu przejściach przez luz opierają się wyuczone wartości. Starsze liczą się mniej, więc model podąża za luzem, który zmienia się w ciągu nocy. Im wyższa liczba, tym bardziej wiarygodny wyuczony luz.",
+            "lastCompensation": "O ile model wydłużył ostatnią korektę Dec, aby przejść luz pozostały po tej stronie. 0 ms oznacza, że koło już opierało się o właściwą stronę."
+          }
         }
       }
     },
@@ -7816,6 +7835,7 @@
         "running": "W toku…",
         "stop": "Zatrzymaj",
         "tppaSettings": "Ustawienia TPPA",
+        "autoPilotSettings": "Ustawienia Auto-Pilota",
         "tnsPluginRequired": "TPPA wymaga wtyczki Touch'N'Stars w N.I.N.A.; jest ona nieosiągalna.",
         "phaseLabel": "Status",
         "azError": "Błąd azymutu",

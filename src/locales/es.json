@@ -2553,7 +2553,8 @@
             "IncidentBudgetMb": "Cupo de disco para incidencias",
             "SimulatorScenario": "Escenario del simulador",
             "SimulateFault": "Simular un fallo",
-            "BacklashModel": "Modelo de holgura en Dec"
+            "BacklashModel": "Modelo de holgura en Dec",
+            "BacklashRemeasureAfterSlewDeg": "Volver a medir la holgura en Dec tras un giro de"
           },
           "descriptions": {
             "GuideSource": "De dónde vienen las imágenes de guiado. Cámara de guiado: la cámara de la ranura de cámara de guiado del equipo. Simulador: una simulación integrada de montura, cielo y cámara, para probar el guiado sin hardware o de día.",
@@ -2618,10 +2619,11 @@
             "IncidentBudgetMb": "Espacio en disco para las incidencias registradas; primero se borran las más antiguas no conservadas. Las incidencias del simulador tienen sus propios 200 MB.",
             "SimulatorScenario": "Montura, cielo y cámara que simula el simulador integrado.",
             "SimulateFault": "Introduce un fallo en el simulador en marcha: nubes (110 s), un golpe a la montura, una montura que deja de responder (60 s), 3 exposiciones fallidas o correcciones de Dec en la dirección equivocada (120 s).",
-            "BacklashModel": "Fijo añade el pulso extra en cada inversión de Dec y lo ajusta lentamente. El modelo de holgura sigue el engranaje de Dec dentro de la holgura, retiene las correcciones que con ruido de seeing solo recorrerían la holgura y aprende la holgura de la calibración y del guiado. Solo con el algoritmo Dec Predictive."
+            "BacklashModel": "Fijo añade el pulso extra en cada inversión de Dec y lo ajusta lentamente. El modelo de holgura sigue el engranaje de Dec dentro de la holgura, retiene las correcciones que con ruido de seeing solo recorrerían la holgura y aprende la holgura de la calibración y del guiado. Solo con el algoritmo Dec Predictive. En caso de duda: con el algoritmo Dec Predictive elige el modelo de holgura; si no, mantén Fijo. El Guiding Coach sugiere el modelo de holgura cuando la holgura medida encaja con él.",
+            "BacklashRemeasureAfterSlewDeg": "Cuando el guiado empieza después de que la montura se haya movido más que este valor o haya cambiado de lado del pilar, el modelo de holgura vuelve a medir primero la holgura: Dec envía pulsos al norte hasta que la estrella sigue y luego al sur hasta el punto de partida. El engranaje queda entonces contra un lado conocido y el modelo conoce la holgura en el nuevo objetivo. Tarda unos 10 a 20 fotogramas de guiado. 0 = nunca."
           },
           "warnings": {
-            "backlashModelNeedsPredictive": "El modelo de holgura solo funciona con el algoritmo Dec Predictive; por ahora se usa el pulso fijo."
+            "backlashModelNeedsPredictive": "El modelo de holgura solo funciona con el algoritmo Dec Predictive; por ahora se usa el pulso fijo. Para usarlo, pon «Algoritmo Dec» en Predictive en estos ajustes."
           }
         },
         "darks": {
@@ -2950,6 +2952,10 @@
             "bool": {
               "true": "sí",
               "false": "no"
+            },
+            "playReason": {
+              "soft": "varía según el movimiento anterior",
+              "large": "es grande"
             }
           },
           "codes": {
@@ -3049,7 +3055,11 @@
                 "title": "Holgura en Dec: {ms} ({arcsec})",
                 "why": "Cuando Dec invierte la dirección, los engranajes primero tienen que recuperar su juego. Durante ese tiempo las correcciones no hacen nada; luego la estrella se pasa y Dec oscila.",
                 "fix_good": "Nada que hacer.",
-                "fix": "Usa la compensación de holgura con el pulso medido, reduce el juego mecánicamente o desequilibra ligeramente Dec. Guiar Dec en una sola dirección lo evita por completo."
+                "fix": "Usa la compensación de holgura (con el algoritmo Dec Predictive preferiblemente el modelo de holgura; si no, el pulso medido), reduce el juego mecánicamente o desequilibra ligeramente Dec. Guiar Dec en una sola dirección lo evita por completo.",
+                "notes": {
+                  "playModel": "La holgura en Dec {playReason}, por lo que un pulso fijo no se ajusta bien. El modelo de holgura sigue dónde está el engranaje dentro de la holgura, aprende su tamaño de la calibración y del guiado y compensa solo la holgura que queda.",
+                  "playModelNeedsPredictive": "El modelo de holgura compensaría esta holgura mejor que un pulso fijo, pero solo funciona con el algoritmo Dec Predictive. Cambia el algoritmo Dec a Predictive para usarlo."
+                }
               },
               "minPulse": {
                 "title": "{axis}: los pulsos de menos de {ms} no mueven la montura",
@@ -3435,7 +3445,7 @@
         },
         "backlash": {
           "title": "Holgura en Dec – modelo de holgura",
-          "help": "El modelo de holgura sigue dónde está el engranaje de Dec dentro de la holgura de los engranajes y aprende el tamaño y la forma de esa holgura a partir de la calibración y del guiado. Retiene las correcciones que solo recorrerían la holgura mientras el error es solo ruido de seeing, y alarga una corrección necesaria con la holgura que aún queda. Solo funciona con el algoritmo Dec Predictive.",
+          "help": "El modelo de holgura sigue dónde está el engranaje de Dec dentro de la holgura de los engranajes y aprende el tamaño y la forma de esa holgura a partir de la calibración y del guiado. Retiene las correcciones que solo recorrerían la holgura mientras el error es solo ruido de seeing, y alarga una corrección necesaria con la holgura que aún queda. Solo funciona con el algoritmo Dec Predictive.\n\nAquí no hay nada que ajustar: el modelo aprende solo y guarda lo aprendido por perfil y montura para la noche siguiente. La etiqueta muestra la holgura aprendida y el lado contra el que está el engranaje.",
           "fullReversal": "Holgura aprendida (inversión completa)",
           "shape": "Forma de la holgura",
           "fromCalibration": "medida en la calibración",
@@ -3444,7 +3454,7 @@
           "southShort": "S",
           "slackNorth": "Norte: quedan {value}",
           "slackSouth": "Sur: quedan {value}",
-          "positionUnknown": "La posición del engranaje en la holgura aún no se conoce.",
+          "positionUnknown": "La posición del engranaje en la holgura aún no se conoce; se conocerá con la primera corrección de Dec o una calibración.",
           "gears": {
             "North": "apoyado en el lado norte",
             "South": "apoyado en el lado sur",
@@ -3462,7 +3472,16 @@
           "heldCorrections": "Correcciones retenidas",
           "learnedTakeUps": "Recorridos aprendidos",
           "lastCompensation": "Última compensación",
-          "heldExplanation": "Las correcciones retenidas solo habrían recorrido la holgura mientras el error era ruido. Los contadores corren desde que se conectó el guiado."
+          "heldExplanation": "Correcciones que el modelo retuvo porque solo habrían recorrido la holgura mientras el error era solo ruido de seeing. Que el contador suba es normal: significa que el modelo evita que la montura persiga el seeing. Cuenta desde que se conectó el guiado.",
+          "tapHint": "Toca ⓘ o un recuadro para ver una explicación.",
+          "info": {
+            "fullReversal": "Cuánto tiempo tiene que mover la montura Dec a la velocidad de guiado tras una inversión antes de que la estrella se mueva – el tamaño de la holgura. El modelo parte del pulso de holgura en Dec configurado y lo corrige con la calibración y cada inversión, también cuando la holgura cambia durante la noche.\n\nSi el valor es un problema depende de la velocidad de guiado y de la escala de imagen. El Guiding Coach mide la holgura en Dec y te avisa cuando molesta. Una holgura grande se reduce mejor mecánicamente o desequilibrando ligeramente Dec; el modo de guiado de Dec Drift evita por completo las inversiones.",
+            "shape": "Cómo se recorre la holgura cuando Dec se invierte:\n\n• Dura: la estrella no se mueve nada y luego sigue de golpe – un hueco limpio.\n• Media: la estrella empieza a moverse a mitad de la holgura.\n• Blanda: la estrella avanza poco a poco hasta que el engranaje engrana del todo.\n• Sin holgura: Dec se invierte limpiamente.\n• Según calibración: la forma medida en la calibración es la que mejor encaja.\n\nLa forma es la más probable según lo que hizo la estrella, y aún puede cambiar durante las primeras inversiones.",
+            "play": "La barra muestra dónde está el engranaje de Dec dentro de su holgura: a la izquierda contra el lado norte, a la derecha contra el lado sur.\n\nContra un lado, un pulso en esa dirección mueve la estrella enseguida, mientras que un pulso en la otra primero tiene que recorrer toda la holgura. «Flotando» significa que el engranaje está en algún punto intermedio tras correcciones pequeñas – es normal. Los valores bajo la barra muestran cuánta holgura queda antes de que un pulso al norte o al sur mueva la estrella.",
+            "reversals": "Cuántas veces ha cambiado Dec de dirección desde que se conectó el guiado. Cada inversión primero tiene que recorrer la holgura. Muchas inversiones con un error pequeño suelen significar que Dec persigue el seeing.",
+            "learnedTakeUps": "En cuántos recorridos de la holgura se basan los valores aprendidos. Los más antiguos cuentan menos, así el modelo sigue una holgura que cambia durante la noche. Cuanto mayor es el número, más fiable es la holgura aprendida.",
+            "lastCompensation": "Cuánto alargó el modelo la última corrección de Dec para recorrer la holgura que aún quedaba en ese lado. 0 ms significa que el engranaje ya estaba contra el lado correcto."
+          }
         }
       }
     },
@@ -7816,6 +7835,7 @@
         "running": "En marcha…",
         "stop": "Detener",
         "tppaSettings": "Ajustes de TPPA",
+        "autoPilotSettings": "Ajustes del Auto-Pilot",
         "tnsPluginRequired": "TPPA necesita el plugin Touch'N'Stars en N.I.N.A.; no está accesible.",
         "phaseLabel": "Estado",
         "azError": "Error de azimut",

@@ -2553,7 +2553,8 @@
             "IncidentBudgetMb": "Espace disque des incidents",
             "SimulatorScenario": "Scénario du simulateur",
             "SimulateFault": "Simuler une panne",
-            "BacklashModel": "Modèle du jeu Dec"
+            "BacklashModel": "Modèle du jeu Dec",
+            "BacklashRemeasureAfterSlewDeg": "Remesurer le jeu Dec après un déplacement de"
           },
           "descriptions": {
             "GuideSource": "D'où viennent les images de guidage. Caméra de guidage : la caméra de l'emplacement caméra de guidage de l'équipement. Simulateur : une simulation intégrée de la monture, du ciel et de la caméra, pour essayer le guidage sans matériel ou en plein jour.",
@@ -2618,10 +2619,11 @@
             "IncidentBudgetMb": "Espace disque pour les incidents enregistrés ; les plus anciens non conservés sont supprimés en premier. Les incidents du simulateur disposent de leurs propres 200 Mo.",
             "SimulatorScenario": "Monture, ciel et caméra simulés par le simulateur intégré.",
             "SimulateFault": "Injecte une panne dans le simulateur en cours : nuages (110 s), un choc sur la monture, une monture qui ne répond plus (60 s), 3 poses en échec ou des corrections Dec dans le mauvais sens (120 s).",
-            "BacklashModel": "Fixe ajoute l'impulsion supplémentaire à chaque inversion Dec et l'ajuste lentement. Le modèle de jeu suit l'engrenage Dec dans le jeu, retient les corrections qui, sur du bruit de seeing, ne feraient que rattraper le jeu, et apprend le jeu à partir de la calibration et du guidage. Uniquement avec l'algorithme Dec Predictive."
+            "BacklashModel": "Fixe ajoute l'impulsion supplémentaire à chaque inversion Dec et l'ajuste lentement. Le modèle de jeu suit l'engrenage Dec dans le jeu, retient les corrections qui, sur du bruit de seeing, ne feraient que rattraper le jeu, et apprend le jeu à partir de la calibration et du guidage. Uniquement avec l'algorithme Dec Predictive. En cas de doute : avec l'algorithme Dec Predictive, choisissez le modèle de jeu, sinon gardez Fixe. Le Guiding Coach propose le modèle de jeu quand le jeu mesuré s'y prête.",
+            "BacklashRemeasureAfterSlewDeg": "Quand le guidage démarre après que la monture s'est déplacée de plus que cette valeur ou a changé de côté du pilier, le modèle de jeu remesure d'abord le jeu : la Dec envoie des impulsions vers le nord jusqu'à ce que l'étoile suive, puis vers le sud jusqu'au point de départ. L'engrenage repose alors sur un côté connu et le modèle connaît le jeu sur la nouvelle cible. Cela prend environ 10 à 20 images de guidage. 0 = jamais."
           },
           "warnings": {
-            "backlashModelNeedsPredictive": "Le modèle de jeu ne fonctionne qu'avec l'algorithme Dec Predictive ; l'impulsion fixe est utilisée pour l'instant."
+            "backlashModelNeedsPredictive": "Le modèle de jeu ne fonctionne qu'avec l'algorithme Dec Predictive ; l'impulsion fixe est utilisée pour l'instant. Pour l'utiliser, réglez « Algorithme Dec » sur Predictive dans ces paramètres."
           }
         },
         "darks": {
@@ -2950,6 +2952,10 @@
             "bool": {
               "true": "oui",
               "false": "non"
+            },
+            "playReason": {
+              "soft": "varie selon le mouvement précédent",
+              "large": "est important"
             }
           },
           "codes": {
@@ -3049,7 +3055,11 @@
                 "title": "Jeu en Dec : {ms} ({arcsec})",
                 "why": "Quand la Dec change de sens, les engrenages doivent d'abord rattraper leur jeu. Les corrections sont sans effet pendant ce temps, puis l'étoile dépasse sa cible et la Dec oscille.",
                 "fix_good": "Rien à faire.",
-                "fix": "Utilisez la compensation du jeu avec l'impulsion mesurée, réduisez le jeu mécaniquement ou déséquilibrez légèrement la Dec. Guider la Dec dans un seul sens l'évite complètement."
+                "fix": "Utilisez la compensation du jeu (avec l'algorithme Dec Predictive de préférence le modèle de jeu, sinon l'impulsion mesurée), réduisez le jeu mécaniquement ou déséquilibrez légèrement la Dec. Guider la Dec dans un seul sens l'évite complètement.",
+                "notes": {
+                  "playModel": "Le jeu en Dec {playReason}, une impulsion fixe ne lui convient donc pas bien. Le modèle de jeu suit la position de l'engrenage dans le jeu, apprend sa taille à partir de la calibration et du guidage, et ne compense que le jeu restant.",
+                  "playModelNeedsPredictive": "Le modèle de jeu compenserait ce jeu mieux qu'une impulsion fixe, mais il ne fonctionne qu'avec l'algorithme Dec Predictive. Passez l'algorithme Dec sur Predictive pour l'utiliser."
+                }
               },
               "minPulse": {
                 "title": "{axis} : les impulsions de moins de {ms} ne font pas bouger la monture",
@@ -3435,7 +3445,7 @@
         },
         "backlash": {
           "title": "Jeu Dec – modèle de jeu",
-          "help": "Le modèle de jeu suit la position de l'engrenage Dec dans le jeu des engrenages et apprend la taille et la forme de ce jeu à partir de la calibration et du guidage. Il retient les corrections qui ne feraient que rattraper le jeu tant que l'erreur n'est que du bruit de seeing, et allonge une correction nécessaire du jeu restant. Il ne fonctionne qu'avec l'algorithme Dec Predictive.",
+          "help": "Le modèle de jeu suit la position de l'engrenage Dec dans le jeu des engrenages et apprend la taille et la forme de ce jeu à partir de la calibration et du guidage. Il retient les corrections qui ne feraient que rattraper le jeu tant que l'erreur n'est que du bruit de seeing, et allonge une correction nécessaire du jeu restant. Il ne fonctionne qu'avec l'algorithme Dec Predictive.\n\nRien à régler ici : le modèle apprend seul et conserve ce qu'il a appris par profil et par monture pour la nuit suivante. La pastille indique le jeu appris et le côté contre lequel repose l'engrenage.",
           "fullReversal": "Jeu appris (inversion complète)",
           "shape": "Forme du jeu",
           "fromCalibration": "mesurée à la calibration",
@@ -3444,7 +3454,7 @@
           "southShort": "S",
           "slackNorth": "Nord : reste {value}",
           "slackSouth": "Sud : reste {value}",
-          "positionUnknown": "La position de l'engrenage dans le jeu n'est pas encore connue.",
+          "positionUnknown": "La position de l'engrenage dans le jeu n'est pas encore connue ; elle le sera à la première correction Dec ou après une calibration.",
           "gears": {
             "North": "en appui côté nord",
             "South": "en appui côté sud",
@@ -3462,7 +3472,16 @@
           "heldCorrections": "Corrections retenues",
           "learnedTakeUps": "Rattrapages appris",
           "lastCompensation": "Dernière compensation",
-          "heldExplanation": "Les corrections retenues n'auraient fait que traverser le jeu tant que l'erreur était du bruit. Les compteurs courent depuis la connexion du guidage."
+          "heldExplanation": "Corrections que le modèle a retenues parce qu'elles n'auraient fait que traverser le jeu alors que l'erreur n'était que du bruit de seeing. Un compteur qui augmente est normal : le modèle empêche la monture de poursuivre le seeing. Compte depuis la connexion du guidage.",
+          "tapHint": "Touchez ⓘ ou une tuile pour une explication.",
+          "info": {
+            "fullReversal": "Combien de temps la monture doit entraîner la Dec à la vitesse de guidage après une inversion avant que l'étoile ne bouge – la taille du jeu. Le modèle part de l'impulsion anti-jeu Dec réglée et la corrige à partir de la calibration et de chaque inversion, même si le jeu change au cours de la nuit.\n\nQue la valeur pose problème dépend de la vitesse de guidage et de l'échantillonnage. Le Guiding Coach mesure le jeu en Dec et vous dit quand il gêne. Un jeu important se réduit au mieux mécaniquement ou en déséquilibrant légèrement la Dec ; le mode de guidage Dec Drift évite complètement les inversions.",
+            "shape": "Comment le jeu est rattrapé lors d'une inversion Dec :\n\n• Dur : l'étoile ne bouge pas du tout, puis suit d'un coup – un vide net.\n• Moyen : l'étoile commence à bouger au milieu du jeu.\n• Mou : l'étoile avance progressivement jusqu'à ce que l'engrenage soit complètement en prise.\n• Aucun jeu : la Dec s'inverse proprement.\n• Comme calibré : la forme mesurée pendant la calibration correspond le mieux.\n\nLa forme est la plus probable d'après ce qu'a fait l'étoile ; elle peut encore changer pendant les premières inversions.",
+            "play": "La barre montre où se trouve l'engrenage Dec dans son jeu : à gauche contre le côté nord, à droite contre le côté sud.\n\nContre un côté, une impulsion dans cette direction déplace l'étoile immédiatement, tandis qu'une impulsion dans l'autre doit d'abord traverser tout le jeu. « Flottant » signifie que l'engrenage est quelque part entre les deux après de petites corrections – c'est normal. Les valeurs sous la barre indiquent combien de jeu il reste avant qu'une impulsion vers le nord ou le sud ne déplace l'étoile.",
+            "reversals": "Combien de fois la Dec a changé de sens depuis la connexion du guidage. Chaque inversion doit d'abord traverser le jeu. Beaucoup d'inversions avec une petite erreur signifient généralement que la Dec poursuit le seeing.",
+            "learnedTakeUps": "Sur combien de traversées du jeu reposent les valeurs apprises. Les plus anciennes comptent moins, ainsi le modèle suit un jeu qui change au cours de la nuit. Plus le nombre est élevé, plus le jeu appris est fiable.",
+            "lastCompensation": "De combien le modèle a allongé la dernière correction Dec pour traverser le jeu qui restait de ce côté. 0 ms signifie que l'engrenage reposait déjà du bon côté."
+          }
         }
       }
     },
@@ -7816,6 +7835,7 @@
         "running": "En cours…",
         "stop": "Arrêter",
         "tppaSettings": "Paramètres TPPA",
+        "autoPilotSettings": "Paramètres de l'Auto-Pilot",
         "tnsPluginRequired": "TPPA nécessite le plugin Touch'N'Stars dans N.I.N.A. ; il est injoignable.",
         "phaseLabel": "État",
         "azError": "Erreur azimut",

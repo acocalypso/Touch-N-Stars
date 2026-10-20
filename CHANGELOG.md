@@ -5,7 +5,7 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## [unreleased] 
+## [App6.5.0 - beta 9] - 2026-10-20
 
 ### Added
 
@@ -15,6 +15,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - AAPA Controller (plugin): The automatic polar alignment can only be started with a connected camera, and a hint says so while none is connected. Stopping the alignment clears the last error message, e.g. a lost connection.
 - Native Guider (PINS): The guide graph remembers the chosen y-scale on this device, also after closing and reopening the guider.
+
+## [App6.5.0 - beta 8] - 2026-10-19
+
+### Added
+
+- LuckyCapture (plugin): Planetary video capture with the connected PINS camera, recorded as SER or lossless AVI with the native pixels. A live preview with region of interest selection, a raw intensity histogram and frame statistics helps to set exposure, gain, offset, binning and bit depth. Recordings can be limited by frame count or time, named with a filename template and saved to a subfolder, and keep running when leaving the screen. This needs the LuckyCapture plugin in PINS. Developed by @acocalypso.
 
 ## [App6.5.0 - beta 7] - 2026-10-16
 

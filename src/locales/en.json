@@ -5484,8 +5484,7 @@
         "no": "No"
       },
       "abort": {
-        "button": "ABORT — stop the mount",
-        "stop": "STOP the mount",
+        "button": "Stop the mount",
         "failed": "The stop request failed. Stop the mount at its hand controller or switch it off."
       },
       "result": {

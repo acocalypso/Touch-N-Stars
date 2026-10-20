@@ -37,6 +37,8 @@
         </button>
       </div>
     </div>
+
+    <ConeStopButton />
   </section>
 
   <!-- Finished -->
@@ -228,6 +230,7 @@ import { useToastStore } from '@/store/toastStore';
 import { useConeErrorStore } from '../store/coneErrorStore';
 import ConeChecks from './ConeChecks.vue';
 import ConeResult from './ConeResult.vue';
+import ConeStopButton from './ConeStopButton.vue';
 import PairTable from './PairTable.vue';
 import PierSideSketch from './PierSideSketch.vue';
 

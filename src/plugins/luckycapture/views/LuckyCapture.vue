@@ -2,6 +2,7 @@
 import { computed, nextTick, onMounted, onUnmounted, reactive, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import FocusPanel from '../components/FocusPanel.vue';
+import MountPanel from '../components/MountPanel.vue';
 import CameraControl from '../components/CameraControl.vue';
 import IntensityHistogram from '../components/IntensityHistogram.vue';
 import { readLimit, selectionToRoi } from '../utils/captureUi';
@@ -85,6 +86,7 @@ const canStart = computed(
     !recordingActive.value
 );
 const panel = ref('preview');
+const mountOpen = ref(false);
 const pageRoot = ref(null);
 const compact = ref(window.innerWidth <= 900);
 let resizeFrame = 0;
@@ -451,6 +453,7 @@ onUnmounted(() => {
         v-show="!compact || panel === 'preview'"
         id="lc-preview"
         class="visual"
+        :class="{ 'mount-centering': mountOpen }"
         :role="compact ? 'tabpanel' : undefined"
         :aria-labelledby="compact ? 'lc-tab-preview' : undefined"
       >
@@ -501,6 +504,7 @@ onUnmounted(() => {
             <p class="hint">{{ text('previewHelp') }}</p>
           </div>
         </div>
+        <MountPanel :visible="!compact || panel === 'preview'" @update:open="mountOpen = $event" />
         <div class="preview-tools">
           <button
             v-if="store.camera?.roiSupported"
@@ -1215,5 +1219,13 @@ progress {
   color: #fff;
   background: #102d3d;
   font-size: 12px;
+}
+.compact .visual.mount-centering .preview {
+  --preview-height: clamp(140px, 24vh, 200px);
+}
+@supports (height: 1dvh) {
+  .compact .visual.mount-centering .preview {
+    --preview-height: clamp(140px, 24dvh, 200px);
+  }
 }
 </style>

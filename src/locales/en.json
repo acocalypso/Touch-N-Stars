@@ -8572,7 +8572,17 @@
     "histLogCaption": "log counts",
     "exposureUnit": "Exposure unit",
     "shortExposures": "Short exposures",
-    "exposureMinimum": "Minimum reported by camera: {value} ms."
+    "exposureMinimum": "Minimum reported by camera: {value} ms.",
+    "mountControls": "Center target",
+    "mountHelp": "Hold an arrow to move; release to stop. Start with a low slew rate and watch the preview. Directions refer to the mount axes; camera orientation may differ.",
+    "mountDisconnected": "Connect a mount in Equipment to adjust the target here.",
+    "mountNorth": "Move north",
+    "mountSouth": "Move south",
+    "mountEast": "Move east",
+    "mountWest": "Move west",
+    "mountStop": "Stop mount",
+    "mountConnecting": "Connecting…",
+    "mountCommandFailed": "The mount rejected the movement command."
   },
   "luckycaptureFocus": {
     "tab": "Focus",

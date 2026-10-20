@@ -8571,7 +8571,17 @@
     "histLogCaption": "logarithmische Anzahl",
     "exposureUnit": "Belichtungseinheit",
     "shortExposures": "Kurze Belichtungen",
-    "exposureMinimum": "Von der Kamera gemeldetes Minimum: {value} ms."
+    "exposureMinimum": "Von der Kamera gemeldetes Minimum: {value} ms.",
+    "mountControls": "Motiv zentrieren",
+    "mountHelp": "Pfeil gedrückt halten, zum Stoppen loslassen. Mit niedriger Schwenkgeschwindigkeit beginnen und die Vorschau beobachten. Die Richtungen beziehen sich auf die Montierungsachsen; die Kamera kann anders ausgerichtet sein.",
+    "mountDisconnected": "Eine Montierung unter Ausrüstung verbinden, um das Motiv hier auszurichten.",
+    "mountNorth": "Nach Norden bewegen",
+    "mountSouth": "Nach Süden bewegen",
+    "mountEast": "Nach Osten bewegen",
+    "mountWest": "Nach Westen bewegen",
+    "mountStop": "Montierung stoppen",
+    "mountConnecting": "Verbindung wird hergestellt…",
+    "mountCommandFailed": "Die Montierung hat den Bewegungsbefehl abgelehnt."
   },
   "luckycaptureFocus": {
     "tab": "Fokus",

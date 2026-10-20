@@ -66,7 +66,9 @@
       </div>
       <p class="text-sm text-content">{{ status.message }}</p>
 
-      <!-- Not during a move: the stop bar lives on this page -->
+      <ConeStopButton v-if="store.moving" />
+
+      <!-- Not during a move: the stop button is on this page -->
       <div class="grid grid-cols-2 gap-2">
         <button
           class="tns-btn-secondary min-h-touch"
@@ -332,6 +334,7 @@ import apiPinsService from '@/services/apiPinsService';
 import { useToastStore } from '@/store/toastStore';
 import { useConeErrorStore } from '../store/coneErrorStore';
 import ConeChecks from './ConeChecks.vue';
+import ConeStopButton from './ConeStopButton.vue';
 import PierSideSketch from './PierSideSketch.vue';
 import ConeResult from './ConeResult.vue';
 

@@ -1,5 +1,5 @@
 <template>
-  <div class="container mx-auto p-2 sm:p-4 max-w-3xl space-y-3 pb-28">
+  <div class="container mx-auto p-2 sm:p-4 max-w-3xl space-y-3">
     <div class="flex items-center justify-between gap-2">
       <h1 class="text-xl sm:text-2xl font-bold text-content">
         {{ $t('plugins.coneError.title') }}
@@ -49,8 +49,6 @@
     <ManualFlip v-else-if="activeTab === 'manual'" />
     <ConeHistory v-else-if="activeTab === 'history'" />
     <ConeSettings v-else />
-
-    <AbortBar />
   </div>
 </template>
 
@@ -62,7 +60,6 @@ import AutoWizard from '../components/AutoWizard.vue';
 import ManualFlip from '../components/ManualFlip.vue';
 import ConeHistory from '../components/ConeHistory.vue';
 import ConeSettings from '../components/ConeSettings.vue';
-import AbortBar from '../components/AbortBar.vue';
 
 const TABS = ['auto', 'manual', 'history', 'settings'];
 

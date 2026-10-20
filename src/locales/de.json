@@ -8476,7 +8476,7 @@
     "exposure": "Belichtungszeit",
     "gain": "Verstärkung",
     "offset": "Offset",
-    "bitDepth": "Native Bittiefe",
+    "bitDepth": "RAW-Ausgabetiefe",
     "binning": "Binning",
     "roi": "Bildbereich (ROI)",
     "apply": "Einstellungen anwenden",
@@ -8540,7 +8540,7 @@
     "helpexposure": "Belichtungszeit pro Bild. 0,2 ms = 0,0002 s; 1 ms = 0,001 s. 20 ms ist der Standardwert, kein festes Minimum. Wähle für helle Sonnen- oder Mondmotive eine kürzere Zeit innerhalb der Kameragrenzen.",
     "helpgain": "Verstärkt das Kamerasignal. Höhere Verstärkung hellt kurze Belichtungen auf, kann aber das Rauschen erhöhen und den Spielraum für helle Bildbereiche verringern.",
     "helpoffset": "Legt den Schwarzwert fest. Leicht erhöhen, wenn dunkle Pixel auf null abgeschnitten werden. Ersetzt weder Verstärkung noch Belichtungszeit.",
-    "helpbitDepth": "8 Bit erzeugt kleinere Bilder und kann einen schnelleren Stream ermöglichen. 16 Bit erhält mehr Helligkeitsabstufungen. Angeboten werden nur Formate, die die Kamera unterstützt.",
+    "helpbitDepth": "Vom Kameratreiber gemeldetes Ausgabeformat. RAW8 nutzt ein Byte pro Pixel; RAW16 nutzt zwei Bytes und erhält die Sensorpräzision. Ein 12-Bit-ADC liefert häufig RAW16, kein separates RAW12-Format.",
     "helpbinning": "Verringert die Auflösung durch Kamerabinning. Für rohe Bayer-Farbbilder 1×1 verwenden.",
     "helpusbLimit": "Kameraspezifische Einstellung für die USB-Übertragung. Zunächst den Treiberstandard verwenden; nur zur Verbesserung von Stabilität oder Geschwindigkeit ändern.",
     "helpAcquisitionMode": "Automatisch nutzt einen aktivierten Kamerastream, falls verfügbar, sonst wiederholte Einzelbelichtungen. Der Modus für wiederholte Einzelbelichtungen verwendet die normale Aufnahme. Die Kameravorschau kann keine Rohbilder aufnehmen.",
@@ -8581,7 +8581,12 @@
     "mountWest": "Nach Westen bewegen",
     "mountStop": "Montierung stoppen",
     "mountConnecting": "Verbindung wird hergestellt…",
-    "mountCommandFailed": "Die Montierung hat den Bewegungsbefehl abgelehnt."
+    "mountCommandFailed": "Die Montierung hat den Bewegungsbefehl abgelehnt.",
+    "rotatePreview": "Vorschau um 180° drehen",
+    "previewOrientationHelp": "Nur die Anzeige wird gedreht. Aufnahmen und gespeicherte PNGs behalten die ursprüngliche Sensorausrichtung.",
+    "outputDirectory": "Speicherordner auf PINS",
+    "helpoutputDirectory": "Optionaler absoluter Ordnerpfad auf dem PINS-Rechner, z. B. /media/pi/SSD/LuckyCapture. Leer lassen, um den angezeigten Standard zu verwenden. Der PINS-Dienstbenutzer benötigt Schreibrechte.",
+    "cameraPreferencesHelp": "Einstellungen, Vorschauausrichtung und Speicherordner werden in diesem Browser für diese Kamera gespeichert. Nur vom Treiber unterstützte Einstellungen lassen sich anwenden."
   },
   "luckycaptureFocus": {
     "tab": "Fokus",

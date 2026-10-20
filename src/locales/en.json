@@ -8477,7 +8477,7 @@
     "exposure": "Exposure",
     "gain": "Gain",
     "offset": "Offset",
-    "bitDepth": "Native bit depth",
+    "bitDepth": "Raw output depth",
     "binning": "Binning",
     "roi": "Region of interest",
     "apply": "Apply settings",
@@ -8541,7 +8541,7 @@
     "helpexposure": "Exposure per frame. 0.2 ms = 0.0002 s; 1 ms = 0.001 s. 20 ms is the default, not a fixed minimum. Use shorter exposures for bright solar or lunar targets within the camera limits.",
     "helpgain": "Amplifies the camera signal. Higher gain brightens short exposures but can increase noise and reduce highlight headroom.",
     "helpoffset": "Sets the black-level baseline. Increase slightly if dark pixels are clipped to zero; it does not replace gain or exposure.",
-    "helpbitDepth": "8-bit produces smaller frames and may stream faster. 16-bit preserves more intensity precision. Only formats supported by this camera are offered.",
+    "helpbitDepth": "Output format advertised by this camera driver. RAW8 uses one byte per pixel; RAW16 uses two bytes and retains the sensor precision. A 12-bit ADC commonly delivers RAW16, not a separate RAW12 format.",
     "helpbinning": "Reduces resolution using camera binning. Keep 1x1 when recording raw Bayer color frames.",
     "helpusbLimit": "Camera-specific USB transfer control. Use the driver default first; adjust only to improve transfer stability or speed.",
     "helpAcquisitionMode": "Automatic uses an enabled camera stream when available, otherwise repeated exposures. Repeated exposures forces normal capture; camera preview mode cannot record raw frames.",
@@ -8582,7 +8582,12 @@
     "mountWest": "Move west",
     "mountStop": "Stop mount",
     "mountConnecting": "Connecting…",
-    "mountCommandFailed": "The mount rejected the movement command."
+    "mountCommandFailed": "The mount rejected the movement command.",
+    "rotatePreview": "Rotate preview 180°",
+    "previewOrientationHelp": "Display only. Recordings and saved PNGs keep their original sensor orientation.",
+    "outputDirectory": "Save folder on PINS",
+    "helpoutputDirectory": "Optional absolute folder path on the PINS host, such as /media/pi/SSD/LuckyCapture. Leave blank for the default shown here. The PINS service user needs write access.",
+    "cameraPreferencesHelp": "Settings, preview orientation and save folder are remembered in this browser for this camera. Only driver-supported settings can be applied."
   },
   "luckycaptureFocus": {
     "tab": "Focus",

@@ -1,37 +1,5 @@
 import { defineStore } from 'pinia';
-import { watch } from 'vue';
-import { createPoller } from '@/utils/poller';
-import { isAppBackgrounded } from '@/utils/appLifecycle';
 import api from '../api';
-
-// The status poll lives here, not in the view: while a session runs it must go on when the user
-// opens the camera or mount page (the backend stops a daytime move after 20 s without polls). It
-// runs while the panel is open or a session is active, and pauses while the app is backgrounded.
-let poller = null;
-let openViews = 0;
-let polls = 0;
-
-function wantPolling(store) {
-  return !isAppBackgrounded.value && (openViews > 0 || store.active);
-}
-
-function ensurePoller(store) {
-  if (!poller) {
-    poller = createPoller(async () => {
-      await store.loadStatus();
-      polls++;
-      if (openViews > 0 && !store.active && polls % 5 === 0) {
-        await store.loadPreconditions();
-      }
-      if (!wantPolling(store)) poller.stop();
-    }, 2000);
-    watch(isAppBackgrounded, () => {
-      if (wantPolling(store)) poller.start();
-      else poller.stop();
-    });
-  }
-  if (wantPolling(store)) poller.start();
-}
 
 const FINISHED = ['Complete', 'Failed', 'Aborted'];
 
@@ -42,21 +10,14 @@ export const useConeErrorStore = defineStore('coneError', {
     settings: null,
     results: [],
     autoPlan: null,
-    movePlan: null,
-    estimate: null,
     loading: false,
     pending: false,
     error: null,
   }),
 
   getters: {
-    mode: (state) => state.status?.mode ?? 'none',
     phase: (state) => state.status?.phase ?? 'Idle',
     active: (state) => state.status?.active === true,
-    autoRunning: (state) => state.status?.mode === 'auto' && state.status?.active === true,
-    manualActive: (state) => state.status?.mode === 'manual' && state.status?.active === true,
-    moving: (state) =>
-      state.status?.active === true && ['Slewing', 'Moving'].includes(state.status?.phase),
     finished: (state) => FINISHED.includes(state.status?.phase),
   },
 
@@ -72,16 +33,6 @@ export const useConeErrorStore = defineStore('coneError', {
       } finally {
         this.pending = false;
       }
-    },
-
-    /** The panel was opened: poll (and keep polling while a session runs after it is closed). */
-    attachView() {
-      openViews++;
-      ensurePoller(this);
-    },
-
-    detachView() {
-      openViews = Math.max(0, openViews - 1);
     },
 
     async loadStatus() {
@@ -142,11 +93,10 @@ export const useConeErrorStore = defineStore('coneError', {
       return this.autoPlan;
     },
 
-    async startAuto(acknowledgePointingModel) {
+    async startAuto(noPointingModel) {
       const planId = this.autoPlan?.planId;
       this.autoPlan = null;
-      this.status = await this.run(() => api.startAuto(planId, acknowledgePointingModel));
-      ensurePoller(this);
+      this.status = await this.run(() => api.startAuto(planId, noPointingModel));
     },
 
     async answer(id, yes) {
@@ -162,63 +112,6 @@ export const useConeErrorStore = defineStore('coneError', {
         this.status = await api.abort();
         if (!this.status) throw error;
       }
-    },
-
-    async restore() {
-      this.status = await this.run(() => api.restore());
-      await this.loadPreconditions();
-    },
-
-    async manualBegin() {
-      this.estimate = null;
-      this.movePlan = null;
-      this.status = await this.run(() => api.manualBegin());
-      ensurePoller(this);
-    },
-
-    async manualCapture() {
-      this.estimate = null;
-      this.movePlan = null;
-      this.status = await this.run(() => api.manualCapture());
-    },
-
-    async manualPlanMove(side, overrideSunPath = false) {
-      this.movePlan = null;
-      const plan = await this.run(() => api.manualPlanMove(side, overrideSunPath));
-      this.movePlan = plan ? { ...plan, receivedAt: Date.now() } : null;
-      return this.movePlan;
-    },
-
-    async manualPierLabels(counterweightWest) {
-      this.status = await this.run(() => api.manualPierLabels(counterweightWest));
-    },
-
-    async manualMove() {
-      const planId = this.movePlan?.planId;
-      this.movePlan = null;
-      this.status = await this.run(() => api.manualMove(planId));
-    },
-
-    async manualStop() {
-      try {
-        this.status = await api.manualStop();
-      } catch (error) {
-        this.status = await api.abort();
-        if (!this.status) throw error;
-      }
-    },
-
-    async manualRecenterDone(axisOffsetMm, landmarkDistanceMeters) {
-      this.estimate = await this.run(() =>
-        api.manualRecenterDone(axisOffsetMm, landmarkDistanceMeters)
-      );
-      return this.estimate;
-    },
-
-    async manualEnd() {
-      this.movePlan = null;
-      this.status = await this.run(() => api.manualEnd());
-      await this.loadPreconditions();
     },
   },
 });

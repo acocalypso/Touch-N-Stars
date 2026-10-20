@@ -8537,7 +8537,7 @@
     "stateERROR": "Aufnahmefehler",
     "invalidCameraSettings": "Einen gültigen Kamerawert innerhalb des angegebenen Bereichs eingeben.",
     "invalidRoi": "Ganzzahlige Pixelkoordinaten und einen Bereich innerhalb des Sensors eingeben (mindestens 2 × 2 Pixel).",
-    "helpexposure": "Belichtungszeit pro Bild in Sekunden. 0,02 s = 20 ms. Längere Belichtungen sind heller, begrenzen aber die maximale Bildrate.",
+    "helpexposure": "Belichtungszeit pro Bild. 0,2 ms = 0,0002 s; 1 ms = 0,001 s. 20 ms ist der Standardwert, kein festes Minimum. Wähle für helle Sonnen- oder Mondmotive eine kürzere Zeit innerhalb der Kameragrenzen.",
     "helpgain": "Verstärkt das Kamerasignal. Höhere Verstärkung hellt kurze Belichtungen auf, kann aber das Rauschen erhöhen und den Spielraum für helle Bildbereiche verringern.",
     "helpoffset": "Legt den Schwarzwert fest. Leicht erhöhen, wenn dunkle Pixel auf null abgeschnitten werden. Ersetzt weder Verstärkung noch Belichtungszeit.",
     "helpbitDepth": "8 Bit erzeugt kleinere Bilder und kann einen schnelleren Stream ermöglichen. 16 Bit erhält mehr Helligkeitsabstufungen. Angeboten werden nur Formate, die die Kamera unterstützt.",
@@ -8568,7 +8568,10 @@
     "histInspectHelp": "Antippen oder mit den Pfeiltasten Helligkeitsklassen untersuchen",
     "histFullCaption": "Helligkeit: voller Sensorbereich (%)",
     "histSignalCaption": "Helligkeit: Signalbereich (%)",
-    "histLogCaption": "logarithmische Anzahl"
+    "histLogCaption": "logarithmische Anzahl",
+    "exposureUnit": "Belichtungseinheit",
+    "shortExposures": "Kurze Belichtungen",
+    "exposureMinimum": "Von der Kamera gemeldetes Minimum: {value} ms."
   },
   "luckycaptureFocus": {
     "tab": "Fokus",

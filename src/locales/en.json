@@ -8538,7 +8538,7 @@
     "stateERROR": "Capture error",
     "invalidCameraSettings": "Enter a valid camera value within the displayed range.",
     "invalidRoi": "Enter whole-pixel coordinates and a region inside the sensor (at least 2 x 2 pixels).",
-    "helpexposure": "Light collection time per frame, in seconds. 0.02 s = 20 ms. Longer exposures are brighter but reduce the maximum frame rate.",
+    "helpexposure": "Exposure per frame. 0.2 ms = 0.0002 s; 1 ms = 0.001 s. 20 ms is the default, not a fixed minimum. Use shorter exposures for bright solar or lunar targets within the camera limits.",
     "helpgain": "Amplifies the camera signal. Higher gain brightens short exposures but can increase noise and reduce highlight headroom.",
     "helpoffset": "Sets the black-level baseline. Increase slightly if dark pixels are clipped to zero; it does not replace gain or exposure.",
     "helpbitDepth": "8-bit produces smaller frames and may stream faster. 16-bit preserves more intensity precision. Only formats supported by this camera are offered.",
@@ -8569,7 +8569,10 @@
     "histInspectHelp": "Tap or use arrow keys to inspect intensity bins",
     "histFullCaption": "Intensity: full sensor range (%)",
     "histSignalCaption": "Intensity: signal range (%)",
-    "histLogCaption": "log counts"
+    "histLogCaption": "log counts",
+    "exposureUnit": "Exposure unit",
+    "shortExposures": "Short exposures",
+    "exposureMinimum": "Minimum reported by camera: {value} ms."
   },
   "luckycaptureFocus": {
     "tab": "Focus",

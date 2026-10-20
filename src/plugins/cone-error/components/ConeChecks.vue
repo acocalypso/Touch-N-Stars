@@ -40,6 +40,22 @@
       <dt>{{ $t('plugins.coneError.checks.sun') }}</dt>
       <dd class="text-content">{{ sunText }}</dd>
     </dl>
+
+    <label class="flex items-start gap-3 min-h-touch text-sm text-content">
+      <input
+        type="checkbox"
+        class="w-5 h-5 mt-0.5"
+        :checked="store.settings?.ignoreSunCheck === true"
+        :disabled="store.pending || store.active"
+        @change="toggleSunCheck($event.target.checked)"
+      />
+      <span>
+        {{ $t('plugins.coneError.checks.ignoreSun') }}
+        <span class="block text-xs text-content-muted">
+          {{ $t('plugins.coneError.checks.ignoreSunHelp') }}
+        </span>
+      </span>
+    </label>
   </section>
 </template>
 
@@ -57,6 +73,15 @@ const sunText = computed(() => {
   const altitude = pre.value?.time?.sunAltitudeDegrees;
   return typeof altitude === 'number' ? `${altitude.toFixed(0)}°` : '—';
 });
+
+async function toggleSunCheck(ignore) {
+  try {
+    await store.saveSettings({ ignoreSunCheck: ignore });
+    await store.loadPreconditions();
+  } catch {
+    // shown through store.error
+  }
+}
 
 function formatNumber(value) {
   return typeof value === 'number' ? value.toFixed(3) : '—';

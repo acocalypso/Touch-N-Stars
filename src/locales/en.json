@@ -4429,7 +4429,9 @@
         "mount": "Mount",
         "solver": "Plate solver",
         "site": "Site",
-        "sun": "Sun altitude"
+        "sun": "Sun altitude",
+        "ignoreSun": "Ignore the darkness check",
+        "ignoreSunHelp": "For testing in daylight, e.g. with simulators. The mount points near the meridian, so keep a real telescope covered."
       },
       "auto": {
         "setupTitle": "Measurement",

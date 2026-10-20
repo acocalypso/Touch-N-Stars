@@ -1,6 +1,6 @@
 <template>
   <!-- The mount seen from behind, facing the meridian (south in the north, north in the south),
-       on the west pier side: the tube is west of the pier, the counterweight east. -->
+       on the east pier side: the tube is east of the pier, the counterweight west. -->
   <figure class="space-y-1">
     <svg
       viewBox="0 0 200 110"
@@ -8,7 +8,7 @@
       role="img"
       :aria-label="$t('plugins.coneError.question.title')"
     >
-      <g :transform="tubeRight ? 'translate(200 0) scale(-1 1)' : undefined">
+      <g :transform="mirror ? 'translate(200 0) scale(-1 1)' : undefined">
         <line
           x1="100"
           y1="100"
@@ -53,7 +53,7 @@
         />
       </g>
       <text
-        :x="tubeRight ? 142 : 58"
+        :x="mirror ? 142 : 58"
         y="18"
         text-anchor="middle"
         font-size="10"
@@ -62,7 +62,7 @@
         {{ $t('plugins.coneError.question.tube') }}
       </text>
       <text
-        :x="tubeRight ? 54 : 146"
+        :x="mirror ? 54 : 146"
         y="80"
         text-anchor="middle"
         font-size="10"
@@ -70,8 +70,8 @@
       >
         {{ $t('plugins.coneError.question.counterweight') }}
       </text>
-      <text :x="south ? 182 : 12" y="104" font-size="11" fill="var(--color-content-faint)">E</text>
-      <text :x="south ? 12 : 182" y="104" font-size="11" fill="var(--color-content-faint)">W</text>
+      <text :x="mirror ? 182 : 12" y="104" font-size="11" fill="var(--color-content-faint)">E</text>
+      <text :x="mirror ? 12 : 182" y="104" font-size="11" fill="var(--color-content-faint)">W</text>
     </svg>
     <figcaption class="text-center text-xs text-content-faint">
       {{ $t('plugins.coneError.question.view') }}
@@ -84,8 +84,6 @@ import { computed } from 'vue';
 import { useConeErrorStore } from '../store/coneErrorStore';
 
 const store = useConeErrorStore();
-// Facing south, east is on the left and the tube (west) on the right; facing north (southern
-// hemisphere) the other way round.
-const south = computed(() => (store.preconditions?.profile?.latitude ?? 0) < 0);
-const tubeRight = computed(() => !south.value);
+// Facing north in the southern hemisphere, east is on the right.
+const mirror = computed(() => (store.preconditions?.profile?.latitude ?? 0) < 0);
 </script>

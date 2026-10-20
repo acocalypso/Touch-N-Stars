@@ -31,31 +31,25 @@
         {{ pre.mount?.name || '—' }}
         <span v-if="pre.mount?.side">({{ pre.mount.side }})</span>
       </dd>
-      <dt>{{ $t('plugins.coneError.checks.solver') }}</dt>
-      <dd class="text-content">{{ pre.profile?.solverDescription || '—' }}</dd>
+      <dt>{{ $t('plugins.coneError.checks.pierSide') }}</dt>
+      <dd class="text-content">{{ pre.pierSideSupported ? pre.pierSideDescription : '—' }}</dd>
+      <dt>{{ $t('plugins.coneError.checks.limits') }}</dt>
+      <dd class="text-content">
+        {{ pre.mountLimits?.source || $t('plugins.coneError.checks.pinsOnly') }}
+      </dd>
+      <dt>{{ $t('plugins.coneError.checks.model') }}</dt>
+      <dd class="text-content">{{ pre.pointingModel?.state }}</dd>
+      <template v-if="mode === 'auto'">
+        <dt>{{ $t('plugins.coneError.checks.solver') }}</dt>
+        <dd class="text-content">{{ pre.profile?.solverDescription }}</dd>
+      </template>
       <dt>{{ $t('plugins.coneError.checks.site') }}</dt>
       <dd class="text-content">
         {{ formatNumber(pre.profile?.latitude) }}°, {{ formatNumber(pre.profile?.longitude) }}°
       </dd>
-      <dt>{{ $t('plugins.coneError.checks.sun') }}</dt>
-      <dd class="text-content">{{ sunText }}</dd>
     </dl>
 
-    <label class="flex items-start gap-3 min-h-touch text-sm text-content">
-      <input
-        type="checkbox"
-        class="w-5 h-5 mt-0.5"
-        :checked="store.settings?.ignoreSunCheck === true"
-        :disabled="store.pending || store.active"
-        @change="toggleSunCheck($event.target.checked)"
-      />
-      <span>
-        {{ $t('plugins.coneError.checks.ignoreSun') }}
-        <span class="block text-xs text-content-muted">
-          {{ $t('plugins.coneError.checks.ignoreSunHelp') }}
-        </span>
-      </span>
-    </label>
+    <slot />
   </section>
 </template>
 
@@ -64,24 +58,16 @@ import { computed } from 'vue';
 import { ExclamationTriangleIcon, XCircleIcon } from '@heroicons/vue/24/outline';
 import { useConeErrorStore } from '../store/coneErrorStore';
 
-const store = useConeErrorStore();
-const pre = computed(() => store.preconditions);
-const blockers = computed(() => pre.value?.blockers ?? []);
-const warnings = computed(() => pre.value?.warnings ?? []);
-
-const sunText = computed(() => {
-  const altitude = pre.value?.time?.sunAltitudeDegrees;
-  return typeof altitude === 'number' ? `${altitude.toFixed(0)}°` : '—';
+const props = defineProps({
+  mode: { type: String, required: true },
 });
 
-async function toggleSunCheck(ignore) {
-  try {
-    await store.saveSettings({ ignoreSunCheck: ignore });
-    await store.loadPreconditions();
-  } catch {
-    // shown through store.error
-  }
-}
+const store = useConeErrorStore();
+const pre = computed(() => store.preconditions);
+const blockers = computed(
+  () => (props.mode === 'auto' ? pre.value?.autoBlockers : pre.value?.manualBlockers) ?? []
+);
+const warnings = computed(() => pre.value?.warnings ?? []);
 
 function formatNumber(value) {
   return typeof value === 'number' ? value.toFixed(3) : '—';

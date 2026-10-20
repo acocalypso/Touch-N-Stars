@@ -20,11 +20,16 @@ const store = useConeErrorStore();
 const stopping = ref(false);
 const failed = ref(false);
 
+// The measurement is ended; a daytime move is stopped and the daytime check stays open.
 async function stop() {
   stopping.value = true;
   failed.value = false;
   try {
-    await store.abort();
+    if (store.manualActive) {
+      await store.manualStop();
+    } else {
+      await store.abort();
+    }
   } catch {
     failed.value = true;
   } finally {

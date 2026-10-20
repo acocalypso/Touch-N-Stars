@@ -5583,9 +5583,7 @@
         "manualMinAltitude": "Minimum altitude, daytime check (°)",
         "strictPath": "Strict flip path check",
         "strictPathHelp": "Also check moves that turn one axis after the other. Safer for unusual mounts, but refuses many more daytime flips.",
-        "limitsNote": "The custom horizon and the meridian flip limit of the profile also apply; where the mount reports its own limits, the stricter one is used.",
-        "save": "Save",
-        "saved": "Saved."
+        "limitsNote": "The custom horizon and the meridian flip limit of the profile also apply; where the mount reports its own limits, the stricter one is used."
       }
     },
     "aapa": {

@@ -1969,6 +1969,13 @@
             "Both": "beide",
             "North": "nur N",
             "South": "nur S"
+          },
+          "backlashChip": "Spiel {play}",
+          "backlashGear": {
+            "North": "Zahnrad N",
+            "South": "Zahnrad S",
+            "Floating": "Zahnrad schwebt",
+            "Unknown": "Zahnrad ?"
           }
         },
         "controls": {
@@ -2518,6 +2525,10 @@
               "South": "nur Süd",
               "Off": "Aus – nur RA",
               "Drift": "Drift – folgt der Drift (eine Richtung)"
+            },
+            "BacklashModel": {
+              "Fixed": "Fest (wie PHD2)",
+              "PlayModel": "Spielmodell"
             }
           },
           "labels": {
@@ -2582,7 +2593,9 @@
             "IncidentRecorder": "Vorfälle aufzeichnen",
             "IncidentBudgetMb": "Speicherbudget für Vorfälle",
             "SimulatorScenario": "Simulator-Szenario",
-            "SimulateFault": "Fehler simulieren"
+            "SimulateFault": "Fehler simulieren",
+            "BacklashModel": "Dec-Backlash-Modell",
+            "BacklashRemeasureAfterSlewDeg": "Dec-Spiel neu messen nach Schwenk über"
           },
           "descriptions": {
             "GuideSource": "Woher die Guide-Frames kommen. Guide-Kamera: die Kamera im Guide-Kamera-Slot der Ausrüstung. Simulator: eine eingebaute Simulation von Montierung, Himmel und Kamera, um den Guider ohne Hardware oder bei Tageslicht auszuprobieren.",
@@ -2627,7 +2640,7 @@
             "MinPulseMs": "Kürzere Guide-Pulse werden auf 0 oder auf diese Länge gerundet: Manche Montierungen verarbeiten sehr kurze Pulse falsch. 0 = beliebige Länge.",
             "SimultaneousPulses": "Sendet die RA- und Dec-Pulse eines Frames gleichzeitig statt nacheinander, was den Guide-Zyklus verkürzt. Nur bei Montierungen, die beide Achsen getrennt takten (der native OnStepX-Treiber von pins); andere Montierungen pulsen weiter nacheinander.",
             "BacklashCompensation": "Fügt einen zusätzlichen Puls hinzu, wenn Dec die Richtung wechselt, um das Spiel im Dec-Getriebe aufzunehmen. Hilfreich bei spürbarem Dec-Backlash; ausgeschaltet lassen, wenn Dec sauber guidet. Der Dec-Guide-Modus Drift vermeidet Richtungswechsel ganz.",
-            "BacklashPulseMs": "Länge des zusätzlichen Pulses bei einem Dec-Richtungswechsel. Ausgehend davon passt der Guider den Puls anhand der Reaktion des Sterns automatisch zwischen 20 ms und dem 1,5-Fachen dieses Werts an.",
+            "BacklashPulseMs": "Länge des zusätzlichen Pulses bei einem Dec-Richtungswechsel. Ausgehend davon passt der Guider den Puls anhand der Reaktion des Sterns automatisch zwischen 20 ms und dem 1,5-Fachen dieses Werts an. Mit dem Spielmodell ist der Wert nur die erste Schätzung des Spiels, die das Modell dann selbst lernt.",
             "PulseModel": "Lernt aus den Dithers, wie weit ein Guide-Puls den Stern auf jeder Achse wirklich bewegt, und bemisst die Pulse danach, sodass eine ungenaue Kalibrierung nicht mehr zu Über- oder Unterkorrektur führt. Es startet mit den Kalibrierwerten, ändert nur, was die Dithers eindeutig zeigen, und behält das Gelernte pro Profil und Montierung bis zur nächsten Kalibrierung.",
             "CalibrationStepMs": "0 = automatisch aus Optik, Guide-Rate und Deklination.",
             "ReuseCalibration": "Kalibrierung über Sitzungen hinweg behalten und an Deklination und Pier-Seite anpassen.",
@@ -2646,7 +2659,12 @@
             "IncidentRecorder": "Hält die letzten Minuten an Guide-Frames im Speicher und speichert sie rund um Sternverluste, davonlaufendes Guiding, Probleme mit Montierung und Kamera sowie Fehlerspitzen – zur Wiedergabe und zum Download.",
             "IncidentBudgetMb": "Speicherplatz für aufgezeichnete Vorfälle; die ältesten nicht behaltenen werden zuerst gelöscht. Simulator-Vorfälle haben eigene 200 MB.",
             "SimulatorScenario": "Montierung, Himmel und Kamera, die der integrierte Simulator simuliert.",
-            "SimulateFault": "Speist einen Fehler in den laufenden Simulator ein: Wolken (110 s), ein Stoß gegen die Montierung, eine Montierung, die nicht mehr reagiert (60 s), 3 fehlgeschlagene Belichtungen oder Dec-Korrekturen in die falsche Richtung (120 s)."
+            "SimulateFault": "Speist einen Fehler in den laufenden Simulator ein: Wolken (110 s), ein Stoß gegen die Montierung, eine Montierung, die nicht mehr reagiert (60 s), 3 fehlgeschlagene Belichtungen oder Dec-Korrekturen in die falsche Richtung (120 s).",
+            "BacklashModel": "Fest gibt bei jeder Dec-Umkehr den Zusatzpuls und führt ihn langsam nach. Das Spielmodell verfolgt das Dec-Zahnrad im Spiel, hält Korrekturen zurück, die bei Seeing-Rauschen nur Spiel aufnehmen würden, und lernt das Spiel aus Kalibrierung und Betrieb. Nur mit dem Dec-Algorithmus Predictive. Im Zweifel: Mit dem Dec-Algorithmus Predictive das Spielmodell wählen, sonst bei Fest bleiben. Der Guiding Coach schlägt das Spielmodell vor, wenn der gemessene Backlash dazu passt.",
+            "BacklashRemeasureAfterSlewDeg": "Startet das Guiding, nachdem die Montierung weiter als dieser Wert geschwenkt hat oder die Pierseite gewechselt hat, misst das Spielmodell das Spiel zuerst neu: Dec pulst nach Norden, bis der Stern folgt, dann nach Süden zurück zum Start. Danach liegt das Zahnrad an einer bekannten Seite an und das Modell kennt das Spiel am neuen Ziel. Dauert etwa 10 bis 20 Guide-Frames. 0 = nie."
+          },
+          "warnings": {
+            "backlashModelNeedsPredictive": "Das Spielmodell wirkt nur mit dem Dec-Algorithmus Predictive; aktuell wird der feste Puls verwendet. Stelle dazu in diesen Einstellungen „Dec-Algorithmus“ auf Predictive."
           }
         },
         "darks": {
@@ -2975,6 +2993,10 @@
             "bool": {
               "true": "ja",
               "false": "nein"
+            },
+            "playReason": {
+              "soft": "schwankt mit der vorherigen Bewegung",
+              "large": "ist groß"
             }
           },
           "codes": {
@@ -3074,7 +3096,11 @@
                 "title": "Dec-Backlash: {ms} ({arcsec})",
                 "why": "Wenn Dec die Richtung wechselt, muss das Getriebe erst sein Spiel überwinden. Korrekturen bewirken in dieser Zeit nichts, dann schießt der Stern über und Dec schwingt.",
                 "fix_good": "Nichts zu tun.",
-                "fix": "Nutze die Backlash-Kompensation mit dem gemessenen Puls, verringere das Spiel mechanisch oder bringe Dec leicht aus der Balance. Dec nur in eine Richtung zu guiden vermeidet es ganz."
+                "fix": "Nutze die Backlash-Kompensation (mit dem Dec-Algorithmus Predictive am besten das Spielmodell, sonst den gemessenen Puls), verringere das Spiel mechanisch oder bringe Dec leicht aus der Balance. Dec nur in eine Richtung zu guiden vermeidet es ganz.",
+                "notes": {
+                  "playModel": "Der Dec-Backlash {playReason}, daher passt ein fester Puls schlecht. Das Spielmodell verfolgt, wo das Zahnrad im Spiel steht, lernt dessen Größe aus Kalibrierung und Guiding und gleicht nur das restliche Spiel aus.",
+                  "playModelNeedsPredictive": "Das Spielmodell würde diesen Backlash besser ausgleichen als ein fester Puls, wirkt aber nur mit dem Dec-Algorithmus Predictive. Stelle den Dec-Algorithmus auf Predictive, um es zu nutzen."
+                }
               },
               "minPulse": {
                 "title": "{axis}: Pulse unter {ms} bewegen die Montierung nicht",
@@ -3457,6 +3483,46 @@
             }
           },
           "unknown": "?"
+        },
+        "backlash": {
+          "title": "Dec-Backlash – Spielmodell",
+          "help": "Das Spielmodell verfolgt, wo das Dec-Zahnrad im Getriebespiel steht, und lernt Größe und Form des Spiels aus Kalibrierung und Guiding. Es hält Korrekturen zurück, die bei reinem Seeing-Rauschen nur Spiel aufnehmen würden, und verlängert eine nötige Korrektur um das restliche Spiel. Es wirkt nur mit dem Dec-Algorithmus Predictive.\n\nHier ist nichts einzustellen: Das Modell lernt selbst und merkt sich das Gelernte pro Profil und Montierung für die nächste Nacht. Der Chip zeigt das gelernte Spiel und die Seite, an der das Zahnrad anliegt.",
+          "fullReversal": "Gelerntes Spiel (volle Umkehr)",
+          "shape": "Form des Spiels",
+          "fromCalibration": "aus Kalibrierung gemessen",
+          "play": "Zahnrad im Spiel",
+          "northShort": "N",
+          "southShort": "S",
+          "slackNorth": "Nord: noch {value}",
+          "slackSouth": "Süd: noch {value}",
+          "positionUnknown": "Die Lage des Zahnrads im Spiel ist noch unbekannt; sie wird mit der ersten Dec-Korrektur oder einer Kalibrierung bekannt.",
+          "gears": {
+            "North": "liegt an der Nordseite an",
+            "South": "liegt an der Südseite an",
+            "Floating": "schwebt im Spiel",
+            "Unknown": "unbekannt"
+          },
+          "shapes": {
+            "None": "kein Spiel",
+            "Hard": "hart",
+            "Medium": "mittel",
+            "Soft": "weich",
+            "Calibrated": "wie kalibriert"
+          },
+          "reversals": "Umkehrungen",
+          "heldCorrections": "Zurückgehaltene Korrekturen",
+          "learnedTakeUps": "Gelernte Spielaufnahmen",
+          "lastCompensation": "Letzter Zuschlag",
+          "heldExplanation": "Korrekturen, die das Modell zurückgehalten hat, weil sie nur das Spiel durchfahren hätten, während der Fehler bloß Seeing-Rauschen war. Ein steigender Zähler ist normal: Das Modell hält die Montierung davon ab, dem Seeing hinterherzulaufen. Zählt seit dem Verbinden des Guiders.",
+          "tapHint": "Tippe auf ⓘ oder eine Kachel für eine Erklärung.",
+          "info": {
+            "fullReversal": "Wie lange die Montierung Dec nach einer Umkehr mit Guide-Rate fahren muss, bevor sich der Stern überhaupt bewegt – die Größe des Spiels. Das Modell startet mit dem eingestellten Dec-Backlash-Puls und korrigiert ihn aus der Kalibrierung und jeder Umkehr, auch wenn sich das Spiel im Lauf der Nacht ändert.\n\nOb der Wert ein Problem ist, hängt von Guide-Rate und Bildmaßstab ab. Der Guiding Coach misst den Dec-Backlash und sagt dir, wenn er stört. Großes Spiel verringerst du am besten mechanisch oder indem du Dec leicht aus der Balance bringst; der Dec-Guide-Modus Drift vermeidet Umkehrungen ganz.",
+            "shape": "Wie das Spiel bei einer Dec-Umkehr aufgenommen wird:\n\n• Hart: Der Stern bewegt sich zuerst gar nicht und folgt dann sofort – eine saubere Lücke.\n• Mittel: Der Stern beginnt sich mitten im Spiel zu bewegen.\n• Weich: Der Stern kriecht allmählich mit, bis das Zahnrad ganz greift.\n• Kein Spiel: Dec kehrt sauber um.\n• Wie kalibriert: Die in der Kalibrierung gemessene Form passt am besten.\n\nDie Form ist die wahrscheinlichste nach dem, was der Stern getan hat, und kann sich in den ersten Umkehrungen noch ändern.",
+            "play": "Der Balken zeigt, wo das Dec-Zahnrad in seinem Spiel steht: links an der Nordseite, rechts an der Südseite.\n\nLiegt es an einer Seite an, bewegt ein Puls in diese Richtung den Stern sofort, ein Puls in die andere Richtung muss erst das ganze Spiel durchfahren. „Schwebt“ heißt, das Zahnrad steht nach kleinen Korrekturen irgendwo dazwischen – das ist normal. Die Werte unter dem Balken zeigen, wie viel Spiel noch bleibt, bevor ein Puls nach Norden oder Süden den Stern bewegt.",
+            "reversals": "Wie oft Dec seit dem Verbinden des Guiders die Richtung gewechselt hat. Jede Umkehr muss zuerst das Spiel durchfahren. Viele Umkehrungen bei kleinem Fehler bedeuten meist, dass Dec dem Seeing hinterherläuft.",
+            "learnedTakeUps": "Auf wie vielen Durchfahrten des Spiels die gelernten Werte beruhen. Ältere zählen weniger, so folgt das Modell einem Spiel, das sich im Lauf der Nacht ändert. Je höher die Zahl, desto verlässlicher das gelernte Spiel.",
+            "lastCompensation": "Um wie viel das Modell die letzte Dec-Korrektur verlängert hat, um das auf dieser Seite noch verbleibende Spiel zu durchfahren. 0 ms heißt, das Zahnrad lag schon an der richtigen Seite an."
+          }
         }
       }
     },
@@ -7774,6 +7840,7 @@
         "running": "Läuft…",
         "stop": "Stopp",
         "tppaSettings": "TPPA-Einstellungen",
+        "autoPilotSettings": "Auto-Pilot-Einstellungen",
         "tnsPluginRequired": "TPPA benötigt das Touch'N'Stars-Plugin in N.I.N.A.; es ist nicht erreichbar.",
         "phaseLabel": "Status",
         "azError": "Azimutfehler",

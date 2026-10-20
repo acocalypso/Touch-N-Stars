@@ -1969,6 +1969,13 @@
             "Both": "both ways",
             "North": "N only",
             "South": "S only"
+          },
+          "backlashChip": "Play {play}",
+          "backlashGear": {
+            "North": "gear N",
+            "South": "gear S",
+            "Floating": "gear floating",
+            "Unknown": "gear ?"
           }
         },
         "controls": {
@@ -2518,6 +2525,10 @@
               "South": "South only",
               "Off": "Off – RA only",
               "Drift": "Drift – follow the drift (one direction)"
+            },
+            "BacklashModel": {
+              "Fixed": "Fixed (as in PHD2)",
+              "PlayModel": "Play model"
             }
           },
           "labels": {
@@ -2582,7 +2593,9 @@
             "IncidentRecorder": "Record incidents",
             "IncidentBudgetMb": "Incident disk budget",
             "SimulatorScenario": "Simulator scenario",
-            "SimulateFault": "Simulate a fault"
+            "SimulateFault": "Simulate a fault",
+            "BacklashModel": "Dec backlash model",
+            "BacklashRemeasureAfterSlewDeg": "Re-measure Dec play after a slew of"
           },
           "descriptions": {
             "GuideSource": "Where the guide frames come from. Guide camera: the camera in the guide camera slot of the equipment. Simulator: a built-in simulation of mount, sky and camera, to try the guider without hardware or in daylight.",
@@ -2627,7 +2640,7 @@
             "MinPulseMs": "Shorter guide pulses are rounded to 0 or to this length, because some mounts mishandle very short pulses. 0 sends pulses of any length.",
             "SimultaneousPulses": "Sends a frame's RA and Dec pulses at the same time instead of one after the other, which shortens the guide cycle. Only with mounts that time both axes separately (pins' native OnStepX driver); other mounts keep pulsing one after the other.",
             "BacklashCompensation": "Adds an extra pulse when Dec reverses its direction, to take up the play in the Dec gears. Helpful with noticeable Dec backlash; leave it off if Dec guides cleanly. The Drift Dec guide mode avoids reversals altogether.",
-            "BacklashPulseMs": "Length of the extra pulse on a Dec reversal. Starting from it, the guider adjusts the pulse automatically between 20 ms and 1.5 × this value, from how the star responds.",
+            "BacklashPulseMs": "Length of the extra pulse on a Dec reversal. Starting from it, the guider adjusts the pulse automatically between 20 ms and 1.5 × this value, from how the star responds. With the play model, the value is only the first estimate of the play, which the model then learns.",
             "PulseModel": "Learns from the dithers how far a guide pulse really moves the star on each axis, and sizes the pulses by it, so a calibration that is off no longer makes the guiding over- or under-correct. It starts as calibrated, changes only what the dithers clearly show, and keeps what it learned per profile and mount until the next calibration.",
             "CalibrationStepMs": "Length of each pulse during calibration. 0 (default) calculates it from focal length, pixel size, guide rate and declination. Set it yourself only if the calibration takes far too few or too many steps.",
             "ReuseCalibration": "Keeps the last calibration across sessions and adapts it to the declination and pier side, so you do not have to calibrate every night. Calibrate again after rotating the guide camera or changing the guide scope.",
@@ -2646,7 +2659,12 @@
             "IncidentRecorder": "Keeps the last minutes of guide frames in memory and saves them around star losses, runaways, mount and camera problems and spikes, for a replay and a download.",
             "IncidentBudgetMb": "Disk space for recorded incidents; the oldest ones that are not kept are deleted first. Simulator incidents have their own 200 MB.",
             "SimulatorScenario": "Mount, sky and camera the built-in simulator simulates.",
-            "SimulateFault": "Injects a fault into the running simulator: clouds (110 s), a bump of the mount, a mount that stops responding (60 s), 3 failed exposures, or Dec corrections going the wrong way (120 s)."
+            "SimulateFault": "Injects a fault into the running simulator: clouds (110 s), a bump of the mount, a mount that stops responding (60 s), 3 failed exposures, or Dec corrections going the wrong way (120 s).",
+            "BacklashModel": "Fixed adds the extra pulse on every Dec reversal and adjusts it slowly. Play model tracks the Dec gear inside the play, holds back corrections that would only take up play on seeing noise, and learns the play from calibration and guiding. Only with the Predictive Dec algorithm. If unsure: with the Predictive Dec algorithm choose the play model, otherwise keep Fixed. The Guiding Coach suggests the play model when the measured backlash fits it.",
+            "BacklashRemeasureAfterSlewDeg": "When guiding starts after the mount moved farther than this or changed pier side, the play model measures the play again first: Dec pulses North until the star follows, then South back to the start. The gear then rests on a known side and the model knows the play at the new target. Takes about 10 to 20 guide frames. 0 = never."
+          },
+          "warnings": {
+            "backlashModelNeedsPredictive": "The play model works only with the Predictive Dec algorithm; the fixed pulse is used for now. Switch \"Dec algorithm\" to Predictive in these settings to use it."
           }
         },
         "darks": {
@@ -2972,6 +2990,10 @@
               "disconnect": "a device disconnected",
               "unknown": "another command interrupted it"
             },
+            "playReason": {
+              "soft": "varies with the preceding move",
+              "large": "is large"
+            },
             "bool": {
               "true": "yes",
               "false": "no"
@@ -3074,7 +3096,11 @@
                 "title": "Dec backlash: {ms} ({arcsec})",
                 "why": "When Dec reverses, the gears first have to take up their play. Corrections do nothing during that time, then the star overshoots and Dec oscillates.",
                 "fix_good": "Nothing to do.",
-                "fix": "Use backlash compensation with the measured pulse, reduce the play mechanically, or unbalance Dec slightly. Guiding Dec in one direction avoids it altogether."
+                "fix": "Use backlash compensation (with the Predictive Dec algorithm preferably the play model, otherwise the measured pulse), reduce the play mechanically, or unbalance Dec slightly. Guiding Dec in one direction avoids it altogether.",
+                "notes": {
+                  "playModel": "The Dec backlash {playReason}, so a fixed pulse does not fit it well. The play model tracks where the gear sits in the play, learns its size from calibration and guiding, and compensates only the play that is left.",
+                  "playModelNeedsPredictive": "The play model would fit this backlash better than a fixed pulse, but it works only with the Predictive Dec algorithm. Switch the Dec algorithm to Predictive to use it."
+                }
               },
               "minPulse": {
                 "title": "{axis}: pulses under {ms} do not move the mount",
@@ -3457,6 +3483,46 @@
             }
           },
           "unknown": "?"
+        },
+        "backlash": {
+          "title": "Dec backlash – play model",
+          "help": "The play model tracks where the Dec gear sits in the play of the gears and learns the size and shape of that play from calibration and guiding. It holds back corrections that would only take up play while the error is just seeing noise, and lengthens a needed correction by the play still left. It works with the Predictive Dec algorithm only.\n\nThere is nothing to set here: the model learns by itself and keeps what it learned per profile and mount for the next night. The chip shows the learned play and the side the gear rests against.",
+          "fullReversal": "Learned play (full reversal)",
+          "shape": "Shape of the play",
+          "fromCalibration": "measured in calibration",
+          "play": "Gear in the play",
+          "northShort": "N",
+          "southShort": "S",
+          "slackNorth": "North: {value} left",
+          "slackSouth": "South: {value} left",
+          "positionUnknown": "The gear's position in the play is not known yet; it becomes known with the first Dec correction or a calibration.",
+          "gears": {
+            "North": "against the North side",
+            "South": "against the South side",
+            "Floating": "floating in the play",
+            "Unknown": "unknown"
+          },
+          "shapes": {
+            "None": "no play",
+            "Hard": "hard",
+            "Medium": "medium",
+            "Soft": "soft",
+            "Calibrated": "as calibrated"
+          },
+          "reversals": "Reversals",
+          "heldCorrections": "Held corrections",
+          "learnedTakeUps": "Learned take-ups",
+          "lastCompensation": "Last compensation",
+          "heldExplanation": "Corrections the model held back because they would only have run through the play while the error was just seeing noise. A rising count is normal: it means the model keeps the mount from chasing the seeing. Counts since the guider connected.",
+          "tapHint": "Tap ⓘ or a tile for an explanation.",
+          "info": {
+            "fullReversal": "How long the mount has to drive Dec at guide rate after a reversal before the star moves at all – the size of the play. The model starts from the Dec backlash pulse setting and corrects it from the calibration and every reversal, also when the play changes during the night.\n\nWhether the value is a problem depends on guide rate and image scale. The Guiding Coach measures the Dec backlash and tells you when it matters. A large play is best reduced mechanically or by unbalancing Dec slightly; the Drift Dec guide mode avoids reversals altogether.",
+            "shape": "How the play is taken up when Dec reverses:\n\n• Hard: the star does not move at all, then follows at once – a clean gap.\n• Medium: the star starts to move partway through the play.\n• Soft: the star creeps along gradually until the gear fully engages.\n• No play: Dec reverses cleanly.\n• As calibrated: the shape measured during the calibration fits best.\n\nThe shape is the most likely one from what the star did, so it can still change during the first reversals.",
+            "play": "The bar shows where the Dec gear sits inside its play: on the left against the North side, on the right against the South side.\n\nAgainst one side, a pulse in that direction moves the star at once, while a pulse the other way first has to cross the whole play. \"Floating\" means the gear sits somewhere in between after small corrections – that is normal. The values below the bar show how much play is left before a pulse North or South moves the star.",
+            "reversals": "How often Dec changed its direction since the guider connected. Each reversal first has to cross the play. Many reversals while the error is small usually mean Dec is chasing the seeing.",
+            "learnedTakeUps": "How many crossings of the play the learned values are based on. Older ones count less, so the model follows a play that changes during the night. The higher the number, the more reliable the learned play.",
+            "lastCompensation": "How much the model lengthened the last Dec correction to cross the play still left on that side. 0 ms means the gear already rested against the right side."
+          }
         }
       }
     },

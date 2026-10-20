@@ -1928,6 +1928,13 @@
             "Both": "entrambe",
             "North": "solo N",
             "South": "solo S"
+          },
+          "backlashChip": "Gioco {play}",
+          "backlashGear": {
+            "North": "ingranaggio N",
+            "South": "ingranaggio S",
+            "Floating": "ingranaggio flottante",
+            "Unknown": "ingranaggio ?"
           }
         },
         "controls": {
@@ -2477,6 +2484,10 @@
               "South": "Solo Sud",
               "Off": "Spento – solo RA",
               "Drift": "Drift – segue la deriva (una direzione)"
+            },
+            "BacklashModel": {
+              "Fixed": "Fisso (come PHD2)",
+              "PlayModel": "Modello del gioco"
             }
           },
           "labels": {
@@ -2541,7 +2552,9 @@
             "IncidentRecorder": "Registra anomalie",
             "IncidentBudgetMb": "Spazio disco anomalie",
             "SimulatorScenario": "Scenario simulatore",
-            "SimulateFault": "Simula un guasto"
+            "SimulateFault": "Simula un guasto",
+            "BacklashModel": "Modello backlash Dec",
+            "BacklashRemeasureAfterSlewDeg": "Rimisura il gioco Dec dopo uno spostamento di"
           },
           "descriptions": {
             "GuideSource": "Da dove arrivano i frame di guida. Camera di guida: la camera nello slot camera di guida dell'attrezzatura. Simulatore: una simulazione integrata di montatura, cielo e camera, per provare la guida senza hardware o di giorno.",
@@ -2586,7 +2599,7 @@
             "MinPulseMs": "Gli impulsi di guida più brevi vengono arrotondati a 0 o a questa durata: alcune montature gestiscono male gli impulsi molto brevi. 0 = qualsiasi durata.",
             "SimultaneousPulses": "Invia gli impulsi RA e Dec di un frame contemporaneamente invece che uno dopo l'altro, accorciando il ciclo di guida. Solo con montature che temporizzano i due assi separatamente (il driver OnStepX nativo di pins); le altre montature continuano uno dopo l'altro.",
             "BacklashCompensation": "Aggiunge un impulso extra quando Dec inverte la direzione, per recuperare il gioco degli ingranaggi Dec. Utile con un backlash Dec evidente; lascialo disattivato se Dec guida pulita. La modalità di guida Dec Drift evita del tutto le inversioni.",
-            "BacklashPulseMs": "Durata dell'impulso extra a un'inversione di Dec. Partendo da questo valore, la guida regola automaticamente l'impulso tra 20 ms e 1,5 × questo valore, in base a come risponde la stella.",
+            "BacklashPulseMs": "Durata dell'impulso extra a un'inversione di Dec. Partendo da questo valore, la guida regola automaticamente l'impulso tra 20 ms e 1,5 × questo valore, in base a come risponde la stella. Con il modello del gioco, il valore è solo la prima stima del gioco, che poi il modello impara.",
             "PulseModel": "Impara dai dither quanto un impulso di guida sposta davvero la stella su ciascun asse e dimensiona gli impulsi di conseguenza, così una calibrazione imprecisa non fa più correggere la guida troppo o troppo poco. Parte dai valori di calibrazione, cambia solo ciò che i dither mostrano chiaramente e conserva quanto appreso per profilo e montatura fino alla calibrazione successiva.",
             "CalibrationStepMs": "0 = automatico da ottica, velocità di guida e declinazione.",
             "ReuseCalibration": "Mantiene la calibrazione tra una sessione e l'altra e la adatta a declinazione e lato piedistallo.",
@@ -2605,7 +2618,12 @@
             "IncidentRecorder": "Tiene in memoria gli ultimi minuti di frame di guida e li salva attorno a perdite della stella, guida fuori controllo, problemi di montatura e camera e picchi di errore, per rivederli e scaricarli.",
             "IncidentBudgetMb": "Spazio su disco per le anomalie registrate; le più vecchie non conservate vengono eliminate per prime. Le anomalie del simulatore hanno 200 MB propri.",
             "SimulatorScenario": "Montatura, cielo e camera simulati dal simulatore integrato.",
-            "SimulateFault": "Inserisce un guasto nel simulatore in esecuzione: nuvole (110 s), un urto alla montatura, una montatura che non risponde più (60 s), 3 esposizioni fallite o correzioni Dec nella direzione sbagliata (120 s)."
+            "SimulateFault": "Inserisce un guasto nel simulatore in esecuzione: nuvole (110 s), un urto alla montatura, una montatura che non risponde più (60 s), 3 esposizioni fallite o correzioni Dec nella direzione sbagliata (120 s).",
+            "BacklashModel": "Fisso aggiunge l'impulso extra a ogni inversione di Dec e lo regola lentamente. Il modello del gioco segue l'ingranaggio Dec nel gioco, trattiene le correzioni che con il rumore del seeing recupererebbero solo il gioco e impara il gioco da calibrazione e guida. Solo con l'algoritmo Dec Predictive. Nel dubbio: con l'algoritmo Dec Predictive scegli il modello del gioco, altrimenti lascia Fisso. Il Guiding Coach suggerisce il modello del gioco quando il backlash misurato è adatto.",
+            "BacklashRemeasureAfterSlewDeg": "Quando la guida parte dopo che la montatura si è spostata più di questo valore o ha cambiato lato del pilastro, il modello del gioco rimisura prima il gioco: la Dec invia impulsi verso nord finché la stella segue, poi verso sud fino al punto di partenza. L'ingranaggio poggia allora su un lato noto e il modello conosce il gioco sul nuovo obiettivo. Richiede circa 10–20 frame di guida. 0 = mai."
+          },
+          "warnings": {
+            "backlashModelNeedsPredictive": "Il modello del gioco funziona solo con l'algoritmo Dec Predictive; per ora viene usato l'impulso fisso. Per usarlo, imposta «Algoritmo Dec» su Predictive in queste impostazioni."
           }
         },
         "darks": {
@@ -2934,6 +2952,10 @@
             "bool": {
               "true": "sì",
               "false": "no"
+            },
+            "playReason": {
+              "soft": "varia in base al movimento precedente",
+              "large": "è grande"
             }
           },
           "codes": {
@@ -3033,7 +3055,11 @@
                 "title": "Backlash Dec: {ms} ({arcsec})",
                 "why": "Quando la Dec inverte, gli ingranaggi devono prima recuperare il gioco. In quel tempo le correzioni non hanno effetto, poi la stella va oltre e la Dec oscilla.",
                 "fix_good": "Niente da fare.",
-                "fix": "Usa la compensazione del backlash con l'impulso misurato, riduci il gioco meccanicamente o sbilancia leggermente la Dec. Guidare la Dec in una sola direzione lo evita del tutto."
+                "fix": "Usa la compensazione del backlash (con l'algoritmo Dec Predictive preferibilmente il modello del gioco, altrimenti l'impulso misurato), riduci il gioco meccanicamente o sbilancia leggermente la Dec. Guidare la Dec in una sola direzione lo evita del tutto.",
+                "notes": {
+                  "playModel": "Il backlash in Dec {playReason}, quindi un impulso fisso non è adatto. Il modello del gioco segue dove si trova l'ingranaggio nel gioco, ne impara la dimensione da calibrazione e guida e compensa solo il gioco rimanente.",
+                  "playModelNeedsPredictive": "Il modello del gioco compenserebbe questo backlash meglio di un impulso fisso, ma funziona solo con l'algoritmo Dec Predictive. Imposta l'algoritmo Dec su Predictive per usarlo."
+                }
               },
               "minPulse": {
                 "title": "{axis}: impulsi sotto {ms} non muovono la montatura",
@@ -3416,6 +3442,46 @@
             }
           },
           "unknown": "?"
+        },
+        "backlash": {
+          "title": "Backlash Dec – modello del gioco",
+          "help": "Il modello del gioco segue dove si trova l'ingranaggio Dec nel gioco degli ingranaggi e impara dimensione e forma di questo gioco da calibrazione e guida. Trattiene le correzioni che recupererebbero solo il gioco finché l'errore è solo rumore del seeing, e allunga una correzione necessaria del gioco rimanente. Funziona solo con l'algoritmo Dec Predictive.\n\nQui non c'è nulla da impostare: il modello impara da solo e conserva ciò che ha appreso per profilo e montatura per la notte successiva. Il chip mostra il gioco appreso e il lato su cui poggia l'ingranaggio.",
+          "fullReversal": "Gioco appreso (inversione completa)",
+          "shape": "Forma del gioco",
+          "fromCalibration": "misurata in calibrazione",
+          "play": "Ingranaggio nel gioco",
+          "northShort": "N",
+          "southShort": "S",
+          "slackNorth": "Nord: restano {value}",
+          "slackSouth": "Sud: restano {value}",
+          "positionUnknown": "La posizione dell'ingranaggio nel gioco non è ancora nota; lo sarà con la prima correzione Dec o una calibrazione.",
+          "gears": {
+            "North": "in appoggio sul lato nord",
+            "South": "in appoggio sul lato sud",
+            "Floating": "flottante nel gioco",
+            "Unknown": "sconosciuta"
+          },
+          "shapes": {
+            "None": "nessun gioco",
+            "Hard": "duro",
+            "Medium": "medio",
+            "Soft": "morbido",
+            "Calibrated": "come in calibrazione"
+          },
+          "reversals": "Inversioni",
+          "heldCorrections": "Correzioni trattenute",
+          "learnedTakeUps": "Recuperi appresi",
+          "lastCompensation": "Ultima compensazione",
+          "heldExplanation": "Correzioni che il modello ha trattenuto perché avrebbero solo attraversato il gioco mentre l'errore era solo rumore del seeing. Un contatore in aumento è normale: significa che il modello impedisce alla montatura di inseguire il seeing. Conta dalla connessione della guida.",
+          "tapHint": "Tocca ⓘ o un riquadro per una spiegazione.",
+          "info": {
+            "fullReversal": "Per quanto tempo la montatura deve muovere la Dec alla velocità di guida dopo un'inversione prima che la stella si muova – la dimensione del gioco. Il modello parte dall'impulso backlash Dec impostato e lo corregge da calibrazione e ogni inversione, anche quando il gioco cambia durante la notte.\n\nSe il valore sia un problema dipende da velocità di guida e scala d'immagine. Il Guiding Coach misura il backlash in Dec e ti dice quando disturba. Un gioco grande si riduce meglio meccanicamente o sbilanciando leggermente la Dec; la modalità di guida Dec Drift evita del tutto le inversioni.",
+            "shape": "Come viene recuperato il gioco quando la Dec si inverte:\n\n• Duro: la stella non si muove affatto, poi segue di colpo – un vuoto netto.\n• Medio: la stella inizia a muoversi a metà del gioco.\n• Morbido: la stella avanza gradualmente finché l'ingranaggio non ingrana del tutto.\n• Nessun gioco: la Dec si inverte in modo pulito.\n• Come calibrato: la forma misurata in calibrazione è quella che corrisponde meglio.\n\nLa forma è la più probabile in base a ciò che ha fatto la stella e può ancora cambiare durante le prime inversioni.",
+            "play": "La barra mostra dove si trova l'ingranaggio Dec nel suo gioco: a sinistra contro il lato nord, a destra contro il lato sud.\n\nContro un lato, un impulso in quella direzione sposta subito la stella, mentre un impulso nell'altra deve prima attraversare tutto il gioco. «Flottante» significa che l'ingranaggio è da qualche parte nel mezzo dopo piccole correzioni – è normale. I valori sotto la barra indicano quanto gioco resta prima che un impulso verso nord o sud sposti la stella.",
+            "reversals": "Quante volte la Dec ha cambiato direzione dalla connessione della guida. Ogni inversione deve prima attraversare il gioco. Molte inversioni con un errore piccolo di solito significano che la Dec insegue il seeing.",
+            "learnedTakeUps": "Su quanti attraversamenti del gioco si basano i valori appresi. Quelli più vecchi contano meno, così il modello segue un gioco che cambia durante la notte. Più alto è il numero, più affidabile è il gioco appreso.",
+            "lastCompensation": "Di quanto il modello ha allungato l'ultima correzione Dec per attraversare il gioco ancora rimasto su quel lato. 0 ms significa che l'ingranaggio poggiava già sul lato giusto."
+          }
         }
       }
     },
@@ -7774,6 +7840,7 @@
         "running": "In corso…",
         "stop": "Ferma",
         "tppaSettings": "Impostazioni TPPA",
+        "autoPilotSettings": "Impostazioni Auto-Pilot",
         "tnsPluginRequired": "TPPA richiede il plugin Touch'N'Stars in N.I.N.A.; non è raggiungibile.",
         "phaseLabel": "Stato",
         "azError": "Errore azimut",

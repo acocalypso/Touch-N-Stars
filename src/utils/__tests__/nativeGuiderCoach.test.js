@@ -125,6 +125,30 @@ test('nothing to try explains why for the Predictive algorithm', () => {
   assert.equal(findingText({ t, te }, classic).notes.length, 0);
 });
 
+test('the Dec backlash finding explains the play model suggestion', () => {
+  const base = { code: 'response.decBacklash', severity: 'warning' };
+  const soft = findingText(
+    { t, te },
+    { ...base, parameters: { ms: 900, arcsec: 6, playModel: true, playReason: 'soft' } }
+  );
+  assert.equal(soft.notes.length, 1);
+  assertRendered(soft.notes[0], 'playModel note');
+  assert.match(soft.notes[0], /varies with the preceding move/);
+  const large = findingText(
+    { t, te },
+    { ...base, parameters: { ms: 3200, arcsec: 20, playModel: true, playReason: 'large' } }
+  );
+  assert.match(large.notes[0], /backlash is large/);
+  const needsPredictive = findingText(
+    { t, te },
+    { ...base, parameters: { ms: 900, arcsec: 6, playModelNeedsPredictive: true } }
+  );
+  assert.equal(needsPredictive.notes.length, 1);
+  assert.match(needsPredictive.notes[0], /Predictive/);
+  const fixed = findingText({ t, te }, { ...base, parameters: { ms: 900, arcsec: 6 } });
+  assert.equal(fixed.notes.length, 0);
+});
+
 test('every message code renders title, why and fix', () => {
   for (const code of MESSAGE_CODES) {
     const text = messageText({ t, te }, code, 'fallback');
@@ -541,6 +565,7 @@ test('setting changes use labels and units from the settings metadata', () => {
     { name: 'RaAggression', label: 'RA aggression', type: 'double', value: '0.7' },
     { name: 'BacklashCompensation', label: 'Dec backlash compensation', type: 'bool' },
     { name: 'BacklashPulseMs', label: 'Dec backlash pulse', type: 'int', unit: 'ms' },
+    { name: 'BacklashModel', label: 'Dec backlash model', type: 'enum', value: 'Fixed' },
   ];
   assert.deepEqual(describeChange({ name: 'RaAggression', value: '0.6' }, settings), {
     name: 'RaAggression',
@@ -569,5 +594,13 @@ test('setting changes use labels and units from the settings metadata', () => {
   assert.equal(
     describeChange({ name: 'Unknown', value: 'x' }, settings, { label }).label,
     '«Unknown»'
+  );
+  const option = (name, value) => `${name}:${value}`;
+  const model = describeChange({ name: 'BacklashModel', value: 'PlayModel' }, settings, { option });
+  assert.equal(`${model.from} → ${model.to}`, 'BacklashModel:Fixed → BacklashModel:PlayModel');
+  assert.equal(
+    describeChange({ name: 'BacklashModel', value: 'PlayModel' }, settings).to,
+    'PlayModel',
+    'without a localizer the raw option'
   );
 });

@@ -5,6 +5,23 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [App6.5.0 - beta 9] - 2026-10-20
+
+### Added
+
+- Native Guider (PINS): New Dec backlash model setting with the choice between the fixed pulse as in PHD2 and the new play model. The play model tracks where the Dec gear sits in the play, learns the size and shape of the play from calibration and guiding, holds back corrections that would only take up play on seeing noise and lengthens a needed correction by the play still left. It works with the Predictive Dec algorithm only; with another Dec algorithm the setting shows a warning that says how to switch, and the fixed pulse is used. A second setting decides after how large a slew or a pier flip the play is measured again before guiding starts. While the play model is active, a chip in the status bar shows the learned play and the gear side, and a tap opens the details: shape of the play, a bar with the play left towards North and South, reversals, learned take-ups, held corrections and the last compensation. Every value has its own explanation behind its info button or a tap on its tile. The Guiding Coach suggests the play model when the measured Dec backlash is soft or large, and says when it would need the Predictive Dec algorithm; its suggested changes now show option names such as "Play model" instead of the internal values. This needs a PINS version with the play model.
+
+### Fixed
+
+- AAPA Controller (plugin): The automatic polar alignment can only be started with a connected camera, and a hint says so while none is connected. Stopping the alignment clears the last error message, e.g. a lost connection.
+- Native Guider (PINS): The guide graph remembers the chosen y-scale on this device, also after closing and reopening the guider.
+
+## [App6.5.0 - beta 8] - 2026-10-19
+
+### Added
+
+- LuckyCapture (plugin): Planetary video capture with the connected PINS camera, recorded as SER or lossless AVI with the native pixels. A live preview with region of interest selection, a raw intensity histogram and frame statistics helps to set exposure, gain, offset, binning and bit depth. Recordings can be limited by frame count or time, named with a filename template and saved to a subfolder, and keep running when leaving the screen. This needs the LuckyCapture plugin in PINS. Developed by @acocalypso.
+
 ## [App6.5.0 - beta 7] - 2026-10-16
 
 ### Added

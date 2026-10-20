@@ -1,7 +1,6 @@
 <script setup>
 import { computed, nextTick, onMounted, onUnmounted, reactive, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
-import FocusPanel from '../components/FocusPanel.vue';
 import CameraControl from '../components/CameraControl.vue';
 import IntensityHistogram from '../components/IntensityHistogram.vue';
 import { readLimit, selectionToRoi } from '../utils/captureUi';
@@ -33,36 +32,6 @@ const recording = reactive({
   relativeDirectory: '',
   filenameTemplate: '{date}_{time}_{target}_{camera}_{sequence}',
 });
-const focusBusy = ref(false);
-const focusStatus = ref(null);
-const analysisBox = computed(() => {
-  const roi = focusStatus.value?.settings?.roi;
-  const capture = store.previewRoi || {
-    x: 0,
-    y: 0,
-    width: store.camera?.width,
-    height: store.camera?.height,
-  };
-  if (
-    !roi ||
-    !capture.width ||
-    !capture.height ||
-    roi.x < capture.x ||
-    roi.y < capture.y ||
-    roi.x + roi.width > capture.x + capture.width ||
-    roi.y + roi.height > capture.y + capture.height
-  )
-    return null;
-  return {
-    left: `${((roi.x - capture.x) / capture.width) * 100}%`,
-    top: `${((roi.y - capture.y) / capture.height) * 100}%`,
-    width: `${(roi.width / capture.width) * 100}%`,
-    height: `${(roi.height / capture.height) * 100}%`,
-  };
-});
-
-const focusPanel = ref(null);
-const selectionKind = ref('capture');
 const working = ref(false);
 const busy = computed(() => working.value || store.pending);
 const lock = computed(() => store.active || busy.value);
@@ -81,7 +50,6 @@ const canStart = computed(
     store.camera?.connected &&
     !busy.value &&
     !finishing.value &&
-    !focusBusy.value &&
     !recordingActive.value
 );
 const panel = ref('preview');
@@ -114,9 +82,7 @@ const detailMetrics = [
   'queueDepth',
 ];
 async function tabKey(event, current) {
-  const items = compact.value
-    ? ['preview', 'camera', 'recording', 'focus']
-    : ['camera', 'recording', 'focus'];
+  const items = compact.value ? ['preview', 'camera', 'recording'] : ['camera', 'recording'];
   const index = items.indexOf(current);
   let next;
   if (event.key === 'ArrowRight') next = items[(index + 1) % items.length];
@@ -273,15 +239,7 @@ async function toggleRecord() {
     await start(true);
   }
 }
-async function selectFocusRoi() {
-  if (focusBusy.value || !store.previewUrl) return;
-  selectionKind.value = 'focus';
-  selecting.value = true;
-  selection.value = null;
-  panel.value = 'preview';
-}
 async function toggleSelection() {
-  selectionKind.value = 'capture';
   if (selecting.value) {
     selecting.value = false;
     drag.value = null;
@@ -303,7 +261,7 @@ function point(event) {
 function selectStart(event) {
   if (
     !selecting.value ||
-    (selectionKind.value === 'capture' ? lock.value : focusBusy.value) ||
+    lock.value ||
     !store.camera?.roiSupported ||
     !event.isPrimary ||
     (event.pointerType === 'mouse' && event.button !== 0)
@@ -333,12 +291,6 @@ function selectEnd(event) {
     width: store.camera.width,
     height: store.camera.height,
   };
-  if (selectionKind.value === 'focus') {
-    focusPanel.value?.setRoi(selectionToRoi(source, selection.value));
-    selecting.value = false;
-    panel.value = 'focus';
-    return;
-  }
   Object.assign(roi, selectionToRoi(source, selection.value));
   selecting.value = false;
   panel.value = 'camera';
@@ -435,17 +387,6 @@ onUnmounted(() => {
         >
           {{ text('recording') }}
         </button>
-        <button
-          id="lc-tab-focus"
-          role="tab"
-          aria-controls="lc-focus"
-          :aria-selected="panel === 'focus'"
-          :tabindex="panel === 'focus' ? 0 : -1"
-          @keydown="tabKey($event, 'focus')"
-          @click="selectPanel('focus')"
-        >
-          {{ t('luckycaptureFocus.tab') }}
-        </button>
       </nav>
       <section
         v-show="!compact || panel === 'preview'"
@@ -454,19 +395,6 @@ onUnmounted(() => {
         :role="compact ? 'tabpanel' : undefined"
         :aria-labelledby="compact ? 'lc-tab-preview' : undefined"
       >
-        <p v-if="store.camera?.sourceKind === 'simulated'" class="notice simulation-banner">
-          {{ t('luckycaptureFocus.simulation') }} - {{ t('luckycaptureFocus.syntheticNotice') }}
-        </p>
-        <p v-if="focusStatus?.device?.physical" class="notice">
-          {{ t('luckycaptureFocus.physicalWarning') }}
-        </p>
-        <p v-if="focusStatus?.metrics" role="status">
-          {{ t('luckycaptureFocus.score') }}:
-          {{ focusStatus.metrics.valid ? focusStatus.metrics.score.toFixed(3) : '\u2014' }}
-          <span v-if="!focusStatus.metrics.valid">{{
-            focusStatus.metrics.flags.map((flag) => t(`luckycaptureFocus.flag_${flag}`)).join(', ')
-          }}</span>
-        </p>
         <div class="preview" :class="{ selecting }">
           <div
             v-if="store.previewUrl"
@@ -479,14 +407,7 @@ onUnmounted(() => {
           >
             <img :src="store.previewUrl" :alt="text('preview')" draggable="false" />
             <div
-              v-if="analysisBox && !selecting"
-              class="selection focus-selection"
-              :style="analysisBox"
-            >
-              <span>{{ t('luckycaptureFocus.roi') }}</span>
-            </div>
-            <div
-              v-if="selection && (selecting || selectionKind === 'capture')"
+              v-if="selection"
               class="selection"
               :style="{
                 left: selection.x * 100 + '%',
@@ -732,25 +653,6 @@ onUnmounted(() => {
         </fieldset>
         <p class="hint">{{ text('rawNote') }}</p>
       </section>
-      <section
-        v-show="panel === 'focus'"
-        id="lc-focus"
-        class="controls"
-        role="tabpanel"
-        aria-labelledby="lc-tab-focus"
-      >
-        <FocusPanel
-          ref="focusPanel"
-          :compact="compact"
-          @changed="
-            selection = null;
-            invoke(load);
-          "
-          @select-roi="selectFocusRoi"
-          @busy="focusBusy = $event"
-          @status="focusStatus = $event"
-        />
-      </section>
     </div>
   </main>
 </template>
@@ -907,7 +809,6 @@ summary:focus-visible {
 .layout {
   display: grid;
   grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
-  grid-template-rows: min-content 1fr;
   gap: 0.75rem 1rem;
   align-items: start;
 }
@@ -923,7 +824,7 @@ summary:focus-visible {
 .section-tabs {
   grid-column: 2;
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 0.35rem;
 }
 .section-tabs button {
@@ -1131,7 +1032,6 @@ progress {
   }
   .layout {
     grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: auto;
   }
   .visual,
   .controls,
@@ -1140,12 +1040,7 @@ progress {
     grid-row: auto;
   }
   .section-tabs {
-    grid-template-columns: repeat(4, minmax(0, 1fr));
-  }
-  .section-tabs button {
-    font-size: clamp(0.75rem, 3.4vw, 0.875rem);
-    overflow-wrap: normal;
-    word-break: normal;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
   }
   .capture-toolbar {
     display: block;
@@ -1201,19 +1096,5 @@ progress {
     flex: 2;
     width: auto;
   }
-}
-.focus-selection {
-  border-color: #22d3ee;
-  background: #22d3ee12;
-  pointer-events: none;
-}
-.focus-selection span {
-  position: absolute;
-  top: 0;
-  left: 0;
-  padding: 2px 4px;
-  color: #fff;
-  background: #102d3d;
-  font-size: 12px;
 }
 </style>

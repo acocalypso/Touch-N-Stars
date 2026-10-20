@@ -2,7 +2,13 @@
   <div>
     <img v-if="imagetStore.imageData" :src="displayImageData" alt="Flat Image" />
     <FlatHistogram v-if="store.isPINS" />
-    <HistogramChart v-if="imagetStore.imageData" :imageUrl="imagetStore.imageData" />
+    <HistogramChart
+      v-if="imagetStore.imageData"
+      :imageUrl="imagetStore.imageData"
+      collapsibleStats
+      toolbarInChart
+      lockFullRange
+    />
   </div>
 </template>
 

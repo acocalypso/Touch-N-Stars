@@ -61,7 +61,12 @@
             <button type="button" :class="btnClass(logScale)" @click="logScale = !logScale">
               {{ t('components.helpers.histogram.log') }}
             </button>
-            <button type="button" :class="btnClass(fullRange)" @click="fullRange = !fullRange">
+            <button
+              v-if="!lockFullRange"
+              type="button"
+              :class="btnClass(fullRange)"
+              @click="fullRange = !fullRange"
+            >
               {{ t('components.helpers.histogram.fullRange') }}
             </button>
             <button
@@ -281,6 +286,12 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  // Always show the whole ADU range and hide its toggle (flat assistant: the mean has
+  // to be judged against the full well, not a zoomed-in window).
+  lockFullRange: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const emit = defineEmits(['toggle-save']);
@@ -295,7 +306,7 @@ const canvasElement = ref(null);
 const wrapperElement = ref(null);
 const toolbarElement = ref(null);
 const logScale = ref(true);
-const fullRange = ref(false);
+const fullRange = ref(props.lockFullRange);
 const activeChannel = ref(0);
 const dragging = ref(null); // 'black' | 'mid' | 'white'
 

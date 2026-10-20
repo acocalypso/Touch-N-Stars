@@ -1,11 +1,17 @@
 <template>
   <section class="tns-card space-y-3">
-    <div class="flex items-center justify-between gap-2">
+    <div class="flex flex-wrap items-center justify-between gap-2">
       <h2 class="text-base font-semibold text-content">{{ $t('plugins.aapa.assist.title') }}</h2>
-      <button class="tns-btn-ghost px-2! text-xs!" @click="openSettings">
-        <Cog6ToothIcon class="w-5 h-5" />
-        <span>{{ $t('plugins.aapa.assist.tppaSettings') }}</span>
-      </button>
+      <div class="flex flex-wrap gap-1">
+        <button class="tns-btn-ghost px-2! text-xs!" @click="openSettings">
+          <Cog6ToothIcon class="w-5 h-5" />
+          <span>{{ $t('plugins.aapa.assist.tppaSettings') }}</span>
+        </button>
+        <button class="tns-btn-ghost px-2! text-xs!" @click="showAutoPilotSettings = true">
+          <Cog6ToothIcon class="w-5 h-5" />
+          <span>{{ $t('plugins.aapa.assist.autoPilotSettings') }}</span>
+        </button>
+      </div>
     </div>
     <p class="text-xs text-content-faint">{{ $t('plugins.aapa.assist.hint') }}</p>
 
@@ -22,6 +28,9 @@
 
     <p v-if="!api.isTnsPluginConnected" class="text-xs text-status-warn">
       {{ $t('plugins.aapa.assist.tnsPluginRequired') }}
+    </p>
+    <p v-if="!api.cameraInfo.Connected" class="text-xs text-status-warn">
+      {{ $t('components.tppa.camera_mount_required') }}
     </p>
     <p v-if="store.assistError" class="text-sm text-status-danger">
       {{ $t(`plugins.aapa.assist.errors.${store.assistError}`) }}
@@ -53,6 +62,24 @@
         <TppaSettings v-else />
       </template>
     </Modal>
+
+    <!-- Each field is sent to N.I.N.A. on blur/Enter, so closing needs no save step. -->
+    <Modal :show="showAutoPilotSettings" @close="showAutoPilotSettings = false">
+      <template #header>
+        <h2 class="text-xl font-bold">{{ $t('plugins.aapa.assist.autoPilotSettings') }}</h2>
+      </template>
+      <template #body>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+          <AapaSettingInput
+            v-for="field in autoPilotFields"
+            :key="field.key"
+            :setting-key="field.key"
+            :label="$t(`plugins.aapa.settings.fields.${field.key}`)"
+            :disabled="!store.isWsOpen"
+          />
+        </div>
+      </template>
+    </Modal>
   </section>
 </template>
 
@@ -66,17 +93,23 @@ import PinsTppaSettings from '@/components/tppa/PinsTppaSettings.vue';
 import { apiStore } from '@/store/store';
 import { useTppaStore } from '@/store/tppaStore';
 import { useAapaStore } from '../store/aapaStore';
+import { getSettingsGroup } from '../utils/aapaProtocol';
+import AapaSettingInput from './AapaSettingInput.vue';
 
 const { t } = useI18n();
 const store = useAapaStore();
 const api = apiStore();
 const tppaStore = useTppaStore();
 const showSettings = ref(false);
+const showAutoPilotSettings = ref(false);
+const autoPilotFields = getSettingsGroup('autopilot').fields;
 
 const canStart = computed(
   () =>
     store.deviceConnected &&
     api.isTnsPluginConnected &&
+    // TPPA cannot run without a camera, so the Auto-Pilot would never get a reading.
+    api.cameraInfo.Connected &&
     !store.assistActive &&
     !store.server?.isBusy &&
     !store.runState.autoPilotRunning &&

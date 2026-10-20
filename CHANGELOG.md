@@ -5,6 +5,39 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [App6.5.0 - beta 9] - 2026-10-20
+
+### Added
+
+- Native Guider (PINS): New Dec backlash model setting with the choice between the fixed pulse as in PHD2 and the new play model. The play model tracks where the Dec gear sits in the play, learns the size and shape of the play from calibration and guiding, holds back corrections that would only take up play on seeing noise and lengthens a needed correction by the play still left. It works with the Predictive Dec algorithm only; with another Dec algorithm the setting shows a warning that says how to switch, and the fixed pulse is used. A second setting decides after how large a slew or a pier flip the play is measured again before guiding starts. While the play model is active, a chip in the status bar shows the learned play and the gear side, and a tap opens the details: shape of the play, a bar with the play left towards North and South, reversals, learned take-ups, held corrections and the last compensation. Every value has its own explanation behind its info button or a tap on its tile. The Guiding Coach suggests the play model when the measured Dec backlash is soft or large, and says when it would need the Predictive Dec algorithm; its suggested changes now show option names such as "Play model" instead of the internal values. This needs a PINS version with the play model.
+
+### Fixed
+
+- AAPA Controller (plugin): The automatic polar alignment can only be started with a connected camera, and a hint says so while none is connected. Stopping the alignment clears the last error message, e.g. a lost connection.
+- Native Guider (PINS): The guide graph remembers the chosen y-scale on this device, also after closing and reopening the guider.
+
+## [App6.5.0 - beta 8] - 2026-10-19
+
+### Added
+
+- LuckyCapture (plugin): Planetary video capture with the connected PINS camera, recorded as SER or lossless AVI with the native pixels. A live preview with region of interest selection, a raw intensity histogram and frame statistics helps to set exposure, gain, offset, binning and bit depth. Recordings can be limited by frame count or time, named with a filename template and saved to a subfolder, and keep running when leaving the screen. This needs the LuckyCapture plugin in PINS. Developed by @acocalypso.
+
+## [App6.5.0 - beta 7] - 2026-10-16
+
+### Added
+
+- AAPA Controller (plugin): Control the Astrophilos Automated Polar Alignment through the AAPA Controller NINA plugin, including one-button polar alignment together with TPPA.
+
+## [App6.5.0 - beta 6] - 2026-10-14
+
+### Added
+
+- PINS: The network tab lists the saved Wi-Fi networks. Each one has a priority and can be connected, switched to auto-connect or forgotten; higher priorities are tried first, and equal ones prefer the most recently used network. A button retries the saved networks right away. This needs an updated pinsdaemon. Developed by @acocalypso.
+
+### Fixed
+
+- Guiding (PHD2): Opening the guider no longer shows error messages when PHD2 is not running yet. The guide camera list is still loaded quietly in the background, and errors are shown only after an action of your own.
+
 ## [App6.5.0 - beta 5] - 2026-10-13
 
 ### Added
@@ -86,7 +119,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - PINS Software: Switch between the stable trixie repository and unstable builds through pinsdaemon, then install updates from the selected channel.
 - PINS settings: Configure traditional disk swap to 2 GB (image default size), 4 GB, or 8 GB (recommended). Saving replaces zram after reboot, and the panel shows active system swap capacity. Requires an updated pinsdaemon.
 - Sequence editor (NINA): With an up-to-date Touch'N'Stars plugin, NINA now gets the same sequence editor as PINS. Items, triggers and conditions can be added, moved, duplicated, deleted and edited directly in the list while the running status keeps updating, and sequences can be loaded, saved and managed as files. With an older plugin the previous view is still shown.
-- AAPA Controller (plugin): Control the Astrophilos Automated Polar Alignment through the AAPA Controller NINA plugin, including one-button polar alignment together with TPPA.
 - Sequence editor: Items from other NINA plugins can now be added as well. Items without their own editor get a generic one; complex plugin values are shown read-only.
 - Sequence editor: Items, triggers and conditions can be dragged into another container, including empty ones, instead of only being reordered inside their own. A moved container keeps its contents and settings. This needs Touch'N'Stars plugin 1.5.0.0 on NINA or 1.2.9.0 on PINS; with an older plugin moving stays inside the container.
 - Native Guider (PINS): New guiding page for the guider built into PINS, as an alternative to PHD2. It shows the live guide frame, guide graph, target plot, statistics, calibration, event log, settings and dark library. The guide camera has its own slot in equipment connect and the setup wizard, and critical guiding alerts are shown on every page. The guider, the Guiding Coach and the flight recorder were developed by @aduffeck. Thank you!

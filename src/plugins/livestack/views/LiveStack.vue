@@ -95,7 +95,12 @@
           v-if="showHistogram && livestackStore.currentImageUrl"
           class="absolute top-60 left-4 landscape:left-(--nav-offset) landscape:top-24 right-4 z-70"
         >
-          <HistogramChart :imageUrl="livestackStore.currentImageUrl" height="100px" />
+          <HistogramChart
+            :imageUrl="livestackStore.currentImageUrl"
+            height="100px"
+            collapsibleStats
+            toolbarInChart
+          />
         </div>
       </div>
 

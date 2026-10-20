@@ -156,7 +156,13 @@
         v-if="showHistogram && imageData && rawSource"
         class="absolute bottom-4 left-4 right-4 z-70 max-h-[60%] overflow-y-auto"
       >
-        <HistogramChart :imageUrl="imageData" height="100px" :extraStats="statistics" />
+        <HistogramChart
+          :imageUrl="imageData"
+          height="100px"
+          :extraStats="statistics"
+          collapsibleStats
+          toolbarInChart
+        />
       </div>
     </div>
   </div>

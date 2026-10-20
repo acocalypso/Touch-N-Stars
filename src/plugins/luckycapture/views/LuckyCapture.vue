@@ -741,6 +741,7 @@ onUnmounted(() => {
       >
         <FocusPanel
           ref="focusPanel"
+          :compact="compact"
           @changed="
             selection = null;
             invoke(load);
@@ -906,6 +907,7 @@ summary:focus-visible {
 .layout {
   display: grid;
   grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr);
+  grid-template-rows: min-content 1fr;
   gap: 0.75rem 1rem;
   align-items: start;
 }
@@ -1129,6 +1131,7 @@ progress {
   }
   .layout {
     grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto;
   }
   .visual,
   .controls,

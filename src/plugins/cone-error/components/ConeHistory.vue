@@ -11,9 +11,7 @@
           <span class="font-semibold text-content">{{ signed(result.coneArcmin) }}′</span>
         </div>
         <div class="flex items-center justify-between gap-2 text-xs text-content-muted">
-          <span>
-            {{ $t(`plugins.coneError.history.${result.mode}`) }} · {{ mountName(result.mountName) }}
-          </span>
+          <span>{{ mountName(result.mountName) }}</span>
           <span>{{ shim(result) }}</span>
         </div>
       </li>

@@ -14,7 +14,7 @@
       </button>
     </div>
 
-    <nav class="grid grid-cols-4 gap-1 rounded-control bg-surface-1 border border-line p-1">
+    <nav class="grid grid-cols-2 gap-1 rounded-control bg-surface-1 border border-line p-1">
       <button
         v-for="tab in TABS"
         :key="tab"
@@ -24,7 +24,6 @@
             ? 'bg-accent-action text-white'
             : 'text-content-muted hover:bg-surface-2'
         "
-        :disabled="tabLocked(tab)"
         @click="activeTab = tab"
       >
         {{ $t(`plugins.coneError.tabs.${tab}`) }}
@@ -38,53 +37,39 @@
       {{ store.error.message }}
     </p>
 
-    <section v-if="store.preconditions?.restorePending && !store.active" class="tns-card space-y-2">
-      <p class="text-sm text-status-warn">{{ $t('plugins.coneError.checks.restorePending') }}</p>
-      <button class="tns-btn-primary" :disabled="store.pending" @click="restore">
-        {{ $t('plugins.coneError.checks.restore') }}
-      </button>
-    </section>
-
-    <AutoWizard v-if="activeTab === 'auto'" />
-    <ManualFlip v-else-if="activeTab === 'manual'" />
-    <ConeHistory v-else-if="activeTab === 'history'" />
-    <ConeSettings v-else />
+    <AutoWizard v-if="activeTab === 'measure'" />
+    <ConeHistory v-else />
   </div>
 </template>
 
 <script setup>
-import { onMounted, onUnmounted, ref, watch } from 'vue';
+import { onMounted, ref, watch } from 'vue';
 import { ArrowPathIcon } from '@heroicons/vue/24/outline';
+import { useBackgroundAwarePolling } from '@/utils/appLifecycle';
 import { useConeErrorStore } from '../store/coneErrorStore';
 import AutoWizard from '../components/AutoWizard.vue';
-import ManualFlip from '../components/ManualFlip.vue';
 import ConeHistory from '../components/ConeHistory.vue';
-import ConeSettings from '../components/ConeSettings.vue';
 
-const TABS = ['auto', 'manual', 'history', 'settings'];
+const TABS = ['measure', 'history'];
 
 const store = useConeErrorStore();
-const activeTab = ref('auto');
+const activeTab = ref('measure');
 
-// A running session locks only the other mode's tab; history and settings stay reachable.
-function tabLocked(tab) {
-  if (tab === 'auto') return store.manualActive;
-  if (tab === 'manual') return store.autoRunning;
-  return false;
-}
+// The measurement runs on the Pi; leaving the panel does not stop it, and it is shown again on return.
+let polls = 0;
+useBackgroundAwarePolling(
+  async () => {
+    await store.loadStatus();
+    polls++;
+    if (!store.active && polls % 5 === 0) await store.loadPreconditions();
+  },
+  2000,
+  ref(true)
+);
 
-// The store polls the status every 2 s while the panel is open and, during a session, also after
-// it is closed (the daytime check's deadman on the backend stops a move when the polls stop).
-onMounted(async () => {
-  store.attachView();
-  await store.loadAll();
-  if (store.manualActive) activeTab.value = 'manual';
-  if (store.autoRunning) activeTab.value = 'auto';
-});
+onMounted(() => store.loadAll());
 
-onUnmounted(() => store.detachView());
-
-// A session that just finished: refresh preconditions and history.
+// A measurement that just finished: refresh preconditions and history.
 watch(
   () => store.active,
   (active, was) => {
@@ -94,12 +79,4 @@ watch(
     }
   }
 );
-
-async function restore() {
-  try {
-    await store.restore();
-  } catch {
-    // shown through store.error
-  }
-}
 </script>

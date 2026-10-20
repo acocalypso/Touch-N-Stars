@@ -2,11 +2,7 @@
   <section class="tns-card space-y-3">
     <div class="flex items-center justify-between gap-2">
       <h2 class="font-semibold text-content">
-        {{
-          result.mode === 'manual'
-            ? $t('plugins.coneError.result.daytimeTitle')
-            : $t('plugins.coneError.result.title')
-        }}
+        {{ $t('plugins.coneError.result.title') }}
       </h2>
       <span class="rounded-chip px-2 py-1 text-xs font-semibold" :class="qualityClass">
         {{ $t(`plugins.coneError.result.quality.${result.quality}`) }}
@@ -43,7 +39,7 @@
     </p>
     <ShimDiagram v-if="result.shimEnd !== 'None'" :end="result.shimEnd" :shimMm="result.shimMm" />
 
-    <p v-if="result.mode !== 'manual'" class="text-xs text-content-muted">
+    <p class="text-xs text-content-muted">
       {{
         $t('plugins.coneError.result.pairs', {
           used: result.pairsUsed,
@@ -51,9 +47,6 @@
           dec: result.declinationDegrees.toFixed(0),
         })
       }}
-    </p>
-    <p v-if="result.parallaxArcmin != null" class="text-xs text-content-muted">
-      {{ $t('plugins.coneError.result.parallax', { arcmin: result.parallaxArcmin.toFixed(2) }) }}
     </p>
     <PairTable v-if="result.pairs?.length" :pairs="result.pairs" />
 
@@ -114,8 +107,6 @@ const qualityClass = computed(() => {
       return 'bg-status-ok/15 text-status-ok';
     case 'Fair':
       return 'bg-status-warn/15 text-status-warn';
-    case 'DaytimeEstimate':
-      return 'bg-surface-3 text-content-muted';
     default:
       return 'bg-status-danger/15 text-status-danger';
   }

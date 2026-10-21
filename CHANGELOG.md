@@ -5,6 +5,44 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [App6.5.0 - beta 14] - 2026-10-21
+
+### Added
+
+- Sequence: The sequence status on the monitor and on the sequence page shows the target that is being imaged right now, and with several targets also its position, for example "Target 2 of 3". This also works with large sequences and with targets inside other containers.
+
+### Changed
+
+- Sequence editor: The expert view no longer has a link back to the simple view. The view is switched in the sequence settings.
+
+### Fixed
+
+- Sequence editor (NINA): Changing the filter of a Smart Exposure, a Switch Filter or one of the flat items failed with an error under NINA, in the simple and in the expert view. The filter is now set, and the item shows the filter it uses. PINS is not affected.
+
+## [App6.5.0 - beta 13] - 2026-10-21
+
+### Added
+
+- Sequence editor: New simple view for users who just want to image a list of targets, similar to the legacy sequencer in NINA. Each target is a card with its exposure rows of filter, exposure time and count, where rows can be added, removed, switched off and opened for gain, offset, image type and binning. Targets are chosen by search, favorites, framing or by entering the coordinates, and can be copied with all their exposures, moved and deleted. Per target you choose how to go there (slew, slew and center, center and rotate), whether guiding starts and when autofocus runs: on start, on filter change, after time, after a number of exposures, after a temperature change or after an HFR increase. Switches cover meridian flip and dithering every N frames for the whole sequence, cooling the camera and unparking the mount at the start, and warming the camera and parking the mount at the end. Each card shows the altitude over the night, the remaining time and the expected clock times, and the overview shows when the sequence will be done. The view is chosen in the sequence settings; the expert editor stays the default and is one tap away.
+- Framing: When sending a target to the loaded sequence, the new target can be added as a copy of an existing one with all its exposures, instead of starting empty.
+
+## [App6.5.0 - beta 9] - 2026-10-20
+
+### Added
+
+- Native Guider (PINS): New Dec backlash model setting with the choice between the fixed pulse as in PHD2 and the new play model. The play model tracks where the Dec gear sits in the play, learns the size and shape of the play from calibration and guiding, holds back corrections that would only take up play on seeing noise and lengthens a needed correction by the play still left. It works with the Predictive Dec algorithm only; with another Dec algorithm the setting shows a warning that says how to switch, and the fixed pulse is used. A second setting decides after how large a slew or a pier flip the play is measured again before guiding starts. While the play model is active, a chip in the status bar shows the learned play and the gear side, and a tap opens the details: shape of the play, a bar with the play left towards North and South, reversals, learned take-ups, held corrections and the last compensation. Every value has its own explanation behind its info button or a tap on its tile. The Guiding Coach suggests the play model when the measured Dec backlash is soft or large, and says when it would need the Predictive Dec algorithm; its suggested changes now show option names such as "Play model" instead of the internal values. This needs a PINS version with the play model.
+
+### Fixed
+
+- AAPA Controller (plugin): The automatic polar alignment can only be started with a connected camera, and a hint says so while none is connected. Stopping the alignment clears the last error message, e.g. a lost connection.
+- Native Guider (PINS): The guide graph remembers the chosen y-scale on this device, also after closing and reopening the guider.
+
+## [App6.5.0 - beta 8] - 2026-10-19
+
+### Added
+
+- LuckyCapture (plugin): Planetary video capture with the connected PINS camera, recorded as SER or lossless AVI with the native pixels. A live preview with region of interest selection, a raw intensity histogram and frame statistics helps to set exposure, gain, offset, binning and bit depth. Recordings can be limited by frame count or time, named with a filename template and saved to a subfolder, and keep running when leaving the screen. This needs the LuckyCapture plugin in PINS. Developed by @acocalypso.
+
 ## [App6.5.0 - beta 7] - 2026-10-16
 
 ### Added
@@ -29,6 +67,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Image history: The image viewer has arrows to the previous and next image, in the order and filter of the history. The arrow keys and a sideways swipe do the same; zoomed in, a swipe still moves the image.
 - Sequence monitor: The session timeline remembers the chosen start and end on this device, also after leaving the page or reloading. A range that reaches the current time keeps growing, so new data still shows up when only the start was moved. A range from an earlier night is not carried over to the next one.
 - Native Guider (PINS): The last error in the status bar can be dismissed with its cross; it stays hidden on this device until another error comes.
+- Native Guider (PINS): Calibrate asks first, and so does Guide when there is no calibration yet; the dialog can slew the mount to a calibration position first, like PHD2's Calibration Assistant: 5° from the meridian on the celestial equator, on the mount's current side or on the east or west side of the sky. The controls show the slew while it runs, and Stop cancels it. This needs a PINS version with the slew option.
 
 ### Changed
 

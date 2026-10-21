@@ -69,8 +69,8 @@
           v-if="hasImages || showsTimeline"
           class="flex flex-col min-w-[80vw] w-full max-w-4xl justify-center items-center space-y-4"
         >
+          <h2 v-if="sequenceStore.targetName">{{ sequenceStore.targetName }}</h2>
           <template v-if="hasImages">
-            <h2>{{ sequenceStore.targetName }}</h2>
             <div class="mt-5 w-full">
               <LastSequenceImg />
             </div>

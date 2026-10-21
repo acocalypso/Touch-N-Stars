@@ -107,6 +107,11 @@ export const useSettingsStore = defineStore('settings', {
     framing: {
       useNinaCache: true,
     },
+    // Sequence editor V2 layout: 'full' (default) or 'simple'. Per device, so it survives a
+    // restart and an instance switch.
+    sequence: {
+      viewMode: 'full',
+    },
     // Sky chart moon overlay: kept here, not in apiStore, because this store is
     // persisted as a whole - the toggle has to survive a restart and an instance
     // switch, while clearAllStates() would wipe it from apiStore.
@@ -238,6 +243,11 @@ export const useSettingsStore = defineStore('settings', {
     },
   },
   actions: {
+    // Older persisted settings have no `sequence` block yet.
+    setSequenceViewMode(mode) {
+      if (!this.sequence) this.sequence = { viewMode: mode };
+      else this.sequence.viewMode = mode;
+    },
     async loadAllBackendSettings() {
       const sequenceStore = useSequenceStore();
       const tppaStore = useTppaStore();

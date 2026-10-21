@@ -11,6 +11,7 @@ import {
   appendMarker,
   appendSteps,
   canPerform,
+  decBacklash,
   decDirection,
   formatFps,
   formatMs,
@@ -29,6 +30,7 @@ import {
   settingDescription,
   settingLabel,
   settingOptionLabel,
+  settingWarning,
   severityTone,
   signedPulse,
   snrTone,
@@ -125,6 +127,10 @@ test('controls are enabled per state', () => {
   assert.equal(canPerform('darks', 'Stopped'), true);
   assert.equal(canPerform('darks', 'Looping'), false);
   assert.equal(canPerform('loop', 'Stopped', { connected: false }), false);
+  // Slewing to the calibration position: only stop (it cancels the slew).
+  assert.equal(canPerform('stop', 'Stopped', { calibrationSlew: true }), true);
+  assert.equal(canPerform('calibrate', 'Stopped', { calibrationSlew: true }), false);
+  assert.equal(canPerform('loop', 'Stopped', { calibrationSlew: true }), false);
 });
 
 test('appendSteps merges by frame, trims, and restarts on a new session', () => {
@@ -489,6 +495,89 @@ test('decDirection reports the Dec direction of the Drift mode only', () => {
     }).tone,
     'warn'
   );
+});
+
+test('decBacklash reports the Dec backlash play model only while it is active', () => {
+  assert.equal(decBacklash(null), null);
+  assert.equal(decBacklash({}), null, 'older backend without the field');
+  assert.equal(decBacklash({ decBacklash: null }), null, 'play model not active');
+  assert.equal(decBacklash({ decBacklash: 'x' }), null);
+
+  assert.deepEqual(
+    decBacklash({
+      decBacklash: {
+        fullReversalMs: 2350,
+        slackNorthMs: 120,
+        slackSouthMs: 2230,
+        gear: 'North',
+        shape: 'Medium',
+        shapeFromCalibration: true,
+        reversals: 14,
+        heldCorrections: 812,
+        learnedTakeUps: 9.4,
+        lastCompensationMs: 0,
+      },
+    }),
+    {
+      fullReversalMs: 2350,
+      slackNorthMs: 120,
+      slackSouthMs: 2230,
+      gear: 'North',
+      shape: 'Medium',
+      shapeFromCalibration: true,
+      reversals: 14,
+      heldCorrections: 812,
+      learnedTakeUps: 9.4,
+      lastCompensationMs: 0,
+      gearPosition: 120 / 2350,
+      tone: 'ok',
+    }
+  );
+
+  const unknown = decBacklash({
+    decBacklash: {
+      fullReversalMs: 'abc',
+      slackNorthMs: null,
+      slackSouthMs: -5,
+      gear: 'Sideways',
+      shape: 'Wobbly',
+      shapeFromCalibration: 'yes',
+    },
+  });
+  assert.equal(unknown.gear, 'Unknown', 'unknown gear');
+  assert.equal(unknown.tone, 'idle');
+  assert.equal(unknown.shape, null, 'unknown shape');
+  assert.equal(unknown.shapeFromCalibration, false);
+  assert.equal(unknown.fullReversalMs, null);
+  assert.equal(unknown.slackNorthMs, null);
+  assert.equal(unknown.slackSouthMs, null, 'negative play is invalid');
+  assert.equal(unknown.reversals, null, 'missing counter');
+  assert.equal(unknown.gearPosition, null, 'position unknown without both slacks');
+
+  const floating = decBacklash({
+    decBacklash: { gear: 'Floating', slackNorthMs: 1000, slackSouthMs: 1000 },
+  });
+  assert.equal(floating.tone, 'info');
+  assert.equal(floating.gearPosition, 0.5);
+  assert.equal(
+    decBacklash({ decBacklash: { gear: 'South', slackNorthMs: 0, slackSouthMs: 0 } }).gearPosition,
+    null,
+    'no play to place the gear in'
+  );
+});
+
+test('settingWarning flags the play model without the Predictive Dec algorithm', () => {
+  const model = (value) => ({ name: 'BacklashModel', value });
+  const algorithm = (value) => ({ name: 'DecAlgorithm', value });
+  assert.equal(
+    settingWarning(model('PlayModel'), [algorithm('ResistSwitch')]),
+    'backlashModelNeedsPredictive'
+  );
+  assert.equal(settingWarning(model('PlayModel'), [algorithm('Predictive')]), null);
+  assert.equal(settingWarning(model('Fixed'), [algorithm('ResistSwitch')]), null);
+  assert.equal(settingWarning(model('PlayModel'), []), null, 'backend without DecAlgorithm');
+  assert.equal(settingWarning({ name: 'Gain', value: 'PlayModel' }, []), null);
+  assert.equal(settingWarning(null), null);
 });
 
 test('guideTiming reads the guide loop timing of the status', () => {

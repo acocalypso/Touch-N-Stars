@@ -77,6 +77,29 @@
         </span>
       </span>
 
+      <!-- Dec backlash play model: learned play and gear side; a tap opens the details -->
+      <NativeHelpTip
+        v-if="backlash"
+        :title="t('components.guider.native.backlash.title')"
+        :text="t('components.guider.native.backlash.help')"
+        class="flex min-h-touch items-center gap-1.5 rounded-chip border border-line-strong bg-surface-2 py-1 pl-2.5 pr-5 text-xs font-semibold text-content"
+        data-testid="native-guider-dec-backlash-chip"
+      >
+        <span class="tns-dot w-2! h-2!" :class="TONE_BG[backlash.tone]"></span>
+        <span class="tabular-nums">{{
+          t('components.guider.native.strip.backlashChip', {
+            play: formatMs(backlash.fullReversalMs),
+          })
+        }}</span>
+        <span class="text-content-faint" aria-hidden="true">·</span>
+        <span :class="TONE_TEXT[backlash.tone]">{{
+          t(`components.guider.native.strip.backlashGear.${backlash.gear}`)
+        }}</span>
+        <template #details>
+          <NativeDecBacklash :backlash="backlash" class="mt-3" />
+        </template>
+      </NativeHelpTip>
+
       <!-- Last error: opens its details; the cross hides it until another error comes -->
       <div
         v-if="visibleError"
@@ -258,6 +281,7 @@ import {
 } from '@heroicons/vue/24/outline';
 import Modal from '@/components/helpers/Modal.vue';
 import NativeAlertDetail from './NativeAlertDetail.vue';
+import NativeDecBacklash from './NativeDecBacklash.vue';
 import NativeHelpTip from './NativeHelpTip.vue';
 import NativeHintChip from './coach/NativeHintChip.vue';
 import NativeTimingBreakdown from './NativeTimingBreakdown.vue';
@@ -270,6 +294,7 @@ import {
   TONE_TEXT,
   alertKey,
   alertText,
+  decBacklash,
   decDirection,
   fmt,
   formatFps,
@@ -444,6 +469,8 @@ const decDirectionHint = computed(() => {
   else if (d.direction === 'Both') parts.push(t(`${base}.notes.unknown`));
   return parts.join(' · ');
 });
+// Dec backlash play model: the backend sends it only while the model is active (Predictive Dec)
+const backlash = computed(() => decBacklash(store.status));
 const periodicLearning = computed(() =>
   guidingNow.value ? periodicErrorBadge(store.status) : null
 );

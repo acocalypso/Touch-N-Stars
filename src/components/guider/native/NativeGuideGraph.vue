@@ -54,7 +54,7 @@
             class="seg-btn"
             :class="{ 'seg-btn-active': yScale === s }"
             :aria-pressed="yScale === s"
-            @click="yScale = s"
+            @click="setYScale(s)"
           >
             {{ s === 'auto' ? t('components.guider.native.graph.auto') : `±${s}` }}
           </button>
@@ -187,6 +187,7 @@ import {
   settlingSpans,
   symmetricRange,
 } from './graphData';
+import { readStored, writeStored } from '@/utils/safeStorage';
 import {
   RA_COLOR,
   DEC_COLOR,
@@ -238,11 +239,18 @@ const UNITS = ['arcsec', 'px'];
 const RMS_COLOR = 'rgba(226, 232, 240, 0.85)';
 
 const scaleOptions = ['auto', ...Y_SCALES];
+const Y_SCALE_STORAGE_KEY = 'nativeGuider.graph.yScale';
+
+// Stored as a string; anything not offered (old or broken value) falls back to 'auto'.
+function storedYScale() {
+  const raw = readStored(Y_SCALE_STORAGE_KEY, 'auto');
+  return scaleOptions.find((s) => String(s) === raw) ?? 'auto';
+}
 
 // Local copies so the component also works without v-model bindings.
 const windowValue = ref(props.window);
 const unitValue = ref(props.unit);
-const yScale = ref('auto');
+const yScale = ref(storedYScale());
 watch(
   () => props.window,
   (v) => (windowValue.value = v)
@@ -255,6 +263,11 @@ watch(
 function setWindow(value) {
   windowValue.value = value;
   emit('update:window', value);
+}
+
+function setYScale(value) {
+  yScale.value = value;
+  writeStored(Y_SCALE_STORAGE_KEY, value);
 }
 
 function setUnit(value) {

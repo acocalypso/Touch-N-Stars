@@ -29,6 +29,9 @@
     <p v-if="!api.isTnsPluginConnected" class="text-xs text-status-warn">
       {{ $t('plugins.aapa.assist.tnsPluginRequired') }}
     </p>
+    <p v-if="!api.cameraInfo.Connected" class="text-xs text-status-warn">
+      {{ $t('components.tppa.camera_mount_required') }}
+    </p>
     <p v-if="store.assistError" class="text-sm text-status-danger">
       {{ $t(`plugins.aapa.assist.errors.${store.assistError}`) }}
     </p>
@@ -105,6 +108,8 @@ const canStart = computed(
   () =>
     store.deviceConnected &&
     api.isTnsPluginConnected &&
+    // TPPA cannot run without a camera, so the Auto-Pilot would never get a reading.
+    api.cameraInfo.Connected &&
     !store.assistActive &&
     !store.server?.isBusy &&
     !store.runState.autoPilotRunning &&

@@ -172,6 +172,7 @@ import GainInput from '@/components/helpers/GainInput.vue';
 import ToggleButton from '@/components/helpers/toggleButton.vue';
 import { useSequenceV2Store } from '@/store/sequenceV2Store';
 import { apiStore } from '@/store/store';
+import { switchFilterUpdate } from '@/utils/sequenceFilter';
 
 // row: an entry from exposureRow() in src/utils/sequenceSimple.js. Every edit is written to
 // the raw child item it came from, exactly like SmartExposureItem / TakeManyExposuresItem.
@@ -228,10 +229,12 @@ const filterNames = computed(() => {
   return mainStore.profileInfo?.FilterWheelSettings?.FilterWheelFilters?.map((f) => f.Name) ?? [];
 });
 
-// Same index convention as SmartExposureItem.vue
+// Same convention as SmartExposureItem.vue
 function saveFilter(name) {
-  const id = props.row.filterItem?.Id;
-  if (id) store.setProperty(id, 'SelectedFilter', filterNames.value.indexOf(name) + 1);
+  const item = props.row.filterItem;
+  if (!item?.Id) return;
+  const { property, value } = switchFilterUpdate(item, filterNames.value, name);
+  store.setProperty(item.Id, property, value);
 }
 
 function saveExposure(key, value) {

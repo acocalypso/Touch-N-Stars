@@ -22,7 +22,8 @@
         <SequenceSimpleView @show-full="settingsStore.setSequenceViewMode('full')" />
       </div>
 
-      <!-- The view links stay outside the locked wrappers: switching the layout edits nothing. -->
+      <!-- The view link stays outside the locked wrapper: switching the layout edits nothing.
+           The full view has no way back here; that switch lives in the sequence settings tab. -->
       <button
         v-if="viewMode === 'simple'"
         type="button"
@@ -31,15 +32,6 @@
       >
         {{ $t('components.sequence.simple.openExpert') }}
         <ChevronRightIcon class="w-4 h-4" />
-      </button>
-      <button
-        v-else
-        type="button"
-        class="min-h-touch flex items-center gap-1 text-sm text-content-faint hover:text-content-muted"
-        @click="settingsStore.setSequenceViewMode('simple')"
-      >
-        <ChevronLeftIcon class="w-4 h-4" />
-        {{ $t('components.sequence.simple.backToSimple') }}
       </button>
 
       <!-- v-show: keeps the expand/collapse state of the full tree across a switch. -->
@@ -178,7 +170,7 @@
 <script setup>
 import { computed, reactive, ref, watch, onMounted, onUnmounted } from 'vue';
 import draggable from 'vuedraggable';
-import { ChevronLeftIcon, ChevronRightIcon } from '@heroicons/vue/24/outline';
+import { ChevronRightIcon } from '@heroicons/vue/24/outline';
 import { useSequenceV2Store } from '@/store/sequenceV2Store';
 import { useSequenceStore } from '@/store/sequenceStore';
 import { useSettingsStore } from '@/store/settingsStore';

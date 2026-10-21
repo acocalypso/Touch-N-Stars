@@ -1,9 +1,7 @@
 <template>
   <ItemShell :item="item">
     <template #summary>
-      <span v-if="switchFilter?.ComboBoxText" class="text-xs text-slate-400 shrink-0">{{
-        switchFilter.ComboBoxText
-      }}</span>
+      <span v-if="currentFilter" class="text-xs text-slate-400 shrink-0">{{ currentFilter }}</span>
       <span class="text-xs text-slate-400 font-mono"
         >{{ item.MinExposure }}–{{ item.MaxExposure }}s</span
       >
@@ -77,20 +75,14 @@
         }}</label>
         <select
           class="ml-auto w-36 md:w-40 bg-slate-700/60 border border-slate-600 rounded px-2 py-1 text-xs text-gray-200"
-          :value="switchFilter.ComboBoxText"
-          @change="
-            store.setProperty(
-              switchFilter.Id,
-              'SelectedFilter',
-              filterNames.indexOf($event.target.value) + 1
-            )
-          "
+          :value="currentFilter"
+          @change="saveFilter($event.target.value)"
         >
           <option
-            v-if="switchFilter.ComboBoxText && !filterNames.includes(switchFilter.ComboBoxText)"
-            :value="switchFilter.ComboBoxText"
+            v-if="currentFilter && !filterNames.includes(currentFilter)"
+            :value="currentFilter"
           >
-            {{ switchFilter.ComboBoxText }}
+            {{ currentFilter }}
           </option>
           <option v-for="(name, i) in filterNames" :key="i" :value="name">
             {{ name }}
@@ -174,6 +166,7 @@ import GainInput from '@/components/helpers/GainInput.vue';
 import ToggleButton from '@/components/helpers/toggleButton.vue';
 import { useSequenceV2Store } from '@/store/sequenceV2Store';
 import { apiStore } from '@/store/store';
+import { switchFilterName, switchFilterUpdate } from '@/utils/sequenceFilter';
 
 const props = defineProps({
   item: { type: Object, required: true },
@@ -198,6 +191,12 @@ const histogramTolerancePct = computed(() =>
 const switchFilter = computed(
   () => props.item.Items?.find((i) => i.FullTypeName?.endsWith('SwitchFilter')) ?? null
 );
+const currentFilter = computed(() => switchFilterName(switchFilter.value));
+
+function saveFilter(name) {
+  const { property, value } = switchFilterUpdate(switchFilter.value, filterNames.value, name);
+  store.setProperty(switchFilter.value.Id, property, value);
+}
 
 const setBrightness = computed(
   () => props.item.Items?.find((i) => i.FullTypeName?.endsWith('SetBrightness')) ?? null

@@ -6,6 +6,7 @@
 // view does not understand stays untouched.
 
 import { collectDsoContainers } from './sequenceTargets';
+import { switchFilterName } from './sequenceFilter';
 
 export const SMART_EXPOSURE_TYPE = 'NINA.Sequencer.SequenceItem.Imaging.SmartExposure';
 export const TAKE_MANY_EXPOSURES_TYPE = 'NINA.Sequencer.SequenceItem.Imaging.TakeManyExposures';
@@ -115,7 +116,7 @@ export function exposureRow(item, overheadSeconds = 0) {
     filterItem,
     exposureItem,
     loopCondition,
-    filterName: filterItem?.ComboBoxText ?? '',
+    filterName: switchFilterName(filterItem),
     exposureTime,
     gain: exposureItem?.Gain,
     offset: exposureItem?.Offset,

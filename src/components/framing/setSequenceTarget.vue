@@ -173,6 +173,8 @@ async function onPickerConfirm(choice) {
   showPicker.value = false;
   if (choice.mode === 'replace') {
     await applyToExistingTarget(choice.id);
+  } else if (choice.mode === 'copy') {
+    await applyToCopiedTarget(choice.sourceId);
   } else {
     await applyToNewTarget(choice.afterId);
   }
@@ -200,5 +202,17 @@ async function applyToNewTarget(afterId) {
     return;
   }
   await applyToExistingTarget(added.id);
+}
+
+// Copies an existing target with all its exposures and gives the copy the framing target.
+async function applyToCopiedTarget(sourceId) {
+  const target = pendingTarget.value;
+  if (!target) return;
+  const copied = await sequenceV2Store.copyDsoTarget(sourceId);
+  if (!copied.ok) {
+    reportResult(copied, t('components.sequence.simple.copyFailed'));
+    return;
+  }
+  await applyToExistingTarget(copied.id);
 }
 </script>

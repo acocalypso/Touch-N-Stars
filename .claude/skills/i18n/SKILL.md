@@ -47,6 +47,7 @@ Per locale, against `en.json`:
 | Identical plural suffix set per group (`zero one two few many other`) | `plural mismatches` |
 | No duplicate keys in the same object | `duplicate keys` |
 | Valid JSON | `invalid JSON` |
+| Valid UTF-8; no replacement characters, repeated `??`, question marks inside words or common mojibake | `invalid JSON` / `damaged text` |
 
 Placeholders are compared as a **set of names**, so `{count}` must survive
 translation verbatim — a translator writing `{Anzahl}` fails the check. Plural

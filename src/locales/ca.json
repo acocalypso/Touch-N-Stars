@@ -1063,6 +1063,7 @@
       },
       "time": "Temps",
       "noRunningItems": "Seqüència aturada",
+      "targetOfTotal": "Objectiu {current} de {total}",
       "status": "Estat de la seqüència",
       "instructions": "Instruccions",
       "noItemsInContainer": "Cap element en aquest contenidor",

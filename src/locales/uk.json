@@ -978,6 +978,7 @@
       },
       "time": "Час",
       "noRunningItems": "Послідовність зупинена",
+      "targetOfTotal": "Ціль {current} з {total}",
       "status": "Статус послідовності",
       "instructions": "Інструкції",
       "noItemsInContainer": "Немає елементів у цьому контейнері",

@@ -1017,6 +1017,7 @@
       },
       "time": "Čas",
       "noRunningItems": "Sekvence zastavena",
+      "targetOfTotal": "Cíl {current} z {total}",
       "status": "Stav sekvence",
       "instructions": "Pokyny",
       "noItemsInContainer": "Žádné položky v tomto kontejneru",

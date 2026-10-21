@@ -1028,6 +1028,7 @@
       },
       "time": "時刻",
       "noRunningItems": "シーケンス停止中",
+      "targetOfTotal": "ターゲット {current} / {total}",
       "status": "シーケンス・ステータス",
       "instructions": "インストラクション",
       "noItemsInContainer": "このコンテナには項目がありません",

@@ -1017,6 +1017,7 @@
       },
       "time": "Tijd",
       "noRunningItems": "Sequentie gestopt",
+      "targetOfTotal": "Doel {current} van {total}",
       "status": "Sequentie status",
       "instructions": "Instructies",
       "noItemsInContainer": "Geen items in deze container",

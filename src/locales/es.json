@@ -1017,6 +1017,7 @@
       },
       "time": "Tiempo",
       "noRunningItems": "Secuencia detenida",
+      "targetOfTotal": "Objetivo {current} de {total}",
       "status": "Estado de secuencia",
       "instructions": "Instrucciones",
       "noItemsInContainer": "No hay elementos en este contenedor",

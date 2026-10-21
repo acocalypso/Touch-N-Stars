@@ -1017,6 +1017,7 @@
       },
       "time": "时间",
       "noRunningItems": "序列已停止",
+      "targetOfTotal": "目标 {current} / {total}",
       "status": "序列状态",
       "instructions": "操作提示",
       "noItemsInContainer": "此容器中没有项目",

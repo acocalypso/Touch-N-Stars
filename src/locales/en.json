@@ -1137,6 +1137,7 @@
       },
       "time": "Time",
       "noRunningItems": "Sequence stopped",
+      "targetOfTotal": "Target {current} of {total}",
       "status": "Sequence status",
       "instructions": "Instructions",
       "noItemsInContainer": "No items in this container",

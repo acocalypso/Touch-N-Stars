@@ -1017,6 +1017,7 @@
       },
       "time": "Czas",
       "noRunningItems": "Sekwencja zatrzymana",
+      "targetOfTotal": "Cel {current} z {total}",
       "status": "Status sekwencji",
       "instructions": "Instrukcje",
       "noItemsInContainer": "Brak elementów w tym kontenerze",

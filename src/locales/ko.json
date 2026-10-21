@@ -1063,6 +1063,7 @@
       },
       "time": "시간",
       "noRunningItems": "시퀀스 정지됨",
+      "targetOfTotal": "타깃 {current} / {total}",
       "status": "시퀀스 상태",
       "instructions": "지침",
       "noItemsInContainer": "이 컨테이너에 항목이 없습니다",

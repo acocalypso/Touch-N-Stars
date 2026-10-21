@@ -1063,6 +1063,7 @@
       },
       "time": "Zeit",
       "noRunningItems": "Sequenz gestoppt",
+      "targetOfTotal": "Ziel {current} von {total}",
       "status": "Sequenzstatus",
       "instructions": "Anweisungen",
       "noItemsInContainer": "Keine Items in diesem Container",

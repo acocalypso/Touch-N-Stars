@@ -1017,6 +1017,7 @@
       },
       "time": "Tempo",
       "noRunningItems": "Sequência interrompida",
+      "targetOfTotal": "Alvo {current} de {total}",
       "status": "Status da sequência",
       "instructions": "Instruções",
       "noItemsInContainer": "Nenhum item neste contêiner",

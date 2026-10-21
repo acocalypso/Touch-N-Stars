@@ -5,6 +5,20 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [App6.5.0 - beta 14] - 2026-10-21
+
+### Added
+
+- Sequence: The sequence status on the monitor and on the sequence page shows the target that is being imaged right now, and with several targets also its position, for example "Target 2 of 3". This also works with large sequences and with targets inside other containers.
+
+### Changed
+
+- Sequence editor: The expert view no longer has a link back to the simple view. The view is switched in the sequence settings.
+
+### Fixed
+
+- Sequence editor (NINA): Changing the filter of a Smart Exposure, a Switch Filter or one of the flat items failed with an error under NINA, in the simple and in the expert view. The filter is now set, and the item shows the filter it uses. PINS is not affected.
+
 ## [App6.5.0 - beta 13] - 2026-10-21
 
 ### Added

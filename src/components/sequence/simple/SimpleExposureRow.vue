@@ -217,10 +217,15 @@ const detailSummary = computed(() => {
     .join(' · ');
 });
 
+// Sources in order: the item itself, the connected filter wheel, then the active profile. The
+// profile keeps the list available while the wheel is disconnected, e.g. when planning the
+// sequence during the day. All three use the wheel's slot order, so the index stays valid.
 const filterNames = computed(() => {
   const fw = props.row.filterItem;
   if (fw?.FilterNames?.length) return fw.FilterNames;
-  return mainStore.filterInfo?.AvailableFilters?.map((f) => f.Name) ?? [];
+  const wheel = mainStore.filterInfo?.AvailableFilters?.map((f) => f.Name) ?? [];
+  if (wheel.length) return wheel;
+  return mainStore.profileInfo?.FilterWheelSettings?.FilterWheelFilters?.map((f) => f.Name) ?? [];
 });
 
 // Same index convention as SmartExposureItem.vue

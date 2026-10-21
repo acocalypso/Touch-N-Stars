@@ -5,6 +5,13 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [App6.5.0 - beta 13] - 2026-10-21
+
+### Added
+
+- Sequence editor: New simple view for users who just want to image a list of targets, similar to the legacy sequencer in NINA. Each target is a card with its exposure rows of filter, exposure time and count, where rows can be added, removed, switched off and opened for gain, offset, image type and binning. Targets are chosen by search, favorites, framing or by entering the coordinates, and can be copied with all their exposures, moved and deleted. Per target you choose how to go there (slew, slew and center, center and rotate), whether guiding starts and when autofocus runs: on start, on filter change, after time, after a number of exposures, after a temperature change or after an HFR increase. Switches cover meridian flip and dithering every N frames for the whole sequence, cooling the camera and unparking the mount at the start, and warming the camera and parking the mount at the end. Each card shows the altitude over the night, the remaining time and the expected clock times, and the overview shows when the sequence will be done. The view is chosen in the sequence settings; the expert editor stays the default and is one tap away.
+- Framing: When sending a target to the loaded sequence, the new target can be added as a copy of an existing one with all its exposures, instead of starting empty.
+
 ## [App6.5.0 - beta 9] - 2026-10-20
 
 ### Added

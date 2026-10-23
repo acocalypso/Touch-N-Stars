@@ -171,6 +171,8 @@
 <script setup>
 import { ref, watch, nextTick, onBeforeUnmount } from 'vue';
 import Panzoom from '@panzoom/panzoom';
+import { Capacitor } from '@capacitor/core';
+import { App as CapacitorApp } from '@capacitor/app';
 import {
   ArrowDownTrayIcon,
   TrashIcon,
@@ -388,8 +390,33 @@ watch(
   }
 );
 
+// Android: the back button/gesture closes the open image instead of navigating the router
+// back to the previous page. A registered listener replaces Capacitor's default.
+let backButtonHandle = null;
+let backButtonWanted = false;
+async function bindBackButton(bind) {
+  backButtonWanted = bind;
+  if (!bind) {
+    backButtonHandle?.remove();
+    backButtonHandle = null;
+    return;
+  }
+  if (backButtonHandle || Capacitor.getPlatform() !== 'android') return;
+  const handle = await CapacitorApp.addListener('backButton', closeModal);
+  // The modal may have closed while the listener was being registered.
+  if (!backButtonWanted || backButtonHandle) handle.remove();
+  else backButtonHandle = handle;
+}
+
+watch(
+  () => props.showModal,
+  (open) => bindBackButton(open),
+  { immediate: true }
+);
+
 onBeforeUnmount(() => {
   bindBrowseListeners(false);
+  bindBackButton(false);
   destroyPanzoom();
 });
 </script>

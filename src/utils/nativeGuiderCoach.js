@@ -697,10 +697,15 @@ export function upsertHint(hints, hint) {
 
 /**
  * A setting change for display: label and unit from the settings metadata, values formatted
- * (bool → on/off keys, numbers trimmed). `label(setting)` localizes the label (settingLabel).
+ * (bool → on/off keys, numbers trimmed). `label(setting)` localizes the label (settingLabel),
+ * `option(settingName, value)` the value of an enum setting (settingOptionLabel).
  * @returns {{ name, label, from, to, unit }}
  */
-export function describeChange(change, settings = [], { on = 'on', off = 'off', label } = {}) {
+export function describeChange(
+  change,
+  settings = [],
+  { on = 'on', off = 'off', label, option } = {}
+) {
   const setting = (settings || []).find((s) => s.name === change?.name) || null;
   const type = String(setting?.type || '').toLowerCase();
   const format = (value) => {
@@ -709,6 +714,7 @@ export function describeChange(change, settings = [], { on = 'on', off = 'off', 
     if (type === 'bool' || text === 'true' || text === 'false') {
       return text.toLowerCase() === 'true' ? on : off;
     }
+    if (type === 'enum' && option) return option(change?.name, text);
     const number = Number(text);
     if (text.trim() !== '' && Number.isFinite(number)) return trimmed(number, 3);
     return text;

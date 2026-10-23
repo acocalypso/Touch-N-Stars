@@ -13,7 +13,32 @@
     </div>
 
     <template v-else>
-      <div :class="sequenceStore.sequenceControlsLocked ? 'pointer-events-none opacity-60' : ''">
+      <!-- The layout is chosen in the sequence settings tab; both views work on the same tree.
+           v-if: the simple view only costs anything while it is shown. -->
+      <div
+        v-if="viewMode === 'simple'"
+        :class="sequenceStore.sequenceControlsLocked ? 'pointer-events-none opacity-60' : ''"
+      >
+        <SequenceSimpleView @show-full="settingsStore.setSequenceViewMode('full')" />
+      </div>
+
+      <!-- The view link stays outside the locked wrapper: switching the layout edits nothing.
+           The full view has no way back here; that switch lives in the sequence settings tab. -->
+      <button
+        v-if="viewMode === 'simple'"
+        type="button"
+        class="w-full min-h-touch flex items-center justify-center gap-1 text-sm text-content-faint hover:text-content-muted"
+        @click="settingsStore.setSequenceViewMode('full')"
+      >
+        {{ $t('components.sequence.simple.openExpert') }}
+        <ChevronRightIcon class="w-4 h-4" />
+      </button>
+
+      <!-- v-show: keeps the expand/collapse state of the full tree across a switch. -->
+      <div
+        v-show="viewMode === 'full'"
+        :class="sequenceStore.sequenceControlsLocked ? 'pointer-events-none opacity-60' : ''"
+      >
         <!-- Global Triggers -->
         <div
           class="bg-slate-800/60 backdrop-blur-sm rounded-lg shadow-lg transition-all duration-200"
@@ -143,18 +168,26 @@
 </template>
 
 <script setup>
-import { reactive, ref, watch, onMounted, onUnmounted } from 'vue';
+import { computed, reactive, ref, watch, onMounted, onUnmounted } from 'vue';
 import draggable from 'vuedraggable';
 import { ChevronRightIcon } from '@heroicons/vue/24/outline';
 import { useSequenceV2Store } from '@/store/sequenceV2Store';
 import { useSequenceStore } from '@/store/sequenceStore';
+import { useSettingsStore } from '@/store/settingsStore';
 import { apiStore } from '@/store/store';
 import SequenceItem from './SequenceItem.vue';
 import AddTypeButton from './AddTypeButton.vue';
 import ControlSequence from './controlSequence.vue';
+import SequenceSimpleView from './simple/SequenceSimpleView.vue';
 
 const store = useSequenceV2Store();
 const sequenceStore = useSequenceStore();
+const settingsStore = useSettingsStore();
+
+// Older persisted settings have no `sequence` block yet; they get the full view.
+const viewMode = computed(() =>
+  settingsStore.sequence?.viewMode === 'simple' ? 'simple' : 'full'
+);
 const backendStore = apiStore();
 const collapsed = reactive({});
 const activeGlobal = ref(false);

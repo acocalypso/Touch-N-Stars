@@ -123,8 +123,10 @@
         v-show="store.showSkyAtlas"
       />
       <div v-if="!shouldShowConnectionSplash" :class="stageClasses" :style="stageStyle">
-        <div class="container mx-auto px-3 py-4">
-          <router-view v-show="!store.showSkyAtlas" :key="routerViewKey" />
+        <!-- v-show sits on the wrapper: on a page with a fragment root (e.g. EquipmentPage)
+             it would be ignored and the page would flash before the atlas covers it. -->
+        <div v-show="!store.showSkyAtlas" class="container mx-auto px-3 py-4">
+          <router-view :key="routerViewKey" />
         </div>
       </div>
       <!-- Fixed frame mask: paints the frame with a rounded window punched out

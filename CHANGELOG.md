@@ -11,6 +11,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 fix(aapa): require a camera before starting polar alignment and clear the error on stop
 
+- Atlas: Opening the sky atlas no longer briefly flashes the equipment page.
+- Image viewer: The Android back gesture closes the full-screen image instead of leaving the page.
+
 ## [App6.5.0 - beta 7] - 2026-10-16
 
 ### Added

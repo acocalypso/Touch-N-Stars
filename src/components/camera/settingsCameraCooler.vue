@@ -158,21 +158,34 @@
         </div>
       </div>
     </div>
-    <div v-if="store.cameraInfo.HasDewHeater && !compact" class="w-full">
-      <div class="flex flex-col border border-slate-600/40 p-3 rounded-lg">
+    <div v-if="store.cameraInfo.HasDewHeater" class="w-full">
+      <div
+        class="flex flex-col min-w-36"
+        :class="{ 'border border-slate-600/40 p-3 rounded-lg': !compact }"
+      >
+        <!-- Compact rows use the switch panel's row style so the status bar panels match -->
         <div
-          class="flex items-center justify-between border border-line-strong p-1 md:p-2 rounded-control"
+          class="flex items-center justify-between gap-3"
+          :class="
+            compact
+              ? 'bg-surface-2 rounded-chip px-3 py-2 min-h-touch'
+              : 'border border-line-strong p-1 md:p-2 rounded-control'
+          "
         >
-          <label for="DewHeater" class="text-xs md:text-sm text-content font-medium">
+          <label
+            for="DewHeater"
+            class="font-medium text-content"
+            :class="compact ? 'text-sm md:text-base' : 'text-xs md:text-sm'"
+          >
             {{ $t('components.camera.dew_heater') }}
           </label>
           <toggleButton
             @click="toggleDewHeater"
             :status-value="store.cameraInfo.DewHeaterOn"
-            class="h-7 md:h-8"
+            :class="{ 'h-7 md:h-8': !compact }"
           />
         </div>
-        <pinsSetDewHeaterStrength v-if="hasDewHeaterStrength" class="mt-2" />
+        <pinsSetDewHeaterStrength v-if="hasDewHeaterStrength" :compact="compact" class="mt-2" />
       </div>
     </div>
   </div>
@@ -188,7 +201,7 @@ import toggleButton from '@/components/helpers/toggleButton.vue';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 import pinsSetDewHeaterStrength from './settingsPins/pinsSetDewHeaterStrength.vue';
 
-// Compact (status bar panel): target temperature and the two buttons only.
+// Compact (status bar panel): target temperature, the two buttons and the dew heater.
 const { compact } = defineProps({
   compact: { type: Boolean, default: false },
 });

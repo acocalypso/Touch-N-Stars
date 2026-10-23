@@ -5,6 +5,14 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [App6.5.0 - beta 15] - 2026-10-23
+
+### Fixed
+
+- Status bar: The camera panel shows the dew heater switch and, where available, its strength, also for cameras without cooling.
+- Atlas: Opening the sky atlas no longer briefly flashes the equipment page.
+- Image viewer: The Android back gesture closes the full-screen image instead of leaving the page.
+
 ## [App6.5.0 - beta 14] - 2026-10-21
 
 ### Added
@@ -686,8 +694,6 @@ Summary of all changes since 5.1.0 (released in beta1-beta4, see below for the i
 - Dialog: Minimized dialogs are now a small, draggable chip anchored above the status bar instead of a fixed 300px box that permanently covered the bottom-right corner
 
 ## [App5.2.0-beta3] - 2026-07-21
-
-## [App5.2.0-beta3] - unreleased
 
 ### Added
 

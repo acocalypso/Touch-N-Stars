@@ -1,5 +1,6 @@
 import fs from 'node:fs';
 import path from 'node:path';
+import { hasDamagedLocaleText } from './lib/localeTextIntegrity.mjs';
 
 const LOCALES_DIR = path.resolve('src/locales');
 const BASE_LOCALE = 'en.json';
@@ -7,7 +8,7 @@ const PLACEHOLDER_RE = /\{\s*([A-Za-z0-9_]+)\s*\}/g;
 const PLURAL_SUFFIXES = new Set(['zero', 'one', 'two', 'few', 'many', 'other']);
 
 function parseJsonWithDuplicateCheck(filePath) {
-  const raw = fs.readFileSync(filePath, 'utf8');
+  const raw = new TextDecoder('utf-8', { fatal: true }).decode(fs.readFileSync(filePath));
   const duplicates = [];
   let i = 0;
 
@@ -249,6 +250,9 @@ const basePlural = pluralGroups(baseFlat);
 
 for (const [file, parsed] of localeMap.entries()) {
   const flat = flatten(parsed.data);
+  const damaged = Object.entries(flat)
+    .filter(([, value]) => hasDamagedLocaleText(value))
+    .map(([key]) => key);
 
   const missing = Object.keys(baseFlat).filter((k) => !(k in flat));
   const extra = Object.keys(flat).filter((k) => !(k in baseFlat));
@@ -286,6 +290,7 @@ for (const [file, parsed] of localeMap.entries()) {
     missing.length > 0 ||
     extra.length > 0 ||
     empty.length > 0 ||
+    damaged.length > 0 ||
     placeholderMismatch.length > 0 ||
     pluralMismatch.length > 0
   ) {
@@ -302,6 +307,9 @@ for (const [file, parsed] of localeMap.entries()) {
 
     if (empty.length > 0) {
       console.error(`  empty (${empty.length}): ${empty.slice(0, 25).join(', ')}`);
+    }
+    if (damaged.length > 0) {
+      console.error(`  damaged text (${damaged.length}): ${damaged.slice(0, 25).join(', ')}`);
     }
 
     if (placeholderMismatch.length > 0) {

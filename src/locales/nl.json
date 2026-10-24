@@ -1495,7 +1495,117 @@
           "Recenter": "Recenter",
           "UseSideOfPier": "Gebruik de kant van de pier",
           "AutoFocusAfterFlip": "Autofocus na omdraaien",
-          "RotateImageAfterFlip": "Afbeelding roteren na omdraaien"
+          "RotateImageAfterFlip": "Afbeelding roteren na omdraaien",
+          "intro": "Volgt de telescoop een object over de meridiaan (de noord-zuidlijn door het zenit), dan zou hij snel tegen het statief of de pier stoten. Daarom draait de montering één keer naar de andere kant en gaat de opname verder. Deze instellingen bepalen wanneer dat gebeurt.",
+          "advanced": "Geavanceerd",
+          "presets": {
+            "question": "Hoe lang kan je montering na de meridiaan nog volgen?",
+            "barely": {
+              "title": "Nauwelijks",
+              "description": "De telescoop komt bij de meridiaan dicht bij het statief of de pier. De opname stopt 2 minuten ervoor, de flip gebeurt op de meridiaan."
+            },
+            "few": {
+              "title": "Een paar minuten (de meeste monteringen)",
+              "description": "Flip tussen 5 en 15 minuten na de meridiaan, direct na het einde van een belichting – zonder wachten."
+            },
+            "lots": {
+              "title": "Veel (15 minuten of meer)",
+              "description": "Flip tussen 10 en 30 minuten na de meridiaan. Geeft lange belichtingen tijd om af te ronden."
+            },
+            "custom": {
+              "title": "Eigen waarden",
+              "description": "Stel de minuten zelf in onder Geavanceerd."
+            },
+            "sideOfPierNoMount": "Verbind de montering voordat je kiest, zodat de app kan controleren of hij zijn pierkant doorgeeft.",
+            "sideOfPierUnknown": "Je montering geeft zijn pierkant niet door, dus „Gebruik de kant van de pier” blijft uit. NINA bepaalt de flip dan op tijd.",
+            "applyFailed": "De voorinstelling kon niet volledig worden opgeslagen. Controleer de waarden onder Geavanceerd."
+          },
+          "timeline": {
+            "meridian": "Meridiaan",
+            "imaging": "Opname",
+            "trackingOff": "Volgen uit",
+            "flip": "Flip",
+            "pauseMinutes": "−{pause} min",
+            "atMinutes": "+{min} min",
+            "windowMinutes": "+{min}–{max} min",
+            "explainPause": "De opname stopt {pause} min voor de meridiaan en het volgen wordt uitgezet. De flip volgt {min} min na de meridiaan. Dit kost opnametijd – gebruik het alleen als de telescoop de meridiaan niet kan passeren.",
+            "explainFixed": "NINA maakt belichtingen tot er een voorbij {min} min na de meridiaan zou lopen, wacht dan en flipt precies op dat moment. Een later uiterste tijdstip voorkomt het wachten.",
+            "explainWindow": "Na de eerste belichting die tussen {min} en {max} min na de meridiaan eindigt, volgt direct de flip – zonder wachten."
+          },
+          "help": {
+            "MinutesAfterMeridian": "Vroegste moment na de meridiaan waarop de flip mag beginnen.",
+            "MaxMinutesAfterMeridian": "Laatste moment na de meridiaan voor de flip. Het kan niet kleiner zijn dan het vroegste. Een grotere marge laat NINA direct na een belichting flippen, zonder wachten.",
+            "PauseTimeBeforeMeridian": "Alleen voor apparatuur die de meridiaan niet veilig kan passeren: het volgen stopt zoveel minuten ervoor. Anders op 0 laten.",
+            "SettleTime": "Wacht na de flip zodat de montering tot rust komt. Uitgerekte sterren bij de eerste plate solve na een flip? Verhoog deze waarde.",
+            "Recenter": "Na de flip doet NINA een plate solve en centreert het object opnieuw. Sterk aanbevolen; vereist een werkende plate solver.",
+            "UseSideOfPier": "Gebruikt de pierkant die de montering doorgeeft om te bepalen of een flip nodig is. Betrouwbaarder, maar alleen als de montering die correct doorgeeft.",
+            "AutoFocusAfterFlip": "Voert na de flip een autofocus uit. Handig bij Newtons en SCT's waarvan de spiegel verschuift als de tubus draait.",
+            "RotateImageAfterFlip": "Draait het voorbeeld na de flip 180°. Alleen weergave – de opgeslagen beelden blijven ongewijzigd."
+          },
+          "dayTest": {
+            "title": "Flip overdag testen",
+            "teaser": "Laat NINA overdag een echte meridiaan flip doen met jouw instellingen: komt de telescoop in de stand na de meridiaan langs het statief of de pier, zijn de kabels lang genoeg?",
+            "open": "Test starten",
+            "intro": "NINA zet de telescoop op een punt net ten oosten van de meridiaan en blijft erna volgen. Dan flipt NINA precies zoals 's nachts – met jouw flip-instellingen en op de echte tijd.",
+            "blockers": {
+              "notConnected": "De montering is niet verbonden.",
+              "parked": "De montering is geparkeerd. Haal hem eerst uit de parkeerstand.",
+              "cannotSlew": "De montering kan geen coördinaten aansturen.",
+              "noLocation": "De montering heeft geen locatie. Stel eerst je locatie in.",
+              "sequenceRunning": "Er loopt een sequentie in NINA. Stop die eerst."
+            },
+            "caps": {
+              "label": "De kappen zitten op telescoop, zoeker en guidescope",
+              "reason": "Overdag kan de telescoop tijdens het zwenken langs de zon gaan. Een paar seconden zonlicht kan de camera vernielen of via de zoeker de ogen beschadigen. Deze test heeft geen licht nodig.",
+              "whyTitle": "Waarom is afstand tot de zon niet genoeg?",
+              "whyText": "Zonder uitlijning op sterren weet de montering overdag niet precies waar hij naartoe wijst. Tijdens het zwenken beschrijft de telescoop een boog langs de hemel, en de flip zwaait over de meridiaan, waar de zon 's middags staat. De app houdt afstand tot de zon, maar de kappen beschermen je ook als de berekening niet klopt."
+            },
+            "presence": {
+              "label": "Ik sta bij de montering en let op telescoop en kabels",
+              "reason": "Druk meteen op STOP als iets in de weg zit."
+            },
+            "stop": "STOP",
+            "askQuestion": "Is de telescoop naar de andere kant gedraaid zonder iets te raken en zonder dat een kabel strak kwam te staan?",
+            "yes": "Ja",
+            "no": "Nee",
+            "resultOk": "De flip-beweging werkt.",
+            "resultProblem": "De flip-beweging vraagt aandacht.",
+            "problemAdvice": "Controleer de kabelgeleiding zodat de kabels aan beide kanten reiken. Heeft de telescoop het statief of de pier geraakt, kies dan hierboven „Nauwelijks” of controleer de meridiaanlimiet van je montering.",
+            "pierChanged": "Pierkant: {before} → {after}",
+            "notTested": "Het guiden na de flip wordt niet gecontroleerd. Details staan in het NINA-logboek.",
+            "stopped": "Test gestopt. Sequentie en volgen zijn uit, de montering blijft waar hij is.",
+            "sideEast": "Oost",
+            "sideWest": "West",
+            "exposure": "Lengte van je belichtingen (s)",
+            "exposureHelp": "NINA flipt na de eerste belichting die binnen het flipvenster eindigt. Met je gebruikelijke belichtingstijd flipt de test in dezelfde stand als 's nachts.",
+            "plan": "De test duurt ongeveer {minutes} min. Daarvan volgt de montering tot {flip} min voorbij de meridiaan – dat is de stand die getest wordt, net als 's nachts.",
+            "sequenceNotice": "Er wordt een testsequentie in NINA geladen. Die vervangt de sequentie die nu geladen is – sla die eerst op als je hem wilt houden.",
+            "start": "Testsequentie laden en starten",
+            "confirmTitle": "Testsequentie laden?",
+            "confirmMessage": "De in NINA geladen sequentie wordt vervangen door de fliptest en de telescoop gaat bewegen.",
+            "noPoint": "Op dit moment is geen deel van de hemel bij de meridiaan hoog genoeg en ver genoeg van de zon. Probeer het later opnieuw.",
+            "slewingToStart": "Naar het startpunt …",
+            "waitingForMeridian": "Volgt naar de meridiaan …",
+            "pastMeridian": "De telescoop staat {minutes} min voorbij de meridiaan.",
+            "flipping": "NINA flipt …",
+            "countdownWindow": "Flip over {earliest} tot {latest} min",
+            "countdownLatest": "Flip uiterlijk over {latest} min",
+            "runningHint": "NINA voert de test zelf uit, de app mag gesloten worden. Druk op STOP als iets in de weg zit – dat stopt sequentie en volgen.",
+            "flippedAt": "NINA flipte {minutes} min na de meridiaan.",
+            "noFlip": "NINA flipte niet op tijd. Sequentie en volgen zijn gestopt.",
+            "noFlipAdvice": "Controleer de flip-instellingen en het NINA-logboek. Staat „Gebruik de kant van de pier” aan, dan geeft je montering de kant misschien verkeerd door – probeer het uitgeschakeld.",
+            "startFailed": "De testsequentie kon niet worden gestart: {error}",
+            "ninaError": "NINA meldde een fout tijdens de flip, bij de stap: {step}.",
+            "ninaErrorRecenterCaps": "Met de kappen erop is dat te verwachten – opnieuw centreren heeft sterren nodig. Controleer 's nachts of plate solving werkt.",
+            "ninaOk": "NINA heeft de flip zonder fout afgerond.",
+            "steps": {
+              "recenter": "opnieuw centreren (plate solve)",
+              "autofocus": "autofocus na de flip",
+              "settle": "tot rust komen",
+              "slew": "flipzwenk",
+              "unknown": "onbekende stap"
+            }
+          }
         },
         "reverse_primary_axis": "Primaire as omkeren",
         "reverse_secondary_axis": "Secundaire as omkeren"

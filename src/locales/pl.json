@@ -1495,7 +1495,117 @@
           "Recenter": "Wycentruj ponownie",
           "UseSideOfPier": "Użyj strony mola",
           "AutoFocusAfterFlip": "Automatyczne ustawianie ostrości po odwróceniu",
-          "RotateImageAfterFlip": "Obróć obraz po przewróceniu"
+          "RotateImageAfterFlip": "Obróć obraz po przewróceniu",
+          "intro": "Gdy teleskop prowadzi obiekt przez południk (linię północ-południe przez zenit), wkrótce uderzyłby w statyw lub kolumnę. Dlatego montaż raz obraca się na drugą stronę, a rejestracja trwa dalej. Te ustawienia decydują, kiedy to nastąpi.",
+          "advanced": "Zaawansowane",
+          "presets": {
+            "question": "Jak długo twój montaż może prowadzić po przejściu przez południk?",
+            "barely": {
+              "title": "Prawie wcale",
+              "description": "Przy południku teleskop zbliża się do statywu lub kolumny. Rejestracja zatrzymuje się 2 minuty wcześniej, przewrót następuje na południku."
+            },
+            "few": {
+              "title": "Kilka minut (większość montaży)",
+              "description": "Przewrót od 5 do 15 minut po południku, zaraz po zakończeniu ekspozycji – bez czekania."
+            },
+            "lots": {
+              "title": "Dużo (15 minut lub więcej)",
+              "description": "Przewrót od 10 do 30 minut po południku. Daje długim ekspozycjom czas na zakończenie."
+            },
+            "custom": {
+              "title": "Własne wartości",
+              "description": "Ustaw minuty samodzielnie w sekcji Zaawansowane."
+            },
+            "sideOfPierNoMount": "Połącz montaż przed wyborem, aby aplikacja sprawdziła, czy podaje swoją stronę mola.",
+            "sideOfPierUnknown": "Twój montaż nie podaje strony mola, więc „Użyj strony mola” pozostaje wyłączone. NINA decyduje wtedy o przewrocie według czasu.",
+            "applyFailed": "Nie udało się w pełni zapisać ustawienia. Sprawdź wartości w sekcji Zaawansowane."
+          },
+          "timeline": {
+            "meridian": "Południk",
+            "imaging": "Rejestracja",
+            "trackingOff": "Prowadzenie wył.",
+            "flip": "Przewrót",
+            "pauseMinutes": "−{pause} min",
+            "atMinutes": "+{min} min",
+            "windowMinutes": "+{min}–{max} min",
+            "explainPause": "Rejestracja zatrzymuje się {pause} min przed południkiem, a prowadzenie zostaje wyłączone. Przewrót następuje {min} min po południku. To kosztuje czas rejestracji – używaj tylko, jeśli teleskop nie może minąć południka.",
+            "explainFixed": "NINA wykonuje ekspozycje, dopóki któraś nie przekroczyłaby {min} min po południku, potem czeka i wykonuje przewrót dokładnie w tym momencie. Późniejszy najpóźniejszy czas oszczędza czekanie.",
+            "explainWindow": "Po pierwszej ekspozycji, która kończy się między {min} a {max} min po południku, od razu następuje przewrót – bez czekania."
+          },
+          "help": {
+            "MinutesAfterMeridian": "Najwcześniejszy moment po południku, w którym może rozpocząć się przewrót.",
+            "MaxMinutesAfterMeridian": "Najpóźniejszy moment po południku na przewrót. Nie może być mniejszy niż najwcześniejszy. Większy odstęp pozwala NINA wykonać przewrót zaraz po ekspozycji, bez czekania.",
+            "PauseTimeBeforeMeridian": "Tylko dla sprzętu, który nie może bezpiecznie minąć południka: prowadzenie zatrzymuje się tyle minut wcześniej. W innym razie zostaw 0.",
+            "SettleTime": "Czeka po przewrocie, aż montaż się uspokoi. Rozmazane gwiazdy przy pierwszym plate solve po przewrocie? Zwiększ tę wartość.",
+            "Recenter": "Po przewrocie NINA wykonuje plate solve i ponownie centruje obiekt. Zdecydowanie zalecane; wymaga działającego plate solvera.",
+            "UseSideOfPier": "Używa strony mola podawanej przez montaż, by zdecydować, czy przewrót jest potrzebny. Bardziej niezawodne, ale tylko jeśli montaż podaje ją poprawnie.",
+            "AutoFocusAfterFlip": "Uruchamia autofokus po przewrocie. Przydatne w Newtonach i SCT, których lustro przesuwa się przy obrocie tuby.",
+            "RotateImageAfterFlip": "Obraca podgląd o 180° po przewrocie. Tylko wyświetlanie – zapisane zdjęcia pozostają bez zmian."
+          },
+          "dayTest": {
+            "title": "Przetestuj przewrót w dzień",
+            "teaser": "Pozwól NINA wykonać w dzień prawdziwy przewrót południkowy z twoimi ustawieniami: czy teleskop mija statyw lub kolumnę w pozycji po południku, czy kable wystarczą?",
+            "open": "Rozpocznij test",
+            "intro": "NINA ustawia teleskop tuż na wschód od południka i prowadzi dalej za niego. Potem NINA wykonuje przewrót dokładnie jak w nocy – z twoimi ustawieniami i o prawdziwej porze.",
+            "blockers": {
+              "notConnected": "Montaż nie jest połączony.",
+              "parked": "Montaż jest zaparkowany. Najpierw go odparkuj.",
+              "cannotSlew": "Montaż nie potrafi najeżdżać na współrzędne.",
+              "noLocation": "Montaż nie ma lokalizacji. Najpierw ustaw swoją lokalizację.",
+              "sequenceRunning": "W NINA działa sekwencja. Najpierw ją zatrzymaj."
+            },
+            "caps": {
+              "label": "Dekielki są na teleskopie, szukaczu i lunecie guidera",
+              "reason": "W dzień teleskop może podczas ruchu przejść przez słońce. Kilka sekund światła słonecznego może zniszczyć kamerę lub, przez szukacz, uszkodzić oczy. Ten test nie potrzebuje światła.",
+              "whyTitle": "Dlaczego odległość od słońca nie wystarczy?",
+              "whyText": "Bez kalibracji na gwiazdach montaż w dzień nie wie dokładnie, gdzie celuje. Podczas ruchu teleskop zatacza łuk po niebie, a przewrót przechodzi przez południk, gdzie w południe stoi słońce. Aplikacja trzyma się z dala od słońca, ale dekielki chronią cię nawet wtedy, gdy obliczenia są błędne."
+            },
+            "presence": {
+              "label": "Stoję przy montażu i obserwuję teleskop oraz kable",
+              "reason": "Naciśnij natychmiast STOP, jeśli coś przeszkadza."
+            },
+            "stop": "STOP",
+            "askQuestion": "Czy teleskop obrócił się na drugą stronę, niczego nie dotykając i nie napinając żadnego kabla?",
+            "yes": "Tak",
+            "no": "Nie",
+            "resultOk": "Ruch przewrotu działa.",
+            "resultProblem": "Ruch przewrotu wymaga uwagi.",
+            "problemAdvice": "Sprawdź prowadzenie kabli, aby wystarczały po obu stronach. Jeśli teleskop dotknął statywu lub kolumny, wybierz powyżej „Prawie wcale” albo sprawdź limit południka swojego montażu.",
+            "pierChanged": "Strona mola: {before} → {after}",
+            "notTested": "Guiding po przewrocie nie jest sprawdzany. Szczegóły są w logu NINA.",
+            "stopped": "Test zatrzymany. Sekwencja i prowadzenie są wyłączone, montaż zostaje w miejscu.",
+            "sideEast": "Wschód",
+            "sideWest": "Zachód",
+            "exposure": "Długość twoich ekspozycji (s)",
+            "exposureHelp": "NINA wykonuje przewrót po pierwszej ekspozycji, która kończy się w oknie przewrotu. Przy twojej zwykłej długości ekspozycji test przewraca w tej samej pozycji co w nocy.",
+            "plan": "Test trwa około {minutes} min. Montaż prowadzi do {flip} min za południkiem – to pozycja, która jest testowana, tak jak w nocy.",
+            "sequenceNotice": "Do NINA zostanie wczytana sekwencja testowa. Zastąpi obecnie wczytaną sekwencję – zapisz ją wcześniej, jeśli chcesz ją zachować.",
+            "start": "Wczytaj sekwencję testową i uruchom",
+            "confirmTitle": "Wczytać sekwencję testową?",
+            "confirmMessage": "Sekwencja wczytana w NINA zostanie zastąpiona testem przewrotu, a teleskop zacznie się poruszać.",
+            "noPoint": "W tej chwili żaden fragment nieba przy południku nie jest wystarczająco wysoko i daleko od słońca. Spróbuj później.",
+            "slewingToStart": "Ruch do punktu startowego …",
+            "waitingForMeridian": "Prowadzenie w stronę południka …",
+            "pastMeridian": "Teleskop jest {minutes} min za południkiem.",
+            "flipping": "NINA wykonuje przewrót …",
+            "countdownWindow": "Przewrót za {earliest} do {latest} min",
+            "countdownLatest": "Przewrót najpóźniej za {latest} min",
+            "runningHint": "NINA wykonuje test samodzielnie, aplikację można zamknąć. Naciśnij STOP, jeśli coś przeszkadza – zatrzymuje to sekwencję i prowadzenie.",
+            "flippedAt": "NINA wykonała przewrót {minutes} min po południku.",
+            "noFlip": "NINA nie wykonała przewrotu na czas. Sekwencja i prowadzenie zostały zatrzymane.",
+            "noFlipAdvice": "Sprawdź ustawienia przewrotu i log NINA. Jeśli „Użyj strony mola” jest włączone, twój montaż może błędnie podawać stronę – spróbuj z wyłączoną opcją.",
+            "startFailed": "Nie udało się uruchomić sekwencji testowej: {error}",
+            "ninaError": "NINA zgłosiła błąd podczas przewrotu, w kroku: {step}.",
+            "ninaErrorRecenterCaps": "Z dekielkami to normalne – ponowne centrowanie wymaga gwiazd. W nocy sprawdź, czy plate solving działa.",
+            "ninaOk": "NINA zakończyła przewrót bez błędu.",
+            "steps": {
+              "recenter": "ponowne centrowanie (plate solve)",
+              "autofocus": "autofokus po przewrocie",
+              "settle": "uspokajanie",
+              "slew": "ruch przewrotu",
+              "unknown": "nieznany krok"
+            }
+          }
         },
         "reverse_primary_axis": "Odwróć oś główną",
         "reverse_secondary_axis": "Odwróć oś drugorzędną"

@@ -1495,7 +1495,117 @@
           "Recenter": "重新居中",
           "UseSideOfPier": "使用支架侧",
           "AutoFocusAfterFlip": "翻转后自动对焦",
-          "RotateImageAfterFlip": "翻转后旋转图像"
+          "RotateImageAfterFlip": "翻转后旋转图像",
+          "intro": "当望远镜跟踪目标越过子午线（穿过天顶的南北线）时，很快就会碰到三脚架或立柱。因此赤道仪会转到另一侧一次，然后继续拍摄。这些设置决定何时进行翻转。",
+          "advanced": "高级",
+          "presets": {
+            "question": "你的赤道仪过了子午线后还能跟踪多久？",
+            "barely": {
+              "title": "几乎不能",
+              "description": "在子午线处望远镜会靠近三脚架或立柱。拍摄在子午线前 2 分钟停止，翻转在子午线处进行。"
+            },
+            "few": {
+              "title": "几分钟（大多数赤道仪）",
+              "description": "在子午线后 5 到 15 分钟之间、一张曝光结束后立即翻转——无需等待。"
+            },
+            "lots": {
+              "title": "很久（15 分钟或更长）",
+              "description": "在子午线后 10 到 30 分钟之间翻转。给长曝光留出完成的时间。"
+            },
+            "custom": {
+              "title": "自定义数值",
+              "description": "在“高级”中自行设置分钟数。"
+            },
+            "sideOfPierNoMount": "选择前请先连接赤道仪，以便应用检查它是否报告支架侧。",
+            "sideOfPierUnknown": "你的赤道仪不报告支架侧，因此“使用支架侧”保持关闭。NINA 将按时间决定翻转。",
+            "applyFailed": "预设未能完整保存。请检查“高级”中的数值。"
+          },
+          "timeline": {
+            "meridian": "子午线",
+            "imaging": "拍摄",
+            "trackingOff": "跟踪关闭",
+            "flip": "翻转",
+            "pauseMinutes": "−{pause} 分钟",
+            "atMinutes": "+{min} 分钟",
+            "windowMinutes": "+{min}–{max} 分钟",
+            "explainPause": "拍摄在子午线前 {pause} 分钟停止，并关闭跟踪。翻转在子午线后 {min} 分钟进行。这会损失拍摄时间——仅在望远镜无法越过子午线时使用。",
+            "explainFixed": "NINA 持续曝光，直到某张会超过子午线后 {min} 分钟，然后等待并恰好在该时刻翻转。把最晚时间设得更晚可以省去等待。",
+            "explainWindow": "在子午线后 {min} 到 {max} 分钟之间结束的第一张曝光之后立即翻转——无需等待。"
+          },
+          "help": {
+            "MinutesAfterMeridian": "过子午线后允许开始翻转的最早时间。",
+            "MaxMinutesAfterMeridian": "过子午线后翻转的最晚时间。不能小于最早时间。间隔越大，NINA 越能在一张曝光后立即翻转而不用等待。",
+            "PauseTimeBeforeMeridian": "仅适用于无法安全越过子午线的设备：在子午线前这么多分钟停止跟踪。否则保持为 0。",
+            "SettleTime": "翻转后等待，让赤道仪稳定下来。翻转后第一次 plate solve 出现拖线？请增大此值。",
+            "Recenter": "翻转后 NINA 进行 plate solve 并重新居中目标。强烈推荐；需要可用的 plate solver。",
+            "UseSideOfPier": "使用赤道仪报告的支架侧来判断是否需要翻转。更可靠，但前提是赤道仪报告正确。",
+            "AutoFocusAfterFlip": "翻转后运行自动对焦。适用于镜筒转动时主镜会移动的牛顿和 SCT。",
+            "RotateImageAfterFlip": "翻转后将预览旋转 180°。仅影响显示——保存的图像不变。"
+          },
+          "dayTest": {
+            "title": "白天测试翻转",
+            "teaser": "让 NINA 在白天用你的设置做一次真正的中天翻转：在过子午线后的位置，望远镜能否避开三脚架或立柱，线缆是否够长？",
+            "open": "开始测试",
+            "intro": "NINA 将望远镜移到子午线以东不远处，并继续跟踪越过子午线。随后 NINA 会像夜间一样翻转——使用你的翻转设置，按真实时间进行。",
+            "blockers": {
+              "notConnected": "赤道仪未连接。",
+              "parked": "赤道仪已归位停放。请先解除停放。",
+              "cannotSlew": "赤道仪无法转到坐标。",
+              "noLocation": "赤道仪没有观测地点。请先设置你的位置。",
+              "sequenceRunning": "NINA 中正在运行序列。请先停止它。"
+            },
+            "caps": {
+              "label": "望远镜、寻星镜和导星镜都已盖上镜盖",
+              "reason": "白天望远镜转动时可能扫过太阳。几秒钟的阳光就可能损坏相机，或通过寻星镜伤害眼睛。本测试不需要光线。",
+              "whyTitle": "为什么与太阳保持距离还不够？",
+              "whyText": "没有经过星点校准，赤道仪白天并不确切知道自己指向哪里。转动时望远镜会在天空中划出一道弧线，而翻转会越过子午线——正午时太阳就在那里。应用会避开太阳，但即使计算有误，镜盖也能保护你。"
+            },
+            "presence": {
+              "label": "我站在赤道仪旁，观察望远镜和线缆",
+              "reason": "如有任何阻碍，请立即按 STOP。"
+            },
+            "stop": "STOP",
+            "askQuestion": "望远镜是否转到了另一侧，既没有碰到任何东西，也没有拉紧线缆？",
+            "yes": "是",
+            "no": "否",
+            "resultOk": "翻转动作正常。",
+            "resultProblem": "翻转动作需要注意。",
+            "problemAdvice": "检查线缆走线，确保两侧都够长。如果望远镜碰到了三脚架或立柱，请在上方选择“几乎不能”，或检查赤道仪的子午线限位。",
+            "pierChanged": "支架侧：{before} → {after}",
+            "notTested": "不检查翻转后的导星。详情见 NINA 日志。",
+            "stopped": "测试已停止。序列和跟踪已关闭，赤道仪保持原位。",
+            "sideEast": "东",
+            "sideWest": "西",
+            "exposure": "你的曝光时长（秒）",
+            "exposureHelp": "NINA 会在翻转窗口内结束的第一张曝光之后翻转。使用你平时的曝光时长，测试会在与夜间相同的位置翻转。",
+            "plan": "测试约需 {minutes} 分钟。其中赤道仪最多跟踪到子午线后 {flip} 分钟——这就是被测试的位置，与夜间相同。",
+            "sequenceNotice": "将在 NINA 中加载一个测试序列，它会替换当前加载的序列——如需保留，请先保存。",
+            "start": "加载测试序列并开始",
+            "confirmTitle": "加载测试序列？",
+            "confirmMessage": "NINA 中加载的序列将被翻转测试替换，望远镜将开始移动。",
+            "noPoint": "目前子午线附近没有既足够高又离太阳足够远的天区。请稍后再试。",
+            "slewingToStart": "正在转到起点 …",
+            "waitingForMeridian": "正在向子午线跟踪 …",
+            "pastMeridian": "望远镜已越过子午线 {minutes} 分钟。",
+            "flipping": "NINA 正在翻转 …",
+            "countdownWindow": "{earliest} 至 {latest} 分钟后翻转",
+            "countdownLatest": "最迟 {latest} 分钟后翻转",
+            "runningHint": "NINA 会自行执行测试，可以关闭应用。如有阻碍请按 STOP——它会停止序列和跟踪。",
+            "flippedAt": "NINA 在子午线后 {minutes} 分钟进行了翻转。",
+            "noFlip": "NINA 未按时翻转。序列和跟踪已停止。",
+            "noFlipAdvice": "请检查翻转设置和 NINA 日志。如果开启了“使用支架侧”，赤道仪可能报告了错误的支架侧——请关闭后再试。",
+            "startFailed": "无法启动测试序列：{error}",
+            "ninaError": "NINA 在翻转期间报告了错误，所在步骤：{step}。",
+            "ninaErrorRecenterCaps": "盖着镜盖时这是正常的——重新居中需要星星。夜间请确认 plate solving 正常工作。",
+            "ninaOk": "NINA 已无错误地完成翻转。",
+            "steps": {
+              "recenter": "重新居中（plate solve）",
+              "autofocus": "翻转后自动对焦",
+              "settle": "稳定",
+              "slew": "翻转转动",
+              "unknown": "未知步骤"
+            }
+          }
         },
         "reverse_primary_axis": "反转主轴",
         "reverse_secondary_axis": "反转副轴"

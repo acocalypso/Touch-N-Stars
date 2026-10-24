@@ -1495,7 +1495,117 @@
           "Recenter": "Ricentra",
           "UseSideOfPier": "Usa lato del pier",
           "AutoFocusAfterFlip": "Messa a fuoco automatica dopo il capovolgimento",
-          "RotateImageAfterFlip": "Ruota immagine dopo il giro"
+          "RotateImageAfterFlip": "Ruota immagine dopo il giro",
+          "intro": "Quando il telescopio segue un oggetto oltre il meridiano (la linea nord-sud che passa per lo zenit), presto urterebbe il treppiede o la colonna. Per questo la montatura gira una volta dall'altro lato e la ripresa continua. Queste impostazioni decidono quando succede.",
+          "advanced": "Avanzate",
+          "presets": {
+            "question": "Quanto può inseguire la tua montatura dopo il meridiano?",
+            "barely": {
+              "title": "Quasi niente",
+              "description": "Al meridiano il telescopio si avvicina al treppiede o alla colonna. La ripresa si ferma 2 minuti prima, l'inversione avviene al meridiano."
+            },
+            "few": {
+              "title": "Qualche minuto (la maggior parte delle montature)",
+              "description": "Inversione tra 5 e 15 minuti dopo il meridiano, subito dopo la fine di una posa – senza attese."
+            },
+            "lots": {
+              "title": "Molto (15 minuti o più)",
+              "description": "Inversione tra 10 e 30 minuti dopo il meridiano. Lascia alle pose lunghe il tempo di finire."
+            },
+            "custom": {
+              "title": "Valori personalizzati",
+              "description": "Imposta tu i minuti in Avanzate."
+            },
+            "sideOfPierNoMount": "Collega la montatura prima di scegliere, così l'app può verificare se comunica il suo lato del pier.",
+            "sideOfPierUnknown": "La tua montatura non comunica il lato del pier, quindi «Usa lato del pier» resta disattivato. NINA decide allora l'inversione in base all'ora.",
+            "applyFailed": "Il preset non è stato salvato completamente. Controlla i valori in Avanzate."
+          },
+          "timeline": {
+            "meridian": "Meridiano",
+            "imaging": "Ripresa",
+            "trackingOff": "Inseguimento spento",
+            "flip": "Inversione",
+            "pauseMinutes": "−{pause} min",
+            "atMinutes": "+{min} min",
+            "windowMinutes": "+{min}–{max} min",
+            "explainPause": "La ripresa si ferma {pause} min prima del meridiano e l'inseguimento viene spento. L'inversione segue {min} min dopo il meridiano. Costa tempo di ripresa – usalo solo se il telescopio non può passare il meridiano.",
+            "explainFixed": "NINA esegue pose finché una supererebbe {min} min dopo il meridiano, poi attende e inverte esattamente in quel momento. Un limite più tardivo evita l'attesa.",
+            "explainWindow": "La prima posa che termina tra {min} e {max} min dopo il meridiano è seguita direttamente dall'inversione – senza attese."
+          },
+          "help": {
+            "MinutesAfterMeridian": "Momento più presto dopo il meridiano in cui può iniziare l'inversione.",
+            "MaxMinutesAfterMeridian": "Momento più tardo dopo il meridiano per l'inversione. Non può essere inferiore al più presto. Un intervallo più ampio permette a NINA di invertire subito dopo una posa, senza attendere.",
+            "PauseTimeBeforeMeridian": "Solo per attrezzature che non possono passare il meridiano in sicurezza: l'inseguimento si ferma tanti minuti prima. Altrimenti lascia 0.",
+            "SettleTime": "Attende dopo l'inversione perché la montatura si assesti. Stelle mosse nel primo plate solve dopo un'inversione? Aumenta questo valore.",
+            "Recenter": "Dopo l'inversione NINA esegue un plate solve e ricentra l'oggetto. Fortemente consigliato; richiede un plate solver funzionante.",
+            "UseSideOfPier": "Usa il lato del pier comunicato dalla montatura per decidere se serve un'inversione. Più affidabile, ma solo se la montatura lo comunica correttamente.",
+            "AutoFocusAfterFlip": "Esegue un autofocus dopo l'inversione. Utile per Newton e SCT il cui specchio si sposta quando il tubo ruota.",
+            "RotateImageAfterFlip": "Ruota l'anteprima di 180° dopo l'inversione. Solo visualizzazione – le immagini salvate restano invariate."
+          },
+          "dayTest": {
+            "title": "Prova l'inversione di giorno",
+            "teaser": "Lascia che NINA esegua di giorno una vera inversione del meridiano con le tue impostazioni: il telescopio supera il treppiede o la colonna nella posizione oltre il meridiano, i cavi bastano?",
+            "open": "Avvia prova",
+            "intro": "NINA porta il telescopio appena a est del meridiano e continua a inseguire oltre. Poi NINA inverte esattamente come di notte – con le tue impostazioni e all'ora reale.",
+            "blockers": {
+              "notConnected": "La montatura non è collegata.",
+              "parked": "La montatura è parcheggiata. Prima sbloccala dal parcheggio.",
+              "cannotSlew": "La montatura non può puntare coordinate.",
+              "noLocation": "La montatura non ha una posizione. Imposta prima la tua posizione.",
+              "sequenceRunning": "In NINA è in corso una sequenza. Fermala prima."
+            },
+            "caps": {
+              "label": "I tappi sono sul telescopio, sul cercatore e sul telescopio guida",
+              "reason": "Di giorno il telescopio può passare davanti al sole mentre si muove. Pochi secondi di luce solare possono distruggere la camera o, attraverso il cercatore, danneggiare gli occhi. Questa prova non ha bisogno di luce.",
+              "whyTitle": "Perché la distanza dal sole non basta?",
+              "whyText": "Senza allineamento sulle stelle, di giorno la montatura non sa esattamente dove punta. Durante lo spostamento il telescopio descrive un arco nel cielo, e l'inversione passa per il meridiano, dove a mezzogiorno si trova il sole. L'app sta lontana dal sole, ma i tappi ti proteggono anche se il calcolo sbaglia."
+            },
+            "presence": {
+              "label": "Sono vicino alla montatura e osservo telescopio e cavi",
+              "reason": "Premi subito STOP se qualcosa intralcia."
+            },
+            "stop": "STOP",
+            "askQuestion": "Il telescopio è passato dall'altro lato senza toccare nulla e senza tendere cavi?",
+            "yes": "Sì",
+            "no": "No",
+            "resultOk": "Il movimento di inversione funziona.",
+            "resultProblem": "Il movimento di inversione richiede attenzione.",
+            "problemAdvice": "Controlla il percorso dei cavi perché bastino su entrambi i lati. Se il telescopio ha toccato il treppiede o la colonna, scegli «Quasi niente» sopra o controlla il limite di meridiano della montatura.",
+            "pierChanged": "Lato del pier: {before} → {after}",
+            "notTested": "La guida dopo l'inversione non viene controllata. I dettagli sono nel log di NINA.",
+            "stopped": "Prova fermata. Sequenza e inseguimento sono spenti, la montatura resta dov'è.",
+            "sideEast": "Est",
+            "sideWest": "Ovest",
+            "exposure": "Durata delle tue pose (s)",
+            "exposureHelp": "NINA inverte dopo la prima posa che termina nella finestra di inversione. Con la tua durata abituale, la prova inverte nella stessa posizione della notte.",
+            "plan": "La prova dura circa {minutes} min. La montatura insegue fino a {flip} min oltre il meridiano – è la posizione che viene provata, come di notte.",
+            "sequenceNotice": "In NINA viene caricata una sequenza di prova. Sostituisce la sequenza caricata ora – salvala prima se vuoi tenerla.",
+            "start": "Carica sequenza di prova e avvia",
+            "confirmTitle": "Caricare la sequenza di prova?",
+            "confirmMessage": "La sequenza caricata in NINA viene sostituita dalla prova di inversione e il telescopio inizia a muoversi.",
+            "noPoint": "Al momento nessuna zona del cielo vicino al meridiano è abbastanza alta e lontana dal sole. Riprova più tardi.",
+            "slewingToStart": "Puntamento del punto di partenza …",
+            "waitingForMeridian": "Inseguimento verso il meridiano …",
+            "pastMeridian": "Il telescopio è {minutes} min oltre il meridiano.",
+            "flipping": "NINA sta invertendo …",
+            "countdownWindow": "Inversione tra {earliest} e {latest} min",
+            "countdownLatest": "Inversione al più tardi tra {latest} min",
+            "runningHint": "NINA esegue la prova da solo, l'app può essere chiusa. Premi STOP se qualcosa intralcia – ferma sequenza e inseguimento.",
+            "flippedAt": "NINA ha invertito {minutes} min dopo il meridiano.",
+            "noFlip": "NINA non ha invertito in tempo. Sequenza e inseguimento sono stati fermati.",
+            "noFlipAdvice": "Controlla le impostazioni di inversione e il log di NINA. Se «Usa lato del pier» è attivo, forse la montatura comunica male il suo lato – prova a disattivarlo.",
+            "startFailed": "Impossibile avviare la sequenza di prova: {error}",
+            "ninaError": "NINA ha segnalato un errore durante l'inversione, nel passo: {step}.",
+            "ninaErrorRecenterCaps": "Con i tappi è previsto – il ricentraggio richiede stelle. Di notte verifica che il plate solving funzioni.",
+            "ninaOk": "NINA ha completato l'inversione senza errori.",
+            "steps": {
+              "recenter": "ricentraggio (plate solve)",
+              "autofocus": "autofocus dopo l'inversione",
+              "settle": "assestamento",
+              "slew": "movimento di inversione",
+              "unknown": "passo sconosciuto"
+            }
+          }
         },
         "reverse_primary_axis": "Inverti asse primario",
         "reverse_secondary_axis": "Inverti asse secondario"

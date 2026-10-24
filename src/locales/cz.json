@@ -1495,7 +1495,117 @@
           "Recenter": "Recenter",
           "UseSideOfPier": "Použít stranu mola",
           "AutoFocusAfterFlip": "Automatické ostření po převrácení",
-          "RotateImageAfterFlip": "Otočit snímek po převrácení"
+          "RotateImageAfterFlip": "Otočit snímek po převrácení",
+          "intro": "Když dalekohled sleduje objekt přes poledník (severojižní čáru procházející zenitem), brzy by narazil do stativu nebo sloupu. Montáž se proto jednou otočí na druhou stranu a snímání pokračuje. Tato nastavení určují, kdy se to stane.",
+          "advanced": "Pokročilé",
+          "presets": {
+            "question": "Jak dlouho může tvoje montáž sledovat po průchodu poledníkem?",
+            "barely": {
+              "title": "Skoro vůbec",
+              "description": "U poledníku se dalekohled přiblíží ke stativu nebo sloupu. Snímání se zastaví 2 minuty předem, flip proběhne na poledníku."
+            },
+            "few": {
+              "title": "Pár minut (většina montáží)",
+              "description": "Flip 5 až 15 minut po poledníku, hned po skončení expozice – bez čekání."
+            },
+            "lots": {
+              "title": "Hodně (15 minut a víc)",
+              "description": "Flip 10 až 30 minut po poledníku. Dává dlouhým expozicím čas doběhnout."
+            },
+            "custom": {
+              "title": "Vlastní hodnoty",
+              "description": "Minuty nastav sám v části Pokročilé."
+            },
+            "sideOfPierNoMount": "Před výběrem připoj montáž, aby aplikace mohla ověřit, zda hlásí svou stranu mola.",
+            "sideOfPierUnknown": "Tvoje montáž nehlásí stranu mola, proto zůstane „Použít stranu mola“ vypnuté. NINA pak o flipu rozhoduje podle času.",
+            "applyFailed": "Předvolbu se nepodařilo uložit celou. Zkontroluj hodnoty v části Pokročilé."
+          },
+          "timeline": {
+            "meridian": "Poledník",
+            "imaging": "Snímání",
+            "trackingOff": "Sledování vyp.",
+            "flip": "Flip",
+            "pauseMinutes": "−{pause} min",
+            "atMinutes": "+{min} min",
+            "windowMinutes": "+{min}–{max} min",
+            "explainPause": "Snímání se zastaví {pause} min před poledníkem a sledování se vypne. Flip následuje {min} min po poledníku. Stojí to čas snímání – použij jen tehdy, když dalekohled nemůže projít poledníkem.",
+            "explainFixed": "NINA pořizuje expozice, dokud by některá nepřesáhla {min} min po poledníku, pak čeká a provede flip přesně v tu chvíli. Pozdější nejzazší čas ušetří čekání.",
+            "explainWindow": "Po první expozici, která skončí mezi {min} a {max} min po poledníku, hned následuje flip – bez čekání."
+          },
+          "help": {
+            "MinutesAfterMeridian": "Nejdřívější okamžik po poledníku, kdy může flip začít.",
+            "MaxMinutesAfterMeridian": "Nejzazší okamžik po poledníku pro flip. Nemůže být menší než nejdřívější. Větší rozestup dovolí NINA provést flip hned po expozici, bez čekání.",
+            "PauseTimeBeforeMeridian": "Jen pro vybavení, které nemůže bezpečně projít poledníkem: sledování se zastaví o tolik minut dřív. Jinak nech 0.",
+            "SettleTime": "Po flipu čeká, až se montáž ustálí. Rozmazané hvězdy při prvním plate solve po flipu? Zvyš tuto hodnotu.",
+            "Recenter": "Po flipu NINA provede plate solve a znovu vycentruje objekt. Důrazně doporučeno; vyžaduje funkční plate solver.",
+            "UseSideOfPier": "Používá stranu mola hlášenou montáží k rozhodnutí, zda je flip potřeba. Spolehlivější, ale jen pokud ji montáž hlásí správně.",
+            "AutoFocusAfterFlip": "Po flipu spustí autofokus. Užitečné u Newtonů a SCT, jejichž zrcadlo se při otočení tubusu posune.",
+            "RotateImageAfterFlip": "Po flipu otočí náhled o 180°. Jen zobrazení – uložené snímky zůstanou beze změny."
+          },
+          "dayTest": {
+            "title": "Otestovat flip ve dne",
+            "teaser": "Nech NINA udělat přes den skutečný meridian flip s tvým nastavením: projde dalekohled kolem stativu nebo sloupu v poloze po poledníku, stačí kabely?",
+            "open": "Spustit test",
+            "intro": "NINA nastaví dalekohled kousek východně od poledníku a sleduje dál za něj. Pak NINA provede flip přesně jako v noci – s tvým nastavením flipu a ve skutečném čase.",
+            "blockers": {
+              "notConnected": "Montáž není připojena.",
+              "parked": "Montáž je zaparkovaná. Nejdřív ji odparkuj.",
+              "cannotSlew": "Montáž neumí najíždět na souřadnice.",
+              "noLocation": "Montáž nemá polohu. Nejdřív nastav svou polohu.",
+              "sequenceRunning": "V NINA běží sekvence. Nejdřív ji zastav."
+            },
+            "caps": {
+              "label": "Krytky jsou na dalekohledu, hledáčku i pointačním dalekohledu",
+              "reason": "Ve dne může dalekohled při pohybu přejet přes slunce. Pár sekund slunečního světla může zničit kameru nebo přes hledáček poškodit oči. Tento test světlo nepotřebuje.",
+              "whyTitle": "Proč nestačí odstup od slunce?",
+              "whyText": "Bez zarovnání na hvězdy montáž ve dne přesně neví, kam míří. Při pohybu opisuje dalekohled oblouk po obloze a flip přechází přes poledník, kde v poledne stojí slunce. Aplikace se slunci vyhýbá, ale krytky tě ochrání, i kdyby výpočet nesedel."
+            },
+            "presence": {
+              "label": "Stojím u montáže a sleduji dalekohled i kabely",
+              "reason": "Pokud něco překáží, ihned stiskni STOP."
+            },
+            "stop": "STOP",
+            "askQuestion": "Otočil se dalekohled na druhou stranu, aniž by do něčeho narazil a aniž by se napnul kabel?",
+            "yes": "Ano",
+            "no": "Ne",
+            "resultOk": "Pohyb flipu funguje.",
+            "resultProblem": "Pohyb flipu vyžaduje pozornost.",
+            "problemAdvice": "Zkontroluj vedení kabelů, aby stačily na obou stranách. Pokud se dalekohled dotkl stativu nebo sloupu, zvol nahoře „Skoro vůbec“ nebo zkontroluj limit poledníku své montáže.",
+            "pierChanged": "Strana mola: {before} → {after}",
+            "notTested": "Pointace po flipu se nekontroluje. Podrobnosti najdeš v logu NINA.",
+            "stopped": "Test zastaven. Sekvence i sledování jsou vypnuté, montáž zůstává na místě.",
+            "sideEast": "Východ",
+            "sideWest": "Západ",
+            "exposure": "Délka tvých expozic (s)",
+            "exposureHelp": "NINA provede flip po první expozici, která skončí v okně flipu. S tvou obvyklou délkou expozice provede test flip ve stejné poloze jako v noci.",
+            "plan": "Test trvá asi {minutes} min. Montáž přitom sleduje až {flip} min za poledník – to je testovaná poloha, stejně jako v noci.",
+            "sequenceNotice": "Do NINA se načte testovací sekvence. Nahradí právě načtenou sekvenci – pokud si ji chceš ponechat, nejdřív ji ulož.",
+            "start": "Načíst testovací sekvenci a spustit",
+            "confirmTitle": "Načíst testovací sekvenci?",
+            "confirmMessage": "Sekvence načtená v NINA bude nahrazena testem flipu a dalekohled se začne pohybovat.",
+            "noPoint": "Momentálně není žádná část oblohy u poledníku dost vysoko a dost daleko od slunce. Zkus to později.",
+            "slewingToStart": "Najíždění na výchozí bod …",
+            "waitingForMeridian": "Sledování k poledníku …",
+            "pastMeridian": "Dalekohled je {minutes} min za poledníkem.",
+            "flipping": "NINA provádí flip …",
+            "countdownWindow": "Flip za {earliest} až {latest} min",
+            "countdownLatest": "Flip nejpozději za {latest} min",
+            "runningHint": "NINA provádí test sama, aplikaci můžeš zavřít. Pokud něco překáží, stiskni STOP – zastaví sekvenci i sledování.",
+            "flippedAt": "NINA provedla flip {minutes} min po poledníku.",
+            "noFlip": "NINA neprovedla flip včas. Sekvence a sledování byly zastaveny.",
+            "noFlipAdvice": "Zkontroluj nastavení flipu a log NINA. Pokud je zapnuté „Použít stranu mola“, montáž možná hlásí stranu chybně – zkus to s vypnutou volbou.",
+            "startFailed": "Testovací sekvenci se nepodařilo spustit: {error}",
+            "ninaError": "NINA nahlásila při flipu chybu, v kroku: {step}.",
+            "ninaErrorRecenterCaps": "S krytkami je to očekávané – nové vycentrování potřebuje hvězdy. V noci ověř, že plate solving funguje.",
+            "ninaOk": "NINA dokončila flip bez chyby.",
+            "steps": {
+              "recenter": "nové vycentrování (plate solve)",
+              "autofocus": "autofokus po flipu",
+              "settle": "ustálení",
+              "slew": "pohyb flipu",
+              "unknown": "neznámý krok"
+            }
+          }
         },
         "reverse_primary_axis": "Obrátit primární osu",
         "reverse_secondary_axis": "Obrátit sekundární osu"

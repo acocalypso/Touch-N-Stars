@@ -1495,7 +1495,117 @@
           "Recenter": "Recentrar",
           "UseSideOfPier": "Usar lado del meridiano",
           "AutoFocusAfterFlip": "Autofoco después del cambio",
-          "RotateImageAfterFlip": "Rotar imagen después del cambio"
+          "RotateImageAfterFlip": "Rotar imagen después del cambio",
+          "intro": "Cuando el telescopio sigue un objeto a través del meridiano (la línea norte-sur que pasa por el cénit), pronto chocaría con el trípode o la columna. Por eso la montura gira una vez al otro lado y la captura continúa. Estos ajustes deciden cuándo ocurre.",
+          "advanced": "Avanzado",
+          "presets": {
+            "question": "¿Cuánto puede seguir tu montura después del meridiano?",
+            "barely": {
+              "title": "Casi nada",
+              "description": "El telescopio se acerca al trípode o la columna en el meridiano. La captura se detiene 2 minutos antes y el giro ocurre en el meridiano."
+            },
+            "few": {
+              "title": "Unos minutos (la mayoría de monturas)",
+              "description": "Gira entre 5 y 15 minutos después del meridiano, justo al terminar una exposición – sin esperas."
+            },
+            "lots": {
+              "title": "Mucho (15 minutos o más)",
+              "description": "Gira entre 10 y 30 minutos después del meridiano. Da tiempo a terminar a las exposiciones largas."
+            },
+            "custom": {
+              "title": "Valores propios",
+              "description": "Ajusta tú mismo los minutos en Avanzado."
+            },
+            "sideOfPierNoMount": "Conecta la montura antes de elegir, para que la app compruebe si informa de su lado del pilar.",
+            "sideOfPierUnknown": "Tu montura no informa de su lado del pilar, así que «Usar lado del meridiano» queda desactivado. NINA decide entonces el giro por la hora.",
+            "applyFailed": "El ajuste predefinido no se pudo guardar por completo. Revisa los valores en Avanzado."
+          },
+          "timeline": {
+            "meridian": "Meridiano",
+            "imaging": "Captura",
+            "trackingOff": "Seguimiento apagado",
+            "flip": "Giro",
+            "pauseMinutes": "−{pause} min",
+            "atMinutes": "+{min} min",
+            "windowMinutes": "+{min}–{max} min",
+            "explainPause": "La captura se detiene {pause} min antes del meridiano y se apaga el seguimiento. El giro llega {min} min después del meridiano. Esto cuesta tiempo de captura – úsalo solo si el telescopio no puede pasar el meridiano.",
+            "explainFixed": "NINA toma exposiciones hasta que una superaría {min} min después del meridiano; entonces espera y gira justo en ese momento. Un momento límite más tardío evita la espera.",
+            "explainWindow": "A la primera exposición que termina entre {min} y {max} min después del meridiano le sigue directamente el giro – sin esperas."
+          },
+          "help": {
+            "MinutesAfterMeridian": "Momento más temprano después del meridiano en que puede empezar el giro.",
+            "MaxMinutesAfterMeridian": "Momento más tardío después del meridiano para el giro. No puede ser menor que el más temprano. Un margen mayor permite a NINA girar justo tras una exposición, sin esperar.",
+            "PauseTimeBeforeMeridian": "Solo para equipos que no pueden pasar el meridiano con seguridad: el seguimiento se detiene estos minutos antes. Si no, déjalo en 0.",
+            "SettleTime": "Espera tras el giro para que la montura se estabilice. ¿Estrellas movidas en el primer plate solve tras un giro? Aumenta este valor.",
+            "Recenter": "Tras el giro, NINA hace un plate solve y vuelve a centrar el objeto. Muy recomendado; necesita un plate solver que funcione.",
+            "UseSideOfPier": "Usa el lado del pilar que informa la montura para decidir si hace falta un giro. Más fiable, pero solo si la montura lo informa correctamente.",
+            "AutoFocusAfterFlip": "Ejecuta un autoenfoque tras el giro. Útil en Newton y SCT cuyo espejo se desplaza al girar el tubo.",
+            "RotateImageAfterFlip": "Gira la vista previa 180° tras el giro. Solo visualización – las imágenes guardadas no cambian."
+          },
+          "dayTest": {
+            "title": "Probar el giro de día",
+            "teaser": "Deja que NINA haga un giro de meridiano real durante el día, con tus ajustes: ¿pasa el telescopio el trípode o la columna en la posición tras el meridiano, llegan los cables?",
+            "open": "Iniciar prueba",
+            "intro": "NINA lleva el telescopio a un punto justo al este del meridiano y sigue más allá. Luego NINA gira exactamente como de noche – con tus ajustes de giro y a la hora real.",
+            "blockers": {
+              "notConnected": "La montura no está conectada.",
+              "parked": "La montura está aparcada. Desapárcala primero.",
+              "cannotSlew": "La montura no puede ir a coordenadas.",
+              "noLocation": "La montura no tiene ubicación. Define primero tu ubicación.",
+              "sequenceRunning": "Hay una secuencia en marcha en NINA. Detenla primero."
+            },
+            "caps": {
+              "label": "Las tapas están puestas en el telescopio, el buscador y el telescopio guía",
+              "reason": "De día, el telescopio puede pasar por delante del sol al moverse. Unos segundos de sol pueden destruir la cámara o, a través del buscador, dañar los ojos. Esta prueba no necesita luz.",
+              "whyTitle": "¿Por qué no basta la distancia al sol?",
+              "whyText": "Sin alinearse con estrellas, la montura no sabe exactamente adónde apunta de día. Al moverse, el telescopio describe un arco por el cielo, y el giro pasa por el meridiano, donde está el sol a mediodía. La app se mantiene lejos del sol, pero las tapas te protegen aunque el cálculo falle."
+            },
+            "presence": {
+              "label": "Estoy junto a la montura vigilando el telescopio y los cables",
+              "reason": "Pulsa STOP enseguida si algo estorba."
+            },
+            "stop": "STOP",
+            "askQuestion": "¿El telescopio giró al otro lado sin tocar nada y sin tensar ningún cable?",
+            "yes": "Sí",
+            "no": "No",
+            "resultOk": "El movimiento de giro funciona.",
+            "resultProblem": "El movimiento de giro necesita atención.",
+            "problemAdvice": "Revisa el recorrido de los cables para que lleguen en ambos lados. Si el telescopio tocó el trípode o la columna, elige «Casi nada» arriba o revisa el límite de meridiano de tu montura.",
+            "pierChanged": "Lado del pilar: {before} → {after}",
+            "notTested": "No se comprueba el guiado tras el giro. Los detalles están en el registro de NINA.",
+            "stopped": "Prueba detenida. Secuencia y seguimiento están apagados, la montura se queda donde está.",
+            "sideEast": "Este",
+            "sideWest": "Oeste",
+            "exposure": "Duración de tus exposiciones (s)",
+            "exposureHelp": "NINA gira tras la primera exposición que termina dentro de la ventana de giro. Con tu duración habitual, la prueba gira en la misma posición que de noche.",
+            "plan": "La prueba dura unos {minutes} min. De ellos, la montura sigue hasta {flip} min más allá del meridiano – esa es la posición que se prueba, igual que de noche.",
+            "sequenceNotice": "Se carga una secuencia de prueba en NINA. Sustituye a la secuencia cargada ahora – guárdala antes si quieres conservarla.",
+            "start": "Cargar secuencia de prueba e iniciar",
+            "confirmTitle": "¿Cargar secuencia de prueba?",
+            "confirmMessage": "La secuencia cargada en NINA se sustituye por la prueba de giro y el telescopio empieza a moverse.",
+            "noPoint": "Ahora mismo ninguna zona del cielo cerca del meridiano está lo bastante alta y lejos del sol. Inténtalo más tarde.",
+            "slewingToStart": "Yendo al punto de inicio …",
+            "waitingForMeridian": "Siguiendo hacia el meridiano …",
+            "pastMeridian": "El telescopio está {minutes} min más allá del meridiano.",
+            "flipping": "NINA está girando …",
+            "countdownWindow": "Giro en {earliest} a {latest} min",
+            "countdownLatest": "Giro como muy tarde en {latest} min",
+            "runningHint": "NINA ejecuta la prueba por sí mismo, puedes cerrar la app. Pulsa STOP si algo estorba – detiene la secuencia y el seguimiento.",
+            "flippedAt": "NINA giró {minutes} min después del meridiano.",
+            "noFlip": "NINA no giró a tiempo. Se detuvieron la secuencia y el seguimiento.",
+            "noFlipAdvice": "Revisa los ajustes de giro y el registro de NINA. Si «Usar lado del meridiano» está activado, quizá tu montura informe mal su lado – prueba con él desactivado.",
+            "startFailed": "No se pudo iniciar la secuencia de prueba: {error}",
+            "ninaError": "NINA informó de un error durante el giro, en el paso: {step}.",
+            "ninaErrorRecenterCaps": "Con las tapas puestas es lo esperado – recentrar necesita estrellas. Comprueba de noche que el plate solving funciona.",
+            "ninaOk": "NINA completó el giro sin errores.",
+            "steps": {
+              "recenter": "recentrado (plate solve)",
+              "autofocus": "autoenfoque tras el giro",
+              "settle": "estabilización",
+              "slew": "movimiento del giro",
+              "unknown": "paso desconocido"
+            }
+          }
         },
         "reverse_primary_axis": "Invertir eje primario",
         "reverse_secondary_axis": "Invertir eje secundario"

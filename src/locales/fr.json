@@ -1495,7 +1495,117 @@
           "Recenter": "recentrer",
           "UseSideOfPier": "Utiliser le côté du pilier",
           "AutoFocusAfterFlip": "Mise au point automatique après retournement",
-          "RotateImageAfterFlip": "Faire pivoter l'image après le retournement"
+          "RotateImageAfterFlip": "Faire pivoter l'image après le retournement",
+          "intro": "Quand le télescope suit un objet au-delà du méridien (la ligne nord-sud passant par le zénith), il finirait par toucher le trépied ou la colonne. La monture passe donc une fois de l'autre côté, puis la prise de vue continue. Ces réglages décident quand cela se produit.",
+          "advanced": "Avancé",
+          "presets": {
+            "question": "Combien de temps ta monture peut-elle suivre après le méridien ?",
+            "barely": {
+              "title": "À peine",
+              "description": "Le télescope s'approche du trépied ou de la colonne au méridien. La prise de vue s'arrête 2 minutes avant, le retournement a lieu au méridien."
+            },
+            "few": {
+              "title": "Quelques minutes (la plupart des montures)",
+              "description": "Retournement entre 5 et 15 minutes après le méridien, juste après la fin d'une pose – sans attente."
+            },
+            "lots": {
+              "title": "Beaucoup (15 minutes ou plus)",
+              "description": "Retournement entre 10 et 30 minutes après le méridien. Laisse aux poses longues le temps de se terminer."
+            },
+            "custom": {
+              "title": "Valeurs personnalisées",
+              "description": "Règle toi-même les minutes sous « Avancé »."
+            },
+            "sideOfPierNoMount": "Connecte la monture avant de choisir, pour que l'application vérifie si elle indique son côté du pilier.",
+            "sideOfPierUnknown": "Ta monture n'indique pas son côté du pilier, « Utiliser le côté du pilier » reste donc désactivé. NINA décide alors du retournement selon l'heure.",
+            "applyFailed": "Le préréglage n'a pas pu être entièrement enregistré. Vérifie les valeurs sous « Avancé »."
+          },
+          "timeline": {
+            "meridian": "Méridien",
+            "imaging": "Prise de vue",
+            "trackingOff": "Suivi arrêté",
+            "flip": "Retournement",
+            "pauseMinutes": "−{pause} min",
+            "atMinutes": "+{min} min",
+            "windowMinutes": "+{min}–{max} min",
+            "explainPause": "La prise de vue s'arrête {pause} min avant le méridien et le suivi est coupé. Le retournement suit {min} min après le méridien. Cela coûte du temps de pose – à n'utiliser que si le télescope ne peut pas passer le méridien.",
+            "explainFixed": "NINA enchaîne les poses jusqu'à ce qu'une dépasse {min} min après le méridien, puis attend et retourne exactement à ce moment. Un moment limite plus tardif évite l'attente.",
+            "explainWindow": "La première pose qui se termine entre {min} et {max} min après le méridien est directement suivie du retournement – sans attente."
+          },
+          "help": {
+            "MinutesAfterMeridian": "Moment le plus tôt après le méridien où le retournement peut commencer.",
+            "MaxMinutesAfterMeridian": "Moment le plus tard après le méridien pour le retournement. Il ne peut pas être inférieur au plus tôt. Un écart plus grand permet à NINA de retourner juste après une pose, sans attendre.",
+            "PauseTimeBeforeMeridian": "Uniquement pour un équipement qui ne peut pas passer le méridien en sécurité : le suivi s'arrête autant de minutes avant. Sinon, laisser à 0.",
+            "SettleTime": "Attend après le retournement pour que la monture se stabilise. Étoiles filées lors du premier plate solve après un retournement ? Augmente cette valeur.",
+            "Recenter": "Après le retournement, NINA fait un plate solve et recentre l'objet. Fortement recommandé ; nécessite un plate solver fonctionnel.",
+            "UseSideOfPier": "Utilise le côté du pilier indiqué par la monture pour décider si un retournement est nécessaire. Plus fiable, mais seulement si la monture l'indique correctement.",
+            "AutoFocusAfterFlip": "Lance un autofocus après le retournement. Utile pour les Newton et SCT dont le miroir bouge quand le tube tourne.",
+            "RotateImageAfterFlip": "Tourne l'aperçu de 180° après le retournement. Affichage seulement – les images enregistrées restent inchangées."
+          },
+          "dayTest": {
+            "title": "Tester le retournement de jour",
+            "teaser": "Laisse NINA faire un vrai retournement méridien en journée, avec tes réglages : le télescope passe-t-il le trépied ou la colonne dans la position après le méridien, les câbles sont-ils assez longs ?",
+            "open": "Démarrer le test",
+            "intro": "NINA amène le télescope juste à l'est du méridien et continue le suivi au-delà. Puis NINA retourne exactement comme la nuit – avec tes réglages de retournement et à l'heure réelle.",
+            "blockers": {
+              "notConnected": "La monture n'est pas connectée.",
+              "parked": "La monture est parquée. Déparque-la d'abord.",
+              "cannotSlew": "La monture ne peut pas pointer des coordonnées.",
+              "noLocation": "La monture n'a pas de lieu. Définis d'abord ton lieu.",
+              "sequenceRunning": "Une séquence est en cours dans NINA. Arrête-la d'abord."
+            },
+            "caps": {
+              "label": "Les bouchons sont sur le télescope, le chercheur et la lunette de guidage",
+              "reason": "De jour, le télescope peut passer devant le soleil pendant un pointage. Quelques secondes de soleil peuvent détruire la caméra ou, par le chercheur, abîmer les yeux. Ce test n'a pas besoin de lumière.",
+              "whyTitle": "Pourquoi la distance au soleil ne suffit-elle pas ?",
+              "whyText": "Sans alignement sur les étoiles, la monture ne sait pas exactement où elle pointe de jour. Pendant un pointage, le télescope décrit un arc dans le ciel, et le retournement passe par le méridien, où se trouve le soleil à midi. L'application garde ses distances avec le soleil, mais les bouchons te protègent même si le calcul est faux."
+            },
+            "presence": {
+              "label": "Je suis à côté de la monture et surveille le télescope et les câbles",
+              "reason": "Appuie immédiatement sur STOP si quelque chose gêne."
+            },
+            "stop": "STOP",
+            "askQuestion": "Le télescope est-il passé de l'autre côté sans rien toucher et sans tendre de câble ?",
+            "yes": "Oui",
+            "no": "Non",
+            "resultOk": "Le mouvement de retournement fonctionne.",
+            "resultProblem": "Le mouvement de retournement demande de l'attention.",
+            "problemAdvice": "Vérifie le passage des câbles pour qu'ils suffisent des deux côtés. Si le télescope a touché le trépied ou la colonne, choisis « À peine » ci-dessus ou vérifie la limite méridienne de ta monture.",
+            "pierChanged": "Côté du pilier : {before} → {after}",
+            "notTested": "Le guidage après le retournement n'est pas vérifié. Les détails sont dans le journal de NINA.",
+            "stopped": "Test arrêté. Séquence et suivi sont coupés, la monture reste où elle est.",
+            "sideEast": "Est",
+            "sideWest": "Ouest",
+            "exposure": "Durée de tes poses (s)",
+            "exposureHelp": "NINA retourne après la première pose qui se termine dans la fenêtre de retournement. Avec ta durée de pose habituelle, le test retourne dans la même position que la nuit.",
+            "plan": "Le test dure environ {minutes} min. La monture suit jusqu'à {flip} min au-delà du méridien – c'est la position testée, comme la nuit.",
+            "sequenceNotice": "Une séquence de test est chargée dans NINA. Elle remplace la séquence actuellement chargée – enregistre-la avant si tu veux la garder.",
+            "start": "Charger la séquence de test et démarrer",
+            "confirmTitle": "Charger la séquence de test ?",
+            "confirmMessage": "La séquence chargée dans NINA est remplacée par le test de retournement et le télescope se met en mouvement.",
+            "noPoint": "Pour l'instant, aucune zone du ciel près du méridien n'est à la fois assez haute et assez loin du soleil. Réessaie plus tard.",
+            "slewingToStart": "Pointage vers le point de départ …",
+            "waitingForMeridian": "Suivi vers le méridien …",
+            "pastMeridian": "Le télescope est {minutes} min au-delà du méridien.",
+            "flipping": "NINA effectue le retournement …",
+            "countdownWindow": "Retournement dans {earliest} à {latest} min",
+            "countdownLatest": "Retournement au plus tard dans {latest} min",
+            "runningHint": "NINA exécute le test seul, l'application peut être fermée. Appuie sur STOP si quelque chose gêne – cela arrête la séquence et le suivi.",
+            "flippedAt": "NINA a retourné {minutes} min après le méridien.",
+            "noFlip": "NINA n'a pas retourné à temps. La séquence et le suivi ont été arrêtés.",
+            "noFlipAdvice": "Vérifie les réglages de retournement et le journal de NINA. Si « Utiliser le côté du pilier » est activé, ta monture indique peut-être mal son côté – réessaie en le désactivant.",
+            "startFailed": "La séquence de test n'a pas pu démarrer : {error}",
+            "ninaError": "NINA a signalé une erreur pendant le retournement, à l'étape : {step}.",
+            "ninaErrorRecenterCaps": "Avec les bouchons, c'est normal – le recentrage a besoin d'étoiles. Vérifie la nuit que le plate solving fonctionne.",
+            "ninaOk": "NINA a terminé le retournement sans erreur.",
+            "steps": {
+              "recenter": "recentrage (plate solve)",
+              "autofocus": "autofocus après le retournement",
+              "settle": "stabilisation",
+              "slew": "pointage du retournement",
+              "unknown": "étape inconnue"
+            }
+          }
         },
         "reverse_primary_axis": "Inverser l'axe primaire",
         "reverse_secondary_axis": "Inverser l'axe secondaire"

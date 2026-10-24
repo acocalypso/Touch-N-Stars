@@ -1495,7 +1495,117 @@
           "Recenter": "Recentrador",
           "UseSideOfPier": "Usar lado do pilar",
           "AutoFocusAfterFlip": "Foco automático após virar",
-          "RotateImageAfterFlip": "Girar imagem após a inversão"
+          "RotateImageAfterFlip": "Girar imagem após a inversão",
+          "intro": "Quando o telescópio segue um objeto através do meridiano (a linha norte-sul que passa pelo zénite), em breve bateria no tripé ou na coluna. Por isso a montagem vira uma vez para o outro lado e a captura continua. Estas definições decidem quando isso acontece.",
+          "advanced": "Avançado",
+          "presets": {
+            "question": "Quanto tempo a tua montagem consegue seguir depois do meridiano?",
+            "barely": {
+              "title": "Quase nada",
+              "description": "O telescópio aproxima-se do tripé ou da coluna no meridiano. A captura para 2 minutos antes e o flip acontece no meridiano."
+            },
+            "few": {
+              "title": "Alguns minutos (a maioria das montagens)",
+              "description": "Flip entre 5 e 15 minutos depois do meridiano, logo após o fim de uma exposição – sem espera."
+            },
+            "lots": {
+              "title": "Muito (15 minutos ou mais)",
+              "description": "Flip entre 10 e 30 minutos depois do meridiano. Dá tempo às exposições longas para terminar."
+            },
+            "custom": {
+              "title": "Valores próprios",
+              "description": "Define tu os minutos em Avançado."
+            },
+            "sideOfPierNoMount": "Liga a montagem antes de escolher, para a app verificar se ela indica o seu lado do pilar.",
+            "sideOfPierUnknown": "A tua montagem não indica o lado do pilar, por isso «Usar lado do pilar» fica desligado. O NINA decide então o flip pela hora.",
+            "applyFailed": "A predefinição não foi guardada por completo. Verifica os valores em Avançado."
+          },
+          "timeline": {
+            "meridian": "Meridiano",
+            "imaging": "Captura",
+            "trackingOff": "Seguimento desligado",
+            "flip": "Flip",
+            "pauseMinutes": "−{pause} min",
+            "atMinutes": "+{min} min",
+            "windowMinutes": "+{min}–{max} min",
+            "explainPause": "A captura para {pause} min antes do meridiano e o seguimento é desligado. O flip segue {min} min depois do meridiano. Isto custa tempo de captura – usa só se o telescópio não conseguir passar o meridiano.",
+            "explainFixed": "O NINA faz exposições até que uma ultrapassaria {min} min depois do meridiano; depois espera e faz o flip exatamente nesse momento. Um limite mais tardio evita a espera.",
+            "explainWindow": "A primeira exposição que termina entre {min} e {max} min depois do meridiano é seguida diretamente pelo flip – sem espera."
+          },
+          "help": {
+            "MinutesAfterMeridian": "Momento mais cedo depois do meridiano em que o flip pode começar.",
+            "MaxMinutesAfterMeridian": "Momento mais tarde depois do meridiano para o flip. Não pode ser inferior ao mais cedo. Uma margem maior permite ao NINA fazer o flip logo após uma exposição, sem esperar.",
+            "PauseTimeBeforeMeridian": "Só para equipamento que não consegue passar o meridiano em segurança: o seguimento para estes minutos antes. Caso contrário, deixa 0.",
+            "SettleTime": "Espera após o flip para a montagem estabilizar. Estrelas arrastadas no primeiro plate solve após um flip? Aumenta este valor.",
+            "Recenter": "Após o flip, o NINA faz um plate solve e volta a centrar o objeto. Muito recomendado; precisa de um plate solver funcional.",
+            "UseSideOfPier": "Usa o lado do pilar indicado pela montagem para decidir se é preciso um flip. Mais fiável, mas só se a montagem o indicar corretamente.",
+            "AutoFocusAfterFlip": "Executa um autofoco após o flip. Útil em Newton e SCT cujo espelho se desloca quando o tubo roda.",
+            "RotateImageAfterFlip": "Roda a pré-visualização 180° após o flip. Só visualização – as imagens guardadas não mudam."
+          },
+          "dayTest": {
+            "title": "Testar o flip de dia",
+            "teaser": "Deixa o NINA fazer um meridian flip real durante o dia, com as tuas definições: o telescópio passa o tripé ou a coluna na posição depois do meridiano, os cabos chegam?",
+            "open": "Iniciar teste",
+            "intro": "O NINA leva o telescópio a um ponto logo a leste do meridiano e continua a seguir para além dele. Depois faz o flip exatamente como à noite – com as tuas definições e à hora real.",
+            "blockers": {
+              "notConnected": "A montagem não está ligada.",
+              "parked": "A montagem está estacionada. Desestaciona-a primeiro.",
+              "cannotSlew": "A montagem não consegue apontar para coordenadas.",
+              "noLocation": "A montagem não tem localização. Define primeiro a tua localização.",
+              "sequenceRunning": "Está a correr uma sequência no NINA. Para-a primeiro."
+            },
+            "caps": {
+              "label": "As tampas estão no telescópio, no buscador e no telescópio de guiagem",
+              "reason": "De dia, o telescópio pode passar pelo sol ao mover-se. Poucos segundos de sol podem destruir a câmara ou, através do buscador, danificar os olhos. Este teste não precisa de luz.",
+              "whyTitle": "Porque não basta a distância ao sol?",
+              "whyText": "Sem alinhamento nas estrelas, a montagem não sabe exatamente para onde aponta durante o dia. Ao mover-se, o telescópio descreve um arco no céu, e o flip passa pelo meridiano, onde o sol está ao meio-dia. A app mantém distância do sol, mas as tampas protegem-te mesmo que o cálculo falhe."
+            },
+            "presence": {
+              "label": "Estou junto à montagem a vigiar o telescópio e os cabos",
+              "reason": "Carrega logo em STOP se algo atrapalhar."
+            },
+            "stop": "STOP",
+            "askQuestion": "O telescópio virou para o outro lado sem tocar em nada e sem esticar nenhum cabo?",
+            "yes": "Sim",
+            "no": "Não",
+            "resultOk": "O movimento do flip funciona.",
+            "resultProblem": "O movimento do flip precisa de atenção.",
+            "problemAdvice": "Verifica o percurso dos cabos para que cheguem nos dois lados. Se o telescópio tocou no tripé ou na coluna, escolhe «Quase nada» acima ou verifica o limite de meridiano da tua montagem.",
+            "pierChanged": "Lado do pilar: {before} → {after}",
+            "notTested": "A guiagem após o flip não é verificada. Os detalhes estão no registo do NINA.",
+            "stopped": "Teste parado. Sequência e seguimento estão desligados, a montagem fica onde está.",
+            "sideEast": "Este",
+            "sideWest": "Oeste",
+            "exposure": "Duração das tuas exposições (s)",
+            "exposureHelp": "O NINA faz o flip após a primeira exposição que termina dentro da janela de flip. Com a tua duração habitual, o teste faz o flip na mesma posição que à noite.",
+            "plan": "O teste demora cerca de {minutes} min. A montagem segue até {flip} min para além do meridiano – é essa a posição testada, tal como à noite.",
+            "sequenceNotice": "É carregada uma sequência de teste no NINA. Substitui a sequência carregada agora – guarda-a antes se a quiseres manter.",
+            "start": "Carregar sequência de teste e iniciar",
+            "confirmTitle": "Carregar sequência de teste?",
+            "confirmMessage": "A sequência carregada no NINA é substituída pelo teste de flip e o telescópio começa a mover-se.",
+            "noPoint": "Neste momento nenhuma zona do céu perto do meridiano está suficientemente alta e longe do sol. Tenta mais tarde.",
+            "slewingToStart": "A ir para o ponto de partida …",
+            "waitingForMeridian": "A seguir em direção ao meridiano …",
+            "pastMeridian": "O telescópio está {minutes} min para além do meridiano.",
+            "flipping": "O NINA está a fazer o flip …",
+            "countdownWindow": "Flip em {earliest} a {latest} min",
+            "countdownLatest": "Flip o mais tardar em {latest} min",
+            "runningHint": "O NINA executa o teste sozinho, podes fechar a app. Carrega em STOP se algo atrapalhar – para a sequência e o seguimento.",
+            "flippedAt": "O NINA fez o flip {minutes} min depois do meridiano.",
+            "noFlip": "O NINA não fez o flip a tempo. A sequência e o seguimento foram parados.",
+            "noFlipAdvice": "Verifica as definições de flip e o registo do NINA. Se «Usar lado do pilar» estiver ligado, a tua montagem pode indicar mal o lado – tenta com ele desligado.",
+            "startFailed": "Não foi possível iniciar a sequência de teste: {error}",
+            "ninaError": "O NINA indicou um erro durante o flip, no passo: {step}.",
+            "ninaErrorRecenterCaps": "Com as tampas é o esperado – recentrar precisa de estrelas. À noite verifica se o plate solving funciona.",
+            "ninaOk": "O NINA concluiu o flip sem erros.",
+            "steps": {
+              "recenter": "recentragem (plate solve)",
+              "autofocus": "autofoco após o flip",
+              "settle": "estabilização",
+              "slew": "movimento do flip",
+              "unknown": "passo desconhecido"
+            }
+          }
         },
         "reverse_primary_axis": "Inverter eixo primário",
         "reverse_secondary_axis": "Inverter eixo secundário"

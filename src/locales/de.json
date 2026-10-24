@@ -1536,7 +1536,117 @@
           "Recenter": "Neu zentrieren",
           "UseSideOfPier": "Benutze \"side of pier\"",
           "AutoFocusAfterFlip": "Autofokus nach dem Flip",
-          "RotateImageAfterFlip": "Bild nach dem Flip drehen"
+          "RotateImageAfterFlip": "Bild nach dem Flip drehen",
+          "intro": "Folgt das Teleskop einem Objekt über den Meridian (die Nord-Süd-Linie durch den Zenit), würde es bald an Stativ oder Säule stoßen. Die Montierung dreht deshalb einmal auf die andere Seite, danach geht die Aufnahme weiter. Diese Einstellungen legen fest, wann das passiert.",
+          "advanced": "Erweitert",
+          "presets": {
+            "question": "Wie weit kann deine Montierung nach dem Meridian noch nachführen?",
+            "barely": {
+              "title": "Kaum",
+              "description": "Das Teleskop kommt am Meridian nah an Stativ oder Säule. Die Aufnahme stoppt 2 Minuten davor, der Flip erfolgt am Meridian."
+            },
+            "few": {
+              "title": "Ein paar Minuten (die meisten Montierungen)",
+              "description": "Flip zwischen 5 und 15 Minuten nach dem Meridian, direkt nach dem Ende einer Belichtung – ohne Wartezeit."
+            },
+            "lots": {
+              "title": "Viel (15 Minuten oder mehr)",
+              "description": "Flip zwischen 10 und 30 Minuten nach dem Meridian. Lässt langen Belichtungen Zeit, fertig zu werden."
+            },
+            "custom": {
+              "title": "Eigene Werte",
+              "description": "Stell die Minuten selbst unter „Erweitert“ ein."
+            },
+            "sideOfPierNoMount": "Verbinde vor der Auswahl die Montierung, damit die App prüfen kann, ob sie ihre Pierseite meldet.",
+            "sideOfPierUnknown": "Deine Montierung meldet ihre Pierseite nicht, daher bleibt „Benutze side of pier“ aus. NINA entscheidet den Flip dann nach der Uhrzeit.",
+            "applyFailed": "Die Voreinstellung konnte nicht vollständig gespeichert werden. Prüfe die Werte unter „Erweitert“."
+          },
+          "timeline": {
+            "meridian": "Meridian",
+            "imaging": "Aufnahme",
+            "trackingOff": "Nachführung aus",
+            "flip": "Flip",
+            "pauseMinutes": "−{pause} min",
+            "atMinutes": "+{min} min",
+            "windowMinutes": "+{min}–{max} min",
+            "explainPause": "Die Aufnahme stoppt {pause} min vor dem Meridian, die Nachführung wird ausgeschaltet. Der Flip folgt {min} min nach dem Meridian. Das kostet Aufnahmezeit – nur nutzen, wenn das Teleskop den Meridian nicht passieren kann.",
+            "explainFixed": "NINA nimmt Belichtungen auf, bis eine über {min} min nach dem Meridian hinauslaufen würde, wartet dann und flippt genau zu diesem Zeitpunkt. Ein späterer spätester Zeitpunkt spart die Wartezeit.",
+            "explainWindow": "Auf die erste Belichtung, die zwischen {min} und {max} min nach dem Meridian endet, folgt direkt der Flip – ohne Wartezeit."
+          },
+          "help": {
+            "MinutesAfterMeridian": "Frühester Zeitpunkt nach dem Meridian, zu dem der Flip beginnen darf.",
+            "MaxMinutesAfterMeridian": "Spätester Zeitpunkt nach dem Meridian für den Flip. Er kann nicht kleiner als der früheste sein. Ein größerer Abstand lässt NINA direkt nach einer Belichtung flippen, ohne zu warten.",
+            "PauseTimeBeforeMeridian": "Nur für Ausrüstung, die den Meridian nicht sicher passieren kann: Die Nachführung stoppt so viele Minuten davor. Sonst auf 0 lassen.",
+            "SettleTime": "Wartet nach dem Flip, damit sich die Montierung beruhigt. Verwischte Sterne beim ersten Plate Solve nach dem Flip? Wert erhöhen.",
+            "Recenter": "Nach dem Flip macht NINA einen Plate Solve und zentriert das Objekt neu. Dringend empfohlen; braucht einen funktionierenden Plate Solver.",
+            "UseSideOfPier": "Nutzt die von der Montierung gemeldete Pierseite, um zu entscheiden, ob ein Flip nötig ist. Zuverlässiger, aber nur, wenn die Montierung sie richtig meldet.",
+            "AutoFocusAfterFlip": "Startet nach dem Flip einen Autofokus. Sinnvoll bei Newtons und SCTs, deren Spiegel sich beim Drehen des Tubus verschiebt.",
+            "RotateImageAfterFlip": "Dreht die Vorschau nach dem Flip um 180°. Nur Anzeige – die gespeicherten Bilder bleiben unverändert."
+          },
+          "dayTest": {
+            "title": "Flip bei Tag testen",
+            "teaser": "Lass NINA tagsüber einen echten Meridian Flip mit deinen Einstellungen machen: Kommt das Teleskop in der Stellung nach dem Meridian an Stativ oder Säule vorbei, reichen die Kabel?",
+            "open": "Test starten",
+            "intro": "NINA fährt das Teleskop auf einen Punkt knapp östlich des Meridians und führt darüber hinaus nach. Dann flippt NINA genau wie in der Nacht – mit deinen Flip-Einstellungen und zur echten Zeit.",
+            "blockers": {
+              "notConnected": "Die Montierung ist nicht verbunden.",
+              "parked": "Die Montierung ist geparkt. Entparke sie zuerst.",
+              "cannotSlew": "Die Montierung kann keine Koordinaten anfahren.",
+              "noLocation": "Die Montierung hat keinen Standort. Lege zuerst deinen Standort fest.",
+              "sequenceRunning": "In NINA läuft eine Sequenz. Stoppe sie zuerst."
+            },
+            "caps": {
+              "label": "Deckel sind auf Teleskop, Sucher und Leitrohr",
+              "reason": "Bei Tag kann das Teleskop beim Schwenken an der Sonne vorbeifahren. Schon ein paar Sekunden Sonnenlicht können die Kamera zerstören oder durch den Sucher die Augen schädigen. Für diesen Test braucht es kein Licht.",
+              "whyTitle": "Warum reicht der Abstand zur Sonne nicht?",
+              "whyText": "Ohne Ausrichtung an Sternen weiß die Montierung bei Tag nicht genau, wohin sie zeigt. Beim Schwenken fährt das Teleskop einen Bogen über den Himmel, und der Flip schwingt über den Meridian, wo die Sonne mittags steht. Die App hält Abstand zur Sonne, aber der Deckel schützt auch dann, wenn die Rechnung danebenliegt."
+            },
+            "presence": {
+              "label": "Ich stehe bei der Montierung und beobachte Teleskop und Kabel",
+              "reason": "Drück sofort STOPP, wenn etwas im Weg ist."
+            },
+            "stop": "STOPP",
+            "askQuestion": "Hat das Teleskop auf die andere Seite gedreht, ohne anzustoßen und ohne dass ein Kabel gespannt hat?",
+            "yes": "Ja",
+            "no": "Nein",
+            "resultOk": "Die Flip-Bewegung funktioniert.",
+            "resultProblem": "Die Flip-Bewegung braucht Aufmerksamkeit.",
+            "problemAdvice": "Prüfe die Kabelführung, damit die Kabel auf beiden Seiten reichen. Hat das Teleskop Stativ oder Säule berührt, wähle oben „Kaum“ oder prüfe das Meridian-Limit deiner Montierung.",
+            "pierChanged": "Pierseite: {before} → {after}",
+            "notTested": "Das Guiding nach dem Flip wird nicht geprüft. Details stehen im NINA-Log.",
+            "stopped": "Test gestoppt. Sequenz und Nachführung sind aus, die Montierung bleibt, wo sie ist.",
+            "sideEast": "Ost",
+            "sideWest": "West",
+            "exposure": "Länge deiner Belichtungen (s)",
+            "exposureHelp": "NINA flippt nach der ersten Belichtung, die im Flip-Fenster endet. Mit deiner üblichen Belichtungslänge flippt der Test in derselben Stellung wie in der Nacht.",
+            "plan": "Der Test dauert etwa {minutes} min. Davon führt die Montierung bis zu {flip} min über den Meridian hinaus nach – das ist die Stellung, die getestet wird, genau wie in der Nacht.",
+            "sequenceNotice": "Eine Test-Sequenz wird in NINA geladen. Sie ersetzt die aktuell geladene Sequenz – speichere sie vorher, wenn du sie behalten willst.",
+            "start": "Test-Sequenz laden und starten",
+            "confirmTitle": "Test-Sequenz laden?",
+            "confirmMessage": "Die in NINA geladene Sequenz wird durch den Flip-Test ersetzt, und das Teleskop setzt sich in Bewegung.",
+            "noPoint": "Gerade ist kein Bereich des Himmels nahe dem Meridian hoch genug und weit genug von der Sonne entfernt. Versuch es später noch einmal.",
+            "slewingToStart": "Fährt zum Startpunkt …",
+            "waitingForMeridian": "Führt zum Meridian nach …",
+            "pastMeridian": "Das Teleskop steht {minutes} min hinter dem Meridian.",
+            "flipping": "NINA flippt …",
+            "countdownWindow": "Flip in {earliest} bis {latest} min",
+            "countdownLatest": "Flip spätestens in {latest} min",
+            "runningHint": "NINA führt den Test selbst aus, die App darf geschlossen werden. Drück STOPP, wenn etwas im Weg ist – das stoppt Sequenz und Nachführung.",
+            "flippedAt": "NINA hat {minutes} min nach dem Meridian geflippt.",
+            "noFlip": "NINA hat nicht rechtzeitig geflippt. Sequenz und Nachführung wurden gestoppt.",
+            "noFlipAdvice": "Prüfe die Flip-Einstellungen und das NINA-Log. Ist „Benutze side of pier“ an, meldet deine Montierung die Pierseite vielleicht falsch – versuch es ausgeschaltet.",
+            "startFailed": "Die Test-Sequenz konnte nicht gestartet werden: {error}",
+            "ninaError": "NINA hat beim Flip einen Fehler gemeldet, im Schritt: {step}.",
+            "ninaErrorRecenterCaps": "Mit Deckel ist das zu erwarten – zum Neu-Zentrieren braucht es Sterne. Prüfe in der Nacht, ob Plate Solving funktioniert.",
+            "ninaOk": "NINA hat den Flip ohne Fehler abgeschlossen.",
+            "steps": {
+              "recenter": "Neu-Zentrieren (Plate Solve)",
+              "autofocus": "Autofokus nach dem Flip",
+              "settle": "Beruhigen",
+              "slew": "Flip-Schwenk",
+              "unknown": "unbekannter Schritt"
+            }
+          }
         },
         "reverse_primary_axis": "Primärachse umkehren",
         "reverse_secondary_axis": "Sekundärachse umkehren"

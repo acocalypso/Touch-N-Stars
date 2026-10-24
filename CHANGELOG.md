@@ -5,6 +5,17 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## Unreleased
+
+### Added
+
+- Settings (Meridian Flip): One question about how far the mount can track past the meridian replaces the three minute values, and a timeline shows when the flip happens.
+- Settings (Meridian Flip): A daylight test lets NINA do a real meridian flip with your settings and reports whether NINA hit an error during the flip.
+
+### Fixed
+
+- Settings: Switches show changes made by a preset or another client without reopening the page.
+
 ## [App6.5.0 - beta 15] - 2026-10-23
 
 ### Fixed

@@ -7164,7 +7164,7 @@
       },
       "messages": {
         "noSessionsDeleted": "삭제된 세션이 없습니다.",
-        "deletedSessions": "세션 {count}개{suffix} 삭제됨, {freed} 확보, 남은 플러그인 사용량 {remaining}.",
+        "deletedSessions": "삭제한 세션: {count}. {freed} 확보, 남은 플러그인 사용량: {remaining}.",
         "deletedArtifact": "산출물을 삭제하고 {freed}를 확보했습니다.",
         "deletedFrame": "프레임을 삭제하고 {freed}를 확보했습니다.",
         "backendUpdateStarted": "백엔드 업데이트를 시작했습니다. 설치가 완료되면 PINS가 재시작됩니다."

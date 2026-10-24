@@ -6841,7 +6841,7 @@
       "dependencies": {
         "rpiCamStill": "rpicam-still",
         "ffmpeg": "ffmpeg",
-        "keogram": "AllSky keogram",
+        "keogram": "AllSky 经度图",
         "startrails": "AllSky 星轨"
       },
       "estimate": {
@@ -6906,10 +6906,10 @@
           "sharpness": "清晰度",
           "manualExposure": "手动曝光",
           "shutterMicroseconds": "快门（微秒）",
-          "manualExposureHelp": "When disabled, PINS AllSky uses the AllSky mean-based controller. If Target Mean is 0, rpicam-still exposure stays automatic instead.",
+          "manualExposureHelp": "关闭时，PINS AllSky 使用基于平均亮度的 AllSky 控制器。若目标平均值为 0，则 rpicam-still 的曝光保持自动。",
           "manualGain": "手动增益",
           "analogGain": "模拟增益",
-          "manualGainHelp": "When disabled, PINS AllSky uses the AllSky mean-based controller. If Target Mean is 0, rpicam-still gain stays automatic instead.",
+          "manualGainHelp": "关闭时，PINS AllSky 使用基于平均亮度的 AllSky 控制器。若目标平均值为 0，则 rpicam-still 的增益保持自动。",
           "horizontalFlip": "水平翻转",
           "mirrorOnXAxis": "X 轴上的镜像",
           "verticalFlip": "垂直翻转",
@@ -6950,22 +6950,22 @@
             "cdnFast": "CDN 快速",
             "cdnHq": "CDN 高质量"
           },
-          "allSkyAutoExposure": "AllSky auto exposure / gain",
-          "allSkyAutoExposureHelp": "Adapted from AllSky's mean-based controller. When manual exposure and/or manual gain are disabled, PINS AllSky measures the previous frame and calculates the next shutter and gain instead of relying on rpicam-still auto exposure alone.",
-          "autoMeanTarget": "Target Mean",
-          "autoMeanThreshold": "Mean Threshold",
-          "autoMaxExposureMicroseconds": "Auto Max Shutter (µs)",
-          "autoMaxGain": "Auto Max Gain",
+          "allSkyAutoExposure": "AllSky 自动曝光 / 增益",
+          "allSkyAutoExposureHelp": "改编自 AllSky 基于平均亮度的控制器。关闭手动曝光和/或手动增益时，PINS AllSky 会测量上一帧并计算下一帧的快门和增益，而不是只依赖 rpicam-still 的自动曝光。",
+          "autoMeanTarget": "目标平均值",
+          "autoMeanThreshold": "平均值容差",
+          "autoMaxExposureMicroseconds": "自动最大快门 (µs)",
+          "autoMaxGain": "自动最大增益",
           "autoMeanP0": "Aggression P0",
           "autoMeanP1": "Aggression P1",
           "autoMeanP2": "Aggression P2",
-          "autoMeanTargetTooltip": "Target normalized image mean used by the AllSky auto-exposure controller. Set to 0 to fall back to rpicam-still auto exposure.",
-          "autoMeanThresholdTooltip": "Allowed normalized distance from the target mean before the next frame's exposure level is changed.",
-          "autoMaxExposureTooltip": "Maximum shutter time the AllSky auto-exposure controller may use when manual exposure is disabled.",
-          "autoMaxGainTooltip": "Maximum analog gain the AllSky auto-exposure controller may use when manual gain is disabled.",
-          "autoMeanP0Tooltip": "AllSky controller tuning constant p0. Higher values react more aggressively to brightness changes.",
-          "autoMeanP1Tooltip": "AllSky controller tuning constant p1 used for linear response to mean error.",
-          "autoMeanP2Tooltip": "AllSky controller tuning constant p2 used for stronger quadratic response to large brightness errors."
+          "autoMeanTargetTooltip": "AllSky 自动曝光控制器追求的归一化图像平均值。设为 0 则改用 rpicam-still 自动曝光。",
+          "autoMeanThresholdTooltip": "在调整下一帧曝光之前，允许偏离目标平均值的归一化幅度。",
+          "autoMaxExposureTooltip": "关闭手动曝光时，AllSky 控制器可使用的最长快门时间。",
+          "autoMaxGainTooltip": "关闭手动增益时，AllSky 控制器可使用的最大模拟增益。",
+          "autoMeanP0Tooltip": "AllSky 控制器调节常数 p0。数值越高，对亮度变化的反应越强。",
+          "autoMeanP1Tooltip": "AllSky 控制器调节常数 p1，用于对平均值误差的线性响应。",
+          "autoMeanP2Tooltip": "AllSky 控制器调节常数 p2，用于对较大亮度误差的更强二次响应。"
         },
         "outputs": {
           "keepSourceFrames": "保留源帧",
@@ -7011,12 +7011,12 @@
           "extraKeogramArgumentsTooltip": "AllSky keogram 工具附加了额外的命令行参数。",
           "brightnessThresholdTooltip": "像素在对 startrails 合成做出贡献之前必须达到的最小标准化亮度。",
           "extraStartrailsArgumentsTooltip": "AllSky startrails 工具附加了额外的命令行参数。",
-          "overlayTimestamp": "Overlay Timestamp",
-          "stampTimestamp": "Stamp capture timestamp",
-          "overlayExposureGain": "Overlay Exposure + Gain",
-          "stampExposureGain": "Stamp exposure and gain",
-          "overlayTimestampTooltip": "Render the captured timestamp into each timelapse frame. This applies on the next timelapse render or when you regenerate an existing session.",
-          "overlayExposureGainTooltip": "Render the actual exposure and gain used for each captured frame into the timelapse. This applies on the next timelapse render or when you regenerate an existing session."
+          "overlayTimestamp": "叠加时间戳",
+          "stampTimestamp": "印上拍摄时间",
+          "overlayExposureGain": "叠加曝光 + 增益",
+          "stampExposureGain": "印上曝光和增益",
+          "overlayTimestampTooltip": "将拍摄时间写入延时视频的每一帧。在下次渲染延时视频或重新生成已有会话时生效。",
+          "overlayExposureGainTooltip": "将每帧实际使用的曝光和增益写入延时视频。在下次渲染延时视频或重新生成已有会话时生效。"
         }
       },
       "recentSessions": {
@@ -7053,7 +7053,7 @@
       },
       "messages": {
         "noSessionsDeleted": "没有会话被删除。",
-        "deletedSessions": "已删除 {count} 会话 {suffix}，释放 {freed}，剩余插件使用量 {remaining}。",
+        "deletedSessions": "已删除会话：{count}。释放了 {freed}，插件剩余占用：{remaining}。",
         "deletedArtifact": "已删除工件并释放 {freed}。",
         "deletedFrame": "已删除帧并释放 {freed}。",
         "backendUpdateStarted": "后台更新开始。安装完成后，PINS 将重新启动。"

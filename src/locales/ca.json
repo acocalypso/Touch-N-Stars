@@ -7255,7 +7255,7 @@
       },
       "messages": {
         "noSessionsDeleted": "No s'ha eliminat cap sessió.",
-        "deletedSessions": "S'han eliminat {count} sessió{suffix}, s'ha alliberat {freed}, ús restant del connector {remaining}.",
+        "deletedSessions": "Sessions eliminades: {count}. S'han alliberat {freed}; ús restant del connector: {remaining}.",
         "deletedArtifact": "Artefacte eliminat i s'ha alliberat {freed}.",
         "deletedFrame": "Fotograma eliminat i s'ha alliberat {freed}.",
         "backendUpdateStarted": "Actualització del backend iniciada. PINS es reiniciarà quan l'instal·lació hagi acabat."

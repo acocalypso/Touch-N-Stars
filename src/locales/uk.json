@@ -6654,7 +6654,7 @@
       }
     },
     "pinsAllSky": {
-      "title": "AllSky Capture",
+      "title": "Зйомка AllSky",
       "common": {
         "ok": "OK",
         "cancel": "Скасувати",
@@ -6750,8 +6750,8 @@
       "dependencies": {
         "rpiCamStill": "rpicam-still",
         "ffmpeg": "ffmpeg",
-        "keogram": "AllSky keogram",
-        "startrails": "AllSky startrails"
+        "keogram": "Кеограма AllSky",
+        "startrails": "Зоряні треки AllSky"
       },
       "estimate": {
         "sessionLabelTitle": "Мітка сесії для наступної ручної зйомки. За замовчуванням {label}.",
@@ -6962,7 +6962,7 @@
       },
       "messages": {
         "noSessionsDeleted": "Жодної сесії не видалено.",
-        "deletedSessions": "Видалено {count} сесій{suffix}, звільнено {freed}, залишок використання плагіна {remaining}.",
+        "deletedSessions": "Видалено сеансів: {count}. Звільнено {freed}, залишкове використання плагіна: {remaining}.",
         "deletedArtifact": "Артефакт видалено, звільнено {freed}.",
         "deletedFrame": "Кадр видалено, звільнено {freed}.",
         "backendUpdateStarted": "Оновлення серверу розпочато. PINS перезапуститься після завершення встановлення."

@@ -6842,7 +6842,7 @@
         "rpiCamStill": "rpicam-still",
         "ffmpeg": "ffmpeg",
         "keogram": "Kéogramme AllSky",
-        "startrails": "AllSky startrails"
+        "startrails": "Traînées d'étoiles AllSky"
       },
       "estimate": {
         "sessionLabelTitle": "Libellé de session pour la prochaine capture manuelle. La valeur par défaut est {label}.",
@@ -6906,10 +6906,10 @@
           "sharpness": "Netteté",
           "manualExposure": "Exposition manuelle",
           "shutterMicroseconds": "Obturateur (µs)",
-          "manualExposureHelp": "When disabled, PINS AllSky uses the AllSky mean-based controller. If Target Mean is 0, rpicam-still exposure stays automatic instead.",
+          "manualExposureHelp": "Désactivé, PINS AllSky utilise le régulateur AllSky basé sur la moyenne. Si la moyenne cible vaut 0, l'exposition de rpicam-still reste automatique.",
           "manualGain": "Gain manuel",
           "analogGain": "Gain analogique",
-          "manualGainHelp": "When disabled, PINS AllSky uses the AllSky mean-based controller. If Target Mean is 0, rpicam-still gain stays automatic instead.",
+          "manualGainHelp": "Désactivé, PINS AllSky utilise le régulateur AllSky basé sur la moyenne. Si la moyenne cible vaut 0, le gain de rpicam-still reste automatique.",
           "horizontalFlip": "Retournement horizontal",
           "mirrorOnXAxis": "Miroir sur l'axe X",
           "verticalFlip": "Retournement vertical",
@@ -6950,22 +6950,22 @@
             "cdnFast": "CDN Rapide",
             "cdnHq": "CDN de haute qualité"
           },
-          "allSkyAutoExposure": "AllSky auto exposure / gain",
-          "allSkyAutoExposureHelp": "Adapted from AllSky's mean-based controller. When manual exposure and/or manual gain are disabled, PINS AllSky measures the previous frame and calculates the next shutter and gain instead of relying on rpicam-still auto exposure alone.",
-          "autoMeanTarget": "Target Mean",
-          "autoMeanThreshold": "Mean Threshold",
-          "autoMaxExposureMicroseconds": "Auto Max Shutter (µs)",
-          "autoMaxGain": "Auto Max Gain",
+          "allSkyAutoExposure": "Exposition / gain automatiques AllSky",
+          "allSkyAutoExposureHelp": "Adapté du régulateur AllSky basé sur la moyenne. Quand l'exposition et/ou le gain manuels sont désactivés, PINS AllSky mesure l'image précédente et calcule l'obturation et le gain de la suivante, au lieu de se fier uniquement à l'exposition automatique de rpicam-still.",
+          "autoMeanTarget": "Moyenne cible",
+          "autoMeanThreshold": "Tolérance de moyenne",
+          "autoMaxExposureMicroseconds": "Obturation max. auto (µs)",
+          "autoMaxGain": "Gain max. auto",
           "autoMeanP0": "Aggression P0",
           "autoMeanP1": "Aggression P1",
           "autoMeanP2": "Aggression P2",
-          "autoMeanTargetTooltip": "Target normalized image mean used by the AllSky auto-exposure controller. Set to 0 to fall back to rpicam-still auto exposure.",
-          "autoMeanThresholdTooltip": "Allowed normalized distance from the target mean before the next frame's exposure level is changed.",
-          "autoMaxExposureTooltip": "Maximum shutter time the AllSky auto-exposure controller may use when manual exposure is disabled.",
-          "autoMaxGainTooltip": "Maximum analog gain the AllSky auto-exposure controller may use when manual gain is disabled.",
-          "autoMeanP0Tooltip": "AllSky controller tuning constant p0. Higher values react more aggressively to brightness changes.",
-          "autoMeanP1Tooltip": "AllSky controller tuning constant p1 used for linear response to mean error.",
-          "autoMeanP2Tooltip": "AllSky controller tuning constant p2 used for stronger quadratic response to large brightness errors."
+          "autoMeanTargetTooltip": "Moyenne normalisée visée par le régulateur d'exposition AllSky. Mets 0 pour revenir à l'exposition automatique de rpicam-still.",
+          "autoMeanThresholdTooltip": "Écart normalisé autorisé par rapport à la moyenne cible avant de modifier l'exposition de l'image suivante.",
+          "autoMaxExposureTooltip": "Temps d'obturation maximal que le régulateur AllSky peut utiliser quand l'exposition manuelle est désactivée.",
+          "autoMaxGainTooltip": "Gain analogique maximal que le régulateur AllSky peut utiliser quand le gain manuel est désactivé.",
+          "autoMeanP0Tooltip": "Constante de réglage p0 du régulateur AllSky. Des valeurs plus élevées réagissent plus fortement aux changements de luminosité.",
+          "autoMeanP1Tooltip": "Constante de réglage p1 du régulateur AllSky, pour la réponse linéaire à l'écart de moyenne.",
+          "autoMeanP2Tooltip": "Constante de réglage p2 du régulateur AllSky, pour une réponse quadratique plus forte aux grands écarts de luminosité."
         },
         "outputs": {
           "keepSourceFrames": "Conserver les images sources",
@@ -7011,12 +7011,12 @@
           "extraKeogramArgumentsTooltip": "Arguments de ligne de commande supplémentaires ajoutés à l'outil AllSky keogram.",
           "brightnessThresholdTooltip": "Luminosité normalisée minimale qu'un pixel doit atteindre avant de contribuer au composite startrails.",
           "extraStartrailsArgumentsTooltip": "Arguments de ligne de commande supplémentaires ajoutés à l'outil AllSky startrails.",
-          "overlayTimestamp": "Overlay Timestamp",
-          "stampTimestamp": "Stamp capture timestamp",
-          "overlayExposureGain": "Overlay Exposure + Gain",
-          "stampExposureGain": "Stamp exposure and gain",
-          "overlayTimestampTooltip": "Render the captured timestamp into each timelapse frame. This applies on the next timelapse render or when you regenerate an existing session.",
-          "overlayExposureGainTooltip": "Render the actual exposure and gain used for each captured frame into the timelapse. This applies on the next timelapse render or when you regenerate an existing session."
+          "overlayTimestamp": "Incruster l'horodatage",
+          "stampTimestamp": "Incruster l'heure de capture",
+          "overlayExposureGain": "Incruster exposition + gain",
+          "stampExposureGain": "Incruster l'exposition et le gain",
+          "overlayTimestampTooltip": "Écrit l'heure de capture dans chaque image du timelapse. S'applique au prochain rendu du timelapse ou quand tu régénères une session existante.",
+          "overlayExposureGainTooltip": "Écrit l'exposition et le gain réellement utilisés pour chaque image dans le timelapse. S'applique au prochain rendu du timelapse ou quand tu régénères une session existante."
         }
       },
       "recentSessions": {
@@ -7053,7 +7053,7 @@
       },
       "messages": {
         "noSessionsDeleted": "Aucune session n'a été supprimée.",
-        "deletedSessions": "{count} session{suffix} supprimée, {freed} libérée, utilisation restante du plugin {remaining}.",
+        "deletedSessions": "Sessions supprimées : {count}. {freed} libérés, utilisation restante du plugin {remaining}.",
         "deletedArtifact": "Artefact supprimé et libéré {freed}.",
         "deletedFrame": "Image supprimée et {freed} libérés.",
         "backendUpdateStarted": "La mise à jour du backend a commencé. PINS redémarrera une fois l'installation terminée."

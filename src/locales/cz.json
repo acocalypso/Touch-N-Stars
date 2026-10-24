@@ -6745,7 +6745,7 @@
       "title": "Tvůrce modelů 10 mikronů"
     },
     "pinsAllSky": {
-      "title": "AllSky Capture",
+      "title": "Snímání AllSky",
       "common": {
         "ok": "OK",
         "cancel": "Zrušit",
@@ -6841,7 +6841,7 @@
       "dependencies": {
         "rpiCamStill": "rpicam-still",
         "ffmpeg": "ffmpeg",
-        "keogram": "AllSky keogram",
+        "keogram": "Keogram AllSky",
         "startrails": "Startrails AllSky"
       },
       "estimate": {
@@ -6870,7 +6870,7 @@
           "autoStartWithSequence": "Auto-start se sekvencí",
           "sequenceTriggeredCapture": "Zachycení spouštěné sekvencí",
           "advancedApiEnabled": "Pokročilé API povoleno",
-          "backendMonitoring": "Backend monitoring",
+          "backendMonitoring": "Sledování backendu",
           "protocol": "Protokol",
           "sequencePollIntervalSeconds": "Interval dotazování sekvence (s)",
           "sequencePollIntervalHelp": "Dotazuje se pouze na stav sekvence. Nemění kadenci snímků kamery.",
@@ -6906,10 +6906,10 @@
           "sharpness": "Ostrost",
           "manualExposure": "Manuální expozice",
           "shutterMicroseconds": "Závěrka (µs)",
-          "manualExposureHelp": "When disabled, PINS AllSky uses the AllSky mean-based controller. If Target Mean is 0, rpicam-still exposure stays automatic instead.",
+          "manualExposureHelp": "Když je vypnuto, PINS AllSky používá regulátor AllSky založený na průměru. Je-li cílový průměr 0, expozice rpicam-still zůstane automatická.",
           "manualGain": "Manuální zisk",
           "analogGain": "Analogový zisk",
-          "manualGainHelp": "When disabled, PINS AllSky uses the AllSky mean-based controller. If Target Mean is 0, rpicam-still gain stays automatic instead.",
+          "manualGainHelp": "Když je vypnuto, PINS AllSky používá regulátor AllSky založený na průměru. Je-li cílový průměr 0, zisk rpicam-still zůstane automatický.",
           "horizontalFlip": "Horizontální překlopení",
           "mirrorOnXAxis": "Zrcadlo na ose X",
           "verticalFlip": "Vertikální překlopení",
@@ -6950,22 +6950,22 @@
             "cdnFast": "CDN Rychlé",
             "cdnHq": "Vysoká kvalita CDN"
           },
-          "allSkyAutoExposure": "AllSky auto exposure / gain",
-          "allSkyAutoExposureHelp": "Adapted from AllSky's mean-based controller. When manual exposure and/or manual gain are disabled, PINS AllSky measures the previous frame and calculates the next shutter and gain instead of relying on rpicam-still auto exposure alone.",
-          "autoMeanTarget": "Target Mean",
-          "autoMeanThreshold": "Mean Threshold",
-          "autoMaxExposureMicroseconds": "Auto Max Shutter (µs)",
-          "autoMaxGain": "Auto Max Gain",
+          "allSkyAutoExposure": "Automatická expozice / zisk AllSky",
+          "allSkyAutoExposureHelp": "Převzato z regulátoru AllSky založeného na průměru. Když je ruční expozice a/nebo ruční zisk vypnutý, PINS AllSky změří předchozí snímek a vypočítá závěrku a zisk dalšího, místo aby spoléhal jen na automatiku rpicam-still.",
+          "autoMeanTarget": "Cílový průměr",
+          "autoMeanThreshold": "Tolerance průměru",
+          "autoMaxExposureMicroseconds": "Max. závěrka automatiky (µs)",
+          "autoMaxGain": "Max. zisk automatiky",
           "autoMeanP0": "Aggression P0",
           "autoMeanP1": "Aggression P1",
           "autoMeanP2": "Aggression P2",
-          "autoMeanTargetTooltip": "Target normalized image mean used by the AllSky auto-exposure controller. Set to 0 to fall back to rpicam-still auto exposure.",
-          "autoMeanThresholdTooltip": "Allowed normalized distance from the target mean before the next frame's exposure level is changed.",
-          "autoMaxExposureTooltip": "Maximum shutter time the AllSky auto-exposure controller may use when manual exposure is disabled.",
-          "autoMaxGainTooltip": "Maximum analog gain the AllSky auto-exposure controller may use when manual gain is disabled.",
-          "autoMeanP0Tooltip": "AllSky controller tuning constant p0. Higher values react more aggressively to brightness changes.",
-          "autoMeanP1Tooltip": "AllSky controller tuning constant p1 used for linear response to mean error.",
-          "autoMeanP2Tooltip": "AllSky controller tuning constant p2 used for stronger quadratic response to large brightness errors."
+          "autoMeanTargetTooltip": "Normovaný průměr snímku, ke kterému míří regulátor expozice AllSky. Nastav 0 pro návrat k automatické expozici rpicam-still.",
+          "autoMeanThresholdTooltip": "Povolená normovaná odchylka od cílového průměru, než se změní expozice dalšího snímku.",
+          "autoMaxExposureTooltip": "Nejdelší závěrka, kterou smí regulátor AllSky použít při vypnuté ruční expozici.",
+          "autoMaxGainTooltip": "Nejvyšší analogový zisk, který smí regulátor AllSky použít při vypnutém ručním zisku.",
+          "autoMeanP0Tooltip": "Ladicí konstanta p0 regulátoru AllSky. Vyšší hodnoty reagují na změny jasu razantněji.",
+          "autoMeanP1Tooltip": "Ladicí konstanta p1 regulátoru AllSky pro lineární odezvu na odchylku průměru.",
+          "autoMeanP2Tooltip": "Ladicí konstanta p2 regulátoru AllSky pro silnější kvadratickou odezvu na velké odchylky jasu."
         },
         "outputs": {
           "keepSourceFrames": "Zachovejte zdrojové snímky",
@@ -7011,12 +7011,12 @@
           "extraKeogramArgumentsTooltip": "Další argumenty příkazového řádku připojené k nástroji keogram AllSky.",
           "brightnessThresholdTooltip": "Minimální normalizovaný jas, kterého musí pixel dosáhnout, než přispěje ke složení startrails.",
           "extraStartrailsArgumentsTooltip": "Další argumenty příkazového řádku připojené k nástroji AllSky startrails.",
-          "overlayTimestamp": "Overlay Timestamp",
-          "stampTimestamp": "Stamp capture timestamp",
-          "overlayExposureGain": "Overlay Exposure + Gain",
-          "stampExposureGain": "Stamp exposure and gain",
-          "overlayTimestampTooltip": "Render the captured timestamp into each timelapse frame. This applies on the next timelapse render or when you regenerate an existing session.",
-          "overlayExposureGainTooltip": "Render the actual exposure and gain used for each captured frame into the timelapse. This applies on the next timelapse render or when you regenerate an existing session."
+          "overlayTimestamp": "Zobrazit časové razítko",
+          "stampTimestamp": "Vepsat čas pořízení",
+          "overlayExposureGain": "Zobrazit expozici + zisk",
+          "stampExposureGain": "Vepsat expozici a zisk",
+          "overlayTimestampTooltip": "Vepíše čas pořízení do každého snímku timelapsu. Projeví se při dalším renderování timelapsu nebo když znovu vygeneruješ existující relaci.",
+          "overlayExposureGainTooltip": "Vepíše do timelapsu skutečnou expozici a zisk každého snímku. Projeví se při dalším renderování timelapsu nebo když znovu vygeneruješ existující relaci."
         }
       },
       "recentSessions": {
@@ -7053,7 +7053,7 @@
       },
       "messages": {
         "noSessionsDeleted": "Nebyly smazány žádné relace.",
-        "deletedSessions": "Smazáno {count} session{suffix}, uvolněno {freed}, zbývající využití pluginu {remaining}.",
+        "deletedSessions": "Smazané relace: {count}. Uvolněno {freed}, zbývající využití pluginu: {remaining}.",
         "deletedArtifact": "Smazán artefakt a uvolněn {freed}.",
         "deletedFrame": "Smazán snímek a uvolněno {freed}.",
         "backendUpdateStarted": "Aktualizace backendu byla zahájena. Po dokončení instalace se PINS restartuje."

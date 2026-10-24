@@ -7164,7 +7164,7 @@
       },
       "messages": {
         "noSessionsDeleted": "セッションは削除されませんでした。",
-        "deletedSessions": "{count}件のセッション{suffix}を削除し、{freed}を解放しました。残りのプラグイン使用量：{remaining}。",
+        "deletedSessions": "削除したセッション：{count}。{freed} を解放しました。残りのプラグイン使用量：{remaining}。",
         "deletedArtifact": "成果物を削除し、{freed}を解放しました。",
         "deletedFrame": "フレームを削除し、{freed}を解放しました。",
         "backendUpdateStarted": "バックエンドの更新を開始しました。インストール完了後にPINSが再起動します。"

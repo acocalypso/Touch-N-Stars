@@ -6906,10 +6906,10 @@
           "sharpness": "Nitidez",
           "manualExposure": "Exposición manual",
           "shutterMicroseconds": "Obturador (μs)",
-          "manualExposureHelp": "When disabled, PINS AllSky uses the AllSky mean-based controller. If Target Mean is 0, rpicam-still exposure stays automatic instead.",
+          "manualExposureHelp": "Si está desactivado, PINS AllSky usa el controlador AllSky basado en la media. Si la media objetivo es 0, la exposición de rpicam-still queda en automático.",
           "manualGain": "Ganancia manual",
           "analogGain": "Ganancia analógica",
-          "manualGainHelp": "When disabled, PINS AllSky uses the AllSky mean-based controller. If Target Mean is 0, rpicam-still gain stays automatic instead.",
+          "manualGainHelp": "Si está desactivado, PINS AllSky usa el controlador AllSky basado en la media. Si la media objetivo es 0, la ganancia de rpicam-still queda en automático.",
           "horizontalFlip": "volteo horizontal",
           "mirrorOnXAxis": "Especular eje X",
           "verticalFlip": "Volteo vertical",
@@ -7053,7 +7053,7 @@
       },
       "messages": {
         "noSessionsDeleted": "No se eliminaron sesiones.",
-        "deletedSessions": "Se eliminó {count} sesión{suffix}, se liberó {freed}, el uso restante del complemento es {remaining}.",
+        "deletedSessions": "Sesiones eliminadas: {count}. Se liberó {freed}; uso restante del complemento: {remaining}.",
         "deletedArtifact": "Artefacto eliminado y liberado {freed}.",
         "deletedFrame": "Fotograma eliminado y liberado {freed}.",
         "backendUpdateStarted": "Se inició la actualización del backend. PINS se reiniciará cuando finalice la instalación."

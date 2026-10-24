@@ -435,23 +435,23 @@
     },
     "fileBrowser": {
       "title": "Browse",
-      "goUp": "Go up one level",
+      "goUp": "Remonter d'un niveau",
       "loading": "Loading...",
-      "empty": "Empty directory",
-      "dblClickHint": "Double-click to open",
-      "deleteDir": "Delete folder",
-      "folderPlaceholder": "Folder name...",
-      "newFolder": "+ New Folder",
+      "empty": "Dossier vide",
+      "dblClickHint": "Double-clic pour ouvrir",
+      "deleteDir": "Supprimer le dossier",
+      "folderPlaceholder": "Nom du dossier…",
+      "newFolder": "+ Nouveau dossier",
       "create": "Create",
       "selectedPath": "Selected:",
-      "loadError": "Could not load directory.",
-      "createError": "Could not create folder.",
-      "deleteDirTitle": "Delete folder",
-      "deleteDirMessage": "Really delete \"{name}\" and all its contents?",
-      "deleteFileTitle": "Delete file",
-      "deleteFileMessage": "Really delete \"{name}\"?",
-      "deleteFile": "Delete file",
-      "deleteError": "Could not delete."
+      "loadError": "Impossible de charger le dossier.",
+      "createError": "Impossible de créer le dossier.",
+      "deleteDirTitle": "Supprimer le dossier",
+      "deleteDirMessage": "Supprimer vraiment « {name} » et tout son contenu ?",
+      "deleteFileTitle": "Supprimer le fichier",
+      "deleteFileMessage": "Supprimer vraiment « {name} » ?",
+      "deleteFile": "Supprimer le fichier",
+      "deleteError": "Impossible de supprimer."
     },
     "settings": {
       "title": "Paramètres",
@@ -760,17 +760,17 @@
       }
     },
     "alpacaDirect": {
-      "title": "Alpaca Direct Settings",
-      "ipAddress": "IP address",
+      "title": "Paramètres Alpaca Direct",
+      "ipAddress": "Adresse IP",
       "port": "Port",
-      "deviceNumber": "Device number",
-      "serviceType": "Service type",
+      "deviceNumber": "Numéro d'appareil",
+      "serviceType": "Type de service",
       "save": "Save",
       "connect": "Connect",
       "disconnect": "Disconnect",
-      "sharedGuidWarning": "Rotator and safety monitor share one storage slot in NINA — changing one also changes the other.",
-      "noReconnectHint": "New settings take effect on the next connect.",
-      "cameraNoSettings": "This camera has no settings to configure."
+      "sharedGuidWarning": "Le rotateur et le moniteur de sécurité partagent un même emplacement de stockage dans NINA – modifier l'un modifie aussi l'autre.",
+      "noReconnectHint": "Les nouveaux réglages s'appliquent à la prochaine connexion.",
+      "cameraNoSettings": "Cette caméra n'a aucun réglage à configurer."
     },
     "selectDevices": {
       "deviceNotFound": "Appareil introuvable",
@@ -1054,7 +1054,7 @@
         },
         "switchFilter": {
           "filter": "Filtre",
-          "noFilter": "No Filter"
+          "noFilter": "Aucun filtre"
         },
         "switchProfile": {
           "profile": "Profil",
@@ -1284,14 +1284,14 @@
           "duration": "Durée (min)"
         },
         "orbuculum": {
-          "hourAngle": "Hour Angle (h)",
-          "nextTarget": "Next target:",
+          "hourAngle": "Angle horaire (h)",
+          "nextTarget": "Cible suivante :",
           "current": "Current:"
         },
         "autoBalancingExposure": {
           "timeSeconds": "Time (s)",
-          "noEntries": "No entries",
-          "addRow": "Add row",
+          "noEntries": "Aucune entrée",
+          "addRow": "Ajouter une ligne",
           "progress": "Progress",
           "ratio": "Ratio",
           "bin": "Bin"
@@ -1369,7 +1369,7 @@
         "end": "Fin",
         "nothing": "Rien",
         "alsoActive": "Également actif",
-        "meridianFlip": "Meridian flip",
+        "meridianFlip": "Retournement méridien",
         "meridianFlipHint": "Retourner la monture automatiquement lorsqu'une cible passe le méridien.",
         "dither": "Dithering",
         "ditherHint": "Décaler légèrement la position de guidage entre les images. Nécessite un autoguidage actif.",
@@ -1816,7 +1816,7 @@
           "message": "Ce réglage ne prend effet qu’après une reconnexion du guidage. Reconnecter maintenant ?"
         },
         "mountSettings": "Monture",
-        "guideRate": "Guide Rate",
+        "guideRate": "Vitesse de guidage",
         "guideRateReadOnly": "Lecture seule",
         "guiderScale": "Échelle du guideur",
         "maxY": "Y maximum",
@@ -1998,7 +1998,7 @@
           "enabled": "Activée",
           "amount": "Valeur (ms)",
           "min": "Min (ms)",
-          "max": "Max (ms)"
+          "max": "Max. (ms)"
         },
         "minStarSNR": "SNR minimal de l’étoile pour AutoFind",
         "autoSelectDownsample": "Sous-échantillonnage des trames de sélection",
@@ -2850,7 +2850,7 @@
           "statusFailed": "Échec de la bibliothèque de darks"
         },
         "coach": {
-          "title": "Guiding Coach",
+          "title": "Coach de guidage",
           "unknown": "inconnu",
           "intro": "Le coach mesure votre caméra de guidage, le ciel et la monture, compare de meilleurs réglages aux vôtres et explique ce qui limite votre guidage. Une session complète dure environ 15 minutes.",
           "introSafe": "Les réglages temporaires sont toujours restaurés. Vous décidez quelles recommandations appliquer.",
@@ -3721,11 +3721,11 @@
       "autofocus": "Mise au point automatique",
       "last_autofocus": "Dernier autofocus",
       "graph": {
-        "measurePoints": "Measure Points",
-        "quadraticTrendline": "Quadratic Trendline",
-        "hyperbolicTrendline": "Hyperbolic Trendline",
-        "quadraticMin": "Quadratic Min",
-        "hyperbolicMin": "Hyperbolic Min",
+        "measurePoints": "Points de mesure",
+        "quadraticTrendline": "Courbe de tendance quadratique",
+        "hyperbolicTrendline": "Courbe de tendance hyperbolique",
+        "quadraticMin": "Minimum quadratique",
+        "hyperbolicMin": "Minimum hyperbolique",
         "value": "Value",
         "invalidDate": "Date invalide"
       },
@@ -4227,13 +4227,13 @@
     },
     "celestiaAtlas": {
       "orientation": {
-        "toggle": "Toggle sky pointing",
-        "hint": "Sky pointing active. Aim through the back of your screen. Drag to stop; pinch to zoom.",
-        "low_accuracy": "Compass accuracy is low. Move away from metal and magnets and calibrate your compass with a figure-eight motion.",
+        "toggle": "Activer/désactiver le pointage du ciel",
+        "hint": "Pointage du ciel actif. Vise à travers le dos de ton écran. Fais glisser pour arrêter ; pince pour zoomer.",
+        "low_accuracy": "La précision de la boussole est faible. Éloigne-toi des métaux et aimants et calibre la boussole en dessinant un huit.",
         "unavailable": "Sky pointing requires a supported native app and a north-referenced motion sensor. Manual browsing is available.",
-        "permission_denied": "Motion access was denied. Allow motion access in system settings or browse manually.",
-        "location_required": "Sky pointing requires an observer location. Set your observing site or allow location access.",
-        "sensor_error": "Sky pointing stopped because sensor data is unavailable. Try again or browse manually."
+        "permission_denied": "L'accès aux capteurs de mouvement a été refusé. Autorise-le dans les réglages du système ou navigue à la main.",
+        "location_required": "Le pointage du ciel a besoin d'un lieu d'observation. Définis ton site ou autorise l'accès à la position.",
+        "sensor_error": "Le pointage du ciel s'est arrêté car les données des capteurs sont indisponibles. Réessaie ou navigue à la main."
       },
       "loading": "Chargement de Celestia Atlas…",
       "selected_object": {
@@ -4290,20 +4290,20 @@
         "magnitude_limit_auto": "Auto",
         "star_magnitude_limit": "Étoiles (magnitude limite)",
         "star_catalogues": "Catalogues d’étoiles",
-        "star_catalogue_hint": "Groups can overlap; any enabled group shows the star. Raise the magnitude limit for faint WR stars. Unknown-magnitude stars appear when selected. Stars in photographs without catalogue records are not selectable.",
+        "star_catalogue_hint": "Les groupes peuvent se chevaucher ; une étoile s'affiche dès qu'un de ses groupes est activé. Augmente la magnitude limite pour les étoiles WR faibles. Les étoiles de magnitude inconnue apparaissent quand elles sont sélectionnées. Les étoiles des photographies sans entrée de catalogue ne sont pas sélectionnables.",
         "galaxy_magnitude_limit": "Galaxies (magnitude limite)",
         "dso_magnitude_limit": "Autres objets du ciel profond (magnitude limite)",
         "title": "Paramètres",
-        "landscape_source_mode": "Landscape source",
+        "landscape_source_mode": "Source du paysage",
         "landscape_source_default": "Paysage par défaut (Prairie nocturne)",
         "landscape_source_guereins": "Guéreins (village)",
-        "landscape_source_neutral": "Neutral horizon (Gray)",
-        "landscape_source_custom": "Custom data source",
+        "landscape_source_neutral": "Horizon neutre (gris)",
+        "landscape_source_custom": "Source de données personnalisée",
         "landscape_option_label": "Paysage : {title}",
-        "custom_landscape_url": "Custom source URL",
-        "custom_landscape_url_placeholder": "e.g. /celestia-atlas-data/landscapes/custom",
-        "custom_landscape_key": "Custom source key",
-        "custom_landscape_key_placeholder": "e.g. my-landscape",
+        "custom_landscape_url": "URL de la source personnalisée",
+        "custom_landscape_url_placeholder": "p. ex. /celestia-atlas-data/landscapes/custom",
+        "custom_landscape_key": "Clé de la source personnalisée",
+        "custom_landscape_key_placeholder": "p. ex. mon-paysage",
         "available_landscapes": "Paysages disponibles",
         "no_landscapes_available": "Aucun paysage disponible.",
         "untitled_landscape": "Paysage sans titre",
@@ -4539,7 +4539,7 @@
       "noInstances": "Aucune instance configurée",
       "noneOnline": "Aucune instance en ligne",
       "title": "Changer d'instance",
-      "switchingTo": "Switching to {name}…"
+      "switchingTo": "Passage à {name}…"
     },
     "fitsPlatesolve": {
       "binning": "Regroupement",

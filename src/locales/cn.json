@@ -201,7 +201,7 @@
         "title": "马赛克模式",
         "willBeSaved": "面板将单独保存"
       },
-      "customTarget": "Custom Target",
+      "customTarget": "自定义目标",
       "solvedRotation": {
         "short": "已解析",
         "tooltip": "上次成功 Plate Solve 得到的相机旋转角"
@@ -435,23 +435,23 @@
     },
     "fileBrowser": {
       "title": "Browse",
-      "goUp": "Go up one level",
+      "goUp": "返回上一级",
       "loading": "Loading...",
-      "empty": "Empty directory",
-      "dblClickHint": "Double-click to open",
-      "deleteDir": "Delete folder",
-      "folderPlaceholder": "Folder name...",
-      "newFolder": "+ New Folder",
+      "empty": "空文件夹",
+      "dblClickHint": "双击打开",
+      "deleteDir": "删除文件夹",
+      "folderPlaceholder": "文件夹名称…",
+      "newFolder": "+ 新建文件夹",
       "create": "Create",
       "selectedPath": "Selected:",
-      "loadError": "Could not load directory.",
-      "createError": "Could not create folder.",
-      "deleteDirTitle": "Delete folder",
-      "deleteDirMessage": "Really delete \"{name}\" and all its contents?",
-      "deleteFileTitle": "Delete file",
-      "deleteFileMessage": "Really delete \"{name}\"?",
-      "deleteFile": "Delete file",
-      "deleteError": "Could not delete."
+      "loadError": "无法加载文件夹。",
+      "createError": "无法创建文件夹。",
+      "deleteDirTitle": "删除文件夹",
+      "deleteDirMessage": "确定要删除“{name}”及其全部内容吗？",
+      "deleteFileTitle": "删除文件",
+      "deleteFileMessage": "确定要删除“{name}”吗？",
+      "deleteFile": "删除文件",
+      "deleteError": "无法删除。"
     },
     "settings": {
       "title": "设置",
@@ -619,29 +619,29 @@
         "Filter": "天文定位滤镜",
         "FilterCurrent": "当前",
         "FilterHint": "用于天文定位的滤镜（覆盖当前滤镜）",
-        "astapDatabaseAllInstalled": "All ASTAP star databases are already installed.",
-        "astapDatabaseDescription": "Install missing ASTAP star databases directly on your PINS device.",
+        "astapDatabaseAllInstalled": "所有 ASTAP 星表数据库均已安装。",
+        "astapDatabaseDescription": "直接在 PINS 设备上安装缺少的 ASTAP 星表数据库。",
         "astapDatabaseInstall": "Install",
-        "astapDatabaseInstallFailed": "ASTAP star database install failed{exitCode}.",
-        "astapDatabaseInstallSuccess": "ASTAP star database {databaseId} installed successfully.",
+        "astapDatabaseInstallFailed": "ASTAP 星表数据库安装失败{exitCode}。",
+        "astapDatabaseInstallSuccess": "ASTAP 星表数据库 {databaseId} 安装成功。",
         "astapDatabaseInstalling": "Installing...",
         "astapDatabaseProgressStalled": "下载已 30 秒没有进展。仍在监控任务。",
         "astapDatabaseJobStarted": "started",
-        "astapDatabaseJobStartedMessage": "Install job started for {databaseId}.",
+        "astapDatabaseJobStartedMessage": "{databaseId} 的安装任务已启动。",
         "astapDatabaseJobStatus": "Job {jobId}: {status}",
-        "astapDatabaseLastChecked": "Last checked: {value}",
-        "astapDatabaseLoadFailed": "Failed to load databases: {detail}",
-        "astapDatabaseMissingJobId": "Install request succeeded but no jobId was returned.",
-        "astapDatabaseNoInstallable": "No installable ASTAP star databases available",
+        "astapDatabaseLastChecked": "上次检查：{value}",
+        "astapDatabaseLoadFailed": "无法加载数据库：{detail}",
+        "astapDatabaseMissingJobId": "安装请求成功，但未返回 jobId。",
+        "astapDatabaseNoInstallable": "没有可安装的 ASTAP 星表数据库",
         "astapDatabaseSelectPlaceholder": "Select a database",
-        "astapDatabaseStartFailed": "Failed to start install: {detail}",
-        "astapDatabaseStartInstall": "Starting installation for {databaseId}...",
+        "astapDatabaseStartFailed": "无法启动安装：{detail}",
+        "astapDatabaseStartInstall": "正在开始安装 {databaseId}…",
         "astapDatabaseStarting": "Starting...",
-        "astapDatabaseStatusCheckFailedRetrying": "Status check failed: {detail}. Retrying...",
-        "astapDatabaseTitle": "ASTAP Star Database (PINS)",
-        "astapDatabaseUnauthorizedStart": "Unauthorized while starting ASTAP star database install.",
-        "astapDatabaseUnauthorizedStatus": "Unauthorized while checking install status.",
-        "astapDatabaseUnknownError": "Unknown error"
+        "astapDatabaseStatusCheckFailedRetrying": "状态检查失败：{detail}。正在重试…",
+        "astapDatabaseTitle": "ASTAP 星表数据库（PINS）",
+        "astapDatabaseUnauthorizedStart": "启动 ASTAP 星表数据库安装时未获授权。",
+        "astapDatabaseUnauthorizedStatus": "检查安装状态时未获授权。",
+        "astapDatabaseUnknownError": "未知错误"
       },
       "equipment": {
         "title": "设备",
@@ -673,9 +673,9 @@
         "syncLabel": "同步时间到赤道仪",
         "syncLabelInfo": "启用后，点击「立即同步」将短暂断开并重新连接赤道仪，以便 NINA 将当前时间传输给它。",
         "title": "时间同步",
-        "loadError": "Could not load time information.",
-        "syncError": "Time synchronisation failed. Check the connection to the PINS device.",
-        "syncSuccess": "Time synchronised successfully."
+        "loadError": "无法加载时间信息。",
+        "syncError": "时间同步失败。请检查与 PINS 设备的连接。",
+        "syncSuccess": "时间已成功同步。"
       },
       "navbarCustomization": {
         "hint": "拖动以重新排序。除了“设置”之外，至少还有一页必须保持可见。",
@@ -760,17 +760,17 @@
       }
     },
     "alpacaDirect": {
-      "title": "Alpaca Direct Settings",
-      "ipAddress": "IP address",
+      "title": "Alpaca Direct 设置",
+      "ipAddress": "IP 地址",
       "port": "Port",
-      "deviceNumber": "Device number",
-      "serviceType": "Service type",
+      "deviceNumber": "设备编号",
+      "serviceType": "服务类型",
       "save": "Save",
       "connect": "Connect",
       "disconnect": "Disconnect",
-      "sharedGuidWarning": "Rotator and safety monitor share one storage slot in NINA — changing one also changes the other.",
-      "noReconnectHint": "New settings take effect on the next connect.",
-      "cameraNoSettings": "This camera has no settings to configure."
+      "sharedGuidWarning": "旋转器和安全监视器在 NINA 中共用一个存储位置——修改其中一个也会改变另一个。",
+      "noReconnectHint": "新设置将在下次连接时生效。",
+      "cameraNoSettings": "此相机没有可配置的设置。"
     },
     "selectDevices": {
       "deviceNotFound": "未找到设备",
@@ -1054,7 +1054,7 @@
         },
         "switchFilter": {
           "filter": "滤镜",
-          "noFilter": "No Filter"
+          "noFilter": "无滤镜"
         },
         "switchProfile": {
           "profile": "配置文件",
@@ -1284,14 +1284,14 @@
           "duration": "持续时间（分钟）"
         },
         "orbuculum": {
-          "hourAngle": "Hour Angle (h)",
-          "nextTarget": "Next target:",
+          "hourAngle": "时角 (h)",
+          "nextTarget": "下一个目标：",
           "current": "Current:"
         },
         "autoBalancingExposure": {
           "timeSeconds": "Time (s)",
-          "noEntries": "No entries",
-          "addRow": "Add row",
+          "noEntries": "没有条目",
+          "addRow": "添加行",
           "progress": "Progress",
           "ratio": "Ratio",
           "bin": "Bin"
@@ -1318,13 +1318,13 @@
           "absolute": "绝对"
         },
         "startGuiding": {
-          "forceCalibrationLabel": "Force Calibration"
+          "forceCalibrationLabel": "强制校准"
         },
         "slewToGuiderCalibrationPosition": {
-          "clearBacklash": "Clear DEC Backlash",
+          "clearBacklash": "消除赤纬回差",
           "dec": "Dec",
-          "haOffset": "HA Offset",
-          "side": "Pointing Side",
+          "haOffset": "时角偏移",
+          "side": "指向侧",
           "sideEast": "East",
           "sideStay": "Stay",
           "sideWest": "West"
@@ -1348,7 +1348,7 @@
       "resetStatus": "重置状态",
       "delete": "删除",
       "runningLocked": "该项目正在运行，无法修改",
-      "controlsLockedMessage": "Sequence controls are locked while the sequence is running.",
+      "controlsLockedMessage": "序列运行期间，序列控制已锁定。",
       "lockControls": "Lock",
       "unlockControls": "Unlock",
       "simple": {
@@ -1458,8 +1458,8 @@
         "setLocationSyncToMount": "设置\"与望远镜同步\"",
         "slewRateINDI": "运动速度",
         "reverse_axis": "轴向方向",
-        "slewRateDriverControlled": "Slew rate is controlled by the driver",
-        "slewRateUnavailable": "Connect a mount to adjust the slew rate",
+        "slewRateDriverControlled": "转动速度由驱动控制",
+        "slewRateUnavailable": "连接赤道仪后才能调整转动速度",
         "parkedNotice": "赤道仪已停靠 — 解除停靠后才能更改跟踪模式",
         "parkedShort": "赤道仪已停靠",
         "parkedHint": "解除停靠后才能手动移动赤道仪",
@@ -1931,15 +1931,15 @@
           "show": "显示星型组件"
         },
         "applyStep": "Apply",
-        "calculatedStep": "Calculated Step",
+        "calculatedStep": "计算出的步长",
         "calibDistance": "Distance",
-        "calibStepCalc": "Step Size Calculator",
+        "calibStepCalc": "步长计算器",
         "declination": "Declination",
-        "desiredSteps": "Desired Steps",
-        "guideSpeed": "Guide Speed",
-        "imageScale": "Image Scale",
+        "desiredSteps": "期望步数",
+        "guideSpeed": "导星速度",
+        "imageScale": "成像比例",
         "optimal": "Optimal",
-        "pixelSize": "Pixel Size",
+        "pixelSize": "像素尺寸",
         "assumeDecOrthogonal": "假定赤纬与赤经正交",
         "useDecCompensation": "使用赤纬补偿",
         "fastRecenter": "校准或抖动后快速回中",
@@ -2850,7 +2850,7 @@
           "statusFailed": "暗场库构建失败"
         },
         "coach": {
-          "title": "Guiding Coach",
+          "title": "导星教练",
           "unknown": "未知",
           "intro": "Coach 会测量您的导星相机、天空和赤道仪，将更优设置与当前设置对比试验，并说明限制导星效果的因素。完整会话约需 15 分钟。",
           "introSafe": "临时设置总会被恢复。采用哪些建议由您决定。",
@@ -3721,11 +3721,11 @@
       "autofocus": "自动对焦",
       "last_autofocus": "上次自动对焦",
       "graph": {
-        "measurePoints": "Measure Points",
-        "quadraticTrendline": "Quadratic Trendline",
-        "hyperbolicTrendline": "Hyperbolic Trendline",
-        "quadraticMin": "Quadratic Min",
-        "hyperbolicMin": "Hyperbolic Min",
+        "measurePoints": "测量点",
+        "quadraticTrendline": "二次趋势线",
+        "hyperbolicTrendline": "双曲趋势线",
+        "quadraticMin": "二次最小值",
+        "hyperbolicMin": "双曲最小值",
         "value": "Value",
         "invalidDate": "无效日期"
       },
@@ -3860,7 +3860,7 @@
       "is_sync": "已同步",
       "not_sync": "未同步",
       "indi": {
-        "settings": "Dome Settings"
+        "settings": "圆顶设置"
       }
     },
     "camera": {
@@ -3997,14 +3997,14 @@
       },
       "error_modal": {},
       "tppa": "极轴对准 (TPPA)",
-      "warn_dec_spread_body": "The mount's reported declination changed by {arcsec}\" between measurements. This may affect polar alignment accuracy — ensure only the RA axis moves during measurement.",
-      "warn_dec_spread_title": "Declination spread detected",
-      "warn_east_west_body": "The current field is within 5° of exact East or West. If the live solution is unstable, slew to a field farther from East/West and rerun.",
-      "warn_east_west_title": "Correction field within {deg}° of East/West",
-      "warn_huge_body": "Either the mount is far off alignment or the calculation could not determine the result. Check site location, confirm the mount is roughly pointing to the pole, and that only the RA axis was moved between the three measurement points.",
-      "warn_huge_title": "Calculated error is huge",
-      "warn_large_body": "The correction phase will be less reliable. Bring the mount closer to polar alignment and run TPPA again to verify.",
-      "warn_large_title": "Initial polar alignment error is large"
+      "warn_dec_spread_body": "赤道仪报告的赤纬在两次测量之间变化了 {arcsec}\"。这可能影响极轴对准精度——请确保测量期间只有赤经轴在移动。",
+      "warn_dec_spread_title": "检测到赤纬偏差",
+      "warn_east_west_body": "当前视场距正东或正西不足 5°。如果实时解算不稳定，请转到离东/西更远的视场后重新运行。",
+      "warn_east_west_title": "校正视场距正东/正西不足 {deg}°",
+      "warn_huge_body": "可能赤道仪严重偏离对准，或计算无法得出结果。请检查观测地位置，确认赤道仪大致指向天极，并确认三个测量点之间只移动了赤经轴。",
+      "warn_huge_title": "计算出的误差非常大",
+      "warn_large_body": "校正阶段的可靠性会降低。请让赤道仪更接近极轴对准，然后重新运行 TPPA 进行验证。",
+      "warn_large_title": "初始极轴误差较大"
     },
     "slewAndCenter": {
       "title": "转动与居中",
@@ -4171,24 +4171,24 @@
       "start_multi_mode": "启动多重模式",
       "status_filter_progress": "滤镜: {completed} / {total}",
       "cover_scope_confirm": "OK",
-      "cover_scope_message": "Cover your scope now and press OK to start taking the darks.",
-      "cover_scope_title": "Cover your scope now",
+      "cover_scope_message": "请现在盖上望远镜，然后按“确定”开始拍摄暗场。",
+      "cover_scope_title": "请盖上望远镜",
       "darks_to_take": "要拍摄的 Darkflats",
-      "operation_failed": "Operation failed",
-      "status_failed_darks": "No darks captured - could not determine valid exposure",
+      "operation_failed": "操作失败",
+      "status_failed_darks": "未拍摄暗场——无法确定有效曝光",
       "status_failed_flats": "无法确定有效曝光",
-      "status_running_darks": "Running: {completed} / {total} darks",
-      "status_running_flats": "Running: {completed} / {total} flats",
-      "status_stopped_darks": "Stopped early - {completed} of {total} darks captured",
-      "status_stopped_flats": "Stopped early - {completed} of {total} flats captured",
-      "status_success_darks": "Done - {count} darks captured",
-      "status_success_flats": "Done - {count} flats captured",
+      "status_running_darks": "进行中：{completed} / {total} 张暗场",
+      "status_running_flats": "进行中：{completed} / {total} 张平场",
+      "status_stopped_darks": "提前停止——已拍摄 {completed} / {total} 张暗场",
+      "status_stopped_flats": "提前停止——已拍摄 {completed} / {total} 张平场",
+      "status_success_darks": "完成——已拍摄 {count} 张暗场",
+      "status_success_flats": "完成——已拍摄 {count} 张平场",
       "filter_label": "Filter",
-      "result_bright": "too bright",
-      "result_dim": "too dim",
+      "result_bright": "太亮",
+      "result_dim": "太暗",
       "status_completed_flats": "Completed",
-      "status_failed_flats_multi": "All filters failed to determine valid exposure",
-      "status_partial_flats_multi": "Failed filters: {filters}",
+      "status_failed_flats_multi": "所有滤镜都无法确定有效曝光",
+      "status_partial_flats_multi": "失败的滤镜：{filters}",
       "status_running_unknown": "Determining…",
       "target": "Target"
     },
@@ -4219,21 +4219,21 @@
       "gauges": "仪表",
       "switch": "开关",
       "indi": {
-        "settings": "Switch Settings"
+        "settings": "开关设置"
       },
       "sv241pro": {
-        "preConnectDelay": "Pre Connect Delay (ms)"
+        "preConnectDelay": "连接前延迟 (ms)"
       }
     },
     "celestiaAtlas": {
       "orientation": {
-        "toggle": "Toggle sky pointing",
-        "hint": "Sky pointing active. Aim through the back of your screen. Drag to stop; pinch to zoom.",
-        "low_accuracy": "Compass accuracy is low. Move away from metal and magnets and calibrate your compass with a figure-eight motion.",
+        "toggle": "开关指天模式",
+        "hint": "指天模式已开启。透过屏幕背面对准天空。拖动可停止，双指缩放可放大缩小。",
+        "low_accuracy": "指南针精度较低。请远离金属和磁铁，并以“8”字形移动设备校准指南针。",
         "unavailable": "Sky pointing requires a supported native app and a north-referenced motion sensor. Manual browsing is available.",
-        "permission_denied": "Motion access was denied. Allow motion access in system settings or browse manually.",
-        "location_required": "Sky pointing requires an observer location. Set your observing site or allow location access.",
-        "sensor_error": "Sky pointing stopped because sensor data is unavailable. Try again or browse manually."
+        "permission_denied": "运动传感器访问被拒绝。请在系统设置中允许，或手动浏览。",
+        "location_required": "指天模式需要观测地点。请设置观测地或允许访问位置。",
+        "sensor_error": "由于无法获取传感器数据，指天模式已停止。请重试或手动浏览。"
       },
       "loading": "正在加载 Celestia Atlas…",
       "selected_object": {
@@ -4290,25 +4290,25 @@
         "magnitude_limit_auto": "自动",
         "star_magnitude_limit": "恒星极限星等",
         "star_catalogues": "恒星星表",
-        "star_catalogue_hint": "Groups can overlap; any enabled group shows the star. Raise the magnitude limit for faint WR stars. Unknown-magnitude stars appear when selected. Stars in photographs without catalogue records are not selectable.",
+        "star_catalogue_hint": "分组可能重叠；只要启用了某颗星所属的任一分组就会显示它。对于暗弱的 WR 星，请提高星等上限。星等未知的星在被选中时才显示。照片中没有星表记录的星无法选择。",
         "galaxy_magnitude_limit": "星系极限星等",
         "dso_magnitude_limit": "其他深空天体极限星等",
         "title": "设置",
-        "landscape_source_mode": "Landscape source",
+        "landscape_source_mode": "地景来源",
         "landscape_source_default": "默认地景（夜间草地）",
         "landscape_source_guereins": "Guéreins（村庄）",
-        "landscape_source_neutral": "Neutral horizon (Gray)",
-        "landscape_source_custom": "Custom data source",
+        "landscape_source_neutral": "中性地平线（灰色）",
+        "landscape_source_custom": "自定义数据源",
         "landscape_option_label": "Landscape: {title}",
-        "custom_landscape_url": "Custom source URL",
-        "custom_landscape_url_placeholder": "e.g. /celestia-atlas-data/landscapes/custom",
-        "custom_landscape_key": "Custom source key",
-        "custom_landscape_key_placeholder": "e.g. my-landscape",
-        "available_landscapes": "Available landscapes",
-        "no_landscapes_available": "No landscapes available.",
-        "untitled_landscape": "Untitled landscape",
+        "custom_landscape_url": "自定义来源 URL",
+        "custom_landscape_url_placeholder": "例如 /celestia-atlas-data/landscapes/custom",
+        "custom_landscape_key": "自定义来源键",
+        "custom_landscape_key_placeholder": "例如 my-landscape",
+        "available_landscapes": "可用地景",
+        "no_landscapes_available": "没有可用的地景。",
+        "untitled_landscape": "未命名地景",
         "has_allsky": "Allsky",
-        "no_allsky": "No allsky",
+        "no_allsky": "无全天图",
         "folder_name_label": "folderName",
         "service_url_label": "serviceUrl",
         "landscape_list_load_failed": "Failed to load landscapes.",
@@ -4539,43 +4539,43 @@
       "noInstances": "没有配置实例",
       "noneOnline": "没有在线实例",
       "title": "切换实例",
-      "switchingTo": "Switching to {name}…"
+      "switchingTo": "正在切换到 {name}…"
     },
     "fitsPlatesolve": {
       "binning": "Binning",
-      "blindSolve": "Blind Solve",
-      "browserTitle": "Select FITS File for Plate Solve",
-      "buttonTitle": "FITS Plate Solve",
-      "coordinatesHint": "Coordinate hint (leave blank for blind solve)",
+      "blindSolve": "盲解",
+      "browserTitle": "选择用于天文定位的 FITS 文件",
+      "buttonTitle": "FITS 天文定位",
+      "coordinatesHint": "坐标提示（留空则盲解）",
       "dec": "Dec",
       "decPlaceholder": "DD:MM:SS",
-      "error": "Plate solve failed",
-      "errorLoadParams": "Failed to read FITS parameters",
+      "error": "天文定位失败",
+      "errorLoadParams": "无法读取 FITS 参数",
       "file": "File",
-      "focalLength": "Focal Length",
-      "loadingParams": "Reading FITS header…",
-      "pixelScale": "Pixel Scale",
-      "pixelSize": "Pixel Size",
-      "plateSolve": "Plate Solve",
+      "focalLength": "焦距",
+      "loadingParams": "正在读取 FITS 头…",
+      "pixelScale": "像素比例",
+      "pixelSize": "像素尺寸",
+      "plateSolve": "天文定位",
       "ra": "RA",
       "raPlaceholder": "HH:MM:SS",
       "rotation": "Rotation",
-      "solveFailed": "Plate solve failed",
+      "solveFailed": "天文定位失败",
       "solving": "Solving…",
-      "solvingHint": "Plate solving may take 10–60 seconds depending on the solver and search radius.",
-      "success": "Plate solve successful",
-      "targetApplied": "Target applied",
-      "titleConfirm": "Confirm Plate Solve Parameters",
-      "titleError": "Plate Solve Failed",
-      "titleLoading": "Reading FITS Parameters…",
-      "titleResult": "Plate Solve Result",
-      "titleSolving": "Plate Solving…",
-      "tryAgain": "Select File",
-      "useAsTarget": "Use as Target"
+      "solvingHint": "根据解算器和搜索半径不同，天文定位可能需要 10–60 秒。",
+      "success": "天文定位成功",
+      "targetApplied": "已设为目标",
+      "titleConfirm": "确认天文定位参数",
+      "titleError": "天文定位失败",
+      "titleLoading": "正在读取 FITS 参数…",
+      "titleResult": "天文定位结果",
+      "titleSolving": "正在天文定位…",
+      "tryAgain": "选择文件",
+      "useAsTarget": "设为目标"
     },
     "safetyMonitor": {
       "indi": {
-        "settings": "Safety Monitor Settings"
+        "settings": "安全监视器设置"
       }
     },
     "statusBar": {

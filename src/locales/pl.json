@@ -435,23 +435,23 @@
     },
     "fileBrowser": {
       "title": "Browse",
-      "goUp": "Go up one level",
+      "goUp": "Poziom wyżej",
       "loading": "Loading...",
-      "empty": "Empty directory",
-      "dblClickHint": "Double-click to open",
-      "deleteDir": "Delete folder",
-      "folderPlaceholder": "Folder name...",
-      "newFolder": "+ New Folder",
+      "empty": "Pusty folder",
+      "dblClickHint": "Kliknij dwukrotnie, aby otworzyć",
+      "deleteDir": "Usuń folder",
+      "folderPlaceholder": "Nazwa folderu…",
+      "newFolder": "+ Nowy folder",
       "create": "Create",
       "selectedPath": "Selected:",
-      "loadError": "Could not load directory.",
-      "createError": "Could not create folder.",
-      "deleteDirTitle": "Delete folder",
-      "deleteDirMessage": "Really delete \"{name}\" and all its contents?",
-      "deleteFileTitle": "Delete file",
-      "deleteFileMessage": "Really delete \"{name}\"?",
-      "deleteFile": "Delete file",
-      "deleteError": "Could not delete."
+      "loadError": "Nie udało się wczytać folderu.",
+      "createError": "Nie udało się utworzyć folderu.",
+      "deleteDirTitle": "Usuń folder",
+      "deleteDirMessage": "Na pewno usunąć „{name}” wraz z całą zawartością?",
+      "deleteFileTitle": "Usuń plik",
+      "deleteFileMessage": "Na pewno usunąć „{name}”?",
+      "deleteFile": "Usuń plik",
+      "deleteError": "Nie udało się usunąć."
     },
     "settings": {
       "title": "Ustawienia",
@@ -590,7 +590,7 @@
         "shutdownInfoMessage": "System jest wyłączany. Ta strona nie będzie już dostępna."
       },
       "plate_solver": {
-        "title": "Plate Solver",
+        "title": "Plate solver",
         "basic": "Podstawowe ustawienia",
         "search": "Ustawienia wyszukiwania",
         "retry": "Ustawienia ponawiania prób",
@@ -760,17 +760,17 @@
       }
     },
     "alpacaDirect": {
-      "title": "Alpaca Direct Settings",
-      "ipAddress": "IP address",
+      "title": "Ustawienia Alpaca Direct",
+      "ipAddress": "Adres IP",
       "port": "Port",
-      "deviceNumber": "Device number",
-      "serviceType": "Service type",
+      "deviceNumber": "Numer urządzenia",
+      "serviceType": "Typ usługi",
       "save": "Save",
       "connect": "Connect",
       "disconnect": "Disconnect",
-      "sharedGuidWarning": "Rotator and safety monitor share one storage slot in NINA — changing one also changes the other.",
-      "noReconnectHint": "New settings take effect on the next connect.",
-      "cameraNoSettings": "This camera has no settings to configure."
+      "sharedGuidWarning": "Rotator i monitor bezpieczeństwa dzielą w NINA jedno miejsce zapisu – zmiana jednego zmienia też drugie.",
+      "noReconnectHint": "Nowe ustawienia zadziałają przy następnym połączeniu.",
+      "cameraNoSettings": "Ta kamera nie ma ustawień do skonfigurowania."
     },
     "selectDevices": {
       "deviceNotFound": "Nie znaleziono urządzenia",
@@ -1054,7 +1054,7 @@
         },
         "switchFilter": {
           "filter": "Filtr",
-          "noFilter": "No Filter"
+          "noFilter": "Brak filtra"
         },
         "switchProfile": {
           "profile": "Profil",
@@ -1284,14 +1284,14 @@
           "duration": "Czas trwania (min)"
         },
         "orbuculum": {
-          "hourAngle": "Hour Angle (h)",
-          "nextTarget": "Next target:",
+          "hourAngle": "Kąt godzinny (h)",
+          "nextTarget": "Następny obiekt:",
           "current": "Current:"
         },
         "autoBalancingExposure": {
           "timeSeconds": "Time (s)",
-          "noEntries": "No entries",
-          "addRow": "Add row",
+          "noEntries": "Brak wpisów",
+          "addRow": "Dodaj wiersz",
           "progress": "Progress",
           "ratio": "Ratio",
           "bin": "Bin"
@@ -1369,7 +1369,7 @@
         "end": "Koniec",
         "nothing": "Nic",
         "alsoActive": "Aktywne również",
-        "meridianFlip": "Meridian flip",
+        "meridianFlip": "Przewrót południkowy",
         "meridianFlipHint": "Automatycznie obróć montaż, gdy cel przekroczy południk.",
         "dither": "Dithering",
         "ditherHint": "Lekko przesuwaj pozycję prowadzenia między klatkami. Wymaga działającego guidera.",
@@ -1816,7 +1816,7 @@
           "message": "To ustawienie zacznie działać dopiero po ponownym połączeniu guidera. Połączyć ponownie teraz?"
         },
         "mountSettings": "Montaż",
-        "guideRate": "Guide Rate",
+        "guideRate": "Prędkość prowadzenia",
         "guideRateReadOnly": "Tylko do odczytu",
         "guiderScale": "Skala guidera",
         "maxY": "Maks Y",
@@ -2850,7 +2850,7 @@
           "statusFailed": "Biblioteka darków nie powiodła się"
         },
         "coach": {
-          "title": "Guiding Coach",
+          "title": "Asystent prowadzenia",
           "unknown": "nieznany",
           "intro": "Coach mierzy kamerę prowadzącą, niebo i montaż, porównuje lepsze ustawienia z bieżącymi i wyjaśnia, co ogranicza prowadzenie. Pełna sesja trwa około 15 minut.",
           "introSafe": "Tymczasowe ustawienia są zawsze przywracane. To Ty decydujesz, które zalecenia zastosować.",
@@ -3110,7 +3110,7 @@
             "applyFailed": "Nie udało się zastosować wskazówki"
           },
           "banner": {
-            "running": "Guiding Coach: {step} · {percent} %",
+            "running": "Asystent prowadzenia: {step} · {percent} %",
             "open": "Otwórz"
           },
           "confirmStartTitle": "Uruchomić coacha podczas guidingu?",
@@ -3721,11 +3721,11 @@
       "autofocus": "Autofokus",
       "last_autofocus": "Ostatni autofokus",
       "graph": {
-        "measurePoints": "Measure Points",
-        "quadraticTrendline": "Quadratic Trendline",
-        "hyperbolicTrendline": "Hyperbolic Trendline",
-        "quadraticMin": "Quadratic Min",
-        "hyperbolicMin": "Hyperbolic Min",
+        "measurePoints": "Punkty pomiarowe",
+        "quadraticTrendline": "Kwadratowa linia trendu",
+        "hyperbolicTrendline": "Hiperboliczna linia trendu",
+        "quadraticMin": "Minimum kwadratowe",
+        "hyperbolicMin": "Minimum hiperboliczne",
         "value": "Value",
         "invalidDate": "Nieprawidłowa data"
       },
@@ -4227,13 +4227,13 @@
     },
     "celestiaAtlas": {
       "orientation": {
-        "toggle": "Toggle sky pointing",
-        "hint": "Sky pointing active. Aim through the back of your screen. Drag to stop; pinch to zoom.",
-        "low_accuracy": "Compass accuracy is low. Move away from metal and magnets and calibrate your compass with a figure-eight motion.",
+        "toggle": "Włącz/wyłącz wskazywanie nieba",
+        "hint": "Wskazywanie nieba aktywne. Celuj przez tył ekranu. Przeciągnij, aby zatrzymać; uszczypnij, aby powiększyć.",
+        "low_accuracy": "Dokładność kompasu jest niska. Odsuń się od metalu i magnesów i skalibruj kompas ruchem w kształcie ósemki.",
         "unavailable": "Sky pointing requires a supported native app and a north-referenced motion sensor. Manual browsing is available.",
-        "permission_denied": "Motion access was denied. Allow motion access in system settings or browse manually.",
-        "location_required": "Sky pointing requires an observer location. Set your observing site or allow location access.",
-        "sensor_error": "Sky pointing stopped because sensor data is unavailable. Try again or browse manually."
+        "permission_denied": "Odmówiono dostępu do czujników ruchu. Zezwól na niego w ustawieniach systemu lub przeglądaj ręcznie.",
+        "location_required": "Wskazywanie nieba wymaga miejsca obserwacji. Ustaw swoje miejsce lub zezwól na dostęp do lokalizacji.",
+        "sensor_error": "Wskazywanie nieba zatrzymało się, bo dane z czujników są niedostępne. Spróbuj ponownie lub przeglądaj ręcznie."
       },
       "loading": "Ładowanie Celestia Atlas…",
       "selected_object": {
@@ -4290,20 +4290,20 @@
         "magnitude_limit_auto": "Automatycznie",
         "star_magnitude_limit": "Gwiazdy (graniczna wielkość gwiazdowa)",
         "star_catalogues": "Katalogi gwiazd",
-        "star_catalogue_hint": "Groups can overlap; any enabled group shows the star. Raise the magnitude limit for faint WR stars. Unknown-magnitude stars appear when selected. Stars in photographs without catalogue records are not selectable.",
+        "star_catalogue_hint": "Grupy mogą się nakładać; gwiazda pojawia się, gdy włączona jest którakolwiek z jej grup. Podnieś limit jasności dla słabych gwiazd WR. Gwiazdy o nieznanej jasności pojawiają się po zaznaczeniu. Gwiazd na zdjęciach bez wpisów w katalogu nie można zaznaczyć.",
         "galaxy_magnitude_limit": "Galaktyki (graniczna wielkość gwiazdowa)",
         "dso_magnitude_limit": "Pozostałe obiekty głębokiego nieba (graniczna wielkość gwiazdowa)",
         "title": "Ustawienia",
-        "landscape_source_mode": "Landscape source",
+        "landscape_source_mode": "Źródło krajobrazu",
         "landscape_source_default": "Domyślny krajobraz (Nocna łąka)",
         "landscape_source_guereins": "Guéreins (wieś)",
-        "landscape_source_neutral": "Neutral horizon (Gray)",
-        "landscape_source_custom": "Custom data source",
+        "landscape_source_neutral": "Neutralny horyzont (szary)",
+        "landscape_source_custom": "Własne źródło danych",
         "landscape_option_label": "Krajobraz: {title}",
-        "custom_landscape_url": "Custom source URL",
-        "custom_landscape_url_placeholder": "e.g. /celestia-atlas-data/landscapes/custom",
-        "custom_landscape_key": "Custom source key",
-        "custom_landscape_key_placeholder": "e.g. my-landscape",
+        "custom_landscape_url": "URL własnego źródła",
+        "custom_landscape_url_placeholder": "np. /celestia-atlas-data/landscapes/custom",
+        "custom_landscape_key": "Klucz własnego źródła",
+        "custom_landscape_key_placeholder": "np. moj-krajobraz",
         "available_landscapes": "Dostępne krajobrazy",
         "no_landscapes_available": "Brak dostępnych krajobrazów.",
         "untitled_landscape": "Krajobraz bez tytułu",
@@ -4539,7 +4539,7 @@
       "noInstances": "Nie skonfigurowano żadnych instancji",
       "noneOnline": "Brak instancji online",
       "title": "Przełącz instancję",
-      "switchingTo": "Switching to {name}…"
+      "switchingTo": "Przełączanie na {name}…"
     },
     "fitsPlatesolve": {
       "binning": "Binowanie",

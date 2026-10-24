@@ -435,23 +435,23 @@
     },
     "fileBrowser": {
       "title": "Browse",
-      "goUp": "Go up one level",
+      "goUp": "Subir um nível",
       "loading": "Loading...",
-      "empty": "Empty directory",
-      "dblClickHint": "Double-click to open",
-      "deleteDir": "Delete folder",
-      "folderPlaceholder": "Folder name...",
-      "newFolder": "+ New Folder",
+      "empty": "Pasta vazia",
+      "dblClickHint": "Duplo clique para abrir",
+      "deleteDir": "Eliminar pasta",
+      "folderPlaceholder": "Nome da pasta…",
+      "newFolder": "+ Nova pasta",
       "create": "Create",
       "selectedPath": "Selected:",
-      "loadError": "Could not load directory.",
-      "createError": "Could not create folder.",
-      "deleteDirTitle": "Delete folder",
-      "deleteDirMessage": "Really delete \"{name}\" and all its contents?",
-      "deleteFileTitle": "Delete file",
-      "deleteFileMessage": "Really delete \"{name}\"?",
-      "deleteFile": "Delete file",
-      "deleteError": "Could not delete."
+      "loadError": "Não foi possível carregar a pasta.",
+      "createError": "Não foi possível criar a pasta.",
+      "deleteDirTitle": "Eliminar pasta",
+      "deleteDirMessage": "Eliminar mesmo «{name}» e todo o seu conteúdo?",
+      "deleteFileTitle": "Eliminar ficheiro",
+      "deleteFileMessage": "Eliminar mesmo «{name}»?",
+      "deleteFile": "Eliminar ficheiro",
+      "deleteError": "Não foi possível eliminar."
     },
     "settings": {
       "title": "Configurações",
@@ -760,17 +760,17 @@
       }
     },
     "alpacaDirect": {
-      "title": "Alpaca Direct Settings",
-      "ipAddress": "IP address",
+      "title": "Definições Alpaca Direct",
+      "ipAddress": "Endereço IP",
       "port": "Port",
-      "deviceNumber": "Device number",
-      "serviceType": "Service type",
+      "deviceNumber": "Número do dispositivo",
+      "serviceType": "Tipo de serviço",
       "save": "Save",
       "connect": "Connect",
       "disconnect": "Disconnect",
-      "sharedGuidWarning": "Rotator and safety monitor share one storage slot in NINA — changing one also changes the other.",
-      "noReconnectHint": "New settings take effect on the next connect.",
-      "cameraNoSettings": "This camera has no settings to configure."
+      "sharedGuidWarning": "O rotador e o monitor de segurança partilham um mesmo espaço de armazenamento no NINA – alterar um altera também o outro.",
+      "noReconnectHint": "As novas definições aplicam-se na próxima ligação.",
+      "cameraNoSettings": "Esta câmara não tem definições para configurar."
     },
     "selectDevices": {
       "deviceNotFound": "Dispositivo não encontrado",
@@ -1054,7 +1054,7 @@
         },
         "switchFilter": {
           "filter": "Filtro",
-          "noFilter": "No Filter"
+          "noFilter": "Sem filtro"
         },
         "switchProfile": {
           "profile": "Perfil",
@@ -1284,14 +1284,14 @@
           "duration": "Duração (min)"
         },
         "orbuculum": {
-          "hourAngle": "Hour Angle (h)",
-          "nextTarget": "Next target:",
+          "hourAngle": "Ângulo horário (h)",
+          "nextTarget": "Próximo alvo:",
           "current": "Current:"
         },
         "autoBalancingExposure": {
           "timeSeconds": "Time (s)",
-          "noEntries": "No entries",
-          "addRow": "Add row",
+          "noEntries": "Sem entradas",
+          "addRow": "Adicionar linha",
           "progress": "Progress",
           "ratio": "Ratio",
           "bin": "Bin"
@@ -1816,7 +1816,7 @@
           "message": "Esta configuração só tem efeito depois de o guider ser reconectado. Reconectar agora?"
         },
         "mountSettings": "Montagem",
-        "guideRate": "Guide Rate",
+        "guideRate": "Velocidade de guiagem",
         "guideRateReadOnly": "Somente leitura",
         "guiderScale": "Escala do guia",
         "maxY": "Máx. Y",
@@ -2850,7 +2850,7 @@
           "statusFailed": "Falha na biblioteca de darks"
         },
         "coach": {
-          "title": "Guiding Coach",
+          "title": "Assistente de guiagem",
           "unknown": "desconhecido",
           "intro": "O coach mede a sua câmara guia, o céu e a montagem, testa definições melhores face às atuais e explica o que limita a sua guiagem. Uma sessão completa demora cerca de 15 minutos.",
           "introSafe": "As definições temporárias são sempre repostas. É você quem decide que recomendações aplicar.",
@@ -3110,7 +3110,7 @@
             "applyFailed": "Não foi possível aplicar a dica"
           },
           "banner": {
-            "running": "Guiding Coach: {step} · {percent} %",
+            "running": "Assistente de guiagem: {step} · {percent} %",
             "open": "Abrir"
           },
           "confirmStartTitle": "Iniciar o coach durante a guiagem?",
@@ -3721,11 +3721,11 @@
       "autofocus": "Autofoco",
       "last_autofocus": "Último autofoco",
       "graph": {
-        "measurePoints": "Measure Points",
-        "quadraticTrendline": "Quadratic Trendline",
-        "hyperbolicTrendline": "Hyperbolic Trendline",
-        "quadraticMin": "Quadratic Min",
-        "hyperbolicMin": "Hyperbolic Min",
+        "measurePoints": "Pontos de medição",
+        "quadraticTrendline": "Linha de tendência quadrática",
+        "hyperbolicTrendline": "Linha de tendência hiperbólica",
+        "quadraticMin": "Mínimo quadrático",
+        "hyperbolicMin": "Mínimo hiperbólico",
         "value": "Value",
         "invalidDate": "Data inválida"
       },
@@ -4227,13 +4227,13 @@
     },
     "celestiaAtlas": {
       "orientation": {
-        "toggle": "Toggle sky pointing",
-        "hint": "Sky pointing active. Aim through the back of your screen. Drag to stop; pinch to zoom.",
-        "low_accuracy": "Compass accuracy is low. Move away from metal and magnets and calibrate your compass with a figure-eight motion.",
+        "toggle": "Ativar/desativar apontamento ao céu",
+        "hint": "Apontamento ao céu ativo. Aponta através da parte de trás do ecrã. Arrasta para parar; aperta para fazer zoom.",
+        "low_accuracy": "A precisão da bússola é baixa. Afasta-te de metais e ímanes e calibra a bússola movendo o dispositivo em forma de oito.",
         "unavailable": "Sky pointing requires a supported native app and a north-referenced motion sensor. Manual browsing is available.",
-        "permission_denied": "Motion access was denied. Allow motion access in system settings or browse manually.",
-        "location_required": "Sky pointing requires an observer location. Set your observing site or allow location access.",
-        "sensor_error": "Sky pointing stopped because sensor data is unavailable. Try again or browse manually."
+        "permission_denied": "O acesso aos sensores de movimento foi negado. Permite-o nas definições do sistema ou navega manualmente.",
+        "location_required": "O apontamento ao céu precisa de um local de observação. Define o teu local ou permite o acesso à localização.",
+        "sensor_error": "O apontamento ao céu parou porque os dados dos sensores não estão disponíveis. Tenta de novo ou navega manualmente."
       },
       "loading": "A carregar o Celestia Atlas…",
       "selected_object": {
@@ -4290,20 +4290,20 @@
         "magnitude_limit_auto": "Automático",
         "star_magnitude_limit": "Estrelas (magnitude limite)",
         "star_catalogues": "Catálogos estelares",
-        "star_catalogue_hint": "Groups can overlap; any enabled group shows the star. Raise the magnitude limit for faint WR stars. Unknown-magnitude stars appear when selected. Stars in photographs without catalogue records are not selectable.",
+        "star_catalogue_hint": "Os grupos podem sobrepor-se; uma estrela aparece se qualquer um dos seus grupos estiver ativo. Aumenta o limite de magnitude para estrelas WR ténues. As estrelas de magnitude desconhecida aparecem quando selecionadas. As estrelas das fotografias sem registo no catálogo não são selecionáveis.",
         "galaxy_magnitude_limit": "Galáxias (magnitude limite)",
         "dso_magnitude_limit": "Outros objetos do céu profundo (magnitude limite)",
         "title": "Configurações",
-        "landscape_source_mode": "Landscape source",
+        "landscape_source_mode": "Fonte da paisagem",
         "landscape_source_default": "Paisagem padrão (Prado noturno)",
         "landscape_source_guereins": "Guéreins (aldeia)",
-        "landscape_source_neutral": "Neutral horizon (Gray)",
-        "landscape_source_custom": "Custom data source",
+        "landscape_source_neutral": "Horizonte neutro (cinzento)",
+        "landscape_source_custom": "Fonte de dados própria",
         "landscape_option_label": "Paisagem: {title}",
-        "custom_landscape_url": "Custom source URL",
-        "custom_landscape_url_placeholder": "e.g. /celestia-atlas-data/landscapes/custom",
-        "custom_landscape_key": "Custom source key",
-        "custom_landscape_key_placeholder": "e.g. my-landscape",
+        "custom_landscape_url": "URL da fonte própria",
+        "custom_landscape_url_placeholder": "p. ex. /celestia-atlas-data/landscapes/custom",
+        "custom_landscape_key": "Chave da fonte própria",
+        "custom_landscape_key_placeholder": "p. ex. minha-paisagem",
         "available_landscapes": "Paisagens disponíveis",
         "no_landscapes_available": "Nenhuma paisagem disponível.",
         "untitled_landscape": "Paisagem sem título",
@@ -4539,7 +4539,7 @@
       "noInstances": "Nenhuma instância configurada",
       "noneOnline": "Nenhuma instância on-line",
       "title": "Trocar instância",
-      "switchingTo": "Switching to {name}…"
+      "switchingTo": "A mudar para {name}…"
     },
     "fitsPlatesolve": {
       "binning": "Binning",

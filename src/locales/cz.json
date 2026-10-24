@@ -201,7 +201,7 @@
         "panelsSet": "panely nastavené v pořadí",
         "willBeSaved": "panely budou uloženy jednotlivě"
       },
-      "customTarget": "Custom Target",
+      "customTarget": "Vlastní cíl",
       "solvedRotation": {
         "short": "vyřešeno",
         "tooltip": "Rotace kamery z posledního úspěšného plate solve"
@@ -435,23 +435,23 @@
     },
     "fileBrowser": {
       "title": "Browse",
-      "goUp": "Go up one level",
+      "goUp": "O úroveň výš",
       "loading": "Loading...",
-      "empty": "Empty directory",
-      "dblClickHint": "Double-click to open",
-      "deleteDir": "Delete folder",
-      "folderPlaceholder": "Folder name...",
-      "newFolder": "+ New Folder",
+      "empty": "Prázdná složka",
+      "dblClickHint": "Otevřeš dvojklikem",
+      "deleteDir": "Smazat složku",
+      "folderPlaceholder": "Název složky…",
+      "newFolder": "+ Nová složka",
       "create": "Create",
       "selectedPath": "Selected:",
-      "loadError": "Could not load directory.",
-      "createError": "Could not create folder.",
-      "deleteDirTitle": "Delete folder",
-      "deleteDirMessage": "Really delete \"{name}\" and all its contents?",
-      "deleteFileTitle": "Delete file",
-      "deleteFileMessage": "Really delete \"{name}\"?",
-      "deleteFile": "Delete file",
-      "deleteError": "Could not delete."
+      "loadError": "Složku se nepodařilo načíst.",
+      "createError": "Složku se nepodařilo vytvořit.",
+      "deleteDirTitle": "Smazat složku",
+      "deleteDirMessage": "Opravdu smazat „{name}“ i s celým obsahem?",
+      "deleteFileTitle": "Smazat soubor",
+      "deleteFileMessage": "Opravdu smazat „{name}“?",
+      "deleteFile": "Smazat soubor",
+      "deleteError": "Smazání se nezdařilo."
     },
     "settings": {
       "title": "Nastavení",
@@ -619,29 +619,29 @@
         "Filter": "Filtr pro Plate Solving",
         "FilterCurrent": "Aktuální",
         "FilterHint": "Filtr používaný při plate solvingu (přepíše aktuální filtr)",
-        "astapDatabaseAllInstalled": "All ASTAP star databases are already installed.",
-        "astapDatabaseDescription": "Install missing ASTAP star databases directly on your PINS device.",
+        "astapDatabaseAllInstalled": "Všechny hvězdné databáze ASTAP jsou už nainstalované.",
+        "astapDatabaseDescription": "Nainstaluj chybějící hvězdné databáze ASTAP přímo do zařízení PINS.",
         "astapDatabaseInstall": "Install",
-        "astapDatabaseInstallFailed": "ASTAP star database install failed{exitCode}.",
-        "astapDatabaseInstallSuccess": "ASTAP star database {databaseId} installed successfully.",
+        "astapDatabaseInstallFailed": "Instalace hvězdné databáze ASTAP selhala{exitCode}.",
+        "astapDatabaseInstallSuccess": "Hvězdná databáze ASTAP {databaseId} úspěšně nainstalována.",
         "astapDatabaseInstalling": "Installing...",
         "astapDatabaseProgressStalled": "Stahování se 30 sekund neposunulo. Úloha je nadále sledována.",
         "astapDatabaseJobStarted": "started",
-        "astapDatabaseJobStartedMessage": "Install job started for {databaseId}.",
+        "astapDatabaseJobStartedMessage": "Instalace {databaseId} zahájena.",
         "astapDatabaseJobStatus": "Job {jobId}: {status}",
-        "astapDatabaseLastChecked": "Last checked: {value}",
-        "astapDatabaseLoadFailed": "Failed to load databases: {detail}",
-        "astapDatabaseMissingJobId": "Install request succeeded but no jobId was returned.",
-        "astapDatabaseNoInstallable": "No installable ASTAP star databases available",
+        "astapDatabaseLastChecked": "Naposledy zkontrolováno: {value}",
+        "astapDatabaseLoadFailed": "Databáze se nepodařilo načíst: {detail}",
+        "astapDatabaseMissingJobId": "Požadavek na instalaci uspěl, ale nevrátil jobId.",
+        "astapDatabaseNoInstallable": "Nejsou k dispozici žádné instalovatelné hvězdné databáze ASTAP",
         "astapDatabaseSelectPlaceholder": "Select a database",
-        "astapDatabaseStartFailed": "Failed to start install: {detail}",
-        "astapDatabaseStartInstall": "Starting installation for {databaseId}...",
+        "astapDatabaseStartFailed": "Instalaci se nepodařilo spustit: {detail}",
+        "astapDatabaseStartInstall": "Spouštím instalaci {databaseId}…",
         "astapDatabaseStarting": "Starting...",
-        "astapDatabaseStatusCheckFailedRetrying": "Status check failed: {detail}. Retrying...",
-        "astapDatabaseTitle": "ASTAP Star Database (PINS)",
-        "astapDatabaseUnauthorizedStart": "Unauthorized while starting ASTAP star database install.",
-        "astapDatabaseUnauthorizedStatus": "Unauthorized while checking install status.",
-        "astapDatabaseUnknownError": "Unknown error"
+        "astapDatabaseStatusCheckFailedRetrying": "Kontrola stavu selhala: {detail}. Zkouším znovu…",
+        "astapDatabaseTitle": "Hvězdná databáze ASTAP (PINS)",
+        "astapDatabaseUnauthorizedStart": "Při spuštění instalace hvězdné databáze ASTAP chybí oprávnění.",
+        "astapDatabaseUnauthorizedStatus": "Při kontrole stavu instalace chybí oprávnění.",
+        "astapDatabaseUnknownError": "Neznámá chyba"
       },
       "equipment": {
         "title": "Vybavení",
@@ -673,9 +673,9 @@
         "syncLabel": "Synchronizovat čas do montáže",
         "syncLabelInfo": "Pokud je tato možnost povolena, kliknutím na \"Synchronizovat nyní\" se montáž krátce odpojí a znovu připojí, aby NINA mohla přenést aktuální čas.",
         "title": "Synchronizace času",
-        "loadError": "Could not load time information.",
-        "syncError": "Time synchronisation failed. Check the connection to the PINS device.",
-        "syncSuccess": "Time synchronised successfully."
+        "loadError": "Informace o čase se nepodařilo načíst.",
+        "syncError": "Synchronizace času selhala. Zkontroluj připojení k zařízení PINS.",
+        "syncSuccess": "Čas úspěšně synchronizován."
       },
       "navbarCustomization": {
         "hint": "Přetažením změníte pořadí. Alespoň jedna stránka kromě Nastavení musí zůstat viditelná.",
@@ -760,17 +760,17 @@
       }
     },
     "alpacaDirect": {
-      "title": "Alpaca Direct Settings",
-      "ipAddress": "IP address",
+      "title": "Nastavení Alpaca Direct",
+      "ipAddress": "IP adresa",
       "port": "Port",
-      "deviceNumber": "Device number",
-      "serviceType": "Service type",
+      "deviceNumber": "Číslo zařízení",
+      "serviceType": "Typ služby",
       "save": "Save",
       "connect": "Connect",
       "disconnect": "Disconnect",
-      "sharedGuidWarning": "Rotator and safety monitor share one storage slot in NINA — changing one also changes the other.",
-      "noReconnectHint": "New settings take effect on the next connect.",
-      "cameraNoSettings": "This camera has no settings to configure."
+      "sharedGuidWarning": "Rotátor a bezpečnostní monitor sdílejí v NINA jedno úložné místo – změna jednoho mění i druhý.",
+      "noReconnectHint": "Nová nastavení se projeví při příštím připojení.",
+      "cameraNoSettings": "Tato kamera nemá žádná nastavení."
     },
     "selectDevices": {
       "deviceNotFound": "Zařízení nenalezeno",
@@ -1023,7 +1023,7 @@
       "noItemsInContainer": "Žádné položky v tomto kontejneru",
       "Min": "Min",
       "Max": "Max",
-      "HFRStDev": "HFR St. Dev",
+      "HFRStDev": "Směr. odchylka HFR",
       "totalExposureTime": {
         "title": "Celková doba expozice",
         "Pictures": "obrázky",
@@ -1054,7 +1054,7 @@
         },
         "switchFilter": {
           "filter": "Filtr",
-          "noFilter": "No Filter"
+          "noFilter": "Bez filtru"
         },
         "switchProfile": {
           "profile": "Profil",
@@ -1284,14 +1284,14 @@
           "duration": "Délka (min)"
         },
         "orbuculum": {
-          "hourAngle": "Hour Angle (h)",
-          "nextTarget": "Next target:",
+          "hourAngle": "Hodinový úhel (h)",
+          "nextTarget": "Další cíl:",
           "current": "Current:"
         },
         "autoBalancingExposure": {
           "timeSeconds": "Time (s)",
-          "noEntries": "No entries",
-          "addRow": "Add row",
+          "noEntries": "Žádné položky",
+          "addRow": "Přidat řádek",
           "progress": "Progress",
           "ratio": "Ratio",
           "bin": "Bin"
@@ -1318,13 +1318,13 @@
           "absolute": "Absolutní"
         },
         "startGuiding": {
-          "forceCalibrationLabel": "Force Calibration"
+          "forceCalibrationLabel": "Vynutit kalibraci"
         },
         "slewToGuiderCalibrationPosition": {
-          "clearBacklash": "Clear DEC Backlash",
+          "clearBacklash": "Odstranit vůli v DEC",
           "dec": "Dec",
-          "haOffset": "HA Offset",
-          "side": "Pointing Side",
+          "haOffset": "Posun hodinového úhlu",
+          "side": "Strana mířění",
           "sideEast": "East",
           "sideStay": "Stay",
           "sideWest": "West"
@@ -1348,7 +1348,7 @@
       "resetStatus": "Resetovat stav",
       "delete": "Smazat",
       "runningLocked": "Tato položka právě běží a nelze ji změnit",
-      "controlsLockedMessage": "Sequence controls are locked while the sequence is running.",
+      "controlsLockedMessage": "Ovládání sekvence je během jejího běhu uzamčené.",
       "lockControls": "Lock",
       "unlockControls": "Unlock",
       "simple": {
@@ -1458,8 +1458,8 @@
         "setLocationSyncToMount": "Nastavit 'Synchronizovat s dalekohledem'",
         "slewRateINDI": "Rychlost pohybu",
         "reverse_axis": "Směr os",
-        "slewRateDriverControlled": "Slew rate is controlled by the driver",
-        "slewRateUnavailable": "Connect a mount to adjust the slew rate",
+        "slewRateDriverControlled": "Rychlost přejezdu řídí ovladač",
+        "slewRateUnavailable": "Pro nastavení rychlosti přejezdu připoj montáž",
         "parkedNotice": "Montáž je zaparkovaná — pro změnu režimu sledování ji odparkujte",
         "parkedShort": "Montáž je zaparkovaná",
         "parkedHint": "Pro ruční pohyb montáž odparkujte",
@@ -1676,7 +1676,7 @@
           "switches": {
             "StatusLed": "Stavová LED",
             "PowerLossMemory": "Paměť při výpadku napájení",
-            "AsiairHoming": "ASIAIR homing",
+            "AsiairHoming": "Hledání domovské polohy ASIAIR",
             "SupervisedHome": "Hlídaný home",
             "DecSecondHome": "Druhý home Dec",
             "AutoTracking": "Sledovat po zapnutí",
@@ -1745,7 +1745,7 @@
       "phd2Path": "Cesta PHD2",
       "phd2ServerHost": "Název hostitele serveru PHD2",
       "phd2ServerPort": "Port serveru PHD2",
-      "ditherPixels": "Dither Pixels (px)",
+      "ditherPixels": "Pixely ditheringu (px)",
       "ditherRAOnly": "Dither pouze v RA",
       "settlePixels": "Tolerance ustálení (px)",
       "settleTime": "Minimální doba ustálení (s)",
@@ -1816,7 +1816,7 @@
           "message": "Toto nastavení se projeví až po opětovném připojení guideru. Připojit znovu nyní?"
         },
         "mountSettings": "Montáž",
-        "guideRate": "Guide Rate",
+        "guideRate": "Rychlost pointace",
         "guideRateReadOnly": "Pouze pro čtení",
         "guiderScale": "Měřítko guideru",
         "maxY": "Max Y",
@@ -1931,15 +1931,15 @@
           "show": "Zobrazit hvězdné komponenty"
         },
         "applyStep": "Apply",
-        "calculatedStep": "Calculated Step",
+        "calculatedStep": "Vypočtený krok",
         "calibDistance": "Distance",
-        "calibStepCalc": "Step Size Calculator",
+        "calibStepCalc": "Kalkulačka velikosti kroku",
         "declination": "Declination",
-        "desiredSteps": "Desired Steps",
-        "guideSpeed": "Guide Speed",
-        "imageScale": "Image Scale",
+        "desiredSteps": "Požadovaný počet kroků",
+        "guideSpeed": "Rychlost pointace",
+        "imageScale": "Měřítko snímku",
         "optimal": "Optimal",
-        "pixelSize": "Pixel Size",
+        "pixelSize": "Velikost pixelu",
         "assumeDecOrthogonal": "Předpokládat Dec kolmou na RA",
         "useDecCompensation": "Použít kompenzaci Dec",
         "fastRecenter": "Rychlé vystředění po kalibraci nebo ditheru",
@@ -1998,7 +1998,7 @@
           "enabled": "Zapnuto",
           "amount": "Hodnota (ms)",
           "min": "Min (ms)",
-          "max": "Max (ms)"
+          "max": "Max. (ms)"
         },
         "minStarSNR": "Minimální SNR hvězdy pro AutoFind",
         "autoSelectDownsample": "Podvzorkování snímků výběru",
@@ -2850,7 +2850,7 @@
           "statusFailed": "Vytvoření knihovny darků selhalo"
         },
         "coach": {
-          "title": "Guiding Coach",
+          "title": "Pointační kouč",
           "unknown": "neznámé",
           "intro": "Coach změří vaši naváděcí kameru, oblohu i montáž, vyzkouší lepší nastavení proti vašemu současnému a vysvětlí, co omezuje vaše navádění. Celá relace trvá asi 15 minut.",
           "introSafe": "Dočasná nastavení se vždy vrátí zpět. Která doporučení použijete, rozhodujete vy.",
@@ -3110,7 +3110,7 @@
             "applyFailed": "Použití tipu selhalo"
           },
           "banner": {
-            "running": "Guiding Coach: {step} · {percent} %",
+            "running": "Pointační kouč: {step} · {percent} %",
             "open": "Otevřít"
           },
           "confirmStartTitle": "Spustit kouče během pointace?",
@@ -3721,11 +3721,11 @@
       "autofocus": "AutoOstření",
       "last_autofocus": "Poslední AutoOstření",
       "graph": {
-        "measurePoints": "Measure Points",
-        "quadraticTrendline": "Quadratic Trendline",
-        "hyperbolicTrendline": "Hyperbolic Trendline",
-        "quadraticMin": "Quadratic Min",
-        "hyperbolicMin": "Hyperbolic Min",
+        "measurePoints": "Měřicí body",
+        "quadraticTrendline": "Kvadratická spojnice trendu",
+        "hyperbolicTrendline": "Hyperbolická spojnice trendu",
+        "quadraticMin": "Kvadratické minimum",
+        "hyperbolicMin": "Hyperbolické minimum",
         "value": "Value",
         "invalidDate": "Neplatné datum"
       },
@@ -3767,7 +3767,7 @@
         "AutoFocusExposureTime": "Výchozí doba expozice",
         "BeepOnMove": "Pípnutí při pohybu",
         "BeepOnStartup": "Pípnutí při spuštění",
-        "ClearStall": "Clear Stall",
+        "ClearStall": "Zrušit zaseknutí",
         "FocuserAlias": "Alias zaostřovače",
         "Heating": "Topení",
         "HeatingTemperature": "Teplota ohřevu",
@@ -3860,7 +3860,7 @@
       "is_sync": "Synch",
       "not_sync": "Není synch.",
       "indi": {
-        "settings": "Dome Settings"
+        "settings": "Nastavení kopule"
       }
     },
     "camera": {
@@ -3997,14 +3997,14 @@
       },
       "error_modal": {},
       "tppa": "TPPA",
-      "warn_dec_spread_body": "The mount's reported declination changed by {arcsec}\" between measurements. This may affect polar alignment accuracy — ensure only the RA axis moves during measurement.",
-      "warn_dec_spread_title": "Declination spread detected",
-      "warn_east_west_body": "The current field is within 5° of exact East or West. If the live solution is unstable, slew to a field farther from East/West and rerun.",
-      "warn_east_west_title": "Correction field within {deg}° of East/West",
-      "warn_huge_body": "Either the mount is far off alignment or the calculation could not determine the result. Check site location, confirm the mount is roughly pointing to the pole, and that only the RA axis was moved between the three measurement points.",
-      "warn_huge_title": "Calculated error is huge",
-      "warn_large_body": "The correction phase will be less reliable. Bring the mount closer to polar alignment and run TPPA again to verify.",
-      "warn_large_title": "Initial polar alignment error is large"
+      "warn_dec_spread_body": "Deklinace hlášená montáží se mezi měřeními změnila o {arcsec}\". To může ovlivnit přesnost polárního vyrovnání – zajisti, aby se během měření pohybovala jen osa RA.",
+      "warn_dec_spread_title": "Zjištěn rozptyl deklinace",
+      "warn_east_west_body": "Aktuální pole leží do 5° od přesného východu nebo západu. Pokud je živé řešení nestabilní, přejeď na pole dál od východu/západu a spusť měření znovu.",
+      "warn_east_west_title": "Pole korekce do {deg}° od východu/západu",
+      "warn_huge_body": "Buď je montáž daleko od vyrovnání, nebo výpočet nedokázal určit výsledek. Zkontroluj polohu stanoviště, ověř, že montáž míří zhruba k pólu a že se mezi třemi body měření pohybovala jen osa RA.",
+      "warn_huge_title": "Vypočtená chyba je obrovská",
+      "warn_large_body": "Fáze korekce bude méně spolehlivá. Přibliž montáž polárnímu vyrovnání a spusť TPPA znovu pro ověření.",
+      "warn_large_title": "Počáteční chyba polárního vyrovnání je velká"
     },
     "slewAndCenter": {
       "title": "Přejet a Vycentrovat",
@@ -4167,28 +4167,28 @@
       "mode": "Režim",
       "multi_mode": "Multi režim",
       "multi_mode_no_filters": "Není připojeno žádné filtrové kolo",
-      "single_mode": "Single Mode",
+      "single_mode": "Jednotlivý režim",
       "start_multi_mode": "Spusťte režim Multi",
       "status_filter_progress": "Filtr: {completed} / {total}",
       "cover_scope_confirm": "OK",
-      "cover_scope_message": "Cover your scope now and press OK to start taking the darks.",
-      "cover_scope_title": "Cover your scope now",
+      "cover_scope_message": "Teď zakryj dalekohled a stiskni OK, aby se začaly pořizovat darky.",
+      "cover_scope_title": "Teď zakryj dalekohled",
       "darks_to_take": "Darkflats k pořízení",
-      "operation_failed": "Operation failed",
-      "status_failed_darks": "No darks captured - could not determine valid exposure",
+      "operation_failed": "Operace selhala",
+      "status_failed_darks": "Žádné darky – nepodařilo se určit platnou expozici",
       "status_failed_flats": "Nepodařilo se určit platnou expozici",
-      "status_running_darks": "Running: {completed} / {total} darks",
-      "status_running_flats": "Running: {completed} / {total} flats",
-      "status_stopped_darks": "Stopped early - {completed} of {total} darks captured",
-      "status_stopped_flats": "Stopped early - {completed} of {total} flats captured",
-      "status_success_darks": "Done - {count} darks captured",
-      "status_success_flats": "Done - {count} flats captured",
+      "status_running_darks": "Probíhá: {completed} / {total} darků",
+      "status_running_flats": "Probíhá: {completed} / {total} flatů",
+      "status_stopped_darks": "Zastaveno předčasně – pořízeno {completed} z {total} darků",
+      "status_stopped_flats": "Zastaveno předčasně – pořízeno {completed} z {total} flatů",
+      "status_success_darks": "Hotovo – pořízeno {count} darků",
+      "status_success_flats": "Hotovo – pořízeno {count} flatů",
       "filter_label": "Filter",
-      "result_bright": "too bright",
-      "result_dim": "too dim",
+      "result_bright": "příliš světlé",
+      "result_dim": "příliš tmavé",
       "status_completed_flats": "Completed",
-      "status_failed_flats_multi": "All filters failed to determine valid exposure",
-      "status_partial_flats_multi": "Failed filters: {filters}",
+      "status_failed_flats_multi": "Pro žádný filtr se nepodařilo určit platnou expozici",
+      "status_partial_flats_multi": "Neúspěšné filtry: {filters}",
       "status_running_unknown": "Determining…",
       "target": "Target"
     },
@@ -4219,21 +4219,21 @@
       "gauges": "Měřící přístroje",
       "switch": "Přepínač",
       "indi": {
-        "settings": "Switch Settings"
+        "settings": "Nastavení spínačů"
       },
       "sv241pro": {
-        "preConnectDelay": "Pre Connect Delay (ms)"
+        "preConnectDelay": "Prodleva před připojením (ms)"
       }
     },
     "celestiaAtlas": {
       "orientation": {
-        "toggle": "Toggle sky pointing",
-        "hint": "Sky pointing active. Aim through the back of your screen. Drag to stop; pinch to zoom.",
-        "low_accuracy": "Compass accuracy is low. Move away from metal and magnets and calibrate your compass with a figure-eight motion.",
+        "toggle": "Zapnout/vypnout míření na oblohu",
+        "hint": "Míření na oblohu je aktivní. Miř přes zadní stranu displeje. Tažením ho zastavíš, sevřením prstů přiblížíš.",
+        "low_accuracy": "Přesnost kompasu je nízká. Vzdal se od kovů a magnetů a zkalibruj kompas pohybem ve tvaru osmičky.",
         "unavailable": "Sky pointing requires a supported native app and a north-referenced motion sensor. Manual browsing is available.",
-        "permission_denied": "Motion access was denied. Allow motion access in system settings or browse manually.",
-        "location_required": "Sky pointing requires an observer location. Set your observing site or allow location access.",
-        "sensor_error": "Sky pointing stopped because sensor data is unavailable. Try again or browse manually."
+        "permission_denied": "Přístup k pohybovým senzorům byl zamítnut. Povol ho v nastavení systému nebo procházej ručně.",
+        "location_required": "Míření na oblohu potřebuje stanoviště. Nastav své stanoviště nebo povol přístup k poloze.",
+        "sensor_error": "Míření na oblohu se zastavilo, protože data senzorů nejsou k dispozici. Zkus to znovu nebo procházej ručně."
       },
       "loading": "Načítání Celestia Atlas…",
       "selected_object": {
@@ -4290,25 +4290,25 @@
         "magnitude_limit_auto": "Automaticky",
         "star_magnitude_limit": "Hvězdy (mezní hvězdná velikost)",
         "star_catalogues": "Hvězdné katalogy",
-        "star_catalogue_hint": "Groups can overlap; any enabled group shows the star. Raise the magnitude limit for faint WR stars. Unknown-magnitude stars appear when selected. Stars in photographs without catalogue records are not selectable.",
+        "star_catalogue_hint": "Skupiny se mohou překrývat; hvězda se zobrazí, je-li zapnutá kterákoli z jejích skupin. Pro slabé hvězdy WR zvyš mezní magnitudu. Hvězdy s neznámou magnitudou se zobrazí, když je vybereš. Hvězdy na fotografiích bez katalogového záznamu vybrat nelze.",
         "galaxy_magnitude_limit": "Galaxie (mezní hvězdná velikost)",
         "dso_magnitude_limit": "Ostatní DSO (mezní hvězdná velikost)",
         "title": "Nastavení",
-        "landscape_source_mode": "Landscape source",
+        "landscape_source_mode": "Zdroj krajiny",
         "landscape_source_default": "Výchozí krajina (Noční louka)",
         "landscape_source_guereins": "Guéreins (vesnice)",
-        "landscape_source_neutral": "Neutral horizon (Gray)",
-        "landscape_source_custom": "Custom data source",
+        "landscape_source_neutral": "Neutrální horizont (šedý)",
+        "landscape_source_custom": "Vlastní zdroj dat",
         "landscape_option_label": "Landscape: {title}",
-        "custom_landscape_url": "Custom source URL",
-        "custom_landscape_url_placeholder": "e.g. /celestia-atlas-data/landscapes/custom",
-        "custom_landscape_key": "Custom source key",
-        "custom_landscape_key_placeholder": "e.g. my-landscape",
-        "available_landscapes": "Available landscapes",
-        "no_landscapes_available": "No landscapes available.",
-        "untitled_landscape": "Untitled landscape",
+        "custom_landscape_url": "URL vlastního zdroje",
+        "custom_landscape_url_placeholder": "např. /celestia-atlas-data/landscapes/custom",
+        "custom_landscape_key": "Klíč vlastního zdroje",
+        "custom_landscape_key_placeholder": "např. moje-krajina",
+        "available_landscapes": "Dostupné krajiny",
+        "no_landscapes_available": "Žádné krajiny nejsou k dispozici.",
+        "untitled_landscape": "Krajina bez názvu",
         "has_allsky": "Allsky",
-        "no_allsky": "No allsky",
+        "no_allsky": "Bez allsky",
         "folder_name_label": "folderName",
         "service_url_label": "serviceUrl",
         "landscape_list_load_failed": "Failed to load landscapes.",
@@ -4539,43 +4539,43 @@
       "noInstances": "Nejsou nakonfigurovány žádné instance",
       "noneOnline": "Žádné instance online",
       "title": "Přepnout instanci",
-      "switchingTo": "Switching to {name}…"
+      "switchingTo": "Přepínání na {name}…"
     },
     "fitsPlatesolve": {
       "binning": "Binning",
       "blindSolve": "Blind Solve",
-      "browserTitle": "Select FITS File for Plate Solve",
-      "buttonTitle": "FITS Plate Solve",
-      "coordinatesHint": "Coordinate hint (leave blank for blind solve)",
+      "browserTitle": "Vyber soubor FITS pro plate solve",
+      "buttonTitle": "Plate solve FITS",
+      "coordinatesHint": "Nápověda souřadnic (prázdné pro blind solve)",
       "dec": "Dec",
       "decPlaceholder": "DD:MM:SS",
-      "error": "Plate solve failed",
-      "errorLoadParams": "Failed to read FITS parameters",
+      "error": "Plate solve selhal",
+      "errorLoadParams": "Parametry FITS se nepodařilo načíst",
       "file": "File",
-      "focalLength": "Focal Length",
-      "loadingParams": "Reading FITS header…",
-      "pixelScale": "Pixel Scale",
-      "pixelSize": "Pixel Size",
+      "focalLength": "Ohnisková vzdálenost",
+      "loadingParams": "Načítání hlavičky FITS…",
+      "pixelScale": "Měřítko pixelu",
+      "pixelSize": "Velikost pixelu",
       "plateSolve": "Plate Solve",
       "ra": "RA",
       "raPlaceholder": "HH:MM:SS",
       "rotation": "Rotation",
-      "solveFailed": "Plate solve failed",
+      "solveFailed": "Plate solve selhal",
       "solving": "Solving…",
-      "solvingHint": "Plate solving may take 10–60 seconds depending on the solver and search radius.",
-      "success": "Plate solve successful",
-      "targetApplied": "Target applied",
-      "titleConfirm": "Confirm Plate Solve Parameters",
-      "titleError": "Plate Solve Failed",
-      "titleLoading": "Reading FITS Parameters…",
-      "titleResult": "Plate Solve Result",
-      "titleSolving": "Plate Solving…",
-      "tryAgain": "Select File",
-      "useAsTarget": "Use as Target"
+      "solvingHint": "Plate solving může podle solveru a poloměru hledání trvat 10–60 sekund.",
+      "success": "Plate solve úspěšný",
+      "targetApplied": "Cíl nastaven",
+      "titleConfirm": "Potvrdit parametry plate solve",
+      "titleError": "Plate solve selhal",
+      "titleLoading": "Načítání parametrů FITS…",
+      "titleResult": "Výsledek plate solve",
+      "titleSolving": "Probíhá plate solving…",
+      "tryAgain": "Vybrat soubor",
+      "useAsTarget": "Použít jako cíl"
     },
     "safetyMonitor": {
       "indi": {
-        "settings": "Safety Monitor Settings"
+        "settings": "Nastavení bezpečnostního monitoru"
       }
     },
     "statusBar": {

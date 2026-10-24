@@ -110,7 +110,7 @@
       "manageInstances": "インスタンスの管理",
       "checking": "インスタンスを確認中…",
       "noneOnline": "オンラインのインスタンスがありません",
-      "switchingTo": "Switching to {name}…"
+      "switchingTo": "{name} に切り替え中…"
     },
     "instanceDetection": {
       "autoDetectionTitle": "自動検出",
@@ -2859,7 +2859,7 @@
           "statusFailed": "ダークライブラリの作成に失敗しました"
         },
         "coach": {
-          "title": "Guiding Coach",
+          "title": "ガイドコーチ",
           "unknown": "不明",
           "intro": "コーチはガイドカメラ・空・赤道儀を測定し、より良い設定を現在の設定と比較して、ガイドを制限している要因を説明します。フルセッションは約 15 分かかります。",
           "introSafe": "一時的な設定は必ず元に戻されます。どの推奨を適用するかはあなたが決めます。",
@@ -3119,7 +3119,7 @@
             "applyFailed": "ヒントの適用に失敗しました"
           },
           "banner": {
-            "running": "Guiding Coach: {step} · {percent} %",
+            "running": "ガイドコーチ：{step} · {percent} %",
             "open": "開く"
           },
           "confirmStartTitle": "ガイド中にコーチを開始しますか？",
@@ -4236,13 +4236,13 @@
     },
     "celestiaAtlas": {
       "orientation": {
-        "toggle": "Toggle sky pointing",
-        "hint": "Sky pointing active. Aim through the back of your screen. Drag to stop; pinch to zoom.",
-        "low_accuracy": "Compass accuracy is low. Move away from metal and magnets and calibrate your compass with a figure-eight motion.",
+        "toggle": "空ポインティングの切り替え",
+        "hint": "空ポインティングが有効です。画面の裏側越しに空へ向けてください。ドラッグで停止、ピンチでズームします。",
+        "low_accuracy": "コンパスの精度が低くなっています。金属や磁石から離れ、8 の字を描くようにしてコンパスを校正してください。",
         "unavailable": "Sky pointing requires a supported native app and a north-referenced motion sensor. Manual browsing is available.",
-        "permission_denied": "Motion access was denied. Allow motion access in system settings or browse manually.",
-        "location_required": "Sky pointing requires an observer location. Set your observing site or allow location access.",
-        "sensor_error": "Sky pointing stopped because sensor data is unavailable. Try again or browse manually."
+        "permission_denied": "モーションセンサーへのアクセスが拒否されました。システム設定で許可するか、手動で操作してください。",
+        "location_required": "空ポインティングには観測地が必要です。観測地を設定するか、位置情報へのアクセスを許可してください。",
+        "sensor_error": "センサーデータを取得できないため、空ポインティングを停止しました。もう一度試すか、手動で操作してください。"
       },
       "loading": "Celestia Atlas を読み込んでいます…",
       "selected_object": {
@@ -4299,20 +4299,20 @@
         "magnitude_limit_auto": "自動",
         "star_magnitude_limit": "恒星（限界等級）",
         "star_catalogues": "恒星カタログ",
-        "star_catalogue_hint": "Groups can overlap; any enabled group shows the star. Raise the magnitude limit for faint WR stars. Unknown-magnitude stars appear when selected. Stars in photographs without catalogue records are not selectable.",
+        "star_catalogue_hint": "グループは重複することがあり、いずれかのグループが有効なら星が表示されます。暗い WR 星には等級の上限を上げてください。等級不明の星は選択すると表示されます。カタログ記録のない写真上の星は選択できません。",
         "galaxy_magnitude_limit": "銀河（限界等級）",
         "dso_magnitude_limit": "その他の深宇宙天体（限界等級）",
         "title": "設定",
-        "landscape_source_mode": "Landscape source",
+        "landscape_source_mode": "風景のソース",
         "landscape_source_default": "デフォルトの風景（夜の草原）",
         "landscape_source_guereins": "Guéreins（村）",
-        "landscape_source_neutral": "Neutral horizon (Gray)",
-        "landscape_source_custom": "Custom data source",
+        "landscape_source_neutral": "ニュートラルな地平線（グレー）",
+        "landscape_source_custom": "カスタムデータソース",
         "landscape_option_label": "風景: {title}",
-        "custom_landscape_url": "Custom source URL",
-        "custom_landscape_url_placeholder": "e.g. /celestia-atlas-data/landscapes/custom",
-        "custom_landscape_key": "Custom source key",
-        "custom_landscape_key_placeholder": "e.g. my-landscape",
+        "custom_landscape_url": "カスタムソースの URL",
+        "custom_landscape_url_placeholder": "例：/celestia-atlas-data/landscapes/custom",
+        "custom_landscape_key": "カスタムソースのキー",
+        "custom_landscape_key_placeholder": "例：my-landscape",
         "available_landscapes": "利用可能な風景",
         "no_landscapes_available": "利用できる風景はありません。",
         "untitled_landscape": "無題の風景",

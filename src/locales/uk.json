@@ -570,7 +570,7 @@
         "shutdownInfoMessage": "Система вимикається. Ця сторінка більше не буде доступна."
       },
       "plate_solver": {
-        "title": "Plate Solver",
+        "title": "Plate solver",
         "basic": "Основні налаштування",
         "search": "Налаштування пошуку",
         "retry": "Налаштування повторних спроб",
@@ -740,17 +740,17 @@
       }
     },
     "alpacaDirect": {
-      "title": "Alpaca Direct Settings",
-      "ipAddress": "IP address",
+      "title": "Налаштування Alpaca Direct",
+      "ipAddress": "IP-адреса",
       "port": "Port",
-      "deviceNumber": "Device number",
-      "serviceType": "Service type",
+      "deviceNumber": "Номер пристрою",
+      "serviceType": "Тип служби",
       "save": "Save",
       "connect": "Connect",
       "disconnect": "Disconnect",
-      "sharedGuidWarning": "Rotator and safety monitor share one storage slot in NINA — changing one also changes the other.",
-      "noReconnectHint": "New settings take effect on the next connect.",
-      "cameraNoSettings": "This camera has no settings to configure."
+      "sharedGuidWarning": "Ротатор і монітор безпеки мають у NINA одне спільне місце зберігання – зміна одного змінює й інший.",
+      "noReconnectHint": "Нові налаштування набудуть чинності під час наступного підключення.",
+      "cameraNoSettings": "Ця камера не має налаштувань."
     },
     "selectDevices": {
       "deviceNotFound": "Пристрій не знайдено",
@@ -1043,7 +1043,7 @@
         },
         "switchFilter": {
           "filter": "Фільтр",
-          "noFilter": "No Filter"
+          "noFilter": "Без фільтра"
         },
         "switchProfile": {
           "profile": "Профіль",
@@ -1273,14 +1273,14 @@
           "duration": "Тривалість (хв)"
         },
         "orbuculum": {
-          "hourAngle": "Hour Angle (h)",
-          "nextTarget": "Next target:",
+          "hourAngle": "Годинний кут (год)",
+          "nextTarget": "Наступний об'єкт:",
           "current": "Current:"
         },
         "autoBalancingExposure": {
           "timeSeconds": "Time (s)",
-          "noEntries": "No entries",
-          "addRow": "Add row",
+          "noEntries": "Немає записів",
+          "addRow": "Додати рядок",
           "progress": "Progress",
           "ratio": "Ratio",
           "bin": "Bin"
@@ -1316,7 +1316,7 @@
           "sideEast": "схід",
           "sideStay": "Залишити",
           "sideWest": "Захід",
-          "haOffset": "HA Offset"
+          "haOffset": "Зсув годинного кута"
         }
       },
       "emptyContainer": "Порожньо — натисніть + для додавання елементів",
@@ -1349,7 +1349,7 @@
         "end": "Кінець",
         "nothing": "Нічого",
         "alsoActive": "Також активні",
-        "meridianFlip": "Meridian flip",
+        "meridianFlip": "Перекладка через меридіан",
         "meridianFlipHint": "Автоматично перекидати монтування, коли ціль перетинає меридіан.",
         "dither": "Дизеринг",
         "ditherHint": "Злегка зміщувати позицію гідування між кадрами. Потрібен активний гайдер.",
@@ -1656,7 +1656,7 @@
           "switches": {
             "StatusLed": "Індикатор стану",
             "PowerLossMemory": "Пам’ять при зникненні живлення",
-            "AsiairHoming": "ASIAIR homing",
+            "AsiairHoming": "Пошук дому ASIAIR",
             "SupervisedHome": "Контрольований home",
             "DecSecondHome": "Другий home Dec",
             "AutoTracking": "Ведення при ввімкненні",
@@ -1821,7 +1821,7 @@
           "message": "Це налаштування набуде чинності лише після перепідключення гіда. Перепідключити зараз?"
         },
         "mountSettings": "Монтування",
-        "guideRate": "Guide Rate",
+        "guideRate": "Швидкість гідування",
         "guideRateReadOnly": "Лише читання",
         "guiderScale": "Масштаб гіда",
         "maxY": "Макс Y",
@@ -2830,7 +2830,7 @@
           "statusFailed": "Не вдалося створити бібліотеку дарків"
         },
         "coach": {
-          "title": "Guiding Coach",
+          "title": "Помічник гідування",
           "unknown": "невідомо",
           "intro": "Coach вимірює гід-камеру, небо й монтування, порівнює кращі налаштування з вашими поточними й пояснює, що обмежує ваше гідування. Повний сеанс триває близько 15 хвилин.",
           "introSafe": "Тимчасові налаштування завжди відновлюються. Ви вирішуєте, які рекомендації застосувати.",
@@ -3090,7 +3090,7 @@
             "applyFailed": "Не вдалося застосувати пораду"
           },
           "banner": {
-            "running": "Guiding Coach: {step} · {percent} %",
+            "running": "Помічник гідування: {step} · {percent} %",
             "open": "Відкрити"
           },
           "confirmStartTitle": "Запустити коуча під час гідування?",
@@ -3701,11 +3701,11 @@
       "autofocus": "Автофокус",
       "last_autofocus": "Останній автофокус",
       "graph": {
-        "measurePoints": "Measure Points",
-        "quadraticTrendline": "Quadratic Trendline",
-        "hyperbolicTrendline": "Hyperbolic Trendline",
-        "quadraticMin": "Quadratic Min",
-        "hyperbolicMin": "Hyperbolic Min",
+        "measurePoints": "Точки вимірювання",
+        "quadraticTrendline": "Квадратична лінія тренду",
+        "hyperbolicTrendline": "Гіперболічна лінія тренду",
+        "quadraticMin": "Квадратичний мінімум",
+        "hyperbolicMin": "Гіперболічний мінімум",
         "value": "Value",
         "invalidDate": "Недійсна дата"
       },
@@ -4207,13 +4207,13 @@
     },
     "celestiaAtlas": {
       "orientation": {
-        "toggle": "Toggle sky pointing",
-        "hint": "Sky pointing active. Aim through the back of your screen. Drag to stop; pinch to zoom.",
-        "low_accuracy": "Compass accuracy is low. Move away from metal and magnets and calibrate your compass with a figure-eight motion.",
+        "toggle": "Увімкнути/вимкнути наведення на небо",
+        "hint": "Наведення на небо активне. Ціль крізь задню сторону екрана. Перетягни, щоб зупинити; зведи пальці, щоб масштабувати.",
+        "low_accuracy": "Точність компаса низька. Відійди від металу й магнітів і відкалібруй компас рухом у формі вісімки.",
         "unavailable": "Sky pointing requires a supported native app and a north-referenced motion sensor. Manual browsing is available.",
-        "permission_denied": "Motion access was denied. Allow motion access in system settings or browse manually.",
-        "location_required": "Sky pointing requires an observer location. Set your observing site or allow location access.",
-        "sensor_error": "Sky pointing stopped because sensor data is unavailable. Try again or browse manually."
+        "permission_denied": "Доступ до датчиків руху заборонено. Дозволь його в налаштуваннях системи або переглядай вручну.",
+        "location_required": "Для наведення на небо потрібне місце спостереження. Вкажи своє місце або дозволь доступ до геолокації.",
+        "sensor_error": "Наведення на небо зупинено, бо дані датчиків недоступні. Спробуй ще раз або переглядай вручну."
       },
       "loading": "Завантаження Celestia Atlas…",
       "selected_object": {
@@ -4270,20 +4270,20 @@
         "magnitude_limit_auto": "Автоматично",
         "star_magnitude_limit": "Зорі (гранична зоряна величина)",
         "star_catalogues": "Зоряні каталоги",
-        "star_catalogue_hint": "Groups can overlap; any enabled group shows the star. Raise the magnitude limit for faint WR stars. Unknown-magnitude stars appear when selected. Stars in photographs without catalogue records are not selectable.",
+        "star_catalogue_hint": "Групи можуть перекриватися; зоря показується, якщо ввімкнена будь-яка з її груп. Підвищ межу зоряної величини для слабких зір WR. Зорі з невідомою величиною з'являються, коли їх вибрано. Зорі на фотографіях без записів у каталозі вибрати не можна.",
         "galaxy_magnitude_limit": "Галактики (гранична зоряна величина)",
         "dso_magnitude_limit": "Інші об'єкти глибокого неба (гранична зоряна величина)",
         "title": "Налаштування",
-        "landscape_source_mode": "Landscape source",
+        "landscape_source_mode": "Джерело ландшафту",
         "landscape_source_default": "Типовий ландшафт (Нічна лука)",
         "landscape_source_guereins": "Guéreins (село)",
-        "landscape_source_neutral": "Neutral horizon (Gray)",
-        "landscape_source_custom": "Custom data source",
+        "landscape_source_neutral": "Нейтральний горизонт (сірий)",
+        "landscape_source_custom": "Власне джерело даних",
         "landscape_option_label": "Пейзаж: {title}",
-        "custom_landscape_url": "Custom source URL",
-        "custom_landscape_url_placeholder": "e.g. /celestia-atlas-data/landscapes/custom",
-        "custom_landscape_key": "Custom source key",
-        "custom_landscape_key_placeholder": "e.g. my-landscape",
+        "custom_landscape_url": "URL власного джерела",
+        "custom_landscape_url_placeholder": "напр. /celestia-atlas-data/landscapes/custom",
+        "custom_landscape_key": "Ключ власного джерела",
+        "custom_landscape_key_placeholder": "напр. mii-landshaft",
         "available_landscapes": "Доступні пейзажі",
         "no_landscapes_available": "Немає пейзажів.",
         "untitled_landscape": "Пейзаж без назви",
@@ -4519,7 +4519,7 @@
       "manageInstances": "Керування екземплярами",
       "checking": "Перевірка екземплярів…",
       "noneOnline": "Жоден екземпляр не онлайн",
-      "switchingTo": "Switching to {name}…"
+      "switchingTo": "Перемикання на {name}…"
     },
     "fileBrowser": {
       "title": "Перегляд",
@@ -4545,7 +4545,7 @@
       "binning": "Бінінг",
       "blindSolve": "Сліпе розв'язання",
       "browserTitle": "Виберіть файл FITS для Plate Solve",
-      "buttonTitle": "FITS Plate Solve",
+      "buttonTitle": "Plate solve FITS",
       "coordinatesHint": "Підказка щодо координат (залиште порожнім для сліпого розв'язання)",
       "dec": "Dec",
       "decPlaceholder": "ДД:ММ:СС",
@@ -4569,7 +4569,7 @@
       "titleError": "Помилка Plate Solve",
       "titleLoading": "Читання параметрів FITS…",
       "titleResult": "Результат Plate Solve",
-      "titleSolving": "Plate Solving…",
+      "titleSolving": "Виконується plate solving…",
       "tryAgain": "Виберіть Файл",
       "useAsTarget": "Використовувати як ціль"
     },

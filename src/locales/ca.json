@@ -1410,7 +1410,7 @@
         "end": "Final",
         "nothing": "Res",
         "alsoActive": "També actiu",
-        "meridianFlip": "Meridian flip",
+        "meridianFlip": "Gir de meridià",
         "meridianFlipHint": "Gira la muntura automàticament quan un objectiu creua el meridià.",
         "dither": "Dithering",
         "ditherHint": "Desplaça lleugerament la posició de guiatge entre imatges. Cal un guiatge actiu.",
@@ -2891,7 +2891,7 @@
           "statusFailed": "La biblioteca de foscos ha fallat"
         },
         "coach": {
-          "title": "Guiding Coach",
+          "title": "Assistent de guiatge",
           "unknown": "desconegut",
           "intro": "El Coach mesura la càmera de guiatge, el cel i la muntura, prova ajustos millors comparats amb els actuals i explica què limita el vostre guiatge. Una sessió completa dura uns 15 minuts.",
           "introSafe": "Els ajustos temporals sempre es desfan. Vosaltres decidiu quines recomanacions s'apliquen.",
@@ -3151,7 +3151,7 @@
             "applyFailed": "No s'ha pogut aplicar el consell"
           },
           "banner": {
-            "running": "Guiding Coach: {step} · {percent} %",
+            "running": "Assistent de guiatge: {step} · {percent} %",
             "open": "Obre"
           },
           "confirmStartTitle": "Iniciar el coach durant el guiatge?",
@@ -4273,13 +4273,13 @@
     },
     "celestiaAtlas": {
       "orientation": {
-        "toggle": "Toggle sky pointing",
-        "hint": "Sky pointing active. Aim through the back of your screen. Drag to stop; pinch to zoom.",
-        "low_accuracy": "Compass accuracy is low. Move away from metal and magnets and calibrate your compass with a figure-eight motion.",
+        "toggle": "Activa/desactiva l'apuntament al cel",
+        "hint": "Apuntament al cel actiu. Apunta a través de la part posterior de la pantalla. Arrossega per aturar-lo; pinça per fer zoom.",
+        "low_accuracy": "La precisió de la brúixola és baixa. Allunya't de metalls i imants i calibra la brúixola movent el dispositiu en forma de vuit.",
         "unavailable": "Sky pointing requires a supported native app and a north-referenced motion sensor. Manual browsing is available.",
-        "permission_denied": "Motion access was denied. Allow motion access in system settings or browse manually.",
-        "location_required": "Sky pointing requires an observer location. Set your observing site or allow location access.",
-        "sensor_error": "Sky pointing stopped because sensor data is unavailable. Try again or browse manually."
+        "permission_denied": "S'ha denegat l'accés als sensors de moviment. Permet-lo a la configuració del sistema o navega manualment.",
+        "location_required": "L'apuntament al cel necessita una ubicació d'observació. Defineix el teu lloc o permet l'accés a la ubicació.",
+        "sensor_error": "L'apuntament al cel s'ha aturat perquè no hi ha dades dels sensors. Torna-ho a provar o navega manualment."
       },
       "loading": "Carregant Celestia Atlas…",
       "selected_object": {
@@ -4336,7 +4336,7 @@
         "magnitude_limit_auto": "Automàtic",
         "star_magnitude_limit": "Estrelles (magnitud límit)",
         "star_catalogues": "Catàlegs d’estrelles",
-        "star_catalogue_hint": "Groups can overlap; any enabled group shows the star. Raise the magnitude limit for faint WR stars. Unknown-magnitude stars appear when selected. Stars in photographs without catalogue records are not selectable.",
+        "star_catalogue_hint": "Els grups es poden solapar; una estrella apareix si qualsevol dels seus grups està activat. Augmenta el límit de magnitud per a les estrelles WR febles. Les estrelles de magnitud desconeguda apareixen quan se seleccionen. Les estrelles de les fotografies sense registre al catàleg no es poden seleccionar.",
         "galaxy_magnitude_limit": "Galàxies (magnitud límit)",
         "dso_magnitude_limit": "Altres objectes de cel profund (magnitud límit)",
         "title": "Configuració",

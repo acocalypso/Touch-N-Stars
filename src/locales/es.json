@@ -435,23 +435,23 @@
     },
     "fileBrowser": {
       "title": "Browse",
-      "goUp": "Go up one level",
+      "goUp": "Subir un nivel",
       "loading": "Loading...",
-      "empty": "Empty directory",
-      "dblClickHint": "Double-click to open",
-      "deleteDir": "Delete folder",
-      "folderPlaceholder": "Folder name...",
-      "newFolder": "+ New Folder",
+      "empty": "Carpeta vacía",
+      "dblClickHint": "Doble clic para abrir",
+      "deleteDir": "Eliminar carpeta",
+      "folderPlaceholder": "Nombre de la carpeta…",
+      "newFolder": "+ Nueva carpeta",
       "create": "Create",
       "selectedPath": "Selected:",
-      "loadError": "Could not load directory.",
-      "createError": "Could not create folder.",
-      "deleteDirTitle": "Delete folder",
-      "deleteDirMessage": "Really delete \"{name}\" and all its contents?",
-      "deleteFileTitle": "Delete file",
-      "deleteFileMessage": "Really delete \"{name}\"?",
-      "deleteFile": "Delete file",
-      "deleteError": "Could not delete."
+      "loadError": "No se pudo cargar la carpeta.",
+      "createError": "No se pudo crear la carpeta.",
+      "deleteDirTitle": "Eliminar carpeta",
+      "deleteDirMessage": "¿Eliminar de verdad «{name}» y todo su contenido?",
+      "deleteFileTitle": "Eliminar archivo",
+      "deleteFileMessage": "¿Eliminar de verdad «{name}»?",
+      "deleteFile": "Eliminar archivo",
+      "deleteError": "No se pudo eliminar."
     },
     "settings": {
       "title": "Configuración",
@@ -760,11 +760,11 @@
       }
     },
     "alpacaDirect": {
-      "title": "Alpaca Direct Settings",
+      "title": "Ajustes de Alpaca Direct",
       "ipAddress": "Dirección IP",
       "port": "Puerto",
       "deviceNumber": "Núm. de Dispositivo",
-      "serviceType": "Service type",
+      "serviceType": "Tipo de servicio",
       "save": "Guardar",
       "connect": "Conectar",
       "disconnect": "Desconectar",
@@ -1023,7 +1023,7 @@
       "noItemsInContainer": "No hay elementos en este contenedor",
       "Min": "mín.",
       "Max": "máx.",
-      "HFRStDev": "HFR St. Dev",
+      "HFRStDev": "Desv. est. HFR",
       "totalExposureTime": {
         "title": "Tiempo total de exposición",
         "Pictures": "Fotos",
@@ -1284,14 +1284,14 @@
           "duration": "Duración (min)"
         },
         "orbuculum": {
-          "hourAngle": "Hour Angle (h)",
-          "nextTarget": "Next target:",
+          "hourAngle": "Ángulo horario (h)",
+          "nextTarget": "Siguiente objetivo:",
           "current": "Current:"
         },
         "autoBalancingExposure": {
           "timeSeconds": "Time (s)",
-          "noEntries": "No entries",
-          "addRow": "Add row",
+          "noEntries": "Sin entradas",
+          "addRow": "Añadir fila",
           "progress": "Progress",
           "ratio": "Ratio",
           "bin": "Bin"
@@ -1369,7 +1369,7 @@
         "end": "Fin",
         "nothing": "Nada",
         "alsoActive": "También activo",
-        "meridianFlip": "Meridian flip",
+        "meridianFlip": "Giro de meridiano",
         "meridianFlipHint": "Voltear la montura automáticamente cuando un objetivo cruza el meridiano.",
         "dither": "Dithering",
         "ditherHint": "Desplazar ligeramente la posición de guiado entre imágenes. Requiere un guiado activo.",
@@ -1816,7 +1816,7 @@
           "message": "Este ajuste solo surte efecto después de reconectar el guiador. ¿Reconectar ahora?"
         },
         "mountSettings": "Montura",
-        "guideRate": "Guide Rate",
+        "guideRate": "Velocidad de guiado",
         "guideRateReadOnly": "Solo lectura",
         "guiderScale": "Escala del guiador",
         "maxY": "Y máx.",
@@ -2850,7 +2850,7 @@
           "statusFailed": "Fallo en la biblioteca de darks"
         },
         "coach": {
-          "title": "Guiding Coach",
+          "title": "Asistente de guiado",
           "unknown": "desconocido",
           "intro": "El coach mide tu cámara guía, el cielo y la montura, prueba ajustes mejores frente a los actuales y explica qué limita tu guiado. Una sesión completa dura unos 15 minutos.",
           "introSafe": "Los ajustes temporales siempre se restauran. Tú decides qué recomendaciones aplicar.",
@@ -3110,7 +3110,7 @@
             "applyFailed": "No se pudo aplicar el consejo"
           },
           "banner": {
-            "running": "Guiding Coach: {step} · {percent} %",
+            "running": "Asistente de guiado: {step} · {percent} %",
             "open": "Abrir"
           },
           "confirmStartTitle": "¿Iniciar el coach durante el guiado?",
@@ -4227,13 +4227,13 @@
     },
     "celestiaAtlas": {
       "orientation": {
-        "toggle": "Toggle sky pointing",
-        "hint": "Sky pointing active. Aim through the back of your screen. Drag to stop; pinch to zoom.",
-        "low_accuracy": "Compass accuracy is low. Move away from metal and magnets and calibrate your compass with a figure-eight motion.",
+        "toggle": "Activar/desactivar apuntado al cielo",
+        "hint": "Apuntado al cielo activo. Apunta a través de la parte trasera de la pantalla. Arrastra para detenerlo; pellizca para hacer zoom.",
+        "low_accuracy": "La precisión de la brújula es baja. Aléjate de metales e imanes y calibra la brújula moviendo el dispositivo en forma de ocho.",
         "unavailable": "Sky pointing requires a supported native app and a north-referenced motion sensor. Manual browsing is available.",
-        "permission_denied": "Motion access was denied. Allow motion access in system settings or browse manually.",
-        "location_required": "Sky pointing requires an observer location. Set your observing site or allow location access.",
-        "sensor_error": "Sky pointing stopped because sensor data is unavailable. Try again or browse manually."
+        "permission_denied": "Se denegó el acceso a los sensores de movimiento. Permítelo en los ajustes del sistema o navega manualmente.",
+        "location_required": "El apuntado al cielo necesita una ubicación de observación. Define tu lugar o permite el acceso a la ubicación.",
+        "sensor_error": "El apuntado al cielo se detuvo porque no hay datos de los sensores. Inténtalo de nuevo o navega manualmente."
       },
       "loading": "Cargando Celestia Atlas…",
       "selected_object": {
@@ -4290,20 +4290,20 @@
         "magnitude_limit_auto": "Automático",
         "star_magnitude_limit": "Estrellas (magnitud límite)",
         "star_catalogues": "Catálogos estelares",
-        "star_catalogue_hint": "Groups can overlap; any enabled group shows the star. Raise the magnitude limit for faint WR stars. Unknown-magnitude stars appear when selected. Stars in photographs without catalogue records are not selectable.",
+        "star_catalogue_hint": "Los grupos pueden solaparse; una estrella aparece si cualquiera de sus grupos está activado. Sube el límite de magnitud para estrellas WR débiles. Las estrellas de magnitud desconocida aparecen al seleccionarlas. Las estrellas de las fotografías sin registro en el catálogo no se pueden seleccionar.",
         "galaxy_magnitude_limit": "Galaxias (magnitud límite)",
         "dso_magnitude_limit": "Otros objetos de cielo profundo (magnitud límite)",
         "title": "Ajustes",
-        "landscape_source_mode": "Landscape source",
+        "landscape_source_mode": "Fuente del paisaje",
         "landscape_source_default": "Paisaje predeterminado (Pradera nocturna)",
         "landscape_source_guereins": "Guéreins (pueblo)",
-        "landscape_source_neutral": "Neutral horizon (Gray)",
-        "landscape_source_custom": "Custom data source",
+        "landscape_source_neutral": "Horizonte neutro (gris)",
+        "landscape_source_custom": "Fuente de datos propia",
         "landscape_option_label": "Paisaje: {title}",
-        "custom_landscape_url": "Custom source URL",
-        "custom_landscape_url_placeholder": "e.g. /celestia-atlas-data/landscapes/custom",
-        "custom_landscape_key": "Custom source key",
-        "custom_landscape_key_placeholder": "e.g. my-landscape",
+        "custom_landscape_url": "URL de la fuente propia",
+        "custom_landscape_url_placeholder": "p. ej. /celestia-atlas-data/landscapes/custom",
+        "custom_landscape_key": "Clave de la fuente propia",
+        "custom_landscape_key_placeholder": "p. ej. mi-paisaje",
         "available_landscapes": "Paisajes disponibles",
         "no_landscapes_available": "No hay paisajes disponibles.",
         "untitled_landscape": "Paisaje sin título",
@@ -4539,7 +4539,7 @@
       "noInstances": "No hay instancias configuradas",
       "noneOnline": "No hay instancias en línea",
       "title": "Cambiar instancia",
-      "switchingTo": "Switching to {name}…"
+      "switchingTo": "Cambiando a {name}…"
     },
     "fitsPlatesolve": {
       "binning": "Binning",

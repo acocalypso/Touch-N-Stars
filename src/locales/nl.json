@@ -435,23 +435,23 @@
     },
     "fileBrowser": {
       "title": "Browse",
-      "goUp": "Go up one level",
+      "goUp": "Eén niveau omhoog",
       "loading": "Loading...",
-      "empty": "Empty directory",
-      "dblClickHint": "Double-click to open",
-      "deleteDir": "Delete folder",
-      "folderPlaceholder": "Folder name...",
-      "newFolder": "+ New Folder",
+      "empty": "Lege map",
+      "dblClickHint": "Dubbelklik om te openen",
+      "deleteDir": "Map verwijderen",
+      "folderPlaceholder": "Mapnaam…",
+      "newFolder": "+ Nieuwe map",
       "create": "Create",
       "selectedPath": "Selected:",
-      "loadError": "Could not load directory.",
-      "createError": "Could not create folder.",
-      "deleteDirTitle": "Delete folder",
-      "deleteDirMessage": "Really delete \"{name}\" and all its contents?",
-      "deleteFileTitle": "Delete file",
-      "deleteFileMessage": "Really delete \"{name}\"?",
-      "deleteFile": "Delete file",
-      "deleteError": "Could not delete."
+      "loadError": "Map kon niet worden geladen.",
+      "createError": "Map kon niet worden aangemaakt.",
+      "deleteDirTitle": "Map verwijderen",
+      "deleteDirMessage": "„{name}” en de hele inhoud echt verwijderen?",
+      "deleteFileTitle": "Bestand verwijderen",
+      "deleteFileMessage": "„{name}” echt verwijderen?",
+      "deleteFile": "Bestand verwijderen",
+      "deleteError": "Verwijderen mislukt."
     },
     "settings": {
       "title": "Instellingen",
@@ -474,7 +474,7 @@
         "strech_factor": "Rekfactor",
         "black_clipping": "Zwart Clipping",
         "debayern": "Debayer beeld",
-        "DebayeredHFR": "Debayered HFR",
+        "DebayeredHFR": "HFR na debayeren",
         "UnlinkedStretch": "Ontkoppelde Strech",
         "fileType": "Bestandstype"
       },
@@ -616,7 +616,7 @@
         "ReattemptDelay": "Vertraging (min) voor nieuwe poging",
         "BlindFailoverEnabled": "Blinde failover ingeschakeld",
         "ASTAPLocation": "ASTAP-locatie",
-        "Filter": "Plate Solving Filter",
+        "Filter": "Filter voor plate solving",
         "FilterCurrent": "Huidig",
         "FilterHint": "Filter gebruikt tijdens plate solving (overschrijft het huidige filter)",
         "astapDatabaseAllInstalled": "Alle ASTAP-sterrendatabases zijn al geïnstalleerd.",
@@ -760,17 +760,17 @@
       }
     },
     "alpacaDirect": {
-      "title": "Alpaca Direct Settings",
-      "ipAddress": "IP address",
+      "title": "Alpaca Direct-instellingen",
+      "ipAddress": "IP-adres",
       "port": "Port",
-      "deviceNumber": "Device number",
-      "serviceType": "Service type",
+      "deviceNumber": "Apparaatnummer",
+      "serviceType": "Diensttype",
       "save": "Save",
       "connect": "Connect",
       "disconnect": "Disconnect",
-      "sharedGuidWarning": "Rotator and safety monitor share one storage slot in NINA — changing one also changes the other.",
-      "noReconnectHint": "New settings take effect on the next connect.",
-      "cameraNoSettings": "This camera has no settings to configure."
+      "sharedGuidWarning": "Rotator en veiligheidsmonitor delen in NINA één opslagplek – wie de ene wijzigt, wijzigt ook de andere.",
+      "noReconnectHint": "Nieuwe instellingen gelden bij de volgende verbinding.",
+      "cameraNoSettings": "Deze camera heeft geen instellingen."
     },
     "selectDevices": {
       "deviceNotFound": "Apparaat niet gevonden",
@@ -1023,7 +1023,7 @@
       "noItemsInContainer": "Geen items in deze container",
       "Min": "Min",
       "Max": "Max",
-      "HFRStDev": "HFR St. Dev",
+      "HFRStDev": "HFR-standaardafw.",
       "totalExposureTime": {
         "title": "Totale belichtingstijd",
         "Pictures": "Afbeeldingen",
@@ -1054,7 +1054,7 @@
         },
         "switchFilter": {
           "filter": "Filter",
-          "noFilter": "No Filter"
+          "noFilter": "Geen filter"
         },
         "switchProfile": {
           "profile": "Profiel",
@@ -1284,14 +1284,14 @@
           "duration": "Duur (min)"
         },
         "orbuculum": {
-          "hourAngle": "Hour Angle (h)",
-          "nextTarget": "Next target:",
+          "hourAngle": "Uurhoek (h)",
+          "nextTarget": "Volgend object:",
           "current": "Current:"
         },
         "autoBalancingExposure": {
           "timeSeconds": "Time (s)",
-          "noEntries": "No entries",
-          "addRow": "Add row",
+          "noEntries": "Geen items",
+          "addRow": "Rij toevoegen",
           "progress": "Progress",
           "ratio": "Ratio",
           "bin": "Bin"
@@ -1369,7 +1369,7 @@
         "end": "Einde",
         "nothing": "Niets",
         "alsoActive": "Ook actief",
-        "meridianFlip": "Meridian flip",
+        "meridianFlip": "Meridiaan flip",
         "meridianFlipHint": "De montering automatisch omslaan wanneer een target de meridiaan passeert.",
         "dither": "Ditheren",
         "ditherHint": "De guidingpositie tussen opnames licht verschuiven. Vereist een actieve guider.",
@@ -1816,14 +1816,14 @@
           "message": "Deze instelling wordt pas van kracht nadat de guider opnieuw is verbonden. Nu opnieuw verbinden?"
         },
         "mountSettings": "Montering",
-        "guideRate": "Guide Rate",
+        "guideRate": "Guidesnelheid",
         "guideRateReadOnly": "Alleen lezen",
         "guiderScale": "Gidsschaal",
         "maxY": "Max Y",
         "historySize": "Geschiedenisgrootte",
         "ra": {
           "aggression": "RA: Agressie",
-          "hysteresis": "RA: Hysteresis",
+          "hysteresis": "RA: hysterese",
           "MinMove": "RA: Min beweging",
           "MaxMove": "RA: Max beweging",
           "predictive_weight": "RA: Voorspellend gewicht",
@@ -1834,7 +1834,7 @@
         },
         "dec": {
           "aggression": "DEC: Agressie",
-          "hysteresis": "DEC: Hysteresis",
+          "hysteresis": "DEC: hysterese",
           "MinMove": "DEC: Min beweging",
           "MaxMove": "DEC: Max beweging",
           "predictive_weight": "DEC: voorspellend gewicht",
@@ -1998,7 +1998,7 @@
           "enabled": "Ingeschakeld",
           "amount": "Hoeveelheid (ms)",
           "min": "Min (ms)",
-          "max": "Max (ms)"
+          "max": "Max. (ms)"
         },
         "minStarSNR": "Minimale ster-SNR voor AutoFind",
         "autoSelectDownsample": "Downsampling van selectieframes",
@@ -2044,7 +2044,7 @@
           "settling": "Stabiliseert",
           "live": "Live",
           "poll": "Polling",
-          "liveHint": "Live updates via WebSocket",
+          "liveHint": "Live-updates via WebSocket",
           "pollHint": "WebSocket niet beschikbaar - update elke 2 s",
           "rmsTotal": "RMS",
           "rmsRa": "RA",
@@ -2530,7 +2530,7 @@
           "driftDec": "Drift Dec",
           "polarAlignment": "Poolafst. fout",
           "oscillation": "Oscillatie-index",
-          "duty": "Duty RA / Dec",
+          "duty": "Belasting RA / Dec",
           "snr": "SNR min / gem",
           "snrLast": "laatste {value}",
           "stars": "Sterren (gem)",
@@ -2850,7 +2850,7 @@
           "statusFailed": "Dark-bibliotheek mislukt"
         },
         "coach": {
-          "title": "Guiding Coach",
+          "title": "Guiding-coach",
           "unknown": "onbekend",
           "intro": "De coach meet je guide-camera, de hemel en de montering, test betere instellingen tegen je huidige en legt uit wat je guiding beperkt. Een volledige sessie duurt ongeveer 15 minuten.",
           "introSafe": "Tijdelijke instellingen worden altijd hersteld. Jij beslist welke aanbevelingen je toepast.",
@@ -3110,7 +3110,7 @@
             "applyFailed": "Tip toepassen mislukt"
           },
           "banner": {
-            "running": "Guiding Coach: {step} · {percent} %",
+            "running": "Guiding-coach: {step} · {percent} %",
             "open": "Openen"
           },
           "confirmStartTitle": "Coach starten tijdens het guiden?",
@@ -3708,7 +3708,7 @@
       "focus": "Focus",
       "new_position": "Nieuwe positie:",
       "move": "Beweeg",
-      "start_autofocus": "Start autofocus",
+      "start_autofocus": "Autofocus starten",
       "cancel_autofocus": "Annuleer autofocus",
       "autofocus_graph": "Autofocus grafiek",
       "autofocus_error": "Autofocus fout",
@@ -3721,11 +3721,11 @@
       "autofocus": "Autofocus",
       "last_autofocus": "Laatste autofocus",
       "graph": {
-        "measurePoints": "Measure Points",
-        "quadraticTrendline": "Quadratic Trendline",
-        "hyperbolicTrendline": "Hyperbolic Trendline",
-        "quadraticMin": "Quadratic Min",
-        "hyperbolicMin": "Hyperbolic Min",
+        "measurePoints": "Meetpunten",
+        "quadraticTrendline": "Kwadratische trendlijn",
+        "hyperbolicTrendline": "Hyperbolische trendlijn",
+        "quadraticMin": "Kwadratisch minimum",
+        "hyperbolicMin": "Hyperbolisch minimum",
         "value": "Value",
         "invalidDate": "Ongeldige datum"
       },
@@ -4227,13 +4227,13 @@
     },
     "celestiaAtlas": {
       "orientation": {
-        "toggle": "Toggle sky pointing",
-        "hint": "Sky pointing active. Aim through the back of your screen. Drag to stop; pinch to zoom.",
-        "low_accuracy": "Compass accuracy is low. Move away from metal and magnets and calibrate your compass with a figure-eight motion.",
+        "toggle": "Hemel aanwijzen aan/uit",
+        "hint": "Hemel aanwijzen is actief. Richt door de achterkant van je scherm. Sleep om te stoppen; knijp om te zoomen.",
+        "low_accuracy": "Het kompas is onnauwkeurig. Ga weg van metaal en magneten en kalibreer het kompas met een achtvormige beweging.",
         "unavailable": "Sky pointing requires a supported native app and a north-referenced motion sensor. Manual browsing is available.",
-        "permission_denied": "Motion access was denied. Allow motion access in system settings or browse manually.",
-        "location_required": "Sky pointing requires an observer location. Set your observing site or allow location access.",
-        "sensor_error": "Sky pointing stopped because sensor data is unavailable. Try again or browse manually."
+        "permission_denied": "Toegang tot de bewegingssensoren is geweigerd. Sta die toe in de systeeminstellingen of blader handmatig.",
+        "location_required": "Hemel aanwijzen heeft een waarnemingslocatie nodig. Stel je locatie in of sta locatietoegang toe.",
+        "sensor_error": "Hemel aanwijzen is gestopt omdat er geen sensorgegevens zijn. Probeer het opnieuw of blader handmatig."
       },
       "loading": "Celestia Atlas wordt geladen…",
       "selected_object": {
@@ -4290,20 +4290,20 @@
         "magnitude_limit_auto": "Automatisch",
         "star_magnitude_limit": "Sterren (grensmagnitude)",
         "star_catalogues": "Sterrencatalogi",
-        "star_catalogue_hint": "Groups can overlap; any enabled group shows the star. Raise the magnitude limit for faint WR stars. Unknown-magnitude stars appear when selected. Stars in photographs without catalogue records are not selectable.",
+        "star_catalogue_hint": "Groepen kunnen overlappen; een ster verschijnt zodra een van zijn groepen aan staat. Verhoog de magnitudegrens voor zwakke WR-sterren. Sterren met onbekende magnitude verschijnen als ze geselecteerd zijn. Sterren op foto's zonder catalogusgegevens zijn niet selecteerbaar.",
         "galaxy_magnitude_limit": "Sterrenstelsels (grensmagnitude)",
         "dso_magnitude_limit": "Overige deep-skyobjecten (grensmagnitude)",
         "title": "Instellingen",
-        "landscape_source_mode": "Landscape source",
+        "landscape_source_mode": "Bron van het landschap",
         "landscape_source_default": "Standaardlandschap (Nachtelijke weide)",
         "landscape_source_guereins": "Guéreins (dorp)",
-        "landscape_source_neutral": "Neutral horizon (Gray)",
-        "landscape_source_custom": "Custom data source",
+        "landscape_source_neutral": "Neutrale horizon (grijs)",
+        "landscape_source_custom": "Eigen gegevensbron",
         "landscape_option_label": "Landschap: {title}",
-        "custom_landscape_url": "Custom source URL",
-        "custom_landscape_url_placeholder": "e.g. /celestia-atlas-data/landscapes/custom",
-        "custom_landscape_key": "Custom source key",
-        "custom_landscape_key_placeholder": "e.g. my-landscape",
+        "custom_landscape_url": "URL van de eigen bron",
+        "custom_landscape_url_placeholder": "bijv. /celestia-atlas-data/landscapes/custom",
+        "custom_landscape_key": "Sleutel van de eigen bron",
+        "custom_landscape_key_placeholder": "bijv. mijn-landschap",
         "available_landscapes": "Beschikbare landschappen",
         "no_landscapes_available": "Geen landschappen beschikbaar.",
         "untitled_landscape": "Zonder titel landschap",
@@ -4539,13 +4539,13 @@
       "noInstances": "Geen exemplaren geconfigureerd",
       "noneOnline": "Geen exemplaren online",
       "title": "Van instantie wisselen",
-      "switchingTo": "Switching to {name}…"
+      "switchingTo": "Overschakelen naar {name}…"
     },
     "fitsPlatesolve": {
       "binning": "Binning",
       "blindSolve": "Blind oplossen",
       "browserTitle": "Selecteer FITS-bestand voor Plate Solve",
-      "buttonTitle": "FITS Plate Solve",
+      "buttonTitle": "FITS-plate solve",
       "coordinatesHint": "Coördinatiehint (leeg laten voor blinde oplossing)",
       "dec": "dec",
       "decPlaceholder": "DD:MM:SS",

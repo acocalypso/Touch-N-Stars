@@ -231,7 +231,7 @@
       "openFraminingModal": "Im Framing-Assistant öffnen",
       "fovSettings": {
         "rotationAngle": "Kameradrehung",
-        "fov": "Field of View"
+        "fov": "Gesichtsfeld"
       },
       "getImageRotation": {
         "startCapture": "Drehung der Kamera bestimmen",
@@ -544,7 +544,7 @@
         "strech_factor": "Autostrech Faktor",
         "black_clipping": "Schwarzpunktfaktor",
         "debayern": "Debayer Bild",
-        "DebayeredHFR": "Debayered HFR",
+        "DebayeredHFR": "HFR nach Debayering",
         "UnlinkedStretch": "Unverlinkter Stretch",
         "fileType": "Dateityp"
       },
@@ -1069,7 +1069,7 @@
       "noItemsInContainer": "Keine Items in diesem Container",
       "Min": "Min",
       "Max": "Max",
-      "HFRStDev": "HFR St. Dev",
+      "HFRStDev": "HFR-Standardabw.",
       "totalExposureTime": {
         "title": "Gesamtbelichtungszeit",
         "Pictures": "Bilder",
@@ -1181,7 +1181,7 @@
           "onOff": "Tauheizer"
         },
         "setUSBLimit": {
-          "limit": "USB Limit"
+          "limit": "USB-Limit"
         },
         "setBrightness": {
           "brightness": "Helligkeit"
@@ -1239,7 +1239,7 @@
           "initially": "Anfangswert",
           "newValue": "Neuer Wert",
           "time": "Zeit",
-          "minutesOffset": "Offset (min)"
+          "minutesOffset": "Versatz (min)"
         },
         "annotation": {
           "text": "Text"
@@ -1869,7 +1869,7 @@
           "enabled": "Aktiviert",
           "amount": "Betrag (ms)",
           "min": "Min (ms)",
-          "max": "Max (ms)"
+          "max": "Max. (ms)"
         },
         "minStarSNR": "Minimales Stern-SNR für AutoFind",
         "autoSelectDownsample": "Downsampling der Auswahlframes",
@@ -1921,16 +1921,16 @@
           "backlashMax": "Obergrenze (ms) für den automatisch angepassten Backlash-Puls."
         },
         "mountSettings": "Montierung",
-        "guideRate": "Guide Rate",
+        "guideRate": "Guide-Rate",
         "guideRateReadOnly": "Schreibgeschützt",
         "guiderScale": "Guider-Skala",
         "maxY": "Max Y",
         "historySize": "Verlaufsgröße",
         "ra": {
-          "aggression": "RA: Aggression",
+          "aggression": "RA: Aggressivität",
           "hysteresis": "RA: Hysterese",
-          "MinMove": "RA: Min move",
-          "MaxMove": "RA: Max move",
+          "MinMove": "RA: Min. Bewegung",
+          "MaxMove": "RA: Max. Bewegung",
           "predictive_weight": "RA: Vorhersage Gewichtung",
           "reactive_weight": "RA: Reaktive Gewichtung",
           "period_length": "RA: PEC-Periodenlänge (s)",
@@ -1938,10 +1938,10 @@
           "exp_factor": "RA: Belichtungsfaktor"
         },
         "dec": {
-          "aggression": "DEC: Aggression",
+          "aggression": "DEC: Aggressivität",
           "hysteresis": "DEC: Hysterese",
-          "MinMove": "DEC: Min move",
-          "MaxMove": "DEC: Max move",
+          "MinMove": "DEC: Min. Bewegung",
+          "MaxMove": "DEC: Max. Bewegung",
           "predictive_weight": "DEC: Vorhersage Gewichtung",
           "reactive_weight": "DEC: Reaktive Gewichtung",
           "slope_weight": "DEC: Trend Gewichtung",
@@ -1996,7 +1996,7 @@
           "title": "Überprüfen Sie die Kalibrierung"
         },
         "darkLibrary": {
-          "title": "Dark Library",
+          "title": "Dark-Bibliothek",
           "manage": "Dark Library verwalten",
           "info": "Erstellen Sie eine Dark Library, indem Sie Dunkelbilder mit verschiedenen Belichtungszeiten aufnehmen. PHD2 verwendet sie, um Sensorrauschen aus den Guidingbildern zu entfernen.",
           "warning": "Während des Builds blockiert PHD2 – alle anderen PHD2-Aktionen sind währenddessen deaktiviert.",
@@ -2566,12 +2566,12 @@
           "rmsTotal": "RMS gesamt",
           "rmsRa": "RMS RA",
           "rmsDec": "RMS Dec",
-          "peak": "Peak RA / Dec",
+          "peak": "Spitze RA / Dec",
           "driftRa": "Drift RA",
           "driftDec": "Drift Dec",
           "polarAlignment": "Polar-Fehler",
           "oscillation": "Oszillationsindex",
-          "duty": "Duty RA / Dec",
+          "duty": "Auslastung RA / Dec",
           "snr": "SNR min / Ø",
           "snrLast": "letzte {value}",
           "stars": "Sterne (Ø)",
@@ -2891,7 +2891,7 @@
           "statusFailed": "Dark-Bibliothek fehlgeschlagen"
         },
         "coach": {
-          "title": "Guiding Coach",
+          "title": "Guiding-Coach",
           "unknown": "unbekannt",
           "intro": "Der Coach misst deine Guide-Kamera, den Himmel und die Montierung, testet bessere Einstellungen gegen deine aktuellen und erklärt, was dein Guiding begrenzt. Eine vollständige Sitzung dauert etwa 15 Minuten.",
           "introSafe": "Temporäre Einstellungen werden immer wiederhergestellt. Du entscheidest, welche Empfehlungen du übernimmst.",
@@ -3151,7 +3151,7 @@
             "applyFailed": "Übernehmen des Tipps fehlgeschlagen"
           },
           "banner": {
-            "running": "Guiding Coach: {step} · {percent} %",
+            "running": "Guiding-Coach: {step} · {percent} %",
             "open": "Öffnen"
           },
           "confirmStartTitle": "Coach während des Guidings starten?",
@@ -3740,8 +3740,8 @@
       "capture": "Aufnehmen",
       "capturing": "Nehme auf…",
       "failed": "Die Guide-Kamera hat nicht geantwortet",
-      "readoutMode": "Readout Mode",
-      "usbLimit": "USB Limit",
+      "readoutMode": "Auslesemodus",
+      "usbLimit": "USB-Limit",
       "connectForMore": "Verbinde die Guide-Kamera, um Ausleseart, USB-Limit und ihre eigenen Optionen einzustellen."
     },
     "focuser": {
@@ -3762,28 +3762,28 @@
       "autofocus": "Autofokus",
       "last_autofocus": "Letzter Autofokus",
       "graph": {
-        "measurePoints": "Measure Points",
-        "quadraticTrendline": "Quadratic Trendline",
-        "hyperbolicTrendline": "Hyperbolic Trendline",
-        "quadraticMin": "Quadratic Min",
-        "hyperbolicMin": "Hyperbolic Min",
+        "measurePoints": "Messpunkte",
+        "quadraticTrendline": "Quadratische Trendlinie",
+        "hyperbolicTrendline": "Hyperbolische Trendlinie",
+        "quadraticMin": "Quadratisches Minimum",
+        "hyperbolicMin": "Hyperbolisches Minimum",
         "value": "Value",
         "invalidDate": "Ungültiges Datum"
       },
       "settings": {
-        "AutoFocusInitialOffsetSteps": "Initial Offset Steps",
+        "AutoFocusInitialOffsetSteps": "Anfängliche Versatzschritte",
         "AutoFocusStepSize": "Schrittgröße",
         "FocuserSettleTime": "Beruhigungszeit des Fokussierers",
         "AutoFocusTotalNumberOfAttempts": "Gesamtzahl der Versuche",
         "AutoFocusNumberOfFramesPerPoint": "Anzahl der Frames pro Punkt",
-        "AutoFocusInnerCropRatio": "Inner Crop Ratio",
+        "AutoFocusInnerCropRatio": "Innerer Ausschnitt",
         "AutoFocusOuterCropRatio": "Äußeres Crop Ratio",
         "AutoFocusUseBrightestStars": "Verwende die hellsten Sterne",
-        "BacklashIn": "Backlash In",
-        "BacklashOut": "Backlash Out",
+        "BacklashIn": "Backlash nach innen",
+        "BacklashOut": "Backlash nach außen",
         "AutoFocusBinning": "Autofokus-Binning",
         "AutoFocusTimeoutSeconds": "Autofokus-Timeout (Sekunden)",
-        "RSquaredThreshold": "R-Squared Threshold",
+        "RSquaredThreshold": "R²-Schwelle",
         "AutoFocusFitFunction": "Kurvenanpassungsstrategie",
         "AutoFocusDisableGuiding": "Guiding während des Autofokus deaktivieren",
         "TRENDLINES": "Trendlinien",
@@ -3802,10 +3802,10 @@
         "advanced": "Advanced",
         "Reverse": "Umkehren",
         "UseFilterWheelOffsets": "Filterrad-Offsets verwenden",
-        "MaxStep": "Max Steps",
+        "MaxStep": "Max. Schritte",
         "AutoFocusFilter": "Autofokus-Filter",
         "AutoFocusFilterNone": "Kein",
-        "AutoFocusExposureTime": "Default Exposure Time",
+        "AutoFocusExposureTime": "Standard-Belichtungszeit",
         "BeepOnMove": "Signalton bei Bewegung",
         "BeepOnStartup": "Piepton beim Start",
         "ClearStall": "Blockierung zurücksetzen",
@@ -3820,7 +3820,7 @@
         "deviceSpecific": "Geräteeinstellungen"
       },
       "indi": {
-        "settings": "Focuser Settings"
+        "settings": "Fokussierer-Einstellungen"
       },
       "BoardTemperature": "Platinentemperatur:",
       "DcPower": "Gleichstrom",
@@ -3927,9 +3927,9 @@
       "warm_up_time": "Aufwärmzeit (min)",
       "cooling_time": "Kühlzeit (min)",
       "binning_mode": "Binning",
-      "readout_mode": "Readout Mode",
-      "usb_limit": "USB Limit",
-      "set_use_platesolve": "Use Platesolve",
+      "readout_mode": "Auslesemodus",
+      "usb_limit": "USB-Limit",
+      "set_use_platesolve": "Plate Solve verwenden",
       "chip_settings": {
         "title": "Einstellungen des Kamerachips",
         "pixel_size": "Pixelgröße (μm)",
@@ -3955,17 +3955,17 @@
       "set_use_solve_sync_to_mount": "Mit Montierung synchronisieren",
       "readout_mode_image": "Auslesemodus Sequenz",
       "readout_mode_snap": "Auslesemodus Schnappschuss",
-      "LowNoiseMode": "Ultra Mode",
+      "LowNoiseMode": "Ultra-Modus",
       "BadPixelCorrection": "Hot-Pixel Korrektur",
       "BadPixelCorrectionThreshold": "Hot-Pixel Schwellwert",
-      "HighFullwellMode": "High Fullwell Mode",
-      "BinAverageEnabled": "Binning averages pixels",
+      "HighFullwellMode": "Modus hohe Full-Well-Kapazität",
+      "BinAverageEnabled": "Binning mittelt die Pixel",
       "LEDLights": "LED",
       "FanSpeed": "Lüfter Geschwindigkeit",
       "tab_camera": "Kamera",
       "tab_cooler": "Kühlung",
       "tab_filter": "Filter",
-      "tab_snapshot": "Save & Solve"
+      "tab_snapshot": "Speichern & lösen"
     },
     "tppa": {
       "title": "Drei-Punkt-Polarausrichtung",
@@ -3983,7 +3983,7 @@
       "up": "Oben",
       "not_available": "Nicht verfügbar",
       "running": "WIRD AUSGEFÜHRT",
-      "plate_solve_start": "Platesolve start",
+      "plate_solve_start": "Plate Solve gestartet",
       "plate_solve_ok": "Platesolve ok",
       "plate_solve_error": "Platesolve Fehler",
       "slewing_first_position": "Schwenkt zur ersten Position",
@@ -4099,7 +4099,7 @@
         "slotNumDefault": "Standard"
       },
       "indi": {
-        "settings": "Filter Wheel Settings"
+        "settings": "Filterrad-Einstellungen"
       },
       "Unidirectional": "Filterrad: eine Richtung",
       "BoardTemperature": "Platinentemperatur",
@@ -4137,7 +4137,7 @@
         "ResetPosition": "Nullposition zurücksetzen"
       },
       "indi": {
-        "settings": "Rotator Settings"
+        "settings": "Rotator-Einstellungen"
       },
       "solvedPositionAngle": "Gelöster Himmelswinkel"
     },
@@ -4160,20 +4160,20 @@
         "closedPosition": "Geschlossene Position (°)",
         "currentPosition": "Aktuelle Position",
         "trainedSettings": {
-          "title": "Trained Flat Exposure Settings",
+          "title": "Trainierte Flat-Belichtungen",
           "filter": "Filter",
-          "noFilter": "No Filter",
+          "noFilter": "Kein Filter",
           "binning": "Binning",
           "gain": "Gain",
           "offset": "Offset",
           "brightness": "Brightness",
           "time": "Time (s)",
-          "confirmTitle": "Remove Setting",
-          "confirmMessage": "Are you sure you want to remove this trained flat exposure setting?"
+          "confirmTitle": "Einstellung entfernen",
+          "confirmMessage": "Diese trainierte Flat-Belichtung wirklich entfernen?"
         }
       },
       "indi": {
-        "settings": "Flat Device Settings"
+        "settings": "Flat-Gerät-Einstellungen"
       }
     },
     "flatassistant": {
@@ -4191,7 +4191,7 @@
       "max_brightness": "Max Helligkeit",
       "histogram_mean_target": "Histogramm-Durchschnittsziel",
       "mean_tolerance": "Durchschnittstoleranz",
-      "completed_recordings": "Completed recordings:",
+      "completed_recordings": "Abgeschlossene Aufnahmen:",
       "status_running_flats": "Läuft: {completed} / {total} Flats",
       "status_running_darks": "Läuft: {completed} / {total} Darks",
       "status_success_flats": "Fertig - {count} Flats aufgenommen",
@@ -4213,7 +4213,7 @@
       "auto_brightness": "Dynamische Helligkeit",
       "skyflat": "Skyflat",
       "button_slew_to_zenith": "Zum Zenit schwenken",
-      "keep_closed": "Keep flat panel closed",
+      "keep_closed": "Flat-Panel geschlossen lassen",
       "mode": "Modus",
       "single_mode": "Einzel Modus",
       "multi_mode": "Multi Modus",
@@ -4247,7 +4247,7 @@
       "rainRate": "Regenrate",
       "dewPoint": "Taupunkt",
       "indi": {
-        "settings": "Weather Settings"
+        "settings": "Wetter-Einstellungen"
       },
       "settings": {
         "apiKey": "API-Schlüssel",
@@ -4335,16 +4335,16 @@
         "galaxy_magnitude_limit": "Galaxien (Grenzgröße)",
         "dso_magnitude_limit": "Andere Deep-Sky-Objekte (Grenzgröße)",
         "title": "Einstellungen",
-        "landscape_source_mode": "Landscape source",
+        "landscape_source_mode": "Quelle der Landschaft",
         "landscape_source_default": "Standard-Landschaft (Nachtwiese)",
         "landscape_source_guereins": "Guéreins (Dorf)",
-        "landscape_source_neutral": "Neutral horizon (Gray)",
-        "landscape_source_custom": "Custom data source",
+        "landscape_source_neutral": "Neutraler Horizont (grau)",
+        "landscape_source_custom": "Eigene Datenquelle",
         "landscape_option_label": "Landschaft: {title}",
-        "custom_landscape_url": "Custom source URL",
-        "custom_landscape_url_placeholder": "e.g. /celestia-atlas-data/landscapes/custom",
-        "custom_landscape_key": "Custom source key",
-        "custom_landscape_key_placeholder": "e.g. my-landscape",
+        "custom_landscape_url": "URL der eigenen Quelle",
+        "custom_landscape_url_placeholder": "z. B. /celestia-atlas-data/landscapes/custom",
+        "custom_landscape_key": "Schlüssel der eigenen Quelle",
+        "custom_landscape_key_placeholder": "z. B. meine-landschaft",
         "available_landscapes": "Verfügbare Landschaften",
         "no_landscapes_available": "Keine Landschaften verfügbar.",
         "untitled_landscape": "Unbenannte Landschaft",

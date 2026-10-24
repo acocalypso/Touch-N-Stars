@@ -435,23 +435,23 @@
     },
     "fileBrowser": {
       "title": "Browse",
-      "goUp": "Go up one level",
+      "goUp": "Sali di un livello",
       "loading": "Loading...",
-      "empty": "Empty directory",
-      "dblClickHint": "Double-click to open",
-      "deleteDir": "Delete folder",
-      "folderPlaceholder": "Folder name...",
-      "newFolder": "+ New Folder",
+      "empty": "Cartella vuota",
+      "dblClickHint": "Doppio clic per aprire",
+      "deleteDir": "Elimina cartella",
+      "folderPlaceholder": "Nome della cartella…",
+      "newFolder": "+ Nuova cartella",
       "create": "Create",
       "selectedPath": "Selected:",
-      "loadError": "Could not load directory.",
-      "createError": "Could not create folder.",
-      "deleteDirTitle": "Delete folder",
-      "deleteDirMessage": "Really delete \"{name}\" and all its contents?",
-      "deleteFileTitle": "Delete file",
-      "deleteFileMessage": "Really delete \"{name}\"?",
-      "deleteFile": "Delete file",
-      "deleteError": "Could not delete."
+      "loadError": "Impossibile caricare la cartella.",
+      "createError": "Impossibile creare la cartella.",
+      "deleteDirTitle": "Elimina cartella",
+      "deleteDirMessage": "Eliminare davvero «{name}» e tutto il suo contenuto?",
+      "deleteFileTitle": "Elimina file",
+      "deleteFileMessage": "Eliminare davvero «{name}»?",
+      "deleteFile": "Elimina file",
+      "deleteError": "Impossibile eliminare."
     },
     "settings": {
       "title": "Impostazioni",
@@ -590,7 +590,7 @@
         "shutdownInfoMessage": "Il sistema si sta spegnendo. Questa pagina non sarà più raggiungibile."
       },
       "plate_solver": {
-        "title": "Plate Solver",
+        "title": "Plate solver",
         "basic": "Impostazioni di base",
         "search": "Impostazioni di ricerca",
         "retry": "Impostazioni di nuovo tentativo",
@@ -760,17 +760,17 @@
       }
     },
     "alpacaDirect": {
-      "title": "Alpaca Direct Settings",
-      "ipAddress": "IP address",
+      "title": "Impostazioni Alpaca Direct",
+      "ipAddress": "Indirizzo IP",
       "port": "Port",
-      "deviceNumber": "Device number",
-      "serviceType": "Service type",
+      "deviceNumber": "Numero dispositivo",
+      "serviceType": "Tipo di servizio",
       "save": "Save",
       "connect": "Connect",
       "disconnect": "Disconnect",
-      "sharedGuidWarning": "Rotator and safety monitor share one storage slot in NINA — changing one also changes the other.",
-      "noReconnectHint": "New settings take effect on the next connect.",
-      "cameraNoSettings": "This camera has no settings to configure."
+      "sharedGuidWarning": "Rotatore e monitor di sicurezza condividono uno stesso spazio di memoria in NINA: modificare uno modifica anche l'altro.",
+      "noReconnectHint": "Le nuove impostazioni valgono dalla prossima connessione.",
+      "cameraNoSettings": "Questa camera non ha impostazioni da configurare."
     },
     "selectDevices": {
       "deviceNotFound": "Dispositivo non trovato",
@@ -1054,7 +1054,7 @@
         },
         "switchFilter": {
           "filter": "Filtro",
-          "noFilter": "No Filter"
+          "noFilter": "Nessun filtro"
         },
         "switchProfile": {
           "profile": "Profilo",
@@ -1267,7 +1267,7 @@
         "changePHD2Parameters": {
           "parameter": "Parametro",
           "exposureTime": "Tempo di esposizione(s):",
-          "ditherPixels": "Dither (px)",
+          "ditherPixels": "Dithering (px)",
           "ditherRAOnly": "Dither solo RA",
           "settlePixels": "Assestamento (px)",
           "settleTime": "Tempo di assestamento (s)",
@@ -1284,14 +1284,14 @@
           "duration": "Durata (min)"
         },
         "orbuculum": {
-          "hourAngle": "Hour Angle (h)",
-          "nextTarget": "Next target:",
+          "hourAngle": "Angolo orario (h)",
+          "nextTarget": "Prossimo oggetto:",
           "current": "Current:"
         },
         "autoBalancingExposure": {
           "timeSeconds": "Time (s)",
-          "noEntries": "No entries",
-          "addRow": "Add row",
+          "noEntries": "Nessuna voce",
+          "addRow": "Aggiungi riga",
           "progress": "Progress",
           "ratio": "Ratio",
           "bin": "Bin"
@@ -1369,7 +1369,7 @@
         "end": "Fine",
         "nothing": "Niente",
         "alsoActive": "Attivi anche",
-        "meridianFlip": "Meridian flip",
+        "meridianFlip": "Inversione del meridiano",
         "meridianFlipHint": "Ribalta automaticamente la montatura quando un target attraversa il meridiano.",
         "dither": "Dithering",
         "ditherHint": "Sposta leggermente la posizione di guida tra i frame. Richiede una guida attiva.",
@@ -1816,7 +1816,7 @@
           "message": "Questa impostazione ha effetto solo dopo aver riconnesso la guida. Riconnettere ora?"
         },
         "mountSettings": "Montatura",
-        "guideRate": "Guide Rate",
+        "guideRate": "Velocità di guida",
         "guideRateReadOnly": "Solo lettura",
         "guiderScale": "Scala della guida",
         "maxY": "Max Y",
@@ -2530,7 +2530,7 @@
           "driftDec": "Deriva Dec",
           "polarAlignment": "Err. allin. polare",
           "oscillation": "Indice oscillazione",
-          "duty": "Duty RA / Dec",
+          "duty": "Ciclo di lavoro RA / Dec",
           "snr": "SNR min / media",
           "snrLast": "ultimo {value}",
           "stars": "Stelle (media)",
@@ -2850,7 +2850,7 @@
           "statusFailed": "Libreria dark fallita"
         },
         "coach": {
-          "title": "Guiding Coach",
+          "title": "Coach di guida",
           "unknown": "sconosciuto",
           "intro": "Il coach misura la camera guida, il cielo e la montatura, prova impostazioni migliori rispetto a quelle attuali e spiega cosa limita la tua guida. Una sessione completa dura circa 15 minuti.",
           "introSafe": "Le impostazioni temporanee vengono sempre ripristinate. Sei tu a decidere quali consigli applicare.",
@@ -3110,7 +3110,7 @@
             "applyFailed": "Impossibile applicare il suggerimento"
           },
           "banner": {
-            "running": "Guiding Coach: {step} · {percent} %",
+            "running": "Coach di guida: {step} · {percent} %",
             "open": "Apri"
           },
           "confirmStartTitle": "Avviare il coach durante la guida?",
@@ -3721,11 +3721,11 @@
       "autofocus": "Messa a fuoco automatica",
       "last_autofocus": "Ultimo autofocus",
       "graph": {
-        "measurePoints": "Measure Points",
-        "quadraticTrendline": "Quadratic Trendline",
-        "hyperbolicTrendline": "Hyperbolic Trendline",
-        "quadraticMin": "Quadratic Min",
-        "hyperbolicMin": "Hyperbolic Min",
+        "measurePoints": "Punti di misura",
+        "quadraticTrendline": "Linea di tendenza quadratica",
+        "hyperbolicTrendline": "Linea di tendenza iperbolica",
+        "quadraticMin": "Minimo quadratico",
+        "hyperbolicMin": "Minimo iperbolico",
         "value": "Value",
         "invalidDate": "Data non valida"
       },
@@ -4227,13 +4227,13 @@
     },
     "celestiaAtlas": {
       "orientation": {
-        "toggle": "Toggle sky pointing",
-        "hint": "Sky pointing active. Aim through the back of your screen. Drag to stop; pinch to zoom.",
-        "low_accuracy": "Compass accuracy is low. Move away from metal and magnets and calibrate your compass with a figure-eight motion.",
+        "toggle": "Attiva/disattiva puntamento del cielo",
+        "hint": "Puntamento del cielo attivo. Mira attraverso il retro dello schermo. Trascina per fermarlo; pizzica per zoomare.",
+        "low_accuracy": "La precisione della bussola è bassa. Allontanati da metalli e magneti e calibra la bussola muovendo il dispositivo a forma di otto.",
         "unavailable": "Sky pointing requires a supported native app and a north-referenced motion sensor. Manual browsing is available.",
-        "permission_denied": "Motion access was denied. Allow motion access in system settings or browse manually.",
-        "location_required": "Sky pointing requires an observer location. Set your observing site or allow location access.",
-        "sensor_error": "Sky pointing stopped because sensor data is unavailable. Try again or browse manually."
+        "permission_denied": "L'accesso ai sensori di movimento è stato negato. Consentilo nelle impostazioni di sistema o naviga manualmente.",
+        "location_required": "Il puntamento del cielo richiede una posizione di osservazione. Imposta il tuo sito o consenti l'accesso alla posizione.",
+        "sensor_error": "Il puntamento del cielo si è fermato perché i dati dei sensori non sono disponibili. Riprova o naviga manualmente."
       },
       "loading": "Caricamento di Celestia Atlas…",
       "selected_object": {
@@ -4290,20 +4290,20 @@
         "magnitude_limit_auto": "Automatico",
         "star_magnitude_limit": "Stelle (magnitudine limite)",
         "star_catalogues": "Cataloghi stellari",
-        "star_catalogue_hint": "Groups can overlap; any enabled group shows the star. Raise the magnitude limit for faint WR stars. Unknown-magnitude stars appear when selected. Stars in photographs without catalogue records are not selectable.",
+        "star_catalogue_hint": "I gruppi possono sovrapporsi; una stella compare se uno qualsiasi dei suoi gruppi è attivo. Alza il limite di magnitudine per le stelle WR deboli. Le stelle di magnitudine sconosciuta compaiono quando vengono selezionate. Le stelle nelle fotografie senza voce di catalogo non sono selezionabili.",
         "galaxy_magnitude_limit": "Galassie (magnitudine limite)",
         "dso_magnitude_limit": "Altri oggetti del cielo profondo (magnitudine limite)",
         "title": "Impostazioni",
-        "landscape_source_mode": "Landscape source",
+        "landscape_source_mode": "Fonte del paesaggio",
         "landscape_source_default": "Paesaggio predefinito (Prato notturno)",
         "landscape_source_guereins": "Guéreins (villaggio)",
-        "landscape_source_neutral": "Neutral horizon (Gray)",
-        "landscape_source_custom": "Custom data source",
+        "landscape_source_neutral": "Orizzonte neutro (grigio)",
+        "landscape_source_custom": "Fonte dati personalizzata",
         "landscape_option_label": "Paesaggio: {title}",
-        "custom_landscape_url": "Custom source URL",
-        "custom_landscape_url_placeholder": "e.g. /celestia-atlas-data/landscapes/custom",
-        "custom_landscape_key": "Custom source key",
-        "custom_landscape_key_placeholder": "e.g. my-landscape",
+        "custom_landscape_url": "URL della fonte personalizzata",
+        "custom_landscape_url_placeholder": "es. /celestia-atlas-data/landscapes/custom",
+        "custom_landscape_key": "Chiave della fonte personalizzata",
+        "custom_landscape_key_placeholder": "es. mio-paesaggio",
         "available_landscapes": "Paesaggi disponibili",
         "no_landscapes_available": "Nessun paesaggio disponibile.",
         "untitled_landscape": "Paesaggio senza titolo",
@@ -4539,7 +4539,7 @@
       "noInstances": "Nessuna istanza configurata",
       "noneOnline": "Nessuna istanza online",
       "title": "Cambia istanza",
-      "switchingTo": "Switching to {name}…"
+      "switchingTo": "Passaggio a {name}…"
     },
     "fitsPlatesolve": {
       "binning": "Binning",

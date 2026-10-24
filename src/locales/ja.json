@@ -1488,7 +1488,7 @@
         "rightAscension": "赤経 (Ra)",
         "Alt": "高度 (Alt)",
         "Az": "方位角 (Az)",
-        "SideOfPier": "ピラーの側"
+        "SideOfPier": "ピア側"
       },
       "settings": {
         "meridian_flip_settings": "子午線越え反転 (Meridian Flip)",
@@ -1502,7 +1502,7 @@
           "PauseTimeBeforeMeridian": "通過前の停止時間（分）",
           "SettleTime": "安定時間（秒）",
           "Recenter": "再び中央に導入",
-          "UseSideOfPier": "ピラー側を使用",
+          "UseSideOfPier": "ピア側を使用",
           "AutoFocusAfterFlip": "反転後にオートフォーカス",
           "RotateImageAfterFlip": "反転後に画像を回転",
           "intro": "望遠鏡が天体を追って子午線（天頂を通る南北の線）を越えると、やがて三脚やピラーにぶつかります。そのため架台は一度反対側へ回り、撮影を続けます。この設定でそのタイミングを決めます。",
@@ -1526,7 +1526,7 @@
               "description": "「詳細設定」で分数を自分で設定します。"
             },
             "sideOfPierNoMount": "選ぶ前に架台を接続してください。架台がピア側を報告するかアプリが確認できます。",
-            "sideOfPierUnknown": "この架台はピア側を報告しないため、「ピラー側を使用」はオフのままです。NINA は時刻で反転を判断します。",
+            "sideOfPierUnknown": "この架台はピア側を報告しないため、「ピア側を使用」はオフのままです。NINA は時刻で反転を判断します。",
             "applyFailed": "プリセットを完全には保存できませんでした。「詳細設定」の値を確認してください。"
           },
           "timeline": {
@@ -1602,7 +1602,7 @@
             "runningHint": "NINA が単独でテストを実行するため、アプリを閉じても大丈夫です。何かが邪魔になったら STOP を押すと、シーケンスと追尾が止まります。",
             "flippedAt": "NINA は子午線通過後 {minutes} 分で反転しました。",
             "noFlip": "NINA は時間内に反転しませんでした。シーケンスと追尾を停止しました。",
-            "noFlipAdvice": "反転設定と NINA のログを確認してください。「ピラー側を使用」がオンなら、架台がピア側を誤って報告している可能性があります。オフにして試してください。",
+            "noFlipAdvice": "反転設定と NINA のログを確認してください。「ピア側を使用」がオンなら、架台がピア側を誤って報告している可能性があります。オフにして試してください。",
             "startFailed": "テストシーケンスを開始できませんでした：{error}",
             "ninaError": "NINA が反転中にエラーを報告しました。ステップ：{step}。",
             "ninaErrorRecenterCaps": "キャップをしているので想定どおりです。再センタリングには星が必要です。夜に plate solving が動作するか確認してください。",
@@ -1640,7 +1640,7 @@
           "hint": "ピアの各側で子午線を越えて追尾できる角度、−360〜360°、0.25°刻み。架台コントローラーに保存されます。"
         },
         "pierSide": {
-          "title": "優先ピアサイド",
+          "title": "優先ピア側",
           "mount": "架台の設定どおり",
           "east": "東",
           "west": "西",
@@ -1756,9 +1756,9 @@
       "phd2ServerPort": "PHD2サーバー・ポート",
       "ditherPixels": "ディザリング幅 (px)",
       "ditherRAOnly": "赤経(RA)のみディザリング",
-      "settlePixels": "整定許容誤差 (px)",
-      "settleTime": "最小整定時間 (秒)",
-      "settleTimeout": "整定タイムアウト (秒)",
+      "settlePixels": "安定許容誤差 (px)",
+      "settleTime": "最小安定時間 (秒)",
+      "settleTimeout": "安定タイムアウト (秒)",
       "guidingStartRetry": "ガイド開始再試行回数",
       "guidingStartTimeout": "ガイド開始タイムアウト (秒)",
       "roiPercentage": "ガイド星探索ROI範囲 (%)",
@@ -2050,7 +2050,7 @@
         },
         "strip": {
           "dismissError": "このエラーを非表示",
-          "settling": "整定中",
+          "settling": "安定化中",
           "live": "ライブ",
           "poll": "ポーリング",
           "liveHint": "WebSocket でリアルタイム更新",
@@ -2145,7 +2145,7 @@
           "ditherTitle": "ディザー",
           "ditherPixels": "移動量（ガイドピクセル）",
           "ditherRaOnly": "RA のみ",
-          "ditherHint": "ロック位置をこの量までランダムに移動し、ガイドが整定するまで待機します。",
+          "ditherHint": "ロック位置をこの量までランダムに移動し、ガイドが安定するまで待機します。",
           "confirmStopTitle": "ガイドを停止しますか？",
           "confirmStop": "ガイドが停止し、実行中のシーケンスの露光はガイドされなくなります。",
           "calibrateTitle": "キャリブレーションしますか？",
@@ -2378,8 +2378,8 @@
             "fix": "校正ありでガイドを開始してください。"
           },
           "CalibrationFlipped": {
-            "title": "鏡筒配置に合わせて校正を反転",
-            "explanation": "子午線反転後、新しい鏡筒配置に合わせて校正を調整しました。",
+            "title": "ピア側に合わせて校正を反転",
+            "explanation": "子午線反転後、新しいピア側に合わせて校正を調整しました。",
             "fix": "対処は不要です。"
           },
           "DecFlipCorrected": {
@@ -2400,7 +2400,7 @@
           "RunawayDetected": {
             "title": "ガイドの暴走を検出",
             "explanation": "誤差が減らないまま補正が大きくなり続けました（例: 校正の符号の誤り）。セッションを守るためガイドを停止しました。",
-            "fix": "校正を消去して再校正し、赤道儀の鏡筒配置/Dec 反転の設定を確認してください。"
+            "fix": "校正を消去して再校正し、赤道儀のピア側/Dec 反転の設定を確認してください。"
           },
           "MountNotResponding": {
             "title": "赤道儀が補正に応答しません",
@@ -2433,9 +2433,9 @@
             "fix": "赤道儀/ガイドポートの接続を確認してください。"
           },
           "PierSideUnknown": {
-            "title": "鏡筒配置が不明",
-            "explanation": "赤道儀が鏡筒配置を報告しないため、子午線反転を自動で補正できません。",
-            "fix": "子午線反転のたびに再校正するか、鏡筒配置を報告するドライバーを使用してください。"
+            "title": "ピア側が不明",
+            "explanation": "赤道儀がピア側を報告しないため、子午線反転を自動で補正できません。",
+            "fix": "子午線反転のたびに再校正するか、ピア側を報告するドライバーを使用してください。"
           },
           "CameraCaptureFailed": {
             "title": "ガイド露光に失敗",
@@ -2463,9 +2463,9 @@
             "fix": "最大ガイド星数を減らす、ビニングやサブフレームを使う、または CPU 負荷を確認してください。"
           },
           "SettleTimeout": {
-            "title": "整定タイムアウト",
-            "explanation": "タイムアウト内にガイドが整定しませんでした。",
-            "fix": "整定の許容値/タイムアウトを増やすか、ガイド性能を確認してください。"
+            "title": "安定タイムアウト",
+            "explanation": "タイムアウト内にガイドが安定しませんでした。",
+            "fix": "安定の許容値/タイムアウトを増やすか、ガイド性能を確認してください。"
           },
           "DitherFailed": {
             "title": "ディザー失敗",
@@ -2495,17 +2495,17 @@
           "snr": "SNR",
           "mass": "質量",
           "snrTitle": "SNR / 星の質量",
-          "settling": "整定中",
+          "settling": "安定化中",
           "empty": "ガイドステップはまだありません。ガイドを開始するとグラフが表示されます。",
           "markers": {
             "dither": "ディザー",
             "starlost": "星をロスト",
-            "settled": "整定完了",
-            "settleFailed": "整定失敗",
+            "settled": "安定完了",
+            "settleFailed": "安定失敗",
             "calibration": "校正"
           },
           "rmsTotal": "RMS",
-          "rmsHint": "表示中の直近 {count} ガイドステップの RMS（整定中とディザー後の再センタリングを除く）",
+          "rmsHint": "表示中の直近 {count} ガイドステップの RMS（安定化中とディザー後の再センタリングを除く）",
           "rmsLine": "合計 RMS（{count}）",
           "rmsLineShort": "RMS（{count}）",
           "rmsLineHint": "各ステップで直近 {count} ガイドステップの合計 RMS（安定化と再センタリングを除く）"
@@ -2584,7 +2584,7 @@
               "valve": "反対側の大きな誤差が戻るまで両方向にガイドします（安全弁）。"
             },
             "helpTitle": "Dec ガイドモード Drift",
-            "help": "Drift はガイド中に測定したドリフトに逆らう一方向だけに Dec をガイドします。赤緯ギアが反転しないため、バックラッシュは問題になりません。はっきりしたドリフトが測定されるまで（数分。弱いドリフトは数えません）、ディザー後の整定中、そしてその方向では補正できない側に誤差が大きく残っている間（安全弁）は両方向にガイドします。ドリフトが数分間弱まるか逆転すると、再び両方向にガイドするか、方向を切り替えます。"
+            "help": "Drift はガイド中に測定したドリフトに逆らう一方向だけに Dec をガイドします。赤緯ギアが反転しないため、バックラッシュは問題になりません。はっきりしたドリフトが測定されるまで（数分。弱いドリフトは数えません）、ディザー後の安定化中、そしてその方向では補正できない側に誤差が大きく残っている間（安全弁）は両方向にガイドします。ドリフトが数分間弱まるか逆転すると、再び両方向にガイドするか、方向を切り替えます。"
           }
         },
         "calibration": {
@@ -2600,7 +2600,7 @@
           "decRate": "Dec レート",
           "orthogonality": "直交性誤差",
           "declination": "赤緯",
-          "pierSide": "鏡筒配置",
+          "pierSide": "ピア側",
           "binning": "ビニング",
           "steps": "ステップ数",
           "raShort": "RA",
@@ -2802,7 +2802,7 @@
             "DecFastSwitch": "ResistSwitch と併用：誤差が大きいとき（最小移動量の 3 倍超）、複数フレームの一致を待たずに Dec の方向をすぐに反転させます。大きな Dec 誤差を素早く戻します。",
             "DecMinMove": "0 = 画像スケールから自動設定。",
             "DecCorrectionPace": "Predictive アルゴリズムがフレームごとに補正する残り誤差の割合。0.5 はゼロを越えずに 2～3 フレームでずれを解消し、1 は一度にすべて補正します。ドリフトとピリオディックエラーは常に完全に補正されます。",
-            "DecGuideMode": "Auto は Dec を両方向に、北または南は一方向のみにガイドし、オフは Dec をガイドしません。Drift はドリフトに追従します。ガイド中に Dec のドリフトを測定してそれに逆らう方向にのみガイドするため、赤緯ギアが反転せず、バックラッシュが問題になりません。ドリフトが逆転すると方向を切り替え、ドリフトがわかるまでの間、整定中、そして大きな誤差を戻すときは両方向にガイドします。",
+            "DecGuideMode": "Auto は Dec を両方向に、北または南は一方向のみにガイドし、オフは Dec をガイドしません。Drift はドリフトに追従します。ガイド中に Dec のドリフトを測定してそれに逆らう方向にのみガイドするため、赤緯ギアが反転せず、バックラッシュが問題になりません。ドリフトが逆転すると方向を切り替え、ドリフトがわかるまでの間、安定化中、そして大きな誤差を戻すときは両方向にガイドします。",
             "MaxRaDurationMs": "RA ガイドパルス 1 回の最大長。測定が大きく外れたとき（誤った星、突風）に補正を制限し、架台が大きく振られないようにします。大きな誤差の補正に多くのフレームがかかる場合にだけ上げてください。",
             "MaxDecDurationMs": "Dec ガイドパルス 1 回の最大長。測定が大きく外れたとき（誤った星、突風）に補正を制限し、架台が大きく振られないようにします。大きな誤差の補正に多くのフレームがかかる場合にだけ上げてください。",
             "MinPulseMs": "これより短いガイドパルスは 0 またはこの長さに丸められます。非常に短いパルスを正しく処理できない赤道儀があるためです。0 = 長さの制限なし。",
@@ -2811,7 +2811,7 @@
             "BacklashPulseMs": "Dec 反転時の追加パルスの長さ。これを起点に、星の反応に応じて 20 ms からこの値の 1.5 倍の間でパルスを自動調整します。ガタモデルでは、この値はガタの最初の推定値にすぎず、その後はモデルが自ら学習します。",
             "PulseModel": "ディザーから、ガイドパルスが各軸で実際に星をどれだけ動かすかを学習し、それに合わせてパルスの大きさを決めます。キャリブレーションがずれていても補正過剰・不足にならなくなります。キャリブレーション値から始め、ディザーが明確に示した部分だけを変更し、学習内容を次のキャリブレーションまでプロファイルと架台ごとに保持します。",
             "CalibrationStepMs": "0 = 光学系、ガイドレート、赤緯から自動設定。",
-            "ReuseCalibration": "セッションをまたいで校正を保持し、赤緯と鏡筒配置に合わせて調整します。",
+            "ReuseCalibration": "セッションをまたいで校正を保持し、赤緯とピア側に合わせて調整します。",
             "AssumeOrthogonal": "キャリブレーションは通常 RA と Dec の方向を独立して測定します。これは Dec を RA に対して正確に直交させ、大きなピリオディックエラー、Dec のバックラッシュ、悪いシーイングが Dec のキャリブレーションを歪める場合に役立ちます。",
             "DecCompensation": "現在の赤緯に合わせて RA 補正を調整し、ある赤緯で行ったキャリブレーションを別の赤緯でも使えるようにします。接続中の架台が位置を報告する必要があります。オンのままにしてください。Dec バックラッシュ補正とは別物です。",
             "DecFlipRequired": "赤道儀ごとの設定です。反転後の Dec 自己チェックで自動的に修正されます。",
@@ -2829,7 +2829,7 @@
             "SimulatorScenario": "内蔵シミュレーターがシミュレートする赤道儀・空・カメラ。",
             "SimulateFault": "実行中のシミュレーターに障害を発生させます: 雲（110 秒）、赤道儀への衝撃、応答しなくなる赤道儀（60 秒）、3 回の露光失敗、または逆方向に働く Dec 補正（120 秒）。",
             "BacklashModel": "固定は Dec 反転ごとに追加パルスを加え、ゆっくり調整します。ガタモデルはガタの中の Dec ギアの位置を追跡し、シーイングのノイズに対してはガタを詰めるだけの補正を保留し、キャリブレーションとガイドからガタを学習します。Dec アルゴリズム Predictive でのみ有効です。 迷ったら: Dec アルゴリズムが Predictive ならガタモデル、それ以外は固定のままにしてください。測定したバックラッシュに合う場合、Guiding Coach がガタモデルを提案します。",
-            "BacklashRemeasureAfterSlewDeg": "架台がこの値より大きく移動した後、またはピアサイドが変わった後にガイドを開始すると、ガタモデルはまずガタを再測定します。星が追従するまで Dec を北へパルスし、その後南へ戻して開始位置に戻ります。これでギアは既知の側に当たり、モデルは新しい対象でのガタを把握します。ガイドフレーム約 10～20 枚分かかります。0 = 行わない。"
+            "BacklashRemeasureAfterSlewDeg": "架台がこの値より大きく移動した後、またはピア側が変わった後にガイドを開始すると、ガタモデルはまずガタを再測定します。星が追従するまで Dec を北へパルスし、その後南へ戻して開始位置に戻ります。これでギアは既知の側に当たり、モデルは新しい対象でのガタを把握します。ガイドフレーム約 10～20 枚分かかります。0 = 行わない。"
           },
           "warnings": {
             "backlashModelNeedsPredictive": "ガタモデルは Dec アルゴリズム Predictive でのみ有効です。現在は固定パルスを使用しています。 使うには、この設定で「Dec アルゴリズム」を Predictive にしてください。"
@@ -2893,7 +2893,7 @@
           "stepStates": {
             "Pending": "待機中",
             "Running": "実行中",
-            "Settling": "整定中",
+            "Settling": "安定化中",
             "Done": "完了",
             "Skipped": "スキップ",
             "Failed": "失敗"
@@ -2911,7 +2911,7 @@
               "pulses": "パルス応答をテスト中 · {direction} {ms}"
             },
             "trial": {
-              "settling": "試行 {id} · 整定中",
+              "settling": "試行 {id} · 安定化中",
               "running": "試行 {id}"
             }
           },
@@ -3473,7 +3473,7 @@
             "StarLost": "星をロスト",
             "Runaway": "ガイドの暴走",
             "MountNotResponding": "赤道儀が応答なし",
-            "SettleTimeout": "整定タイムアウト",
+            "SettleTimeout": "安定タイムアウト",
             "CameraFailure": "カメラ障害",
             "MountPaused": "赤道儀が一時停止",
             "CalibrationFailed": "校正失敗",
@@ -3535,10 +3535,10 @@
             "error": "誤差",
             "pulses": "パルス",
             "mount": "赤道儀",
-            "pierSide": "鏡筒配置",
+            "pierSide": "ピア側",
             "calibration": "校正",
             "stars": "星数",
-            "settling": "整定中",
+            "settling": "安定化中",
             "dithering": "ディザー中",
             "limited": "上限",
             "tracking": "追尾中",
@@ -3562,13 +3562,13 @@
             },
             "mountMoved": {
               "title": "赤道儀が動いた",
-              "why": "赤道儀が導入した、追尾を停止した、パークした、切断された、または鏡筒配置が変わったため、星が元の位置から外れました。",
+              "why": "赤道儀が導入した、追尾を停止した、パークした、切断された、またはピア側が変わったため、星が元の位置から外れました。",
               "fix": "導入や子午線反転の前にはガイドを一時停止し（シーケンスなら自動で行います）、追尾がオンのままか確認してください。"
             },
             "calibrationMismatch": {
               "title": "校正が合っていない",
-              "why": "補正で星が戻らず、かえって遠ざかりました。校正が赤道儀に合わなくなっています（鏡筒配置、赤緯、ガイドレート、Dec 方向の反転）。",
-              "fix": "ターゲット付近で再校正し、赤道儀が鏡筒配置を正しく報告しているか確認してください。"
+              "why": "補正で星が戻らず、かえって遠ざかりました。校正が赤道儀に合わなくなっています（ピア側、赤緯、ガイドレート、Dec 方向の反転）。",
+              "fix": "ターゲット付近で再校正し、赤道儀がピア側を正しく報告しているか確認してください。"
             },
             "mountNotMoving": {
               "title": "赤道儀が動かなかった",
@@ -3618,7 +3618,7 @@
             "mountTrackingOff": "赤道儀の追尾がオフでした",
             "mountParked": "赤道儀がパーク中でした",
             "mountDisconnected": "赤道儀が切断されていました",
-            "pierSideChanged": "鏡筒配置が{from}から{to}に変わりました",
+            "pierSideChanged": "ピア側が{from}から{to}に変わりました",
             "errorGrew": "補正が逆向きに働いていたにもかかわらず、{axis} の誤差が {frames} フレームで {fromPx} から {toPx} に増えました",
             "runaway": "{axis} が暴走: 補正で星がさらに離れました",
             "decFlipCorrected": "Dec の方向が反転していたため修正しました",
@@ -3781,7 +3781,7 @@
       "settings": {
         "AutoFocusInitialOffsetSteps": "初期オフセットステップ数",
         "AutoFocusStepSize": "ステップサイズ",
-        "FocuserSettleTime": "フォーカサー整定時間",
+        "FocuserSettleTime": "フォーカサー安定時間",
         "AutoFocusTotalNumberOfAttempts": "総試行回数",
         "AutoFocusNumberOfFramesPerPoint": "1点あたりのフレーム数",
         "AutoFocusInnerCropRatio": "インナークロップ率",
@@ -7424,7 +7424,7 @@
       },
       "clear": "クリア",
       "emptyState": "上のドロップダウンから PHD2 ガイド ログを選択します。",
-      "excludeDither": "ディザリングの自動除外",
+      "excludeDither": "ディザー後の安定化を自動除外",
       "ditherFrames": "（{count} フレーム）",
       "fft": {
         "dominantPeriod": "支配的周期",
@@ -8089,7 +8089,7 @@
         },
         "fields": {
           "ToleranceDegrees": "許容誤差 (°)",
-          "SettleTimeSeconds": "整定時間 (秒)",
+          "SettleTimeSeconds": "安定時間 (秒)",
           "MaxIterations": "最大反復回数(0 = 無制限)",
           "MaxCorrectionDeg": "反復ごとの最大補正量 (°)",
           "MotionTimeoutSeconds": "動作タイムアウト (秒)",
@@ -8953,7 +8953,7 @@
     "position": "Position",
     "disconnected": "Disconnected",
     "moving": "Moving",
-    "settling": "Settling",
+    "settling": "安定化中",
     "idle": "Idle",
     "minimum": "Approved minimum",
     "maximum": "Approved maximum",
@@ -8985,7 +8985,7 @@
     "points": "Sweep positions",
     "scanStep": "Sweep step size",
     "span": "Maximum displacement from start",
-    "flush": "Post-settle flush (ms)",
+    "flush": "安定後の破棄 (ms)",
     "sampleFps": "Analysis samples/s",
     "timeout": "Timeout per position (s)",
     "bestFraction": "Best frame fraction (0.1-1)",
@@ -8999,7 +8999,7 @@
     "state_IDLE": "Idle",
     "state_PREPARING": "Preparing",
     "state_MOVING": "Moving",
-    "state_SETTLING": "Settling",
+    "state_SETTLING": "安定化中",
     "state_SAMPLING": "Collecting fresh frames",
     "state_FITTING": "Fitting measured peak",
     "state_VALIDATING": "Validating focus",

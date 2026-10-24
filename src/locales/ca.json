@@ -2082,7 +2082,7 @@
         },
         "strip": {
           "dismissError": "Amaga aquest error",
-          "settling": "Assentant",
+          "settling": "Estabilitzant",
           "live": "En viu",
           "poll": "Sondeig",
           "liveHint": "Actualitzacions en viu via WebSocket",
@@ -2177,7 +2177,7 @@
           "ditherTitle": "Dither",
           "ditherPixels": "Quantitat (píxels de guiatge)",
           "ditherRaOnly": "Només RA",
-          "ditherHint": "Mou la posició de bloqueig aleatòriament fins a aquesta quantitat i espera fins que el guiatge s'hagi assentat.",
+          "ditherHint": "Mou la posició de bloqueig aleatòriament fins a aquesta quantitat i espera fins que el guiatge s'hagi estabilitzat.",
           "confirmStopTitle": "Aturar el guiatge?",
           "confirmStop": "El guiatge s'atura i les exposicions d'una seqüència en curs ja no es guien.",
           "calibrateTitle": "Calibrar?",
@@ -2495,9 +2495,9 @@
             "fix": "Reduïu el nombre màxim d'estrelles de guiatge, useu binning o un subfotograma, o comproveu la càrrega de la CPU."
           },
           "SettleTimeout": {
-            "title": "Temps d'assentament esgotat",
-            "explanation": "El guiatge no s'ha assentat dins del temps límit.",
-            "fix": "Augmenteu la tolerància o el temps límit d'assentament, o comproveu el rendiment del guiatge."
+            "title": "Temps d'estabilització esgotat",
+            "explanation": "El guiatge no s'ha estabilitzat dins del temps límit.",
+            "fix": "Augmenteu la tolerància o el temps límit d'estabilització, o comproveu el rendiment del guiatge."
           },
           "DitherFailed": {
             "title": "El dither ha fallat",
@@ -2527,13 +2527,13 @@
           "snr": "SNR",
           "mass": "Massa",
           "snrTitle": "SNR / massa estel·lar",
-          "settling": "Assentant",
+          "settling": "Estabilitzant",
           "empty": "Encara no hi ha passos de guiatge. Inicieu el guiatge per veure el gràfic.",
           "markers": {
             "dither": "Dither",
             "starlost": "Estrella perduda",
-            "settled": "Assentat",
-            "settleFailed": "Assentament fallit",
+            "settled": "Estabilitzat",
+            "settleFailed": "Estabilització fallida",
             "calibration": "Calibratge"
           },
           "rmsTotal": "RMS",
@@ -2616,7 +2616,7 @@
               "valve": "En totes dues direccions fins que torni un error gran de l'altre costat (vàlvula de seguretat)."
             },
             "helpTitle": "Mode de guiatge Dec Drift",
-            "help": "Drift guia Dec en una sola direcció, contra la deriva que mesura mentre guia, de manera que els engranatges de Dec no inverteixen mai el sentit i el joc ja no importa. Guia en totes dues direccions fins que mesura una deriva clara (uns minuts; una deriva feble no compta), mentre s'assenta després d'un dither i mentre l'error es queda lluny al costat que aquesta direcció no pot corregir (vàlvula de seguretat). Quan la deriva s'afebleix o s'inverteix durant uns minuts, torna a guiar en totes dues direccions o canvia de direcció."
+            "help": "Drift guia Dec en una sola direcció, contra la deriva que mesura mentre guia, de manera que els engranatges de Dec no inverteixen mai el sentit i el joc ja no importa. Guia en totes dues direccions fins que mesura una deriva clara (uns minuts; una deriva feble no compta), mentre s'estabilitza després d'un dither i mentre l'error es queda lluny al costat que aquesta direcció no pot corregir (vàlvula de seguretat). Quan la deriva s'afebleix o s'inverteix durant uns minuts, torna a guiar en totes dues direccions o canvia de direcció."
           }
         },
         "calibration": {
@@ -2834,7 +2834,7 @@
             "DecFastSwitch": "Amb ResistSwitch: deixa que Dec inverteixi la direcció de seguida quan l'error és gran (més de 3 × min move), en lloc d'esperar que diverses imatges coincideixin. Recupera ràpidament un error Dec gran.",
             "DecMinMove": "0 = automàtic segons l'escala d'imatge.",
             "DecCorrectionPace": "Part de l'error restant que l'algorisme Predictive corregeix per imatge: 0,5 elimina un desplaçament en 2–3 imatges sense passar de zero, 1 ho corregeix tot de cop. La deriva i l'error periòdic sempre es corregeixen del tot.",
-            "DecGuideMode": "Auto guia Dec en totes dues direccions; Només Nord o Només Sud, en una sola; Desactivat, en cap. Drift segueix la deriva: mesura la deriva en Dec mentre guia i només guia en contra seva, de manera que els engranatges de Dec no inverteixen mai el sentit i el joc deixa d'importar; canvia de direcció quan la deriva s'inverteix i guia en totes dues direccions fins que coneix la deriva, mentre s'assenta i per recuperar un error gran.",
+            "DecGuideMode": "Auto guia Dec en totes dues direccions; Només Nord o Només Sud, en una sola; Desactivat, en cap. Drift segueix la deriva: mesura la deriva en Dec mentre guia i només guia en contra seva, de manera que els engranatges de Dec no inverteixen mai el sentit i el joc deixa d'importar; canvia de direcció quan la deriva s'inverteix i guia en totes dues direccions fins que coneix la deriva, mentre s'estabilitza i per recuperar un error gran.",
             "MaxRaDurationMs": "Pols de guiatge RA individual més llarg. Limita una correcció quan una mesura està molt desviada (estrella equivocada, ràfega de vent), perquè la muntura no surti disparada lluny. Puja-ho només si els errors grans triguen moltes imatges a corregir-se.",
             "MaxDecDurationMs": "Pols de guiatge Dec individual més llarg. Limita una correcció quan una mesura està molt desviada (estrella equivocada, ràfega de vent), perquè la muntura no surti disparada lluny. Puja-ho només si els errors grans triguen moltes imatges a corregir-se.",
             "MinPulseMs": "Els polsos de guiatge més curts s'arrodoneixen a 0 o a aquesta durada: algunes muntures gestionen malament els polsos molt curts. 0 = qualsevol durada.",
@@ -2925,7 +2925,7 @@
           "stepStates": {
             "Pending": "En espera",
             "Running": "En curs",
-            "Settling": "Assentant",
+            "Settling": "Estabilitzant",
             "Done": "Fet",
             "Skipped": "Omès",
             "Failed": "Ha fallat"
@@ -2943,7 +2943,7 @@
               "pulses": "Provant la resposta als polsos · {direction} {ms}"
             },
             "trial": {
-              "settling": "Prova {id} · Assentant",
+              "settling": "Prova {id} · Estabilitzant",
               "running": "Prova {id}"
             }
           },
@@ -3505,7 +3505,7 @@
             "StarLost": "Estrella perduda",
             "Runaway": "Deriva descontrolada",
             "MountNotResponding": "La muntura no respon",
-            "SettleTimeout": "Temps d'assentament esgotat",
+            "SettleTimeout": "Temps d'estabilització esgotat",
             "CameraFailure": "Error de càmera",
             "MountPaused": "Muntura en pausa",
             "CalibrationFailed": "El calibratge ha fallat",
@@ -3570,7 +3570,7 @@
             "pierSide": "Costat del pilar",
             "calibration": "Calibratge",
             "stars": "Estrelles",
-            "settling": "assentant",
+            "settling": "estabilitzant",
             "dithering": "dithering",
             "limited": "limitats",
             "tracking": "en seguiment",
@@ -6903,7 +6903,7 @@
         "statusTitle": "Estat de la muntura",
         "gpsSync": "Sincronització de l'hora GPS",
         "trackingRate": "Velocitat de seguiment",
-        "slewSettle": "Temps d'estabilització",
+        "slewSettle": "Estabilització després del desplaçament",
         "meridianLimit": "Límit meridià",
         "unattendedFlip": "Gir sense supervisió",
         "disable": "Desactiva",
@@ -8953,7 +8953,7 @@
     "position": "Position",
     "disconnected": "Disconnected",
     "moving": "Moving",
-    "settling": "Settling",
+    "settling": "Estabilitzant",
     "idle": "Idle",
     "minimum": "Approved minimum",
     "maximum": "Approved maximum",
@@ -8985,7 +8985,7 @@
     "points": "Sweep positions",
     "scanStep": "Sweep step size",
     "span": "Maximum displacement from start",
-    "flush": "Post-settle flush (ms)",
+    "flush": "Descart després d'estabilitzar (ms)",
     "sampleFps": "Analysis samples/s",
     "timeout": "Timeout per position (s)",
     "bestFraction": "Best frame fraction (0.1-1)",
@@ -8999,7 +8999,7 @@
     "state_IDLE": "Idle",
     "state_PREPARING": "Preparing",
     "state_MOVING": "Moving",
-    "state_SETTLING": "Settling",
+    "state_SETTLING": "Estabilitzant",
     "state_SAMPLING": "Collecting fresh frames",
     "state_FITTING": "Fitting measured peak",
     "state_VALIDATING": "Validating focus",

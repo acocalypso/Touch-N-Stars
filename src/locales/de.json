@@ -1140,7 +1140,7 @@
           "minutesAfter": "Minuten nach Meridian",
           "maxMinutesAfter": "Max. Minuten nach Meridian",
           "pauseBefore": "Pause vor Meridian (min)",
-          "useSideOfPier": "Seite des Piers"
+          "useSideOfPier": "Pierseite verwenden"
         },
         "altitudeCondition": {
           "altitude": "Höhe (°)",
@@ -1211,7 +1211,7 @@
         "skyFlat": {
           "shouldDither": "Dithern",
           "ditherPixels": "Dither Pixel",
-          "ditherSettleTime": "Dither Wartezeit (s)"
+          "ditherSettleTime": "Dither-Einpendelzeit (s)"
         },
         "moveRotatorMechanical": {
           "mechanicalPosition": "Mechanische Position (°)"
@@ -1520,11 +1520,11 @@
         "rightAscension": "RA",
         "Alt": "Alt",
         "Az": "Az",
-        "SideOfPier": "Seite des Piers"
+        "SideOfPier": "Pierseite"
       },
       "settings": {
         "meridian_flip_settings": "Meridian Flip",
-        "telescope_settle_time": "Einschwingzeit nach Schwenken (s)",
+        "telescope_settle_time": "Beruhigungszeit nach dem Schwenken (s)",
         "meridian_flip": {
           "basic": "Grundeinstellungen",
           "behavior": "Verhalten",
@@ -1532,9 +1532,9 @@
           "MinutesAfterMeridian": "Minuten nach Meridian",
           "MaxMinutesAfterMeridian": "Max. Minuten nach Meridian",
           "PauseTimeBeforeMeridian": "Pausenzeit vor dem Meridian",
-          "SettleTime": "Einschwingzeit(en)",
+          "SettleTime": "Beruhigungszeit (s)",
           "Recenter": "Neu zentrieren",
-          "UseSideOfPier": "Benutze \"side of pier\"",
+          "UseSideOfPier": "Pierseite verwenden",
           "AutoFocusAfterFlip": "Autofokus nach dem Flip",
           "RotateImageAfterFlip": "Bild nach dem Flip drehen",
           "intro": "Folgt das Teleskop einem Objekt über den Meridian (die Nord-Süd-Linie durch den Zenit), würde es bald an Stativ oder Säule stoßen. Die Montierung dreht deshalb einmal auf die andere Seite, danach geht die Aufnahme weiter. Diese Einstellungen legen fest, wann das passiert.",
@@ -1558,7 +1558,7 @@
               "description": "Stell die Minuten selbst unter „Erweitert“ ein."
             },
             "sideOfPierNoMount": "Verbinde vor der Auswahl die Montierung, damit die App prüfen kann, ob sie ihre Pierseite meldet.",
-            "sideOfPierUnknown": "Deine Montierung meldet ihre Pierseite nicht, daher bleibt „Benutze side of pier“ aus. NINA entscheidet den Flip dann nach der Uhrzeit.",
+            "sideOfPierUnknown": "Deine Montierung meldet ihre Pierseite nicht, daher bleibt „Pierseite verwenden“ aus. NINA entscheidet den Flip dann nach der Uhrzeit.",
             "applyFailed": "Die Voreinstellung konnte nicht vollständig gespeichert werden. Prüfe die Werte unter „Erweitert“."
           },
           "timeline": {
@@ -1634,7 +1634,7 @@
             "runningHint": "NINA führt den Test selbst aus, die App darf geschlossen werden. Drück STOPP, wenn etwas im Weg ist – das stoppt Sequenz und Nachführung.",
             "flippedAt": "NINA hat {minutes} min nach dem Meridian geflippt.",
             "noFlip": "NINA hat nicht rechtzeitig geflippt. Sequenz und Nachführung wurden gestoppt.",
-            "noFlipAdvice": "Prüfe die Flip-Einstellungen und das NINA-Log. Ist „Benutze side of pier“ an, meldet deine Montierung die Pierseite vielleicht falsch – versuch es ausgeschaltet.",
+            "noFlipAdvice": "Prüfe die Flip-Einstellungen und das NINA-Log. Ist „Pierseite verwenden“ an, meldet deine Montierung die Pierseite vielleicht falsch – versuch es ausgeschaltet.",
             "startFailed": "Die Test-Sequenz konnte nicht gestartet werden: {error}",
             "ninaError": "NINA hat beim Flip einen Fehler gemeldet, im Schritt: {step}.",
             "ninaErrorRecenterCaps": "Mit Deckel ist das zu erwarten – zum Neu-Zentrieren braucht es Sterne. Prüfe in der Nacht, ob Plate Solving funktioniert.",
@@ -1669,10 +1669,10 @@
           "title": "Meridiangrenzen",
           "east": "Ost (°)",
           "west": "West (°)",
-          "hint": "Wie weit die Montierung auf jeder Pier-Seite über den Meridian hinaus nachführen darf, −360 bis 360° in 0,25°-Schritten. Wird im Montierungs-Controller gespeichert."
+          "hint": "Wie weit die Montierung auf jeder Pierseite über den Meridian hinaus nachführen darf, −360 bis 360° in 0,25°-Schritten. Wird im Montierungs-Controller gespeichert."
         },
         "pierSide": {
-          "title": "Bevorzugte Pier-Seite",
+          "title": "Bevorzugte Pierseite",
           "mount": "Wie in der Montierung eingestellt",
           "east": "Ost",
           "west": "West",
@@ -1788,9 +1788,9 @@
       "phd2ServerPort": "PHD2-Server-Port",
       "ditherPixels": "Dither-Pixel (px)",
       "ditherRAOnly": "Dither nur in RA",
-      "settlePixels": "Pixeltoleranz festlegen (px)",
-      "settleTime": "Minimale Einschwingzeit (s)",
-      "settleTimeout": "Beruhigungs-Timeout (s)",
+      "settlePixels": "Einpendel-Toleranz (px)",
+      "settleTime": "Minimale Einpendelzeit (s)",
+      "settleTimeout": "Einpendel-Timeout (s)",
       "guidingStartRetry": "Guiding Startversuche",
       "guidingStartTimeout": "Guiding-Start-Timeout(s)",
       "roiPercentage": "ROI-Prozentsatz für die Suche nach Guide Star (%)",
@@ -2082,7 +2082,7 @@
         },
         "strip": {
           "dismissError": "Diesen Fehler ausblenden",
-          "settling": "Settling",
+          "settling": "Einpendeln",
           "live": "Live",
           "poll": "Polling",
           "liveHint": "Live-Updates via WebSocket",
@@ -2101,11 +2101,11 @@
           "imageScale": "von {scale}″/px",
           "imageScaleUnknown": "Kamera & Brennweite setzen",
           "learningChip": "Lernt Himmel & Montierung {percent} %",
-          "learningChipHint": "Prädiktives Guiding lernt aus den Guiding-Frames das Seeing und die Eigenbewegung der Montierung (etwa 120 Frames; das Settling nach einem Dither zählt nicht). Es führt dabei bereits nach und passt sich auch danach laufend an.",
+          "learningChipHint": "Prädiktives Guiding lernt aus den Guiding-Frames das Seeing und die Eigenbewegung der Montierung (etwa 120 Frames; das Einpendeln nach einem Dither zählt nicht). Es führt dabei bereits nach und passt sich auch danach laufend an.",
           "help": {
             "rms": {
               "title": "RMS – gesamter Guiding-Fehler",
-              "text": "Wie weit der Leitstern von seiner Lock-Position abweicht, als quadratisches Mittel über die letzten Guiding-Frames (RA und Dec zusammen, ohne das Settling nach Dithern), in Bogensekunden am Himmel und in Pixeln der Guiding-Kamera. Kleiner ist besser; entscheidend ist der Vergleich mit dem Abbildungsmaßstab der Aufnahmekamera (RMS / Bild) und mit dem Seeing. Über 1,2″ wird der Wert orange, über 2″ rot."
+              "text": "Wie weit der Leitstern von seiner Lock-Position abweicht, als quadratisches Mittel über die letzten Guiding-Frames (RA und Dec zusammen, ohne das Einpendeln nach Dithern), in Bogensekunden am Himmel und in Pixeln der Guiding-Kamera. Kleiner ist besser; entscheidend ist der Vergleich mit dem Abbildungsmaßstab der Aufnahmekamera (RMS / Bild) und mit dem Seeing. Über 1,2″ wird der Wert orange, über 2″ rot."
             },
             "ra": {
               "title": "RA – Fehler in Rektaszension",
@@ -2230,7 +2230,7 @@
           "weight": "Gewicht",
           "reasons": {
             "NotGuiding": "Weitere Sterne zählen erst beim Guiden. Bis dahin wird nur der Guide-Stern gemessen.",
-            "Settling": "Während der Guider nach dem Start oder einem Dither einschwingt, zählen weitere Sterne nicht.",
+            "Settling": "Während sich der Guider nach dem Start oder einem Dither einpendelt, zählen weitere Sterne nicht.",
             "Stabilizing": "Das Guiding hat gerade begonnen, oder der Guide-Stern hat sich stärker als üblich bewegt. Die anderen Sterne zählen wieder, sobald er einige Frames lang ruhig ist.",
             "GuideStarLost": "Der Guide-Stern ging in diesem Frame verloren, daher wurden auch die anderen Sterne nicht gemessen.",
             "Subframe": "Mit Subframes wird nur der Guide-Stern ausgelesen.",
@@ -2410,8 +2410,8 @@
             "fix": "Starte das Guiding mit Kalibrierung."
           },
           "CalibrationFlipped": {
-            "title": "Kalibrierung für Pier-Seite gespiegelt",
-            "explanation": "Die Kalibrierung wurde nach einem Meridian-Flip an die neue Pier-Seite angepasst.",
+            "title": "Kalibrierung für Pierseite gespiegelt",
+            "explanation": "Die Kalibrierung wurde nach einem Meridian-Flip an die neue Pierseite angepasst.",
             "fix": "Nichts zu tun."
           },
           "DecFlipCorrected": {
@@ -2432,7 +2432,7 @@
           "RunawayDetected": {
             "title": "Davonlaufendes Guiding erkannt",
             "explanation": "Die Korrekturen wurden immer größer, ohne den Fehler zu verringern (z. B. falsches Vorzeichen der Kalibrierung). Das Guiding wurde gestoppt, um die Sitzung zu schützen.",
-            "fix": "Lösche die Kalibrierung und kalibriere neu; prüfe die Montierungseinstellung für Pier-Seite/Dec-Flip."
+            "fix": "Lösche die Kalibrierung und kalibriere neu; prüfe die Montierungseinstellung für Pierseite/Dec-Flip."
           },
           "MountNotResponding": {
             "title": "Montierung reagiert nicht auf Korrekturen",
@@ -2465,9 +2465,9 @@
             "fix": "Prüfe die Verbindung zur Montierung bzw. zum Guide-Port."
           },
           "PierSideUnknown": {
-            "title": "Pier-Seite unbekannt",
-            "explanation": "Die Montierung meldet ihre Pier-Seite nicht; Meridian-Flips können nicht automatisch ausgeglichen werden.",
-            "fix": "Kalibriere nach jedem Meridian-Flip neu oder verwende einen Treiber, der die Pier-Seite meldet."
+            "title": "Pierseite unbekannt",
+            "explanation": "Die Montierung meldet ihre Pierseite nicht; Meridian-Flips können nicht automatisch ausgeglichen werden.",
+            "fix": "Kalibriere nach jedem Meridian-Flip neu oder verwende einen Treiber, der die Pierseite meldet."
           },
           "CameraCaptureFailed": {
             "title": "Guide-Belichtung fehlgeschlagen",
@@ -2527,7 +2527,7 @@
           "snr": "SNR",
           "mass": "Masse",
           "snrTitle": "SNR / Sternmasse",
-          "settling": "Settling",
+          "settling": "Einpendeln",
           "empty": "Noch keine Guide-Schritte. Starte das Guiding, um den Graphen zu sehen.",
           "markers": {
             "dither": "Dither",
@@ -2537,10 +2537,10 @@
             "calibration": "Kalibrierung"
           },
           "rmsTotal": "RMS",
-          "rmsHint": "RMS der letzten {count} angezeigten Guide-Schritte (ohne Einschwingen und Dither-Rückführung)",
+          "rmsHint": "RMS der letzten {count} angezeigten Guide-Schritte (ohne Einpendeln und Dither-Rückführung)",
           "rmsLine": "RMS gesamt ({count})",
           "rmsLineShort": "RMS ({count})",
-          "rmsLineHint": "Gesamt-RMS der jeweils letzten {count} Guiding-Schritte (ohne Settling und Recenter-Bewegungen)"
+          "rmsLineHint": "Gesamt-RMS der jeweils letzten {count} Guiding-Schritte (ohne Einpendeln und Recenter-Bewegungen)"
         },
         "target": {
           "title": "Ziel",
@@ -2560,7 +2560,7 @@
           "window": "Fenster",
           "windowHelp": {
             "title": "Fenster – die letzten 100 Guiding-Frames",
-            "text": "Die Statistik der letzten 100 Guiding-Frames, sie zeigt also, wie das Guiding gerade läuft: Jeder neue Frame verdrängt den ältesten, und direkt nach dem Start des Guidings füllt sich das Fenster erst noch. Frames aus dem Settling (etwa nach einem Dither) bleiben im Fenster, zählen aber nicht in die Werte, daher können die Zahl unter der Überschrift und die Zeile Frames unter 100 liegen. Nur der Oszillationsindex nutzt jeden Frame. Stern verloren und Dauer zählen in beiden Spalten die ganze Sitzung.\n\nSitzung umfasst alles seit dem letzten Start des Guidings."
+            "text": "Die Statistik der letzten 100 Guiding-Frames, sie zeigt also, wie das Guiding gerade läuft: Jeder neue Frame verdrängt den ältesten, und direkt nach dem Start des Guidings füllt sich das Fenster erst noch. Frames aus dem Einpendeln (etwa nach einem Dither) bleiben im Fenster, zählen aber nicht in die Werte, daher können die Zahl unter der Überschrift und die Zeile Frames unter 100 liegen. Nur der Oszillationsindex nutzt jeden Frame. Stern verloren und Dauer zählen in beiden Spalten die ganze Sitzung.\n\nSitzung umfasst alles seit dem letzten Start des Guidings."
           },
           "session": "Sitzung",
           "rmsTotal": "RMS gesamt",
@@ -2616,7 +2616,7 @@
               "valve": "Beide Richtungen, bis ein großer Fehler auf der anderen Seite zurückgeholt ist (Sicherheitsventil)."
             },
             "helpTitle": "Dec-Guide-Modus Drift",
-            "help": "Drift guidet Dec nur in eine Richtung, gegen die Drift, die es beim Guiden misst. So kehrt das Dec-Getriebe nie um und das Backlash spielt keine Rolle mehr. In beide Richtungen guidet es, bis eine deutliche Drift gemessen ist (einige Minuten; eine schwache Drift zählt nicht), beim Settling nach einem Dither und solange der Fehler weit auf der Seite bleibt, die die Richtung nicht korrigieren kann (Sicherheitsventil). Lässt die Drift einige Minuten lang nach oder kehrt sie sich um, guidet es wieder in beide Richtungen oder wechselt die Richtung."
+            "help": "Drift guidet Dec nur in eine Richtung, gegen die Drift, die es beim Guiden misst. So kehrt das Dec-Getriebe nie um und das Backlash spielt keine Rolle mehr. In beide Richtungen guidet es, bis eine deutliche Drift gemessen ist (einige Minuten; eine schwache Drift zählt nicht), beim Einpendeln nach einem Dither und solange der Fehler weit auf der Seite bleibt, die die Richtung nicht korrigieren kann (Sicherheitsventil). Lässt die Drift einige Minuten lang nach oder kehrt sie sich um, guidet es wieder in beide Richtungen oder wechselt die Richtung."
           }
         },
         "calibration": {
@@ -2632,7 +2632,7 @@
           "decRate": "Dec-Rate",
           "orthogonality": "Orthogonalitätsfehler",
           "declination": "Deklination",
-          "pierSide": "Pier-Seite",
+          "pierSide": "Pierseite",
           "binning": "Binning",
           "steps": "Schritte",
           "raShort": "RA",
@@ -2834,7 +2834,7 @@
             "DecFastSwitch": "Mit ResistSwitch: Lässt Dec sofort die Richtung wechseln, wenn der Fehler groß ist (mehr als 3 × Min-Move), statt zu warten, bis mehrere Frames übereinstimmen. Holt einen großen Dec-Fehler schnell zurück.",
             "DecMinMove": "0 = automatisch aus dem Abbildungsmaßstab.",
             "DecCorrectionPace": "Anteil des verbleibenden Fehlers, den der Predictive-Algorithmus pro Frame korrigiert: 0,5 baut einen Versatz über 2–3 Frames ab, ohne über null hinauszuschwingen, 1 korrigiert alles auf einmal. Drift und periodischer Fehler werden immer vollständig korrigiert.",
-            "DecGuideMode": "Auto guidet Dec in beide Richtungen, Nord oder Süd nur in eine, Aus gar nicht. Drift folgt der Drift: Es misst beim Guiden die Dec-Drift und guidet nur dagegen, sodass das Dec-Getriebe nie umkehrt und das Backlash keine Rolle mehr spielt; es wechselt die Richtung, wenn sich die Drift umkehrt, und guidet in beide Richtungen, bis die Drift bekannt ist, beim Settling und um einen großen Fehler zurückzuholen.",
+            "DecGuideMode": "Auto guidet Dec in beide Richtungen, Nord oder Süd nur in eine, Aus gar nicht. Drift folgt der Drift: Es misst beim Guiden die Dec-Drift und guidet nur dagegen, sodass das Dec-Getriebe nie umkehrt und das Backlash keine Rolle mehr spielt; es wechselt die Richtung, wenn sich die Drift umkehrt, und guidet in beide Richtungen, bis die Drift bekannt ist, beim Einpendeln und um einen großen Fehler zurückzuholen.",
             "MaxRaDurationMs": "Längster einzelner RA-Guide-Puls. Er begrenzt eine Korrektur, wenn eine Messung weit danebenliegt (falscher Stern, Windböe), damit die Montierung nicht weit weggeworfen wird. Nur erhöhen, wenn große Fehler viele Frames zur Korrektur brauchen.",
             "MaxDecDurationMs": "Längster einzelner Dec-Guide-Puls. Er begrenzt eine Korrektur, wenn eine Messung weit danebenliegt (falscher Stern, Windböe), damit die Montierung nicht weit weggeworfen wird. Nur erhöhen, wenn große Fehler viele Frames zur Korrektur brauchen.",
             "MinPulseMs": "Kürzere Guide-Pulse werden auf 0 oder auf diese Länge gerundet: Manche Montierungen verarbeiten sehr kurze Pulse falsch. 0 = beliebige Länge.",
@@ -2843,7 +2843,7 @@
             "BacklashPulseMs": "Länge des zusätzlichen Pulses bei einem Dec-Richtungswechsel. Ausgehend davon passt der Guider den Puls anhand der Reaktion des Sterns automatisch zwischen 20 ms und dem 1,5-Fachen dieses Werts an. Mit dem Spielmodell ist der Wert nur die erste Schätzung des Spiels, die das Modell dann selbst lernt.",
             "PulseModel": "Lernt aus den Dithers, wie weit ein Guide-Puls den Stern auf jeder Achse wirklich bewegt, und bemisst die Pulse danach, sodass eine ungenaue Kalibrierung nicht mehr zu Über- oder Unterkorrektur führt. Es startet mit den Kalibrierwerten, ändert nur, was die Dithers eindeutig zeigen, und behält das Gelernte pro Profil und Montierung bis zur nächsten Kalibrierung.",
             "CalibrationStepMs": "0 = automatisch aus Optik, Guide-Rate und Deklination.",
-            "ReuseCalibration": "Kalibrierung über Sitzungen hinweg behalten und an Deklination und Pier-Seite anpassen.",
+            "ReuseCalibration": "Behält die letzte Kalibrierung über Sitzungen hinweg und passt sie an Deklination und Pierseite an, sodass du nicht jede Nacht kalibrieren musst. Kalibriere neu, nachdem du die Guiding-Kamera gedreht oder das Leitrohr gewechselt hast.",
             "AssumeOrthogonal": "Die Kalibrierung misst die RA- und Dec-Richtung normalerweise unabhängig voneinander. Dies erzwingt, dass Dec genau senkrecht zu RA steht, was hilft, wenn großer periodischer Fehler, Dec-Backlash oder schlechtes Seeing die Dec-Kalibrierung verfälschen.",
             "DecCompensation": "Passt die RA-Korrekturen an die aktuelle Deklination an, sodass eine bei einer Deklination erstellte Kalibrierung auch bei einer anderen funktioniert. Die verbundene Montierung muss ihre Position melden; eingeschaltet lassen. Nicht dasselbe wie die Dec-Backlash-Kompensation.",
             "DecFlipRequired": "Einstellung pro Montierung; wird durch den Dec-Selbsttest nach Flip automatisch korrigiert.",
@@ -3567,7 +3567,7 @@
             "error": "Fehler",
             "pulses": "Pulse",
             "mount": "Montierung",
-            "pierSide": "Pier-Seite",
+            "pierSide": "Pierseite",
             "calibration": "Kalibrierung",
             "stars": "Sterne",
             "settling": "pendelt ein",
@@ -3594,13 +3594,13 @@
             },
             "mountMoved": {
               "title": "Die Montierung hat sich bewegt",
-              "why": "Die Montierung ist geschwenkt, hat die Nachführung beendet, wurde geparkt oder getrennt oder hat die Pier-Seite gewechselt, daher hat der Stern seinen Platz verlassen.",
+              "why": "Die Montierung ist geschwenkt, hat die Nachführung beendet, wurde geparkt oder getrennt oder hat die Pierseite gewechselt, daher hat der Stern seinen Platz verlassen.",
               "fix": "Pausiere das Guiding vor Schwenks und Meridian-Flips (eine Sequenz erledigt das für dich) und prüfe, ob die Nachführung eingeschaltet bleibt."
             },
             "calibrationMismatch": {
               "title": "Kalibrierung passt nicht",
-              "why": "Die Korrekturen haben den Stern weiter weggeschoben statt zurück: Die Kalibrierung passt nicht mehr zur Montierung (Pier-Seite, Deklination, Guide-Rate oder eine umgekehrte Dec-Richtung).",
-              "fix": "Kalibriere nahe am Ziel neu und prüfe, ob die Montierung ihre Pier-Seite korrekt meldet."
+              "why": "Die Korrekturen haben den Stern weiter weggeschoben statt zurück: Die Kalibrierung passt nicht mehr zur Montierung (Pierseite, Deklination, Guide-Rate oder eine umgekehrte Dec-Richtung).",
+              "fix": "Kalibriere nahe am Ziel neu und prüfe, ob die Montierung ihre Pierseite korrekt meldet."
             },
             "mountNotMoving": {
               "title": "Montierung hat sich nicht bewegt",
@@ -3650,7 +3650,7 @@
             "mountTrackingOff": "Die Nachführung der Montierung war aus",
             "mountParked": "Die Montierung war geparkt",
             "mountDisconnected": "Die Montierung war getrennt",
-            "pierSideChanged": "Die Pier-Seite wechselte von {from} nach {to}",
+            "pierSideChanged": "Die Pierseite wechselte von {from} nach {to}",
             "errorGrew": "Der {axis}-Fehler wuchs über {frames} Frames von {fromPx} auf {toPx}, obwohl die Korrekturen dagegen arbeiteten",
             "runaway": "{axis} lief davon: Die Korrekturen schoben den Stern weiter weg",
             "decFlipCorrected": "Die Dec-Richtung war umgekehrt und wurde korrigiert",
@@ -3773,7 +3773,7 @@
       "settings": {
         "AutoFocusInitialOffsetSteps": "Initial Offset Steps",
         "AutoFocusStepSize": "Schrittgröße",
-        "FocuserSettleTime": "Einschwingzeit des Fokussierers",
+        "FocuserSettleTime": "Beruhigungszeit des Fokussierers",
         "AutoFocusTotalNumberOfAttempts": "Gesamtzahl der Versuche",
         "AutoFocusNumberOfFramesPerPoint": "Anzahl der Frames pro Punkt",
         "AutoFocusInnerCropRatio": "Inner Crop Ratio",
@@ -4018,7 +4018,7 @@
         "alignment_tolerance": "Ausrichtungstoleranz",
         "refraction_adjustment": "Refraktionsanpassung",
         "stop_tracking_when_done": "Verfolgung beenden wenn fertig",
-        "settle_time": "Abklingzeit (s)",
+        "settle_time": "Beruhigungszeit (s)",
         "auto_pause": "Automatische Pause",
         "log_error": "Fehler protokollieren",
         "reset": "Auf Standard zurücksetzen",
@@ -6805,7 +6805,7 @@
         "statusTitle": "Mount-Status",
         "gpsSync": "GPS-Zeitsynchronisierung",
         "trackingRate": "Tracking-Rate",
-        "slewSettle": "Slew-Beruhigung",
+        "slewSettle": "Beruhigungszeit nach dem Schwenken",
         "meridianLimit": "Meridiangrenze",
         "unattendedFlip": "Unbeaufsichtigter Flip",
         "disable": "Deaktivieren",
@@ -7563,7 +7563,7 @@
       },
       "clear": "Leeren",
       "emptyState": "Wählen Sie aus der Dropdown-Liste oben ein PHD2-Guide-Protokoll aus.",
-      "excludeDither": "Dither-Beruhigung automatisch ausschließen",
+      "excludeDither": "Einpendeln nach Dither automatisch ausschließen",
       "ditherFrames": "({count} Frames)",
       "fft": {
         "dominantPeriod": "Dominante Periode",

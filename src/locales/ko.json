@@ -2410,8 +2410,8 @@
             "fix": "보정을 포함해 가이딩을 시작하세요."
           },
           "CalibrationFlipped": {
-            "title": "경통 위치에 맞게 보정 반전됨",
-            "explanation": "자오선 반전 후 새 경통 위치에 맞게 보정을 조정했습니다.",
+            "title": "피어 방향에 맞게 보정 반전됨",
+            "explanation": "자오선 반전 후 새 피어 방향에 맞게 보정을 조정했습니다.",
             "fix": "조치가 필요 없습니다."
           },
           "DecFlipCorrected": {
@@ -2432,7 +2432,7 @@
           "RunawayDetected": {
             "title": "가이드 폭주 감지",
             "explanation": "교정이 오차를 줄이지 못한 채 계속 커졌습니다(예: 보정 부호 오류). 세션을 보호하기 위해 가이딩을 정지했습니다.",
-            "fix": "보정을 지우고 다시 보정하세요. 마운트의 경통 위치/Dec 반전 설정을 확인하세요."
+            "fix": "보정을 지우고 다시 보정하세요. 마운트의 피어 방향/Dec 반전 설정을 확인하세요."
           },
           "MountNotResponding": {
             "title": "마운트가 교정에 응답하지 않음",
@@ -2465,9 +2465,9 @@
             "fix": "마운트/가이드 포트 연결을 확인하세요."
           },
           "PierSideUnknown": {
-            "title": "경통 위치 알 수 없음",
-            "explanation": "마운트가 경통 위치를 보고하지 않아 자오선 반전을 자동으로 보상할 수 없습니다.",
-            "fix": "자오선 반전 후마다 다시 보정하거나, 경통 위치를 보고하는 드라이버를 사용하세요."
+            "title": "피어 방향 알 수 없음",
+            "explanation": "마운트가 피어 방향를 보고하지 않아 자오선 반전을 자동으로 보상할 수 없습니다.",
+            "fix": "자오선 반전 후마다 다시 보정하거나, 피어 방향를 보고하는 드라이버를 사용하세요."
           },
           "CameraCaptureFailed": {
             "title": "가이드 노출 실패",
@@ -2632,7 +2632,7 @@
           "decRate": "Dec 속도",
           "orthogonality": "직교성 오차",
           "declination": "적위",
-          "pierSide": "경통 위치",
+          "pierSide": "피어 방향",
           "binning": "비닝",
           "steps": "스텝 수",
           "raShort": "RA",
@@ -2843,7 +2843,7 @@
             "BacklashPulseMs": "Dec 방향 전환 시 추가 펄스의 길이. 이 값을 시작점으로 가이더가 별의 반응에 따라 20 ms에서 이 값의 1.5배 사이로 펄스를 자동 조정합니다. 유격 모델에서는 이 값이 유격의 첫 추정치일 뿐이며, 이후 모델이 스스로 학습합니다.",
             "PulseModel": "디더에서 가이드 펄스가 각 축에서 실제로 별을 얼마나 움직이는지 학습하고 그에 맞춰 펄스 크기를 정하므로, 어긋난 캘리브레이션 때문에 과보정이나 저보정이 생기지 않습니다. 캘리브레이션 값에서 시작해 디더가 분명히 보여 주는 부분만 바꾸고, 학습한 내용을 다음 캘리브레이션까지 프로필과 마운트별로 유지합니다.",
             "CalibrationStepMs": "0 = 광학계, 가이드 속도, 적위에서 자동으로 결정.",
-            "ReuseCalibration": "세션이 바뀌어도 보정을 유지하고 적위와 경통 위치에 맞게 조정합니다.",
+            "ReuseCalibration": "세션이 바뀌어도 보정을 유지하고 적위와 피어 방향에 맞게 조정합니다.",
             "AssumeOrthogonal": "캘리브레이션은 보통 RA와 Dec 방향을 독립적으로 측정합니다. 이 옵션은 Dec를 RA에 정확히 수직으로 강제하며, 큰 주기 오차, Dec 백래시 또는 나쁜 시잉이 Dec 캘리브레이션을 왜곡할 때 도움이 됩니다.",
             "DecCompensation": "현재 적위에 맞춰 RA 보정을 조정하여, 한 적위에서 한 캘리브레이션이 다른 적위에서도 계속 동작하게 합니다. 연결된 마운트가 위치를 보고해야 합니다. 켜 두세요. Dec 백래시 보정과는 다릅니다.",
             "DecFlipRequired": "마운트별 설정이며, “반전 후 Dec 자가 점검”이 자동으로 수정합니다.",
@@ -3567,7 +3567,7 @@
             "error": "오차",
             "pulses": "펄스",
             "mount": "마운트",
-            "pierSide": "경통 위치",
+            "pierSide": "피어 방향",
             "calibration": "보정",
             "stars": "별",
             "settling": "안정화 중",
@@ -3594,13 +3594,13 @@
             },
             "mountMoved": {
               "title": "마운트가 움직임",
-              "why": "마운트가 슬루하거나, 추적을 멈추거나, 파킹되거나, 연결이 끊기거나, 경통 위치가 바뀌어 별이 제자리를 벗어났습니다.",
+              "why": "마운트가 슬루하거나, 추적을 멈추거나, 파킹되거나, 연결이 끊기거나, 피어 방향가 바뀌어 별이 제자리를 벗어났습니다.",
               "fix": "슬루와 자오선 반전 전에는 가이딩을 일시정지하고(시퀀스가 자동으로 처리합니다) 추적이 켜져 있는지 확인하세요."
             },
             "calibrationMismatch": {
               "title": "보정이 맞지 않음",
-              "why": "교정이 별을 되돌리지 못하고 오히려 더 멀리 밀었습니다. 보정이 더 이상 마운트와 맞지 않습니다(경통 위치, 적위, 가이드 속도 또는 반전된 Dec 방향).",
-              "fix": "대상 근처에서 다시 보정하고, 마운트가 경통 위치를 올바르게 보고하는지 확인하세요."
+              "why": "교정이 별을 되돌리지 못하고 오히려 더 멀리 밀었습니다. 보정이 더 이상 마운트와 맞지 않습니다(피어 방향, 적위, 가이드 속도 또는 반전된 Dec 방향).",
+              "fix": "대상 근처에서 다시 보정하고, 마운트가 피어 방향를 올바르게 보고하는지 확인하세요."
             },
             "mountNotMoving": {
               "title": "마운트가 움직이지 않음",
@@ -3650,7 +3650,7 @@
             "mountTrackingOff": "마운트 추적이 꺼져 있었습니다",
             "mountParked": "마운트가 파킹되어 있었습니다",
             "mountDisconnected": "마운트 연결이 끊겨 있었습니다",
-            "pierSideChanged": "경통 위치 변경: {from} → {to}",
+            "pierSideChanged": "피어 방향 변경: {from} → {to}",
             "errorGrew": "교정이 반대 방향으로 밀었는데도 {axis} 오차가 {frames} 프레임 동안 {fromPx}에서 {toPx}(으)로 커졌습니다",
             "runaway": "{axis} 폭주: 교정이 별을 더 멀리 밀어냈습니다",
             "decFlipCorrected": "Dec 방향이 반전되어 있어 수정했습니다",
@@ -3813,7 +3813,7 @@
       "settings": {
         "AutoFocusInitialOffsetSteps": "초기 오프셋 스텝",
         "AutoFocusStepSize": "스텝 크기",
-        "FocuserSettleTime": "포커서 안정 시간",
+        "FocuserSettleTime": "포커서 안정화 시간",
         "AutoFocusTotalNumberOfAttempts": "총 시도 횟수",
         "AutoFocusNumberOfFramesPerPoint": "점당 프레임 수",
         "AutoFocusInnerCropRatio": "내부 크롭 비율",
@@ -6812,7 +6812,7 @@
         "statusTitle": "마운트 상태",
         "gpsSync": "GPS 시간 동기화",
         "trackingRate": "추적 속도",
-        "slewSettle": "슬루 정착",
+        "slewSettle": "슬루 후 안정화",
         "meridianLimit": "자오선 한계",
         "unattendedFlip": "무인 반전",
         "disable": "비활성화",
@@ -7414,7 +7414,7 @@
       "refresh": "로그 목록 새로고침",
       "clear": "지우기",
       "session": "세션:",
-      "excludeDither": "디더 정착 자동 제외",
+      "excludeDither": "디더 안정화 자동 제외",
       "ditherFrames": "({count} 프레임)",
       "rawRa": "원본 RA(보정 안 됨)",
       "emptyState": "위의 드롭다운에서 PHD2 가이드 로그를 선택하세요.",
@@ -8953,7 +8953,7 @@
     "position": "Position",
     "disconnected": "Disconnected",
     "moving": "Moving",
-    "settling": "Settling",
+    "settling": "안정화 중",
     "idle": "Idle",
     "minimum": "Approved minimum",
     "maximum": "Approved maximum",
@@ -8985,7 +8985,7 @@
     "points": "Sweep positions",
     "scanStep": "Sweep step size",
     "span": "Maximum displacement from start",
-    "flush": "Post-settle flush (ms)",
+    "flush": "안정화 후 버림 (ms)",
     "sampleFps": "Analysis samples/s",
     "timeout": "Timeout per position (s)",
     "bestFraction": "Best frame fraction (0.1-1)",
@@ -8999,7 +8999,7 @@
     "state_IDLE": "Idle",
     "state_PREPARING": "Preparing",
     "state_MOVING": "Moving",
-    "state_SETTLING": "Settling",
+    "state_SETTLING": "안정화 중",
     "state_SAMPLING": "Collecting fresh frames",
     "state_FITTING": "Fitting measured peak",
     "state_VALIDATING": "Validating focus",

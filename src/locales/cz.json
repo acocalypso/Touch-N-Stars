@@ -1087,7 +1087,7 @@
           "minutesAfter": "Minuty po poledníku",
           "maxMinutesAfter": "Max. minut po poledníku",
           "pauseBefore": "Pauza před poledníkem (min)",
-          "useSideOfPier": "Použít stranu mola"
+          "useSideOfPier": "Použít stranu sloupu"
         },
         "altitudeCondition": {
           "altitude": "Výška (°)",
@@ -1158,7 +1158,7 @@
         "skyFlat": {
           "shouldDither": "Dither",
           "ditherPixels": "Rozptylovací pixely",
-          "ditherSettleTime": "Vyrovnávací čas rozptylu (s)"
+          "ditherSettleTime": "Doba ustálení po ditheringu (s)"
         },
         "moveRotatorMechanical": {
           "mechanicalPosition": "Mechanická Poloha"
@@ -1269,7 +1269,7 @@
           "exposureTime": "Doba nasvícení(s):",
           "ditherPixels": "Rozptyl (px)",
           "ditherRAOnly": "Pouze Dither RA",
-          "settlePixels": "Vyrovnání (px)",
+          "settlePixels": "Ustálení (px)",
           "settleTime": "Doba ustálení (s)",
           "settleTimeout": "Časový limit ustálení (s)",
           "roiPct": "ROI (%)"
@@ -1479,7 +1479,7 @@
         "rightAscension": "Ra",
         "Alt": "Alt",
         "Az": "Az",
-        "SideOfPier": "Strana mola"
+        "SideOfPier": "Strana sloupu"
       },
       "settings": {
         "meridian_flip_settings": "Meridian Flip",
@@ -1491,9 +1491,9 @@
           "MinutesAfterMeridian": "Minuty po poledníku",
           "MaxMinutesAfterMeridian": "Max minut po poledníku",
           "PauseTimeBeforeMeridian": "Čas pauzy před poledníkem",
-          "SettleTime": "Doba usazení (s)",
+          "SettleTime": "Doba ustálení (s)",
           "Recenter": "Recenter",
-          "UseSideOfPier": "Použít stranu mola",
+          "UseSideOfPier": "Použít stranu sloupu",
           "AutoFocusAfterFlip": "Automatické ostření po převrácení",
           "RotateImageAfterFlip": "Otočit snímek po převrácení",
           "intro": "Když dalekohled sleduje objekt přes poledník (severojižní čáru procházející zenitem), brzy by narazil do stativu nebo sloupu. Montáž se proto jednou otočí na druhou stranu a snímání pokračuje. Tato nastavení určují, kdy se to stane.",
@@ -1516,8 +1516,8 @@
               "title": "Vlastní hodnoty",
               "description": "Minuty nastav sám v části Pokročilé."
             },
-            "sideOfPierNoMount": "Před výběrem připoj montáž, aby aplikace mohla ověřit, zda hlásí svou stranu mola.",
-            "sideOfPierUnknown": "Tvoje montáž nehlásí stranu mola, proto zůstane „Použít stranu mola“ vypnuté. NINA pak o flipu rozhoduje podle času.",
+            "sideOfPierNoMount": "Před výběrem připoj montáž, aby aplikace mohla ověřit, zda hlásí svou stranu sloupu.",
+            "sideOfPierUnknown": "Tvoje montáž nehlásí stranu sloupu, proto zůstane „Použít stranu sloupu“ vypnuté. NINA pak o flipu rozhoduje podle času.",
             "applyFailed": "Předvolbu se nepodařilo uložit celou. Zkontroluj hodnoty v části Pokročilé."
           },
           "timeline": {
@@ -1538,7 +1538,7 @@
             "PauseTimeBeforeMeridian": "Jen pro vybavení, které nemůže bezpečně projít poledníkem: sledování se zastaví o tolik minut dřív. Jinak nech 0.",
             "SettleTime": "Po flipu čeká, až se montáž ustálí. Rozmazané hvězdy při prvním plate solve po flipu? Zvyš tuto hodnotu.",
             "Recenter": "Po flipu NINA provede plate solve a znovu vycentruje objekt. Důrazně doporučeno; vyžaduje funkční plate solver.",
-            "UseSideOfPier": "Používá stranu mola hlášenou montáží k rozhodnutí, zda je flip potřeba. Spolehlivější, ale jen pokud ji montáž hlásí správně.",
+            "UseSideOfPier": "Používá stranu sloupu hlášenou montáží k rozhodnutí, zda je flip potřeba. Spolehlivější, ale jen pokud ji montáž hlásí správně.",
             "AutoFocusAfterFlip": "Po flipu spustí autofokus. Užitečné u Newtonů a SCT, jejichž zrcadlo se při otočení tubusu posune.",
             "RotateImageAfterFlip": "Po flipu otočí náhled o 180°. Jen zobrazení – uložené snímky zůstanou beze změny."
           },
@@ -1571,7 +1571,7 @@
             "resultOk": "Pohyb flipu funguje.",
             "resultProblem": "Pohyb flipu vyžaduje pozornost.",
             "problemAdvice": "Zkontroluj vedení kabelů, aby stačily na obou stranách. Pokud se dalekohled dotkl stativu nebo sloupu, zvol nahoře „Skoro vůbec“ nebo zkontroluj limit poledníku své montáže.",
-            "pierChanged": "Strana mola: {before} → {after}",
+            "pierChanged": "Strana sloupu: {before} → {after}",
             "notTested": "Pointace po flipu se nekontroluje. Podrobnosti najdeš v logu NINA.",
             "stopped": "Test zastaven. Sekvence i sledování jsou vypnuté, montáž zůstává na místě.",
             "sideEast": "Východ",
@@ -1593,7 +1593,7 @@
             "runningHint": "NINA provádí test sama, aplikaci můžeš zavřít. Pokud něco překáží, stiskni STOP – zastaví sekvenci i sledování.",
             "flippedAt": "NINA provedla flip {minutes} min po poledníku.",
             "noFlip": "NINA neprovedla flip včas. Sekvence a sledování byly zastaveny.",
-            "noFlipAdvice": "Zkontroluj nastavení flipu a log NINA. Pokud je zapnuté „Použít stranu mola“, montáž možná hlásí stranu chybně – zkus to s vypnutou volbou.",
+            "noFlipAdvice": "Zkontroluj nastavení flipu a log NINA. Pokud je zapnuté „Použít stranu sloupu“, montáž možná hlásí stranu chybně – zkus to s vypnutou volbou.",
             "startFailed": "Testovací sekvenci se nepodařilo spustit: {error}",
             "ninaError": "NINA nahlásila při flipu chybu, v kroku: {step}.",
             "ninaErrorRecenterCaps": "S krytkami je to očekávané – nové vycentrování potřebuje hvězdy. V noci ověř, že plate solving funguje.",
@@ -1628,10 +1628,10 @@
           "title": "Limity poledníku",
           "east": "Východ (°)",
           "west": "Západ (°)",
-          "hint": "Jak daleko za poledník smí montáž na každé straně pilíře sledovat, −360 až 360° v krocích 0,25°. Ukládá se v řadiči montáže."
+          "hint": "Jak daleko za poledník smí montáž na každé straně sloupu sledovat, −360 až 360° v krocích 0,25°. Ukládá se v řadiči montáže."
         },
         "pierSide": {
-          "title": "Preferovaná strana pilíře",
+          "title": "Preferovaná strana sloupu",
           "mount": "Podle nastavení montáže",
           "east": "Východ",
           "west": "Západ",
@@ -1747,9 +1747,9 @@
       "phd2ServerPort": "Port serveru PHD2",
       "ditherPixels": "Dither Pixels (px)",
       "ditherRAOnly": "Dither pouze v RA",
-      "settlePixels": "Vyrovnat toleranci pixelů (px)",
+      "settlePixels": "Tolerance ustálení (px)",
       "settleTime": "Minimální doba ustálení (s)",
-      "settleTimeout": "Vyrovnat časový limit (s)",
+      "settleTimeout": "Časový limit ustálení (s)",
       "guidingStartRetry": "Navádění Start Opakovat",
       "guidingStartTimeout": "Časový limit spuštění guidingu (s)",
       "roiPercentage": "Procento ROI pro nalezení vodicí hvězdy (%)",
@@ -2820,7 +2820,7 @@
             "SimulatorScenario": "Montáž, obloha a kamera, které vestavěný simulátor simuluje.",
             "SimulateFault": "Vnese poruchu do běžícího simulátoru: mraky (110 s), náraz do montáže, montáž, která přestane reagovat (60 s), 3 neúspěšné expozice nebo korekce Dec špatným směrem (120 s).",
             "BacklashModel": "Pevný přidá při každém obratu Dec další pulz a pomalu ho upravuje. Model vůle sleduje ozubené kolo Dec ve vůli, zadržuje korekce, které by při šumu seeingu jen vybraly vůli, a učí se vůli z kalibrace a pointace. Jen s algoritmem Dec Predictive. V případě nejistoty: s algoritmem Dec Predictive zvolte model vůle, jinak ponechte Pevný. Guiding Coach model vůle navrhne, když mu změřená vůle odpovídá.",
-            "BacklashRemeasureAfterSlewDeg": "Když pointace začne poté, co se montáž posunula dál než o tuto hodnotu nebo změnila stranu pilíře, model vůle nejprve vůli znovu změří: Dec pulzuje na sever, dokud hvězda nezačne sledovat, pak na jih zpět na začátek. Kolo se pak opírá o známou stranu a model zná vůli u nového cíle. Trvá asi 10 až 20 pointačních snímků. 0 = nikdy."
+            "BacklashRemeasureAfterSlewDeg": "Když pointace začne poté, co se montáž posunula dál než o tuto hodnotu nebo změnila stranu sloupu, model vůle nejprve vůli znovu změří: Dec pulzuje na sever, dokud hvězda nezačne sledovat, pak na jih zpět na začátek. Kolo se pak opírá o známou stranu a model zná vůli u nového cíle. Trvá asi 10 až 20 pointačních snímků. 0 = nikdy."
           },
           "warnings": {
             "backlashModelNeedsPredictive": "Model vůle funguje jen s algoritmem Dec Predictive; nyní se používá pevný pulz. Chcete-li ho použít, nastavte v tomto nastavení „Algoritmus Dec“ na Predictive."
@@ -3732,7 +3732,7 @@
       "settings": {
         "AutoFocusInitialOffsetSteps": "Kroky počátečního posunu",
         "AutoFocusStepSize": "Velikost kroku",
-        "FocuserSettleTime": "Doba usazení zaostřovače",
+        "FocuserSettleTime": "Doba ustálení zaostřovače",
         "AutoFocusTotalNumberOfAttempts": "Celkový počet pokusů",
         "AutoFocusNumberOfFramesPerPoint": "Počet snímků na bod",
         "AutoFocusInnerCropRatio": "Vnitřní poměr ořezu",
@@ -6689,7 +6689,7 @@
         "statusTitle": "Stav montáže",
         "gpsSync": "GPS synchronizace času",
         "trackingRate": "Rychlost sledování",
-        "slewSettle": "Slew Settle",
+        "slewSettle": "Ustálení po přejezdu",
         "meridianLimit": "Meridian Limit",
         "unattendedFlip": "Flip bez dozoru",
         "disable": "Zakázat",
@@ -7424,7 +7424,7 @@
       },
       "clear": "Clear",
       "emptyState": "Select a PHD2 guide log from the dropdown above.",
-      "excludeDither": "Auto-exclude dither settling",
+      "excludeDither": "Automaticky vynechat ustalování po ditheringu",
       "ditherFrames": "({count} snímků)",
       "fft": {
         "dominantPeriod": "Dominant period",
@@ -8953,7 +8953,7 @@
     "position": "Position",
     "disconnected": "Disconnected",
     "moving": "Moving",
-    "settling": "Settling",
+    "settling": "Ustálení",
     "idle": "Idle",
     "minimum": "Approved minimum",
     "maximum": "Approved maximum",
@@ -8985,7 +8985,7 @@
     "points": "Sweep positions",
     "scanStep": "Sweep step size",
     "span": "Maximum displacement from start",
-    "flush": "Post-settle flush (ms)",
+    "flush": "Zahození po ustálení (ms)",
     "sampleFps": "Analysis samples/s",
     "timeout": "Timeout per position (s)",
     "bestFraction": "Best frame fraction (0.1-1)",
@@ -8999,7 +8999,7 @@
     "state_IDLE": "Idle",
     "state_PREPARING": "Preparing",
     "state_MOVING": "Moving",
-    "state_SETTLING": "Settling",
+    "state_SETTLING": "Ustálení",
     "state_SAMPLING": "Collecting fresh frames",
     "state_FITTING": "Fitting measured peak",
     "state_VALIDATING": "Validating focus",

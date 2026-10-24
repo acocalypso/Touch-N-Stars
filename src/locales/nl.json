@@ -1158,7 +1158,7 @@
         "skyFlat": {
           "shouldDither": "Ditheren",
           "ditherPixels": "Dither-pixels",
-          "ditherSettleTime": "Dither-settletijd (s)"
+          "ditherSettleTime": "Dither-stabilisatietijd (s)"
         },
         "moveRotatorMechanical": {
           "mechanicalPosition": "Mechanische positie (°)"
@@ -1269,9 +1269,9 @@
           "exposureTime": "Belichtingstijd (s)",
           "ditherPixels": "Ditheren (px)",
           "ditherRAOnly": "Alleen Dither RA",
-          "settlePixels": "Settle (px)",
-          "settleTime": "Afwikkeltijd (s)",
-          "settleTimeout": "Settle-time-out (s)",
+          "settlePixels": "Stabiliseren (px)",
+          "settleTime": "Stabilisatietijd (s)",
+          "settleTimeout": "Stabilisatie-time-out (s)",
           "roiPct": "ROI (%)"
         },
         "dso": {
@@ -1479,11 +1479,11 @@
         "rightAscension": "Ra",
         "Alt": "Alt",
         "Az": "Az",
-        "SideOfPier": "Kant van de pier"
+        "SideOfPier": "Pierzijde"
       },
       "settings": {
         "meridian_flip_settings": "Meridiaan Flip",
-        "telescope_settle_time": "Settletijd na slew (s)",
+        "telescope_settle_time": "Stabilisatietijd na zwenken (s)",
         "meridian_flip": {
           "basic": "Basisinstellingen",
           "behavior": "Gedrag",
@@ -1491,9 +1491,9 @@
           "MinutesAfterMeridian": "Minuten na de meridiaan",
           "MaxMinutesAfterMeridian": "Max minuten na meridiaan",
           "PauseTimeBeforeMeridian": "Pauzeer de tijd vóór de meridiaan",
-          "SettleTime": "Settletijd (s)",
+          "SettleTime": "Stabilisatietijd (s)",
           "Recenter": "Recenter",
-          "UseSideOfPier": "Gebruik de kant van de pier",
+          "UseSideOfPier": "Pierzijde gebruiken",
           "AutoFocusAfterFlip": "Autofocus na omdraaien",
           "RotateImageAfterFlip": "Afbeelding roteren na omdraaien",
           "intro": "Volgt de telescoop een object over de meridiaan (de noord-zuidlijn door het zenit), dan zou hij snel tegen het statief of de pier stoten. Daarom draait de montering één keer naar de andere kant en gaat de opname verder. Deze instellingen bepalen wanneer dat gebeurt.",
@@ -1517,7 +1517,7 @@
               "description": "Stel de minuten zelf in onder Geavanceerd."
             },
             "sideOfPierNoMount": "Verbind de montering voordat je kiest, zodat de app kan controleren of hij zijn pierkant doorgeeft.",
-            "sideOfPierUnknown": "Je montering geeft zijn pierkant niet door, dus „Gebruik de kant van de pier” blijft uit. NINA bepaalt de flip dan op tijd.",
+            "sideOfPierUnknown": "Je montering geeft zijn pierkant niet door, dus „Pierzijde gebruiken” blijft uit. NINA bepaalt de flip dan op tijd.",
             "applyFailed": "De voorinstelling kon niet volledig worden opgeslagen. Controleer de waarden onder Geavanceerd."
           },
           "timeline": {
@@ -1593,7 +1593,7 @@
             "runningHint": "NINA voert de test zelf uit, de app mag gesloten worden. Druk op STOP als iets in de weg zit – dat stopt sequentie en volgen.",
             "flippedAt": "NINA flipte {minutes} min na de meridiaan.",
             "noFlip": "NINA flipte niet op tijd. Sequentie en volgen zijn gestopt.",
-            "noFlipAdvice": "Controleer de flip-instellingen en het NINA-logboek. Staat „Gebruik de kant van de pier” aan, dan geeft je montering de kant misschien verkeerd door – probeer het uitgeschakeld.",
+            "noFlipAdvice": "Controleer de flip-instellingen en het NINA-logboek. Staat „Pierzijde gebruiken” aan, dan geeft je montering de kant misschien verkeerd door – probeer het uitgeschakeld.",
             "startFailed": "De testsequentie kon niet worden gestart: {error}",
             "ninaError": "NINA meldde een fout tijdens de flip, bij de stap: {step}.",
             "ninaErrorRecenterCaps": "Met de kappen erop is dat te verwachten – opnieuw centreren heeft sterren nodig. Controleer 's nachts of plate solving werkt.",
@@ -1601,7 +1601,7 @@
             "steps": {
               "recenter": "opnieuw centreren (plate solve)",
               "autofocus": "autofocus na de flip",
-              "settle": "tot rust komen",
+              "settle": "stabiliseren",
               "slew": "flipzwenk",
               "unknown": "onbekende stap"
             }
@@ -1747,9 +1747,9 @@
       "phd2ServerPort": "PHD2 server poort",
       "ditherPixels": "Ditherpixels (px)",
       "ditherRAOnly": "Dither alleen in RA",
-      "settlePixels": "Settle pixel tolerantie (px)",
-      "settleTime": "Minimale settle tijd (s)",
-      "settleTimeout": "Settle timeout (s)",
+      "settlePixels": "Stabilisatietolerantie (px)",
+      "settleTime": "Minimale stabilisatietijd (s)",
+      "settleTimeout": "Stabilisatie-time-out (s)",
       "guidingStartRetry": "Guiding start pogingen",
       "guidingStartTimeout": "Guiding start timeout (s)",
       "roiPercentage": "ROI percentage voor zoeken Guide Ster (%)",
@@ -2369,8 +2369,8 @@
             "fix": "Start de guiding met kalibratie."
           },
           "CalibrationFlipped": {
-            "title": "Kalibratie gespiegeld voor zijde montering",
-            "explanation": "De kalibratie is na een meridiaanflip aangepast aan de nieuwe zijde van de montering.",
+            "title": "Kalibratie gespiegeld voor pierzijde",
+            "explanation": "De kalibratie is na een meridiaanflip aangepast aan de nieuwe pierzijde.",
             "fix": "Geen actie nodig."
           },
           "DecFlipCorrected": {
@@ -2391,7 +2391,7 @@
           "RunawayDetected": {
             "title": "Weglopende guiding gedetecteerd",
             "explanation": "De correcties bleven groeien zonder de fout te verkleinen (bijv. verkeerd teken in de kalibratie). De guiding is gestopt om de sessie te beschermen.",
-            "fix": "Wis de kalibratie en kalibreer opnieuw; controleer de monteringsinstelling voor zijde/Dec-omkering."
+            "fix": "Wis de kalibratie en kalibreer opnieuw; controleer de monteringsinstelling voor pierzijde/Dec-omkering."
           },
           "MountNotResponding": {
             "title": "Montering reageert niet op correcties",
@@ -2424,9 +2424,9 @@
             "fix": "Controleer de verbinding met de montering/guidepoort."
           },
           "PierSideUnknown": {
-            "title": "Zijde montering onbekend",
-            "explanation": "De montering meldt haar zijde niet; meridiaanflips kunnen niet automatisch worden gecompenseerd.",
-            "fix": "Kalibreer na elke meridiaanflip opnieuw, of gebruik een stuurprogramma dat de zijde meldt."
+            "title": "Pierzijde onbekend",
+            "explanation": "De montering meldt haar pierzijde niet; meridiaanflips kunnen niet automatisch worden gecompenseerd.",
+            "fix": "Kalibreer na elke meridiaanflip opnieuw, of gebruik een stuurprogramma dat de pierzijde meldt."
           },
           "CameraCaptureFailed": {
             "title": "Guide-belichting mislukt",
@@ -2591,7 +2591,7 @@
           "decRate": "Dec-snelheid",
           "orthogonality": "Orthogonaliteitsfout",
           "declination": "Declinatie",
-          "pierSide": "Zijde montering",
+          "pierSide": "Pierzijde",
           "binning": "Binning",
           "steps": "Stappen",
           "raShort": "RA",
@@ -2802,7 +2802,7 @@
             "BacklashPulseMs": "Lengte van de extra puls bij een Dec-omkering. Vanaf deze waarde past de guider de puls automatisch aan tussen 20 ms en 1,5 × deze waarde, op basis van hoe de ster reageert. Met het spelingsmodel is de waarde alleen de eerste schatting van de speling, die het model daarna zelf leert.",
             "PulseModel": "Leert uit de dithers hoe ver een guidepuls de ster op elke as echt verplaatst, en stemt de pulsen daarop af, zodat een afwijkende kalibratie niet meer tot over- of ondercorrectie leidt. Het begint met de kalibratie, verandert alleen wat de dithers duidelijk laten zien, en bewaart wat het geleerd heeft per profiel en montering tot de volgende kalibratie.",
             "CalibrationStepMs": "0 = automatisch uit optiek, guidesnelheid en declinatie.",
-            "ReuseCalibration": "Bewaart de kalibratie tussen sessies en past haar aan voor declinatie en zijde van de montering.",
+            "ReuseCalibration": "Bewaart de kalibratie tussen sessies en past haar aan voor declinatie en pierzijde.",
             "AssumeOrthogonal": "De kalibratie meet de RA- en Dec-richting normaal onafhankelijk van elkaar. Dit dwingt Dec precies loodrecht op RA, wat helpt als een grote periodieke fout, Dec-backlash of slechte seeing de Dec-kalibratie vertekenen.",
             "DecCompensation": "Past de RA-correcties aan de huidige declinatie aan, zodat een kalibratie op één declinatie ook op een andere blijft werken. De verbonden montering moet haar positie melden; laat dit aan. Niet hetzelfde als Dec-backlashcompensatie.",
             "DecFlipRequired": "Instelling per montering; wordt automatisch gecorrigeerd door de Dec-zelfcontrole na de flip.",
@@ -3526,7 +3526,7 @@
             "error": "Fout",
             "pulses": "Pulsen",
             "mount": "Montering",
-            "pierSide": "Zijde montering",
+            "pierSide": "Pierzijde",
             "calibration": "Kalibratie",
             "stars": "Sterren",
             "settling": "stabiliseert",
@@ -3553,13 +3553,13 @@
             },
             "mountMoved": {
               "title": "De montering bewoog",
-              "why": "De montering zwenkte, stopte met volgen, werd geparkeerd, verloor de verbinding of wisselde van zijde, waardoor de ster van zijn plek ging.",
+              "why": "De montering zwenkte, stopte met volgen, werd geparkeerd, verloor de verbinding of wisselde van pierzijde, waardoor de ster van zijn plek ging.",
               "fix": "Pauzeer de guiding vóór het zwenken en vóór meridiaanflips (een sequentie doet dat voor je) en controleer of het volgen aan blijft."
             },
             "calibrationMismatch": {
               "title": "Kalibratie past niet",
-              "why": "Correcties duwden de ster verder weg in plaats van terug: de kalibratie past niet meer bij de montering (zijde, declinatie, guidesnelheid of een omgekeerde Dec-richting).",
-              "fix": "Kalibreer opnieuw bij het doel en controleer of de montering haar zijde correct meldt."
+              "why": "Correcties duwden de ster verder weg in plaats van terug: de kalibratie past niet meer bij de montering (pierzijde, declinatie, guidesnelheid of een omgekeerde Dec-richting).",
+              "fix": "Kalibreer opnieuw bij het doel en controleer of de montering haar pierzijde correct meldt."
             },
             "mountNotMoving": {
               "title": "Montering bewoog niet",
@@ -3609,7 +3609,7 @@
             "mountTrackingOff": "Het volgen van de montering stond uit",
             "mountParked": "De montering was geparkeerd",
             "mountDisconnected": "De montering was niet verbonden",
-            "pierSideChanged": "Zijde montering wisselde van {from} naar {to}",
+            "pierSideChanged": "Pierzijde wisselde van {from} naar {to}",
             "errorGrew": "{axis}-fout groeide van {fromPx} naar {toPx} over {frames} beelden terwijl de correcties ertegenin duwden",
             "runaway": "{axis} liep weg: de correcties duwden de ster verder weg",
             "decFlipCorrected": "De Dec-richting was omgekeerd en is gecorrigeerd",
@@ -3732,7 +3732,7 @@
       "settings": {
         "AutoFocusInitialOffsetSteps": "Initiële offset stappen",
         "AutoFocusStepSize": "Stapgrootte",
-        "FocuserSettleTime": "Focuser settle tijd",
+        "FocuserSettleTime": "Stabilisatietijd focuser",
         "AutoFocusTotalNumberOfAttempts": "Totaal aantal pogingen",
         "AutoFocusNumberOfFramesPerPoint": "Aantal frames per punt",
         "AutoFocusInnerCropRatio": "Binnenste crop ratio",
@@ -6689,7 +6689,7 @@
         "statusTitle": "Mount-status",
         "gpsSync": "GPS-tijdsynchronisatie",
         "trackingRate": "Trackingsnelheid",
-        "slewSettle": "Slew-settle",
+        "slewSettle": "Stabilisatie na zwenken",
         "meridianLimit": "Meridiaangrens",
         "unattendedFlip": "Onbeheerde flip",
         "disable": "Uitzetten",
@@ -7424,7 +7424,7 @@
       },
       "clear": "Wissen",
       "emptyState": "Selecteer een PHD2-gidslogboek in de vervolgkeuzelijst hierboven.",
-      "excludeDither": "Dither-afwikkeling automatisch uitsluiten",
+      "excludeDither": "Stabiliseren na dither automatisch uitsluiten",
       "ditherFrames": "({count} frames)",
       "fft": {
         "dominantPeriod": "Dominante periode",
@@ -8089,7 +8089,7 @@
         },
         "fields": {
           "ToleranceDegrees": "Tolerantie (°)",
-          "SettleTimeSeconds": "Insteltijd (s)",
+          "SettleTimeSeconds": "Stabilisatietijd (s)",
           "MaxIterations": "Max. iteraties (0 = onbeperkt)",
           "MaxCorrectionDeg": "Max. correctie per iteratie (°)",
           "MotionTimeoutSeconds": "Bewegingstime-out (s)",
@@ -8953,7 +8953,7 @@
     "position": "Position",
     "disconnected": "Disconnected",
     "moving": "Moving",
-    "settling": "Settling",
+    "settling": "Stabiliseert",
     "idle": "Idle",
     "minimum": "Approved minimum",
     "maximum": "Approved maximum",
@@ -8985,7 +8985,7 @@
     "points": "Sweep positions",
     "scanStep": "Sweep step size",
     "span": "Maximum displacement from start",
-    "flush": "Post-settle flush (ms)",
+    "flush": "Weggooien na stabiliseren (ms)",
     "sampleFps": "Analysis samples/s",
     "timeout": "Timeout per position (s)",
     "bestFraction": "Best frame fraction (0.1-1)",
@@ -8999,7 +8999,7 @@
     "state_IDLE": "Idle",
     "state_PREPARING": "Preparing",
     "state_MOVING": "Moving",
-    "state_SETTLING": "Settling",
+    "state_SETTLING": "Stabiliseert",
     "state_SAMPLING": "Collecting fresh frames",
     "state_FITTING": "Fitting measured peak",
     "state_VALIDATING": "Validating focus",

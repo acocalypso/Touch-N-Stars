@@ -1158,7 +1158,7 @@
         "skyFlat": {
           "shouldDither": "Pontilhamento",
           "ditherPixels": "Pixels de pontilhamento",
-          "ditherSettleTime": "Tempo (s) de estabilização do dither"
+          "ditherSettleTime": "Tempo de estabilização do dither (s)"
         },
         "moveRotatorMechanical": {
           "mechanicalPosition": "Posição mecânica (°)"
@@ -1270,8 +1270,8 @@
           "ditherPixels": "Pontilhamento (px)",
           "ditherRAOnly": "Dither RA somente",
           "settlePixels": "Estabilização (px)",
-          "settleTime": "Tempo (s) de estabilização",
-          "settleTimeout": "Tempo limite (s) de estabilização",
+          "settleTime": "Tempo de estabilização (s)",
+          "settleTimeout": "Tempo limite de estabilização (s)",
           "roiPct": "ROI(%)"
         },
         "dso": {
@@ -1748,8 +1748,8 @@
       "ditherPixels": "Pixels de pontilhamento (px)",
       "ditherRAOnly": "Dither somente em RA",
       "settlePixels": "Tolerância de pixels para estabilização (px)",
-      "settleTime": "Tempo mínimo (s) de estabilização",
-      "settleTimeout": "Tempo limite (s) de estabilização",
+      "settleTime": "Tempo mínimo de estabilização (s)",
+      "settleTimeout": "Tempo limite de estabilização (s)",
       "guidingStartRetry": "Nova tentativa de início da guiagem",
       "guidingStartTimeout": "Tempo limite de início da guiagem (s)",
       "roiPercentage": "Porcentagem de ROI para encontrar estrela guia (%)",
@@ -3732,7 +3732,7 @@
       "settings": {
         "AutoFocusInitialOffsetSteps": "Etapas iniciais de compensação",
         "AutoFocusStepSize": "Tamanho do passo",
-        "FocuserSettleTime": "Tempo de acomodação do focalizador",
+        "FocuserSettleTime": "Tempo de estabilização do focalizador",
         "AutoFocusTotalNumberOfAttempts": "Número total de tentativas",
         "AutoFocusNumberOfFramesPerPoint": "Número de quadros por ponto",
         "AutoFocusInnerCropRatio": "Proporção de corte interno",
@@ -8953,7 +8953,7 @@
     "position": "Position",
     "disconnected": "Disconnected",
     "moving": "Moving",
-    "settling": "Settling",
+    "settling": "A estabilizar",
     "idle": "Idle",
     "minimum": "Approved minimum",
     "maximum": "Approved maximum",
@@ -8985,7 +8985,7 @@
     "points": "Sweep positions",
     "scanStep": "Sweep step size",
     "span": "Maximum displacement from start",
-    "flush": "Post-settle flush (ms)",
+    "flush": "Descarte após estabilizar (ms)",
     "sampleFps": "Analysis samples/s",
     "timeout": "Timeout per position (s)",
     "bestFraction": "Best frame fraction (0.1-1)",
@@ -8999,7 +8999,7 @@
     "state_IDLE": "Idle",
     "state_PREPARING": "Preparing",
     "state_MOVING": "Moving",
-    "state_SETTLING": "Settling",
+    "state_SETTLING": "A estabilizar",
     "state_SAMPLING": "Collecting fresh frames",
     "state_FITTING": "Fitting measured peak",
     "state_VALIDATING": "Validating focus",

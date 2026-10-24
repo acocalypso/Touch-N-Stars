@@ -79,6 +79,8 @@ substitute for `i18n:check`.
 
 ## Translation quality
 
+- Use the terms from [docs/i18n-glossary.md](../../../docs/i18n-glossary.md) for the
+  concepts it lists (side of pier, settle), in labels and in help texts alike.
 - Keep strings short: they render on narrow mobile viewports next to 48 px
   touch targets. A German string ~30% longer than English will wrap or clip.
 - Keep astronomy/N.I.N.A. domain terms untranslated where the community uses

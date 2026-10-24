@@ -1087,7 +1087,7 @@
           "minutesAfter": "子午线后几分钟",
           "maxMinutesAfter": "子午线后最大分钟数",
           "pauseBefore": "子午线前暂停（分钟）",
-          "useSideOfPier": "使用支架侧"
+          "useSideOfPier": "使用立柱侧"
         },
         "altitudeCondition": {
           "altitude": "高度 (°)",
@@ -1479,7 +1479,7 @@
         "rightAscension": "赤经",
         "Alt": "高度 (Alt)",
         "Az": "方位角 (Az)",
-        "SideOfPier": "支架侧 (Side of Pier)"
+        "SideOfPier": "立柱侧"
       },
       "settings": {
         "meridian_flip_settings": "中天翻转",
@@ -1493,7 +1493,7 @@
           "PauseTimeBeforeMeridian": "子午线前暂停时间",
           "SettleTime": "稳定时间(秒)",
           "Recenter": "重新居中",
-          "UseSideOfPier": "使用支架侧",
+          "UseSideOfPier": "使用立柱侧",
           "AutoFocusAfterFlip": "翻转后自动对焦",
           "RotateImageAfterFlip": "翻转后旋转图像",
           "intro": "当望远镜跟踪目标越过子午线（穿过天顶的南北线）时，很快就会碰到三脚架或立柱。因此赤道仪会转到另一侧一次，然后继续拍摄。这些设置决定何时进行翻转。",
@@ -1516,8 +1516,8 @@
               "title": "自定义数值",
               "description": "在“高级”中自行设置分钟数。"
             },
-            "sideOfPierNoMount": "选择前请先连接赤道仪，以便应用检查它是否报告支架侧。",
-            "sideOfPierUnknown": "你的赤道仪不报告支架侧，因此“使用支架侧”保持关闭。NINA 将按时间决定翻转。",
+            "sideOfPierNoMount": "选择前请先连接赤道仪，以便应用检查它是否报告立柱侧。",
+            "sideOfPierUnknown": "你的赤道仪不报告立柱侧，因此“使用立柱侧”保持关闭。NINA 将按时间决定翻转。",
             "applyFailed": "预设未能完整保存。请检查“高级”中的数值。"
           },
           "timeline": {
@@ -1538,7 +1538,7 @@
             "PauseTimeBeforeMeridian": "仅适用于无法安全越过子午线的设备：在子午线前这么多分钟停止跟踪。否则保持为 0。",
             "SettleTime": "翻转后等待，让赤道仪稳定下来。翻转后第一次 plate solve 出现拖线？请增大此值。",
             "Recenter": "翻转后 NINA 进行 plate solve 并重新居中目标。强烈推荐；需要可用的 plate solver。",
-            "UseSideOfPier": "使用赤道仪报告的支架侧来判断是否需要翻转。更可靠，但前提是赤道仪报告正确。",
+            "UseSideOfPier": "使用赤道仪报告的立柱侧来判断是否需要翻转。更可靠，但前提是赤道仪报告正确。",
             "AutoFocusAfterFlip": "翻转后运行自动对焦。适用于镜筒转动时主镜会移动的牛顿和 SCT。",
             "RotateImageAfterFlip": "翻转后将预览旋转 180°。仅影响显示——保存的图像不变。"
           },
@@ -1571,7 +1571,7 @@
             "resultOk": "翻转动作正常。",
             "resultProblem": "翻转动作需要注意。",
             "problemAdvice": "检查线缆走线，确保两侧都够长。如果望远镜碰到了三脚架或立柱，请在上方选择“几乎不能”，或检查赤道仪的子午线限位。",
-            "pierChanged": "支架侧：{before} → {after}",
+            "pierChanged": "立柱侧：{before} → {after}",
             "notTested": "不检查翻转后的导星。详情见 NINA 日志。",
             "stopped": "测试已停止。序列和跟踪已关闭，赤道仪保持原位。",
             "sideEast": "东",
@@ -1593,7 +1593,7 @@
             "runningHint": "NINA 会自行执行测试，可以关闭应用。如有阻碍请按 STOP——它会停止序列和跟踪。",
             "flippedAt": "NINA 在子午线后 {minutes} 分钟进行了翻转。",
             "noFlip": "NINA 未按时翻转。序列和跟踪已停止。",
-            "noFlipAdvice": "请检查翻转设置和 NINA 日志。如果开启了“使用支架侧”，赤道仪可能报告了错误的支架侧——请关闭后再试。",
+            "noFlipAdvice": "请检查翻转设置和 NINA 日志。如果开启了“使用立柱侧”，赤道仪可能报告了错误的立柱侧——请关闭后再试。",
             "startFailed": "无法启动测试序列：{error}",
             "ninaError": "NINA 在翻转期间报告了错误，所在步骤：{step}。",
             "ninaErrorRecenterCaps": "盖着镜盖时这是正常的——重新居中需要星星。夜间请确认 plate solving 正常工作。",
@@ -2369,8 +2369,8 @@
             "fix": "开始导星并进行校准。"
           },
           "CalibrationFlipped": {
-            "title": "校准已按子午侧翻转",
-            "explanation": "中天翻转后，校准已针对新的子午侧进行调整。",
+            "title": "校准已按立柱侧翻转",
+            "explanation": "中天翻转后，校准已针对新的立柱侧进行调整。",
             "fix": "无需处理。"
           },
           "DecFlipCorrected": {
@@ -2391,7 +2391,7 @@
           "RunawayDetected": {
             "title": "检测到导星失控",
             "explanation": "修正不断增大却未减小误差（例如校准符号错误）。为保护本次拍摄，导星已停止。",
-            "fix": "清除校准并重新校准；核实赤道仪的子午侧/Dec 翻转设置。"
+            "fix": "清除校准并重新校准；核实赤道仪的立柱侧/Dec 翻转设置。"
           },
           "MountNotResponding": {
             "title": "赤道仪对修正无响应",
@@ -2424,9 +2424,9 @@
             "fix": "检查赤道仪/导星接口的连接。"
           },
           "PierSideUnknown": {
-            "title": "子午侧未知",
-            "explanation": "赤道仪未报告其子午侧；无法自动补偿中天翻转。",
-            "fix": "每次中天翻转后重新校准，或使用能报告子午侧的驱动。"
+            "title": "立柱侧未知",
+            "explanation": "赤道仪未报告其立柱侧；无法自动补偿中天翻转。",
+            "fix": "每次中天翻转后重新校准，或使用能报告立柱侧的驱动。"
           },
           "CameraCaptureFailed": {
             "title": "导星曝光失败",
@@ -2591,7 +2591,7 @@
           "decRate": "Dec 速率",
           "orthogonality": "正交性误差",
           "declination": "赤纬",
-          "pierSide": "子午侧",
+          "pierSide": "立柱侧",
           "binning": "像素合并",
           "steps": "步数",
           "raShort": "RA",
@@ -2802,7 +2802,7 @@
             "BacklashPulseMs": "Dec 反向时额外脉冲的长度。导星以此为起点，根据星点的响应在 20 毫秒和该值的 1.5 倍之间自动调整脉冲。使用间隙模型时，该值只是对间隙的初始估计，之后由模型自行学习。",
             "PulseModel": "从抖动中学习导星脉冲在每个轴上实际移动星点的距离，并据此确定脉冲大小，使偏差的校准不再导致过度或不足校正。它从校准值开始，只改变抖动明确显示的部分，并按配置文件和赤道仪保存所学内容，直到下一次校准。",
             "CalibrationStepMs": "0 = 根据光学参数、导星速率和赤纬自动设定。",
-            "ReuseCalibration": "跨会话保留校准，并根据赤纬和子午侧进行调整。",
+            "ReuseCalibration": "跨会话保留校准，并根据赤纬和立柱侧进行调整。",
             "AssumeOrthogonal": "校准通常独立测量 RA 和 Dec 方向。此选项强制 Dec 与 RA 严格垂直，在较大的周期误差、Dec 回差或较差的视宁度扭曲 Dec 校准时有帮助。",
             "DecCompensation": "根据当前赤纬调整 RA 校正，使在某一赤纬做的校准在其他赤纬也能使用。需要已连接的赤道仪报告其位置；请保持开启。与 Dec 回差补偿不是一回事。",
             "DecFlipRequired": "每台赤道仪单独设置；由“翻转后 Dec 自检”自动纠正。",
@@ -3526,7 +3526,7 @@
             "error": "误差",
             "pulses": "脉冲",
             "mount": "赤道仪",
-            "pierSide": "子午侧",
+            "pierSide": "立柱侧",
             "calibration": "校准",
             "stars": "星数",
             "settling": "稳定中",
@@ -3553,13 +3553,13 @@
             },
             "mountMoved": {
               "title": "赤道仪发生了移动",
-              "why": "赤道仪进行了转动、停止跟踪、停放、断开连接或改变了子午侧，导致星点离开了原位。",
+              "why": "赤道仪进行了转动、停止跟踪、停放、断开连接或改变了立柱侧，导致星点离开了原位。",
               "fix": "在转动和中天翻转前暂停导星（序列会自动完成），并检查跟踪是否保持开启。"
             },
             "calibrationMismatch": {
               "title": "校准不匹配",
-              "why": "修正把星点推得更远，而不是拉回来：校准已不再符合赤道仪（子午侧、赤纬、导星速率或 Dec 方向翻转）。",
-              "fix": "在目标附近重新校准，并检查赤道仪是否正确报告子午侧。"
+              "why": "修正把星点推得更远，而不是拉回来：校准已不再符合赤道仪（立柱侧、赤纬、导星速率或 Dec 方向翻转）。",
+              "fix": "在目标附近重新校准，并检查赤道仪是否正确报告立柱侧。"
             },
             "mountNotMoving": {
               "title": "赤道仪未移动",
@@ -3609,7 +3609,7 @@
             "mountTrackingOff": "赤道仪跟踪已关闭",
             "mountParked": "赤道仪已停放",
             "mountDisconnected": "赤道仪已断开连接",
-            "pierSideChanged": "子午侧由{from}变为{to}",
+            "pierSideChanged": "立柱侧由{from}变为{to}",
             "errorGrew": "{axis} 误差在 {frames} 帧内从 {fromPx} 增大到 {toPx}，尽管修正一直在反向纠正",
             "runaway": "{axis} 失控：修正使星点偏得更远",
             "decFlipCorrected": "Dec 方向曾被翻转，已纠正",
@@ -6689,7 +6689,7 @@
         "statusTitle": "赤道仪状态",
         "gpsSync": "GPS时间同步",
         "trackingRate": "追踪率",
-        "slewSettle": "回转稳定",
+        "slewSettle": "转动后稳定",
         "meridianLimit": "中天限位",
         "unattendedFlip": "无人值守翻转",
         "disable": "禁用",
@@ -7424,7 +7424,7 @@
       },
       "clear": "Clear",
       "emptyState": "Select a PHD2 guide log from the dropdown above.",
-      "excludeDither": "Auto-exclude dither settling",
+      "excludeDither": "自动排除抖动后的稳定过程",
       "ditherFrames": "（{count} 帧）",
       "fft": {
         "dominantPeriod": "Dominant period",
@@ -8953,7 +8953,7 @@
     "position": "Position",
     "disconnected": "Disconnected",
     "moving": "Moving",
-    "settling": "Settling",
+    "settling": "稳定中",
     "idle": "Idle",
     "minimum": "Approved minimum",
     "maximum": "Approved maximum",
@@ -8985,7 +8985,7 @@
     "points": "Sweep positions",
     "scanStep": "Sweep step size",
     "span": "Maximum displacement from start",
-    "flush": "Post-settle flush (ms)",
+    "flush": "稳定后丢弃 (ms)",
     "sampleFps": "Analysis samples/s",
     "timeout": "Timeout per position (s)",
     "bestFraction": "Best frame fraction (0.1-1)",
@@ -8999,7 +8999,7 @@
     "state_IDLE": "Idle",
     "state_PREPARING": "Preparing",
     "state_MOVING": "Moving",
-    "state_SETTLING": "Settling",
+    "state_SETTLING": "稳定中",
     "state_SAMPLING": "Collecting fresh frames",
     "state_FITTING": "Fitting measured peak",
     "state_VALIDATING": "Validating focus",

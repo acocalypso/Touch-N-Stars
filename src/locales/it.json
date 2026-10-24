@@ -1087,7 +1087,7 @@
           "minutesAfter": "Minuti dopo il meridiano",
           "maxMinutesAfter": "Max Minuti Dopo Meridiano",
           "pauseBefore": "Pausa prima del meridiano (min)",
-          "useSideOfPier": "Usa il lato del pier"
+          "useSideOfPier": "Usa il lato del pilastro"
         },
         "altitudeCondition": {
           "altitude": "Altitudine",
@@ -1158,7 +1158,7 @@
         "skyFlat": {
           "shouldDither": "Dither",
           "ditherPixels": "Pixel di dither",
-          "ditherSettleTime": "Tempo/i di assestamento del dithering"
+          "ditherSettleTime": "Tempo di assestamento del dithering (s)"
         },
         "moveRotatorMechanical": {
           "mechanicalPosition": "Posizione Meccanica (°)"
@@ -1270,8 +1270,8 @@
           "ditherPixels": "Dither (px)",
           "ditherRAOnly": "Dither solo RA",
           "settlePixels": "Assestamento (px)",
-          "settleTime": "Tempo/i di assestamento",
-          "settleTimeout": "Timeout di assestamento",
+          "settleTime": "Tempo di assestamento (s)",
+          "settleTimeout": "Timeout di assestamento (s)",
           "roiPct": "ROI (%)"
         },
         "dso": {
@@ -1479,7 +1479,7 @@
         "rightAscension": "Ra",
         "Alt": "Alt",
         "Az": "Az",
-        "SideOfPier": "Lato del pier"
+        "SideOfPier": "Lato del pilastro"
       },
       "settings": {
         "meridian_flip_settings": "Inversione del meridiano",
@@ -1493,7 +1493,7 @@
           "PauseTimeBeforeMeridian": "Tempo di pausa prima del meridiano",
           "SettleTime": "Tempo di assestamento (s)",
           "Recenter": "Ricentra",
-          "UseSideOfPier": "Usa lato del pier",
+          "UseSideOfPier": "Usa lato del pilastro",
           "AutoFocusAfterFlip": "Messa a fuoco automatica dopo il capovolgimento",
           "RotateImageAfterFlip": "Ruota immagine dopo il giro",
           "intro": "Quando il telescopio segue un oggetto oltre il meridiano (la linea nord-sud che passa per lo zenit), presto urterebbe il treppiede o la colonna. Per questo la montatura gira una volta dall'altro lato e la ripresa continua. Queste impostazioni decidono quando succede.",
@@ -1516,8 +1516,8 @@
               "title": "Valori personalizzati",
               "description": "Imposta tu i minuti in Avanzate."
             },
-            "sideOfPierNoMount": "Collega la montatura prima di scegliere, così l'app può verificare se comunica il suo lato del pier.",
-            "sideOfPierUnknown": "La tua montatura non comunica il lato del pier, quindi «Usa lato del pier» resta disattivato. NINA decide allora l'inversione in base all'ora.",
+            "sideOfPierNoMount": "Collega la montatura prima di scegliere, così l'app può verificare se comunica il suo lato del pilastro.",
+            "sideOfPierUnknown": "La tua montatura non comunica il lato del pilastro, quindi «Usa lato del pilastro» resta disattivato. NINA decide allora l'inversione in base all'ora.",
             "applyFailed": "Il preset non è stato salvato completamente. Controlla i valori in Avanzate."
           },
           "timeline": {
@@ -1538,7 +1538,7 @@
             "PauseTimeBeforeMeridian": "Solo per attrezzature che non possono passare il meridiano in sicurezza: l'inseguimento si ferma tanti minuti prima. Altrimenti lascia 0.",
             "SettleTime": "Attende dopo l'inversione perché la montatura si assesti. Stelle mosse nel primo plate solve dopo un'inversione? Aumenta questo valore.",
             "Recenter": "Dopo l'inversione NINA esegue un plate solve e ricentra l'oggetto. Fortemente consigliato; richiede un plate solver funzionante.",
-            "UseSideOfPier": "Usa il lato del pier comunicato dalla montatura per decidere se serve un'inversione. Più affidabile, ma solo se la montatura lo comunica correttamente.",
+            "UseSideOfPier": "Usa il lato del pilastro comunicato dalla montatura per decidere se serve un'inversione. Più affidabile, ma solo se la montatura lo comunica correttamente.",
             "AutoFocusAfterFlip": "Esegue un autofocus dopo l'inversione. Utile per Newton e SCT il cui specchio si sposta quando il tubo ruota.",
             "RotateImageAfterFlip": "Ruota l'anteprima di 180° dopo l'inversione. Solo visualizzazione – le immagini salvate restano invariate."
           },
@@ -1571,7 +1571,7 @@
             "resultOk": "Il movimento di inversione funziona.",
             "resultProblem": "Il movimento di inversione richiede attenzione.",
             "problemAdvice": "Controlla il percorso dei cavi perché bastino su entrambi i lati. Se il telescopio ha toccato il treppiede o la colonna, scegli «Quasi niente» sopra o controlla il limite di meridiano della montatura.",
-            "pierChanged": "Lato del pier: {before} → {after}",
+            "pierChanged": "Lato del pilastro: {before} → {after}",
             "notTested": "La guida dopo l'inversione non viene controllata. I dettagli sono nel log di NINA.",
             "stopped": "Prova fermata. Sequenza e inseguimento sono spenti, la montatura resta dov'è.",
             "sideEast": "Est",
@@ -1593,7 +1593,7 @@
             "runningHint": "NINA esegue la prova da solo, l'app può essere chiusa. Premi STOP se qualcosa intralcia – ferma sequenza e inseguimento.",
             "flippedAt": "NINA ha invertito {minutes} min dopo il meridiano.",
             "noFlip": "NINA non ha invertito in tempo. Sequenza e inseguimento sono stati fermati.",
-            "noFlipAdvice": "Controlla le impostazioni di inversione e il log di NINA. Se «Usa lato del pier» è attivo, forse la montatura comunica male il suo lato – prova a disattivarlo.",
+            "noFlipAdvice": "Controlla le impostazioni di inversione e il log di NINA. Se «Usa lato del pilastro» è attivo, forse la montatura comunica male il suo lato – prova a disattivarlo.",
             "startFailed": "Impossibile avviare la sequenza di prova: {error}",
             "ninaError": "NINA ha segnalato un errore durante l'inversione, nel passo: {step}.",
             "ninaErrorRecenterCaps": "Con i tappi è previsto – il ricentraggio richiede stelle. Di notte verifica che il plate solving funzioni.",
@@ -1631,7 +1631,7 @@
           "hint": "Quanto la montatura può inseguire oltre il meridiano su ciascun lato del pilastro, da −360 a 360° a passi di 0,25°. Salvato nel controller della montatura."
         },
         "pierSide": {
-          "title": "Lato pilastro preferito",
+          "title": "Lato del pilastro preferito",
           "mount": "Come impostato sulla montatura",
           "east": "Est",
           "west": "Ovest",
@@ -2369,8 +2369,8 @@
             "fix": "Avvia la guida con calibrazione."
           },
           "CalibrationFlipped": {
-            "title": "Calibrazione invertita per il lato piedistallo",
-            "explanation": "Dopo un meridian flip la calibrazione è stata adattata al nuovo lato piedistallo.",
+            "title": "Calibrazione invertita per il lato del pilastro",
+            "explanation": "Dopo un meridian flip la calibrazione è stata adattata al nuovo lato del pilastro.",
             "fix": "Nessuna azione necessaria."
           },
           "DecFlipCorrected": {
@@ -2391,7 +2391,7 @@
           "RunawayDetected": {
             "title": "Guida fuori controllo rilevata",
             "explanation": "Le correzioni continuavano a crescere senza ridurre l'errore (es. segno di calibrazione sbagliato). La guida è stata fermata per proteggere la sessione.",
-            "fix": "Cancella la calibrazione e ricalibra; verifica l'impostazione della montatura per lato piedistallo/inversione Dec."
+            "fix": "Cancella la calibrazione e ricalibra; verifica l'impostazione della montatura per lato del pilastro/inversione Dec."
           },
           "MountNotResponding": {
             "title": "La montatura non risponde alle correzioni",
@@ -2424,9 +2424,9 @@
             "fix": "Controlla il collegamento alla montatura o alla porta di guida."
           },
           "PierSideUnknown": {
-            "title": "Lato piedistallo sconosciuto",
-            "explanation": "La montatura non riporta il lato piedistallo; i meridian flip non possono essere compensati automaticamente.",
-            "fix": "Ricalibra dopo ogni meridian flip, oppure usa un driver che riporti il lato piedistallo."
+            "title": "Lato del pilastro sconosciuto",
+            "explanation": "La montatura non riporta il lato del pilastro; i meridian flip non possono essere compensati automaticamente.",
+            "fix": "Ricalibra dopo ogni meridian flip, oppure usa un driver che riporti il lato del pilastro."
           },
           "CameraCaptureFailed": {
             "title": "Esposizione di guida non riuscita",
@@ -2591,7 +2591,7 @@
           "decRate": "Tasso Dec",
           "orthogonality": "Errore ortogonalità",
           "declination": "Declinazione",
-          "pierSide": "Lato piedistallo",
+          "pierSide": "Lato del pilastro",
           "binning": "Binning",
           "steps": "Passi",
           "raShort": "RA",
@@ -2802,7 +2802,7 @@
             "BacklashPulseMs": "Durata dell'impulso extra a un'inversione di Dec. Partendo da questo valore, la guida regola automaticamente l'impulso tra 20 ms e 1,5 × questo valore, in base a come risponde la stella. Con il modello del gioco, il valore è solo la prima stima del gioco, che poi il modello impara.",
             "PulseModel": "Impara dai dither quanto un impulso di guida sposta davvero la stella su ciascun asse e dimensiona gli impulsi di conseguenza, così una calibrazione imprecisa non fa più correggere la guida troppo o troppo poco. Parte dai valori di calibrazione, cambia solo ciò che i dither mostrano chiaramente e conserva quanto appreso per profilo e montatura fino alla calibrazione successiva.",
             "CalibrationStepMs": "0 = automatico da ottica, velocità di guida e declinazione.",
-            "ReuseCalibration": "Mantiene la calibrazione tra una sessione e l'altra e la adatta a declinazione e lato piedistallo.",
+            "ReuseCalibration": "Mantiene la calibrazione tra una sessione e l'altra e la adatta a declinazione e lato del pilastro.",
             "AssumeOrthogonal": "Normalmente la calibrazione misura le direzioni RA e Dec in modo indipendente. Questo impone che Dec sia esattamente perpendicolare a RA, utile quando un grande errore periodico, il backlash Dec o un seeing scarso falsano la calibrazione Dec.",
             "DecCompensation": "Adatta le correzioni RA alla declinazione attuale, così una calibrazione fatta a una declinazione resta valida a un'altra. La montatura connessa deve riportare la propria posizione; lascialo attivo. Non è la stessa cosa della compensazione del backlash Dec.",
             "DecFlipRequired": "Impostazione per montatura; corretta automaticamente dall'autoverifica Dec dopo flip.",
@@ -3526,7 +3526,7 @@
             "error": "Errore",
             "pulses": "Impulsi",
             "mount": "Montatura",
-            "pierSide": "Lato piedistallo",
+            "pierSide": "Lato del pilastro",
             "calibration": "Calibrazione",
             "stars": "Stelle",
             "settling": "assestamento",
@@ -3553,13 +3553,13 @@
             },
             "mountMoved": {
               "title": "La montatura si è mossa",
-              "why": "La montatura ha eseguito uno slew, ha smesso di inseguire, è stata parcheggiata o disconnessa oppure ha cambiato lato piedistallo, quindi la stella ha lasciato la sua posizione.",
+              "why": "La montatura ha eseguito uno slew, ha smesso di inseguire, è stata parcheggiata o disconnessa oppure ha cambiato lato del pilastro, quindi la stella ha lasciato la sua posizione.",
               "fix": "Metti in pausa la guida prima di slew e meridian flip (una sequenza lo fa per te) e controlla che l'inseguimento resti attivo."
             },
             "calibrationMismatch": {
               "title": "La calibrazione non corrisponde",
-              "why": "Le correzioni hanno spinto la stella più lontano invece di riportarla indietro: la calibrazione non corrisponde più alla montatura (lato piedistallo, declinazione, velocità di guida o direzione Dec invertita).",
-              "fix": "Ricalibra vicino al target e controlla che la montatura riporti correttamente il lato piedistallo."
+              "why": "Le correzioni hanno spinto la stella più lontano invece di riportarla indietro: la calibrazione non corrisponde più alla montatura (lato del pilastro, declinazione, velocità di guida o direzione Dec invertita).",
+              "fix": "Ricalibra vicino al target e controlla che la montatura riporti correttamente il lato del pilastro."
             },
             "mountNotMoving": {
               "title": "La montatura non si è mossa",
@@ -3609,7 +3609,7 @@
             "mountTrackingOff": "L'inseguimento della montatura era spento",
             "mountParked": "La montatura era parcheggiata",
             "mountDisconnected": "La montatura era disconnessa",
-            "pierSideChanged": "Il lato piedistallo è cambiato da {from} a {to}",
+            "pierSideChanged": "Il lato del pilastro è cambiato da {from} a {to}",
             "errorGrew": "L'errore in {axis} è cresciuto da {fromPx} a {toPx} in {frames} frame mentre le correzioni lo contrastavano",
             "runaway": "Fuga in {axis}: le correzioni hanno allontanato ancora di più la stella",
             "decFlipCorrected": "La direzione Dec era invertita ed è stata corretta",
@@ -3732,7 +3732,7 @@
       "settings": {
         "AutoFocusInitialOffsetSteps": "Passaggi iniziali di offset",
         "AutoFocusStepSize": "Dimensione del passo",
-        "FocuserSettleTime": "Tempo di regolazione del focheggiatore",
+        "FocuserSettleTime": "Tempo di assestamento del focheggiatore",
         "AutoFocusTotalNumberOfAttempts": "Numero totale di tentativi",
         "AutoFocusNumberOfFramesPerPoint": "Numero di fotogrammi per punto",
         "AutoFocusInnerCropRatio": "Rapporto di ritaglio interno",
@@ -6689,7 +6689,7 @@
         "statusTitle": "Stato della montatura",
         "gpsSync": "Sincronizzazione dell'ora GPS",
         "trackingRate": "Velocità di inseguimento",
-        "slewSettle": "Slew Settle",
+        "slewSettle": "Assestamento dopo lo slew",
         "meridianLimit": "Limite meridiano",
         "unattendedFlip": "Capovolgimento incustodito",
         "disable": "Disabilita",
@@ -8958,7 +8958,7 @@
     "position": "Position",
     "disconnected": "Disconnected",
     "moving": "Moving",
-    "settling": "Settling",
+    "settling": "Assestamento",
     "idle": "Idle",
     "minimum": "Approved minimum",
     "maximum": "Approved maximum",
@@ -8990,7 +8990,7 @@
     "points": "Sweep positions",
     "scanStep": "Sweep step size",
     "span": "Maximum displacement from start",
-    "flush": "Post-settle flush (ms)",
+    "flush": "Scarto dopo l'assestamento (ms)",
     "sampleFps": "Analysis samples/s",
     "timeout": "Timeout per position (s)",
     "bestFraction": "Best frame fraction (0.1-1)",
@@ -9004,7 +9004,7 @@
     "state_IDLE": "Idle",
     "state_PREPARING": "Preparing",
     "state_MOVING": "Moving",
-    "state_SETTLING": "Settling",
+    "state_SETTLING": "Assestamento",
     "state_SAMPLING": "Collecting fresh frames",
     "state_FITTING": "Fitting measured peak",
     "state_VALIDATING": "Validating focus",

@@ -1087,7 +1087,7 @@
           "minutesAfter": "Minutos después del meridiano",
           "maxMinutesAfter": "Minutos máx. después del meridiano",
           "pauseBefore": "Pausa antes del meridiano (min)",
-          "useSideOfPier": "Lado de la Columna"
+          "useSideOfPier": "Usar lado del pilar"
         },
         "altitudeCondition": {
           "altitude": "Altitud (°)",
@@ -1158,7 +1158,7 @@
         "skyFlat": {
           "shouldDither": "Tramado",
           "ditherPixels": "Píxeles de tramado",
-          "ditherSettleTime": "Tiempo (s) de asentamiento de tramado"
+          "ditherSettleTime": "Tiempo de estabilización del dithering (s)"
         },
         "moveRotatorMechanical": {
           "mechanicalPosition": "Posición mecánica (°)"
@@ -1269,9 +1269,9 @@
           "exposureTime": "Tiempo de exposición (s):",
           "ditherPixels": "Tramado (px)",
           "ditherRAOnly": "Solo Dither RA",
-          "settlePixels": "Establecimiento (px)",
-          "settleTime": "Tiempo de establecimiento (s)",
-          "settleTimeout": "Tiempo de espera de establecimiento (s)",
+          "settlePixels": "Estabilización (px)",
+          "settleTime": "Tiempo de estabilización (s)",
+          "settleTimeout": "Tiempo límite de estabilización (s)",
           "roiPct": "Región de Interés (%)"
         },
         "dso": {
@@ -1479,11 +1479,11 @@
         "rightAscension": "Ascensión Recta",
         "Alt": "Alt.",
         "Az": "Acimut",
-        "SideOfPier": "Lado del meridiano"
+        "SideOfPier": "Lado del pilar"
       },
       "settings": {
         "meridian_flip_settings": "Cambio de Meridiano",
-        "telescope_settle_time": "Tiempo de establecimiento después del desplazamiento",
+        "telescope_settle_time": "Tiempo de estabilización tras el movimiento (s)",
         "meridian_flip": {
           "basic": "Configuraciones básicas",
           "behavior": "Comportamiento",
@@ -1491,9 +1491,9 @@
           "MinutesAfterMeridian": "Minutos después del meridiano",
           "MaxMinutesAfterMeridian": "Minutos máximos después del meridiano",
           "PauseTimeBeforeMeridian": "Tiempo de pausa antes del meridiano",
-          "SettleTime": "Tiempo de establecimiento",
+          "SettleTime": "Tiempo de estabilización (s)",
           "Recenter": "Recentrar",
-          "UseSideOfPier": "Usar lado del meridiano",
+          "UseSideOfPier": "Usar lado del pilar",
           "AutoFocusAfterFlip": "Autofoco después del cambio",
           "RotateImageAfterFlip": "Rotar imagen después del cambio",
           "intro": "Cuando el telescopio sigue un objeto a través del meridiano (la línea norte-sur que pasa por el cénit), pronto chocaría con el trípode o la columna. Por eso la montura gira una vez al otro lado y la captura continúa. Estos ajustes deciden cuándo ocurre.",
@@ -1517,7 +1517,7 @@
               "description": "Ajusta tú mismo los minutos en Avanzado."
             },
             "sideOfPierNoMount": "Conecta la montura antes de elegir, para que la app compruebe si informa de su lado del pilar.",
-            "sideOfPierUnknown": "Tu montura no informa de su lado del pilar, así que «Usar lado del meridiano» queda desactivado. NINA decide entonces el giro por la hora.",
+            "sideOfPierUnknown": "Tu montura no informa de su lado del pilar, así que «Usar lado del pilar» queda desactivado. NINA decide entonces el giro por la hora.",
             "applyFailed": "El ajuste predefinido no se pudo guardar por completo. Revisa los valores en Avanzado."
           },
           "timeline": {
@@ -1593,7 +1593,7 @@
             "runningHint": "NINA ejecuta la prueba por sí mismo, puedes cerrar la app. Pulsa STOP si algo estorba – detiene la secuencia y el seguimiento.",
             "flippedAt": "NINA giró {minutes} min después del meridiano.",
             "noFlip": "NINA no giró a tiempo. Se detuvieron la secuencia y el seguimiento.",
-            "noFlipAdvice": "Revisa los ajustes de giro y el registro de NINA. Si «Usar lado del meridiano» está activado, quizá tu montura informe mal su lado – prueba con él desactivado.",
+            "noFlipAdvice": "Revisa los ajustes de giro y el registro de NINA. Si «Usar lado del pilar» está activado, quizá tu montura informe mal su lado – prueba con él desactivado.",
             "startFailed": "No se pudo iniciar la secuencia de prueba: {error}",
             "ninaError": "NINA informó de un error durante el giro, en el paso: {step}.",
             "ninaErrorRecenterCaps": "Con las tapas puestas es lo esperado – recentrar necesita estrellas. Comprueba de noche que el plate solving funciona.",
@@ -1747,9 +1747,9 @@
       "phd2ServerPort": "Puerto del servidor PHD2",
       "ditherPixels": "Píxeles Dither (px)",
       "ditherRAOnly": "Dither sólo en RA",
-      "settlePixels": "Tolerancia de píxeles de establecimiento (px)",
-      "settleTime": "Tiempo mínimo de establecimiento (s)",
-      "settleTimeout": "Tiempo de espera de establecimiento (s)",
+      "settlePixels": "Tolerancia de estabilización (px)",
+      "settleTime": "Tiempo mínimo de estabilización (s)",
+      "settleTimeout": "Tiempo límite de estabilización (s)",
       "guidingStartRetry": "Reintento de inicio de guiado",
       "guidingStartTimeout": "Tiempo de espera de inicio de guiado",
       "roiPercentage": "Porcentaje de ROI para encontrar estrella guía (%)",
@@ -2041,7 +2041,7 @@
         },
         "strip": {
           "dismissError": "Ocultar este error",
-          "settling": "Asentando",
+          "settling": "Estabilizando",
           "live": "Vivo",
           "poll": "Sondeo",
           "liveHint": "Actualizaciones en vivo vía WebSocket",
@@ -2136,7 +2136,7 @@
           "ditherTitle": "Dither",
           "ditherPixels": "Cantidad (píxeles de guiado)",
           "ditherRaOnly": "Solo RA",
-          "ditherHint": "Mueve la posición de bloqueo aleatoriamente hasta esta cantidad y espera a que el guiado se asiente.",
+          "ditherHint": "Mueve la posición de bloqueo aleatoriamente hasta esta cantidad y espera a que el guiado se estabilice.",
           "confirmStopTitle": "¿Detener el guiado?",
           "confirmStop": "El guiado se detiene y las exposiciones de una secuencia en curso dejan de guiarse.",
           "calibrateTitle": "¿Calibrar?",
@@ -2454,9 +2454,9 @@
             "fix": "Reduce el número máximo de estrellas guía, usa binning o un subcuadro, o revisa la carga de la CPU."
           },
           "SettleTimeout": {
-            "title": "Tiempo de asentamiento agotado",
-            "explanation": "El guiado no se asentó dentro del tiempo límite.",
-            "fix": "Aumenta la tolerancia o el tiempo límite de asentamiento, o revisa el rendimiento del guiado."
+            "title": "Tiempo de estabilización agotado",
+            "explanation": "El guiado no se estabilizó dentro del tiempo límite.",
+            "fix": "Aumenta la tolerancia o el tiempo límite de estabilización, o revisa el rendimiento del guiado."
           },
           "DitherFailed": {
             "title": "Dither fallido",
@@ -2486,17 +2486,17 @@
           "snr": "SNR",
           "mass": "Masa",
           "snrTitle": "SNR / masa estelar",
-          "settling": "Asentando",
+          "settling": "Estabilizando",
           "empty": "Aún no hay pasos de guiado. Inicia el guiado para ver el gráfico.",
           "markers": {
             "dither": "Dither",
             "starlost": "Estrella perdida",
-            "settled": "Asentado",
-            "settleFailed": "Fallo al asentar",
+            "settled": "Estabilizado",
+            "settleFailed": "Fallo de estabilización",
             "calibration": "Calibración"
           },
           "rmsTotal": "RMS",
-          "rmsHint": "RMS de los últimos {count} pasos de guiado mostrados (sin asentamiento ni recentrado tras dithering)",
+          "rmsHint": "RMS de los últimos {count} pasos de guiado mostrados (sin estabilización ni recentrado tras dithering)",
           "rmsLine": "RMS total ({count})",
           "rmsLineShort": "RMS ({count})",
           "rmsLineHint": "RMS total de los últimos {count} pasos de guiado en cada paso (sin estabilización ni recentrado)"
@@ -2575,7 +2575,7 @@
               "valve": "En ambas direcciones hasta recuperar un error grande del otro lado (válvula de seguridad)."
             },
             "helpTitle": "Modo de guiado de Dec Drift",
-            "help": "Drift guía Dec en una sola dirección, contra la deriva que mide mientras guía, así que los engranajes de Dec nunca invierten y la holgura deja de importar. Guía en ambas direcciones hasta medir una deriva clara (unos minutos; una deriva débil no cuenta), mientras se asienta tras un dither y mientras el error se queda lejos en el lado que esa dirección no puede corregir (válvula de seguridad). Cuando la deriva se debilita o se invierte durante unos minutos, vuelve a guiar en ambas direcciones o cambia de dirección."
+            "help": "Drift guía Dec en una sola dirección, contra la deriva que mide mientras guía, así que los engranajes de Dec nunca invierten y la holgura deja de importar. Guía en ambas direcciones hasta medir una deriva clara (unos minutos; una deriva débil no cuenta), mientras se estabiliza tras un dither y mientras el error se queda lejos en el lado que esa dirección no puede corregir (válvula de seguridad). Cuando la deriva se debilita o se invierte durante unos minutos, vuelve a guiar en ambas direcciones o cambia de dirección."
           }
         },
         "calibration": {
@@ -2793,7 +2793,7 @@
             "DecFastSwitch": "Con ResistSwitch: deja que Dec invierta su dirección enseguida cuando el error es grande (más de 3 × min move), en lugar de esperar a que varias imágenes coincidan. Recupera rápido un error Dec grande.",
             "DecMinMove": "0 = automático según la escala de imagen.",
             "DecCorrectionPace": "Parte del error restante que el algoritmo Predictive corrige por imagen: 0,5 elimina un desplazamiento en 2–3 imágenes sin pasarse de cero, 1 lo corrige todo de una vez. La deriva y el error periódico se corrigen siempre por completo.",
-            "DecGuideMode": "Auto guía Dec en ambas direcciones; Solo Norte o Solo Sur, en una sola; Desactivado, en ninguna. Drift sigue la deriva: mide la deriva en Dec mientras guía y solo guía en su contra, así que los engranajes de Dec nunca invierten y la holgura deja de importar; cambia de dirección cuando la deriva se invierte y guía en ambas direcciones hasta conocer la deriva, durante el asentamiento y para recuperar un error grande.",
+            "DecGuideMode": "Auto guía Dec en ambas direcciones; Solo Norte o Solo Sur, en una sola; Desactivado, en ninguna. Drift sigue la deriva: mide la deriva en Dec mientras guía y solo guía en su contra, así que los engranajes de Dec nunca invierten y la holgura deja de importar; cambia de dirección cuando la deriva se invierte y guía en ambas direcciones hasta conocer la deriva, durante la estabilización y para recuperar un error grande.",
             "MaxRaDurationMs": "Pulso de guiado RA individual más largo. Limita una corrección cuando una medida está muy desviada (estrella equivocada, ráfaga de viento), para que la montura no salga despedida lejos. Súbelo solo si los errores grandes tardan muchas imágenes en corregirse.",
             "MaxDecDurationMs": "Pulso de guiado Dec individual más largo. Limita una corrección cuando una medida está muy desviada (estrella equivocada, ráfaga de viento), para que la montura no salga despedida lejos. Súbelo solo si los errores grandes tardan muchas imágenes en corregirse.",
             "MinPulseMs": "Los pulsos de guiado más cortos se redondean a 0 o a esta duración: algunas monturas gestionan mal los pulsos muy cortos. 0 = cualquier duración.",
@@ -2802,14 +2802,14 @@
             "BacklashPulseMs": "Duración del pulso extra en una inversión de Dec. A partir de ella, el guiado ajusta el pulso automáticamente entre 20 ms y 1,5 × este valor, según cómo responda la estrella. Con el modelo de holgura, el valor es solo la primera estimación de la holgura, que luego aprende el modelo.",
             "PulseModel": "Aprende de los dithers cuánto mueve realmente un pulso la estrella en cada eje y dimensiona los pulsos según eso, para que una calibración inexacta ya no haga que el guiado corrija de más o de menos. Empieza con los valores de calibración, cambia solo lo que los dithers muestran con claridad y conserva lo aprendido por perfil y montura hasta la próxima calibración.",
             "CalibrationStepMs": "0 = automático según la óptica, la velocidad de guiado y la declinación.",
-            "ReuseCalibration": "Conserva la calibración entre sesiones y la ajusta según la declinación y el lado del pilar.",
+            "ReuseCalibration": "Conserva la última calibración entre sesiones y la adapta a la declinación y al lado del pilar, para que no tengas que calibrar cada noche. Vuelve a calibrar después de girar la cámara de guiado o cambiar el telescopio guía.",
             "AssumeOrthogonal": "La calibración normalmente mide las direcciones RA y Dec por separado. Esto fuerza a que Dec sea exactamente perpendicular a RA, lo que ayuda cuando un gran error periódico, el backlash Dec o un mal seeing distorsionan la calibración Dec.",
             "DecCompensation": "Adapta las correcciones RA a la declinación actual, para que una calibración hecha en una declinación siga sirviendo en otra. La montura conectada debe informar su posición; déjalo activado. No es lo mismo que la compensación de backlash Dec.",
             "DecFlipRequired": "Ajuste por montura; lo corrige automáticamente la autocomprobación de Dec tras el giro.",
             "VerifyDecAfterFlip": "Tras un giro de meridiano, comprueba las primeras correcciones Dec: si alejan la estrella en lugar de acercarla, el guiado invierte Dec por sí mismo y corrige «Invertir Dec tras el giro de meridiano» para esta montura.",
             "DitherMode": "Cómo se elige cada dither. Random: una distancia y dirección aleatorias. Spiral: pasos a lo largo de una espiral alrededor de la posición inicial, útil contra el ruido de patrón fijo de la cámara de captura.",
             "DitherScale": "Multiplica la distancia de dither que pide el software de captura: 2 hace el dither el doble de lejos, 0,5 la mitad.",
-            "FastRecenter": "Tras un dither, lleva la estrella a la nueva posición de bloqueo con grandes pulsos directos en lugar de pasos de guiado normales, para que el dither se asiente antes. Mejor dejarlo activado.",
+            "FastRecenter": "Tras un dither, lleva la estrella a la nueva posición de bloqueo con grandes pulsos directos en lugar de pasos de guiado normales, para que el dither se estabilice antes. Mejor dejarlo activado.",
             "ReacquireTimeoutSec": "Cuánto tiempo busca el guiado una estrella perdida antes de dar la alarma. Después sigue buscando y reanuda el guiado en cuanto la estrella vuelve.",
             "MaxPulseDutyPercent": "El guiado se detiene cuando un eje recibe pulsos durante más de esta fracción de un minuto (protección contra el guiado descontrolado).",
             "PauseWhenSlewing": "Pausa las correcciones mientras la montura indica que se está desplazando o que está aparcada. Desactívalo solo si el controlador de la montura indica «desplazándose» de forma permanente.",
@@ -2884,7 +2884,7 @@
           "stepStates": {
             "Pending": "En espera",
             "Running": "En curso",
-            "Settling": "Asentando",
+            "Settling": "Estabilizando",
             "Done": "Hecho",
             "Skipped": "Omitido",
             "Failed": "Fallido"
@@ -2902,7 +2902,7 @@
               "pulses": "Probando la respuesta a los pulsos · {direction} {ms}"
             },
             "trial": {
-              "settling": "Prueba {id} · Asentando",
+              "settling": "Prueba {id} · Estabilizando",
               "running": "Prueba {id}"
             }
           },
@@ -3464,7 +3464,7 @@
             "StarLost": "Estrella perdida",
             "Runaway": "Deriva descontrolada",
             "MountNotResponding": "La montura no responde",
-            "SettleTimeout": "Asentamiento agotado",
+            "SettleTimeout": "Estabilización agotada",
             "CameraFailure": "Fallo de cámara",
             "MountPaused": "Montura en pausa",
             "CalibrationFailed": "Calibración fallida",
@@ -3529,7 +3529,7 @@
             "pierSide": "Lado del pilar",
             "calibration": "Calibración",
             "stars": "Estrellas",
-            "settling": "asentando",
+            "settling": "estabilizando",
             "dithering": "dithering",
             "limited": "limitados",
             "tracking": "en seguimiento",
@@ -3732,7 +3732,7 @@
       "settings": {
         "AutoFocusInitialOffsetSteps": "Pasos de offset inicial",
         "AutoFocusStepSize": "Tamaño del paso",
-        "FocuserSettleTime": "Tiempo de establecimiento del enfocador",
+        "FocuserSettleTime": "Tiempo de estabilización del enfocador",
         "AutoFocusTotalNumberOfAttempts": "Número total de intentos",
         "AutoFocusNumberOfFramesPerPoint": "Número de fotogramas por punto",
         "AutoFocusInnerCropRatio": "Ratio de Recorte Interior",
@@ -6689,7 +6689,7 @@
         "statusTitle": "Estado de la montura",
         "gpsSync": "Sincronización de hora GPS",
         "trackingRate": "Tasa de seguimiento",
-        "slewSettle": "Asentamiento",
+        "slewSettle": "Estabilización tras el movimiento",
         "meridianLimit": "Límite de meridiano",
         "unattendedFlip": "Voltear desatendido",
         "disable": "Desactivar",
@@ -7468,7 +7468,7 @@
       },
       "clear": "Limpiar",
       "emptyState": "Seleccione un registro de guía PHD2 del menú desplegable de arriba.",
-      "excludeDither": "Excluir automáticamente el asentamiento del dithering",
+      "excludeDither": "Excluir automáticamente la estabilización del dithering",
       "ditherFrames": "({count} fotogramas)",
       "fft": {
         "dominantPeriod": "Periodo dominante",
@@ -8953,7 +8953,7 @@
     "position": "Position",
     "disconnected": "Disconnected",
     "moving": "Moving",
-    "settling": "Settling",
+    "settling": "Estabilizando",
     "idle": "Idle",
     "minimum": "Approved minimum",
     "maximum": "Approved maximum",
@@ -8985,7 +8985,7 @@
     "points": "Sweep positions",
     "scanStep": "Sweep step size",
     "span": "Maximum displacement from start",
-    "flush": "Post-settle flush (ms)",
+    "flush": "Descarte tras estabilizar (ms)",
     "sampleFps": "Analysis samples/s",
     "timeout": "Timeout per position (s)",
     "bestFraction": "Best frame fraction (0.1-1)",
@@ -8999,7 +8999,7 @@
     "state_IDLE": "Idle",
     "state_PREPARING": "Preparing",
     "state_MOVING": "Moving",
-    "state_SETTLING": "Settling",
+    "state_SETTLING": "Estabilizando",
     "state_SAMPLING": "Collecting fresh frames",
     "state_FITTING": "Fitting measured peak",
     "state_VALIDATING": "Validating focus",

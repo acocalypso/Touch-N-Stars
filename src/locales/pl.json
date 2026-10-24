@@ -1087,7 +1087,7 @@
           "minutesAfter": "Minuty po południku",
           "maxMinutesAfter": "Maks. liczba minut po południku",
           "pauseBefore": "Wstrzymaj przed południkiem (min)",
-          "useSideOfPier": "Użyj strony mola"
+          "useSideOfPier": "Użyj strony kolumny"
         },
         "altitudeCondition": {
           "altitude": "Wysokość ",
@@ -1158,7 +1158,7 @@
         "skyFlat": {
           "shouldDither": "Dithering",
           "ditherPixels": "Dithering pikseli",
-          "ditherSettleTime": "Czas ustabilizowania po ditheringu (s)"
+          "ditherSettleTime": "Czas stabilizacji po ditheringu (s)"
         },
         "moveRotatorMechanical": {
           "mechanicalPosition": "Pozycja mechaniczna"
@@ -1269,9 +1269,9 @@
           "exposureTime": "Czas ekspozycji (s)",
           "ditherPixels": "Dithering pikseli (px)",
           "ditherRAOnly": "Dithering tylko w RA",
-          "settlePixels": "Ustalanie (px)",
-          "settleTime": "Czas ustalania (s)",
-          "settleTimeout": "Limit czasu ustalania (s)",
+          "settlePixels": "Stabilizacja (px)",
+          "settleTime": "Czas stabilizacji (s)",
+          "settleTimeout": "Limit czasu stabilizacji (s)",
           "roiPct": "ROI (w %)"
         },
         "dso": {
@@ -1479,11 +1479,11 @@
         "rightAscension": "Ra",
         "Alt": "Alt",
         "Az": "Az",
-        "SideOfPier": "Strona mola"
+        "SideOfPier": "Strona kolumny"
       },
       "settings": {
         "meridian_flip_settings": "Przewrót Meridianu",
-        "telescope_settle_time": "Czas ustalenia po obrocie (s)",
+        "telescope_settle_time": "Czas stabilizacji po obrocie (s)",
         "meridian_flip": {
           "basic": "Podstawowe ustawienia",
           "behavior": "Zachowanie",
@@ -1491,9 +1491,9 @@
           "MinutesAfterMeridian": "Minuty po południku",
           "MaxMinutesAfterMeridian": "Maks. minuty po południku",
           "PauseTimeBeforeMeridian": "Czas pauzy przed południkiem",
-          "SettleTime": "Czas ustalania (s)",
+          "SettleTime": "Czas stabilizacji (s)",
           "Recenter": "Wycentruj ponownie",
-          "UseSideOfPier": "Użyj strony mola",
+          "UseSideOfPier": "Użyj strony kolumny",
           "AutoFocusAfterFlip": "Automatyczne ustawianie ostrości po odwróceniu",
           "RotateImageAfterFlip": "Obróć obraz po przewróceniu",
           "intro": "Gdy teleskop prowadzi obiekt przez południk (linię północ-południe przez zenit), wkrótce uderzyłby w statyw lub kolumnę. Dlatego montaż raz obraca się na drugą stronę, a rejestracja trwa dalej. Te ustawienia decydują, kiedy to nastąpi.",
@@ -1516,8 +1516,8 @@
               "title": "Własne wartości",
               "description": "Ustaw minuty samodzielnie w sekcji Zaawansowane."
             },
-            "sideOfPierNoMount": "Połącz montaż przed wyborem, aby aplikacja sprawdziła, czy podaje swoją stronę mola.",
-            "sideOfPierUnknown": "Twój montaż nie podaje strony mola, więc „Użyj strony mola” pozostaje wyłączone. NINA decyduje wtedy o przewrocie według czasu.",
+            "sideOfPierNoMount": "Połącz montaż przed wyborem, aby aplikacja sprawdziła, czy podaje swoją stronę kolumny.",
+            "sideOfPierUnknown": "Twój montaż nie podaje strony kolumny, więc „Użyj strony kolumny” pozostaje wyłączone. NINA decyduje wtedy o przewrocie według czasu.",
             "applyFailed": "Nie udało się w pełni zapisać ustawienia. Sprawdź wartości w sekcji Zaawansowane."
           },
           "timeline": {
@@ -1538,7 +1538,7 @@
             "PauseTimeBeforeMeridian": "Tylko dla sprzętu, który nie może bezpiecznie minąć południka: prowadzenie zatrzymuje się tyle minut wcześniej. W innym razie zostaw 0.",
             "SettleTime": "Czeka po przewrocie, aż montaż się uspokoi. Rozmazane gwiazdy przy pierwszym plate solve po przewrocie? Zwiększ tę wartość.",
             "Recenter": "Po przewrocie NINA wykonuje plate solve i ponownie centruje obiekt. Zdecydowanie zalecane; wymaga działającego plate solvera.",
-            "UseSideOfPier": "Używa strony mola podawanej przez montaż, by zdecydować, czy przewrót jest potrzebny. Bardziej niezawodne, ale tylko jeśli montaż podaje ją poprawnie.",
+            "UseSideOfPier": "Używa strony kolumny podawanej przez montaż, by zdecydować, czy przewrót jest potrzebny. Bardziej niezawodne, ale tylko jeśli montaż podaje ją poprawnie.",
             "AutoFocusAfterFlip": "Uruchamia autofokus po przewrocie. Przydatne w Newtonach i SCT, których lustro przesuwa się przy obrocie tuby.",
             "RotateImageAfterFlip": "Obraca podgląd o 180° po przewrocie. Tylko wyświetlanie – zapisane zdjęcia pozostają bez zmian."
           },
@@ -1571,7 +1571,7 @@
             "resultOk": "Ruch przewrotu działa.",
             "resultProblem": "Ruch przewrotu wymaga uwagi.",
             "problemAdvice": "Sprawdź prowadzenie kabli, aby wystarczały po obu stronach. Jeśli teleskop dotknął statywu lub kolumny, wybierz powyżej „Prawie wcale” albo sprawdź limit południka swojego montażu.",
-            "pierChanged": "Strona mola: {before} → {after}",
+            "pierChanged": "Strona kolumny: {before} → {after}",
             "notTested": "Guiding po przewrocie nie jest sprawdzany. Szczegóły są w logu NINA.",
             "stopped": "Test zatrzymany. Sekwencja i prowadzenie są wyłączone, montaż zostaje w miejscu.",
             "sideEast": "Wschód",
@@ -1593,7 +1593,7 @@
             "runningHint": "NINA wykonuje test samodzielnie, aplikację można zamknąć. Naciśnij STOP, jeśli coś przeszkadza – zatrzymuje to sekwencję i prowadzenie.",
             "flippedAt": "NINA wykonała przewrót {minutes} min po południku.",
             "noFlip": "NINA nie wykonała przewrotu na czas. Sekwencja i prowadzenie zostały zatrzymane.",
-            "noFlipAdvice": "Sprawdź ustawienia przewrotu i log NINA. Jeśli „Użyj strony mola” jest włączone, twój montaż może błędnie podawać stronę – spróbuj z wyłączoną opcją.",
+            "noFlipAdvice": "Sprawdź ustawienia przewrotu i log NINA. Jeśli „Użyj strony kolumny” jest włączone, twój montaż może błędnie podawać stronę – spróbuj z wyłączoną opcją.",
             "startFailed": "Nie udało się uruchomić sekwencji testowej: {error}",
             "ninaError": "NINA zgłosiła błąd podczas przewrotu, w kroku: {step}.",
             "ninaErrorRecenterCaps": "Z dekielkami to normalne – ponowne centrowanie wymaga gwiazd. W nocy sprawdź, czy plate solving działa.",
@@ -1628,10 +1628,10 @@
           "title": "Limity południka",
           "east": "Wschód (°)",
           "west": "Zachód (°)",
-          "hint": "Jak daleko za południk montaż może prowadzić po każdej stronie słupa, od −360 do 360° w krokach 0,25°. Zapisywane w kontrolerze montażu."
+          "hint": "Jak daleko za południk montaż może prowadzić po każdej stronie kolumny, od −360 do 360° w krokach 0,25°. Zapisywane w kontrolerze montażu."
         },
         "pierSide": {
-          "title": "Preferowana strona słupa",
+          "title": "Preferowana strona kolumny",
           "mount": "Jak ustawiono w montażu",
           "east": "Wschód",
           "west": "Zachód",
@@ -1747,9 +1747,9 @@
       "phd2ServerPort": "Port serwera PHD2",
       "ditherPixels": "Dithering pikseli (px)",
       "ditherRAOnly": "Dithering tylko w RA",
-      "settlePixels": "Tolerancja ustalania (px)",
-      "settleTime": "Minimalny czas osiadania (s)",
-      "settleTimeout": "Limit czasu ustalania (s)",
+      "settlePixels": "Tolerancja stabilizacji (px)",
+      "settleTime": "Minimalny czas stabilizacji (s)",
+      "settleTimeout": "Limit czasu stabilizacji (s)",
       "guidingStartRetry": "Ponów próbę rozpoczęcia prowadzenia",
       "guidingStartTimeout": "Limit czasu rozpoczęcia prowadzenia (s)",
       "roiPercentage": "Procent ROI potrzebny do znalezienia gwiazdy prowadzącej (%)",
@@ -2820,7 +2820,7 @@
             "SimulatorScenario": "Montaż, niebo i kamera symulowane przez wbudowany symulator.",
             "SimulateFault": "Wprowadza usterkę do działającego symulatora: chmury (110 s), potrącenie montażu, montaż, który przestaje odpowiadać (60 s), 3 nieudane ekspozycje lub korekty Dec w złą stronę (120 s).",
             "BacklashModel": "Stały dodaje dodatkowy impuls przy każdej zmianie kierunku Dec i powoli go dostosowuje. Model luzu śledzi koło zębate Dec w luzie, wstrzymuje korekty, które przy szumie seeingu tylko kasowałyby luz, i uczy się luzu z kalibracji i guidingu. Tylko z algorytmem Dec Predictive. W razie wątpliwości: z algorytmem Dec Predictive wybierz model luzu, w przeciwnym razie zostaw Stały. Guiding Coach proponuje model luzu, gdy zmierzony luz do niego pasuje.",
-            "BacklashRemeasureAfterSlewDeg": "Gdy guiding startuje po tym, jak montaż przesunął się dalej niż ta wartość lub zmienił stronę słupa, model luzu najpierw ponownie mierzy luz: Dec wysyła impulsy na północ, aż gwiazda zacznie podążać, a potem na południe z powrotem do startu. Koło opiera się wtedy o znaną stronę, a model zna luz przy nowym celu. Trwa to około 10–20 klatek guidingu. 0 = nigdy."
+            "BacklashRemeasureAfterSlewDeg": "Gdy guiding startuje po tym, jak montaż przesunął się dalej niż ta wartość lub zmienił stronę kolumny, model luzu najpierw ponownie mierzy luz: Dec wysyła impulsy na północ, aż gwiazda zacznie podążać, a potem na południe z powrotem do startu. Koło opiera się wtedy o znaną stronę, a model zna luz przy nowym celu. Trwa to około 10–20 klatek guidingu. 0 = nigdy."
           },
           "warnings": {
             "backlashModelNeedsPredictive": "Model luzu działa tylko z algorytmem Dec Predictive; obecnie używany jest stały impuls. Aby go użyć, ustaw w tych ustawieniach „Algorytm Dec” na Predictive."
@@ -3732,7 +3732,7 @@
       "settings": {
         "AutoFocusInitialOffsetSteps": "Początkowe kroki przesunięcia",
         "AutoFocusStepSize": "Rozmiar kroku",
-        "FocuserSettleTime": "Czas osiadania focusera",
+        "FocuserSettleTime": "Czas stabilizacji focusera",
         "AutoFocusTotalNumberOfAttempts": "Całkowita liczba prób",
         "AutoFocusNumberOfFramesPerPoint": "Liczba klatek na punkt",
         "AutoFocusInnerCropRatio": "Wewnętrzny współczynnik przycięcia",
@@ -4001,7 +4001,7 @@
       "warn_dec_spread_title": "Wykryto rozproszenie deklinacji",
       "warn_east_west_body": "Aktualne pole znajduje się w promieniu 5° od dokładnego wschodu lub zachodu. Jeśli rozwiązanie na żywo jest niestabilne, skieruj się na pole położone dalej od wschodu/zachodu i uruchom ponownie.",
       "warn_east_west_title": "Pole korekcyjne w promieniu {deg}° od wschodu/zachodu",
-      "warn_huge_body": "Albo mocowanie jest zbyt daleko od siebie ustawione, albo obliczenia nie mogły określić wyniku. Sprawdź lokalizację miejsca, upewnij się, że uchwyt jest mniej więcej skierowany w stronę słupa i że pomiędzy trzema punktami pomiarowymi przesunięto tylko oś RA.",
+      "warn_huge_body": "Albo mocowanie jest zbyt daleko od siebie ustawione, albo obliczenia nie mogły określić wyniku. Sprawdź lokalizację miejsca, upewnij się, że uchwyt jest mniej więcej skierowany w stronę kolumny i że pomiędzy trzema punktami pomiarowymi przesunięto tylko oś RA.",
       "warn_huge_title": "Błąd obliczony jest ogromny",
       "warn_large_body": "Faza korekty będzie mniej niezawodna. Przybliż uchwyt do ustawienia biegunowego i ponownie uruchom TPPA, aby to sprawdzić.",
       "warn_large_title": "Początkowy błąd ustawienia biegunowego jest duży"
@@ -6689,7 +6689,7 @@
         "statusTitle": "Stan montażu",
         "gpsSync": "Synchronizacja czasu GPS",
         "trackingRate": "Szybkość śledzenia",
-        "slewSettle": "Ustabilizowanie po obrocie",
+        "slewSettle": "Stabilizacja po obrocie",
         "meridianLimit": "Limit południka",
         "unattendedFlip": "Nienadzorowany flip",
         "disable": "Wyłączyć",
@@ -8089,7 +8089,7 @@
         },
         "fields": {
           "ToleranceDegrees": "Tolerancja (°)",
-          "SettleTimeSeconds": "Czas ustalania (s)",
+          "SettleTimeSeconds": "Czas stabilizacji (s)",
           "MaxIterations": "Maks. iteracji (0 = bez limitu)",
           "MaxCorrectionDeg": "Maks. korekta na iterację (°)",
           "MotionTimeoutSeconds": "Limit czasu ruchu (s)",
@@ -8953,7 +8953,7 @@
     "position": "Position",
     "disconnected": "Disconnected",
     "moving": "Moving",
-    "settling": "Settling",
+    "settling": "Stabilizacja",
     "idle": "Idle",
     "minimum": "Approved minimum",
     "maximum": "Approved maximum",
@@ -8985,7 +8985,7 @@
     "points": "Sweep positions",
     "scanStep": "Sweep step size",
     "span": "Maximum displacement from start",
-    "flush": "Post-settle flush (ms)",
+    "flush": "Odrzucenie po stabilizacji (ms)",
     "sampleFps": "Analysis samples/s",
     "timeout": "Timeout per position (s)",
     "bestFraction": "Best frame fraction (0.1-1)",
@@ -8999,7 +8999,7 @@
     "state_IDLE": "Idle",
     "state_PREPARING": "Preparing",
     "state_MOVING": "Moving",
-    "state_SETTLING": "Settling",
+    "state_SETTLING": "Stabilizacja",
     "state_SAMPLING": "Collecting fresh frames",
     "state_FITTING": "Fitting measured peak",
     "state_VALIDATING": "Validating focus",

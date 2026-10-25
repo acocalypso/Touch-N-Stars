@@ -30,7 +30,7 @@ const props = defineProps({
 });
 
 const { t } = useI18n();
-const L = (key) => t(`plugins.hocusfocus.fwhmContour.${key}`);
+const L = (key) => t(`components.focuser.hocus.fwhmContour.${key}`);
 
 // Colour map, contour count and label format from HocusFocus' FWHMContourControl. Colours are relative:
 // the frame's lowest FWHM maps to the first stop and its highest to the last.

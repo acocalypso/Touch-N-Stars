@@ -371,7 +371,7 @@ import { SCREW_LAYOUTS, ETA_TRAVEL } from './tilter/tilterGeometry';
 
 const { t } = useI18n();
 const settingsStore = useSettingsStore();
-const L = (key, params) => t(`plugins.hocusfocus.tilter.${key}`, params ?? {});
+const L = (key, params) => t(`components.focuser.hocus.tilter.${key}`, params ?? {});
 
 const cardClass =
   'p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50';

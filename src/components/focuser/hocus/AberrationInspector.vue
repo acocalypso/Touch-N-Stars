@@ -156,7 +156,7 @@ import SensorModelPanel from './SensorModelPanel.vue';
 import EccentricityPlot from './EccentricityPlot.vue';
 import FwhmContourPlot from './FwhmContourPlot.vue';
 import HfCollapsibleCard from './fields/HfCollapsibleCard.vue';
-import { useHocusFocusStore } from '../store/hocusfocusStore';
+import { useHocusFocusStore } from '@/store/hocusFocusStore';
 
 const props = defineProps({
   autoFocusChartActive: Boolean,
@@ -193,7 +193,7 @@ const props = defineProps({
 defineEmits(['run', 'stop', 'rerun', 'clear', 'dismiss-error']);
 
 const { t } = useI18n();
-const L = (key) => t(`plugins.hocusfocus.aberrationInspector.${key}`);
+const L = (key) => t(`components.focuser.hocus.aberrationInspector.${key}`);
 const store = useHocusFocusStore();
 
 const cardClass =

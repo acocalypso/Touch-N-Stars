@@ -252,7 +252,7 @@
 <script setup>
 import { computed, onBeforeUnmount, onMounted, reactive, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useHocusFocusStore } from '../store/hocusfocusStore';
+import { useHocusFocusStore } from '@/store/hocusFocusStore';
 import apiService from '@/services/apiService';
 import Modal from '@/components/helpers/Modal.vue';
 import DirectoryBrowser from './DirectoryBrowser.vue';
@@ -263,8 +263,8 @@ import HfSelectField from './fields/HfSelectField.vue';
 const { t } = useI18n();
 const store = useHocusFocusStore();
 
-const L = (key) => t(`plugins.hocusfocus.autoFocusOptions.${key}`);
-const H = (key) => t(`plugins.hocusfocus.autoFocusOptions.help.${key}`);
+const L = (key) => t(`components.focuser.hocus.autoFocusOptions.${key}`);
+const H = (key) => t(`components.focuser.hocus.autoFocusOptions.help.${key}`);
 
 const o = computed(() => store.autoFocusOptions);
 

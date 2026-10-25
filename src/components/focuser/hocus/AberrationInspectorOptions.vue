@@ -107,8 +107,8 @@ import HfNumberField from './fields/HfNumberField.vue';
 import HfSelectField from './fields/HfSelectField.vue';
 
 const { t } = useI18n();
-const L = (key) => t(`plugins.hocusfocus.aberrationInspectorOptions.${key}`);
-const H = (key) => t(`plugins.hocusfocus.aberrationInspectorOptions.help.${key}`);
+const L = (key) => t(`components.focuser.hocus.aberrationInspectorOptions.${key}`);
+const H = (key) => t(`components.focuser.hocus.aberrationInspectorOptions.help.${key}`);
 
 const cardClass =
   'p-2 sm:p-4 flex flex-col gap-2 sm:gap-3 bg-gray-800/50 rounded-lg border border-gray-700/50';
@@ -309,7 +309,7 @@ function driverStepSize() {
 // Says what "automatic" resolves to where that is knowable.
 function autoActiveLabel(field) {
   if (field.key === 'MicronsPerFocuserStep' && driverStepSize()) {
-    return t('plugins.hocusfocus.aberrationInspectorOptions.autoFromDriver', {
+    return t('components.focuser.hocus.aberrationInspectorOptions.autoFromDriver', {
       value: driverStepSize().toFixed(2),
     });
   }

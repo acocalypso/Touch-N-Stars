@@ -61,6 +61,6 @@ const props = defineProps({
 });
 
 const { t } = useI18n();
-const L = (key) => t(`plugins.hocusfocus.optimizer.${key}`);
+const L = (key) => t(`components.focuser.hocus.optimizer.${key}`);
 const v = computed(() => props.state.Values || {});
 </script>

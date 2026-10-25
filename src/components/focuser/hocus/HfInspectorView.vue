@@ -1,199 +1,102 @@
 <template>
-  <div class="min-h-screen">
-    <div class="container py-10">
-      <div class="max-w-7xl mx-auto">
-        <!-- Header -->
-        <div class="mb-8">
-          <h1 class="text-4xl font-bold text-white mb-2">{{ $t('plugins.hocusfocus.title') }}</h1>
-          <p class="text-gray-400 text-sm">{{ store.pluginInfo.description }}</p>
-        </div>
-
-        <!-- Tabs Navigation -->
-        <div class="border border-gray-700 rounded-lg bg-gray-800">
-          <div class="flex border-b border-gray-700 overflow-x-auto snap-x snap-mandatory">
-            <button
-              @click="activeTab = 'aberration'"
-              :class="
-                activeTab === 'aberration'
-                  ? 'border-b-2 border-cyan-400 text-white'
-                  : 'text-gray-400 hover:text-white'
-              "
-              class="px-6 py-3 font-semibold transition whitespace-nowrap snap-start shrink-0"
-            >
-              {{ $t('plugins.hocusfocus.tabs.aberration') }}
-            </button>
-            <button
-              @click="activeTab = 'aberration-options'"
-              :class="
-                activeTab === 'aberration-options'
-                  ? 'border-b-2 border-cyan-400 text-white'
-                  : 'text-gray-400 hover:text-white'
-              "
-              class="px-6 py-3 font-semibold transition whitespace-nowrap snap-start shrink-0"
-            >
-              {{ $t('plugins.hocusfocus.tabs.aberrationOptions') }}
-            </button>
-            <button
-              @click="activeTab = 'configuration'"
-              :class="
-                activeTab === 'configuration'
-                  ? 'border-b-2 border-cyan-400 text-white'
-                  : 'text-gray-400 hover:text-white'
-              "
-              class="px-6 py-3 font-semibold transition whitespace-nowrap snap-start shrink-0"
-            >
-              {{ $t('plugins.hocusfocus.tabs.autoFocusOptions') }}
-            </button>
-
-            <button
-              @click="activeTab = 'star-detection'"
-              :class="
-                activeTab === 'star-detection'
-                  ? 'border-b-2 border-cyan-400 text-white'
-                  : 'text-gray-400 hover:text-white'
-              "
-              class="px-6 py-3 font-semibold transition whitespace-nowrap snap-start shrink-0"
-            >
-              {{ $t('plugins.hocusfocus.tabs.starDetection') }}
-            </button>
-            <button
-              @click="activeTab = 'tilter'"
-              :class="
-                activeTab === 'tilter'
-                  ? 'border-b-2 border-cyan-400 text-white'
-                  : 'text-gray-400 hover:text-white'
-              "
-              class="px-6 py-3 font-semibold transition whitespace-nowrap snap-start shrink-0"
-            >
-              {{ $t('plugins.hocusfocus.tabs.tilter') }}
-            </button>
-          </div>
-
-          <!-- AutoFocus directory picker for "Load Saved AF" -->
-          <Modal
-            :show="showAFDirectoryModal"
-            maxWidth="max-w-md"
-            @close="showAFDirectoryModal = false"
+  <div class="flex flex-col gap-4">
+    <!-- AutoFocus directory picker for "Load Saved AF" -->
+    <Modal :show="showAFDirectoryModal" maxWidth="max-w-md" @close="showAFDirectoryModal = false">
+      <template #header>
+        <h2 class="text-xl font-bold text-white">
+          {{ $t('components.focuser.hocus.modal.selectDirectory') }}
+        </h2>
+      </template>
+      <template #body>
+        <div class="flex w-full flex-col gap-4">
+          <div
+            v-if="loadingAFDirectories"
+            class="flex items-center justify-center gap-3 py-4 text-gray-400"
           >
-            <template #header>
-              <h2 class="text-xl font-bold text-white">
-                {{ $t('plugins.hocusfocus.modal.selectDirectory') }}
-              </h2>
-            </template>
-            <template #body>
-              <div class="flex w-full flex-col gap-4">
-                <div
-                  v-if="loadingAFDirectories"
-                  class="flex items-center justify-center gap-3 py-4 text-gray-400"
-                >
-                  <div class="spinner"></div>
-                  <span>{{ $t('plugins.hocusfocus.modal.loading') }}</span>
-                </div>
-                <template v-else>
-                  <select v-model="selectedAFDirectory" class="tns-select">
-                    <option :value="null" disabled>
-                      {{ $t('plugins.hocusfocus.modal.placeholder') }}
-                    </option>
-                    <option v-for="dir in afDirectories" :key="dir" :value="dir">
-                      {{ dir }}
-                    </option>
-                  </select>
-                  <div class="flex justify-end gap-3">
-                    <button
-                      class="tns-btn-secondary w-auto px-4"
-                      @click="showAFDirectoryModal = false"
-                    >
-                      {{ $t('plugins.hocusfocus.modal.cancel') }}
-                    </button>
-                    <button
-                      class="tns-btn-primary w-auto px-4"
-                      :disabled="!selectedAFDirectory"
-                      @click="proceedWithAFRerun()"
-                    >
-                      {{ $t('plugins.hocusfocus.modal.proceed') }}
-                    </button>
-                  </div>
-                </template>
-              </div>
-            </template>
-          </Modal>
-
-          <!-- Aberration Inspector Tab -->
-          <div v-if="activeTab === 'aberration'" class="p-6">
-            <AberrationInspector
-              :auto-focus-chart-active="autoFocusChartActive"
-              :auto-focus-chart-activated-once="autoFocusChartActivatedOnce"
-              :auto-focus-completed="autoFocusCompleted"
-              :tilt-measurements="tiltMeasurements"
-              :tilt-measurement-history="tiltMeasurementHistory"
-              :final-focus-data="finalFocusData"
-              :sensor-model="sensorModel"
-              :eccentricity="eccentricity"
-              :fwhm-contour="fwhmContour"
-              :exposure-analyzed="exposureAnalyzed"
-              :error="store.error || ''"
-              :camera-connected="store.cameraConnected"
-              :focuser-connected="store.focuserConnected"
-              :is-cancelling="store.isCancelling"
-              :sequence-running="sequenceRunning"
-              :backend-can-run="backendCanRun"
-              :backend-can-rerun="backendCanRerun"
-              :is-tab-active="activeTab === 'aberration'"
-              :on-update-status="updateStatus"
-              :on-update-final-focus-data="updateFinalFocusData"
-              :on-update-tilt-measurements="updateTiltMeasurements"
-              :on-update-tilt-measurement-history="updateTiltMeasurementHistory"
-              :on-update-sensor-model="updateSensorModel"
-              :on-update-eccentricity="updateEccentricity"
-              :on-update-fwhm-contour="updateFwhmContour"
-              :get-region-focus-points="() => apiService.hocusfocus.getRegionFocusPoints()"
-              @run="runDetailedAutoFocus"
-              @stop="stopDetailedAutoFocus"
-              @rerun="rerunDetailedAutoFocus"
-              @clear="clearDetailedAutoFocus"
-              @dismiss-error="store.error = null"
-            />
+            <div class="spinner"></div>
+            <span>{{ $t('components.focuser.hocus.modal.loading') }}</span>
           </div>
-
-          <!-- Aberration Inspector Options Tab -->
-          <div v-if="activeTab === 'aberration-options'" class="p-6">
-            <AberrationInspectorOptions />
-          </div>
-
-          <!-- Configuration Tab -->
-          <div v-if="activeTab === 'configuration'" class="p-6">
-            <AutoFocusOptions />
-          </div>
-
-          <!-- Star Detection Tab -->
-          <div v-if="activeTab === 'star-detection'" class="p-6">
-            <StarDetection :isTabActive="activeTab === 'star-detection'" />
-          </div>
-
-          <!-- Tilter Tab -->
-          <div v-if="activeTab === 'tilter'" class="p-6">
-            <HocusFocusTilterPanel />
-          </div>
+          <template v-else>
+            <select v-model="selectedAFDirectory" class="tns-select">
+              <option :value="null" disabled>
+                {{ $t('components.focuser.hocus.modal.placeholder') }}
+              </option>
+              <option v-for="dir in afDirectories" :key="dir" :value="dir">
+                {{ dir }}
+              </option>
+            </select>
+            <div class="flex justify-end gap-3">
+              <button class="tns-btn-secondary w-auto px-4" @click="showAFDirectoryModal = false">
+                {{ $t('components.focuser.hocus.modal.cancel') }}
+              </button>
+              <button
+                class="tns-btn-primary w-auto px-4"
+                :disabled="!selectedAFDirectory"
+                @click="proceedWithAFRerun()"
+              >
+                {{ $t('components.focuser.hocus.modal.proceed') }}
+              </button>
+            </div>
+          </template>
         </div>
-      </div>
-    </div>
+      </template>
+    </Modal>
+
+    <AberrationInspector
+      :auto-focus-chart-active="autoFocusChartActive"
+      :auto-focus-chart-activated-once="autoFocusChartActivatedOnce"
+      :auto-focus-completed="autoFocusCompleted"
+      :tilt-measurements="tiltMeasurements"
+      :tilt-measurement-history="tiltMeasurementHistory"
+      :final-focus-data="finalFocusData"
+      :sensor-model="sensorModel"
+      :eccentricity="eccentricity"
+      :fwhm-contour="fwhmContour"
+      :exposure-analyzed="exposureAnalyzed"
+      :error="store.error || ''"
+      :camera-connected="store.cameraConnected"
+      :focuser-connected="store.focuserConnected"
+      :is-cancelling="store.isCancelling"
+      :sequence-running="sequenceRunning"
+      :backend-can-run="backendCanRun"
+      :backend-can-rerun="backendCanRerun"
+      :is-tab-active="true"
+      :on-update-status="updateStatus"
+      :on-update-final-focus-data="updateFinalFocusData"
+      :on-update-tilt-measurements="updateTiltMeasurements"
+      :on-update-tilt-measurement-history="updateTiltMeasurementHistory"
+      :on-update-sensor-model="updateSensorModel"
+      :on-update-eccentricity="updateEccentricity"
+      :on-update-fwhm-contour="updateFwhmContour"
+      :get-region-focus-points="() => apiService.hocusfocus.getRegionFocusPoints()"
+      @run="runDetailedAutoFocus"
+      @stop="stopDetailedAutoFocus"
+      @rerun="rerunDetailedAutoFocus"
+      @clear="clearDetailedAutoFocus"
+      @dismiss-error="store.error = null"
+    />
+
+    <HfCollapsibleCard
+      :title="$t('components.focuser.hocus.tabs.aberrationOptions')"
+      v-model:open="showOptions"
+    >
+      <AberrationInspectorOptions />
+    </HfCollapsibleCard>
   </div>
 </template>
 
 <script setup>
 import { ref, computed, onMounted } from 'vue';
 import { useBackgroundAwarePolling } from '@/utils/appLifecycle';
-import { useHocusFocusStore } from '../store/hocusfocusStore';
+import { useHocusFocusStore } from '@/store/hocusFocusStore';
 import apiService from '@/services/apiService';
 import Modal from '@/components/helpers/Modal.vue';
-import AberrationInspector from '../components/AberrationInspector.vue';
-import AberrationInspectorOptions from '../components/AberrationInspectorOptions.vue';
-import AutoFocusOptions from '../components/AutoFocusOptions.vue';
-import StarDetection from '../components/StarDetection.vue';
-import HocusFocusTilterPanel from '../components/HocusFocusTilterPanel.vue';
+import HfCollapsibleCard from './fields/HfCollapsibleCard.vue';
+import AberrationInspector from './AberrationInspector.vue';
+import AberrationInspectorOptions from './AberrationInspectorOptions.vue';
 
 const store = useHocusFocusStore();
-const activeTab = ref('aberration');
+const showOptions = ref(false);
 const tiltMeasurements = ref([]);
 const tiltMeasurementHistory = ref([]);
 const finalFocusData = ref(null);

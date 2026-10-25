@@ -110,7 +110,7 @@
       "manageInstances": "インスタンスの管理",
       "checking": "インスタンスを確認中…",
       "noneOnline": "オンラインのインスタンスがありません",
-      "switchingTo": "Switching to {name}…"
+      "switchingTo": "{name} に切り替え中…"
     },
     "instanceDetection": {
       "autoDetectionTitle": "自動検出",
@@ -226,217 +226,217 @@
       "skip": "チュートリアルをスキップ"
     },
     "setupWizard": {
-      "title": "Setup Assistant",
-      "restart": "Start setup assistant",
-      "stepCounter": "Step {current} of {total}",
+      "title": "セットアップアシスタント",
+      "restart": "セットアップアシスタントを開始",
+      "stepCounter": "ステップ {current} / {total}",
       "next": "Next",
       "back": "Back",
       "finish": "Finish",
-      "remindLater": "Remind me later",
+      "remindLater": "後で通知",
       "steps": {
         "welcome": "Welcome",
         "language": "Language",
-        "info": "Getting started",
+        "info": "はじめに",
         "instance": "Connection",
         "wifi": "Wi-Fi",
         "updates": "Updates",
         "mount": "Mount",
-        "slewRate": "Slew speed",
+        "slewRate": "導入速度",
         "location": "Location",
         "telescope": "Telescope",
         "camera": "Camera",
         "focuser": "Focuser",
-        "filterWheel": "Filter wheel",
+        "filterWheel": "フィルターホイール",
         "guider": "Guiding",
         "dither": "ディザリング",
         "done": "Done",
-        "localization": "Regional settings"
+        "localization": "地域設定"
       },
       "driver": {
-        "loading": "Loading drivers…",
-        "applying": "Applying driver…",
-        "listFailed": "Could not load drivers: {message}",
-        "changeFailed": "Could not apply the driver: {message}"
+        "loading": "ドライバーを読み込み中 …",
+        "applying": "ドライバーを適用中 …",
+        "listFailed": "ドライバーを読み込めませんでした：{message}",
+        "changeFailed": "ドライバーを適用できませんでした：{message}"
       },
       "welcome": {
-        "title": "Let's set up Touch'N'Stars",
-        "description": "This assistant walks you through the setup one step at a time — language, the connection to your rig, and its equipment.",
-        "cancelHint": "You can cancel at any point and finish the rest later from the settings."
+        "title": "Touch'N'Stars をセットアップしましょう",
+        "description": "このアシスタントが、言語、機材への接続、各機器の設定を一つずつ案内します。",
+        "cancelHint": "いつでも中止でき、残りは後から設定画面で行えます。"
       },
       "language": {
-        "description": "The language of the app. You can change it later in the settings."
+        "description": "アプリの言語です。後から設定で変更できます。"
       },
       "info": {
-        "openWiki": "Open the wiki"
+        "openWiki": "Wiki を開く"
       },
       "instance": {
-        "description": "Address of the machine running N.I.N.A. On the same network the app can usually find it by itself.",
-        "connect": "Save and connect",
+        "description": "N.I.N.A. が動いているマシンのアドレスです。同じネットワーク内なら、通常アプリが自動で見つけます。",
+        "connect": "保存して接続",
         "connecting": "Connecting…",
-        "connected": "Connected to {name}",
-        "connectFailed": "Connection failed: {message}"
+        "connected": "{name} に接続しました",
+        "connectFailed": "接続に失敗しました：{message}"
       },
       "wifi": {
-        "title": "Connect the rig to Wi-Fi",
-        "description": "Connect your rig to your home or field network so it can reach the internet and you can reach the rig.",
-        "loadingStatus": "Reading Wi-Fi status…",
-        "connectedTo": "Connected to {ssid}",
-        "notConnected": "The rig is not connected to a Wi-Fi network.",
-        "chooseOtherNetwork": "Choose a different network",
-        "scan": "Scan for networks",
+        "title": "機材を Wi-Fi に接続",
+        "description": "機材を自宅や観測地のネットワークに接続すると、機材がインターネットにつながり、あなたも機材にアクセスできます。",
+        "loadingStatus": "Wi-Fi の状態を読み込み中 …",
+        "connectedTo": "{ssid} に接続中",
+        "notConnected": "機材は Wi-Fi ネットワークに接続されていません。",
+        "chooseOtherNetwork": "別のネットワークを選ぶ",
+        "scan": "ネットワークを検索",
         "scanning": "Scanning…",
-        "selectNetwork": "Select network",
+        "selectNetwork": "ネットワークを選択",
         "password": "Password",
-        "passwordPlaceholder": "Network password",
-        "autoConnect": "Connect to this network automatically",
+        "passwordPlaceholder": "ネットワークのパスワード",
+        "autoConnect": "このネットワークに自動接続",
         "connect": "Connect",
         "connecting": "Connecting…",
-        "noNetworks": "No networks found. Move the rig closer to your router and scan again.",
-        "transitionHint": "The rig changes its address while switching networks. Looking for it again…",
-        "retryFind": "Find rig again",
-        "scanFailed": "Wi-Fi scan failed: {message}",
-        "connectFailed": "Connection failed: {message}",
-        "retryFailed": "Could not find the rig: {message}"
+        "noNetworks": "ネットワークが見つかりません。機材をルーターに近づけて、もう一度検索してください。",
+        "transitionHint": "ネットワークを切り替えると機材のアドレスが変わります。再検索中 …",
+        "retryFind": "機材を再検索",
+        "scanFailed": "Wi-Fi の検索に失敗しました：{message}",
+        "connectFailed": "接続に失敗しました：{message}",
+        "retryFailed": "機材が見つかりませんでした：{message}"
       },
       "updates": {
-        "title": "Check for updates",
-        "description": "Keep the rig software up to date before you configure your equipment.",
-        "checking": "Checking for updates…",
-        "upToDate": "The rig software is up to date.",
-        "available": "{count} update(s) available",
-        "startUpgrade": "Update now",
-        "upgradeHint": "The rig restarts services during the update. Keep the app open until it is finished.",
-        "recheck": "Check again",
-        "checkFailed": "Update check failed: {message}",
-        "upgradeFailed": "Could not start the update: {message}"
+        "title": "アップデートを確認",
+        "description": "機器を設定する前に、機材のソフトウェアを最新にしてください。",
+        "checking": "アップデートを確認中 …",
+        "upToDate": "機材のソフトウェアは最新です。",
+        "available": "{count} 件のアップデートがあります",
+        "startUpgrade": "今すぐ更新",
+        "upgradeHint": "更新中、機材はサービスを再起動します。完了するまでアプリを開いたままにしてください。",
+        "recheck": "再確認",
+        "checkFailed": "アップデートの確認に失敗しました：{message}",
+        "upgradeFailed": "アップデートを開始できませんでした：{message}"
       },
       "mount": {
-        "title": "Set up your mount",
-        "description": "Pick the INDI driver for your mount, then connect it.",
-        "selectDriver": "INDI driver",
+        "title": "架台を設定",
+        "description": "架台の INDI ドライバーを選んでから接続してください。",
+        "selectDriver": "INDI ドライバー",
         "connectDevice": "Device",
-        "connected": "Mount connected: {name}",
-        "notFound": "Mount not listed?",
-        "notFoundHint": "If your mount is missing, its driver may not be installed yet. Search the 3rd party INDI drivers and install the matching one.",
+        "connected": "架台を接続しました：{name}",
+        "notFound": "架台がリストにない場合",
+        "notFoundHint": "架台が見つからない場合、ドライバーがまだインストールされていない可能性があります。サードパーティの INDI ドライバーを検索し、該当するものをインストールしてください。",
         "installing": "Installing {label}…",
-        "installSuccess": "{label} installed. Select it in the driver list above.",
-        "installFailed": "Installation failed: {message}"
+        "installSuccess": "{label} をインストールしました。上のドライバー一覧から選んでください。",
+        "installFailed": "インストールに失敗しました：{message}"
       },
       "slewRate": {
-        "title": "Slew speed",
-        "description": "Set how fast the driver may move your mount. Too high and the mount can lose steps, too low and every slew takes forever.",
-        "maxSlewRate": "Max slew speed (°/s)",
-        "maxSlewRateHint": "This is the driver limit, not the manual slew speed on the mount screen — that one comes straight from the driver's own capabilities.",
-        "saveFailed": "Could not save: {message}"
+        "title": "導入速度",
+        "description": "ドライバーが架台を動かせる速さを設定します。速すぎると脱調することがあり、遅すぎると導入のたびに時間がかかります。",
+        "maxSlewRate": "最大導入速度 (°/s)",
+        "maxSlewRateHint": "これはドライバーの上限で、架台画面の手動速度ではありません。手動速度はドライバー自身の能力から直接決まります。",
+        "saveFailed": "保存できませんでした：{message}"
       },
       "location": {
-        "title": "Set your location",
-        "description": "Your coordinates drive time calculations, meridian flip, horizon and framing. Take them from your device or enter them by hand.",
-        "profileCoords": "Profile location",
-        "mountCoords": "Mount location",
+        "title": "観測地を設定",
+        "description": "座標は時刻計算、子午線反転、地平線、フレーミングに使われます。端末から取得するか、手入力してください。",
+        "profileCoords": "プロファイルの観測地",
+        "mountCoords": "架台の観測地",
         "latitude": "Latitude",
         "longitude": "Longitude",
         "altitude": "Altitude",
-        "useCurrentLocation": "Use current location",
-        "syncDirection": "Location sync direction",
-        "save": "Save location",
+        "useCurrentLocation": "現在地を使用",
+        "syncDirection": "観測地の同期方向",
+        "save": "観測地を保存",
         "saving": "Saving…",
-        "saveFailed": "Could not save the location: {message}"
+        "saveFailed": "観測地を保存できませんでした：{message}"
       },
       "telescope": {
-        "title": "Your telescope",
-        "description": "Name and optics of your telescope. Focal length together with the camera's pixel size determines your image scale.",
-        "namePlaceholder": "e.g. TS 80/480 APO",
-        "hint": "Focal length in mm, focal ratio as the plain number (f/5.0 → 5.0).",
-        "saveFailed": "Could not save: {message}"
+        "title": "望遠鏡",
+        "description": "望遠鏡の名前と光学系です。焦点距離とカメラのピクセルサイズで撮像スケールが決まります。",
+        "namePlaceholder": "例：TS 80/480 APO",
+        "hint": "焦点距離は mm、F 値は数値のみ（f/5.0 → 5.0）。",
+        "saveFailed": "保存できませんでした：{message}"
       },
       "camera": {
-        "title": "Set up your camera",
-        "description": "Many cameras are supported natively. Pick yours from the list below — an INDI driver is only needed if it does not show up there.",
+        "title": "カメラを設定",
+        "description": "多くのカメラはネイティブ対応しています。下の一覧から選んでください。そこにない場合だけ INDI ドライバーが必要です。",
         "connectDevice": "Device",
-        "connected": "Camera connected: {name}",
-        "notFound": "Camera not listed?",
-        "notFoundHint": "If your camera is not natively supported, select an INDI driver for it here. Afterwards it appears in the device list above.",
-        "thirdPartyHint": "If the driver is missing entirely, search the 3rd party INDI drivers and install the matching one.",
-        "selectDriver": "INDI driver",
+        "connected": "カメラを接続しました：{name}",
+        "notFound": "カメラがリストにない場合",
+        "notFoundHint": "カメラがネイティブ対応していない場合は、ここで INDI ドライバーを選んでください。その後、上の機器一覧に表示されます。",
+        "thirdPartyHint": "ドライバー自体がない場合は、サードパーティの INDI ドライバーを検索し、該当するものをインストールしてください。",
+        "selectDriver": "INDI ドライバー",
         "installing": "Installing {label}…",
-        "installSuccess": "{label} installed. Select it in the driver list above.",
-        "installFailed": "Installation failed: {message}",
-        "sensorTitle": "Sensor parameters",
-        "chipSizeReported": "Reported by the camera: {width} × {height} px",
-        "chipSizeMatches": "Matches the profile.",
-        "chipSizeDiffers": "The profile currently holds {width} × {height} px.",
-        "chipSizeApply": "Apply to profile",
-        "chipSizeManualHint": "Your camera does not report its sensor size — typical for DSLRs. Please enter it manually.",
-        "chipWidth": "Chip width (px)",
-        "chipHeight": "Chip height (px)",
-        "pixelSize": "Pixel size (µm)",
-        "pixelSizeHint": "The pixel size is not reported by the driver. You will find it in your camera's manual.",
-        "imageScale": "Resulting image scale: {scale} arcsec/px",
-        "applyFailed": "Could not save: {message}"
+        "installSuccess": "{label} をインストールしました。上のドライバー一覧から選んでください。",
+        "installFailed": "インストールに失敗しました：{message}",
+        "sensorTitle": "センサーのパラメーター",
+        "chipSizeReported": "カメラの報告値：{width} × {height} px",
+        "chipSizeMatches": "プロファイルと一致しています。",
+        "chipSizeDiffers": "現在のプロファイルは {width} × {height} px です。",
+        "chipSizeApply": "プロファイルに適用",
+        "chipSizeManualHint": "このカメラはセンサーサイズを報告しません（一眼レフでよくあります）。手入力してください。",
+        "chipWidth": "センサー幅 (px)",
+        "chipHeight": "センサー高さ (px)",
+        "pixelSize": "ピクセルサイズ (µm)",
+        "pixelSizeHint": "ドライバーはピクセルサイズを報告しません。カメラの取扱説明書で確認してください。",
+        "imageScale": "撮像スケール：{scale} arcsec/px",
+        "applyFailed": "保存できませんでした：{message}"
       },
       "focuser": {
-        "title": "Set up your focuser",
-        "description": "Pick the INDI driver for your focuser, then connect it. Autofocus parameters stay on the focus page — this step only gets the device talking.",
-        "selectDriver": "INDI driver",
+        "title": "フォーカサーを設定",
+        "description": "フォーカサーの INDI ドライバーを選んでから接続してください。オートフォーカスの設定はフォーカスページに残ります。このステップは通信を確立するだけです。",
+        "selectDriver": "INDI ドライバー",
         "connectDevice": "Device",
-        "connected": "Focuser connected: {name}",
-        "notFound": "Focuser not listed?",
-        "notFoundHint": "If your focuser is missing, its driver may not be installed yet. Search the 3rd party INDI drivers and install the matching one.",
+        "connected": "フォーカサーを接続しました：{name}",
+        "notFound": "フォーカサーがリストにない場合",
+        "notFoundHint": "フォーカサーが見つからない場合、ドライバーがまだインストールされていない可能性があります。サードパーティの INDI ドライバーを検索し、該当するものをインストールしてください。",
         "installing": "Installing {label}…",
-        "installSuccess": "{label} installed. Select it in the driver list above.",
-        "installFailed": "Installation failed: {message}"
+        "installSuccess": "{label} をインストールしました。上のドライバー一覧から選んでください。",
+        "installFailed": "インストールに失敗しました：{message}"
       },
       "filterWheel": {
-        "title": "Set up your filter wheel",
-        "description": "Pick the INDI driver for your filter wheel, connect it, and give the slots the names you use in your sequences.",
-        "selectDriver": "INDI driver",
+        "title": "フィルターホイールを設定",
+        "description": "フィルターホイールの INDI ドライバーを選んで接続し、各スロットにシーケンスで使う名前を付けてください。",
+        "selectDriver": "INDI ドライバー",
         "connectDevice": "Device",
-        "connected": "Filter wheel connected: {name}",
-        "filterNames": "Filter names",
-        "filterNamesHint": "The name of each slot, in the order they sit in the wheel. Letters and digits only.",
-        "notFound": "Filter wheel not listed?",
-        "notFoundHint": "If your filter wheel is missing, its driver may not be installed yet. Search the 3rd party INDI drivers and install the matching one.",
+        "connected": "フィルターホイールを接続しました：{name}",
+        "filterNames": "フィルター名",
+        "filterNamesHint": "ホイール内の順番どおりに、各スロットの名前を入力します。英字と数字のみ。",
+        "notFound": "フィルターホイールがリストにない場合",
+        "notFoundHint": "フィルターホイールが見つからない場合、ドライバーがまだインストールされていない可能性があります。サードパーティの INDI ドライバーを検索し、該当するものをインストールしてください。",
         "installing": "Installing {label}…",
-        "installSuccess": "{label} installed. Select it in the driver list above.",
-        "installFailed": "Installation failed: {message}"
+        "installSuccess": "{label} をインストールしました。上のドライバー一覧から選んでください。",
+        "installFailed": "インストールに失敗しました：{message}"
       },
       "guider": {
-        "title": "Set up guiding",
-        "description": "Guiding runs through PHD2. Pick the guide camera, connect the guider, and tell PHD2 about your guide scope.",
-        "guideCamera": "Guide camera",
-        "guideCameraHint": "PHD2 brings its own drivers, so there is no INDI driver to pick here. If the list is empty, use the refresh button — the camera must be powered and free, not already in use by the imaging camera.",
+        "title": "ガイドを設定",
+        "description": "ガイドは PHD2 で行います。ガイドカメラを選び、ガイダーを接続して、ガイド鏡の情報を PHD2 に伝えてください。",
+        "guideCamera": "ガイドカメラ",
+        "guideCameraHint": "PHD2 は独自のドライバーを持っているので、ここで INDI ドライバーを選ぶ必要はありません。一覧が空なら更新ボタンを押してください。カメラは電源が入っていて、メインカメラとして使用中でないことが必要です。",
         "connectDevice": "Guider",
-        "connected": "Guider connected: {name}",
-        "focalLength": "Guide scope focal length",
-        "focalLengthHint": "Focal length of the guide scope in mm. This is stored in the PHD2 profile, separate from your main telescope, and it is what lets PHD2 report guiding in arc-seconds.",
+        "connected": "ガイダーを接続しました：{name}",
+        "focalLength": "ガイド鏡の焦点距離",
+        "focalLengthHint": "ガイド鏡の焦点距離 (mm) です。メイン望遠鏡とは別に PHD2 のプロファイルに保存され、PHD2 が角秒でガイド値を表示するのに使われます。",
         "ditherTitle": "Dither",
-        "ditherDescription": "NINA sets the dither in guide camera pixels, while the usual recommendations are given in pixels of your imaging camera. This converts between the two.",
-        "ditherMainPixels": "Dither (imaging pixels)",
-        "ditherMainPixelsHint": "How far each dither should move the target on your imaging sensor. 10 to 15 pixels is a good starting point.",
-        "guidePixelSize": "Guide camera pixel size (µm)",
-        "guidePixelSizeHint": "Used for this calculation only — it is not saved anywhere. PHD2 reads the pixel size from the camera itself, but only once that camera is connected; until then, take it from the guide camera's manual.",
-        "mainScale": "Imaging scale: {scale} arcsec/px",
-        "guideScale": "Guiding scale: {scale} arcsec/px (binning {binning})",
-        "scaleMismatch": "PHD2 itself reports {scale} arcsec/px. That does not match the values above, so PHD2 is working with a different focal length or pixel size — its guiding readouts in arc-seconds will be off too. Correct it in PHD2 (Brain → Camera).",
-        "ditherArcsec": "Offset on sky: {arcsec} arcsec",
-        "ditherResult": "Dither setting: {pixels} guide pixels",
-        "ditherCurrent": "Currently in the profile: {pixels} guide pixels ({mainPixels} imaging pixels).",
-        "ditherApply": "Apply to profile",
+        "ditherDescription": "NINA はディザーをガイドカメラのピクセルで設定しますが、一般的な推奨値はメインカメラのピクセルで示されます。ここで両者を換算します。",
+        "ditherMainPixels": "ディザー（メインカメラのピクセル）",
+        "ditherMainPixelsHint": "1 回のディザーで対象をメインカメラのセンサー上でどれだけ動かすか。10〜15 ピクセルがよい出発点です。",
+        "guidePixelSize": "ガイドカメラのピクセルサイズ (µm)",
+        "guidePixelSizeHint": "この計算にだけ使い、どこにも保存しません。PHD2 はカメラ自身からピクセルサイズを読みますが、接続後に限られます。それまではガイドカメラの取扱説明書の値を使ってください。",
+        "mainScale": "メインカメラのスケール：{scale} arcsec/px",
+        "guideScale": "ガイドのスケール：{scale} arcsec/px（ビニング {binning}）",
+        "scaleMismatch": "PHD2 自身は {scale} arcsec/px と報告しています。上の値と一致しないため、PHD2 は別の焦点距離またはピクセルサイズを使っています。角秒でのガイド値もずれます。PHD2 で修正してください（ブレイン → カメラ）。",
+        "ditherArcsec": "空でのずれ：{arcsec} arcsec",
+        "ditherResult": "ディザー設定：ガイドピクセル {pixels}",
+        "ditherCurrent": "現在のプロファイル：ガイドピクセル {pixels}（メインカメラのピクセル {mainPixels}）。",
+        "ditherApply": "プロファイルに適用",
         "ditherApplied": "Applied",
         "ditherMissingData": "To calculate the dither, the pixel size and focal length of both the imaging and the guide setup are needed. Fill in the camera and telescope steps and set the guide scope focal length above.",
-        "applyFailed": "Could not save: {message}",
+        "applyFailed": "保存できませんでした：{message}",
         "nativeCamera": "ガイドカメラ（PINS ネイティブガイダー）",
         "nativeCameraHint": "ネイティブガイダーはガイドカメラを直接制御します。INDI ドライバーとデバイスを選び、ガイド鏡の焦点距離を入力してください。"
       },
       "done": {
-        "title": "Your equipment is ready",
-        "description": "Your rig is connected, up to date, and mount, camera, focuser, filter wheel and guiding are configured.",
-        "descriptionPlain": "Mount, camera, focuser, filter wheel and your location are configured.",
-        "moreDevicesHint": "Flat panel, weather and the remaining devices are configured on their own pages.",
-        "noConnectionHint": "No connection to a rig yet. You can add one under Settings → Connection at any time."
+        "title": "機材の準備ができました",
+        "description": "機材は接続済みで最新です。架台、カメラ、フォーカサー、フィルターホイール、ガイドの設定も完了しました。",
+        "descriptionPlain": "架台、カメラ、フォーカサー、フィルターホイール、観測地の設定が完了しました。",
+        "moreDevicesHint": "フラットパネル、気象、その他の機器はそれぞれのページで設定します。",
+        "noConnectionHint": "まだ機材に接続していません。設定 → 接続 からいつでも追加できます。"
       },
-      "cancel": "Cancel setup",
+      "cancel": "セットアップを中止",
       "localization": {
         "title": "機材の地域設定を行う",
         "description": "ホットスポットの場所、時刻、リモートキーボード入力を機材の使用場所に合わせるため、Wi-Fi より先にこれらの値を設定してください。"
@@ -747,25 +747,25 @@
         "searchPlaceholder": "利用可能なオプションを絞り込む..."
       },
       "swap": {
-        "title": "Raspberry Pi swap",
-        "description": "Choose traditional disk swap capacity. Saving switches from compressed zram to disk swap after you reboot the Pi. Larger sizes use more storage; disk swap is slower than RAM.",
-        "loading": "Reading swap configuration…",
-        "current": "Active system swap: {size} GB",
-        "size": "Configured swap size",
+        "title": "Raspberry Pi のスワップ",
+        "description": "従来型のディスクスワップの容量を選びます。保存すると、Pi の再起動後に圧縮 zram からディスクスワップに切り替わります。容量が大きいほどストレージを使い、ディスクスワップは RAM より遅くなります。",
+        "loading": "スワップ設定を読み込み中…",
+        "current": "有効なシステムスワップ：{size} GB",
+        "size": "設定済みのスワップ容量",
         "choose": "Choose a size",
-        "defaultSize": "2 GB (image default)",
+        "defaultSize": "2 GB（イメージの既定値）",
         "recommendedSize": "8 GB (推奨)",
-        "freeSpace": "Free storage: {size} GB",
-        "pending": "{size} GB is configured. Reboot the Pi when your imaging session has finished to apply it.",
-        "saved": "Swap configuration saved.",
+        "freeSpace": "空き容量：{size} GB",
+        "pending": "{size} GB が設定されています。撮影セッションが終わったら Pi を再起動して適用してください。",
+        "saved": "スワップ設定を保存しました。",
         "saving": "Saving…",
-        "save": "Save swap size",
+        "save": "スワップ容量を保存",
         "refresh": "Refresh",
-        "unsupported": "This system does not have a supported disk-backed swap configuration.",
-        "unavailable": "Swap configuration is unavailable. Update pinsdaemon on the Pi.",
-        "loadError": "Could not read swap configuration: {message}",
-        "saveError": "Could not save swap configuration: {message}",
-        "missingJob": "The daemon did not return a swap job."
+        "unsupported": "このシステムには対応するディスクスワップ設定がありません。",
+        "unavailable": "スワップ設定を利用できません。Pi の pinsdaemon を更新してください。",
+        "loadError": "スワップ設定を読み込めませんでした：{message}",
+        "saveError": "スワップ設定を保存できませんでした：{message}",
+        "missingJob": "デーモンからスワップのジョブが返されませんでした。"
       }
     },
     "alpacaDirect": {
@@ -1488,7 +1488,7 @@
         "rightAscension": "赤経 (Ra)",
         "Alt": "高度 (Alt)",
         "Az": "方位角 (Az)",
-        "SideOfPier": "ピラーの側"
+        "SideOfPier": "ピア側"
       },
       "settings": {
         "meridian_flip_settings": "子午線越え反転 (Meridian Flip)",
@@ -1502,9 +1502,140 @@
           "PauseTimeBeforeMeridian": "通過前の停止時間（分）",
           "SettleTime": "安定時間（秒）",
           "Recenter": "再び中央に導入",
-          "UseSideOfPier": "ピラー側を使用",
+          "UseSideOfPier": "ピア側を使用",
           "AutoFocusAfterFlip": "反転後にオートフォーカス",
-          "RotateImageAfterFlip": "反転後に画像を回転"
+          "RotateImageAfterFlip": "反転後に画像を回転",
+          "intro": "望遠鏡が天体を追って子午線（天頂を通る南北の線）を越えると、やがて三脚やピラーにぶつかります。そのため架台は一度反対側へ回り、撮影を続けます。この設定でそのタイミングを決めます。",
+          "advanced": "詳細設定",
+          "presets": {
+            "question": "架台は子午線を越えてからどれくらい追尾できますか？",
+            "barely": {
+              "title": "ほとんどできない",
+              "description": "子午線で望遠鏡が三脚やピラーに近づきます。撮影は子午線の 2 分前に止まり、反転は子午線で行います。"
+            },
+            "few": {
+              "title": "数分（ほとんどの架台）",
+              "description": "子午線通過後 5〜15 分の間、露光が終わった直後に反転します。待ち時間なし。"
+            },
+            "lots": {
+              "title": "長く（15 分以上）",
+              "description": "子午線通過後 10〜30 分の間に反転します。長時間露光が終わるまでの余裕があります。"
+            },
+            "custom": {
+              "title": "カスタム値",
+              "description": "「詳細設定」で分数を自分で設定します。"
+            },
+            "sideOfPierNoMount": "選ぶ前に架台を接続してください。架台がピア側を報告するかアプリが確認できます。",
+            "sideOfPierUnknown": "この架台はピア側を報告しないため、「ピア側を使用」はオフのままです。NINA は時刻で反転を判断します。",
+            "applyFailed": "プリセットを完全には保存できませんでした。「詳細設定」の値を確認してください。"
+          },
+          "timeline": {
+            "meridian": "子午線",
+            "imaging": "撮影",
+            "trackingOff": "追尾オフ",
+            "flip": "反転",
+            "pauseMinutes": "−{pause} 分",
+            "atMinutes": "+{min} 分",
+            "windowMinutes": "+{min}〜{max} 分",
+            "explainPause": "子午線の {pause} 分前に撮影を止め、追尾をオフにします。反転は子午線通過後 {min} 分に行います。撮影時間が減るため、望遠鏡が子午線を越えられない場合だけ使ってください。",
+            "explainFixed": "NINA は露光が子午線通過後 {min} 分を超えそうになるまで撮影し、その時点まで待ってちょうどそこで反転します。最遅時刻を遅くすると待ち時間がなくなります。",
+            "explainWindow": "子午線通過後 {min}〜{max} 分の間に終わった最初の露光の直後に反転します。待ち時間なし。"
+          },
+          "help": {
+            "MinutesAfterMeridian": "子午線通過後、反転を始めてよい最も早い時刻です。",
+            "MaxMinutesAfterMeridian": "子午線通過後の反転の最も遅い時刻です。最早時刻より小さくはできません。間隔を広げると、NINA は露光直後に待たずに反転できます。",
+            "PauseTimeBeforeMeridian": "子午線を安全に越えられない機材専用：子午線のこの分数前に追尾を止めます。それ以外は 0 のままにしてください。",
+            "SettleTime": "反転後、架台が落ち着くまで待ちます。反転後最初の plate solve で星が流れる場合は値を増やしてください。",
+            "Recenter": "反転後、NINA が plate solve を行い天体を再センタリングします。強く推奨。動作する plate solver が必要です。",
+            "UseSideOfPier": "架台が報告するピア側を使って反転が必要か判断します。より確実ですが、架台が正しく報告する場合に限ります。",
+            "AutoFocusAfterFlip": "反転後にオートフォーカスを実行します。鏡筒が回ると主鏡が動くニュートンや SCT に便利です。",
+            "RotateImageAfterFlip": "反転後にプレビューを 180° 回転します。表示のみで、保存画像は変わりません。"
+          },
+          "dayTest": {
+            "title": "昼間に反転をテスト",
+            "teaser": "あなたの設定で NINA に昼間に本物の子午線反転をさせましょう。子午線を越えた位置で望遠鏡は三脚やピラーをかわせるか、ケーブルは届くか？",
+            "open": "テスト開始",
+            "intro": "望遠鏡を手動で子午線のすぐ東の点まで動かします。そこから子午線を越えて追尾を続け、NINA が夜間と同じように反転します——あなたの反転設定と実際の時刻で。",
+            "blockers": {
+              "notConnected": "架台が接続されていません。",
+              "parked": "架台がパーク中です。先にパークを解除してください。",
+              "cannotSlew": "架台は座標への導入ができません。",
+              "noLocation": "架台に観測地がありません。先に場所を設定してください。",
+              "sequenceRunning": "NINA でシーケンスが実行中です。先に停止してください。"
+            },
+            "caps": {
+              "label": "望遠鏡・ファインダー・ガイド鏡にキャップをした",
+              "reason": "昼間は導入中に望遠鏡が太陽を横切ることがあります。数秒の太陽光でカメラが壊れたり、ファインダー越しに目を傷めたりします。このテストに光は不要です。",
+              "whyTitle": "太陽から離すだけでは足りないのはなぜ？",
+              "whyText": "星でアライメントしていないと、昼間の架台は自分がどこを向いているか正確には分かりません。導入中の望遠鏡は空に弧を描き、反転は正午に太陽がある子午線を横切ります。アプリは太陽を避けますが、計算がずれていてもキャップがあなたを守ります。"
+            },
+            "presence": {
+              "label": "架台のそばで望遠鏡とケーブルを見ている",
+              "reason": "何かが邪魔になったらすぐに STOP を押してください。"
+            },
+            "stop": "STOP",
+            "askQuestion": "望遠鏡は何にもぶつからず、ケーブルも張らずに反対側へ回りましたか？",
+            "yes": "はい",
+            "no": "いいえ",
+            "resultOk": "反転の動作は問題ありません。",
+            "resultProblem": "反転の動作に注意が必要です。",
+            "problemAdvice": "両側でケーブルが届くよう配線を確認してください。望遠鏡が三脚やピラーに触れた場合は、上で「ほとんどできない」を選ぶか、架台の子午線リミットを確認してください。",
+            "pierChanged": "ピア側：{before} → {after}",
+            "notTested": "反転後のガイドは確認しません。詳細は NINA のログを見てください。",
+            "stopped": "テストを停止しました。シーケンスと追尾はオフ、架台はその場にとどまります。",
+            "sideEast": "東",
+            "sideWest": "西",
+            "exposure": "露光時間（秒）",
+            "exposureHelp": "NINA は反転ウィンドウ内で終わった最初の露光の後に反転します。いつもの露光時間なら、テストは夜と同じ位置で反転します。",
+            "plan": "テストには少なくとも {minutes} 分かかり、さらに子午線の何分前から始めたかの時間が加わります。赤道儀は子午線を {flip} 分過ぎるまで追尾します——これがテストする位置で、夜間と同じです。",
+            "sequenceNotice": "テスト用シーケンスを NINA に読み込みます。現在読み込まれているシーケンスは置き換えられるので、残したい場合は先に保存してください。",
+            "start": "テストシーケンスを読み込んで開始",
+            "toPositioning": "次へ",
+            "back": "戻る",
+            "position": {
+              "hint": "矢印で望遠鏡を子午線に向けて、カウンターウェイト下向きのまま反転の少し前まで動かしてください。近くから始めるほど待ち時間は短くなります。goto を使わないので、赤道儀は動かしたピア側のままです。",
+              "toMeridian": "子午線までの時間",
+              "pastMeridian": "子午線通過後の経過",
+              "noData": "赤道儀はまだ位置または設置場所を報告していません。",
+              "poleHint": "望遠鏡は極を向いています。ここでも NINA は反転しますが、鏡筒が三脚に当たらないか、ケーブルが届くかは極から離れないと分かりません。現実的なテストには、Dec をいつもの対象と同じくらいの高さに動かしてください。",
+              "checks": {
+                "lead": "反転の少なくとも {minutes} 分前",
+                "pier": "カウンターウェイト下向き——反転前のピア側",
+                "pierUnknown": "赤道儀がピア側を報告しません——カウンターウェイトが下向きか目で確認してください",
+                "altitude": "反転後まで地平線から少なくとも {degrees}° 上にある",
+                "sun": "反転後まで太陽から少なくとも {degrees}° 離れている"
+              },
+              "moves": {
+                "east": "反転に近すぎます——東へ動かす",
+                "west": "反転までまだ遠い——西へ動かすと待ち時間が短くなります",
+                "altitude": "低すぎます——上へ動かす",
+                "sun": "太陽に近すぎます——太陽から離す",
+                "wrongSide": "望遠鏡は反転後のピア側にあります（カウンターウェイト上向き）。赤道儀を Home 位置（カウンターウェイト下向き、望遠鏡は極）に戻し、そこから印の付いた矢印に従って動かしてください。"
+              }
+            },
+            "confirmTitle": "テストシーケンスを読み込みますか？",
+            "confirmMessage": "NINA に読み込まれているシーケンスは反転テストに置き換えられます。望遠鏡は現在の位置から追尾し、子午線通過後に NINA が反転させます。",
+            "waitingForMeridian": "子午線へ向けて追尾中 …",
+            "pastMeridian": "望遠鏡は子午線を {minutes} 分越えています。",
+            "flipping": "NINA が反転中 …",
+            "countdownWindow": "{earliest}〜{latest} 分後に反転",
+            "countdownLatest": "遅くとも {latest} 分後に反転",
+            "runningHint": "NINA が単独でテストを実行するため、アプリを閉じても大丈夫です。何かが邪魔になったら STOP を押すと、シーケンスと追尾が止まります。",
+            "flippedAt": "NINA は子午線通過後 {minutes} 分で反転しました。",
+            "noFlip": "NINA は時間内に反転しませんでした。シーケンスと追尾を停止しました。",
+            "noFlipAdvice": "反転設定と NINA のログを確認してください。「ピア側を使用」がオンなら、架台がピア側を誤って報告している可能性があります。オフにして試してください。",
+            "startFailed": "テストシーケンスを開始できませんでした：{error}",
+            "ninaError": "NINA が反転中にエラーを報告しました。ステップ：{step}。",
+            "ninaErrorRecenterCaps": "キャップをしているので想定どおりです。再センタリングには星が必要です。夜に plate solving が動作するか確認してください。",
+            "ninaOk": "NINA はエラーなしで反転を完了しました。",
+            "steps": {
+              "recenter": "再センタリング（plate solve）",
+              "autofocus": "反転後のオートフォーカス",
+              "settle": "静定",
+              "slew": "反転の導入",
+              "unknown": "不明なステップ"
+            }
+          }
         },
         "reverse_primary_axis": "主軸を反転",
         "reverse_secondary_axis": "副軸を反転"
@@ -1530,7 +1661,7 @@
           "hint": "ピアの各側で子午線を越えて追尾できる角度、−360〜360°、0.25°刻み。架台コントローラーに保存されます。"
         },
         "pierSide": {
-          "title": "優先ピアサイド",
+          "title": "優先ピア側",
           "mount": "架台の設定どおり",
           "east": "東",
           "west": "西",
@@ -1646,9 +1777,9 @@
       "phd2ServerPort": "PHD2サーバー・ポート",
       "ditherPixels": "ディザリング幅 (px)",
       "ditherRAOnly": "赤経(RA)のみディザリング",
-      "settlePixels": "整定許容誤差 (px)",
-      "settleTime": "最小整定時間 (秒)",
-      "settleTimeout": "整定タイムアウト (秒)",
+      "settlePixels": "安定許容誤差 (px)",
+      "settleTime": "最小安定時間 (秒)",
+      "settleTimeout": "安定タイムアウト (秒)",
       "guidingStartRetry": "ガイド開始再試行回数",
       "guidingStartTimeout": "ガイド開始タイムアウト (秒)",
       "roiPercentage": "ガイド星探索ROI範囲 (%)",
@@ -1940,7 +2071,7 @@
         },
         "strip": {
           "dismissError": "このエラーを非表示",
-          "settling": "整定中",
+          "settling": "安定化中",
           "live": "ライブ",
           "poll": "ポーリング",
           "liveHint": "WebSocket でリアルタイム更新",
@@ -2035,7 +2166,7 @@
           "ditherTitle": "ディザー",
           "ditherPixels": "移動量（ガイドピクセル）",
           "ditherRaOnly": "RA のみ",
-          "ditherHint": "ロック位置をこの量までランダムに移動し、ガイドが整定するまで待機します。",
+          "ditherHint": "ロック位置をこの量までランダムに移動し、ガイドが安定するまで待機します。",
           "confirmStopTitle": "ガイドを停止しますか？",
           "confirmStop": "ガイドが停止し、実行中のシーケンスの露光はガイドされなくなります。",
           "calibrateTitle": "キャリブレーションしますか？",
@@ -2268,8 +2399,8 @@
             "fix": "校正ありでガイドを開始してください。"
           },
           "CalibrationFlipped": {
-            "title": "鏡筒配置に合わせて校正を反転",
-            "explanation": "子午線反転後、新しい鏡筒配置に合わせて校正を調整しました。",
+            "title": "ピア側に合わせて校正を反転",
+            "explanation": "子午線反転後、新しいピア側に合わせて校正を調整しました。",
             "fix": "対処は不要です。"
           },
           "DecFlipCorrected": {
@@ -2290,7 +2421,7 @@
           "RunawayDetected": {
             "title": "ガイドの暴走を検出",
             "explanation": "誤差が減らないまま補正が大きくなり続けました（例: 校正の符号の誤り）。セッションを守るためガイドを停止しました。",
-            "fix": "校正を消去して再校正し、赤道儀の鏡筒配置/Dec 反転の設定を確認してください。"
+            "fix": "校正を消去して再校正し、赤道儀のピア側/Dec 反転の設定を確認してください。"
           },
           "MountNotResponding": {
             "title": "赤道儀が補正に応答しません",
@@ -2323,9 +2454,9 @@
             "fix": "赤道儀/ガイドポートの接続を確認してください。"
           },
           "PierSideUnknown": {
-            "title": "鏡筒配置が不明",
-            "explanation": "赤道儀が鏡筒配置を報告しないため、子午線反転を自動で補正できません。",
-            "fix": "子午線反転のたびに再校正するか、鏡筒配置を報告するドライバーを使用してください。"
+            "title": "ピア側が不明",
+            "explanation": "赤道儀がピア側を報告しないため、子午線反転を自動で補正できません。",
+            "fix": "子午線反転のたびに再校正するか、ピア側を報告するドライバーを使用してください。"
           },
           "CameraCaptureFailed": {
             "title": "ガイド露光に失敗",
@@ -2353,9 +2484,9 @@
             "fix": "最大ガイド星数を減らす、ビニングやサブフレームを使う、または CPU 負荷を確認してください。"
           },
           "SettleTimeout": {
-            "title": "整定タイムアウト",
-            "explanation": "タイムアウト内にガイドが整定しませんでした。",
-            "fix": "整定の許容値/タイムアウトを増やすか、ガイド性能を確認してください。"
+            "title": "安定タイムアウト",
+            "explanation": "タイムアウト内にガイドが安定しませんでした。",
+            "fix": "安定の許容値/タイムアウトを増やすか、ガイド性能を確認してください。"
           },
           "DitherFailed": {
             "title": "ディザー失敗",
@@ -2385,17 +2516,17 @@
           "snr": "SNR",
           "mass": "質量",
           "snrTitle": "SNR / 星の質量",
-          "settling": "整定中",
+          "settling": "安定化中",
           "empty": "ガイドステップはまだありません。ガイドを開始するとグラフが表示されます。",
           "markers": {
             "dither": "ディザー",
             "starlost": "星をロスト",
-            "settled": "整定完了",
-            "settleFailed": "整定失敗",
+            "settled": "安定完了",
+            "settleFailed": "安定失敗",
             "calibration": "校正"
           },
           "rmsTotal": "RMS",
-          "rmsHint": "表示中の直近 {count} ガイドステップの RMS（整定中とディザー後の再センタリングを除く）",
+          "rmsHint": "表示中の直近 {count} ガイドステップの RMS（安定化中とディザー後の再センタリングを除く）",
           "rmsLine": "合計 RMS（{count}）",
           "rmsLineShort": "RMS（{count}）",
           "rmsLineHint": "各ステップで直近 {count} ガイドステップの合計 RMS（安定化と再センタリングを除く）"
@@ -2474,7 +2605,7 @@
               "valve": "反対側の大きな誤差が戻るまで両方向にガイドします（安全弁）。"
             },
             "helpTitle": "Dec ガイドモード Drift",
-            "help": "Drift はガイド中に測定したドリフトに逆らう一方向だけに Dec をガイドします。赤緯ギアが反転しないため、バックラッシュは問題になりません。はっきりしたドリフトが測定されるまで（数分。弱いドリフトは数えません）、ディザー後の整定中、そしてその方向では補正できない側に誤差が大きく残っている間（安全弁）は両方向にガイドします。ドリフトが数分間弱まるか逆転すると、再び両方向にガイドするか、方向を切り替えます。"
+            "help": "Drift はガイド中に測定したドリフトに逆らう一方向だけに Dec をガイドします。赤緯ギアが反転しないため、バックラッシュは問題になりません。はっきりしたドリフトが測定されるまで（数分。弱いドリフトは数えません）、ディザー後の安定化中、そしてその方向では補正できない側に誤差が大きく残っている間（安全弁）は両方向にガイドします。ドリフトが数分間弱まるか逆転すると、再び両方向にガイドするか、方向を切り替えます。"
           }
         },
         "calibration": {
@@ -2490,7 +2621,7 @@
           "decRate": "Dec レート",
           "orthogonality": "直交性誤差",
           "declination": "赤緯",
-          "pierSide": "鏡筒配置",
+          "pierSide": "ピア側",
           "binning": "ビニング",
           "steps": "ステップ数",
           "raShort": "RA",
@@ -2692,7 +2823,7 @@
             "DecFastSwitch": "ResistSwitch と併用：誤差が大きいとき（最小移動量の 3 倍超）、複数フレームの一致を待たずに Dec の方向をすぐに反転させます。大きな Dec 誤差を素早く戻します。",
             "DecMinMove": "0 = 画像スケールから自動設定。",
             "DecCorrectionPace": "Predictive アルゴリズムがフレームごとに補正する残り誤差の割合。0.5 はゼロを越えずに 2～3 フレームでずれを解消し、1 は一度にすべて補正します。ドリフトとピリオディックエラーは常に完全に補正されます。",
-            "DecGuideMode": "Auto は Dec を両方向に、北または南は一方向のみにガイドし、オフは Dec をガイドしません。Drift はドリフトに追従します。ガイド中に Dec のドリフトを測定してそれに逆らう方向にのみガイドするため、赤緯ギアが反転せず、バックラッシュが問題になりません。ドリフトが逆転すると方向を切り替え、ドリフトがわかるまでの間、整定中、そして大きな誤差を戻すときは両方向にガイドします。",
+            "DecGuideMode": "Auto は Dec を両方向に、北または南は一方向のみにガイドし、オフは Dec をガイドしません。Drift はドリフトに追従します。ガイド中に Dec のドリフトを測定してそれに逆らう方向にのみガイドするため、赤緯ギアが反転せず、バックラッシュが問題になりません。ドリフトが逆転すると方向を切り替え、ドリフトがわかるまでの間、安定化中、そして大きな誤差を戻すときは両方向にガイドします。",
             "MaxRaDurationMs": "RA ガイドパルス 1 回の最大長。測定が大きく外れたとき（誤った星、突風）に補正を制限し、架台が大きく振られないようにします。大きな誤差の補正に多くのフレームがかかる場合にだけ上げてください。",
             "MaxDecDurationMs": "Dec ガイドパルス 1 回の最大長。測定が大きく外れたとき（誤った星、突風）に補正を制限し、架台が大きく振られないようにします。大きな誤差の補正に多くのフレームがかかる場合にだけ上げてください。",
             "MinPulseMs": "これより短いガイドパルスは 0 またはこの長さに丸められます。非常に短いパルスを正しく処理できない赤道儀があるためです。0 = 長さの制限なし。",
@@ -2701,7 +2832,7 @@
             "BacklashPulseMs": "Dec 反転時の追加パルスの長さ。これを起点に、星の反応に応じて 20 ms からこの値の 1.5 倍の間でパルスを自動調整します。ガタモデルでは、この値はガタの最初の推定値にすぎず、その後はモデルが自ら学習します。",
             "PulseModel": "ディザーから、ガイドパルスが各軸で実際に星をどれだけ動かすかを学習し、それに合わせてパルスの大きさを決めます。キャリブレーションがずれていても補正過剰・不足にならなくなります。キャリブレーション値から始め、ディザーが明確に示した部分だけを変更し、学習内容を次のキャリブレーションまでプロファイルと架台ごとに保持します。",
             "CalibrationStepMs": "0 = 光学系、ガイドレート、赤緯から自動設定。",
-            "ReuseCalibration": "セッションをまたいで校正を保持し、赤緯と鏡筒配置に合わせて調整します。",
+            "ReuseCalibration": "セッションをまたいで校正を保持し、赤緯とピア側に合わせて調整します。",
             "AssumeOrthogonal": "キャリブレーションは通常 RA と Dec の方向を独立して測定します。これは Dec を RA に対して正確に直交させ、大きなピリオディックエラー、Dec のバックラッシュ、悪いシーイングが Dec のキャリブレーションを歪める場合に役立ちます。",
             "DecCompensation": "現在の赤緯に合わせて RA 補正を調整し、ある赤緯で行ったキャリブレーションを別の赤緯でも使えるようにします。接続中の架台が位置を報告する必要があります。オンのままにしてください。Dec バックラッシュ補正とは別物です。",
             "DecFlipRequired": "赤道儀ごとの設定です。反転後の Dec 自己チェックで自動的に修正されます。",
@@ -2719,7 +2850,7 @@
             "SimulatorScenario": "内蔵シミュレーターがシミュレートする赤道儀・空・カメラ。",
             "SimulateFault": "実行中のシミュレーターに障害を発生させます: 雲（110 秒）、赤道儀への衝撃、応答しなくなる赤道儀（60 秒）、3 回の露光失敗、または逆方向に働く Dec 補正（120 秒）。",
             "BacklashModel": "固定は Dec 反転ごとに追加パルスを加え、ゆっくり調整します。ガタモデルはガタの中の Dec ギアの位置を追跡し、シーイングのノイズに対してはガタを詰めるだけの補正を保留し、キャリブレーションとガイドからガタを学習します。Dec アルゴリズム Predictive でのみ有効です。 迷ったら: Dec アルゴリズムが Predictive ならガタモデル、それ以外は固定のままにしてください。測定したバックラッシュに合う場合、Guiding Coach がガタモデルを提案します。",
-            "BacklashRemeasureAfterSlewDeg": "架台がこの値より大きく移動した後、またはピアサイドが変わった後にガイドを開始すると、ガタモデルはまずガタを再測定します。星が追従するまで Dec を北へパルスし、その後南へ戻して開始位置に戻ります。これでギアは既知の側に当たり、モデルは新しい対象でのガタを把握します。ガイドフレーム約 10～20 枚分かかります。0 = 行わない。"
+            "BacklashRemeasureAfterSlewDeg": "架台がこの値より大きく移動した後、またはピア側が変わった後にガイドを開始すると、ガタモデルはまずガタを再測定します。星が追従するまで Dec を北へパルスし、その後南へ戻して開始位置に戻ります。これでギアは既知の側に当たり、モデルは新しい対象でのガタを把握します。ガイドフレーム約 10～20 枚分かかります。0 = 行わない。"
           },
           "warnings": {
             "backlashModelNeedsPredictive": "ガタモデルは Dec アルゴリズム Predictive でのみ有効です。現在は固定パルスを使用しています。 使うには、この設定で「Dec アルゴリズム」を Predictive にしてください。"
@@ -2749,7 +2880,7 @@
           "statusFailed": "ダークライブラリの作成に失敗しました"
         },
         "coach": {
-          "title": "Guiding Coach",
+          "title": "ガイドコーチ",
           "unknown": "不明",
           "intro": "コーチはガイドカメラ・空・赤道儀を測定し、より良い設定を現在の設定と比較して、ガイドを制限している要因を説明します。フルセッションは約 15 分かかります。",
           "introSafe": "一時的な設定は必ず元に戻されます。どの推奨を適用するかはあなたが決めます。",
@@ -2783,7 +2914,7 @@
           "stepStates": {
             "Pending": "待機中",
             "Running": "実行中",
-            "Settling": "整定中",
+            "Settling": "安定化中",
             "Done": "完了",
             "Skipped": "スキップ",
             "Failed": "失敗"
@@ -2801,7 +2932,7 @@
               "pulses": "パルス応答をテスト中 · {direction} {ms}"
             },
             "trial": {
-              "settling": "試行 {id} · 整定中",
+              "settling": "試行 {id} · 安定化中",
               "running": "試行 {id}"
             }
           },
@@ -3009,7 +3140,7 @@
             "applyFailed": "ヒントの適用に失敗しました"
           },
           "banner": {
-            "running": "Guiding Coach: {step} · {percent} %",
+            "running": "ガイドコーチ：{step} · {percent} %",
             "open": "開く"
           },
           "confirmStartTitle": "ガイド中にコーチを開始しますか？",
@@ -3363,7 +3494,7 @@
             "StarLost": "星をロスト",
             "Runaway": "ガイドの暴走",
             "MountNotResponding": "赤道儀が応答なし",
-            "SettleTimeout": "整定タイムアウト",
+            "SettleTimeout": "安定タイムアウト",
             "CameraFailure": "カメラ障害",
             "MountPaused": "赤道儀が一時停止",
             "CalibrationFailed": "校正失敗",
@@ -3425,10 +3556,10 @@
             "error": "誤差",
             "pulses": "パルス",
             "mount": "赤道儀",
-            "pierSide": "鏡筒配置",
+            "pierSide": "ピア側",
             "calibration": "校正",
             "stars": "星数",
-            "settling": "整定中",
+            "settling": "安定化中",
             "dithering": "ディザー中",
             "limited": "上限",
             "tracking": "追尾中",
@@ -3452,13 +3583,13 @@
             },
             "mountMoved": {
               "title": "赤道儀が動いた",
-              "why": "赤道儀が導入した、追尾を停止した、パークした、切断された、または鏡筒配置が変わったため、星が元の位置から外れました。",
+              "why": "赤道儀が導入した、追尾を停止した、パークした、切断された、またはピア側が変わったため、星が元の位置から外れました。",
               "fix": "導入や子午線反転の前にはガイドを一時停止し（シーケンスなら自動で行います）、追尾がオンのままか確認してください。"
             },
             "calibrationMismatch": {
               "title": "校正が合っていない",
-              "why": "補正で星が戻らず、かえって遠ざかりました。校正が赤道儀に合わなくなっています（鏡筒配置、赤緯、ガイドレート、Dec 方向の反転）。",
-              "fix": "ターゲット付近で再校正し、赤道儀が鏡筒配置を正しく報告しているか確認してください。"
+              "why": "補正で星が戻らず、かえって遠ざかりました。校正が赤道儀に合わなくなっています（ピア側、赤緯、ガイドレート、Dec 方向の反転）。",
+              "fix": "ターゲット付近で再校正し、赤道儀がピア側を正しく報告しているか確認してください。"
             },
             "mountNotMoving": {
               "title": "赤道儀が動かなかった",
@@ -3508,7 +3639,7 @@
             "mountTrackingOff": "赤道儀の追尾がオフでした",
             "mountParked": "赤道儀がパーク中でした",
             "mountDisconnected": "赤道儀が切断されていました",
-            "pierSideChanged": "鏡筒配置が{from}から{to}に変わりました",
+            "pierSideChanged": "ピア側が{from}から{to}に変わりました",
             "errorGrew": "補正が逆向きに働いていたにもかかわらず、{axis} の誤差が {frames} フレームで {fromPx} から {toPx} に増えました",
             "runaway": "{axis} が暴走: 補正で星がさらに離れました",
             "decFlipCorrected": "Dec の方向が反転していたため修正しました",
@@ -3671,7 +3802,7 @@
       "settings": {
         "AutoFocusInitialOffsetSteps": "初期オフセットステップ数",
         "AutoFocusStepSize": "ステップサイズ",
-        "FocuserSettleTime": "フォーカサー整定時間",
+        "FocuserSettleTime": "フォーカサー安定時間",
         "AutoFocusTotalNumberOfAttempts": "総試行回数",
         "AutoFocusNumberOfFramesPerPoint": "1点あたりのフレーム数",
         "AutoFocusInnerCropRatio": "インナークロップ率",
@@ -4126,13 +4257,13 @@
     },
     "celestiaAtlas": {
       "orientation": {
-        "toggle": "Toggle sky pointing",
-        "hint": "Sky pointing active. Aim through the back of your screen. Drag to stop; pinch to zoom.",
-        "low_accuracy": "Compass accuracy is low. Move away from metal and magnets and calibrate your compass with a figure-eight motion.",
+        "toggle": "空ポインティングの切り替え",
+        "hint": "空ポインティングが有効です。画面の裏側越しに空へ向けてください。ドラッグで停止、ピンチでズームします。",
+        "low_accuracy": "コンパスの精度が低くなっています。金属や磁石から離れ、8 の字を描くようにしてコンパスを校正してください。",
         "unavailable": "Sky pointing requires a supported native app and a north-referenced motion sensor. Manual browsing is available.",
-        "permission_denied": "Motion access was denied. Allow motion access in system settings or browse manually.",
-        "location_required": "Sky pointing requires an observer location. Set your observing site or allow location access.",
-        "sensor_error": "Sky pointing stopped because sensor data is unavailable. Try again or browse manually."
+        "permission_denied": "モーションセンサーへのアクセスが拒否されました。システム設定で許可するか、手動で操作してください。",
+        "location_required": "空ポインティングには観測地が必要です。観測地を設定するか、位置情報へのアクセスを許可してください。",
+        "sensor_error": "センサーデータを取得できないため、空ポインティングを停止しました。もう一度試すか、手動で操作してください。"
       },
       "loading": "Celestia Atlas を読み込んでいます…",
       "selected_object": {
@@ -4189,20 +4320,20 @@
         "magnitude_limit_auto": "自動",
         "star_magnitude_limit": "恒星（限界等級）",
         "star_catalogues": "恒星カタログ",
-        "star_catalogue_hint": "Groups can overlap; any enabled group shows the star. Raise the magnitude limit for faint WR stars. Unknown-magnitude stars appear when selected. Stars in photographs without catalogue records are not selectable.",
+        "star_catalogue_hint": "グループは重複することがあり、いずれかのグループが有効なら星が表示されます。暗い WR 星には等級の上限を上げてください。等級不明の星は選択すると表示されます。カタログ記録のない写真上の星は選択できません。",
         "galaxy_magnitude_limit": "銀河（限界等級）",
         "dso_magnitude_limit": "その他の深宇宙天体（限界等級）",
         "title": "設定",
-        "landscape_source_mode": "Landscape source",
+        "landscape_source_mode": "風景のソース",
         "landscape_source_default": "デフォルトの風景（夜の草原）",
         "landscape_source_guereins": "Guéreins（村）",
-        "landscape_source_neutral": "Neutral horizon (Gray)",
-        "landscape_source_custom": "Custom data source",
+        "landscape_source_neutral": "ニュートラルな地平線（グレー）",
+        "landscape_source_custom": "カスタムデータソース",
         "landscape_option_label": "風景: {title}",
-        "custom_landscape_url": "Custom source URL",
-        "custom_landscape_url_placeholder": "e.g. /celestia-atlas-data/landscapes/custom",
-        "custom_landscape_key": "Custom source key",
-        "custom_landscape_key_placeholder": "e.g. my-landscape",
+        "custom_landscape_url": "カスタムソースの URL",
+        "custom_landscape_url_placeholder": "例：/celestia-atlas-data/landscapes/custom",
+        "custom_landscape_key": "カスタムソースのキー",
+        "custom_landscape_key_placeholder": "例：my-landscape",
         "available_landscapes": "利用可能な風景",
         "no_landscapes_available": "利用できる風景はありません。",
         "untitled_landscape": "無題の風景",
@@ -4516,22 +4647,22 @@
       }
     },
     "pins": {
-      "repositoryConfirmTitle": "Switch to unstable?",
-      "repositoryConfirmWarning": "Do you really want to switch to unstable? This might break things. Intended for developers only.",
-      "repositoryConfirmLastChance": "Last chance to not do it. Do you really want to switch to unstable? This might break things. Intended for developers only.",
-      "repositoryTitle": "Package repository",
-      "repositoryDescription": "Choose stable packages or experimental builds. After switching, use System update to install the selected versions.",
-      "repositoryCurrent": "Current repository",
-      "repositoryStable": "Stable (trixie)",
+      "repositoryConfirmTitle": "unstable に切り替えますか？",
+      "repositoryConfirmWarning": "本当に unstable に切り替えますか？ 動作が壊れる可能性があります。開発者向けです。",
+      "repositoryConfirmLastChance": "やめるなら今が最後です。本当に unstable に切り替えますか？ 動作が壊れる可能性があります。開発者向けです。",
+      "repositoryTitle": "パッケージリポジトリ",
+      "repositoryDescription": "安定版パッケージか実験的ビルドかを選びます。切り替え後、システム更新で選んだバージョンをインストールしてください。",
+      "repositoryCurrent": "現在のリポジトリ",
+      "repositoryStable": "安定版 (trixie)",
       "repositoryUnstable": "Unstable",
-      "repositoryFallback": "Packages missing from unstable remain available from the stable repository.",
-      "repositorySwitchStable": "Switch to stable repository",
-      "repositorySwitchUnstable": "Switch to unstable repository",
-      "repositorySwitching": "Switching repository…",
-      "repositorySwitched": "Repository switched. Package lists refreshed.",
-      "repositorySwitchFailed": "Repository switch failed. Check the daemon job logs and refresh to see the current repository.",
-      "repositoryUnavailable": "Update pinsdaemon to enable repository switching.",
-      "repositoryRefresh": "Refresh repository",
+      "repositoryFallback": "unstable にないパッケージは安定版リポジトリから引き続き利用できます。",
+      "repositorySwitchStable": "安定版リポジトリに切り替え",
+      "repositorySwitchUnstable": "unstable リポジトリに切り替え",
+      "repositorySwitching": "リポジトリを切り替え中…",
+      "repositorySwitched": "リポジトリを切り替えました。パッケージ一覧を更新しました。",
+      "repositorySwitchFailed": "リポジトリを切り替えられませんでした。デーモンのジョブログを確認し、更新して現在のリポジトリを確認してください。",
+      "repositoryUnavailable": "リポジトリを切り替えるには pinsdaemon を更新してください。",
+      "repositoryRefresh": "リポジトリを更新",
       "title": "PINS管理",
       "notAvailable": "PINS環境が検出されません。このプラグインは無効です。",
       "dryRun": "ドライランモード",
@@ -4552,18 +4683,18 @@
       "rescan": "WiFiネットワークを再スキャン",
       "wifiPassword": "パスワード",
       "savedWifi": {
-        "title": "Saved Wi-Fi networks",
-        "description": "Connect and enable auto-connect to save a network. Higher priorities are tried first; equal priorities prefer the most recently used network.",
-        "retryHint": "Saved networks are retried every two minutes. With one adapter, background retries wait until no devices are connected to the PINS hotspot. Manual retries can interrupt hotspot access.",
-        "retry": "Retry saved networks",
-        "empty": "No saved networks. Connect to a Wi-Fi network above to add one.",
+        "title": "保存済みの Wi-Fi ネットワーク",
+        "description": "自動接続をオンにして接続すると、そのネットワークが保存されます。優先度が高いものから試し、同じ優先度なら最近使ったネットワークを優先します。",
+        "retryHint": "保存済みネットワークは 2 分ごとに再試行されます。アダプターが 1 つの場合、バックグラウンドの再試行は PINS ホットスポットに機器が接続されていないときまで待ちます。手動の再試行ではホットスポットへの接続が切れることがあります。",
+        "retry": "保存済みネットワークを再試行",
+        "empty": "保存済みネットワークはありません。上で Wi-Fi ネットワークに接続すると追加されます。",
         "priority": "Priority",
         "forget": "Forget",
-        "forgetConfirm": "Forget {ssid} and its saved credentials?",
+        "forgetConfirm": "{ssid} と保存済みの認証情報を削除しますか？",
         "otherAdapter": "Adapter: {interface}",
-        "loadFailed": "Could not load saved networks. Check the connection and update pinsdaemon if needed.",
-        "operationFailed": "The saved network operation failed. Refresh the list and try again.",
-        "invalidPriority": "Priority must be a whole number between -999 and 999."
+        "loadFailed": "保存済みネットワークを読み込めませんでした。接続を確認し、必要なら pinsdaemon を更新してください。",
+        "operationFailed": "保存済みネットワークの操作に失敗しました。一覧を更新してもう一度試してください。",
+        "invalidPriority": "優先度は -999 から 999 までの整数にしてください。"
       },
       "autoConnect": "起動後に選択したWiFiへ自動接続",
       "wifiConnect": "接続",
@@ -4775,7 +4906,7 @@
       "indiRegistryModalTypeInvalid": "Type は許可された値の 1 つである必要があります。",
       "indiRegistryModalUpdatedAt": "更新されました",
       "indiRegistryModalNameDuplicate": "名前はすでに別の行に存在します。",
-      "wifiSignalMobile": "Mobile signal",
+      "wifiSignalMobile": "モバイル信号",
       "wifiRssiValue": "{value} dBm",
       "wifiChannel": "チャンネル {channel}",
       "wifiConnectedAction": "接続済み",
@@ -7054,7 +7185,7 @@
       },
       "messages": {
         "noSessionsDeleted": "セッションは削除されませんでした。",
-        "deletedSessions": "{count}件のセッション{suffix}を削除し、{freed}を解放しました。残りのプラグイン使用量：{remaining}。",
+        "deletedSessions": "削除したセッション：{count}。{freed} を解放しました。残りのプラグイン使用量：{remaining}。",
         "deletedArtifact": "成果物を削除し、{freed}を解放しました。",
         "deletedFrame": "フレームを削除し、{freed}を解放しました。",
         "backendUpdateStarted": "バックエンドの更新を開始しました。インストール完了後にPINSが再起動します。"
@@ -7314,7 +7445,7 @@
       },
       "clear": "クリア",
       "emptyState": "上のドロップダウンから PHD2 ガイド ログを選択します。",
-      "excludeDither": "ディザリングの自動除外",
+      "excludeDither": "ディザー後の安定化を自動除外",
       "ditherFrames": "（{count} フレーム）",
       "fft": {
         "dominantPeriod": "支配的周期",
@@ -7979,7 +8110,7 @@
         },
         "fields": {
           "ToleranceDegrees": "許容誤差 (°)",
-          "SettleTimeSeconds": "整定時間 (秒)",
+          "SettleTimeSeconds": "安定時間 (秒)",
           "MaxIterations": "最大反復回数(0 = 無制限)",
           "MaxCorrectionDeg": "反復ごとの最大補正量 (°)",
           "MotionTimeoutSeconds": "動作タイムアウト (秒)",
@@ -8843,7 +8974,7 @@
     "position": "Position",
     "disconnected": "Disconnected",
     "moving": "Moving",
-    "settling": "Settling",
+    "settling": "安定化中",
     "idle": "Idle",
     "minimum": "Approved minimum",
     "maximum": "Approved maximum",
@@ -8875,7 +9006,7 @@
     "points": "Sweep positions",
     "scanStep": "Sweep step size",
     "span": "Maximum displacement from start",
-    "flush": "Post-settle flush (ms)",
+    "flush": "安定後の破棄 (ms)",
     "sampleFps": "Analysis samples/s",
     "timeout": "Timeout per position (s)",
     "bestFraction": "Best frame fraction (0.1-1)",
@@ -8889,7 +9020,7 @@
     "state_IDLE": "Idle",
     "state_PREPARING": "Preparing",
     "state_MOVING": "Moving",
-    "state_SETTLING": "Settling",
+    "state_SETTLING": "安定化中",
     "state_SAMPLING": "Collecting fresh frames",
     "state_FITTING": "Fitting measured peak",
     "state_VALIDATING": "Validating focus",

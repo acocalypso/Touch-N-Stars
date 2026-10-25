@@ -1536,7 +1536,138 @@
           "Recenter": "Recenter",
           "UseSideOfPier": "Use side of pier",
           "AutoFocusAfterFlip": "Auto focus after flip",
-          "RotateImageAfterFlip": "Rotate image after flip"
+          "RotateImageAfterFlip": "Rotate image after flip",
+          "intro": "When the telescope follows a target across the meridian (the north–south line through the zenith), it would soon hit the tripod or pier. The mount therefore turns to the other side once and imaging continues. These settings decide when that happens.",
+          "advanced": "Advanced",
+          "presets": {
+            "question": "How far can your mount keep tracking after the meridian?",
+            "barely": {
+              "title": "Barely",
+              "description": "The telescope gets close to the tripod or pier at the meridian. Imaging stops 2 minutes before it, the flip happens at the meridian."
+            },
+            "few": {
+              "title": "A few minutes (most mounts)",
+              "description": "Flips between 5 and 15 minutes after the meridian, right after an exposure ends – no waiting."
+            },
+            "lots": {
+              "title": "A lot (15 minutes or more)",
+              "description": "Flips between 10 and 30 minutes after the meridian. Gives long exposures room to finish."
+            },
+            "custom": {
+              "title": "Custom values",
+              "description": "Set the minutes yourself under Advanced."
+            },
+            "sideOfPierNoMount": "Connect the mount before choosing, so the app can check whether it reports its side of pier.",
+            "sideOfPierUnknown": "Your mount does not report its side of pier, so “Use side of pier” stays off. NINA then decides the flip by time.",
+            "applyFailed": "The preset could not be saved completely. Check the values under Advanced."
+          },
+          "timeline": {
+            "meridian": "Meridian",
+            "imaging": "Imaging",
+            "trackingOff": "Tracking off",
+            "flip": "Flip",
+            "pauseMinutes": "−{pause} min",
+            "atMinutes": "+{min} min",
+            "windowMinutes": "+{min}–{max} min",
+            "explainPause": "Imaging stops {pause} min before the meridian and tracking is switched off. The flip follows {min} min after the meridian. This costs imaging time – only use it if the telescope cannot pass the meridian.",
+            "explainFixed": "NINA fits in exposures until one would run past {min} min after the meridian, then waits and flips at exactly that point. A later latest time saves the waiting.",
+            "explainWindow": "The first exposure that ends between {min} and {max} min after the meridian is followed directly by the flip – no waiting time."
+          },
+          "help": {
+            "MinutesAfterMeridian": "Earliest time after the meridian at which the flip may start.",
+            "MaxMinutesAfterMeridian": "Latest time after the meridian for the flip. It cannot be lower than the earliest time. A larger gap lets NINA flip right after an exposure without waiting.",
+            "PauseTimeBeforeMeridian": "Only for equipment that cannot pass the meridian safely: tracking stops this many minutes before it. Otherwise keep 0.",
+            "SettleTime": "Waits after the flip so the mount can settle. Trailed stars in the first plate solve after a flip? Increase this value.",
+            "Recenter": "After the flip, NINA plate solves and recenters the target. Strongly recommended; needs a working plate solver.",
+            "UseSideOfPier": "Uses the side of pier reported by the mount to decide whether a flip is needed. More reliable, but only if the mount reports it correctly.",
+            "AutoFocusAfterFlip": "Runs an autofocus after the flip. Useful for Newtonians and SCTs whose mirror shifts when the tube turns.",
+            "RotateImageAfterFlip": "Turns the preview by 180° after the flip. Display only – the saved images stay unchanged."
+          },
+          "dayTest": {
+            "title": "Test the flip in daylight",
+            "teaser": "Let NINA do a real meridian flip during the day, with your settings: does the telescope clear the tripod or pier in the position past the meridian, do the cables reach?",
+            "open": "Start test",
+            "intro": "You drive the telescope by hand to a point just east of the meridian. From there it keeps tracking past it, and NINA flips exactly as it would at night – with your flip settings and at the real time.",
+            "blockers": {
+              "notConnected": "The mount is not connected.",
+              "parked": "The mount is parked. Unpark it first.",
+              "cannotSlew": "The mount cannot slew to coordinates.",
+              "noLocation": "The mount has no site location. Set your location first.",
+              "sequenceRunning": "A sequence is running in NINA. Stop it first."
+            },
+            "caps": {
+              "label": "Caps are on the telescope, finder and guide scope",
+              "reason": "In daylight the telescope can sweep past the sun while it slews. A few seconds of sunlight can destroy the camera or, through the finder, damage eyes. This test needs no light.",
+              "whyTitle": "Why is the distance to the sun not enough?",
+              "whyText": "Without aligning on stars, the mount does not know exactly where it points during the day. While slewing, the telescope moves along an arc across the sky, and the flip swings across the meridian, where the sun stands at noon. The app keeps away from the sun, but the caps protect you even if the calculation is off."
+            },
+            "presence": {
+              "label": "I am standing at the mount, watching the telescope and cables",
+              "reason": "Press STOP at once if anything gets in the way."
+            },
+            "stop": "STOP",
+            "askQuestion": "Did the telescope turn to the other side without touching anything and without straining a cable?",
+            "yes": "Yes",
+            "no": "No",
+            "resultOk": "The flip movement works.",
+            "resultProblem": "The flip movement needs attention.",
+            "problemAdvice": "Check the cable routing so the cables reach on both sides. If the telescope touched the tripod or pier, choose “Barely” above or check the meridian limit of your mount.",
+            "pierChanged": "Side of pier: {before} → {after}",
+            "notTested": "Guiding after the flip is not checked. Look at the NINA log for details.",
+            "stopped": "Test stopped. Sequence and tracking are off, the mount stays where it is.",
+            "sideEast": "East",
+            "sideWest": "West",
+            "exposure": "Length of your exposures (s)",
+            "exposureHelp": "NINA flips after the first exposure that ends inside the flip window. With your usual exposure length the test flips in the same position as at night.",
+            "plan": "The test takes at least {minutes} min, plus the time you start before the meridian. The mount tracks up to {flip} min past the meridian – that is the position being tested, the same as at night.",
+            "sequenceNotice": "A test sequence is loaded into NINA. It replaces the sequence that is loaded now – save it first if you want to keep it.",
+            "start": "Load test sequence and start",
+            "toPositioning": "Continue",
+            "back": "Back",
+            "position": {
+              "hint": "Drive the telescope with the arrows towards the meridian, counterweight down, until shortly before the flip. The closer you start, the shorter the wait. No goto is used, so the mount keeps the side you drove it to.",
+              "toMeridian": "Time to the meridian",
+              "pastMeridian": "Past the meridian since",
+              "noData": "The mount reports no position or site yet.",
+              "poleHint": "The telescope points at the pole. NINA flips here too, but only away from the pole do you see whether the tube clears the tripod and the cables reach. For a realistic test, drive Dec to a height like your usual targets.",
+              "checks": {
+                "lead": "At least {minutes} min before the flip",
+                "pier": "Counterweight down – the side before the flip",
+                "pierUnknown": "The mount reports no side of pier – check by eye that the counterweight points down",
+                "altitude": "Stays at least {degrees}° above the horizon until after the flip",
+                "sun": "Stays at least {degrees}° away from the sun until after the flip"
+              },
+              "moves": {
+                "east": "Too close to the flip – drive east",
+                "west": "Still far from the flip – drive west to shorten the wait",
+                "altitude": "Too low – drive higher",
+                "sun": "Too close to the sun – drive away from it",
+                "wrongSide": "The telescope is on the side after the flip (counterweight up). Send the mount home (counterweight down, pointing at the pole) and drive from there following the marked arrows."
+              }
+            },
+            "confirmTitle": "Load test sequence?",
+            "confirmMessage": "The sequence loaded in NINA is replaced by the flip test. The telescope keeps tracking from where it is now, and NINA flips it past the meridian.",
+            "waitingForMeridian": "Tracking towards the meridian …",
+            "pastMeridian": "The telescope is {minutes} min past the meridian.",
+            "flipping": "NINA is flipping …",
+            "countdownWindow": "Flip in {earliest} to {latest} min",
+            "countdownLatest": "Flip at the latest in {latest} min",
+            "runningHint": "NINA runs the test on its own, the app may be closed. Press STOP if anything gets in the way – it stops the sequence and tracking.",
+            "flippedAt": "NINA flipped {minutes} min after the meridian.",
+            "noFlip": "NINA did not flip in time. The sequence and tracking were stopped.",
+            "noFlipAdvice": "Check the flip settings and the NINA log. If “Use side of pier” is on, your mount may report its side of pier wrongly – try with it switched off.",
+            "startFailed": "The test sequence could not be started: {error}",
+            "ninaError": "NINA reported an error during the flip, in the step: {step}.",
+            "ninaErrorRecenterCaps": "With the caps on this is expected – recentering needs stars. At night check that plate solving works.",
+            "ninaOk": "NINA completed the flip without an error.",
+            "steps": {
+              "recenter": "recentering (plate solve)",
+              "autofocus": "autofocus after the flip",
+              "settle": "settling",
+              "slew": "flip slew",
+              "unknown": "unknown step"
+            }
+          }
         },
         "reverse_primary_axis": "Primary reversed",
         "reverse_secondary_axis": "Secondary reverse"
@@ -7355,7 +7486,7 @@
       },
       "messages": {
         "noSessionsDeleted": "No sessions were deleted.",
-        "deletedSessions": "Deleted {count} session{suffix}, freed {freed}, remaining plugin usage {remaining}.",
+        "deletedSessions": "Deleted sessions: {count}. Freed {freed}, remaining plugin usage {remaining}.",
         "deletedArtifact": "Deleted artifact and freed {freed}.",
         "deletedFrame": "Deleted frame and freed {freed}.",
         "backendUpdateStarted": "Backend update started. PINS will restart when installation finishes."

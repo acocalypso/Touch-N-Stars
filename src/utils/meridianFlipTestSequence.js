@@ -1,10 +1,13 @@
 // NINA sequence for the real meridian flip test.
 //
-// The sequence slews to a point a few minutes east of the meridian, turns tracking on and
-// then only waits, in steps as long as the user's exposures. NINA's own MeridianFlipTrigger
-// sits on the root, so the flip happens exactly as at night: with the profile's flip
-// settings, NINA's flip routine and at the real time - and without the app having to stay
-// open. The JSON shape follows what the sequence creator plugin produces.
+// The user has driven the scope by hand to a point a few minutes east of the meridian. The
+// sequence turns tracking on and then only waits, in steps as long as the user's exposures.
+// It carries no slew: a goto near the meridian lets a mount with a preferred pier side jump
+// to the post-flip side. Without a target the trigger flips on the current coordinates.
+// NINA's own MeridianFlipTrigger sits on the root, so the flip happens exactly as at night:
+// with the profile's flip settings, NINA's flip routine and at the real time - and without
+// the app having to stay open. The JSON shape follows what the sequence creator plugin
+// produces.
 
 const COLLECTION = (itemType) =>
   `System.Collections.ObjectModel.ObservableCollection\`1[[${itemType}, NINA.Sequencer]], System.ObjectModel`;
@@ -15,28 +18,16 @@ const SEQUENTIAL = 'NINA.Sequencer.Container.ExecutionStrategy.SequentialStrateg
 
 export const FLIP_TEST_SEQUENCE_NAME = 'TNS meridian flip test';
 
-// Splits RA (hours) and Dec (degrees) into NINA's InputCoordinates fields.
-export function toInputCoordinates(raHours, decDeg) {
-  const ra = ((raHours % 24) + 24) % 24;
-  const raH = Math.floor(ra);
-  const raM = Math.floor((ra - raH) * 60);
-  const raS = Math.round(((ra - raH) * 60 - raM) * 60 * 100) / 100;
-  const dec = Math.abs(decDeg);
-  const decD = Math.floor(dec);
-  const decM = Math.floor((dec - decD) * 60);
-  const decS = Math.round(((dec - decD) * 60 - decM) * 60 * 100) / 100;
-  return {
-    RAHours: raH,
-    RAMinutes: raM,
-    RASeconds: raS,
-    NegativeDec: decDeg < 0,
-    DecDegrees: decD,
-    DecMinutes: decM,
-    DecSeconds: decS,
-  };
+// True when a /sequence/state response belongs to the test sequence. NINA reports the
+// container name with a suffix ("TNS meridian flip test_Container").
+export function isFlipTestSequenceState(state) {
+  if (Array.isArray(state)) return state.some(isFlipTestSequenceState);
+  if (!state || typeof state !== 'object') return false;
+  if (typeof state.Name === 'string' && state.Name.startsWith(FLIP_TEST_SEQUENCE_NAME)) return true;
+  return Object.values(state).some((v) => typeof v === 'object' && isFlipTestSequenceState(v));
 }
 
-export function buildFlipTestSequence({ raHours, decDeg, waitSeconds, waitCount }) {
+export function buildFlipTestSequence({ waitSeconds, waitCount }) {
   let nextId = 1;
   const id = () => String(nextId++);
 
@@ -85,19 +76,6 @@ export function buildFlipTestSequence({ raHours, decDeg, waitSeconds, waitCount 
         FLIP_TEST_SEQUENCE_NAME,
         targetId,
         (testId) => [
-          {
-            $id: id(),
-            $type: 'NINA.Sequencer.SequenceItem.Telescope.SlewScopeToRaDec, NINA.Sequencer',
-            Inherited: false,
-            Coordinates: {
-              $id: id(),
-              $type: 'NINA.Astrometry.InputCoordinates, NINA.Astrometry',
-              ...toInputCoordinates(raHours, decDeg),
-            },
-            Parent: { $ref: testId },
-            ErrorBehavior: 0,
-            Attempts: 1,
-          },
           {
             $id: id(),
             $type: 'NINA.Sequencer.SequenceItem.Telescope.SetTracking, NINA.Sequencer',

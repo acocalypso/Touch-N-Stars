@@ -1546,7 +1546,7 @@
             "title": "Probar el giro de día",
             "teaser": "Deja que NINA haga un giro de meridiano real durante el día, con tus ajustes: ¿pasa el telescopio el trípode o la columna en la posición tras el meridiano, llegan los cables?",
             "open": "Iniciar prueba",
-            "intro": "NINA lleva el telescopio a un punto justo al este del meridiano y sigue más allá. Luego NINA gira exactamente como de noche – con tus ajustes de giro y a la hora real.",
+            "intro": "Llevas el telescopio a mano a un punto justo al este del meridiano. Desde allí sigue el seguimiento más allá, y NINA gira exactamente como de noche – con tus ajustes de giro y a la hora real.",
             "blockers": {
               "notConnected": "La montura no está conectada.",
               "parked": "La montura está aparcada. Desapárcala primero.",
@@ -1578,13 +1578,34 @@
             "sideWest": "Oeste",
             "exposure": "Duración de tus exposiciones (s)",
             "exposureHelp": "NINA gira tras la primera exposición que termina dentro de la ventana de giro. Con tu duración habitual, la prueba gira en la misma posición que de noche.",
-            "plan": "La prueba dura unos {minutes} min. De ellos, la montura sigue hasta {flip} min más allá del meridiano – esa es la posición que se prueba, igual que de noche.",
+            "plan": "La prueba dura al menos {minutes} min, más el tiempo antes del meridiano en que empiezas. La montura sigue hasta {flip} min pasado el meridiano – esa es la posición que se prueba, igual que de noche.",
             "sequenceNotice": "Se carga una secuencia de prueba en NINA. Sustituye a la secuencia cargada ahora – guárdala antes si quieres conservarla.",
             "start": "Cargar secuencia de prueba e iniciar",
+            "toPositioning": "Continuar",
+            "back": "Atrás",
+            "position": {
+              "hint": "Lleva el telescopio con las flechas al lado este del meridiano, contrapeso abajo, unos minutos antes del meridiano. Cuanto más cerca empieces, menor la espera. No se usa ningún goto, así que la montura se queda en el lado del pilar al que la llevaste.",
+              "toMeridian": "Tiempo hasta el meridiano",
+              "pastMeridian": "Pasado el meridiano desde hace",
+              "noData": "La montura aún no informa de posición o ubicación.",
+              "checks": {
+                "east": "Al este del meridiano, al menos {minutes} min antes",
+                "pier": "Contrapeso abajo – el lado del pilar antes del giro",
+                "pierUnknown": "La montura no informa del lado del pilar – comprueba a ojo que el contrapeso apunta hacia abajo",
+                "altitude": "Se mantiene al menos {degrees}° sobre el horizonte hasta después del giro",
+                "sun": "Se mantiene al menos a {degrees}° del sol hasta después del giro"
+              },
+              "moves": {
+                "east": "Demasiado cerca del meridiano o ya pasado – mueve al este",
+                "west": "Aún lejos del meridiano – mover al oeste acorta la espera",
+                "leavePole": "Primero aléjate del polo",
+                "altitude": "Demasiado bajo – sube",
+                "sun": "Demasiado cerca del sol – aléjate",
+                "wrongSide": "El telescopio está en el lado del pilar después del giro (contrapeso arriba). Envía la montura a Home (contrapeso abajo, telescopio al polo) y desde allí sigue las flechas marcadas."
+              }
+            },
             "confirmTitle": "¿Cargar secuencia de prueba?",
-            "confirmMessage": "La secuencia cargada en NINA se sustituye por la prueba de giro y el telescopio empieza a moverse.",
-            "noPoint": "Ahora mismo ninguna zona del cielo cerca del meridiano está lo bastante alta y lejos del sol. Inténtalo más tarde.",
-            "slewingToStart": "Yendo al punto de inicio …",
+            "confirmMessage": "La secuencia cargada en NINA se sustituye por la prueba de giro. El telescopio sigue desde su posición actual y NINA lo gira después del meridiano.",
             "waitingForMeridian": "Siguiendo hacia el meridiano …",
             "pastMeridian": "El telescopio está {minutes} min más allá del meridiano.",
             "flipping": "NINA está girando …",

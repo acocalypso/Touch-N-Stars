@@ -1546,7 +1546,7 @@
             "title": "Prova l'inversione di giorno",
             "teaser": "Lascia che NINA esegua di giorno una vera inversione del meridiano con le tue impostazioni: il telescopio supera il treppiede o la colonna nella posizione oltre il meridiano, i cavi bastano?",
             "open": "Avvia prova",
-            "intro": "NINA porta il telescopio appena a est del meridiano e continua a inseguire oltre. Poi NINA inverte esattamente come di notte – con le tue impostazioni e all'ora reale.",
+            "intro": "Porti il telescopio a mano in un punto appena a est del meridiano. Da lì continua l'inseguimento oltre, e NINA esegue l'inversione esattamente come di notte – con le tue impostazioni e all'ora reale.",
             "blockers": {
               "notConnected": "La montatura non è collegata.",
               "parked": "La montatura è parcheggiata. Prima sbloccala dal parcheggio.",
@@ -1578,13 +1578,34 @@
             "sideWest": "Ovest",
             "exposure": "Durata delle tue pose (s)",
             "exposureHelp": "NINA inverte dopo la prima posa che termina nella finestra di inversione. Con la tua durata abituale, la prova inverte nella stessa posizione della notte.",
-            "plan": "La prova dura circa {minutes} min. La montatura insegue fino a {flip} min oltre il meridiano – è la posizione che viene provata, come di notte.",
+            "plan": "Il test dura almeno {minutes} min, più il tempo prima del meridiano in cui parti. La montatura insegue fino a {flip} min oltre il meridiano – è la posizione testata, come di notte.",
             "sequenceNotice": "In NINA viene caricata una sequenza di prova. Sostituisce la sequenza caricata ora – salvala prima se vuoi tenerla.",
             "start": "Carica sequenza di prova e avvia",
+            "toPositioning": "Continua",
+            "back": "Indietro",
+            "position": {
+              "hint": "Con le frecce porta il telescopio sul lato est del meridiano, contrappeso in basso, qualche minuto prima del meridiano. Più vicino parti, più breve l'attesa. Non si usa nessun goto, quindi la montatura resta sul lato del pilastro in cui l'hai portata.",
+              "toMeridian": "Tempo al meridiano",
+              "pastMeridian": "Oltre il meridiano da",
+              "noData": "La montatura non riporta ancora posizione o luogo.",
+              "checks": {
+                "east": "A est del meridiano, almeno {minutes} min prima",
+                "pier": "Contrappeso in basso – il lato del pilastro prima dell'inversione",
+                "pierUnknown": "La montatura non riporta il lato del pilastro – controlla a vista che il contrappeso sia in basso",
+                "altitude": "Resta almeno {degrees}° sopra l'orizzonte fino a dopo l'inversione",
+                "sun": "Resta almeno a {degrees}° dal sole fino a dopo l'inversione"
+              },
+              "moves": {
+                "east": "Troppo vicino al meridiano o già oltre – vai verso est",
+                "west": "Ancora lontano dal meridiano – andare verso ovest accorcia l'attesa",
+                "leavePole": "Prima allontanati dal polo",
+                "altitude": "Troppo basso – sali",
+                "sun": "Troppo vicino al sole – allontanati",
+                "wrongSide": "Il telescopio è sul lato del pilastro dopo l'inversione (contrappeso in alto). Manda la montatura in posizione Home (contrappeso in basso, telescopio verso il polo) e da lì segui le frecce evidenziate."
+              }
+            },
             "confirmTitle": "Caricare la sequenza di prova?",
-            "confirmMessage": "La sequenza caricata in NINA viene sostituita dalla prova di inversione e il telescopio inizia a muoversi.",
-            "noPoint": "Al momento nessuna zona del cielo vicino al meridiano è abbastanza alta e lontana dal sole. Riprova più tardi.",
-            "slewingToStart": "Puntamento del punto di partenza …",
+            "confirmMessage": "La sequenza caricata in NINA viene sostituita dal test di inversione. Il telescopio insegue dalla posizione attuale e NINA lo inverte dopo il meridiano.",
             "waitingForMeridian": "Inseguimento verso il meridiano …",
             "pastMeridian": "Il telescopio è {minutes} min oltre il meridiano.",
             "flipping": "NINA sta invertendo …",

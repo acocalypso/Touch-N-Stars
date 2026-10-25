@@ -3,33 +3,22 @@ import assert from 'node:assert/strict';
 
 const {
   FLIP_TEST_LEAD_MINUTES,
-  FLIP_TEST_MIN_ALTITUDE_DEG,
-  FLIP_TEST_MIN_SUN_SEPARATION_DEG,
   altitudeDeg,
   analyzeFlipLog,
+  buttonForSkyMove,
+  checkStartPosition,
   comparePierSides,
-  findFlipTestDeclination,
   flipTriggerStatus,
+  hourAngleHours,
   isSequenceRunning,
+  observedAxisSense,
   planFlipTest,
+  suggestSkyMoves,
 } = await import('@/utils/meridianFlipDayTest');
-const { angularSeparationDeg } = await import('@/utils/astronomy');
 
 const LST_HOURS = 6;
 const LAT_DEG = 48;
 const FEW = { PauseTimeBeforeMeridian: 0, MinutesAfterMeridian: 5, MaxMinutesAfterMeridian: 15 };
-
-// Checks the promises findFlipTestDeclination makes about the declination it returns.
-function assertSafe(result, sun, latDeg, plan) {
-  for (let h = plan.haFromHours; h <= plan.haToHours; h += 0.05) {
-    const raDeg = ((((LST_HOURS - h) * 15) % 360) + 360) % 360;
-    assert.ok(altitudeDeg(h, result.decDeg, latDeg) >= FLIP_TEST_MIN_ALTITUDE_DEG - 0.5);
-    assert.ok(
-      angularSeparationDeg(raDeg, result.decDeg, sun.raDeg, sun.decDeg) >=
-        FLIP_TEST_MIN_SUN_SEPARATION_DEG - 0.5
-    );
-  }
-}
 
 test('altitudeDeg: on the meridian the altitude is 90 - |lat - dec|', () => {
   assert.ok(Math.abs(altitudeDeg(0, 20, 48) - 62) < 1e-9);
@@ -40,19 +29,18 @@ test('planFlipTest: short exposures flip one exposure after the earliest time', 
   const plan = planFlipTest(FEW, 60);
   assert.equal(plan.leadMinutes, FLIP_TEST_LEAD_MINUTES);
   assert.equal(plan.latestFlipMinutes, 6);
-  assert.equal(plan.haFromHours, -FLIP_TEST_LEAD_MINUTES / 60);
 });
 
 test('planFlipTest: long exposures are capped at the latest time', () => {
   assert.equal(planFlipTest(FEW, 1200).latestFlipMinutes, 15);
 });
 
-test('planFlipTest: a pause starts the test east of the pause and flips at the earliest time', () => {
+test('planFlipTest: a pause does not push the start point east and flips at the earliest time', () => {
   const plan = planFlipTest(
     { PauseTimeBeforeMeridian: 2, MinutesAfterMeridian: 0, MaxMinutesAfterMeridian: 2 },
     300
   );
-  assert.equal(plan.leadMinutes, 2 + FLIP_TEST_LEAD_MINUTES);
+  assert.equal(plan.leadMinutes, FLIP_TEST_LEAD_MINUTES);
   assert.equal(plan.latestFlipMinutes, 0);
 });
 
@@ -61,37 +49,142 @@ test('planFlipTest: the wait loop outlasts the latest flip', () => {
   assert.ok(plan.waitCount * 5 > plan.leadMinutes + 15 + 5);
 });
 
-test('findFlipTestDeclination keeps the sun at a distance at summer noon', () => {
-  const plan = planFlipTest(FEW, 300);
-  const sun = { raDeg: LST_HOURS * 15, decDeg: 23.4 };
-  const result = findFlipTestDeclination({ lstHours: LST_HOURS, latDeg: LAT_DEG, sun, ...plan });
-  assert.ok(result);
-  assertSafe(result, sun, LAT_DEG, plan);
+test('planFlipTest: duration and wait loop follow the real distance to the meridian', () => {
+  const near = planFlipTest(FEW, 300);
+  const far = planFlipTest(FEW, 300, 30);
+  assert.equal(far.expectedMinutes - near.expectedMinutes, 30 - FLIP_TEST_LEAD_MINUTES);
+  assert.ok(far.waitCount * 5 > 30 + 15 + 5);
+  // Closer than the lead counts as the lead.
+  assert.equal(planFlipTest(FEW, 300, 1).expectedMinutes, near.expectedMinutes);
 });
 
-test('findFlipTestDeclination works in the southern hemisphere', () => {
-  const plan = planFlipTest(FEW, 300);
-  const sun = { raDeg: LST_HOURS * 15, decDeg: -23.4 };
-  const result = findFlipTestDeclination({ lstHours: LST_HOURS, latDeg: -33, sun, ...plan });
-  assert.ok(result);
-  assertSafe(result, sun, -33, plan);
+test('hourAngleHours is negative east of the meridian and wraps around 0h', () => {
+  assert.ok(Math.abs(hourAngleHours(12, 12.25) + 0.25) < 1e-9);
+  assert.ok(Math.abs(hourAngleHours(0.1, 23.9) - 0.2) < 1e-9);
+  assert.ok(Math.abs(hourAngleHours(23.9, 0.1) + 0.2) < 1e-9);
 });
 
-test('findFlipTestDeclination returns null without mount time, site or sun position', () => {
-  const plan = planFlipTest(FEW, 300);
-  const sun = { raDeg: 0, decDeg: 0 };
-  assert.equal(findFlipTestDeclination({ lstHours: NaN, latDeg: LAT_DEG, sun, ...plan }), null);
-  assert.equal(findFlipTestDeclination({ lstHours: 6, latDeg: undefined, sun, ...plan }), null);
-  assert.equal(findFlipTestDeclination({ lstHours: 6, latDeg: LAT_DEG, sun: null, ...plan }), null);
+// Scope 10 min east of the meridian at dec 50, lat 48 (near the zenith), sun far away.
+const START = {
+  lstHours: LST_HOURS,
+  raHours: LST_HOURS + 10 / 60,
+  decDeg: 50,
+  latDeg: LAT_DEG,
+  sideOfPier: 'pierWest',
+  sun: { raDeg: (LST_HOURS - 3) * 15, decDeg: -12 },
+  plan: planFlipTest(FEW, 300),
+};
+
+test('checkStartPosition: east of the meridian, counterweight down, clear sky is ready', () => {
+  const result = checkStartPosition(START);
+  assert.ok(Math.abs(result.minutesToMeridian - 10) < 1e-6);
+  assert.deepEqual(
+    [result.eastOk, result.pierOk, result.altitudeOk, result.sunOk, result.ready],
+    [true, true, true, true, true]
+  );
 });
 
-test('findFlipTestDeclination returns null when the sun blocks every declination', () => {
-  // Not a real sky (the sun never reaches dec 45), but it exercises the refusal path:
-  // at lat 80 only dec 20..70 clears the altitude limit, and all of it lies within 45°
-  // of a sun on the meridian at dec 45.
-  const plan = planFlipTest(FEW, 300);
-  const sun = { raDeg: LST_HOURS * 15, decDeg: 45 };
-  assert.equal(findFlipTestDeclination({ lstHours: LST_HOURS, latDeg: 80, sun, ...plan }), null);
+test('checkStartPosition: the post-flip side blocks the start', () => {
+  // What an OnStep with preferred pier side East does after a goto near the meridian.
+  const result = checkStartPosition({ ...START, sideOfPier: 'pierEast' });
+  assert.equal(result.pierOk, false);
+  assert.equal(result.ready, false);
+});
+
+test('checkStartPosition: an unknown side of pier does not block', () => {
+  const result = checkStartPosition({ ...START, sideOfPier: 'pierUnknown' });
+  assert.equal(result.pierOk, null);
+  assert.equal(result.ready, true);
+});
+
+test('checkStartPosition: too close to or past the meridian is not ready', () => {
+  assert.equal(checkStartPosition({ ...START, raHours: LST_HOURS + 1 / 60 }).eastOk, false);
+  const past = checkStartPosition({ ...START, raHours: LST_HOURS - 5 / 60 });
+  assert.ok(past.minutesToMeridian < 0);
+  assert.equal(past.ready, false);
+});
+
+test('checkStartPosition: low altitude and the sun on the path block the start', () => {
+  assert.equal(checkStartPosition({ ...START, decDeg: -30 }).altitudeOk, false);
+  // Sun on the meridian a little south of the path, as around noon.
+  const sun = { raDeg: LST_HOURS * 15, decDeg: 30 };
+  assert.equal(checkStartPosition({ ...START, sun }).sunOk, false);
+});
+
+test('checkStartPosition returns null without mount time, site or sun position', () => {
+  assert.equal(checkStartPosition({ ...START, lstHours: NaN }), null);
+  assert.equal(checkStartPosition({ ...START, latDeg: undefined }), null);
+  assert.equal(checkStartPosition({ ...START, sun: null }), null);
+});
+
+const suggest = (overrides, check = {}) =>
+  suggestSkyMoves({
+    check: {
+      eastOk: true,
+      pierOk: true,
+      altitudeOk: true,
+      sunOk: true,
+      minutesToMeridian: 8,
+      ...check,
+    },
+    decDeg: 50,
+    latDeg: LAT_DEG,
+    sunDecDeg: -12,
+    leadMinutes: 2,
+    ...overrides,
+  });
+
+test('suggestSkyMoves: nothing to do at a good start point', () => {
+  assert.deepEqual(suggest({}), { ra: null, dec: null, decReason: null });
+});
+
+test('suggestSkyMoves: east when too close or past, west when far before the meridian', () => {
+  assert.equal(suggest({}, { eastOk: false, minutesToMeridian: -3 }).ra, 'east');
+  assert.equal(suggest({}, { minutesToMeridian: 120 }).ra, 'west');
+});
+
+test('suggestSkyMoves: leaves the pole first, towards the equator', () => {
+  assert.equal(suggest({ decDeg: 89 }).dec, 'south');
+  assert.equal(suggest({ decDeg: 89 }).decReason, 'leavePole');
+  assert.equal(suggest({ decDeg: -89, latDeg: -33 }).dec, 'north');
+});
+
+test('suggestSkyMoves: Dec towards the zenith when low, away from the sun when close', () => {
+  assert.equal(suggest({ decDeg: -20 }, { altitudeOk: false }).dec, 'north');
+  assert.equal(suggest({ decDeg: 30, sunDecDeg: 20 }, { sunOk: false }).dec, 'north');
+  assert.equal(suggest({ decDeg: 10, sunDecDeg: 20 }, { sunOk: false }).dec, 'south');
+});
+
+test('suggestSkyMoves: no arrows on the post-flip side', () => {
+  assert.equal(suggest({}, { pierOk: false, eastOk: false }).ra, null);
+  assert.equal(suggest({}, { pierOk: false, decDeg: 89 }).dec, null);
+});
+
+test('observedAxisSense: east lowers the hour angle against the tracking drift', () => {
+  const before = { timeMs: 0, haHours: -1, decDeg: 40 };
+  // 2 s of tracking alone: no usable signal.
+  assert.equal(
+    observedAxisSense(before, { timeMs: 2000, haHours: -1 + 2 / 3600, decDeg: 40 }, 'east'),
+    null
+  );
+  const east = { timeMs: 2000, haHours: -1.05, decDeg: 40 };
+  assert.equal(observedAxisSense(before, east, 'east'), 1);
+  assert.equal(observedAxisSense(before, east, 'west'), -1);
+});
+
+test('observedAxisSense: Dec sense, and no verdict near the pole', () => {
+  const before = { timeMs: 0, haHours: 0, decDeg: 40 };
+  assert.equal(observedAxisSense(before, { ...before, decDeg: 41 }, 'north'), 1);
+  assert.equal(observedAxisSense(before, { ...before, decDeg: 41 }, 'south'), -1);
+  const pole = { timeMs: 0, haHours: 0, decDeg: 85 };
+  assert.equal(observedAxisSense(pole, { ...pole, decDeg: 84 }, 'south'), null);
+});
+
+test('buttonForSkyMove swaps the button for a reversed axis', () => {
+  assert.equal(buttonForSkyMove('east', 1), 'east');
+  assert.equal(buttonForSkyMove('east', -1), 'west');
+  assert.equal(buttonForSkyMove('north', -1), 'south');
+  assert.equal(buttonForSkyMove(null, 1), null);
 });
 
 test('isSequenceRunning finds a running item anywhere in the state', () => {

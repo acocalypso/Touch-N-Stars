@@ -1546,7 +1546,7 @@
             "title": "Przetestuj przewrót w dzień",
             "teaser": "Pozwól NINA wykonać w dzień prawdziwy przewrót południkowy z twoimi ustawieniami: czy teleskop mija statyw lub kolumnę w pozycji po południku, czy kable wystarczą?",
             "open": "Rozpocznij test",
-            "intro": "NINA ustawia teleskop tuż na wschód od południka i prowadzi dalej za niego. Potem NINA wykonuje przewrót dokładnie jak w nocy – z twoimi ustawieniami i o prawdziwej porze.",
+            "intro": "Sam ustawiasz teleskop ręcznie w punkcie tuż na wschód od południka. Stamtąd prowadzi dalej za południk, a NINA wykonuje przewrót dokładnie jak w nocy – z twoimi ustawieniami i o prawdziwej porze.",
             "blockers": {
               "notConnected": "Montaż nie jest połączony.",
               "parked": "Montaż jest zaparkowany. Najpierw go odparkuj.",
@@ -1578,13 +1578,34 @@
             "sideWest": "Zachód",
             "exposure": "Długość twoich ekspozycji (s)",
             "exposureHelp": "NINA wykonuje przewrót po pierwszej ekspozycji, która kończy się w oknie przewrotu. Przy twojej zwykłej długości ekspozycji test przewraca w tej samej pozycji co w nocy.",
-            "plan": "Test trwa około {minutes} min. Montaż prowadzi do {flip} min za południkiem – to pozycja, która jest testowana, tak jak w nocy.",
+            "plan": "Test trwa co najmniej {minutes} min, plus czas, o jaki startujesz przed południkiem. Montaż prowadzi do {flip} min za południk – to jest testowana pozycja, tak jak w nocy.",
             "sequenceNotice": "Do NINA zostanie wczytana sekwencja testowa. Zastąpi obecnie wczytaną sekwencję – zapisz ją wcześniej, jeśli chcesz ją zachować.",
             "start": "Wczytaj sekwencję testową i uruchom",
+            "toPositioning": "Dalej",
+            "back": "Wstecz",
+            "position": {
+              "hint": "Strzałkami ustaw teleskop po wschodniej stronie południka, przeciwwaga w dół, kilka minut przed południkiem. Im bliżej zaczniesz, tym krótsze czekanie. Nie jest używane goto, więc montaż zostaje na stronie kolumny, na którą go ustawiłeś.",
+              "toMeridian": "Czas do południka",
+              "pastMeridian": "Za południkiem od",
+              "noData": "Montaż nie podaje jeszcze pozycji ani lokalizacji.",
+              "checks": {
+                "east": "Na wschód od południka, co najmniej {minutes} min przed nim",
+                "pier": "Przeciwwaga w dół – strona kolumny przed przewrotem",
+                "pierUnknown": "Montaż nie podaje strony kolumny – sprawdź wzrokiem, czy przeciwwaga jest skierowana w dół",
+                "altitude": "Pozostaje co najmniej {degrees}° nad horyzontem aż do po przewrocie",
+                "sun": "Pozostaje co najmniej {degrees}° od Słońca aż do po przewrocie"
+              },
+              "moves": {
+                "east": "Za blisko południka lub już za nim – jedź na wschód",
+                "west": "Jeszcze daleko od południka – jazda na zachód skraca czekanie",
+                "leavePole": "Najpierw odjedź od bieguna",
+                "altitude": "Za nisko – jedź wyżej",
+                "sun": "Za blisko Słońca – odjedź od niego",
+                "wrongSide": "Teleskop jest po stronie kolumny po przewrocie (przeciwwaga w górze). Wyślij montaż do pozycji Home (przeciwwaga w dół, teleskop na biegun) i stamtąd jedź według zaznaczonych strzałek."
+              }
+            },
             "confirmTitle": "Wczytać sekwencję testową?",
-            "confirmMessage": "Sekwencja wczytana w NINA zostanie zastąpiona testem przewrotu, a teleskop zacznie się poruszać.",
-            "noPoint": "W tej chwili żaden fragment nieba przy południku nie jest wystarczająco wysoko i daleko od słońca. Spróbuj później.",
-            "slewingToStart": "Ruch do punktu startowego …",
+            "confirmMessage": "Sekwencja załadowana w NINA zostanie zastąpiona testem przewrotu. Teleskop prowadzi z obecnej pozycji, a NINA przewraca go po południku.",
             "waitingForMeridian": "Prowadzenie w stronę południka …",
             "pastMeridian": "Teleskop jest {minutes} min za południkiem.",
             "flipping": "NINA wykonuje przewrót …",

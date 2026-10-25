@@ -1587,7 +1587,7 @@
             "title": "Prova el gir de dia",
             "teaser": "Deixa que NINA faci un gir de meridià real durant el dia, amb els teus ajustos: el telescopi passa el trípode o la columna en la posició després del meridià, hi arriben els cables?",
             "open": "Inicia la prova",
-            "intro": "NINA porta el telescopi a un punt just a l'est del meridià i continua seguint més enllà. Després NINA gira exactament com de nit – amb els teus ajustos de gir i a l'hora real.",
+            "intro": "Portes el telescopi a mà fins a un punt just a l'est del meridià. Des d'allà continua el seguiment més enllà, i NINA gira exactament com de nit – amb els teus ajustos de gir i a l'hora real.",
             "blockers": {
               "notConnected": "La muntura no està connectada.",
               "parked": "La muntura està aparcada. Desaparca-la primer.",
@@ -1619,13 +1619,34 @@
             "sideWest": "Oest",
             "exposure": "Durada de les teves exposicions (s)",
             "exposureHelp": "NINA gira després de la primera exposició que acaba dins la finestra de gir. Amb la teva durada habitual, la prova gira en la mateixa posició que de nit.",
-            "plan": "La prova dura uns {minutes} min. La muntura segueix fins a {flip} min més enllà del meridià – és la posició que es prova, igual que de nit.",
+            "plan": "La prova dura com a mínim {minutes} min, més el temps abans del meridià en què comences. La muntura segueix fins a {flip} min passat el meridià – aquesta és la posició que es prova, igual que de nit.",
             "sequenceNotice": "Es carrega una seqüència de prova a NINA. Substitueix la seqüència carregada ara – desa-la abans si la vols conservar.",
             "start": "Carrega la seqüència de prova i inicia",
+            "toPositioning": "Continua",
+            "back": "Enrere",
+            "position": {
+              "hint": "Amb les fletxes, porta el telescopi al costat est del meridià, contrapès avall, uns minuts abans del meridià. Com més a prop comencis, més curta l'espera. No s'utilitza cap goto, així que la muntura es queda al costat del pilar on l'has portada.",
+              "toMeridian": "Temps fins al meridià",
+              "pastMeridian": "Passat el meridià des de fa",
+              "noData": "La muntura encara no informa de posició ni ubicació.",
+              "checks": {
+                "east": "A l'est del meridià, com a mínim {minutes} min abans",
+                "pier": "Contrapès avall – el costat del pilar abans del gir",
+                "pierUnknown": "La muntura no informa del costat del pilar – comprova a ull que el contrapès apunta avall",
+                "altitude": "Es manté com a mínim {degrees}° sobre l'horitzó fins després del gir",
+                "sun": "Es manté com a mínim a {degrees}° del sol fins després del gir"
+              },
+              "moves": {
+                "east": "Massa a prop del meridià o ja passat – mou cap a l'est",
+                "west": "Encara lluny del meridià – moure cap a l'oest escurça l'espera",
+                "leavePole": "Primer allunya't del pol",
+                "altitude": "Massa baix – puja",
+                "sun": "Massa a prop del sol – allunya-te'n",
+                "wrongSide": "El telescopi és al costat del pilar després del gir (contrapès amunt). Envia la muntura a Home (contrapès avall, telescopi cap al pol) i des d'allà segueix les fletxes marcades."
+              }
+            },
             "confirmTitle": "Carregar la seqüència de prova?",
-            "confirmMessage": "La seqüència carregada a NINA se substitueix per la prova de gir i el telescopi es comença a moure.",
-            "noPoint": "Ara mateix cap zona del cel a prop del meridià és prou alta i prou lluny del sol. Torna-ho a provar més tard.",
-            "slewingToStart": "Anant al punt d'inici …",
+            "confirmMessage": "La seqüència carregada a NINA se substitueix per la prova de gir. El telescopi segueix des de la posició actual i NINA el gira després del meridià.",
             "waitingForMeridian": "Seguint cap al meridià …",
             "pastMeridian": "El telescopi és {minutes} min més enllà del meridià.",
             "flipping": "NINA està girant …",

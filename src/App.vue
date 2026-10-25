@@ -260,6 +260,9 @@
       @close="dismissWhatsNew"
     />
 
+    <!-- Meridian flip day test: app level, so a running test survives a page reload -->
+    <MeridianFlipDayTest v-if="flipTestStore.visible" @close="flipTestStore.close()" />
+
     <!-- Dialog Modal -->
     <DialogModal />
 
@@ -410,9 +413,13 @@ import { PINS_PORT, DEFAULT_PINS_DAEMON_API_TOKEN as PINS_TOKEN } from '@/servic
 import apiPinsService from '@/services/apiPinsService';
 import { createUnderVoltageNotifier } from '@/plugins/systemmetrics/services/underVoltageNotifier';
 import { usePluginStore } from '@/store/pluginStore';
+import { useMeridianFlipTestStore } from '@/store/meridianFlipTestStore';
 
 const SkyAtlasView = defineAsyncComponent(() => import('./views/CelestiaAtlasView.vue'));
 const TutorialModal = defineAsyncComponent(() => import('@/components/TutorialModal.vue'));
+const MeridianFlipDayTest = defineAsyncComponent(
+  () => import('@/components/mount/settings/MeridianFlipDayTest.vue')
+);
 const SetupWizard = defineAsyncComponent(() => import('@/components/setupWizard/SetupWizard.vue'));
 const ConsoleViewer = defineAsyncComponent(() => import('@/components/helpers/ConsoleViewer.vue'));
 const SettingsComp = defineAsyncComponent(() => import('@/components/SettingsComp.vue'));
@@ -429,7 +436,17 @@ const settingsStore = useSettingsStore();
 const toastStore = useToastStore();
 const pinsStore = usePinsStore();
 const nightSummaryStore = useNightSummaryStore();
+const flipTestStore = useMeridianFlipTestStore();
 const route = useRoute();
+
+// A flip test that ran before a reload comes back once the backend answers.
+watch(
+  () => store.isBackendReachable,
+  (reachable) => {
+    if (reachable) flipTestStore.restore();
+  },
+  { immediate: true }
+);
 const pluginStore = usePluginStore();
 const skyAtlasMounted = ref(Boolean(store.showSkyAtlas));
 

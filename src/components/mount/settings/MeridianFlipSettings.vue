@@ -21,7 +21,7 @@
       <p class="text-sm text-content-muted">
         {{ $t('components.mount.settings.meridian_flip.dayTest.teaser') }}
       </p>
-      <button class="tns-btn-secondary" @click="showDayTest = true">
+      <button class="tns-btn-secondary" @click="flipTestStore.open()">
         {{ $t('components.mount.settings.meridian_flip.dayTest.open') }}
       </button>
     </div>
@@ -113,8 +113,6 @@
         settingKey="MeridianFlipSettings-RotateImageAfterFlip"
       />
     </div>
-
-    <MeridianFlipDayTest v-if="showDayTest" @close="showDayTest = false" />
   </div>
 </template>
 
@@ -127,12 +125,12 @@ import SettingInput from '@/components/helpers/settings/UpdatePorfileNumber.vue'
 import ProfileToggle from '@/components/helpers/settings/ProfileToggle.vue';
 import MeridianFlipPresetPicker from '@/components/mount/settings/MeridianFlipPresetPicker.vue';
 import MeridianFlipTimeline from '@/components/mount/settings/MeridianFlipTimeline.vue';
-import MeridianFlipDayTest from '@/components/mount/settings/MeridianFlipDayTest.vue';
+import { useMeridianFlipTestStore } from '@/store/meridianFlipTestStore';
 
 const store = apiStore();
 
 const showAdvanced = ref(false);
-const showDayTest = ref(false);
+const flipTestStore = useMeridianFlipTestStore();
 
 const flipSettings = computed(() => store.profileInfo?.MeridianFlipSettings ?? {});
 

@@ -41,9 +41,3 @@ export function isNinaPluginLoaded(loadedNames, requirement) {
   const wanted = requirement.name.toLowerCase();
   return loadedNames.some((name) => name.trim().toLowerCase() === wanted);
 }
-
-/** A daemon without the NINA restart route answers 404 or 405. */
-export function isRouteMissingError(error) {
-  const status = error?.response?.status;
-  return status === 404 || status === 405;
-}

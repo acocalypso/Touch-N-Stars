@@ -84,7 +84,7 @@
             <button
               class="tns-btn-primary w-auto!"
               :disabled="!canRestart"
-              @click="installStore.restartNina()"
+              @click="installStore.restartPins()"
             >
               {{ $t('components.ninaPluginInstall.restart') }}
             </button>
@@ -101,8 +101,8 @@
           </p>
         </template>
 
-        <template v-else-if="phase === 'restartUnavailable'">
-          <p>{{ $t('components.ninaPluginInstall.restartManually', { name: ninaName }) }}</p>
+        <template v-else-if="phase === 'restartTimeout'">
+          <p>{{ $t('components.ninaPluginInstall.restartTimeout', { name: ninaName }) }}</p>
           <div class="flex justify-end">
             <button class="tns-btn-secondary w-auto!" @click="installStore.close()">
               {{ $t('common.close') }}

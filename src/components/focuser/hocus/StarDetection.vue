@@ -243,7 +243,7 @@
 <script setup>
 import { computed, ref, watch, onBeforeUnmount } from 'vue';
 import { useI18n } from 'vue-i18n';
-import { useHocusFocusStore } from '../store/hocusfocusStore';
+import { useHocusFocusStore } from '@/store/hocusFocusStore';
 import apiService from '@/services/apiService';
 import Modal from '@/components/helpers/Modal.vue';
 import HfToggleRow from './fields/HfToggleRow.vue';
@@ -259,8 +259,8 @@ const props = defineProps({
 const { t } = useI18n();
 const store = useHocusFocusStore();
 
-const L = (key) => t(`plugins.hocusfocus.starDetection.${key}`);
-const H = (key) => t(`plugins.hocusfocus.starDetection.help.${key}`);
+const L = (key) => t(`components.focuser.hocus.starDetection.${key}`);
+const H = (key) => t(`components.focuser.hocus.starDetection.help.${key}`);
 
 const o = computed(() => store.starDetectionOptions);
 

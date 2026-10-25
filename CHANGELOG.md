@@ -11,6 +11,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 - Settings (Meridian Flip): One question about how far the mount can track past the meridian replaces the three minute values, and a timeline shows when the flip happens.
 - Settings (Meridian Flip): A daylight test lets NINA do a real meridian flip with your settings from a start point you drive to yourself, shows the time to the meridian and reports whether NINA hit an error during the flip.
+- Focus (PINS): Hocus Focus is now part of the focus page, with the key autofocus settings in one card, a setup assistant and a check after each run that suggests a fix you can apply with one tap.
+
+### Removed
+
+- PINS: The separate Hocus Focus plugin; its Aberration Inspector, Tilter and options are now tabs and sections of the focus page.
 
 ### Fixed
 

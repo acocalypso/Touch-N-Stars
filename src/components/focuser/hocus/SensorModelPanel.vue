@@ -65,8 +65,8 @@ const props = defineProps({
 });
 
 const { t } = useI18n();
-const L = (key) => t(`plugins.hocusfocus.sensorModel.${key}`);
-const H = (key) => t(`plugins.hocusfocus.sensorModel.help.${key}`);
+const L = (key) => t(`components.focuser.hocus.sensorModel.${key}`);
+const H = (key) => t(`components.focuser.hocus.sensorModel.help.${key}`);
 
 function fixed(value, digits) {
   return typeof value === 'number' && Number.isFinite(value) ? value.toFixed(digits) : '--';

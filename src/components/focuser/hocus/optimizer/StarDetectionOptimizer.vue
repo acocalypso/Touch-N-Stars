@@ -157,8 +157,8 @@ const props = defineProps({
 const emit = defineEmits(['close', 'accepted']);
 
 const { t } = useI18n();
-const L = (key) => t(`plugins.hocusfocus.optimizer.${key}`);
-const H = (key) => t(`plugins.hocusfocus.optimizer.help.${key}`);
+const L = (key) => t(`components.focuser.hocus.optimizer.${key}`);
+const H = (key) => t(`components.focuser.hocus.optimizer.help.${key}`);
 const api = apiService.hocusfocus.optimizer;
 
 const state = ref(null);

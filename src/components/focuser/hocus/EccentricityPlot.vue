@@ -75,7 +75,7 @@ const props = defineProps({
 });
 
 const { t } = useI18n();
-const L = (key) => t(`plugins.hocusfocus.eccentricity.${key}`);
+const L = (key) => t(`components.focuser.hocus.eccentricity.${key}`);
 
 // Rendering constants from HocusFocus' own vector plot (InspectorVM.AnalyzeStarDetectionResult +
 // HFVectorField). A line is 2.5·e² scaled by 1.5, in cells, and centred on its cell. The length is

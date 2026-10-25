@@ -1,8 +1,17 @@
 import { defineStore } from 'pinia';
 import apiService from '@/services/apiService';
+import { apiStore } from '@/store/store';
 
 export const useHocusFocusStore = defineStore('hocusfocus', {
   state: () => ({
+    // Whether the Hocus Focus areas of the focus page are offered. null = not probed yet.
+    // PINS only, like the plugin they replace: they read Hocus Focus v4 internals that a stock
+    // NINA's Hocus Focus may not have. Within PINS the status route decides.
+    available: null,
+
+    // Response of GET hocusfocus/autofocus/last-run; null without a run in this NINA session.
+    lastRun: null,
+
     // Connection status
     cameraConnected: false,
     focuserConnected: false,
@@ -75,6 +84,55 @@ export const useHocusFocusStore = defineStore('hocusfocus', {
       } catch (err) {
         console.warn('Failed to fetch focuser status:', err);
         this.focuserConnected = false;
+      }
+    },
+
+    async checkAvailability() {
+      if (!apiStore().isPINS) {
+        this.available = false;
+        return false;
+      }
+      try {
+        const data = await apiService.hocusfocus.getStatus();
+        this.available = !!data?.Success;
+      } catch {
+        this.available = false;
+      }
+      return this.available;
+    },
+
+    async loadLastRun() {
+      const data = await apiService.hocusfocus.getLastAutoFocusRun();
+      this.lastRun = data?.Success ? data : null;
+      return this.lastRun;
+    },
+
+    // Writes one star-detection option and re-reads the set: simple-mode presets are derived
+    // server-side, so one change can move several values.
+    async setStarDetectionOption(key, value) {
+      const response = await apiService.hocusfocus.setStarDetectionOption(key, value);
+      if (response && response.success === false) throw new Error(response.error);
+      this.starDetectionOptions = await apiService.hocusfocus.getStarDetectionOptions();
+    },
+
+    async setAutoFocusOption(key, value) {
+      const response = await apiService.hocusfocus.setAutoFocusOption(key, value);
+      if (response && response.Success === false) throw new Error(response.Error);
+      const { options, enumOptions } = await apiService.hocusfocus.getAutoFocusOptions();
+      this.autoFocusOptions = options;
+      this.autoFocusEnumOptions = enumOptions;
+    },
+
+    // Applies a fix from src/utils/hocusFocusAdvisor.js.
+    async applyFix(fix) {
+      if (!fix) return;
+      if (fix.target === 'profile') {
+        await apiService.profileChangeValue(fix.key, String(fix.value));
+        await apiStore().fetchProfilInfos();
+      } else if (fix.target === 'hf-sd') {
+        await this.setStarDetectionOption(fix.key, fix.value);
+      } else if (fix.target === 'hf-af') {
+        await this.setAutoFocusOption(fix.key, fix.value);
       }
     },
 

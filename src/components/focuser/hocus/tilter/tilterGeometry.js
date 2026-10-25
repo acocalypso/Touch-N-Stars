@@ -8,7 +8,7 @@ export const SCREW_LAYOUTS = {
     { label: 'P2', angle: 90, color: '#4ade80' },
     { label: 'P3', angle: 330, color: '#fb923c' },
   ],
-  // nameKey: the corner's full name (plugins.hocusfocus.tilter.*) where there is room for it
+  // nameKey: the corner's full name (components.focuser.hocus.tilter.*) where there is room for it
   4: [
     { label: 'TL', nameKey: 'cornerTopLeft', angle: 315, color: '#60a5fa' },
     { label: 'TR', nameKey: 'cornerTopRight', angle: 225, color: '#4ade80' },

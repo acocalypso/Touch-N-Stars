@@ -5371,7 +5371,7 @@
       "repositoryUnavailable": "Zaktualizuj pinsdaemon, aby móc przełączać repozytorium.",
       "repositoryRefresh": "Odśwież repozytorium",
       "title": "Zarządzanie PINSami",
-      "notAvailable": "Środowisko PINS nie zostało wykryte. Ta wtyczka jest wyłączona.",
+      "notDetected": "Nie wykryto środowiska PINS. Te ustawienia są dostępne tylko na urządzeniu PINS.",
       "dryRun": "Tryb symulacji",
       "sambaTitle": "Udział Samba",
       "sambaDescription": "Włącz lub wyłącz udostępnianie plików w sieci",
@@ -5535,6 +5535,8 @@
       "tabs": {
         "network": "Sieć",
         "services": "Usługi",
+        "system": "System",
+        "indi": "INDI",
         "software": "Oprogramowanie",
         "upgrade": "Aktualizacja"
       },
@@ -8591,6 +8593,7 @@
     "flatWizard": "Flaty",
     "framing": "Kadrowanie",
     "skyView": "Celestia Atlas",
+    "pins": "PINS",
     "settings": "Ustaw.",
     "about": "Info"
   },

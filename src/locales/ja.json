@@ -5371,7 +5371,7 @@
       "repositoryUnavailable": "リポジトリを切り替えるには pinsdaemon を更新してください。",
       "repositoryRefresh": "リポジトリを更新",
       "title": "PINS管理",
-      "notAvailable": "PINS環境が検出されません。このプラグインは無効です。",
+      "notDetected": "PINS 環境が検出されません。これらの設定は PINS デバイスでのみ利用できます。",
       "dryRun": "ドライランモード",
       "sambaTitle": "Samba共有",
       "sambaDescription": "ネットワークファイル共有を有効または無効にする",
@@ -5535,6 +5535,8 @@
       "tabs": {
         "network": "ネットワーク",
         "services": "サービス",
+        "system": "システム",
+        "indi": "INDI",
         "software": "ソフトウェア",
         "upgrade": "アップグレード"
       },
@@ -8591,6 +8593,7 @@
     "flatWizard": "フラット",
     "framing": "フレーミング",
     "skyView": "Celestia Atlas",
+    "pins": "PINS",
     "settings": "設定",
     "about": "About"
   },

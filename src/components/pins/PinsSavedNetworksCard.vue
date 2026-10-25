@@ -89,7 +89,7 @@
 import { onMounted, onUnmounted, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import apiPinsService from '@/services/apiPinsService';
-import { savedNetworkSettings, waitForSavedNetworkJob } from '../composables/savedWifiNetworks';
+import { savedNetworkSettings, waitForSavedNetworkJob } from './composables/savedWifiNetworks';
 
 const props = defineProps({ disabled: Boolean, wifiStatus: { type: Object, default: null } });
 const emit = defineEmits(['connect', 'retry', 'busy']);

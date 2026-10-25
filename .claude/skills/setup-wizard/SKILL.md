@@ -69,7 +69,7 @@ layering or they open invisibly _behind_ it:
 ## Third-party INDI driver installs
 
 `ALLOWED_INDI_DRIVER_TYPES` in
-`src/plugins/pins/composables/indiInstallUtils.js:39` accepts eight types:
+`src/components/pins/composables/indiInstallUtils.js:39` accepts eight types:
 `camera, filterwheel, flatpanel, focuser, rotator, switches, telescope,
 weather`. It must stay in sync with `TYPE_OPTIONS` in
 `PinsIndiRegistryEditModal.vue:303` — the registry an installed driver is

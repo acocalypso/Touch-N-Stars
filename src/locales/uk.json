@@ -6369,7 +6369,7 @@
       "repositoryUnavailable": "Онови pinsdaemon, щоб мати змогу змінювати репозиторій.",
       "repositoryRefresh": "Оновити репозиторій",
       "title": "Керування PINS",
-      "notAvailable": "Середовище PINS не виявлено. Цей плагін вимкнено.",
+      "notDetected": "Середовище PINS не виявлено. Ці налаштування доступні лише на пристрої PINS.",
       "dryRun": "Режим пробного запуску",
       "sambaTitle": "Мережева папка Samba",
       "sambaDescription": "Увімкнути або вимкнути мережевий обмін файлами",
@@ -6379,6 +6379,8 @@
       "tabs": {
         "network": "Мережа",
         "services": "Служби",
+        "system": "Система",
+        "indi": "INDI",
         "software": "Програмне забезпечення",
         "upgrade": "Оновлення"
       },
@@ -8501,6 +8503,7 @@
     "flatWizard": "Флети",
     "framing": "Фреймінг",
     "skyView": "Celestia Atlas",
+    "pins": "PINS",
     "settings": "Налашт.",
     "about": "Про нас"
   },

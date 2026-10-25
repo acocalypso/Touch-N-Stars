@@ -40,15 +40,15 @@
 import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import apiPinsService from '@/services/apiPinsService';
-import PinsIndi3rdpartyCard from '@/plugins/pins/components/PinsIndi3rdpartyCard.vue';
-import PinsIndiInstallConfirmModal from '@/plugins/pins/components/PinsIndiInstallConfirmModal.vue';
-import PinsIndiRegistryEditModal from '@/plugins/pins/components/PinsIndiRegistryEditModal.vue';
+import PinsIndi3rdpartyCard from '@/components/pins/PinsIndi3rdpartyCard.vue';
+import PinsIndiInstallConfirmModal from '@/components/pins/PinsIndiInstallConfirmModal.vue';
+import PinsIndiRegistryEditModal from '@/components/pins/PinsIndiRegistryEditModal.vue';
 import {
   buildIndiInstallPayload,
   extractIndiInstallErrorDetail,
   parseIndiInstallJobId,
-} from '@/plugins/pins/composables/indiInstallUtils';
-import { pollJobUntilFinished } from '@/plugins/pins/composables/pinsJobPolling';
+} from '@/components/pins/composables/indiInstallUtils';
+import { pollJobUntilFinished } from '@/components/pins/composables/pinsJobPolling';
 
 /**
  * Search, confirm and install a 3rd party INDI driver package.

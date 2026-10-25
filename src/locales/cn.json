@@ -5371,7 +5371,7 @@
       "repositoryUnavailable": "请更新 pinsdaemon 以启用仓库切换。",
       "repositoryRefresh": "刷新仓库",
       "title": "PINS 管理",
-      "notAvailable": "未检测到 PINS 环境。此插件已禁用。",
+      "notDetected": "未检测到 PINS 环境。这些设置仅在 PINS 设备上可用。",
       "dryRun": "模拟模式",
       "sambaTitle": "Samba 共享",
       "sambaDescription": "启用或禁用网络文件共享",
@@ -5535,6 +5535,8 @@
       "tabs": {
         "network": "Network",
         "services": "Services",
+        "system": "系统",
+        "indi": "INDI",
         "software": "Software",
         "upgrade": "Upgrade"
       },
@@ -8591,6 +8593,7 @@
     "flatWizard": "平场向导",
     "framing": "取景",
     "skyView": "Celestia Atlas",
+    "pins": "PINS",
     "settings": "设置",
     "about": "关于"
   },

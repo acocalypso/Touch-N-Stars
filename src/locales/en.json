@@ -5529,7 +5529,7 @@
       "repositoryUnavailable": "Update pinsdaemon to enable repository switching.",
       "repositoryRefresh": "Refresh repository",
       "title": "PINS Management",
-      "notAvailable": "PINS environment not detected. This plugin is disabled.",
+      "notDetected": "PINS environment not detected. These settings are only available on a PINS device.",
       "dryRun": "Dry Run Mode",
       "sambaTitle": "Samba Share",
       "sambaDescription": "Enable or disable network file sharing",
@@ -5540,7 +5540,9 @@
         "network": "Network",
         "services": "Services",
         "software": "Software",
-        "upgrade": "Upgrade"
+        "upgrade": "Upgrade",
+        "system": "System",
+        "indi": "INDI"
       },
       "wifiTitle": "WiFi Configuration",
       "wifiAdaptersTitle": "WiFi Adapter Assignment",
@@ -8929,6 +8931,7 @@
     "flatWizard": "Flats",
     "framing": "Framing",
     "skyView": "Celestia Atlas",
+    "pins": "PINS",
     "settings": "Settings",
     "about": "About"
   },

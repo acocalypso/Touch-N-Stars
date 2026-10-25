@@ -5371,7 +5371,7 @@
       "repositoryUnavailable": "pinsdaemon aktualisieren, um die Paketquelle wechseln zu können.",
       "repositoryRefresh": "Paketquelle neu laden",
       "title": "PINS Verwaltung",
-      "notAvailable": "PINS-Umgebung nicht erkannt. Dieses Plugin ist deaktiviert.",
+      "notDetected": "Keine PINS-Umgebung erkannt. Diese Einstellungen gibt es nur auf einem PINS-Gerät.",
       "dryRun": "Testlauf-Modus",
       "sambaTitle": "Samba Freigabe",
       "sambaDescription": "Netzwerkfreigabe aktivieren oder deaktivieren",
@@ -5381,6 +5381,8 @@
       "tabs": {
         "network": "Netzwerk",
         "services": "Dienste",
+        "system": "System",
+        "indi": "INDI",
         "software": "Software",
         "upgrade": "Upgrade"
       },
@@ -8596,6 +8598,7 @@
     "flatWizard": "Flats",
     "framing": "Framing",
     "skyView": "Celestia Atlas",
+    "pins": "PINS",
     "settings": "Einstell.",
     "about": "Info"
   },

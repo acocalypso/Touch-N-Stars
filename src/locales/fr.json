@@ -5371,7 +5371,7 @@
       "repositoryUnavailable": "Mets à jour pinsdaemon pour pouvoir changer de dépôt.",
       "repositoryRefresh": "Actualiser le dépôt",
       "title": "Gestion PINS",
-      "notAvailable": "Environnement PINS non détecté. Ce plugin est désactivé.",
+      "notDetected": "Environnement PINS non détecté. Ces paramètres ne sont disponibles que sur un appareil PINS.",
       "dryRun": "Mode simulation",
       "sambaTitle": "Partage Samba",
       "sambaDescription": "Activer ou désactiver le partage de fichiers réseau",
@@ -5535,6 +5535,8 @@
       "tabs": {
         "network": "Réseau",
         "services": "Services",
+        "system": "Système",
+        "indi": "INDI",
         "software": "Logiciel",
         "upgrade": "Mise à niveau"
       },
@@ -8591,6 +8593,7 @@
     "flatWizard": "Flats",
     "framing": "Cadrage",
     "skyView": "Celestia Atlas",
+    "pins": "PINS",
     "settings": "Réglages",
     "about": "Info"
   },

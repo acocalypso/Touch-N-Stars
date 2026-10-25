@@ -5371,7 +5371,7 @@
       "repositoryUnavailable": "Werk pinsdaemon bij om van bron te kunnen wisselen.",
       "repositoryRefresh": "Bron vernieuwen",
       "title": "PINS-beheer",
-      "notAvailable": "PINS-omgeving niet gedetecteerd. Deze plugin is uitgeschakeld.",
+      "notDetected": "Geen PINS-omgeving gedetecteerd. Deze instellingen zijn alleen beschikbaar op een PINS-apparaat.",
       "dryRun": "Simulatiemodus",
       "sambaTitle": "Samba-share",
       "sambaDescription": "Netwerkbestandsdeling in- of uitschakelen",
@@ -5535,6 +5535,8 @@
       "tabs": {
         "network": "Netwerk",
         "services": "Diensten",
+        "system": "Systeem",
+        "indi": "INDI",
         "software": "Software",
         "upgrade": "Upgraden"
       },
@@ -8591,6 +8593,7 @@
     "flatWizard": "Flats",
     "framing": "Framing",
     "skyView": "Celestia Atlas",
+    "pins": "PINS",
     "settings": "Instell.",
     "about": "Info"
   },

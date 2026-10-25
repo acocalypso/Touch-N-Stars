@@ -5371,7 +5371,7 @@
       "repositoryUnavailable": "Pro přepínání repozitáře aktualizuj pinsdaemon.",
       "repositoryRefresh": "Obnovit repozitář",
       "title": "Správa PINS",
-      "notAvailable": "Prostředí PINS nebylo detekováno. Tento plugin je zakázán.",
+      "notDetected": "Prostředí PINS nebylo zjištěno. Tato nastavení jsou dostupná pouze na zařízení PINS.",
       "dryRun": "Simulační režim",
       "sambaTitle": "Sdílení Samba",
       "sambaDescription": "Povolit nebo zakázat sdílení souborů v síti",
@@ -5535,6 +5535,8 @@
       "tabs": {
         "network": "Network",
         "services": "Services",
+        "system": "Systém",
+        "indi": "INDI",
         "software": "Software",
         "upgrade": "Upgrade"
       },
@@ -8591,6 +8593,7 @@
     "flatWizard": "Flaty",
     "framing": "Framing",
     "skyView": "Celestia Atlas",
+    "pins": "PINS",
     "settings": "Nastav.",
     "about": "Info"
   },

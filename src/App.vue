@@ -337,7 +337,7 @@
         <h2 class="text-xl font-bold text-white">{{ $t('components.settings.title') }}</h2>
       </template>
       <template #body>
-        <SettingsComp />
+        <SettingsComp @navigate="showSettingsModal = false" />
       </template>
     </Modal>
   </div>
@@ -384,7 +384,7 @@ import DialogModal from '@/components/helpers/DialogModal.vue';
 import MessageBoxModal from '@/components/helpers/MessageBoxModal.vue';
 import PickerOverlay from '@/components/helpers/PickerOverlay.vue';
 import Modal from '@/components/helpers/Modal.vue';
-import { usePinsStore } from '@/plugins/pins/store/pinsStore';
+import { usePinsStore } from '@/store/pinsStore';
 import { useFlatassistantStore } from '@/store/flatassistantStore';
 import { useGuiderStore } from '@/store/guiderStore';
 import { NATIVE_GUIDER_ID } from '@/utils/nativeGuider';

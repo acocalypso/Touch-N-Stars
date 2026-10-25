@@ -63,10 +63,10 @@ import { storeToRefs } from 'pinia';
 import { ArrowPathIcon } from '@heroicons/vue/24/outline';
 import apiPinsService from '@/services/apiPinsService';
 import { useSettingsStore } from '@/store/settingsStore';
-import { usePinsStore } from '@/plugins/pins/store/pinsStore';
+import { usePinsStore } from '@/store/pinsStore';
 import { apiStore } from '@/store/store';
-import { usePinsUpgradeTracker } from '@/plugins/pins/composables/usePinsUpgradeTracker';
-import { parseJobIdFromResponse } from '@/plugins/pins/composables/pinsJobPolling';
+import { usePinsUpgradeTracker } from '@/components/pins/composables/usePinsUpgradeTracker';
+import { parseJobIdFromResponse } from '@/components/pins/composables/pinsJobPolling';
 
 const { t } = useI18n();
 const settingsStore = useSettingsStore();

@@ -77,7 +77,7 @@ import { apiStore } from '@/store/store';
 import {
   parseJobIdFromResponse,
   pollJobUntilFinished,
-} from '@/plugins/pins/composables/pinsJobPolling';
+} from '@/components/pins/composables/pinsJobPolling';
 
 const { t } = useI18n();
 const store = apiStore();

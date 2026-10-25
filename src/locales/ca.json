@@ -5388,7 +5388,7 @@
       "repositoryUnavailable": "Actualitza pinsdaemon per poder canviar de repositori.",
       "repositoryRefresh": "Actualitza el repositori",
       "title": "Gestió PINS",
-      "notAvailable": "Entorn PINS no detectat. Aquest connector està desactivat.",
+      "notDetected": "No s'ha detectat cap entorn PINS. Aquesta configuració només està disponible en un dispositiu PINS.",
       "dryRun": "Mode de prova en sec",
       "sambaTitle": "Compartició Samba",
       "sambaDescription": "Activa o desactiva la compartició de fitxers en xarxa",
@@ -5398,6 +5398,8 @@
       "tabs": {
         "network": "Xarxa",
         "services": "Serveis",
+        "system": "Sistema",
+        "indi": "INDI",
         "software": "Programari",
         "upgrade": "Actualitza"
       },
@@ -8373,6 +8375,7 @@
     "flatWizard": "Flats",
     "framing": "Enquadrament",
     "skyView": "Celestia Atlas",
+    "pins": "PINS",
     "settings": "Configuració",
     "about": "Quant a"
   },

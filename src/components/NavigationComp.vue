@@ -432,6 +432,17 @@
             <span class="nav-label">{{ t('nav.skyView') }}</span>
           </router-link>
         </div>
+        <div
+          v-if="store.isPINS && !isNavItemHidden('pins')"
+          :style="{ order: getNavOrder('pins') }"
+          class="nav-item"
+        >
+          <router-link to="/pins" class="nav-button" active-class="active-nav-button">
+            <PinsIcon class="icon force-visible" />
+            <span class="nav-label">{{ t('nav.pins') }}</span>
+          </router-link>
+        </div>
+
         <!-- Plugin navigation items -->
         <template v-for="item in filteredNavigationItems" :key="item.pluginId">
           <div
@@ -505,6 +516,7 @@ import {
   LinkSlashIcon,
 } from '@heroicons/vue/24/outline';
 import CameraFramingIcon from '@/components/icons/CameraFramingIcon.vue';
+import PinsIcon from '@/components/icons/PinsIcon.vue';
 import { watch, computed, ref, onMounted, onBeforeUnmount, nextTick } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useRoute } from 'vue-router';

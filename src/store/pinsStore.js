@@ -76,6 +76,7 @@ export const usePinsStore = defineStore('pins', {
     enabled: true,
     strategies: [
       {
+        // Legacy key name kept so persisted values survive the move out of the plugin.
         key: 'pins-plugin-store',
         storage: localStorage,
         paths: ['timeSyncEnabled', 'suppressTimeWarning'],

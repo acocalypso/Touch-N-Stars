@@ -52,7 +52,7 @@
         {{ $t('plugins.pins.pluginsEmpty') }}
       </div>
 
-      <div v-else class="max-h-96 overflow-y-auto border border-gray-700 rounded-lg">
+      <div v-else class="max-h-96 overflow-auto border border-gray-700 rounded-lg">
         <table class="w-full text-left text-sm">
           <thead class="bg-gray-900 text-gray-300 sticky top-0">
             <tr>

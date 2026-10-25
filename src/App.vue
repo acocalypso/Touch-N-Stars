@@ -340,6 +340,8 @@
         <SettingsComp @navigate="showSettingsModal = false" />
       </template>
     </Modal>
+
+    <NinaPluginInstallDialog />
   </div>
 </template>
 
@@ -423,6 +425,9 @@ const MeridianFlipDayTest = defineAsyncComponent(
 const SetupWizard = defineAsyncComponent(() => import('@/components/setupWizard/SetupWizard.vue'));
 const ConsoleViewer = defineAsyncComponent(() => import('@/components/helpers/ConsoleViewer.vue'));
 const SettingsComp = defineAsyncComponent(() => import('@/components/SettingsComp.vue'));
+const NinaPluginInstallDialog = defineAsyncComponent(
+  () => import('@/components/ninaPlugins/NinaPluginInstallDialog.vue')
+);
 const WhatsNewModal = defineAsyncComponent(() => import('@/components/helpers/WhatsNewModal.vue'));
 const UpdateAvailableModal = defineAsyncComponent(
   () => import('@/components/helpers/UpdateAvailableModal.vue')

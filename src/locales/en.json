@@ -5341,6 +5341,32 @@
         "safe": "Safe",
         "unsafe": "Unsafe"
       }
+    },
+    "ninaPluginInstall": {
+      "title": "NINA plugin",
+      "confirm": "{plugin} needs the NINA plugin {name}. Install it on your PINS device now?",
+      "confirmRestartHint": "NINA has to restart afterwards to load it.",
+      "install": "Install",
+      "installing": "Installing {package} …",
+      "failed": "Installation failed: {message}",
+      "retry": "Try again",
+      "installed": "{name} is installed. NINA has to restart to load it.",
+      "restartHint": "Restarting NINA briefly disconnects all equipment.",
+      "sequenceWarning": "A sequence is running. Restarting NINA aborts it.",
+      "sequenceConfirm": "Abort the sequence and restart NINA",
+      "restart": "Restart NINA",
+      "later": "Later",
+      "restartFailed": "NINA could not be restarted: {message}",
+      "restarting": "NINA is restarting. Waiting until {name} is loaded …",
+      "restartManually": "Restart the PINS device so NINA loads {name}.",
+      "done": "{name} is ready."
+    },
+    "ninaPluginGate": {
+      "title": "NINA plugin missing",
+      "missing": "This page needs the NINA plugin {name}.",
+      "pendingRestart": "{name} is installed, but NINA has not loaded it yet.",
+      "install": "Install now",
+      "windowsHint": "Install {name} in the NINA plugin manager and restart NINA."
     }
   },
   "plugins": {
@@ -5775,6 +5801,9 @@
       "pluginsInstall": "Install",
       "pluginsInstalling": "Installing...",
       "pluginsUninstall": "Uninstall",
+      "installRestartWarning": "The plugin is only loaded after NINA on the PINS device restarts. Restarting NINA briefly disconnects all equipment and aborts a running sequence.",
+      "uninstallRestartWarning": "Uninstalling restarts NINA on the PINS device right away. All equipment disconnects briefly and a running sequence is aborted.",
+      "uninstallSequenceConfirm": "Abort the sequence and uninstall",
       "pluginsUninstalling": "Uninstalling...",
       "dhcpClientsTitle": "Connected Clients",
       "dhcpClientsDescription": "Devices with an active DHCP lease on the hotspot.",
@@ -6878,7 +6907,6 @@
       }
     },
     "livestack": {
-      "not_available": "Livestack was not found. Please install the Livestack plugin in NINA first.",
       "beta_note": "This plugin is still under development and may contain some errors!",
       "target": "Target",
       "available_filters": "Available Filters",
@@ -8563,7 +8591,6 @@
   },
   "nightsummary": {
     "title": "Night Summary",
-    "notAvailable": "Night Summary plugin not detected. Install the Night Summary NINA plugin to use this page.",
     "tnsPluginToOld": "The Touch N Stars plugin is too old for this feature. Please update to version 1.2.8.0 or newer.",
     "tabSettings": "Settings",
     "tabSessions": "Sessions",

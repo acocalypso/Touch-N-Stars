@@ -5341,6 +5341,32 @@
         "safe": "Bezpečno",
         "unsafe": "Nebezpečno"
       }
+    },
+    "ninaPluginInstall": {
+      "title": "Plugin NINA",
+      "confirm": "{plugin} potřebuje plugin NINA {name}. Nainstalovat ho nyní na zařízení PINS?",
+      "confirmRestartHint": "NINA se pak musí restartovat, aby ho načetla.",
+      "install": "Instalovat",
+      "installing": "Instaluje se {package} …",
+      "failed": "Instalace selhala: {message}",
+      "retry": "Zkusit znovu",
+      "installed": "{name} je nainstalován. NINA se musí restartovat, aby ho načetla.",
+      "restartHint": "Restart NINA krátce odpojí všechna zařízení.",
+      "sequenceWarning": "Běží sekvence. Restart NINA ji přeruší.",
+      "sequenceConfirm": "Přerušit sekvenci a restartovat NINA",
+      "restart": "Restartovat NINA",
+      "later": "Později",
+      "restartFailed": "NINA se nepodařilo restartovat: {message}",
+      "restarting": "NINA se restartuje. Čeká se na načtení {name} …",
+      "restartManually": "Restartujte zařízení PINS, aby NINA načetla {name}.",
+      "done": "{name} je připraven."
+    },
+    "ninaPluginGate": {
+      "title": "Chybí plugin NINA",
+      "missing": "Tato stránka potřebuje plugin NINA {name}.",
+      "pendingRestart": "{name} je nainstalován, ale NINA ho zatím nenačetla.",
+      "install": "Instalovat nyní",
+      "windowsHint": "Nainstalujte {name} ve správci pluginů NINA a restartujte NINA."
     }
   },
   "plugins": {
@@ -5570,6 +5596,9 @@
       "pluginsRefresh": "Obnovit seznam pluginů",
       "pluginsTitle": "Pluginy PINS",
       "pluginsUninstall": "Uninstall",
+      "installRestartWarning": "Plugin se načte až po restartu NINA na zařízení PINS. Restart NINA krátce odpojí všechna zařízení a přeruší běžící sekvenci.",
+      "uninstallRestartWarning": "Odinstalace okamžitě restartuje NINA na zařízení PINS. Všechna zařízení se krátce odpojí a běžící sekvence se přeruší.",
+      "uninstallSequenceConfirm": "Přerušit sekvenci a odinstalovat",
       "pluginsUninstalling": "Uninstalling...",
       "pluginsVersion": "Version",
       "indiInstallModalAssetName": "Název souboru",
@@ -6466,7 +6495,6 @@
       }
     },
     "livestack": {
-      "not_available": "Livestack nebyl nalezen. Nejprve nainstalujte plugin Livestack do NINA.",
       "beta_note": "Tento plugin je stále ve vývoji a může obsahovat některé chyby!",
       "target": "Cíl",
       "available_filters": "Dostupné Filtry",
@@ -8598,7 +8626,6 @@
     "about": "Info"
   },
   "nightsummary": {
-    "notAvailable": "Night Summary plugin not detected. Install the Night Summary NINA plugin to use this page.",
     "tnsPluginToOld": "Plugin Touch N Stars je příliš starý pro tuto funkci. Aktualizujte na verzi 1.2.8.0 nebo novější.",
     "sessions": {
       "delete": "Delete",

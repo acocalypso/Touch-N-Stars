@@ -5341,6 +5341,32 @@
         "safe": "Bezpiecznie",
         "unsafe": "Niebezpiecznie"
       }
+    },
+    "ninaPluginInstall": {
+      "title": "Wtyczka NINA",
+      "confirm": "{plugin} wymaga wtyczki NINA {name}. Zainstalować ją teraz na urządzeniu PINS?",
+      "confirmRestartHint": "Potem NINA musi się zrestartować, aby ją wczytać.",
+      "install": "Zainstaluj",
+      "installing": "Instalowanie {package} …",
+      "failed": "Instalacja nie powiodła się: {message}",
+      "retry": "Spróbuj ponownie",
+      "installed": "{name} jest zainstalowana. NINA musi się zrestartować, aby ją wczytać.",
+      "restartHint": "Restart NINA na chwilę rozłącza cały sprzęt.",
+      "sequenceWarning": "Trwa sekwencja. Restart NINA ją przerwie.",
+      "sequenceConfirm": "Przerwij sekwencję i zrestartuj NINA",
+      "restart": "Zrestartuj NINA",
+      "later": "Później",
+      "restartFailed": "Nie udało się zrestartować NINA: {message}",
+      "restarting": "NINA się restartuje. Oczekiwanie na wczytanie {name} …",
+      "restartManually": "Zrestartuj urządzenie PINS, aby NINA wczytała {name}.",
+      "done": "{name} jest gotowa."
+    },
+    "ninaPluginGate": {
+      "title": "Brak wtyczki NINA",
+      "missing": "Ta strona wymaga wtyczki NINA {name}.",
+      "pendingRestart": "{name} jest zainstalowana, ale NINA jeszcze jej nie wczytała.",
+      "install": "Zainstaluj teraz",
+      "windowsHint": "Zainstaluj {name} w menedżerze wtyczek NINA i zrestartuj NINA."
     }
   },
   "plugins": {
@@ -5570,6 +5596,9 @@
       "pluginsRefresh": "Odśwież listę wtyczek",
       "pluginsTitle": "Wtyczki PINS",
       "pluginsUninstall": "Odinstaluj",
+      "installRestartWarning": "Wtyczka zostanie wczytana dopiero po restarcie NINA na urządzeniu PINS. Restart NINA na chwilę rozłącza cały sprzęt i przerywa trwającą sekwencję.",
+      "uninstallRestartWarning": "Odinstalowanie natychmiast restartuje NINA na urządzeniu PINS. Cały sprzęt zostanie na chwilę rozłączony, a trwająca sekwencja przerwana.",
+      "uninstallSequenceConfirm": "Przerwij sekwencję i odinstaluj",
       "pluginsUninstalling": "Odinstalowywanie...",
       "pluginsVersion": "Wersja",
       "indiInstallModalAssetName": "Nazwa zasobu",
@@ -6466,7 +6495,6 @@
       }
     },
     "livestack": {
-      "not_available": "Nie znaleziono Livestack. Najpierw zainstaluj wtyczkę Livestack w NINA.",
       "beta_note": "Ta wtyczka jest nadal w fazie rozwoju i może zawierać błędy!",
       "target": "Cel",
       "available_filters": "Dostępne filtry",
@@ -8598,7 +8626,6 @@
     "about": "Info"
   },
   "nightsummary": {
-    "notAvailable": "Nie wykryto wtyczki podsumowania nocy. Zainstaluj wtyczkę NINA Podsumowanie Nocy, aby korzystać z tej strony.",
     "tnsPluginToOld": "Wtyczka Touch N Stars jest zbyt stara dla tej funkcji. Zaktualizuj do wersji 1.2.8.0 lub nowszej.",
     "sessions": {
       "delete": "Usuwać",

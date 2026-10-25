@@ -5341,6 +5341,32 @@
         "safe": "Segur",
         "unsafe": "No segur"
       }
+    },
+    "ninaPluginInstall": {
+      "title": "Connector de NINA",
+      "confirm": "{plugin} necessita el connector de NINA {name}. Vols instal·lar-lo ara al dispositiu PINS?",
+      "confirmRestartHint": "Després NINA s'ha de reiniciar per carregar-lo.",
+      "install": "Instal·la",
+      "installing": "S'està instal·lant {package} …",
+      "failed": "La instal·lació ha fallat: {message}",
+      "retry": "Torna-ho a provar",
+      "installed": "{name} està instal·lat. NINA s'ha de reiniciar per carregar-lo.",
+      "restartHint": "Reiniciar NINA desconnecta breument tot l'equip.",
+      "sequenceWarning": "S'està executant una seqüència. Reiniciar NINA l'avortarà.",
+      "sequenceConfirm": "Avorta la seqüència i reinicia NINA",
+      "restart": "Reinicia NINA",
+      "later": "Més tard",
+      "restartFailed": "No s'ha pogut reiniciar NINA: {message}",
+      "restarting": "NINA s'està reiniciant. S'espera que es carregui {name} …",
+      "restartManually": "Reinicia el dispositiu PINS perquè NINA carregui {name}.",
+      "done": "{name} està a punt."
+    },
+    "ninaPluginGate": {
+      "title": "Falta el connector de NINA",
+      "missing": "Aquesta pàgina necessita el connector de NINA {name}.",
+      "pendingRestart": "{name} està instal·lat, però NINA encara no l'ha carregat.",
+      "install": "Instal·la ara",
+      "windowsHint": "Instal·la {name} al gestor de connectors de NINA i reinicia NINA."
     }
   },
   "plugins": {
@@ -5634,6 +5660,9 @@
       "pluginsInstall": "Instal·la",
       "pluginsInstalling": "Instal·lant...",
       "pluginsUninstall": "Desinstal·la",
+      "installRestartWarning": "El connector només es carrega quan NINA es reinicia al dispositiu PINS. Reiniciar NINA desconnecta breument tot l'equip i avorta una seqüència en curs.",
+      "uninstallRestartWarning": "Desinstal·lar reinicia NINA immediatament al dispositiu PINS. Tot l'equip es desconnecta breument i s'avorta una seqüència en curs.",
+      "uninstallSequenceConfirm": "Avorta la seqüència i desinstal·la",
       "pluginsUninstalling": "Desinstal·lant...",
       "dhcpClientsTitle": "Clients connectats",
       "dhcpClientsDescription": "Dispositius amb un arrendament DHCP actiu al punt d'accés.",
@@ -6668,7 +6697,6 @@
       }
     },
     "livestack": {
-      "not_available": "No s'ha trobat Livestack. Si us plau, instal·la primer el connector Livestack a NINA.",
       "beta_note": "Aquest connector encara està en desenvolupament i pot contenir alguns errors!",
       "target": "Objectiu",
       "available_filters": "Filtres disponibles",
@@ -8471,7 +8499,6 @@
   },
   "nightsummary": {
     "title": "Resum nocturn",
-    "notAvailable": "El connector Night Summary no s'ha detectat. Instal·la el connector Night Summary de NINA per usar aquesta pàgina.",
     "tnsPluginToOld": "El connector Touch N Stars és massa antic per a aquesta funció. Si us plau, actualitza a la versió 1.2.8.0 o posterior.",
     "tabSettings": "Configuració",
     "tabSessions": "Sessions",

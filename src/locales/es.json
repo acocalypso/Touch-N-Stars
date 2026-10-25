@@ -5341,6 +5341,32 @@
         "safe": "Seguro",
         "unsafe": "Inseguro"
       }
+    },
+    "ninaPluginInstall": {
+      "title": "Plugin de NINA",
+      "confirm": "{plugin} necesita el plugin de NINA {name}. ¿Instalarlo ahora en tu dispositivo PINS?",
+      "confirmRestartHint": "Después NINA debe reiniciarse para cargarlo.",
+      "install": "Instalar",
+      "installing": "Instalando {package} …",
+      "failed": "La instalación ha fallado: {message}",
+      "retry": "Reintentar",
+      "installed": "{name} está instalado. NINA debe reiniciarse para cargarlo.",
+      "restartHint": "Reiniciar NINA desconecta brevemente todo el equipo.",
+      "sequenceWarning": "Hay una secuencia en curso. Reiniciar NINA la cancelará.",
+      "sequenceConfirm": "Cancelar la secuencia y reiniciar NINA",
+      "restart": "Reiniciar NINA",
+      "later": "Más tarde",
+      "restartFailed": "No se pudo reiniciar NINA: {message}",
+      "restarting": "NINA se está reiniciando. Esperando a que se cargue {name} …",
+      "restartManually": "Reinicia el dispositivo PINS para que NINA cargue {name}.",
+      "done": "{name} está listo."
+    },
+    "ninaPluginGate": {
+      "title": "Falta el plugin de NINA",
+      "missing": "Esta página necesita el plugin de NINA {name}.",
+      "pendingRestart": "{name} está instalado, pero NINA aún no lo ha cargado.",
+      "install": "Instalar ahora",
+      "windowsHint": "Instala {name} en el gestor de plugins de NINA y reinicia NINA."
     }
   },
   "plugins": {
@@ -5570,6 +5596,9 @@
       "pluginsRefresh": "Actualizar lista de complementos",
       "pluginsTitle": "Complementos de PINS",
       "pluginsUninstall": "Desinstalar",
+      "installRestartWarning": "El plugin solo se carga cuando NINA se reinicia en el dispositivo PINS. Reiniciar NINA desconecta brevemente todo el equipo y cancela una secuencia en curso.",
+      "uninstallRestartWarning": "Desinstalar reinicia NINA inmediatamente en el dispositivo PINS. Todo el equipo se desconecta brevemente y se cancela una secuencia en curso.",
+      "uninstallSequenceConfirm": "Cancelar la secuencia y desinstalar",
       "pluginsUninstalling": "Desinstalando...",
       "pluginsVersion": "Versión",
       "indiInstallModalAssetName": "Nombre del activo",
@@ -6466,7 +6495,6 @@
       }
     },
     "livestack": {
-      "not_available": "No he encontrado Livestack. Por favor, instala el plugin de Livestack in NINA.",
       "beta_note": "¡Este complemento todavía está en desarrollo y puede contener algunos errores!",
       "target": "Objeto",
       "available_filters": "Filtros disponibles",
@@ -8598,7 +8626,6 @@
     "about": "Info"
   },
   "nightsummary": {
-    "notAvailable": "Complemento de resumen nocturno no detectado. Instale el complemento Night Summary NINA para usar esta página.",
     "tnsPluginToOld": "El complemento Touch N Stars es demasiado antiguo para esta función. Actualice a la versión 1.2.8.0 o superior.",
     "sessions": {
       "delete": "Borrar",

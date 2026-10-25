@@ -1,6 +1,6 @@
 # Install the NINA plugin together with the app plugin
 
-Status: proposed
+Status: implemented, pending review
 Date: 2026-10-25
 
 ## Goal
@@ -68,10 +68,27 @@ pinsdaemon repository, not here.
 | Persistence | no | Nothing stored beyond the existing plugin enabled flag |
 | Tests | yes | Mapping/matching helper (criterion 7); job flow reuses `pollJobUntilFinished` |
 
+## Implementation notes
+
+- Gated plugins: LiveStack, LuckyCapture, Ground Station, Night Summary. Perihelion and
+  10micron are left out: `pins-plugin-perihelion` and `pins-plugin-tenmicron` are in the
+  daemon's list but not in the package repository (`apt-cache search pins-plugin` on the Pi,
+  2026-10-25), so an install would fail.
+- `ninaPlugin: { name, displayName, pinsPackage }` in plugin.json; `name` is matched against
+  `/application/plugins`, `displayName` is what the dialog shows.
+- `withNinaPluginGate` wraps the route view, so the view (and its onMounted logic) only mounts
+  once NINA lists the plugin. If NINA cannot be asked, the view is shown as before.
+- `useNinaPluginInstallStore` drives one `NinaPluginInstallDialog` in App.vue, opened from
+  Settings → Plugins or from the gate. A package that is installed but not loaded goes straight
+  to the restart step.
+- `manage-plugin.sh` restarts `pins.service` after an uninstall, not after an install, so the
+  daemon already has the rights a restart endpoint needs.
+
 ## Open questions
 
-- NINA folder names of Perihelion and 10micron are unknown (packages not installed on the test
-  Pi) — verify on the VM during implementation.
-- Shape and name of the daemon restart endpoint (sync vs. job, path) — to agree with the
-  pinsdaemon maintainer. The frontend can be built first because criterion 5 covers its
-  absence.
+- The daemon restart route is assumed as `POST /nina/restart` (frontend:
+  `apiPinsService.restartPinsNina`). It does not exist yet; until it does, every restart ends in
+  the "restart the PINS device" hint (criterion 5). Path and shape to agree with the pinsdaemon
+  maintainer.
+- Verified against the Pi with a filtered `/application/plugins` response (gate, dialog from the
+  gate and from Settings). A real install plus NINA restart has not been run.

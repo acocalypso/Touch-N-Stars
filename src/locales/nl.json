@@ -5341,6 +5341,32 @@
         "safe": "Veilig",
         "unsafe": "Onveilig"
       }
+    },
+    "ninaPluginInstall": {
+      "title": "NINA-plugin",
+      "confirm": "{plugin} heeft de NINA-plugin {name} nodig. Nu installeren op je PINS-apparaat?",
+      "confirmRestartHint": "Daarna moet NINA herstarten om hem te laden.",
+      "install": "Installeren",
+      "installing": "{package} wordt geïnstalleerd …",
+      "failed": "Installatie mislukt: {message}",
+      "retry": "Opnieuw proberen",
+      "installed": "{name} is geïnstalleerd. NINA moet herstarten om hem te laden.",
+      "restartHint": "NINA herstarten verbreekt kort de verbinding met alle apparatuur.",
+      "sequenceWarning": "Er loopt een sequentie. NINA herstarten breekt die af.",
+      "sequenceConfirm": "Sequentie afbreken en NINA herstarten",
+      "restart": "NINA herstarten",
+      "later": "Later",
+      "restartFailed": "NINA kon niet worden herstart: {message}",
+      "restarting": "NINA herstart. Wachten tot {name} is geladen …",
+      "restartManually": "Herstart het PINS-apparaat zodat NINA {name} laadt.",
+      "done": "{name} is klaar."
+    },
+    "ninaPluginGate": {
+      "title": "NINA-plugin ontbreekt",
+      "missing": "Deze pagina heeft de NINA-plugin {name} nodig.",
+      "pendingRestart": "{name} is geïnstalleerd, maar NINA heeft hem nog niet geladen.",
+      "install": "Nu installeren",
+      "windowsHint": "Installeer {name} in de pluginbeheerder van NINA en herstart NINA."
     }
   },
   "plugins": {
@@ -5570,6 +5596,9 @@
       "pluginsRefresh": "Vernieuw de plug-inlijst",
       "pluginsTitle": "PINS-plug-ins",
       "pluginsUninstall": "Verwijderen",
+      "installRestartWarning": "De plugin wordt pas geladen nadat NINA op het PINS-apparaat herstart. NINA herstarten verbreekt kort de verbinding met alle apparatuur en breekt een lopende sequentie af.",
+      "uninstallRestartWarning": "Verwijderen herstart NINA op het PINS-apparaat meteen. Alle apparatuur wordt kort losgekoppeld en een lopende sequentie wordt afgebroken.",
+      "uninstallSequenceConfirm": "Sequentie afbreken en verwijderen",
       "pluginsUninstalling": "Verwijderen...",
       "pluginsVersion": "Versie",
       "indiInstallModalAssetName": "Naam van item",
@@ -6466,7 +6495,6 @@
       }
     },
     "livestack": {
-      "not_available": "Livestack is niet gevonden. Installeer de Livestack plugin eerst in NINA.",
       "beta_note": "Deze plugin is nog in ontwikkeling en kan fouten geven!",
       "target": "Doelobject",
       "available_filters": "Beschikbare Filters",
@@ -8598,7 +8626,6 @@
     "about": "Info"
   },
   "nightsummary": {
-    "notAvailable": "Nachtoverzicht-plug-in niet gedetecteerd. Installeer de Nachtoverzicht NINA plugin om deze pagina te gebruiken.",
     "tnsPluginToOld": "De Touch N Stars plugin is te oud voor deze functie. Werk bij naar versie 1.2.8.0 of nieuwer.",
     "sessions": {
       "delete": "Verwijderen",

@@ -5341,6 +5341,32 @@
         "safe": "Sicher",
         "unsafe": "Unsicher"
       }
+    },
+    "ninaPluginInstall": {
+      "title": "NINA-Plugin",
+      "confirm": "{plugin} braucht das NINA-Plugin {name}. Jetzt auf deinem PINS-Gerät installieren?",
+      "confirmRestartHint": "NINA muss danach neu starten, um es zu laden.",
+      "install": "Installieren",
+      "installing": "{package} wird installiert …",
+      "failed": "Installation fehlgeschlagen: {message}",
+      "retry": "Erneut versuchen",
+      "installed": "{name} ist installiert. NINA muss neu starten, um es zu laden.",
+      "restartHint": "Ein Neustart von NINA trennt kurz alle Geräte.",
+      "sequenceWarning": "Eine Sequenz läuft. Ein Neustart von NINA bricht sie ab.",
+      "sequenceConfirm": "Sequenz abbrechen und NINA neu starten",
+      "restart": "NINA neu starten",
+      "later": "Später",
+      "restartFailed": "NINA konnte nicht neu gestartet werden: {message}",
+      "restarting": "NINA startet neu. Warte, bis {name} geladen ist …",
+      "restartManually": "Starte das PINS-Gerät neu, damit NINA {name} lädt.",
+      "done": "{name} ist bereit."
+    },
+    "ninaPluginGate": {
+      "title": "NINA-Plugin fehlt",
+      "missing": "Diese Seite braucht das NINA-Plugin {name}.",
+      "pendingRestart": "{name} ist installiert, aber NINA hat es noch nicht geladen.",
+      "install": "Jetzt installieren",
+      "windowsHint": "Installiere {name} im NINA-Plugin-Manager und starte NINA neu."
     }
   },
   "plugins": {
@@ -5617,6 +5643,9 @@
       "pluginsInstall": "Installieren",
       "pluginsInstalling": "Installiere...",
       "pluginsUninstall": "Deinstallieren",
+      "installRestartWarning": "Das Plugin wird erst geladen, wenn NINA auf dem PINS-Gerät neu startet. Ein Neustart von NINA trennt kurz alle Geräte und bricht eine laufende Sequenz ab.",
+      "uninstallRestartWarning": "Die Deinstallation startet NINA auf dem PINS-Gerät sofort neu. Alle Geräte werden kurz getrennt und eine laufende Sequenz wird abgebrochen.",
+      "uninstallSequenceConfirm": "Sequenz abbrechen und deinstallieren",
       "pluginsUninstalling": "Deinstalliere...",
       "dhcpClientsDescription": "Geräte mit einer aktiven DHCP-Lease für den Hotspot.",
       "dhcpClientsEmpty": "Keine aktiven DHCP-Clients gefunden.",
@@ -6582,7 +6611,6 @@
       }
     },
     "livestack": {
-      "not_available": "Livestack wurde nicht gefunden. Bitte installieren Sie das Livestack-Plugin zuerst in Nina.",
       "beta_note": "Dieses Plugin befindet sich noch in der Entwicklung und kann einige Fehler enthalten!",
       "target": "Ziel",
       "available_filters": "Verfügbare Filter",
@@ -8603,7 +8631,6 @@
     "about": "Info"
   },
   "nightsummary": {
-    "notAvailable": "Nachtzusammenfassungs-Plugin nicht erkannt. Installieren Sie das NINA-Plugin „Night Summary”, um diese Seite nutzen zu können.",
     "tnsPluginToOld": "Das Touch N Stars Plugin ist zu alt für diese Funktion. Bitte aktualisieren Sie auf Version 1.2.8.0 oder neuer.",
     "sessions": {
       "delete": "Löschen",

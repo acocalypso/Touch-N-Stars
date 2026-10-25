@@ -764,6 +764,20 @@ export default {
     );
   },
 
+  // Restarts only the NINA service so a freshly installed NINA plugin gets loaded.
+  // Older daemons lack this route and answer 404/405; callers fall back to a device restart.
+  restartPinsNina() {
+    const { PINSDAEMON_URL } = getUrls();
+    return this._pinsDaemonPostRequest(
+      '/nina/restart',
+      {},
+      {
+        baseUrl: PINSDAEMON_URL,
+        timeout: 15000,
+      }
+    );
+  },
+
   getPinsUpdatesCheck() {
     const { PINSDAEMON_URL } = getUrls();
     return this._pinsDaemonGetRequest('/updates/check', {

@@ -5341,6 +5341,32 @@
         "safe": "Sûr",
         "unsafe": "Dangereux"
       }
+    },
+    "ninaPluginInstall": {
+      "title": "Plugin NINA",
+      "confirm": "{plugin} nécessite le plugin NINA {name}. L'installer maintenant sur ton appareil PINS ?",
+      "confirmRestartHint": "NINA doit ensuite redémarrer pour le charger.",
+      "install": "Installer",
+      "installing": "Installation de {package} …",
+      "failed": "Échec de l'installation : {message}",
+      "retry": "Réessayer",
+      "installed": "{name} est installé. NINA doit redémarrer pour le charger.",
+      "restartHint": "Redémarrer NINA déconnecte brièvement tout l'équipement.",
+      "sequenceWarning": "Une séquence est en cours. Redémarrer NINA l'interrompt.",
+      "sequenceConfirm": "Interrompre la séquence et redémarrer NINA",
+      "restart": "Redémarrer NINA",
+      "later": "Plus tard",
+      "restartFailed": "Impossible de redémarrer NINA : {message}",
+      "restarting": "NINA redémarre. En attente du chargement de {name} …",
+      "restartManually": "Redémarre l'appareil PINS pour que NINA charge {name}.",
+      "done": "{name} est prêt."
+    },
+    "ninaPluginGate": {
+      "title": "Plugin NINA manquant",
+      "missing": "Cette page nécessite le plugin NINA {name}.",
+      "pendingRestart": "{name} est installé, mais NINA ne l'a pas encore chargé.",
+      "install": "Installer maintenant",
+      "windowsHint": "Installe {name} dans le gestionnaire de plugins de NINA et redémarre NINA."
     }
   },
   "plugins": {
@@ -5570,6 +5596,9 @@
       "pluginsRefresh": "Actualiser la liste des plugins",
       "pluginsTitle": "Plugins PINS",
       "pluginsUninstall": "Désinstaller",
+      "installRestartWarning": "Le plugin n'est chargé qu'après le redémarrage de NINA sur l'appareil PINS. Redémarrer NINA déconnecte brièvement tout l'équipement et interrompt une séquence en cours.",
+      "uninstallRestartWarning": "La désinstallation redémarre immédiatement NINA sur l'appareil PINS. Tout l'équipement est brièvement déconnecté et une séquence en cours est interrompue.",
+      "uninstallSequenceConfirm": "Interrompre la séquence et désinstaller",
       "pluginsUninstalling": "Désinstallation...",
       "pluginsVersion": "Version",
       "indiInstallModalAssetName": "Nom de l'actif",
@@ -6466,7 +6495,6 @@
       }
     },
     "livestack": {
-      "not_available": "Livestack est introuvable. Veuillez d'abord installer le plugin Livestack dans NINA.",
       "beta_note": "Ce plugin est toujours en cours de développement et peut contenir des erreurs!",
       "target": "Cible",
       "available_filters": "Filtres disponibles",
@@ -8598,7 +8626,6 @@
     "about": "Info"
   },
   "nightsummary": {
-    "notAvailable": "Plugin Night Summary non détecté. Installez le plugin Night Summary NINA pour utiliser cette page.",
     "tnsPluginToOld": "Le plugin Touch N Stars est trop ancien pour cette fonctionnalité. Veuillez mettre à jour vers la version 1.2.8.0 ou ultérieure.",
     "sessions": {
       "delete": "Supprimer",

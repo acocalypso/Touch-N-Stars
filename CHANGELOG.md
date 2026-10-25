@@ -5,13 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-## Unreleased
+## [App6.5.0 - beta 16] - 2026-10-25
 
 ### Added
 
 - Settings (Meridian Flip): One question about how far the mount can track past the meridian replaces the three minute values, and a timeline shows when the flip happens.
 - Settings (Meridian Flip): A daylight test lets NINA do a real meridian flip with your settings from a start point you drive to yourself, shows the time to the meridian and reports whether NINA hit an error during the flip.
 - Focus (PINS): Hocus Focus is now part of the focus page, with the key autofocus settings in one card, a setup assistant and a check after each run that suggests a fix you can apply with one tap.
+- PINS: Plugins that need a NINA plugin offer to install it and restart NINA.
+- Settings: A PINS tab leads straight to the PINS page.
+
+### Changed
+
+- PINS: The PINS page is built in instead of a plugin and has new System and INDI tabs.
+- PINS: Installing or uninstalling a NINA plugin package warns that NINA restarts.
+- PINS: Packages the app needs are no longer listed under Software.
 
 ### Removed
 
@@ -20,6 +28,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 
 - Settings: Switches show changes made by a preset or another client without reopening the page.
+- PINS: The page uses the full width on large screens.
+- PINS: The INDI driver install dialog closes after the install starts.
 
 ## [App6.5.0 - beta 15] - 2026-10-23
 

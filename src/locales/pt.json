@@ -5341,6 +5341,32 @@
         "safe": "Seguro",
         "unsafe": "Inseguro"
       }
+    },
+    "ninaPluginInstall": {
+      "title": "Plugin do NINA",
+      "confirm": "{plugin} precisa do plugin do NINA {name}. Instalar agora no dispositivo PINS?",
+      "confirmRestartHint": "Depois o NINA tem de reiniciar para o carregar.",
+      "install": "Instalar",
+      "installing": "A instalar {package} …",
+      "failed": "A instalação falhou: {message}",
+      "retry": "Tentar novamente",
+      "installed": "{name} está instalado. O NINA tem de reiniciar para o carregar.",
+      "restartHint": "Reiniciar o NINA desliga brevemente todo o equipamento.",
+      "sequenceWarning": "Está a decorrer uma sequência. Reiniciar o NINA interrompe-a.",
+      "sequenceConfirm": "Interromper a sequência e reiniciar o NINA",
+      "restart": "Reiniciar o NINA",
+      "later": "Mais tarde",
+      "restartFailed": "Não foi possível reiniciar o NINA: {message}",
+      "restarting": "O NINA está a reiniciar. A aguardar que {name} seja carregado …",
+      "restartManually": "Reinicie o dispositivo PINS para que o NINA carregue {name}.",
+      "done": "{name} está pronto."
+    },
+    "ninaPluginGate": {
+      "title": "Falta o plugin do NINA",
+      "missing": "Esta página precisa do plugin do NINA {name}.",
+      "pendingRestart": "{name} está instalado, mas o NINA ainda não o carregou.",
+      "install": "Instalar agora",
+      "windowsHint": "Instale {name} no gestor de plugins do NINA e reinicie o NINA."
     }
   },
   "plugins": {
@@ -5371,7 +5397,7 @@
       "repositoryUnavailable": "Atualiza o pinsdaemon para poder mudar de repositório.",
       "repositoryRefresh": "Atualizar repositório",
       "title": "Gerenciamento de PINS",
-      "notAvailable": "Ambiente PINS não detectado. Este plugin está desativado.",
+      "notDetected": "Ambiente PINS não detetado. Estas configurações só estão disponíveis num dispositivo PINS.",
       "dryRun": "Modo de simulação",
       "sambaTitle": "Compartilhamento Samba",
       "sambaDescription": "Ativar ou desativar compartilhamento de arquivos de rede",
@@ -5535,6 +5561,8 @@
       "tabs": {
         "network": "Rede",
         "services": "Serviços",
+        "system": "Sistema",
+        "indi": "INDI",
         "software": "Programas",
         "upgrade": "Atualizar"
       },
@@ -5568,6 +5596,9 @@
       "pluginsRefresh": "Atualizar lista de plugins",
       "pluginsTitle": "Plug-ins PINS",
       "pluginsUninstall": "Desinstalar",
+      "installRestartWarning": "O plugin só é carregado depois de o NINA reiniciar no dispositivo PINS. Reiniciar o NINA desliga brevemente todo o equipamento e interrompe uma sequência em curso.",
+      "uninstallRestartWarning": "Desinstalar reinicia imediatamente o NINA no dispositivo PINS. Todo o equipamento é desligado brevemente e uma sequência em curso é interrompida.",
+      "uninstallSequenceConfirm": "Interromper a sequência e desinstalar",
       "pluginsUninstalling": "Desinstalando...",
       "pluginsVersion": "Versão",
       "indiInstallModalAssetName": "Nome do ativo",
@@ -6464,7 +6495,6 @@
       }
     },
     "livestack": {
-      "not_available": "O Livestack não foi encontrado. Instale primeiro o plugin Livestack no NINA.",
       "beta_note": "Este plugin ainda está em desenvolvimento e pode conter alguns erros!",
       "target": "Alvo",
       "available_filters": "Filtros disponíveis",
@@ -8591,11 +8621,11 @@
     "flatWizard": "Flats",
     "framing": "Enquadrar",
     "skyView": "Celestia Atlas",
+    "pins": "PINS",
     "settings": "Configurações",
     "about": "Sobre"
   },
   "nightsummary": {
-    "notAvailable": "Plug-in de resumo noturno não detectado. Instale o plugin Night Summary NINA para usar esta página.",
     "tnsPluginToOld": "O plugin Touch N Stars é muito antigo para este recurso. Atualize para a versão 1.2.8.0 ou mais recente.",
     "sessions": {
       "delete": "Excluir",

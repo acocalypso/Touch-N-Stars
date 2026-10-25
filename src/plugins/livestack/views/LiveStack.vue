@@ -22,13 +22,13 @@
         ></path>
       </svg>
     </div>
-    <!-- Error Message when plugin not available or version incompatible -->
+    <!-- Error Message when the API version is incompatible -->
     <div
-      v-else-if="!pageIsLoading && (!livestackPluginAvailable || errorMessage)"
+      v-else-if="!pageIsLoading && errorMessage"
       class="border border-red-700 rounded-lg bg-red-900/50 shadow-lg p-4 m-4"
     >
       <p class="text-red-400 text-center">
-        {{ errorMessage || t('plugins.livestack.not_available') }}
+        {{ errorMessage }}
       </p>
     </div>
     <div v-else-if="pageIsLoading" class="flex flex-col items-center justify-center h-64">
@@ -135,7 +135,6 @@ const lastUpdated = ref(null);
 const errorMessage = ref(null);
 const wsStatus = ref('disconnected');
 const currentZoomLevel = ref(1);
-const livestackPluginAvailable = ref(false);
 const pageIsLoading = ref(true);
 const showHistogram = ref(false);
 // Every stack update replaces currentImageUrl; the old entry is released with it.
@@ -303,20 +302,7 @@ onMounted(async () => {
     return;
   }
 
-  const response = await apiService.getPlugins();
-  console.log('Plugins response:', response);
-
-  // Check if Livestack plugin is available
-  if (
-    !response.Success ||
-    !response.Response?.some((plugin) => plugin.toLowerCase() === 'livestack')
-  ) {
-    console.error('Livestack plugin is not available or not installed');
-    pageIsLoading.value = false;
-    return;
-  }
-
-  livestackPluginAvailable.value = true;
+  // Whether the NINA plugin is loaded is checked by NinaPluginGate before this view mounts.
 
   // Setup WebSocket callbacks on the global WebSocket service
   const originalStatusCallback = websocketChannelService.statusCallback;

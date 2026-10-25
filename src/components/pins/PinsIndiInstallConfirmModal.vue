@@ -149,7 +149,7 @@ import {
   inferIndiDriverType,
   normalizeIndiLabel,
   validateIndiInstallForm,
-} from '../composables/indiInstallUtils';
+} from './composables/indiInstallUtils';
 
 const { t } = useI18n();
 

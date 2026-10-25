@@ -5341,6 +5341,32 @@
         "safe": "Безпечно",
         "unsafe": "Небезпечно"
       }
+    },
+    "ninaPluginInstall": {
+      "title": "Плагін NINA",
+      "confirm": "{plugin} потребує плагіна NINA {name}. Встановити його зараз на пристрій PINS?",
+      "confirmRestartHint": "Після цього NINA потрібно перезапустити, щоб завантажити його.",
+      "install": "Встановити",
+      "installing": "Встановлення {package} …",
+      "failed": "Помилка встановлення: {message}",
+      "retry": "Спробувати ще раз",
+      "installed": "{name} встановлено. NINA потрібно перезапустити, щоб завантажити його.",
+      "restartHint": "Перезапуск NINA ненадовго від'єднує все обладнання.",
+      "sequenceWarning": "Виконується послідовність. Перезапуск NINA перерве її.",
+      "sequenceConfirm": "Перервати послідовність і перезапустити NINA",
+      "restart": "Перезапустити NINA",
+      "later": "Пізніше",
+      "restartFailed": "Не вдалося перезапустити NINA: {message}",
+      "restarting": "NINA перезапускається. Очікування завантаження {name} …",
+      "restartManually": "Перезапустіть пристрій PINS, щоб NINA завантажила {name}.",
+      "done": "{name} готовий."
+    },
+    "ninaPluginGate": {
+      "title": "Бракує плагіна NINA",
+      "missing": "Ця сторінка потребує плагіна NINA {name}.",
+      "pendingRestart": "{name} встановлено, але NINA ще не завантажила його.",
+      "install": "Встановити зараз",
+      "windowsHint": "Встановіть {name} у менеджері плагінів NINA і перезапустіть NINA."
     }
   },
   "plugins": {
@@ -6259,7 +6285,6 @@
       }
     },
     "livestack": {
-      "not_available": "Livestack не знайдено. Спочатку встановіть плагін Livestack у NINA.",
       "beta_note": "Цей плагін ще в розробці і може містити помилки!",
       "target": "Ціль",
       "available_filters": "Доступні фільтри",
@@ -6369,7 +6394,7 @@
       "repositoryUnavailable": "Онови pinsdaemon, щоб мати змогу змінювати репозиторій.",
       "repositoryRefresh": "Оновити репозиторій",
       "title": "Керування PINS",
-      "notAvailable": "Середовище PINS не виявлено. Цей плагін вимкнено.",
+      "notDetected": "Середовище PINS не виявлено. Ці налаштування доступні лише на пристрої PINS.",
       "dryRun": "Режим пробного запуску",
       "sambaTitle": "Мережева папка Samba",
       "sambaDescription": "Увімкнути або вимкнути мережевий обмін файлами",
@@ -6379,6 +6404,8 @@
       "tabs": {
         "network": "Мережа",
         "services": "Служби",
+        "system": "Система",
+        "indi": "INDI",
         "software": "Програмне забезпечення",
         "upgrade": "Оновлення"
       },
@@ -6566,6 +6593,9 @@
       "pluginsRefresh": "Оновити список плагінів",
       "pluginsTitle": "Плагіни PINS",
       "pluginsUninstall": "Видалити",
+      "installRestartWarning": "Плагін завантажиться лише після перезапуску NINA на пристрої PINS. Перезапуск NINA ненадовго від'єднує все обладнання та перериває поточну послідовність.",
+      "uninstallRestartWarning": "Видалення негайно перезапускає NINA на пристрої PINS. Усе обладнання ненадовго від'єднається, а поточну послідовність буде перервано.",
+      "uninstallSequenceConfirm": "Перервати послідовність і видалити",
       "pluginsUninstalling": "Видалення...",
       "pluginsVersion": "Версія",
       "indiInstallModalAssetName": "Назва ресурсу",
@@ -8501,6 +8531,7 @@
     "flatWizard": "Флети",
     "framing": "Фреймінг",
     "skyView": "Celestia Atlas",
+    "pins": "PINS",
     "settings": "Налашт.",
     "about": "Про нас"
   },
@@ -8595,7 +8626,6 @@
     }
   },
   "nightsummary": {
-    "notAvailable": "Плагін Night Summary не виявлено. Встановіть плагін Night Summary NINA, щоб використовувати цю сторінку.",
     "tnsPluginToOld": "Плагін Touch N Stars застарів для цієї функції. Будь ласка, оновіть до версії 1.2.8.0 або новішої.",
     "sessions": {
       "delete": "Видалити",

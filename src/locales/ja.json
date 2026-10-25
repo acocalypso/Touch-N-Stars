@@ -5341,6 +5341,32 @@
         "safe": "安全",
         "unsafe": "危険"
       }
+    },
+    "ninaPluginInstall": {
+      "title": "NINA プラグイン",
+      "confirm": "{plugin} には NINA プラグイン {name} が必要です。今すぐ PINS デバイスにインストールしますか？",
+      "confirmRestartHint": "読み込むには、その後 NINA の再起動が必要です。",
+      "install": "インストール",
+      "installing": "{package} をインストール中 …",
+      "failed": "インストールに失敗しました: {message}",
+      "retry": "再試行",
+      "installed": "{name} はインストール済みです。読み込むには NINA の再起動が必要です。",
+      "restartHint": "NINA を再起動すると、すべての機器が一時的に切断されます。",
+      "sequenceWarning": "シーケンスが実行中です。NINA を再起動すると中止されます。",
+      "sequenceConfirm": "シーケンスを中止して NINA を再起動",
+      "restart": "NINA を再起動",
+      "later": "後で",
+      "restartFailed": "NINA を再起動できませんでした: {message}",
+      "restarting": "NINA を再起動しています。{name} の読み込みを待っています …",
+      "restartManually": "NINA が {name} を読み込むよう、PINS デバイスを再起動してください。",
+      "done": "{name} の準備ができました。"
+    },
+    "ninaPluginGate": {
+      "title": "NINA プラグインがありません",
+      "missing": "このページには NINA プラグイン {name} が必要です。",
+      "pendingRestart": "{name} はインストール済みですが、NINA がまだ読み込んでいません。",
+      "install": "今すぐインストール",
+      "windowsHint": "NINA のプラグインマネージャーで {name} をインストールし、NINA を再起動してください。"
     }
   },
   "plugins": {
@@ -5371,7 +5397,7 @@
       "repositoryUnavailable": "リポジトリを切り替えるには pinsdaemon を更新してください。",
       "repositoryRefresh": "リポジトリを更新",
       "title": "PINS管理",
-      "notAvailable": "PINS環境が検出されません。このプラグインは無効です。",
+      "notDetected": "PINS 環境が検出されません。これらの設定は PINS デバイスでのみ利用できます。",
       "dryRun": "ドライランモード",
       "sambaTitle": "Samba共有",
       "sambaDescription": "ネットワークファイル共有を有効または無効にする",
@@ -5535,6 +5561,8 @@
       "tabs": {
         "network": "ネットワーク",
         "services": "サービス",
+        "system": "システム",
+        "indi": "INDI",
         "software": "ソフトウェア",
         "upgrade": "アップグレード"
       },
@@ -5568,6 +5596,9 @@
       "pluginsRefresh": "プラグインリストを更新",
       "pluginsTitle": "PINS プラグイン",
       "pluginsUninstall": "アンインストール",
+      "installRestartWarning": "プラグインは PINS デバイス上の NINA が再起動した後にのみ読み込まれます。NINA を再起動すると、すべての機器が一時的に切断され、実行中のシーケンスは中止されます。",
+      "uninstallRestartWarning": "アンインストールすると、PINS デバイス上の NINA がすぐに再起動します。すべての機器が一時的に切断され、実行中のシーケンスは中止されます。",
+      "uninstallSequenceConfirm": "シーケンスを中止してアンインストール",
       "pluginsUninstalling": "アンインストール中...",
       "pluginsVersion": "バージョン",
       "indiInstallModalAssetName": "アセット名",
@@ -6575,7 +6606,6 @@
       }
     },
     "livestack": {
-      "not_available": "Livestackが見つかりません。最初にNINAにLivestackプラグインをインストールしてください。",
       "beta_note": "このプラグインはまだ開発中であり、エラーが含まれている可能性があります！",
       "target": "ターゲット",
       "available_filters": "利用可能なフィルター",
@@ -8591,11 +8621,11 @@
     "flatWizard": "フラット",
     "framing": "フレーミング",
     "skyView": "Celestia Atlas",
+    "pins": "PINS",
     "settings": "設定",
     "about": "About"
   },
   "nightsummary": {
-    "notAvailable": "Night Summary プラグインが検出されません。 このページを使用するには、Night Summary NINA プラグインをインストールしてください。",
     "tnsPluginToOld": "Touch N Stars プラグインが古すぎてこの機能を使用できません。バージョン 1.2.8.0 以降に更新してください。",
     "sessions": {
       "delete": "消去",

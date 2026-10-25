@@ -84,7 +84,7 @@
 <script setup>
 import { nextTick, ref, watch } from 'vue';
 import Modal from '@/components/helpers/Modal.vue';
-import { useUnstableRepositoryConfirmation } from '../composables/useUnstableRepositoryConfirmation';
+import { useUnstableRepositoryConfirmation } from './composables/useUnstableRepositoryConfirmation';
 
 const props = defineProps({
   repository: { type: Object, default: null },

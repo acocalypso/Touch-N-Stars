@@ -5341,6 +5341,32 @@
         "safe": "安全",
         "unsafe": "不安全"
       }
+    },
+    "ninaPluginInstall": {
+      "title": "NINA 插件",
+      "confirm": "{plugin} 需要 NINA 插件 {name}。现在在 PINS 设备上安装吗？",
+      "confirmRestartHint": "之后需要重启 NINA 才能加载。",
+      "install": "安装",
+      "installing": "正在安装 {package} …",
+      "failed": "安装失败：{message}",
+      "retry": "重试",
+      "installed": "{name} 已安装。需要重启 NINA 才能加载。",
+      "restartHint": "重启 NINA 会短暂断开所有设备。",
+      "sequenceWarning": "序列正在运行。重启 NINA 会中止它。",
+      "sequenceConfirm": "中止序列并重启 NINA",
+      "restart": "重启 NINA",
+      "later": "稍后",
+      "restartFailed": "无法重启 NINA：{message}",
+      "restarting": "NINA 正在重启。等待加载 {name} …",
+      "restartManually": "请重启 PINS 设备，以便 NINA 加载 {name}。",
+      "done": "{name} 已就绪。"
+    },
+    "ninaPluginGate": {
+      "title": "缺少 NINA 插件",
+      "missing": "此页面需要 NINA 插件 {name}。",
+      "pendingRestart": "{name} 已安装，但 NINA 尚未加载。",
+      "install": "立即安装",
+      "windowsHint": "请在 NINA 插件管理器中安装 {name} 并重启 NINA。"
     }
   },
   "plugins": {
@@ -5371,7 +5397,7 @@
       "repositoryUnavailable": "请更新 pinsdaemon 以启用仓库切换。",
       "repositoryRefresh": "刷新仓库",
       "title": "PINS 管理",
-      "notAvailable": "未检测到 PINS 环境。此插件已禁用。",
+      "notDetected": "未检测到 PINS 环境。这些设置仅在 PINS 设备上可用。",
       "dryRun": "模拟模式",
       "sambaTitle": "Samba 共享",
       "sambaDescription": "启用或禁用网络文件共享",
@@ -5535,6 +5561,8 @@
       "tabs": {
         "network": "Network",
         "services": "Services",
+        "system": "系统",
+        "indi": "INDI",
         "software": "Software",
         "upgrade": "Upgrade"
       },
@@ -5568,6 +5596,9 @@
       "pluginsRefresh": "刷新插件列表",
       "pluginsTitle": "PINS 插件",
       "pluginsUninstall": "Uninstall",
+      "installRestartWarning": "只有在 PINS 设备上的 NINA 重启后才会加载该插件。重启 NINA 会短暂断开所有设备并中止正在运行的序列。",
+      "uninstallRestartWarning": "卸载会立即重启 PINS 设备上的 NINA。所有设备将短暂断开，正在运行的序列将被中止。",
+      "uninstallSequenceConfirm": "中止序列并卸载",
       "pluginsUninstalling": "Uninstalling...",
       "pluginsVersion": "Version",
       "indiInstallModalAssetName": "文件名",
@@ -6464,7 +6495,6 @@
       }
     },
     "livestack": {
-      "not_available": "未找到 Livestack。请先在 NINA 中安装 Livestack 插件。",
       "beta_note": "该插件仍在开发中，可能包含一些错误！",
       "target": "目标",
       "available_filters": "可用滤镜",
@@ -8591,11 +8621,11 @@
     "flatWizard": "平场向导",
     "framing": "取景",
     "skyView": "Celestia Atlas",
+    "pins": "PINS",
     "settings": "设置",
     "about": "关于"
   },
   "nightsummary": {
-    "notAvailable": "Night Summary plugin not detected. Install the Night Summary NINA plugin to use this page.",
     "tnsPluginToOld": "Touch N Stars 插件版本过旧，不支持此功能。请更新至 1.2.8.0 或更新版本。",
     "sessions": {
       "delete": "Delete",

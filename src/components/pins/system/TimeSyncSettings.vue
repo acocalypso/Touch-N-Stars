@@ -95,7 +95,7 @@ import { ref } from 'vue';
 import { usePolling } from '@/composables/usePolling';
 import { useI18n } from 'vue-i18n';
 import { apiStore } from '@/store/store';
-import { usePinsStore } from '@/plugins/pins/store/pinsStore';
+import { usePinsStore } from '@/store/pinsStore';
 import { useGuiderStore } from '@/store/guiderStore';
 import { useSettingsStore } from '@/store/settingsStore';
 import { useToastStore } from '@/store/toastStore';

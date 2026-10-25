@@ -11,6 +11,7 @@ import {
   migrateCelestiaAtlasSettingsStorage,
 } from '@/store/utils/celestiaAtlasSettingsMigration';
 import { serializeRigSharedSettings } from '@/services/rigSharedSettingsService';
+import { migrateNavbarIds } from '@/utils/navbarIdMigration';
 
 // Upgrade the persisted state before Pinia's persistence plugin hydrates it.
 // Existing installations keep all Atlas preferences, while the obsolete key is
@@ -359,7 +360,9 @@ export const useSettingsStore = defineStore('settings', {
       const response = await apiService.getSetting('navbar_settings');
       if (response?.Response?.Value !== undefined) {
         Object.assign(this.navbar, JSON.parse(response.Response.Value));
+        if (migrateNavbarIds(this.navbar)) this.saveNavbarSettings();
       } else if (response?.StatusCode === 404) {
+        migrateNavbarIds(this.navbar);
         this.saveNavbarSettings();
       }
     },

@@ -114,7 +114,11 @@
           <HfAfChart v-if="hfStore.lastRun?.Points?.length" :run="hfStore.lastRun" />
           <HfRunAdvice :max-shown="10" />
           <p v-if="!hasResult" class="text-sm text-content-muted">{{ L('noResult') }}</p>
-          <button class="tns-btn-secondary min-h-touch" @click="goTo('run')">
+          <button
+            class="tns-btn-secondary min-h-touch"
+            :disabled="running || !store.focuserInfo?.Connected"
+            @click="runAgain"
+          >
             {{ L('runAgain') }}
           </button>
         </div>
@@ -251,6 +255,13 @@ async function startRun() {
     console.error('[HfSetupAssistant] Error starting autofocus:', err);
     runError.value = err.message || L('runFailed');
   }
+}
+
+// Starts the next run right away instead of only returning to the run step; the watcher on
+// `running` brings the user back to the review once it finishes.
+async function runAgain() {
+  goTo('run');
+  await startRun();
 }
 
 async function stopRun() {

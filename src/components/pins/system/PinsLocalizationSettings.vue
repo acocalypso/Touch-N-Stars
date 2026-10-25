@@ -131,7 +131,7 @@ import { useToastStore } from '@/store/toastStore';
 import {
   parseJobIdFromResponse,
   pollJobUntilFinished,
-} from '@/plugins/pins/composables/pinsJobPolling';
+} from '@/components/pins/composables/pinsJobPolling';
 
 defineProps({
   embedded: { type: Boolean, default: false },

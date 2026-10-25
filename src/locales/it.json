@@ -5341,6 +5341,32 @@
         "safe": "Sicuro",
         "unsafe": "Non sicuro"
       }
+    },
+    "ninaPluginInstall": {
+      "title": "Plugin NINA",
+      "confirm": "{plugin} richiede il plugin NINA {name}. Installarlo ora sul dispositivo PINS?",
+      "confirmRestartHint": "Poi NINA deve riavviarsi per caricarlo.",
+      "install": "Installa",
+      "installing": "Installazione di {package} …",
+      "failed": "Installazione non riuscita: {message}",
+      "retry": "Riprova",
+      "installed": "{name} è installato. NINA deve riavviarsi per caricarlo.",
+      "restartHint": "Il riavvio di NINA scollega brevemente tutta l'attrezzatura.",
+      "sequenceWarning": "È in corso una sequenza. Il riavvio di NINA la interrompe.",
+      "sequenceConfirm": "Interrompi la sequenza e riavvia NINA",
+      "restart": "Riavvia NINA",
+      "later": "Più tardi",
+      "restartFailed": "Impossibile riavviare NINA: {message}",
+      "restarting": "NINA si sta riavviando. In attesa che {name} venga caricato …",
+      "restartManually": "Riavvia il dispositivo PINS affinché NINA carichi {name}.",
+      "done": "{name} è pronto."
+    },
+    "ninaPluginGate": {
+      "title": "Plugin NINA mancante",
+      "missing": "Questa pagina richiede il plugin NINA {name}.",
+      "pendingRestart": "{name} è installato, ma NINA non l'ha ancora caricato.",
+      "install": "Installa ora",
+      "windowsHint": "Installa {name} nel gestore plugin di NINA e riavvia NINA."
     }
   },
   "plugins": {
@@ -5371,7 +5397,7 @@
       "repositoryUnavailable": "Aggiorna pinsdaemon per poter cambiare repository.",
       "repositoryRefresh": "Aggiorna repository",
       "title": "Gestione PINS",
-      "notAvailable": "Ambiente PINS non rilevato. Questo plugin è disabilitato.",
+      "notDetected": "Ambiente PINS non rilevato. Queste impostazioni sono disponibili solo su un dispositivo PINS.",
       "dryRun": "Modalità simulazione",
       "sambaTitle": "Condivisione Samba",
       "sambaDescription": "Abilita o disabilita la condivisione file di rete",
@@ -5535,6 +5561,8 @@
       "tabs": {
         "network": "Rete",
         "services": "Servizi",
+        "system": "Sistema",
+        "indi": "INDI",
         "software": "Software",
         "upgrade": "Aggiornamento"
       },
@@ -5568,6 +5596,9 @@
       "pluginsRefresh": "Aggiorna l'elenco dei plug-in",
       "pluginsTitle": "Plugin PINS",
       "pluginsUninstall": "Disinstallare",
+      "installRestartWarning": "Il plugin viene caricato solo dopo il riavvio di NINA sul dispositivo PINS. Il riavvio di NINA scollega brevemente tutta l'attrezzatura e interrompe una sequenza in corso.",
+      "uninstallRestartWarning": "La disinstallazione riavvia subito NINA sul dispositivo PINS. Tutta l'attrezzatura viene scollegata brevemente e una sequenza in corso viene interrotta.",
+      "uninstallSequenceConfirm": "Interrompi la sequenza e disinstalla",
       "pluginsUninstalling": "Disinstallazione...",
       "pluginsVersion": "Versione",
       "indiInstallModalAssetName": "Nome della risorsa",
@@ -6464,7 +6495,6 @@
       }
     },
     "livestack": {
-      "not_available": "Il Livestack non è stato trovato. Installa prima il plugin Livestack in NINA.",
       "beta_note": "Questo plugin è ancora in fase di sviluppo e può contenere alcuni errori!",
       "target": "Target",
       "available_filters": "Filtri disponibili",
@@ -8596,11 +8626,11 @@
     "flatWizard": "Flat",
     "framing": "Inquadratura",
     "skyView": "Celestia Atlas",
+    "pins": "PINS",
     "settings": "Impost.",
     "about": "Info"
   },
   "nightsummary": {
-    "notAvailable": "Plug-in Riepilogo notturno non rilevato. Installa il plug-in NINA Riepilogo notturno per utilizzare questa pagina.",
     "tnsPluginToOld": "Il plug-in Touch N Stars è troppo vecchio per questa funzione. Aggiornare alla versione 1.2.8.0 o successiva.",
     "sessions": {
       "delete": "Eliminare",

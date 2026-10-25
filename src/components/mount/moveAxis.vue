@@ -25,7 +25,7 @@
           @blur="sendStop"
           @contextmenu.prevent
           class="btn"
-          :class="mountStore.lastDirection === 'north' ? 'glow-green' : ''"
+          :class="buttonClass('north')"
         >
           <ArrowUpCircleIcon
             :class="mountStore.lastDirection === 'north' ? 'text-green-500' : 'text-gray-400'"
@@ -52,7 +52,7 @@
           @blur="sendStop"
           @contextmenu.prevent
           class="btn"
-          :class="mountStore.lastDirection === 'west' ? 'glow-green' : ''"
+          :class="buttonClass('west')"
         >
           <ArrowLeftCircleIcon
             :class="mountStore.lastDirection === 'west' ? 'text-green-500' : 'text-gray-400'"
@@ -89,7 +89,7 @@
           @blur="sendStop"
           @contextmenu.prevent
           class="btn"
-          :class="mountStore.lastDirection === 'east' ? 'glow-green' : ''"
+          :class="buttonClass('east')"
         >
           <ArrowRightCircleIcon
             :class="mountStore.lastDirection === 'east' ? 'text-green-500' : 'text-gray-400'"
@@ -116,7 +116,7 @@
           @blur="sendStop"
           @contextmenu.prevent
           class="btn"
-          :class="mountStore.lastDirection === 'south' ? 'glow-green' : ''"
+          :class="buttonClass('south')"
         >
           <ArrowDownCircleIcon
             :class="mountStore.lastDirection === 'south' ? 'text-green-500' : 'text-gray-400'"
@@ -184,7 +184,16 @@ import {
 } from '@heroicons/vue/24/outline';
 import { apiStore } from '@/store/store';
 
-defineProps({ compact: Boolean });
+const props = defineProps({
+  compact: Boolean,
+  // Directions to point out to the user, e.g. ['east', 'south'] for a guided move.
+  highlight: { type: Array, default: () => [] },
+});
+
+function buttonClass(direction) {
+  if (mountStore.lastDirection === direction) return 'glow-green';
+  return props.highlight.includes(direction) ? 'highlight-move' : '';
+}
 const { t } = useI18n();
 const commandError = ref('');
 const mountStore = useMountStore();
@@ -400,6 +409,18 @@ onBeforeUnmount(() => {
   grid-column: 1 / -1;
   color: #ffb4aa;
   overflow-wrap: anywhere;
+}
+
+.highlight-move {
+  box-shadow: 0 0 0 3px var(--color-status-warn);
+  animation: highlight-pulse 1.2s ease-in-out infinite;
+}
+
+@keyframes highlight-pulse {
+  50% {
+    /* --color-status-warn at 40%; color-mix() needs iOS 16.2, the app targets iOS 15 */
+    box-shadow: 0 0 0 6px rgb(251 191 36 / 0.4);
+  }
 }
 
 .compact {

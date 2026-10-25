@@ -1546,7 +1546,7 @@
             "title": "Tester le retournement de jour",
             "teaser": "Laisse NINA faire un vrai retournement méridien en journée, avec tes réglages : le télescope passe-t-il le trépied ou la colonne dans la position après le méridien, les câbles sont-ils assez longs ?",
             "open": "Démarrer le test",
-            "intro": "NINA amène le télescope juste à l'est du méridien et continue le suivi au-delà. Puis NINA retourne exactement comme la nuit – avec tes réglages de retournement et à l'heure réelle.",
+            "intro": "Tu amènes le télescope à la main juste à l'est du méridien. De là, il continue le suivi au-delà, et NINA retourne exactement comme la nuit – avec tes réglages de retournement et à l'heure réelle.",
             "blockers": {
               "notConnected": "La monture n'est pas connectée.",
               "parked": "La monture est parquée. Déparque-la d'abord.",
@@ -1578,13 +1578,34 @@
             "sideWest": "Ouest",
             "exposure": "Durée de tes poses (s)",
             "exposureHelp": "NINA retourne après la première pose qui se termine dans la fenêtre de retournement. Avec ta durée de pose habituelle, le test retourne dans la même position que la nuit.",
-            "plan": "Le test dure environ {minutes} min. La monture suit jusqu'à {flip} min au-delà du méridien – c'est la position testée, comme la nuit.",
+            "plan": "Le test dure au moins {minutes} min, plus le temps avant le méridien où tu démarres. La monture suit jusqu'à {flip} min au-delà du méridien – c'est la position testée, comme la nuit.",
             "sequenceNotice": "Une séquence de test est chargée dans NINA. Elle remplace la séquence actuellement chargée – enregistre-la avant si tu veux la garder.",
             "start": "Charger la séquence de test et démarrer",
+            "toPositioning": "Continuer",
+            "back": "Retour",
+            "position": {
+              "hint": "Avec les flèches, amène le télescope vers le méridien, contrepoids en bas, jusqu'à peu avant le retournement. Plus tu démarres près, plus l'attente est courte. Aucun goto n'est utilisé, la monture reste donc du côté du pilier où tu l'as amenée.",
+              "toMeridian": "Temps jusqu'au méridien",
+              "pastMeridian": "Au-delà du méridien depuis",
+              "noData": "La monture ne signale pas encore de position ou de lieu.",
+              "poleHint": "Le télescope pointe vers le pôle. NINA retourne aussi ici, mais ce n'est qu'en dehors du pôle que tu vois si le tube passe le trépied et si les câbles suffisent. Pour un test réaliste, amène Dec à une hauteur comme celle de tes cibles habituelles.",
+              "checks": {
+                "lead": "Au moins {minutes} min avant le retournement",
+                "pier": "Contrepoids en bas – le côté du pilier avant le retournement",
+                "pierUnknown": "La monture ne signale pas de côté du pilier – vérifie à l'œil que le contrepoids est en bas",
+                "altitude": "Reste au moins {degrees}° au-dessus de l'horizon jusqu'après le retournement",
+                "sun": "Reste au moins à {degrees}° du soleil jusqu'après le retournement"
+              },
+              "moves": {
+                "east": "Trop près du retournement – va vers l'est",
+                "west": "Encore loin du retournement – aller vers l'ouest raccourcit l'attente",
+                "altitude": "Trop bas – monte",
+                "sun": "Trop près du soleil – éloigne-toi",
+                "wrongSide": "Le télescope est du côté du pilier après le retournement (contrepoids en haut). Envoie la monture en position Home (contrepoids en bas, télescope vers le pôle) et pars de là en suivant les flèches marquées."
+              }
+            },
             "confirmTitle": "Charger la séquence de test ?",
-            "confirmMessage": "La séquence chargée dans NINA est remplacée par le test de retournement et le télescope se met en mouvement.",
-            "noPoint": "Pour l'instant, aucune zone du ciel près du méridien n'est à la fois assez haute et assez loin du soleil. Réessaie plus tard.",
-            "slewingToStart": "Pointage vers le point de départ …",
+            "confirmMessage": "La séquence chargée dans NINA est remplacée par le test de retournement. Le télescope suit depuis sa position actuelle et NINA le retourne après le méridien.",
             "waitingForMeridian": "Suivi vers le méridien …",
             "pastMeridian": "Le télescope est {minutes} min au-delà du méridien.",
             "flipping": "NINA effectue le retournement …",

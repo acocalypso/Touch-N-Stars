@@ -1587,7 +1587,7 @@
             "title": "Test the flip in daylight",
             "teaser": "Let NINA do a real meridian flip during the day, with your settings: does the telescope clear the tripod or pier in the position past the meridian, do the cables reach?",
             "open": "Start test",
-            "intro": "NINA moves the telescope to a point just east of the meridian and keeps tracking past it. Then NINA flips exactly as it would at night – with your flip settings and at the real time.",
+            "intro": "You drive the telescope by hand to a point just east of the meridian. From there it keeps tracking past it, and NINA flips exactly as it would at night – with your flip settings and at the real time.",
             "blockers": {
               "notConnected": "The mount is not connected.",
               "parked": "The mount is parked. Unpark it first.",
@@ -1619,13 +1619,34 @@
             "sideWest": "West",
             "exposure": "Length of your exposures (s)",
             "exposureHelp": "NINA flips after the first exposure that ends inside the flip window. With your usual exposure length the test flips in the same position as at night.",
-            "plan": "The test takes about {minutes} min. Of that, the mount tracks up to {flip} min past the meridian – that is the position being tested, the same as at night.",
+            "plan": "The test takes at least {minutes} min, plus the time you start before the meridian. The mount tracks up to {flip} min past the meridian – that is the position being tested, the same as at night.",
             "sequenceNotice": "A test sequence is loaded into NINA. It replaces the sequence that is loaded now – save it first if you want to keep it.",
             "start": "Load test sequence and start",
+            "toPositioning": "Continue",
+            "back": "Back",
+            "position": {
+              "hint": "Drive the telescope with the arrows towards the meridian, counterweight down, until shortly before the flip. The closer you start, the shorter the wait. No goto is used, so the mount keeps the side you drove it to.",
+              "toMeridian": "Time to the meridian",
+              "pastMeridian": "Past the meridian since",
+              "noData": "The mount reports no position or site yet.",
+              "poleHint": "The telescope points at the pole. NINA flips here too, but only away from the pole do you see whether the tube clears the tripod and the cables reach. For a realistic test, drive Dec to a height like your usual targets.",
+              "checks": {
+                "lead": "At least {minutes} min before the flip",
+                "pier": "Counterweight down – the side before the flip",
+                "pierUnknown": "The mount reports no side of pier – check by eye that the counterweight points down",
+                "altitude": "Stays at least {degrees}° above the horizon until after the flip",
+                "sun": "Stays at least {degrees}° away from the sun until after the flip"
+              },
+              "moves": {
+                "east": "Too close to the flip – drive east",
+                "west": "Still far from the flip – drive west to shorten the wait",
+                "altitude": "Too low – drive higher",
+                "sun": "Too close to the sun – drive away from it",
+                "wrongSide": "The telescope is on the side after the flip (counterweight up). Send the mount home (counterweight down, pointing at the pole) and drive from there following the marked arrows."
+              }
+            },
             "confirmTitle": "Load test sequence?",
-            "confirmMessage": "The sequence loaded in NINA is replaced by the flip test and the telescope starts moving.",
-            "noPoint": "Right now no part of the sky near the meridian is both high enough and far enough from the sun. Try again later.",
-            "slewingToStart": "Moving to the start point …",
+            "confirmMessage": "The sequence loaded in NINA is replaced by the flip test. The telescope keeps tracking from where it is now, and NINA flips it past the meridian.",
             "waitingForMeridian": "Tracking towards the meridian …",
             "pastMeridian": "The telescope is {minutes} min past the meridian.",
             "flipping": "NINA is flipping …",

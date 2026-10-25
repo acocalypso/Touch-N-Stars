@@ -1546,7 +1546,7 @@
             "title": "Flip overdag testen",
             "teaser": "Laat NINA overdag een echte meridiaan flip doen met jouw instellingen: komt de telescoop in de stand na de meridiaan langs het statief of de pier, zijn de kabels lang genoeg?",
             "open": "Test starten",
-            "intro": "NINA zet de telescoop op een punt net ten oosten van de meridiaan en blijft erna volgen. Dan flipt NINA precies zoals 's nachts – met jouw flip-instellingen en op de echte tijd.",
+            "intro": "Je rijdt de telescoop met de hand naar een punt net ten oosten van de meridiaan. Vandaar volgt hij verder voorbij de meridiaan, en NINA flipt precies zoals 's nachts – met je flip-instellingen en op de echte tijd.",
             "blockers": {
               "notConnected": "De montering is niet verbonden.",
               "parked": "De montering is geparkeerd. Haal hem eerst uit de parkeerstand.",
@@ -1578,13 +1578,34 @@
             "sideWest": "West",
             "exposure": "Lengte van je belichtingen (s)",
             "exposureHelp": "NINA flipt na de eerste belichting die binnen het flipvenster eindigt. Met je gebruikelijke belichtingstijd flipt de test in dezelfde stand als 's nachts.",
-            "plan": "De test duurt ongeveer {minutes} min. Daarvan volgt de montering tot {flip} min voorbij de meridiaan – dat is de stand die getest wordt, net als 's nachts.",
+            "plan": "De test duurt minstens {minutes} min, plus de tijd die je voor de meridiaan begint. De montering volgt tot {flip} min voorbij de meridiaan – dat is de stand die getest wordt, net als 's nachts.",
             "sequenceNotice": "Er wordt een testsequentie in NINA geladen. Die vervangt de sequentie die nu geladen is – sla die eerst op als je hem wilt houden.",
             "start": "Testsequentie laden en starten",
+            "toPositioning": "Verder",
+            "back": "Terug",
+            "position": {
+              "hint": "Rijd de telescoop met de pijlen richting meridiaan, contragewicht omlaag, tot kort voor de flip. Hoe dichterbij je begint, hoe korter het wachten. Er wordt geen goto gebruikt, dus de montering blijft op de pierzijde waar je hem heen hebt gereden.",
+              "toMeridian": "Tijd tot de meridiaan",
+              "pastMeridian": "Voorbij de meridiaan sinds",
+              "noData": "De montering meldt nog geen positie of locatie.",
+              "poleHint": "De telescoop wijst naar de pool. NINA flipt ook hier, maar alleen buiten de pool zie je of de buis langs het statief komt en de kabels lang genoeg zijn. Rijd Dec voor een realistische test naar een hoogte zoals bij je gebruikelijke objecten.",
+              "checks": {
+                "lead": "Minstens {minutes} min voor de flip",
+                "pier": "Contragewicht omlaag – de pierzijde voor de flip",
+                "pierUnknown": "De montering meldt geen pierzijde – controleer met het oog dat het contragewicht omlaag wijst",
+                "altitude": "Blijft tot na de flip minstens {degrees}° boven de horizon",
+                "sun": "Blijft tot na de flip minstens {degrees}° van de zon"
+              },
+              "moves": {
+                "east": "Te dicht bij de flip – rijd naar het oosten",
+                "west": "Nog ver voor de flip – naar het westen rijden verkort het wachten",
+                "altitude": "Te laag – rijd hoger",
+                "sun": "Te dicht bij de zon – rijd ervan weg",
+                "wrongSide": "De telescoop staat op de pierzijde na de flip (contragewicht omhoog). Stuur de montering naar Home (contragewicht omlaag, telescoop naar de pool) en rijd van daar volgens de gemarkeerde pijlen."
+              }
+            },
             "confirmTitle": "Testsequentie laden?",
-            "confirmMessage": "De in NINA geladen sequentie wordt vervangen door de fliptest en de telescoop gaat bewegen.",
-            "noPoint": "Op dit moment is geen deel van de hemel bij de meridiaan hoog genoeg en ver genoeg van de zon. Probeer het later opnieuw.",
-            "slewingToStart": "Naar het startpunt …",
+            "confirmMessage": "De in NINA geladen sequentie wordt vervangen door de flip-test. De telescoop volgt vanaf zijn huidige positie en NINA flipt hem na de meridiaan.",
             "waitingForMeridian": "Volgt naar de meridiaan …",
             "pastMeridian": "De telescoop staat {minutes} min voorbij de meridiaan.",
             "flipping": "NINA flipt …",

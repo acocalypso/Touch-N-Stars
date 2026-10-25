@@ -1546,7 +1546,7 @@
             "title": "Otestovat flip ve dne",
             "teaser": "Nech NINA udělat přes den skutečný meridian flip s tvým nastavením: projde dalekohled kolem stativu nebo sloupu v poloze po poledníku, stačí kabely?",
             "open": "Spustit test",
-            "intro": "NINA nastaví dalekohled kousek východně od poledníku a sleduje dál za něj. Pak NINA provede flip přesně jako v noci – s tvým nastavením flipu a ve skutečném čase.",
+            "intro": "Teleskop sám ručně najedeš do bodu těsně východně od meridiánu. Odtud pokračuje ve sledování za meridián a NINA provede flip přesně jako v noci – s tvým nastavením flipu a ve skutečném čase.",
             "blockers": {
               "notConnected": "Montáž není připojena.",
               "parked": "Montáž je zaparkovaná. Nejdřív ji odparkuj.",
@@ -1578,13 +1578,34 @@
             "sideWest": "Západ",
             "exposure": "Délka tvých expozic (s)",
             "exposureHelp": "NINA provede flip po první expozici, která skončí v okně flipu. S tvou obvyklou délkou expozice provede test flip ve stejné poloze jako v noci.",
-            "plan": "Test trvá asi {minutes} min. Montáž přitom sleduje až {flip} min za poledník – to je testovaná poloha, stejně jako v noci.",
+            "plan": "Test trvá nejméně {minutes} min plus čas, o který začneš před meridiánem. Montáž sleduje až {flip} min za meridián – to je testovaná poloha, stejně jako v noci.",
             "sequenceNotice": "Do NINA se načte testovací sekvence. Nahradí právě načtenou sekvenci – pokud si ji chceš ponechat, nejdřív ji ulož.",
             "start": "Načíst testovací sekvenci a spustit",
+            "toPositioning": "Pokračovat",
+            "back": "Zpět",
+            "position": {
+              "hint": "Šipkami najeď teleskopem směrem k meridiánu, protizávaží dole, až kousek před flip. Čím blíž začneš, tím kratší čekání. Nepoužívá se žádné goto, takže montáž zůstane na straně sloupu, kam jsi ji najel.",
+              "toMeridian": "Čas do meridiánu",
+              "pastMeridian": "Za meridiánem už",
+              "noData": "Montáž zatím nehlásí polohu ani stanoviště.",
+              "poleHint": "Teleskop míří na pól. NINA provede flip i tady, ale jen mimo pól uvidíš, jestli tubus mine stativ a jestli kabely stačí. Pro realistický test najeď v Dec do výšky jako u tvých obvyklých objektů.",
+              "checks": {
+                "lead": "Nejméně {minutes} min před flipem",
+                "pier": "Protizávaží dole – strana sloupu před flipem",
+                "pierUnknown": "Montáž nehlásí stranu sloupu – zkontroluj okem, že protizávaží míří dolů",
+                "altitude": "Zůstává až do konce flipu nejméně {degrees}° nad obzorem",
+                "sun": "Zůstává až do konce flipu nejméně {degrees}° od Slunce"
+              },
+              "moves": {
+                "east": "Příliš blízko flipu – jeď na východ",
+                "west": "Ještě daleko od flipu – jízda na západ zkrátí čekání",
+                "altitude": "Příliš nízko – jeď výš",
+                "sun": "Příliš blízko Slunce – odjeď od něj",
+                "wrongSide": "Teleskop je na straně sloupu po flipu (protizávaží nahoře). Pošli montáž do polohy Home (protizávaží dole, teleskop k pólu) a odtud jeď podle označených šipek."
+              }
+            },
             "confirmTitle": "Načíst testovací sekvenci?",
-            "confirmMessage": "Sekvence načtená v NINA bude nahrazena testem flipu a dalekohled se začne pohybovat.",
-            "noPoint": "Momentálně není žádná část oblohy u poledníku dost vysoko a dost daleko od slunce. Zkus to později.",
-            "slewingToStart": "Najíždění na výchozí bod …",
+            "confirmMessage": "Sekvence načtená v NINA se nahradí testem flipu. Teleskop sleduje ze své aktuální polohy a NINA ho po meridiánu převrátí.",
             "waitingForMeridian": "Sledování k poledníku …",
             "pastMeridian": "Dalekohled je {minutes} min za poledníkem.",
             "flipping": "NINA provádí flip …",

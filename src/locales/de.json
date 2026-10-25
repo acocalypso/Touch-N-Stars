@@ -1587,7 +1587,7 @@
             "title": "Flip bei Tag testen",
             "teaser": "Lass NINA tagsüber einen echten Meridian Flip mit deinen Einstellungen machen: Kommt das Teleskop in der Stellung nach dem Meridian an Stativ oder Säule vorbei, reichen die Kabel?",
             "open": "Test starten",
-            "intro": "NINA fährt das Teleskop auf einen Punkt knapp östlich des Meridians und führt darüber hinaus nach. Dann flippt NINA genau wie in der Nacht – mit deinen Flip-Einstellungen und zur echten Zeit.",
+            "intro": "Du fährst das Teleskop von Hand auf einen Punkt knapp östlich des Meridians. Von dort führt es darüber hinaus nach, und NINA flippt genau wie in der Nacht – mit deinen Flip-Einstellungen und zur echten Zeit.",
             "blockers": {
               "notConnected": "Die Montierung ist nicht verbunden.",
               "parked": "Die Montierung ist geparkt. Entparke sie zuerst.",
@@ -1619,13 +1619,34 @@
             "sideWest": "West",
             "exposure": "Länge deiner Belichtungen (s)",
             "exposureHelp": "NINA flippt nach der ersten Belichtung, die im Flip-Fenster endet. Mit deiner üblichen Belichtungslänge flippt der Test in derselben Stellung wie in der Nacht.",
-            "plan": "Der Test dauert etwa {minutes} min. Davon führt die Montierung bis zu {flip} min über den Meridian hinaus nach – das ist die Stellung, die getestet wird, genau wie in der Nacht.",
+            "plan": "Der Test dauert mindestens {minutes} min, plus die Zeit, die du vor dem Meridian startest. Die Montierung führt bis zu {flip} min über den Meridian hinaus nach – das ist die Stellung, die getestet wird, genau wie in der Nacht.",
             "sequenceNotice": "Eine Test-Sequenz wird in NINA geladen. Sie ersetzt die aktuell geladene Sequenz – speichere sie vorher, wenn du sie behalten willst.",
             "start": "Test-Sequenz laden und starten",
+            "toPositioning": "Weiter",
+            "back": "Zurück",
+            "position": {
+              "hint": "Fahr das Teleskop mit den Pfeilen Richtung Meridian, Gegengewicht unten, bis kurz vor den Flip. Je näher du startest, desto kürzer die Wartezeit. Es gibt kein Goto, deshalb bleibt die Montierung auf der Pierseite, auf die du sie gefahren hast.",
+              "toMeridian": "Zeit bis zum Meridian",
+              "pastMeridian": "Über dem Meridian seit",
+              "noData": "Die Montierung meldet noch keine Position oder keinen Standort.",
+              "poleHint": "Das Teleskop zeigt auf den Pol. NINA flippt auch hier, aber nur abseits des Pols siehst du, ob das Rohr am Stativ vorbeikommt und die Kabel reichen. Für einen realistischen Test fahr Dec auf eine Höhe wie bei deinen üblichen Zielen.",
+              "checks": {
+                "lead": "Mindestens {minutes} min vor dem Flip",
+                "pier": "Gegengewicht unten – die Pierseite vor dem Flip",
+                "pierUnknown": "Die Montierung meldet keine Pierseite – prüf mit dem Auge, dass das Gegengewicht nach unten zeigt",
+                "altitude": "Bleibt bis nach dem Flip mindestens {degrees}° über dem Horizont",
+                "sun": "Bleibt bis nach dem Flip mindestens {degrees}° von der Sonne entfernt"
+              },
+              "moves": {
+                "east": "Zu nah am Flip – nach Osten fahren",
+                "west": "Noch weit vor dem Flip – nach Westen fahren verkürzt die Wartezeit",
+                "altitude": "Zu tief – höher fahren",
+                "sun": "Zu nah an der Sonne – von ihr wegfahren",
+                "wrongSide": "Das Teleskop steht auf der Pierseite nach dem Flip (Gegengewicht oben). Schick die Montierung in die Home-Position (Gegengewicht unten, Teleskop zum Pol) und fahr von dort nach den markierten Pfeilen."
+              }
+            },
             "confirmTitle": "Test-Sequenz laden?",
-            "confirmMessage": "Die in NINA geladene Sequenz wird durch den Flip-Test ersetzt, und das Teleskop setzt sich in Bewegung.",
-            "noPoint": "Gerade ist kein Bereich des Himmels nahe dem Meridian hoch genug und weit genug von der Sonne entfernt. Versuch es später noch einmal.",
-            "slewingToStart": "Fährt zum Startpunkt …",
+            "confirmMessage": "Die in NINA geladene Sequenz wird durch den Flip-Test ersetzt. Das Teleskop führt von seiner jetzigen Position aus nach, und NINA flippt es nach dem Meridian.",
             "waitingForMeridian": "Führt zum Meridian nach …",
             "pastMeridian": "Das Teleskop steht {minutes} min hinter dem Meridian.",
             "flipping": "NINA flippt …",

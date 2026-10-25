@@ -1546,7 +1546,7 @@
             "title": "Testar o flip de dia",
             "teaser": "Deixa o NINA fazer um meridian flip real durante o dia, com as tuas definições: o telescópio passa o tripé ou a coluna na posição depois do meridiano, os cabos chegam?",
             "open": "Iniciar teste",
-            "intro": "O NINA leva o telescópio a um ponto logo a leste do meridiano e continua a seguir para além dele. Depois faz o flip exatamente como à noite – com as tuas definições e à hora real.",
+            "intro": "Levas o telescópio à mão até um ponto logo a leste do meridiano. A partir daí continua o seguimento para além dele, e o NINA faz o flip exatamente como à noite – com as tuas definições e à hora real.",
             "blockers": {
               "notConnected": "A montagem não está ligada.",
               "parked": "A montagem está estacionada. Desestaciona-a primeiro.",
@@ -1578,13 +1578,34 @@
             "sideWest": "Oeste",
             "exposure": "Duração das tuas exposições (s)",
             "exposureHelp": "O NINA faz o flip após a primeira exposição que termina dentro da janela de flip. Com a tua duração habitual, o teste faz o flip na mesma posição que à noite.",
-            "plan": "O teste demora cerca de {minutes} min. A montagem segue até {flip} min para além do meridiano – é essa a posição testada, tal como à noite.",
+            "plan": "O teste dura pelo menos {minutes} min, mais o tempo antes do meridiano em que começas. A montagem segue até {flip} min depois do meridiano – é essa a posição testada, como à noite.",
             "sequenceNotice": "É carregada uma sequência de teste no NINA. Substitui a sequência carregada agora – guarda-a antes se a quiseres manter.",
             "start": "Carregar sequência de teste e iniciar",
+            "toPositioning": "Continuar",
+            "back": "Voltar",
+            "position": {
+              "hint": "Com as setas, leva o telescópio em direção ao meridiano, contrapeso em baixo, até pouco antes do flip. Quanto mais perto começares, menor a espera. Não é usado goto, por isso a montagem fica no lado do pilar para onde a levaste.",
+              "toMeridian": "Tempo até ao meridiano",
+              "pastMeridian": "Depois do meridiano há",
+              "noData": "A montagem ainda não indica posição ou local.",
+              "poleHint": "O telescópio aponta para o polo. O NINA também faz o flip aqui, mas só longe do polo vês se o tubo passa o tripé e se os cabos chegam. Para um teste realista, leva Dec a uma altura como a dos teus alvos habituais.",
+              "checks": {
+                "lead": "Pelo menos {minutes} min antes do flip",
+                "pier": "Contrapeso em baixo – o lado do pilar antes do flip",
+                "pierUnknown": "A montagem não indica o lado do pilar – confirma à vista que o contrapeso aponta para baixo",
+                "altitude": "Fica pelo menos {degrees}° acima do horizonte até depois do flip",
+                "sun": "Fica pelo menos a {degrees}° do sol até depois do flip"
+              },
+              "moves": {
+                "east": "Demasiado perto do flip – move para leste",
+                "west": "Ainda longe do flip – mover para oeste encurta a espera",
+                "altitude": "Demasiado baixo – sobe",
+                "sun": "Demasiado perto do sol – afasta-te",
+                "wrongSide": "O telescópio está no lado do pilar depois do flip (contrapeso em cima). Envia a montagem para Home (contrapeso em baixo, telescópio para o polo) e a partir daí segue as setas marcadas."
+              }
+            },
             "confirmTitle": "Carregar sequência de teste?",
-            "confirmMessage": "A sequência carregada no NINA é substituída pelo teste de flip e o telescópio começa a mover-se.",
-            "noPoint": "Neste momento nenhuma zona do céu perto do meridiano está suficientemente alta e longe do sol. Tenta mais tarde.",
-            "slewingToStart": "A ir para o ponto de partida …",
+            "confirmMessage": "A sequência carregada no NINA é substituída pelo teste de flip. O telescópio segue a partir da posição atual e o NINA faz o flip depois do meridiano.",
             "waitingForMeridian": "A seguir em direção ao meridiano …",
             "pastMeridian": "O telescópio está {minutes} min para além do meridiano.",
             "flipping": "O NINA está a fazer o flip …",

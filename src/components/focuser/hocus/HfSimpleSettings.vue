@@ -10,10 +10,7 @@
     </button>
 
     <!-- Setup problems visible before any run -->
-    <p v-for="issue in issues" :key="issue" class="flex items-start gap-2 text-sm text-status-warn">
-      <span class="tns-dot bg-status-warn mt-1.5 shrink-0"></span>
-      <span>{{ L(`issues.${issue}`) }}</span>
-    </p>
+    <HfSetupIssues />
 
     <!-- Optics: read-only here, the assistant edits it -->
     <div class="flex flex-col gap-1 rounded-control bg-surface-2 p-3">
@@ -53,6 +50,7 @@
         :min="1"
         :max="10"
       />
+      <HfSweepPreview />
     </div>
 
     <!-- Star detection: Hocus Focus simple-mode presets -->
@@ -142,11 +140,13 @@ import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { apiStore } from '@/store/store';
 import { useHocusFocusStore } from '@/store/hocusFocusStore';
-import { checkPrerequisites, imageScale, suggestPixelScalePreset } from '@/utils/hocusFocusAdvisor';
+import { imageScale, suggestPixelScalePreset } from '@/utils/hocusFocusAdvisor';
 import SettingInput from '@/components/helpers/settings/UpdatePorfileNumber.vue';
 import HfSelectField from './fields/HfSelectField.vue';
 import HfToggleRow from './fields/HfToggleRow.vue';
 import DirectoryBrowser from './DirectoryBrowser.vue';
+import HfSetupIssues from './HfSetupIssues.vue';
+import HfSweepPreview from './HfSweepPreview.vue';
 
 const emit = defineEmits(['open-assistant']);
 
@@ -175,7 +175,6 @@ const scale = computed(() =>
   imageScale(focalLength.value, pixelSize.value, focuser.value.AutoFocusBinning)
 );
 const suggestedPreset = computed(() => suggestPixelScalePreset(scale.value));
-const issues = computed(() => checkPrerequisites(store.profileInfo, sd.value, af.value));
 
 // --- Saving: selects and toggles commit once, so no debouncing is needed ---------------------
 const optionStatus = ref({});

@@ -41,7 +41,7 @@
 <script setup>
 import { apiStore } from '@/store/store';
 import apiService from '@/services/apiService';
-import { ref, watch } from 'vue';
+import { computed, ref, watch } from 'vue';
 import {
   ChevronRightIcon,
   ChevronLeftIcon,
@@ -50,7 +50,8 @@ import {
 } from '@heroicons/vue/24/outline';
 
 const store = apiStore();
-const afStepsize = store.profileInfo.FocuserSettings.AutoFocusStepSize;
+// Follows the profile so a newly applied AF step size takes effect without reopening the view.
+const afStepsize = computed(() => store.profileInfo.FocuserSettings.AutoFocusStepSize);
 const isMoving = ref(false);
 const loadingButton = ref(null);
 const timeoutId = ref(null); // ID für den Timeout
@@ -77,28 +78,28 @@ async function moveFocuser(newPosiont) {
 async function changeBigMinus() {
   loadingButton.value = 'changeBigMinus';
   const currentPosition = store.focuserInfo.Position;
-  let newPosiont = currentPosition - afStepsize * 5;
+  let newPosiont = currentPosition - afStepsize.value * 5;
   moveFocuser(newPosiont);
 }
 
 async function changeSmallMinus() {
   loadingButton.value = 'changeSmallMinus';
   const currentPosition = store.focuserInfo.Position;
-  let newPosiont = currentPosition - afStepsize / 2;
+  let newPosiont = currentPosition - afStepsize.value / 2;
   moveFocuser(newPosiont);
 }
 
 async function changeBigPlus() {
   loadingButton.value = 'changeBigPlus';
   const currentPosition = store.focuserInfo.Position;
-  let newPosiont = currentPosition + afStepsize * 5;
+  let newPosiont = currentPosition + afStepsize.value * 5;
   moveFocuser(newPosiont);
 }
 
 async function changeSmallPlus() {
   loadingButton.value = 'changeSmallPlus';
   const currentPosition = store.focuserInfo.Position;
-  let newPosiont = currentPosition + afStepsize / 2;
+  let newPosiont = currentPosition + afStepsize.value / 2;
   moveFocuser(newPosiont);
 }
 

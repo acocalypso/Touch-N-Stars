@@ -4457,7 +4457,6 @@
         "saveFailed": "Falha ao guardar",
         "issues": {
           "missingOptics": "Falta a distância focal ou o tamanho do píxel. A sugestão de tamanho das estrelas precisa de ambos.",
-          "saveDisabled": "Os autofocos ainda não são guardados, por isso o otimizador não tem com que trabalhar.",
           "binningStacked": "O binning de deteção e o binning de autofoco estão ambos acima de 1×1. Multiplicam-se; normalmente só um deve estar definido."
         },
         "presets": {
@@ -4524,8 +4523,6 @@
           "noisy": "Câmaras sem arrefecimento ou óticas muito lentas.",
           "narrowband": "Define a exposição de focagem para pelo menos {seconds} s."
         },
-        "saveHint": "Escolha uma pasta para guardar o autofoco. O otimizador precisa de um autofoco guardado.",
-        "savePath": "Pasta dos autofocos guardados",
         "startRun": "Iniciar autofoco",
         "stopRun": "Parar autofoco",
         "runFailed": "Não foi possível iniciar o autofoco.",
@@ -5345,26 +5342,26 @@
     "ninaPluginInstall": {
       "title": "Plugin do NINA",
       "confirm": "{plugin} precisa do plugin do NINA {name}. Instalar agora no dispositivo PINS?",
-      "confirmRestartHint": "Depois o NINA tem de reiniciar para o carregar.",
+      "confirmRestartHint": "Depois o PINS tem de reiniciar para o carregar.",
       "install": "Instalar",
       "installing": "A instalar {package} …",
       "failed": "A instalação falhou: {message}",
       "retry": "Tentar novamente",
-      "installed": "{name} está instalado. O NINA tem de reiniciar para o carregar.",
-      "restartHint": "Reiniciar o NINA desliga brevemente todo o equipamento.",
-      "sequenceWarning": "Está a decorrer uma sequência. Reiniciar o NINA interrompe-a.",
-      "sequenceConfirm": "Interromper a sequência e reiniciar o NINA",
-      "restart": "Reiniciar o NINA",
+      "installed": "{name} está instalado. O PINS tem de reiniciar para o carregar.",
+      "restartHint": "Reiniciar o PINS demora alguns minutos e desliga todo o equipamento.",
+      "sequenceWarning": "Está a decorrer uma sequência. Reiniciar o PINS interrompe-a.",
+      "sequenceConfirm": "Interromper a sequência e reiniciar o PINS",
+      "restart": "Reiniciar o PINS",
       "later": "Mais tarde",
-      "restartFailed": "Não foi possível reiniciar o NINA: {message}",
-      "restarting": "O NINA está a reiniciar. A aguardar que {name} seja carregado …",
-      "restartManually": "Reinicie o dispositivo PINS para que o NINA carregue {name}.",
+      "restartFailed": "Não foi possível reiniciar o PINS: {message}",
+      "restarting": "O PINS está a reiniciar. A aguardar que {name} seja carregado …",
+      "restartTimeout": "O PINS ainda não voltou com {name}. Verifique o dispositivo e abra esta página novamente quando estiver a funcionar.",
       "done": "{name} está pronto."
     },
     "ninaPluginGate": {
       "title": "Falta o plugin do NINA",
       "missing": "Esta página precisa do plugin do NINA {name}.",
-      "pendingRestart": "{name} está instalado, mas o NINA ainda não o carregou.",
+      "pendingRestart": "{name} está instalado, mas o PINS tem de reiniciar para o carregar.",
       "install": "Instalar agora",
       "windowsHint": "Instale {name} no gestor de plugins do NINA e reinicie o NINA."
     }
@@ -5596,8 +5593,8 @@
       "pluginsRefresh": "Atualizar lista de plugins",
       "pluginsTitle": "Plug-ins PINS",
       "pluginsUninstall": "Desinstalar",
-      "installRestartWarning": "O plugin só é carregado depois de o NINA reiniciar no dispositivo PINS. Reiniciar o NINA desliga brevemente todo o equipamento e interrompe uma sequência em curso.",
-      "uninstallRestartWarning": "Desinstalar reinicia imediatamente o NINA no dispositivo PINS. Todo o equipamento é desligado brevemente e uma sequência em curso é interrompida.",
+      "installRestartWarning": "O plugin só é carregado depois de o PINS reiniciar. Reiniciar o PINS desliga todo o equipamento e interrompe uma sequência em curso.",
+      "uninstallRestartWarning": "Desinstalar reinicia imediatamente o PINS. Todo o equipamento é desligado brevemente e uma sequência em curso é interrompida.",
       "uninstallSequenceConfirm": "Interromper a sequência e desinstalar",
       "pluginsUninstalling": "Desinstalando...",
       "pluginsVersion": "Versão",

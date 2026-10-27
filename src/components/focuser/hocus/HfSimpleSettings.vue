@@ -1,34 +1,34 @@
 <template>
-  <div class="tns-card flex flex-col gap-4">
-    <div class="flex flex-col gap-1">
-      <h3 class="text-base font-semibold text-content">{{ L('title') }}</h3>
-      <p class="text-sm text-content-muted">{{ L('description') }}</p>
-    </div>
+  <div class="flex flex-col gap-4">
+    <!-- Overview: assistant, setup problems and optics -->
+    <div class="tns-card flex flex-col gap-4">
+      <div class="flex flex-col gap-1">
+        <h3 class="text-base font-semibold text-content">{{ L('title') }}</h3>
+        <p class="text-sm text-content-muted">{{ L('description') }}</p>
+      </div>
 
-    <button class="tns-btn-primary min-h-touch" @click="emit('open-assistant')">
-      {{ L('startAssistant') }}
-    </button>
+      <button class="tns-btn-primary min-h-touch" @click="emit('open-assistant')">
+        {{ L('startAssistant') }}
+      </button>
 
-    <!-- Setup problems visible before any run -->
-    <p v-for="issue in issues" :key="issue" class="flex items-start gap-2 text-sm text-status-warn">
-      <span class="tns-dot bg-status-warn mt-1.5 shrink-0"></span>
-      <span>{{ L(`issues.${issue}`) }}</span>
-    </p>
+      <!-- Setup problems visible before any run -->
+      <HfSetupIssues />
 
-    <!-- Optics: read-only here, the assistant edits it -->
-    <div class="flex flex-col gap-1 rounded-control bg-surface-2 p-3">
-      <span class="text-xs font-semibold uppercase text-content-muted">{{ L('optics') }}</span>
-      <p class="text-sm text-content">
-        {{ L('opticsLine', { focalLength: focalLength || '–', pixelSize: pixelSize || '–' }) }}
-      </p>
-      <p v-if="scale" class="text-sm text-content-muted">
-        {{ L('imageScale', { scale: scale.toFixed(2) }) }}
-      </p>
+      <!-- Optics: read-only here, the assistant edits it -->
+      <div class="flex flex-col gap-1 rounded-control bg-surface-2 p-3">
+        <span class="text-xs font-semibold uppercase text-content-muted">{{ L('optics') }}</span>
+        <p class="text-sm text-content">
+          {{ L('opticsLine', { focalLength: focalLength || '–', pixelSize: pixelSize || '–' }) }}
+        </p>
+        <p v-if="scale" class="text-sm text-content-muted">
+          {{ L('imageScale', { scale: scale.toFixed(2) }) }}
+        </p>
+      </div>
     </div>
 
     <!-- The sweep: NINA profile values -->
-    <div class="flex flex-col gap-3">
-      <span class="text-xs font-semibold uppercase text-content-muted">{{ L('sweep') }}</span>
+    <div class="tns-card flex flex-col gap-3">
+      <h3 class="text-base font-semibold text-content">{{ L('sweep') }}</h3>
       <SettingInput
         labelKey="components.focuser.hfSimple.exposure"
         helpKey="components.focuser.hfSimple.help.exposure"
@@ -53,11 +53,12 @@
         :min="1"
         :max="10"
       />
+      <HfSweepPreview />
     </div>
 
     <!-- Star detection: Hocus Focus simple-mode presets -->
-    <div v-if="sd" class="flex flex-col gap-3">
-      <span class="text-xs font-semibold uppercase text-content-muted">{{ L('stars') }}</span>
+    <div v-if="sd" class="tns-card flex flex-col gap-3">
+      <h3 class="text-base font-semibold text-content">{{ L('stars') }}</h3>
       <p
         v-if="sd.PersistToProfile === false"
         class="rounded-control border border-status-warn/40 bg-status-warn/10 p-3 text-sm text-content"
@@ -114,8 +115,8 @@
     </div>
 
     <!-- Saved runs feed the optimizer and the field analysis -->
-    <div v-if="af" class="flex flex-col gap-3">
-      <span class="text-xs font-semibold uppercase text-content-muted">{{ L('runs') }}</span>
+    <div v-if="af" class="tns-card flex flex-col gap-3">
+      <h3 class="text-base font-semibold text-content">{{ L('runs') }}</h3>
       <HfToggleRow
         :model-value="af.Save"
         :label="L('saveRuns')"
@@ -142,11 +143,13 @@ import { computed, onMounted, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { apiStore } from '@/store/store';
 import { useHocusFocusStore } from '@/store/hocusFocusStore';
-import { checkPrerequisites, imageScale, suggestPixelScalePreset } from '@/utils/hocusFocusAdvisor';
+import { imageScale, suggestPixelScalePreset } from '@/utils/hocusFocusAdvisor';
 import SettingInput from '@/components/helpers/settings/UpdatePorfileNumber.vue';
 import HfSelectField from './fields/HfSelectField.vue';
 import HfToggleRow from './fields/HfToggleRow.vue';
 import DirectoryBrowser from './DirectoryBrowser.vue';
+import HfSetupIssues from './HfSetupIssues.vue';
+import HfSweepPreview from './HfSweepPreview.vue';
 
 const emit = defineEmits(['open-assistant']);
 
@@ -175,7 +178,6 @@ const scale = computed(() =>
   imageScale(focalLength.value, pixelSize.value, focuser.value.AutoFocusBinning)
 );
 const suggestedPreset = computed(() => suggestPixelScalePreset(scale.value));
-const issues = computed(() => checkPrerequisites(store.profileInfo, sd.value, af.value));
 
 // --- Saving: selects and toggles commit once, so no debouncing is needed ---------------------
 const optionStatus = ref({});

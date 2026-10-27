@@ -4498,7 +4498,6 @@
         "saveFailed": "No s'ha pogut desar",
         "issues": {
           "missingOptics": "Falta la distància focal o la mida del píxel. El suggeriment de mida dels estels necessita totes dues.",
-          "saveDisabled": "Els enfocaments automàtics encara no es desen, així que l'optimitzador no té amb què treballar.",
           "binningStacked": "El binning de detecció i el d'enfocament automàtic són tots dos per sobre d'1×1. Es multipliquen; normalment només n'hauria d'estar un actiu."
         },
         "presets": {
@@ -4565,8 +4564,6 @@
           "noisy": "Càmeres sense refrigeració o òptiques molt lentes.",
           "narrowband": "Posa l'exposició d'enfocament a com a mínim {seconds} s."
         },
-        "saveHint": "Tria una carpeta on desar l'enfocament. L'optimitzador necessita un enfocament desat.",
-        "savePath": "Carpeta dels enfocaments desats",
         "startRun": "Inicia l'enfocament automàtic",
         "stopRun": "Atura l'enfocament automàtic",
         "runFailed": "No s'ha pogut iniciar l'enfocament automàtic.",
@@ -5345,26 +5342,26 @@
     "ninaPluginInstall": {
       "title": "Connector de NINA",
       "confirm": "{plugin} necessita el connector de NINA {name}. Vols instal·lar-lo ara al dispositiu PINS?",
-      "confirmRestartHint": "Després NINA s'ha de reiniciar per carregar-lo.",
+      "confirmRestartHint": "Després PINS s'ha de reiniciar per carregar-lo.",
       "install": "Instal·la",
       "installing": "S'està instal·lant {package} …",
       "failed": "La instal·lació ha fallat: {message}",
       "retry": "Torna-ho a provar",
-      "installed": "{name} està instal·lat. NINA s'ha de reiniciar per carregar-lo.",
-      "restartHint": "Reiniciar NINA desconnecta breument tot l'equip.",
-      "sequenceWarning": "S'està executant una seqüència. Reiniciar NINA l'avortarà.",
-      "sequenceConfirm": "Avorta la seqüència i reinicia NINA",
-      "restart": "Reinicia NINA",
+      "installed": "{name} està instal·lat. PINS s'ha de reiniciar per carregar-lo.",
+      "restartHint": "Reiniciar PINS triga uns minuts i desconnecta tot l'equip.",
+      "sequenceWarning": "S'està executant una seqüència. Reiniciar PINS l'avortarà.",
+      "sequenceConfirm": "Avorta la seqüència i reinicia PINS",
+      "restart": "Reinicia PINS",
       "later": "Més tard",
-      "restartFailed": "No s'ha pogut reiniciar NINA: {message}",
-      "restarting": "NINA s'està reiniciant. S'espera que es carregui {name} …",
-      "restartManually": "Reinicia el dispositiu PINS perquè NINA carregui {name}.",
+      "restartFailed": "No s'ha pogut reiniciar PINS: {message}",
+      "restarting": "PINS s'està reiniciant. S'espera que es carregui {name} …",
+      "restartTimeout": "PINS encara no ha tornat amb {name}. Comprova el dispositiu i torna a obrir aquesta pàgina quan estigui en marxa.",
       "done": "{name} està a punt."
     },
     "ninaPluginGate": {
       "title": "Falta el connector de NINA",
       "missing": "Aquesta pàgina necessita el connector de NINA {name}.",
-      "pendingRestart": "{name} està instal·lat, però NINA encara no l'ha carregat.",
+      "pendingRestart": "{name} està instal·lat, però PINS s'ha de reiniciar per carregar-lo.",
       "install": "Instal·la ara",
       "windowsHint": "Instal·la {name} al gestor de connectors de NINA i reinicia NINA."
     }
@@ -5660,8 +5657,8 @@
       "pluginsInstall": "Instal·la",
       "pluginsInstalling": "Instal·lant...",
       "pluginsUninstall": "Desinstal·la",
-      "installRestartWarning": "El connector només es carrega quan NINA es reinicia al dispositiu PINS. Reiniciar NINA desconnecta breument tot l'equip i avorta una seqüència en curs.",
-      "uninstallRestartWarning": "Desinstal·lar reinicia NINA immediatament al dispositiu PINS. Tot l'equip es desconnecta breument i s'avorta una seqüència en curs.",
+      "installRestartWarning": "El connector només es carrega després de reiniciar PINS. Reiniciar PINS desconnecta tot l'equip i avorta una seqüència en curs.",
+      "uninstallRestartWarning": "Desinstal·lar reinicia PINS immediatament. Tot l'equip es desconnecta breument i s'avorta una seqüència en curs.",
       "uninstallSequenceConfirm": "Avorta la seqüència i desinstal·la",
       "pluginsUninstalling": "Desinstal·lant...",
       "dhcpClientsTitle": "Clients connectats",

@@ -5,6 +5,21 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [App6.5.0 - beta 17] - 2026-10-27
+
+### Added
+
+- Focus (PINS): The autofocus setup assistant measures the right step size with your focuser and warns when the autofocus sweep covers an implausibly large part of the focuser's travel.
+
+### Changed
+
+- Focus (PINS): The focus settings and Hocus Focus are split into sub-tabs, and the page heading is gone to leave more room.
+
+### Fixed
+
+- Focus (PINS): The autofocus setup assistant no longer claims the optimizer needs saved autofocus runs.
+- Camera: The exposure progress ring sits centered inside the capture button.
+
 ## [App6.5.0 - beta 16] - 2026-10-25
 
 ### Added
@@ -12,13 +27,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Settings (Meridian Flip): One question about how far the mount can track past the meridian replaces the three minute values, and a timeline shows when the flip happens.
 - Settings (Meridian Flip): A daylight test lets NINA do a real meridian flip with your settings from a start point you drive to yourself, shows the time to the meridian and reports whether NINA hit an error during the flip.
 - Focus (PINS): Hocus Focus is now part of the focus page, with the key autofocus settings in one card, a setup assistant and a check after each run that suggests a fix you can apply with one tap.
-- PINS: Plugins that need a NINA plugin offer to install it and restart NINA.
+- PINS: Plugins that need a NINA plugin offer to install it and restart PINS.
 - Settings: A PINS tab leads straight to the PINS page.
 
 ### Changed
 
 - PINS: The PINS page is built in instead of a plugin and has new System and INDI tabs.
-- PINS: Installing or uninstalling a NINA plugin package warns that NINA restarts.
+- PINS: Installing or uninstalling a NINA plugin package warns that PINS restarts.
 - PINS: Packages the app needs are no longer listed under Software.
 
 ### Removed

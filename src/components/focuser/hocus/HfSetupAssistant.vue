@@ -81,16 +81,17 @@
           <ButtonsFastChangePositon />
         </div>
 
-        <!-- 5. Test run -->
+        <!-- 5. Step size measured on the real optics -->
+        <HfStepSizeProbe
+          v-else-if="step === 'measure'"
+          :hand-samples="handSamples"
+          @running="probeRunning = $event"
+        />
+
+        <!-- 6. Test run -->
         <div v-else-if="step === 'run'" class="flex flex-col gap-3">
-          <template v-if="hfStore.autoFocusOptions && !hfStore.autoFocusOptions.Save">
-            <p class="text-sm text-content-muted">{{ L('saveHint') }}</p>
-            <DirectoryBrowser
-              :model-value="hfStore.autoFocusOptions.SavePath"
-              :label="L('savePath')"
-              @update:model-value="enableSaving"
-            />
-          </template>
+          <HfSetupIssues :only="SWEEP_ISSUES" />
+          <HfSweepPreview />
           <button
             v-if="!running"
             class="tns-btn-primary min-h-touch"
@@ -109,7 +110,7 @@
           <p v-if="runError" class="text-sm text-status-danger">{{ runError }}</p>
         </div>
 
-        <!-- 6. Evaluation -->
+        <!-- 7. Evaluation -->
         <div v-else-if="step === 'review'" class="flex flex-col gap-3">
           <HfAfChart v-if="hfStore.lastRun?.Points?.length" :run="hfStore.lastRun" />
           <HfRunAdvice :max-shown="10" />
@@ -123,7 +124,7 @@
           </button>
         </div>
 
-        <!-- 7. Optimizer -->
+        <!-- 8. Optimizer -->
         <div v-else-if="step === 'optimize'" class="flex flex-col gap-3">
           <button class="tns-btn-secondary min-h-touch" @click="showOptimizer = true">
             {{ L('openOptimizer') }}
@@ -139,7 +140,12 @@
         <p v-if="saveError" class="text-sm text-status-danger">{{ saveError }}</p>
 
         <div class="flex gap-3">
-          <button v-if="stepIndex > 0" class="tns-btn-secondary min-h-touch" @click="back">
+          <button
+            v-if="stepIndex > 0"
+            class="tns-btn-secondary min-h-touch"
+            :disabled="probeRunning"
+            @click="back"
+          >
             {{ L('back') }}
           </button>
           <button
@@ -171,7 +177,13 @@ import { useI18n } from 'vue-i18n';
 import apiService from '@/services/apiService';
 import { apiStore } from '@/store/store';
 import { useHocusFocusStore } from '@/store/hocusFocusStore';
-import { evaluateRun, imageScale, suggestPixelScalePreset } from '@/utils/hocusFocusAdvisor';
+import {
+  evaluateRun,
+  historyEntryId,
+  historySamples,
+  imageScale,
+  suggestPixelScalePreset,
+} from '@/utils/hocusFocusAdvisor';
 import Modal from '@/components/helpers/Modal.vue';
 import NumberInputPicker from '@/components/helpers/NumberInputPicker.vue';
 import MoveFocuser from '@/components/focuser/MoveFocuser.vue';
@@ -181,9 +193,11 @@ import AfStatus from '@/components/focuser/AfStatus.vue';
 import HfAfChart from '@/components/focuser/HfAfChart.vue';
 import HfSelectField from './fields/HfSelectField.vue';
 import HfToggleRow from './fields/HfToggleRow.vue';
-import DirectoryBrowser from './DirectoryBrowser.vue';
 import HfRunAdvice from './HfRunAdvice.vue';
 import HfRoughFocusPreview from './HfRoughFocusPreview.vue';
+import HfStepSizeProbe from './HfStepSizeProbe.vue';
+import HfSweepPreview from './HfSweepPreview.vue';
+import HfSetupIssues from './HfSetupIssues.vue';
 import StarDetectionOptimizer from './optimizer/StarDetectionOptimizer.vue';
 
 const props = defineProps({
@@ -191,7 +205,9 @@ const props = defineProps({
 });
 const emit = defineEmits(['close']);
 
-const STEPS = ['check', 'optics', 'rig', 'rough', 'run', 'review', 'optimize'];
+const STEPS = ['check', 'optics', 'rig', 'rough', 'measure', 'run', 'review', 'optimize'];
+// Setup issues that make the test run itself go wrong; the others are shown on the focus page.
+const SWEEP_ISSUES = ['offsetStepsUnusual', 'sweepTooLarge'];
 // Starting exposure for narrowband focusing; the optimizer can shorten it later.
 const NARROWBAND_EXPOSURE = 10;
 const PIXEL_SCALE_PRESETS = ['WideField', 'Typical', 'LongFocalLength'];
@@ -239,7 +255,26 @@ const suggestedLabel = computed(() => {
   return preset ? t(`components.focuser.hfSimple.presets.pixelScale.${preset}`) : '–';
 });
 
-// --- 5. Run ------------------------------------------------------------------------------
+// --- 4. Rough focus ----------------------------------------------------------------------
+// Frames taken before the rough-focus step are not hand-focus samples.
+const roughIgnoredFrames = ref(new Set());
+watch(
+  () => step.value === 'rough',
+  (isRough) => {
+    if (!isRough) return;
+    roughIgnoredFrames.value = new Set(
+      (Array.isArray(store.imageHistoryInfo) ? store.imageHistoryInfo : []).map(historyEntryId)
+    );
+  }
+);
+
+// --- 5. Measure --------------------------------------------------------------------------
+const probeRunning = ref(false);
+const handSamples = computed(() =>
+  historySamples(store.imageHistoryInfo, roughIgnoredFrames.value)
+);
+
+// --- 6. Run ------------------------------------------------------------------------------
 const running = computed(() => !!store.focuserAfInfo?.autofocus_running);
 const runStarted = ref(false);
 const runError = ref('');
@@ -272,16 +307,6 @@ async function stopRun() {
   }
 }
 
-async function enableSaving(path) {
-  try {
-    await hfStore.setAutoFocusOption('SavePath', path);
-    await hfStore.setAutoFocusOption('Save', true);
-  } catch (err) {
-    console.error('[HfSetupAssistant] Error enabling saved runs:', err);
-    saveError.value = err.response?.data?.Error || err.message;
-  }
-}
-
 // A finished run moves on to the evaluation by itself; that only reads, it changes nothing.
 watch(running, async (now, before) => {
   if (before && !now && step.value === 'run' && runStarted.value) {
@@ -291,7 +316,7 @@ watch(running, async (now, before) => {
   }
 });
 
-// --- 6. Review ---------------------------------------------------------------------------
+// --- 7. Review ---------------------------------------------------------------------------
 const hasResult = computed(() => !!evaluateRun(hfStore.lastRun));
 
 async function loadRun() {
@@ -302,13 +327,14 @@ async function loadRun() {
   }
 }
 
-// --- 7. Optimizer ------------------------------------------------------------------------
+// --- 8. Optimizer ------------------------------------------------------------------------
 const showOptimizer = ref(false);
 
 // --- Navigation --------------------------------------------------------------------------
 const canContinue = computed(() => {
   if (step.value === 'check') return checks.value.every((c) => c.ok);
   if (step.value === 'optics') return focalLength.value > 0 && pixelSize.value > 0;
+  if (step.value === 'measure') return !probeRunning.value;
   if (step.value === 'run') return !running.value;
   return true;
 });
@@ -388,6 +414,7 @@ watch(
     saveError.value = '';
     runError.value = '';
     runStarted.value = false;
+    probeRunning.value = false;
     focalLength.value = Number(store.profileInfo?.TelescopeSettings?.FocalLength) || 0;
     pixelSize.value = Number(store.profileInfo?.CameraSettings?.PixelSize) || 0;
     try {

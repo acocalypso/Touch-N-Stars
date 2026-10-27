@@ -4453,7 +4453,8 @@
           "tooSteep": "The curve is very steep ({ratio}×): the outer points are far out of focus. A smaller step size puts more points near focus.",
           "starsLost": "Stars got lost at the out-of-focus ends ({min} instead of {max}). Allowing widely defocused stars keeps them.",
           "poorFit": "The curve fit is poor (R² {r2}). Check exposure, clouds and seeing before lowering any threshold.",
-          "worseAfter": "Stars were larger after the run ({initial} → {final}). Check the focuser for backlash or slipping."
+          "worseAfter": "Stars were larger after the run ({initial} → {final}). Check the focuser for backlash or slipping.",
+          "edgesLost": "The outermost frames found no stars: the sweep went far out of focus. A smaller step size keeps the stars in view."
         },
         "fix": {
           "stepSize": "Set step size to {value}",
@@ -4483,7 +4484,7 @@
           "noiseLevel": "Raise it for noisy cameras or very slow optics.",
           "wideRange": "Keeps heavily defocused, donut-shaped stars. Useful for wide sweeps and reflectors.",
           "useOptimized": "Uses the settings the optimizer found for your setup instead of the presets.",
-          "saveRuns": "Keeps each run on the device. The optimizer and the aberration inspector need saved runs."
+          "saveRuns": "Keeps each run on the device, so the optimizer and the aberration inspector can analyse it again later."
         },
         "stars": "Star detection",
         "advancedActive": "Hocus Focus is in advanced mode. Its detailed star detection settings apply; switch it off under 'Star Detection' to use the presets.",
@@ -4498,8 +4499,9 @@
         "saveFailed": "Saving failed",
         "issues": {
           "missingOptics": "Focal length or pixel size is missing. The star size suggestion needs both.",
-          "saveDisabled": "Autofocus runs are not saved yet, so the optimizer has nothing to work with.",
-          "binningStacked": "Detection binning and autofocus binning are both above 1×1. They multiply; usually only one of them should be set."
+          "binningStacked": "Detection binning and autofocus binning are both above 1×1. They multiply; usually only one of them should be set.",
+          "offsetStepsUnusual": "The number of points per side is unusual. About four is a good start.",
+          "sweepTooLarge": "The autofocus sweep covers a large part of the focuser's travel. The step size is probably far too large; measure it in the setup assistant."
         },
         "presets": {
           "pixelScale": {
@@ -4514,6 +4516,10 @@
             "High": "High"
           }
         }
+      },
+      "hfSweep": {
+        "line": "Autofocus moves from {from} to {to} (±{half} steps).",
+        "outOfRange": "That is beyond the focuser's travel."
       },
       "hfAssistant": {
         "title": "Autofocus setup",
@@ -4535,6 +4541,10 @@
             "title": "Rough focus",
             "description": "Take images and move the focuser until the stars are small and round and the HFR is as low as possible."
           },
+          "measure": {
+            "title": "Step size",
+            "description": "Measures how quickly the stars grow when the focuser moves, and suggests a step size for the autofocus. The focuser moves outwards in growing steps and returns to its start position at the end."
+          },
           "run": {
             "title": "Test run",
             "description": "Run an autofocus. The next step judges the curve and suggests changes."
@@ -4545,7 +4555,7 @@
           },
           "optimize": {
             "title": "Optimize",
-            "description": "Optional: the optimizer tunes star detection on a saved run."
+            "description": "Optional: the optimizer tunes star detection on a fresh autofocus sweep or on a saved run."
           }
         },
         "checks": {
@@ -4565,8 +4575,6 @@
           "noisy": "Uncooled cameras or very slow optics.",
           "narrowband": "Sets the focus exposure to at least {seconds} s."
         },
-        "saveHint": "Choose a folder to save the run in. The optimizer needs a saved run.",
-        "savePath": "Folder for saved runs",
         "startRun": "Start autofocus",
         "stopRun": "Stop autofocus",
         "runFailed": "The autofocus could not be started.",
@@ -4588,6 +4596,31 @@
           "current": "Current: HFR {hfr} px at focuser position {position} · {stars} stars",
           "best": "Best so far: HFR {hfr} px at focuser position {position}",
           "failed": "The image could not be taken."
+        },
+        "measure": {
+          "current": "Current: step size {stepSize} · {offsetSteps} points per side",
+          "start": "Measure step size",
+          "restart": "Measure again",
+          "stop": "Stop",
+          "phase": {
+            "reference": "Taking a frame at the current position …",
+            "probe": "Moving out and taking a frame …",
+            "return": "Returning to the start position …"
+          },
+          "reference": "Start position: HFR {hfr} px · {stars} stars",
+          "probe": "{offset} step out: HFR {hfr} px · {stars} stars | {offset} steps out: HFR {hfr} px · {stars} stars",
+          "result": "Suggested: step size {stepSize} with {offsetSteps} points per side",
+          "limited": "Kept smaller so that the outermost point still shows enough stars.",
+          "apply": "Apply",
+          "applied": "Applied. The next autofocus run uses the new values.",
+          "failure": {
+            "noSignal": "The stars did not grow, even far from focus. Check the rough focus and that the focuser really moves.",
+            "lost": "The stars were gone even one step out of focus. Check the rough focus and the exposure.",
+            "noReference": "No stars were found at the start position. Focus roughly by hand first.",
+            "timeout": "The focuser or the camera did not respond in time.",
+            "error": "The measurement failed.",
+            "returnFailed": "The focuser could not be moved back to its start position. Check its position before the next run."
+          }
         }
       }
     },
@@ -5345,26 +5378,26 @@
     "ninaPluginInstall": {
       "title": "NINA plugin",
       "confirm": "{plugin} needs the NINA plugin {name}. Install it on your PINS device now?",
-      "confirmRestartHint": "NINA has to restart afterwards to load it.",
+      "confirmRestartHint": "PINS has to restart afterwards to load it.",
       "install": "Install",
       "installing": "Installing {package} …",
       "failed": "Installation failed: {message}",
       "retry": "Try again",
-      "installed": "{name} is installed. NINA has to restart to load it.",
-      "restartHint": "Restarting NINA briefly disconnects all equipment.",
-      "sequenceWarning": "A sequence is running. Restarting NINA aborts it.",
-      "sequenceConfirm": "Abort the sequence and restart NINA",
-      "restart": "Restart NINA",
+      "installed": "{name} is installed. PINS has to restart to load it.",
+      "restartHint": "Restarting PINS takes a few minutes and disconnects all equipment.",
+      "sequenceWarning": "A sequence is running. Restarting PINS aborts it.",
+      "sequenceConfirm": "Abort the sequence and restart PINS",
+      "restart": "Restart PINS",
       "later": "Later",
-      "restartFailed": "NINA could not be restarted: {message}",
-      "restarting": "NINA is restarting. Waiting until {name} is loaded …",
-      "restartManually": "Restart the PINS device so NINA loads {name}.",
+      "restartFailed": "PINS could not be restarted: {message}",
+      "restarting": "PINS is restarting. Waiting until {name} is loaded …",
+      "restartTimeout": "PINS has not come back with {name} yet. Check the device and open this page again once it is running.",
       "done": "{name} is ready."
     },
     "ninaPluginGate": {
       "title": "NINA plugin missing",
       "missing": "This page needs the NINA plugin {name}.",
-      "pendingRestart": "{name} is installed, but NINA has not loaded it yet.",
+      "pendingRestart": "{name} is installed, but PINS has to restart to load it.",
       "install": "Install now",
       "windowsHint": "Install {name} in the NINA plugin manager and restart NINA."
     }
@@ -5801,8 +5834,8 @@
       "pluginsInstall": "Install",
       "pluginsInstalling": "Installing...",
       "pluginsUninstall": "Uninstall",
-      "installRestartWarning": "The plugin is only loaded after NINA on the PINS device restarts. Restarting NINA briefly disconnects all equipment and aborts a running sequence.",
-      "uninstallRestartWarning": "Uninstalling restarts NINA on the PINS device right away. All equipment disconnects briefly and a running sequence is aborted.",
+      "installRestartWarning": "The plugin is only loaded after PINS restarts. Restarting PINS disconnects all equipment and aborts a running sequence.",
+      "uninstallRestartWarning": "Uninstalling restarts PINS right away. All equipment disconnects briefly and a running sequence is aborted.",
       "uninstallSequenceConfirm": "Abort the sequence and uninstall",
       "pluginsUninstalling": "Uninstalling...",
       "dhcpClientsTitle": "Connected Clients",

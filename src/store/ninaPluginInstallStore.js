@@ -7,16 +7,13 @@ import {
   parseJobIdFromResponse,
   pollJobUntilFinished,
 } from '@/components/pins/composables/pinsJobPolling';
-import {
-  isNinaPluginLoaded,
-  isRouteMissingError,
-  parseLoadedNinaPlugins,
-} from '@/utils/ninaPluginRequirement';
+import { isNinaPluginLoaded, parseLoadedNinaPlugins } from '@/utils/ninaPluginRequirement';
 
 const MAX_LOG_LINES = 500;
-const RESTART_SETTLE_MS = 5000;
-const RESTART_POLL_MS = 3000;
-const RESTART_TIMEOUT_MS = 180000;
+const RESTART_SETTLE_MS = 15000;
+const RESTART_POLL_MS = 5000;
+// A Pi reboot plus NINA start-up takes a few minutes.
+const RESTART_TIMEOUT_MS = 360000;
 
 const wait = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -30,12 +27,12 @@ export async function fetchLoadedNinaPlugins() {
 }
 
 /**
- * Installs the NINA plugin an app plugin needs through the PINS daemon, then restarts NINA
- * so it gets loaded. One dialog (NinaPluginInstallDialog in App.vue) renders this state,
- * whether it was opened from Settings → Plugins or from a plugin page.
+ * Installs the NINA plugin an app plugin needs through the PINS daemon, then restarts the
+ * PINS device so NINA loads it. One dialog (NinaPluginInstallDialog in App.vue) renders this
+ * state, whether it was opened from Settings → Plugins or from a plugin page.
  *
  * Phases: confirm → installing → restartPrompt → restarting → done,
- * with failed (retry possible) and restartUnavailable (older daemon) as exits.
+ * with failed (retry possible) and restartTimeout (device not back in time) as exits.
  */
 export const useNinaPluginInstallStore = defineStore('ninaPluginInstall', {
   state: () => ({
@@ -64,7 +61,7 @@ export const useNinaPluginInstallStore = defineStore('ninaPluginInstall', {
 
     /**
      * Opens the dialog at the right step: a package that is installed but not loaded yet
-     * (e.g. the user chose "Later") only needs the NINA restart.
+     * (e.g. the user chose "Later") only needs the restart.
      */
     async offer({ pluginName, requirement }) {
       this.open({ pluginName, requirement });
@@ -142,7 +139,7 @@ export const useNinaPluginInstallStore = defineStore('ninaPluginInstall', {
       }
     },
 
-    async restartNina({
+    async restartPins({
       settleMs = RESTART_SETTLE_MS,
       pollMs = RESTART_POLL_MS,
       timeoutMs = RESTART_TIMEOUT_MS,
@@ -152,19 +149,20 @@ export const useNinaPluginInstallStore = defineStore('ninaPluginInstall', {
       this.errorMessage = '';
 
       try {
-        await apiPinsService.restartPinsNina();
+        // Reboots the whole device (`system/restart` on the plugin server).
+        await apiService.restart();
       } catch (error) {
-        if (isRouteMissingError(error)) {
-          this.phase = 'restartUnavailable';
+        // The reboot may cut the connection before the answer arrives; only an HTTP error
+        // response means the restart was refused.
+        if (error?.response) {
+          console.error('[NinaPluginInstall] PINS restart failed:', error);
+          this.errorMessage = error.response.data?.detail || error.message || 'unknown';
+          this.phase = 'restartPrompt';
           return;
         }
-        console.error('[NinaPluginInstall] NINA restart failed:', error);
-        this.errorMessage = error?.response?.data?.detail || error?.message || 'unknown';
-        this.phase = 'restartPrompt';
-        return;
       }
 
-      // NINA drops off the network while it restarts; done once it lists the plugin again.
+      // The device drops off the network while it reboots; done once NINA lists the plugin.
       await wait(settleMs);
       const deadline = Date.now() + timeoutMs;
       while (Date.now() < deadline) {
@@ -176,7 +174,7 @@ export const useNinaPluginInstallStore = defineStore('ninaPluginInstall', {
         }
         await wait(pollMs);
       }
-      this.phase = 'restartUnavailable';
+      this.phase = 'restartTimeout';
     },
   },
 });

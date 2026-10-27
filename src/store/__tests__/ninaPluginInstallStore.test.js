@@ -58,51 +58,68 @@ test('a failed install keeps the dialog open with the reason, ready to retry', a
   assert.equal(store.show, true);
 });
 
-test('restart finishes once NINA lists the plugin again', async (t) => {
+test('restart reboots PINS and finishes once NINA lists the plugin again', async (t) => {
   reset();
   store.phase = 'restartPrompt';
-  t.mock.method(apiPinsService, 'restartPinsNina', async () => ({ status: 'ok' }));
+  let rebooted = false;
+  t.mock.method(apiService, 'restart', async () => {
+    rebooted = true;
+    return { Success: true };
+  });
   let polls = 0;
   t.mock.method(apiService, 'getPlugins', async () => {
     polls += 1;
-    if (polls === 1) throw new Error('Network Error'); // NINA still down
+    if (polls === 1) throw new Error('Network Error'); // device still rebooting
     return { Success: true, Response: ['ninaAPI', 'LiveStack'] };
   });
 
   const before = store.completedCount;
-  await store.restartNina(FAST);
+  await store.restartPins(FAST);
 
+  assert.equal(rebooted, true);
   assert.equal(store.phase, 'done');
   assert.equal(store.completedCount, before + 1);
 });
 
-test('an older daemon without the restart route falls back to a device restart hint', async (t) => {
+test('a connection cut by the reboot itself still counts as a started restart', async (t) => {
   reset();
   store.phase = 'restartPrompt';
-  t.mock.method(apiPinsService, 'restartPinsNina', async () => {
-    const error = new Error('Not Found');
-    error.response = { status: 404 };
-    throw error;
+  t.mock.method(apiService, 'restart', async () => {
+    throw new Error('Network Error');
   });
+  t.mock.method(apiService, 'getPlugins', async () => ({ Success: true, Response: ['LiveStack'] }));
 
-  await store.restartNina(FAST);
+  await store.restartPins(FAST);
 
-  assert.equal(store.phase, 'restartUnavailable');
+  assert.equal(store.phase, 'done');
 });
 
-test('a failed restart call stays on the prompt with the error', async (t) => {
+test('a device that does not come back in time ends in the timeout hint', async (t) => {
   reset();
   store.phase = 'restartPrompt';
-  t.mock.method(apiPinsService, 'restartPinsNina', async () => {
+  t.mock.method(apiService, 'restart', async () => ({ Success: true }));
+  t.mock.method(apiService, 'getPlugins', async () => {
+    throw new Error('Network Error');
+  });
+
+  await store.restartPins(FAST);
+
+  assert.equal(store.phase, 'restartTimeout');
+});
+
+test('a refused restart stays on the prompt with the error', async (t) => {
+  reset();
+  store.phase = 'restartPrompt';
+  t.mock.method(apiService, 'restart', async () => {
     const error = new Error('boom');
-    error.response = { status: 500, data: { detail: 'systemctl failed' } };
+    error.response = { status: 500, data: { detail: 'shutdown failed' } };
     throw error;
   });
 
-  await store.restartNina(FAST);
+  await store.restartPins(FAST);
 
   assert.equal(store.phase, 'restartPrompt');
-  assert.equal(store.errorMessage, 'systemctl failed');
+  assert.equal(store.errorMessage, 'shutdown failed');
 });
 
 test('offer skips straight to the restart when the package is already installed', async (t) => {

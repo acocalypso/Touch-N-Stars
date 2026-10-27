@@ -75,13 +75,6 @@
       @clear="clearDetailedAutoFocus"
       @dismiss-error="store.error = null"
     />
-
-    <HfCollapsibleCard
-      :title="$t('components.focuser.hocus.tabs.aberrationOptions')"
-      v-model:open="showOptions"
-    >
-      <AberrationInspectorOptions />
-    </HfCollapsibleCard>
   </div>
 </template>
 
@@ -91,12 +84,9 @@ import { useBackgroundAwarePolling } from '@/utils/appLifecycle';
 import { useHocusFocusStore } from '@/store/hocusFocusStore';
 import apiService from '@/services/apiService';
 import Modal from '@/components/helpers/Modal.vue';
-import HfCollapsibleCard from './fields/HfCollapsibleCard.vue';
 import AberrationInspector from './AberrationInspector.vue';
-import AberrationInspectorOptions from './AberrationInspectorOptions.vue';
 
 const store = useHocusFocusStore();
-const showOptions = ref(false);
 const tiltMeasurements = ref([]);
 const tiltMeasurementHistory = ref([]);
 const finalFocusData = ref(null);

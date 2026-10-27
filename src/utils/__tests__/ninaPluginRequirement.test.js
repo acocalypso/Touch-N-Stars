@@ -3,7 +3,6 @@ import assert from 'node:assert/strict';
 import {
   getNinaPluginRequirement,
   isNinaPluginLoaded,
-  isRouteMissingError,
   parseLoadedNinaPlugins,
 } from '../ninaPluginRequirement.js';
 
@@ -71,11 +70,4 @@ test('an unusable plugins response is reported as unknown, not as missing', () =
   assert.equal(parseLoadedNinaPlugins({ Success: true, Response: 'x' }), null);
   assert.equal(parseLoadedNinaPlugins(undefined), null);
   assert.equal(isNinaPluginLoaded(null, { name: 'LiveStack' }), false);
-});
-
-test('only 404 and 405 count as a missing daemon route', () => {
-  assert.equal(isRouteMissingError({ response: { status: 404 } }), true);
-  assert.equal(isRouteMissingError({ response: { status: 405 } }), true);
-  assert.equal(isRouteMissingError({ response: { status: 500 } }), false);
-  assert.equal(isRouteMissingError(new Error('Network Error')), false);
 });

@@ -4457,7 +4457,6 @@
         "saveFailed": "Opslaan mislukt",
         "issues": {
           "missingOptics": "Brandpuntsafstand of pixelgrootte ontbreekt. De suggestie voor de stergrootte heeft beide nodig.",
-          "saveDisabled": "Autofocussen worden nog niet opgeslagen, dus de optimalisator heeft niets om mee te werken.",
           "binningStacked": "Detectie-binning en autofocus-binning staan allebei boven 1×1. Ze vermenigvuldigen elkaar; meestal hoort er maar één ingesteld te zijn."
         },
         "presets": {
@@ -4524,8 +4523,6 @@
           "noisy": "Ongekoelde camera’s of zeer lichtzwakke optiek.",
           "narrowband": "Zet de focusbelichting op minstens {seconds} s."
         },
-        "saveHint": "Kies een map om de autofocus in op te slaan. De optimalisator heeft een opgeslagen autofocus nodig.",
-        "savePath": "Map voor opgeslagen autofocussen",
         "startRun": "Autofocus starten",
         "stopRun": "Autofocus stoppen",
         "runFailed": "De autofocus kon niet worden gestart.",
@@ -5345,26 +5342,26 @@
     "ninaPluginInstall": {
       "title": "NINA-plugin",
       "confirm": "{plugin} heeft de NINA-plugin {name} nodig. Nu installeren op je PINS-apparaat?",
-      "confirmRestartHint": "Daarna moet NINA herstarten om hem te laden.",
+      "confirmRestartHint": "Daarna moet PINS herstarten om hem te laden.",
       "install": "Installeren",
       "installing": "{package} wordt geïnstalleerd …",
       "failed": "Installatie mislukt: {message}",
       "retry": "Opnieuw proberen",
-      "installed": "{name} is geïnstalleerd. NINA moet herstarten om hem te laden.",
-      "restartHint": "NINA herstarten verbreekt kort de verbinding met alle apparatuur.",
-      "sequenceWarning": "Er loopt een sequentie. NINA herstarten breekt die af.",
-      "sequenceConfirm": "Sequentie afbreken en NINA herstarten",
-      "restart": "NINA herstarten",
+      "installed": "{name} is geïnstalleerd. PINS moet herstarten om hem te laden.",
+      "restartHint": "PINS herstarten duurt een paar minuten en verbreekt de verbinding met alle apparatuur.",
+      "sequenceWarning": "Er loopt een sequentie. PINS herstarten breekt die af.",
+      "sequenceConfirm": "Sequentie afbreken en PINS herstarten",
+      "restart": "PINS herstarten",
       "later": "Later",
-      "restartFailed": "NINA kon niet worden herstart: {message}",
-      "restarting": "NINA herstart. Wachten tot {name} is geladen …",
-      "restartManually": "Herstart het PINS-apparaat zodat NINA {name} laadt.",
+      "restartFailed": "PINS kon niet worden herstart: {message}",
+      "restarting": "PINS herstart. Wachten tot {name} is geladen …",
+      "restartTimeout": "PINS is nog niet terug met {name}. Controleer het apparaat en open deze pagina opnieuw zodra het draait.",
       "done": "{name} is klaar."
     },
     "ninaPluginGate": {
       "title": "NINA-plugin ontbreekt",
       "missing": "Deze pagina heeft de NINA-plugin {name} nodig.",
-      "pendingRestart": "{name} is geïnstalleerd, maar NINA heeft hem nog niet geladen.",
+      "pendingRestart": "{name} is geïnstalleerd, maar PINS moet herstarten om hem te laden.",
       "install": "Nu installeren",
       "windowsHint": "Installeer {name} in de pluginbeheerder van NINA en herstart NINA."
     }
@@ -5596,8 +5593,8 @@
       "pluginsRefresh": "Vernieuw de plug-inlijst",
       "pluginsTitle": "PINS-plug-ins",
       "pluginsUninstall": "Verwijderen",
-      "installRestartWarning": "De plugin wordt pas geladen nadat NINA op het PINS-apparaat herstart. NINA herstarten verbreekt kort de verbinding met alle apparatuur en breekt een lopende sequentie af.",
-      "uninstallRestartWarning": "Verwijderen herstart NINA op het PINS-apparaat meteen. Alle apparatuur wordt kort losgekoppeld en een lopende sequentie wordt afgebroken.",
+      "installRestartWarning": "De plugin wordt pas geladen nadat PINS herstart. PINS herstarten verbreekt de verbinding met alle apparatuur en breekt een lopende sequentie af.",
+      "uninstallRestartWarning": "Verwijderen herstart PINS meteen. Alle apparatuur wordt kort losgekoppeld en een lopende sequentie wordt afgebroken.",
       "uninstallSequenceConfirm": "Sequentie afbreken en verwijderen",
       "pluginsUninstalling": "Verwijderen...",
       "pluginsVersion": "Versie",
